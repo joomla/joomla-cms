@@ -74,7 +74,7 @@ class UsersControllerUser extends UsersController
 	 */
 	public function logout()
 	{
-		JSession::checkToken('default') or jexit(JText::_('JInvalid_Token'));
+		JSession::checkToken('request') or jexit(JText::_('JInvalid_Token'));
 
 		$app = JFactory::getApplication();
 

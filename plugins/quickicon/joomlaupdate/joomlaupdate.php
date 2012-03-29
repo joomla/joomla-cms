@@ -52,9 +52,9 @@ class plgQuickiconJoomlaupdate extends JPlugin
 		$script = "var plg_quickicon_joomlaupdate_ajax_url = '$ajax_url';\n";
 		$script .= 'var plg_quickicon_jupdatecheck_jversion = "'.JVERSION.'";'."\n";
 		$script .= 'var plg_quickicon_joomlaupdate_text = {"UPTODATE" : "'.
-			JText::_('PLG_QUICKICON_JOOMLAUPDATE_UPTODATE').'", "UPDATEFOUND": "'.
-			JText::_('PLG_QUICKICON_JOOMLAUPDATE_UPDATEFOUND').'", "ERROR": "'.
-			JText::_('PLG_QUICKICON_JOOMLAUPDATE_ERROR')."\"};\n";
+			JText::_('PLG_QUICKICON_JOOMLAUPDATE_UPTODATE', true).'", "UPDATEFOUND": "'.
+			JText::_('PLG_QUICKICON_JOOMLAUPDATE_UPDATEFOUND', true).'", "ERROR": "'.
+			JText::_('PLG_QUICKICON_JOOMLAUPDATE_ERROR', true)."\"};\n";
 		$script .= 'var plg_quickicon_joomlaupdate_img = {"UPTODATE" : "'.
 			JURI::base(true) .'/templates/'. $cur_template .'/images/header/icon-48-jupdate-uptodate.png'.'", "ERROR": "'.
 			JURI::base(true) .'/templates/'. $cur_template .'/images/header/icon-48-deny.png'.'", "UPDATEFOUND": "'.
@@ -64,7 +64,7 @@ class plgQuickiconJoomlaupdate extends JPlugin
 		$document->addScript(JURI::base().'../media/plg_quickicon_joomlaupdate/jupdatecheck.js');
 
 		return array(array(
-			'link' => 'index.php?option=com_installer&view=update',
+			'link' => 'index.php?option=com_joomlaupdate',
 			'image' => 'header/icon-48-download.png',
 			'text' => JText::_('PLG_QUICKICON_JOOMLAUPDATE_CHECKING'),
 			'id' => 'plg_quickicon_joomlaupdate'

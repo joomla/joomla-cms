@@ -590,7 +590,7 @@ abstract class JHtmlBehavior
 		$opt['onExpand']	= (array_key_exists('onExpand', $params)) ? '\\' . $params['onExpand'] : null;
 		$opt['onSelect']	= (array_key_exists('onSelect', $params)) ? '\\' . $params['onSelect'] : null;
 		$opt['onClick']		= (array_key_exists('onClick', $params)) ? '\\' . $params['onClick']
-		: '\\function(node){  window.open(node.data.url, $chk(node.data.target) ? node.data.target : \'_self\'); }';
+		: '\\function(node){  window.open(node.data.url, node.data.target != null ? node.data.target : \'_self\'); }';
 
 		$options = JHtmlBehavior::_getJSObject($opt);
 

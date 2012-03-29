@@ -184,6 +184,17 @@ final class JSite extends JApplication
 
 			$document->setTitle($params->get('page_title'));
 			$document->setDescription($params->get('page_description'));
+
+			// Add version number or not based on global configuration
+			if ($this->getCfg('MetaVersion', 0))
+			{
+				$document->setGenerator('Joomla! - Open Source Content Management  - Version ' . JVERSION);
+			}
+			else
+			{
+				$document->setGenerator('Joomla! - Open Source Content Management');
+			}
+
 			$contents = JComponentHelper::renderComponent($component);
 			$document->setBuffer($contents, 'component');
 
@@ -369,6 +380,12 @@ final class JSite extends JApplication
 				$temp->loadString($menu->params);
 				$params[$hash]->merge($temp);
 				$title = $menu->title;
+			} else {
+				// get com_menu global settings
+				$temp = clone JComponentHelper::getParams('com_menus');
+				$params[$hash]->merge($temp);
+				// if supplied, use page title
+				$title = $temp->get('page_title', $title);
 			}
 
 			$params[$hash]->def('page_title', $title);

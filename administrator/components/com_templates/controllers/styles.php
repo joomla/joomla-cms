@@ -103,7 +103,7 @@ class TemplatesControllerStyles extends JControllerAdmin
 	public function unsetDefault()
 	{
 		// Check for request forgeries
-		JSession::checkToken('default') or jexit(JText::_('JINVALID_TOKEN'));
+		JSession::checkToken('request') or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Initialise variables.
 		$pks = JRequest::getVar('cid', array(), 'get', 'array');

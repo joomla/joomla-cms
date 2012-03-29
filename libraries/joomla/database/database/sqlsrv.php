@@ -202,11 +202,10 @@ class JDatabaseSQLSrv extends JDatabase
 	 */
 	public function escape($text, $extra = false)
 	{
-		// TODO: MSSQL Compatible escaping
 		$result = addslashes($text);
 		$result = str_replace("\'", "''", $result);
 		$result = str_replace('\"', '"', $result);
-		//$result = str_replace("\\", "''", $result);
+		$result = str_replace('\/', '/', $result);
 
 		if ($extra)
 		{
@@ -446,7 +445,7 @@ class JDatabaseSQLSrv extends JDatabase
 		// TODO To implement.
 		return array();
 	}
-	
+
 	/**
 	* Method to quote and optionally escape a string to database requirements for insertion into the database.
 	*
@@ -461,7 +460,7 @@ class JDatabaseSQLSrv extends JDatabase
 	{
 		return 'N' . '\'' . ($escape ? $this->escape($text) : $text) . '\'';
 	}
-	
+
 	/**
 	 * Method to get an array of all tables in the database.
 	 *

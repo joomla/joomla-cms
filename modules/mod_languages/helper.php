@@ -53,7 +53,7 @@ abstract class modLanguagesHelper
 				unset($languages[$i]);
 			}
 			// Do not display language without authorized access level
-			elseif ($language->access && !in_array($language->access, $levels)) {
+			elseif (isset($language->access) && $language->access && !in_array($language->access, $levels)) {
 				unset($languages[$i]);
 			}
 			else {

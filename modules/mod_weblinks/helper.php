@@ -65,7 +65,7 @@ class modWeblinksHelper
 		$c_id = $query->castAsChar('c.id');
 		$case_when2 .= $query->concatenate(array($c_id, 'c.alias'), ':');
 		$case_when2 .= ' ELSE ';
-		$case_when2 .= $c_id.' END as slug';
+		$case_when2 .= $c_id.' END as catslug';
 
 		$model->setState('list.select', 'a.*, c.published AS c_published,'.$case_when1.','.$case_when2.','.
 		'DATE_FORMAT(a.date, "%Y-%m-%d") AS created');

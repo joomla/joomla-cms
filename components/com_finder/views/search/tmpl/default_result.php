@@ -26,10 +26,11 @@ if (!empty($this->query->highlight) && empty($this->result->mime) && $this->para
 <dt class="result-title <?php echo $mime; ?>">
 	<a href="<?php echo JRoute::_($route); ?>"><?php echo $this->result->title; ?></a>
 </dt>
+<?php if ($this->params->get('show_description', 1)): ?>
 <dd class="result-text<?php echo $this->pageclass_sfx; ?>">
 	<?php echo JHtml::_('string.truncate', $this->result->description, $this->params->get('description_length', 255)); ?>
 </dd>
-
+<?php endif; ?>
 <?php if ($this->params->get('show_url', 1)): ?>
 <dd class="result-url<?php echo $this->pageclass_sfx; ?>">
 	<?php echo $base . JRoute::_($this->result->route); ?>

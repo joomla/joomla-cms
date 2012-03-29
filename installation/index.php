@@ -7,7 +7,7 @@
 
 // PHP 5 check
 if (version_compare(PHP_VERSION, '5.2.4', '<')) {
-	die('Your host needs to use PHP 5.2.4 or higher to run Joomla 1.7.');
+	die('Your host needs to use PHP 5.2.4 or higher to run this version of Joomla!');
 }
 
 /**

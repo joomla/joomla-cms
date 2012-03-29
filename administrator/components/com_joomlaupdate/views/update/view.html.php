@@ -1,0 +1,65 @@
+<?php
+/**
+ * @package     Joomla.Administrator
+ * @subpackage  com_joomlaupdate
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @since       2.5.2
+ */
+
+defined('_JEXEC') or die;
+
+jimport('joomla.application.component.view');
+
+/**
+ * Joomla! Update's Update View
+ *
+ * @package     Joomla.Administrator
+ * @subpackage  com_installer
+ * @since       2.5.2
+ */
+class JoomlaupdateViewUpdate extends JView
+{
+	/**
+	 * Renders the view
+	 * 
+	 * @param   string  $tpl  Template name
+	 * 
+	 * @return void
+	 */
+	public function display($tpl=null)
+	{
+		$password = JFactory::getApplication()->getUserState('com_joomlaupdate.password', null);
+		$filesize = JFactory::getApplication()->getUserState('com_joomlaupdate.filesize', null);
+		$ajaxUrl = JURI::base().'components/com_joomlaupdate/restore.php';
+		$returnUrl = 'index.php?option=com_joomlaupdate&task=update.finalise';
+
+		// Set the toolbar information
+		JToolBarHelper::title(JText::_('COM_JOOMLAUPDATE_OVERVIEW'), 'install');
+
+		// Add toolbar buttons
+		JToolBarHelper::preferences('com_joomlaupdate');
+
+		// Load mooTools
+		JHtml::_('behavior.framework');
+
+		$updateScript = <<<ENDSCRIPT
+var joomlaupdate_password = '$password';
+var joomlaupdate_totalsize = '$filesize';
+var joomlaupdate_ajax_url = '$ajaxUrl';
+var joomlaupdate_return_url = '$returnUrl';
+
+ENDSCRIPT;
+		
+		// Load our Javascript
+		$document = JFactory::getDocument();
+		$document->addScript('../media/com_joomlaupdate/json2.js');
+		$document->addScript('../media/com_joomlaupdate/encryption.js');
+		$document->addScript('../media/com_joomlaupdate/update.js');
+		$document->addScriptDeclaration($updateScript);
+
+		// Render the view
+		parent::display($tpl);
+	}
+
+}

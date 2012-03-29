@@ -48,7 +48,7 @@ class FinderViewSearch extends JView
 		$explained = JHtml::_('query.explained', $query);
 
 		// Set the document title.
-		$title = $this->params->get('page_title', '');
+		$title = $params->get('page_title', '');
 
 		if (empty($title))
 		{
@@ -82,7 +82,7 @@ class FinderViewSearch extends JView
 			$item->title = $result->title;
 			$item->link = JRoute::_($result->route);
 			$item->description = $result->description;
-			$item->date = intval($result->start_date) ? JHtml::date($result->start_date, '%A %d %B %Y') : $result->indexdate;
+			$item->date = intval($result->start_date) ? JHtml::date($result->start_date, 'l d F Y') : $result->indexdate;
 
 			// Get the taxonomy data.
 			$taxonomy = $result->getTaxonomy();

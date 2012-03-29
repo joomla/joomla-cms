@@ -34,7 +34,7 @@ class InstallerModelManage extends InstallerModel
 			$config['filter_fields'] = array(
 				'name',
 				'client_id',
-				'enabled',
+				'status',
 				'type',
 				'folder',
 				'extension_id',
@@ -70,8 +70,7 @@ class InstallerModelManage extends InstallerModel
 		$app->setUserState('com_installer.extension_message', '');
 
 		$this->setState('filter.search', isset($filters['search']) ? $filters['search'] : '');
-		$this->setState('filter.hideprotected', isset($filters['hideprotected']) ? $filters['hideprotected'] : 0);
-		$this->setState('filter.enabled', isset($filters['enabled']) ? $filters['enabled'] : '');
+		$this->setState('filter.status', isset($filters['status']) ? $filters['status'] : '');
 		$this->setState('filter.type', isset($filters['type']) ? $filters['type'] : '');
 		$this->setState('filter.group', isset($filters['group']) ? $filters['group'] : '');
 		$this->setState('filter.client_id', isset($filters['client_id']) ? $filters['client_id'] : '');
@@ -116,7 +115,12 @@ class InstallerModelManage extends InstallerModel
 						continue;
 					}
 				}
-				$table->enabled = $value;
+				if ($table->protected == 1) {
+					$result = false;
+					JError::raiseWarning(403, JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'));
+				} else {
+					$table->enabled = $value;
+				}
 				if (!$table->store()) {
 					$this->setError($table->getError());
 					$result = false;
@@ -243,20 +247,25 @@ class InstallerModelManage extends InstallerModel
 	 */
 	protected function getListQuery()
 	{
-		$enabled= $this->getState('filter.enabled');
+		$status = $this->getState('filter.status');
 		$type = $this->getState('filter.type');
 		$client = $this->getState('filter.client_id');
 		$group = $this->getState('filter.group');
-		$hideprotected = $this->getState('filter.hideprotected');
 		$query = JFactory::getDBO()->getQuery(true);
 		$query->select('*');
+		$query->select('2*protected+(1-protected)*enabled as status');
 		$query->from('#__extensions');
 		$query->where('state=0');
-		if ($hideprotected) {
-			$query->where('protected!=1');
-		}
-		if ($enabled != '') {
-			$query->where('enabled=' . intval($enabled));
+		if ($status != '') {
+			if ($status == '2')
+			{
+				$query->where('protected = 1');
+			}
+			else
+			{
+				$query->where('protected = 0');
+				$query->where('enabled=' . intval($status));
+			}
 		}
 		if ($type) {
 			$query->where('type=' . $this->_db->Quote($type));

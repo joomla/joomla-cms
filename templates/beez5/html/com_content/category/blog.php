@@ -17,7 +17,7 @@ if ($templateparams->get('html5')!=1)
 	//evtl. ersetzen durch JPATH_COMPONENT.'/views/...'
 } else {
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
-$cparams =& JComponentHelper::getParams('com_media');
+$cparams = JComponentHelper::getParams('com_media');
 
 // If the page class is defined, add to class as suffix.
 // It will be a separate class if the user starts it with a space

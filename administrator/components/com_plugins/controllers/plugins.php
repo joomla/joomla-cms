@@ -19,12 +19,19 @@ jimport('joomla.application.component.controlleradmin');
 class PluginsControllerPlugins extends JControllerAdmin
 {
 	/**
-	 * Proxy for getModel.
-	 * @since	1.6
+	 * Method to get a model object, loading it if required.
+	 *
+	 * @param   string  $name    The model name. Optional.
+	 * @param   string  $prefix  The class prefix. Optional.
+	 * @param   array   $config  Configuration array for model. Optional.
+	 *
+	 * @return  object  The model.
+	 *
+	 * @since   1.6
 	 */
-	public function &getModel($name = 'Plugin', $prefix = 'PluginsModel')
+	public function getModel($name = 'Plugin', $prefix = 'PluginsModel', $config = array('ignore_request' => true))
 	{
-		$model = parent::getModel($name, $prefix, array('ignore_request' => true));
+		$model = parent::getModel($name, $prefix, $config);
 		return $model;
 	}
 

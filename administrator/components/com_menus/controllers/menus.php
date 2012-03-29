@@ -24,18 +24,26 @@ class MenusControllerMenus extends JController
 	 * @param	array			An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
 	 * @return	JController		This object to support chaining.
-	 * @since	1.5
+	 * @since	1.6
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{
 	}
 
 	/**
-	 * Proxy for getModel
+	 * Method to get a model object, loading it if required.
+	 *
+	 * @param   string  $name    The model name. Optional.
+	 * @param   string  $prefix  The class prefix. Optional.
+	 * @param   array   $config  Configuration array for model. Optional.
+	 *
+	 * @return  object  The model.
+	 *
+	 * @since   1.6
 	 */
-	function &getModel($name = 'Menu', $prefix = 'MenusModel')
+	public function getModel($name = 'Menu', $prefix = 'MenusModel', $config = array('ignore_request' => true))
 	{
-		$model = parent::getModel($name, $prefix, array('ignore_request' => true));
+		$model = parent::getModel($name, $prefix, $config);
 		return $model;
 	}
 

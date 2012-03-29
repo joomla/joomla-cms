@@ -23,11 +23,14 @@ class LanguagesControllerOverride extends JControllerForm
 	/**
 	 * Method to edit an existing override
 	 *
+	 * @param		string	$key		The name of the primary key of the URL variable (not used here).
+	 * @param		string	$urlVar	The name of the URL variable if different from the primary key (not used here).
+	 *
 	 * @return	void
 	 *
 	 * @since		2.5
 	 */
-	public function edit()
+	public function edit($key = null, $urlVar = null)
 	{
 		// Initialize variables
 		$app			= JFactory::getApplication();
@@ -54,11 +57,14 @@ class LanguagesControllerOverride extends JControllerForm
 	/**
 	 * Method to save an override
 	 *
+	 * @param		string	$key		The name of the primary key of the URL variable (not used here).
+	 * @param		string	$urlVar	The name of the URL variable if different from the primary key (not used here).
+	 *
 	 * @return	void
 	 *
 	 * @since		2.5
 	 */
-	public function save()
+	public function save($key = null, $urlVar = null)
 	{
 		// Check for request forgeries
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
@@ -176,11 +182,13 @@ class LanguagesControllerOverride extends JControllerForm
 	/**
 	 * Method to cancel an edit
 	 *
+	 * @param		string	$key	The name of the primary key of the URL variable (not used here).
+	 *
 	 * @return	void
 	 *
 	 * @since		2.5
 	 */
-	public function cancel()
+	public function cancel($key = null, $test = null)
 	{
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 

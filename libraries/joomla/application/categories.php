@@ -317,8 +317,22 @@ class JCategories
 		if ($id != 'root')
 		{
 			// Get the selected category
-			$query->leftJoin('#__categories AS s ON (s.lft <= c.lft AND s.rgt >= c.rgt) OR (s.lft > c.lft AND s.rgt < c.rgt)');
 			$query->where('s.id=' . (int) $id);
+			if ($app->isSite() && $app->getLanguageFilter())
+			{
+				$query->leftJoin('#__categories AS s ON (s.lft < c.lft AND s.rgt > c.rgt AND c.language in (' . $db->Quote(JFactory::getLanguage()->getTag()) . ',' . $db->Quote('*') . ')) OR (s.lft >= c.lft AND s.rgt <= c.rgt)');
+			}
+			else
+			{
+				$query->leftJoin('#__categories AS s ON (s.lft <= c.lft AND s.rgt >= c.rgt) OR (s.lft > c.lft AND s.rgt < c.rgt)');
+			}
+		}
+		else
+		{
+			if ($app->isSite() && $app->getLanguageFilter())
+			{
+				$query->where('c.language in (' . $db->Quote(JFactory::getLanguage()->getTag()) . ',' . $db->Quote('*') . ')');
+			}
 		}
 
 		$subQuery = ' (SELECT cat.id as id FROM #__categories AS cat JOIN #__categories AS parent ' .
@@ -349,15 +363,6 @@ class JCategories
  			c.created_time, c.created_user_id, c.description, c.extension, c.hits, c.language, c.level,
 		 	c.lft, c.metadata, c.metadesc, c.metakey, c.modified_time, c.note, c.params, c.parent_id,
  			c.path, c.published, c.rgt, c.title, c.modified_user_id');
-
-		// Filter by language
-		if ($app->isSite() && $app->getLanguageFilter())
-		{
-			$query->where(
-				'(' . ($id != 'root' ? 'c.id=s.id OR ' : '') . 'c.language in (' . $db->Quote(JFactory::getLanguage()->getTag()) . ',' .
-				$db->Quote('*') . '))'
-			);
-		}
 
 		// Get the results
 		$db->setQuery($query);

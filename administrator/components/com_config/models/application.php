@@ -22,14 +22,17 @@ class ConfigModelApplication extends JModelForm
 	 *
 	 * @param	array	$data		Data for the form.
 	 * @param	boolean	$loadData	True if the form is to load its own data (default case), false if not.
+	 *
 	 * @return	mixed	A JForm object on success, false on failure
+	 *
 	 * @since	1.6
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
 		// Get the form.
 		$form = $this->loadForm('com_config.application', 'application', array('control' => 'jform', 'load_data' => $loadData));
-		if (empty($form)) {
+		if (empty($form))
+		{
 			return false;
 		}
 
@@ -44,6 +47,7 @@ class ConfigModelApplication extends JModelForm
 	 * data will be merged into the original data, overwriting it.
 	 *
 	 * @return	array		An array containg all global config data.
+	 *
 	 * @since	1.6
 	 */
 	public function getData()
@@ -60,17 +64,18 @@ class ConfigModelApplication extends JModelForm
 		$data['filters'] = JArrayHelper::fromObject($params->get('filters'));
 
 		// If no filter data found, get from com_content (update of 1.6/1.7 site)
-		if (empty($data['filters'])) {
+		if (empty($data['filters']))
+		{
 			$contentParams = JComponentHelper::getParams('com_content');
 			$data['filters'] = JArrayHelper::fromObject($contentParams->get('filters'));
 		}
 
 		// Check for data in the session.
-		$app	= JFactory::getApplication();
-		$temp	= $app->getUserState('com_config.config.global.data');
+		$temp = JFactory::getApplication()->getUserState('com_config.config.global.data');
 
 		// Merge in the session data.
-		if (!empty($temp)) {
+		if (!empty($temp))
+		{
 			$data = array_merge($data, $temp);
 		}
 
@@ -81,7 +86,9 @@ class ConfigModelApplication extends JModelForm
 	 * Method to save the configuration data.
 	 *
 	 * @param	array	An array containing all global config data.
+	 *
 	 * @return	bool	True on success, false on failure.
+	 *
 	 * @since	1.6
 	 */
 	public function save($data)
@@ -101,13 +108,13 @@ class ConfigModelApplication extends JModelForm
 				return false;
 			}
 
-
-			$asset	= JTable::getInstance('asset');
+			$asset = JTable::getInstance('asset');
 			if ($asset->loadByName('root.1'))
 			{
 				$asset->rules = (string) $rules;
 
-				if (!$asset->check() || !$asset->store()) {
+				if (!$asset->check() || !$asset->store())
+				{
 					JError::raiseNotice('SOME_ERROR_CODE', $asset->getError());
 				}
 			}
@@ -133,7 +140,8 @@ class ConfigModelApplication extends JModelForm
 			if ($extension->load((int) $extension_id))
 			{
 				$extension->params = (string) $registry;
-				if (!$extension->check() || !$extension->store()) {
+				if (!$extension->check() || !$extension->store())
+				{
 					JError::raiseNotice('SOME_ERROR_CODE', $extension->getError());
 				}
 			}
@@ -155,24 +163,10 @@ class ConfigModelApplication extends JModelForm
 		/*
 		 * Perform miscellaneous options based on configuration settings/changes.
 		 */
-		// Escape the sitename if present.
-		if (isset($data['sitename'])) {
-			$data['sitename'] = $data['sitename'];
-		}
-
-		// Escape the MetaDesc if present.
-		if (isset($data['MetaDesc'])) {
-			$data['MetaDesc'] = $data['MetaDesc'];
-		}
-
-		// Escape the MetaKeys if present.
-		if (isset($data['MetaKeys'])) {
-			$data['MetaKeys'] = $data['MetaKeys'];
-		}
-
 		// Escape the offline message if present.
-		if (isset($data['offline_message'])) {
-			$data['offline_message']	= JFilterOutput::ampReplace($data['offline_message']);
+		if (isset($data['offline_message']))
+		{
+			$data['offline_message'] = JFilterOutput::ampReplace($data['offline_message']);
 		}
 
 		// Purge the database session table if we are changing to the database handler.
@@ -182,12 +176,14 @@ class ConfigModelApplication extends JModelForm
 			$table->purge(-1);
 		}
 
-		if (empty($data['cache_handler'])) {
+		if (empty($data['cache_handler']))
+		{
 			$data['caching'] = 0;
 		}
 
 		// Clean the cache if disabled but previously enabled.
-		if (!$data['caching'] && $prev['caching']) {
+		if (!$data['caching'] && $prev['caching'])
+		{
 			$cache = JFactory::getCache();
 			$cache->clean();
 		}
@@ -195,15 +191,6 @@ class ConfigModelApplication extends JModelForm
 		// Create the new configuration object.
 		$config = new JRegistry('config');
 		$config->loadArray($data);
-
-		/*
-		 * Write the configuration file.
-		 */
-		jimport('joomla.filesystem.path');
-		jimport('joomla.filesystem.file');
-
-		// Set the configuration file path.
-		$file = JPATH_CONFIGURATION . '/configuration.php';
 
 		// Overwrite the old FTP credentials with the new ones.
 		$temp = JFactory::getConfig();
@@ -214,27 +201,8 @@ class ConfigModelApplication extends JModelForm
 		$temp->set('ftp_pass', $data['ftp_pass']);
 		$temp->set('ftp_root', $data['ftp_root']);
 
-		// Get the new FTP credentials.
-		$ftp = JClientHelper::getCredentials('ftp', true);
-
-		// Attempt to make the file writeable if using FTP.
-		if (!$ftp['enabled'] && JPath::isOwner($file) && !JPath::setPermissions($file, '0644')) {
-			JError::raiseNotice('SOME_ERROR_CODE', JText::_('COM_CONFIG_ERROR_CONFIGURATION_PHP_NOTWRITABLE'));
-		}
-
-		// Attempt to write the configuration file as a PHP class named JConfig.
-		$configString = $config->toString('PHP', array('class' => 'JConfig', 'closingtag' => false));
-		if (!JFile::write($file, $configString)) {
-			$this->setError(JText::_('COM_CONFIG_ERROR_WRITE_FAILED'));
-			return false;
-		}
-
-		// Attempt to make the file unwriteable if using FTP.
-		if ($data['ftp_enable'] == 0 && !$ftp['enabled'] && JPath::isOwner($file) && !JPath::setPermissions($file, '0444')) {
-			JError::raiseNotice('SOME_ERROR_CODE', JText::_('COM_CONFIG_ERROR_CONFIGURATION_PHP_NOTUNWRITABLE'));
-		}
-
-		return true;
+		// Write the configuration file.
+		return $this->writeConfigFile($config);
 	}
 
 	/**
@@ -251,51 +219,53 @@ class ConfigModelApplication extends JModelForm
 		$prev = new JConfig();
 		$prev = JArrayHelper::fromObject($prev);
 
-		// Clean the cache if disabled but previously enabled.
-		if ($prev['caching']) {
-			$cache = JFactory::getCache();
-			$cache->clean();
-		}
-
 		// Create the new configuration object, and unset the root_user property
 		$config = new JRegistry('config');
 		unset($prev['root_user']);
 		$config->loadArray($prev);
 
-		/*
-		 * Write the configuration file.
-		 */
+		// Write the configuration file.
+		return $this->writeConfigFile($config);
+
+		return true;
+	}
+
+	/**
+	 * Method to write the configuration to a file.
+	 *
+	 * @param	JRegistry  $config	A JRegistry object containing all global config data.
+	 *
+	 * @return	bool	   True on success, false on failure.
+	 *
+	 * @since	2.5.4
+	 */
+	private function writeConfigFile(JRegistry $config)
+	{
 		jimport('joomla.filesystem.path');
 		jimport('joomla.filesystem.file');
 
 		// Set the configuration file path.
 		$file = JPATH_CONFIGURATION . '/configuration.php';
 
-		// Overwrite the old FTP credentials with the new ones.
-		$temp = JFactory::getConfig();
-		$temp->set('ftp_enable', $prev['ftp_enable']);
-		$temp->set('ftp_host', $prev['ftp_host']);
-		$temp->set('ftp_port', $prev['ftp_port']);
-		$temp->set('ftp_user', $prev['ftp_user']);
-		$temp->set('ftp_pass', $prev['ftp_pass']);
-		$temp->set('ftp_root', $prev['ftp_root']);
-
 		// Get the new FTP credentials.
 		$ftp = JClientHelper::getCredentials('ftp', true);
 
 		// Attempt to make the file writeable if using FTP.
-		if (!$ftp['enabled'] && JPath::isOwner($file) && !JPath::setPermissions($file, '0644')) {
+		if (!$ftp['enabled'] && JPath::isOwner($file) && !JPath::setPermissions($file, '0644'))
+		{
 			JError::raiseNotice('SOME_ERROR_CODE', JText::_('COM_CONFIG_ERROR_CONFIGURATION_PHP_NOTWRITABLE'));
 		}
 
 		// Attempt to write the configuration file as a PHP class named JConfig.
-		if (!JFile::write($file, $config->toString('PHP', array('class' => 'JConfig', 'closingtag' => false)))) {
+		if (!JFile::write($file, $config->toString('PHP', array('class' => 'JConfig', 'closingtag' => false))))
+		{
 			$this->setError(JText::_('COM_CONFIG_ERROR_WRITE_FAILED'));
 			return false;
 		}
 
 		// Attempt to make the file unwriteable if using FTP.
-		if ($prev['ftp_enable'] == 0 && !$ftp['enabled'] && JPath::isOwner($file) && !JPath::setPermissions($file, '0444')) {
+		if ($prev['ftp_enable'] == 0 && !$ftp['enabled'] && JPath::isOwner($file) && !JPath::setPermissions($file, '0444'))
+		{
 			JError::raiseNotice('SOME_ERROR_CODE', JText::_('COM_CONFIG_ERROR_CONFIGURATION_PHP_NOTUNWRITABLE'));
 		}
 

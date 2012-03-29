@@ -20,7 +20,7 @@ description: The heart of MooTools.
 
 license: MIT-style license.
 
-copyright: Copyright (c) 2006-2010 [Valerio Proietti](http://mad4milk.net/).
+copyright: Copyright (c) 2006-2012 [Valerio Proietti](http://mad4milk.net/).
 
 authors: The MooTools production team (http://mootools.net/developers/)
 
@@ -36,8 +36,8 @@ provides: [Core, MooTools, Type, typeOf, instanceOf, Native]
 (function(){
 
 this.MooTools = {
-	version: '1.4.3',
-	build: 'bc7009653bfa5156129540228449e2901649b026'
+	version: '1.4.5',
+	build: 'ab8ea8824dc3b24b6666867a2c4ed58ebb762cf0'
 };
 
 // typeOf, instanceOf
@@ -64,6 +64,9 @@ var instanceOf = this.instanceOf = function(item, object){
 		if (constructor === object) return true;
 		constructor = constructor.parent;
 	}
+	/*<ltIE8>*/
+	if (!item.hasOwnProperty) return false;
+	/*</ltIE8>*/
 	return item instanceof object;
 };
 
@@ -96,8 +99,9 @@ Function.prototype.overloadGetter = function(usePlural){
 	var self = this;
 	return function(a){
 		var args, result;
-		if (usePlural || typeof a != 'string') args = a;
+		if (typeof a != 'string') args = a;
 		else if (arguments.length > 1) args = arguments;
+		else if (usePlural) args = [a];
 		if (args){
 			result = {};
 			for (var i = 0; i < args.length; i++) result[args[i]] = self.call(this, args[i]);
@@ -256,14 +260,18 @@ var force = function(name, object, methods){
 			proto = prototype[key];
 
 		if (generic) generic.protect();
-
-		if (isType && proto){
-			delete prototype[key];
-			prototype[key] = proto.protect();
-		}
+		if (isType && proto) object.implement(key, proto.protect());
 	}
 
-	if (isType) object.implement(prototype);
+	if (isType){
+		var methodsEnumerable = prototype.propertyIsEnumerable(methods[0]);
+		object.forEachMethod = function(fn){
+			if (!methodsEnumerable) for (var i = 0, l = methods.length; i < l; i++){
+				fn.call(prototype, prototype[methods[i]], methods[i]);
+			}
+			for (var key in prototype) fn.call(prototype, prototype[key], key)
+		};
+	}
 
 	return force;
 };
@@ -2245,8 +2253,14 @@ local.setDocument = function(document){
 
 	// contains
 	// FIXME: Add specs: local.contains should be different for xml and html documents?
-	features.contains = (root && this.isNativeCode(root.contains)) ? function(context, node){
+	var nativeRootContains = root && this.isNativeCode(root.contains),
+		nativeDocumentContains = document && this.isNativeCode(document.contains);
+
+	features.contains = (nativeRootContains && nativeDocumentContains) ? function(context, node){
 		return context.contains(node);
+	} : (nativeRootContains && !nativeDocumentContains) ? function(context, node){
+		// IE8 does not have .contains on document.
+		return context === node || ((context === document) ? document.documentElement : context).contains(node);
 	} : (root && root.compareDocumentPosition) ? function(context, node){
 		return context === node || !!(context.compareDocumentPosition(node) & 16);
 	} : function(context, node){
@@ -2641,7 +2655,7 @@ local.matchSelector = function(node, tag, id, classes, attributes, pseudos){
 
 	var i, part, cls;
 	if (classes) for (i = classes.length; i--;){
-		cls = node.getAttribute('class') || node.className;
+		cls = this.getAttribute(node, 'class');
 		if (!(cls && classes[i].regexp.test(cls))) return false;
 	}
 	if (attributes) for (i = attributes.length; i--;){
@@ -2827,7 +2841,7 @@ var pseudos = {
 	'nth-last-of-type': local.createNTHPseudo('lastChild', 'previousSibling', 'posNTHTypeLast', true),
 
 	'index': function(node, index){
-		return this['pseudo:nth-child'](node, '' + index + 1);
+		return this['pseudo:nth-child'](node, '' + (index + 1));
 	},
 
 	'even': function(node){
@@ -2899,10 +2913,6 @@ for (var p in pseudos) local['pseudo:' + p] = pseudos[p];
 
 var attributeGetters = local.attributeGetters = {
 
-	'class': function(){
-		return this.getAttribute('class') || this.className;
-	},
-
 	'for': function(){
 		return ('htmlFor' in this) ? this.htmlFor : this.getAttribute('for');
 	},
@@ -2937,7 +2947,7 @@ attributeGetters.MAXLENGTH = attributeGetters.maxLength = attributeGetters.maxle
 
 var Slick = local.Slick = (this.Slick || {});
 
-Slick.version = '1.1.6';
+Slick.version = '1.1.7';
 
 // Slick finder
 
@@ -3096,7 +3106,10 @@ new Type('Element', Element).mirror(function(name){
 if (!Browser.Element){
 	Element.parent = Object;
 
-	Element.Prototype = {'$family': Function.from('element').hide()};
+	Element.Prototype = {
+		'$constructor': Element,
+		'$family': Function.from('element').hide()
+	};
 
 	Element.mirror(function(name, method){
 		Element.Prototype[name] = method;
@@ -3219,7 +3232,9 @@ if (object[1] == 1) Elements.implement('splice', function(){
 	return result;
 }.protect());
 
-Elements.implement(Array.prototype);
+Array.forEachMethod(function(method, name){
+	Elements.implement(name, method);
+});
 
 Array.mirror(Elements);
 
@@ -3612,6 +3627,18 @@ if (el.type != 'button') propertySetters.type = function(node, value){
 el = null;
 /* </webkit> */
 
+/*<IE>*/
+var input = document.createElement('input');
+input.value = 't';
+input.type = 'submit';
+if (input.value != 't') propertySetters.type = function(node, type){
+	var value = node.value;
+	node.type = type;
+	node.value = value;
+};
+input = null;
+/*</IE>*/
+
 /* getProperty, setProperty */
 
 /* <ltIE9> */
@@ -3620,7 +3647,6 @@ var pollutesGetAttribute = (function(div){
 	return (div.getAttribute('random') == 'attribute');
 })(document.createElement('div'));
 
-if (pollutesGetAttribute) var attributeWhiteList = {};
 /* <ltIE9> */
 
 Element.implement({
@@ -3630,10 +3656,17 @@ Element.implement({
 		if (setter){
 			setter(this, value);
 		} else {
+			/* <ltIE9> */
+			if (pollutesGetAttribute) var attributeWhiteList = this.retrieve('$attributeWhiteList', {});
+			/* </ltIE9> */
+
 			if (value == null){
 				this.removeAttribute(name);
+				/* <ltIE9> */
+				if (pollutesGetAttribute) delete attributeWhiteList[name];
+				/* </ltIE9> */
 			} else {
-				this.setAttribute(name, value);
+				this.setAttribute(name, '' + value);
 				/* <ltIE9> */
 				if (pollutesGetAttribute) attributeWhiteList[name] = true;
 				/* </ltIE9> */
@@ -3651,9 +3684,15 @@ Element.implement({
 		var getter = propertyGetters[name.toLowerCase()];
 		if (getter) return getter(this);
 		/* <ltIE9> */
-		if (pollutesGetAttribute && !attributeWhiteList[name]){
-			var attr = this.getAttributeNode(name);
-			if (!attr || attr.expando) return null;
+		if (pollutesGetAttribute){
+			var attr = this.getAttributeNode(name), attributeWhiteList = this.retrieve('$attributeWhiteList', {});
+			if (!attr) return null;
+			if (attr.expando && !attributeWhiteList[name]){
+				var outer = this.outerHTML;
+				// segment by the opening tag and find mention of attribute name
+				if (outer.substr(0, outer.search(/\/?['"]?>(?![^<]*<['"])/)).indexOf(name) < 0) return null;
+				attributeWhiteList[name] = true;
+			}
 		}
 		/* </ltIE9> */
 		var result = Slick.getAttribute(this, name);
@@ -4074,6 +4113,15 @@ provides: Element.Style
 
 var html = document.html;
 
+//<ltIE9>
+// Check for oldIE, which does not remove styles when they're set to null
+var el = document.createElement('div');
+el.style.color = 'red';
+el.style.color = null;
+var doesNotRemoveStyles = el.style.color == 'red';
+el = null;
+//</ltIE9>
+
 Element.Properties.styles = {set: function(styles){
 	this.setStyles(styles);
 }};
@@ -4084,17 +4132,19 @@ var hasOpacity = (html.style.opacity != null),
 
 var setVisibility = function(element, opacity){
 	element.store('$opacity', opacity);
-	element.style.visibility = opacity > 0 ? 'visible' : 'hidden';
+	element.style.visibility = opacity > 0 || opacity == null ? 'visible' : 'hidden';
 };
 
 var setOpacity = (hasOpacity ? function(element, opacity){
 	element.style.opacity = opacity;
 } : (hasFilter ? function(element, opacity){
-	if (!element.currentStyle || !element.currentStyle.hasLayout) element.style.zoom = 1;
-	opacity = (opacity * 100).limit(0, 100).round();
-	opacity = (opacity == 100) ? '' : 'alpha(opacity=' + opacity + ')';
-	var filter = element.style.filter || element.getComputedStyle('filter') || '';
-	element.style.filter = reAlpha.test(filter) ? filter.replace(reAlpha, opacity) : filter + opacity;
+	var style = element.style;
+	if (!element.currentStyle || !element.currentStyle.hasLayout) style.zoom = 1;
+	if (opacity == null || opacity == 1) opacity = '';
+	else opacity = 'alpha(opacity=' + (opacity * 100).limit(0, 100).round() + ')';
+	var filter = style.filter || element.getComputedStyle('filter') || '';
+	style.filter = reAlpha.test(filter) ? filter.replace(reAlpha, opacity) : filter + opacity;
+	if (!style.filter) style.removeAttribute('filter');
 } : setVisibility));
 
 var getOpacity = (hasOpacity ? function(element){
@@ -4124,7 +4174,8 @@ Element.implement({
 
 	setStyle: function(property, value){
 		if (property == 'opacity'){
-			setOpacity(this, parseFloat(value));
+			if (value != null) value = parseFloat(value);
+			setOpacity(this, value);
 			return this;
 		}
 		property = (property == 'float' ? floatName : property).camelCase();
@@ -4138,6 +4189,11 @@ Element.implement({
 			value = Math.round(value);
 		}
 		this.style[property] = value;
+		//<ltIE9>
+		if ((value == '' || value == null) && doesNotRemoveStyles && this.style.removeAttribute){
+			this.style.removeAttribute(property);
+		}
+		//</ltIE9>
 		return this;
 	},
 
@@ -4159,16 +4215,17 @@ Element.implement({
 			var color = result.match(/rgba?\([\d\s,]+\)/);
 			if (color) result = result.replace(color[0], color[0].rgbToHex());
 		}
-		if (Browser.opera || (Browser.ie && isNaN(parseFloat(result)))){
-			if ((/^(height|width)$/).test(property)){
+		if (Browser.opera || Browser.ie){
+			if ((/^(height|width)$/).test(property) && !(/px$/.test(result))){
 				var values = (property == 'width') ? ['left', 'right'] : ['top', 'bottom'], size = 0;
 				values.each(function(value){
 					size += this.getStyle('border-' + value + '-width').toInt() + this.getStyle('padding-' + value).toInt();
 				}, this);
 				return this['offset' + property.capitalize()] - size + 'px';
 			}
-			if (Browser.opera && String(result).indexOf('px') != -1) return result;
-			if ((/^border(.+)Width|margin|padding/).test(property)) return '0px';
+			if (Browser.ie && (/^border(.+)Width|margin|padding/).test(property) && isNaN(parseFloat(result))){
+				return '0px';
+			}
 		}
 		return result;
 	},
@@ -5137,12 +5194,31 @@ Fx.CSS = new Class({
 
 	prepare: function(element, property, values){
 		values = Array.from(values);
-		if (values[1] == null){
-			values[1] = values[0];
-			values[0] = element.getStyle(property);
+		var from = values[0], to = values[1];
+		if (to == null){
+			to = from;
+			from = element.getStyle(property);
+			var unit = this.options.unit;
+			// adapted from: https://github.com/ryanmorr/fx/blob/master/fx.js#L299
+			if (unit && from.slice(-unit.length) != unit && parseFloat(from) != 0){
+				element.setStyle(property, to + unit);
+				var value = element.getComputedStyle(property);
+				// IE and Opera support pixelLeft or pixelWidth
+				if (!(/px$/.test(value))){
+					value = element.style[('pixel-' + property).camelCase()];
+					if (value == null){
+						// adapted from Dean Edwards' http://erik.eae.net/archives/2007/07/27/18.54.15/#comment-102291
+						var left = element.style.left;
+						element.style.left = to + unit;
+						value = element.style.pixelLeft;
+						element.style.left = left;
+					}
+				}
+				from = (to || 1) / (parseFloat(value) || 1) * (parseFloat(from) || 0);
+				element.setStyle(property, from + unit);
+			}
 		}
-		var parsed = values.map(this.parse);
-		return {from: parsed[0], to: parsed[1]};
+		return {from: this.parse(from), to: this.parse(to)};
 	},
 
 	//parses a value into an array

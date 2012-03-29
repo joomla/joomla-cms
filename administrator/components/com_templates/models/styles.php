@@ -123,6 +123,7 @@ class TemplatesModelStyles extends JModelList
 		$query->select('extension_id AS e_id');
 		$query->join('LEFT', '#__extensions AS e ON e.element = a.template');
 		$query->where('e.enabled = 1');
+		$query->where($db->quoteName('e.type') . '=' . $db->quote('template'));
 
 		// Filter by template.
 		if ($template = $this->getState('filter.template')) {

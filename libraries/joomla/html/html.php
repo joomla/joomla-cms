@@ -864,7 +864,7 @@ abstract class JHtml
 			$attribs = JArrayHelper::toString($attribs);
 		}
 
-		if ((!$readonly) && (!$disabled))
+		if (!$readonly && !$disabled)
 		{
 			// Load the calendar behavior
 			JHtml::_('behavior.calendar');
@@ -891,12 +891,16 @@ abstract class JHtml
 				);
 				$done[] = $id;
 			}
+			return '<input type="text" title="' . (0 !== (int) $value ? JHtml::_('date', $value) : '') . '" name="' . $name . '" id="' . $id
+				. '" value="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '" ' . $attribs . ' />'
+				. JHtml::_('image', 'system/calendar.png', JText::_('JLIB_HTML_CALENDAR'), array('class' => 'calendar', 'id' => $id . '_img'), true);
 		}
-
-		return '<input type="text" title="' . (0 !== (int) $value ? JHtml::_('date', $value) : '') . '" name="' . $name . '" id="' . $id
-			. '" value="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '" ' . $attribs . ' />'
-			. ($readonly ? ''
-			: JHtml::_('image', 'system/calendar.png', JText::_('JLIB_HTML_CALENDAR'), array('class' => 'calendar', 'id' => $id . '_img'), true));
+		else
+		{
+			return '<input type="text" title="' . (0 !== (int) $value ? JHtml::_('date', $value) : '')
+				. '" value="' . (0 !== (int) $value ? JHtml::_('date', $value, JFactory::getDbo()->getDateFormat()) : '') . '" ' . $attribs
+				. ' /><input type="hidden" name="' . $name . '" id="' . $id . '" value="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '" />';
+		}
 	}
 
 	/**

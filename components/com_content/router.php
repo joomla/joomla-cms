@@ -51,6 +51,10 @@ function ContentBuildRoute(&$query)
 		if (isset($query['catid'])) {
 			unset($query['catid']);
 		}
+		
+		if (isset($query['layout'])) {
+			unset($query['layout']);
+		}
 
 		unset($query['id']);
 

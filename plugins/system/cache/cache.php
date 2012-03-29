@@ -55,6 +55,10 @@ class plgSystemCache extends JPlugin
 			return;
 		}
 
+		if (count($app->getMessageQueue())) {
+			return;
+		}
+
 		if ($user->get('guest') && $_SERVER['REQUEST_METHOD'] == 'GET') {
 			$this->_cache->setCaching(true);
 		}
@@ -82,6 +86,10 @@ class plgSystemCache extends JPlugin
 		$app = JFactory::getApplication();
 
 		if ($app->isAdmin() || JDEBUG) {
+			return;
+		}
+
+		if (count($app->getMessageQueue())) {
 			return;
 		}
 
