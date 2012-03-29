@@ -29,7 +29,7 @@ $version = '2.5';
 
 // Set release for each build
 // Release is third digit (like '0', '1', or '2')
-$release = '1';
+$release = '4';
 
 // Path to local git repository (parent folder of build folder)
 $repo = dirname(dirname(__FILE__));
@@ -75,7 +75,7 @@ for($num=0;$num < $release;$num++) {
 
 	// Here we get a list of all files that have changed between the two tags ($previousTag and $full) and save in diffdocs
 	$previousTag = $version . '.' . $num;
-	$command = '/usr/local/git/bin/git diff tags/'. $full . ' tags/' . $previousTag . ' --name-only > diffdocs/'.$version.'.'.$num;
+	$command = '/usr/local/git/bin/git diff tags/'. $previousTag . ' tags/' . $full . ' --name-status > diffdocs/'.$version.'.'.$num;
 	system($command);
 
 	// $newfile will hold the array of files to include in diff package
@@ -85,9 +85,9 @@ for($num=0;$num < $release;$num++) {
 	// Loop through and add all files except: tests, installation, build, .git, or docs
 	foreach($files AS $file)
 	{
-		if(substr($file, 0, 5) != 'tests' && substr($file, 0, 12) != 'installation' && substr($rawfile,0,5) != 'build'
-		&& substr($file, 0, 4) != '.git' && substr($file, 0, 4) != 'docs') {
-			$newfile[] = $file;
+		if(substr($file, 2, 5) != 'tests' && substr($file, 2, 12) != 'installation' && substr($rawfile,2,5) != 'build'
+		&& substr($file, 2, 4) != '.git' && substr($file, 2, 4) != 'docs' && substr($file, 0, 1) != 'D') {
+			$newfile[] = substr($file, 2);
 		}
 	}
 
