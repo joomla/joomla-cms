@@ -69,7 +69,7 @@ for($num=0;$num < $release;$num++) {
 
 	// Only do 0 and most recent versions. Skip other update versions.
 	if ($num != 0 && ($num != $release - 1)) {
-		echo "skipping upgrade for ." . $num;
+		echo "skipping upgrade for ." . $num . "\n";
 		continue;
 	}
 
@@ -80,14 +80,23 @@ for($num=0;$num < $release;$num++) {
 
 	// $newfile will hold the array of files to include in diff package
 	$newfile = array();
+	$deletedFiles = array();
 	$files = file('diffdocs/'.$version.'.'.$num);
 
 	// Loop through and add all files except: tests, installation, build, .git, or docs
 	foreach($files AS $file)
 	{
 		if(substr($file, 2, 5) != 'tests' && substr($file, 2, 12) != 'installation' && substr($rawfile,2,5) != 'build'
-		&& substr($file, 2, 4) != '.git' && substr($file, 2, 4) != 'docs' && substr($file, 0, 1) != 'D') {
-			$newfile[] = substr($file, 2);
+		&& substr($file, 2, 4) != '.git' && substr($file, 2, 4) != 'docs' )
+		{
+			if (substr($file, 0, 1) != 'D')
+			{
+				$newfile[] = substr($file, 2);
+			}
+			else
+			{
+				$deletedFiles[] = substr($file,2);
+			}
 		}
 	}
 
@@ -118,6 +127,7 @@ for($num=0;$num < $release;$num++) {
 
 	// Write the file list to a text file.
 	file_put_contents('diffconvert/'.$version.'.'.$num, $newfile);
+	file_put_contents('diffconvert/'.$version.'.'.$num.'-deleted', $deletedFiles);
 
 	// Create the diff archive packages using the file name list.
 	system('tar --create --bzip2 --no-recursion --directory '.$full.' --file packages'.$version.'/Joomla_'.$version.'.'.$num.'_to_'.$full.'-Stable-Patch_Package.tar.bz2 --files-from diffconvert/'.$version.'.'.$num . '> /dev/null');
