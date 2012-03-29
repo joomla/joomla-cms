@@ -723,14 +723,6 @@
 	<fieldset
 		name="system"
 		label="CONFIG_SYSTEM_SETTINGS_LABEL">
-		<field
-			name="secret"
-			type="text"
-			label="COM_CONFIG_FIELD_SECRET_LABEL"
-			description="COM_CONFIG_FIELD_SECRET_DESC"
-			required="true"
-			readonly="true"
-			filter="alnum" />
 
 		<field
 			name="log_path"
