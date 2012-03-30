@@ -31,6 +31,7 @@ $ -> Language fix or change
 30-Mar-2012 Mark Dexter
  # Sample data fixes for SQL Server
  # [#28316] Incorrect ordering value if editing last module
+ # [#28325] Deleted files not being deleted during version update
 
 29-Mar-2012 Mark Dexter
  # [#28323] com_joomlaupdate does not delete joomla.xml file in root folder
