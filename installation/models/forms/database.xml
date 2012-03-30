@@ -16,6 +16,11 @@
 				default="localhost"
 				required="true"
 			/>
+			<field name="db_port" type="number" id="db_port" class="inputbox"
+				label="INSTL_DATABASE_PORT_LABEL"
+				filter="text"
+				maxlength="5"
+			/>
 			<field name="db_user" type="text" id="db_user" class="inputbox"
 				label="INSTL_DATABASE_USER_LABEL"
 				required="true"
