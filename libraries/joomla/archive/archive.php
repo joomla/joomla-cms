@@ -27,6 +27,7 @@ class JArchive
 	 * @return  boolean  True for success
 	 *
 	 * @since   11.1
+	 * @throws  InvalidArgumentException
 	 */
 	public static function extract($archivename, $extractdir)
 	{
@@ -149,9 +150,7 @@ class JArchive
 				break;
 
 			default:
-				JLog::add(JText::_('JLIB_FILESYSTEM_UNKNOWNARCHIVETYPE'), JLog::WARNING, 'jerror');
-				return false;
-				break;
+				throw new InvalidArgumentException('Unknown Archive Type');
 		}
 
 		if (!$result || $result instanceof Exception)
@@ -167,10 +166,10 @@ class JArchive
 	 *
 	 * @param   string  $type  The type of adapter (bzip2|gzip|tar|zip).
 	 *
-	 * @return  object  JArchiveExtractable
+	 * @return  object JArchiveExtractable
 	 *
 	 * @since   11.1
-	 * @throws  Exception
+	 * @throws  BadMethodCallException
 	 */
 	public static function getAdapter($type)
 	{
@@ -188,7 +187,7 @@ class JArchive
 
 			if (!class_exists($class))
 			{
-				throw new Exception(JText::_('JLIB_FILESYSTEM_UNABLE_TO_LOAD_ARCHIVE'), 500);
+				throw new BadMethodCallException('Unable to load archive', 500);
 			}
 
 			$adapters[$type] = new $class;

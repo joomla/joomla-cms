@@ -45,9 +45,10 @@ class JArchiveBzip2 implements JArchiveExtractable
 	 * @param   string  $destination  Path to extract archive to
 	 * @param   array   $options      Extraction options [unused]
 	 *
-	 * @return  boolean  True if successful
+	 * @return  boolean True if successful
 	 *
 	 * @since   11.1
+	 * @throws  RuntimeException
 	 */
 	public function extract($archive, $destination, array $options = array ())
 	{
@@ -56,9 +57,7 @@ class JArchiveBzip2 implements JArchiveExtractable
 
 		if (!extension_loaded('bz2'))
 		{
-			$this->set('error.message', JText::_('JLIB_FILESYSTEM_BZIP_NOT_SUPPORTED'));
-
-			return JError::raiseWarning(100, $this->get('error.message'));
+			throw new RuntimeException('The bz2 extension is not available.');
 		}
 
 		if (!isset($options['use_streams']) || $options['use_streams'] == false)
@@ -66,22 +65,19 @@ class JArchiveBzip2 implements JArchiveExtractable
 			// Old style: read the whole file and then parse it
 			if (!$this->_data = JFile::read($archive))
 			{
-				$this->set('error.message', 'Unable to read archive');
-				return JError::raiseWarning(100, $this->get('error.message'));
+				throw new RuntimeException('Unable to read archive');
 			}
 
 			$buffer = bzdecompress($this->_data);
 			unset($this->_data);
 			if (empty($buffer))
 			{
-				$this->set('error.message', 'Unable to decompress data');
-				return JError::raiseWarning(100, $this->get('error.message'));
+				throw new RuntimeException('Unable to decompress data');
 			}
 
 			if (JFile::write($destination, $buffer) === false)
 			{
-				$this->set('error.message', 'Unable to write archive');
-				return JError::raiseWarning(100, $this->get('error.message'));
+				throw new RuntimeException('Unable to write archive');
 			}
 
 		}
@@ -95,21 +91,15 @@ class JArchiveBzip2 implements JArchiveExtractable
 
 			if (!$input->open($archive))
 			{
-				$this->set('error.message', JText::_('JLIB_FILESYSTEM_BZIP_UNABLE_TO_READ'));
-
-				return JError::raiseWarning(100, $this->get('error.message'));
+				throw new RuntimeException('Unable to read archive (bz2)');
 			}
 
 			$output = JFactory::getStream();
 
 			if (!$output->open($destination, 'w'))
 			{
-				$this->set('error.message', JText::_('JLIB_FILESYSTEM_BZIP_UNABLE_TO_WRITE'));
-
-				// Close the previous file
 				$input->close();
-
-				return JError::raiseWarning(100, $this->get('error.message'));
+				throw new RuntimeException('Unable to write archive (bz2)');
 			}
 
 			do
@@ -119,9 +109,8 @@ class JArchiveBzip2 implements JArchiveExtractable
 				{
 					if (!$output->write($this->_data))
 					{
-						$this->set('error.message', JText::_('JLIB_FILESYSTEM_BZIP_UNABLE_TO_WRITE_FILE'));
-
-						return JError::raiseWarning(100, $this->get('error.message'));
+						$input->close();
+						throw new RuntimeException('Unable to write archive (bz2)');
 					}
 				}
 			}
