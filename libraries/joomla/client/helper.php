@@ -201,6 +201,7 @@ class JClientHelper
 	 * @return  mixed  True, if FTP settings should be shown or an exception
 	 *
 	 * @since   11.1
+	 * @throws InvalidArgumentException
 	 */
 	public static function setCredentialsFromRequest($client)
 	{
@@ -216,7 +217,7 @@ class JClientHelper
 			}
 			else
 			{
-				$return = JError::raiseWarning('SOME_ERROR_CODE', JText::_('JLIB_CLIENT_ERROR_HELPER_SETCREDENTIALSFROMREQUEST_FAILED'));
+				throw new InvalidArgumentException('Invalid user credentials');
 			}
 		}
 		else
