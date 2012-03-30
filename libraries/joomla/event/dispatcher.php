@@ -94,6 +94,7 @@ class JDispatcher extends JObject
 	 * @return  void
 	 *
 	 * @since   11.1
+	 * @throws InvalidArgumentException
 	 */
 	public function register($event, $handler)
 	{
@@ -111,7 +112,7 @@ class JDispatcher extends JObject
 		}
 		else
 		{
-			return JError::raiseWarning('SOME_ERROR_CODE', JText::sprintf('JLIB_EVENT_ERROR_DISPATCHER', $handler));
+			throw new InvalidArgumentException('Invalid event handler.');
 		}
 	}
 
