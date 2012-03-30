@@ -64,6 +64,18 @@ defined('_JEXEC') or die;
 							</tr>
 							<tr>
 								<td colspan="2">
+									<?php echo $this->form->getLabel('db_port'); ?>
+									<br />
+									<?php echo $this->form->getInput('db_port'); ?>
+								</td>
+								<td>
+									<em>
+									<?php echo JText::_('INSTL_DATABASE_PORT_DESC'); ?>
+									</em>
+								</td>
+							</tr>
+							<tr>
+								<td colspan="2">
 									<?php echo $this->form->getLabel('db_user'); ?>
 									<br />
 									<?php echo $this->form->getInput('db_user'); ?>
