@@ -101,6 +101,8 @@ class JCacheStorage
 	 * @return  JCacheStorage  A JCacheStorage instance
 	 *
 	 * @since   11.1
+	 * @throws  UnexpectedValueException
+	 * @throws  RuntimeException
 	 */
 	public static function getInstance($handler = null, $options = array())
 	{
@@ -114,7 +116,7 @@ class JCacheStorage
 			$handler = $conf->get('cache_handler');
 			if (empty($handler))
 			{
-				return JError::raiseWarning(500, JText::_('JLIB_CACHE_ERROR_CACHE_HANDLER_NOT_SET'));
+				throw new UnexpectedValueException('Cache Storage Handler not set.');
 			}
 		}
 
@@ -139,7 +141,7 @@ class JCacheStorage
 			}
 			else
 			{
-				return JError::raiseWarning(500, JText::sprintf('JLIB_CACHE_ERROR_CACHE_STORAGE_LOAD', $handler));
+				throw new RuntimeException(sprintf('Unable to load Cache Storage: %s', $handler));
 			}
 		}
 
