@@ -1301,6 +1301,19 @@ class JFormTest extends TestCase
 			$this->equalTo(1),
 			'Line:'.__LINE__.' The show_title in the params group has been replaced by show_abstract.'
 		);
+
+		$originalform = new JFormInspector('form1');
+		$originalform->load(JFormDataHelper::$loadDocument);
+		$originalset = $originalform->getXML()->xpath('/form/fields/field');
+		$set = $form->getXML()->xpath('/form/fields/field');
+		for ($i = 0; $i < count($originalset); $i++)
+		{
+			$this->assertThat(
+				(string) ($originalset[$i]->attributes()->name) == (string) ($set[$i]->attributes()->name),
+				$this->isTrue(),
+				'Line:'.__LINE__.' Replace should leave fields in the original order.'
+			);
+		}
 	}
 
 	/**
