@@ -209,7 +209,7 @@ abstract class JHtml
 	 *
 	 * @see     http://php.net/manual/en/function.call-user-func-array.php
 	 * @since   11.1
-	 * @throws  Exception
+	 * @throws  InvalidArgumentException
 	 */
 	protected static function call($function, $args)
 	{
@@ -225,7 +225,7 @@ abstract class JHtml
 		}
 		else
 		{
-			throw new Exception(JText::_('JLIB_HTML_ERROR_FUNCTION_NOT_SUPPORTED'), 500);
+			throw new InvalidArgumentException('Function not supported', 500);
 		}
 	}
 

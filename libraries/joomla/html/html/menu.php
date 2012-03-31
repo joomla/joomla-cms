@@ -228,12 +228,6 @@ abstract class JHtmlMenu
 
 		$mitems = $db->loadObjectList();
 
-		// Check for a database error.
-		if ($db->getErrorNum())
-		{
-			JLog::add($db->getErrorMsg(), JLog::NOTICE, 'jerror');
-		}
-
 		if (!$mitems)
 		{
 			$mitems = array();
