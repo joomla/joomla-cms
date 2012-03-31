@@ -68,10 +68,23 @@ class JFormFieldMedia extends JFormField
 			$script[] = '			var elem = document.id(id);';
 			$script[] = '			elem.value = value;';
 			$script[] = '			elem.fireEvent("change");';
-			$script[] = '			if (typeof(elem.onchange) === \'function\') {';
+			$script[] = '			if (typeof(elem.onchange) === "function") {';
 			$script[] = '				elem.onchange();';
 			$script[] = '			}';
 			$script[] = '		}';
+			$script[] = '	}';
+
+			$script[] = '	function jMediaRefreshPreview(value, id) {';
+			$script[] = '		var img = document.id(id + "_preview");';
+			$script[] = '		if (img) {';
+			$script[] = '			if (value) {';
+			$script[] = '				img.src = "' . JURI::root() . '" + value;';
+			$script[] = '				document.id(id + "_preview_empty").setStyle("display", "none");';
+			$script[] = '			} else { ';
+			$script[] = '				img.src = ""';
+			$script[] = '				document.id(id + "_preview_empty").setStyle("display", "");';
+			$script[] = '			} ';
+			$script[] = '		} ';
 			$script[] = '	}';
 
 			// Add the script to the document head.
@@ -135,6 +148,58 @@ class JFormFieldMedia extends JFormField
 		$html[] = JText::_('JLIB_FORM_BUTTON_CLEAR') . '</a>';
 		$html[] = '	</div>';
 		$html[] = '</div>';
+
+		// The Preview.
+		$preview = (string) $this->element['preview'];
+		$showPreview = true;
+		$showAsTooltip = false;
+		switch ($preview)
+		{
+			case 'no':
+			case 'none':
+				$showPreview = false;
+				break;
+			case 'yes':
+			case 'show':
+				break;
+			case 'tooltip':
+			default:
+				$showAsTooltip = true;
+				break;
+		}
+
+		if ($showPreview)
+		{
+			if ($this->value && file_exists(JPATH_ROOT . '/' . $this->value))
+			{
+				$src = JURI::root() . $this->value;
+			}
+			else
+			{
+				$src = '';
+			}
+
+			$attr = array(
+				'id' => $this->id . '_preview',
+				'class' => 'media-preview',
+				'style' => 'max-width:160px; max-height:100px;'
+			);
+			$previewImg = JHtml::image($src, JText::_('JLIB_FORM_MEDIA_PREVIEW_ALT'), $attr);
+			$previewImgEmpty = ' <div id="' . $this->id . '_preview_empty">' . JText::_('JLIB_FORM_MEDIA_PREVIEW_EMPTY') . '</div>';
+
+			$html[] = '<div class="media-preview fltlft">';
+			if ($showAsTooltip)
+			{
+				$text = $previewImgEmpty . $previewImg;
+				$html[] = JHtml::tooltip($text, JText::_('JLIB_FORM_MEDIA_PREVIEW_SELECTED_IMAGE'), '', JText::_('JLIB_FORM_MEDIA_PREVIEW_TIP_TITLE'));
+			}
+			else
+			{
+				$html[] = ' ' . $previewImgEmpty;
+				$html[] = ' ' . $previewImg;
+			}
+			$html[] = '</div>';
+		}
 
 		return implode("\n", $html);
 	}
