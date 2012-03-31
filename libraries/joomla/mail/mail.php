@@ -67,23 +67,23 @@ class JMail extends PHPMailer
 	/**
 	 * Send the mail
 	 *
-	 * @return  mixed  True if successful, a JError object otherwise
+	 * @return  boolean  True if successful
 	 *
 	 * @since   11.1
+	 * @throws  RuntimeException
 	 */
 	public function Send()
 	{
 		if (($this->Mailer == 'mail') && !function_exists('mail'))
 		{
-			return JError::raiseNotice(500, JText::_('JLIB_MAIL_FUNCTION_DISABLED'));
+			throw new RuntimeException('Send function cancelled because mail is disabled.');
 		}
 
 		@$result = parent::Send();
 
 		if ($result == false)
 		{
-			// TODO: Set an appropriate error number
-			$result = JError::raiseNotice(500, JText::_($this->ErrorInfo));
+			throw new RuntimeException('phpMail Send email failed');
 		}
 
 		return $result;
@@ -271,6 +271,7 @@ class JMail extends PHPMailer
 	 * @return  JMail  Returns this object for chaining.
 	 *
 	 * @since   11.1
+	 * @throws  RuntimeException
 	 */
 	public function addAttachment($attachment, $name = '', $encoding = 'base64', $type = 'application/octet-stream')
 	{
