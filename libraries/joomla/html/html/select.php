@@ -153,7 +153,7 @@ abstract class JHtmlSelect
 	 *
 	 * @since   11.1
 	 *
-	 * @throws  JException If a group has unprocessable contents.
+	 * @throws  RuntimeException If a group has contents that cannot be processed.
 	 */
 	public static function groupedlist($data, $name, $options = array())
 	{
@@ -241,7 +241,7 @@ abstract class JHtmlSelect
 			}
 			else
 			{
-				throw new JException('Invalid group contents.', 1, E_WARNING);
+				throw new RuntimeException('Invalid group contents.', 1);
 			}
 
 			if ($noGroup)

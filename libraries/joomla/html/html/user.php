@@ -37,13 +37,6 @@ abstract class JHtmlUser
 		$db->setQuery($query);
 		$options = $db->loadObjectList();
 
-		// Check for a database error.
-		if ($db->getErrorNum())
-		{
-			JLog::add($db->getErrorMsg(), JLog::NOTICE, 'jerror');
-			return null;
-		}
-
 		for ($i = 0, $n = count($options); $i < $n; $i++)
 		{
 			$options[$i]->text = str_repeat('- ', $options[$i]->level) . $options[$i]->text;
@@ -75,12 +68,6 @@ abstract class JHtmlUser
 		// Set the query and load the options.
 		$db->setQuery($query);
 		$items = $db->loadObjectList();
-
-		// Detect errors
-		if ($db->getErrorNum())
-		{
-			JLog::add($db->getErrorMsg(), JLog::WARNING, 'jerror');
-		}
 
 		return $items;
 	}
