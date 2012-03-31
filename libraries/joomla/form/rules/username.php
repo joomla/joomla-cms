@@ -52,12 +52,6 @@ class JFormRuleUsername extends JFormRule
 		$db->setQuery($query);
 		$duplicate = (bool) $db->loadResult();
 
-		// Check for a database error.
-		if ($db->getErrorNum())
-		{
-			JLog::add($db->getErrorMsg(), JLog::WARNING, 'jerror');
-		}
-
 		if ($duplicate)
 		{
 			return false;

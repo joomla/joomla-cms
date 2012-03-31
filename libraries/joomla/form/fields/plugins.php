@@ -65,13 +65,6 @@ class JFormFieldPlugins extends JFormFieldList
 				||	$lang->load($extension . '.sys', $source, $lang->getDefault(), false, false);
 				$options[$i]->text = JText::_($item->text);
 			}
-
-			if ($db->getErrorMsg())
-			{
-				JLog::add(JText::_('JFRAMEWORK_FORM_FIELDS_PLUGINS_ERROR_FOLDER_EMPTY'), JLog::WARNING, 'jerror');
-				return '';
-			}
-
 		}
 		else
 		{

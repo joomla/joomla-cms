@@ -301,15 +301,14 @@ class JForm
 	 * @return  mixed  The attribute value for the field.
 	 *
 	 * @since   11.1
+	 * @throws  UnexpectedValueException
 	 */
 	public function getFieldAttribute($name, $attribute, $default = null, $group = null)
 	{
 		// Make sure there is a valid JForm XML document.
 		if (!($this->xml instanceof JXMLElement))
 		{
-			// TODO: throw exception.
-
-			return $default;
+			throw new UnexpectedValueException(sprint('%s::getFieldAttribute `xml` is not an instance of JXMLElement', get_class($this)));
 		}
 
 		// Find the form field element from the definition.
@@ -782,14 +781,14 @@ class JForm
 	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
+	 * @throws  UnexpectedValueException
 	 */
 	public function removeField($name, $group = null)
 	{
 		// Make sure there is a valid JForm XML document.
 		if (!($this->xml instanceof JXMLElement))
 		{
-			// TODO: throw exception.
-			return false;
+			throw new UnexpectedValueException(sprint('%s::getFieldAttribute `xml` is not an instance of JXMLElement', get_class($this)));
 		}
 
 		// Find the form field element from the definition.
@@ -813,14 +812,14 @@ class JForm
 	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
+	 * @throws  UnexpectedValueException
 	 */
 	public function removeGroup($group)
 	{
 		// Make sure there is a valid JForm XML document.
 		if (!($this->xml instanceof JXMLElement))
 		{
-			// TODO: throw exception.
-			return false;
+			throw new UnexpectedValueException(sprint('%s::getFieldAttribute `xml` is not an instance of JXMLElement', get_class($this)));
 		}
 
 		// Get the fields elements for a given group.
@@ -869,15 +868,14 @@ class JForm
 	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
+	 * @throws  UnexpectedValueException
 	 */
 	public function setField(JXMLElement $element, $group = null, $replace = true)
 	{
 		// Make sure there is a valid JForm XML document.
 		if (!($this->xml instanceof JXMLElement))
 		{
-			// TODO: throw exception.
-
-			return false;
+			throw new UnexpectedValueException(sprint('%s::getFieldAttribute `xml` is not an instance of JXMLElement', get_class($this)));
 		}
 
 		// Find the form field element from the definition.
@@ -933,15 +931,14 @@ class JForm
 	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
+	 * @throws  UnexpectedValueException
 	 */
 	public function setFieldAttribute($name, $attribute, $value, $group = null)
 	{
 		// Make sure there is a valid JForm XML document.
 		if (!($this->xml instanceof JXMLElement))
 		{
-			// TODO: throw exception.
-
-			return false;
+			throw new UnexpectedValueException(sprint('%s::getFieldAttribute `xml` is not an instance of JXMLElement', get_class($this)));
 		}
 
 		// Find the form field element from the definition.
@@ -977,15 +974,14 @@ class JForm
 	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
+	 * @throws  UnexpectedValueException
 	 */
 	public function setFields(&$elements, $group = null, $replace = true)
 	{
 		// Make sure there is a valid JForm XML document.
 		if (!($this->xml instanceof JXMLElement))
 		{
-			// TODO: throw exception.
-
-			return false;
+			throw new UnexpectedValueException(sprint('%s::getFieldAttribute `xml` is not an instance of JXMLElement', get_class($this)));
 		}
 
 		// Make sure the elements to set are valid.
@@ -993,9 +989,7 @@ class JForm
 		{
 			if (!($element instanceof JXMLElement))
 			{
-				// TODO: throw exception.
-
-				return false;
+				throw new RuntimeException('Element is not an instance of JXMLElement');
 			}
 		}
 
@@ -1829,13 +1823,15 @@ class JForm
 	 * @return  mixed  Boolean true if field value is valid, JException on failure.
 	 *
 	 * @since   11.1
+	 * @throws  RuntimeException
+	 * @throws  InvalidArgumentException
 	 */
 	protected function validateField($element, $group = null, $value = null, $input = null)
 	{
 		// Make sure there is a valid JXMLElement.
 		if (!$element instanceof JXMLElement)
 		{
-			return new JException(JText::_('JLIB_FORM_ERROR_VALIDATE_FIELD'), -1, E_ERROR);
+			throw new InvalidArgumentException('Form field validation error');
 		}
 
 		// Initialise variables.
@@ -1865,9 +1861,9 @@ class JForm
 					{
 						$message = JText::_($element['name']);
 					}
-					$message = JText::sprintf('JLIB_FORM_VALIDATE_FIELD_REQUIRED', $message);
+					$message = sprintf('Field required: %s', $message);
 				}
-				return new JException($message, 2, E_WARNING);
+				throw new RuntimeException($message);
 			}
 		}
 
@@ -1880,7 +1876,7 @@ class JForm
 			// If the object could not be loaded return an error message.
 			if ($rule === false)
 			{
-				return new JException(JText::sprintf('JLIB_FORM_VALIDATE_FIELD_RULE_MISSING', $type), -2, E_ERROR);
+				throw new InvalidArgumentException(sprintf('Validation Rule missing: %s', $type));
 			}
 
 			// Run the field validation rule test.
@@ -1902,11 +1898,11 @@ class JForm
 
 			if ($message)
 			{
-				return new JException(JText::_($message), 1, E_WARNING);
+				throw new RuntimeException($message, 1, E_WARNING);
 			}
 			else
 			{
-				return new JException(JText::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', JText::_((string) $element['label'])), 1, E_WARNING);
+				throw new InvalidArgumentException((string) $element['label']);
 			}
 		}
 
@@ -2020,7 +2016,6 @@ class JForm
 	 * @return  void
 	 *
 	 * @since   11.1
-	 * @throws  Exception if an error occurs.
 	 */
 	protected static function addNode(SimpleXMLElement $source, SimpleXMLElement $new)
 	{
