@@ -620,7 +620,7 @@ CREATE TABLE "#__finder_links" (
 CREATE INDEX "#__finder_links_idx_type" on "#__finder_links" ("type_id");
 CREATE INDEX "#__finder_links_idx_title" on "#__finder_links" ("title");
 CREATE INDEX "#__finder_links_idx_md5" on "#__finder_links" ("md5sum");
-CREATE INDEX "#__finder_links_idx_url" on "#__finder_links" (left(url,75));
+CREATE INDEX "#__finder_links_idx_url" on "#__finder_links" (substr(url,0,76));
 CREATE INDEX "#__finder_links_idx_published_list" on "#__finder_links" ("published", "state", "access", "publish_start_date", "publish_end_date", "list_price");
 CREATE INDEX "#__finder_links_idx_published_sale" on "#__finder_links" ("published", "state", "access", "publish_start_date", "publish_end_date", "sale_price");
 
