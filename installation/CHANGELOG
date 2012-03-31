@@ -26,12 +26,24 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+-------------------- 2.5.4 Stable Release [2-April-2012] ------------------
+
+30-Mar-2012 Mark Dexter
+ # Sample data fixes for SQL Server
+ # [#28316] Incorrect ordering value if editing last module
+ # [#28325] Deleted files not being deleted during version update
+
+29-Mar-2012 Mark Dexter
+ # [#28323] com_joomlaupdate does not delete joomla.xml file in root folder
+ # [#28318] Remove duplicate SQL Server directories.
+
 29-Mar-2012 Christophe Demko
  $ Updating installation ini file sk-SK
 
 28-Mar-2012 Mark Dexter
  # [#28303] Change 28026 so it doesn't modify platform files
  # [#28252] Don't show the site secret and optimize ConfigModelApplication
+ # [#28172] Backslashes are added every time you save Wrapper menu item
 
 28-Mar-2012 Christophe Demko
  # [#28314] #28299 can cause performance issue if root category is loaded in non multilanguage mode

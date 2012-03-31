@@ -38,9 +38,12 @@ class JFormFieldSample extends JFormFieldList
 		// Initialize variables.
 		$lang = JFactory::getLanguage();
 		$options = array();
-		$type = $this->form instanceof JForm ? $this->form->getValue('db_type') : 'mysql';
+		$type = $this->form instanceof JForm ? $this->form->getValue('db_type') : 'mysql' || 'sqlazure';
 		if ($type == 'mysqli') {
 			$type='mysql';
+		}
+		elseif($type='sqlsrv'){
+			$type='sqlazure';
 		}
 		// Get a list of files in the search path with the given filter.
 		$files = JFolder::files(JPATH_INSTALLATION.'/sql/'.$type, '^sample.*\.sql$');

@@ -24,9 +24,9 @@ class JoomlaupdateModelDefault extends JModel
 	/**
 	 * Detects if the Joomla! update site currently in use matches the one
 	 * configured in this component. If they don't match, it changes it.
-	 * 
+	 *
 	 * @return	void
-	 * 
+	 *
 	 * @since	2.5.2
 	 */
 	public function applyUpdateSite()
@@ -90,11 +90,11 @@ class JoomlaupdateModelDefault extends JModel
 
 	/**
 	 * Makes sure that the Joomla! update cache is up-to-date
-	 * 
+	 *
 	 * @param   bool  $force  Force reload, ignoring the cache timeout
-	 * 
+	 *
 	 * @return	void
-	 * 
+	 *
 	 * @since	2.5.2
 	 */
 	public function refreshUpdates($force = false)
@@ -114,8 +114,8 @@ class JoomlaupdateModelDefault extends JModel
 	}
 
 	/**
-	 * Returns an array with the Joomla! update information 
-	 * 
+	 * Returns an array with the Joomla! update information
+	 *
 	 * @since 2.5.2
 	 * @return array
 	 */
@@ -164,9 +164,9 @@ class JoomlaupdateModelDefault extends JModel
 
 	/**
 	 * Returns an array with the configured FTP options
-	 * 
+	 *
 	 * @since 2.5.2
-	 * @return array 
+	 * @return array
 	 */
 	public function getFTPOptions()
 	{
@@ -180,12 +180,12 @@ class JoomlaupdateModelDefault extends JModel
 			'enabled'	=> $config->get('ftp_enable'),
 		);
 	}
-	
+
 	/**
 	 * Downloads the update package to the site
-	 * 
+	 *
 	 * @return bool|string False on failure, basename of the file in any other case
-	 * 
+	 *
 	 * @since 2.5.2
 	 */
 	public function download()
@@ -222,10 +222,10 @@ class JoomlaupdateModelDefault extends JModel
 
 	/**
 	 * Downloads a package file to a specific directory
-	 * 
+	 *
 	 * @param   string  $url     The URL to download from
 	 * @param   string  $target  The directory to store the file
-	 * 
+	 *
 	 * @return boolean True on success
 	 * @since 2.5.2
 	 */
@@ -242,7 +242,7 @@ class JoomlaupdateModelDefault extends JModel
 			return basename($target);
 		}
 	}
-	
+
 	public function createRestorationFile($basename = null)
 	{
 		// Get a password
@@ -414,60 +414,60 @@ ENDDATA;
 		}
 		return $result;
 	}
-	
+
 	/**
 	 * Runs the schema update SQL files, the PHP update script and updates the
 	 * manifest cache and #__extensions entry. Essentially, it is identical to
 	 * JInstallerFile::install() without the file copy.
-	 * 
+	 *
 	 * @return boolean True on success
 	 */
 	public function finaliseUpgrade()
 	{
 		jimport('joomla.installer.install');
 		$installer = JInstaller::getInstance();
-		
+
 		$installer->setPath('source', JPATH_ROOT);
 		$installer->setPath('extension_root', JPATH_ROOT);
 
 		if (!$installer->setupInstall())
 		{
 			$installer->abort(JText::_('JLIB_INSTALLER_ABORT_DETECTMANIFEST'));
-			
+
 			return false;
 		}
-		
+
 		$installer->extension = JTable::getInstance('extension');
 		$installer->extension->load(700);
 		$installer->setAdapter($installer->extension->type);
-		
+
 		$manifest = $installer->getManifest();
-		
+
 		$manifestPath = JPath::clean($installer->getPath('manifest'));
 		$element = preg_replace('/\.xml/', '', basename($manifestPath));
-		
+
 		// Run the script file
 		$scriptElement = $manifest->scriptfile;
 		$manifestScript = (string) $manifest->scriptfile;
-		
+
 		if ($manifestScript)
 		{
 			$manifestScriptFile = JPATH_ROOT . '/' . $manifestScript;
-			
+
 			if (is_file($manifestScriptFile))
 			{
 				// load the file
 				include_once $manifestScriptFile;
 			}
-			
+
 			$classname = 'JoomlaInstallerScript';
-			
+
 			if (class_exists($classname))
 			{
 				$manifestClass = new $classname($this);
 			}
 		}
-		
+
 		ob_start();
 		ob_implicit_flush(false);
 		if ($manifestClass && method_exists($manifestClass, 'preflight'))
@@ -479,13 +479,13 @@ ENDDATA;
 				return false;
 			}
 		}
-		
+
 		$msg = ob_get_contents(); // create msg object; first use here
 		ob_end_clean();
-		
+
 		// Get a database connector object
 		$db = JFactory::getDbo();
-		
+
 		// Check to see if a file extension by the same name is already installed
 		// If it is, then update the table because if the files aren't there
 		// we can assume that it was (badly) uninstalled
@@ -510,7 +510,7 @@ ENDDATA;
 		}
 		$id = $db->loadResult();
 		$row = JTable::getInstance('extension');
-		
+
 		if ($id)
 		{
 			// Load the entry and update the manifest_cache
@@ -558,7 +558,7 @@ ENDDATA;
 			// so that if we have to rollback the changes we can undo it.
 			$installer->pushStep(array('type' => 'extension', 'extension_id' => $row->extension_id));
 		}
-		
+
 		/*
 		 * Let's run the queries for the file
 		 */
@@ -572,7 +572,7 @@ ENDDATA;
 				return false;
 			}
 		}
-		
+
 		// Start Joomla! 1.6
 		ob_start();
 		ob_implicit_flush(false);
@@ -590,7 +590,7 @@ ENDDATA;
 
 		$msg .= ob_get_contents(); // append messages
 		ob_end_clean();
-		
+
 		// Lastly, we will copy the manifest file to its appropriate place.
 		$manifest = array();
 		$manifest['src'] = $installer->getPath('manifest');
@@ -630,13 +630,13 @@ ENDDATA;
 			$installer->set('extension_message', $msg);
 		}
 
-		
+
 		return true;
 	}
-	
+
 	/**
 	 * Removes the extracted package file
-	 * 
+	 *
 	 * @return void
 	 */
 	public function cleanUp()
@@ -648,7 +648,7 @@ ENDDATA;
 		$tempdir = $jreg->getValue('config.tmp_path');
 		$file = JFactory::getApplication()->getUserState('com_joomlaupdate.file', null);
 		$target = $tempdir.'/'.$file;
-		if (!unlink($target))
+		if (!@unlink($target))
 		{
 			jimport('joomla.filesystem.file');
 			JFile::delete($target);
@@ -656,11 +656,19 @@ ENDDATA;
 
 		// Remove the restoration.php file
 		$target = JPATH_COMPONENT_ADMINISTRATOR . '/restoration.php';
-		if (!unlink($target))
+		if (!@unlink($target))
 		{
 			JFile::delete($target);
 		}
 
+		// Remove joomla.xml from the site's root
+		$target = JPATH_ROOT . '/joomla.xml';
+		if (!@unlink($target))
+		{
+			JFile::delete($target);
+		}
+
+		// Unset the update filename from the session
 		JFactory::getApplication()->setUserState('com_joomlaupdate.file', null);
 	}
 }
