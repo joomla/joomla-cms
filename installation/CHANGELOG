@@ -28,6 +28,9 @@ $ -> Language fix or change
 
 -------------------- 2.5.4 Stable Release [2-April-2012] ------------------
 
+31-Mar-2012 Mark Dexter
+ # [#28329] Joomla Update component requires Purge Cache to change Update Server
+
 30-Mar-2012 Mark Dexter
  # Sample data fixes for SQL Server
  # [#28316] Incorrect ordering value if editing last module
