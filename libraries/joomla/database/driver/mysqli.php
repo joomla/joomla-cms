@@ -105,7 +105,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriverMysql
 			}
 			else
 			{
-				throw new RuntimeException(JText::_('JLIB_DATABASE_ERROR_ADAPTER_MYSQLI'));
+				throw new RuntimeException('The MySQL adapter mysqli is not available');
 			}
 		}
 
@@ -116,7 +116,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriverMysql
 		// Attempt to connect to the server.
 		if (!$this->connection)
 		{
-			throw new RuntimeException(JText::_('JLIB_DATABASE_ERROR_CONNECT_MYSQL'));
+			throw new RuntimeException('Could not connect to MySQL.');
 		}
 
 		// Set sql_mode to non_strict mode
@@ -356,7 +356,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriverMysql
 
 		if (!mysqli_select_db($this->connection, $database))
 		{
-			throw new RuntimeException(JText::_('JLIB_DATABASE_ERROR_DATABASE_CONNECT'));
+			throw new RuntimeException('Could not connect to database.');
 		}
 
 		return true;
