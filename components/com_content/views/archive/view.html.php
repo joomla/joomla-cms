@@ -41,7 +41,10 @@ class ContentViewArchive extends JView
 		foreach ($items as $item)
 		{
 			$item->catslug = ($item->category_alias) ? ($item->catid . ':' . $item->category_alias) : $item->catid;
-			$item->parent_slug = ($item->parent_alias) ? ($item->parent_id . ':' . $item->parent_alias) : $item->parent_id;
+			if (isset($item->parent_alias))
+			{
+				$item->parent_slug = ($item->parent_alias) ? ($item->parent_id . ':' . $item->parent_alias) : $item->parent_id;
+			}
 		}
 
 

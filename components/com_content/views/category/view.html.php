@@ -84,7 +84,7 @@ class ContentViewCategory extends JView
 			$item->slug = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
 
 			// No link for ROOT category
-			if ($item->parent_alias == 'root') {
+			if (isset($item->parent_alias) && $item->parent_alias == 'root') {
 				$item->parent_slug = null;
 			}
 

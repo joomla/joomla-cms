@@ -139,7 +139,7 @@ class ContentModelCategory extends JModelList
 			$query->where('(a.publish_down = ' . $nullDate . ' OR a.publish_down >= ' . $nowDate . ')');
 		}
 		else {
-			$this->setState('filter.published', array(0, 1, 2));
+			$this->setState('filter.published', array(0, 1));
 		}
 
 		// process show_noauth parameter
