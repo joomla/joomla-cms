@@ -433,7 +433,6 @@ class JCache extends JObject
 		}
 
 		self::$_handler[$hash] = JCacheStorage::getInstance($this->_options['storage'], $this->_options);
-
 		return self::$_handler[$hash];
 	}
 
