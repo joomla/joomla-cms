@@ -27,7 +27,7 @@ abstract class JUserHelper
 	 * @param   integer  $userId   The id of the user.
 	 * @param   integer  $groupId  The id of the group.
 	 *
-	 * @return  mixed  Boolean true on success
+	 * @return  boolean  True on success
 	 *
 	 * @since   11.1
 	 * @throws  RuntimeException
@@ -81,7 +81,7 @@ abstract class JUserHelper
 	 *
 	 * @param   integer  $userId  The id of the user.
 	 *
-	 * @return  mixed  Array on success
+	 * @return  array    List of groups
 	 *
 	 * @since   11.1
 	 */
@@ -99,7 +99,7 @@ abstract class JUserHelper
 	 * @param   integer  $userId   The id of the user.
 	 * @param   integer  $groupId  The id of the group.
 	 *
-	 * @return  mixed  Boolean true on success
+	 * @return  boolean  True on success
 	 *
 	 * @since   11.1
 	 */
@@ -139,7 +139,7 @@ abstract class JUserHelper
 	 * @param   integer  $userId  The id of the user.
 	 * @param   array    $groups  An array of group ids to put the user in.
 	 *
-	 * @return  mixed  Boolean true on success
+	 * @return  boolean  True on success
 	 *
 	 * @since   11.1
 	 */

@@ -271,6 +271,7 @@ class JMail extends PHPMailer
 	 * @return  JMail  Returns this object for chaining.
 	 *
 	 * @since   11.1
+	 * @throws  InvalidArgumentException
 	 */
 	public function addAttachment($attachment, $name = '', $encoding = 'base64', $type = 'application/octet-stream')
 	{
@@ -281,7 +282,7 @@ class JMail extends PHPMailer
 			{
 				if (!empty($name) && count($attachment) != count($name))
 				{
-					throw new RuntimeException("The number of attachments must be equal with the number of name");
+					throw new InvalidArgumentException("The number of attachments must be equal with the number of name");
 				}
 
 				foreach ($attachment as $key => $file)
