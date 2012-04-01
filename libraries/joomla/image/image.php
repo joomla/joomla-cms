@@ -671,9 +671,18 @@ class JImage
 
 			case self::SCALE_INSIDE:
 			case self::SCALE_OUTSIDE:
+                            if($width==0 && $height!=0){  // To avoid dividing by $width if it is zero
+                                $rx = $this->getWidth() ;
+				$ry = $this->getHeight() / $height;
+                            }
+                            elseif ($width!=0 && $height==0) {  // To avoid dividing by $height if it is zero
+                               $rx = $this->getWidth() / $width;
+				$ry = $this->getHeight() ; 
+                            }
+                            else{ // If both $width and $height are not equals to zero
 				$rx = $this->getWidth() / $width;
 				$ry = $this->getHeight() / $height;
-
+                            }
 				if ($scaleMethod == self::SCALE_INSIDE)
 				{
 					$ratio = ($rx > $ry) ? $rx : $ry;
