@@ -679,6 +679,10 @@ class JImage
                                $rx = $this->getWidth() / $width;
 				$ry = $this->getHeight() ; 
                             }
+                            else if($width==0 && $height==0){  // Both $height and $width are zero
+                                $rx = $this->getWidth() / $width;
+				$ry = $this->getHeight() ; 
+                            }
                             else{ // If both $width and $height are not equals to zero
 				$rx = $this->getWidth() / $width;
 				$ry = $this->getHeight() / $height;
