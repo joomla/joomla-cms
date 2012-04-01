@@ -76,14 +76,28 @@ class JMail extends PHPMailer
 	{
 		if (($this->Mailer == 'mail') && !function_exists('mail'))
 		{
-			throw new RuntimeException('Send function cancelled because mail is disabled.');
+			if (class_exists('JError'))
+			{
+				return JError::raiseNotice(500, JText::_('JLIB_MAIL_FUNCTION_DISABLED'));
+			}
+			else
+			{
+				throw new RuntimeException('Send function cancelled because mail is disabled.');
+			}
 		}
 
 		@$result = parent::Send();
 
 		if ($result == false)
 		{
-			throw new RuntimeException('phpMail Send email failed');
+			if (class_exists('JError'))
+			{
+				$result = JError::raiseNotice(500, JText::_($this->ErrorInfo));
+			}
+			else
+			{
+				throw new RuntimeException('Send function cancelled because mail is disabled.');
+			}
 		}
 
 		return $result;
