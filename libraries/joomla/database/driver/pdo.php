@@ -271,7 +271,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 		// Make sure the PDO extension for PHP is installed and enabled.
 		if (!self::isSupported())
 		{
-			throw new RuntimeException(JText::_('JLIB_DATABASE_ERROR_ADAPTER_PDO'), 1);
+			throw new RuntimeException('PDO Extension is not available.', 1);
 		}
 
 		try
@@ -285,7 +285,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 		}
 		catch (PDOException $e)
 		{
-			throw new RuntimeException(JText::_('JLIB_DATABASE_ERROR_CONNECT_PDO') . ': ' . $e->getMessage(), 2);
+			throw new RuntimeException('Could not connect to PDO' . ': ' . $e->getMessage(), 2);
 		}
 	}
 
