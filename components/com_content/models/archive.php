@@ -76,7 +76,6 @@ class ContentModelArchive extends JModelList
 		$app = JFactory::getApplication();
 
 		// List state information
-		//$value = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'));
 		$value = JRequest::getUInt('limit', $app->getCfg('list_limit', 0));
 		$this->setState('list.limit', $value);
 
@@ -176,9 +175,8 @@ class ContentModelArchive extends JModelList
 		// Get the params
 		$params = $this->state->params;
 
-
-		//if ($params->get('link_author'))
-		//{
+		if ($params->get('link_author'))
+		{
 			// Join on contact table
 			$subQuery = $db->getQuery(true);
 			$subQuery->select('contact.user_id, MAX(contact.id) AS id, contact.language');
@@ -187,7 +185,7 @@ class ContentModelArchive extends JModelList
 			$subQuery->group('contact.user_id, contact.language');
 			$query->select('contact.id as contactid' );
 			$query->join('LEFT', '(' . $subQuery . ') AS contact ON contact.user_id = a.created_by');
-		//}
+		}
 
 		if ($params->get('show_parent_category'))
 		{

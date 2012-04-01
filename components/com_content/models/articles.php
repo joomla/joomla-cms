@@ -201,10 +201,11 @@ class ContentModelArticles extends JModelList
 		// Get the params
 		$params = $this->state->params;
 
+		// Define the basic group by list
+		$groupstring = 'a.id, a.title, a.alias, a.title_alias, a.introtext, a.checked_out, a.checked_out_time, a.catid, a.created, a.created_by, a.created_by_alias, a.created, a.modified, a.modified_by, uam.name, a.publish_up, a.attribs, a.metadata, a.metakey, a.metadesc, a.access, a.hits, a.xreference, a.featured, a.fulltext, a.state, a.publish_down, badcats.id, c.title, c.path, c.access, c.alias, uam.id, ua.name, ua.email, c.published, c.lft, a.ordering, fp.ordering, c.id, a.images, a.urls';
 
 		if ($params->get('link_author') != '0')
 		{
-
 			// Join on contact table
 			$subQuery = $db->getQuery(true);
 			$subQuery->select('contact.user_id, MAX(contact.id) AS id, contact.language');
@@ -213,13 +214,15 @@ class ContentModelArticles extends JModelList
 			$subQuery->group('contact.user_id, contact.language');
 			$query->select('contact.id as contactid' );
 			$query->join('LEFT', '(' . $subQuery . ') AS contact ON contact.user_id = a.created_by');
-		}
+			$groupstring = $groupstring . ', contact.id';
 
+		}
 		if ($params->get('show_parent_category'))
 		{
 			// Join over the categories to get parent category titles
 			$query->select('parent.title as parent_title, parent.id as parent_id, parent.path as parent_route, parent.alias as parent_alias');
 			$query->join('LEFT', '#__categories as parent ON parent.id = c.parent_id');
+			$groupstring = $groupstring . ', parent.title, parent.id, parent.path, parent.alias, parent.lft';
 		}
 		$votingEnabled = JPluginHelper::isEnabled('content','vote');
 		if ($votingEnabled && $params->get('show_vote') != '0')
@@ -227,6 +230,7 @@ class ContentModelArticles extends JModelList
 			// Join on voting table
 			$query->select('ROUND(v.rating_sum / v.rating_count, 0) AS rating, v.rating_count as rating_count');
 			$query->join('LEFT', '#__content_rating AS v ON a.id = v.content_id');
+			$groupstring = $groupstring . ', v.rating_sum, v.rating_count';
 		}
 		// Join to check for category published state in parent categories up the tree
 		$query->select('c.published, CASE WHEN badcats.id is null THEN c.published ELSE 0 END AS parents_published');
@@ -461,39 +465,7 @@ class ContentModelArticles extends JModelList
 
 		// Add the list ordering clause.
 		$query->order($this->getState('list.ordering', 'a.ordering').' '.$this->getState('list.direction', 'ASC'));
-
-			if ($params->get('show_parent_category') != '0' && $params->get('link_author') != '0' && ($votingEnabled && $params->get('show_vote') != '0'))
-			{
-				$query->group('a.id, a.title, a.alias, a.title_alias, a.introtext, a.checked_out, a.checked_out_time, a.catid, a.created, a.created_by, a.created_by_alias, a.created, a.modified, a.modified_by, uam.name, a.publish_up, a.attribs, a.metadata, a.metakey, a.metadesc, a.access, a.hits, a.xreference, a.featured, a.fulltext, a.state, a.publish_down, badcats.id, c.title, c.path, c.access, c.alias, uam.id, ua.name, ua.email, contact.id, parent.title, parent.id, parent.path, parent.alias, v.rating_sum, v.rating_count, c.published, c.lft, a.ordering, parent.lft, fp.ordering, c.id, a.images, a.urls');
-			}
-			elseif ($params->get('show_parent_category') != '0' && $params->get('link_author') == '0' && ($votingEnabled && $params->get('show_vote') != '0'))
-			{
-				$query->group('a.id, a.title, a.alias, a.title_alias, a.introtext, a.checked_out, a.checked_out_time, a.catid, a.created, a.created_by, a.created_by_alias, a.created, a.modified, a.modified_by, uam.name, a.publish_up, a.attribs, a.metadata, a.metakey, a.metadesc, a.access, a.hits, a.xreference, a.featured, a.fulltext, a.state, a.publish_down, badcats.id, c.title, c.path, c.access, c.alias, uam.id, ua.name, ua.email, v.rating_sum, v.rating_count, c.published, c.lft, a.ordering, fp.ordering, c.id, a.images, a.urls');
-			}
-			elseif ($params->get('show_parent_category') == '0' && $params->get('link_author') != '0' && ($votingEnabled && $params->get('show_vote') != '0'))
-			{
-				$query->group('a.id, a.title, a.alias, a.title_alias, a.introtext, a.checked_out, a.checked_out_time, a.catid, a.created, a.created_by, a.created_by_alias, a.created, a.modified, a.modified_by, uam.name, a.publish_up, a.attribs, a.metadata, a.metakey, a.metadesc, a.access, a.hits, a.xreference, a.featured, a.fulltext, a.state, a.publish_down, badcats.id, c.title, c.path, c.access, c.alias, uam.id, ua.name, ua.email, contact.id, v.rating_sum, v.rating_count, c.published, c.lft, a.ordering, fp.ordering, c.id, a.images, a.urls');
-			}
-			elseif ($params->get('show_parent_category') == '0' && $params->get('link_author') == '0' && ($votingEnabled && $params->get('show_vote') != '0'))
-			{
-				$query->group('a.id, a.title, a.alias, a.title_alias, a.introtext, a.checked_out, a.checked_out_time, a.catid, a.created, a.created_by, a.created_by_alias, a.created, a.modified, a.modified_by, uam.name, a.publish_up, a.attribs, a.metadata, a.metakey, a.metadesc, a.access, a.hits, a.xreference, a.featured, a.fulltext, a.state, a.publish_down, badcats.id, c.title, c.path, c.access, c.alias, uam.id, ua.name, ua.email, v.rating_sum, v.rating_count, c.published, c.lft, a.ordering, fp.ordering, c.id, a.images, a.urls');
-			}
-			elseif ($params->get('show_parent_category') != '0' && $params->get('link_author') != '0' && ($votingEnabled && $params->get('show_vote') == '0'))
-			{
-				$query->group('a.id, a.title, a.alias, a.title_alias, a.introtext, a.checked_out, a.checked_out_time, a.catid, a.created, a.created_by, a.created_by_alias, a.created, a.modified, a.modified_by, uam.name, a.publish_up, a.attribs, a.metadata, a.metakey, a.metadesc, a.access, a.hits, a.xreference, a.featured, a.fulltext, a.state, a.publish_down, badcats.id, c.title, c.path, c.access, c.alias, uam.id, ua.name, ua.email, contact.id, parent.title, parent.id, parent.path, parent.alias, c.published, c.lft, a.ordering, parent.lft, fp.ordering, c.id, a.images, a.urls');
-			}
-			elseif ($params->get('show_parent_category') != '0' && $params->get('link_author') == '0' && ($votingEnabled && $params->get('show_vote') == '0'))
-			{
-				$query->group('a.id, a.title, a.alias, a.title_alias, a.introtext, a.checked_out, a.checked_out_time, a.catid, a.created, a.created_by, a.created_by_alias, a.created, a.modified, a.modified_by, uam.name, a.publish_up, a.attribs, a.metadata, a.metakey, a.metadesc, a.access, a.hits, a.xreference, a.featured, a.fulltext, a.state, a.publish_down, badcats.id, c.title, c.path, c.access, c.alias, uam.id, ua.name, ua.email, c.published, c.lft, a.ordering, fp.ordering, c.id, a.images, a.urls');
-			}
-			elseif ($params->get('show_parent_category') == '0' && $params->get('link_author') != '0' && ($votingEnabled && $params->get('show_vote') == '0'))
-			{
-				$query->group('a.id, a.title, a.alias, a.title_alias, a.introtext, a.checked_out, a.checked_out_time, a.catid, a.created, a.created_by, a.created_by_alias, a.created, a.modified, a.modified_by, uam.name, a.publish_up, a.attribs, a.metadata, a.metakey, a.metadesc, a.access, a.hits, a.xreference, a.featured, a.fulltext, a.state, a.publish_down, badcats.id, c.title, c.path, c.access, c.alias, uam.id, ua.name, ua.email, contact.id, c.published, c.lft, a.ordering, fp.ordering, c.id, a.images, a.urls');
-			}
-			else
-			{
-				$query->group('a.id, a.title, a.alias, a.title_alias, a.introtext, a.checked_out, a.checked_out_time, a.catid, a.created, a.created_by, a.created_by_alias, a.created, a.modified, a.modified_by, uam.name, a.publish_up, a.attribs, a.metadata, a.metakey, a.metadesc, a.access, a.hits, a.xreference, a.featured, a.fulltext, a.state, a.publish_down, badcats.id, c.title, c.path, c.access, c.alias, uam.id, ua.name, ua.email, c.published, c.lft, a.ordering, fp.ordering, c.id, a.images, a.urls');
-			}
+		$query->group($groupstring);
 
 		return $query;
 	}
