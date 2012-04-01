@@ -85,6 +85,13 @@ class JoomlaupdateModelDefault extends JModel
 			$update_site->last_check_timestamp = 0;
 			$update_site->location = $updateURL;
 			$db->updateObject('#__update_sites', $update_site, 'update_site_id');
+			
+			// Remove cached updates
+			$query = $db->getQuery(true)
+				->delete($db->nq('#__updates'))
+				->where($db->nq('extension_id').' = '.$db->q('700'));
+			$db->setQuery($query);
+			$db->query();
 		}
 	}
 
