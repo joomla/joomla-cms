@@ -671,19 +671,27 @@ class JImage
 
 			case self::SCALE_INSIDE:
 			case self::SCALE_OUTSIDE:
-                            if($width==0 && $height!=0){  // To avoid dividing by $width if it is zero
+                            
+                            // To avoid dividing by $width if it is zero
+                            if($width==0 && $height!=0){
                                 $rx = $this->getWidth() ;
 				$ry = $this->getHeight() / $height;
                             }
-                            elseif ($width!=0 && $height==0) {  // To avoid dividing by $height if it is zero
+                            
+                            // To avoid dividing by $height if it is zero                            
+                            elseif ($width!=0 && $height==0) {
                                $rx = $this->getWidth() / $width;
 				$ry = $this->getHeight() ; 
                             }
-                            else if($width==0 && $height==0){  // Both $height and $width are zero
+                            
+                            // Both $height and $width are zero
+                            elseif($width==0 && $height==0){
                                 $rx = $this->getWidth() / $width;
 				$ry = $this->getHeight() ; 
                             }
-                            else{ // If both $width and $height are not equals to zero
+                            
+                            // If both $width and $height are not equals to zero
+                            else{
 				$rx = $this->getWidth() / $width;
 				$ry = $this->getHeight() / $height;
                             }
