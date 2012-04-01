@@ -249,7 +249,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 			// If the class still doesn't exist we have nothing left to do but throw an exception.  We did our best.
 			if (!class_exists($class))
 			{
-				throw new RuntimeException(JText::sprintf('JLIB_DATABASE_ERROR_LOAD_DATABASE_DRIVER', $options['driver']));
+				throw new RuntimeException(sprintf('Unable to load Database Driver: %s', $options['driver']));
 			}
 
 			// Create our new JDatabaseDriver connector based on the options given.
@@ -259,7 +259,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 			}
 			catch (RuntimeException $e)
 			{
-				throw new RuntimeException(JText::sprintf('JLIB_DATABASE_ERROR_CONNECT_DATABASE', $e->getMessage()));
+				throw new RuntimeException(sprintf('Unable to connect to the Database: %s', $e->getMessage()));
 			}
 
 			// Set the new connector to the global instances based on signature.
@@ -607,7 +607,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 		if (!class_exists($class))
 		{
 			// If it doesn't exist we are at an impasse so throw an exception.
-			throw new RuntimeException(JText::_('JLIB_DATABASE_ERROR_MISSING_EXPORTER'));
+			throw new RuntimeException('Database Exporter not found.');
 		}
 
 		$o = new $class;
@@ -633,7 +633,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 		if (!class_exists($class))
 		{
 			// If it doesn't exist we are at an impasse so throw an exception.
-			throw new RuntimeException(JText::_('JLIB_DATABASE_ERROR_MISSING_IMPORTER'));
+			throw new RuntimeException('Database Importer not found');
 		}
 
 		$o = new $class;
@@ -663,7 +663,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 			if (!class_exists($class))
 			{
 				// If it doesn't exist we are at an impasse so throw an exception.
-				throw new RuntimeException(JText::_('JLIB_DATABASE_ERROR_MISSING_QUERY'));
+				throw new RuntimeException('Database Query Class not found.');
 			}
 
 			return new $class($this);

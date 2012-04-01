@@ -995,7 +995,6 @@ abstract class JTable extends JObject
 	 *
 	 * @link    http://docs.joomla.org/JTable/isCheckedOut
 	 * @since   11.1
-	 * @todo    This either needs to be static or not.
 	 */
 	public function isCheckedOut($with = 0, $against = null)
 	{

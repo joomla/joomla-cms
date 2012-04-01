@@ -111,13 +111,13 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 		// Make sure the SQLSRV extension for PHP is installed and enabled.
 		if (!function_exists('sqlsrv_connect'))
 		{
-			throw new RuntimeException(JText::_('JLIB_DATABASE_ERROR_ADAPTER_SQLSRV'));
+			throw new RuntimeException('PHP extension sqlsrv_connect is not available.');
 		}
 
 		// Attempt to connect to the server.
 		if (!($this->connection = @ sqlsrv_connect($this->options['host'], $config)))
 		{
-			throw new RuntimeException(JText::_('JLIB_DATABASE_ERROR_CONNECT_SQLSRV'));
+			throw new RuntimeException('Database sqlsrv_connect failed');
 		}
 
 		// Make sure that DB warnings are not returned as errors.
@@ -750,7 +750,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 			}
 			else
 			{
-				throw new RuntimeException(JText::_('JLIB_DATABASE_ERROR_DATABASE_CONNECT'));
+				throw new RuntimeException('Could not connect to database');
 			}
 		}
 

@@ -236,12 +236,6 @@ abstract class JPluginHelper
 
 			self::$plugins = $db->setQuery($query)->loadObjectList();
 
-			if ($error = $db->getErrorMsg())
-			{
-				JLog::add($error, JLog::WARNING, 'jerror');
-				return false;
-			}
-
 			$cache->store(self::$plugins, $levels);
 		}
 

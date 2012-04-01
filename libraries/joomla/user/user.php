@@ -625,7 +625,7 @@ class JUser extends JObject
 	 * @return  boolean  True on success
 	 *
 	 * @since   11.1
-	 * @throws  exception
+	 * @throws  RuntimeException
 	 */
 	public function save($updateOnly = false)
 	{
@@ -680,7 +680,7 @@ class JUser extends JObject
 					{
 						if (JAccess::checkGroup($groupId, 'core.admin'))
 						{
-							throw new Exception(JText::_('JLIB_USER_ERROR_NOT_SUPERADMIN'));
+							throw new RuntimeException('User not Super Administrator');
 						}
 					}
 				}
@@ -689,7 +689,7 @@ class JUser extends JObject
 					// I am not a Super Admin, and this one is, so fail.
 					if (JAccess::check($this->id, 'core.admin'))
 					{
-						throw new Exception(JText::_('JLIB_USER_ERROR_NOT_SUPERADMIN'));
+						throw new RuntimeException('User not Super Administrator');
 					}
 
 					if ($this->groups != null)
@@ -699,7 +699,7 @@ class JUser extends JObject
 						{
 							if (JAccess::checkGroup($groupId, 'core.admin'))
 							{
-								throw new Exception(JText::_('JLIB_USER_ERROR_NOT_SUPERADMIN'));
+								throw new RuntimeException('User not Super Administrator');
 							}
 						}
 					}
@@ -718,10 +718,7 @@ class JUser extends JObject
 			}
 
 			// Store the user data in the database
-			if (!($result = $table->store()))
-			{
-				throw new Exception($table->getError());
-			}
+			$result = $table->store();
 
 			// Set the id for the JUser object in case we created a new user.
 			if (empty($this->id))

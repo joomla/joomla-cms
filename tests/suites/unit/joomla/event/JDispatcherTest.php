@@ -50,6 +50,7 @@ class JDispatcherTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   11.3
+	 * @covers  JDispatcher::getInstance
 	 */
 	public function testGetInstance()
 	{
@@ -88,6 +89,7 @@ class JDispatcherTest extends PHPUnit_Framework_TestCase
      * @return void
      * 
      * @since 11.3
+     * @covers   JDispatcher::getState
      */
     public function testGetState()
     {
@@ -108,6 +110,7 @@ class JDispatcherTest extends PHPUnit_Framework_TestCase
      * Test JDispatcher::register().
      * 
      * @since 11.3
+     * @covers    JDispatcher::register
      */
     public function testRegister()
     {
@@ -190,13 +193,19 @@ class JDispatcherTest extends PHPUnit_Framework_TestCase
     			)
     		)
     	);
-    	
-    	//Now we trigger an error with an invalid handler
-   		$error = $this->object->register('fakeevent', 'nonExistingClass');
-    	$this->assertTrue(
-    		is_a($error, 'JException')
-    	);
     }
+
+	/**
+	 * Test JDispatcher::register() with an error.
+	 * 
+	 * @since              12.1
+	 * @expectedException  InvalidArgumentException
+	 * @covers             JDispatcher::register
+	 */
+	public function testRegisterException()
+	{
+		$this->object->register('fakeevent', 'nonExistingClass');
+	}
 
     /**
      * Test JDispatcher::trigger().
@@ -249,6 +258,7 @@ class JDispatcherTest extends PHPUnit_Framework_TestCase
      * Test JDispatcher::attach().
      * 
      * @since 11.3
+     * @covers JDispatcher::attach
      */
     public function testAttach()
     {
@@ -387,6 +397,7 @@ class JDispatcherTest extends PHPUnit_Framework_TestCase
      * Test JDispatcher::detach().
      * 
      * @since 11.3
+     * @covers JDispatcher::detach
      */
     public function testDetach()
     {
