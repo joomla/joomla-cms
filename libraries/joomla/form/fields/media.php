@@ -68,7 +68,7 @@ class JFormFieldMedia extends JFormField
 			$script[] = '			var elem = document.id(id);';
 			$script[] = '			elem.value = value;';
 			$script[] = '			elem.fireEvent("change");';
-			$script[] = '			if (elem.onchange) {';
+			$script[] = '			if (typeof(elem.onchange) === "function") {';
 			$script[] = '				elem.onchange();';
 			$script[] = '			}';
 			$script[] = '		}';
