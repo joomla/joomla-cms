@@ -797,6 +797,7 @@ class JStream extends JObject
 			else
 			{
 				// Wrote something
+				$string = substr($string, $amount);
 				$remaining -= $res;
 			}
 		}
