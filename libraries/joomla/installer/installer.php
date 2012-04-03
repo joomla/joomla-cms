@@ -27,17 +27,17 @@ class JInstaller extends JAdapter
 	 * Array of paths needed by the installer
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  12.1
 	 */
-	protected $_paths = array();
+	protected $paths = array();
 
 	/**
 	 * True if package is an upgrade
 	 *
 	 * @var    boolean
-	 * @since  11.1
+	 * @since  12.1
 	 */
-	protected $_upgrade = null;
+	protected $upgrade = null;
 
 	/**
 	 * The manifest trigger class
@@ -50,18 +50,18 @@ class JInstaller extends JAdapter
 	/**
 	 * True if existing files can be overwritten
 	 * @var    boolean
-	 * @since  11.1
+	 * @since  12.1
 	 */
-	protected $_overwrite = false;
+	protected $overwrite = false;
 
 	/**
 	 * Stack of installation steps
 	 * - Used for installation rollback
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  12.1
 	 */
-	protected $_stepStack = array();
+	protected $stepStack = array();
 
 	/**
 	 * Extension Table Entry
@@ -145,7 +145,7 @@ class JInstaller extends JAdapter
 	 */
 	public function isOverwrite()
 	{
-		return $this->_overwrite;
+		return $this->overwrite;
 	}
 
 	/**
@@ -159,15 +159,15 @@ class JInstaller extends JAdapter
 	 */
 	public function setOverwrite($state = false)
 	{
-		$tmp = $this->_overwrite;
+		$tmp = $this->overwrite;
 
 		if ($state)
 		{
-			$this->_overwrite = true;
+			$this->overwrite = true;
 		}
 		else
 		{
-			$this->_overwrite = false;
+			$this->overwrite = false;
 		}
 
 		return $tmp;
@@ -208,7 +208,7 @@ class JInstaller extends JAdapter
 	 */
 	public function isUpgrade()
 	{
-		return $this->_upgrade;
+		return $this->upgrade;
 	}
 
 	/**
@@ -222,15 +222,15 @@ class JInstaller extends JAdapter
 	 */
 	public function setUpgrade($state = false)
 	{
-		$tmp = $this->_upgrade;
+		$tmp = $this->upgrade;
 
 		if ($state)
 		{
-			$this->_upgrade = true;
+			$this->upgrade = true;
 		}
 		else
 		{
-			$this->_upgrade = false;
+			$this->upgrade = false;
 		}
 
 		return $tmp;
@@ -265,7 +265,7 @@ class JInstaller extends JAdapter
 	 */
 	public function getPath($name, $default = null)
 	{
-		return (!empty($this->_paths[$name])) ? $this->_paths[$name] : $default;
+		return (!empty($this->paths[$name])) ? $this->paths[$name] : $default;
 	}
 
 	/**
@@ -280,7 +280,7 @@ class JInstaller extends JAdapter
 	 */
 	public function setPath($name, $value)
 	{
-		$this->_paths[$name] = $value;
+		$this->paths[$name] = $value;
 	}
 
 	/**
@@ -294,7 +294,7 @@ class JInstaller extends JAdapter
 	 */
 	public function pushStep($step)
 	{
-		$this->_stepStack[] = $step;
+		$this->stepStack[] = $step;
 	}
 
 	/**
@@ -312,7 +312,7 @@ class JInstaller extends JAdapter
 	{
 		// Initialise variables.
 		$retval = true;
-		$step = array_pop($this->_stepStack);
+		$step = array_pop($this->stepStack);
 
 		// Raise abort warning
 		if ($msg)
@@ -380,7 +380,7 @@ class JInstaller extends JAdapter
 			}
 
 			// Get the next step and continue
-			$step = array_pop($this->_stepStack);
+			$step = array_pop($this->stepStack);
 		}
 
 		$conf = JFactory::getConfig();
@@ -1542,7 +1542,7 @@ class JInstaller extends JAdapter
 
 		if (is_null($overwrite) || !is_bool($overwrite))
 		{
-			$overwrite = $this->_overwrite;
+			$overwrite = $this->overwrite;
 		}
 
 		/*
@@ -1615,7 +1615,7 @@ class JInstaller extends JAdapter
 					 */
 					if (!$exists)
 					{
-						$this->_stepStack[] = $step;
+						$this->stepStack[] = $step;
 					}
 				}
 			}
@@ -1851,14 +1851,14 @@ class JInstaller extends JAdapter
 					// If the root method attribute is set to upgrade, allow file overwrite
 					if ((string) $manifest->attributes()->method == 'upgrade')
 					{
-						$this->_upgrade = true;
-						$this->_overwrite = true;
+						$this->upgrade = true;
+						$this->overwrite = true;
 					}
 
 					// If the overwrite option is set, allow file overwriting
 					if ((string) $manifest->attributes()->overwrite == 'true')
 					{
-						$this->_overwrite = true;
+						$this->overwrite = true;
 					}
 
 					// Set the manifest object and path
