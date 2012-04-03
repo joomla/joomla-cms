@@ -838,7 +838,7 @@ abstract class JDatabase implements JDatabaseInterface
 		$values = array();
 
 		// Create the base insert statement.
-		$statement = 'INSERT INTO ' . $this->quoteName($table) . ' (%s) VALUES (%s)';
+		$statement = 'INSERT INTO ' . $this->quoteName($table) . ' (%s) VALUES (%s) RETURNING id';
 
 		// Iterate over the object variables to build the query fields and values.
 		foreach (get_object_vars($object) as $k => $v)
@@ -868,7 +868,7 @@ abstract class JDatabase implements JDatabaseInterface
 		}
 
 		// Update the primary key if it exists.
-		$id = $this->insertid();
+		$id = $this->loadResult();
 		if ($key && $id)
 		{
 			$object->$key = $id;

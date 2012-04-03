@@ -233,7 +233,11 @@ class JDatabasePostgreSQL extends JDatabase
 	 */
 	public function getNumRows( $cur = null )
 	{
-		return pg_num_rows($cur ? $cur : $this->cursor);
+		if($cur)
+			$cur = intval($cur);
+		else
+			$cur = $this->cursor;
+		return pg_num_rows($cur);
 	}
 
 	/**
@@ -450,10 +454,6 @@ class JDatabasePostgreSQL extends JDatabase
 		$fields = array();
 		$values = array();
 
-		// Create the base insert statement.
-		$query = $this->getQuery(true);
-		$query->insert($this->quoteName($table));
-
 		// Iterate over the object variables to build the query fields and values.
 		foreach (get_object_vars($object) as $k => $v)
 		{
@@ -474,24 +474,35 @@ class JDatabasePostgreSQL extends JDatabase
 			$values[] = is_numeric($v) ? $v : $this->quote($v);
 		}
 
-		$query->columns($fields);
-		$query->values(implode(',', $values));
-
-		// Set the query and execute the insert.
-		$this->setQuery($query);
-		if (!$this->query())
-		{
-			return false;
+		// Create the base insert statement.
+		$query = $this->getQuery(true);
+		if ($key) {
+			$query->insert($this->quoteName($table))
+					->columns($fields)
+					->values(implode(',', $values))
+					->returning($key);
+			
+			// Set the query and execute the insert.
+			$this->setQuery($query);
+			
+			$id = $this->loadResult();
+			if ($id) {
+				$object->$key = $id;
+				return true;
+			} else
+				return false;
+		} else {
+			$query->insert($this->quoteName($table))
+					->columns($fields)
+					->values(implode(',', $values));
+			
+			// Set the query and execute the insert.
+			$this->setQuery($query);
+			if (!$this->query())
+				return false;
+			else
+				return true;
 		}
-
-		// Update the primary key if it exists.
-		$id = $this->insertid();
-		if ($key && $id)
-		{
-			$object->$key = $id;
-		}
-
-		return true;
 	}
 
 	/**

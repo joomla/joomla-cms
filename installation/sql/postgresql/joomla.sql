@@ -1703,7 +1703,7 @@ CREATE TABLE "#__menu" (
   "img" character varying(255) DEFAULT '' NOT NULL,
   "template_style_id" integer DEFAULT 0 NOT NULL,
   -- JSON encoded data for the menu item.
-  "params" text NOT NULL,
+  "params" text DEFAULT '' NOT NULL,
   -- Nested set lft.
   "lft" bigint DEFAULT 0 NOT NULL,
   -- Nested set rgt.
