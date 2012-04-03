@@ -73,7 +73,7 @@ class JInstallationModelDatabase extends JModel
 			// Get a database object.
 			try
 			{
-				$db = JInstallationHelperDatabase::getDbo($options->db_type, $options->db_host, $options->db_user, $options->db_pass, null, $options->db_prefix, false);
+				$db = JInstallationHelperDatabase::getDbo($options->db_type, $options->db_host, $options->db_user, $options->db_pass, $options->db_name, $options->db_prefix, false);
 			}
 			catch (JDatabaseException $e)
 			{
@@ -117,7 +117,7 @@ class JInstallationModelDatabase extends JModel
 			catch (JDatabaseException $e)
 			{
 				// If the database could not be selected, attempt to create it and then select it.
-				if ($this->createDatabase($db, $options->db_name)) {
+				if ($this->createDatabase($db, $options, $utfSupport)) {
 					$db->select($options->db_name);
 				} else {
 					$this->setError(JText::sprintf('INSTL_DATABASE_ERROR_CREATE', $options->db_name));
@@ -166,7 +166,7 @@ class JInstallationModelDatabase extends JModel
 			}
 
 			// Attempt to update the table #__schema.
-			$files = JFolder::files(JPATH_ADMINISTRATOR . '/components/com_admin/sql/updates/mysql/', '\.sql$');
+			$files = JFolder::files(JPATH_ADMINISTRATOR . '/components/com_admin/sql/updates/'.(($type == 'mysqli') ? 'mysql' : $type).'/', '\.sql$');
 			if (empty($files)) {
 				$this->setError(JText::_('INSTL_ERROR_INITIALISE_SCHEMA'));
 				return false;
@@ -180,9 +180,9 @@ class JInstallationModelDatabase extends JModel
 			$query = $db->getQuery(true);
 			$query->insert('#__schemas');
 			$query->columns(
-                   array(
-                       $db->quoteName('extension_id'),
-                       $db->quoteName('version_id')));
+					array(
+						$db->quoteName('extension_id'),
+						$db->quoteName('version_id')));
 			$query->values('700, '. $db->quote($version)) ;
 			$db->setQuery($query);
 
@@ -257,11 +257,18 @@ class JInstallationModelDatabase extends JModel
 				$params = json_encode($params);
 
 				// Update the language settings in the language manager.
-				$db->setQuery(
+				// multidb
+				$query = $db->getQuery(true);
+				$query->update($db->quoteName('#__extensions'))
+					->set($db->quoteName('params').' = '.$db->quote($params))
+					->where($db->quoteName('element').'='.$db->quote(com_languages));
+				$db->setQuery($query);
+
+				/*$db->setQuery(
 					'UPDATE '.$db->quoteName('#__extensions') .
-					' SET '.$db->quoteName('params').' = '.$db->Quote($params) .
-					' WHERE '.$db->quoteName('element').'=\'com_languages\''
-				);
+					' SET '.$db->quoteName('params').' = '.$db->quote($params) .
+					' WHERE '.$db->quoteName('element').'='.$db->quote(com_languages)
+				);*/
 
 				try
 				{
@@ -336,7 +343,8 @@ class JInstallationModelDatabase extends JModel
 
 		// Get the tables in the database.
 		$tables = $db->getTableList();
-		if ($tables) {
+		if ($tables)
+		{
 			foreach ($tables as $table)
 			{
 				// If the table uses the given prefix, back it up.
@@ -376,18 +384,20 @@ class JInstallationModelDatabase extends JModel
 	 * Method to create a new database.
 	 *
 	 * @param	JDatabase	&$db	JDatabase object.
-	 * @param	string		$name	Name of the database to create.
+	 * @param	JObject		$options	JObject coming from "initialise" function to pass user 
+	 * 									and database name to database driver.
+	 * @param	boolean 	$utf	True if the database supports the UTF-8 character set.
 	 *
 	 * @return	boolean	True on success.
 	 * @since	1.0
 	 */
-	public function createDatabase(& $db, $name)
+	public function createDatabase(& $db, $options, $utf)
 	{
 		// Build the create database query.
-		$query = 'CREATE DATABASE '.$db->quoteName($name).' CHARACTER SET `utf8`';
+		//$query = 'CREATE DATABASE '.$db->quoteName($name).' CHARACTER SET `utf8`';
 
 		// Run the create database query.
-		$db->setQuery($query);
+		$db->setQuery($db->getCreateDbQuery($options, $utf));
 
 		try
 		{
@@ -469,8 +479,8 @@ class JInstallationModelDatabase extends JModel
 			// Trim any whitespace.
 			$query = trim($query);
 
-			// If the query isn't empty and is not a comment, execute it.
-			if (!empty($query) && ($query{0} != '#')) {
+			// If the query isn't empty and is not a MySQL or PostgreSQL comment, execute it.
+			if (!empty($query) && ($query{0} != '#') && ($query{0} != '-')) {
 				// Execute the query.
 				$db->setQuery($query);
 
@@ -501,10 +511,10 @@ class JInstallationModelDatabase extends JModel
 	public function setDatabaseCharset(& $db, $name)
 	{
 		// Run the create database query.
-		$db->setQuery(
-			'ALTER DATABASE '.$db->quoteName($name).' CHARACTER' .
+		$db->setQuery($db->getAlterDbCharacterSet($name));
+			/*'ALTER DATABASE '.$db->quoteName($name).' CHARACTER' .
 			' SET `utf8`'
-		);
+		);*/
 
 		try
 		{
@@ -538,7 +548,15 @@ class JInstallationModelDatabase extends JModel
 		$sql = trim($sql);
 
 		// Remove comment lines.
-		$sql = preg_replace("/\n\#[^\n]*/", '', "\n".$sql);
+		$sql = preg_replace("/\n\#[^\n]*/", '', "\n" . $sql);
+
+		// Remove PostgreSQL comment lines.
+		$sql = preg_replace("/\n\--[^\n]*/", '', "\n" . $sql);
+
+		// find function
+		$funct = explode('CREATE OR REPLACE FUNCTION', $sql);
+		// save sql before function and parse it
+		$sql = $funct[0];
 
 		// Parse the schema file to break up queries.
 		for ($i = 0; $i < strlen($sql) - 1; $i ++)
@@ -564,6 +582,12 @@ class JInstallationModelDatabase extends JModel
 		// If the is anything left over, add it to the queries.
 		if (!empty($sql)) {
 			$queries[] = $sql;
+		}
+
+		// add function part as is
+		for ($f = 1; $f < count($funct); $f++)
+		{
+			$queries[] = 'CREATE OR REPLACE FUNCTION ' . $funct[$f];
 		}
 
 		return $queries;

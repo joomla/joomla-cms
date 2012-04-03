@@ -78,7 +78,11 @@ class JSessionStorageDatabase extends JSessionStorage
 
 		$db->setQuery($query);
 
-		return (string) $db->loadResult();
+		$result = (string) $db->loadResult();
+
+		$result = str_replace('\0\0\0', chr(0).'*'.chr(0), $result);
+
+		return $result;
 	}
 
 	/**
@@ -99,6 +103,8 @@ class JSessionStorageDatabase extends JSessionStorage
 		{
 			return false;
 		}
+
+		$data = str_replace(chr(0).'*'.chr(0), '\0\0\0', $data);
 
 		$query = $db->getQuery(true);
 		$query->update($db->quoteName('#__session'))
