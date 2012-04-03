@@ -717,25 +717,12 @@ abstract class JHtml
 	{
 		if (is_array($title))
 		{
-			if (isset($title['image']))
+			foreach (array('image', 'text', 'href', 'alt', 'class') as $param)
 			{
-				$image = $title['image'];
-			}
-			if (isset($title['text']))
-			{
-				$text = $title['text'];
-			}
-			if (isset($title['href']))
-			{
-				$href = $title['href'];
-			}
-			if (isset($title['alt']))
-			{
-				$alt = $title['alt'];
-			}
-			if (isset($title['class']))
-			{
-				$class = $title['class'];
+				if (isset($title[$param]))
+				{
+					$$param = $title[$param];
+				}
 			}
 			if (isset($title['title']))
 			{
