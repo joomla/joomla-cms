@@ -115,12 +115,6 @@ class JFormFieldComponentLayout extends JFormField
 			$db->setQuery($query);
 			$templates = $db->loadObjectList('element');
 
-			// Check for a database error.
-			if ($db->getErrorNum())
-			{
-				JLog::add($db->getErrorMsg(), JLog::WARNING, 'jerror');
-			}
-
 			// Build the search paths for component layouts.
 			$component_path = JPath::clean($client->path . '/components/' . $extn . '/views/' . $view . '/tmpl');
 

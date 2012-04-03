@@ -40,7 +40,6 @@ class JFormRuleEmail extends JFormRule
 	 * @return  boolean  True if the value is valid, false otherwise.
 	 *
 	 * @since   11.1
-	 * @throws  JException on invalid rule.
 	 */
 	public function test($element, $value, $group = null, $input = null, $form = null)
 	{
@@ -78,12 +77,6 @@ class JFormRuleEmail extends JFormRule
 			// Set and query the database.
 			$db->setQuery($query);
 			$duplicate = (bool) $db->loadResult();
-
-			// Check for a database error.
-			if ($db->getErrorNum())
-			{
-				JLog::add($db->getErrorMsg(), JLog::WARNING, 'jerror');
-			}
 
 			if ($duplicate)
 			{

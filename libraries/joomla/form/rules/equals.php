@@ -34,9 +34,9 @@ class JFormRuleEquals extends JFormRule
 	 * @return  boolean  True if the value is valid, false otherwise.
 	 *
 	 * @since   11.1
-	 * @throws  JException on invalid rule.
+	 * @throws  InvalidArgumentException
 	 */
-	public function test($element, $value, $group = null, $input = null, $form = null)
+	public function test($element, $value, $group = null, $input = null, JForm $form = null)
 	{
 		// Initialize variables.
 		$field = (string) $element['field'];
@@ -44,13 +44,13 @@ class JFormRuleEquals extends JFormRule
 		// Check that a validation field is set.
 		if (!$field)
 		{
-			return new JException(JText::sprintf('JLIB_FORM_INVALID_FORM_RULE', get_class($this)));
+			throw new InvalidArgumentException(sprintf('Invalid Form Rule: :%s', get_class($this)));
 		}
 
 		// Check that a valid JForm object is given for retrieving the validation field value.
 		if (!($form instanceof JForm))
 		{
-			return new JException(JText::sprintf('JLIB_FORM_INVALID_FORM_OBJECT', get_class($this)));
+			throw new InvalidArgumentException(sprintf('Invalid Form Object: :%s', get_class($this)));
 		}
 
 		// Test the two values against each other.

@@ -54,13 +54,6 @@ class JFormFieldSQL extends JFormFieldList
 		$db->setQuery($query);
 		$items = $db->loadObjectlist();
 
-		// Check for an error.
-		if ($db->getErrorNum())
-		{
-			JLog::add($db->getErrorMsg(), JLog::WARNING, 'jerror');
-			return $options;
-		}
-
 		// Build the field options.
 		if (!empty($items))
 		{

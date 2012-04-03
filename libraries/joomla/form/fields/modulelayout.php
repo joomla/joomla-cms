@@ -108,12 +108,6 @@ class JFormFieldModuleLayout extends JFormField
 			$db->setQuery($query);
 			$templates = $db->loadObjectList('element');
 
-			// Check for a database error.
-			if ($db->getErrorNum())
-			{
-				JLog::add($db->getErrorMsg(), JLog::WARNING, 'jerror');
-			}
-
 			// Build the search paths for module layouts.
 			$module_path = JPath::clean($client->path . '/modules/' . $module . '/tmpl');
 
