@@ -67,7 +67,7 @@ class JMail extends PHPMailer
 	/**
 	 * Send the mail
 	 *
-	 * @return  boolean  True if successful
+	 * @return  mixed  True if successful; JError if using legacy tree (no exception thrown in that case).
 	 *
 	 * @since   11.1
 	 * @throws  RuntimeException
@@ -82,7 +82,7 @@ class JMail extends PHPMailer
 			}
 			else
 			{
-				throw new RuntimeException('Send function cancelled because mail is disabled.');
+				throw new RuntimeException(sprintf('%s::Send mail not enabled.'), get_class($this));
 			}
 		}
 
@@ -96,7 +96,7 @@ class JMail extends PHPMailer
 			}
 			else
 			{
-				throw new RuntimeException('Send function cancelled because mail is disabled.');
+				throw new RuntimeException(sprintf('%s::Send failed: "%s".'), get_class($this), $this->ErrorInfo);
 			}
 		}
 
