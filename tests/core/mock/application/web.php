@@ -36,8 +36,9 @@ class TestMockApplicationWeb
 		$methods = array(
 			'get',
 			'getDocument',
+			'getIdentity',
 			'getLanguage',
-			'getSession',
+			'getSession'
 		);
 
 		// Create the mock.
