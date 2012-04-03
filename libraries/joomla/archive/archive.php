@@ -9,6 +9,9 @@
 
 defined('JPATH_PLATFORM') or die;
 
+jimport('joomla.filesystem.file');
+jimport('joomla.filesystem.folder');
+
 /**
  * An Archive handling class
  *
@@ -18,6 +21,12 @@ defined('JPATH_PLATFORM') or die;
  */
 class JArchive
 {
+	/**
+	 * @var    array  The array of instantiated archive adapters.
+	 * @since  12.1
+	 */
+	protected static $adapters = array();
+
 	/**
 	 * Extract an archive file to a directory.
 	 *
@@ -31,9 +40,6 @@ class JArchive
 	 */
 	public static function extract($archivename, $extractdir)
 	{
-		jimport('joomla.filesystem.file');
-		jimport('joomla.filesystem.folder');
-
 		$untar = false;
 		$result = false;
 		$ext = JFile::getExt(strtolower($archivename));
@@ -72,7 +78,6 @@ class JArchive
 			case 'gzip':
 				// This may just be an individual file (e.g. sql script)
 				$adapter = self::getAdapter('gzip');
-
 				if ($adapter)
 				{
 					$config = JFactory::getConfig();
@@ -166,33 +171,25 @@ class JArchive
 	 *
 	 * @param   string  $type  The type of adapter (bzip2|gzip|tar|zip).
 	 *
-	 * @return  object JArchiveExtractable
+	 * @return  object  JArchiveExtractable
 	 *
 	 * @since   11.1
-	 * @throws  BadMethodCallException
+	 * @throws  UnexpectedValueException
 	 */
 	public static function getAdapter($type)
 	{
-		static $adapters;
-
-		if (!isset($adapters))
-		{
-			$adapters = array();
-		}
-
-		if (!isset($adapters[$type]))
+		if (!isset(self::$adapters[$type]))
 		{
 			// Try to load the adapter object
 			$class = 'JArchive' . ucfirst($type);
-
 			if (!class_exists($class))
 			{
-				throw new BadMethodCallException('Unable to load archive', 500);
+				throw new UnexpectedValueException('Unable to load archive', 500);
 			}
 
-			$adapters[$type] = new $class;
+			self::$adapters[$type] = new $class;
 		}
 
-		return $adapters[$type];
+		return self::$adapters[$type];
 	}
 }

@@ -77,7 +77,14 @@ class JArchiveTar implements JArchiveExtractable
 
 		if (!$this->_data = JFile::read($archive))
 		{
-			throw new RuntimeException('Unable to read archive');
+			if (class_exists('JError'))
+			{
+				return JError::raiseWarning(100, 'Unable to read archive');
+			}
+			else
+			{
+				throw new RuntimeException('Unable to read archive');
+			}
 		}
 
 		$this->_getTarInfo($this->_data);
@@ -93,11 +100,25 @@ class JArchiveTar implements JArchiveExtractable
 				// Make sure the destination folder exists
 				if (!JFolder::create(dirname($path)))
 				{
-					throw new RuntimeException('Unable to create destination');
+					if (class_exists('JError'))
+					{
+						return JError::raiseWarning(100, 'Unable to create destination');
+					}
+					else
+					{
+						throw new RuntimeException('Unable to create destination');
+					}
 				}
 				if (JFile::write($path, $buffer) === false)
 				{
-					throw new RuntimeException('Unable to write entry');
+					if (class_exists('JError'))
+					{
+						return JError::raiseWarning(100, 'Unable to write entry');
+					}
+					else
+					{
+						throw new RuntimeException('Unable to write entry');
+					}
 				}
 			}
 		}
@@ -147,7 +168,14 @@ class JArchiveTar implements JArchiveExtractable
 			);
 			if (!$info)
 			{
-				throw new RuntimeException('Unable to decompress data');
+				if (class_exists('JError'))
+				{
+					return JError::raiseWarning(100, 'Unable to decompress data');
+				}
+				else
+				{
+					throw new RuntimeException('Unable to decompress data');
+				}
 			}
 
 			$position += 512;
