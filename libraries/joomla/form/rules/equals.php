@@ -44,13 +44,13 @@ class JFormRuleEquals extends JFormRule
 		// Check that a validation field is set.
 		if (!$field)
 		{
-			throw new InvalidArgumentException(sprintf('Invalid Form Rule: :%s', get_class($this)));
+			throw new UnexpectedValueException(sprintf('$field empty in %s::test', get_class($this)));
 		}
 
 		// Check that a valid JForm object is given for retrieving the validation field value.
 		if (!($form instanceof JForm))
 		{
-			throw new InvalidArgumentException(sprintf('Invalid Form Object: :%s', get_class($this)));
+			throw new InvalidArgumentException(sprintf('%s::test(element, value, group, input, *%s*)', get_class($this), gettype($form)));
 		}
 
 		// Test the two values against each other.

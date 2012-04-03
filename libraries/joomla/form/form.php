@@ -884,7 +884,6 @@ class JForm
 		// If an existing field is found and replace flag is false do nothing and return true.
 		if (!$replace && !empty($old))
 		{
-
 			return true;
 		}
 
@@ -947,7 +946,6 @@ class JForm
 		// If the element doesn't exist return false.
 		if (!($element instanceof JXMLElement))
 		{
-
 			return false;
 		}
 		// Otherwise set the attribute and return true.
@@ -989,7 +987,7 @@ class JForm
 		{
 			if (!($element instanceof JXMLElement))
 			{
-				throw new RuntimeException('Element is not an instance of JXMLElement');
+				throw new UnexpectedValueException(sprintf('$element not JXmlElement in %s::setFields', get_class($this)));
 			}
 		}
 
@@ -999,7 +997,6 @@ class JForm
 		{
 			if (!$this->setField($element, $group, $replace))
 			{
-
 				$return = false;
 			}
 		}
@@ -1107,18 +1104,8 @@ class JForm
 			// Check for an error.
 			if ($valid instanceof Exception)
 			{
-				switch ($valid->get('level'))
-				{
-					case E_ERROR:
-						JLog::add($valid->getMessage(), JLog::WARNING, 'jerror');
-						return false;
-						break;
-
-					default:
-						array_push($this->errors, $valid);
-						$return = false;
-						break;
-				}
+				array_push($this->errors, $valid);
+				$return = false;
 			}
 		}
 
@@ -1818,22 +1805,16 @@ class JForm
 	 * @param   string     $group    The optional dot-separated form group path on which to find the field.
 	 * @param   mixed      $value    The optional value to use as the default for the field.
 	 * @param   JRegistry  $input    An optional JRegistry object with the entire data set to validate
-	 * against the entire form.
+	 *                               against the entire form.
 	 *
-	 * @return  mixed  Boolean true if field value is valid, JException on failure.
+	 * @return  mixed  Boolean true if field value is valid, Exception on failure.
 	 *
 	 * @since   11.1
-	 * @throws  RuntimeException
 	 * @throws  InvalidArgumentException
+	 * @throws  UnexpectedValueException
 	 */
-	protected function validateField($element, $group = null, $value = null, $input = null)
+	protected function validateField(JXmlElement $element, $group = null, $value = null, JRegistry $input = null)
 	{
-		// Make sure there is a valid JXMLElement.
-		if (!$element instanceof JXMLElement)
-		{
-			throw new InvalidArgumentException('Form field validation error');
-		}
-
 		// Initialise variables.
 		$valid = true;
 
@@ -1845,7 +1826,6 @@ class JForm
 			// If the field is required and the value is empty return an error message.
 			if (($value === '') || ($value === null))
 			{
-
 				// Does the field have a defined error message?
 				if ($element['message'])
 				{
@@ -1863,7 +1843,8 @@ class JForm
 					}
 					$message = sprintf('Field required: %s', $message);
 				}
-				throw new RuntimeException($message);
+
+				return new RuntimeException($message);
 			}
 		}
 
@@ -1876,7 +1857,7 @@ class JForm
 			// If the object could not be loaded return an error message.
 			if ($rule === false)
 			{
-				throw new InvalidArgumentException(sprintf('Validation Rule missing: %s', $type));
+				throw new UnexpectedValueException(sprintf('%s::validateField() rule `%s` missing.', get_class($this), $type));
 			}
 
 			// Run the field validation rule test.
@@ -1892,17 +1873,16 @@ class JForm
 		// Check if the field is valid.
 		if ($valid === false)
 		{
-
 			// Does the field have a defined error message?
 			$message = (string) $element['message'];
 
 			if ($message)
 			{
-				throw new RuntimeException($message, 1, E_WARNING);
+				return new UnexpectedValueException($message);
 			}
 			else
 			{
-				throw new InvalidArgumentException((string) $element['label']);
+				return new UnexpectedValueException((string) $element['label']);
 			}
 		}
 
@@ -1981,7 +1961,7 @@ class JForm
 
 			if (empty($data))
 			{
-				throw new InvalidArgumentException('No data passed to JForm::getInstance.');
+				throw new InvalidArgumentException(sprintf('JForm::getInstance(name, *%s*)', gettype($data)));
 			}
 
 			// Instantiate the form.
@@ -1992,14 +1972,14 @@ class JForm
 			{
 				if ($forms[$name]->load($data, $replace, $xpath) == false)
 				{
-					throw new RuntimeException('JForm::getInstance could not load form.');
+					throw new RuntimeException('JForm::getInstance could not load form');
 				}
 			}
 			else
 			{
 				if ($forms[$name]->loadFile($data, $replace, $xpath) == false)
 				{
-					throw new RuntimeException('JForm::getInstance could not load file.');
+					throw new RuntimeException('JForm::getInstance could not load file');
 				}
 			}
 		}

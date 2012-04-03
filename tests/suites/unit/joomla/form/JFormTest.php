@@ -760,7 +760,7 @@ class JFormTest extends TestCase
 		);
 
 		$this->assertThat(
-			$errors[0] instanceof JException,
+			$errors[0] instanceof Exception,
 			$this->isTrue(),
 			'Line:'.__LINE__.' The errors should be exception objects.'
 		);
@@ -2104,6 +2104,11 @@ class JFormTest extends TestCase
 
 	/**
 	 * Test for JForm::validateField method.
+	 *
+	 * return   void
+	 *
+	 * @covers  JForm::validateField
+	 * @since   11.1
 	 */
 	public function testValidateField()
 	{
@@ -2119,59 +2124,20 @@ class JFormTest extends TestCase
 
 		// Test error handling.
 
-		$result = $form->validateField('wrong');
-		$this->assertThat(
-			$result instanceof Exception,
-			$this->isTrue(),
-			'Line:'.__LINE__.' Passing a non-JXmlElement should return an exception.'
-		);
-
-		$this->assertThat(
-			$result->getCode(),
-			$this->equalTo(-1),
-			'Line:'.__LINE__.' The correct exception should be returned.'
-		);
-
-		$field = array_pop($xml->xpath('fields/field[@name="missingrule"]'));
-		$result = $form->validateField($field, null, 'value');
-		$this->assertThat(
-			$result instanceof Exception,
-			$this->isTrue(),
-			'Line:'.__LINE__.' Having a missing validation rule should return an exception.'
-		);
-
-		$this->assertThat(
-			$result->getCode(),
-			$this->equalTo(-2),
-			'Line:'.__LINE__.' The correct exception should be returned.'
-		);
-
 		$field = array_pop($xml->xpath('fields/field[@name="boolean"]'));
 		$result = $form->validateField($field);
 		$this->assertThat(
-			$result instanceof Exception,
+			$result instanceof UnexpectedValueException,
 			$this->isTrue(),
 			'Line:'.__LINE__.' A failed validation should return an exception.'
-		);
-
-		$this->assertThat(
-			$result->getCode(),
-			$this->equalTo(1),
-			'Line:'.__LINE__.' The correct exception should be returned.'
 		);
 
 		$field = array_pop($xml->xpath('fields/field[@name="required"]'));
 		$result = $form->validateField($field);
 		$this->assertThat(
-			$result instanceof Exception,
+			$result instanceof RuntimeException,
 			$this->isTrue(),
 			'Line:'.__LINE__.' A required field missing a value should return an exception.'
-		);
-
-		$this->assertThat(
-			$result->getCode(),
-			$this->equalTo(2),
-			'Line:'.__LINE__.' The correct exception should be returned.'
 		);
 
 		// Test general usage.
@@ -2196,5 +2162,25 @@ class JFormTest extends TestCase
 			$this->isTrue(),
 			'Line:'.__LINE__.' A required field with a value should return true.'
 		);
+	}
+
+	/**
+	 * Test for JForm::validateField method for missing rule exception.
+	 *
+	 * return   void
+	 *
+	 * @covers  JForm::validateField
+	 * @since   12.1
+	 *
+	 * @expectedException  UnexpectedValueException
+	 */
+	public function testValidateField_missingRule()
+	{
+		$form = new JFormInspector('form1');
+		$form->load(JFormDataHelper::$validateFieldDocument);
+		$xml = $form->getXML();
+
+		$field = array_pop($xml->xpath('fields/field[@name="missingrule"]'));
+		$result = $form->validateField($field, null, 'value');
 	}
 }
