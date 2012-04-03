@@ -60,6 +60,18 @@ abstract class JApplicationBase extends JObject
 	}
 
 	/**
+	 * Get the application identity.
+	 *
+	 * @return  mixed  A JUser object or null.
+	 *
+	 * @since   12.1
+	 */
+	public function getIdentity()
+	{
+		return $this->identity;
+	}
+
+	/**
 	 * Registers a handler to a particular event group.
 	 *
 	 * @param   string    $event    The event name.
