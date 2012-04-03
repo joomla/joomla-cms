@@ -26,7 +26,7 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
-02-Apr-2012 Mark Dexter
+03-Apr-2012 Mark Dexter
  # [#28354] Problem logging out if Public group has admin login permission
  # [#28342] *New joomlaupdate component has no icon in admin menu + missing lang string
  # [#27772] Selecting 'Install Sample Data' button causes 'invalid security token' error message if 'Next' button clicked too fast
