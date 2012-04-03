@@ -32,7 +32,7 @@ class JUpdaterExtension extends JUpdateAdapter
 	 */
 	protected function _startElement($parser, $name, $attrs = array())
 	{
-		array_push($this->_stack, $name);
+		array_push($this->stack, $name);
 		$tag = $this->_getStackLocation();
 
 		// Reset the data
@@ -42,7 +42,7 @@ class JUpdaterExtension extends JUpdateAdapter
 		{
 			case 'UPDATE':
 				$this->current_update = JTable::getInstance('update');
-				$this->current_update->update_site_id = $this->_update_site_id;
+				$this->current_update->update_site_id = $this->updateSiteId;
 				$this->current_update->detailsurl = $this->_url;
 				$this->current_update->folder = "";
 				$this->current_update->client_id = 1;
@@ -52,7 +52,7 @@ class JUpdaterExtension extends JUpdateAdapter
 			case 'UPDATES':
 				break;
 			default:
-				if (in_array($name, $this->_updatecols))
+				if (in_array($name, $this->updatecols))
 				{
 					$name = strtolower($name);
 					$this->current_update->$name = '';
@@ -77,7 +77,7 @@ class JUpdaterExtension extends JUpdateAdapter
 	 */
 	protected function _endElement($parser, $name)
 	{
-		array_pop($this->_stack);
+		array_pop($this->stack);
 
 		// @todo remove code: echo 'Closing: '. $name .'<br />';
 		switch ($name)
@@ -132,7 +132,7 @@ class JUpdaterExtension extends JUpdateAdapter
 		 * if(!isset($this->$tag->_data)) $this->$tag->_data = '';
 		 * $this->$tag->_data .= $data;
 		 */
-		if (in_array($tag, $this->_updatecols))
+		if (in_array($tag, $this->updatecols))
 		{
 			$tag = strtolower($tag);
 			$this->current_update->$tag .= $data;
@@ -152,7 +152,7 @@ class JUpdaterExtension extends JUpdateAdapter
 	{
 		$url = $options['location'];
 		$this->_url = &$url;
-		$this->_update_site_id = $options['update_site_id'];
+		$this->updateSiteId = $options['update_site_id'];
 		if (substr($url, -4) != '.xml')
 		{
 			if (substr($url, -1) != '/')
@@ -171,7 +171,7 @@ class JUpdaterExtension extends JUpdateAdapter
 			$query = $dbo->getQuery(true);
 			$query->update('#__update_sites');
 			$query->set('enabled = 0');
-			$query->where('update_site_id = ' . $this->_update_site_id);
+			$query->where('update_site_id = ' . $this->updateSiteId);
 			$dbo->setQuery($query);
 			$dbo->execute();
 
@@ -181,19 +181,19 @@ class JUpdaterExtension extends JUpdateAdapter
 			return false;
 		}
 
-		$this->xml_parser = xml_parser_create('');
-		xml_set_object($this->xml_parser, $this);
-		xml_set_element_handler($this->xml_parser, '_startElement', '_endElement');
-		xml_set_character_data_handler($this->xml_parser, '_characterData');
+		$this->xmlParser = xml_parser_create('');
+		xml_set_object($this->xmlParser, $this);
+		xml_set_element_handler($this->xmlParser, '_startElement', '_endElement');
+		xml_set_character_data_handler($this->xmlParser, '_characterData');
 
-		if (!xml_parse($this->xml_parser, $response->data))
+		if (!xml_parse($this->xmlParser, $response->data))
 		{
 			JLog::add("Error parsing url: " . $url, JLog::WARNING, 'updater');
 			$app = JFactory::getApplication();
 			$app->enqueueMessage(JText::sprintf('JLIB_UPDATER_ERROR_EXTENSION_PARSE_URL', $url), 'warning');
 			return false;
 		}
-		xml_parser_free($this->xml_parser);
+		xml_parser_free($this->xmlParser);
 		if (isset($this->latest))
 		{
 			if (isset($this->latest->client) && strlen($this->latest->client))
