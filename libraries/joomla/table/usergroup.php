@@ -143,7 +143,8 @@ class JTableUsergroup extends JTable
 	 * @return  mixed  Boolean or Exception.
 	 *
 	 * @since   11.1
-	 * @throws  UnexpectedValueException
+	 * @throws  RuntimeException on database error.
+	 * @throws  UnexpectedValueException on data error.
 	 */
 	public function delete($oid = null)
 	{
@@ -157,11 +158,11 @@ class JTableUsergroup extends JTable
 		}
 		if ($this->parent_id == 0)
 		{
-			return new JException('Root categories cannot be deleted.');
+			throw new UnexpectedValueException('Root categories cannot be deleted.');
 		}
 		if ($this->lft == 0 || $this->rgt == 0)
 		{
-			throw new UnexpectedValueException('Left-Right data inconsistency. Cannot delete category.');
+			throw new UnexpectedValueException('Left-Right data inconsistency. Cannot delete usergroup.');
 		}
 
 		$db = $this->_db;
@@ -176,7 +177,7 @@ class JTableUsergroup extends JTable
 		$ids = $db->loadColumn();
 		if (empty($ids))
 		{
-			throw new UnexpectedValueException('Left-Right data inconsistency. Cannot delete category.');
+			throw new UnexpectedValueException('Left-Right data inconsistency. Cannot delete usergroup.');
 		}
 
 		// Delete the category dependencies

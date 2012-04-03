@@ -432,7 +432,7 @@ abstract class JTable extends JObject
 		// If the source value is not an array or object return false.
 		if (!is_object($src) && !is_array($src))
 		{
-			throw new UnexpectedValueException(sprintf('%s: :bind failed. Invalid source argument.', get_class($this)));
+			throw new InvalidArgumentException(sprintf('%s::bind(*%s*)', get_class($this), gettype($src)));
 		}
 
 		// If the source value is an object, get its accessible properties.
@@ -471,7 +471,7 @@ abstract class JTable extends JObject
 	 * set the instance property value is used.
 	 * @param   boolean  $reset  True to reset the default values before loading the new row.
 	 *
-	 * @return  boolean  True if successful. False if row not found or on error (internal error state set in that case).
+	 * @return  boolean  True if successful. False if row not found.
 	 *
 	 * @link    http://docs.joomla.org/JTable/load
 	 * @since   11.1
@@ -516,7 +516,7 @@ abstract class JTable extends JObject
 			// Check that $field is in the table.
 			if (!in_array($field, $fields))
 			{
-				throw new UnexpectedValueException(sprintf('Missing field in the database: %s &#160; %s.', get_class($this), $field));
+				throw new UnexpectedValueException(sprintf('Missing field in database: %s &#160; %s.', get_class($this), $field));
 			}
 			// Add the search tuple to the query.
 			$query->where($this->_db->quoteName($field) . ' = ' . $this->_db->quote($value));
@@ -529,7 +529,7 @@ abstract class JTable extends JObject
 		// Check that we have a result.
 		if (empty($row))
 		{
-			throw new RuntimeException('The database row is empty.');
+			return false;
 		}
 
 		// Bind the object with the row and return.
@@ -1159,7 +1159,7 @@ abstract class JTable extends JObject
 	 * @param   integer  $state   The publishing state. eg. [0 = unpublished, 1 = published]
 	 * @param   integer  $userId  The user id of the user performing the operation.
 	 *
-	 * @return  boolean  True on success.
+	 * @return  boolean  True on success; false if $pks is empty.
 	 *
 	 * @link    http://docs.joomla.org/JTable/publish
 	 * @since   11.1
@@ -1184,7 +1184,7 @@ abstract class JTable extends JObject
 			// Nothing to set publishing state on, return false.
 			else
 			{
-				throw new UnexpectedValueException('No rows selected for publishing state');
+				return false;
 			}
 		}
 
