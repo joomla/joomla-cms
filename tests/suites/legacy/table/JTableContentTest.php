@@ -56,7 +56,7 @@ class JTableContentTest extends TestCaseDatabase
 	{
 		$dataSet = new PHPUnit_Extensions_Database_DataSet_CsvDataSet(',', "'", '\\');
 
-		$stubpath = dirname(dirname(__DIR__)) . '/joomla/table/stubs';
+		$stubpath = JPATH_TESTS . '/suites/unit/joomla/table/stubs';
 
 		$dataSet->addTable('jos_assets', $stubpath . '/jos_assets.csv');
 		$dataSet->addTable('jos_categories', $stubpath . '/jos_categories.csv');

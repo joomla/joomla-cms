@@ -7,39 +7,32 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+require_once JPATH_TESTS . '/suites/unit/joomla/form/inspectors.php';
+
 /**
  * Test class for JForm.
  *
  * @package		Joomla.UnitTest
  * @subpackage  Form
  */
-class JFormFieldHelpsiteTest extends TestCase
+class JFormFieldUserTest extends TestCase
 {
 	/**
-	 * Sets up dependancies for the test.
-	 */
-	protected function setUp()
-	{
-		require_once JPATH_PLATFORM . '/legacy/help/help.php';
-		require_once JPATH_PLATFORM . '/legacy/form/field/helpsite.php';
-		include_once dirname(dirname(dirname(__DIR__))) . '/joomla/form/inspectors.php';
-	}
-
-	/**
 	 * Test the getInput method.
-	 * @covers JFormFieldHelpsite::getOptions
+	 * @covers JFormFieldUser::getInput()
+	 * @covers JFormFieldUser::<!public>
 	 */
 	public function testGetInput()
 	{
 		$form = new JFormInspector('form1');
 
 		$this->assertThat(
-			$form->load('<form><field name="helpsite" type="helpsite" /></form>'),
+			$form->load('<form><field name="user" type="user" /></form>'),
 			$this->isTrue(),
 			'Line:'.__LINE__.' XML string should load successfully.'
 		);
 
-		$field = new JFormFieldHelpsite($form);
+		$field = new JFormFieldUser($form);
 
 		$this->assertThat(
 			$field->setup($form->getXml()->field, 'value'),
@@ -47,7 +40,7 @@ class JFormFieldHelpsiteTest extends TestCase
 			'Line:'.__LINE__.' The setup method should return true.'
 		);
 
-		$this->markTestIncomplete('Problems encountered in next assertion');
+		$this->markTestIncomplete('Incomplete test');
 
 		$this->assertThat(
 			strlen($field->input),

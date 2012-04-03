@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit bootstrap="tests/bootstrap.php" colors="false">
+<phpunit bootstrap="tests/bootstrap.legacy.php" colors="false">
 	<!-- These constants help setup environment configurations for running optional tests.
 	<php>
 		<const name="JTEST_DATABASE_MYSQL_DSN" value="host=localhost;dbname=joomla_ut;user=utuser;pass=ut1234" />
@@ -10,26 +10,20 @@
 	-->
 
 	<testsuites>
-		<testsuite name="Database">
-			<directory>tests/suites/database</directory>
-		</testsuite>
-		<testsuite name="Unit">
-			<directory>tests/suites/unit</directory>
+		<testsuite name="Legacy">
+			<directory>tests/suites/legacy</directory>
 		</testsuite>
 	</testsuites>
 
 	<logging>
-		<log type="coverage-html" target="build/coverage" title="Joomla-Platform" charset="UTF-8" yui="true" highlight="true"
+		<log type="coverage-html" target="build/coverage-legacy" title="Joomla-Platform-Legacy" charset="UTF-8" yui="true" highlight="true"
 			lowUpperBound="35" highLowerBound="70" />
-		<log type="coverage-clover" target="build/logs/clover.xml" />
-		<log type="junit" target="build/logs/junit.xml" logIncompleteSkipped="false" />
+		<log type="coverage-clover" target="build/logs/clover.legacy.xml" />
+		<log type="junit" target="build/logs/junit.legacy.xml" logIncompleteSkipped="false" />
 	</logging>
 	<filter>
-		<whitelist addUncoveredFilesFromWhitelist="true">
-			<directory suffix=".php">libraries/joomla</directory>
-			<file>libraries/import.php</file>
-			<file>libraries/loader.php</file>
-			<file>libraries/platform.php</file>
+		<whitelist addUncoveredFilesFromWhitelist="false">
+			<directory suffix=".php">libraries/legacy</directory>
 		</whitelist>
 	</filter>
 </phpunit>

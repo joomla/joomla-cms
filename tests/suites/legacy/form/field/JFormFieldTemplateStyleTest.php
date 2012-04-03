@@ -16,14 +16,6 @@
 class JFormFieldTemplateStyleTest extends TestCase
 {
 	/**
-	 * Sets up dependancies for the test.
-	 */
-	protected function setUp()
-	{
-		require_once JPATH_PLATFORM . '/legacy/form/field/templatestyle.php';
-	}
-
-	/**
 	 * Test the getInput method.
 	 * @covers JFormFieldTemplateStyle::getGroups
 	 */

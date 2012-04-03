@@ -7,38 +7,31 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+require_once JPATH_TESTS . '/suites/unit/joomla/form/inspectors.php';
+
 /**
  * Test class for JForm.
  *
  * @package		Joomla.UnitTest
  * @subpackage  Form
  */
-class JFormFieldMediaTest extends TestCase
+class JFormFieldHelpsiteTest extends TestCase
 {
 	/**
-	 * Sets up dependancies for the test.
-	 */
-	protected function setUp()
-	{
-		require_once JPATH_PLATFORM . '/legacy/form/field/media.php';
-		include_once dirname(dirname(dirname(__DIR__))) . '/joomla/form/inspectors.php';
-	}
-
-	/**
 	 * Test the getInput method.
-	 * @covers JFormFieldMedia::getInput
+	 * @covers JFormFieldHelpsite::getOptions
 	 */
 	public function testGetInput()
 	{
 		$form = new JFormInspector('form1');
 
 		$this->assertThat(
-			$form->load('<form><field name="media" type="media" /></form>'),
+			$form->load('<form><field name="helpsite" type="helpsite" /></form>'),
 			$this->isTrue(),
 			'Line:'.__LINE__.' XML string should load successfully.'
 		);
 
-		$field = new JFormFieldMedia($form);
+		$field = new JFormFieldHelpsite($form);
 
 		$this->assertThat(
 			$field->setup($form->getXml()->field, 'value'),

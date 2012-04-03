@@ -7,39 +7,31 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+require_once JPATH_TESTS . '/suites/unit/joomla/form/inspectors.php';
+
 /**
  * Test class for JForm.
  *
  * @package		Joomla.UnitTest
  * @subpackage  Form
  */
-class JFormFieldUserTest extends TestCase
+class JFormFieldMediaTest extends TestCase
 {
 	/**
-	 * Sets up dependancies for the test.
-	 */
-	protected function setUp()
-	{
-		require_once JPATH_PLATFORM . '/legacy/form/field/user.php';
-		include_once dirname(dirname(dirname(__DIR__))) . '/joomla/form/inspectors.php';
-	}
-
-	/**
 	 * Test the getInput method.
-	 * @covers JFormFieldUser::getInput()
-	 * @covers JFormFieldUser::<!public>
+	 * @covers JFormFieldMedia::getInput
 	 */
 	public function testGetInput()
 	{
 		$form = new JFormInspector('form1');
 
 		$this->assertThat(
-			$form->load('<form><field name="user" type="user" /></form>'),
+			$form->load('<form><field name="media" type="media" /></form>'),
 			$this->isTrue(),
 			'Line:'.__LINE__.' XML string should load successfully.'
 		);
 
-		$field = new JFormFieldUser($form);
+		$field = new JFormFieldMedia($form);
 
 		$this->assertThat(
 			$field->setup($form->getXml()->field, 'value'),
@@ -47,7 +39,7 @@ class JFormFieldUserTest extends TestCase
 			'Line:'.__LINE__.' The setup method should return true.'
 		);
 
-		$this->markTestIncomplete('Incomplete test');
+		$this->markTestIncomplete('Problems encountered in next assertion');
 
 		$this->assertThat(
 			strlen($field->input),
