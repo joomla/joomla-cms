@@ -488,30 +488,4 @@ abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 
 		parent::setUp();
 	}
-
-	/**
-	 * Overrides the parent tearDown method.
-	 *
-	 * @return  void
-	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
-	 * @since   11.1
-	 */
-	protected function tearDown()
-	{
-		if (is_array($this->expectedErrors) && !empty($this->expectedErrors))
-		{
-			$this->fail('An expected error was not raised.');
-		}
-
-		// Handle optional usage of JError until removed.
-		if (class_exists('JError'))
-		{
-			JError::setErrorHandling(E_NOTICE, 'ignore');
-			JError::setErrorHandling(E_WARNING, 'ignore');
-			JError::setErrorHandling(E_ERROR, 'ignore');
-		}
-
-		parent::tearDown();
-	}
 }

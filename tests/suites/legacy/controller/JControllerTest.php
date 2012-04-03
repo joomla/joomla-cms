@@ -5,7 +5,6 @@
  * @license   GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-require_once JPATH_PLATFORM . '/joomla/application/component/controller.php';
 require_once __DIR__ . '/stubs/controller.php';
 
 /**
@@ -43,9 +42,6 @@ class JControllerTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testAddModelPath()
 	{
-		// Include JModel as this method is a proxy for JModel::addIncludePath
-		require_once JPATH_PLATFORM . '/joomla/application/component/model.php';
-
 		$path = JPath::clean(JPATH_ROOT . '/addmodelpath');
 		JController::addModelPath($path);
 

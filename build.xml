@@ -24,7 +24,8 @@
 
 	<target name="phpunit-legacy" description="Run legacy tests using PHPUnit and generates junit.legacy.xml and clover.legacy.xml">
 		<exec executable="phpunit">
-			<arg value="-c legacy.xml.dist" />
+			<arg value="-c" />
+			<arg value="legacy.xml.dist" />
 		</exec>
 	</target>
 

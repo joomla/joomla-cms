@@ -29,7 +29,7 @@ abstract class JFolder
 	 * @param   string   $force        Force copy.
 	 * @param   boolean  $use_streams  Optionally force folder/file overwrites.
 	 *
-	 * @return  mixed  JError object on failure or boolean True on success.
+	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
 	 * @throws  RuntimeException

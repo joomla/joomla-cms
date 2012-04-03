@@ -5,7 +5,6 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-require_once JPATH_PLATFORM . '/joomla/application/component/controllerform.php';
 require_once __DIR__ . '/stubs/controllerform.php';
 
 /**

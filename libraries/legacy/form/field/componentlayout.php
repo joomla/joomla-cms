@@ -20,7 +20,7 @@ jimport('joomla.filesystem.folder');
  * @subpackage  Form
  * @since       11.1
  */
-class JFormFieldComponentLayout extends JFormField
+class JFormFieldComponentlayout extends JFormField
 {
 	/**
 	 * The form field type.

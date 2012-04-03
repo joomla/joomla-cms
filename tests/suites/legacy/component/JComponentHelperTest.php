@@ -5,8 +5,6 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-require_once JPATH_PLATFORM . '/joomla/application/component/helper.php';
-
 /**
  * Test class for JComponentHelper.
  */

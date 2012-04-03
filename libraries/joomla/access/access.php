@@ -282,10 +282,20 @@ class JAccess
 
 		if (!isset(self::$groupsByUser[$storeId]))
 		{
+			// TODO: Uncouple this from JComponentHelper and allow for a configuration setting or value injection.
+			if (class_exists('JComponentHelper'))
+			{
+				$guestUsergroup = JComponentHelper::getParams('com_users')->get('guest_usergroup', 1);
+			}
+			else
+			{
+				$guestUsergroup = 1;
+			}
+
 			// Guest user (if only the actually assigned group is requested)
 			if (empty($userId) && !$recursive)
 			{
-				$result = array(JComponentHelper::getParams('com_users')->get('guest_usergroup', 1));
+				$result = array($guestUsergroup);
 			}
 			// Registered user and guest if all groups are requested
 			else
@@ -298,7 +308,7 @@ class JAccess
 				if (empty($userId))
 				{
 					$query->from('#__usergroups AS a');
-					$query->where('a.id = ' . (int) JComponentHelper::getParams('com_users')->get('guest_usergroup', 1));
+					$query->where('a.id = ' . (int) $guestUsergroup);
 				}
 				else
 				{

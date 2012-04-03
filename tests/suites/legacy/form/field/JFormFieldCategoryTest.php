@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+require_once JPATH_TESTS . '/suites/unit/joomla/form/inspectors.php';
+
 /**
  * Test class for JFormFieldCategory.
  *
@@ -17,19 +19,6 @@
 class JFormFieldCategoryTest extends TestCaseDatabase
 {
 	/**
-	 * Sets up dependencies for the test.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.1
-	 */
-	protected function setUp()
-	{
-		require_once JPATH_PLATFORM . '/joomla/form/fields/category.php';
-		include_once dirname(__DIR__) . '/inspectors.php';
-	}
-
-	/**
 	 * Gets the data set to be loaded into the database during setup
 	 *
 	 * @return  xml  dataset
@@ -38,7 +27,7 @@ class JFormFieldCategoryTest extends TestCaseDatabase
 	 */
 	protected function getDataSet()
 	{
-		return $this->createXMLDataSet(__DIR__ . '/testfiles/JFormField.xml');
+		return $this->createXMLDataSet(JPATH_TESTS . '/suites/unit/joomla/form/fields/testfiles/JFormField.xml');
 	}
 
 	/**
