@@ -81,9 +81,9 @@ class JHttp
 	/**
 	 * Method to send the OPTIONS command to the server.
 	 *
-	 * @param   string  $url      Path to the resource.
-	 * @param   array   $headers  An array of name-value pairs to include in the header of the request.
-	 * @param   integer $timeout  Read timeout in seconds.
+	 * @param   string   $url      Path to the resource.
+	 * @param   array    $headers  An array of name-value pairs to include in the header of the request.
+	 * @param   integer  $timeout  Read timeout in seconds.
 	 *
 	 * @return  JHttpResponse
 	 *
@@ -113,9 +113,9 @@ class JHttp
 	/**
 	 * Method to send the HEAD command to the server.
 	 *
-	 * @param   string  $url      Path to the resource.
-	 * @param   array   $headers  An array of name-value pairs to include in the header of the request.
-	 * @param   integer $timeout  Read timeout in seconds.
+	 * @param   string   $url      Path to the resource.
+	 * @param   array    $headers  An array of name-value pairs to include in the header of the request.
+	 * @param   integer  $timeout  Read timeout in seconds.
 	 *
 	 * @return  JHttpResponse
 	 *
@@ -145,9 +145,9 @@ class JHttp
 	/**
 	 * Method to send the GET command to the server.
 	 *
-	 * @param   string  $url      Path to the resource.
-	 * @param   array   $headers  An array of name-value pairs to include in the header of the request.
-	 * @param   integer $timeout  Read timeout in seconds.
+	 * @param   string   $url      Path to the resource.
+	 * @param   array    $headers  An array of name-value pairs to include in the header of the request.
+	 * @param   integer  $timeout  Read timeout in seconds.
 	 *
 	 * @return  JHttpResponse
 	 *
@@ -177,10 +177,10 @@ class JHttp
 	/**
 	 * Method to send the POST command to the server.
 	 *
-	 * @param   string  $url      Path to the resource.
-	 * @param   mixed   $data     Either an associative array or a string to be sent with the request.
-	 * @param   array   $headers  An array of name-value pairs to include in the header of the request
-	 * @param   integer $timeout  Read timeout in seconds.
+	 * @param   string   $url      Path to the resource.
+	 * @param   mixed    $data     Either an associative array or a string to be sent with the request.
+	 * @param   array    $headers  An array of name-value pairs to include in the header of the request
+	 * @param   integer  $timeout  Read timeout in seconds.
 	 *
 	 * @return  JHttpResponse
 	 *
@@ -210,10 +210,10 @@ class JHttp
 	/**
 	 * Method to send the PUT command to the server.
 	 *
-	 * @param   string  $url      Path to the resource.
-	 * @param   mixed   $data     Either an associative array or a string to be sent with the request.
-	 * @param   array   $headers  An array of name-value pairs to include in the header of the request.
-	 * @param   integer $timeout  Read timeout in seconds.
+	 * @param   string   $url      Path to the resource.
+	 * @param   mixed    $data     Either an associative array or a string to be sent with the request.
+	 * @param   array    $headers  An array of name-value pairs to include in the header of the request.
+	 * @param   integer  $timeout  Read timeout in seconds.
 	 *
 	 * @return  JHttpResponse
 	 *
@@ -243,9 +243,9 @@ class JHttp
 	/**
 	 * Method to send the DELETE command to the server.
 	 *
-	 * @param   string  $url      Path to the resource.
-	 * @param   array   $headers  An array of name-value pairs to include in the header of the request.
-	 * @param   integer $timeout  Read timeout in seconds.
+	 * @param   string   $url      Path to the resource.
+	 * @param   array    $headers  An array of name-value pairs to include in the header of the request.
+	 * @param   integer  $timeout  Read timeout in seconds.
 	 *
 	 * @return  JHttpResponse
 	 *
@@ -275,9 +275,9 @@ class JHttp
 	/**
 	 * Method to send the TRACE command to the server.
 	 *
-	 * @param   string  $url      Path to the resource.
-	 * @param   array   $headers  An array of name-value pairs to include in the header of the request.
-	 * @param   integer $timeout  Read timeout in seconds.
+	 * @param   string   $url      Path to the resource.
+	 * @param   array    $headers  An array of name-value pairs to include in the header of the request.
+	 * @param   integer  $timeout  Read timeout in seconds.
 	 *
 	 * @return  JHttpResponse
 	 *
