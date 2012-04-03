@@ -717,7 +717,7 @@ abstract class JHtml
 	{
 		if (is_array($title))
 		{
-			foreach(array('image', 'text', 'href', 'alt', 'class') as $param)
+			foreach (array('image', 'text', 'href', 'alt', 'class') as $param)
 			{
 				if (isset($title[$param]))
 				{
