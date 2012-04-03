@@ -27,7 +27,7 @@ class JAdministratorHelper
 		$option = strtolower(JRequest::getCmd('option'));
 
 		$user = JFactory::getUser();
-		if (!$user->authorise('core.login.admin')) {
+		if (($user->get('guest')) || !$user->authorise('core.login.admin')) {
 			$option = 'com_login';
 		}
 
