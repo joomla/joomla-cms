@@ -29,16 +29,6 @@ class JArchiveBzip2 implements JArchiveExtractable
 	private $_data = null;
 
 	/**
-	 * Constructor tries to load the bz2 extension if not loaded
-	 *
-	 * @since   11.1
-	 */
-	public function __construct()
-	{
-		self::loadExtension();
-	}
-
-	/**
 	 * Extract a Bzip2 compressed file to a given path
 	 *
 	 * @param   string  $archive      Path to Bzip2 archive to extract
@@ -181,31 +171,6 @@ class JArchiveBzip2 implements JArchiveExtractable
 	 */
 	public static function isSupported()
 	{
-		self::loadExtension();
-
 		return extension_loaded('bz2');
-	}
-
-	/**
-	 * Load the bzip2 extension
-	 *
-	 * @return  void
-	 *
-	 * @since   11.3
-	 */
-	private static function loadExtension()
-	{
-		// Is bz2 extension loaded?  If not try to load it
-		if (!extension_loaded('bz2'))
-		{
-			if (JPATH_ISWIN)
-			{
-				@ dl('php_bz2.dll');
-			}
-			else
-			{
-				@ dl('bz2.so');
-			}
-		}
 	}
 }
