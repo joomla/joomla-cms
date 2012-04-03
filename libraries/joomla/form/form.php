@@ -249,7 +249,7 @@ class JForm
 	/**
 	 * Return all errors, if any.
 	 *
-	 * @return  array  Array of error messages or JException objects.
+	 * @return  array  Array of error messages or RuntimeException objects.
 	 *
 	 * @since   11.1
 	 */

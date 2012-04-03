@@ -878,7 +878,6 @@ class JApplication extends JApplicationBase
 			$name = $this->_name;
 		}
 
-		jimport('joomla.application.pathway');
 		$pathway = JPathway::getInstance($name, $options);
 
 		if ($pathway instanceof Exception)
@@ -906,7 +905,6 @@ class JApplication extends JApplicationBase
 			$name = $this->_name;
 		}
 
-		jimport('joomla.application.menu');
 		$menu = JMenu::getInstance($name, $options);
 
 		if ($menu instanceof Exception)

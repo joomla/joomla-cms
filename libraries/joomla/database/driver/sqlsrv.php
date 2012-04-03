@@ -739,19 +739,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 
 		if (!sqlsrv_query($this->connection, 'USE ' . $database, null, array('scrollable' => SQLSRV_CURSOR_STATIC)))
 		{
-
-			// Legacy error handling switch based on the JError::$legacy switch.
-			// @deprecated  12.1
-			if (JError::$legacy)
-			{
-				$this->errorNum = 3;
-				$this->errorMsg = JText::_('JLIB_DATABASE_ERROR_DATABASE_CONNECT');
-				return false;
-			}
-			else
-			{
-				throw new RuntimeException('Could not connect to database');
-			}
+			throw new RuntimeException('Could not connect to database');
 		}
 
 		return true;

@@ -172,8 +172,7 @@ class JLog
 	}
 
 	/**
-	 * Method to set the way the JError will handle different error levels.
-	 * Use this if you want to override the default settings.
+	 * Add a logger to the JLog instance.  Loggers route log entries to the correct files/systems to be logged.
 	 *
 	 * @param   array    $options     The object configuration array.
 	 * @param   integer  $priorities  Message priority

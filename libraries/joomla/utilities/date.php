@@ -77,8 +77,6 @@ class JDate extends DateTime
 	 * @param   mixed   $tz    Time zone to be used for the date. Might be a string or a DateTimeZone object.
 	 *
 	 * @since   11.1
-	 *
-	 * @throws  JException
 	 */
 	public function __construct($date = 'now', $tz = null)
 	{
@@ -212,7 +210,6 @@ class JDate extends DateTime
 	 * @return  JDate
 	 *
 	 * @since   11.3
-	 * @throws  JException
 	 */
 	public static function getInstance($date = 'now', $tz = null)
 	{

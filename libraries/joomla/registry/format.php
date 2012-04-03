@@ -33,7 +33,7 @@ abstract class JRegistryFormat
 	 * @return  JRegistryFormat  Registry format handler
 	 *
 	 * @since   11.1
-	 * @throws  JException
+	 * @throws  InvalidArgumentException
 	 */
 	public static function getInstance($type)
 	{
@@ -54,7 +54,7 @@ abstract class JRegistryFormat
 				}
 				else
 				{
-					throw new JException(JText::_('JLIB_REGISTRY_EXCEPTION_LOAD_FORMAT_CLASS'), 500, E_ERROR);
+					throw new InvalidArgumentException('Unable to load format class.', 500);
 				}
 			}
 

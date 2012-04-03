@@ -248,7 +248,16 @@ class JSession extends JObject
 	{
 		$user = JFactory::getUser();
 		$session = JFactory::getSession();
-		$hash = JApplication::getHash($user->get('id', 0) . $session->getToken($forceNew));
+
+		// TODO: Decouple from legacy JApplication class.
+		if (is_callable(array('JApplication', 'getHash')))
+		{
+			$hash = JApplication::getHash($user->get('id', 0) . $session->getToken($forceNew));
+		}
+		else
+		{
+			$hash = md5(JFactory::getApplication()->get('secret') . $user->get('id', 0) . $session->getToken($forceNew));
+		}
 
 		return $hash;
 	}

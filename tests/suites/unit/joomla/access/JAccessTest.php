@@ -441,8 +441,6 @@ class JAccessTest extends TestCaseDatabase
 			$this->equalTo(JAccess::getGroupsByUser(42, False))
 		);
 
-		jimport('joomla.application.component.helper');
-
 		$this->assertThat(
 			JAccess::getGroupsByUser(null),
 			$this->equalTo(array(1))
