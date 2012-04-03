@@ -284,11 +284,15 @@ class JInstallerTemplate extends JAdapterInstance
 
 		if ($this->route == 'install')
 		{
+			$debug = $lang->setDebug(false);
+			
 			$columns = array('template', 'client_id', 'home', 'title', 'params');
 			$values = array(
 				$db->Quote($row->element), $clientId, $db->Quote(0), 
 				$db->Quote(JText::sprintf('JLIB_INSTALLER_DEFAULT_STYLE', JText::_($this->get('name')))),
 				$db->Quote($row->params) );
+			
+			$lang->setDebug($debug);
 			
 			//insert record in #__template_styles
 			$query = $db->getQuery(true);

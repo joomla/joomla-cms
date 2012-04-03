@@ -838,7 +838,8 @@ abstract class JDatabase implements JDatabaseInterface
 		$values = array();
 
 		// Create the base insert statement.
-		$statement = 'INSERT INTO ' . $this->quoteName($table) . ' (%s) VALUES (%s) RETURNING id';
+		$query = $this->getQuery(true);
+		$query->insert($this->quoteName($table));
 
 		// Iterate over the object variables to build the query fields and values.
 		foreach (get_object_vars($object) as $k => $v)
@@ -857,18 +858,21 @@ abstract class JDatabase implements JDatabaseInterface
 
 			// Prepare and sanitize the fields and values for the database query.
 			$fields[] = $this->quoteName($k);
-			$values[] = $this->quote($v);
+			$values[] = is_numeric($v) ? $v : $this->quote($v);
 		}
 
+		$query->columns($fields);
+		$query->values(implode(',', $values));
+
 		// Set the query and execute the insert.
-		$this->setQuery(sprintf($statement, implode(',', $fields), implode(',', $values)));
+		$this->setQuery($query);
 		if (!$this->query())
 		{
 			return false;
 		}
 
 		// Update the primary key if it exists.
-		$id = $this->loadResult();
+		$id = $this->insertid();
 		if ($key && $id)
 		{
 			$object->$key = $id;
@@ -1618,7 +1622,7 @@ abstract class JDatabase implements JDatabaseInterface
 			// Set the primary key to the WHERE clause instead of a field to update.
 			if ($k == $key)
 			{
-				$where = $this->quoteName($k) . '=' . $this->quote($v);
+				$where = $this->quoteName($k) . '=' . (is_numeric($v) ? $v : $this->quote($v));
 				continue;
 			}
 
@@ -1639,7 +1643,7 @@ abstract class JDatabase implements JDatabaseInterface
 			// The field is not null so we prep it for update.
 			else
 			{
-				$val = $this->quote($v);
+				$val = (is_numeric($v) ? $v : $this->quote($v));
 			}
 
 			// Add the field to be updated.

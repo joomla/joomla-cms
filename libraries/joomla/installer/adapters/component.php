@@ -541,7 +541,7 @@ class JInstallerComponent extends JAdapterInstance
 			return false;
 		}
 
-		$eid = $row->extension_id;
+		$eid = $db->insertid();
 
 		// Clobber any possible pending updates
 		$update = JTable::getInstance('update');
