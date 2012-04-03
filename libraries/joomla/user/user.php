@@ -611,6 +611,7 @@ class JUser extends JObject
 			// Set the registration timestamp
 
 			$this->set('registerDate', JFactory::getDate()->toSql());
+			$this->set('lastvisitDate', JFactory::getDbo()->getNullDate());
 
 			// Check that username is not greater than 150 characters
 			$username = $this->get('username');
