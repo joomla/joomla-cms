@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.application.component.controller');
-
 /**
  * Controller tailored to suit most form-based admin operations.
  *

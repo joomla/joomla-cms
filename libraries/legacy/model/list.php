@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.application.component.model');
-
 /**
  * Model class for handling lists of items.
  *

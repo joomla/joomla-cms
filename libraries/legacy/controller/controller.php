@@ -143,7 +143,6 @@ class JController extends JObject
 	 */
 	public static function addModelPath($path, $prefix = '')
 	{
-		jimport('joomla.application.component.model');
 		JModel::addIncludePath($path, $prefix);
 	}
 

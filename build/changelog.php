@@ -24,8 +24,6 @@ define('JPATH_BASE', dirname(__FILE__));
 // Bootstrap the application.
 require realpath('../libraries/import.php');
 
-jimport('joomla.application.cli');
-
 /**
  * Joomla Platform Changelog builder.
  *

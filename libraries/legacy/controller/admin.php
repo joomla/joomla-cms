@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.application.component.controller');
-
 /**
  * Base class for a Joomla Administrator Controller
  *
