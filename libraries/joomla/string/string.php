@@ -21,7 +21,7 @@ if (extension_loaded('mbstring'))
 }
 
 // Same for iconv
-if (function_exists('iconv')))
+if (function_exists('iconv'))
 {
 	// These are settings that can be set inside code
 	iconv_set_encoding("internal_encoding", "UTF-8");
