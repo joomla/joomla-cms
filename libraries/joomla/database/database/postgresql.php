@@ -233,11 +233,7 @@ class JDatabasePostgreSQL extends JDatabase
 	 */
 	public function getNumRows( $cur = null )
 	{
-		if($cur)
-			$cur = intval($cur);
-		else
-			$cur = $this->cursor;
-		return pg_num_rows($cur);
+		return pg_num_rows((int)$cur ? $cur : $this->cursor);
 	}
 
 	/**
