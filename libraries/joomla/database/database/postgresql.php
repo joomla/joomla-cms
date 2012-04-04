@@ -472,32 +472,32 @@ class JDatabasePostgreSQL extends JDatabase
 
 		// Create the base insert statement.
 		$query = $this->getQuery(true);
-		if ($key) {
-			$query->insert($this->quoteName($table))
-					->columns($fields)
-					->values(implode(',', $values))
-					->returning($key);
-			
-			// Set the query and execute the insert.
-			$this->setQuery($query);
-			
+		
+		$query->insert($this->quoteName($table))
+				->columns($fields)
+				->values(implode(',', $values));
+
+		if ($key)
+		{
+			$query->returning($key);
+		}
+		
+		// Set the query and execute the insert.
+		$this->setQuery($query);
+		
+		if ($key)
+		{
 			$id = $this->loadResult();
-			if ($id) {
+			if ($id) 
+			{
 				$object->$key = $id;
 				return true;
-			} else
-				return false;
-		} else {
-			$query->insert($this->quoteName($table))
-					->columns($fields)
-					->values(implode(',', $values));
-			
-			// Set the query and execute the insert.
-			$this->setQuery($query);
-			if (!$this->query())
-				return false;
-			else
-				return true;
+			} 
+			return false;
+		} 
+		else 
+		{
+			return $this->query();
 		}
 	}
 
