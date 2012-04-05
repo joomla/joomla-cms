@@ -65,7 +65,7 @@ $user = JFactory::getUser();
 					<legend><?php echo $this->config->get('upload_maxsize')=='0' ? JText::_('COM_MEDIA_UPLOAD_FILES_NOLIMIT') : JText::sprintf('COM_MEDIA_UPLOAD_FILES', $this->config->get('upload_maxsize')); ?></legend>
 					<fieldset id="upload-noflash" class="actions">
 						<label for="upload-file" class="hidelabeltxt"><?php echo JText::_('COM_MEDIA_UPLOAD_FILE'); ?></label>
-						<input type="file" id="upload-file" name="Filedata" />
+						<input type="file" id="upload-file" name="Filedata[]" multiple />
 						<label for="upload-submit" class="hidelabeltxt"><?php echo JText::_('COM_MEDIA_START_UPLOAD'); ?></label>
 						<input type="submit" id="upload-submit" value="<?php echo JText::_('COM_MEDIA_START_UPLOAD'); ?>"/>
 					</fieldset>
