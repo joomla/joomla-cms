@@ -417,6 +417,18 @@ class JApplicationWebClient
 				$this->platform = self::IPOD;
 			}
 		}
+			// In case where iPhone is not mentioed in iPad user agent string
+			elseif (stripos($userAgent, 'iPad') !== false)
+			{
+				$this->mobile = true;
+				$this->platform = self::IPAD;
+			}
+			// In case where iPhone is not mentioed in iPod user agent string
+			elseif (stripos($userAgent, 'iPod') !== false)
+			{
+				$this->mobile = true;
+				$this->platform = self::IPOD;
+			}
 		// This has to come after the iPhone check because mac strings are also present in iOS devices.
 		elseif (preg_match('/macintosh|mac os x/i', $userAgent))
 		{
