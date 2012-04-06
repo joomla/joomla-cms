@@ -649,21 +649,21 @@ class JDatabaseExporterPostgresqlTest extends PHPUnit_Framework_TestCase
 		);
 
 		$this->assertThat(
-			$instance->options->get('with-structure'),
+			$instance->options->withStructure,
 			$this->isTrue(),
 			'The default use of withStructure should result in true.'
 		);
 
 		$instance->withStructure(true);
 		$this->assertThat(
-			$instance->options->get('with-structure'),
+			$instance->options->withStructure,
 			$this->isTrue(),
 			'The explicit use of withStructure with true should result in true.'
 		);
 
 		$instance->withStructure(false);
 		$this->assertThat(
-			$instance->options->get('with-structure'),
+			$instance->options->withStructure,
 			$this->isFalse(),
 			'The explicit use of withStructure with false should result in false.'
 		);

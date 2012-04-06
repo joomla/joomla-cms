@@ -177,24 +177,6 @@ class JDatabaseFactory
 	}
 
 	/**
-	 * Static method to get an instance of a JTable class if it can be found in
-	 * the table include paths.  To add include paths for searching for JTable
-	 * classes @see JTable::addIncludePath().
-	 *
-	 * @param   string  $type    The type (name) of the JTable class to get an instance of.
-	 * @param   string  $prefix  An optional prefix for the table class name.
-	 * @param   array   $config  An optional array of configuration values for the JTable object.
-	 *
-	 * @return  mixed    A JTable object if found or boolean false if one could not be found.
-	 *
-	 * @since   12.1
-	 */
-	public function getTable($type, $prefix = 'JTable', $config = array())
-	{
-		return JTable::getInstance($type, $prefix, $config);
-	}
-
-	/**
 	 * Gets an instance of a factory object to return on subsequent calls of getInstance.
 	 *
 	 * @param   JDatabaseFactory  $instance  A JDatabaseFactory object.

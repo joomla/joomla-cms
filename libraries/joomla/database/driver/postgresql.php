@@ -1020,7 +1020,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	/**
 	 * Get the query string to create new Database in correct PostgreSQL syntax.
 	 *
-	 * @param   JObject  $options  JObject coming from "initialise" function to pass user
+	 * @param   object   $options  object coming from "initialise" function to pass user
 	 * 									and database name to database driver.
 	 * @param   boolean  $utf      True if the database supports the UTF-8 character set,
 	 * 									not used in PostgreSQL "CREATE DATABASE" query.

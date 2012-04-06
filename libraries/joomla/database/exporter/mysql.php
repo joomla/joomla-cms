@@ -53,7 +53,7 @@ class JDatabaseExporterMysql extends JDatabaseExporter
 	/**
 	 * An array of options for the exporter.
 	 *
-	 * @var    JObject
+	 * @var    object
 	 * @since  11.1
 	 */
 	protected $options = null;
@@ -67,7 +67,7 @@ class JDatabaseExporterMysql extends JDatabaseExporter
 	 */
 	public function __construct()
 	{
-		$this->options = new JObject;
+		$this->options = new stdClass;
 
 		$this->cache = array('columns' => array(), 'keys' => array());
 
@@ -292,7 +292,7 @@ class JDatabaseExporterMysql extends JDatabaseExporter
 	 */
 	public function withStructure($setting = true)
 	{
-		$this->options->set('with-structure', (boolean) $setting);
+		$this->options->withStructure = (boolean) $setting;
 
 		return $this;
 	}
