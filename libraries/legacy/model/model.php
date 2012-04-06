@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Platform
- * @subpackage  Application
+ * @subpackage  Model
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * provides many supporting API functions.
  *
  * @package     Joomla.Platform
- * @subpackage  Application
+ * @subpackage  Model
  * @since       11.1
  */
 abstract class JModel extends JObject
@@ -27,15 +27,6 @@ abstract class JModel extends JObject
 	 * @var    boolean
 	 * @since  11.1
 	 */
-	protected $stateSet = null;
-
-	/**
-	 * Indicates if the internal state has been set
-	 *
-	 * @var    boolean
-	 * @since  11.1
-	 * @deprecated use $stateSet declare as private
-	 */
 	protected $__state_set = null;
 
 	/**
@@ -43,15 +34,6 @@ abstract class JModel extends JObject
 	 *
 	 * @var    object
 	 * @since  11.1
-	 */
-	protected $db;
-
-	/**
-	 * Database Connector
-	 *
-	 * @var    object
-	 * @since  11.1
-	 * @deprecated use $db declare as private
 	 */
 	protected $_db;
 

@@ -31,7 +31,6 @@ class JApplicationHelper
 	 *
 	 * @var    array
 	 * @since  11.1
-	 * @deprecated use $clientsor declare as private
 	 */
 	protected static $_clients = null;
 
@@ -175,7 +174,7 @@ class JApplicationHelper
 	 * @return  array  XML metadata.
 	 *
 	 * @since   11.1
-	 * @deprecated  12.1
+	 * @deprecated  13.3
 	 */
 	public static function parseXMLInstallFile($path)
 	{

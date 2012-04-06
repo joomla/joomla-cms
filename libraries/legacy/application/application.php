@@ -30,15 +30,6 @@ class JApplication extends JApplicationBase
 	 * @var    integer
 	 * @since  11.1
 	 */
-	protected $clientId = null;
-
-	/**
-	 * The client identifier.
-	 *
-	 * @var    integer
-	 * @since  11.1
-	 * @deprecated use $clientId or declare as private
-	 */
 	protected $_clientId = null;
 
 	/**
@@ -47,15 +38,6 @@ class JApplication extends JApplicationBase
 	 * @var    array
 	 * @since  11.1
 	 */
-	protected $messageQueue = array();
-
-	/**
-	 * The application message queue.
-	 *
-	 * @var    array
-	 * @since  11.1
-	 * @deprecated use $messageQueue or declare as private
-	 */
 	protected $_messageQueue = array();
 
 	/**
@@ -63,15 +45,6 @@ class JApplication extends JApplicationBase
 	 *
 	 * @var    array
 	 * @since  11.1
-	 */
-	protected $name = null;
-
-	/**
-	 * The name of the application.
-	 *
-	 * @var    array
-	 * @since  11.1
-	 * @deprecated use $name or declare as private
 	 */
 	protected $_name = null;
 

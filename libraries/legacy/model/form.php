@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Platform
- * @subpackage  Application
+ * @subpackage  Model
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
  * Prototype form model.
  *
  * @package     Joomla.Platform
- * @subpackage  Application
+ * @subpackage  Model
  * @see         JForm
  * @see         JFormField
  * @see         JformRule
@@ -26,15 +26,6 @@ abstract class JModelForm extends JModel
 	 *
 	 * @var    array
 	 * @since  11.1
-	 */
-	protected $forms = array();
-
-	/**
-	 * Array of form objects.
-	 *
-	 * @var    array
-	 * @since  11.1
-	 * @deprecated use $forms declare as private
 	 */
 	protected $_forms = array();
 
