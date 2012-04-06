@@ -673,29 +673,20 @@ class JImage
 
 			case self::SCALE_INSIDE:
 			case self::SCALE_OUTSIDE:
-                            
-							// To avoid dividing by $width if it is zero
-							if($width == 0 && $height != 0)
-							{
-								throw new LogicException(' Width cannot be zero ');
-								}
-                            
-							// To avoid dividing by $height if it is zero
-							elseif ($width != 0 && $height == 0)
-							{
-								throw new LogicException(' Height cannot be zero ');
-								}
-                            
-							// Both $height and $width are zero
-							elseif($width == 0 && $height == 0){
-								throw new LogicException(' Both height and width cannot be zero ');
-								}
-                            
-							// If both $width and $height are not equals to zero
-                            else{
-				$rx = $this->getWidth() / $width;
-				$ry = $this->getHeight() / $height;
-                            }
+			
+				// Both $height or $width cannot be zero
+				if($width == 0 || $height == 0)
+				{
+					throw new LogicException(' Both height or width cannot be zero ');
+				}
+			
+				// If both $width and $height are not equals to zero
+				else
+				{
+					$rx = $this->getWidth() / $width;
+					$ry = $this->getHeight() / $height;
+				}
+				
 				if ($scaleMethod == self::SCALE_INSIDE)
 				{
 					$ratio = ($rx > $ry) ? $rx : $ry;
