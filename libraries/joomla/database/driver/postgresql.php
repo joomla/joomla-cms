@@ -242,7 +242,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	{
 		$this->connect();
 
-		return pg_num_rows($cur ? $cur : $this->cursor);
+		return pg_num_rows((int) $cur ? $cur : $this->cursor);
 	}
 
 	/**
@@ -889,10 +889,6 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		$fields = array();
 		$values = array();
 
-		// Create the base insert statement.
-		$query = $this->getQuery(true);
-		$query->insert($this->quoteName($table));
-
 		// Iterate over the object variables to build the query fields and values.
 		foreach (get_object_vars($object) as $k => $v)
 		{
@@ -913,24 +909,41 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 			$values[] = is_numeric($v) ? $v : $this->quote($v);
 		}
 
-		$query->columns($fields);
-		$query->values(implode(',', $values));
+		// Create the base insert statement.
+		$query = $this->getQuery(true);
 
-		// Set the query and execute the insert.
-		$this->setQuery($query);
-		if (!$this->execute())
+		$query->insert($this->quoteName($table))
+				->columns($fields)
+				->values(implode(',', $values));
+
+		$retVal = false;
+
+		if ($key)
 		{
-			return false;
+			$query->returning($key);
+
+			// Set the query and execute the insert.
+			$this->setQuery($query);
+
+			$id = $this->loadResult();
+			if ($id)
+			{
+				$object->$key = $id;
+				$retVal = true;
+			}
+		}
+		else
+		{
+			// Set the query and execute the insert.
+			$this->setQuery($query);
+
+			if ($this->execute())
+			{
+				$retVal = true;
+			}
 		}
 
-		// Update the primary key if it exists.
-		$id = $this->insertid();
-		if ($key && $id)
-		{
-			$object->$key = $id;
-		}
-
-		return true;
+		return $retVal;
 	}
 
 	/**
