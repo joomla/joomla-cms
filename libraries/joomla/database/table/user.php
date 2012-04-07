@@ -181,6 +181,12 @@ class JTableUser extends JTable
 	 */
 	public function check()
 	{
+		// Set user id to null istead of 0, if needed
+		if ($this->id === 0)
+		{
+			$this->id = null;
+		}
+		
 		// Validate user information
 		if (trim($this->name) == '')
 		{
@@ -207,11 +213,16 @@ class JTableUser extends JTable
 		}
 
 		// Set the registration timestamp
-		if ($this->registerDate == null || $this->registerDate == $this->_db->getNullDate())
+		if (empty($this->registerDate) || $this->registerDate == $this->_db->getNullDate())
 		{
 			$this->registerDate = JFactory::getDate()->toSql();
 		}
-
+		// Set the lastvisitDate timestamp
+		if (empty($this->lastvisitDate))
+		{
+			$this->lastvisitDate = $this->_db->getNullDate();
+		}
+		
 		// check for existing username
 		$query = $this->_db->getQuery(true);
 		$query->select($this->_db->quoteName('id'));
