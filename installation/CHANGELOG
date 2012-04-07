@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+07-Apr-2012 Jean-Marie Simonet
+ # [#28345] Call to member function of non-object: setDebug(). Thanks Don.
+
 03-Apr-2012 Mark Dexter
  # [#28354] Problem logging out if Public group has admin login permission
  # [#28342] *New joomlaupdate component has no icon in admin menu + missing lang string
