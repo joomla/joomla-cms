@@ -282,25 +282,28 @@ class JInstallerTemplate extends JAdapterInstance
 
 		if ($this->route == 'install')
 		{
-			// Insert record in #__template_styles
-			$query = $db->getQuery(true);
-			$query->insert($db->quoteName('#__template_styles'));
 			$debug = $lang->setDebug(false);
+
 			$columns = array($db->quoteName('template'),
 				$db->quoteName('client_id'),
 				$db->quoteName('home'),
 				$db->quoteName('title'),
 				$db->quoteName('params')
 			);
-			$query->columns($columns);
-			$query->values(
-				$db->Quote($row->element)
-				. ',' . $db->Quote($clientId)
-				. ',' . $db->Quote(0)
-				. ',' . $db->Quote(JText::sprintf('JLIB_INSTALLER_DEFAULT_STYLE', JText::_($this->get('name'))))
-				. ',' . $db->Quote($row->params)
-			);
+
+			$values = array(
+				$db->Quote($row->element), $clientId, $db->Quote(0),
+				$db->Quote(JText::sprintf('JLIB_INSTALLER_DEFAULT_STYLE', JText::_($this->get('name')))),
+				$db->Quote($row->params) );
+
 			$lang->setDebug($debug);
+
+			// Insert record in #__template_styles
+			$query = $db->getQuery(true);
+			$query->insert($db->quoteName('#__template_styles'))
+				->columns($columns)
+				->values(implode(',', $values));
+
 			$db->setQuery($query);
 
 			// There is a chance this could fail but we don't care...
@@ -366,7 +369,7 @@ class JInstallerTemplate extends JAdapterInstance
 
 		// Deny remove default template
 		$db = $this->parent->getDbo();
-		$query = 'SELECT COUNT(*) FROM #__template_styles' . ' WHERE home = 1 AND template = ' . $db->Quote($name);
+		$query = "SELECT COUNT(*) FROM #__template_styles WHERE home = '1' AND template = " . $db->Quote($name);
 		$db->setQuery($query);
 
 		if ($db->loadResult() != 0)
@@ -418,13 +421,16 @@ class JInstallerTemplate extends JAdapterInstance
 		}
 
 		// Set menu that assigned to the template back to default template
-		$query = 'UPDATE #__menu INNER JOIN #__template_styles' . ' ON #__template_styles.id = #__menu.template_style_id'
-			. ' SET #__menu.template_style_id = 0' . ' WHERE #__template_styles.template = ' . $db->Quote(strtolower($name))
-			. ' AND #__template_styles.client_id = ' . $db->Quote($clientId);
+		$query = 'UPDATE #__menu'
+			. ' SET template_style_id = 0'
+			. ' WHERE template_style_id in ('
+			. '	SELECT s.id FROM #__template_styles s'
+			. ' WHERE s.template = ' . $db->Quote(strtolower($name)) . ' AND s.client_id = ' . $clientId . ')';
+
 		$db->setQuery($query);
 		$db->execute();
 
-		$query = 'DELETE FROM #__template_styles' . ' WHERE template = ' . $db->Quote($name) . ' AND client_id = ' . $db->Quote($clientId);
+		$query = 'DELETE FROM #__template_styles WHERE template = ' . $db->Quote($name) . ' AND client_id = ' . $clientId;
 		$db->setQuery($query);
 		$db->execute();
 
