@@ -59,7 +59,7 @@ class JRequest
 	 *
 	 * @since   11.1
 	 *
-	 * @deprecated   12.1
+	 * @deprecated   12.1 Use JInput::getMethod() instead
 	 */
 	public static function getMethod()
 	{

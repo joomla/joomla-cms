@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Platform
- * @subpackage  Application
+ * @subpackage  Model
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
  * Model class for handling lists of items.
  *
  * @package     Joomla.Platform
- * @subpackage  Application
+ * @subpackage  Model
  * @since       11.1
  */
 class JModelList extends JModel

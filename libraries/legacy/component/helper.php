@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Platform
- * @subpackage  Application
+ * @subpackage  Component
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
  * Component helper class
  *
  * @package     Joomla.Platform
- * @subpackage  Application
+ * @subpackage  Component
  * @since       11.1
  */
 class JComponentHelper
@@ -23,15 +23,6 @@ class JComponentHelper
 	 *
 	 * @var    array
 	 * @since  11.1
-	 */
-	protected static $components = array();
-
-	/**
-	 * The component list cache
-	 *
-	 * @var    array
-	 * @since  11.1
-	 * @deprecated use $components declare as private
 	 */
 	protected static $_components = array();
 
