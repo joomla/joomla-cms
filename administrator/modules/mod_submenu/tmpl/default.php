@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-$hide = JRequest::getInt('hidemainmenu');
+$hide = JFactory::getApplication()->input->getBool('hidemainmenu');
 ?>
 <ul id="submenu">
 	<?php foreach ($list as $item) : ?>

@@ -9,7 +9,8 @@
 
 defined('_JEXEC') or die;
 
-$user = JFactory::getUser();
+$user  = JFactory::getUser();
+$input = JFactory::getApplication()->input;
 ?>
 <table width="100%">
 	<tr valign="top">
@@ -41,7 +42,7 @@ $user = JFactory::getUser();
 				<input class="update-folder" type="hidden" name="folder" id="folder" value="<?php echo $this->state->folder; ?>" />
 			</form>
 
-			<form action="index.php?option=com_media&amp;task=folder.create&amp;tmpl=<?php echo JRequest::getCmd('tmpl', 'index');?>" name="folderForm" id="folderForm" method="post">
+			<form action="index.php?option=com_media&amp;task=folder.create&amp;tmpl=<?php echo $input->getCmd('tmpl', 'index');?>" name="folderForm" id="folderForm" method="post">
 				<fieldset id="folderview">
 					<div class="view">
 						<iframe src="index.php?option=com_media&amp;view=mediaList&amp;tmpl=component&amp;folder=<?php echo $this->state->folder;?>" id="folderframe" name="folderframe" width="100%" marginwidth="0" marginheight="0" scrolling="auto"></iframe>

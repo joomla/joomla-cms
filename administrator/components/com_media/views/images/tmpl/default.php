@@ -9,13 +9,14 @@
 
 defined('_JEXEC') or die;
 
-$user = JFactory::getUser();
+$user  = JFactory::getUser();
+$input = JFactory::getApplication()->input;
 ?>
 <script type='text/javascript'>
 var image_base_path = '<?php $params = JComponentHelper::getParams('com_media');
 echo $params->get('image_path', 'images');?>/';
 </script>
-<form action="index.php?option=com_media&amp;asset=<?php echo JRequest::getCmd('asset');?>&amp;author=<?php echo JRequest::getCmd('author');?>" id="imageForm" method="post" enctype="multipart/form-data">
+<form action="index.php?option=com_media&amp;asset=<?php echo $input->getCmd('asset');?>&amp;author=<?php echo $input->getCmd('author');?>" id="imageForm" method="post" enctype="multipart/form-data">
 	<div id="messages" style="display: none;">
 		<span id="message"></span><?php echo JHtml::_('image', 'media/dots.gif', '...', array('width' => 22, 'height' => 12), true)?>
 	</div>
@@ -31,7 +32,7 @@ echo $params->get('image_path', 'images');?>/';
 		</div>
 	</fieldset>
 
-	<iframe id="imageframe" name="imageframe" src="index.php?option=com_media&amp;view=imagesList&amp;tmpl=component&amp;folder=<?php echo $this->state->folder?>&amp;asset=<?php echo JRequest::getCmd('asset');?>&amp;author=<?php echo JRequest::getCmd('author');?>"></iframe>
+	<iframe id="imageframe" name="imageframe" src="index.php?option=com_media&amp;view=imagesList&amp;tmpl=component&amp;folder=<?php echo $this->state->folder?>&amp;asset=<?php echo $input->getCmd('asset');?>&amp;author=<?php echo $input->getCmd('author');?>"></iframe>
 
 	<fieldset>
 		<table class="properties">
@@ -78,7 +79,7 @@ echo $params->get('image_path', 'images');?>/';
 </form>
 
 <?php if ($user->authorise('core.create', 'com_media')): ?>
-	<form action="<?php echo JURI::base(); ?>index.php?option=com_media&amp;task=file.upload&amp;tmpl=component&amp;<?php echo $this->session->getName() . '=' . $this->session->getId(); ?>&amp;<?php echo JSession::getFormToken();?>=1&amp;asset=<?php echo JRequest::getCmd('asset');?>&amp;author=<?php echo JRequest::getCmd('author');?>&amp;format=<?php echo $this->config->get('enable_flash') == '1' ? 'json' : '' ?>&amp;view=images" id="uploadForm" name="uploadForm" method="post" enctype="multipart/form-data">
+	<form action="<?php echo JURI::base(); ?>index.php?option=com_media&amp;task=file.upload&amp;tmpl=component&amp;<?php echo $this->session->getName() . '=' . $this->session->getId(); ?>&amp;<?php echo JSession::getFormToken();?>=1&amp;asset=<?php echo $input->getCmd('asset');?>&amp;author=<?php echo $input->getCmd('author');?>&amp;format=<?php echo $this->config->get('enable_flash') == '1' ? 'json' : '' ?>&amp;view=images" id="uploadForm" name="uploadForm" method="post" enctype="multipart/form-data">
 		<fieldset id="uploadform">
 			<legend><?php echo $this->config->get('upload_maxsize') == '0' ? JText::_('COM_MEDIA_UPLOAD_FILES_NOLIMIT') : JText::sprintf('COM_MEDIA_UPLOAD_FILES', $this->config->get('upload_maxsize')); ?></legend>
 			<fieldset id="upload-noflash" class="actions">
@@ -104,7 +105,7 @@ echo $params->get('image_path', 'images');?>/';
 			<ul class="upload-queue" id="upload-queue">
 				<li style="display: none"></li>
 			</ul>
-			<input type="hidden" name="return-url" value="<?php echo base64_encode('index.php?option=com_media&view=images&tmpl=component&fieldid='.JRequest::getCmd('fieldid', '').'&e_name='.JRequest::getCmd('e_name').'&asset='.JRequest::getCmd('asset').'&author='.JRequest::getCmd('author')); ?>" />
+			<input type="hidden" name="return-url" value="<?php echo base64_encode('index.php?option=com_media&view=images&tmpl=component&fieldid=' . $input->getCmd('fieldid', '') . '&e_name=' . $input->getCmd('e_name') . '&asset=' . JRequest::getCmd('asset') . '&author=' . $input->getCmd('author')); ?>" />
 		</fieldset>
 	</form>
 <?php  endif; ?>

@@ -29,9 +29,9 @@ class MenusViewMenu extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$this->form	= $this->get('Form');
-		$this->item	= $this->get('Item');
-		$this->state	= $this->get('State');
+		$this->form	 = $this->get('Form');
+		$this->item	 = $this->get('Item');
+		$this->state = $this->get('State');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
@@ -50,11 +50,12 @@ class MenusViewMenu extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		JRequest::setVar('hidemainmenu', true);
+		$input = JFactory::getApplication()->input;
+		$input->set('hidemainmenu', true);
 
-		$user		= JFactory::getUser();
-		$isNew		= ($this->item->id == 0);
-		$canDo		= MenusHelper::getActions($this->state->get('filter.parent_id'));
+		$user  = JFactory::getUser();
+		$isNew = ($this->item->id == 0);
+		$canDo = MenusHelper::getActions($this->state->get('filter.parent_id'));
 
 		JToolbarHelper::title(JText::_($isNew ? 'COM_MENUS_VIEW_NEW_MENU_TITLE' : 'COM_MENUS_VIEW_EDIT_MENU_TITLE'), 'menu.png');
 

@@ -35,16 +35,17 @@ class TemplatesViewPrevuuw extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-
 		require_once JPATH_COMPONENT.'/helpers/templates.php';
 
+		$input = JFactory::getApplication()->input;
+
 		// Initialise some variables
-		$this->client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
-		$this->id		= JRequest::getVar('id', '', 'method', 'int');
-		$this->option	= JRequest::getCmd('option');
-		$this->template	= TemplatesHelper::getTemplateName($this->id);
-		$this->tp		= true;
-		$this->url		= $client->id ? JURI::base() : JURI::root();
+		$this->client   = JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
+		$this->id       = JRequest::getVar('id', '', 'method', 'int');
+		$this->option   = $input->getCmd('option');
+		$this->template = TemplatesHelper::getTemplateName($this->id);
+		$this->tp       = true;
+		$this->url      = $client->id ? JURI::base() : JURI::root();
 
 		if (!$this->template) {
 			return JError::raiseWarning(500, JText::_('COM_TEMPLATES_TEMPLATE_NOT_SPECIFIED'));

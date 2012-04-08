@@ -208,17 +208,17 @@ abstract class modArticlesCategoryHelper
 			}
 			else
 			{
-				$app	= JFactory::getApplication();
-				$menu	= $app->getMenu();
-				$menuitems	= $menu->getItems('link', 'index.php?option=com_users&view=login');
+				$app  = JFactory::getApplication();
+				$menu = $app->getMenu();
+				$menuitems = $menu->getItems('link', 'index.php?option=com_users&view=login');
 				if (isset($menuitems[0]))
 				{
 					$Itemid = $menuitems[0]->id;
 				}
-				elseif (JRequest::getInt('Itemid') > 0)
+				elseif ($app->input->getInt('Itemid') > 0)
 				{
 					// Use Itemid from requesting page only if there is no existing menu
-					$Itemid = JRequest::getInt('Itemid');
+					$Itemid = $app->input->getInt('Itemid');
 				}
 
 				$item->link = JRoute::_('index.php?option=com_users&view=login&Itemid='.$Itemid);

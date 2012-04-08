@@ -12,14 +12,14 @@ defined('_JEXEC') or die;
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 JHtml::_('behavior.tooltip');
 
-$function	= JRequest::getCmd('function', 'jSelectPosition');
-$lang		= JFactory::getLanguage();
-$ordering	= $this->escape($this->state->get('list.ordering'));
-$direction	= $this->escape($this->state->get('list.direction'));
-$clientId	= $this->state->get('filter.client_id');
-$state		= $this->state->get('filter.state');
-$template	= $this->state->get('filter.template');
-$type		= $this->state->get('filter.type');
+$function  = JFactory::getApplication()->input->getCmd('function', 'jSelectPosition');
+$lang      = JFactory::getLanguage();
+$ordering  = $this->escape($this->state->get('list.ordering'));
+$direction = $this->escape($this->state->get('list.direction'));
+$clientId  = $this->state->get('filter.client_id');
+$state     = $this->state->get('filter.state');
+$template  = $this->state->get('filter.template');
+$type      = $this->state->get('filter.type');
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_modules&view=positions&layout=modal&tmpl=component&function='.$function.'&client_id=' .$clientId);?>" method="post" name="adminForm" id="adminForm">
 	<fieldset class="filter clearfix">

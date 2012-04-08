@@ -54,7 +54,7 @@ class InstallationControllerSetup extends JControllerLegacy
 		$model = $this->getModel('Setup', 'InstallationModel', array('dbo' => null));
 
 		// Get the posted values from the request and validate them.
-		$data = JRequest::getVar('jform', array(), 'post', 'array');
+		$data = $this->input->post->get('jform', array(), 'array');
 		$return	= $model->validate($data, 'language');
 
 		$r = new stdClass;
@@ -108,7 +108,7 @@ class InstallationControllerSetup extends JControllerLegacy
 		$model = $this->getModel('Setup', 'InstallationModel', array('dbo' => null));
 
 		// Get the posted values from the request and validate them.
-		$data = JRequest::getVar('jform', array(), 'post', 'array');
+		$data = $this->input->post->get('jform', array(), 'array');
 		$return	= $model->validate($data, 'database');
 
 		$r = new stdClass;
@@ -187,7 +187,7 @@ class InstallationControllerSetup extends JControllerLegacy
 		$model = $this->getModel('Setup', 'InstallationModel', array('dbo' => null));
 
 		// Get the posted values from the request and validate them.
-		$data = JRequest::getVar('jform', array(), 'post', 'array');
+		$data = $this->input->post->get('jform', array(), 'array');
 		$return	= $model->validate($data, 'filesystem');
 
 		$r = new stdClass;
@@ -241,7 +241,7 @@ class InstallationControllerSetup extends JControllerLegacy
 		$model = $this->getModel('Setup', 'InstallationModel', array('dbo' => null));
 
 		// Get the posted values from the request and validate them.
-		$data = JRequest::getVar('jform', array(), 'post', 'array');
+		$data = $this->input->post->get('jform', array(), 'array');
 		$return	= $model->validate($data, 'site');
 
 		// Attempt to save the data before validation
@@ -311,7 +311,7 @@ class InstallationControllerSetup extends JControllerLegacy
 		JSession::checkToken('request') or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
 
 		// Get the posted config options.
-		$vars = JRequest::getVar('jform', array());
+		$vars = $this->input->get('jform', array(), 'array');
 
 		// Get the setup model.
 		$model = $this->getModel('Setup', 'InstallationModel', array('dbo' => null));
@@ -358,7 +358,7 @@ class InstallationControllerSetup extends JControllerLegacy
 		JSession::checkToken('request') or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
 
 		// Get the posted config options.
-		$vars = JRequest::getVar('jform', array());
+		$vars = $this->input->get('jform', array(), 'array');
 
 		// Get the setup model.
 		$model = $this->getModel('Setup', 'InstallationModel', array('dbo' => null));
@@ -397,7 +397,7 @@ class InstallationControllerSetup extends JControllerLegacy
 		JSession::checkToken('request') or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
 
 		// Get the posted config options.
-		$vars = JRequest::getVar('jform', array());
+		$vars = $this->input->get('jform', array(), 'array');
 
 		// Get the setup model.
 		$model = $this->getModel('Setup', 'InstallationModel', array('dbo' => null));
@@ -438,7 +438,7 @@ class InstallationControllerSetup extends JControllerLegacy
 		JSession::checkToken('request') or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
 
 		// Get the posted config options.
-		$vars = JRequest::getVar('jform', array());
+		$vars = $this->input->get('jform', array(), 'array');
 
 		$path = JPATH_INSTALLATION;
 		//check whether the folder still exists

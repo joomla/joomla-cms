@@ -9,8 +9,8 @@
 
 defined('_JEXEC') or die;
 
-$hideLinks	= JRequest::getBool('hidemainmenu');
-$output = array();
+$hideLinks = $input->getBool('hidemainmenu');
+$output    = array();
 
 // Print the logged in users.
 if ($params->get('show_loggedin_users', 1)) :
