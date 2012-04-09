@@ -9,13 +9,10 @@
 // no direct access
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
-
 class modBannersHelper
 {
 	static function &getList(&$params)
 	{
-		jimport('joomla.application.component.model');
 		JModel::addIncludePath(JPATH_ROOT.'/components/com_banners/models', 'BannersModel');
 		$document	= JFactory::getDocument();
 		$app		= JFactory::getApplication();

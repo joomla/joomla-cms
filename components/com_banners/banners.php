@@ -8,9 +8,6 @@
 
 defined('_JEXEC') or die;
 
-// Include dependancies
-jimport('joomla.application.component.controller');
-
 // Execute the task.
 $controller	= JController::getInstance('Banners');
 $controller->execute(JRequest::getVar('task', 'click'));

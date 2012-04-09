@@ -7,8 +7,6 @@
 // No direct access
 defined('_JEXEC') or die;
 
-jimport('joomla.base.tree');
-
 /**
  * @package		Joomla.Administrator
  * @subpackage	mod_menu

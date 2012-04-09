@@ -9,13 +9,9 @@
 // no direct access
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
-
 $com_path = JPATH_SITE.'/components/com_content/';
 require_once $com_path.'router.php';
 require_once $com_path.'helpers/route.php';
-
-jimport('joomla.application.component.model');
 
 JModel::addIncludePath($com_path . '/models', 'ContentModel');
 

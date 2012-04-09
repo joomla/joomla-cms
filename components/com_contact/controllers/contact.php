@@ -8,8 +8,6 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controllerform');
-
 class ContactControllerContact extends JControllerForm
 {
 	public function getModel($name = '', $prefix = '', $config = array('ignore_request' => true))

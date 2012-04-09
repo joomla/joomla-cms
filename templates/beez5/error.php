@@ -93,8 +93,6 @@ if(!$templateparams->get('html5', 0)): ?>
 								$logo =  $templateparams->get('logo');
 							?>
 
-							<?php jimport( 'joomla.application.module.helper' ); ?>
-
 						<h1 id="logo">
 						<?php if ($logo != null ): ?>
 						<img src="<?php echo $this->baseurl  .'/'. $logo; ?>" alt="<?php echo htmlspecialchars($templateparams->get('sitetitle'));?>" />

@@ -14,9 +14,6 @@ if (!JFactory::getUser()->authorise('core.manage', 'com_search')) {
 	return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
 }
 
-// Include dependancies
-jimport('joomla.application.component.controller');
-
 $controller	= JController::getInstance('Search');
 $controller->execute(JRequest::getCmd('task'));
 $controller->redirect();

@@ -9,8 +9,6 @@
 // No direct access
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
-
 class MailtoViewSent extends JView
 {
 	function display($tpl = null)

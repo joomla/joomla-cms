@@ -15,8 +15,6 @@ JLoader::register('FinderIndexerHelper', FINDER_PATH_INDEXER . '/helper.php');
 JLoader::register('FinderIndexerQuery', FINDER_PATH_INDEXER . '/query.php');
 JLoader::register('FinderIndexerResult', FINDER_PATH_INDEXER . '/result.php');
 
-jimport('joomla.application.component.modellist');
-
 /**
  * Search model class for the Finder package.
  *

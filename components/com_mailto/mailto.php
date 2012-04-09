@@ -9,9 +9,6 @@
 // no direct access
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
-jimport('joomla.application.component.helper');
-
 require_once JPATH_COMPONENT.'/helpers/mailto.php';
 require_once JPATH_COMPONENT.'/controller.php';
 

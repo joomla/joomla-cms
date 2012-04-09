@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 // Include dependancies
-jimport('joomla.application.component.controller');
 require_once JPATH_COMPONENT.'/helpers/route.php';
 require_once JPATH_COMPONENT.'/helpers/query.php';
 

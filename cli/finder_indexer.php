@@ -122,7 +122,6 @@ class FinderCli extends JApplicationCli
 
 		// import library dependencies
 		require_once JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/indexer.php';
-		jimport('joomla.application.component.helper');
 
 		// fool the system into thinking we are running as JSite with Finder as the active component
 		JFactory::getApplication('site');

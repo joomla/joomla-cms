@@ -9,9 +9,6 @@
 // no direct access
 defined('_JEXEC') or die;
 
-// Include dependancies
-jimport('joomla.application.component.controller');
-
 $controller = JController::getInstance('Wrapper');
 $controller->execute(JRequest::getCmd('task'));
 $controller->redirect();

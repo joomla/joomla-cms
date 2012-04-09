@@ -242,7 +242,6 @@ class plgUserJoomla extends JPlugin
 		}
 
 		//TODO : move this out of the plugin
-		jimport('joomla.application.component.helper');
 		$config	= JComponentHelper::getParams('com_users');
 		// Default to Registered.
 		$defaultUserGroup = $config->get('new_usertype', 2);

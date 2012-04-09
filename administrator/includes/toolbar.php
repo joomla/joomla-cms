@@ -7,8 +7,6 @@
 // No direct access
 defined('_JEXEC') or die;
 
-jimport('joomla.html.toolbar');
-
 /**
  * Utility class for the button bar.
  *

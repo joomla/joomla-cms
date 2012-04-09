@@ -9,8 +9,6 @@
 // No direct access.
 defined('_JEXEC') or die;
 
-jimport('joomla.application.controller');
-
 /**
  * Methods supporting a list of search terms.
  *

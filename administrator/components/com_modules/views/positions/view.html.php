@@ -7,8 +7,6 @@
 // No direct access
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
-
 /**
  * @package		Joomla.Administrator
  * @subpackage	com_modules

@@ -14,9 +14,6 @@ if (!JFactory::getUser()->authorise('core.manage', 'com_plugins')) {
 	return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
 }
 
-// Include dependancies
-jimport('joomla.application.component.controller');
-
 // Create the controller
 $controller	= JController::getInstance('Plugins');
 $controller->execute(JRequest::getCmd('task'));

@@ -7,8 +7,6 @@
 // No direct access
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.modelitem');
-
 /**
  * Weblinks Component Model for a Weblink record
  *

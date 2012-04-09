@@ -9,7 +9,6 @@
 
 defined('JPATH_BASE') or die;
 
-jimport('joomla.application.component.helper');
 jimport('joomla.filesystem.file');
 
 // Load the base adapter.

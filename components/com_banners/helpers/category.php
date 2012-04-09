@@ -9,9 +9,6 @@
 // no direct access
 defined('_JEXEC') or die;
 
-// Component Helper
-jimport('joomla.application.component.helper');
-
 /**
  * Banners Component Category Tree
  *
