@@ -33,9 +33,9 @@ class JInstallationViewSite extends JView
 			return false;
 		}
 
-		$this->assignRef('state', $state);
-		$this->assignRef('form', $form);
-		$this->assign('sample_installed', $sample_installed);
+		$this->state = $state;
+		$this->form  = $form;
+		$this->sample_installed = $sample_installed;
 
 		parent::display($tpl);
 	}

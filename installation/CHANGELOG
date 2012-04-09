@@ -27,7 +27,8 @@ $ -> Language fix or change
 ! -> Note
 
 09-Apr-2012 Jean-Marie Simonet
- # [#24839] Incorrect tooltip for Sticky column icons in Banner Manager: Banners
+ # [ #24839] Incorrect tooltip for Sticky column icons in Banner Manager: Banners
+ - [#28360] Get rid of assign() and assignRefs() uses in view: Installation (Rouven Weßling)
 
 07-Apr-2012 Jean-Marie Simonet
  # [#28345] Call to member function of non-object: setDebug(). Thanks Don.

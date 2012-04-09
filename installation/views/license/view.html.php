@@ -31,7 +31,7 @@ class JInstallationViewLicense extends JView
 			return false;
 		}
 
-		$this->assignRef('state', $state);
+		$this->state = $state;
 
 		parent::display($tpl);
 	}
