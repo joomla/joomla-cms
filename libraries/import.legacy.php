@@ -61,5 +61,6 @@ JLoader::register('JDatabaseQueryMySQLi', JPATH_PLATFORM . '/joomla/database/que
 JLoader::register('JDatabaseQuerySQLAzure', JPATH_PLATFORM . '/joomla/database/query/sqlazure.php');
 JLoader::register('JDatabaseQuerySQLSrv', JPATH_PLATFORM . '/joomla/database/query/sqlsrv.php');
 JLoader::register('JToolBar', JPATH_PLATFORM . '/legacy/toolbar/toolbar.php');
+JLoader::register('JSimpleCrypt', JPATH_PLATFORM . '/legacy/simplecrypt/simplecrypt.php');
 JLoader::register('JTree', JPATH_PLATFORM . '/legacy/base/tree.php');
 JLoader::register('JNode', JPATH_PLATFORM . '/legacy/base/node.php');
