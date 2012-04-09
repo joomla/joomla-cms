@@ -50,9 +50,6 @@ JLoader::setup();
 // Import the Joomla Factory.
 JLoader::import('joomla.factory');
 
-// Register JRequest for legacy reasons
-JLoader::register('JRequest', JPATH_PLATFORM . '/joomla/environment/request.php');
-
 // Register classes that don't follow one file per class naming conventions.
 JLoader::register('JText', JPATH_PLATFORM . '/joomla/language/text.php');
 JLoader::register('JRoute', JPATH_PLATFORM . '/joomla/application/route.php');

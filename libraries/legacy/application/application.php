@@ -88,8 +88,6 @@ class JApplication extends JApplicationBase
 	 */
 	public function __construct($config = array())
 	{
-		jimport('joomla.error.profiler');
-
 		// Set the view name.
 		$this->_name = $this->getName();
 

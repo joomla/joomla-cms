@@ -150,8 +150,6 @@ abstract class JError
 		// Deprecation warning.
 		JLog::add('JError::raise() is deprecated.', JLog::WARNING, 'deprecated');
 
-		jimport('joomla.error.exception');
-
 		// Build error object
 		$exception = new JException($msg, $code, $level, $info, $backtrace);
 		return self::throwError($exception);
