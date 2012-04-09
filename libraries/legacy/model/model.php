@@ -493,7 +493,7 @@ abstract class JModel extends JObject
 	{
 		// Initialise variables;
 		$conf = JFactory::getConfig();
-		$dispatcher = JDispatcher::getInstance();
+		$dispatcher = JEventDispatcher::getInstance();
 
 		$options = array(
 			'defaultgroup' => ($group) ? $group : (isset($this->option) ? $this->option : JFactory::getApplication()->input->get('option')),

@@ -7,21 +7,20 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once __DIR__ . '/JDispatcherInspector.php';
+require_once __DIR__ . '/JEventDispatcherInspector.php';
 require_once __DIR__ . '/JEventInspector.php';
-jimport('joomla.plugin.plugin');
 
 /**
- * Test class for JDispatcher.
+ * Test class for JEventDispatcher.
  *
  * @package		Joomla.UnitTest
  * @subpackage  Event
  * @since       11.3
  */
-class JDispatcherTest extends PHPUnit_Framework_TestCase
+class JEventDispatcherTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var JDispatcher
+     * @var JEventDispatcher
      */
     protected $object;
 
@@ -31,7 +30,7 @@ class JDispatcherTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->object = new JDispatcherInspector;
+        $this->object = new JEventDispatcherInspector;
         $this->object->setInstance($this->object);
     }
 
@@ -45,51 +44,51 @@ class JDispatcherTest extends PHPUnit_Framework_TestCase
     }
 
 	/**
-	 * Tests the JDispatcher::getInstance method.
+	 * Tests the JEventDispatcher::getInstance method.
 	 *
 	 * @return  void
 	 *
 	 * @since   11.3
-	 * @covers  JDispatcher::getInstance
+	 * @covers  JEventDispatcher::getInstance
 	 */
 	public function testGetInstance()
 	{
-		$mock = JDispatcher::getInstance();
+		$mock = JEventDispatcher::getInstance();
 		
 		$this->assertInstanceOf(
-			'JDispatcherInspector',
+			'JEventDispatcherInspector',
 			$mock
 		);
 		
 		$this->object->setInstance(null);
 		
-		$instance = JDispatcher::getInstance();
+		$instance = JEventDispatcher::getInstance();
 
 		$this->assertInstanceOf(
-			'JDispatcher',
+			'JEventDispatcher',
 			$instance,
-			'Tests that getInstance returns a JDispatcher object.'
+			'Tests that getInstance returns a JEventDispatcher object.'
 		);
 
 		// Push a new instance into the class.
-		JDispatcherInspector::setInstance('foo');
+		JEventDispatcherInspector::setInstance('foo');
 
 		$this->assertThat(
-			JDispatcher::getInstance(),
+			JEventDispatcher::getInstance(),
 			$this->equalTo('foo'),
-			'Tests that a subsequent call to JDispatcher::getInstance returns the cached singleton.'
+			'Tests that a subsequent call to JEventDispatcher::getInstance returns the cached singleton.'
 		);
 		
-		JDispatcherInspector::setInstance($mock);
+		JEventDispatcherInspector::setInstance($mock);
 	}
 
     /**
-     * Test JDispatcher::getState().
+     * Test JEventDispatcher::getState().
      * 
      * @return void
      * 
      * @since 11.3
-     * @covers   JDispatcher::getState
+     * @covers   JEventDispatcher::getState
      */
     public function testGetState()
     {
@@ -107,10 +106,10 @@ class JDispatcherTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test JDispatcher::register().
+     * Test JEventDispatcher::register().
      * 
      * @since 11.3
-     * @covers    JDispatcher::register
+     * @covers    JEventDispatcher::register
      */
     public function testRegister()
     {
@@ -196,11 +195,11 @@ class JDispatcherTest extends PHPUnit_Framework_TestCase
     }
 
 	/**
-	 * Test JDispatcher::register() with an error.
+	 * Test JEventDispatcher::register() with an error.
 	 * 
 	 * @since              12.1
 	 * @expectedException  InvalidArgumentException
-	 * @covers             JDispatcher::register
+	 * @covers             JEventDispatcher::register
 	 */
 	public function testRegisterException()
 	{
@@ -208,9 +207,10 @@ class JDispatcherTest extends PHPUnit_Framework_TestCase
 	}
 
     /**
-     * Test JDispatcher::trigger().
+     * Test JEventDispatcher::trigger().
      * 
-     * @since 11.3
+     * @since    11.3
+     * @covers   JEventDispatcher::trigger
      */
     public function testTrigger()
     {
@@ -228,7 +228,7 @@ class JDispatcherTest extends PHPUnit_Framework_TestCase
     		$this->object->trigger('onTestEvent'),
     		$this->equalTo(
     			array(
-    				'JDispatcherMockFunction executed',
+    				'JEventDispatcherMockFunction executed',
     				''
     			)
     		)
@@ -239,7 +239,7 @@ class JDispatcherTest extends PHPUnit_Framework_TestCase
     		$this->object->trigger('onTestEvent', array('one', 'two')),
     		$this->equalTo(
     			array(
-    				'JDispatcherMockFunction executed',
+    				'JEventDispatcherMockFunction executed',
     				'onetwo'
     			)
     		)
@@ -255,10 +255,10 @@ class JDispatcherTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test JDispatcher::attach().
+     * Test JEventDispatcher::attach().
      * 
      * @since 11.3
-     * @covers JDispatcher::attach
+     * @covers JEventDispatcher::attach
      */
     public function testAttach()
     {
@@ -394,10 +394,10 @@ class JDispatcherTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test JDispatcher::detach().
+     * Test JEventDispatcher::detach().
      * 
      * @since 11.3
-     * @covers JDispatcher::detach
+     * @covers JEventDispatcher::detach
      */
     public function testDetach()
     {

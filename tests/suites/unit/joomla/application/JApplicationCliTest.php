@@ -52,7 +52,7 @@ class JApplicationCliTest extends TestCase
 	protected function tearDown()
 	{
 		// Reset the dispatcher instance.
-		TestReflection::setValue('JDispatcher', 'instance', null);
+		TestReflection::setValue('JEventDispatcher', 'instance', null);
 
 		parent::tearDown();
 	}
@@ -70,7 +70,7 @@ class JApplicationCliTest extends TestCase
 
 		$this->assertAttributeInstanceOf('JRegistry', 'config', $this->class, 'Checks config property');
 
-		$this->assertAttributeInstanceOf('JDispatcher', 'dispatcher', $this->class, 'Checks dispatcher property');
+		$this->assertAttributeInstanceOf('JEventDispatcher', 'dispatcher', $this->class, 'Checks dispatcher property');
 
 		// TODO Test that configuration data loaded.
 

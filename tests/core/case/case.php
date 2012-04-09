@@ -197,14 +197,14 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
 	 *
 	 * @param   boolean  $defaults  Add default register and trigger methods for testing.
 	 *
-	 * @return  JDispatcher
+	 * @return  JEventDispatcher
 	 *
 	 * @since   12.1
 	 */
 	public function getMockDispatcher($defaults = true)
 	{
 		// Attempt to load the real class first.
-		class_exists('JDispatcher');
+		class_exists('JEventDispatcher');
 
 		return TestMockDispatcher::create($this, $defaults);
 	}

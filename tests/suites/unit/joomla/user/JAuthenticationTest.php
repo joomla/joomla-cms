@@ -48,8 +48,8 @@ class JAuthenticationTest extends TestCase
 			)
 		);
 
-		// Inject the mock dispatcher into the JDispatcher singleton.
-		TestReflection::setValue('JDispatcher', 'instance', $dispatcher);
+		// Inject the mock dispatcher into the JEventDispatcher singleton.
+		TestReflection::setValue('JEventDispatcher', 'instance', $dispatcher);
 
 		// Mock the authentication plugin
 		require_once __DIR__.'/stubs/FakeAuthenticationPlugin.php';
@@ -75,7 +75,7 @@ class JAuthenticationTest extends TestCase
 	protected function tearDown()
 	{
 		// Reset the dispatcher instance.
-		TestReflection::setValue('JDispatcher', 'instance', null);
+		TestReflection::setValue('JEventDispatcher', 'instance', null);
 
 		// Reset the loaded plugins.
 		TestReflection::setValue('JPluginHelper', 'plugins', null);
@@ -84,7 +84,7 @@ class JAuthenticationTest extends TestCase
 	}
 
 	/**
-	 * Callback for the JDispatcher trigger method.
+	 * Callback for the JEventDispatcher trigger method.
 	 *
 	 * @param   string  $event  The event to trigger.
 	 * @param   array   $args   An array of arguments.

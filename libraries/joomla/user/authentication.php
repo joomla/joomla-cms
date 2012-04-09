@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.event.dispatcher');
-
 /**
  * Authentication class, provides an interface for the Joomla authentication system
  *
@@ -331,7 +329,7 @@ class JAuthentication extends JObject
 		// Get plugins in case they haven't been loaded already
 		JPluginHelper::getPlugin('user');
 		JPluginHelper::getPlugin('authentication');
-		$dispatcher = JDispatcher::getInstance();
+		$dispatcher = JEventDispatcher::getInstance();
 		$results = $dispatcher->trigger('onUserAuthorisation', array($response, $options));
 		return $results;
 	}

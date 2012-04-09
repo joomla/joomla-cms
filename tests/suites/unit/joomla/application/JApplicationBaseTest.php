@@ -52,7 +52,7 @@ class JApplicationBaseTest extends TestCase
 	protected function tearDown()
 	{
 		// Reset the dispatcher instance.
-		TestReflection::setValue('JDispatcher', 'instance', null);
+		TestReflection::setValue('JEventDispatcher', 'instance', null);
 
 		parent::tearDown();
 	}
@@ -70,14 +70,14 @@ class JApplicationBaseTest extends TestCase
 		$this->class->loadDispatcher($this->getMockDispatcher());
 
 		$this->assertAttributeInstanceOf(
-			'JDispatcher',
+			'JEventDispatcher',
 			'dispatcher',
 			$this->class,
 			'Tests that the dispatcher object is the correct class.'
 		);
 
-		// Inject a mock value into the JDispatcher singleton.
-		TestReflection::setValue('JDispatcher', 'instance', 'foo');
+		// Inject a mock value into the JEventDispatcher singleton.
+		TestReflection::setValue('JEventDispatcher', 'instance', 'foo');
 		$this->class->loadDispatcher();
 
 		$this->assertEquals('foo', TestReflection::getValue($this->class, 'dispatcher'), 'Tests that we got the dispatcher from the factory.');
