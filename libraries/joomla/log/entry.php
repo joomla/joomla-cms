@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.utilities.date');
-
 /**
  * Joomla! Log Entry class
  *

@@ -1,17 +1,17 @@
 <?php
 /**
  * @package     Joomla.UnitTest
- * @subpackage  Utilities
+ * @subpackage  Date
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-require_once JPATH_PLATFORM . '/joomla/utilities/date.php';
+require_once JPATH_PLATFORM . '/joomla/date/date.php';
 
 /**
  * Tests for JDate class.
  *
  * @package     Joomla.UnitTest
- * @subpackage  Utilities
+ * @subpackage  Date
  * @since       11.3
  */
 class JDateTest extends TestCaseDatabase
@@ -495,6 +495,7 @@ class JDateTest extends TestCaseDatabase
 	 *
 	 * @dataProvider  cases__construct
 	 * @since   11.3
+	 * @covers  JDate::__construct
 	 */
 	public function test__construct($date, $tz, $expectedTime)
 	{
@@ -523,6 +524,7 @@ class JDateTest extends TestCaseDatabase
 	 *
 	 * @dataProvider  cases__get
 	 * @since   11.3
+	 * @covers  JDate::__get
 	 */
 	public function test__get($date, $property, $expected)
 	{
@@ -540,6 +542,7 @@ class JDateTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   11.3
+	 * @covers  JDate::__toString
 	 */
 	public function test__toString()
 	{
@@ -563,6 +566,7 @@ class JDateTest extends TestCaseDatabase
 	 *
 	 * @dataProvider casesToString
 	 * @since   11.3
+	 * @covers  JDate::__toString
 	 */
 	public function testToString($format, $expectedTime)
 	{
@@ -583,6 +587,7 @@ class JDateTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   11.3
+	 * @covers  JDate::getInstance
 	 */
 	public function testGetInstance()
 	{
@@ -611,6 +616,7 @@ class JDateTest extends TestCaseDatabase
 	 *
 	 * @dataProvider casesGetOffsetFromGMT
 	 * @since   11.3
+	 * @covers  JDate::getOffsetFromGMT
 	 */
 	public function testGetOffsetFromGMT($tz, $setTime, $hours, $expected)
 	{
@@ -646,6 +652,7 @@ class JDateTest extends TestCaseDatabase
 	 *
 	 * @dataProvider casesFormat
 	 * @since   11.3
+	 * @covers  JDate::format
 	 */
 	public function testFormat($format, $local, $expected)
 	{
@@ -667,6 +674,7 @@ class JDateTest extends TestCaseDatabase
 	 *
 	 * @dataProvider casesToRFC822
 	 * @since   11.3
+	 * @covers  JDate::toRFC822
 	 */
 	public function testToRFC822($tz, $setTime, $local, $expected)
 	{
@@ -700,7 +708,8 @@ class JDateTest extends TestCaseDatabase
 	 *
 	 * @dataProvider casesToISO8601
 	 * @since   11.3
-	 **/
+	 * @covers  JDate::toISO8601
+	 */
 	public function testToISO8601($tz, $setTime, $local, $expected)
 	{
 		if (is_null($tz))
@@ -730,6 +739,7 @@ class JDateTest extends TestCaseDatabase
 	 *
 	 * @dataProvider casesToMySQL
 	 * @since   11.3
+	 * @covers  JDate::toSql
 	 */
 	public function testToSql($tz, $setTime, $local, $expected)
 	{
@@ -759,6 +769,7 @@ class JDateTest extends TestCaseDatabase
 	 *
 	 * @dataProvider casesToUnix
 	 * @since   11.3
+	 * @covers  JDate::toUnix
 	 */
 	public function testToUnix($tz, $setTime, $expected)
 	{
@@ -787,6 +798,7 @@ class JDateTest extends TestCaseDatabase
 	 *
 	 * @dataProvider casesSetTimezone
 	 * @since   11.3
+	 * @covers  JDate::setTimezone
 	 */
 	public function testSetTimezone($tz, $expected)
 	{
