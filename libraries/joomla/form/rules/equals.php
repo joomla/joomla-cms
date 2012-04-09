@@ -35,8 +35,9 @@ class JFormRuleEquals extends JFormRule
 	 *
 	 * @since   11.1
 	 * @throws  InvalidArgumentException
+	 * @throws  UnexpectedValueException
 	 */
-	public function test($element, $value, $group = null, $input = null, JForm $form = null)
+	public function test(SimpleXMLElement $element, $value, $group = null, JRegistry $input = null, JForm $form = null)
 	{
 		// Initialize variables.
 		$field = (string) $element['field'];
@@ -47,10 +48,9 @@ class JFormRuleEquals extends JFormRule
 			throw new UnexpectedValueException(sprintf('$field empty in %s::test', get_class($this)));
 		}
 
-		// Check that a valid JForm object is given for retrieving the validation field value.
-		if (!($form instanceof JForm))
+		if (is_null($form))
 		{
-			throw new InvalidArgumentException(sprintf('%s::test(element, value, group, input, *%s*)', get_class($this), gettype($form)));
+			throw new InvalidArgumentException(sprintf('The value for $form must not be null in %s', get_class($this)));
 		}
 
 		// Test the two values against each other.

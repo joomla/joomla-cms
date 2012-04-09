@@ -33,7 +33,7 @@ class JFormRuleOptions extends JFormRule
 	 *
 	 * @since   11.1
 	 */
-	public function test($element, $value, $group = null, $input = null, $form = null)
+	public function test(SimpleXMLElement $element, $value, $group = null, JRegistry $input = null, JForm $form = null)
 	{
 		// Check each value and return true if we get a match
 		foreach ($element->option as $option)

@@ -56,7 +56,7 @@ class JFormRule
 	 * @since   11.1
 	 * @throws  UnexpectedValueException if rule is invalid.
 	 */
-	public function test($element, $value, $group = null, $input = null, $form = null)
+	public function test(SimpleXMLElement $element, $value, $group = null, JRegistry $input = null, JForm $form = null)
 	{
 		// Check for a valid regex.
 		if (empty($this->regex))
