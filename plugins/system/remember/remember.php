@@ -27,7 +27,6 @@ class plgSystemRemember extends JPlugin
 		$user = JFactory::getUser();
 		if ($user->get('guest'))
 		{
-			jimport('joomla.utilities.utility');
 			$hash = JApplication::getHash('JLOGIN_REMEMBER');
 
 			if ($str = JRequest::getString($hash, '', 'cookie', JREQUEST_ALLOWRAW | JREQUEST_NOTRIM))

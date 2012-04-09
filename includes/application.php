@@ -69,7 +69,6 @@ final class JSite extends JApplication
 
 		if ($this->_language_filter && empty($options['language'])) {
 			// Detect cookie language
-			jimport('joomla.utilities.utility');
 			$lang = JRequest::getString(self::getHash('language'), null , 'cookie');
 			// Make sure that the user's language exists
 			if ($lang && JLanguage::exists($lang)) {

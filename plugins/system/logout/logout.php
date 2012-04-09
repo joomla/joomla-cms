@@ -6,8 +6,6 @@
 
 defined('JPATH_BASE') or die;
 
-jimport('joomla.utilities.utility');
-
 /**
  * Plugin class for logout redirect handling.
  *

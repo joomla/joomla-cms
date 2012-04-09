@@ -55,8 +55,6 @@ class LanguagesViewOverrides extends JView
 	 */
 	function display($tpl = null)
 	{
-		jimport('joomla.language.helper');
-
 		// Get data from the model
 		$this->state			= $this->get('State');
 		$this->items			= $this->get('Overrides');

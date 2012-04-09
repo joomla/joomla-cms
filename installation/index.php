@@ -68,7 +68,6 @@ require_once JPATH_LIBRARIES.'/cms.php';
 // Joomla library imports.
 jimport('joomla.database.table');
 jimport('joomla.environment.uri');
-jimport('joomla.utilities.utility');
 jimport('joomla.utilities.arrayhelper');
 
 // Create the application object.
