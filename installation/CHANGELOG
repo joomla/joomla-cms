@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+09-Apr-2012 Jean-Marie Simonet
+ # [#24839] Incorrect tooltip for Sticky column icons in Banner Manager: Banners
+
 07-Apr-2012 Jean-Marie Simonet
  # [#28345] Call to member function of non-object: setDebug(). Thanks Don.
 
