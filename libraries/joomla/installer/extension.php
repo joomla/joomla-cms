@@ -86,13 +86,13 @@ class JExtension extends JObject
 	/**
 	 * Constructor
 	 *
-	 * @param   JXMLElement  $element  A JXMLElement from which to load data from
+	 * @param   SimpleXMLElement  $element  A SimpleXMLElement from which to load data from
 	 *
 	 * @since  11.1
 	 */
-	public function __construct(JXMLElement $element = null)
+	public function __construct(SimpleXMLElement $element = null)
 	{
-		if ($element && is_a($element, 'JXMLElement'))
+		if ($element)
 		{
 			$this->type = (string) $element->attributes()->type;
 			$this->id = (string) $element->attributes()->id;

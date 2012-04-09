@@ -503,8 +503,8 @@ class JAccess
 	/**
 	 * Method to return a list of actions from a string or from an xml for which permissions can be set.
 	 *
-	 * @param   string|JXMLElement  $data   The XML string or an XML element.
-	 * @param   string              $xpath  An optional xpath to search for the fields.
+	 * @param   string|SimpleXMLElement  $data   The XML string or an XML element.
+	 * @param   string                   $xpath  An optional xpath to search for the fields.
 	 *
 	 * @return  boolean|array   False if case of error or the list of actions available.
 	 *
@@ -513,7 +513,7 @@ class JAccess
 	public static function getActionsFromData($data, $xpath = "/access/section[@name='component']/")
 	{
 		// If the data to load isn't already an XML element or string return false.
-		if ((!($data instanceof JXMLElement)) && (!is_string($data)))
+		if ((!($data instanceof SimpleXMLElement)) && (!is_string($data)))
 		{
 			return false;
 		}
