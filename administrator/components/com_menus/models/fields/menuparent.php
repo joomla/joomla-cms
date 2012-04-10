@@ -47,7 +47,7 @@ class JFormFieldMenuParent extends JFormFieldList
 			$query->where('a.menutype = '.$db->quote($menuType));
 		}
 		else {
-			$query->where('a.menutype != '.$db->quote(''));
+			$query->where('a.menutype <> '.$db->quote(''));
 		}
 
 		// Prevent parenting to children of this item.
@@ -56,7 +56,7 @@ class JFormFieldMenuParent extends JFormFieldList
 			$query->where('NOT(a.lft >= p.lft AND a.rgt <= p.rgt)');
 		}
 
-		$query->where('a.published != -2');
+		$query->where('a.published <> -2');
 		$query->group('a.id, a.title, a.level, a.lft, a.rgt, a.menutype, a.parent_id, a.published');
 		$query->order('a.lft ASC');
 
