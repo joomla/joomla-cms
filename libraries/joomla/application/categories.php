@@ -337,7 +337,7 @@ class JCategories
 
 		$subQuery = ' (SELECT cat.id as id FROM #__categories AS cat JOIN #__categories AS parent ' .
 			'ON cat.lft BETWEEN parent.lft AND parent.rgt WHERE parent.extension = ' . $db->quote($extension) .
-			' AND parent.published != 1 GROUP BY cat.id) ';
+			' AND parent.published <> 1 GROUP BY cat.id) ';
 		$query->leftJoin($subQuery . 'AS badcats ON badcats.id = c.id');
 		$query->where('badcats.id is null');
 
