@@ -119,6 +119,7 @@ class NewsfeedsModelNewsfeeds extends JModelList
 	{
 		// Create a new query object.
 		$db		= $this->getDbo();
+		$q_lang = $db->quoteName('language');
 		$query	= $db->getQuery(true);
 		$user	= JFactory::getUser();
 
@@ -128,14 +129,14 @@ class NewsfeedsModelNewsfeeds extends JModelList
 				'list.select',
 				'a.id, a.name, a.alias, a.checked_out, a.checked_out_time, a.catid,' .
 				'a.numarticles, a.cache_time, ' .
-				' a.published, a.access, a.ordering, a.language, a.publish_up, a.publish_down'
+				' a.published, a.access, a.ordering, a.' . $q_lang . ', a.publish_up, a.publish_down'
 			)
 		);
 		$query->from($db->quoteName('#__newsfeeds').' AS a');
 
 		// Join over the language
 		$query->select('l.title AS language_title');
-		$query->join('LEFT', $db->quoteName('#__languages').' AS l ON l.lang_code = a.language');
+		$query->join('LEFT', $db->quoteName('#__languages').' AS l ON l.lang_code = a.' . $q_lang);
 
 		// Join over the users for the checked out user.
 		$query->select('uc.name AS editor');
@@ -192,7 +193,7 @@ class NewsfeedsModelNewsfeeds extends JModelList
 
 		// Filter on the language.
 		if ($language = $this->getState('filter.language')) {
-			$query->where('a.language = ' . $db->quote($language));
+			$query->where('a.' . $q_lang . ' = ' . $db->quote($language));
 		}
 
 		// Add the list ordering clause.
