@@ -143,7 +143,7 @@
 					multiple="true" size="5"
 					label="MOD_ARTICLES_CATEGORY_FIELD_AUTHORALIAS_LABEL"
 					description="MOD_ARTICLES_CATEGORY_FIELD_AUTHORALIAS_DESC"
-					query="select distinct(created_by_alias) from #__content where created_by_alias != '' order by created_by_alias ASC"
+					query="select distinct(created_by_alias) from #__content where created_by_alias <> '' order by created_by_alias ASC"
 					key_field="created_by_alias" value_field="created_by_alias"
 				>
 					<option value="">JOPTION_SELECT_AUTHOR_ALIASES
