@@ -28,7 +28,7 @@ $ -> Language fix or change
 
 10-Apr-2012 Jean-Marie Simonet
  # [#28287] Fix some differences between platform and cms. Backport CSS changes. Thanks Rouven
-
+ # [#28384] Duplicate 'home' in breadcrumbs in a multi-language site. Thanks Nuno.
 
 09-Apr-2012 Christophe Demko
  # [ #24839] Incorrect tooltip for Sticky column icons in Banner Manager: Banners
