@@ -97,6 +97,7 @@ class plgSearchContacts extends JPlugin
 				$order = 'a.name DESC';
 		}
 
+		$q_lang = $db->quoteName('language');
 		$text	= $db->Quote('%'.$db->escape($text, true).'%', false);
 
 		$rows = array();
@@ -137,8 +138,8 @@ class plgSearchContacts extends JPlugin
 			// Filter by language
 			if ($app->isSite() && $app->getLanguageFilter()) {
 				$tag = JFactory::getLanguage()->getTag();
-				$query->where('a.language in (' . $db->Quote($tag) . ',' . $db->Quote('*') . ')');
-				$query->where('c.language in (' . $db->Quote($tag) . ',' . $db->Quote('*') . ')');
+				$query->where('a.' . $q_lang . ' in (' . $db->Quote($tag) . ',' . $db->Quote('*') . ')');
+				$query->where('c.' . $q_lang . ' in (' . $db->Quote($tag) . ',' . $db->Quote('*') . ')');
 			}
 
 			$db->setQuery($query, 0, $limit);
