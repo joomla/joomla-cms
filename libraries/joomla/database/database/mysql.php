@@ -55,7 +55,7 @@ class JDatabaseMySQL extends JDatabase
 	 * @var    string  The minimum supported database version.
 	 * @since  12.1
 	 */
-	protected static $dbMinimum = '5.0.4';
+	protected $dbMinimum = '5.0.4';
 
 	/**
 	 * Constructor.

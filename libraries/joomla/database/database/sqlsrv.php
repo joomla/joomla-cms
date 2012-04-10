@@ -53,7 +53,7 @@ class JDatabaseSQLSrv extends JDatabase
 	 * @var    string  The minimum supported database version.
 	 * @since  12.1
 	 */
-	protected static $dbMinimum = '10.50.1600.1';
+	protected $dbMinimum = '10.50.1600.1';
 
 	/**
 	 * Test to see if the SQLSRV connector is available.
@@ -213,7 +213,7 @@ class JDatabaseSQLSrv extends JDatabase
 		$result = str_replace('\"', '"', $result);
 		$result = str_replace('\\\/', '/', $result);
 		$result = str_replace('\\\\', '\\', $result);
-		
+
 
 		if ($extra)
 		{
