@@ -20,6 +20,7 @@ class JControllerFormTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   11.1
+	 * @covers  JControllerForm::__construct
 	 */
 	public function testConstructor()
 	{

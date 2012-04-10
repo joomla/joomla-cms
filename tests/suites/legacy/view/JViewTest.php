@@ -86,7 +86,8 @@ class JViewTest extends TestCase
 	/**
 	 * Test JView::get()
 	 *
-	 * @since 11.3
+	 * @since   11.3
+	 * @covers  JView::get
 	 */
 	public function testGet()
 	{
@@ -106,7 +107,8 @@ class JViewTest extends TestCase
 	/**
 	 * Test JView::getLayout()
 	 *
-	 * @since 11.3
+	 * @since   11.3
+	 * @covers  JView::getLayout
 	 */
 	public function testGetLayout()
 	{
@@ -120,7 +122,8 @@ class JViewTest extends TestCase
 	/**
 	 * Test JView::getModel()
 	 *
-	 * @since 11.3
+	 * @since   11.3
+	 * @covers  JView::getModel
 	 */
 	public function testGetModel()
 	{
@@ -152,7 +155,8 @@ class JViewTest extends TestCase
 	/**
 	 * Test JView::getLayoutTemplate()
 	 *
-	 * @since 11.3
+	 * @since   11.3
+	 * @covers  JView::getLayoutTemplate
 	 */
 	public function testGetLayoutTemplate()
 	{
@@ -166,13 +170,14 @@ class JViewTest extends TestCase
 	/**
 	 * Test JView::getName()
 	 *
-	 * @since 11.3
+	 * @since   11.3
+	 * @covers  JView::getName
 	 */
 	public function testGetName()
 	{
 		$this->assertEquals('', $this->class->getName());
 
-		TestReflection::setValue($this->class, 'name', 'inspector2');
+		TestReflection::setValue($this->class, '_name', 'inspector2');
 
 		$this->assertEquals('inspector2', $this->class->getName());
 	}
@@ -180,7 +185,8 @@ class JViewTest extends TestCase
 	/**
 	 * Test JView::setModel()
 	 *
-	 * @since 11.3
+	 * @since   11.3
+	 * @covers  JView::setModel
 	 */
 	public function testSetModel()
 	{
@@ -222,7 +228,8 @@ class JViewTest extends TestCase
 	/**
 	 * Test JView::setLayout()
 	 *
-	 * @since 11.3
+	 * @since   11.3
+	 * @covers  JView::setLayout
 	 */
 	public function testSetLayout()
 	{
@@ -242,7 +249,8 @@ class JViewTest extends TestCase
 	/**
 	 * Test JView::setLayoutExt()
 	 *
-	 * @since 11.3
+	 * @since   11.3
+	 * @covers  JView::setLayoutExt
 	 */
 	public function testSetLayoutExt()
 	{
@@ -256,7 +264,8 @@ class JViewTest extends TestCase
 	/**
 	 * Test JView::setEscape()
 	 *
-	 * @since 11.3
+	 * @since   11.3
+	 * @covers  JView::setEscape
 	 */
 	public function testSetEscape()
 	{
@@ -274,7 +283,8 @@ class JViewTest extends TestCase
 	/**
 	 * Test JView::addTemplatePath()
 	 *
-	 * @since 11.3
+	 * @since   11.3
+	 * @covers  JView::addTemplatePath
 	 */
 	public function testAddTemplatePath()
 	{
@@ -303,7 +313,8 @@ class JViewTest extends TestCase
 	/**
 	 * Test JView::addHelperPath()
 	 *
-	 * @since 11.3
+	 * @since   11.3
+	 * @covers  JView::addHelperPath
 	 */
 	public function testAddHelperPath()
 	{
@@ -359,7 +370,8 @@ class JViewTest extends TestCase
 	/**
 	 * Test JView::_addPath()
 	 *
-	 * @since 11.3
+	 * @since   11.3
+	 * @covers  JView::_addPath
 	 */
 	public function test_addPath()
 	{
