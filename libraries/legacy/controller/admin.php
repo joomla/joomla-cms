@@ -214,7 +214,7 @@ class JControllerAdmin extends JController
 			}
 		}
 		$extension = $input->get('extension');
-		$extensionURL = ($extension) ? '&extension=' . $input->get('extension') : '';
+		$extensionURL = ($extension) ? '&extension=' . $extension : '';
 		$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list . $extensionURL, false));
 	}
 

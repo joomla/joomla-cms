@@ -44,7 +44,7 @@ class JApplicationHelper
 			return $option;
 		}
 
-		$input = JFactory::getApplication();
+		$input = JFactory::getApplication()->input;
 		$option = strtolower($input->get('option'));
 
 		if (empty($option))
@@ -52,7 +52,7 @@ class JApplicationHelper
 			$option = $default;
 		}
 
-		$input->get('option', $option);
+		$input->set('option', $option);
 		return $option;
 	}
 

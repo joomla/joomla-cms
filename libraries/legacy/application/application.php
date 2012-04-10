@@ -106,10 +106,7 @@ class JApplication extends JApplicationBase
 		}
 
 		// Create the input object
-		if (class_exists('JInput'))
-		{
-			$this->input = new JInput;
-		}
+		$this->input = new JInput;
 
 		// Set the session default name.
 		if (!isset($config['session_name']))
