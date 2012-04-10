@@ -81,6 +81,7 @@ class BannersModelBanners extends JModelList
 	{
 		// Initialise variables.
 		$db		= $this->getDbo();
+		$q_lang = $db->quoteName('language');
 		$query	= $db->getQuery(true);
 
 		// Select the required fields from the table.
@@ -94,14 +95,14 @@ class BannersModelBanners extends JModelList
 				'a.impmade AS impmade, a.imptotal AS imptotal,' .
 				'a.state AS state, a.ordering AS ordering,'.
 				'a.purchase_type as purchase_type,'.
-				'a.language, a.publish_up, a.publish_down'
+				'a.' . $q_lang . ', a.publish_up, a.publish_down'
 			)
 		);
 		$query->from($db->quoteName('#__banners').' AS a');
 
 		// Join over the language
 		$query->select('l.title AS language_title');
-		$query->join('LEFT', $db->quoteName('#__languages').' AS l ON l.lang_code = a.language');
+		$query->join('LEFT', $db->quoteName('#__languages').' AS l ON l.lang_code = a.' . $q_lang);
 
 		// Join over the users for the checked out user.
 		$query->select('uc.name AS editor');
@@ -148,7 +149,7 @@ class BannersModelBanners extends JModelList
 
 		// Filter on the language.
 		if ($language = $this->getState('filter.language')) {
-			$query->where('a.language = ' . $db->quote($language));
+			$query->where('a.' . $q_lang . ' = ' . $db->quote($language));
 		}
 
 		// Add the list ordering clause.
