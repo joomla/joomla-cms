@@ -26,6 +26,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+
+10-Apr-2012 Christophe Demko
+ ^ [#28336] e-strict error in com_messages (Elin Waring)
+
 10-Apr-2012 Jean-Marie Simonet
  # [#28287] Fix some differences between platform and cms. Backport CSS changes. Thanks Rouven
  # [#28384] Duplicate 'home' in breadcrumbs in a multi-language site. Thanks Nuno.

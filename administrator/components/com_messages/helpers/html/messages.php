@@ -20,7 +20,7 @@ class JHtmlMessages extends JController
 	 * @param	int $value	The state value
 	 * @param	int $i
 	 */
-	function state($value = 0, $i, $canChange)
+	public static function state($value = 0, $i, $canChange)
 	{
 		// Array of image, task, title, action.
 		$states	= array(
