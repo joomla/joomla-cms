@@ -44,7 +44,7 @@ class JFormFieldGroup extends JFormField
 		$query = $dbo->getQuery(true);
 		$query->select('DISTINCT folder');
 		$query->from('#__extensions');
-		$query->where('folder != '.$dbo->quote(''));
+		$query->where('folder <> '.$dbo->quote(''));
 		$query->order('folder');
 		$dbo->setQuery((string)$query);
 		$folders = $dbo->loadColumn();
