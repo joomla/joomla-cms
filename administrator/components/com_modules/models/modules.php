@@ -203,13 +203,15 @@ class ModulesModelModules extends JModelList
 	{
 		// Create a new query object.
 		$db		= $this->getDbo();
+		$q_lang = $db->quoteName('language');
+		$q_module = $db->quoteName('module');
 		$query	= $db->getQuery(true);
 
 		// Select the required fields from the table.
 		$query->select(
 			$this->getState(
 				'list.select',
-				'a.id, a.title, a.note, a.position, a.module, a.language,' .
+				'a.id, a.title, a.note, a.position, a.' . $q_module . ', a.' . $q_lang . ',' .
 				'a.checked_out, a.checked_out_time, a.published+2*(e.enabled-1) as published, a.access, a.ordering, a.publish_up, a.publish_down'
 			)
 		);
@@ -217,7 +219,7 @@ class ModulesModelModules extends JModelList
 
 		// Join over the language
 		$query->select('l.title AS language_title');
-		$query->join('LEFT', $db->quoteName('#__languages').' AS l ON l.lang_code = a.language');
+		$query->join('LEFT', $db->quoteName('#__languages').' AS l ON l.lang_code = a.' . $q_lang);
 
 		// Join over the users for the checked out user.
 		$query->select('uc.name AS editor');
@@ -233,8 +235,8 @@ class ModulesModelModules extends JModelList
 
 		// Join over the extensions
 		$query->select('e.name AS name');
-		$query->join('LEFT', '#__extensions AS e ON e.element = a.module');
-		$query->group('a.id, a.title, a.note, a.position, a.module, a.language,a.checked_out,'.
+		$query->join('LEFT', '#__extensions AS e ON e.element = a.' . $q_module);
+		$query->group('a.id, a.title, a.note, a.position, a.' . $q_module . ', a.' . $q_lang . ', a.checked_out,'.
 						'a.checked_out_time, a.published, a.access, a.ordering,l.title, uc.name, ag.title, e.name,'.
 						'l.lang_code, uc.id, ag.id, mm.moduleid, e.element, a.publish_up, a.publish_down,e.enabled');
 
@@ -265,7 +267,7 @@ class ModulesModelModules extends JModelList
 		// Filter by module
 		$module = $this->getState('filter.module');
 		if ($module) {
-			$query->where('a.module = '.$db->Quote($module));
+			$query->where('a.' . $q_module . ' = '.$db->Quote($module));
 		}
 
 		// Filter by client.
@@ -290,7 +292,7 @@ class ModulesModelModules extends JModelList
 
 		// Filter on the language.
 		if ($language = $this->getState('filter.language')) {
-			$query->where('a.language = ' . $db->quote($language));
+			$query->where('a.' . $q_lang . ' = ' . $db->quote($language));
 		}
 
 		//echo nl2br(str_replace('#__','jos_',$query));
