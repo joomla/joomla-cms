@@ -154,6 +154,8 @@ class ContentModelArticles extends JModelList
 	{
 		// Create a new query object.
 		$db = $this->getDbo();
+		$q_lang = $db->quoteName('language');
+
 		$query = $db->getQuery(true);
 
 		// Select the required fields from the table.
@@ -206,10 +208,10 @@ class ContentModelArticles extends JModelList
 
 		// Join on contact table
 		$subQuery = $db->getQuery(true);
-		$subQuery->select('contact.user_id, MAX(contact.id) AS id, contact.language');
+		$subQuery->select('contact.user_id, MAX(contact.id) AS id, contact.' . $q_lang);
 		$subQuery->from('#__contact_details AS contact');
 		$subQuery->where('contact.published = 1');
-		$subQuery->group('contact.user_id, contact.language');
+		$subQuery->group('contact.user_id, contact.' . $q_lang);
 		$query->select('contact.id as contactid' );
 		$query->join('LEFT', '(' . $subQuery . ') AS contact ON contact.user_id = a.created_by');
 		
@@ -237,7 +239,7 @@ class ContentModelArticles extends JModelList
 		else {
 			// Find any up-path categories that are not published
 			// If all categories are published, badcats.id will be null, and we just use the article state
-			$subquery .= ' AND parent.published != 1 GROUP BY cat.id ';
+			$subquery .= ' AND parent.published <> 1 GROUP BY cat.id ';
 			// Select state to unpublished if up-path category is unpublished
 			$publishedWhere = 'CASE WHEN badcats.id is null THEN a.state ELSE 0 END';
 		}
@@ -455,8 +457,8 @@ class ContentModelArticles extends JModelList
 
 		// Filter by language
 		if ($this->getState('filter.language')) {
-			$query->where('a.language in ('.$db->quote(JFactory::getLanguage()->getTag()).','.$db->quote('*').')');
-			$query->where('(contact.language in ('.$db->quote(JFactory::getLanguage()->getTag()).','.$db->quote('*').') OR contact.language IS NULL)');
+			$query->where('a.' . $q_lang . ' in ('.$db->quote(JFactory::getLanguage()->getTag()).','.$db->quote('*').')');
+			$query->where('(contact.' . $q_lang . ' in ('.$db->quote(JFactory::getLanguage()->getTag()).','.$db->quote('*').') OR contact.' . $q_lang . ' IS NULL)');
 		}
 
 		// Add the list ordering clause.
