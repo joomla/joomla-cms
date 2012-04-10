@@ -60,6 +60,7 @@ class ContentModelFeatured extends ContentModelArticles
 	{
 		// Create a new query object.
 		$db = $this->getDbo();
+		$q_lang = $db->quoteName('language');
 		$query = $db->getQuery(true);
 
 		// Select the required fields from the table.
@@ -67,14 +68,14 @@ class ContentModelFeatured extends ContentModelArticles
 			$this->getState(
 				'list.select',
 				'a.id, a.title, a.alias, a.checked_out, a.checked_out_time, a.catid, a.state, a.access, a.created, a.hits,' .
-				'a.language, a.publish_up, a.publish_down'
+				'a.' . $q_lang . ', a.publish_up, a.publish_down'
 			)
 		);
 		$query->from('#__content AS a');
 
 		// Join over the language
 		$query->select('l.title AS language_title');
-		$query->join('LEFT', $db->quoteName('#__languages').' AS l ON l.lang_code = a.language');
+		$query->join('LEFT', $db->quoteName('#__languages').' AS l ON l.lang_code = a.' . $q_lang);
 
 		// Join over the content table.
 		$query->select('fp.ordering');
@@ -122,7 +123,7 @@ class ContentModelFeatured extends ContentModelArticles
 
 		// Filter on the language.
 		if ($language = $this->getState('filter.language')) {
-			$query->where('a.language = '.$db->quote($language));
+			$query->where('a.' . $q_lang . ' = '.$db->quote($language));
 		}
 
 		// Add the list ordering clause.
