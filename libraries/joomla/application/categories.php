@@ -337,7 +337,7 @@ class JCategories
 
 		$subQuery = ' (SELECT cat.id as id FROM #__categories AS cat JOIN #__categories AS parent ' .
 			'ON cat.lft BETWEEN parent.lft AND parent.rgt WHERE parent.extension = ' . $db->quote($extension) .
-			' AND parent.published != 1 GROUP BY cat.id) ';
+			' AND parent.published <> 1 GROUP BY cat.id) ';
 		$query->leftJoin($subQuery . 'AS badcats ON badcats.id = c.id');
 		$query->where('badcats.id is null');
 
@@ -359,9 +359,10 @@ class JCategories
 		}
 
 		// Group by
+		$q_lang = $db->quoteName('language');
 		$query->group('c.id, c.asset_id, c.access, c.alias, c.checked_out, c.checked_out_time,
- 			c.created_time, c.created_user_id, c.description, c.extension, c.hits, c.language, c.level,
-		 	c.lft, c.metadata, c.metadesc, c.metakey, c.modified_time, c.note, c.params, c.parent_id,
+ 			c.created_time, c.created_user_id, c.description, c.extension, c.hits, c.' . $q_lang . ',
+			c.level, c.lft, c.metadata, c.metadesc, c.metakey, c.modified_time, c.note, c.params, c.parent_id,
  			c.path, c.published, c.rgt, c.title, c.modified_user_id');
 
 		// Get the results

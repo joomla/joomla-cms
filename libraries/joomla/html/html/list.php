@@ -246,7 +246,7 @@ abstract class JHtmlList
 		{
 			// Does not include registered users in the list
 			// @deprecated
-			$query->where('m.group_id != 2');
+			$query->where('m.group_id <> 2');
 		}
 
 		$query->select('u.id AS value, u.name AS text');
