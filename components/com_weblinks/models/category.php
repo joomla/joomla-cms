@@ -137,7 +137,7 @@ class WeblinksModelCategory extends JModelList
 			$query->where('a.state = '.(int) $state);
 		}
 		// do not show trashed links on the front-end
-		$query->where('a.state != -2');
+		$query->where('a.state <> -2');
 
 		// Filter by start and end dates.
 		$nullDate = $db->Quote($db->getNullDate());
@@ -151,7 +151,7 @@ class WeblinksModelCategory extends JModelList
 
 		// Filter by language
 		if ($this->getState('filter.language')) {
-			$query->where('a.language in (' . $db->Quote(JFactory::getLanguage()->getTag()) . ',' . $db->Quote('*') . ')');
+			$query->where('a.' . $db->quoteName('language') . ' in (' . $db->Quote(JFactory::getLanguage()->getTag()) . ',' . $db->Quote('*') . ')');
 		}
 
 		// Add the list ordering clause.
