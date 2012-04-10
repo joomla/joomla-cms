@@ -24,14 +24,6 @@ class JApplicationHelper
 	 * @var    array
 	 * @since  11.1
 	 */
-	protected static $clients = null;
-
-	/**
-	 * Client information array
-	 *
-	 * @var    array
-	 * @since  11.1
-	 */
 	protected static $_clients = null;
 
 	/**
