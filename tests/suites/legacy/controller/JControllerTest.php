@@ -39,6 +39,8 @@ class JControllerTest extends PHPUnit_Framework_TestCase
 	 * Test JController::addModelPath
 	 *
 	 * @since	11.3
+	 *
+	 * @covers  JController::addModelPath
 	 */
 	public function testAddModelPath()
 	{
@@ -54,6 +56,8 @@ class JControllerTest extends PHPUnit_Framework_TestCase
 
 	/**
      * Test JController::createFileName().
+     *
+	 * @covers  JController::createFileName
      */
 	public function testCreateFileName()
 	{
@@ -100,6 +104,8 @@ class JControllerTest extends PHPUnit_Framework_TestCase
 	 * Test JController::__construct
 	 *
 	 * @since	11.3
+	 *
+	 * @covers  JController::__construct
 	 */
 	public function test__construct()
 	{
@@ -118,6 +124,8 @@ class JControllerTest extends PHPUnit_Framework_TestCase
 	 * If execution halts for some reason, a bad path could be the culprit.
 	 *
 	 * @since	11.3
+	 *
+	 * @covers  JController::addPath
 	 */
 	public function testAddPath()
 	{
@@ -138,6 +146,8 @@ class JControllerTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Test JController::addViewPath
+	 *
+	 * @covers  JController::addViewPath
 	 */
 	public function testAddViewPath()
 	{
@@ -228,6 +238,8 @@ class JControllerTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Test JController::getName
+	 *
+	 * @covers  JController::getName
 	 */
 	public function testGetName()
 	{
@@ -244,6 +256,8 @@ class JControllerTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   11.3
+	 *
+	 * @covers  JController::getTask
 	 */
 	public function testGetTask()
 	{
@@ -254,6 +268,8 @@ class JControllerTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Test JController::getTasks
+	 *
+	 * @covers  JController::getTasks
 	 */
 	public function testGetTasks()
 	{
@@ -337,6 +353,8 @@ class JControllerTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Test JController::setMessage
+	 *
+	 * @covers  JController::setMessage
 	 */
 	public function testSetMessage()
 	{
@@ -362,6 +380,8 @@ class JControllerTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Test JController::setRedirect
+	 *
+	 * @covers  JController::setRedirect
 	 */
 	public function testSetRedirect()
 	{
