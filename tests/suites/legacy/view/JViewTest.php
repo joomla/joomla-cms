@@ -172,7 +172,7 @@ class JViewTest extends TestCase
 	{
 		$this->assertEquals('', $this->class->getName());
 
-		TestReflection::setValue($this->class, 'name', 'inspector2');
+		TestReflection::setValue($this->class, '_name', 'inspector2');
 
 		$this->assertEquals('inspector2', $this->class->getName());
 	}
