@@ -812,10 +812,6 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 		$fields = array();
 		$values = array();
 
-		// Create the base insert statement.
-		$query = $this->getQuery(true);
-		$query->insert($this->quoteName($table));
-
 		// Iterate over the object variables to build the query fields and values.
 		foreach (get_object_vars($object) as $k => $v)
 		{
@@ -833,15 +829,18 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 
 			// Prepare and sanitize the fields and values for the database query.
 			$fields[] = $this->quoteName($k);
-			$values[] = is_numeric($v) ? $v : $this->quote($v);
+			$values[] = $this->quote($v);
 		}
 
-		$query->columns($fields);
-		$query->values(implode(',', $values));
+		// Create the base insert statement.
+		$query = $this->getQuery(true);
+		$query->insert($this->quoteName($table))
+				->columns($fields)
+				->values(implode(',', $values));
 
 		// Set the query and execute the insert.
 		$this->setQuery($query);
-		if (!$this->query())
+		if (!$this->execute())
 		{
 			return false;
 		}
@@ -1620,7 +1619,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 			// Set the primary key to the WHERE clause instead of a field to update.
 			if ($k == $key)
 			{
-				$where = $this->quoteName($k) . '=' . (is_numeric($v) ? $v : $this->quote($v));
+				$where = $this->quoteName($k) . '=' . $this->quote($v);
 				continue;
 			}
 
@@ -1641,7 +1640,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 			// The field is not null so we prep it for update.
 			else
 			{
-				$val = (is_numeric($v) ? $v : $this->quote($v));
+				$val = $this->quote($v);
 			}
 
 			// Add the field to be updated.
