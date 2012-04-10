@@ -1,5 +1,6 @@
 <?php
 /**
+* @version $Id$
 * @package utf8
 * @subpackage strings
 */

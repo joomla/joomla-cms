@@ -26,6 +26,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+10-Apr-2012 Jean-Marie Simonet
+ # [#28287] Fix some differences between platform and cms. Backport CSS changes. Thanks Rouven
+
+
 09-Apr-2012 Christophe Demko
  # [ #24839] Incorrect tooltip for Sticky column icons in Banner Manager: Banners
  - [#28360] Get rid of assign() and assignRefs() uses in view: Installation (Rouven Weßling)

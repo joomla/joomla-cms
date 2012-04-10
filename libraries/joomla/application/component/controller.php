@@ -505,6 +505,7 @@ class JController extends JObject
 	 * @return  boolean  True if authorised
 	 *
 	 * @since   11.1
+	 * @deprecated  12.3
 	 */
 	public function authorise($task)
 	{
