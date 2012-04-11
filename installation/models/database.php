@@ -109,6 +109,13 @@ class JInstallationModelDatabase extends JModel
 				return false;
 			}
 
+			// PostgreSQL database older than version 9.0.0 needs to run 'CREATE LANGUAGE' to create function.
+			if (($options->db_type == 'postgresql') && (version_compare($db_version, '9.0.0', '<')))
+			{
+				$db->setQuery("CREATE LANGUAGE plpgsql");
+				$db->query();
+			}
+
 			// Try to select the database
 			try
 			{
