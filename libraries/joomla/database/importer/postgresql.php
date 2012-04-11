@@ -27,7 +27,7 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 	/**
 	 * The database connector to use for exporting structure and/or data.
 	 *
-	 * @var    JDatabasePostgresql
+	 * @var    JDatabaseDriverPostgresql
 	 * @since  12.1
 	 */
 	protected $db = null;
@@ -105,7 +105,7 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 	public function check()
 	{
 		// Check if the db connector has been set.
-		if (!($this->db instanceof JDatabasePostgresql))
+		if (!($this->db instanceof JDatabaseDriverPostgresql))
 		{
 			throw new Exception('JPLATFORM_ERROR_DATABASE_CONNECTOR_WRONG_TYPE');
 		}
@@ -764,13 +764,13 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 	/**
 	 * Sets the database connector to use for exporting structure and/or data from PostgreSQL.
 	 *
-	 * @param   JDatabasePostgresql  $db  The database connector.
+	 * @param   JDatabaseDriverPostgresql  $db  The database connector.
 	 *
 	 * @return  JDatabaseImporterPostgresql  Method supports chaining.
 	 *
 	 * @since   12.1
 	 */
-	public function setDbo(JDatabasePostgresql $db)
+	public function setDbo(JDatabaseDriverPostgresql $db)
 	{
 		$this->db = $db;
 

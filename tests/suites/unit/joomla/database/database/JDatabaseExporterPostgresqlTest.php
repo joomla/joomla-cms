@@ -49,7 +49,7 @@ class JDatabaseExporterPostgresqlTest extends PHPUnit_Framework_TestCase
 		// Set up the database object mock.
 
 		$this->dbo = $this->getMock(
-			'JDatabasePostgresql',
+			'JDatabaseDriverPostgresql',
 			array(
 				'getErrorNum',
 				'getPrefix',
