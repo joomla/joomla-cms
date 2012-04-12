@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+12-Apr-2012 Mark Dexter
+ # Fix hard-coded version number in system test
+
 10-Feb-2012 Mark Dexter
  # Clear cache after system tests
  + Add Module0002 test
