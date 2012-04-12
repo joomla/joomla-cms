@@ -79,8 +79,8 @@ class InstallerModelUpdate extends JModelList
 		if ($eid = $this->getState('filter.extension_id')) {
 			$query->where($db->nq('extension_id') . ' = ' . $db->q((int) $eid));
 		} else {
-			$query->where($db->nq('extension_id').' != '.$db->q(0));
-			$query->where($db->nq('extension_id').' != '.$db->q(700));
+			$query->where($db->nq('extension_id').' <> '.$db->q(0));
+			$query->where($db->nq('extension_id').' <> '.$db->q(700));
 		}
 
 		return $query;
