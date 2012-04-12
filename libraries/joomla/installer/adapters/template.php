@@ -421,9 +421,9 @@ class JInstallerTemplate extends JAdapterInstance
 		}
 
 		// Set menu that assigned to the template back to default template
-		$query = 'UPDATE #__menu INNER JOIN #__template_styles' . ' ON #__template_styles.id = #__menu.template_style_id'
-			. ' SET #__menu.template_style_id = 0' . ' WHERE #__template_styles.template = ' . $db->Quote(strtolower($name))
-			. ' AND #__template_styles.client_id = ' . $db->Quote($clientId);
+		$query = 'UPDATE #__menu SET template_style_id = 0 WHERE template_style_id IN'
+			. '(SELECT id FROM #__template_styles WHERE #__template_styles.template = ' . $db->Quote(strtolower($name))
+			. ' AND #__template_styles.client_id = ' . $db->Quote($clientId) . ')';
 		$db->setQuery($query);
 		$db->Query();
 
