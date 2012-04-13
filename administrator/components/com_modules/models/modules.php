@@ -148,7 +148,7 @@ class ModulesModelModules extends JModelList
 		}
 		else {
 			if ($ordering == 'ordering') {
-				$query->order('a.position ASC');
+				$query->order('a.' . $query->qn('position') . ' ASC');
 				$ordering = 'a.ordering';
 			}
 			if ($ordering == 'language_title') {
@@ -203,6 +203,7 @@ class ModulesModelModules extends JModelList
 	{
 		// Create a new query object.
 		$db		= $this->getDbo();
+		$q_pos = $db->quoteName('position');
 		$q_lang = $db->quoteName('language');
 		$q_module = $db->quoteName('module');
 		$query	= $db->getQuery(true);
@@ -211,7 +212,7 @@ class ModulesModelModules extends JModelList
 		$query->select(
 			$this->getState(
 				'list.select',
-				'a.id, a.title, a.note, a.position, a.' . $q_module . ', a.' . $q_lang . ',' .
+				'a.id, a.title, a.note, a.' . $q_pos . ', a.' . $q_module . ', a.' . $q_lang . ',' .
 				'a.checked_out, a.checked_out_time, a.published+2*(e.enabled-1) as published, a.access, a.ordering, a.publish_up, a.publish_down'
 			)
 		);
@@ -236,7 +237,7 @@ class ModulesModelModules extends JModelList
 		// Join over the extensions
 		$query->select('e.name AS name');
 		$query->join('LEFT', '#__extensions AS e ON e.element = a.' . $q_module);
-		$query->group('a.id, a.title, a.note, a.position, a.' . $q_module . ', a.' . $q_lang . ', a.checked_out,'.
+		$query->group('a.id, a.title, a.note, a.' . $q_pos . ', a.' . $q_module . ', a.' . $q_lang . ', a.checked_out,'.
 						'a.checked_out_time, a.published, a.access, a.ordering,l.title, uc.name, ag.title, e.name,'.
 						'l.lang_code, uc.id, ag.id, mm.moduleid, e.element, a.publish_up, a.publish_down,e.enabled');
 
@@ -257,11 +258,11 @@ class ModulesModelModules extends JModelList
 		// Filter by position
 		$position = $this->getState('filter.position');
 		if ($position && $position != 'none') {
-			$query->where('a.position = '.$db->Quote($position));
+			$query->where('a.' . $q_pos . ' = '.$db->Quote($position));
 		}
 
 		elseif ($position == 'none') {
-			$query->where('a.position = '.$db->Quote(''));
+			$query->where('a.' . $q_pos . ' = '.$db->Quote(''));
 		}
 
 		// Filter by module
