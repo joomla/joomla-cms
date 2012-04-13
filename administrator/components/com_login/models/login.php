@@ -123,10 +123,11 @@ class LoginModelLogin extends JModel
 
 		if (!($clean = $cache->get($cacheid))) {
 			$db	= JFactory::getDbo();
-
+			$q_pos = $db->quoteName('position');
 			$q_module = $db->quoteName('module');
+
 			$query = $db->getQuery(true);
-			$query->select('m.id, m.title, m.' . $q_module . ', m.position, m.showtitle, m.params');
+			$query->select('m.id, m.title, m.' . $q_module . ', m.' . $q_pos . ', m.showtitle, m.params');
 			$query->from('#__modules AS m');
 			$query->where('m.' . $q_module . ' = ' . $db->Quote($module) . ' AND m.client_id = 1');
 
@@ -138,7 +139,7 @@ class LoginModelLogin extends JModel
 				$query->where('m.' . $db->quoteName('language') . ' IN (' . $db->Quote($lang) . ',' . $db->Quote('*') . ')');
 			}
 
-			$query->order('m.position, m.ordering');
+			$query->order('m.' . $q_pos . ', m.ordering');
 
 			// Set the query
 			$db->setQuery($query);
