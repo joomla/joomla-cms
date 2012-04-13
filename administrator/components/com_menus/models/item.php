@@ -741,12 +741,14 @@ class MenusModelItem extends JModelAdmin
 	public function getModules()
 	{
 		$db = $this->getDbo();
+		$q_pos = $db->quoteName('position');
+
 		$query = $db->getQuery(true);
 
 		// Join on the module-to-menu mapping table.
 		// We are only interested if the module is displayed on ALL or THIS menu item (or the inverse ID number).
 		//sqlsrv changes for modulelink to menu manager
-		$query->select('a.id, a.title, a.position, a.published, map.menuid');
+		$query->select('a.id, a.title, a.' . $q_pos . ', a.published, map.menuid');
 		$case_when = ' (CASE WHEN ';
 		$case_when .= 'map2.menuid < 0 THEN map2.menuid ELSE NULL END) as ' . $db->qn('except');
 		$case_when .=$query->select( $case_when);
@@ -759,7 +761,7 @@ class MenusModelItem extends JModelAdmin
 		$query->join('LEFT', '#__viewlevels AS ag ON ag.id = a.access');
 		$query->where('a.published >= 0');
 		$query->where('a.client_id = 0');
-		$query->order('a.position, a.ordering');
+		$query->order('a.' . $q_pos . ', a.ordering');
 
 		$db->setQuery($query);
 		$result = $db->loadObjectList();
