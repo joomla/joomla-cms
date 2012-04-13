@@ -1700,7 +1700,7 @@ class JInstallerComponent extends JAdapterInstance
 		ob_start();
 		ob_implicit_flush(false);
 
-		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'discover_install'))
+		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'install'))
 		{
 
 			if ($this->parent->manifestClass->install($this) === false)
