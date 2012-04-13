@@ -25,14 +25,14 @@ class MediaControllerFile extends JController
 	protected $folder = '';
 
 	/**
-	 * Upload a file
+	 * Upload one or more files
 	 *
 	 * @since 1.5
 	 */
 	public function upload()
 	{
 		// Check for request forgeries
-		JRequest::checkToken('request') or jexit(JText::_('JINVALID_TOKEN'));
+		JSession::checkToken('request') or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Get some data from the request
 		$files			= JRequest::getVar('Filedata', '', 'files', 'array');
@@ -53,8 +53,9 @@ class MediaControllerFile extends JController
 
 		// Input is in the form of an associative array containing numerically indexed arrays
 		// We want a numerically indexed array containing associative arrays
-		$files = array_map( array($this, 'reformatFilesArray'),
-			$files['name'], $files['type'], $files['tmp_name'], $files['error'], $files['size']
+		// Cast each item as array in case the Filedata parameter was not sent as such
+		$files = array_map( array($this, 'mapFiles'),
+			(array) $files['name'], (array) $files['type'], (array) $files['tmp_name'], (array) $files['error'], (array) $files['size']
 		);
 
 		// Perform basic checks on file info before attempting anything
@@ -171,7 +172,7 @@ class MediaControllerFile extends JController
 	 */
 	public function delete()
 	{
-		JRequest::checkToken('request') or jexit(JText::_('JINVALID_TOKEN'));
+		JSession::checkToken('request') or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Get some data from the request
 		$tmpl	= JRequest::getCmd('tmpl');
