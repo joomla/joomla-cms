@@ -303,10 +303,11 @@ abstract class JModuleHelper
 		if (!($clean = $cache->get($cacheid)))
 		{
 			$db = JFactory::getDbo();
+			$q_pos =  $db->quoteName('position');
 			$q_module =  $db->quoteName('module');
 
 			$query = $db->getQuery(true);
-			$query->select('m.id, m.title, m.' . $q_module . ', m.position, m.content, m.showtitle, m.params, mm.menuid');
+			$query->select('m.id, m.title, m.' . $q_module . ', m.' . $q_pos . ', m.content, m.showtitle, m.params, mm.menuid');
 			$query->from('#__modules AS m');
 			$query->join('LEFT', '#__modules_menu AS mm ON mm.moduleid = m.id');
 			$query->where('m.published = 1');
@@ -330,7 +331,7 @@ abstract class JModuleHelper
 				$query->where('m.' . $db->quoteName('language') . ' IN (' . $db->Quote($lang) . ',' . $db->Quote('*') . ')');
 			}
 
-			$query->order('m.position, m.ordering');
+			$query->order('m.' . $q_pos . ', m.ordering');
 
 			// Set the query
 			$db->setQuery($query);
