@@ -487,14 +487,15 @@ class FinderIndexerHelper
 	/**
 	 * Method to process content text using the onContentPrepare event trigger.
 	 *
-	 * @param   string     $text    The content to process.
-	 * @param   JRegistry  $params  The parameters object. [optional]
+	 * @param   string     $text        The content to process.
+	 * @param   JRegistry  $params      The parameters object. [optional]
+     * @param   array      $conflicts   An array of problematic plugins. [optional]
 	 *
 	 * @return  string  The processed content.
 	 *
 	 * @since   2.5
 	 */
-	public static function prepareContent($text, $params = null)
+	public static function prepareContent($text, $params = null, $conflicts = array('plgContentEmailCloak', 'plgContentLoadmodule'))
 	{
 		static $loaded;
 
@@ -506,10 +507,7 @@ class FinderIndexerHelper
 		{
 			JPluginHelper::importPlugin('content');
 			$loaded = true;
-
-			// Create an array of problematic plugins
-			$conflicts = array('plgContentEmailCloak', 'plgContentLoadmodule');
-
+		
 			// Check if we can access the observers
 			if (isset($dispatcher->_observers))
 			{
