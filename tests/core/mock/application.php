@@ -46,6 +46,8 @@ class TestMockApplication
 			false
 		);
 
+		$mockObject->input = new JInput;
+
 		return $mockObject;
 	}
 }

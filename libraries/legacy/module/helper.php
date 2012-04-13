@@ -80,6 +80,7 @@ abstract class JModuleHelper
 	{
 		$position = strtolower($position);
 		$result = array();
+		$input  = JFactory::getApplication()->input;
 
 		$modules =& self::_load();
 
@@ -94,7 +95,7 @@ abstract class JModuleHelper
 
 		if (count($result) == 0)
 		{
-			if (JRequest::getBool('tp') && JComponentHelper::getParams('com_templates')->get('template_positions_display'))
+			if ($input->getBool('tp') && JComponentHelper::getParams('com_templates')->get('template_positions_display'))
 			{
 				$result[0] = self::getModule('mod_' . $position);
 				$result[0]->title = $position;
@@ -202,7 +203,7 @@ abstract class JModuleHelper
 		}
 
 		// Dynamically add outline style
-		if (JRequest::getBool('tp') && JComponentHelper::getParams('com_templates')->get('template_positions_display'))
+		if ($app->input->getBool('tp') && JComponentHelper::getParams('com_templates')->get('template_positions_display'))
 		{
 			$attribs['style'] .= ' outline';
 		}
@@ -289,8 +290,8 @@ abstract class JModuleHelper
 			return $clean;
 		}
 
-		$Itemid = JRequest::getInt('Itemid');
 		$app = JFactory::getApplication();
+		$Itemid = $app->input->getInt('Itemid');
 		$user = JFactory::getUser();
 		$groups = implode(',', $user->getAuthorisedViewLevels());
 		$lang = JFactory::getLanguage()->getTag();

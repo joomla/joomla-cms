@@ -50,13 +50,12 @@ class JFormFieldMedia extends JFormField
 		$asset = $this->form->getValue($assetField) ? $this->form->getValue($assetField) : (string) $this->element['asset_id'];
 		if ($asset == '')
 		{
-			$asset = JRequest::getCmd('option');
+			$asset = JFactory::getApplication()->input->get('option');
 		}
 
 		$link = (string) $this->element['link'];
 		if (!self::$initialised)
 		{
-
 			// Load the modal behavior script.
 			JHtml::_('behavior.modal');
 

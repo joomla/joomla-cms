@@ -799,7 +799,7 @@ abstract class JModelAdmin extends JModelForm
 		$key = $table->getKeyName();
 
 		// Get the pk of the record from the request.
-		$pk = JRequest::getInt($key);
+		$pk = JFactory::getApplication()->input->getInt($key);
 		$this->setState($this->getName() . '.id', $pk);
 
 		// Load the parameters.

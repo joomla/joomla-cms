@@ -310,7 +310,7 @@ class JControllerForm extends JController
 			$key = $table->getKeyName();
 		}
 
-		$recordId = JRequest::getInt($key);
+		$recordId = $app->input->getInt($key);
 
 		// Attempt to check-in the current record.
 		if ($recordId)
@@ -380,7 +380,8 @@ class JControllerForm extends JController
 	public function edit($key = null, $urlVar = null)
 	{
 		// Initialise variables.
-		$app = JFactory::getApplication();
+		$app   = JFactory::getApplication();
+		$input = $app->input;
 		$model = $this->getModel();
 		$table = $model->getTable();
 		$cid = JRequest::getVar('cid', array(), 'post', 'array');
@@ -399,7 +400,7 @@ class JControllerForm extends JController
 		}
 
 		// Get the previous record id (if any) and the current record id.
-		$recordId = (int) (count($cid) ? $cid[0] : JRequest::getInt($urlVar));
+		$recordId = (int) (count($cid) ? $cid[0] : $input->getInt($urlVar));
 		$checkin = property_exists($table, 'checked_out');
 
 		// Access check.
@@ -484,8 +485,9 @@ class JControllerForm extends JController
 	 */
 	protected function getRedirectToItemAppend($recordId = null, $urlVar = 'id')
 	{
-		$tmpl = JRequest::getCmd('tmpl');
-		$layout = JRequest::getCmd('layout', 'edit');
+		$input  = JFactory::getApplication()->input;
+		$tmpl   = $input->get('tmpl');
+		$layout = $input->get('layout', 'edit');
 		$append = '';
 
 		// Setup redirect info.
@@ -516,7 +518,7 @@ class JControllerForm extends JController
 	 */
 	protected function getRedirectToListAppend()
 	{
-		$tmpl = JRequest::getCmd('tmpl');
+		$tmpl = JFactory::getApplication()->input->get('tmpl');
 		$append = '';
 
 		// Setup redirect info.
@@ -559,11 +561,12 @@ class JControllerForm extends JController
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Initialise variables.
-		$app = JFactory::getApplication();
-		$lang = JFactory::getLanguage();
+		$app   = JFactory::getApplication();
+		$input = $app->input;
+		$lang  = JFactory::getLanguage();
 		$model = $this->getModel();
 		$table = $model->getTable();
-		$data = JRequest::getVar('jform', array(), 'post', 'array');
+		$data  = JRequest::getVar('jform', array(), 'post', 'array');
 		$checkin = property_exists($table, 'checked_out');
 		$context = "$this->option.edit.$this->context";
 		$task = $this->getTask();
@@ -580,7 +583,7 @@ class JControllerForm extends JController
 			$urlVar = $key;
 		}
 
-		$recordId = JRequest::getInt($urlVar);
+		$recordId = $input->getInt($urlVar);
 
 		if (!$this->checkEditId($context, $recordId))
 		{
