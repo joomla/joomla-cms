@@ -711,11 +711,14 @@ class JForm
 				if ($current = $this->findField((string) $field['name'], implode('.', $groups)))
 				{
 
-					// If set to replace found fields remove it from the current definition.
+					// If set to replace found fields, replace the data and remove the field so we don't add it twice.
 					if ($replace)
 					{
-						$dom = dom_import_simplexml($current);
-						$dom->parentNode->removeChild($dom);
+						$olddom = dom_import_simplexml($current);
+						$loadeddom = dom_import_simplexml($field);
+						$addeddom = $olddom->ownerDocument->importNode($loadeddom);
+						$olddom->parentNode->replaceChild($addeddom, $olddom);
+						$loadeddom->parentNode->removeChild($loadeddom);
 					}
 					else
 					{
