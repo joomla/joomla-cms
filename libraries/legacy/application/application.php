@@ -88,8 +88,6 @@ class JApplication extends JApplicationBase
 	 */
 	public function __construct($config = array())
 	{
-		jimport('joomla.error.profiler');
-
 		// Set the view name.
 		$this->_name = $this->getName();
 
@@ -670,8 +668,6 @@ class JApplication extends JApplicationBase
 				// Set the remember me cookie if enabled.
 				if (isset($options['remember']) && $options['remember'])
 				{
-					jimport('joomla.utilities.simplecrypt');
-
 					// Create the encryption key, apply extra hardening using the user agent string.
 					$key = self::getHash(@$_SERVER['HTTP_USER_AGENT']);
 

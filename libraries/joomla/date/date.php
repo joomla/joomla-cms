@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Platform
- * @subpackage  Utilities
+ * @subpackage  Date
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -27,7 +27,7 @@ defined('JPATH_PLATFORM') or die;
  * @property-read  string   $year          Y - A full numeric representation of a year, 4 digits.
  *
  * @package     Joomla.Platform
- * @subpackage  Utilities
+ * @subpackage  Date
  * @since       11.1
  */
 class JDate extends DateTime

@@ -61,7 +61,7 @@ class JLanguageInspector extends JLanguage
 	/**
 	 * Allows the internal singleton to be set and mocked.
 	 *
-	 * @param   JDispatcher  $instance  A dispatcher object.
+	 * @param   JLanguage  $instance  A language object.
 	 *
 	 * @return  void
 	 *

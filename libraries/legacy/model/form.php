@@ -222,7 +222,7 @@ abstract class JModelForm extends JModel
 		JPluginHelper::importPlugin($group);
 
 		// Get the dispatcher.
-		$dispatcher = JDispatcher::getInstance();
+		$dispatcher = JEventDispatcher::getInstance();
 
 		// Trigger the form preparation event.
 		$results = $dispatcher->trigger('onContentPrepareForm', array($form, $data));

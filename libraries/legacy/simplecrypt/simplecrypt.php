@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Platform
- * @subpackage  Utilities
+ * @subpackage  Simplecrypt
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -13,11 +13,11 @@ defined('JPATH_PLATFORM') or die;
  * JSimpleCrypt is a very simple encryption algorithm for encrypting/decrypting strings
  *
  * @package     Joomla.Platform
- * @subpackage  Utilities
+ * @subpackage  Simplecrypt
  * @since       11.1
- * @deprecated  12.3
+ * @deprecated  12.3  Use JCrypt instead.
  */
-class JSimpleCrypt
+class JSimplecrypt
 {
 	/**
 	 * Encryption/Decryption Key

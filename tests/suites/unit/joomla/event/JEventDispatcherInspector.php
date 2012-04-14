@@ -9,13 +9,13 @@
 require_once JPATH_PLATFORM.'/joomla/event/dispatcher.php';
 
 /**
- * Inspector for the JDispatcher class.
+ * Inspector for the JEventDispatcher class.
  *
  * @package     Joomla.UnitTest
  * @subpackage  Event
  * @since       11.3
  */
-class JDispatcherInspector extends JDispatcher
+class JEventDispatcherInspector extends JEventDispatcher
 {
 	/**
 	* Method for inspecting protected variables.
@@ -61,7 +61,7 @@ class JDispatcherInspector extends JDispatcher
 	/**
 	 * Allows the internal singleton to be set and mocked.
 	 *
-	 * @param   JDispatcher  $instance  A dispatcher object.
+	 * @param   JEventDispatcher  $instance  A dispatcher object.
 	 *
 	 * @return  void
 	 *

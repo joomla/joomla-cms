@@ -470,7 +470,6 @@ abstract class JFactory
 	 */
 	public static function getDate($time = 'now', $tzOffset = null)
 	{
-		jimport('joomla.utilities.date');
 		static $classname;
 		static $mainLocale;
 

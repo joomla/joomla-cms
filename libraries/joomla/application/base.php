@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.event.dispatcher');
-
 /**
  * Joomla Platform Base Application Class
  *
@@ -23,7 +21,7 @@ abstract class JApplicationBase extends JObject
 	/**
 	 * The application dispatcher object.
 	 *
-	 * @var    JDispatcher
+	 * @var    JEventDispatcher
 	 * @since  12.1
 	 */
 	protected $dispatcher;
@@ -83,7 +81,7 @@ abstract class JApplicationBase extends JObject
 	 */
 	public function registerEvent($event, $handler)
 	{
-		if ($this->dispatcher instanceof JDispatcher)
+		if ($this->dispatcher instanceof JEventDispatcher)
 		{
 			$this->dispatcher->register($event, $handler);
 		}
@@ -103,7 +101,7 @@ abstract class JApplicationBase extends JObject
 	 */
 	public function triggerEvent($event, array $args = null)
 	{
-		if ($this->dispatcher instanceof JDispatcher)
+		if ($this->dispatcher instanceof JEventDispatcher)
 		{
 			return $this->dispatcher->trigger($event, $args);
 		}
@@ -118,15 +116,15 @@ abstract class JApplicationBase extends JObject
 	 * but for many applications it will make sense to override this method and create event
 	 * dispatchers, if required, based on more specific needs.
 	 *
-	 * @param   JDispatcher  $dispatcher  An optional dispatcher object. If omitted, the factory dispatcher is created.
+	 * @param   JEventDispatcher  $dispatcher  An optional dispatcher object. If omitted, the factory dispatcher is created.
 	 *
 	 * @return  JApplicationBase This method is chainable.
 	 *
 	 * @since   12.1
 	 */
-	public function loadDispatcher(JDispatcher $dispatcher = null)
+	public function loadDispatcher(JEventDispatcher $dispatcher = null)
 	{
-		$this->dispatcher = ($dispatcher === null) ? JDispatcher::getInstance() : $dispatcher;
+		$this->dispatcher = ($dispatcher === null) ? JEventDispatcher::getInstance() : $dispatcher;
 
 		return $this;
 	}
