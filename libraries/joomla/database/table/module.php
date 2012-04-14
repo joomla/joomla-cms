@@ -84,4 +84,35 @@ class JTableModule extends JTable
 
 		return parent::bind($array, $ignore);
 	}
+
+	/**
+	 * Overloaded store function to avoid NOT NULL constraint violation.
+	 *
+	 * @param	boolean	True to update fields even if they are null.
+	 * @return	boolean	True on success, false on failure.
+	 * @since	1.6
+	 */
+	public function store($updateNulls = false)
+	{
+		// Set publish_up to null date if not set
+		if (!$this->publish_up)
+		{
+			$this->publish_up = $this->_db->getNullDate();
+		}
+
+		// Set publish_down to null date if not set
+		if (!$this->publish_down)
+		{
+			$this->publish_down = $this->_db->getNullDate();
+		}
+
+		// Set content to empty string if not set
+		if (!$this->content)
+		{
+			$this->content = '';
+		}
+
+		// Attempt to store the data.
+		return parent::store($updateNulls);
+	}
 }
