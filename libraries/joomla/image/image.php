@@ -673,20 +673,20 @@ class JImage
 
 			case self::SCALE_INSIDE:
 			case self::SCALE_OUTSIDE:
-			
+
 				// Both $height or $width cannot be zero
 				if ($width == 0 || $height == 0)
 				{
 					throw new InvalidArgumentException(' Width or height cannot be zero with this scale method ');
 				}
-			
+
 				// If both $width and $height are not equals to zero
 				else
 				{
 					$rx = $this->getWidth() / $width;
 					$ry = $this->getHeight() / $height;
 				}
-				
+
 				if ($scaleMethod == self::SCALE_INSIDE)
 				{
 					$ratio = ($rx > $ry) ? $rx : $ry;
