@@ -502,7 +502,7 @@ class JForm
 	 *
 	 * @param   string   $group   The dot-separated form group path for which to get the form fields.
 	 * @param   boolean  $nested  True to also include fields in nested groups that are inside of the
-	 * group for which to find fields.
+	 *                            group for which to find fields.
 	 *
 	 * @return  array    The array of JFormField objects in the field group.
 	 *
@@ -1051,7 +1051,7 @@ class JForm
 	 *
 	 * @param   array   $data   An array of field values to validate.
 	 * @param   string  $group  The optional dot-separated form group path on which to filter the
-	 * fields to be validated.
+	 *                          fields to be validated.
 	 *
 	 * @return  mixed  True on sucess.
 	 *
@@ -1491,9 +1491,9 @@ class JForm
 	 * in a control group by name.
 	 *
 	 * @param   mixed    $group   The optional dot-separated form group path on which to find the fields.
-	 * Null will return all fields. False will return fields not in a group.
+	 *                            Null will return all fields. False will return fields not in a group.
 	 * @param   boolean  $nested  True to also include fields in nested groups that are inside of the
-	 * group for which to find fields.
+	 *                            group for which to find fields.
 	 *
 	 * @return  mixed  Boolean false on error or array of SimpleXMLElement objects.
 	 *
@@ -1943,7 +1943,7 @@ class JForm
 	 * @param   string  $data     The name of an XML file or string to load as the form definition.
 	 * @param   array   $options  An array of form options.
 	 * @param   string  $replace  Flag to toggle whether form fields should be replaced if a field
-	 * already exists with the same group/name.
+	 *                            already exists with the same group/name.
 	 * @param   string  $xpath    An optional xpath to search for the fields.
 	 *
 	 * @return  object  JForm instance.
