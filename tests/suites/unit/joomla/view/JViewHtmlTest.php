@@ -8,7 +8,6 @@
  */
 
 JLoader::register('HtmlView', __DIR__ . '/stubs/thtml.php');
-JLoader::register('JControllerMock', __DIR__ . '/mocks/JControllerMock.php');
 JLoader::register('JModelMock', __DIR__ . '/mocks/JModelMock.php');
 
 /**
@@ -39,11 +38,10 @@ class JViewHtmlTest extends TestCase
 		$this->assertAttributeEquals(new SplPriorityQueue, 'paths', $this->_instance, 'Check default paths.');
 
 		$model = JModelMock::create($this);
-		$controller = JControllerMock::create($this);
 		$paths = new SplPriorityQueue;
 		$paths->insert('foo', 1);
 
-		$this->_instance = new HtmlView($model, $controller, $paths);
+		$this->_instance = new HtmlView($model, $paths);
 		$this->assertAttributeSame($paths, 'paths', $this->_instance, 'Check default paths.');
 	}
 
@@ -207,8 +205,7 @@ class JViewHtmlTest extends TestCase
 		parent::setUp();
 
 		$model = JModelMock::create($this);
-		$controller = JControllerMock::create($this);
 
-		$this->_instance = new HtmlView($model, $controller);
+		$this->_instance = new HtmlView($model);
 	}
 }

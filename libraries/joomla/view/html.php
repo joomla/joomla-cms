@@ -39,15 +39,14 @@ abstract class JViewHtml extends JViewBase
 	/**
 	 * Method to instantiate the view.
 	 *
-	 * @param   JModel            $model       The model object.
-	 * @param   JController       $controller  The controller object.
-	 * @param   SplPriorityQueue  $paths       The paths queue.
+	 * @param   JModel            $model  The model object.
+	 * @param   SplPriorityQueue  $paths  The paths queue.
 	 *
 	 * @since   12.1
 	 */
-	public function __construct(JModel $model, JController $controller, SplPriorityQueue $paths = null)
+	public function __construct(JModel $model, SplPriorityQueue $paths = null)
 	{
-		parent::__construct($model, $controller);
+		parent::__construct($model);
 
 		// Setup dependencies.
 		$this->paths = isset($paths) ? $paths : $this->loadPaths();

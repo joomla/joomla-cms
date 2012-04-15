@@ -8,7 +8,6 @@
  */
 
 JLoader::register('BaseView', __DIR__ . '/stubs/tbase.php');
-JLoader::register('JControllerMock', __DIR__ . '/mocks/JControllerMock.php');
 JLoader::register('JModelMock', __DIR__ . '/mocks/JModelMock.php');
 
 /**
@@ -37,7 +36,6 @@ class JViewBaseTest extends TestCase
 	public function test__construct()
 	{
 		$this->assertAttributeInstanceOf('JModel', 'model', $this->_instance);
-		$this->assertAttributeInstanceOf('JController', 'controller', $this->_instance);
 	}
 
 	/**
@@ -65,8 +63,7 @@ class JViewBaseTest extends TestCase
 		parent::setUp();
 
 		$model = JModelMock::create($this);
-		$controller = JControllerMock::create($this);
 
-		$this->_instance = new BaseView($model, $controller);
+		$this->_instance = new BaseView($model);
 	}
 }
