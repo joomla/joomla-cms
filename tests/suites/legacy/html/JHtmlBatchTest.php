@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM.'/joomla/html/html/batch.php';
+require_once JPATH_PLATFORM . '/legacy/html/batch.php';
 
 /**
  * Test class for JHtmlBatch.
@@ -44,7 +44,7 @@ class JHtmlBatchTest extends TestCaseDatabase
 	 */
 	protected function getDataSet()
 	{
-		return $this->createXMLDataSet(__DIR__.'/testfiles/JHtmlTest.xml');
+		return $this->createXMLDataSet(JPATH_TESTS . '/suites/unit/joomla/html/html/testfiles/JHtmlTest.xml');
 	}
 
 	/**
@@ -53,6 +53,7 @@ class JHtmlBatchTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   11.3
+	 * @covers  JHtmlBatch::access
 	 */
 	public function testAccess()
 	{
@@ -68,6 +69,7 @@ class JHtmlBatchTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   11.3
+	 * @covers  JHtmlBatch::item
 	 */
 	public function testItem()
 	{
@@ -83,6 +85,7 @@ class JHtmlBatchTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   11.3
+	 * @covers  JHtmlBatch::language
 	 */
 	public function testLanguage()
 	{
@@ -98,6 +101,7 @@ class JHtmlBatchTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   11.4
+	 * @covers  JHtmlBatch::user
 	 */
 	public function testUser()
 	{

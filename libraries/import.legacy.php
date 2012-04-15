@@ -54,6 +54,9 @@ JLoader::import('joomla.factory');
 JLoader::register('JText', JPATH_PLATFORM . '/joomla/language/text.php');
 JLoader::register('JRoute', JPATH_PLATFORM . '/joomla/application/route.php');
 
+// Register the folder for the moved JHtml classes
+JHtml::addIncludePath(JPATH_PLATFORM . '/legacy/html');
+
 // Register classes where the names have been changed to fit the autoloader rules
 // @deprecated  12.3
 JLoader::register('JDatabaseQueryMySQL', JPATH_PLATFORM . '/joomla/database/query/mysql.php');
