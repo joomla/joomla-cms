@@ -11,7 +11,7 @@ var DisableSearch = new Class({
 		var lenEl, lenM = this.options.minLength, self = this;
 
 		if (this.options.inputField.value.length < lenM) {
-			self.options.submitButton.type = 'button';
+			self.options.submitButton.disabled = true;
 		}
 
 		this.options.inputField.addEvent('keydown', function (event) {
@@ -24,13 +24,13 @@ var DisableSearch = new Class({
 				}
 				break;
 			case 'backspace':
-				if (lenEl - 1 < lenM && self.options.submitButton.type !== 'button') {
-					self.options.submitButton.type = 'button';
+				if (lenEl - 1 < lenM && self.options.submitButton.disabled !== true) {
+					self.options.submitButton.disabled = true;
 				}
 				break;
 			default:
-				if (lenEl + 1 >= lenM && self.options.submitButton.type !== 'submit') {
-					self.options.submitButton.type = 'submit';
+				if (lenEl + 1 >= lenM && self.options.submitButton.disabled !== false) {
+					self.options.submitButton.disabled = false;
 				}
 				break;
 			}
