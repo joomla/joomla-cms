@@ -415,15 +415,15 @@ class JDate extends DateTime
 	/**
 	 * Gets the date as an SQL datetime string.
 	 *
-	 * @param   boolean    $local  True to return the date string in the local time zone, false to return it in GMT.
-	 * @param   JDatabase  $dbo    The database driver or null to use JFactory::getDbo()
+	 * @param   boolean          $local  True to return the date string in the local time zone, false to return it in GMT.
+	 * @param   JDatabaseDriver  $dbo    The database driver or null to use JFactory::getDbo()
 	 *
 	 * @return  string     The date string in SQL datetime format.
 	 *
 	 * @link http://dev.mysql.com/doc/refman/5.0/en/datetime.html
 	 * @since   11.4
 	 */
-	public function toSql($local = false, JDatabase $dbo = null)
+	public function toSql($local = false, JDatabaseDriver $dbo = null)
 	{
 		if ($dbo === null)
 		{
