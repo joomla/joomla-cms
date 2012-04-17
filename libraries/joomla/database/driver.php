@@ -402,7 +402,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 * @param   string   $table     The name of the database table to drop.
 	 * @param   boolean  $ifExists  Optionally specify that the table must exist before it is dropped.
 	 *
-	 * @return  JDatabase  Returns this object to support chaining.
+	 * @return  JDatabaseDriver     Returns this object to support chaining.
 	 *
 	 * @since   11.4
 	 * @throws  RuntimeException
@@ -1260,7 +1260,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @param   string  $tableName  The name of the table to unlock.
 	 *
-	 * @return  JDatabase  Returns this object to support chaining.
+	 * @return  JDatabaseDriver     Returns this object to support chaining.
 	 *
 	 * @since   11.4
 	 * @throws  RuntimeException
@@ -1471,7 +1471,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 * @param   string  $backup    Table prefix
 	 * @param   string  $prefix    For the table - used to rename constraints in non-mysql databases
 	 *
-	 * @return  JDatabase  Returns this object to support chaining.
+	 * @return  JDatabaseDriver    Returns this object to support chaining.
 	 *
 	 * @since   11.4
 	 * @throws  RuntimeException
@@ -1668,7 +1668,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	/**
 	 * Unlocks tables in the database.
 	 *
-	 * @return  JDatabase  Returns this object to support chaining.
+	 * @return  JDatabaseDriver  Returns this object to support chaining.
 	 *
 	 * @since   11.4
 	 * @throws  RuntimeException

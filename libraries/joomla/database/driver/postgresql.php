@@ -556,7 +556,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @param   string  $tableName  The name of the table to unlock.
 	 *
-	 * @return  JDatabase  Returns this object to support chaining.
+	 * @return  JDatabaseDriverPostgresql  Returns this object to support chaining.
 	 *
 	 * @since   11.4
 	 * @throws  RuntimeException
@@ -662,7 +662,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 * @param   string  $backup    Not used by PostgreSQL.
 	 * @param   string  $prefix    Not used by PostgreSQL.
 	 *
-	 * @return  JDatabase  Returns this object to support chaining.
+	 * @return  JDatabaseDriverPostgresql  Returns this object to support chaining.
 	 *
 	 * @since   11.4
 	 * @throws  RuntimeException
@@ -1148,7 +1148,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 * Unlocks tables in the database, this command does not exist in PostgreSQL,
 	 * it is automatically done on commit or rollback.
 	 *
-	 * @return  JDatabase  Returns this object to support chaining.
+	 * @return  JDatabaseDriverPostgresql  Returns this object to support chaining.
 	 *
 	 * @since   11.4
 	 * @throws  RuntimeException

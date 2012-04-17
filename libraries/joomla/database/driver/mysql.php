@@ -501,7 +501,7 @@ class JDatabaseDriverMysql extends JDatabaseDriver
 	 * @param   string  $backup    Not used by MySQL.
 	 * @param   string  $prefix    Not used by MySQL.
 	 *
-	 * @return  JDatabase  Returns this object to support chaining.
+	 * @return  JDatabaseDriverMysql  Returns this object to support chaining.
 	 *
 	 * @since   12.1
 	 * @throws  RuntimeException
