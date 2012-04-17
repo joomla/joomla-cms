@@ -29,7 +29,7 @@ abstract class JStringNormalise
 	 */
 	public static function fromCamelCase($input)
 	{
-		return JString::trim(preg_replace('#([A-Z])#', ' $1', $input));
+		return trim(preg_replace('#([A-Z])#', ' $1', $input));
 	}
 
 	/**
@@ -45,8 +45,8 @@ abstract class JStringNormalise
 	{
 		// Convert words to uppercase and then remove spaces.
 		$input = self::toSpaceSeparated($input);
-		$input = JString::ucwords($input);
-		$input = JString::str_ireplace(' ', '', $input);
+		$input = ucwords($input);
+		$input = str_ireplace(' ', '', $input);
 
 		return $input;
 	}
@@ -63,7 +63,7 @@ abstract class JStringNormalise
 	public static function toDashSeparated($input)
 	{
 		// Convert spaces and underscores to dashes.
-		$input = JString::str_ireplace(array(' ', '_'), '-', $input);
+		$input = str_ireplace(array(' ', '_'), '-', $input);
 
 		// Remove duplicate dashes.
 		$input = preg_replace('#-+#', '-', $input);
@@ -83,7 +83,7 @@ abstract class JStringNormalise
 	public static function toSpaceSeparated($input)
 	{
 		// Convert underscores and dashes to spaces.
-		$input = JString::str_ireplace(array('_', '-'), ' ', $input);
+		$input = str_ireplace(array('_', '-'), ' ', $input);
 
 		// Remove duplicate spaces.
 		$input = preg_replace('#\s+#', ' ', $input);
@@ -103,7 +103,7 @@ abstract class JStringNormalise
 	public static function toUnderscoreSeparated($input)
 	{
 		// Convert spaces and dashes to underscores.
-		$input = JString::str_ireplace(array(' ', '-'), '_', $input);
+		$input = str_ireplace(array(' ', '-'), '_', $input);
 
 		// Remove duplicate underscores.
 		$input = preg_replace('#_+#', '_', $input);
@@ -130,11 +130,11 @@ abstract class JStringNormalise
 		$input = preg_replace('#^[0-9]+.*$#', '', $input);
 
 		// Lowercase the first character.
-		$first = JString::substr($input, 0, 1);
-		$first = JString::strtolower($first);
+		$first = substr($input, 0, 1);
+		$first = strtolower($first);
 
 		// Replace the first character with the lowercase character.
-		$input = JString::substr_replace($input, $first, 0, 1);
+		$input = substr_replace($input, $first, 0, 1);
 
 		return $input;
 	}
@@ -152,7 +152,7 @@ abstract class JStringNormalise
 	{
 		// Remove spaces and dashes, then convert to lower case.
 		$input = self::toUnderscoreSeparated($input);
-		$input = JString::strtolower($input);
+		$input = strtolower($input);
 
 		return $input;
 	}
