@@ -21,20 +21,21 @@
 
     <para>The <classname>JControllerBase</classname> class is abstract so cannot be used directly. The derived class must
     implement the execute method to satisfy the interface requirements. Note that the execute method no longer takes a "task"
-    argument as each controller class. Multi-task controllers are still possible but not recommended. Each controller class should
-    do just one sort of 'thing', just as saving, deleting, checking in, checking out and so on. However, controllers, or even
-    models and views, have the liberty of invoking other controllers to allow for HMVC architectures.</para>
+    argument as each controller class. Multi-task controllers are still possible by overriding the
+    <methodname>execute</methodname> method in derived classes. Each controller class should do just one sort of 'thing', such as
+    saving, deleting, checking in, checking out and so on. However, controllers, or even models and views, have the liberty of
+    invoking other controllers to allow for HMVC architectures.</para>
 
     <example>
       <title>Example controller</title>
 
-      <programlisting>	/**
-	 * My custom controller.
-	 *
-	 * @package  Examples
-	 *
-	 * @since   12.1
-	 */
+      <programlisting>/**
+ * My custom controller.
+ *
+ * @package  Examples
+ *
+ * @since   12.1
+ */
 class MyController extends JControllerBase
 {
 	/**

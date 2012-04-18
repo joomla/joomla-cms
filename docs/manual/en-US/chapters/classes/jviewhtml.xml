@@ -47,12 +47,12 @@
     <example>
       <title>Example HTML view</title>
 
-      <programlisting>	/**
-	 * My custom HTML view.
-	 *
-	 * @package  Examples
-	 * @since    12.1
-	 */
+      <programlisting>/**
+ * My custom HTML view.
+ *
+ * @package  Examples
+ * @since    12.1
+ */
 class MyHtmlView extends JViewHtml
 {
 	/**

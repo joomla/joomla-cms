@@ -31,13 +31,13 @@
     <example>
       <title>Example view</title>
 
-      <programlisting>	/**
-	 * My custom view.
-	 *
-	 * @package  Examples
-	 *
-	 * @since   12.1
-	 */
+      <programlisting>/**
+ * My custom view.
+ *
+ * @package  Examples
+ *
+ * @since   12.1
+ */
 class MyView extends JViewBase
 {
 	/**
