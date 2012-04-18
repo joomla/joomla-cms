@@ -26,6 +26,8 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+18-Apr-2012 Jean-Marie Simonet
+ # [#28351] Remove extra images from finder. Thanks Rouven and Michael
 
 10-Apr-2012 Christophe Demko
  ^ [#28336] e-strict error in com_messages (Elin Waring)

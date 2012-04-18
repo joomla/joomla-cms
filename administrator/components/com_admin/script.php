@@ -333,7 +333,6 @@ class joomlaInstallerScript
 			'/administrator/components/com_admin/sql/updates/sqlsrv/index.html',
 			'/administrator/language/en-GB/en-GB.plg_system_finder.ini',
 			'/administrator/language/en-GB/en-GB.plg_system_finder.sys.ini',
-			'/libraries/joomla/form/fields/templatestyle.php',
 			'/media/editors/tinymce/jscripts/tiny_mce/plugins/advhr/editor_plugin_src.js',
 			'/media/editors/tinymce/jscripts/tiny_mce/plugins/advimage/editor_plugin_src.js',
 			'/media/editors/tinymce/jscripts/tiny_mce/plugins/advlink/editor_plugin_src.js',
@@ -372,6 +371,9 @@ class joomlaInstallerScript
 			'/media/editors/tinymce/jscripts/tiny_mce/themes/advanced/editor_template_src.js',
 			'/media/editors/tinymce/jscripts/tiny_mce/themes/simple/editor_template_src.js',
 			'/media/editors/tinymce/jscripts/tiny_mce/tiny_mce_src.js',
+			'/media/com_finder/images/calendar.png',
+			'/media/com_finder/images/mime/index.html',
+			'/media/com_finder/images/mime/pdf.png',
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode
@@ -381,6 +383,8 @@ class joomlaInstallerScript
 			'/media/plg_highlight',
 			'/media/mod_finder_status',
 			'/administrator/components/com_admin/sql/updates/sqlsrv',
+			'/media/com_finder/images/mime',
+			'/media/com_finder/images',
 		);
 
 		foreach ($files as $file) {
