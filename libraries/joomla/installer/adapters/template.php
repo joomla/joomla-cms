@@ -123,7 +123,7 @@ class JInstallerTemplate extends JAdapterInstance
 		{
 			$id = $db->loadResult();
 		}
-		catch (JDatabaseException $e)
+		catch (RuntimeException $e)
 		{
 			// Install failed, roll back changes
 			$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_TPL_INSTALL_ROLLBACK'), $e->getMessage());

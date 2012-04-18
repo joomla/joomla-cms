@@ -41,7 +41,7 @@ class LanguagesModelStrings extends JModel
 			$this->_db->setQuery('TRUNCATE TABLE '.$this->_db->qn('#__overrider'));
 			$this->_db->query();
 		}
-		catch (JDatabaseException $e)
+		catch (RuntimeException $e)
 		{
 			return $e;
 		}
@@ -99,7 +99,7 @@ class LanguagesModelStrings extends JModel
 						return new Exception($this->_db->getErrorMsg());
 					}
 				}
-				catch (JDatabaseException $e)
+				catch (RuntimeException $e)
 				{
 					return $e;
 				}
@@ -157,7 +157,7 @@ class LanguagesModelStrings extends JModel
 				$results['more'] = $limitstart + 10;
 			}
 		}
-		catch (JDatabaseException $e)
+		catch (RuntimeException $e)
 		{
 			return $e;
 		}

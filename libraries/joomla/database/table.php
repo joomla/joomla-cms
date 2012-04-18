@@ -529,7 +529,7 @@ abstract class JTable extends JObject
 		{
 			$row = $this->_db->loadAssoc();
 		}
-		catch (JDatabaseException $e)
+		catch (RuntimeException $e)
 		{
 			$je = new JException($e->getMessage());
 			$this->setError($je);
