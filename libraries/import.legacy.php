@@ -64,3 +64,5 @@ JLoader::register('JToolBar', JPATH_PLATFORM . '/legacy/toolbar/toolbar.php');
 JLoader::register('JSimpleCrypt', JPATH_PLATFORM . '/legacy/simplecrypt/simplecrypt.php');
 JLoader::register('JTree', JPATH_PLATFORM . '/legacy/base/tree.php');
 JLoader::register('JNode', JPATH_PLATFORM . '/legacy/base/node.php');
+
+JLoader::register('LogException', JPATH_PLATFORM . '/legacy/log/logexception.php');
