@@ -25,13 +25,13 @@
     <example>
       <title>Example model</title>
 
-      <programlisting>	/**
-	 * My custom model.
-	 *
-	 * @pacakge  Examples
-	 *
-	 * @since   12.1
-	 */
+      <programlisting>/**
+ * My custom model.
+ *
+ * @pacakge  Examples
+ *
+ * @since   12.1
+ */
 class MyModel extends JModelBase
 {
 	/**

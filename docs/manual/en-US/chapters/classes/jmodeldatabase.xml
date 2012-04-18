@@ -25,13 +25,13 @@
     <example>
       <title>Example database model</title>
 
-      <programlisting>	/**
-	 * My custom database model.
-	 *
-	 * @package  Examples
-	 *
-	 * @since   12.1
-	 */
+      <programlisting>/**
+ * My custom database model.
+ *
+ * @package  Examples
+ *
+ * @since   12.1
+ */
 class MyDatabaseModel extends JModelDatabase
 {
 	/**
