@@ -29,6 +29,7 @@ $ -> Language fix or change
 18-Apr-2012 Jean-Marie Simonet
  # [#28351] Remove extra images from finder. Thanks Rouven and Michael
  # [#28382] Make Atomic work with sample data. Thanks Elin
+ # [#28339] Incorrect parameter passed to onUserAfterDeleteGroup event. Thanks Dennis
 
 10-Apr-2012 Christophe Demko
  ^ [#28336] e-strict error in com_messages (Elin Waring)
