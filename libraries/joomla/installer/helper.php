@@ -104,9 +104,11 @@ abstract class JInstallerHelper
 		$archivename = JPath::clean($archivename);
 
 		// Do the unpacking of the archive
-		$result = JArchive::extract($archivename, $extractdir);
-
-		if ($result === false)
+		try
+		{
+			JArchive::extract($archivename, $extractdir);
+		}
+		catch (Exception $e)
 		{
 			return false;
 		}
@@ -145,7 +147,8 @@ abstract class JInstallerHelper
 		 * Get the extension type and return the directory/type array on success or
 		 * false on fail.
 		 */
-		if ($retval['type'] = self::detectType($extractdir))
+		$retval['type'] = self::detectType($extractdir);
+		if ($retval['type'])
 		{
 			return $retval;
 		}

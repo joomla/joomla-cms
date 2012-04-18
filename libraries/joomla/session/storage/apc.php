@@ -25,13 +25,13 @@ class JSessionStorageApc extends JSessionStorage
 	 * @param   array  $options  Optional parameters
 	 *
 	 * @since   11.1
-	 * @throws  Exception
+	 * @throws  RuntimeException
 	 */
 	public function __construct($options = array())
 	{
 		if (!self::isSupported())
 		{
-			throw new Exception(JText::_('JLIB_SESSION_APC_EXTENSION_NOT_AVAILABLE'), 404);
+			throw new RuntimeException('APC Extension is not available', 404);
 		}
 
 		parent::__construct($options);

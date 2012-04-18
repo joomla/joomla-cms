@@ -378,6 +378,7 @@ abstract class JFactory
 	 *
 	 * @see     JXMLElement
 	 * @since   11.1
+	 * @note    This method will return SimpleXMLElement object in the future. Do not rely on JXMLElement's methods.
 	 * @todo    This may go in a separate class - error reporting may be improved.
 	 */
 	public static function getXML($data, $isFile = true)
@@ -469,7 +470,6 @@ abstract class JFactory
 	 */
 	public static function getDate($time = 'now', $tzOffset = null)
 	{
-		jimport('joomla.utilities.date');
 		static $classname;
 		static $mainLocale;
 

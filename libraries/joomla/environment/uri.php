@@ -226,9 +226,12 @@ class JURI
 				self::$base['prefix'] = $uri->toString(array('scheme', 'host', 'port'));
 				self::$base['path'] = rtrim($uri->toString(array('path')), '/\\');
 
-				if (JPATH_BASE == JPATH_ADMINISTRATOR)
+				if (defined('JPATH_BASE') && defined('JPATH_ADMINISTRATOR'))
 				{
-					self::$base['path'] .= '/administrator';
+					if (JPATH_BASE == JPATH_ADMINISTRATOR)
+					{
+						self::$base['path'] .= '/administrator';
+					}
 				}
 			}
 			else

@@ -224,14 +224,14 @@ abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 	 *
 	 * @param   boolean  $defaults  Add default register and trigger methods for testing.
 	 *
-	 * @return  JDispatcher
+	 * @return  JEventDispatcher
 	 *
 	 * @since   12.1
 	 */
 	public function getMockDispatcher($defaults = true)
 	{
 		// Attempt to load the real class first.
-		class_exists('JDispatcher');
+		class_exists('JEventDispatcher');
 
 		return TestMockDispatcher::create($this, $defaults);
 	}
@@ -389,9 +389,14 @@ abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 	protected function saveErrorHandlers()
 	{
 		$this->_stashedErrorState = array();
-		$this->_stashedErrorState[E_NOTICE] = JError::getErrorHandling(E_NOTICE);
-		$this->_stashedErrorState[E_WARNING] = JError::getErrorHandling(E_WARNING);
-		$this->_stashedErrorState[E_ERROR] = JError::getErrorHandling(E_ERROR);
+
+		// Handle optional usage of JError until removed.
+		if (class_exists('JError'))
+		{
+			$this->_stashedErrorState[E_NOTICE] = JError::getErrorHandling(E_NOTICE);
+			$this->_stashedErrorState[E_WARNING] = JError::getErrorHandling(E_WARNING);
+			$this->_stashedErrorState[E_ERROR] = JError::getErrorHandling(E_ERROR);
+		}
 	}
 
 	/**
@@ -431,13 +436,17 @@ abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 		{
 			$mode = $params['mode'];
 
-			if (isset($params['options']))
+			// Handle optional usage of JError until removed.
+			if (class_exists('JError'))
 			{
-				JError::setErrorHandling($type, $mode, $params['options']);
-			}
-			else
-			{
-				JError::setErrorHandling($type, $mode);
+				if (isset($params['options']))
+				{
+					JError::setErrorHandling($type, $mode, $params['options']);
+				}
+				else
+				{
+					JError::setErrorHandling($type, $mode);
+				}
 			}
 		}
 	}

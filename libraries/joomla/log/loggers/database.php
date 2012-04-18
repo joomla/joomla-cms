@@ -134,7 +134,7 @@ class JLoggerDatabase extends JLogger
 	 * @return  void
 	 *
 	 * @since   11.1
-	 * @throws  LogException
+	 * @throws  RuntimeException
 	 */
 	protected function connect()
 	{
@@ -147,26 +147,9 @@ class JLoggerDatabase extends JLogger
 			'database' => $this->database,
 			'prefix' => $this->prefix);
 
-		try
-		{
-			$db = JDatabase::getInstance($options);
+		$db = JDatabaseDriver::getInstance($options);
 
-			if ($db instanceof Exception)
-			{
-				throw new LogException('Database Error: ' . (string) $db);
-			}
-
-			if ($db->getErrorNum() > 0)
-			{
-				throw new LogException(JText::sprintf('JLIB_UTIL_ERROR_CONNECT_DATABASE', $db->getErrorNum(), $db->getErrorMsg()));
-			}
-
-			// Assign the database connector to the class.
-			$this->dbo = $db;
-		}
-		catch (RuntimeException $e)
-		{
-			throw new LogException($e->getMessage());
-		}
+		// Assign the database connector to the class.
+		$this->dbo = $db;
 	}
 }

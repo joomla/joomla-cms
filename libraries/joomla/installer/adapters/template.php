@@ -390,7 +390,7 @@ class JInstallerTemplate extends JAdapterInstance
 		// We do findManifest to avoid problem when uninstalling a list of extensions: getManifest cache its manifest file
 		$this->parent->findManifest();
 		$manifest = $this->parent->getManifest();
-		if (!($manifest instanceof JXMLElement))
+		if (!($manifest instanceof SimpleXMLElement))
 		{
 			// Kill the extension entry
 			$row->delete($row->extension_id);

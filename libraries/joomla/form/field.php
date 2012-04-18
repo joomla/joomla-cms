@@ -27,9 +27,9 @@ abstract class JFormField
 	protected $description;
 
 	/**
-	 * The JXMLElement object of the <field /> XML element that describes the form field.
+	 * The SimpleXMLElement object of the <field /> XML element that describes the form field.
 	 *
-	 * @var    JXMLElement
+	 * @var    SimpleXMLElement
 	 * @since  11.1
 	 */
 	protected $element;
@@ -288,11 +288,11 @@ abstract class JFormField
 	/**
 	 * Method to attach a JForm object to the field.
 	 *
-	 * @param   JXmlElement  $element  The JXmlElement object representing the <field /> tag for the form field object.
-	 * @param   mixed        $value    The form field value to validate.
-	 * @param   string       $group    The field name group control value. This acts as as an array container for the field.
-	 *                                 For example if the field has name="foo" and the group value is set to "bar" then the
-	 *                                 full field name would end up being "bar[foo]".
+	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the <field /> tag for the form field object.
+	 * @param   mixed             $value    The form field value to validate.
+	 * @param   string            $group    The field name group control value. This acts as as an array container for the field.
+	 *                                      For example if the field has name="foo" and the group value is set to "bar" then the
+	 *                                      full field name would end up being "bar[foo]".
 	 *
 	 * @return  boolean  True on success.
 	 *
@@ -301,7 +301,7 @@ abstract class JFormField
 	public function setup($element, $value, $group = null)
 	{
 		// Make sure there is a valid JFormField XML element.
-		if (!($element instanceof JXMLElement) || (string) $element->getName() != 'field')
+		if (!($element instanceof SimpleXMLElement) || (string) $element->getName() != 'field')
 		{
 			return false;
 		}

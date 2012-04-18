@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+"http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "../../Developer_Manual.ent">
+%BOOK_ENTITIES;
+]>
+<section id="chap-Joomla_Platform_Manual-MVC">
+  <title>The Model-View-Controller Packages</title>
+
+  <section>
+    <title>Introduction</title>
+
+    <para>Version 12.1 of the platform introduced a new format for model-view-controller paradigm. Principly, the classes
+    <classname>JModel</classname>, <classname>JView</classname> and <classname>JController</classname> are now interfaces and the
+    base abstract classes are now <classname>JModelBase</classname>, <classname>JViewBase</classname> and
+    <classname>JControllerBase</classname> respectively. In additional, all classes have been simplified removing a lot of
+    coupling with the Joomla CMS that is unnecessary for standalone Joomla Platform applications.</para>
+
+    <para>All the API for controllers, models and views has moved from the Application package into separate Controller, Model and
+    View packages respectively. Much of the API previously devoted to adding include paths for each of the classes has been
+    removed because of improvements in the auto-loader or by registering or discovering classes explicitly using
+    <classname>JLoader</classname>.</para>
+
+    <para>Controllers only support one executable task per class via the execute method. This differs from the legacy
+    <classname>JController</classname> class which mapped tasks to methods in a single class. Messages and redirection are not
+    always required so have been dropped in this base class. They can be provided in a downstream class to suit individual
+    applications. Likewise, methods to create models and views have been dropped in favor of using application or package factory
+    classes.</para>
+
+    <para>Models have been greatly simplified in comparison to their legacy counterpart. The base model is nothing more than a
+    class to hold state. All database support methods have been dropped except for database object support in
+    <classname>JModelDatabase</classname>. Extended model classes such as <classname>JModelAdmin</classname>,
+    <classname>JModelForm</classname>, <classname>JModelItem</classname> and <classname>JModelList</classname> are part of the
+    legacy platform. Most of their function has been replaced by API availble in the Content package also new in 12.1.</para>
+
+    <para>Views have also been greatly simplified. Views are now injected with a single model and a controller. Magic get methods
+    have been dropped in favor of using the model directly. Similarly, assignment methods have also been dropped in favor of
+    setting class properties explicitly. The <classname>JViewHtml</classname> class still implements layout support albeit in a
+    simplified manner.</para>
+  </section>
+
+  <xi:include href="../interfaces/jcontroller.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  <xi:include href="../classes/jcontrollerbase.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  <xi:include href="../interfaces/jmodel.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  <xi:include href="../classes/jmodelbase.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  <xi:include href="../classes/jmodeldatabase.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  <xi:include href="../interfaces/jview.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  <xi:include href="../classes/jviewbase.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  <xi:include href="../classes/jviewhtml.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+</section>

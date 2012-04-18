@@ -143,6 +143,8 @@ class JTableUsergroup extends JTable
 	 * @return  mixed  Boolean or Exception.
 	 *
 	 * @since   11.1
+	 * @throws  RuntimeException on database error.
+	 * @throws  UnexpectedValueException on data error.
 	 */
 	public function delete($oid = null)
 	{
@@ -152,15 +154,15 @@ class JTableUsergroup extends JTable
 		}
 		if ($this->id == 0)
 		{
-			return new JException(JText::_('JGLOBAL_CATEGORY_NOT_FOUND'));
+			throw new UnexpectedValueException('Global Category not found');
 		}
 		if ($this->parent_id == 0)
 		{
-			return new JException(JText::_('JLIB_DATABASE_ERROR_DELETE_ROOT_CATEGORIES'));
+			throw new UnexpectedValueException('Root categories cannot be deleted.');
 		}
 		if ($this->lft == 0 || $this->rgt == 0)
 		{
-			return new JException(JText::_('JLIB_DATABASE_ERROR_DELETE_CATEGORY'));
+			throw new UnexpectedValueException('Left-Right data inconsistency. Cannot delete usergroup.');
 		}
 
 		$db = $this->_db;
@@ -175,7 +177,7 @@ class JTableUsergroup extends JTable
 		$ids = $db->loadColumn();
 		if (empty($ids))
 		{
-			return new JException(JText::_('JLIB_DATABASE_ERROR_DELETE_CATEGORY'));
+			throw new UnexpectedValueException('Left-Right data inconsistency. Cannot delete usergroup.');
 		}
 
 		// Delete the category dependencies
@@ -187,11 +189,7 @@ class JTableUsergroup extends JTable
 		$query->from($db->quoteName($this->_tbl));
 		$query->where($db->quoteName('id') . ' IN (' . implode(',', $ids) . ')');
 		$db->setQuery($query);
-		if (!$db->execute())
-		{
-			$this->setError($db->getErrorMsg());
-			return false;
-		}
+		$db->execute();
 
 		// Delete the usergroup in view levels
 		$replace = array();
@@ -230,11 +228,7 @@ class JTableUsergroup extends JTable
 			$query->update('#__viewlevels');
 			$query->where('id IN (' . implode(',', $match_ids) . ')');
 			$db->setQuery($query);
-			if (!$db->execute())
-			{
-				$this->setError($db->getErrorMsg());
-				return false;
-			}
+			$db->execute();
 		}
 
 		// Delete the user to usergroup mappings for the group(s) from the database.
@@ -244,13 +238,6 @@ class JTableUsergroup extends JTable
 		$query->where($db->quoteName('group_id') . ' IN (' . implode(',', $ids) . ')');
 		$db->setQuery($query);
 		$db->execute();
-
-		// Check for a database error.
-		if ($db->getErrorNum())
-		{
-			$this->setError($db->getErrorMsg());
-			return false;
-		}
 
 		return true;
 	}

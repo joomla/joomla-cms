@@ -54,13 +54,13 @@ class JEventInspector extends JEvent
 }
 
 /**
- * Mock function to test event system in JDispatcher
+ * Mock function to test event system in JEventDispatcher
  * 
- * @return string Static string "JDispatcherMockFunction executed"
+ * @return string Static string "JEventDispatcherMockFunction executed"
  * 
  * @since 11.3
  */
 function JEventMockFunction()
 {
-	return 'JDispatcherMockFunction executed';
+	return 'JEventDispatcherMockFunction executed';
 }

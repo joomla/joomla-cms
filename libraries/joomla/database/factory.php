@@ -56,7 +56,7 @@ class JDatabaseFactory
 		// If the class still doesn't exist we have nothing left to do but throw an exception.  We did our best.
 		if (!class_exists($class))
 		{
-			throw new RuntimeException(JText::sprintf('JLIB_DATABASE_ERROR_LOAD_DATABASE_DRIVER', $options['driver']));
+			throw new RuntimeException(sprintf('Unable to load Database Driver: %s', $options['driver']));
 		}
 
 		// Create our new JDatabaseDriver connector based on the options given.
@@ -66,7 +66,7 @@ class JDatabaseFactory
 		}
 		catch (RuntimeException $e)
 		{
-			throw new RuntimeException(JText::sprintf('JLIB_DATABASE_ERROR_CONNECT_DATABASE', $e->getMessage()));
+			throw new RuntimeException(sprintf('Unable to connect to the Database: %s', $e->getMessage()));
 		}
 
 		return $instance;
@@ -92,7 +92,7 @@ class JDatabaseFactory
 		if (!class_exists($class))
 		{
 			// If it doesn't exist we are at an impasse so throw an exception.
-			throw new RuntimeException(JText::_('JLIB_DATABASE_ERROR_MISSING_EXPORTER'));
+			throw new RuntimeException('Database Exporter not found.');
 		}
 
 		$o = new $class;
@@ -125,7 +125,7 @@ class JDatabaseFactory
 		if (!class_exists($class))
 		{
 			// If it doesn't exist we are at an impasse so throw an exception.
-			throw new RuntimeException(JText::_('JLIB_DATABASE_ERROR_MISSING_IMPORTER'));
+			throw new RuntimeException('Database importer not found.');
 		}
 
 		$o = new $class;
@@ -170,28 +170,10 @@ class JDatabaseFactory
 		if (!class_exists($class))
 		{
 			// If it doesn't exist we are at an impasse so throw an exception.
-			throw new RuntimeException(JText::_('JLIB_DATABASE_ERROR_MISSING_QUERY'));
+			throw new RuntimeException('Database Query class not found');
 		}
 
 		return new $class($db);
-	}
-
-	/**
-	 * Static method to get an instance of a JTable class if it can be found in
-	 * the table include paths.  To add include paths for searching for JTable
-	 * classes @see JTable::addIncludePath().
-	 *
-	 * @param   string  $type    The type (name) of the JTable class to get an instance of.
-	 * @param   string  $prefix  An optional prefix for the table class name.
-	 * @param   array   $config  An optional array of configuration values for the JTable object.
-	 *
-	 * @return  mixed    A JTable object if found or boolean false if one could not be found.
-	 *
-	 * @since   12.1
-	 */
-	public function getTable($type, $prefix = 'JTable', $config = array())
-	{
-		return JTable::getInstance($type, $prefix, $config);
 	}
 
 	/**

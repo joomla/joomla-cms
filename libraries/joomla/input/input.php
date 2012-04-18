@@ -231,10 +231,10 @@ class JInput implements Serializable
 	/**
 	 * Magic method to get filtered input data.
 	 *
-	 * @param   mixed   $name       Name of the value to get.
-	 * @param   string  $arguments  Default value to return if variable does not exist.
+	 * @param   string  $name       Name of the filter type prefixed with 'get'.
+	 * @param   array   $arguments  [0] The name of the variable [1] The default value.
 	 *
-	 * @return  boolean  The filtered boolean input value.
+	 * @return  mixed   The filtered input value.
 	 *
 	 * @since   11.1
 	 */

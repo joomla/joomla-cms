@@ -9,7 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.application.module.helper');
 jimport('joomla.utilities.utility');
 
 /**

@@ -1145,6 +1145,11 @@ class JHtmlTest extends TestCase
 			$this->equalTo('<span class="hasTip2" title="Title::Content"><img src="'.JURI::base(true).'/media/system/images/tooltip.png" alt="Tooltip"  /></span>'),
 			'Tooltip with title and content and class failed'
 		);
+		$this->assertThat(
+			JHtml::tooltip('Content',array()),
+			$this->equalTo('<span class="hasTip" title="Content"><img src="'.JURI::base(true).'/media/system/images/tooltip.png" alt="Tooltip"  /></span>'),
+			'Basic tooltip (array version) failed'
+		);
 
 		// Remove our testfile
 		unlink(JPATH_ROOT . '/media/system/images/tooltip.png');

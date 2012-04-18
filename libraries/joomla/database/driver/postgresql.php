@@ -92,10 +92,10 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 			return;
 		}
 
-		// Make sure the MySQL extension for PHP is installed and enabled.
+		// Make sure the postgresql extension for PHP is installed and enabled.
 		if (!function_exists('pg_connect'))
 		{
-			throw new RuntimeException(JText::_('JLIB_DATABASE_ERROR_ADAPTER_POSTGRESQL'));
+			throw new RuntimeException('PHP extension pg_connect is not available.');
 		}
 
 		// Build the DSN for the connection.
@@ -104,7 +104,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		// Attempt to connect to the server.
 		if (!($this->connection = @pg_connect($dsn)))
 		{
-			throw new RuntimeException(JText::_('JLIB_DATABASE_ERROR_CONNECT_POSTGRESQL'));
+			throw new RuntimeException('Error connecting to PGSQL database.');
 		}
 
 		pg_set_error_verbosity($this->connection, PGSQL_ERRORS_DEFAULT);
@@ -263,7 +263,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 			// Make sure we have a query class for this driver.
 			if (!class_exists('JDatabaseQueryPostgresql'))
 			{
-				throw new RuntimeException(JText::_('JLIB_DATABASE_ERROR_MISSING_QUERY'));
+				throw new RuntimeException('JDatabaseQueryPostgresql Class not found.');
 			}
 
 			$this->queryObject = new JDatabaseQueryPostgresql($this);
@@ -556,7 +556,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @param   string  $tableName  The name of the table to unlock.
 	 *
-	 * @return  JDatabase  Returns this object to support chaining.
+	 * @return  JDatabaseDriverPostgresql  Returns this object to support chaining.
 	 *
 	 * @since   11.4
 	 * @throws  RuntimeException
@@ -662,7 +662,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 * @param   string  $backup    Not used by PostgreSQL.
 	 * @param   string  $prefix    Not used by PostgreSQL.
 	 *
-	 * @return  JDatabase  Returns this object to support chaining.
+	 * @return  JDatabaseDriverPostgresql  Returns this object to support chaining.
 	 *
 	 * @since   11.4
 	 * @throws  RuntimeException
@@ -678,7 +678,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		if ( !in_array($oldTable, $tableList) )
 		{
 			// Origin Table not found
-			throw new RuntimeException(JText::_('JLIB_DATABASE_ERROR_POSTGRESQL_TABLE_NOT_FOUND'));
+			throw new RuntimeException('Table not found in Postgresql database.');
 		}
 		else
 		{
@@ -1020,7 +1020,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	/**
 	 * Get the query string to create new Database in correct PostgreSQL syntax.
 	 *
-	 * @param   JObject  $options  JObject coming from "initialise" function to pass user
+	 * @param   object   $options  object coming from "initialise" function to pass user
 	 * 									and database name to database driver.
 	 * @param   boolean  $utf      True if the database supports the UTF-8 character set,
 	 * 									not used in PostgreSQL "CREATE DATABASE" query.
@@ -1148,7 +1148,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 * Unlocks tables in the database, this command does not exist in PostgreSQL,
 	 * it is automatically done on commit or rollback.
 	 *
-	 * @return  JDatabase  Returns this object to support chaining.
+	 * @return  JDatabaseDriverPostgresql  Returns this object to support chaining.
 	 *
 	 * @since   11.4
 	 * @throws  RuntimeException

@@ -195,7 +195,7 @@ class JApplicationWeb extends JApplicationBase
 	 *                              object, and if it is null then the default language object will be created based
 	 *                              on the application's loadLanguage() method.
 	 * @param   mixed  $dispatcher  An optional argument to provide dependency injection for the application's
-	 *                              event dispatcher.  If the argument is a JDispatcher object that object will become
+	 *                              event dispatcher.  If the argument is a JEventDispatcher object that object will become
 	 *                              the application's event dispatcher, if it is null then the default event dispatcher
 	 *                              will be created based on the application's loadDispatcher() method.
 	 *

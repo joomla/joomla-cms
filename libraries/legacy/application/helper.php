@@ -24,15 +24,6 @@ class JApplicationHelper
 	 * @var    array
 	 * @since  11.1
 	 */
-	protected static $clients = null;
-
-	/**
-	 * Client information array
-	 *
-	 * @var    array
-	 * @since  11.1
-	 * @deprecated use $clientsor declare as private
-	 */
 	protected static $_clients = null;
 
 	/**
@@ -53,14 +44,15 @@ class JApplicationHelper
 			return $option;
 		}
 
-		$option = strtolower(JRequest::getCmd('option'));
+		$input = JFactory::getApplication()->input;
+		$option = strtolower($input->get('option'));
 
 		if (empty($option))
 		{
 			$option = $default;
 		}
 
-		JRequest::setVar('option', $option);
+		$input->set('option', $option);
 		return $option;
 	}
 
@@ -175,7 +167,7 @@ class JApplicationHelper
 	 * @return  array  XML metadata.
 	 *
 	 * @since   11.1
-	 * @deprecated  12.1
+	 * @deprecated  13.3
 	 */
 	public static function parseXMLInstallFile($path)
 	{

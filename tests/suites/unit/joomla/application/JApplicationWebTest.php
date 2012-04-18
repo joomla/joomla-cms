@@ -122,7 +122,7 @@ class JApplicationWebTest extends TestCase
 	protected function tearDown()
 	{
 		// Reset the dispatcher instance.
-		TestReflection::setValue('JDispatcher', 'instance', null);
+		TestReflection::setValue('JEventDispatcher', 'instance', null);
 
 		// Reset some web inspector static settings.
 		JApplicationWebInspector::$headersSent = false;
@@ -963,7 +963,7 @@ class JApplicationWebTest extends TestCase
 		);
 
 		$this->assertInstanceOf(
-			'JDispatcher',
+			'JEventDispatcher',
 			TestReflection::getValue($this->class, 'dispatcher'),
 			'Test that deafult dispatcher was initialised.'
 		);
@@ -1032,12 +1032,12 @@ class JApplicationWebTest extends TestCase
 				$this->returnValue('JLanguage')
 			);
 
-		$mockDispatcher = $this->getMock('JDispatcher', array('test'), array(), '', false);
+		$mockDispatcher = $this->getMock('JEventDispatcher', array('test'), array(), '', false);
 		$mockDispatcher
 			->expects($this->any())
 			->method('test')
 			->will(
-				$this->returnValue('JDispatcher')
+				$this->returnValue('JEventDispatcher')
 			);
 
 		$this->class->initialise($mockSession, $mockDocument, $mockLanguage, $mockDispatcher);
@@ -1062,7 +1062,7 @@ class JApplicationWebTest extends TestCase
 
 		$this->assertThat(
 			TestReflection::getValue($this->class, 'dispatcher')->test(),
-			$this->equalTo('JDispatcher'),
+			$this->equalTo('JEventDispatcher'),
 			'Tests dispatcher injection.'
 		);
 	}
@@ -1114,8 +1114,8 @@ class JApplicationWebTest extends TestCase
 	 */
 	public function testLoadDocument()
 	{
-		// Inject the mock dispatcher into the JDispatcher singleton.
-		TestReflection::setValue('JDispatcher', 'instance', $this->getMockDispatcher());
+		// Inject the mock dispatcher into the JEventDispatcher singleton.
+		TestReflection::setValue('JEventDispatcher', 'instance', $this->getMockDispatcher());
 
 		$this->class->loadDocument();
 

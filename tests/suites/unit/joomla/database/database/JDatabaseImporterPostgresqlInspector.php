@@ -8,7 +8,6 @@
  */
 
 require_once JPATH_PLATFORM . '/joomla/database/importer/postgresql.php';
-require_once JPATH_PLATFORM . '/joomla/database/exception.php';
 
 /**
  * Class to expose protected properties and methods in JDatabasePostgresqlImporter for testing purposes

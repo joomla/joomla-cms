@@ -116,6 +116,23 @@ abstract class JDatabase
 	}
 
 	/**
+	 * Splits a string of multiple queries into an array of individual queries.
+	 *
+	 * @param   string  $sql  Input SQL string with which to split into individual queries.
+	 *
+	 * @return  array  The queries from the input string separated into an array.
+	 *
+	 * @since   11.1
+	 * @deprecated  13.1
+	 */
+	public static function splitSql($sql)
+	{
+		JLog::add('JDatabase::splitSql() is deprecated, use JDatabaseDriver::splitSql() instead.', JLog::NOTICE, 'deprecated');
+
+		return JDatabaseDriver::splitSql($sql);
+	}
+
+	/**
 	 * Return the most recent error message for the database connector.
 	 *
 	 * @param   boolean  $showSQL  True to display the SQL statement sent to the database as well as the error.

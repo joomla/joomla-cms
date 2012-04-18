@@ -101,7 +101,7 @@ class JLanguageStemmerPorteren extends JLanguageStemmer
 		}
 
 		// Part b
-		if (substr($word, -2, 1) != 'e' || !self::_replace($word, 'eed', 'ee', 0))
+		if (substr($word, -2, 1) != 'e' or !self::_replace($word, 'eed', 'ee', 0))
 		{
 			// First rule
 			$v = self::$_regex_vowel;
@@ -112,14 +112,14 @@ class JLanguageStemmerPorteren extends JLanguageStemmer
 				or preg_match("#$v+#", substr($word, 0, -2)) && self::_replace($word, 'ed', ''))
 			{
 				// If one of above two test successful
-				if (!self::_replace($word, 'at', 'ate') && !self::_replace($word, 'bl', 'ble') && !self::_replace($word, 'iz', 'ize'))
+				if (!self::_replace($word, 'at', 'ate') and !self::_replace($word, 'bl', 'ble') and !self::_replace($word, 'iz', 'ize'))
 				{
 					// Double consonant ending
-					if (self::_doubleConsonant($word) && substr($word, -2) != 'll' && substr($word, -2) != 'ss' && substr($word, -2) != 'zz')
+					if (self::_doubleConsonant($word) and substr($word, -2) != 'll' and substr($word, -2) != 'ss' and substr($word, -2) != 'zz')
 					{
 						$word = substr($word, 0, -1);
 					}
-					elseif (self::_m($word) == 1 && self::_cvc($word))
+					elseif (self::_m($word) == 1 and self::_cvc($word))
 					{
 						$word .= 'e';
 					}
@@ -280,7 +280,7 @@ class JLanguageStemmerPorteren extends JLanguageStemmer
 				or self::_replace($word, 'ent', '', 1);
 				break;
 			case 'o':
-				if (substr($word, -4) == 'tion' || substr($word, -4) == 'sion')
+				if (substr($word, -4) == 'tion' or substr($word, -4) == 'sion')
 				{
 					self::_replace($word, 'ion', '', 1);
 				}
@@ -338,7 +338,7 @@ class JLanguageStemmerPorteren extends JLanguageStemmer
 		}
 
 		// Part b
-		if (self::_m($word) > 1 && self::_doubleConsonant($word) && substr($word, -1) == 'l')
+		if (self::_m($word) > 1 and self::_doubleConsonant($word) and substr($word, -1) == 'l')
 		{
 			$word = substr($word, 0, -1);
 		}
@@ -368,7 +368,7 @@ class JLanguageStemmerPorteren extends JLanguageStemmer
 		if (substr($str, $len) == $check)
 		{
 			$substr = substr($str, 0, $len);
-			if (is_null($m) || self::_m($substr) > $m)
+			if (is_null($m) or self::_m($substr) > $m)
 			{
 				$str = $substr . $repl;
 			}
@@ -420,7 +420,7 @@ class JLanguageStemmerPorteren extends JLanguageStemmer
 	{
 		$c = self::$_regex_consonant;
 
-		return preg_match("#$c{2}$#", $str, $matches) && $matches[0]{0} == $matches[0]{1};
+		return preg_match("#$c{2}$#", $str, $matches) and $matches[0]{0} == $matches[0]{1};
 	}
 
 	/**
@@ -438,10 +438,11 @@ class JLanguageStemmerPorteren extends JLanguageStemmer
 		$v = self::$_regex_vowel;
 
 		$result = preg_match("#($c$v$c)$#", $str, $matches)
-			&& strlen($matches[1]) == 3
-			&& $matches[1]{2} != 'w'
-			&& $matches[1]{2} != 'x'
-			&& $matches[1]{2} != 'y';
+			and strlen($matches[1]) == 3
+			and $matches[1]{2} != 'w'
+			and $matches[1]{2} != 'x'
+			and $matches[1]{2} != 'y';
+
 		return $result;
 	}
 }

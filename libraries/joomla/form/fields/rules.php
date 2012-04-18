@@ -71,11 +71,6 @@ class JFormFieldRules extends JFormField
 			$query->where($db->quoteName('name') . ' = ' . $db->quote($component));
 			$db->setQuery($query);
 			$assetId = (int) $db->loadResult();
-
-			if ($error = $db->getErrorMsg())
-			{
-				JLog::add($error, JLog::WARNING, 'jerror');
-			}
 		}
 		else
 		{

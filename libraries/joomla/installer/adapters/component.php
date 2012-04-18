@@ -1133,14 +1133,6 @@ class JInstallerComponent extends JAdapterInstance
 		$db->setQuery($query);
 		$db->execute();
 
-		// Check for errors.
-		if ($db->getErrorNum())
-		{
-			JLog::add(JText::_('JLIB_INSTALLER_ERROR_COMP_UNINSTALL_FAILED_DELETE_CATEGORIES'), JLog::WARNING, 'jerror');
-			$this->setError($db->getErrorMsg());
-			$retval = false;
-		}
-
 		// Clobber any possible pending updates
 		$update = JTable::getInstance('update');
 		$uid = $update->find(array('element' => $row->element, 'type' => 'component', 'client_id' => '', 'folder' => ''));
@@ -1423,18 +1415,7 @@ class JInstallerComponent extends JAdapterInstance
 		$ids = $db->loadColumn();
 
 		// Check for error
-		if ($error = $db->getErrorMsg())
-		{
-			JLog::add(JText::_('JLIB_INSTALLER_ERROR_COMP_REMOVING_ADMIN_MENUS_FAILED'), JLog::WARNING, 'jerror');
-
-			if ($error && $error != 1)
-			{
-				JLog::add($error, JLog::WARNING, 'jerror');
-			}
-
-			return false;
-		}
-		elseif (!empty($ids))
+		if (!empty($ids))
 		{
 			// Iterate the items to delete each one.
 			foreach ($ids as $menuid)
@@ -1719,7 +1700,7 @@ class JInstallerComponent extends JAdapterInstance
 		ob_start();
 		ob_implicit_flush(false);
 
-		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'discover_install'))
+		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'install'))
 		{
 
 			if ($this->parent->manifestClass->install($this) === false)

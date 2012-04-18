@@ -59,12 +59,6 @@ abstract class JHtmlContentLanguage
 			{
 				array_unshift(self::$items, new JObject(array('value' => '*', 'text' => $translate ? JText::alt('JALL', 'language') : 'JALL_LANGUAGE')));
 			}
-
-			// Detect errors
-			if ($db->getErrorNum())
-			{
-				JLog::add($db->getErrorMsg(), JLog::WARNING, 'jerror');
-			}
 		}
 		return self::$items;
 	}

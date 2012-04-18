@@ -50,13 +50,12 @@ class JFormFieldMedia extends JFormField
 		$asset = $this->form->getValue($assetField) ? $this->form->getValue($assetField) : (string) $this->element['asset_id'];
 		if ($asset == '')
 		{
-			$asset = JRequest::getCmd('option');
+			$asset = JFactory::getApplication()->input->get('option');
 		}
 
 		$link = (string) $this->element['link'];
 		if (!self::$initialised)
 		{
-
 			// Load the modal behavior script.
 			JHtml::_('behavior.modal');
 
@@ -140,27 +139,30 @@ class JFormFieldMedia extends JFormField
 			$folder = '';
 		}
 		// The button.
-		$html[] = '<div class="button2-left">';
-		$html[] = '	<div class="blank">';
-		$html[] = '		<a class="modal" title="' . JText::_('JLIB_FORM_BUTTON_SELECT') . '"' . ' href="'
-			. ($this->element['readonly'] ? ''
-			: ($link ? $link
-				: 'index.php?option=com_media&amp;view=images&amp;tmpl=component&amp;asset=' . $asset . '&amp;author='
-				. $this->form->getValue($authorField)) . '&amp;fieldid=' . $this->id . '&amp;folder=' . $folder) . '"'
-			. ' rel="{handler: \'iframe\', size: {x: 800, y: 500}}">';
-		$html[] = JText::_('JLIB_FORM_BUTTON_SELECT') . '</a>';
-		$html[] = '	</div>';
-		$html[] = '</div>';
+		if ($this->element['disabled'] != true)
+		{
+			$html[] = '<div class="button2-left">';
+			$html[] = '	<div class="blank">';
+			$html[] = '		<a class="modal" title="' . JText::_('JLIB_FORM_BUTTON_SELECT') . '"' . ' href="'
+				. ($this->element['readonly'] ? ''
+				: ($link ? $link
+					: 'index.php?option=com_media&amp;view=images&amp;tmpl=component&amp;asset=' . $asset . '&amp;author='
+					. $this->form->getValue($authorField)) . '&amp;fieldid=' . $this->id . '&amp;folder=' . $folder) . '"'
+				. ' rel="{handler: \'iframe\', size: {x: 800, y: 500}}">';
+			$html[] = JText::_('JLIB_FORM_BUTTON_SELECT') . '</a>';
+			$html[] = '	</div>';
+			$html[] = '</div>';
 
-		$html[] = '<div class="button2-left">';
-		$html[] = '	<div class="blank">';
-		$html[] = '		<a title="' . JText::_('JLIB_FORM_BUTTON_CLEAR') . '"' . ' href="#" onclick="';
-		$html[] = 'jInsertFieldValue(\'\', \'' . $this->id . '\');';
-		$html[] = 'return false;';
-		$html[] = '">';
-		$html[] = JText::_('JLIB_FORM_BUTTON_CLEAR') . '</a>';
-		$html[] = '	</div>';
-		$html[] = '</div>';
+			$html[] = '<div class="button2-left">';
+			$html[] = '	<div class="blank">';
+			$html[] = '		<a title="' . JText::_('JLIB_FORM_BUTTON_CLEAR') . '"' . ' href="#" onclick="';
+			$html[] = 'jInsertFieldValue(\'\', \'' . $this->id . '\');';
+			$html[] = 'return false;';
+			$html[] = '">';
+			$html[] = JText::_('JLIB_FORM_BUTTON_CLEAR') . '</a>';
+			$html[] = '	</div>';
+			$html[] = '</div>';
+		}
 
 		// The Preview.
 		$preview = (string) $this->element['preview'];

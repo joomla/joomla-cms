@@ -88,13 +88,6 @@ abstract class JHtmlList
 
 		$items = $db->loadObjectList();
 
-		// Check for a database error.
-		if ($db->getErrorNum())
-		{
-			JLog::add($db->getErrorMsg(), JLog::NOTICE, 'jerror');
-			return false;
-		}
-
 		if (empty($items))
 		{
 			$options[] = JHtml::_('select.option', 1, JText::_('JOPTION_ORDER_FIRST'));
