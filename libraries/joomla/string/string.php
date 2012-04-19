@@ -78,11 +78,14 @@ abstract class JString
 	 *
 	 * @return  array   The splitted string.
 	 *
+	 * @deprecated  12.3
 	 * @since   11.3
 	 */
 	public static function splitCamelCase($string)
 	{
-		return preg_split('/(?<=[^A-Z_])(?=[A-Z])|(?<=[A-Z])(?=[A-Z][^A-Z_])/x', $string);
+		JLog::add('JString::splitCamelCase has been deprecated. Use JStringNormalise::fromCamelCase.', JLog::WARNING, 'deprecated');
+
+		return JStringNormalise::fromCamelCase($string, true);
 	}
 
 	/**
