@@ -812,9 +812,6 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 		$fields = array();
 		$values = array();
 
-		// Create the base insert statement.
-		$statement = 'INSERT INTO ' . $this->quoteName($table) . ' (%s) VALUES (%s)';
-
 		// Iterate over the object variables to build the query fields and values.
 		foreach (get_object_vars($object) as $k => $v)
 		{
@@ -835,8 +832,14 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 			$values[] = $this->quote($v);
 		}
 
+		// Create the base insert statement.
+		$query = $this->getQuery(true);
+		$query->insert($this->quoteName($table))
+				->columns($fields)
+				->values(implode(',', $values));
+
 		// Set the query and execute the insert.
-		$this->setQuery(sprintf($statement, implode(',', $fields), implode(',', $values)));
+		$this->setQuery($query);
 		if (!$this->execute())
 		{
 			return false;

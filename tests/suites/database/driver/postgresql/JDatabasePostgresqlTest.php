@@ -547,14 +547,43 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 	/**
 	 * Test insertObject function
 	 *
-	 * @todo Implement testInsertObject().
-	 *
 	 * @return   void
+	 *
+	 * @since    12.1
 	 */
 	public function testInsertObject()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		self::$driver->setQuery('TRUNCATE TABLE "jos_dbtest" RESTART IDENTITY');
+		$result = self::$driver->execute();
+
+		$tst = new JObject;
+		$tst->title = "PostgreSQL test insertObject";
+		$tst->start_date = '2012-04-07 15:00:00';
+		$tst->description = "Test insertObject";
+
+		// Insert object without retrieving key
+		$ret = self::$driver->insertObject('#__dbtest', $tst);
+
+		$checkQuery = self::$driver->getQuery(true);
+		$checkQuery->select('COUNT(*)')
+			->from('#__dbtest')
+			->where('start_date = \'2012-04-07 15:00:00\'', 'AND')
+			->where('description = \'Test insertObject\'')
+			->where('title = \'PostgreSQL test insertObject\'');
+		self::$driver->setQuery($checkQuery);
+
+		$this->assertThat(self::$driver->loadResult(), $this->equalTo(1), __LINE__);
+		$this->assertThat($ret, $this->equalTo(true), __LINE__);
+
+		// Insert object retrieving the key
+		$tstK = new JObject;
+		$tstK->title = "PostgreSQL test insertObject with key";
+		$tstK->start_date = '2012-04-07 15:00:00';
+		$tstK->description = "Test insertObject with key";
+		$retK = self::$driver->insertObject('#__dbtest', $tstK, 'id');
+
+		$this->assertThat($tstK->id, $this->equalTo(2), __LINE__);
+		$this->assertThat($retK, $this->equalTo(true), __LINE__);
 	}
 
 	/**
