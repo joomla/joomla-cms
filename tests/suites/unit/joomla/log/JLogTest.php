@@ -9,7 +9,6 @@
 
 require_once JPATH_PLATFORM.'/joomla/log/log.php';
 require_once JPATH_PLATFORM.'/joomla/log/entry.php';
-require_once JPATH_PLATFORM.'/joomla/log/logexception.php';
 require_once JPATH_PLATFORM.'/joomla/log/logger.php';
 require_once __DIR__.'/stubs/log/inspector.php';
 
@@ -158,8 +157,8 @@ class JLogTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testAddLoggerAutoInstantiationInvalidLogger()
 	{
-		// We are expecting a LogException to be thrown since we are trying to add a bogus logger.
-		$this->setExpectedException('LogException');
+		// We are expecting a InvalidArgumentException to be thrown since we are trying to add a bogus logger.
+		$this->setExpectedException('RuntimeException');
 
 		JLog::setInstance(null);
 

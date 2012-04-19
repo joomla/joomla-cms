@@ -11,8 +11,6 @@ defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.log.logger');
 
-JLoader::register('LogException', JPATH_PLATFORM . '/joomla/log/logexception.php');
-
 JLoader::discover('JLogger', __DIR__ . '/loggers');
 
 // @deprecated  12.1
@@ -23,8 +21,8 @@ jimport('joomla.filesystem.path');
  *
  * This class hooks into the global log configuration settings to allow for user configured
  * logging events to be sent to where the user wishes them to be sent. On high load sites
- * SysLog is probably the best (pure PHP function), then the text file based loggers (CSV, W3C
- * or plain FormattedText) and finally MySQL offers the most features (e.g. rapid searching)
+ * Syslog is probably the best (pure PHP function), then the text file based loggers (CSV, W3c
+ * or plain Formattedtext) and finally MySQL offers the most features (e.g. rapid searching)
  * but will incur a performance hit due to INSERT being issued.
  *
  * @package     Joomla.Platform
@@ -293,7 +291,7 @@ class JLog
 	 *
 	 * @param   array  $entry  Array of values to map to the format string for the log file.
 	 *
-	 * @return  boolean  True on success.
+	 * @return  mixed  null|boolean
 	 *
 	 * @since         11.1
 	 *
@@ -352,7 +350,7 @@ class JLog
 	 * @return  void
 	 *
 	 * @since   11.1
-	 * @throws  LogException
+	 * @throws  RuntimeException
 	 */
 	protected function addLogEntry(JLogEntry $entry)
 	{
@@ -372,7 +370,7 @@ class JLog
 				}
 				else
 				{
-					throw new LogException(JText::_('Unable to create a JLogger instance: '));
+					throw new RuntimeException('Unable to create a JLogger instance: ' . $class);
 				}
 			}
 
