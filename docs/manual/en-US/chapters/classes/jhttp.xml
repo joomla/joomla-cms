@@ -62,23 +62,23 @@ var_dump($response-&gt;body);</programlisting>
   <section>
     <title>Making a GET request</title>
 
-    <para>An HTTP GET request can be made using the get method passing a URL and an optional key-value array of header variables.
-    In RESTful terms, a GET request is sent to read data from the server.</para>
+    <para>An HTTP GET request can be made using the get method passing a URL, an optional key-value array of header variables and
+    an optional timeout value. In RESTful terms, a GET request is sent to read data from the server.</para>
 
     <example>
       <title>Making a GET request</title>
 
       <programlisting>// Invoke the GET request.
-$response = $http-&gt;head('http://api.example.com/cars');</programlisting>
+$response = $http-&gt;get('http://api.example.com/cars');</programlisting>
     </example>
   </section>
 
   <section>
     <title>Making a POST request</title>
 
-    <para>An HTTP POST request can be made using the post method passing a URL, a data variable and an optional key-value array of
-    header variables. The data can be either an associative array of POST variables, or a string to be sent with the request. In
-    RESTful terms, a POST request is sent to create new data on th server.</para>
+    <para>An HTTP POST request can be made using the post method passing a URL, a data variable, an optional key-value array of
+    header variables and an optional timeout value. The data can be either an associative array of POST variables, or a string to
+    be sent with the request. In RESTful terms, a POST request is sent to create new data on the server.</para>
 
     <example>
       <title>Making a POST request</title>
@@ -87,16 +87,16 @@ $response = $http-&gt;head('http://api.example.com/cars');</programlisting>
 $data = array('make' =&gt; 'Holden', model =&gt; 'EJ-Special');
 
 // Invoke the GET request.
-$response = $http-&gt;head('http://api.example.com/cars/1');</programlisting>
+$response = $http-&gt;post('http://api.example.com/cars/1', $data);</programlisting>
     </example>
   </section>
 
   <section>
     <title>Making a PUT request</title>
 
-    <para>An HTTP POST request can be made using the post method passing a URL, a data variable and an optional key-value array of
-    header variables. The data can be either an associative array of POST variables, or a string to be sent with the request. In
-    RESTful terms, a PUT request is typically sent to update existing data on the server.</para>
+    <para>An HTTP POST request can be made using the post method passing a URL, a data variable, an optional key-value array of
+    header variables and an optional timeout value. The data can be either an associative array of POST variables, or a string to
+    be sent with the request. In RESTful terms, a PUT request is typically sent to update existing data on the server.</para>
 
     <example>
       <title>Making a PUT request</title>
@@ -105,21 +105,22 @@ $response = $http-&gt;head('http://api.example.com/cars/1');</programlisting>
 $data = array('description' =&gt; 'My first car.', 'color' =&gt; 'gray');
 
 // Invoke the GET request.
-$response = $http-&gt;head('http://api.example.com/cars/1', $data);</programlisting>
+$response = $http-&gt;put('http://api.example.com/cars/1', $data);</programlisting>
     </example>
   </section>
 
   <section>
     <title>Making a DELETE request</title>
 
-    <para>An HTTP DELETE request can be made using the delete method passing a URL and an optional key-value array of header
-    variables. In RESTful terms, a DELETE request is typically sent to delete existing data on the server.</para>
+    <para>An HTTP DELETE request can be made using the delete method passing a URL, an optional key-value array of header
+    variables and an optional timeout value. In RESTful terms, a DELETE request is typically sent to delete existing data on the
+    server.</para>
 
     <example>
       <title>Making a DELETE request</title>
 
       <programlisting>// Invoke the DELETE request.
-$response = $http-&gt;head('http://api.example.com/cars/1');</programlisting>
+$response = $http-&gt;delete('http://api.example.com/cars/1');</programlisting>
     </example>
   </section>
 
