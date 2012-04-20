@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+20-Apr-2012 Jean-Marie Simonet
+ # [#28407] *Browser Settings for new visitors broken in multilanguage. Reverting #28151
+
 18-Apr-2012 Jean-Marie Simonet
  # [#28351] Remove extra images from finder. Thanks Rouven and Michael
  # [#28382] Make Atomic work with sample data. Thanks Elin
