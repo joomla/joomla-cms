@@ -33,7 +33,7 @@ class JFormRuleColor extends JFormRule
 	 *
 	 * @since   11.2
 	 */
-	public function test($element, $value, $group = null, $input = null, $form = null)
+	public function test(SimpleXMLElement $element, $value, $group = null, JRegistry $input = null, JForm $form = null)
 	{
 		$value = trim($value);
 

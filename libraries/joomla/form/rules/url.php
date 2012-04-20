@@ -35,7 +35,7 @@ class JFormRuleUrl extends JFormRule
 	 * @link    http://www.w3.org/Addressing/URL/url-spec.txt
 	 * @see	    Jstring
 	 */
-	public function test($element, $value, $group = null, $input = null, $form = null)
+	public function test(SimpleXMLElement $element, $value, $group = null, JRegistry $input = null, JForm $form = null)
 	{
 		// If the field is empty and not required, the field is valid.
 		$required = ((string) $element['required'] == 'true' || (string) $element['required'] == 'required');

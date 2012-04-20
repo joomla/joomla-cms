@@ -33,7 +33,7 @@ class JFormRuleRules extends JFormRule
 	 *
 	 * @since   11.1
 	 */
-	public function test($element, $value, $group = null, $input = null, $form = null)
+	public function test(SimpleXMLElement $element, $value, $group = null, JRegistry $input = null, JForm $form = null)
 	{
 		// Get the possible field actions and the ones posted to validate them.
 		$fieldActions = self::getFieldActions($element);
@@ -84,7 +84,7 @@ class JFormRuleRules extends JFormRule
 	 *
 	 * @since   11.1
 	 */
-	protected function getFieldActions($element)
+	protected function getFieldActions(SimpleXMLElement $element)
 	{
 		// Initialise variables.
 		$actions = array();

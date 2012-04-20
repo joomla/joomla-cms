@@ -184,7 +184,7 @@ abstract class JFormField
 	/**
 	 * Method to instantiate the form field object.
 	 *
-	 * @param   object  $form  The form to attach to the form field object.
+	 * @param   JForm  $form  The form to attach to the form field object.
 	 *
 	 * @since   11.1
 	 */
@@ -298,10 +298,10 @@ abstract class JFormField
 	 *
 	 * @since   11.1
 	 */
-	public function setup($element, $value, $group = null)
+	public function setup(SimpleXMLElement $element, $value, $group = null)
 	{
 		// Make sure there is a valid JFormField XML element.
-		if (!($element instanceof SimpleXMLElement) || (string) $element->getName() != 'field')
+		if ((string) $element->getName() != 'field')
 		{
 			return false;
 		}
