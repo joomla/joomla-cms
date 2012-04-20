@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM.'/joomla/html/html/menu.php';
+require_once JPATH_PLATFORM . '/legacy/html/menu.php';
 
 /**
  * Test class for JHtmlMenu.
@@ -46,7 +46,7 @@ class JHtmlMenuTest extends TestCaseDatabase
 	 */
 	protected function getDataSet()
 	{
-		return $this->createXMLDataSet(__DIR__.'/testfiles/JHtmlTest.xml');
+		return $this->createXMLDataSet(JPATH_TESTS . '/suites/unit/joomla/html/html/testfiles/JHtmlTest.xml');
 	}
 
 	/**
@@ -55,6 +55,7 @@ class JHtmlMenuTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   11.3
+	 * @covers  JHtmlMenu::menus
 	 */
 	public function testMenus()
 	{
@@ -70,6 +71,7 @@ class JHtmlMenuTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   11.3
+	 * @covers  JHtmlMenu::menuitems
 	 */
 	public function testMenuitems()
 	{

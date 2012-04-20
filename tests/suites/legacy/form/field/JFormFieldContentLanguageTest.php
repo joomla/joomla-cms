@@ -25,8 +25,8 @@ class JFormFieldContentLanguageTest extends TestCaseDatabase
 	 */
 	protected function setUp()
 	{
-		require_once JPATH_PLATFORM . '/joomla/form/fields/contentlanguage.php';
-		include_once dirname(__DIR__) . '/inspectors.php';
+		require_once JPATH_PLATFORM . '/legacy/form/field/contentlanguage.php';
+		require_once JPATH_TESTS . '/suites/unit/joomla/form/inspectors.php';
 	}
 
 	/**
@@ -38,7 +38,7 @@ class JFormFieldContentLanguageTest extends TestCaseDatabase
 	 */
 	protected function getDataSet()
 	{
-		return $this->createXMLDataSet(__DIR__ . '/testfiles/JFormField.xml');
+		return $this->createXMLDataSet(JPATH_TESTS . '/suites/unit/joomla/form/fields/testfiles/JFormField.xml');
 	}
 
 	/**
@@ -47,6 +47,7 @@ class JFormFieldContentLanguageTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   11.1
+	 * @covers  JFormFieldContentLanguage::getOptions
 	 */
 	public function testGetInput()
 	{
