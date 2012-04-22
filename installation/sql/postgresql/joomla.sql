@@ -300,6 +300,7 @@ CREATE INDEX "#__contact_details_idx_xreference" ON "#__contact_details" ("xrefe
 
 COMMENT ON COLUMN "#__contact_details"."featured" IS 'Set if article is featured.';
 COMMENT ON COLUMN "#__contact_details"."xreference" IS 'A reference to enable linkages to external data sets.';
+COMMENT ON COLUMN "#__contact_details"."imagepos" IS 'Deprecated in Joomla! 3.0';
 
 
 --
