@@ -296,7 +296,7 @@ class JApplication extends JObject
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   11.4
 	 */
 	public function dispatch($component = null)
 	{
@@ -561,6 +561,33 @@ class JApplication extends JObject
 		return $name;
 	}
 
+	/**
+	 * Method to get the input name.
+	 *
+	 * Return the JInput instance
+	 *
+	 * @return  JInput  The JInput object.
+	 *
+	 * @since   11.4
+	 */
+	public function getInput()
+	{
+		
+		$instance = self::getInstance(); //If function is called statically
+		
+		if (!$instance->input instanceof JInput)
+		{
+			$instance->input = new JInput;
+		}
+		
+		return $instance->input;
+		
+	}
+	
+	
+	
+	
+	
 	/**
 	 * Gets a user state.
 	 *
