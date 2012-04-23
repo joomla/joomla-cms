@@ -129,7 +129,7 @@ class ContactModelFeatured extends JModelList
 		$subquery .= 'WHERE parent.extension = ' . $db->quote('com_contact');
 		// Find any up-path categories that are not published
 		// If all categories are published, badcats.id will be null, and we just use the contact state
-		$subquery .= ' AND parent.published != 1 GROUP BY cat.id ';
+		$subquery .= ' AND parent.published <> 1 GROUP BY cat.id ';
 		// Select state to unpublished if up-path category is unpublished
 		$publishedWhere = 'CASE WHEN badcats.id is null THEN a.published ELSE 0 END';
 		$query->join('LEFT OUTER', '(' . $subquery . ') AS badcats ON badcats.id = c.id');
@@ -152,7 +152,7 @@ class ContactModelFeatured extends JModelList
 
 		// Filter by language
 		if ($this->getState('filter.language')) {
-			$query->where('a.language in (' . $db->Quote(JFactory::getLanguage()->getTag()) . ',' . $db->Quote('*') . ')');
+			$query->where($query->qn('a.language') . ' IN (' . $db->Quote(JFactory::getLanguage()->getTag()) . ',' . $db->Quote('*') . ')');
 		}
 
 		// Add the list ordering clause.
