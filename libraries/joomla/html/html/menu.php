@@ -77,7 +77,7 @@ abstract class JHtmlMenu
 			$menus = $db->loadObjectList();
 
 			$query->clear();
-			$query->select('a.id AS value, a.title AS text, a.level, a.menutype');
+			$query->select('a.id AS value, a.title AS text, ' . $query->qn('a.level') . ', a.menutype');
 			$query->from('#__menu AS a');
 			$query->where('a.parent_id > 0');
 			$query->where('a.type <> ' . $db->quote('url'));
@@ -188,7 +188,7 @@ abstract class JHtmlMenu
 			$query->from($db->quoteName('#__menu'));
 			$query->where($db->quoteName('menutype') . ' = ' . $db->quote($row->menutype));
 			$query->where($db->quoteName('parent_id') . ' = ' . (int) $row->parent_id);
-			$query->where($db->quoteName('published') . ' != -2');
+			$query->where($db->quoteName('published') . ' <> -2');
 			$query->order('ordering');
 			$order = JHtml::_('list.genericordering', $query);
 			$ordering = JHtml::_(
