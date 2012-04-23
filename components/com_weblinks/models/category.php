@@ -110,12 +110,12 @@ class WeblinksModelCategory extends JModelList
 		// Select required fields from the categories.
 		$query->select($this->getState('list.select', 'a.*'));
 		$query->from($db->quoteName('#__weblinks').' AS a');
+		$query->join('LEFT', '#__categories AS c ON c.id = a.catid');
 		$query->where('a.access IN ('.$groups.')');
 
 		// Filter by category.
 		if ($categoryId = $this->getState('category.id')) {
 			$query->where('a.catid = '.(int) $categoryId);
-			$query->join('LEFT', '#__categories AS c ON c.id = a.catid');
 			$query->where('c.access IN ('.$groups.')');
 
 			//Filter by published category
@@ -137,7 +137,7 @@ class WeblinksModelCategory extends JModelList
 			$query->where('a.state = '.(int) $state);
 		}
 		// do not show trashed links on the front-end
-		$query->where('a.state != -2');
+		$query->where('a.state <> -2');
 
 		// Filter by start and end dates.
 		$nullDate = $db->Quote($db->getNullDate());
@@ -151,7 +151,7 @@ class WeblinksModelCategory extends JModelList
 
 		// Filter by language
 		if ($this->getState('filter.language')) {
-			$query->where('a.language in (' . $db->Quote(JFactory::getLanguage()->getTag()) . ',' . $db->Quote('*') . ')');
+			$query->where($query->qn('a.language') . ' IN (' . $db->Quote(JFactory::getLanguage()->getTag()) . ',' . $db->Quote('*') . ')');
 		}
 
 		// Add the list ordering clause.
