@@ -104,7 +104,7 @@ class UsersModelMail extends JModelAdmin
 		$query	= $db->getQuery(true);
 		$query->select('email');
 		$query->from('#__users');
-		$query->where('id != '.(int) $user->get('id'));
+		$query->where('id <> '.(int) $user->get('id'));
 		if ($grp !== 0) {
 			if (empty($to)) {
 				$query->where('0');
