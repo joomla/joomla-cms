@@ -310,7 +310,7 @@ class FinderModelSearch extends JModelList
 		}
 		// Filter by language
 		if ($this->getState('filter.language')) {
-			$query->where('l.language in ('.$db->quote(JFactory::getLanguage()->getTag()).','.$db->quote('*').')');
+			$query->where($query->qn('l.language') . ' IN (' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
 		}
 		// Push the data into cache.
 		$this->store($store, $query, false);
