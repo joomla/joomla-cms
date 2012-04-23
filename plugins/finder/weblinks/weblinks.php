@@ -331,7 +331,7 @@ class plgFinderWeblinks extends FinderIndexerAdapter
 		// Check if we can use the supplied SQL query.
 		$sql = is_a($sql, 'JDatabaseQuery') ? $sql : $db->getQuery(true);
 		$sql->select('a.id, a.catid, a.title, a.alias, a.url AS link, a.description AS summary');
-		$sql->select('a.metakey, a.metadesc, a.metadata, a.language, a.access, a.ordering');
+		$sql->select('a.metakey, a.metadesc, a.metadata, ' . $db->quoteName('a.language') . ', a.access, a.ordering');
 		$sql->select('a.created_by_alias, a.modified, a.modified_by');
 		$sql->select('a.publish_up AS publish_start_date, a.publish_down AS publish_end_date');
 		$sql->select('a.state AS state, a.ordering, a.access, a.approved, a.created AS start_date, a.params');
