@@ -55,7 +55,7 @@ class JFormFieldCategoryParent extends JFormFieldList
 		$db		= JFactory::getDbo();
 		$query	= $db->getQuery(true);
 
-		$query->select('a.id AS value, a.title AS text, a.level');
+		$query->select('a.id AS value, a.title AS text, ' . $query->qn('a.level'));
 		$query->from('#__categories AS a');
 		$query->join('LEFT', $db->quoteName('#__categories').' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
 
@@ -71,7 +71,7 @@ class JFormFieldCategoryParent extends JFormFieldList
 				$query->where('NOT(a.lft >= p.lft AND a.rgt <= p.rgt)');
 
 				$rowQuery	= $db->getQuery(true);
-				$rowQuery->select('a.id AS value, a.title AS text, a.level, a.parent_id');
+				$rowQuery->select('a.id AS value, a.title AS text, ' . $query->qn('a.level') . ', a.parent_id');
 				$rowQuery->from('#__categories AS a');
 				$rowQuery->where('a.id = ' . (int) $id);
 				$db->setQuery($rowQuery);
@@ -79,7 +79,7 @@ class JFormFieldCategoryParent extends JFormFieldList
 			}
 		}
 		$query->where('a.published IN (0,1)');
-		$query->group('a.id, a.title, a.level, a.lft, a.rgt, a.extension, a.parent_id');
+		$query->group('a.id, a.title, ' . $query->qn('a.level') . ', a.lft, a.rgt, a.extension, a.parent_id');
 		$query->order('a.lft ASC');
 
 		// Get the options.
