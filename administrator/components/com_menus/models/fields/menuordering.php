@@ -55,7 +55,7 @@ class JFormFieldMenuOrdering extends JFormFieldList
 			$query->where('a.menutype = '.$db->quote($menuType));
 		}
 		else {
-			$query->where('a.menutype != '.$db->quote(''));
+			$query->where('a.menutype <> '.$db->quote(''));
 		}
 
 		$query->order('a.lft ASC');
