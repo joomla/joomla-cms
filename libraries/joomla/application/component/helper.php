@@ -57,6 +57,7 @@ class JComponentHelper
 			{
 				$result = new stdClass;
 				$result->enabled = false;
+				$result->params = new JRegistry;
 			}
 		}
 		else
