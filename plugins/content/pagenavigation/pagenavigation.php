@@ -123,7 +123,7 @@ class plgContentPagenavigation extends JPlugin
 						. ($canPublish ? '' : ' AND a.access = ' .(int)$row->access) . $xwhere);
 			$query->order($orderby);
 			if ($app->isSite() && $app->getLanguageFilter()) {
-				$query->where('a.language in ('.$db->quote($lang->getTag()).','.$db->quote('*').')');
+				$query->where($query->qn('a.language') . ' IN (' . $db->quote($lang->getTag()) . ',' . $db->quote('*') . ')');
 			}
 
 			$db->setQuery($query);
