@@ -1024,7 +1024,7 @@ class ModulesModelModule extends JModelAdmin
 		$query	= $db->getQuery(true);
 		$query->select('extension_id');
 		$query->from('#__extensions AS e');
-		$query->leftJoin('#__modules AS m ON e.element = m.module');
+		$query->leftJoin('#__modules AS m ON e.element = ' . $query->qn('m.module'));
 		$query->where('m.id = '.(int) $table->id);
 		$db->setQuery($query);
 
