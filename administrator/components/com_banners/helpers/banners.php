@@ -99,7 +99,7 @@ class BannersHelper
 		$query->select('*');
 		$query->from('#__banners');
 		$query->where("'".$now."' >= ".$db->quoteName('reset'));
-		$query->where($db->quoteName('reset').' != '.$db->quote($nullDate).' AND '.$db->quoteName('reset').'!=NULL');
+		$query->where($db->quoteName('reset').' <> '.$db->quote($nullDate).' AND '.$db->quoteName('reset').'<> NULL');
 		$query->where('('.$db->quoteName('checked_out').' = 0 OR '.$db->quoteName('checked_out').' = '.(int) $db->Quote($user->id).')');
 		$db->setQuery((string)$query);
 		$rows = $db->loadObjectList();
