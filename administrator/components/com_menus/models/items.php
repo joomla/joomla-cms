@@ -163,12 +163,13 @@ class MenusModelItems extends JModelList
 	{
 		// Create a new query object.
 		$db		= $this->getDbo();
+		$q_lang = $db->quoteName('language');
 		$query	= $db->getQuery(true);
 		$user	= JFactory::getUser();
 		$app	= JFactory::getApplication();
 
 		// Select all fields from the table.
-		$query->select($this->getState('list.select', 'a.id, a.menutype, a.title, a.alias, a.note, a.path, a.link, a.type, a.parent_id, a.level, a.published as apublished, a.component_id, a.ordering, a.checked_out, a.checked_out_time, a.browserNav, a.access, a.img, a.template_style_id, a.params, a.lft, a.rgt, a.home, a.language, a.client_id'));
+		$query->select($this->getState('list.select', 'a.id, a.menutype, a.title, a.alias, a.note, a.path, a.link, a.type, a.parent_id, a.level, a.published as apublished, a.component_id, a.ordering, a.checked_out, a.checked_out_time, a.browserNav, a.access, a.img, a.template_style_id, a.params, a.lft, a.rgt, a.home, a.' . $q_lang . ', a.client_id'));
 		$query->select('CASE a.type' .
 			' WHEN ' . $db->quote('component') . ' THEN a.published+2*(e.enabled-1) ' .
 			' WHEN ' . $db->quote('url') . ' THEN a.published+2 ' .
@@ -179,7 +180,7 @@ class MenusModelItems extends JModelList
 
 		// Join over the language
 		$query->select('l.title AS language_title, l.image as image');
-		$query->join('LEFT', $db->quoteName('#__languages').' AS l ON l.lang_code = a.language');
+		$query->join('LEFT', $db->quoteName('#__languages').' AS l ON l.lang_code = a.' . $q_lang);
 
 		// Join over the users.
 		$query->select('u.name AS editor');
@@ -263,7 +264,7 @@ class MenusModelItems extends JModelList
 
 		// Filter on the language.
 		if ($language = $this->getState('filter.language')) {
-			$query->where('a.language = '.$db->quote($language));
+			$query->where('a.' . $q_lang . ' = '.$db->quote($language));
 		}
 
 		// Add the list ordering clause.

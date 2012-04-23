@@ -77,6 +77,7 @@ class ContentModelArticle extends JModelItem
 
 			try {
 				$db = $this->getDbo();
+				$q_lang = $db->quoteName('language');
 				$query = $db->getQuery(true);
 
 				$query->select($this->getState(
@@ -89,7 +90,7 @@ class ContentModelArticle extends JModelItem
 				'CASE WHEN a.modified = 0 THEN a.created ELSE a.modified END as modified, ' .
 					'a.modified_by, a.checked_out, a.checked_out_time, a.publish_up, a.publish_down, ' .
 					'a.images, a.urls, a.attribs, a.version, a.parentid, a.ordering, ' .
-					'a.metakey, a.metadesc, a.access, a.hits, a.metadata, a.featured, a.language, a.xreference'
+					'a.metakey, a.metadesc, a.access, a.hits, a.metadata, a.featured, a.' . $q_lang . ', a.xreference'
 					)
 				);
 				$query->from('#__content AS a');
@@ -104,10 +105,10 @@ class ContentModelArticle extends JModelItem
 		
 				// Join on contact table
 				$subQuery = $db->getQuery(true);
-				$subQuery->select('contact.user_id, MAX(contact.id) AS id, contact.language');
+				$subQuery->select('contact.user_id, MAX(contact.id) AS id, contact.' . $q_lang);
 				$subQuery->from('#__contact_details AS contact');
 				$subQuery->where('contact.published = 1');
-				$subQuery->group('contact.user_id, contact.language');
+				$subQuery->group('contact.user_id, contact.' . $q_lang);
 				$query->select('contact.id as contactid' );
 				$query->join('LEFT', '(' . $subQuery . ') AS contact ON contact.user_id = a.created_by');
 				

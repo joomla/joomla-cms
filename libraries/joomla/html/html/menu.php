@@ -188,7 +188,7 @@ abstract class JHtmlMenu
 			$query->from($db->quoteName('#__menu'));
 			$query->where($db->quoteName('menutype') . ' = ' . $db->quote($row->menutype));
 			$query->where($db->quoteName('parent_id') . ' = ' . (int) $row->parent_id);
-			$query->where($db->quoteName('published') . ' != -2');
+			$query->where($db->quoteName('published') . ' <> -2');
 			$query->order('ordering');
 			$order = JHtml::_('list.genericordering', $query);
 			$ordering = JHtml::_(

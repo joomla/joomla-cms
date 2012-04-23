@@ -97,6 +97,7 @@ abstract class multilangstatusHelper
 	{
 		//check for combined status
 		$db		= JFactory::getDBO();
+		$q_lang = $db->quoteName('language');
 		$query	= $db->getQuery(true);
 
 		// Select all fields from the languages table.
@@ -107,8 +108,8 @@ abstract class multilangstatusHelper
 
 		// Select the language home pages
 		$query->select('l.home AS home');
-		$query->select('l.language AS home_language');
-		$query->join('LEFT', '#__menu  AS l  ON  l.language = a.lang_code AND l.home=1  AND l.language <> \'*\'' );
+		$query->select('l.' . $q_lang . ' AS home_language');
+		$query->join('LEFT', '#__menu  AS l  ON  l.' . $q_lang . ' = a.lang_code AND l.home=1  AND l.' . $q_lang . ' <> \'*\'' );
 		$query->select('e.enabled AS enabled');
 		$query->select('e.element AS element');
 		$query->join('LEFT', '#__extensions  AS e ON e.element = a.lang_code');
@@ -123,13 +124,14 @@ abstract class multilangstatusHelper
 	public static function getContacts()
 	{
 		$db = JFactory::getDBO();
+		$q_lang = $db->quoteName('language');
 		$query = $db->getQuery(true);
-		$query->select('u.name, count(cd.language) as counted, MAX(cd.language='.$db->quote('*').') as all_languages');
+		$query->select('u.name, count(cd.' . $q_lang . ') as counted, MAX(cd.' . $q_lang . '='.$db->quote('*').') as all_languages');
 		$query->from('#__users AS u');
 		$query->leftJOIN('#__contact_details AS cd ON cd.user_id=u.id');
-		$query->leftJOIN('#__languages as l on cd.language=l.lang_code');
+		$query->leftJOIN('#__languages as l on cd.' . $q_lang . '=l.lang_code');
 		$query->where('EXISTS (SELECT * from #__content as c where  c.created_by=u.id)');
-		$query->where('(l.published=1 or cd.language='.$db->quote('*').')');
+		$query->where('(l.published=1 or cd.' . $q_lang . '='.$db->quote('*').')');
 		$query->where('cd.published=1');
 		$query->group('u.id');
 		$query->having('(counted !=' . count(JLanguageHelper::getLanguages()).' OR all_languages=1)');

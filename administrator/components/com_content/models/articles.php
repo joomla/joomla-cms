@@ -132,6 +132,7 @@ class ContentModelArticles extends JModelList
 	{
 		// Create a new query object.
 		$db		= $this->getDbo();
+		$q_lang = $db->quoteName('language');
 		$query	= $db->getQuery(true);
 		$user	= JFactory::getUser();
 
@@ -140,7 +141,7 @@ class ContentModelArticles extends JModelList
 			$this->getState(
 				'list.select',
 				'a.id, a.title, a.alias, a.checked_out, a.checked_out_time, a.catid' .
-				', a.state, a.access, a.created, a.created_by, a.ordering, a.featured, a.language, a.hits' .
+				', a.state, a.access, a.created, a.created_by, a.ordering, a.featured, a.' . $q_lang . ', a.hits' .
 				', a.publish_up, a.publish_down'
 			)
 		);
@@ -148,7 +149,7 @@ class ContentModelArticles extends JModelList
 
 		// Join over the language
 		$query->select('l.title AS language_title');
-		$query->join('LEFT', $db->quoteName('#__languages').' AS l ON l.lang_code = a.language');
+		$query->join('LEFT', $db->quoteName('#__languages').' AS l ON l.lang_code = a.' . $q_lang);
 
 		// Join over the users for the checked out user.
 		$query->select('uc.name AS editor');
@@ -235,7 +236,7 @@ class ContentModelArticles extends JModelList
 
 		// Filter on the language.
 		if ($language = $this->getState('filter.language')) {
-			$query->where('a.language = '.$db->quote($language));
+			$query->where('a.' . $q_lang . ' = '.$db->quote($language));
 		}
 
 		// Add the list ordering clause.

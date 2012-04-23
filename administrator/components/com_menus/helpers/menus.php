@@ -158,7 +158,7 @@ class MenusHelper
 			if (is_array($languages)) {
 				$languages = '(' . implode(',', array_map(array($db, 'quote'), $languages)) . ')';
 			}
-			$query->where('a.language IN ' . $languages);
+			$query->where('a.' . $db->quoteName('language') . ' IN ' . $languages);
 		}
 
 		if (!empty($published)) {
@@ -166,7 +166,7 @@ class MenusHelper
 			$query->where('a.published IN ' . $published);
 		}
 
-		$query->where('a.published != -2');
+		$query->where('a.published <> -2');
 		$query->group('a.id, a.title, a.level, a.menutype, a.type, a.template_style_id, a.checked_out, a.lft');
 		$query->order('a.lft ASC');
 
@@ -235,7 +235,7 @@ class MenusHelper
 		$query->innerJoin('#__associations as a2 ON a.key=a2.key');
 		$query->innerJoin('#__menu as m2 ON a2.id=m2.id');
 		$query->where('m.id='.(int)$pk);
-		$query->select('m2.language, m2.id');
+		$query->select('m2.' . $db->quoteName('language') . ', m2.id');
 		$db->setQuery($query);
 		$menuitems = $db->loadObjectList('language');
 		// Check for a database error.

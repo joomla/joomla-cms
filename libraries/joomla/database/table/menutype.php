@@ -102,8 +102,8 @@ class JTableMenuType extends JTable
 			$query->select('id');
 			$query->from('#__menu');
 			$query->where('menutype=' . $this->_db->quote($table->menutype));
-			$query->where('checked_out !=' . (int) $userId);
-			$query->where('checked_out !=0');
+			$query->where('checked_out <> ' . (int) $userId);
+			$query->where('checked_out <> 0');
 			$this->_db->setQuery($query);
 			if ($this->_db->loadRowList())
 			{
@@ -119,8 +119,8 @@ class JTableMenuType extends JTable
 			$query->from('#__modules');
 			$query->where('module=' . $this->_db->quote('mod_menu'));
 			$query->where('params LIKE ' . $this->_db->quote('%"menutype":' . json_encode($table->menutype) . '%'));
-			$query->where('checked_out !=' . (int) $userId);
-			$query->where('checked_out !=0');
+			$query->where('checked_out <> ' . (int) $userId);
+			$query->where('checked_out <> 0');
 			$this->_db->setQuery($query);
 			if ($this->_db->loadRowList())
 			{
@@ -207,8 +207,8 @@ class JTableMenuType extends JTable
 			$query->from('#__modules');
 			$query->where('module=' . $this->_db->quote('mod_menu'));
 			$query->where('params LIKE ' . $this->_db->quote('%"menutype":' . json_encode($table->menutype) . '%'));
-			$query->where('checked_out !=' . (int) $userId);
-			$query->where('checked_out !=0');
+			$query->where('checked_out <> ' . (int) $userId);
+			$query->where('checked_out <> 0');
 			$this->_db->setQuery($query);
 			if ($this->_db->loadRowList())
 			{

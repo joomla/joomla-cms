@@ -108,6 +108,7 @@ class LanguagesModelLanguages extends JModelList
 	{
 		// Create a new query object.
 		$db = $this->getDbo();
+		$q_lang = $db->quoteName('language');
 		$query = $db->getQuery(true);
 
 		// Select all fields from the languages table.
@@ -120,7 +121,7 @@ class LanguagesModelLanguages extends JModelList
 		
 		// Select the language home pages
 		$query->select('l.home AS home');
-		$query->join('LEFT', $db->quoteName('#__menu') . ' AS l  ON  l.language = a.lang_code AND l.home=1  AND l.language <> ' . $db->quote('*'));
+		$query->join('LEFT', $db->quoteName('#__menu') . ' AS l  ON  l.' . $q_lang . ' = a.lang_code AND l.home=1  AND l.' . $q_lang . ' <> ' . $db->quote('*'));
 
 		// Filter on the published state.
 		$published = $this->getState('filter.published');
