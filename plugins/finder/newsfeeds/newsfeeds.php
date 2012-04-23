@@ -342,7 +342,7 @@ class plgFinderNewsfeeds extends FinderIndexerAdapter
 		$sql->select('a.id, a.catid, a.name AS title, a.alias, a.link AS link');
 		$sql->select('a.published AS state, a.ordering, a.created AS start_date, a.params, a.access');
 		$sql->select('a.publish_up AS publish_start_date, a.publish_down AS publish_end_date');
-		$sql->select('a.metakey, a.metadesc, a.metadata, a.language');
+		$sql->select('a.metakey, a.metadesc, a.metadata, ' . $db->quoteName('a.language'));
 		$sql->select('a.created_by, a.created_by_alias, a.modified, a.modified_by');
 		$sql->select('c.title AS category, c.published AS cat_state, c.access AS cat_access');
 
