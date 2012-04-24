@@ -143,7 +143,7 @@ class Joomla_Sniffs_WhiteSpace_ObjectOperatorIndentSniff implements PHP_CodeSnif
                     }
                 }
 
-                // It cant be the last thing on the line either.
+                // It can't be the last thing on the line either.
                 $content = $phpcsFile->findNext(T_WHITESPACE, ($next + 1), null, true);
                 if ($tokens[$content]['line'] !== $tokens[$next]['line']) {
                     $error = 'Object operator must be at the start of the line, not the end';
