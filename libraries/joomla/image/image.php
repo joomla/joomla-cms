@@ -103,7 +103,7 @@ class JImage
 	 *
 	 * @param   string  $path  The filesystem path to the image for which to get properties.
 	 *
-	 * @return  object
+	 * @return  stdClass
 	 *
 	 * @since   11.3
 	 * @throws  InvalidArgumentException
@@ -653,7 +653,7 @@ class JImage
 	 * @param   integer  $height       The height of the resized image in pixels.
 	 * @param   integer  $scaleMethod  The method to use for scaling
 	 *
-	 * @return  object
+	 * @return  stdClass
 	 *
 	 * @since   11.3
 	 * @throws  InvalidArgumentException  If width, height or both given as zero
