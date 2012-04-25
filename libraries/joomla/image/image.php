@@ -78,7 +78,8 @@ class JImage
 		if (!isset(self::$formats[IMAGETYPE_JPEG]))
 		{
 			$info = gd_info();
-			self::$formats[IMAGETYPE_JPEG] = (isset($info['JPEG Support']) && $info['JPEG Support'] || isset($info['JPG Support']) && $info['JPG Support']) ? true : false;
+			self::$formats[IMAGETYPE_JPEG] = (isset($info['JPEG Support']) && $info['JPEG Support']
+				|| isset($info['JPG Support']) && $info['JPG Support']) ? true : false;
 			self::$formats[IMAGETYPE_PNG] = ($info['PNG Support']) ? true : false;
 			self::$formats[IMAGETYPE_GIF] = ($info['GIF Read Support']) ? true : false;
 		}
@@ -102,7 +103,7 @@ class JImage
 	 *
 	 * @param   string  $path  The filesystem path to the image for which to get properties.
 	 *
-	 * @return  object
+	 * @return  stdClass
 	 *
 	 * @since   11.3
 	 * @throws  InvalidArgumentException
@@ -445,7 +446,7 @@ class JImage
 	 * @param   mixed    $width        The width of the resized image in pixels or a percentage.
 	 * @param   mixed    $height       The height of the resized image in pixels or a percentage.
 	 * @param   bool     $createNew    If true the current image will be cloned, resized and returned; else
-	 * the current image will be resized and returned.
+	 *                                 the current image will be resized and returned.
 	 * @param   integer  $scaleMethod  Which method to use for scaling
 	 *
 	 * @return  JImage
@@ -519,7 +520,7 @@ class JImage
 	 * @param   mixed    $angle       The angle of rotation for the image
 	 * @param   integer  $background  The background color to use when areas are added due to rotation
 	 * @param   bool     $createNew   If true the current image will be cloned, rotated and returned; else
-	 * the current image will be rotated and returned.
+	 *                                the current image will be rotated and returned.
 	 *
 	 * @return  JImage
 	 *
@@ -652,12 +653,10 @@ class JImage
 	 * @param   integer  $height       The height of the resized image in pixels.
 	 * @param   integer  $scaleMethod  The method to use for scaling
 	 *
-	 * @return  object
+	 * @return  stdClass
 	 *
-	 * @throws  InvalidArgumentException	If width,height or both given as zero   
-	 * 
 	 * @since   11.3
-	 * @throws  InvalidArgumentException
+	 * @throws  InvalidArgumentException  If width, height or both given as zero
 	 */
 	protected function prepareDimensions($width, $height, $scaleMethod)
 	{
