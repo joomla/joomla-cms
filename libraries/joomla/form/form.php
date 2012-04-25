@@ -308,7 +308,7 @@ class JForm
 		// Make sure there is a valid JForm XML document.
 		if (!($this->xml instanceof SimpleXMLElement))
 		{
-			throw new UnexpectedValueException(sprint('%s::getFieldAttribute `xml` is not an instance of SimpleXMLElement', get_class($this)));
+			throw new UnexpectedValueException(sprintf('%s::getFieldAttribute `xml` is not an instance of SimpleXMLElement', get_class($this)));
 		}
 
 		// Find the form field element from the definition.
@@ -791,7 +791,7 @@ class JForm
 		// Make sure there is a valid JForm XML document.
 		if (!($this->xml instanceof SimpleXMLElement))
 		{
-			throw new UnexpectedValueException(sprint('%s::getFieldAttribute `xml` is not an instance of SimpleXMLElement', get_class($this)));
+			throw new UnexpectedValueException(sprintf('%s::getFieldAttribute `xml` is not an instance of SimpleXMLElement', get_class($this)));
 		}
 
 		// Find the form field element from the definition.
@@ -822,7 +822,7 @@ class JForm
 		// Make sure there is a valid JForm XML document.
 		if (!($this->xml instanceof SimpleXMLElement))
 		{
-			throw new UnexpectedValueException(sprint('%s::getFieldAttribute `xml` is not an instance of SimpleXMLElement', get_class($this)));
+			throw new UnexpectedValueException(sprintf('%s::getFieldAttribute `xml` is not an instance of SimpleXMLElement', get_class($this)));
 		}
 
 		// Get the fields elements for a given group.
@@ -878,7 +878,7 @@ class JForm
 		// Make sure there is a valid JForm XML document.
 		if (!($this->xml instanceof SimpleXMLElement))
 		{
-			throw new UnexpectedValueException(sprint('%s::getFieldAttribute `xml` is not an instance of SimpleXMLElement', get_class($this)));
+			throw new UnexpectedValueException(sprintf('%s::getFieldAttribute `xml` is not an instance of SimpleXMLElement', get_class($this)));
 		}
 
 		// Find the form field element from the definition.
@@ -940,7 +940,7 @@ class JForm
 		// Make sure there is a valid JForm XML document.
 		if (!($this->xml instanceof SimpleXMLElement))
 		{
-			throw new UnexpectedValueException(sprint('%s::getFieldAttribute `xml` is not an instance of SimpleXMLElement', get_class($this)));
+			throw new UnexpectedValueException(sprintf('%s::getFieldAttribute `xml` is not an instance of SimpleXMLElement', get_class($this)));
 		}
 
 		// Find the form field element from the definition.
@@ -982,7 +982,7 @@ class JForm
 		// Make sure there is a valid JForm XML document.
 		if (!($this->xml instanceof SimpleXMLElement))
 		{
-			throw new UnexpectedValueException(sprint('%s::getFieldAttribute `xml` is not an instance of SimpleXMLElement', get_class($this)));
+			throw new UnexpectedValueException(sprintf('%s::getFieldAttribute `xml` is not an instance of SimpleXMLElement', get_class($this)));
 		}
 
 		// Make sure the elements to set are valid.
