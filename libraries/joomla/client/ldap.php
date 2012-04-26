@@ -628,7 +628,7 @@ class JClientLdap
 		{
 			case 'sha':
 				$userpassword = '{SHA}' . base64_encode(pack('H*', sha1($password)));
-                break;
+				break;
 			case 'md5':
 			default:
 				$userpassword = '{MD5}' . base64_encode(pack('H*', md5($password)));
