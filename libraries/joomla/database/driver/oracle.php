@@ -255,7 +255,6 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
 	{
 		$this->connect();
 
-		$keys = array();
 		$query = $this->getQuery(true);
 
 		$fieldCasing = $this->getOption(PDO::ATTR_CASE);
