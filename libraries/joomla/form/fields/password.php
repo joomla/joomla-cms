@@ -48,9 +48,6 @@ class JFormFieldPassword extends JFormField
 		$meter		= ((string) $this->element['strengthmeter'] == 'true');
 		$threshold	= $this->element['threshold'] ? (int) $this->element['threshold'] : 66;
 
-		// Initialize JavaScript field attributes.
-		$onchange = $this->element['onchange'] ? ' onchange="' . (string) $this->element['onchange'] . '"' : '';
-
 		$script = '';
 		if ($meter)
 		{
@@ -64,9 +61,6 @@ class JFormFieldPassword extends JFormField
 				}
 			);</script>';
 		}
-
-		// Initialize JavaScript field attributes.
-		$onchange	= $this->element['onchange'] ? ' onchange="' . (string) $this->element['onchange'] . '"' : '';
 
 		return '<input type="password" name="' . $this->name . '" id="' . $this->id . '"' .
 			' value="' . htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '"' .
