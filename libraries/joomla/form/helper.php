@@ -105,7 +105,6 @@ class JFormHelper
 
 		// Initialize variables.
 		$key = md5($type);
-		$class = '';
 
 		// Return an entity object if it already exists and we don't need a new one.
 		if (isset($types[$key]) && $new === false)
@@ -113,7 +112,8 @@ class JFormHelper
 			return $types[$key];
 		}
 
-		if (($class = self::loadClass($entity, $type)) !== false)
+		$class = self::loadClass($entity, $type);
+		if ($class !== false)
 		{
 			// Instantiate a new type object.
 			$types[$key] = new $class;
