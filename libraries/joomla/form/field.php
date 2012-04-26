@@ -380,8 +380,8 @@ abstract class JFormField
 		// Set the field default value.
 		$this->value = $value;
 
-        // Set the CSS class of field label
-        $this->labelClass = (string) $element['labelclass'];
+		// Set the CSS class of field label
+		$this->labelClass = (string) $element['labelclass'];
 
 		return true;
 	}
@@ -495,7 +495,7 @@ abstract class JFormField
 		// Build the class for the label.
 		$class = !empty($this->description) ? 'hasTip' : '';
 		$class = $this->required == true ? $class . ' required' : $class;
-        $class = !empty($this->labelClass) ? $class . ' ' . $this->labelClass : $class;
+		$class = !empty($this->labelClass) ? $class . ' ' . $this->labelClass : $class;
 
 		// Add the opening label tag and main attributes attributes.
 		$label .= '<label id="' . $this->id . '-lbl" for="' . $this->id . '" class="' . $class . '"';
