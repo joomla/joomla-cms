@@ -1008,8 +1008,6 @@ abstract class JTable extends JObject
 		if (!property_exists($this, 'ordering'))
 		{
 			throw new UnexpectedValueException(sprintf('%s does not support ordering.', get_class($this)));
-			$this->setError($e);
-			return false;
 		}
 
 		// Initialise variables.
