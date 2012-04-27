@@ -327,7 +327,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 					END AS "null",
 					CASE WHEN pg_catalog.pg_get_expr(adef.adbin, adef.adrelid, true) IS NOT NULL
 						THEN pg_catalog.pg_get_expr(adef.adbin, adef.adrelid, true)
-					END as "default",
+					END as "Default",
 					CASE WHEN pg_catalog.col_description(a.attrelid, a.attnum) IS NULL
 					THEN \'\'
 					ELSE pg_catalog.col_description(a.attrelid, a.attnum)
@@ -358,6 +358,15 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 			foreach ($fields as $field)
 			{
 				$result[$field->column_name] = $field;
+			}
+		}
+
+		/* Change Postgresql's NULL::* type with PHP's null one */
+		foreach ($fields as $field)
+		{
+			if (preg_match("/^NULL::*/", $field->Default))
+			{
+				$field->Default = null;
 			}
 		}
 
