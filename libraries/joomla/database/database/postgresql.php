@@ -771,11 +771,31 @@ class JDatabasePostgreSQL extends JDatabase
 
 		$tableSub = $this->replacePrefix($table);
 
-		$query = $this->getQuery(true);
-		$query->select('column_name, data_type, collation_name, is_nullable, column_default AS "Default"')
-				->from('information_schema.columns')
-				->where('table_name=' . $this->quote($tableSub));
-		$this->setQuery($query);
+		$this->setQuery('
+				SELECT a.attname AS "column_name",
+					pg_catalog.format_type(a.atttypid, a.atttypmod) as "type",
+					CASE WHEN a.attnotnull IS TRUE
+						THEN \'NO\'
+						ELSE \'YES\'
+					END AS "null",
+					CASE WHEN pg_catalog.pg_get_expr(adef.adbin, adef.adrelid, true) IS NOT NULL
+						THEN pg_catalog.pg_get_expr(adef.adbin, adef.adrelid, true)
+					END as "Default",
+					CASE WHEN pg_catalog.col_description(a.attrelid, a.attnum) IS NULL
+					THEN \'\'
+					ELSE pg_catalog.col_description(a.attrelid, a.attnum)
+					END  AS "comments"
+				FROM pg_catalog.pg_attribute a
+				LEFT JOIN pg_catalog.pg_attrdef adef ON a.attrelid=adef.adrelid AND a.attnum=adef.adnum
+				LEFT JOIN pg_catalog.pg_type t ON a.atttypid=t.oid
+				WHERE a.attrelid =
+					(SELECT oid FROM pg_catalog.pg_class WHERE relname=' . $this->quote($tableSub) . '
+						AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE
+						nspname = \'public\')
+					)
+				AND a.attnum > 0 AND NOT a.attisdropped
+				ORDER BY a.attnum'
+		);
 
 		$fields = $this->loadObjectList();
 
@@ -791,6 +811,15 @@ class JDatabasePostgreSQL extends JDatabase
 			foreach ($fields as $field)
 			{
 				$result[$field->column_name] = $field;
+			}
+		}
+
+		/* Change Postgresql's NULL::* type with PHP's null one */
+		foreach ($fields as $field)
+		{
+			if (preg_match("/^NULL::*/", $field->Default))
+			{
+				$field->Default = null;
 			}
 		}
 
