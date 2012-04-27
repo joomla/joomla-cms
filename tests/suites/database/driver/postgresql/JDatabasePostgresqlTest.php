@@ -331,28 +331,28 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 		$id->column_name = 'id';
 		$id->type = 'integer';
 		$id->null = 'NO';
-		$id->default = 'nextval(\'jos_dbtest_id_seq\'::regclass)';
+		$id->Default = 'nextval(\'jos_dbtest_id_seq\'::regclass)';
 		$id->comments = '';
 
 		$title = new stdClass;
 		$title->column_name = 'title';
 		$title->type = 'character varying(50)';
 		$title->null = 'NO';
-		$title->default = null;
+		$title->Default = null;
 		$title->comments = '';
 
 		$start_date = new stdClass;
 		$start_date->column_name = 'start_date';
 		$start_date->type = 'timestamp without time zone';
 		$start_date->null = 'NO';
-		$start_date->default = null;
+		$start_date->Default = null;
 		$start_date->comments = '';
 
 		$description = new stdClass;
 		$description->column_name = 'description';
 		$description->type = 'text';
 		$description->null = 'NO';
-		$description->default = null;
+		$description->Default = null;
 		$description->comments = '';
 
 		$this->assertThat(
