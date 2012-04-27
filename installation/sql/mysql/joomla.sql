@@ -230,7 +230,7 @@ CREATE TABLE `#__contact_details` (
   `fax` varchar(255) default NULL,
   `misc` mediumtext,
   `image` varchar(255) default NULL,
-  `imagepos` varchar(50) default NULL COMMENT 'Deprecated in Joomla! 3.0',
+  `imagepos` varchar(20) default NULL COMMENT 'Deprecated in Joomla! 3.0',
   `email_to` varchar(255) default NULL,
   `default_con` tinyint(1) unsigned NOT NULL default '0',
   `published` tinyint(1) NOT NULL default '0',

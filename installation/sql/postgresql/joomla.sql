@@ -256,7 +256,7 @@ CREATE TABLE "#__contact_details" (
   "fax" character varying(255) DEFAULT NULL,
   "misc" text,
   "image" character varying(255) DEFAULT NULL,
-  "imagepos" character varying(50) DEFAULT NULL,
+  "imagepos" character varying(20) DEFAULT NULL,
   "email_to" character varying(255) DEFAULT NULL,
   "default_con" smallint DEFAULT 0 NOT NULL,
   "published" smallint DEFAULT 0 NOT NULL,
