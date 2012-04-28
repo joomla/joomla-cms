@@ -33,6 +33,7 @@ $ -> Language fix or change
  # [#28210] onchange event does not fire at JFormFieldMedia (Regression). Thanks Benjamin.
  # [#28428] Backend uses incorrect cache path for system caches - text filters can be reseted to defaults with enabled caching. Thanks Dennis.
  # [#28457] *Unused $offset_user parameter in configuration
+ # [#28440] *load language file from com_media front end
 
 20-Apr-2012 Jean-Marie Simonet
  # [#28407] *Browser Settings for new visitors broken in multilanguage. Reverting #28151
