@@ -202,10 +202,8 @@ class LanguagesModelLanguages extends JModelList
 	 */
 	protected function cleanCache($group = null, $client_id = 0)
 	{
-		parent::cleanCache('_system', 0);
-		parent::cleanCache('_system', 1);
-		parent::cleanCache('com_languages', 0);
-		parent::cleanCache('com_languages', 1);
+		parent::cleanCache('_system');
+		parent::cleanCache('com_languages');
 	}
 
 }

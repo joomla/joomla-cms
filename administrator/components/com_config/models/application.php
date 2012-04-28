@@ -201,6 +201,9 @@ class ConfigModelApplication extends JModelForm
 		$temp->set('ftp_pass', $data['ftp_pass']);
 		$temp->set('ftp_root', $data['ftp_root']);
 
+		// Clear cache of com_config component.
+		$this->cleanCache('_system');
+		
 		// Write the configuration file.
 		return $this->writeConfigFile($config);
 	}
