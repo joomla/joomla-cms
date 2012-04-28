@@ -15,7 +15,7 @@ JHtml::_('behavior.tooltip');
 JHtml::_('behavior.modal');
 $canDo	= TemplatesHelper::getActions();
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_templates&view=template'); ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo JRoute::_('index.php?option=com_templates&view=templates'); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="width-50 fltlft">
 		<fieldset class="adminform" id="template-manager">
 			<legend><?php echo JText::_('COM_TEMPLATES_TEMPLATE_DESCRIPTION');?></legend>
