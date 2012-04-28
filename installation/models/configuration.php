@@ -83,7 +83,6 @@ class JInstallationModelConfiguration extends JModel
 
 		/* Locale Settings */
 		$registry->set('offset', 'UTC');
-		$registry->set('offset_user', 'UTC');
 
 		/* Mail Settings */
 		$registry->set('mailer', 'mail');
