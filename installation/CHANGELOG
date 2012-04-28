@@ -30,6 +30,7 @@ $ -> Language fix or change
  $ Correcting wrong ini string value
  $ Updating zh-CN installation ini file
  # [#28398] Missing "remember me" in com_users. Thanks Nils.
+ # [#28210] onchange event does not fire at JFormFieldMedia (Regression). Thanks Benjamin.
 
 20-Apr-2012 Jean-Marie Simonet
  # [#28407] *Browser Settings for new visitors broken in multilanguage. Reverting #28151
