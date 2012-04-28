@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+28-Apr-2012 Jean-Marie Simonet
+ $ Correcting wrong ini string value
+
 20-Apr-2012 Jean-Marie Simonet
  # [#28407] *Browser Settings for new visitors broken in multilanguage. Reverting #28151
 
