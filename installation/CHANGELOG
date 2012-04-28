@@ -29,7 +29,7 @@ $ -> Language fix or change
 28-Apr-2012 Jean-Marie Simonet
  $ Correcting wrong ini string value
  $ Updating zh-CN installation ini file
- # [#28456] Error 500 when Logging back in after timeout
+ # [#28398] Missing "remember me" in com_users. Thanks Nils.
 
 20-Apr-2012 Jean-Marie Simonet
  # [#28407] *Browser Settings for new visitors broken in multilanguage. Reverting #28151
