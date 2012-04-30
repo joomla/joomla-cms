@@ -36,7 +36,7 @@ class JHttpTransportTest extends PHPUnit_Framework_TestCase
 		}
 		else
 		{
-			$this->stubUrl = defined(JTEST_HTTP_STUB) ? JTEST_HTTP_STUB : getenv('JTEST_HTTP_STUB');
+			$this->stubUrl = defined('JTEST_HTTP_STUB') ? JTEST_HTTP_STUB : getenv('JTEST_HTTP_STUB');
 		}
 	}
 
