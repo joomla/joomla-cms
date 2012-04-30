@@ -154,6 +154,6 @@ class LanguagesHelper
 	{
 		$filter = JFilterInput::getInstance(null, null, 1, 1);
 
-		return str_replace('"', '"_QQ_"', $filter->clean($value));
+		return $filter->clean($value);
 	}
 }

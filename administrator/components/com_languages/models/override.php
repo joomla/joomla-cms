@@ -156,6 +156,10 @@ class LanguagesModelOverride extends JModelAdmin
 			$strings = array($data['key'] => $data['override']) + $strings;
 		}
 
+		foreach ($strings as $key => $string) {
+			$strings[$key] = str_replace('"', '"_QQ_"', $string);
+		}
+
 		// Write override.ini file with the strings
 		$registry = new JRegistry();
 		$registry->loadObject($strings);

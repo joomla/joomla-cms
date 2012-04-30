@@ -245,6 +245,10 @@ class LanguagesModelOverrides extends JModelList
 			}
 		}
 
+		foreach ($strings as $key => $string) {
+			$strings[$key] = str_replace('"', '"_QQ_"', $string);
+		}
+
 		// Write override.ini file with the left strings
 		$registry = new JRegistry();
 		$registry->loadObject($strings);
