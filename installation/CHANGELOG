@@ -31,6 +31,7 @@ $ -> Language fix or change
  # [#28453] Language override doesn't handle double quotes properly. Thanks Johannes.
  # [#28455] *303 when not using URL Language code in multilanguage. Thanks Yannick.
  # [#28467] *configuration.php smtp saves auto-filled admin username and password.
+ # [#28436] Wrong group in ldap and joomla authentication-plugin XML-file
 
 28-Apr-2012 Jean-Marie Simonet
  $ Correcting wrong ini string value
