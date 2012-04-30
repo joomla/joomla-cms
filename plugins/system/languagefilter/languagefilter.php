@@ -208,7 +208,7 @@ class plgSystemLanguageFilter extends JPlugin
 
 			// Redirect only if not in post
 			$post = JRequest::get('POST');
-			if (JRequest::getMethod() != "POST" || count($post) == 0)
+			if (!empty( $lang_code) && JRequest::getMethod() != "POST" || count($post) == 0)
 			{
 				if ($this->params->get('remove_default_prefix', 0) == 0)
 				{
