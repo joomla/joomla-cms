@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+30-Apr-2012 Jean-Marie Simonet
+ # Correcting hathor xml
+
 28-Apr-2012 Jean-Marie Simonet
  $ Correcting wrong ini string value
  $ Updating zh-CN installation ini file
