@@ -985,7 +985,7 @@ class JApplicationWeb extends JApplicationBase
 	}
 
 	/**
-	 * Allows the application to load a custom or default document.
+	 * Allows the application to load a custom or default language.
 	 *
 	 * The logic and options for creating this object are adequately generic for default cases
 	 * but for many applications it will make sense to override this method and create an language,
@@ -1005,7 +1005,7 @@ class JApplicationWeb extends JApplicationBase
 	}
 
 	/**
-	 * Allows the application to load a custom or default document.
+	 * Allows the application to load a custom or default session.
 	 *
 	 * The logic and options for creating this object are adequately generic for default cases
 	 * but for many applications it will make sense to override this method and create a session,
