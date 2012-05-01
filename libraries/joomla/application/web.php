@@ -988,7 +988,7 @@ class JApplicationWeb extends JApplicationBase
 	 * Allows the application to load a custom or default language.
 	 *
 	 * The logic and options for creating this object are adequately generic for default cases
-	 * but for many applications it will make sense to override this method and create an language,
+	 * but for many applications it will make sense to override this method and create a language,
 	 * if required, based on more specific needs.
 	 *
 	 * @param   JLanguage  $language  An optional language object. If omitted, the factory language is created.
