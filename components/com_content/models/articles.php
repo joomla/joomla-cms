@@ -157,21 +157,20 @@ class ContentModelArticles extends JModelList
 		$query = $db->getQuery(true);
 
 		// Select the required fields from the table.
-		$query->select(
-			$this->getState(
-				'list.select',
-				'a.id, a.title, a.alias, a.title_alias, a.introtext, ' .
-				'a.checked_out, a.checked_out_time, ' .
-				'a.catid, a.created, a.created_by, a.created_by_alias, ' .
-				// use created if modified is 0
-				'CASE WHEN a.modified = 0 THEN a.created ELSE a.modified END as modified, ' .
-					'a.modified_by, uam.name as modified_by_name,' .
-				// use created if publish_up is 0
-				'CASE WHEN a.publish_up = 0 THEN a.created ELSE a.publish_up END as publish_up,' .
-					'a.publish_down, a.images, a.urls, a.attribs, a.metadata, a.metakey, a.metadesc, a.access, ' .
-					'a.hits, a.xreference, a.featured,'.' '.$query->length('a.fulltext').' AS readmore'
-			)
+		$fields = $this->getState(
+			'list.select',
+			'a.id, a.title, a.alias, a.title_alias, a.introtext, ' .
+			'a.checked_out, a.checked_out_time, ' .
+			'a.catid, a.created, a.created_by, a.created_by_alias, ' .
+			// use created if modified is 0
+			'CASE WHEN a.modified = 0 THEN a.created ELSE a.modified END as modified, ' .
+				'a.modified_by, uam.name as modified_by_name,' .
+			// use created if publish_up is 0
+			'CASE WHEN a.publish_up = 0 THEN a.created ELSE a.publish_up END as publish_up,' .
+				'a.publish_down, a.images, a.urls, a.attribs, a.metadata, a.metakey, a.metadesc, a.access, ' .
+				'a.hits, a.xreference, a.featured, ' . $query->charLength('a.fulltext') . ' AS readmore'
 		);
+		$query->select($fields);
 
 		// Process an Archived Article layout
 		if ($this->getState('filter.published') == 2) {
@@ -204,15 +203,17 @@ class ContentModelArticles extends JModelList
 		$query->join('LEFT', '#__users AS ua ON ua.id = a.created_by');
 		$query->join('LEFT', '#__users AS uam ON uam.id = a.modified_by');
 
+		$contact_language = $db->quoteName('contact.language');
+
 		// Join on contact table
 		$subQuery = $db->getQuery(true);
-		$subQuery->select('contact.user_id, MAX(contact.id) AS id, contact.language');
+		$subQuery->select('contact.user_id, MAX(contact.id) AS id, ' . $contact_language);
 		$subQuery->from('#__contact_details AS contact');
 		$subQuery->where('contact.published = 1');
-		$subQuery->group('contact.user_id, contact.language');
+		$subQuery->group('contact.user_id, ' . $contact_language);
 		$query->select('contact.id as contactid' );
 		$query->join('LEFT', '(' . $subQuery . ') AS contact ON contact.user_id = a.created_by');
-		
+
 		// Join over the categories to get parent category titles
 		$query->select('parent.title as parent_title, parent.id as parent_id, parent.path as parent_route, parent.alias as parent_alias');
 		$query->join('LEFT', '#__categories as parent ON parent.id = c.parent_id');
@@ -237,7 +238,7 @@ class ContentModelArticles extends JModelList
 		else {
 			// Find any up-path categories that are not published
 			// If all categories are published, badcats.id will be null, and we just use the article state
-			$subquery .= ' AND parent.published != 1 GROUP BY cat.id ';
+			$subquery .= ' AND parent.published <> 1 GROUP BY cat.id ';
 			// Select state to unpublished if up-path category is unpublished
 			$publishedWhere = 'CASE WHEN badcats.id is null THEN a.state ELSE 0 END';
 		}
@@ -453,10 +454,12 @@ class ContentModelArticles extends JModelList
 			}
 		}
 
+		$a_language = $db->quoteName('a.language');
+
 		// Filter by language
 		if ($this->getState('filter.language')) {
-			$query->where('a.language in ('.$db->quote(JFactory::getLanguage()->getTag()).','.$db->quote('*').')');
-			$query->where('(contact.language in ('.$db->quote(JFactory::getLanguage()->getTag()).','.$db->quote('*').') OR contact.language IS NULL)');
+			$query->where($a_language . ' IN (' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
+			$query->where('(' . $contact_language . ' IN (' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ') OR ' . $contact_language . ' IS NULL)');
 		}
 
 		// Add the list ordering clause.

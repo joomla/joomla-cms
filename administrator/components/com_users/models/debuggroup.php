@@ -210,10 +210,10 @@ class UsersModelDebugGroup extends JModelList
 			$levelEnd = $levelStart;
 		}
 		if ($levelStart > 0) {
-			$query->where('a.level >= '.$levelStart);
+			$query->where($query->qn('a.level') . ' >= ' . $levelStart);
 		}
 		if ($levelEnd > 0) {
-			$query->where('a.level <= '.$levelEnd);
+			$query->where($query->qn('a.level') . ' <= ' . $levelEnd);
 		}
 
 		// Filter the items over the component if set.

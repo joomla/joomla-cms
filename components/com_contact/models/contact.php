@@ -329,7 +329,8 @@ class ContactModelContact extends JModelForm
 				$query->order('a.state DESC, a.created DESC');
 				// filter per language if plugin published
 				if (JFactory::getApplication()->getLanguageFilter()) {
-					$query->where('a.language='.$db->quote(JFactory::getLanguage()->getTag()).' OR a.language='.$db->quote('*'));
+					$a_language = $db->quoteName('a.language');
+					$query->where($a_language . ' = ' . $db->quote(JFactory::getLanguage()->getTag()) . ' OR ' . $a_language . ' = ' . $db->quote('*'));
 				}
 				if (is_numeric($published)) {
 					$query->where('a.state IN (1,2)');

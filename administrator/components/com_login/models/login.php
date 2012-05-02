@@ -123,21 +123,24 @@ class LoginModelLogin extends JModel
 
 		if (!($clean = $cache->get($cacheid))) {
 			$db	= JFactory::getDbo();
+			$m_module = $db->quoteName('m.module');
+			$m_position = $db->quoteName('m.position');
+			$m_language = $db->quoteName('m.language');
 
 			$query = $db->getQuery(true);
-			$query->select('m.id, m.title, m.module, m.position, m.showtitle, m.params');
+			$query->select('m.id, m.title, ' . $m_module . ', ' . $m_position . ', m.showtitle, m.params');
 			$query->from('#__modules AS m');
-			$query->where('m.module =' . $db->Quote($module) .' AND m.client_id = 1');
+			$query->where($m_module . ' = ' . $db->Quote($module) . ' AND m.client_id = 1');
 
-			$query->join('LEFT', '#__extensions AS e ON e.element = m.module AND e.client_id = m.client_id');
+			$query->join('LEFT', '#__extensions AS e ON e.element = ' . $m_module . ' AND e.client_id = m.client_id');
 			$query->where('e.enabled = 1');
 
 			// Filter by language
 			if ($app->isSite() && $app->getLanguageFilter()) {
-				$query->where('m.language IN (' . $db->Quote($lang) . ',' . $db->Quote('*') . ')');
+				$query->where($m_language . ' IN (' . $db->Quote($lang) . ',' . $db->Quote('*') . ')');
 			}
 
-			$query->order('m.position, m.ordering');
+			$query->order($m_position . ', m.ordering');
 
 			// Set the query
 			$db->setQuery($query);

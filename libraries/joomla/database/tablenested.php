@@ -133,7 +133,7 @@ class JTableNested extends JTable
 
 		// Get the path from the node to the root.
 		$query = $this->_db->getQuery(true);
-		$select = ($diagnostic) ? 'p.' . $k . ', p.parent_id, p.level, p.lft, p.rgt' : 'p.*';
+		$select = ($diagnostic) ? 'p.' . $k . ', p.parent_id, ' . $query->qn('p.level') . ', p.lft, p.rgt' : 'p.*';
 		$query->select($select);
 		$query->from($this->_tbl . ' AS n, ' . $this->_tbl . ' AS p');
 		$query->where('n.lft BETWEEN p.lft AND p.rgt');
@@ -173,7 +173,7 @@ class JTableNested extends JTable
 
 		// Get the node and children as a tree.
 		$query = $this->_db->getQuery(true);
-		$select = ($diagnostic) ? 'n.' . $k . ', n.parent_id, n.level, n.lft, n.rgt' : 'n.*';
+		$select = ($diagnostic) ? 'n.' . $k . ', n.parent_id, ' . $query->qn('n.level') . ', n.lft, n.rgt' : 'n.*';
 		$query->select($select);
 		$query->from($this->_tbl . ' AS n, ' . $this->_tbl . ' AS p');
 		$query->where('n.lft BETWEEN p.lft AND p.rgt');

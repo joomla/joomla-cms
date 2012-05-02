@@ -217,7 +217,7 @@ class JTableUser extends JTable
 		$query->select($this->_db->quoteName('id'));
 		$query->from($this->_db->quoteName('#__users'));
 		$query->where($this->_db->quoteName('username') . ' = ' . $this->_db->quote($this->username));
-		$query->where($this->_db->quoteName('id') . ' != ' . (int) $this->id);
+		$query->where($this->_db->quoteName('id') . ' <> ' . (int) $this->id);
 		$this->_db->setQuery($query);
 
 		$this->_db->setQuery($query);
@@ -233,7 +233,7 @@ class JTableUser extends JTable
 		$query->select($this->_db->quoteName('id'));
 		$query->from($this->_db->quoteName('#__users'));
 		$query->where($this->_db->quoteName('email') . ' = ' . $this->_db->quote($this->email));
-		$query->where($this->_db->quoteName('id') . ' != ' . (int) $this->id);
+		$query->where($this->_db->quoteName('id') . ' <> ' . (int) $this->id);
 		$this->_db->setQuery($query);
 		$xid = intval($this->_db->loadResult());
 		if ($xid && $xid != intval($this->id))

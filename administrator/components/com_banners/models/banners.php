@@ -83,25 +83,23 @@ class BannersModelBanners extends JModelList
 		$db		= $this->getDbo();
 		$query	= $db->getQuery(true);
 
+		$a_language = $db->quoteName('a.language');
+
 		// Select the required fields from the table.
-		$query->select(
-			$this->getState(
-				'list.select',
-				'a.id AS id, a.name AS name, a.alias AS alias,'.
-				'a.checked_out AS checked_out,'.
-				'a.checked_out_time AS checked_out_time, a.catid AS catid,' .
-				'a.clicks AS clicks, a.metakey AS metakey, a.sticky AS sticky,'.
-				'a.impmade AS impmade, a.imptotal AS imptotal,' .
-				'a.state AS state, a.ordering AS ordering,'.
-				'a.purchase_type as purchase_type,'.
-				'a.language, a.publish_up, a.publish_down'
-			)
+		$fields = $this->getState(
+			'list.select',
+			'a.id, a.name, a.alias, a.checked_out, a.checked_out_time, a.catid, ' .
+			'a.clicks, a.metakey, a.sticky, a.impmade, a.imptotal, a.state, ' .
+			'a.ordering, a.purchase_type, a.language, a.publish_up, a.publish_down'
 		);
+		$fields = explode(',', $fields);
+		foreach ($fields as $field) $query->select($query->qn(trim($field)));
+
 		$query->from($db->quoteName('#__banners').' AS a');
 
 		// Join over the language
 		$query->select('l.title AS language_title');
-		$query->join('LEFT', $db->quoteName('#__languages').' AS l ON l.lang_code = a.language');
+		$query->join('LEFT', $db->quoteName('#__languages').' AS l ON l.lang_code = ' . $a_language);
 
 		// Join over the users for the checked out user.
 		$query->select('uc.name AS editor');
@@ -148,7 +146,7 @@ class BannersModelBanners extends JModelList
 
 		// Filter on the language.
 		if ($language = $this->getState('filter.language')) {
-			$query->where('a.language = ' . $db->quote($language));
+			$query->where($a_language . ' = ' . $db->quote($language));
 		}
 
 		// Add the list ordering clause.

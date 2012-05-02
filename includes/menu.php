@@ -28,7 +28,8 @@ class JMenuSite extends JMenu
 		$app	= JApplication::getInstance('site');
 		$query	= $db->getQuery(true);
 
-		$query->select('m.id, m.menutype, m.title, m.alias, m.note, m.path AS route, m.link, m.type, m.level, m.language');
+		$query->select('m.id, m.menutype, m.title, m.alias, m.note, m.path AS route, m.link, m.type');
+		$query->select($db->quoteName('m.level') . ', ' . $db->quoteName('m.language'));
 		$query->select('m.browserNav, m.access, m.params, m.home, m.img, m.template_style_id, m.component_id, m.parent_id');
 		$query->select('e.element as component');
 		$query->from('#__menu AS m');

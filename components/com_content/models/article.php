@@ -79,6 +79,8 @@ class ContentModelArticle extends JModelItem
 				$db = $this->getDbo();
 				$query = $db->getQuery(true);
 
+				$a_language = $db->quoteName('a.language');
+
 				$query->select($this->getState(
 					'item.select', 'a.id, a.asset_id, a.title, a.alias, a.title_alias, a.introtext, a.fulltext, ' .
 					// If badcats is not null, this means that the article is inside an unpublished category
@@ -89,7 +91,7 @@ class ContentModelArticle extends JModelItem
 				'CASE WHEN a.modified = 0 THEN a.created ELSE a.modified END as modified, ' .
 					'a.modified_by, a.checked_out, a.checked_out_time, a.publish_up, a.publish_down, ' .
 					'a.images, a.urls, a.attribs, a.version, a.parentid, a.ordering, ' .
-					'a.metakey, a.metadesc, a.access, a.hits, a.metadata, a.featured, a.language, a.xreference'
+					'a.metakey, a.metadesc, a.access, a.hits, a.metadata, a.featured, ' . $a_language . ', a.xreference'
 					)
 				);
 				$query->from('#__content AS a');
@@ -101,16 +103,18 @@ class ContentModelArticle extends JModelItem
 				// Join on user table.
 				$query->select('u.name AS author');
 				$query->join('LEFT', '#__users AS u on u.id = a.created_by');
-		
+
+				$contact_language = $db->quoteName('contact.language');
+
 				// Join on contact table
 				$subQuery = $db->getQuery(true);
-				$subQuery->select('contact.user_id, MAX(contact.id) AS id, contact.language');
+				$subQuery->select('contact.user_id, MAX(contact.id) AS id, ' . $contact_language);
 				$subQuery->from('#__contact_details AS contact');
 				$subQuery->where('contact.published = 1');
-				$subQuery->group('contact.user_id, contact.language');
+				$subQuery->group('contact.user_id, ' . $contact_language);
 				$query->select('contact.id as contactid' );
 				$query->join('LEFT', '(' . $subQuery . ') AS contact ON contact.user_id = a.created_by');
-				
+
 				// Join over the categories to get parent category titles
 				$query->select('parent.title as parent_title, parent.id as parent_id, parent.path as parent_route, parent.alias as parent_alias');
 				$query->join('LEFT', '#__categories as parent ON parent.id = c.parent_id');

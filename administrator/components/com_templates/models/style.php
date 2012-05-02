@@ -440,7 +440,7 @@ class TemplatesModelStyle extends JModelAdmin
 				$query->update('#__menu');
 				$query->set('template_style_id='.(int)$table->id);
 				$query->where('id IN ('.implode(',', $data['assigned']).')');
-				$query->where('template_style_id!='.(int) $table->id);
+				$query->where('template_style_id <> '.(int) $table->id);
 				$query->where('checked_out in (0,'.(int) $user->id.')');
 				$db->setQuery($query);
 				$db->query();

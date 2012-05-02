@@ -47,7 +47,7 @@ abstract class JHtmlCategory
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true);
 
-			$query->select('a.id, a.title, a.level');
+			$query->select('a.id, a.title, ' . $query->qn('a.level'));
 			$query->from('#__categories AS a');
 			$query->where('a.parent_id > 0');
 
@@ -107,7 +107,7 @@ abstract class JHtmlCategory
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true);
 
-			$query->select('a.id, a.title, a.level, a.parent_id');
+			$query->select('a.id, a.title, ' . $query->qn('a.level') . ', a.parent_id');
 			$query->from('#__categories AS a');
 			$query->where('a.parent_id > 0');
 

@@ -92,7 +92,7 @@ abstract class modRelatedItemsHelper
 					$query->from('#__content AS a');
 					$query->leftJoin('#__content_frontpage AS f ON f.content_id = a.id');
 					$query->leftJoin('#__categories AS cc ON cc.id = a.catid');
-					$query->where('a.id != ' . (int) $id);
+					$query->where('a.id <> ' . (int) $id);
 					$query->where('a.state = 1');
 					$query->where('a.access IN (' . $groups . ')');
           			$concat_string = $query->concatenate(array('","', ' REPLACE(a.metakey, ", ", ",")', ' ","'));
@@ -102,7 +102,7 @@ abstract class modRelatedItemsHelper
 
 					// Filter by language
 					if ($app->getLanguageFilter()) {
-						$query->where('a.language in (' . $db->Quote(JFactory::getLanguage()->getTag()) . ',' . $db->Quote('*') . ')');
+						$query->where($query->qn('a.language') . ' IN (' . $db->Quote(JFactory::getLanguage()->getTag()) . ',' . $db->Quote('*') . ')');
 					}
 
 					$db->setQuery($query);

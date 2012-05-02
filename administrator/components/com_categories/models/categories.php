@@ -132,21 +132,22 @@ class CategoriesModelCategories extends JModelList
 		$query	= $db->getQuery(true);
 		$user	= JFactory::getUser();
 
+		$a_language = $db->quoteName('a.language');
+
 		// Select the required fields from the table.
 		$query->select(
 			$this->getState(
 				'list.select',
 				'a.id, a.title, a.alias, a.note, a.published, a.access' .
 				', a.checked_out, a.checked_out_time, a.created_user_id' .
-				', a.path, a.parent_id, a.level, a.lft, a.rgt' .
-				', a.language'
+				', a.path, a.parent_id, a.level, a.lft, a.rgt, ' . $a_language
 			)
 		);
 		$query->from('#__categories AS a');
 
 		// Join over the language
 		$query->select('l.title AS language_title');
-		$query->join('LEFT', $db->quoteName('#__languages').' AS l ON l.lang_code = a.language');
+		$query->join('LEFT', $db->quoteName('#__languages').' AS l ON l.lang_code = ' . $a_language);
 
 		// Join over the users for the checked out user.
 		$query->select('uc.name AS editor');
@@ -167,7 +168,7 @@ class CategoriesModelCategories extends JModelList
 
 		// Filter on the level.
 		if ($level = $this->getState('filter.level')) {
-			$query->where('a.level <= '.(int) $level);
+			$query->where($query->qn('a.level') . ' <= ' . (int) $level);
 		}
 
 		// Filter by access level.
@@ -209,7 +210,7 @@ class CategoriesModelCategories extends JModelList
 
 		// Filter on the language.
 		if ($language = $this->getState('filter.language')) {
-			$query->where('a.language = '.$db->quote($language));
+			$query->where($a_language . ' = ' . $db->quote($language));
 		}
 
 		// Add the list ordering clause
