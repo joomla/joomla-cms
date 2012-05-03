@@ -605,6 +605,42 @@ class JImage
 				imagejpeg($this->handle, $path, (array_key_exists('quality', $options)) ? $options['quality'] : 100);
 		}
 	}
+	
+	/**
+	 * Method to output the current image as a string.
+	 *
+	 * @param   integer  $type     The image type to save the file as.
+	 * @param   array    $options  The image type options to use in saving the file.
+	 *
+	 * @return  string
+	 *
+	 * @see     http://www.php.net/manual/image.constants.php
+	 * @since   11.3
+	 * @throws  LogicException
+	 */
+	public function toString($type = IMAGETYPE_JPEG, array $options = array())
+	{
+		// Make sure the resource handle is valid.
+		if (!$this->isLoaded())
+		{
+			throw new LogicException('No valid image was loaded.');
+		}
+
+		switch ($type)
+		{
+			case IMAGETYPE_GIF:
+				return imagegif($this->handle);
+				break;
+
+			case IMAGETYPE_PNG:
+				return imagepng($this->handle, null, (array_key_exists('quality', $options)) ? $options['quality'] : 0);
+				break;
+
+			case IMAGETYPE_JPEG:
+			default:
+				return imagejpeg($this->handle, null, (array_key_exists('quality', $options)) ? $options['quality'] : 100);
+		}
+	}
 
 	/**
 	 * Method to get an image filter instance of a specified type.
