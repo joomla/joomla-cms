@@ -9,4 +9,4 @@
 
 defined('JPATH_PLATFORM') or die;
 
-JLog::add('JDatabaseImporterMysql has moved to the database/importer directory.', JLog::NOTICE, 'deprecated');
+JLog::add('JDatabaseImporterMysql has moved to the database/importer directory.', JLog::WARNING, 'deprecated');

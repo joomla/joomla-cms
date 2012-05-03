@@ -9,7 +9,7 @@
 
 defined('JPATH_PLATFORM') or die;
 
-JLog::add('JDatabaseSqlazure is deprecated, use JDatabaseDriverSqlazure instead.', JLog::NOTICE, 'deprecated');
+JLog::add('JDatabaseSqlazure is deprecated, use JDatabaseDriverSqlazure instead.', JLog::WARNING, 'deprecated');
 
 /**
  * SQL Server database driver

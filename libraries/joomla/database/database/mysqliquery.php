@@ -9,4 +9,4 @@
 
 defined('JPATH_PLATFORM') or die;
 
-JLog::add('JDatabaseQueryMysqli has moved to the database/query directory.', JLog::NOTICE, 'deprecated');
+JLog::add('JDatabaseQueryMysqli has moved to the database/query directory.', JLog::WARNING, 'deprecated');

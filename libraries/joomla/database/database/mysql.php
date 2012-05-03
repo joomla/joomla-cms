@@ -9,7 +9,7 @@
 
 defined('JPATH_PLATFORM') or die;
 
-JLog::add('JDatabaseMysql is deprecated, use JDatabaseDriverMysql instead.', JLog::NOTICE, 'deprecated');
+JLog::add('JDatabaseMysql is deprecated, use JDatabaseDriverMysql instead.', JLog::WARNING, 'deprecated');
 
 /**
  * MySQL database driver
