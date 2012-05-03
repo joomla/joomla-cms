@@ -530,7 +530,9 @@ class JSession extends JObject
 			
 			if (is_null($cookie->get($session_name)))
 			{
-				if ($session_clean = $input->get($session_name, false, 'string'))
+				$session_clean = $input->get($session_name, false, 'string');
+				
+				if ($session_clean)
 				{
 					session_id($session_clean);
 					$cookie->set($session_name, '', time() - 3600);
