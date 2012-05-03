@@ -316,6 +316,11 @@ class JController extends JObject
 		$this->redirect = null;
 		$this->taskMap = array();
 
+		if (JDEBUG)
+		{
+			JLog::addLogger(array('text_file' => 'jcontroller.log.php'), JLog::ALL, array('controller'));
+		}
+
 		// Determine the methods to exclude from the base class.
 		$xMethods = get_class_methods('JController');
 
@@ -502,17 +507,13 @@ class JController extends JObject
 
 			if (JDEBUG)
 			{
-				JLog::getInstance('jcontroller.log.php')->addEntry(
-					array(
-						'comment' => sprintf(
-							'Checking edit ID %s.%s: %d %s',
-							$context,
-							$id,
-							(int) $result,
-							str_replace("\n", ' ', print_r($values, 1))
-						)
-					)
-				);
+				JLog::add(sprintf(
+					'Checking edit ID %s.%s: %d %s',
+					$context,
+					$id,
+					(int) $result,
+					str_replace("\n", ' ', print_r($values, 1))
+				), JLog::INFO, 'controller');
 			}
 
 			return $result;
@@ -872,11 +873,12 @@ class JController extends JObject
 
 			if (JDEBUG)
 			{
-				JLog::getInstance('jcontroller.log.php')->addEntry(
-					array(
-						'comment' => sprintf('Holding edit ID %s.%s %s', $context, $id, str_replace("\n", ' ', print_r($values, 1)))
-					)
-				);
+				JLog::add(sprintf(
+					'Holding edit ID %s.%s %s',
+					$context,
+					$id,
+					str_replace("\n", ' ', print_r($values, 1))
+				), JLog::INFO, 'controller');
 			}
 		}
 	}
@@ -976,11 +978,12 @@ class JController extends JObject
 
 			if (JDEBUG)
 			{
-				JLog::getInstance('jcontroller.log.php')->addEntry(
-					array(
-						'comment' => sprintf('Releasing edit ID %s.%s %s', $context, $id, str_replace("\n", ' ', print_r($values, 1)))
-					)
-				);
+				JLog::add(sprintf(
+					'Releasing edit ID %s.%s %s',
+					$context,
+					$id,
+					str_replace("\n", ' ', print_r($values, 1))
+				), JLog::INFO, 'controller');
 			}
 		}
 	}

@@ -13,9 +13,6 @@ jimport('joomla.log.logger');
 
 JLoader::discover('JLogger', __DIR__ . '/loggers');
 
-// @deprecated  12.1
-jimport('joomla.filesystem.path');
-
 /**
  * Joomla! Log Class
  *

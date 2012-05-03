@@ -711,15 +711,18 @@ abstract class JError
 
 		if ($log == null)
 		{
-			$fileName = date('Y-m-d') . '.error.log';
+			$options['text_file'] = date('Y-m-d') . '.error.log';
 			$options['format'] = "{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}";
-			$log = JLog::getInstance($fileName, $options);
+			JLog::addLogger($options, JLog::ALL, array('error'));
 		}
 
-		$entry['level'] = $error->get('level');
-		$entry['code'] = $error->get('code');
-		$entry['message'] = str_replace(array("\r", "\n"), array('', '\\n'), $error->get('message'));
-		$log->addEntry($entry);
+		$entry = new JLogEntry(
+			str_replace(array("\r", "\n"), array('', '\\n'), $error->get('message')),
+			$error->get('level'),
+			'error'
+		);
+		$entry->code = $error->get('code');
+		JLog::add($entry);
 
 		return $error;
 	}
