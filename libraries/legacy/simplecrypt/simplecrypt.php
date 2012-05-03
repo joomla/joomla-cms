@@ -48,7 +48,6 @@ class JSimplecrypt
 		// Setup the JCrypt object.
 		$this->_crypt = new JCrypt(new JCryptCipherSimple, $key);
 
-		// Deprecation warning.
 		JLog::add('JSimpleCrypt is deprecated.  Use JCrypt instead.', JLog::WARNING, 'deprecated');
 	}
 

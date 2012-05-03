@@ -9,7 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-// Deprecation warning.
 JLog::add('JDatabaseSqlazure is deprecated, use JDatabaseDriverSqlazure instead.', JLog::NOTICE, 'deprecated');
 
 /**

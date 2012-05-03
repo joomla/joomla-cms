@@ -9,5 +9,4 @@
 
 defined('JPATH_PLATFORM') or die;
 
-// Deprecation warning.
 JLog::add('JDatabaseImporterMysqli has moved to the database/importer directory.', JLog::NOTICE, 'deprecated');

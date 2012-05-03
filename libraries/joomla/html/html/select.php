@@ -328,7 +328,6 @@ abstract class JHtmlSelect
 	 */
 	public static function optgroup($text, $optKey = 'value', $optText = 'text')
 	{
-		// Deprecation warning.
 		JLog::add('JSelect::optgroup is deprecated.', JLog::WARNING, 'deprecated');
 
 		// Set initial state

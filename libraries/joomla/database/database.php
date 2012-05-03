@@ -46,7 +46,6 @@ abstract class JDatabase
 	 */
 	public static function getConnectors()
 	{
-		// Deprecation warning.
 		JLog::add('JDatabase::getConnectors() is deprecated, use JDatabaseDriver::getConnectors() instead.', JLog::NOTICE, 'deprecated');
 
 		return JDatabaseDriver::getConnectors();

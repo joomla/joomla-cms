@@ -296,7 +296,6 @@ class JLog
 	 */
 	public function addEntry($entry)
 	{
-		// Deprecation warning.
 		self::add('JLog::addEntry() is deprecated, use JLog::add() instead.', self::WARNING, 'deprecated');
 
 		// Easiest case is we already have a JLogEntry object to add.
