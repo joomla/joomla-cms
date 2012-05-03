@@ -875,8 +875,6 @@ class JInstaller extends JAdapter
 		}
 
 		// Get the name of the sql file to process
-		$sqlfile = '';
-
 		foreach ($element->children() as $file)
 		{
 			$fCharset = (strtolower($file->attributes()->charset) == 'utf8') ? 'utf8' : '';

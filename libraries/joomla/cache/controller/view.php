@@ -38,7 +38,6 @@ class JCacheControllerView extends JCacheController
 			$id = $this->_makeId($view, $method);
 		}
 
-		$data = false;
 		$data = $this->cache->get($id);
 
 		$locktest = new stdClass;

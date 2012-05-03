@@ -301,8 +301,6 @@ class JInstallerPackage extends JAdapterInstance
 		if ($this->get('manifest_script'))
 		{
 			// First, we have to create a folder for the script if one isn't present
-			$created = false;
-
 			if (!file_exists($this->parent->getPath('extension_root')))
 			{
 				JFolder::create($this->parent->getPath('extension_root'));
@@ -511,7 +509,6 @@ class JInstallerPackage extends JAdapterInstance
 	protected function _getExtensionID($type, $id, $client, $group)
 	{
 		$db = $this->parent->getDbo();
-		$result = $id;
 
 		$query = $db->getQuery(true);
 		$query->select('extension_id');

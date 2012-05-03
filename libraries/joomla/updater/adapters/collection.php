@@ -182,7 +182,7 @@ class JUpdaterCollection extends JUpdateAdapter
 	 */
 	protected function _endElement($parser, $name)
 	{
-		$lastcell = array_pop($this->stack);
+		array_pop($this->stack);
 		switch ($name)
 		{
 			case 'CATEGORY':
