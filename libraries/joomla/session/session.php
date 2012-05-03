@@ -521,17 +521,17 @@ class JSession extends JObject
 		else
 		{
 			$session_name = session_name();
-			
+
 			// Get the JInput object
 			$input = JFactory::getApplication()->input;
-			
+
 			// Get the JInputCookie object
 			$cookie = $input->cookie;
-			
+
 			if (is_null($cookie->get($session_name)))
 			{
 				$session_clean = $input->get($session_name, false, 'string');
-				
+
 				if ($session_clean)
 				{
 					session_id($session_clean);
