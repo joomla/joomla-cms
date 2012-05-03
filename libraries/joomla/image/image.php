@@ -625,21 +625,25 @@ class JImage
 		{
 			throw new LogicException('No valid image was loaded.');
 		}
+		
+		ob_start();
 
 		switch ($type)
 		{
 			case IMAGETYPE_GIF:
-				return imagegif($this->handle);
+				imagegif($this->handle);
 				break;
 
 			case IMAGETYPE_PNG:
-				return imagepng($this->handle, null, (array_key_exists('quality', $options)) ? $options['quality'] : 0);
+				imagepng($this->handle, null, (array_key_exists('quality', $options)) ? $options['quality'] : 0);
 				break;
 
 			case IMAGETYPE_JPEG:
 			default:
-				return imagejpeg($this->handle, null, (array_key_exists('quality', $options)) ? $options['quality'] : 100);
+				imagejpeg($this->handle, null, (array_key_exists('quality', $options)) ? $options['quality'] : 100);
 		}
+		
+		return ob_get_clean();
 	}
 
 	/**
