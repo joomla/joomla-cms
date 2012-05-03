@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+JLog::add('LogException is deprecated, use SPL Exceptions instead.', JLog::WARNING, 'deprecated');
+
 /**
  * Exception class definition for the Log subpackage.
  *
@@ -17,6 +19,6 @@ defined('JPATH_PLATFORM') or die;
  * @since       11.1
  * @deprecated  12.3 Use semantic exceptions instead
  */
-class LogException extends Exception
+class LogException extends RuntimeException
 {
 }
