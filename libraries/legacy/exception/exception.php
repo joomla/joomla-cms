@@ -179,6 +179,8 @@ class JException extends Exception
 	 */
 	public function __toString()
 	{
+		JLog::add('JException::__toString is deprecated.', JLog::WARNING, 'deprecated');
+
 		return $this->message;
 	}
 
@@ -192,6 +194,8 @@ class JException extends Exception
 	 */
 	public function toString()
 	{
+		JLog::add('JException::toString is deprecated.', JLog::WARNING, 'deprecated');
+
 		return (string) $this;
 	}
 
@@ -209,6 +213,8 @@ class JException extends Exception
 	 */
 	public function get($property, $default = null)
 	{
+		JLog::add('JException::get is deprecated.', JLog::WARNING, 'deprecated');
+
 		if (isset($this->$property))
 		{
 			return $this->$property;
@@ -229,6 +235,8 @@ class JException extends Exception
 	 */
 	public function getProperties($public = true)
 	{
+		JLog::add('JException::getProperties is deprecated.', JLog::WARNING, 'deprecated');
+
 		$vars = get_object_vars($this);
 		if ($public)
 		{
