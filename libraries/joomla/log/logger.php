@@ -19,7 +19,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Log
  * @since       11.1
  */
-abstract class JLogger
+abstract class JLogLogger
 {
 	/**
 	 * Options array for the JLog instance.

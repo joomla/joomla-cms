@@ -11,12 +11,12 @@ require_once JPATH_PLATFORM.'/joomla/log/loggers/formattedtext.php';
 require_once __DIR__.'/stubs/formattedtext/inspector.php';
 
 /**
- * Test class for JLoggerFormattedText.
+ * Test class for JLogLoggerFormattedText.
  */
-class JLoggerFormattedTextTest extends TestCase
+class JLogLoggerFormattedTextTest extends TestCase
 {
 	/**
-	 * Test the JLoggerFormattedText::__construct method.
+	 * Test the JLogLoggerFormattedText::__construct method.
 	 */
 	public function testConstructor01()
 	{
@@ -26,7 +26,7 @@ class JLoggerFormattedTextTest extends TestCase
 			'text_file' => '',
 			'text_entry_format' => null
 		);
-		$logger = new JLoggerFormattedTextInspector($config);
+		$logger = new JLogLoggerFormattedTextInspector($config);
 
 		// Default format string.
 		$this->assertEquals($logger->format, '{DATETIME}	{PRIORITY}	{CATEGORY}	{MESSAGE}', 'Line: '.__LINE__);
@@ -39,7 +39,7 @@ class JLoggerFormattedTextTest extends TestCase
 	}
 
 	/**
-	 * Test the JLoggerFormattedText::__construct method.
+	 * Test the JLogLoggerFormattedText::__construct method.
 	 */
 	public function testConstructor02()
 	{
@@ -49,7 +49,7 @@ class JLoggerFormattedTextTest extends TestCase
 			'text_file' => 'foo.log',
 			'text_entry_format' => null
 		);
-		$logger = new JLoggerFormattedTextInspector($config);
+		$logger = new JLogLoggerFormattedTextInspector($config);
 
 		// Default format string.
 		$this->assertEquals($logger->format, '{DATETIME}	{PRIORITY}	{CATEGORY}	{MESSAGE}', 'Line: '.__LINE__);
@@ -62,7 +62,7 @@ class JLoggerFormattedTextTest extends TestCase
 	}
 
 	/**
-	 * Test the JLoggerFormattedText::__construct method.
+	 * Test the JLogLoggerFormattedText::__construct method.
 	 */
 	public function testConstructor03()
 	{
@@ -72,7 +72,7 @@ class JLoggerFormattedTextTest extends TestCase
 			'text_file' => '',
 			'text_entry_format' => '{DATETIME}	{PRIORITY}	{MESSAGE}'
 		);
-		$logger = new JLoggerFormattedTextInspector($config);
+		$logger = new JLogLoggerFormattedTextInspector($config);
 
 		// Default format string.
 		$this->assertEquals($logger->format, '{DATETIME}	{PRIORITY}	{MESSAGE}', 'Line: '.__LINE__);
@@ -85,7 +85,7 @@ class JLoggerFormattedTextTest extends TestCase
 	}
 
 	/**
-	 * Test the JLoggerFormattedText::__construct method.
+	 * Test the JLogLoggerFormattedText::__construct method.
 	 */
 	public function testConstructor04()
 	{
@@ -99,7 +99,7 @@ class JLoggerFormattedTextTest extends TestCase
 			'text_file' => '',
 			'text_entry_format' => '{DATETIME}	{PRIORITY}	{MESSAGE}'
 		);
-		$logger = new JLoggerFormattedTextInspector($config);
+		$logger = new JLogLoggerFormattedTextInspector($config);
 
 		// Default format string.
 		$this->assertEquals($logger->format, '{DATETIME}	{PRIORITY}	{MESSAGE}', 'Line: '.__LINE__);
@@ -114,7 +114,7 @@ class JLoggerFormattedTextTest extends TestCase
 	}
 
 	/**
-	 * Test the JLoggerFormattedText::addEntry method.
+	 * Test the JLogLoggerFormattedText::addEntry method.
 	 */
 	public function testAddEntry()
 	{
@@ -124,7 +124,7 @@ class JLoggerFormattedTextTest extends TestCase
 			'text_file' => '',
 			'text_entry_format' => '{PRIORITY}	{CATEGORY}	{MESSAGE}'
 		);
-		$logger = new JLoggerFormattedTextInspector($config);
+		$logger = new JLogLoggerFormattedTextInspector($config);
 
 		// Remove the log file if it exists.
 		@ unlink($logger->path);

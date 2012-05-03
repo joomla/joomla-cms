@@ -9,10 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.log.logger');
-
-JLoader::discover('JLogger', __DIR__ . '/loggers');
-
 /**
  * Joomla! Log Class
  *
@@ -108,14 +104,14 @@ class JLog
 	public static $legacy = array();
 
 	/**
-	 * Container for JLogger configurations.
+	 * Container for JLogLogger configurations.
 	 * @var    array
 	 * @since  11.1
 	 */
 	protected $configurations = array();
 
 	/**
-	 * Container for JLogger objects.
+	 * Container for JLogLogger objects.
 	 * @var    array
 	 * @since  11.1
 	 */
@@ -245,14 +241,14 @@ class JLog
 			if (empty($this->loggers[$signature]))
 			{
 
-				$class = 'JLogger' . ucfirst($this->configurations[$signature]['logger']);
+				$class = 'JLogLogger' . ucfirst($this->configurations[$signature]['logger']);
 				if (class_exists($class))
 				{
 					$this->loggers[$signature] = new $class($this->configurations[$signature]);
 				}
 				else
 				{
-					throw new RuntimeException('Unable to create a JLogger instance: ' . $class);
+					throw new RuntimeException('Unable to create a JLogLogger instance: ' . $class);
 				}
 			}
 

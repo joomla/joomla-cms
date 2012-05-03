@@ -15,7 +15,7 @@
  * @package		Joomla.UnitTest
  * @subpackage  Log
  */
-class JLoggerDatabaseInspector extends JLoggerDatabase
+class JLogLoggerDatabaseInspector extends JLogLoggerDatabase
 {
 	public $driver;
 	public $host;

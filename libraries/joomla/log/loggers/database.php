@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.log.logger');
-
 /**
  * Joomla! MySQL Database Log class
  *
@@ -22,7 +20,7 @@ jimport('joomla.log.logger');
  * @subpackage  Log
  * @since       11.1
  */
-class JLoggerDatabase extends JLogger
+class JLogLoggerDatabase extends JLogLogger
 {
 	/**
 	 * @var    string  The name of the database driver to use for connecting to the database.

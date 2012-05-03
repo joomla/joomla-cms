@@ -10,12 +10,12 @@
 require_once JPATH_PLATFORM.'/joomla/log/loggers/echo.php';
 
 /**
- * Test class for JLoggerEcho.
+ * Test class for JLogLoggerEcho.
  */
-class JLoggerEchoTest extends PHPUnit_Framework_TestCase
+class JLogLoggerEchoTest extends PHPUnit_Framework_TestCase
 {
 	/**
-	 * Test the JLoggerEcho::addEntry method.
+	 * Test the JLogLoggerEcho::addEntry method.
 	 */
 	public function testAddEntry01()
 	{
@@ -23,14 +23,14 @@ class JLoggerEchoTest extends PHPUnit_Framework_TestCase
 		$config = array();
 
 		// Get an instance of the logger.
-		$logger = new JLoggerEcho($config);
+		$logger = new JLogLoggerEcho($config);
 
 		$this->expectOutputString("DEBUG: TESTING [deprecated]\n");
 		$logger->addEntry(new JLogEntry('TESTING', JLog::DEBUG, 'DePrEcAtEd'));
 	}
 
 	/**
-	 * Test the JLoggerEcho::addEntry method.
+	 * Test the JLogLoggerEcho::addEntry method.
 	 */
 	public function testAddEntry02()
 	{
@@ -38,14 +38,14 @@ class JLoggerEchoTest extends PHPUnit_Framework_TestCase
 		$config = array();
 
 		// Get an instance of the logger.
-		$logger = new JLoggerEcho($config);
+		$logger = new JLogLoggerEcho($config);
 
 		$this->expectOutputString("CRITICAL: TESTING2 [bam]\n");
 		$logger->addEntry(new JLogEntry('TESTING2', JLog::CRITICAL, 'BAM'));
 	}
 
 	/**
-	 * Test the JLoggerEcho::addEntry method.
+	 * Test the JLogLoggerEcho::addEntry method.
 	 */
 	public function testAddEntry03()
 	{
@@ -53,14 +53,14 @@ class JLoggerEchoTest extends PHPUnit_Framework_TestCase
 		$config = array();
 
 		// Get an instance of the logger.
-		$logger = new JLoggerEcho($config);
+		$logger = new JLogLoggerEcho($config);
 
 		$this->expectOutputString("ERROR: Testing3\n");
 		$logger->addEntry(new JLogEntry('Testing3', JLog::ERROR));
 	}
 
 	/**
-	 * Test the JLoggerEcho::addEntry method.
+	 * Test the JLogLoggerEcho::addEntry method.
 	 */
 	public function testAddEntry04()
 	{
@@ -68,7 +68,7 @@ class JLoggerEchoTest extends PHPUnit_Framework_TestCase
 		$config = array();
 
 		// Get an instance of the logger.
-		$logger = new JLoggerEcho($config);
+		$logger = new JLogLoggerEcho($config);
 
 		$this->expectOutputString("INFO: Testing 4\n");
 		$logger->addEntry(new JLogEntry('Testing 4'));
