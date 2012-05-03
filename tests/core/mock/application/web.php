@@ -34,11 +34,32 @@ class TestMockApplicationWeb
 
 		// Collect all the relevant methods in JApplicationWeb (work in progress).
 		$methods = array(
+			'allowCache',
+			'appendBody',
+			'clearHeaders',
+			'close',
+			'execute',
 			'get',
+			'getBody',
 			'getDocument',
+			'getHeaders',
 			'getIdentity',
 			'getLanguage',
-			'getSession'
+			'getSession',
+			'loadConfiguration',
+			'loadDispatcher',
+			'loadDocument',
+			'loadIdentity',
+			'loadLanguage',
+			'loadSession',
+			'prependBody',
+			'redirect',
+			'registerEvent',
+			'sendHeaders',
+			'set',
+			'setBody',
+			'setHeader',
+			'triggerEvent',
 		);
 
 		// Create the mock.
