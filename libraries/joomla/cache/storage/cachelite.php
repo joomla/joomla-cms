@@ -92,7 +92,6 @@ class JCacheStorageCachelite extends JCacheStorage
 	 */
 	public function get($id, $group, $checkTime = true)
 	{
-		$data = false;
 		self::$CacheLiteInstance->setOption('cacheDir', $this->_root . '/' . $group . '/');
 		$this->_getCacheId($id, $group);
 		$data = self::$CacheLiteInstance->get($this->rawname, $group);
