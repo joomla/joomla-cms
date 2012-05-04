@@ -203,10 +203,8 @@ class JFormFieldMedia extends JFormField
 			$width = isset($this->element['preview_width']) ? (int) $this->element['preview_width'] : 300;
 			$height = isset($this->element['preview_height']) ? (int) $this->element['preview_height'] : 200;
 			$style = '';
-			if ($width > 0)
-				$style .= 'max-width:' . $width . 'px;';
-			if ($height > 0)
-				$style .= 'max-height:' . $height . 'px;';
+			$style .= ($width > 0) ? 'max-width:' . $width . 'px;' : '';
+			$style .= ($height > 0) ? 'max-height:' . $height . 'px;' : '';
 
 			$attr = array(
 				'id' => $this->id . '_preview',
