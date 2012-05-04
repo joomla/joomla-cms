@@ -92,11 +92,12 @@ class JFormFieldMedia extends JFormField
 
 			$script[] = '	function jMediaRefreshPreviewTip(tip)';
 			$script[] = '	{';
-			$script[] = '		tip.setStyle("display", "block");';
 			$script[] = '		var img = tip.getElement("img.media-preview");';
+			$script[] = '		tip.getElement("div.tip").setStyle("max-width", "none");';
 			$script[] = '		var id = img.getProperty("id");';
 			$script[] = '		id = id.substring(0, id.length - "_preview".length);';
 			$script[] = '		jMediaRefreshPreview(id);';
+			$script[] = '		tip.setStyle("display", "block");';
 			$script[] = '	}';
 
 			// Add the script to the document head.
@@ -138,6 +139,7 @@ class JFormFieldMedia extends JFormField
 		{
 			$folder = '';
 		}
+
 		// The button.
 		if ($this->element['disabled'] != true)
 		{
@@ -198,10 +200,18 @@ class JFormFieldMedia extends JFormField
 				$src = '';
 			}
 
+			$width = isset($this->element['preview_width']) ? (int) $this->element['preview_width'] : 300;
+			$height = isset($this->element['preview_height']) ? (int) $this->element['preview_height'] : 200;
+			$style = '';
+			if ($width > 0)
+				$style .= 'max-width:' . $width . 'px;';
+			if ($height > 0)
+				$style .= 'max-height:' . $height . 'px;';
+
 			$attr = array(
 				'id' => $this->id . '_preview',
 				'class' => 'media-preview',
-				'style' => 'max-width:160px; max-height:100px;'
+				'style' => $style,
 			);
 			$img = JHtml::image($src, JText::_('JLIB_FORM_MEDIA_PREVIEW_ALT'), $attr);
 			$previewImg = '<div id="' . $this->id . '_preview_img"' . ($src ? '' : ' style="display:none"') . '>' . $img . '</div>';
