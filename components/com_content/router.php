@@ -279,7 +279,7 @@ function ContentParseRoute($segments)
 	}
 
 	// we get the category id from the menu item and search from there
-	$id = $item->query['id'];
+	$id = isset($item->query['id']) ? (int)$item->query['id'] : 0;
 	$category = JCategories::getInstance('Content')->get($id);
 
 	if (!$category) {
