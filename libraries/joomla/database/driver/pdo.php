@@ -84,6 +84,17 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 	}
 
 	/**
+	 * Destructor.
+	 *
+	 * @since   12.1
+	 */
+	public function __destruct()
+	{
+		$this->freeResult();
+		unset($this->connection);
+	}
+
+	/**
 	 * Connects to the database if needed.
 	 *
 	 * @return  void  Returns void if the database connected successfully.
@@ -290,11 +301,13 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 	}
 
 	/**
-	 * Destructor.
+	 * Disconnects the database.
+	 *
+	 * @return  void
 	 *
 	 * @since   12.1
 	 */
-	public function __destruct()
+	public function disconnect()
 	{
 		$this->freeResult();
 		unset($this->connection);

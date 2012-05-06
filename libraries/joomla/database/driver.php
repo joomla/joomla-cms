@@ -397,6 +397,15 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	abstract public function connected();
 
 	/**
+	 * Disconnects the database.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 */
+	abstract public function disconnect();
+
+	/**
 	 * Drops a table from the database.
 	 *
 	 * @param   string   $table     The name of the database table to drop.

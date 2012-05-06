@@ -64,6 +64,17 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
 	}
 
 	/**
+	 * Destructor.
+	 *
+	 * @since   12.1
+	 */
+	public function __destruct()
+	{
+		$this->freeResult();
+		unset($this->connection);
+	}
+
+	/**
 	 * Connects to the database if needed.
 	 *
 	 * @return  void  Returns void if the database connected successfully.
@@ -84,12 +95,15 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
 	}
 
 	/**
-	 * Destructor.
+	 * Disconnects the database.
+	 *
+	 * @return  void
 	 *
 	 * @since   12.1
 	 */
-	public function __destruct()
+	public function disconnect()
 	{
+		// Close the connection.
 		$this->freeResult();
 		unset($this->connection);
 	}
