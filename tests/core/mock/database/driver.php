@@ -37,6 +37,7 @@ class TestMockDatabaseDriver
 		$methods = array(
 			'connect',
 			'connected',
+			'disconnect',
 			'dropTable',
 			'escape',
 			'execute',

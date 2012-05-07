@@ -78,6 +78,19 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	}
 
 	/**
+	 * Database object destructor
+	 *
+	 * @since 12.1
+	 */
+	public function __destruct()
+	{
+		if (is_resource($this->connection))
+		{
+			pg_close($this->connection);
+		}
+	}
+
+	/**
 	 * Connects to the database if needed.
 	 *
 	 * @return  void  Returns void if the database connected successfully.
@@ -112,16 +125,21 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	}
 
 	/**
-	 * Database object destructor
+	 * Disconnects the database.
 	 *
-	 * @since 12.1
+	 * @return  void
+	 *
+	 * @since   12.1
 	 */
-	public function __destruct()
+	public function disconnect()
 	{
+		// Close the connection.
 		if (is_resource($this->connection))
 		{
 			pg_close($this->connection);
 		}
+
+		$this->connection = null;
 	}
 
 	/**

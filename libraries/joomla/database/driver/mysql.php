@@ -74,6 +74,19 @@ class JDatabaseDriverMysql extends JDatabaseDriver
 	}
 
 	/**
+	 * Destructor.
+	 *
+	 * @since   12.1
+	 */
+	public function __destruct()
+	{
+		if (is_resource($this->connection))
+		{
+			mysql_close($this->connection);
+		}
+	}
+
+	/**
 	 * Connects to the database if needed.
 	 *
 	 * @return  void  Returns void if the database connected successfully.
@@ -114,16 +127,18 @@ class JDatabaseDriverMysql extends JDatabaseDriver
 	}
 
 	/**
-	 * Destructor.
+	 * Disconnects the database.
+	 *
+	 * @return  void
 	 *
 	 * @since   12.1
 	 */
-	public function __destruct()
+	public function disconnect()
 	{
-		if (is_resource($this->connection))
-		{
-			mysql_close($this->connection);
-		}
+		// Close the connection.
+		mysql_close($this->connection);
+
+		$this->connection = null;
 	}
 
 	/**
@@ -173,7 +188,7 @@ class JDatabaseDriverMysql extends JDatabaseDriver
 	{
 		if (is_resource($this->connection))
 		{
-			return mysql_ping($this->connection);
+			return @mysql_ping($this->connection);
 		}
 
 		return false;

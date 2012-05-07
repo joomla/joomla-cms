@@ -50,6 +50,19 @@ class JDatabaseDriverMysqli extends JDatabaseDriverMysql
 	}
 
 	/**
+	 * Destructor.
+	 *
+	 * @since   12.1
+	 */
+	public function __destruct()
+	{
+		if (is_callable($this->connection, 'close'))
+		{
+			mysqli_close($this->connection);
+		}
+	}
+
+	/**
 	 * Connects to the database if needed.
 	 *
 	 * @return  void  Returns void if the database connected successfully.
@@ -121,16 +134,21 @@ class JDatabaseDriverMysqli extends JDatabaseDriverMysql
 	}
 
 	/**
-	 * Destructor.
+	 * Disconnects the database.
+	 *
+	 * @return  void
 	 *
 	 * @since   12.1
 	 */
-	public function __destruct()
+	public function disconnect()
 	{
+		// Close the connection.
 		if (is_callable($this->connection, 'close'))
 		{
 			mysqli_close($this->connection);
 		}
+
+		$this->connection = null;
 	}
 
 	/**

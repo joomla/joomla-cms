@@ -63,6 +63,19 @@ class JDatabaseDriverSqlite extends JDatabaseDriverPdo
 	}
 
 	/**
+	 * Disconnects the database.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 */
+	public function disconnect()
+	{
+		$this->freeResult();
+		unset($this->connection);
+	}
+
+	/**
 	 * Drops a table from the database.
 	 *
 	 * @param   string   $tableName  The name of the database table to drop.
