@@ -29,7 +29,7 @@ abstract class JDatabase
 	 */
 	public function query()
 	{
-		JLog::add('JDatabase::query() is deprecated, use JDatabaseDriver::execute() instead.', JLog::NOTICE, 'deprecated');
+		JLog::add('JDatabase::query() is deprecated, use JDatabaseDriver::execute() instead.', JLog::WARNING, 'deprecated');
 
 		return $this->execute();
 	}
@@ -46,8 +46,7 @@ abstract class JDatabase
 	 */
 	public static function getConnectors()
 	{
-		// Deprecation warning.
-		JLog::add('JDatabase::getConnectors() is deprecated, use JDatabaseDriver::getConnectors() instead.', JLog::NOTICE, 'deprecated');
+		JLog::add('JDatabase::getConnectors() is deprecated, use JDatabaseDriver::getConnectors() instead.', JLog::WARNING, 'deprecated');
 
 		return JDatabaseDriver::getConnectors();
 	}
@@ -110,7 +109,7 @@ abstract class JDatabase
 	 */
 	public static function getInstance($options = array())
 	{
-		JLog::add('JDatabase::getInstance() is deprecated, use JDatabaseDriver::getInstance() instead.', JLog::NOTICE, 'deprecated');
+		JLog::add('JDatabase::getInstance() is deprecated, use JDatabaseDriver::getInstance() instead.', JLog::WARNING, 'deprecated');
 
 		return JDatabaseDriver::getInstance($options);
 	}
@@ -127,7 +126,7 @@ abstract class JDatabase
 	 */
 	public static function splitSql($sql)
 	{
-		JLog::add('JDatabase::splitSql() is deprecated, use JDatabaseDriver::splitSql() instead.', JLog::NOTICE, 'deprecated');
+		JLog::add('JDatabase::splitSql() is deprecated, use JDatabaseDriver::splitSql() instead.', JLog::WARNING, 'deprecated');
 
 		return JDatabaseDriver::splitSql($sql);
 	}

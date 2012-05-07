@@ -37,6 +37,8 @@ class JSimplecrypt
 	 */
 	public function __construct($privateKey = null)
 	{
+		JLog::add('JSimpleCrypt is deprecated.  Use JCrypt instead.', JLog::WARNING, 'deprecated');
+
 		if (empty($privateKey))
 		{
 			$privateKey = md5(JFactory::getConfig()->get('secret'));
@@ -47,9 +49,6 @@ class JSimplecrypt
 
 		// Setup the JCrypt object.
 		$this->_crypt = new JCrypt(new JCryptCipherSimple, $key);
-
-		// Deprecation warning.
-		JLog::add('JSimpleCrypt is deprecated.  Use JCrypt instead.', JLog::WARNING, 'deprecated');
 	}
 
 	/**

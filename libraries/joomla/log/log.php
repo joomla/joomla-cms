@@ -13,9 +13,6 @@ jimport('joomla.log.logger');
 
 JLoader::discover('JLogger', __DIR__ . '/loggers');
 
-// @deprecated  12.1
-jimport('joomla.filesystem.path');
-
 /**
  * Joomla! Log Class
  *
@@ -210,65 +207,6 @@ class JLog
 	}
 
 	/**
-	 * Returns a JLog object for a given log file/configuration, only creating it if it doesn't already exist.
-	 *
-	 * This method must be invoked as:
-	 * <code>$log = JLog::getInstance($file, $options, $path);</code>
-	 *
-	 * @param   string  $file     The filename of the log file.
-	 * @param   array   $options  The object configuration array.
-	 * @param   string  $path     The base path for the log file.
-	 *
-	 * @return  JLog
-	 *
-	 * @since   11.1
-	 *
-	 * @deprecated  12.1
-	 */
-	public static function getInstance($file = 'error.php', $options = null, $path = null)
-	{
-		self::add('JLog::getInstance() is deprecated.  See JLog::addLogger().', self::WARNING, 'deprecated');
-
-		// Get the system configuration object.
-		$config = JFactory::getConfig();
-
-		// Set default path if not set and sanitize it.
-		if (!$path)
-		{
-			$path = $config->get('log_path');
-		}
-
-		// If no options were explicitly set use the default from configuration.
-		if (empty($options))
-		{
-			$options = (array) $config->get('log_options');
-		}
-
-		// Fix up the options so that we use the w3c format.
-		$options['text_entry_format'] = empty($options['format']) ? null : $options['format'];
-		$options['text_file'] = $file;
-		$options['text_file_path'] = $path;
-		$options['logger'] = 'w3c';
-
-		// Generate a unique signature for the JLog instance based on its options.
-		$signature = md5(serialize($options));
-
-		// Only create the object if not already created.
-		if (empty(self::$legacy[$signature]))
-		{
-			self::$legacy[$signature] = new JLog;
-
-			// Register the configuration.
-			self::$legacy[$signature]->configurations[$signature] = $options;
-
-			// Setup the lookup to catch all.
-			self::$legacy[$signature]->lookup[$signature] = (object) array('priorities' => self::ALL, 'categories' => array());
-		}
-
-		return self::$legacy[$signature];
-	}
-
-	/**
 	 * Returns a reference to the a JLog object, only creating it if it doesn't already exist.
 	 * Note: This is principally made available for testing and internal purposes.
 	 *
@@ -284,62 +222,6 @@ class JLog
 		{
 			self::$instance = & $instance;
 		}
-	}
-
-	/**
-	 * Method to add an entry to the log file.
-	 *
-	 * @param   array  $entry  Array of values to map to the format string for the log file.
-	 *
-	 * @return  mixed  null|boolean
-	 *
-	 * @since         11.1
-	 *
-	 * @deprecated    12.1  Use JLog::add() instead.
-	 */
-	public function addEntry($entry)
-	{
-		// Deprecation warning.
-		self::add('JLog::addEntry() is deprecated, use JLog::add() instead.', self::WARNING, 'deprecated');
-
-		// Easiest case is we already have a JLogEntry object to add.
-		if ($entry instanceof JLogEntry)
-		{
-			return $this->addLogEntry($entry);
-		}
-		// We have either an object or array that needs to be converted to a JLogEntry.
-		elseif (is_array($entry) || is_object($entry))
-		{
-			$tmp = new JLogEntry('');
-			foreach ((array) $entry as $k => $v)
-			{
-				switch ($k)
-				{
-					case 'c-ip':
-						$tmp->clientIP = $v;
-						break;
-					case 'status':
-						$tmp->category = $v;
-						break;
-					case 'level':
-						$tmp->priority = $v;
-						break;
-					case 'comment':
-						$tmp->message = $v;
-						break;
-					default:
-						$tmp->$k = $v;
-						break;
-				}
-			}
-		}
-		// Unrecognized type.
-		else
-		{
-			return false;
-		}
-
-		return $this->addLogEntry($tmp);
 	}
 
 	/**

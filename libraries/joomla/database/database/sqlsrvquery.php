@@ -9,5 +9,4 @@
 
 defined('JPATH_PLATFORM') or die;
 
-// Deprecation warning.
-JLog::add('JDatabaseQuerySqlsrv has moved to the database/query directory.', JLog::NOTICE, 'deprecated');
+JLog::add('JDatabaseQuerySqlsrv has moved to the database/query directory.', JLog::WARNING, 'deprecated');

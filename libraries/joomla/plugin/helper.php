@@ -156,16 +156,12 @@ abstract class JPluginHelper
 		$plugin->type = preg_replace('/[^A-Z0-9_\.-]/i', '', $plugin->type);
 		$plugin->name = preg_replace('/[^A-Z0-9_\.-]/i', '', $plugin->name);
 
-		$legacypath = JPATH_PLUGINS . '/' . $plugin->type . '/' . $plugin->name . '.php';
 		$path = JPATH_PLUGINS . '/' . $plugin->type . '/' . $plugin->name . '/' . $plugin->name . '.php';
 
-		if (!isset($paths[$path]) || !isset($paths[$legacypath]))
+		if (!isset($paths[$path]))
 		{
-			$pathExists = file_exists($path);
-			if ($pathExists || file_exists($legacypath))
+			if (file_exists($path))
 			{
-				$path = $pathExists ? $path : $legacypath;
-
 				if (!isset($paths[$path]))
 				{
 					require_once $path;
