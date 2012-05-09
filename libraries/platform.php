@@ -35,7 +35,7 @@ final class JPlatform
 	const CODE_NAME = 'Louis Landry';
 
 	// Release date.
-	const RELEASE_DATE = '09-May-2012';
+	const RELEASE_DATE = '10-May-2012';
 
 	// Release time.
 	const RELEASE_TIME = '00:00';
