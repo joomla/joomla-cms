@@ -53,6 +53,18 @@ abstract class JViewHtml extends JViewBase
 	}
 
 	/**
+	 * Magic toString method that is a proxy for the render method.
+	 *
+	 * @return  string
+	 *
+	 * @since   12.1
+	 */
+	public function __toString()
+	{
+		return $this->render();
+	}
+
+	/**
 	 * Method to escape output.
 	 *
 	 * @param   string  $output  The output to escape.
@@ -148,13 +160,15 @@ abstract class JViewHtml extends JViewBase
 	 *
 	 * @param   string  $layout  The layout name.
 	 *
-	 * @return  void
+	 * @return  JViewHtml  Method supports chaining.
 	 *
 	 * @since   12.1
 	 */
 	public function setLayout($layout)
 	{
 		$this->layout = $layout;
+
+		return $this;
 	}
 
 	/**
@@ -162,13 +176,15 @@ abstract class JViewHtml extends JViewBase
 	 *
 	 * @param   SplPriorityQueue  $paths  The paths queue.
 	 *
-	 * @return  void
+	 * @return  JViewHtml  Method supports chaining.
 	 *
 	 * @since   12.1
 	 */
 	public function setPaths(SplPriorityQueue $paths)
 	{
 		$this->paths = $paths;
+
+		return $this;
 	}
 
 	/**

@@ -72,6 +72,16 @@ try
 	$view = new MyView(new MyDatabaseModel, new MyController, $paths);
 	$view-&gt;setLayout('count');
 	echo $view-&gt;render();
+
+	// Alternative approach.
+	$view = new MyView(new MyDatabaseModel);
+
+	// Use some chaining.
+	$view-&gt;setPaths($paths)
+		-&gt;setLayout('count');
+
+	// Take advantage of the magic __toString method.
+	echo $view;
 }
 catch (RuntimeException $e)
 {

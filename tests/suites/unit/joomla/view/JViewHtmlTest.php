@@ -46,6 +46,24 @@ class JViewHtmlTest extends TestCase
 	}
 
 	/**
+	 * Tests the __toString method.
+	 *
+	 * @return  void
+	 *
+	 * @covers  JViewHtml::__toString
+	 * @since   12.1
+	 */
+	public function test__toString()
+	{
+		// Set up a priority queue.
+		$paths = $this->_instance->getPaths();
+		$paths->insert(__DIR__ . '/layouts1', 1);
+
+		$this->_instance->setLayout('olivia');
+		$this->assertEquals($this->_instance->setLayout('olivia'), (string) $this->_instance);
+	}
+
+	/**
 	 * Tests the escape method.
 	 *
 	 * @return  void
@@ -159,8 +177,9 @@ class JViewHtmlTest extends TestCase
 	 */
 	public function testSetLayout()
 	{
-		$this->_instance->setLayout('fringe/division');
+		$result = $this->_instance->setLayout('fringe/division');
 		$this->assertAttributeSame('fringe/division', 'layout', $this->_instance);
+		$this->assertSame($this->_instance, $result);
 	}
 
 	/**
@@ -176,8 +195,9 @@ class JViewHtmlTest extends TestCase
 		$paths = new SplPriorityQueue;
 		$paths->insert('bar', 99);
 
-		$this->_instance->setPaths($paths);
+		$result = $this->_instance->setPaths($paths);
 		$this->assertAttributeSame($paths, 'paths', $this->_instance);
+		$this->assertSame($this->_instance, $result);
 	}
 
 	/**
