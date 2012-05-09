@@ -88,32 +88,32 @@ class JMenu extends JObject
 	{
 		if (empty(self::$instances[$client]))
 		{
-			// Load the router object
-			$info = JApplicationHelper::getClientInfo($client, true);
+			// Create a JMenu object
+			$classname = 'JMenu' . ucfirst($client);
 
-			$path = $info->path . '/includes/menu.php';
-			if (file_exists($path))
+			if (!class_exists($classname))
 			{
-				// Create a JPathway object
-				$classname = 'JMenu' . ucfirst($client);
+				// Load the menu object
+				$info = JApplicationHelper::getClientInfo($client, true);
 
-				// Only load if not already loaded.
-				if (class_exists($classname) == false)
+				if (is_object($info))
 				{
-					include $path;
+					$path = $info->path . '/includes/menu.php';
+					if (file_exists($path))
+					{
+						include_once $path;
+					}
 				}
+			}
 
-				$instance = new $classname($options);
+			if (class_exists($classname))
+			{
+				self::$instances[$client] = new $classname($options);
 			}
 			else
 			{
-				// $error = JError::raiseError(500, 'Unable to load menu: '.$client);
-				// TODO: Solve this
-				$error = null;
-				return $error;
+				throw new Exception(JText::sprintf('JLIB_APPLICATION_ERROR_MENU_LOAD', $client), 500);
 			}
-
-			self::$instances[$client] = & $instance;
 		}
 
 		return self::$instances[$client];

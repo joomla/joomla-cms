@@ -122,24 +122,32 @@ class JRouter extends JObject
 	{
 		if (empty(self::$instances[$client]))
 		{
-			// Load the router object
-			$info = JApplicationHelper::getClientInfo($client, true);
+			// Create a JRouter object
+			$classname = 'JRouter' . ucfirst($client);
 
-			$path = $info->path . '/includes/router.php';
-			if (file_exists($path))
+			if (!class_exists($classname))
 			{
-				include_once $path;
+				// Load the router object
+				$info = JApplicationHelper::getClientInfo($client, true);
 
-				// Create a JRouter object
-				$classname = 'JRouter' . ucfirst($client);
-				$instance = new $classname($options);
+				if (is_object($info))
+				{
+					$path = $info->path . '/includes/router.php';
+					if (file_exists($path))
+					{
+						include_once $path;
+					}
+				}
+			}
+
+			if (class_exists($classname))
+			{
+				self::$instances[$client] = new $classname($options);
 			}
 			else
 			{
 				throw new Exception(JText::sprintf('JLIB_APPLICATION_ERROR_ROUTER_LOAD', $client), 500);
 			}
-
-			self::$instances[$client] = & $instance;
 		}
 
 		return self::$instances[$client];
