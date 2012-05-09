@@ -316,7 +316,7 @@ class JController extends JObject
 		$this->redirect = null;
 		$this->taskMap = array();
 
-		if (JDEBUG)
+		if (defined('JDEBUG') && JDEBUG)
 		{
 			JLog::addLogger(array('text_file' => 'jcontroller.log.php'), JLog::ALL, array('controller'));
 		}
@@ -505,7 +505,7 @@ class JController extends JObject
 
 			$result = in_array((int) $id, $values);
 
-			if (JDEBUG)
+			if (defined('JDEBUG') && JDEBUG)
 			{
 				JLog::add(
 					sprintf(
@@ -875,7 +875,7 @@ class JController extends JObject
 			$values = array_unique($values);
 			$app->setUserState($context . '.id', $values);
 
-			if (JDEBUG)
+			if (defined('JDEBUG') && JDEBUG)
 			{
 				JLog::add(
 					sprintf(
@@ -984,7 +984,7 @@ class JController extends JObject
 			unset($values[$index]);
 			$app->setUserState($context . '.id', $values);
 
-			if (JDEBUG)
+			if (defined('JDEBUG') && JDEBUG)
 			{
 				JLog::add(
 					sprintf(
