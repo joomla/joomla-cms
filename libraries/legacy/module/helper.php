@@ -479,7 +479,7 @@ abstract class JModuleHelper
 				);
 				break;
 
-			case 'oldstatic': // provided for backward compatibility, not really usefull
+			case 'oldstatic': // Provided for backward compatibility, not really usefull
 				$ret = $cache->get(
 					array($cacheparams->class, $cacheparams->method),
 					$cacheparams->methodparams,

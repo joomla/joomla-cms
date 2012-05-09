@@ -507,13 +507,17 @@ class JController extends JObject
 
 			if (JDEBUG)
 			{
-				JLog::add(sprintf(
-					'Checking edit ID %s.%s: %d %s',
-					$context,
-					$id,
-					(int) $result,
-					str_replace("\n", ' ', print_r($values, 1))
-				), JLog::INFO, 'controller');
+				JLog::add(
+					sprintf(
+						'Checking edit ID %s.%s: %d %s',
+						$context,
+						$id,
+						(int) $result,
+						str_replace("\n", ' ', print_r($values, 1))
+					),
+					JLog::INFO,
+					'controller'
+				);
 			}
 
 			return $result;
@@ -873,12 +877,16 @@ class JController extends JObject
 
 			if (JDEBUG)
 			{
-				JLog::add(sprintf(
-					'Holding edit ID %s.%s %s',
-					$context,
-					$id,
-					str_replace("\n", ' ', print_r($values, 1))
-				), JLog::INFO, 'controller');
+				JLog::add(
+					sprintf(
+						'Holding edit ID %s.%s %s',
+						$context,
+						$id,
+						str_replace("\n", ' ', print_r($values, 1))
+					),
+					JLog::INFO,
+					'controller'
+				);
 			}
 		}
 	}
@@ -978,12 +986,16 @@ class JController extends JObject
 
 			if (JDEBUG)
 			{
-				JLog::add(sprintf(
-					'Releasing edit ID %s.%s %s',
-					$context,
-					$id,
-					str_replace("\n", ' ', print_r($values, 1))
-				), JLog::INFO, 'controller');
+				JLog::add(
+					sprintf(
+						'Releasing edit ID %s.%s %s',
+						$context,
+						$id,
+						str_replace("\n", ' ', print_r($values, 1))
+					),
+					JLog::INFO,
+					'controller'
+				);
 			}
 		}
 	}
