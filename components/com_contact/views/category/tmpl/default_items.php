@@ -9,7 +9,7 @@
 // no direct access
 defined('_JEXEC') or die;
 
-JHtml::core();
+JHtml::_('behavior.framework');
 
 $listOrder	= $this->escape($this->state->get('list.ordering'));
 $listDirn	= $this->escape($this->state->get('list.direction'));
