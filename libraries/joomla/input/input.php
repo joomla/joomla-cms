@@ -73,7 +73,7 @@ class JInput implements Serializable
 	 *
 	 * @since   11.1
 	 */
-	public function __construct($source = null, array $options = array())
+	public function __construct(&$source = null, array $options = array())
 	{
 		if (isset($options['filter']))
 		{
