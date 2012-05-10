@@ -32,10 +32,9 @@ class JInstallationViewFilesystem extends JView
 			return false;
 		}
 
-		$this->assignRef('state', $state);
-		$this->assignRef('form', $form);
+		$this->state = $state;
+		$this->form  = $form;
 
-		JText::script('INSTL_FTP_SETTINGS_CORRECT');
 		parent::display($tpl);
 	}
 }

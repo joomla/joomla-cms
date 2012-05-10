@@ -26,6 +26,54 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+30-Apr-2012 Jean-Marie Simonet
+ # Correcting hathor xml
+ # [#28453] Language override doesn't handle double quotes properly. Thanks Johannes.
+ # [#28455] *303 when not using URL Language code in multilanguage. Thanks Yannick.
+ # [#28467] *configuration.php smtp saves auto-filled admin username and password.
+ # [#28436] Wrong group in ldap and joomla authentication-plugin XML-file
+
+28-Apr-2012 Jean-Marie Simonet
+ $ Correcting wrong ini string value
+ $ Updating zh-CN installation ini file
+ # [#28398] Missing "remember me" in com_users. Thanks Nils.
+ # [#28210] onchange event does not fire at JFormFieldMedia (Regression). Thanks Benjamin.
+ # [#28428] Backend uses incorrect cache path for system caches - text filters can be reseted to defaults with enabled caching. Thanks Dennis.
+ # [#28457] *Unused $offset_user parameter in configuration
+ # [#28440] *load language file from com_media front end
+
+20-Apr-2012 Jean-Marie Simonet
+ # [#28407] *Browser Settings for new visitors broken in multilanguage. Reverting #28151
+
+18-Apr-2012 Jean-Marie Simonet
+ # [#28351] Remove extra images from finder. Thanks Rouven and Michael
+ # [#28382] Make Atomic work with sample data. Thanks Elin
+ # [#28339] Incorrect parameter passed to onUserAfterDeleteGroup event. Thanks Dennis
+ # [#28149] ImageManager Javascript Error. Thanks Benjamin
+ # [#28364] JImage wrong JPEG support detection in PHP 5.2. Thanks Pavel and Rouven
+ # [#28276] Finder/Smart Search: Deleting an item does not remove it from Finder's index. Thanks CY Lee
+ # [#28309] Improve forward compatability with Joomla 3.0 by making JDatabaseException extend RuntimeException. Thanks Rouven
+
+10-Apr-2012 Christophe Demko
+ ^ [#28336] e-strict error in com_messages (Elin Waring)
+
+10-Apr-2012 Jean-Marie Simonet
+ # [#28287] Fix some differences between platform and cms. Backport CSS changes. Thanks Rouven
+ # [#28384] Duplicate 'home' in breadcrumbs in a multi-language site. Thanks Nuno.
+
+09-Apr-2012 Christophe Demko
+ # [ #24839] Incorrect tooltip for Sticky column icons in Banner Manager: Banners
+ - [#28360] Get rid of assign() and assignRefs() uses in view: Installation (Rouven Weßling)
+ -+ [#28305] Remove a few unnecessary import() calls. Add a missing import(). (Rouven Weßling)
+
+07-Apr-2012 Jean-Marie Simonet
+ # [#28345] Call to member function of non-object: setDebug(). Thanks Don.
+
+03-Apr-2012 Mark Dexter
+ # [#28354] Problem logging out if Public group has admin login permission
+ # [#28342] *New joomlaupdate component has no icon in admin menu + missing lang string
+ # [#27772] Selecting 'Install Sample Data' button causes 'invalid security token' error message if 'Next' button clicked too fast
+
 -------------------- 2.5.4 Stable Release [2-April-2012] ------------------
 
 31-Mar-2012 Mark Dexter

@@ -36,9 +36,9 @@ class JInstallationViewComplete extends JView
 			return false;
 		}
 
-		$this->assignRef('state', $state);
-		$this->assignRef('options', $options);
-		$this->assignRef('config', $config);
+		$this->state   = $state;
+		$this->options = $options;
+		$this->config  = $config;
 
 		parent::display($tpl);
 	}

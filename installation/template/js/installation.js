@@ -27,7 +27,7 @@ var Installation = new Class({
 			var button = document.id('theDefault').children[0];
 			button.setAttribute('disabled', 'disabled');
 			select.setAttribute('disabled', 'disabled');
-			button.setAttribute('value', Locale.get('installation.sampleDataLoaded'));
+			button.setAttribute('value', Joomla.JText._('INSTL_SITE_SAMPLE_LOADED', 'Sample Data Installed Successfully.'));
 		}
     },
     
@@ -35,6 +35,7 @@ var Installation = new Class({
 		var form = document.id('adminForm');
 	
 		if (this.busy) {
+			alert(Joomla.JText._('INSTL_PROCESS_BUSY', 'Process is in progress. Please wait...'));
 			return false;
 		}
 
@@ -109,6 +110,9 @@ var Installation = new Class({
  	 * Method to install sample data via AJAX request.
 	 */
 	sampleData: function(el, filename) {
+		this.busy = true;
+		sample_data_spinner = new Spinner('sample-data-region');
+		sample_data_spinner.show(true);
 		el = document.id(el);
 		filename = document.id(filename);
 		var req = new Request.JSON({
@@ -125,7 +129,7 @@ var Installation = new Class({
 					Joomla.replaceTokens(r.token);
 					this.sampleDataLoaded = r.data.sampleDataLoaded;
 					if (r.error == false) {
-						el.set('value', Locale.get('installation.sampleDataLoaded'));
+						el.set('value', Joomla.JText._('INSTL_SITE_SAMPLE_LOADED', 'Sample Data Installed Successfully.'));
 						el.set('onclick','');
 						el.set('disabled', 'disabled');
 						filename.set('disabled', 'disabled');
@@ -142,6 +146,8 @@ var Installation = new Class({
 					el.set('disabled', 'disabled');
 					filename.set('disabled', 'disabled');
 				}
+				this.busy = false;
+				sample_data_spinner.hide(true);
 			}.bind(this),
 			onFailure: function(xhr) {
 				var r = JSON.decode(xhr.responseText);
@@ -152,6 +158,8 @@ var Installation = new Class({
 				}
 				el.set('disabled', '');
 				filename.set('disabled', '');
+				this.busy = false;
+				sample_data_spinner.hide(true);
 			}
 		}).send();
 	},
@@ -213,7 +221,7 @@ var Installation = new Class({
 				if (r) {
 					Joomla.replaceTokens(r.token)
 					if (r.error == false) {
-						alert(Joomla.JText._('INSTL_FTP_SETTINGS_CORRECT'));
+						alert(Joomla.JText._('INSTL_FTP_SETTINGS_CORRECT', 'Settings correct'));
 					} else {
 						alert(r.message);
 					}

@@ -26,6 +26,11 @@ JHtml::_('behavior.keepalive');
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
 JHtml::_('script', 'installation/template/js/installation.js', true, false, false, false);
+
+// Load the JavaScript translated messages
+JText::script('INSTL_PROCESS_BUSY');
+JText::script('INSTL_SITE_SAMPLE_LOADED');
+JText::script('INSTL_FTP_SETTINGS_CORRECT');
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>" >
@@ -38,11 +43,6 @@ JHtml::_('script', 'installation/template/js/installation.js', true, false, fals
 		<script type="text/javascript">
 			window.addEvent('domready', function() {
 				window.Install = new Installation('rightpad', '<?php echo JURI::current(); ?>');
-
-				Locale.define('<?php echo JFactory::getLanguage()->getTag(); ?>', 'installation', {
-					sampleDataLoaded: '<?php echo JText::_('INSTL_SITE_SAMPLE_LOADED', true); ?>'
-				});
-				Locale.use('<?php echo JFactory::getLanguage()->getTag(); ?>');
 			});
  		</script>
 	</head>

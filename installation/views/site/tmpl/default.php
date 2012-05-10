@@ -141,7 +141,7 @@ defined('_JEXEC') or die;
 					<p><?php echo JText::_('INSTL_SITE_LOAD_SAMPLE_DESC4'); ?></p>
 					<p><?php echo JText::_('INSTL_SITE_LOAD_SAMPLE_DESC8'); ?></p>
 				</div>
-				<div class="install-body">
+				<div id="sample-data-region" class="install-body">
 					<div class="m">
 						<fieldset>
 							<table class="content2 sample-data">
