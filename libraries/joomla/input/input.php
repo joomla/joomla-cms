@@ -68,7 +68,7 @@ class JInput implements Serializable
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  $source   Source data (Optional, default is $_REQUEST)
+	 * @param   array  &$source  Source data (Optional, default is $_REQUEST)
 	 * @param   array  $options  Array of configuration parameters (Optional)
 	 *
 	 * @since   11.1
