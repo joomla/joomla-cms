@@ -503,7 +503,7 @@ class JInstallerTemplate extends JAdapterInstance
 	 */
 	public function discover_install()
 	{
-		$lang = JFactory::getLanguage();		
+		$lang = JFactory::getLanguage();
 
 		// Templates are one of the easiest
 		// If its not in the extensions table we just add it
