@@ -111,15 +111,16 @@ abstract class JFactory
 	 *
 	 * Returns the global {@link JRegistry} object, only creating it if it doesn't already exist.
 	 *
-	 * @param   string  $file  The path to the configuration file
-	 * @param   string  $type  The type of the configuration file
+	 * @param   string  $file       The path to the configuration file
+	 * @param   string  $type       The type of the configuration file
+	 * @param   string  $namespace  The namespace of the configuration file
 	 *
 	 * @return  JRegistry
 	 *
 	 * @see     JRegistry
 	 * @since   11.1
 	 */
-	public static function getConfig($file = null, $type = 'PHP')
+	public static function getConfig($file = null, $type = 'PHP', $namespace = '')
 	{
 		if (!self::$config)
 		{
@@ -128,7 +129,7 @@ abstract class JFactory
 				$file = JPATH_PLATFORM . '/config.php';
 			}
 
-			self::$config = self::createConfig($file, $type);
+			self::$config = self::createConfig($file, $type, $namespace);
 		}
 
 		return self::$config;
