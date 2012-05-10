@@ -310,7 +310,7 @@ class JApplicationWeb extends JApplicationBase
 		$options = array(
 			'template' => $this->get('theme'),
 			'file' => 'index.php',
-			'params' => ''
+			'params' => $this->get('themeParams')
 		);
 
 		if ($this->get('themes.base'))
