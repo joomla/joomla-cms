@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+11-May-2012 Jean-Marie Simonet
+ # [#27711] Plugin SEF don't support "poster" video attribute. Thanks Ryan
+ 
 30-Apr-2012 Jean-Marie Simonet
  # Correcting hathor xml
  # [#28453] Language override doesn't handle double quotes properly. Thanks Johannes.
