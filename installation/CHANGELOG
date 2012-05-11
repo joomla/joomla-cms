@@ -32,6 +32,7 @@ $ -> Language fix or change
  # [#28205] Remove 'Display: no' modules from Module Assignment list (1.7), or button to hide them. Thanks Jason Williams and Andrea. 
  # [#28514] duplicate line in user.php. Thanks Viet Vu
  # [#28421] Update PHPMailer to 5.2.1. Thanks Rouven.
+ # [#28505] *Multilang validation errors when SEF is off
 
 30-Apr-2012 Jean-Marie Simonet
  # Correcting hathor xml
