@@ -296,7 +296,7 @@ class JApplication extends JObject
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   11.1
 	 */
 	public function dispatch($component = null)
 	{
