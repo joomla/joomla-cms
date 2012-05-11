@@ -33,6 +33,7 @@ $ -> Language fix or change
  # [#28514] duplicate line in user.php. Thanks Viet Vu
  # [#28421] Update PHPMailer to 5.2.1. Thanks Rouven.
  # [#28505] *Multilang validation errors when SEF is off
+ # [#28479] Use most specific paths possible. Fix detect FTP root. Thanks Rouven.
 
 30-Apr-2012 Jean-Marie Simonet
  # Correcting hathor xml
