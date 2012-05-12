@@ -28,6 +28,7 @@ $ -> Language fix or change
 
 12-May-2012 Jean-Marie Simonet
  + [#28472] Add ability to copy a template. Thanks Mark
+ +$ Adding eo-XX installation language
 
 11-May-2012 Jean-Marie Simonet
  # [#27711] Plugin SEF don't support "poster" video attribute. Thanks Ryan
