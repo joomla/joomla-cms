@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+12-May-2012 Jean-Marie Simonet
+ + [#28472] Add ability to copy a template. Thanks Mark
+
 11-May-2012 Jean-Marie Simonet
  # [#27711] Plugin SEF don't support "poster" video attribute. Thanks Ryan
  # [#28481] Edit Menu Item: Modules appears multiple times in the list. Thanks Doesnt Matter.
