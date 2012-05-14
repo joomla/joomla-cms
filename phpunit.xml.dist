@@ -1,30 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <phpunit bootstrap="tests/bootstrap.php" colors="false">
-
-	<!-- <php>
+	<!-- These constants help setup environment configurations for running optional tests.
+	<php>
 		<const name="JTEST_DATABASE_MYSQL_DSN" value="host=localhost;dbname=joomla_ut;user=utuser;pass=ut1234" />
 		<const name="JTEST_DATABASE_MYSQLI_DSN" value="host=localhost;dbname=joomla_ut;user=utuser;pass=ut1234" />
 		<const name="JTEST_DATABASE_POSTGRESQL_DSN" value="host=localhost;port=5432;dbname=joomla_ut;user=utuser;pass=ut1234" />
 		<const name="JTEST_HTTP_STUB" value="http://localhost/joomla-platform/tests/suites/unit/stubs/jhttp_stub.php" />
-	</php> -->
+	</php>
+	-->
 
-	<testsuite name="AllTests">
-		<directory>tests/suites</directory>
-	</testsuite>
+	<testsuites>
+		<testsuite name="Database">
+			<directory>tests/suites/database</directory>
+		</testsuite>
+		<testsuite name="Unit">
+			<directory>tests/suites/unit</directory>
+		</testsuite>
+	</testsuites>
 
 	<logging>
-		<log type="coverage-html" target="build/coverage" title="Joomla-Platform"
-			charset="UTF-8" yui="true" highlight="true" lowUpperBound="35"
-			highLowerBound="70" />
+		<log type="coverage-html" target="build/coverage" title="Joomla-Platform" charset="UTF-8" yui="true" highlight="true"
+			lowUpperBound="35" highLowerBound="70" />
 		<log type="coverage-clover" target="build/logs/clover.xml" />
-		<log type="junit" target="build/logs/junit.xml"
-			logIncompleteSkipped="false" />
+		<log type="junit" target="build/logs/junit.xml" logIncompleteSkipped="false" />
 	</logging>
 	<filter>
-		<whitelist addUncoveredFilesFromWhitelist="false">
+		<whitelist addUncoveredFilesFromWhitelist="true">
 			<directory suffix=".php">libraries/joomla</directory>
-			<directory suffix=".php">libraries/legacy</directory>
 			<file>libraries/import.php</file>
 			<file>libraries/loader.php</file>
 			<file>libraries/platform.php</file>

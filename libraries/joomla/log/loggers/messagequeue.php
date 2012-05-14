@@ -15,7 +15,7 @@ jimport('joomla.log.logger');
  * Joomla MessageQueue logger class.
  *
  * This class is designed to output logs to a specific MySQL database table. Fields in this
- * table are based on the SysLog style of log output. This is designed to allow quick and
+ * table are based on the Syslog style of log output. This is designed to allow quick and
  * easy searching.
  *
  * @package     Joomla.Platform

@@ -30,15 +30,6 @@ class JApplication extends JApplicationBase
 	 * @var    integer
 	 * @since  11.1
 	 */
-	protected $clientId = null;
-
-	/**
-	 * The client identifier.
-	 *
-	 * @var    integer
-	 * @since  11.1
-	 * @deprecated use $clientId or declare as private
-	 */
 	protected $_clientId = null;
 
 	/**
@@ -47,15 +38,6 @@ class JApplication extends JApplicationBase
 	 * @var    array
 	 * @since  11.1
 	 */
-	protected $messageQueue = array();
-
-	/**
-	 * The application message queue.
-	 *
-	 * @var    array
-	 * @since  11.1
-	 * @deprecated use $messageQueue or declare as private
-	 */
 	protected $_messageQueue = array();
 
 	/**
@@ -63,15 +45,6 @@ class JApplication extends JApplicationBase
 	 *
 	 * @var    array
 	 * @since  11.1
-	 */
-	protected $name = null;
-
-	/**
-	 * The name of the application.
-	 *
-	 * @var    array
-	 * @since  11.1
-	 * @deprecated use $name or declare as private
 	 */
 	protected $_name = null;
 
@@ -115,8 +88,6 @@ class JApplication extends JApplicationBase
 	 */
 	public function __construct($config = array())
 	{
-		jimport('joomla.error.profiler');
-
 		// Set the view name.
 		$this->_name = $this->getName();
 
@@ -133,10 +104,7 @@ class JApplication extends JApplicationBase
 		}
 
 		// Create the input object
-		if (class_exists('JInput'))
-		{
-			$this->input = new JInput;
-		}
+		$this->input = new JInput;
 
 		// Set the session default name.
 		if (!isset($config['session_name']))
@@ -700,8 +668,6 @@ class JApplication extends JApplicationBase
 				// Set the remember me cookie if enabled.
 				if (isset($options['remember']) && $options['remember'])
 				{
-					jimport('joomla.utilities.simplecrypt');
-
 					// Create the encryption key, apply extra hardening using the user agent string.
 					$key = self::getHash(@$_SERVER['HTTP_USER_AGENT']);
 
@@ -878,7 +844,6 @@ class JApplication extends JApplicationBase
 			$name = $this->_name;
 		}
 
-		jimport('joomla.application.pathway');
 		$pathway = JPathway::getInstance($name, $options);
 
 		if ($pathway instanceof Exception)
@@ -906,7 +871,6 @@ class JApplication extends JApplicationBase
 			$name = $this->_name;
 		}
 
-		jimport('joomla.application.menu');
 		$menu = JMenu::getInstance($name, $options);
 
 		if ($menu instanceof Exception)

@@ -88,13 +88,6 @@ abstract class JHtmlList
 
 		$items = $db->loadObjectList();
 
-		// Check for a database error.
-		if ($db->getErrorNum())
-		{
-			JLog::add($db->getErrorMsg(), JLog::NOTICE, 'jerror');
-			return false;
-		}
-
 		if (empty($items))
 		{
 			$options[] = JHtml::_('select.option', 1, JText::_('JOPTION_ORDER_FIRST'));
@@ -184,6 +177,7 @@ abstract class JHtmlList
 		$query->join('LEFT', '#__user_usergroup_map AS m ON m.user_id = u.id');
 		$query->where('u.block = 0');
 		$query->order($order);
+		$query->group('u.id');
 		$db->setQuery($query);
 
 		if ($nouser)

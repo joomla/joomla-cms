@@ -114,7 +114,6 @@ class JException extends Exception
 	 */
 	public function __construct($msg, $code = 0, $level = null, $info = null, $backtrace = false)
 	{
-		// Deprecation warning.
 		JLog::add('JException is deprecated.', JLog::WARNING, 'deprecated');
 
 		$this->level = $level;
@@ -180,6 +179,8 @@ class JException extends Exception
 	 */
 	public function __toString()
 	{
+		JLog::add('JException::__toString is deprecated.', JLog::WARNING, 'deprecated');
+
 		return $this->message;
 	}
 
@@ -193,6 +194,8 @@ class JException extends Exception
 	 */
 	public function toString()
 	{
+		JLog::add('JException::toString is deprecated.', JLog::WARNING, 'deprecated');
+
 		return (string) $this;
 	}
 
@@ -210,6 +213,8 @@ class JException extends Exception
 	 */
 	public function get($property, $default = null)
 	{
+		JLog::add('JException::get is deprecated.', JLog::WARNING, 'deprecated');
+
 		if (isset($this->$property))
 		{
 			return $this->$property;
@@ -230,6 +235,8 @@ class JException extends Exception
 	 */
 	public function getProperties($public = true)
 	{
+		JLog::add('JException::getProperties is deprecated.', JLog::WARNING, 'deprecated');
+
 		$vars = get_object_vars($this);
 		if ($public)
 		{
@@ -258,7 +265,6 @@ class JException extends Exception
 	 */
 	public function getError($i = null, $toString = true)
 	{
-		// Deprecation warning.
 		JLog::add('JException::getError is deprecated.', JLog::WARNING, 'deprecated');
 
 		// Find the error
@@ -297,7 +303,6 @@ class JException extends Exception
 	 */
 	public function getErrors()
 	{
-		// Deprecation warning.
 		JLog::add('JException::getErrors is deprecated.', JLog::WARNING, 'deprecated');
 
 		return $this->_errors;
@@ -317,7 +322,6 @@ class JException extends Exception
 	 */
 	public function set($property, $value = null)
 	{
-		// Deprecation warning.
 		JLog::add('JException::set is deprecated.', JLog::WARNING, 'deprecated');
 
 		$previous = isset($this->$property) ? $this->$property : null;
@@ -338,7 +342,6 @@ class JException extends Exception
 	 */
 	public function setProperties($properties)
 	{
-		// Deprecation warning.
 		JLog::add('JException::setProperties is deprecated.', JLog::WARNING, 'deprecated');
 
 		// Cast to an array
@@ -370,7 +373,6 @@ class JException extends Exception
 	 */
 	public function setError($error)
 	{
-		// Deprecation warning.
 		JLog::add('JException::setErrors is deprecated.', JLog::WARNING, 'deprecated');
 
 		array_push($this->_errors, $error);

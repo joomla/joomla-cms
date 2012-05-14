@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.environment.request');
-
 /**
  * Class for managing HTTP sessions
  *
@@ -248,7 +246,16 @@ class JSession extends JObject
 	{
 		$user = JFactory::getUser();
 		$session = JFactory::getSession();
-		$hash = JApplication::getHash($user->get('id', 0) . $session->getToken($forceNew));
+
+		// TODO: Decouple from legacy JApplication class.
+		if (is_callable(array('JApplication', 'getHash')))
+		{
+			$hash = JApplication::getHash($user->get('id', 0) . $session->getToken($forceNew));
+		}
+		else
+		{
+			$hash = md5(JFactory::getApplication()->get('secret') . $user->get('id', 0) . $session->getToken($forceNew));
+		}
 
 		return $hash;
 	}
@@ -514,12 +521,21 @@ class JSession extends JObject
 		else
 		{
 			$session_name = session_name();
-			if (!JRequest::getVar($session_name, false, 'COOKIE'))
+
+			// Get the JInput object
+			$input = JFactory::getApplication()->input;
+
+			// Get the JInputCookie object
+			$cookie = $input->cookie;
+
+			if (is_null($cookie->get($session_name)))
 			{
-				if (JRequest::getVar($session_name))
+				$session_clean = $input->get($session_name, false, 'string');
+
+				if ($session_clean)
 				{
-					session_id(JRequest::getVar($session_name));
-					setcookie($session_name, '', time() - 3600);
+					session_id($session_clean);
+					$cookie->set($session_name, '', time() - 3600);
 				}
 			}
 		}

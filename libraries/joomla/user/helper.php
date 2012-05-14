@@ -27,9 +27,10 @@ abstract class JUserHelper
 	 * @param   integer  $userId   The id of the user.
 	 * @param   integer  $groupId  The id of the group.
 	 *
-	 * @return  mixed  Boolean true on success, Exception on error.
+	 * @return  boolean  True on success
 	 *
 	 * @since   11.1
+	 * @throws  RuntimeException
 	 */
 	public static function addUserToGroup($userId, $groupId)
 	{
@@ -48,26 +49,17 @@ abstract class JUserHelper
 			$db->setQuery($query);
 			$title = $db->loadResult();
 
-			// Check for a database error.
-			if ($db->getErrorNum())
-			{
-				return new Exception($db->getErrorMsg());
-			}
-
 			// If the group does not exist, return an exception.
 			if (!$title)
 			{
-				return new Exception(JText::_('JLIB_USER_EXCEPTION_ACCESS_USERGROUP_INVALID'));
+				throw new RuntimeException('Access Usergroup Invalid');
 			}
 
 			// Add the group data to the user object.
 			$user->groups[$title] = $groupId;
 
 			// Store the user object.
-			if (!$user->save())
-			{
-				return new Exception($user->getError());
-			}
+			$user->save();
 		}
 
 		// Set the group data for any preloaded user objects.
@@ -89,7 +81,7 @@ abstract class JUserHelper
 	 *
 	 * @param   integer  $userId  The id of the user.
 	 *
-	 * @return  mixed  Array on success, JException on error.
+	 * @return  array    List of groups
 	 *
 	 * @since   11.1
 	 */
@@ -107,7 +99,7 @@ abstract class JUserHelper
 	 * @param   integer  $userId   The id of the user.
 	 * @param   integer  $groupId  The id of the group.
 	 *
-	 * @return  mixed  Boolean true on success, JException on error.
+	 * @return  boolean  True on success
 	 *
 	 * @since   11.1
 	 */
@@ -124,10 +116,7 @@ abstract class JUserHelper
 			unset($user->groups[$key]);
 
 			// Store the user object.
-			if (!$user->save())
-			{
-				return new JException($user->getError());
-			}
+			$user->save();
 		}
 
 		// Set the group data for any preloaded user objects.
@@ -150,7 +139,7 @@ abstract class JUserHelper
 	 * @param   integer  $userId  The id of the user.
 	 * @param   array    $groups  An array of group ids to put the user in.
 	 *
-	 * @return  mixed  Boolean true on success, Exception on error.
+	 * @return  boolean  True on success
 	 *
 	 * @since   11.1
 	 */
@@ -172,12 +161,6 @@ abstract class JUserHelper
 		$db->setQuery($query);
 		$results = $db->loadObjectList();
 
-		// Check for a database error.
-		if ($db->getErrorNum())
-		{
-			return new Exception($db->getErrorMsg());
-		}
-
 		// Set the titles for the user groups.
 		for ($i = 0, $n = count($results); $i < $n; $i++)
 		{
@@ -185,10 +168,7 @@ abstract class JUserHelper
 		}
 
 		// Store the user object.
-		if (!$user->save())
-		{
-			return new Exception($user->getError());
-		}
+		$user->save();
 
 		// Set the group data for any preloaded user objects.
 		$temp = JFactory::getUser((int) $userId);
@@ -222,7 +202,7 @@ abstract class JUserHelper
 		}
 
 		// Get the dispatcher and load the user's plugins.
-		$dispatcher	= JDispatcher::getInstance();
+		$dispatcher	= JEventDispatcher::getInstance();
 		JPluginHelper::importPlugin('user');
 
 		$data = new JObject;
@@ -525,12 +505,22 @@ abstract class JUserHelper
 	public static function genRandomPassword($length = 8)
 	{
 		$salt = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-		$len = strlen($salt);
+		$base = strlen($salt);
 		$makepass = '';
 
-		for ($i = 0; $i < $length; $i++)
+		/*
+		 * Start with a cryptographic strength random string, then convert it to
+		 * a string with the numeric base of the salt.
+		 * Shift the base conversion on each character so the character
+		 * distribution is even, and randomize the start shift so it's not
+		 * predictable.
+		 */
+		$random = JCrypt::genRandomBytes($length + 1);
+		$shift = ord($random[0]);
+		for ($i = 1; $i <= $length; ++$i)
 		{
-			$makepass .= $salt[mt_rand(0, $len - 1)];
+			$makepass .= $salt[($shift + ord($random[$i])) % $base];
+			$shift += ord($random[$i]);
 		}
 
 		return $makepass;

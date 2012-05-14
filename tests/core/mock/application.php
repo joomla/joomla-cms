@@ -29,6 +29,7 @@ class TestMockApplication
 		$methods = array(
 			'get',
 			'getCfg',
+			'getIdentity',
 			'getRouter',
 			'getTemplate',
 		);
@@ -44,6 +45,8 @@ class TestMockApplication
 			// Call original constructor.
 			false
 		);
+
+		$mockObject->input = new JInput;
 
 		return $mockObject;
 	}

@@ -8,7 +8,7 @@
  */
 
 require_once __DIR__ . '/JEventInspector.php';
-require_once __DIR__ . '/JDispatcherInspector.php';
+require_once __DIR__ . '/JEventDispatcherInspector.php';
 
 /**
  * Test class for JEvent.
@@ -26,7 +26,7 @@ class JEventTest extends PHPUnit_Framework_TestCase
      */
 	public function test__construct()
 	{
-		$dispatcher = new JDispatcherInspector();
+		$dispatcher = new JEventDispatcherInspector();
 		$event = new JEventInspector($dispatcher);
 		
 		$this->assertThat(
@@ -42,7 +42,7 @@ class JEventTest extends PHPUnit_Framework_TestCase
      */
     public function testUpdate()
     {
-		$dispatcher = new JDispatcherInspector();
+		$dispatcher = new JEventDispatcherInspector();
 		$event = new JEventInspector($dispatcher);
     	
 		$args = array('event' => 'onTestEvent');

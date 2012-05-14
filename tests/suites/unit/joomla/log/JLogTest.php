@@ -9,7 +9,6 @@
 
 require_once JPATH_PLATFORM.'/joomla/log/log.php';
 require_once JPATH_PLATFORM.'/joomla/log/entry.php';
-require_once JPATH_PLATFORM.'/joomla/log/logexception.php';
 require_once JPATH_PLATFORM.'/joomla/log/logger.php';
 require_once __DIR__.'/stubs/log/inspector.php';
 
@@ -37,74 +36,6 @@ class JLogTest extends PHPUnit_Framework_TestCase
 		JLog::setInstance($log);
 
 		parent::tearDown();
-	}
-
-	/**
-	 * Test the JLog::addEntry method to make sure if we give it invalid scalar input it will return false
-	 * just as in Joomla! CMS 1.5.  This method is deprecated and will be removed in 11.2.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.1
-	 */
-	public function testAddEntryWithInvalidScalarInput()
-	{
-		$log = new JLogInspector;
-
-		$this->assertFalse($log->addEntry(123), 'Line: '.__LINE__);
-		$this->assertFalse($log->addEntry('foobar'), 'Line: '.__LINE__);
-		$this->assertFalse($log->addEntry(3.14), 'Line: '.__LINE__);
-	}
-
-	/**
-	 * Test the JLog::addEntry method to make sure if we give it valid array input as in Joomla! CMS 1.5 then
-	 * it will in fact add a log entry and transform it correctly.  This method is deprecated and will be
-	 * removed in 11.2.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.1
-	 */
-	public function testAddEntryWithValidArrayInput()
-	{
-		$log = new JLogInspector;
-
-		// Create an array similar to expected input array from Joomla! CMS 1.5
-		$entry = array(
-			'c-ip' => '127.0.0.1',
-			'status' => 'deprecated',
-			'level' => JLog::DEBUG,
-			'comment' => 'Test Entry',
-			'foo' => 'bar'
-		);
-
-		$log->addEntry($entry);
-
-		// Verify all of the JLogEntry values.
-		$this->assertEquals($log->queue[0]->category, 'deprecated', 'Line: '.__LINE__);
-		$this->assertEquals($log->queue[0]->priority, JLog::DEBUG, 'Line: '.__LINE__);
-		$this->assertEquals($log->queue[0]->message, 'Test Entry', 'Line: '.__LINE__);
-		$this->assertEquals($log->queue[0]->foo, 'bar', 'Line: '.__LINE__);
-		$this->assertEquals($log->queue[0]->clientIP, '127.0.0.1', 'Line: '.__LINE__);
-	}
-
-	/**
-	 * Test the JLog::addEntry method to make sure if we give it a valid JLogEntry object as input it will
-	 * correctly accept and add the entry.  This method is deprecated and will be removed in 11.2.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.1
-	 */
-	public function testAddEntryWithValidJLogEntry()
-	{
-		$log = new JLogInspector;
-
-		$entry = new JLogEntry('TESTING', JLog::DEBUG);
-
-		$log->addEntry($entry);
-
-		$this->assertEquals($log->queue[0], $entry, 'Line: '.__LINE__);
 	}
 
 	/**
@@ -158,8 +89,8 @@ class JLogTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testAddLoggerAutoInstantiationInvalidLogger()
 	{
-		// We are expecting a LogException to be thrown since we are trying to add a bogus logger.
-		$this->setExpectedException('LogException');
+		// We are expecting a InvalidArgumentException to be thrown since we are trying to add a bogus logger.
+		$this->setExpectedException('RuntimeException');
 
 		JLog::setInstance(null);
 
@@ -375,26 +306,6 @@ class JLogTest extends PHPUnit_Framework_TestCase
 				)),
 			'Line: '.__LINE__.'.'
 		);
-	}
-
-	/**
-	 * Test the JLog::getInstance method to make sure we are getting a valid JLog instance from it.  This
-	 * method is deprecated and will be removed in 11.2.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.1
-	 */
-	public function testGetInstance()
-	{
-		// Make sure we are working with a clean instance.
-		JLog::setInstance(null);
-
-		// Get an instance of the JLog class.
-		$log = JLog::getInstance();
-
-		// Verify that it is a JLog.
-		$this->assertTrue(($log instanceof JLog), 'Line: '.__LINE__);
 	}
 
 	/**

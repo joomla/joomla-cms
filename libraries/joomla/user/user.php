@@ -446,7 +446,6 @@ class JUser extends JObject
 	public function getParameters($loadsetupfile = false, $path = null)
 	{
 		// @codeCoverageIgnoreStart
-		// Deprecation warning.
 		JLog::add('JUser::getParameters() is deprecated.', JLog::WARNING, 'deprecated');
 
 		return $this->_params;
@@ -625,7 +624,7 @@ class JUser extends JObject
 	 * @return  boolean  True on success
 	 *
 	 * @since   11.1
-	 * @throws  exception
+	 * @throws  RuntimeException
 	 */
 	public function save($updateOnly = false)
 	{
@@ -680,7 +679,7 @@ class JUser extends JObject
 					{
 						if (JAccess::checkGroup($groupId, 'core.admin'))
 						{
-							throw new Exception(JText::_('JLIB_USER_ERROR_NOT_SUPERADMIN'));
+							throw new RuntimeException('User not Super Administrator');
 						}
 					}
 				}
@@ -689,7 +688,7 @@ class JUser extends JObject
 					// I am not a Super Admin, and this one is, so fail.
 					if (JAccess::check($this->id, 'core.admin'))
 					{
-						throw new Exception(JText::_('JLIB_USER_ERROR_NOT_SUPERADMIN'));
+						throw new RuntimeException('User not Super Administrator');
 					}
 
 					if ($this->groups != null)
@@ -699,7 +698,7 @@ class JUser extends JObject
 						{
 							if (JAccess::checkGroup($groupId, 'core.admin'))
 							{
-								throw new Exception(JText::_('JLIB_USER_ERROR_NOT_SUPERADMIN'));
+								throw new RuntimeException('User not Super Administrator');
 							}
 						}
 					}
@@ -708,7 +707,7 @@ class JUser extends JObject
 
 			// Fire the onUserBeforeSave event.
 			JPluginHelper::importPlugin('user');
-			$dispatcher = JDispatcher::getInstance();
+			$dispatcher = JEventDispatcher::getInstance();
 
 			$result = $dispatcher->trigger('onUserBeforeSave', array($oldUser->getProperties(), $isNew, $this->getProperties()));
 			if (in_array(false, $result, true))
@@ -718,10 +717,7 @@ class JUser extends JObject
 			}
 
 			// Store the user data in the database
-			if (!($result = $table->store()))
-			{
-				throw new Exception($table->getError());
-			}
+			$result = $table->store();
 
 			// Set the id for the JUser object in case we created a new user.
 			if (empty($this->id))
@@ -761,7 +757,7 @@ class JUser extends JObject
 		JPluginHelper::importPlugin('user');
 
 		// Trigger the onUserBeforeDelete event
-		$dispatcher = JDispatcher::getInstance();
+		$dispatcher = JEventDispatcher::getInstance();
 		$dispatcher->trigger('onUserBeforeDelete', array($this->getProperties()));
 
 		// Create the user table object

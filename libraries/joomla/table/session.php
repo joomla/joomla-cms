@@ -189,14 +189,7 @@ class JTableSession extends JTable
 		$query->where($this->_db->quoteName($this->_tbl_key) . ' = ' . $this->_db->quote($this->$k));
 		$this->_db->setQuery($query);
 
-		if ($this->_db->execute())
-		{
-			return true;
-		}
-		else
-		{
-			$this->setError($this->_db->getErrorMsg());
-			return false;
-		}
+		$this->_db->execute();
+		return true;
 	}
 }

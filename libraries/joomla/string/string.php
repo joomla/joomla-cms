@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 // PHP mbstring and iconv local configuration
 
 // Check if mbstring extension is loaded and attempt to load it if not present except for windows
-if (extension_loaded('mbstring') || ((!strtoupper(substr(PHP_OS, 0, 3)) === 'WIN' && dl('mbstring.so'))))
+if (extension_loaded('mbstring'))
 {
 	// Make sure to suppress the output in case ini_set is disabled
 	@ini_set('mbstring.internal_encoding', 'UTF-8');
@@ -21,7 +21,7 @@ if (extension_loaded('mbstring') || ((!strtoupper(substr(PHP_OS, 0, 3)) === 'WIN
 }
 
 // Same for iconv
-if (function_exists('iconv') || ((!strtoupper(substr(PHP_OS, 0, 3)) === 'WIN' && dl('iconv.so'))))
+if (function_exists('iconv'))
 {
 	// These are settings that can be set inside code
 	iconv_set_encoding("internal_encoding", "UTF-8");
@@ -78,11 +78,14 @@ abstract class JString
 	 *
 	 * @return  array   The splitted string.
 	 *
+	 * @deprecated  12.3
 	 * @since   11.3
 	 */
 	public static function splitCamelCase($string)
 	{
-		return preg_split('/(?<=[^A-Z_])(?=[A-Z])|(?<=[A-Z])(?=[A-Z][^A-Z_])/x', $string);
+		JLog::add('JString::splitCamelCase has been deprecated. Use JStringNormalise::fromCamelCase.', JLog::WARNING, 'deprecated');
+
+		return JStringNormalise::fromCamelCase($string, true);
 	}
 
 	/**

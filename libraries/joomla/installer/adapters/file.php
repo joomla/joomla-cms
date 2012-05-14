@@ -273,9 +273,6 @@ class JInstallerFile extends JAdapterInstance
 				return false;
 			}
 
-			// Set the insert id
-			$row->set('extension_id', $db->insertid());
-
 			// Since we have created a module item, we add it to the installation step stack
 			// so that if we have to rollback the changes we can undo it.
 			$this->parent->pushStep(array('type' => 'extension', 'extension_id' => $row->extension_id));

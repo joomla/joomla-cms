@@ -20,8 +20,7 @@
 
       <para>For files that contain only PHP code, the closing tag (?&gt;) should not be included. It is not required by PHP.
       Leaving this out prevents trailing white space from being accidentally injected into the output that can introduce errors in
-      the Joomla session (see the PHP manual on instruction separation at
-      http://php.net/basic-syntax.instruction-separation).</para>
+      the Joomla session (see the PHP manual on <ulink url="http://php.net/basic-syntax.instruction-separation">Instruction separation</ulink>.</para>
 
       <para>Files should always end with a blank new line.</para>
 
@@ -646,7 +645,7 @@ class JClass extends JObject
 
     <para>Exceptions should be used for error handling.</para>
 
-    <para>The follow sections outline how to semantically use SPL exceptions</para>
+    <para>The follow sections outline how to semantically use <ulink url="http://php.net/manual/en/spl.exceptions.php">SPL exceptions</ulink>.</para>
 
     <section>
       <title>Logic Exceptions</title>
@@ -655,7 +654,7 @@ class JClass extends JObject
       being used. For example:</para>
 
       <simplelist>
-        <member>A dependancy has failed (you try to operate on an object that has not been loaded yet).</member>
+        <member>A dependency has failed (you try to operate on an object that has not been loaded yet).</member>
       </simplelist>
 
       <para>The following child classes can also be used in appropriate situations.</para>
@@ -679,8 +678,7 @@ class JClass extends JObject
 
         <simplelist>
           <member><methodname>is_callable</methodname>, or similar, fails on a class method.</member>
-
-          <member>There where missing arguments passed to a magic call method.</member>
+          <member>Arguments passed to a magic call method are missing.</member>
         </simplelist>
       </section>
 
@@ -723,7 +721,7 @@ class JClass extends JObject
 
       <para>The <exceptionname>RuntimeException</exceptionname> is thrown when some sort of external entity or environment causes
       a problem that is beyond your control providing the input is valid. This exception is the default case for when the cause of
-      an error can't explicity be determined. For example:</para>
+      an error can't explicitly be determined. For example:</para>
 
       <simplelist>
         <member>Tried to connect to a database but the database was not available (server down, etc).</member>
@@ -734,7 +732,7 @@ class JClass extends JObject
       <section>
         <title>UnexpectedValueException</title>
 
-        <para>This type of exception should be used when an unecpected result is encountered. For example:</para>
+        <para>This type of exception should be used when an unexpected result is encountered. For example:</para>
 
         <simplelist>
           <member>A function call returned a string when a boolean was expected.</member>

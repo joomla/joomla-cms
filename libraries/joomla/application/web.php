@@ -195,12 +195,13 @@ class JApplicationWeb extends JApplicationBase
 	 *                              object, and if it is null then the default language object will be created based
 	 *                              on the application's loadLanguage() method.
 	 * @param   mixed  $dispatcher  An optional argument to provide dependency injection for the application's
-	 *                              event dispatcher.  If the argument is a JDispatcher object that object will become
+	 *                              event dispatcher.  If the argument is a JEventDispatcher object that object will become
 	 *                              the application's event dispatcher, if it is null then the default event dispatcher
 	 *                              will be created based on the application's loadDispatcher() method.
 	 *
 	 * @return  JApplicationWeb  Instance of $this to allow chaining.
 	 *
+	 * @deprecated  13.1
 	 * @see     loadSession()
 	 * @see     loadDocument()
 	 * @see     loadLanguage()
@@ -209,64 +210,25 @@ class JApplicationWeb extends JApplicationBase
 	 */
 	public function initialise($session = null, $document = null, $language = null, $dispatcher = null)
 	{
-		// If a session object is given use it.
-		if ($session instanceof JSession)
-		{
-			$this->session = $session;
-		}
-		// We don't have a session, nor do we want one.
-		elseif ($session === false)
-		{
-			// Do nothing.
-		}
 		// Create the session based on the application logic.
-		else
+		if ($session !== false)
 		{
-			$this->loadSession();
+			$this->loadSession($session);
 		}
 
-		// If a document object is given use it.
-		if ($document instanceof JDocument)
-		{
-			$this->document = $document;
-		}
-		// We don't have a document, nor do we want one.
-		elseif ($document === false)
-		{
-			// Do nothing.
-		}
 		// Create the document based on the application logic.
-		else
+		if ($document !== false)
 		{
-			$this->loadDocument();
+			$this->loadDocument($document);
 		}
 
-		// If a language object is given use it.
-		if ($language instanceof JLanguage)
-		{
-			$this->language = $language;
-		}
-		// We don't have a language, nor do we want one.
-		elseif ($language === false)
-		{
-			// Do nothing.
-		}
 		// Create the language based on the application logic.
-		else
+		if ($language !== false)
 		{
-			$this->loadLanguage();
+			$this->loadLanguage($language);
 		}
 
-		// If a dispatcher object is given use it.
-		if ($dispatcher instanceof JDispatcher)
-		{
-			$this->dispatcher = $dispatcher;
-		}
-		// Create the dispatcher based on the application logic.
-		else
-		{
-			$this->loadDispatcher();
-		}
+		$this->loadDispatcher($dispatcher);
 
 		return $this;
 	}
@@ -358,7 +320,7 @@ class JApplicationWeb extends JApplicationBase
 		// Fall back to constants.
 		else
 		{
-			$options['directory'] = (defined('JPATH_BASE') ? JPATH_BASE : __DIR__) . '/themes';
+			$options['directory'] = defined('JPATH_THEMES') ? JPATH_THEMES : (defined('JPATH_BASE') ? JPATH_BASE : __DIR__) . '/themes';
 		}
 
 		// Parse the document.
@@ -1003,44 +965,67 @@ class JApplicationWeb extends JApplicationBase
 	}
 
 	/**
-	 * Method to create a document for the Web application.  The logic and options for creating this
-	 * object are adequately generic for default cases but for many applications it will make sense
-	 * to override this method and create document objects based on more specific needs.
+	 * Allows the application to load a custom or default document.
 	 *
-	 * @return  void
+	 * The logic and options for creating this object are adequately generic for default cases
+	 * but for many applications it will make sense to override this method and create a document,
+	 * if required, based on more specific needs.
+	 *
+	 * @param   JDocument  $document  An optional document object. If omitted, the factory document is created.
+	 *
+	 * @return  JApplicationWeb This method is chainable.
 	 *
 	 * @since   11.3
 	 */
-	protected function loadDocument()
+	public function loadDocument(JDocument $document = null)
 	{
-		$this->document = JFactory::getDocument();
+		$this->document = ($document === null) ? JFactory::getDocument() : $document;
+
+		return $this;
 	}
 
 	/**
-	 * Method to create a language for the Web application.  The logic and options for creating this
-	 * object are adequately generic for default cases but for many applications it will make sense
-	 * to override this method and create language objects based on more specific needs.
+	 * Allows the application to load a custom or default language.
 	 *
-	 * @return  void
+	 * The logic and options for creating this object are adequately generic for default cases
+	 * but for many applications it will make sense to override this method and create a language,
+	 * if required, based on more specific needs.
+	 *
+	 * @param   JLanguage  $language  An optional language object. If omitted, the factory language is created.
+	 *
+	 * @return  JApplicationWeb This method is chainable.
 	 *
 	 * @since   11.3
 	 */
-	protected function loadLanguage()
+	public function loadLanguage(JLanguage $language = null)
 	{
-		$this->language = JFactory::getLanguage();
+		$this->language = ($language === null) ? JFactory::getLanguage() : $language;
+
+		return $this;
 	}
 
 	/**
-	 * Method to create a session for the Web application.  The logic and options for creating this
-	 * object are adequately generic for default cases but for many applications it will make sense
-	 * to override this method and create session objects based on more specific needs.
+	 * Allows the application to load a custom or default session.
 	 *
-	 * @return  void
+	 * The logic and options for creating this object are adequately generic for default cases
+	 * but for many applications it will make sense to override this method and create a session,
+	 * if required, based on more specific needs.
+	 *
+	 * @param   JSession  $session  An optional session object. If omitted, the session is created.
+	 *
+	 * @return  JApplicationWeb This method is chainable.
 	 *
 	 * @since   11.3
 	 */
-	protected function loadSession()
+	public function loadSession(JSession $session = null)
 	{
+		if ($session !== null)
+		{
+			$this->session = $session;
+
+			return $this;
+		}
+
 		// Generate a session name.
 		$name = md5($this->get('secret') . $this->get('session_name', get_class($this)));
 
@@ -1073,6 +1058,8 @@ class JApplicationWeb extends JApplicationBase
 
 		// Set the session object.
 		$this->session = $session;
+
+		return $this;
 	}
 
 	/**

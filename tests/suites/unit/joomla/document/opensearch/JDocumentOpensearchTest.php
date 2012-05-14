@@ -33,25 +33,8 @@ class JDocumentOpensearchTest extends TestCase
 		$_SERVER['HTTP_HOST'] = 'localhost';
 		$_SERVER['SCRIPT_NAME'] = '';
 
-		JFactory::$application = $this->getMock(
-			'JApplication',
-			array(
-				'get',
-				'getCfg',
-				'getRouter',
-				'getTemplate',
-			),
-			array(
-				array(
-					'session' => false
-				)
-			)
-		);
-
-		JFactory::$config = $this->getMock(
-			'JConfig',
-			array('get')
-		);
+		JFactory::$application = $this->getMockApplication();
+		JFactory::$config = $this->getMockConfig();
 
 		$this->object = new JDocumentOpensearch;
 	}

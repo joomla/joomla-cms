@@ -480,11 +480,11 @@ class JInstallerComponent extends JAdapterInstance
 			return false;
 		}
 
-		$eid = $db->insertid();
+		$eid = $row->$key;
 
 		// Clobber any possible pending updates
 		$update = JTable::getInstance('update');
-		$uid = $update->find(array('element' => $this->get('element'), 'type' => 'component', 'client_id' => '', 'folder' => ''));
+		$uid = $update->find(array('element' => $this->get('element'), 'type' => 'component', 'client_id' => 1, 'folder' => ''));
 
 		if ($uid)
 		{
@@ -877,7 +877,7 @@ class JInstallerComponent extends JAdapterInstance
 
 		// Clobber any possible pending updates
 		$update = JTable::getInstance('update');
-		$uid = $update->find(array('element' => $this->get('element'), 'type' => 'component', 'client_id' => '', 'folder' => ''));
+		$uid = $update->find(array('element' => $this->get('element'), 'type' => 'component', 'client_id' => 1, 'folder' => ''));
 
 		if ($uid)
 		{
@@ -1133,17 +1133,9 @@ class JInstallerComponent extends JAdapterInstance
 		$db->setQuery($query);
 		$db->execute();
 
-		// Check for errors.
-		if ($db->getErrorNum())
-		{
-			JLog::add(JText::_('JLIB_INSTALLER_ERROR_COMP_UNINSTALL_FAILED_DELETE_CATEGORIES'), JLog::WARNING, 'jerror');
-			$this->setError($db->getErrorMsg());
-			$retval = false;
-		}
-
 		// Clobber any possible pending updates
 		$update = JTable::getInstance('update');
-		$uid = $update->find(array('element' => $row->element, 'type' => 'component', 'client_id' => '', 'folder' => ''));
+		$uid = $update->find(array('element' => $row->element, 'type' => 'component', 'client_id' => 1, 'folder' => ''));
 
 		if ($uid)
 		{
@@ -1307,8 +1299,6 @@ class JInstallerComponent extends JAdapterInstance
 			$this->parent->pushStep(array('type' => 'menu', 'id' => $component_id));
 		}
 
-		$parent_id = $table->id;
-
 		/*
 		 * Process SubMenus
 		 */
@@ -1423,18 +1413,7 @@ class JInstallerComponent extends JAdapterInstance
 		$ids = $db->loadColumn();
 
 		// Check for error
-		if ($error = $db->getErrorMsg())
-		{
-			JLog::add(JText::_('JLIB_INSTALLER_ERROR_COMP_REMOVING_ADMIN_MENUS_FAILED'), JLog::WARNING, 'jerror');
-
-			if ($error && $error != 1)
-			{
-				JLog::add($error, JLog::WARNING, 'jerror');
-			}
-
-			return false;
-		}
-		elseif (!empty($ids))
+		if (!empty($ids))
 		{
 			// Iterate the items to delete each one.
 			foreach ($ids as $menuid)
@@ -1719,7 +1698,7 @@ class JInstallerComponent extends JAdapterInstance
 		ob_start();
 		ob_implicit_flush(false);
 
-		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'discover_install'))
+		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'install'))
 		{
 
 			if ($this->parent->manifestClass->install($this) === false)
@@ -1743,7 +1722,7 @@ class JInstallerComponent extends JAdapterInstance
 
 		// Clobber any possible pending updates
 		$update = JTable::getInstance('update');
-		$uid = $update->find(array('element' => $this->get('element'), 'type' => 'component', 'client_id' => '', 'folder' => ''));
+		$uid = $update->find(array('element' => $this->get('element'), 'type' => 'component', 'client_id' => 1, 'folder' => ''));
 
 		if ($uid)
 		{

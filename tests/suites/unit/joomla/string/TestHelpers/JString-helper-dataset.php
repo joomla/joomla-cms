@@ -17,25 +17,6 @@
 class JStringTest_DataSet
 {
 	/**
-	 * Tests for JString::splitCamelCase.
-	 *
-	 * Each element contains $string, $expect
-	 *
-	 * @var    array
-	 * @since  11.3
-	 */
-	static public $splitCamelCase = array(
-		// string, expected
-		array('FooBarABCDef', array('Foo', 'Bar', 'ABC', 'Def')),
-		array('JFooBar', array('J', 'Foo', 'Bar')),
-		array('J001FooBar002', array('J001', 'Foo', 'Bar002')),
-		array('abcDef', array('abc', 'Def')),
-		array('abc_defGhi_Jkl', array('abc_def', 'Ghi_Jkl')),
-		array('ThisIsA_NASAAstronaut', array('This', 'Is', 'A_NASA', 'Astronaut')),
-		array('JohnFitzgerald_Kennedy', array('John', 'Fitzgerald_Kennedy')),
-	);
-
-	/**
 	 * Tests for JString::increment.
 	 *
 	 * Each element contains $haystack, $needle, $offset, $expect,

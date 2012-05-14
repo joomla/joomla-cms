@@ -68,12 +68,12 @@ class JInput implements Serializable
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  $source   Source data (Optional, default is $_REQUEST)
+	 * @param   array  &$source  Source data (Optional, default is $_REQUEST)
 	 * @param   array  $options  Array of configuration parameters (Optional)
 	 *
 	 * @since   11.1
 	 */
-	public function __construct($source = null, array $options = array())
+	public function __construct(&$source = null, array $options = array())
 	{
 		if (isset($options['filter']))
 		{
@@ -231,10 +231,10 @@ class JInput implements Serializable
 	/**
 	 * Magic method to get filtered input data.
 	 *
-	 * @param   mixed   $name       Name of the value to get.
-	 * @param   string  $arguments  Default value to return if variable does not exist.
+	 * @param   string  $name       Name of the filter type prefixed with 'get'.
+	 * @param   array   $arguments  [0] The name of the variable [1] The default value.
 	 *
-	 * @return  boolean  The filtered boolean input value.
+	 * @return  mixed   The filtered input value.
 	 *
 	 * @since   11.1
 	 */
@@ -258,14 +258,11 @@ class JInput implements Serializable
 	/**
 	 * Gets the request method.
 	 *
-	 * @param   mixed   $name       Name of the value to get.
-	 * @param   string  $arguments  Default value to return if variable does not exist.
-	 *
 	 * @return  string   The request method.
 	 *
 	 * @since   11.1
 	 */
-	public function getMethod($name, $arguments)
+	public function getMethod()
 	{
 		$method = strtoupper($_SERVER['REQUEST_METHOD']);
 		return $method;

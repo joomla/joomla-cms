@@ -77,7 +77,7 @@ class JCacheController
 	 * @return  JCache  A JCache object
 	 *
 	 * @since   11.1
-	 * @throws  Exception
+	 * @throws  RuntimeException
 	 */
 	public static function getInstance($type = 'output', $options = array())
 	{
@@ -98,7 +98,7 @@ class JCacheController
 			}
 			else
 			{
-				throw new Exception('Unable to load Cache Controller: ' . $type, 500);
+				throw new RuntimeException('Unable to load Cache Controller: ' . $type, 500);
 			}
 		}
 

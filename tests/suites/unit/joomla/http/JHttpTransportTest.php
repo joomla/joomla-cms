@@ -30,13 +30,13 @@ class JHttpTransportTest extends PHPUnit_Framework_TestCase
 	{
 		$this->options = $this->getMock('JRegistry', array('get', 'set'));
 
-		if (!defined('JTEST_HTTP_STUB') || getenv('JTEST_HTTP_STUB') == '')
+		if (!defined('JTEST_HTTP_STUB') && getenv('JTEST_HTTP_STUB') == '')
 		{
 			$this->markTestSkipped('The JHttpTransport test stub has not been configured');
 		}
 		else
 		{
-			$this->stubUrl = defined(JTEST_HTTP_STUB) ? JTEST_HTTP_STUB : getenv('JTEST_HTTP_STUB');
+			$this->stubUrl = defined('JTEST_HTTP_STUB') ? JTEST_HTTP_STUB : getenv('JTEST_HTTP_STUB');
 		}
 	}
 

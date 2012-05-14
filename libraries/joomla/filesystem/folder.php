@@ -29,10 +29,10 @@ abstract class JFolder
 	 * @param   string   $force        Force copy.
 	 * @param   boolean  $use_streams  Optionally force folder/file overwrites.
 	 *
-	 * @return  mixed  JError object on failure or boolean True on success.
+	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
-	 * @throws  Exception
+	 * @throws  RuntimeException
 	 */
 	public static function copy($src, $dest, $path = '', $force = false, $use_streams = false)
 	{
@@ -53,17 +53,17 @@ abstract class JFolder
 
 		if (!self::exists($src))
 		{
-			throw new Exception(JText::_('JLIB_FILESYSTEM_ERROR_FIND_SOURCE_FOLDER'), -1);
+			throw new RuntimeException('Source folder not found', -1);
 		}
 		if (self::exists($dest) && !$force)
 		{
-			throw new Exception(JText::_('JLIB_FILESYSTEM_ERROR_FOLDER_EXISTS'), -1);
+			throw new RuntimeException('Destination folder not found', -1);
 		}
 
 		// Make sure the destination exists
 		if (!self::create($dest))
 		{
-			throw new Exception(JText::_('JLIB_FILESYSTEM_ERROR_FOLDER_CREATE'), -1);
+			throw new RuntimeException('Cannot create destination folder', -1);
 		}
 
 		// If we're using ftp and don't have streams enabled
@@ -74,7 +74,7 @@ abstract class JFolder
 
 			if (!($dh = @opendir($src)))
 			{
-				throw new Exception(JText::_('JLIB_FILESYSTEM_ERROR_FOLDER_OPEN'), -1);
+				throw new RuntimeException('Cannot open source folder', -1);
 			}
 			// Walk through the directory copying files and recursing into folders.
 			while (($file = readdir($dh)) !== false)
@@ -99,7 +99,7 @@ abstract class JFolder
 						$dfid = JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $dfid), '/');
 						if (!$ftp->store($sfid, $dfid))
 						{
-							throw new Exception(JText::_('JLIB_FILESYSTEM_ERROR_COPY_FAILED'), -1);
+							throw new RuntimeException('Copy file failed', -1);
 						}
 						break;
 				}
@@ -109,7 +109,7 @@ abstract class JFolder
 		{
 			if (!($dh = @opendir($src)))
 			{
-				throw new Exception(JText::_('JLIB_FILESYSTEM_ERROR_FOLDER_OPEN'), -1);
+				throw new RuntimeException('Cannot open source folder', -1);
 			}
 			// Walk through the directory copying files and recursing into folders.
 			while (($file = readdir($dh)) !== false)
@@ -135,14 +135,14 @@ abstract class JFolder
 							$stream = JFactory::getStream();
 							if (!$stream->copy($sfid, $dfid))
 							{
-								throw new Exception(JText::_('JLIB_FILESYSTEM_ERROR_COPY_FAILED') . ': ' . $stream->getError(), -1);
+								throw new RuntimeException('Cannot copy file: ' . $stream->getError(), -1);
 							}
 						}
 						else
 						{
 							if (!@copy($sfid, $dfid))
 							{
-								throw new Exception(JText::_('JLIB_FILESYSTEM_ERROR_COPY_FAILED'), -1);
+								throw new RuntimeException('Copy file failed', -1);
 							}
 						}
 						break;

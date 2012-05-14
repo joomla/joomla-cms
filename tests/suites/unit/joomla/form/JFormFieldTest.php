@@ -11,7 +11,7 @@ require_once JPATH_PLATFORM.'/joomla/form/form.php';
 require_once JPATH_PLATFORM.'/joomla/form/field.php';
 
 /**
- * Test class for JForm.
+ * Test class for JFormField.
  *
  * @package		Joomla.UnitTest
  * @subpackage  Form
@@ -41,7 +41,9 @@ class JFormFieldTest extends TestCase
 	}
 
 	/**
-	 * Tests the JForm::__construct method
+	 * Tests the JFormField::__construct method
+	 *
+	 * @covers JFormField::__construct
 	 */
 	public function testConstruct()
 	{
@@ -96,7 +98,7 @@ class JFormFieldTest extends TestCase
 	}
 
 	/**
-	 * Tests the JForm::__get method
+	 * Tests the JFormField::__get method
 	 */
 	public function testGet()
 	{
@@ -104,7 +106,9 @@ class JFormFieldTest extends TestCase
 	}
 
 	/**
-	 * Tests the JForm::GetId method
+	 * Tests the JFormField::GetId method
+	 *
+	 * @covers JFormField::getId
 	 */
 	public function testGetId()
 	{
@@ -138,7 +142,7 @@ class JFormFieldTest extends TestCase
 	}
 
 	/**
-	 * Tests the JForm::getInput method
+	 * Tests the JFormField::getInput method
 	 */
 	public function testGetInput()
 	{
@@ -146,7 +150,9 @@ class JFormFieldTest extends TestCase
 	}
 
 	/**
-	 * Tests the JForm::getLabel method
+	 * Tests the JFormField::getLabel method
+	 *
+	 * @covers JFormField::getLabel
 	 */
 	public function testGetLabel()
 	{
@@ -211,6 +217,8 @@ class JFormFieldTest extends TestCase
 
 	/**
 	 * Tests the JFormField::getTitle method
+	 *
+	 * @covers JFormField::getTitle
 	 */
 	public function testGetTitle()
 	{
@@ -259,7 +267,9 @@ class JFormFieldTest extends TestCase
 	}
 
 	/**
-	 * Tests the JForm::setForm method
+	 * Tests the JFormField::setForm method
+	 *
+	 * @covers JFormField::setForm
 	 */
 	public function testSetForm()
 	{
@@ -277,7 +287,30 @@ class JFormFieldTest extends TestCase
 	}
 
 	/**
-	 * Tests the JForm::setup method
+	 * Test an invalid argument for the JFormField::setup method
+	 *
+	 * @covers JFormField::setup
+	 * @expectedException PHPUnit_Framework_Error
+	 */
+	public function testSetupInvalidElement()
+	{
+		$form = new JFormInspector('form1');
+		$field = new JFormFieldInspector($form);
+
+		$wrong = 'wrong';
+		$this->assertThat(
+			$field->setup($wrong, 0),
+			$this->isFalse(),
+			'Line:'.__LINE__.' If not a form object, setup should return false.'
+		);
+
+	}
+
+	/**
+	 * Tests the JFormField::setup method
+	 *
+	 * @covers JFormField::setup
+	 * @covers JFormField::__get
 	 */
 	public function testSetup()
 	{
@@ -290,15 +323,6 @@ class JFormFieldTest extends TestCase
 		);
 
 		$field = new JFormFieldInspector($form);
-
-		// Error handling.
-
-		$wrong = 'wrong';
-		$this->assertThat(
-			$field->setup($wrong, 0),
-			$this->isFalse(),
-			'Line:'.__LINE__.' If not a form object, setup should return false.'
-		);
 
 		// Standard usage.
 

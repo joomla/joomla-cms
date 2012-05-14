@@ -20,10 +20,10 @@ defined('JPATH_PLATFORM') or die;
 class JSessionStorageDatabase extends JSessionStorage
 {
 	/**
-	 * @var    unknown  No idea what this does.
-	 * @since  11.1
+	 * @var    unknown  No idea what this does. Seems not to be used.
+	 * @since  12.1
 	 */
-	protected $_data = null;
+	protected $data = null;
 
 	/**
 	 * Open the SessionHandler backend.

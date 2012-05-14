@@ -2,7 +2,7 @@
 /**
  * @version    $Id: JDatabaseImporterPostgresqlTest.php gpongelli $
  * @package    Joomla.UnitTest
- * 
+ *
  * @copyright  Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.
  * @license    GNU General Public License
  */
@@ -11,10 +11,10 @@ require_once __DIR__ . '/JDatabaseImporterPostgresqlInspector.php';
 
 /**
  * Test the JDatabaseImporterPostgresql class.
- * 
+ *
  * @package     Joomla.UnitTest
  * @subpackage  Database
- * 
+ *
  * @since       12.1
  */
 class JDatabaseImporterPostgresqlTest extends PHPUnit_Framework_TestCase
@@ -58,7 +58,7 @@ class JDatabaseImporterPostgresqlTest extends PHPUnit_Framework_TestCase
 		// Set up the database object mock.
 
 		$this->dbo = $this->getMock(
-			'JDatabasePostgresql',
+			'JDatabaseDriverPostgresql',
 			array(
 				'getErrorNum',
 				'getPrefix',
@@ -981,7 +981,7 @@ class JDatabaseImporterPostgresqlTest extends PHPUnit_Framework_TestCase
 		}
 
 		$this->fail(
-			'setDbo requires a JDatabasePostgresql object and should throw an exception.'
+			'setDbo requires a JDatabaseDriverPostgresql object and should throw an exception.'
 		);
 	}
 
@@ -1036,21 +1036,21 @@ class JDatabaseImporterPostgresqlTest extends PHPUnit_Framework_TestCase
 		);
 
 		$this->assertThat(
-			$instance->options->get('with-structure'),
+			$instance->options->withStructure,
 			$this->isTrue(),
 			'The default use of withStructure should result in true.'
 		);
 
 		$instance->withStructure(true);
 		$this->assertThat(
-			$instance->options->get('with-structure'),
+			$instance->options->withStructure,
 			$this->isTrue(),
 			'The explicit use of withStructure with true should result in true.'
 		);
 
 		$instance->withStructure(false);
 		$this->assertThat(
-			$instance->options->get('with-structure'),
+			$instance->options->withStructure,
 			$this->isFalse(),
 			'The explicit use of withStructure with false should result in false.'
 		);

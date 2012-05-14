@@ -1,69 +1,62 @@
-<?xml version='1.0' encoding='utf-8' ?>
-<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+"http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
 <!ENTITY % BOOK_ENTITIES SYSTEM "../../Developer_Manual.ent">
 %BOOK_ENTITIES;
 ]>
 <section id="chap-Joomla_Platform_Manual-Github">
-	<title>JGithub</title>
+  <title>The Github Package</title>
 
-	<section>
-		<title>Using the Github Package</title>
+  <section>
+    <title>Using the Github Package</title>
 
-		<para>The Github package is designed to be a straightforward interface for
-		working with Github. It is based on version 3 of the Github API. You can
-		find documentation on the API at <ulink
-		url="http://developer.github.com/v3/">http://developer.github.com/v3/.</ulink></para>
+    <para>The Github package is designed to be a straightforward interface for working with Github. It is based on version 3 of
+    the Github API. You can find documentation on the API at <ulink
+    url="http://developer.github.com/v3/">http://developer.github.com/v3/.</ulink></para>
 
-		<para>JGithub is built upon the JHttp package which provides an easy way
-		to consume URLs and web services in a transport independent way. JHttp
-		currently supports streams, sockets and CURL. It is possible to create a
-		custom context and inject it into the JGithub class if one so
-		desires.</para>
+    <para>JGithub is built upon the JHttp package which provides an easy way to consume URLs and web services in a transport
+    independent way. JHttp currently supports streams, sockets and CURL. It is possible to create a custom context and inject it
+    into the JGithub class if one so desires.</para>
 
-		<section>
-			<title>Instantiating JGithub</title>
+    <section>
+      <title>Instantiating JGithub</title>
 
-			<para>Instantiating JGithub is easy:</para>
+      <para>Instantiating JGithub is easy:</para>
 
-			<programlisting>$github = new JGithub;</programlisting>
+      <programlisting>$github = new JGithub;</programlisting>
 
-			<para>This creates a basic JGithub object that can be used to access
-			publically available resources on github.com.</para>
+      <para>This creates a basic JGithub object that can be used to access publically available resources on github.com.</para>
 
-			<para>Sometimes it is necessary to specify additional options. This can
-			be done by injecting in a JRegistry object with your preferred
-			options:<programlisting>$options = new JRegistry;
+      <para>Sometimes it is necessary to specify additional options. This can be done by injecting in a JRegistry object with your
+      preferred options:<programlisting>$options = new JRegistry;
 $options-&gt;set('api.username', 'github_username');
 $options-&gt;set('api.password', 'github_password');
 
 $github = new JGithub($options);</programlisting></para>
-		</section>
+    </section>
 
-		<section>
-			<title>Accessing the JGithub APIs</title>
+    <section>
+      <title>Accessing the JGithub APIs</title>
 
-			<para>The Github package is still incomplete, but there are four object
-			APIs that have currently been implemented:<simplelist>
-			<member>Gists</member>
+      <para>The Github package is still incomplete, but there are four object APIs that have currently been
+      implemented:<simplelist>
+          <member>Gists</member>
 
-			<member>Issues</member>
+          <member>Issues</member>
 
-			<member>References</member>
+          <member>References</member>
 
-			<member>Pull Requests</member>
-			</simplelist></para>
+          <member>Pull Requests</member>
+        </simplelist></para>
 
-			<para>Once a JGithub object has been created, it is simple to use it to
-			access Github:<programlisting>$pullRequests = $github-&gt;pulls-&gt;getList('joomla', 'joomla-platform');</programlisting>This
-			will retrieve a list of all open pull requests in the specified
-			repository.</para>
-		</section>
+      <para>Once a JGithub object has been created, it is simple to use it to access Github:<programlisting>$pullRequests = $github-&gt;pulls-&gt;getList('joomla', 'joomla-platform');</programlisting>This
+      will retrieve a list of all open pull requests in the specified repository.</para>
+    </section>
 
-		<section>
-			<title>A More Complete Example</title>
+    <section>
+      <title>A More Complete Example</title>
 
-			<para>See below for an example demonstrating more of the JGithub
-			package:<programlisting>$options = new JRegistry;
+      <para>See below for an example demonstrating more of the JGithub package:<programlisting>$options = new JRegistry;
 $options-&gt;set('api.username', 'github_username');
 $options-&gt;set('api.password', 'github_password');
 $options-&gt;set('api.url', 'http://myhostedgithub.example.com');
@@ -83,18 +76,16 @@ foreach ($issues AS $issue)
 $summary = implode("\n", $issueSummary);
 
 $github-&gt;gists-&gt;create(array('issue_summary.txt' =&gt; $summary));</programlisting></para>
-		</section>
+    </section>
 
-		<section>
-			<title>More Information</title>
+    <section>
+      <title>More Information</title>
 
-			<para>The following resources contain more information:<simplelist>
-			<member><ulink url="http://api.joomla.org">Joomla! API
-			Reference</ulink></member>
+      <para>The following resources contain more information:<simplelist>
+          <member><ulink url="http://api.joomla.org">Joomla! API Reference</ulink></member>
 
-			<member><ulink url="http://developer.github.com">Github API
-			Reference</ulink></member>
-			</simplelist></para>
-		</section>
-	</section>
+          <member><ulink url="http://developer.github.com">Github API Reference</ulink></member>
+        </simplelist></para>
+    </section>
+  </section>
 </section>

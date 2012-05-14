@@ -22,7 +22,7 @@ defined('JPATH_PLATFORM') or die;
 class JObject
 {
 	/**
-	 * An array of error messages or JExceptions objects.
+	 * An array of error messages or Exception objects.
 	 *
 	 * @var    array
 	 * @since  11.1
