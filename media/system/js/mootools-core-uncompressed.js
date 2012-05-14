@@ -36,8 +36,8 @@ provides: [Core, MooTools, Type, typeOf, instanceOf, Native]
 (function(){
 
 this.MooTools = {
-	version: '1.4.4',
-	build: 'adb02e676407521b516ffa10d2dc6b54237a80f9'
+	version: '1.4.5',
+	build: '74e34796f5f76640cdb98853004650aea1499d69'
 };
 
 // typeOf, instanceOf
@@ -99,8 +99,9 @@ Function.prototype.overloadGetter = function(usePlural){
 	var self = this;
 	return function(a){
 		var args, result;
-		if (usePlural || typeof a != 'string') args = a;
+		if (typeof a != 'string') args = a;
 		else if (arguments.length > 1) args = arguments;
+		else if (usePlural) args = [a];
 		if (args){
 			result = {};
 			for (var i = 0; i < args.length; i++) result[args[i]] = self.call(this, args[i]);
@@ -3250,7 +3251,7 @@ Element.implement({
 				if (pollutesGetAttribute) delete attributeWhiteList[name];
 				/* </ltIE9> */
 			} else {
-				this.setAttribute(name, value);
+				this.setAttribute(name, '' + value);
 				/* <ltIE9> */
 				if (pollutesGetAttribute) attributeWhiteList[name] = true;
 				/* </ltIE9> */
@@ -3720,7 +3721,7 @@ var setOpacity = (hasOpacity ? function(element, opacity){
 } : (hasFilter ? function(element, opacity){
 	var style = element.style;
 	if (!element.currentStyle || !element.currentStyle.hasLayout) style.zoom = 1;
-	if (opacity == null) opacity = '';
+	if (opacity == null || opacity == 1) opacity = '';
 	else opacity = 'alpha(opacity=' + (opacity * 100).limit(0, 100).round() + ')';
 	var filter = style.filter || element.getComputedStyle('filter') || '';
 	style.filter = reAlpha.test(filter) ? filter.replace(reAlpha, opacity) : filter + opacity;
@@ -3795,7 +3796,7 @@ Element.implement({
 			var color = result.match(/rgba?\([\d\s,]+\)/);
 			if (color) result = result.replace(color[0], color[0].rgbToHex());
 		}
-		if (Browser.opera || (Browser.ie && isNaN(parseFloat(result)))){
+		if (Browser.ie && isNaN(parseFloat(result))){
 			if ((/^(height|width)$/).test(property)){
 				var values = (property == 'width') ? ['left', 'right'] : ['top', 'bottom'], size = 0;
 				values.each(function(value){
@@ -4737,18 +4738,31 @@ Fx.CSS = new Class({
 
 	prepare: function(element, property, values){
 		values = Array.from(values);
-		if (values[1] == null){
-			values[1] = values[0];
-			values[0] = element.getStyle(property);
+		var from = values[0], to = values[1];
+		if (to == null){
+			to = from;
+			from = element.getStyle(property);
+			var unit = this.options.unit;
 			// adapted from: https://github.com/ryanmorr/fx/blob/master/fx.js#L299
-			if (this.options.unit != 'px'){
-				element.setStyle(property, values[1] + this.options.unit);
-				values[0] = (values[1] || 1) / parseFloat(element.getComputedStyle(property)) * (parseFloat(values[0]) || 0);
-				element.setStyle(property, values[0] + this.options.unit);
+			if (unit && from.slice(-unit.length) != unit && parseFloat(from) != 0){
+				element.setStyle(property, to + unit);
+				var value = element.getComputedStyle(property);
+				// IE and Opera support pixelLeft or pixelWidth
+				if (!(/px$/.test(value))){
+					value = element.style[('pixel-' + property).camelCase()];
+					if (value == null){
+						// adapted from Dean Edwards' http://erik.eae.net/archives/2007/07/27/18.54.15/#comment-102291
+						var left = element.style.left;
+						element.style.left = to + unit;
+						value = element.style.pixelLeft;
+						element.style.left = left;
+					}
+				}
+				from = (to || 1) / (parseFloat(value) || 1) * (parseFloat(from) || 0);
+				element.setStyle(property, from + unit);
 			}
 		}
-		var parsed = values.map(this.parse);
-		return {from: parsed[0], to: parsed[1]};
+		return {from: this.parse(from), to: this.parse(to)};
 	},
 
 	//parses a value into an array

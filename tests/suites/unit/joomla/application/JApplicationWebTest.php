@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-include_once __DIR__.'/stubs/JApplicationWebInspector.php';
+include_once __DIR__ . '/stubs/JApplicationWebInspector.php';
 
 /**
  * Test class for JApplicationWeb.
@@ -122,7 +122,7 @@ class JApplicationWebTest extends TestCase
 	protected function tearDown()
 	{
 		// Reset the dispatcher instance.
-		TestReflection::setValue('JDispatcher', 'instance', null);
+		TestReflection::setValue('JEventDispatcher', 'instance', null);
 
 		// Reset some web inspector static settings.
 		JApplicationWebInspector::$headersSent = false;
@@ -963,7 +963,7 @@ class JApplicationWebTest extends TestCase
 		);
 
 		$this->assertInstanceOf(
-			'JDispatcher',
+			'JEventDispatcher',
 			TestReflection::getValue($this->class, 'dispatcher'),
 			'Test that deafult dispatcher was initialised.'
 		);
@@ -1032,12 +1032,12 @@ class JApplicationWebTest extends TestCase
 				$this->returnValue('JLanguage')
 			);
 
-		$mockDispatcher = $this->getMock('JDispatcher', array('test'), array(), '', false);
+		$mockDispatcher = $this->getMock('JEventDispatcher', array('test'), array(), '', false);
 		$mockDispatcher
 			->expects($this->any())
 			->method('test')
 			->will(
-				$this->returnValue('JDispatcher')
+				$this->returnValue('JEventDispatcher')
 			);
 
 		$this->class->initialise($mockSession, $mockDocument, $mockLanguage, $mockDispatcher);
@@ -1062,7 +1062,7 @@ class JApplicationWebTest extends TestCase
 
 		$this->assertThat(
 			TestReflection::getValue($this->class, 'dispatcher')->test(),
-			$this->equalTo('JDispatcher'),
+			$this->equalTo('JEventDispatcher'),
 			'Tests dispatcher injection.'
 		);
 	}
@@ -1106,18 +1106,6 @@ class JApplicationWebTest extends TestCase
 	}
 
 	/**
-	 * Tests the JApplicationWeb::loadDispatcher method.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.3
-	 */
-	public function testLoadDispatcher()
-	{
-		$this->markTestIncomplete();
-	}
-
-	/**
 	 * Tests the JApplicationWeb::loadDocument method.
 	 *
 	 * @return  void
@@ -1126,10 +1114,10 @@ class JApplicationWebTest extends TestCase
 	 */
 	public function testLoadDocument()
 	{
-		// Inject the mock dispatcher into the JDispatcher singleton.
-		TestReflection::setValue('JDispatcher', 'instance', $this->getMockDispatcher());
+		// Inject the mock dispatcher into the JEventDispatcher singleton.
+		TestReflection::setValue('JEventDispatcher', 'instance', $this->getMockDispatcher());
 
-		TestReflection::invoke($this->class, 'loadDocument');
+		$this->class->loadDocument();
 
 		$this->assertInstanceOf(
 			'JDocument',
@@ -1153,7 +1141,7 @@ class JApplicationWebTest extends TestCase
 	 */
 	public function testLoadLanguage()
 	{
-		TestReflection::invoke($this->class, 'loadLanguage');
+		$this->class->loadLanguage();
 
 		$this->assertInstanceOf(
 			'JLanguage',
@@ -1804,34 +1792,6 @@ class JApplicationWebTest extends TestCase
 				)
 			),
 			'Tests that headers of the same name are replaced.'
-		);
-	}
-
-	/**
-	 * Tests the JApplicationWeb::triggerEvents method.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.3
-	 */
-	public function testTriggerEvents()
-	{
-		TestReflection::setValue($this->class, 'dispatcher', null);
-		$this->assertThat(
-			$this->class->triggerEvent('onJWebTriggerEvent'),
-			$this->isNull(),
-			'Checks that for a non-dispatcher object, null is returned.'
-		);
-
-		TestReflection::setValue($this->class, 'dispatcher', $this->getMockDispatcher());
-		$this->class->registerEvent('onJWebTriggerEvent', 'function');
-
-		$this->assertThat(
-			$this->class->triggerEvent('onJWebTriggerEvent'),
-			$this->equalTo(
-				array('function' => null)
-			),
-			'Checks the correct dispatcher method is called.'
 		);
 	}
 }

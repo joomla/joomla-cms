@@ -457,9 +457,6 @@ class JInstallerModule extends JAdapterInstance
 				return false;
 			}
 
-			// Set the insert id
-			$row->extension_id = $db->insertid();
-
 			// Since we have created a module item, we add it to the installation step stack
 			// so that if we have to rollback the changes we can undo it.
 			$this->parent->pushStep(array('type' => 'extension', 'extension_id' => $row->extension_id));
@@ -801,7 +798,7 @@ class JInstallerModule extends JAdapterInstance
 		$msg = ob_get_contents();
 		ob_end_clean();
 
-		if (!($this->manifest instanceof JXMLElement))
+		if (!($this->manifest instanceof SimpleXMLElement))
 		{
 			// Make sure we delete the folders
 			JFolder::delete($this->parent->getPath('extension_root'));

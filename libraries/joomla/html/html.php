@@ -108,14 +108,14 @@ abstract class JHtml
 
 		$className = $prefix . ucfirst($file);
 
-		if (!class_exists($className))
+		if (!class_exists($className, false))
 		{
 			$path = JPath::find(self::$includePaths, strtolower($file) . '.php');
 			if ($path)
 			{
 				require_once $path;
 
-				if (!class_exists($className))
+				if (!class_exists($className, false))
 				{
 					throw new InvalidArgumentException(sprintf('%s not found.', $className), 500);
 				}
@@ -209,7 +209,7 @@ abstract class JHtml
 	 *
 	 * @see     http://php.net/manual/en/function.call-user-func-array.php
 	 * @since   11.1
-	 * @throws  Exception
+	 * @throws  InvalidArgumentException
 	 */
 	protected static function call($function, $args)
 	{
@@ -225,7 +225,7 @@ abstract class JHtml
 		}
 		else
 		{
-			throw new Exception(JText::_('JLIB_HTML_ERROR_FUNCTION_NOT_SUPPORTED'), 500);
+			throw new InvalidArgumentException('Function not supported', 500);
 		}
 	}
 
@@ -717,25 +717,12 @@ abstract class JHtml
 	{
 		if (is_array($title))
 		{
-			if (isset($title['image']))
+			foreach (array('image', 'text', 'href', 'alt', 'class') as $param)
 			{
-				$image = $title['image'];
-			}
-			if (isset($title['text']))
-			{
-				$text = $title['text'];
-			}
-			if (isset($title['href']))
-			{
-				$href = $title['href'];
-			}
-			if (isset($title['alt']))
-			{
-				$alt = $title['alt'];
-			}
-			if (isset($title['class']))
-			{
-				$class = $title['class'];
+				if (isset($title[$param]))
+				{
+					$$param = $title[$param];
+				}
 			}
 			if (isset($title['title']))
 			{

@@ -52,7 +52,7 @@ class JApplicationCliTest extends TestCase
 	protected function tearDown()
 	{
 		// Reset the dispatcher instance.
-		TestReflection::setValue('JDispatcher', 'instance', null);
+		TestReflection::setValue('JEventDispatcher', 'instance', null);
 
 		parent::tearDown();
 	}
@@ -70,7 +70,7 @@ class JApplicationCliTest extends TestCase
 
 		$this->assertAttributeInstanceOf('JRegistry', 'config', $this->class, 'Checks config property');
 
-		$this->assertAttributeInstanceOf('JDispatcher', 'dispatcher', $this->class, 'Checks dispatcher property');
+		$this->assertAttributeInstanceOf('JEventDispatcher', 'dispatcher', $this->class, 'Checks dispatcher property');
 
 		// TODO Test that configuration data loaded.
 
@@ -324,54 +324,6 @@ class JApplicationCliTest extends TestCase
 	}
 
 	/**
-	 * Tests the JApplicationCli::loadDispatcher method.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.3
-	 */
-	public function testLoadDispatcher()
-	{
-		// Inject the mock dispatcher into the JDispatcher singleton.
-		TestReflection::setValue('JDispatcher', 'instance', $this->getMockDispatcher());
-
-		TestReflection::invoke($this->class, 'loadDispatcher');
-
-		$this->assertAttributeInstanceOf(
-			'JDispatcher',
-			'dispatcher',
-			$this->class,
-			'Tests that the dispatcher object is the correct class.'
-		);
-
-		$this->assertEquals('ok', TestReflection::getValue($this->class, 'dispatcher')->test(), 'Tests that we got the dispatcher from the factory.');
-	}
-
-	/**
-	 * Tests the JApplicationCli::registerEvent method.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.3
-	 */
-	public function testRegisterEvent()
-	{
-		TestReflection::setValue($this->class, 'dispatcher', $this->getMockDispatcher());
-
-		$this->assertThat(
-			$this->class->registerEvent('onJCliRegisterEvent', 'function'),
-			$this->identicalTo($this->class),
-			'Check chaining.'
-		);
-
-		$this->assertArrayHasKey(
-			'onJCliRegisterEvent',
-			TestMockDispatcher::$handlers,
-			'Checks the events were passed to the mock dispatcher.'
-		);
-	}
-
-	/**
 	 * Tests the JApplicationCli::set method.
 	 *
 	 * @return  void
@@ -387,28 +339,5 @@ class JApplicationCliTest extends TestCase
 		$this->assertEquals('bar', $this->class->set('foo', 'car'), 'Checks set returns the previous value.');
 
 		$this->assertEquals('car', $config->get('foo'), 'Checks the new value has been set.');
-	}
-
-	/**
-	 * Tests the JApplicationCli::triggerEvents method.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.3
-	 */
-	public function testTriggerEvents()
-	{
-		TestReflection::setValue($this->class, 'dispatcher', null);
-
-		$this->assertNull($this->class->triggerEvent('onJCliTriggerEvent'), 'Checks that for a non-dispatcher object, null is returned.');
-
-		TestReflection::setValue($this->class, 'dispatcher', $this->getMockDispatcher());
-		$this->class->registerEvent('onJCliTriggerEvent', 'function');
-
-		$this->assertEquals(
-			array('function' => null),
-			$this->class->triggerEvent('onJCliTriggerEvent'),
-			'Checks the correct dispatcher method is called.'
-		);
 	}
 }

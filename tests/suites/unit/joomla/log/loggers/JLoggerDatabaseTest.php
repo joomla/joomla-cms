@@ -122,7 +122,7 @@ class JLoggerDatabaseTest extends TestCaseDatabase
 	 *
 	 * @since   11.3
 	 *
-	 * @expectedException LogException
+	 * @expectedException RuntimeException
 	 */
 	public function testConnect02()
 	{

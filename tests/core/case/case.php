@@ -197,14 +197,14 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
 	 *
 	 * @param   boolean  $defaults  Add default register and trigger methods for testing.
 	 *
-	 * @return  JDispatcher
+	 * @return  JEventDispatcher
 	 *
 	 * @since   12.1
 	 */
 	public function getMockDispatcher($defaults = true)
 	{
 		// Attempt to load the real class first.
-		class_exists('JDispatcher');
+		class_exists('JEventDispatcher');
 
 		return TestMockDispatcher::create($this, $defaults);
 	}
@@ -300,9 +300,14 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
 		if (!is_array($this->expectedErrors))
 		{
 			$this->expectedErrors = array();
-			JError::setErrorHandling(E_NOTICE, 'callback', array($this, 'expectedErrorCallback'));
-			JError::setErrorHandling(E_WARNING, 'callback', array($this, 'expectedErrorCallback'));
-			JError::setErrorHandling(E_ERROR, 'callback', array($this, 'expectedErrorCallback'));
+
+			// Handle optional usage of JError until removed.
+			if (class_exists('JError'))
+			{
+				JError::setErrorHandling(E_NOTICE, 'callback', array($this, 'expectedErrorCallback'));
+				JError::setErrorHandling(E_WARNING, 'callback', array($this, 'expectedErrorCallback'));
+				JError::setErrorHandling(E_ERROR, 'callback', array($this, 'expectedErrorCallback'));
+			}
 		}
 
 		if (!is_null($error))
@@ -354,9 +359,14 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
 	protected function saveErrorHandlers()
 	{
 		$this->_stashedErrorState = array();
-		$this->_stashedErrorState[E_NOTICE] = JError::getErrorHandling(E_NOTICE);
-		$this->_stashedErrorState[E_WARNING] = JError::getErrorHandling(E_WARNING);
-		$this->_stashedErrorState[E_ERROR] = JError::getErrorHandling(E_ERROR);
+
+		// Handle optional usage of JError until removed.
+		if (class_exists('JError'))
+		{
+			$this->_stashedErrorState[E_NOTICE] = JError::getErrorHandling(E_NOTICE);
+			$this->_stashedErrorState[E_WARNING] = JError::getErrorHandling(E_WARNING);
+			$this->_stashedErrorState[E_ERROR] = JError::getErrorHandling(E_ERROR);
+		}
 	}
 
 	/**
@@ -396,13 +406,17 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
 		{
 			$mode = $params['mode'];
 
-			if (isset($params['options']))
+			// Handle optional usage of JError until removed.
+			if (class_exists('JError'))
 			{
-				JError::setErrorHandling($type, $mode, $params['options']);
-			}
-			else
-			{
-				JError::setErrorHandling($type, $mode);
+				if (isset($params['options']))
+				{
+					JError::setErrorHandling($type, $mode, $params['options']);
+				}
+				else
+				{
+					JError::setErrorHandling($type, $mode);
+				}
 			}
 		}
 	}
@@ -456,9 +470,13 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
 			$this->fail('An expected error was not raised.');
 		}
 
-		JError::setErrorHandling(E_NOTICE, 'ignore');
-		JError::setErrorHandling(E_WARNING, 'ignore');
-		JError::setErrorHandling(E_ERROR, 'ignore');
+		// Handle optional usage of JError until removed.
+		if (class_exists('JError'))
+		{
+			JError::setErrorHandling(E_NOTICE, 'ignore');
+			JError::setErrorHandling(E_WARNING, 'ignore');
+			JError::setErrorHandling(E_ERROR, 'ignore');
+		}
 
 		parent::tearDown();
 	}

@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.event.dispatcher');
-
 /**
  * Authentication class, provides an interface for the Joomla authentication system
  *
@@ -69,25 +67,25 @@ class JAuthentication extends JObject
 	 * An array of Observer objects to notify
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  12.1
 	 */
-	protected $_observers = array();
+	protected $observers = array();
 
 	/**
 	 * The state of the observable object
 	 *
 	 * @var    mixed
-	 * @since  11.1
+	 * @since  12.1
 	 */
-	protected $_state = null;
+	protected $state = null;
 
 	/**
 	 * A multi dimensional array of [function][] = key for observers
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  12.1
 	 */
-	protected $_methods = array();
+	protected $methods = array();
 
 	/**
 	 * @var    JAuthentication  JAuthentication instances container.
@@ -137,7 +135,7 @@ class JAuthentication extends JObject
 	 */
 	public function getState()
 	{
-		return $this->_state;
+		return $this->state;
 	}
 
 	/**
@@ -159,7 +157,7 @@ class JAuthentication extends JObject
 			}
 
 			// Make sure we haven't already attached this array as an observer
-			foreach ($this->_observers as $check)
+			foreach ($this->observers as $check)
 			{
 				if (is_array($check) && $check['event'] == $observer['event'] && $check['handler'] == $observer['handler'])
 				{
@@ -167,8 +165,8 @@ class JAuthentication extends JObject
 				}
 			}
 
-			$this->_observers[] = $observer;
-			end($this->_observers);
+			$this->observers[] = $observer;
+			end($this->observers);
 			$methods = array($observer['event']);
 		}
 		else
@@ -181,7 +179,7 @@ class JAuthentication extends JObject
 			// Make sure we haven't already attached this object as an observer
 			$class = get_class($observer);
 
-			foreach ($this->_observers as $check)
+			foreach ($this->observers as $check)
 			{
 				if ($check instanceof $class)
 				{
@@ -189,22 +187,22 @@ class JAuthentication extends JObject
 				}
 			}
 
-			$this->_observers[] = $observer;
+			$this->observers[] = $observer;
 			$methods = array_diff(get_class_methods($observer), get_class_methods('JPlugin'));
 		}
 
-		$key = key($this->_observers);
+		$key = key($this->observers);
 
 		foreach ($methods as $method)
 		{
 			$method = strtolower($method);
 
-			if (!isset($this->_methods[$method]))
+			if (!isset($this->methods[$method]))
 			{
-				$this->_methods[$method] = array();
+				$this->methods[$method] = array();
 			}
 
-			$this->_methods[$method][] = $key;
+			$this->methods[$method][] = $key;
 		}
 	}
 
@@ -222,14 +220,14 @@ class JAuthentication extends JObject
 		// Initialise variables.
 		$retval = false;
 
-		$key = array_search($observer, $this->_observers);
+		$key = array_search($observer, $this->observers);
 
 		if ($key !== false)
 		{
-			unset($this->_observers[$key]);
+			unset($this->observers[$key]);
 			$retval = true;
 
-			foreach ($this->_methods as &$method)
+			foreach ($this->methods as &$method)
 			{
 				$k = array_search($key, $method);
 
@@ -331,7 +329,7 @@ class JAuthentication extends JObject
 		// Get plugins in case they haven't been loaded already
 		JPluginHelper::getPlugin('user');
 		JPluginHelper::getPlugin('authentication');
-		$dispatcher = JDispatcher::getInstance();
+		$dispatcher = JEventDispatcher::getInstance();
 		$results = $dispatcher->trigger('onUserAuthorisation', array($response, $options));
 		return $results;
 	}

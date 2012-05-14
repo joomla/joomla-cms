@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+"http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "../../Developer_Manual.ent">
+%BOOK_ENTITIES;
+]>
+<section>
+  <title>JModelBase</title>
+
+  <section>
+    <title>Construction</title>
+
+    <para>The contructor for <classname>JModelBase</classname> takes an optional <classname>JRegistry</classname> object that
+    defines the state of the model. If omitted, the contructor defers to the protected <methodname>loadState</methodname> method.
+    This method can be overriden in a derived class and takes the place of the <methodname>populateState</methodname> method used
+    in the legacy model class.</para>
+  </section>
+
+  <section>
+    <title>Usage</title>
+
+    <para>The <classname>JModelBase</classname> class is abstract so cannot be used directly. All requirements of the interface
+    are already satisfied by the base class.</para>
+
+    <example>
+      <title>Example model</title>
+
+      <programlisting>/**
+ * My custom model.
+ *
+ * @pacakge  Examples
+ *
+ * @since   12.1
+ */
+class MyModel extends JModelBase
+{
+	/**
+	 * Get the time.
+	 *
+	 * @return  integer
+	 *
+	 * @since   12.1
+	 */
+	public function getTime()
+	{
+		return time();
+	}
+}</programlisting>
+    </example>
+  </section>
+</section>

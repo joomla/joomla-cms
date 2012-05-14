@@ -7,7 +7,7 @@
  */
 
 /**
- * Class to mock JDispatcher.
+ * Class to mock JEventDispatcher.
  *
  * @package  Joomla.Test
  * @since    12.1
@@ -54,7 +54,7 @@ class TestMockDispatcher
 
 		// Create the mock.
 		$mockObject = $test->getMock(
-			'JDispatcher',
+			'JEventDispatcher',
 			$methods,
 			// Constructor arguments.
 			array(),
@@ -88,7 +88,7 @@ class TestMockDispatcher
 	}
 
 	/**
-	 * Callback for the JDispatcher register method.
+	 * Callback for the JEventDispatcher register method.
 	 *
 	 * @param   string  $event    Name of the event to register handler for.
 	 * @param   string  $handler  Name of the event handler.
@@ -109,7 +109,7 @@ class TestMockDispatcher
 	}
 
 	/**
-	 * Callback for the JDispatcher trigger method.
+	 * Callback for the JEventDispatcher trigger method.
 	 *
 	 * @param   string  $event  The event to trigger.
 	 * @param   array   $args   An array of arguments.

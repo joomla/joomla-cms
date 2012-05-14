@@ -58,6 +58,8 @@ class JHtmlFormTest extends TestCase
 	 */
 	public function testToken()
 	{
+		JFactory::$application = $this->getMockWeb();
+
 		$token = JSession::getFormToken();
 
 		$this->assertThat(

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+"http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "../../Developer_Manual.ent">
+%BOOK_ENTITIES;
+]>
+<section id="chap-Joomla_Platform_Manual-Database">
+  <title>The Database Package</title>
+
+  <section>
+    <title>Introduction</title>
+
+    <para>The <emphasis>Database</emphasis> package is designed to manage the operations of data management through the use of a
+    generic database engine.</para>
+  </section>
+
+  <section>
+    <title>Iterating on results</title>
+
+    <para>The <code language="PHP (HTML)">JDatabaseIterator</code> class allows iteration over database results <programlisting
+    language="PHP (HTML)">$dbo = JFactory::getDbo();
+$iterator = $dbo-&gt;setQuery($dbo-&gt;getQuery(true)-&gt;select('*')-&gt;from('#__content'))-&gt;getIterator();
+foreach ($iterator as $row)
+{
+	// Deal with $row
+}</programlisting></para>
+
+    <para>It allows also to count the results. <programlisting language="PHP (HTML)">$count = count($iterator);</programlisting></para>
+  </section>
+</section>

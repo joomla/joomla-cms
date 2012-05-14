@@ -35,7 +35,8 @@ class JHttp
 	/**
 	 * Constructor.
 	 *
-	 * @param   JRegistry       $options    Client options object.
+	 * @param   JRegistry       $options    Client options object. If the registry contains any headers.* elements,
+	 *                                      these will be added to the request headers.
 	 * @param   JHttpTransport  $transport  The HTTP transport object.
 	 *
 	 * @since   11.3
@@ -80,108 +81,227 @@ class JHttp
 	/**
 	 * Method to send the OPTIONS command to the server.
 	 *
-	 * @param   string  $url      Path to the resource.
-	 * @param   array   $headers  An array of name-value pairs to include in the header of the request.
+	 * @param   string   $url      Path to the resource.
+	 * @param   array    $headers  An array of name-value pairs to include in the header of the request.
+	 * @param   integer  $timeout  Read timeout in seconds.
 	 *
 	 * @return  JHttpResponse
 	 *
 	 * @since   11.3
 	 */
-	public function options($url, array $headers = null)
+	public function options($url, array $headers = null, $timeout = null)
 	{
-		return $this->transport->request('OPTIONS', new JUri($url), null, $headers);
+		// Look for headers set in the options.
+		$temp = (array) $this->options->get('headers');
+		foreach ($temp as $key => $val)
+		{
+			if (!isset($headers[$key]))
+			{
+				$headers[$key] = $val;
+			}
+		}
+
+		// Look for timeout set in the options.
+		if ($timeout === null && $this->options->exists('timeout'))
+		{
+			$timeout = $this->options->get('timeout');
+		}
+
+		return $this->transport->request('OPTIONS', new JUri($url), null, $headers, $timeout, $this->options->get('userAgent', null));
 	}
 
 	/**
 	 * Method to send the HEAD command to the server.
 	 *
-	 * @param   string  $url      Path to the resource.
-	 * @param   array   $headers  An array of name-value pairs to include in the header of the request.
+	 * @param   string   $url      Path to the resource.
+	 * @param   array    $headers  An array of name-value pairs to include in the header of the request.
+	 * @param   integer  $timeout  Read timeout in seconds.
 	 *
 	 * @return  JHttpResponse
 	 *
 	 * @since   11.3
 	 */
-	public function head($url, array $headers = null)
+	public function head($url, array $headers = null, $timeout = null)
 	{
-		return $this->transport->request('HEAD', new JUri($url), null, $headers);
+		// Look for headers set in the options.
+		$temp = (array) $this->options->get('headers');
+		foreach ($temp as $key => $val)
+		{
+			if (!isset($headers[$key]))
+			{
+				$headers[$key] = $val;
+			}
+		}
+
+		// Look for timeout set in the options.
+		if ($timeout === null && $this->options->exists('timeout'))
+		{
+			$timeout = $this->options->get('timeout');
+		}
+
+		return $this->transport->request('HEAD', new JUri($url), null, $headers, $timeout, $this->options->get('userAgent', null));
 	}
 
 	/**
 	 * Method to send the GET command to the server.
 	 *
-	 * @param   string  $url      Path to the resource.
-	 * @param   array   $headers  An array of name-value pairs to include in the header of the request.
+	 * @param   string   $url      Path to the resource.
+	 * @param   array    $headers  An array of name-value pairs to include in the header of the request.
+	 * @param   integer  $timeout  Read timeout in seconds.
 	 *
 	 * @return  JHttpResponse
 	 *
 	 * @since   11.3
 	 */
-	public function get($url, array $headers = null)
+	public function get($url, array $headers = null, $timeout = null)
 	{
-		return $this->transport->request('GET', new JUri($url), null, $headers);
+		// Look for headers set in the options.
+		$temp = (array) $this->options->get('headers');
+		foreach ($temp as $key => $val)
+		{
+			if (!isset($headers[$key]))
+			{
+				$headers[$key] = $val;
+			}
+		}
+
+		// Look for timeout set in the options.
+		if ($timeout === null && $this->options->exists('timeout'))
+		{
+			$timeout = $this->options->get('timeout');
+		}
+
+		return $this->transport->request('GET', new JUri($url), null, $headers, $timeout, $this->options->get('userAgent', null));
 	}
 
 	/**
 	 * Method to send the POST command to the server.
 	 *
-	 * @param   string  $url      Path to the resource.
-	 * @param   mixed   $data     Either an associative array or a string to be sent with the request.
-	 * @param   array   $headers  An array of name-value pairs to include in the header of the request.
+	 * @param   string   $url      Path to the resource.
+	 * @param   mixed    $data     Either an associative array or a string to be sent with the request.
+	 * @param   array    $headers  An array of name-value pairs to include in the header of the request
+	 * @param   integer  $timeout  Read timeout in seconds.
 	 *
 	 * @return  JHttpResponse
 	 *
 	 * @since   11.3
 	 */
-	public function post($url, $data, array $headers = null)
+	public function post($url, $data, array $headers = null, $timeout = null)
 	{
-		return $this->transport->request('POST', new JUri($url), $data, $headers);
+		// Look for headers set in the options.
+		$temp = (array) $this->options->get('headers');
+		foreach ($temp as $key => $val)
+		{
+			if (!isset($headers[$key]))
+			{
+				$headers[$key] = $val;
+			}
+		}
+
+		// Look for timeout set in the options.
+		if ($timeout === null && $this->options->exists('timeout'))
+		{
+			$timeout = $this->options->get('timeout');
+		}
+
+		return $this->transport->request('POST', new JUri($url), $data, $headers, $timeout, $this->options->get('userAgent', null));
 	}
 
 	/**
 	 * Method to send the PUT command to the server.
 	 *
-	 * @param   string  $url      Path to the resource.
-	 * @param   mixed   $data     Either an associative array or a string to be sent with the request.
-	 * @param   array   $headers  An array of name-value pairs to include in the header of the request.
+	 * @param   string   $url      Path to the resource.
+	 * @param   mixed    $data     Either an associative array or a string to be sent with the request.
+	 * @param   array    $headers  An array of name-value pairs to include in the header of the request.
+	 * @param   integer  $timeout  Read timeout in seconds.
 	 *
 	 * @return  JHttpResponse
 	 *
 	 * @since   11.3
 	 */
-	public function put($url, $data, array $headers = null)
+	public function put($url, $data, array $headers = null, $timeout = null)
 	{
-		return $this->transport->request('PUT', new JUri($url), $data, $headers);
+		// Look for headers set in the options.
+		$temp = (array) $this->options->get('headers');
+		foreach ($temp as $key => $val)
+		{
+			if (!isset($headers[$key]))
+			{
+				$headers[$key] = $val;
+			}
+		}
+
+		// Look for timeout set in the options.
+		if ($timeout === null && $this->options->exists('timeout'))
+		{
+			$timeout = $this->options->get('timeout');
+		}
+
+		return $this->transport->request('PUT', new JUri($url), $data, $headers, $timeout, $this->options->get('userAgent', null));
 	}
 
 	/**
 	 * Method to send the DELETE command to the server.
 	 *
-	 * @param   string  $url      Path to the resource.
-	 * @param   array   $headers  An array of name-value pairs to include in the header of the request.
+	 * @param   string   $url      Path to the resource.
+	 * @param   array    $headers  An array of name-value pairs to include in the header of the request.
+	 * @param   integer  $timeout  Read timeout in seconds.
 	 *
 	 * @return  JHttpResponse
 	 *
 	 * @since   11.3
 	 */
-	public function delete($url, array $headers = null)
+	public function delete($url, array $headers = null, $timeout = null)
 	{
-		return $this->transport->request('DELETE', new JUri($url), null, $headers);
+		// Look for headers set in the options.
+		$temp = (array) $this->options->get('headers');
+		foreach ($temp as $key => $val)
+		{
+			if (!isset($headers[$key]))
+			{
+				$headers[$key] = $val;
+			}
+		}
+
+		// Look for timeout set in the options.
+		if ($timeout === null && $this->options->exists('timeout'))
+		{
+			$timeout = $this->options->get('timeout');
+		}
+
+		return $this->transport->request('DELETE', new JUri($url), null, $headers, $timeout, $this->options->get('userAgent', null));
 	}
 
 	/**
 	 * Method to send the TRACE command to the server.
 	 *
-	 * @param   string  $url      Path to the resource.
-	 * @param   array   $headers  An array of name-value pairs to include in the header of the request.
+	 * @param   string   $url      Path to the resource.
+	 * @param   array    $headers  An array of name-value pairs to include in the header of the request.
+	 * @param   integer  $timeout  Read timeout in seconds.
 	 *
 	 * @return  JHttpResponse
 	 *
 	 * @since   11.3
 	 */
-	public function trace($url, array $headers = null)
+	public function trace($url, array $headers = null, $timeout = null)
 	{
-		return $this->transport->request('TRACE', new JUri($url), null, $headers);
+		// Look for headers set in the options.
+		$temp = (array) $this->options->get('headers');
+		foreach ($temp as $key => $val)
+		{
+			if (!isset($headers[$key]))
+			{
+				$headers[$key] = $val;
+			}
+		}
+
+		// Look for timeout set in the options.
+		if ($timeout === null && $this->options->exists('timeout'))
+		{
+			$timeout = $this->options->get('timeout');
+		}
+
+		return $this->transport->request('TRACE', new JUri($url), null, $headers, $timeout, $this->options->get('userAgent', null));
 	}
 
 }

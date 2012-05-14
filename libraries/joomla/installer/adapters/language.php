@@ -24,9 +24,9 @@ class JInstallerLanguage extends JAdapterInstance
 	 * Core language pack flag
 	 *
 	 * @var    boolean
-	 * @since  11.1
+	 * @since  12.1
 	 */
-	protected $_core = false;
+	protected $core = false;
 
 	/**
 	 * Custom install method
@@ -125,14 +125,14 @@ class JInstallerLanguage extends JAdapterInstance
 			{
 				if ((string) $file->attributes()->file == 'meta')
 				{
-					$this->_core = true;
+					$this->core = true;
 					break;
 				}
 			}
 		}
 
 		// Either we are installing a core pack or a core pack must exist for the language we are installing.
-		if (!$this->_core)
+		if (!$this->core)
 		{
 			if (!JFile::exists($this->parent->getPath('extension_site') . '/' . $this->get('tag') . '.xml'))
 			{
@@ -323,14 +323,14 @@ class JInstallerLanguage extends JAdapterInstance
 			{
 				if ((string) $file->attributes()->file == 'meta')
 				{
-					$this->_core = true;
+					$this->core = true;
 					break;
 				}
 			}
 		}
 
 		// Either we are installing a core pack or a core pack must exist for the language we are installing.
-		if (!$this->_core)
+		if (!$this->core)
 		{
 			if (!JFile::exists($this->parent->getPath('extension_site') . '/' . $this->get('tag') . '.xml'))
 			{
@@ -520,7 +520,7 @@ class JInstallerLanguage extends JAdapterInstance
 		}
 		if (!empty($count))
 		{
-			JError::raiseNotice(500, JText::plural('JLIB_INSTALLER_NOTICE_LANG_RESET_USERS', $count));
+			JLog::add(JText::plural('JLIB_INSTALLER_NOTICE_LANG_RESET_USERS', $count), JLog::NOTICE, 'jerror');
 		}
 
 		// All done!

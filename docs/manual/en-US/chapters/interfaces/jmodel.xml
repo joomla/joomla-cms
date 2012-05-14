@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+"http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "../../Developer_Manual.ent">
+%BOOK_ENTITIES;
+]>
+<section>
+  <title>JModel</title>
+
+  <para><interfacename>JModel</interfacename> is an interface that requires a class to be implemented with a
+  <methodname>getState</methodname> and a <methodname>setState</methodname> method.</para>
+</section>

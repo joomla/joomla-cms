@@ -67,23 +67,37 @@ class JMail extends PHPMailer
 	/**
 	 * Send the mail
 	 *
-	 * @return  mixed  True if successful, a JError object otherwise
+	 * @return  mixed  True if successful; JError if using legacy tree (no exception thrown in that case).
 	 *
 	 * @since   11.1
+	 * @throws  RuntimeException
 	 */
 	public function Send()
 	{
 		if (($this->Mailer == 'mail') && !function_exists('mail'))
 		{
-			return JError::raiseNotice(500, JText::_('JLIB_MAIL_FUNCTION_DISABLED'));
+			if (class_exists('JError'))
+			{
+				return JError::raiseNotice(500, JText::_('JLIB_MAIL_FUNCTION_DISABLED'));
+			}
+			else
+			{
+				throw new RuntimeException(sprintf('%s::Send mail not enabled.'), get_class($this));
+			}
 		}
 
 		@$result = parent::Send();
 
 		if ($result == false)
 		{
-			// TODO: Set an appropriate error number
-			$result = JError::raiseNotice(500, JText::_($this->ErrorInfo));
+			if (class_exists('JError'))
+			{
+				$result = JError::raiseNotice(500, JText::_($this->ErrorInfo));
+			}
+			else
+			{
+				throw new RuntimeException(sprintf('%s::Send failed: "%s".'), get_class($this), $this->ErrorInfo);
+			}
 		}
 
 		return $result;
@@ -271,6 +285,7 @@ class JMail extends PHPMailer
 	 * @return  JMail  Returns this object for chaining.
 	 *
 	 * @since   11.1
+	 * @throws  InvalidArgumentException
 	 */
 	public function addAttachment($attachment, $name = '', $encoding = 'base64', $type = 'application/octet-stream')
 	{
@@ -279,9 +294,21 @@ class JMail extends PHPMailer
 		{
 			if (is_array($attachment))
 			{
-				foreach ($attachment as $file)
+				if (!empty($name) && count($attachment) != count($name))
 				{
-					parent::AddAttachment($file, $name, $encoding, $type);
+					throw new InvalidArgumentException("The number of attachments must be equal with the number of name");
+				}
+
+				foreach ($attachment as $key => $file)
+				{
+					if (!empty($name))
+					{
+						parent::AddAttachment($file, $name[$key], $encoding, $type);
+					}
+					else
+					{
+						parent::AddAttachment($file, $name, $encoding, $type);
+					}
 				}
 			}
 			else

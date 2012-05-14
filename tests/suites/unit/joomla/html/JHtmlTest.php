@@ -53,6 +53,7 @@ class JHtmlTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   11.1
+	 * @covers  JHtml::_
 	 */
 	public function test_()
 	{
@@ -73,6 +74,7 @@ class JHtmlTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   11.1
+	 * @covers  JHtml::_
 	 */
 	public function test_WithMissingClass()
 	{
@@ -90,6 +92,7 @@ class JHtmlTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   11.1
+	 * @covers  JHtml::_
 	 */
 	public function test_WithMissingFile()
 	{
@@ -107,6 +110,7 @@ class JHtmlTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   11.1
+	 * @covers  JHtml::_
 	 */
 	public function test_WithMissingMethod()
 	{
@@ -124,6 +128,7 @@ class JHtmlTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   11.1
+	 * @covers  JHtml::register
 	 */
 	public function testRegister()
 	{
@@ -149,6 +154,7 @@ class JHtmlTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   11.1
+	 * @covers  JHtml::unregister
 	 */
 	public function testUnregister()
 	{
@@ -168,6 +174,7 @@ class JHtmlTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   11.1
+	 * @covers  JHtml::isRegistered
 	 */
 	public function testIsRegistered()
 	{
@@ -220,6 +227,7 @@ class JHtmlTest extends TestCase
 	 *
 	 * @since   11.1
 	 * @dataProvider dataTestLink
+	 * @covers  JHtml::link
 	 */
 	public function testLink($url, $text, $attribs, $expected)
 	{
@@ -232,6 +240,7 @@ class JHtmlTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   11.1
+	 * @covers  JHtml::image
 	 */
 	public function testImage()
 	{
@@ -447,6 +456,7 @@ class JHtmlTest extends TestCase
 	 *
 	 * @since   11.1
 	 * @dataProvider dataTestIFrame
+	 * @covers  JHtml::iframe
 	 */
 	public function testIframe($url, $name, $attribs, $noFrames, $expected)
 	{
@@ -459,6 +469,7 @@ class JHtmlTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   11.3
+	 * @covers  JHtml::script
 	 */
 	public function testScript()
 	{
@@ -727,6 +738,7 @@ class JHtmlTest extends TestCase
 	 * @todo Implement testSetFormatOptions().
 	 *
 	 * @return  void
+	 * @covers  JHtml::setFormatOptions
 	 */
 	public function testSetFormatOptions()
 	{
@@ -740,6 +752,7 @@ class JHtmlTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   11.3
+	 * @covers  JHtml::stylesheet
 	 */
 	public function testStylesheet()
 	{
@@ -1022,6 +1035,7 @@ class JHtmlTest extends TestCase
 	 * @todo Implement testDate().
 	 *
 	 * @return  void
+	 * @covers  JHtml::date
 	 */
 	public function testDate()
 	{
@@ -1030,20 +1044,123 @@ class JHtmlTest extends TestCase
 	}
 
 	/**
-	 * @todo Implement testTooltip().
-	 *
 	 * @return  void
+	 * @covers  JHtml::tooltip
 	 */
 	public function testTooltip()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('The original test is causing errors.');
+		if(!is_array($_SERVER))
+		{
+			$_SERVER = array();
+		}
+
+		// we save the state of $_SERVER for later and set it to appropriate values
+		$http_host = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : null;
+		$script_name = isset($_SERVER['SCRIPT_NAME']) ? $_SERVER['SCRIPT_NAME'] : null;
+		$_SERVER['HTTP_HOST'] = 'example.com';
+		$_SERVER['SCRIPT_NAME'] = '/index.php';
+
+		// we generate a random template name so that we don't collide or hit anything
+		$template = 'mytemplate'.rand(1,10000);
+
+		// we create a stub (not a mock because we don't enforce whether it is called or not)
+		// to return a value from getTemplate
+		$mock = $this->getMock('myMockObject', array('getTemplate'));
+		$mock->expects($this->any())
+			->method('getTemplate')
+			->will($this->returnValue($template));
+
+		JFactory::$application = $mock;
+
+		// We have to create a dummy image so JHtml will find a file
+		if (!is_dir(dirname(JPATH_ROOT . '/media/system/images/')))
+		{
+			mkdir(JPATH_ROOT . '/media/system/images/', 0777, true);
+		}
+		file_put_contents(JPATH_ROOT . '/media/system/images/tooltip.png', 'test');
+
+		// Testing classical cases
+		$this->assertThat(
+			JHtml::tooltip('Content'),
+			$this->equalTo('<span class="hasTip" title="Content"><img src="'.JURI::base(true).'/media/system/images/tooltip.png" alt="Tooltip"  /></span>'),
+			'Basic tooltip failed'
+		);
+
+		$this->assertThat(
+			JHtml::tooltip('Content','Title'),
+			$this->equalTo('<span class="hasTip" title="Title::Content"><img src="'.JURI::base(true).'/media/system/images/tooltip.png" alt="Tooltip"  /></span>'),
+			'Tooltip with title and content failed'
+		);
+
+		$this->assertThat(
+			JHtml::tooltip('Content','Title',null,'Text'),
+			$this->equalTo('<span class="hasTip" title="Title::Content">Text</span>'),
+			'Tooltip with title and content and text failed'
+		);
+
+		$this->assertThat(
+			JHtml::tooltip('Content','Title',null,'Text','http://www.monsite.com'),
+			$this->equalTo('<span class="hasTip" title="Title::Content"><a href="http://www.monsite.com">Text</a></span>'),
+			'Tooltip with title and content and text and href failed'
+		);
+
+		$this->assertThat(
+			JHtml::tooltip('Content','Title','tooltip.png',null,null,'MyAlt'),
+			$this->equalTo('<span class="hasTip" title="Title::Content"><img src="'.JURI::base(true).'/media/system/images/tooltip.png" alt="MyAlt"  /></span>'),
+			'Tooltip with title and content and alt failed'
+		);
+
+		$this->assertThat(
+			JHtml::tooltip('Content','Title','tooltip.png',null,null,'MyAlt','hasTip2'),
+			$this->equalTo('<span class="hasTip2" title="Title::Content"><img src="'.JURI::base(true).'/media/system/images/tooltip.png" alt="MyAlt"  /></span>'),
+			'Tooltip with title and content and alt and class failed'
+		);
+
+		// Testing where title is an array
+		$this->assertThat(
+			JHtml::tooltip('Content',array('title'=>'Title')),
+			$this->equalTo('<span class="hasTip" title="Title::Content"><img src="'.JURI::base(true).'/media/system/images/tooltip.png" alt="Tooltip"  /></span>'),
+			'Tooltip with title and content failed'
+		);
+
+		$this->assertThat(
+			JHtml::tooltip('Content',array('title'=>'Title','text'=>'Text')),
+			$this->equalTo('<span class="hasTip" title="Title::Content">Text</span>'),
+			'Tooltip with title and content and text failed'
+		);
+
+		$this->assertThat(
+			JHtml::tooltip('Content',array('title'=>'Title','text'=>'Text','href'=>'http://www.monsite.com')),
+			$this->equalTo('<span class="hasTip" title="Title::Content"><a href="http://www.monsite.com">Text</a></span>'),
+			'Tooltip with title and content and text and href failed'
+		);
+
+		$this->assertThat(
+			JHtml::tooltip('Content',array('title'=>'Title','alt'=>'MyAlt')),
+			$this->equalTo('<span class="hasTip" title="Title::Content"><img src="'.JURI::base(true).'/media/system/images/tooltip.png" alt="MyAlt"  /></span>'),
+			'Tooltip with title and content and alt failed'
+		);
+		$this->assertThat(
+			JHtml::tooltip('Content',array('title'=>'Title','class'=>'hasTip2')),
+			$this->equalTo('<span class="hasTip2" title="Title::Content"><img src="'.JURI::base(true).'/media/system/images/tooltip.png" alt="Tooltip"  /></span>'),
+			'Tooltip with title and content and class failed'
+		);
+		$this->assertThat(
+			JHtml::tooltip('Content',array()),
+			$this->equalTo('<span class="hasTip" title="Content"><img src="'.JURI::base(true).'/media/system/images/tooltip.png" alt="Tooltip"  /></span>'),
+			'Basic tooltip (array version) failed'
+		);
+
+		// Remove our testfile
+		unlink(JPATH_ROOT . '/media/system/images/tooltip.png');
 	}
 
 	/**
 	 * Tests JHtml::calendar() method with and without 'readonly' attribute.
 	 *
 	 * @return  void
+	 * @covers  JHtml::calendar
+	 * @todo    Implement testCalendar().
 	 */
 	public function testCalendar()
 	{
@@ -1055,6 +1172,7 @@ class JHtmlTest extends TestCase
 	 * @todo Implement testAddIncludePath().
 	 *
 	 * @return  void
+	 * @covers  JHtml::addIncludePath
 	 */
 	public function testAddIncludePath()
 	{

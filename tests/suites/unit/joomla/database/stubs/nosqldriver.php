@@ -63,29 +63,29 @@ class JDatabaseDriverNosql extends JDatabaseDriver
 		return true;
 	}
 
-
 	/**
-
 	 * Determines if the connection to the server is active.
-
 	 *
-
 	 * @return  boolean  True if connected to the database engine.
-
 	 *
-
 	 * @since   11.4
-
 	 */
-
 	public function connected()
-
 	{
-
 		return true;
-
 	}
 
+	/**
+	 * Disconnects the database.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 */
+	public function disconnect()
+	{
+		return;
+	}
 
 	/**
 	 * Drops a table from the database.

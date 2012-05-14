@@ -21,39 +21,39 @@ class JProfiler
 {
 	/**
 	 * @var    integer  The start time.
-	 * @since  11.1
+	 * @since  12.1
 	 */
-	protected $_start = 0;
+	protected $start = 0;
 
 	/**
 	 * @var    string  The prefix to use in the output
-	 * @since  11.1
+	 * @since  12.1
 	 */
-	protected $_prefix = '';
+	protected $prefix = '';
 
 	/**
 	 * @var    array  The buffer of profiling messages.
-	 * @since  11.1
+	 * @since  12.1
 	 */
-	protected $_buffer = null;
+	protected $buffer = null;
 
 	/**
 	 * @var    float
-	 * @since  11.1
+	 * @since  12.1
 	 */
-	protected $_previous_time = 0.0;
+	protected $previousTime = 0.0;
 
 	/**
 	 * @var    float
-	 * @since  11.1
+	 * @since  12.1
 	 */
-	protected $_previous_mem = 0.0;
+	protected $previousMem = 0.0;
 
 	/**
 	 * @var    boolean  Boolean if the OS is Windows.
-	 * @since  11.1
+	 * @since  12.1
 	 */
-	protected $_iswin = false;
+	protected $isWin = false;
 
 	/**
 	 * @var    array  JProfiler instances container.
@@ -70,10 +70,10 @@ class JProfiler
 	 */
 	public function __construct($prefix = '')
 	{
-		$this->_start = $this->getmicrotime();
-		$this->_prefix = $prefix;
-		$this->_buffer = array();
-		$this->_iswin = (substr(PHP_OS, 0, 3) == 'WIN');
+		$this->start = $this->getmicrotime();
+		$this->prefix = $prefix;
+		$this->buffer = array();
+		$this->isWin = (substr(PHP_OS, 0, 3) == 'WIN');
 	}
 
 	/**
@@ -110,28 +110,30 @@ class JProfiler
 	 */
 	public function mark($label)
 	{
-		$current = self::getmicrotime() - $this->_start;
+		$current = self::getmicrotime() - $this->start;
+		$currentMem = 0;
+
 		if (function_exists('memory_get_usage'))
 		{
-			$current_mem = memory_get_usage() / 1048576;
+			$currentMem = memory_get_usage() / 1048576;
 			$mark = sprintf(
 				'<code>%s %.3f seconds (+%.3f); %0.2f MB (%s%0.3f) - %s</code>',
-				$this->_prefix,
+				$this->prefix,
 				$current,
-				$current - $this->_previous_time,
-				$current_mem,
-				($current_mem > $this->_previous_mem) ? '+' : '', $current_mem - $this->_previous_mem,
+				$current - $this->previousTime,
+				$currentMem,
+				($currentMem > $this->previousMem) ? '+' : '', $currentMem - $this->previousMem,
 				$label
 			);
 		}
 		else
 		{
-			$mark = sprintf('<code>%s %.3f seconds (+%.3f) - %s</code>', $this->_prefix, $current, $current - $this->_previous_time, $label);
+			$mark = sprintf('<code>%s %.3f seconds (+%.3f) - %s</code>', $this->prefix, $current, $current - $this->previousTime, $label);
 		}
 
-		$this->_previous_time = $current;
-		$this->_previous_mem = $current_mem;
-		$this->_buffer[] = $mark;
+		$this->previousTime = $current;
+		$this->previousMem = $currentMem;
+		$this->buffer[] = $mark;
 
 		return $mark;
 	}
@@ -170,7 +172,7 @@ class JProfiler
 			$output = array();
 			$pid = getmypid();
 
-			if ($this->_iswin)
+			if ($this->isWin)
 			{
 				// Windows workaround
 				@exec('tasklist /FI "PID eq ' . $pid . '" /FO LIST', $output);
@@ -198,6 +200,6 @@ class JProfiler
 	 */
 	public function getBuffer()
 	{
-		return $this->_buffer;
+		return $this->buffer;
 	}
 }

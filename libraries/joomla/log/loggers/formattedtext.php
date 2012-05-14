@@ -16,13 +16,13 @@ jimport('joomla.filesystem.folder');
  * Joomla! Formatted Text File Log class
  *
  * This class is designed to use as a base for building formatted text files for output. By
- * default it emulates the SysLog style format output. This is a disk based output format.
+ * default it emulates the Syslog style format output. This is a disk based output format.
  *
  * @package     Joomla.Platform
  * @subpackage  Log
  * @since       11.1
  */
-class JLoggerFormattedText extends JLogger
+class JLoggerFormattedtext extends JLogger
 {
 	/**
 	 * @var    resource  The file pointer for the log file.
@@ -48,20 +48,6 @@ class JLoggerFormattedText extends JLogger
 	 * @since  11.1
 	 */
 	protected $path;
-
-	/**
-	 * @var    array  Translation array for JLogEntry priorities to text strings.
-	 * @since  11.1
-	 */
-	protected $priorities = array(
-		JLog::EMERGENCY => 'EMERGENCY',
-		JLog::ALERT => 'ALERT',
-		JLog::CRITICAL => 'CRITICAL',
-		JLog::ERROR => 'ERROR',
-		JLog::WARNING => 'WARNING',
-		JLog::NOTICE => 'NOTICE',
-		JLog::INFO => 'INFO',
-		JLog::DEBUG => 'DEBUG');
 
 	/**
 	 * Constructor.
@@ -127,7 +113,7 @@ class JLoggerFormattedText extends JLogger
 	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
-	 * @throws  LogException
+	 * @throws  RuntimeException
 	 */
 	public function addEntry(JLogEntry $entry)
 	{
@@ -182,7 +168,7 @@ class JLoggerFormattedText extends JLogger
 		// Write the new entry to the file.
 		if (!fputs($this->file, $line . "\n"))
 		{
-			throw new LogException;
+			throw new RuntimeException('Cannot write to log file.');
 		}
 	}
 
@@ -247,13 +233,13 @@ class JLoggerFormattedText extends JLogger
 		// Open the file for writing (append mode).
 		if (!$this->file = fopen($this->path, 'a'))
 		{
-			// Throw exception.
+			throw new RuntimeException('Cannot open file for writing log');
 		}
 		if ($head)
 		{
 			if (!fputs($this->file, $head))
 			{
-				throw new LogException;
+				throw new RuntimeException('Cannot fput file for log');
 			}
 		}
 	}

@@ -37,9 +37,6 @@ class JUserTest extends TestCaseDatabase
 		parent::setUp();
 
 		$this->object = new JUser('42');
-
-		// Ensure we have JComponentHelper (needed in case class is tested in isolation)
-		jimport('joomla.application.component.helper');
 	}
 
 	/**

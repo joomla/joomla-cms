@@ -56,13 +56,6 @@ abstract class JHtmlAccess
 		$db->setQuery($query);
 		$options = $db->loadObjectList();
 
-		// Check for a database error.
-		if ($db->getErrorNum())
-		{
-			JLog::add($db->getErrorMsg(), JLog::WARNING, 'jerror');
-			return null;
-		}
-
 		// If params is an array, push these options to the array
 		if (is_array($params))
 		{
@@ -112,13 +105,6 @@ abstract class JHtmlAccess
 		$db->setQuery($query);
 		$options = $db->loadObjectList();
 
-		// Check for a database error.
-		if ($db->getErrorNum())
-		{
-			JLog::add($db->getErrorMsg(), JLog::NOTICE, 'jerror');
-			return null;
-		}
-
 		for ($i = 0, $n = count($options); $i < $n; $i++)
 		{
 			$options[$i]->text = str_repeat('- ', $options[$i]->level) . $options[$i]->text;
@@ -161,13 +147,6 @@ abstract class JHtmlAccess
 		$query->order('a.lft ASC');
 		$db->setQuery($query);
 		$groups = $db->loadObjectList();
-
-		// Check for a database error.
-		if ($db->getErrorNum())
-		{
-			JLog::add($db->getErrorMsg(), JLog::NOTICE, 'jerror');
-			return null;
-		}
 
 		$html = array();
 
@@ -273,13 +252,6 @@ abstract class JHtmlAccess
 
 			$db->setQuery($query);
 			self::$asset_groups = $db->loadObjectList();
-
-			// Check for a database error.
-			if ($db->getErrorNum())
-			{
-				JLog::add($db->getErrorMsg(), JLog::NOTICE, 'jerror');
-				return false;
-			}
 		}
 
 		return self::$asset_groups;

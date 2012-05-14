@@ -111,15 +111,16 @@ abstract class JFactory
 	 *
 	 * Returns the global {@link JRegistry} object, only creating it if it doesn't already exist.
 	 *
-	 * @param   string  $file  The path to the configuration file
-	 * @param   string  $type  The type of the configuration file
+	 * @param   string  $file       The path to the configuration file
+	 * @param   string  $type       The type of the configuration file
+	 * @param   string  $namespace  The namespace of the configuration file
 	 *
 	 * @return  JRegistry
 	 *
 	 * @see     JRegistry
 	 * @since   11.1
 	 */
-	public static function getConfig($file = null, $type = 'PHP')
+	public static function getConfig($file = null, $type = 'PHP', $namespace = '')
 	{
 		if (!self::$config)
 		{
@@ -128,7 +129,7 @@ abstract class JFactory
 				$file = JPATH_PLATFORM . '/config.php';
 			}
 
-			self::$config = self::createConfig($file, $type);
+			self::$config = self::createConfig($file, $type, $namespace);
 		}
 
 		return self::$config;
@@ -212,9 +213,12 @@ abstract class JFactory
 	{
 		$instance = self::getSession()->get('user');
 
-		if (is_null($id) && !($instance instanceof JUser))
+		if (is_null($id))
 		{
-			$instance = JUser::getInstance();
+			if (!($instance instanceof JUser))
+			{
+				$instance = JUser::getInstance();
+			}
 		}
 		elseif ($instance->id != $id)
 		{
@@ -233,7 +237,7 @@ abstract class JFactory
 	 * @param   string  $handler  The handler to use
 	 * @param   string  $storage  The storage method
 	 *
-	 * @return  JCache object
+	 * @return  JCacheController object
 	 *
 	 * @see     JCache
 	 */
@@ -375,6 +379,7 @@ abstract class JFactory
 	 *
 	 * @see     JXMLElement
 	 * @since   11.1
+	 * @note    This method will return SimpleXMLElement object in the future. Do not rely on JXMLElement's methods.
 	 * @todo    This may go in a separate class - error reporting may be improved.
 	 */
 	public static function getXML($data, $isFile = true)
@@ -466,7 +471,6 @@ abstract class JFactory
 	 */
 	public static function getDate($time = 'now', $tzOffset = null)
 	{
-		jimport('joomla.utilities.date');
 		static $classname;
 		static $mainLocale;
 

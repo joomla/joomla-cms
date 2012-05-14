@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+"http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "../../Developer_Manual.ent">
+%BOOK_ENTITIES;
+]>
+<section>
+  <title>JViewBase</title>
+
+  <section>
+    <title>Construction</title>
+
+    <para>The contructor for <classname>JViewBase</classname> takes a <classname>JModel</classname> object and a
+    <classname>JController</classname> object. Both are mandatory.</para>
+
+    <para>Note that these are interfaces so the objects do no necessarily have to extend from <classname>JModelBase</classname> or
+    <classname>JControllerBase</classname> classes. Given that, the view should only rely on the API that is exposed by the
+    interface and not concrete classes unless the contructor is changed in a derived class to take more explicit classes or
+    interaces as required by the developer.</para>
+  </section>
+
+  <section>
+    <title>Usage</title>
+
+    <para>The <classname>JViewBase</classname> class is abstract so cannot be used directly. It forms a simple base for rendering
+    any kind of data. The class already implements the <methodname>escape</methodname> method so only a
+    <methodname>render</methodname> method need to be added. Views derived from this class would be used to support very simple
+    cases, well suited to supporting web services returning JSON, XML or possibly binary data types. This class does not support
+    layouts.</para>
+
+    <example>
+      <title>Example view</title>
+
+      <programlisting>/**
+ * My custom view.
+ *
+ * @package  Examples
+ *
+ * @since   12.1
+ */
+class MyView extends JViewBase
+{
+	/**
+	 * Render some data
+	 *
+	 * @return  string  The rendered view.
+	 *
+	 * @since   12.1
+	 * @throws  RuntimeException on database error.
+	 */
+	public function render()
+	{
+		// Prepare some data from the model.
+		$data = array(
+			'count' =&gt; $this-&gt;model-&gt;getCount()
+		);
+
+		// Convert the data to JSON format.
+		return json_encode($data);
+	}
+}
+
+try
+{
+	$view = new MyView(new MyDatabaseModel, new MyController);
+	echo $view-&gt;render();
+}
+catch (RuntimeException $e)
+{
+	// Handle database error.
+}
+</programlisting>
+    </example>
+  </section>
+</section>

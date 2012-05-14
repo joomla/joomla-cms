@@ -20,22 +20,23 @@
     <section>
       <title>Configuring Your Environment: The Database</title>
 
-      <para>Standard unit tests run against a <ulink url="http://www.sqlite.org/quickstart.html">Sqlite</ulink> in memory 
-      database for ease of setup and performance. Other than <ulink url="http://www.sqlite.org/quickstart.html">installing Sqlite</ulink>  
-      no manual intervention or set up is required. The database is built at runtime and deleted when finished.      	
+      <para>Standard unit tests run against a <ulink url="http://www.sqlite.org/quickstart.html">Sqlite</ulink> in memory
+      database for ease of setup and performance. Other than <ulink url="http://www.sqlite.org/quickstart.html">installing Sqlite</ulink>
+      no manual intervention or set up is required. The database is built at runtime and deleted when finished.
       </para>
 
       <para>To run the specific database tests:</para>
 
       <itemizedlist>
-          <para>Create your database and use the appropriate database-specific DDL located in 
+        <listitem>
+          <para>Create your database and use the appropriate database-specific DDL located in
           tests/suites/database/stubs to create the database tables required.</para>
         </listitem>
-        
+
         <listitem>
           <para>In the root directory, copy the file named phpunit.xml.dist, leaving it in the same
           folder and naming it phpunit.xml.</para>
-        </listitem>          
+        </listitem>
 
         <listitem>
           <para>Uncomment the php block and include the const line(s) related to the database(s) you will be testing.</para>
@@ -48,17 +49,39 @@
     </section>
 
 	<section>
-		<title>Configuring Your Environment: The JHttpTransport Test Stubs</title>
+	  <title>Configuring Your Environment: The JHttpTransport Test Stubs</title>
 
-		<para>There is a special stub that is required for testing the JHttp transports so that actual web requests can be simulated
-		and assertions can be made about the results. To set these up, copy the file jhttp_stub.php to a web server and add the address
-		to your config file with the config variable <code>$jhttp_stub</code>.</para>
-	</section>
+	  <para>There is a special stub that is required for testing the JHttp transports so that actual web requests can be simulated
+	  and assertions can be made about the results. To set these up, you'll need to do the following:</para>
+
+        <itemizedlist>
+          <listitem>
+            <para>In the root directory, copy the file named phpunit.xml.dist, leaving it in the same
+            folder and naming it phpunit.xml.</para>
+          </listitem>
+
+          <listitem>
+            <para>Uncomment the php block and include the "JTEST_HTTP_STUB" const.</para>
+          </listitem>
+
+          <listitem>
+            <para>The default file path for the const assumes that you have checked out the Joomla Platform to the web root
+            of your test environment inside a folder named "joomla-platform".  If this is not the case, you can change
+            the path to suit your environment and, if need be, copy the file from its default location to be available within
+            your web environment.</para>
+          </listitem>
+        </itemizedlist>
+    </section>
 
     <section>
       <title>Running the Tests</title>
 
       <para>You can run the tests by going to the platform root directory and executing <command>phpunit</command></para>
+
+      <para>Alternatively, if you have Ant installed on your system, you may run the unit tests by going to the platform root
+      directory and executing <command>ant phpunit</command> to execute the tests on classes located under the libraries/joomla
+      directory or executing <command>ant phpunit-legacy</command> to execute the tests on classes located under the
+      libraries/legacy directory.</para>
     </section>
   </section>
 
@@ -77,8 +100,11 @@
     <section>
       <title>Running CodeSniffer</title>
 
-      <para>You can run CodeSniffer by going to the platform root directory and executing <command>phpcs --report=checkstyle
+      <para>You can run the CodeSniffer by going to the platform root directory and executing <command>phpcs --report=checkstyle
       --report-file=build/logs/checkstyle.xml --standard=/path/to/platform/build/phpcs/Joomla /path/to/platform</command></para>
+
+      <para>Alternatively, if you have Ant installed on your system, you may run the CodeSniffer by going to the platform root
+      directory and executing <command>ant phpcs</command></para>
     </section>
 
     <section>

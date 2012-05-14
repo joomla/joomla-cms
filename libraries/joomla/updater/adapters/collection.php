@@ -65,8 +65,7 @@ class JUpdaterCollection extends JUpdateAdapter
 	 */
 	protected function _getStackLocation()
 	{
-
-		return implode('->', $this->_stack);
+		return implode('->', $this->stack);
 	}
 
 	/**
@@ -94,7 +93,7 @@ class JUpdaterCollection extends JUpdateAdapter
 	 */
 	public function _startElement($parser, $name, $attrs = array())
 	{
-		array_push($this->_stack, $name);
+		array_push($this->stack, $name);
 		$tag = $this->_getStackLocation();
 
 		// Reset the data
@@ -104,7 +103,7 @@ class JUpdaterCollection extends JUpdateAdapter
 			case 'CATEGORY':
 				if (isset($attrs['REF']))
 				{
-					$this->update_sites[] = array('type' => 'collection', 'location' => $attrs['REF'], 'update_site_id' => $this->_update_site_id);
+					$this->update_sites[] = array('type' => 'collection', 'location' => $attrs['REF'], 'update_site_id' => $this->updateSiteId);
 				}
 				else
 				{
@@ -114,8 +113,8 @@ class JUpdaterCollection extends JUpdateAdapter
 				break;
 			case 'EXTENSION':
 				$update = JTable::getInstance('update');
-				$update->set('update_site_id', $this->_update_site_id);
-				foreach ($this->_updatecols as $col)
+				$update->set('update_site_id', $this->updateSiteId);
+				foreach ($this->updatecols as $col)
 				{
 					// Reset the values if it doesn't exist
 					if (!array_key_exists($col, $attrs))
@@ -183,7 +182,7 @@ class JUpdaterCollection extends JUpdateAdapter
 	 */
 	protected function _endElement($parser, $name)
 	{
-		$lastcell = array_pop($this->_stack);
+		array_pop($this->stack);
 		switch ($name)
 		{
 			case 'CATEGORY':
@@ -210,7 +209,7 @@ class JUpdaterCollection extends JUpdateAdapter
 	public function findUpdate($options)
 	{
 		$url = $options['location'];
-		$this->_update_site_id = $options['update_site_id'];
+		$this->updateSiteId = $options['update_site_id'];
 		if (substr($url, -4) != '.xml')
 		{
 			if (substr($url, -1) != '/')
@@ -232,7 +231,7 @@ class JUpdaterCollection extends JUpdateAdapter
 			$query = $dbo->getQuery(true);
 			$query->update('#__update_sites');
 			$query->set('enabled = 0');
-			$query->where('update_site_id = ' . $this->_update_site_id);
+			$query->where('update_site_id = ' . $this->updateSiteId);
 			$dbo->setQuery($query);
 			$dbo->execute();
 
@@ -242,10 +241,10 @@ class JUpdaterCollection extends JUpdateAdapter
 			return false;
 		}
 
-		$this->xml_parser = xml_parser_create('');
-		xml_set_object($this->xml_parser, $this);
-		xml_set_element_handler($this->xml_parser, '_startElement', '_endElement');
-		if (!xml_parse($this->xml_parser, $response->body))
+		$this->xmlParser = xml_parser_create('');
+		xml_set_object($this->xmlParser, $this);
+		xml_set_element_handler($this->xmlParser, '_startElement', '_endElement');
+		if (!xml_parse($this->xmlParser, $response->body))
 		{
 			JLog::add("Error parsing url: " . $url, JLog::WARNING, 'updater');
 			$app = JFactory::getApplication();

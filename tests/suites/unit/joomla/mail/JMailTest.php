@@ -119,11 +119,26 @@ class JMailTest extends TestCase
 	/**
 	 * @todo Implement testAddAttachment().
 	 */
-	public function testAddAttachment() {
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-				'This test has not been implemented yet.'
-		);
+	public function testAddAttachment()
+	{
+		$attachments = array(JPATH_PLATFORM . '/joomla/mail/mail.php');
+		$names = array('mail.php');
+
+		$mail = new JMail;
+		$mail->addAttachment($attachments, $names);
+
+		$actual = $mail->GetAttachments();
+		$actual_attachments = array();
+		$actual_names = array();
+
+		foreach ($actual as $attach)
+		{
+			array_push($actual_attachments, $attach[0]);
+			array_push($actual_names, $attach[2]);
+		}
+
+		$this->assertThat($attachments, $this->equalTo($actual_attachments));
+		$this->assertThat($names, $this->equalTo($actual_names));
 	}
 
 	/**

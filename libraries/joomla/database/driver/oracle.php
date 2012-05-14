@@ -64,6 +64,17 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
 	}
 
 	/**
+	 * Destructor.
+	 *
+	 * @since   12.1
+	 */
+	public function __destruct()
+	{
+		$this->freeResult();
+		unset($this->connection);
+	}
+
+	/**
 	 * Connects to the database if needed.
 	 *
 	 * @return  void  Returns void if the database connected successfully.
@@ -84,12 +95,15 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
 	}
 
 	/**
-	 * Destructor.
+	 * Disconnects the database.
+	 *
+	 * @return  void
 	 *
 	 * @since   12.1
 	 */
-	public function __destruct()
+	public function disconnect()
 	{
+		// Close the connection.
 		$this->freeResult();
 		unset($this->connection);
 	}
@@ -255,7 +269,6 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
 	{
 		$this->connect();
 
-		$keys = array();
 		$query = $this->getQuery(true);
 
 		$fieldCasing = $this->getOption(PDO::ATTR_CASE);
@@ -411,7 +424,7 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
 	 *
 	 * @param   string  $table  The name of the table to unlock.
 	 *
-	 * @return  JDatabase  Returns this object to support chaining.
+	 * @return  JDatabaseDriverOracle  Returns this object to support chaining.
 	 *
 	 * @since   12.1
 	 * @throws  RuntimeException
@@ -431,7 +444,7 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
 	 * @param   string  $backup    Not used by Oracle.
 	 * @param   string  $prefix    Not used by Oracle.
 	 *
-	 * @return  JDatabase  Returns this object to support chaining.
+	 * @return  JDatabaseDriverOracle  Returns this object to support chaining.
 	 *
 	 * @since   12.1
 	 * @throws  RuntimeException
@@ -446,7 +459,7 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
 	/**
 	 * Unlocks tables in the database.
 	 *
-	 * @return  JDatabase  Returns this object to support chaining.
+	 * @return  JDatabaseDriverOracle  Returns this object to support chaining.
 	 *
 	 * @since   12.1
 	 * @throws  RuntimeException
