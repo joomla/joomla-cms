@@ -76,6 +76,9 @@ class modMenuHelper
 					$lastitem			= $i;
 					$item->active		= false;
 					$item->flink = $item->link;
+					
+					// Set $secure to the $items param
+					$secure = $item->params->get('secure');
 
 					switch ($item->type)
 					{
@@ -91,8 +94,12 @@ class modMenuHelper
 							break;
 
 						case 'alias':
-							// If this is an alias use the item id stored in the parameters to make the link.
-							$item->flink = 'index.php?Itemid='.$item->params->get('aliasoptions');
+							// If this is an alias use the item id stored in the parameters to get the aliased item.
+							$alias = $menu->getItem($item->params->get('aliasoptions'));
+							// Change $secure value to match aliased menu item
+							$secure = $alias->params->get('secure');
+							// Use the alias item id to make the link
+							$item->flink = 'index.php?Itemid='.$alias->id;
 							break;
 
 						default:
@@ -107,7 +114,7 @@ class modMenuHelper
 					}
 
 					if (strcasecmp(substr($item->flink, 0, 4), 'http') && (strpos($item->flink, 'index.php?') !== false)) {
-						$item->flink = JRoute::_($item->flink, true, $item->params->get('secure'));
+						$item->flink = JRoute::_($item->flink, true, $secure);
 					}
 					else {
 						$item->flink = JRoute::_($item->flink);
