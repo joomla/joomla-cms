@@ -83,18 +83,19 @@ class JInstallationModelDatabase extends JModel
 
 			// Check database version.
 			$db_version = $db->getVersion();
-			if (($position = strpos($db_version, '-')) !== false) {
-				$db_version = substr($db_version, 0, $position);
+			$type = $options->db_type;
+
+			if (!$db->isMinimumVersion()) {
+				$this->setError(JText::sprintf('INSTL_DATABASE_INVALID_'.strtoupper($type).'_VERSION', $db_version));
+				return false;
 			}
 
-			if (!version_compare($db_version, '5.0.4', '>=')) {
-				$this->setError(JText::sprintf('INSTL_DATABASE_INVALID_MYSQL_VERSION', $db_version));
-				return false;
-			}
-			// @internal MySQL versions pre 5.1.6 forbid . / or \ or NULL
-			if ((preg_match('#[\\\/\.\0]#', $options->db_name)) && (!version_compare($db_version, '5.1.6', '>='))) {
-				$this->setError(JText::sprintf('INSTL_DATABASE_INVALID_NAME', $db_version));
-				return false;
+			if ($type == ('mysql' || 'mysqli')) {
+				// @internal MySQL versions pre 5.1.6 forbid . / or \ or NULL
+				if ((preg_match('#[\\\/\.\0]#', $options->db_name)) && (!version_compare($db_version, '5.1.6', '>='))) {
+					$this->setError(JText::sprintf('INSTL_DATABASE_INVALID_NAME', $db_version));
+					return false;
+				}
 			}
 
 			// @internal Check for spaces in beginning or end of name
@@ -144,7 +145,6 @@ class JInstallationModelDatabase extends JModel
 			}
 
 			// Set the appropriate schema script based on UTF-8 support.
-			$type = $options->db_type;
 			if ($type == 'mysqli' || $type == 'mysql')
 			{
 				$schema = 'sql/'.(($type == 'mysqli') ? 'mysql' : $type).'/joomla.sql';

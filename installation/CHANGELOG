@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+15-May-2012 Jean-Marie Simonet
+ #$ [#27651] JInstallationModelDatabase::initialise has hard coded MySQL version check. Thanks Michael
+
 12-May-2012 Jean-Marie Simonet
  + [#28472] Add ability to copy a template. Thanks Mark
  +$ Adding eo-XX installation language
