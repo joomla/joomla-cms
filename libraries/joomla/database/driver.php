@@ -37,8 +37,8 @@ interface JDatabaseInterface
  * @subpackage  Database
  * @since       12.1
  *
- * @method      string  q()   q($text, $escape)  Alias for quote method
- * @method      string  qn()  qs($name, $as)     Alias for quoteName method
+ * @method      string  q()   q($text, $escape = true)  Alias for quote method
+ * @method      string  qn()  qn($name, $as = null)     Alias for quoteName method
  */
 abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 {
