@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+16-May-2012 Jean-Marie Simonet
+ $ Updating installation ini files: bg-BG, ckb-IQ, da-DK, eo-XX, es-ES, fi-FI, fr-FR, it-IT, km-KH, lo-LA, mk-MK, ru-RU, sr-RS, sr-YU, sv-SE, uk-UA
+
 15-May-2012 Jean-Marie Simonet
  #$ [#27651] JInstallationModelDatabase::initialise has hard coded MySQL version check. Thanks Michael
 
