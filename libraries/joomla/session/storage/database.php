@@ -113,9 +113,9 @@ class JSessionStorageDatabase extends JSessionStorage
 			{
 				return false;
 			}
-
-            // $db->execute did not throw an exception, so the query was successful.
-            // it either changed the data, or the data was identical.  In either case we are done.
+			// Since $db->execute did not throw an exception, so the query was successful.
+			// Either the data changed, or the data was identical.  
+			// In either case we are done.
 		    return true;
 		}
 		catch (Exception $e)
