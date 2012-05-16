@@ -30,9 +30,61 @@ class JTableMenu extends JTableNested
 	public function __construct(&$db)
 	{
 		parent::__construct('#__menu', 'id', $db);
+	}
 
-		// Set the default access level.
-		$this->access = (int) JFactory::getConfig()->get('access');
+	/**
+	 * Method to compute the default name of the asset.
+	 * The default name is in the form table_name.id
+	 * where id is the value of the primary key of the table.
+	 *
+	 * @return  string
+	 *
+	 * @since   11.1
+	 */
+	protected function _getAssetName()
+	{
+		$k = $this->_tbl_key;
+		return 'com_menus.item.' . (int) $this->$k;
+	}
+
+	/**
+	 * Method to return the title to use for the asset table.
+	 *
+	 * @return  string
+	 *
+	 * @since   11.1
+	 */
+	protected function _getAssetTitle()
+	{
+		return $this->title;
+	}
+
+	/**
+	 * Method to get the parent asset id for the record
+	 *
+	 * @param   JTable   $table  A JTable object (optional) for the asset parent
+	 * @param   integer  $id     The id (optional) of the content.
+	 *
+	 * @return  integer
+	 *
+	 * @since   11.1
+	 */
+	protected function _getAssetParentId($table = null, $id = null)
+	{
+		// Initialise variables.
+		$assetId = null;
+
+		die(print_r($this));
+
+		// Return the asset id.
+		if ($assetId)
+		{
+			return $assetId;
+		}
+		else
+		{
+			return parent::_getAssetParentId($table, $id);
+		}
 	}
 
 	/**
@@ -73,6 +125,13 @@ class JTableMenu extends JTableNested
 			$registry = new JRegistry;
 			$registry->loadArray($array['params']);
 			$array['params'] = (string) $registry;
+		}
+
+		// Bind the rules.
+		if (isset($array['rules']) && is_array($array['rules']))
+		{
+			$rules = new JAccessRules($array['rules']);
+			$this->setRules($rules);
 		}
 
 		return parent::bind($array, $ignore);

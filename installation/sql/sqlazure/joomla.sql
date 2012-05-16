@@ -2040,6 +2040,7 @@ IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[#__menu_
 BEGIN
 CREATE TABLE [#__menu_types](
 	[id] [bigint] IDENTITY(1,1) NOT NULL,
+	[asset_id] [bigint] NOT NULL,
 	[menutype] [nvarchar](24) NOT NULL,
 	[title] [nvarchar](48) NOT NULL,
 	[description] [nvarchar](255) NOT NULL,
@@ -2076,6 +2077,7 @@ IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[#__menu]
 BEGIN
 CREATE TABLE [#__menu](
 	[id] [int] IDENTITY(1,1) NOT NULL,
+	[asset_id] [bigint] NOT NULL,
 	[menutype] [nvarchar](24) NOT NULL,
 	[title] [nvarchar](255) NOT NULL,
 	[alias] [nvarchar](255) NOT NULL,

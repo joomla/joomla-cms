@@ -41,20 +41,6 @@ JHtml::_('behavior.modal');
 		}
 	}
 </script>
-<script type="text/javascript">
-	// Hide/show all rows which are not assigned.
-	window.addEvent('domready', function(){
-	//	$$('.adminlist tr.no').hide();
-		document.id('showmods').addEvent('click', function(e) {
-		//	e.preventDefault();
-			if ($$('.adminlist tr.no').getStyle('display')[0] == 'none') {
-				$$('.adminlist tr.no').show();
-			} else {
-				$$('.adminlist tr.no').hide();
-			}
-		});
-	});
-</script>
 
 <form action="<?php echo JRoute::_('index.php?option=com_menus&layout=edit&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
 
@@ -144,9 +130,26 @@ JHtml::_('behavior.modal');
 
 	<?php echo JHtml::_('sliders.end'); ?>
 
+</div>
+
+	<?php if ($this->canDo->get('core.admin')): ?>
+		<div class="width-100 fltlft">
+			<?php echo JHtml::_('sliders.start', 'permissions-sliders-'.$this->item->id, array('useCookie'=>1)); ?>
+
+				<?php echo JHtml::_('sliders.panel', JText::_('COM_MENUS_ITEM_FIELDSET_RULES'), 'access-rules'); ?>
+				<fieldset class="panelform">
+					<?php echo $this->form->getLabel('rules'); ?>
+					<?php echo $this->form->getInput('rules'); ?>
+				</fieldset>
+
+			<?php echo JHtml::_('sliders.end'); ?>
+		</div>
+	<?php endif; ?>
+
+	<div>
 	<input type="hidden" name="task" value="" />
 	<?php echo $this->form->getInput('component_id'); ?>
 	<?php echo JHtml::_('form.token'); ?>
 	<input type="hidden" id="fieldtype" name="fieldtype" value="" />
-</div>
+	</div>
 </form>
