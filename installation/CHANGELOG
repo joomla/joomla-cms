@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+17-May-2012 Jean-Marie Simonet
+ $ Updating installation ini files: ar-AA, de-DE, ja-JP, lv-LV, sq-AL, ta-IN
+
 16-May-2012 Jean-Marie Simonet
  $ Updating installation ini files: bg-BG, ckb-IQ, da-DK, eo-XX, es-ES, fi-FI, fr-FR, it-IT, km-KH, lo-LA, mk-MK, ru-RU, sr-RS, sr-YU, sv-SE, uk-UA
 
