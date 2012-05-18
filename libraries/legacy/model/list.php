@@ -123,9 +123,19 @@ class JModelList extends JModel
 
 		// Load the list items.
 		$query = $this->_getListQuery();
-		$items = $this->_getList($query, $this->getStart(), $this->getState('list.limit'));
+
+		try
+		{
+			$items = $this->_getList($query, $this->getStart(), $this->getState('list.limit'));
+		}
+		catch (RuntimeException $e)
+		{
+			$this->setError($e->getMessage());
+			return false;
+		}
 
 		// Check for a database error.
+		// @deprecated Remove in Joomla 3.0
 		if ($this->_db->getErrorNum())
 		{
 			$this->setError($this->_db->getErrorMsg());
@@ -226,9 +236,18 @@ class JModelList extends JModel
 
 		// Load the total.
 		$query = $this->_getListQuery();
-		$total = (int) $this->_getListCount($query);
+		try
+		{
+			$total = (int) $this->_getListCount($query);
+		}
+		catch (RuntimeException $e)
+		{
+			$this->setError($e->getMessage());
+			return false;
+		}
 
 		// Check for a database error.
+		// @deprecated Remove in 3.0
 		if ($this->_db->getErrorNum())
 		{
 			$this->setError($this->_db->getErrorMsg());
