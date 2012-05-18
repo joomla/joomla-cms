@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+18-May-2012 Jean-Marie Simonet
+ + Adding Laotian lo.gif flag to media/mod_languages
+
 17-May-2012 Jean-Marie Simonet
  $ Updating installation ini files: ar-AA, de-DE, ja-JP, lv-LV, sq-AL, ta-IN
 
