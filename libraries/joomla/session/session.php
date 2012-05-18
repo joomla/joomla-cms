@@ -523,7 +523,7 @@ class JSession extends JObject
 			$session_name = session_name();
 
 			// Get the JInput object
-			$input = JFactory::getApplication()->input;
+			$input = new JInput;
 
 			// Get the JInputCookie object
 			$cookie = $input->cookie;
