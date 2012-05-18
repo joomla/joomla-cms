@@ -1,8 +1,10 @@
 <?php
-
 /**
  * @package     Joomla.UnitTest
  * @subpackage  Facebook
+ * 
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 require_once JPATH_PLATFORM . '/joomla/facebook/facebook.php';
@@ -12,22 +14,26 @@ require_once JPATH_PLATFORM . '/joomla/facebook/facebook.php';
  *
  * @package     Joomla.UnitTest
  * @subpackage  Facebook
+ * 
+ * @since       12.1
  */
-
 class JFacebookTest extends TestCase
 {
 	/**
 	 * @var    JRegistry  Options for the Facebook object.
+	 * @since  12.1
 	 */
 	protected $options;
 
 	/**
 	 * @var    JFacebookHttp  The HTTP client object to use in sending HTTP requests.
+	 * @since  12.1
 	 */
 	protected $client;
 
 	/**
 	* @var    JFacebook  Object under test.
+	* @since  12.1
 	*/
 	protected $object;
 
@@ -37,7 +43,9 @@ class JFacebookTest extends TestCase
 	 *
 	 * @access protected
 	 * 
-	 * @return   void
+	 * @return  void
+	 * 
+	 * @since   12.1
 	 */
 	protected function setUp()
 	{
@@ -53,7 +61,9 @@ class JFacebookTest extends TestCase
 	 *
 	 * @access protected
 	 * 
-	 * @return   void
+	 * @return  void
+	 * 
+	 * @since   12.1
 	 */
 	protected function tearDown()
 	{
@@ -62,7 +72,9 @@ class JFacebookTest extends TestCase
 	/**
 	 * Tests the magic __get method - friends
 	 * 
-	 * @return   void
+	 * @return  void
+	 * 
+	 * @since   12.1
 	 */
 	public function test__GetFriends()
 	{
@@ -75,7 +87,9 @@ class JFacebookTest extends TestCase
 	/**
 	 * Tests the setOption method
 	 * 
-	 * @return   void
+	 * @return  void
+	 * 
+	 * @since   12.1
 	 */
 	public function testSetOption()
 	{
@@ -90,7 +104,9 @@ class JFacebookTest extends TestCase
 	/**
 	 * Tests the getOption method
 	 * 
-	 * @return   void
+	 * @return  void
+	 * 
+	 * @since   12.1
 	 */
 	public function testGetOption()
 	{

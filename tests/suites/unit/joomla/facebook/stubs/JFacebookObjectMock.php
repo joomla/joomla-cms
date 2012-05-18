@@ -1,8 +1,16 @@
 <?php
+/**
+ * @package     Joomla.UnitTest
+ * @subpackage  Facebook
+ * 
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
+ */
 
 /**
  * @package     Joomla.UnitTest
  * @subpackage  Facebook
+ * @since       12.1
  */
 class JFacebookObjectMock extends JFacebookObject
 {
@@ -16,6 +24,8 @@ class JFacebookObjectMock extends JFacebookObject
 	 * @param   integer  $limit  Number of results to return per page
 	 *
 	 * @return  string   The request URL.
+	 * 
+	 * @since   12.1
 	 */
 	public function fetchUrl($path, $page = 0, $limit = 0)
 	{

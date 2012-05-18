@@ -2,6 +2,9 @@
 /**
  * @package     Joomla.UnitTest
  * @subpackage  Facebook
+ * 
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 require_once JPATH_PLATFORM . '/joomla/facebook/http.php';
@@ -10,22 +13,29 @@ require_once __DIR__ . '/stubs/JFacebookObjectMock.php';
 
 /**
  * Test class for JFacebook.
+ * 
+ * @package     Joomla.Platform
+ * @subpackage  Facebook
+ * 
+ * @since       12.1
  */
-
 class JFacebookObjectTest extends TestCase
 {
 	/**
 	 * @var    JRegistry  Options for the Facebook object.
+	 * @since  12.1
 	 */
 	protected $options;
 
 	/**
 	 * @var    JFacebookHttp  Mock client object.
+	 * @since  12.1
 	 */
 	protected $client;
 
 	/**
 	 * @var    JFacebookObjectMock  Object under test.
+	 * @since  12.1
 	 */
 	protected $object;
 
@@ -36,6 +46,8 @@ class JFacebookObjectTest extends TestCase
 	 * @access protected
 	 * 
 	 * @return   void
+	 * 
+	 * @since    12.1
 	 */
 	protected function setUp()
 	{
@@ -52,6 +64,8 @@ class JFacebookObjectTest extends TestCase
 	 * @access protected
 	 * 
 	 * @return   void
+	 * 
+	 * @since    12.1
 	 */
 	protected function tearDown()
 	{
@@ -63,6 +77,8 @@ class JFacebookObjectTest extends TestCase
 	 * @todo Implement testFetchUrl().
 	 * 
 	 * @return  void
+	 * 
+	 * @since    12.1
 	 */
 	public function testFetchUrl()
 	{
@@ -74,6 +90,8 @@ class JFacebookObjectTest extends TestCase
 	 * Tests the sendRequest method.
 	 *
 	 * @return  void
+	 * 
+	 * @since    12.1
 	 */
 	public function testSendRequest()
 	{
