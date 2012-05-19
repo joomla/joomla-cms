@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+19-May-2012 Jean-Marie Simonet
+ # [#28419] Remove warnings for undeprecated code. Fix a bug in JView in the process. Thanks Rouven.
+
 18-May-2012 Jean-Marie Simonet
  + Adding Laotian lo.gif flag to media/mod_languages
 

@@ -24,15 +24,6 @@ class JComponentHelper
 	 * @var    array
 	 * @since  11.1
 	 */
-	protected static $components = array();
-
-	/**
-	 * The component list cache
-	 *
-	 * @var    array
-	 * @since  11.1
-	 * @deprecated use $components declare as private
-	 */
 	protected static $_components = array();
 
 	/**
