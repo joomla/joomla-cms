@@ -137,9 +137,9 @@ class JDatabaseQueryElement
  * @subpackage  Database
  * @since       11.1
  *
- * @method      string  q()   q($text, $escape)  Alias for quote method
- * @method      string  qn()  qs($name, $as)     Alias for quoteName method
- * @method      string  e()   e($text, $extra)   Alias for escape method
+ * @method      string  q()   q($text, $escape = true)  Alias for quote method
+ * @method      string  qn()  qs($name, $as = null)     Alias for quoteName method
+ * @method      string  e()   e($text, $extra = false)   Alias for escape method
  */
 abstract class JDatabaseQuery
 {
