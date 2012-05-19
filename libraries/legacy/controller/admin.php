@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Platform
- * @subpackage  Application
+ * @subpackage  Controller
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * functionality, such as rendering views (aka displaying templates).
  *
  * @package     Joomla.Platform
- * @subpackage  Application
+ * @subpackage  Controller
  * @since       11.1
  */
 class JControllerAdmin extends JController
