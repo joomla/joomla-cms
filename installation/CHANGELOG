@@ -28,7 +28,8 @@ $ -> Language fix or change
 
 20-May-2012 Jean-Marie Simonet
  # [#28546] Trunk is broken due to a PHP error in JComponentHelper
- # [#28521] Use doExecute instead of execute in CLI scripts. Thanks Rouven.
+ # [#28521] Use doExecute instead of execute in CLI scripts. Thanks Michael.
+ $ Updating installation ini files: az-AZ, tr-TR, zh-TW
 
 19-May-2012 Jean-Marie Simonet
  # [#28419] Remove warnings for undeprecated code. Fix a bug in JView in the process. Thanks Rouven.
