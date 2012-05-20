@@ -24,7 +24,7 @@ class JComponentHelper
 	 * @var    array
 	 * @since  11.1
 	 */
-	protected static $_components = array();
+	protected static $components = array();
 
 	/**
 	 * Get the component information.
@@ -383,7 +383,7 @@ class JComponentHelper
 	}
 
 	/**
-	 * Load the installed components into the _components property.
+	 * Load the installed components into the components property.
 	 *
 	 * @param   string  $option  The element value for the extension
 	 *
