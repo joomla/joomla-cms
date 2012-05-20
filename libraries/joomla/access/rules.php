@@ -237,6 +237,7 @@ class JRules extends JAccessRules
 	 * @param   mixed  $input  A JSON format string (probably from the database) or a nested array.
 	 *
 	 * @since   11.1
+	 * @deprecated  12.3
 	 */
 	public function __construct($input = '')
 	{
