@@ -59,7 +59,7 @@ class Updatecron extends JApplicationCli
 	 *
 	 * @since   2.5
 	 */
-	public function execute()
+	public function doExecute()
 	{
 		// Purge all old records
 		$db = JFactory::getDBO();
