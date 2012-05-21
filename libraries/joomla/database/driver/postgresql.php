@@ -354,7 +354,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 				LEFT JOIN pg_catalog.pg_attrdef adef ON a.attrelid=adef.adrelid AND a.attnum=adef.adnum
 				LEFT JOIN pg_catalog.pg_type t ON a.atttypid=t.oid
 				WHERE a.attrelid =
-					(SELECT oid FROM pg_catalog.pg_class WHERE relname=' . $this->quote($table) . '
+					(SELECT oid FROM pg_catalog.pg_class WHERE relname=' . $this->quote($tableSub) . '
 						AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE
 						nspname = \'public\')
 					)
@@ -785,6 +785,53 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	}
 
 	/**
+	 * This function return a field value as a prepared string to be used in a SQL statement.
+	 *
+	 * @param   array   $columns      Array of table's column returned by ::getTableColumns.
+	 * @param   string  $field_name   The table field's name.
+	 * @param   string  $field_value  The variable value to quote and return.
+	 * 
+	 * @return  string  The quoted string.
+	 *
+	 * @since   11.3
+	 */
+	public function sqlValue($columns, $field_name, $field_value)
+	{
+		switch ($columns[$field_name])
+		{
+			case 'boolean':
+				if ($field_value == 't')
+				{
+					$field_value = true;
+				}
+				$val = is_bool($field_value) ? ( $field_value ? 'TRUE' : 'FALSE' ) : 'NULL';
+				break;
+			case 'bigint':
+			case 'bigserial':
+			case 'integer':
+			case 'money':
+			case 'numeric':
+			case 'real':
+			case 'smallint':
+			case 'serial':
+			//case 'character varying':
+				$val = strlen($field_value) == 0 ? 'NULL' : $field_value;
+				break;
+			case 'date':
+			case 'timestamp without time zone':
+				if (empty($field_value))
+				{
+					$field_value = $this->getNullDate();
+				}
+			default:
+				$val = $this->quote($field_value);
+				break;
+		}
+
+		return $val;
+	}
+
+	/**
 	 * Method to commit a transaction.
 	 *
 	 * @return  void
@@ -910,9 +957,9 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 */
 	public function insertObject($table, &$object, $key = null)
 	{
-		$this->connect();
-
 		// Initialise variables.
+		$columns = $this->getTableColumns($table);
+
 		$fields = array();
 		$values = array();
 
@@ -933,7 +980,8 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 
 			// Prepare and sanitize the fields and values for the database query.
 			$fields[] = $this->quoteName($k);
-			$values[] = is_numeric($v) ? $v : $this->quote($v);
+			//$values[] = is_numeric($v) ? $v : $this->quote($v);
+			$values[] = $this->sqlValue($columns, $k, $v);
 		}
 
 		// Create the base insert statement.
@@ -1214,9 +1262,8 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 */
 	public function updateObject($table, &$object, $key, $nulls = false)
 	{
-		$this->connect();
-
 		// Initialise variables.
+		$columns = $this->getTableColumns($table);
 		$fields = array();
 		$where = '';
 
@@ -1237,7 +1284,9 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 			// Set the primary key to the WHERE clause instead of a field to update.
 			if ($k == $key)
 			{
-				$where = $this->quoteName($k) . '=' . (is_numeric($v) ? $v : $this->quote($v));
+				//$where = $this->quoteName($k) . '=' . (is_numeric($v) ? $v : $this->quote($v));
+				$key_val = $this->sqlValue($columns, $k, $v);
+				$where = $this->quoteName($k) . '=' . $key_val;
 				continue;
 			}
 
@@ -1258,7 +1307,8 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 			// The field is not null so we prep it for update.
 			else
 			{
-				$val = (is_numeric($v) ? $v : $this->quote($v));
+				//$val = (is_numeric($v) ? $v : $this->quote($v));
+				$val = $this->sqlValue($columns, $k, $v);
 			}
 
 			// Add the field to be updated.

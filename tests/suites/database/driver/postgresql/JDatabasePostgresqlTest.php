@@ -580,7 +580,7 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 		$tstK->title = "PostgreSQL test insertObject with key";
 		$tstK->start_date = '2012-04-07 15:00:00';
 		$tstK->description = "Test insertObject with key";
-		$retK = self::$driver->insertObject('#__dbtest', $tstK, 'id');
+		$retK = self::$driver->insertObject('jos_dbtest', $tstK, 'id');
 
 		$this->assertThat($tstK->id, $this->equalTo(2), __LINE__);
 		$this->assertThat($retK, $this->equalTo(true), __LINE__);
@@ -1028,6 +1028,37 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 	{
 		/* it's not possible to select a database, already done during connection, return true */
 		$this->assertThat(self::$driver->select('database'), $this->isTrue(), __LINE__);
+	}
+
+	/**
+	 * Tests the JDatabasePostgresql sqlValue method.
+	 *
+	 * @return  void
+	 *
+	 * @since 12.2
+	 */
+	public function testSqlValue()
+	{
+		$tablCol = self::$driver->getTableColumns('#__dbtest');
+
+		$values = array();
+
+		// Object containing fields of integer, character varying, timestamp and text type
+		$tst = new JObject;
+		$tst->title = "PostgreSQL test insertObject";
+		$tst->start_date = '2012-04-07 15:00:00';
+		$tst->description = "Test insertObject";
+
+		foreach (get_object_vars($tst) as $key => $val)
+		{
+			$values[] = self::$driver->sqlValue($tablCol, $key, $val);
+		}
+
+		$this->assertThat(
+			implode(',', $values),
+			$this->equalTo("'PostgreSQL test insertObject','2012-04-07 15:00:00','Test insertObject'"),
+			__LINE__
+		);
 	}
 
 	/**
