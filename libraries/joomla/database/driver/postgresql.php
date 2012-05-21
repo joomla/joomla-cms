@@ -814,7 +814,6 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 			case 'real':
 			case 'smallint':
 			case 'serial':
-			//case 'character varying':
 				$val = strlen($field_value) == 0 ? 'NULL' : $field_value;
 				break;
 			case 'date':
@@ -980,7 +979,6 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 
 			// Prepare and sanitize the fields and values for the database query.
 			$fields[] = $this->quoteName($k);
-			//$values[] = is_numeric($v) ? $v : $this->quote($v);
 			$values[] = $this->sqlValue($columns, $k, $v);
 		}
 
@@ -1284,7 +1282,6 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 			// Set the primary key to the WHERE clause instead of a field to update.
 			if ($k == $key)
 			{
-				//$where = $this->quoteName($k) . '=' . (is_numeric($v) ? $v : $this->quote($v));
 				$key_val = $this->sqlValue($columns, $k, $v);
 				$where = $this->quoteName($k) . '=' . $key_val;
 				continue;
@@ -1307,7 +1304,6 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 			// The field is not null so we prep it for update.
 			else
 			{
-				//$val = (is_numeric($v) ? $v : $this->quote($v));
 				$val = $this->sqlValue($columns, $k, $v);
 			}
 
