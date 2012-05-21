@@ -1199,7 +1199,7 @@ CREATE TABLE `#__menu_types` (
   UNIQUE `idx_menutype` (`menutype`)
 )  DEFAULT CHARSET=utf8;
 
-INSERT INTO `#__menu_types` VALUES (1, 'mainmenu', 'Main Menu', 'The main menu for the site');
+INSERT INTO `#__menu_types` VALUES (1, 0, 'mainmenu', 'Main Menu', 'The main menu for the site');
 
 # -------------------------------------------------------
 
