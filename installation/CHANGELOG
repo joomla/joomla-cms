@@ -27,7 +27,7 @@ $ -> Language fix or change
 ! -> Note
 
 21-May-2012 Jean-Marie Simonet
- # [#21946] Reverting [#21700]
+ # [#21946] Reverting [#27700]
  ^ [#28553] Improve code for 28205. Thanks Rouven.
 
 20-May-2012 Jean-Marie Simonet
