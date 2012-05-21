@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+21-May-2012 Jean-Marie Simonet
+ # [#21946] Reverting [#21700]
+
 20-May-2012 Jean-Marie Simonet
  # [#28546] Trunk is broken due to a PHP error in JComponentHelper
  # [#28521] Use doExecute instead of execute in CLI scripts. Thanks Michael.
