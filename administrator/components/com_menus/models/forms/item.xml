@@ -215,4 +215,18 @@
 
 	<fields name="params">
 	</fields>
+
+	<field name="asset_id" type="hidden" filter="unset" />
+
+	<field
+		id="rules"
+		name="rules"
+		type="rules"
+		label="JFIELD_RULES_LABEL"
+		translate_label="false"
+		filter="rules"
+		validate="rules"
+		class="inputbox"
+		component="com_menus"
+		section="item"/>
 </form>

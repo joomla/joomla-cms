@@ -51,7 +51,7 @@ class MenusViewMenus extends JView
 	{
 		require_once JPATH_COMPONENT.'/helpers/menus.php';
 
-		$canDo	= MenusHelper::getActions($this->state->get('filter.parent_id'));
+		$canDo	= MenusHelper::getActions();
 
 		JToolBarHelper::title(JText::_('COM_MENUS_VIEW_MENUS_TITLE'), 'menumgr.png');
 

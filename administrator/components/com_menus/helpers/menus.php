@@ -48,19 +48,23 @@ class MenusHelper
 	 * @return	JObject
 	 * @since	1.6
 	 */
-	public static function getActions($parentId = 0)
+	public static function getActions($menuType = 0, $menuId = 0)
 	{
 		$user	= JFactory::getUser();
 		$result	= new JObject;
 
-		if (empty($parentId)) {
+		if (empty($menuId) && empty($menuType)) {
 			$assetName = 'com_menus';
-		} else {
-			$assetName = 'com_menus.item.'.(int) $parentId;
+		}
+		elseif (empty($menuId)) {
+			$assetName = 'com_menus.menu.'.(int) $menuType;
+		}
+		else {
+			$assetName = 'com_menus.item.'.(int) $menuId;
 		}
 
 		$actions = array(
-			'core.admin', 'core.manage', 'core.create', 'core.edit', 'core.edit.state', 'core.delete'
+			'core.admin', 'core.manage', 'core.create', 'core.edit', 'core.edit.own', 'core.edit.state', 'core.delete'
 		);
 
 		foreach ($actions as $action) {
@@ -68,6 +72,38 @@ class MenusHelper
 		}
 
 		return $result;
+	}
+
+	/**
+	 * Gets a menu id from type.
+	 *
+	 * @param	string		The menu id.
+	 *
+	 * @return	int
+	 * @since	2.5
+	 */
+	public static function getMenuIdFromType($menuType)
+	{
+		$db = JFactory::getDbo();
+		$db->setQuery("SELECT * FROM #__menu_types WHERE menutype = '$menuType'");
+                return $db->loadObject()->id;
+	}
+
+	/**
+	 * Gets a menu id from menu item id.
+	 *
+	 * @param	int		The menu item id.
+	 *
+	 * @return	int
+	 * @since	2.5
+	 */
+	public static function getMenuIdFromItem($menuId)
+	{
+		$db = JFactory::getDbo();
+		$db->setQuery("SELECT * FROM #__menu WHERE id = '$menuId'");
+		$menuType = $db->loadObject()->menutype;
+		$db->setQuery("SELECT * FROM #__menu_types WHERE menutype = '$menuType'");
+                return $db->loadObject()->id;
 	}
 
 	/**
