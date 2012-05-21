@@ -580,7 +580,7 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 		$tstK->title = "PostgreSQL test insertObject with key";
 		$tstK->start_date = '2012-04-07 15:00:00';
 		$tstK->description = "Test insertObject with key";
-		$retK = self::$driver->insertObject('jos_dbtest', $tstK, 'id');
+		$retK = self::$driver->insertObject('#__dbtest', $tstK, 'id');
 
 		$this->assertThat($tstK->id, $this->equalTo(2), __LINE__);
 		$this->assertThat($retK, $this->equalTo(true), __LINE__);
@@ -607,7 +607,7 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 	{
 		$query = self::$driver->getQuery(true);
 		$query->select('title');
-		$query->from('jos_dbtest');
+		$query->from('#__dbtest');
 		self::$driver->setQuery($query);
 		$result = self::$driver->loadAssoc();
 
@@ -625,7 +625,7 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 	{
 		$query = self::$driver->getQuery(true);
 		$query->select('title');
-		$query->from('jos_dbtest');
+		$query->from('#__dbtest');
 		self::$driver->setQuery($query);
 		$result = self::$driver->loadAssocList();
 
@@ -649,7 +649,7 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 	{
 		$query = self::$driver->getQuery(true);
 		$query->select('title');
-		$query->from('jos_dbtest');
+		$query->from('#__dbtest');
 		self::$driver->setQuery($query);
 		$result = self::$driver->loadColumn();
 
@@ -669,7 +669,7 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 	{
 		$query = self::$driver->getQuery(true);
 		$query->select('*');
-		$query->from('jos_dbtest');
+		$query->from('#__dbtest');
 		self::$driver->setQuery($query);
 
 		$this->assertThat(self::$driver->loadNextObject(), $this->equalTo($objArr[0]), __LINE__);
@@ -697,7 +697,7 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 	{
 		$query = self::$driver->getQuery(true);
 		$query->select('*');
-		$query->from('jos_dbtest');
+		$query->from('#__dbtest');
 		self::$driver->setQuery($query);
 
 		self::$driver->loadObject();
@@ -727,7 +727,7 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 	{
 		$query = self::$driver->getQuery(true);
 		$query->select('*');
-		$query->from('jos_dbtest');
+		$query->from('#__dbtest');
 		self::$driver->setQuery($query);
 
 		self::$driver->execute();
@@ -757,7 +757,7 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 	{
 		$query = self::$driver->getQuery(true);
 		$query->select('*');
-		$query->from('jos_dbtest');
+		$query->from('#__dbtest');
 		self::$driver->setQuery($query);
 
 		$this->assertThat(self::$driver->loadNextRow(), $this->equalTo($rowArr[0]), __LINE__);
@@ -785,7 +785,7 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 	{
 		$query = self::$driver->getQuery(true);
 		$query->select('*');
-		$query->from('jos_dbtest');
+		$query->from('#__dbtest');
 		self::$driver->setQuery($query);
 
 		self::$driver->execute();
@@ -815,7 +815,7 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 	{
 		$query = self::$driver->getQuery(true);
 		$query->select('*');
-		$query->from('jos_dbtest');
+		$query->from('#__dbtest');
 		self::$driver->setQuery($query);
 
 		self::$driver->loadRow();
@@ -843,7 +843,7 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 	{
 		$query = self::$driver->getQuery(true);
 		$query->select('*');
-		$query->from('jos_dbtest');
+		$query->from('#__dbtest');
 		$query->where('description=' . self::$driver->quote('three'));
 		self::$driver->setQuery($query);
 		$result = self::$driver->loadObject();
@@ -868,7 +868,7 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 	{
 		$query = self::$driver->getQuery(true);
 		$query->select('*');
-		$query->from('jos_dbtest');
+		$query->from('#__dbtest');
 		$query->order('id');
 		self::$driver->setQuery($query);
 		$result = self::$driver->loadObjectList();
@@ -921,7 +921,7 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 	{
 		$query = self::$driver->getQuery(true);
 		$query->select('id');
-		$query->from('jos_dbtest');
+		$query->from('#__dbtest');
 		$query->where('title=' . self::$driver->quote('Testing2'));
 
 		self::$driver->setQuery($query);
@@ -941,7 +941,7 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 	{
 		$query = self::$driver->getQuery(true);
 		$query->select('*');
-		$query->from('jos_dbtest');
+		$query->from('#__dbtest');
 		$query->where('description=' . self::$driver->quote('three'));
 		self::$driver->setQuery($query);
 		$result = self::$driver->loadRow();
@@ -962,7 +962,7 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 	{
 		$query = self::$driver->getQuery(true);
 		$query->select('*');
-		$query->from('jos_dbtest');
+		$query->from('#__dbtest');
 		$query->where('description=' . self::$driver->quote('one'));
 		self::$driver->setQuery($query);
 		$result = self::$driver->loadRowList();
@@ -984,12 +984,12 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 		/* REPLACE is not present in PostgreSQL */
 		$query = self::$driver->getQuery(true);
 		$query->delete();
-		$query->from('jos_dbtest')->where('id=5');
+		$query->from('#__dbtest')->where('id=5');
 		self::$driver->setQuery($query);
 		$result = self::$driver->execute();
 
 		$query = self::$driver->getQuery(true);
-		$query->insert('jos_dbtest')
+		$query->insert('#__dbtest')
 			->columns('id,title,start_date, description')
 			->values("5, 'testTitle','1970-01-01','testDescription'")
 			->returning('id');
@@ -1106,7 +1106,7 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 	{
 		self::$driver->transactionStart();
 		$queryIns = self::$driver->getQuery(true);
-		$queryIns->insert('jos_dbtest')
+		$queryIns->insert('#__dbtest')
 			->columns('id,title,start_date,description')
 			->values("6, 'testTitle','1970-01-01','testDescription'");
 
@@ -1118,7 +1118,7 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 		/* check if value is present */
 		$queryCheck = self::$driver->getQuery(true);
 		$queryCheck->select('*')
-			->from('jos_dbtest')
+			->from('#__dbtest')
 			->where('id=6');
 		self::$driver->setQuery($queryCheck);
 		$result = self::$driver->loadRow();
@@ -1146,7 +1146,7 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 
 		/* try to insert this tuple, inserted only when savepoint != null */
 		$queryIns = self::$driver->getQuery(true);
-		$queryIns->insert('jos_dbtest')
+		$queryIns->insert('#__dbtest')
 			->columns('id,title,start_date,description')
 			->values("7, 'testRollback','1970-01-01','testRollbackSp'");
 		self::$driver->setQuery($queryIns);
@@ -1160,7 +1160,7 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 
 		/* try to insert this tuple, always rolled back */
 		$queryIns = self::$driver->getQuery(true);
-		$queryIns->insert('jos_dbtest')
+		$queryIns->insert('#__dbtest')
 			->columns('id,title,start_date,description')
 			->values("8, 'testRollback','1972-01-01','testRollbackSp'");
 		self::$driver->setQuery($queryIns);
@@ -1181,7 +1181,7 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 		 */
 		$queryCheck = self::$driver->getQuery(true);
 		$queryCheck->select('*')
-			->from('jos_dbtest')
+			->from('#__dbtest')
 			->where("description='testRollbackSp'");
 		self::$driver->setQuery($queryCheck);
 		$result = self::$driver->loadRowList();
@@ -1201,7 +1201,7 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 		self::$driver->transactionRollback();
 		self::$driver->transactionStart();
 		$queryIns = self::$driver->getQuery(true);
-		$queryIns->insert('jos_dbtest')
+		$queryIns->insert('#__dbtest')
 			->columns('id,title,start_date,description')
 			->values("6, 'testTitle','1970-01-01','testDescription'");
 
