@@ -353,29 +353,48 @@ class JSession implements IteratorAggregate
 	 */
 	public static function getStores()
 	{
-		jimport('joomla.filesystem.folder');
-		$handlers = JFolder::files(__DIR__ . '/storage', '.php$');
+		$connectors = array();
+
+		// Get an iterator and loop trough the driver classes.
+		$iterator = new DirectoryIterator(__DIR__ . '/storage');
 
 		$names = array();
-		foreach ($handlers as $handler)
+		foreach ($iterator as $file)
 		{
-			$name = substr($handler, 0, strrpos($handler, '.'));
-			$class = 'JSessionStorage' . ucfirst($name);
+			$fileName = $file->getFilename();
 
-			// Load the class only if needed
-			if (!class_exists($class))
+			// Only load for php files.
+			// Note: DirectoryIterator::getExtension only available PHP >= 5.3.6
+			if (!$file->isFile() || substr($fileName, strrpos($fileName, '.') + 1) != 'php')
 			{
-				require_once __DIR__ . '/storage/' . $name . '.php';
+				continue;
 			}
 
+			// Derive the class name from the type.
+			$class = str_ireplace('.php', '', 'JSessionStorage' . ucfirst(trim($fileName)));
+
+			// If the class doesn't exist we have nothing left to do but look at the next type. We did our best.
+			if (!class_exists($class))
+			{
+				continue;
+			}
+
+			// If the class doesn't exist we have nothing left to do but look at the next type. We did our best.
+			if (!class_exists($class))
+			{
+				continue;
+			}
+
+			// Sweet!  Our class exists, so now we just need to know if it passes its test method.
 			// @deprecated 12.3 Stop checking with test()
 			if ($class::isSupported() || $class::test())
 			{
-				$names[] = $name;
+				// Connector names should not have file extensions.
+				$connectors[] = str_ireplace('.php', '', $fileName);
 			}
 		}
 
-		return $names;
+		return $connectors;
 	}
 
 	/**
