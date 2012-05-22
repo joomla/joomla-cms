@@ -31,8 +31,8 @@ class MenusViewItem extends JView
 		$this->item		= $this->get('Item');
 		$this->modules	= $this->get('Modules');
 		$this->state	= $this->get('State');
-		$canDo		= $this->canDo;
-		$canDoAlso	= $this->canDoAlso;
+		$this->canDo		= MenusHelper::getActions('', $this->state->get('item.id'));
+		$this->canDoAlso	= MenusHelper::getActions(MenusHelper::getMenuIdFromItem($this->state->get('item.id')));
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {

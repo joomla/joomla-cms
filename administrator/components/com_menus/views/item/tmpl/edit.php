@@ -144,6 +144,8 @@ JHtml::_('behavior.modal');
 
 	<?php echo JHtml::_('sliders.end'); ?>
 
+</div>
+
 	<?php if ($this->canDo->get('core.admin')): ?>
 		<div class="width-100 fltlft">
 			<?php echo JHtml::_('sliders.start', 'permissions-sliders-'.$this->item->id, array('useCookie'=>1)); ?>
