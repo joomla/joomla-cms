@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Joomla.Platform
+ * @package     Joomla.Libraries
  * @subpackage  Form
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
@@ -16,18 +16,17 @@ JFormHelper::loadFieldClass('list');
  * Form Field class for the Joomla Platform.
  * Provides a select list of help sites.
  *
- * @package     Joomla.Platform
+ * @package     Joomla.Libraries
  * @subpackage  Form
- * @since       11.1
+ * @since       1.6.0
  */
 class JFormFieldHelpsite extends JFormFieldList
 {
-
 	/**
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.6.0
 	 */
 	public $type = 'Helpsite';
 
@@ -36,7 +35,7 @@ class JFormFieldHelpsite extends JFormFieldList
 	 *
 	 * @return  array  The field option objects.
 	 *
-	 * @since   11.1
+	 * @since   1.6.0
 	 */
 	protected function getOptions()
 	{

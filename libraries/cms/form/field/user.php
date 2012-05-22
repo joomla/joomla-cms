@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Joomla.Platform
+ * @package     Joomla.Libraries
  * @subpackage  Form
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
@@ -12,9 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Field to select a user id from a modal list.
  *
- * @package     Joomla.Platform
+ * @package     Joomla.Libraries
  * @subpackage  Form
- * @since       11.1
+ * @since       1.6.0
  */
 class JFormFieldUser extends JFormField
 {
@@ -22,7 +22,7 @@ class JFormFieldUser extends JFormField
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.6.0
 	 */
 	public $type = 'User';
 
@@ -31,7 +31,7 @@ class JFormFieldUser extends JFormField
 	 *
 	 * @return  string  The field input markup.
 	 *
-	 * @since   11.1
+	 * @since   1.6.0
 	 */
 	protected function getInput()
 	{
@@ -108,7 +108,7 @@ class JFormFieldUser extends JFormField
 	 *
 	 * @return  mixed  array of filtering groups or null.
 	 *
-	 * @since   11.1
+	 * @since   1.6.0
 	 */
 	protected function getGroups()
 	{
@@ -120,7 +120,7 @@ class JFormFieldUser extends JFormField
 	 *
 	 * @return  mixed  Array of users to exclude or null to to not exclude them
 	 *
-	 * @since   11.1
+	 * @since   1.6.0
 	 */
 	protected function getExcluded()
 	{
