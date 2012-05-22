@@ -1039,15 +1039,32 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 	 */
 	public function testSqlValue()
 	{
-		$tablCol = self::$driver->getTableColumns('#__dbtest');
+		// Array of columns' description as that returned by getTableColumns
+		$tablCol = array(
+			'id' => 'integer',
+			'charVar' => 'character varying',
+			'timeStamp' => 'timestamp without time zone',
+			'nullDate' => 'timestamp without time zone',
+			'txt' => 'text',
+			'boolTrue' => 'boolean',
+			'boolFalse' => 'boolean',
+			'num' => 'numeric,',
+			'nullInt' => 'integer'
+		);
 
 		$values = array();
 
 		// Object containing fields of integer, character varying, timestamp and text type
 		$tst = new JObject;
-		$tst->title = "PostgreSQL test insertObject";
-		$tst->start_date = '2012-04-07 15:00:00';
-		$tst->description = "Test insertObject";
+		$tst->id = '5';
+		$tst->charVar = "PostgreSQL test insertObject";
+		$tst->timeStamp = '2012-04-07 15:00:00';
+		$tst->nullDate = null;
+		$tst->txt = "Test insertObject";
+		$tst->boolTrue = 't';
+		$tst->boolFalse = 'f';
+		$tst->num = '43.2';
+		$tst->nullInt = '';
 
 		foreach (get_object_vars($tst) as $key => $val)
 		{
@@ -1056,7 +1073,9 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 
 		$this->assertThat(
 			implode(',', $values),
-			$this->equalTo("'PostgreSQL test insertObject','2012-04-07 15:00:00','Test insertObject'"),
+			$this->equalTo(
+				"5,'PostgreSQL test insertObject','2012-04-07 15:00:00','1970-01-01 00:00:00','Test insertObject',TRUE,FALSE,43.2,NULL"
+			),
 			__LINE__
 		);
 	}

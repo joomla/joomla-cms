@@ -800,11 +800,15 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		switch ($columns[$field_name])
 		{
 			case 'boolean':
+				$val = 'NULL';
 				if ($field_value == 't')
 				{
-					$field_value = true;
+					$val = 'TRUE';
 				}
-				$val = is_bool($field_value) ? ( $field_value ? 'TRUE' : 'FALSE' ) : 'NULL';
+				elseif ($field_value == 'f')
+				{
+					$val = 'FALSE';
+				}
 				break;
 			case 'bigint':
 			case 'bigserial':
@@ -814,6 +818,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 			case 'real':
 			case 'smallint':
 			case 'serial':
+			case 'numeric,':
 				$val = strlen($field_value) == 0 ? 'NULL' : $field_value;
 				break;
 			case 'date':
