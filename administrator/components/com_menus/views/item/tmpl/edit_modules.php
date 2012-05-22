@@ -7,9 +7,20 @@
  */
 
 defined('_JEXEC') or die;
+
+JHtml::_('behavior.framework', true);
 ?>
+	<script type="text/javascript">
+	// Hide/show all rows which are not assigned.
+	window.addEvent('domready', function() {
+		document.id('showmods').addEvent('click', function(e) {
+			$$('.adminlist tr.no').toggle();
+		});
+	});
+	</script>
+
 	<label style="margin-right: 5px;" for="showmods"><?php echo JText::_('COM_MENUS_ITEM_FIELD_HIDE_UNASSIGNED');?></label>
-	<input type="checkbox" id="showmods"></input>
+	<input type="checkbox" id="showmods" />
 	<table class="adminlist">
 		<thead>
 		<tr>

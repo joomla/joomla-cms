@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 
 // Load the tooltip behavior.
+JHtml::_('behavior.framework');
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
 JHtml::_('behavior.modal');
@@ -42,20 +43,6 @@ $canDo = MenusHelper::getActions();
 			});
 		}
 	}
-</script>
-<script type="text/javascript">
-	//Hide/show all rows which are not assigned.
-	window.addEvent('domready', function(){
-	//	$$('.adminlist tr.no').hide();
-		document.id('showmods').addEvent('click', function(e) {
-		//	e.preventDefault();
-			if ($$('.adminlist tr.no').getStyle('display')[0] == 'none') {
-				$$('.adminlist tr.no').show();
-			} else {
-				$$('.adminlist tr.no').hide();
-			}
-		});
-	});
 </script>
 
 <div class="menuitem-edit">
