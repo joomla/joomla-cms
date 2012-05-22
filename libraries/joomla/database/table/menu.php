@@ -77,8 +77,6 @@ class JTableMenu extends JTableNested
 		// Initialise variables.
 		$assetId = null;
 
-		die(print_r($this));
-
 		// Return the asset id.
 		if ($assetId)
 		{
