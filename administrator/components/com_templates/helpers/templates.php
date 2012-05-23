@@ -45,12 +45,10 @@ class TemplatesHelper
 		$user	= JFactory::getUser();
 		$result	= new JObject;
 
-		$actions = array(
-			'core.admin', 'core.manage', 'core.create', 'core.edit', 'core.edit.state', 'core.delete'
-		);
+		$actions = JAccess::getActions('com_templates');
 
 		foreach ($actions as $action) {
-			$result->set($action, $user->authorise($action, 'com_templates'));
+			$result->set($action->name, $user->authorise($action->name, 'com_templates'));
 		}
 
 		return $result;
