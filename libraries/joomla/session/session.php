@@ -23,7 +23,6 @@ defined('JPATH_PLATFORM') or die;
  */
 class JSession extends JObject
 {
-
 	/**
 	 * Internal state.
 	 * One of 'active'|'expired'|'destroyed'|'error'
@@ -95,7 +94,7 @@ class JSession extends JObject
 			session_destroy();
 		}
 
-		// Set default sessios save handler
+		// Set default session save handler
 		ini_set('session.save_handler', 'files');
 
 		// Disable transparent sid support

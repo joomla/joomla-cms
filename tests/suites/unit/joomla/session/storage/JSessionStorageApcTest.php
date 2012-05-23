@@ -42,24 +42,6 @@ class JSessionStorageApcTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-     * @todo Implement testOpen().
-     */
-	public function testOpen()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
-     * @todo Implement testClose().
-     */
-	public function testClose()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
      * @todo Implement testRead().
      */
 	public function testRead()
@@ -81,15 +63,6 @@ class JSessionStorageApcTest extends PHPUnit_Framework_TestCase
      * @todo Implement testDestroy().
      */
 	public function testDestroy()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
-     * @todo Implement testGc().
-     */
-	public function testGc()
 	{
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete('This test has not been implemented yet.');
