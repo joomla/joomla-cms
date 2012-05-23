@@ -56,9 +56,39 @@ class ContentViewCategory extends JView
 			$item->title		= $title;
 			$item->link			= $link;
 			$item->description	= $description;
-			$item->date			= $date;
-			$item->category		= $row->category_title;
 
+			/* 
+			 * Add readmore to introtext
+			 * 
+			 * @TODO	- Language tag for readmore
+						- Option in Joomla core to allow users to include readmore in feed-items
+			  			- $row->fulltext fix
+			 */
+			
+			// check if introtext is shown, else don't show readmore link (fulltext won't need readmore)
+			if (!$params->get('feed_summary', 0)
+				//&& ($params->get('feed_showreadmore', 0) // @TODO parameter not yet available
+				) {
+				
+				// get row fulltext
+				// temporarily solved this way because $row->fulltext isn't working, because fulltext is protected in MySQL. 
+				// The `` are missing somewhere in a model I think, perhaps in /public_html/components/com_content/models/article.php
+				// add it with function $db->quoteName('fulltext')
+				$query = "SELECT `fulltext` FROM #__content WHERE id =".$row->id.";";
+				$db =& JFactory::getDBO();
+				$db->setQuery($query);
+				$fulltext = $db->loadResult();
+				
+				// add readmore link
+				if ($fulltext != '') {
+				//if ($row->fulltext != '') { // delete comment and the line above, when $row->fulltext works
+					$item->description .= '<br /><a class="rss-readmore" target="_blank" href ="'.rtrim(JURI::base(), "/").str_replace(' ', '%20', $item->link).'">Read more »</a>';
+				}
+			}
+			//$item->description = $row->fulltext; //only for $row->fulltext testing
+
+			$item->date		= $date;
+			$item->category		= $row->category_title;
 			$item->author		= $author;
 			if ($feedEmail == 'site') {
 				$item->authorEmail = $siteEmail;
