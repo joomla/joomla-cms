@@ -978,8 +978,9 @@ class JApplication extends JApplicationBase
 		}
 
 		// Check to see the the session already exists.
-		if (($this->getCfg('session_handler') != 'database' && ($time % 2 || $session->isNew()))
-			|| ($this->getCfg('session_handler') == 'database' && $session->isNew()))
+		$handler = $this->getCfg('session_handler');
+		if (($handler != 'database' && ($time % 2 || $session->isNew()))
+			|| ($handler == 'database' && $session->isNew()))
 		{
 			$this->checkSession();
 		}
@@ -1038,9 +1039,13 @@ class JApplication extends JApplicationBase
 			}
 
 			// If the insert failed, exit the application.
-			if (!$db->execute())
+			try
 			{
-				jexit($db->getErrorMSG());
+				$db->execute()
+			}
+			catch (RuntimeException $e)
+			{
+				jexit($e->getMessage());
 			}
 
 			// Session doesn't exist yet, so create session variables
