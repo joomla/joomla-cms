@@ -21,7 +21,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Session
  * @since       11.1
  */
-class JSession
+class JSession implements IteratorAggregate
 {
 	/**
 	 * Internal state.
@@ -263,6 +263,18 @@ class JSession
 	}
 
 	/**
+	 * Retrieve an external iterator.
+	 *
+	 * @return  ArrayIterator  Return an ArrayIterator of $_SESSION.
+	 *
+	 * @since   12.2
+	 */
+	public function getIterator()
+	{
+		return new ArrayIterator($_SESSION);
+	}
+
+	/**
 	 * Checks for a form token in the request.
 	 *
 	 * Use in conjunction with JHtml::_('form.token') or JSession::getFormToken.
@@ -271,7 +283,7 @@ class JSession
 	 *
 	 * @return  boolean  True if found and valid, false otherwise.
 	 *
-	 * @since       12.1
+	 * @since   12.1
 	 */
 	public static function checkToken($method = 'post')
 	{
