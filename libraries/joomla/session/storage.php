@@ -18,7 +18,7 @@ defined('JPATH_PLATFORM') or die;
  * @todo        When dropping compatibility with PHP 5.3 use the SessionHandlerInterface and the SessionHandler class
  * @since       11.1
  */
-abstract class JSessionStorage extends JObject
+abstract class JSessionStorage
 {
 	/**
 	 * @var    array  JSessionStorage instances container.

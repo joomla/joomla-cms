@@ -21,7 +21,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Session
  * @since       11.1
  */
-class JSession extends JObject
+class JSession
 {
 	/**
 	 * Internal state.
