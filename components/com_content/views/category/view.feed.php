@@ -20,8 +20,7 @@ class ContentViewCategory extends JView
 {
 	function display()
 	{
-		$app = JFactory::getApplication();
-
+		$app 		= JFactory::getApplication();
 		$doc		= JFactory::getDocument();
 		$params 	= $app->getParams();
 		$feedEmail	= (@$app->getCfg('feed_email')) ? $app->getCfg('feed_email') : 'author';
@@ -46,9 +45,11 @@ class ContentViewCategory extends JView
 			// Url link to article
 			$link = JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid));
 
-			// Get row fulltext
+			// Get $row->fulltext
 			$db 				=& JFactory::getDBO();
-			$query 				= "SELECT `fulltext` FROM #__content WHERE id =".$row->id.";";
+			$query 				=  'SELECT '.$db->nameQuote('fulltext')
+								 .' FROM '  .$db->nameQuote('#__content') 
+								 .' WHERE id ='.$row->id.';';
 			$db->setQuery($query);
 			$row->fulltext 		= $db->loadResult();
 
