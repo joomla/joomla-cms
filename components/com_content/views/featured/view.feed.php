@@ -54,7 +54,7 @@ class ContentViewFeatured extends JView
 			$row->fulltext 		= $db->loadResult();
 
 			// Get description and author
-			$description	= ($params->get('feed_summary', 0) ? $row->introtext/*.$row->fulltext*/ : $row->introtext);
+			$description	= ($params->get('feed_summary', 0) ? $row->introtext.$row->fulltext : $row->introtext);
 			// TODO(?): if created_by_alias is empty, it won't show anything
 			$author			= $row->created_by_alias ? $row->created_by_alias : $row->author;
 
