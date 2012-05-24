@@ -70,7 +70,7 @@ class ContentViewCategory extends JView
 			$item->description	= $description;
 
 			// add readmore to description if introtext is shown and showreadmore is true
-			if (!$params->get('feed_summary', 0) && ($params->get('feed_show_readmore', 0))) { 
+			if (!$params->get('feed_summary', 0) && $params->get('feed_show_readmore', 0)) { 
 				// only show readmore if there is more to read
 				if ($row->fulltext != '') {
 					// add readmore link
