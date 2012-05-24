@@ -75,7 +75,7 @@ class ContentViewCategory extends JView
 				if ($row->fulltext != '') {
 					// add readmore link
 					// TODO: Language tag for readmore
-					$item->description .= '<br /><a class="rss-readmore" target="_blank" href ="'.rtrim(JURI::base(), "/").str_replace(' ', '%20', $item->link).'">Read more »</a>';
+					$item->description .= '<br /><a class="feed-readmore" target="_blank" href ="'.rtrim(JURI::base(), "/").str_replace(' ', '%20', $item->link).'">Read more »</a>';
 				}
 			}
 
