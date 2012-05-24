@@ -809,7 +809,7 @@
 			name="feed_show_readmore"
 			type="radio"
 			label="JGLOBAL_FEED_SHOW_READMORE_LABEL"
-			description="JGLOBAL_FED_SHOW_READMORE_DESC"
+			description="JGLOBAL_FEED_SHOW_READMORE_DESC"
 			default="0">
 			<option
 				value="0">JHIDE</option>
