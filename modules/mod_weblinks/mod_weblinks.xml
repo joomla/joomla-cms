@@ -32,7 +32,7 @@
 					name="catid"
 					type="category"
 					extension="com_weblinks"
-					default="0"
+					required="true"
 					label="JCATEGORY"
 					description="MOD_WEBLINKS_FIELD_CATEGORY_DESC" />
 				<field

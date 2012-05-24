@@ -22,7 +22,7 @@ class JoomlaupdateHelper
 	 * Gets a list of the actions that can be performed.
 	 *
 	 * @return	JObject
-	 * 
+	 *
 	 * @since	2.5.2
 	 */
 	public static function getActions()
@@ -32,13 +32,11 @@ class JoomlaupdateHelper
 
 		$assetName = 'com_joomlaupdate';
 
-		$actions = array(
-			'core.admin', 'core.manage', 'core.edit.state', 'core.delete'
-		);
+		$actions = JAccess::getActions($assetName);
 
 		foreach ($actions as $action)
 		{
-			$result->set($action,	$user->authorise($action, $assetName));
+			$result->set($action->name,	$user->authorise($action->name, $assetName));
 		}
 
 		return $result;
