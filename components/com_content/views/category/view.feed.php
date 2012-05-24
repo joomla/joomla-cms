@@ -67,7 +67,6 @@ class ContentViewCategory extends JView
 			$item->date			= $date;
 			$item->category		= $row->category_title;
 			$item->author		= $author;
-			// TODO: add option in Joomla core to let the authorEmail empty (Feed e-mail:none). Users will love this for spam prevention.
 			$item->authorEmail	= (($feedEmail == 'site') ? $siteEmail : $row->author_email);
 
 			// Add readmore link to description if...
