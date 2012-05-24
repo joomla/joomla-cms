@@ -49,11 +49,6 @@
 			filter="rules"
 			validate="rules"
 			component="com_menus"
-<<<<<<< HEAD
-			section="component"
-			/>
-=======
 			section="component" />
->>>>>>> upstream/master
 	</fieldset>
 </config>
