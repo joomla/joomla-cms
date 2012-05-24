@@ -22,8 +22,9 @@ class JSimplecrypt
 	/**
 	 * Encryption/Decryption Key
 	 *
-	 * @var    JCrypt
-	 * @since  12.1
+	 * @var         JCrypt
+	 * @since       12.1
+	 * @deprecated  12.3  Use JCrypt instead.
 	 */
 	private $_crypt;
 
@@ -31,13 +32,14 @@ class JSimplecrypt
 	 * Object Constructor takes an optional key to be used for encryption/decryption. If no key is given then the
 	 * secret word from the configuration object is used.
 	 *
-	 * @param   string  $privateKey  Optional encryption key
+	 * @param       string  $privateKey  Optional encryption key
 	 *
-	 * @since   11.1
+	 * @since       11.1
+	 * @deprecated  12.3  Use JCrypt instead.
 	 */
 	public function __construct($privateKey = null)
 	{
-		JLog::add('JSimpleCrypt is deprecated.  Use JCrypt instead.', JLog::WARNING, 'deprecated');
+		JLog::add('JSimpleCrypt is deprecated. Use JCrypt instead.', JLog::WARNING, 'deprecated');
 
 		if (empty($privateKey))
 		{
@@ -59,6 +61,7 @@ class JSimplecrypt
 	 * @return  string
 	 *
 	 * @since   11.1
+	 * @deprecated  12.3  Use JCrypt instead.
 	 */
 	public function decrypt($s)
 	{
@@ -73,6 +76,7 @@ class JSimplecrypt
 	 * @return  string
 	 *
 	 * @since   11.1
+	 * @deprecated  12.3  Use JCrypt instead.
 	 */
 	public function encrypt($s)
 	{

@@ -669,9 +669,10 @@ class JApplication extends JApplicationBase
 				if (isset($options['remember']) && $options['remember'])
 				{
 					// Create the encryption key, apply extra hardening using the user agent string.
-					$key = self::getHash(@$_SERVER['HTTP_USER_AGENT']);
+					$privateKey = self::getHash(@$_SERVER['HTTP_USER_AGENT']);
 
-					$crypt = new JSimpleCrypt($key);
+					$key = new JCryptKey('simple', $privateKey, $privateKey);
+					$crypt = new JCrypt(new JCryptCipherSimple, $key);
 					$rcookie = $crypt->encrypt(serialize($credentials));
 					$lifetime = time() + 365 * 24 * 60 * 60;
 

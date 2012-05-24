@@ -23,14 +23,12 @@ class JPathway extends JObject
 	/**
 	 * @var    array  Array to hold the pathway item objects
 	 * @since  11.1
-	 * @deprecated use $pathway declare as private
 	 */
 	protected $_pathway = array();
 
 	/**
 	 * @var    integer  Integer number of items in the pathway
 	 * @since  11.1
-	 * @deprecated use $count declare as private
 	 */
 	protected $_count = 0;
 
