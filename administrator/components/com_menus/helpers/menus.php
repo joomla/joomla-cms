@@ -63,13 +63,7 @@ class MenusHelper
 			$assetName = 'com_menus.item.'.(int) $menuId;
 		}
 
-<<<<<<< HEAD
-		$actions = array(
-			'core.admin', 'core.manage', 'core.create', 'core.edit', 'core.edit.own', 'core.edit.state', 'core.delete'
-		);
-=======
 		$actions = JAccess::getActions('com_menus');
->>>>>>> upstream/master
 
 		foreach ($actions as $action) {
 			$result->set($action->name,	$user->authorise($action->name, $assetName));
