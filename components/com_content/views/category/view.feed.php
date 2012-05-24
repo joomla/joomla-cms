@@ -49,7 +49,7 @@ class ContentViewCategory extends JView
 			$db 				=& JFactory::getDBO();
 			$query 				=  'SELECT '.$db->nameQuote('fulltext')
 								 .' FROM '  .$db->nameQuote('#__content') 
-								 .' WHERE id ='.$row->id.';';
+								 .' WHERE id ='.$db->Quote($row->id).';';
 			$db->setQuery($query);
 			$row->fulltext 		= $db->loadResult();
 
