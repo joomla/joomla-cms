@@ -14,24 +14,25 @@ jimport('joomla.application.component.view');
  *
  * @package		Joomla.Site
  * @subpackage	com_content
- * @since 1.5
+ * @since 		1.5
  */
 class ContentViewCategory extends JView
 {
 	function display()
 	{
+		// Parameters
 		$app 		= JFactory::getApplication();
+		$db 		=& JFactory::getDBO();
 		$doc		= JFactory::getDocument();
 		$params 	= $app->getParams();
 		$feedEmail	= (@$app->getCfg('feed_email')) ? $app->getCfg('feed_email') : 'author';
 		$siteEmail	= $app->getCfg('mailfrom');
+		$doc->link	= JRoute::_(ContentHelperRoute::getCategoryRoute($category->id));
 		
 		// Get some data from the model
 		JRequest::setVar('limit', $app->getCfg('feed_limit'));
 		$category	= $this->get('Category');
 		$rows		= $this->get('Items');
-
-		$doc->link = JRoute::_(ContentHelperRoute::getCategoryRoute($category->id));
 
 		foreach ($rows as $row)
 		{
@@ -46,13 +47,13 @@ class ContentViewCategory extends JView
 			$link = JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid));
 
 			// Get $row->fulltext
-			$db 				=& JFactory::getDBO();
 			$query 				=  'SELECT '.$db->nameQuote('fulltext')
 								 .' FROM '  .$db->nameQuote('#__content') 
 								 .' WHERE id ='.$db->Quote($row->id).';';
 			$db->setQuery($query);
 			$row->fulltext 		= $db->loadResult();
 
+			// Get description, author and date
 			$description		= ($params->get('feed_summary', 0) ? $row->introtext.$row->fulltext : $row->introtext);
 			// TODO(?): if created_by_alias is empty, it won't show anything
 			$author				= $row->created_by_alias ? $row->created_by_alias : $row->author;
@@ -63,20 +64,18 @@ class ContentViewCategory extends JView
 			$item->title		= $title;
 			$item->link			= $link;
 			$item->description	= $description;
-
-			// Add readmore to description if introtext is shown and showreadmore is true
-			if (!$params->get('feed_summary', 0) && $params->get('feed_show_readmore', 0)) {
-				// Only add readmore link if there is more to read 
-				if ($row->fulltext != '') {
-					$item->description .= '<br /><a class="feed-readmore" target="_blank" href ="'.rtrim(JURI::base(), "/").str_replace(' ', '%20', $item->link).'">'.JText::_('COM_CONTENT_FEED_READMORE').'</a>';
-				}
-			}
-
 			$item->date			= $date;
 			$item->category		= $row->category_title;
 			$item->author		= $author;
 			// TODO: add option in Joomla core to let the authorEmail empty (Feed e-mail:none). Users will love this for spam prevention.
 			$item->authorEmail	= (($feedEmail == 'site') ? $siteEmail : $row->author_email);
+
+			// Add readmore link to description if...
+			if (!$params->get('feed_summary', 0) 			// ...introtext is shown and
+				&& $params->get('feed_show_readmore', 0)	// ...parameter feed_show_readmore is true and
+				&& $row->fulltext != '') {					// ...there is more text to read
+					$item->description .= '<br /><a class="feed-readmore" target="_blank" href ="'.rtrim(JURI::base(), "/").str_replace(' ', '%20', $item->link).'">'.JText::_('COM_CONTENT_FEED_READMORE').'</a>';
+			}
 
 			// Loads item info into rss array
 			$doc->addItem($item);
