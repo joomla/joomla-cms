@@ -26,6 +26,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+25-May-2012 Jean-Marie Simonet
+ $ Updating installation ini file: ug-CN
+ $ Adding new installation language: hi-IN
+
 23-May-2012 Jean-Marie Simonet
  ^ [#28547] ACL consistency - Use the API and access.xml everywhere. Thanks Michael.
  # [#28483] *Weblinks module should only pass on category related queries when catid > 0
