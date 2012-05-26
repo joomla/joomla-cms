@@ -21,9 +21,8 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Session
  * @since       11.1
  */
-class JSession extends JObject
+class JSession implements IteratorAggregate
 {
-
 	/**
 	 * Internal state.
 	 * One of 'active'|'expired'|'destroyed'|'error'
@@ -95,11 +94,14 @@ class JSession extends JObject
 			session_destroy();
 		}
 
-		// Set default sessios save handler
+		// Set default session save handler
 		ini_set('session.save_handler', 'files');
 
 		// Disable transparent sid support
 		ini_set('session.use_trans_sid', '0');
+
+		// Only allow the session ID to come from cookies and nothing else.
+		ini_set('session.use_only_cookies', '1');
 
 		// Create handler
 		$this->_store = JSessionStorage::getInstance($store, $options);
@@ -261,6 +263,18 @@ class JSession extends JObject
 	}
 
 	/**
+	 * Retrieve an external iterator.
+	 *
+	 * @return  ArrayIterator  Return an ArrayIterator of $_SESSION.
+	 *
+	 * @since   12.2
+	 */
+	public function getIterator()
+	{
+		return new ArrayIterator($_SESSION);
+	}
+
+	/**
 	 * Checks for a form token in the request.
 	 *
 	 * Use in conjunction with JHtml::_('form.token') or JSession::getFormToken.
@@ -269,7 +283,7 @@ class JSession extends JObject
 	 *
 	 * @return  boolean  True if found and valid, false otherwise.
 	 *
-	 * @since       12.1
+	 * @since   12.1
 	 */
 	public static function checkToken($method = 'post')
 	{
@@ -540,6 +554,13 @@ class JSession extends JObject
 			}
 		}
 
+		/** 
+		 *Write and Close handlers are called after destructing objects since PHP 5.0.5.
+		 *Thus destructors can use sessions but session handler can't use objects.
+		 *So we are moving session closure before destructing objects.
+		 */
+		register_shutdown_function('session_write_close');
+
 		session_cache_limiter('none');
 		session_start();
 
@@ -658,7 +679,7 @@ class JSession extends JObject
 
 		// Restore config
 		ini_set('session.use_trans_sid', $trans);
-		session_set_cookie_params($cookie['lifetime'], $cookie['path'], $cookie['domain'], $cookie['secure']);
+		session_set_cookie_params($cookie['lifetime'], $cookie['path'], $cookie['domain'], $cookie['secure'], true);
 
 		// Restart session with new id
 		session_id($id);
