@@ -1041,7 +1041,7 @@ class JApplication extends JApplicationBase
 			// If the insert failed, exit the application.
 			try
 			{
-				$db->execute()
+				$db->execute();
 			}
 			catch (RuntimeException $e)
 			{
