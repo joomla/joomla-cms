@@ -28,6 +28,7 @@ $ -> Language fix or change
 
 27-May-2012 Jean-Marie Simonet
  # [#28022] Smart search and unpublished Content Maps fails after edit of an article.Thanks Michael.
+ $ [#28571] Typo in en-GB.com_templates.ini. Thanks Stella.
 
 25-May-2012 Jean-Marie Simonet
  $ Updating installation ini file: ug-CN
