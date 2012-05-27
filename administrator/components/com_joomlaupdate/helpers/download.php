@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  * fetch the package.
  * 
  * @package  Joomla.Administrator
- * @since    2.5.2
+ * @since    2.5.4
  */
 class AdmintoolsHelperDownload
 {
@@ -25,6 +25,8 @@ class AdmintoolsHelperDownload
 	 * @param   string  $target  The file path to download to
 	 * 
 	 * @return  bool	True on success
+	 *
+	 * @since   2.5.4
 	 */
 	public static function download($url, $target)
 	{
@@ -119,7 +121,9 @@ class AdmintoolsHelperDownload
 	 * 
 	 * @param   string  $url  The URL to download from
 	 * 
-	 * @return mixed Result string on success, false on failure
+	 * @return  mixed Result string on success, false on failure
+	 *
+	 * @since   2.5.4
 	 */
 	public static function downloadAndReturn($url)
 	{
@@ -140,7 +144,9 @@ class AdmintoolsHelperDownload
 	/**
 	 * Does the server support PHP's cURL extension?
 	 * 
-	 * @return bool True if it is supported
+	 * @return  bool True if it is supported
+	 *
+	 * @since   2.5.4
 	 */
 	private static function hasCURL()
 	{
@@ -163,6 +169,8 @@ class AdmintoolsHelperDownload
 	 * @param   boolean   $nofollow  Should we follow 301/302/307 redirection HTTP headers?
 	 * 
 	 * @return   bool|string False on failure, true on success ($fp not null) or the URL contents (if $fp is null)
+	 *
+	 * @since   2.5.4
 	 */
 	private static function &getCURL($url, $fp = null, $nofollow = false)
 	{
@@ -241,6 +249,8 @@ class AdmintoolsHelperDownload
 	 * Does the server support URL fopen() wrappers?
 	 * 
 	 * @return bool
+	 *
+	 * @since   2.5.4
 	 */
 	private static function hasFOPEN()
 	{
@@ -270,7 +280,9 @@ class AdmintoolsHelperDownload
 	 * @param   string    $url  The URL to download from
 	 * @param   resource  $fp   The file pointer to download to; leave null to return the d/l file as a string
 	 * 
-	 * @return bool|string False on failure, true on success ($fp not null) or the URL contents (if $fp is null)
+	 * @return  bool|string False on failure, true on success ($fp not null) or the URL contents (if $fp is null)
+	 *
+	 * @since   2.5.4
 	 */
 	private static function &getFOPEN($url, $fp = null)
 	{
@@ -354,7 +366,9 @@ class AdmintoolsHelperDownload
 	 * Detect and return available download "adapters" (not really adapters, as
 	 * we don't follow the Adapter pattern, yet)
 	 * 
-	 * @return array
+	 * @return  array
+	 *
+	 * @since   2.5.4
 	 */
 	private static function getAdapters()
 	{
@@ -377,7 +391,9 @@ class AdmintoolsHelperDownload
 	 * @param   string  $path  Absolute path to file
 	 * @param   int     $mode  Permissions, e.g. 0755
 	 * 
-	 * @return boolean True on success
+	 * @return  boolean True on success
+	 *
+	 * @since   2.5.4
 	 */
 	private static function chmod($path, $mode)
 	{
