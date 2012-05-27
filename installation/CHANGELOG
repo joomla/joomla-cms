@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+27-May-2012 Jean-Marie Simonet
+ # [#28022] Smart search and unpublished Content Maps fails after edit of an article.Thanks Michael.
+
 25-May-2012 Jean-Marie Simonet
  $ Updating installation ini file: ug-CN
  $ Adding new installation language: hi-IN
