@@ -39,7 +39,7 @@ class MediaViewImagesList extends JView
 		$folders = $this->get('folders');
 		$state = $this->get('state');
 
-		$this->assign('baseURL', COM_MEDIA_BASEURL);
+		$this->baseURL = COM_MEDIA_BASEURL;
 		$this->assignRef('images', $images);
 		$this->assignRef('folders', $folders);
 		$this->assignRef('state', $state);

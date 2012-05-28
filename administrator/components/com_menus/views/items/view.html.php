@@ -150,7 +150,7 @@ class MenusViewItems extends JView
 		$options[]	= JHtml::_('select.option', '9', JText::_('J9'));
 		$options[]	= JHtml::_('select.option', '10', JText::_('J10'));
 
-		$this->assign('f_levels', $options);
+		$this->f_levels = $options;
 
 		parent::display($tpl);
 		$this->addToolbar();
