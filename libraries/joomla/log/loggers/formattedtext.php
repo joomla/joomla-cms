@@ -9,7 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.log.logger');
 jimport('joomla.filesystem.folder');
 
 /**
@@ -22,7 +21,7 @@ jimport('joomla.filesystem.folder');
  * @subpackage  Log
  * @since       11.1
  */
-class JLoggerFormattedtext extends JLogger
+class JLogLoggerFormattedtext extends JLogLogger
 {
 	/**
 	 * @var    resource  The file pointer for the log file.

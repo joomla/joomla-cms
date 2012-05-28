@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.log.logger');
-
 /**
  * Joomla Echo logger class.
  *
@@ -18,7 +16,7 @@ jimport('joomla.log.logger');
  * @subpackage  Log
  * @since       11.1
  */
-class JLoggerEcho extends JLogger
+class JLogLoggerEcho extends JLogLogger
 {
 	/**
 	 * @var    string  Value to use at the end of an echoed log entry to separate lines.

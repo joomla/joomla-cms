@@ -11,9 +11,9 @@ require_once JPATH_PLATFORM.'/joomla/log/loggers/messagequeue.php';
 require_once __DIR__.'/stubs/messagequeue/mock.application.php';
 
 /**
- * Test class for JLoggerMessageQueue.
+ * Test class for JLogLoggerMessageQueue.
  */
-class JLoggerMessageQueueTest extends PHPUnit_Framework_TestCase
+class JLogLoggerMessageQueueTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 * @var   mixed  The main application object from JFactory while we mock it out.
@@ -43,7 +43,7 @@ class JLoggerMessageQueueTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Test the JLoggerMessageQueue::addEntry method.
+	 * Test the JLogLoggerMessageQueue::addEntry method.
 	 */
 	public function testAddEntry01()
 	{
@@ -51,7 +51,7 @@ class JLoggerMessageQueueTest extends PHPUnit_Framework_TestCase
 		$config = array();
 
 		// Get an instance of the logger.
-		$logger = new JLoggerMessageQueue($config);
+		$logger = new JLogLoggerMessageQueue($config);
 
 		// Add a basic error message, it ignores the category.
 		$logger->addEntry(new JLogEntry('TESTING', JLog::ERROR, 'DePrEcAtEd'));

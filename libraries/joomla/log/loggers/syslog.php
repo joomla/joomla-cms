@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.log.logger');
-
 /**
  * Joomla! Syslog Log class
  *
@@ -23,7 +21,7 @@ jimport('joomla.log.logger');
  * @subpackage  Log
  * @since       11.1
  */
-class JLoggerSyslog extends JLogger
+class JLogLoggerSyslog extends JLogLogger
 {
 	/**
 	 * @var array Translation array for JLogEntry priorities to SysLog priority names.
