@@ -627,7 +627,7 @@ abstract class JHtml
 	 * Returns formated date according to a given format and time zone.
 	 *
 	 * @param   string   $input      String in a format accepted by date(), defaults to "now".
-	 * @param   string   $format     Format optional format for strftime
+	 * @param   string   $format     The date format specification string (see {@link PHP_MANUAL#date})
 	 * @param   mixed    $tz         Time zone to be used for the date.  Special cases: boolean true for user
 	 *                               setting, boolean false for server setting.
 	 * @param   boolean  $gregorian  True to use Gregorian calenar
