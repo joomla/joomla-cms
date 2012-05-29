@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+29-May-2012 Jean-Marie Simonet
+ # [#28566] Update TinyMCE 3.5.1.1. Thanks Rouven
+
 28-May-2012 Jean-Marie Simonet
  # [#28572] *Administration user notes checked on notes page gives warning arugment missing
  ^ [#28370] Get rid of assign() uses in view: admin + site.Thanks Ofer and Rouven
