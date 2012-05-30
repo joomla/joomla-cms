@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+30-May-2012 Jean-Marie Simonet
+ $ Missing language string
+
 29-May-2012 Jean-Marie Simonet
  # [#28566] Update TinyMCE 3.5.1.1. Thanks Rouven
 
