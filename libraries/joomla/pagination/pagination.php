@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Platform
- * @subpackage  HTML
+ * @subpackage  Pagination
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -10,11 +10,11 @@
 defined('JPATH_PLATFORM') or die;
 
 /**
- * Pagination Class.  Provides a common interface for content pagination for the
+ * Pagination Class. Provides a common interface for content pagination for the
  * Joomla! Platform.
  *
  * @package     Joomla.Platform
- * @subpackage  HTML
+ * @subpackage  Pagination
  * @since       11.1
  */
 class JPagination extends JObject
@@ -699,57 +699,5 @@ class JPagination extends JObject
 			}
 		}
 		return $data;
-	}
-}
-
-/**
- * Pagination object representing a particular item in the pagination lists.
- *
- * @package     Joomla.Platform
- * @subpackage  HTML
- * @since       11.1
- */
-class JPaginationObject extends JObject
-{
-	/**
-	 * @var    string  The link text.
-	 * @since  11.1
-	 */
-	public $text;
-
-	/**
-	 * @var    integer  The number of rows as a base offset.
-	 * @since  11.1
-	 */
-	public $base;
-
-	/**
-	 * @var    string  The link URL.
-	 * @since  11.1
-	 */
-	public $link;
-
-	/**
-	 * @var    integer  The prefix used for request variables.
-	 * @since  11.1
-	 */
-	public $prefix;
-
-	/**
-	 * Class constructor.
-	 *
-	 * @param   string   $text    The link text.
-	 * @param   integer  $prefix  The prefix used for request variables.
-	 * @param   integer  $base    The number of rows as a base offset.
-	 * @param   string   $link    The link URL.
-	 *
-	 * @since   11.1
-	 */
-	public function __construct($text, $prefix = '', $base = null, $link = null)
-	{
-		$this->text = $text;
-		$this->prefix = $prefix;
-		$this->base = $base;
-		$this->link = $link;
 	}
 }
