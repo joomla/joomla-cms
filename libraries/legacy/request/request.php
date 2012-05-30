@@ -17,9 +17,9 @@ $GLOBALS['_JREQUEST'] = array();
 /**
  * Set the available masks for cleaning variables
  */
-define('JREQUEST_NOTRIM', 1);
-define('JREQUEST_ALLOWRAW', 2);
-define('JREQUEST_ALLOWHTML', 4);
+const JREQUEST_NOTRIM    = 1;
+const JREQUEST_ALLOWRAW  = 2;
+const JREQUEST_ALLOWHTML = 4;
 
 JLog::add('JRequest is deprecated.', JLog::WARNING, 'deprecated');
 

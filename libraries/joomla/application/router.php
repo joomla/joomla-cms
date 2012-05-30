@@ -12,8 +12,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Set the available masks for the routing mode
  */
-define('JROUTER_MODE_RAW', 0);
-define('JROUTER_MODE_SEF', 1);
+const JROUTER_MODE_RAW = 0;
+const JROUTER_MODE_SEF = 1;
 
 /**
  * Class to create and parse routes
