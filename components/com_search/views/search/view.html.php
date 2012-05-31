@@ -185,15 +185,15 @@ class SearchViewSearch extends JView
 		$this->assignRef('lists',		$lists);
 		$this->assignRef('params',		$params);
 
-		$this->assign('ordering',		$state->get('ordering'));
-		$this->assign('searchword',		$searchword);
-		$this->assign('origkeyword',	$state->get('origkeyword'));
-		$this->assign('searchphrase',	$state->get('match'));
-		$this->assign('searchareas',	$areas);
+		$this->ordering = $state->get('ordering');
+		$this->searchword = $searchword;
+		$this->origkeyword = $state->get('origkeyword');
+		$this->searchphrase = $state->get('match');
+		$this->searchareas = $areas;
 
-		$this->assign('total',			$total);
-		$this->assign('error',			$error);
-		$this->assign('action',			$uri);
+		$this->total = $total;
+		$this->error = $error;
+		$this->action = $uri;
 
 		parent::display($tpl);
 	}

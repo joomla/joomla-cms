@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
- * @since       2.5.2
+ * @since       2.5.4
  */
 class JoomlaupdateHelper
 {
@@ -22,8 +22,8 @@ class JoomlaupdateHelper
 	 * Gets a list of the actions that can be performed.
 	 *
 	 * @return	JObject
-	 *
-	 * @since	2.5.2
+	 * 
+	 * @since	2.5.4
 	 */
 	public static function getActions()
 	{
