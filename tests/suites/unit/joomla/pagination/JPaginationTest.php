@@ -1,13 +1,11 @@
 <?php
 /**
  * @package     Joomla.UnitTest
- * @subpackage  HTML
+ * @subpackage  Pagination
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-
-require_once JPATH_PLATFORM.'/joomla/html/pagination.php';
 
 class JPaginationTest extends PHPUnit_Framework_TestCase
 {
@@ -69,6 +67,7 @@ class JPaginationTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @since   11.1
 	 * @dataProvider dataTestConstructor
+	 * @covers  JPagination::__construct
 	 */
 	public function testConstructor($total, $limitstart, $limit, $expected)
 	{
