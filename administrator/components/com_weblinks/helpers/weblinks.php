@@ -55,15 +55,14 @@ class WeblinksHelper
 
 		if (empty($categoryId)) {
 			$assetName = 'com_weblinks';
-			$level = 'component';
 		} else {
 			$assetName = 'com_weblinks.category.'.(int) $categoryId;
-			$level = 'category';
 		}
 
-		$actions = JAccess::getActions('com_weblinks', $level);
+		$actions = JAccess::getActions('com_weblinks');
 
-		foreach ($actions as $action) {
+		foreach ($actions as $action) 
+		{
 			$result->set($action->name,	$user->authorise($action->name, $assetName));
 		}
 

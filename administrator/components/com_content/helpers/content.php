@@ -60,20 +60,18 @@ class ContentHelper
 
 		if (empty($articleId) && empty($categoryId)) {
 			$assetName = 'com_content';
-			$level = 'component';
 		}
 		elseif (empty($articleId)) {
 			$assetName = 'com_content.category.'.(int) $categoryId;
-			$level = 'category';
 		}
 		else {
 			$assetName = 'com_content.article.'.(int) $articleId;
-			$level = 'article';
 		}
 
-		$actions = JAccess::getActions('com_content', $level);
+		$actions = JAccess::getActions('com_content');
 
-		foreach ($actions as $action) {
+		foreach ($actions as $action) 
+		{
 			$result->set($action->name,	$user->authorise($action->name, $assetName));
 		}
 

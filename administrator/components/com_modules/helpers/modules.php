@@ -35,11 +35,13 @@ abstract class ModulesHelper
 	{
 		$user	= JFactory::getUser();
 		$result	= new JObject;
+		$assetName = 'com_modules';
 
-		$actions = JAccess::getActions('com_modules');
+		$actions = JAccess::getActions($assetName);
 
-		foreach ($actions as $action) {
-			$result->set($action->name, $user->authorise($action->name, 'com_modules'));
+		foreach ($actions as $action) 
+		{
+			$result->set($action->name, $user->authorise($action->name, $assetName));
 		}
 
 		return $result;

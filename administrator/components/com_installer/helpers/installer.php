@@ -67,12 +67,12 @@ class InstallerHelper
 	{
 		$user	= JFactory::getUser();
 		$result	= new JObject;
-
 		$assetName = 'com_installer';
 
 		$actions = JAccess::getActions($assetName);
 
-		foreach ($actions as $action) {
+		foreach ($actions as $action) 
+		{
 			$result->set($action->name,	$user->authorise($action->name, $assetName));
 		}
 

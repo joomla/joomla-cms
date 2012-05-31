@@ -44,11 +44,13 @@ class TemplatesHelper
 	{
 		$user	= JFactory::getUser();
 		$result	= new JObject;
+		$assetName = 'com_templates';
 
-		$actions = JAccess::getActions('com_templates');
+		$actions = JAccess::getActions($assetName);
 
-		foreach ($actions as $action) {
-			$result->set($action->name, $user->authorise($action->name, 'com_templates'));
+		foreach ($actions as $action) 
+		{
+			$result->set($action->name, $user->authorise($action->name, $assetName));
 		}
 
 		return $result;
