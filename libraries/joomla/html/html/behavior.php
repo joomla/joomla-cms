@@ -65,6 +65,28 @@ abstract class JHtmlBehavior
 	}
 
 	/**
+	 * Method to load jQuery into the document head
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 */
+	public static function jquery()
+	{
+		// Only load once
+		if (!empty(self::$loaded[__METHOD__]))
+		{
+			return;
+		}
+
+		JHtml::_('script', 'system/jquery.min.js', false, true);
+		JHtml::_('script', 'system/jquery-no-conflict.js', false, true);
+		self::$loaded[__METHOD__] = true;
+
+		return;
+	}
+
+	/**
 	 * Add unobtrusive javascript support for image captions.
 	 *
 	 * @param   string  $selector  The selector for which a caption behaviour is to be applied.
