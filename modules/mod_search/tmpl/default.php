@@ -9,16 +9,17 @@
 // no direct access
 defined('_JEXEC') or die;
 ?>
-<form action="<?php echo JRoute::_('index.php');?>" method="post">
 	<div class="search<?php echo $moduleclass_sfx ?>">
+    <form action="<?php echo JRoute::_('index.php');?>" method="post">
+	
 		<?php
-			$output = '<label for="mod-search-searchword">'.$label.'</label><input name="searchword" id="mod-search-searchword" maxlength="'.$maxlength.'"  class="inputbox'.$moduleclass_sfx.'" type="text" size="'.$width.'" value="'.$text.'"  onblur="if (this.value==\'\') this.value=\''.$text.'\';" onfocus="if (this.value==\''.$text.'\') this.value=\'\';" />';
+			$output = '<label for="mod-search-searchword">'.$label.'</label><input name="searchword" id="mod-search-searchword" maxlength="'.$maxlength.'"  class="inputbox" type="text" size="'.$width.'" value="'.$text.'"  onblur="if (this.value==\'\') this.value=\''.$text.'\';" onfocus="if (this.value==\''.$text.'\') this.value=\'\';" />';
 
 			if ($button) :
 				if ($imagebutton) :
-					$button = '<input type="image" value="'.$button_text.'" class="button'.$moduleclass_sfx.'" src="'.$img.'" onclick="this.form.searchword.focus();"/>';
+					$button = '<input type="image" value="'.$button_text.'" class="button" src="'.$img.'" onclick="this.form.searchword.focus();"/>';
 				else :
-					$button = '<input type="submit" value="'.$button_text.'" class="button'.$moduleclass_sfx.'" onclick="this.form.searchword.focus();"/>';
+					$button = '<input type="submit" value="'.$button_text.'" class="button" onclick="this.form.searchword.focus();"/>';
 				endif;
 			endif;
 
@@ -48,5 +49,5 @@ defined('_JEXEC') or die;
 	<input type="hidden" name="task" value="search" />
 	<input type="hidden" name="option" value="com_search" />
 	<input type="hidden" name="Itemid" value="<?php echo $mitemid; ?>" />
-	</div>
 </form>
+</div>
