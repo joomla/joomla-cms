@@ -958,6 +958,8 @@ class JApplication extends JApplicationBase
 		}
 
 		$session = JFactory::getSession($options);
+		$session->initialise($this->input);
+		$session->start();
 
 		// TODO: At some point we need to get away from having session data always in the db.
 
