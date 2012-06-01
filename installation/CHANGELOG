@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+01-June-2012 Jean-Marie Simonet
+ # [#28589] *ACL regression in com_search
+ 
 30-May-2012 Jean-Marie Simonet
  $ Missing language string
  $ Updating installation ini files: et-EE, mn-MN
