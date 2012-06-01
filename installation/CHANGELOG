@@ -33,6 +33,7 @@ $ -> Language fix or change
  # [#28579] Fix xreference regression from 1.7 to 2.5. Thanks Andrea.
  # [#28561] Move some JFormFields from the platform to the CMS. Thanks Rouven.
  # [#28335] Simplify schema path in installation, add support for other databases. Thanks Michael.
+ # [#28598] *Article Category list displays hits in author column if no article author or createdbyalias.
  
 30-May-2012 Jean-Marie Simonet
  $ Missing language string
