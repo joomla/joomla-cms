@@ -183,12 +183,13 @@ class JFacebookUser extends JFacebookObject
 	 *
 	 * @param   mixed   $user          Either an integer containing the user ID or a string containing the username.
 	 * @param   string  $access_token  The Facebook access token.
+	 * @param   string  $type          To request a different photo use square | small | normal | large.
 	 *
 	 * @return  string   The URL to the user's profile picture.
 	 *
 	 * @since   12.1
 	 */
-	public function getPicture($user, $access_token=null)
+	public function getPicture($user, $access_token=null, $type=null)
 	{
 		if ($access_token != null)
 		{
@@ -199,8 +200,17 @@ class JFacebookUser extends JFacebookObject
 			$token = '';
 		}
 
+		if ($type != null)
+		{
+			$type = '&type=' . $type;
+		}
+		else
+		{
+			$type = '';
+		}
+
 		// Build the request path.
-		$path = $user . '/picture' . $token;
+		$path = $user . '/picture' . $token . $type;
 
 		// Send the request.
 		$response = $this->client->get($this->fetchUrl($path));
@@ -668,6 +678,27 @@ class JFacebookUser extends JFacebookObject
 	}
 
 	/**
+	 * Method to delete a link.
+	 *
+	 * @param   mixed   $link          The Link ID.
+	 * @param   string  $access_token  The Facebook access token.
+	 *
+	 * @return  array   The decoded JSON response.
+	 *
+	 * @since   12.1
+	 */
+	public function deleteLink($link, $access_token)
+	{
+		$token = '?access_token=' . $access_token;
+
+		// Build the request path.
+		$path = $link . $token;
+
+		// Send the delete request.
+		return $this->sendRequest($path, 'delete');
+	}
+
+	/**
 	 * Method to get the user's notes.
 	 *
 	 * @param   mixed   $user          Either an integer containing the user ID or a string containing the username.
@@ -740,7 +771,7 @@ class JFacebookUser extends JFacebookObject
 	/**
 	 * Method to post a photo on user's wall.
 	 *
-	 * @param   string   $user          Either an integer containing the user ID or a string containing the username.
+	 * @param   mixed    $user          Either an integer containing the user ID or a string containing the username.
 	 * @param   string   $access_token  The Facebook access token with publish_stream  permission.
 	 * @param   string   $source        Path to photo.
 	 * @param   string   $message       Photo description.
@@ -846,9 +877,9 @@ class JFacebookUser extends JFacebookObject
 	}
 
 	/**
-	 * Method to delete a post. Note: you can only delete the post if it was created by the same app.
+	 * Method to delete a post. Note: you can only delete the post if it was created by the current user.
 	 *
-	 * @param   mixed   $post          The Post ID.
+	 * @param   string  $post          The Post ID.
 	 * @param   string  $access_token  The Facebook access token.
 	 *
 	 * @return  array   The decoded JSON response.
@@ -890,7 +921,7 @@ class JFacebookUser extends JFacebookObject
 	/**
 	 * Method to post a status message on behalf of the user.
 	 *
-	 * @param   string  $user          Either an integer containing the user ID or a string containing the username.
+	 * @param   mixed   $user          Either an integer containing the user ID or a string containing the username.
 	 * @param   string  $access_token  The Facebook access token with publish_stream permission.
 	 * @param   strin   $message       Status message content.
 	 *
@@ -914,9 +945,9 @@ class JFacebookUser extends JFacebookObject
 	}
 
 	/**
-	 * Method to delete a status. Note: you can only delete the post if it was created by the same app.
+	 * Method to delete a status. Note: you can only delete the post if it was created by the current user.
 	 *
-	 * @param   mixed   $status        The Status ID.
+	 * @param   string  $status        The Status ID.
 	 * @param   string  $access_token  The Facebook access token.
 	 *
 	 * @return  array   The decoded JSON response.

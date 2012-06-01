@@ -47,6 +47,12 @@ class JFacebook
 	* @since  12.1
 	*/
 	protected $checkin;
+	
+	/**
+	* @var    JFacebookEvent  Facebook API object for checkin.
+	* @since  12.1
+	*/
+	protected $event;
 
 	/**
 	 * Constructor.
@@ -102,6 +108,15 @@ class JFacebook
 				$this->checkin = new JFacebookCheckin($this->options, $this->client);
 			}
 			return $this->checkin;
+		}
+		
+		if ($name == 'event')
+		{
+			if ($this->event == null)
+			{
+				$this->event = new JFacebookEvent($this->options, $this->client);
+			}
+			return $this->event;
 		}
 	}
 

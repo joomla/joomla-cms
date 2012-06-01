@@ -475,16 +475,18 @@ class JFacebookUserTest extends TestCase
 	public function testGetPicture()
 	{
 		$access_token = '235twegsdgsdhtry3tgwgf';
+		$type = 'large';
+
 		$returnData = new JHttpResponse;
 		$returnData->headers['Location'] = $this->sampleUrl;
 
 		$this->client->expects($this->once())
 		->method('get')
-		->with('me/picture?access_token=' . $access_token)
+		->with('me/picture?access_token=' . $access_token . '&type=' . $type)
 		->will($this->returnValue($returnData));
 
 		$this->assertThat(
-			$this->object->getPicture('me', $access_token),
+			$this->object->getPicture('me', $access_token, $type),
 			$this->equalTo($this->sampleUrl)
 		);
 	}
@@ -504,14 +506,16 @@ class JFacebookUserTest extends TestCase
 	public function testGetPictureFailure()
 	{
 		$access_token = '235twegsdgsdhtry3tgwgf';
+		$type = 'large';
+
 		$returnData = new JText($this->errorString);
 
 		$this->client->expects($this->once())
 		->method('get')
-		->with('me/picture?access_token=' . $access_token)
+		->with('me/picture?access_token=' . $access_token . '&type=' . $type)
 		->will($this->returnValue($returnData));
 
-		$this->object->getPicture('me', $access_token);
+		$this->object->getPicture('me', $access_token, $type);
 	}
 
 	/**
@@ -1661,6 +1665,72 @@ class JFacebookUserTest extends TestCase
 	}
 
 	/**
+	 * Tests the deleteLink method.
+	 * 
+	 * @covers JFacebookObject::sendRequest
+	 *
+	 * @return  void
+	 * 
+	 * @since   12.1
+	 */
+	public function testDeleteLink()
+	{
+		$access_token = '235twegsdgsdhtry3tgwgf';
+		$link = '156174391080008_235345346';
+
+		$returnData = new stdClass;
+		$returnData->body = true;
+
+		$this->client->expects($this->once())
+		->method('delete')
+		->with($link . '?access_token=' . $access_token)
+		->will($this->returnValue($returnData));
+
+		$this->assertThat(
+			$this->object->deleteLink($link, $access_token),
+			$this->equalTo(true)
+		);
+	}
+
+	/**
+	 * Tests the deleteLink method - failure.
+	 *
+	 * @covers JFacebookObject::sendRequest
+	 *
+	 * @return  void
+	 * 
+	 * @since   12.1
+	 */
+	public function testDeleteLinkFailure()
+	{
+		$exception = false;
+		$access_token = '235twegsdgsdhtry3tgwgf';
+		$link = '156174391080008_235345346';
+
+		$returnData = new stdClass;
+		$returnData->body = $this->errorString;
+
+		$this->client->expects($this->once())
+		->method('delete')
+		->with($link . '?access_token=' . $access_token)
+		->will($this->returnValue($returnData));
+
+		try
+		{
+			$this->object->deleteLink($link, $access_token);
+		}
+		catch (DomainException $e)
+		{
+			$exception = true;
+
+			$this->assertThat(
+				$e->getMessage(),
+				$this->equalTo(json_decode($this->errorString)->error->message)
+			);
+		}
+	}
+
+	/**
 	 * Tests the getNotes method.
 	 *
 	 * @covers JFacebookObject::sendRequest
@@ -1850,7 +1920,7 @@ class JFacebookUserTest extends TestCase
 	public function testCreatePhoto()
 	{
 		$access_token = '235twegsdgsdhtry3tgwgf';
-		$source = 'source';
+		$source = 'path/to/source';
 		$message = 'message';
 		$place = '23432421234';
 		$no_story = true;
