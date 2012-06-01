@@ -29,6 +29,7 @@ $ -> Language fix or change
 01-June-2012 Jean-Marie Simonet
  # [#28589] *ACL regression in com_search
  # [#28588] *ACL regression in com_messages
+ # [#28587] *ACL regression in com_redirect
  
 30-May-2012 Jean-Marie Simonet
  $ Missing language string
