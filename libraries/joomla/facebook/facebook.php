@@ -43,6 +43,12 @@ class JFacebook
 	protected $status;
 
 	/**
+	* @var    JFacebookCheckin  Facebook API object for checkin.
+	* @since  12.1
+	*/
+	protected $checkin;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   JRegistry      $options  Facebook options object.
@@ -87,6 +93,15 @@ class JFacebook
 				$this->status = new JFacebookStatus($this->options, $this->client);
 			}
 			return $this->status;
+		}
+		
+		if ($name == 'checkin')
+		{
+			if ($this->checkin == null)
+			{
+				$this->checkin = new JFacebookCheckin($this->options, $this->client);
+			}
+			return $this->checkin;
 		}
 	}
 

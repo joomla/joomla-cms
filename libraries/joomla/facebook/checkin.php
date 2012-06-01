@@ -12,72 +12,72 @@ defined('JPATH_PLATFORM') or die();
 
 
 /**
- * Facebook API Status class for the Joomla Platform.
+ * Facebook API Checkin class for the Joomla Platform.
  *
  * @package     Joomla.Platform
  * @subpackage  Facebook
  * 
  * @since       12.1
  */
-class JFacebookStatus extends JFacebookObject
+class JFacebookCheckin extends JFacebookObject
 {
 	/**
-	 * Method to get a status message.
+	 * Method to get a checkin.
 	 * 
-	 * @param   string  $status        The status message id.
-	 * @param   string  $access_token  The Facebook access token.
+	 * @param   string  $checkin       The checkin id.
+	 * @param   string  $access_token  The Facebook access token with user_checkins or friends_checkins permission.
 	 * 
 	 * @return  void
 	 * 
 	 * @since   12.1
 	 */
-	public function getStatus($status, $access_token)
+	public function getCheckin($checkin, $access_token)
 	{
 		$token = '?access_token=' . $access_token;
 
-		$path = $status . $token;
+		$path = $checkin . $token;
 
 		// Send the request.
 		return $this->sendRequest($path);
 	}
 
 	/**
-	 * Method to get a status message's comments.
+	 * Method to get a checkin's comments.
 	 * 
-	 * @param   string  $status        The status message id.
-	 * @param   string  $access_token  The Facebook access token.
+	 * @param   string  $checkin       The checkin id.
+	 * @param   string  $access_token  The Facebook access token with user_checkins or friends_checkins permission.
 	 * 
 	 * @return  void
 	 * 
 	 * @since   12.1
 	 */
-	public function getComments($status, $access_token)
+	public function getComments($checkin, $access_token)
 	{
 		$token = '?access_token=' . $access_token;
 
-		$path = $status . '/comments' . $token;
+		$path = $checkin . '/comments' . $token;
 
 		// Send the request.
 		return $this->sendRequest($path);
 	}
 
 	/**
-	 * Method to post a comment to the status message.
+	 * Method to post a comment to the checkin.
 	 * 
-	 * @param   string  $status        The status message id.
-	 * @param   string  $access_token  The Facebook access token with the publish_stream and user_status or friends_status permission.
-	 * @param   string  $message       The comment's text.
+	 * @param   string  $checkin       The checkin id.
+	 * @param   string  $access_token  The Facebook access token with the publish_stream and user_checkins or friends_checkins permission.
+	 * @param   string  $message       The checkin's text.
 	 * 
 	 * @return  array   The decoded JSON response.
 	 * 
 	 * @since   12.1
 	 */
-	public function createComment($status, $access_token, $message)
+	public function createComment($checkin, $access_token, $message)
 	{
 		$token = '?access_token=' . $access_token;
 
 		// Build the request path.
-		$path = $status . '/comments' . $token;
+		$path = $checkin . '/comments' . $token;
 
 		// Set POST request parameters.
 		$data = array();
@@ -109,65 +109,64 @@ class JFacebookStatus extends JFacebookObject
 	}
 
 	/**
-	 * Method to get a status message's likes.
+	 * Method to get a checkin's likes.
 	 * 
-	 * @param   string  $status        The status message id.
+	 * @param   string  $checkin       The checkin id.
 	 * @param   string  $access_token  The Facebook access token.
 	 * 
 	 * @return  void
 	 * 
 	 * @since   12.1
 	 */
-	public function getLikes($status, $access_token)
+	public function getLikes($checkin, $access_token)
 	{
 		$token = '?access_token=' . $access_token;
 
-		$path = $status . '/likes' . $token;
+		$path = $checkin . '/likes' . $token;
 
 		// Send the request.
 		return $this->sendRequest($path);
 	}
 
 	/**
-	 * Method to like status message.
+	 * Method to like a checkin.
 	 * 
-	 * @param   string  $status        The status message id.
-	 * @param   string  $access_token  The Facebook access token with the publish_stream and user_status or friends_status permission.
+	 * @param   string  $checkin       The checkin id.
+	 * @param   string  $access_token  The Facebook access token with the publish_stream and user_checkin or friends_checkin permission.
 	 * 
 	 * @return  array   The decoded JSON response.
 	 * 
 	 * @since   12.1
 	 */
-	public function createLike($status, $access_token)
+	public function createLike($checkin, $access_token)
 	{
 		$token = '?access_token=' . $access_token;
 
 		// Build the request path.
-		$path = $status . '/likes' . $token;
+		$path = $checkin . '/likes' . $token;
 
 		// Send the post request.
 		return $this->sendRequest($path, 'post');
 	}
 
 	/**
-	 * Method to unlike a status message.
+	 * Method to unlike a checkin.
 	 * 
-	 * @param   string  $status        The status message id.
-	 * @param   string  $access_token  The Facebook access token. 
+	 * @param   string  $checkin       The checkin id.
+	 * @param   string  $access_token  The Facebook access token with the publish_stream permission. 
 	 * 
 	 * @return  array   The decoded JSON response.
 	 * 
 	 * @since   12.1
 	 */
-	public function deleteLike($status, $access_token)
+	public function deleteLike($checkin, $access_token)
 	{
 		$token = '?access_token=' . $access_token;
 
 		// Build the request path.
-		$path = $status . '/likes' . $token;
+		$path = $checkin . '/likes' . $token;
 
 		// Send the delete request.
 		return $this->sendRequest($path, 'delete');
 	}
-
 }
