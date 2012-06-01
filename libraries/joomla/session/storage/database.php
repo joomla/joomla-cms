@@ -84,6 +84,45 @@ class JSessionStorageDatabase extends JSessionStorage
 	/**
 	 * Write session data to the SessionHandler backend.
 	 *
+	 * Specific function for mysql* backends.  Uses vendor specific
+	 * 'on duplicate key' clause to avoid race conditions.
+	 *
+	 * @param   string  $id    The session identifier.
+	 * @param   string  $data  The session data.
+	 *
+	 * @return  boolean  True on success, false otherwise.
+	 *
+	 * @since   11.1
+	 */
+	public function mysql_write($id, $data)
+	{
+		$db = JFactory::getDbo();
+
+		$id = $db->quote($id);
+		$data = $db->quote($data);
+		$time = $db->quote((int) time());
+
+		$query = "
+			INSERT INTO `#__session` (`session_id`, `data`, `time`)
+			VALUES ($id, $data, $time)
+			ON DUPLICATE KEY UPDATE
+				`data` = $data,
+				`time` = $time;
+		";
+
+		$db->setQuery($query);
+		if (!$db->query())
+		{
+			return false;
+		}
+		else{
+			return true;
+		}
+	}
+
+	/**
+	 * Write session data to the SessionHandler backend.
+	 *
 	 * @param   string  $id    The session identifier.
 	 * @param   string  $data  The session data.
 	 *
@@ -95,9 +134,15 @@ class JSessionStorageDatabase extends JSessionStorage
 	{
 		// Get the database connection object and verify its connected.
 		$db = JFactory::getDbo();
+
 		if (!$db->connected())
 		{
 			return false;
+		}
+
+		if(strpos($db->name, 'mysql')===0){
+			// use mysql specific on duplicate key
+			return $this->mysql_write($id, $data);
 		}
 
 		$query = $db->getQuery(true);
