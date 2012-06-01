@@ -31,6 +31,7 @@ $ -> Language fix or change
  # [#28588] *ACL regression in com_messages
  # [#28587] *ACL regression in com_redirect
  # [#28579] Fix xreference regression from 1.7 to 2.5. Thanks Andrea.
+ # [#28561] Move some JFormFields from the platform to the CMS. Thanks Rouven.
  
 30-May-2012 Jean-Marie Simonet
  $ Missing language string
