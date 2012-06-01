@@ -31,12 +31,6 @@ class JFacebook
 	protected $client;
 
 	/**
-	 * @var    JFacebookFriends  Facebook API object for friends.
-	 * @since  12.1
-	 */
-	protected $friends;
-
-	/**
 	 * @var    JFacebookUser  Facebook API object for user.
 	 * @since  12.1
 	 */
@@ -77,12 +71,6 @@ class JFacebook
 
 	public function __get($name)
 	{
-		if ($name == 'friends')
-		{
-			$this->friends = new JFacebookFriends($this->options, $this->client);
-			return $this->friends;
-		}
-
 		if ($name == 'user')
 		{
 			if ($this->user == null)
