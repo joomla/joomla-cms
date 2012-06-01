@@ -147,11 +147,15 @@ class JInstallationModelDatabase extends JModel
 			// Set the appropriate schema script based on UTF-8 support.
 			if ($type == 'mysqli' || $type == 'mysql')
 			{
-				$schema = 'sql/'.(($type == 'mysqli') ? 'mysql' : $type).'/joomla.sql';
+				$schema = 'sql/mysql/joomla.sql';
 			}
 			elseif ($type == 'sqlsrv' || $type == 'sqlazure')
 			{
-				$schema = 'sql/'.(($type == 'sqlsrv') ? 'sqlazure' : $type).'/joomla.sql';
+				$schema = 'sql/sqlazure/joomla.sql';
+			}
+			else
+			{
+				$schema = 'sql/'. $type . '/joomla.sql';
 			}
 			// Check if the schema is a valid file
 			if (!JFile::exists($schema)) {
