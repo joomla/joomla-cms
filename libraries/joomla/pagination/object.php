@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Pagination
  * @since       11.1
  */
-class JPaginationObject extends JObject
+class JPaginationObject
 {
 	/**
 	 * @var    string  The link text.
@@ -54,9 +54,9 @@ class JPaginationObject extends JObject
 	 */
 	public function __construct($text, $prefix = '', $base = null, $link = null)
 	{
-		$this->text = $text;
+		$this->text   = $text;
 		$this->prefix = $prefix;
-		$this->base = $base;
-		$this->link = $link;
+		$this->base   = $base;
+		$this->link   = $link;
 	}
 }

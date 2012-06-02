@@ -571,13 +571,13 @@ class JPagination extends JObject
 	/**
 	 * Method to create an active pagination link to the item
 	 *
-	 * @param   JPaginationObject  &$item  The object with which to make an active link.
+	 * @param   JPaginationObject  $item  The object with which to make an active link.
 	 *
 	 * @return   string  HTML link
 	 *
 	 * @since    11.1
 	 */
-	protected function _item_active(&$item)
+	protected function _item_active(JPaginationObject $item)
 	{
 		$app = JFactory::getApplication();
 		if ($app->isAdmin())
@@ -602,13 +602,13 @@ class JPagination extends JObject
 	/**
 	 * Method to create an inactive pagination string
 	 *
-	 * @param   object  &$item  The item to be processed
+	 * @param   JPaginationObject  $item  The item to be processed
 	 *
 	 * @return  string
 	 *
 	 * @since   11.1
 	 */
-	protected function _item_inactive(&$item)
+	protected function _item_inactive(JPaginationObject $item)
 	{
 		$app = JFactory::getApplication();
 		if ($app->isAdmin())
