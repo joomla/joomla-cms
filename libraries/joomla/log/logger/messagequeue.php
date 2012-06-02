@@ -20,7 +20,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Log
  * @since       11.1
  */
-class JLogLoggerMessageQueue extends JLogLogger
+class JLogLoggerMessagequeue extends JLogLogger
 {
 	/**
 	 * Method to add an entry to the log.
