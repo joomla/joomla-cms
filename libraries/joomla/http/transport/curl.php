@@ -74,7 +74,7 @@ class JHttpTransportCurl implements JHttpTransport
 		if (isset($data))
 		{
 			// If the data is a scalar value simply add it to the cURL post fields.
-			if (is_scalar($data) || (isset($headers['Content-type']) && $headers['Content-type'] == 'multipart/form-data'))
+			if (is_scalar($data) || (isset($headers['Content-type']) && strpos($headers['Content-type'], 'multipart/form-data') === 0))
 			{
 				$options[CURLOPT_POSTFIELDS] = $data;
 			}
