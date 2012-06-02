@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+02-June-2012 Jean-Marie Simonet
+ # [#28375] Remove blacklist code from FinderIndexerHelper. Thanks Michael
+
 01-June-2012 Jean-Marie Simonet
  # [#28589] *ACL regression in com_search
  # [#28588] *ACL regression in com_messages
