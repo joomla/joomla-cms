@@ -271,9 +271,13 @@ abstract class JFactory
 	 * if it doesn't already exist.
 	 *
 	 * @return  JAccess object
+	 *
+	 * @deprecated  13.3  Use JAccess directly.
 	 */
 	public static function getACL()
 	{
+		JLog::add(__METHOD__ . ' is deprecated. Use JAccess directly.', JLog::WARNING, 'deprecated');
+
 		if (!self::$acl)
 		{
 			self::$acl = new JAccess;
@@ -381,9 +385,12 @@ abstract class JFactory
 	 * @since   11.1
 	 * @note    This method will return SimpleXMLElement object in the future. Do not rely on JXMLElement's methods.
 	 * @todo    This may go in a separate class - error reporting may be improved.
+	 * @deprecated  13.3 Use SimpleXML directly.
 	 */
 	public static function getXML($data, $isFile = true)
 	{
+		JLog::add(__METHOD__ . ' is deprecated. Use SimpleXML directly.', JLog::WARNING, 'deprecated');
+
 		jimport('joomla.utilities.xmlelement');
 
 		// Disable libxml errors and allow to fetch error information as needed
@@ -450,9 +457,12 @@ abstract class JFactory
 	 *
 	 * @see     JURI
 	 * @since   11.1
+	 * @deprecated  13.3 Use JURI directly.
 	 */
 	public static function getURI($uri = 'SERVER')
 	{
+		JLog::add(__METHOD__ . ' is deprecated. Use JURI directly.', JLog::WARNING, 'deprecated');
+
 		jimport('joomla.environment.uri');
 
 		return JURI::getInstance($uri);
