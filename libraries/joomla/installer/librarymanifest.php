@@ -123,7 +123,7 @@ class JLibraryManifest extends JObject
 	{
 		$this->manifest_file = JFile::stripExt(basename($xmlfile));
 
-		$xml = JFactory::getXML($xmlfile);
+		$xml = simplexml_load_file($xmlfile);
 		if (!$xml)
 		{
 			$this->_errors[] = JText::sprintf('JLIB_INSTALLER_ERROR_LOAD_XML', $xmlfile);

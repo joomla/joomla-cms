@@ -21,7 +21,6 @@ class JFormRuleTelTest extends TestCase
 	 */
 	public function setUp()
 	{
-		jimport('joomla.utilities.xmlelement');
 		require_once JPATH_PLATFORM.'/joomla/form/rules/tel.php';
 	}
 
@@ -35,8 +34,7 @@ class JFormRuleTelTest extends TestCase
 		$rule = new JFormRuleTel;
 		$xml = simplexml_load_string('<form><field name="tel1" plan="NANP" />
 			<field name="tel2" plan="ITU-T" /><field name="tel3" plan="EPP" />
-			<field name="tel4" /></form>',
-			'JXMLElement');
+			<field name="tel4" /></form>');
 
 		// Test fail conditions NANP.
 		$this->assertThat(

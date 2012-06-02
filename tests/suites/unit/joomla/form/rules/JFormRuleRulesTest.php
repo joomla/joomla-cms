@@ -332,7 +332,7 @@ class JFormRuleRulesTest extends TestCase
 		}
 
 		// Build an XML element out of the form data array.
-		$xml = simplexml_load_string(implode($form), 'JXMLElement');
+		$xml = simplexml_load_string(implode($form));
 
 		return $xml;
 	}
