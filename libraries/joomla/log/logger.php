@@ -77,7 +77,7 @@ abstract class JLogLogger
  */
 class JLogger extends JLogLogger
 {
-	 /**
+	/**
 	 * Constructor.
 	 *
 	 * @param   array  &$options  Log object options.
