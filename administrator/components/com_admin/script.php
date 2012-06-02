@@ -334,6 +334,7 @@ class joomlaInstallerScript
 			'/administrator/components/com_admin/sql/updates/sqlsrv/2.5.2-2012-03-05.sql',
 			'/administrator/components/com_admin/sql/updates/sqlsrv/2.5.3-2012-03-13.sql',
 			'/administrator/components/com_admin/sql/updates/sqlsrv/index.html',
+			'/administrator/components/com_users/controllers/config.php',
 			'/administrator/language/en-GB/en-GB.plg_system_finder.ini',
 			'/administrator/language/en-GB/en-GB.plg_system_finder.sys.ini',
 			'/media/editors/tinymce/jscripts/tiny_mce/plugins/advhr/editor_plugin_src.js',

@@ -30,6 +30,7 @@ $ -> Language fix or change
  # [#28375] Remove blacklist code from FinderIndexerHelper. Thanks Michael
  # [#28605] ACL regression in com_finder. Thanks Sander
  # [#27819] The articles model displays articles for which there is no category access. Thanks Carsten and Nick
+ #  [#28608] Remove unused file in com_users. Thanks Rouven
 
 01-June-2012 Jean-Marie Simonet
  # [#28589] *ACL regression in com_search
