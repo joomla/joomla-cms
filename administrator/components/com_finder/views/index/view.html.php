@@ -72,9 +72,11 @@ class FinderViewIndex extends JView
 		JToolBarHelper::title(JText::_('COM_FINDER_INDEX_TOOLBAR_TITLE'), 'finder');
 		$toolbar = JToolBar::getInstance('toolbar');
 
-		$toolbar->appendButton('Popup', 'archive', 'COM_FINDER_INDEX', 'index.php?option=com_finder&view=indexer&tmpl=component', 500, 210);
-		JToolBarHelper::divider();
-
+		if ($canDo->get('core.create'))
+		{
+			$toolbar->appendButton('Popup', 'archive', 'COM_FINDER_INDEX', 'index.php?option=com_finder&view=indexer&tmpl=component', 500, 210);
+			JToolBarHelper::divider();
+		}
 		if ($canDo->get('core.edit.state'))
 		{
 			JToolBarHelper::publishList('index.publish');
@@ -84,21 +86,19 @@ class FinderViewIndex extends JView
 		if ($canDo->get('core.delete'))
 		{
 			JToolBarHelper::deleteList('', 'index.delete');
-			JToolBarHelper::divider();
-		}
-		if ($canDo->get('core.edit.state'))
-		{
 			JToolBarHelper::trash('index.purge', 'COM_FINDER_INDEX_TOOLBAR_PURGE', false);
 			JToolBarHelper::divider();
 		}
-
+		
+		$toolbar->appendButton('Popup', 'stats', 'COM_FINDER_STATISTICS', 'index.php?option=com_finder&view=statistics&tmpl=component', 550, 500);
+		JToolBarHelper::divider();
+		
 		if ($canDo->get('core.admin'))
 		{
 			JToolBarHelper::preferences('com_finder');
+			JToolBarHelper::divider();
 		}
-		JToolBarHelper::divider();
-		$toolbar->appendButton('Popup', 'stats', 'COM_FINDER_STATISTICS', 'index.php?option=com_finder&view=statistics&tmpl=component', 550, 500);
-		JToolBarHelper::divider();
+		
 		JToolBarHelper::help('JHELP_COMPONENTS_FINDER_MANAGE_INDEXED_CONTENT');
 	}
 }

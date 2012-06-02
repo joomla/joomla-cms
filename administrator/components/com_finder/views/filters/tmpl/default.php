@@ -80,9 +80,11 @@ Joomla.submitbutton = function(pressbutton) {
 					if ($this->total == 0):
 						echo JText::_('COM_FINDER_NO_FILTERS');
 						?>
+						<?php if(JFactory::getUser()->authorise('core.create',	'com_finder')):?>
 						<a href="<?php echo JRoute::_('index.php?option=com_finder&task=filter.add'); ?>" title="<?php echo JText::_('COM_FINDER_CREATE_FILTER'); ?>">
 							<?php echo JText::_('COM_FINDER_CREATE_FILTER'); ?>
 						</a>
+						<?php endif;?>
 						<?php
 					else:
 						echo JText::_('COM_FINDER_NO_RESULTS');
