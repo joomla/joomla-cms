@@ -47,7 +47,7 @@ class JFacebook
 	* @since  12.1
 	*/
 	protected $checkin;
-	
+
 	/**
 	* @var    JFacebookEvent  Facebook API object for checkin.
 	* @since  12.1
@@ -100,7 +100,7 @@ class JFacebook
 			}
 			return $this->status;
 		}
-		
+
 		if ($name == 'checkin')
 		{
 			if ($this->checkin == null)
@@ -109,7 +109,7 @@ class JFacebook
 			}
 			return $this->checkin;
 		}
-		
+
 		if ($name == 'event')
 		{
 			if ($this->event == null)

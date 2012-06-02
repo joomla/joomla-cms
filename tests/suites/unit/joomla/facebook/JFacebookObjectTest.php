@@ -74,16 +74,14 @@ class JFacebookObjectTest extends TestCase
 	/**
 	 * Test the fetchUrl method.
 	 * 
-	 * @todo Implement testFetchUrl().
-	 * 
 	 * @return  void
 	 * 
 	 * @since    12.1
 	 */
 	public function testFetchUrl()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		// Method tested via requesting classes
+		$this->markTestSkipped('This method is tested via requesting classes.');
 	}
 
 	/**
@@ -91,6 +89,7 @@ class JFacebookObjectTest extends TestCase
 	 *
 	 * @return  void
 	 * 
+	 * @covers JFacebookObject::fetchUrl()
 	 * @since    12.1
 	 */
 	public function testSendRequest()

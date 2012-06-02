@@ -360,7 +360,7 @@ class JFacebookUser extends JFacebookObject
 	/**
 	 * Method to create an album for a user.
 	 *
-	 * @param   string  $user          Either an integer containing the user ID or a string containing the username.
+	 * @param   mixed   $user          Either an integer containing the user ID or a string containing the username.
 	 * @param   string  $access_token  The Facebook access token with publish_stream  permission.
 	 * @param   string  $name          Album name.
 	 * @param   string  $description   Album description.
@@ -652,7 +652,7 @@ class JFacebookUser extends JFacebookObject
 	/**
 	 * Method to post a link on user's feed.
 	 *
-	 * @param   string  $user          Either an integer containing the user ID or a string containing the username.
+	 * @param   mixed   $user          Either an integer containing the user ID or a string containing the username.
 	 * @param   string  $access_token  The Facebook access token with publish_stream  permission.
 	 * @param   string  $link          Link URL.
 	 * @param   strin   $message       Link message.
@@ -722,7 +722,7 @@ class JFacebookUser extends JFacebookObject
 	/**
 	 * Method to create a note on the behalf of the user.
 	 *
-	 * @param   string  $user          Either an integer containing the user ID or a string containing the username.
+	 * @param   mixed   $user          Either an integer containing the user ID or a string containing the username.
 	 * @param   string  $access_token  The Facebook access token with publish_stream  permission.
 	 * @param   string  $subject       The subject of the note.
 	 * @param   strin   $message       Note content.
@@ -839,6 +839,7 @@ class JFacebookUser extends JFacebookObject
 	 * @param   string  $name               Post name (can only be used if link is specified).
 	 * @param   string  $caption            Post caption (can only be used if link is specified).
 	 * @param   string  $description        Post description (can only be used if link is specified).
+	 * @param   array   $actions            Post actions array of objects containing name and link.
 	 * @param   string  $place              Facebook Page ID of the location associated with this Post.
 	 * @param   string  $tags               Comma-separated list of Facebook IDs of people tagged in this Post.
 	 * 										For example: 1207059,701732. You cannot specify this field without also specifying a place.
@@ -852,7 +853,7 @@ class JFacebookUser extends JFacebookObject
 	 * @since   12.1
 	 */
 	public function createPost($user, $access_token, $message=null, $link=null, $picture=null, $name=null, $caption=null,
-		$description=null, $place=null, $tags=null, $privacy=null, $object_attachment=null)
+		$description=null, $actions=null, $place=null, $tags=null, $privacy=null, $object_attachment=null)
 	{
 		$token = '?access_token=' . $access_token;
 
@@ -989,7 +990,7 @@ class JFacebookUser extends JFacebookObject
 	/**
 	 * Method to post a video on behalf of the user.
 	 *
-	 * @param   string  $user          Either an integer containing the user ID or a string containing the username.
+	 * @param   mixed   $user          Either an integer containing the user ID or a string containing the username.
 	 * @param   string  $access_token  The Facebook access token with publish_stream permission.
 	 * @param   string  $source        Path to video.
 	 * @param   string  $title         Video title.

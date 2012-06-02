@@ -70,17 +70,62 @@ class JFacebookTest extends TestCase
 	}
 
 	/**
-	 * Tests the magic __get method - friends
+	 * Tests the magic __get method - user
 	 * 
 	 * @return  void
 	 * 
 	 * @since   12.1
 	 */
-	public function test__GetFriends()
+	public function test__GetUser()
 	{
 		$this->assertThat(
-			$this->object->friends,
-			$this->isInstanceOf('JFacebookFriends')
+			$this->object->user,
+			$this->isInstanceOf('JFacebookUser')
+		);
+	}
+
+	/**
+	 * Tests the magic __get method - status
+	 * 
+	 * @return  void
+	 * 
+	 * @since   12.1
+	 */
+	public function test__GetStatus()
+	{
+		$this->assertThat(
+			$this->object->status,
+			$this->isInstanceOf('JFacebookStatus')
+		);
+	}
+
+	/**
+	 * Tests the magic __get method - checkin
+	 * 
+	 * @return  void
+	 * 
+	 * @since   12.1
+	 */
+	public function test__GetCheckin()
+	{
+		$this->assertThat(
+			$this->object->checkin,
+			$this->isInstanceOf('JFacebookCheckin')
+		);
+	}
+
+	/**
+	 * Tests the magic __get method - event
+	 * 
+	 * @return  void
+	 * 
+	 * @since   12.1
+	 */
+	public function test__GetEvent()
+	{
+		$this->assertThat(
+			$this->object->event,
+			$this->isInstanceOf('JFacebookEvent')
 		);
 	}
 
