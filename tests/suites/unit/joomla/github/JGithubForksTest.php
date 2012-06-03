@@ -66,7 +66,7 @@ class JGithubForksTest extends PHPUnit_Framework_TestCase
 	public function testCreate()
 	{
 		$returnData = new stdClass;
-		$returnData->code = 201;
+		$returnData->code = 202;
 		$returnData->body = $this->sampleString;
 
 		// Build the request data.
