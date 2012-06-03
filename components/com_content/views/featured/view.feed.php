@@ -54,14 +54,13 @@ class ContentViewFeatured extends JView
 			$row->fulltext 		= $db->loadResult();
 
 			// Get description and author
-			$description	= ($params->get('feed_summary', 0) ? $row->introtext.$row->fulltext : $row->introtext);
-			$author			= $row->created_by_alias ? $row->created_by_alias : $row->author;
+			$description		= ($params->get('feed_summary', 0) ? $row->introtext.$row->fulltext : $row->introtext);
+			$author				= $row->created_by_alias ? $row->created_by_alias : $row->author;
 
 			// Load individual item creator class
 			$item 				= new JFeedItem();
 			$item->title		= $title;
 			$item->link			= $link;
-			$item->description	= $description;
 			$item->date			= $row->created;
 			$item_category		= $categories->get($row->catid);
 			$item->category		= array();
@@ -71,7 +70,6 @@ class ContentViewFeatured extends JView
 					$item->category[] = $item_category->title;
 				}
 			}
-
 			$item->author		= $author;
 			$item->authorEmail	= (($feedEmail == 'site') ? $siteEmail : $row->author_email);
 
@@ -79,8 +77,11 @@ class ContentViewFeatured extends JView
 			if (!$params->get('feed_summary', 0) 			// ...introtext is shown and
 				&& $params->get('feed_show_readmore', 0)	// ...parameter feed_show_readmore is true and
 				&& $row->fulltext != '') {					// ...there is more text to read
-					$item->description .= '<br /><a class="feed-readmore" target="_blank" href ="'.rtrim(JURI::base(), "/").str_replace(' ', '%20', $item->link).'">'.JText::_('COM_CONTENT_FEED_READMORE').'</a>';
+					$description .= '<p class="feed-readmore"><a target="_blank" href ="'.rtrim(JURI::base(), "/").str_replace(' ', '%20', $item->link).'">'.JText::_('COM_CONTENT_FEED_READMORE').'</a></p>';
 			}
+			
+			// Load item description and add div
+			$item->description = '<div class="feed-description">'.$description.'</div>';
 
 			// Loads item info into rss array
 			$doc->addItem($item);
