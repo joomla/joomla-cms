@@ -26,7 +26,11 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
-03-June-2012 Jean-Marie Simonet
+03-Jun-2012 Mark Dexter
+
+ ^ [#28450] Set the CSS class for JForm field label. Thanks Viet Vu.
+
+03-Jun-2012 Jean-Marie Simonet
  $ Updating installation ini files: nb-NO, nl-NL, nn-NO
  # [#28602] *Menu Item Manager: Show Batch Processing only if allowed. Thanks Johannes
  # [#28611] *ACL: Module Manager: Show Batch Processing only if allowed
@@ -38,13 +42,13 @@ $ -> Language fix or change
  # [#28599] Backport the new JLoader from the platform 12.1. Thanks Rouven
  ^ [#28600] Add a code style checker. Thanks Rouven
 
-02-June-2012 Jean-Marie Simonet
+02-Jun-2012 Jean-Marie Simonet
  # [#28375] Remove blacklist code from FinderIndexerHelper. Thanks Michael
  # [#28605] ACL regression in com_finder. Thanks Sander
  # [#27819] The articles model displays articles for which there is no category access. Thanks Carsten and Nick
  #  [#28608] Remove unused file in com_users. Thanks Rouven
 
-01-June-2012 Jean-Marie Simonet
+01-Jun-2012 Jean-Marie Simonet
  # [#28589] *ACL regression in com_search
  # [#28588] *ACL regression in com_messages
  # [#28587] *ACL regression in com_redirect
