@@ -15,7 +15,7 @@
  * @package		Joomla.UnitTest
  * @subpackage  Log
  */
-class JLogLoggerW3CInspector extends JLogLoggerW3C
+class JLogLoggerW3CInspector extends JLogLoggerW3c
 {
 	public $file;
 	public $format = '{DATE}	{TIME}	{PRIORITY}	{CLIENTIP}	{CATEGORY}	{MESSAGE}';

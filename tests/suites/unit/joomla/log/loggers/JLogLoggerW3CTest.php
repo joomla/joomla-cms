@@ -7,7 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM.'/joomla/log/loggers/w3c.php';
 require_once __DIR__.'/stubs/w3c/inspector.php';
 
 /**

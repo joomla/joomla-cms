@@ -95,7 +95,7 @@ class JApplicationCliTest extends TestCase
 				$this->returnValue('ok')
 			);
 
-		$mockConfig = $this->getMock('JRegistry', array('test'), array(), '', false);
+		$mockConfig = $this->getMock('JRegistry', array('test'), array(null), '', true);
 		$mockConfig
 			->expects($this->any())
 			->method('test')
