@@ -317,6 +317,7 @@ class joomlaInstallerScript
 			'/installation/sql/mysql/joomla_update_170to171.sql',
 			'/installation/sql/mysql/joomla_update_172to173.sql',
 			'/installation/sql/mysql/joomla_update_17ga.sql',
+			'/libraries/cms/cmsloader.php',
 			'/libraries/joomla/application/applicationexception.php',
 			'/libraries/joomla/client/http.php',
 			'/libraries/joomla/filter/filterinput.php',
