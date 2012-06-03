@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+03-June-2012 Jean-Marie Simonet
+ $ Updating installation ini files: nb-NO, nl-NL, nn-NO
+
 02-June-2012 Jean-Marie Simonet
  # [#28375] Remove blacklist code from FinderIndexerHelper. Thanks Michael
  # [#28605] ACL regression in com_finder. Thanks Sander
