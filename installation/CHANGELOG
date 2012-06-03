@@ -29,6 +29,7 @@ $ -> Language fix or change
 03-June-2012 Jean-Marie Simonet
  $ Updating installation ini files: nb-NO, nl-NL, nn-NO
  # [#28602] *Menu Item Manager: Show Batch Processing only if allowed. Thanks Johannes
+ # [#28611] *ACL: Module Manager: Show Batch Processing only if allowed
 
 02-June-2012 Jean-Marie Simonet
  # [#28375] Remove blacklist code from FinderIndexerHelper. Thanks Michael
