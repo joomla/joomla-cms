@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.html.editor');
-
 /**
  * Form Field class for the Joomla Platform.
  * An editarea field for content creation
@@ -93,7 +91,7 @@ class JFormFieldEditor extends JFormField
 	 *
 	 * @since   11.1
 	 */
-	protected function &getEditor()
+	protected function getEditor()
 	{
 		// Only create the editor if it is not already created.
 		if (empty($this->editor))
@@ -136,7 +134,12 @@ class JFormFieldEditor extends JFormField
 			}
 
 			// Create the JEditor instance based on the given editor.
-			$this->editor = JFactory::getEditor($editor ? $editor : null);
+			if (is_null($editor))
+			{
+				$conf = JFactory::getConfig();
+				$editor = $conf->get('editor');
+			}
+			$this->editor = JEditor::getInstance($editor);
 		}
 
 		return $this->editor;

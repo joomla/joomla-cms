@@ -1,14 +1,11 @@
 <?php
 /**
  * @package     Joomla.UnitTest
- * @subpackage  HTML
+ * @subpackage  Editor
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-
-require_once JPATH_PLATFORM.'/joomla/base/observable.php';
-require_once JPATH_PLATFORM.'/joomla/html/editor.php';
 
 /**
  * Test class for JEditor.
