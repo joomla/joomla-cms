@@ -75,7 +75,7 @@ abstract class JLogLogger
  * @since       11.1
  * @deprecated  13.3
  */
-class JLogger extends JLogLogger
+abstract class JLogger extends JLogLogger
 {
 	/**
 	 * Constructor.

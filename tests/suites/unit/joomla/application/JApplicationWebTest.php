@@ -198,7 +198,7 @@ class JApplicationWebTest extends TestCase
 				$this->returnValue('ok')
 			);
 
-		$mockConfig = $this->getMock('JRegistry', array('test'), array(), '', false);
+		$mockConfig = $this->getMock('JRegistry', array('test'), array(null), '', true);
 		$mockConfig
 			->expects($this->any())
 			->method('test')
@@ -285,12 +285,12 @@ class JApplicationWebTest extends TestCase
 			'Checks the body array has been appended.'
 		);
 
-		$this->class->appendBody(array('goo'));
+		$this->class->appendBody(true);
 
 		$this->assertThat(
 			TestReflection::getValue($this->class, 'response')->body,
 			$this->equalTo(
-				array('foo', 'bar', 'Array')
+				array('foo', 'bar', '1')
 			),
 			'Checks that non-strings are converted to strings.'
 		);
@@ -1372,12 +1372,12 @@ class JApplicationWebTest extends TestCase
 			'Checks the body array has been prepended.'
 		);
 
-		$this->class->prependBody(array('goo'));
+		$this->class->prependBody(true);
 
 		$this->assertThat(
 			TestReflection::getValue($this->class, 'response')->body,
 			$this->equalTo(
-				array('Array', 'bar', 'foo')
+				array('1', 'bar', 'foo')
 			),
 			'Checks that non-strings are converted to strings.'
 		);
@@ -1738,12 +1738,12 @@ class JApplicationWebTest extends TestCase
 			'Checks the body array has been reset.'
 		);
 
-		$this->class->setBody(array('goo'));
+		$this->class->setBody(true);
 
 		$this->assertThat(
 			TestReflection::getValue($this->class, 'response')->body,
 			$this->equalTo(
-				array('Array')
+				array('1')
 			),
 			'Checks reset and that non-strings are converted to strings.'
 		);

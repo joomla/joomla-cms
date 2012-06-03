@@ -7,7 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM.'/joomla/log/loggers/messagequeue.php';
 require_once __DIR__.'/stubs/messagequeue/mock.application.php';
 
 /**
@@ -51,7 +50,7 @@ class JLogLoggerMessageQueueTest extends PHPUnit_Framework_TestCase
 		$config = array();
 
 		// Get an instance of the logger.
-		$logger = new JLogLoggerMessageQueue($config);
+		$logger = new JLogLoggerMessagequeue($config);
 
 		// Add a basic error message, it ignores the category.
 		$logger->addEntry(new JLogEntry('TESTING', JLog::ERROR, 'DePrEcAtEd'));
