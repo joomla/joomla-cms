@@ -37,6 +37,7 @@ $ -> Language fix or change
  # [#28560] Backport some files completely from the current platform. Thanks Rouven
  # [#28599] Backport the new JLoader from the platform 12.1. Thanks Rouven
  ^ [#28600] Add a code style checker. Thanks Rouven
+ # [#28548] Use instanceof instead of is_a(). Thanks Rouven.
 
 02-June-2012 Jean-Marie Simonet
  # [#28375] Remove blacklist code from FinderIndexerHelper. Thanks Michael

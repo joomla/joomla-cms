@@ -346,7 +346,7 @@ class plgFinderCategories extends FinderIndexerAdapter
 	{
 		$db = JFactory::getDbo();
 		// Check if we can use the supplied SQL query.
-		$sql = is_a($sql, 'JDatabaseQuery') ? $sql : $db->getQuery(true);
+		$sql = $sql instanceof JDatabaseQuery ? $sql : $db->getQuery(true);
 		$sql->select('a.id, a.title, a.alias, a.description AS summary, a.extension');
 		$sql->select('a.created_user_id AS created_by, a.modified_time AS modified, a.modified_user_id AS modified_by');
 		$sql->select('a.metakey, a.metadesc, a.metadata, a.language, a.lft, a.parent_id, a.level');

@@ -168,7 +168,7 @@ class FinderIndexer
 	public static function setState($data)
 	{
 		// Check the state object.
-		if (empty($data) || !is_a($data, 'JObject'))
+		if (empty($data) || !$data instanceof JObject)
 		{
 			return false;
 		}

@@ -662,7 +662,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 		JLog::add('FinderIndexerAdapter::getListQuery', JLog::INFO);
 
 		// Check if we can use the supplied SQL query.
-		$sql = is_a($sql, 'JDatabaseQuery') ? $sql : $this->db->getQuery(true);
+		$sql = $sql instanceof JDatabaseQuery ? $sql : $this->db->getQuery(true);
 
 		return $sql;
 	}
