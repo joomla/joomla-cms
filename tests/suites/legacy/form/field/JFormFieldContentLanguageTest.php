@@ -14,7 +14,7 @@
  * @subpackage  Form
  * @since       11.1
  */
-class JFormFieldContentLanguageTest extends TestCaseDatabase
+class JFormFieldContentlanguageTest extends TestCaseDatabase
 {
 	/**
 	 * Sets up dependencies for the test.
@@ -25,7 +25,6 @@ class JFormFieldContentLanguageTest extends TestCaseDatabase
 	 */
 	protected function setUp()
 	{
-		require_once JPATH_PLATFORM . '/legacy/form/field/contentlanguage.php';
 		require_once JPATH_TESTS . '/suites/unit/joomla/form/inspectors.php';
 	}
 
@@ -59,7 +58,7 @@ class JFormFieldContentLanguageTest extends TestCaseDatabase
 			'Line:'.__LINE__.' XML string should load successfully.'
 		);
 
-		$field = new JFormFieldContentLanguage($form);
+		$field = new JFormFieldContentlanguage($form);
 
 		$this->assertThat(
 			$field->setup($form->getXml()->field, 'value'),
