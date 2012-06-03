@@ -33,6 +33,7 @@ $ -> Language fix or change
  # [#28536] Undefined variable $prev in com_config. Thanks Rouven
  # [#28607] Missing direct access check for com_finder. Thanks Sander
  ^ [#28609] Update joomlaupdate @SInCE tags missed in 61f5ee8. Thanks Rouven
+ # [#28285] E_NOTICE about array to string conversion in debug.php with PHP 5.4. Thanks Rouven
 
 02-June-2012 Jean-Marie Simonet
  # [#28375] Remove blacklist code from FinderIndexerHelper. Thanks Michael
