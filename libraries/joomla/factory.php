@@ -430,13 +430,17 @@ abstract class JFactory
 	 *
 	 * @param   string  $editor  The editor to load, depends on the editor plugins that are installed
 	 *
-	 * @return  JEditor object
+	 * @return  JEditor instance of JEditor
 	 *
 	 * @since   11.1
+	 * @deprecated 12.3 Use JEditor directly
 	 */
 	public static function getEditor($editor = null)
 	{
-		jimport('joomla.html.editor');
+		if (!class_exists('JEditor'))
+		{
+			throw new BadMethodCallException('JEditor not found');
+		}
 
 		// Get the editor configuration setting
 		if (is_null($editor))

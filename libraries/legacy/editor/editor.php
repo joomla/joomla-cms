@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Platform
- * @subpackage  HTML
+ * @subpackage  Editor
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
  * JEditor class to handle WYSIWYG editors
  *
  * @package     Joomla.Platform
- * @subpackage  HTML
+ * @subpackage  Editor
  * @since       11.1
  */
 class JEditor extends JObject
@@ -92,7 +92,7 @@ class JEditor extends JObject
 	 *
 	 * @param   string  $editor  The editor to use.
 	 *
-	 * @return  object  JEditor  The Editor object.
+	 * @return  JEditor The Editor object.
 	 *
 	 * @since   11.1
 	 */
