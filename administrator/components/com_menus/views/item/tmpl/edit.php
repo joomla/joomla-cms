@@ -133,6 +133,7 @@ JHtml::_('behavior.modal');
 
 </div>
 
+	<div class="clr"></div>
 	<?php if ($this->canDo->get('core.admin')): ?>
 		<div class="width-100 fltlft">
 			<?php echo JHtml::_('sliders.start', 'permissions-sliders-'.$this->item->id, array('useCookie'=>1)); ?>
@@ -151,5 +152,4 @@ JHtml::_('behavior.modal');
 	<?php echo $this->form->getInput('component_id'); ?>
 	<?php echo JHtml::_('form.token'); ?>
 	<input type="hidden" id="fieldtype" name="fieldtype" value="" />
-</div>
 </form>

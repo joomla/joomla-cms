@@ -77,6 +77,39 @@ class JTableMenu extends JTableNested
 		// Initialise variables.
 		$assetId = null;
 
+		// This is a menu item under a menu item.
+		if ($this->level > 1)
+		{
+			// Build the query to get the asset id for the parent menu item.
+			$query = $this->_db->getQuery(true);
+			$query->select($this->_db->quoteName('asset_id'));
+			$query->from($this->_db->quoteName('#__menu'));
+			$query->where($this->_db->quoteName('id') . ' = ' . $this->parent_id);
+
+			// Get the asset id from the database.
+			$this->_db->setQuery($query);
+			if ($result = $this->_db->loadResult())
+			{
+				$assetId = (int) $result;
+			}
+		}
+		// This is a menu item that needs to parent with the menutype.
+		elseif ($assetId === null)
+		{
+			// Build the query to get the asset id for the parent menutype.
+			$query = $this->_db->getQuery(true);
+			$query->select($this->_db->quoteName('asset_id'));
+			$query->from($this->_db->quoteName('#__menu_types'));
+			$query->where($this->_db->quoteName('menutype') . ' = ' . $this->_db->quote($this->menutype));
+
+			// Get the asset id from the database.
+			$this->_db->setQuery($query);
+			if ($result = $this->_db->loadResult())
+			{
+				$assetId = (int) $result;
+			}
+		}
+
 		// Return the asset id.
 		if ($assetId)
 		{

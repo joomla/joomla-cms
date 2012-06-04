@@ -66,9 +66,9 @@ class MenusViewMenus extends JView
 			JToolBarHelper::deleteList('', 'menus.delete');
 		}
 
-		JToolBarHelper::custom('menus.rebuild', 'refresh.png', 'refresh_f2.png', 'JTOOLBAR_REBUILD', false);
 		if ($canDo->get('core.admin')) {
 			JToolBarHelper::divider();
+			JToolBarHelper::custom('menus.rebuild', 'refresh.png', 'refresh_f2.png', 'JTOOLBAR_REBUILD', false);
 			JToolBarHelper::preferences('com_menus');
 		}
 		JToolBarHelper::divider();

@@ -74,6 +74,23 @@ class JTableMenuType extends JTable
 		// Initialise variables.
 		$assetId = null;
 
+		// This is a menutype that needs to parent with the extension.
+		if ($assetId === null)
+		{
+			// Build the query to get the asset id of the parent component.
+			$query = $this->_db->getQuery(true);
+			$query->select($this->_db->quoteName('id'));
+			$query->from($this->_db->quoteName('#__assets'));
+			$query->where($this->_db->quoteName('name') . ' = ' . $this->_db->quote('com_menus'));
+
+			// Get the asset id from the database.
+			$this->_db->setQuery($query);
+			if ($result = $this->_db->loadResult())
+			{
+				$assetId = (int) $result;
+			}
+		}
+
 		// Return the asset id.
 		if ($assetId)
 		{
