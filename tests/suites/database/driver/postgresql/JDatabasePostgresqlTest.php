@@ -553,7 +553,10 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 	 */
 	public function testInsertObject()
 	{
-		self::$driver->setQuery('TRUNCATE TABLE "jos_dbtest" RESTART IDENTITY');
+		self::$driver->setQuery('ALTER SEQUENCE jos_dbtest_id_seq RESTART WITH 1');
+		$result = self::$driver->execute();
+
+		self::$driver->setQuery('TRUNCATE TABLE "jos_dbtest"');
 		$result = self::$driver->execute();
 
 		$tst = new JObject;
