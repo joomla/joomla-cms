@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 JHtml::_('behavior.keepalive');
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
+JHTML::_('behavior.modal');
 //load user_profile plugin language
 $lang = JFactory::getLanguage();
 $lang->load( 'plg_user_profile', JPATH_ADMINISTRATOR );
@@ -35,9 +36,35 @@ $lang->load( 'plg_user_profile', JPATH_ADMINISTRATOR );
 				<?php echo $field->input;?>
 			<?php else:?>
 				<dt>
-					<?php echo $field->label; ?>
+					<?php // Added for TOS article
+					if ($field->name == "jform[profile][tos]")
+					{
+						if ($fieldset->label == "PLG_USER_PROFILE_SLIDER_LABEL")
+						{
+							$plugin = JPluginHelper::getPlugin('user','profile');
+							$pluginParams = new JRegistry();
+							$pluginParams->loadString($plugin->params);
+							$tosarticle = $pluginParams->get('register-require_tos_article', '1');
+
+							$doc = JFactory::getDocument();
+							$toscss1 = "#jform_profile_tos {width: 18em; margin: 0 !important; padding: 0 2px !important;}";
+							$toscss2 = "#jform_profile_tos input {margin:0 5px 0 0 !important; width:10px !important;}";
+							
+							$doc->addStyleDeclaration($toscss1);
+							$doc->addStyleDeclaration($toscss2);
+							?>
+
+							<a class="modal" title="" href="index.php?option=com_content&amp;view=article&amp;layout=modal&amp;id=<?php echo $tosarticle; ?>&amp;tmpl=component" rel="{handler: 'iframe', size: {x:800, y:500}}"><?php echo JText::_('PLG_USER_PROFILE_FIELD_TOS_LABEL') ?></a>
+
+							<?php if ($field->required): ?>
+								<span class="star">&#160;*</span>
+							<?php endif;
+						}		  
+					} 
+					else echo $field->label;
+					?>
 					<?php if (!$field->required && $field->type!='Spacer' && $field->name!='jform[username]'): ?>
-					<span class="optional"><?php echo JText::_('COM_USERS_OPTIONAL'); ?></span>
+						<span class="optional"><?php echo JText::_('COM_USERS_OPTIONAL'); ?></span>
 					<?php endif; ?>
 				</dt>
 				<dd><?php echo $field->input; ?></dd>
