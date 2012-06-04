@@ -137,7 +137,7 @@ class JLanguageHelper
 				$knownLangs = JLanguage::getKnownLanguages(JPATH_BASE);
 				foreach ($knownLangs as $metadata)
 				{
-					// take off 3 letters iso code languages as they can't match browsers' languages and default them to en
+					// Take off 3 letters iso code languages as they can't match browsers' languages and default them to en
 					$languages[$key][] = new JObject(array('lang_code' => $metadata['tag']));
 				}
 			}

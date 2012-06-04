@@ -26,6 +26,43 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+04-Jun-2012 Jean-Marie Simonet
+ + [#28067] Option to disable the ability to change the Username in Profile
+ + [#24510] Implementation of Terms of Service. Thanks Peter.
+ + [#28614] Add option to enable/disable logging in Smart Search. Thanks Michael.
+ # [#28615] Backport union query element from Platform 12 and use it in Smart Search. Thanks Michael.
+
+03-Jun-2012 Mark Dexter
+ ^ [#28450] Set the CSS class for JForm field label. Thanks Viet Vu.
+
+03-Jun-2012 Jean-Marie Simonet
+ $ Updating installation ini files: nb-NO, nl-NL, nn-NO
+ # [#28602] *Menu Item Manager: Show Batch Processing only if allowed. Thanks Johannes
+ # [#28611] *ACL: Module Manager: Show Batch Processing only if allowed
+ # [#28536] Undefined variable $prev in com_config. Thanks Rouven
+ # [#28607] Missing direct access check for com_finder. Thanks Sander
+ ^ [#28609] Update joomlaupdate @SInCE tags missed in 61f5ee8. Thanks Rouven
+ # [#28285] E_NOTICE about array to string conversion in debug.php with PHP 5.4. Thanks Rouven
+ # [#28560] Backport some files completely from the current platform. Thanks Rouven
+ # [#28599] Backport the new JLoader from the platform 12.1. Thanks Rouven
+ ^ [#28600] Add a code style checker. Thanks Rouven
+ # [#28548] Use instanceof instead of is_a(). Thanks Rouven.
+
+02-Jun-2012 Jean-Marie Simonet
+ # [#28375] Remove blacklist code from FinderIndexerHelper. Thanks Michael
+ # [#28605] ACL regression in com_finder. Thanks Sander
+ # [#27819] The articles model displays articles for which there is no category access. Thanks Carsten and Nick
+ #  [#28608] Remove unused file in com_users. Thanks Rouven
+
+01-Jun-2012 Jean-Marie Simonet
+ # [#28589] *ACL regression in com_search
+ # [#28588] *ACL regression in com_messages
+ # [#28587] *ACL regression in com_redirect
+ # [#28579] Fix xreference regression from 1.7 to 2.5. Thanks Andrea.
+ # [#28561] Move some JFormFields from the platform to the CMS. Thanks Rouven.
+ # [#28335] Simplify schema path in installation, add support for other databases. Thanks Michael.
+ # [#28598] *Article Category list displays hits in author column if no article author or createdbyalias.
+ 
 30-May-2012 Jean-Marie Simonet
  $ Missing language string
  $ Updating installation ini files: et-EE, mn-MN

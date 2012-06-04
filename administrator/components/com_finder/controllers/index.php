@@ -52,7 +52,7 @@ class FinderControllerIndex extends JControllerAdmin
 		@set_time_limit(0);
 
 		// Initialize variables.
-		$model = &$this->getModel('Index', 'FinderModel');
+		$model = $this->getModel('Index', 'FinderModel');
 
 		// Attempt to purge the index.
 		$return = $model->purge();

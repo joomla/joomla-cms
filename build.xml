@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="joomla" default="build" basedir=".">
+	<property name="source" value="." />
+
+	<target name="clean" description="Clean up and create artifact directories">
+		<delete dir="${basedir}/build/logs" />
+
+		<mkdir dir="${basedir}/build/logs" />
+	</target>
+
+	<target name="phpcs" description="Generate checkstyle.xml using PHP_CodeSniffer">
+		<exec executable="phpcs">
+			<arg value="--report=checkstyle" />
+			<arg value="-p" />
+			<arg value="--report-file=${basedir}/build/logs/checkstyle.xml" />
+			<arg value="--standard=${basedir}/build/phpcs/Joomla" />
+			<arg path="${source}" />
+		</exec>
+	</target>
+	
+	<target name="build" depends="clean,phpcs" />
+</project>

@@ -269,7 +269,7 @@ class JInstallation extends JApplication
 		$options['name'] = $name;
 
 		$session = JFactory::getSession($options);
-		if (!is_a($session->get('registry'), 'JRegistry')) {
+		if (!$session->get('registry') instanceof JRegistry) {
 			// Registry has been corrupted somehow
 			$session->set('registry', new JRegistry('session'));
 		}
