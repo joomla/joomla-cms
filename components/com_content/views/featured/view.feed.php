@@ -68,10 +68,12 @@ class ContentViewFeatured extends JView
 			}
 
 			$item->author		= $author;
-			if ($feedEmail == 'site') {
+			if ($feedEmail == 'site') 
+			{
 				$item->authorEmail = $siteEmail;
 			}
-			else {
+			elseif 
+			{
 				$item->authorEmail = $row->author_email;
 			}
 			// loads item info into rss array
