@@ -18,7 +18,7 @@ jimport('joomla.application.component.view');
  */
 class ContentViewCategory extends JView
 {
-	function display()
+	function display($tpl = null)
 	{
 		$app = JFactory::getApplication();
 
@@ -26,6 +26,7 @@ class ContentViewCategory extends JView
 		$params = $app->getParams();
 		$feedEmail	= (@$app->getCfg('feed_email')) ? $app->getCfg('feed_email') : 'author';
 		$siteEmail	= $app->getCfg('mailfrom');
+
 		// Get some data from the model
 		JRequest::setVar('limit', $app->getCfg('feed_limit'));
 		$category	= $this->get('Category');
@@ -58,12 +59,13 @@ class ContentViewCategory extends JView
 			$item->description	= $description;
 			$item->date			= $date;
 			$item->category		= $row->category_title;
-
 			$item->author		= $author;
-			if ($feedEmail == 'site') {
+			if ($feedEmail == 'site') 
+			{
 				$item->authorEmail = $siteEmail;
-			}
-			else {
+			} 
+			elseif($feedEmail === 'author')
+			{
 				$item->authorEmail = $row->author_email;
 			}
 
