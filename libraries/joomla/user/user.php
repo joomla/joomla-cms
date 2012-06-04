@@ -236,6 +236,14 @@ class JUser extends JObject
 			$id = $identifier;
 		}
 
+		// If the $id is zero, just return an empty JUser.
+		// Note: don't cache this user because it'll have a new ID on save!
+		if ($id === 0)
+		{
+			return new JUser;
+		}
+
+		// Check if the user ID is already cached.
 		if (empty(self::$instances[$id]))
 		{
 			$user = new JUser($id);
