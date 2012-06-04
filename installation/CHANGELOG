@@ -29,6 +29,7 @@ $ -> Language fix or change
 04-Jun-2012 Jean-Marie Simonet
  + [#28067] Option to disable the ability to change the Username in Profile
  + [#24510] Implementation of Terms of Service. Thanks Peter.
+ + [#28614] Add option to enable/disable logging in Smart Search. Thanks Michael.
 
 03-Jun-2012 Mark Dexter
  ^ [#28450] Set the CSS class for JForm field label. Thanks Viet Vu.
