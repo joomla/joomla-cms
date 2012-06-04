@@ -823,7 +823,7 @@ abstract class JHtml
 		else
 		{
 			return '<input type="text" title="' . (0 !== (int) $value ? self::_('date', $value) : '')
-				. '" value="' . (0 !== (int) $value ? self::_('date', $value, JFactory::getDbo()->getDateFormat()) : '') . '" ' . $attribs
+				. '" value="' . (0 !== (int) $value ? self::_('date', $value) : '') . '" ' . $attribs
 				. ' /><input type="hidden" name="' . $name . '" id="' . $id . '" value="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '" />';
 		}
 	}
