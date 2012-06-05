@@ -1634,6 +1634,7 @@ IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[#__modul
 BEGIN
 CREATE TABLE [#__modules](
 	[id] [int] IDENTITY(1,1) NOT NULL,
+	[asset_id] [bigint] NOT NULL,
 	[title] [nvarchar](100) NOT NULL,
 	[note] [nvarchar](255) NOT NULL,
 	[content] [nvarchar](max) NOT NULL,
