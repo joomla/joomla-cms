@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+05-Jun-2012 Jean-Marie Simonet
+ # [#28619] Fix #24510 to not add code specific to the profile plug-in to com_users. Thanks Rouven.
+
 04-Jun-2012 Jean-Marie Simonet
  + [#28067] Option to disable the ability to change the Username in Profile
  + [#24510] Implementation of Terms of Service. Thanks Peter.

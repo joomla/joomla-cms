@@ -132,17 +132,17 @@
 				<field
 					name="register-require_tos"
 					type="list"
-
+					default="0"
 					label="PLG_USER_PROFILE_FIELD_TOS_LABEL"
 					description="PLG_USER_PROFILE_FIELD_TOS_DESC"
 				>
 					<option	value="2">JOPTION_REQUIRED</option>
-					<option	value="1">JOPTION_OPTIONAL</option>
 					<option	value="0">JDISABLED</option>
 				</field>
 				<field
-					name="register-require_tos_article"
+					name="register_tos_article"
 					type="modal_article"
+
 					label="PLG_USER_PROFILE_FIELD_TOS_ARTICLE_LABEL"
 					description="PLG_USER_PROFILE_FIELD_TOS_ARTICLE_DESC"
 				/>
@@ -263,23 +263,6 @@
 					<option	value="1">JOPTION_OPTIONAL</option>
 					<option	value="0">JDISABLED</option>
 				</field>
-				<field
-					name="profile-require_tos"
-					type="list"
-
-					label="PLG_USER_PROFILE_FIELD_TOS_LABEL"
-					description="PLG_USER_PROFILE_FIELD_TOS_DESC">
-					<option	value="2">JOPTION_REQUIRED</option>
-					<option	value="1">JOPTION_OPTIONAL</option>
-					<option	value="0">JDISABLED</option>
-				</field>
-				<field
-					name="profile-require_tos_article"
-					type="modal_article"
-
-					label="PLG_USER_PROFILE_FIELD_TOS_ARTICLE_LABEL"
-					description="PLG_USER_PROFILE_FIELD_TOS_ARTICLE_DESC"
-				/>
 				<field
 					name="profile-require_dob"
 					type="list"
