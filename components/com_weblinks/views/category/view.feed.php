@@ -32,7 +32,7 @@ class WeblinksViewCategory extends JView
 		$params = $app->getParams();
 		$siteEmail = $app->getCfg('mailfrom');
 		$fromName = $app->getCfg('fromname');
-		$feedEmail	= $app->getCfg('feed_email','author');
+		$feedEmail	= $app->getCfg('feed_email', 'author');
 		$document->editor = $fromName;
 		$document->editorEmail = $siteEmail;
 

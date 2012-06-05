@@ -67,12 +67,12 @@ class ContentViewFeatured extends JView
 				}
 			}
 
-			$item->author		= $author;
+			$item->author = $author;
 			if ($feedEmail == 'site') 
 			{
 				$item->authorEmail = $siteEmail;
 			}
-			elseif 
+			elseif ($feedEmail === 'author') 
 			{
 				$item->authorEmail = $row->author_email;
 			}
@@ -81,4 +81,3 @@ class ContentViewFeatured extends JView
 		}
 	}
 }
-?>

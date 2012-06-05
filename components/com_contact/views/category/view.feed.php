@@ -64,7 +64,7 @@ class ContactViewCategory extends JView
 			$item->link			= $link;
 			$item->description	= $description;
 			$item->date			= $date;
-			$item->category		= $category;->title;
+			$item->category		= $category->title;
 			$item->author		= $author;
 
 			// We don't have the author email so we have to use site in both cases.
