@@ -31,15 +31,22 @@ abstract class ModulesHelper
 	 *
 	 * @return	JObject
 	 */
-	public static function getActions()
+	public static function getActions($moduleId = 0)
 	{
 		$user	= JFactory::getUser();
 		$result	= new JObject;
 
+		if (empty($moduleId)) {
+			$assetName = 'com_modules';
+		}
+		else {
+			$assetName = 'com_modules.module.'.(int) $moduleId;
+		}
+		
 		$actions = JAccess::getActions('com_modules');
 
 		foreach ($actions as $action) {
-			$result->set($action->name, $user->authorise($action->name, 'com_modules'));
+			$result->set($action->name, $user->authorise($action->name, $assetName));
 		}
 
 		return $result;
