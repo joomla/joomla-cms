@@ -67,11 +67,13 @@ abstract class JHtmlBehavior
 	/**
 	 * Method to load jQuery into the document head
 	 *
+	 * @param   string  $file  An optional path to use in place of the local path. (for CDNs)
+	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
-	public static function jquery()
+	public static function jquery($file = null)
 	{
 		// Only load once
 		if (!empty(self::$loaded[__METHOD__]))
@@ -79,8 +81,16 @@ abstract class JHtmlBehavior
 			return;
 		}
 
-		JHtml::_('script', 'system/jquery.min.js', false, true);
-		JHtml::_('script', 'system/jquery-no-conflict.js', false, true);
+		if ($file) {
+			$path = $file;
+		} else {
+			$path = JURI::base() . 'media/system/js/jquery.min.js';
+		}
+
+		$document = JFactory::getDocument();
+		$document->addScript($path);
+		$document->addPostScript($path, 'jQuery.noConflict();');
+
 		self::$loaded[__METHOD__] = true;
 
 		return;

@@ -171,6 +171,22 @@ class JDocumentRendererHead extends JDocumentRenderer
 				$buffer .= ' async="async"';
 			}
 			$buffer .= '></script>' . $lnEnd;
+
+			if (isset($document->_postScripts[$strSrc])) {
+				$buffer .= $tab . '<script type="' . $strAttr['mime'] . '"';
+
+				if ($strAttr['defer'])
+				{
+					$buffer .= ' defer="defer"';
+				}
+
+				if ($strAttr['async'])
+				{
+					$buffer .= ' async="async"';
+				}
+
+				$buffer .= '>' . $document->_postScripts[$strSrc] . '</script>' . $lnEnd;
+			}
 		}
 
 		// Generate script declarations
