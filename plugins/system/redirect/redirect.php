@@ -78,18 +78,27 @@ class plgSystemRedirect extends JPlugin
 									$db->quoteName('new_url'),
 									$db->quoteName('referer'),
 									$db->quoteName('comment'),
+									$db->quoteName('hits'),
 									$db->quoteName('published'),
 									$db->quoteName('created_date')
 								);
 					$query->columns($columns);
 				    $query->values($db->Quote($current). ', '. $db->Quote('').
-				  				' ,'.$db->Quote($referer).', '.$db->Quote('').',0, '.
+				  				' ,'.$db->Quote($referer).', '.$db->Quote('').',1,0, '.
 								  $db->Quote(JFactory::getDate()->toSql())
 								);
 
 					$db->setQuery($query);
 					$db->query();
 
+				} else {
+					// Existing error url, increase hit counter
+					$query = $db->getQuery(true);
+					$query->update($db->quoteName('#__redirect_links'));
+					$query->set($db->quoteName('hits').' = '.$db->quoteName('hits').' + 1');
+					$query->where('id = '.(int)$res);
+					$db->setQuery((string)$query);
+					$db->query();
 				}
 				// Render the error page.
 				JError::customErrorPage($error);
