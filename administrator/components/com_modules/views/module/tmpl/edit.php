@@ -47,8 +47,34 @@ JFactory::getDocument()->addScriptDeclaration($script);
 			<?php if ($hasContent) : ?>
 				<li><a href="#custom" data-toggle="tab"><?php echo JText::_('COM_MODULES_CUSTOM_OUTPUT'); ?></a></li>
 			<?php endif; ?>
+<<<<<<< HEAD
 			<?php if ($this->item->client_id == 0) : ?>
 				<li><a href="#assignment" data-toggle="tab"><?php echo JText::_('COM_MODULES_MENU_ASSIGNMENT'); ?></a></li>
+=======
+
+			<li><?php echo $this->form->getLabel('access'); ?>
+			<?php echo $this->form->getInput('access'); ?></li>
+			
+			<?php if ($this->canDo->get('core.admin')): ?>
+				<li><span class="faux-label"><?php echo JText::_('JGLOBAL_ACTION_PERMISSIONS_LABEL'); ?></span>
+					<div class="button2-left"><div class="blank">
+						<button type="button" onclick="document.location.href='#access-rules';">
+							<?php echo JText::_('JGLOBAL_PERMISSIONS_ANCHOR'); ?>
+						</button>
+					</div></div>
+				</li>
+			<?php endif; ?>
+
+			<li><?php echo $this->form->getLabel('ordering'); ?>
+			<?php echo $this->form->getInput('ordering'); ?></li>
+
+			<?php if ((string) $this->item->xml->name != 'Login Form'): ?>
+			<li><?php echo $this->form->getLabel('publish_up'); ?>
+			<?php echo $this->form->getInput('publish_up'); ?></li>
+
+			<li><?php echo $this->form->getLabel('publish_down'); ?>
+			<?php echo $this->form->getInput('publish_down'); ?></li>
+>>>>>>> Adding advanced ACL support for com_modules
 			<?php endif; ?>
 		</ul>
 
@@ -185,6 +211,23 @@ JFactory::getDocument()->addScriptDeclaration($script);
 			<?php endif; ?>
 		</div>
 
+<<<<<<< HEAD
+=======
+	<?php if ($this->canDo->get('core.admin')): ?>
+		<div class="width-100 fltlft">
+			<?php echo JHtml::_('sliders.start', 'permissions-sliders-'.$this->item->id, array('useCookie'=>1)); ?>
+
+				<?php echo JHtml::_('sliders.panel', JText::_('COM_MODULES_FIELDSET_RULES'), 'access-rules'); ?>
+				<fieldset class="panelform">
+					<?php echo $this->form->getLabel('rules'); ?>
+					<?php echo $this->form->getInput('rules'); ?>
+				</fieldset>
+
+			<?php echo JHtml::_('sliders.end'); ?>
+		</div>
+	<?php endif; ?>
+	<div>
+>>>>>>> Adding advanced ACL support for com_modules
 		<input type="hidden" name="task" value="" />
 		<?php echo JHtml::_('form.token'); ?>
 		<?php echo $this->form->getInput('module'); ?>
