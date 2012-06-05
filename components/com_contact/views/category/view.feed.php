@@ -20,12 +20,8 @@ jimport('joomla.application.component.view');
  */
 class ContactViewCategory extends JView
 {
-	function display()
+	function display($tpl = null)
 	{
-		// Get some data from the models
-		$category	= $this->get('Category');
-		$rows		= $this->get('Items');
-
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
 			JError::raiseError(500, implode("\n", $errors));
@@ -36,6 +32,13 @@ class ContactViewCategory extends JView
 
 		$doc	= JFactory::getDocument();
 		$params = $app->getParams();
+		$feedEmail	= $app->getCfg('feed_email','author');
+		$siteEmail	= $app->getCfg('mailfrom');
+
+		JRequest::setVar('limit', $app->getCfg('feed_limit'));
+		// Get some data from the models
+		$category	= $this->get('Category');
+		$rows		= $this->get('Items');
 
 		$doc->link = JRoute::_(ContactHelperRoute::getCategoryRoute($category->id));
 
@@ -51,8 +54,8 @@ class ContactViewCategory extends JView
 			// url link to article
 			$link = JRoute::_(ContactHelperRoute::getContactRoute($row->slug, $row->catid));
 
-			$description	= $row->introtext;
-			$author			= $row->created_by_alias ? $row->created_by_alias : $row->author;
+			$description	= $row->address;
+			$author			= $row->created_by_alias ? $row->created_by_alias : $row->created_by;
 			@$date			= ($row->created ? date('r', strtotime($row->created)) : '');
 
 			// load individual item creator class
@@ -61,7 +64,18 @@ class ContactViewCategory extends JView
 			$item->link			= $link;
 			$item->description	= $description;
 			$item->date			= $date;
-			$item->category		= $row->category;
+			$item->category		= $category->title;
+			$item->author		= $author;
+
+			// We don't have the author email so we have to use site in both cases.
+			if ($feedEmail == 'site') 
+			{
+				$item->authorEmail = $siteEmail;
+			} 
+			elseif($feedEmail == 'author')
+			{
+				$item->authorEmail = $siteEmail;
+			}
 
 			// loads item info into rss array
 			$doc->addItem($item);

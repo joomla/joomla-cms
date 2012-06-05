@@ -25,7 +25,7 @@ class ContentViewFeatured extends JView
 		$db			= JFactory::getDbo();
 		$document	= JFactory::getDocument();
 		$params		= $app->getParams();
-		$feedEmail	= (@$app->getCfg('feed_email')) ? $app->getCfg('feed_email') : 'author';
+		$feedEmail	= $app->getCfg('feed_email', 'author');
 		$siteEmail	= $app->getCfg('mailfrom');
 		$document->link = JRoute::_('index.php?option=com_content&view=featured');
 
@@ -67,11 +67,13 @@ class ContentViewFeatured extends JView
 				}
 			}
 
-			$item->author		= $author;
-			if ($feedEmail == 'site') {
+			$item->author = $author;
+			if ($feedEmail == 'site') 
+			{
 				$item->authorEmail = $siteEmail;
 			}
-			else {
+			elseif ($feedEmail === 'author') 
+			{
 				$item->authorEmail = $row->author_email;
 			}
 			// loads item info into rss array
@@ -79,4 +81,3 @@ class ContentViewFeatured extends JView
 		}
 	}
 }
-?>
