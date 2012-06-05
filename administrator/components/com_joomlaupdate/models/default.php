@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Administrator
- * @subpackage  com_installer
+ * @subpackage  com_joomlaupdate
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -17,7 +17,7 @@ jimport('joomla.application.component.model');
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
  * @author      nikosdion <nicholas@dionysopoulos.me>
- * @since       2.5.2
+ * @since       2.5.4
  */
 class JoomlaupdateModelDefault extends JModel
 {
@@ -27,7 +27,7 @@ class JoomlaupdateModelDefault extends JModel
 	 *
 	 * @return	void
 	 *
-	 * @since	2.5.2
+	 * @since	2.5.4
 	 */
 	public function applyUpdateSite()
 	{
@@ -102,7 +102,7 @@ class JoomlaupdateModelDefault extends JModel
 	 *
 	 * @return	void
 	 *
-	 * @since	2.5.2
+	 * @since	2.5.4
 	 */
 	public function refreshUpdates($force = false)
 	{
@@ -123,8 +123,9 @@ class JoomlaupdateModelDefault extends JModel
 	/**
 	 * Returns an array with the Joomla! update information
 	 *
-	 * @since 2.5.2
 	 * @return array
+	 *
+	 * @since 2.5.4
 	 */
 	public function getUpdateInformation()
 	{
@@ -172,8 +173,9 @@ class JoomlaupdateModelDefault extends JModel
 	/**
 	 * Returns an array with the configured FTP options
 	 *
-	 * @since 2.5.2
 	 * @return array
+	 *
+	 * @since  2.5.4
 	 */
 	public function getFTPOptions()
 	{
@@ -193,7 +195,7 @@ class JoomlaupdateModelDefault extends JModel
 	 *
 	 * @return bool|string False on failure, basename of the file in any other case
 	 *
-	 * @since 2.5.2
+	 * @since 2.5.4
 	 */
 	public function download()
 	{
@@ -234,7 +236,8 @@ class JoomlaupdateModelDefault extends JModel
 	 * @param   string  $target  The directory to store the file
 	 *
 	 * @return boolean True on success
-	 * @since 2.5.2
+	 *
+	 * @since  2.5.4
 	 */
 	protected function downloadPackage($url, $target)
 	{
@@ -250,6 +253,9 @@ class JoomlaupdateModelDefault extends JModel
 		}
 	}
 
+	/**
+	 * @since  2.5.4
+	 */
 	public function createRestorationFile($basename = null)
 	{
 		// Get a password
@@ -428,6 +434,8 @@ ENDDATA;
 	 * JInstallerFile::install() without the file copy.
 	 *
 	 * @return boolean True on success
+	 *
+	 * @since  2.5.4
 	 */
 	public function finaliseUpgrade()
 	{
@@ -645,6 +653,8 @@ ENDDATA;
 	 * Removes the extracted package file
 	 *
 	 * @return void
+	 *
+	 * @since  2.5.4
 	 */
 	public function cleanUp()
 	{

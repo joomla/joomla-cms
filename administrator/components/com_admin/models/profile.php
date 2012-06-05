@@ -36,6 +36,12 @@ class AdminModelProfile extends UsersModelUser
 		if (empty($form)) {
 			return false;
 		}
+		if (!JComponentHelper::getParams('com_users')->get('change_login_name'))
+		{
+			$form->setFieldAttribute('username', 'required', 'false');
+			$form->setFieldAttribute('username', 'readonly', 'true');
+			$form->setFieldAttribute('username', 'description', 'COM_ADMIN_USER_FIELD_NOCHANGE_USERNAME_DESC');
+		}
 
 		return $form;
 	}

@@ -4,7 +4,7 @@
  * @subpackage  com_joomlaupdate
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
- * @since       2.5.2
+ * @since       2.5.4
  */
 
 defined('_JEXEC') or die;
@@ -16,7 +16,7 @@ jimport('joomla.application.component.view');
  *
  * @package     Joomla.Administrator
  * @subpackage  com_installer
- * @since       2.5.2
+ * @since       2.5.4
  */
 class JoomlaupdateViewDefault extends JView
 {
@@ -26,6 +26,8 @@ class JoomlaupdateViewDefault extends JView
 	 * @param   string  $tpl  Template name
 	 * 
 	 * @return void
+	 *
+	 * @since  2.5.4
 	 */
 	public function display($tpl=null)
 	{

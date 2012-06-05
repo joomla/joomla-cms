@@ -27,15 +27,6 @@ class JComponentHelper
 	protected static $components = array();
 
 	/**
-	 * The component list cache
-	 *
-	 * @var    array
-	 * @since  11.1
-	 * @deprecated use $components declare as private
-	 */
-	protected static $_components = array();
-
-	/**
 	 * Get the component information.
 	 *
 	 * @param   string   $option  The component option.
@@ -392,7 +383,7 @@ class JComponentHelper
 	}
 
 	/**
-	 * Load the installed components into the _components property.
+	 * Load the installed components into the components property.
 	 *
 	 * @param   string  $option  The element value for the extension
 	 *

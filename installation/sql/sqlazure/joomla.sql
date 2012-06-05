@@ -33,7 +33,7 @@ CREATE TABLE [#__weblinks](
 	[xreference] [nvarchar](50) NOT NULL,
 	[publish_up] [datetime] NOT NULL,
 	[publish_down] [datetime] NOT NULL,
- CONSTRAINT [PK_#__weblinks_id] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_#__weblinks_id] PRIMARY KEY CLUSTERED
 (
 	[id] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF)
@@ -41,50 +41,50 @@ CREATE TABLE [#__weblinks](
 END;
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__weblinks]') AND name = N'idx_access')
-CREATE NONCLUSTERED INDEX [idx_access] ON [#__weblinks] 
+CREATE NONCLUSTERED INDEX [idx_access] ON [#__weblinks]
 (
 	[access] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__weblinks]') AND name = N'idx_catid')
-CREATE NONCLUSTERED INDEX [idx_catid] ON [#__weblinks] 
+CREATE NONCLUSTERED INDEX [idx_catid] ON [#__weblinks]
 (
 	[catid] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__weblinks]') AND name = N'idx_checkout')
-CREATE NONCLUSTERED INDEX [idx_checkout] ON [#__weblinks] 
+CREATE NONCLUSTERED INDEX [idx_checkout] ON [#__weblinks]
 (
 	[checked_out] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__weblinks]') AND name = N'idx_createdby')
-CREATE NONCLUSTERED INDEX [idx_createdby] ON [#__weblinks] 
+CREATE NONCLUSTERED INDEX [idx_createdby] ON [#__weblinks]
 (
 	[created_by] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__weblinks]') AND name = N'idx_featured_catid')
-CREATE NONCLUSTERED INDEX [idx_featured_catid] ON [#__weblinks] 
+CREATE NONCLUSTERED INDEX [idx_featured_catid] ON [#__weblinks]
 (
 	[featured] ASC,
 	[catid] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__weblinks]') AND name = N'idx_language')
-CREATE NONCLUSTERED INDEX [idx_language] ON [#__weblinks] 
+CREATE NONCLUSTERED INDEX [idx_language] ON [#__weblinks]
 (
 	[language] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__weblinks]') AND name = N'idx_state')
-CREATE NONCLUSTERED INDEX [idx_state] ON [#__weblinks] 
+CREATE NONCLUSTERED INDEX [idx_state] ON [#__weblinks]
 (
 	[state] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__weblinks]') AND name = N'idx_xreference')
-CREATE NONCLUSTERED INDEX [idx_xreference] ON [#__weblinks] 
+CREATE NONCLUSTERED INDEX [idx_xreference] ON [#__weblinks]
 (
 	[xreference] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
@@ -355,11 +355,11 @@ CREATE TABLE [#__viewlevels](
 	[title] [nvarchar](100) NOT NULL,
 	[ordering] [int] NOT NULL,
 	[rules] [nvarchar](max) NOT NULL,
- CONSTRAINT [PK_#__viewlevels_id] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_#__viewlevels_id] PRIMARY KEY CLUSTERED
 (
 	[id] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF),
- CONSTRAINT [#__viewlevels$idx_assetgroup_title_lookup] UNIQUE NONCLUSTERED 
+ CONSTRAINT [#__viewlevels$idx_assetgroup_title_lookup] UNIQUE NONCLUSTERED
 (
 	[title] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF)
@@ -368,7 +368,7 @@ END;
 
 
 SET IDENTITY_INSERT #__viewlevels  ON;
-INSERT INTO #__viewlevels (id, title, ordering, rules) 
+INSERT INTO #__viewlevels (id, title, ordering, rules)
 SELECT 1, 'Public', 0, '[1]'
 UNION ALL
 SELECT 2, 'Registered', 1, '[6,2,8]'
@@ -418,7 +418,7 @@ CREATE TABLE [#__users](
 	[lastvisitDate] [datetime] NOT NULL,
 	[activation] [nvarchar](100) NOT NULL,
 	[params] [nvarchar](max) NOT NULL,
- CONSTRAINT [PK_#__users_id] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_#__users_id] PRIMARY KEY CLUSTERED
 (
 	[id] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF)
@@ -426,31 +426,31 @@ CREATE TABLE [#__users](
 END;
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__users]') AND name = N'email')
-CREATE NONCLUSTERED INDEX [email] ON [#__users] 
+CREATE NONCLUSTERED INDEX [email] ON [#__users]
 (
 	[email] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__users]') AND name = N'idx_block')
-CREATE NONCLUSTERED INDEX [idx_block] ON [#__users] 
+CREATE NONCLUSTERED INDEX [idx_block] ON [#__users]
 (
 	[block] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__users]') AND name = N'idx_name')
-CREATE NONCLUSTERED INDEX [idx_name] ON [#__users] 
+CREATE NONCLUSTERED INDEX [idx_name] ON [#__users]
 (
 	[name] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__users]') AND name = N'username')
-CREATE NONCLUSTERED INDEX [username] ON [#__users] 
+CREATE NONCLUSTERED INDEX [username] ON [#__users]
 (
 	[username] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__users]') AND name = N'usertype')
-CREATE NONCLUSTERED INDEX [usertype] ON [#__users] 
+CREATE NONCLUSTERED INDEX [usertype] ON [#__users]
 (
 	[usertype] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
@@ -572,7 +572,7 @@ CREATE TABLE [#__associations](
 	[id] [nvarchar](50) NOT NULL,
 	[context] [nvarchar](50) NOT NULL,
 	[key] [nchar](32) NOT NULL,
- CONSTRAINT [PK_#__associations_context] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_#__associations_context] PRIMARY KEY CLUSTERED
 (
 	[context] ASC,
 	[id] ASC
@@ -589,7 +589,7 @@ BEGIN
 CREATE TABLE [#__user_usergroup_map](
 	[user_id] [bigint] NOT NULL,
 	[group_id] [bigint] NOT NULL,
- CONSTRAINT [PK_#__user_usergroup_map_user_id] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_#__user_usergroup_map_user_id] PRIMARY KEY CLUSTERED
 (
 	[user_id] ASC,
 	[group_id] ASC
@@ -641,7 +641,7 @@ CREATE TABLE [#__updates](
 	[version] [nvarchar](10) NULL,
 	[data] [nvarchar](max) NOT NULL,
 	[detailsurl] [nvarchar](max) NOT NULL,
- CONSTRAINT [PK_#__updates_update_id] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_#__updates_update_id] PRIMARY KEY CLUSTERED
 (
 	[update_id] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF)
@@ -758,7 +758,7 @@ BEGIN
 CREATE TABLE [#__update_sites_extensions](
 	[update_site_id] [int] NOT NULL,
 	[extension_id] [int] NOT NULL,
- CONSTRAINT [PK_#__update_sites_extensions_update_site_id] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_#__update_sites_extensions_update_site_id] PRIMARY KEY CLUSTERED
 (
 	[update_site_id] ASC,
 	[extension_id] ASC
@@ -808,7 +808,7 @@ CREATE TABLE [#__update_sites](
 	[location] [nvarchar](max) NOT NULL,
 	[enabled] [int] NULL,
 	[last_check_timestamp] [int] DEFAULT '0',
- CONSTRAINT [PK_#__update_sites_update_site_id] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_#__update_sites_update_site_id] PRIMARY KEY CLUSTERED
 (
 	[update_site_id] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF)
@@ -828,8 +828,8 @@ End;
 SET IDENTITY_INSERT #__update_sites ON;
 
 INSERT INTO #__update_sites (update_site_id,name ,type,location,enabled,last_check_timestamp) VALUES (1, 'Joomla Core', 'collection', 'http://update.joomla.org/core/list.xml', 1, 0);
-  
-  
+
+
 INSERT INTO #__update_sites (update_site_id ,name ,type,location,enabled,last_check_timestamp) VALUES (2, 'Joomla Extension Directory', 'collection', 'http://update.joomla.org/jed/list.xml', 1, 0);
 
 SET IDENTITY_INSERT #__update_sites OFF;
@@ -869,7 +869,7 @@ CREATE TABLE [#__update_categories](
 	[description] [nvarchar](max) NOT NULL,
 	[parent] [int] NULL,
 	[updatesite] [int] NULL,
- CONSTRAINT [PK_#__update_categories_cateryid] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_#__update_categories_cateryid] PRIMARY KEY CLUSTERED
 (
 	[cateryid] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF)
@@ -924,7 +924,7 @@ CREATE TABLE [#__template_styles](
 	[home] [nvarchar](7) NOT NULL,
 	[title] [nvarchar](255) NOT NULL,
 	[params] [nvarchar](max) NOT NULL,
- CONSTRAINT [PK_#__template_styles_id] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_#__template_styles_id] PRIMARY KEY CLUSTERED
 (
 	[id] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF)
@@ -932,13 +932,13 @@ CREATE TABLE [#__template_styles](
 END;
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__template_styles]') AND name = N'idx_home')
-CREATE NONCLUSTERED INDEX [idx_home] ON [#__template_styles] 
+CREATE NONCLUSTERED INDEX [idx_home] ON [#__template_styles]
 (
 	[home] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__template_styles]') AND name = N'idx_template')
-CREATE NONCLUSTERED INDEX [idx_template] ON [#__template_styles] 
+CREATE NONCLUSTERED INDEX [idx_template] ON [#__template_styles]
 (
 	[template] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
@@ -1026,7 +1026,7 @@ CREATE TABLE [#__session](
 	[userid] [int] NULL,
 	[username] [nvarchar](150) NULL,
 	[usertype] [nvarchar](50) NULL,
- CONSTRAINT [PK_#__session_session_id] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_#__session_session_id] PRIMARY KEY CLUSTERED
 (
 	[session_id] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF)
@@ -1034,19 +1034,19 @@ CREATE TABLE [#__session](
 END;
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__session]') AND name = N'time')
-CREATE NONCLUSTERED INDEX [time] ON [#__session] 
+CREATE NONCLUSTERED INDEX [time] ON [#__session]
 (
 	[time] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__session]') AND name = N'userid')
-CREATE NONCLUSTERED INDEX [userid] ON [#__session] 
+CREATE NONCLUSTERED INDEX [userid] ON [#__session]
 (
 	[userid] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__session]') AND name = N'whosonline')
-CREATE NONCLUSTERED INDEX [whosonline] ON [#__session] 
+CREATE NONCLUSTERED INDEX [whosonline] ON [#__session]
 (
 	[guest] ASC,
 	[usertype] ASC
@@ -1152,7 +1152,7 @@ BEGIN
 CREATE TABLE [#__schemas](
 	[extension_id] [int] NOT NULL,
 	[version_id] [nvarchar](20) NOT NULL,
- CONSTRAINT [PK_#__schemas_extension_id] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_#__schemas_extension_id] PRIMARY KEY CLUSTERED
 (
 	[extension_id] ASC,
 	[version_id] ASC
@@ -1165,11 +1165,11 @@ SET QUOTED_IDENTIFIER ON;
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[#__overrider]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [#__overrider] (
-  [id] [int] IDENTITY(1,1) NOT NULL,  
+  [id] [int] IDENTITY(1,1) NOT NULL,
   [constant] [nvarchar](max) NOT NULL,
   [string] [nvarchar] NOT NULL,
   [file] [nvarchar](max) NOT NULL,
-   CONSTRAINT [PK_#__overrider_id] PRIMARY KEY CLUSTERED 
+   CONSTRAINT [PK_#__overrider_id] PRIMARY KEY CLUSTERED
 (
 	[id] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF)
@@ -1193,11 +1193,11 @@ CREATE TABLE [#__redirect_links](
 	[published] [smallint] NOT NULL,
 	[created_date] [datetime] NOT NULL,
 	[modified_date] [datetime] NOT NULL,
- CONSTRAINT [PK_#__redirect_links_id] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_#__redirect_links_id] PRIMARY KEY CLUSTERED
 (
 	[id] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF),
- CONSTRAINT [#__redirect_links$idx_link_old] UNIQUE NONCLUSTERED 
+ CONSTRAINT [#__redirect_links$idx_link_old] UNIQUE NONCLUSTERED
 (
 	[old_url] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF)
@@ -1205,7 +1205,7 @@ CREATE TABLE [#__redirect_links](
 END;
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__redirect_links]') AND name = N'idx_link_modifed')
-CREATE NONCLUSTERED INDEX [idx_link_modifed] ON [#__redirect_links] 
+CREATE NONCLUSTERED INDEX [idx_link_modifed] ON [#__redirect_links]
 (
 	[modified_date] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
@@ -1270,7 +1270,7 @@ CREATE TABLE [#__newsfeeds](
 	[xreference] [nvarchar](50) NOT NULL,
 	[publish_up] [datetime] NOT NULL,
 	[publish_down] [datetime] NOT NULL,
- CONSTRAINT [PK_#__newsfeeds_id] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_#__newsfeeds_id] PRIMARY KEY CLUSTERED
 (
 	[id] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF)
@@ -1278,43 +1278,43 @@ CREATE TABLE [#__newsfeeds](
 END;
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__newsfeeds]') AND name = N'idx_access')
-CREATE NONCLUSTERED INDEX [idx_access] ON [#__newsfeeds] 
+CREATE NONCLUSTERED INDEX [idx_access] ON [#__newsfeeds]
 (
 	[access] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__newsfeeds]') AND name = N'idx_catid')
-CREATE NONCLUSTERED INDEX [idx_catid] ON [#__newsfeeds] 
+CREATE NONCLUSTERED INDEX [idx_catid] ON [#__newsfeeds]
 (
 	[catid] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__newsfeeds]') AND name = N'idx_checkout')
-CREATE NONCLUSTERED INDEX [idx_checkout] ON [#__newsfeeds] 
+CREATE NONCLUSTERED INDEX [idx_checkout] ON [#__newsfeeds]
 (
 	[checked_out] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__newsfeeds]') AND name = N'idx_createdby')
-CREATE NONCLUSTERED INDEX [idx_createdby] ON [#__newsfeeds] 
+CREATE NONCLUSTERED INDEX [idx_createdby] ON [#__newsfeeds]
 (
 	[created_by] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__newsfeeds]') AND name = N'idx_language')
-CREATE NONCLUSTERED INDEX [idx_language] ON [#__newsfeeds] 
+CREATE NONCLUSTERED INDEX [idx_language] ON [#__newsfeeds]
 (
 	[language] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__newsfeeds]') AND name = N'idx_state')
-CREATE NONCLUSTERED INDEX [idx_state] ON [#__newsfeeds] 
+CREATE NONCLUSTERED INDEX [idx_state] ON [#__newsfeeds]
 (
 	[published] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__newsfeeds]') AND name = N'idx_xreference')
-CREATE NONCLUSTERED INDEX [idx_xreference] ON [#__newsfeeds] 
+CREATE NONCLUSTERED INDEX [idx_xreference] ON [#__newsfeeds]
 (
 	[xreference] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
@@ -1559,7 +1559,7 @@ BEGIN
 CREATE TABLE [#__modules_menu](
 	[moduleid] [int] NOT NULL,
 	[menuid] [int] NOT NULL,
- CONSTRAINT [PK_#__modules_menu_moduleid] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_#__modules_menu_moduleid] PRIMARY KEY CLUSTERED
 (
 	[moduleid] ASC,
 	[menuid] ASC
@@ -1622,7 +1622,7 @@ UNION ALL
 SELECT 17,0
 UNION ALL
 SELECT 79,0
-UNION ALL 
+UNION ALL
 SELECT 85,0
 
 
@@ -1650,7 +1650,7 @@ CREATE TABLE [#__modules](
 	[params] [nvarchar](max) NOT NULL,
 	[client_id] [smallint] NOT NULL,
 	[language] [nvarchar](7) NOT NULL,
- CONSTRAINT [PK_#__modules_id] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_#__modules_id] PRIMARY KEY CLUSTERED
 (
 	[id] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF)
@@ -1658,20 +1658,20 @@ CREATE TABLE [#__modules](
 END;
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__modules]') AND name = N'idx_language')
-CREATE NONCLUSTERED INDEX [idx_language] ON [#__modules] 
+CREATE NONCLUSTERED INDEX [idx_language] ON [#__modules]
 (
 	[language] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__modules]') AND name = N'newsfeeds')
-CREATE NONCLUSTERED INDEX [newsfeeds] ON [#__modules] 
+CREATE NONCLUSTERED INDEX [newsfeeds] ON [#__modules]
 (
 	[module] ASC,
 	[published] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__modules]') AND name = N'published')
-CREATE NONCLUSTERED INDEX [published] ON [#__modules] 
+CREATE NONCLUSTERED INDEX [published] ON [#__modules]
 (
 	[published] ASC,
 	[access] ASC
@@ -1881,7 +1881,7 @@ CREATE TABLE [#__messages_cfg](
 	[user_id] [bigint] NOT NULL,
 	[cfg_name] [nvarchar](100) NOT NULL,
 	[cfg_value] [nvarchar](255) NOT NULL,
- CONSTRAINT [#__messages_cfg$idx_user_var_name] UNIQUE CLUSTERED 
+ CONSTRAINT [#__messages_cfg$idx_user_var_name] UNIQUE CLUSTERED
 (
 	[user_id] ASC,
 	[cfg_name] ASC
@@ -1938,7 +1938,7 @@ CREATE TABLE [#__messages](
 	[priority] [tinyint] NOT NULL,
 	[subject] [nvarchar](255) NOT NULL,
 	[message] [nvarchar](max) NOT NULL,
- CONSTRAINT [PK_#__messages_message_id] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_#__messages_message_id] PRIMARY KEY CLUSTERED
 (
 	[message_id] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF)
@@ -1946,7 +1946,7 @@ CREATE TABLE [#__messages](
 END;
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__messages]') AND name = N'useridto_state')
-CREATE NONCLUSTERED INDEX [useridto_state] ON [#__messages] 
+CREATE NONCLUSTERED INDEX [useridto_state] ON [#__messages]
 (
 	[user_id_to] ASC,
 	[state] ASC
@@ -2043,11 +2043,11 @@ CREATE TABLE [#__menu_types](
 	[menutype] [nvarchar](24) NOT NULL,
 	[title] [nvarchar](48) NOT NULL,
 	[description] [nvarchar](255) NOT NULL,
- CONSTRAINT [PK_#__menu_types_id] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_#__menu_types_id] PRIMARY KEY CLUSTERED
 (
 	[id] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF),
- CONSTRAINT [#__menu_types$idx_menutype] UNIQUE NONCLUSTERED 
+ CONSTRAINT [#__menu_types$idx_menutype] UNIQUE NONCLUSTERED
 (
 	[menutype] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF)
@@ -2100,11 +2100,11 @@ CREATE TABLE [#__menu](
 	[home] [tinyint] NOT NULL,
 	[language] [nvarchar](7) NOT NULL,
 	[client_id] [smallint] NOT NULL,
- CONSTRAINT [PK_#__menu_id] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_#__menu_id] PRIMARY KEY CLUSTERED
 (
 	[id] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF),
- CONSTRAINT [#__menu$idx_client_id_parent_id_alias] UNIQUE NONCLUSTERED 
+ CONSTRAINT [#__menu$idx_client_id_parent_id_alias] UNIQUE NONCLUSTERED
 (
 	[client_id] ASC,
 	[parent_id] ASC,
@@ -2114,13 +2114,13 @@ CREATE TABLE [#__menu](
 END;
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__menu]') AND name = N'idx_alias')
-CREATE NONCLUSTERED INDEX [idx_alias] ON [#__menu] 
+CREATE NONCLUSTERED INDEX [idx_alias] ON [#__menu]
 (
 	[alias] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__menu]') AND name = N'idx_componentid')
-CREATE NONCLUSTERED INDEX [idx_componentid] ON [#__menu] 
+CREATE NONCLUSTERED INDEX [idx_componentid] ON [#__menu]
 (
 	[component_id] ASC,
 	[menutype] ASC,
@@ -2129,50 +2129,50 @@ CREATE NONCLUSTERED INDEX [idx_componentid] ON [#__menu]
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__menu]') AND name = N'idx_language')
-CREATE NONCLUSTERED INDEX [idx_language] ON [#__menu] 
+CREATE NONCLUSTERED INDEX [idx_language] ON [#__menu]
 (
 	[language] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__menu]') AND name = N'idx_left_right')
-CREATE NONCLUSTERED INDEX [idx_left_right] ON [#__menu] 
+CREATE NONCLUSTERED INDEX [idx_left_right] ON [#__menu]
 (
 	[lft] ASC,
 	[rgt] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__menu]') AND name = N'idx_menutype')
-CREATE NONCLUSTERED INDEX [idx_menutype] ON [#__menu] 
+CREATE NONCLUSTERED INDEX [idx_menutype] ON [#__menu]
 (
 	[menutype] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__menu]') AND name = N'idx_language')
-CREATE NONCLUSTERED INDEX [idx_language] ON [#__menu] 
+CREATE NONCLUSTERED INDEX [idx_language] ON [#__menu]
 (
 	[language] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__menu]') AND name = N'idx_browserNav')
-CREATE NONCLUSTERED INDEX [idx_browserNav] ON [#__menu] 
+CREATE NONCLUSTERED INDEX [idx_browserNav] ON [#__menu]
 (
 	[browserNav] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__menu]') AND name = N'idx_home')
-CREATE NONCLUSTERED INDEX [idx_home] ON [#__menu] 
+CREATE NONCLUSTERED INDEX [idx_home] ON [#__menu]
 (
 	[home] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__menu]') AND name = N'idx_template_style_id')
-CREATE NONCLUSTERED INDEX [idx_template_style_id] ON [#__menu] 
+CREATE NONCLUSTERED INDEX [idx_template_style_id] ON [#__menu]
 (
 	[template_style_id] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__menu]') AND name = N'idx_img')
-CREATE NONCLUSTERED INDEX [idx_img] ON [#__menu] 
+CREATE NONCLUSTERED INDEX [idx_img] ON [#__menu]
 (
 	[img] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
@@ -2427,11 +2427,11 @@ CREATE TABLE [#__languages](
 	[published] [int] NOT NULL,
 	[ordering]  [int] NOT NULL,
 	[sitename] [nvarchar] (1024) NOT NULL,
- CONSTRAINT [PK_#__languages_lang_id] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_#__languages_lang_id] PRIMARY KEY CLUSTERED
 (
 	[lang_id] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF),
- CONSTRAINT [#__languages$idx_sef] UNIQUE NONCLUSTERED 
+ CONSTRAINT [#__languages$idx_sef] UNIQUE NONCLUSTERED
 (
 	[sef] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF)
@@ -2482,7 +2482,7 @@ CREATE TABLE [#__extensions](
 	[checked_out_time] [datetime] NOT NULL,
 	[ordering] [int] NULL,
 	[state] [int] NULL,
- CONSTRAINT [PK_#__extensions_extension_id] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_#__extensions_extension_id] PRIMARY KEY CLUSTERED
 (
 	[extension_id] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF)
@@ -2490,14 +2490,14 @@ CREATE TABLE [#__extensions](
 END;
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__extensions]') AND name = N'element_clientid')
-CREATE NONCLUSTERED INDEX [element_clientid] ON [#__extensions] 
+CREATE NONCLUSTERED INDEX [element_clientid] ON [#__extensions]
 (
 	[element] ASC,
 	[client_id] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__extensions]') AND name = N'element_folder_clientid')
-CREATE NONCLUSTERED INDEX [element_folder_clientid] ON [#__extensions] 
+CREATE NONCLUSTERED INDEX [element_folder_clientid] ON [#__extensions]
 (
 	[element] ASC,
 	[folder] ASC,
@@ -2505,7 +2505,7 @@ CREATE NONCLUSTERED INDEX [element_folder_clientid] ON [#__extensions]
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__extensions]') AND name = N'extension')
-CREATE NONCLUSTERED INDEX [extension] ON [#__extensions] 
+CREATE NONCLUSTERED INDEX [extension] ON [#__extensions]
 (
 	[type] ASC,
 	[element] ASC,
@@ -2593,7 +2593,7 @@ End;
 
 
 SET IDENTITY_INSERT #__extensions  ON;
-INSERT INTO #__extensions (extension_id, name, type, element, folder, client_id, enabled, access, protected, manifest_cache, params, custom_data, system_data, checked_out, checked_out_time, ordering, state) 
+INSERT INTO #__extensions (extension_id, name, type, element, folder, client_id, enabled, access, protected, manifest_cache, params, custom_data, system_data, checked_out, checked_out_time, ordering, state)
 SELECT 1, 'com_mailto', 'component', 'com_mailto', '', 0, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
 SELECT 2, 'com_wrapper', 'component', 'com_wrapper', '', 0, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
@@ -2648,16 +2648,16 @@ SELECT 27, 'com_finder', 'component', 'com_finder', '', 1, 1, 0, 0, '', '{"show_
 UNION ALL
 SELECT 28, 'com_joomlaupdate', 'component', 'com_joomlaupdate', '', 1, 1, 0, 1, '{"legacy":false,"name":"com_joomlaupdate","type":"component","creationDate":"February 2012","author":"Joomla! Project","copyright":"(C) 2005 - 2012 Open Source Matters. All rights reserved.","authorEmail":"admin@joomla.org","authorUrl":"www.joomla.org","version":"2.5.2","description":"COM_JOOMLAUPDATE_XML_DESCRIPTION","group":""}', '{}', '', '', 0, '1900-01-01 00:00:00', 0, 0;
 
-INSERT INTO #__extensions (extension_id, name, type, element, folder, client_id, enabled, access, protected, manifest_cache, params, custom_data, system_data, checked_out, checked_out_time, ordering, state) 
+INSERT INTO #__extensions (extension_id, name, type, element, folder, client_id, enabled, access, protected, manifest_cache, params, custom_data, system_data, checked_out, checked_out_time, ordering, state)
 SELECT 100, 'PHPMailer', 'library', 'phpmailer', '', 0, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
 SELECT 101, 'SimplePie', 'library', 'simplepie', '', 0, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
-SELECT 102, 'phputf8', 'library', 'phputf8', '', 0, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0	   
+SELECT 102, 'phputf8', 'library', 'phputf8', '', 0, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
-SELECT 103, 'Joomla! Web Application Framework', 'library', 'joomla', '', 0, 1, 1, 0, 'a:11:{s:6:"legacy";b:0;s:4:"name";s:33:"Joomla! Web Application Framework";s:4:"type";s:7:"library";s:12:"creationDate";s:4:"2008";s:6:"author";s:6:"Joomla";s:9:"copyright";s:67:"Copyright (C) 2005 - 2011 Open Source Matters. All rights reserved.";s:11:"authorEmail";s:16:"admin@joomla.org";s:9:"authorUrl";s:21:"http://www.joomla.org";s:7:"version";s:5:"1.6.0";s:11:"description";s:90:"The Joomla! Web Application Framework is the Core of the Joomla! Content Management System";s:5:"group";s:0:"";}', '{}', '', '', 0, '1900-01-01 00:00:00', 0, 0;
+SELECT 103, 'Joomla! Platform', 'library', 'joomla', '', 0, 1, 1, 1, 'a:11:{s:6:"legacy";b:0;s:4:"name";s:16:"Joomla! Platform";s:4:"type";s:7:"library";s:12:"creationDate";s:4:"2008";s:6:"author";s:6:"Joomla";s:9:"copyright";s:67:"Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.";s:11:"authorEmail";s:16:"admin@joomla.org";s:9:"authorUrl";s:21:"http://www.joomla.org";s:7:"version";s:4:"11.4";s:11:"description";s:26:"LIB_JOOMLA_XML_DESCRIPTION";s:5:"group";s:0:"";}', '{}', '', '', 0, '1900-01-01 00:00:00', 0, 0;
 
-INSERT INTO #__extensions (extension_id, name, type, element, folder, client_id, enabled, access, protected, manifest_cache, params, custom_data, system_data, checked_out, checked_out_time, ordering, state) 
+INSERT INTO #__extensions (extension_id, name, type, element, folder, client_id, enabled, access, protected, manifest_cache, params, custom_data, system_data, checked_out, checked_out_time, ordering, state)
 SELECT 200, 'mod_articles_archive', 'module', 'mod_articles_archive', '', 0, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
 SELECT 201, 'mod_articles_latest', 'module', 'mod_articles_latest', '', 0, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
@@ -2706,7 +2706,7 @@ SELECT 222, 'mod_languages', 'module', 'mod_languages', '', 0, 1, 1, 1, '', '', 
 UNION ALL
 SELECT 223, 'mod_finder', 'module', 'mod_finder', '', 0, 1, 0, 0, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
 
-INSERT INTO #__extensions (extension_id, name, type, element, folder, client_id, enabled, access, protected, manifest_cache, params, custom_data, system_data, checked_out, checked_out_time, ordering, state) 
+INSERT INTO #__extensions (extension_id, name, type, element, folder, client_id, enabled, access, protected, manifest_cache, params, custom_data, system_data, checked_out, checked_out_time, ordering, state)
 SELECT 300, 'mod_custom', 'module', 'mod_custom', '', 1, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
 SELECT 301, 'mod_feed', 'module', 'mod_feed', '', 1, 1, 1, 0, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
@@ -2737,7 +2737,7 @@ SELECT 314, 'mod_version', 'module', 'mod_version', '', 1, 1, 1, 0, '{"legacy":f
 
 
 
-INSERT INTO #__extensions (extension_id, name, type, element, folder, client_id, enabled, access, protected, manifest_cache, params, custom_data, system_data, checked_out, checked_out_time, ordering, state) 
+INSERT INTO #__extensions (extension_id, name, type, element, folder, client_id, enabled, access, protected, manifest_cache, params, custom_data, system_data, checked_out, checked_out_time, ordering, state)
 SELECT 400, 'plg_authentication_gmail', 'plugin', 'gmail', 'authentication', 0, 0, 1, 0, '', '{"applysuffix":"0","suffix":"","verifypeer":"1","user_blacklist":""}', '', '', 0, '1900-01-01 00:00:00', 1, 0
 UNION ALL
 SELECT 401, 'plg_authentication_joomla', 'plugin', 'joomla', 'authentication', 0, 1, 1, 1, '', '{}', '', '', 0, '1900-01-01 00:00:00', 0, 0
@@ -2833,7 +2833,7 @@ SELECT 446, 'plg_finder_weblinks', 'plugin', 'weblinks', 'finder', 0, 1, 1, 0, '
 
 
 
-INSERT INTO #__extensions (extension_id, name, type, element, folder, client_id, enabled, access, protected, manifest_cache, params, custom_data, system_data, checked_out, checked_out_time, ordering, state) 
+INSERT INTO #__extensions (extension_id, name, type, element, folder, client_id, enabled, access, protected, manifest_cache, params, custom_data, system_data, checked_out, checked_out_time, ordering, state)
 SELECT 500, 'atomic', 'template', 'atomic', '', 0, 1, 1, 0, 'a:11:{s:6:"legacy";b:0;s:4:"name";s:6:"atomic";s:4:"type";s:8:"template";s:12:"creationDate";s:8:"10/10/09";s:6:"author";s:12:"Joomla! Project";s:9:"copyright";s:72:"Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.";s:11:"authorEmail";s:25:"contact@kontentdesign.com";s:9:"authorUrl";s:28:"http://www.kontentdesign.com";s:7:"version";s:5:"1.6.0";s:11:"description";s:26:"TPL_ATOMIC_XML_DESCRIPTION";s:5:"group";s:0:"";}', '{}', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
 SELECT 502, 'bluestork', 'template', 'bluestork', '', 1, 1, 1, 0, '{"legacy":false,"name":"bluestork","type":"template","creationDate":"07\\/02\\/09","author":"Joomla! Project","copyright":"Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.","authorEmail":"admin@joomla.org","authorUrl":"http:\\/\\/www.joomla.org","version":"1.6.0","description":"TPL_BLUESTORK_XML_DESCRIPTION","group":""}', '{"useRoundedCorners":"1","showSiteName":"0","textBig":"0","highContrast":"0"}', '', '', 0, '1900-01-01 00:00:00', 0, 0
@@ -2844,13 +2844,13 @@ SELECT 504, 'hathor', 'template', 'hathor', '', 1, 1, 1, 0, 'a:11:{s:6:"legacy";
 UNION ALL
 SELECT 505, 'beez5', 'template', 'beez5', '', 0, 1, 1, 0, 'a:11:{s:6:"legacy";b:0;s:4:"name";s:5:"beez5";s:4:"type";s:8:"template";s:12:"creationDate";s:11:"21 May 2010";s:6:"author";s:12:"Angie Radtke";s:9:"copyright";s:72:"Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.";s:11:"authorEmail";s:23:"a.radtke@derauftritt.de";s:9:"authorUrl";s:26:"http://www.der-auftritt.de";s:7:"version";s:5:"1.6.0";s:11:"description";s:25:"TPL_BEEZ5_XML_DESCRIPTION";s:5:"group";s:0:"";}', '{"wrapperSmall":"53","wrapperLarge":"72","sitetitle":"","sitedescription":"","navposition":"center","html5":"0"}', '', '', 0, '1900-01-01 00:00:00', 0, 0;
 
-INSERT INTO #__extensions (extension_id, name, type, element, folder, client_id, enabled, access, protected, manifest_cache, params, custom_data, system_data, checked_out, checked_out_time, ordering, state) 
+INSERT INTO #__extensions (extension_id, name, type, element, folder, client_id, enabled, access, protected, manifest_cache, params, custom_data, system_data, checked_out, checked_out_time, ordering, state)
 SELECT 600, 'English (United Kingdom)', 'language', 'en-GB', '', 0, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
 SELECT 601, 'English (United Kingdom)', 'language', 'en-GB', '', 1, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0;
 
 
-INSERT INTO #__extensions (extension_id, name, type, element, folder, client_id, enabled, access, protected, manifest_cache, params, custom_data, system_data, checked_out, checked_out_time, ordering, state) 
+INSERT INTO #__extensions (extension_id, name, type, element, folder, client_id, enabled, access, protected, manifest_cache, params, custom_data, system_data, checked_out, checked_out_time, ordering, state)
 VALUES (700, 'Joomla! CMS', 'file', 'joomla', '', 0, 1, 1, 1, '{"legacy":false,"name":"files_joomla","type":"file","creationDate":"April 2012","author":"Joomla!","copyright":"(C) 2005 - 2011 Open Source Matters. All rights reserved","authorEmail":"admin@joomla.org","authorUrl":"www.joomla.org","version":"2.5.4","description":"FILES_JOOMLA_XML_DESCRIPTION","group":""}', '', '', '', 0, '1900-01-01 00:00:00', 0, 0);
 
 INSERT INTO #__extensions (extension_id, name,type, element, folder, client_id, enabled, access, protected, manifest_cache, params, custom_data, system_data, checked_out, checked_out_time, ordering, state) VALUES
@@ -2867,11 +2867,11 @@ CREATE TABLE [#__finder_types](
 	[id] [bigint] IDENTITY(1,1) NOT NULL,
 	[title] [nvarchar](100) NOT NULL,
 	[mime] [nvarchar](100) NOT NULL,
- CONSTRAINT [PK_#__finder_types_id] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_#__finder_types_id] PRIMARY KEY CLUSTERED
 (
 	[id] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF),
- CONSTRAINT [#__finder_types$title] UNIQUE NONCLUSTERED 
+ CONSTRAINT [#__finder_types$title] UNIQUE NONCLUSTERED
 (
 	[title] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF)
@@ -2898,13 +2898,13 @@ CREATE TABLE [#__finder_tokens_aggregate](
 END;
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__finder_tokens_aggregate]') AND name = N'keyword_id')
-CREATE NONCLUSTERED INDEX [keyword_id] ON [#__finder_tokens_aggregate] 
+CREATE NONCLUSTERED INDEX [keyword_id] ON [#__finder_tokens_aggregate]
 (
 	[term_id] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF)
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__finder_tokens_aggregate]') AND name = N'token')
-CREATE NONCLUSTERED INDEX [token] ON [#__finder_tokens_aggregate] 
+CREATE NONCLUSTERED INDEX [token] ON [#__finder_tokens_aggregate]
 (
 	[term] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF)
@@ -2954,13 +2954,13 @@ CREATE TABLE [#__finder_tokens](
 END;
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__finder_tokens]') AND name = N'idx_context')
-CREATE NONCLUSTERED INDEX [idx_context] ON [#__finder_tokens] 
+CREATE NONCLUSTERED INDEX [idx_context] ON [#__finder_tokens]
 (
 	[context] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF)
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__finder_tokens]') AND name = N'idx_word')
-CREATE NONCLUSTERED INDEX [idx_word] ON [#__finder_tokens] 
+CREATE NONCLUSTERED INDEX [idx_word] ON [#__finder_tokens]
 (
 	[term] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF)
@@ -3016,7 +3016,7 @@ BEGIN
 CREATE TABLE [#__finder_terms_common](
 	[term] [nvarchar](75)  NOT NULL,
 	[language] [nvarchar](3) NOT NULL,
-		 CONSTRAINT [PK_#__finder_terms_common] PRIMARY KEY CLUSTERED 
+		 CONSTRAINT [PK_#__finder_terms_common] PRIMARY KEY CLUSTERED
 (
 	[term] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF)
@@ -3025,13 +3025,13 @@ CREATE TABLE [#__finder_terms_common](
 END;
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__finder_terms_common]') AND name = N'idx_lang')
-CREATE NONCLUSTERED INDEX [idx_lang] ON [#__finder_terms_common] 
+CREATE NONCLUSTERED INDEX [idx_lang] ON [#__finder_terms_common]
 (
 	[language] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF)
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__finder_terms_common]') AND name = N'idx_word_lang')
-CREATE NONCLUSTERED INDEX [idx_word_lang] ON [#__finder_terms_common] 
+CREATE NONCLUSTERED INDEX [idx_word_lang] ON [#__finder_terms_common]
 (
 	[term] ASC,
 	[language] ASC
@@ -3166,11 +3166,11 @@ CREATE TABLE [#__finder_terms](
 	[weight] [real] NOT NULL,
 	[soundex] [nvarchar](75) NOT NULL,
 	[links] [int] NOT NULL,
- CONSTRAINT [PK_#__finder_terms_term_id] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_#__finder_terms_term_id] PRIMARY KEY CLUSTERED
 (
 	[term_id] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF),
- CONSTRAINT [#__finder_terms$idx_term] UNIQUE NONCLUSTERED 
+ CONSTRAINT [#__finder_terms$idx_term] UNIQUE NONCLUSTERED
 (
 	[term] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF)
@@ -3178,21 +3178,21 @@ CREATE TABLE [#__finder_terms](
 END;
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__finder_terms]') AND name = N'idx_soundex_phrase')
-CREATE NONCLUSTERED INDEX [idx_soundex_phrase] ON [#__finder_terms] 
+CREATE NONCLUSTERED INDEX [idx_soundex_phrase] ON [#__finder_terms]
 (
 	[soundex] ASC,
 	[phrase] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF)
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__finder_terms]') AND name = N'idx_stem_phrase')
-CREATE NONCLUSTERED INDEX [idx_stem_phrase] ON [#__finder_terms] 
+CREATE NONCLUSTERED INDEX [idx_stem_phrase] ON [#__finder_terms]
 (
 	[stem] ASC,
 	[phrase] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF)
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__finder_terms]') AND name = N'idx_term_phrase')
-CREATE NONCLUSTERED INDEX [idx_term_phrase] ON [#__finder_terms] 
+CREATE NONCLUSTERED INDEX [idx_term_phrase] ON [#__finder_terms]
 (
 	[term] ASC,
 	[phrase] ASC
@@ -3244,7 +3244,7 @@ BEGIN
 CREATE TABLE [#__finder_taxonomy_map](
 	[link_id] [bigint] NOT NULL,
 	[node_id] [bigint] NOT NULL,
- CONSTRAINT [PK_#__finder_taxonomy_map_link_id] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_#__finder_taxonomy_map_link_id] PRIMARY KEY CLUSTERED
 (
 	[link_id] ASC,
 	[node_id] ASC
@@ -3253,13 +3253,13 @@ CREATE TABLE [#__finder_taxonomy_map](
 END;
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__finder_taxonomy_map]') AND name = N'link_id')
-CREATE NONCLUSTERED INDEX [link_id] ON [#__finder_taxonomy_map] 
+CREATE NONCLUSTERED INDEX [link_id] ON [#__finder_taxonomy_map]
 (
 	[link_id] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF)
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__finder_taxonomy_map]') AND name = N'node_id')
-CREATE NONCLUSTERED INDEX [node_id] ON [#__finder_taxonomy_map] 
+CREATE NONCLUSTERED INDEX [node_id] ON [#__finder_taxonomy_map]
 (
 	[node_id] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF)
@@ -3277,7 +3277,7 @@ CREATE TABLE [#__finder_taxonomy](
 	[state] [tinyint] NOT NULL,
 	[access] [tinyint] NOT NULL,
 	[ordering] [tinyint] NOT NULL,
- CONSTRAINT [PK_#__finder_taxonomy_id] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_#__finder_taxonomy_id] PRIMARY KEY CLUSTERED
 (
 	[id] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF)
@@ -3285,13 +3285,13 @@ CREATE TABLE [#__finder_taxonomy](
 END;
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__finder_taxonomy]') AND name = N'access')
-CREATE NONCLUSTERED INDEX [access] ON [#__finder_taxonomy] 
+CREATE NONCLUSTERED INDEX [access] ON [#__finder_taxonomy]
 (
 	[access] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF)
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__finder_taxonomy]') AND name = N'idx_parent_published')
-CREATE NONCLUSTERED INDEX [idx_parent_published] ON [#__finder_taxonomy] 
+CREATE NONCLUSTERED INDEX [idx_parent_published] ON [#__finder_taxonomy]
 (
 	[parent_id] ASC,
 	[state] ASC,
@@ -3299,19 +3299,19 @@ CREATE NONCLUSTERED INDEX [idx_parent_published] ON [#__finder_taxonomy]
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF)
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__finder_taxonomy]') AND name = N'ordering')
-CREATE NONCLUSTERED INDEX [ordering] ON [#__finder_taxonomy] 
+CREATE NONCLUSTERED INDEX [ordering] ON [#__finder_taxonomy]
 (
 	[ordering] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF)
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__finder_taxonomy]') AND name = N'parent_id')
-CREATE NONCLUSTERED INDEX [parent_id] ON [#__finder_taxonomy] 
+CREATE NONCLUSTERED INDEX [parent_id] ON [#__finder_taxonomy]
 (
 	[parent_id] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF)
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__finder_taxonomy]') AND name = N'state')
-CREATE NONCLUSTERED INDEX [state] ON [#__finder_taxonomy] 
+CREATE NONCLUSTERED INDEX [state] ON [#__finder_taxonomy]
 (
 	[state] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF)
@@ -3368,7 +3368,7 @@ CREATE TABLE [#__finder_links_termsf](
 	[link_id] [bigint] NOT NULL,
 	[term_id] [bigint] NOT NULL,
 	[weight] [real] NOT NULL,
- CONSTRAINT [PK_#__finder_links_termsf_link_id] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_#__finder_links_termsf_link_id] PRIMARY KEY CLUSTERED
 (
 	[link_id] ASC,
 	[term_id] ASC
@@ -3377,7 +3377,7 @@ CREATE TABLE [#__finder_links_termsf](
 END;
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__finder_links_termsf]') AND name = N'idx_link_term_weight')
-CREATE NONCLUSTERED INDEX [idx_link_term_weight] ON [#__finder_links_termsf] 
+CREATE NONCLUSTERED INDEX [idx_link_term_weight] ON [#__finder_links_termsf]
 (
 	[link_id] ASC,
 	[term_id] ASC,
@@ -3385,7 +3385,7 @@ CREATE NONCLUSTERED INDEX [idx_link_term_weight] ON [#__finder_links_termsf]
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF)
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__finder_links_termsf]') AND name = N'idx_term_weight')
-CREATE NONCLUSTERED INDEX [idx_term_weight] ON [#__finder_links_termsf] 
+CREATE NONCLUSTERED INDEX [idx_term_weight] ON [#__finder_links_termsf]
 (
 	[term_id] ASC,
 	[weight] ASC
@@ -3400,7 +3400,7 @@ CREATE TABLE [#__finder_links_termse](
 	[link_id] [bigint] NOT NULL,
 	[term_id] [bigint] NOT NULL,
 	[weight] [real] NOT NULL,
- CONSTRAINT [PK_#__finder_links_termse_link_id] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_#__finder_links_termse_link_id] PRIMARY KEY CLUSTERED
 (
 	[link_id] ASC,
 	[term_id] ASC
@@ -3408,7 +3408,7 @@ CREATE TABLE [#__finder_links_termse](
 )
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__finder_links_termse]') AND name = N'idx_link_term_weight')
-CREATE NONCLUSTERED INDEX [idx_link_term_weight] ON [#__finder_links_termse] 
+CREATE NONCLUSTERED INDEX [idx_link_term_weight] ON [#__finder_links_termse]
 (
 	[link_id] ASC,
 	[term_id] ASC,
@@ -3417,7 +3417,7 @@ CREATE NONCLUSTERED INDEX [idx_link_term_weight] ON [#__finder_links_termse]
 END;
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__finder_links_termse]') AND name = N'idx_term_weight')
-CREATE NONCLUSTERED INDEX [idx_term_weight] ON [dbo].[#__finder_links_termse] 
+CREATE NONCLUSTERED INDEX [idx_term_weight] ON [dbo].[#__finder_links_termse]
 (
 	[term_id] ASC,
 	[weight] ASC
@@ -3433,7 +3433,7 @@ CREATE TABLE [#__finder_links_termsd](
 	[link_id] [bigint] NOT NULL,
 	[term_id] [bigint] NOT NULL,
 	[weight] [real] NOT NULL,
- CONSTRAINT [PK_#__finder_links_termsd_link_id] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_#__finder_links_termsd_link_id] PRIMARY KEY CLUSTERED
 (
 	[link_id] ASC,
 	[term_id] ASC
@@ -3442,7 +3442,7 @@ CREATE TABLE [#__finder_links_termsd](
 END;
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__finder_links_termsd]') AND name = N'idx_link_term_weight')
-CREATE NONCLUSTERED INDEX [idx_link_term_weight] ON [#__finder_links_termsd] 
+CREATE NONCLUSTERED INDEX [idx_link_term_weight] ON [#__finder_links_termsd]
 (
 	[link_id] ASC,
 	[term_id] ASC,
@@ -3450,7 +3450,7 @@ CREATE NONCLUSTERED INDEX [idx_link_term_weight] ON [#__finder_links_termsd]
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF)
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__finder_links_termsd]') AND name = N'idx_term_weight')
-CREATE NONCLUSTERED INDEX [idx_term_weight] ON [#__finder_links_termsd] 
+CREATE NONCLUSTERED INDEX [idx_term_weight] ON [#__finder_links_termsd]
 (
 	[term_id] ASC,
 	[weight] ASC
@@ -3464,7 +3464,7 @@ CREATE TABLE [#__finder_links_termsc](
 	[link_id] [bigint] NOT NULL,
 	[term_id] [bigint] NOT NULL,
 	[weight] [real] NOT NULL,
- CONSTRAINT [PK_#__finder_links_termsc_link_id] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_#__finder_links_termsc_link_id] PRIMARY KEY CLUSTERED
 (
 	[link_id] ASC,
 	[term_id] ASC
@@ -3473,7 +3473,7 @@ CREATE TABLE [#__finder_links_termsc](
 END;
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__finder_links_termsc]') AND name = N'idx_link_term_weight')
-CREATE NONCLUSTERED INDEX [idx_link_term_weight] ON [#__finder_links_termsc] 
+CREATE NONCLUSTERED INDEX [idx_link_term_weight] ON [#__finder_links_termsc]
 (
 	[link_id] ASC,
 	[term_id] ASC,
@@ -3481,7 +3481,7 @@ CREATE NONCLUSTERED INDEX [idx_link_term_weight] ON [#__finder_links_termsc]
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF)
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__finder_links_termsc]') AND name = N'idx_term_weight')
-CREATE NONCLUSTERED INDEX [idx_term_weight] ON [#__finder_links_termsc] 
+CREATE NONCLUSTERED INDEX [idx_term_weight] ON [#__finder_links_termsc]
 (
 	[term_id] ASC,
 	[weight] ASC
@@ -3497,7 +3497,7 @@ CREATE TABLE [#__finder_links_termsb](
 	[link_id] [bigint] NOT NULL,
 	[term_id] [bigint] NOT NULL,
 	[weight] [real] NOT NULL,
- CONSTRAINT [PK_#__finder_links_termsb_link_id] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_#__finder_links_termsb_link_id] PRIMARY KEY CLUSTERED
 (
 	[link_id] ASC,
 	[term_id] ASC
@@ -3506,7 +3506,7 @@ CREATE TABLE [#__finder_links_termsb](
 END;
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__finder_links_termsb]') AND name = N'idx_link_term_weight')
-CREATE NONCLUSTERED INDEX [idx_link_term_weight] ON [#__finder_links_termsb] 
+CREATE NONCLUSTERED INDEX [idx_link_term_weight] ON [#__finder_links_termsb]
 (
 	[link_id] ASC,
 	[term_id] ASC,
@@ -3514,7 +3514,7 @@ CREATE NONCLUSTERED INDEX [idx_link_term_weight] ON [#__finder_links_termsb]
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF)
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__finder_links_termsb]') AND name = N'idx_term_weight')
-CREATE NONCLUSTERED INDEX [idx_term_weight] ON [#__finder_links_termsb] 
+CREATE NONCLUSTERED INDEX [idx_term_weight] ON [#__finder_links_termsb]
 (
 	[term_id] ASC,
 	[weight] ASC
@@ -3530,7 +3530,7 @@ CREATE TABLE [#__finder_links_termsa](
 	[link_id] [bigint] NOT NULL,
 	[term_id] [bigint] NOT NULL,
 	[weight] [real] NOT NULL,
- CONSTRAINT [PK_#__finder_links_termsa_link_id] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_#__finder_links_termsa_link_id] PRIMARY KEY CLUSTERED
 (
 	[link_id] ASC,
 	[term_id] ASC
@@ -3538,7 +3538,7 @@ CREATE TABLE [#__finder_links_termsa](
 )
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__finder_links_termsa]') AND name = N'idx_link_term_weight')
-CREATE NONCLUSTERED INDEX [idx_link_term_weight] ON [#__finder_links_termsa] 
+CREATE NONCLUSTERED INDEX [idx_link_term_weight] ON [#__finder_links_termsa]
 (
 	[link_id] ASC,
 	[term_id] ASC,
@@ -3547,7 +3547,7 @@ CREATE NONCLUSTERED INDEX [idx_link_term_weight] ON [#__finder_links_termsa]
 END;
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__finder_links_termsa]') AND name = N'idx_term_weight')
-CREATE NONCLUSTERED INDEX [idx_term_weight] ON [#__finder_links_termsa] 
+CREATE NONCLUSTERED INDEX [idx_term_weight] ON [#__finder_links_termsa]
 (
 	[term_id] ASC,
 	[weight] ASC
@@ -3564,7 +3564,7 @@ CREATE TABLE [#__finder_links_terms9](
 	[link_id] [bigint] NOT NULL,
 	[term_id] [bigint] NOT NULL,
 	[weight] [real] NOT NULL,
- CONSTRAINT [PK_#__finder_links_terms9_link_id] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_#__finder_links_terms9_link_id] PRIMARY KEY CLUSTERED
 (
 	[link_id] ASC,
 	[term_id] ASC
@@ -3573,7 +3573,7 @@ CREATE TABLE [#__finder_links_terms9](
 END;
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__finder_links_terms9]') AND name = N'idx_link_term_weight')
-CREATE NONCLUSTERED INDEX [idx_link_term_weight] ON [#__finder_links_terms9] 
+CREATE NONCLUSTERED INDEX [idx_link_term_weight] ON [#__finder_links_terms9]
 (
 	[link_id] ASC,
 	[term_id] ASC,
@@ -3581,7 +3581,7 @@ CREATE NONCLUSTERED INDEX [idx_link_term_weight] ON [#__finder_links_terms9]
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF)
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__finder_links_terms9]') AND name = N'idx_term_weight')
-CREATE NONCLUSTERED INDEX [idx_term_weight] ON [#__finder_links_terms9] 
+CREATE NONCLUSTERED INDEX [idx_term_weight] ON [#__finder_links_terms9]
 (
 	[term_id] ASC,
 	[weight] ASC
@@ -3595,7 +3595,7 @@ CREATE TABLE [#__finder_links_terms8](
 	[link_id] [bigint] NOT NULL,
 	[term_id] [bigint] NOT NULL,
 	[weight] [real] NOT NULL,
- CONSTRAINT [PK_#__finder_links_terms8_link_id] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_#__finder_links_terms8_link_id] PRIMARY KEY CLUSTERED
 (
 	[link_id] ASC,
 	[term_id] ASC
@@ -3604,7 +3604,7 @@ CREATE TABLE [#__finder_links_terms8](
 END;
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__finder_links_terms8]') AND name = N'idx_link_term_weight')
-CREATE NONCLUSTERED INDEX [idx_link_term_weight] ON [#__finder_links_terms8] 
+CREATE NONCLUSTERED INDEX [idx_link_term_weight] ON [#__finder_links_terms8]
 (
 	[link_id] ASC,
 	[term_id] ASC,
@@ -3612,7 +3612,7 @@ CREATE NONCLUSTERED INDEX [idx_link_term_weight] ON [#__finder_links_terms8]
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF)
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__finder_links_terms8]') AND name = N'idx_term_weight')
-CREATE NONCLUSTERED INDEX [idx_term_weight] ON [#__finder_links_terms8] 
+CREATE NONCLUSTERED INDEX [idx_term_weight] ON [#__finder_links_terms8]
 (
 	[term_id] ASC,
 	[weight] ASC
@@ -3627,7 +3627,7 @@ CREATE TABLE [#__finder_links_terms7](
 	[link_id] [bigint] NOT NULL,
 	[term_id] [bigint] NOT NULL,
 	[weight] [real] NOT NULL,
- CONSTRAINT [PK_#__finder_links_terms7_link_id] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_#__finder_links_terms7_link_id] PRIMARY KEY CLUSTERED
 (
 	[link_id] ASC,
 	[term_id] ASC
@@ -3636,7 +3636,7 @@ CREATE TABLE [#__finder_links_terms7](
 END;
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__finder_links_terms7]') AND name = N'idx_link_term_weight')
-CREATE NONCLUSTERED INDEX [idx_link_term_weight] ON [#__finder_links_terms7] 
+CREATE NONCLUSTERED INDEX [idx_link_term_weight] ON [#__finder_links_terms7]
 (
 	[link_id] ASC,
 	[term_id] ASC,
@@ -3644,7 +3644,7 @@ CREATE NONCLUSTERED INDEX [idx_link_term_weight] ON [#__finder_links_terms7]
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF)
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__finder_links_terms7]') AND name = N'idx_term_weight')
-CREATE NONCLUSTERED INDEX [idx_term_weight] ON [#__finder_links_terms7] 
+CREATE NONCLUSTERED INDEX [idx_term_weight] ON [#__finder_links_terms7]
 (
 	[term_id] ASC,
 	[weight] ASC
@@ -3659,7 +3659,7 @@ CREATE TABLE [#__finder_links_terms6](
 	[link_id] [bigint] NOT NULL,
 	[term_id] [bigint] NOT NULL,
 	[weight] [real] NOT NULL,
- CONSTRAINT [PK_#__finder_links_terms6_link_id] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_#__finder_links_terms6_link_id] PRIMARY KEY CLUSTERED
 (
 	[link_id] ASC,
 	[term_id] ASC
@@ -3668,7 +3668,7 @@ CREATE TABLE [#__finder_links_terms6](
 END;
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__finder_links_terms6]') AND name = N'idx_link_term_weight')
-CREATE NONCLUSTERED INDEX [idx_link_term_weight] ON [#__finder_links_terms6] 
+CREATE NONCLUSTERED INDEX [idx_link_term_weight] ON [#__finder_links_terms6]
 (
 	[link_id] ASC,
 	[term_id] ASC,
@@ -3676,7 +3676,7 @@ CREATE NONCLUSTERED INDEX [idx_link_term_weight] ON [#__finder_links_terms6]
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF)
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__finder_links_terms6]') AND name = N'idx_term_weight')
-CREATE NONCLUSTERED INDEX [idx_term_weight] ON [#__finder_links_terms6] 
+CREATE NONCLUSTERED INDEX [idx_term_weight] ON [#__finder_links_terms6]
 (
 	[term_id] ASC,
 	[weight] ASC
@@ -3691,7 +3691,7 @@ CREATE TABLE [#__finder_links_terms5](
 	[link_id] [bigint] NOT NULL,
 	[term_id] [bigint] NOT NULL,
 	[weight] [real] NOT NULL,
- CONSTRAINT [PK_#__finder_links_terms5_link_id] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_#__finder_links_terms5_link_id] PRIMARY KEY CLUSTERED
 (
 	[link_id] ASC,
 	[term_id] ASC
@@ -3700,7 +3700,7 @@ CREATE TABLE [#__finder_links_terms5](
 END;
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__finder_links_terms5]') AND name = N'idx_link_term_weight')
-CREATE NONCLUSTERED INDEX [idx_link_term_weight] ON [#__finder_links_terms5] 
+CREATE NONCLUSTERED INDEX [idx_link_term_weight] ON [#__finder_links_terms5]
 (
 	[link_id] ASC,
 	[term_id] ASC,
@@ -3709,7 +3709,7 @@ CREATE NONCLUSTERED INDEX [idx_link_term_weight] ON [#__finder_links_terms5]
 
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__finder_links_terms5]') AND name = N'idx_term_weight')
-CREATE NONCLUSTERED INDEX [idx_term_weight] ON .[#__finder_links_terms5] 
+CREATE NONCLUSTERED INDEX [idx_term_weight] ON .[#__finder_links_terms5]
 (
 	[term_id] ASC,
 	[weight] ASC
@@ -3724,7 +3724,7 @@ CREATE TABLE [#__finder_links_terms4](
 	[link_id] [bigint] NOT NULL,
 	[term_id] [bigint] NOT NULL,
 	[weight] [real] NOT NULL,
- CONSTRAINT [PK_#__finder_links_terms4_link_id] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_#__finder_links_terms4_link_id] PRIMARY KEY CLUSTERED
 (
 	[link_id] ASC,
 	[term_id] ASC
@@ -3733,7 +3733,7 @@ CREATE TABLE [#__finder_links_terms4](
 END;
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__finder_links_terms4]') AND name = N'idx_link_term_weight')
-CREATE NONCLUSTERED INDEX [idx_link_term_weight] ON [#__finder_links_terms4] 
+CREATE NONCLUSTERED INDEX [idx_link_term_weight] ON [#__finder_links_terms4]
 (
 	[link_id] ASC,
 	[term_id] ASC,
@@ -3741,7 +3741,7 @@ CREATE NONCLUSTERED INDEX [idx_link_term_weight] ON [#__finder_links_terms4]
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF)
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__finder_links_terms4]') AND name = N'idx_term_weight')
-CREATE NONCLUSTERED INDEX [idx_term_weight] ON [#__finder_links_terms4] 
+CREATE NONCLUSTERED INDEX [idx_term_weight] ON [#__finder_links_terms4]
 (
 	[term_id] ASC,
 	[weight] ASC
@@ -3756,7 +3756,7 @@ CREATE TABLE [#__finder_links_terms3](
 	[link_id] [bigint] NOT NULL,
 	[term_id] [bigint] NOT NULL,
 	[weight] [real] NOT NULL,
- CONSTRAINT [PK_#__finder_links_terms3_link_id] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_#__finder_links_terms3_link_id] PRIMARY KEY CLUSTERED
 (
 	[link_id] ASC,
 	[term_id] ASC
@@ -3765,7 +3765,7 @@ CREATE TABLE [#__finder_links_terms3](
 END;
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__finder_links_terms3]') AND name = N'idx_link_term_weight')
-CREATE NONCLUSTERED INDEX [idx_link_term_weight] ON [#__finder_links_terms3] 
+CREATE NONCLUSTERED INDEX [idx_link_term_weight] ON [#__finder_links_terms3]
 (
 	[link_id] ASC,
 	[term_id] ASC,
@@ -3773,7 +3773,7 @@ CREATE NONCLUSTERED INDEX [idx_link_term_weight] ON [#__finder_links_terms3]
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF)
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__finder_links_terms3]') AND name = N'idx_term_weight')
-CREATE NONCLUSTERED INDEX [idx_term_weight] ON [#__finder_links_terms3] 
+CREATE NONCLUSTERED INDEX [idx_term_weight] ON [#__finder_links_terms3]
 (
 	[term_id] ASC,
 	[weight] ASC
@@ -3788,7 +3788,7 @@ CREATE TABLE [#__finder_links_terms2](
 	[link_id] [bigint] NOT NULL,
 	[term_id] [bigint] NOT NULL,
 	[weight] [real] NOT NULL,
- CONSTRAINT [PK_#__finder_links_terms2_link_id] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_#__finder_links_terms2_link_id] PRIMARY KEY CLUSTERED
 (
 	[link_id] ASC,
 	[term_id] ASC
@@ -3797,7 +3797,7 @@ CREATE TABLE [#__finder_links_terms2](
 END;
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__finder_links_terms2]') AND name = N'idx_link_term_weight')
-CREATE NONCLUSTERED INDEX [idx_link_term_weight] ON [#__finder_links_terms2] 
+CREATE NONCLUSTERED INDEX [idx_link_term_weight] ON [#__finder_links_terms2]
 (
 	[link_id] ASC,
 	[term_id] ASC,
@@ -3805,7 +3805,7 @@ CREATE NONCLUSTERED INDEX [idx_link_term_weight] ON [#__finder_links_terms2]
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF)
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__finder_links_terms2]') AND name = N'idx_term_weight')
-CREATE NONCLUSTERED INDEX [idx_term_weight] ON [#__finder_links_terms2] 
+CREATE NONCLUSTERED INDEX [idx_term_weight] ON [#__finder_links_terms2]
 (
 	[term_id] ASC,
 	[weight] ASC
@@ -3820,7 +3820,7 @@ CREATE TABLE [#__finder_links_terms1](
 	[link_id] [bigint] NOT NULL,
 	[term_id] [bigint] NOT NULL,
 	[weight] [real] NOT NULL,
- CONSTRAINT [PK_#__finder_links_terms1_link_id] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_#__finder_links_terms1_link_id] PRIMARY KEY CLUSTERED
 (
 	[link_id] ASC,
 	[term_id] ASC
@@ -3829,7 +3829,7 @@ CREATE TABLE [#__finder_links_terms1](
 END;
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__finder_links_terms1]') AND name = N'idx_link_term_weight')
-CREATE NONCLUSTERED INDEX [idx_link_term_weight] ON [#__finder_links_terms1] 
+CREATE NONCLUSTERED INDEX [idx_link_term_weight] ON [#__finder_links_terms1]
 (
 	[link_id] ASC,
 	[term_id] ASC,
@@ -3837,7 +3837,7 @@ CREATE NONCLUSTERED INDEX [idx_link_term_weight] ON [#__finder_links_terms1]
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF)
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__finder_links_terms1]') AND name = N'idx_term_weight')
-CREATE NONCLUSTERED INDEX [idx_term_weight] ON [#__finder_links_terms1] 
+CREATE NONCLUSTERED INDEX [idx_term_weight] ON [#__finder_links_terms1]
 (
 	[term_id] ASC,
 	[weight] ASC
@@ -3853,7 +3853,7 @@ CREATE TABLE [#__finder_links_terms0](
 	[link_id] [bigint] NOT NULL,
 	[term_id] [bigint] NOT NULL,
 	[weight] [real] NOT NULL,
- CONSTRAINT [PK_#__finder_links_terms0_link_id] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_#__finder_links_terms0_link_id] PRIMARY KEY CLUSTERED
 (
 	[link_id] ASC,
 	[term_id] ASC
@@ -3862,7 +3862,7 @@ CREATE TABLE [#__finder_links_terms0](
 END;
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__finder_links_terms0]') AND name = N'idx_link_term_weight')
-CREATE NONCLUSTERED INDEX [idx_link_term_weight] ON [#__finder_links_terms0] 
+CREATE NONCLUSTERED INDEX [idx_link_term_weight] ON [#__finder_links_terms0]
 (
 	[link_id] ASC,
 	[term_id] ASC,
@@ -3870,7 +3870,7 @@ CREATE NONCLUSTERED INDEX [idx_link_term_weight] ON [#__finder_links_terms0]
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF)
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__finder_links_terms0]') AND name = N'idx_term_weight')
-CREATE NONCLUSTERED INDEX [idx_term_weight] ON [#__finder_links_terms0] 
+CREATE NONCLUSTERED INDEX [idx_term_weight] ON [#__finder_links_terms0]
 (
 	[term_id] ASC,
 	[weight] ASC
@@ -3903,7 +3903,7 @@ CREATE TABLE [#__finder_links](
 	[sale_price] [float] NOT NULL,
 	[type_id] [int] NOT NULL,
 	[object] [nvarchar](max) NOT NULL,
- CONSTRAINT [PK_#__finder_links_link_id] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_#__finder_links_link_id] PRIMARY KEY CLUSTERED
 (
 	[link_id] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF)
@@ -3911,13 +3911,13 @@ CREATE TABLE [#__finder_links](
 END;
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__finder_links]') AND name = N'idx_md5')
-CREATE NONCLUSTERED INDEX [idx_md5] ON [#__finder_links] 
+CREATE NONCLUSTERED INDEX [idx_md5] ON [#__finder_links]
 (
 	[md5sum] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF)
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__finder_links]') AND name = N'idx_published_list')
-CREATE NONCLUSTERED INDEX [idx_published_list] ON [#__finder_links] 
+CREATE NONCLUSTERED INDEX [idx_published_list] ON [#__finder_links]
 (
 	[published] ASC,
 	[state] ASC,
@@ -3928,7 +3928,7 @@ CREATE NONCLUSTERED INDEX [idx_published_list] ON [#__finder_links]
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF)
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__finder_links]') AND name = N'idx_published_sale')
-CREATE NONCLUSTERED INDEX [idx_published_sale] ON [#__finder_links] 
+CREATE NONCLUSTERED INDEX [idx_published_sale] ON [#__finder_links]
 (
 	[published] ASC,
 	[state] ASC,
@@ -3939,19 +3939,19 @@ CREATE NONCLUSTERED INDEX [idx_published_sale] ON [#__finder_links]
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF)
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__finder_links]') AND name = N'idx_title')
-CREATE NONCLUSTERED INDEX [idx_title] ON [#__finder_links] 
+CREATE NONCLUSTERED INDEX [idx_title] ON [#__finder_links]
 (
 	[title] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF)
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__finder_links]') AND name = N'idx_type')
-CREATE NONCLUSTERED INDEX [idx_type] ON [#__finder_links] 
+CREATE NONCLUSTERED INDEX [idx_type] ON [#__finder_links]
 (
 	[type_id] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF)
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__finder_links]') AND name = N'idx_url')
-CREATE NONCLUSTERED INDEX [idx_url] ON [#__finder_links] 
+CREATE NONCLUSTERED INDEX [idx_url] ON [#__finder_links]
 (
 	[url] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF)
@@ -4096,7 +4096,7 @@ CREATE TABLE [#__finder_filters](
 	[map_count] [bigint] NOT NULL,
 	[data] [nvarchar](max) NOT NULL,
 	[params] [nvarchar](max) NULL,
- CONSTRAINT [PK_#__finder_filters_filter_id] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_#__finder_filters_filter_id] PRIMARY KEY CLUSTERED
 (
 	[filter_id] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF)
@@ -4217,7 +4217,7 @@ CREATE TABLE [#__content_rating](
 	[rating_sum] [bigint] NOT NULL,
 	[rating_count] [bigint] NOT NULL,
 	[lastip] [nvarchar](50) NOT NULL,
- CONSTRAINT [PK_#__content_rating_content_id] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_#__content_rating_content_id] PRIMARY KEY CLUSTERED
 (
 	[content_id] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF)
@@ -4279,7 +4279,7 @@ BEGIN
 CREATE TABLE [#__content_frontpage](
 	[content_id] [int] NOT NULL,
 	[ordering] [int] NOT NULL,
- CONSTRAINT [PK_#__content_frontpage_content_id] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_#__content_frontpage_content_id] PRIMARY KEY CLUSTERED
 (
 	[content_id] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF)
@@ -4351,7 +4351,7 @@ CREATE TABLE [#__content](
 	[featured] [tinyint] NOT NULL,
 	[language] [nvarchar](7) NOT NULL,
 	[xreference] [nvarchar](50) NOT NULL,
- CONSTRAINT [PK_#__content_id] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_#__content_id] PRIMARY KEY CLUSTERED
 (
 	[id] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF)
@@ -4359,50 +4359,50 @@ CREATE TABLE [#__content](
 END;
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__content]') AND name = N'idx_access')
-CREATE NONCLUSTERED INDEX [idx_access] ON [#__content] 
+CREATE NONCLUSTERED INDEX [idx_access] ON [#__content]
 (
 	[access] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__content]') AND name = N'idx_catid')
-CREATE NONCLUSTERED INDEX [idx_catid] ON [#__content] 
+CREATE NONCLUSTERED INDEX [idx_catid] ON [#__content]
 (
 	[catid] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__content]') AND name = N'idx_checkout')
-CREATE NONCLUSTERED INDEX [idx_checkout] ON [#__content] 
+CREATE NONCLUSTERED INDEX [idx_checkout] ON [#__content]
 (
 	[checked_out] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__content]') AND name = N'idx_createdby')
-CREATE NONCLUSTERED INDEX [idx_createdby] ON [#__content] 
+CREATE NONCLUSTERED INDEX [idx_createdby] ON [#__content]
 (
 	[created_by] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__content]') AND name = N'idx_featured_catid')
-CREATE NONCLUSTERED INDEX [idx_featured_catid] ON [#__content] 
+CREATE NONCLUSTERED INDEX [idx_featured_catid] ON [#__content]
 (
 	[featured] ASC,
 	[catid] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__content]') AND name = N'idx_language')
-CREATE NONCLUSTERED INDEX [idx_language] ON [#__content] 
+CREATE NONCLUSTERED INDEX [idx_language] ON [#__content]
 (
 	[language] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__content]') AND name = N'idx_state')
-CREATE NONCLUSTERED INDEX [idx_state] ON [#__content] 
+CREATE NONCLUSTERED INDEX [idx_state] ON [#__content]
 (
 	[state] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__content]') AND name = N'idx_xreference')
-CREATE NONCLUSTERED INDEX [idx_xreference] ON [#__content] 
+CREATE NONCLUSTERED INDEX [idx_xreference] ON [#__content]
 (
 	[xreference] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
@@ -4712,7 +4712,7 @@ CREATE TABLE [#__contact_details](
 	[xreference] [nvarchar](50) NOT NULL,
 	[publish_up] [datetime] NOT NULL,
 	[publish_down] [datetime] NOT NULL,
- CONSTRAINT [PK_#__contact_details_id] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_#__contact_details_id] PRIMARY KEY CLUSTERED
 (
 	[id] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF)
@@ -4720,50 +4720,50 @@ CREATE TABLE [#__contact_details](
 END;
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__contact_details]') AND name = N'idx_access')
-CREATE NONCLUSTERED INDEX [idx_access] ON [#__contact_details] 
+CREATE NONCLUSTERED INDEX [idx_access] ON [#__contact_details]
 (
 	[access] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__contact_details]') AND name = N'idx_catid')
-CREATE NONCLUSTERED INDEX [idx_catid] ON [#__contact_details] 
+CREATE NONCLUSTERED INDEX [idx_catid] ON [#__contact_details]
 (
 	[catid] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__contact_details]') AND name = N'idx_checkout')
-CREATE NONCLUSTERED INDEX [idx_checkout] ON [#__contact_details] 
+CREATE NONCLUSTERED INDEX [idx_checkout] ON [#__contact_details]
 (
 	[checked_out] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__contact_details]') AND name = N'idx_createdby')
-CREATE NONCLUSTERED INDEX [idx_createdby] ON [#__contact_details] 
+CREATE NONCLUSTERED INDEX [idx_createdby] ON [#__contact_details]
 (
 	[created_by] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__contact_details]') AND name = N'idx_featured_catid')
-CREATE NONCLUSTERED INDEX [idx_featured_catid] ON [#__contact_details] 
+CREATE NONCLUSTERED INDEX [idx_featured_catid] ON [#__contact_details]
 (
 	[featured] ASC,
 	[catid] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__contact_details]') AND name = N'idx_language')
-CREATE NONCLUSTERED INDEX [idx_language] ON [#__contact_details] 
+CREATE NONCLUSTERED INDEX [idx_language] ON [#__contact_details]
 (
 	[language] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__contact_details]') AND name = N'idx_state')
-CREATE NONCLUSTERED INDEX [idx_state] ON [#__contact_details] 
+CREATE NONCLUSTERED INDEX [idx_state] ON [#__contact_details]
 (
 	[published] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__contact_details]') AND name = N'idx_xreference')
-CREATE NONCLUSTERED INDEX [idx_xreference] ON [#__contact_details] 
+CREATE NONCLUSTERED INDEX [idx_xreference] ON [#__contact_details]
 (
 	[xreference] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
@@ -5133,7 +5133,7 @@ CREATE TABLE [#__categories](
 	[modified_time] [datetime] NOT NULL,
 	[hits] [bigint] NOT NULL,
 	[language] [nvarchar](7) NOT NULL,
- CONSTRAINT [PK_#__categories_id] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_#__categories_id] PRIMARY KEY CLUSTERED
 (
 	[id] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF)
@@ -5141,7 +5141,7 @@ CREATE TABLE [#__categories](
 END;
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__categories]') AND name = N'cat_idx')
-CREATE NONCLUSTERED INDEX [cat_idx] ON [#__categories] 
+CREATE NONCLUSTERED INDEX [cat_idx] ON [#__categories]
 (
 	[extension] ASC,
 	[published] ASC,
@@ -5149,56 +5149,56 @@ CREATE NONCLUSTERED INDEX [cat_idx] ON [#__categories]
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__categories]') AND name = N'idx_access')
-CREATE NONCLUSTERED INDEX [idx_access] ON [#__categories] 
+CREATE NONCLUSTERED INDEX [idx_access] ON [#__categories]
 (
 	[access] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__categories]') AND name = N'idx_alias')
-CREATE NONCLUSTERED INDEX [idx_alias] ON [#__categories] 
+CREATE NONCLUSTERED INDEX [idx_alias] ON [#__categories]
 (
 	[alias] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__categories]') AND name = N'idx_checkout')
-CREATE NONCLUSTERED INDEX [idx_checkout] ON [#__categories] 
+CREATE NONCLUSTERED INDEX [idx_checkout] ON [#__categories]
 (
 	[checked_out] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__categories]') AND name = N'idx_language')
-CREATE NONCLUSTERED INDEX [idx_language] ON [#__categories] 
+CREATE NONCLUSTERED INDEX [idx_language] ON [#__categories]
 (
 	[language] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__categories]') AND name = N'idx_left_right')
-CREATE NONCLUSTERED INDEX [idx_left_right] ON [#__categories] 
+CREATE NONCLUSTERED INDEX [idx_left_right] ON [#__categories]
 (
 	[lft] ASC,
 	[rgt] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__categories]') AND name = N'idx_path')
-CREATE NONCLUSTERED INDEX [idx_path] ON [#__categories] 
+CREATE NONCLUSTERED INDEX [idx_path] ON [#__categories]
 (
 	[path] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__categories]') AND name = N'idx_created_user_id')
-CREATE NONCLUSTERED INDEX [idx_created_user_id] ON [#__categories] 
+CREATE NONCLUSTERED INDEX [idx_created_user_id] ON [#__categories]
 (
 	[created_user_id] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__categories]') AND name = N'idx_checked_out_time')
-CREATE NONCLUSTERED INDEX [idx_checked_out_time] ON [#__categories] 
+CREATE NONCLUSTERED INDEX [idx_checked_out_time] ON [#__categories]
 (
 	[checked_out_time] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__categories]') AND name = N'idx_asset_id')
-CREATE NONCLUSTERED INDEX [idx_asset_id] ON [#__categories] 
+CREATE NONCLUSTERED INDEX [idx_asset_id] ON [#__categories]
 (
 	[asset_id] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
@@ -5480,7 +5480,7 @@ CREATE TABLE [#__banners](
 	[reset] [datetime] NOT NULL,
 	[created] [datetime] NOT NULL,
 	[language] [nvarchar](7) NOT NULL,
- CONSTRAINT [PK_#__banners_id] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_#__banners_id] PRIMARY KEY CLUSTERED
 (
 	[id] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF)
@@ -5488,31 +5488,31 @@ CREATE TABLE [#__banners](
 END;
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__banners]') AND name = N'idx_banner_catid')
-CREATE NONCLUSTERED INDEX [idx_banner_catid] ON [#__banners] 
+CREATE NONCLUSTERED INDEX [idx_banner_catid] ON [#__banners]
 (
 	[catid] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__banners]') AND name = N'idx_language')
-CREATE NONCLUSTERED INDEX [idx_language] ON [#__banners] 
+CREATE NONCLUSTERED INDEX [idx_language] ON [#__banners]
 (
 	[language] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__banners]') AND name = N'idx_metakey_prefix')
-CREATE NONCLUSTERED INDEX [idx_metakey_prefix] ON [#__banners] 
+CREATE NONCLUSTERED INDEX [idx_metakey_prefix] ON [#__banners]
 (
 	[metakey_prefix] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__banners]') AND name = N'idx_own_prefix')
-CREATE NONCLUSTERED INDEX [idx_own_prefix] ON [#__banners] 
+CREATE NONCLUSTERED INDEX [idx_own_prefix] ON [#__banners]
 (
 	[own_prefix] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__banners]') AND name = N'idx_state')
-CREATE NONCLUSTERED INDEX [idx_state] ON [#__banners] 
+CREATE NONCLUSTERED INDEX [idx_state] ON [#__banners]
 (
 	[state] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
@@ -5793,7 +5793,7 @@ CREATE TABLE [#__banner_tracks](
 	[track_type] [bigint] NOT NULL,
 	[banner_id] [bigint] NOT NULL,
 	[count] [bigint] NOT NULL,
- CONSTRAINT [PK_#__banner_tracks_track_date] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_#__banner_tracks_track_date] PRIMARY KEY CLUSTERED
 (
 	[track_date] ASC,
 	[track_type] ASC,
@@ -5803,19 +5803,19 @@ CREATE TABLE [#__banner_tracks](
 END;
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__banner_tracks]') AND name = N'idx_banner_id')
-CREATE NONCLUSTERED INDEX [idx_banner_id] ON [#__banner_tracks] 
+CREATE NONCLUSTERED INDEX [idx_banner_id] ON [#__banner_tracks]
 (
 	[banner_id] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__banner_tracks]') AND name = N'idx_track_date')
-CREATE NONCLUSTERED INDEX [idx_track_date] ON [#__banner_tracks] 
+CREATE NONCLUSTERED INDEX [idx_track_date] ON [#__banner_tracks]
 (
 	[track_date] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__banner_tracks]') AND name = N'idx_track_type')
-CREATE NONCLUSTERED INDEX [idx_track_type] ON [#__banner_tracks] 
+CREATE NONCLUSTERED INDEX [idx_track_type] ON [#__banner_tracks]
 (
 	[track_type] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
@@ -5852,19 +5852,19 @@ CREATE TABLE [#__user_notes](
  [review_time] [datetime2](0) NOT NULL,
  [publish_up] [datetime2](0) NOT NULL,
  [publish_down] [datetime2](0) NOT NULL,
- CONSTRAINT [PK_#__user_notes_id] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_#__user_notes_id] PRIMARY KEY CLUSTERED
 (
  [id] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF)
 )
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__user_notes]') AND name = N'idx_category_id')
-CREATE NONCLUSTERED INDEX [idx_category_id] ON [#__user_notes] 
+CREATE NONCLUSTERED INDEX [idx_category_id] ON [#__user_notes]
 (
  [catid] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF)
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__user_notes]') AND name = N'idx_user_id')
-CREATE NONCLUSTERED INDEX [idx_user_id] ON [#__user_notes] 
+CREATE NONCLUSTERED INDEX [idx_user_id] ON [#__user_notes]
 (
  [user_id] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF)
@@ -5999,7 +5999,7 @@ CREATE TABLE [#__user_profiles](
  [profile_key] [nvarchar](100) NOT NULL,
  [profile_value] [nvarchar](255) NOT NULL,
  [ordering] [int] NOT NULL,
- CONSTRAINT [#__user_profiles$idx_user_id_profile_key] UNIQUE CLUSTERED 
+ CONSTRAINT [#__user_profiles$idx_user_id_profile_key] UNIQUE CLUSTERED
 (
  [user_id] ASC,
  [profile_key] ASC
@@ -6038,7 +6038,7 @@ CREATE TABLE [#__banner_clients](
 	[purchase_type] [smallint] NOT NULL,
 	[track_clicks] [smallint] NOT NULL,
 	[track_impressions] [smallint] NOT NULL,
- CONSTRAINT [PK_#__banner_clients_id] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_#__banner_clients_id] PRIMARY KEY CLUSTERED
 (
 	[id] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF)
@@ -6046,13 +6046,13 @@ CREATE TABLE [#__banner_clients](
 END;
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__banner_clients]') AND name = N'idx_metakey_prefix')
-CREATE NONCLUSTERED INDEX [idx_metakey_prefix] ON [#__banner_clients] 
+CREATE NONCLUSTERED INDEX [idx_metakey_prefix] ON [#__banner_clients]
 (
 	[metakey_prefix] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__banner_clients]') AND name = N'idx_own_prefix')
-CREATE NONCLUSTERED INDEX [idx_own_prefix] ON [#__banner_clients] 
+CREATE NONCLUSTERED INDEX [idx_own_prefix] ON [#__banner_clients]
 (
 	[own_prefix] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
@@ -6195,11 +6195,11 @@ CREATE TABLE [#__assets](
 	[name] [nvarchar](50) NOT NULL,
 	[title] [nvarchar](100) NOT NULL,
 	[rules] [nvarchar](max) NOT NULL,
- CONSTRAINT [PK_#__assets_id] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_#__assets_id] PRIMARY KEY CLUSTERED
 (
 	[id] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF),
- CONSTRAINT [#__assets$idx_asset_name] UNIQUE NONCLUSTERED 
+ CONSTRAINT [#__assets$idx_asset_name] UNIQUE NONCLUSTERED
 (
 	[name] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF)
@@ -6207,14 +6207,14 @@ CREATE TABLE [#__assets](
 END;
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__assets]') AND name = N'idx_lft_rgt')
-CREATE NONCLUSTERED INDEX [idx_lft_rgt] ON [#__assets] 
+CREATE NONCLUSTERED INDEX [idx_lft_rgt] ON [#__assets]
 (
 	[lft] ASC,
 	[rgt] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__assets]') AND name = N'idx_parent_id')
-CREATE NONCLUSTERED INDEX [idx_parent_id] ON [#__assets] 
+CREATE NONCLUSTERED INDEX [idx_parent_id] ON [#__assets]
 (
 	[parent_id] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
@@ -6340,11 +6340,11 @@ CREATE TABLE [#__usergroups](
 	[lft] [bigint] NOT NULL,
 	[rgt] [bigint] NOT NULL,
 	[title] [nvarchar](255) NOT NULL,
- CONSTRAINT [PK_#__usergroups_id] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_#__usergroups_id] PRIMARY KEY CLUSTERED
 (
 	[id] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF),
- CONSTRAINT [#__usergroups$idx_usergroup_parent_title_lookup] UNIQUE NONCLUSTERED 
+ CONSTRAINT [#__usergroups$idx_usergroup_parent_title_lookup] UNIQUE NONCLUSTERED
 (
 	[title] ASC,
 	[parent_id] ASC
@@ -6353,19 +6353,19 @@ CREATE TABLE [#__usergroups](
 END;
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__usergroups]') AND name = N'idx_usergroup_title_lookup')
-CREATE NONCLUSTERED INDEX [idx_usergroup_title_lookup] ON [#__usergroups] 
+CREATE NONCLUSTERED INDEX [idx_usergroup_title_lookup] ON [#__usergroups]
 (
 	[title] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__usergroups]') AND name = N'idx_usergroup_adjacency_lookup')
-CREATE NONCLUSTERED INDEX [idx_usergroup_adjacency_lookup] ON [#__usergroups] 
+CREATE NONCLUSTERED INDEX [idx_usergroup_adjacency_lookup] ON [#__usergroups]
 (
 	[parent_id] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[#__usergroups]') AND name = N'idx_usergroup_nested_set_lookup')
-CREATE NONCLUSTERED INDEX [idx_usergroup_nested_set_lookup] ON [#__usergroups] 
+CREATE NONCLUSTERED INDEX [idx_usergroup_nested_set_lookup] ON [#__usergroups]
 (
 	[lft] ASC,
 	[rgt] ASC

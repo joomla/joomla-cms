@@ -2,24 +2,18 @@
 <extension type="library" version="2.5">
 	<name>PHPMailer</name>
 	<libraryname>phpmailer</libraryname>
-	<version>2.5.0</version>
+	<version>5.2</version>
 	<description>LIB_PHPMAILER_XML_DESCRIPTION</description>
-	<creationDate>2008</creationDate>
-	<copyright>Copyright (C) PHPMailer.</copyright>
+	<creationDate>2001</creationDate>
+	<copyright>(c) 2001-2003, Brent R. Matzelle, (c) 2004-2009, Andy Prevost. All Rights Reserved., (c) 2010-2011, Jim Jagielski. All Rights Reserved.</copyright>
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
 	<author>PHPMailer</author>
-	<authorEmail></authorEmail>
-	<authorUrl>http://phpmailer.codeworxtech.com/</authorUrl>
+	<authorEmail>jimjag@gmail.com</authorEmail>
+	<authorUrl>https://code.google.com/a/apache-extras.org/p/phpmailer/</authorUrl>
 	<packager>Joomla!</packager>
 	<packagerurl>http://www.joomla.org</packagerurl>
 	<update>http://update.joomla.org/libraries/phpmailer</update>
-	<files>
-		<file>phpmailer.php</file>
-		<file>LICENSE</file>
-		<file>index.html</file>
-		<file>language/index.html</file>
-		<file>language/phpmailer.lang-en.php</file>
-		<file>language/phpmailer.lang-joomla.php</file>
-		<file>smtp.php</file>
+	<files folder="libraries">
+		<folder>phpmailer</folder>
 	</files>
 </extension>

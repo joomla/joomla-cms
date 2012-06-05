@@ -26,6 +26,16 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+05-May-2012 Mark Dexter
+ ^ Update phpunit.php for PHPUnit version 3.5
+
+04-May-2012 Mark Dexter
+ # Fix PHP strict error 
+
+02-May-2012 Mark Dexter
+ ^ Change system test suite to work with PHPUnit version 3.6
+ # Fix doInstall for PHP strict error
+
 12-Apr-2012 Mark Dexter
  # Fix hard-coded version number in system test
 

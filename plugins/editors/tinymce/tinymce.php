@@ -369,6 +369,15 @@ class plgEditorTinymce extends JPlugin
 			$buttons4[]	= 'visualchars';
 		}
 
+		// visualblocks
+		$visualblocks = $this->params->def('visualblocks', 1);
+
+		if ($visualblocks)
+		{
+			$plugins[]	= 'visualblocks';
+			$buttons4[]	= 'visualblocks';
+		}
+
 		// non-breaking
 		$nonbreaking = $this->params->def('nonbreaking', 1);
 

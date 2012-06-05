@@ -65,13 +65,11 @@ class FinderHelper
 		$result = new JObject;
 		$assetName = 'com_finder';
 
-		$actions = array(
-			'core.admin', 'core.manage', 'core.create', 'core.edit', 'core.edit.state', 'core.delete'
-		);
+		$actions = JAccess::getActions($assetName, 'component');
 
 		foreach ($actions as $action)
 		{
-			$result->set($action, $user->authorise($action, $assetName));
+			$result->set($action->name, $user->authorise($action->name, $assetName));
 		}
 
 		return $result;

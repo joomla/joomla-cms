@@ -189,8 +189,10 @@ $saveOrder	= $listOrder == 'ordering';
 		</tbody>
 	</table>
 
-	<?php //Load the batch processing form. ?>
-	<?php echo $this->loadTemplate('batch'); ?>
+	<?php //Load the batch processing form.is user is allowed ?>
+	<?php if($user->authorize('core.create', 'com_modules') || $user->authorize('core.edit', 'com_modules')) : ?>
+		<?php echo $this->loadTemplate('batch'); ?>
+	<?php endif;?>
 
 	<div>
 		<input type="hidden" name="task" value="" />

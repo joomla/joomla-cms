@@ -47,7 +47,7 @@ class InstallerViewDefault extends JView
 			$showMessage	= ($message1 || $message2);
 		}
 
-		$this->assign('showMessage',	$showMessage);
+		$this->showMessage = $showMessage;
 		$this->assignRef('state',		$state);
 
 		JHtml::_('behavior.tooltip');

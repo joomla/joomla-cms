@@ -248,6 +248,7 @@ class ContentModelArticles extends JModelList
 			$user	= JFactory::getUser();
 			$groups	= implode(',', $user->getAuthorisedViewLevels());
 			$query->where('a.access IN ('.$groups.')');
+			$query->where('c.access IN ('.$groups.')');
 		}
 
 		// Filter by published state

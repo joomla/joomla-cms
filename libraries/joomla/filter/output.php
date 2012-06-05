@@ -85,7 +85,7 @@ class JFilterOutput
 	 */
 	public static function stringURLSafe($string)
 	{
-		// remove any '-' from the string since they will be used as concatenaters
+		// Remove any '-' from the string since they will be used as concatenaters
 		$str = str_replace('-', ' ', $string);
 
 		$lang = JFactory::getLanguage();

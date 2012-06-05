@@ -416,7 +416,7 @@ class plgFinderContacts extends FinderIndexerAdapter
 	{
 		$db = JFactory::getDbo();
 		// Check if we can use the supplied SQL query.
-		$sql = is_a($sql, 'JDatabaseQuery') ? $sql : $db->getQuery(true);
+		$sql = $sql instanceof JDatabaseQuery ? $sql : $db->getQuery(true);
 		$sql->select('a.id, a.name AS title, a.alias, a.con_position AS position, a.address, a.created AS start_date');
 		$sql->select('a.created_by_alias, a.modified, a.modified_by');
 		$sql->select('a.metakey, a.metadesc, a.metadata, a.language');

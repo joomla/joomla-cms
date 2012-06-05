@@ -50,12 +50,10 @@ class MessagesHelper extends JController
 		$user	= JFactory::getUser();
 		$result	= new JObject;
 
-		$actions = array(
-			'core.admin', 'core.manage', 'core.create', 'core.edit', 'core.edit.state', 'core.delete'
-		);
+		$actions = JAccess::getActions('com_messages');
 
 		foreach ($actions as $action) {
-			$result->set($action,	$user->authorise($action, 'com_messages'));
+			$result->set($action->name,	$user->authorise($action->name, 'com_messages'));
 		}
 
 		return $result;
