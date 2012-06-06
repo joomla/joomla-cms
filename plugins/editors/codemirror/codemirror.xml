@@ -20,6 +20,20 @@
 		<fields name="params">
 
 			<fieldset name="basic">
+				<field name="theme" type="list"
+					default="default"
+					description="PLG_CODEMIRROR_FIELD_THEME_DESC"
+					label="PLG_CODEMIRROR_FIELD_THEME_LABEL"
+				>
+					<option value="default">PLG_CODEMIRROR_FIELD_VALUE_DEFAULT</option>
+					<option value="cobalt">PLG_CODEMIRROR_FIELD_VALUE_CABALT</option>
+					<option value="eclipse">PLG_CODEMIRROR_FIELD_VALUE_ECLIPSE</option>
+					<option value="elegant">PLG_CODEMIRROR_FIELD_VALUE_ELEGANT</option>
+					<option value="monokai">PLG_CODEMIRROR_FIELD_VALUE_MONOKAI</option>
+					<option value="neat">PLG_CODEMIRROR_FIELD_VALUE_NEAT</option>
+					<option value="night">PLG_CODEMIRROR_FIELD_VALUE_NIGHT</option>
+					<option value="rubyblue">PLG_CODEMIRROR_FIELD_VALUE_RUBYBLUE</option>
+				</field>
 				<field name="linenumbers" type="radio"
 					default="0"
 					description="PLG_CODEMIRROR_FIELD_LINENUMBERS_DESC"
@@ -37,6 +51,7 @@
 					<option value="indent">PLG_CODEMIRROR_FIELD_VALUE_TABMODE_INDENT</option>
 					<option value="shift">PLG_CODEMIRROR_FIELD_VALUE_TABMODE_SHIFT</option>
 				</field>
+
 			</fieldset>
 
 		</fields>
