@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+06-Jun-2012 Christophe Demko
+ ^ [#28378] Backport JInput:def() from the platform (Rouven Weßling)
+
 05-Jun-2012 Jean-Marie Simonet
  # [#28619] Fix #24510 to not add code specific to the profile plug-in to com_users. Thanks Rouven.
  +# [#28565] Add feature readmore in feed items. Also bugfix for fulltext in feed items. Thanks Jurian
