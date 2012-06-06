@@ -82,16 +82,15 @@ class CategoriesHelper
 
 		if (empty($categoryId)) {
 			$assetName = $component;
-			$level = 'component';
 		}
 		else {
 			$assetName = $component.'.category.'.(int) $categoryId;
-			$level = 'category';
 		}
 
-		$actions = JAccess::getActions($component, $level);
+		$actions = JAccess::getActions($component);
 
-		foreach ($actions as $action) {
+		foreach ($actions as $action) 
+		{
 			$result->set($action->name, $user->authorise($action->name, $assetName));
 		}
 

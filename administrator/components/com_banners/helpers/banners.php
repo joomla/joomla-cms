@@ -70,15 +70,14 @@ class BannersHelper
 
 		if (empty($categoryId)) {
 			$assetName = 'com_banners';
-			$level = 'component';
 		} else {
 			$assetName = 'com_banners.category.'.(int) $categoryId;
-			$level = 'category';
 		}
 
-		$actions = JAccess::getActions('com_banners', $level);
+		$actions = JAccess::getActions('com_banners');
 
-		foreach ($actions as $action) {
+		foreach ($actions as $action) 
+		{
 			$result->set($action->name,	$user->authorise($action->name, $assetName));
 		}
 

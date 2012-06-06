@@ -29,7 +29,6 @@ class JoomlaupdateHelper
 	{
 		$user	= JFactory::getUser();
 		$result	= new JObject;
-
 		$assetName = 'com_joomlaupdate';
 
 		$actions = JAccess::getActions($assetName);

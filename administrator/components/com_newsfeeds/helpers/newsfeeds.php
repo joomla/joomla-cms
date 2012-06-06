@@ -56,16 +56,15 @@ class NewsfeedsHelper
 
 		if (empty($categoryId)) {
 			$assetName = 'com_newsfeeds';
-			$level = 'component';
 		}
 		else {
 			$assetName = 'com_newsfeeds.category.'.(int) $categoryId;
-			$level = 'category';
 		}
 
-		$actions = JAccess::getActions('com_newsfeeds', $level);
+		$actions = JAccess::getActions('com_newsfeeds');
 
-		foreach ($actions as $action) {
+		foreach ($actions as $action) 
+		{
 			$result->set($action->name,	$user->authorise($action->name, $assetName));
 		}
 

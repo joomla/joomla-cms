@@ -60,20 +60,18 @@ class ContactHelper
 
 		if (empty($contactId) && empty($categoryId)) {
 			$assetName = 'com_contact';
-			$level = 'component';
 		}
 		elseif (empty($contactId)) {
 			$assetName = 'com_contact.category.'.(int) $categoryId;
-			$level = 'category';
 		}
 		else {
 			$assetName = 'com_contact.contact.'.(int) $contactId;
-			$level = 'category';
 		}
 
-		$actions = JAccess::getActions('com_contact', $level);
+		$actions = JAccess::getActions('com_contact');
 
-		foreach ($actions as $action) {
+		foreach ($actions as $action) 
+		{
 			$result->set($action->name,	$user->authorise($action->name, $assetName));
 		}
 

@@ -65,7 +65,7 @@ class FinderHelper
 		$result = new JObject;
 		$assetName = 'com_finder';
 
-		$actions = JAccess::getActions($assetName, 'component');
+		$actions = JAccess::getActions($assetName);
 
 		foreach ($actions as $action)
 		{

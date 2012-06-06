@@ -86,12 +86,13 @@ class UsersHelper
 		{
 			$user = JFactory::getUser();
 			self::$actions = new JObject;
+			$assetName = 'com_users';
 
-			$actions = JAccess::getActions('com_users');
+			$actions = JAccess::getActions($assetName);
 
 			foreach ($actions as $action)
 			{
-				self::$actions->set($action->name, $user->authorise($action->name, 'com_users'));
+				self::$actions->set($action->name, $user->authorise($action->name, $assetName));
 			}
 		}
 
