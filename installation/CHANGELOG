@@ -28,6 +28,7 @@ $ -> Language fix or change
 
 06-Jun-2012 Christophe Demko
  ^ [#28378] Backport JInput:def() from the platform (Rouven Weßling)
+ # [#28487] Menu Item Alias does not obey Secure Setting of Aliased Item (Don Gilbert)
 
 05-Jun-2012 Jean-Marie Simonet
  # [#28619] Fix #24510 to not add code specific to the profile plug-in to com_users. Thanks Rouven.
