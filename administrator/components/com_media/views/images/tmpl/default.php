@@ -9,6 +9,8 @@
 // No direct access.
 defined('_JEXEC') or die;
 $user = JFactory::getUser();
+$filepath = JApplication::getUserState('filepath', null);
+JApplication::setUserState('filepath', null);
 ?>
 <script type='text/javascript'>
 var image_base_path = '<?php $params = JComponentHelper::getParams('com_media');
@@ -36,7 +38,7 @@ echo $params->get('image_path', 'images');?>/';
 		<table class="properties">
 			<tr>
 				<td><label for="f_url"><?php echo JText::_('COM_MEDIA_IMAGE_URL') ?></label></td>
-				<td><input type="text" id="f_url" value="" /></td>
+				<td><input type="text" id="f_url" value="<?php echo $filepath; ?>" /></td>
 				<?php if (!$this->state->get('field.id')):?>
 					<td><label for="f_align"><?php echo JText::_('COM_MEDIA_ALIGN') ?></label></td>
 					<td>

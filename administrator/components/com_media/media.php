@@ -39,8 +39,11 @@ if (substr(strtolower($view), 0, 6) == "images" || $popup_upload == 1) {
 	$path = "image_path";
 }
 
-define('COM_MEDIA_BASE',	JPATH_ROOT.'/'.$params->get($path, 'images'));
-define('COM_MEDIA_BASEURL', JURI::root().$params->get($path, 'images'));
+$media_base = $params->get($path, 'images');
+
+define('COM_MEDIA_BASE',	JPATH_ROOT.'/'.$media_base);
+define('COM_MEDIA_BASEURL',	JURI::root().$media_base);
+define('COM_MEDIA_BASEPATH',	JURI::root(true).$media_base);
 
 // Include dependancies
 jimport('joomla.application.component.controller');

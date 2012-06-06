@@ -98,7 +98,11 @@ class MediaControllerFile extends JController
 			{
 				// Trigger the onContentAfterSave event.
 				$dispatcher->trigger('onContentAfterSave', array('com_media.file', &$object_file, true));
-				$this->setMessage(JText::sprintf('COM_MEDIA_UPLOAD_COMPLETE', substr($file['filepath'], strlen(COM_MEDIA_BASE))));
+				// Get just the filepath
+				$filepath = substr($file['filepath'], strlen(COM_MEDIA_BASE));
+				$this->setMessage(JText::sprintf('COM_MEDIA_UPLOAD_COMPLETE', $filepath));
+				// Set the user state for the uploaded file path
+				JApplication::setUserState('filepath', COM_MEDIA_BASEPATH.$filepath);
 				return true;
 			}
 		}
