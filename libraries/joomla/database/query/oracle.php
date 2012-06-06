@@ -150,14 +150,31 @@ class JDatabaseQueryOracle extends JDatabaseQueryPdo implements JDatabaseQueryPr
 	 */
 	public function processLimit($query, $limit, $offset = 0)
 	{
-		$query = "SELECT joomla2.*
-	              FROM (
-	                  SELECT joomla1.*, ROWNUM AS joomla_db_rownum
-	                  FROM (
-	                      " . $query . "
-	                  ) joomla1
-	              ) joomla2
-	              WHERE joomla2.joomla_db_rownum BETWEEN " . ($offset + 1) . " AND " . ($offset + $limit);
+		// Check if we need to mangle the query.
+		if ($limit || $offset)
+		{
+			$query = "SELECT joomla2.*
+		              FROM (
+		                  SELECT joomla1.*, ROWNUM AS joomla_db_rownum
+		                  FROM (
+		                      " . $query . "
+		                  ) joomla1
+		              ) joomla2";
+
+			// Check if the limit value is greater than zero.
+			if ($limit > 0)
+			{
+				$query .= ' WHERE joomla2.joomla_db_rownum BETWEEN ' . ($offset + 1) . ' AND ' . ($offset + $limit);
+			}
+			else
+			{
+				// Check if there is an offset and then use this.
+				if ($offset)
+				{
+					$query .= ' WHERE joomla2.joomla_db_rownum > ' . ($offset + 1);
+				}
+			}
+		}
 
 		return $query;
 	}

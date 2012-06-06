@@ -28,6 +28,17 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
 	public $name = 'oracle';
 
 	/**
+	 * The character(s) used to quote SQL statement names such as table names or field names,
+	 * etc.  The child classes should define this as necessary.  If a single character string the
+	 * same character is used for both sides of the quoted name, else the first character will be
+	 * used for the opening quote and the second for the closing quote.
+	 *
+	 * @var    string
+	 * @since  12.1
+	 */
+	protected $nameQuote = '"';
+
+	/**
 	 * Returns the current dateformat
 	 *
 	 * @var   string
@@ -149,6 +160,18 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
 	}
 
 	/**
+	 * Get a query to run and verify the database is operational.
+	 *
+	 * @return  string  The query to check the health of the DB.
+	 *
+	 * @since   12.2
+	 */
+	public function getConnectedQuery()
+	{
+		return 'SELECT 1 FROM dual';
+	}
+
+	/**
      * Returns the current date format
      * This method should be useful in the case that
      * somebody actually wants to use a different
@@ -231,7 +254,8 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
 		$query->from('ALL_TAB_COLUMNS');
 		$query->where('table_name = :tableName');
 
-		$query->bind(':tableName', $table);
+		$prefixedTable = str_replace('#__', strtoupper($this->tablePrefix), $table);
+		$query->bind(':tableName', $prefixedTable);
 		$this->setQuery($query);
 		$fields = $this->loadObjectList();
 
@@ -239,14 +263,15 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
 		{
 			foreach ($fields as $field)
 			{
-				$columns[$table][$field->COLUMN_NAME] = $field->DATA_TYPE;
+				$columns[$field->COLUMN_NAME] = $field->DATA_TYPE;
 			}
 		}
 		else
 		{
 			foreach ($fields as $field)
 			{
-				$columns[$table][$field->COLUMN_NAME] = $field;
+				$columns[$field->COLUMN_NAME] = $field;
+				$columns[$field->COLUMN_NAME]->Default = null;
 			}
 		}
 
@@ -481,5 +506,90 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
 	public static function isSupported()
 	{
 		return in_array('oci', PDO::getAvailableDrivers());
+	}
+
+	/**
+	 * This function replaces a string identifier <var>$prefix</var> with the string held is the
+	 * <var>tablePrefix</var> class variable.
+	 *
+	 * @param   string  $sql     The SQL statement to prepare.
+	 * @param   string  $prefix  The common table prefix.
+	 *
+	 * @return  string  The processed SQL statement.
+	 *
+	 * @since   11.1
+	 */
+	public function replacePrefix($sql, $prefix = '#__')
+	{
+		// Initialize variables.
+		$escaped = false;
+		$startPos = 0;
+		$quoteChar = "'";
+		$literal = '';
+
+		$sql = trim($sql);
+		$n = strlen($sql);
+
+		while ($startPos < $n)
+		{
+			$ip = strpos($sql, $prefix, $startPos);
+			if ($ip === false)
+			{
+				break;
+			}
+
+			$j = strpos($sql, "'", $startPos);
+
+			if ($j === false)
+			{
+				$j = $n;
+			}
+
+			$literal .= str_replace($prefix, $this->tablePrefix, substr($sql, $startPos, $j - $startPos));
+			$startPos = $j;
+
+			$j = $startPos + 1;
+
+			if ($j >= $n)
+			{
+				break;
+			}
+
+			// Quote comes first, find end of quote
+			while (true)
+			{
+				$k = strpos($sql, $quoteChar, $j);
+				$escaped = false;
+				if ($k === false)
+				{
+					break;
+				}
+				$l = $k - 1;
+				while ($l >= 0 && $sql{$l} == '\\')
+				{
+					$l--;
+					$escaped = !$escaped;
+				}
+				if ($escaped)
+				{
+					$j = $k + 1;
+					continue;
+				}
+				break;
+			}
+			if ($k === false)
+			{
+				// Error in the query - no end quote; ignore it
+				break;
+			}
+			$literal .= substr($sql, $startPos, $k - $startPos + 1);
+			$startPos = $k + 1;
+		}
+		if ($startPos < $n)
+		{
+			$literal .= substr($sql, $startPos, $n - $startPos);
+		}
+
+		return $literal;
 	}
 }
