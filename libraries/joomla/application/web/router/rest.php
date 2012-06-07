@@ -54,10 +54,27 @@ class JApplicationWebRouterRest extends JApplicationWebRouterBase
 	 *
 	 * @return  JController
 	 *
+	 * @codeCoverageIgnore
 	 * @since   12.3
 	 * @throws  RuntimeException
 	 */
 	protected function fetchController($name)
+	{
+		// Append the HTTP method based suffix.
+		$name .= $this->fetchControllerSuffix();
+
+		return parent::fetchController($name);
+	}
+
+	/**
+	 * Get the controller class suffix string.
+	 *
+	 * @return  string
+	 *
+	 * @since   12.3
+	 * @throws  RuntimeException
+	 */
+	protected function fetchControllerSuffix()
 	{
 		// Validate that we have a map to handle the given HTTP method.
 		if (!isset($this->suffixMap[$this->input->getMethod()]))
@@ -65,18 +82,6 @@ class JApplicationWebRouterRest extends JApplicationWebRouterBase
 			throw new RuntimeException(sprintf('Unable to support the HTTP method `%s`.', $this->input->getMethod()), 404);
 		}
 
-		// Derive the controller class name.
-		$class = $this->controllerPrefix . ucfirst($name) . $this->suffixMap[$this->input->getMethod()];
-
-		// If the controller class does not exist panic.
-		if (!class_exists($class))
-		{
-			throw new RuntimeException(sprintf('Unable to locate controller `%s`.', $class), 404);
-		}
-
-		// Instantiate the controller.
-		$controller = new $class($this->input, $this->app);
-
-		return $controller;
+		return ucfirst($this->suffixMap[$this->input->getMethod()]);
 	}
 }
