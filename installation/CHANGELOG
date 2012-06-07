@@ -29,6 +29,7 @@ $ -> Language fix or change
 07-Jun-2012 Jean-Marie Simonet
  $ Updating installation ini files: hr-HR, sk-SK
  # [#28526] bug in mod_articles_news. Thanks Elin
+ # [#28420] discover_install of components does not trigger custom install method. Thanks Michael
 
 06-Jun-2012 Christophe Demko
  ^ [#28378] Backport JInput:def() from the platform (Rouven Weßling)
