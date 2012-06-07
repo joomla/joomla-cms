@@ -30,6 +30,6 @@ endif; ?>
 
 <?php echo $item->introtext; ?>
 
-<?php if (isset($item->link) && $item->readmore && $params->get('readmore')) :
+<?php if (isset($item->link) && $item->readmore != 0 && $params->get('readmore')) :
 	echo '<a class="readmore" href="'.$item->link.'">'.$item->linkText.'</a>';
 endif; ?>

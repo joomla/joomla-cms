@@ -37,8 +37,8 @@ abstract class modArticlesNewsHelper
 
 		$model->setState('list.select', 'a.fulltext, a.id, a.title, a.alias, a.title_alias, a.introtext, a.state, a.catid, a.created, a.created_by, a.created_by_alias,' .
 			' a.modified, a.modified_by, a.publish_up, a.publish_down, a.images, a.urls, a.attribs, a.metadata, a.metakey, a.metadesc, a.access,' .
-			' a.hits, a.featured,' .
-			' LENGTH(a.fulltext) AS readmore');
+			' a.hits, a.featured' );
+
 		// Access filter
 		$access = !JComponentHelper::getParams('com_content')->get('show_noauth');
 		$authorised = JAccess::getAuthorisedViewLevels(JFactory::getUser()->get('id'));
@@ -63,7 +63,7 @@ abstract class modArticlesNewsHelper
 		$items = $model->getItems();
 
 		foreach ($items as &$item) {
-			$item->readmore = (trim($item->fulltext) != '');
+			$item->readmore = strlen(trim($item->fulltext));
 			$item->slug = $item->id.':'.$item->alias;
 			$item->catslug = $item->catid.':'.$item->category_alias;
 
