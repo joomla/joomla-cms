@@ -33,7 +33,8 @@ $ -> Language fix or change
  # [#28192] Bug in mod_articles_news in version 1.7 and 2.5. Thanks Heikki and Ofer.
  ^ [#28570] Backport JAccess::getActionsFrom. Thanks Michael
  ^ [#28549] Provide legacy aliases for the MVC classes. Thanks Rouven
-
+ # [#28400] Help Site URL Defaulting to Version 1.6. Thanks Mark
+ 
 06-Jun-2012 Christophe Demko
  ^ [#28378] Backport JInput:def() from the platform (Rouven Weßling)
  # [#28487] Menu Item Alias does not obey Secure Setting of Aliased Item (Don Gilbert)
