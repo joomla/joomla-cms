@@ -28,10 +28,10 @@ class JGoogle
 	protected $options;
 
 	/**
-	 * @var    JHttp  The HTTP client object to use in sending HTTP requests.
+	 * @var    JAuth  The authentication client object to use in sending authenticated HTTP requests.
 	 * @since  1234
 	 */
-	protected $client;
+	protected $auth;
 
 	/**
 	 * @var    JGoogleData  Google API object for data request.
@@ -49,20 +49,22 @@ class JGoogle
 	 * Constructor.
 	 *
 	 * @param   JRegistry  $options  Google options object.
-	 * @param   JHttp      $client   The HTTP client object.
+	 * @param   JAuth      $auth     The authentication client object.
 	 *
 	 * @since   1234
 	 */
-	public function __construct(JRegistry $options = null, JHttp $client = null)
+	public function __construct(JRegistry $options = null, JGoogleAuth $auth = null)
 	{
 		$this->options = isset($options) ? $options : new JRegistry;
-		$this->client  = isset($client) ? $client : new JHttp($this->options);
+		$this->auth  = isset($auth) ? $auth : new JAuthOauth2($this->options);
 	}
 
 	/**
 	 * Method to create JGoogleData objects
 	 *
-	 * @param   string  $name  Name of property to retrieve
+	 * @param   string     $name     Name of property to retrieve
+	 * @param   JRegistry  $options  Google options object.
+	 * @param   JAuth      $auth     The authentication client object.
 	 *
 	 * @return  JGoogleData  Google data API object.
 	 *
@@ -70,6 +72,14 @@ class JGoogle
 	 */
 	public function data($name, $options = null, $auth = null)
 	{
+		if ($this->options && !$options)
+		{
+			$options = $this->options;
+		}
+		if ($this->auth && !$auth)
+		{
+			$auth = $this->auth;
+		}
 		switch ($name)
 		{
 			case 'picasa':
@@ -89,14 +99,19 @@ class JGoogle
 	/**
 	 * Method to create JGoogleEmbed objects
 	 *
-	 * @param   string  $name  Name of property to retrieve
+	 * @param   string     $name     Name of property to retrieve
+	 * @param   JRegistry  $options  Google options object.
 	 *
 	 * @return  JGoogleEmbed  Google embed API object.
 	 *
 	 * @since   1234
 	 */
-	public function embed($name, $options)
+	public function embed($name, $options = null)
 	{
+		if ($this->options && !$options)
+		{
+			$options = $this->options;
+		}
 		switch ($name)
 		{
 			case 'maps':

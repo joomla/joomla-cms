@@ -11,7 +11,7 @@ require_once JPATH_PLATFORM . '/joomla/google/google.php';
 /**
  * Test class for JGoogle.
  */
-class JGoogleTest extends TestCase
+class JGoogleAuthOauth2Test extends PHPUnit_Framework_TestCase
 {
 	/**
 	 * @var    JRegistry  Options for the JOauth2client object.
@@ -34,12 +34,7 @@ class JGoogleTest extends TestCase
 	protected $oauth;
 
 	/**
-	 * @var    JGoogleAuth  The authentication wrapper for sending requests to Google.
-	 */
-	protected $auth;
-
-	/**
-	 * @var    JGoogle  Object under test.
+	 * @var    JGoogleAuthOauth2  Object under test.
 	 */
 	protected $object;
 
@@ -55,8 +50,7 @@ class JGoogleTest extends TestCase
 		$this->client = $this->getMock('JHttp', array('post'));
 		$this->input = new JInput;
 		$this->oauth = new JOauth2client($this->options, $this->client, $this->input);
-		$this->auth = new JGoogleAuthOauth2($this->options, $this->oauth);
-		$this->object = new JGoogle($this->options, $this->auth);
+		$this->object = new JGoogleAuthOauth2($this->options, $this->oauth);
 	}
 
 	/**
@@ -67,32 +61,6 @@ class JGoogleTest extends TestCase
 	 */
 	protected function tearDown()
 	{
-	}
-
-	/**
-	 * Tests the magic __get method - data
-	 * @group	JGoogle
-	 * @return void
-	 */
-	public function test__GetData()
-	{
-		$this->assertThat(
-			$this->object->data('Picasa'),
-			$this->isInstanceOf('JGoogleDataPicasa')
-		);
-	}
-
-	/**
-	 * Tests the magic __get method - embed
-	 * @group	JGoogle
-	 * @return void
-	 */
-	public function test__GetEmbed()
-	{
-		$this->assertThat(
-			$this->object->embed('Maps'),
-			$this->isInstanceOf('JGoogleEmbedMaps')
-		);
 	}
 
 	/**
@@ -115,7 +83,7 @@ class JGoogleTest extends TestCase
 	 * @group	JGoogle
 	 * @return void
 	 */
-	public function testGetOption()
+	public function testStuff()
 	{
 		$this->options->set('key', 'value');
 

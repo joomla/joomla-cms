@@ -36,6 +36,10 @@ abstract class JGoogleAuth
 	/**
 	 * Abstract method to retrieve data from Google
 	 *
+	 * @param   string  $url      The URL for the request.
+	 * @param   mixed   $data     The data to include in the request.
+	 * @param   array   $headers  The headers to send with the request.
+	 *
 	 * @return  mixed  Data from Google.
 	 *
 	 * @since   1234
@@ -53,7 +57,7 @@ abstract class JGoogleAuth
 	 */
 	public function getOption($key)
 	{
-		return $this->getOption($key);
+		return $this->options->get($key);
 	}
 
 	/**
@@ -68,7 +72,7 @@ abstract class JGoogleAuth
 	 */
 	public function setOption($key, $value)
 	{
-		$this->setOption($key, $value);
+		$this->options->set($key, $value);
 
 		return $this;
 	}
