@@ -170,11 +170,11 @@ class JFormFieldMedia extends JFormField
 		$showAsTooltip = false;
 		switch ($preview)
 		{
-			case 'no':
+			case 'false':
 			case 'none':
 				$showPreview = false;
 				break;
-			case 'yes':
+			case 'true':
 			case 'show':
 				break;
 			case 'tooltip':
