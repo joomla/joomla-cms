@@ -32,8 +32,8 @@ class JInstallationViewDatabase extends JView
 			return false;
 		}
 
-		$this->assignRef('state', $state);
-		$this->assignRef('form', $form);
+		$this->state = $state;
+		$this->form  = $form;
 
 		parent::display($tpl);
 	}

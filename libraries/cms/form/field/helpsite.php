@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Joomla.Platform
+ * @package     Joomla.Libraries
  * @subpackage  Form
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
@@ -9,40 +9,38 @@
 
 defined('JPATH_PLATFORM') or die;
 
+jimport('joomla.language.help');
 JFormHelper::loadFieldClass('list');
 
-// Import the com_menus helper.
-require_once realpath(JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus.php');
-
 /**
- * Supports an HTML select list of menus
+ * Form Field class for the Joomla Platform.
+ * Provides a select list of help sites.
  *
- * @package     Joomla.Platform
+ * @package     Joomla.Libraries
  * @subpackage  Form
- * @since       11.1
+ * @since       1.6.0
  */
-class JFormFieldMenu extends JFormFieldList
+class JFormFieldHelpsite extends JFormFieldList
 {
-
 	/**
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.6.0
 	 */
-	public $type = 'Menu';
+	public $type = 'Helpsite';
 
 	/**
-	 * Method to get the list of menus for the field options.
+	 * Method to get the help site field options.
 	 *
 	 * @return  array  The field option objects.
 	 *
-	 * @since   11.1
+	 * @since   1.6.0
 	 */
 	protected function getOptions()
 	{
 		// Merge any additional options in the XML definition.
-		$options = array_merge(parent::getOptions(), JHtml::_('menu.menus'));
+		$options = array_merge(parent::getOptions(), JHelp::createSiteList(JPATH_ADMINISTRATOR . '/help/helpsites.xml', $this->value));
 
 		return $options;
 	}

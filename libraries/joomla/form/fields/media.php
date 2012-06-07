@@ -63,11 +63,14 @@ class JFormFieldMedia extends JFormField
 			// Build the script.
 			$script = array();
 			$script[] = '	function jInsertFieldValue(value, id) {';
-			$script[] = '		var old_id = document.id(id).value;';
-			$script[] = '		if (old_id != id) {';
+			$script[] = '		var old_value = document.id(id).value;';
+			$script[] = '		if (old_value != value) {';
 			$script[] = '			var elem = document.id(id);';
 			$script[] = '			elem.value = value;';
 			$script[] = '			elem.fireEvent("change");';
+			$script[] = '			if (typeof(elem.onchange) === "function") {';
+			$script[] = '				elem.onchange();';
+			$script[] = '			}';
 			$script[] = '		}';
 			$script[] = '	}';
 
@@ -126,8 +129,7 @@ class JFormFieldMedia extends JFormField
 		$html[] = '<div class="button2-left">';
 		$html[] = '	<div class="blank">';
 		$html[] = '		<a title="' . JText::_('JLIB_FORM_BUTTON_CLEAR') . '"' . ' href="#" onclick="';
-		$html[] = 'document.id(\'' . $this->id . '\').value=\'\';';
-		$html[] = 'document.id(\'' . $this->id . '\').fireEvent(\'change\');';
+		$html[] = 'jInsertFieldValue(\'\', \'' . $this->id . '\');';
 		$html[] = 'return false;';
 		$html[] = '">';
 		$html[] = JText::_('JLIB_FORM_BUTTON_CLEAR') . '</a>';

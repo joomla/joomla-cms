@@ -86,7 +86,7 @@ class FinderIndexerTaxonomy
 		// state has changed or because the branch does not exist. Let's figure
 		// out which case is true and deal with it.
 		$branch = new JObject;
-		if (empty($data))
+		if (empty($result))
 		{
 			// Prepare the branch object.
 			$branch->parent_id = 1;
@@ -170,7 +170,7 @@ class FinderIndexerTaxonomy
 		// state has changed or because the node does not exist. Let's figure
 		// out which case is true and deal with it.
 		$node = new JObject;
-		if (empty($data))
+		if (empty($result))
 		{
 			// Prepare the node object.
 			$node->parent_id = (int) $branchId;

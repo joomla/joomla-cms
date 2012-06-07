@@ -324,6 +324,7 @@
 			label="COM_CONFIG_FIELD_MAIL_SMTP_USERNAME_LABEL"
 			description="COM_CONFIG_FIELD_MAIL_SMTP_USERNAME_DESC"
 			filter="string"
+			autocomplete="off"
 			size="30" />
 
 		<field
@@ -332,6 +333,7 @@
 			label="COM_CONFIG_FIELD_MAIL_SMTP_PASSWORD_LABEL"
 			description="COM_CONFIG_FIELD_MAIL_SMTP_PASSWORD_DESC"
 			filter="raw"
+			autocomplete="off"
 			size="30" />
 
 		<field

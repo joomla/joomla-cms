@@ -13,15 +13,6 @@
 			filter="rules"
 			validate="rules"
 			component="com_messages"
-			section="component">
-			<action
-				name="core.admin"
-				title="JACTION_ADMIN"
-				description="JACTION_ADMIN_COMPONENT_DESC" />
-			<action
-				name="core.manage"
-				title="JACTION_MANAGE"
-				description="JACTION_MANAGE_COMPONENT_DESC" />
-		</field>
+			section="component" />
 	</fieldset>
 </config>

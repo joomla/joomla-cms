@@ -12,16 +12,6 @@
 			filter="rules"
 			validate="rules"
 			component="com_redirect"
-			section="component">
-			<action
-				name="core.admin"
-				title="JACTION_ADMIN"
-				description="JACTION_ADMIN_COMPONENT_DESC" />
-
-			<action
-				name="core.manage"
-				title="JAction_Manage"
-				description="JACTION_MANAGE_COMPONENT_DESC" />
-		</field>
+			section="component" />
 	</fieldset>
 </config>

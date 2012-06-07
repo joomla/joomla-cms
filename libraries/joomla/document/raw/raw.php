@@ -29,10 +29,10 @@ class JDocumentRaw extends JDocument
 	{
 		parent::__construct($options);
 
-		//set mime type
+		// Set mime type
 		$this->_mime = 'text/html';
 
-		//set document type
+		// Set document type
 		$this->_type = 'raw';
 	}
 

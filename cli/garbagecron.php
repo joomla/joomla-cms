@@ -49,7 +49,7 @@ class GarbageCron extends JApplicationCli
 	 *
 	 * @since   2.5
 	 */
-	public function execute()
+	public function doExecute()
 	{
 		$cache = JFactory::getCache();
 		$cache->gc();

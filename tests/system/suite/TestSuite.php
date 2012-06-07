@@ -10,7 +10,6 @@ if (!defined('PHPUnit_MAIN_METHOD')) {
 }
 set_include_path(get_include_path() . PATH_SEPARATOR . './PEAR/' . PATH_SEPARATOR . '../');
 
-require_once 'PHPUnit/Framework.php';
 require_once 'PHPUnit/TextUI/TestRunner.php';
 require_once 'doInstall.php';
 require_once 'control_panel/control_panel0001Test.php';

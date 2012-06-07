@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
-jimport('joomla.methods');
 jimport('joomla.environment.uri');
 
 /**

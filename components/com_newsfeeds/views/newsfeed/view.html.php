@@ -201,7 +201,7 @@ class NewsfeedsViewNewsfeed extends JView
 		$this->assignRef('state', $state);
 		$this->assignRef('item', $item);
 		$this->assignRef('user', $user);
-		$this->assign('print', $print);
+		$this->print = $print;
 
 		$this->_prepareDocument();
 

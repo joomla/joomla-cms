@@ -4,7 +4,7 @@
  * @subpackage  com_joomlaupdate
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
- * @since       2.5.2
+ * @since       2.5.4
  */
 
 defined('_JEXEC') or die;
@@ -16,7 +16,7 @@ jimport('joomla.application.component.controller');
  * 
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
- * @since       2.5.2
+ * @since       2.5.4
  */
 class JoomlaupdateControllerUpdate extends JController
 {
@@ -25,7 +25,7 @@ class JoomlaupdateControllerUpdate extends JController
 	 * 
 	 * @return void 
 	 * 
-	 * @since 2.5.2
+	 * @since 2.5.4
 	 */
 	public function download()
 	{
@@ -56,6 +56,8 @@ class JoomlaupdateControllerUpdate extends JController
 	 * Start the installation of the new Joomla! version 
 	 * 
 	 * @return void
+	 *
+	 * @since 2.5.4
 	 */
 	public function install()
 	{
@@ -73,6 +75,8 @@ class JoomlaupdateControllerUpdate extends JController
 	 * Finalise the upgrade by running the necessary scripts
 	 * 
 	 * @return void
+	 *
+	 * @since 2.5.4
 	 */
 	public function finalise()
 	{
@@ -89,7 +93,9 @@ class JoomlaupdateControllerUpdate extends JController
 	/**
 	 * Clean up after ourselves
 	 * 
-	 * @return void 
+	 * @return void
+	 *
+	 * @since 2.5.4
 	 */
 	public function cleanup()
 	{
@@ -106,11 +112,12 @@ class JoomlaupdateControllerUpdate extends JController
 	/**
 	 * Method to display a view.
 	 *
-	 * @param	boolean			If true, the view output will be cached
-	 * @param	array			An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 * @param	boolean  $cachable   If true, the view output will be cached
+	 * @param	array    $urlparams  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
 	 * @return	JController		This object to support chaining.
-	 * @since	2.5.2
+	 *
+	 * @since	2.5.4
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{
@@ -143,6 +150,8 @@ class JoomlaupdateControllerUpdate extends JController
 	 * Applies FTP credentials to Joomla! itself, when required
 	 * 
 	 * @return void
+	 *
+	 * @since	2.5.4
 	 */
 	protected function _applyCredentials()
 	{
