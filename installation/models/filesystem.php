@@ -7,7 +7,6 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
 jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.path');
 
@@ -17,7 +16,7 @@ jimport('joomla.filesystem.path');
  * @package		Joomla.Installation
  * @since		1.6
  */
-class JInstallationModelFilesystem extends JModel
+class JInstallationModelFilesystem extends JModelLegacy
 {
 	/**
 	 * Find the ftp filesystem root for a given user/pass pair.

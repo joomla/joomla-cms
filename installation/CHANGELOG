@@ -32,6 +32,7 @@ $ -> Language fix or change
  # [#28420] discover_install of components does not trigger custom install method. Thanks Michael
  # [#28192] Bug in mod_articles_news in version 1.7 and 2.5. Thanks Heikki and Ofer.
  ^ [#28570] Backport JAccess::getActionsFrom. Thanks Michael
+ ^ [#28549] Provide legacy aliases for the MVC classes. Thanks Rouven
 
 06-Jun-2012 Christophe Demko
  ^ [#28378] Backport JInput:def() from the platform (Rouven Weßling)
