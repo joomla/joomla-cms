@@ -6257,73 +6257,103 @@ End;
 SET IDENTITY_INSERT #__assets  ON;
 
 INSERT INTO #__assets (id, parent_id, lft, rgt, level, name, title, rules)
-SELECT 1,0,1,65,0,'root.1','Root Asset','{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.admin":{"8":1},"core.manage":{"7":1},"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}'
+SELECT 1,0,1,98,0,'root.1','Root Asset','{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.login.offline":{"6":1},"core.admin":{"8":1},"core.manage":{"7":1},"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}'
 UNION ALL
-SELECT 2,1,1,2,1,'com_admin','com_admin','{}'
+SELECT 2,1,2,3,1,'com_admin','com_admin','{}'
 UNION ALL
-SELECT 3,1,3,6,1,'com_banners','com_banners','{"core.admin":{"7":1},"core.manage":{"6":1},"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'
+SELECT 3,1,4,7,1,'com_banners','com_banners','{"core.admin":{"7":1},"core.manage":{"6":1},"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'
 UNION ALL
-SELECT 4,1,7,8,1,'com_cache','com_cache','{"core.admin":{"7":1},"core.manage":{"7":1}}'
+SELECT 4,1,8,9,1,'com_cache','com_cache','{"core.admin":{"7":1},"core.manage":{"7":1}}'
 UNION ALL
-SELECT 5,1,9,10,1,'com_checkin','com_checkin','{"core.admin":{"7":1},"core.manage":{"7":1}}'
+SELECT 5,1,10,11,1,'com_checkin','com_checkin','{"core.admin":{"7":1},"core.manage":{"7":1}}'
 UNION ALL
-SELECT 6,1,11,12,1,'com_config','com_config','{}'
+SELECT 6,1,12,13,1,'com_config','com_config','{}'
 UNION ALL
-SELECT 7,1,13,16,1,'com_contact','com_contact','{"core.admin":{"7":1},"core.manage":{"6":1},"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[],"core.edit.own":[]}'
+SELECT 7,1,14,17,1,'com_contact','com_contact','{"core.admin":{"7":1},"core.manage":{"6":1},"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[],"core.edit.own":[]}'
 UNION ALL
-SELECT 8,1,17,20,1,'com_content','com_content','{"core.admin":{"7":1},"core.manage":{"6":1},"core.create":{"3":1},"core.delete":[],"core.edit":{"4":1},"core.edit.state":{"5":1},"core.edit.own":[]}'
+SELECT 8,1,18,21,1,'com_content','com_content','{"core.admin":{"7":1},"core.manage":{"6":1},"core.create":{"3":1},"core.delete":[],"core.edit":{"4":1},"core.edit.state":{"5":1},"core.edit.own":[]}'
 UNION ALL
-SELECT 9,1,21,22,1,'com_cpanel','com_cpanel','{}'
+SELECT 9,1,22,23,1,'com_cpanel','com_cpanel','{}'
 UNION ALL
-SELECT 10,1,23,24,1,'com_installer','com_installer','{"core.admin":{"7":1},"core.manage":{"7":1},"core.delete":[],"core.edit.state":[]}'
+SELECT 10,1,24,25,1,'com_installer','com_installer','{"core.admin":[],"core.manage":{"7":0},"core.delete":{"7":0},"core.edit.state":{"7":0}}'
 UNION ALL
-SELECT 11,1,25,26,1,'com_languages','com_languages','{"core.admin":{"7":1},"core.manage":[],"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'
+SELECT 11,1,26,27,1,'com_languages','com_languages','{"core.admin":{"7":1},"core.manage":[],"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'
 UNION ALL
-SELECT 12,1,27,28,1,'com_login','com_login','{}'
+SELECT 12,1,28,29,1,'com_login','com_login','{}'
 UNION ALL
-SELECT 13,1,29,30,1,'com_mailto','com_mailto','{}'
+SELECT 13,1,30,31,1,'com_mailto','com_mailto','{}'
 UNION ALL
-SELECT 14,1,31,32,1,'com_massmail','com_massmail','{}'
+SELECT 14,1,32,33,1,'com_massmail','com_massmail','{}'
 UNION ALL
-SELECT 15,1,33,34,1,'com_media','com_media','{"core.admin":{"7":1},"core.manage":{"6":1},"core.create":{"3":1},"core.delete":{"5":1}}'
+SELECT 15,1,34,35,1,'com_media','com_media','{"core.admin":{"7":1},"core.manage":{"6":1},"core.create":{"3":1},"core.delete":{"5":1}}'
 UNION ALL
-SELECT 16,1,35,36,1,'com_menus','com_menus','{"core.admin":{"7":1},"core.manage":[],"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'
+SELECT 16,1,36,37,1,'com_menus','com_menus','{"core.admin":{"7":1},"core.manage":[],"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'
 UNION ALL
-SELECT 17,1,37,38,1,'com_messages','com_messages','{"core.admin":{"7":1},"core.manage":{"7":1}}'
+SELECT 17,1,38,39,1,'com_messages','com_messages','{"core.admin":{"7":1},"core.manage":{"7":1}}'
 UNION ALL
-SELECT 18,1,39,40,1,'com_modules','com_modules','{"core.admin":{"7":1},"core.manage":[],"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'
+SELECT 18,1,40,71,1,'com_modules','com_modules','{"core.admin":{"7":1},"core.manage":[],"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'
 UNION ALL
-SELECT 19,1,41,44,1,'com_newsfeeds','com_newsfeeds','{"core.admin":{"7":1},"core.manage":{"6":1},"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[],"core.edit.own":[]}'
+SELECT 19,1,72,75,1,'com_newsfeeds','com_newsfeeds','{"core.admin":{"7":1},"core.manage":{"6":1},"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[],"core.edit.own":[]}'
 UNION ALL
-SELECT 20,1,45,46,1,'com_plugins','com_plugins','{"core.admin":{"7":1},"core.manage":[],"core.edit":[],"core.edit.state":[]}'
+SELECT 20,1,76,77,1,'com_plugins','com_plugins','{"core.admin":{"7":1},"core.manage":[],"core.edit":[],"core.edit.state":[]}'
 UNION ALL
-SELECT 21,1,47,48,1,'com_redirect','com_redirect','{"core.admin":{"7":1},"core.manage":[]}'
+SELECT 21,1,78,79,1,'com_redirect','com_redirect','{"core.admin":{"7":1},"core.manage":[]}'
 UNION ALL
-SELECT 22,1,49,50,1,'com_search','com_search','{"core.admin":{"7":1},"core.manage":{"6":1}}'
+SELECT 22,1,80,81,1,'com_search','com_search','{"core.admin":{"7":1},"core.manage":{"6":1}}'
 UNION ALL
-SELECT 23,1,51,52,1,'com_templates','com_templates','{"core.admin":{"7":1},"core.manage":[],"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'
+SELECT 23,1,82,83,1,'com_templates','com_templates','{"core.admin":{"7":1},"core.manage":[],"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'
 UNION ALL
-SELECT 24,1,53,56,1,'com_users','com_users','{"core.admin":{"7":1},"core.manage":[],"core.create":[],"core.delete":[],"core.edit":[],"core.edit.own":{"6":1},"core.edit.state":[]}'
+SELECT 24,1,84,87,1,'com_users','com_users','{"core.admin":{"7":1},"core.manage":[],"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'
 UNION ALL
-SELECT 25,1,57,60,1,'com_weblinks','com_weblinks','{"core.admin":{"7":1},"core.manage":{"6":1},"core.create":{"3":1},"core.delete":[],"core.edit":{"4":1},"core.edit.state":{"5":1},"core.edit.own":[]}'
+SELECT 25,1,88,91,1,'com_weblinks','com_weblinks','{"core.admin":{"7":1},"core.manage":{"6":1},"core.create":{"3":1},"core.delete":[],"core.edit":{"4":1},"core.edit.state":{"5":1},"core.edit.own":[]}'
 UNION ALL
-SELECT 26,1,61,62,1,'com_wrapper','com_wrapper','{}'
+SELECT 26,1,92,93,1,'com_wrapper','com_wrapper','{}'
 UNION ALL
-SELECT 27, 8, 18, 19, 2, 'com_content.category.2', 'Uncategorised', '{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[],"core.edit.own":[]}'
+SELECT 27,8,19,20,2,'com_content.category.2','Uncategorised','{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[],"core.edit.own":[]}'
 UNION ALL
-SELECT 28, 3, 4, 5, 2, 'com_banners.category.3', 'Uncategorised', '{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'
+SELECT 28,3,5,6,2,'com_banners.category.3','Uncategorised','{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'
 UNION ALL
-SELECT 29, 7, 14, 15, 2, 'com_contact.category.4', 'Uncategorised', '{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[],"core.edit.own":[]}'
+SELECT 29,7,15,16,2,'com_contact.category.4','Uncategorised','{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[],"core.edit.own":[]}'
 UNION ALL
-SELECT 30, 19, 42, 43, 2, 'com_newsfeeds.category.5', 'Uncategorised', '{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[],"core.edit.own":[]}'
+SELECT 30,19,73,74,2,'com_newsfeeds.category.5','Uncategorised','{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[],"core.edit.own":[]}'
 UNION ALL
-SELECT 31, 25, 58, 59, 2, 'com_weblinks.category.6', 'Uncategorised', '{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[],"core.edit.own":[]}'
+SELECT 31,25,89,90,2,'com_weblinks.category.6','Uncategorised','{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[],"core.edit.own":[]}'
 UNION ALL
-SELECT 32,24,54,55,1,'com_users.notes.category.7','Uncategorised','{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'
+SELECT 32,24,85,86,2,'com_users.notes.category.7','Uncategorised','{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'
 UNION ALL
-SELECT 33,1,63,64,1,'com_finder','com_finder','{"core.admin":{"7":1},"core.manage":{"6":1}}'
+SELECT 33,1,94,95,1,'com_finder','com_finder','{"core.admin":{"7":1},"core.manage":{"6":1}}'
 UNION ALL
-SELECT 34, 1, 65, 66, 1, 'com_joomlaupdate', 'com_joomlaupdate', '{"core.admin":[],"core.manage":[],"core.delete":[],"core.edit.state":[]}';
+SELECT 34,1,96,97,1,'com_joomlaupdate','com_joomlaupdate','{"core.admin":[],"core.manage":[],"core.delete":[],"core.edit.state":[]}'
+UNION ALL
+SELECT 35,18,41,42,2,'com_modules.module.1','Main Menu','{"core.delete":[],"core.edit":[],"core.edit.state":[]}'
+UNION ALL
+SELECT 36,18,43,44,2,'com_modules.module.2','Login','{"core.delete":[],"core.edit":[],"core.edit.state":[]}'
+UNION ALL
+SELECT 37,18,45,46,2,'com_modules.module.3','Popular Articles','{"core.delete":[],"core.edit":[],"core.edit.state":[]}'
+UNION ALL
+SELECT 38,18,47,48,2,'com_modules.module.4','Recently Added Articles','{"core.delete":[],"core.edit":[],"core.edit.state":[]}'
+UNION ALL
+SELECT 39,18,49,50,2,'com_modules.module.8','Toolbar','{"core.delete":[],"core.edit":[],"core.edit.state":[]}'
+UNION ALL
+SELECT 40,18,51,52,2,'com_modules.module.9','Quick Icons','{"core.delete":[],"core.edit":[],"core.edit.state":[]}'
+UNION ALL
+SELECT 41,18,53,54,2,'com_modules.module.10','Logged-in Users','{"core.delete":[],"core.edit":[],"core.edit.state":[]}'
+UNION ALL
+SELECT 42,18,55,56,2,'com_modules.module.12','Admin Menu','{"core.delete":[],"core.edit":[],"core.edit.state":[]}'
+UNION ALL
+SELECT 43,18,57,58,2,'com_modules.module.13','Admin Submenu','{"core.delete":[],"core.edit":[],"core.edit.state":[]}'
+UNION ALL
+SELECT 44,18,59,60,2,'com_modules.module.14','User Status','{"core.delete":[],"core.edit":[],"core.edit.state":[]}'
+UNION ALL
+SELECT 45,18,61,62,2,'com_modules.module.15','Title','{"core.delete":[],"core.edit":[],"core.edit.state":[]}'
+UNION ALL
+SELECT 46,18,63,64,2,'com_modules.module.16','Login Form','{"core.delete":[],"core.edit":[],"core.edit.state":[]}'
+UNION ALL
+SELECT 47,18,65,66,2,'com_modules.module.17','Breadcrumbs','{"core.delete":[],"core.edit":[],"core.edit.state":[]}'
+UNION ALL
+SELECT 48,18,67,68,2,'com_modules.module.79','Multilanguage status','{"core.delete":[],"core.edit":[],"core.edit.state":[]}'
+UNION ALL
+SELECT 49,18,69,70,2,'com_modules.module.86','Joomla Version','{"core.delete":[],"core.edit":[],"core.edit.state":[]}');
 
 SET IDENTITY_INSERT #__assets  OFF;
 
