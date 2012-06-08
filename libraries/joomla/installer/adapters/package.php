@@ -290,7 +290,7 @@ class JInstallerPackage extends JAdapterInstance
 			$path['src'] = $this->parent->getPath('source') . '/' . $this->get('manifest_script');
 			$path['dest'] = $this->parent->getPath('extension_root') . '/' . $this->get('manifest_script');
 
-			if (!file_exists($path['dest']) || $this->parent->getOverwrite())
+			if (!file_exists($path['dest']) || $this->parent->isOverwrite())
 			{
 				if (!$this->parent->copyFiles(array($path)))
 				{

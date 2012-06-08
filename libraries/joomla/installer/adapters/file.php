@@ -82,7 +82,7 @@ class JInstallerFile extends JAdapterInstance
 		if ($this->extensionExistsInSystem($element))
 		{
 			// Package with same name already exists
-			if (!$this->parent->getOverwrite())
+			if (!$this->parent->isOverwrite())
 			{
 				// we're not overwriting so abort
 				$this->parent->abort(JText::_('JLIB_INSTALLER_ABORT_FILE_SAME_NAME'));

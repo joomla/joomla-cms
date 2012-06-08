@@ -213,12 +213,12 @@ class JInstallerComponent extends JAdapterInstance
 			// Update function available or
 			// Update tag detected
 
-			if ($this->parent->getUpgrade() || ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'update'))
+			if ($this->parent->isUpgrade() || ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'update'))
 				|| $updateElement)
 			{
 				return $this->update(); // transfer control to the update function
 			}
-			elseif (!$this->parent->getOverwrite())
+			elseif (!$this->parent->isOverwrite())
 			{
 				// Overwrite is set.
 				// We didn't have overwrite set, find an update function or find an update tag so lets call it safe
@@ -375,7 +375,7 @@ class JInstallerComponent extends JAdapterInstance
 		if ($installFile)
 		{
 			// Make sure it hasn't already been copied (this would be an error in the XML install file)
-			if (!file_exists($this->parent->getPath('extension_administrator') . '/' . $installFile) || $this->parent->getOverwrite())
+			if (!file_exists($this->parent->getPath('extension_administrator') . '/' . $installFile) || $this->parent->isOverwrite())
 			{
 				$path['src'] = $this->parent->getPath('source') . '/' . $installFile;
 				$path['dest'] = $this->parent->getPath('extension_administrator') . '/' . $installFile;
@@ -399,7 +399,7 @@ class JInstallerComponent extends JAdapterInstance
 		if ($uninstallFile)
 		{
 			// Make sure it hasn't already been copied (this would be an error in the XML install file)
-			if (!file_exists($this->parent->getPath('extension_administrator') . '/' . $uninstallFile) || $this->parent->getOverwrite())
+			if (!file_exists($this->parent->getPath('extension_administrator') . '/' . $uninstallFile) || $this->parent->isOverwrite())
 			{
 				$path['src'] = $this->parent->getPath('source') . '/' . $uninstallFile;
 				$path['dest'] = $this->parent->getPath('extension_administrator') . '/' . $uninstallFile;
@@ -419,7 +419,7 @@ class JInstallerComponent extends JAdapterInstance
 			$path['src'] = $this->parent->getPath('source') . '/' . $this->get('manifest_script');
 			$path['dest'] = $this->parent->getPath('extension_administrator') . '/' . $this->get('manifest_script');
 
-			if (!file_exists($path['dest']) || $this->parent->getOverwrite())
+			if (!file_exists($path['dest']) || $this->parent->isOverwrite())
 			{
 				if (!$this->parent->copyFiles(array($path)))
 				{
@@ -471,7 +471,7 @@ class JInstallerComponent extends JAdapterInstance
 		// Start legacy support
 		if ($this->get('install_script'))
 		{
-			if (is_file($this->parent->getPath('extension_administrator') . '/' . $this->get('install_script')) || $this->parent->getOverwrite())
+			if (is_file($this->parent->getPath('extension_administrator') . '/' . $this->get('install_script')) || $this->parent->isOverwrite())
 			{
 				$notdef = false;
 				$ranwell = false;
@@ -860,7 +860,7 @@ class JInstallerComponent extends JAdapterInstance
 		if ($installFile)
 		{
 			// Make sure it hasn't already been copied (this would be an error in the XML install file)
-			if (!file_exists($this->parent->getPath('extension_administrator') . '/' . $installFile) || $this->parent->getOverwrite())
+			if (!file_exists($this->parent->getPath('extension_administrator') . '/' . $installFile) || $this->parent->isOverwrite())
 			{
 				$path['src'] = $this->parent->getPath('source') . '/' . $installFile;
 				$path['dest'] = $this->parent->getPath('extension_administrator') . '/' . $installFile;
@@ -883,7 +883,7 @@ class JInstallerComponent extends JAdapterInstance
 		if ($uninstallFile)
 		{
 			// Make sure it hasn't already been copied (this would be an error in the XML install file)
-			if (!file_exists($this->parent->getPath('extension_administrator') . '/' . $uninstallFile) || $this->parent->getOverwrite())
+			if (!file_exists($this->parent->getPath('extension_administrator') . '/' . $uninstallFile) || $this->parent->isOverwrite())
 			{
 				$path['src'] = $this->parent->getPath('source') . '/' . $uninstallFile;
 				$path['dest'] = $this->parent->getPath('extension_administrator') . '/' . $uninstallFile;
@@ -904,7 +904,7 @@ class JInstallerComponent extends JAdapterInstance
 			$path['src'] = $this->parent->getPath('source') . '/' . $this->get('manifest_script');
 			$path['dest'] = $this->parent->getPath('extension_administrator') . '/' . $this->get('manifest_script');
 
-			if (!file_exists($path['dest']) || $this->parent->getOverwrite())
+			if (!file_exists($path['dest']) || $this->parent->isOverwrite())
 			{
 				if (!$this->parent->copyFiles(array($path)))
 				{
@@ -965,7 +965,7 @@ class JInstallerComponent extends JAdapterInstance
 		// Start legacy support
 		if ($this->get('install_script'))
 		{
-			if (is_file($this->parent->getPath('extension_administrator') . '/' . $this->get('install_script')) || $this->parent->getOverwrite())
+			if (is_file($this->parent->getPath('extension_administrator') . '/' . $this->get('install_script')) || $this->parent->isOverwrite())
 			{
 				$notdef = false;
 				$ranwell = false;
@@ -1399,7 +1399,7 @@ class JInstallerComponent extends JAdapterInstance
 		{
 
 			// Don't do anything if overwrite has not been enabled
-			if (!$this->parent->getOverwrite())
+			if (!$this->parent->isOverwrite())
 			{
 				return true;
 			}

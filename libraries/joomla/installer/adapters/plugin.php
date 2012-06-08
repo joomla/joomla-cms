@@ -203,13 +203,13 @@ class JInstallerPlugin extends JAdapterInstance
 		$id = $db->loadResult();
 
 		// If it's on the fs...
-		if (file_exists($this->parent->getPath('extension_root')) && (!$this->parent->getOverwrite() || $this->parent->getUpgrade()))
+		if (file_exists($this->parent->getPath('extension_root')) && (!$this->parent->isOverwrite() || $this->parent->isUpgrade()))
 		{
 			$updateElement = $xml->update;
 			// Upgrade manually set or
 			// Update function available or
 			// Update tag detected
-			if ($this->parent->getUpgrade() || ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'update'))
+			if ($this->parent->isUpgrade() || ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'update'))
 				|| $updateElement)
 			{
 				// Force this one
@@ -221,7 +221,7 @@ class JInstallerPlugin extends JAdapterInstance
 					$this->route = 'update';
 				}
 			}
-			elseif (!$this->parent->getOverwrite())
+			elseif (!$this->parent->isOverwrite())
 			{
 				// Overwrite is set
 				// We didn't have overwrite set, find an update function or find an update tag so lets call it safe
@@ -358,7 +358,7 @@ class JInstallerPlugin extends JAdapterInstance
 		// Was there a plugin with the same name already installed?
 		if ($id)
 		{
-			if (!$this->parent->getOverwrite())
+			if (!$this->parent->isOverwrite())
 			{
 				// Install failed, roll back changes
 				$this->parent

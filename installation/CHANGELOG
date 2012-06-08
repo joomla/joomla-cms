@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+08-Jun-2012 Jean-Marie Simonet
+ ^ [#28613] Use fewer deprecated methods. Thanks Rouven
+
 07-Jun-2012 Jean-Marie Simonet
  $ Updating installation ini files: hr-HR, sk-SK
  # [#28526] bug in mod_articles_news. Thanks Elin

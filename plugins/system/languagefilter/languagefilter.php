@@ -188,6 +188,8 @@ class plgSystemLanguageFilter extends JPlugin
 
 	public function parseRule(&$router, &$uri)
 	{
+		$app = JFactory::getApplication();
+
 		$array = array();
 		$lang_code = JRequest::getString(JApplication::getHash('language'), null , 'cookie');
 		// No cookie - let's try to detect browser language or use site default
@@ -204,11 +206,9 @@ class plgSystemLanguageFilter extends JPlugin
 
 			$sef = $parts[0];
 
-			$app = JFactory::getApplication();
-
 			// Redirect only if not in post
 			$post = JRequest::get('POST');
-			if (!empty( $lang_code) && JRequest::getMethod() != "POST" || count($post) == 0)
+			if (!empty($lang_code) && $app->input->getMethod() != "POST" || count($post) == 0)
 			{
 				if ($this->params->get('remove_default_prefix', 0) == 0)
 				{
@@ -276,7 +276,7 @@ class plgSystemLanguageFilter extends JPlugin
 				$sef = isset(self::$lang_codes[$lang_code]) ? self::$lang_codes[$lang_code]->sef : self::$default_sef;
 				$uri->setVar('lang', $sef);
 				$post = JRequest::get('POST');
-				if (JRequest::getMethod() != "POST" || count($post) == 0)
+				if ($app->input->getMethod() != "POST" || count($post) == 0)
 				{
 					$app = JFactory::getApplication();
 					$app->redirect(JURI::base(true).'/index.php?'.$uri->getQuery());
