@@ -165,7 +165,7 @@ class MediaControllerFolder extends JController
 				if (in_array(false, $result, true)) {
 					// There are some errors in the plugins
 					JError::raiseWarning(100, JText::plural('COM_MEDIA_ERROR_BEFORE_SAVE', count($errors = $object_file->getErrors()), implode('<br />', $errors)));
-					continue;
+					return false;
 				}
 
 				JFolder::create($path);
