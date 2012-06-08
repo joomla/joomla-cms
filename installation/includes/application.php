@@ -75,7 +75,7 @@ class JInstallation extends JApplication
 		require_once JPATH_COMPONENT.'/controller.php';
 
 		// Execute the task.
-		$controller	= JController::getInstance('JInstallation');
+		$controller	= JControllerLegacy::getInstance('JInstallation');
 		$controller->execute(JRequest::getVar('task'));
 		$controller->redirect();
 
@@ -269,7 +269,7 @@ class JInstallation extends JApplication
 		$options['name'] = $name;
 
 		$session = JFactory::getSession($options);
-		if (!is_a($session->get('registry'), 'JRegistry')) {
+		if (!$session->get('registry') instanceof JRegistry) {
 			// Registry has been corrupted somehow
 			$session->set('registry', new JRegistry('session'));
 		}

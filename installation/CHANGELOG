@@ -26,7 +26,60 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
-01-June-2012 Jean-Marie Simonet
+08-Jun-2012 Jean-Marie Simonet
+ ^ [#28613] Use fewer deprecated methods. Thanks Rouven
+ ^ [#28377] Backport JDatabase::execute(). Thanks Rouven.
+ # [#28631] Bug in Codemirror plugin. Thanks Viet and Elijah
+ # [#28603] User Registration Form: Label/Field Offset by one Line. Thanks Johannes
+ # [#28525] Fix JForm::load() not replacing form field in same location. Thanks Aaron
+
+07-Jun-2012 Jean-Marie Simonet
+ $ Updating installation ini files: hr-HR, sk-SK
+ # [#28526] bug in mod_articles_news. Thanks Elin
+ # [#28420] discover_install of components does not trigger custom install method. Thanks Michael
+ # [#28192] Bug in mod_articles_news in version 1.7 and 2.5. Thanks Heikki and Ofer.
+ ^ [#28570] Backport JAccess::getActionsFrom. Thanks Michael
+ ^ [#28549] Provide legacy aliases for the MVC classes. Thanks Rouven
+ # [#28400] Help Site URL Defaulting to Version 1.6. Thanks Mark
+ 
+06-Jun-2012 Christophe Demko
+ ^ [#28378] Backport JInput:def() from the platform (Rouven Weßling)
+ # [#28487] Menu Item Alias does not obey Secure Setting of Aliased Item (Don Gilbert)
+
+05-Jun-2012 Jean-Marie Simonet
+ # [#28619] Fix #24510 to not add code specific to the profile plug-in to com_users. Thanks Rouven.
+ +# [#28565] Add feature readmore in feed items. Also bugfix for fulltext in feed items. Thanks Jurian
+ + [#28469] Add counter to redirect component. Thanks Ronald
+
+04-Jun-2012 Jean-Marie Simonet
+ + [#28067] Option to disable the ability to change the Username in Profile
+ + [#24510] Implementation of Terms of Service. Thanks Peter.
+ + [#28614] Add option to enable/disable logging in Smart Search. Thanks Michael.
+ # [#28615] Backport union query element from Platform 12 and use it in Smart Search. Thanks Michael.
+
+03-Jun-2012 Mark Dexter
+ ^ [#28450] Set the CSS class for JForm field label. Thanks Viet Vu.
+
+03-Jun-2012 Jean-Marie Simonet
+ $ Updating installation ini files: nb-NO, nl-NL, nn-NO
+ # [#28602] *Menu Item Manager: Show Batch Processing only if allowed. Thanks Johannes
+ # [#28611] *ACL: Module Manager: Show Batch Processing only if allowed
+ # [#28536] Undefined variable $prev in com_config. Thanks Rouven
+ # [#28607] Missing direct access check for com_finder. Thanks Sander
+ ^ [#28609] Update joomlaupdate @SInCE tags missed in 61f5ee8. Thanks Rouven
+ # [#28285] E_NOTICE about array to string conversion in debug.php with PHP 5.4. Thanks Rouven
+ # [#28560] Backport some files completely from the current platform. Thanks Rouven
+ # [#28599] Backport the new JLoader from the platform 12.1. Thanks Rouven
+ ^ [#28600] Add a code style checker. Thanks Rouven
+ # [#28548] Use instanceof instead of is_a(). Thanks Rouven.
+
+02-Jun-2012 Jean-Marie Simonet
+ # [#28375] Remove blacklist code from FinderIndexerHelper. Thanks Michael
+ # [#28605] ACL regression in com_finder. Thanks Sander
+ # [#27819] The articles model displays articles for which there is no category access. Thanks Carsten and Nick
+ #  [#28608] Remove unused file in com_users. Thanks Rouven
+
+01-Jun-2012 Jean-Marie Simonet
  # [#28589] *ACL regression in com_search
  # [#28588] *ACL regression in com_messages
  # [#28587] *ACL regression in com_redirect

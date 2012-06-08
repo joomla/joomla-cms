@@ -330,7 +330,7 @@ class JAdministrator extends JApplication
 			. ' AND user_id_to = ' . (int) $userid
 			;
 			$db->setQuery($query);
-			$db->query();
+			$db->execute();
 		}
 	}
 }

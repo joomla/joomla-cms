@@ -7,7 +7,6 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
 jimport('joomla.filesystem.file');
 require_once JPATH_INSTALLATION.'/helpers/database.php';
 
@@ -17,7 +16,7 @@ require_once JPATH_INSTALLATION.'/helpers/database.php';
  * @package		Joomla.Installation
  * @since		1.6
  */
-class JInstallationModelDatabase extends JModel
+class JInstallationModelDatabase extends JModelLegacy
 {
 
 	function initialise($options)
@@ -192,7 +191,7 @@ class JInstallationModelDatabase extends JModel
 
 			try
 			{
-				$db->query();
+				$db->execute();
 			}
 			catch (RuntimeException $e)
 			{
@@ -269,7 +268,7 @@ class JInstallationModelDatabase extends JModel
 
 				try
 				{
-					$db->query();
+					$db->execute();
 				}
 				catch (RuntimeException $e)
 				{
@@ -395,7 +394,7 @@ class JInstallationModelDatabase extends JModel
 
 		try
 		{
-			$db->query();
+			$db->execute();
 		}
 		catch (RuntimeException $e)
 		{
@@ -480,7 +479,7 @@ class JInstallationModelDatabase extends JModel
 
 				try
 				{
-					$db->query();
+					$db->execute();
 				}
 				catch (RuntimeException $e)
 				{
@@ -512,7 +511,7 @@ class JInstallationModelDatabase extends JModel
 
 		try
 		{
-			$db->query();
+			$db->execute();
 		}
 		catch (RuntimeException $e)
 		{

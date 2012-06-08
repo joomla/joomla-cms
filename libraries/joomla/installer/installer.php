@@ -377,7 +377,7 @@ class JInstaller extends JAdapter
 					$query->delete($db->quoteName('#__extensions'));
 					$query->where($db->quoteName('extension_id') . ' = ' . (int) $step['id']);
 					$db->setQuery($query);
-					$stepval = $db->query();
+					$stepval = $db->execute();
 
 					break;
 
@@ -859,7 +859,7 @@ class JInstaller extends JAdapter
 		{
 			$db->setQuery($query->data());
 
-			if (!$db->query())
+			if (!$db->execute())
 			{
 				JError::raiseWarning(1, JText::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $db->stderr(true)));
 
@@ -958,7 +958,7 @@ class JInstaller extends JAdapter
 					{
 						$db->setQuery($query);
 
-						if (!$db->query())
+						if (!$db->execute())
 						{
 							JError::raiseWarning(1, JText::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $db->stderr(true)));
 
@@ -1030,14 +1030,14 @@ class JInstaller extends JAdapter
 						->where('extension_id = ' . $eid);
 					$db->setQuery($query);
 
-					if ($db->query())
+					if ($db->execute())
 					{
 						$query->clear();
 						$query->insert($db->quoteName('#__schemas'));
 						$query->columns(array($db->quoteName('extension_id'), $db->quoteName('version_id')));
 						$query->values($eid . ', ' . $db->quote(end($files)));
 						$db->setQuery($query);
-						$db->query();
+						$db->execute();
 					}
 				}
 			}
@@ -1140,7 +1140,7 @@ class JInstaller extends JAdapter
 									{
 										$db->setQuery($query);
 
-										if (!$db->query())
+										if (!$db->execute())
 										{
 											JError::raiseWarning(1, JText::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $db->stderr(true)));
 
@@ -1161,14 +1161,14 @@ class JInstaller extends JAdapter
 						->where('extension_id = ' . $eid);
 					$db->setQuery($query);
 
-					if ($db->Query())
+					if ($db->execute())
 					{
 						$query->clear();
 						$query->insert($db->quoteName('#__schemas'));
 						$query->columns(array($db->quoteName('extension_id'), $db->quoteName('version_id')));
 						$query->values($eid . ', ' . $db->quote(end($files)));
 						$db->setQuery($query);
-						$db->Query();
+						$db->execute();
 					}
 				}
 			}
@@ -1976,7 +1976,7 @@ class JInstaller extends JAdapter
 		$query->where('client_id = ' . intval($client));
 		$query->where('state = -1');
 
-		return $dbo->Query();
+		return $dbo->execute();
 	}
 
 	/**

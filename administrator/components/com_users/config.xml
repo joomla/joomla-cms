@@ -91,6 +91,17 @@
 			<option
 				value="1">JSHOW</option>
 		</field>
+		<field
+			name="change_login_name"
+			type="radio"
+			default="0"
+			label="COM_USERS_CONFIG_FIELD_CHANGEUSERNAME_LABEL"
+			description="COM_USERS_CONFIG_FIELD_CHANGEUSERNAME_DESC">
+			<option
+				value="0">JNO</option>
+			<option
+				value="1">JYES</option>
+		</field>
 	</fieldset>
 
  	<fieldset

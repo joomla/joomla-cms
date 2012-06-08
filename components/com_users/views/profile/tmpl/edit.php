@@ -36,8 +36,8 @@ $lang->load( 'plg_user_profile', JPATH_ADMINISTRATOR );
 			<?php else:?>
 				<dt>
 					<?php echo $field->label; ?>
-					<?php if (!$field->required && $field->type!='Spacer'): ?>
-					<span class="optional"><?php echo JText::_('COM_USERS_OPTIONAL'); ?></span>
+					<?php if (!$field->required && $field->type!='Spacer' && $field->name!='jform[username]'): ?>
+						<span class="optional"><?php echo JText::_('COM_USERS_OPTIONAL'); ?></span>
 					<?php endif; ?>
 				</dt>
 				<dd><?php echo $field->input; ?></dd>

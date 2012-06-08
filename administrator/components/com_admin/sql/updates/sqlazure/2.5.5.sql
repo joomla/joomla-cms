@@ -1,0 +1,1 @@
+ALTER TABLE [#__redirect_links] ADD  [hits] INTEGER CONSTRAINT DF_redirect_links_hits DEFAULT '' NOT NULL;

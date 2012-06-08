@@ -150,7 +150,7 @@ class plgEditorCodemirror extends JPlugin
 
 				case 'js':
 					$parserFile = array('tokenizejavascript.js', 'parsejavascript.js');
-					$styleSheet = 'jscolors.css';
+					$styleSheet = array('jscolors.css');
 					break;
 
 				case 'html':

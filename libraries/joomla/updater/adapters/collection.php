@@ -226,7 +226,7 @@ class JUpdaterCollection extends JUpdateAdapter
 			$query->set('enabled = 0');
 			$query->where('update_site_id = ' . $this->_update_site_id);
 			$dbo->setQuery($query);
-			$dbo->Query();
+			$dbo->execute();
 
 			JLog::add("Error parsing url: " . $url, JLog::WARNING, 'updater');
 			$app = JFactory::getApplication();

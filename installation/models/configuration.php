@@ -7,7 +7,6 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
 jimport('joomla.filesystem.file');
 require_once JPATH_INSTALLATION.'/helpers/database.php';
 
@@ -17,7 +16,7 @@ require_once JPATH_INSTALLATION.'/helpers/database.php';
  * @package		Joomla.Installation
  * @since		1.6
  */
-class JInstallationModelConfiguration extends JModel
+class JInstallationModelConfiguration extends JModelLegacy
 {
 	/**
 	 * @return boolean
@@ -252,7 +251,7 @@ class JInstallationModelConfiguration extends JModel
 					$db->quote($installdate).', '.$db->quote($nullDate).', '.$db->quote('0').', '.$db->quote(''));
 	}
 	$db->setQuery($query);
-	if (!$db->query()) {
+	if (!$db->execute()) {
 		$this->setError($db->getErrorMsg());
 		return false;
 	}
@@ -280,7 +279,7 @@ class JInstallationModelConfiguration extends JModel
     }
 
 	$db->setQuery($query);
-	if (!$db->query()) {
+	if (!$db->execute()) {
 		$this->setError($db->getErrorMsg());
 		return false;
 	}

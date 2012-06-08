@@ -7,7 +7,6 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
 jimport('joomla.filesystem.file');
 
 /**
@@ -16,6 +15,6 @@ jimport('joomla.filesystem.file');
  * @package		Joomla.Installation
  * @since		1.6
  */
-class JInstallationModelMigration extends JModel
+class JInstallationModelMigration extends JModelLegacy
 {
 }
