@@ -77,7 +77,7 @@ class JTableModule extends JTable
 		// Initialise variables.
 		$assetId = null;
 
-		// This is a menutype that needs to parent with the extension.
+		// This is a module that needs to parent with the extension.
         if ($assetId === null)
         {
             // Build the query to get the asset id of the parent component.
