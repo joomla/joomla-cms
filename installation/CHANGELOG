@@ -30,6 +30,7 @@ $ -> Language fix or change
  ^ [#28613] Use fewer deprecated methods. Thanks Rouven
  ^ [#28377] Backport JDatabase::execute(). Thanks Rouven.
  # [#28631] Bug in Codemirror plugin. Thanks Viet and Elijah
+ # [#28603] User Registration Form: Label/Field Offset by one Line. Thanks Johannes
 
 07-Jun-2012 Jean-Marie Simonet
  $ Updating installation ini files: hr-HR, sk-SK

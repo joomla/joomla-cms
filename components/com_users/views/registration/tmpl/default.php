@@ -38,7 +38,7 @@ JHtml::_('behavior.formvalidation');
 						<span class="optional"><?php echo JText::_('COM_USERS_OPTIONAL'); ?></span>
 					<?php endif; ?>
 				</dt>
-				<dd><?php echo $field->input;?></dd>
+				<dd><?php echo ($field->type!='Spacer') ? $field->input : "&#160;"; ?></dd>
 			<?php endif;?>
 		<?php endforeach;?>
 			</dl>
