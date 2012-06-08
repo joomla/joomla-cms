@@ -33,6 +33,32 @@ class JApplicationWebRouterRest extends JApplicationWebRouterBase
 	);
 
 	/**
+	 * Find and execute the appropriate controller based on a given route.
+	 *
+	 * @param   string  $route  The route string for which to find and execute a controller.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.3
+	 * @throws  InvalidArgumentException
+	 * @throws  RuntimeException
+	 */
+	public function execute($route)
+	{
+		// Get the controller name based on the route patterns and requested route.
+		$name = $this->parseRoute($route);
+
+		// Append the HTTP method based suffix.
+		$name .= $this->fetchControllerSuffix();
+
+		// Get the controller object by name.
+		$controller = $this->fetchController($name);
+
+		// Execute the controller.
+		$controller->execute();
+	}
+
+	/**
 	 * Set a controller class suffix for a given HTTP method.
 	 *
 	 * @param   string  $method  The HTTP method for which to set the class suffix.
@@ -45,25 +71,8 @@ class JApplicationWebRouterRest extends JApplicationWebRouterBase
 	public function setHttpMethodSuffix($method, $suffix)
 	{
 		$this->suffixMap[strtoupper((string) $method)] = (string) $suffix;
-	}
 
-	/**
-	 * Get a JController object for a given name.
-	 *
-	 * @param   string  $name  The controller name (excluding prefix) for which to fetch and instance.
-	 *
-	 * @return  JController
-	 *
-	 * @codeCoverageIgnore
-	 * @since   12.3
-	 * @throws  RuntimeException
-	 */
-	protected function fetchController($name)
-	{
-		// Append the HTTP method based suffix.
-		$name .= $this->fetchControllerSuffix();
-
-		return parent::fetchController($name);
+		return $this;
 	}
 
 	/**

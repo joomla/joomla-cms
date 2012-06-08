@@ -50,7 +50,7 @@ class JApplicationWebRouterBase extends JApplicationWebRouter
 	 *
 	 * @since   12.3
 	 */
-	public function addMaps(array $maps)
+	public function addMaps($maps)
 	{
 		foreach ($maps as $pattern => $controller)
 		{
@@ -82,7 +82,7 @@ class JApplicationWebRouterBase extends JApplicationWebRouter
 		$routeLength = count($route);
 
 		// If the route is empty then simply return the default route.  No parsing necessary.
-		if (($routeLength == 1) && ($route[0] == ''))
+		if ($routeLength == 1 && $route[0] == '')
 		{
 			return $this->default;
 		}
