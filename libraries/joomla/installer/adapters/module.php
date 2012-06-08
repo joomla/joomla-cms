@@ -216,7 +216,7 @@ class JInstallerModule extends JAdapterInstance
 
 		try
 		{
-			$db->Query();
+			$db->execute();
 		}
 		catch (JException $e)
 		{
@@ -802,7 +802,7 @@ class JInstallerModule extends JAdapterInstance
 		$query = $db->getQuery(true);
 		$query->delete()->from('#__schemas')->where('extension_id = ' . $row->extension_id);
 		$db->setQuery($query);
-		$db->Query();
+		$db->execute();
 
 		// Remove other files
 		$this->parent->removeFiles($this->manifest->media);
@@ -836,7 +836,7 @@ class JInstallerModule extends JAdapterInstance
 			$db->setQuery($query);
 			try
 			{
-				$db->query();
+				$db->execute();
 			}
 			catch (JException $e)
 			{
@@ -850,7 +850,7 @@ class JInstallerModule extends JAdapterInstance
 
 			try
 			{
-				$db->query();
+				$db->execute();
 			}
 			catch (JException $e)
 			{
@@ -867,7 +867,7 @@ class JInstallerModule extends JAdapterInstance
 		try
 		{
 			// Clean up any other ones that might exist as well
-			$db->Query();
+			$db->execute();
 		}
 		catch (JException $e)
 		{
@@ -907,7 +907,7 @@ class JInstallerModule extends JAdapterInstance
 
 		try
 		{
-			return $db->query();
+			return $db->execute();
 		}
 		catch (JException $e)
 		{
@@ -935,7 +935,7 @@ class JInstallerModule extends JAdapterInstance
 		$db->setQuery($query);
 		try
 		{
-			return $db->query();
+			return $db->execute();
 		}
 		catch (JException $e)
 		{

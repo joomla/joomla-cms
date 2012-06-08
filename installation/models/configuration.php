@@ -251,7 +251,7 @@ class JInstallationModelConfiguration extends JModelLegacy
 					$db->quote($installdate).', '.$db->quote($nullDate).', '.$db->quote('0').', '.$db->quote(''));
 	}
 	$db->setQuery($query);
-	if (!$db->query()) {
+	if (!$db->execute()) {
 		$this->setError($db->getErrorMsg());
 		return false;
 	}
@@ -279,7 +279,7 @@ class JInstallationModelConfiguration extends JModelLegacy
     }
 
 	$db->setQuery($query);
-	if (!$db->query()) {
+	if (!$db->execute()) {
 		$this->setError($db->getErrorMsg());
 		return false;
 	}

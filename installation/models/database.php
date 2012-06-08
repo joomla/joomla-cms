@@ -191,7 +191,7 @@ class JInstallationModelDatabase extends JModelLegacy
 
 			try
 			{
-				$db->query();
+				$db->execute();
 			}
 			catch (RuntimeException $e)
 			{
@@ -268,7 +268,7 @@ class JInstallationModelDatabase extends JModelLegacy
 
 				try
 				{
-					$db->query();
+					$db->execute();
 				}
 				catch (RuntimeException $e)
 				{
@@ -394,7 +394,7 @@ class JInstallationModelDatabase extends JModelLegacy
 
 		try
 		{
-			$db->query();
+			$db->execute();
 		}
 		catch (RuntimeException $e)
 		{
@@ -479,7 +479,7 @@ class JInstallationModelDatabase extends JModelLegacy
 
 				try
 				{
-					$db->query();
+					$db->execute();
 				}
 				catch (RuntimeException $e)
 				{
@@ -511,7 +511,7 @@ class JInstallationModelDatabase extends JModelLegacy
 
 		try
 		{
-			$db->query();
+			$db->execute();
 		}
 		catch (RuntimeException $e)
 		{

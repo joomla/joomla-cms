@@ -305,7 +305,7 @@ class JInstallerTemplate extends JAdapterInstance
 			$lang->setDebug($debug);
 			$db->setQuery($query);
 			// There is a chance this could fail but we don't care...
-			$db->query();
+			$db->execute();
 		}
 
 		return $row->get('extension_id');
@@ -425,11 +425,11 @@ class JInstallerTemplate extends JAdapterInstance
 			. ' SET #__menu.template_style_id = 0' . ' WHERE #__template_styles.template = ' . $db->Quote(strtolower($name))
 			. ' AND #__template_styles.client_id = ' . $db->Quote($clientId);
 		$db->setQuery($query);
-		$db->Query();
+		$db->execute();
 
 		$query = 'DELETE FROM #__template_styles' . ' WHERE template = ' . $db->Quote($name) . ' AND client_id = ' . $db->Quote($clientId);
 		$db->setQuery($query);
-		$db->Query();
+		$db->execute();
 
 		$row->delete($row->extension_id);
 		unset($row);
@@ -558,7 +558,7 @@ class JInstallerTemplate extends JAdapterInstance
 			);
 			$lang->setDebug($debug);
 			$db->setQuery($query);
-			$db->query();
+			$db->execute();
 
 			return $this->parent->extension->get('extension_id');
 		}

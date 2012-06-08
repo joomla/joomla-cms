@@ -1032,7 +1032,7 @@ class JApplication extends JObject
 				->where($query->qn('time') . ' < ' . $query->q((int) ($time - $session->getExpire())));
 
 			$db->setQuery($query);
-			$db->query();
+			$db->execute();
 		}
 
 		// Check to see the the session already exists.
@@ -1096,7 +1096,7 @@ class JApplication extends JObject
 			}
 
 			// If the insert failed, exit the application.
-			if (!$db->query())
+			if (!$db->execute())
 			{
 				jexit($db->getErrorMSG());
 			}

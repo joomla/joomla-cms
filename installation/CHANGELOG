@@ -28,6 +28,7 @@ $ -> Language fix or change
 
 08-Jun-2012 Jean-Marie Simonet
  ^ [#28613] Use fewer deprecated methods. Thanks Rouven
+ ^ [#28377] Backport JDatabase::execute(). Thanks Rouven.
 
 07-Jun-2012 Jean-Marie Simonet
  $ Updating installation ini files: hr-HR, sk-SK

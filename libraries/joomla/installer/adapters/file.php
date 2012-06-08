@@ -201,7 +201,7 @@ class JInstallerFile extends JAdapterInstance
 		$db->setQuery($query);
 		try
 		{
-			$db->Query();
+			$db->execute();
 		}
 		catch (JException $e)
 		{
@@ -495,7 +495,7 @@ class JInstallerFile extends JAdapterInstance
 				->from('#__schemas')
 				->where('extension_id = ' . $row->extension_id);
 			$db->setQuery($query);
-			$db->Query();
+			$db->execute();
 
 			// Set root folder names
 			$packagePath = $this->parent->getPath('source');
@@ -588,7 +588,7 @@ class JInstallerFile extends JAdapterInstance
 
 		try
 		{
-			$db->Query();
+			$db->execute();
 		}
 		catch (JException $e)
 		{

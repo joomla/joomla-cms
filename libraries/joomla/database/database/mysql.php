@@ -203,7 +203,7 @@ class JDatabaseMySQL extends JDatabase
 
 		$this->setQuery('DROP TABLE ' . ($ifExists ? 'IF EXISTS ' : '') . $query->quoteName($tableName));
 
-		$this->query();
+		$this->execute();
 
 		return $this;
 	}
@@ -475,7 +475,7 @@ class JDatabaseMySQL extends JDatabase
 	 */
 	public function lockTable($table)
 	{
-		$this->setQuery('LOCK TABLES ' . $this->quoteName($table) . ' WRITE')->query();
+		$this->setQuery('LOCK TABLES ' . $this->quoteName($table) . ' WRITE')->execute();
 
 		return $this;
 	}
@@ -488,7 +488,7 @@ class JDatabaseMySQL extends JDatabase
 	 * @since   11.1
 	 * @throws  JDatabaseException
 	 */
-	public function query()
+	public function execute()
 	{
 		if (!is_resource($this->connection))
 		{
@@ -574,7 +574,7 @@ class JDatabaseMySQL extends JDatabase
 	 */
 	public function renameTable($oldTable, $newTable, $backup = null, $prefix = null)
 	{
-		$this->setQuery('RENAME TABLE ' . $oldTable . ' TO ' . $newTable)->query();
+		$this->setQuery('RENAME TABLE ' . $oldTable . ' TO ' . $newTable)->execute();
 
 		return $this;
 	}
@@ -638,7 +638,7 @@ class JDatabaseMySQL extends JDatabase
 	public function transactionCommit()
 	{
 		$this->setQuery('COMMIT');
-		$this->query();
+		$this->execute();
 	}
 
 	/**
@@ -652,7 +652,7 @@ class JDatabaseMySQL extends JDatabase
 	public function transactionRollback()
 	{
 		$this->setQuery('ROLLBACK');
-		$this->query();
+		$this->execute();
 	}
 
 	/**
@@ -666,7 +666,7 @@ class JDatabaseMySQL extends JDatabase
 	public function transactionStart()
 	{
 		$this->setQuery('START TRANSACTION');
-		$this->query();
+		$this->execute();
 	}
 
 	/**
@@ -746,7 +746,7 @@ class JDatabaseMySQL extends JDatabase
 		$this->sql = 'EXPLAIN ' . $this->sql;
 
 		// Execute the query and get the result set cursor.
-		if (!($cursor = $this->query()))
+		if (!($cursor = $this->execute()))
 		{
 			return null;
 		}
@@ -848,7 +848,7 @@ class JDatabaseMySQL extends JDatabase
 	 */
 	public function unlockTables()
 	{
-		$this->setQuery('UNLOCK TABLES')->query();
+		$this->setQuery('UNLOCK TABLES')->execute();
 
 		return $this;
 	}

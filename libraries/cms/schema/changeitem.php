@@ -188,7 +188,7 @@ abstract class JSchemaChangeitem extends JObject
 		if ($this->checkStatus === -2) {
 			// at this point we have a failed query
 			$this->db->setQuery($this->updateQuery);
-			if ($this->db->query()) {
+			if ($this->db->execute()) {
 				if ($this->check()) {
 					$this->checkStatus = 1;
 					$this->rerunStatus = 1;

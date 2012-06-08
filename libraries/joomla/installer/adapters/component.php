@@ -1298,7 +1298,7 @@ class JInstallerComponent extends JAdapterInstance
 		$query = $db->getQuery(true);
 		$query->delete()->from('#__schemas')->where('extension_id = ' . $id);
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 
 		// Remove the component container in the assets table.
 		$asset = JTable::getInstance('Asset');
@@ -1312,7 +1312,7 @@ class JInstallerComponent extends JAdapterInstance
 		$query->delete()->from('#__categories')->where('extension=' . $db->quote($element), 'OR')
 			->where('extension LIKE ' . $db->quote($element . '.%'));
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 		// Check for errors.
 		if ($db->getErrorNum())
 		{
