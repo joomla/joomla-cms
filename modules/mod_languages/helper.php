@@ -9,8 +9,6 @@
 // no direct access
 defined('_JEXEC') or die;
 
-jimport('joomla.utilities.utility');
-
 JLoader::register('MenusHelper', JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus.php');
 
 abstract class modLanguagesHelper
@@ -65,7 +63,7 @@ abstract class modLanguagesHelper
 							$language->link = JRoute::_('index.php?lang='.$language->sef.'&Itemid='.$itemid);
 						}
 						else {
-							$language->link = 'index.php?lang='.$language->sef.'&Itemid='.$itemid;
+							$language->link = 'index.php?lang='.$language->sef.'&amp;Itemid='.$itemid;
 						}
 					}
 					else {

@@ -55,7 +55,6 @@ class JConfig {
 
 	/* Locale Settings */
 	public $offset = 'UTC';
-	public $offset_user = 'UTC';
 
 	/* Session settings */
 	public $lifetime = '15';					// Session time

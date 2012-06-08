@@ -7,15 +7,13 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
-
 /**
  * The HTML Joomla Core Site Configuration View
  *
  * @package		Joomla.Installation
  * @since		1.6
  */
-class JInstallationViewSite extends JView
+class JInstallationViewSite extends JViewLegacy
 {
 	/**
 	 * Display the view
@@ -33,9 +31,9 @@ class JInstallationViewSite extends JView
 			return false;
 		}
 
-		$this->assignRef('state', $state);
-		$this->assignRef('form', $form);
-		$this->assign('sample_installed', $sample_installed);
+		$this->state = $state;
+		$this->form  = $form;
+		$this->sample_installed = $sample_installed;
 
 		parent::display($tpl);
 	}

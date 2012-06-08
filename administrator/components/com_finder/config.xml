@@ -199,6 +199,15 @@
 			<option value="porter_en">COM_FINDER_CONFIG_STEMMER_PORTER_EN</option>
 			<option value="snowball">COM_FINDER_CONFIG_STEMMER_SNOWBALL</option>
 		</field>
+		<field
+			name="enable_logging"
+			type="radio"
+			default="0"
+			label="COM_FINDER_CONFIG_ENABLE_LOGGING_LABEL"
+			description="COM_FINDER_CONFIG_ENABLE_LOGGING_DESCRIPTION">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
 	</fieldset>
 	<fieldset
 		name="permissions"

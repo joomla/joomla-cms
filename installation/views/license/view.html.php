@@ -7,15 +7,13 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
-
 /**
  * The HTML Joomla Core License View
  *
  * @package		Joomla.Installation
  * @since		1.6
  */
-class JInstallationViewLicense extends JView
+class JInstallationViewLicense extends JViewLegacy
 {
 	/**
 	 * Display the view
@@ -31,7 +29,7 @@ class JInstallationViewLicense extends JView
 			return false;
 		}
 
-		$this->assignRef('state', $state);
+		$this->state = $state;
 
 		parent::display($tpl);
 	}

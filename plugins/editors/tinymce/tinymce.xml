@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="2.5" type="plugin" group="editors" method="upgrade">
 	<name>plg_editors_tinymce</name>
-	<version>3.4.9</version>
+	<version>3.5.1.1</version>
 	<creationDate>2005-2012</creationDate>
 	<author>Moxiecode Systems AB</author>
 	<authorEmail>N/A</authorEmail>
@@ -358,6 +358,15 @@
 					default="1"
 					description="PLG_TINY_FIELD_VISUALCHARS_DESC"
 					label="PLG_TINY_FIELD_VISUALCHARS_LABEL"
+				>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
+				</field>
+
+				<field name="visualblocks" type="radio"
+					default="1"
+					description="PLG_TINY_FIELD_VISUALBLOCKS_DESC"
+					label="PLG_TINY_FIELD_VISUALBLOCKS_LABEL"
 				>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>

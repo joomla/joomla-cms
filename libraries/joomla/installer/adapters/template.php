@@ -123,7 +123,7 @@ class JInstallerTemplate extends JAdapterInstance
 		{
 			$id = $db->loadResult();
 		}
-		catch (JDatabaseException $e)
+		catch (RuntimeException $e)
 		{
 			// Install failed, roll back changes
 			$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_TPL_INSTALL_ROLLBACK'), $e->getMessage());
@@ -505,6 +505,7 @@ class JInstallerTemplate extends JAdapterInstance
 		// Templates are one of the easiest
 		// If its not in the extensions table we just add it
 		$client = JApplicationHelper::getClientInfo($this->parent->extension->client_id);
+		$lang = JFactory::getLanguage();
 		$manifestPath = $client->path . '/templates/' . $this->parent->extension->element . '/templateDetails.xml';
 		$this->parent->manifest = $this->parent->isManifest($manifestPath);
 		$description = (string) $this->parent->manifest->description;

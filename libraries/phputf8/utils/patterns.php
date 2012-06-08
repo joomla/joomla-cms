@@ -3,6 +3,7 @@
 * PCRE Regular expressions for UTF-8. Note this file is not actually used by
 * the rest of the library but these regular expressions can be useful to have
 * available.
+* @version $Id$
 * @see http://www.w3.org/International/questions/qa-forms-utf-8
 * @package utf8
 * @subpackage patterns

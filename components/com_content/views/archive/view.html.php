@@ -90,7 +90,7 @@ class ContentViewArchive extends JView
 		//Escape strings for HTML output
 		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
 
-		$this->assign('filter', $state->get('list.filter'));
+		$this->filter = $state->get('list.filter');
 		$this->assignRef('form', $form);
 		$this->assignRef('items', $items);
 		$this->assignRef('params', $params);

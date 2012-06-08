@@ -7,7 +7,6 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
 jimport('joomla.filesystem.file');
 require_once JPATH_INSTALLATION.'/helpers/database.php';
 
@@ -17,7 +16,7 @@ require_once JPATH_INSTALLATION.'/helpers/database.php';
  * @package		Joomla.Installation
  * @since		1.6
  */
-class JInstallationModelDatabase extends JModel
+class JInstallationModelDatabase extends JModelLegacy
 {
 
 	function initialise($options)
@@ -75,7 +74,7 @@ class JInstallationModelDatabase extends JModel
 			{
 				$db = JInstallationHelperDatabase::getDbo($options->db_type, $options->db_host, $options->db_user, $options->db_pass, null, $options->db_prefix, false);
 			}
-			catch (JDatabaseException $e)
+			catch (RuntimeException $e)
 			{
 				$this->setError(JText::sprintf('INSTL_DATABASE_COULD_NOT_CONNECT', $e->getMessage()));
 				return false;
@@ -83,18 +82,19 @@ class JInstallationModelDatabase extends JModel
 
 			// Check database version.
 			$db_version = $db->getVersion();
-			if (($position = strpos($db_version, '-')) !== false) {
-				$db_version = substr($db_version, 0, $position);
+			$type = $options->db_type;
+
+			if (!$db->isMinimumVersion()) {
+				$this->setError(JText::sprintf('INSTL_DATABASE_INVALID_'.strtoupper($type).'_VERSION', $db_version));
+				return false;
 			}
 
-			if (!version_compare($db_version, '5.0.4', '>=')) {
-				$this->setError(JText::sprintf('INSTL_DATABASE_INVALID_MYSQL_VERSION', $db_version));
-				return false;
-			}
-			// @internal MySQL versions pre 5.1.6 forbid . / or \ or NULL
-			if ((preg_match('#[\\\/\.\0]#', $options->db_name)) && (!version_compare($db_version, '5.1.6', '>='))) {
-				$this->setError(JText::sprintf('INSTL_DATABASE_INVALID_NAME', $db_version));
-				return false;
+			if ($type == ('mysql' || 'mysqli')) {
+				// @internal MySQL versions pre 5.1.6 forbid . / or \ or NULL
+				if ((preg_match('#[\\\/\.\0]#', $options->db_name)) && (!version_compare($db_version, '5.1.6', '>='))) {
+					$this->setError(JText::sprintf('INSTL_DATABASE_INVALID_NAME', $db_version));
+					return false;
+				}
 			}
 
 			// @internal Check for spaces in beginning or end of name
@@ -114,7 +114,7 @@ class JInstallationModelDatabase extends JModel
 			{
 				$db->select($options->db_name);
 			}
-			catch (JDatabaseException $e)
+			catch (RuntimeException $e)
 			{
 				// If the database could not be selected, attempt to create it and then select it.
 				if ($this->createDatabase($db, $options->db_name)) {
@@ -144,14 +144,17 @@ class JInstallationModelDatabase extends JModel
 			}
 
 			// Set the appropriate schema script based on UTF-8 support.
-			$type = $options->db_type;
 			if ($type == 'mysqli' || $type == 'mysql')
 			{
-				$schema = 'sql/'.(($type == 'mysqli') ? 'mysql' : $type).'/joomla.sql';
+				$schema = 'sql/mysql/joomla.sql';
 			}
 			elseif ($type == 'sqlsrv' || $type == 'sqlazure')
 			{
-				$schema = 'sql/'.(($type == 'sqlsrv') ? 'sqlazure' : $type).'/joomla.sql';
+				$schema = 'sql/sqlazure/joomla.sql';
+			}
+			else
+			{
+				$schema = 'sql/'. $type . '/joomla.sql';
 			}
 			// Check if the schema is a valid file
 			if (!JFile::exists($schema)) {
@@ -190,7 +193,7 @@ class JInstallationModelDatabase extends JModel
 			{
 				$db->query();
 			}
-			catch (JDatabaseException $e)
+			catch (RuntimeException $e)
 			{
 				$this->setError($e->getMessage());
 				return false;
@@ -206,7 +209,7 @@ class JInstallationModelDatabase extends JModel
 			{
 				$extensions = $db->loadObjectList();
 			}
-			catch (JDatabaseException $e)
+			catch (RuntimeException $e)
 			{
 				$this->setError($e->getMessage());
 				$return = false;
@@ -267,7 +270,7 @@ class JInstallationModelDatabase extends JModel
 				{
 					$db->query();
 				}
-				catch (JDatabaseException $e)
+				catch (RuntimeException $e)
 				{
 					$this->setError($e->getMessage());
 					$return = false;
@@ -288,7 +291,7 @@ class JInstallationModelDatabase extends JModel
 		{
 			$db = JInstallationHelperDatabase::getDBO($options->db_type, $options->db_host, $options->db_user, $options->db_pass, $options->db_name, $options->db_prefix);
 		}
-		catch (JDatabaseException $e)
+		catch (RuntimeException $e)
 		{
 			$this->setError(JText::sprintf('INSTL_DATABASE_COULD_NOT_CONNECT', $e->getMessage()));
 			return false;
@@ -349,7 +352,7 @@ class JInstallationModelDatabase extends JModel
 					{
 						$db->dropTable($backupTable, true);
 					}
-					catch (JDatabaseException $e)
+					catch (RuntimeException $e)
 					{
 						$this->setError($e->getMessage());
 						$return = false;
@@ -360,7 +363,7 @@ class JInstallationModelDatabase extends JModel
 					{
 						$db->renameTable($table, $backupTable, $backup, $prefix);
 					}
-					catch (JDatabaseException $e)
+					catch (RuntimeException $e)
 					{
 						$this->setError($e->getMessage());
 						$return = false;
@@ -393,7 +396,7 @@ class JInstallationModelDatabase extends JModel
 		{
 			$db->query();
 		}
-		catch (JDatabaseException $e)
+		catch (RuntimeException $e)
 		{
 			// If an error occurred return false.
 			return false;
@@ -430,7 +433,7 @@ class JInstallationModelDatabase extends JModel
 					{
 						$db->dropTable($table);
 					}
-					catch (JDatabaseException $e)
+					catch (RuntimeException $e)
 					{
 						$this->setError($e->getMessage());
 						$return = false;
@@ -478,7 +481,7 @@ class JInstallationModelDatabase extends JModel
 				{
 					$db->query();
 				}
-				catch (JDatabaseException $e)
+				catch (RuntimeException $e)
 				{
 					$this->setError($e->getMessage());
 					$return = false;
@@ -510,7 +513,7 @@ class JInstallationModelDatabase extends JModel
 		{
 			$db->query();
 		}
-		catch (JDatabaseException $e)
+		catch (RuntimeException $e)
 		{
 			return false;
 		}

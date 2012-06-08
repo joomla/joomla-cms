@@ -61,6 +61,9 @@ JHtml::_('behavior.keepalive');
 
 				<li><?php echo $this->form->getLabel('modified_date'); ?>
 				<?php echo $this->form->getInput('modified_date'); ?></li>
+
+				<li><?php echo $this->form->getLabel('hits'); ?>
+				<?php echo $this->form->getInput('hits'); ?></li>
 				</ul>
 		</fieldset>
 		<input type="hidden" name="task" value="" />

@@ -10,6 +10,7 @@ defined('_JEXEC') or die;
 jimport('joomla.html.pagination');
 jimport('joomla.html.html.sliders');
 jimport('joomla.html.html.tabs');
+jimport('joomla.utilities.utility');
 
 /**
  * Page break plugin

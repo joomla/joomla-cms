@@ -6,7 +6,6 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.modelform');
@@ -201,6 +200,9 @@ class ConfigModelApplication extends JModelForm
 		$temp->set('ftp_pass', $data['ftp_pass']);
 		$temp->set('ftp_root', $data['ftp_root']);
 
+		// Clear cache of com_config component.
+		$this->cleanCache('_system');
+		
 		// Write the configuration file.
 		return $this->writeConfigFile($config);
 	}
@@ -264,7 +266,7 @@ class ConfigModelApplication extends JModelForm
 		}
 
 		// Attempt to make the file unwriteable if using FTP.
-		if ($prev['ftp_enable'] == 0 && !$ftp['enabled'] && JPath::isOwner($file) && !JPath::setPermissions($file, '0444'))
+		if (!$ftp['enabled'] && JPath::isOwner($file) && !JPath::setPermissions($file, '0444'))
 		{
 			JError::raiseNotice('SOME_ERROR_CODE', JText::_('COM_CONFIG_ERROR_CONFIGURATION_PHP_NOTUNWRITABLE'));
 		}

@@ -7,15 +7,13 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
-
 /**
  * The HTML Joomla Core Language View
  *
  * @package		Joomla.Installation
  * @since		1.6
  */
-class JInstallationViewLanguage extends JView
+class JInstallationViewLanguage extends JViewLegacy
 {
 	/**
 	 * Display the view
@@ -32,8 +30,8 @@ class JInstallationViewLanguage extends JView
 			return false;
 		}
 
-		$this->assignRef('state',	$state);
-		$this->assignRef('form',	$form);
+		$this->state = $state;
+		$this->form  = $form;
 
 		parent::display($tpl);
 	}

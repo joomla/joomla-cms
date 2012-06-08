@@ -27,10 +27,10 @@ class JSchemaChangeitemsqlazure extends JSchemaChangeitemsqlsrv
 	 * If successful, the $msgElements, $queryType, $checkStatus and $checkQuery fields are populated.
 	 * The $msgElements contains the text to create the user message.
 	 * The $checkQuery contains the SQL query to check whether the schema change has
-	 * been run against the current database. The $queryType contains the type of 
+	 * been run against the current database. The $queryType contains the type of
 	 * DDL query that was run (for example, CREATE_TABLE, ADD_COLUMN, CHANGE_COLUMN_TYPE, ADD_INDEX).
 	 * The $checkStatus field is set to zero if the query is created
-	 * 
+	 *
 	 * If not successful, $checkQuery is empty and , and $checkStatus is -1.
 	 * For example, this will happen if the current line is a non-DDL statement.
 	 *
@@ -38,6 +38,6 @@ class JSchemaChangeitemsqlazure extends JSchemaChangeitemsqlsrv
 	 *
 	 * @since  2.5
 	 */
-	
+
 
 }

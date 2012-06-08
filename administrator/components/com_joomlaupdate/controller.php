@@ -16,7 +16,7 @@ jimport('joomla.application.component.controller');
  *
  * @package		Joomla.Administrator
  * @subpackage	com_joomlaupdate
- * @since		2.5.2
+ * @since		2.5.4
  */
 class JoomlaupdateController extends JController
 {
@@ -27,7 +27,7 @@ class JoomlaupdateController extends JController
 	 * @param	array			An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
 	 * @return	JController		This object to support chaining.
-	 * @since	2.5.2
+	 * @since	2.5.4
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{

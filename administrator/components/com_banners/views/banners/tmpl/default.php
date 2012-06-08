@@ -139,7 +139,7 @@ $params		= (isset($this->state->params)) ? $this->state->params : new JObject();
 					<?php echo JHtml::_('jgrid.published', $item->state, $i, 'banners.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
 				</td>
 				<td class="center">
-					<?php echo JHtml::_('jgrid.published', $item->sticky, $i, 'banners.sticky_', $canChange);?>
+					<?php echo JHtml::_('banner.pinned', $item->sticky, $i, $canChange); ?>
 				</td>
 				<td class="center">
 					<?php echo $item->client_name;?>

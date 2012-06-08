@@ -7,15 +7,13 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
-
 /**
  * The HTML Joomla Core Database Configuration View
  *
  * @package		Joomla.Installation
  * @since		1.6
  */
-class JInstallationViewDatabase extends JView
+class JInstallationViewDatabase extends JViewLegacy
 {
 	/**
 	 * Display the view
@@ -32,8 +30,8 @@ class JInstallationViewDatabase extends JView
 			return false;
 		}
 
-		$this->assignRef('state', $state);
-		$this->assignRef('form', $form);
+		$this->state = $state;
+		$this->form  = $form;
 
 		parent::display($tpl);
 	}

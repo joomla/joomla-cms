@@ -7,14 +7,12 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
-
 /**
  * The HTML Joomla Core Install Remove View
  *
  * @package		Joomla.Installation
  * @since		1.6
  */
-class JInstallationViewRemove extends JView
+class JInstallationViewRemove extends JViewLegacy
 {
 }

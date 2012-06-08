@@ -26,6 +26,169 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+07-Jun-2012 Jean-Marie Simonet
+ $ Updating installation ini files: hr-HR, sk-SK
+ # [#28526] bug in mod_articles_news. Thanks Elin
+ # [#28420] discover_install of components does not trigger custom install method. Thanks Michael
+ # [#28192] Bug in mod_articles_news in version 1.7 and 2.5. Thanks Heikki and Ofer.
+ ^ [#28570] Backport JAccess::getActionsFrom. Thanks Michael
+ ^ [#28549] Provide legacy aliases for the MVC classes. Thanks Rouven
+ # [#28400] Help Site URL Defaulting to Version 1.6. Thanks Mark
+ 
+06-Jun-2012 Christophe Demko
+ ^ [#28378] Backport JInput:def() from the platform (Rouven Weßling)
+ # [#28487] Menu Item Alias does not obey Secure Setting of Aliased Item (Don Gilbert)
+
+05-Jun-2012 Jean-Marie Simonet
+ # [#28619] Fix #24510 to not add code specific to the profile plug-in to com_users. Thanks Rouven.
+ +# [#28565] Add feature readmore in feed items. Also bugfix for fulltext in feed items. Thanks Jurian
+ + [#28469] Add counter to redirect component. Thanks Ronald
+
+04-Jun-2012 Jean-Marie Simonet
+ + [#28067] Option to disable the ability to change the Username in Profile
+ + [#24510] Implementation of Terms of Service. Thanks Peter.
+ + [#28614] Add option to enable/disable logging in Smart Search. Thanks Michael.
+ # [#28615] Backport union query element from Platform 12 and use it in Smart Search. Thanks Michael.
+
+03-Jun-2012 Mark Dexter
+ ^ [#28450] Set the CSS class for JForm field label. Thanks Viet Vu.
+
+03-Jun-2012 Jean-Marie Simonet
+ $ Updating installation ini files: nb-NO, nl-NL, nn-NO
+ # [#28602] *Menu Item Manager: Show Batch Processing only if allowed. Thanks Johannes
+ # [#28611] *ACL: Module Manager: Show Batch Processing only if allowed
+ # [#28536] Undefined variable $prev in com_config. Thanks Rouven
+ # [#28607] Missing direct access check for com_finder. Thanks Sander
+ ^ [#28609] Update joomlaupdate @SInCE tags missed in 61f5ee8. Thanks Rouven
+ # [#28285] E_NOTICE about array to string conversion in debug.php with PHP 5.4. Thanks Rouven
+ # [#28560] Backport some files completely from the current platform. Thanks Rouven
+ # [#28599] Backport the new JLoader from the platform 12.1. Thanks Rouven
+ ^ [#28600] Add a code style checker. Thanks Rouven
+ # [#28548] Use instanceof instead of is_a(). Thanks Rouven.
+
+02-Jun-2012 Jean-Marie Simonet
+ # [#28375] Remove blacklist code from FinderIndexerHelper. Thanks Michael
+ # [#28605] ACL regression in com_finder. Thanks Sander
+ # [#27819] The articles model displays articles for which there is no category access. Thanks Carsten and Nick
+ #  [#28608] Remove unused file in com_users. Thanks Rouven
+
+01-Jun-2012 Jean-Marie Simonet
+ # [#28589] *ACL regression in com_search
+ # [#28588] *ACL regression in com_messages
+ # [#28587] *ACL regression in com_redirect
+ # [#28579] Fix xreference regression from 1.7 to 2.5. Thanks Andrea.
+ # [#28561] Move some JFormFields from the platform to the CMS. Thanks Rouven.
+ # [#28335] Simplify schema path in installation, add support for other databases. Thanks Michael.
+ # [#28598] *Article Category list displays hits in author column if no article author or createdbyalias.
+ 
+30-May-2012 Jean-Marie Simonet
+ $ Missing language string
+ $ Updating installation ini files: et-EE, mn-MN
+
+29-May-2012 Jean-Marie Simonet
+ # [#28566] Update TinyMCE 3.5.1.1. Thanks Rouven
+
+28-May-2012 Jean-Marie Simonet
+ # [#28572] *Administration user notes checked on notes page gives warning arugment missing
+ ^ [#28370] Get rid of assign() uses in view: admin + site.Thanks Ofer and Rouven
+ ^ [#28442] Update Library Manifests. Thanks Michael.
+
+27-May-2012 Jean-Marie Simonet
+ # [#28022] Smart search and unpublished Content Maps fails after edit of an article.Thanks Michael.
+ $ [#28571] Typo in en-GB.com_templates.ini. Thanks Stella.
+ ^ [#28569] Correct docblocs in com_joomlaupdate. Thanks Rouven.
+
+25-May-2012 Jean-Marie Simonet
+ $ Updating installation ini file: ug-CN
+ $ Adding new installation language: hi-IN
+
+23-May-2012 Jean-Marie Simonet
+ ^ [#28547] ACL consistency - Use the API and access.xml everywhere. Thanks Michael.
+ # [#28483] *Weblinks module should only pass on category related queries when catid > 0
+
+22-May-2012 Jean-Marie Simonet
+ # [#28555] Fix files that are CRLF. Thanks Rouven.
+
+21-May-2012 Jean-Marie Simonet
+ # [#21946] Reverting [#27700]
+ ^ [#28553] Improve code for 28205. Thanks Rouven.
+
+20-May-2012 Jean-Marie Simonet
+ # [#28546] Trunk is broken due to a PHP error in JComponentHelper
+ # [#28521] Use doExecute instead of execute in CLI scripts. Thanks Michael.
+ $ Updating installation ini files: az-AZ, tr-TR, zh-TW
+
+19-May-2012 Jean-Marie Simonet
+ # [#28419] Remove warnings for undeprecated code. Fix a bug in JView in the process. Thanks Rouven.
+
+18-May-2012 Jean-Marie Simonet
+ + Adding Laotian lo.gif flag to media/mod_languages
+
+17-May-2012 Jean-Marie Simonet
+ $ Updating installation ini files: ar-AA, de-DE, ja-JP, lv-LV, sq-AL, ta-IN
+
+16-May-2012 Jean-Marie Simonet
+ $ Updating installation ini files: bg-BG, ckb-IQ, da-DK, eo-XX, es-ES, fi-FI, fr-FR, it-IT, km-KH, lo-LA, mk-MK, ru-RU, sr-RS, sr-YU, sv-SE, uk-UA
+
+15-May-2012 Jean-Marie Simonet
+ #$ [#27651] JInstallationModelDatabase::initialise has hard coded MySQL version check. Thanks Michael
+
+12-May-2012 Jean-Marie Simonet
+ + [#28472] Add ability to copy a template. Thanks Mark
+ +$ Adding eo-XX installation language
+
+11-May-2012 Jean-Marie Simonet
+ # [#27711] Plugin SEF don't support "poster" video attribute. Thanks Ryan
+ # [#28481] Edit Menu Item: Modules appears multiple times in the list. Thanks Doesnt Matter.
+ # [#28205] Remove 'Display: no' modules from Module Assignment list (1.7), or button to hide them. Thanks Jason Williams and Andrea. 
+ # [#28514] duplicate line in user.php. Thanks Viet Vu
+ # [#28421] Update PHPMailer to 5.2.1. Thanks Rouven.
+ # [#28505] *Multilang validation errors when SEF is off
+ # [#28479] Use most specific paths possible. Fix detect FTP root. Thanks Rouven.
+
+30-Apr-2012 Jean-Marie Simonet
+ # Correcting hathor xml
+ # [#28453] Language override doesn't handle double quotes properly. Thanks Johannes.
+ # [#28455] *303 when not using URL Language code in multilanguage. Thanks Yannick.
+ # [#28467] *configuration.php smtp saves auto-filled admin username and password.
+ # [#28436] Wrong group in ldap and joomla authentication-plugin XML-file
+
+28-Apr-2012 Jean-Marie Simonet
+ $ Correcting wrong ini string value
+ $ Updating zh-CN installation ini file
+ # [#28398] Missing "remember me" in com_users. Thanks Nils.
+ # [#28210] onchange event does not fire at JFormFieldMedia (Regression). Thanks Benjamin.
+ # [#28428] Backend uses incorrect cache path for system caches - text filters can be reseted to defaults with enabled caching. Thanks Dennis.
+ # [#28457] *Unused $offset_user parameter in configuration
+ # [#28440] *load language file from com_media front end
+
+20-Apr-2012 Jean-Marie Simonet
+ # [#28407] *Browser Settings for new visitors broken in multilanguage. Reverting #28151
+
+18-Apr-2012 Jean-Marie Simonet
+ # [#28351] Remove extra images from finder. Thanks Rouven and Michael
+ # [#28382] Make Atomic work with sample data. Thanks Elin
+ # [#28339] Incorrect parameter passed to onUserAfterDeleteGroup event. Thanks Dennis
+ # [#28149] ImageManager Javascript Error. Thanks Benjamin
+ # [#28364] JImage wrong JPEG support detection in PHP 5.2. Thanks Pavel and Rouven
+ # [#28276] Finder/Smart Search: Deleting an item does not remove it from Finder's index. Thanks CY Lee
+ # [#28309] Improve forward compatability with Joomla 3.0 by making JDatabaseException extend RuntimeException. Thanks Rouven
+
+10-Apr-2012 Christophe Demko
+ ^ [#28336] e-strict error in com_messages (Elin Waring)
+
+10-Apr-2012 Jean-Marie Simonet
+ # [#28287] Fix some differences between platform and cms. Backport CSS changes. Thanks Rouven
+ # [#28384] Duplicate 'home' in breadcrumbs in a multi-language site. Thanks Nuno.
+
+09-Apr-2012 Christophe Demko
+ # [ #24839] Incorrect tooltip for Sticky column icons in Banner Manager: Banners
+ - [#28360] Get rid of assign() and assignRefs() uses in view: Installation (Rouven Weßling)
+ -+ [#28305] Remove a few unnecessary import() calls. Add a missing import(). (Rouven Weßling)
+
+07-Apr-2012 Jean-Marie Simonet
+ # [#28345] Call to member function of non-object: setDebug(). Thanks Don.
+
 03-Apr-2012 Mark Dexter
  # [#28354] Problem logging out if Public group has admin login permission
  # [#28342] *New joomlaupdate component has no icon in admin menu + missing lang string

@@ -7,7 +7,6 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
 jimport('joomla.application.component.helper');
 
 /**
@@ -16,7 +15,7 @@ jimport('joomla.application.component.helper');
  * @package		Joomla.Installation
  * @since		1.6
  */
-class JInstallationController extends JController
+class JInstallationController extends JControllerLegacy
 {
 	/**
 	 * Method to display a view.
@@ -64,7 +63,7 @@ class JInstallationController extends JController
 			$view->setLayout($lName);
 
 			// Push document object into the view.
-			$view->assignRef('document', $document);
+			$view->document = $document;
 
 			$view->display();
 		}
