@@ -39,15 +39,14 @@ class JCacheControllerPage extends JCacheController
 	/**
 	 * Get the cached page data
 	 *
-	 * @param   string   $id          The cache data id
-	 * @param   string   $group       The cache data group
-	 * @param   boolean  $wrkarounds  True to use wrkarounds
+	 * @param   string   $id    The cache data id
+	 * @param   string   $group The cache data group
 	 *
 	 * @return  boolean  True if the cache is hit (false else)
 	 *
 	 * @since   11.1
 	 */
-	public function get($id = false, $group = 'page', $wrkarounds = true)
+	public function get($id = false, $group = 'page')
 	{
 		// Initialise variables.
 		$data = false;
@@ -91,10 +90,13 @@ class JCacheControllerPage extends JCacheController
 		if ($data !== false)
 		{
 			$data = unserialize(trim($data));
-			if ($wrkarounds === true)
-			{
-				$data = JCache::getWorkarounds($data);
-			}
+
+			// The following code searches for a token in the cached page and replaces it with the
+			// proper token.
+			$token = JSession::getFormToken();
+			$search = '#<input type="hidden" name="[0-9a-f]{32}" value="1" />#';
+			$replacement = '<input type="hidden" name="' . $token . '" value="1" />';
+			$data['body'] = preg_replace($search, $replacement, $data['body']);
 
 			$this->_setEtag($id);
 			if ($this->_locktest->locked == true)
@@ -113,16 +115,23 @@ class JCacheControllerPage extends JCacheController
 	/**
 	 * Stop the cache buffer and store the cached data
 	 *
-	 * @param   boolean  $wrkarounds  True to use wrkarounds
+	 * @param   mixed   $data   The data to store
+	 * @param   string  $id     The cache data id
+	 * @param   string  $group  The cache data group
 	 *
 	 * @return  boolean  True if cache stored
 	 *
 	 * @since   11.1
 	 */
-	public function store($wrkarounds = true)
+	public function store($data = array(), $id = false, $group = 'page')
 	{
+		(array) $data;
+
+		// Get the headers from JResponse headers
+		$data['headers'] = JResponse::getHeaders();
+
 		// Get page data from JResponse body
-		$data = JResponse::getBody();
+		$data['body'] = JResponse::getBody();
 
 		// Get id and group and reset the placeholders
 		$id = $this->_id;
@@ -131,10 +140,8 @@ class JCacheControllerPage extends JCacheController
 		$this->_group = null;
 
 		// Only attempt to store if page data exists
-		if ($data)
+		if ($data['body'])
 		{
-			$data = $wrkarounds == false ? $data : JCache::setWorkarounds($data);
-
 			if ($this->_locktest->locked == false)
 			{
 				$this->_locktest = $this->cache->lock($id, $group);

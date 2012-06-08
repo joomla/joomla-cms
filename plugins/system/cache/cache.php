@@ -65,8 +65,12 @@ class plgSystemCache extends JPlugin
 
 		$data  = $this->_cache->get();
 
-		if ($data !== false)
+		if ($data === false && is_array($data) && isset($data['headers']) && isset($data['body']))
 		{
+			foreach($data['headers'] as $header)
+			{
+				JResponse::setHeader($header['name'], $header['value']);
+			}
 			JResponse::setBody($data);
 
 			echo JResponse::toString($app->getCfg('gzip'));
