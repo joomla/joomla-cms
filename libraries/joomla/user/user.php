@@ -589,9 +589,6 @@ class JUser extends JObject
 			}
 		}
 
-		// TODO: this will be deprecated as of the ACL implementation
-		// @todo remove code: 		$db = JFactory::getDbo();
-
 		if (array_key_exists('params', $array))
 		{
 			$params = '';
