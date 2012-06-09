@@ -130,7 +130,7 @@ abstract class JFacebookObject
 		// Send the request.
 		return $this->sendRequest($path);
 	}
-	
+
 	/**
 	 * Method to get object's connection.
 	 * 
@@ -187,12 +187,12 @@ abstract class JFacebookObject
 	 * 
 	 * @since   12.1
 	 */
-	public function deleteConnection($object, $access_token, $connection='')
+	public function deleteConnection($object, $access_token, $connection=null)
 	{
 		$token = '?access_token=' . $access_token;
 
 		// Build the request path.
-		if (isset($connection))
+		if ($connection != null)
 		{
 			$path = $object . '/' . $connection . $token;
 		}
