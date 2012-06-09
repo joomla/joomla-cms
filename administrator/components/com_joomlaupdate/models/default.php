@@ -515,7 +515,7 @@ ENDDATA;
 		{
 			$db->Query();
 		}
-		catch (JException $e)
+		catch (RuntimeException $e)
 		{
 			// Install failed, roll back changes
 			$installer->abort(
