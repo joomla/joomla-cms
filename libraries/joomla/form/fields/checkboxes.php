@@ -51,6 +51,7 @@ class JFormFieldCheckboxes extends JFormField
 
 		// Initialize some field attributes.
 		$class = $this->element['class'] ? ' class="checkboxes ' . (string) $this->element['class'] . '"' : ' class="checkboxes"';
+		$checkedOptions = explode(',',(string) $this->element['checked']);
 
 		// Start the checkbox field output.
 		$html[] = '<fieldset id="' . $this->id . '"' . $class . '>';
@@ -62,9 +63,15 @@ class JFormFieldCheckboxes extends JFormField
 		$html[] = '<ul>';
 		foreach ($options as $i => $option)
 		{
-
 			// Initialize some option attributes.
-			$checked = (in_array((string) $option->value, (array) $this->value) ? ' checked="checked"' : '');
+			if (empty($this->value))
+			{
+				$checked =  (in_array((string) $option->value, (array) $checkedOptions) ? ' checked="checked"' : '');
+			} 
+			else
+			{
+				$checked =  (in_array((string) $option->value, (array) $this->value) ? ' checked="checked"' : '');
+			}
 			$class = !empty($option->class) ? ' class="' . $option->class . '"' : '';
 			$disabled = !empty($option->disable) ? ' disabled="disabled"' : '';
 
