@@ -29,6 +29,7 @@ $ -> Language fix or change
 09-Jun-2012 Jean-Marie Simonet
  ^ [#28551] Fix some issues with exceptions. Thanks Rouven
  + [#28176] Media formfield: show preview. Thanks Benjamin
+ + [#28383] Add the ability to limit the number of password resets within a time period. Thanks Mark
  
 08-Jun-2012 Jean-Marie Simonet
  ^ [#28613] Use fewer deprecated methods. Thanks Rouven

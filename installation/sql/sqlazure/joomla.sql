@@ -418,6 +418,8 @@ CREATE TABLE [#__users](
 	[lastvisitDate] [datetime] NOT NULL,
 	[activation] [nvarchar](100) NOT NULL,
 	[params] [nvarchar](max) NOT NULL,
+	[lastResetTime] [datetime] NOT NULL,
+	[resetCount] [int] NOT NULL,	
  CONSTRAINT [PK_#__users_id] PRIMARY KEY CLUSTERED
 (
 	[id] ASC
@@ -560,6 +562,28 @@ Begin
 IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'[DF__#__users__activ__7FEAFD3E]') AND type = 'D')
 BEGIN
 ALTER TABLE [#__users] ADD  DEFAULT (N'') FOR [activation]
+END
+
+
+End;
+
+/****** Object:  Default [DF__#__users__activ__7FEAFD2E]    Script Date: 11/08/2010 18:41:22 ******/
+IF Not EXISTS (SELECT * FROM sys.default_constraints WHERE object_id = OBJECT_ID(N'[DF__#__users__lastr__7FEAFD2E]') AND parent_object_id = OBJECT_ID(N'[#__users]'))
+Begin
+IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'[DF__#__users__lastr__7FEAFD2E]') AND type = 'D')
+BEGIN
+ALTER TABLE [#__users] ADD  DEFAULT ('1900-01-01 00:00:00') FOR [lastResetTime]
+END
+
+
+End;
+
+/****** Object:  Default [DF__#__users__activ__7FEAFD1E]    Script Date: 11/08/2010 18:41:22 ******/
+IF Not EXISTS (SELECT * FROM sys.default_constraints WHERE object_id = OBJECT_ID(N'[DF__#__users__resetc__7FEAFD1E]') AND parent_object_id = OBJECT_ID(N'[#__users]'))
+Begin
+IF NOT EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'[DF__#__users__resetc__7FEAFD1E]') AND type = 'D')
+BEGIN
+ALTER TABLE [#__users] ADD  DEFAULT (N'') FOR [resetCount]
 END
 
 

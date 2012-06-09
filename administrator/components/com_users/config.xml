@@ -102,6 +102,26 @@
 			<option
 				value="1">JYES</option>
 		</field>
+		<field
+			name="reset_count"
+			type="integer"
+			label="COM_USERS_CONFIG_FIELD_FRONTEND_RESET_COUNT_LABEL"
+			description="COM_USERS_CONFIG_FIELD_FRONTEND_RESET_COUNT_DESC"
+			first="0"
+			last="20"
+			step="1"
+			default="10">
+			</field>
+		<field
+			name="reset_time"
+			type="integer"
+			label="COM_USERS_CONFIG_FIELD_FRONTEND_RESET_TIME_LABEL"
+			description="COM_USERS_CONFIG_FIELD_FRONTEND_RESET_TIME_DESC"
+			first="1"
+			last="24"
+			step="1"
+			default="1">
+			</field>
 	</fieldset>
 
  	<fieldset
