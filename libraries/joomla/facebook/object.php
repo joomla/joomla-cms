@@ -110,4 +110,98 @@ abstract class JFacebookObject
 
 		return $response;
 	}
+
+	/**
+	 * Method to get an object.
+	 * 
+	 * @param   string  $object        The object id.
+	 * @param   string  $access_token  The Facebook access token.
+	 * 
+	 * @return  array   The decoded JSON response.
+	 * 
+	 * @since   12.1
+	 */
+	public function get($object, $access_token)
+	{
+		$token = '?access_token=' . $access_token;
+
+		$path = $object . $token;
+
+		// Send the request.
+		return $this->sendRequest($path);
+	}
+	
+	/**
+	 * Method to get object's connection.
+	 * 
+	 * @param   string  $object        The object id.
+	 * @param   string  $access_token  The Facebook access token.
+	 * @param   string  $connection    The object's connection name.
+	 * @param   string  $extra_fields  URL fields.
+	 * 
+	 * @return  array   The decoded JSON response.
+	 * 
+	 * @since   12.1
+	 */
+	public function getConnection($object, $access_token, $connection, $extra_fields='')
+	{
+		$token = '?access_token=' . $access_token;
+
+		$path = $object . '/' . $connection . $token . $extra_fields;
+
+		// Send the request.
+		return $this->sendRequest($path);
+	}
+
+	/**
+	 * Method to create a connection.
+	 * 
+	 * @param   string  $object        The object id.
+	 * @param   string  $access_token  The Facebook access token.
+	 * @param   string  $connection    The object's connection name.
+	 * @param   array   $parameters    The POST request parameters.
+	 * 
+	 * @return  array   The decoded JSON response.
+	 * 
+	 * @since   12.1
+	 */
+	public function createConnection($object, $access_token, $connection, $parameters=null)
+	{
+		$token = '?access_token=' . $access_token;
+
+		// Build the request path.
+		$path = $object . '/' . $connection . $token;
+
+		// Send the post request.
+		return $this->sendRequest($path, 'post', $parameters);
+	}
+
+	/**
+	 * Method to delete a connection.
+	 * 
+	 * @param   string  $object        The object id.
+	 * @param   string  $access_token  The Facebook access token.
+	 * @param   string  $connection    The object's connection name.
+	 * 
+	 * @return  array   The decoded JSON response.
+	 * 
+	 * @since   12.1
+	 */
+	public function deleteConnection($object, $access_token, $connection='')
+	{
+		$token = '?access_token=' . $access_token;
+
+		// Build the request path.
+		if (isset($connection))
+		{
+			$path = $object . '/' . $connection . $token;
+		}
+		else
+		{
+			$path = $object . $token;
+		}
+
+		// Send the delete request.
+		return $this->sendRequest($path, 'delete');
+	}
 }

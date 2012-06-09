@@ -33,12 +33,7 @@ class JFacebookLink extends JFacebookObject
 	 */
 	public function getLink($link, $access_token)
 	{
-		$token = '?access_token=' . $access_token;
-
-		$path = $link . $token;
-
-		// Send the request.
-		return $this->sendRequest($path);
+		return $this->get($link, $access_token);
 	}
 
 	/**
@@ -53,18 +48,13 @@ class JFacebookLink extends JFacebookObject
 	 */
 	public function getComments($link, $access_token)
 	{
-		$token = '?access_token=' . $access_token;
-
-		$path = $link . '/comments' . $token;
-
-		// Send the request.
-		return $this->sendRequest($path);
+		return $this->getConnection($link, $access_token, 'comments');
 	}
 
 	/**
 	 * Method to comment on a link.
 	 * 
-	 * @param   string  $link          The status link id.
+	 * @param   string  $link          The link id.
 	 * @param   string  $access_token  The Facebook access token with the publish_stream permission.
 	 * @param   string  $message       The comment's text.
 	 * 
@@ -74,17 +64,11 @@ class JFacebookLink extends JFacebookObject
 	 */
 	public function createComment($link, $access_token, $message)
 	{
-		$token = '?access_token=' . $access_token;
-
-		// Build the request path.
-		$path = $link . '/comments' . $token;
-
 		// Set POST request parameters.
 		$data = array();
 		$data['message'] = $message;
 
-		// Send the post request.
-		return $this->sendRequest($path, 'post', $data);
+		return $this->createConnection($link, $access_token, 'comments', $data);
 	}
 
 	/**
@@ -99,13 +83,7 @@ class JFacebookLink extends JFacebookObject
 	 */
 	public function deleteComment($comment, $access_token)
 	{
-		$token = '?access_token=' . $access_token;
-
-		// Build the request path.
-		$path = $comment . $token;
-
-		// Send the delete request.
-		return $this->sendRequest($path, 'delete');
+		return $this->deleteConnection($comment, $access_token);
 	}
 
 	/**
@@ -120,12 +98,7 @@ class JFacebookLink extends JFacebookObject
 	 */
 	public function getLikes($link, $access_token)
 	{
-		$token = '?access_token=' . $access_token;
-
-		$path = $link . '/likes' . $token;
-
-		// Send the request.
-		return $this->sendRequest($path);
+		return $this->getConnection($link, $access_token, 'likes');
 	}
 
 	/**
@@ -140,13 +113,7 @@ class JFacebookLink extends JFacebookObject
 	 */
 	public function createLike($link, $access_token)
 	{
-		$token = '?access_token=' . $access_token;
-
-		// Build the request path.
-		$path = $link . '/likes' . $token;
-
-		// Send the post request.
-		return $this->sendRequest($path, 'post');
+		return $this->createConnection($link, $access_token, 'likes');
 	}
 
 	/**
@@ -161,12 +128,6 @@ class JFacebookLink extends JFacebookObject
 	 */
 	public function deleteLike($link, $access_token)
 	{
-		$token = '?access_token=' . $access_token;
-
-		// Build the request path.
-		$path = $link . '/likes' . $token;
-
-		// Send the delete request.
-		return $this->sendRequest($path, 'delete');
+		return $this->deleteConnection($link, $access_token, 'likes');
 	}
 }

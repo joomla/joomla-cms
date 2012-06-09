@@ -92,61 +92,51 @@ class JFacebook
 	 * 
 	 * @since   12.1
 	 */
-
 	public function __get($name)
 	{
-		if ($name == 'user')
+		switch ($name)
 		{
-			if ($this->user == null)
-			{
-				$this->user = new JFacebookUser($this->options, $this->client);
-			}
-			return $this->user;
-		}
+			case 'user':
+				if ($this->user == null)
+				{
+					$this->user = new JFacebookUser($this->options, $this->client);
+				}
+				return $this->user;
 
-		if ($name == 'status')
-		{
-			if ($this->status == null)
-			{
-				$this->status = new JFacebookStatus($this->options, $this->client);
-			}
-			return $this->status;
-		}
+			case 'status':
+				if ($this->status == null)
+				{
+					$this->status = new JFacebookStatus($this->options, $this->client);
+				}
+				return $this->status;
 
-		if ($name == 'checkin')
-		{
-			if ($this->checkin == null)
-			{
-				$this->checkin = new JFacebookCheckin($this->options, $this->client);
-			}
-			return $this->checkin;
-		}
+			case 'checkin':
+				if ($this->checkin == null)
+				{
+					$this->checkin = new JFacebookCheckin($this->options, $this->client);
+				}
+				return $this->checkin;
 
-		if ($name == 'event')
-		{
-			if ($this->event == null)
-			{
-				$this->event = new JFacebookEvent($this->options, $this->client);
-			}
-			return $this->event;
-		}
+			case 'event':
+				if ($this->event == null)
+				{
+					$this->event = new JFacebookEvent($this->options, $this->client);
+				}
+				return $this->event;
 
-		if ($name == 'group')
-		{
-			if ($this->group == null)
-			{
-				$this->group = new JFacebookGroup($this->options, $this->client);
-			}
-			return $this->group;
-		}
+			case 'group':
+				if ($this->group == null)
+				{
+					$this->group = new JFacebookGroup($this->options, $this->client);
+				}
+				return $this->group;
 
-		if ($name == 'link')
-		{
-			if ($this->link == null)
-			{
-				$this->link = new JFacebookLink($this->options, $this->client);
-			}
-			return $this->link;
+			case 'link':
+				if ($this->link == null)
+				{
+					$this->link = new JFacebookLink($this->options, $this->client);
+				}
+				return $this->link;
 		}
 	}
 
@@ -159,7 +149,6 @@ class JFacebook
 	 * 
 	 * @since   12.1
 	 */
-
 	public function getOption($key)
 	{
 		return $this->options->get($key);
@@ -175,7 +164,6 @@ class JFacebook
 	* 
 	* @since   12.1
 	*/
-
 	public function setOption($key, $value)
 	{
 		$this->options->set($key, $value);
