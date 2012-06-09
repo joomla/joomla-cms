@@ -36,7 +36,7 @@ class JFormFieldCheckboxesTest extends TestCase
 	{
 		$formField = new JFormFieldCheckboxes;
 
-        // Test with no value, no checked element
+		// Test with no value, no checked element
 		$element = simplexml_load_string(
 			'<field name="color" type="checkboxes">
 			<option value="red">red</option>
@@ -62,7 +62,7 @@ class JFormFieldCheckboxesTest extends TestCase
 	{
 		$formField = new JFormFieldCheckboxes;
 
-        // Test with one value checked, no checked element
+		// Test with one value checked, no checked element
 		$element = simplexml_load_string(
 			'<field name="color" type="checkboxes">
 			<option value="red">red</option>
@@ -89,7 +89,7 @@ class JFormFieldCheckboxesTest extends TestCase
 	{
 		$formField = new JFormFieldCheckboxes;
 		
-        // Test with nothing checked, one value in checked element
+		// Test with nothing checked, one value in checked element
 		$element = simplexml_load_string(
 			'<field name="color" type="checkboxes" checked="blue">
 			<option value="red">red</option>
@@ -115,7 +115,7 @@ class JFormFieldCheckboxesTest extends TestCase
 	{
 		$formField = new JFormFieldCheckboxes;
 		
-        // Test with nothing checked, two values in checked element
+		// Test with nothing checked, two values in checked element
 		$element = simplexml_load_string(
 			'<field name="color" type="checkboxes" checked="red,blue">
 			<option value="red">red</option>
@@ -142,7 +142,7 @@ class JFormFieldCheckboxesTest extends TestCase
 	{
 		$formField = new JFormFieldCheckboxes;
 
-        // Test with one item checked, a different value in checked element
+		// Test with one item checked, a different value in checked element
 		$element = simplexml_load_string(
 			'<field name="color" type="checkboxes" checked="blue">
 			<option value="red">red</option>
@@ -158,8 +158,6 @@ class JFormFieldCheckboxesTest extends TestCase
 			'<fieldset id="myTestId" class="checkboxes"><ul><li><input type="checkbox" id="myTestId0" name="myTestName" value="red" checked="checked"/><label for="myTestId0">red</label></li><li><input type="checkbox" id="myTestId1" name="myTestName" value="blue"/><label for="myTestId1">blue</label></li></ul></fieldset>',
 			'The field with one value and a different value in the checked element did not produce the right html'
 		);
-
-		// TODO: Should check all the attributes have come in properly.
 	}
 
 	/**
@@ -171,7 +169,7 @@ class JFormFieldCheckboxesTest extends TestCase
 	{
 		$formField = new JFormFieldCheckboxes;
 
-        // Test with two values checked, no checked element
+		// Test with two values checked, no checked element
 		$element = simplexml_load_string(
 			'<field name="color" type="checkboxes">
 			<option value="yellow">yellow</option>
@@ -187,6 +185,7 @@ class JFormFieldCheckboxesTest extends TestCase
 			'<fieldset id="myTestId" class="checkboxes"><ul><li><input type="checkbox" id="myTestId0" name="myTestName" value="yellow" checked="checked"/><label for="myTestId0">yellow</label></li><li><input type="checkbox" id="myTestId1" name="myTestName" value="green" checked="checked"/><label for="myTestId1">green</label></li></ul></fieldset>',
 			'The field with two values did not produce the right html'
 		);
+		// TODO: Should check any other attributes have come in properly.
 	}
 
 	/**
