@@ -61,6 +61,12 @@ class JFacebook
 	protected $group;
 
 	/**
+	* @var    JFacebookLink  Facebook API object for link.
+	* @since  12.1
+	*/
+	protected $link;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   JRegistry      $options  Facebook options object.
@@ -132,6 +138,15 @@ class JFacebook
 				$this->group = new JFacebookGroup($this->options, $this->client);
 			}
 			return $this->group;
+		}
+
+		if ($name == 'link')
+		{
+			if ($this->link == null)
+			{
+				$this->link = new JFacebookLink($this->options, $this->client);
+			}
+			return $this->link;
 		}
 	}
 

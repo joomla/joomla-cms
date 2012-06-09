@@ -145,6 +145,21 @@ class JFacebookTest extends TestCase
 	}
 
 	/**
+	 * Tests the magic __get method - link
+	 * 
+	 * @return  void
+	 * 
+	 * @since   12.1
+	 */
+	public function test__GetLink()
+	{
+		$this->assertThat(
+			$this->object->link,
+			$this->isInstanceOf('JFacebookLink')
+		);
+	}
+
+	/**
 	 * Tests the setOption method
 	 * 
 	 * @return  void
