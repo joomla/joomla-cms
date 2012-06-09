@@ -28,6 +28,7 @@ $ -> Language fix or change
 
 09-Jun-2012 Jean-Marie Simonet
  ^ [#28551] Fix some issues with exceptions. Thanks Rouven
+ $ [#28639] New User Account Activation Tooltip Clarification. Thanks Matt
 
 08-Jun-2012 Jean-Marie Simonet
  ^ [#28613] Use fewer deprecated methods. Thanks Rouven
