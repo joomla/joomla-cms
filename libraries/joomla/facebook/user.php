@@ -27,7 +27,7 @@ class JFacebookUser extends JFacebookObject
 	 * @param   mixed   $user          Either an integer containing the user ID or a string containing the username.
 	 * @param   string  $access_token  The Facebook access token. For some fields more user or friends permissions are needed.
 	 *
-	 * @return  void
+	 * @return  array   The decoded JSON response.
 	 *
 	 * @since   12.1
 	 */
@@ -867,6 +867,7 @@ class JFacebookUser extends JFacebookObject
 		$data['name'] = $name;
 		$data['caption'] = $caption;
 		$data['description'] = $description;
+		$data['actions'] = $actions;
 		$data['place'] = $place;
 		$data['tags'] = $tags;
 		$data['privacy'] = $privacy;

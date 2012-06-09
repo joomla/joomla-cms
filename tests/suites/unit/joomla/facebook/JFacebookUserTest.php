@@ -2072,6 +2072,7 @@ class JFacebookUserTest extends TestCase
 		$tags = '1207059,701732';
 		$privacy = 'SELF';
 		$object_attachment = '32413534634345';
+		$actions = array('{"name":"Share","link":"http://networkedblogs.com/hGWk3?a=share"}');
 
 		// Set POST request parameters.
 		$data = array();
@@ -2080,6 +2081,7 @@ class JFacebookUserTest extends TestCase
 		$data['name'] = $name;
 		$data['caption'] = $caption;
 		$data['description'] = $description;
+		$data['actions'] = $actions;
 		$data['place'] = $place;
 		$data['tags'] = $tags;
 		$data['privacy'] = $privacy;
@@ -2097,7 +2099,7 @@ class JFacebookUserTest extends TestCase
 		$this->assertThat(
 			$this->object->createPost(
 				$user, $access_token, $message, $link, $picture, $name,
-				$caption, $description, $place, $tags, $privacy, $object_attachment
+				$caption, $description, $actions, $place, $tags, $privacy, $object_attachment
 				),
 			$this->equalTo(json_decode($this->sampleString))
 		);
@@ -2126,6 +2128,7 @@ class JFacebookUserTest extends TestCase
 		$tags = '1207059,701732';
 		$privacy = 'SELF';
 		$object_attachment = '32413534634345';
+		$actions = array('{"name":"Share","link":"http://networkedblogs.com/hGWk3?a=share"}');
 
 		// Set POST request parameters.
 		$data = array();
@@ -2134,6 +2137,7 @@ class JFacebookUserTest extends TestCase
 		$data['name'] = $name;
 		$data['caption'] = $caption;
 		$data['description'] = $description;
+		$data['actions'] = $actions;
 		$data['place'] = $place;
 		$data['tags'] = $tags;
 		$data['privacy'] = $privacy;
@@ -2152,7 +2156,7 @@ class JFacebookUserTest extends TestCase
 		{
 			$this->object->createPost(
 				$user, $access_token, $message, $link, $picture, $name,
-				$caption, $description, $place, $tags, $privacy, $object_attachment
+				$caption, $description, $actions, $place, $tags, $privacy, $object_attachment
 				);
 		}
 		catch (DomainException $e)

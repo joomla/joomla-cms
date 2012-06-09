@@ -27,7 +27,7 @@ class JFacebookEvent extends JFacebookObject
 	 * @param   string  $event         The event id.
 	 * @param   string  $access_token  The Facebook access token.
 	 * 
-	 * @return  void
+	 * @return  array   The decoded JSON response.
 	 * 
 	 * @since   12.1
 	 */
@@ -153,7 +153,7 @@ class JFacebookEvent extends JFacebookObject
 	/**
 	 * Method to delete a post. Note: you can only delete the post if it was created by the current user.
 	 * 
-	 * @param   mixed   $post          The Post ID.
+	 * @param   string  $post          The Post ID.
 	 * @param   string  $access_token  The Facebook access token. 
 	 * 
 	 * @return  boolean   Returns true if successful, and false otherwise.

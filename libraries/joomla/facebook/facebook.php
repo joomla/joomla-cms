@@ -49,10 +49,16 @@ class JFacebook
 	protected $checkin;
 
 	/**
-	* @var    JFacebookEvent  Facebook API object for checkin.
+	* @var    JFacebookEvent  Facebook API object for event.
 	* @since  12.1
 	*/
 	protected $event;
+
+	/**
+	* @var    JFacebookGroup  Facebook API object for group.
+	* @since  12.1
+	*/
+	protected $group;
 
 	/**
 	 * Constructor.
@@ -117,6 +123,15 @@ class JFacebook
 				$this->event = new JFacebookEvent($this->options, $this->client);
 			}
 			return $this->event;
+		}
+
+		if ($name == 'group')
+		{
+			if ($this->group == null)
+			{
+				$this->group = new JFacebookGroup($this->options, $this->client);
+			}
+			return $this->group;
 		}
 	}
 

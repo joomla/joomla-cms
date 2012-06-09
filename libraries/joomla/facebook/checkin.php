@@ -27,7 +27,7 @@ class JFacebookCheckin extends JFacebookObject
 	 * @param   string  $checkin       The checkin id.
 	 * @param   string  $access_token  The Facebook access token with user_checkins or friends_checkins permission.
 	 * 
-	 * @return  void
+	 * @return  array   The decoded JSON response.
 	 * 
 	 * @since   12.1
 	 */
@@ -47,7 +47,7 @@ class JFacebookCheckin extends JFacebookObject
 	 * @param   string  $checkin       The checkin id.
 	 * @param   string  $access_token  The Facebook access token with user_checkins or friends_checkins permission.
 	 * 
-	 * @return  void
+	 * @return  array   The decoded JSON response.
 	 * 
 	 * @since   12.1
 	 */
@@ -114,7 +114,7 @@ class JFacebookCheckin extends JFacebookObject
 	 * @param   string  $checkin       The checkin id.
 	 * @param   string  $access_token  The Facebook access token.
 	 * 
-	 * @return  void
+	 * @return  array   The decoded JSON response.
 	 * 
 	 * @since   12.1
 	 */

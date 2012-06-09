@@ -130,6 +130,21 @@ class JFacebookTest extends TestCase
 	}
 
 	/**
+	 * Tests the magic __get method - group
+	 * 
+	 * @return  void
+	 * 
+	 * @since   12.1
+	 */
+	public function test__GetGroup()
+	{
+		$this->assertThat(
+			$this->object->group,
+			$this->isInstanceOf('JFacebookGroup')
+		);
+	}
+
+	/**
 	 * Tests the setOption method
 	 * 
 	 * @return  void
