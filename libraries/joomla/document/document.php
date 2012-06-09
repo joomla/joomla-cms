@@ -18,7 +18,7 @@ jimport('joomla.environment.response');
  * @subpackage  Document
  * @since       11.1
  */
-class JDocument extends JObject
+class JDocument
 {
 	/**
 	 * Document title
@@ -210,8 +210,6 @@ class JDocument extends JObject
 	 */
 	public function __construct($options = array())
 	{
-		parent::__construct();
-
 		if (array_key_exists('lineend', $options))
 		{
 			$this->setLineEnd($options['lineend']);
