@@ -123,7 +123,7 @@ class JFacebookObjectTest extends TestCase
 	 * Tests the get method
 	 * 
 	 * @covers JFacebookObject::get
-	 * @covers JFacebookNote::getNote
+	 * @covers JFacebookObject::sendRequest
 	 *
 	 * @return  void
 	 * 
@@ -152,7 +152,7 @@ class JFacebookObjectTest extends TestCase
 	 * Tests the get method - failure
 	 * 
 	 * @covers JFacebookObject::get
-	 * @covers JFacebookNote::getNote
+	 * @covers JFacebookObject::sendRequest
 	 *
 	 * @return  void
 	 * 
@@ -197,8 +197,7 @@ class JFacebookObjectTest extends TestCase
 	 * @param   string  $extra_fields  Extra fields for the request URL.
 	 * 
 	 * @covers JFacebookObject::getConnection
-	 * @covers JFacebookNote::getComments
-	 * @covers JFacebookNote::getLikes
+	 * @covers JFacebookObject::sendRequest
 	 * @dataProvider  seedDeleteConnection
 	 *
 	 * @return  void
@@ -231,8 +230,7 @@ class JFacebookObjectTest extends TestCase
 	  * @param   string  $extra_fields  Extra fields for the request URL.
 	 * 
 	 * @covers JFacebookObject::getConnection
-	 * @covers JFacebookNote::getComments
-	 * @covers JFacebookNote::getLikes
+	 * @covers JFacebookObject::sendRequest
 	 * @dataProvider  seedDeleteConnection
 	 *
 	 * @return  void
@@ -261,8 +259,7 @@ class JFacebookObjectTest extends TestCase
 	 * Tests the createConnection method.
 	 *
 	 * @covers JFacebookObject::createConnection
-	 * @covers JFacebookNote::createComment
-	 * @covers JFacebookNote::createLike
+	 * @covers JFacebookObject::sendRequest
 	 *
 	 * @return  void
 	 * 
@@ -293,8 +290,7 @@ class JFacebookObjectTest extends TestCase
 	 * Tests the createConnection method - failure.
 	 *
 	 * @covers JFacebookObject::createConnection
-	 * @covers JFacebookNote::createComment
-	 * @covers JFacebookNote::createLike
+	 * @covers JFacebookObject::sendRequest
 	 *
 	 * @return  void
 	 * 
@@ -353,8 +349,7 @@ class JFacebookObjectTest extends TestCase
 	 * @param   string  $connection  Connection to test.
 	 * 
 	 * @covers JFacebookObject::deleteConnection
-	 * @covers JFacebookNote::deleteComment
-	 * @covers JFacebookNote::deleteLike
+	 * @covers JFacebookObject::sendRequest
 	 * @dataProvider  seedDeleteConnection
 	 * 
 	 * @return  void
@@ -396,8 +391,7 @@ class JFacebookObjectTest extends TestCase
 	 * @param   string  $connection  Connection to test.
 	 *
 	 * @covers JFacebookObject::deleteConnection
-	 * @covers JFacebookNote::deleteComment
-	 * @covers JFacebookNote::deleteLike
+	 * @covers JFacebookObject::sendRequest
 	 * @dataProvider  seedDeleteConnection
 	 * 
 	 * @return  void

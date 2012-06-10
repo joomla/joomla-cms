@@ -92,7 +92,7 @@ class JFacebookEventTest extends TestCase
 	/**
 	 * Tests the getEvent method
 	 * 
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookEvent::getEvent
 	 *
 	 * @return  void
 	 * 
@@ -120,7 +120,7 @@ class JFacebookEventTest extends TestCase
 	/**
 	 * Tests the getEvent method - failure
 	 * 
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookEvent::getEvent
 	 *
 	 * @return  void
 	 * 
@@ -146,7 +146,7 @@ class JFacebookEventTest extends TestCase
 	/**
 	 * Tests the getFeed method.
 	 * 
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookEvent::getFeed
 	 *
 	 * @return  void
 	 * 
@@ -174,7 +174,7 @@ class JFacebookEventTest extends TestCase
 	/**
 	 * Tests the getFeed method - failure.
 	 * 
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookEvent::getFeed
 	 *
 	 * @return  void
 	 * 
@@ -200,7 +200,7 @@ class JFacebookEventTest extends TestCase
 	/**
 	 * Tests the createLink method.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookEvent::createLink
 	 *
 	 * @return  void
 	 * 
@@ -235,7 +235,7 @@ class JFacebookEventTest extends TestCase
 	/**
 	 * Tests the createLink method - failure.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookEvent::createLink
 	 *
 	 * @return  void
 	 * 
@@ -280,7 +280,7 @@ class JFacebookEventTest extends TestCase
 	/**
 	 * Tests the deleteLink method.
 	 * 
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookEvent::deleteLink
 	 *
 	 * @return  void
 	 * 
@@ -308,7 +308,7 @@ class JFacebookEventTest extends TestCase
 	/**
 	 * Tests the deleteLink method - failure.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookEvent::deleteLink
 	 *
 	 * @return  void
 	 * 
@@ -346,7 +346,7 @@ class JFacebookEventTest extends TestCase
 	/**
 	 * Tests the createPost method.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookEvent::createPost
 	 *
 	 * @return  void
 	 * 
@@ -394,7 +394,7 @@ class JFacebookEventTest extends TestCase
 	/**
 	 * Tests the createPost method - failure.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookEvent::createPost
 	 *
 	 * @return  void
 	 * 
@@ -451,7 +451,7 @@ class JFacebookEventTest extends TestCase
 	/**
 	 * Tests the deletePost method.
 	 * 
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookEvent::deletePost
 	 *
 	 * @return  void
 	 * 
@@ -479,7 +479,7 @@ class JFacebookEventTest extends TestCase
 	/**
 	 * Tests the deletePost method - failure.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookEvent::deletePost
 	 *
 	 * @return  void
 	 * 
@@ -517,7 +517,7 @@ class JFacebookEventTest extends TestCase
 	/**
 	 * Tests the createStatus method.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookEvent::createStatus
 	 *
 	 * @return  void
 	 * 
@@ -550,7 +550,7 @@ class JFacebookEventTest extends TestCase
 	/**
 	 * Tests the createStatus method - failure.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookEvent::createStatus
 	 *
 	 * @return  void
 	 * 
@@ -592,7 +592,7 @@ class JFacebookEventTest extends TestCase
 	/**
 	 * Tests the deleteStatus method.
 	 * 
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookEvent::deleteStatus
 	 *
 	 * @return  void
 	 * 
@@ -620,7 +620,7 @@ class JFacebookEventTest extends TestCase
 	/**
 	 * Tests the deleteStatus method - failure.
 	 *
-	 *@covers JFacebookObject::sendRequest
+	 * @covers JFacebookEvent::deleteStatus
 	 *
 	 * @return  void
 	 * 
@@ -658,7 +658,7 @@ class JFacebookEventTest extends TestCase
 	/**
 	 * Tests the getInvited method.
 	 * 
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookEvent::getInvited
 	 *
 	 * @return  void
 	 * 
@@ -686,7 +686,7 @@ class JFacebookEventTest extends TestCase
 	/**
 	 * Tests the getInvited method - failure.
 	 * 
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookEvent::getInvited
 	 *
 	 * @return  void
 	 * 
@@ -712,7 +712,7 @@ class JFacebookEventTest extends TestCase
 	/**
 	 * Tests the isInvited method.
 	 * 
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookEvent::isInvited
 	 *
 	 * @return  void
 	 * 
@@ -741,7 +741,7 @@ class JFacebookEventTest extends TestCase
 	/**
 	 * Tests the isInvited method - failure.
 	 * 
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookEvent::isInvited
 	 *
 	 * @return  void
 	 * 
@@ -768,7 +768,7 @@ class JFacebookEventTest extends TestCase
 	/**
 	 * Tests the createInvite method.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookEvent::createInvite
 	 *
 	 * @return  void
 	 * 
@@ -801,7 +801,7 @@ class JFacebookEventTest extends TestCase
 	/**
 	 * Tests the createInvite method - failure.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookEvent::createInvite
 	 *
 	 * @return  void
 	 * 
@@ -843,7 +843,7 @@ class JFacebookEventTest extends TestCase
 	/**
 	 * Tests the deleteInvite method.
 	 * 
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookEvent::deleteInvite
 	 *
 	 * @return  void
 	 * 
@@ -872,7 +872,7 @@ class JFacebookEventTest extends TestCase
 	/**
 	 * Tests the deleteInvite method - failure.
 	 *
-	 *@covers JFacebookObject::sendRequest
+	 * @covers JFacebookEvent::deleteInvite
 	 *
 	 * @return  void
 	 * 
@@ -911,7 +911,7 @@ class JFacebookEventTest extends TestCase
 	/**
 	 * Tests the getAttending method.
 	 * 
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookEvent::getAttending
 	 *
 	 * @return  void
 	 * 
@@ -939,7 +939,7 @@ class JFacebookEventTest extends TestCase
 	/**
 	 * Tests the getAttending method - failure.
 	 * 
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookEvent::getAttending
 	 *
 	 * @return  void
 	 * 
@@ -965,7 +965,7 @@ class JFacebookEventTest extends TestCase
 	/**
 	 * Tests the createAttending method.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookEvent::createAttending
 	 *
 	 * @return  void
 	 * 
@@ -993,7 +993,7 @@ class JFacebookEventTest extends TestCase
 	/**
 	 * Tests the createAttending method - failure.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookEvent::createAttending
 	 *
 	 * @return  void
 	 * 
@@ -1030,7 +1030,7 @@ class JFacebookEventTest extends TestCase
 	/**
 	 * Tests the isAttending method.
 	 * 
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookEvent::isAttending
 	 *
 	 * @return  void
 	 * 
@@ -1059,7 +1059,7 @@ class JFacebookEventTest extends TestCase
 	/**
 	 * Tests the isAttending method - failure.
 	 * 
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookEvent::isAttending
 	 *
 	 * @return  void
 	 * 
@@ -1086,7 +1086,7 @@ class JFacebookEventTest extends TestCase
 	/**
 	 * Tests the getMaybe method.
 	 * 
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookEvent::getMaybe
 	 *
 	 * @return  void
 	 * 
@@ -1114,7 +1114,7 @@ class JFacebookEventTest extends TestCase
 	/**
 	 * Tests the getMaybe method - failure.
 	 * 
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookEvent::getMaybe
 	 *
 	 * @return  void
 	 * 
@@ -1140,7 +1140,7 @@ class JFacebookEventTest extends TestCase
 	/**
 	 * Tests the isMaybe method.
 	 * 
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookEvent::isMaybe
 	 *
 	 * @return  void
 	 * 
@@ -1169,7 +1169,7 @@ class JFacebookEventTest extends TestCase
 	/**
 	 * Tests the isMaybe method - failure.
 	 * 
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookEvent::isMaybe
 	 *
 	 * @return  void
 	 * 
@@ -1196,7 +1196,7 @@ class JFacebookEventTest extends TestCase
 	/**
 	 * Tests the createMaybe method.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookEvent::createMaybe
 	 *
 	 * @return  void
 	 * 
@@ -1224,7 +1224,7 @@ class JFacebookEventTest extends TestCase
 	/**
 	 * Tests the createMaybe method - failure.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookEvent::createMaybe
 	 *
 	 * @return  void
 	 * 
@@ -1261,7 +1261,7 @@ class JFacebookEventTest extends TestCase
 	/**
 	 * Tests the getDeclined method.
 	 * 
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookEvent::getDeclined
 	 *
 	 * @return  void
 	 * 
@@ -1289,7 +1289,7 @@ class JFacebookEventTest extends TestCase
 	/**
 	 * Tests the getDeclined method - failure.
 	 * 
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookEvent::getDeclined
 	 *
 	 * @return  void
 	 * 
@@ -1315,7 +1315,7 @@ class JFacebookEventTest extends TestCase
 	/**
 	 * Tests the isDeclined method.
 	 * 
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookEvent::isDeclined
 	 *
 	 * @return  void
 	 * 
@@ -1344,7 +1344,7 @@ class JFacebookEventTest extends TestCase
 	/**
 	 * Tests the isDeclined method - failure.
 	 * 
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookEvent::isDeclined
 	 *
 	 * @return  void
 	 * 
@@ -1371,7 +1371,7 @@ class JFacebookEventTest extends TestCase
 	/**
 	 * Tests the createDeclined method.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookEvent::createDeclined
 	 *
 	 * @return  void
 	 * 
@@ -1399,7 +1399,7 @@ class JFacebookEventTest extends TestCase
 	/**
 	 * Tests the createDeclined method - failure.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookEvent::createDeclined
 	 *
 	 * @return  void
 	 * 
@@ -1436,7 +1436,7 @@ class JFacebookEventTest extends TestCase
 	/**
 	 * Tests the getNoreply method.
 	 * 
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookEvent::getNoreply
 	 *
 	 * @return  void
 	 * 
@@ -1464,7 +1464,7 @@ class JFacebookEventTest extends TestCase
 	/**
 	 * Tests the getNoreply method - failure.
 	 * 
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookEvent::getNoreply
 	 *
 	 * @return  void
 	 * 
@@ -1490,7 +1490,7 @@ class JFacebookEventTest extends TestCase
 	/**
 	 * Tests the isNoreply method.
 	 * 
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookEvent::isNoreply
 	 *
 	 * @return  void
 	 * 
@@ -1519,7 +1519,7 @@ class JFacebookEventTest extends TestCase
 	/**
 	 * Tests the isNoreply method - failure.
 	 * 
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookEvent::isNoreply
 	 *
 	 * @return  void
 	 * 
@@ -1544,25 +1544,56 @@ class JFacebookEventTest extends TestCase
 	}
 
 	/**
+	* Provides test data for request format detection.
+	*
+	* @return array
+	*
+	* @since 12.1
+	*/
+	public function seedGetPicture()
+	{
+		// Extra fields for the request URL.
+		return array(
+			array('&type=large'),
+			array(null),
+		);
+	}
+
+	/**
 	 * Tests the getPicture method.
+	 * 
+	 * @param   string  $type  Extra fields for the request URL.
+	 * 
+	 * @covers JFacebookEvent::getPicture
+	 * @covers JFacebookObject::sendRequest
+	 * @dataProvider  seedGetPicture
 	 *
 	 * @return  void
 	 * 
 	 * @since   12.1
 	 */
-	public function testGetPicture()
+	public function testGetPicture($type)
 	{
 		$access_token = '235twegsdgsdhtry3tgwgf';
 		$event = '156174391080008';
-		$type = 'large';
 
 		$returnData = new JHttpResponse;
 		$returnData->headers['Location'] = $this->sampleUrl;
 
-		$this->client->expects($this->once())
-		->method('get')
-		->with($event . '/picture?access_token=' . $access_token . '&type=' . $type)
-		->will($this->returnValue($returnData));
+		if ($type != null)
+		{
+			$this->client->expects($this->once())
+			->method('get')
+			->with($event . '/picture?access_token=' . $access_token . '&type=' . $type)
+			->will($this->returnValue($returnData));
+		}
+		else
+		{
+			$this->client->expects($this->once())
+			->method('get')
+			->with($event . '/picture?access_token=' . $access_token)
+			->will($this->returnValue($returnData));
+		}
 
 		$this->assertThat(
 			$this->object->getPicture($event, $access_token, $type),
@@ -1572,24 +1603,38 @@ class JFacebookEventTest extends TestCase
 
 	/**
 	 * Tests the getPicture method - failure.
+	 * 
+	 * @param   string  $type  Extra fields for the request URL.
+	 * 
+	 * @covers JFacebookEvent::getPicture
+	 * @dataProvider  seedGetPicture
 	 *
 	 * @return  void
 	 * 
 	 * @since   12.1
 	 * @expectedException  PHPUnit_Framework_Error
 	 */
-	public function testGetPictureFailure()
+	public function testGetPictureFailure($type)
 	{
 		$access_token = '235twegsdgsdhtry3tgwgf';
 		$event = '156174391080008';
-		$type = 'large';
 
 		$returnData = new JText($this->errorString);
 
-		$this->client->expects($this->once())
-		->method('get')
-		->with($event . '/picture?access_token=' . $access_token . '&type=' . $type)
-		->will($this->returnValue($returnData));
+		if ($type != null)
+		{
+			$this->client->expects($this->once())
+			->method('get')
+			->with($event . '/picture?access_token=' . $access_token . '&type=' . $type)
+			->will($this->returnValue($returnData));
+		}
+		else
+		{
+			$this->client->expects($this->once())
+			->method('get')
+			->with($event . '/picture?access_token=' . $access_token)
+			->will($this->returnValue($returnData));
+		}
 
 		$this->object->getPicture($event, $access_token, $type);
 	}
@@ -1597,7 +1642,7 @@ class JFacebookEventTest extends TestCase
 	/**
 	 * Tests the getPhotos method.
 	 * 
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookEvent::getPhotos
 	 *
 	 * @return  void
 	 * 
@@ -1625,7 +1670,7 @@ class JFacebookEventTest extends TestCase
 	/**
 	 * Tests the getPhotos method - failure.
 	 * 
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookEvent::getPhotos
 	 *
 	 * @return  void
 	 * 
@@ -1651,7 +1696,7 @@ class JFacebookEventTest extends TestCase
 	/**
 	 * Tests the createPhoto method.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookEvent::createPhoto
 	 *
 	 * @return  void
 	 * 
@@ -1689,7 +1734,7 @@ class JFacebookEventTest extends TestCase
 	/**
 	 * Tests the createPhoto method - failure.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookEvent::createPhoto
 	 *
 	 * @return  void
 	 * 
@@ -1737,7 +1782,7 @@ class JFacebookEventTest extends TestCase
 	/**
 	 * Tests the getVideos method.
 	 * 
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookEvent::getVideos
 	 *
 	 * @return  void
 	 * 
@@ -1765,7 +1810,7 @@ class JFacebookEventTest extends TestCase
 	/**
 	 * Tests the getVideos method - failure.
 	 * 
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookEvent::getVideos
 	 *
 	 * @return  void
 	 * 
@@ -1791,7 +1836,7 @@ class JFacebookEventTest extends TestCase
 	/**
 	 * Tests the createVideo method.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookEvent::createVideo
 	 *
 	 * @return  void
 	 * 
@@ -1831,7 +1876,7 @@ class JFacebookEventTest extends TestCase
 	/**
 	 * Tests the createVideo method - failure.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookEvent::createVideo
 	 *
 	 * @return  void
 	 * 

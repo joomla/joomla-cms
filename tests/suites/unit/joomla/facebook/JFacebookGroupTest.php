@@ -327,6 +327,7 @@ class JFacebookGroupTest extends TestCase
 	 * @param   string  $type  Extra fields for the request URL.
 	 *
 	 * @covers JFacebookGroup::getPicture
+	 * @covers JFacebookObject::sendRequest
 	 * @dataProvider  seedGetPicture
 	 *
 	 * @return  void

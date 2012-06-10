@@ -160,6 +160,36 @@ class JFacebookTest extends TestCase
 	}
 
 	/**
+	 * Tests the magic __get method - note
+	 * 
+	 * @return  void
+	 * 
+	 * @since   12.1
+	 */
+	public function test__GetNote()
+	{
+		$this->assertThat(
+			$this->object->note,
+			$this->isInstanceOf('JFacebookNote')
+		);
+	}
+
+	/**
+	 * Tests the magic __get method - post
+	 * 
+	 * @return  void
+	 * 
+	 * @since   12.1
+	 */
+	public function test__GetPost()
+	{
+		$this->assertThat(
+			$this->object->post,
+			$this->isInstanceOf('JFacebookPost')
+		);
+	}
+
+	/**
 	 * Tests the setOption method
 	 * 
 	 * @return  void

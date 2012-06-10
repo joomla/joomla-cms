@@ -61,17 +61,11 @@ class JFacebookUserTest extends TestCase
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
 	 *
-<<<<<<< HEAD
-	 * @access protected
-	 *
-	 * @return   void
-=======
 	 * @access  protected
 	 *
 	 * @return  void
 	 *
 	 * @since   12.1
->>>>>>> 8f014d8... Fix Code Style errors.
 	 */
 	protected function setUp()
 	{
@@ -96,24 +90,52 @@ class JFacebookUserTest extends TestCase
 	}
 
 	/**
+	* Provides test data for request format detection.
+	*
+	* @return array
+	*
+	* @since 12.1
+	*/
+	public function seedGetUser()
+	{
+		// Extra fields for the request URL.
+		return array(
+			array('235twegsdgsdhtry3tgwgf'),
+			array(null)
+		);
+	}
+
+	/**
 	 * Tests the getUser method
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @param   string  $access_token  The Facebook access token.
+	 *
+	 * @covers JFacebookUser::getUser
+	 * @dataProvider  seedGetUser
 	 *
 	 * @return  void
 	 *
 	 * @since   12.1
 	 */
-	public function testGetUser()
+	public function testGetUser($access_token)
 	{
-		$access_token = '235twegsdgsdhtry3tgwgf';
 		$returnData = new stdClass;
 		$returnData->body = $this->sampleString;
 
-		$this->client->expects($this->once())
-		->method('get')
-		->with('me?access_token=' . $access_token)
-		->will($this->returnValue($returnData));
+		if ($access_token != null)
+		{
+			$this->client->expects($this->once())
+			->method('get')
+			->with('me?access_token=' . $access_token)
+			->will($this->returnValue($returnData));
+		}
+		else
+		{
+			$this->client->expects($this->once())
+			->method('get')
+			->with('me')
+			->will($this->returnValue($returnData));
+		}
 
 		$this->assertThat(
 			$this->object->getUser('me', $access_token),
@@ -124,27 +146,35 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the getUser method - failure
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @param   string  $access_token  The Facebook access token.
+	 *
+	 * @covers JFacebookUser::getUser
+	 * @dataProvider  seedGetUser
 	 *
 	 * @return  void
-<<<<<<< HEAD
-	 *
-=======
 	 *
 	 * @since   12.1
->>>>>>> 8f014d8... Fix Code Style errors.
 	 * @expectedException  DomainException
 	 */
-	public function testGetUserFailure()
+	public function testGetUserFailure($access_token)
 	{
-		$access_token = '235twegsdgsdhtry3tgwgf';
 		$returnData = new stdClass;
 		$returnData->body = $this->errorString;
 
-		$this->client->expects($this->once())
-		->method('get')
-		->with('me?access_token=' . $access_token)
-		->will($this->returnValue($returnData));
+		if ($access_token != null)
+		{
+			$this->client->expects($this->once())
+			->method('get')
+			->with('me?access_token=' . $access_token)
+			->will($this->returnValue($returnData));
+		}
+		else
+		{
+			$this->client->expects($this->once())
+			->method('get')
+			->with('me')
+			->will($this->returnValue($returnData));
+		}
 
 		$this->object->getUser('me', $access_token);
 	}
@@ -152,7 +182,7 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the getFriends method.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookUser::getFriends
 	 *
 	 * @return  void
 	 *
@@ -178,15 +208,11 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the getFriends method - failure.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookUser::getFriends
 	 *
 	 * @return  void
-<<<<<<< HEAD
-	 *
-=======
 	 *
 	 * @since   12.1
->>>>>>> 8f014d8... Fix Code Style errors.
 	 * @expectedException  DomainException
 	 */
 	public function testGetFriendsFailure()
@@ -206,7 +232,7 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the getFriendRequests method.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookUser::getFriendRequests
 	 *
 	 * @return  void
 	 *
@@ -232,7 +258,7 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the getFriendRequests method - failure.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookUser::getFriendRequests
 	 *
 	 * @return  void
 	 *
@@ -256,7 +282,7 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the getFriendLists method.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookUser::getFriendLists
 	 *
 	 * @return  void
 	 *
@@ -282,7 +308,7 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the getFriendLists method - failure.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookUser::getFriendLists
 	 *
 	 * @return  void
 	 *
@@ -306,7 +332,7 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the getFeed method.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookUser::getFeed
 	 *
 	 * @return  void
 	 *
@@ -332,15 +358,11 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the getFeed method - failure.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookUser::getFeed
 	 *
 	 * @return  void
-<<<<<<< HEAD
-	 *
-=======
 	 *
 	 * @since   12.1
->>>>>>> 8f014d8... Fix Code Style errors.
 	 * @expectedException  DomainException
 	 */
 	public function testGetFeedFailure()
@@ -360,7 +382,7 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the hasFriend method.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookUser::hasFriend
 	 *
 	 * @return  void
 	 *
@@ -386,15 +408,11 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the hasFriend method - failure.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookUser::hasFriend
 	 *
 	 * @return  void
-<<<<<<< HEAD
-	 *
-=======
 	 *
 	 * @since   12.1
->>>>>>> 8f014d8... Fix Code Style errors.
 	 * @expectedException  DomainException
 	 */
 	public function testHasFriendFailure()
@@ -414,7 +432,7 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the getMutualFriends method.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookUser::getMutualFriends
 	 *
 	 * @return  void
 	 *
@@ -440,15 +458,11 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the getMutualFriends method - failure.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookUser::getMutualFriends.
 	 *
 	 * @return  void
-<<<<<<< HEAD
-	 *
-=======
 	 *
 	 * @since   12.1
->>>>>>> 8f014d8... Fix Code Style errors.
 	 * @expectedException  DomainException
 	 */
 	public function testGetMutualFriendsFailure()
@@ -466,23 +480,70 @@ class JFacebookUserTest extends TestCase
 	}
 
 	/**
+	* Provides test data for request format detection.
+	*
+	* @return array
+	*
+	* @since 12.1
+	*/
+	public function seedGetPicture()
+	{
+		// Extra fields for the request URL.
+		return array(
+			array('235twegsdgsdhtry3tgwgf', 'large'),
+			array(null, null),
+			array(null, 'large'),
+			array('235twegsdgsdhtry3tgwgf', null)
+		);
+	}
+
+	/**
 	 * Tests the getPicture method.
+	 *
+	 * @param   string  $type          Extra fields for the request URL.
+	 * @param   string  $access_token  The Facebook access token.
+	 *
+	 * @covers JFacebookUser::getPicture
+	 * @covers JFacebookObject::sendRequest
+	 * @dataProvider  seedGetPicture
 	 *
 	 * @return  void
 	 *
 	 * @since   12.1
 	 */
-	public function testGetPicture()
+	public function testGetPicture($access_token, $type)
 	{
-		$access_token = '235twegsdgsdhtry3tgwgf';
-		$type = 'large';
-
 		$returnData = new JHttpResponse;
 		$returnData->headers['Location'] = $this->sampleUrl;
 
+		if ($access_token != null)
+		{
+			$token = '?access_token=' . $access_token;
+		}
+		else
+		{
+			$token = '';
+		}
+
+		if ($type != null)
+		{
+			if (strcmp($token, ''))
+			{
+				$path_type = '&type=' . $type;
+			}
+			else
+			{
+				$path_type = '?type=' . $type;
+			}
+		}
+		else
+		{
+			$path_type = '';
+		}
+
 		$this->client->expects($this->once())
 		->method('get')
-		->with('me/picture?access_token=' . $access_token . '&type=' . $type)
+		->with('me/picture' . $token . $path_type)
 		->will($this->returnValue($returnData));
 
 		$this->assertThat(
@@ -494,25 +555,49 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the getPicture method - failure.
 	 *
-	 * @return  void
-<<<<<<< HEAD
+	 * @param   string  $type          Extra fields for the request URL.
+	 * @param   string  $access_token  The Facebook access token.
 	 *
-=======
+	 * @covers JFacebookUser::getPicture
+	 * @dataProvider  seedGetPicture
+	 *
+	 * @return  void
 	 *
 	 * @since   12.1
->>>>>>> 8f014d8... Fix Code Style errors.
 	 * @expectedException  PHPUnit_Framework_Error
 	 */
-	public function testGetPictureFailure()
+	public function testGetPictureFailure($access_token, $type)
 	{
-		$access_token = '235twegsdgsdhtry3tgwgf';
-		$type = 'large';
-
 		$returnData = new JText($this->errorString);
+
+		if ($access_token != null)
+		{
+			$token = '?access_token=' . $access_token;
+		}
+		else
+		{
+			$token = '';
+		}
+
+		if ($type != null)
+		{
+			if (strcmp($token, ''))
+			{
+				$path_type = '&type=' . $type;
+			}
+			else
+			{
+				$path_type = '?type=' . $type;
+			}
+		}
+		else
+		{
+			$path_type = '';
+		}
 
 		$this->client->expects($this->once())
 		->method('get')
-		->with('me/picture?access_token=' . $access_token . '&type=' . $type)
+		->with('me/picture' . $token . $path_type)
 		->will($this->returnValue($returnData));
 
 		$this->object->getPicture('me', $access_token, $type);
@@ -521,7 +606,7 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the getFamily method.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookUser::getFamily
 	 *
 	 * @return  void
 	 *
@@ -547,7 +632,7 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the getFamily method - failure.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookUser::getFamily
 	 *
 	 * @return  void
 	 *
@@ -569,27 +654,57 @@ class JFacebookUserTest extends TestCase
 	}
 
 	/**
+	* Provides test data for request format detection.
+	*
+	* @return array
+	*
+	* @since 12.1
+	*/
+	public function seedGetNotifications()
+	{
+		// Extra fields for the request URL.
+		return array(
+			array(true),
+			array(false)
+		);
+	}
+
+	/**
 	 * Tests the getNotifications method.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @param   boolean  $read  Enables you to see notifications that the user has already read.
+	 *
+	 * @covers JFacebookUser::getNotifications
+	 * @dataProvider  seedGetNotifications
 	 *
 	 * @return  void
 	 *
 	 * @since   12.1
 	 */
-	public function testGetNotifications()
+	public function testGetNotifications($read)
 	{
 		$access_token = '235twegsdgsdhtry3tgwgf';
+
 		$returnData = new stdClass;
 		$returnData->body = $this->sampleString;
 
-		$this->client->expects($this->once())
-		->method('get')
-		->with('me/notifications?access_token=' . $access_token)
-		->will($this->returnValue($returnData));
+		if ($read == true)
+		{
+			$this->client->expects($this->once())
+			->method('get')
+			->with('me/notifications?include_read=1&access_token=' . $access_token)
+			->will($this->returnValue($returnData));
+		}
+		else
+		{
+			$this->client->expects($this->once())
+			->method('get')
+			->with('me/notifications?access_token=' . $access_token)
+			->will($this->returnValue($returnData));
+		}
 
 		$this->assertThat(
-			$this->object->getNotifications('me', $access_token),
+			$this->object->getNotifications('me', $access_token, $read),
 			$this->equalTo(json_decode($this->sampleString))
 		);
 	}
@@ -597,29 +712,45 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the getNotifications method - failure.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @param   boolean  $read  Enables you to see notifications that the user has already read.
+	 *
+	 * @covers JFacebookUser::getNotifications
+	 * @dataProvider  seedGetNotifications
 	 *
 	 * @return  void
 	 *
 	 * @since   12.1
 	 * @expectedException  DomainException
 	 */
-	public function testGetNotificationsFailure()
+	public function testGetNotificationsFailure($read)
 	{
 		$access_token = '235twegsdgsdhtry3tgwgf';
+
 		$returnData = new stdClass;
 		$returnData->body = $this->errorString;
 
-		$this->client->expects($this->once())
-		->method('get')
-		->with('me/notifications?access_token=' . $access_token)
-		->will($this->returnValue($returnData));
+		if ($read == true)
+		{
+			$this->client->expects($this->once())
+			->method('get')
+			->with('me/notifications?include_read=1&access_token=' . $access_token)
+			->will($this->returnValue($returnData));
+		}
+		else
+		{
+			$this->client->expects($this->once())
+			->method('get')
+			->with('me/notifications?access_token=' . $access_token)
+			->will($this->returnValue($returnData));
+		}
 
-		$this->object->getNotifications('me', $access_token);
+		$this->object->getNotifications('me', $access_token, $read);
 	}
 
 	/**
 	 * Tests the updateNotification method.
+	 *
+	 * @covers JFacebookUser::updateNotification
 	 *
 	 * @return  void
 	 *
@@ -646,6 +777,8 @@ class JFacebookUserTest extends TestCase
 
 	/**
 	 * Tests the updateNotification method - failure.
+	 *
+	 * @covers JFacebookUser::updateNotification
 	 *
 	 * @return  void
 	 *
@@ -683,7 +816,7 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the getPermissions method.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookUser::getPermissions
 	 *
 	 * @return  void
 	 *
@@ -709,7 +842,7 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the getPermissions method - failure.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookUser::getPermissions
 	 *
 	 * @return  void
 	 *
@@ -733,7 +866,7 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the deletePermission method.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookUser::deletePermission
 	 *
 	 * @return  void
 	 *
@@ -761,7 +894,7 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the deletePermission method - failure.
 	 *
-	 *@covers JFacebookObject::sendRequest
+	 * @covers JFacebookUser::deletePermission
 	 *
 	 * @return  void
 	 *
@@ -799,7 +932,7 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the getAlbums method.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookUser::getAlbums
 	 *
 	 * @return  void
 	 *
@@ -825,7 +958,7 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the getAlbums method - failure.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookUser::getAlbums
 	 *
 	 * @return  void
 	 *
@@ -849,7 +982,7 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the createAlbum method.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookUser::createAlbum
 	 *
 	 * @return  void
 	 *
@@ -885,7 +1018,7 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the createAlbum method - failure.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookUser::createAlbum
 	 *
 	 * @return  void
 	 *
@@ -931,7 +1064,7 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the getCheckins method.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookUser::getCheckins
 	 *
 	 * @return  void
 	 *
@@ -957,7 +1090,7 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the getCheckins method - failure.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookUser::getCheckins
 	 *
 	 * @return  void
 	 *
@@ -981,7 +1114,7 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the createCheckin method.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookUser::createCheckin
 	 *
 	 * @return  void
 	 *
@@ -1023,7 +1156,7 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the createCheckin method - failure.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookUser::createCheckin
 	 *
 	 * @return  void
 	 *
@@ -1075,7 +1208,7 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the getLikes method.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookUser::getLikes
 	 *
 	 * @return  void
 	 *
@@ -1101,7 +1234,7 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the getLikes method - failure.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookUser::getLikes
 	 *
 	 * @return  void
 	 *
@@ -1125,7 +1258,7 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the likesPage method.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookUser::likesPage
 	 *
 	 * @return  void
 	 *
@@ -1151,7 +1284,7 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the likesPage method - failure.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookUser::likesPage
 	 *
 	 * @return  void
 	 *
@@ -1175,7 +1308,7 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the getEvents method.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookUser::getEvents
 	 *
 	 * @return  void
 	 *
@@ -1201,7 +1334,7 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the getEvents method - failure.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookUser::getEvents
 	 *
 	 * @return  void
 	 *
@@ -1225,7 +1358,7 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the createEvent method.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookUser::createEvent
 	 *
 	 * @return  void
 	 *
@@ -1267,9 +1400,9 @@ class JFacebookUserTest extends TestCase
 	}
 
 	/**
-	 * Tests the createCheckin method - failure.
+	 * Tests the createEvent method - failure.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookUser::createEvent
 	 *
 	 * @return  void
 	 *
@@ -1323,7 +1456,7 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the editEvent method.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookUser::editEvent
 	 *
 	 * @return  void
 	 *
@@ -1366,9 +1499,9 @@ class JFacebookUserTest extends TestCase
 	}
 
 	/**
-	 * Tests the editCheckin method - failure.
+	 * Tests the editEvent method - failure.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookUser::editEvent
 	 *
 	 * @return  void
 	 *
@@ -1423,7 +1556,7 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the deleteEvent method.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookUser::deleteEvent
 	 *
 	 * @return  void
 	 *
@@ -1451,7 +1584,7 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the deleteEvent method - failure.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookUser::deleteEvent
 	 *
 	 * @return  void
 	 *
@@ -1489,7 +1622,7 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the getGroups method.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookUser::getGroups
 	 *
 	 * @return  void
 	 *
@@ -1515,7 +1648,7 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the getGroups method - failure.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookUser::getGroups
 	 *
 	 * @return  void
 	 *
@@ -1539,7 +1672,7 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the getLinks method.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookUser::getLinks
 	 *
 	 * @return  void
 	 *
@@ -1565,7 +1698,7 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the getLinks method - failure.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookUser::getLinks
 	 *
 	 * @return  void
 	 *
@@ -1589,7 +1722,7 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the createLink method.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookUser::createLink
 	 *
 	 * @return  void
 	 *
@@ -1623,7 +1756,7 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the createLink method - failure.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookUser::createLink
 	 *
 	 * @return  void
 	 *
@@ -1666,11 +1799,11 @@ class JFacebookUserTest extends TestCase
 
 	/**
 	 * Tests the deleteLink method.
-	 * 
-	 * @covers JFacebookObject::sendRequest
+	 *
+	 * @covers JFacebookUser::deleteLink
 	 *
 	 * @return  void
-	 * 
+	 *
 	 * @since   12.1
 	 */
 	public function testDeleteLink()
@@ -1695,10 +1828,10 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the deleteLink method - failure.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookUser::deleteLink
 	 *
 	 * @return  void
-	 * 
+	 *
 	 * @since   12.1
 	 */
 	public function testDeleteLinkFailure()
@@ -1733,7 +1866,7 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the getNotes method.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookUser::getNotes
 	 *
 	 * @return  void
 	 *
@@ -1759,7 +1892,7 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the getNotes method - failure.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookUser::getNotes
 	 *
 	 * @return  void
 	 *
@@ -1783,7 +1916,7 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the createNote method.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookUser::createNote
 	 *
 	 * @return  void
 	 *
@@ -1817,7 +1950,7 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the createNote method - failure.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookUser::createNote
 	 *
 	 * @return  void
 	 *
@@ -1861,7 +1994,7 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the getPhotos method.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookUser::getPhotos
 	 *
 	 * @return  void
 	 *
@@ -1887,7 +2020,7 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the getPhotos method - failure.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookUser::getPhotos
 	 *
 	 * @return  void
 	 *
@@ -1911,7 +2044,7 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the createPhoto method.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookUser::createPhoto
 	 *
 	 * @return  void
 	 *
@@ -1951,7 +2084,7 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the createPhoto method - failure.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookUser::createPhoto
 	 *
 	 * @return  void
 	 *
@@ -2000,27 +2133,57 @@ class JFacebookUserTest extends TestCase
 	}
 
 	/**
+	* Provides test data for request format detection.
+	*
+	* @return array
+	*
+	* @since 12.1
+	*/
+	public function seedGetPosts()
+	{
+		// Extra fields for the request URL.
+		return array(
+			array(true),
+			array(false)
+		);
+	}
+
+	/**
 	 * Tests the getPosts method.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @param   boolean  $location  Retreive only posts with a location attached.
+	 *
+	 * @covers JFacebookUser::getPosts
+	 * @dataProvider  seedGetPosts
 	 *
 	 * @return  void
 	 *
 	 * @since   12.1
 	 */
-	public function testGetPosts()
+	public function testGetPosts($location)
 	{
 		$access_token = '235twegsdgsdhtry3tgwgf';
+
 		$returnData = new stdClass;
 		$returnData->body = $this->sampleString;
 
-		$this->client->expects($this->once())
-		->method('get')
-		->with('me/posts?access_token=' . $access_token)
-		->will($this->returnValue($returnData));
+		if ($location == true)
+		{
+			$this->client->expects($this->once())
+			->method('get')
+			->with('me/posts?access_token=' . $access_token . '&with=location')
+			->will($this->returnValue($returnData));
+		}
+		else
+		{
+			$this->client->expects($this->once())
+			->method('get')
+			->with('me/posts?access_token=' . $access_token)
+			->will($this->returnValue($returnData));
+		}
 
 		$this->assertThat(
-			$this->object->getPosts('me', $access_token),
+			$this->object->getPosts('me', $access_token, $location),
 			$this->equalTo(json_decode($this->sampleString))
 		);
 	}
@@ -2028,31 +2191,44 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the getPosts method - failure.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @param   boolean  $location  Retreive only posts with a location attached.
+	 *
+	 * @covers JFacebookUser::getPosts
+	 * @dataProvider  seedGetPosts
 	 *
 	 * @return  void
 	 *
 	 * @since   12.1
 	 * @expectedException  DomainException
 	 */
-	public function testGetPostsFailure()
+	public function testGetPostsFailure($location)
 	{
 		$access_token = '235twegsdgsdhtry3tgwgf';
 		$returnData = new stdClass;
 		$returnData->body = $this->errorString;
 
-		$this->client->expects($this->once())
-		->method('get')
-		->with('me/posts?access_token=' . $access_token)
-		->will($this->returnValue($returnData));
+		if ($location == true)
+		{
+			$this->client->expects($this->once())
+			->method('get')
+			->with('me/posts?access_token=' . $access_token . '&with=location')
+			->will($this->returnValue($returnData));
+		}
+		else
+		{
+			$this->client->expects($this->once())
+			->method('get')
+			->with('me/posts?access_token=' . $access_token)
+			->will($this->returnValue($returnData));
+		}
 
-		$this->object->getPosts('me', $access_token);
+		$this->object->getPosts('me', $access_token, $location);
 	}
 
 	/**
 	 * Tests the createPost method.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookUser::createPost
 	 *
 	 * @return  void
 	 *
@@ -2108,7 +2284,7 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the createPost method - failure.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookUser::createPost
 	 *
 	 * @return  void
 	 *
@@ -2173,7 +2349,7 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the deletePost method.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookUser::deletePost
 	 *
 	 * @return  void
 	 *
@@ -2201,7 +2377,7 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the deletePost method - failure.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookUser::deletePost
 	 *
 	 * @return  void
 	 *
@@ -2239,7 +2415,7 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the getStatuses method.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookUser::getStatuses
 	 *
 	 * @return  void
 	 *
@@ -2265,7 +2441,7 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the getStatuses method - failure.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookUser::getStatuses
 	 *
 	 * @return  void
 	 *
@@ -2289,7 +2465,7 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the createStatus method.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookUser::createStatus
 	 *
 	 * @return  void
 	 *
@@ -2322,7 +2498,7 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the createStatus method - failure.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookUser::createStatus
 	 *
 	 * @return  void
 	 *
@@ -2364,7 +2540,7 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the deleteStatus method.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookUser::deleteStatus
 	 *
 	 * @return  void
 	 *
@@ -2392,7 +2568,7 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the deleteStatus method - failure.
 	 *
-	 *@covers JFacebookObject::sendRequest
+	 * @covers JFacebookUser::deleteStatus
 	 *
 	 * @return  void
 	 *
@@ -2430,7 +2606,7 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the getVideos method.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookUser::getVideos
 	 *
 	 * @return  void
 	 *
@@ -2456,7 +2632,7 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the getVideos method - failure.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookUser::getVideos
 	 *
 	 * @return  void
 	 *
@@ -2480,7 +2656,7 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the createVideo method.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookUser::createVideo
 	 *
 	 * @return  void
 	 *
@@ -2518,7 +2694,7 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the createVideo method - failure.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookUser::createVideo
 	 *
 	 * @return  void
 	 *
@@ -2566,7 +2742,7 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the getTagged method.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookUser::getTagged
 	 *
 	 * @return  void
 	 *
@@ -2592,7 +2768,7 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the getTagged method - failure.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookUser::getTagged
 	 *
 	 * @return  void
 	 *
@@ -2616,7 +2792,7 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the getActivities method.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookUser::getActivities
 	 *
 	 * @return  void
 	 *
@@ -2642,7 +2818,7 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the getActivities method - failure.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookUser::getActivities
 	 *
 	 * @return  void
 	 *
@@ -2666,7 +2842,7 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the getBooks method.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookUser::getBooks
 	 *
 	 * @return  void
 	 *
@@ -2692,7 +2868,7 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the getBooks method - failure.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookUser::getBooks
 	 *
 	 * @return  void
 	 *
@@ -2716,7 +2892,7 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the getInterests method.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookUser::getInterests
 	 *
 	 * @return  void
 	 *
@@ -2742,7 +2918,7 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the getInterests method - failure.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookUser::getInterests
 	 *
 	 * @return  void
 	 *
@@ -2766,7 +2942,7 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the getMovies method.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookUser::getMovies
 	 *
 	 * @return  void
 	 *
@@ -2792,7 +2968,7 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the getMovies method - failure.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookUser::getMovies
 	 *
 	 * @return  void
 	 *
@@ -2816,7 +2992,7 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the getTelevision method.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookUser::getTelevision
 	 *
 	 * @return  void
 	 *
@@ -2842,7 +3018,7 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the getTelevision method - failure.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookUser::getTelevision
 	 *
 	 * @return  void
 	 *
@@ -2866,7 +3042,7 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the getMusic method.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookUser::getMusic
 	 *
 	 * @return  void
 	 *
@@ -2892,7 +3068,7 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the getMusic method - failure.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookUser::getMusic
 	 *
 	 * @return  void
 	 *
@@ -2916,7 +3092,7 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the getSubscribers method.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookUser::getSubscribers
 	 *
 	 * @return  void
 	 *
@@ -2942,7 +3118,7 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the getSubscribers method - failure.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookUser::getSubscribers
 	 *
 	 * @return  void
 	 *
@@ -2966,7 +3142,7 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the getSubscribedTo method.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookUser::getSubscribedTo
 	 *
 	 * @return  void
 	 *
@@ -2992,7 +3168,7 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the getSubscribedTo method - failure.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookUser::getSubscribedTo
 	 *
 	 * @return  void
 	 *

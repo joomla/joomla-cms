@@ -86,7 +86,7 @@ class JFacebookCheckinTest extends TestCase
 	/**
 	 * Tests the getCheckin method
 	 * 
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookCheckin::getCheckin
 	 *
 	 * @return  void
 	 * 
@@ -114,7 +114,7 @@ class JFacebookCheckinTest extends TestCase
 	/**
 	 * Tests the getCheckin method - failure
 	 * 
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookCheckin::getCheckin
 	 *
 	 * @return  void
 	 * 
@@ -140,7 +140,7 @@ class JFacebookCheckinTest extends TestCase
 	/**
 	 * Tests the getComments method
 	 * 
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookCheckin::getComments
 	 *
 	 * @return  void
 	 * 
@@ -168,7 +168,7 @@ class JFacebookCheckinTest extends TestCase
 	/**
 	 * Tests the getComments method - failure
 	 * 
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookCheckin::getComments
 	 *
 	 * @return  void
 	 * 
@@ -194,7 +194,7 @@ class JFacebookCheckinTest extends TestCase
 	/**
 	 * Tests the createComment method.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookCheckin::createComment
 	 *
 	 * @return  void
 	 * 
@@ -227,7 +227,7 @@ class JFacebookCheckinTest extends TestCase
 	/**
 	 * Tests the createComment method - failure.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookCheckin::createComment
 	 *
 	 * @return  void
 	 * 
@@ -270,7 +270,7 @@ class JFacebookCheckinTest extends TestCase
 	/**
 	 * Tests the deleteComment method.
 	 * 
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookCheckin::deleteComment
 	 *
 	 * @return  void
 	 * 
@@ -298,7 +298,7 @@ class JFacebookCheckinTest extends TestCase
 	/**
 	 * Tests the deleteComment method - failure.
 	 *
-	 *@covers JFacebookObject::sendRequest
+	 * @covers JFacebookCheckin::deleteComment
 	 *
 	 * @return  void
 	 * 
@@ -336,7 +336,7 @@ class JFacebookCheckinTest extends TestCase
 	/**
 	 * Tests the getLikes method
 	 * 
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookCheckin::getLikes
 	 *
 	 * @return  void
 	 * 
@@ -364,7 +364,7 @@ class JFacebookCheckinTest extends TestCase
 	/**
 	 * Tests the getLikes method - failure
 	 * 
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookCheckin::getLikes
 	 *
 	 * @return  void
 	 * 
@@ -390,7 +390,7 @@ class JFacebookCheckinTest extends TestCase
 	/**
 	 * Tests the createLike method.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookCheckin::createLike
 	 *
 	 * @return  void
 	 * 
@@ -418,7 +418,7 @@ class JFacebookCheckinTest extends TestCase
 	/**
 	 * Tests the createLike method - failure.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookCheckin::createLike
 	 *
 	 * @return  void
 	 * 
@@ -456,7 +456,7 @@ class JFacebookCheckinTest extends TestCase
 	/**
 	 * Tests the deleteLike method.
 	 * 
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookCheckin::deleteLike
 	 *
 	 * @return  void
 	 * 
@@ -484,7 +484,7 @@ class JFacebookCheckinTest extends TestCase
 	/**
 	 * Tests the deleteLike method - failure.
 	 *
-	 *@covers JFacebookObject::sendRequest
+	 * @covers JFacebookCheckin::deleteLike
 	 *
 	 * @return  void
 	 * 

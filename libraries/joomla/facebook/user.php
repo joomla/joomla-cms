@@ -202,7 +202,14 @@ class JFacebookUser extends JFacebookObject
 
 		if ($type != null)
 		{
-			$type = '&type=' . $type;
+			if (strcmp($token, ''))
+			{
+				$type = '&type=' . $type;
+			}
+			else
+			{
+				$type = '?type=' . $type;
+			}
 		}
 		else
 		{
