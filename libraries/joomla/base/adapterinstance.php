@@ -37,9 +37,9 @@ class JAdapterInstance extends JObject
 	/**
 	 * Constructor
 	 *
-	 * @param   object  &$parent  Parent object [JAdapter instance]
-	 * @param   object  &$db      Database object [JDatabase instance]
-	 * @param   array   $options  Configuration Options
+	 * @param   JAdapter   &$parent  Parent object
+	 * @param   JDatabase  &$db      Database object
+	 * @param   array      $options  Configuration Options
 	 *
 	 * @since   11.1
 	 */
@@ -50,6 +50,7 @@ class JAdapterInstance extends JObject
 
 		// Set the parent and db in case $options for some reason overrides it.
 		$this->parent = &$parent;
+
 		// Pull in the global dbo in case something happened to it.
 		$this->db = $db ? $db : JFactory::getDBO();
 	}

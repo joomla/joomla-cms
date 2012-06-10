@@ -15,6 +15,8 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Platform
  * @subpackage  Base
  * @since       11.1
+ * @deprecated  12.3
+ * @codeCoverageIgnore
  */
 class JNode extends JObject
 {
@@ -41,6 +43,8 @@ class JNode extends JObject
 	 */
 	public function __construct()
 	{
+		JLog::add('JNode::__construct() is deprecated.', JLog::WARNING, 'deprecated');
+
 		return true;
 	}
 
@@ -57,6 +61,8 @@ class JNode extends JObject
 	 */
 	public function addChild(&$child)
 	{
+		JLog::add('JNode::addChild() is deprecated.', JLog::WARNING, 'deprecated');
+
 		if ($child instanceof Jnode)
 		{
 			$child->setParent($this);
@@ -76,6 +82,8 @@ class JNode extends JObject
 	 */
 	public function setParent(&$parent)
 	{
+		JLog::add('JNode::setParent() is deprecated.', JLog::WARNING, 'deprecated');
+
 		if ($parent instanceof JNode || is_null($parent))
 		{
 			$hash = spl_object_hash($this);
@@ -100,6 +108,8 @@ class JNode extends JObject
 	 */
 	public function &getChildren()
 	{
+		JLog::add('JNode::getChildren() is deprecated.', JLog::WARNING, 'deprecated');
+
 		return $this->_children;
 	}
 
@@ -112,6 +122,8 @@ class JNode extends JObject
 	 */
 	public function &getParent()
 	{
+		JLog::add('JNode::getParent() is deprecated.', JLog::WARNING, 'deprecated');
+
 		return $this->_parent;
 	}
 
@@ -124,6 +136,8 @@ class JNode extends JObject
 	 */
 	public function hasChildren()
 	{
+		JLog::add('JNode::hasChildren() is deprecated.', JLog::WARNING, 'deprecated');
+
 		return (bool) count($this->_children);
 	}
 
@@ -136,6 +150,8 @@ class JNode extends JObject
 	 */
 	public function hasParent()
 	{
+		JLog::add('JNode::hasParent() is deprecated.', JLog::WARNING, 'deprecated');
+
 		return $this->getParent() != null;
 	}
 }

@@ -31,6 +31,7 @@ $ -> Language fix or change
  # [#28550] Default admin user created with id 42. Thanks Ofer
  # [#28646] *New user registration approval should only be possible when Create permission
  # [#28639] New User Account Activation Tooltip Clarification. Thanks Matt
+ # [#28648] Backport some deprecation info to the base package. Thanks Rouven.
 
 09-Jun-2012 Jean-Marie Simonet
  ^ [#28551] Fix some issues with exceptions. Thanks Rouven
