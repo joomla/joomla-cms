@@ -33,12 +33,7 @@ class JFacebookGroup extends JFacebookObject
 	 */
 	public function getGroup($group, $access_token)
 	{
-		$token = '?access_token=' . $access_token;
-
-		$path = $group . $token;
-
-		// Send the request.
-		return $this->sendRequest($path);
+		return parent::get($group, $access_token);
 	}
 
 	/**
@@ -53,13 +48,7 @@ class JFacebookGroup extends JFacebookObject
 	 */
 	public function getFeed($group, $access_token)
 	{
-		$token = '?access_token=' . $access_token;
-
-		// Build the request path.
-		$path = $group . '/feed' . $token;
-
-		// Send the request.
-		return $this->sendRequest($path);
+		return parent::getConnection($group, $access_token, 'feed');
 	}
 
 	/**
@@ -74,13 +63,7 @@ class JFacebookGroup extends JFacebookObject
 	 */
 	public function getMembers($group, $access_token)
 	{
-		$token = '?access_token=' . $access_token;
-
-		// Build the request path.
-		$path = $group . '/members' . $token;
-
-		// Send the request.
-		return $this->sendRequest($path);
+		return parent::getConnection($group, $access_token, 'members');
 	}
 
 	/**
@@ -95,13 +78,7 @@ class JFacebookGroup extends JFacebookObject
 	 */
 	public function getDocs($group, $access_token)
 	{
-		$token = '?access_token=' . $access_token;
-
-		// Build the request path.
-		$path = $group . '/docs' . $token;
-
-		// Send the request.
-		return $this->sendRequest($path);
+		return parent::getConnection($group, $access_token, 'docs');
 	}
 
 	/**
@@ -117,8 +94,6 @@ class JFacebookGroup extends JFacebookObject
 	 */
 	public function getPicture($group, $access_token=null, $type=null)
 	{
-		$token = '?access_token=' . $access_token;
-
 		if ($type != null)
 		{
 			$type = '&type=' . $type;
@@ -128,13 +103,8 @@ class JFacebookGroup extends JFacebookObject
 			$type = '';
 		}
 
-		// Build the request path.
-		$path = $group . '/picture' . $token . $type;
-
-		// Send the request.
-		$response = $this->client->get($this->fetchUrl($path));
-
-		return $response->headers['Location'];
+		$response = parent::getConnection($group, $access_token, 'picture', $type);
+		return $response['Location'];
 	}
 
 	/**
@@ -151,18 +121,12 @@ class JFacebookGroup extends JFacebookObject
 	 */
 	public function createLink($group, $access_token, $link, $message=null)
 	{
-		$token = '?access_token=' . $access_token;
-
-		// Build the request path.
-		$path = $group . '/feed' . $token;
-
 		// Set POST request parameters.
 		$data = array();
 		$data['link'] = $link;
 		$data['message'] = $message;
 
-		// Send the post request.
-		return $this->sendRequest($path, 'post', $data);
+		return parent::createConnection($group, $access_token, 'feed', $data);
 	}
 
 	/**
@@ -177,13 +141,7 @@ class JFacebookGroup extends JFacebookObject
 	 */
 	public function deleteLink($link, $access_token)
 	{
-		$token = '?access_token=' . $access_token;
-
-		// Build the request path.
-		$path = $link . $token;
-
-		// Send the delete request.
-		return $this->sendRequest($path, 'delete');
+		return parent::deleteConnection($link, $access_token);
 	}
 
 	/**
@@ -206,11 +164,6 @@ class JFacebookGroup extends JFacebookObject
 	public function createPost($group, $access_token, $message=null, $link=null, $picture=null, $name=null, $caption=null,
 		$description=null, $actions=null)
 	{
-		$token = '?access_token=' . $access_token;
-
-		// Build the request path.
-		$path = $group . '/feed' . $token;
-
 		// Set POST request parameters.
 		$data = array();
 		$data['message'] = $message;
@@ -221,8 +174,7 @@ class JFacebookGroup extends JFacebookObject
 		$data['actions'] = $actions;
 		$data['picture'] = $picture;
 
-		// Send the post request.
-		return $this->sendRequest($path, 'post', $data);
+		return parent::createConnection($group, $access_token, 'feed', $data);
 	}
 
 	/**
@@ -237,13 +189,7 @@ class JFacebookGroup extends JFacebookObject
 	 */
 	public function deletePost($post, $access_token)
 	{
-		$token = '?access_token=' . $access_token;
-
-		// Build the request path.
-		$path = $post . $token;
-
-		// Send the delete request.
-		return $this->sendRequest($path, 'delete');
+		return parent::deleteConnection($post, $access_token);
 	}
 
 	/**
@@ -259,17 +205,11 @@ class JFacebookGroup extends JFacebookObject
 	 */
 	public function createStatus($group, $access_token, $message)
 	{
-		$token = '?access_token=' . $access_token;
-
-		// Build the request path.
-		$path = $group . '/feed' . $token;
-
 		// Set POST request parameters.
 		$data = array();
 		$data['message'] = $message;
 
-		// Send the post request.
-		return $this->sendRequest($path, 'post', $data);
+		return parent::createConnection($group, $access_token, 'feed', $data);
 	}
 
 	/**
@@ -284,12 +224,6 @@ class JFacebookGroup extends JFacebookObject
 	 */
 	public function deleteStatus($status, $access_token)
 	{
-		$token = '?access_token=' . $access_token;
-
-		// Build the request path.
-		$path = $status . $token;
-
-		// Send the delete request.
-		return $this->sendRequest($path, 'delete');
+		return parent::deleteConnection($status, $access_token);
 	}
 }

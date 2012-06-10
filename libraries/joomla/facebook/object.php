@@ -95,9 +95,16 @@ abstract class JFacebookObject
 				break;
 		}
 
-		// Validate the response.
-		$response = json_decode($response->body);
+		if (isset($response->body))
+		{
+			$response = json_decode($response->body);
+		}
+		else
+		{
+			return $response->headers;
+		}
 
+		// Validate the response.
 		if (!is_object($response))
 		{
 			return $response;

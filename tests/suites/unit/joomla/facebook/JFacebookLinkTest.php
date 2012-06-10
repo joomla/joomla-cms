@@ -92,7 +92,7 @@ class JFacebookLinkTest extends TestCase
 	/**
 	 * Tests the getLink method
 	 * 
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookLink::getLink
 	 *
 	 * @return  void
 	 * 
@@ -120,7 +120,7 @@ class JFacebookLinkTest extends TestCase
 	/**
 	 * Tests the getLink method - failure
 	 * 
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookLink::getLink
 	 *
 	 * @return  void
 	 * 
@@ -146,7 +146,7 @@ class JFacebookLinkTest extends TestCase
 	/**
 	 * Tests the getComments method
 	 * 
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookLink::getComments
 	 *
 	 * @return  void
 	 * 
@@ -174,7 +174,7 @@ class JFacebookLinkTest extends TestCase
 	/**
 	 * Tests the getComments method - failure
 	 * 
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookLink::getComments
 	 *
 	 * @return  void
 	 * 
@@ -200,7 +200,7 @@ class JFacebookLinkTest extends TestCase
 	/**
 	 * Tests the createComment method.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookLink::createComment
 	 *
 	 * @return  void
 	 * 
@@ -233,7 +233,7 @@ class JFacebookLinkTest extends TestCase
 	/**
 	 * Tests the createComment method - failure.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookLink::createComment
 	 *
 	 * @return  void
 	 * 
@@ -276,7 +276,7 @@ class JFacebookLinkTest extends TestCase
 	/**
 	 * Tests the deleteComment method.
 	 * 
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookLink::deleteComment
 	 *
 	 * @return  void
 	 * 
@@ -304,7 +304,7 @@ class JFacebookLinkTest extends TestCase
 	/**
 	 * Tests the deleteComment method - failure.
 	 *
-	 *@covers JFacebookObject::sendRequest
+	 * @covers JFacebookLink::deleteComment
 	 *
 	 * @return  void
 	 * 
@@ -342,7 +342,7 @@ class JFacebookLinkTest extends TestCase
 	/**
 	 * Tests the getLikes method
 	 * 
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookLink::getLikes
 	 *
 	 * @return  void
 	 * 
@@ -370,7 +370,7 @@ class JFacebookLinkTest extends TestCase
 	/**
 	 * Tests the getLikes method - failure
 	 * 
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookLink::getLikes
 	 *
 	 * @return  void
 	 * 
@@ -396,7 +396,7 @@ class JFacebookLinkTest extends TestCase
 	/**
 	 * Tests the createLike method.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookLink::createLike
 	 *
 	 * @return  void
 	 * 
@@ -424,7 +424,7 @@ class JFacebookLinkTest extends TestCase
 	/**
 	 * Tests the createLike method - failure.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookLink::createLike
 	 *
 	 * @return  void
 	 * 
@@ -462,7 +462,7 @@ class JFacebookLinkTest extends TestCase
 	/**
 	 * Tests the deleteLike method.
 	 * 
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookLink::deleteLike
 	 *
 	 * @return  void
 	 * 
@@ -490,7 +490,7 @@ class JFacebookLinkTest extends TestCase
 	/**
 	 * Tests the deleteLike method - failure.
 	 *
-	 *@covers JFacebookObject::sendRequest
+	 * @covers JFacebookLink::deleteLike
 	 *
 	 * @return  void
 	 * 

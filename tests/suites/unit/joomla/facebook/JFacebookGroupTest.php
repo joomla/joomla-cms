@@ -92,7 +92,7 @@ class JFacebookGroupTest extends TestCase
 	/**
 	 * Tests the getGroup method
 	 * 
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookGroup::getGroup
 	 *
 	 * @return  void
 	 * 
@@ -120,7 +120,7 @@ class JFacebookGroupTest extends TestCase
 	/**
 	 * Tests the getGroup method - failure
 	 * 
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookGroup::getGroup
 	 *
 	 * @return  void
 	 * 
@@ -146,7 +146,7 @@ class JFacebookGroupTest extends TestCase
 	/**
 	 * Tests the getFeed method.
 	 * 
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookGroup::getFeed
 	 *
 	 * @return  void
 	 * 
@@ -174,7 +174,7 @@ class JFacebookGroupTest extends TestCase
 	/**
 	 * Tests the getFeed method - failure.
 	 * 
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookGroup::getFeed
 	 *
 	 * @return  void
 	 * 
@@ -200,7 +200,7 @@ class JFacebookGroupTest extends TestCase
 	/**
 	 * Tests the getMembers method.
 	 * 
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookGroup::getMembers
 	 *
 	 * @return  void
 	 * 
@@ -228,7 +228,7 @@ class JFacebookGroupTest extends TestCase
 	/**
 	 * Tests the getMembers method - failure.
 	 * 
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookGroup::getMembers
 	 *
 	 * @return  void
 	 * 
@@ -254,7 +254,7 @@ class JFacebookGroupTest extends TestCase
 	/**
 	 * Tests the getDocs method.
 	 * 
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookGroup::getDocs
 	 *
 	 * @return  void
 	 * 
@@ -282,7 +282,7 @@ class JFacebookGroupTest extends TestCase
 	/**
 	 * Tests the getDocs method - failure.
 	 * 
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookGroup::getDocs
 	 *
 	 * @return  void
 	 * 
@@ -306,25 +306,55 @@ class JFacebookGroupTest extends TestCase
 	}
 
 	/**
+	* Provides test data for request format detection.
+	*
+	* @return array
+	*
+	* @since 12.1
+	*/
+	public function seedGetPicture()
+	{
+		// Extra fields for the request URL.
+		return array(
+			array('&type=large'),
+			array(null),
+		);
+	}
+
+	/**
 	 * Tests the getPicture method.
+	 *
+	 * @param   string  $type  Extra fields for the request URL.
+	 *
+	 * @covers JFacebookGroup::getPicture
+	 * @dataProvider  seedGetPicture
 	 *
 	 * @return  void
 	 * 
 	 * @since   12.1
 	 */
-	public function testGetPicture()
+	public function testGetPicture($type)
 	{
 		$access_token = '235twegsdgsdhtry3tgwgf';
 		$group = '156174391080008';
-		$type = 'large';
 
 		$returnData = new JHttpResponse;
 		$returnData->headers['Location'] = $this->sampleUrl;
 
-		$this->client->expects($this->once())
-		->method('get')
-		->with($group . '/picture?access_token=' . $access_token . '&type=' . $type)
-		->will($this->returnValue($returnData));
+		if ($type != null)
+		{
+			$this->client->expects($this->once())
+			->method('get')
+			->with($group . '/picture?access_token=' . $access_token . '&type=' . $type)
+			->will($this->returnValue($returnData));
+		}
+		else
+		{
+			$this->client->expects($this->once())
+			->method('get')
+			->with($group . '/picture?access_token=' . $access_token)
+			->will($this->returnValue($returnData));
+		}
 
 		$this->assertThat(
 			$this->object->getPicture($group, $access_token, $type),
@@ -335,23 +365,37 @@ class JFacebookGroupTest extends TestCase
 	/**
 	 * Tests the getPicture method - failure.
 	 *
+	 * @param   string  $type  Extra fields for the request URL.
+	 *
+	 * @covers JFacebookGroup::getPicture
+	 * @dataProvider  seedGetPicture
+	 *
 	 * @return  void
 	 * 
 	 * @since   12.1
 	 * @expectedException  PHPUnit_Framework_Error
 	 */
-	public function testGetPictureFailure()
+	public function testGetPictureFailure($type)
 	{
 		$access_token = '235twegsdgsdhtry3tgwgf';
 		$group = '156174391080008';
-		$type = 'large';
 
 		$returnData = new JText($this->errorString);
 
-		$this->client->expects($this->once())
-		->method('get')
-		->with($group . '/picture?access_token=' . $access_token . '&type=' . $type)
-		->will($this->returnValue($returnData));
+		if ($type != null)
+		{
+			$this->client->expects($this->once())
+			->method('get')
+			->with($group . '/picture?access_token=' . $access_token . '&type=' . $type)
+			->will($this->returnValue($returnData));
+		}
+		else
+		{
+			$this->client->expects($this->once())
+			->method('get')
+			->with($group . '/picture?access_token=' . $access_token)
+			->will($this->returnValue($returnData));
+		}
 
 		$this->object->getPicture($group, $access_token, $type);
 	}
@@ -359,7 +403,7 @@ class JFacebookGroupTest extends TestCase
 	/**
 	 * Tests the createLink method.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookGroup::createLink
 	 *
 	 * @return  void
 	 * 
@@ -394,7 +438,7 @@ class JFacebookGroupTest extends TestCase
 	/**
 	 * Tests the createLink method - failure.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookGroup::createLink
 	 *
 	 * @return  void
 	 * 
@@ -439,7 +483,7 @@ class JFacebookGroupTest extends TestCase
 	/**
 	 * Tests the deleteLink method.
 	 * 
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookGroup::deleteLink
 	 *
 	 * @return  void
 	 * 
@@ -467,7 +511,7 @@ class JFacebookGroupTest extends TestCase
 	/**
 	 * Tests the deleteLink method - failure.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookGroup::deleteLink
 	 *
 	 * @return  void
 	 * 
@@ -505,7 +549,7 @@ class JFacebookGroupTest extends TestCase
 	/**
 	 * Tests the createPost method.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookGroup::createPost
 	 *
 	 * @return  void
 	 * 
@@ -553,7 +597,7 @@ class JFacebookGroupTest extends TestCase
 	/**
 	 * Tests the createPost method - failure.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookGroup::createPost
 	 *
 	 * @return  void
 	 * 
@@ -610,7 +654,7 @@ class JFacebookGroupTest extends TestCase
 	/**
 	 * Tests the deletePost method.
 	 * 
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookGroup::deletePost
 	 *
 	 * @return  void
 	 * 
@@ -638,7 +682,7 @@ class JFacebookGroupTest extends TestCase
 	/**
 	 * Tests the deletePost method - failure.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookGroup::deletePost
 	 *
 	 * @return  void
 	 * 
@@ -676,7 +720,7 @@ class JFacebookGroupTest extends TestCase
 	/**
 	 * Tests the createStatus method.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookGroup::createStatus
 	 *
 	 * @return  void
 	 * 
@@ -709,7 +753,7 @@ class JFacebookGroupTest extends TestCase
 	/**
 	 * Tests the createStatus method - failure.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookGroup::createStatus
 	 *
 	 * @return  void
 	 * 
@@ -751,7 +795,7 @@ class JFacebookGroupTest extends TestCase
 	/**
 	 * Tests the deleteStatus method.
 	 * 
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookGroup::deleteStatus
 	 *
 	 * @return  void
 	 * 
@@ -779,7 +823,7 @@ class JFacebookGroupTest extends TestCase
 	/**
 	 * Tests the deleteStatus method - failure.
 	 *
-	 *@covers JFacebookObject::sendRequest
+	 * @covers JFacebookGroup::deleteStatus
 	 *
 	 * @return  void
 	 * 
