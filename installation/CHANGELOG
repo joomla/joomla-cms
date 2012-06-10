@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+10-Jun-2012 Jean-Marie Simonet
+ # [#28426] only a single JFormFieldColor field can exist (functionally) within a form. Thanks Dennis
+
 09-Jun-2012 Jean-Marie Simonet
  ^ [#28551] Fix some issues with exceptions. Thanks Rouven
  + [#28176] Media formfield: show preview. Thanks Benjamin
