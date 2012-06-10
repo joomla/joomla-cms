@@ -51,7 +51,34 @@ class JFormFieldCheckboxTest extends TestCase
 		$this->assertEquals(
 			'<input type="checkbox" name="myTestName" id="myTestId" value="red" />',
 			TestReflection::invoke($formField, 'getInput'),
-			'The field with no value and no checked values did not produce the right html'
+			'The field with no value and no checked attribute did not produce the right html'
+		);
+	}
+
+	/**
+	 * Test the getInput method where there is a value from the element
+	 * and no checked attribute.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.2
+	 */
+	public function testGetInputValueNoChecked()
+	{
+		$formField = new JFormFieldCheckbox;
+
+		// Test with no checked element
+		$element = simplexml_load_string(
+		'<field name="color" type="checkbox" value="red" />');
+		TestReflection::setValue($formField, 'element', $element);
+		TestReflection::setValue($formField, 'id', 'myTestId');
+		TestReflection::setValue($formField, 'name', 'myTestName');
+		TestReflection::setValue($formField, 'value', 'red');
+
+		$this->assertEquals(
+			'<input type="checkbox" name="myTestName" id="myTestId" value="red" checked="checked" />',
+			TestReflection::invoke($formField, 'getInput'),
+			'The field with a value and no checked attribute did not produce the right html'
 		);
 	}
 
@@ -76,7 +103,7 @@ class JFormFieldCheckboxTest extends TestCase
 		$this->assertEquals(
 			'<input type="checkbox" name="myTestName" id="myTestId" value="red" checked="checked" />',
 			TestReflection::invoke($formField, 'getInput'),
-			'The field with no value and no checked values did not produce the right html'
+			'The field with no value and the checked attribute did not produce the right html'
 		);
 	}
 
@@ -101,7 +128,7 @@ class JFormFieldCheckboxTest extends TestCase
 		$this->assertEquals(
 			'<input type="checkbox" name="myTestName" id="myTestId" value="red" disabled="disabled" />',
 			TestReflection::invoke($formField, 'getInput'),
-			'The field with no value and no checked values did not produce the right html'
+			'The field set to disabled did not produce the right html'
 		);
 	}
 }
