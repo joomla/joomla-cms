@@ -154,7 +154,7 @@ class JTableCategory extends JTableNested
 	 *
 	 * @param   array   $array   named array
 	 * @param   string  $ignore  An optional array or space separated list of properties
-	 * to ignore while binding.
+	 *                           to ignore while binding.
 	 *
 	 * @return  mixed   Null if operation was satisfactory, otherwise returns an error
 	 *

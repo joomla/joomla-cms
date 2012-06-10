@@ -112,7 +112,7 @@ class JTableExtension extends JTable
 	 * to checkin rows that it can after adjustments are made.
 	 *
 	 * @param   mixed    $pks     An optional array of primary key values to update.  If not
-	 * set the instance property value is used.
+	 *                            set the instance property value is used.
 	 * @param   integer  $state   The publishing state. eg. [0 = unpublished, 1 = published]
 	 * @param   integer  $userId  The user id of the user performing the operation.
 	 *

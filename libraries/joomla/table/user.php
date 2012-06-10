@@ -48,7 +48,7 @@ class JTableUser extends JTable
 	 *
 	 * @param   integer  $userId  An optional user id.
 	 * @param   boolean  $reset   False if row not found or on error
-	 * (internal error state set in that case).
+	 *                           (internal error state set in that case).
 	 *
 	 * @return  boolean  True on success, false on failure.
 	 *
