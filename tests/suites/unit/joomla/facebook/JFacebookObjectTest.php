@@ -88,12 +88,21 @@ class JFacebookObjectTest extends TestCase
 	 * 
 	 * @return  void
 	 * 
+	 * @covers JFacebookObject::fetchUrl
 	 * @since    12.1
 	 */
 	public function testFetchUrl()
 	{
-		// Method tested via requesting classes
-		$this->markTestSkipped('This method is tested via requesting classes.');
+		$apiUrl = 'https://graph.facebook.com/';
+		$path = '456431243/likes?access_token=235twegsdgsdhtry3tgwgf';
+		$expected = 'https://graph.facebook.com/456431243/likes?access_token=235twegsdgsdhtry3tgwgf';
+
+		$this->options->set('api.url', $apiUrl);
+
+		$this->assertThat(
+			$this->object->fetchUrl($path),
+			$this->equalTo($expected)
+		);
 	}
 
 	/**
@@ -101,7 +110,7 @@ class JFacebookObjectTest extends TestCase
 	 *
 	 * @return  void
 	 * 
-	 * @covers JFacebookObject::fetchUrl()
+	 * @covers JFacebookObject::sendRequest
 	 * @since    12.1
 	 */
 	public function testSendRequest()
@@ -113,7 +122,7 @@ class JFacebookObjectTest extends TestCase
 	/**
 	 * Tests the get method
 	 * 
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookObject::get
 	 *
 	 * @return  void
 	 * 
@@ -141,7 +150,7 @@ class JFacebookObjectTest extends TestCase
 	/**
 	 * Tests the get method - failure
 	 * 
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookObject::get
 	 *
 	 * @return  void
 	 * 
@@ -185,7 +194,7 @@ class JFacebookObjectTest extends TestCase
 	 * 
 	 * @param   string  $extra_fields  Extra fields for the request URL.
 	 * 
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookObject::getConnection
 	 * @dataProvider  seedDeleteConnection
 	 *
 	 * @return  void
@@ -217,7 +226,7 @@ class JFacebookObjectTest extends TestCase
 	 * 
 	  * @param   string  $extra_fields  Extra fields for the request URL.
 	 * 
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookObject::getConnection
 	 * @dataProvider  seedDeleteConnection
 	 *
 	 * @return  void
@@ -245,7 +254,7 @@ class JFacebookObjectTest extends TestCase
 	/**
 	 * Tests the createConnection method.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookObject::createConnection
 	 *
 	 * @return  void
 	 * 
@@ -275,7 +284,7 @@ class JFacebookObjectTest extends TestCase
 	/**
 	 * Tests the createConnection method - failure.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookObject::createConnection
 	 *
 	 * @return  void
 	 * 
@@ -333,7 +342,7 @@ class JFacebookObjectTest extends TestCase
 	 * 
 	 * @param   string  $connection  Connection to test.
 	 * 
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookObject::deleteConnection
 	 * @dataProvider  seedDeleteConnection
 	 * 
 	 * @return  void
@@ -374,7 +383,7 @@ class JFacebookObjectTest extends TestCase
 	 *
 	 * @param   string  $connection  Connection to test.
 	 *
-	 * @covers JFacebookObject::sendRequest
+	 * @covers JFacebookObject::deleteConnection
 	 * @dataProvider  seedDeleteConnection
 	 * 
 	 * @return  void
