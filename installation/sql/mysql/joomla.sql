@@ -1559,7 +1559,7 @@ CREATE TABLE `#__users` (
   `name` varchar(255) NOT NULL default '',
   `username` varchar(150) NOT NULL default '',
   `email` varchar(100) NOT NULL default '',
-  `password` varchar(100) NOT NULL default '',
+  `password` varchar(255) NOT NULL default '',
   `usertype` varchar(25) NOT NULL default '',
   `block` tinyint(4) NOT NULL default '0',
   `sendEmail` tinyint(4) default '0',

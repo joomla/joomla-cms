@@ -533,10 +533,13 @@ class JUser extends JObject
 			}
 
 			$this->password_clear = JArrayHelper::getValue($array, 'password', '', 'string');
+			
+			$algo = JComponentHelper::getParams('com_users')->get('hashing_algorithm');
 
-			$salt = JUserHelper::genRandomPassword(32);
-			$crypt = JUserHelper::getCryptedPassword($array['password'], $salt);
-			$array['password'] = $crypt . ':' . $salt;
+			$salt = JUserHelper::getSalt($algo);
+			$crypt = JUserHelper::getCryptedPassword($array['password'], $salt, $algo);
+			
+			$array['password'] = $algo . ':' . $crypt . ':' . $salt;
 
 			// Set the registration timestamp
 
@@ -570,10 +573,14 @@ class JUser extends JObject
 				}
 
 				$this->password_clear = JArrayHelper::getValue($array, 'password', '', 'string');
+				
+				$algo = JComponentHelper::getParams('com_users')->get('hashing_algorithm');
 
-				$salt = JUserHelper::genRandomPassword(32);
-				$crypt = JUserHelper::getCryptedPassword($array['password'], $salt);
-				$array['password'] = $crypt . ':' . $salt;
+				$salt =  JUserHelper::getSalt($algo);
+				$crypt = JUserHelper::getCryptedPassword($array['password'], $salt, $algo);
+				
+				$array['password'] = $algo . ':' . $crypt. ':' . $salt;
+				
 			}
 			else
 			{

@@ -158,6 +158,43 @@ class plgUserJoomla extends JPlugin
 		// Register the needed session variables
 		$session = JFactory::getSession();
 		$session->set('user', $instance);
+		
+		// Get the hashing algorithm stored in the user settings
+		$algo = JComponentHelper::getParams('com_users')->get('hashing_algorithm');
+		// If preffered algorithm is bcrypt do a check to see if blowfish is installed
+		if ($algo == 'crypt-blowfish' && CRYPT_BLOWFISH != 1) { // if blowfish is not installed or enabled default back to MD5
+   			 $algo = 'md5-hex';
+   			 JComponentHelper::getParams('com_users')->set('hashing_algorithm', 'md5-hex');
+		}
+		
+		// If the admin has reset their password we're left with a 32 MD5 hex
+		if (strlen($instance->password) == 32) {
+			$crypt = $instance->password;
+			$encryption = 'md5-hex';
+		}
+		else {
+		
+		$parts	= explode(':', $instance->password);
+		    // New passwords will have 3 parts, old passwords will only have 2.
+		    if (count($parts) == 2) {
+		    	$crypt	= $parts[0];
+		    	$encryption = 'md5-hex'; // The old scheme had MD5 by default so we know its using this.
+		    	
+		    }
+		    else {
+				$encryption	= $parts[0];
+				$crypt	= @$parts[1];
+		    }
+		}
+		    
+		    if ($encryption != $algo || strlen($instance->password) == 32) {
+		    	
+		    	$newsalt =  JUserHelper::getSalt($algo);
+		    	$newcrypt = JUserHelper::getCryptedPassword($user[password], $newsalt, $algo);
+		    	$instance->password = $algo . ':' . $newcrypt . ':' . $newsalt;
+		    	$instance->save();
+		    }
+		
 
 		$db = JFactory::getDBO();
 

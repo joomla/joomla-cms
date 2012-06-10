@@ -91,6 +91,12 @@
 			<option
 				value="1">JSHOW</option>
 		</field>
+		<field name="hashing_algorithm" type="list" label="COM_USERS_CONFIG_FIELD_HASHING_ALGORITHM_LABEL" description="COM_USERS_CONFIG_FIELD_HASHING_ALGORITHM_DESC" default="crypt-blowfish">
+			<option value="ssha">COM_USERS_CONFIG_FIELD_HASHING_ALGORITHM_OPTION_SHA</option>
+			<option value="sha-256">COM_USERS_CONFIG_FIELD_HASHING_ALGORITHM_OPTION_SHA256</option>
+			<option value="sha-512">COM_USERS_CONFIG_FIELD_HASHING_ALGORITHM_OPTION_SHA512</option>
+			<option value="crypt-blowfish">COM_USERS_CONFIG_FIELD_HASHING_ALGORITHM_OPTION_BCRYPT</option>
+		</field>
 	</fieldset>
 
  	<fieldset

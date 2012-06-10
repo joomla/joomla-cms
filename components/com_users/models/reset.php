@@ -161,10 +161,25 @@ class UsersModelReset extends JModelForm
 			return false;
 		}
 
+		// Get the new hashing algorithm and check its compatible
+		$algo = JComponentHelper::getParams('com_users')->get('hashing_algorithm');
+		
+		if ($algo == 'crypt-blowfish' && CRYPT_BLOWFISH != 1) { // if blowfish is not installed or enabled default back to MD5
+   			 $algo = 'md5-hex';
+   			 JComponentHelper::getParams('com_users')->set('hashing_algorithm', 'md5-hex');
+		}
+		
+		// Slight bug, after installation $algo doesnt seem to exist untill the user makes a change in the user manager.
+		// So we need to force it to be md5 until the user changes it themselves.
+		if (!$algo) {
+			$algo = 'md5-hex';
+   			 JComponentHelper::getParams('com_users')->set('hashing_algorithm', 'md5-hex');
+		}
+		
 		// Generate the new password hash.
-		$salt		= JUserHelper::genRandomPassword(32);
-		$crypted	= JUserHelper::getCryptedPassword($data['password1'], $salt);
-		$password	= $crypted.':'.$salt;
+		$salt		= JUserHelper::getSalt($algo);
+		$crypted	= JUserHelper::getCryptedPassword($data['password1'], $salt, $algo);
+		$password = $algo . ':' . $crypted . ':' . $salt;
 
 		// Update the user object.
 		$user->password			= $password;
