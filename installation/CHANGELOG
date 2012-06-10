@@ -29,6 +29,7 @@ $ -> Language fix or change
 10-Jun-2012 Jean-Marie Simonet
  # [#28426] only a single JFormFieldColor field can exist (functionally) within a form. Thanks Dennis
  # [#28550] Default admin user created with id 42. Thanks Ofer
+ # [#28646] *New user registration approval should only be possible when Create permission
 
 09-Jun-2012 Jean-Marie Simonet
  ^ [#28551] Fix some issues with exceptions. Thanks Rouven
