@@ -69,7 +69,7 @@ class JFormFieldCheckboxes extends JFormField
 				$checked = (in_array((string) $option->value, (array) $checkedOptions) ? ' checked="checked"' : '');
 			}
 			else
-			{var_dump($this->value);
+			{
 				$value = !is_array($this->value) ? explode(',', $this->value) : $this->value;
 				$checked = (in_array((string) $option->value, $value) ? ' checked="checked"' : '');
 			}

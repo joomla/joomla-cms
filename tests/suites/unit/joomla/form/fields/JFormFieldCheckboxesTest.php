@@ -81,6 +81,34 @@ class JFormFieldCheckboxesTest extends TestCase
 	}
 
 	/**
+	 * Test the getInput method with one value that is an array and no checked attribute.
+	 *
+	 * @since       12.2
+	 */
+	public function testGetInputValueArrayNoChecked()
+	{
+		$formField = new JFormFieldCheckboxes;
+
+		// Test with one value checked, no checked element
+		$element = simplexml_load_string(
+			'<field name="color" type="checkboxes">
+			<option value="red">red</option>
+			<option value="blue">blue</option>
+			</field>');
+		$valuearray = array ('red');
+		TestReflection::setValue($formField, 'element', $element);
+		TestReflection::setValue($formField, 'id', 'myTestId');
+		TestReflection::setValue($formField, 'value', $valuearray);
+		TestReflection::setValue($formField, 'name', 'myTestName');
+
+		$this->assertEquals(
+			'<fieldset id="myTestId" class="checkboxes"><ul><li><input type="checkbox" id="myTestId0" name="myTestName" value="red" checked="checked"/><label for="myTestId0">red</label></li><li><input type="checkbox" id="myTestId1" name="myTestName" value="blue"/><label for="myTestId1">blue</label></li></ul></fieldset>',
+			TestReflection::invoke($formField, 'getInput'),
+			'The field with one value did not produce the right html'
+		);
+	}
+
+	/**
 	 * Test the getInput method  with no value and one value in checked.
 	 *
 	 * @since       12.2
