@@ -67,6 +67,18 @@ class JFacebook
 	protected $link;
 
 	/**
+	* @var    JFacebookNote  Facebook API object for note.
+	* @since  12.1
+	*/
+	protected $note;
+
+	/**
+	* @var    JFacebookPost  Facebook API object for post.
+	* @since  12.1
+	*/
+	protected $post;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   JRegistry      $options  Facebook options object.
@@ -137,6 +149,20 @@ class JFacebook
 					$this->link = new JFacebookLink($this->options, $this->client);
 				}
 				return $this->link;
+
+			case 'note':
+				if ($this->note == null)
+				{
+					$this->note = new JFacebookNote($this->options, $this->client);
+				}
+				return $this->note;
+
+			case 'post':
+				if ($this->post == null)
+				{
+					$this->post = new JFacebookPost($this->options, $this->client);
+				}
+				return $this->post;
 		}
 	}
 

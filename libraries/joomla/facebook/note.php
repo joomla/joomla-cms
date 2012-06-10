@@ -77,7 +77,7 @@ class JFacebookNote extends JFacebookObject
 	 * @param   string  $comment       The comment's id.
 	 * @param   string  $access_token  The Facebook access token. 
 	 * 
-	 * @return  array   The decoded JSON response.
+	 * @return  boolean Returns true if successful, and false otherwise.
 	 * 
 	 * @since   12.1
 	 */
