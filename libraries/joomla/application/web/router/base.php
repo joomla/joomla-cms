@@ -19,7 +19,8 @@ defined('JPATH_PLATFORM') or die;
 class JApplicationWebRouterBase extends JApplicationWebRouter
 {
 	/**
-	 * @var    array  An array of pattern => controller pairs for routing the request.
+	 * @var    array  An array of rules, each rule being an associative array('regex'=> $regex, 'vars' => $vars, 'controller' => $controller)
+	 *                for routing the request.
 	 * @since  12.3
 	 */
 	protected $maps = array();
@@ -36,7 +37,62 @@ class JApplicationWebRouterBase extends JApplicationWebRouter
 	 */
 	public function addMap($pattern, $controller)
 	{
-		$this->maps[(string) $pattern] = (string) $controller;
+		// Sanitize and explode the pattern.
+		$pattern = explode('/', trim(parse_url((string) $pattern, PHP_URL_PATH), ' /'));
+
+		// Prepare the route variables
+		$vars = array();
+
+		// Initialize regular expression
+		$regex = array();
+
+		// Loop on each segment
+		foreach ($pattern as $segment)
+		{
+			// Match a splat with no variable.
+			if ($segment == '*')
+			{
+				$regex[] = '.*';
+			}
+			// Match a splat and capture the data to a named variable.
+			elseif ($segment[0] == '*')
+			{
+				$vars[] = substr($segment, 1);
+				$regex[] = '(.*)';
+			}
+			// Match an escaped splat segment.
+			elseif ($segment[0] == '\\' && $segment[1] == '*')
+			{
+				$regex[] = '\*' . preg_quote(substr($segment, 2));
+			}
+			// Match an unnamed variable without capture.
+			elseif ($segment == ':')
+			{
+				$regex[] = '[^/]*';
+			}
+			// Match a named variable and capture the data.
+			elseif ($segment[0] == ':')
+			{
+				$vars[] = substr($segment, 1);
+				$regex[] = '([^/]*)';
+			}
+			// Match a semgent with an escaped variable character prefix.
+			elseif ($segment[0] == '\\' && $segment[1] == ':')
+			{
+				$regex[] = preg_quote(substr($segment, 1));
+			}
+			// Match the standard segment.
+			else
+			{
+				$regex[] = preg_quote($segment);
+			}
+		}
+
+		$this->maps[] = array(
+			'regex' => chr(1) . '^' . implode('/', $regex) . '$' . chr(1),
+			'vars' => $vars,
+			'controller' => (string) $controller
+		);
 
 		return $this;
 	}
@@ -54,7 +110,7 @@ class JApplicationWebRouterBase extends JApplicationWebRouter
 	{
 		foreach ($maps as $pattern => $controller)
 		{
-			$this->maps[(string) $pattern] = (string) $controller;
+			$this->addMap($pattern, $controller);
 		}
 
 		return $this;
@@ -76,67 +132,40 @@ class JApplicationWebRouterBase extends JApplicationWebRouter
 		$controller = false;
 
 		// Sanitize and explode the route.
-		$route = explode('/', trim(parse_url($route, PHP_URL_PATH), ' /'));
-
-		// Cache the route length so we don't have to calculate this on every iteration through the pattern loop.
-		$routeLength = count($route);
+		$route = trim(parse_url($route, PHP_URL_PATH), ' /');
 
 		// If the route is empty then simply return the default route.  No parsing necessary.
-		if ($routeLength == 1 && $route[0] == '')
+		if ($route == '')
 		{
 			return $this->default;
 		}
 
 		// Iterate through all of the known route maps looking for a match.
-		foreach ($this->maps as $pattern => $name)
+		foreach ($this->maps as $rule)
 		{
-			// Reset the route variables each time.  Cleanliness is next to buglessness ... or something. :-)
-			$vars = array();
-
-			// Sanitize and explode the pattern.
-			$pattern = explode('/', trim(parse_url($pattern, PHP_URL_PATH), ' /'));
-
-			// If we don't have the same number of segments then we definitely do not have a match.
-			if ($routeLength != count($pattern))
+			if (preg_match($rule['regex'], $route, $matches))
 			{
-				continue;
-			}
+				// If we have gotten this far then we have a positive match.
+				$controller = $rule['controller'];
 
-			// Iterate through all of the segments of the pattern to validate static and variable segments.
-			foreach ($pattern as $i => $segment)
-			{
-				// If we are looking at a variable segment then save the value.
-				if (strpos($segment, ':') === 0)
+				// Time to set the input variables.
+				// We are only going to set them if they don't already exist to avoid overwriting things.
+				foreach ($rule['vars'] as $i => $var)
 				{
-					$vars[substr($segment, 1)] = $route[$i];
+					$this->input->def($var, $matches[$i + 1]);
+
+					// Don't forget to do an explicit set on the GET superglobal.
+					$this->input->get->def($var, $matches[$i + 1]);
 				}
-				// If we are looking at a static segment and the value doesn't match the route segment then the pattern doesn't match.
-				elseif ($segment != $route[$i])
-				{
-					continue 2;
-				}
+
+				break;
 			}
-
-			// If we have gotten this far then we have a positive match.
-			$controller = $name;
-
-			// Time to set the input variables.
-			// We are only going to set them if they don't already exist to avoid overwriting things.
-			foreach ($vars as $k => $v)
-			{
-				$this->input->def($k, $v);
-
-				// Don't forget to do an explicit set on the GET superglobal.
-				$this->input->get->def($k, $v);
-			}
-
-			break;
 		}
 
 		// We were unable to find a route match for the request.  Panic.
 		if (!$controller)
 		{
-			throw new InvalidArgumentException(sprintf('Unable to handle request for route `%s`.', implode('/', $route)), 404);
+			throw new InvalidArgumentException(sprintf('Unable to handle request for route `%s`.', $route), 404);
 		}
 
 		return $controller;

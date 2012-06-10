@@ -49,7 +49,11 @@ class JApplicationWebRouterBaseTest extends TestCase
 			array('test', true, '', array(), 2),
 			array('test/foo', true, '', array(), 2),
 			array('test/foo/path', true, '', array(), 2),
-			array('test/foo/path/bar', false, 'test', array('seg1' => 'foo', 'seg2' => 'bar'), 2)
+			array('test/foo/path/bar', false, 'test', array('seg1' => 'foo', 'seg2' => 'bar'), 2),
+			array('content/article-1/*', false, 'content', array(), 2),
+			array('content/cat-1/article-1', false, 'article', array('category' => 'cat-1', 'article' => 'article-1'), 2),
+			array('content/cat-1/cat-2/article-1', false, 'article', array('category' => 'cat-1/cat-2', 'article' => 'article-1'), 2),
+			array('content/cat-1/cat-2/cat-3/article-1', false, 'article', array('category' => 'cat-1/cat-2/cat-3', 'article' => 'article-1'), 2)
 		);
 	}
 
@@ -65,7 +69,17 @@ class JApplicationWebRouterBaseTest extends TestCase
 	{
 		$this->assertAttributeEmpty('maps', $this->_instance);
 		$this->_instance->addMap('foo', 'MyApplicationFoo');
-		$this->assertAttributeEquals(array('foo' => 'MyApplicationFoo'), 'maps', $this->_instance);
+		$this->assertAttributeEquals(
+			array(
+				array(
+					'regex' => chr(1) . '^foo$' . chr(1),
+					'vars' => array(),
+					'controller' => 'MyApplicationFoo'
+				)
+			),
+			'maps',
+			$this->_instance
+		);
 	}
 
 	/**
@@ -85,9 +99,32 @@ class JApplicationWebRouterBaseTest extends TestCase
 			'requests/:request_id' => 'request'
 		);
 
+		$rules = array(
+			array(
+				'regex' => chr(1) . '^login$' . chr(1),
+				'vars' => array(),
+				'controller' => 'login'
+			),
+			array(
+				'regex' => chr(1) . '^logout$' . chr(1),
+				'vars' => array(),
+				'controller' => 'logout'
+			),
+			array(
+				'regex' => chr(1) . '^requests$' . chr(1),
+				'vars' => array(),
+				'controller' => 'requests'
+			),
+			array(
+				'regex' => chr(1) . '^requests/([^/]*)$' . chr(1),
+				'vars' => array('request_id'),
+				'controller' => 'request'
+			)
+		);
+
 		$this->assertAttributeEmpty('maps', $this->_instance);
 		$this->_instance->addMaps($maps);
-		$this->assertAttributeEquals($maps, 'maps', $this->_instance);
+		$this->assertAttributeEquals($rules, 'maps', $this->_instance);
 	}
 
 	/**
@@ -155,7 +192,9 @@ class JApplicationWebRouterBaseTest extends TestCase
 				'logout' => 'logout',
 				'articles' => 'articles',
 				'articles/:article_id' => 'article',
-				'test/:seg1/path/:seg2' => 'test'
+				'test/:seg1/path/:seg2' => 'test',
+				'content/:/\*' => 'content',
+				'content/*category/:article' => 'article'
 			)
 		);
 		$this->_instance->setDefaultController('index');
@@ -173,7 +212,8 @@ class JApplicationWebRouterBaseTest extends TestCase
 		parent::setUp();
 
 		// Construct the clean JInput object.
-		$this->_input = new JInput(array());
+		$array = array();
+		$this->_input = new JInput($array);
 
 		$this->_instance = new JApplicationWebRouterBase($this->getMockWeb(), $this->_input);
 	}
