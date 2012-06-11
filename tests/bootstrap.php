@@ -18,7 +18,6 @@ define('_JEXEC', 1);
 @ini_set('magic_quotes_runtime', 0);
 
 // Maximise error reporting.
-@ini_set('zend.ze1_compatibility_mode', '0');
 error_reporting(E_ALL & ~E_STRICT);
 ini_set('display_errors', 1);
 
