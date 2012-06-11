@@ -29,6 +29,7 @@ $ -> Language fix or change
 11-Jun-2012 Jean-Marie Simonet
  $ [#28371] Improve user feedback during automatic version update. Lang strings only!
  # [#28652] *Strict standards administrator/components/com_config/models/application.php
+ ^ [#28380] *Normalizing Beez_20 css and js loading
 
 10-Jun-2012 Jean-Marie Simonet
  # [#28426] only a single JFormFieldColor field can exist (functionally) within a form. Thanks Dennis
