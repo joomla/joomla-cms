@@ -609,5 +609,11 @@ class JStringTest extends PHPUnit_Framework_TestCase
 		$expected = parse_url($url);
 		$actual = JString::parse_url($url);
 		$this->assertEquals($expected, $actual, 'Line: ' . __LINE__ . ' Results should be equal');
+
+		// Test invalild URL
+		$url = 'http:///mydomain.com';
+		$expected = array ();
+		$actual = JString::parse_url($url);
+		$this->assertEquals($expected, $actual, 'Line: ' . __LINE__ . ' Results should be equal');
 	}
 }
