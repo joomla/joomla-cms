@@ -10,13 +10,13 @@
 defined('JPATH_PLATFORM') or die;
 
 // Error Definition: Illegal Options
-define('JERROR_ILLEGAL_OPTIONS', 1);
+const JERROR_ILLEGAL_OPTIONS = 1;
 
 // Error Definition: Callback does not exist
-define('JERROR_CALLBACK_NOT_CALLABLE', 2);
+const JERROR_CALLBACK_NOT_CALLABLE = 2;
 
 // Error Definition: Illegal Handler
-define('JERROR_ILLEGAL_MODE', 3);
+const JERROR_ILLEGAL_MODE = 3
 
 /**
  * Error Handling Class
