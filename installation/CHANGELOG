@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+11-Jun-2012 Jean-Marie Simonet
+ $ [#28371] Improve user feedback during automatic version update. Lang strings only!
+
 10-Jun-2012 Jean-Marie Simonet
  # [#28426] only a single JFormFieldColor field can exist (functionally) within a form. Thanks Dennis
  # [#28550] Default admin user created with id 42. Thanks Ofer
