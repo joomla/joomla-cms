@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-// Almost everything must be public here to allow overloading.
-
 /**
  * Joomla! Cache base object
  *
@@ -18,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Cache
  * @since       11.1
  */
-class JCache extends JObject
+class JCache
 {
 	/**
 	 * @var    object  Storage handler

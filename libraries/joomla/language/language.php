@@ -24,7 +24,7 @@ jimport('joomla.filesystem.stream');
  * @subpackage  Language
  * @since       11.1
  */
-class JLanguage extends JObject
+class JLanguage
 {
 	protected static $languages = array();
 
