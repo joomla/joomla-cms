@@ -102,6 +102,11 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
 
 		parent::connect();
 
+		if (isset($this->options['schema']))
+		{
+			$this->setQuery('ALTER SESSION SET CURRENT_SCHEMA = ' . $this->quoteName($this->options['schema']))->execute();
+		}
+
 		$this->setDateFormat($this->dateformat);
 	}
 
