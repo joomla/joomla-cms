@@ -14,9 +14,6 @@ defined('JPATH_PLATFORM') or die;
  */
 define('_QQ_', '"');
 
-// Import some libraries
-jimport('joomla.filesystem.stream');
-
 /**
  * Languages/translation handler class
  *
@@ -798,10 +795,13 @@ class JLanguage
 	 */
 	protected function parse($filename)
 	{
-		// Capture hidden PHP errors from the parsing.
-		$php_errormsg = null;
-		$track_errors = ini_get('track_errors');
-		ini_set('track_errors', true);
+		if ($this->debug)
+		{
+			// Capture hidden PHP errors from the parsing.
+			$php_errormsg = null;
+			$track_errors = ini_get('track_errors');
+			ini_set('track_errors', true);
+		}
 
 		$contents = file_get_contents($filename);
 		$contents = str_replace('_QQ_', '"\""', $contents);
@@ -817,6 +817,8 @@ class JLanguage
 
 		if ($this->debug)
 		{
+			jimport('joomla.filesystem.stream');
+
 			// Initialise variables for manually parsing the file for common errors.
 			$blacklist = array('YES', 'NO', 'NULL', 'FALSE', 'ON', 'OFF', 'NONE', 'TRUE');
 			$regex = '/^(|(\[[^\]]*\])|([A-Z][A-Z0-9_\-]*\s*=(\s*(("[^"]*")|(_QQ_)))+))\s*(;.*)?$/';

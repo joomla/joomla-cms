@@ -112,7 +112,10 @@ class JDocumentOpensearch extends JDocument
 	public function render($cache = false, $params = array())
 	{
 		$xml = new DOMDocument('1.0', 'utf-8');
-		$xml->formatOutput = true;
+		if (defined('JDEBUG') && JDEBUG)
+		{
+			$xml->formatOutput = true;
+		}
 
 		// The OpenSearch Namespace
 		$osns = 'http://a9.com/-/spec/opensearch/1.1/';
