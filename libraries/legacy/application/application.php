@@ -132,10 +132,10 @@ class JApplication extends JApplicationBase
 
 		$this->loadDispatcher();
 
-		$this->set('requestTime', gmdate('Y-m-d H:i'));
+		$this->requestTime = gmdate('Y-m-d H:i');
 
 		// Used by task system to ensure that the system doesn't go over time.
-		$this->set('startTime', JProfiler::getmicrotime());
+		$this->startTime = JProfiler::getmicrotime();
 	}
 
 	/**
