@@ -5,8 +5,7 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
 jimport('joomla.application.router');
 

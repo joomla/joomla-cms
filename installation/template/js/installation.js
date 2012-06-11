@@ -16,7 +16,7 @@ var Installation = new Class({
 
         this.pageInit();
     },
-    
+
     pageInit: function() {
     	this.addToggler();
 		// Attach the validator
@@ -277,7 +277,7 @@ var Installation = new Class({
 		}).send();
 	},
 
-    addToggler: function() {
+	addToggler: function() {
 		new Fx.Accordion($$('h4.moofx-toggler'), $$('div.moofx-slider'), {
 			onActive: function(toggler, i) {
 				toggler.addClass('moofx-toggler-down');
