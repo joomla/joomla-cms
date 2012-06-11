@@ -33,6 +33,7 @@ $ -> Language fix or change
  ^ [#28642] Clean up the installation a tiny bit. Thanks Rouven
  # [#28025] Joomla Bugfix: Exchange of wrong picture by hide.js fixed. Thanks Udo
  ^ [#28645] Clean up the session package based on what was done in the platform. Thanks Rouven
+ $ Updating installation ini file th-TH
 
 10-Jun-2012 Jean-Marie Simonet
  # [#28426] only a single JFormFieldColor field can exist (functionally) within a form. Thanks Dennis
