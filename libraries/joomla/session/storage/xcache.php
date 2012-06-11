@@ -36,31 +36,6 @@ class JSessionStorageXcache extends JSessionStorage
 	}
 
 	/**
-	 * Open the SessionHandler backend.
-	 *
-	 * @param   string  $save_path     The path to the session object.
-	 * @param   string  $session_name  The name of the session.
-	 *
-	 * @return  boolean  True on success, false otherwise.
-	 *
-	 * @since   11.1
-	 */
-	public function open($save_path, $session_name)
-	{
-		return true;
-	}
-
-	/**
-	 * Close the SessionHandler backend.
-	 *
-	 * @return boolean  True on success, false otherwise.
-	 */
-	public function close()
-	{
-		return true;
-	}
-
-	/**
 	 * Read the data for a particular session identifier from the SessionHandler backend.
 	 *
 	 * @param   string  $id  The session identifier.
@@ -117,20 +92,6 @@ class JSessionStorageXcache extends JSessionStorage
 		}
 
 		return xcache_unset($sess_id);
-	}
-
-	/**
-	 * Garbage collect stale sessions from the SessionHandler backend.
-	 *
-	 * @param   integer  $maxlifetime  The maximum age of a session.
-	 *
-	 * @return  boolean  True on success, false otherwise.
-	 *
-	 * @since   11.1
-	 */
-	public function gc($maxlifetime = null)
-	{
-		return true;
 	}
 
 	/**
