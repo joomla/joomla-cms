@@ -170,13 +170,17 @@ class JFormFieldMedia extends JFormField
 		$showAsTooltip = false;
 		switch ($preview)
 		{
-			case 'no':
+			case 'no': // Deprecated parameter value
+			case 'false':
 			case 'none':
 				$showPreview = false;
 				break;
-			case 'yes':
+
+			case 'yes': // Deprecated parameter value
+			case 'true':
 			case 'show':
 				break;
+
 			case 'tooltip':
 			default:
 				$showAsTooltip = true;
