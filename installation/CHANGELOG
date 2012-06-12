@@ -30,6 +30,7 @@ $ -> Language fix or change
  # [#28660] Fix code style errors. Thanks Jenkins and Rouven
  # [#28632] Backport JCrypt (only with the simple chipher). Thanks Rouven
  + [#28371] Improve user feedback during automatic version update. Thanks Mark
+ # [#28591] Content triggers in Category and Featured views only apply to first few articles. Thanks Kyle.
 
 11-Jun-2012 Jean-Marie Simonet
  $ [#28371] Improve user feedback during automatic version update. Lang strings only!
