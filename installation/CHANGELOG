@@ -28,6 +28,7 @@ $ -> Language fix or change
 
 12-Jun-2012 Jean-Marie Simonet
  # [#28660] Fix code style errors. Thanks Jenkins and Rouven
+ # [#28632] Backport JCrypt (only with the simple chipher). Thanks Rouven
 
 11-Jun-2012 Jean-Marie Simonet
  $ [#28371] Improve user feedback during automatic version update. Lang strings only!
