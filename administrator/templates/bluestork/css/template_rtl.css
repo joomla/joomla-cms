@@ -734,3 +734,15 @@ ul#new-modules-list li {
 	padding-left: 0;
 	padding-right: 20px;	
 	background-position: center right;}
+
+p.nowarning {
+	float: right;
+	margin-left: 15px;
+	margin-right: 3px;
+}
+
+/* Spinner */
+.joomlaupdate_spinner {
+	float: right;
+	margin-left: 15px;
+}

@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 $ftpFieldsDisplay = $this->ftp['enabled'] ? '' : 'style = "display: none"';
+
 ?>
 
 <?php if (is_null($this->updateInfo['object'])): ?>
@@ -33,7 +34,7 @@ $ftpFieldsDisplay = $this->ftp['enabled'] ? '' : 'style = "display: none"';
 	<legend>
 		<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_UPDATEFOUND') ?>
 	</legend>
-	
+
 	<table class="adminlist">
 		<tbody>
 			<tr class="row0">
@@ -117,7 +118,7 @@ $ftpFieldsDisplay = $this->ftp['enabled'] ? '' : 'style = "display: none"';
 					&nbsp;
 				</td>
 				<td>
-					<button type="submit">
+					<button class="submit" type="submit">
 						<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_INSTALLUPDATE') ?>
 					</button>
 				</td>
@@ -128,3 +129,9 @@ $ftpFieldsDisplay = $this->ftp['enabled'] ? '' : 'style = "display: none"';
 
 </form>
 <?php endif; ?>
+
+<div class="download_message" style="display: none">
+	<p></p>
+	<p class="nowarning"> <?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_DOWNLOAD_IN_PROGRESS'); ?></p>
+	<div class="joomlaupdate_spinner" />
+</div>

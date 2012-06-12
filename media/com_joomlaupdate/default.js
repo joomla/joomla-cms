@@ -18,4 +18,10 @@ window.addEvent('domready', function () {
 		});
 	}
 
+	$$('button.submit').addEvent('click', function() {
+		$$('div.download_message').setStyle('display', 'block');
+		var el = $$('div.joomlaupdate_spinner');
+		el.set('spinner', {class: 'joomlaupdate_spinner'});
+		el.spin();
+	})
 });

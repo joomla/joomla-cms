@@ -3247,3 +3247,10 @@ span.update-badge {
 	padding-left: 20px;
 	background: transparent url(../images/admin/icon-16-allow.png) center left no-repeat;
 }
+
+/* Spinner */
+.joomlaupdate_spinner {
+	float: left;
+	margin-right: 15px;
+}
+

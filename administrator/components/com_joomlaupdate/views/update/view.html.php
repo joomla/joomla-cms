@@ -22,9 +22,9 @@ class JoomlaupdateViewUpdate extends JView
 {
 	/**
 	 * Renders the view
-	 * 
+	 *
 	 * @param   string  $tpl  Template name
-	 * 
+	 *
 	 * @return void
 	 */
 	public function display($tpl=null)
@@ -41,7 +41,7 @@ class JoomlaupdateViewUpdate extends JView
 		JToolBarHelper::preferences('com_joomlaupdate');
 
 		// Load mooTools
-		JHtml::_('behavior.framework');
+		JHtml::_('behavior.framework', true);
 
 		$updateScript = <<<ENDSCRIPT
 var joomlaupdate_password = '$password';
@@ -50,12 +50,14 @@ var joomlaupdate_ajax_url = '$ajaxUrl';
 var joomlaupdate_return_url = '$returnUrl';
 
 ENDSCRIPT;
-		
+
 		// Load our Javascript
 		$document = JFactory::getDocument();
 		$document->addScript('../media/com_joomlaupdate/json2.js');
 		$document->addScript('../media/com_joomlaupdate/encryption.js');
 		$document->addScript('../media/com_joomlaupdate/update.js');
+		JHtml::_('script', 'system/progressbar.js', true, true);
+		JHtml::_('stylesheet', 'media/mediamanager.css', array(), true);
 		$document->addScriptDeclaration($updateScript);
 
 		// Render the view
