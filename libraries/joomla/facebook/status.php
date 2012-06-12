@@ -114,7 +114,7 @@ class JFacebookStatus extends JFacebookObject
 	 * @param   string  $status        The status message id.
 	 * @param   string  $access_token  The Facebook access token.
 	 * 
-	 * @return  void
+	 * @return  array   The decoded JSON response.
 	 * 
 	 * @since   12.1
 	 */

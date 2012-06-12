@@ -107,7 +107,7 @@ class JFacebookPost extends JFacebookObject
 	 * @param   string  $post          The post id.
 	 * @param   string  $access_token  The Facebook access token.
 	 * 
-	 * @return  void
+	 * @return  array   The decoded JSON response.
 	 * 
 	 * @since   12.1
 	 */

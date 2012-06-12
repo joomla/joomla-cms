@@ -92,7 +92,7 @@ class JFacebookLink extends JFacebookObject
 	 * @param   string  $link          The link id.
 	 * @param   string  $access_token  The Facebook access token.
 	 * 
-	 * @return  void
+	 * @return  array   The decoded JSON response.
 	 * 
 	 * @since   12.1
 	 */

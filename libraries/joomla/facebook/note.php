@@ -92,7 +92,7 @@ class JFacebookNote extends JFacebookObject
 	 * @param   string  $note          The note id.
 	 * @param   string  $access_token  The Facebook access token with user_notes or friends_notes for non-public notes.
 	 * 
-	 * @return  void
+	 * @return  array   The decoded JSON response.
 	 * 
 	 * @since   12.1
 	 */

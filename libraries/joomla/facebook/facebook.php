@@ -79,6 +79,12 @@ class JFacebook
 	protected $post;
 
 	/**
+	* @var    JFacebookComment  Facebook API object for comment.
+	* @since  12.1
+	*/
+	protected $comment;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   JRegistry      $options  Facebook options object.
@@ -163,6 +169,13 @@ class JFacebook
 					$this->post = new JFacebookPost($this->options, $this->client);
 				}
 				return $this->post;
+			
+			case 'comment':
+				if ($this->comment == null)
+				{
+					$this->comment = new JFacebookComment($this->options, $this->client);
+				}
+				return $this->comment;
 		}
 	}
 
