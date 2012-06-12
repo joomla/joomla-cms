@@ -279,7 +279,7 @@ class JInstallationModelFilesystem extends JModelLegacy
 	 * @return	mixed	Boolean true on success or JError object on fail
 	 * @since	1.5
 	 */
-	public static function checkSettings($user, $pass, $root, $host = '127.0.0.1', $port = '21')
+	public function checkSettings($user, $pass, $root, $host = '127.0.0.1', $port = '21')
 	{
 		jimport('joomla.client.ftp');
 		$ftp = JFTP::getInstance($host, $port);

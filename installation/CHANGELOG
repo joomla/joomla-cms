@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+12-Jun-2012 Jean-Marie Simonet
+ # [#28660] Fix code style errors. Thanks Jenkins and Rouven
+
 11-Jun-2012 Jean-Marie Simonet
  $ [#28371] Improve user feedback during automatic version update. Lang strings only!
  # [#28652] *Strict standards administrator/components/com_config/models/application.php
