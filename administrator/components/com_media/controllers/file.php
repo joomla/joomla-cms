@@ -54,7 +54,7 @@ class MediaControllerFile extends JController
 		// Input is in the form of an associative array containing numerically indexed arrays
 		// We want a numerically indexed array containing associative arrays
 		// Cast each item as array in case the Filedata parameter was not sent as such
-		$files = array_map( array($this, 'mapFiles'),
+		$files = array_map( array($this, 'reformatFilesArray'),
 			(array) $files['name'], (array) $files['type'], (array) $files['tmp_name'], (array) $files['error'], (array) $files['size']
 		);
 
