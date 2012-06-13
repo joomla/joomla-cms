@@ -59,7 +59,7 @@ class JTableContentTest extends TestCaseDatabase
 		$stubpath = JPATH_TESTS . '/suites/unit/joomla/table/stubs';
 
 		$dataSet->addTable('jos_assets', $stubpath . '/jos_assets.csv');
-		$dataSet->addTable('jos_categories', $stubpath . '/jos_categories.csv');
+		$dataSet->addTable('jos_categories', __DIR__ . '/stubs/jos_categories.csv');
 		$dataSet->addTable('jos_content', __DIR__ . '/stubs/jos_content.csv');
 
 		return $dataSet;
