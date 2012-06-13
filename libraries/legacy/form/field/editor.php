@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Joomla.Platform
+ * @package     Joomla.Legacy
  * @subpackage  Form
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
@@ -13,9 +13,9 @@ defined('JPATH_PLATFORM') or die;
  * Form Field class for the Joomla Platform.
  * An editarea field for content creation
  *
- * @package     Joomla.Platform
+ * @package     Joomla.Legacy
  * @subpackage  Form
- * @see         JFormfieldEditors
+ * @see         JFormFieldEditors
  * @see         JEditor
  * @since       11.1
  */

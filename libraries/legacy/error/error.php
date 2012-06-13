@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Joomla.Platform
+ * @package     Joomla.Legacy
  * @subpackage  Error
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
@@ -28,7 +28,7 @@ const JERROR_ILLEGAL_MODE = 3;
  * - Sebastian Mordziol	<argh@php-tools.net>
  * - Stephan Schmidt		<scst@php-tools.net>
  *
- * @package     Joomla.Platform
+ * @package     Joomla.Legacy
  * @subpackage  Error
  * @since       11.1
  * @deprecated  12.1   Use PHP Exception

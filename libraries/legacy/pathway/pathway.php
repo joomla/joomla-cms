@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Joomla.Platform
+ * @package     Joomla.Legacy
  * @subpackage  Pathway
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * The user's navigated path within the application.
  *
- * @package     Joomla.Platform
+ * @package     Joomla.Legacy
  * @subpackage  Pathway
  * @since       11.1
  */
