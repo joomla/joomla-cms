@@ -500,8 +500,8 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the getPicture method.
 	 *
-	 * @param   string  $type          Extra fields for the request URL.
 	 * @param   string  $access_token  The Facebook access token.
+	 * @param   string  $type          Extra fields for the request URL.
 	 *
 	 * @covers JFacebookUser::getPicture
 	 * @covers JFacebookObject::sendRequest
@@ -554,10 +554,17 @@ class JFacebookUserTest extends TestCase
 
 	/**
 	 * Tests the getPicture method - failure.
+<<<<<<< HEAD
 	 *
 	 * @param   string  $type          Extra fields for the request URL.
 	 * @param   string  $access_token  The Facebook access token.
 	 *
+=======
+	 *
+	 * @param   string  $access_token  The Facebook access token.
+	 * @param   string  $type          Extra fields for the request URL.
+	 *
+>>>>>>> 885a694... Add getPicture() method to JFacebookPhoto + small fixes.
 	 * @covers JFacebookUser::getPicture
 	 * @dataProvider  seedGetPicture
 	 *

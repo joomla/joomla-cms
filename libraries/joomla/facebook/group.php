@@ -103,8 +103,7 @@ class JFacebookGroup extends JFacebookObject
 			$type = '';
 		}
 
-		$response = parent::getConnection($group, $access_token, 'picture', $type);
-		return $response['Location'];
+		return parent::getConnection($group, $access_token, 'picture', $type);
 	}
 
 	/**

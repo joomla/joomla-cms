@@ -21,7 +21,7 @@ defined('JPATH_PLATFORM') or die();
  */
 class JFacebookPost extends JFacebookObject
 {
-/**
+	/**
 	 * Method to get a post.
 	 * 
 	 * @param   string  $post          The post id.

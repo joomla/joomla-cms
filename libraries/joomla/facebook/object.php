@@ -95,13 +95,13 @@ abstract class JFacebookObject
 				break;
 		}
 
-		if (isset($response->body))
+		if (strcmp($response->body, ''))
 		{
 			$response = json_decode($response->body);
 		}
 		else
 		{
-			return $response->headers;
+			return $response->headers['Location'];
 		}
 
 		// Validate the response.
