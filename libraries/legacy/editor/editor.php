@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Joomla.Platform
+ * @package     Joomla.Legacy
  * @subpackage  Editor
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * JEditor class to handle WYSIWYG editors
  *
- * @package     Joomla.Platform
+ * @package     Joomla.Legacy
  * @subpackage  Editor
  * @since       11.1
  */
