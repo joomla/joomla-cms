@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+13-Jun-2012 Jean-Marie Simonet
+ $ Updating installation ini file fa-IR
+
 12-Jun-2012 Jean-Marie Simonet
  # [#28660] Fix code style errors. Thanks Jenkins and Rouven
  # [#28632] Backport JCrypt (only with the simple chipher). Thanks Rouven
