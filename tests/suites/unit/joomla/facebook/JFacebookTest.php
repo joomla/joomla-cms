@@ -220,6 +220,21 @@ class JFacebookTest extends TestCase
 	}
 
 	/**
+	 * Tests the magic __get method - video
+	 * 
+	 * @return  void
+	 * 
+	 * @since   12.1
+	 */
+	public function test__GetVideo()
+	{
+		$this->assertThat(
+			$this->object->video,
+			$this->isInstanceOf('JFacebookVideo')
+		);
+	}
+
+	/**
 	 * Tests the setOption method
 	 * 
 	 * @return  void

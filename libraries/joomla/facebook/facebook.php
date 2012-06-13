@@ -91,6 +91,12 @@ class JFacebook
 	protected $photo;
 
 	/**
+	* @var    JFacebookVideo  Facebook API object for video.
+	* @since  12.1
+	*/
+	protected $video;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   JRegistry      $options  Facebook options object.
@@ -189,6 +195,13 @@ class JFacebook
 					$this->photo = new JFacebookPhoto($this->options, $this->client);
 				}
 				return $this->photo;
+
+			case 'video':
+				if ($this->video == null)
+				{
+					$this->video = new JFacebookVideo($this->options, $this->client);
+				}
+				return $this->video;
 		}
 	}
 
