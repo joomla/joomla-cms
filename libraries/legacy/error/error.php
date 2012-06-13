@@ -16,7 +16,7 @@ const JERROR_ILLEGAL_OPTIONS = 1;
 const JERROR_CALLBACK_NOT_CALLABLE = 2;
 
 // Error Definition: Illegal Handler
-const JERROR_ILLEGAL_MODE = 3
+const JERROR_ILLEGAL_MODE = 3;
 
 /**
  * Error Handling Class
