@@ -700,7 +700,7 @@ abstract class JError
 	public static function handleMessage(&$error, $options)
 	{
 		// Deprecation warning.
-		JLog::add('JError::hanleMessage() is deprecated.', JLog::WARNING, 'deprecated');
+		JLog::add('JError::handleMessage() is deprecated.', JLog::WARNING, 'deprecated');
 
 		$appl = JFactory::getApplication();
 		$type = ($error->get('level') == E_NOTICE) ? 'notice' : 'error';
