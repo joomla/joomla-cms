@@ -314,19 +314,19 @@ class JFormFieldCheckboxesTest extends TestCase
 	{
 		$formFieldCheckboxes = new JFormFieldCheckboxes;
 
-		$option1 = new JObject;
-		$option1->set('value','yellow');
-		$option1->set('text','yellow');
-		$option1->set('disable',false);
-		$option1->set('class','');
-		$option1->set('onclick','');
+		$option1 = new stdClass;
+		$option1->value = 'yellow';
+		$option1->text = 'yellow';
+		$option1->disable = false;
+		$option1->class = '';
+		$option1->onclick = '';
 
-		$option2 = new JObject;
-		$option2->set('value','green');
-		$option2->set('text','green');
-		$option2->set('disable',false);
-		$option2->set('class','');
-		$option2->set('onclick','');
+		$option2 = new stdClass;
+		$option2->value = 'green';
+		$option2->text = 'green';
+		$option2->disable = false;
+		$option2->class = '';
+		$option2->onclick = '';
 
 		$optionsExpected = array($option1,$option2);
 
