@@ -53,6 +53,11 @@ class JFormRuleEquals extends JFormRule
 			throw new InvalidArgumentException(sprintf('The value for $form must not be null in %s', get_class($this)));
 		}
 
+		if (is_null($input))
+		{
+			throw new InvalidArgumentException(sprintf('The value for $input must not be null in %s', get_class($this)));
+		}
+
 		// Test the two values against each other.
 		if ($value == $input->get($field))
 		{
