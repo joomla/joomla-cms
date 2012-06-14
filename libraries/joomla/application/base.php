@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Application
  * @since       12.1
  */
-abstract class JApplicationBase extends JObject
+abstract class JApplicationBase
 {
 	/**
 	 * The application dispatcher object.
