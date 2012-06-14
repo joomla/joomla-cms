@@ -235,6 +235,21 @@ class JFacebookTest extends TestCase
 	}
 
 	/**
+	 * Tests the magic __get method - album
+	 * 
+	 * @return  void
+	 * 
+	 * @since   12.1
+	 */
+	public function test__GetAlbum()
+	{
+		$this->assertThat(
+			$this->object->album,
+			$this->isInstanceOf('JFacebookAlbum')
+		);
+	}
+
+	/**
 	 * Tests the setOption method
 	 * 
 	 * @return  void

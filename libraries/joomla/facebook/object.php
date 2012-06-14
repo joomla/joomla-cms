@@ -167,12 +167,13 @@ abstract class JFacebookObject
 	 * @param   string  $access_token  The Facebook access token.
 	 * @param   string  $connection    The object's connection name.
 	 * @param   array   $parameters    The POST request parameters.
+	 * @param   array   $headers       An array of name-value pairs to include in the header of the request
 	 * 
 	 * @return  array   The decoded JSON response.
 	 * 
 	 * @since   12.1
 	 */
-	public function createConnection($object, $access_token, $connection, $parameters=null)
+	public function createConnection($object, $access_token, $connection, $parameters=null, array $headers = null)
 	{
 		$token = '?access_token=' . $access_token;
 
@@ -180,7 +181,7 @@ abstract class JFacebookObject
 		$path = $object . '/' . $connection . $token;
 
 		// Send the post request.
-		return $this->sendRequest($path, 'post', $parameters);
+		return $this->sendRequest($path, 'post', $parameters, $headers);
 	}
 
 	/**
