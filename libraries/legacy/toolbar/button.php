@@ -117,7 +117,7 @@ abstract class JToolbarButton
 /**
  * Deprecated class placeholder. You should use JToolbarButton instead.
  *
- * @package     Joomla.Platform
+ * @package     Joomla.Legacy
  * @subpackage  Toolbar
  * @since       11.1
  * @deprecated  12.3

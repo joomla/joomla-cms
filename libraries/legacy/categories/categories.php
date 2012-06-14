@@ -373,7 +373,7 @@ class JCategories
 /**
  * Helper class to load Categorytree
  *
- * @package     Joomla.Platform
+ * @package     Joomla.Legacy
  * @subpackage  Categories
  * @since       11.1
  */
