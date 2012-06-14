@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+14-Jun-2012 Christophe Demko
+ ^ [#28667] Update TinyMCE to version 3.5.2 (Rouven Weßling)
+
 14-Jun-2012 Jean-Marie Simonet
  $ Updating installation ini file ca-ES
 
