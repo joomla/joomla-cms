@@ -39,10 +39,19 @@ class MediaControllerFile extends JController
 		$return			= JRequest::getVar('return-url', null, 'post', 'base64');
 		$this->folder	= JRequest::getVar('folder', '', '', 'path');
 
-		// Set the redirect
-		if ($return)
+		// Always set a redirect
+		$return = $return ? base64_decode($return) : 'index.php?option=com_media';
+		if ($this->folder)
 		{
-			$this->setRedirect(base64_decode($return) . '&folder=' . $this->folder);
+			$return.= '&folder=' . $this->folder;
+		}
+		$this->setRedirect($return);
+		
+		// Check that the files array is intact. If it isn't, probably we have exceeded php's max file or post size
+		if (!isset($files['name'], $files['type'], $files['tmp_name'], $files['error'], $files['size']))
+		{
+			JError::raiseWarning(100, JText::_('COM_MEDIA_ERROR_BAD_REQUEST'));
+			return false;
 		}
 
 		// Authorize the user
