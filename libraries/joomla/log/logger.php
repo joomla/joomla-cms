@@ -88,6 +88,6 @@ abstract class JLogger extends JLogLogger
 	public function __construct(array &$options)
 	{
 		JLog::add('JLogger is deprecated. Use JLogLogger instead.', JLog::WARNING, 'deprecated');
-		parent::__construct($$options);
+		parent::__construct($options);
 	}
 }
