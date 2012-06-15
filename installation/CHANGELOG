@@ -33,7 +33,8 @@ $ -> Language fix or change
  $ Updating installation ini file sy-IQ + missing strings in en-AU, en-US and gu-IN
  + [#28629] Multi-File Upload. Thanks Elijah
  $ Updating installation ini files: af-ZA, be-BY, el-GR, gl-ES, he-IL
- 
+ + [#28617] Add buttons in each menu selection tab in the module admin manager. Thanks Mathieu
+
 14-Jun-2012 Christophe Demko
  ^ [#28667] Update TinyMCE to version 3.5.2 (Rouven Weßling)
 
