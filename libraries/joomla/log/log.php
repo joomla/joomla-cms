@@ -193,7 +193,7 @@ class JLog
 		if (isset($options['callback']) && is_a($options['callback'], 'closure'))
 		{
 			$callback = $options['callback'];
-			$options['callback'] = self::getClosureUniqueId($options['callback']);
+			$options['callback'] = spl_object_hash($options['callback']);
 		}
 
 		// Generate a unique signature for the JLog instance based on its options.
@@ -306,29 +306,5 @@ class JLog
 		}
 
 		return $loggers;
-	}
-
-	/**
-	 * Method to track closure objects passed as callbacks 
-	 *
-	 * @param   Closure  $closure  A Closure object
-	 *
-	 * @return  string  A unique identifier for the passed object
-	 *
-	 * @since   12.1
-	 */
-	protected static function getClosureUniqueId(Closure $closure)
-	{
-		static $closures = array();
-
-		$id = array_search($closure, $closures);
-
-		if ($id === false)
-		{
-			$closures[] = $closure;
-			$id = count($closures) - 1;
-		}
-
-		return '_CLOSURE_ID_' . $id;
 	}
 }

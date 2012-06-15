@@ -16,14 +16,16 @@ require_once __DIR__ . '/stubs/callback/helper.php';
  *
  * @package     Joomla.Platform
  * @subpackage  Log
- * @since       12.1
+ * @since       12.2
  */
 class JLoggerCallbackTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 * Test the JLoggerCallback::__construct method.
 	 *
-	 * @return null
+	 * @return  null
+	 * 
+	 * @since   12.2
 	 */
 	public function testConstructor01()
 	{
@@ -46,7 +48,9 @@ class JLoggerCallbackTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Test the JLoggerCallback::__construct method.
 	 *
-	 * @return null
+	 * @return  null
+	 * 
+	 * @since   12.2
 	 */
 	public function testConstructor02()
 	{
@@ -71,7 +75,9 @@ class JLoggerCallbackTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Test the JLoggerCallback::__construct method.
 	 *
-	 * @return null
+	 * @return  null
+	 * 
+	 * @since   12.2
 	 */
 	public function testConstructor03()
 	{
@@ -94,7 +100,9 @@ class JLoggerCallbackTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Test the JLoggerCallback::__construct method.
 	 *
-	 * @return null
+	 * @return  null
+	 * 
+	 * @since   12.2
 	 */
 	public function testConstructor04()
 	{
@@ -117,7 +125,9 @@ class JLoggerCallbackTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Test the JLoggerCallback::__construct method.
 	 *
-	 * @return null
+	 * @return  null
+	 * 
+	 * @since   12.2
 	 */
 	public function testConstructor05()
 	{
@@ -140,7 +150,9 @@ class JLoggerCallbackTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Test the JLoggerCallback::__construct method.
 	 *
-	 * @return null
+	 * @return  null
+	 * 
+	 * @since   12.2
 	 */
 	public function testConstructor06()
 	{
@@ -164,7 +176,9 @@ class JLoggerCallbackTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Test the JLoggerCallback::addEntry method.
 	 *
-	 * @return null
+	 * @return  null
+	 * 
+	 * @since   12.2
 	 */
 	public function testAddEntry()
 	{
