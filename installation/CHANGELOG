@@ -28,6 +28,7 @@ $ -> Language fix or change
 
 15-Jun-2012 Jean-Marie Simonet
  $ Updating installation ini file sy-IQ + missing strings in en-AU, en-US and gu-IN
+ + [#28629] Multi-File Upload. Thanks Elijah
  
 14-Jun-2012 Christophe Demko
  ^ [#28667] Update TinyMCE to version 3.5.2 (Rouven Weßling)
