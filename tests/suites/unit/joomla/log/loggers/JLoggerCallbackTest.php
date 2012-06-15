@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM . '/joomla/log/loggers/callback.php';
+require_once JPATH_PLATFORM . '/joomla/log/logger/callback.php';
 require_once __DIR__ . '/stubs/callback/inspector.php';
 require_once __DIR__ . '/stubs/callback/helper.php';
 
@@ -18,7 +18,7 @@ require_once __DIR__ . '/stubs/callback/helper.php';
  * @subpackage  Log
  * @since       12.1
  */
-class JLoggerCallbackTest extends JoomlaTestCase
+class JLoggerCallbackTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 * Test the JLoggerCallback::__construct method.
