@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.log.logger');
-
 /**
  * Joomla! Callback Log class
  *
