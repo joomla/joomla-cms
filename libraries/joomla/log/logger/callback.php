@@ -21,7 +21,7 @@ jimport('joomla.log.logger');
  * @subpackage  Log
  * @since       12.2
  */
-class JLoggerCallback extends JLogger
+class JLoggerCallback extends JLogLogger
 {
 	/**
 	 * @var    callback  The function to call when an entry is added - should return True on success
