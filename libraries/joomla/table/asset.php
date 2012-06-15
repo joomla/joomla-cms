@@ -87,12 +87,7 @@ class JTableAsset extends JTableNested
 		{
 			return false;
 		}
-		// Check for a database error.
-		if ($error = $this->_db->getErrorMsg())
-		{
-			$this->setError($error);
-			return false;
-		}
+
 		return $this->load($assetId);
 	}
 
@@ -101,7 +96,7 @@ class JTableAsset extends JTableNested
 	 *
 	 * @return  boolean  True if the instance is sane and able to be stored in the database.
 	 *
-	 * @link	http://docs.joomla.org/JTable/check
+	 * @link    http://docs.joomla.org/JTable/check
 	 * @since   11.1
 	 */
 	public function check()
@@ -124,14 +119,7 @@ class JTableAsset extends JTableNested
 			}
 			else
 			{
-				if ($error = $this->_db->getErrorMsg())
-				{
-					$this->setError($error);
-				}
-				else
-				{
-					$this->setError(JText::_('JLIB_DATABASE_ERROR_INVALID_PARENT_ID'));
-				}
+				$this->setError('Invalid Parent ID');
 				return false;
 			}
 		}

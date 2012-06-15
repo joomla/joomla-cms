@@ -74,6 +74,19 @@ class JDatabaseDriverMysql extends JDatabaseDriver
 	}
 
 	/**
+	 * Destructor.
+	 *
+	 * @since   12.1
+	 */
+	public function __destruct()
+	{
+		if (is_resource($this->connection))
+		{
+			mysql_close($this->connection);
+		}
+	}
+
+	/**
 	 * Connects to the database if needed.
 	 *
 	 * @return  void  Returns void if the database connected successfully.
@@ -91,13 +104,13 @@ class JDatabaseDriverMysql extends JDatabaseDriver
 		// Make sure the MySQL extension for PHP is installed and enabled.
 		if (!function_exists('mysql_connect'))
 		{
-			throw new RuntimeException(JText::_('JLIB_DATABASE_ERROR_ADAPTER_MYSQL'));
+			throw new RuntimeException('Could not connect to MySQL.');
 		}
 
 		// Attempt to connect to the server.
 		if (!($this->connection = @ mysql_connect($this->options['host'], $this->options['user'], $this->options['password'], true)))
 		{
-			throw new RuntimeException(JText::_('JLIB_DATABASE_ERROR_CONNECT_MYSQL'));
+			throw new RuntimeException('Could not connect to MySQL.');
 		}
 
 		// Set sql_mode to non_strict mode
@@ -114,16 +127,18 @@ class JDatabaseDriverMysql extends JDatabaseDriver
 	}
 
 	/**
-	 * Destructor.
+	 * Disconnects the database.
+	 *
+	 * @return  void
 	 *
 	 * @since   12.1
 	 */
-	public function __destruct()
+	public function disconnect()
 	{
-		if (is_resource($this->connection))
-		{
-			mysql_close($this->connection);
-		}
+		// Close the connection.
+		mysql_close($this->connection);
+
+		$this->connection = null;
 	}
 
 	/**
@@ -173,7 +188,7 @@ class JDatabaseDriverMysql extends JDatabaseDriver
 	{
 		if (is_resource($this->connection))
 		{
-			return mysql_ping($this->connection);
+			return @mysql_ping($this->connection);
 		}
 
 		return false;
@@ -447,17 +462,47 @@ class JDatabaseDriverMysql extends JDatabaseDriver
 		$this->errorNum = 0;
 		$this->errorMsg = '';
 
-		// Execute the query.
-		$this->cursor = mysql_query($sql, $this->connection);
+		// Execute the query. Error suppression is used here to prevent warnings/notices that the connection has been lost.
+		$this->cursor = @mysql_query($sql, $this->connection);
 
 		// If an error occurred handle it.
 		if (!$this->cursor)
 		{
-			$this->errorNum = (int) mysql_errno($this->connection);
-			$this->errorMsg = (string) mysql_error($this->connection) . ' SQL=' . $sql;
+			// Check if the server was disconnected.
+			if (!$this->connected())
+			{
+				try
+				{
+					// Attempt to reconnect.
+					$this->connection = null;
+					$this->connect();
+				}
+				// If connect fails, ignore that exception and throw the normal exception.
+				catch (RuntimeException $e)
+				{
+					// Get the error number and message.
+					$this->errorNum = (int) mysql_errno($this->connection);
+					$this->errorMsg = (string) mysql_error($this->connection) . ' SQL=' . $sql;
 
-			JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'databasequery');
-			throw new RuntimeException($this->errorMsg, $this->errorNum);
+					// Throw the normal query exception.
+					JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'databasequery');
+					throw new RuntimeException($this->errorMsg, $this->errorNum);
+				}
+
+				// Since we were able to reconnect, run the query again.
+				return $this->execute();
+			}
+			// The server was not disconnected.
+			else
+			{
+				// Get the error number and message.
+				$this->errorNum = (int) mysql_errno($this->connection);
+				$this->errorMsg = (string) mysql_error($this->connection) . ' SQL=' . $sql;
+
+				// Throw the normal query exception.
+				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'databasequery');
+				throw new RuntimeException($this->errorMsg, $this->errorNum);
+			}
 		}
 
 		return $this->cursor;
@@ -471,7 +516,7 @@ class JDatabaseDriverMysql extends JDatabaseDriver
 	 * @param   string  $backup    Not used by MySQL.
 	 * @param   string  $prefix    Not used by MySQL.
 	 *
-	 * @return  JDatabase  Returns this object to support chaining.
+	 * @return  JDatabaseDriverMysql  Returns this object to support chaining.
 	 *
 	 * @since   12.1
 	 * @throws  RuntimeException
@@ -504,7 +549,7 @@ class JDatabaseDriverMysql extends JDatabaseDriver
 
 		if (!mysql_select_db($database, $this->connection))
 		{
-			throw new RuntimeException(JText::_('JLIB_DATABASE_ERROR_DATABASE_CONNECT'));
+			throw new RuntimeException('Could not connect to database');
 		}
 
 		return true;

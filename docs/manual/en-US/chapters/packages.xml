@@ -9,9 +9,16 @@
 
   <para>This is information about the core platform packages.</para>
 
+  <xi:include href="packages/database.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
   <xi:include href="packages/github.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  <xi:include href="packages/http.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
 
   <xi:include href="packages/input.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
 
   <xi:include href="packages/log.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+  
+  <xi:include href="packages/mvc.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
 </chapter>
+

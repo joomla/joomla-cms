@@ -48,7 +48,7 @@ abstract class JInstallerHelper
 		$response = $http->get($url);
 		if (200 != $response->code)
 		{
-			JError::raiseWarning(42, JText::sprintf('JLIB_INSTALLER_ERROR_DOWNLOAD_SERVER_CONNECT', $response->code));
+			JLog::add(JText::_('JLIB_INSTALLER_ERROR_DOWNLOAD_SERVER_CONNECT'), JLog::WARNING, 'jerror');
 			return false;
 		}
 
@@ -104,9 +104,11 @@ abstract class JInstallerHelper
 		$archivename = JPath::clean($archivename);
 
 		// Do the unpacking of the archive
-		$result = JArchive::extract($archivename, $extractdir);
-
-		if ($result === false)
+		try
+		{
+			JArchive::extract($archivename, $extractdir);
+		}
+		catch (Exception $e)
 		{
 			return false;
 		}
@@ -145,7 +147,8 @@ abstract class JInstallerHelper
 		 * Get the extension type and return the directory/type array on success or
 		 * false on fail.
 		 */
-		if ($retval['type'] = self::detectType($extractdir))
+		$retval['type'] = self::detectType($extractdir);
+		if ($retval['type'])
 		{
 			return $retval;
 		}
@@ -171,7 +174,7 @@ abstract class JInstallerHelper
 
 		if (!count($files))
 		{
-			JError::raiseWarning(1, JText::_('JLIB_INSTALLER_ERROR_NOTFINDXMLSETUPFILE'));
+			JLog::add(JText::_('JLIB_INSTALLER_ERROR_NOTFINDXMLSETUPFILE'), JLog::WARNING, 'jerror');
 			return false;
 		}
 
@@ -195,7 +198,7 @@ abstract class JInstallerHelper
 			return $type;
 		}
 
-		JError::raiseWarning(1, JText::_('JLIB_INSTALLER_ERROR_NOTFINDJOOMLAXMLSETUPFILE'));
+		JLog::add(JText::_('JLIB_INSTALLER_ERROR_NOTFINDJOOMLAXMLSETUPFILE'), JLog::WARNING, 'jerror');
 
 		// Free up memory.
 		unset($xml);

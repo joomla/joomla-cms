@@ -28,6 +28,17 @@ class JDatabaseDriverSqlite extends JDatabaseDriverPdo
 	public $name = 'sqlite';
 
 	/**
+	 * The character(s) used to quote SQL statement names such as table names or field names,
+	 * etc. The child classes should define this as necessary.  If a single character string the
+	 * same character is used for both sides of the quoted name, else the first character will be
+	 * used for the opening quote and the second for the closing quote.
+	 *
+	 * @var    string
+	 * @since  12.1
+	 */
+	protected $nameQuote = '`';
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   array  $options  List of options used to configure the connection
@@ -46,6 +57,19 @@ class JDatabaseDriverSqlite extends JDatabaseDriverPdo
 	 * @since   12.1
 	 */
 	public function __destruct()
+	{
+		$this->freeResult();
+		unset($this->connection);
+	}
+
+	/**
+	 * Disconnects the database.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 */
+	public function disconnect()
 	{
 		$this->freeResult();
 		unset($this->connection);
@@ -72,6 +96,29 @@ class JDatabaseDriverSqlite extends JDatabaseDriverPdo
 		$this->execute();
 
 		return $this;
+	}
+
+	/**
+	 * Method to escape a string for usage in an SQLite statement.
+	 *
+	 * Note: Using query objects with bound variables is
+	 * preferable to the below.
+	 *
+	 * @param   string   $text   The string to be escaped.
+	 * @param   boolean  $extra  Unused optional parameter to provide extra escaping.
+	 *
+	 * @return  string  The escaped string.
+	 *
+	 * @since   12.1
+	 */
+	public function escape($text, $extra = false)
+	{
+		if (is_int($text) || is_float($text))
+		{
+			return $text;
+		}
+
+		return SQLite3::escapeString($text);
 	}
 
 	/**
@@ -132,7 +179,7 @@ class JDatabaseDriverSqlite extends JDatabaseDriverPdo
 
 		$table = strtoupper($table);
 
-		$query->setQuery('pragma table_info( ' . $table . ')');
+		$query->setQuery('pragma table_info(' . $table . ')');
 
 		$this->setQuery($query);
 		$fields = $this->loadObjectList();
@@ -141,14 +188,22 @@ class JDatabaseDriverSqlite extends JDatabaseDriverPdo
 		{
 			foreach ($fields as $field)
 			{
-				$columns[$table][$field->NAME] = $field->TYPE;
+				$columns[$field->NAME] = $field->TYPE;
 			}
 		}
 		else
 		{
 			foreach ($fields as $field)
 			{
-				$columns[$table][$field->NAME] = $field;
+				// Do some dirty translation to MySQL output.
+				// TODO: Come up with and implement a standard across databases.
+				$columns[$field->NAME] = (object) array(
+					'Field' => $field->NAME,
+					'Type' => $field->TYPE,
+					'Null' => ($field->NOTNULL == '1' ? 'NO' : 'YES'),
+					'Default' => $field->DFLT_VALUE,
+					'Key' => ($field->PK == '1' ? 'PRI' : '')
+				);
 			}
 		}
 
@@ -214,16 +269,17 @@ class JDatabaseDriverSqlite extends JDatabaseDriverPdo
 		$query = $this->getQuery(true);
 
 		$tables = array();
+		$type = 'table';
 
 		$query->select('name');
 		$query->from('sqlite_master');
 		$query->where('type = :type');
-		$query->bind(':type', 'table');
+		$query->bind(':type', $type);
 		$query->order('name');
 
 		$this->setQuery($query);
 
-		$tables = $this->loadResultArray();
+		$tables = $this->loadColumn();
 
 		return $tables;
 	}
@@ -283,7 +339,7 @@ class JDatabaseDriverSqlite extends JDatabaseDriverPdo
 	 *
 	 * @param   string  $table  The name of the table to unlock.
 	 *
-	 * @return  JDatabase  Returns this object to support chaining.
+	 * @return  JDatabaseDriverSqlite  Returns this object to support chaining.
 	 *
 	 * @since   12.1
 	 * @throws  RuntimeException
@@ -301,7 +357,7 @@ class JDatabaseDriverSqlite extends JDatabaseDriverPdo
 	 * @param   string  $backup    Not used by Sqlite.
 	 * @param   string  $prefix    Not used by Sqlite.
 	 *
-	 * @return  JDatabase  Returns this object to support chaining.
+	 * @return  JDatabaseDriverSqlite  Returns this object to support chaining.
 	 *
 	 * @since   12.1
 	 * @throws  RuntimeException
@@ -316,7 +372,7 @@ class JDatabaseDriverSqlite extends JDatabaseDriverPdo
 	/**
 	 * Unlocks tables in the database.
 	 *
-	 * @return  JDatabase  Returns this object to support chaining.
+	 * @return  JDatabaseDriverSqlite  Returns this object to support chaining.
 	 *
 	 * @since   12.1
 	 * @throws  RuntimeException

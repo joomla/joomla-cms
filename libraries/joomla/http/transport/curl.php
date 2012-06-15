@@ -64,6 +64,9 @@ class JHttpTransportCurl implements JHttpTransport
 		// Set the request method.
 		$options[CURLOPT_CUSTOMREQUEST] = strtoupper($method);
 
+		// Don't wait for body when $method is HEAD
+		$options[CURLOPT_NOBODY] = ($method === 'HEAD');
+
 		// Initialize the certificate store
 		$options[CURLOPT_CAINFO] = __DIR__ . '/cacert.pem';
 
@@ -71,7 +74,7 @@ class JHttpTransportCurl implements JHttpTransport
 		if (isset($data))
 		{
 			// If the data is a scalar value simply add it to the cURL post fields.
-			if (is_scalar($data))
+			if (is_scalar($data) || (isset($headers['Content-type']) && strpos($headers['Content-type'], 'multipart/form-data') === 0))
 			{
 				$options[CURLOPT_POSTFIELDS] = $data;
 			}
@@ -86,7 +89,10 @@ class JHttpTransportCurl implements JHttpTransport
 				$headers['Content-type'] = 'application/x-www-form-urlencoded';
 			}
 
-			$headers['Content-length'] = strlen($options[CURLOPT_POSTFIELDS]);
+			if (is_scalar($options[CURLOPT_POSTFIELDS]))
+			{
+				$headers['Content-length'] = strlen($options[CURLOPT_POSTFIELDS]);
+			}
 		}
 
 		// Build the headers string for the request.
@@ -182,10 +188,10 @@ class JHttpTransportCurl implements JHttpTransport
 	}
 
 	/**
-	 * method to check if http transport curl available for using
-	 * 
-	 * @return bool true if available else false
-	 * 
+	 * Method to check if HTTP transport cURL is available for use
+	 *
+	 * @return boolean true if available, else false
+	 *
 	 * @since   12.1
 	 */
 	static public function isSupported()

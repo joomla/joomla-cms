@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+"http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "../../Developer_Manual.ent">
+%BOOK_ENTITIES;
+]>
+<section>
+  <title>JViewHtml</title>
+
+  <section>
+    <title>Construction</title>
+
+    <para><classname>JViewHtml</classname> is extended from <classname>JViewBase</classname>. The constructor, in addition to the
+    model and controller arguments, take an optional <classname>SplPriorityQueue</classname> object that serves as a lookup for
+    layouts. If omitted, the view defers to the protected <methodname>loadPaths</methodname> method.</para>
+  </section>
+
+  <section>
+    <title>Usage</title>
+
+    <para>The <classname>JViewHtml</classname> class is abstract so cannot be used directly. This view class implements render. It
+    will try to find the layout, include it using output buffering and return the result. The following examples show a layout
+    file that is assumed to be stored in a generic layout folder not stored under the web-server root.</para>
+
+    <example>
+      <title>Example HTML layout</title>
+
+      <programlisting>&lt;?php
+/**
+ * Example layout "layouts/count.php".
+ *
+ * @package  Examples
+ * @since    12.1
+ */
+
+// Declare variables to support type hinting.
+
+/** @var $this MyHtmlView */
+?&gt;
+
+&lt;dl&gt;
+	&lt;dt&gt;Count&lt;/dt&gt;
+	&lt;dd&gt;&lt;?php echo $this-&gt;model-&gt;getCount(); ?&gt;&lt;/dd&gt;
+&lt;/dl&gt;</programlisting>
+    </example>
+
+    <example>
+      <title>Example HTML view</title>
+
+      <programlisting>/**
+ * My custom HTML view.
+ *
+ * @package  Examples
+ * @since    12.1
+ */
+class MyHtmlView extends JViewHtml
+{
+	/**
+	 * Redefine the model so the correct type hinting is available in the layout.
+	 *
+	 * @var     MyDatabaseModel
+	 * @since   12.1
+	 */
+	protected $model;
+}
+
+try
+{
+	$paths = new SplPriorityQueue;
+	$paths-&gt;insert(__DIR__ . '/layouts');
+
+	$view = new MyView(new MyDatabaseModel, new MyController, $paths);
+	$view-&gt;setLayout('count');
+	echo $view-&gt;render();
+
+	// Alternative approach.
+	$view = new MyView(new MyDatabaseModel);
+
+	// Use some chaining.
+	$view-&gt;setPaths($paths)
+		-&gt;setLayout('count');
+
+	// Take advantage of the magic __toString method.
+	echo $view;
+}
+catch (RuntimeException $e)
+{
+	// Handle database error.
+}
+</programlisting>
+    </example>
+  </section>
+</section>

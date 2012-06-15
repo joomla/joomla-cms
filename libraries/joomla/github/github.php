@@ -12,6 +12,13 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Joomla Platform class for interacting with a GitHub server instance.
  *
+ * @property-read  JGithubGists    $gists    GitHub API object for gists.
+ * @property-read  JGithubIssues   $issues   GitHub API object for issues.
+ * @property-read  JGithubPulls    $pulls    GitHub API object for pulls.
+ * @property-read  JGithubRefs     $refs     GitHub API object for referencess.
+ * @property-read  JGithubForks    $forks    GitHub API object for forks.
+ * @property-read  JGithubCommits  $commits  GitHub API object for commits.
+ *
  * @package     Joomla.Platform
  * @subpackage  GitHub
  * @since       11.3

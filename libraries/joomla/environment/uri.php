@@ -24,63 +24,63 @@ class JURI
 {
 	/**
 	 * @var    string Original URI
-	 * @since  11.1
+	 * @since  12.1
 	 */
-	protected $_uri = null;
+	protected $uri = null;
 
 	/**
 	 * @var    string  Protocol
-	 * @since  11.1
+	 * @since  12.1
 	 */
-	protected $_scheme = null;
+	protected $scheme = null;
 
 	/**
 	 * @var    string  Host
-	 * @since  11.1
+	 * @since  12.1
 	 */
-	protected $_host = null;
+	protected $host = null;
 
 	/**
 	 * @var    integer  Port
-	 * @since  11.1
+	 * @since  12.1
 	 */
-	protected $_port = null;
+	protected $port = null;
 
 	/**
 	 * @var    string  Username
-	 * @since  11.1
+	 * @since  12.1
 	 */
-	protected $_user = null;
+	protected $user = null;
 
 	/**
 	 * @var    string  Password
-	 * @since  11.1
+	 * @since  12.1
 	 */
-	protected $_pass = null;
+	protected $pass = null;
 
 	/**
 	 * @var    string  Path
-	 * @since  11.1
+	 * @since  12.1
 	 */
-	protected $_path = null;
+	protected $path = null;
 
 	/**
 	 * @var    string  Query
-	 * @since  11.1
+	 * @since  12.1
 	 */
-	protected $_query = null;
+	protected $query = null;
 
 	/**
 	 * @var    string  Anchor
-	 * @since  11.1
+	 * @since  12.1
 	 */
-	protected $_fragment = null;
+	protected $fragment = null;
 
 	/**
 	 * @var    array  Query variable hash
-	 * @since  11.1
+	 * @since  12.1
 	 */
-	protected $_vars = array();
+	protected $vars = array();
 
 	/**
 	 * @var    array  An array of JURI instances.
@@ -226,9 +226,12 @@ class JURI
 				self::$base['prefix'] = $uri->toString(array('scheme', 'host', 'port'));
 				self::$base['path'] = rtrim($uri->toString(array('path')), '/\\');
 
-				if (JPATH_BASE == JPATH_ADMINISTRATOR)
+				if (defined('JPATH_BASE') && defined('JPATH_ADMINISTRATOR'))
 				{
-					self::$base['path'] .= '/administrator';
+					if (JPATH_BASE == JPATH_ADMINISTRATOR)
+					{
+						self::$base['path'] .= '/administrator';
+					}
 				}
 			}
 			else
@@ -331,41 +334,38 @@ class JURI
 	 */
 	public function parse($uri)
 	{
-		// Initialise variables
-		$retval = false;
-
 		// Set the original URI to fall back on
-		$this->_uri = $uri;
+		$this->uri = $uri;
 
-		// Parse the URI and populate the object fields.  If URI is parsed properly,
+		// Parse the URI and populate the object fields. If URI is parsed properly,
 		// set method return value to true.
 
-		if ($_parts = JString::parse_url($uri))
-		{
-			$retval = true;
-		}
+		$parts = JString::parse_url($uri);
+
+		$retval = ($parts) ? true : false;
 
 		// We need to replace &amp; with & for parse_str to work right...
-		if (isset($_parts['query']) && strpos($_parts['query'], '&amp;'))
+		if (isset($parts['query']) && strpos($parts['query'], '&amp;'))
 		{
-			$_parts['query'] = str_replace('&amp;', '&', $_parts['query']);
+			$parts['query'] = str_replace('&amp;', '&', $parts['query']);
 		}
 
-		$this->_scheme = isset($_parts['scheme']) ? $_parts['scheme'] : null;
-		$this->_user = isset($_parts['user']) ? $_parts['user'] : null;
-		$this->_pass = isset($_parts['pass']) ? $_parts['pass'] : null;
-		$this->_host = isset($_parts['host']) ? $_parts['host'] : null;
-		$this->_port = isset($_parts['port']) ? $_parts['port'] : null;
-		$this->_path = isset($_parts['path']) ? $_parts['path'] : null;
-		$this->_query = isset($_parts['query']) ? $_parts['query'] : null;
-		$this->_fragment = isset($_parts['fragment']) ? $_parts['fragment'] : null;
+		$this->scheme = isset($parts['scheme']) ? $parts['scheme'] : null;
+		$this->user = isset($parts['user']) ? $parts['user'] : null;
+		$this->pass = isset($parts['pass']) ? $parts['pass'] : null;
+		$this->host = isset($parts['host']) ? $parts['host'] : null;
+		$this->port = isset($parts['port']) ? $parts['port'] : null;
+		$this->path = isset($parts['path']) ? $parts['path'] : null;
+		$this->query = isset($parts['query']) ? $parts['query'] : null;
+		$this->fragment = isset($parts['fragment']) ? $parts['fragment'] : null;
 
 		// Parse the query
 
-		if (isset($_parts['query']))
+		if (isset($parts['query']))
 		{
-			parse_str($_parts['query'], $this->_vars);
+			parse_str($parts['query'], $this->vars);
 		}
+
 		return $retval;
 	}
 
@@ -384,14 +384,14 @@ class JURI
 		$query = $this->getQuery();
 
 		$uri = '';
-		$uri .= in_array('scheme', $parts) ? (!empty($this->_scheme) ? $this->_scheme . '://' : '') : '';
-		$uri .= in_array('user', $parts) ? $this->_user : '';
-		$uri .= in_array('pass', $parts) ? (!empty($this->_pass) ? ':' : '') . $this->_pass . (!empty($this->_user) ? '@' : '') : '';
-		$uri .= in_array('host', $parts) ? $this->_host : '';
-		$uri .= in_array('port', $parts) ? (!empty($this->_port) ? ':' : '') . $this->_port : '';
-		$uri .= in_array('path', $parts) ? $this->_path : '';
+		$uri .= in_array('scheme', $parts) ? (!empty($this->scheme) ? $this->scheme . '://' : '') : '';
+		$uri .= in_array('user', $parts) ? $this->user : '';
+		$uri .= in_array('pass', $parts) ? (!empty($this->pass) ? ':' : '') . $this->pass . (!empty($this->user) ? '@' : '') : '';
+		$uri .= in_array('host', $parts) ? $this->host : '';
+		$uri .= in_array('port', $parts) ? (!empty($this->port) ? ':' : '') . $this->port : '';
+		$uri .= in_array('path', $parts) ? $this->path : '';
 		$uri .= in_array('query', $parts) ? (!empty($query) ? '?' . $query : '') : '';
-		$uri .= in_array('fragment', $parts) ? (!empty($this->_fragment) ? '#' . $this->_fragment : '') : '';
+		$uri .= in_array('fragment', $parts) ? (!empty($this->fragment) ? '#' . $this->fragment : '') : '';
 
 		return $uri;
 	}
@@ -409,11 +409,12 @@ class JURI
 	 */
 	public function setVar($name, $value)
 	{
-		$tmp = @$this->_vars[$name];
-		$this->_vars[$name] = $value;
+		$tmp = isset($this->vars[$name]) ? $this->vars[$name] : null;
+
+		$this->vars[$name] = $value;
 
 		// Empty the query
-		$this->_query = null;
+		$this->query = null;
 
 		return $tmp;
 	}
@@ -429,7 +430,7 @@ class JURI
 	 */
 	public function hasVar($name)
 	{
-		return array_key_exists($name, $this->_vars);
+		return array_key_exists($name, $this->vars);
 	}
 
 	/**
@@ -444,9 +445,9 @@ class JURI
 	 */
 	public function getVar($name, $default = null)
 	{
-		if (array_key_exists($name, $this->_vars))
+		if (array_key_exists($name, $this->vars))
 		{
-			return $this->_vars[$name];
+			return $this->vars[$name];
 		}
 		return $default;
 	}
@@ -462,12 +463,12 @@ class JURI
 	 */
 	public function delVar($name)
 	{
-		if (array_key_exists($name, $this->_vars))
+		if (array_key_exists($name, $this->vars))
 		{
-			unset($this->_vars[$name]);
+			unset($this->vars[$name]);
 
 			// Empty the query
-			$this->_query = null;
+			$this->query = null;
 		}
 	}
 
@@ -485,7 +486,7 @@ class JURI
 	{
 		if (is_array($query))
 		{
-			$this->_vars = $query;
+			$this->vars = $query;
 		}
 		else
 		{
@@ -493,11 +494,11 @@ class JURI
 			{
 				$query = str_replace('&amp;', '&', $query);
 			}
-			parse_str($query, $this->_vars);
+			parse_str($query, $this->vars);
 		}
 
 		// Empty the query
-		$this->_query = null;
+		$this->query = null;
 	}
 
 	/**
@@ -513,16 +514,16 @@ class JURI
 	{
 		if ($toArray)
 		{
-			return $this->_vars;
+			return $this->vars;
 		}
 
 		// If the query is empty build it first
-		if (is_null($this->_query))
+		if (is_null($this->query))
 		{
-			$this->_query = self::buildQuery($this->_vars);
+			$this->query = self::buildQuery($this->vars);
 		}
 
-		return $this->_query;
+		return $this->query;
 	}
 
 	/**
@@ -555,7 +556,7 @@ class JURI
 	 */
 	public function getScheme()
 	{
-		return $this->_scheme;
+		return $this->scheme;
 	}
 
 	/**
@@ -570,7 +571,7 @@ class JURI
 	 */
 	public function setScheme($scheme)
 	{
-		$this->_scheme = $scheme;
+		$this->scheme = $scheme;
 	}
 
 	/**
@@ -583,7 +584,7 @@ class JURI
 	 */
 	public function getUser()
 	{
-		return $this->_user;
+		return $this->user;
 	}
 
 	/**
@@ -597,7 +598,7 @@ class JURI
 	 */
 	public function setUser($user)
 	{
-		$this->_user = $user;
+		$this->user = $user;
 	}
 
 	/**
@@ -610,7 +611,7 @@ class JURI
 	 */
 	public function getPass()
 	{
-		return $this->_pass;
+		return $this->pass;
 	}
 
 	/**
@@ -624,7 +625,7 @@ class JURI
 	 */
 	public function setPass($pass)
 	{
-		$this->_pass = $pass;
+		$this->pass = $pass;
 	}
 
 	/**
@@ -637,7 +638,7 @@ class JURI
 	 */
 	public function getHost()
 	{
-		return $this->_host;
+		return $this->host;
 	}
 
 	/**
@@ -651,7 +652,7 @@ class JURI
 	 */
 	public function setHost($host)
 	{
-		$this->_host = $host;
+		$this->host = $host;
 	}
 
 	/**
@@ -664,7 +665,7 @@ class JURI
 	 */
 	public function getPort()
 	{
-		return (isset($this->_port)) ? $this->_port : null;
+		return (isset($this->port)) ? $this->port : null;
 	}
 
 	/**
@@ -678,7 +679,7 @@ class JURI
 	 */
 	public function setPort($port)
 	{
-		$this->_port = $port;
+		$this->port = $port;
 	}
 
 	/**
@@ -690,7 +691,7 @@ class JURI
 	 */
 	public function getPath()
 	{
-		return $this->_path;
+		return $this->path;
 	}
 
 	/**
@@ -704,7 +705,7 @@ class JURI
 	 */
 	public function setPath($path)
 	{
-		$this->_path = $this->_cleanPath($path);
+		$this->path = $this->_cleanPath($path);
 	}
 
 	/**
@@ -717,7 +718,7 @@ class JURI
 	 */
 	public function getFragment()
 	{
-		return $this->_fragment;
+		return $this->fragment;
 	}
 
 	/**
@@ -732,7 +733,7 @@ class JURI
 	 */
 	public function setFragment($anchor)
 	{
-		$this->_fragment = $anchor;
+		$this->fragment = $anchor;
 	}
 
 	/**

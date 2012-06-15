@@ -171,9 +171,9 @@ class JInstallerTemplate extends JAdapterInstance
 		 */
 		if (file_exists($this->parent->getPath('extension_root')) && !$this->parent->isOverwrite())
 		{
-			JError::raiseWarning(
-				100,
-				JText::sprintf('JLIB_INSTALLER_ABORT_TPL_INSTALL_ANOTHER_TEMPLATE_USING_DIRECTORY', $this->parent->getPath('extension_root'))
+			JLog::add(
+				JText::sprintf('JLIB_INSTALLER_ABORT_TPL_INSTALL_ANOTHER_TEMPLATE_USING_DIRECTORY', $this->parent->getPath('extension_root')),
+				JLog::WARNING, 'jerror'
 			);
 			return false;
 		}
@@ -282,16 +282,28 @@ class JInstallerTemplate extends JAdapterInstance
 
 		if ($this->route == 'install')
 		{
+			$debug = $lang->setDebug(false);
+
+			$columns = array($db->quoteName('template'),
+				$db->quoteName('client_id'),
+				$db->quoteName('home'),
+				$db->quoteName('title'),
+				$db->quoteName('params')
+			);
+
+			$values = array(
+				$db->Quote($row->element), $clientId, $db->Quote(0),
+				$db->Quote(JText::sprintf('JLIB_INSTALLER_DEFAULT_STYLE', JText::_($this->get('name')))),
+				$db->Quote($row->params) );
+
+			$lang->setDebug($debug);
+
 			// Insert record in #__template_styles
 			$query = $db->getQuery(true);
-			$query->insert('#__template_styles');
-			$query->set('template=' . $db->Quote($row->element));
-			$query->set('client_id=' . $db->Quote($clientId));
-			$query->set('home=0');
-			$debug = $lang->setDebug(false);
-			$query->set('title=' . $db->Quote(JText::sprintf('JLIB_INSTALLER_DEFAULT_STYLE', JText::_($this->get('name')))));
-			$lang->setDebug($debug);
-			$query->set('params=' . $db->Quote($row->params));
+			$query->insert($db->quoteName('#__template_styles'))
+				->columns($columns)
+				->values(implode(',', $values));
+
 			$db->setQuery($query);
 
 			// There is a chance this could fail but we don't care...
@@ -333,7 +345,7 @@ class JInstallerTemplate extends JAdapterInstance
 
 		if (!$row->load((int) $id) || !strlen($row->element))
 		{
-			JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_TPL_UNINSTALL_ERRORUNKOWNEXTENSION'));
+			JLog::add(JText::_('JLIB_INSTALLER_ERROR_TPL_UNINSTALL_ERRORUNKOWNEXTENSION'), JLog::WARNING, 'jerror');
 			return false;
 		}
 
@@ -341,7 +353,7 @@ class JInstallerTemplate extends JAdapterInstance
 		// Because that is not a good idea...
 		if ($row->protected)
 		{
-			JError::raiseWarning(100, JText::sprintf('JLIB_INSTALLER_ERROR_TPL_UNINSTALL_WARNCORETEMPLATE', $row->name));
+			JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_TPL_UNINSTALL_WARNCORETEMPLATE', $row->name), JLog::WARNING, 'jerror');
 			return false;
 		}
 
@@ -351,20 +363,18 @@ class JInstallerTemplate extends JAdapterInstance
 		// For a template the id will be the template name which represents the subfolder of the templates folder that the template resides in.
 		if (!$name)
 		{
-			JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_TPL_UNINSTALL_TEMPLATE_ID_EMPTY'));
-
+			JLog::add(JText::_('JLIB_INSTALLER_ERROR_TPL_UNINSTALL_TEMPLATE_ID_EMPTY'), JLog::WARNING, 'jerror');
 			return false;
 		}
 
 		// Deny remove default template
 		$db = $this->parent->getDbo();
-		$query = 'SELECT COUNT(*) FROM #__template_styles' . ' WHERE home = 1 AND template = ' . $db->Quote($name);
+		$query = "SELECT COUNT(*) FROM #__template_styles WHERE home = '1' AND template = " . $db->Quote($name);
 		$db->setQuery($query);
 
 		if ($db->loadResult() != 0)
 		{
-			JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_TPL_UNINSTALL_TEMPLATE_DEFAULT'));
-
+			JLog::add(JText::_('JLIB_INSTALLER_ERROR_TPL_UNINSTALL_TEMPLATE_DEFAULT'), JLog::WARNING, 'jerror');
 			return false;
 		}
 
@@ -373,7 +383,7 @@ class JInstallerTemplate extends JAdapterInstance
 
 		if (!$client)
 		{
-			JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_TPL_UNINSTALL_INVALID_CLIENT'));
+			JLog::add(JText::_('JLIB_INSTALLER_ERROR_TPL_UNINSTALL_INVALID_CLIENT'), JLog::WARNING, 'jerror');
 			return false;
 		}
 
@@ -383,7 +393,7 @@ class JInstallerTemplate extends JAdapterInstance
 		// We do findManifest to avoid problem when uninstalling a list of extensions: getManifest cache its manifest file
 		$this->parent->findManifest();
 		$manifest = $this->parent->getManifest();
-		if (!($manifest instanceof JXMLElement))
+		if (!($manifest instanceof SimpleXMLElement))
 		{
 			// Kill the extension entry
 			$row->delete($row->extension_id);
@@ -391,8 +401,7 @@ class JInstallerTemplate extends JAdapterInstance
 
 			// Make sure we delete the folders
 			JFolder::delete($this->parent->getPath('extension_root'));
-			JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_TPL_UNINSTALL_INVALID_NOTFOUND_MANIFEST'));
-
+			JLog::add(JText::_('JLIB_INSTALLER_ERROR_TPL_UNINSTALL_INVALID_NOTFOUND_MANIFEST'), JLog::WARNING, 'jerror');
 			return false;
 		}
 
@@ -407,18 +416,21 @@ class JInstallerTemplate extends JAdapterInstance
 		}
 		else
 		{
-			JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_TPL_UNINSTALL_TEMPLATE_DIRECTORY'));
+			JLog::add(JText::_('JLIB_INSTALLER_ERROR_TPL_UNINSTALL_TEMPLATE_DIRECTORY'), JLog::WARNING, 'jerror');
 			$retval = false;
 		}
 
 		// Set menu that assigned to the template back to default template
-		$query = 'UPDATE #__menu INNER JOIN #__template_styles' . ' ON #__template_styles.id = #__menu.template_style_id'
-			. ' SET #__menu.template_style_id = 0' . ' WHERE #__template_styles.template = ' . $db->Quote(strtolower($name))
-			. ' AND #__template_styles.client_id = ' . $db->Quote($clientId);
+		$query = 'UPDATE #__menu'
+			. ' SET template_style_id = 0'
+			. ' WHERE template_style_id in ('
+			. '	SELECT s.id FROM #__template_styles s'
+			. ' WHERE s.template = ' . $db->Quote(strtolower($name)) . ' AND s.client_id = ' . $clientId . ')';
+
 		$db->setQuery($query);
 		$db->execute();
 
-		$query = 'DELETE FROM #__template_styles' . ' WHERE template = ' . $db->Quote($name) . ' AND client_id = ' . $db->Quote($clientId);
+		$query = 'DELETE FROM #__template_styles WHERE template = ' . $db->Quote($name) . ' AND client_id = ' . $clientId;
 		$db->setQuery($query);
 		$db->execute();
 
@@ -528,12 +540,24 @@ class JInstallerTemplate extends JAdapterInstance
 			// Insert record in #__template_styles
 			$db = $this->parent->getDbo();
 			$query = $db->getQuery(true);
-			$query->insert('#__template_styles');
-			$query->set('template=' . $db->Quote($this->parent->extension->element));
-			$query->set('client_id=' . $db->Quote($this->parent->extension->client_id));
-			$query->set('home=0');
-			$query->set('title=' . $db->Quote(JText::sprintf('JLIB_INSTALLER_DEFAULT_STYLE', $this->parent->extension->name)));
-			$query->set('params=' . $db->Quote($this->parent->extension->params));
+			$query->insert($db->quoteName('#__template_styles'));
+			$lang = JFactory::getLanguage();
+			$debug = $lang->setDebug(false);
+			$columns = array($db->quoteName('template'),
+				$db->quoteName('client_id'),
+				$db->quoteName('home'),
+				$db->quoteName('title'),
+				$db->quoteName('params')
+			);
+			$query->columns($columns);
+			$query->values(
+				$db->Quote($this->parent->extension->element)
+				. ',' . $db->Quote($this->parent->extension->client_id)
+				. ',' . $db->Quote(0)
+				. ',' . $db->Quote(JText::sprintf('JLIB_INSTALLER_DEFAULT_STYLE', $this->parent->extension->name))
+				. ',' . $db->Quote($this->parent->extension->params)
+			);
+			$lang->setDebug($debug);
 			$db->setQuery($query);
 			$db->execute();
 
@@ -541,8 +565,7 @@ class JInstallerTemplate extends JAdapterInstance
 		}
 		else
 		{
-			JError::raiseWarning(101, JText::_('JLIB_INSTALLER_ERROR_TPL_DISCOVER_STORE_DETAILS'));
-
+			JLog::add(JText::_('JLIB_INSTALLER_ERROR_TPL_DISCOVER_STORE_DETAILS'), JLog::WARNING, 'jerror');
 			return false;
 		}
 	}
@@ -572,7 +595,7 @@ class JInstallerTemplate extends JAdapterInstance
 		}
 		catch (RuntimeException $e)
 		{
-			JError::raiseWarning(101, JText::_('JLIB_INSTALLER_ERROR_TPL_REFRESH_MANIFEST_CACHE'));
+			JLog::add(JText::_('JLIB_INSTALLER_ERROR_TPL_REFRESH_MANIFEST_CACHE'), JLog::WARNING, 'jerror');
 			return false;
 		}
 	}

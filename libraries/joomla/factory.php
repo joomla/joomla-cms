@@ -89,6 +89,7 @@ abstract class JFactory
 	 *
 	 * @see     JApplication
 	 * @since   11.1
+	 * @throws  Exception
 	 */
 	public static function getApplication($id = null, array $config = array(), $prefix = 'J')
 	{
@@ -96,7 +97,7 @@ abstract class JFactory
 		{
 			if (!$id)
 			{
-				JError::raiseError(500, 'Application Instantiation Error');
+				throw new Exception('Application Instantiation Error', 500);
 			}
 
 			self::$application = JApplication::getInstance($id, $config, $prefix);
@@ -110,15 +111,16 @@ abstract class JFactory
 	 *
 	 * Returns the global {@link JRegistry} object, only creating it if it doesn't already exist.
 	 *
-	 * @param   string  $file  The path to the configuration file
-	 * @param   string  $type  The type of the configuration file
+	 * @param   string  $file       The path to the configuration file
+	 * @param   string  $type       The type of the configuration file
+	 * @param   string  $namespace  The namespace of the configuration file
 	 *
 	 * @return  JRegistry
 	 *
 	 * @see     JRegistry
 	 * @since   11.1
 	 */
-	public static function getConfig($file = null, $type = 'PHP')
+	public static function getConfig($file = null, $type = 'PHP', $namespace = '')
 	{
 		if (!self::$config)
 		{
@@ -127,7 +129,7 @@ abstract class JFactory
 				$file = JPATH_PLATFORM . '/config.php';
 			}
 
-			self::$config = self::createConfig($file, $type);
+			self::$config = self::createConfig($file, $type, $namespace);
 		}
 
 		return self::$config;
@@ -209,25 +211,18 @@ abstract class JFactory
 	 */
 	public static function getUser($id = null)
 	{
+		$instance = self::getSession()->get('user');
+
 		if (is_null($id))
 		{
-			$instance = self::getSession()->get('user');
 			if (!($instance instanceof JUser))
 			{
 				$instance = JUser::getInstance();
 			}
 		}
-		else
+		elseif ($instance->id != $id)
 		{
-			$current = self::getSession()->get('user');
-			if ($current->id != $id)
-			{
-				$instance = JUser::getInstance($id);
-			}
-			else
-			{
-				$instance = self::getSession()->get('user');
-			}
+			$instance = JUser::getInstance($id);
 		}
 
 		return $instance;
@@ -242,7 +237,7 @@ abstract class JFactory
 	 * @param   string  $handler  The handler to use
 	 * @param   string  $storage  The storage method
 	 *
-	 * @return  JCache object
+	 * @return  JCacheController object
 	 *
 	 * @see     JCache
 	 */
@@ -276,9 +271,13 @@ abstract class JFactory
 	 * if it doesn't already exist.
 	 *
 	 * @return  JAccess object
+	 *
+	 * @deprecated  13.3  Use JAccess directly.
 	 */
 	public static function getACL()
 	{
+		JLog::add(__METHOD__ . ' is deprecated. Use JAccess directly.', JLog::WARNING, 'deprecated');
+
 		if (!self::$acl)
 		{
 			self::$acl = new JAccess;
@@ -368,7 +367,7 @@ abstract class JFactory
 		}
 		else
 		{
-			JError::raiseWarning('SOME_ERROR_CODE', JText::_('JLIB_UTIL_ERROR_LOADING_FEED_DATA'));
+			JLog::add(JText::_('JLIB_UTIL_ERROR_LOADING_FEED_DATA'), JLog::WARNING, 'jerror');
 		}
 
 		return false;
@@ -384,10 +383,14 @@ abstract class JFactory
 	 *
 	 * @see     JXMLElement
 	 * @since   11.1
+	 * @note    This method will return SimpleXMLElement object in the future. Do not rely on JXMLElement's methods.
 	 * @todo    This may go in a separate class - error reporting may be improved.
+	 * @deprecated  13.3 Use SimpleXML directly.
 	 */
 	public static function getXML($data, $isFile = true)
 	{
+		JLog::add(__METHOD__ . ' is deprecated. Use SimpleXML directly.', JLog::WARNING, 'deprecated');
+
 		jimport('joomla.utilities.xmlelement');
 
 		// Disable libxml errors and allow to fetch error information as needed
@@ -406,17 +409,16 @@ abstract class JFactory
 
 		if (empty($xml))
 		{
-			// There was an error
-			JError::raiseWarning(100, JText::_('JLIB_UTIL_ERROR_XML_LOAD'));
+			JLog::add(JText::_('JLIB_UTIL_ERROR_XML_LOAD'), JLog::WARNING, 'jerror');
 
 			if ($isFile)
 			{
-				JError::raiseWarning(100, $data);
+				JLog::add($data, JLog::WARNING, 'jerror');
 			}
 
 			foreach (libxml_get_errors() as $error)
 			{
-				JError::raiseWarning(100, 'XML: ' . $error->message);
+				JLog::add($error->message, JLog::WARNING, 'jerror');
 			}
 		}
 
@@ -428,13 +430,17 @@ abstract class JFactory
 	 *
 	 * @param   string  $editor  The editor to load, depends on the editor plugins that are installed
 	 *
-	 * @return  JEditor object
+	 * @return  JEditor instance of JEditor
 	 *
 	 * @since   11.1
+	 * @deprecated 12.3 Use JEditor directly
 	 */
 	public static function getEditor($editor = null)
 	{
-		jimport('joomla.html.editor');
+		if (!class_exists('JEditor'))
+		{
+			throw new BadMethodCallException('JEditor not found');
+		}
 
 		// Get the editor configuration setting
 		if (is_null($editor))
@@ -455,9 +461,12 @@ abstract class JFactory
 	 *
 	 * @see     JURI
 	 * @since   11.1
+	 * @deprecated  13.3 Use JURI directly.
 	 */
 	public static function getURI($uri = 'SERVER')
 	{
+		JLog::add(__METHOD__ . ' is deprecated. Use JURI directly.', JLog::WARNING, 'deprecated');
+
 		jimport('joomla.environment.uri');
 
 		return JURI::getInstance($uri);
@@ -476,7 +485,6 @@ abstract class JFactory
 	 */
 	public static function getDate($time = 'now', $tzOffset = null)
 	{
-		jimport('joomla.utilities.date');
 		static $classname;
 		static $mainLocale;
 

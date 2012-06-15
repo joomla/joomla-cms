@@ -26,7 +26,7 @@
 			methods.</para>
 
 			<example>
-				<title>Example showing how to use a the ReflectHelper to access protected properties</title>
+				<title>Example showing how to use the TestReflection class to access protected properties</title>
 
 				<programlisting>	/**
 	 * Tests the JClass::__construct method
@@ -42,7 +42,7 @@
 		// For the purposes of this example, we are assuming that 'name' is a protected class property
 		// that is set by an argument passed into the class constructor.
 		$this-&gt;assertThat(
-			ReflectionHelper::getValue($object, 'name'),
+			TestReflection::getValue($object, 'name'),
 			$this-&gt;equalTo('foo'),
 			'Tests that the protected name property is set by the constructor.'
 		);
@@ -67,7 +67,7 @@
 		$object = new JMyClass('foo');
 
 		$this-&gt;assertThat(
-			ReflectionHelper::invoke($object, 'hidden', 'arg1'),
+			TestReflection::invoke($object, 'hidden', 'arg1'),
 			$this-&gt;equalTo('result1'),
 			'This test asserts that $object-&gt;hidden(&quot;arg1&quot;) will return &quot;result1&quot;'
 		);

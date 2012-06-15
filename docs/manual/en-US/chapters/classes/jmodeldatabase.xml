@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+"http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "../../Developer_Manual.ent">
+%BOOK_ENTITIES;
+]>
+<section>
+  <title>JModelDatabase</title>
+
+  <section>
+    <title>Construction</title>
+
+    <para><classname>JModelDatabase</classname> is extended from <classname>JModelBase</classname> and the contructor takes an
+    optional <classname>JDatabaseDriver</classname> object and an optional <classname>JRegistry</classname> object (the same one
+    that <classname>JModelBase</classname> uses). If the database object is omitted, the contructor defers to the protected
+    <methodname>loadDb</methodname> method which loads the database object from the platform factory.</para>
+  </section>
+
+  <section>
+    <title>Usage</title>
+
+    <para>The <classname>JModelDatabase</classname> class is abstract so cannot be used directly. It forms a base for any model
+    that needs to interact with a database.</para>
+
+    <example>
+      <title>Example database model</title>
+
+      <programlisting>/**
+ * My custom database model.
+ *
+ * @package  Examples
+ *
+ * @since   12.1
+ */
+class MyDatabaseModel extends JModelDatabase
+{
+	/**
+	 * Get the content count.
+	 *
+	 * @return  integer
+	 *
+	 * @since   12.1
+	 * @throws  RuntimeException on database error.
+	 */
+	public function getCount()
+	{
+		// Get the query builder from the internal database object.
+		$q = $this-&gt;db-&gt;getQuery(true);
+
+		// Prepare the query to count the number of content records.
+		$q-&gt;select('COUNT(*)')
+			-&gt;from($q-&gt;qn('#__content'));
+
+		$this-&gt;db-&gt;setQuery($q);
+
+		// Execute and return the result.
+		return $this-&gt;db-&gt;loadResult();
+	}
+}
+
+try
+{
+	$model = new MyDatabaseModel;
+	$count = $model-&gt;getCount();
+}
+catch (RuntimeException $e)
+{
+	// Handle database error.
+}
+</programlisting>
+    </example>
+  </section>
+</section>

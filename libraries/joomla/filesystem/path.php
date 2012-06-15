@@ -162,22 +162,21 @@ class JPath
 	 * @return  string  A cleaned version of the path or exit on error.
 	 *
 	 * @since   11.1
+	 * @throws  Exception
 	 */
 	public static function check($path, $ds = DIRECTORY_SEPARATOR)
 	{
 		if (strpos($path, '..') !== false)
 		{
 			// Don't translate
-			JError::raiseError(20, 'JPath::check Use of relative paths not permitted');
-			jexit();
+			throw new Exception('JPath::check Use of relative paths not permitted', 20);
 		}
 
 		$path = self::clean($path);
 		if ((JPATH_ROOT != '') && strpos($path, self::clean(JPATH_ROOT)) !== 0)
 		{
 			// Don't translate
-			JError::raiseError(20, 'JPath::check Snooping out of bounds @ ' . $path);
-			jexit();
+			throw new Exception('JPath::check Snooping out of bounds @ ' . $path, 20);
 		}
 
 		return $path;
@@ -201,9 +200,14 @@ class JPath
 		{
 			$path = JPATH_ROOT;
 		}
+		// Remove double slashes and backslashes and convert all slashes and backslashes to DIRECTORY_SEPARATOR
+		// If dealing with a UNC path don't forget to prepend the path with a backslash.
+		elseif (($ds == '\\') && ($path[0] == '\\' ) && ( $path[1] == '\\' ))
+		{
+			$path = "\\" . preg_replace('#[/\\\\]+#', $ds, $path);
+		}
 		else
 		{
-			// Remove double slashes and backslashes and convert all slashes and backslashes to DIRECTORY_SEPARATOR
 			$path = preg_replace('#[/\\\\]+#', $ds, $path);
 		}
 
@@ -223,7 +227,7 @@ class JPath
 	{
 		jimport('joomla.filesystem.file');
 
-		$tmp = md5(JUserHelper::genRandomPassword(16));
+		$tmp = md5(mt_rand());
 		$ssp = ini_get('session.save_path');
 		$jtp = JPATH_SITE . '/tmp';
 

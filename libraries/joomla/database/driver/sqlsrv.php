@@ -86,6 +86,19 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	}
 
 	/**
+	 * Destructor.
+	 *
+	 * @since   12.1
+	 */
+	public function __destruct()
+	{
+		if (is_resource($this->connection))
+		{
+			sqlsrv_close($this->connection);
+		}
+	}
+
+	/**
 	 * Connects to the database if needed.
 	 *
 	 * @return  void  Returns void if the database connected successfully.
@@ -111,13 +124,13 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 		// Make sure the SQLSRV extension for PHP is installed and enabled.
 		if (!function_exists('sqlsrv_connect'))
 		{
-			throw new RuntimeException(JText::_('JLIB_DATABASE_ERROR_ADAPTER_SQLSRV'));
+			throw new RuntimeException('PHP extension sqlsrv_connect is not available.');
 		}
 
 		// Attempt to connect to the server.
 		if (!($this->connection = @ sqlsrv_connect($this->options['host'], $config)))
 		{
-			throw new RuntimeException(JText::_('JLIB_DATABASE_ERROR_CONNECT_SQLSRV'));
+			throw new RuntimeException('Database sqlsrv_connect failed');
 		}
 
 		// Make sure that DB warnings are not returned as errors.
@@ -131,16 +144,21 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	}
 
 	/**
-	 * Destructor.
+	 * Disconnects the database.
+	 *
+	 * @return  void
 	 *
 	 * @since   12.1
 	 */
-	public function __destruct()
+	public function disconnect()
 	{
+		// Close the connection.
 		if (is_resource($this->connection))
 		{
 			sqlsrv_close($this->connection);
 		}
+
+		$this->connection = null;
 	}
 
 	/**
@@ -529,6 +547,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	 *
 	 * @since   12.1
 	 * @throws  RuntimeException
+	 * @throws  Exception
 	 */
 	public function execute()
 	{
@@ -536,23 +555,8 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 
 		if (!is_resource($this->connection))
 		{
-
-			// Legacy error handling switch based on the JError::$legacy switch.
-			// @deprecated  12.1
-			if (JError::$legacy)
-			{
-
-				if ($this->debug)
-				{
-					JError::raiseError(500, 'JDatabaseDriverSQLAzure::query: ' . $this->errorNum . ' - ' . $this->errorMsg);
-				}
-				return false;
-			}
-			else
-			{
-				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database');
-				throw new RuntimeException($this->errorMsg, $this->errorNum);
-			}
+			JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database');
+			throw new RuntimeException($this->errorMsg, $this->errorNum);
 		}
 
 		// Take a local copy so that we don't modify the original query and cause issues later
@@ -587,31 +591,46 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 			$array = array();
 		}
 
-		// Execute the query.
-		$this->cursor = sqlsrv_query($this->connection, $sql, array(), $array);
+		// Execute the query. Error suppression is used here to prevent warnings/notices that the connection has been lost.
+		$this->cursor = @sqlsrv_query($this->connection, $sql, array(), $array);
 
 		// If an error occurred handle it.
 		if (!$this->cursor)
 		{
-
-			// Populate the errors.
-			$errors = sqlsrv_errors();
-			$this->errorNum = $errors[0]['SQLSTATE'];
-			$this->errorMsg = $errors[0]['message'] . 'SQL=' . $sql;
-
-			// Legacy error handling switch based on the JError::$legacy switch.
-			// @deprecated  12.1
-			if (JError::$legacy)
+			// Check if the server was disconnected.
+			if (!$this->connected())
 			{
-
-				if ($this->debug)
+				try
 				{
-					JError::raiseError(500, 'JDatabaseDriverSQLAzure::query: ' . $this->errorNum . ' - ' . $this->errorMsg);
+					// Attempt to reconnect.
+					$this->connection = null;
+					$this->connect();
 				}
-				return false;
+				// If connect fails, ignore that exception and throw the normal exception.
+				catch (RuntimeException $e)
+				{
+					// Get the error number and message.
+					$errors = sqlsrv_errors();
+					$this->errorNum = $errors[0]['SQLSTATE'];
+					$this->errorMsg = $errors[0]['message'] . 'SQL=' . $sql;
+
+					// Throw the normal query exception.
+					JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'databasequery');
+					throw new RuntimeException($this->errorMsg, $this->errorNum);
+				}
+
+				// Since we were able to reconnect, run the query again.
+				return $this->execute();
 			}
+			// The server was not disconnected.
 			else
 			{
+				// Get the error number and message.
+				$errors = sqlsrv_errors();
+				$this->errorNum = $errors[0]['SQLSTATE'];
+				$this->errorMsg = $errors[0]['message'] . 'SQL=' . $sql;
+
+				// Throw the normal query exception.
 				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'databasequery');
 				throw new RuntimeException($this->errorMsg, $this->errorNum);
 			}
@@ -738,19 +757,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 
 		if (!sqlsrv_query($this->connection, 'USE ' . $database, null, array('scrollable' => SQLSRV_CURSOR_STATIC)))
 		{
-
-			// Legacy error handling switch based on the JError::$legacy switch.
-			// @deprecated  12.1
-			if (JError::$legacy)
-			{
-				$this->errorNum = 3;
-				$this->errorMsg = JText::_('JLIB_DATABASE_ERROR_DATABASE_CONNECT');
-				return false;
-			}
-			else
-			{
-				throw new RuntimeException(JText::_('JLIB_DATABASE_ERROR_DATABASE_CONNECT'));
-			}
+			throw new RuntimeException('Could not connect to database');
 		}
 
 		return true;
@@ -938,7 +945,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	 * @param   string  $backup    Table prefix
 	 * @param   string  $prefix    For the table - used to rename constraints in non-mysql databases
 	 *
-	 * @return  JDatabase  Returns this object to support chaining.
+	 * @return  JDatabaseDriverSqlsrv  Returns this object to support chaining.
 	 *
 	 * @since   12.1
 	 * @throws  RuntimeException
@@ -966,7 +973,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	 *
 	 * @param   string  $tableName  The name of the table to lock.
 	 *
-	 * @return  JDatabase  Returns this object to support chaining.
+	 * @return  JDatabaseDriverSqlsrv  Returns this object to support chaining.
 	 *
 	 * @since   12.1
 	 * @throws  RuntimeException
@@ -979,7 +986,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	/**
 	 * Unlocks tables in the database.
 	 *
-	 * @return  JDatabase  Returns this object to support chaining.
+	 * @return  JDatabaseDriverSqlsrv  Returns this object to support chaining.
 	 *
 	 * @since   12.1
 	 * @throws  RuntimeException

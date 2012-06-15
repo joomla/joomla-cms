@@ -23,10 +23,10 @@ class JClientHelper
 	 *
 	 * @param   string   $client  Client name, currently only 'ftp' is supported
 	 * @param   boolean  $force   Forces re-creation of the login credentials. Set this to
-	 * true if login credentials in the session storage have changed
+	 *                            true if login credentials in the session storage have changed
 	 *
 	 * @return  array    Client layer configuration options, consisting of at least
-	 * these fields: enabled, host, port, user, pass, root
+	 *                   these fields: enabled, host, port, user, pass, root
 	 *
 	 * @since   11.1
 	 */
@@ -198,9 +198,10 @@ class JClientHelper
 	 *
 	 * @param   string  $client  The name of the client.
 	 *
-	 * @return  mixed  True, if FTP settings should be shown or an exception
+	 * @return  mixed  True, if FTP settings; JError if using legacy tree.
 	 *
 	 * @since   11.1
+	 * @throws  InvalidArgumentException if credentials invalid
 	 */
 	public static function setCredentialsFromRequest($client)
 	{
@@ -216,7 +217,14 @@ class JClientHelper
 			}
 			else
 			{
-				$return = JError::raiseWarning('SOME_ERROR_CODE', JText::_('JLIB_CLIENT_ERROR_HELPER_SETCREDENTIALSFROMREQUEST_FAILED'));
+				if (class_exists('JError'))
+				{
+					$return = JError::raiseWarning('SOME_ERROR_CODE', JText::_('JLIB_CLIENT_ERROR_HELPER_SETCREDENTIALSFROMREQUEST_FAILED'));
+				}
+				else
+				{
+					throw new InvalidArgumentException('Invalid user credentials');
+				}
 			}
 		}
 		else

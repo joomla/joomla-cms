@@ -112,7 +112,7 @@ class JTableExtension extends JTable
 	 * to checkin rows that it can after adjustments are made.
 	 *
 	 * @param   mixed    $pks     An optional array of primary key values to update.  If not
-	 * set the instance property value is used.
+	 *                            set the instance property value is used.
 	 * @param   integer  $state   The publishing state. eg. [0 = unpublished, 1 = published]
 	 * @param   integer  $userId  The user id of the user performing the operation.
 	 *
@@ -167,13 +167,6 @@ class JTableExtension extends JTable
 		$query->where('(' . $where . ')' . $checkin);
 		$this->_db->setQuery($query);
 		$this->_db->execute();
-
-		// Check for a database error.
-		if ($this->_db->getErrorNum())
-		{
-			$this->setError($this->_db->getErrorMsg());
-			return false;
-		}
 
 		// If checkin is supported and all rows were adjusted, check them in.
 		if ($checkin && (count($pks) == $this->_db->getAffectedRows()))

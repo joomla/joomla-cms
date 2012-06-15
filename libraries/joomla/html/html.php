@@ -14,6 +14,7 @@ JHtml::addIncludePath(JPATH_PLATFORM . '/joomla/html/html');
 jimport('joomla.environment.uri');
 jimport('joomla.environment.browser');
 jimport('joomla.filesystem.file');
+jimport('joomla.filesystem.path');
 
 /**
  * Utility class for all HTML drawing classes
@@ -90,6 +91,7 @@ abstract class JHtml
 	 * @return  mixed  JHtml::call($function, $args) or False on error
 	 *
 	 * @since   11.1
+	 * @throws  InvalidArgumentException
 	 */
 	public static function _($key)
 	{
@@ -106,23 +108,21 @@ abstract class JHtml
 
 		$className = $prefix . ucfirst($file);
 
-		if (!class_exists($className))
+		if (!class_exists($className, false))
 		{
-			jimport('joomla.filesystem.path');
-			if ($path = JPath::find(self::$includePaths, strtolower($file) . '.php'))
+			$path = JPath::find(self::$includePaths, strtolower($file) . '.php');
+			if ($path)
 			{
 				require_once $path;
 
-				if (!class_exists($className))
+				if (!class_exists($className, false))
 				{
-					JError::raiseError(500, JText::sprintf('JLIB_HTML_ERROR_NOTFOUNDINFILE', $className, $func));
-					return false;
+					throw new InvalidArgumentException(sprintf('%s not found.', $className), 500);
 				}
 			}
 			else
 			{
-				JError::raiseError(500, JText::sprintf('JLIB_HTML_ERROR_NOTSUPPORTED_NOFILE', $prefix, $file));
-				return false;
+				throw new InvalidArgumentException(sprintf('%s %s not found.', $prefix, $file), 500);
 			}
 		}
 
@@ -138,8 +138,7 @@ abstract class JHtml
 		}
 		else
 		{
-			JError::raiseError(500, JText::sprintf('JLIB_HTML_ERROR_NOTSUPPORTED', $className, $func));
-			return false;
+			throw new InvalidArgumentException(sprintf('%s::%s not found.', $className, $func), 500);
 		}
 	}
 
@@ -210,6 +209,7 @@ abstract class JHtml
 	 *
 	 * @see     http://php.net/manual/en/function.call-user-func-array.php
 	 * @since   11.1
+	 * @throws  InvalidArgumentException
 	 */
 	protected static function call($function, $args)
 	{
@@ -225,8 +225,7 @@ abstract class JHtml
 		}
 		else
 		{
-			JError::raiseError(500, JText::_('JLIB_HTML_ERROR_FUNCTION_NOT_SUPPORTED'));
-			return false;
+			throw new InvalidArgumentException('Function not supported', 500);
 		}
 	}
 
@@ -628,7 +627,7 @@ abstract class JHtml
 	 * Returns formated date according to a given format and time zone.
 	 *
 	 * @param   string   $input      String in a format accepted by date(), defaults to "now".
-	 * @param   string   $format     Format optional format for strftime
+	 * @param   string   $format     The date format specification string (see {@link PHP_MANUAL#date})
 	 * @param   mixed    $tz         Time zone to be used for the date.  Special cases: boolean true for user
 	 *                               setting, boolean false for server setting.
 	 * @param   boolean  $gregorian  True to use Gregorian calenar
@@ -718,25 +717,12 @@ abstract class JHtml
 	{
 		if (is_array($title))
 		{
-			if (isset($title['image']))
+			foreach (array('image', 'text', 'href', 'alt', 'class') as $param)
 			{
-				$image = $title['image'];
-			}
-			if (isset($title['text']))
-			{
-				$text = $title['text'];
-			}
-			if (isset($title['href']))
-			{
-				$href = $title['href'];
-			}
-			if (isset($title['alt']))
-			{
-				$alt = $title['alt'];
-			}
-			if (isset($title['class']))
-			{
-				$class = $title['class'];
+				if (isset($title[$param]))
+				{
+					$$param = $title[$param];
+				}
 			}
 			if (isset($title['title']))
 			{
@@ -803,7 +789,7 @@ abstract class JHtml
 			$attribs = JArrayHelper::toString($attribs);
 		}
 
-		if ((!$readonly) && (!$disabled))
+		if (!$readonly && !$disabled)
 		{
 			// Load the calendar behavior
 			self::_('behavior.calendar');
@@ -830,14 +816,17 @@ abstract class JHtml
 				);
 				$done[] = $id;
 			}
+			return '<input type="text" title="' . (0 !== (int) $value ? self::_('date', $value) : '') . '" name="' . $name . '" id="' . $id
+				. '" value="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '" ' . $attribs . ' />'
+				. self::_('image', 'system/calendar.png', JText::_('JLIB_HTML_CALENDAR'), array('class' => 'calendar', 'id' => $id . '_img'), true);
 		}
-
-		return '<input type="text" title="' . (0 !== (int) $value ? self::_('date', $value) : '') . '" name="' . $name . '" id="' . $id
-			. '" value="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '" ' . $attribs . ' />'
-			. ($readonly ? ''
-			: self::_('image', 'system/calendar.png', JText::_('JLIB_HTML_CALENDAR'), array('class' => 'calendar', 'id' => $id . '_img'), true));
+		else
+		{
+			return '<input type="text" title="' . (0 !== (int) $value ? self::_('date', $value) : '')
+				. '" value="' . (0 !== (int) $value ? self::_('date', $value) : '') . '" ' . $attribs
+				. ' /><input type="hidden" name="' . $name . '" id="' . $id . '" value="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '" />';
+		}
 	}
-
 	/**
 	 * Add a directory where JHtml should search for helpers. You may
 	 * either pass a string or an array of directories.

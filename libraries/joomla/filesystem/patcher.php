@@ -161,7 +161,7 @@ class JFilesystemPatcher
 				// If no modifications were found, throw an exception
 				if (!$done)
 				{
-					throw new RuntimeException(JText::_('JLIB_FILESYSTEM_PATCHER_INVALID_DIFF'));
+					throw new RuntimeException('Invalid Diff');
 				}
 			}
 		}
@@ -294,13 +294,13 @@ class JFilesystemPatcher
 			$line = next($lines);
 			if ($line === false)
 			{
-				throw new RuntimeException(JText::_('JLIB_FILESYSTEM_PATCHER_UNEXPECTED_EOF'));
+				throw new RuntimeException('Unexpected EOF');
 			}
 
 			// Search the destination file
 			if (!preg_match(self::DST_FILE, $line, $m))
 			{
-				throw new RuntimeException(JText::_('JLIB_FILESYSTEM_PATCHER_INVALID_DIFF'));
+				throw new RuntimeException('Invalid Diff file');
 			}
 
 			// Set the destination file
@@ -309,7 +309,7 @@ class JFilesystemPatcher
 			// Advance to the next line
 			if (next($lines) === false)
 			{
-				throw new RuntimeException(JText::_('JLIB_FILESYSTEM_PATCHER_UNEXPECTED_EOF'));
+				throw new RuntimeException('Unexpected EOF');
 			}
 			return true;
 		}
@@ -357,7 +357,7 @@ class JFilesystemPatcher
 
 			if (next($lines) === false)
 			{
-				throw new RuntimeException(JText::_('JLIB_FILESYSTEM_PATCHER_UNEXPECTED_EOF'));
+				throw new RuntimeException('Unexpected EOF');
 			}
 
 			return true;
@@ -474,7 +474,7 @@ class JFilesystemPatcher
 			$line = next($lines);
 		}
 		while ($line !== false);
-		throw new RuntimeException(JText::_('JLIB_FILESYSTEM_PATCHER_UNEXPECTED_EOF'));
+		throw new RuntimeException('Unexpected EOF');
 	}
 
 	/**

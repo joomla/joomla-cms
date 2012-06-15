@@ -20,7 +20,7 @@ final class JPlatform
 	const PRODUCT = 'Joomla Platform';
 
 	// Release version.
-	const RELEASE = '11.4';
+	const RELEASE = '12.1';
 
 	// Maintenance version.
 	const MAINTENANCE = '0';
@@ -32,10 +32,10 @@ final class JPlatform
 	const BUILD = 0;
 
 	// Code name.
-	const CODE_NAME = 'Brian Kernighan';
+	const CODE_NAME = 'Louis Landry';
 
 	// Release date.
-	const RELEASE_DATE = '03-Jan-2012';
+	const RELEASE_DATE = '10-May-2012';
 
 	// Release time.
 	const RELEASE_TIME = '00:00';

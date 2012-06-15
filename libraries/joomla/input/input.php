@@ -18,18 +18,18 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Input
  * @since       11.1
  *
- * @method      integer  getInt()       getInt($name, $default)    Get a signed integer.
- * @method      integer  getUint()      getUint($name, $default)   Get an unsigned integer.
- * @method      float    getFloat()     getFloat($name, $default)  Get a floating-point number.
- * @method      boolean  getBool()      getBool($name, $default)   Get a boolean.
- * @method      string   getWord()      getWord($name, $default)
- * @method      string   getAlnum()     getAlnum($name, $default)
- * @method      string   getCmd()       getCmd($name, $default)
- * @method      string   getBase64()    getBase64($name, $default)
- * @method      string   getString()    getString($name, $default)
- * @method      string   getHtml()      getHtml($name, $default)
- * @method      string   getPath()      getPath($name, $default)
- * @method      string   getUsername()  getUsername($name, $default)
+ * @method      integer  getInt()       getInt($name, $default = null)    Get a signed integer.
+ * @method      integer  getUint()      getUint($name, $default = null)   Get an unsigned integer.
+ * @method      float    getFloat()     getFloat($name, $default = null)  Get a floating-point number.
+ * @method      boolean  getBool()      getBool($name, $default = null)   Get a boolean.
+ * @method      string   getWord()      getWord($name, $default = null)
+ * @method      string   getAlnum()     getAlnum($name, $default = null)
+ * @method      string   getCmd()       getCmd($name, $default = null)
+ * @method      string   getBase64()    getBase64($name, $default = null)
+ * @method      string   getString()    getString($name, $default = null)
+ * @method      string   getHtml()      getHtml($name, $default = null)
+ * @method      string   getPath()      getPath($name, $default = null)
+ * @method      string   getUsername()  getUsername($name, $default = null)
  */
 class JInput implements Serializable
 {
@@ -86,11 +86,11 @@ class JInput implements Serializable
 
 		if (is_null($source))
 		{
-			$this->data = & $_REQUEST;
+			$this->data = &$_REQUEST;
 		}
 		else
 		{
-			$this->data = & $source;
+			$this->data = $source;
 		}
 
 		// Set the options for the class.
@@ -209,12 +209,32 @@ class JInput implements Serializable
 	}
 
 	/**
+	 * Define a value. The value will only be set if there's no value for the name or if it is null.
+	 *
+	 * @param   string  $name   Name of the value to define.
+	 * @param   mixed   $value  Value to assign to the input.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 */
+	public function def($name, $value)
+	{
+		if (isset($this->data[$name]))
+		{
+			return;
+		}
+
+		$this->data[$name] = $value;
+	}
+
+	/**
 	 * Magic method to get filtered input data.
 	 *
-	 * @param   mixed   $name       Name of the value to get.
-	 * @param   string  $arguments  Default value to return if variable does not exist.
+	 * @param   string  $name       Name of the filter type prefixed with 'get'.
+	 * @param   array   $arguments  [0] The name of the variable [1] The default value.
 	 *
-	 * @return  boolean  The filtered boolean input value.
+	 * @return  mixed   The filtered input value.
 	 *
 	 * @since   11.1
 	 */
@@ -238,14 +258,11 @@ class JInput implements Serializable
 	/**
 	 * Gets the request method.
 	 *
-	 * @param   mixed   $name       Name of the value to get.
-	 * @param   string  $arguments  Default value to return if variable does not exist.
-	 *
 	 * @return  string   The request method.
 	 *
 	 * @since   11.1
 	 */
-	public function getMethod($name, $arguments)
+	public function getMethod()
 	{
 		$method = strtoupper($_SERVER['REQUEST_METHOD']);
 		return $method;

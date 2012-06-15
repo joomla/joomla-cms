@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-// Almost everything must be public here to allow overloading.
-
 /**
  * Joomla! Cache base object
  *
@@ -18,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Cache
  * @since       11.1
  */
-class JCache extends JObject
+class JCache
 {
 	/**
 	 * @var    object  Storage handler
@@ -433,7 +431,6 @@ class JCache extends JObject
 		}
 
 		self::$_handler[$hash] = JCacheStorage::getInstance($this->_options['storage'], $this->_options);
-
 		return self::$_handler[$hash];
 	}
 
@@ -632,7 +629,7 @@ class JCache extends JObject
 		$app = JFactory::getApplication();
 
 		// Get url parameters set by plugins
-		$registeredurlparams = $app->get('registeredurlparams');
+		$registeredurlparams = $app->registeredurlparams;
 
 		// Platform defaults
 		$registeredurlparams->format = 'WORD';
@@ -646,7 +643,7 @@ class JCache extends JObject
 
 		foreach ($registeredurlparams as $key => $value)
 		{
-			$safeuriaddon->$key = JRequest::getVar($key, null, 'default', $value);
+			$safeuriaddon->$key = $app->input->get($key, null, $value);
 		}
 
 		return md5(serialize($safeuriaddon));

@@ -112,7 +112,10 @@ class JDocumentOpensearch extends JDocument
 	public function render($cache = false, $params = array())
 	{
 		$xml = new DOMDocument('1.0', 'utf-8');
-		$xml->formatOutput = true;
+		if (defined('JDEBUG') && JDEBUG)
+		{
+			$xml->formatOutput = true;
+		}
 
 		// The OpenSearch Namespace
 		$osns = 'http://a9.com/-/spec/opensearch/1.1/';
@@ -148,7 +151,7 @@ class JDocumentOpensearch extends JDocument
 			$elUrl = $xml->createElementNS($osns, 'Url');
 			$elUrl->setAttribute('type', $url->type);
 
-			// Results is the defualt value so we don't need to add it
+			// Results is the default value so we don't need to add it
 			if ($url->rel != 'results')
 			{
 				$elUrl->setAttribute('rel', $url->rel);

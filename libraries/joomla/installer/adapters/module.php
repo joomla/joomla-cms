@@ -457,9 +457,6 @@ class JInstallerModule extends JAdapterInstance
 				return false;
 			}
 
-			// Set the insert id
-			$row->extension_id = $db->insertid();
-
 			// Since we have created a module item, we add it to the installation step stack
 			// so that if we have to rollback the changes we can undo it.
 			$this->parent->pushStep(array('type' => 'extension', 'extension_id' => $row->extension_id));
@@ -674,8 +671,7 @@ class JInstallerModule extends JAdapterInstance
 		}
 		else
 		{
-			JError::raiseWarning(101, JText::_('JLIB_INSTALLER_ERROR_MOD_DISCOVER_STORE_DETAILS'));
-
+			JLog::add(JText::_('JLIB_INSTALLER_ERROR_MOD_DISCOVER_STORE_DETAILS'), JLog::WARNING, 'jerror');
 			return false;
 		}
 	}
@@ -703,8 +699,7 @@ class JInstallerModule extends JAdapterInstance
 		}
 		else
 		{
-			JError::raiseWarning(101, JText::_('JLIB_INSTALLER_ERROR_MOD_REFRESH_MANIFEST_CACHE'));
-
+			JLog::add(JText::_('JLIB_INSTALLER_ERROR_MOD_REFRESH_MANIFEST_CACHE'), JLog::WARNING, 'jerror');
 			return false;
 		}
 	}
@@ -731,7 +726,7 @@ class JInstallerModule extends JAdapterInstance
 
 		if (!$row->load((int) $id) || !strlen($row->element))
 		{
-			JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_MOD_UNINSTALL_ERRORUNKOWNEXTENSION'));
+			JLog::add(JText::_('JLIB_INSTALLER_ERROR_MOD_UNINSTALL_ERRORUNKOWNEXTENSION'), JLog::WARNING, 'jerror');
 			return false;
 		}
 
@@ -739,7 +734,7 @@ class JInstallerModule extends JAdapterInstance
 		// Because that is not a good idea...
 		if ($row->protected)
 		{
-			JError::raiseWarning(100, JText::sprintf('JLIB_INSTALLER_ERROR_MOD_UNINSTALL_WARNCOREMODULE', $row->name));
+			JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_MOD_UNINSTALL_WARNCOREMODULE', $row->name), JLog::WARNING, 'jerror');
 			return false;
 		}
 
@@ -803,12 +798,11 @@ class JInstallerModule extends JAdapterInstance
 		$msg = ob_get_contents();
 		ob_end_clean();
 
-		if (!($this->manifest instanceof JXMLElement))
+		if (!($this->manifest instanceof SimpleXMLElement))
 		{
 			// Make sure we delete the folders
 			JFolder::delete($this->parent->getPath('extension_root'));
-			JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_MOD_UNINSTALL_INVALID_NOTFOUND_MANIFEST'));
-
+			JLog::add(JText::_('JLIB_INSTALLER_ERROR_MOD_UNINSTALL_INVALID_NOTFOUND_MANIFEST'), JLog::WARNING, 'jerror');
 			return false;
 		}
 
@@ -818,7 +812,7 @@ class JInstallerModule extends JAdapterInstance
 		if ($result === false)
 		{
 			// Install failed, rollback changes
-			JError::raiseWarning(100, JText::sprintf('JLIB_INSTALLER_ERROR_MOD_UNINSTALL_SQL_ERROR', $db->stderr(true)));
+			JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_MOD_UNINSTALL_SQL_ERROR', $db->stderr(true)), JLog::WARNING, 'jerror');
 			$retval = false;
 		}
 
@@ -864,7 +858,7 @@ class JInstallerModule extends JAdapterInstance
 			}
 			catch (RuntimeException $e)
 			{
-				JError::raiseWarning(100, JText::sprintf('JLIB_INSTALLER_ERROR_MOD_UNINSTALL_EXCEPTION', $db->stderr(true)));
+				JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_MOD_UNINSTALL_EXCEPTION', $db->stderr(true)), JLog::WARNING, 'jerror');
 				$retval = false;
 			}
 
@@ -878,7 +872,7 @@ class JInstallerModule extends JAdapterInstance
 			}
 			catch (RuntimeException $e)
 			{
-				JError::raiseWarning(100, JText::sprintf('JLIB_INSTALLER_ERROR_MOD_UNINSTALL_EXCEPTION', $db->stderr(true)));
+				JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_MOD_UNINSTALL_EXCEPTION', $db->stderr(true)), JLog::WARNING, 'jerror');
 				$retval = false;
 			}
 		}

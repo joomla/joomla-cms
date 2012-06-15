@@ -203,7 +203,7 @@ class JInstallerComponent extends JAdapterInstance
 		// Make sure that we have an admin element
 		if (!$this->manifest->administration)
 		{
-			JError::raiseWarning(1, JText::_('JLIB_INSTALLER_ERROR_COMP_INSTALL_ADMIN_ELEMENT'));
+			JLog::add(JText::_('JLIB_INSTALLER_ERROR_COMP_INSTALL_ADMIN_ELEMENT'), JLog::WARNING, 'jerror');
 			return false;
 		}
 
@@ -237,14 +237,17 @@ class JInstallerComponent extends JAdapterInstance
 				if (file_exists($this->parent->getPath('extension_site')))
 				{
 					// If the site exists say so.
-					JError::raiseWarning(1, JText::sprintf('JLIB_INSTALLER_ERROR_COMP_INSTALL_DIR_SITE', $this->parent->getPath('extension_site')));
+					JLog::add(
+						JText::sprintf('JLIB_INSTALLER_ERROR_COMP_INSTALL_DIR_SITE', $this->parent->getPath('extension_site')),
+						JLog::WARNING, 'jerror'
+					);
 				}
 				else
 				{
 					// If the admin exists say so
-					JError::raiseWarning(
-						1,
-						JText::sprintf('JLIB_INSTALLER_ERROR_COMP_INSTALL_DIR_ADMIN', $this->parent->getPath('extension_administrator'))
+					JLog::add(
+						JText::sprintf('JLIB_INSTALLER_ERROR_COMP_INSTALL_DIR_ADMIN', $this->parent->getPath('extension_administrator')),
+						JLog::WARNING, 'jerror'
 					);
 				}
 				return false;
@@ -308,9 +311,9 @@ class JInstallerComponent extends JAdapterInstance
 		{
 			if (!$created = JFolder::create($this->parent->getPath('extension_site')))
 			{
-				JError::raiseWarning(
-					1,
-					JText::sprintf('JLIB_INSTALLER_ERROR_COMP_INSTALL_FAILED_TO_CREATE_DIRECTORY_SITE', $this->parent->getPath('extension_site'))
+				JLog::add(
+					JText::sprintf('JLIB_INSTALLER_ERROR_COMP_INSTALL_FAILED_TO_CREATE_DIRECTORY_SITE', $this->parent->getPath('extension_site')),
+					JLog::WARNING, 'jerror'
 				);
 				return false;
 			}
@@ -332,12 +335,9 @@ class JInstallerComponent extends JAdapterInstance
 		{
 			if (!$created = JFolder::create($this->parent->getPath('extension_administrator')))
 			{
-				JError::raiseWarning(
-					1,
-					JText::sprintf(
-						'JLIB_INSTALLER_ERROR_COMP_INSTALL_FAILED_TO_CREATE_DIRECTORY_ADMIN',
-						$this->parent->getPath('extension_administrator')
-					)
+				JLog::add(
+					JText::sprintf('JLIB_INSTALLER_ERROR_COMP_INSTALL_FAILED_TO_CREATE_DIRECTORY_ADMIN', $this->parent->getPath('extension_administrator')),
+					JLog::WARNING, 'jerror'
 				);
 
 				// Install failed, rollback any changes
@@ -480,11 +480,11 @@ class JInstallerComponent extends JAdapterInstance
 			return false;
 		}
 
-		$eid = $db->insertid();
+		$eid = $row->extension_id;
 
 		// Clobber any possible pending updates
 		$update = JTable::getInstance('update');
-		$uid = $update->find(array('element' => $this->get('element'), 'type' => 'component', 'client_id' => '', 'folder' => ''));
+		$uid = $update->find(array('element' => $this->get('element'), 'type' => 'component', 'client_id' => 1, 'folder' => ''));
 
 		if ($uid)
 		{
@@ -502,7 +502,7 @@ class JInstallerComponent extends JAdapterInstance
 		// Time to build the admin menus
 		if (!$this->_buildAdminMenus($row->extension_id))
 		{
-			JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ABORT_COMP_BUILDADMINMENUS_FAILED'));
+			JLog::add(JText::_('JLIB_INSTALLER_ABORT_COMP_BUILDADMINMENUS_FAILED'), JLog::WARNING, 'jerror');
 
 			// @todo remove code: $this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_COMP_INSTALL_ROLLBACK', $db->stderr(true)));
 			// @todo remove code: return false;
@@ -649,7 +649,7 @@ class JInstallerComponent extends JAdapterInstance
 		// Make sure that we have an admin element
 		if (!$this->manifest->administration)
 		{
-			JError::raiseWarning(1, JText::_('JLIB_INSTALLER_ABORT_COMP_UPDATE_ADMIN_ELEMENT'));
+			JLog::add(JText::_('JLIB_INSTALLER_ABORT_COMP_UPDATE_ADMIN_ELEMENT'), JLog::WARNING, 'jerror');
 			return false;
 		}
 
@@ -717,11 +717,10 @@ class JInstallerComponent extends JAdapterInstance
 		{
 			if (!$created = JFolder::create($this->parent->getPath('extension_site')))
 			{
-				JError::raiseWarning(
-					1,
-					JText::sprintf('JLIB_INSTALLER_ERROR_COMP_UPDATE_FAILED_TO_CREATE_DIRECTORY_SITE', $this->parent->getPath('extension_site'))
+				JLog::add(
+					JText::sprintf('JLIB_INSTALLER_ERROR_COMP_UPDATE_FAILED_TO_CREATE_DIRECTORY_SITE', $this->parent->getPath('extension_site')),
+					JLog::WARNING, 'jerror'
 				);
-
 				return false;
 			}
 		}
@@ -742,12 +741,9 @@ class JInstallerComponent extends JAdapterInstance
 		{
 			if (!$created = JFolder::create($this->parent->getPath('extension_administrator')))
 			{
-				JError::raiseWarning(
-					1,
-					JText::sprintf(
-						'JLIB_INSTALLER_ERROR_COMP_UPDATE_FAILED_TO_CREATE_DIRECTORY_ADMIN',
-						$this->parent->getPath('extension_administrator')
-					)
+				JLog::add(
+					JText::sprintf('JLIB_INSTALLER_ERROR_COMP_UPDATE_FAILED_TO_CREATE_DIRECTORY_ADMIN', $this->parent->getPath('extension_administrator')),
+					JLog::WARNING, 'jerror'
 				);
 
 				// Install failed, rollback any changes
@@ -838,10 +834,9 @@ class JInstallerComponent extends JAdapterInstance
 		// Time to build the admin menus
 		if (!$this->_buildAdminMenus($eid))
 		{
-			JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ABORT_COMP_BUILDADMINMENUS_FAILED'));
+			JLog::add(JText::_('JLIB_INSTALLER_ABORT_COMP_BUILDADMINMENUS_FAILED'), JLog::WARNING, 'jerror');
 
 			// $this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_COMP_INSTALL_ROLLBACK', $db->stderr(true)));
-
 			// Return false;
 		}
 
@@ -882,7 +877,7 @@ class JInstallerComponent extends JAdapterInstance
 
 		// Clobber any possible pending updates
 		$update = JTable::getInstance('update');
-		$uid = $update->find(array('element' => $this->get('element'), 'type' => 'component', 'client_id' => '', 'folder' => ''));
+		$uid = $update->find(array('element' => $this->get('element'), 'type' => 'component', 'client_id' => 1, 'folder' => ''));
 
 		if ($uid)
 		{
@@ -970,7 +965,7 @@ class JInstallerComponent extends JAdapterInstance
 		$row = JTable::getInstance('extension');
 		if (!$row->load((int) $id))
 		{
-			JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_COMP_UNINSTALL_ERRORUNKOWNEXTENSION'));
+			JLog::add(JText::_('JLIB_INSTALLER_ERROR_COMP_UNINSTALL_ERRORUNKOWNEXTENSION'), JLog::WARNING, 'jerror');
 			return false;
 		}
 
@@ -978,7 +973,7 @@ class JInstallerComponent extends JAdapterInstance
 		// Because that is not a good idea...
 		if ($row->protected)
 		{
-			JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_COMP_UNINSTALL_WARNCORECOMPONENT'));
+			JLog::add(JText::_('JLIB_INSTALLER_ERROR_COMP_UNINSTALL_WARNCORECOMPONENT'), JLog::WARNING, 'jerror');
 			return false;
 		}
 
@@ -1013,7 +1008,7 @@ class JInstallerComponent extends JAdapterInstance
 			$this->_removeAdminMenus($row);
 
 			// Raise a warning
-			JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_COMP_UNINSTALL_ERRORREMOVEMANUALLY'));
+			JLog::add(JText::_('JLIB_INSTALLER_ERROR_COMP_UNINSTALL_ERRORREMOVEMANUALLY'), JLog::WARNING, 'jerror');
 
 			// Return
 			return false;
@@ -1099,7 +1094,7 @@ class JInstallerComponent extends JAdapterInstance
 			if ($result === false)
 			{
 				// Install failed, rollback changes
-				JError::raiseWarning(100, JText::sprintf('JLIB_INSTALLER_ERROR_COMP_UNINSTALL_SQL_ERROR', $db->stderr(true)));
+				JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_COMP_UNINSTALL_SQL_ERROR', $db->stderr(true)), JLog::WARNING, 'jerror');
 				$retval = false;
 			}
 		}
@@ -1138,17 +1133,9 @@ class JInstallerComponent extends JAdapterInstance
 		$db->setQuery($query);
 		$db->execute();
 
-		// Check for errors.
-		if ($db->getErrorNum())
-		{
-			JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_COMP_UNINSTALL_FAILED_DELETE_CATEGORIES'));
-			$this->setError($db->getErrorMsg());
-			$retval = false;
-		}
-
 		// Clobber any possible pending updates
 		$update = JTable::getInstance('update');
-		$uid = $update->find(array('element' => $row->element, 'type' => 'component', 'client_id' => '', 'folder' => ''));
+		$uid = $update->find(array('element' => $row->element, 'type' => 'component', 'client_id' => 1, 'folder' => ''));
 
 		if ($uid)
 		{
@@ -1163,7 +1150,7 @@ class JInstallerComponent extends JAdapterInstance
 			{
 				if (!JFolder::delete($this->parent->getPath('extension_site')))
 				{
-					JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_COMP_UNINSTALL_FAILED_REMOVE_DIRECTORY_SITE'));
+					JLog::add(JText::_('JLIB_INSTALLER_ERROR_COMP_UNINSTALL_FAILED_REMOVE_DIRECTORY_SITE'), JLog::WARNING, 'jerror');
 					$retval = false;
 				}
 			}
@@ -1173,7 +1160,7 @@ class JInstallerComponent extends JAdapterInstance
 			{
 				if (!JFolder::delete($this->parent->getPath('extension_administrator')))
 				{
-					JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_COMP_UNINSTALL_FAILED_REMOVE_DIRECTORY_ADMIN'));
+					JLog::add(JText::_('JLIB_INSTALLER_ERROR_COMP_UNINSTALL_FAILED_REMOVE_DIRECTORY_ADMIN'), JLog::WARNING, 'jerror');
 					$retval = false;
 				}
 			}
@@ -1187,7 +1174,7 @@ class JInstallerComponent extends JAdapterInstance
 		else
 		{
 			// No component option defined... cannot delete what we don't know about
-			JError::raiseWarning(100, 'JLIB_INSTALLER_ERROR_COMP_UNINSTALL_NO_OPTION');
+			JLog::add(JText::_('JLIB_INSTALLER_ERROR_COMP_UNINSTALL_NO_OPTION'), JLog::WARNING, 'jerror');
 			return false;
 		}
 	}
@@ -1272,7 +1259,7 @@ class JInstallerComponent extends JAdapterInstance
 			if (!$table->setLocation(1, 'last-child') || !$table->bind($data) || !$table->check() || !$table->store())
 			{
 				// Install failed, warn user and rollback changes
-				JError::raiseWarning(1, $table->getError());
+				JLog::add($table->getError(), JLog::WARNING, 'jerror');
 				return false;
 			}
 
@@ -1301,7 +1288,7 @@ class JInstallerComponent extends JAdapterInstance
 			if (!$table->setLocation(1, 'last-child') || !$table->bind($data) || !$table->check() || !$table->store())
 			{
 				// Install failed, warn user and rollback changes
-				JError::raiseWarning(1, $table->getError());
+				JLog::add($table->getError(), JLog::WARNING, 'jerror');
 				return false;
 			}
 
@@ -1311,8 +1298,6 @@ class JInstallerComponent extends JAdapterInstance
 			 */
 			$this->parent->pushStep(array('type' => 'menu', 'id' => $component_id));
 		}
-
-		$parent_id = $table->id;
 
 		/*
 		 * Process SubMenus
@@ -1428,18 +1413,7 @@ class JInstallerComponent extends JAdapterInstance
 		$ids = $db->loadColumn();
 
 		// Check for error
-		if ($error = $db->getErrorMsg())
-		{
-			JError::raiseWarning('', JText::_('JLIB_INSTALLER_ERROR_COMP_REMOVING_ADMIN_MENUS_FAILED'));
-
-			if ($error && $error != 1)
-			{
-				JError::raiseWarning(100, $error);
-			}
-
-			return false;
-		}
-		elseif (!empty($ids))
+		if (!empty($ids))
 		{
 			// Iterate the items to delete each one.
 			foreach ($ids as $menuid)
@@ -1554,7 +1528,7 @@ class JInstallerComponent extends JAdapterInstance
 		}
 		catch (RuntimeException $e)
 		{
-			JError::raiseWarning(101, JText::_('JLIB_INSTALLER_ERROR_COMP_DISCOVER_STORE_DETAILS'));
+			JLog::add(JText::_('JLIB_INSTALLER_ERROR_COMP_DISCOVER_STORE_DETAILS'), JLog::WARNING, 'jerror');
 			return false;
 		}
 
@@ -1614,7 +1588,7 @@ class JInstallerComponent extends JAdapterInstance
 		// Make sure that we have an admin element
 		if (!$this->manifest->administration)
 		{
-			JError::raiseWarning(1, JText::_('JLIB_INSTALLER_ERROR_COMP_INSTALL_ADMIN_ELEMENT'));
+			JLog::add(JText::_('JLIB_INSTALLER_ERROR_COMP_INSTALL_ADMIN_ELEMENT'), JLog::WARNING, 'jerror');
 			return false;
 		}
 
@@ -1703,7 +1677,7 @@ class JInstallerComponent extends JAdapterInstance
 		// Time to build the admin menus
 		if (!$this->_buildAdminMenus($this->parent->extension->extension_id))
 		{
-			JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ABORT_COMP_BUILDADMINMENUS_FAILED'));
+			JLog::add(JText::_('JLIB_INSTALLER_ABORT_COMP_BUILDADMINMENUS_FAILED'), JLog::WARNING, 'jerror');
 
 			// @todo remove code: $this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_COMP_INSTALL_ROLLBACK', $db->stderr(true)));
 
@@ -1724,7 +1698,7 @@ class JInstallerComponent extends JAdapterInstance
 		ob_start();
 		ob_implicit_flush(false);
 
-		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'discover_install'))
+		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'install'))
 		{
 
 			if ($this->parent->manifestClass->install($this) === false)
@@ -1748,7 +1722,7 @@ class JInstallerComponent extends JAdapterInstance
 
 		// Clobber any possible pending updates
 		$update = JTable::getInstance('update');
-		$uid = $update->find(array('element' => $this->get('element'), 'type' => 'component', 'client_id' => '', 'folder' => ''));
+		$uid = $update->find(array('element' => $this->get('element'), 'type' => 'component', 'client_id' => 1, 'folder' => ''));
 
 		if ($uid)
 		{
@@ -1802,7 +1776,7 @@ class JInstallerComponent extends JAdapterInstance
 		}
 		catch (RuntimeException $e)
 		{
-			JError::raiseWarning(101, JText::_('JLIB_INSTALLER_ERROR_COMP_REFRESH_MANIFEST_CACHE'));
+			JLog::add(JText::_('JLIB_INSTALLER_ERROR_COMP_REFRESH_MANIFEST_CACHE'), JLog::WARNING, 'jerror');
 			return false;
 		}
 	}

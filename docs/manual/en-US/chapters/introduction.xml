@@ -73,6 +73,15 @@ JLoader::setup();
 // Do custom registration if required.</programlisting>
       </example>
     </section>
+
+    <section>
+      <title>Legacy Platform</title>
+
+      <para>The Joomla Platform also supports a legacy tree for API. It includes many classes that are only used by the Joomla
+      CMS, or classes and packages that have been upgraded and introduced backward compatibility issues. Bootstrapping the legacy
+      Joomla Platform is done by including <filename>/libraries/import.legacy.php</filename>. This instructs the auto-loader to
+      look for classes in the legacy tree first, and then in the core tree.</para>
+    </section>
   </section>
 
   <section>

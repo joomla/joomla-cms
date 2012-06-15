@@ -50,16 +50,23 @@ JLoader::setup();
 // Import the Joomla Factory.
 JLoader::import('joomla.factory');
 
-// Register JRequest for legacy reasons
-JLoader::register('JRequest', JPATH_PLATFORM . '/joomla/environment/request.php');
-
 // Register classes that don't follow one file per class naming conventions.
 JLoader::register('JText', JPATH_PLATFORM . '/joomla/language/text.php');
 JLoader::register('JRoute', JPATH_PLATFORM . '/joomla/application/route.php');
 
+// Register the folder for the moved JHtml classes
+JHtml::addIncludePath(JPATH_PLATFORM . '/legacy/html');
+
 // Register classes where the names have been changed to fit the autoloader rules
 // @deprecated  12.3
-JLoader::register('JDatabaseQueryMySQL', JPATH_PLATFORM . '/database/query/mysql.php');
-JLoader::register('JDatabaseQueryMySQLi', JPATH_PLATFORM . '/database/query/mysqli.php');
-JLoader::register('JDatabaseQuerySQLAzure', JPATH_PLATFORM . '/database/query/sqlazure.php');
-JLoader::register('JDatabaseQuerySQLSrv', JPATH_PLATFORM . '/database/query/sqlsrv.php');
+JLoader::register('JDatabaseQueryMySQL', JPATH_PLATFORM . '/joomla/database/query/mysql.php');
+JLoader::register('JDatabaseQueryMySQLi', JPATH_PLATFORM . '/joomla/database/query/mysqli.php');
+JLoader::register('JDatabaseQuerySQLAzure', JPATH_PLATFORM . '/joomla/database/query/sqlazure.php');
+JLoader::register('JDatabaseQuerySQLSrv', JPATH_PLATFORM . '/joomla/database/query/sqlsrv.php');
+JLoader::register('JToolBar', JPATH_PLATFORM . '/legacy/toolbar/toolbar.php');
+JLoader::register('JSimpleCrypt', JPATH_PLATFORM . '/legacy/simplecrypt/simplecrypt.php');
+JLoader::register('JTree', JPATH_PLATFORM . '/legacy/base/tree.php');
+JLoader::register('JNode', JPATH_PLATFORM . '/legacy/base/node.php');
+JLoader::register('JObserver', JPATH_PLATFORM . '/legacy/base/observer.php');
+JLoader::register('JObservable', JPATH_PLATFORM . '/legacy/base/observable.php');
+JLoader::register('LogException', JPATH_PLATFORM . '/legacy/log/logexception.php');

@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Joomla.Platform
+ * @package     Joomla.Legacy
  * @subpackage  Application
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
@@ -18,7 +18,7 @@ jimport('joomla.environment.response');
  * supporting API functions. Derived clases should supply the route(), dispatch()
  * and render() functions.
  *
- * @package     Joomla.Platform
+ * @package     Joomla.Legacy
  * @subpackage  Application
  * @since       11.1
  */
@@ -30,15 +30,6 @@ class JApplication extends JApplicationBase
 	 * @var    integer
 	 * @since  11.1
 	 */
-	protected $clientId = null;
-
-	/**
-	 * The client identifier.
-	 *
-	 * @var    integer
-	 * @since  11.1
-	 * @deprecated use $clientId or declare as private
-	 */
 	protected $_clientId = null;
 
 	/**
@@ -47,15 +38,6 @@ class JApplication extends JApplicationBase
 	 * @var    array
 	 * @since  11.1
 	 */
-	protected $messageQueue = array();
-
-	/**
-	 * The application message queue.
-	 *
-	 * @var    array
-	 * @since  11.1
-	 * @deprecated use $messageQueue or declare as private
-	 */
 	protected $_messageQueue = array();
 
 	/**
@@ -63,15 +45,6 @@ class JApplication extends JApplicationBase
 	 *
 	 * @var    array
 	 * @since  11.1
-	 */
-	protected $name = null;
-
-	/**
-	 * The name of the application.
-	 *
-	 * @var    array
-	 * @since  11.1
-	 * @deprecated use $name or declare as private
 	 */
 	protected $_name = null;
 
@@ -115,8 +88,6 @@ class JApplication extends JApplicationBase
 	 */
 	public function __construct($config = array())
 	{
-		jimport('joomla.error.profiler');
-
 		// Set the view name.
 		$this->_name = $this->getName();
 
@@ -133,10 +104,7 @@ class JApplication extends JApplicationBase
 		}
 
 		// Create the input object
-		if (class_exists('JInput'))
-		{
-			$this->input = new JInput;
-		}
+		$this->input = new JInput;
 
 		// Set the session default name.
 		if (!isset($config['session_name']))
@@ -164,10 +132,10 @@ class JApplication extends JApplicationBase
 
 		$this->loadDispatcher();
 
-		$this->set('requestTime', gmdate('Y-m-d H:i'));
+		$this->requestTime = gmdate('Y-m-d H:i');
 
 		// Used by task system to ensure that the system doesn't go over time.
-		$this->set('startTime', JProfiler::getmicrotime());
+		$this->startTime = JProfiler::getmicrotime();
 	}
 
 	/**
@@ -271,7 +239,7 @@ class JApplication extends JApplicationBase
 
 		foreach ($result as $key => $value)
 		{
-			$this->input->set($key, $value);
+			$this->input->def($key, $value);
 		}
 
 		// Trigger the onAfterRoute event.
@@ -426,13 +394,6 @@ class JApplication extends JApplicationBase
 				echo '<html><head><meta http-equiv="content-type" content="text/html; charset=' . $document->getCharset() . '" />'
 					. '<script>document.location.href=\'' . htmlspecialchars($url) . '\';</script></head></html>';
 			}
-			elseif (!$moved && $navigator->isBrowser('konqueror'))
-			{
-				// WebKit browser (identified as konqueror by Joomla!) - Do not use 303, as it causes subresources
-				// reload (https://bugs.webkit.org/show_bug.cgi?id=38690)
-				echo '<html><head><meta http-equiv="content-type" content="text/html; charset=' . $document->getCharset() . '" />'
-					. '<meta http-equiv="refresh" content="0; url=' . htmlspecialchars($url) . '" /></head></html>';
-			}
 			else
 			{
 				// All other browsers, use the more efficient HTTP header method
@@ -535,7 +496,7 @@ class JApplication extends JApplicationBase
 			$r = null;
 			if (!preg_match('/J(.*)/i', get_class($this), $r))
 			{
-				JError::raiseError(500, JText::_('JLIB_APPLICATION_ERROR_APPLICATION_GET_NAME'));
+				JLog::add(JText::_('JLIB_APPLICATION_ERROR_APPLICATION_GET_NAME'), JLog::WARNING, 'jerror');
 			}
 			$name = strtolower($r[1]);
 		}
@@ -700,12 +661,11 @@ class JApplication extends JApplicationBase
 				// Set the remember me cookie if enabled.
 				if (isset($options['remember']) && $options['remember'])
 				{
-					jimport('joomla.utilities.simplecrypt');
-
 					// Create the encryption key, apply extra hardening using the user agent string.
-					$key = self::getHash(@$_SERVER['HTTP_USER_AGENT']);
+					$privateKey = self::getHash(@$_SERVER['HTTP_USER_AGENT']);
 
-					$crypt = new JSimpleCrypt($key);
+					$key = new JCryptKey('simple', $privateKey, $privateKey);
+					$crypt = new JCrypt(new JCryptCipherSimple, $key);
 					$rcookie = $crypt->encrypt(serialize($credentials));
 					$lifetime = time() + 365 * 24 * 60 * 60;
 
@@ -731,7 +691,7 @@ class JApplication extends JApplicationBase
 		// If status is success, any error will have been raised by the user plugin
 		if ($response->status !== JAuthentication::STATUS_SUCCESS)
 		{
-			JError::raiseWarning('102001', $response->error_message);
+			JLog::add($response->error_message, JLog::WARNING, 'jerror');
 		}
 
 		return false;
@@ -878,7 +838,6 @@ class JApplication extends JApplicationBase
 			$name = $this->_name;
 		}
 
-		jimport('joomla.application.pathway');
 		$pathway = JPathway::getInstance($name, $options);
 
 		if ($pathway instanceof Exception)
@@ -906,7 +865,6 @@ class JApplication extends JApplicationBase
 			$name = $this->_name;
 		}
 
-		jimport('joomla.application.menu');
 		$menu = JMenu::getInstance($name, $options);
 
 		if ($menu instanceof Exception)
@@ -1013,8 +971,9 @@ class JApplication extends JApplicationBase
 		}
 
 		// Check to see the the session already exists.
-		if (($this->getCfg('session_handler') != 'database' && ($time % 2 || $session->isNew()))
-			|| ($this->getCfg('session_handler') == 'database' && $session->isNew()))
+		$handler = $this->getCfg('session_handler');
+		if (($handler != 'database' && ($time % 2 || $session->isNew()))
+			|| ($handler == 'database' && $session->isNew()))
 		{
 			$this->checkSession();
 		}
@@ -1073,9 +1032,13 @@ class JApplication extends JApplicationBase
 			}
 
 			// If the insert failed, exit the application.
-			if (!$db->execute())
+			try
 			{
-				jexit($db->getErrorMSG());
+				$db->execute();
+			}
+			catch (RuntimeException $e)
+			{
+				jexit($e->getMessage());
 			}
 
 			// Session doesn't exist yet, so create session variables

@@ -27,6 +27,7 @@ class JCryptCipherSimple implements JCryptCipher
 	 * @return  string  The decrypted data string.
 	 *
 	 * @since   12.1
+	 * @throws  InvalidArgumentException
 	 */
 	public function decrypt($data, JCryptKey $key)
 	{
@@ -68,6 +69,7 @@ class JCryptCipherSimple implements JCryptCipher
 	 * @return  string  The encrypted data string.
 	 *
 	 * @since   12.1
+	 * @throws  InvalidArgumentException
 	 */
 	public function encrypt($data, JCryptKey $key)
 	{

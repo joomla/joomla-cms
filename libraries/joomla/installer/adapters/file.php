@@ -170,7 +170,7 @@ class JInstallerFile extends JAdapterInstance
 
 				if (!$created = JFolder::create($folder))
 				{
-					JError::raiseWarning(1, JText::sprintf('JLIB_INSTALLER_ABORT_FILE_INSTALL_FAIL_SOURCE_DIRECTORY', $folder));
+					JLog::add(JText::sprintf('JLIB_INSTALLER_ABORT_FILE_INSTALL_FAIL_SOURCE_DIRECTORY', $folder), JLog::WARNING, 'jerror');
 
 					// If installation fails, rollback
 					$this->parent->abort();
@@ -272,9 +272,6 @@ class JInstallerFile extends JAdapterInstance
 				$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_FILE_INSTALL_ROLLBACK', $db->stderr(true)));
 				return false;
 			}
-
-			// Set the insert id
-			$row->set('extension_id', $db->insertid());
 
 			// Since we have created a module item, we add it to the installation step stack
 			// so that if we have to rollback the changes we can undo it.
@@ -411,13 +408,13 @@ class JInstallerFile extends JAdapterInstance
 		$row = JTable::getInstance('extension');
 		if (!$row->load($id))
 		{
-			JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_FILE_UNINSTALL_LOAD_ENTRY'));
+			JLog::add(JText::_('JLIB_INSTALLER_ERROR_FILE_UNINSTALL_LOAD_ENTRY'), JLog::WARNING, 'jerror');
 			return false;
 		}
 
 		if ($row->protected)
 		{
-			JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_FILE_UNINSTALL_WARNCOREFILE'));
+			JLog::add(JText::_('JLIB_INSTALLER_ERROR_FILE_UNINSTALL_WARNCOREFILE'), JLog::WARNING, 'jerror');
 			return false;
 		}
 
@@ -436,14 +433,14 @@ class JInstallerFile extends JAdapterInstance
 			// If we cannot load the XML file return null
 			if (!$xml)
 			{
-				JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_FILE_UNINSTALL_LOAD_MANIFEST'));
+				JLog::add(JText::_('JLIB_INSTALLER_ERROR_FILE_UNINSTALL_LOAD_MANIFEST'), JLog::WARNING, 'jerror');
 				return false;
 			}
 
 			// Check for a valid XML root tag.
 			if ($xml->getName() != 'extension')
 			{
-				JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_FILE_UNINSTALL_INVALID_MANIFEST'));
+				JLog::add(JText::_('JLIB_INSTALLER_ERROR_FILE_UNINSTALL_INVALID_MANIFEST'), JLog::WARNING, 'jerror');
 				return false;
 			}
 
@@ -494,7 +491,7 @@ class JInstallerFile extends JAdapterInstance
 			if ($result === false)
 			{
 				// Install failed, rollback changes
-				JError::raiseWarning(100, JText::sprintf('JLIB_INSTALLER_ERROR_FILE_UNINSTALL_SQL_ERROR', $db->stderr(true)));
+				JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_FILE_UNINSTALL_SQL_ERROR', $db->stderr(true)), JLog::WARNING, 'jerror');
 				$retval = false;
 			}
 
@@ -564,7 +561,7 @@ class JInstallerFile extends JAdapterInstance
 		}
 		else
 		{
-			JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_FILE_UNINSTALL_INVALID_NOTFOUND_MANIFEST'));
+			JLog::add(JText::_('JLIB_INSTALLER_ERROR_FILE_UNINSTALL_INVALID_NOTFOUND_MANIFEST'), JLog::WARNING, 'jerror');
 
 			// Delete the row because its broken
 			$row->delete();
@@ -674,7 +671,7 @@ class JInstallerFile extends JAdapterInstance
 			// Check if source folder exists
 			if (!JFolder::exists($sourceFolder))
 			{
-				JError::raiseWarning(1, JText::sprintf('JLIB_INSTALLER_ABORT_FILE_INSTALL_FAIL_SOURCE_DIRECTORY', $sourceFolder));
+				JLog::add(JText::sprintf('JLIB_INSTALLER_ABORT_FILE_INSTALL_FAIL_SOURCE_DIRECTORY', $sourceFolder), JLog::WARNING, 'jerror');
 
 				// If installation fails, rollback
 				$this->parent->abort();
@@ -739,7 +736,7 @@ class JInstallerFile extends JAdapterInstance
 		}
 		catch (RuntimeException $e)
 		{
-			JError::raiseWarning(101, JText::_('JLIB_INSTALLER_ERROR_PACK_REFRESH_MANIFEST_CACHE'));
+			JLog::add(JText::_('JLIB_INSTALLER_ERROR_PACK_REFRESH_MANIFEST_CACHE'), JLog::WARNING, 'jerror');
 			return false;
 		}
 	}

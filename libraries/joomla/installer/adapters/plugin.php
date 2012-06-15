@@ -571,7 +571,7 @@ class JInstallerPlugin extends JAdapterInstance
 		$row = JTable::getInstance('extension');
 		if (!$row->load((int) $id))
 		{
-			JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_PLG_UNINSTALL_ERRORUNKOWNEXTENSION'));
+			JLog::add(JText::_('JLIB_INSTALLER_ERROR_PLG_UNINSTALL_ERRORUNKOWNEXTENSION'), JLog::WARNING, 'jerror');
 			return false;
 		}
 
@@ -579,14 +579,14 @@ class JInstallerPlugin extends JAdapterInstance
 		// Because that is not a good idea...
 		if ($row->protected)
 		{
-			JError::raiseWarning(100, JText::sprintf('JLIB_INSTALLER_ERROR_PLG_UNINSTALL_WARNCOREPLUGIN', $row->name));
+			JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_PLG_UNINSTALL_WARNCOREPLUGIN', $row->name), JLog::WARNING, 'jerror');
 			return false;
 		}
 
 		// Get the plugin folder so we can properly build the plugin path
 		if (trim($row->folder) == '')
 		{
-			JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_PLG_UNINSTALL_FOLDER_FIELD_EMPTY'));
+			JLog::add(JText::_('JLIB_INSTALLER_ERROR_PLG_UNINSTALL_FOLDER_FIELD_EMPTY'), JLog::WARNING, 'jerror');
 			return false;
 		}
 
@@ -801,7 +801,7 @@ class JInstallerPlugin extends JAdapterInstance
 		}
 		else
 		{
-			JError::raiseWarning(101, JText::_('JLIB_INSTALLER_ERROR_PLG_DISCOVER_STORE_DETAILS'));
+			JLog::add(JText::_('JLIB_INSTALLER_ERROR_PLG_DISCOVER_STORE_DETAILS'), JLog::WARNING, 'jerror');
 			return false;
 		}
 	}
@@ -835,7 +835,7 @@ class JInstallerPlugin extends JAdapterInstance
 		}
 		else
 		{
-			JError::raiseWarning(101, JText::_('JLIB_INSTALLER_ERROR_PLG_REFRESH_MANIFEST_CACHE'));
+			JLog::add(JText::_('JLIB_INSTALLER_ERROR_PLG_REFRESH_MANIFEST_CACHE'), JLog::WARNING, 'jerror');
 			return false;
 		}
 	}

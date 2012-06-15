@@ -14,9 +14,6 @@ defined('JPATH_PLATFORM') or die;
  */
 define('_QQ_', '"');
 
-// Import some libraries
-jimport('joomla.filesystem.stream');
-
 /**
  * Languages/translation handler class
  *
@@ -24,7 +21,7 @@ jimport('joomla.filesystem.stream');
  * @subpackage  Language
  * @since       11.1
  */
-class JLanguage extends JObject
+class JLanguage
 {
 	protected static $languages = array();
 
@@ -189,7 +186,6 @@ class JLanguage extends JObject
 		$class = str_replace('-', '_', $lang . 'Localise');
 		if (!class_exists($class) && defined('JPATH_SITE'))
 		{
-
 			// Class does not exist. Try to find it in the Site Language Folder
 			$localise = JPATH_SITE . "/language/$lang/$lang.localise.php";
 			if (file_exists($localise))
@@ -200,7 +196,6 @@ class JLanguage extends JObject
 
 		if (!class_exists($class) && defined('JPATH_ADMINISTRATOR'))
 		{
-
 			// Class does not exist. Try to find it in the Administrator Language Folder
 			$localise = JPATH_ADMINISTRATOR . "/language/$lang/$lang.localise.php";
 			if (file_exists($localise))
@@ -800,31 +795,17 @@ class JLanguage extends JObject
 	 */
 	protected function parse($filename)
 	{
-		$version = phpversion();
-
-		// Capture hidden PHP errors from the parsing.
-		$php_errormsg = null;
-		$track_errors = ini_get('track_errors');
-		ini_set('track_errors', true);
-
-		if ($version >= '5.3.1')
+		if ($this->debug)
 		{
-			$contents = file_get_contents($filename);
-			$contents = str_replace('_QQ_', '"\""', $contents);
-			$strings = @parse_ini_string($contents);
+			// Capture hidden PHP errors from the parsing.
+			$php_errormsg = null;
+			$track_errors = ini_get('track_errors');
+			ini_set('track_errors', true);
 		}
-		else
-		{
-			$strings = @parse_ini_file($filename);
 
-			if ($version == '5.3.0' && is_array($strings))
-			{
-				foreach ($strings as $key => $string)
-				{
-					$strings[$key] = str_replace('_QQ_', '"', $string);
-				}
-			}
-		}
+		$contents = file_get_contents($filename);
+		$contents = str_replace('_QQ_', '"\""', $contents);
+		$strings = @parse_ini_string($contents);
 
 		// Restore error tracking to what it was before.
 		ini_set('track_errors', $track_errors);
@@ -836,6 +817,8 @@ class JLanguage extends JObject
 
 		if ($this->debug)
 		{
+			jimport('joomla.filesystem.stream');
+
 			// Initialise variables for manually parsing the file for common errors.
 			$blacklist = array('YES', 'NO', 'NULL', 'FALSE', 'ON', 'OFF', 'NONE', 'TRUE');
 			$regex = '/^(|(\[[^\]]*\])|([A-Z][A-Z0-9_\-]*\s*=(\s*(("[^"]*")|(_QQ_)))+))\s*(;.*)?$/';
@@ -1042,7 +1025,7 @@ class JLanguage extends JObject
 	public function setDebug($debug)
 	{
 		$previous = $this->debug;
-		$this->debug = $debug;
+		$this->debug = (boolean) $debug;
 
 		return $previous;
 	}

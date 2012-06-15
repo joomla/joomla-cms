@@ -18,12 +18,11 @@ define('_JEXEC', 1);
 @ini_set('magic_quotes_runtime', 0);
 
 // Maximise error reporting.
-@ini_set('zend.ze1_compatibility_mode', '0');
-error_reporting(E_ALL);
+error_reporting(E_ALL & ~E_STRICT);
 ini_set('display_errors', 1);
 
 /*
- * Ensure that required path constants are defined.  These can be overriden within the phpunit.xml file
+ * Ensure that required path constants are defined.  These can be overridden within the phpunit.xml file
  * if you chose to create a custom version of that file.
  */
 if (!defined('JPATH_TESTS'))
@@ -63,20 +62,8 @@ if (!defined('JPATH_THEMES'))
 	define('JPATH_THEMES', JPATH_BASE . '/themes');
 }
 
-// Load a configuration file for the tests.
-if (file_exists(JPATH_TESTS . '/config.php'))
-{
-	include_once JPATH_TESTS . '/config.php';
-}
-else
-{
-	require_once JPATH_TESTS . '/config.dist.php';
-}
-
 // Import the platform.
-require_once JPATH_PLATFORM . '/import.legacy.php';
+require_once JPATH_PLATFORM . '/import.php';
 
-// Include the base test cases.
-require_once JPATH_TESTS . '/includes/JoomlaTestCase.php';
-require_once JPATH_TESTS . '/includes/JoomlaDatabaseTestCase.php';
-require_once JPATH_TESTS . '/includes/ReflectionHelper.php';
+// Register the core Joomla test classes.
+JLoader::registerPrefix('Test', __DIR__ . '/core');

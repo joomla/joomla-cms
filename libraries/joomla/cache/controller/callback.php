@@ -94,7 +94,6 @@ class JCacheControllerCallback extends JCacheController
 			$id = $this->_makeId($callback, $args);
 		}
 
-		$data = false;
 		$data = $this->cache->get($id);
 
 		$locktest = new stdClass;
