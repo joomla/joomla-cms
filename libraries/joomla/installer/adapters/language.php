@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Installer
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -74,7 +74,6 @@ class JInstallerLanguage extends JAdapterInstance
 		elseif ($cname = (string) $this->manifest->attributes()->client)
 		{
 			// Attempt to map the client to a base path
-			jimport('joomla.application.helper');
 			$client = JApplicationHelper::getClientInfo($cname, true);
 			if ($client === null)
 			{
@@ -183,12 +182,12 @@ class JInstallerLanguage extends JAdapterInstance
 			// Upgrade manually set or
 			// Update function available or
 			// Update tag detected
-			if ($this->parent->getUpgrade() || ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'update'))
-				|| is_a($updateElement, 'JXMLElement'))
+			if ($this->parent->isUpgrade() || ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'update'))
+				|| $updateElement)
 			{
 				return $this->update(); // transfer control to the update function
 			}
-			elseif (!$this->parent->getOverwrite())
+			elseif (!$this->parent->isOverwrite())
 			{
 				// Overwrite is set
 				// We didn't have overwrite set, find an update function or find an update tag so lets call it safe
@@ -309,7 +308,6 @@ class JInstallerLanguage extends JAdapterInstance
 		$cname = $xml->attributes()->client;
 
 		// Attempt to map the client to a base path
-		jimport('joomla.application.helper');
 		$client = JApplicationHelper::getClientInfo($cname, true);
 		if ($client === null || (empty($cname) && $cname !== 0))
 		{
@@ -545,7 +543,7 @@ class JInstallerLanguage extends JAdapterInstance
 				$query->set('params=' . $db->quote($registry));
 				$query->where('id=' . (int) $user->id);
 				$db->setQuery($query);
-				$db->query();
+				$db->execute();
 				$count = $count + 1;
 			}
 		}

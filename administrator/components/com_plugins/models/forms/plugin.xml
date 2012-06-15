@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-	<!-- $Id$ -->
 <form>
 	<fieldset>
 		<field
@@ -20,7 +19,7 @@
 		<field
 			name="enabled"
 			type="list"
-			label="JENABLED"
+			label="JSTATUS"
 			description="COM_PLUGINS_FIELD_ENABLED_DESC"
 			class="inputbox"
 			size="1"

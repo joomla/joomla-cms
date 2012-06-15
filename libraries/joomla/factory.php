@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Platform
  *
- * @copyright  Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -306,7 +306,7 @@ abstract class JFactory
 			$debug = $conf->get('debug');
 
 			self::$database = self::createDbo();
-			self::$database->debug($debug);
+			self::$database->setDebug($debug);
 		}
 
 		return self::$database;
@@ -709,7 +709,7 @@ abstract class JFactory
 
 		$db = JDatabase::getInstance($options);
 
-		if (JError::isError($db))
+		if ($db instanceof Exception)
 		{
 			if (!headers_sent())
 			{
@@ -720,10 +720,10 @@ abstract class JFactory
 
 		if ($db->getErrorNum() > 0)
 		{
-			JError::raiseError(500, JText::sprintf('JLIB_UTIL_ERROR_CONNECT_DATABASE', $db->getErrorNum(), $db->getErrorMsg()));
+			die(sprintf('Database connection error (%d): %s', $db->getErrorNum(), $db->getErrorMsg()));
 		}
 
-		$db->debug($debug);
+		$db->setDebug($debug);
 
 		return $db;
 	}
@@ -854,6 +854,7 @@ abstract class JFactory
 		$lang = self::getLanguage();
 
 		// Keep backwards compatibility with Joomla! 1.0
+		// @deprecated 12.1 This will be removed in the next version
 		$raw = JRequest::getBool('no_html');
 		$type = JRequest::getWord('format', $raw ? 'raw' : 'html');
 
@@ -889,7 +890,6 @@ abstract class JFactory
 
 		if ($use_prefix)
 		{
-			jimport('joomla.client.helper');
 			$FTPOptions = JClientHelper::getCredentials('ftp');
 			$SCPOptions = JClientHelper::getCredentials('scp');
 

@@ -1,8 +1,7 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.SystemTest
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  * loads each menu choice in back end
  */
@@ -100,7 +99,7 @@ class ControlPanel0002 extends SeleniumJoomlaTestCase
 		$this->click("//li[@id='toolbar-cancel']/a/span");
 		$this->waitForPageToLoad("30000");
 		echo "Navigate to Read Private Messages.\n";
-		$this->click("link=No messages");
+		$this->click("link=0");
 		$this->waitForPageToLoad("30000");
 		$this->assertTrue($this->isTextPresent("Private Messages"));
 		echo "Navigate to New Private Message.\n";

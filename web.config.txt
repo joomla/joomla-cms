@@ -3,7 +3,7 @@
    <system.webServer>
        <rewrite>
            <rules>
-               <rule name="Imported Rule 1" stopProcessing="true">
+               <rule name="Joomla! Rule 1" stopProcessing="true">
                    <match url="^(.*)$" ignoreCase="false" />
                    <conditions logicalGrouping="MatchAny">
                        <add input="{QUERY_STRING}" pattern="base64_encode[^(]*\([^)]*\)" ignoreCase="false" />
@@ -13,14 +13,13 @@
                    </conditions>
                    <action type="CustomResponse" url="index.php" statusCode="403" statusReason="Forbidden" statusDescription="Forbidden" />
                </rule>
-               <rule name="Imported Rule 2">
+               <rule name="Joomla! Rule 2">
                    <match url="(.*)" ignoreCase="false" />
                    <conditions logicalGrouping="MatchAll">
-                       <add input="{REQUEST_FILENAME}" matchType="IsFile" ignoreCase="false" negate="true" />
-                       <add input="{REQUEST_FILENAME}" matchType="IsDirectory" ignoreCase="false" negate="true" />
-                       <add input="{URL}" pattern="^/index.php" ignoreCase="true" negate="true" />
-                       <add input="{URL}" pattern="(/component/)" ignoreCase="false" negate="true" />
-                       <add input="{URL}" pattern="(/[^.]*|\.(php|html?|feed|pdf|raw))$" />
+                     <add input="{URL}" pattern="^/index.php" ignoreCase="true" negate="true" />
+                     <add input="{URL}" pattern="/component/|(/[^.]*|\.(php|html?|feed|pdf|vcf|raw))$" />
+                     <add input="{REQUEST_FILENAME}" matchType="IsFile" ignoreCase="false" negate="true" />
+                     <add input="{REQUEST_FILENAME}" matchType="IsDirectory" ignoreCase="false" negate="true" />
                    </conditions>
                    <action type="Rewrite" url="index.php" />
                </rule>

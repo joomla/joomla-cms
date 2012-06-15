@@ -1,9 +1,8 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Site
  * @subpackage	com_search
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -160,13 +159,13 @@ class SearchViewSearch extends JView
 
 				$result = &$results[$i];
 				if ($result->created) {
-					$created = JHtml::_('date',$result->created, JText::_('DATE_FORMAT_LC3'));
+					$created = JHtml::_('date', $result->created, JText::_('DATE_FORMAT_LC3'));
 				}
 				else {
 					$created = '';
 				}
 
-				$result->text		= JHtml::_('content.prepare', $result->text);
+				$result->text		= JHtml::_('content.prepare', $result->text, '', 'com_search.search');
 				$result->created	= $created;
 				$result->count		= $i + 1;
 			}
@@ -186,15 +185,15 @@ class SearchViewSearch extends JView
 		$this->assignRef('lists',		$lists);
 		$this->assignRef('params',		$params);
 
-		$this->assign('ordering',		$state->get('ordering'));
-		$this->assign('searchword',		$searchword);
-		$this->assign('origkeyword',	$state->get('origkeyword'));
-		$this->assign('searchphrase',	$state->get('match'));
-		$this->assign('searchareas',	$areas);
+		$this->ordering = $state->get('ordering');
+		$this->searchword = $searchword;
+		$this->origkeyword = $state->get('origkeyword');
+		$this->searchphrase = $state->get('match');
+		$this->searchareas = $areas;
 
-		$this->assign('total',			$total);
-		$this->assign('error',			$error);
-		$this->assign('action',			$uri);
+		$this->total = $total;
+		$this->error = $error;
+		$this->action = $uri;
 
 		parent::display($tpl);
 	}

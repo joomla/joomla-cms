@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Installer
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -43,7 +43,6 @@ abstract class JInstallerHelper
 		ini_set('track_errors', true);
 
 		// Set user agent
-		jimport('joomla.version');
 		$version = new JVersion;
 		ini_set('user_agent', $version->getUserAgent('Installer'));
 

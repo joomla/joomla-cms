@@ -1,7 +1,6 @@
 <?php
 /**
- * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -36,6 +35,12 @@ class AdminModelProfile extends UsersModelUser
 		$form = $this->loadForm('com_admin.profile', 'profile', array('control' => 'jform', 'load_data' => $loadData));
 		if (empty($form)) {
 			return false;
+		}
+		if (!JComponentHelper::getParams('com_users')->get('change_login_name'))
+		{
+			$form->setFieldAttribute('username', 'required', 'false');
+			$form->setFieldAttribute('username', 'readonly', 'true');
+			$form->setFieldAttribute('username', 'description', 'COM_ADMIN_USER_FIELD_NOCHANGE_USERNAME_DESC');
 		}
 
 		return $form;

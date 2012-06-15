@@ -1,9 +1,8 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Administrator
  * @subpackage	com_categories
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -30,7 +29,7 @@ $extension	= $this->escape($this->state->get('filter.extension'));
 		<fieldset id="batch-choose-action" class="combo">
 		<select name="batch[category_id]" class="inputbox" id="batch-category-id">
 			<option value=""><?php echo JText::_('JSELECT') ?></option>
-			<?php echo JHtml::_('select.options', JHtml::_('category.categories', $extension, array('published' => $published)));?>
+			<?php echo JHtml::_('select.options', JHtml::_('category.categories', $extension, array('filter.published' => $published)));?>
 		</select>
 		<?php echo JHtml::_( 'select.radiolist', $options, 'batch[move_copy]', '', 'value', 'text', 'm'); ?>
 		</fieldset>

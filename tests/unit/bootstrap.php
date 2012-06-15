@@ -5,8 +5,7 @@
  * Joomla is assumed to include the /unittest/ directory.
  * eg, /path/to/joomla/unittest/
  *
- * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  * @link		http://www.phpunit.de/manual/current/en/installation.html
  */

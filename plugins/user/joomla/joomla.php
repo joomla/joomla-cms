@@ -1,6 +1,5 @@
 <?php
 /**
- * @version		$Id$
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -37,8 +36,8 @@ class plgUserJoomla extends JPlugin
 
 		$db = JFactory::getDbo();
 		$db->setQuery(
-			'DELETE FROM `#__session`' .
-			' WHERE `userid` = '.(int) $user['id']
+			'DELETE FROM '.$db->quoteName('#__session') .
+			' WHERE '.$db->quoteName('userid').' = '.(int) $user['id']
 		);
 		$db->Query();
 
@@ -63,48 +62,51 @@ class plgUserJoomla extends JPlugin
 		// Initialise variables.
 		$app	= JFactory::getApplication();
 		$config	= JFactory::getConfig();
+		$mail_to_user = $this->params->get('mail_to_user', 1);
 
 		if ($isnew) {
 			// TODO: Suck in the frontend registration emails here as well. Job for a rainy day.
 
 			if ($app->isAdmin()) {
+				if ($mail_to_user) {
 
-				// Load user_joomla plugin language (not done automatically).
-				$lang = JFactory::getLanguage();
-				$lang->load('plg_user_joomla', JPATH_ADMINISTRATOR);
+					// Load user_joomla plugin language (not done automatically).
+					$lang = JFactory::getLanguage();
+					$lang->load('plg_user_joomla', JPATH_ADMINISTRATOR);
 
-				// Compute the mail subject.
-				$emailSubject = JText::sprintf(
-					'PLG_USER_JOOMLA_NEW_USER_EMAIL_SUBJECT',
-					$user['name'],
-					$config->get('sitename')
-				);
+					// Compute the mail subject.
+					$emailSubject = JText::sprintf(
+						'PLG_USER_JOOMLA_NEW_USER_EMAIL_SUBJECT',
+						$user['name'],
+						$config->get('sitename')
+					);
 
-				// Compute the mail body.
-				$emailBody = JText::sprintf(
-					'PLG_USER_JOOMLA_NEW_USER_EMAIL_BODY',
-					$user['name'],
-					$config->get('sitename'),
-					JUri::root(),
-					$user['username'],
-					$user['password_clear']
-				);
+					// Compute the mail body.
+					$emailBody = JText::sprintf(
+						'PLG_USER_JOOMLA_NEW_USER_EMAIL_BODY',
+						$user['name'],
+						$config->get('sitename'),
+						JUri::root(),
+						$user['username'],
+						$user['password_clear']
+					);
 
-				// Assemble the email data...the sexy way!
-				$mail = JFactory::getMailer()
-					->setSender(
-						array(
-							$config->get('mailfrom'),
-							$config->get('fromname')
+					// Assemble the email data...the sexy way!
+					$mail = JFactory::getMailer()
+						->setSender(
+							array(
+								$config->get('mailfrom'),
+								$config->get('fromname')
+							)
 						)
-					)
-					->addRecipient($user['email'])
-					->setSubject($emailSubject)
-					->setBody($emailBody);
+						->addRecipient($user['email'])
+						->setSubject($emailSubject)
+						->setBody($emailBody);
 
-				if (!$mail->Send()) {
-					// TODO: Probably should raise a plugin error but this event is not error checked.
-					JError::raiseWarning(500, JText::_('ERROR_SENDING_EMAIL'));
+					if (!$mail->Send()) {
+						// TODO: Probably should raise a plugin error but this event is not error checked.
+						JError::raiseWarning(500, JText::_('ERROR_SENDING_EMAIL'));
+					}
 				}
 			}
 		}
@@ -145,6 +147,7 @@ class plgUserJoomla extends JPlugin
 		// Chek the user can login.
 		$result	= $instance->authorise($options['action']);
 		if (!$result) {
+
 			JError::raiseWarning(401, JText::_('JERROR_LOGIN_DENIED'));
 			return false;
 		}
@@ -164,11 +167,11 @@ class plgUserJoomla extends JPlugin
 
 		// Update the user related fields for the Joomla sessions table.
 		$db->setQuery(
-			'UPDATE `#__session`' .
-			' SET `guest` = '.$db->quote($instance->get('guest')).',' .
-			'	`username` = '.$db->quote($instance->get('username')).',' .
-			'	`userid` = '.(int) $instance->get('id') .
-			' WHERE `session_id` = '.$db->quote($session->getId())
+			'UPDATE '.$db->quoteName('#__session') .
+			' SET '.$db->quoteName('guest').' = '.$db->quote($instance->get('guest')).',' .
+			'	'.$db->quoteName('username').' = '.$db->quote($instance->get('username')).',' .
+			'	'.$db->quoteName('userid').' = '.(int) $instance->get('id') .
+			' WHERE '.$db->quoteName('session_id').' = '.$db->quote($session->getId())
 		);
 		$db->query();
 
@@ -210,9 +213,9 @@ class plgUserJoomla extends JPlugin
 		// Force logout all users with that userid
 		$db = JFactory::getDBO();
 		$db->setQuery(
-			'DELETE FROM `#__session`' .
-			' WHERE `userid` = '.(int) $user['id'] .
-			' AND `client_id` = '.(int) $options['clientid']
+			'DELETE FROM '.$db->quoteName('#__session') .
+			' WHERE '.$db->quoteName('userid').' = '.(int) $user['id'] .
+			' AND '.$db->quoteName('client_id').' = '.(int) $options['clientid']
 		);
 		$db->query();
 
@@ -230,7 +233,7 @@ class plgUserJoomla extends JPlugin
 	 * @return	object	A JUser object
 	 * @since	1.5
 	 */
-	protected function &_getUser($user, $options = array())
+	protected function _getUser($user, $options = array())
 	{
 		$instance = JUser::getInstance();
 		if ($id = intval(JUserHelper::getUserId($user['username'])))  {

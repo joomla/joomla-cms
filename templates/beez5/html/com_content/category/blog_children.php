@@ -1,9 +1,8 @@
 <?php
 /**
- * @version                $Id: blog_children.php 17044 2010-05-14 09:52:50Z infograf768 $
  * @package                Joomla.Site
  * @subpackage	Templates.beez5
- * @copyright        Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright        Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license                GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,7 +14,7 @@ $templateparams =$app->getTemplate(true)->params;
 
 if ($templateparams->get('html5')!=1)
 {
-        require(JPATH_BASE.'/components/com_content/views/category/tmpl/blog_children.php');
+        require JPATH_BASE.'/components/com_content/views/category/tmpl/blog_children.php';
         //evtl. ersetzen durch JPATH_COMPONENT.'/views/...'
 } else {
 
@@ -41,12 +40,12 @@ $class = ' class="first"';
                        <?php if ($this->params->get('show_subcat_desc') == 1) :?>
                         <?php if ($child->description) : ?>
                                 <div class="category-desc">
-                                        <?php echo JHtml::_('content.prepare', $child->description); ?>
+                                        <?php echo JHtml::_('content.prepare', $child->description, '', 'com_content.category'); ?>
                                 </div>
                         <?php endif; ?>
                         <?php endif; ?>
 
-                        <?php if ( $this->params->get('show_cat_num_articles',1)) : ?>
+                        <?php if ( $this->params->get('show_cat_num_articles', 1)) : ?>
                         <dl>
                                 <dt>
                                         <?php echo JText::_('COM_CONTENT_NUM_ITEMS') ; ?>

@@ -1,8 +1,7 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.SystemTest
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  * checks that all menu choices are shown in back end
  */
@@ -89,14 +88,14 @@ class ControlPanel0001 extends SeleniumJoomlaTestCase
 		$this->assertTrue($this->isElementPresent("link=Developer Resources"));
 		$this->assertTrue($this->isElementPresent("link=Joomla Shop"));
 		echo "Check that Control Panel icons are visible\n";
-		$this->assertTrue($this->isElementPresent("//div[@id='cpanel']/div[1]/div/a/img"));
-		$this->assertTrue($this->isElementPresent("//div[@id='cpanel']/div[2]/div/a/img"));
-		$this->assertTrue($this->isElementPresent("//div[@id='cpanel']/div[3]/div/a/img"));
-		$this->assertTrue($this->isElementPresent("//div[@id='cpanel']/div[4]/div/a/img"));
-		$this->assertTrue($this->isElementPresent("//div[@id='cpanel']/div[5]/div/a/img"));
-		$this->assertTrue($this->isElementPresent("//div[@id='cpanel']/div[6]/div/a/img"));
-		$this->assertTrue($this->isElementPresent("//div[@id='cpanel']/div[7]/div/a/img"));
-		$this->assertTrue($this->isElementPresent("//div[@id='cpanel']/div[8]/div/a/img"));
+		$this->assertTrue($this->isElementPresent("//div[@class='cpanel']/div[1]/div/a/img"));
+		$this->assertTrue($this->isElementPresent("//div[@class='cpanel']/div[2]/div/a/img"));
+		$this->assertTrue($this->isElementPresent("//div[@class='cpanel']/div[3]/div/a/img"));
+		$this->assertTrue($this->isElementPresent("//div[@class='cpanel']/div[4]/div/a/img"));
+		$this->assertTrue($this->isElementPresent("//div[@class='cpanel']/div[5]/div/a/img"));
+		$this->assertTrue($this->isElementPresent("//div[@class='cpanel']/div[6]/div/a/img"));
+		$this->assertTrue($this->isElementPresent("//div[@class='cpanel']/div[7]/div/a/img"));
+		$this->assertTrue($this->isElementPresent("//div[@class='cpanel']/div[8]/div/a/img"));
 		$this->doAdminLogout();
 		print("Finish control_panel0001Test.php." . "\n");
 		$this->deleteAllVisibleCookies();

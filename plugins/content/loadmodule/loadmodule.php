@@ -1,9 +1,8 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Plugin
  * @subpackage	Content.loadmodule
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -24,6 +23,11 @@ class plgContentLoadmodule extends JPlugin
 	 */
 	public function onContentPrepare($context, &$article, &$params, $page = 0)
 	{
+		// Don't run this plugin when the content is being indexed
+		if ($context == 'com_finder.indexer') {
+			return true;
+		}
+
 		// simple performance check to determine whether bot should process further
 		if (strpos($article->text, 'loadposition') === false && strpos($article->text, 'loadmodule') === false) {
 			return true;
@@ -44,22 +48,19 @@ class plgContentLoadmodule extends JPlugin
 		if ($matches) {
 			foreach ($matches as $match) {
 
-			$matcheslist =  explode(',',$match[1]);
+			$matcheslist = explode(',', $match[1]);
 
-			if (!array_key_exists(1, $matcheslist)) {
-				$matcheslist[1] = null;
-			}
 			// We may not have a module style so fall back to the plugin default.
-			if (!array_key_exists(2, $matcheslist)) {
-				$matcheslist[2] = $style;
+			if (!array_key_exists(1, $matcheslist)) {
+				$matcheslist[1] = $style;
 			}
 
 			$position = trim($matcheslist[0]);
 			$style    = trim($matcheslist[1]);
 
-				$output = $this->_load($position,$style);
+				$output = $this->_load($position, $style);
 				// We should replace only first occurrence in order to allow positions with the same name to regenerate their content:
-				$article->text = preg_replace("|$match[0]|", addcslashes($output, '\\'), $article->text, 1);
+				$article->text = preg_replace("|$match[0]|", addcslashes($output, '\\$'), $article->text, 1);
 			}
 		}
 		// Find all instances of plugin and put in $matchesmod for loadmodule
@@ -69,7 +70,7 @@ class plgContentLoadmodule extends JPlugin
 		if ($matchesmod){
 			foreach ($matchesmod as $matchmod) {
 
-				$matchesmodlist = explode(',',$matchmod[1]);
+				$matchesmodlist = explode(',', $matchmod[1]);
 				//We may not have a specific module so set to null
 				if (!array_key_exists(1, $matchesmodlist)) {
 					$matchesmodlist[1] = null;
@@ -85,7 +86,7 @@ class plgContentLoadmodule extends JPlugin
 				// $match[0] is full pattern match, $match[1] is the module,$match[2] is the title
 				$output = $this->_loadmod($module, $name, $style);
 				// We should replace only first occurrence in order to allow positions with the same name to regenerate their content:
-				$article->text = preg_replace("|$matchmod[0]|", addcslashes($output, '\\'), $article->text, 1);
+				$article->text = preg_replace("|$matchmod[0]|", addcslashes($output, '\\$'), $article->text, 1);
 			}
 		}
 	}

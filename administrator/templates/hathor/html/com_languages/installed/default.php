@@ -1,9 +1,8 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Administrator
  * @subpackage	Templates.hathor
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  * @since		1.6
  */
@@ -70,7 +69,7 @@ $clientId	= $this->state->get('filter.client_id', 0);
 					<?php echo $this->pagination->getRowOffset($i); ?>
 				</th>
 				<td>
-					<?php echo JHtml::_('languages.id',$i,$row->language);?>
+					<?php echo JHtml::_('languages.id', $i, $row->language);?>
 				</td>
 				<td>
 					<?php echo $this->escape($row->name); ?>

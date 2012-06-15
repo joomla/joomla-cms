@@ -1,10 +1,9 @@
 @charset "UTF-8";
 
 /**
- * @version		$Id: color_standard.css 19677 2010-11-29 17:01:13Z infograf768 $
  * @package		Joomla.Administrator
  * @subpackage	templates.hathor
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  * @since		1.6
  *
@@ -336,7 +335,7 @@ div.current fieldset.adminform {
 /**
  * Cpanel Settings
  */
-#cpanel div.icon a {
+#cpanel div.icon a, .cpanel div.icon a {
 	color: #2c2c2c;
 	border-left: 1px solid #e3e4ca;
 	border-top: 1px solid #e3e4ca;
@@ -346,7 +345,9 @@ div.current fieldset.adminform {
 }
 
 #cpanel div.icon a:hover,
-#cpanel div.icon a:focus {
+#cpanel div.icon a:focus,
+.cpanel div.icon a:hover,
+.cpanel div.icon a:focus {
 	border-left: 1px solid #868778;
 	border-top: 1px solid #868778;
 	border-right: 1px solid #f6f7db;
@@ -767,6 +768,10 @@ a img.calendar {
 	background-image: url(../images/admin/publish_y.png);
 }
 
+.jgrid span.protected	{
+	background-image: url(../images/admin/icon-16-protected.png);
+}
+
 /**
  * Menu Icons
  * These icons are used on the Administrator menu
@@ -896,6 +901,10 @@ a img.calendar {
 	background-image: url(../images/menu/icon-16-install.png);
 }
 
+.icon-16-joomlaupdate {
+	background-image: url(../images/menu/icon-16-install.png);
+}
+
 .icon-16-language {
 	background-image: url(../images/menu/icon-16-language.png);
 }
@@ -1013,6 +1022,10 @@ a img.calendar {
 	background-image: url(../images/menu/icon-16-user.png);
 }
 
+.icon-16-user-note {
+	background-image: url(../images/menu/icon-16-user-note.png);
+}
+
 .icon-16-delete {
 	background-image: url(../images/menu/icon-16-delete.png);
 }
@@ -1034,6 +1047,10 @@ a img.calendar {
 }
 
 .icon-16-search {
+	background-image: url(../images/menu/icon-16-search.png);
+}
+
+.icon-16-finder {
 	background-image: url(../images/menu/icon-16-search.png);
 }
 
@@ -1204,6 +1221,10 @@ a img.calendar {
 
 .icon-32-stats {
 	background-image: url(../images/toolbar/icon-32-stats.png);
+}
+
+.icon-32-print {
+    background-image: url(../images/toolbar/icon-32-print.png);
 }
 
 /**
@@ -1449,6 +1470,10 @@ a img.calendar {
 }
 
 .icon-48-search	{
+	background-image: url(../images/header/icon-48-search.png);
+}
+
+.icon-48-finder	{
 	background-image: url(../images/header/icon-48-search.png);
 }
 
@@ -1915,4 +1940,23 @@ table.adminlist tbody td.check-d {
 /* -- Codemirror Editor  ----------- */
 div.CodeMirror-wrapping {
 	border: 1px solid #c7c8b2;
+}
+
+/* User Notes */
+ul.alternating > li:nth-child(odd) { background-color: #f9fade; }
+ul.alternating > li:nth-child(even) { background-color: #ffffff; }
+ol.alternating > li:nth-child(odd) { background-color: #f9fade; }
+ol.alternating > li:nth-child(even) { background-color: #ffffff; }
+
+/* Installer Database */
+#installer-database {
+	border-top: 1px solid #c7c8b2;
+}
+
+#installer-database p.warning {
+	background: transparent url(../images/admin/icon-16-deny.png) center left no-repeat;
+}
+
+#installer-database p.nowarning {
+	background: transparent url(../images/admin/icon-16-allow.png) center left no-repeat;
 }

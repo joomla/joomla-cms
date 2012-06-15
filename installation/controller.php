@@ -1,14 +1,12 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Installation
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
 jimport('joomla.application.component.helper');
 
 /**
@@ -17,7 +15,7 @@ jimport('joomla.application.component.helper');
  * @package		Joomla.Installation
  * @since		1.6
  */
-class JInstallationController extends JController
+class JInstallationController extends JControllerLegacy
 {
 	/**
 	 * Method to display a view.
@@ -65,7 +63,7 @@ class JInstallationController extends JController
 			$view->setLayout($lName);
 
 			// Push document object into the view.
-			$view->assignRef('document', $document);
+			$view->document = $document;
 
 			$view->display();
 		}

@@ -1,7 +1,6 @@
 <?php
 /**
- * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -31,7 +30,7 @@ abstract class JToolBarHelper
 	public static function title($title, $icon = 'generic.png')
 	{
 		// Strip the extension.
-		$icons = explode(' ',$icon);
+		$icons = explode(' ', $icon);
 		foreach($icons as &$icon) {
 			$icon = 'icon-48-'.preg_replace('#\.[^.]*$#', '', $icon);
 		}

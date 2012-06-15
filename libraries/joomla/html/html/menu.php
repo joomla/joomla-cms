@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -222,7 +222,7 @@ abstract class JHtmlMenu
 		// get a list of the menu items
 		$query->select('m.id, m.parent_id, m.title, m.menutype');
 		$query->from($db->quoteName('#__menu') . ' AS m');
-		$query->where($db->quoteName('mpublished') . ' = 1');
+		$query->where($db->quoteName('m.published') . ' = 1');
 		$query->order('m.menutype, m.parent_id, m.ordering');
 		$db->setQuery($query);
 
@@ -255,7 +255,6 @@ abstract class JHtmlMenu
 		$list = JHtmlMenu::TreeRecurse(intval($mitems[0]->parent_id), '', array(), $children, 9999, 0, 0);
 
 		// Code that adds menu name to Display of Page(s)
-		$mitems_spacer = $mitems_temp[0]->menutype;
 
 		$mitems = array();
 		if ($all | $unassigned)

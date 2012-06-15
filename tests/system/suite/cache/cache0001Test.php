@@ -1,8 +1,7 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.SystemTest
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  * checks that all menu choices are shown in back end
  */
@@ -77,18 +76,18 @@ class Cache0001Test extends SeleniumJoomlaTestCase
 		echo "Test Article Category List\n";
 		$link = $this->cfg->path . 'index.php/using-joomla/extensions/components/content-component/article-category-list';
 		$this->open($link, 'true');
-		$this->assertTrue($this->isElementPresent("//td[@class='list-title'][contains(.,'Parameters')]"));
-		echo "Change Parameters to different category and check that it is no longer shown\n";
+		$this->assertTrue($this->isElementPresent("//td[@class='list-title'][contains(.,'Professionals')]"));
+		echo "Change Professionals to different category and check that it is no longer shown\n";
 		$this->gotoAdmin();
-		$this->changeCategory('Parameters', 'Article Manager', 'Uncategorised');
+		$this->changeCategory('Professionals', 'Article Manager', 'Uncategorised');
 		$this->gotoSite();
 		$this->open($link, 'true');
-		$this->assertFalse($this->isElementPresent("//td[@class='list-title'][contains(.,'Parameters')]"));
-		echo "Change Parameters back to Joomla! and make sure it is shown\n";
-		$this->changeCategory('Parameters', 'Article Manager', 'Joomla!');
+		$this->assertFalse($this->isElementPresent("//td[@class='list-title'][contains(.,'Professionals')]"));
+		echo "Change Professionals back to Joomla! and make sure it is shown\n";
+		$this->changeCategory('Professionals', 'Article Manager', 'Joomla!');
 		$this->gotoSite();
 		$this->open($link, 'true');
-		$this->assertTrue($this->isElementPresent("//td[@class='list-title'][contains(.,'Parameters')]"));
+		$this->assertTrue($this->isElementPresent("//td[@class='list-title'][contains(.,'Professionals')]"));
 
 		echo "Test Article Featured\n";
 		$link = $this->cfg->path . 'index.php/using-joomla/extensions/components/content-component/featured-articles';
@@ -400,6 +399,14 @@ class Cache0001Test extends SeleniumJoomlaTestCase
 		$this->gotoSite();
 		$this->assertTrue($this->isElementPresent("//form[@id='login-form']"));
 		$this->gotoAdmin();
+
+		echo "Clear cache files.\n";
+		$this->click("link=Clear Cache");
+		$this->waitForPageToLoad("30000");
+		$this->click("name=checkall-toggle");
+		$this->click("css=span.icon-32-delete");
+		$this->waitForPageToLoad("30000");
+
 		echo "Set caching to off.\n";
 		$this->setCache('off');
 		$this->doAdminLogout();

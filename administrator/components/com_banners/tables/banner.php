@@ -1,7 +1,6 @@
 <?php
 /**
- * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -25,7 +24,8 @@ class BannersTableBanner extends JTable
 	function __construct(&$_db)
 	{
 		parent::__construct('#__banners', 'id', $_db);
-		$this->created = JFactory::getDate()->toMySQL();
+		$date = JFactory::getDate();
+		$this->created = $date->toSql();
 	}
 
 	function clicks()
@@ -47,8 +47,6 @@ class BannersTableBanner extends JTable
 	 */
 	function check()
 	{
-		jimport('joomla.filter.output');
-
 		// Set name
 		$this->name = htmlspecialchars_decode($this->name, ENT_QUOTES);
 
@@ -59,11 +57,9 @@ class BannersTableBanner extends JTable
 		}
 
 		// Check the publish down date is not earlier than publish up.
-		if (intval($this->publish_down) > 0 && $this->publish_down < $this->publish_up) {
-			// Swap the dates.
-			$temp = $this->publish_up;
-			$this->publish_up = $this->publish_down;
-			$this->publish_down = $temp;
+		if ($this->publish_down > $this->_db->getNullDate() && $this->publish_down < $this->publish_up) {
+			$this->setError(JText::_('JGLOBAL_START_PUBLISH_AFTER_FINISH'));
+			return false;
 		}
 
 		// Set ordering
@@ -72,7 +68,7 @@ class BannersTableBanner extends JTable
 			$this->ordering = 0;
 		} elseif (empty($this->ordering)) {
 			// Set ordering to last if ordering was 0
-			$this->ordering = self::getNextOrder('`catid`=' . $this->_db->Quote($this->catid).' AND state>=0');
+			$this->ordering = self::getNextOrder($this->_db->quoteName('catid').'=' . $this->_db->Quote($this->catid).' AND state>=0');
 		}
 
 		return true;
@@ -130,7 +126,7 @@ class BannersTableBanner extends JTable
 			$purchase_type = $this->purchase_type;
 			if ($purchase_type < 0 && $this->cid)
 			{
-				$client = JTable::getInstance('Client','BannersTable');
+				$client = JTable::getInstance('Client', 'BannersTable');
 				$client->load($this->cid);
 				$purchase_type = $client->purchase_type;
 			}
@@ -142,21 +138,25 @@ class BannersTableBanner extends JTable
 
 			switch($purchase_type)
 			{
-			case 1:
-				$this->reset='0000-00-00 00:00:00';
-			break;
-			case 2:
-				$this->reset = JFactory::getDate('+1 year '.date('Y-m-d',strtotime('now')))->toMySQL();
-			break;
-			case 3:
-				$this->reset = JFactory::getDate('+1 month '.date('Y-m-d',strtotime('now')))->toMySQL();
-			break;
-			case 4:
-				$this->reset = JFactory::getDate('+7 day '.date('Y-m-d',strtotime('now')))->toMySQL();
-			break;
-			case 5:
-				$this->reset = JFactory::getDate('+1 day '.date('Y-m-d',strtotime('now')))->toMySQL();
-			break;
+				case 1:
+					$this->reset=$this->_db->getNullDate();
+					break;
+				case 2:
+					$date = JFactory::getDate('+1 year '.date('Y-m-d', strtotime('now')));
+					$reset = $this->_db->Quote($date->toSql());
+					break;
+				case 3:
+					$date = JFactory::getDate('+1 month '.date('Y-m-d', strtotime('now')));
+					$reset = $this->_db->Quote($date->toSql());
+					break;
+				case 4:
+					$date = JFactory::getDate('+7 day '.date('Y-m-d', strtotime('now')));
+					$reset = $this->_db->Quote($date->toSql());
+					break;
+				case 5:
+					$date = JFactory::getDate('+1 day '.date('Y-m-d', strtotime('now')));
+					$reset = $this->_db->Quote($date->toSql());
+					break;
 			}
 			// Store the row
 			parent::store($updateNulls);
@@ -172,7 +172,7 @@ class BannersTableBanner extends JTable
 
 			// Verify that the alias is unique
 			$table = JTable::getInstance('Banner', 'BannersTable');
-			if ($table->load(array('alias'=>$this->alias,'catid'=>$this->catid)) && ($table->id != $this->id || $this->id==0)) {
+			if ($table->load(array('alias'=>$this->alias, 'catid'=>$this->catid)) && ($table->id != $this->id || $this->id==0)) {
 				$this->setError(JText::_('COM_BANNERS_ERROR_UNIQUE_ALIAS'));
 				return false;
 			}
@@ -184,7 +184,7 @@ class BannersTableBanner extends JTable
 			if ($oldrow->state>=0 && ($this->state < 0 || $oldrow->catid != $this->catid))
 			{
 				// Reorder the oldrow
-				$this->reorder('`catid`=' . $this->_db->Quote($oldrow->catid).' AND state>=0');
+				$this->reorder($this->_db->quoteName('catid').'=' . $this->_db->Quote($oldrow->catid).' AND state>=0');
 			}
 		}
 		return count($this->getErrors())==0;
@@ -226,7 +226,7 @@ class BannersTableBanner extends JTable
 		}
 
 		// Get an instance of the table
-		$table = JTable::getInstance('Banner','BannersTable');
+		$table = JTable::getInstance('Banner', 'BannersTable');
 
 		// For all keys
 		foreach ($pks as $pk)
@@ -243,7 +243,7 @@ class BannersTableBanner extends JTable
 				// Change the state
 				$table->state = $state;
 				$table->checked_out=0;
-				$table->checked_out_time=0;
+				$table->checked_out_time=$this->_db->getNullDate();
 
 				// Check the row
 				$table->check();
@@ -293,7 +293,7 @@ class BannersTableBanner extends JTable
 		}
 
 		// Get an instance of the table
-		$table = JTable::getInstance('Banner','BannersTable');
+		$table = JTable::getInstance('Banner', 'BannersTable');
 
 		// For all keys
 		foreach ($pks as $pk)
@@ -310,7 +310,7 @@ class BannersTableBanner extends JTable
 				// Change the state
 				$table->sticky = $state;
 				$table->checked_out=0;
-				$table->checked_out_time=0;
+				$table->checked_out_time=$this->_db->getNullDate();
 
 				// Check the row
 				$table->check();

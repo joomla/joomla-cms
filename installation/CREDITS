@@ -1,18 +1,16 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Installation
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 ?>
 
 -----Please save file as UTF8
 
--------------------- Joomla! 1.6/1.7 Credits ---------------------
+-------------------- Joomla! 1.6/1.7/2.5 Credits ---------------------
 
 Code contributors:
 ------------------
@@ -119,6 +117,7 @@ Documentation Contributors:
 Translation Contributors:
 -------------------------
 Afrikaans (af-ZA) - Gerrit Hoekstra
+Albanian (sq-AL) - Blendi Kraja
 Arabic Unitag (ar-AA) - Arabic Unitag Translation Team - Mahmood Alhaj Kassem
 Azeri (az-AZ) - Azeri Translation team - Guluzade Farhad
 Basque (eu-ES) - Oinatz Martin
@@ -149,11 +148,13 @@ Hungarian (hu-HU) - Magyar Joomla! Felhasznalok Nemzetkozi Egyesulete - Jozsef T
 Italian (it-IT) - Italian Translation Team - Stefania Gaianigo, Alessandro Rossi
 Japanese (ja-JP) - Japanese Translation Team - Noriaki Koide, Hiroko Hirano
 Khmer (Cambodia) (km-KH) - Khmer Translation Team - Sovann Heng, Kunthea Thy, Vathana Savuth
+Korean (Republic of Korea) (ko-KR) - Kang Mingu
 Kurdish - Soranî (cbk-IQ) - Kurdish Soranî Translation team - Chalak s. Kareem
 Latvian (lv-LV) - Latvian Translation Team - Edgars Piruška, Aivars Ostrovskis
 Laotian (lo-LA) - Joomla LaiLao Team (LaoOpenSource) - Akarawuth Tamrareang , Viengsakhone phanthanousy , Outhai Saioudom
 Lithuanian (lt-LT) - Lithuanian Translation Team - Stasys Svabas
 Macedonian (mk-MK) - Macedonian Translation Team - Ilija Iliev Strumjan
+Mongolian (mn-MN) - Mongolian Translation Team, Altansukh T.
 Norwegian Bokmål (nb-NO) - Joomla! i Norge - Rune Rasmussen, Roar Jystad, Jens-Christian Skibakk
 Norwegian Nynorsk (nn-NO) - Joomla! i Norge - Toyni Tobekk (based on nb-NO translations)
 Persian (fa-IR) - Persian Translation Team - Mohsen Firoozmandan, Joomla Farsi Team
@@ -171,7 +172,8 @@ Laotian (lo-LA) - Joomlalaolao Team (LaoOpenSource) - Akarawuth Tamrareang , Vie
 Tamil India (ta-IN) - Ilagnayeru 'MIG' Manickam, Elango Samy Manim
 Turkish (tr-TR) - Joomla! Turkiye - Ümit Kenan Gönüllü
 Ukrainian (uk-UA) - Ukrainian Translation Team - Denys Nosov
-
+Urdu Pakistan (ur-PK) - Basim
+Uyghur China (ug-CN) - Uyghur Translation Team - Ekber Tursun, Osmanjan Hasen, Abdulla Bisir
 
 
 

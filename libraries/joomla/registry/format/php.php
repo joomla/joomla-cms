@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Registry
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -41,7 +41,7 @@ class JRegistryFormatPHP extends JRegistryFormat
 			}
 			elseif (is_array($v) || is_object($v))
 			{
-				$vars .= "\tpublic $" . $k . " = " . $this->getArrayString((array)$v) . ";\n";
+				$vars .= "\tpublic $" . $k . " = " . $this->getArrayString((array) $v) . ";\n";
 			}
 		}
 
@@ -68,7 +68,7 @@ class JRegistryFormatPHP extends JRegistryFormat
 	 *
 	 * @since   11.1
 	 */
-	function stringToObject($data, $options = array())
+	public function stringToObject($data, $options = array())
 	{
 		return true;
 	}
@@ -92,7 +92,7 @@ class JRegistryFormatPHP extends JRegistryFormat
 			$s .= '"' . $k . '" => ';
 			if (is_array($v) || is_object($v))
 			{
-				$s .= $this->getArrayString((array)$v);
+				$s .= $this->getArrayString((array) $v);
 			}
 			else
 			{

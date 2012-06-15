@@ -3,13 +3,12 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
-JLoader::register('JDatabaseException', JPATH_PLATFORM . '/joomla/database/databaseexception.php');
 jimport('joomla.filesystem.folder');
 
 /**
@@ -28,7 +27,7 @@ interface JDatabaseInterface
 	 *
 	 * @since   11.2
 	 */
-	static function test();
+	public static function test();
 }
 
 /**
@@ -40,6 +39,14 @@ interface JDatabaseInterface
  */
 abstract class JDatabase implements JDatabaseInterface
 {
+	/**
+	 * The name of the database.
+	 *
+	 * @var    string
+	 * @since  11.4
+	 */
+	private $_database;
+
 	/**
 	 * The name of the database driver.
 	 *
@@ -122,7 +129,7 @@ abstract class JDatabase implements JDatabaseInterface
 	 * @var    boolean  True if the database engine supports UTF-8 character encoding.
 	 * @since  11.1
 	 */
-	protected $utf = false;
+	protected $utf = true;
 
 	/**
 	 * @var         integer  The database error number
@@ -157,6 +164,12 @@ abstract class JDatabase implements JDatabaseInterface
 	 * @since  11.1
 	 */
 	protected static $instances = array();
+
+	/**
+	 * @var    string  The minimum supported database version.
+	 * @since  12.1
+	 */
+	protected $dbMinimum;
 
 	/**
 	 * Get a list of available database connectors.  The list will only be populated with connectors that both
@@ -422,7 +435,7 @@ abstract class JDatabase implements JDatabaseInterface
 				break;
 			case 'nq':
 			case 'qn':
-				return $this->quoteName($args[0]);
+				return $this->quoteName($args[0], isset($args[1]) ? $args[1] : null);
 				break;
 		}
 	}
@@ -437,6 +450,8 @@ abstract class JDatabase implements JDatabaseInterface
 	protected function __construct($options)
 	{
 		// Initialise object variables.
+		$this->_database = (isset($options['database'])) ? $options['database'] : '';
+
 		$this->tablePrefix = (isset($options['prefix'])) ? $options['prefix'] : 'jos_';
 		$this->count = 0;
 		$this->errorNum = 0;
@@ -444,14 +459,8 @@ abstract class JDatabase implements JDatabaseInterface
 		$this->quoted = array();
 		$this->hasQuoted = false;
 
-		// Determine UTF-8 support.
-		$this->utf = $this->hasUTF();
-
 		// Set charactersets (needed for MySQL 4.1.2+).
-		if ($this->utf)
-		{
-			$this->setUTF();
-		}
+		$this->setUTF();
 	}
 
 	/**
@@ -489,6 +498,19 @@ abstract class JDatabase implements JDatabaseInterface
 	 * @since   11.1
 	 */
 	abstract public function connected();
+
+	/**
+	 * Drops a table from the database.
+	 *
+	 * @param   string   $table     The name of the database table to drop.
+	 * @param   boolean  $ifExists  Optionally specify that the table must exist before it is dropped.
+	 *
+	 * @return  JDatabase  Returns this object to support chaining.
+	 *
+	 * @since   11.4
+	 * @throws  JDatabaseException
+	 */
+	public abstract function dropTable($table, $ifExists = true);
 
 	/**
 	 * Method to escape a string for usage in an SQL statement.
@@ -591,6 +613,18 @@ abstract class JDatabase implements JDatabaseInterface
 	}
 
 	/**
+	 * Gets the name of the database used by this conneciton.
+	 *
+	 * @return  string
+	 *
+	 * @since   11.4
+	 */
+	protected function getDatabase()
+	{
+		return $this->_database;
+	}
+
+	/**
 	 * Returns a PHP date() function compliant date format for the database driver.
 	 *
 	 * @return  string  The format string.
@@ -612,6 +646,18 @@ abstract class JDatabase implements JDatabaseInterface
 	public function getLog()
 	{
 		return $this->log;
+	}
+
+	/**
+	 * Get the minimum supported database version.
+	 *
+	 * @return  string  The minimum version number for the database driver.
+	 *
+	 * @since   12.1
+	 */
+	public function getMinimum()
+	{
+		return $this->dbMinimum;
 	}
 
 	/**
@@ -787,12 +833,12 @@ abstract class JDatabase implements JDatabaseInterface
 
 			// Prepare and sanitize the fields and values for the database query.
 			$fields[] = $this->quoteName($k);
-			$values[] = $this->isQuoted($k) ? $this->quote($v) : (int) $v;
+			$values[] = $this->quote($v);
 		}
 
 		// Set the query and execute the insert.
 		$this->setQuery(sprintf($statement, implode(',', $fields), implode(',', $values)));
-		if (!$this->query())
+		if (!$this->execute())
 		{
 			return false;
 		}
@@ -805,6 +851,18 @@ abstract class JDatabase implements JDatabaseInterface
 		}
 
 		return true;
+	}
+
+	/**
+	 * Method to check whether the installed database version is supported by the database driver
+	 *
+	 * @return  boolean  True if the database version is supported
+	 *
+	 * @since   12.1
+	 */
+	public function isMinimumVersion()
+	{
+		return version_compare($this->getVersion(), $this->dbMinimum) >= 0;
 	}
 
 	/**
@@ -822,7 +880,7 @@ abstract class JDatabase implements JDatabaseInterface
 		$ret = null;
 
 		// Execute the query and get the result set cursor.
-		if (!($cursor = $this->query()))
+		if (!($cursor = $this->execute()))
 		{
 			return null;
 		}
@@ -862,7 +920,7 @@ abstract class JDatabase implements JDatabaseInterface
 		$array = array();
 
 		// Execute the query and get the result set cursor.
-		if (!($cursor = $this->query()))
+		if (!($cursor = $this->execute()))
 		{
 			return null;
 		}
@@ -904,7 +962,7 @@ abstract class JDatabase implements JDatabaseInterface
 		$array = array();
 
 		// Execute the query and get the result set cursor.
-		if (!($cursor = $this->query()))
+		if (!($cursor = $this->execute()))
 		{
 			return null;
 		}
@@ -936,7 +994,7 @@ abstract class JDatabase implements JDatabaseInterface
 		static $cursor;
 
 		// Execute the query and get the result set cursor.
-		if (!($cursor = $this->query()))
+		if (!($cursor = $this->execute()))
 		{
 			return $this->errorNum ? null : false;
 		}
@@ -967,7 +1025,7 @@ abstract class JDatabase implements JDatabaseInterface
 		static $cursor;
 
 		// Execute the query and get the result set cursor.
-		if (!($cursor = $this->query()))
+		if (!($cursor = $this->execute()))
 		{
 			return $this->errorNum ? null : false;
 		}
@@ -1001,7 +1059,7 @@ abstract class JDatabase implements JDatabaseInterface
 		$ret = null;
 
 		// Execute the query and get the result set cursor.
-		if (!($cursor = $this->query()))
+		if (!($cursor = $this->execute()))
 		{
 			return null;
 		}
@@ -1039,7 +1097,7 @@ abstract class JDatabase implements JDatabaseInterface
 		$array = array();
 
 		// Execute the query and get the result set cursor.
-		if (!($cursor = $this->query()))
+		if (!($cursor = $this->execute()))
 		{
 			return null;
 		}
@@ -1077,7 +1135,7 @@ abstract class JDatabase implements JDatabaseInterface
 		$ret = null;
 
 		// Execute the query and get the result set cursor.
-		if (!($cursor = $this->query()))
+		if (!($cursor = $this->execute()))
 		{
 			return null;
 		}
@@ -1109,7 +1167,7 @@ abstract class JDatabase implements JDatabaseInterface
 		$ret = null;
 
 		// Execute the query and get the result set cursor.
-		if (!($cursor = $this->query()))
+		if (!($cursor = $this->execute()))
 		{
 			return null;
 		}
@@ -1146,7 +1204,7 @@ abstract class JDatabase implements JDatabaseInterface
 		$array = array();
 
 		// Execute the query and get the result set cursor.
-		if (!($cursor = $this->query()))
+		if (!($cursor = $this->execute()))
 		{
 			return null;
 		}
@@ -1171,6 +1229,18 @@ abstract class JDatabase implements JDatabaseInterface
 	}
 
 	/**
+	 * Locks a table in the database.
+	 *
+	 * @param   string  $tableName  The name of the table to unlock.
+	 *
+	 * @return  JDatabase  Returns this object to support chaining.
+	 *
+	 * @since   11.4
+	 * @throws  JDatabaseException
+	 */
+	public abstract function lockTable($tableName);
+
+	/**
 	 * Execute the SQL statement.
 	 *
 	 * @return  mixed  A database cursor resource on success, boolean false on failure.
@@ -1178,13 +1248,26 @@ abstract class JDatabase implements JDatabaseInterface
 	 * @since   11.1
 	 * @throws  JDatabaseException
 	 */
-	abstract public function query();
+	public function query()
+	{
+		return $this->execute();
+	}
+
+	/**
+	 * Execute the SQL statement.
+	 *
+	 * @return  mixed  A database cursor resource on success, boolean false on failure.
+	 *
+	 * @since   12.1
+	 * @throws  JDatabaseException
+	 */
+	abstract public function execute();
 
 	/**
 	 * Method to quote and optionally escape a string to database requirements for insertion into the database.
 	 *
 	 * @param   string   $text    The string to quote.
-	 * @param   boolean  $escape  True to escape the string, false to leave it unchanged.
+	 * @param   boolean  $escape  True (default) to escape the string, false to leave it unchanged.
 	 *
 	 * @return  string  The quoted input string.
 	 *
@@ -1199,32 +1282,85 @@ abstract class JDatabase implements JDatabaseInterface
 	 * Wrap an SQL statement identifier name such as column, table or database names in quotes to prevent injection
 	 * risks and reserved word conflicts.
 	 *
-	 * @param   string  $name  The identifier name to wrap in quotes.
+	 * @param   mixed  $name  The identifier name to wrap in quotes, or an array of identifier names to wrap in quotes.
+	 * 							Each type supports dot-notation name.
+	 * @param   mixed  $as    The AS query part associated to $name. It can be string or array, in latter case it has to be
+	 * 							same length of $name; if is null there will not be any AS part for string or array element.
 	 *
-	 * @return  string  The quote wrapped name.
+	 * @return  mixed  The quote wrapped name, same type of $name.
 	 *
 	 * @since   11.1
 	 */
-	public function quoteName($name)
+	public function quoteName($name, $as = null)
 	{
-		// Don't quote names with dot-notation.
-		if (strpos($name, '.') !== false)
+		if (is_string($name))
 		{
-			return $name;
+			$quotedName = $this->quoteNameStr(explode('.', $name));
+
+			$quotedAs = '';
+			if (!is_null($as))
+			{
+				settype($as, 'array');
+				$quotedAs .= ' AS ' . $this->quoteNameStr($as);
+			}
+
+			return $quotedName . $quotedAs;
 		}
 		else
 		{
-			$q = $this->nameQuote;
+			$fin = array();
+
+			if (is_null($as))
+			{
+				foreach ($name as $str)
+				{
+					$fin[] = $this->quoteName($str);
+				}
+			}
+			elseif (is_array($name) && (count($name) == count($as)))
+			{
+				for ($i = 0; $i < count($name); $i++)
+				{
+					$fin[] = $this->quoteName($name[$i], $as[$i]);
+				}
+			}
+
+			return $fin;
+		}
+	}
+
+	/**
+	 * Quote strings coming from quoteName call.
+	 *
+	 * @param   array  $strArr  Array of strings coming from quoteName dot-explosion.
+	 *
+	 * @return  string  Dot-imploded string of quoted parts.
+	 *
+	 * @since 11.3
+	 */
+	protected function quoteNameStr($strArr)
+	{
+		$parts = array();
+		$q = $this->nameQuote;
+
+		foreach ($strArr as $part)
+		{
+			if (is_null($part))
+			{
+				continue;
+			}
 
 			if (strlen($q) == 1)
 			{
-				return $q . $name . $q;
+				$parts[] = $q . $part . $q;
 			}
 			else
 			{
-				return $q{0} . $name . $q{1};
+				$parts[] = $q{0} . $part . $q{1};
 			}
 		}
+
+		return implode('.', $parts);
 	}
 
 	/**
@@ -1321,6 +1457,21 @@ abstract class JDatabase implements JDatabaseInterface
 
 		return $literal;
 	}
+
+	/**
+	 * Renames a table in the database.
+	 *
+	 * @param   string  $oldTable  The name of the table to be renamed
+	 * @param   string  $newTable  The new name for the table.
+	 * @param   string  $backup    Table prefix
+	 * @param   string  $prefix    For the table - used to rename constraints in non-mysql databases
+	 *
+	 * @return  JDatabase  Returns this object to support chaining.
+	 *
+	 * @since   11.4
+	 * @throws  JDatabaseException
+	 */
+	public abstract function renameTable($oldTable, $newTable, $backup = null, $prefix = null);
 
 	/**
 	 * Select a database for use.
@@ -1423,7 +1574,7 @@ abstract class JDatabase implements JDatabaseInterface
 	public function truncateTable($table)
 	{
 		$this->setQuery('TRUNCATE TABLE ' . $this->quoteName($table));
-		$this->query();
+		$this->execute();
 	}
 
 	/**
@@ -1481,7 +1632,7 @@ abstract class JDatabase implements JDatabaseInterface
 			// The field is not null so we prep it for update.
 			else
 			{
-				$val = $this->isQuoted($k) ? $this->quote($v) : (int) $v;
+				$val = $this->quote($v);
 			}
 
 			// Add the field to be updated.
@@ -1496,8 +1647,18 @@ abstract class JDatabase implements JDatabaseInterface
 
 		// Set the query and execute the update.
 		$this->setQuery(sprintf($statement, implode(",", $fields), $where));
-		return $this->query();
+		return $this->execute();
 	}
+
+	/**
+	 * Unlocks tables in the database.
+	 *
+	 * @return  JDatabase  Returns this object to support chaining.
+	 *
+	 * @since   11.4
+	 * @throws  JDatabaseException
+	 */
+	public abstract function unlockTables();
 
 	//
 	// Deprecated methods.

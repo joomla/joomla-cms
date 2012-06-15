@@ -1,14 +1,13 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Installation
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 // PHP 5 check
 if (version_compare(PHP_VERSION, '5.2.4', '<')) {
-	die('Your host needs to use PHP 5.2.4 or higher to run Joomla 1.7.');
+	die('Your host needs to use PHP 5.2.4 or higher to run this version of Joomla!');
 }
 
 /**
@@ -21,16 +20,11 @@ define('_JEXEC', 1);
  */
 define('JPATH_BASE', dirname(__FILE__));
 
-/**
- * Shortcut for the directory separator character.
- */
-define('DS', DIRECTORY_SEPARATOR);
-
 // Set path constants.
-$parts = explode(DS, JPATH_BASE);
+$parts = explode(DIRECTORY_SEPARATOR, JPATH_BASE);
 array_pop($parts);
 
-define('JPATH_ROOT',			implode(DS, $parts));
+define('JPATH_ROOT',			implode(DIRECTORY_SEPARATOR, $parts));
 define('JPATH_SITE',			JPATH_ROOT);
 define('JPATH_CONFIGURATION',	JPATH_ROOT);
 define('JPATH_ADMINISTRATOR',	JPATH_ROOT . '/administrator');
@@ -63,18 +57,12 @@ if (file_exists(JPATH_CONFIGURATION.'/configuration.php') && (filesize(JPATH_CON
 // Bootstrap the Joomla Framework.
 require_once JPATH_LIBRARIES.'/import.php';
 
-// Force library to be in JError legacy mode
-JError::$legacy = true;
-
 // Botstrap the CMS libraries.
 require_once JPATH_LIBRARIES.'/cms.php';
 
 // Joomla library imports.
 jimport('joomla.database.table');
 jimport('joomla.environment.uri');
-jimport('joomla.filter.filterinput');
-jimport('joomla.filter.filteroutput');
-jimport('joomla.utilities.utility');
 jimport('joomla.utilities.arrayhelper');
 
 // Create the application object.

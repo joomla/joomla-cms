@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Base
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -55,7 +55,7 @@ class JAdapter extends JObject
 	/**
 	 * Database Connector Object
 	 *
-	 * @var    object
+	 * @var    JDatabase
 	 * @since  11.1
 	 */
 	protected $_db;
@@ -81,7 +81,7 @@ class JAdapter extends JObject
 	/**
 	 * Get the database connector object
 	 *
-	 * @return  object  Database connector object
+	 * @return  JDatabase  Database connector object
 	 *
 	 * @since   11.1
 	 */
@@ -179,7 +179,8 @@ class JAdapter extends JObject
 
 				if (!class_exists($class))
 				{
-					continue; // skip to next one
+					// Skip to next one
+					continue;
 				}
 
 				$adapter = new $class($this, $this->_db, $options);

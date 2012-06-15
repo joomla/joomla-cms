@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Session
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -27,7 +27,7 @@ class JSessionStorageMemcache extends JSessionStorage
 	 * @var    resource
 	 * @since  11.1
 	 */
-	var $_db;
+	private $_db;
 
 	/**
 	 * Use compression?
@@ -35,7 +35,7 @@ class JSessionStorageMemcache extends JSessionStorage
 	 * @var    int
 	 * @since  11.1
 	 */
-	var $_compress = null;
+	private $_compress = null;
 
 	/**
 	 * Use persistent connections
@@ -43,7 +43,7 @@ class JSessionStorageMemcache extends JSessionStorage
 	 * @var    boolean
 	 * @since  11.1
 	 */
-	var $_persistent = false;
+	private $_persistent = false;
 
 	/**
 	 * Constructor
@@ -176,22 +176,6 @@ class JSessionStorageMemcache extends JSessionStorage
 	}
 
 	/**
-	 * Garbage collect stale sessions from the SessionHandler backend.
-	 *
-	 * -- Not Applicable in memcache --
-	 *
-	 * @param   integer  $maxlifetime  The maximum age of a session.
-	 *
-	 * @return  boolean  True on success, false otherwise.
-	 *
-	 * @since   11.1
-	 */
-	public function gc($maxlifetime = null)
-	{
-		return true;
-	}
-
-	/**
 	 * Test to see if the SessionHandler is available.
 	 *
 	 * @return boolean  True on success, false otherwise.
@@ -215,7 +199,7 @@ class JSessionStorageMemcache extends JSessionStorage
 		$lifetime = ini_get("session.gc_maxlifetime");
 		$expire = $this->_db->get($key . '_expire');
 
-		// set prune period
+		// Set prune period
 		if ($expire + $lifetime < time())
 		{
 			$this->_db->delete($key);

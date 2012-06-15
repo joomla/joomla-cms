@@ -1,9 +1,8 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Administrator
  * @subpackage	com_media
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -32,11 +31,11 @@ $params = JComponentHelper::getParams('com_media');
 require_once JPATH_COMPONENT.'/helpers/media.php';
 
 // Set the path definitions
-$popup_upload = JRequest::getCmd('pop_up',null);
+$popup_upload = JRequest::getCmd('pop_up', null);
 $path = "file_path";
 
 $view = JRequest::getCmd('view');
-if (substr(strtolower($view),0,6) == "images" || $popup_upload == 1) {
+if (substr(strtolower($view), 0, 6) == "images" || $popup_upload == 1) {
 	$path = "image_path";
 }
 

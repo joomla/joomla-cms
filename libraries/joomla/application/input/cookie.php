@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -28,7 +28,7 @@ class JInputCookie extends JInput
 	 *
 	 * @since   11.1
 	 */
-	public function __construct($source = null, $options = array())
+	public function __construct(array $source = null, array $options = array())
 	{
 		if (isset($options['filter']))
 		{

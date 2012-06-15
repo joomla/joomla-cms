@@ -1,7 +1,6 @@
 0. Metadata
 -----------
-File version:	$Id$
-Copyright:		Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+Copyright:		Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
 License:		GNU General Public License version 2 or later; see LICENSE.txt
 
 1. Copyright and disclaimer
@@ -26,6 +25,38 @@ $ -> Language fix or change
 ^ -> Change
 - -> Removed
 ! -> Note
+
+05-May-2012 Mark Dexter
+ ^ Update phpunit.php for PHPUnit version 3.5
+
+04-May-2012 Mark Dexter
+ # Fix PHP strict error 
+
+02-May-2012 Mark Dexter
+ ^ Change system test suite to work with PHPUnit version 3.6
+ # Fix doInstall for PHP strict error
+
+12-Apr-2012 Mark Dexter
+ # Fix hard-coded version number in system test
+
+10-Feb-2012 Mark Dexter
+ # Clear cache after system tests
+ + Add Module0002 test
+
+17-Jan-2012 Mark Dexter
+ # Fix failing system tests for sample data changes
+
+16-Jan-2012 Mark Dexter
+ # Fix failing system test for Control Panel change
+
+21-Dec-2011 Mark Dexter
+ # Fix failing system test for sample data change
+
+18-Dec-2011 Mark Dexter
+ # Change link name for read private messages
+
+16-Dec-2011 Mark Dexter
+ # Fix failing system tests (for menu type changes in trunk)
 
 12-Nov-2011 Mark Dexter
  + Added system test to test modals in front-end article edit

@@ -1,7 +1,6 @@
 <?php
 /**
- * @version		$Id: newsfeeds.php
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -38,7 +37,7 @@ class NewsfeedsHelper
 		);
 		if ($vName=='categories') {
 			JToolBarHelper::title(
-				JText::sprintf('COM_CATEGORIES_CATEGORIES_TITLE',JText::_('com_newsfeeds')),
+				JText::sprintf('COM_CATEGORIES_CATEGORIES_TITLE', JText::_('com_newsfeeds')),
 				'newsfeeds-categories');
 		}
 	}
@@ -57,17 +56,17 @@ class NewsfeedsHelper
 
 		if (empty($categoryId)) {
 			$assetName = 'com_newsfeeds';
+			$level = 'component';
 		}
 		else {
 			$assetName = 'com_newsfeeds.category.'.(int) $categoryId;
+			$level = 'category';
 		}
 
-		$actions = array(
-			'core.admin', 'core.manage', 'core.create', 'core.edit', 'core.edit.own', 'core.edit.state', 'core.delete'
-		);
+		$actions = JAccess::getActions('com_newsfeeds', $level);
 
 		foreach ($actions as $action) {
-			$result->set($action,	$user->authorise($action, $assetName));
+			$result->set($action->name,	$user->authorise($action->name, $assetName));
 		}
 
 		return $result;

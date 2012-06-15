@@ -1,9 +1,8 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Site
  * @subpackage	mod_login
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,9 +15,9 @@ JHtml::_('behavior.keepalive');
 <?php if ($params->get('greeting')) : ?>
 	<div class="login-greeting">
 	<?php if($params->get('name') == 0) : {
-		echo JText::sprintf('MOD_LOGIN_HINAME', $user->get('name'));
+		echo JText::sprintf('MOD_LOGIN_HINAME', htmlspecialchars($user->get('name')));
 	} else : {
-		echo JText::sprintf('MOD_LOGIN_HINAME', $user->get('username'));
+		echo JText::sprintf('MOD_LOGIN_HINAME', htmlspecialchars($user->get('username')));
 	} endif; ?>
 	</div>
 <?php endif; ?>

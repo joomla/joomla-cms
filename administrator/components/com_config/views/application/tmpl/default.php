@@ -1,9 +1,8 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Administrator
  * @subpackage	com_config
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -73,6 +72,11 @@ $this->document->setBuffer($this->loadTemplate('navigation'), 'modules', 'submen
 		<div id="page-permissions" class="tab">
 			<div class="noshow">
 				<?php echo $this->loadTemplate('permissions'); ?>
+			</div>
+		</div>
+		<div id="page-filters" class="tab">
+			<div class="noshow">
+				<?php echo $this->loadTemplate('filters'); ?>
 			</div>
 		</div>
 		<input type="hidden" name="task" value="" />

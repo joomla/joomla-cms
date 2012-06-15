@@ -1,7 +1,6 @@
 <?php
 /**
- * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -74,7 +73,7 @@ abstract class modPopularHelper
 
 		// Set the links
 		foreach ($items as &$item) {
-			if ($user->authorise('core.edit','com_content.article.'.$item->id)){
+			if ($user->authorise('core.edit', 'com_content.article.'.$item->id)){
 				$item->link = JRoute::_('index.php?option=com_content&task=article.edit&id='.$item->id);
 			} else {
 				$item->link = '';

@@ -1,9 +1,8 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Site
  * @subpackage	mod_menu
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -27,10 +26,17 @@ foreach ($list as $i => &$item) :
 		$class .= ' current';
 	}
 
-	if (	$item->type == 'alias' &&
-			in_array($item->params->get('aliasoptions'),$path)
-		||	in_array($item->id, $path)) {
+	if (in_array($item->id, $path)) {
 		$class .= ' active';
+	}
+	elseif ($item->type == 'alias') {
+		$aliasToId = $item->params->get('aliasoptions');
+		if (count($path) > 0 && $aliasToId == $path[count($path)-1]) {
+			$class .= ' active';
+		}
+		elseif (in_array($aliasToId, $path)) {
+			$class .= ' alias-parent-active';
+		}
 	}
 
 	if ($item->deeper) {

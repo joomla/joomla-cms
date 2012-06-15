@@ -1,7 +1,6 @@
 <?php
 /**
- * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -91,12 +90,14 @@ class UsersModelGroups extends JModelList
 	 */
 	public function getItems()
 	{
+		$db		= $this->getDbo();
 		// Get a storage key.
 		$store = $this->getStoreId();
 
 		// Try to load the data from internal storage.
 		if (empty($this->cache[$store])) {
 			$items = parent::getItems();
+
 
 			// Bail out on an error or empty list.
 			if (empty($items)) {
@@ -114,12 +115,11 @@ class UsersModelGroups extends JModelList
 			}
 
 			// Get the counts from the database only for the users in the list.
-			$db		= $this->getDbo();
 			$query	= $db->getQuery(true);
 
 			// Count the objects in the user group.
 			$query->select('map.group_id, COUNT(DISTINCT map.user_id) AS user_count')
-				->from('`#__user_usergroup_map` AS map')
+				->from($db->quoteName('#__user_usergroup_map').' AS map')
 				->where('map.group_id IN ('.implode(',', $groupIds).')')
 				->group('map.group_id');
 
@@ -168,12 +168,12 @@ class UsersModelGroups extends JModelList
 				'a.*'
 			)
 		);
-		$query->from('`#__usergroups` AS a');
+		$query->from($db->quoteName('#__usergroups').' AS a');
 
 		// Add the level in the tree.
 		$query->select('COUNT(DISTINCT c2.id) AS level');
-		$query->join('LEFT OUTER', '`#__usergroups` AS c2 ON a.lft > c2.lft AND a.rgt < c2.rgt');
-		$query->group('a.id');
+		$query->join('LEFT OUTER', $db->quoteName('#__usergroups').' AS c2 ON a.lft > c2.lft AND a.rgt < c2.rgt');
+		$query->group('a.id, a.lft, a.rgt, a.parent_id, a.title');
 
 		// Filter the comments over the search string if set.
 		$search = $this->getState('filter.search');
@@ -181,13 +181,13 @@ class UsersModelGroups extends JModelList
 			if (stripos($search, 'id:') === 0) {
 				$query->where('a.id = '.(int) substr($search, 3));
 			} else {
-				$search = $db->Quote('%'.$db->getEscaped($search, true).'%');
+				$search = $db->Quote('%'.$db->escape($search, true).'%');
 				$query->where('a.title LIKE '.$search);
 			}
 		}
 
 		// Add the list ordering clause.
-		$query->order($db->getEscaped($this->getState('list.ordering', 'a.lft')).' '.$db->getEscaped($this->getState('list.direction', 'ASC')));
+		$query->order($db->escape($this->getState('list.ordering', 'a.lft')).' '.$db->escape($this->getState('list.direction', 'ASC')));
 
 		//echo nl2br(str_replace('#__','jos_',$query));
 		return $query;

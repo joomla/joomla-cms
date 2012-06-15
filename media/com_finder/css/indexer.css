@@ -1,0 +1,38 @@
+#finder-indexer-container {
+	text-align: center;
+}
+
+#finder-progress-container {
+	margin: 0 auto;
+	text-align: center;
+	width: 350px;
+}
+
+#finder-progress-box {
+	background-color: #EEEEEE;
+	border: 1px solid #CCCCCC;
+	height: 20px;
+	width: 350px;
+}
+
+#finder-progress-perc {
+	background-color: #96B4E0;
+	border: 1px solid #0B55C4;
+	height: 20px;
+	margin: -1px 0 0 -1px;
+}
+
+#finder-progress-status {
+	font-size: 14px;
+	font-weight: bold;
+	padding: 3px 0 0 10px;
+}
+
+h1.finder-error {
+	color: #FF0000;
+}
+
+p.finder-error {
+	color: #FF0000;
+	font-weight:bold;
+}

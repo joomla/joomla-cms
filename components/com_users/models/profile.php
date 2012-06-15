@@ -1,9 +1,8 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Site
  * @subpackage	com_users
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -152,6 +151,16 @@ class UsersModelProfile extends JModelForm
 		if (empty($form)) {
 			return false;
 		}
+		if (!JComponentHelper::getParams('com_users')->get('change_login_name'))
+		{
+			$form->setFieldAttribute('username', 'class', '');
+			$form->setFieldAttribute('username', 'filter', '');
+			$form->setFieldAttribute('username', 'description', 'COM_USERS_PROFILE_NOCHANGE_USERNAME_DESC');
+			$form->setFieldAttribute('username', 'validate', '');
+			$form->setFieldAttribute('username', 'message', '');
+			$form->setFieldAttribute('username', 'readonly', 'true');
+			$form->setFieldAttribute('username', 'required', 'false');
+		}
 
 		return $form;
 	}
@@ -179,9 +188,9 @@ class UsersModelProfile extends JModelForm
 	{
 		if (JComponentHelper::getParams('com_users')->get('frontend_userparams'))
 		{
-			$form->loadFile('frontend',false);
+			$form->loadFile('frontend', false);
 			if (JFactory::getUser()->authorise('core.login.admin')) {
-				$form->loadFile('frontend_admin',false);
+				$form->loadFile('frontend_admin', false);
 			}
 		}
 		parent::preprocessForm($form, $data, $group);

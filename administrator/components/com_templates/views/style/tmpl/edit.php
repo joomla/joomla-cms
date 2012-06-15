@@ -1,9 +1,8 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Administrator
  * @subpackage	com_templates
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -66,7 +65,7 @@ $canDo = TemplatesHelper::getActions();
 	</div>
 
 	<div class="width-40 fltrt">
-	<?php echo JHtml::_('sliders.start','template-sliders-'.$this->item->id); ?>
+	<?php echo JHtml::_('sliders.start', 'template-sliders-'.$this->item->id); ?>
 
 		<?php //get the menu parameters that are automatically set but may be modified.
 			echo $this->loadTemplate('options'); ?>
@@ -75,7 +74,7 @@ $canDo = TemplatesHelper::getActions();
 
 	<?php echo JHtml::_('sliders.end'); ?>
 	</div>
-	<?php if ($user->authorise('core.edit','com_menu') && $this->item->client_id==0):?>
+	<?php if ($user->authorise('core.edit', 'com_menu') && $this->item->client_id==0):?>
 		<?php if ($canDo->get('core.edit.state')) : ?>
 			<div class="width-60 fltlft">
 			<?php echo $this->loadTemplate('assignment'); ?>

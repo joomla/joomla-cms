@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Base
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -17,6 +17,8 @@ jimport('joomla.base.node');
  * @package     Joomla.Platform
  * @subpackage  Base
  * @since       11.1
+ * @deprecated  12.3
+ * @codeCoverageIgnore
  */
 class JTree extends JObject
 {
@@ -41,8 +43,10 @@ class JTree extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function __construct()
+	public function __construct()
 	{
+		JLog::add('JTree::__construct() is deprecated.', JLog::WARNING, 'deprecated');
+
 		$this->_root = new JNode('ROOT');
 		$this->_current = & $this->_root;
 	}
@@ -57,8 +61,10 @@ class JTree extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function addChild(&$node, $setCurrent = false)
+	public function addChild(&$node, $setCurrent = false)
 	{
+		JLog::add('JTree::addChild() is deprecated.', JLog::WARNING, 'deprecated');
+
 		$this->_current->addChild($node);
 		if ($setCurrent)
 		{
@@ -73,8 +79,10 @@ class JTree extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function getParent()
+	public function getParent()
 	{
+		JLog::add('JTree::getParent() is deprecated.', JLog::WARNING, 'deprecated');
+
 		$this->_current = &$this->_current->getParent();
 	}
 
@@ -85,8 +93,10 @@ class JTree extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function reset()
+	public function reset()
 	{
+		JLog::add('JTree::reset() is deprecated.', JLog::WARNING, 'deprecated');
+
 		$this->_current = &$this->_root;
 	}
 }

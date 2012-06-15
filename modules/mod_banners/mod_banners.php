@@ -1,9 +1,8 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Site
  * @subpackage	mod_banners
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,7 +15,7 @@ require_once dirname(__FILE__).'/helper.php';
 $headerText	= trim($params->get('header_text'));
 $footerText	= trim($params->get('footer_text'));
 
-require_once JPATH_ROOT . '/administrator/components/com_banners/helpers/banners.php';
+require_once JPATH_ADMINISTRATOR . '/components/com_banners/helpers/banners.php';
 BannersHelper::updateReset();
 $list = &modBannersHelper::getList($params);
 $moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'));

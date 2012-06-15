@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -45,8 +45,6 @@ abstract class JHtmlBehavior
 			return;
 		}
 
-		JHtml::core($debug);
-
 		// If no debugging value is set, use the configuration setting
 		if ($debug === null)
 		{
@@ -60,6 +58,7 @@ abstract class JHtmlBehavior
 		}
 
 		JHtml::_('script', 'system/mootools-' . $type . '.js', false, true, false, false, $debug);
+		JHtml::_('script', 'system/core.js', false, true);
 		self::$loaded[__METHOD__][$type] = true;
 
 		return;
@@ -591,7 +590,7 @@ abstract class JHtmlBehavior
 		$opt['onExpand']	= (array_key_exists('onExpand', $params)) ? '\\' . $params['onExpand'] : null;
 		$opt['onSelect']	= (array_key_exists('onSelect', $params)) ? '\\' . $params['onSelect'] : null;
 		$opt['onClick']		= (array_key_exists('onClick', $params)) ? '\\' . $params['onClick']
-		: '\\function(node){  window.open(node.data.url, $chk(node.data.target) ? node.data.target : \'_self\'); }';
+		: '\\function(node){  window.open(node.data.url, node.data.target != null ? node.data.target : \'_self\'); }';
 
 		$options = JHtmlBehavior::_getJSObject($opt);
 
@@ -679,25 +678,22 @@ abstract class JHtmlBehavior
 				if (Browser.opera && (Browser.version >= 11.5)) {
 					nativeColorUi = true;
 				}
-				var elems = $$('.input-colorpicker');
-				elems.each(function(item){
+				$$('.input-colorpicker').each(function(item){
 					if (nativeColorUi) {
 						item.type = 'color';
 					} else {
-						new MooRainbow(item,
-						{
-							imgPath: '" . JURI::root(true)
-			. "/media/system/images/mooRainbow/',
+						new MooRainbow(item, {
+							id: item.id,
+							imgPath: '" . JURI::root(true) . "/media/system/images/mooRainbow/',
 							onComplete: function(color) {
 								this.element.value = color.hex;
 							},
-							startColor: item.value.hexToRgb(true)
+							startColor: item.value.hexToRgb(true) ? item.value.hexToRgb(true) : [0, 0, 0]
 						});
 					}
 				});
 			});
-		"
-		);
+		");
 
 		self::$loaded[__METHOD__] = true;
 	}
@@ -742,6 +738,58 @@ abstract class JHtmlBehavior
 
 		$document->addScriptDeclaration($script);
 		self::$loaded[__METHOD__] = true;
+
+		return;
+	}
+
+	/**
+	 * Highlight some words via Javascript.
+	 *
+	 * @param   array   $terms      Array of words that should be highlighted.
+	 * @param   string  $start      ID of the element that marks the begin of the section in which words
+	 *                              should be highlighted. Note this element will be removed from the DOM.
+	 * @param   string  $end        ID of the element that end this section.
+	 *                              Note this element will be removed from the DOM.
+	 * @param   string  $className  Class name of the element highlights are wrapped in.
+	 * @param   string  $tag        Tag that will be used to wrap the highlighted words.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.4
+	 */
+	public static function highlighter(array $terms, $start = 'highlighter-start', $end = 'highlighter-end', $className = 'highlight', $tag = 'span')
+	{
+		$sig = md5(serialize(array($terms, $start, $end)));
+		if (isset(self::$loaded[__METHOD__][$sig]))
+		{
+			return;
+		}
+
+		JHtml::_('script', 'system/highlighter.js', true, true);
+
+		$terms = str_replace('"', '\"', $terms);
+
+		$document = JFactory::getDocument();
+		$document->addScriptDeclaration("
+			window.addEvent('domready', function () {
+				var start = document.id('" . $start . "');
+				var end = document.id('" . $end . "');
+				if (!start || !end || !Joomla.Highlighter) {
+					return true;
+				}
+				highlighter = new Joomla.Highlighter({
+					startElement: start,
+					endElement: end,
+					className: '" . $className . "',
+					onlyWords: false,
+					tag: '" . $tag . "'
+				}).highlight([\"" . implode('","', $terms) . "\"]);
+				start.dispose();
+				end.dispose();
+			});
+		");
+
+		self::$loaded[__METHOD__][$sig] = true;
 
 		return;
 	}

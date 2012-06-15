@@ -1,16 +1,13 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Site
  * @subpackage	mod_languages
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 // no direct access
 defined('_JEXEC') or die;
-
-jimport('joomla.utilities.utility');
 
 JLoader::register('MenusHelper', JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus.php');
 
@@ -18,33 +15,43 @@ abstract class modLanguagesHelper
 {
 	public static function getList(&$params)
 	{
-		$lang = JFactory::getLanguage();
-		$languages	= JLanguageHelper::getLanguages();
-		$db			= JFactory::getDBO();
-		$app		= JFactory::getApplication();
-		$query		= $db->getQuery(true);
-
-		$query->select('id');
-		$query->select('language');
-		$query->from($db->nameQuote('#__menu'));
-		$query->where('home=1');
-		$db->setQuery($query);
-		$homes = $db->loadObjectList('language');
-
+		$user	= JFactory::getUser();
+		$lang 	= JFactory::getLanguage();
+		$app	= JFactory::getApplication();
+		$menu 	= $app->getMenu();
+		
+		// Get menu home items
+		$homes = array();
+		foreach($menu->getMenu() as $item) {
+			if ($item->home) {
+				$homes[$item->language] = $item;
+			}
+		}
+		
+		// Load associations
 		if ($app->get('menu_associations', 0)) {
-			$menu = $app->getMenu();
 			$active = $menu->getActive();
 			if ($active) {
 				$associations = MenusHelper::getAssociations($active->id);
 			}
 		}
+
+		$levels		= $user->getAuthorisedViewLevels();
+		$languages	= JLanguageHelper::getLanguages();
+		
+		// Filter allowed languages
 		foreach($languages as $i => &$language) {
+			
 			// Do not display language without frontend UI
 			if (!JLanguage::exists($language->lang_code)) {
 				unset($languages[$i]);
 			}
 			// Do not display language without specific home menu
 			elseif (!isset($homes[$language->lang_code])) {
+				unset($languages[$i]);
+			}
+			// Do not display language without authorized access level
+			elseif (isset($language->access) && $language->access && !in_array($language->access, $levels)) {
 				unset($languages[$i]);
 			}
 			else {
@@ -56,7 +63,7 @@ abstract class modLanguagesHelper
 							$language->link = JRoute::_('index.php?lang='.$language->sef.'&Itemid='.$itemid);
 						}
 						else {
-							$language->link = 'index.php?lang='.$language->sef.'&Itemid='.$itemid;
+							$language->link = 'index.php?lang='.$language->sef.'&amp;Itemid='.$itemid;
 						}
 					}
 					else {

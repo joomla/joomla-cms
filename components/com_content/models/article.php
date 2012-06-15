@@ -1,9 +1,8 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Site
  * @subpackage	com_content
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -86,7 +85,9 @@ class ContentModelArticle extends JModelItem
 					// In this case, the state is set to 0 to indicate Unpublished (even if the article state is Published)
 					'CASE WHEN badcats.id is null THEN a.state ELSE 0 END AS state, ' .
 					'a.mask, a.catid, a.created, a.created_by, a.created_by_alias, ' .
-					'a.modified, a.modified_by, a.checked_out, a.checked_out_time, a.publish_up, a.publish_down, ' .
+				// use created if modified is 0
+				'CASE WHEN a.modified = 0 THEN a.created ELSE a.modified END as modified, ' .
+					'a.modified_by, a.checked_out, a.checked_out_time, a.publish_up, a.publish_down, ' .
 					'a.images, a.urls, a.attribs, a.version, a.parentid, a.ordering, ' .
 					'a.metakey, a.metadesc, a.access, a.hits, a.metadata, a.featured, a.language, a.xreference'
 					)
@@ -100,25 +101,31 @@ class ContentModelArticle extends JModelItem
 				// Join on user table.
 				$query->select('u.name AS author');
 				$query->join('LEFT', '#__users AS u on u.id = a.created_by');
-
+		
 				// Join on contact table
-				$query->select('contact.id as contactid' ) ;
-				$query->join('LEFT','#__contact_details AS contact on contact.user_id = a.created_by');
-
-
+				$subQuery = $db->getQuery(true);
+				$subQuery->select('contact.user_id, MAX(contact.id) AS id, contact.language');
+				$subQuery->from('#__contact_details AS contact');
+				$subQuery->where('contact.published = 1');
+				$subQuery->group('contact.user_id, contact.language');
+				$query->select('contact.id as contactid' );
+				$query->join('LEFT', '(' . $subQuery . ') AS contact ON contact.user_id = a.created_by');
+				
 				// Join over the categories to get parent category titles
 				$query->select('parent.title as parent_title, parent.id as parent_id, parent.path as parent_route, parent.alias as parent_alias');
 				$query->join('LEFT', '#__categories as parent ON parent.id = c.parent_id');
 
 				// Join on voting table
-				$query->select('ROUND( v.rating_sum / v.rating_count ) AS rating, v.rating_count as rating_count');
+				$query->select('ROUND(v.rating_sum / v.rating_count, 0) AS rating, v.rating_count as rating_count');
 				$query->join('LEFT', '#__content_rating AS v ON a.id = v.content_id');
 
 				$query->where('a.id = ' . (int) $pk);
 
 				// Filter by start and end dates.
 				$nullDate = $db->Quote($db->getNullDate());
-				$nowDate = $db->Quote(JFactory::getDate()->toMySQL());
+				$date = JFactory::getDate();
+
+				$nowDate = $db->Quote($date->toSql());
 
 				$query->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')');
 				$query->where('(a.publish_down = ' . $nullDate . ' OR a.publish_down >= ' . $nowDate . ')');
@@ -148,17 +155,18 @@ class ContentModelArticle extends JModelItem
 				}
 
 				if (empty($data)) {
-					return JError::raiseError(404,JText::_('COM_CONTENT_ERROR_ARTICLE_NOT_FOUND'));
+					return JError::raiseError(404, JText::_('COM_CONTENT_ERROR_ARTICLE_NOT_FOUND'));
 				}
 
 				// Check for published state if filter set.
 				if (((is_numeric($published)) || (is_numeric($archived))) && (($data->state != $published) && ($data->state != $archived))) {
-					return JError::raiseError(404,JText::_('COM_CONTENT_ERROR_ARTICLE_NOT_FOUND'));
+					return JError::raiseError(404, JText::_('COM_CONTENT_ERROR_ARTICLE_NOT_FOUND'));
 				}
 
 				// Convert parameter fields to objects.
 				$registry = new JRegistry;
 				$registry->loadString($data->attribs);
+
 				$data->params = clone $this->getState('params');
 				$data->params->merge($registry);
 

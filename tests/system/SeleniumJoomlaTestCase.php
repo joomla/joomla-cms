@@ -1,8 +1,7 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.FunctionalTest
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -804,14 +803,16 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 		$this->waitForPageToLoad("30000");
 	}
 
-	function waitforElement($element, $time = 30) {
+	function waitforElement($element, $time = 30, $present = true) {
 		for ($second = 0; ; $second++) {
 			if ($second >= $time) $this->fail("timeout");
 			try {
-				if ($this->isElementPresent($element)) break;
+				$condition = ($present) ? $this->isElementPresent($element) : !$this->isElementPresent($element);
+				if ($condition) break;
 			} catch (Exception $e) {}
 			sleep(1);
 		}
+		sleep(1);
 	}
 
 	function checkNotices()

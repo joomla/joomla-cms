@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -79,7 +79,7 @@ class JTableNested extends JTable
 	 * use when storing the row.  A combination of location type and reference
 	 * node describes where to store the current node in the tree.
 	 *
-	 * @var integer
+	 * @var    integer
 	 * @since  11.1
 	 */
 	protected $_location_id;
@@ -87,7 +87,7 @@ class JTableNested extends JTable
 	/**
 	 * An array to cache values in recursive processes.
 	 *
-	 * @var   array
+	 * @var    array
 	 * @since  11.1
 	 */
 	protected $_cache = array();
@@ -872,7 +872,7 @@ class JTableNested extends JTable
 	 * not allow you to set a publishing state on a node with a checked out child.
 	 *
 	 * @param   mixed    $pks     An optional array of primary key values to update.  If not
-	 * set the instance property value is used.
+	 *                            set the instance property value is used.
 	 * @param   integer  $state   The publishing state. eg. [0 = unpublished, 1 = published]
 	 * @param   integer  $userId  The user id of the user performing the operation.
 	 *
@@ -973,12 +973,12 @@ class JTableNested extends JTable
 			}
 
 			// Update and cascade the publishing state.
-			$query = $this->_db->getQuery(true)->update($this->_db->quoteName($this->_tbl) . ' AS n')->set('n.published = ' . (int) $state)
-				->where('(n.lft > ' . (int) $this->lft . ' AND n.rgt < ' . (int) $this->rgt . ')' . ' OR n.' . $k . ' = ' . (int) $pk);
+			$query = $this->_db->getQuery(true)->update($this->_db->quoteName($this->_tbl))->set('published = ' . (int) $state)
+				->where('(lft > ' . (int) $node->lft . ' AND rgt < ' . (int) $node->rgt . ')' . ' OR ' . $k . ' = ' . (int) $pk);
 			$this->_db->setQuery($query);
 
 			// Check for a database error.
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_PUBLISH_FAILED', get_class($this), $this->_db->getErrorMsg()));
 				$this->setError($e);
@@ -1067,7 +1067,7 @@ class JTableNested extends JTable
 		$this->_db->setQuery($query);
 
 		// Check for a database error.
-		if (!$this->_db->query())
+		if (!$this->_db->execute())
 		{
 			$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_ORDERUP_FAILED', get_class($this), $this->_db->getErrorMsg()));
 			$this->setError($e);
@@ -1085,7 +1085,7 @@ class JTableNested extends JTable
 		$this->_db->setQuery($query);
 
 		// Check for a database error.
-		if (!$this->_db->query())
+		if (!$this->_db->execute())
 		{
 			$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_ORDERUP_FAILED', get_class($this), $this->_db->getErrorMsg()));
 			$this->setError($e);
@@ -1165,7 +1165,7 @@ class JTableNested extends JTable
 		$this->_db->setQuery($query);
 
 		// Check for a database error.
-		if (!$this->_db->query())
+		if (!$this->_db->execute())
 		{
 			$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_ORDERDOWN_FAILED', get_class($this), $this->_db->getErrorMsg()));
 			$this->setError($e);
@@ -1183,7 +1183,7 @@ class JTableNested extends JTable
 		$this->_db->setQuery($query);
 
 		// Check for a database error.
-		if (!$this->_db->query())
+		if (!$this->_db->execute())
 		{
 			$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_ORDERDOWN_FAILED', get_class($this), $this->_db->getErrorMsg()));
 			$this->setError($e);
@@ -1200,7 +1200,7 @@ class JTableNested extends JTable
 	/**
 	 * Gets the ID of the root item in the tree
 	 *
-	 * @return  mixed    The ID of the root row, or false and the internal error is set.
+	 * @return  mixed  The ID of the root row, or false and the internal error is set.
 	 *
 	 * @since   11.1
 	 */
@@ -1372,7 +1372,7 @@ class JTableNested extends JTable
 		$this->_db->setQuery($query);
 
 		// If there is an update failure, return false to break out of the recursion.
-		if (!$this->_db->query())
+		if (!$this->_db->execute())
 		{
 			$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_REBUILD_FAILED', get_class($this), $this->_db->getErrorMsg()));
 			$this->setError($e);
@@ -1434,7 +1434,7 @@ class JTableNested extends JTable
 		$this->_db->setQuery($query);
 
 		// Check for a database error.
-		if (!$this->_db->query())
+		if (!$this->_db->execute())
 		{
 			$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_REBUILDPATH_FAILED', get_class($this), $this->_db->getErrorMsg()));
 			$this->setError($e);
@@ -1472,7 +1472,7 @@ class JTableNested extends JTable
 				$this->_db->setQuery($query);
 
 				// Check for a database error.
-				if (!$this->_db->query())
+				if (!$this->_db->execute())
 				{
 					$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_REORDER_FAILED', get_class($this), $this->_db->getErrorMsg()));
 					$this->setError($e);
@@ -1692,7 +1692,7 @@ class JTableNested extends JTable
 		$this->_db->setQuery($query);
 
 		// Check for a database error.
-		if (!$this->_db->query())
+		if (!$this->_db->execute())
 		{
 			$e = new JException(JText::sprintf('$errorMessage', get_class($this), $this->_db->getErrorMsg()));
 			$this->setError($e);

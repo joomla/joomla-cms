@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-	<!-- $Id$ -->
 <form>
 	<field
 		name="id"
@@ -17,7 +16,7 @@
 
 	<field
 		name="parent_id"
-		type="categoryparent"
+		type="categoryedit"
 		label="COM_CATEGORIES_FIELD_PARENT_LABEL"
 		description="COM_CATEGORIES_FIELD_PARENT_DESC"
 		class="inputbox"/>
@@ -81,7 +80,7 @@
 		label="JGLOBAL_DESCRIPTION"
 		description="COM_CATEGORIES_DESCRIPTION_DESC"
 		class="inputbox"
-		filter="safehtml"
+		filter="JComponentHelper::filterText"
 		buttons="true"
 		hide="readmore,pagebreak"/>
 

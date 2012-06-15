@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Installer
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -38,7 +38,6 @@ class JInstallerModule extends JAdapterInstance
 	 * @var
 	 * @since 11.1
 	 */
-
 	protected $manifest_script = null;
 
 	/**
@@ -160,7 +159,6 @@ class JInstallerModule extends JAdapterInstance
 		if ($cname = (string) $this->manifest->attributes()->client)
 		{
 			// Attempt to map the client to a base path
-			jimport('joomla.application.helper');
 			$client = JApplicationHelper::getClientInfo($cname, true);
 
 			if ($client === false)
@@ -218,7 +216,7 @@ class JInstallerModule extends JAdapterInstance
 
 		try
 		{
-			$db->Query();
+			$db->execute();
 		}
 		catch (JException $e)
 		{
@@ -237,15 +235,15 @@ class JInstallerModule extends JAdapterInstance
 		// Check that this is either an issue where its not overwriting or it is
 		// set to upgrade anyway
 
-		if (file_exists($this->parent->getPath('extension_root')) && (!$this->parent->getOverwrite() || $this->parent->getUpgrade()))
+		if (file_exists($this->parent->getPath('extension_root')) && (!$this->parent->isOverwrite() || $this->parent->isUpgrade()))
 		{
 			// Look for an update function or update tag
 			$updateElement = $this->manifest->update;
 			// Upgrade manually set or
 			// Update function available or
 			// Update tag detected
-			if ($this->parent->getUpgrade() || ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'update'))
-				|| is_a($updateElement, 'JXMLElement'))
+			if ($this->parent->isUpgrade() || ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'update'))
+				|| $updateElement)
 			{
 				// Force this one
 				$this->parent->setOverwrite(true);
@@ -257,7 +255,7 @@ class JInstallerModule extends JAdapterInstance
 					$this->route = 'Update';
 				}
 			}
-			elseif (!$this->parent->getOverwrite())
+			elseif (!$this->parent->isOverwrite())
 			{
 				// Overwrite is set
 				// We didn't have overwrite set, find an update function or find an update tag so lets call it safe
@@ -367,7 +365,7 @@ class JInstallerModule extends JAdapterInstance
 			$path['src'] = $this->parent->getPath('source') . '/' . $this->get('manifest_script');
 			$path['dest'] = $this->parent->getPath('extension_root') . '/' . $this->get('manifest_script');
 
-			if (!file_exists($path['dest']) || $this->parent->getOverwrite())
+			if (!file_exists($path['dest']) || $this->parent->isOverwrite())
 			{
 				if (!$this->parent->copyFiles(array($path)))
 				{
@@ -550,7 +548,7 @@ class JInstallerModule extends JAdapterInstance
 	 *
 	 * @since   11.1
 	 */
-	function update()
+	public function update()
 	{
 		// Set the overwrite setting
 		$this->parent->setOverwrite(true);
@@ -613,7 +611,7 @@ class JInstallerModule extends JAdapterInstance
 	 *
 	 * @since   11.1
 	 */
-	function discover_install()
+	public function discover_install()
 	{
 		// Modules are like templates, and are one of the easiest
 		// If its not in the extensions table we just add it
@@ -715,7 +713,6 @@ class JInstallerModule extends JAdapterInstance
 		}
 
 		// Get the extension root path
-		jimport('joomla.application.helper');
 		$element = $row->element;
 		$client = JApplicationHelper::getClientInfo($row->client_id);
 
@@ -805,7 +802,7 @@ class JInstallerModule extends JAdapterInstance
 		$query = $db->getQuery(true);
 		$query->delete()->from('#__schemas')->where('extension_id = ' . $row->extension_id);
 		$db->setQuery($query);
-		$db->Query();
+		$db->execute();
 
 		// Remove other files
 		$this->parent->removeFiles($this->manifest->media);
@@ -839,7 +836,7 @@ class JInstallerModule extends JAdapterInstance
 			$db->setQuery($query);
 			try
 			{
-				$db->query();
+				$db->execute();
 			}
 			catch (JException $e)
 			{
@@ -853,7 +850,7 @@ class JInstallerModule extends JAdapterInstance
 
 			try
 			{
-				$db->query();
+				$db->execute();
 			}
 			catch (JException $e)
 			{
@@ -864,13 +861,13 @@ class JInstallerModule extends JAdapterInstance
 
 		// Now we will no longer need the module object, so let's delete it and free up memory
 		$row->delete($row->extension_id);
-		$query = 'DELETE FROM `#__modules` WHERE module = ' . $db->Quote($row->element) . ' AND client_id = ' . $row->client_id;
+		$query = 'DELETE FROM #__modules WHERE module = ' . $db->Quote($row->element) . ' AND client_id = ' . $row->client_id;
 		$db->setQuery($query);
 
 		try
 		{
 			// Clean up any other ones that might exist as well
-			$db->Query();
+			$db->execute();
 		}
 		catch (JException $e)
 		{
@@ -905,12 +902,12 @@ class JInstallerModule extends JAdapterInstance
 		$db = $this->parent->getDbo();
 
 		// Remove the entry from the #__modules_menu table
-		$query = 'DELETE' . ' FROM `#__modules_menu`' . ' WHERE moduleid=' . (int) $arg['id'];
+		$query = 'DELETE' . ' FROM #__modules_menu' . ' WHERE moduleid=' . (int) $arg['id'];
 		$db->setQuery($query);
 
 		try
 		{
-			return $db->query();
+			return $db->execute();
 		}
 		catch (JException $e)
 		{
@@ -934,11 +931,11 @@ class JInstallerModule extends JAdapterInstance
 		$db = $this->parent->getDbo();
 
 		// Remove the entry from the #__modules table
-		$query = 'DELETE' . ' FROM `#__modules`' . ' WHERE id=' . (int) $arg['id'];
+		$query = 'DELETE' . ' FROM #__modules' . ' WHERE id=' . (int) $arg['id'];
 		$db->setQuery($query);
 		try
 		{
-			return $db->query();
+			return $db->execute();
 		}
 		catch (JException $e)
 		{

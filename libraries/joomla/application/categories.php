@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -24,7 +24,7 @@ class JCategories
 	 * @var    array
 	 * @since  11.1
 	 */
-	static $instances = array();
+	public static $instances = array();
 
 	/**
 	 * Array of category nodes
@@ -217,7 +217,15 @@ class JCategories
 
 		// Right join with c for category
 		$query->select('c.*');
-		$query->select('CASE WHEN CHAR_LENGTH(c.alias) THEN CONCAT_WS(":", c.id, c.alias) ELSE c.id END as slug');
+		$case_when = ' CASE WHEN ';
+		$case_when .= $query->charLength('c.alias');
+		$case_when .= ' THEN ';
+		$c_id = $query->castAsChar('c.id');
+		$case_when .= $query->concatenate(array($c_id, 'c.alias'), ':');
+		$case_when .= ' ELSE ';
+		$case_when .= $c_id . ' END as slug';
+		$query->select($case_when);
+
 		$query->from('#__categories as c');
 		$query->where('(c.extension=' . $db->Quote($extension) . ' OR c.extension=' . $db->Quote('system') . ')');
 
@@ -237,8 +245,22 @@ class JCategories
 		if ($id != 'root')
 		{
 			// Get the selected category
-			$query->leftJoin('#__categories AS s ON (s.lft <= c.lft AND s.rgt >= c.rgt) OR (s.lft > c.lft AND s.rgt < c.rgt)');
 			$query->where('s.id=' . (int) $id);
+			if ($app->isSite() && $app->getLanguageFilter())
+			{
+				$query->leftJoin('#__categories AS s ON (s.lft < c.lft AND s.rgt > c.rgt AND c.language in (' . $db->Quote(JFactory::getLanguage()->getTag()) . ',' . $db->Quote('*') . ')) OR (s.lft >= c.lft AND s.rgt <= c.rgt)');
+			}
+			else
+			{
+				$query->leftJoin('#__categories AS s ON (s.lft <= c.lft AND s.rgt >= c.rgt) OR (s.lft > c.lft AND s.rgt < c.rgt)');
+			}
+		}
+		else
+		{
+			if ($app->isSite() && $app->getLanguageFilter())
+			{
+				$query->where('c.language in (' . $db->Quote(JFactory::getLanguage()->getTag()) . ',' . $db->Quote('*') . ')');
+			}
 		}
 
 		$subQuery = ' (SELECT cat.id as id FROM #__categories AS cat JOIN #__categories AS parent ' .
@@ -265,16 +287,10 @@ class JCategories
 		}
 
 		// Group by
-		$query->group('c.id');
-
-		// Filter by language
-		if ($app->isSite() && $app->getLanguageFilter())
-		{
-			$query->where(
-				'(' . ($id != 'root' ? 'c.id=s.id OR ' : '') . 'c.language in (' . $db->Quote(JFactory::getLanguage()->getTag()) . ',' .
-				$db->Quote('*') . '))'
-			);
-		}
+		$query->group('c.id, c.asset_id, c.access, c.alias, c.checked_out, c.checked_out_time,
+ 			c.created_time, c.created_user_id, c.description, c.extension, c.hits, c.language, c.level,
+		 	c.lft, c.metadata, c.metadesc, c.metakey, c.modified_time, c.note, c.params, c.parent_id,
+ 			c.path, c.published, c.rgt, c.title, c.modified_user_id');
 
 		// Get the results
 		$db->setQuery($query);
@@ -390,7 +406,6 @@ class JCategoryNode extends JObject
 	 * @var    integer
 	 * @since  11.1
 	 */
-
 	public $parent_id = null;
 
 	/**
@@ -399,7 +414,6 @@ class JCategoryNode extends JObject
 	 * @var    integer
 	 * @since  11.1
 	 */
-
 	public $lft = null;
 
 	/**
@@ -496,7 +510,6 @@ class JCategoryNode extends JObject
 	 * @var string
 	 * @since  11.1
 	 */
-
 	public $metadesc = null;
 
 	/**
@@ -565,7 +578,6 @@ class JCategoryNode extends JObject
 	 * @var
 	 * @since  11.1
 	 */
-
 	public $childrennumitems = null;
 
 	/**
@@ -673,7 +685,7 @@ class JCategoryNode extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function setParent(&$parent)
+	public function setParent(&$parent)
 	{
 		if ($parent instanceof JCategoryNode || is_null($parent))
 		{
@@ -719,7 +731,7 @@ class JCategoryNode extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function addChild(&$child)
+	public function addChild(&$child)
 	{
 		if ($child instanceof JCategoryNode)
 		{
@@ -736,7 +748,7 @@ class JCategoryNode extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function removeChild($id)
+	public function removeChild($id)
 	{
 		$key = array_search($this, $this->_parent->_children);
 		unset($this->_parent->_children[$key]);
@@ -751,7 +763,7 @@ class JCategoryNode extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function &getChildren($recursive = false)
+	public function &getChildren($recursive = false)
 	{
 		if (!$this->_allChildrenloaded)
 		{
@@ -786,7 +798,7 @@ class JCategoryNode extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function &getParent()
+	public function &getParent()
 	{
 		return $this->_parent;
 	}
@@ -798,7 +810,7 @@ class JCategoryNode extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function hasChildren()
+	public function hasChildren()
 	{
 		return count($this->_children);
 	}
@@ -810,7 +822,7 @@ class JCategoryNode extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function hasParent()
+	public function hasParent()
 	{
 		return $this->getParent() != null;
 	}
@@ -825,7 +837,7 @@ class JCategoryNode extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function setSibling($sibling, $right = true)
+	public function setSibling($sibling, $right = true)
 	{
 		if ($right)
 		{
@@ -847,7 +859,7 @@ class JCategoryNode extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function getSibling($right = true)
+	public function getSibling($right = true)
 	{
 		if (!$this->_allChildrenloaded)
 		{
@@ -875,7 +887,7 @@ class JCategoryNode extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function getParams()
+	public function getParams()
 	{
 		if (!($this->params instanceof JRegistry))
 		{
@@ -894,7 +906,7 @@ class JCategoryNode extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function getMetadata()
+	public function getMetadata()
 	{
 		if (!($this->metadata instanceof JRegistry))
 		{
@@ -913,7 +925,7 @@ class JCategoryNode extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function getPath()
+	public function getPath()
 	{
 		return $this->_path;
 	}
@@ -927,7 +939,7 @@ class JCategoryNode extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function getAuthor($modified_user = false)
+	public function getAuthor($modified_user = false)
 	{
 		if ($modified_user)
 		{
@@ -944,7 +956,7 @@ class JCategoryNode extends JObject
 	 *
 	 * @since 11.1
 	 */
-	function setAllLoaded()
+	public function setAllLoaded()
 	{
 		$this->_allChildrenloaded = true;
 		foreach ($this->_children as $child)
@@ -962,7 +974,7 @@ class JCategoryNode extends JObject
 	 *
 	 * @since 11.1
 	 */
-	function getNumItems($recursive = false)
+	public function getNumItems($recursive = false)
 	{
 		if ($recursive)
 		{

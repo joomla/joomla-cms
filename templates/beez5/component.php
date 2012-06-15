@@ -1,9 +1,8 @@
 <?php
 /**
- * @version		$Id: component.php 16465 2010-04-26 01:46:24Z eddieajau $
  * @package		Joomla.Site
  * @subpackage	Templates.beez5
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -24,7 +23,7 @@ $color = $this->params->get('templatecolor');
 	<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/<?php echo $this->template; ?>/css/beez5.css" type="text/css" />
 
 <?php
-	$files = JHtml::_('stylesheet','templates/'.$this->template.'/css/general.css',null,false,true);
+	$files = JHtml::_('stylesheet', 'templates/'.$this->template.'/css/general.css', null, false, true);
 	if ($files):
 		if (!is_array($files)):
 			$files = array($files);

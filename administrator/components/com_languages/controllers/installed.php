@@ -1,7 +1,6 @@
 <?php
 /**
- * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -23,7 +22,7 @@ class LanguagesControllerInstalled extends JController
 	function setDefault()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
+		JSession::checkToken() or jexit(JText::_('JInvalid_Token'));
 		$cid = JRequest::getCmd('cid', '');
 		$model = $this->getModel('installed');
 		if ($model->publish($cid))
@@ -38,6 +37,6 @@ class LanguagesControllerInstalled extends JController
 		}
 		$client = $model->getClient();
 		$clientId = $model->getState('filter.client_id');
-		$this->setredirect('index.php?option=com_languages&view=installed&client='.$clientId,$msg,$type);
+		$this->setredirect('index.php?option=com_languages&view=installed&client='.$clientId, $msg, $type);
 	}
 }

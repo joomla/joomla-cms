@@ -1,7 +1,6 @@
 <?php
 /**
- * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -91,7 +90,7 @@ class ContentViewArchive extends JView
 		//Escape strings for HTML output
 		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
 
-		$this->assign('filter', $state->get('list.filter'));
+		$this->filter = $state->get('list.filter');
 		$this->assignRef('form', $form);
 		$this->assignRef('items', $items);
 		$this->assignRef('params', $params);

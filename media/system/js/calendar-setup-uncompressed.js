@@ -19,8 +19,6 @@
  * than modifying calendar.js itself).
  */
 
-// $Id: calendar-setup-uncompressed.js 18463 2010-08-16 06:01:11Z eddieajau $
-
 /**
  *  This function "patches" an input field (or other element) to use a calendar
  *  widget for date selection.

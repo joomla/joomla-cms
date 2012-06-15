@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -98,10 +98,10 @@ class JControllerAdmin extends JController
 	 *
 	 * @since   11.1
 	 */
-	function delete()
+	public function delete()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or die(JText::_('JINVALID_TOKEN'));
+		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
 
 		// Get items to remove from the request.
 		$cid = JRequest::getVar('cid', array(), '', 'array');
@@ -155,12 +155,10 @@ class JControllerAdmin extends JController
 	 *
 	 * @since   11.1
 	 */
-	function publish()
+	public function publish()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or die(JText::_('JINVALID_TOKEN'));
-
-		$session = JFactory::getSession();
+		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
 
 		// Get items to publish from the request.
 		$cid = JRequest::getVar('cid', array(), '', 'array');
@@ -221,7 +219,7 @@ class JControllerAdmin extends JController
 	public function reorder()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Initialise variables.
 		$ids = JRequest::getVar('cid', null, 'post', 'array');
@@ -255,7 +253,7 @@ class JControllerAdmin extends JController
 	public function saveorder()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Get the input
 		$pks = JRequest::getVar('cid', null, 'post', 'array');
@@ -297,7 +295,7 @@ class JControllerAdmin extends JController
 	public function checkin()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Initialise variables.
 		$ids = JRequest::getVar('cid', null, 'post', 'array');

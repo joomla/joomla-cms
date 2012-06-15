@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Document
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -24,7 +24,7 @@ class JDocumentError extends JDocument
 	 * @var    object
 	 * @since  11.1
 	 */
-	var $_error;
+	protected $_error;
 
 	/**
 	 * Class constructor
@@ -37,10 +37,10 @@ class JDocumentError extends JDocument
 	{
 		parent::__construct($options);
 
-		//set mime type
+		// Set mime type
 		$this->_mime = 'text/html';
 
-		//set document type
+		// Set document type
 		$this->_type = 'error';
 	}
 
@@ -55,7 +55,7 @@ class JDocumentError extends JDocument
 	 */
 	public function setError($error)
 	{
-		if (JError::isError($error))
+		if ($error instanceof Exception)
 		{
 			$this->_error = & $error;
 			return true;
@@ -84,11 +84,11 @@ class JDocumentError extends JDocument
 			return;
 		}
 
-		//Set the status header
+		// Set the status header
 		JResponse::setHeader('status', $this->_error->getCode() . ' ' . str_replace("\n", ' ', $this->_error->getMessage()));
 		$file = 'error.php';
 
-		// check template
+		// Check template
 		$directory = isset($params['directory']) ? $params['directory'] : 'templates';
 		$template = isset($params['template']) ? JFilterInput::getInstance()->clean($params['template'], 'cmd') : 'system';
 
@@ -97,13 +97,13 @@ class JDocumentError extends JDocument
 			$template = 'system';
 		}
 
-		//set variables
+		// Set variables
 		$this->baseurl = JURI::base(true);
 		$this->template = $template;
 		$this->debug = isset($params['debug']) ? $params['debug'] : false;
 		$this->error = $this->_error;
 
-		// load
+		// Load
 		$data = $this->_loadTemplate($directory . '/' . $template, $file);
 
 		parent::render();
@@ -120,7 +120,7 @@ class JDocumentError extends JDocument
 	 *
 	 * @since   11.1
 	 */
-	function _loadTemplate($directory, $filename)
+	public function _loadTemplate($directory, $filename)
 	{
 		$contents = '';
 
@@ -147,7 +147,7 @@ class JDocumentError extends JDocument
 	 *
 	 * @since   11.1
 	 */
-	function renderBacktrace()
+	public function renderBacktrace()
 	{
 		$contents = null;
 		$backtrace = $this->_error->getTrace();

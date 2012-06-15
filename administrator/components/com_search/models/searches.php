@@ -1,9 +1,8 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Administrator
  * @subpackage	com_search
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -105,7 +104,7 @@ class SearchModelSearches extends JModelList
 				'a.*'
 			)
 		);
-		$query->from($db->nameQuote('#__core_log_searches').' AS a');
+		$query->from($db->quoteName('#__core_log_searches').' AS a');
 
 		// Filter by access level.
 		if ($access = $this->getState('filter.access')) {
@@ -116,12 +115,12 @@ class SearchModelSearches extends JModelList
 		$search = $this->getState('filter.search');
 		if (!empty($search))
 		{
-			$search = $db->Quote('%'.$db->getEscaped($search, true).'%');
+			$search = $db->Quote('%'.$db->escape($search, true).'%');
 			$query->where('a.search_term LIKE '.$search);
 		}
 
 		// Add the list ordering clause.
-		$query->order($db->getEscaped($this->getState('list.ordering', 'a.hits')).' '.$db->getEscaped($this->getState('list.direction', 'ASC')));
+		$query->order($db->escape($this->getState('list.ordering', 'a.hits')).' '.$db->escape($this->getState('list.direction', 'ASC')));
 
 		//echo nl2br(str_replace('#__','jos_',$query));
 		return $query;
@@ -144,7 +143,7 @@ class SearchModelSearches extends JModelList
 
 			if (!class_exists('JSite')) {
 				// This fools the routers in the search plugins into thinking it's in the frontend
-				require_once JPATH_COMPONENT.'/helpers/site.php';
+				JLoader::register('JSite', JPATH_COMPONENT.'/helpers/site.php');
 			}
 
 			foreach ($items as &$item) {

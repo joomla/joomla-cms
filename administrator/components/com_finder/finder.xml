@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="component" version="2.5" method="upgrade">
+	<name>com_finder</name>
+	<author>Joomla! Project</author>
+	<copyright>(C) 2005 - 2012 Open Source Matters. All rights reserved.</copyright>
+	<creationDate>August 2011</creationDate>
+	<license>GNU General Public License version 2 or later; see	LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>2.5.0</version>
+	<description>COM_FINDER_XML_DESCRIPTION</description>
+	<menu link="option=com_finder">COM_FINDER</menu>
+	<files folder="site">
+		<filename>controller.php</filename>
+		<filename>index.html</filename>
+		<filename>finder.php</filename>
+		<filename>router.php</filename>
+		<folder>controllers</folder>
+		<folder>helpers</folder>
+		<folder>models</folder>
+		<folder>views</folder>
+	</files>
+	<media destination="com_finder" folder="media">
+		<folder>js</folder>
+		<folder>images</folder>
+		<folder>css</folder>
+		<filename>index.html</filename>
+	</media>
+	<install>
+		<sql>
+			<file charset="utf8" driver="mysql">sql/install.mysql.sql</file>
+			<file charset="utf8" driver="postgresql">sql/install.postgresql.sql</file>
+		</sql>
+	</install>
+	<uninstall>
+		<sql>
+			<file charset="utf8" driver="mysql">sql/uninstall.mysql.sql</file>
+			<file charset="utf8" driver="postgresql">sql/uninstall.postgresql.sql</file>
+		</sql>
+	</uninstall>
+	<languages folder="site/language">
+		<language tag="en-GB">en-GB/en-GB.com_finder.ini</language>
+	</languages>
+	<administration>
+		<files folder="admin">
+			<filename>access.xml</filename>
+			<filename>config.xml</filename>
+			<filename>controller.php</filename>
+			<filename>finder.php</filename>
+			<filename>index.html</filename>
+			<folder>controllers</folder>
+			<folder>helpers</folder>
+			<folder>models</folder>
+			<folder>sql</folder>
+			<folder>tables</folder>
+			<folder>views</folder>
+		</files>
+		<languages folder="admin/language">
+			<language tag="en-GB">en-GB/en-GB.com_finder.ini</language>
+			<language tag="en-GB">en-GB/en-GB.com_finder.sys.ini</language>
+		</languages>
+		<menu img="class:finder" link="option=com_finder">COM_FINDER</menu>
+	</administration>
+</extension>

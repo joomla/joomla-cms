@@ -106,7 +106,7 @@ padding-right:20px
 #header #line form,
 #header #line #fontsize,
 #header #line form .search
-
+#header #line form .finder
 {
 display:inline !important;
 }
@@ -1105,6 +1105,12 @@ dl.search-results
 dl.search-results dt.result-title
 {
 	border-top:dotted 1px #ddd
+}
+
+dl.search-results dd.result-url
+{
+	border-bottom:solid 5px #fff;
+	color:#115599;
 }
 
 dl.search-results dd.result-created

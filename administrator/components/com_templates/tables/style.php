@@ -1,7 +1,6 @@
 <?php
 /**
- * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -107,7 +106,7 @@ class TemplatesTableStyle extends JTable
 			$query->where('client_id='.(int)$this->client_id);
 			$query->where('template='.$this->_db->quote($this->template));
 			$this->_db->setQuery($query);
-			$results = $this->_db->loadResultArray();
+			$results = $this->_db->loadColumn();
 			if (count($results)==1 && $results[0]==$pk) {
 				$this->setError(JText::_('COM_TEMPLATES_ERROR_CANNOT_DELETE_LAST_STYLE'));
 				return false;

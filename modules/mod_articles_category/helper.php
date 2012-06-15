@@ -1,9 +1,8 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Site
  * @subpackage	mod_articles_category
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -169,7 +168,7 @@ abstract class modArticlesCategoryHelper
 		}
 
 		// Filter by language
-		$articles->setState('filter.language',$app->getLanguageFilter());
+		$articles->setState('filter.language', $app->getLanguageFilter());
 
 		$items = $articles->getItems();
 
@@ -237,7 +236,7 @@ abstract class modArticlesCategoryHelper
 			$item->displayHits = $show_hits ? $item->hits : '';
 			$item->displayAuthorName = $show_author ? $item->author : '';
 			if ($show_introtext) {
-				$item->introtext = JHtml::_('content.prepare', $item->introtext);
+				$item->introtext = JHtml::_('content.prepare', $item->introtext, '', 'mod_articles_category.content');
 				$item->introtext = self::_cleanIntrotext($item->introtext);
 			}
 			$item->displayIntrotext = $show_introtext ? self::truncate($item->introtext, $introtext_limit) : '';

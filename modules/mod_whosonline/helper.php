@@ -1,9 +1,8 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Site
  * @subpackage	mod_whosonline
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -46,7 +45,7 @@ class modWhosonlineHelper
 	}
 
 	// show online member names
-	static function getOnlineUserNames() {
+	static function getOnlineUserNames($params) {
 		$db		= JFactory::getDbo();
 		$query	= $db->getQuery(true);
 		$query->select('a.username, a.time, a.userid, a.usertype, a.client_id');
@@ -54,6 +53,19 @@ class modWhosonlineHelper
 		$query->where('a.userid != 0');
 		$query->where('a.client_id = 0');
 		$query->group('a.userid');
+		$user = JFactory::getUser();
+		if (!$user->authorise('core.admin') && $params->get('filter_groups', 0) == 1)
+		{
+			$groups = $user->getAuthorisedGroups();
+			if (empty($groups))
+			{
+				return array();
+			}
+			$query->leftJoin('#__user_usergroup_map AS m ON m.user_id = a.userid');
+			$query->leftJoin('#__usergroups AS ug ON ug.id = m.group_id');
+			$query->where('ug.id in (' . implode(',', $groups) . ')');
+			$query->where('ug.id <> 1');
+		}
 		$db->setQuery($query);
 		return (array) $db->loadObjectList();
 	}

@@ -1,7 +1,6 @@
 <?php
 /**
- * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -40,7 +39,7 @@ class ContactHelper
 
 		if ($vName=='categories') {
 			JToolBarHelper::title(
-				JText::sprintf('COM_CATEGORIES_CATEGORIES_TITLE',JText::_('com_contact')),
+				JText::sprintf('COM_CATEGORIES_CATEGORIES_TITLE', JText::_('com_contact')),
 				'contact-categories');
 		}
 	}
@@ -61,20 +60,21 @@ class ContactHelper
 
 		if (empty($contactId) && empty($categoryId)) {
 			$assetName = 'com_contact';
+			$level = 'component';
 		}
 		elseif (empty($contactId)) {
 			$assetName = 'com_contact.category.'.(int) $categoryId;
+			$level = 'category';
 		}
 		else {
 			$assetName = 'com_contact.contact.'.(int) $contactId;
+			$level = 'category';
 		}
 
-		$actions = array(
-			'core.admin', 'core.manage', 'core.create', 'core.edit', 'core.edit.own', 'core.edit.state', 'core.delete'
-		);
+		$actions = JAccess::getActions('com_contact', $level);
 
 		foreach ($actions as $action) {
-			$result->set($action,	$user->authorise($action, $assetName));
+			$result->set($action->name,	$user->authorise($action->name, $assetName));
 		}
 
 		return $result;

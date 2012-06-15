@@ -3,14 +3,12 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.form.formfield');
-jimport('joomla.form.helper');
 JFormHelper::loadFieldClass('list');
 
 /**
@@ -21,6 +19,7 @@ JFormHelper::loadFieldClass('list');
  * @subpackage  Form
  * @see         JFormFieldEditor
  * @since       11.1
+ * @deprecated  21.1 Use JFormFieldPlugins instead (with folder="editors")
  */
 class JFormFieldEditors extends JFormFieldList
 {
@@ -41,6 +40,8 @@ class JFormFieldEditors extends JFormFieldList
 	 */
 	protected function getOptions()
 	{
+		JLog::add('JFormFieldEditors is deprecated. Use JFormFieldPlugins instead (with folder="editors").', JLog::WARNING, 'deprecated');
+
 		// Get the database object and a new query object.
 		$db = JFactory::getDBO();
 		$query = $db->getQuery(true);

@@ -1,8 +1,7 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.SystemTest
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  * Basic test of add, edit, and delete Content Category from back end.
  */
@@ -91,7 +90,7 @@ class ControlPanel0004 extends SeleniumJoomlaTestCase
 		print("Check that Templates and Modules categories are in new order." . "\n");
 		$this->assertContains("Templates", $this->getTable("//table[@class='adminlist'].5.1"));
 		$this->assertContains("Beez 20", $this->getTable("//table[@class='adminlist'].6.1"));
-		$this->assertContains("Beez5", $this->getTable("//table[@class='adminlist'].7.1"));
+		$this->assertContains("Beez 5", $this->getTable("//table[@class='adminlist'].7.1"));
 		$this->assertContains("Atomic", $this->getTable("//table[@class='adminlist'].8.1"));
 		$this->assertContains("Modules", $this->getTable("//table[@class='adminlist'].9.1"));
 		$this->assertContains("Content Modules", $this->getTable("//table[@class='adminlist'].10.1"));
@@ -106,7 +105,7 @@ class ControlPanel0004 extends SeleniumJoomlaTestCase
 		print("Check that Templates and Modules categories are in original order." . "\n");
 		$this->assertContains("Templates", $this->getTable("//table[@class='adminlist'].11.1"));
 		$this->assertContains("Beez 20", $this->getTable("//table[@class='adminlist'].12.1"));
-		$this->assertContains("Beez5", $this->getTable("//table[@class='adminlist'].13.1"));
+		$this->assertContains("Beez 5", $this->getTable("//table[@class='adminlist'].13.1"));
 		$this->assertContains("Atomic", $this->getTable("//table[@class='adminlist'].14.1"));
 		$this->assertContains("Modules", $this->getTable("//table[@class='adminlist'].5.1"));
 		$this->assertContains("Content Modules", $this->getTable("//table[@class='adminlist'].6.1"));

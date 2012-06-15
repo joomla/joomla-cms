@@ -1,7 +1,6 @@
 <?php
 /**
- * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -143,7 +142,7 @@ class RedirectModelLink extends JModelAdmin
 		JArrayHelper::toInteger($pks);
 
 		// Populate default comment if necessary.
-		$comment = (!empty($comment)) ? $comment : JText::sprintf('COM_REDIRECT_REDIRECTED_ON', JHtml::_('date',time()));
+		$comment = (!empty($comment)) ? $comment : JText::sprintf('COM_REDIRECT_REDIRECTED_ON', JHtml::_('date', time()));
 
 		// Access checks.
 		if (!$user->authorise('core.admin', 'com_redirect')) {
@@ -155,9 +154,9 @@ class RedirectModelLink extends JModelAdmin
 		if (!empty($pks)) {
 			// Update the link rows.
 			$db->setQuery(
-				'UPDATE '.$db->nameQuote('#__redirect_links') .
-				' SET '.$db->nameQuote('new_url').' = '.$db->Quote($url).', '.$db->nameQuote('published').' = 1, '.$db->nameQuote('comment').' = '.$db->Quote($comment) .
-				' WHERE '.$db->nameQuote('id').' IN ('.implode(',', $pks).')'
+				'UPDATE '.$db->quoteName('#__redirect_links') .
+				' SET '.$db->quoteName('new_url').' = '.$db->Quote($url).', '.$db->quoteName('published').' = 1, '.$db->quoteName('comment').' = '.$db->Quote($comment) .
+				' WHERE '.$db->quoteName('id').' IN ('.implode(',', $pks).')'
 			);
 			$db->query();
 

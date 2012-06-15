@@ -1,7 +1,6 @@
 <?php
 /**
- * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -96,10 +95,10 @@ class UsersModelGroup extends JModelAdmin
 	 */
 	protected function preprocessForm(JForm $form, $data, $groups = '')
 	{
-		$obj = is_array($data) ? JArrayHelper::toObject($data,'JObject') : $data;
+		$obj = is_array($data) ? JArrayHelper::toObject($data, 'JObject') : $data;
 		if (isset($obj->parent_id) && $obj->parent_id == 0 && $obj->id > 0) {
-			$form->setFieldAttribute('parent_id','type','hidden');
-			$form->setFieldAttribute('parent_id','hidden','true');
+			$form->setFieldAttribute('parent_id', 'type', 'hidden');
+			$form->setFieldAttribute('parent_id', 'hidden', 'true');
 		}
 		parent::preprocessForm($form, $data, 'user');
 	}
@@ -135,13 +134,13 @@ class UsersModelGroup extends JModelAdmin
 			$groupSuperAdmin = ($groupSuperAdmin === false) ? false : true;
 		}
 
-        // Check for non-super admin trying to save with super admin group
+		// Check for non-super admin trying to save with super admin group
 		$iAmSuperAdmin	= JFactory::getUser()->authorise('core.admin');
-        if ((!$iAmSuperAdmin) && ($groupSuperAdmin)) {
-        	try
-        	{
+		if ((!$iAmSuperAdmin) && ($groupSuperAdmin)) {
+			try
+			{
 				throw new Exception(JText::_('JLIB_USER_ERROR_NOT_SUPERADMIN'));
-        	}
+			}
 			catch (Exception $e)
 			{
 				$this->setError($e->getMessage());
@@ -198,10 +197,11 @@ class UsersModelGroup extends JModelAdmin
 		// Get a row instance.
 		$table = $this->getTable();
 
-		// Trigger the onUserBeforeSave event.
+		// Load plugins.
 		JPluginHelper::importPlugin('user');
 		$dispatcher = JDispatcher::getInstance();
-        // Check if I am a Super Admin
+
+		// Check if I am a Super Admin
 		$iAmSuperAdmin	= $user->authorise('core.admin');
 
 		// do not allow to delete groups to which the current user belongs
@@ -228,7 +228,7 @@ class UsersModelGroup extends JModelAdmin
 						return false;
 					} else {
 						// Trigger the onUserAfterDeleteGroup event.
-						$dispatcher->trigger('onUserAfterDeleteGroup', array($user->getProperties(), true, $this->getError()));
+						$dispatcher->trigger('onUserAfterDeleteGroup', array($table->getProperties(), true, $this->getError()));
 					}
 				} else {
 					// Prune items that you can't change.

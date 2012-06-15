@@ -1,7 +1,6 @@
 <?php
 /**
- * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -99,10 +98,10 @@ class UsersModelLevels extends JModelList
 				'a.*'
 			)
 		);
-		$query->from('`#__viewlevels` AS a');
+		$query->from($db->quoteName('#__viewlevels').' AS a');
 
 		// Add the level in the tree.
-		$query->group('a.id');
+		$query->group('a.id, a.title, a.ordering, a.rules');
 
 		// Filter the items over the search string if set.
 		$search = $this->getState('filter.search');
@@ -110,7 +109,7 @@ class UsersModelLevels extends JModelList
 			if (stripos($search, 'id:') === 0) {
 				$query->where('a.id = '.(int) substr($search, 3));
 			} else {
-				$search = $db->Quote('%'.$db->getEscaped($search, true).'%');
+				$search = $db->Quote('%'.$db->escape($search, true).'%');
 				$query->where('a.title LIKE '.$search);
 			}
 		}
@@ -118,7 +117,7 @@ class UsersModelLevels extends JModelList
 		$query->group('a.id');
 
 		// Add the list ordering clause.
-		$query->order($db->getEscaped($this->getState('list.ordering', 'a.lft')).' '.$db->getEscaped($this->getState('list.direction', 'ASC')));
+		$query->order($db->escape($this->getState('list.ordering', 'a.lft')).' '.$db->escape($this->getState('list.direction', 'ASC')));
 
 		//echo nl2br(str_replace('#__','jos_',$query));
 		return $query;

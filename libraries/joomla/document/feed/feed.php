@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Document
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -188,6 +188,7 @@ class JDocumentFeed extends JDocument
 	 * @return  The rendered data
 	 *
 	 * @since  11.1
+	 * @todo   Make this cacheable
 	 */
 	public function render($cache = false, $params = array())
 	{
@@ -195,17 +196,6 @@ class JDocumentFeed extends JDocument
 
 		// Get the feed type
 		$type = JRequest::getCmd('type', 'rss');
-
-		/*
-		 * Cache TODO In later release
-		 */
-		$cache = 0;
-		$cache_time = 3600;
-		$cache_path = JPATH_CACHE;
-
-		// set filename for rss feeds
-		$file = strtolower(str_replace('.', '', $type));
-		$file = $cache_path . '/' . $file . '_' . $option . '.xml';
 
 		// Instantiate feed renderer and set the mime encoding
 		$renderer = $this->loadRenderer(($type) ? $type : 'rss');
@@ -347,7 +337,7 @@ class JFeedItem extends JObject
 	 * @var    string
 	 * @since  11.1
 	 */
-	var $guid;
+	public $guid;
 
 	/**
 	 * Published date

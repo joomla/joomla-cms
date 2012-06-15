@@ -1,7 +1,6 @@
 <?php
 /**
- * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -45,23 +44,26 @@ class UsersModelLevel extends JModelAdmin
 				->select('DISTINCT access');
 				// from is added dynamically
 
-			// Get all the tables and then all the fields
+			// Get all the tables and the prefix
 			$tables = $db->getTableList();
-			$fields = $db->getTableFields($tables);
+			//$fields = $db->getTableFields($tables);
 			$prefix = $db->getPrefix();
 
 			foreach ($tables as $table)
 			{
+				// Get all of the columns in the table
+				$fields = $db->getTableColumns($table);
+
 				// We are looking for the access field.  If custom tables are using something other
 				// than the 'access' field they are on their own unfortunately.
 				// Also make sure the table prefix matches the live db prefix (eg, it is not a "bak_" table)
-				if ((strpos($table, $prefix) === 0) && (isset($fields[$table]['access']))) {
+				if ((strpos($table, $prefix) === 0) && (isset($fields['access']))) {
 					// Lookup the distinct values of the field.
 					$query->clear('from')
-						->from($db->nameQuote($table));
+						->from($db->quoteName($table));
 					$db->setQuery($query);
 
-					$values = $db->loadResultArray();
+					$values = $db->loadColumn();
 					$error	= $db->getErrorMsg();
 
 					// Check for DB error.

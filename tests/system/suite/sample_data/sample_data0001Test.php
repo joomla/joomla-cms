@@ -1,8 +1,7 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.SystemTest
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  * checks that all menu choices are shown in back end
  */
@@ -107,7 +106,7 @@ class SampleData0001 extends SeleniumJoomlaTestCase
 		$this->assertTrue($this->isElementPresent("link=News Feeds Component"));
 		$this->assertTrue($this->isElementPresent("link=Users Component"));
 		$this->assertTrue($this->isElementPresent("link=Administrator Components"));
-		$this->assertTrue($this->isElementPresent("link=Search Component"));
+		$this->assertTrue($this->isElementPresent("link=Search Components"));
 		$this->click("link=Home");
 		$this->waitForPageToLoad("30000");
 		$this->gotoAdmin();

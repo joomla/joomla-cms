@@ -3,13 +3,12 @@
  * @package     Joomla.Platform
  * @subpackage  User
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.plugin.helper');
 jimport('joomla.event.dispatcher');
 
 /**
@@ -481,7 +480,7 @@ class JAuthenticationResponse extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function __construct()
+	public function __construct()
 	{
 	}
 }

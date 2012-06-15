@@ -283,6 +283,134 @@
 			<option
 				value="1">JYES</option>
 		</field>
+			<field
+			name="urls_position"
+			type="radio"
+			default="0"
+		    label="COM_CONTENT_FIELD_URLSPOSITION_LABEL"
+			description="COM_CONTENT_FIELD_URLSPOSITION_DESC">
+			<option value="0">COM_CONTENT_FIELD_OPTION_ABOVE</option>
+			<option value="1">COM_CONTENT_FIELD_OPTION_BELOW</option>
+		</field>
+	</fieldset>
+	<fieldset name="editinglayout" label="COM_CONTENT_EDITING_LAYOUT"
+				description="COM_CONTENT_CONFIG_EDITOR_LAYOUT">	
+		<field
+			name="show_publishing_options"
+			type="radio"
+			default="1"
+			label="COM_CONTENT_SHOW_PUBLISHING_OPTIONS_LABEL"
+			description="COM_CONTENT_SHOW_PUBLISHING_OPTIONS_DESC"
+			>
+			<option
+				value="0">JNO</option>
+			<option
+				value="1">JYES</option>
+		</field>	
+		<field
+			name="show_article_options"
+			type="radio"
+			default="1"
+			label="COM_CONTENT_SHOW_ARTICLE_OPTIONS_LABEL"
+			description="COM_CONTENT_SHOW_ARTICLE_OPTIONS_DESC"
+			>
+			<option
+				value="0">JNO</option>
+			<option
+				value="1">JYES</option>
+		</field>		
+		<field
+			name="show_urls_images_frontend"
+			type="radio"
+			default="0"
+			label="COM_CONTENT_SHOW_IMAGES_URLS_FRONT_LABEL"
+			description="COM_CONTENT_SHOW_IMAGES_URLS_FRONT_DESC"
+			>
+			<option
+				value="0">JNO</option>
+			<option
+				value="1">JYES</option>
+		</field>		
+		<field
+			name="show_urls_images_backend"
+			type="radio"
+			default="0"
+			label="COM_CONTENT_SHOW_IMAGES_URLS_BACK_LABEL"
+			description="COM_CONTENT_SHOW_IMAGES_URLS_BACK_DESC"
+			>
+			<option
+				value="0">JNO</option>
+			<option
+				value="1">JYES</option>
+		</field>	
+		<field
+			name="spacer3"
+			type="spacer"
+			hr="true"
+			/>
+		<field
+			name="targeta"
+			type="list"
+			label="COM_CONTENT_URL_FIELD_A_BROWSERNAV_LABEL"
+			description="COM_CONTENT_URL_FIELD_BROWSERNAV_DESC"
+			default="Parent"
+			filter="int"
+			class="inputbox">
+				<option value="0">JBROWSERTARGET_PARENT</option>
+				<option value="1">JBROWSERTARGET_NEW</option>
+				<option value="2">JBROWSERTARGET_POPUP</option>
+				<option value="3">JBROWSERTARGET_MODAL</option>
+		</field>
+		<field
+			name="targetb"
+			type="list"
+			label="COM_CONTENT_URL_FIELD_B_BROWSERNAV_LABEL"
+			description="COM_CONTENT_URL_FIELD_BROWSERNAV_DESC"
+			default="Parent"
+			filter="int"
+			class="inputbox">
+				<option value="0">JBROWSERTARGET_PARENT</option>
+				<option value="1">JBROWSERTARGET_NEW</option>
+				<option value="2">JBROWSERTARGET_POPUP</option>
+				<option value="3">JBROWSERTARGET_MODAL</option>
+		</field>
+		<field
+			name="targetc"
+			type="list"
+			label="COM_CONTENT_URL_FIELD_C_BROWSERNAV_LABEL"
+			description="COM_CONTENT_URL_FIELD_BROWSERNAV_DESC"
+			default="Parent"
+			filter="int"
+			class="inputbox">
+				<option value="0">JBROWSERTARGET_PARENT</option>
+				<option value="1">JBROWSERTARGET_NEW</option>
+				<option value="2">JBROWSERTARGET_POPUP</option>
+				<option value="3">JBROWSERTARGET_MODAL</option>
+		</field>
+		<field
+			name="spacer4"
+			type="spacer"
+			hr="true"
+			/>
+			
+		<field
+			name="float_intro"
+			type="list"
+			label="COM_CONTENT_FLOAT_INTRO_LABEL"
+			description="COM_CONTENT_FLOAT_DESC">
+				<option value="right">COM_CONTENT_RIGHT</option>
+				<option value="left">COM_CONTENT_LEFT</option>
+				<option value="none">COM_CONTENT_NONE</option>	
+		</field>
+		<field
+			name="float_fulltext"
+			type="list"
+			label="COM_CONTENT_FLOAT_FULLTEXT_LABEL"
+			description="COM_CONTENT_FLOAT_DESC">
+				<option value="right">COM_CONTENT_RIGHT</option>
+				<option value="left">COM_CONTENT_LEFT</option>
+				<option value="none">COM_CONTENT_NONE</option>
+		</field>
 
 	</fieldset>
 
@@ -677,21 +805,18 @@
 				value="1">JGLOBAL_FULL_TEXT</option>
 		</field>
 
-	</fieldset>
-
-	<fieldset
-		name="filters"
-		addfieldpath="/administrator/components/com_content/models/fields"
-		label="COM_CONTENT_CONFIG_TEXT_FILTERS_LABEL"
-		description="COM_CONTENT_CONFIG_TEXT_FILTERS_DESC"
-		>
-
 		<field
-			name="filters"
-			type="filters"
-			label="COM_CONTENT_CONFIG_TEXT_FILTERS_LABEL"
-			class="inputbox"
-			filter="" />
+			name="feed_show_readmore"
+			type="radio"
+			label="JGLOBAL_FEED_SHOW_READMORE_LABEL"
+			description="JGLOBAL_FEED_SHOW_READMORE_DESC"
+			default="0">
+			<option
+				value="0">JHIDE</option>
+			<option
+				value="1">JSHOW</option>
+		</field>
+
 	</fieldset>
 
 	<fieldset

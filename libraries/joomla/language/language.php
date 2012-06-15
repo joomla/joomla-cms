@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Language
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -729,8 +729,8 @@ class JLanguage extends JObject
 
 		if (isset($this->paths[$extension][$filename]) && !$reload)
 		{
-			// Strings for this file have already been loaded.
-			$result = true;
+			// This file has already been tested for loading.
+			$result = $this->paths[$extension][$filename];
 		}
 		else
 		{
@@ -871,6 +871,11 @@ class JLanguage extends JObject
 			while (!$stream->eof())
 			{
 				$line = $stream->gets();
+				// Avoid BOM error as BOM is OK when using parse_ini
+				if ($lineNumber == 0)
+				{
+					$line = str_replace("\xEF\xBB\xBF", '', $line);
+				}
 				$lineNumber++;
 
 				// Check that the key is not in the blacklist and that the line format passes the regex.
@@ -1138,7 +1143,7 @@ class JLanguage extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function hasKey($string)
+	public function hasKey($string)
 	{
 		$key = strtoupper($string);
 

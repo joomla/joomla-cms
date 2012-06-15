@@ -218,7 +218,15 @@
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 		</field>
-
+		<field
+			name="urls_position"
+			type="list"
+		    label="COM_CONTENT_FIELD_URLSPOSITION_LABEL"
+			description="COM_CONTENT_FIELD_URLSPOSITION_DESC">
+			<option value="">JGLOBAL_USE_GLOBAL</option>
+			<option value="0">COM_CONTENT_FIELD_OPTION_ABOVE</option>
+			<option value="1">COM_CONTENT_FIELD_OPTION_BELOW</option>
+		</field>
 		</fieldset>
 	</fields>
 </metadata>

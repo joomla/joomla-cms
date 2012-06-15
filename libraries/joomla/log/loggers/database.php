@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Log
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -123,7 +123,7 @@ class JLoggerDatabase extends JLogger
 		}
 
 		// Convert the date.
-		$entry->date = $entry->date->toMySQL();
+		$entry->date = $entry->date->toSql();
 
 		$this->dbo->insertObject($this->table, $entry);
 	}
@@ -151,7 +151,7 @@ class JLoggerDatabase extends JLogger
 		{
 			$db = JDatabase::getInstance($options);
 
-			if (JError::isError($db))
+			if ($db instanceof Exception)
 			{
 				throw new LogException('Database Error: ' . (string) $db);
 			}
@@ -164,7 +164,7 @@ class JLoggerDatabase extends JLogger
 			// Assign the database connector to the class.
 			$this->dbo = $db;
 		}
-		catch (JDatabaseException $e)
+		catch (RuntimeException $e)
 		{
 			throw new LogException($e->getMessage());
 		}

@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-	<!-- $Id: it-IT.xml 14543 2010-02-04 04:29:34Z joomla.it $ -->
 <metafile
-	version="1.7"
+	version="2.5"
 	client="installation">
 	<name>Italian -Italy</name>
-	<version>1.7.1</version>
+	<version>2.5</version>
 	<creationDate>March 2009</creationDate>
 	<author>Italian Translation team</author>
-	<copyright>Copyright (C) 2005 - 2011 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<description>Italian language installation for Joomla</description>
 	<files>

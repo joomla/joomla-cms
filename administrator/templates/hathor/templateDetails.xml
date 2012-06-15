@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE install PUBLIC "-//Joomla! 1.6//DTD template 1.0//EN" "http://www.joomla.org/xml/dtd/1.6/template-install.dtd">
-<extension type="template" version="1.7" client="administrator">
+<extension type="template" version="2.5" client="administrator">
 	<name>hathor</name>
 	<creationDate>May 2010</creationDate>
 	<author>Andrea Tarr</author>
 	<authorEmail>hathor@tarrconsulting.com</authorEmail>
 	<authorUrl>http://www.tarrconsulting.com</authorUrl>
-	<copyright>Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
-	<version>1.7.0</version>
+	<version>2.5.0</version>
 	<description>TPL_HATHOR_XML_DESCRIPTION</description>
 	<files>
 		<filename>component.php</filename>
@@ -19,7 +19,6 @@
 		<filename>index.php</filename>
 		<filename>login.php</filename>
 		<filename>LICENSE.txt</filename>
-		<filename>params.ini</filename>
 		<filename>templateDetails.xml</filename>
 		<filename>template_preview.png</filename>
 		<filename>template_thumbnail.png</filename>
@@ -44,8 +43,8 @@
 		<position>footer</position>
 	</positions>
 	 <languages>
-		<language tag="en-GB">en-GB.tpl_hathor.ini</language>
-		<language tag="en-GB">en-GB.tpl_hathor.sys.ini</language>
+		<language tag="en-GB">language/en-GB/en-GB.tpl_hathor.ini</language>
+		<language tag="en-GB">language/en-GB/en-GB.tpl_hathor.sys.ini</language>
 	</languages>
 	<config>
 		<fields name="params">

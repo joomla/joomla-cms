@@ -1,8 +1,7 @@
 /**
- * @version		$Id$
  * @package		Joomla.Administrator
  * @subpackage	templates.bluestork
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -167,6 +166,7 @@ table.adminform td {
 	text-align: right;
 }
 
+.cpanel div.icon ,
 #cpanel div.icon {
 	margin-right: 0;
 	margin-left: 5px;
@@ -343,6 +343,7 @@ div.cpanel-right {
 	width: 45%;
 	float: left;
 }
+.cpanel div.icon ,
 #cpanel div.icon {
 	float: right;
 }
@@ -479,24 +480,29 @@ fieldset.batch label {
 fieldset label#batch-choose-action-lbl {
 	clear: right;
 }
-label#batch-language-lbl {
+label#batch-language-lbl,
+label#batch-user-lbl {
 	clear: right;
 	margin-left: 10px;
 	margin-right: 0;
 	margin-top: 15px;
 }
-select#batch-language-id {
+select#batch-language-id,
+select#batch-user-id {
 	margin-top: 15px;
 }
-select#batch-category-id {
+select#batch-category-id,
+select#batch-menu-id,
+select#batch-position-id {
 	margin-left: 30px;
 	margin-right: 0;
 }
-select#batch-menu-id {
+ {
 	margin-left: 30px;
 	margin-right: 0;
 }
-label#batch-access-lbl {
+label#batch-access-lbl,
+label#batch-client-lbl {
 	margin-left: 10px;
 	margin-right: 0;
 }
@@ -715,4 +721,28 @@ ul#new-modules-list li {
 	float:right;
 	margin: 0 0 0 20px;
 	font-size: 1.091em;
+}
+
+/* Installer Database */
+#installer-database p.warning {
+	padding-left: 0;
+	padding-right: 20px;	
+	background-position: center right;
+}
+
+#installer-database p.nowarning {
+	padding-left: 0;
+	padding-right: 20px;	
+	background-position: center right;}
+
+p.nowarning {
+	float: right;
+	margin-left: 15px;
+	margin-right: 3px;
+}
+
+/* Spinner */
+.joomlaupdate_spinner {
+	float: right;
+	margin-left: 15px;
 }

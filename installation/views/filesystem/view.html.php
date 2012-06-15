@@ -1,14 +1,11 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Installation
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.view');
 
 /**
  * The HTML Joomla Core Filesystem Configuration View
@@ -16,7 +13,7 @@ jimport('joomla.application.component.view');
  * @package		Joomla.Installation
  * @since		1.6
  */
-class JInstallationViewFilesystem extends JView
+class JInstallationViewFilesystem extends JViewLegacy
 {
 	/**
 	 * Display the view
@@ -33,10 +30,9 @@ class JInstallationViewFilesystem extends JView
 			return false;
 		}
 
-		$this->assignRef('state', $state);
-		$this->assignRef('form', $form);
+		$this->state = $state;
+		$this->form  = $form;
 
-		JText::script('INSTL_FTP_SETTINGS_CORRECT');
 		parent::display($tpl);
 	}
 }

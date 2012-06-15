@@ -4,7 +4,6 @@
  *
  * @package Joomla
  * @subpackage UnitTest
- * @version $Id$
  * @author Anthony Ferrara
  */
 

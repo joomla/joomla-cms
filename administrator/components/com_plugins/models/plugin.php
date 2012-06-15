@@ -1,7 +1,6 @@
 <?php
 /**
- * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -197,7 +196,7 @@ class PluginsModelPlugin extends JModelAdmin
 	 * @throws	Exception if there is an error in the form event.
 	 * @since	1.6
 	 */
-	protected function preprocessForm(JForm $form, $data, $group = '')
+	protected function preprocessForm(JForm $form, $data, $group = 'content')
 	{
 		jimport('joomla.filesystem.file');
 		jimport('joomla.filesystem.folder');
@@ -214,7 +213,7 @@ class PluginsModelPlugin extends JModelAdmin
 				' FROM #__extensions' .
 				' WHERE (type =' .$db->Quote('plugin'). 'AND folder='. $db->Quote($folder) . ')';
 		$db->setQuery($query);
-		$elements = $db->loadResultArray();
+		$elements = $db->loadColumn();
 
 		foreach ($elements as $elementa)
 		{
@@ -226,7 +225,7 @@ class PluginsModelPlugin extends JModelAdmin
 
 		if (empty($folder) || empty($element)) {
 			$app = JFactory::getApplication();
-			$app->redirect(JRoute::_('index.php?option=com_plugins&view=plugins',false));
+			$app->redirect(JRoute::_('index.php?option=com_plugins&view=plugins', false));
 		}
 		// Try 1.6 format: /plugins/folder/element/element.xml
 		$formFile = JPath::clean(JPATH_PLUGINS.'/'.$folder.'/'.$element.'/'.$element.'.xml');
@@ -322,7 +321,6 @@ class PluginsModelPlugin extends JModelAdmin
 	 * @since	1.6
 	 */
 	protected function cleanCache($group = null, $client_id = 0) {
-		parent::cleanCache('com_plugins', 0);
-		parent::cleanCache('com_plugins', 1);
+		parent::cleanCache('com_plugins');
 	}
 }

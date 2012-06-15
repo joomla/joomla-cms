@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -24,11 +24,11 @@ class JTableExtension extends JTable
 	/**
 	 * Constructor
 	 *
-	 * @param   database  &$db  A database connector object
+	 * @param   JDatabase  &$db  A database connector object
 	 *
 	 * @since   11.1
 	 */
-	function __construct(&$db)
+	public function __construct(&$db)
 	{
 		parent::__construct('#__extensions', 'extension_id', $db);
 	}
@@ -38,10 +38,10 @@ class JTableExtension extends JTable
 	 *
 	 * @return  boolean  True if the object is ok
 	 *
-	 * @see     JTable:bind
+	 * @see     JTable::check
 	 * @since   11.1
 	 */
-	function check()
+	public function check()
 	{
 		// Check for valid name
 		if (trim($this->name) == '' || trim($this->element) == '')
@@ -61,10 +61,10 @@ class JTableExtension extends JTable
 	 *
 	 * @return  mixed  Null if operation was satisfactory, otherwise returns an error
 	 *
-	 * @see     JTable:bind
+	 * @see     JTable::bind
 	 * @since   11.1
 	 */
-	function bind($array, $ignore = '')
+	public function bind($array, $ignore = '')
 	{
 		if (isset($array['params']) && is_array($array['params']))
 		{
@@ -88,21 +88,24 @@ class JTableExtension extends JTable
 	 *
 	 * @param   array  $options  Array of options
 	 *
-	 * @return  JDatabase  object
+	 * @return  JDatabase  The database query result
 	 *
 	 * @since   11.1
 	 */
-	function find($options = array())
+	public function find($options = array())
 	{
-		$dbo = JFactory::getDBO();
-		$where = array();
+		// Get the JDatabaseQuery object
+		$query = $this->_db->getQuery(true);
+
 		foreach ($options as $col => $val)
 		{
-			$where[] = $col . ' = ' . $dbo->Quote($val);
+			$query->where($col . ' = ' . $this->_db->quote($val));
 		}
-		$query = 'SELECT extension_id FROM #__extensions WHERE ' . implode(' AND ', $where);
-		$dbo->setQuery($query);
-		return $dbo->loadResult();
+
+		$query->select($this->_db->quoteName('extension_id'));
+		$query->from($this->_db->quoteName('#__extensions'));
+		$this->_db->setQuery($query);
+		return $this->_db->loadResult();
 	}
 
 	/**
@@ -157,12 +160,15 @@ class JTableExtension extends JTable
 			$checkin = ' AND (checked_out = 0 OR checked_out = ' . (int) $userId . ')';
 		}
 
+		// Get the JDatabaseQuery object
+		$query = $this->_db->getQuery(true);
+
 		// Update the publishing state for rows with the given primary keys.
-		$this->_db->setQuery(
-			'UPDATE ' . $this->_db->quoteName($this->_tbl) .
-			' SET ' . $this->_db->quoteName('enabled') . ' = ' . (int) $state . ' WHERE (' . $where . ')' . $checkin
-		);
-		$this->_db->query();
+		$query->update($this->_db->quoteName($this->_tbl));
+		$query->set($this->_db->quoteName('enabled') . ' = ' . (int) $state);
+		$query->where('(' . $where . ')' . $checkin);
+		$this->_db->setQuery($query);
+		$this->_db->execute();
 
 		// Check for a database error.
 		if ($this->_db->getErrorNum())

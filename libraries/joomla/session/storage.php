@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Session
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -15,6 +15,7 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Platform
  * @subpackage  Session
  * @see         http://www.php.net/manual/en/function.session-set-save-handler.php
+ * @todo        When dropping compatibility with PHP 5.3 use the SessionHandlerInterface and the SessionHandler class
  * @since       11.1
  */
 abstract class JSessionStorage extends JObject
@@ -65,7 +66,7 @@ abstract class JSessionStorage extends JObject
 				}
 				else
 				{
-					// No call to JError::raiseError here, as it tries to close the non-existing session
+					// No attempt to die gracefully here, as it tries to close the non-existing session
 					jexit('Unable to load session storage class: ' . $name);
 				}
 			}
@@ -79,15 +80,13 @@ abstract class JSessionStorage extends JObject
 	/**
 	 * Register the functions of this class with PHP's session handler
 	 *
-	 * @param   array  $options  Optional parameters
-	 *
 	 * @return  void
 	 *
 	 * @since   11.1
 	 */
-	public function register($options = array())
+	public function register()
 	{
-		// use this object as the session handler
+		// Use this object as the session handler
 		session_set_save_handler(
 			array($this, 'open'), array($this, 'close'), array($this, 'read'), array($this, 'write'),
 			array($this, 'destroy'), array($this, 'gc')

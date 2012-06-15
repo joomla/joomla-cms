@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -107,11 +107,11 @@ class JElement extends JObject
 	/**
 	 * Method to get a tool tip from an XML element
 	 *
-	 * @param   string  $label         Label attribute for the element
-	 * @param   string  $description   Description attribute for the element
-	 * @param   object  &$xmlElement   The element object
-	 * @param   string  $control_name  Control name
-	 * @param   string  $name          Name attribut
+	 * @param   string       $label         Label attribute for the element
+	 * @param   string       $description   Description attribute for the element
+	 * @param   JXMLElement  &$xmlElement   The element object
+	 * @param   string       $control_name  Control name
+	 * @param   string       $name          Name attribut
 	 *
 	 * @return  string
 	 *
@@ -140,10 +140,10 @@ class JElement extends JObject
 	/**
 	 * Fetch an element
 	 *
-	 * @param   string  $name          Name attribute of the element
-	 * @param   string  $value         Value attribute of the element
-	 * @param   object  &$xmlElement   Element object
-	 * @param   strong  $control_name  Control name of the element
+	 * @param   string       $name          Name attribute of the element
+	 * @param   string       $value         Value attribute of the element
+	 * @param   JXMLElement  &$xmlElement   Element object
+	 * @param   string       $control_name  Control name of the element
 	 *
 	 * @return  void
 	 *

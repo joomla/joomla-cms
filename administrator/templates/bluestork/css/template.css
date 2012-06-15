@@ -1,10 +1,9 @@
 @charset "UTF-8";
 
 /**
- * @version		$Id$
  * @package		Joomla.Administrator
  * @subpackage	templates.bluestork
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  *
  */
@@ -236,11 +235,6 @@ span.unwritable  {
 	margin: 10px;
 	text-align: center;
 	line-height: 160%;
-}
-
-#footer .version {
-	margin: 10px;
-	text-align: center;
 }
 
 p.footer-tip {
@@ -679,7 +673,7 @@ div.current fieldset {
 	border: none 0;
 }
 
-div.current fieldset.adminform { 	 
+div.current fieldset.adminform {
 	border: 1px #ccc solid;
 }
 
@@ -768,15 +762,14 @@ li.acl-resetbtn:hover {
 
 
 /* -- CONTROL PANEL STYLES ----------------------------- */
-#cpanel div.icon {
+.cpanel div.icon, #cpanel div.icon {
 	text-align: center;
 	margin-right: 15px;
 	float: left;
 	margin-bottom: 15px;
-	
-}
 
-#cpanel div.icon a {
+}
+.cpanel div.icon a, #cpanel div.icon a {
 	background-color: #fff;
 	background-position: -30px;
 	display: block;
@@ -805,7 +798,10 @@ li.acl-resetbtn:hover {
 
 #cpanel div.icon a:hover,
 #cpanel div.icon a:focus,
-#cpanel div.icon a:active {
+#cpanel div.icon a:active,
+.cpanel div.icon a:hover,
+.cpanel div.icon a:focus,
+.cpanel div.icon a:active {
 	background-position: 0;
 	-webkit-border-bottom-left-radius: 50% 20px;
 	-moz-border-radius-bottomleft: 50% 20px;
@@ -817,12 +813,14 @@ li.acl-resetbtn:hover {
 	z-index: 10;
 }
 
-#cpanel img {
+#cpanel img,
+.cpanel img {
 	padding: 10px 0;
 	margin: 0 auto;
 }
 
-#cpanel span {
+#cpanel span,
+.cpanel span {
 	display: block;
 	text-align: center;
 }
@@ -1048,21 +1046,23 @@ fieldset label#batch-choose-action-lbl {
 	clear: left;
 	margin-top: 15px;
 }
-label#batch-language-lbl {
+label#batch-language-lbl,
+label#batch-user-lbl {
 	clear: left;
 	margin-right: 10px;
 	margin-top: 15px;
 }
-select#batch-language-id {
+select#batch-language-id,
+select#batch-user-id {
 	margin-top: 15px;
 }
-select#batch-category-id {
+select#batch-category-id,
+select#batch-menu-id,
+select#batch-position-id {
 	margin-right: 30px;
 }
-select#batch-menu-id {
-	margin-right: 30px;
-}
-label#batch-access-lbl {
+label#batch-access-lbl,
+label#batch-client-lbl {
 	margin-right: 10px;
 }
 
@@ -1117,6 +1117,7 @@ fieldset.adminform span.faux-label {
 
 fieldset.panelform {
 	overflow: hidden;
+	clear: both;
 }
 fieldset.panelform label,
 fieldset.panelform div.paramrow label,
@@ -1343,7 +1344,7 @@ fieldset.filter .right select {
 }
 
 fieldset#filter-bar {
-	height: 35px;
+	min-height: 35px;
 	border: 0;
 	border-bottom: 1px solid #d5d5d5;
 }
@@ -1890,18 +1891,22 @@ a img.calendar {
 
 #system-message dd.message ul {
 	background-image: url(../images/notice-info.png);
+	background-repeat: no-repeat;
 }
 
 #system-message dd.error ul {
 	background-image: url(../images/notice-alert.png);
+	background-repeat: no-repeat;
 }
 
 #system-message dd.warning ul {
 	background-image: url(../images/notice-note.png);
+	background-repeat: no-repeat;
 }
 
 #system-message dd.notice ul {
 	background-image: url(../images/notice-note.png);
+	background-repeat: no-repeat;
 }
 
 /* -- LOGIN STYLES ----------------------------- */
@@ -2011,6 +2016,7 @@ a.jgrid:hover {	text-decoration: none;}
 .jgrid span.expired					{ background-image: url(../images/admin/publish_r.png); }
 .jgrid span.pending					{ background-image: url(../images/admin/publish_y.png); }
 .jgrid span.warning					{ background-image: url(../images/admin/publish_y.png); }
+.jgrid span.protected				{ background-image: url(../images/admin/icon-16-protected.png); }
 
 /* -- ICON STYLES ----------------------------- */
 .icon-16-alert						{	background-image: url(../images/menu/icon-16-alert.png);	}
@@ -2045,6 +2051,7 @@ a.jgrid:hover {	text-decoration: none;}
 .icon-16-help-shop					{	background-image: url(../images/menu/icon-16-help-shop.png);	}
 .icon-16-info						{	background-image: url(../images/menu/icon-16-info.png);	}
 .icon-16-install					{	background-image: url(../images/menu/icon-16-install.png);	}
+.icon-16-joomlaupdate				{	background-image: url(../images/menu/icon-16-install.png);	}
 .icon-16-language					{	background-image: url(../images/menu/icon-16-language.png);	}
 .icon-16-levels						{	background-image: url(../images/menu/icon-16-levels.png);	}
 .icon-16-logout						{	background-image: url(../images/menu/icon-16-logout.png);	}
@@ -2070,12 +2077,14 @@ a.jgrid:hover {	text-decoration: none;}
 .icon-16-readmess					{	background-image: url(../images/menu/icon-16-readmess.png);	}
 .icon-16-redirect					{	background-image: url(../images/menu/icon-16-redirect.png);	}
 .icon-16-search						{	background-image: url(../images/menu/icon-16-search.png);	}
+.icon-16-finder						{	background-image: url(../images/menu/icon-16-search.png);	}
 .icon-16-section					{	background-image: url(../images/menu/icon-16-section.png);	}
 .icon-16-static						{	background-image: url(../images/menu/icon-16-static.png);	}
 .icon-16-stats						{	background-image: url(../images/menu/icon-16-stats.png);	}
 .icon-16-themes						{	background-image: url(../images/menu/icon-16-themes.png);	}
 .icon-16-trash						{	background-image: url(../images/menu/icon-16-trash.png);	}
 .icon-16-user						{	background-image: url(../images/menu/icon-16-user.png);	}
+.icon-16-user-note					{	background-image: url(../images/menu/icon-16-user-note.png);	}
 .icon-16-back-user					{	background-image: url(../images/menu/icon-16-back-user.png);	}
 .icon-16-writemess					{	background-image: url(../images/menu/icon-16-writemess.png);	}
 .icon-16-newsfeeds					{	background-image: url(../images/menu/icon-16-newsfeeds.png);	}
@@ -2123,6 +2132,7 @@ a.jgrid:hover {	text-decoration: none;}
 .icon-32-remove						{	background-image: url(../images/toolbar/icon-32-remove.png);	}
 .icon-32-featured					{	background-image: url(../images/toolbar/icon-32-featured.png);	}
 .icon-32-stats						{	background-image: url(../images/toolbar/icon-32-stats.png);	}
+.icon-32-print						{	background-image: url(../images/toolbar/icon-32-print.png);	}
 .toolbar-inactive					{	background-position: 0 32px;  }
 
 /* -- HEADER ICON STYLES ----------------------------- */
@@ -2189,6 +2199,7 @@ a.jgrid:hover {	text-decoration: none;}
 .icon-48-massmail					{	background-image: url(../images/header/icon-48-massmail.png);	}
 .icon-48-redirect					{	background-image: url(../images/header/icon-48-redirect.png);	}
 .icon-48-search						{	background-image: url(../images/header/icon-48-search.png);	}
+.icon-48-finder						{	background-image: url(../images/header/icon-48-search.png);	}
 .icon-48-newsfeeds					{	background-image: url(../images/header/icon-48-newsfeeds.png);	}
 .icon-48-newsfeeds-cat				{	background-image: url(../images/header/icon-48-newsfeeds-cat.png);	}
 .icon-48-weblinks					{	background-image: url(../images/header/icon-48-links.png);	}
@@ -2401,6 +2412,48 @@ div.message {
 
 ul.subext li {
 	margin-left: 0;
+}
+
+.unotes ul, .unotes ol {
+	list-style: none;
+	list-style-position: inside;
+	padding-left: 0;
+	padding-right: 0;
+
+}
+
+.unotes div.utitle {
+	padding: 10px;
+	float: left;
+	font-size: 1.2em;
+	line-height: 1.2em;
+}
+
+.unotes h4 {
+	margin-top: 0;
+	margin-bottom:0;
+	font-size: 1.5em;
+}
+
+.unotes .ubody {
+	font-size: 1.2em;
+	line-height: 1.5em;
+}
+
+ul.alternating > li:nth-child(odd) {
+	background-color:#eee;
+}
+
+ul.alternating > li:nth-child(even) {
+	background-color:#f9f9f9;
+}
+
+ol.alternating > li:nth-child(odd) {
+	background-color:#eee;
+}
+
+ol.alternating > li:nth-child(even) {
+	background-color:#f9f9f9;
 }
 
 .helpFrame {
@@ -3164,3 +3217,40 @@ div#element-box.login  {
 div.CodeMirror-wrapping {
 	border: 1px solid #cccccc;
 }
+
+/* -- Update check badges -- */
+span.update-badge {
+	background-image: -moz-linear-gradient(center bottom , #FF0000 41%, #FC7E7E 79%);
+	background-image: -webkit-gradient(linear,left bottom,left top,color-stop(0.41, rgb(255,0,0)),color-stop(0.79, rgb(252,126,126)));
+    border: 2px solid white;
+    border-radius: 1.5em 1.5em 1.5em 1.5em;
+    color: white;
+    display: block;
+    float: left;
+    font-size: 1em;
+    font-weight: bold;
+    height: 1.2em;
+    left: 60px;
+    min-width: 1em;
+    padding: 0 0.1em 0;
+    position: relative;
+    top: -74px;
+}
+
+/* Installer Database */
+#installer-database p.warning {
+	padding-left: 20px;
+	background: transparent url(../images/admin/icon-16-deny.png) center left no-repeat;
+}
+
+#installer-database p.nowarning {
+	padding-left: 20px;
+	background: transparent url(../images/admin/icon-16-allow.png) center left no-repeat;
+}
+
+/* Spinner */
+.joomlaupdate_spinner {
+	float: left;
+	margin-right: 15px;
+}
+

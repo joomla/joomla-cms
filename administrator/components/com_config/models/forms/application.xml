@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-	<!-- $Id$ -->
 <form>
 	<fieldset
 		name="cache"
@@ -95,7 +94,7 @@
 			type="databaseconnection"
 			label="COM_CONFIG_FIELD_DATABASE_TYPE_LABEL"
 			description="COM_CONFIG_FIELD_DATABASE_TYPE_DESC"
-			supported="mysql,mysqli"
+			supported="mysql,mysqli,sqlsrv,sqlazure"
 			filter="string" />
 
 		<field
@@ -325,6 +324,7 @@
 			label="COM_CONFIG_FIELD_MAIL_SMTP_USERNAME_LABEL"
 			description="COM_CONFIG_FIELD_MAIL_SMTP_USERNAME_DESC"
 			filter="string"
+			autocomplete="off"
 			size="30" />
 
 		<field
@@ -333,6 +333,7 @@
 			label="COM_CONFIG_FIELD_MAIL_SMTP_PASSWORD_LABEL"
 			description="COM_CONFIG_FIELD_MAIL_SMTP_PASSWORD_DESC"
 			filter="raw"
+			autocomplete="off"
 			size="30" />
 
 		<field
@@ -366,6 +367,18 @@
 			cols="60"
 			rows="3" />
 
+		<field name="robots"
+			type="list"
+			label="JFIELD_METADATA_ROBOTS_LABEL"
+			description="JFIELD_METADATA_ROBOTS_DESC"
+			default=""
+		>
+			<option value="">JGLOBAL_INDEX_FOLLOW</option>
+			<option value="noindex, follow">JGLOBAL_NOINDEX_FOLLOW</option>
+			<option value="index, nofollow">JGLOBAL_INDEX_NOFOLLOW</option>
+			<option value="noindex, nofollow">JGLOBAL_NOINDEX_NOFOLLOW</option>
+		</field>
+
 		<field
 			name="MetaRights"
 			type="textarea"
@@ -381,6 +394,18 @@
 			default="1"
 			label="COM_CONFIG_FIELD_METAAUTHOR_LABEL"
 			description="COM_CONFIG_FIELD_METAAUTHOR_DESC"
+			filter="integer">
+			<option
+				value="1">JYES</option>
+			<option
+				value="0">JNO</option>
+		</field>
+		<field
+			name="MetaVersion"
+			type="radio"
+			default="0"
+			label="COM_CONFIG_FIELD_METAVERSION_LABEL"
+			description="COM_CONFIG_FIELD_METAVERSION_DESC"
 			filter="integer">
 			<option
 				value="1">JYES</option>
@@ -603,12 +628,26 @@
 
 		<field
 			name="editor"
-			type="editors"
+			type="plugins"
+			folder="editors"
 			default="tinymce"
 			label="COM_CONFIG_FIELD_DEFAULT_EDITOR_LABEL"
 			description="COM_CONFIG_FIELD_DEFAULT_EDITOR_DESC"
 			required="true"
 			filter="cmd" />
+
+		<field
+			name="captcha"
+			type="plugins"
+			folder="captcha"
+			default="0"
+			label="COM_CONFIG_FIELD_DEFAULT_CAPTCHA_LABEL"
+			description="COM_CONFIG_FIELD_DEFAULT_CAPTCHA_DESC"
+			required="true"
+			filter="cmd" >
+			<option
+				value="0">JOPTION_DO_NOT_USE</option>
+		</field>
 
 		<field
 			name="access"
@@ -686,14 +725,6 @@
 	<fieldset
 		name="system"
 		label="CONFIG_SYSTEM_SETTINGS_LABEL">
-		<field
-			name="secret"
-			type="text"
-			label="COM_CONFIG_FIELD_SECRET_LABEL"
-			description="COM_CONFIG_FIELD_SECRET_DESC"
-			required="true"
-			readonly="true"
-			filter="alnum" />
 
 		<field
 			name="log_path"
@@ -788,6 +819,20 @@
 				description="COM_CONFIG_ACTION_EDITOWN_DESC" />
 		</field>
 
+	</fieldset>
+
+	<fieldset
+		name="filters"
+		label="COM_CONFIG_TEXT_FILTERS"
+		description="COM_CONFIG_TEXT_FILTERS_DESC"
+		>
+
+		<field
+			name="filters"
+			type="filters"
+			label="COM_CONFIG_TEXT_FILTERS"
+			class="inputbox"
+			filter="" />
 	</fieldset>
 
 	<fieldset>

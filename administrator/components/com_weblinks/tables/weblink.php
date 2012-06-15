@@ -1,7 +1,6 @@
 <?php
 /**
- * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -65,13 +64,13 @@ class WeblinksTableWeblink extends JTable
 		$user	= JFactory::getUser();
 		if ($this->id) {
 			// Existing item
-			$this->modified		= $date->toMySQL();
+			$this->modified		= $date->toSql();
 			$this->modified_by	= $user->get('id');
 		} else {
 			// New weblink. A weblink created and created_by field can be set by the user,
 			// so we don't touch either of these if they are set.
 			if (!intval($this->created)) {
-				$this->created = $date->toMySQL();
+				$this->created = $date->toSql();
 			}
 			if (empty($this->created_by)) {
 				$this->created_by = $user->get('id');
@@ -80,7 +79,7 @@ class WeblinksTableWeblink extends JTable
 
 	// Verify that the alias is unique
 		$table = JTable::getInstance('Weblink', 'WeblinksTable');
-		if ($table->load(array('alias'=>$this->alias,'catid'=>$this->catid)) && ($table->id != $this->id || $this->id==0)) {
+		if ($table->load(array('alias'=>$this->alias, 'catid'=>$this->catid)) && ($table->id != $this->id || $this->id==0)) {
 			$this->setError(JText::_('COM_WEBLINKS_ERROR_UNIQUE_ALIAS'));
 			return false;
 		}
@@ -106,14 +105,6 @@ class WeblinksTableWeblink extends JTable
 			return false;
 		}
 
-		// check for http, https, ftp on webpage
-		if ((stripos($this->url, 'http://') === false)
-			&& (stripos($this->url, 'https://') === false)
-			&& (stripos($this->url, 'ftp://') === false))
-		{
-			$this->url = 'http://'.$this->url;
-		}
-
 		// check for existing name
 		$query = 'SELECT id FROM #__weblinks WHERE title = '.$this->_db->Quote($this->title).' AND catid = '.(int) $this->catid;
 		$this->_db->setQuery($query);
@@ -128,16 +119,14 @@ class WeblinksTableWeblink extends JTable
 			$this->alias = $this->title;
 		}
 		$this->alias = JApplication::stringURLSafe($this->alias);
-		if (trim(str_replace('-','',$this->alias)) == '') {
+		if (trim(str_replace('-', '', $this->alias)) == '') {
 			$this->alias = JFactory::getDate()->format("Y-m-d-H-i-s");
 		}
 
 		// Check the publish down date is not earlier than publish up.
-		if (intval($this->publish_down) > 0 && $this->publish_down < $this->publish_up) {
-			// Swap the dates.
-			$temp = $this->publish_up;
-			$this->publish_up = $this->publish_down;
-			$this->publish_down = $temp;
+		if ($this->publish_down > $this->_db->getNullDate() && $this->publish_down < $this->publish_up) {
+			$this->setError(JText::_('JGLOBAL_START_PUBLISH_AFTER_FINISH'));
+			return false;
 		}
 
 		// clean up keywords -- eliminate extra spaces between phrases
@@ -207,8 +196,8 @@ class WeblinksTableWeblink extends JTable
 
 		// Update the publishing state for rows with the given primary keys.
 		$this->_db->setQuery(
-			'UPDATE `'.$this->_tbl.'`' .
-			' SET `state` = '.(int) $state .
+			'UPDATE '.$this->_db->quoteName($this->_tbl) .
+			' SET '.$this->_db->quoteName('state').' = '.(int) $state .
 			' WHERE ('.$where.')' .
 			$checkin
 		);

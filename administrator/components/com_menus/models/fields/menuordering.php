@@ -1,13 +1,11 @@
 <?php
 /**
- * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_BASE') or die;
 
-jimport('joomla.form.formfield');
 JFormHelper::loadFieldClass('list');
 
 /**
@@ -91,7 +89,7 @@ class JFormFieldMenuOrdering extends JFormFieldList
 	 */
 	protected function getInput()
 	{
-		if ($this->form->getValue('id',0) == 0)
+		if ($this->form->getValue('id', 0) == 0)
 		{
 			return '<span class="readonly">' . JText::_('COM_MENUS_ITEM_FIELD_ORDERING_TEXT') . '</span>';
 		}

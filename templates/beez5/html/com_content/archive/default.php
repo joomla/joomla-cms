@@ -1,9 +1,8 @@
 <?php
 /**
- * @version		$Id: default.php 17017 2010-05-13 10:48:48Z eddieajau $
  * @package		Joomla.Site
  * @subpackage	Templates.beez5
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,7 +14,7 @@ $templateparams = $app->getTemplate(true)->params;
 
 if (!$templateparams->get('html5', 0))
 {
-	require(JPATH_BASE.'/components/com_content/views/archive/tmpl/default.php');
+	require JPATH_BASE.'/components/com_content/views/archive/tmpl/default.php';
 	//evtl. ersetzen durch JPATH_COMPONENT.'/views/...'
 } else {
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');

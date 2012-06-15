@@ -1,9 +1,8 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Administrator
  * @subpackage	com_installer
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License, see LICENSE.php
  */
 
@@ -39,7 +38,7 @@ class InstallerControllerManage extends JController
 	public function publish()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Initialise variables.
 		$user	= JFactory::getUser();
@@ -67,7 +66,7 @@ class InstallerControllerManage extends JController
 			}
 		}
 
-		$this->setRedirect(JRoute::_('index.php?option=com_installer&view=manage',false));
+		$this->setRedirect(JRoute::_('index.php?option=com_installer&view=manage', false));
 	}
 
 	/**
@@ -79,14 +78,14 @@ class InstallerControllerManage extends JController
 	public function remove()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$eid	= JRequest::getVar('cid', array(), '', 'array');
 		$model	= $this->getModel('manage');
 
 		JArrayHelper::toInteger($eid, array());
 		$result = $model->remove($eid);
-		$this->setRedirect(JRoute::_('index.php?option=com_installer&view=manage',false));
+		$this->setRedirect(JRoute::_('index.php?option=com_installer&view=manage', false));
 	}
 
 	/**
@@ -99,13 +98,13 @@ class InstallerControllerManage extends JController
 	function refresh()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$uid	= JRequest::getVar('cid', array(), '', 'array');
 		$model	= $this->getModel('manage');
 
 		JArrayHelper::toInteger($uid, array());
 		$result = $model->refresh($uid);
-		$this->setRedirect(JRoute::_('index.php?option=com_installer&view=manage',false));
+		$this->setRedirect(JRoute::_('index.php?option=com_installer&view=manage', false));
 	}
 }

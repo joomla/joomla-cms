@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-	<!-- $Id$ -->
 <form>
 	<fieldset name="default" label="COM_USERS_RESET_REQUEST_LABEL">
 		<field name="email" type="text"
@@ -8,6 +7,14 @@
 			filter="email"			label="COM_USERS_FIELD_PASSWORD_RESET_LABEL"
 			required="true"
 			size="30"
+		/>
+
+		<field
+			name="captcha"
+			type="captcha"
+			label="COM_USERS_CAPTCHA_LABEL"
+			description="COM_USERS_CAPTCHA_DESC"
+			validate="captcha"
 		/>
 	</fieldset>
 </form>

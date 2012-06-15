@@ -1,9 +1,8 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Administrator
  * @subpackage	com_redirect
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -62,6 +61,9 @@ JHtml::_('behavior.keepalive');
 
 				<li><?php echo $this->form->getLabel('modified_date'); ?>
 				<?php echo $this->form->getInput('modified_date'); ?></li>
+
+				<li><?php echo $this->form->getLabel('hits'); ?>
+				<?php echo $this->form->getInput('hits'); ?></li>
 				</ul>
 		</fieldset>
 		<input type="hidden" name="task" value="" />

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Installer
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -26,7 +26,7 @@ class JInstallerPlugin extends JAdapterInstance
 	 * @var    string
 	 * @since  11.1
 	 * */
-	var $route = 'install';
+	protected $route = 'install';
 
 	/**
 	 * The installation manifest XML object
@@ -42,7 +42,6 @@ class JInstallerPlugin extends JAdapterInstance
 	 * @var
 	 * @since  11.1
 	 * */
-
 	protected $manifest_script = null;
 
 	/**
@@ -192,7 +191,7 @@ class JInstallerPlugin extends JAdapterInstance
 		$db->setQuery($query);
 		try
 		{
-			$db->Query();
+			$db->execute();
 		}
 		catch (JException $e)
 		{
@@ -204,14 +203,14 @@ class JInstallerPlugin extends JAdapterInstance
 		$id = $db->loadResult();
 
 		// If it's on the fs...
-		if (file_exists($this->parent->getPath('extension_root')) && (!$this->parent->getOverwrite() || $this->parent->getUpgrade()))
+		if (file_exists($this->parent->getPath('extension_root')) && (!$this->parent->isOverwrite() || $this->parent->isUpgrade()))
 		{
 			$updateElement = $xml->update;
 			// Upgrade manually set or
 			// Update function available or
 			// Update tag detected
-			if ($this->parent->getUpgrade() || ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'update'))
-				|| is_a($updateElement, 'JXMLElement'))
+			if ($this->parent->isUpgrade() || ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'update'))
+				|| $updateElement)
 			{
 				// Force this one
 				$this->parent->setOverwrite(true);
@@ -222,7 +221,7 @@ class JInstallerPlugin extends JAdapterInstance
 					$this->route = 'update';
 				}
 			}
-			elseif (!$this->parent->getOverwrite())
+			elseif (!$this->parent->isOverwrite())
 			{
 				// Overwrite is set
 				// We didn't have overwrite set, find an update function or find an update tag so lets call it safe
@@ -359,7 +358,7 @@ class JInstallerPlugin extends JAdapterInstance
 		// Was there a plugin with the same name already installed?
 		if ($id)
 		{
-			if (!$this->parent->getOverwrite())
+			if (!$this->parent->isOverwrite())
 			{
 				// Install failed, roll back changes
 				$this->parent
@@ -505,7 +504,7 @@ class JInstallerPlugin extends JAdapterInstance
 	 *
 	 * @since    11.1
 	 */
-	function update()
+	public function update()
 	{
 		// Set the overwrite setting
 		$this->parent->setOverwrite(true);
@@ -688,7 +687,7 @@ class JInstallerPlugin extends JAdapterInstance
 		$query = $db->getQuery(true);
 		$query->delete()->from('#__schemas')->where('extension_id = ' . $row->extension_id);
 		$db->setQuery($query);
-		$db->Query();
+		$db->execute();
 
 		// Now we will no longer need the plugin object, so let's delete it
 		$row->delete($row->extension_id);
@@ -714,7 +713,7 @@ class JInstallerPlugin extends JAdapterInstance
 	 *
 	 * @since   11.1
 	 */
-	function discover()
+	public function discover()
 	{
 		$results = array();
 		$folder_list = JFolder::folders(JPATH_SITE . '/plugins');

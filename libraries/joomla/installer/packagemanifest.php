@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Installer
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -24,53 +24,57 @@ class JPackageManifest extends JObject
 	/**
 	 * @var string name Name of the package
 	 */
-	var $name = '';
+	public $name = '';
 
 	/**
 	 * @var string packagename Unique name of the package
 	 */
-	var $packagename = '';
+	public $packagename = '';
 
 	/**
 	 * @var string url Website for the package
 	 */
-	var $url = '';
+	public $url = '';
 
 	/**
 	 * @var string description Description for the package
 	 */
-	var $description = '';
+	public $description = '';
 
 	/**
 	 * @var string packager Packager of the package
 	 */
-	var $packager = '';
+	public $packager = '';
 
 	/**
 	 * @var string packagerurl Packager's URL of the package
 	 */
-	var $packagerurl = '';
+	public $packagerurl = '';
+
+	/**
+	 * @var string scriptfile Scriptfile for the package
+	 */
+	public $scriptfile = '';
 
 	/**
 	 * @var string update Update site for the package
 	 */
-	var $update = '';
+	public $update = '';
 
 	/**
 	 * @var string version Version of the package
 	 */
-	var $version = '';
+	public $version = '';
 
 	/**
-	 *
-	 * @var JExtension[] filelist List of files in this package
+	 * @var array filelist List of files in this package
 	 */
-	var $filelist = array();
+	public $filelist = array();
 
 	/**
 	 * @var string manifest_file Path to the manifest file
 	 */
-	var $manifest_file = '';
+	public $manifest_file = '';
 
 	/**
 	 * Constructor
@@ -79,7 +83,7 @@ class JPackageManifest extends JObject
 	 *
 	 * @since
 	 */
-	function __construct($xmlpath = '')
+	public function __construct($xmlpath = '')
 	{
 		if (strlen($xmlpath))
 		{
@@ -96,7 +100,7 @@ class JPackageManifest extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function loadManifestFromXML($xmlfile)
+	public function loadManifestFromXML($xmlfile)
 	{
 		$this->manifest_file = JFile::stripExt(basename($xmlfile));
 
@@ -119,6 +123,7 @@ class JPackageManifest extends JObject
 			$this->description = (string) $xml->description;
 			$this->packager = (string) $xml->packager;
 			$this->packagerurl = (string) $xml->packagerurl;
+			$this->scriptfile = (string) $xml->scriptfile;
 			$this->version = (string) $xml->version;
 
 			if (isset($xml->files->file) && count($xml->files->file))

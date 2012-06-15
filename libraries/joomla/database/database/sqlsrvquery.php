@@ -3,13 +3,11 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
-
-jimport('joomla.database.databasequery');
 
 /**
  * Query Building Class.
@@ -68,15 +66,25 @@ class JDatabaseQuerySQLSrv extends JDatabaseQuery
 				{
 					if ($this->columns)
 					{
-						$query .= (string) $this->where;
+						$query .= (string) $this->columns;
 					}
 
-					$tableName = array_shift($this->insert->getElements());
+					$elements = $this->insert->getElements();
+					$tableName = array_shift($elements);
 
 					$query .= 'VALUES ';
 					$query .= (string) $this->values;
 
-					$query = 'SET IDENTITY_INSERT ' . $tableName . ' ON;' . $query . 'SET IDENTITY_INSERT ' . $tableName . ' OFF;';
+					if ($this->autoIncrementField)
+					{
+						$query = 'SET IDENTITY_INSERT ' . $tableName . ' ON;' . $query . 'SET IDENTITY_INSERT ' . $tableName . ' OFF;';
+					}
+
+					if ($this->where)
+					{
+						$query .= (string) $this->where;
+					}
+
 				}
 
 				break;
@@ -100,7 +108,7 @@ class JDatabaseQuerySQLSrv extends JDatabaseQuery
 	 *
 	 * @since   11.1
 	 */
-	function castAsChar($value)
+	public function castAsChar($value)
 	{
 		return 'CAST(' . $value . ' as NVARCHAR(10))';
 	}
@@ -114,7 +122,7 @@ class JDatabaseQuerySQLSrv extends JDatabaseQuery
 	 *
 	 * @since 11.1
 	 */
-	function charLength($field)
+	public function charLength($field)
 	{
 		return 'DATALENGTH(' . $field . ') IS NOT NULL';
 	}
@@ -129,7 +137,7 @@ class JDatabaseQuerySQLSrv extends JDatabaseQuery
 	 *
 	 * @since   11.1
 	 */
-	function concatenate($values, $separator = null)
+	public function concatenate($values, $separator = null)
 	{
 		if ($separator)
 		{
@@ -148,7 +156,7 @@ class JDatabaseQuerySQLSrv extends JDatabaseQuery
 	 *
 	 * @since   11.1
 	 */
-	function currentTimestamp()
+	public function currentTimestamp()
 	{
 		return 'GETDATE()';
 	}
@@ -162,7 +170,7 @@ class JDatabaseQuerySQLSrv extends JDatabaseQuery
 	 *
 	 * @since   11.1
 	 */
-	function length($value)
+	public function length($value)
 	{
 		return 'LEN(' . $value . ')';
 	}

@@ -1,7 +1,6 @@
 <?php
 /**
- * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -27,11 +26,11 @@ class MediaViewImages extends JView
 		$append = '';
 
 		JHtml::_('behavior.framework', true);
-		JHtml::_('script','media/popup-imagemanager.js', true, true);
-		JHtml::_('stylesheet','media/popup-imagemanager.css', array(), true);
+		JHtml::_('script', 'media/popup-imagemanager.js', true, true);
+		JHtml::_('stylesheet', 'media/popup-imagemanager.css', array(), true);
 
 		if ($lang->isRTL()) {
-			JHtml::_('stylesheet','media/popup-imagemanager_rtl.css', array(), true);
+			JHtml::_('stylesheet', 'media/popup-imagemanager_rtl.css', array(), true);
 		}
 
 		if ($config->get('enable_flash', 1)) {
@@ -55,7 +54,7 @@ class MediaViewImages extends JView
 				$filterTypes .= '*.'.$type;
 			}
 
-			$typeString = '{ \''.JText::_('COM_MEDIA_FILES','true').' ('.$displayTypes.')\': \''.$filterTypes.'\' }';
+			$typeString = '{ \''.JText::_('COM_MEDIA_FILES', 'true').' ('.$displayTypes.')\': \''.$filterTypes.'\' }';
 
 			JHtml::_('behavior.uploader', 'upload-flash',
 				array(
@@ -63,7 +62,7 @@ class MediaViewImages extends JView
 					'onComplete' 	=> 'function(){ window.frames[\'imageframe\'].location.href = window.frames[\'imageframe\'].location.href; }',
 					'targetURL' 	=> '\\document.id(\'uploadForm\').action',
 					'typeFilter' 	=> $typeString,
-					'fileSizeMax'	=> (int) ($config->get('upload_maxsize',0) * 1024 * 1024),
+					'fileSizeMax'	=> (int) ($config->get('upload_maxsize', 0) * 1024 * 1024),
 				)
 			);
 		}

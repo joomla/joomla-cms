@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -68,7 +68,7 @@ class JPagination extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function __construct($total, $limitstart, $limit, $prefix = '')
+	public function __construct($total, $limitstart, $limit, $prefix = '')
 	{
 		// Value/type checking.
 		$this->total = (int) $total;

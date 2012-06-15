@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-	<!-- $Id$ -->
 <form>
 	<fieldset name="details"
 		addfieldpath="/administrator/components/com_banners/models/fields"
@@ -16,9 +15,11 @@
 			size="40" label="JFIELD_ALIAS_LABEL"
 			description="COM_BANNERS_FIELD_ALIAS_DESC" />
 
-		<field name="catid" type="category" extension="com_banners"
+		<field name="catid" type="categoryedit" extension="com_banners"
 			label="JCATEGORY" description="COM_BANNERS_FIELD_CATEGORY_DESC"
 			class="inputbox" required="true"
+			addfieldpath="/administrator/components/com_categories/models/fields"
+	>
 		>
 		</field>
 		<field name="state" type="list"
@@ -58,7 +59,7 @@
 			rows="3" cols="30" filter="raw"
 			label="COM_BANNERS_FIELD_CUSTOMCODE_LABEL" description="COM_BANNERS_FIELD_CUSTOMCODE_DESC" />
 
-		<field name="clickurl" type="url" class="inputbox"
+		<field name="clickurl" type="url" class="inputbox" filter="url"
 				label="COM_BANNERS_FIELD_CLICKURL_LABEL" description="COM_BANNERS_FIELD_CLICKURL_DESC" />
 
 	</fieldset>

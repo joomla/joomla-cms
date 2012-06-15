@@ -591,13 +591,13 @@
 				type="radio"
 				default="1"
 				label="JGLOBAL_PAGINATION_RESULTS_LABEL"
-				description="JGLOBAL_PAGINATION_RESULTS_DESC">
-
+				description="JGLOBAL_PAGINATION_RESULTS_DESC"
+			>
 
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
-
 			</field>
+
 			<field name="initial_sort" type="list"
 				description="COM_CONTACT_FIELD_INITIAL_SORT_DESC"
 				label="COM_CONTACT_FIELD_INITIAL_SORT_LABEL"
@@ -614,6 +614,20 @@
 		label="COM_CONTACT_FIELD_CONFIG_CONTACT_FORM"
 		description="COM_CONTACT_FIELD_CONFIG_INDIVIDUAL_CONTACT_DESC"
 	>
+
+		<field
+			name="captcha"
+			type="plugins"
+			folder="captcha"
+			default=""
+			label="COM_CONTACT_FIELD_CAPTCHA_LABEL"
+			description="COM_CONTACT_FIELD_CAPTCHA_DESC"
+			filter="cmd" >
+			<option
+				value="">JOPTION_USE_DEFAULT</option>
+			<option
+				value="0">JOPTION_DO_NOT_USE</option>
+		</field>
 
 		<field name="show_email_form"
 			type="radio"

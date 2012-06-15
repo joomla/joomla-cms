@@ -1,7 +1,6 @@
 <?php
 /**
- * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -38,7 +37,7 @@ class plgContentPagenavigation extends JPlugin
 
 			$date	= JFactory::getDate();
 			$config	= JFactory::getConfig();
-			$now	= $date->toMySQL();
+			$now = $date->toSql();
 
 			$uid	= $row->id;
 			$option	= 'com_content';
@@ -101,9 +100,23 @@ class plgContentPagenavigation extends JPlugin
 
 			// Array of articles in same category correctly ordered.
 			$query	= $db->getQuery(true);
-			$query->select('a.id, '
-					.'CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(":", a.id, a.alias) ELSE a.id END as slug, '
-					.'CASE WHEN CHAR_LENGTH(cc.alias) THEN CONCAT_WS(":", cc.id, cc.alias) ELSE cc.id END as catslug');
+	       //sqlsrv changes
+	        $case_when = ' CASE WHEN ';
+	        $case_when .= $query->charLength('a.alias');
+	        $case_when .= ' THEN ';
+	        $a_id = $query->castAsChar('a.id');
+	        $case_when .= $query->concatenate(array($a_id, 'a.alias'), ':');
+	        $case_when .= ' ELSE ';
+	        $case_when .= $a_id.' END as slug';
+
+	        $case_when1 = ' CASE WHEN ';
+	        $case_when1 .= $query->charLength('cc.alias');
+	        $case_when1 .= ' THEN ';
+	        $c_id = $query->castAsChar('cc.id');
+	        $case_when1 .= $query->concatenate(array($c_id, 'cc.alias'), ':');
+	        $case_when1 .= ' ELSE ';
+	        $case_when1 .= $c_id.' END as catslug';
+      		$query->select('a.id,'.$case_when.','.$case_when1);
 			$query->from('#__content AS a');
 			$query->leftJoin('#__categories AS cc ON cc.id = a.catid');
 			$query->where('a.catid = '. (int)$row->catid .' AND a.state = '. (int)$row->state
@@ -166,7 +179,7 @@ class plgContentPagenavigation extends JPlugin
 				if ($row->prev) {
 					$html .= '
 					<li class="pagenav-prev">
-						<a href="'. $row->prev .'" rel="next">'
+						<a href="'. $row->prev .'" rel="prev">'
 							. JText::_('JGLOBAL_LT') . $pnSpace . JText::_('JPREV') . '</a>
 					</li>'
 					;
@@ -177,7 +190,7 @@ class plgContentPagenavigation extends JPlugin
 				if ($row->next) {
 					$html .= '
 					<li class="pagenav-next">
-						<a href="'. $row->next .'" rel="prev">'
+						<a href="'. $row->next .'" rel="next">'
 							. JText::_('JNEXT') . $pnSpace . JText::_('JGLOBAL_GT') .'</a>
 					</li>'
 					;
@@ -186,15 +199,10 @@ class plgContentPagenavigation extends JPlugin
 				</ul>'
 				;
 
-				$position	= $this->params->get('position', 1);
-
-				if ($position) {
-					// Display after content.
-					$row->text .= $html;
-				} else {
-					// Display before content.
-					$row->text = $html . $row->text;
-				}
+				$row->pagination = $html;
+				$row->paginationposition = $this->params->get('position', 1);
+				// This will default to the 1.5 and 1.6-1.7 behavior.
+				$row->paginationrelative = $this->params->get('relative',0);
 			}
 		}
 

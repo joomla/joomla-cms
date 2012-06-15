@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -353,7 +353,6 @@ class JDatabaseImporterMySQL
 		$fName = (string) $field['Field'];
 		$fType = (string) $field['Type'];
 		$fNull = (string) $field['Null'];
-		$fKey = (string) $field['Key'];
 		$fDefault = isset($field['Default']) ? (string) $field['Default'] : null;
 		$fExtra = (string) $field['Extra'];
 
@@ -492,10 +491,6 @@ class JDatabaseImporterMySQL
 		$kNonUnique = (string) $columns[0]['Non_unique'];
 		$kName = (string) $columns[0]['Key_name'];
 		$kColumn = (string) $columns[0]['Column_name'];
-		$kCollation = (string) $columns[0]['Collation'];
-		$kNull = (string) $columns[0]['Null'];
-		$kType = (string) $columns[0]['Index_type'];
-		$kComment = (string) $columns[0]['Comment'];
 
 		$prefix = '';
 		if ($kName == 'PRIMARY')
@@ -562,7 +557,6 @@ class JDatabaseImporterMySQL
 		// Initialise variables.
 		$prefix = $this->db->getPrefix();
 		$tables = $this->db->getTableList();
-		$result = true;
 
 		if ($this->from instanceof SimpleXMLElement)
 		{
@@ -591,7 +585,7 @@ class JDatabaseImporterMySQL
 					foreach ($queries as $query)
 					{
 						$this->db->setQuery((string) $query);
-						if (!$this->db->query())
+						if (!$this->db->execute())
 						{
 							$this->addLog('Fail: ' . $this->db->getQuery());
 							throw new Exception($this->db->getErrorMsg());
@@ -610,7 +604,7 @@ class JDatabaseImporterMySQL
 				$sql = $this->xmlToCreate($table);
 
 				$this->db->setQuery((string) $sql);
-				if (!$this->db->query())
+				if (!$this->db->execute())
 				{
 					$this->addLog('Fail: ' . $this->db->getQuery());
 					throw new Exception($this->db->getErrorMsg());

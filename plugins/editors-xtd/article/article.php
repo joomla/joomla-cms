@@ -1,7 +1,6 @@
 <?php
 /**
- * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -46,8 +45,12 @@ class plgButtonArticle extends JPlugin
 		 * and closes the select frame.
 		 */
 		$js = "
-		function jSelectArticle(id, title, catid, object) {
-			var tag = '<a href='+'\"index.php?option=com_content&amp;view=article&amp;catid='+catid+'&amp;id='+id+'\">'+title+'</a>';
+		function jSelectArticle(id, title, catid, object, link, lang) {
+			var hreflang = '';
+			if (lang !== '') {
+				var hreflang = ' hreflang = \"' + lang + '\"';
+			}
+			var tag = '<a' + hreflang + ' href=\"' + link + '\">' + title + '</a>';
 			jInsertEditorText(tag, '".$name."');
 			SqueezeBox.close();
 		}";
@@ -61,7 +64,7 @@ class plgButtonArticle extends JPlugin
 		 * Use the built-in element view to select the article.
 		 * Currently uses blank class.
 		 */
-		$link = 'index.php?option=com_content&amp;view=articles&amp;layout=modal&amp;tmpl=component';
+		$link = 'index.php?option=com_content&amp;view=articles&amp;layout=modal&amp;tmpl=component&amp;'.JSession::getFormToken().'=1';
 
 		$button = new JObject();
 		$button->set('modal', true);

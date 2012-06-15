@@ -1,6 +1,5 @@
 <?php
 /**
- * @version		$Id: blog.php 17187 2010-05-19 11:18:22Z infograf768 $
  * @package		Joomla.Site
  * @subpackage	Templates.beez5
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
@@ -14,11 +13,11 @@ $templateparams =$app->getTemplate(true)->params;
 
 if ($templateparams->get('html5')!=1)
 {
-	require(JPATH_BASE.'/components/com_content/views/category/tmpl/blog.php');
+	require JPATH_BASE.'/components/com_content/views/category/tmpl/blog.php';
 	//evtl. ersetzen durch JPATH_COMPONENT.'/views/...'
 } else {
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
-$cparams =& JComponentHelper::getParams('com_media');
+$cparams = JComponentHelper::getParams('com_media');
 
 // If the page class is defined, add to class as suffix.
 // It will be a separate class if the user starts it with a space
@@ -42,7 +41,7 @@ $cparams =& JComponentHelper::getParams('com_media');
 		<img src="<?php echo $this->category->getParams()->get('image'); ?>"/>
 	<?php endif; ?>
 	<?php if ($this->params->get('show_description') && $this->category->description) : ?>
-		<?php echo JHtml::_('content.prepare', $this->category->description); ?>
+		<?php echo JHtml::_('content.prepare', $this->category->description, '', 'com_content.category'); ?>
 	<?php endif; ?>
 	<div class="clr"></div>
 	</div>

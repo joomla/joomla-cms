@@ -1,8 +1,7 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.SystemTest
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  * Does a standard Joomla! installation
  */
@@ -97,7 +96,7 @@ class Language0002Test extends SeleniumJoomlaTestCase
 		$this->setCache($cfg->cache);
 
 		// Check admin template -- change to hathor if specified in config file
-		if ($cfg->adminTemplate == 'hathor') {
+		if (isset($cfg->adminTemplate) &&  $cfg->adminTemplate == 'hathor') {
 			$this->click("link=Template Manager");
 			$this->waitForPageToLoad("30000");
 			$this->click("link=Hathor - Default");

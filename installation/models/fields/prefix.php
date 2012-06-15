@@ -1,6 +1,5 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Framework
  * @subpackage	Form
  * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
@@ -8,8 +7,6 @@
  */
 
 defined('JPATH_BASE') or die;
-
-jimport('joomla.form.formfield');
 
 /**
  * Form Field class for the Joomla Framework.

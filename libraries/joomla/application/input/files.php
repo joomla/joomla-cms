@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -21,6 +21,32 @@ jimport('joomla.application.input');
 class JInputFiles extends JInput
 {
 	protected $decodedData = array();
+
+	/**
+	 * Constructor.
+	 *
+	 * @param   array  $source   Ignored.
+	 * @param   array  $options  Array of configuration parameters (Optional)
+	 *
+	 * @since   12.1
+	 */
+	public function __construct(array $source = null, array $options = array())
+	{
+		if (isset($options['filter']))
+		{
+			$this->filter = $options['filter'];
+		}
+		else
+		{
+			$this->filter = JFilterInput::getInstance();
+		}
+
+		// Set the data source.
+		$this->data = & $_FILES;
+
+		// Set the options for the class.
+		$this->options = $options;
+	}
 
 	/**
 	 * Gets a value from the input data.
@@ -62,7 +88,7 @@ class JInputFiles extends JInput
 	 *
 	 * @since   11.1
 	 */
-	protected function decodeData($data)
+	protected function decodeData(array $data)
 	{
 		$result = array();
 

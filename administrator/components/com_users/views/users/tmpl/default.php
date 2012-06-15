@@ -1,25 +1,22 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Administrator
  * @subpackage	com_users
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 // No direct access.
 defined('_JEXEC') or die;
 
-// Include the component HTML helpers.
-JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
-
 // Load the tooltip behavior.
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.multiselect');
+JHtml::_('behavior.modal');
 
-$canDo 		= UsersHelper::getActions();
-$listOrder	= $this->escape($this->state->get('list.ordering'));
-$listDirn	= $this->escape($this->state->get('list.direction'));
+$canDo = UsersHelper::getActions();
+$listOrder = $this->escape($this->state->get('list.ordering'));
+$listDirn = $this->escape($this->state->get('list.direction'));
 $loggeduser = JFactory::getUser();
 ?>
 
@@ -49,6 +46,11 @@ $loggeduser = JFactory::getUser();
 			<select name="filter_group_id" class="inputbox" onchange="this.form.submit()">
 				<option value=""><?php echo JText::_('COM_USERS_FILTER_USERGROUP');?></option>
 				<?php echo JHtml::_('select.options', UsersHelper::getGroups(), 'value', 'text', $this->state->get('filter.group_id'));?>
+			</select>
+
+			<select name="filter_range" id="filter_range" class="inputbox" onchange="this.form.submit()">
+				<option value=""><?php echo JText::_('COM_USERS_OPTION_FILTER_DATE');?></option>
+				<?php echo JHtml::_('select.options', Usershelper::getRangeOptions(), 'value', 'text', $this->state->get('filter.range'));?>
 			</select>
 		</div>
 	</fieldset>
@@ -113,6 +115,11 @@ $loggeduser = JFactory::getUser();
 					<?php endif; ?>
 				</td>
 				<td>
+					<div class="fltrt">
+						<?php echo JHtml::_('users.filterNotes', $item->note_count, $item->id); ?>
+						<?php echo JHtml::_('users.notes', $item->note_count, $item->id); ?>
+						<?php echo JHtml::_('users.addNote', $item->id); ?>
+					</div>
 					<?php if ($canEdit) : ?>
 					<a href="<?php echo JRoute::_('index.php?option=com_users&task=user.edit&id='.(int) $item->id); ?>" title="<?php echo JText::sprintf('COM_USERS_EDIT_USER', $this->escape($item->name)); ?>">
 						<?php echo $this->escape($item->name); ?></a>
@@ -142,7 +149,7 @@ $loggeduser = JFactory::getUser();
 					<?php echo JHtml::_('grid.boolean', $i, !$item->activation, 'users.activate', null); ?>
 				</td>
 				<td class="center">
-					<?php if (substr_count($item->group_names,"\n") > 1) : ?>
+					<?php if (substr_count($item->group_names, "\n") > 1) : ?>
 						<span class="hasTip" title="<?php echo JText::_('COM_USERS_HEADING_GROUPS').'::'.nl2br($item->group_names); ?>"><?php echo JText::_('COM_USERS_USERS_MULTIPLE_GROUPS'); ?></span>
 					<?php else : ?>
 						<?php echo nl2br($item->group_names); ?>
@@ -153,13 +160,13 @@ $loggeduser = JFactory::getUser();
 				</td>
 				<td class="center">
 					<?php if ($item->lastvisitDate!='0000-00-00 00:00:00'):?>
-						<?php echo JHtml::_('date',$item->lastvisitDate, 'Y-m-d H:i:s'); ?>
+						<?php echo JHtml::_('date', $item->lastvisitDate, 'Y-m-d H:i:s'); ?>
 					<?php else:?>
 						<?php echo JText::_('JNEVER'); ?>
 					<?php endif;?>
 				</td>
 				<td class="center">
-					<?php echo JHtml::_('date',$item->registerDate, 'Y-m-d H:i:s'); ?>
+					<?php echo JHtml::_('date', $item->registerDate, 'Y-m-d H:i:s'); ?>
 				</td>
 				<td class="center">
 					<?php echo (int) $item->id; ?>
@@ -168,6 +175,9 @@ $loggeduser = JFactory::getUser();
 			<?php endforeach; ?>
 		</tbody>
 	</table>
+
+	<?php //Load the batch processing form. ?>
+	<?php echo $this->loadTemplate('batch'); ?>
 
 	<div>
 		<input type="hidden" name="task" value="" />

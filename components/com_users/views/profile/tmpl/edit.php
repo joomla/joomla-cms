@@ -1,9 +1,8 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Site
  * @subpackage	com_users
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  * @since		1.6
  */
@@ -37,8 +36,8 @@ $lang->load( 'plg_user_profile', JPATH_ADMINISTRATOR );
 			<?php else:?>
 				<dt>
 					<?php echo $field->label; ?>
-					<?php if (!$field->required && $field->type!='Spacer'): ?>
-					<span class="optional"><?php echo JText::_('COM_USERS_OPTIONAL'); ?></span>
+					<?php if (!$field->required && $field->type!='Spacer' && $field->name!='jform[username]'): ?>
+						<span class="optional"><?php echo JText::_('COM_USERS_OPTIONAL'); ?></span>
 					<?php endif; ?>
 				</dt>
 				<dd><?php echo $field->input; ?></dd>

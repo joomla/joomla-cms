@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  User
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -134,7 +134,7 @@ class JUser extends JObject
 	public $params = null;
 
 	/**
-	 * Associative array of user names => group ids
+	 * Array of ids of groups that user belongs to
 	 *
 	 * @var    array
 	 * @since  11.1
@@ -236,7 +236,6 @@ class JUser extends JObject
 		// Find the user id
 		if (!is_numeric($identifier))
 		{
-			jimport('joomla.user.helper');
 			if (!$id = JUserHelper::getUserId($identifier))
 			{
 				JError::raiseWarning('SOME_ERROR_CODE', JText::sprintf('JLIB_USER_ERROR_ID_NOT_EXISTS', $identifier));
@@ -403,8 +402,8 @@ class JUser extends JObject
 		// Brute force method: get all published category rows for the component and check each one
 		// TODO: Modify the way permissions are stored in the db to allow for faster implementation and better scaling
 		$db = JFactory::getDbo();
-		$query = $db->getQuery(true)->select('c.id AS id, a.name as asset_name')->from('#__categories c')
-			->innerJoin('#__assets a ON c.asset_id = a.id')->where('c.extension = ' . $db->quote($component))->where('c.published = 1');
+		$query = $db->getQuery(true)->select('c.id AS id, a.name AS asset_name')->from('#__categories AS c')
+			->innerJoin('#__assets AS a ON c.asset_id = a.id')->where('c.extension = ' . $db->quote($component))->where('c.published = 1');
 		$db->setQuery($query);
 		$allCategories = $db->loadObjectList('id');
 		$allowedCategories = array();
@@ -585,8 +584,6 @@ class JUser extends JObject
 	 */
 	public function bind(&$array)
 	{
-		jimport('joomla.user.helper');
-
 		// Let's check to see if the user is new or not
 		if (empty($this->id))
 		{
@@ -613,7 +610,7 @@ class JUser extends JObject
 
 			// Set the registration timestamp
 
-			$this->set('registerDate', JFactory::getDate()->toMySQL());
+			$this->set('registerDate', JFactory::getDate()->toSql());
 
 			// Check that username is not greater than 150 characters
 			$username = $this->get('username');

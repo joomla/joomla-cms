@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -314,7 +314,7 @@ abstract class JModuleHelper
 			$query->where('e.enabled = 1');
 
 			$date = JFactory::getDate();
-			$now = $date->toMySQL();
+			$now = $date->toSql();
 			$nullDate = $db->getNullDate();
 			$query->where('(m.publish_up = ' . $db->Quote($nullDate) . ' OR m.publish_up <= ' . $db->Quote($now) . ')');
 			$query->where('(m.publish_down = ' . $db->Quote($nullDate) . ' OR m.publish_down >= ' . $db->Quote($now) . ')');
@@ -349,9 +349,8 @@ abstract class JModuleHelper
 			{
 				$module = &$modules[$i];
 
-				// The module is excluded if there is an explicit prohibition or if
-				// the Itemid is missing or zero and the module is in exclude mode.
-				$negHit = ($negId === (int) $module->menuid) || (!$negId && (int) $module->menuid < 0);
+				// The module is excluded if there is an explicit prohibition
+				$negHit = ($negId === (int) $module->menuid);
 
 				if (isset($dupes[$module->id]))
 				{

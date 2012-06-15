@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Session
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -34,29 +34,6 @@ class JSessionStorageWincache extends JSessionStorage
 		}
 
 		parent::__construct($options);
-	}
-
-	/**
-	 * Open the SessionHandler backend.
-	 *
-	 * @param   string  $save_path     The path to the session object.
-	 * @param   string  $session_name  The name of the session.
-	 *
-	 * @return boolean  True on success, false otherwise.
-	 */
-	public function open($save_path, $session_name)
-	{
-		return true;
-	}
-
-	/**
-	 * Close the SessionHandler backend.
-	 *
-	 * @return boolean  True on success, false otherwise.
-	 */
-	public function close()
-	{
-		return true;
 	}
 
 	/**
@@ -101,18 +78,6 @@ class JSessionStorageWincache extends JSessionStorage
 	{
 		$sess_id = 'sess_' . $id;
 		return wincache_ucache_delete($sess_id);
-	}
-
-	/**
-	 * Garbage collect stale sessions from the SessionHandler backend.
-	 *
-	 * @param   integer  $maxlifetime  The maximum age of a session.
-	 *
-	 * @return boolean  True on success, false otherwise.
-	 */
-	public function gc($maxlifetime = null)
-	{
-		return true;
 	}
 
 	/**

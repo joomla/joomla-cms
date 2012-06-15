@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Utilities
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -240,7 +240,7 @@ class JDate extends DateTime
 	 *
 	 * @since   11.1
 	 */
-	protected function dayToString($day, $abbr = false)
+	public function dayToString($day, $abbr = false)
 	{
 		switch ($day)
 		{
@@ -364,7 +364,7 @@ class JDate extends DateTime
 	 *
 	 * @since   11.1
 	 */
-	protected function monthToString($month, $abbr = false)
+	public function monthToString($month, $abbr = false)
 	{
 		switch ($month)
 		{
@@ -510,7 +510,6 @@ class JDate extends DateTime
 	 */
 	public function toISO8601($local = false)
 	{
-
 		return $this->format(DateTime::RFC3339, $local, false);
 	}
 
@@ -523,11 +522,32 @@ class JDate extends DateTime
 	 *
 	 * @link http://dev.mysql.com/doc/refman/5.0/en/datetime.html
 	 * @since   11.1
+	 * @deprecated 12.1 Use JDate::toSql()
 	 */
 	public function toMySQL($local = false)
 	{
-
+		JLog::add('JDate::toMySQL() is deprecated. Use JDate::toSql() instead.', JLog::WARNING, 'deprecated');
 		return $this->format('Y-m-d H:i:s', $local, false);
+	}
+
+	/**
+	 * Gets the date as an SQL datetime string.
+	 *
+	 * @param   boolean    $local  True to return the date string in the local time zone, false to return it in GMT.
+	 * @param   JDatabase  $dbo    The database driver or null to use JFactory::getDbo()
+	 *
+	 * @return  string     The date string in SQL datetime format.
+	 *
+	 * @link http://dev.mysql.com/doc/refman/5.0/en/datetime.html
+	 * @since   11.4
+	 */
+	public function toSql($local = false, JDatabase $dbo = null)
+	{
+		if ($dbo === null)
+		{
+			$dbo = JFactory::getDbo();
+		}
+		return $this->format($dbo->getDateFormat(), $local, false);
 	}
 
 	/**

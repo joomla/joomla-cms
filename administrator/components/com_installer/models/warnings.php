@@ -1,16 +1,13 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Administrator
  * @subpackage	com_installer
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
 
-// Import library dependencies
 jimport('joomla.application.component.modellist');
 jimport('joomla.filesystem.folder');
 
@@ -33,7 +30,9 @@ class InstallerModelWarnings extends JModelList
 	 * Return the byte value of a particular string.
 	 *
 	 * @param	string	String optionally with G, M or K suffix
+	 *
 	 * @return	int		size in bytes
+	 *
 	 * @since 1.6
 	 */
 	function return_bytes($val)
@@ -116,7 +115,6 @@ class InstallerModelWarnings extends JModelList
 		{
 			$messages[] = array('message'=>JText::_('COM_INSTALLER_MSG_WARNINGS_SMALLUPLOADSIZE'), 'description'=>JText::_('COM_INSTALLER_MSG_WARNINGS_SMALLUPLOADSIZEDESC'));
 		}
-
 
 		return $messages;
 	}

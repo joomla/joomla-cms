@@ -1,7 +1,6 @@
 <?php
 /**
- * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -89,7 +88,7 @@ class plgSearchWeblinks extends JPlugin
 		switch ($phrase)
 		{
 			case 'exact':
-				$text		= $db->Quote('%'.$db->getEscaped($text, true).'%', false);
+				$text		= $db->Quote('%'.$db->escape($text, true).'%', false);
 				$wheres2	= array();
 				$wheres2[]	= 'a.url LIKE '.$text;
 				$wheres2[]	= 'a.description LIKE '.$text;
@@ -104,7 +103,7 @@ class plgSearchWeblinks extends JPlugin
 				$wheres = array();
 				foreach ($words as $word)
 				{
-					$word		= $db->Quote('%'.$db->getEscaped($word, true).'%', false);
+					$word		= $db->Quote('%'.$db->escape($word, true).'%', false);
 					$wheres2	= array();
 					$wheres2[]	= 'a.url LIKE '.$word;
 					$wheres2[]	= 'a.description LIKE '.$word;
@@ -141,13 +140,29 @@ class plgSearchWeblinks extends JPlugin
 		$return = array();
 		if (!empty($state)) {
 			$query	= $db->getQuery(true);
+	        //sqlsrv changes
+	        $case_when = ' CASE WHEN ';
+	        $case_when .= $query->charLength('a.alias');
+	        $case_when .= ' THEN ';
+	        $a_id = $query->castAsChar('a.id');
+	        $case_when .= $query->concatenate(array($a_id, 'a.alias'), ':');
+	        $case_when .= ' ELSE ';
+	        $case_when .= $a_id.' END as slug';
+
+	        $case_when1 = ' CASE WHEN ';
+	        $case_when1 .= $query->charLength('c.alias');
+	        $case_when1 .= ' THEN ';
+	        $c_id = $query->castAsChar('c.id');
+	        $case_when1 .= $query->concatenate(array($c_id, 'c.alias'), ':');
+	        $case_when1 .= ' ELSE ';
+	        $case_when1 .= $c_id.' END as catslug';
+
 			$query->select('a.title AS title, a.description AS text, a.created AS created, a.url, '
-						.'CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(\':\', a.id, a.alias) ELSE a.id END as slug, '
-						.'CASE WHEN CHAR_LENGTH(c.alias) THEN CONCAT_WS(\':\', c.id, c.alias) ELSE c.id END as catslug, '
-						.'CONCAT_WS(" / ", '.$db->Quote($section).', c.title) AS section, "1" AS browsernav');
+						.$case_when.','.$case_when1.', '
+						.$query->concatenate(array($db->Quote($section), "c.title"), " / ").' AS section, \'1\' AS browsernav');
 			$query->from('#__weblinks AS a');
 			$query->innerJoin('#__categories AS c ON c.id = a.catid');
-			$query->where('('.$where.')' . ' AND a.state in ('.implode(',',$state).') AND  c.published=1 AND  c.access IN ('.$groups.')');
+			$query->where('('.$where.')' . ' AND a.state in ('.implode(',', $state).') AND  c.published=1 AND  c.access IN ('.$groups.')');
 			$query->order($order);
 
 			// Filter by language

@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Platform
  *
- * @copyright  Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -228,6 +228,7 @@ class JText
 			// Try the key from the language plural potential suffixes
 			$found = false;
 			$suffixes = $lang->getPluralSuffixes((int) $n);
+			array_unshift($suffixes, (int) $n);
 			foreach ($suffixes as $suffix)
 			{
 				$key = $string . '_' . $suffix;

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -45,6 +45,14 @@ class JView extends JObject
 	 * The default model
 	 *
 	 * @var	string
+	 */
+	protected $defaultModel = null;
+
+	/**
+	 * The default model
+	 *
+	 * @var	string
+	 * @deprecated use $defaultModel declare as private
 	 */
 	protected $_defaultModel = null;
 
@@ -200,10 +208,10 @@ class JView extends JObject
 	 * @see     fetch()
 	 * @since   11.1
 	 */
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		$result = $this->loadTemplate($tpl);
-		if (JError::isError($result))
+		if ($result instanceof Exception)
 		{
 			return $result;
 		}
@@ -340,7 +348,7 @@ class JView extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function escape($var)
+	public function escape($var)
 	{
 		if (in_array($this->_escape, array('htmlspecialchars', 'htmlentities')))
 		{
@@ -445,7 +453,7 @@ class JView extends JObject
 	 */
 	public function getName()
 	{
-		if (empty($this->name))
+		if (empty($this->_name))
 		{
 			$r = null;
 			if (!preg_match('/View((view)*(.*(view)?.*))$/i', get_class($this), $r))
@@ -456,10 +464,10 @@ class JView extends JObject
 			{
 				JError::raiseWarning('SOME_ERROR_CODE', JText::_('JLIB_APPLICATION_ERROR_VIEW_GET_NAME_SUBSTRING'));
 			}
-			$this->name = strtolower($r[3]);
+			$this->_name = strtolower($r[3]);
 		}
 
-		return $this->name;
+		return $this->_name;
 	}
 
 	/**
@@ -545,7 +553,7 @@ class JView extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function setEscape($spec)
+	public function setEscape($spec)
 	{
 		$this->_escape = $spec;
 	}
@@ -559,7 +567,7 @@ class JView extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function addTemplatePath($path)
+	public function addTemplatePath($path)
 	{
 		$this->_addPath('template', $path);
 	}
@@ -573,7 +581,7 @@ class JView extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function addHelperPath($path)
+	public function addHelperPath($path)
 	{
 		$this->_addPath('helper', $path);
 	}
@@ -695,7 +703,6 @@ class JView extends JObject
 	 */
 	protected function _setPath($type, $path)
 	{
-		jimport('joomla.application.helper');
 		$component = JApplicationHelper::getComponentName();
 		$app = JFactory::getApplication();
 

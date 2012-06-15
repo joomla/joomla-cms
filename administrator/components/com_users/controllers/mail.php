@@ -1,7 +1,6 @@
 <?php
 /**
- * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
@@ -21,7 +20,7 @@ class UsersControllerMail extends JController
 	public function send()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken('request') or jexit(JText::_('JINVALID_TOKEN'));
+		JSession::checkToken('request') or jexit(JText::_('JINVALID_TOKEN'));
 
 		$model = $this->getModel('Mail');
 		if ($model->send()) {
@@ -37,7 +36,7 @@ class UsersControllerMail extends JController
 	public function cancel()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken('request') or jexit(JText::_('JINVALID_TOKEN'));
+		JSession::checkToken('request') or jexit(JText::_('JINVALID_TOKEN'));
 		$this->setRedirect('index.php');
 	}
 }

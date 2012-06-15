@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="2.5" type="plugin" group="system">
+	<name>plg_system_languagecode</name>
+	<author>Joomla! Project</author>
+	<creationDate>November 2011</creationDate>
+	<copyright>Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>2.5.0</version>
+	<description>PLG_SYSTEM_LANGUAGECODE_XML_DESCRIPTION</description>
+	<files>
+		<filename plugin="languagecode">languagecode.php</filename>
+		<filename>index.html</filename>
+		<folder>language</folder>
+	</files>
+	<languages>
+		<language tag="en-GB">language/en-GB/en-GB.plg_system_languagecode.ini</language>
+		<language tag="en-GB">language/en-GB/en-GB.plg_system_languagecode.sys.ini</language>
+	</languages>
+	<config />
+</extension>

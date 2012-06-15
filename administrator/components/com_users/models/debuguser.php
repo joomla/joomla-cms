@@ -1,7 +1,6 @@
 <?php
 /**
- * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -172,7 +171,7 @@ class UsersModelDebugUser extends JModelList
 				'a.id, a.name, a.title, a.level, a.lft, a.rgt'
 			)
 		);
-		$query->from('`#__assets` AS a');
+		$query->from($db->quoteName('#__assets').' AS a');
 
 		// Filter the items over the group id if set.
 		if ($groupId = $this->getState('filter.group_id')) {
@@ -183,7 +182,7 @@ class UsersModelDebugUser extends JModelList
 		// Filter the items over the search string if set.
 		if ($this->getState('filter.search')) {
 			// Escape the search token.
-			$token	= $db->Quote('%'.$db->getEscaped($this->getState('filter.search')).'%');
+			$token	= $db->Quote('%'.$db->escape($this->getState('filter.search')).'%');
 
 			// Compile the different search clauses.
 			$searches	= array();
@@ -214,7 +213,7 @@ class UsersModelDebugUser extends JModelList
 		}
 
 		// Add the list ordering clause.
-		$query->order($db->getEscaped($this->getState('list.ordering', 'a.lft')).' '.$db->getEscaped($this->getState('list.direction', 'ASC')));
+		$query->order($db->escape($this->getState('list.ordering', 'a.lft')).' '.$db->escape($this->getState('list.direction', 'ASC')));
 
 		return $query;
 	}

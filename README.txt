@@ -1,7 +1,7 @@
 1- What is this?
-    * This is a Joomla! installation/upgrade package to version 1.7.x
+    * This is a Joomla! installation/upgrade package to version 2.5.x
     * Joomla! Official site: http://www.joomla.org
-    * Joomla 1.7 version history - http://docs.joomla.org/Joomla_1.7_version_history
+    * Joomla 2.5 version history - http://docs.joomla.org/Joomla_2.5_version_history
     * Detailed changes in the Changelog: http://joomlacode.org/gf/project/joomla/scmsvn/?action=browse&path=/development/trunk/administrator/&view=log
 
 2- What is Joomla?
@@ -49,10 +49,10 @@
     * Post questions at our forums: http://forum.joomla.org
     * Joomla Resources Directory (JRD): http://resources.joomla.org/tos.html
 
-11- Already have a site but its not built with Joomla 1.7 ?
-    * What's new in Joomla 1.6+ - http://docs.joomla.org/What%27s_new_in_Joomla_1.6
-    * What are the main differences from 1.5 to 1.6+ ? Table of contents: http://docs.joomla.org/Differences_from_Joomla_1.5_to_Joomla_1.6
-    * How to migrate from 1.5.x ? Tutorial: http://docs.joomla.org/Tutorial:Migrating_from_Joomla_1.5_to_Joomla_1.6
+11- Already have a site but its not built with Joomla 2.5 ?
+    * What's new in Joomla 2.5+ - http://docs.joomla.org/What%27s_new_in_Joomla_2.5
+    * What are the main differences from 1.5 to 2.5+ ? Table of contents: http://docs.joomla.org/Differences_from_Joomla_1.5_to_Joomla_2.5
+    * How to migrate from 1.5.x ? Tutorial: http://docs.joomla.org/Tutorial:Migrating_from_Joomla_1.5_to_Joomla_2.5
     * Upgrade Instructions: http://docs.joomla.org/Upgrade_Instructions
     * Convert an existing Web site to Joomla - http://docs.joomla.org/How_to_Convert_an_existing_Web_site_to_a_Joomla!_Web_site
 
@@ -64,7 +64,7 @@
     * Are you a Web designer? http://docs.joomla.org/Web_designers
 
 Copyright:
-    * Copyright (C) 2005 - 2011 Open Source Matters. All rights reserved.
+    * Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.
     * Credits: http://docs.joomla.org/Joomla_1.6_Credits
     * Distributed under the GNU General Public License version 2 or later
     * See Licenses details at http://docs.joomla.org/Joomla_Licenses

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Installer
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -132,9 +132,9 @@ class JInstaller extends JAdapter
 	{
 		if (!isset(self::$instance))
 		{
-			$instance = new JInstaller;
+			self::$instance = new JInstaller;
 		}
-		return $instance;
+		return self::$instance;
 	}
 
 	/**
@@ -143,8 +143,22 @@ class JInstaller extends JAdapter
 	 * @return  boolean  Allow overwrite switch
 	 *
 	 * @since   11.1
+	 * @deprecated 12.1 Use JInstaller::isOverwrite()
 	 */
 	public function getOverwrite()
+	{
+		JLog::add('JInstaller::getOverwrite() is deprecated. Please use JInstaller::isOverwrite() instead', JLog::WARNING, 'deprecated');
+		return $this->isOverwrite();
+	}
+
+	/**
+	 * Get the allow overwrite switch
+	 *
+	 * @return  boolean  Allow overwrite switch
+	 *
+	 * @since   11.4
+	 */
+	public function isOverwrite()
 	{
 		return $this->_overwrite;
 	}
@@ -206,8 +220,22 @@ class JInstaller extends JAdapter
 	 * @return  boolean
 	 *
 	 * @since   11.1
+	 * @deprecated 12.1 Use JInstaller::isUpgrade()
 	 */
 	public function getUpgrade()
+	{
+		JLog::add('JInstaller::getUpgrade() is deprecated. Please use JInstaller::isUpgrade() instead', JLog::WARNING, 'deprecated');
+		return $this->isUpgrade();
+	}
+
+	/**
+	 * Get the upgrade switch
+	 *
+	 * @return  boolean
+	 *
+	 * @since   11.4
+	 */
+	public function isUpgrade()
 	{
 		return $this->_upgrade;
 	}
@@ -349,7 +377,7 @@ class JInstaller extends JAdapter
 					$query->delete($db->quoteName('#__extensions'));
 					$query->where($db->quoteName('extension_id') . ' = ' . (int) $step['id']);
 					$db->setQuery($query);
-					$stepval = $db->query();
+					$stepval = $db->execute();
 
 					break;
 
@@ -703,7 +731,7 @@ class JInstaller extends JAdapter
 	 *
 	 * @since   11.1
 	 */
-	function refreshManifestCache($eid)
+	public function refreshManifestCache($eid)
 	{
 		if ($eid)
 		{
@@ -831,7 +859,7 @@ class JInstaller extends JAdapter
 		{
 			$db->setQuery($query->data());
 
-			if (!$db->query())
+			if (!$db->execute())
 			{
 				JError::raiseWarning(1, JText::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $db->stderr(true)));
 
@@ -868,8 +896,10 @@ class JInstaller extends JAdapter
 		{
 			$dbDriver = 'mysql';
 		}
-
-		$dbCharset = ($db->hasUTF()) ? 'utf8' : '';
+		elseif($dbDriver == 'sqlsrv')
+		{
+			$dbDriver = 'sqlazure';
+		}
 
 		// Get the name of the sql file to process
 		$sqlfile = '';
@@ -883,8 +913,12 @@ class JInstaller extends JAdapter
 			{
 				$fDriver = 'mysql';
 			}
+			elseif($fDriver == 'sqlsrv')
+			{
+				$fDriver = 'sqlazure';
+			}
 
-			if ($fCharset == $dbCharset && $fDriver == $dbDriver)
+			if ($fCharset == 'utf8' && $fDriver == $dbDriver)
 			{
 				$sqlfile = $this->getPath('extension_root') . '/' . $file;
 
@@ -907,7 +941,6 @@ class JInstaller extends JAdapter
 				}
 
 				// Create an array of queries from the sql file
-				jimport('joomla.installer.helper');
 				$queries = JInstallerHelper::splitSql($buffer);
 
 				if (count($queries) == 0)
@@ -925,7 +958,7 @@ class JInstaller extends JAdapter
 					{
 						$db->setQuery($query);
 
-						if (!$db->query())
+						if (!$db->execute())
 						{
 							JError::raiseWarning(1, JText::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $db->stderr(true)));
 
@@ -968,6 +1001,11 @@ class JInstaller extends JAdapter
 				{
 					$dbDriver = 'mysql';
 				}
+				elseif ($dbDriver == 'sqlsrv')
+				{
+					$dbDriver = 'sqlazure';
+				}
+				
 
 				$schemapath = '';
 
@@ -992,14 +1030,14 @@ class JInstaller extends JAdapter
 						->where('extension_id = ' . $eid);
 					$db->setQuery($query);
 
-					if ($db->query())
+					if ($db->execute())
 					{
 						$query->clear();
-						$query->insert('#__schemas')
-							->set('extension_id = ' . $eid)
-							->set('version_id = ' . $db->quote(end($files)));
+						$query->insert($db->quoteName('#__schemas'));
+						$query->columns(array($db->quoteName('extension_id'), $db->quoteName('version_id')));
+						$query->values($eid . ', ' . $db->quote(end($files)));
 						$db->setQuery($query);
-						$db->query();
+						$db->execute();
 					}
 				}
 			}
@@ -1034,6 +1072,10 @@ class JInstaller extends JAdapter
 				if ($dbDriver == 'mysqli')
 				{
 					$dbDriver = 'mysql';
+				}
+				elseif ($dbDriver == 'sqlsrv')
+				{
+					$dbDriver = 'sqlazure';
 				}
 
 				$schemapath = '';
@@ -1082,7 +1124,6 @@ class JInstaller extends JAdapter
 								}
 
 								// Create an array of queries from the sql file
-								jimport('joomla.installer.helper');
 								$queries = JInstallerHelper::splitSql($buffer);
 
 								if (count($queries) == 0)
@@ -1099,7 +1140,7 @@ class JInstaller extends JAdapter
 									{
 										$db->setQuery($query);
 
-										if (!$db->query())
+										if (!$db->execute())
 										{
 											JError::raiseWarning(1, JText::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $db->stderr(true)));
 
@@ -1120,14 +1161,14 @@ class JInstaller extends JAdapter
 						->where('extension_id = ' . $eid);
 					$db->setQuery($query);
 
-					if ($db->Query())
+					if ($db->execute())
 					{
 						$query->clear();
-						$query->insert('#__schemas')
-							->set('extension_id = ' . $eid)
-							->set('version_id = ' . $db->quote(end($files)));
+						$query->insert($db->quoteName('#__schemas'));
+						$query->columns(array($db->quoteName('extension_id'), $db->quoteName('version_id')));
+						$query->values($eid . ', ' . $db->quote(end($files)));
 						$db->setQuery($query);
-						$db->Query();
+						$db->execute();
 					}
 				}
 			}
@@ -1162,7 +1203,6 @@ class JInstaller extends JAdapter
 		$copyfiles = array();
 
 		// Get the client info
-		jimport('joomla.application.helper');
 		$client = JApplicationHelper::getClientInfo($cid);
 
 		/*
@@ -1283,7 +1323,6 @@ class JInstaller extends JAdapter
 		$copyfiles = array();
 
 		// Get the client info
-		jimport('joomla.application.helper');
 		$client = JApplicationHelper::getClientInfo($cid);
 
 		// Here we set the folder we are going to copy the files to.
@@ -1395,7 +1434,6 @@ class JInstaller extends JAdapter
 		$copyfiles = array();
 
 		// Get the client info
-		jimport('joomla.application.helper');
 		$client = JApplicationHelper::getClientInfo($cid);
 
 		// Here we set the folder we are going to copy the files to.
@@ -1645,8 +1683,6 @@ class JInstaller extends JAdapter
 		}
 
 		// Get the client info if we're using a specific client
-		jimport('joomla.application.helper');
-
 		if ($cid > -1)
 		{
 			$client = JApplicationHelper::getClientInfo($cid);
@@ -1793,7 +1829,6 @@ class JInstaller extends JAdapter
 	public function copyManifest($cid = 1)
 	{
 		// Get the client info
-		jimport('joomla.application.helper');
 		$client = JApplicationHelper::getClientInfo($cid);
 
 		$path['src'] = $this->getPath('manifest');
@@ -1941,7 +1976,7 @@ class JInstaller extends JAdapter
 		$query->where('client_id = ' . intval($client));
 		$query->where('state = -1');
 
-		return $dbo->Query();
+		return $dbo->execute();
 	}
 
 	/**
@@ -2049,7 +2084,7 @@ class JInstaller extends JAdapter
 	 *
 	 * @since   11.1
 	 */
-	function loadMD5Sum($filename)
+	public function loadMD5Sum($filename)
 	{
 		if (!file_exists($filename))
 		{

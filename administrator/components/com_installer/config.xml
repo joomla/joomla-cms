@@ -1,6 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
 	<fieldset
+		name="preferences"
+		label="COM_INSTALLER_PREFERENCES_LABEL"
+		description="COM_INSTALLER_PREFERENCES_DESCRIPTION"
+		>
+		<field
+			name="cachetimeout"
+			type="integer"
+			label="COM_INSTALLER_CACHETIMEOUT_LABEL"
+			description="COM_INSTALLER_CACHETIMEOUT_DESC"
+			first="0"
+			last="24"
+			step="1"
+			default="6"
+			/>
+	</fieldset>
+	<fieldset
 		name="permissions"
 		label="JCONFIG_PERMISSIONS_LABEL"
 		description="JCONFIG_PERMISSIONS_DESC"
@@ -13,24 +29,6 @@
 			filter="rules"
 			validate="rules"
 			component="com_installer"
-			section="component">
-			<!-- Using simplified actions definition -->
-			<action
-				name="core.admin"
-				title="JACTION_ADMIN"
-				description="JACTION_ADMIN_COMPONENT_DESC" />
-			<action
-				name="core.manage"
-				title="JACTION_MANAGE"
-				description="JACTION_MANAGE_COMPONENT_DESC" />
-			<action
-				name="core.delete"
-				title="JACTION_DELETE"
-				description="JACTION_DELETE_COMPONENT_DESC" />
-			<action
-				name="core.edit.state"
-				title="JACTION_EDITSTATE"
-				description="JACTION_EDITSTATE_COMPONENT_DESC" />
-		</field>
+			section="component" />
 	</fieldset>
 </config>

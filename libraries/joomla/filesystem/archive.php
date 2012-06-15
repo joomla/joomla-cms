@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  FileSystem
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -78,7 +78,7 @@ class JArchive
 					$tmpfname = $config->get('tmp_path') . '/' . uniqid('gzip');
 					$gzresult = $adapter->extract($archivename, $tmpfname);
 
-					if (JError::isError($gzresult))
+					if ($gzresult instanceof Exception)
 					{
 						@unlink($tmpfname);
 
@@ -121,7 +121,7 @@ class JArchive
 					$tmpfname = $config->get('tmp_path') . '/' . uniqid('bzip2');
 					$bzresult = $adapter->extract($archivename, $tmpfname);
 
-					if (JError::isError($bzresult))
+					if ($bzresult instanceof Exception)
 					{
 						@unlink($tmpfname);
 						return false;
@@ -154,7 +154,7 @@ class JArchive
 				break;
 		}
 
-		if (!$result || JError::isError($result))
+		if (!$result || $result instanceof Exception)
 		{
 			return false;
 		}

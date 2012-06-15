@@ -1,7 +1,6 @@
 <?php
 /**
- * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -24,6 +23,125 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 	 * @since	1.6
 	 */
 	protected $text_prefix = 'COM_NEWSFEEDS';
+
+	/**
+	 * Batch copy items to a new category or current.
+	 *
+	 * @param   integer  $value     The new category.
+	 * @param   array    $pks       An array of row IDs.
+	 * @param   array    $contexts  An array of item contexts.
+	 *
+	 * @return  mixed  An array of new IDs on success, boolean false on failure.
+	 *
+	 * @since	11.1
+	 */
+	protected function batchCopy($value, $pks, $contexts)
+	{
+		$categoryId = (int) $value;
+
+		$table = $this->getTable();
+		$i = 0;
+
+		// Check that the category exists
+		if ($categoryId)
+		{
+			$categoryTable = JTable::getInstance('Category');
+			if (!$categoryTable->load($categoryId))
+			{
+				if ($error = $categoryTable->getError())
+				{
+					// Fatal error
+					$this->setError($error);
+					return false;
+				}
+				else
+				{
+					$this->setError(JText::_('JLIB_APPLICATION_ERROR_BATCH_MOVE_CATEGORY_NOT_FOUND'));
+					return false;
+				}
+			}
+		}
+
+		if (empty($categoryId))
+		{
+			$this->setError(JText::_('JLIB_APPLICATION_ERROR_BATCH_MOVE_CATEGORY_NOT_FOUND'));
+			return false;
+		}
+
+		// Check that the user has create permission for the component
+		$user = JFactory::getUser();
+		if (!$user->authorise('core.create', 'com_newsfeeds.category.' . $categoryId))
+		{
+			$this->setError(JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_CREATE'));
+			return false;
+		}
+
+		// Parent exists so we let's proceed
+		while (!empty($pks))
+		{
+			// Pop the first ID off the stack
+			$pk = array_shift($pks);
+
+			$table->reset();
+
+			// Check that the row actually exists
+			if (!$table->load($pk))
+			{
+				if ($error = $table->getError())
+				{
+					// Fatal error
+					$this->setError($error);
+					return false;
+				}
+				else
+				{
+					// Not fatal error
+					$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_BATCH_MOVE_ROW_NOT_FOUND', $pk));
+					continue;
+				}
+			}
+
+			// Alter the title & alias
+			$data = $this->generateNewTitle($categoryId, $table->alias, $table->name);
+			$table->name = $data['0'];
+			$table->alias = $data['1'];
+
+			// Reset the ID because we are making a copy
+			$table->id = 0;
+
+			// New category ID
+			$table->catid = $categoryId;
+
+			// TODO: Deal with ordering?
+			//$table->ordering	= 1;
+
+			// Check the row.
+			if (!$table->check())
+			{
+				$this->setError($table->getError());
+				return false;
+			}
+
+			// Store the row.
+			if (!$table->store())
+			{
+				$this->setError($table->getError());
+				return false;
+			}
+
+			// Get the new item ID
+			$newId = $table->get('id');
+
+			// Add the new ID to the array
+			$newIds[$i]	= $newId;
+			$i++;
+		}
+
+		// Clean the cache
+		$this->cleanCache();
+
+		return $newIds;
+	}
 
 	/**
 	 * Method to test whether a record can be deleted.
@@ -174,7 +292,6 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 	 */
 	protected function prepareTable(&$table)
 	{
-		jimport('joomla.filter.output');
 		$date = JFactory::getDate();
 		$user = JFactory::getUser();
 
@@ -187,7 +304,7 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 
 		if (empty($table->id)) {
 			// Set the values
-			//$table->created	= $date->toMySQL();
+			//$table->created	= $date->toSql();
 
 			// Set ordering to the last item if not set
 			if (empty($table->ordering)) {
@@ -200,7 +317,7 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 		}
 		else {
 			// Set the values
-			//$table->modified	= $date->toMySQL();
+			//$table->modified	= $date->toSql();
 			//$table->modified_by	= $user->get('id');
 		}
 	}

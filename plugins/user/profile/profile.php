@@ -1,7 +1,6 @@
 <?php
 /**
- * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -30,6 +29,7 @@ class plgUserProfile extends JPlugin
 	{
 		parent::__construct($subject, $config);
 		$this->loadLanguage();
+		JFormHelper::addFieldPath(dirname(__FILE__) . '/fields');
 	}
 
 	/**
@@ -43,7 +43,8 @@ class plgUserProfile extends JPlugin
 	function onContentPrepareData($context, $data)
 	{
 		// Check we are manipulating a valid form.
-		if (!in_array($context, array('com_users.profile','com_users.user', 'com_users.registration', 'com_admin.profile'))) {
+		if (!in_array($context, array('com_users.profile', 'com_users.user', 'com_users.registration', 'com_admin.profile')))
+		{
 			return true;
 		}
 
@@ -51,8 +52,8 @@ class plgUserProfile extends JPlugin
 		{
 			$userId = isset($data->id) ? $data->id : 0;
 
-			if (!isset($data->profile) and $userId > 0) {
-
+			if (!isset($data->profile) and $userId > 0)
+			{
 				// Load the profile data from the database.
 				$db = JFactory::getDbo();
 				$db->setQuery(
@@ -75,17 +76,24 @@ class plgUserProfile extends JPlugin
 				foreach ($results as $v)
 				{
 					$k = str_replace('profile.', '', $v[0]);
-					$data->profile[$k] = $v[1];
+					$data->profile[$k] = json_decode($v[1], true);
+					if ($data->profile[$k] === null)
+					{
+						$data->profile[$k] = $v[1];
+					}
 				}
 			}
 
-			if (!JHtml::isRegistered('users.url')) {
+			if (!JHtml::isRegistered('users.url'))
+			{
 				JHtml::register('users.url', array(__CLASS__, 'url'));
 			}
-			if (!JHtml::isRegistered('users.calendar')) {
+			if (!JHtml::isRegistered('users.calendar'))
+			{
 				JHtml::register('users.calendar', array(__CLASS__, 'calendar'));
 			}
-			if (!JHtml::isRegistered('users.tos')) {
+			if (!JHtml::isRegistered('users.tos'))
+			{
 				JHtml::register('users.tos', array(__CLASS__, 'tos'));
 			}
 		}
@@ -102,10 +110,12 @@ class plgUserProfile extends JPlugin
 		else
 		{
 			$value = htmlspecialchars($value);
-			if(substr ($value, 0, 4) == "http") {
+			if (substr ($value, 0, 4) == "http")
+			{
 				return '<a href="'.$value.'">'.$value.'</a>';
 			}
-			else {
+			else
+			{
 				return '<a href="http://'.$value.'">'.$value.'</a>';
 			}
 		}
@@ -113,19 +123,24 @@ class plgUserProfile extends JPlugin
 
 	public static function calendar($value)
 	{
-		if (empty($value)) {
+		if (empty($value))
+		{
 			return JHtml::_('users.value', $value);
-		} else {
+		}
+		else
+		{
 			return JHtml::_('date', $value, null, null);
 		}
 	}
 
 	public static function tos($value)
 	{
-		if ($value) {
+		if ($value)
+		{
 			return JText::_('JYES');
 		}
-		else {
+		else
+		{
 			return JText::_('JNO');
 		}
 	}
@@ -139,7 +154,6 @@ class plgUserProfile extends JPlugin
 	 */
 	function onContentPrepareForm($form, $data)
 	{
-
 		if (!($form instanceof JForm))
 		{
 			$this->_subject->setError('JERROR_NOT_A_FORM');
@@ -148,12 +162,13 @@ class plgUserProfile extends JPlugin
 
 		// Check we are manipulating a valid form.
 		$name = $form->getName();
-		if (!in_array($name, array('com_admin.profile', 'com_users.user', 'com_users.profile', 'com_users.registration'))) {
+		if (!in_array($name, array('com_admin.profile', 'com_users.user', 'com_users.profile', 'com_users.registration')))
+		{
 			return true;
 		}
 
 		// Add the registration fields to the form.
-		JForm::addFormPath(dirname(__FILE__).'/profiles');
+		JForm::addFormPath(dirname(__FILE__) . '/profiles');
 		$form->loadFile('profile', false);
 
 		$fields = array(
@@ -167,36 +182,59 @@ class plgUserProfile extends JPlugin
 			'website',
 			'favoritebook',
 			'aboutme',
-			'tos',
 			'dob',
 		);
+		
+		$tosarticle = $this->params->get('register_tos_article');
+		$tosenabled = $this->params->get('register-require_tos', 0);
 
-		foreach ($fields as $field) {
+		// We need to be in the registration form, field needs to be enabled and we need an article ID
+		if ($name != 'com_users.registration' || !$tosenabled || !$tosarticle)
+		{
+			// We only want the TOS in the registration form
+			$form->removeField('tos', 'profile');
+		}
+		else
+		{
+			// Push the TOS article ID into the TOS field.
+			$form->setFieldAttribute('tos', 'article', $tosarticle, 'profile');
+		}
+
+		foreach ($fields as $field)
+		{	
 			// Case using the users manager in admin
-			if ($name == 'com_users.user') {
+			if ($name == 'com_users.user')
+			{
 				// Remove the field if it is disabled in registration and profile
-				if ($this->params->get('register-require_' . $field, 1) == 0 &&
-					$this->params->get('profile-require_' . $field, 1) == 0) {
-					$form->removeField('address1', 'profile');
+				if ($this->params->get('register-require_' . $field, 1) == 0
+					&& $this->params->get('profile-require_' . $field, 1) == 0)
+				{
+					$form->removeField($field, 'profile');
 				}
 			}
 			// Case registration
-			elseif ($name == 'com_users.registration') {
+			elseif ($name == 'com_users.registration')
+			{
 				// Toggle whether the field is required.
-				if ($this->params->get('register-require_' . $field, 1) > 0) {
+				if ($this->params->get('register-require_' . $field, 1) > 0)
+				{
 					$form->setFieldAttribute($field, 'required', ($this->params->get('register-require_' . $field) == 2) ? 'required' : '', 'profile');
 				}
-				else {
+				else
+				{
 					$form->removeField($field, 'profile');
 				}
 			}
 			// Case profile in site or admin
-			elseif ($name == 'com_users.profile' || $name == 'com_admin.profile') {
+			elseif ($name == 'com_users.profile' || $name == 'com_admin.profile')
+			{
 				// Toggle whether the field is required.
-				if ($this->params->get('profile-require_' . $field, 1) > 0) {
+				if ($this->params->get('profile-require_' . $field, 1) > 0)
+				{
 					$form->setFieldAttribute($field, 'required', ($this->params->get('profile-require_' . $field) == 2) ? 'required' : '', 'profile');
 				}
-				else {
+				else
+				{
 					$form->removeField($field, 'profile');
 				}
 			}
@@ -214,9 +252,10 @@ class plgUserProfile extends JPlugin
 			try
 			{
 				//Sanitize the date
-				if (!empty($data['profile']['dob'])) {
+				if (!empty($data['profile']['dob']))
+				{
 					$date = new JDate($data['profile']['dob']);
-					$data['profile']['dob'] = $date->toFormat('%Y-%m-%d');
+					$data['profile']['dob'] = $date->format('Y-m-d');
 				}
 
 				$db = JFactory::getDbo();
@@ -225,7 +264,8 @@ class plgUserProfile extends JPlugin
 					" AND profile_key LIKE 'profile.%'"
 				);
 
-				if (!$db->query()) {
+				if (!$db->query())
+				{
 					throw new Exception($db->getErrorMsg());
 				}
 
@@ -234,12 +274,13 @@ class plgUserProfile extends JPlugin
 
 				foreach ($data['profile'] as $k => $v)
 				{
-					$tuples[] = '('.$userId.', '.$db->quote('profile.'.$k).', '.$db->quote($v).', '.$order++.')';
+					$tuples[] = '('.$userId.', '.$db->quote('profile.'.$k).', '.$db->quote(json_encode($v)).', '.$order++.')';
 				}
 
 				$db->setQuery('INSERT INTO #__user_profiles VALUES '.implode(', ', $tuples));
 
-				if (!$db->query()) {
+				if (!$db->query())
+				{
 					throw new Exception($db->getErrorMsg());
 				}
 
@@ -265,7 +306,8 @@ class plgUserProfile extends JPlugin
 	 */
 	function onUserAfterDelete($user, $success, $msg)
 	{
-		if (!$success) {
+		if (!$success)
+		{
 			return false;
 		}
 
@@ -281,7 +323,8 @@ class plgUserProfile extends JPlugin
 					" AND profile_key LIKE 'profile.%'"
 				);
 
-				if (!$db->query()) {
+				if (!$db->query())
+				{
 					throw new Exception($db->getErrorMsg());
 				}
 			}

@@ -1,7 +1,6 @@
 <?php
 /**
- * @version		$Id:mod_menu.php 2463 2006-02-18 06:05:38Z webImagery $
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -35,7 +34,8 @@ abstract class ModMenuHelper
 		$query->select('l.sef');
 		$query->select('l.title_native');
 		$query->where('(b.client_id = 0 OR b.client_id IS NULL)');
-		$query->group('a.id');
+		//sqlsrv change
+		$query->group('a.id, a.menutype, a.description, a.title, b.menutype,b.language,l.image,l.sef,l.title_native');
 
 		$db->setQuery($query);
 

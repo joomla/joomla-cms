@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -185,12 +185,12 @@ abstract class JHtmlJGrid
 				if ($key == 1)
 				{
 					$states[$key][2] = $states[$key][3] = 'JLIB_HTML_PUBLISHED_ITEM';
-					if ($publish_up && $nowDate < $publish_up->toUnix())
+					if ($publish_up > $nullDate && $nowDate < $publish_up->toUnix())
 					{
 						$states[$key][2] = $states[$key][3] = 'JLIB_HTML_PUBLISHED_PENDING_ITEM';
 						$states[$key][5] = $states[$key][6] = 'pending';
 					}
-					if ($publish_down && $nowDate > $publish_down->toUnix())
+					if ($publish_down > $nullDate && $nowDate > $publish_down->toUnix())
 					{
 						$states[$key][2] = $states[$key][3] = 'JLIB_HTML_PUBLISHED_EXPIRED_ITEM';
 						$states[$key][5] = $states[$key][6] = 'expired';
@@ -221,7 +221,7 @@ abstract class JHtmlJGrid
 	 * @param   boolean       $enabled   An optional setting for access control on the action.
 	 * @param   string        $checkbox  An optional prefix for checkboxes.
 	 *
-	 * @return  The Html code
+	 * @return  string  The HTML code
 	 *
 	 * @see     JHtmlJGrid::state
 	 * @since   11.1

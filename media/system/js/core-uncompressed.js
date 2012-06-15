@@ -1,5 +1,5 @@
 /**
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -26,7 +26,7 @@ Joomla.submitform = function(task, form) {
 		}
 	}
 
-	if (typeof(task) !== 'undefined') {
+	if (typeof(task) !== 'undefined' && '' !== task) {
 		form.task.value = task;
 	}
 
@@ -186,6 +186,12 @@ Joomla.removeMessages = function() {
 Joomla.isChecked = function(isitchecked, form) {
 	if (typeof(form) === 'undefined') {
 		form = document.getElementById('adminForm');
+		/**
+		 * Added to ensure Joomla 1.5 compatibility
+		 */
+		if(!form){
+			form = document.adminForm;
+		}
 	}
 
 	if (isitchecked == true) {
@@ -215,6 +221,12 @@ Joomla.popupWindow = function(mypage, myname, w, h, scroll) {
 Joomla.tableOrdering = function(order, dir, task, form) {
 	if (typeof(form) === 'undefined') {
 		form = document.getElementById('adminForm');
+		/**
+		 * Added to ensure Joomla 1.5 compatibility
+		 */
+		if(!form){
+			form = document.adminForm;
+		}
 	}
 
 	form.filter_order.value = order;

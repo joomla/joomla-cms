@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -30,7 +30,7 @@ abstract class JHtmlTabs
 	 */
 	public static function start($group = 'tabs', $params = array())
 	{
-		JHtmlTabs::_loadBehavior($group, $params);
+		self::_loadBehavior($group, $params);
 
 		return '<dl class="tabs" id="' . $group . '"><dt style="display:none;"></dt><dd style="display:none;">';
 	}
@@ -76,7 +76,7 @@ abstract class JHtmlTabs
 	{
 		static $loaded = array();
 
-		if (!array_key_exists($group, $loaded))
+		if (!array_key_exists((string) $group, $loaded))
 		{
 			// Include MooTools framework
 			JHtml::_('behavior.framework', true);
@@ -85,7 +85,7 @@ abstract class JHtmlTabs
 			$opt['onActive'] = (isset($params['onActive'])) ? $params['onActive'] : null;
 			$opt['onBackground'] = (isset($params['onBackground'])) ? $params['onBackground'] : null;
 			$opt['display'] = (isset($params['startOffset'])) ? (int) $params['startOffset'] : null;
-			$opt['useStorage'] = (isset($params['useCookie']) && $params['useCookie']) ? 'true' : null;
+			$opt['useStorage'] = (isset($params['useCookie']) && $params['useCookie']) ? 'true' : 'false';
 			$opt['titleSelector'] = "'dt.tabs'";
 			$opt['descriptionSelector'] = "'dd.tabs'";
 
@@ -114,7 +114,7 @@ abstract class JHtmlTabs
 			$document->addScriptDeclaration($js);
 			JHtml::_('script', 'system/tabs.js', false, true);
 
-			$loaded[$group] = true;
+			$loaded[(string) $group] = true;
 		}
 	}
 }

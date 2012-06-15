@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Log
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -15,7 +15,7 @@ jimport('joomla.log.logger');
  * Joomla MessageQueue logger class.
  *
  * This class is designed to output logs to a specific MySQL database table. Fields in this
- * table are based on the SysLog style of log output. This is designed to allow quick and
+ * table are based on the Syslog style of log output. This is designed to allow quick and
  * easy searching.
  *
  * @package     Joomla.Platform

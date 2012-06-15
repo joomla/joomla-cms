@@ -1,9 +1,8 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Site
  * @subpackage	mod_whosonline
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -20,7 +19,7 @@ if ($showmode == 0 || $showmode == 2) {
 }
 
 if ($showmode > 0) {
-	$names	= modWhosonlineHelper::getOnlineUserNames();
+	$names	= modWhosonlineHelper::getOnlineUserNames($params);
 }
 
 $linknames = $params->get('linknames', 0);

@@ -1,8 +1,7 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Installation
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,7 +13,7 @@ defined('_JEXEC') or die;
  * @package		Joomla.Installation
  * @since		1.6
  */
-class JInstallationControllerSetup extends JController
+class JInstallationControllerSetup extends JControllerLegacy
 {
 	/**
 	 * Method to set the setup language for the application.
@@ -38,7 +37,7 @@ class JInstallationControllerSetup extends JController
 		}
 
 		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Get the setup model.
 		$model = $this->getModel('Setup', 'JInstallationModel', array('dbo' => null));
@@ -81,7 +80,7 @@ class JInstallationControllerSetup extends JController
 	function database()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Get the application object.
 		$app = JFactory::getApplication();
@@ -147,7 +146,7 @@ class JInstallationControllerSetup extends JController
 	function filesystem()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Get the application object.
 		$app = JFactory::getApplication();
@@ -192,7 +191,7 @@ class JInstallationControllerSetup extends JController
 	function saveconfig()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Get the application object.
 		$app = JFactory::getApplication();

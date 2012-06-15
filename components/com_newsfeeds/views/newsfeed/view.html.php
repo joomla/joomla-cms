@@ -1,9 +1,8 @@
 <?php
 /**
- * version $Id$
  * @package		Joomla.Site
  * @subpackage	com_newsfeeds
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  *
  */
@@ -142,7 +141,7 @@ class NewsfeedsViewNewsfeed extends JView
 		// Check the access to the newsfeed
 		$levels = $user->getAuthorisedViewLevels();
 
-		if (!in_array($item->access, $levels) or ((in_array($item->access,$levels) and (!in_array($item->category_access, $levels))))) {
+		if (!in_array($item->access, $levels) or ((in_array($item->access, $levels) and (!in_array($item->category_access, $levels))))) {
 			JError::raiseWarning(403, JText::_('JERROR_ALERTNOAUTHOR'));
 			return;
 		}
@@ -160,11 +159,7 @@ class NewsfeedsViewNewsfeed extends JView
 		$params->merge($temp);
 
 		//  get RSS parsed object
-		$options = array();
-		$options['rssUrl']		= $newsfeed->link;
-		$options['cache_time']	= $newsfeed->cache_time;
-
-		$rssDoc = JFactory::getXMLParser('RSS', $options);
+		$rssDoc = JFactory::getFeedParser($newsfeed->link, $newsfeed->cache_time);
 
 		if ($rssDoc == false) {
 			$msg = JText::_('COM_NEWSFEEDS_ERRORS_FEED_NOT_RETRIEVED');
@@ -206,7 +201,7 @@ class NewsfeedsViewNewsfeed extends JView
 		$this->assignRef('state', $state);
 		$this->assignRef('item', $item);
 		$this->assignRef('user', $user);
-		$this->assign('print', $print);
+		$this->print = $print;
 
 		$this->_prepareDocument();
 

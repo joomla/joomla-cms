@@ -1,9 +1,8 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Administrator
  * @subpackage	com_config
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -113,8 +112,7 @@ class ConfigModelComponent extends JModelForm
 
 		// Save the rules.
 		if (isset($data['params']) && isset($data['params']['rules'])) {
-			jimport('joomla.access.rules');
-			$rules	= new JRules($data['params']['rules']);
+			$rules	= new JAccessRules($data['params']['rules']);
 			$asset	= JTable::getInstance('asset');
 
 			if (!$asset->loadByName($data['option'])) {
@@ -122,7 +120,7 @@ class ConfigModelComponent extends JModelForm
 				$root->loadByName('root.1');
 				$asset->name = $data['option'];
 				$asset->title = $data['option'];
-				$asset->setLocation($root->id,'last-child');
+				$asset->setLocation($root->id, 'last-child');
 			}
 			$asset->rules = (string) $rules;
 
@@ -162,9 +160,8 @@ class ConfigModelComponent extends JModelForm
 			return false;
 		}
 
-		// Clean the cache.
-		$this->cleanCache('_system', 0);
-		$this->cleanCache('_system', 1);
+		// Clean the component cache.
+		$this->cleanCache('_system');
 
 		return true;
 	}

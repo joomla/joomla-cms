@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -24,7 +24,6 @@ jimport('joomla.environment.response');
  * @subpackage  Application
  * @since       11.1
  */
-
 class JApplication extends JObject
 {
 	/**
@@ -99,7 +98,6 @@ class JApplication extends JObject
 	 */
 	public function __construct($config = array())
 	{
-		jimport('joomla.utilities.utility');
 		jimport('joomla.error.profiler');
 
 		// Set the view name.
@@ -144,7 +142,7 @@ class JApplication extends JObject
 		// Create the session if a session name is passed.
 		if ($config['session'] !== false)
 		{
-			$this->_createSession(JUtility::getHash($config['session_name']));
+			$this->_createSession(self::getHash($config['session_name']));
 		}
 
 		$this->set('requestTime', gmdate('Y-m-d H:i'));
@@ -170,7 +168,6 @@ class JApplication extends JObject
 		if (empty(self::$instances[$client]))
 		{
 			// Load the router object.
-			jimport('joomla.application.helper');
 			$info = JApplicationHelper::getClientInfo($client, true);
 
 			$path = $info->path . '/includes/application.php';
@@ -205,8 +202,6 @@ class JApplication extends JObject
 	 */
 	public function initialise($options = array())
 	{
-		jimport('joomla.plugin.helper');
-
 		// Set the language in the class.
 		$config = JFactory::getConfig();
 
@@ -419,14 +414,14 @@ class JApplication extends JObject
 			{
 				// MSIE type browser and/or server cause issues when url contains utf8 character,so use a javascript redirect method
 				echo '<html><head><meta http-equiv="content-type" content="text/html; charset=' . $document->getCharset() . '" />'
-					.'<script>document.location.href=\'' . htmlspecialchars($url) . '\';</script></head></html>';
+					. '<script>document.location.href=\'' . htmlspecialchars($url) . '\';</script></head></html>';
 			}
 			elseif (!$moved and $navigator->isBrowser('konqueror'))
 			{
 				// WebKit browser (identified as konqueror by Joomla!) - Do not use 303, as it causes subresources
 				// reload (https://bugs.webkit.org/show_bug.cgi?id=38690)
 				echo '<html><head><meta http-equiv="content-type" content="text/html; charset=' . $document->getCharset() . '" />'
-					.'<meta http-equiv="refresh" content="0; url=' . htmlspecialchars($url) . '" /></head></html>';
+					. '<meta http-equiv="refresh" content="0; url=' . htmlspecialchars($url) . '" /></head></html>';
 			}
 			else
 			{
@@ -640,7 +635,7 @@ class JApplication extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function triggerEvent($event, $args = null)
+	public function triggerEvent($event, $args = null)
 	{
 		$dispatcher = JDispatcher::getInstance();
 
@@ -728,20 +723,18 @@ class JApplication extends JObject
 				// Set the remember me cookie if enabled.
 				if (isset($options['remember']) && $options['remember'])
 				{
-					jimport('joomla.utilities.simplecrypt');
-					jimport('joomla.utilities.utility');
-
 					// Create the encryption key, apply extra hardening using the user agent string.
-					$key = JUtility::getHash(@$_SERVER['HTTP_USER_AGENT']);
+					$privateKey = self::getHash(@$_SERVER['HTTP_USER_AGENT']);
 
-					$crypt = new JSimpleCrypt($key);
+					$key = new JCryptKey('simple', $privateKey, $privateKey);
+					$crypt = new JCrypt(new JCryptCipherSimple, $key);
 					$rcookie = $crypt->encrypt(serialize($credentials));
 					$lifetime = time() + 365 * 24 * 60 * 60;
 
 					// Use domain and path set in config for cookie if it exists.
 					$cookie_domain = $this->getCfg('cookie_domain', '');
 					$cookie_path = $this->getCfg('cookie_path', '/');
-					setcookie(JUtility::getHash('JLOGIN_REMEMBER'), $rcookie, $lifetime, $cookie_path, $cookie_domain);
+					setcookie(self::getHash('JLOGIN_REMEMBER'), $rcookie, $lifetime, $cookie_path, $cookie_domain);
 				}
 
 				return true;
@@ -811,7 +804,7 @@ class JApplication extends JObject
 			// Use domain and path set in config for cookie if it exists.
 			$cookie_domain = $this->getCfg('cookie_domain', '');
 			$cookie_path = $this->getCfg('cookie_path', '/');
-			setcookie(JUtility::getHash('JLOGIN_REMEMBER'), false, time() - 86400, $cookie_path, $cookie_domain);
+			setcookie(self::getHash('JLOGIN_REMEMBER'), false, time() - 86400, $cookie_path, $cookie_domain);
 
 			return true;
 		}
@@ -857,7 +850,7 @@ class JApplication extends JObject
 		jimport('joomla.application.router');
 		$router = JRouter::getInstance($name, $options);
 
-		if (JError::isError($router))
+		if ($router instanceof Exception)
 		{
 			return null;
 		}
@@ -910,7 +903,7 @@ class JApplication extends JObject
 		jimport('joomla.application.pathway');
 		$pathway = JPathway::getInstance($name, $options);
 
-		if (JError::isError($pathway))
+		if ($pathway instanceof Exception)
 		{
 			return null;
 		}
@@ -938,7 +931,7 @@ class JApplication extends JObject
 		jimport('joomla.application.menu');
 		$menu = JMenu::getInstance($name, $options);
 
-		if (JError::isError($menu))
+		if ($menu instanceof Exception)
 		{
 			return null;
 		}
@@ -957,9 +950,7 @@ class JApplication extends JObject
 	 */
 	public static function getHash($seed)
 	{
-		$conf = JFactory::getConfig();
-
-		return md5($conf->get('secret') . $seed);
+		return md5(JFactory::getConfig()->get('secret') . $seed);
 	}
 
 	/**
@@ -1036,8 +1027,11 @@ class JApplication extends JObject
 			// The modulus introduces a little entropy, making the flushing less accurate
 			// but fires the query less than half the time.
 			$query = $db->getQuery(true);
-			$db->setQuery('DELETE FROM ' . $query->qn('#__session') . ' WHERE ' . $query->qn('time') . ' < ' . (int) ($time - $session->getExpire()));
-			$db->query();
+			$query->delete($query->qn('#__session'))
+				->where($query->qn('time') . ' < ' . $query->q((int) ($time - $session->getExpire())));
+
+			$db->setQuery($query);
+			$db->execute();
 		}
 
 		// Check to see the the session already exists.
@@ -1067,36 +1061,41 @@ class JApplication extends JObject
 		$user = JFactory::getUser();
 
 		$query = $db->getQuery(true);
-		$db->setQuery(
-			'SELECT ' . $query->qn('session_id') . ' FROM ' . $query->qn('#__session') . ' WHERE ' . $query->qn('session_id') . ' = ' .
-			$query->q($session->getId()),
-			0, 1
-		);
+		$query->select($query->qn('session_id'))
+			->from($query->qn('#__session'))
+			->where($query->qn('session_id') . ' = ' . $query->q($session->getId()));
+
+		$db->setQuery($query, 0, 1);
 		$exists = $db->loadResult();
 
 		// If the session record doesn't exist initialise it.
 		if (!$exists)
 		{
+			$query->clear();
 			if ($session->isNew())
 			{
-				$db->setQuery(
-					'INSERT INTO ' . $query->qn('#__session') . ' (' . $query->qn('session_id') . ', ' . $query->qn('client_id') . ', ' .
-					$query->qn('time') . ')' . ' VALUES (' . $query->q($session->getId()) . ', ' . (int) $this->getClientId() . ', ' .
-					(int) time() . ')'
-				);
+				$query->insert($query->qn('#__session'))
+					->columns($query->qn('session_id') . ', ' . $query->qn('client_id') . ', ' . $query->qn('time'))
+					->values($query->q($session->getId()) . ', ' . (int) $this->getClientId() . ', ' . $query->q((int) time()));
+				$db->setQuery($query);
 			}
 			else
 			{
-				$db->setQuery(
-					'INSERT INTO ' . $query->qn('#__session') . ' (' . $query->qn('session_id') . ', ' . $query->qn('client_id') . ', ' .
-					$query->qn('guest') . ', ' . $query->qn('time') . ', ' . $query->qn('userid') . ', ' . $query->qn('username') . ')' .
-					' VALUES (' . $query->q($session->getId()) . ', ' . (int) $this->getClientId() . ', ' . (int) $user->get('guest') . ', ' .
-					(int) $session->get('session.timer.start') . ', ' . (int) $user->get('id') . ', ' . $query->q($user->get('username')) . ')'
-				);
+				$query->insert($query->qn('#__session'))
+					->columns(
+						$query->qn('session_id') . ', ' . $query->qn('client_id') . ', ' . $query->qn('guest') . ', ' .
+						$query->qn('time') . ', ' . $query->qn('userid') . ', ' . $query->qn('username')
+					)
+					->values(
+						$query->q($session->getId()) . ', ' . (int) $this->getClientId() . ', ' . (int) $user->get('guest') . ', ' .
+						$query->q((int) $session->get('session.timer.start')) . ', ' . (int) $user->get('id') . ', ' . $query->q($user->get('username'))
+					);
+
+				$db->setQuery($query);
 			}
 
 			// If the insert failed, exit the application.
-			if (!$db->query())
+			if (!$db->execute())
 			{
 				jexit($db->getErrorMSG());
 			}
@@ -1153,7 +1152,7 @@ class JApplication extends JObject
 	 *
 	 * @since   11.1
 	 */
-	static function isWinOS()
+	public static function isWinOS()
 	{
 		return strtoupper(substr(PHP_OS, 0, 3)) === 'WIN';
 	}

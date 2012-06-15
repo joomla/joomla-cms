@@ -48,7 +48,7 @@
 	}
 
 	function setVal(id, value, name) {
-		if (typeof(value) != 'undefined') {
+		if (typeof(value) != 'undefined' && value != null) {
 			var elm = get(id);
 
 			if (elm.nodeName == "SELECT")
@@ -176,14 +176,14 @@
 						formItemName = type == 'global' ? name : type + '_' + name;
 
 						if (type == 'global')
-							list = data;
-						else if (type == 'video' || type == 'audio') {
+						list = data;
+					else if (type == 'video' || type == 'audio') {
 							list = data.video.attrs;
 
 							if (!list && !to_form)
-								data.video.attrs = list = {};
+							data.video.attrs = list = {};
 						} else
-							list = data.params;
+						list = data.params;
 
 						if (list) {
 							if (to_form) {
@@ -427,34 +427,30 @@
 		},
 
 		getMediaTypeHTML : function(editor) {
-			function option(media_type){
+			function option(media_type, element) {
+				if (!editor.schema.getElementRule(element || media_type)) {
+					return '';
+				}
+
 				return '<option value="'+media_type+'">'+tinyMCEPopup.editor.translate("media_dlg."+media_type)+'</option>'
 			}
 
-			var invalid_elements = editor.settings.invalid_elements;
-			invalid_elements.toLowerCase();
-
 			var html = "";
+
 			html += '<select id="media_type" name="media_type" onchange="Media.formToData(\'type\');">';
-			if (invalid_elements.indexOf("video") == -1) {
-				html += option("video");
-			}
-			if (invalid_elements.indexOf("audio") == -1) {
-				html += option("audio");
-			}
-			html += option("flash");
-			html += option("quicktime");
-			html += option("shockwave");
-			html += option("windowsmedia");
-			html += option("realmedia");
-			if (invalid_elements.indexOf("iframe") == -1) {
-				html += option("iframe");
-			}
+			html += option("video");
+			html += option("audio");
+			html += option("flash", "object");
+			html += option("quicktime", "object");
+			html += option("shockwave", "object");
+			html += option("windowsmedia", "object");
+			html += option("realmedia", "object");
+			html += option("iframe");
 
 			if (editor.getParam('media_embedded_audio', false)) {
-				html += option('embeddedaudio');
+				html += option('embeddedaudio', "object");
 			}
-			
+
 			html += '</select>';
 			return html;
 		},

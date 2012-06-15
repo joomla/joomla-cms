@@ -1,7 +1,6 @@
 <?php
 /**
- * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -157,9 +156,10 @@ class ContentControllerArticle extends JControllerForm
 	 * @param	array	$config	Configuration array for model. Optional.
 	 *
 	 * @return	object	The model.
+	 *
 	 * @since	1.5
 	 */
-	public function &getModel($name = 'form', $prefix = '', $config = array('ignore_request' => true))
+	public function getModel($name = 'form', $prefix = '', $config = array('ignore_request' => true))
 	{
 		$model = parent::getModel($name, $prefix, $config);
 
@@ -199,9 +199,14 @@ class ContentControllerArticle extends JControllerForm
 
 		$itemId	= JRequest::getInt('Itemid');
 		$return	= $this->getReturnPage();
+		$catId = JRequest::getInt('catid', null, 'get');
 
 		if ($itemId) {
 			$append .= '&Itemid='.$itemId;
+		}
+
+		if($catId) {
+			$append .= '&catid='.$catId;
 		}
 
 		if ($return) {
@@ -282,7 +287,7 @@ class ContentControllerArticle extends JControllerForm
 	function vote()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$user_rating = JRequest::getInt('user_rating', -1);
 

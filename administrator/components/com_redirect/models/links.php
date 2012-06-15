@@ -1,9 +1,8 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Administrator
  * @subpackage	com_redirect
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -36,6 +35,7 @@ class RedirectModelLinks extends JModelList
 				'old_url', 'a.old_url',
 				'new_url', 'a.new_url',
 				'referer', 'a.referer',
+				'hits', 'a.hits',
 				'created_date', 'a.created_date',
 				'published', 'a.published',
 			);
@@ -111,7 +111,7 @@ class RedirectModelLinks extends JModelList
 				'a.*'
 			)
 		);
-		$query->from($db->nameQuote('#__redirect_links').' AS a');
+		$query->from($db->quoteName('#__redirect_links').' AS a');
 
 		// Filter by published state
 		$state = $this->getState('filter.state');
@@ -127,18 +127,18 @@ class RedirectModelLinks extends JModelList
 			if (stripos($search, 'id:') === 0) {
 				$query->where('a.id = '.(int) substr($search, 3));
 			} else {
-				$search = $db->Quote('%'.$db->getEscaped($search, true).'%');
+				$search = $db->Quote('%'.$db->escape($search, true).'%');
 				$query->where(
-					'('.$db->nameQuote('old_url').' LIKE '.$search .
-					' OR '.$db->nameQuote('new_url').' LIKE '.$search .
-					' OR '.$db->nameQuote('comment').' LIKE '.$search .
-					' OR '.$db->nameQuote('referer').' LIKE '.$search.')'
+					'('.$db->quoteName('old_url').' LIKE '.$search .
+					' OR '.$db->quoteName('new_url').' LIKE '.$search .
+					' OR '.$db->quoteName('comment').' LIKE '.$search .
+					' OR '.$db->quoteName('referer').' LIKE '.$search.')'
 				);
 			}
 		}
 
 		// Add the list ordering clause.
-		$query->order($db->getEscaped($this->getState('list.ordering', 'a.old_url')).' '.$db->getEscaped($this->getState('list.direction', 'ASC')));
+		$query->order($db->escape($this->getState('list.ordering', 'a.old_url')).' '.$db->escape($this->getState('list.direction', 'ASC')));
 
 		//echo nl2br(str_replace('#__','jos_',$query));
 		return $query;

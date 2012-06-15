@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -35,7 +35,7 @@ abstract class JHtml
 	 * @var    array
 	 * @since  11.1
 	 */
-	static $formatOptions = array('format.depth' => 0, 'format.eol' => "\n", 'format.indent' => "\t");
+	public static $formatOptions = array('format.depth' => 0, 'format.eol' => "\n", 'format.indent' => "\t");
 
 	/**
 	 * An array to hold included paths
@@ -543,6 +543,7 @@ abstract class JHtml
 		// Function stylesheet($filename, $path = 'media/system/css/', $attribs = array())
 		if (is_string($attribs))
 		{
+			JLog::add('The used parameter set in JHtml::stylesheet() is deprecated.', JLog::WARNING, 'deprecated');
 			// Assume this was the old $path variable.
 			$file = $attribs . $file;
 		}
@@ -600,12 +601,11 @@ abstract class JHtml
 	 */
 	public static function script($file, $framework = false, $relative = false, $path_only = false, $detect_browser = true, $detect_debug = true)
 	{
-		JHtml::core($detect_debug == false ? false : null);
-
 		// Need to adjust for the change in API from 1.5 to 1.6.
 		// function script($filename, $path = 'media/system/js/', $mootools = true)
 		if (is_string($framework))
 		{
+			JLog::add('The used parameter set in JHtml::script() is deprecated.', JLog::WARNING, 'deprecated');
 			// Assume this was the old $path variable.
 			$file = $framework . $file;
 			$framework = $relative;
@@ -654,19 +654,12 @@ abstract class JHtml
 	 * @return  void
 	 *
 	 * @since   11.1
+	 * @deprecated  12.1  Use JHtml::_('behavior.framework'); instead.
 	 */
 	public static function core($debug = null)
 	{
-		// If no debugging value is set, use the configuration setting
-		if ($debug === null)
-		{
-			$debug = JFactory::getConfig()->get('debug');
-		}
-
-		$uncompressed = $debug ? '-uncompressed' : '';
-
-		$document = JFactory::getDocument();
-		$document->addScript(JURI::root(true) . '/media/system/js/core' . $uncompressed . '.js');
+		JLog::add('JHtml::core() is deprecated. Use JHtml::_(\'behavior.framework\');.', JLog::WARNING, 'deprecated');
+		JHtml::_('behavior.framework', false, $debug);
 	}
 
 	/**
@@ -871,7 +864,7 @@ abstract class JHtml
 			$attribs = JArrayHelper::toString($attribs);
 		}
 
-		if ((!$readonly) && (!$disabled))
+		if (!$readonly && !$disabled)
 		{
 			// Load the calendar behavior
 			JHtml::_('behavior.calendar');
@@ -898,12 +891,16 @@ abstract class JHtml
 				);
 				$done[] = $id;
 			}
+			return '<input type="text" title="' . (0 !== (int) $value ? JHtml::_('date', $value) : '') . '" name="' . $name . '" id="' . $id
+				. '" value="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '" ' . $attribs . ' />'
+				. JHtml::_('image', 'system/calendar.png', JText::_('JLIB_HTML_CALENDAR'), array('class' => 'calendar', 'id' => $id . '_img'), true);
 		}
-
-		return '<input type="text" title="' . (0 !== (int) $value ? JHtml::_('date', $value) : '') . '" name="' . $name . '" id="' . $id
-			. '" value="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '" ' . $attribs . ' />'
-			. ($readonly ? ''
-			: JHtml::_('image', 'system/calendar.png', JText::_('JLIB_HTML_CALENDAR'), array('class' => 'calendar', 'id' => $id . '_img'), true));
+		else
+		{
+			return '<input type="text" title="' . (0 !== (int) $value ? JHtml::_('date', $value) : '')
+				. '" value="' . (0 !== (int) $value ? JHtml::_('date', $value, JFactory::getDbo()->getDateFormat()) : '') . '" ' . $attribs
+				. ' /><input type="hidden" name="' . $name . '" id="' . $id . '" value="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '" />';
+		}
 	}
 
 	/**

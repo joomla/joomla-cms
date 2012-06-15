@@ -13,7 +13,6 @@
  * @author Author Name
  * @license GNU/GPL http://www.gnu.org/licenses/gpl.html
  * @copyright 2009 Developer Name
- * @version SVN: $Id$
  */
 
 class Com_BetaInstallerScript {

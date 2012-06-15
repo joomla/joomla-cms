@@ -1,7 +1,6 @@
 <?php
 /**
- * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -70,8 +69,7 @@ final class JSite extends JApplication
 
 		if ($this->_language_filter && empty($options['language'])) {
 			// Detect cookie language
-			jimport('joomla.utilities.utility');
-			$lang = JRequest::getString(self::getHash('language'), null ,'cookie');
+			$lang = JRequest::getString(self::getHash('language'), null , 'cookie');
 			// Make sure that the user's language exists
 			if ($lang && JLanguage::exists($lang)) {
 				$options['language'] = $lang;
@@ -105,7 +103,7 @@ final class JSite extends JApplication
 
 		// One last check to make sure we have something
 		if (!JLanguage::exists($options['language'])) {
-			$lang = $config->get('language','en-GB');
+			$lang = $config->get('language', 'en-GB');
 			if (JLanguage::exists($lang)) {
 				$options['language'] = $lang;
 			}
@@ -185,6 +183,17 @@ final class JSite extends JApplication
 
 			$document->setTitle($params->get('page_title'));
 			$document->setDescription($params->get('page_description'));
+
+			// Add version number or not based on global configuration
+			if ($this->getCfg('MetaVersion', 0))
+			{
+				$document->setGenerator('Joomla! - Open Source Content Management  - Version ' . JVERSION);
+			}
+			else
+			{
+				$document->setGenerator('Joomla! - Open Source Content Management');
+			}
+
 			$contents = JComponentHelper::renderComponent($component);
 			$document->setBuffer($contents, 'component');
 
@@ -229,7 +238,7 @@ final class JSite extends JApplication
 				if ($this->getCfg('offline') && !$user->authorise('core.login.offline')) {
 					$uri		= JFactory::getURI();
 					$return		= (string)$uri;
-					$this->setUserState('users.login.form.data',array( 'return' => $return ) );
+					$this->setUserState('users.login.form.data', array( 'return' => $return ) );
 					$file = 'offline';
 					JResponse::setHeader('Status', '503 Service Temporarily Unavailable', 'true');
 				}
@@ -254,7 +263,7 @@ final class JSite extends JApplication
 		$this->triggerEvent('onBeforeRender');
 
 		$caching = false;
-		if ($this->getCfg('caching') && $this->getCfg('caching',2) == 2 && !$user->get('id')) {
+		if ($this->getCfg('caching') && $this->getCfg('caching', 2) == 2 && !$user->get('id')) {
 			$caching = true;
 		}
 
@@ -291,6 +300,7 @@ final class JSite extends JApplication
 	 */
 	public function authorize($itemid)
 	{
+		JLog::add('JSite::authorize() is deprecated. Use JSite::authorise() instead.', JLog::WARNING, 'deprecated');
 		return $this->authorise($itemid);
 	}
 
@@ -310,7 +320,7 @@ final class JSite extends JApplication
 				$uri		= JFactory::getURI();
 				$return		= (string)$uri;
 
-				$this->setUserState('users.login.form.data',array( 'return' => $return ) );
+				$this->setUserState('users.login.form.data', array( 'return' => $return ) );
 
 				$url	= 'index.php?option=com_users&view=login';
 				$url	= JRoute::_($url, false);
@@ -362,17 +372,25 @@ final class JSite extends JApplication
 				$description = $this->getCfg('MetaDesc');
 			}
 			$rights = $this->getCfg('MetaRights');
+			$robots = $this->getCfg('robots');
 			// Lets cascade the parameters if we have menu item parameters
 			if (is_object($menu)) {
 				$temp = new JRegistry;
 				$temp->loadString($menu->params);
 				$params[$hash]->merge($temp);
 				$title = $menu->title;
+			} else {
+				// get com_menu global settings
+				$temp = clone JComponentHelper::getParams('com_menus');
+				$params[$hash]->merge($temp);
+				// if supplied, use page title
+				$title = $temp->get('page_title', $title);
 			}
 
 			$params[$hash]->def('page_title', $title);
 			$params[$hash]->def('page_description', $description);
 			$params[$hash]->def('page_rights', $rights);
+			$params[$hash]->def('robots', $robots);
 		}
 
 		return $params[$hash];
@@ -450,7 +468,8 @@ final class JSite extends JApplication
 				$template->params = $registry;
 
 				// Create home element
-				if ($template->home == '1' && !isset($templates[0]) || $this->_language_filter && $template->home == $tag) {
+				//sqlsrv change
+				if ($template->home == 1 && !isset($templates[0]) || $this->_language_filter && $template->home == $tag) {
 					$templates[0] = clone $template;
 				}
 			}
@@ -493,7 +512,7 @@ final class JSite extends JApplication
 	 */
 	public function setTemplate($template, $styleParams=null)
  	{
- 		if (is_dir(JPATH_THEMES.DS.$template)) {
+ 		if (is_dir(JPATH_THEMES . '/' . $template)) {
  			$this->template = new stdClass();
  			$this->template->template = $template;
 			if ($styleParams instanceof JRegistry) {

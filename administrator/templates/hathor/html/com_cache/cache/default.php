@@ -1,9 +1,8 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Administrator
  * @subpackage	Templates.hathor
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  * @since		1.6
  */
@@ -61,7 +60,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 				<?php echo $this->pagination->getRowOffset($i); ?>
 			</td>
 			<td>
-				<input type="checkbox" id="cb<?php echo $i;?>" name="cid[]" title="<?php echo JText::sprintf('JGRID_CHECKBOX_ROW_N', ($i + 1)); ?>" value="<?php echo $item->group; ?>" onclick="isChecked(this.checked);" />
+				<input type="checkbox" id="cb<?php echo $i;?>" name="cid[]" title="<?php echo JText::sprintf('JGRID_CHECKBOX_ROW_N', ($i + 1)); ?>" value="<?php echo $item->group; ?>" onclick="Joomla.isChecked(this.checked);" />
 			</td>
 			<td>
 				<span class="bold">

@@ -1,9 +1,8 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Administrator
  * @subpackage	Templates.hathor
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  * @since		1.6
  */
@@ -166,11 +165,10 @@ $file = 'language/'.$lang->getTag().'/'.$lang->getTag().'.css';
 
 <!-- Footer -->
 <div id="footer">
+	<jdoc:include type="modules" name="footer" style="none"  />
 	<p class="copyright">
-		<jdoc:include type="modules" name="footer" style="none"  />
 		<?php $joomla= '<a href="http://www.joomla.org">Joomla!&#174;</a>';
 			echo JText::sprintf('JGLOBAL_ISFREESOFTWARE', $joomla) ?>
-		<span class="version"><?php echo  JText::_('JVERSION') ?> <?php echo  JVERSION; ?></span>
 	</p>
 </div>
 

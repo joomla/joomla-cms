@@ -1,10 +1,9 @@
 @charset "UTF-8";
 
 /**
- * @version		$Id$
  * @package		Joomla.Administrator
  * @subpackage	templates.hathor
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  * @since		1.6
  *
@@ -142,6 +141,10 @@ span.unwritable		{ color: #a20000;}
 .pointer	{ cursor: pointer;}
 .nowrap { white-space: nowrap; }
 
+p.nowarning, p.warning {
+	margin: 10px;
+}
+
 /* end new styles */
 
 /**
@@ -188,7 +191,7 @@ span.unwritable		{ color: #a20000;}
 	margin: 5px 20px 20px 20px;
 }
 
-#element-box.cpanel {
+.cpanel-page div#element-box {
 	padding: 15px;
 }
 
@@ -662,14 +665,14 @@ p.tab-description {
 /**
  * Cpanel Settings
  */
-#cpanel div.icon {
+#cpanel div.icon, .cpanel div.icon {
 	text-align: center;
 	margin-right: 5px;
 	float: left;
 	margin-bottom: 5px;
 }
 
-#cpanel div.icon a {
+#cpanel div.icon a, .cpanel div.icon a {
 	display: block;
 	float: left;
 	height: 97px;
@@ -680,12 +683,12 @@ p.tab-description {
 	font-weight: bold;
 }
 
-#cpanel img {
+#cpanel img, .cpanel img {
 	padding: 10px 0;
 	margin: 0 auto;
 }
 
-#cpanel span {
+#cpanel span, .cpanel span {
 	display: block;
 	text-align: center;
 }
@@ -930,6 +933,7 @@ fieldset#filter-bar ol li fieldset, fieldset#filter-bar ul li fieldset {
 
 fieldset#filter-bar .filter-search {
 	float: left;
+	padding-bottom: 3px;
 }
 
 fieldset#filter-bar .filter-select {
@@ -1899,6 +1903,7 @@ legend.element-invisible {
 
 fieldset.panelform {
 	overflow:hidden;
+	clear: both;
 }
 
 fieldset.adminform label,
@@ -1959,25 +1964,27 @@ fieldset label#batch-choose-action-lbl {
 	clear: left;
 	margin-top: 15px;
 }
-label#batch-language-lbl {
+label#batch-language-lbl,
+label#batch-user-lbl {
 	clear: left;
 	margin-right: 10px;
 	margin-top: 15px;
 }
-select#batch-language-id {
+select#batch-language-id,
+select#batch-user-id {
 	margin-top: 15px;
 }
-select#batch-category-id {
+select#batch-category-id,
+select#batch-position-id,
+select#batch-menu-id {
 	margin-right: 30px;
 }
 fieldset.batch select, fieldset.batch input, fieldset.batch img, fieldset.batch button {
 	float: left;
 }
 
-select#batch-menu-id {
-	margin-right: 30px;
-}
-label#batch-access-lbl {
+label#batch-access-lbl,
+label#batch-client-lbl {
 	margin-right: 10px;
 }
 
@@ -2573,4 +2580,85 @@ ul.helpmenu li {
 
 .pre_message {
 	font-size: 1.3em;
+}
+
+/* -- Update check badges -- */
+span.update-badge {
+    background-image: -moz-linear-gradient(center bottom , #FF0000 41%, #FC7E7E 79%);
+	background-image: -webkit-gradient(linear,left bottom,left top,color-stop(0.41, rgb(255,0,0)),color-stop(0.79, rgb(252,126,126)));
+    border: 2px solid white;
+    border-radius: 1.5em 1.5em 1.5em 1.5em;
+    color: white;
+    display: block;
+    float: left;
+    font-size: 1.2em;
+    font-weight: bold;
+    height: 1.2em;
+    left: 60px;
+    min-width: 1em;
+    padding: 0 0.1em 0;
+    position: relative;
+    top: -88px;
+}
+
+/* User Notes */
+.unotes ul, .unotes ol {
+	list-style: none;
+	list-style-position: inside;
+	padding-left: 0;
+	padding-right: 0;
+
+}
+
+.unotes div.utitle {
+	padding: 10px;
+	float: left;
+	font-size: 1.2em;
+	line-height: 1.2em;
+}
+
+.unotes h4 {
+	margin-top: 0;
+	margin-bottom:0;
+	font-size: 1.3em;
+}
+
+.unotes .ubody {
+	padding-left: 10px;
+	padding-right: 10px;
+	font-size: 1.2em;
+	line-height: 1.5em;
+}
+
+.unotes p {
+	padding-bottom: 10px;
+}
+
+/* com-install styling */
+div#database-sliders {
+	margin: 10px;
+}
+
+fieldset.uploadform {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+/* Installer Database */
+#installer-database, #installer-discover, #installer-update, #installer-warnings {
+	margin-top: 10px;
+}
+
+#installer-database p.warning {
+	padding-left: 20px;
+}
+
+#installer-database p.nowarning {
+	padding-left: 20px;
+}
+
+/* Spinner */
+.joomlaupdate_spinner {
+	float: left;
+	margin-right: 15px;
 }

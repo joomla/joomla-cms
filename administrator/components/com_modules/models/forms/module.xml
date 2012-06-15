@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-	<!-- $Id$ -->
 <form>
 	<fieldset>
 		<field name="id" type="text"
@@ -95,9 +94,11 @@
 
 		<field name="content" type="editor"
 			buttons="true"
+			class="inputbox"
 			description="COM_MODULES_FIELD_CONTENT_DESC"
-			filter="ContentHelper::filterText"
+			filter="JComponentHelper::filterText"
 			label="COM_MODULES_FIELD_CONTENT_LABEL"
+			hide="readmore,pagebreak"
 		/>
 
 		<field name="language" type="contentlanguage"

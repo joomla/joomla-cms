@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- $Id$ -->
 <form>
 	<fields name="filters">
 		<fieldset
@@ -11,13 +10,6 @@
 				onchange="this.form.submit();"
 				label="JSEARCH_FILTER_LABEL"
 				description="JSEARCH_FILTER"
-			/>
-			<field type="checkbox"
-				name="hideprotected"
-				value="1"
-				label="COM_INSTALLER_LABEL_HIDEPROTECTED_LABEL"
-				description="COM_INSTALLER_LABEL_HIDEPROTECTED_DESC"
-				onclick="this.form.submit();"
 			/>
 		</fieldset>
 		<fieldset
@@ -34,13 +26,14 @@
 			</field>
 
 			<field type="list"
-				name="enabled"
+				name="status"
 				hidden="true"
 				onchange="this.form.submit();"
 			>
 				<option value="">COM_INSTALLER_VALUE_STATE_SELECT</option>
 				<option value="0">JDISABLED</option>
 				<option value="1">JENABLED</option>
+				<option value="2">JPROTECTED</option>
 			</field>
 
 			<field type="type"

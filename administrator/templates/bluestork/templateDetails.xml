@@ -2,16 +2,16 @@
 <!DOCTYPE install PUBLIC "-//Joomla! 1.6//DTD template 1.0//EN" "http://www.joomla.org/xml/dtd/1.6/template-install.dtd">
 <extension
 	type="template"
-	version="1.7"
+	version="2.5"
 	client="administrator">
 	<name>bluestork</name>
 	<creationDate>07/02/09</creationDate>
 	<author>Joomla! Project</author>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
-	<copyright>Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
-	<version>1.7.0</version>
+	<version>2.5.0</version>
 	<description>TPL_BLUESTORK_XML_DESCRIPTION</description>
 	<files>
 		<filename>index.php</filename>
@@ -21,7 +21,6 @@
 		<filename>error.php</filename>
 		<filename>favicon.ico</filename>
 		<filename>index.html</filename>
-		<filename>params.ini</filename>
 		<filename>template_preview.png</filename>
 		<filename>template_thumbnail.png</filename>
 		<filename>templateDetails.xml</filename>

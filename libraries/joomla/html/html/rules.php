@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -66,9 +66,9 @@ abstract class JHtmlRules
 		{
 			$html[] = '			<tr class="row' . ($i % 2) . '">';
 			$html[] = '				<td class="col1">' . $group->text . '</td>';
-			foreach ($actions as $i => $action)
+			foreach ($actions as $j => $action)
 			{
-				$html[] = '				<td class="col' . ($i + 2) . '">'
+				$html[] = '				<td class="col' . ($j + 2) . '">'
 					. ($assetId ? ($inherited->allow($action->name, $group->identities) ? $images['allow'] : $images['deny'])
 					: ($inheriting->allow($action->name, $group->identities) ? $images['allow'] : $images['deny'])) . '</td>';
 			}
@@ -172,18 +172,28 @@ abstract class JHtmlRules
 
 		// Get the user groups from the database.
 		$db->setQuery(
-			'SELECT a.id AS value, a.title AS text, COUNT(DISTINCT b.id) AS level' . ' , GROUP_CONCAT(b.id SEPARATOR \',\') AS parents'
-			. ' FROM #__usergroups AS a' . ' LEFT JOIN #__usergroups AS b ON a.lft > b.lft AND a.rgt < b.rgt' . ' GROUP BY a.id'
-			. ' ORDER BY a.lft ASC'
+			'SELECT a.id AS value, a.title AS text, b.id as parent'
+			. ' FROM #__usergroups AS a' . ' LEFT JOIN #__usergroups AS b ON a.lft >= b.lft AND a.rgt <= b.rgt'
+			. ' ORDER BY a.lft ASC, b.lft ASC'
 		);
-		$options = $db->loadObjectList();
+		$result = $db->loadObjectList();
+		$options = array();
 
 		// Pre-compute additional values.
-		foreach ($options as &$option)
+		foreach ($result as $option)
 		{
-			// Pad the option text with spaces using depth level as a multiplier.
-
-			$option->identities = ($option->parents) ? explode(',', $option->parents . ',' . $option->value) : array($option->value);
+			$end = end($options);
+			if ($end === false || $end->value != $option->value)
+			{
+				$end = $option;
+				$end->level = 0;
+				$options[] = $end;
+			}
+			else
+			{
+				$end->level++;
+			}
+			$end->identities[] = $option->parent;
 		}
 
 		return $options;

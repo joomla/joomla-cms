@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Document
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -76,11 +76,11 @@ class JDocumentRendererHead extends JDocumentRenderer
 				if ($type == 'http-equiv')
 				{
 					$content .= '; charset=' . $document->getCharset();
-					$buffer .= $tab . '<meta http-equiv="' . $name . '" content="' . htmlspecialchars($content) . '"' . $tagEnd . $lnEnd;
+					$buffer .= $tab . '<meta http-equiv="' . $name . '" content="' . htmlspecialchars($content) . '" />' . $lnEnd;
 				}
 				elseif ($type == 'standard' && !empty($content))
 				{
-					$buffer .= $tab . '<meta name="' . $name . '" content="' . htmlspecialchars($content) . '"' . $tagEnd . $lnEnd;
+					$buffer .= $tab . '<meta name="' . $name . '" content="' . htmlspecialchars($content) . '" />' . $lnEnd;
 				}
 			}
 		}
@@ -92,7 +92,13 @@ class JDocumentRendererHead extends JDocumentRenderer
 			$buffer .= $tab . '<meta name="description" content="' . htmlspecialchars($documentDescription) . '" />' . $lnEnd;
 		}
 
-		$buffer .= $tab . '<meta name="generator" content="' . htmlspecialchars($document->getGenerator()) . '" />' . $lnEnd;
+		// Don't add empty generators
+		$generator = $document->getGenerator();
+		if ($generator)
+		{
+			$buffer .= $tab . '<meta name="generator" content="' . htmlspecialchars($generator) . '" />' . $lnEnd;
+		}
+
 		$buffer .= $tab . '<title>' . htmlspecialchars($document->getTitle(), ENT_COMPAT, 'UTF-8') . '</title>' . $lnEnd;
 
 		// Generate link declarations

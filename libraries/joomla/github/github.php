@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  GitHub
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -53,6 +53,12 @@ class JGithub
 	 * @since  11.3
 	 */
 	protected $refs;
+
+	/**
+	 * @var    JGithubForks  GitHub API object for forks.
+	 * @since  11.3
+	 */
+	protected $forks;
 
 	/**
 	 * Constructor.
@@ -116,6 +122,15 @@ class JGithub
 				$this->refs = new JGithubRefs($this->options, $this->client);
 			}
 			return $this->refs;
+		}
+
+		if ($name == 'forks')
+		{
+			if ($this->forks == null)
+			{
+				$this->forks = new JGithubForks($this->options, $this->client);
+			}
+			return $this->forks;
 		}
 	}
 

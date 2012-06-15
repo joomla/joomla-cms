@@ -1,7 +1,6 @@
 <?php
 /**
- * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -56,6 +55,10 @@ class plgSystemCache extends JPlugin
 			return;
 		}
 
+		if (count($app->getMessageQueue())) {
+			return;
+		}
+
 		if ($user->get('guest') && $_SERVER['REQUEST_METHOD'] == 'GET') {
 			$this->_cache->setCaching(true);
 		}
@@ -83,6 +86,10 @@ class plgSystemCache extends JPlugin
 		$app = JFactory::getApplication();
 
 		if ($app->isAdmin() || JDEBUG) {
+			return;
+		}
+
+		if (count($app->getMessageQueue())) {
 			return;
 		}
 

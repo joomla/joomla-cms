@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -276,7 +276,7 @@ class JWebClient
 		}
 
 		// Mark this detection routine as run.
-		$this->detection['browser'] = true;;
+		$this->detection['browser'] = true;
 	}
 
 	/**
@@ -294,7 +294,7 @@ class JWebClient
 		$this->encodings = array_map('trim', (array) explode(',', $acceptEncoding));
 
 		// Mark this detection routine as run.
-		$this->detection['acceptEncoding'] = true;;
+		$this->detection['acceptEncoding'] = true;
 	}
 
 	/**
@@ -340,7 +340,7 @@ class JWebClient
 		}
 
 		// Mark this detection routine as run.
-		$this->detection['engine'] = true;;
+		$this->detection['engine'] = true;
 	}
 
 	/**
@@ -358,7 +358,7 @@ class JWebClient
 		$this->languages = array_map('trim', (array) explode(',', $acceptLanguage));
 
 		// Mark this detection routine as run.
-		$this->detection['acceptLanguage'] = true;;
+		$this->detection['acceptLanguage'] = true;
 	}
 
 	/**
@@ -426,6 +426,6 @@ class JWebClient
 		}
 
 		// Mark this detection routine as run.
-		$this->detection['platform'] = true;;
+		$this->detection['platform'] = true;
 	}
 }

@@ -7,7 +7,7 @@ The *Joomla CMS Manual* is a set of xml files for automatically generating docum
 
  * `publican` for building pdf files (https://fedorahosted.org/publican)
 
-Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
 This material is subject to copyright law and are made available under the 
 Joomla! Electronic Documentation License (http://docs.joomla.org/JEDL) unless otherwise stated.
 You may find the JEDL Frequently Asked Questions (http://docs.joomla.org/JEDL/FAQ) useful in determining

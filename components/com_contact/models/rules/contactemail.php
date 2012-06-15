@@ -1,17 +1,14 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Site
  * @subpackage	Contact
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.form.formrule');
-
-require_once 'libraries/joomla/form/rules/email.php';
+require_once JPATH_PLATFORM. '/joomla/form/rules/email.php';
 
 class JFormRuleContactEmail extends JFormRuleEmail
 {

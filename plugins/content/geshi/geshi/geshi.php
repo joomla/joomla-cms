@@ -710,7 +710,7 @@ class GeSHi {
      *             so this method will disappear in 1.2.0.
      */
     function set_language_path($path) {
-        if(strpos($path,':')) {
+        if(strpos($path, ':')) {
             //Security Fix to prevent external directories using fopen wrappers.
             if(DIRECTORY_SEPARATOR == "\\") {
                 if(!preg_match('#^[a-zA-Z]:#', $path) || false !== strpos($path, ':', 2)) {

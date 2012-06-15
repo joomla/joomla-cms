@@ -1,7 +1,6 @@
 <?php
 /**
- * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -125,12 +124,12 @@ class MessagesModelMessages extends JModelList
 		$search = $this->getState('filter.search');
 
 		if (!empty($search)) {
-			$search = $db->Quote('%'.$db->getEscaped($search, true).'%', false);
+			$search = $db->Quote('%'.$db->escape($search, true).'%', false);
 			$query->where('a.subject LIKE '.$search.' OR a.message LIKE '.$search);
 		}
 
 		// Add the list ordering clause.
-		$query->order($db->getEscaped($this->getState('list.ordering', 'a.date_time')).' '.$db->getEscaped($this->getState('list.direction', 'DESC')));
+		$query->order($db->escape($this->getState('list.ordering', 'a.date_time')).' '.$db->escape($this->getState('list.direction', 'DESC')));
 
 		//echo nl2br(str_replace('#__','jos_',$query));
 		return $query;

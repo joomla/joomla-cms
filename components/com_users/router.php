@@ -1,9 +1,8 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Site
  * @subpackage	com_users
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -178,9 +177,9 @@ function UsersParseRoute($segments)
 		// Get the package id from the packages table by alias.
 		$db = JFactory::getDbo();
 		$db->setQuery(
-			'SELECT `id`' .
-			' FROM `#__users`' .
-			' WHERE `id` = '.(int) $userId
+			'SELECT '.$db->quoteName('id') .
+			' FROM '.$db->quoteName('#__users') .
+			' WHERE '.$db->quoteName('id').' = '.(int) $userId
 		);
 		$userId = $db->loadResult();
 	}

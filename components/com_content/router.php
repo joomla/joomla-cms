@@ -1,8 +1,7 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Site
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -51,6 +50,10 @@ function ContentBuildRoute(&$query)
 
 		if (isset($query['catid'])) {
 			unset($query['catid']);
+		}
+		
+		if (isset($query['layout'])) {
+			unset($query['layout']);
 		}
 
 		unset($query['id']);
@@ -291,7 +294,7 @@ function ContentParseRoute($segments)
 
 	foreach($segments as $segment)
 	{
-		$segment = str_replace(':', '-',$segment);
+		$segment = str_replace(':', '-', $segment);
 
 		foreach($categories as $category)
 		{

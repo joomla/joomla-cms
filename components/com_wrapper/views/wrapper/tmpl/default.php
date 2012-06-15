@@ -1,9 +1,8 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Site
  * @subpackage	com_wrapper
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -39,6 +38,7 @@ function iFrameHeight() {
 	width="<?php echo $this->escape($this->params->get('width')); ?>"
 	height="<?php echo $this->escape($this->params->get('height')); ?>"
 	scrolling="<?php echo $this->escape($this->params->get('scrolling')); ?>"
+	frameborder="<?php echo $this->escape($this->params->get('frameborder', 1)); ?>"
 	class="wrapper<?php echo $this->pageclass_sfx; ?>">
 	<?php echo JText::_('COM_WRAPPER_NO_IFRAMES'); ?>
 </iframe>

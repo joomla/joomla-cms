@@ -1,9 +1,8 @@
 <?php
 /**
- * @version		$Id: index.php 17268 2010-05-25 20:32:21Z a.radtke $
  * @package		Joomla.Site
  * @subpackage	Templates.beez5
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -45,7 +44,7 @@ $doc->addScript($this->baseurl.'/templates/'.$this->template.'/javascript/md_sty
 		<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/<?php echo $this->template; ?>/css/print.css" type="text/css" media="Print" />
 		<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/<?php echo $this->template; ?>/css/beez5.css" type="text/css" />
 <?php
-	$files = JHtml::_('stylesheet','templates/'.$this->template.'/css/general.css',null,false,true);
+	$files = JHtml::_('stylesheet', 'templates/'.$this->template.'/css/general.css', null, false, true);
 	if ($files):
 		if (!is_array($files)):
 			$files = array($files);
@@ -76,19 +75,19 @@ $doc->addScript($this->baseurl.'/templates/'.$this->template.'/javascript/md_sty
 		<script type="text/javascript">
 			var big ='<?php echo (int)$this->params->get('wrapperLarge');?>%';
 			var small='<?php echo (int)$this->params->get('wrapperSmall'); ?>%';
-			var altopen='<?php echo JText::_('TPL_BEEZ5_ALTOPEN',true); ?>';
-			var altclose='<?php echo JText::_('TPL_BEEZ5_ALTCLOSE',true); ?>';
+			var altopen='<?php echo JText::_('TPL_BEEZ5_ALTOPEN', true); ?>';
+			var altclose='<?php echo JText::_('TPL_BEEZ5_ALTCLOSE', true); ?>';
 			var bildauf='<?php echo $this->baseurl ?>/templates/<?php echo $this->template; ?>/images/plus.png';
 			var bildzu='<?php echo $this->baseurl ?>/templates/<?php echo $this->template; ?>/images/minus.png';
-			var rightopen='<?php echo JText::_('TPL_BEEZ5_TEXTRIGHTOPEN',true); ?>';
-			var rightclose='<?php echo JText::_('TPL_BEEZ5_TEXTRIGHTCLOSE'); ?>';
-			var fontSizeTitle='<?php echo JText::_('TPL_BEEZ5_FONTSIZE'); ?>';
-            var bigger='<?php echo JText::_('TPL_BEEZ5_BIGGER'); ?>';
-            var reset='<?php echo JText::_('TPL_BEEZ5_RESET'); ?>';
-            var smaller='<?php echo JText::_('TPL_BEEZ5_SMALLER'); ?>';
-            var biggerTitle='<?php echo JText::_('TPL_BEEZ5_INCREASE_SIZE'); ?>';
-            var resetTitle='<?php echo JText::_('TPL_BEEZ5_REVERT_STYLES_TO_DEFAULT'); ?>';
-            var smallerTitle='<?php echo JText::_('TPL_BEEZ5_DECREASE_SIZE'); ?>';
+			var rightopen='<?php echo JText::_('TPL_BEEZ5_TEXTRIGHTOPEN', true); ?>';
+			var rightclose='<?php echo JText::_('TPL_BEEZ5_TEXTRIGHTCLOSE', true); ?>';
+			var fontSizeTitle='<?php echo JText::_('TPL_BEEZ5_FONTSIZE', true); ?>';
+            var bigger='<?php echo JText::_('TPL_BEEZ5_BIGGER', true); ?>';
+            var reset='<?php echo JText::_('TPL_BEEZ5_RESET', true); ?>';
+            var smaller='<?php echo JText::_('TPL_BEEZ5_SMALLER', true); ?>';
+            var biggerTitle='<?php echo JText::_('TPL_BEEZ5_INCREASE_SIZE', true); ?>';
+            var resetTitle='<?php echo JText::_('TPL_BEEZ5_REVERT_STYLES_TO_DEFAULT', true); ?>';
+            var smallerTitle='<?php echo JText::_('TPL_BEEZ5_DECREASE_SIZE', true); ?>';
 		</script>
 
 	</head>
@@ -148,7 +147,7 @@ $doc->addScript($this->baseurl.'/templates/'.$this->template.'/javascript/md_sty
 
 					</div>
 
-					<?php if ($navposition=='left' AND $showleft) : ?>
+					<?php if ($navposition=='left' and $showleft) : ?>
 
 						<?php if(!$this->params->get('html5', 0)): ?>
 							<div class="left1 <?php if ($showRightColumn==NULL){ echo 'leftbigger';} ?>" id="nav">
@@ -212,7 +211,7 @@ $doc->addScript($this->baseurl.'/templates/'.$this->template.'/javascript/md_sty
 				<?php endif; ?>
 			<?php endif; ?>
 
-			<?php if ($navposition=='center' AND $showleft) : ?>
+			<?php if ($navposition=='center' and $showleft) : ?>
 
 				<?php if (!$this->params->get('html5', 0)): ?>
 					<div class="left <?php if ($showRightColumn==NULL){ echo 'leftbigger';} ?>" id="nav" >

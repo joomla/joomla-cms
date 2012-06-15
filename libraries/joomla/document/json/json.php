@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Document
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -38,10 +38,10 @@ class JDocumentJSON extends JDocument
 	{
 		parent::__construct($options);
 
-		//set mime type
+		// Set mime type
 		$this->_mime = 'application/json';
 
-		//set document type
+		// Set document type
 		$this->_type = 'json';
 	}
 

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  FileSystem
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -177,7 +177,7 @@ class JPath
 		}
 
 		$path = JPath::clean($path);
-		if (strpos($path, JPath::clean(JPATH_ROOT)) !== 0)
+		if ((JPATH_ROOT != '') && strpos($path, JPath::clean(JPATH_ROOT)) !== 0)
 		{
 			// Don't translate
 			JError::raiseError(20, 'JPath::check Snooping out of bounds @ ' . $path);
@@ -207,7 +207,7 @@ class JPath
 		}
 		else
 		{
-			// Remove double slashes and backslashes and convert all slashes and backslashes to DS
+			// Remove double slashes and backslashes and convert all slashes and backslashes to DIRECTORY_SEPARATOR
 			$path = preg_replace('#[/\\\\]+#', $ds, $path);
 		}
 
@@ -226,7 +226,6 @@ class JPath
 	public static function isOwner($path)
 	{
 		jimport('joomla.filesystem.file');
-		jimport('joomla.user.helper');
 
 		$tmp = md5(JUserHelper::genRandomPassword(16));
 		$ssp = ini_get('session.save_path');

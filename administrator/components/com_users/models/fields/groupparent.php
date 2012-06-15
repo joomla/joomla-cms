@@ -1,13 +1,11 @@
 <?php
 /**
- * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_BASE') or die;
 
-jimport('joomla.form.formfield');
 JFormHelper::loadFieldClass('list');
 
 /**
@@ -44,15 +42,15 @@ class JFormFieldGroupParent extends JFormFieldList
 
 		$query->select('a.id AS value, a.title AS text, COUNT(DISTINCT b.id) AS level');
 		$query->from('#__usergroups AS a');
-		$query->join('LEFT', '`#__usergroups` AS b ON a.lft > b.lft AND a.rgt < b.rgt');
+		$query->join('LEFT', $db->quoteName('#__usergroups').' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
 
 		// Prevent parenting to children of this item.
 		if ($id = $this->form->getValue('id')) {
-			$query->join('LEFT', '`#__usergroups` AS p ON p.id = '.(int) $id);
+			$query->join('LEFT', $db->quoteName('#__usergroups').' AS p ON p.id = '.(int) $id);
 			$query->where('NOT(a.lft >= p.lft AND a.rgt <= p.rgt)');
 		}
 
-		$query->group('a.id');
+		$query->group('a.id, a.title, a.lft, a.rgt');
 		$query->order('a.lft ASC');
 
 		// Get the options.
@@ -69,7 +67,7 @@ class JFormFieldGroupParent extends JFormFieldList
 		for ($i = 0, $n = count($options); $i < $n; $i++) {
 			// Show groups only if user is super admin or group is not super admin
 			if ($user->authorise('core.admin') || (!JAccess::checkGroup($options[$i]->value, 'core.admin'))) {
-				$options[$i]->text = str_repeat('- ',$options[$i]->level).$options[$i]->text;
+				$options[$i]->text = str_repeat('- ', $options[$i]->level).$options[$i]->text;
 			}
 			else {
 			 unset ($options[$i]);

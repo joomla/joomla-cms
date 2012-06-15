@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-	<!-- $Id$ -->
 <form>
-	<fieldset>
+	<fieldset addfieldpath="/administrator/components/com_categories/models/fields">
 		<field name="id" type="hidden"
 			default="0"
 			label="WEBLINK_ID_LABEL"
@@ -42,7 +41,7 @@
 			<option value="0">JUNPUBLISHED</option>
 		</field>
 
-		<field name="catid" type="category"
+		<field name="catid" type="categoryedit"
 			description="COM_WEBLINKS_FIELD_CATEGORY_DESC"
 			extension="com_weblinks"
 			label="JCATEGORY"

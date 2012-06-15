@@ -1,9 +1,8 @@
 <?php
 /**
- * @version		$Id: default_children.php 17017 2010-05-13 10:48:48Z eddieajau $
  * @package		Joomla.Site
  * @subpackage	Templates.beez5
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,7 +13,7 @@ $app = JFactory::getApplication();
 $templateparams =$app->getTemplate(true)->params;
 
 if ($templateparams->get('html5') != 1) :
-	require(JPATH_BASE.'/components/com_content/views/category/tmpl/default_children.php');
+	require JPATH_BASE.'/components/com_content/views/category/tmpl/default_children.php';
 	//evtl. ersetzen durch JPATH_COMPONENT.'/views/...'
 	return;
 endif;
@@ -40,7 +39,7 @@ $class = ' class="first"';
 				<?php if ($this->params->get('show_subcat_desc') == 1) :?>
 				<?php if ($child->description and $this->params->get('show_description')!=0 ) : ?>
 					<div class="category-desc">
-						<?php echo JHtml::_('content.prepare', $child->description); ?>
+						<?php echo JHtml::_('content.prepare', $child->description, '', 'com_content.category'); ?>
 					</div>
 				<?php endif; ?>
 				<?php endif; ?>

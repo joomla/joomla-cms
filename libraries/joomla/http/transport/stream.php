@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  HTTP
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -147,7 +147,7 @@ class JHttpTransportStream implements JHttpTransport
 	 * @since   11.3
 	 * @throws  UnexpectedValueException
 	 */
-	protected function getResponse($headers, $body)
+	protected function getResponse(array $headers, $body)
 	{
 		// Create the response object.
 		$return = new JHttpResponse;

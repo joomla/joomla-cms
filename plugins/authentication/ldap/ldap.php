@@ -1,7 +1,6 @@
 <?php
 /**
- * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -82,7 +81,7 @@ class plgAuthenticationLdap extends JPlugin
 					$binddata = $ldap->simple_search(str_replace("[search]", $credentials['username'], $this->params->get('search_string')));
 					if (isset($binddata[0]) && isset($binddata[0]['dn'])) {
 						// Verify Users Credentials
-						$success = $ldap->bind($binddata[0]['dn'],$credentials['password'],1);
+						$success = $ldap->bind($binddata[0]['dn'], $credentials['password'], 1);
 						// Get users details
 						$userdetails = $binddata;
 					} else {
@@ -100,7 +99,7 @@ class plgAuthenticationLdap extends JPlugin
 			case 'bind':
 			{
 				// We just accept the result here
-				$success = $ldap->bind($credentials['username'],$credentials['password']);
+				$success = $ldap->bind($credentials['username'], $credentials['password']);
 				if ($success) {
 					$userdetails = $ldap->simple_search(str_replace("[search]", $credentials['username'], $this->params->get('search_string')));
 				} else {

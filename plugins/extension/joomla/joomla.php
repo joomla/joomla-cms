@@ -1,7 +1,6 @@
 <?php
 /**
- * @version		$Id: weblinks.php 16731 2010-05-04 05:40:37Z eddieajau $
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -67,10 +66,8 @@ class plgExtensionJoomla extends JPlugin
 		{
 			$query->clear();
 			$query->insert('#__update_sites');
-			$query->set('name = ' . $dbo->Quote($name));
-			$query->set('type = '. $dbo->Quote($type));
-			$query->set('location = '. $dbo->Quote($location));
-			$query->set('enabled = '. (int)$enabled);
+			$query->columns(array($dbo->quoteName('name'), $dbo->quoteName('type'), $dbo->quoteName('location'), $dbo->quoteName('enabled')));
+			$query->values($dbo->quote($name) . ', ' . $dbo->quote($type) . ', ' . $dbo->quote($location) . ', ' . (int) $enabled);
 			$dbo->setQuery($query);
 			if ($dbo->query())
 			{
@@ -93,8 +90,8 @@ class plgExtensionJoomla extends JPlugin
 				// link this extension to the relevant update site
 				$query->clear();
 				$query->insert('#__update_sites_extensions');
-				$query->set('update_site_id = '. $update_site_id);
-				$query->set('extension_id = '. $this->eid);
+				$query->columns(array($dbo->quoteName('update_site_id'), $dbo->quoteName('extension_id')));
+				$query->values($update_site_id . ', ' . $this->eid);
 				$dbo->setQuery($query);
 				$dbo->query();
 			}
@@ -143,7 +140,7 @@ class plgExtensionJoomla extends JPlugin
 			$query->clear();
 			$query->select('update_site_id')->from('#__update_sites_extensions');
 			$db->setQuery($query);
-			$results = $db->loadResultArray();
+			$results = $db->loadColumn();
 
 			if(is_array($results))
 			{
@@ -161,7 +158,7 @@ class plgExtensionJoomla extends JPlugin
 				}
 				// so lets find what update sites we're about to nuke and remove their associated extensions
 				$db->setQuery($updatesite_query);
-				$update_sites_pending_delete = $db->loadResultArray();
+				$update_sites_pending_delete = $db->loadColumn();
 				if(is_array($update_sites_pending_delete) && count($update_sites_pending_delete))
 				{
 					// nuke any pending updates with this site before we delete it

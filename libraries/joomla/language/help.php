@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Language
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -30,7 +30,7 @@ class JHelp
 	 *
 	 * @since   11.1
 	 */
-	static function createURL($ref, $useComponent = false, $override = null, $component = null)
+	public static function createURL($ref, $useComponent = false, $override = null, $component = null)
 	{
 		$local = false;
 		$app = JFactory::getApplication();
@@ -155,7 +155,7 @@ class JHelp
 	 *
 	 * @since   11.1
 	 */
-	static function createSiteList($pathToXml, $selected = null)
+	public static function createSiteList($pathToXml, $selected = null)
 	{
 		$list = array();
 		$xml = false;

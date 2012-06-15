@@ -1,16 +1,13 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Administrator
  * @subpackage	com_installer
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License, see LICENSE.php
  */
 
 // No direct access.
 defined('_JEXEC') or die;
-
-jimport('joomla.form.formfield');
 
 /**
  * Form Field Place class.
@@ -39,14 +36,14 @@ class JFormFieldType extends JFormField
 		$onchange	= $this->element['onchange'] ? ' onchange="'.(string) $this->element['onchange'].'"' : '';
 		$options = array();
 		foreach ($this->element->children() as $option) {
-			$options[] = JHtml::_('select.option', $option->attributes('value'), JText::_(trim($option->data())));
+			$options[] = JHtml::_('select.option', $option->attributes('value'), JText::_(trim((string) $option)));
 		}
 
 		$db = JFactory::getDBO();
 		$query = $db->getQuery(true);
 		$query->select('type')->from('#__extensions');
 		$db->setQuery($query);
-		$types = array_unique($db->loadResultArray());
+		$types = array_unique($db->loadColumn());
 		foreach($types as $type)
 		{
 			$options[] = JHtml::_('select.option', $type, JText::_('COM_INSTALLER_TYPE_'. strtoupper($type)));

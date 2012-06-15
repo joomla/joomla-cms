@@ -1,7 +1,6 @@
 <?php
 /**
- * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -36,7 +35,7 @@ class plgSystemSef extends JPlugin
         $this->checkBuffer($buffer);
 
 		$protocols	= '[a-zA-Z0-9]+:'; //To check for all unknown protocals (a protocol must contain at least one alpahnumeric fillowed by :
-		$regex		= '#(src|href)="(?!/|'.$protocols.'|\#|\')([^"]*)"#m';
+		$regex		= '#(src|href|poster)="(?!/|'.$protocols.'|\#|\')([^"]*)"#m';
 		$buffer		= preg_replace($regex, "$1=\"$base\$2\"", $buffer);
         $this->checkBuffer($buffer);
 		$regex		= '#(onclick="window.open\(\')(?!/|'.$protocols.'|\#)([^/]+[^\']*?\')#m';
@@ -101,7 +100,7 @@ class plgSystemSef extends JPlugin
 	{
 		$original	= $matches[0];
 		$url		= $matches[1];
-		$url		= str_replace('&amp;','&',$url);
+		$url		= str_replace('&amp;', '&', $url);
 		$route		= JRoute::_('index.php?'.$url);
 
 		return 'href="'.$route;
