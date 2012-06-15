@@ -2,57 +2,66 @@
 /**
  * @package     Joomla.UnitTest
  * @subpackage  Facebook
- * 
+ *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-
-require_once JPATH_PLATFORM . '/joomla/facebook/facebook.php';
 
 /**
  * Test class for JFacebook.
  *
  * @package     Joomla.UnitTest
  * @subpackage  Facebook
- * 
- * @since       12.1
+ *
+ * @since       13.1
  */
 class JFacebookTest extends TestCase
 {
 	/**
 	 * @var    JRegistry  Options for the Facebook object.
-	 * @since  12.1
+	 * @since  13.1
 	 */
 	protected $options;
 
 	/**
-	 * @var    JFacebookHttp  The HTTP client object to use in sending HTTP requests.
-	 * @since  12.1
+	 * @var    JHttp  The HTTP client object to use in sending HTTP requests.
+	 * @since  13.1
 	 */
 	protected $client;
 
 	/**
 	* @var    JFacebook  Object under test.
-	* @since  12.1
+	* @since  13.1
 	*/
 	protected $object;
+
+	/**
+	 * @var    JFacebookOAuth  Facebook OAuth 2 client
+	 * @since  13.1
+	 */
+	protected $oauth;
 
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
 	 *
 	 * @access protected
-	 * 
+	 *
 	 * @return  void
-	 * 
-	 * @since   12.1
+	 *
+	 * @since   13.1
 	 */
 	protected function setUp()
 	{
-		$this->options = new JRegistry;
-		$this->client = $this->getMock('JFacebookHttp', array('get', 'post', 'delete', 'put'));
+		$_SERVER['HTTP_HOST'] = 'example.com';
+		$_SERVER['HTTP_USER_AGENT'] = 'Mozilla/5.0';
+		$_SERVER['REQUEST_URI'] = '/index.php';
+		$_SERVER['SCRIPT_NAME'] = '/index.php';
 
-		$this->object = new JFacebook($this->options, $this->client);
+		$this->options = new JRegistry;
+		$this->client = $this->getMock('JHttp', array('get', 'post', 'delete', 'put'));
+
+		$this->object = new JFacebook($this->oauth, $this->options, $this->client);
 	}
 
 	/**
@@ -60,10 +69,10 @@ class JFacebookTest extends TestCase
 	 * This method is called after a test is executed.
 	 *
 	 * @access protected
-	 * 
+	 *
 	 * @return  void
-	 * 
-	 * @since   12.1
+	 *
+	 * @since   13.1
 	 */
 	protected function tearDown()
 	{
@@ -71,10 +80,10 @@ class JFacebookTest extends TestCase
 
 	/**
 	 * Tests the magic __get method - user
-	 * 
+	 *
 	 * @return  void
-	 * 
-	 * @since   12.1
+	 *
+	 * @since   13.1
 	 */
 	public function test__GetUser()
 	{
@@ -86,10 +95,10 @@ class JFacebookTest extends TestCase
 
 	/**
 	 * Tests the magic __get method - status
-	 * 
+	 *
 	 * @return  void
-	 * 
-	 * @since   12.1
+	 *
+	 * @since   13.1
 	 */
 	public function test__GetStatus()
 	{
@@ -101,10 +110,10 @@ class JFacebookTest extends TestCase
 
 	/**
 	 * Tests the magic __get method - checkin
-	 * 
+	 *
 	 * @return  void
-	 * 
-	 * @since   12.1
+	 *
+	 * @since   13.1
 	 */
 	public function test__GetCheckin()
 	{
@@ -116,10 +125,10 @@ class JFacebookTest extends TestCase
 
 	/**
 	 * Tests the magic __get method - event
-	 * 
+	 *
 	 * @return  void
-	 * 
-	 * @since   12.1
+	 *
+	 * @since   13.1
 	 */
 	public function test__GetEvent()
 	{
@@ -131,10 +140,10 @@ class JFacebookTest extends TestCase
 
 	/**
 	 * Tests the magic __get method - group
-	 * 
+	 *
 	 * @return  void
-	 * 
-	 * @since   12.1
+	 *
+	 * @since   13.1
 	 */
 	public function test__GetGroup()
 	{
@@ -146,10 +155,10 @@ class JFacebookTest extends TestCase
 
 	/**
 	 * Tests the magic __get method - link
-	 * 
+	 *
 	 * @return  void
-	 * 
-	 * @since   12.1
+	 *
+	 * @since   13.1
 	 */
 	public function test__GetLink()
 	{
@@ -161,10 +170,10 @@ class JFacebookTest extends TestCase
 
 	/**
 	 * Tests the magic __get method - note
-	 * 
+	 *
 	 * @return  void
-	 * 
-	 * @since   12.1
+	 *
+	 * @since   13.1
 	 */
 	public function test__GetNote()
 	{
@@ -176,10 +185,10 @@ class JFacebookTest extends TestCase
 
 	/**
 	 * Tests the magic __get method - post
-	 * 
+	 *
 	 * @return  void
-	 * 
-	 * @since   12.1
+	 *
+	 * @since   13.1
 	 */
 	public function test__GetPost()
 	{
@@ -191,10 +200,10 @@ class JFacebookTest extends TestCase
 
 	/**
 	 * Tests the magic __get method - comment
-	 * 
+	 *
 	 * @return  void
-	 * 
-	 * @since   12.1
+	 *
+	 * @since   13.1
 	 */
 	public function test__GetComment()
 	{
@@ -206,10 +215,10 @@ class JFacebookTest extends TestCase
 
 	/**
 	 * Tests the magic __get method - photo
-	 * 
+	 *
 	 * @return  void
-	 * 
-	 * @since   12.1
+	 *
+	 * @since   13.1
 	 */
 	public function test__GetPhoto()
 	{
@@ -221,10 +230,10 @@ class JFacebookTest extends TestCase
 
 	/**
 	 * Tests the magic __get method - video
-	 * 
+	 *
 	 * @return  void
-	 * 
-	 * @since   12.1
+	 *
+	 * @since   13.1
 	 */
 	public function test__GetVideo()
 	{
@@ -236,10 +245,10 @@ class JFacebookTest extends TestCase
 
 	/**
 	 * Tests the magic __get method - album
-	 * 
+	 *
 	 * @return  void
-	 * 
-	 * @since   12.1
+	 *
+	 * @since   13.1
 	 */
 	public function test__GetAlbum()
 	{
@@ -250,11 +259,26 @@ class JFacebookTest extends TestCase
 	}
 
 	/**
-	 * Tests the setOption method
-	 * 
+	 * Tests the magic __get method - other (non existent)
+	 *
 	 * @return  void
-	 * 
-	 * @since   12.1
+	 *
+	 * @since   13.1
+	 */
+	public function test__GetOther()
+	{
+		$this->assertThat(
+			$this->object->other,
+			$this->isNull()
+		);
+	}
+
+	/**
+	 * Tests the setOption method
+	 *
+	 * @return  void
+	 *
+	 * @since   13.1
 	 */
 	public function testSetOption()
 	{
@@ -268,10 +292,10 @@ class JFacebookTest extends TestCase
 
 	/**
 	 * Tests the getOption method
-	 * 
+	 *
 	 * @return  void
-	 * 
-	 * @since   12.1
+	 *
+	 * @since   13.1
 	 */
 	public function testGetOption()
 	{

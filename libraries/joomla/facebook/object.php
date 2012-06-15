@@ -2,7 +2,7 @@
 /**
  * @package     Joomla.Platform
  * @subpackage  Facebook
- * 
+ *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
@@ -16,35 +16,43 @@ defined('JPATH_PLATFORM') or die();
  *
  * @package     Joomla.Platform
  * @subpackage  Facebook
- * 
- * @since       12.1
+ *
+ * @since       13.1
  */
 abstract class JFacebookObject
 {
 	/**
 	 * @var    JRegistry  Options for the Facebook object.
-	 * @since  12.1
+	 * @since  13.1
 	 */
 	protected $options;
 
 	/**
-	 * @var    JFacebookHttp  The HTTP client object to use in sending HTTP requests.
-	 * @since  12.1
+	 * @var    JHttp  The HTTP client object to use in sending HTTP requests.
+	 * @since  13.1
 	 */
 	protected $client;
 
 	/**
+	 * @var    JFacebookOAuth  The OAuth client.
+	 * @since  13.1
+	 */
+	protected $oauth;
+
+	/**
 	 * Constructor.
 	 *
-	 * @param   JRegistry      $options  Facebook options object.
-	 * @param   JFacebookHttp  $client   The HTTP client object.
-	 * 
-	 * @since   12.1
+	 * @param   JRegistry       $options  Facebook options object.
+	 * @param   JHttp           $client   The HTTP client object.
+	 * @param   JFacebookOAuth  $oauth    The OAuth client.
+	 *
+	 * @since   13.1
 	 */
-	public function __construct(JRegistry $options = null, JFacebookHttp $client = null)
+	public function __construct(JRegistry $options = null, JHttp $client = null, JFacebookOAuth $oauth = null)
 	{
 		$this->options = isset($options) ? $options : new JRegistry;
-		$this->client = isset($client) ? $client : new JFacebookHttp($this->options);
+		$this->client = isset($client) ? $client : new JHttp($this->options);
+		$this->oauth = $oauth;
 	}
 
 	/**
@@ -52,16 +60,40 @@ abstract class JFacebookObject
 	 * add appropriate pagination details if necessary and also prepend the API url
 	 * to have a complete URL for the request.
 	 *
-	 * @param   string  $path  URL to inflect
+	 * @param   string     $path    URL to inflect.
+	 * @param   integer    $limit   The number of objects per page.
+	 * @param   integer    $offset  The object's number on the page.
+	 * @param   timestamp  $until   A unix timestamp or any date accepted by strtotime.
+	 * @param   timestamp  $since   A unix timestamp or any date accepted by strtotime.
 	 *
 	 * @return  string  The request URL.
-	 * 
-	 * @since   12.1
+	 *
+	 * @since   13.1
 	 */
-	protected function fetchUrl($path)
+	protected function fetchUrl($path, $limit = 0, $offset = 0, $until = null, $since = null)
 	{
 		// Get a new JUri object fousing the api url and given path.
 		$uri = new JUri($this->options->get('api.url') . $path);
+
+		if ($limit > 0)
+		{
+			$uri->setVar('limit', (int) $limit);
+		}
+
+		if ($offset > 0)
+		{
+			$uri->setVar('offset', (int) $offset);
+		}
+
+		if ($until != null)
+		{
+			$uri->setVar('until', $until);
+		}
+
+		if ($since != null)
+		{
+			$uri->setVar('since', $since);
+		}
 
 		return (string) $uri;
 	}
@@ -69,50 +101,30 @@ abstract class JFacebookObject
 	/**
 	 * Method to send the request.
 	 *
-	 * @param   string  $path     The path of the request to make.
-	 * @param   string  $method   The request method.
-	 * @param   mixed   $data     Either an associative array or a string to be sent with the post request.
-	 * @param   array   $headers  An array of name-value pairs to include in the header of the request
+	 * @param   string   $path     The path of the request to make.
+	 * @param   mixed    $data     Either an associative array or a string to be sent with the post request.
+	 * @param   array    $headers  An array of name-value pairs to include in the header of the request
+	 * @param   integer  $limit    The number of objects per page.
+	 * @param   integer  $offset   The object's number on the page.
+	 * @param   string   $until    A unix timestamp or any date accepted by strtotime.
+	 * @param   string   $since    A unix timestamp or any date accepted by strtotime.
 	 *
 	 * @return   mixed  The request response.
-	 * 
-	 * @since    12.1
+	 *
+	 * @since    13.1
 	 * @throws   DomainException
 	 */
-	public function sendRequest($path, $method='get', $data='', array $headers = null)
+	public function sendRequest($path, $data = '', array $headers = null, $limit = 0, $offset = 0, $until = null, $since = null)
 	{
 		// Send the request.
-		switch ($method)
-		{
-			case 'get':
-				$response = $this->client->get($this->fetchUrl($path));
-				break;
-			case 'post':
-				$response = $this->client->post($this->fetchUrl($path), $data, $headers);
-				break;
-			case 'delete':
-				$response = $this->client->delete($this->fetchUrl($path));
-				break;
-		}
+		$response = $this->client->get($this->fetchUrl($path, $limit, $offset, $until, $since), $headers);
 
-		if (strcmp($response->body, ''))
-		{
-			$response = json_decode($response->body);
-		}
-		else
-		{
-			return $response->headers['Location'];
-		}
+		$response = json_decode($response->body);
 
 		// Validate the response.
-		if (!is_object($response))
-		{
-			return $response;
-		}
-
 		if (property_exists($response, 'error'))
 		{
-			throw new DomainException($response->error->message);
+			throw new RuntimeException($response->error->message);
 		}
 
 		return $response;
@@ -120,96 +132,175 @@ abstract class JFacebookObject
 
 	/**
 	 * Method to get an object.
-	 * 
-	 * @param   string  $object        The object id.
-	 * @param   string  $access_token  The Facebook access token.
-	 * 
-	 * @return  array   The decoded JSON response.
-	 * 
-	 * @since   12.1
+	 *
+	 * @param   string  $object  The object id.
+	 *
+	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
+	 *
+	 * @since   13.1
 	 */
-	public function get($object, $access_token)
+	public function get($object)
 	{
-		$token = '?access_token=' . $access_token;
+		if ($this->oauth != null)
+		{
+			if ($this->oauth->isAuthenticated())
+			{
+				$response = $this->oauth->query($this->fetchUrl($object));
 
-		$path = $object . $token;
+				return json_decode($response->body);
+			}
+			else
+			{
+				return false;
+			}
+		}
 
 		// Send the request.
-		return $this->sendRequest($path);
+		return $this->sendRequest($object);
 	}
 
 	/**
 	 * Method to get object's connection.
-	 * 
-	 * @param   string  $object        The object id.
-	 * @param   string  $access_token  The Facebook access token.
-	 * @param   string  $connection    The object's connection name.
-	 * @param   string  $extra_fields  URL fields.
-	 * 
-	 * @return  array   The decoded JSON response.
-	 * 
-	 * @since   12.1
+	 *
+	 * @param   string   $object        The object id.
+	 * @param   string   $connection    The object's connection name.
+	 * @param   string   $extra_fields  URL fields.
+	 * @param   integer  $limit         The number of objects per page.
+	 * @param   integer  $offset        The object's number on the page.
+	 * @param   string   $until         A unix timestamp or any date accepted by strtotime.
+	 * @param   string   $since         A unix timestamp or any date accepted by strtotime.
+	 *
+	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
+	 *
+	 * @since   13.1
 	 */
-	public function getConnection($object, $access_token, $connection, $extra_fields='')
+	public function getConnection($object, $connection = null, $extra_fields = '', $limit = 0, $offset = 0, $until = null, $since = null)
 	{
-		$token = '?access_token=' . $access_token;
+		$path = $object . '/' . $connection . $extra_fields;
 
-		$path = $object . '/' . $connection . $token . $extra_fields;
+		if ($this->oauth != null)
+		{
+			if ($this->oauth->isAuthenticated())
+			{
+				$response = $this->oauth->query($this->fetchUrl($path, $limit, $offset, $until, $since));
+
+				if (strcmp($response->body, ''))
+				{
+					return json_decode($response->body);
+				}
+				else
+				{
+					return $response->headers['Location'];
+				}
+			}
+			else
+			{
+				return false;
+			}
+		}
 
 		// Send the request.
-		return $this->sendRequest($path);
+		return $this->sendRequest($path, '', null, $limit, $offset, $until, $since);
 	}
 
 	/**
 	 * Method to create a connection.
-	 * 
-	 * @param   string  $object        The object id.
-	 * @param   string  $access_token  The Facebook access token.
-	 * @param   string  $connection    The object's connection name.
-	 * @param   array   $parameters    The POST request parameters.
-	 * @param   array   $headers       An array of name-value pairs to include in the header of the request
-	 * 
-	 * @return  array   The decoded JSON response.
-	 * 
-	 * @since   12.1
+	 *
+	 * @param   string  $object      The object id.
+	 * @param   string  $connection  The object's connection name.
+	 * @param   array   $parameters  The POST request parameters.
+	 * @param   array   $headers     An array of name-value pairs to include in the header of the request
+	 *
+	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
+	 *
+	 * @since   13.1
 	 */
-	public function createConnection($object, $access_token, $connection, $parameters=null, array $headers = null)
+	public function createConnection($object, $connection = null, $parameters = null, array $headers = null)
 	{
-		$token = '?access_token=' . $access_token;
+		if ($this->oauth->isAuthenticated())
+		{
+			// Build the request path.
+			if ($connection != null)
+			{
+				$path = $object . '/' . $connection;
+			}
+			else
+			{
+				$path = $object;
+			}
 
-		// Build the request path.
-		$path = $object . '/' . $connection . $token;
+			// Send the post request.
+			$response = $this->oauth->query($this->fetchUrl($path), $parameters, $headers, 'post');
 
-		// Send the post request.
-		return $this->sendRequest($path, 'post', $parameters, $headers);
+			return json_decode($response->body);
+		}
+		else
+		{
+			return false;
+		}
 	}
 
 	/**
 	 * Method to delete a connection.
-	 * 
+	 *
 	 * @param   string  $object        The object id.
-	 * @param   string  $access_token  The Facebook access token.
 	 * @param   string  $connection    The object's connection name.
-	 * 
-	 * @return  array   The decoded JSON response.
-	 * 
-	 * @since   12.1
+	 * @param   string  $extra_fields  URL fields.
+	 *
+	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
+	 *
+	 * @since   13.1
 	 */
-	public function deleteConnection($object, $access_token, $connection=null)
+	public function deleteConnection($object, $connection = null, $extra_fields = '')
 	{
-		$token = '?access_token=' . $access_token;
-
-		// Build the request path.
-		if ($connection != null)
+		if ($this->oauth->isAuthenticated())
 		{
-			$path = $object . '/' . $connection . $token;
+			// Build the request path.
+			if ($connection != null)
+			{
+				$path = $object . '/' . $connection . $extra_fields;
+			}
+			else
+			{
+				$path = $object . $extra_fields;
+			}
+
+			// Send the delete request.
+			$response = $this->oauth->query($this->fetchUrl($path), null, array(), 'delete');
+
+			return json_decode($response->body);
 		}
 		else
 		{
-			$path = $object . $token;
+			return false;
 		}
+	}
 
-		// Send the delete request.
-		return $this->sendRequest($path, 'delete');
+	/**
+	 * Method used to set the OAuth client.
+	 *
+	 * @param   JFacebookOAuth  $oauth  The OAuth client object.
+	 *
+	 * @return  JFacebookObject  This object for method chaining.
+	 *
+	 * @since   13.1
+	 */
+	public function setOAuth($oauth)
+	{
+		$this->oauth = $oauth;
+
+		return $this;
+	}
+
+	/**
+	 * Method used to get the OAuth client.
+	 *
+	 * @return  JFacebookOAuth  The OAuth client
+	 *
+	 * @since   13.1
+	 */
+	public function getOAuth()
+	{
+		return $this->oauth;
 	}
 }

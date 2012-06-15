@@ -2,7 +2,7 @@
 /**
  * @package     Joomla.Platform
  * @subpackage  Facebook
- * 
+ *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
@@ -16,157 +16,120 @@ defined('JPATH_PLATFORM') or die();
  *
  * @package     Joomla.Platform
  * @subpackage  Facebook
- * 
- * @since       12.1
+ *
+ * @see         http://developers.facebook.com/docs/reference/api/checkin/
+ * @since       13.1
  */
 class JFacebookCheckin extends JFacebookObject
 {
 	/**
-	 * Method to get a checkin.
-	 * 
-	 * @param   string  $checkin       The checkin id.
-	 * @param   string  $access_token  The Facebook access token with user_checkins or friends_checkins permission.
-	 * 
-	 * @return  array   The decoded JSON response.
-	 * 
-	 * @since   12.1
+	 * Method to get a checkin. Requires authentication and user_checkins or friends_checkins permission.
+	 *
+	 * @param   string  $checkin  The checkin id.
+	 *
+	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
+	 *
+	 * @since   13.1
 	 */
-	public function getCheckin($checkin, $access_token)
+	public function getCheckin($checkin)
 	{
-		$token = '?access_token=' . $access_token;
-
-		$path = $checkin . $token;
-
-		// Send the request.
-		return $this->sendRequest($path);
+		return $this->get($checkin);
 	}
 
 	/**
-	 * Method to get a checkin's comments.
-	 * 
-	 * @param   string  $checkin       The checkin id.
-	 * @param   string  $access_token  The Facebook access token with user_checkins or friends_checkins permission.
-	 * 
-	 * @return  array   The decoded JSON response.
-	 * 
-	 * @since   12.1
+	 * Method to get a checkin's comments. Requires authentication and user_checkins or friends_checkins permission.
+	 *
+	 * @param   string   $checkin  The checkin id.
+	 * @param   integer  $limit    The number of objects per page.
+	 * @param   integer  $offset   The object's number on the page.
+	 * @param   string   $until    A unix timestamp or any date accepted by strtotime.
+	 * @param   string   $since    A unix timestamp or any date accepted by strtotime.
+	 *
+	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
+	 *
+	 * @since   13.1
 	 */
-	public function getComments($checkin, $access_token)
+	public function getComments($checkin, $limit=0, $offset=0, $until=null, $since=null)
 	{
-		$token = '?access_token=' . $access_token;
-
-		$path = $checkin . '/comments' . $token;
-
-		// Send the request.
-		return $this->sendRequest($path);
+		return $this->getConnection($checkin, 'comments', '', $limit, $offset, $until, $since);
 	}
 
 	/**
-	 * Method to post a comment to the checkin.
-	 * 
-	 * @param   string  $checkin       The checkin id.
-	 * @param   string  $access_token  The Facebook access token with the publish_stream and user_checkins or friends_checkins permission.
-	 * @param   string  $message       The checkin's text.
-	 * 
-	 * @return  array   The decoded JSON response.
-	 * 
-	 * @since   12.1
+	 * Method to post a comment to the checkin. Requires authentication and publish_stream and user_checkins or friends_checkins permission.
+	 *
+	 * @param   string  $checkin  The checkin id.
+	 * @param   string  $message  The checkin's text.
+	 *
+	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
+	 *
+	 * @since   13.1
 	 */
-	public function createComment($checkin, $access_token, $message)
+	public function createComment($checkin, $message)
 	{
-		$token = '?access_token=' . $access_token;
-
-		// Build the request path.
-		$path = $checkin . '/comments' . $token;
-
 		// Set POST request parameters.
 		$data = array();
 		$data['message'] = $message;
 
-		// Send the post request.
-		return $this->sendRequest($path, 'post', $data);
+		return $this->createConnection($checkin, 'comments', $data);
 	}
 
 	/**
-	 * Method to delete a comment.
-	 * 
-	 * @param   string  $comment       The comment's id.
-	 * @param   string  $access_token  The Facebook access token. 
-	 * 
-	 * @return  array   The decoded JSON response.
-	 * 
-	 * @since   12.1
+	 * Method to delete a comment. Requires authentication and publish_stream permission.
+	 *
+	 * @param   string  $comment  The comment's id.
+	 *
+	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
+	 *
+	 * @since   13.1
 	 */
-	public function deleteComment($comment, $access_token)
+	public function deleteComment($comment)
 	{
-		$token = '?access_token=' . $access_token;
-
-		// Build the request path.
-		$path = $comment . $token;
-
-		// Send the delete request.
-		return $this->sendRequest($path, 'delete');
+		return $this->deleteConnection($comment);
 	}
 
 	/**
-	 * Method to get a checkin's likes.
-	 * 
-	 * @param   string  $checkin       The checkin id.
-	 * @param   string  $access_token  The Facebook access token.
-	 * 
-	 * @return  array   The decoded JSON response.
-	 * 
-	 * @since   12.1
+	 * Method to get a checkin's likes. Requires authentication and user_checkins or friends_checkins permission.
+	 *
+	 * @param   string   $checkin  The checkin id.
+	 * @param   integer  $limit    The number of objects per page.
+	 * @param   integer  $offset   The object's number on the page.
+	 * @param   string   $until    A unix timestamp or any date accepted by strtotime.
+	 * @param   string   $since    A unix timestamp or any date accepted by strtotime.
+	 *
+	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
+	 *
+	 * @since   13.1
 	 */
-	public function getLikes($checkin, $access_token)
+	public function getLikes($checkin, $limit=0, $offset=0, $until=null, $since=null)
 	{
-		$token = '?access_token=' . $access_token;
-
-		$path = $checkin . '/likes' . $token;
-
-		// Send the request.
-		return $this->sendRequest($path);
+		return $this->getConnection($checkin, 'likes', '', $limit, $offset, $until, $since);
 	}
 
 	/**
-	 * Method to like a checkin.
-	 * 
-	 * @param   string  $checkin       The checkin id.
-	 * @param   string  $access_token  The Facebook access token with the publish_stream and user_checkin or friends_checkin permission.
-	 * 
-	 * @return  array   The decoded JSON response.
-	 * 
-	 * @since   12.1
+	 * Method to like a checkin. Requires authentication and publish_stream and user_checkins or friends_checkins permission.
+	 *
+	 * @param   string  $checkin  The checkin id.
+	 *
+	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
+	 *
+	 * @since   13.1
 	 */
-	public function createLike($checkin, $access_token)
+	public function createLike($checkin)
 	{
-		$token = '?access_token=' . $access_token;
-
-		// Build the request path.
-		$path = $checkin . '/likes' . $token;
-
-		// Send the post request.
-		return $this->sendRequest($path, 'post');
+		return $this->createConnection($checkin, 'likes');
 	}
 
 	/**
-	 * Method to unlike a checkin.
-	 * 
-	 * @param   string  $checkin       The checkin id.
-	 * @param   string  $access_token  The Facebook access token with the publish_stream permission. 
-	 * 
-	 * @return  array   The decoded JSON response.
-	 * 
-	 * @since   12.1
+	 * Method to unlike a checkin. Requires authentication and publish_stream permission.
+	 *
+	 * @param   string  $checkin  The checkin id.
+	 *
+	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
+	 *
+	 * @since   13.1
 	 */
-	public function deleteLike($checkin, $access_token)
+	public function deleteLike($checkin)
 	{
-		$token = '?access_token=' . $access_token;
-
-		// Build the request path.
-		$path = $checkin . '/likes' . $token;
-
-		// Send the delete request.
-		return $this->sendRequest($path, 'delete');
+		return $this->deleteConnection($checkin, 'likes');
 	}
 }

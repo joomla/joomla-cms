@@ -2,7 +2,7 @@
 /**
  * @package     Joomla.Platform
  * @subpackage  Facebook
- * 
+ *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
@@ -16,118 +16,120 @@ defined('JPATH_PLATFORM') or die();
  *
  * @package     Joomla.Platform
  * @subpackage  Facebook
- * 
- * @since       12.1
+ *
+ * @see         http://developers.facebook.com/docs/reference/api/link/
+ * @since       13.1
  */
 class JFacebookLink extends JFacebookObject
 {
 	/**
-	 * Method to get a link.
-	 * 
-	 * @param   string  $link          The link id.
-	 * @param   string  $access_token  The Facebook access token for public links, read_stream permission for non-public links.
-	 * 
-	 * @return  array   The decoded JSON response.
-	 * 
-	 * @since   12.1
+	 * Method to get a link. Requires authentication and read_stream permission for non-public links.
+	 *
+	 * @param   string  $link  The link id.
+	 *
+	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
+	 *
+	 * @since   13.1
 	 */
-	public function getLink($link, $access_token)
+	public function getLink($link)
 	{
-		return $this->get($link, $access_token);
+		return $this->get($link);
 	}
 
 	/**
-	 * Method to get a link's comments.
-	 * 
-	 * @param   string  $link          The link id.
-	 * @param   string  $access_token  The Facebook access token.
-	 * 
-	 * @return  array   The decoded JSON response.
-	 * 
-	 * @since   12.1
+	 * Method to get a link's comments. Requires authentication and read_stream permission for non-public links.
+	 *
+	 * @param   string   $link    The link id.
+	 * @param   integer  $limit   The number of objects per page.
+	 * @param   integer  $offset  The object's number on the page.
+	 * @param   string   $until   A unix timestamp or any date accepted by strtotime.
+	 * @param   string   $since   A unix timestamp or any date accepted by strtotime.
+	 *
+	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
+	 *
+	 * @since   13.1
 	 */
-	public function getComments($link, $access_token)
+	public function getComments($link, $limit = 0, $offset = 0, $until = null, $since = null)
 	{
-		return $this->getConnection($link, $access_token, 'comments');
+		return $this->getConnection($link, 'comments', '', $limit, $offset, $until, $since);
 	}
 
 	/**
-	 * Method to comment on a link.
-	 * 
-	 * @param   string  $link          The link id.
-	 * @param   string  $access_token  The Facebook access token with the publish_stream permission.
-	 * @param   string  $message       The comment's text.
-	 * 
-	 * @return  array   The decoded JSON response.
-	 * 
-	 * @since   12.1
+	 * Method to comment on a link. Requires authentication and publish_stream permission.
+	 *
+	 * @param   string  $link     The link id.
+	 * @param   string  $message  The comment's text.
+	 *
+	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
+	 *
+	 * @since   13.1
 	 */
-	public function createComment($link, $access_token, $message)
+	public function createComment($link, $message)
 	{
 		// Set POST request parameters.
 		$data = array();
 		$data['message'] = $message;
 
-		return $this->createConnection($link, $access_token, 'comments', $data);
+		return $this->createConnection($link, 'comments', $data);
 	}
 
 	/**
-	 * Method to delete a comment.
-	 * 
-	 * @param   string  $comment       The comment's id.
-	 * @param   string  $access_token  The Facebook access token. 
-	 * 
-	 * @return  array   The decoded JSON response.
-	 * 
-	 * @since   12.1
+	 * Method to delete a comment. Requires authentication and publish_stream permission.
+	 *
+	 * @param   string  $comment  The comment's id.
+	 *
+	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
+	 *
+	 * @since   13.1
 	 */
-	public function deleteComment($comment, $access_token)
+	public function deleteComment($comment)
 	{
-		return $this->deleteConnection($comment, $access_token);
+		return $this->deleteConnection($comment);
 	}
 
 	/**
-	 * Method to get link's likes.
-	 * 
-	 * @param   string  $link          The link id.
-	 * @param   string  $access_token  The Facebook access token.
-	 * 
-	 * @return  array   The decoded JSON response.
-	 * 
-	 * @since   12.1
+	 * Method to get link's likes. Requires authentication and read_stream permission for non-public links.
+	 *
+	 * @param   string   $link    The link id.
+	 * @param   integer  $limit   The number of objects per page.
+	 * @param   integer  $offset  The object's number on the page.
+	 * @param   string   $until   A unix timestamp or any date accepted by strtotime.
+	 * @param   string   $since   A unix timestamp or any date accepted by strtotime.
+	 *
+	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
+	 *
+	 * @since   13.1
 	 */
-	public function getLikes($link, $access_token)
+	public function getLikes($link, $limit = 0, $offset = 0, $until = null, $since = null)
 	{
-		return $this->getConnection($link, $access_token, 'likes');
+		return $this->getConnection($link, 'likes', '', $limit, $offset, $until, $since);
 	}
 
 	/**
-	 * Method to like a link.
-	 * 
-	 * @param   string  $link          The link id.
-	 * @param   string  $access_token  The Facebook access token with the publish_stream permission.
-	 * 
+	 * Method to like a link. Requires authentication and publish_stream permission.
+	 *
+	 * @param   string  $link  The link id.
+	 *
 	 * @return  boolean Returns true if successful, and false otherwise.
-	 * 
-	 * @since   12.1
+	 *
+	 * @since   13.1
 	 */
-	public function createLike($link, $access_token)
+	public function createLike($link)
 	{
-		return $this->createConnection($link, $access_token, 'likes');
+		return $this->createConnection($link, 'likes');
 	}
 
 	/**
-	 * Method to unlike a link.
-	 * 
-	 * @param   string  $link          The link id.
-	 * @param   string  $access_token  The Facebook access token. 
-	 * 
+	 * Method to unlike a link. Requires authentication and publish_stream permission.
+	 *
+	 * @param   string  $link  The link id.
+	 *
 	 * @return  boolean Returns true if successful, and false otherwise.
-	 * 
-	 * @since   12.1
+	 *
+	 * @since   13.1
 	 */
-	public function deleteLike($link, $access_token)
+	public function deleteLike($link)
 	{
-		return $this->deleteConnection($link, $access_token, 'likes');
+		return $this->deleteConnection($link, 'likes');
 	}
 }

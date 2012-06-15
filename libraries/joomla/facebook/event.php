@@ -2,11 +2,10 @@
 /**
  * @package     Joomla.Platform
  * @subpackage  Facebook
- * 
+ *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-
 
 defined('JPATH_PLATFORM') or die();
 
@@ -16,126 +15,98 @@ defined('JPATH_PLATFORM') or die();
  *
  * @package     Joomla.Platform
  * @subpackage  Facebook
- * 
- * @since       12.1
+ *
+ * @see         http://developers.facebook.com/docs/reference/api/event/
+ * @since       13.1
  */
 class JFacebookEvent extends JFacebookObject
 {
 	/**
-	 * Method to get information about an event visible to the current user.
-	 * 
-	 * @param   string  $event         The event id.
-	 * @param   string  $access_token  The Facebook access token.
-	 * 
-	 * @return  array   The decoded JSON response.
-	 * 
-	 * @since   12.1
+	 * Method to get information about an event visible to the current user. Requires authentication.
+	 *
+	 * @param   string  $event  The event id.
+	 *
+	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
+	 *
+	 * @since   13.1
 	 */
-	public function getEvent($event, $access_token)
+	public function getEvent($event)
 	{
-		$token = '?access_token=' . $access_token;
-
-		$path = $event . $token;
-
-		// Send the request.
-		return $this->sendRequest($path);
+		return $this->get($event);
 	}
 
 	/**
-	 * Method to get the event's wall.
-	 * 
-	 * @param   string  $event         The event id.
-	 * @param   string  $access_token  The Facebook access token.
-	 * 
-	 * @return  array   The decoded JSON response.
-	 * 
-	 * @since   12.1
+	 * Method to get the event's wall. Requires authentication.
+	 *
+	 * @param   string   $event   The event id.
+	 * @param   integer  $limit   The number of objects per page.
+	 * @param   integer  $offset  The object's number on the page.
+	 * @param   string   $until   A unix timestamp or any date accepted by strtotime.
+	 * @param   string   $since   A unix timestamp or any date accepted by strtotime.
+	 *
+	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
+	 *
+	 * @since   13.1
 	 */
-	public function getFeed($event, $access_token)
+	public function getFeed($event, $limit = 0, $offset = 0, $until = null, $since = null)
 	{
-		$token = '?access_token=' . $access_token;
-
-		// Build the request path.
-		$path = $event . '/feed' . $token;
-
-		// Send the request.
-		return $this->sendRequest($path);
+		return $this->getConnection($event, 'feed', '', $limit, $offset, $until, $since);
 	}
 
 	/**
-	 * Method to post a link on event's feed which the current_user is or maybe attending.
-	 * 
-	 * @param   string  $event         The event id.
-	 * @param   string  $access_token  The Facebook access token with publish_stream permission.
-	 * @param   string  $link          Link URL.
-	 * @param   strin   $message       Link message.
-	 * 
-	 * @return  array   The decoded JSON response.
-	 * 
-	 * @since   12.1
+	 * Method to post a link on event's feed which the current_user is or maybe attending. Requires authentication and publish_stream permission.
+	 *
+	 * @param   string  $event    The event id.
+	 * @param   string  $link     Link URL.
+	 * @param   string  $message  Link message.
+	 *
+	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
+	 *
+	 * @since   13.1
 	 */
-	public function createLink($event, $access_token, $link, $message=null)
+	public function createLink($event, $link, $message = null)
 	{
-		$token = '?access_token=' . $access_token;
-
-		// Build the request path.
-		$path = $event . '/feed' . $token;
-
 		// Set POST request parameters.
 		$data = array();
 		$data['link'] = $link;
 		$data['message'] = $message;
 
-		// Send the post request.
-		return $this->sendRequest($path, 'post', $data);
+		return $this->createConnection($event, 'feed', $data);
 	}
 
 	/**
-	 * Method to delete a link.
-	 * 
-	 * @param   mixed   $link          The Link ID.
-	 * @param   string  $access_token  The Facebook access token. 
-	 * 
-	 * @return  boolean   Returns true if successful, and false otherwise.
-	 * 
-	 * @since   12.1
-	 */
-	public function deleteLink($link, $access_token)
-	{
-		$token = '?access_token=' . $access_token;
-
-		// Build the request path.
-		$path = $link . $token;
-
-		// Send the delete request.
-		return $this->sendRequest($path, 'delete');
-	}
-
-	/**
-	 * Method to post on event's wall. Message or link parameter is required.
-	 * 
-	 * @param   string  $event         The event id.
-	 * @param   string  $access_token  The Facebook access token with the publish_stream permission.
-	 * @param   string  $message       Post message.
-	 * @param   string  $link          Post URL.
-	 * @param   string  $picture       Post thumbnail image (can only be used if link is specified) 
-	 * @param   string  $name          Post name (can only be used if link is specified).
-	 * @param   string  $caption       Post caption (can only be used if link is specified).
-	 * @param   string  $description   Post description (can only be used if link is specified).
-	 * @param   array   $actions       Post actions array of objects containing name and link.
+	 * Method to delete a link. Requires authentication and publish_stream permission.
 	 *
-	 * @return  array   The decoded JSON response.
-	 * 
-	 * @since   12.1
+	 * @param   mixed  $link  The Link ID.
+	 *
+	 * @return  boolean   Returns true if successful, and false otherwise.
+	 *
+	 * @since   13.1
 	 */
-	public function createPost($event, $access_token, $message=null, $link=null, $picture=null, $name=null, $caption=null,
-		$description=null, $actions=null)
+	public function deleteLink($link)
 	{
-		$token = '?access_token=' . $access_token;
+		return $this->deleteConnection($link);
+	}
 
-		// Build the request path.
-		$path = $event . '/feed' . $token;
-
+	/**
+	 * Method to post on event's wall. Message or link parameter is required. Requires authentication and publish_stream permission.
+	 *
+	 * @param   string  $event        The event id.
+	 * @param   string  $message      Post message.
+	 * @param   string  $link         Post URL.
+	 * @param   string  $picture      Post thumbnail image (can only be used if link is specified)
+	 * @param   string  $name         Post name (can only be used if link is specified).
+	 * @param   string  $caption      Post caption (can only be used if link is specified).
+	 * @param   string  $description  Post description (can only be used if link is specified).
+	 * @param   array   $actions      Post actions array of objects containing name and link.
+	 *
+	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
+	 *
+	 * @since   13.1
+	 */
+	public function createPost($event, $message = null, $link = null, $picture = null, $name = null, $caption = null,
+		$description = null, $actions = null)
+	{
 		// Set POST request parameters.
 		$data = array();
 		$data['message'] = $message;
@@ -146,534 +117,407 @@ class JFacebookEvent extends JFacebookObject
 		$data['actions'] = $actions;
 		$data['picture'] = $picture;
 
-		// Send the post request.
-		return $this->sendRequest($path, 'post', $data);
+		return $this->createConnection($event, 'feed', $data);
 	}
 
 	/**
 	 * Method to delete a post. Note: you can only delete the post if it was created by the current user.
-	 * 
-	 * @param   string  $post          The Post ID.
-	 * @param   string  $access_token  The Facebook access token. 
-	 * 
+	 * Requires authentication and publish_stream permission.
+	 *
+	 * @param   string  $post  The Post ID.
+	 *
 	 * @return  boolean   Returns true if successful, and false otherwise.
-	 * 
-	 * @since   12.1
+	 *
+	 * @since   13.1
 	 */
-	public function deletePost($post, $access_token)
+	public function deletePost($post)
 	{
-		$token = '?access_token=' . $access_token;
-
-		// Build the request path.
-		$path = $post . $token;
-
-		// Send the delete request.
-		return $this->sendRequest($path, 'delete');
+		return $this->deleteConnection($post);
 	}
 
 	/**
-	 * Method to post a status message on behalf of the user on the event's wall.
-	 * 
-	 * @param   string  $event         The event id.
-	 * @param   string  $access_token  The Facebook access token with publish_stream permission.
-	 * @param   string  $message       Status message content.
-	 * 
-	 * @return  array   The decoded JSON response.
-	 * 
-	 * @since   12.1
+	 * Method to post a status message on behalf of the user on the event's wall. Requires authentication and publish_stream permission.
+	 *
+	 * @param   string  $event    The event id.
+	 * @param   string  $message  Status message content.
+	 *
+	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
+	 *
+	 * @since   13.1
 	 */
-	public function createStatus($event, $access_token, $message)
+	public function createStatus($event, $message)
 	{
-		$token = '?access_token=' . $access_token;
-
-		// Build the request path.
-		$path = $event . '/feed' . $token;
-
 		// Set POST request parameters.
 		$data = array();
 		$data['message'] = $message;
 
-		// Send the post request.
-		return $this->sendRequest($path, 'post', $data);
+		return $this->createConnection($event, 'feed', $data);
 	}
 
 	/**
 	 * Method to delete a status. Note: you can only delete the post if it was created by the current user.
-	 * 
-	 * @param   string  $status        The Status ID.
-	 * @param   string  $access_token  The Facebook access token. 
-	 * 
+	 * Requires authentication and publish_stream permission.
+	 *
+	 * @param   string  $status  The Status ID.
+	 *
 	 * @return  boolean   Returns true if successful, and false otherwise.
-	 * 
-	 * @since   12.1
+	 *
+	 * @since   13.1
 	 */
-	public function deleteStatus($status, $access_token)
+	public function deleteStatus($status)
 	{
-		$token = '?access_token=' . $access_token;
-
-		// Build the request path.
-		$path = $status . $token;
-
-		// Send the delete request.
-		return $this->sendRequest($path, 'delete');
+		return $this->deleteConnection($status);
 	}
 
 	/**
-	 * Method to get the list of invitees for the event.
-	 * 
-	 * @param   string  $event         The event id.
-	 * @param   string  $access_token  The Facebook access token with user_events or friends_events permission.
-	 * 
-	 * @return  array   The decoded JSON response.
-	 * 
-	 * @since   12.1
+	 * Method to get the list of invitees for the event. Requires authentication and user_events or friends_events permission.
+	 *
+	 * @param   string   $event   The event id.
+	 * @param   integer  $limit   The number of objects per page.
+	 * @param   integer  $offset  The object's number on the page.
+	 *
+	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
+	 *
+	 * @since   13.1
 	 */
-	public function getInvited($event, $access_token)
+	public function getInvited($event, $limit = 0, $offset = 0)
 	{
-		$token = '?access_token=' . $access_token;
-
-		// Build the request path.
-		$path = $event . '/invited' . $token;
-
-		// Send the request.
-		return $this->sendRequest($path);
+		return $this->getConnection($event, 'invited', '', $limit, $offset);
 	}
 
 	/**
-	 * Method to check if a user is invited to the event.
-	 * 
-	 * @param   string  $event         The event id.
-	 * @param   string  $access_token  The Facebook access token with user_events or friends_events permission.
-	 * @param   mixed   $user          Either an integer containing the user ID or a string containing the username.
-	 * 
+	 * Method to check if a user is invited to the event. Requires authentication and user_events or friends_events permission.
+	 *
+	 * @param   string  $event  The event id.
+	 * @param   mixed   $user   Either an integer containing the user ID or a string containing the username.
+	 *
 	 * @return  array   The decoded JSON response or an empty array if the user is not invited.
-	 * 
-	 * @since   12.1
+	 *
+	 * @since   13.1
 	 */
-	public function isInvited($event, $access_token, $user)
+	public function isInvited($event, $user)
 	{
-		$token = '?access_token=' . $access_token;
-
-		// Build the request path.
-		$path = $event . '/invited/' . $user . $token;
-
-		// Send the request.
-		return $this->sendRequest($path);
+		return $this->getConnection($event, 'invited/' . $user);
 	}
 
 	/**
-	 * Method to invite users to the event.
-	 * 
-	 * @param   string  $event         The event id.
-	 * @param   string  $access_token  The Facebook access token with create_event permission.
-	 * @param   string  $users         Comma separated list of user ids.
-	 * 
+	 * Method to invite users to the event. Requires authentication and create_event permission.
+	 *
+	 * @param   string  $event  The event id.
+	 * @param   string  $users  Comma separated list of user ids.
+	 *
 	 * @return  boolean   Returns true if successful, and false otherwise.
-	 * 
-	 * @since   12.1
+	 *
+	 * @since   13.1
 	 */
-	public function createInvite($event, $access_token, $users)
+	public function createInvite($event, $users)
 	{
-		$token = '?access_token=' . $access_token;
-
-		// Build the request path.
-		$path = $event . '/invited' . $token;
-
 		// Set POST request parameters.
 		$data = array();
 		$data['users'] = $users;
 
-		// Send the post request.
-		return $this->sendRequest($path, 'post', $data);
+		return $this->createConnection($event, 'invited', $data);
 	}
 
 	/**
 	 * Method to delete a invitation. Note: you can only delete the invite if the current user is the event admin.
-	 * 
-	 * @param   string  $event         The event id.
-	 * @param   string  $access_token  The Facebook access token with the rsvp_event permission.
-	 * @param   string  $user          The user id.
-	 * 
+	 * Requires authentication and rsvp_event permission.
+	 *
+	 * @param   string  $event  The event id.
+	 * @param   string  $user   The user id.
+	 *
 	 * @return  boolean   Returns true if successful, and false otherwise.
-	 * 
-	 * @since   12.1
+	 *
+	 * @since   13.1
 	 */
-	public function deleteInvite($event, $access_token, $user)
+	public function deleteInvite($event, $user)
 	{
-		$token = '?access_token=' . $access_token;
-
-		// Build the request path.
-		$path = $event . '/invited/' . $user . $token;
-
-		// Send the delete request.
-		return $this->sendRequest($path, 'delete');
+		return $this->deleteConnection($event, 'invited/' . $user);
 	}
 
 	/**
-	 * Method to get the list of attending users.
-	 * 
-	 * @param   string  $event         The event id.
-	 * @param   string  $access_token  The Facebook access token with user_events or friends_events permission.
-	 * 
-	 * @return  array   The decoded JSON response.
-	 * 
-	 * @since   12.1
+	 * Method to get the list of attending users. Requires authentication and user_events or friends_events permission.
+	 *
+	 * @param   string   $event   The event id.
+	 * @param   integer  $limit   The number of objects per page.
+	 * @param   integer  $offset  The object's number on the page.
+	 *
+	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
+	 *
+	 * @since   13.1
 	 */
-	public function getAttending($event, $access_token)
+	public function getAttending($event, $limit = 0, $offset = 0)
 	{
-		$token = '?access_token=' . $access_token;
-
-		// Build the request path.
-		$path = $event . '/attending' . $token;
-
-		// Send the request.
-		return $this->sendRequest($path);
+		return $this->getConnection($event, 'attending', '', $limit, $offset);
 	}
 
 	/**
-	 * Method to check if a user is attending an event.
-	 * 
-	 * @param   string  $event         The event id.
-	 * @param   string  $access_token  The Facebook access token with user_events or friends_events permission.
-	 * @param   mixed   $user          Either an integer containing the user ID or a string containing the username.
-	 * 
+	 * Method to check if a user is attending an event. Requires authentication and user_events or friends_events permission.
+	 *
+	 * @param   string  $event  The event id.
+	 * @param   mixed   $user   Either an integer containing the user ID or a string containing the username.
+	 *
 	 * @return  array   The decoded JSON response or an empty array if the user is not invited.
-	 * 
-	 * @since   12.1
+	 *
+	 * @since   13.1
 	 */
-	public function isAttending($event, $access_token, $user)
+	public function isAttending($event, $user)
 	{
-		$token = '?access_token=' . $access_token;
-
-		// Build the request path.
-		$path = $event . '/attending/' . $user . $token;
-
-		// Send the request.
-		return $this->sendRequest($path);
+		return $this->getConnection($event, 'attending/' . $user);
 	}
 
 	/**
-	 * Method to set the current user as attending.
-	 * 
-	 * @param   string  $event         The event id.
-	 * @param   string  $access_token  The Facebook access token with rsvp_event permission.
-	 * 
+	 * Method to set the current user as attending. Requires authentication and rsvp_event permission.
+	 *
+	 * @param   string  $event  The event id.
+	 *
 	 * @return  boolean   Returns true if successful, and false otherwise.
-	 * 
-	 * @since   12.1
+	 *
+	 * @since   13.1
 	 */
-	public function createAttending($event, $access_token)
+	public function createAttending($event)
 	{
-		$token = '?access_token=' . $access_token;
-
-		// Build the request path.
-		$path = $event . '/attending' . $token;
-
-		// Send the post request.
-		return $this->sendRequest($path, 'post');
+		return $this->createConnection($event, 'attending');
 	}
 
 	/**
-	 * Method to get the list of maybe attending users.
-	 * 
-	 * @param   string  $event         The event id.
-	 * @param   string  $access_token  The Facebook access token with user_events or friends_events permission.
-	 * 
-	 * @return  array   The decoded JSON response.
-	 * 
-	 * @since   12.1
+	 * Method to get the list of maybe attending users. Requires authentication and user_events or friends_events permission.
+	 *
+	 * @param   string   $event   The event id.
+	 * @param   integer  $limit   The number of objects per page.
+	 * @param   integer  $offset  The object's number on the page.
+	 *
+	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
+	 *
+	 * @since   13.1
 	 */
-	public function getMaybe($event, $access_token)
+	public function getMaybe($event, $limit = 0, $offset = 0)
 	{
-		$token = '?access_token=' . $access_token;
-
-		// Build the request path.
-		$path = $event . '/maybe' . $token;
-
-		// Send the request.
-		return $this->sendRequest($path);
+		return $this->getConnection($event, 'maybe', '', $limit, $offset);
 	}
 
 	/**
-	 * Method to check if a user is maybe attending an event.
-	 * 
-	 * @param   string  $event         The event id.
-	 * @param   string  $access_token  The Facebook access token with user_events or friends_events permission.
-	 * @param   mixed   $user          Either an integer containing the user ID or a string containing the username.
-	 * 
+	 * Method to check if a user is maybe attending an event. Requires authentication and user_events or friends_events permission.
+	 *
+	 * @param   string  $event  The event id.
+	 * @param   mixed   $user   Either an integer containing the user ID or a string containing the username.
+	 *
 	 * @return  array   The decoded JSON response or an empty array if the user is not invited.
-	 * 
-	 * @since   12.1
+	 *
+	 * @since   13.1
 	 */
-	public function isMaybe($event, $access_token, $user)
+	public function isMaybe($event, $user)
 	{
-		$token = '?access_token=' . $access_token;
-
-		// Build the request path.
-		$path = $event . '/maybe/' . $user . $token;
-
-		// Send the request.
-		return $this->sendRequest($path);
+		return $this->getConnection($event, 'maybe/' . $user);
 	}
 
 	/**
-	 * Method to set the current user as maybe attending.
-	 * 
-	 * @param   string  $event         The event id.
-	 * @param   string  $access_token  The Facebook access token with rsvp_event permission.
-	 * 
+	 * Method to set the current user as maybe attending. Requires authentication and rscp_event permission.
+	 *
+	 * @param   string  $event  The event id.
+	 *
 	 * @return  boolean   Returns true if successful, and false otherwise.
-	 * 
-	 * @since   12.1
+	 *
+	 * @since   13.1
 	 */
-	public function createMaybe($event, $access_token)
+	public function createMaybe($event)
 	{
-		$token = '?access_token=' . $access_token;
-
-		// Build the request path.
-		$path = $event . '/maybe' . $token;
-
-		// Send the post request.
-		return $this->sendRequest($path, 'post');
+		return $this->createConnection($event, 'maybe');
 	}
 
 	/**
-	 * Method to get the list of users which declined the event.
-	 * 
-	 * @param   string  $event         The event id.
-	 * @param   string  $access_token  The Facebook access token with user_events or friends_events permission.
-	 * 
-	 * @return  array   The decoded JSON response.
-	 * 
-	 * @since   12.1
+	 * Method to get the list of users which declined the event. Requires authentication and user_events or friends_events permission.
+	 *
+	 * @param   string   $event   The event id.
+	 * @param   integer  $limit   The number of objects per page.
+	 * @param   integer  $offset  The object's number on the page.
+	 *
+	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
+	 *
+	 * @since   13.1
 	 */
-	public function getDeclined($event, $access_token)
+	public function getDeclined($event, $limit = 0, $offset = 0)
 	{
-		$token = '?access_token=' . $access_token;
-
-		// Build the request path.
-		$path = $event . '/declined' . $token;
-
-		// Send the request.
-		return $this->sendRequest($path);
+		return $this->getConnection($event, 'declined', '', $limit, $offset);
 	}
 
 	/**
-	 * Method to check if a user responded 'no' to the event.
-	 * 
-	 * @param   string  $event         The event id.
-	 * @param   string  $access_token  The Facebook access token with user_events or friends_events permission.
-	 * @param   mixed   $user          Either an integer containing the user ID or a string containing the username.
-	 * 
+	 * Method to check if a user responded 'no' to the event. Requires authentication and user_events or friends_events permission.
+	 *
+	 * @param   string  $event  The event id.
+	 * @param   mixed   $user   Either an integer containing the user ID or a string containing the username.
+	 *
 	 * @return  array   The decoded JSON response or an empty array if the user is not invited.
-	 * 
-	 * @since   12.1
+	 *
+	 * @since   13.1
 	 */
-	public function isDeclined($event, $access_token, $user)
+	public function isDeclined($event, $user)
 	{
-		$token = '?access_token=' . $access_token;
-
-		// Build the request path.
-		$path = $event . '/declined/' . $user . $token;
-
-		// Send the request.
-		return $this->sendRequest($path);
+		return $this->getConnection($event, 'declined/' . $user);
 	}
 
 	/**
-	 * Method to set the current user as declined.
-	 * 
-	 * @param   string  $event         The event id.
-	 * @param   string  $access_token  The Facebook access token with rsvp_event permission.
-	 * 
+	 * Method to set the current user as declined. Requires authentication and rscp_event permission.
+	 *
+	 * @param   string  $event  The event id.
+	 *
 	 * @return  boolean   Returns true if successful, and false otherwise.
-	 * 
-	 * @since   12.1
+	 *
+	 * @since   13.1
 	 */
-	public function createDeclined($event, $access_token)
+	public function createDeclined($event)
 	{
-		$token = '?access_token=' . $access_token;
-
-		// Build the request path.
-		$path = $event . '/declined' . $token;
-
-		// Send the post request.
-		return $this->sendRequest($path, 'post');
+		return $this->createConnection($event, 'declined');
 	}
 
 	/**
-	 * Method to get the list of users which have not replied to the event.
-	 * 
-	 * @param   string  $event         The event id.
-	 * @param   string  $access_token  The Facebook access token with user_events or friends_events permission.
-	 * 
-	 * @return  array   The decoded JSON response.
-	 * 
-	 * @since   12.1
+	 * Method to get the list of users which have not replied to the event. Requires authentication and user_events or friends_events permission.
+	 *
+	 * @param   string   $event   The event id.
+	 * @param   integer  $limit   The number of objects per page.
+	 * @param   integer  $offset  The object's number on the page.
+	 *
+	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
+	 *
+	 * @since   13.1
 	 */
-	public function getNoreply($event, $access_token)
+	public function getNoreply($event, $limit = 0, $offset = 0)
 	{
-		$token = '?access_token=' . $access_token;
-
-		// Build the request path.
-		$path = $event . '/noreply' . $token;
-
-		// Send the request.
-		return $this->sendRequest($path);
+		return $this->getConnection($event, 'noreply', '', $limit, $offset);
 	}
 
 	/**
-	 * Method to check if a user has not replied to the event.
-	 * 
-	 * @param   string  $event         The event id.
-	 * @param   string  $access_token  The Facebook access token with user_events or friends_events permission.
-	 * @param   mixed   $user          Either an integer containing the user ID or a string containing the username.
-	 * 
+	 * Method to check if a user has not replied to the event. Requires authentication and user_events or friends_events permission.
+	 *
+	 * @param   string  $event  The event id.
+	 * @param   mixed   $user   Either an integer containing the user ID or a string containing the username.
+	 *
 	 * @return  array   The decoded JSON response or an empty array if the user is not invited.
-	 * 
-	 * @since   12.1
+	 *
+	 * @since   13.1
 	 */
-	public function isNoreply($event, $access_token, $user)
+	public function isNoreply($event, $user)
 	{
-		$token = '?access_token=' . $access_token;
-
-		// Build the request path.
-		$path = $event . '/noreply/' . $user . $token;
-
-		// Send the request.
-		return $this->sendRequest($path);
+		return $this->getConnection($event, 'noreply/' . $user);
 	}
 
 	/**
-	 * Method to get the event's profile picture.
-	 * 
-	 * @param   string  $event         The event id.    
-	 * @param   string  $access_token  The Facebook access token with user_events or friends_events permission.
-	 * @param   string  $type          To request a different photo use square | small | normal | large.
-	 * 
+	 * Method to get the event's profile picture. Requires authentication and user_events or friends_events permission.
+	 *
+	 * @param   string   $event     The event id.
+	 * @param   boolean  $redirect  If false this will return the URL of the picture without a 302 redirect.
+	 * @param   string   $type      To request a different photo use square | small | normal | large.
+	 *
 	 * @return  string   The URL to the event's profile picture.
-	 * 
-	 * @since   12.1
+	 *
+	 * @since   13.1
 	 */
-	public function getPicture($event, $access_token=null, $type=null)
+	public function getPicture($event, $redirect = true, $type = null)
 	{
-		$token = '?access_token=' . $access_token;
+		$extra_fields = '';
 
-		if ($type != null)
+		if ($redirect == false)
 		{
-			$type = '&type=' . $type;
-		}
-		else
-		{
-			$type = '';
+			$extra_fields = '?redirect=false';
 		}
 
-		// Build the request path.
-		$path = $event . '/picture' . $token . $type;
+		if ($type)
+		{
+			$extra_fields .= (strpos($extra_fields, '?') === false) ? '?type=' . $type : '&type=' . $type;
+		}
 
-		// Send the request.
-		$response = $this->client->get($this->fetchUrl($path));
-
-		return $response->headers['Location'];
+		return $this->getConnection($event, 'picture', $extra_fields);
 	}
 
 	/**
-	 * Method to get photos published on event's wall.
-	 * 
-	 * @param   string  $event         The event id.    
-	 * @param   string  $access_token  The Facebook access token.
-	 * 
-	 * @return  array   The decoded JSON response.
-	 * 
-	 * @since   12.1
+	 * Method to get photos published on event's wall. Requires authentication.
+	 *
+	 * @param   string   $event   The event id.
+	 * @param   integer  $limit   The number of objects per page.
+	 * @param   integer  $offset  The object's number on the page.
+	 * @param   string   $until   A unix timestamp or any date accepted by strtotime.
+	 * @param   string   $since   A unix timestamp or any date accepted by strtotime.
+	 *
+	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
+	 *
+	 * @since   13.1
 	 */
-	public function getPhotos($event, $access_token)
+	public function getPhotos($event, $limit = 0, $offset = 0, $until = null, $since = null)
 	{
-		$token = '?access_token=' . $access_token;
-
-		// Build the request path.
-		$path = $event . '/photos' . $token;
-
-		// Send the request.
-		return $this->sendRequest($path);
+		return $this->getConnection($event, 'photos', '', $limit, $offset, $until, $since);
 	}
 
 	/**
-	 * Method to post a photo on event's wall.
-	 * 
-	 * @param   string  $event         The event id.
-	 * @param   string  $access_token  The Facebook access token with publish_stream  permission.
-	 * @param   string  $source        Path to photo.
-	 * @param   string  $message       Photo description.
-	 * 
-	 * @return  array   The decoded JSON response.
-	 * 
-	 * @since   12.1
+	 * Method to post a photo on event's wall. Requires authentication and publish_stream permission.
+	 *
+	 * @param   string  $event    The event id.
+	 * @param   string  $source   Path to photo.
+	 * @param   string  $message  Photo description.
+	 *
+	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
+	 *
+	 * @since   13.1
 	 */
-	public function createPhoto($event, $access_token, $source, $message=null)
+	public function createPhoto($event, $source, $message = null)
 	{
-		$token = '?access_token=' . $access_token;
-
-		// Build the request path.
-		$path = $event . '/photos' . $token;
-
 		// Set POST request parameters.
 		$data = array();
-		$data['message'] = $message;
 		$data[basename($source)] = '@' . realpath($source);
 
-		// Send the post request.
-		return $this->sendRequest($path, 'post', $data, array('Content-type' => 'multipart/form-data'));
+		if ($message)
+		{
+			$data['message'] = $message;
+		}
+
+		return $this->createConnection($event, 'photos', $data, array('Content-Type' => 'multipart/form-data'));
 	}
 
 	/**
-	 * Method to get videos published on event's wall.
-	 * 
-	 * @param   string  $event         The event id.    
-	 * @param   string  $access_token  The Facebook access token.
-	 * 
-	 * @return  array   The decoded JSON response.
-	 * 
-	 * @since   12.1
+	 * Method to get videos published on event's wall. Requires authentication.
+	 *
+	 * @param   string   $event   The event id.
+	 * @param   integer  $limit   The number of objects per page.
+	 * @param   integer  $offset  The object's number on the page.
+	 * @param   string   $until   A unix timestamp or any date accepted by strtotime.
+	 * @param   string   $since   A unix timestamp or any date accepted by strtotime.
+	 *
+	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
+	 *
+	 * @since   13.1
 	 */
-	public function getVideos($event, $access_token)
+	public function getVideos($event, $limit = 0, $offset = 0, $until = null, $since = null)
 	{
-		$token = '?access_token=' . $access_token;
-
-		// Build the request path.
-		$path = $event . '/videos' . $token;
-
-		// Send the request.
-		return $this->sendRequest($path);
+		return $this->getConnection($event, 'videos', '', $limit, $offset, $until, $since);
 	}
 
 	/**
-	 * Method to post a video on event's wall.
-	 * 
-	 * @param   string  $event         The event id.
-	 * @param   string  $access_token  The Facebook access token with publish_stream  permission.
-	 * @param   string  $source        Path to photo.
-	 * @param   string  $title         Video title.
-	 * @param   string  $description   Video description.
-	 * 
-	 * @return  array   The decoded JSON response.
-	 * 
-	 * @since   12.1
+	 * Method to post a video on event's wall. Requires authentication and publish_stream permission.
+	 *
+	 * @param   string  $event        The event id.
+	 * @param   string  $source       Path to photo.
+	 * @param   string  $title        Video title.
+	 * @param   string  $description  Video description.
+	 *
+	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
+	 *
+	 * @since   13.1
 	 */
-	public function createVideo($event, $access_token, $source, $title=null, $description=null)
+	public function createVideo($event, $source, $title = null, $description = null)
 	{
-		$token = '?access_token=' . $access_token;
-
-		// Build the request path.
-		$path = $event . '/videos' . $token;
-
 		// Set POST request parameters.
 		$data = array();
-		$data['title'] = $title;
-		$data['description'] = $description;
 		$data[basename($source)] = '@' . realpath($source);
 
-		// Send the post request.
-		return $this->sendRequest($path, 'post', $data, array('Content-type' => 'multipart/form-data'));
+		if ($title)
+		{
+			$data['title'] = $title;
+		}
+
+		if ($description)
+		{
+			$data['description'] = $description;
+		}
+
+		return $this->createConnection($event, 'videos', $data, array('Content-Type' => 'multipart/form-data'));
 	}
 }

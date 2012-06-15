@@ -2,52 +2,50 @@
 /**
  * @package     Joomla.UnitTest
  * @subpackage  Facebook
- * 
+ *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM . '/joomla/facebook/http.php';
-require_once JPATH_PLATFORM . '/joomla/facebook/object.php';
 require_once __DIR__ . '/stubs/JFacebookObjectMock.php';
 
 /**
- * Test class for JFacebook.
- * 
+ * Test class for JFacebookObject.
+ *
  * @package     Joomla.Platform
  * @subpackage  Facebook
- * 
- * @since       12.1
+ *
+ * @since       13.1
  */
 class JFacebookObjectTest extends TestCase
 {
 	/**
 	 * @var    JRegistry  Options for the Facebook object.
-	 * @since  12.1
+	 * @since  13.1
 	 */
 	protected $options;
 
 	/**
-	 * @var    JFacebookHttp  Mock client object.
-	 * @since  12.1
+	 * @var    JHttp  Mock client object.
+	 * @since  13.1
 	 */
 	protected $client;
 
 	/**
 	 * @var    JFacebookObjectMock  Object under test.
-	 * @since  12.1
+	 * @since  13.1
 	 */
 	protected $object;
 
 	/**
 	 * @var    string  Sample JSON string.
-	 * @since  12.1
+	 * @since  13.1
 	 */
 	protected $sampleString = '{"a":1,"b":2,"c":3,"d":4,"e":5}';
 
 	/**
 	 * @var    string  Sample JSON error message.
-	 * @since  12.1
+	 * @since  13.1
 	 */
 	protected $errorString = '{"error": {"message": "Generic Error."}}';
 
@@ -56,15 +54,20 @@ class JFacebookObjectTest extends TestCase
 	 * This method is called before a test is executed.
 	 *
 	 * @access protected
-	 * 
+	 *
 	 * @return   void
-	 * 
-	 * @since    12.1
+	 *
+	 * @since    13.1
 	 */
 	protected function setUp()
 	{
+		$_SERVER['HTTP_HOST'] = 'example.com';
+		$_SERVER['HTTP_USER_AGENT'] = 'Mozilla/5.0';
+		$_SERVER['REQUEST_URI'] = '/index.php';
+		$_SERVER['SCRIPT_NAME'] = '/index.php';
+
 		$this->options = new JRegistry;
-		$this->client = $this->getMock('JFacebookHttp', array('get', 'post', 'delete', 'put'));
+		$this->client = $this->getMock('JHttp', array('get', 'post', 'delete', 'put'));
 
 		$this->object = new JFacebookObjectMock($this->options, $this->client);
 	}
@@ -74,33 +77,60 @@ class JFacebookObjectTest extends TestCase
 	 * This method is called after a test is executed.
 	 *
 	 * @access protected
-	 * 
+	 *
 	 * @return   void
-	 * 
-	 * @since    12.1
+	 *
+	 * @since    13.1
 	 */
 	protected function tearDown()
 	{
 	}
 
 	/**
+	* Provides test data for request format detection.
+	*
+	* @return array
+	*
+	* @since 13.1
+	*/
+	public function seedFetchUrl()
+	{
+		// Limit, offset, until, since and expected
+		return array(
+			array(0, 0, null, null, 'https://graph.facebook.com/456431243/likes?access_token=235twegsdgsdhtry3tgwgf'),
+			array(5, 0, null, null, 'https://graph.facebook.com/456431243/likes?access_token=235twegsdgsdhtry3tgwgf&limit=5'),
+			array(5, 1, null ,null, 'https://graph.facebook.com/456431243/likes?access_token=235twegsdgsdhtry3tgwgf&limit=5&offset=1'),
+			array(5, 1, 1893909600, null, 'https://graph.facebook.com/456431243/likes?access_token=235twegsdgsdhtry3tgwgf&limit=5&offset=1&until=1893909600'),
+			array(5, 1, null, 1325829600, 'https://graph.facebook.com/456431243/likes?access_token=235twegsdgsdhtry3tgwgf&limit=5&offset=1&since=1325829600'),
+			array(0, 0, 1893909600, 1325829600,
+				'https://graph.facebook.com/456431243/likes?access_token=235twegsdgsdhtry3tgwgf&until=1893909600&since=1325829600')
+		);
+	}
+
+	/**
 	 * Test the fetchUrl method.
-	 * 
+	 *
+	 * @param   integer    $limit     The number of objects per page.
+	 * @param   integer    $offset    The object's number on the page.
+	 * @param   timestamp  $until     A unix timestamp or any date accepted by strtotime.
+	 * @param   timestamp  $since     A unix timestamp or any date accepted by strtotime.
+	 * @param   string     $expected  The expected result.
+	 *
 	 * @return  void
-	 * 
-	 * @covers JFacebookObject::fetchUrl
-	 * @since    12.1
+	 *
+	 * @dataProvider  seedFetchUrl
+	 *
+	 * @since    13.1
 	 */
-	public function testFetchUrl()
+	public function testFetchUrl($limit, $offset, $until, $since, $expected)
 	{
 		$apiUrl = 'https://graph.facebook.com/';
 		$path = '456431243/likes?access_token=235twegsdgsdhtry3tgwgf';
-		$expected = 'https://graph.facebook.com/456431243/likes?access_token=235twegsdgsdhtry3tgwgf';
 
 		$this->options->set('api.url', $apiUrl);
 
 		$this->assertThat(
-			$this->object->fetchUrl($path),
+			$this->object->fetchUrl($path, $limit, $offset, $until, $since),
 			$this->equalTo($expected)
 		);
 	}
@@ -109,9 +139,8 @@ class JFacebookObjectTest extends TestCase
 	 * Tests the sendRequest method.
 	 *
 	 * @return  void
-	 * 
-	 * @covers JFacebookObject::sendRequest
-	 * @since    12.1
+	 *
+	 * @since    13.1
 	 */
 	public function testSendRequest()
 	{
@@ -121,319 +150,105 @@ class JFacebookObjectTest extends TestCase
 
 	/**
 	 * Tests the get method
-	 * 
-	 * @covers JFacebookObject::get
-	 * @covers JFacebookObject::sendRequest
 	 *
 	 * @return  void
-	 * 
-	 * @since   12.1
+	 *
+	 * @since   13.1
 	 */
 	public function testGet()
 	{
-		$access_token = '235twegsdgsdhtry3tgwgf';
-		$object = '124346363456';
-
-		$returnData = new stdClass;
-		$returnData->body = $this->sampleString;
-
-		$this->client->expects($this->once())
-		->method('get')
-		->with($object . '?access_token=' . $access_token)
-		->will($this->returnValue($returnData));
-
-		$this->assertThat(
-			$this->object->get($object, $access_token),
-			$this->equalTo(json_decode($this->sampleString))
-		);
+		// Method tested via requesting classes
+		$this->markTestSkipped('This method is tested via requesting classes.');
 	}
 
 	/**
 	 * Tests the get method - failure
-	 * 
-	 * @covers JFacebookObject::get
-	 * @covers JFacebookObject::sendRequest
 	 *
 	 * @return  void
-	 * 
-	 * @since   12.1
-	 * @expectedException  DomainException
+	 *
+	 * @since   13.1
 	 */
 	public function testGetFailure()
 	{
-		$access_token = '235twegsdgsdhtry3tgwgf';
-		$object = '124346363456';
-
-		$returnData = new stdClass;
-		$returnData->body = $this->errorString;
-
-		$this->client->expects($this->once())
-		->method('get')
-		->with($object . '?access_token=' . $access_token)
-		->will($this->returnValue($returnData));
-
-		$this->object->get($object, $access_token);
-	}
-
-	/**
-	* Provides test data for request format detection.
-	*
-	* @return array
-	*
-	* @since 12.1
-	*/
-	public function seedGetConnection()
-	{
-		// Extra fields for the request URL.
-		return array(
-			array('&type=large'),
-			array(''),
-		);
+		// Method tested via requesting classes
+		$this->markTestSkipped('This method is tested via requesting classes.');
 	}
 
 	/**
 	 * Tests the getConnection method
-	 * 
-	 * @param   string  $extra_fields  Extra fields for the request URL.
-	 * 
-	 * @covers JFacebookObject::getConnection
-	 * @covers JFacebookObject::sendRequest
-	 * @dataProvider  seedDeleteConnection
 	 *
 	 * @return  void
-	 * 
-	 * @since   12.1
+	 *
+	 * @since   13.1
 	 */
-	public function testGetConnection($extra_fields)
+	public function testGetConnection()
 	{
-		$access_token = '235twegsdgsdhtry3tgwgf';
-		$object = '124346363456';
-		$connection = 'picture';
-
-		$returnData = new stdClass;
-		$returnData->body = $this->sampleString;
-
-		$this->client->expects($this->once())
-		->method('get')
-		->with($object . '/' . $connection . '?access_token=' . $access_token . $extra_fields)
-		->will($this->returnValue($returnData));
-
-		$this->assertThat(
-			$this->object->getConnection($object, $access_token, $connection, $extra_fields),
-			$this->equalTo(json_decode($this->sampleString))
-		);
+		// Method tested via requesting classes
+		$this->markTestSkipped('This method is tested via requesting classes.');
 	}
 
 	/**
 	 * Tests the getConnection method - failure
-	 * 
-	  * @param   string  $extra_fields  Extra fields for the request URL.
-	 * 
-	 * @covers JFacebookObject::getConnection
-	 * @covers JFacebookObject::sendRequest
-	 * @dataProvider  seedDeleteConnection
 	 *
 	 * @return  void
-	 * 
-	 * @since   12.1
-	 * @expectedException  DomainException
+	 *
+	 * @since   13.1
 	 */
-	public function testGetConnectionFailure($extra_fields)
+	public function testGetConnectionFailure()
 	{
-		$access_token = '235twegsdgsdhtry3tgwgf';
-		$object = '124346363456';
-		$connection = 'picture';
-
-		$returnData = new stdClass;
-		$returnData->body = $this->errorString;
-
-		$this->client->expects($this->once())
-		->method('get')
-		->with($object . '/' . $connection . '?access_token=' . $access_token . $extra_fields)
-		->will($this->returnValue($returnData));
-
-		$this->object->getConnection($object, $access_token, $connection, $extra_fields);
+		// Method tested via requesting classes
+		$this->markTestSkipped('This method is tested via requesting classes.');
 	}
 
 	/**
 	 * Tests the createConnection method.
 	 *
-	 * @covers JFacebookObject::createConnection
-	 * @covers JFacebookObject::sendRequest
-	 *
 	 * @return  void
-	 * 
-	 * @since   12.1
+	 *
+	 * @since   13.1
 	 */
 	public function testCreateConnection()
 	{
-		$access_token = '235twegsdgsdhtry3tgwgf';
-		$object = '124346363456';
-		$connection = 'comments';
-		$parameters['message'] = 'test message';
-
-		$returnData = new stdClass;
-		$returnData->body = $this->sampleString;
-
-		$this->client->expects($this->once())
-		->method('post')
-		->with($object . '/' . $connection . '?access_token=' . $access_token, $parameters)
-		->will($this->returnValue($returnData));
-
-		$this->assertThat(
-			$this->object->createConnection($object, $access_token, $connection, $parameters),
-			$this->equalTo(json_decode($this->sampleString))
-		);
+		// Method tested via requesting classes
+		$this->markTestSkipped('This method is tested via requesting classes.');
 	}
 
 	/**
 	 * Tests the createConnection method - failure.
 	 *
-	 * @covers JFacebookObject::createConnection
-	 * @covers JFacebookObject::sendRequest
-	 *
 	 * @return  void
-	 * 
-	 * @since   12.1
+	 *
+	 * @since   13.1
 	 */
 	public function testCreateConnectionFailure()
 	{
-		$exception = false;
-		$access_token = '235twegsdgsdhtry3tgwgf';
-		$object = '124346363456';
-		$connection = 'comments';
-		$parameters['message'] = 'test message';
-
-		$returnData = new stdClass;
-		$returnData->body = $this->errorString;
-
-		$this->client->expects($this->once())
-		->method('post')
-		->with($object . '/' . $connection . '?access_token=' . $access_token, $parameters)
-		->will($this->returnValue($returnData));
-
-		try
-		{
-			$this->object->createConnection($object, $access_token, $connection, $parameters);
-		}
-		catch (DomainException $e)
-		{
-			$exception = true;
-
-			$this->assertThat(
-				$e->getMessage(),
-				$this->equalTo(json_decode($this->errorString)->error->message)
-			);
-		}
-	}
-
-	/**
-	* Provides test data for request format detection.
-	*
-	* @return array
-	*
-	* @since 12.1
-	*/
-	public function seedDeleteConnection()
-	{
-		// Connection
-		return array(
-			array('likes'),
-			array(''),
-		);
+		// Method tested via requesting classes
+		$this->markTestSkipped('This method is tested via requesting classes.');
 	}
 
 	/**
 	 * Tests the deleteConnection method.
-	 * 
-	 * @param   string  $connection  Connection to test.
-	 * 
-	 * @covers JFacebookObject::deleteConnection
-	 * @covers JFacebookObject::sendRequest
-	 * @dataProvider  seedDeleteConnection
-	 * 
+	 *
 	 * @return  void
-	 * 
-	 * @since   12.1
+	 *
+	 * @since   13.1
 	 */
-	public function testDeleteConnection($connection)
+	public function testDeleteConnection()
 	{
-		$access_token = '235twegsdgsdhtry3tgwgf';
-		$object = '5148941614_12343468';
-
-		$returnData = new stdClass;
-		$returnData->body = true;
-
-		if ($connection != null)
-		{
-			$this->client->expects($this->once())
-			->method('delete')
-			->with($object . '/' . $connection . '?access_token=' . $access_token)
-			->will($this->returnValue($returnData));
-		}
-		else
-		{
-			$this->client->expects($this->once())
-			->method('delete')
-			->with($object . '?access_token=' . $access_token)
-			->will($this->returnValue($returnData));
-		}
-
-		$this->assertThat(
-			$this->object->deleteConnection($object, $access_token, $connection),
-			$this->equalTo(true)
-		);
+		// Method tested via requesting classes
+		$this->markTestSkipped('This method is tested via requesting classes.');
 	}
 
 	/**
 	 * Tests the deleteConnection method - failure.
 	 *
-	 * @param   string  $connection  Connection to test.
-	 *
-	 * @covers JFacebookObject::deleteConnection
-	 * @covers JFacebookObject::sendRequest
-	 * @dataProvider  seedDeleteConnection
-	 * 
 	 * @return  void
-	 * 
-	 * @since   12.1
+	 *
+	 * @since   13.1
 	 */
-	public function testDeleteConnectionFailure($connection)
+	public function testDeleteConnectionFailure()
 	{
-		$exception = false;
-		$access_token = '235twegsdgsdhtry3tgwgf';
-		$object = '5148941614_12343468';
-
-		$returnData = new stdClass;
-		$returnData->body = $this->errorString;
-
-		if ($connection != null)
-		{
-			$this->client->expects($this->once())
-			->method('delete')
-			->with($object . '/' . $connection . '?access_token=' . $access_token)
-			->will($this->returnValue($returnData));
-		}
-		else
-		{
-			$this->client->expects($this->once())
-			->method('delete')
-			->with($object . '?access_token=' . $access_token)
-			->will($this->returnValue($returnData));
-		}
-
-		try
-		{
-			$this->object->deleteConnection($object, $access_token, $connection);
-		}
-		catch (DomainException $e)
-		{
-			$exception = true;
-
-			$this->assertThat(
-				$e->getMessage(),
-				$this->equalTo(json_decode($this->errorString)->error->message)
-			);
-		}
+		// Method tested via requesting classes
+		$this->markTestSkipped('This method is tested via requesting classes.');
 	}
 }

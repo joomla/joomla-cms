@@ -2,7 +2,7 @@
 /**
  * @package     Joomla.Platform
  * @subpackage  Facebook
- * 
+ *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
@@ -16,158 +16,120 @@ defined('JPATH_PLATFORM') or die();
  *
  * @package     Joomla.Platform
  * @subpackage  Facebook
- * 
- * @since       12.1
+ *
+ * @see         http://developers.facebook.com/docs/reference/api/status/
+ * @since       13.1
  */
 class JFacebookStatus extends JFacebookObject
 {
 	/**
-	 * Method to get a status message.
-	 * 
-	 * @param   string  $status        The status message id.
-	 * @param   string  $access_token  The Facebook access token.
-	 * 
-	 * @return  array   The decoded JSON response.
-	 * 
-	 * @since   12.1
+	 * Method to get a status message. Requires authentication.
+	 *
+	 * @param   string  $status  The status message id.
+	 *
+	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
+	 *
+	 * @since   13.1
 	 */
-	public function getStatus($status, $access_token)
+	public function getStatus($status)
 	{
-		$token = '?access_token=' . $access_token;
-
-		$path = $status . $token;
-
-		// Send the request.
-		return $this->sendRequest($path);
+		return $this->get($status);
 	}
 
 	/**
-	 * Method to get a status message's comments.
-	 * 
-	 * @param   string  $status        The status message id.
-	 * @param   string  $access_token  The Facebook access token.
-	 * 
-	 * @return  array   The decoded JSON response.
-	 * 
-	 * @since   12.1
+	 * Method to get a status message's comments. Requires authentication.
+	 *
+	 * @param   string   $status  The status message id.
+	 * @param   integer  $limit   The number of objects per page.
+	 * @param   integer  $offset  The object's number on the page.
+	 * @param   string   $until   A unix timestamp or any date accepted by strtotime.
+	 * @param   string   $since   A unix timestamp or any date accepted by strtotime.
+	 *
+	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
+	 *
+	 * @since   13.1
 	 */
-	public function getComments($status, $access_token)
+	public function getComments($status, $limit = 0, $offset = 0, $until = null, $since = null)
 	{
-		$token = '?access_token=' . $access_token;
-
-		$path = $status . '/comments' . $token;
-
-		// Send the request.
-		return $this->sendRequest($path);
+		return $this->getConnection($status, 'comments', '', $limit, $offset, $until, $since);
 	}
 
 	/**
-	 * Method to post a comment to the status message.
-	 * 
-	 * @param   string  $status        The status message id.
-	 * @param   string  $access_token  The Facebook access token with the publish_stream and user_status or friends_status permission.
-	 * @param   string  $message       The comment's text.
-	 * 
-	 * @return  array   The decoded JSON response.
-	 * 
-	 * @since   12.1
+	 * Method to post a comment to the status message. Requires authentication and publish_stream and user_status or friends_status permission.
+	 *
+	 * @param   string  $status   The status message id.
+	 * @param   string  $message  The comment's text.
+	 *
+	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
+	 *
+	 * @since   13.1
 	 */
-	public function createComment($status, $access_token, $message)
+	public function createComment($status, $message)
 	{
-		$token = '?access_token=' . $access_token;
-
-		// Build the request path.
-		$path = $status . '/comments' . $token;
-
 		// Set POST request parameters.
-		$data = array();
 		$data['message'] = $message;
 
-		// Send the post request.
-		return $this->sendRequest($path, 'post', $data);
+		return $this->createConnection($status, 'comments', $data);
 	}
 
 	/**
-	 * Method to delete a comment.
-	 * 
-	 * @param   string  $comment       The comment's id.
-	 * @param   string  $access_token  The Facebook access token. 
-	 * 
-	 * @return  array   The decoded JSON response.
-	 * 
-	 * @since   12.1
+	 * Method to delete a comment. Requires authentication and publish_stream and user_status or friends_status permission.
+	 *
+	 * @param   string  $comment  The comment's id.
+	 *
+	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
+	 *
+	 * @since   13.1
 	 */
-	public function deleteComment($comment, $access_token)
+	public function deleteComment($comment)
 	{
-		$token = '?access_token=' . $access_token;
-
-		// Build the request path.
-		$path = $comment . $token;
-
-		// Send the delete request.
-		return $this->sendRequest($path, 'delete');
+		return $this->deleteConnection($comment);
 	}
 
 	/**
-	 * Method to get a status message's likes.
-	 * 
-	 * @param   string  $status        The status message id.
-	 * @param   string  $access_token  The Facebook access token.
-	 * 
-	 * @return  array   The decoded JSON response.
-	 * 
-	 * @since   12.1
+	 * Method to get a status message's likes. Requires authentication.
+	 *
+	 * @param   string   $status  The status message id.
+	 * @param   integer  $limit   The number of objects per page.
+	 * @param   integer  $offset  The object's number on the page.
+	 * @param   string   $until   A unix timestamp or any date accepted by strtotime.
+	 * @param   string   $since   A unix timestamp or any date accepted by strtotime.
+	 *
+	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
+	 *
+	 * @since   13.1
 	 */
-	public function getLikes($status, $access_token)
+	public function getLikes($status, $limit = 0, $offset = 0, $until = null, $since = null)
 	{
-		$token = '?access_token=' . $access_token;
-
-		$path = $status . '/likes' . $token;
-
-		// Send the request.
-		return $this->sendRequest($path);
+		return $this->getConnection($status, 'likes', '', $limit, $offset, $until, $since);
 	}
 
 	/**
-	 * Method to like status message.
-	 * 
-	 * @param   string  $status        The status message id.
-	 * @param   string  $access_token  The Facebook access token with the publish_stream and user_status or friends_status permission.
-	 * 
-	 * @return  array   The decoded JSON response.
-	 * 
-	 * @since   12.1
+	 * Method to like status message. Requires authentication and publish_stream and user_status or friends_status permission.
+	 *
+	 * @param   string  $status  The status message id.
+	 *
+	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
+	 *
+	 * @since   13.1
 	 */
-	public function createLike($status, $access_token)
+	public function createLike($status)
 	{
-		$token = '?access_token=' . $access_token;
-
-		// Build the request path.
-		$path = $status . '/likes' . $token;
-
-		// Send the post request.
-		return $this->sendRequest($path, 'post');
+		return $this->createConnection($status, 'likes');
 	}
 
 	/**
-	 * Method to unlike a status message.
-	 * 
-	 * @param   string  $status        The status message id.
-	 * @param   string  $access_token  The Facebook access token. 
-	 * 
-	 * @return  array   The decoded JSON response.
-	 * 
-	 * @since   12.1
+	 * Method to unlike a status message. Requires authentication and publish_stream and user_status or friends_status permission.
+	 *
+	 * @param   string  $status  The status message id.
+	 *
+	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
+	 *
+	 * @since   13.1
 	 */
-	public function deleteLike($status, $access_token)
+	public function deleteLike($status)
 	{
-		$token = '?access_token=' . $access_token;
-
-		// Build the request path.
-		$path = $status . '/likes' . $token;
-
-		// Send the delete request.
-		return $this->sendRequest($path, 'delete');
+		return $this->deleteConnection($status, 'likes');
 	}
 
 }

@@ -2,52 +2,54 @@
 /**
  * @package     Joomla.UnitTest
  * @subpackage  Facebook
- * 
+ *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM . '/joomla/facebook/http.php';
-require_once JPATH_PLATFORM . '/joomla/facebook/facebook.php';
-require_once JPATH_PLATFORM . '/joomla/facebook/comment.php';
-
 /**
- * Test class for JFacebook.
- * 
+ * Test class for JFacebookComment.
+ *
  * @package     Joomla.UnitTest
  * @subpackage  Facebook
- * 
- * @since       12.1
+ *
+ * @since       13.1
  */
 class JFacebookCommentTest extends TestCase
 {
-/**
+	/**
 	 * @var    JRegistry  Options for the Facebook object.
-	 * @since  12.1
+	 * @since  13.1
 	 */
 	protected $options;
 
 	/**
 	 * @var    JFacebookHttp  Mock client object.
-	 * @since  12.1
+	 * @since  13.1
 	 */
 	protected $client;
 
 	/**
 	 * @var    JFacebookComment  Object under test.
-	 * @since  12.1
+	 * @since  13.1
 	 */
 	protected $object;
 
 	/**
+	 * @var    JFacebookOauth  Facebook OAuth 2 client
+	 * @since  13.1
+	 */
+	protected $oauth;
+
+	/**
 	 * @var    string  Sample JSON string.
-	 * @since  12.1
+	 * @since  13.1
 	 */
 	protected $sampleString = '{"a":1,"b":2,"c":3,"d":4,"e":5}';
 
 	/**
 	 * @var    string  Sample JSON error message.
-	 * @since  12.1
+	 * @since  13.1
 	 */
 	protected $errorString = '{"error": {"message": "Generic Error."}}';
 
@@ -56,17 +58,38 @@ class JFacebookCommentTest extends TestCase
 	 * This method is called before a test is executed.
 	 *
 	 * @access  protected
-	 * 
+	 *
 	 * @return  void
-	 * 
-	 * @since   12.1
+	 *
+	 * @since   13.1
 	 */
 	protected function setUp()
 	{
-		$this->options = new JRegistry;
-		$this->client = $this->getMock('JFacebookHttp', array('get', 'post', 'delete', 'put'));
+		$_SERVER['HTTP_HOST'] = 'example.com';
+		$_SERVER['HTTP_USER_AGENT'] = 'Mozilla/5.0';
+		$_SERVER['REQUEST_URI'] = '/index.php';
+		$_SERVER['SCRIPT_NAME'] = '/index.php';
 
-		$this->object = new JFacebookComment($this->options, $this->client);
+		$app_id = "app_id";
+		$app_secret = "app_secret";
+		$my_url = "http://localhost/gsoc/joomla-platform/facebook_test.php";
+		$access_token = array(
+			'access_token' => 'token',
+			'expires' => '51837673', 'created' => '2443672521');
+
+		$this->options = new JRegistry;
+		$this->client = $this->getMock('JHttp', array('get', 'post', 'delete', 'put'));
+		$this->input = new JInput;
+		$this->oauth = new JFacebookOauth($this->options, $this->client, $this->input);
+		$this->oauth->setToken($access_token);
+
+		$this->object = new JFacebookComment($this->options, $this->client, $this->oauth);
+
+		$this->options->set('clientid', $app_id);
+		$this->options->set('clientsecret', $app_secret);
+		$this->options->set('redirecturi', $my_url);
+		$this->options->set('sendheaders', true);
+		$this->options->set('authmethod', 'get');
 	}
 
 	/**
@@ -74,10 +97,10 @@ class JFacebookCommentTest extends TestCase
 	 * This method is called after a test is executed.
 	 *
 	 * @access protected
-	 * 
+	 *
 	 * @return   void
-	 * 
-	 * @since   12.1
+	 *
+	 * @since   13.1
 	 */
 	protected function tearDown()
 	{
@@ -85,82 +108,82 @@ class JFacebookCommentTest extends TestCase
 
 	/**
 	 * Tests the getComment method
-	 * 
-	 * @covers JFacebookComment::getComment
 	 *
 	 * @return  void
-	 * 
-	 * @since   12.1
+	 *
+	 * @since   13.1
 	 */
 	public function testGetComment()
 	{
-		$access_token = '235twegsdgsdhtry3tgwgf';
 		$comment = '124346363456';
 
 		$returnData = new stdClass;
+		$returnData->code = 200;
 		$returnData->body = $this->sampleString;
+
+		$token = $this->oauth->getToken();
 
 		$this->client->expects($this->once())
 		->method('get')
-		->with($comment . '?access_token=' . $access_token)
+		->with($comment . '?access_token=' . $token['access_token'])
 		->will($this->returnValue($returnData));
 
 		$this->assertThat(
-			$this->object->getComment($comment, $access_token),
+			$this->object->getComment($comment),
 			$this->equalTo(json_decode($this->sampleString))
 		);
 	}
 
 	/**
 	 * Tests the getComment method - failure
-	 * 
-	 * @covers JFacebookComment::getComment
 	 *
 	 * @return  void
-	 * 
-	 * @since   12.1
-	 * @expectedException  DomainException
+	 *
+	 * @since   13.1
+	 * @expectedException  RuntimeException
 	 */
 	public function testGetCommentFailure()
 	{
-		$access_token = '235twegsdgsdhtry3tgwgf';
 		$comment = '124346363456';
 
 		$returnData = new stdClass;
+		$returnData->code = 401;
 		$returnData->body = $this->errorString;
+
+		$token = $this->oauth->getToken();
 
 		$this->client->expects($this->once())
 		->method('get')
-		->with($comment . '?access_token=' . $access_token)
+		->with($comment . '?access_token=' . $token['access_token'])
 		->will($this->returnValue($returnData));
 
-		$this->object->getComment($comment, $access_token);
+		$this->object->getComment($comment);
 	}
 
 	/**
 	 * Tests the deleteComment method.
-	 * 
-	 * @covers JFacebookComment::deleteComment
 	 *
 	 * @return  void
-	 * 
-	 * @since   12.1
+	 *
+	 * @since   13.1
 	 */
 	public function testDeleteComment()
 	{
-		$access_token = '235twegsdgsdhtry3tgwgf';
 		$comment = '5148941614';
 
 		$returnData = new stdClass;
+		$returnData->code = 200;
 		$returnData->body = true;
+
+		$token = $this->oauth->getToken();
 
 		$this->client->expects($this->once())
 		->method('delete')
-		->with($comment . '?access_token=' . $access_token)
+		->with($comment . '?access_token=' . $token['access_token'])
 		->will($this->returnValue($returnData));
 
 		$this->assertThat(
-			$this->object->deleteComment($comment, $access_token),
+			$this->object->deleteComment($comment),
 			$this->equalTo(true)
 		);
 	}
@@ -168,107 +191,92 @@ class JFacebookCommentTest extends TestCase
 	/**
 	 * Tests the deleteComment method - failure.
 	 *
-	 * @covers JFacebookComment::deleteComment
-	 *
 	 * @return  void
-	 * 
-	 * @since   12.1
+	 *
+	 * @since   13.1
+	 * @expectedException  RuntimeException
 	 */
 	public function testDeleteCommentFailure()
 	{
-		$exception = false;
-		$access_token = '235twegsdgsdhtry3tgwgf';
 		$comment = '5148941614';
 
 		$returnData = new stdClass;
+		$returnData->code = 401;
 		$returnData->body = $this->errorString;
+
+		$token = $this->oauth->getToken();
 
 		$this->client->expects($this->once())
 		->method('delete')
-		->with($comment . '?access_token=' . $access_token)
+		->with($comment . '?access_token=' . $token['access_token'])
 		->will($this->returnValue($returnData));
 
-		try
-		{
-			$this->object->deleteComment($comment, $access_token);
-		}
-		catch (DomainException $e)
-		{
-			$exception = true;
-
-			$this->assertThat(
-				$e->getMessage(),
-				$this->equalTo(json_decode($this->errorString)->error->message)
-			);
-		}
+		$this->object->deleteComment($comment);
 	}
 
 	/**
 	 * Tests the getComments method
-	 * 
-	 * @covers JFacebookComment::getComments
 	 *
 	 * @return  void
-	 * 
-	 * @since   12.1
+	 *
+	 * @since   13.1
 	 */
 	public function testGetComments()
 	{
-		$access_token = '235twegsdgsdhtry3tgwgf';
 		$comment = '124346363456';
 
 		$returnData = new stdClass;
+		$returnData->code = 200;
 		$returnData->body = $this->sampleString;
+
+		$token = $this->oauth->getToken();
 
 		$this->client->expects($this->once())
 		->method('get')
-		->with($comment . '/comments?access_token=' . $access_token)
+		->with($comment . '/comments?access_token=' . $token['access_token'])
 		->will($this->returnValue($returnData));
 
 		$this->assertThat(
-			$this->object->getComments($comment, $access_token),
+			$this->object->getComments($comment),
 			$this->equalTo(json_decode($this->sampleString))
 		);
 	}
 
 	/**
 	 * Tests the getComments method - failure
-	 * 
-	 * @covers JFacebookComment::getComments
 	 *
 	 * @return  void
-	 * 
-	 * @since   12.1
-	 * @expectedException  DomainException
+	 *
+	 * @since   13.1
+	 * @expectedException  RuntimeException
 	 */
 	public function testGetCommentsFailure()
 	{
-		$access_token = '235twegsdgsdhtry3tgwgf';
 		$comment = '124346363456';
 
 		$returnData = new stdClass;
+		$returnData->code = 401;
 		$returnData->body = $this->errorString;
+
+		$token = $this->oauth->getToken();
 
 		$this->client->expects($this->once())
 		->method('get')
-		->with($comment . '/comments?access_token=' . $access_token)
+		->with($comment . '/comments?access_token=' . $token['access_token'])
 		->will($this->returnValue($returnData));
 
-		$this->object->getComments($comment, $access_token);
+		$this->object->getComments($comment);
 	}
 
 	/**
 	 * Tests the createComment method.
 	 *
-	 * @covers JFacebookComment::createComment
-	 *
 	 * @return  void
-	 * 
-	 * @since   12.1
+	 *
+	 * @since   13.1
 	 */
 	public function testCreateComment()
 	{
-		$access_token = '235twegsdgsdhtry3tgwgf';
 		$comment = '124346363456';
 		$message = 'test message';
 
@@ -277,15 +285,18 @@ class JFacebookCommentTest extends TestCase
 		$data['message'] = $message;
 
 		$returnData = new stdClass;
+		$returnData->code = 200;
 		$returnData->body = $this->sampleString;
+
+		$token = $this->oauth->getToken();
 
 		$this->client->expects($this->once())
 		->method('post')
-		->with($comment . '/comments?access_token=' . $access_token, $data)
+		->with($comment . '/comments?access_token=' . $token['access_token'], $data)
 		->will($this->returnValue($returnData));
 
 		$this->assertThat(
-			$this->object->createComment($comment, $access_token, $message),
+			$this->object->createComment($comment, $message),
 			$this->equalTo(json_decode($this->sampleString))
 		);
 	}
@@ -293,16 +304,13 @@ class JFacebookCommentTest extends TestCase
 	/**
 	 * Tests the createComment method - failure.
 	 *
-	 * @covers JFacebookComment::createComment
-	 *
 	 * @return  void
-	 * 
-	 * @since   12.1
+	 *
+	 * @since   13.1
+	 * @expectedException  RuntimeException
 	 */
 	public function testCreateCommentFailure()
 	{
-		$exception = false;
-		$access_token = '235twegsdgsdhtry3tgwgf';
 		$comment = '124346363456';
 		$message = 'test message';
 
@@ -311,106 +319,97 @@ class JFacebookCommentTest extends TestCase
 		$data['message'] = $message;
 
 		$returnData = new stdClass;
+		$returnData->code = 401;
 		$returnData->body = $this->errorString;
+
+		$token = $this->oauth->getToken();
 
 		$this->client->expects($this->once())
 		->method('post')
-		->with($comment . '/comments?access_token=' . $access_token, $data)
+		->with($comment . '/comments?access_token=' . $token['access_token'], $data)
 		->will($this->returnValue($returnData));
 
-		try
-		{
-			$this->object->createComment($comment, $access_token, $message);
-		}
-		catch (DomainException $e)
-		{
-			$exception = true;
-
-			$this->assertThat(
-				$e->getMessage(),
-				$this->equalTo(json_decode($this->errorString)->error->message)
-			);
-		}
+		$this->object->createComment($comment, $message);
 	}
 
 	/**
 	 * Tests the getLikes method
-	 * 
-	 * @covers JFacebookComment::getLikes
 	 *
 	 * @return  void
-	 * 
-	 * @since   12.1
+	 *
+	 * @since   13.1
 	 */
 	public function testGetLikes()
 	{
-		$access_token = '235twegsdgsdhtry3tgwgf';
 		$comment = '124346363456';
 
 		$returnData = new stdClass;
+		$returnData->code = 200;
 		$returnData->body = $this->sampleString;
+
+		$token = $this->oauth->getToken();
 
 		$this->client->expects($this->once())
 		->method('get')
-		->with($comment . '/likes?access_token=' . $access_token)
+		->with($comment . '/likes?access_token=' . $token['access_token'])
 		->will($this->returnValue($returnData));
 
 		$this->assertThat(
-			$this->object->getLikes($comment, $access_token),
+			$this->object->getLikes($comment),
 			$this->equalTo(json_decode($this->sampleString))
 		);
 	}
 
 	/**
 	 * Tests the getLikes method - failure
-	 * 
-	 * @covers JFacebookComment::getLikes
 	 *
 	 * @return  void
-	 * 
-	 * @since   12.1
-	 * @expectedException  DomainException
+	 *
+	 * @since   13.1
+	 * @expectedException  RuntimeException
 	 */
 	public function testGetLikesFailure()
 	{
-		$access_token = '235twegsdgsdhtry3tgwgf';
 		$comment = '124346363456';
 
 		$returnData = new stdClass;
+		$returnData->code = 401;
 		$returnData->body = $this->errorString;
+
+		$token = $this->oauth->getToken();
 
 		$this->client->expects($this->once())
 		->method('get')
-		->with($comment . '/likes?access_token=' . $access_token)
+		->with($comment . '/likes?access_token=' . $token['access_token'])
 		->will($this->returnValue($returnData));
 
-		$this->object->getLikes($comment, $access_token);
+		$this->object->getLikes($comment);
 	}
 
 	/**
 	 * Tests the createLike method.
 	 *
-	 * @covers JFacebookComment::createLike
-	 *
 	 * @return  void
-	 * 
-	 * @since   12.1
+	 *
+	 * @since   13.1
 	 */
 	public function testCreateLike()
 	{
-		$access_token = '235twegsdgsdhtry3tgwgf';
 		$comment = '124346363456';
 
 		$returnData = new stdClass;
+		$returnData->code = 200;
 		$returnData->body = $this->sampleString;
+
+		$token = $this->oauth->getToken();
 
 		$this->client->expects($this->once())
 		->method('post')
-		->with($comment . '/likes?access_token=' . $access_token, '')
+		->with($comment . '/likes?access_token=' . $token['access_token'], '')
 		->will($this->returnValue($returnData));
 
 		$this->assertThat(
-			$this->object->createLike($comment, $access_token),
+			$this->object->createLike($comment),
 			$this->equalTo(json_decode($this->sampleString))
 		);
 	}
@@ -418,65 +417,53 @@ class JFacebookCommentTest extends TestCase
 	/**
 	 * Tests the createLike method - failure.
 	 *
-	 * @covers JFacebookComment::createLike
-	 *
 	 * @return  void
-	 * 
-	 * @since   12.1
+	 *
+	 * @since   13.1
+	 * @expectedException  RuntimeException
 	 */
 	public function testCreateLikeFailure()
 	{
-		$exception = false;
-		$access_token = '235twegsdgsdhtry3tgwgf';
 		$comment = '124346363456';
 
 		$returnData = new stdClass;
+		$returnData->code = 401;
 		$returnData->body = $this->errorString;
+
+		$token = $this->oauth->getToken();
 
 		$this->client->expects($this->once())
 		->method('post')
-		->with($comment . '/likes?access_token=' . $access_token, '')
+		->with($comment . '/likes?access_token=' . $token['access_token'], '')
 		->will($this->returnValue($returnData));
 
-		try
-		{
-			$this->object->createLike($comment, $access_token);
-		}
-		catch (DomainException $e)
-		{
-			$exception = true;
-
-			$this->assertThat(
-				$e->getMessage(),
-				$this->equalTo(json_decode($this->errorString)->error->message)
-			);
-		}
+		$this->object->createLike($comment);
 	}
 
 	/**
 	 * Tests the deleteLike method.
-	 * 
-	 * @covers JFacebookComment::deleteLike
 	 *
 	 * @return  void
-	 * 
-	 * @since   12.1
+	 *
+	 * @since   13.1
 	 */
 	public function testDeleteLike()
 	{
-		$access_token = '235twegsdgsdhtry3tgwgf';
 		$comment = '124346363456';
 
 		$returnData = new stdClass;
+		$returnData->code = 200;
 		$returnData->body = true;
+
+		$token = $this->oauth->getToken();
 
 		$this->client->expects($this->once())
 		->method('delete')
-		->with($comment . '/likes?access_token=' . $access_token)
+		->with($comment . '/likes?access_token=' . $token['access_token'])
 		->will($this->returnValue($returnData));
 
 		$this->assertThat(
-			$this->object->deleteLike($comment, $access_token),
+			$this->object->deleteLike($comment),
 			$this->equalTo(true)
 		);
 	}
@@ -484,38 +471,26 @@ class JFacebookCommentTest extends TestCase
 	/**
 	 * Tests the deleteLike method - failure.
 	 *
-	 * @covers JFacebookComment::deleteLike
-	 *
 	 * @return  void
-	 * 
-	 * @since   12.1
+	 *
+	 * @since   13.1
+	 * @expectedException  RuntimeException
 	 */
 	public function testDeleteLikeFailure()
 	{
-		$exception = false;
-		$access_token = '235twegsdgsdhtry3tgwgf';
 		$comment = '124346363456';
 
 		$returnData = new stdClass;
+		$returnData->code = 401;
 		$returnData->body = $this->errorString;
+
+		$token = $this->oauth->getToken();
 
 		$this->client->expects($this->once())
 		->method('delete')
-		->with($comment . '/likes?access_token=' . $access_token)
+		->with($comment . '/likes?access_token=' . $token['access_token'])
 		->will($this->returnValue($returnData));
 
-		try
-		{
-			$this->object->deleteLike($comment, $access_token);
-		}
-		catch (DomainException $e)
-		{
-			$exception = true;
-
-			$this->assertThat(
-				$e->getMessage(),
-				$this->equalTo(json_decode($this->errorString)->error->message)
-			);
-		}
+		$this->object->deleteLike($comment);
 	}
 }

@@ -2,7 +2,7 @@
 /**
  * @package     Joomla.Platform
  * @subpackage  Facebook
- * 
+ *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
@@ -16,170 +16,186 @@ defined('JPATH_PLATFORM') or die();
  *
  * @package     Joomla.Platform
  * @subpackage  Facebook
- * 
- * @since       12.1
+ *
+ * @see         http://developers.facebook.com/docs/reference/api/album/
+ * @since       13.1
  */
 class JFacebookAlbum extends JFacebookObject
 {
 	/**
-	 * Method to get an album.
-	 * 
-	 * @param   string  $album         The album id.
-	 * @param   string  $access_token  The Facebook access token for public photos and user_photos or friends_photos permission for private photos.
-	 * 
-	 * @return  array   The decoded JSON response.
-	 * 
-	 * @since   12.1
+	 * Method to get an album. Requires authentication and user_photos or friends_photos permission for private photos.
+	 *
+	 * @param   string  $album  The album id.
+	 *
+	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
+	 *
+	 * @since   13.1
 	 */
-	public function getAlbum($album, $access_token)
+	public function getAlbum($album)
 	{
-		return parent::get($album, $access_token);
+		return $this->get($album);
 	}
 
 	/**
-	 * Method to get the photos contained in this album.
-	 * 
-	 * @param   string  $album         The album id.
-	 * @param   string  $access_token  The Facebook access token for public photos and user_photos or friends_photos permission for private photos.
-	 * 
-	 * @return  array   The decoded JSON response.
-	 * 
-	 * @since   12.1
+	 * Method to get the photos contained in this album. Requires authentication and user_photos or friends_photos permission for private photos.
+	 *
+	 * @param   string   $album   The album id.
+	 * @param   integer  $limit   The number of objects per page.
+	 * @param   integer  $offset  The object's number on the page.
+	 * @param   string   $until   A unix timestamp or any date accepted by strtotime.
+	 * @param   string   $since   A unix timestamp or any date accepted by strtotime.
+	 *
+	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
+	 *
+	 * @since   13.1
 	 */
-	public function getPhotos($album, $access_token)
+	public function getPhotos($album, $limit = 0, $offset = 0, $until = null, $since = null)
 	{
-		return parent::getConnection($album, $access_token, 'photos');
+		return $this->getConnection($album, 'photos', '', $limit, $offset, $until, $since);
 	}
 
 	/**
-	 * Method to add photos to an album. Note: check can_upload flag first.
-	 * 
-	 * @param   string  $album         The album id.
-	 * @param   string  $access_token  The Facebook access token with publish_stream  permission.
-	 * @param   string  $source        Path to photo.
-	 * @param   string  $message       Photo description.
-	 * 
-	 * @return  array   The decoded JSON response.
-	 * 
-	 * @since   12.1
+	 * Method to add photos to an album. Note: check can_upload flag first. Requires authentication and publish_stream  permission.
+	 *
+	 * @param   string  $album    The album id.
+	 * @param   string  $source   Path to photo.
+	 * @param   string  $message  Photo description.
+	 *
+	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
+	 *
+	 * @since   13.1
 	 */
-	public function createPhoto($album, $access_token, $source, $message=null)
+	public function createPhoto($album, $source, $message = null)
 	{
 		// Set POST request parameters.
 		$data = array();
 		$data[basename($source)] = '@' . realpath($source);
-		$data['message'] = $message;
 
-		return parent::createConnection($album, $access_token, 'photos', $data, array('Content-type' => 'multipart/form-data'));
+		if ($message)
+		{
+			$data['message'] = $message;
+		}
+
+		return $this->createConnection($album, 'photos', $data, array('Content-Type' => 'multipart/form-data'));
 	}
 
 	/**
-	 * Method to get an album's comments.
-	 * 
-	 * @param   string  $album         The album id.
-	 * @param   string  $access_token  The Facebook access token for public photos and user_photos or friends_photos permission for private photos.
-	 * 
-	 * @return  array   The decoded JSON response.
-	 * 
-	 * @since   12.1
+	 * Method to get an album's comments. Requires authentication and user_photos or friends_photos permission for private photos.
+	 *
+	 * @param   string   $album   The album id.
+	 * @param   integer  $limit   The number of objects per page.
+	 * @param   integer  $offset  The object's number on the page.
+	 * @param   string   $until   A unix timestamp or any date accepted by strtotime.
+	 * @param   string   $since   A unix timestamp or any date accepted by strtotime.
+	 *
+	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
+	 *
+	 * @since   13.1
 	 */
-	public function getComments($album, $access_token)
+	public function getComments($album, $limit = 0, $offset = 0, $until = null, $since = null)
 	{
-		return parent::getConnection($album, $access_token, 'comments');
+		return $this->getConnection($album, 'comments', '', $limit, $offset, $until, $since);
 	}
 
 	/**
-	 * Method to comment on an album.
-	 * 
-	 * @param   string  $album         The album id.
-	 * @param   string  $access_token  The Facebook access token with the publish_stream permission.
-	 * @param   string  $message       The comment's text.
-	 * 
-	 * @return  array   The decoded JSON response.
-	 * 
-	 * @since   12.1
+	 * Method to comment on an album. Requires authentication and publish_stream  permission.
+	 *
+	 * @param   string  $album    The album id.
+	 * @param   string  $message  The comment's text.
+	 *
+	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
+	 *
+	 * @since   13.1
 	 */
-	public function createComment($album, $access_token, $message)
+	public function createComment($album, $message)
 	{
 		// Set POST request parameters.
 		$data = array();
 		$data['message'] = $message;
 
-		return parent::createConnection($album, $access_token, 'comments', $data);
+		return $this->createConnection($album, 'comments', $data);
 	}
 
 	/**
-	 * Method to delete a comment.
-	 * 
-	 * @param   string  $comment       The comment's id.
-	 * @param   string  $access_token  The Facebook access token with the publish_stream permission. 
-	 * 
+	 * Method to delete a comment. Requires authentication and publish_stream  permission.
+	 *
+	 * @param   string  $comment  The comment's id.
+	 *
 	 * @return  boolean Returns true if successful, and false otherwise.
-	 * 
-	 * @since   12.1
+	 *
+	 * @since   13.1
 	 */
-	public function deleteComment($comment, $access_token)
+	public function deleteComment($comment)
 	{
-		return parent::deleteConnection($comment, $access_token);
+		return $this->deleteConnection($comment);
 	}
 
 	/**
-	 * Method to get album's likes.
-	 * 
-	 * @param   string  $album         The album id.
-	 * @param   string  $access_token  The Facebook access token for public photos and user_photos or friends_photos permission for private photos.
-	 * 
-	 * @return  array   The decoded JSON response.
-	 * 
-	 * @since   12.1
+	 * Method to get album's likes. Requires authentication and user_photos or friends_photos permission for private photos.
+	 *
+	 * @param   string   $album   The album id.
+	 * @param   integer  $limit   The number of objects per page.
+	 * @param   integer  $offset  The object's number on the page.
+	 * @param   string   $until   A unix timestamp or any date accepted by strtotime.
+	 * @param   string   $since   A unix timestamp or any date accepted by strtotime.
+	 *
+	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
+	 *
+	 * @since   13.1
 	 */
-	public function getLikes($album, $access_token)
+	public function getLikes($album, $limit = 0, $offset = 0, $until = null, $since = null)
 	{
-		return parent::getConnection($album, $access_token, 'likes');
+		return $this->getConnection($album, 'likes', '', $limit, $offset, $until, $since);
 	}
 
 	/**
-	 * Method to like an album.
-	 * 
-	 * @param   string  $album         The album id.
-	 * @param   string  $access_token  The Facebook access token with the publish_stream permission.
-	 * 
+	 * Method to like an album. Requires authentication and publish_stream  permission.
+	 *
+	 * @param   string  $album  The album id.
+	 *
 	 * @return  boolean Returns true if successful, and false otherwise.
-	 * 
-	 * @since   12.1
+	 *
+	 * @since   13.1
 	 */
-	public function createLike($album, $access_token)
+	public function createLike($album)
 	{
-		return parent::createConnection($album, $access_token, 'likes');
+		return $this->createConnection($album, 'likes');
 	}
 
 	/**
-	 * Method to unlike an album.
-	 * 
-	 * @param   string  $album         The album id.
-	 * @param   string  $access_token  The Facebook access token with the publish_stream permission. 
-	 * 
+	 * Method to unlike an album. Requires authentication and publish_stream  permission.
+	 *
+	 * @param   string  $album  The album id.
+	 *
 	 * @return  boolean Returns true if successful, and false otherwise.
-	 * 
-	 * @since   12.1
+	 *
+	 * @since   13.1
 	 */
-	public function deleteLike($album, $access_token)
+	public function deleteLike($album)
 	{
-		return parent::deleteConnection($album, $access_token, 'likes');
+		return $this->deleteConnection($album, 'likes');
 	}
 
 	/**
 	 * Method to get the album's cover photo, the first picture uploaded to an album becomes the cover photo for the album.
-	 * 
-	 * @param   string  $album         The album id.
-	 * @param   string  $access_token  The Facebook access token for public photod and user_photos or friends_photos permission for private photos.
-	 * 
+	 * Requires authentication and user_photos or friends_photos permission for private photos.
+	 *
+	 * @param   string   $album     The album id.
+	 * @param   boolean  $redirect  If false this will return the URL of the picture without a 302 redirect.
+	 *
 	 * @return  string  URL of the picture.
-	 * 
-	 * @since   12.1
+	 *
+	 * @since   13.1
 	 */
-	public function getPicture($album, $access_token)
+	public function getPicture($album, $redirect = true)
 	{
-		return parent::getConnection($album, $access_token, 'picture');
+		$extra_fields = '';
+
+		if ($redirect == false)
+		{
+			$extra_fields = '?redirect=false';
+		}
+
+		return $this->getConnection($album, 'picture', $extra_fields);
 	}
 }

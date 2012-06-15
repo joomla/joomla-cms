@@ -2,7 +2,7 @@
 /**
  * @package     Joomla.Platform
  * @subpackage  Facebook
- * 
+ *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
@@ -16,154 +16,157 @@ defined('JPATH_PLATFORM') or die();
  *
  * @package     Joomla.Platform
  * @subpackage  Facebook
- * 
- * @since       12.1
+ *
+ * @see         http://developers.facebook.com/docs/reference/api/photo/
+ * @since       13.1
  */
 class JFacebookPhoto extends JFacebookObject
 {
 	/**
-	 * Method to get a photo.
-	 * 
-	 * @param   string  $photo         The photo id.
-	 * @param   string  $access_token  The Facebook access token for public photod and user_photos or friends_photos permission for private photos.
-	 * 
-	 * @return  array   The decoded JSON response.
-	 * 
-	 * @since   12.1
+	 * Method to get a photo. Requires authentication and user_photos or friends_photos permission for private photos.
+	 *
+	 * @param   string  $photo  The photo id.
+	 *
+	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
+	 *
+	 * @since   13.1
 	 */
-	public function getPhoto($photo, $access_token)
+	public function getPhoto($photo)
 	{
-		return parent::get($photo, $access_token);
+		return $this->get($photo);
 	}
 
 	/**
-	 * Method to get a photo's comments.
-	 * 
-	 * @param   string  $photo         The photo id.
-	 * @param   string  $access_token  The Facebook access token.
-	 * 
-	 * @return  array   The decoded JSON response.
-	 * 
-	 * @since   12.1
+	 * Method to get a photo's comments. Requires authentication and user_photos or friends_photos permission for private photos.
+	 *
+	 * @param   string   $photo   The photo id.
+	 * @param   integer  $limit   The number of objects per page.
+	 * @param   integer  $offset  The object's number on the page.
+	 * @param   string   $until   A unix timestamp or any date accepted by strtotime.
+	 * @param   string   $since   A unix timestamp or any date accepted by strtotime.
+	 *
+	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
+	 *
+	 * @since   13.1
 	 */
-	public function getComments($photo, $access_token)
+	public function getComments($photo, $limit = 0, $offset = 0, $until = null, $since = null)
 	{
-		return parent::getConnection($photo, $access_token, 'comments');
+		return $this->getConnection($photo, 'comments', '', $limit, $offset, $until, $since);
 	}
 
 	/**
-	 * Method to comment on a photo.
-	 * 
-	 * @param   string  $photo         The photo id.
-	 * @param   string  $access_token  The Facebook access token with the publish_stream permission.
-	 * @param   string  $message       The comment's text.
-	 * 
-	 * @return  array   The decoded JSON response.
-	 * 
-	 * @since   12.1
+	 * Method to comment on a photo. Requires authentication and publish_stream permission, user_photos or friends_photos permission for private photos.
+	 *
+	 * @param   string  $photo    The photo id.
+	 * @param   string  $message  The comment's text.
+	 *
+	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
+	 *
+	 * @since   13.1
 	 */
-	public function createComment($photo, $access_token, $message)
+	public function createComment($photo, $message)
 	{
 		// Set POST request parameters.
-		$data = array();
 		$data['message'] = $message;
 
-		return parent::createConnection($photo, $access_token, 'comments', $data);
+		return $this->createConnection($photo, 'comments', $data);
 	}
 
 	/**
-	 * Method to delete a comment.
-	 * 
-	 * @param   string  $comment       The comment's id.
-	 * @param   string  $access_token  The Facebook access token with the publish_stream permission. 
-	 * 
+	 * Method to delete a comment. Requires authentication and publish_stream permission, user_photos or friends_photos permission for private photos.
+	 *
+	 * @param   string  $comment  The comment's id.
+	 *
 	 * @return  boolean Returns true if successful, and false otherwise.
-	 * 
-	 * @since   12.1
+	 *
+	 * @since   13.1
 	 */
-	public function deleteComment($comment, $access_token)
+	public function deleteComment($comment)
 	{
-		return parent::deleteConnection($comment, $access_token);
+		return $this->deleteConnection($comment);
 	}
 
 	/**
-	 * Method to get photo's likes.
-	 * 
-	 * @param   string  $photo         The photo id.
-	 * @param   string  $access_token  The Facebook access token.
-	 * 
-	 * @return  array   The decoded JSON response.
-	 * 
-	 * @since   12.1
+	 * Method to get photo's likes. Requires authentication and user_photos or friends_photos permission for private photos.
+	 *
+	 * @param   string   $photo   The photo id.
+	 * @param   integer  $limit   The number of objects per page.
+	 * @param   integer  $offset  The object's number on the page.
+	 * @param   string   $until   A unix timestamp or any date accepted by strtotime.
+	 * @param   string   $since   A unix timestamp or any date accepted by strtotime.
+	 *
+	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
+	 *
+	 * @since   13.1
 	 */
-	public function getLikes($photo, $access_token)
+	public function getLikes($photo, $limit = 0, $offset = 0, $until = null, $since = null)
 	{
-		return parent::getConnection($photo, $access_token, 'likes');
+		return $this->getConnection($photo, 'likes', '', $limit, $offset, $until, $since);
 	}
 
 	/**
-	 * Method to like a photo.
-	 * 
-	 * @param   string  $photo         The photo id.
-	 * @param   string  $access_token  The Facebook access token with the publish_stream permission.
-	 * 
+	 * Method to like a photo. Requires authentication and publish_stream permission, user_photos or friends_photos permission for private photos.
+	 *
+	 * @param   string  $photo  The photo id.
+	 *
 	 * @return  boolean Returns true if successful, and false otherwise.
-	 * 
-	 * @since   12.1
+	 *
+	 * @since   13.1
 	 */
-	public function createLike($photo, $access_token)
+	public function createLike($photo)
 	{
-		return parent::createConnection($photo, $access_token, 'likes');
+		return $this->createConnection($photo, 'likes');
 	}
 
 	/**
-	 * Method to unlike a photo.
-	 * 
-	 * @param   string  $photo         The photo id.
-	 * @param   string  $access_token  The Facebook access token with the publish_stream permission. 
-	 * 
+	 * Method to unlike a photo. Requires authentication and publish_stream permission, user_photos or friends_photos permission for private photos.
+	 *
+	 * @param   string  $photo  The photo id.
+	 *
 	 * @return  boolean Returns true if successful, and false otherwise.
-	 * 
-	 * @since   12.1
+	 *
+	 * @since   13.1
 	 */
-	public function deleteLike($photo, $access_token)
+	public function deleteLike($photo)
 	{
-		return parent::deleteConnection($photo, $access_token, 'likes');
+		return $this->deleteConnection($photo, 'likes');
 	}
 
 	/**
-	 * Method to get the Users tagged in the photo.
-	 * 
-	 * @param   string  $photo         The photo id.
-	 * @param   string  $access_token  The Facebook access token for public photod and user_photos or friends_photos permission for private photos.
-	 * 
-	 * @return  array   The decoded JSON response.
-	 * 
-	 * @since   12.1
+	 * Method to get the Users tagged in the photo. Requires authentication and user_photos or friends_photos permission for private photos.
+	 *
+	 * @param   string   $photo   The photo id.
+	 * @param   integer  $limit   The number of objects per page.
+	 * @param   integer  $offset  The object's number on the page.
+	 * @param   string   $until   A unix timestamp or any date accepted by strtotime.
+	 * @param   string   $since   A unix timestamp or any date accepted by strtotime.
+	 *
+	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
+	 *
+	 * @since   13.1
 	 */
-	public function getTags($photo, $access_token)
+	public function getTags($photo, $limit = 0, $offset = 0, $until = null, $since = null)
 	{
-		return parent::getConnection($photo, $access_token, 'tags');
+		return $this->getConnection($photo, 'tags', '', $limit, $offset, $until, $since);
 	}
 
 	/**
-	 * Method to tag one or more Users in a photo. $to or $tag_text required
-	 * 
-	 * @param   string  $photo         The photo id.
-	 * @param   string  $access_token  The Facebook access token with the user_photos and publish_stream permissions.
-	 * @param   mixed   $to            ID of the User or an array of Users to tag in the photo: [{"id":"1234"}, {"id":"12345"}].
-	 * @param   string  $tag_text      A text string to tag.
-	 * @param   number  $x             x coordinate of tag, as a percentage offset from the left edge of the picture.
-	 * @param   number  $y             y coordinate of tag, as a percentage offset from the top edge of the picture.
-	 * 
+	 * Method to tag one or more Users in a photo. $to or $tag_text required.
+	 * Requires authentication and publish_stream permission, user_photos permission for private photos.
+	 *
+	 * @param   string   $photo     The photo id.
+	 * @param   mixed    $to        ID of the User or an array of Users to tag in the photo: [{"id":"1234"}, {"id":"12345"}].
+	 * @param   string   $tag_text  A text string to tag.
+	 * @param   integer  $x         x coordinate of tag, as a percentage offset from the left edge of the picture.
+	 * @param   integer  $y         y coordinate of tag, as a percentage offset from the top edge of the picture.
+	 *
 	 * @return  boolean Returns true if successful, and false otherwise.
-	 * 
-	 * @since   12.1
+	 *
+	 * @since   13.1
 	 */
-	public function createTag($photo, $access_token, $to=null, $tag_text=null, $x=null, $y=null)
+	public function createTag($photo, $to = null, $tag_text = null, $x = null, $y = null)
 	{
 		// Set POST request parameters.
-		$data = array();
 		if (is_array($to))
 		{
 			$data['tags'] = $to;
@@ -172,49 +175,75 @@ class JFacebookPhoto extends JFacebookObject
 		{
 			$data['to'] = $to;
 		}
-		$data['tag_text'] = $tag_text;
-		$data['x'] = $x;
-		$data['y'] = $y;
 
-		return parent::createConnection($photo, $access_token, 'tags', $data);
+		if ($tag_text)
+		{
+			$data['tag_text'] = $tag_text;
+		}
+
+		if ($x)
+		{
+			$data['x'] = $x;
+		}
+
+		if ($y)
+		{
+			$data['y'] = $y;
+		}
+
+		return $this->createConnection($photo, 'tags', $data);
 	}
 
 	/**
 	 * Method to update the position of the tag for a particular Users in a photo.
-	 * 
-	 * @param   string  $photo         The photo id.
-	 * @param   string  $access_token  The Facebook access token with the publish_stream permission.
-	 * @param   string  $to            ID of the User to update tag in the photo.
-	 * @param   number  $x             x coordinate of tag, as a percentage offset from the left edge of the picture.
-	 * @param   number  $y             y coordinate of tag, as a percentage offset from the top edge of the picture.
-	 * 
+	 * Requires authentication and publish_stream permission, user_photos permission for private photos.
+	 *
+	 * @param   string   $photo  The photo id.
+	 * @param   string   $to     ID of the User to update tag in the photo.
+	 * @param   integer  $x      x coordinate of tag, as a percentage offset from the left edge of the picture.
+	 * @param   integer  $y      y coordinate of tag, as a percentage offset from the top edge of the picture.
+	 *
 	 * @return  boolean Returns true if successful, and false otherwise.
-	 * 
-	 * @since   12.1
+	 *
+	 * @since   13.1
 	 */
-	public function updateTag($photo, $access_token, $to, $x=null, $y=null)
+	public function updateTag($photo, $to, $x = null, $y = null)
 	{
 		// Set POST request parameters.
-		$data = array();
 		$data['to'] = $to;
-		$data['x'] = $x;
-		$data['y'] = $y;
 
-		return parent::createConnection($photo, $access_token, 'tags', $data);
+		if ($x)
+		{
+			$data['x'] = $x;
+		}
+
+		if ($y)
+		{
+			$data['y'] = $y;
+		}
+
+		return $this->createConnection($photo, 'tags', $data);
 	}
 
 	/**
-	 * Method to get the album-sized view of the photo.
-	 * 
-	 * @param   string  $photo         The photo id.
-	 * @param   string  $access_token  The Facebook access token for public photod and user_photos or friends_photos permission for private photos.
-	 * 
+	 * Method to get the album-sized view of the photo. Requires authentication and user_photos or friends_photos permission for private photos.
+	 *
+	 * @param   string   $photo     The photo id.
+	 * @param   boolean  $redirect  If false this will return the URL of the picture without a 302 redirect.
+	 *
 	 * @return  string  URL of the picture.
-	 * 
-	 * @since   12.1
+	 *
+	 * @since   13.1
 	 */
-	public function getPicture($photo, $access_token)
+	public function getPicture($photo, $redirect = true)
 	{
-		return parent::getConnection($photo, $access_token, 'picture');
+		$extra_fields = '';
+
+		if ($redirect == false)
+		{
+			$extra_fields = '?redirect=false';
+		}
+
+		return $this->getConnection($photo, 'picture', $extra_fields);
 	}
 }

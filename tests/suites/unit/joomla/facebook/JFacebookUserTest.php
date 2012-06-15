@@ -7,53 +7,61 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM . '/joomla/facebook/http.php';
-require_once JPATH_PLATFORM . '/joomla/facebook/facebook.php';
-require_once JPATH_PLATFORM . '/joomla/facebook/user.php';
-
 /**
- * Test class for JFacebook.
+ * Test class for JFacebookUser.
  *
  * @package     Joomla.UnitTest
  * @subpackage  Facebook
  *
- * @since       12.1
+ * @since       13.1
  */
 class JFacebookUserTest extends TestCase
 {
 	/**
 	 * @var    JRegistry  Options for the Facebook object.
-	 * @since  12.1
+	 * @since  13.1
 	 */
 	protected $options;
 
 	/**
-	 * @var    JFacebookHttp  Mock client object.
-	 * @since  12.1
+	 * @var    JHttp  Mock client object.
+	 * @since  13.1
 	 */
 	protected $client;
 
 	/**
+	 * @var    JInput  The input object to use in retrieving GET/POST data..
+	 * @since  13.1
+	 */
+	protected $input;
+
+	/**
 	 * @var    JFacebookUser  Object under test.
-	 * @since  12.1
+	 * @since  13.1
 	 */
 	protected $object;
 
 	/**
-	 * @var    string  Sample URL string.
-	 * @since  12.1
+	 * @var   JFacebookOauth  Authentication object for the Facebook object.
+	 * @since 13.1
 	 */
-	protected $sampleUrl = '"https://fbcdn-profile-a.akamaihd.net/hprofile-ak-ash2/372662_10575676585_830678637_q.jpg"';
+	protected $oauth;
+
+	/**
+	 * @var    string  Sample URL string.
+	 * @since  13.1
+	 */
+	protected $sampleUrl = '{"url": "https://fbcdn-profile-a.akamaihd.net/hprofile-ak-ash2/372662_10575676585_830678637_q.jpg"}';
 
 	/**
 	 * @var    string  Sample JSON string.
-	 * @since  12.1
+	 * @since  13.1
 	 */
 	protected $sampleString = '{"a":1,"b":2,"c":3,"d":4,"e":5}';
 
 	/**
 	 * @var    string  Sample JSON error message.
-	 * @since  12.1
+	 * @since  13.1
 	 */
 	protected $errorString = '{"error": {"message": "Generic Error."}}';
 
@@ -65,14 +73,35 @@ class JFacebookUserTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   13.1
 	 */
 	protected function setUp()
 	{
-		$this->options = new JRegistry;
-		$this->client = $this->getMock('JFacebookHttp', array('get', 'post', 'delete', 'put'));
+		$_SERVER['HTTP_HOST'] = 'example.com';
+		$_SERVER['HTTP_USER_AGENT'] = 'Mozilla/5.0';
+		$_SERVER['REQUEST_URI'] = '/index.php';
+		$_SERVER['SCRIPT_NAME'] = '/index.php';
 
-		$this->object = new JFacebookUser($this->options, $this->client);
+		$app_id = "app_id";
+		$app_secret = "app_secret";
+		$my_url = "http://localhost/gsoc/joomla-platform/facebook_test.php";
+		$access_token = array(
+			'access_token' => 'token',
+			'expires' => '51837673', 'created' => '2443672521');
+
+		$this->options = new JRegistry;
+		$this->client = $this->getMock('JHttp', array('get', 'post', 'delete', 'put'));
+		$this->input = new JInput;
+		$this->oauth = new JFacebookOauth($this->options, $this->client, $this->input);
+		$this->oauth->setToken($access_token);
+
+		$this->object = new JFacebookUser($this->options, $this->client, $this->oauth);
+
+		$this->options->set('clientid', $app_id);
+		$this->options->set('clientsecret', $app_secret);
+		$this->options->set('redirecturi', $my_url);
+		$this->options->set('sendheaders', true);
+		$this->options->set('authmethod', 'get');
 	}
 
 	/**
@@ -83,124 +112,146 @@ class JFacebookUserTest extends TestCase
 	 *
 	 * @return   void
 	 *
-	 * @since   12.1
+	 * @since   13.1
 	 */
 	protected function tearDown()
 	{
 	}
 
 	/**
-	* Provides test data for request format detection.
+	* Provides test data.
 	*
 	* @return array
 	*
-	* @since 12.1
+	* @since 13.1
 	*/
-	public function seedGetUser()
+	public function seedOauth()
 	{
-		// Extra fields for the request URL.
+		// Use oauth.
 		return array(
-			array('235twegsdgsdhtry3tgwgf'),
-			array(null)
+			array(true),
+			array(false)
 		);
 	}
 
 	/**
 	 * Tests the getUser method
 	 *
-	 * @param   string  $access_token  The Facebook access token.
+	 * @param   boolean  $oauth  True if the JFacebookOauth object is used.
 	 *
-	 * @covers JFacebookUser::getUser
-	 * @dataProvider  seedGetUser
+	 * @dataProvider  seedOauth
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   13.1
 	 */
-	public function testGetUser($access_token)
+	public function testGetUser($oauth)
 	{
 		$returnData = new stdClass;
+		$returnData->code = 200;
 		$returnData->body = $this->sampleString;
 
-		if ($access_token != null)
+		if ($oauth)
 		{
+			$token = $this->oauth->getToken();
 			$this->client->expects($this->once())
 			->method('get')
-			->with('me?access_token=' . $access_token)
+			->with('me?access_token=' . $token['access_token'])
 			->will($this->returnValue($returnData));
+
+			$this->assertThat(
+				$this->object->getUser('me'),
+				$this->equalTo(json_decode($this->sampleString))
+			);
 		}
 		else
 		{
+			// User is not authenticated.
+			$token = $this->object->getOAuth();
+			$this->object->setOAuth(null);
+
 			$this->client->expects($this->once())
 			->method('get')
 			->with('me')
 			->will($this->returnValue($returnData));
-		}
 
-		$this->assertThat(
-			$this->object->getUser('me', $access_token),
-			$this->equalTo(json_decode($this->sampleString))
-		);
+			$this->assertThat(
+				$this->object->getUser('me'),
+				$this->equalTo(json_decode($this->sampleString))
+			);
+
+			// Authenticated.
+			$this->object->setOAuth($token);
+		}
 	}
 
 	/**
 	 * Tests the getUser method - failure
 	 *
-	 * @param   string  $access_token  The Facebook access token.
+	 * @param   boolean  $oauth  True if the JFacebookOauth object is used.
 	 *
-	 * @covers JFacebookUser::getUser
-	 * @dataProvider  seedGetUser
+	 * @dataProvider  seedOauth
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
-	 * @expectedException  DomainException
+	 * @since   13.1
 	 */
-	public function testGetUserFailure($access_token)
+	public function testGetUserFailure($oauth)
 	{
 		$returnData = new stdClass;
+		$returnData->code = 401;
 		$returnData->body = $this->errorString;
 
-		if ($access_token != null)
+		if ($oauth != null)
 		{
-			$this->client->expects($this->once())
-			->method('get')
-			->with('me?access_token=' . $access_token)
-			->will($this->returnValue($returnData));
+			$this->oauth->setToken(null);
+
+			$this->assertThat(
+				$this->object->getUser('me'),
+				$this->equalTo(false)
+			);
 		}
 		else
 		{
+			// User is not authenticated.
+			$token = $this->object->getOAuth();
+			$this->object->setOAuth(null);
+
 			$this->client->expects($this->once())
 			->method('get')
 			->with('me')
 			->will($this->returnValue($returnData));
-		}
 
-		$this->object->getUser('me', $access_token);
+			$this->setExpectedException('RuntimeException');
+			$this->object->getUser('me');
+
+			// Authenticated.
+			$this->object->setOAuth($token);
+		}
 	}
 
 	/**
 	 * Tests the getFriends method.
 	 *
-	 * @covers JFacebookUser::getFriends
-	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   13.1
 	 */
 	public function testGetFriends()
 	{
-		$access_token = '235twegsdgsdhtry3tgwgf';
 		$returnData = new stdClass;
+		$returnData->code = 200;
 		$returnData->body = $this->sampleString;
+
+		$token = $this->oauth->getToken();
 
 		$this->client->expects($this->once())
 		->method('get')
-		->with('me/friends?access_token=' . $access_token)
+		->with('me/friends?access_token=' . $token['access_token'])
 		->will($this->returnValue($returnData));
 
 		$this->assertThat(
-			$this->object->getFriends('me', $access_token),
+			$this->object->getFriends('me'),
 			$this->equalTo(json_decode($this->sampleString))
 		);
 	}
@@ -208,49 +259,59 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the getFriends method - failure.
 	 *
-	 * @covers JFacebookUser::getFriends
-	 *
 	 * @return  void
 	 *
-	 * @since   12.1
-	 * @expectedException  DomainException
+	 * @since   13.1
 	 */
 	public function testGetFriendsFailure()
 	{
-		$access_token = '235twegsdgsdhtry3tgwgf';
+		$access_token = $this->oauth->getToken();
+
+		$this->oauth->setToken(null);
+
+		$this->assertThat(
+			$this->object->getFriends('me'),
+			$this->equalTo(false)
+		);
+
 		$returnData = new stdClass;
+		$returnData->code = 401;
 		$returnData->body = $this->errorString;
+
+		$this->oauth->setToken($access_token);
+		$token = $this->oauth->getToken();
 
 		$this->client->expects($this->once())
 		->method('get')
-		->with('me/friends?access_token=' . $access_token)
+		->with('me/friends?access_token=' . $token['access_token'])
 		->will($this->returnValue($returnData));
 
-		$this->object->getFriends('me', $access_token);
+		$this->setExpectedException('RuntimeException');
+		$this->object->getFriends('me');
 	}
 
 	/**
 	 * Tests the getFriendRequests method.
 	 *
-	 * @covers JFacebookUser::getFriendRequests
-	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   13.1
 	 */
 	public function testGetFriendRequests()
 	{
-		$access_token = '235twegsdgsdhtry3tgwgf';
 		$returnData = new stdClass;
+		$returnData->code = 200;
 		$returnData->body = $this->sampleString;
+
+		$token = $this->oauth->getToken();
 
 		$this->client->expects($this->once())
 		->method('get')
-		->with('me/friendrequests?access_token=' . $access_token)
+		->with('me/friendrequests?access_token=' . $token['access_token'])
 		->will($this->returnValue($returnData));
 
 		$this->assertThat(
-			$this->object->getFriendRequests('me', $access_token),
+			$this->object->getFriendRequests('me'),
 			$this->equalTo(json_decode($this->sampleString))
 		);
 	}
@@ -258,49 +319,49 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the getFriendRequests method - failure.
 	 *
-	 * @covers JFacebookUser::getFriendRequests
-	 *
 	 * @return  void
 	 *
-	 * @since   12.1
-	 * @expectedException  DomainException
+	 * @since   13.1
+	 * @expectedException  RuntimeException
 	 */
 	public function testGetFriendRequestsFailure()
 	{
-		$access_token = '235twegsdgsdhtry3tgwgf';
 		$returnData = new stdClass;
+		$returnData->code = 401;
 		$returnData->body = $this->errorString;
+
+		$token = $this->oauth->getToken();
 
 		$this->client->expects($this->once())
 		->method('get')
-		->with('me/friendrequests?access_token=' . $access_token)
+		->with('me/friendrequests?access_token=' . $token['access_token'])
 		->will($this->returnValue($returnData));
 
-		$this->object->getFriendRequests('me', $access_token);
+		$this->object->getFriendRequests('me');
 	}
 
 	/**
 	 * Tests the getFriendLists method.
 	 *
-	 * @covers JFacebookUser::getFriendLists
-	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   13.1
 	 */
 	public function testGetFriendLists()
 	{
-		$access_token = '235twegsdgsdhtry3tgwgf';
 		$returnData = new stdClass;
+		$returnData->code = 200;
 		$returnData->body = $this->sampleString;
+
+		$token = $this->oauth->getToken();
 
 		$this->client->expects($this->once())
 		->method('get')
-		->with('me/friendlists?access_token=' . $access_token)
+		->with('me/friendlists?access_token=' . $token['access_token'])
 		->will($this->returnValue($returnData));
 
 		$this->assertThat(
-			$this->object->getFriendLists('me', $access_token),
+			$this->object->getFriendLists('me'),
 			$this->equalTo(json_decode($this->sampleString))
 		);
 	}
@@ -308,49 +369,49 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the getFriendLists method - failure.
 	 *
-	 * @covers JFacebookUser::getFriendLists
-	 *
 	 * @return  void
 	 *
-	 * @since   12.1
-	 * @expectedException  DomainException
+	 * @since   13.1
+	 * @expectedException  RuntimeException
 	 */
 	public function testGetFriendListsFailure()
 	{
-		$access_token = '235twegsdgsdhtry3tgwgf';
 		$returnData = new stdClass;
+		$returnData->code = 401;
 		$returnData->body = $this->errorString;
+
+		$token = $this->oauth->getToken();
 
 		$this->client->expects($this->once())
 		->method('get')
-		->with('me/friendlists?access_token=' . $access_token)
+		->with('me/friendlists?access_token=' . $token['access_token'])
 		->will($this->returnValue($returnData));
 
-		$this->object->getFriendLists('me', $access_token);
+		$this->object->getFriendLists('me');
 	}
 
 	/**
 	 * Tests the getFeed method.
 	 *
-	 * @covers JFacebookUser::getFeed
-	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   13.1
 	 */
 	public function testGetFeed()
 	{
-		$access_token = '235twegsdgsdhtry3tgwgf';
 		$returnData = new stdClass;
+		$returnData->code = 200;
 		$returnData->body = $this->sampleString;
+
+		$token = $this->oauth->getToken();
 
 		$this->client->expects($this->once())
 		->method('get')
-		->with('me/feed?access_token=' . $access_token)
+		->with('me/feed?access_token=' . $token['access_token'])
 		->will($this->returnValue($returnData));
 
 		$this->assertThat(
-			$this->object->getFeed('me', $access_token),
+			$this->object->getFeed('me'),
 			$this->equalTo(json_decode($this->sampleString))
 		);
 	}
@@ -358,49 +419,111 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the getFeed method - failure.
 	 *
-	 * @covers JFacebookUser::getFeed
-	 *
 	 * @return  void
 	 *
-	 * @since   12.1
-	 * @expectedException  DomainException
+	 * @since   13.1
+	 * @expectedException  RuntimeException
 	 */
 	public function testGetFeedFailure()
 	{
-		$access_token = '235twegsdgsdhtry3tgwgf';
 		$returnData = new stdClass;
+		$returnData->code = 401;
 		$returnData->body = $this->errorString;
+
+		$token = $this->oauth->getToken();
 
 		$this->client->expects($this->once())
 		->method('get')
-		->with('me/feed?access_token=' . $access_token)
+		->with('me/feed?access_token=' . $token['access_token'])
 		->will($this->returnValue($returnData));
 
-		$this->object->getFeed('me', $access_token);
+		$this->object->getFeed('me');
+	}
+
+	/**
+	 * Tests the getHome method.
+	 *
+	 * @return  void
+	 *
+	 * @since   13.1
+	 */
+	public function testGetHome()
+	{
+		$filter = 'app_2305272732';
+		$location = true;
+
+		$returnData = new stdClass;
+		$returnData->code = 200;
+		$returnData->body = $this->sampleString;
+
+		$extra_fields = '?filter=' . $filter . '&with=location';
+
+		$token = $this->oauth->getToken();
+
+		$this->client->expects($this->once())
+		->method('get')
+		->with('me/home' . $extra_fields . '&access_token=' . $token['access_token'])
+		->will($this->returnValue($returnData));
+
+		$this->assertThat(
+			$this->object->getHome('me', $filter, $location),
+			$this->equalTo(json_decode($this->sampleString))
+		);
+	}
+
+	/**
+	 * Tests the getHome method - failure.
+	 *
+	 * @return  void
+	 *
+	 * @since   13.1
+	 * @expectedException  RuntimeException
+	 */
+	public function testGetHomeFailure()
+	{
+		$filter = 'app_2305272732';
+		$location = true;
+
+		$returnData = new stdClass;
+		$returnData->code = 401;
+		$returnData->body = $this->errorString;
+
+		$extra_fields = '?filter=' . $filter . '&with=location';
+
+		$token = $this->oauth->getToken();
+
+		$this->client->expects($this->once())
+		->method('get')
+		->with('me/home' . $extra_fields . '&access_token=' . $token['access_token'])
+		->will($this->returnValue($returnData));
+
+		$this->object->getHome('me', $filter, $location);
 	}
 
 	/**
 	 * Tests the hasFriend method.
 	 *
-	 * @covers JFacebookUser::hasFriend
-	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   13.1
 	 */
 	public function testHasFriend()
 	{
-		$access_token = '235twegsdgsdhtry3tgwgf';
 		$returnData = new stdClass;
+		$returnData->code = 200;
 		$returnData->body = $this->sampleString;
+
+		$token = $this->oauth->getToken();
 
 		$this->client->expects($this->once())
 		->method('get')
-		->with('me/friends/2341245353?access_token=' . $access_token)
+		->with('me/friends/2341245353?access_token=' . $token['access_token'])
 		->will($this->returnValue($returnData));
 
+		$token = $this->oauth->getToken();
+
 		$this->assertThat(
-			$this->object->hasFriend('me', 2341245353, $access_token),
+			$this->object->hasFriend('me', 2341245353),
 			$this->equalTo(json_decode($this->sampleString))
 		);
 	}
@@ -408,49 +531,49 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the hasFriend method - failure.
 	 *
-	 * @covers JFacebookUser::hasFriend
-	 *
 	 * @return  void
 	 *
-	 * @since   12.1
-	 * @expectedException  DomainException
+	 * @since   13.1
+	 * @expectedException  RuntimeException
 	 */
 	public function testHasFriendFailure()
 	{
-		$access_token = '235twegsdgsdhtry3tgwgf';
 		$returnData = new stdClass;
+		$returnData->code = 401;
 		$returnData->body = $this->errorString;
+
+		$token = $this->oauth->getToken();
 
 		$this->client->expects($this->once())
 		->method('get')
-		->with('me/friends/2341245353?access_token=' . $access_token)
+		->with('me/friends/2341245353?access_token=' . $token['access_token'])
 		->will($this->returnValue($returnData));
 
-		$this->object->hasFriend('me', 2341245353, $access_token);
+		$this->object->hasFriend('me', 2341245353);
 	}
 
 	/**
 	 * Tests the getMutualFriends method.
 	 *
-	 * @covers JFacebookUser::getMutualFriends
-	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   13.1
 	 */
 	public function testGetMutualFriends()
 	{
-		$access_token = '235twegsdgsdhtry3tgwgf';
 		$returnData = new stdClass;
+		$returnData->code = 200;
 		$returnData->body = $this->sampleString;
+
+		$token = $this->oauth->getToken();
 
 		$this->client->expects($this->once())
 		->method('get')
-		->with('me/mutualfriends/2341245353?access_token=' . $access_token)
+		->with('me/mutualfriends/2341245353?access_token=' . $token['access_token'])
 		->will($this->returnValue($returnData));
 
 		$this->assertThat(
-			$this->object->getMutualFriends('me', 2341245353, $access_token),
+			$this->object->getMutualFriends('me', 2341245353),
 			$this->equalTo(json_decode($this->sampleString))
 		);
 	}
@@ -458,180 +581,132 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the getMutualFriends method - failure.
 	 *
-	 * @covers JFacebookUser::getMutualFriends.
-	 *
 	 * @return  void
 	 *
-	 * @since   12.1
-	 * @expectedException  DomainException
+	 * @since   13.1
+	 * @expectedException  RuntimeException
 	 */
 	public function testGetMutualFriendsFailure()
 	{
-		$access_token = '235twegsdgsdhtry3tgwgf';
 		$returnData = new stdClass;
+		$returnData->code = 401;
 		$returnData->body = $this->errorString;
+
+		$token = $this->oauth->getToken();
 
 		$this->client->expects($this->once())
 		->method('get')
-		->with('me/mutualfriends/2341245353?access_token=' . $access_token)
+		->with('me/mutualfriends/2341245353?access_token=' . $token['access_token'])
 		->will($this->returnValue($returnData));
 
-		$this->object->getMutualFriends('me', 2341245353, $access_token);
-	}
-
-	/**
-	* Provides test data for request format detection.
-	*
-	* @return array
-	*
-	* @since 12.1
-	*/
-	public function seedGetPicture()
-	{
-		// Extra fields for the request URL.
-		return array(
-			array('235twegsdgsdhtry3tgwgf', 'large'),
-			array(null, null),
-			array(null, 'large'),
-			array('235twegsdgsdhtry3tgwgf', null)
-		);
+		$this->object->getMutualFriends('me', 2341245353);
 	}
 
 	/**
 	 * Tests the getPicture method.
 	 *
-	 * @param   string  $access_token  The Facebook access token.
-	 * @param   string  $type          Extra fields for the request URL.
+	 * @param   boolean  $oauth  True if the JFacebookOauth object is used.
 	 *
-	 * @covers JFacebookUser::getPicture
-	 * @covers JFacebookObject::sendRequest
-	 * @dataProvider  seedGetPicture
+	 * @dataProvider  seedOauth
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   13.1
 	 */
-	public function testGetPicture($access_token, $type)
+	public function testGetPicture($oauth)
 	{
+		$type = 'large';
+
+		$returnData = new stdClass;
+		$returnData->code = 200;
+		$returnData->body = $this->sampleUrl;
+
+		if ($oauth)
+		{
+			$token = $this->oauth->getToken();
+
+			$this->client->expects($this->once())
+			->method('get')
+			->with('me/picture?redirect=false&type=' . $type . '&access_token=' . $token['access_token'])
+			->will($this->returnValue($returnData));
+
+			$this->assertThat(
+				$this->object->getPicture('me', false, $type),
+				$this->equalTo(json_decode($this->sampleUrl))
+			);
+		}
+		else
+		{
+			// User is not authenticated.
+			$token = $this->object->getOAuth();
+			$this->object->setOAuth(null);
+
+			$this->client->expects($this->once())
+			->method('get')
+			->with('me/picture?redirect=false&type=' . $type)
+			->will($this->returnValue($returnData));
+
+			$this->assertThat(
+				$this->object->getPicture('me', false, $type),
+				$this->equalTo(json_decode($this->sampleUrl))
+			);
+
+			// Authenticated.
+			$this->object->setOAuth($token);
+		}
+	}
+
+	/**
+	 * Tests the getPicture method - failure.
+	 *
+	 * @return  void
+	 *
+	 * @since   13.1
+	 * @expectedException  RuntimeException
+	 */
+	public function testGetPictureFailure()
+	{
+		$type = 'large';
+
 		$returnData = new JHttpResponse;
-		$returnData->headers['Location'] = $this->sampleUrl;
+		$returnData->code = 401;
+		$returnData->body = $this->errorString;
 
-		if ($access_token != null)
-		{
-			$token = '?access_token=' . $access_token;
-		}
-		else
-		{
-			$token = '';
-		}
-
-		if ($type != null)
-		{
-			if (strcmp($token, ''))
-			{
-				$path_type = '&type=' . $type;
-			}
-			else
-			{
-				$path_type = '?type=' . $type;
-			}
-		}
-		else
-		{
-			$path_type = '';
-		}
+		$token = $this->oauth->getToken();
 
 		$this->client->expects($this->once())
 		->method('get')
-		->with('me/picture' . $token . $path_type)
+		->with('me/picture?redirect=false&type=' . $type . '&access_token=' . $token['access_token'])
 		->will($this->returnValue($returnData));
 
 		$this->assertThat(
-			$this->object->getPicture('me', $access_token, $type),
+			$this->object->getPicture('me', false, $type),
 			$this->equalTo($this->sampleUrl)
 		);
 	}
 
 	/**
-	 * Tests the getPicture method - failure.
-<<<<<<< HEAD
-	 *
-	 * @param   string  $type          Extra fields for the request URL.
-	 * @param   string  $access_token  The Facebook access token.
-	 *
-=======
-	 *
-	 * @param   string  $access_token  The Facebook access token.
-	 * @param   string  $type          Extra fields for the request URL.
-	 *
->>>>>>> 885a694... Add getPicture() method to JFacebookPhoto + small fixes.
-	 * @covers JFacebookUser::getPicture
-	 * @dataProvider  seedGetPicture
-	 *
-	 * @return  void
-	 *
-	 * @since   12.1
-	 * @expectedException  PHPUnit_Framework_Error
-	 */
-	public function testGetPictureFailure($access_token, $type)
-	{
-		$returnData = new JText($this->errorString);
-
-		if ($access_token != null)
-		{
-			$token = '?access_token=' . $access_token;
-		}
-		else
-		{
-			$token = '';
-		}
-
-		if ($type != null)
-		{
-			if (strcmp($token, ''))
-			{
-				$path_type = '&type=' . $type;
-			}
-			else
-			{
-				$path_type = '?type=' . $type;
-			}
-		}
-		else
-		{
-			$path_type = '';
-		}
-
-		$this->client->expects($this->once())
-		->method('get')
-		->with('me/picture' . $token . $path_type)
-		->will($this->returnValue($returnData));
-
-		$this->object->getPicture('me', $access_token, $type);
-	}
-
-	/**
 	 * Tests the getFamily method.
 	 *
-	 * @covers JFacebookUser::getFamily
-	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   13.1
 	 */
 	public function testGetFamily()
 	{
-		$access_token = '235twegsdgsdhtry3tgwgf';
 		$returnData = new stdClass;
+		$returnData->code = 200;
 		$returnData->body = $this->sampleString;
+
+		$token = $this->oauth->getToken();
 
 		$this->client->expects($this->once())
 		->method('get')
-		->with('me/family?access_token=' . $access_token)
+		->with('me/family?access_token=' . $token['access_token'])
 		->will($this->returnValue($returnData));
 
 		$this->assertThat(
-			$this->object->getFamily('me', $access_token),
+			$this->object->getFamily('me'),
 			$this->equalTo(json_decode($this->sampleString))
 		);
 	}
@@ -639,79 +714,51 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the getFamily method - failure.
 	 *
-	 * @covers JFacebookUser::getFamily
-	 *
 	 * @return  void
 	 *
-	 * @since   12.1
-	 * @expectedException  DomainException
+	 * @since   13.1
+	 * @expectedException  RuntimeException
 	 */
 	public function testGetFamilyFailure()
 	{
-		$access_token = '235twegsdgsdhtry3tgwgf';
 		$returnData = new stdClass;
+		$returnData->code = 401;
 		$returnData->body = $this->errorString;
+
+		$token = $this->oauth->getToken();
 
 		$this->client->expects($this->once())
 		->method('get')
-		->with('me/family?access_token=' . $access_token)
+		->with('me/family?access_token=' . $token['access_token'])
 		->will($this->returnValue($returnData));
 
-		$this->object->getFamily('me', $access_token);
-	}
-
-	/**
-	* Provides test data for request format detection.
-	*
-	* @return array
-	*
-	* @since 12.1
-	*/
-	public function seedGetNotifications()
-	{
-		// Extra fields for the request URL.
-		return array(
-			array(true),
-			array(false)
-		);
+		$this->object->getFamily('me');
 	}
 
 	/**
 	 * Tests the getNotifications method.
 	 *
-	 * @param   boolean  $read  Enables you to see notifications that the user has already read.
-	 *
-	 * @covers JFacebookUser::getNotifications
-	 * @dataProvider  seedGetNotifications
-	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   13.1
 	 */
-	public function testGetNotifications($read)
+	public function testGetNotifications()
 	{
-		$access_token = '235twegsdgsdhtry3tgwgf';
+		$read = true;
 
 		$returnData = new stdClass;
+		$returnData->code = 200;
 		$returnData->body = $this->sampleString;
 
-		if ($read == true)
-		{
-			$this->client->expects($this->once())
-			->method('get')
-			->with('me/notifications?include_read=1&access_token=' . $access_token)
-			->will($this->returnValue($returnData));
-		}
-		else
-		{
-			$this->client->expects($this->once())
-			->method('get')
-			->with('me/notifications?access_token=' . $access_token)
-			->will($this->returnValue($returnData));
-		}
+		$token = $this->oauth->getToken();
+
+		$this->client->expects($this->once())
+		->method('get')
+		->with('me/notifications?include_read=1&access_token=' . $token['access_token'])
+		->will($this->returnValue($returnData));
 
 		$this->assertThat(
-			$this->object->getNotifications('me', $access_token, $read),
+			$this->object->getNotifications('me', $read),
 			$this->equalTo(json_decode($this->sampleString))
 		);
 	}
@@ -719,65 +766,56 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the getNotifications method - failure.
 	 *
-	 * @param   boolean  $read  Enables you to see notifications that the user has already read.
-	 *
-	 * @covers JFacebookUser::getNotifications
-	 * @dataProvider  seedGetNotifications
-	 *
 	 * @return  void
 	 *
-	 * @since   12.1
-	 * @expectedException  DomainException
+	 * @since   13.1
+	 * @expectedException  RuntimeException
 	 */
-	public function testGetNotificationsFailure($read)
+	public function testGetNotificationsFailure()
 	{
-		$access_token = '235twegsdgsdhtry3tgwgf';
+		$read = true;
 
 		$returnData = new stdClass;
+		$returnData->code = 401;
 		$returnData->body = $this->errorString;
 
-		if ($read == true)
-		{
-			$this->client->expects($this->once())
-			->method('get')
-			->with('me/notifications?include_read=1&access_token=' . $access_token)
-			->will($this->returnValue($returnData));
-		}
-		else
-		{
-			$this->client->expects($this->once())
-			->method('get')
-			->with('me/notifications?access_token=' . $access_token)
-			->will($this->returnValue($returnData));
-		}
+		$token = $this->oauth->getToken();
 
-		$this->object->getNotifications('me', $access_token, $read);
+		$this->client->expects($this->once())
+		->method('get')
+		->with('me/notifications?include_read=1&access_token=' . $token['access_token'])
+		->will($this->returnValue($returnData));
+
+		$this->object->getNotifications('me', $read);
 	}
 
 	/**
 	 * Tests the updateNotification method.
 	 *
-	 * @covers JFacebookUser::updateNotification
-	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   13.1
 	 */
 	public function testUpdateNotification()
 	{
-		$access_token = '235twegsdgsdhtry3tgwgf';
 		$notification = 'notif_343543656';
 
 		$returnData = new stdClass;
+		$returnData->code = 200;
 		$returnData->body = true;
+
+		// Set POST request parameters.
+		$data['unread'] = 0;
+
+		$token = $this->oauth->getToken();
 
 		$this->client->expects($this->once())
 		->method('post')
-		->with($notification . '?unread=0&access_token=' . $access_token, '')
+		->with($notification . '?access_token=' . $token['access_token'], $data)
 		->will($this->returnValue($returnData));
 
 		$this->assertThat(
-			$this->object->updateNotification($notification, $access_token),
+			$this->object->updateNotification($notification),
 			$this->equalTo(true)
 		);
 	}
@@ -785,63 +823,63 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the updateNotification method - failure.
 	 *
-	 * @covers JFacebookUser::updateNotification
-	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   13.1
 	 */
 	public function testUpdateNotificationFailure()
 	{
-		$exception = false;
-		$access_token = '235twegsdgsdhtry3tgwgf';
 		$notification = 'notif_343543656';
+		$access_token = $this->oauth->getToken();
+
+		$this->oauth->setToken(null);
+
+		$this->assertThat(
+			$this->object->updateNotification($notification),
+			$this->equalTo(false)
+		);
 
 		$returnData = new stdClass;
+		$returnData->code = 401;
 		$returnData->body = $this->errorString;
+
+		// Set POST request parameters.
+		$data['unread'] = 0;
+
+		$this->oauth->setToken($access_token);
+		$token = $this->oauth->getToken();
 
 		$this->client->expects($this->once())
 		->method('post')
-		->with($notification . '?unread=0&access_token=' . $access_token, '')
+		->with($notification . '?access_token=' . $token['access_token'], $data)
 		->will($this->returnValue($returnData));
 
-		try
-		{
-			$this->object->updateNotification($notification, $access_token);
-		}
-		catch (DomainException $e)
-		{
-			$exception = true;
-
-			$this->assertThat(
-				$e->getMessage(),
-				$this->equalTo(json_decode($this->errorString)->error->message)
-			);
-		}
+		$this->setExpectedException('RuntimeException');
+		$this->object->updateNotification($notification);
 	}
 
 	/**
 	 * Tests the getPermissions method.
 	 *
-	 * @covers JFacebookUser::getPermissions
-	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   13.1
 	 */
 	public function testGetPermissions()
 	{
-		$access_token = '235twegsdgsdhtry3tgwgf';
 		$returnData = new stdClass;
+		$returnData->code = 200;
 		$returnData->body = $this->sampleString;
+
+		$token = $this->oauth->getToken();
 
 		$this->client->expects($this->once())
 		->method('get')
-		->with('me/permissions?access_token=' . $access_token)
+		->with('me/permissions?access_token=' . $token['access_token'])
 		->will($this->returnValue($returnData));
 
 		$this->assertThat(
-			$this->object->getPermissions('me', $access_token),
+			$this->object->getPermissions('me'),
 			$this->equalTo(json_decode($this->sampleString))
 		);
 	}
@@ -849,51 +887,51 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the getPermissions method - failure.
 	 *
-	 * @covers JFacebookUser::getPermissions
-	 *
 	 * @return  void
 	 *
-	 * @since   12.1
-	 * @expectedException  DomainException
+	 * @since   13.1
+	 * @expectedException  RuntimeException
 	 */
 	public function testGetPermissionsFailure()
 	{
-		$access_token = '235twegsdgsdhtry3tgwgf';
 		$returnData = new stdClass;
+		$returnData->code = 401;
 		$returnData->body = $this->errorString;
+
+		$token = $this->oauth->getToken();
 
 		$this->client->expects($this->once())
 		->method('get')
-		->with('me/permissions?access_token=' . $access_token)
+		->with('me/permissions?access_token=' . $token['access_token'])
 		->will($this->returnValue($returnData));
 
-		$this->object->getPermissions('me', $access_token);
+		$this->object->getPermissions('me');
 	}
 
 	/**
 	 * Tests the deletePermission method.
 	 *
-	 * @covers JFacebookUser::deletePermission
-	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   13.1
 	 */
 	public function testDeletePermission()
 	{
-		$access_token = '235twegsdgsdhtry3tgwgf';
 		$permission = 'some_permission';
 
 		$returnData = new stdClass;
+		$returnData->code = 200;
 		$returnData->body = true;
+
+		$token = $this->oauth->getToken();
 
 		$this->client->expects($this->once())
 		->method('delete')
-		->with('me/permissions?permission=' . $permission . '&access_token=' . $access_token)
+		->with('me/permissions?permission=' . $permission . '&access_token=' . $token['access_token'])
 		->will($this->returnValue($returnData));
 
 		$this->assertThat(
-			$this->object->deletePermission('me', $access_token, $permission),
+			$this->object->deletePermission('me', $permission),
 			$this->equalTo(true)
 		);
 	}
@@ -901,63 +939,60 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the deletePermission method - failure.
 	 *
-	 * @covers JFacebookUser::deletePermission
-	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   13.1
 	 */
 	public function testDeletePermissionFailure()
 	{
-		$exception = false;
-		$access_token = '235twegsdgsdhtry3tgwgf';
+		$access_token = $this->oauth->getToken();
 		$permission = 'some_permission';
 
+		$this->oauth->setToken(null);
+
+		$this->assertThat(
+			$this->object->deletePermission('me', $permission),
+			$this->equalTo(false)
+		);
+
 		$returnData = new stdClass;
+		$returnData->code = 401;
 		$returnData->body = $this->errorString;
+
+		$this->oauth->setToken($access_token);
+		$token = $this->oauth->getToken();
 
 		$this->client->expects($this->once())
 		->method('delete')
-		->with('me/permissions?permission=' . $permission . '&access_token=' . $access_token)
+		->with('me/permissions?permission=' . $permission . '&access_token=' . $token['access_token'])
 		->will($this->returnValue($returnData));
 
-		try
-		{
-			$this->object->deletePermission('me', $access_token, $permission);
-		}
-		catch (DomainException $e)
-		{
-			$exception = true;
-
-			$this->assertThat(
-				$e->getMessage(),
-				$this->equalTo(json_decode($this->errorString)->error->message)
-			);
-		}
+		$this->setExpectedException('RuntimeException');
+		$this->object->deletePermission('me', $permission);
 	}
 
 	/**
 	 * Tests the getAlbums method.
 	 *
-	 * @covers JFacebookUser::getAlbums
-	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   13.1
 	 */
 	public function testGetAlbums()
 	{
-		$access_token = '235twegsdgsdhtry3tgwgf';
 		$returnData = new stdClass;
+		$returnData->code = 200;
 		$returnData->body = $this->sampleString;
+
+		$token = $this->oauth->getToken();
 
 		$this->client->expects($this->once())
 		->method('get')
-		->with('me/albums?access_token=' . $access_token)
+		->with('me/albums?access_token=' . $token['access_token'])
 		->will($this->returnValue($returnData));
 
 		$this->assertThat(
-			$this->object->getAlbums('me', $access_token),
+			$this->object->getAlbums('me'),
 			$this->equalTo(json_decode($this->sampleString))
 		);
 	}
@@ -965,59 +1000,58 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the getAlbums method - failure.
 	 *
-	 * @covers JFacebookUser::getAlbums
-	 *
 	 * @return  void
 	 *
-	 * @since   12.1
-	 * @expectedException  DomainException
+	 * @since   13.1
+	 * @expectedException  RuntimeException
 	 */
 	public function testGetAlbumsFailure()
 	{
-		$access_token = '235twegsdgsdhtry3tgwgf';
 		$returnData = new stdClass;
+		$returnData->code = 401;
 		$returnData->body = $this->errorString;
+
+		$token = $this->oauth->getToken();
 
 		$this->client->expects($this->once())
 		->method('get')
-		->with('me/albums?access_token=' . $access_token)
+		->with('me/albums?access_token=' . $token['access_token'])
 		->will($this->returnValue($returnData));
 
-		$this->object->getAlbums('me', $access_token);
+		$this->object->getAlbums('me');
 	}
 
 	/**
 	 * Tests the createAlbum method.
 	 *
-	 * @covers JFacebookUser::createAlbum
-	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   13.1
 	 */
 	public function testCreateAlbum()
 	{
-		$access_token = '235twegsdgsdhtry3tgwgf';
 		$name = 'test';
 		$description = 'This is a test';
 		$privacy = '{"value": "SELF"}';
 
+		$returnData = new stdClass;
+		$returnData->code = 200;
+		$returnData->body = $this->sampleString;
+
 		// Set POST request parameters.
-		$data = array();
 		$data['name'] = $name;
 		$data['description'] = $description;
 		$data['privacy'] = $privacy;
 
-		$returnData = new stdClass;
-		$returnData->body = $this->sampleString;
+		$token = $this->oauth->getToken();
 
 		$this->client->expects($this->once())
 		->method('post')
-		->with('me/albums' . '?access_token=' . $access_token, $data)
+		->with('me/albums?access_token=' . $token['access_token'], $data)
 		->will($this->returnValue($returnData));
 
 		$this->assertThat(
-			$this->object->createAlbum('me', $access_token, $name, $description, $privacy),
+			$this->object->createAlbum('me', $name, $description, $privacy),
 			$this->equalTo(json_decode($this->sampleString))
 		);
 	}
@@ -1025,71 +1059,59 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the createAlbum method - failure.
 	 *
-	 * @covers JFacebookUser::createAlbum
-	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   13.1
+	 * @expectedException RuntimeException
 	 */
 	public function testCreateAlbumFailure()
 	{
-		$exception = false;
-		$access_token = '235twegsdgsdhtry3tgwgf';
 		$name = 'test';
 		$description = 'This is a test';
 		$privacy = '{"value": "SELF"}';
 
+		$returnData = new stdClass;
+		$returnData->code = 401;
+		$returnData->body = $this->errorString;
+
 		// Set POST request parameters.
-		$data = array();
 		$data['name'] = $name;
 		$data['description'] = $description;
 		$data['privacy'] = $privacy;
 
-		$returnData = new stdClass;
-		$returnData->body = $this->errorString;
+		$token = $this->oauth->getToken();
 
 		$this->client->expects($this->once())
 		->method('post')
-		->with('me/albums' . '?access_token=' . $access_token, $data)
+		->with('me/albums?access_token=' . $token['access_token'], $data)
 		->will($this->returnValue($returnData));
 
-		try
-		{
-			$this->object->createAlbum('me', $access_token, $name, $description, $privacy);
-		}
-		catch (DomainException $e)
-		{
-			$exception = true;
+		$this->object->createAlbum('me', $name, $description, $privacy);
 
-			$this->assertThat(
-				$e->getMessage(),
-				$this->equalTo(json_decode($this->errorString)->error->message)
-			);
-		}
 	}
 
 	/**
 	 * Tests the getCheckins method.
 	 *
-	 * @covers JFacebookUser::getCheckins
-	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   13.1
 	 */
 	public function testGetCheckins()
 	{
-		$access_token = '235twegsdgsdhtry3tgwgf';
 		$returnData = new stdClass;
+		$returnData->code = 200;
 		$returnData->body = $this->sampleString;
+
+		$token = $this->oauth->getToken();
 
 		$this->client->expects($this->once())
 		->method('get')
-		->with('me/checkins?access_token=' . $access_token)
+		->with('me/checkins?access_token=' . $token['access_token'])
 		->will($this->returnValue($returnData));
 
 		$this->assertThat(
-			$this->object->getCheckins('me', $access_token),
+			$this->object->getCheckins('me'),
 			$this->equalTo(json_decode($this->sampleString))
 		);
 	}
@@ -1097,39 +1119,36 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the getCheckins method - failure.
 	 *
-	 * @covers JFacebookUser::getCheckins
-	 *
 	 * @return  void
 	 *
-	 * @since   12.1
-	 * @expectedException  DomainException
+	 * @since   13.1
+	 * @expectedException  RuntimeException
 	 */
 	public function testGetCheckinsFailure()
 	{
-		$access_token = '235twegsdgsdhtry3tgwgf';
 		$returnData = new stdClass;
+		$returnData->code = 401;
 		$returnData->body = $this->errorString;
+
+		$token = $this->oauth->getToken();
 
 		$this->client->expects($this->once())
 		->method('get')
-		->with('me/checkins?access_token=' . $access_token)
+		->with('me/checkins?access_token=' . $token['access_token'])
 		->will($this->returnValue($returnData));
 
-		$this->object->getCheckins('me', $access_token);
+		$this->object->getCheckins('me');
 	}
 
 	/**
 	 * Tests the createCheckin method.
 	 *
-	 * @covers JFacebookUser::createCheckin
-	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   13.1
 	 */
 	public function testCreateCheckin()
 	{
-		$access_token = '235twegsdgsdhtry3tgwgf';
 		$place = '241967239209655';
 		$coordinates = '{"latitude":"44.42863444299","longitude":"26.133339107061"}';
 		$tags = 'me';
@@ -1137,8 +1156,11 @@ class JFacebookUserTest extends TestCase
 		$link = 'www.test.com';
 		$picture = 'some_picture_url';
 
+		$returnData = new stdClass;
+		$returnData->code = 200;
+		$returnData->body = $this->sampleString;
+
 		// Set POST request parameters.
-		$data = array();
 		$data['place'] = $place;
 		$data['coordinates'] = $coordinates;
 		$data['tags'] = $tags;
@@ -1146,16 +1168,15 @@ class JFacebookUserTest extends TestCase
 		$data['link'] = $link;
 		$data['picture'] = $picture;
 
-		$returnData = new stdClass;
-		$returnData->body = $this->sampleString;
+		$token = $this->oauth->getToken();
 
 		$this->client->expects($this->once())
 		->method('post')
-		->with('me/checkins' . '?access_token=' . $access_token, $data)
+		->with('me/checkins' . '?access_token=' . $token['access_token'], $data)
 		->will($this->returnValue($returnData));
 
 		$this->assertThat(
-			$this->object->createCheckin('me', $access_token, $place, $coordinates, $tags, $message, $link, $picture),
+			$this->object->createCheckin('me', $place, $coordinates, $tags, $message, $link, $picture),
 			$this->equalTo(json_decode($this->sampleString))
 		);
 	}
@@ -1163,16 +1184,13 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the createCheckin method - failure.
 	 *
-	 * @covers JFacebookUser::createCheckin
-	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   13.1
+	 * @expectedException RuntimeException
 	 */
 	public function testCreateCheckinFailure()
 	{
-		$exception = false;
-		$access_token = '235twegsdgsdhtry3tgwgf';
 		$place = '241967239209655';
 		$coordinates = '{"latitude":"44.42863444299","longitude":"26.133339107061"}';
 		$tags = 'me';
@@ -1180,8 +1198,11 @@ class JFacebookUserTest extends TestCase
 		$link = 'www.test.com';
 		$picture = 'some_picture_url';
 
+		$returnData = new stdClass;
+		$returnData->code = 401;
+		$returnData->body = $this->errorString;
+
 		// Set POST request parameters.
-		$data = array();
 		$data['place'] = $place;
 		$data['coordinates'] = $coordinates;
 		$data['tags'] = $tags;
@@ -1189,51 +1210,38 @@ class JFacebookUserTest extends TestCase
 		$data['link'] = $link;
 		$data['picture'] = $picture;
 
-		$returnData = new stdClass;
-		$returnData->body = $this->errorString;
+		$token = $this->oauth->getToken();
 
 		$this->client->expects($this->once())
 		->method('post')
-		->with('me/checkins' . '?access_token=' . $access_token, $data)
+		->with('me/checkins' . '?access_token=' . $token['access_token'], $data)
 		->will($this->returnValue($returnData));
 
-		try
-		{
-			$this->object->createCheckin('me', $access_token, $place, $coordinates, $tags, $message, $link, $picture);
-		}
-		catch (DomainException $e)
-		{
-			$exception = true;
-
-			$this->assertThat(
-				$e->getMessage(),
-				$this->equalTo(json_decode($this->errorString)->error->message)
-			);
-		}
+		$this->object->createCheckin('me', $place, $coordinates, $tags, $message, $link, $picture);
 	}
 
 	/**
 	 * Tests the getLikes method.
 	 *
-	 * @covers JFacebookUser::getLikes
-	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   13.1
 	 */
 	public function testGetLikes()
 	{
-		$access_token = '235twegsdgsdhtry3tgwgf';
 		$returnData = new stdClass;
+		$returnData->code = 200;
 		$returnData->body = $this->sampleString;
+
+		$token = $this->oauth->getToken();
 
 		$this->client->expects($this->once())
 		->method('get')
-		->with('me/likes?access_token=' . $access_token)
+		->with('me/likes?access_token=' . $token['access_token'])
 		->will($this->returnValue($returnData));
 
 		$this->assertThat(
-			$this->object->getLikes('me', $access_token),
+			$this->object->getLikes('me'),
 			$this->equalTo(json_decode($this->sampleString))
 		);
 	}
@@ -1241,49 +1249,49 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the getLikes method - failure.
 	 *
-	 * @covers JFacebookUser::getLikes
-	 *
 	 * @return  void
 	 *
-	 * @since   12.1
-	 * @expectedException  DomainException
+	 * @since   13.1
+	 * @expectedException  RuntimeException
 	 */
 	public function testGetLikesFailure()
 	{
-		$access_token = '235twegsdgsdhtry3tgwgf';
 		$returnData = new stdClass;
+		$returnData->code = 401;
 		$returnData->body = $this->errorString;
+
+		$token = $this->oauth->getToken();
 
 		$this->client->expects($this->once())
 		->method('get')
-		->with('me/likes?access_token=' . $access_token)
+		->with('me/likes?access_token=' . $token['access_token'])
 		->will($this->returnValue($returnData));
 
-		$this->object->getLikes('me', $access_token);
+		$this->object->getLikes('me');
 	}
 
 	/**
 	 * Tests the likesPage method.
 	 *
-	 * @covers JFacebookUser::likesPage
-	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   13.1
 	 */
 	public function testLikesPage()
 	{
-		$access_token = '235twegsdgsdhtry3tgwgf';
 		$returnData = new stdClass;
+		$returnData->code = 200;
 		$returnData->body = $this->sampleString;
+
+		$token = $this->oauth->getToken();
 
 		$this->client->expects($this->once())
 		->method('get')
-		->with('me/likes/2341245353?access_token=' . $access_token)
+		->with('me/likes/2341245353?access_token=' . $token['access_token'])
 		->will($this->returnValue($returnData));
 
 		$this->assertThat(
-			$this->object->likesPage('me', $access_token, 2341245353),
+			$this->object->likesPage('me', 2341245353),
 			$this->equalTo(json_decode($this->sampleString))
 		);
 	}
@@ -1291,49 +1299,49 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the likesPage method - failure.
 	 *
-	 * @covers JFacebookUser::likesPage
-	 *
 	 * @return  void
 	 *
-	 * @since   12.1
-	 * @expectedException  DomainException
+	 * @since   13.1
+	 * @expectedException  RuntimeException
 	 */
 	public function testLikesPageFailure()
 	{
-		$access_token = '235twegsdgsdhtry3tgwgf';
 		$returnData = new stdClass;
+		$returnData->code = 401;
 		$returnData->body = $this->errorString;
+
+		$token = $this->oauth->getToken();
 
 		$this->client->expects($this->once())
 		->method('get')
-		->with('me/likes/2341245353?access_token=' . $access_token)
+		->with('me/likes/2341245353?access_token=' . $token['access_token'])
 		->will($this->returnValue($returnData));
 
-		$this->object->likesPage('me', $access_token, 2341245353);
+		$this->object->likesPage('me', 2341245353);
 	}
 
 	/**
 	 * Tests the getEvents method.
 	 *
-	 * @covers JFacebookUser::getEvents
-	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   13.1
 	 */
 	public function testGetEvents()
 	{
-		$access_token = '235twegsdgsdhtry3tgwgf';
 		$returnData = new stdClass;
+		$returnData->code = 200;
 		$returnData->body = $this->sampleString;
+
+		$token = $this->oauth->getToken();
 
 		$this->client->expects($this->once())
 		->method('get')
-		->with('me/events?access_token=' . $access_token)
+		->with('me/events?access_token=' . $token['access_token'])
 		->will($this->returnValue($returnData));
 
 		$this->assertThat(
-			$this->object->getEvents('me', $access_token),
+			$this->object->getEvents('me'),
 			$this->equalTo(json_decode($this->sampleString))
 		);
 	}
@@ -1341,39 +1349,36 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the getEvents method - failure.
 	 *
-	 * @covers JFacebookUser::getEvents
-	 *
 	 * @return  void
 	 *
-	 * @since   12.1
-	 * @expectedException  DomainException
+	 * @since   13.1
+	 * @expectedException  RuntimeException
 	 */
 	public function testGetEventsFailure()
 	{
-		$access_token = '235twegsdgsdhtry3tgwgf';
 		$returnData = new stdClass;
+		$returnData->code = 401;
 		$returnData->body = $this->errorString;
+
+		$token = $this->oauth->getToken();
 
 		$this->client->expects($this->once())
 		->method('get')
-		->with('me/events?access_token=' . $access_token)
+		->with('me/events?access_token=' . $token['access_token'])
 		->will($this->returnValue($returnData));
 
-		$this->object->getEvents('me', $access_token);
+		$this->object->getEvents('me');
 	}
 
 	/**
 	 * Tests the createEvent method.
 	 *
-	 * @covers JFacebookUser::createEvent
-	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   13.1
 	 */
 	public function testCreateEvent()
 	{
-		$access_token = '235twegsdgsdhtry3tgwgf';
 		$name = 'test';
 		$start_time = 1590962400;
 		$end_time = 1590966000;
@@ -1382,8 +1387,11 @@ class JFacebookUserTest extends TestCase
 		$location_id = '23132156';
 		$privacy_type = 'SECRET';
 
+		$returnData = new stdClass;
+		$returnData->code = 200;
+		$returnData->body = $this->sampleString;
+
 		// Set POST request parameters.
-		$data = array();
 		$data['start_time'] = $start_time;
 		$data['name'] = $name;
 		$data['end_time'] = $end_time;
@@ -1392,16 +1400,15 @@ class JFacebookUserTest extends TestCase
 		$data['location_id'] = $location_id;
 		$data['privacy_type'] = $privacy_type;
 
-		$returnData = new stdClass;
-		$returnData->body = $this->sampleString;
+		$token = $this->oauth->getToken();
 
 		$this->client->expects($this->once())
 		->method('post')
-		->with('me/events' . '?access_token=' . $access_token, $data)
+		->with('me/events' . '?access_token=' . $token['access_token'], $data)
 		->will($this->returnValue($returnData));
 
 		$this->assertThat(
-			$this->object->createEvent('me', $access_token, $name, $start_time, $end_time, $description, $location, $location_id, $privacy_type),
+			$this->object->createEvent('me', $name, $start_time, $end_time, $description, $location, $location_id, $privacy_type),
 			$this->equalTo(json_decode($this->sampleString))
 		);
 	}
@@ -1409,16 +1416,13 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the createEvent method - failure.
 	 *
-	 * @covers JFacebookUser::createEvent
-	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   13.1
+	 * @expectedException RuntimeException
 	 */
 	public function testCreateEventFailure()
 	{
-		$exception = false;
-		$access_token = '235twegsdgsdhtry3tgwgf';
 		$name = 'test';
 		$start_time = 1590962400;
 		$end_time = 1590966000;
@@ -1427,8 +1431,11 @@ class JFacebookUserTest extends TestCase
 		$location_id = '23132156';
 		$privacy_type = 'SECRET';
 
+		$returnData = new stdClass;
+		$returnData->code = 401;
+		$returnData->body = $this->errorString;
+
 		// Set POST request parameters.
-		$data = array();
 		$data['start_time'] = $start_time;
 		$data['name'] = $name;
 		$data['end_time'] = $end_time;
@@ -1437,41 +1444,25 @@ class JFacebookUserTest extends TestCase
 		$data['location_id'] = $location_id;
 		$data['privacy_type'] = $privacy_type;
 
-		$returnData = new stdClass;
-		$returnData->body = $this->errorString;
+		$token = $this->oauth->getToken();
 
 		$this->client->expects($this->once())
 		->method('post')
-		->with('me/events' . '?access_token=' . $access_token, $data)
+		->with('me/events' . '?access_token=' . $token['access_token'], $data)
 		->will($this->returnValue($returnData));
 
-		try
-		{
-			$this->object->createEvent('me', $access_token, $name, $start_time, $end_time, $description, $location, $location_id, $privacy_type);
-		}
-		catch (DomainException $e)
-		{
-			$exception = true;
-
-			$this->assertThat(
-				$e->getMessage(),
-				$this->equalTo(json_decode($this->errorString)->error->message)
-			);
-		}
+		$this->object->createEvent('me', $name, $start_time, $end_time, $description, $location, $location_id, $privacy_type);
 	}
 
 	/**
 	 * Tests the editEvent method.
 	 *
-	 * @covers JFacebookUser::editEvent
-	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   13.1
 	 */
 	public function testEditEvent()
 	{
-		$access_token = '235twegsdgsdhtry3tgwgf';
 		$event = '345345345435';
 		$name = 'test';
 		$start_time = 1590962400;
@@ -1481,8 +1472,11 @@ class JFacebookUserTest extends TestCase
 		$location_id = '23132156';
 		$privacy_type = 'SECRET';
 
+		$returnData = new stdClass;
+		$returnData->code = 200;
+		$returnData->body = true;
+
 		// Set POST request parameters.
-		$data = array();
 		$data['start_time'] = $start_time;
 		$data['name'] = $name;
 		$data['end_time'] = $end_time;
@@ -1491,16 +1485,15 @@ class JFacebookUserTest extends TestCase
 		$data['location_id'] = $location_id;
 		$data['privacy_type'] = $privacy_type;
 
-		$returnData = new stdClass;
-		$returnData->body = true;
+		$token = $this->oauth->getToken();
 
 		$this->client->expects($this->once())
 		->method('post')
-		->with($event . '?access_token=' . $access_token, $data)
+		->with($event . '?access_token=' . $token['access_token'], $data)
 		->will($this->returnValue($returnData));
 
 		$this->assertThat(
-			$this->object->editEvent($event, $access_token, $name, $start_time, $end_time, $description, $location, $location_id, $privacy_type),
+			$this->object->editEvent($event, $name, $start_time, $end_time, $description, $location, $location_id, $privacy_type),
 			$this->equalTo(true)
 		);
 	}
@@ -1508,16 +1501,13 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the editEvent method - failure.
 	 *
-	 * @covers JFacebookUser::editEvent
-	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   13.1
+	 * @expectedException RuntimeException
 	 */
 	public function testEditEventFailure()
 	{
-		$exception = false;
-		$access_token = '235twegsdgsdhtry3tgwgf';
 		$event = '345345345435';
 		$name = 'test';
 		$start_time = 1590962400;
@@ -1527,8 +1517,11 @@ class JFacebookUserTest extends TestCase
 		$location_id = '23132156';
 		$privacy_type = 'SECRET';
 
+		$returnData = new stdClass;
+		$returnData->code = 401;
+		$returnData->body = $this->errorString;
+
 		// Set POST request parameters.
-		$data = array();
 		$data['start_time'] = $start_time;
 		$data['name'] = $name;
 		$data['end_time'] = $end_time;
@@ -1537,53 +1530,40 @@ class JFacebookUserTest extends TestCase
 		$data['location_id'] = $location_id;
 		$data['privacy_type'] = $privacy_type;
 
-		$returnData = new stdClass;
-		$returnData->body = $this->errorString;
+		$token = $this->oauth->getToken();
 
 		$this->client->expects($this->once())
 		->method('post')
-		->with($event . '?access_token=' . $access_token, $data)
+		->with($event . '?access_token=' . $token['access_token'], $data)
 		->will($this->returnValue($returnData));
 
-		try
-		{
-			$this->object->editEvent($event, $access_token, $name, $start_time, $end_time, $description, $location, $location_id, $privacy_type);
-		}
-		catch (DomainException $e)
-		{
-			$exception = true;
-
-			$this->assertThat(
-				$e->getMessage(),
-				$this->equalTo(json_decode($this->errorString)->error->message)
-			);
-		}
+		$this->object->editEvent($event, $name, $start_time, $end_time, $description, $location, $location_id, $privacy_type);
 	}
 
 	/**
 	 * Tests the deleteEvent method.
 	 *
-	 * @covers JFacebookUser::deleteEvent
-	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   13.1
 	 */
 	public function testDeleteEvent()
 	{
-		$access_token = '235twegsdgsdhtry3tgwgf';
 		$event = '5148941614';
 
 		$returnData = new stdClass;
+		$returnData->code = 200;
 		$returnData->body = true;
+
+		$token = $this->oauth->getToken();
 
 		$this->client->expects($this->once())
 		->method('delete')
-		->with($event . '?access_token=' . $access_token)
+		->with($event . '?access_token=' . $token['access_token'])
 		->will($this->returnValue($returnData));
 
 		$this->assertThat(
-			$this->object->deleteEvent($event, $access_token),
+			$this->object->deleteEvent($event),
 			$this->equalTo(true)
 		);
 	}
@@ -1591,63 +1571,51 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the deleteEvent method - failure.
 	 *
-	 * @covers JFacebookUser::deleteEvent
-	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   13.1
+	 * @expectedException RuntimeException
 	 */
 	public function testDeleteEventFailure()
 	{
-		$exception = false;
-		$access_token = '235twegsdgsdhtry3tgwgf';
 		$event = '5148941614';
 
 		$returnData = new stdClass;
+		$returnData->code = 401;
 		$returnData->body = $this->errorString;
+
+		$token = $this->oauth->getToken();
 
 		$this->client->expects($this->once())
 		->method('delete')
-		->with($event . '?access_token=' . $access_token)
+		->with($event . '?access_token=' . $token['access_token'])
 		->will($this->returnValue($returnData));
 
-		try
-		{
-			$this->object->deleteEvent($event, $access_token);
-		}
-		catch (DomainException $e)
-		{
-			$exception = true;
-
-			$this->assertThat(
-				$e->getMessage(),
-				$this->equalTo(json_decode($this->errorString)->error->message)
-			);
-		}
+		$this->object->deleteEvent($event);
 	}
 
 	/**
 	 * Tests the getGroups method.
 	 *
-	 * @covers JFacebookUser::getGroups
-	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   13.1
 	 */
 	public function testGetGroups()
 	{
-		$access_token = '235twegsdgsdhtry3tgwgf';
 		$returnData = new stdClass;
+		$returnData->code = 200;
 		$returnData->body = $this->sampleString;
+
+		$token = $this->oauth->getToken();
 
 		$this->client->expects($this->once())
 		->method('get')
-		->with('me/groups?access_token=' . $access_token)
+		->with('me/groups?access_token=' . $token['access_token'])
 		->will($this->returnValue($returnData));
 
 		$this->assertThat(
-			$this->object->getGroups('me', $access_token),
+			$this->object->getGroups('me'),
 			$this->equalTo(json_decode($this->sampleString))
 		);
 	}
@@ -1655,49 +1623,49 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the getGroups method - failure.
 	 *
-	 * @covers JFacebookUser::getGroups
-	 *
 	 * @return  void
 	 *
-	 * @since   12.1
-	 * @expectedException  DomainException
+	 * @since   13.1
+	 * @expectedException  RuntimeException
 	 */
 	public function testGetGroupsFailure()
 	{
-		$access_token = '235twegsdgsdhtry3tgwgf';
 		$returnData = new stdClass;
+		$returnData->code = 401;
 		$returnData->body = $this->errorString;
+
+		$token = $this->oauth->getToken();
 
 		$this->client->expects($this->once())
 		->method('get')
-		->with('me/groups?access_token=' . $access_token)
+		->with('me/groups?access_token=' . $token['access_token'])
 		->will($this->returnValue($returnData));
 
-		$this->object->getGroups('me', $access_token);
+		$this->object->getGroups('me');
 	}
 
 	/**
 	 * Tests the getLinks method.
 	 *
-	 * @covers JFacebookUser::getLinks
-	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   13.1
 	 */
 	public function testGetLinks()
 	{
-		$access_token = '235twegsdgsdhtry3tgwgf';
 		$returnData = new stdClass;
+		$returnData->code = 200;
 		$returnData->body = $this->sampleString;
+
+		$token = $this->oauth->getToken();
 
 		$this->client->expects($this->once())
 		->method('get')
-		->with('me/links?access_token=' . $access_token)
+		->with('me/links?access_token=' . $token['access_token'])
 		->will($this->returnValue($returnData));
 
 		$this->assertThat(
-			$this->object->getLinks('me', $access_token),
+			$this->object->getLinks('me'),
 			$this->equalTo(json_decode($this->sampleString))
 		);
 	}
@@ -1705,57 +1673,56 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the getLinks method - failure.
 	 *
-	 * @covers JFacebookUser::getLinks
-	 *
 	 * @return  void
 	 *
-	 * @since   12.1
-	 * @expectedException  DomainException
+	 * @since   13.1
+	 * @expectedException  RuntimeException
 	 */
 	public function testGetLinksFailure()
 	{
-		$access_token = '235twegsdgsdhtry3tgwgf';
 		$returnData = new stdClass;
+		$returnData->code = 401;
 		$returnData->body = $this->errorString;
+
+		$token = $this->oauth->getToken();
 
 		$this->client->expects($this->once())
 		->method('get')
-		->with('me/links?access_token=' . $access_token)
+		->with('me/links?access_token=' . $token['access_token'])
 		->will($this->returnValue($returnData));
 
-		$this->object->getLinks('me', $access_token);
+		$this->object->getLinks('me');
 	}
 
 	/**
 	 * Tests the createLink method.
 	 *
-	 * @covers JFacebookUser::createLink
-	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   13.1
 	 */
 	public function testCreateLink()
 	{
-		$access_token = '235twegsdgsdhtry3tgwgf';
 		$link = 'www.example.com';
 		$message = 'message';
 
+		$returnData = new stdClass;
+		$returnData->code = 200;
+		$returnData->body = $this->sampleString;
+
 		// Set POST request parameters.
-		$data = array();
 		$data['link'] = $link;
 		$data['message'] = $message;
 
-		$returnData = new stdClass;
-		$returnData->body = $this->sampleString;
+		$token = $this->oauth->getToken();
 
 		$this->client->expects($this->once())
 		->method('post')
-		->with('me/feed' . '?access_token=' . $access_token, $data)
+		->with('me/feed?access_token=' . $token['access_token'], $data)
 		->will($this->returnValue($returnData));
 
 		$this->assertThat(
-			$this->object->createLink('me', $access_token, $link, $message),
+			$this->object->createLink('me', $link, $message),
 			$this->equalTo(json_decode($this->sampleString))
 		);
 	}
@@ -1763,71 +1730,58 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the createLink method - failure.
 	 *
-	 * @covers JFacebookUser::createLink
-	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   13.1
+	 * @expectedException RuntimeException
 	 */
 	public function testCreateLinkFailure()
 	{
-		$exception = false;
-		$access_token = '235twegsdgsdhtry3tgwgf';
 		$link = 'www.example.com';
 		$message = 'message';
 
+		$returnData = new stdClass;
+		$returnData->code = 401;
+		$returnData->body = $this->errorString;
+
 		// Set POST request parameters.
-		$data = array();
 		$data['link'] = $link;
 		$data['message'] = $message;
 
-		$returnData = new stdClass;
-		$returnData->body = $this->errorString;
+		$token = $this->oauth->getToken();
 
 		$this->client->expects($this->once())
 		->method('post')
-		->with('me/feed' . '?access_token=' . $access_token, $data)
+		->with('me/feed?access_token=' . $token['access_token'], $data)
 		->will($this->returnValue($returnData));
 
-		try
-		{
-			$this->object->createLink('me', $access_token, $link, $message);
-		}
-		catch (DomainException $e)
-		{
-			$exception = true;
-
-			$this->assertThat(
-				$e->getMessage(),
-				$this->equalTo(json_decode($this->errorString)->error->message)
-			);
-		}
+		$this->object->createLink('me', $link, $message);
 	}
 
 	/**
 	 * Tests the deleteLink method.
 	 *
-	 * @covers JFacebookUser::deleteLink
-	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   13.1
 	 */
 	public function testDeleteLink()
 	{
-		$access_token = '235twegsdgsdhtry3tgwgf';
 		$link = '156174391080008_235345346';
 
 		$returnData = new stdClass;
+		$returnData->code = 200;
 		$returnData->body = true;
+
+		$token = $this->oauth->getToken();
 
 		$this->client->expects($this->once())
 		->method('delete')
-		->with($link . '?access_token=' . $access_token)
+		->with($link . '?access_token=' . $token['access_token'])
 		->will($this->returnValue($returnData));
 
 		$this->assertThat(
-			$this->object->deleteLink($link, $access_token),
+			$this->object->deleteLink($link),
 			$this->equalTo(true)
 		);
 	}
@@ -1835,63 +1789,51 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the deleteLink method - failure.
 	 *
-	 * @covers JFacebookUser::deleteLink
-	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   13.1
+	 * @expectedException RuntimeException
 	 */
 	public function testDeleteLinkFailure()
 	{
-		$exception = false;
-		$access_token = '235twegsdgsdhtry3tgwgf';
 		$link = '156174391080008_235345346';
 
 		$returnData = new stdClass;
+		$returnData->code = 401;
 		$returnData->body = $this->errorString;
+
+		$token = $this->oauth->getToken();
 
 		$this->client->expects($this->once())
 		->method('delete')
-		->with($link . '?access_token=' . $access_token)
+		->with($link . '?access_token=' . $token['access_token'])
 		->will($this->returnValue($returnData));
 
-		try
-		{
-			$this->object->deleteLink($link, $access_token);
-		}
-		catch (DomainException $e)
-		{
-			$exception = true;
-
-			$this->assertThat(
-				$e->getMessage(),
-				$this->equalTo(json_decode($this->errorString)->error->message)
-			);
-		}
+		$this->object->deleteLink($link);
 	}
 
 	/**
 	 * Tests the getNotes method.
 	 *
-	 * @covers JFacebookUser::getNotes
-	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   13.1
 	 */
 	public function testGetNotes()
 	{
-		$access_token = '235twegsdgsdhtry3tgwgf';
 		$returnData = new stdClass;
+		$returnData->code = 200;
 		$returnData->body = $this->sampleString;
+
+		$token = $this->oauth->getToken();
 
 		$this->client->expects($this->once())
 		->method('get')
-		->with('me/notes?access_token=' . $access_token)
+		->with('me/notes?access_token=' . $token['access_token'])
 		->will($this->returnValue($returnData));
 
 		$this->assertThat(
-			$this->object->getNotes('me', $access_token),
+			$this->object->getNotes('me'),
 			$this->equalTo(json_decode($this->sampleString))
 		);
 	}
@@ -1899,57 +1841,56 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the getNotes method - failure.
 	 *
-	 * @covers JFacebookUser::getNotes
-	 *
 	 * @return  void
 	 *
-	 * @since   12.1
-	 * @expectedException  DomainException
+	 * @since   13.1
+	 * @expectedException  RuntimeException
 	 */
 	public function testGetNotesFailure()
 	{
-		$access_token = '235twegsdgsdhtry3tgwgf';
 		$returnData = new stdClass;
+		$returnData->code = 401;
 		$returnData->body = $this->errorString;
+
+		$token = $this->oauth->getToken();
 
 		$this->client->expects($this->once())
 		->method('get')
-		->with('me/notes?access_token=' . $access_token)
+		->with('me/notes?access_token=' . $token['access_token'])
 		->will($this->returnValue($returnData));
 
-		$this->object->getNotes('me', $access_token);
+		$this->object->getNotes('me');
 	}
 
 	/**
 	 * Tests the createNote method.
 	 *
-	 * @covers JFacebookUser::createNote
-	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   13.1
 	 */
 	public function testCreateNote()
 	{
-		$access_token = '235twegsdgsdhtry3tgwgf';
 		$subject = 'subject';
 		$message = 'message';
 
+		$returnData = new stdClass;
+		$returnData->code = 200;
+		$returnData->body = $this->sampleString;
+
 		// Set POST request parameters.
-		$data = array();
 		$data['subject'] = $subject;
 		$data['message'] = $message;
 
-		$returnData = new stdClass;
-		$returnData->body = $this->sampleString;
+		$token = $this->oauth->getToken();
 
 		$this->client->expects($this->once())
 		->method('post')
-		->with('me/notes' . '?access_token=' . $access_token, $data)
+		->with('me/notes' . '?access_token=' . $token['access_token'], $data)
 		->will($this->returnValue($returnData));
 
 		$this->assertThat(
-			$this->object->createNote('me', $access_token, $subject, $message),
+			$this->object->createNote('me', $subject, $message),
 			$this->equalTo(json_decode($this->sampleString))
 		);
 	}
@@ -1957,69 +1898,56 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the createNote method - failure.
 	 *
-	 * @covers JFacebookUser::createNote
-	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   13.1
+	 * @expectedException RuntimeException
 	 */
 	public function testCreateNoteFailure()
 	{
-		$exception = false;
-		$access_token = '235twegsdgsdhtry3tgwgf';
 		$subject = 'subject';
 		$message = 'message';
 
+		$returnData = new stdClass;
+		$returnData->code = 401;
+		$returnData->body = $this->errorString;
+
 		// Set POST request parameters.
-		$data = array();
 		$data['subject'] = $subject;
 		$data['message'] = $message;
 
-		$returnData = new stdClass;
-		$returnData->body = $this->errorString;
+		$token = $this->oauth->getToken();
 
 		$this->client->expects($this->once())
 		->method('post')
-		->with('me/notes' . '?access_token=' . $access_token, $data)
+		->with('me/notes' . '?access_token=' . $token['access_token'], $data)
 		->will($this->returnValue($returnData));
 
-		try
-		{
-			$this->object->createNote('me', $access_token, $subject, $message);
-		}
-		catch (DomainException $e)
-		{
-			$exception = true;
-
-			$this->assertThat(
-				$e->getMessage(),
-				$this->equalTo(json_decode($this->errorString)->error->message)
-			);
-		}
+		$this->object->createNote('me', $subject, $message);
 	}
 
 	/**
 	 * Tests the getPhotos method.
 	 *
-	 * @covers JFacebookUser::getPhotos
-	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   13.1
 	 */
 	public function testGetPhotos()
 	{
-		$access_token = '235twegsdgsdhtry3tgwgf';
 		$returnData = new stdClass;
+		$returnData->code = 200;
 		$returnData->body = $this->sampleString;
+
+		$token = $this->oauth->getToken();
 
 		$this->client->expects($this->once())
 		->method('get')
-		->with('me/photos?access_token=' . $access_token)
+		->with('me/photos?access_token=' . $token['access_token'])
 		->will($this->returnValue($returnData));
 
 		$this->assertThat(
-			$this->object->getPhotos('me', $access_token),
+			$this->object->getPhotos('me'),
 			$this->equalTo(json_decode($this->sampleString))
 		);
 	}
@@ -2027,63 +1955,62 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the getPhotos method - failure.
 	 *
-	 * @covers JFacebookUser::getPhotos
-	 *
 	 * @return  void
 	 *
-	 * @since   12.1
-	 * @expectedException  DomainException
+	 * @since   13.1
+	 * @expectedException  RuntimeException
 	 */
 	public function testGetPhotosFailure()
 	{
-		$access_token = '235twegsdgsdhtry3tgwgf';
 		$returnData = new stdClass;
+		$returnData->code = 401;
 		$returnData->body = $this->errorString;
+
+		$token = $this->oauth->getToken();
 
 		$this->client->expects($this->once())
 		->method('get')
-		->with('me/photos?access_token=' . $access_token)
+		->with('me/photos?access_token=' . $token['access_token'])
 		->will($this->returnValue($returnData));
 
-		$this->object->getPhotos('me', $access_token);
+		$this->object->getPhotos('me');
 	}
 
 	/**
 	 * Tests the createPhoto method.
 	 *
-	 * @covers JFacebookUser::createPhoto
-	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   13.1
 	 */
 	public function testCreatePhoto()
 	{
-		$access_token = '235twegsdgsdhtry3tgwgf';
 		$source = 'path/to/source';
 		$message = 'message';
 		$place = '23432421234';
 		$no_story = true;
 
+		$returnData = new stdClass;
+		$returnData->code = 200;
+		$returnData->body = $this->sampleString;
+
 		// Set POST request parameters.
-		$data = array();
 		$data['message'] = $message;
 		$data['place'] = $place;
 		$data['no_story'] = $no_story;
 		$data[basename($source)] = '@' . realpath($source);
 
-		$returnData = new stdClass;
-		$returnData->body = $this->sampleString;
+		$token = $this->oauth->getToken();
 
 		$this->client->expects($this->once())
 		->method('post')
-		->with('me/photos' . '?access_token=' . $access_token, $data,
-			array('Content-type' => 'multipart/form-data')
+		->with('me/photos?access_token=' . $token['access_token'], $data,
+			array('Content-Type' => 'multipart/form-data')
 			)
 		->will($this->returnValue($returnData));
 
 		$this->assertThat(
-			$this->object->createPhoto('me', $access_token, $source, $message, $place, $no_story),
+			$this->object->createPhoto('me', $source, $message, $place, $no_story),
 			$this->equalTo(json_decode($this->sampleString))
 		);
 	}
@@ -2091,106 +2018,64 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the createPhoto method - failure.
 	 *
-	 * @covers JFacebookUser::createPhoto
-	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   13.1
+	 * @expectedException RuntimeException
 	 */
 	public function testCreatePhotoFailure()
 	{
-		$exception = false;
-		$access_token = '235twegsdgsdhtry3tgwgf';
 		$source = '/path/to/source';
 		$message = 'message';
 		$place = '23432421234';
 		$no_story = true;
 
+		$returnData = new stdClass;
+		$returnData->code = 401;
+		$returnData->body = $this->errorString;
+
 		// Set POST request parameters.
-		$data = array();
 		$data['message'] = $message;
 		$data['place'] = $place;
 		$data['no_story'] = $no_story;
 		$data[basename($source)] = '@' . realpath($source);
 
-		$returnData = new stdClass;
-		$returnData->body = $this->errorString;
+		$token = $this->oauth->getToken();
 
 		$this->client->expects($this->once())
 		->method('post')
-		->with(
-			'me/photos' . '?access_token=' . $access_token, $data,
-			array('Content-type' => 'multipart/form-data')
+		->with('me/photos?access_token=' . $token['access_token'], $data,
+			array('Content-Type' => 'multipart/form-data')
 			)
 		->will($this->returnValue($returnData));
 
-		try
-		{
-			$this->object->createPhoto('me', $access_token, $source, $message, $place, $no_story);
-		}
-		catch (DomainException $e)
-		{
-			$exception = true;
-
-			$this->assertThat(
-				$e->getMessage(),
-				$this->equalTo(json_decode($this->errorString)->error->message)
-			);
-		}
-	}
-
-	/**
-	* Provides test data for request format detection.
-	*
-	* @return array
-	*
-	* @since 12.1
-	*/
-	public function seedGetPosts()
-	{
-		// Extra fields for the request URL.
-		return array(
-			array(true),
-			array(false)
-		);
+		$this->object->createPhoto('me', $source, $message, $place, $no_story);
 	}
 
 	/**
 	 * Tests the getPosts method.
 	 *
-	 * @param   boolean  $location  Retreive only posts with a location attached.
-	 *
-	 * @covers JFacebookUser::getPosts
-	 * @dataProvider  seedGetPosts
-	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   13.1
 	 */
-	public function testGetPosts($location)
+	public function testGetPosts()
 	{
-		$access_token = '235twegsdgsdhtry3tgwgf';
+		$location = true;
 
 		$returnData = new stdClass;
+		$returnData->code = 200;
 		$returnData->body = $this->sampleString;
 
-		if ($location == true)
-		{
-			$this->client->expects($this->once())
-			->method('get')
-			->with('me/posts?access_token=' . $access_token . '&with=location')
-			->will($this->returnValue($returnData));
-		}
-		else
-		{
-			$this->client->expects($this->once())
-			->method('get')
-			->with('me/posts?access_token=' . $access_token)
-			->will($this->returnValue($returnData));
-		}
+		$token = $this->oauth->getToken();
+
+		$this->client->expects($this->once())
+		->method('get')
+		->with('me/posts?with=location&access_token=' . $token['access_token'])
+		->will($this->returnValue($returnData));
 
 		$this->assertThat(
-			$this->object->getPosts('me', $access_token, $location),
+			$this->object->getPosts('me', $location),
 			$this->equalTo(json_decode($this->sampleString))
 		);
 	}
@@ -2198,52 +2083,38 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the getPosts method - failure.
 	 *
-	 * @param   boolean  $location  Retreive only posts with a location attached.
-	 *
-	 * @covers JFacebookUser::getPosts
-	 * @dataProvider  seedGetPosts
-	 *
 	 * @return  void
 	 *
-	 * @since   12.1
-	 * @expectedException  DomainException
+	 * @since   13.1
+	 * @expectedException  RuntimeException
 	 */
-	public function testGetPostsFailure($location)
+	public function testGetPostsFailure()
 	{
-		$access_token = '235twegsdgsdhtry3tgwgf';
+		$location = true;
+
 		$returnData = new stdClass;
+		$returnData->code = 401;
 		$returnData->body = $this->errorString;
 
-		if ($location == true)
-		{
-			$this->client->expects($this->once())
-			->method('get')
-			->with('me/posts?access_token=' . $access_token . '&with=location')
-			->will($this->returnValue($returnData));
-		}
-		else
-		{
-			$this->client->expects($this->once())
-			->method('get')
-			->with('me/posts?access_token=' . $access_token)
-			->will($this->returnValue($returnData));
-		}
+		$token = $this->oauth->getToken();
 
-		$this->object->getPosts('me', $access_token, $location);
+		$this->client->expects($this->once())
+		->method('get')
+		->with('me/posts?with=location&access_token=' . $token['access_token'])
+		->will($this->returnValue($returnData));
+
+		$this->object->getPosts('me', $location);
 	}
 
 	/**
 	 * Tests the createPost method.
 	 *
-	 * @covers JFacebookUser::createPost
-	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   13.1
 	 */
 	public function testCreatePost()
 	{
-		$access_token = '235twegsdgsdhtry3tgwgf';
 		$user = '134534252';
 		$message = 'message';
 		$link = 'www.example.com';
@@ -2257,8 +2128,11 @@ class JFacebookUserTest extends TestCase
 		$object_attachment = '32413534634345';
 		$actions = array('{"name":"Share","link":"http://networkedblogs.com/hGWk3?a=share"}');
 
+		$returnData = new stdClass;
+		$returnData->code = 200;
+		$returnData->body = $this->sampleString;
+
 		// Set POST request parameters.
-		$data = array();
 		$data['message'] = $message;
 		$data['link'] = $link;
 		$data['name'] = $name;
@@ -2271,17 +2145,16 @@ class JFacebookUserTest extends TestCase
 		$data['object_attachment'] = $object_attachment;
 		$data['picture'] = $picture;
 
-		$returnData = new stdClass;
-		$returnData->body = $this->sampleString;
+		$token = $this->oauth->getToken();
 
 		$this->client->expects($this->once())
 		->method('post')
-		->with($user . '/feed' . '?access_token=' . $access_token, $data)
+		->with($user . '/feed?access_token=' . $token['access_token'], $data)
 		->will($this->returnValue($returnData));
 
 		$this->assertThat(
 			$this->object->createPost(
-				$user, $access_token, $message, $link, $picture, $name,
+				$user, $message, $link, $picture, $name,
 				$caption, $description, $actions, $place, $tags, $privacy, $object_attachment
 				),
 			$this->equalTo(json_decode($this->sampleString))
@@ -2291,15 +2164,13 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the createPost method - failure.
 	 *
-	 * @covers JFacebookUser::createPost
-	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   13.1
+	 * @expectedException RuntimeException
 	 */
 	public function testCreatePostFailure()
 	{
-		$access_token = '235twegsdgsdhtry3tgwgf';
 		$user = '134534252';
 		$message = 'message';
 		$link = 'www.example.com';
@@ -2313,8 +2184,11 @@ class JFacebookUserTest extends TestCase
 		$object_attachment = '32413534634345';
 		$actions = array('{"name":"Share","link":"http://networkedblogs.com/hGWk3?a=share"}');
 
+		$returnData = new stdClass;
+		$returnData->code = 401;
+		$returnData->body = $this->errorString;
+
 		// Set POST request parameters.
-		$data = array();
 		$data['message'] = $message;
 		$data['link'] = $link;
 		$data['name'] = $name;
@@ -2327,56 +2201,43 @@ class JFacebookUserTest extends TestCase
 		$data['object_attachment'] = $object_attachment;
 		$data['picture'] = $picture;
 
-		$returnData = new stdClass;
-		$returnData->body = $this->errorString;
+		$token = $this->oauth->getToken();
 
 		$this->client->expects($this->once())
 		->method('post')
-		->with($user . '/feed' . '?access_token=' . $access_token, $data)
+		->with($user . '/feed?access_token=' . $token['access_token'], $data)
 		->will($this->returnValue($returnData));
 
-		try
-		{
-			$this->object->createPost(
-				$user, $access_token, $message, $link, $picture, $name,
-				$caption, $description, $actions, $place, $tags, $privacy, $object_attachment
-				);
-		}
-		catch (DomainException $e)
-		{
-			$exception = true;
-
-			$this->assertThat(
-				$e->getMessage(),
-				$this->equalTo(json_decode($this->errorString)->error->message)
+		$this->object->createPost(
+			$user, $message, $link, $picture, $name,
+			$caption, $description, $actions, $place, $tags, $privacy, $object_attachment
 			);
-		}
 	}
 
 	/**
 	 * Tests the deletePost method.
 	 *
-	 * @covers JFacebookUser::deletePost
-	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   13.1
 	 */
 	public function testDeletePost()
 	{
-		$access_token = '235twegsdgsdhtry3tgwgf';
 		$post = '5148941614';
 
 		$returnData = new stdClass;
+		$returnData->code = 200;
 		$returnData->body = true;
+
+		$token = $this->oauth->getToken();
 
 		$this->client->expects($this->once())
 		->method('delete')
-		->with($post . '?access_token=' . $access_token)
+		->with($post . '?access_token=' . $token['access_token'])
 		->will($this->returnValue($returnData));
 
 		$this->assertThat(
-			$this->object->deletePost($post, $access_token),
+			$this->object->deletePost($post),
 			$this->equalTo(true)
 		);
 	}
@@ -2384,63 +2245,51 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the deletePost method - failure.
 	 *
-	 * @covers JFacebookUser::deletePost
-	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   13.1
+	 * @expectedException RuntimeException
 	 */
 	public function testDeletePostFailure()
 	{
-		$exception = false;
-		$access_token = '235twegsdgsdhtry3tgwgf';
 		$post = '5148941614';
 
 		$returnData = new stdClass;
+		$returnData->code = 401;
 		$returnData->body = $this->errorString;
+
+		$token = $this->oauth->getToken();
 
 		$this->client->expects($this->once())
 		->method('delete')
-		->with($post . '?access_token=' . $access_token)
+		->with($post . '?access_token=' . $token['access_token'])
 		->will($this->returnValue($returnData));
 
-		try
-		{
-			$this->object->deletePost($post, $access_token);
-		}
-		catch (DomainException $e)
-		{
-			$exception = true;
-
-			$this->assertThat(
-				$e->getMessage(),
-				$this->equalTo(json_decode($this->errorString)->error->message)
-			);
-		}
+		$this->object->deletePost($post);
 	}
 
 	/**
 	 * Tests the getStatuses method.
 	 *
-	 * @covers JFacebookUser::getStatuses
-	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   13.1
 	 */
 	public function testGetStatuses()
 	{
-		$access_token = '235twegsdgsdhtry3tgwgf';
 		$returnData = new stdClass;
+		$returnData->code = 200;
 		$returnData->body = $this->sampleString;
+
+		$token = $this->oauth->getToken();
 
 		$this->client->expects($this->once())
 		->method('get')
-		->with('me/statuses?access_token=' . $access_token)
+		->with('me/statuses?access_token=' . $token['access_token'])
 		->will($this->returnValue($returnData));
 
 		$this->assertThat(
-			$this->object->getStatuses('me', $access_token),
+			$this->object->getStatuses('me'),
 			$this->equalTo(json_decode($this->sampleString))
 		);
 	}
@@ -2448,56 +2297,55 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the getStatuses method - failure.
 	 *
-	 * @covers JFacebookUser::getStatuses
-	 *
 	 * @return  void
 	 *
-	 * @since   12.1
-	 * @expectedException  DomainException
+	 * @since   13.1
+	 * @expectedException  RuntimeException
 	 */
 	public function testGetStatusesFailure()
 	{
-		$access_token = '235twegsdgsdhtry3tgwgf';
 		$returnData = new stdClass;
+		$returnData->code = 401;
 		$returnData->body = $this->errorString;
+
+		$token = $this->oauth->getToken();
 
 		$this->client->expects($this->once())
 		->method('get')
-		->with('me/statuses?access_token=' . $access_token)
+		->with('me/statuses?access_token=' . $token['access_token'])
 		->will($this->returnValue($returnData));
 
-		$this->object->getStatuses('me', $access_token);
+		$this->object->getStatuses('me');
 	}
 
 	/**
 	 * Tests the createStatus method.
 	 *
-	 * @covers JFacebookUser::createStatus
-	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   13.1
 	 */
 	public function testCreateStatus()
 	{
-		$access_token = '235twegsdgsdhtry3tgwgf';
 		$user = '134534252';
 		$message = 'message';
 
+		$returnData = new stdClass;
+		$returnData->code = 200;
+		$returnData->body = $this->sampleString;
+
 		// Set POST request parameters.
-		$data = array();
 		$data['message'] = $message;
 
-		$returnData = new stdClass;
-		$returnData->body = $this->sampleString;
+		$token = $this->oauth->getToken();
 
 		$this->client->expects($this->once())
 		->method('post')
-		->with($user . '/feed' . '?access_token=' . $access_token, $data)
+		->with($user . '/feed?access_token=' . $token['access_token'], $data)
 		->will($this->returnValue($returnData));
 
 		$this->assertThat(
-			$this->object->createStatus($user, $access_token, $message),
+			$this->object->createStatus($user, $message),
 			$this->equalTo(json_decode($this->sampleString))
 		);
 	}
@@ -2505,69 +2353,57 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the createStatus method - failure.
 	 *
-	 * @covers JFacebookUser::createStatus
-	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   13.1
+	 * @expectedException RuntimeException
 	 */
 	public function testCreateStatusFailure()
 	{
-		$access_token = '235twegsdgsdhtry3tgwgf';
 		$user = '134534252';
 		$message = 'message';
 
+		$returnData = new stdClass;
+		$returnData->code = 401;
+		$returnData->body = $this->errorString;
+
 		// Set POST request parameters.
-		$data = array();
 		$data['message'] = $message;
 
-		$returnData = new stdClass;
-		$returnData->body = $this->errorString;
+		$token = $this->oauth->getToken();
 
 		$this->client->expects($this->once())
 		->method('post')
-		->with($user . '/feed' . '?access_token=' . $access_token, $data)
+		->with($user . '/feed?access_token=' . $token['access_token'], $data)
 		->will($this->returnValue($returnData));
 
-		try
-		{
-			$this->object->createStatus($user, $access_token, $message);
-		}
-		catch (DomainException $e)
-		{
-			$exception = true;
-
-			$this->assertThat(
-				$e->getMessage(),
-				$this->equalTo(json_decode($this->errorString)->error->message)
-			);
-		}
+		$this->object->createStatus($user, $message);
 	}
 
 	/**
 	 * Tests the deleteStatus method.
 	 *
-	 * @covers JFacebookUser::deleteStatus
-	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   13.1
 	 */
 	public function testDeleteStatus()
 	{
-		$access_token = '235twegsdgsdhtry3tgwgf';
 		$status = '5148941614';
 
 		$returnData = new stdClass;
+		$returnData->code = 200;
 		$returnData->body = true;
+
+		$token = $this->oauth->getToken();
 
 		$this->client->expects($this->once())
 		->method('delete')
-		->with($status . '?access_token=' . $access_token)
+		->with($status . '?access_token=' . $token['access_token'])
 		->will($this->returnValue($returnData));
 
 		$this->assertThat(
-			$this->object->deleteStatus($status, $access_token),
+			$this->object->deleteStatus($status),
 			$this->equalTo(true)
 		);
 	}
@@ -2575,63 +2411,51 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the deleteStatus method - failure.
 	 *
-	 * @covers JFacebookUser::deleteStatus
-	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   13.1
+	 * @expectedException RuntimeException
 	 */
 	public function testDeleteStatusFailure()
 	{
-		$exception = false;
-		$access_token = '235twegsdgsdhtry3tgwgf';
 		$status = '5148941614';
 
 		$returnData = new stdClass;
+		$returnData->code = 401;
 		$returnData->body = $this->errorString;
+
+		$token = $this->oauth->getToken();
 
 		$this->client->expects($this->once())
 		->method('delete')
-		->with($status . '?access_token=' . $access_token)
+		->with($status . '?access_token=' . $token['access_token'])
 		->will($this->returnValue($returnData));
 
-		try
-		{
-			$this->object->deleteStatus($status, $access_token);
-		}
-		catch (DomainException $e)
-		{
-			$exception = true;
-
-			$this->assertThat(
-				$e->getMessage(),
-				$this->equalTo(json_decode($this->errorString)->error->message)
-			);
-		}
+		$this->object->deleteStatus($status);
 	}
 
 	/**
 	 * Tests the getVideos method.
 	 *
-	 * @covers JFacebookUser::getVideos
-	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   13.1
 	 */
 	public function testGetVideos()
 	{
-		$access_token = '235twegsdgsdhtry3tgwgf';
 		$returnData = new stdClass;
+		$returnData->code = 200;
 		$returnData->body = $this->sampleString;
+
+		$token = $this->oauth->getToken();
 
 		$this->client->expects($this->once())
 		->method('get')
-		->with('me/videos?access_token=' . $access_token)
+		->with('me/videos?access_token=' . $token['access_token'])
 		->will($this->returnValue($returnData));
 
 		$this->assertThat(
-			$this->object->getVideos('me', $access_token),
+			$this->object->getVideos('me'),
 			$this->equalTo(json_decode($this->sampleString))
 		);
 	}
@@ -2639,61 +2463,60 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the getVideos method - failure.
 	 *
-	 * @covers JFacebookUser::getVideos
-	 *
 	 * @return  void
 	 *
-	 * @since   12.1
-	 * @expectedException  DomainException
+	 * @since   13.1
+	 * @expectedException  RuntimeException
 	 */
 	public function testGetVideosFailure()
 	{
-		$access_token = '235twegsdgsdhtry3tgwgf';
 		$returnData = new stdClass;
+		$returnData->code = 401;
 		$returnData->body = $this->errorString;
+
+		$token = $this->oauth->getToken();
 
 		$this->client->expects($this->once())
 		->method('get')
-		->with('me/videos?access_token=' . $access_token)
+		->with('me/videos?access_token=' . $token['access_token'])
 		->will($this->returnValue($returnData));
 
-		$this->object->getVideos('me', $access_token);
+		$this->object->getVideos('me');
 	}
 
 	/**
 	 * Tests the createVideo method.
 	 *
-	 * @covers JFacebookUser::createVideo
-	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   13.1
 	 */
 	public function testCreateVideo()
 	{
-		$access_token = '235twegsdgsdhtry3tgwgf';
 		$source = '/path/to/source';
 		$title = 'title';
 		$description = 'Description example';
 
+		$returnData = new stdClass;
+		$returnData->code = 200;
+		$returnData->body = $this->sampleString;
+
 		// Set POST request parameters.
-		$data = array();
 		$data['title'] = $title;
 		$data['description'] = $description;
 		$data[basename($source)] = '@' . realpath($source);
 
-		$returnData = new stdClass;
-		$returnData->body = $this->sampleString;
+		$token = $this->oauth->getToken();
 
 		$this->client->expects($this->once())
 		->method('post')
-		->with('me/videos' . '?access_token=' . $access_token, $data,
-			array('Content-type' => 'multipart/form-data')
+		->with('me/videos?access_token=' . $token['access_token'], $data,
+			array('Content-Type' => 'multipart/form-data')
 			)
 		->will($this->returnValue($returnData));
 
 		$this->assertThat(
-			$this->object->createVideo('me', $access_token, $source, $title, $description),
+			$this->object->createVideo('me', $source, $title, $description),
 			$this->equalTo(json_decode($this->sampleString))
 		);
 	}
@@ -2701,73 +2524,60 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the createVideo method - failure.
 	 *
-	 * @covers JFacebookUser::createVideo
-	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   13.1
+	 * @expectedException RuntimeException
 	 */
 	public function testCreateVideoFailure()
 	{
-		$exception = false;
-		$access_token = '235twegsdgsdhtry3tgwgf';
 		$source = '/path/to/source';
 		$title = 'title';
 		$description = 'Description example';
 
+		$returnData = new stdClass;
+		$returnData->code = 401;
+		$returnData->body = $this->errorString;
+
 		// Set POST request parameters.
-		$data = array();
 		$data['title'] = $title;
 		$data['description'] = $description;
 		$data[basename($source)] = '@' . realpath($source);
 
-		$returnData = new stdClass;
-		$returnData->body = $this->errorString;
+		$token = $this->oauth->getToken();
 
 		$this->client->expects($this->once())
 		->method('post')
-		->with('me/videos' . '?access_token=' . $access_token, $data,
-			array('Content-type' => 'multipart/form-data')
+		->with('me/videos?access_token=' . $token['access_token'], $data,
+			array('Content-Type' => 'multipart/form-data')
 			)
 		->will($this->returnValue($returnData));
 
-		try
-		{
-			$this->object->createVideo('me', $access_token, $source, $title, $description);
-		}
-		catch (DomainException $e)
-		{
-			$exception = true;
-
-			$this->assertThat(
-				$e->getMessage(),
-				$this->equalTo(json_decode($this->errorString)->error->message)
-			);
-		}
+		$this->object->createVideo('me', $source, $title, $description);
 	}
 
 	/**
 	 * Tests the getTagged method.
 	 *
-	 * @covers JFacebookUser::getTagged
-	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   13.1
 	 */
 	public function testGetTagged()
 	{
-		$access_token = '235twegsdgsdhtry3tgwgf';
 		$returnData = new stdClass;
+		$returnData->code = 200;
 		$returnData->body = $this->sampleString;
+
+		$token = $this->oauth->getToken();
 
 		$this->client->expects($this->once())
 		->method('get')
-		->with('me/tagged?access_token=' . $access_token)
+		->with('me/tagged?access_token=' . $token['access_token'])
 		->will($this->returnValue($returnData));
 
 		$this->assertThat(
-			$this->object->getTagged('me', $access_token),
+			$this->object->getTagged('me'),
 			$this->equalTo(json_decode($this->sampleString))
 		);
 	}
@@ -2775,49 +2585,49 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the getTagged method - failure.
 	 *
-	 * @covers JFacebookUser::getTagged
-	 *
 	 * @return  void
 	 *
-	 * @since   12.1
-	 * @expectedException  DomainException
+	 * @since   13.1
+	 * @expectedException  RuntimeException
 	 */
 	public function testGetTaggedFailure()
 	{
-		$access_token = '235twegsdgsdhtry3tgwgf';
 		$returnData = new stdClass;
+		$returnData->code = 401;
 		$returnData->body = $this->errorString;
+
+		$token = $this->oauth->getToken();
 
 		$this->client->expects($this->once())
 		->method('get')
-		->with('me/tagged?access_token=' . $access_token)
+		->with('me/tagged?access_token=' . $token['access_token'])
 		->will($this->returnValue($returnData));
 
-		$this->object->getTagged('me', $access_token);
+		$this->object->getTagged('me');
 	}
 
 	/**
 	 * Tests the getActivities method.
 	 *
-	 * @covers JFacebookUser::getActivities
-	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   13.1
 	 */
 	public function testGetActivities()
 	{
-		$access_token = '235twegsdgsdhtry3tgwgf';
 		$returnData = new stdClass;
+		$returnData->code = 200;
 		$returnData->body = $this->sampleString;
+
+		$token = $this->oauth->getToken();
 
 		$this->client->expects($this->once())
 		->method('get')
-		->with('me/activities?access_token=' . $access_token)
+		->with('me/activities?access_token=' . $token['access_token'])
 		->will($this->returnValue($returnData));
 
 		$this->assertThat(
-			$this->object->getActivities('me', $access_token),
+			$this->object->getActivities('me'),
 			$this->equalTo(json_decode($this->sampleString))
 		);
 	}
@@ -2825,49 +2635,49 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the getActivities method - failure.
 	 *
-	 * @covers JFacebookUser::getActivities
-	 *
 	 * @return  void
 	 *
-	 * @since   12.1
-	 * @expectedException  DomainException
+	 * @since   13.1
+	 * @expectedException  RuntimeException
 	 */
 	public function testGetActivitiesFailure()
 	{
-		$access_token = '235twegsdgsdhtry3tgwgf';
 		$returnData = new stdClass;
+		$returnData->code = 401;
 		$returnData->body = $this->errorString;
+
+		$token = $this->oauth->getToken();
 
 		$this->client->expects($this->once())
 		->method('get')
-		->with('me/activities?access_token=' . $access_token)
+		->with('me/activities?access_token=' . $token['access_token'])
 		->will($this->returnValue($returnData));
 
-		$this->object->getActivities('me', $access_token);
+		$this->object->getActivities('me');
 	}
 
 	/**
 	 * Tests the getBooks method.
 	 *
-	 * @covers JFacebookUser::getBooks
-	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   13.1
 	 */
 	public function testGetBooks()
 	{
-		$access_token = '235twegsdgsdhtry3tgwgf';
 		$returnData = new stdClass;
+		$returnData->code = 200;
 		$returnData->body = $this->sampleString;
+
+		$token = $this->oauth->getToken();
 
 		$this->client->expects($this->once())
 		->method('get')
-		->with('me/books?access_token=' . $access_token)
+		->with('me/books?access_token=' . $token['access_token'])
 		->will($this->returnValue($returnData));
 
 		$this->assertThat(
-			$this->object->getBooks('me', $access_token),
+			$this->object->getBooks('me'),
 			$this->equalTo(json_decode($this->sampleString))
 		);
 	}
@@ -2875,49 +2685,49 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the getBooks method - failure.
 	 *
-	 * @covers JFacebookUser::getBooks
-	 *
 	 * @return  void
 	 *
-	 * @since   12.1
-	 * @expectedException  DomainException
+	 * @since   13.1
+	 * @expectedException  RuntimeException
 	 */
 	public function testGetBooksFailure()
 	{
-		$access_token = '235twegsdgsdhtry3tgwgf';
 		$returnData = new stdClass;
+		$returnData->code = 401;
 		$returnData->body = $this->errorString;
+
+		$token = $this->oauth->getToken();
 
 		$this->client->expects($this->once())
 		->method('get')
-		->with('me/books?access_token=' . $access_token)
+		->with('me/books?access_token=' . $token['access_token'])
 		->will($this->returnValue($returnData));
 
-		$this->object->getBooks('me', $access_token);
+		$this->object->getBooks('me');
 	}
 
 	/**
 	 * Tests the getInterests method.
 	 *
-	 * @covers JFacebookUser::getInterests
-	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   13.1
 	 */
 	public function testGetInterests()
 	{
-		$access_token = '235twegsdgsdhtry3tgwgf';
 		$returnData = new stdClass;
+		$returnData->code = 200;
 		$returnData->body = $this->sampleString;
+
+		$token = $this->oauth->getToken();
 
 		$this->client->expects($this->once())
 		->method('get')
-		->with('me/interests?access_token=' . $access_token)
+		->with('me/interests?access_token=' . $token['access_token'])
 		->will($this->returnValue($returnData));
 
 		$this->assertThat(
-			$this->object->getInterests('me', $access_token),
+			$this->object->getInterests('me'),
 			$this->equalTo(json_decode($this->sampleString))
 		);
 	}
@@ -2925,49 +2735,49 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the getInterests method - failure.
 	 *
-	 * @covers JFacebookUser::getInterests
-	 *
 	 * @return  void
 	 *
-	 * @since   12.1
-	 * @expectedException  DomainException
+	 * @since   13.1
+	 * @expectedException  RuntimeException
 	 */
 	public function testGetInterestsFailure()
 	{
-		$access_token = '235twegsdgsdhtry3tgwgf';
 		$returnData = new stdClass;
+		$returnData->code = 401;
 		$returnData->body = $this->errorString;
+
+		$token = $this->oauth->getToken();
 
 		$this->client->expects($this->once())
 		->method('get')
-		->with('me/interests?access_token=' . $access_token)
+		->with('me/interests?access_token=' . $token['access_token'])
 		->will($this->returnValue($returnData));
 
-		$this->object->getInterests('me', $access_token);
+		$this->object->getInterests('me');
 	}
 
 	/**
 	 * Tests the getMovies method.
 	 *
-	 * @covers JFacebookUser::getMovies
-	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   13.1
 	 */
 	public function testGetMovies()
 	{
-		$access_token = '235twegsdgsdhtry3tgwgf';
 		$returnData = new stdClass;
+		$returnData->code = 200;
 		$returnData->body = $this->sampleString;
+
+		$token = $this->oauth->getToken();
 
 		$this->client->expects($this->once())
 		->method('get')
-		->with('me/movies?access_token=' . $access_token)
+		->with('me/movies?access_token=' . $token['access_token'])
 		->will($this->returnValue($returnData));
 
 		$this->assertThat(
-			$this->object->getMovies('me', $access_token),
+			$this->object->getMovies('me'),
 			$this->equalTo(json_decode($this->sampleString))
 		);
 	}
@@ -2975,49 +2785,49 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the getMovies method - failure.
 	 *
-	 * @covers JFacebookUser::getMovies
-	 *
 	 * @return  void
 	 *
-	 * @since   12.1
-	 * @expectedException  DomainException
+	 * @since   13.1
+	 * @expectedException  RuntimeException
 	 */
 	public function testGetMoviesFailure()
 	{
-		$access_token = '235twegsdgsdhtry3tgwgf';
 		$returnData = new stdClass;
+		$returnData->code = 401;
 		$returnData->body = $this->errorString;
+
+		$token = $this->oauth->getToken();
 
 		$this->client->expects($this->once())
 		->method('get')
-		->with('me/movies?access_token=' . $access_token)
+		->with('me/movies?access_token=' . $token['access_token'])
 		->will($this->returnValue($returnData));
 
-		$this->object->getMovies('me', $access_token);
+		$this->object->getMovies('me');
 	}
 
 	/**
 	 * Tests the getTelevision method.
 	 *
-	 * @covers JFacebookUser::getTelevision
-	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   13.1
 	 */
 	public function testGetTelevision()
 	{
-		$access_token = '235twegsdgsdhtry3tgwgf';
 		$returnData = new stdClass;
+		$returnData->code = 200;
 		$returnData->body = $this->sampleString;
+
+		$token = $this->oauth->getToken();
 
 		$this->client->expects($this->once())
 		->method('get')
-		->with('me/television?access_token=' . $access_token)
+		->with('me/television?access_token=' . $token['access_token'])
 		->will($this->returnValue($returnData));
 
 		$this->assertThat(
-			$this->object->getTelevision('me', $access_token),
+			$this->object->getTelevision('me'),
 			$this->equalTo(json_decode($this->sampleString))
 		);
 	}
@@ -3025,49 +2835,49 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the getTelevision method - failure.
 	 *
-	 * @covers JFacebookUser::getTelevision
-	 *
 	 * @return  void
 	 *
-	 * @since   12.1
-	 * @expectedException  DomainException
+	 * @since   13.1
+	 * @expectedException  RuntimeException
 	 */
 	public function testGetTelevisionFailure()
 	{
-		$access_token = '235twegsdgsdhtry3tgwgf';
 		$returnData = new stdClass;
+		$returnData->code = 401;
 		$returnData->body = $this->errorString;
+
+		$token = $this->oauth->getToken();
 
 		$this->client->expects($this->once())
 		->method('get')
-		->with('me/television?access_token=' . $access_token)
+		->with('me/television?access_token=' . $token['access_token'])
 		->will($this->returnValue($returnData));
 
-		$this->object->getTelevision('me', $access_token);
+		$this->object->getTelevision('me');
 	}
 
 	/**
 	 * Tests the getMusic method.
 	 *
-	 * @covers JFacebookUser::getMusic
-	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   13.1
 	 */
 	public function testGetMusic()
 	{
-		$access_token = '235twegsdgsdhtry3tgwgf';
 		$returnData = new stdClass;
+		$returnData->code = 200;
 		$returnData->body = $this->sampleString;
+
+		$token = $this->oauth->getToken();
 
 		$this->client->expects($this->once())
 		->method('get')
-		->with('me/music?access_token=' . $access_token)
+		->with('me/music?access_token=' . $token['access_token'])
 		->will($this->returnValue($returnData));
 
 		$this->assertThat(
-			$this->object->getMusic('me', $access_token),
+			$this->object->getMusic('me'),
 			$this->equalTo(json_decode($this->sampleString))
 		);
 	}
@@ -3075,49 +2885,49 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the getMusic method - failure.
 	 *
-	 * @covers JFacebookUser::getMusic
-	 *
 	 * @return  void
 	 *
-	 * @since   12.1
-	 * @expectedException  DomainException
+	 * @since   13.1
+	 * @expectedException  RuntimeException
 	 */
 	public function testGetMusicFailure()
 	{
-		$access_token = '235twegsdgsdhtry3tgwgf';
 		$returnData = new stdClass;
+		$returnData->code = 401;
 		$returnData->body = $this->errorString;
+
+		$token = $this->oauth->getToken();
 
 		$this->client->expects($this->once())
 		->method('get')
-		->with('me/music?access_token=' . $access_token)
+		->with('me/music?access_token=' . $token['access_token'])
 		->will($this->returnValue($returnData));
 
-		$this->object->getMusic('me', $access_token);
+		$this->object->getMusic('me');
 	}
 
 	/**
 	 * Tests the getSubscribers method.
 	 *
-	 * @covers JFacebookUser::getSubscribers
-	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   13.1
 	 */
 	public function testGetSubscribers()
 	{
-		$access_token = '235twegsdgsdhtry3tgwgf';
 		$returnData = new stdClass;
+		$returnData->code = 200;
 		$returnData->body = $this->sampleString;
+
+		$token = $this->oauth->getToken();
 
 		$this->client->expects($this->once())
 		->method('get')
-		->with('me/subscribers?access_token=' . $access_token)
+		->with('me/subscribers?access_token=' . $token['access_token'])
 		->will($this->returnValue($returnData));
 
 		$this->assertThat(
-			$this->object->getSubscribers('me', $access_token),
+			$this->object->getSubscribers('me'),
 			$this->equalTo(json_decode($this->sampleString))
 		);
 	}
@@ -3125,49 +2935,49 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the getSubscribers method - failure.
 	 *
-	 * @covers JFacebookUser::getSubscribers
-	 *
 	 * @return  void
 	 *
-	 * @since   12.1
-	 * @expectedException  DomainException
+	 * @since   13.1
+	 * @expectedException  RuntimeException
 	 */
 	public function testGetSubscribersFailure()
 	{
-		$access_token = '235twegsdgsdhtry3tgwgf';
 		$returnData = new stdClass;
+		$returnData->code = 401;
 		$returnData->body = $this->errorString;
+
+		$token = $this->oauth->getToken();
 
 		$this->client->expects($this->once())
 		->method('get')
-		->with('me/subscribers?access_token=' . $access_token)
+		->with('me/subscribers?access_token=' . $token['access_token'])
 		->will($this->returnValue($returnData));
 
-		$this->object->getSubscribers('me', $access_token);
+		$this->object->getSubscribers('me');
 	}
 
 	/**
 	 * Tests the getSubscribedTo method.
 	 *
-	 * @covers JFacebookUser::getSubscribedTo
-	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   13.1
 	 */
 	public function testGetSubscribedTo()
 	{
-		$access_token = '235twegsdgsdhtry3tgwgf';
 		$returnData = new stdClass;
+		$returnData->code = 200;
 		$returnData->body = $this->sampleString;
+
+		$token = $this->oauth->getToken();
 
 		$this->client->expects($this->once())
 		->method('get')
-		->with('me/subscribedto?access_token=' . $access_token)
+		->with('me/subscribedto?access_token=' . $token['access_token'])
 		->will($this->returnValue($returnData));
 
 		$this->assertThat(
-			$this->object->getSubscribedTo('me', $access_token),
+			$this->object->getSubscribedTo('me'),
 			$this->equalTo(json_decode($this->sampleString))
 		);
 	}
@@ -3175,24 +2985,24 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Tests the getSubscribedTo method - failure.
 	 *
-	 * @covers JFacebookUser::getSubscribedTo
-	 *
 	 * @return  void
 	 *
-	 * @since   12.1
-	 * @expectedException  DomainException
+	 * @since   13.1
+	 * @expectedException  RuntimeException
 	 */
 	public function testGetSubscribedToFailure()
 	{
-		$access_token = '235twegsdgsdhtry3tgwgf';
 		$returnData = new stdClass;
+		$returnData->code = 401;
 		$returnData->body = $this->errorString;
+
+		$token = $this->oauth->getToken();
 
 		$this->client->expects($this->once())
 		->method('get')
-		->with('me/subscribedto?access_token=' . $access_token)
+		->with('me/subscribedto?access_token=' . $token['access_token'])
 		->will($this->returnValue($returnData));
 
-		$this->object->getSubscribedTo('me', $access_token);
+		$this->object->getSubscribedTo('me');
 	}
 }

@@ -17,427 +17,351 @@ defined('JPATH_PLATFORM') or die();
  * @package     Joomla.Platform
  * @subpackage  Facebook
  *
- * @since       12.1
+ * @see         http://developers.facebook.com/docs/reference/api/user/
+ * @since       13.1
  */
 class JFacebookUser extends JFacebookObject
 {
 	/**
-	 * Method to get the specified user's details
+	 * Method to get the specified user's details. Authentication is required only for some fields.
 	 *
-	 * @param   mixed   $user          Either an integer containing the user ID or a string containing the username.
-	 * @param   string  $access_token  The Facebook access token. For some fields more user or friends permissions are needed.
+	 * @param   mixed  $user  Either an integer containing the user ID or a string containing the username.
 	 *
-	 * @return  array   The decoded JSON response.
+	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   12.1
+	 * @since   13.1
 	 */
-	public function getUser($user, $access_token=null)
+	public function getUser($user)
 	{
-		if ($access_token != null)
+		return $this->get($user);
+	}
+
+	/**
+	 * Method to get the specified user's friends. Requires authentication.
+	 *
+	 * @param   mixed    $user    Either an integer containing the user ID or a string containing the username.
+	 * @param   integer  $limit   The number of objects per page.
+	 * @param   integer  $offset  The object's number on the page.
+	 *
+	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
+	 *
+	 * @since   13.1
+	 */
+	public function getFriends($user, $limit = 0, $offset = 0)
+	{
+		return $this->getConnection($user, 'friends', '', $limit, $offset);
+	}
+
+	/**
+	 * Method to get the user's incoming friend requests. Requires authentication and read_requests permission.
+	 *
+	 * @param   mixed    $user    Either an integer containing the user ID or a string containing the username.
+	 * @param   integer  $limit   The number of objects per page.
+	 * @param   integer  $offset  The object's number on the page.
+	 * @param   string   $until   A unix timestamp or any date accepted by strtotime.
+	 * @param   string   $since   A unix timestamp or any date accepted by strtotime.
+	 *
+	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
+	 *
+	 * @since   13.1
+	 */
+	public function getFriendRequests($user, $limit = 0, $offset = 0, $until = null, $since = null)
+	{
+		return $this->getConnection($user, 'friendrequests', '', $limit, $offset, $until, $since);
+	}
+
+	/**
+	 * Method to get the user's friend lists. Requires authentication and read_friendlists permission.
+	 *
+	 * @param   mixed    $user    Either an integer containing the user ID or a string containing the username.
+	 * @param   integer  $limit   The number of objects per page.
+	 * @param   integer  $offset  The object's number on the page.
+	 * @param   string   $until   A unix timestamp or any date accepted by strtotime.
+	 * @param   string   $since   A unix timestamp or any date accepted by strtotime.
+	 *
+	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
+	 *
+	 * @since   13.1
+	 */
+	public function getFriendLists($user, $limit = 0, $offset = 0, $until = null, $since = null)
+	{
+		return $this->getConnection($user, 'friendlists', '', $limit, $offset, $until, $since);
+	}
+
+	/**
+	 * Method to get the user's wall. Requires authentication and read_stream permission.
+	 *
+	 * @param   mixed    $user    Either an integer containing the user ID or a string containing the username.
+	 * @param   integer  $limit   The number of objects per page.
+	 * @param   integer  $offset  The object's number on the page.
+	 * @param   string   $until   A unix timestamp or any date accepted by strtotime.
+	 * @param   string   $since   A unix timestamp or any date accepted by strtotime.
+	 *
+	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
+	 *
+	 * @since   13.1
+	 */
+	public function getFeed($user, $limit = 0, $offset = 0, $until = null, $since = null)
+	{
+		return $this->getConnection($user, 'feed', '', $limit, $offset, $until, $since);
+	}
+
+	/**
+	 * Method to get the user's news feed. Requires authentication and read_stream permission.
+	 *
+	 * @param   mixed    $user      Either an integer containing the user ID or a string containing the username.
+	 * @param   string   $filter    User's stream filter.
+	 * @param   boolean  $location  Retreive only posts with a location attached.
+	 * @param   integer  $limit     The number of objects per page.
+	 * @param   integer  $offset    The object's number on the page.
+	 * @param   string   $until     A unix timestamp or any date accepted by strtotime.
+	 * @param   string   $since     A unix timestamp or any date accepted by strtotime.
+	 *
+	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
+	 *
+	 * @since   13.1
+	 */
+	public function getHome($user, $filter = null, $location = false, $limit = 0, $offset = 0, $until = null, $since = null)
+	{
+		$extra_fields = '';
+
+		if ($filter != null)
 		{
-			$token = '?access_token=' . $access_token;
+			$extra_fields = '?filter=' . $filter;
 		}
-		else
+
+		if ($location == true)
 		{
-			$token = '';
+			$extra_fields .= (strpos($extra_fields, '?') === false) ? '?with=location' : '&with=location';
 		}
 
-		$path = $user . $token;
-
-		// Send the request.
-		return $this->sendRequest($path);
+		return $this->getConnection($user, 'home', $extra_fields, $limit, $offset, $until, $since);
 	}
 
 	/**
-	 * Method to get the specified user's friends.
+	 * Method to see if a user is a friend of the current user. Requires authentication.
 	 *
-	 * @param   mixed   $user          Either an integer containing the user ID or a string containing the username.
-	 * @param   string  $access_token  The Facebook access token.
+	 * @param   mixed  $current_user  Either an integer containing the user ID or a string containing the username for the current user.
+	 * @param   mixed  $user          Either an integer containing the user ID or a string containing the username for the user.
 	 *
-	 * @return  array   The decoded JSON response.
+	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   12.1
+	 * @since   13.1
 	 */
-	public function getFriends($user, $access_token)
+	public function hasFriend($current_user, $user)
 	{
-		$token = '?access_token=' . $access_token;
-
-		// Build the request path.
-		$path = $user . '/friends' . $token;
-
-		// Send the request.
-		return $this->sendRequest($path);
+		return $this->getConnection($current_user, 'friends/' . $user);
 	}
 
 	/**
-	 * Method to get the user's incoming friend requests.
+	 * Method to get mutual friends of one user and the current user. Requires authentication.
 	 *
-	 * @param   mixed   $user          Either an integer containing the user ID or a string containing the username.
-	 * @param   string  $access_token  The Facebook access token with read_requests permission.
+	 * @param   mixed    $current_user  Either an integer containing the user ID or a string containing the username for the current user.
+	 * @param   mixed    $user          Either an integer containing the user ID or a string containing the username for the user.
+	 * @param   integer  $limit         The number of objects per page.
+	 * @param   integer  $offset        The object's number on the page.
 	 *
-	 * @return  array   The decoded JSON response.
+	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   12.1
+	 * @since   13.1
 	 */
-	public function getFriendRequests($user, $access_token)
+	public function getMutualFriends($current_user, $user, $limit = 0, $offset = 0)
 	{
-		$token = '?access_token=' . $access_token;
-
-		// Build the request path.
-		$path = $user . '/friendrequests' . $token;
-
-		// Send the request.
-		return $this->sendRequest($path);
+		return $this->getConnection($current_user, 'mutualfriends/' . $user, '', $limit, $offset);
 	}
 
 	/**
-	 * Method to get the user's friend lists.
+	 * Method to get the user's profile picture. Requires authentication.
 	 *
-	 * @param   mixed   $user          Either an integer containing the user ID or a string containing the username.
-	 * @param   string  $access_token  The Facebook access token with read_friendlists permission.
-	 *
-	 * @return  array   The decoded JSON response.
-	 *
-	 * @since   12.1
-	 */
-	public function getFriendLists($user, $access_token)
-	{
-		$token = '?access_token=' . $access_token;
-
-		// Build the request path.
-		$path = $user . '/friendlists' . $token;
-
-		// Send the request.
-		return $this->sendRequest($path);
-	}
-
-	/**
-	 * Method to get the user's wall.
-	 *
-	 * @param   mixed   $user          Either an integer containing the user ID or a string containing the username.
-	 * @param   string  $access_token  The Facebook access token with read_stream permission.
-	 *
-	 * @return  array   The decoded JSON response.
-	 *
-	 * @since   12.1
-	 */
-	public function getFeed($user, $access_token)
-	{
-		$token = '?access_token=' . $access_token;
-
-		// Build the request path.
-		$path = $user . '/feed' . $token;
-
-		// Send the request.
-		return $this->sendRequest($path);
-	}
-
-	/**
-	 * Method to see if a user is a friend of the current user.
-	 *
-	 * @param   mixed   $current_user  Either an integer containing the user ID or a string containing the username for the current user.
-	 * @param   mixed   $user          Either an integer containing the user ID or a string containing the username for the user.
-	 * @param   string  $access_token  The Facebook access token with read_stream permission.
-	 *
-	 * @return  array   The decoded JSON response.
-	 *
-	 * @since   12.1
-	 */
-	public function hasFriend($current_user, $user, $access_token)
-	{
-		$token = '?access_token=' . $access_token;
-		$friend = '/friends/' . $user;
-
-		// Build the request path.
-		$path = $current_user . $friend . $token;
-
-		// Send the request.
-		return $this->sendRequest($path);
-	}
-
-	/**
-	 * Method to get mutual friends of one user and the current user.
-	 *
-	 * @param   mixed   $current_user  Either an integer containing the user ID or a string containing the username for the current user.
-	 * @param   mixed   $user          Either an integer containing the user ID or a string containing the username for the user.
-	 * @param   string  $access_token  The Facebook access token.
-	 *
-	 * @return  array   The decoded JSON response.
-	 *
-	 * @since   12.1
-	 */
-	public function getMutualFriends($current_user, $user, $access_token)
-	{
-		$token = '?access_token=' . $access_token;
-		$friend = '/mutualfriends/' . $user;
-
-		// Build the request path.
-		$path = $current_user . $friend . $token;
-
-		// Send the request.
-		return $this->sendRequest($path);
-	}
-
-	/**
-	 * Method to get the user's profile picture.
-	 *
-	 * @param   mixed   $user          Either an integer containing the user ID or a string containing the username.
-	 * @param   string  $access_token  The Facebook access token.
-	 * @param   string  $type          To request a different photo use square | small | normal | large.
+	 * @param   mixed    $user      Either an integer containing the user ID or a string containing the username.
+	 * @param   boolean  $redirect  If false this will return the URL of the profile picture without a 302 redirect.
+	 * @param   string   $type      To request a different photo use square | small | normal | large.
 	 *
 	 * @return  string   The URL to the user's profile picture.
 	 *
-	 * @since   12.1
+	 * @since   13.1
 	 */
-	public function getPicture($user, $access_token=null, $type=null)
+	public function getPicture($user, $redirect = true, $type = null)
 	{
-		if ($access_token != null)
+		$extra_fields = '';
+
+		if ($redirect == false)
 		{
-			$token = '?access_token=' . $access_token;
-		}
-		else
-		{
-			$token = '';
+			$extra_fields = '?redirect=false';
 		}
 
 		if ($type != null)
 		{
-			if (strcmp($token, ''))
-			{
-				$type = '&type=' . $type;
-			}
-			else
-			{
-				$type = '?type=' . $type;
-			}
-		}
-		else
-		{
-			$type = '';
+			$extra_fields .= (strpos($extra_fields, '?') === false) ? '?type=' . $type : '&type=' . $type;
 		}
 
-		// Build the request path.
-		$path = $user . '/picture' . $token . $type;
-
-		// Send the request.
-		$response = $this->client->get($this->fetchUrl($path));
-
-		return $response->headers['Location'];
+		return $this->getConnection($user, 'picture', $extra_fields);
 	}
 
 	/**
-	 * Method to get the user's family relationships.
+	 * Method to get the user's family relationships. Requires authentication and user_relationships permission..
 	 *
-	 * @param   mixed   $user          Either an integer containing the user ID or a string containing the username.
-	 * @param   string  $access_token  The Facebook access token with user_relationships permission.
+	 * @param   mixed    $user    Either an integer containing the user ID or a string containing the username.
+	 * @param   integer  $limit   The number of objects per page.
+	 * @param   integer  $offset  The object's number on the page.
 	 *
-	 * @return  array   The decoded JSON response.
+	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   12.1
+	 * @since   13.1
 	 */
-	public function getFamily($user, $access_token)
+	public function getFamily($user, $limit = 0, $offset = 0)
 	{
-		$token = '?access_token=' . $access_token;
-
-		// Build the request path.
-		$path = $user . '/family' . $token;
-
-		// Send the request.
-		return $this->sendRequest($path);
+		return $this->getConnection($user, 'family', '', $limit, $offset);
 	}
 
 	/**
-	 * Method to get the user's notifications.
+	 * Method to get the user's notifications. Requires authentication and manage_notifications permission.
 	 *
-	 * @param   mixed    $user          Either an integer containing the user ID or a string containing the username.
-	 * @param   string   $access_token  The Facebook access token with manage_notifications permission.
-	 * @param   boolean  $read          Enables you to see notifications that the user has already read.
+	 * @param   mixed    $user    Either an integer containing the user ID or a string containing the username.
+	 * @param   boolean  $read    Enables you to see notifications that the user has already read.
+	 * @param   integer  $limit   The number of objects per page.
+	 * @param   integer  $offset  The object's number on the page.
+	 * @param   string   $until   A unix timestamp or any date accepted by strtotime.
+	 * @param   string   $since   A unix timestamp or any date accepted by strtotime.
 	 *
-	 * @return  array   The decoded JSON response.
+	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   12.1
+	 * @since   13.1
 	 */
-	public function getNotifications($user, $access_token, $read=null)
+	public function getNotifications($user, $read = null, $limit = 0, $offset = 0, $until = null, $since = null)
 	{
 		if ($read == true)
 		{
-			$token = '&access_token=' . $access_token;
-
-			// Build the request path.
-			$path = $user . '/notifications?include_read=1' . $token;
-		}
-		else
-		{
-			$token = '?access_token=' . $access_token;
-
-			// Build the request path.
-			$path = $user . '/notifications' . $token;
+			$read = '?include_read=1';
 		}
 
 		// Send the request.
-		return $this->sendRequest($path);
+		return $this->getConnection($user, 'notifications', $read, $limit, $offset, $until, $since);
 	}
 
 	/**
-	 * Method to mark a notification as read.
+	 * Method to mark a notification as read. Requires authentication and manage_notifications permission.
 	 *
 	 * @param   string  $notification  The notification id.
-	 * @param   string  $access_token  The Facebook access token with manage_notifications permission.
 	 *
-	 * @return  array   The decoded JSON response.
+	 * @return  boolean   Returns true if successful, and false otherwise.
 	 *
-	 * @since   12.1
+	 * @since   13.1
 	 */
-	public function updateNotification($notification, $access_token)
+	public function updateNotification($notification)
 	{
-		$token = '&access_token=' . $access_token;
+		$data['unread'] = 0;
 
-		// Build the request path.
-		$path = $notification . '?unread=0' . $token;
-
-		// Send the post request.
-		return $this->sendRequest($path, 'post');
+		return $this->createConnection($notification, null, $data);
 	}
 
 	/**
-	 * Method to get the user's permissions.
+	 * Method to get the user's permissions. Requires authentication.
 	 *
-	 * @param   mixed   $user          Either an integer containing the user ID or a string containing the username.
-	 * @param   string  $access_token  The Facebook access token.
+	 * @param   mixed    $user    Either an integer containing the user ID or a string containing the username.
+	 * @param   integer  $limit   The number of objects per page.
+	 * @param   integer  $offset  The object's number on the page.
 	 *
-	 * @return  array   The decoded JSON response.
+	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   12.1
+	 * @since   13.1
 	 */
-	public function getPermissions($user, $access_token)
+	public function getPermissions($user, $limit = 0, $offset = 0)
 	{
-		$token = '?access_token=' . $access_token;
-
-		// Build the request path.
-		$path = $user . '/permissions' . $token;
-
-		// Send the request.
-		return $this->sendRequest($path);
+		return $this->getConnection($user, 'permissions', '', $limit, $offset);
 	}
 
 	/**
-	 * Method to revoke a specific permission on behalf of a user.
+	 * Method to revoke a specific permission on behalf of a user. Requires authentication.
 	 *
-	 * @param   mixed   $user          Either an integer containing the user ID or a string containing the username.
-	 * @param   string  $access_token  The Facebook access token.
-	 * @param   string  $permission    The permission to revoke. If none specified, then this will de-authorize the application completely.
+	 * @param   mixed   $user        Either an integer containing the user ID or a string containing the username.
+	 * @param   string  $permission  The permission to revoke. If none specified, then this will de-authorize the application completely.
 	 *
-	 * @return  array   The decoded JSON response.
+	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   12.1
+	 * @since   13.1
 	 */
-	public function deletePermission($user, $access_token, $permission='')
+	public function deletePermission($user, $permission = '')
 	{
-		$permissions = '/permissions?permission=' . $permission;
-		$token = '&access_token=' . $access_token;
-
-		// Build the request path.
-		$path = $user . $permissions . $token;
-
-		// Send the delete request.
-		return $this->sendRequest($path, 'delete');
+		return $this->deleteConnection($user, 'permissions', '?permission=' . $permission);
 	}
 
 	/**
-	 * Method to get the user's albums.
+	 * Method to get the user's albums. Requires authentication and user_photos or friends_photos permission.
 	 *
-	 * @param   mixed   $user          Either an integer containing the user ID or a string containing the username.
-	 * @param   string  $access_token  The Facebook access token with user_photos or friends_photos permission.
+	 * @param   mixed    $user    Either an integer containing the user ID or a string containing the username.
+	 * @param   integer  $limit   The number of objects per page.
+	 * @param   integer  $offset  The object's number on the page.
+	 * @param   string   $until   A unix timestamp or any date accepted by strtotime.
+	 * @param   string   $since   A unix timestamp or any date accepted by strtotime.
 	 *
-	 * @return  array   The decoded JSON response.
+	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   12.1
+	 * @since   13.1
 	 */
-	public function getAlbums($user, $access_token)
+	public function getAlbums($user, $limit = 0, $offset = 0, $until = null, $since = null)
 	{
-		$token = '?access_token=' . $access_token;
-
-		// Build the request path.
-		$path = $user . '/albums' . $token;
-
-		// Send the request.
-		return $this->sendRequest($path);
+		return $this->getConnection($user, 'albums', '', $limit, $offset, $until, $since);
 	}
 
 	/**
-	 * Method to create an album for a user.
+	 * Method to create an album for a user.  Requires authentication and publish_stream permission.
 	 *
-	 * @param   mixed   $user          Either an integer containing the user ID or a string containing the username.
-	 * @param   string  $access_token  The Facebook access token with publish_stream  permission.
-	 * @param   string  $name          Album name.
-	 * @param   string  $description   Album description.
-	 * @param   json    $privacy       A JSON-encoded object that defines the privacy setting for the album.
+	 * @param   mixed   $user         Either an integer containing the user ID or a string containing the username.
+	 * @param   string  $name         Album name.
+	 * @param   string  $description  Album description.
+	 * @param   json    $privacy      A JSON-encoded object that defines the privacy setting for the album.
 	 *
-	 * @return  array   The decoded JSON response.
+	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   12.1
+	 * @since   13.1
 	 */
-	public function createAlbum($user, $access_token, $name, $description=null, $privacy=null)
+	public function createAlbum($user, $name, $description = null, $privacy = null)
 	{
-		$token = '?access_token=' . $access_token;
-
-		// Build the request path.
-		$path = $user . '/albums' . $token;
-
 		// Set POST request parameters.
 		$data = array();
 		$data['name'] = $name;
 		$data['description'] = $description;
 		$data['privacy'] = $privacy;
 
-		// Send the post request.
-		return $this->sendRequest($path, 'post', $data);
+		return $this->createConnection($user, 'albums', $data);
 	}
 
 	/**
-	 * Method to get the user's checkins.
+	 * Method to get the user's checkins. Requires authentication and user_checkins or friends_checkins permission
 	 *
-	 * @param   mixed   $user          Either an integer containing the user ID or a string containing the username.
-	 * @param   string  $access_token  The Facebook access token with user_checkins or friends_checkins permission.
+	 * @param   mixed    $user    Either an integer containing the user ID or a string containing the username.
+	 * @param   integer  $limit   The number of objects per page.
+	 * @param   integer  $offset  The object's number on the page.
+	 * @param   string   $until   A unix timestamp or any date accepted by strtotime.
+	 * @param   string   $since   A unix timestamp or any date accepted by strtotime.
 	 *
-	 * @return  array   The decoded JSON response.
+	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   12.1
+	 * @since   13.1
 	 */
-	public function getCheckins($user, $access_token)
+	public function getCheckins($user, $limit = 0, $offset = 0, $until = null, $since = null)
 	{
-		$token = '?access_token=' . $access_token;
-
-		// Build the request path.
-		$path = $user . '/checkins' . $token;
-
-		// Send the request.
-		return $this->sendRequest($path);
+		return $this->getConnection($user, 'checkins', '', $limit, $offset, $until, $since);
 	}
 
 	/**
-	 * Method to create a checkin for a user.
+	 * Method to create a checkin for a user. Requires authentication and publish_checkins permission.
 	 *
-	 * @param   mixed   $user          Either an integer containing the user ID or a string containing the username.
-	 * @param   string  $access_token  The Facebook access token with publish_checkins permission.
-	 * @param   string  $place         Id of the Place Page.
-	 * @param   json    $coordinates   A JSON-encoded object containing latitute and longitude.
-	 * @param   string  $tags          Comma separated list of USER_IDs.
-	 * @param   string  $message       A message to add to the checkin.
-	 * @param   string  $link          A link to add to the checkin.
-	 * @param   string  $picture       A picture to add to the checkin.
+	 * @param   mixed   $user         Either an integer containing the user ID or a string containing the username.
+	 * @param   string  $place        Id of the Place Page.
+	 * @param   string  $coordinates  A JSON-encoded string containing latitute and longitude.
+	 * @param   string  $tags         Comma separated list of USER_IDs.
+	 * @param   string  $message      A message to add to the checkin.
+	 * @param   string  $link         A link to add to the checkin.
+	 * @param   string  $picture      A picture to add to the checkin.
 	 *
-	 * @return  array   The decoded JSON response.
+	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   12.1
+	 * @since   13.1
 	 */
-	public function createCheckin($user, $access_token, $place, $coordinates, $tags=null, $message=null, $link=null, $picture=null)
+	public function createCheckin($user, $place, $coordinates, $tags = null, $message = null, $link = null, $picture = null)
 	{
-		$token = '?access_token=' . $access_token;
-
-		// Build the request path.
-		$path = $user . '/checkins' . $token;
-
 		// Set POST request parameters.
 		$data = array();
 		$data['place'] = $place;
@@ -447,99 +371,79 @@ class JFacebookUser extends JFacebookObject
 		$data['link'] = $link;
 		$data['picture'] = $picture;
 
-		// Send the post request.
-		return $this->sendRequest($path, 'post', $data);
+		return $this->createConnection($user, 'checkins', $data);
 	}
 
 	/**
-	 * Method to get the user's likes.
+	 * Method to get the user's likes. Requires authentication and user_likes or friends_likes permission.
+	 *
+	 * @param   mixed    $user    Either an integer containing the user ID or a string containing the username.
+	 * @param   integer  $limit   The number of objects per page.
+	 * @param   integer  $offset  The object's number on the page.
+	 * @param   string   $until   A unix timestamp or any date accepted by strtotime.
+	 * @param   string   $since   A unix timestamp or any date accepted by strtotime.
+	 *
+	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
+	 *
+	 * @since   13.1
+	 */
+	public function getLikes($user, $limit = 0, $offset = 0, $until = null, $since = null)
+	{
+		return $this->getConnection($user, 'likes', '', $limit, $offset, $until, $since);
+	}
+
+	/**
+	 * Method to see if a user likes a specific Page. Requires authentication.
+	 *
+	 * @param   mixed   $user  Either an integer containing the user ID or a string containing the username.
+	 * @param   string  $page  Facebook ID of the Page.
+	 *
+	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
+	 *
+	 * @since   13.1
+	 */
+	public function likesPage($user, $page)
+	{
+		return $this->getConnection($user, 'likes/' . $page);
+	}
+
+	/**
+	 * Method to get the current user's events. Requires authentication and user_events or friends_events permission.
+	 *
+	 * @param   mixed    $user    Either an integer containing the user ID or a string containing the username.
+	 * @param   integer  $limit   The number of objects per page.
+	 * @param   integer  $offset  The object's number on the page.
+	 * @param   string   $until   A unix timestamp or any date accepted by strtotime.
+	 * @param   string   $since   A unix timestamp or any date accepted by strtotime.
+	 *
+	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
+	 *
+	 * @since   13.1
+	 */
+	public function getEvents($user, $limit = 0, $offset = 0, $until = null, $since = null)
+	{
+		return $this->getConnection($user, 'events', '', $limit, $offset, $until, $since);
+	}
+
+	/**
+	 * Method to create an event for a user. Requires authentication create_event permission.
 	 *
 	 * @param   mixed   $user          Either an integer containing the user ID or a string containing the username.
-	 * @param   string  $access_token  The Facebook access token with user_likes or friends_likes permission.
+	 * @param   string  $name          Event name.
+	 * @param   string  $start_time    Event start time as UNIX timestamp.
+	 * @param   string  $end_time      Event end time as UNIX timestamp.
+	 * @param   string  $description   Event description.
+	 * @param   string  $location      Event location.
+	 * @param   string  $location_id   Facebook Place ID of the place the Event is taking place.
+	 * @param   string  $privacy_type  Event privacy setting, a string containing 'OPEN' (default), 'CLOSED', or 'SECRET'.
 	 *
-	 * @return  array   The decoded JSON response.
+	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   12.1
+	 * @since   13.1
 	 */
-	public function getLikes($user, $access_token)
+	public function createEvent($user, $name, $start_time, $end_time = null, $description = null,
+		$location = null, $location_id = null, $privacy_type = null)
 	{
-		$token = '?access_token=' . $access_token;
-
-		// Build the request path.
-		$path = $user . '/likes' . $token;
-
-		// Send the request.
-		return $this->sendRequest($path);
-	}
-
-	/**
-	 * Method to see if a user likes a specific Page.
-	 *
-	 * @param   mixed   $user          Either an integer containing the user ID or a string containing the username.
-	 * @param   string  $access_token  The Facebook access token.
-	 * @param   string  $page          Facebook ID of the Page.
-	 *
-	 * @return  array   The decoded JSON response.
-	 *
-	 * @since   12.1
-	 */
-	public function likesPage($user, $access_token, $page)
-	{
-		$token = '?access_token=' . $access_token;
-
-		// Build the request path.
-		$path = $user . '/likes/' . $page . $token;
-
-		// Send the request.
-		return $this->sendRequest($path);
-	}
-
-	/**
-	 * Method to get the current user's events.
-	 *
-	 * @param   mixed   $user          Either an integer containing the user ID or a string containing the username.
-	 * @param   string  $access_token  The Facebook access token with user_events or friends_events permission.
-	 *
-	 * @return  array   The decoded JSON response.
-	 *
-	 * @since   12.1
-	 */
-	public function getEvents($user, $access_token)
-	{
-		$token = '?access_token=' . $access_token;
-
-		// Build the request path.
-		$path = $user . '/events' . $token;
-
-		// Send the request.
-		return $this->sendRequest($path);
-	}
-
-	/**
-	 * Method to create an event for a user.
-	 *
-	 * @param   mixed      $user          Either an integer containing the user ID or a string containing the username.
-	 * @param   string     $access_token  The Facebook access token with the create_event permission.
-	 * @param   string     $name          Event name.
-	 * @param   timestamp  $start_time    Event start time as UNIX timestamp.
-	 * @param   timestamp  $end_time      Event end time as UNIX timestamp.
-	 * @param   string     $description   Event description.
-	 * @param   string     $location      Event location.
-	 * @param   string     $location_id   Facebook Place ID of the place the Event is taking place.
-	 * @param   string     $privacy_type  Event privacy setting, a string containing 'OPEN' (default), 'CLOSED', or 'SECRET'.
-	 *
-	 * @return  array   The decoded JSON response.
-	 *
-	 * @since   12.1
-	 */
-	public function createEvent($user, $access_token, $name, $start_time, $end_time=null, $description=null,
-		$location=null, $location_id=null, $privacy_type=null)
-	{
-		$token = '?access_token=' . $access_token;
-
-		// Build the request path.
-		$path = $user . '/events' . $token;
-
 		// Set POST request parameters.
 		$data = array();
 		$data['start_time'] = $start_time;
@@ -550,35 +454,28 @@ class JFacebookUser extends JFacebookObject
 		$data['location_id'] = $location_id;
 		$data['privacy_type'] = $privacy_type;
 
-		// Send the post request.
-		return $this->sendRequest($path, 'post', $data);
+		return $this->createConnection($user, 'events', $data);
 	}
 
 	/**
-	 * Method to edit an event.
+	 * Method to edit an event. Requires authentication create_event permission.
 	 *
-	 * @param   mixed      $event         Event ID.
-	 * @param   string     $access_token  The Facebook access token with the create_event permission.
-	 * @param   string     $name          Event name.
-	 * @param   timestamp  $start_time    Event start time as UNIX timestamp.
-	 * @param   timestamp  $end_time      Event end time as UNIX timestamp.
-	 * @param   string     $description   Event description.
-	 * @param   string     $location      Event location.
-	 * @param   string     $location_id   Facebook Place ID of the place the Event is taking place.
-	 * @param   string     $privacy_type  Event privacy setting, a string containing 'OPEN' (default), 'CLOSED', or 'SECRET'.
+	 * @param   mixed   $event         Event ID.
+	 * @param   string  $name          Event name.
+	 * @param   string  $start_time    Event start time as UNIX timestamp.
+	 * @param   string  $end_time      Event end time as UNIX timestamp.
+	 * @param   string  $description   Event description.
+	 * @param   string  $location      Event location.
+	 * @param   string  $location_id   Facebook Place ID of the place the Event is taking place.
+	 * @param   string  $privacy_type  Event privacy setting, a string containing 'OPEN' (default), 'CLOSED', or 'SECRET'.
 	 *
-	 * @return  array   The decoded JSON response.
+	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   12.1
+	 * @since   13.1
 	 */
-	public function editEvent($event, $access_token, $name=null, $start_time=null, $end_time=null, $description=null,
-		$location=null, $location_id=null, $privacy_type=null)
+	public function editEvent($event, $name = null, $start_time = null, $end_time = null, $description = null,
+		$location = null, $location_id = null, $privacy_type = null)
 	{
-		$token = '?access_token=' . $access_token;
-
-		// Build the request path.
-		$path = $event . $token;
-
 		// Set POST request parameters.
 		$data = array();
 		$data['start_time'] = $start_time;
@@ -589,257 +486,205 @@ class JFacebookUser extends JFacebookObject
 		$data['location_id'] = $location_id;
 		$data['privacy_type'] = $privacy_type;
 
-		// Send the post request.
-		return $this->sendRequest($path, 'post', $data);
+		return $this->createConnection($event, null, $data);
 	}
 
 	/**
-	 * Method to delete an event. Note: you can only delete the event if it was created by the same app.
+	 * Method to delete an event. Note: you can only delete the event if it was created by the same app. Requires authentication create_event permission.
 	 *
-	 * @param   string  $event         Event ID.
-	 * @param   string  $access_token  The Facebook access token with the create_event permission.
+	 * @param   string  $event  Event ID.
 	 *
-	 * @return  array   The decoded JSON response.
+	 * @return  boolean   Returns true if successful, and false otherwise.
 	 *
-	 * @since   12.1
+	 * @since   13.1
 	 */
-	public function deleteEvent($event, $access_token)
+	public function deleteEvent($event)
 	{
-		$token = '?access_token=' . $access_token;
-
-		// Build the request path.
-		$path = $event . $token;
-
-		// Send the delete request.
-		return $this->sendRequest($path, 'delete');
+		return $this->deleteConnection($event);
 	}
 
 	/**
-	 * Method to get the groups that the user belongs to.
+	 * Method to get the groups that the user belongs to. Requires authentication and user_groups or friends_groups permission.
 	 *
-	 * @param   mixed   $user          Either an integer containing the user ID or a string containing the username.
-	 * @param   string  $access_token  The Facebook access token with user_groups or friends_groups permission.
+	 * @param   mixed    $user    Either an integer containing the user ID or a string containing the username.
+	 * @param   integer  $limit   The number of objects per page.
+	 * @param   integer  $offset  The object's number on the page.
 	 *
-	 * @return  array   The decoded JSON response.
+	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   12.1
+	 * @since   13.1
 	 */
-	public function getGroups($user, $access_token)
+	public function getGroups($user, $limit = 0, $offset = 0)
 	{
-		$token = '?access_token=' . $access_token;
-
-		// Build the request path.
-		$path = $user . '/groups' . $token;
-
-		// Send the request.
-		return $this->sendRequest($path);
+		return $this->getConnection($user, 'groups', '', $limit, $offset);
 	}
 
 	/**
-	 * Method to get the user's posted links.
+	 * Method to get the user's posted links. Requires authentication and user_groups or friends_groups permission.
 	 *
-	 * @param   mixed   $user          Either an integer containing the user ID or a string containing the username.
-	 * @param   string  $access_token  The Facebook access token with user_groups or friends_groups permission.
+	 * @param   mixed    $user    Either an integer containing the user ID or a string containing the username.
+	 * @param   integer  $limit   The number of objects per page.
+	 * @param   integer  $offset  The object's number on the page.
+	 * @param   string   $until   A unix timestamp or any date accepted by strtotime.
+	 * @param   string   $since   A unix timestamp or any date accepted by strtotime.
 	 *
-	 * @return  array   The decoded JSON response.
+	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   12.1
+	 * @since   13.1
 	 */
-	public function getLinks($user, $access_token)
+	public function getLinks($user, $limit = 0, $offset = 0, $until = null, $since = null)
 	{
-		$token = '?access_token=' . $access_token;
-
-		// Build the request path.
-		$path = $user . '/links' . $token;
-
-		// Send the request.
-		return $this->sendRequest($path);
+		return $this->getConnection($user, 'links', '', $limit, $offset, $until, $since);
 	}
 
 	/**
-	 * Method to post a link on user's feed.
+	 * Method to post a link on user's feed. Requires authentication and publish_stream permission.
 	 *
-	 * @param   mixed   $user          Either an integer containing the user ID or a string containing the username.
-	 * @param   string  $access_token  The Facebook access token with publish_stream  permission.
-	 * @param   string  $link          Link URL.
-	 * @param   strin   $message       Link message.
+	 * @param   mixed   $user     Either an integer containing the user ID or a string containing the username.
+	 * @param   string  $link     Link URL.
+	 * @param   strin   $message  Link message.
 	 *
-	 * @return  array   The decoded JSON response.
+	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   12.1
+	 * @since   13.1
 	 */
-	public function createLink($user, $access_token, $link, $message=null)
+	public function createLink($user, $link, $message = null)
 	{
-		$token = '?access_token=' . $access_token;
-
-		// Build the request path.
-		$path = $user . '/feed' . $token;
-
 		// Set POST request parameters.
 		$data = array();
 		$data['link'] = $link;
 		$data['message'] = $message;
 
-		// Send the post request.
-		return $this->sendRequest($path, 'post', $data);
+		return $this->createConnection($user, 'feed', $data);
 	}
 
 	/**
-	 * Method to delete a link.
+	 * Method to delete a link. Requires authentication and publish_stream permission.
 	 *
-	 * @param   mixed   $link          The Link ID.
-	 * @param   string  $access_token  The Facebook access token.
+	 * @param   mixed  $link  The Link ID.
 	 *
-	 * @return  array   The decoded JSON response.
+	 * @return  boolean   Returns true if successful, and false otherwise.
 	 *
-	 * @since   12.1
+	 * @since   13.1
 	 */
-	public function deleteLink($link, $access_token)
+	public function deleteLink($link)
 	{
-		$token = '?access_token=' . $access_token;
-
-		// Build the request path.
-		$path = $link . $token;
-
-		// Send the delete request.
-		return $this->sendRequest($path, 'delete');
+		return $this->deleteConnection($link);
 	}
 
 	/**
-	 * Method to get the user's notes.
+	 * Method to get the user's notes. Requires authentication and user_groups or friends_groups permission.
 	 *
-	 * @param   mixed   $user          Either an integer containing the user ID or a string containing the username.
-	 * @param   string  $access_token  The Facebook access token with user_groups or friends_groups permission.
+	 * @param   mixed    $user    Either an integer containing the user ID or a string containing the username.
+	 * @param   integer  $limit   The number of objects per page.
+	 * @param   integer  $offset  The object's number on the page.
+	 * @param   string   $until   A unix timestamp or any date accepted by strtotime.
+	 * @param   string   $since   A unix timestamp or any date accepted by strtotime.
 	 *
-	 * @return  array   The decoded JSON response.
+	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   12.1
+	 * @since   13.1
 	 */
-	public function getNotes($user, $access_token)
+	public function getNotes($user, $limit = 0, $offset = 0, $until = null, $since = null)
 	{
-		$token = '?access_token=' . $access_token;
-
-		// Build the request path.
-		$path = $user . '/notes' . $token;
-
-		// Send the request.
-		return $this->sendRequest($path);
+		return $this->getConnection($user, 'notes', '', $limit, $offset, $until, $since);
 	}
 
 	/**
 	 * Method to create a note on the behalf of the user.
+	 * Requires authentication and publish_stream permission, user_groups or friends_groups permission.
 	 *
-	 * @param   mixed   $user          Either an integer containing the user ID or a string containing the username.
-	 * @param   string  $access_token  The Facebook access token with publish_stream  permission.
-	 * @param   string  $subject       The subject of the note.
-	 * @param   strin   $message       Note content.
+	 * @param   mixed   $user     Either an integer containing the user ID or a string containing the username.
+	 * @param   string  $subject  The subject of the note.
+	 * @param   string  $message  Note content.
 	 *
-	 * @return  array   The decoded JSON response.
+	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   12.1
+	 * @since   13.1
 	 */
-	public function createNote($user, $access_token, $subject, $message)
+	public function createNote($user, $subject, $message)
 	{
-		$token = '?access_token=' . $access_token;
-
-		// Build the request path.
-		$path = $user . '/notes' . $token;
-
 		// Set POST request parameters.
 		$data = array();
 		$data['subject'] = $subject;
 		$data['message'] = $message;
 
-		// Send the post request.
-		return $this->sendRequest($path, 'post', $data);
+		return $this->createConnection($user, 'notes', $data);
 	}
 
 	/**
-	 * Method to get the user's photos.
+	 * Method to get the user's photos. Requires authentication and user_groups or friends_groups permission.
 	 *
-	 * @param   mixed   $user          Either an integer containing the user ID or a string containing the username.
-	 * @param   string  $access_token  The Facebook access token with user_groups or friends_groups permission.
+	 * @param   mixed    $user    Either an integer containing the user ID or a string containing the username.
+	 * @param   integer  $limit   The number of objects per page.
+	 * @param   integer  $offset  The object's number on the page.
+	 * @param   string   $until   A unix timestamp or any date accepted by strtotime.
+	 * @param   string   $since   A unix timestamp or any date accepted by strtotime.
 	 *
-	 * @return  array   The decoded JSON response.
+	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   12.1
+	 * @since   13.1
 	 */
-	public function getPhotos($user, $access_token)
+	public function getPhotos($user, $limit = 0, $offset = 0, $until = null, $since = null)
 	{
-		$token = '?access_token=' . $access_token;
-
-		// Build the request path.
-		$path = $user . '/photos' . $token;
-
-		// Send the request.
-		return $this->sendRequest($path);
+		return $this->getConnection($user, 'photos', '', $limit, $offset, $until, $since);
 	}
 
 	/**
-	 * Method to post a photo on user's wall.
+	 * Method to post a photo on user's wall. Requires authentication and publish_stream permission, user_groups or friends_groups permission.
 	 *
-	 * @param   mixed    $user          Either an integer containing the user ID or a string containing the username.
-	 * @param   string   $access_token  The Facebook access token with publish_stream  permission.
-	 * @param   string   $source        Path to photo.
-	 * @param   string   $message       Photo description.
-	 * @param   string   $place         Facebook ID of the place associated with the photo.
-	 * @param   boolean  $no_story      If set to 1, optionally suppresses the feed story that is automatically
-	 * 									generated on a user’s profile when they upload a photo using your application.
+	 * @param   mixed    $user      Either an integer containing the user ID or a string containing the username.
+	 * @param   string   $source    Path to photo.
+	 * @param   string   $message   Photo description.
+	 * @param   string   $place     Facebook ID of the place associated with the photo.
+	 * @param   boolean  $no_story  If set to 1, optionally suppresses the feed story that is automatically
+	 * 								generated on a user’s profile when they upload a photo using your application.
 	 *
-	 * @return  array   The decoded JSON response.
+	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   12.1
+	 * @since   13.1
 	 */
-	public function createPhoto($user, $access_token, $source, $message=null, $place=null, $no_story=null)
+	public function createPhoto($user, $source, $message = null, $place = null, $no_story = null)
 	{
-		$token = '?access_token=' . $access_token;
-
-		// Build the request path.
-		$path = $user . '/photos' . $token;
-
 		// Set POST request parameters.
 		$data = array();
+		$data[basename($source)] = '@' . realpath($source);
 		$data['message'] = $message;
 		$data['place'] = $place;
 		$data['no_story'] = $no_story;
-		$data[basename($source)] = '@' . realpath($source);
 
-		// Send the post request.
-		return $this->sendRequest($path, 'post', $data, array('Content-type' => 'multipart/form-data'));
+		return $this->createConnection($user, 'photos', $data, array('Content-Type' => 'multipart/form-data'));
 	}
 
 	/**
-	 * Method to get the user's posts.
+	 * Method to get the user's posts. Requires authentication and read_stream permission for non-public posts.
 	 *
-	 * @param   mixed    $user          Either an integer containing the user ID or a string containing the username.
-	 * @param   string   $access_token  The Facebook access token with read_stream permission for non-public posts.
-	 * @param   boolean  $location      Retreive only posts with a location attached.
+	 * @param   mixed    $user      Either an integer containing the user ID or a string containing the username.
+	 * @param   boolean  $location  Retreive only posts with a location attached.
+	 * @param   integer  $limit     The number of objects per page.
+	 * @param   integer  $offset    The object's number on the page.
+	 * @param   string   $until     A unix timestamp or any date accepted by strtotime.
+	 * @param   string   $since     A unix timestamp or any date accepted by strtotime.
 	 *
-	 * @return  array   The decoded JSON response.
+	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   12.1
+	 * @since   13.1
 	 */
-	public function getPosts($user, $access_token, $location=false)
+	public function getPosts($user, $location = false, $limit = 0, $offset = 0, $until = null, $since = null)
 	{
-		$token = '?access_token=' . $access_token;
-
-		// Build the request path.
-		$path = $user . '/posts' . $token;
-
 		if ($location == true)
 		{
-			$path .= '&with=location';
+			$location = '?with=location';
 		}
 
 		// Send the request.
-		return $this->sendRequest($path);
+		return $this->getConnection($user, 'posts', $location, $limit, $offset, $until, $since);
 	}
 
 	/**
-	 * Method to post on a user's wall. Message or link parameter is required.
+	 * Method to post on a user's wall. Message or link parameter is required. Requires authentication and publish_stream permission.
 	 *
 	 * @param   mixed   $user               Either an integer containing the user ID or a string containing the username.
-	 * @param   string  $access_token       The Facebook access token with the publish_stream permission.
 	 * @param   string  $message            Post message.
 	 * @param   string  $link               Post URL.
 	 * @param   string  $picture            Post thumbnail image (can only be used if link is specified)
@@ -855,18 +700,13 @@ class JFacebookUser extends JFacebookObject
 	 * @param   string  $object_attachment  Facebook ID for an existing picture in the User's photo albums to use as the thumbnail image.
 	 *                                      The User must be the owner of the photo, and the photo cannot be part of a message attachment.
 	 *
-	 * @return  array   The decoded JSON response.
+	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   12.1
+	 * @since   13.1
 	 */
-	public function createPost($user, $access_token, $message=null, $link=null, $picture=null, $name=null, $caption=null,
-		$description=null, $actions=null, $place=null, $tags=null, $privacy=null, $object_attachment=null)
+	public function createPost($user, $message = null, $link = null, $picture = null, $name = null, $caption = null,
+		$description = null, $actions = null, $place = null, $tags = null, $privacy = null, $object_attachment = null)
 	{
-		$token = '?access_token=' . $access_token;
-
-		// Build the request path.
-		$path = $user . '/feed' . $token;
-
 		// Set POST request parameters.
 		$data = array();
 		$data['message'] = $message;
@@ -881,336 +721,271 @@ class JFacebookUser extends JFacebookObject
 		$data['object_attachment'] = $object_attachment;
 		$data['picture'] = $picture;
 
-		// Send the post request.
-		return $this->sendRequest($path, 'post', $data);
+		return $this->createConnection($user, 'feed', $data);
 	}
 
 	/**
-	 * Method to delete a post. Note: you can only delete the post if it was created by the current user.
+	 * Method to delete a post. Note: you can only delete the post if it was created by the current user. Requires authentication
 	 *
-	 * @param   string  $post          The Post ID.
-	 * @param   string  $access_token  The Facebook access token.
+	 * @param   string  $post  The Post ID.
 	 *
-	 * @return  array   The decoded JSON response.
+	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   12.1
+	 * @since   13.1
 	 */
-	public function deletePost($post, $access_token)
+	public function deletePost($post)
 	{
-		$token = '?access_token=' . $access_token;
-
-		// Build the request path.
-		$path = $post . $token;
-
-		// Send the delete request.
-		return $this->sendRequest($path, 'delete');
+		return $this->deleteConnection($post);
 	}
 
 	/**
-	 * Method to get the user's statuses.
+	 * Method to get the user's statuses. Requires authentication read_stream permission.
 	 *
-	 * @param   mixed   $user          Either an integer containing the user ID or a string containing the username.
-	 * @param   string  $access_token  The Facebook access token with read_stream permission.
+	 * @param   mixed    $user    Either an integer containing the user ID or a string containing the username.
+	 * @param   integer  $limit   The number of objects per page.
+	 * @param   integer  $offset  The object's number on the page.
+	 * @param   string   $until   A unix timestamp or any date accepted by strtotime.
+	 * @param   string   $since   A unix timestamp or any date accepted by strtotime.
 	 *
-	 * @return  array   The decoded JSON response.
+	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   12.1
+	 * @since   13.1
 	 */
-	public function getStatuses($user, $access_token)
+	public function getStatuses($user, $limit = 0, $offset = 0, $until = null, $since = null)
 	{
-		$token = '?access_token=' . $access_token;
-
-		// Build the request path.
-		$path = $user . '/statuses' . $token;
-
-		// Send the request.
-		return $this->sendRequest($path);
+		return $this->getConnection($user, 'statuses', '', $limit, $offset, $until, $since);
 	}
 
 	/**
-	 * Method to post a status message on behalf of the user.
+	 * Method to post a status message on behalf of the user. Requires authentication publish_stream permission.
 	 *
-	 * @param   mixed   $user          Either an integer containing the user ID or a string containing the username.
-	 * @param   string  $access_token  The Facebook access token with publish_stream permission.
-	 * @param   strin   $message       Status message content.
+	 * @param   mixed   $user     Either an integer containing the user ID or a string containing the username.
+	 * @param   string  $message  Status message content.
 	 *
-	 * @return  array   The decoded JSON response.
+	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   12.1
+	 * @since   13.1
 	 */
-	public function createStatus($user, $access_token, $message)
+	public function createStatus($user, $message)
 	{
-		$token = '?access_token=' . $access_token;
-
-		// Build the request path.
-		$path = $user . '/feed' . $token;
-
 		// Set POST request parameters.
 		$data = array();
 		$data['message'] = $message;
 
-		// Send the post request.
-		return $this->sendRequest($path, 'post', $data);
+		return $this->createConnection($user, 'feed', $data);
 	}
 
 	/**
 	 * Method to delete a status. Note: you can only delete the post if it was created by the current user.
+	 * Requires authentication publish_stream permission.
 	 *
-	 * @param   string  $status        The Status ID.
-	 * @param   string  $access_token  The Facebook access token.
+	 * @param   string  $status  The Status ID.
 	 *
-	 * @return  array   The decoded JSON response.
+	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   12.1
+	 * @since   13.1
 	 */
-	public function deleteStatus($status, $access_token)
+	public function deleteStatus($status)
 	{
-		$token = '?access_token=' . $access_token;
-
-		// Build the request path.
-		$path = $status . $token;
-
-		// Send the delete request.
-		return $this->sendRequest($path, 'delete');
+		return $this->deleteConnection($status);
 	}
 
 	/**
-	 * Method to get the videos the user has been tagged in.
+	 * Method to get the videos the user has been tagged in. Requires authentication and user_videos or friends_videos permission.
 	 *
-	 * @param   mixed   $user          Either an integer containing the user ID or a string containing the username.
-	 * @param   string  $access_token  The Facebook access token with user_videos or friends_videos permission.
+	 * @param   mixed    $user    Either an integer containing the user ID or a string containing the username.
+	 * @param   integer  $limit   The number of objects per page.
+	 * @param   integer  $offset  The object's number on the page.
+	 * @param   string   $until   A unix timestamp or any date accepted by strtotime.
+	 * @param   string   $since   A unix timestamp or any date accepted by strtotime.
 	 *
-	 * @return  array   The decoded JSON response.
+	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   12.1
+	 * @since   13.1
 	 */
-	public function getVideos($user, $access_token)
+	public function getVideos($user, $limit = 0, $offset = 0, $until = null, $since = null)
 	{
-		$token = '?access_token=' . $access_token;
-
-		// Build the request path.
-		$path = $user . '/videos' . $token;
-
-		// Send the request.
-		return $this->sendRequest($path);
+		return $this->getConnection($user, 'videos', '', $limit, $offset, $until, $since);
 	}
 
 	/**
-	 * Method to post a video on behalf of the user.
+	 * Method to post a video on behalf of the user. Requires authentication and publish_stream permission.
 	 *
-	 * @param   mixed   $user          Either an integer containing the user ID or a string containing the username.
-	 * @param   string  $access_token  The Facebook access token with publish_stream permission.
-	 * @param   string  $source        Path to video.
-	 * @param   string  $title         Video title.
-	 * @param   string  $description   Video description.
+	 * @param   mixed   $user         Either an integer containing the user ID or a string containing the username.
+	 * @param   string  $source       Path to video.
+	 * @param   string  $title        Video title.
+	 * @param   string  $description  Video description.
 	 *
-	 * @return  array   The decoded JSON response.
+	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   12.1
+	 * @since   13.1
 	 */
-	public function createVideo($user, $access_token, $source, $title=null, $description=null)
+	public function createVideo($user, $source, $title = null, $description = null)
 	{
-		$token = '?access_token=' . $access_token;
-
-		// Build the request path.
-		$path = $user . '/videos' . $token;
-
 		// Set POST request parameters.
 		$data = array();
 		$data[basename($source)] = '@' . realpath($source);
 		$data['title'] = $title;
 		$data['description'] = $description;
 
-		// Send the post request.
-		return $this->sendRequest($path, 'post', $data, array('Content-type' => 'multipart/form-data'));
+		return $this->createConnection($user, 'videos', $data, array('Content-Type' => 'multipart/form-data'));
 	}
 
 	/**
-	 * Method to get the posts the user has been tagged in.
+	 * Method to get the posts the user has been tagged in. Requires authentication and user_videos or friends_videos permission.
 	 *
-	 * @param   mixed   $user          Either an integer containing the user ID or a string containing the username.
-	 * @param   string  $access_token  The Facebook access token with user_videos or friends_videos permission.
+	 * @param   mixed    $user    Either an integer containing the user ID or a string containing the username.
+	 * @param   integer  $limit   The number of objects per page.
+	 * @param   integer  $offset  The object's number on the page.
+	 * @param   string   $until   A unix timestamp or any date accepted by strtotime.
+	 * @param   string   $since   A unix timestamp or any date accepted by strtotime.
 	 *
-	 * @return  array   The decoded JSON response.
+	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   12.1
+	 * @since   13.1
 	 */
-	public function getTagged($user, $access_token)
+	public function getTagged($user, $limit = 0, $offset = 0, $until = null, $since = null)
 	{
-		$token = '?access_token=' . $access_token;
-
-		// Build the request path.
-		$path = $user . '/tagged' . $token;
-
-		// Send the request.
-		return $this->sendRequest($path);
+		return $this->getConnection($user, 'tagged', '', $limit, $offset, $until, $since);
 	}
 
 	/**
-	 * Method to get the activities listed on the user's profile.
+	 * Method to get the activities listed on the user's profile. Requires authentication and user_activities or friends_activities permission.
 	 *
-	 * @param   mixed   $user          Either an integer containing the user ID or a string containing the username.
-	 * @param   string  $access_token  The Facebook access token with user_activities or friends_activities permission.
+	 * @param   mixed    $user    Either an integer containing the user ID or a string containing the username.
+	 * @param   integer  $limit   The number of objects per page.
+	 * @param   integer  $offset  The object's number on the page.
+	 * @param   string   $until   A unix timestamp or any date accepted by strtotime.
+	 * @param   string   $since   A unix timestamp or any date accepted by strtotime.
 	 *
-	 * @return  array   The decoded JSON response.
+	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   12.1
+	 * @since   13.1
 	 */
-	public function getActivities($user, $access_token)
+	public function getActivities($user, $limit = 0, $offset = 0, $until = null, $since = null)
 	{
-		$token = '?access_token=' . $access_token;
-
-		// Build the request path.
-		$path = $user . '/activities' . $token;
-
-		// Send the request.
-		return $this->sendRequest($path);
+		return $this->getConnection($user, 'activities', '', $limit, $offset, $until, $since);
 	}
 
 	/**
-	 * Method to get the books listed on the user's profile.
+	 * Method to get the books listed on the user's profile. Requires authentication and user_likes or friends_likes permission.
 	 *
-	 * @param   mixed   $user          Either an integer containing the user ID or a string containing the username.
-	 * @param   string  $access_token  The Facebook access token with user_likes or friends_likes permission.
+	 * @param   mixed    $user    Either an integer containing the user ID or a string containing the username.
+	 * @param   integer  $limit   The number of objects per page.
+	 * @param   integer  $offset  The object's number on the page.
+	 * @param   string   $until   A unix timestamp or any date accepted by strtotime.
+	 * @param   string   $since   A unix timestamp or any date accepted by strtotime.
 	 *
-	 * @return  array   The decoded JSON response.
+	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   12.1
+	 * @since   13.1
 	 */
-	public function getBooks($user, $access_token)
+	public function getBooks($user, $limit = 0, $offset = 0, $until = null, $since = null)
 	{
-		$token = '?access_token=' . $access_token;
-
-		// Build the request path.
-		$path = $user . '/books' . $token;
-
-		// Send the request.
-		return $this->sendRequest($path);
+		return $this->getConnection($user, 'books', '', $limit, $offset, $until, $since);
 	}
 
 	/**
-	 * Method to get the interests listed on the user's profile.
+	 * Method to get the interests listed on the user's profile. Requires authentication.
 	 *
-	 * @param   mixed   $user          Either an integer containing the user ID or a string containing the username.
-	 * @param   string  $access_token  The Facebook access token with user_interests or friends_interests permission.
+	 * @param   mixed    $user    Either an integer containing the user ID or a string containing the username.
+	 * @param   integer  $limit   The number of objects per page.
+	 * @param   integer  $offset  The object's number on the page.
+	 * @param   string   $until   A unix timestamp or any date accepted by strtotime.
+	 * @param   string   $since   A unix timestamp or any date accepted by strtotime.
 	 *
-	 * @return  array   The decoded JSON response.
+	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   12.1
+	 * @since   13.1
 	 */
-	public function getInterests($user, $access_token)
+	public function getInterests($user, $limit = 0, $offset = 0, $until = null, $since = null)
 	{
-		$token = '?access_token=' . $access_token;
-
-		// Build the request path.
-		$path = $user . '/interests' . $token;
-
-		// Send the request.
-		return $this->sendRequest($path);
+		return $this->getConnection($user, 'interests', '', $limit, $offset, $until, $since);
 	}
 
 	/**
-	 * Method to get the movies listed on the user's profile.
+	 * Method to get the movies listed on the user's profile. Requires authentication and user_likes or friends_likes permission.
 	 *
-	 * @param   mixed   $user          Either an integer containing the user ID or a string containing the username.
-	 * @param   string  $access_token  The Facebook access token with user_likes or friends_likes permission.
+	 * @param   mixed    $user    Either an integer containing the user ID or a string containing the username.
+	 * @param   integer  $limit   The number of objects per page.
+	 * @param   integer  $offset  The object's number on the page.
+	 * @param   string   $until   A unix timestamp or any date accepted by strtotime.
+	 * @param   string   $since   A unix timestamp or any date accepted by strtotime.
 	 *
-	 * @return  array   The decoded JSON response.
+	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   12.1
+	 * @since   13.1
 	 */
-	public function getMovies($user, $access_token)
+	public function getMovies($user, $limit = 0, $offset = 0, $until = null, $since = null)
 	{
-		$token = '?access_token=' . $access_token;
-
-		// Build the request path.
-		$path = $user . '/movies' . $token;
-
-		// Send the request.
-		return $this->sendRequest($path);
+		return $this->getConnection($user, 'movies', '', $limit, $offset, $until, $since);
 	}
 
 	/**
-	 * Method to get the television listed on the user's profile.
+	 * Method to get the television listed on the user's profile. Requires authentication and user_likes or friends_likes permission.
 	 *
-	 * @param   mixed   $user          Either an integer containing the user ID or a string containing the username.
-	 * @param   string  $access_token  The Facebook access token with user_likes or friends_likes permission.
+	 * @param   mixed    $user    Either an integer containing the user ID or a string containing the username.
+	 * @param   integer  $limit   The number of objects per page.
+	 * @param   integer  $offset  The object's number on the page.
+	 * @param   string   $until   A unix timestamp or any date accepted by strtotime.
+	 * @param   string   $since   A unix timestamp or any date accepted by strtotime.
 	 *
-	 * @return  array   The decoded JSON response.
+	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   12.1
+	 * @since   13.1
 	 */
-	public function getTelevision($user, $access_token)
+	public function getTelevision($user, $limit = 0, $offset = 0, $until = null, $since = null)
 	{
-		$token = '?access_token=' . $access_token;
-
-		// Build the request path.
-		$path = $user . '/television' . $token;
-
-		// Send the request.
-		return $this->sendRequest($path);
+		return $this->getConnection($user, 'television', '', $limit, $offset, $until, $since);
 	}
 
 	/**
-	 * Method to get the music listed on the user's profile.
+	 * Method to get the music listed on the user's profile. Requires authentication user_likes or friends_likes permission.
 	 *
-	 * @param   mixed   $user          Either an integer containing the user ID or a string containing the username.
-	 * @param   string  $access_token  The Facebook access token with user_likes or friends_likes permission.
+	 * @param   mixed    $user    Either an integer containing the user ID or a string containing the username.
+	 * @param   integer  $limit   The number of objects per page.
+	 * @param   integer  $offset  The object's number on the page.
+	 * @param   string   $until   A unix timestamp or any date accepted by strtotime.
+	 * @param   string   $since   A unix timestamp or any date accepted by strtotime.
 	 *
-	 * @return  array   The decoded JSON response.
+	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   12.1
+	 * @since   13.1
 	 */
-	public function getMusic($user, $access_token)
+	public function getMusic($user, $limit = 0, $offset = 0, $until = null, $since = null)
 	{
-		$token = '?access_token=' . $access_token;
-
-		// Build the request path.
-		$path = $user . '/music' . $token;
-
-		// Send the request.
-		return $this->sendRequest($path);
+		return $this->getConnection($user, 'music', '', $limit, $offset, $until, $since);
 	}
 
 	/**
-	 * Method to get the user's subscribers.
+	 * Method to get the user's subscribers. Requires authentication and user_subscriptions or friends_subscriptions permission.
 	 *
-	 * @param   mixed   $user          Either an integer containing the user ID or a string containing the username.
-	 * @param   string  $access_token  The Facebook access token with user_subscriptions or friends_subscriptions permission.
+	 * @param   mixed    $user    Either an integer containing the user ID or a string containing the username.
+	 * @param   integer  $limit   The number of objects per page.
+	 * @param   integer  $offset  The object's number on the page.
 	 *
-	 * @return  array   The decoded JSON response.
+	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   12.1
+	 * @since   13.1
 	 */
-	public function getSubscribers($user, $access_token)
+	public function getSubscribers($user, $limit = 0, $offset = 0)
 	{
-		$token = '?access_token=' . $access_token;
-
-		// Build the request path.
-		$path = $user . '/subscribers' . $token;
-
-		// Send the request.
-		return $this->sendRequest($path);
+		return $this->getConnection($user, 'subscribers', '', $limit, $offset);
 	}
 
 	/**
-	 * Method to get the people the user is subscribed to.
+	 * Method to get the people the user is subscribed to. Requires authentication and user_subscriptions or friends_subscriptions permission.
 	 *
-	 * @param   mixed   $user          Either an integer containing the user ID or a string containing the username.
-	 * @param   string  $access_token  The Facebook access token with user_subscriptions or friends_subscriptions permission.
+	 * @param   mixed    $user    Either an integer containing the user ID or a string containing the username.
+	 * @param   integer  $limit   The number of objects per page.
+	 * @param   integer  $offset  The object's number on the page.
 	 *
-	 * @return  array   The decoded JSON response.
+	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   12.1
+	 * @since   13.1
 	 */
-	public function getSubscribedTo($user, $access_token)
+	public function getSubscribedTo($user, $limit = 0, $offset = 0)
 	{
-		$token = '?access_token=' . $access_token;
-
-		// Build the request path.
-		$path = $user . '/subscribedto' . $token;
-
-		// Send the request.
-		return $this->sendRequest($path);
+		return $this->getConnection($user, 'subscribedto', '', $limit, $offset);
 	}
 }

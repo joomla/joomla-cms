@@ -2,7 +2,7 @@
 /**
  * @package     Joomla.Platform
  * @subpackage  Facebook
- * 
+ *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
@@ -12,122 +12,124 @@ defined('JPATH_PLATFORM') or die();
 
 
 /**
- * Facebook API Post class for the Joomla Platform.
+ * Facebook API Comment class for the Joomla Platform.
  *
  * @package     Joomla.Platform
  * @subpackage  Facebook
- * 
- * @since       12.1
+ *
+ * @see         http://developers.facebook.com/docs/reference/api/Comment/
+ * @since       13.1
  */
 class JFacebookComment extends JFacebookObject
 {
-/**
-	 * Method to get a comment.
-	 * 
-	 * @param   string  $comment       The comment id.
-	 * @param   string  $access_token  The Facebook access token.
-	 * 
-	 * @return  array   The decoded JSON response.
-	 * 
-	 * @since   12.1
+	/**
+	 * Method to get a comment. Requires authentication.
+	 *
+	 * @param   string  $comment  The comment id.
+	 *
+	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
+	 *
+	 * @since   13.1
 	 */
-	public function getComment($comment, $access_token)
+	public function getComment($comment)
 	{
-		return parent::get($comment, $access_token);
+		return $this->get($comment);
 	}
 
 	/**
-	 * Method to delete a comment.
-	 * 
-	 * @param   string  $comment       The comment id.
-	 * @param   string  $access_token  The Facebook access token with publish_stream permission. 
-	 * 
+	 * Method to delete a comment. Requires authentication and publish_stream permission.
+	 *
+	 * @param   string  $comment  The comment id.
+	 *
 	 * @return  boolean Returns true if successful, and false otherwise.
-	 * 
-	 * @since   12.1
+	 *
+	 * @since   13.1
 	 */
-	public function deleteComment($comment, $access_token)
+	public function deleteComment($comment)
 	{
-		return parent::deleteConnection($comment, $access_token);
+		return $this->deleteConnection($comment);
 	}
 
 	/**
-	 * Method to get a comment's comments.
-	 * 
-	 * @param   string  $comment       The comment id.
-	 * @param   string  $access_token  The Facebook access token.
-	 * 
-	 * @return  array   The decoded JSON response.
-	 * 
-	 * @since   12.1
+	 * Method to get a comment's comments. Requires authentication.
+	 *
+	 * @param   string   $comment  The comment id.
+	 * @param   integer  $limit    The number of objects per page.
+	 * @param   integer  $offset   The object's number on the page.
+	 * @param   string   $until    A unix timestamp or any date accepted by strtotime.
+	 * @param   string   $since    A unix timestamp or any date accepted by strtotime.
+	 *
+	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
+	 *
+	 * @since   13.1
 	 */
-	public function getComments($comment, $access_token)
+	public function getComments($comment, $limit=0, $offset=0, $until=null, $since=null)
 	{
-		return parent::getConnection($comment, $access_token, 'comments');
+		return $this->getConnection($comment, 'comments', '', $limit, $offset, $until, $since);
 	}
 
 	/**
-	 * Method to comment on a comment.
-	 * 
-	 * @param   string  $comment       The comment id.
-	 * @param   string  $access_token  The Facebook access token with the publish_stream permission.
-	 * @param   string  $message       The comment's text.
-	 * 
-	 * @return  array   The decoded JSON response.
-	 * 
-	 * @since   12.1
+	 * Method to comment on a comment. Requires authentication with publish_stream permission.
+	 *
+	 * @param   string  $comment  The comment id.
+	 * @param   string  $message  The comment's text.
+	 *
+	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
+	 *
+	 * @since   13.1
 	 */
-	public function createComment($comment, $access_token, $message)
+	public function createComment($comment, $message)
 	{
 		// Set POST request parameters.
 		$data = array();
 		$data['message'] = $message;
 
-		return parent::createConnection($comment, $access_token, 'comments', $data);
+		return $this->createConnection($comment, 'comments', $data);
 	}
 
 	/**
-	 * Method to get comment's likes.
-	 * 
-	 * @param   string  $comment       The comment id.
-	 * @param   string  $access_token  The Facebook access token.
-	 * 
-	 * @return  array   The decoded JSON response.
-	 * 
-	 * @since   12.1
+	 * Method to get comment's likes. Requires authentication.
+	 *
+	 * @param   string   $comment  The comment id.
+	 * @param   integer  $limit    The number of objects per page.
+	 * @param   integer  $offset   The object's number on the page.
+	 * @param   string   $until    A unix timestamp or any date accepted by strtotime.
+	 * @param   string   $since    A unix timestamp or any date accepted by strtotime.
+	 *
+	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
+	 *
+	 * @since   13.1
 	 */
-	public function getLikes($comment, $access_token)
+	public function getLikes($comment, $limit=0, $offset=0, $until=null, $since=null)
 	{
-		return parent::getConnection($comment, $access_token, 'likes');
+		return $this->getConnection($comment, 'likes', '', $limit, $offset, $until, $since);
 	}
 
 	/**
-	 * Method to like a comment.
-	 * 
-	 * @param   string  $comment       The comment id.
-	 * @param   string  $access_token  The Facebook access token with the publish_stream permission.
-	 * 
+	 * Method to like a comment. Requires authentication and publish_stram permission.
+	 *
+	 * @param   string  $comment  The comment id.
+	 *
 	 * @return  boolean Returns true if successful, and false otherwise.
-	 * 
-	 * @since   12.1
+	 *
+	 * @since   13.1
 	 */
-	public function createLike($comment, $access_token)
+	public function createLike($comment)
 	{
-		return parent::createConnection($comment, $access_token, 'likes');
+		return $this->createConnection($comment, 'likes');
 	}
 
 	/**
-	 * Method to unlike a comment.
-	 * 
-	 * @param   string  $comment       The comment id.
-	 * @param   string  $access_token  The Facebook access token with the publish_stream permission. 
-	 * 
+	 * Method to unlike a comment. Requires authentication and publish_stram permission.
+	 *
+	 * @param   string  $comment  The comment id.
+	 *
 	 * @return  boolean Returns true if successful, and false otherwise.
-	 * 
-	 * @since   12.1
+	 *
+	 * @since   13.1
 	 */
-	public function deleteLike($comment, $access_token)
+	public function deleteLike($comment)
 	{
-		return parent::deleteConnection($comment, $access_token, 'likes');
+		return $this->deleteConnection($comment, 'likes');
 	}
 }
