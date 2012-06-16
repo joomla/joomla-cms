@@ -321,6 +321,7 @@ class JComponentHelper
 		// Get component path
 		if ($app->isAdmin() && file_exists(JPATH_COMPONENT . '/admin.' . $file . '.php'))
 		{
+			JLog::add('Files in the format admin.COMPONENTNAME.php are considered deprecated and will not be loaded in Joomla 3.0.', JLog::WARNING, 'deprecated');
 			$path = JPATH_COMPONENT . '/admin.' . $file . '.php';
 		}
 		else
@@ -351,6 +352,7 @@ class JComponentHelper
 		$path = JApplicationHelper::getPath('toolbar');
 		if ($path && $app->isAdmin())
 		{
+			JLog::add('Files in the format toolbar.COMPONENTNAME.php are considered deprecated and will not be loaded in Joomla 3.0.', JLog::WARNING, 'deprecated');
 			// Get the task again, in case it has changed
 			$task = JRequest::getString('task');
 

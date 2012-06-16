@@ -165,6 +165,7 @@ class JApplicationHelper
 	 * @return  string  The requested path
 	 *
 	 * @since   11.1
+	 * @deprecated  12.1
 	 */
 	public static function getPath($varname, $user_option = null)
 	{
@@ -288,46 +289,12 @@ class JApplicationHelper
 	 * @return  array  XML metadata.
 	 *
 	 * @since   11.1
+	 * @deprecated  13.3  Use JInstaller::parseXMLInstallFile instead.
 	 */
 	public static function parseXMLInstallFile($path)
 	{
-		// Read the file to see if it's a valid component XML file
-		if (!$xml = JFactory::getXML($path))
-		{
-			return false;
-		}
-
-		// Check for a valid XML root tag.
-
-		// Should be 'install', but for backward compatibility we will accept 'extension'.
-		// Languages use 'metafile' instead
-
-		if ($xml->getName() != 'install' && $xml->getName() != 'extension' && $xml->getName() != 'metafile')
-		{
-			unset($xml);
-			return false;
-		}
-
-		$data = array();
-
-		$data['legacy'] = ($xml->getName() == 'mosinstall' || $xml->getName() == 'install');
-
-		$data['name'] = (string) $xml->name;
-
-		// Check if we're a language. If so use metafile.
-		$data['type'] = $xml->getName() == 'metafile' ? 'language' : (string) $xml->attributes()->type;
-
-		$data['creationDate'] = ((string) $xml->creationDate) ? (string) $xml->creationDate : JText::_('Unknown');
-		$data['author'] = ((string) $xml->author) ? (string) $xml->author : JText::_('Unknown');
-
-		$data['copyright'] = (string) $xml->copyright;
-		$data['authorEmail'] = (string) $xml->authorEmail;
-		$data['authorUrl'] = (string) $xml->authorUrl;
-		$data['version'] = (string) $xml->version;
-		$data['description'] = (string) $xml->description;
-		$data['group'] = (string) $xml->group;
-
-		return $data;
+		JLog::add('JApplicationHelper::parseXMLInstallFile is deprecated. Use JInstaller::parseXMLInstallFile instead.', JLog::WARNING, 'deprecated');
+		return JInstaller::parseXMLInstallFile($path);
 	}
 
 	/**
@@ -387,6 +354,7 @@ class JApplicationHelper
 	 * @return  string   File name or null
 	 *
 	 * @since   11.1
+	 * @deprecated  12.1
 	 */
 	protected static function _checkPath($path, $checkAdmin = 1)
 	{
