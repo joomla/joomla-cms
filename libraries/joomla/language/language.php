@@ -658,7 +658,7 @@ class JLanguage
 			return false;
 		}
 
-		$path = "$basePath/language/$lang";
+		$path = $basePath . '/language/' . $lang;
 
 		// Return previous check results if it exists
 		if (isset($paths[$path]))
@@ -667,9 +667,7 @@ class JLanguage
 		}
 
 		// Check if the language exists
-		jimport('joomla.filesystem.folder');
-
-		$paths[$path] = JFolder::exists($path);
+		$paths[$path] = is_dir($path);
 
 		return $paths[$path];
 	}
@@ -1245,50 +1243,32 @@ class JLanguage
 	 */
 	public static function parseLanguageFiles($dir = null)
 	{
-		jimport('joomla.filesystem.folder');
-
 		$languages = array();
 
-		$subdirs = JFolder::folders($dir);
+		$iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir));
 
-		foreach ($subdirs as $path)
+		foreach ($iterator as $file)
 		{
-			$langs = self::parseXMLLanguageFiles("$dir/$path");
-			$languages = array_merge($languages, $langs);
-		}
+			$langs    = array();
+			$fileName = $file->getFilename();
 
-		return $languages;
-	}
-
-	/**
-	 * Parses XML files for language information
-	 *
-	 * @param   string  $dir  Directory of files.
-	 *
-	 * @return  array  Array holding the found languages as filename => metadata array.
-	 *
-	 * @since   11.1
-	 */
-	public static function parseXMLLanguageFiles($dir = null)
-	{
-		if ($dir == null)
-		{
-			return null;
-		}
-
-		$languages = array();
-		jimport('joomla.filesystem.folder');
-		$files = JFolder::files($dir, '^([-_A-Za-z]*)\.xml$');
-
-		foreach ($files as $file)
-		{
-			if ($content = file_get_contents("$dir/$file"))
+			if (!$file->isFile() || !preg_match("/^([-_A-Za-z]*)\.xml$/", $fileName))
 			{
-				if ($metadata = self::parseXMLLanguageFile("$dir/$file"))
+				continue;
+			}
+
+			try
+			{
+				$metadata = self::parseXMLLanguageFile($file->getRealPath());
+				if ($metadata)
 				{
-					$lang = str_replace('.xml', '', $file);
-					$languages[$lang] = $metadata;
+					$lang = str_replace('.xml', '', $fileName);
+					$langs[$lang] = $metadata;
 				}
+				$languages = array_merge($languages, $langs);
+			}
+			catch (RuntimeException $e)
+			{
 			}
 		}
 
@@ -1303,9 +1283,15 @@ class JLanguage
 	 * @return  array  Array holding the found metadata as a key => value pair.
 	 *
 	 * @since   11.1
+	 * @throws  RuntimeException
 	 */
 	public static function parseXMLLanguageFile($path)
 	{
+		if (!is_readable($path))
+		{
+			throw new RuntimeException('File not found or not readable');
+		}
+
 		// Try to load the file
 		if (!$xml = JFactory::getXML($path))
 		{

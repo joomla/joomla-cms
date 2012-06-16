@@ -177,7 +177,6 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 */
 	public static function getConnectors()
 	{
-		// Instantiate variables.
 		$connectors = array();
 
 		// Get an iterator and loop trough the driver classes.
@@ -197,7 +196,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 			// Derive the class name from the type.
 			$class = str_ireplace('.php', '', 'JDatabaseDriver' . ucfirst(trim($fileName)));
 
-			// If the class doesn't exist we have nothing left to do but look at the next type.  We did our best.
+			// If the class doesn't exist we have nothing left to do but look at the next type. We did our best.
 			if (!class_exists($class))
 			{
 				continue;
