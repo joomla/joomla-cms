@@ -60,7 +60,22 @@ $user = JFactory::getUser();
 
 			<?php if ($user->authorise('core.create', 'com_media')):?>
 			<!-- File Upload Form -->
-			<form action="<?php echo JURI::base(); ?>index.php?option=com_media&amp;task=file.upload&amp;tmpl=component&amp;<?php echo $this->session->getName().'='.$this->session->getId(); ?>&amp;<?php echo JSession::getFormToken();?>=1&amp;format=json" id="uploadForm" name="uploadForm" method="post" enctype="multipart/form-data">
+			<?php
+				// build a query string for the form action
+				$query = array(
+					'option=com_media',	// the option
+					'task=file.upload',	// the task
+					$this->session->getName() . '=' . $this->session->getId(), // the session (why? maybe flash uploader needs this?)
+					JSession::getFormToken() . '=1', // the token (again why here? flash?)	
+				);
+				if ($this->config->get('enable_flash') == '1')
+				{
+					$query[] = 'format=json';
+				}
+			?>
+			<form action="<?php echo JURI::base(); ?>index.php?<?php echo implode('&amp;', $query); ?>" id="uploadForm" name="uploadForm" method="post" enctype="multipart/form-data">
+				<input type="hidden" name="return-url" value="<?php echo base64_encode('index.php?option=com_media'); ?>" />
+				
 				<fieldset id="uploadform">
 					<legend><?php echo $this->config->get('upload_maxsize')=='0' ? JText::_('COM_MEDIA_UPLOAD_FILES_NOLIMIT') : JText::sprintf('COM_MEDIA_UPLOAD_FILES', $this->config->get('upload_maxsize')); ?></legend>
 					<fieldset id="upload-noflash" class="actions">
@@ -86,8 +101,6 @@ $user = JFactory::getUser();
 					<ul class="upload-queue" id="upload-queue">
 						<li style="display:none;"></li>
 					</ul>
-					<input type="hidden" name="return-url" value="<?php echo base64_encode('index.php?option=com_media'); ?>" />
-					<input type="hidden" name="format" value="html" />
 				</fieldset>
 			</form>
 			<?php endif;?>
