@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+16-Jun-2012 Jean-Marie Simonet
+ $ Updating installation ini file pl-PL
+
 15-Jun-2012 Christophe Demko
  # [#28670] SQL error when installing trunk without sample data (Ofer Cohen)
 
