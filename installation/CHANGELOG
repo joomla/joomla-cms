@@ -26,7 +26,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
-15-Jun-2012 Christophe Demko
+16-Jun-2012 Mark Dexter
+ # [#27267] Multiple Loggers fail when using formattedtext (Shaun Maunder)
+
+16-Jun-2012 Christophe Demko
  # [#28673] JSON data returned when uploading oversized file (Jonathan Chang)
 
 16-Jun-2012 Jean-Marie Simonet
