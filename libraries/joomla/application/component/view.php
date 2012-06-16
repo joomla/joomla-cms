@@ -46,14 +46,6 @@ class JView extends JObject
 	 *
 	 * @var	string
 	 */
-	protected $defaultModel = null;
-
-	/**
-	 * The default model
-	 *
-	 * @var	string
-	 * @deprecated use $defaultModel declare as private
-	 */
 	protected $_defaultModel = null;
 
 	/**
@@ -477,7 +469,7 @@ class JView extends JObject
 	 * referenced by the name without JModel, eg. JModelCategory is just
 	 * Category.
 	 *
-	 * @param   object   &$model   The model to add to the view.
+	 * @param   JModel   &$model   The model to add to the view.
 	 * @param   boolean  $default  Is this the default model?
 	 *
 	 * @return  object   The added model.
@@ -517,6 +509,7 @@ class JView extends JObject
 			// Convert parameter to array based on :
 			$temp = explode(':', $layout);
 			$this->_layout = $temp[1];
+
 			// Set layout template
 			$this->_layoutTemplate = $temp[0];
 		}
@@ -597,7 +590,7 @@ class JView extends JObject
 	 */
 	public function loadTemplate($tpl = null)
 	{
-		// clear prior output
+		// Clear prior output
 		$this->_output = null;
 
 		$template = JFactory::getApplication()->getTemplate();
@@ -606,6 +599,7 @@ class JView extends JObject
 
 		// Create the template file name based on the layout
 		$file = isset($tpl) ? $layout . '_' . $tpl : $layout;
+
 		// Clean the file name
 		$file = preg_replace('/[^A-Z0-9_\.-]/i', '', $file);
 		$tpl = isset($tpl) ? preg_replace('/[^A-Z0-9_\.-]/i', '', $tpl) : $tpl;
@@ -649,6 +643,7 @@ class JView extends JObject
 
 			// Start capturing output into a buffer
 			ob_start();
+
 			// Include the requested template filename in the local scope
 			// (this will execute the view logic).
 			include $this->_template;
@@ -677,10 +672,10 @@ class JView extends JObject
 	 */
 	public function loadHelper($hlp = null)
 	{
-		// clean the file name
+		// Clean the file name
 		$file = preg_replace('/[^A-Z0-9_\.-]/i', '', $hlp);
 
-		// load the template script
+		// Load the template script
 		jimport('joomla.filesystem.path');
 		$helper = JPath::find($this->_path['helper'], $this->_createFileName('helper', array('name' => $file)));
 
@@ -739,19 +734,19 @@ class JView extends JObject
 	 */
 	protected function _addPath($type, $path)
 	{
-		// just force to array
+		// Just force to array
 		settype($path, 'array');
 
-		// loop through the path directories
+		// Loop through the path directories
 		foreach ($path as $dir)
 		{
 			// no surrounding spaces allowed!
 			$dir = trim($dir);
 
-			// add trailing separators as needed
+			// Add trailing separators as needed
 			if (substr($dir, -1) != DIRECTORY_SEPARATOR)
 			{
-				// directory
+				// Directory
 				$dir .= DIRECTORY_SEPARATOR;
 			}
 

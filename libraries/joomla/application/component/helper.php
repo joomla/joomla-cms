@@ -97,7 +97,7 @@ class JComponentHelper
 	/**
 	 * Applies the global text filters to arbitrary text as per settings for current user groups
 	 *
-	 * @param   text  $text  The string to filter
+	 * @param   string  $text  The string to filter
 	 *
 	 * @return  string  The filtered string
 	 *
@@ -260,7 +260,8 @@ class JComponentHelper
 			// White lists take third precedence.
 			elseif ($whiteList)
 			{
-				$filter	= JFilterInput::getInstance($whiteListTags, $whiteListAttributes, 0, 0, 0);  // turn off xss auto clean
+				// Turn off xss auto clean
+				$filter	= JFilterInput::getInstance($whiteListTags, $whiteListAttributes, 0, 0, 0);
 			}
 			// No HTML takes last place.
 			else
@@ -306,6 +307,7 @@ class JComponentHelper
 
 		// Record the scope
 		$scope = $app->scope;
+
 		// Set scope to component name
 		$app->scope = $option;
 
