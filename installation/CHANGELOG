@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+15-Jun-2012 Christophe Demko
+ # [#28673] JSON data returned when uploading oversized file (Jonathan Chang)
+
 16-Jun-2012 Jean-Marie Simonet
  $ Updating installation ini file pl-PL
  ^ [#28644] Move JApplicationHelper::parseXMLInstallFile to JInstaller. Thanks Rouven.

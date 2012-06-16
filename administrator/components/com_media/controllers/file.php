@@ -33,7 +33,7 @@ class MediaControllerFile extends JController
 	{
 		// Check for request forgeries
 		JSession::checkToken('request') or jexit(JText::_('JINVALID_TOKEN'));
-
+		$params = JComponentHelper::getParams('com_media');
 		// Get some data from the request
 		$files			= JRequest::getVar('Filedata', '', 'files', 'array');
 		$return			= JRequest::getVar('return-url', null, 'post', 'base64');
@@ -50,7 +50,16 @@ class MediaControllerFile extends JController
 		{
 			return false;
 		}
-
+		if (
+			$_SERVER['CONTENT_LENGTH']>($params->get('upload_maxsize', 0) * 1024 * 1024) ||
+			$_SERVER['CONTENT_LENGTH']>(int)(ini_get('upload_max_filesize'))* 1024 * 1024 ||
+			$_SERVER['CONTENT_LENGTH']>(int)(ini_get('post_max_size'))* 1024 * 1024 ||
+			$_SERVER['CONTENT_LENGTH']>(int)(ini_get('memory_limit'))* 1024 * 1024
+		)
+		{
+			$this->setRedirect('index.php?option=com_media&folder=' . $this->folder, JText::_('COM_MEDIA_ERROR_WARNFILETOOLARGE'), 'error');
+			return false;
+		}
 		// Input is in the form of an associative array containing numerically indexed arrays
 		// We want a numerically indexed array containing associative arrays
 		// Cast each item as array in case the Filedata parameter was not sent as such
@@ -61,6 +70,17 @@ class MediaControllerFile extends JController
 		// Perform basic checks on file info before attempting anything
 		foreach ($files as &$file)
 		{
+			if ($file['error']==1)
+			{
+				JError::raiseWarning(100, JText::_('COM_MEDIA_ERROR_WARNFILETOOLARGE'));
+				return false;
+			}
+			if ($file['size']>($params->get('upload_maxsize', 0) * 1024 * 1024))
+			{
+				JError::raiseNotice(100, JText::_('COM_MEDIA_ERROR_WARNFILETOOLARGE'));
+				return false;
+			}
+			
 			if (JFile::exists($file['filepath']))
 			{
 				// A file with this name already exists
