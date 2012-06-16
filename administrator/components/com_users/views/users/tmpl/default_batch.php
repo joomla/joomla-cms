@@ -23,7 +23,7 @@ $options = array(
 	<fieldset id="batch-choose-action" class="combo">
 		<select name="batch[group_id]" class="inputbox" id="batch-group-id">
 			<option value=""><?php echo JText::_('JSELECT') ?></option>
-			<?php echo JHtml::_('select.options', JHtml::_('user.groups')); ?>
+			<?php echo JHtml::_('select.options', JHtml::_('user.groups', JFactory::getUser()->get('isRoot'))); ?>
 		</select>
 		<?php echo JHtml::_('select.radiolist', $options, 'batch[group_action]', '', 'value', 'text', 'add') ?>
 	</fieldset>

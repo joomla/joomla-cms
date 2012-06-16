@@ -29,7 +29,7 @@ $version = '2.5';
 
 // Set release for each build
 // Release is third digit (like '0', '1', or '2')
-$release = '4';
+$release = '5';
 
 // Path to local git repository (parent folder of build folder)
 $repo = dirname(dirname(__FILE__));

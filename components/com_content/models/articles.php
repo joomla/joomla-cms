@@ -67,11 +67,9 @@ class ContentModelArticles extends JModelList
 		$app = JFactory::getApplication();
 
 		// List state information
-		//$value = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'));
 		$value = JRequest::getUInt('limit', $app->getCfg('list_limit', 0));
 		$this->setState('list.limit', $value);
 
-		//$value = $app->getUserStateFromRequest($this->context.'.limitstart', 'limitstart', 0);
 		$value = JRequest::getUInt('limitstart', 0);
 		$this->setState('list.start', $value);
 
@@ -212,7 +210,7 @@ class ContentModelArticles extends JModelList
 		$subQuery->group('contact.user_id, contact.language');
 		$query->select('contact.id as contactid' );
 		$query->join('LEFT', '(' . $subQuery . ') AS contact ON contact.user_id = a.created_by');
-		
+
 		// Join over the categories to get parent category titles
 		$query->select('parent.title as parent_title, parent.id as parent_id, parent.path as parent_route, parent.alias as parent_alias');
 		$query->join('LEFT', '#__categories as parent ON parent.id = c.parent_id');

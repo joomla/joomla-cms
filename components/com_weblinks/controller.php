@@ -48,8 +48,8 @@ class WeblinksController extends JController
 
 		$safeurlparams = array(
 			'id'				=> 'INT',
-			'limit'				=> 'INT',
-			'limitstart'		=> 'INT',
+			'limit'				=> 'UINT',
+			'limitstart'		=> 'UINT',
 			'filter_order'		=> 'CMD',
 			'filter_order_Dir'	=> 'CMD',
 			'lang'				=> 'CMD'

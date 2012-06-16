@@ -42,7 +42,7 @@ class NewsfeedsModelNewsfeed extends JModelItem
 		$pk = JRequest::getInt('id');
 		$this->setState('newsfeed.id', $pk);
 
-		$offset = JRequest::getInt('limitstart');
+		$offset = JRequest::getUInt('limitstart', 0);
 		$this->setState('list.offset', $offset);
 
 		// Load the parameters.

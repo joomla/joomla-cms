@@ -11,6 +11,7 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.modeladmin');
+jimport('joomla.access.access');
 
 /**
  * User model.
@@ -544,7 +545,8 @@ class UsersModelUser extends JModelAdmin
 
 		JArrayHelper::toInteger($user_ids);
 
-		if ($group_id < 1)
+		// Non-super admin cannot work with super-admin group
+		if ((!JFactory::getUser()->get('isRoot') && JAccess::checkGroup($group_id, 'core.admin')) || $group_id < 1)
 		{
 			$this->setError(JText::_('COM_USERS_ERROR_INVALID_GROUP'));
 			return false;

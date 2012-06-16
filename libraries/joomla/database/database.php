@@ -1516,8 +1516,8 @@ abstract class JDatabase implements JDatabaseInterface
 	public function setQuery($query, $offset = 0, $limit = 0)
 	{
 		$this->sql = $query;
-		$this->limit = (int) $limit;
-		$this->offset = (int) $offset;
+		$this->limit = (int) max(0, $limit);
+		$this->offset = (int) max(0, $offset);
 
 		return $this;
 	}

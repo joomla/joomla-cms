@@ -51,7 +51,7 @@ class SearchController extends JController
 		}
 		$post['ordering']	= JRequest::getWord('ordering', null, 'post');
 		$post['searchphrase']	= JRequest::getWord('searchphrase', 'all', 'post');
-		$post['limit']  = JRequest::getInt('limit', null, 'post');
+		$post['limit']  = JRequest::getUInt('limit', null, 'post');
 		if ($post['limit'] === null) unset($post['limit']);
 
 		$areas = JRequest::getVar('areas', null, 'post', 'array');

@@ -168,7 +168,7 @@ class ContentModelCategory extends JModelList
 		}
 		$this->setState('list.direction', $listOrder);
 
-		$this->setState('list.start', JRequest::getVar('limitstart', 0, '', 'int'));
+		$this->setState('list.start', JRequest::getUInt('limitstart', 0));
 
 		// set limit for query. If list, use parameter. If blog, add blog parameters for limit.
 		if ((JRequest::getCmd('layout') == 'blog') || $params->get('layout_type') == 'blog') {
@@ -176,7 +176,7 @@ class ContentModelCategory extends JModelList
 			$this->setState('list.links', $params->get('num_links'));
 		}
 		else {
-			$limit = $app->getUserStateFromRequest('com_content.category.list.' . $itemid . '.limit', 'limit', $params->get('display_num'));
+			$limit = $app->getUserStateFromRequest('com_content.category.list.' . $itemid . '.limit', 'limit', $params->get('display_num'), 'uint');
 		}
 
 		$this->setState('list.limit', $limit);
