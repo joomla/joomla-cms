@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+17-Jun-2012 Christophe Demko
+ ^ [#28643] Backport JApplicationBase and some minor fixes from the platform. (Rouven Weßling)
+
 16-Jun-2012 Mark Dexter
  # [#27267] Multiple Loggers fail when using formattedtext (Shaun Maunder)
  # [#28411] Site breaks when deleting alternate style which is in use (Christophe Demko)
