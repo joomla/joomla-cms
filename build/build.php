@@ -31,6 +31,9 @@ $version = '2.5';
 // Release is third digit (like '0', '1', or '2')
 $release = '5';
 
+// Set path to git binary (e.g., /usr/local/git/bin/git or /urs/bin/git)
+$gitPath = '/usr/bin/git';
+
 // Path to local git repository (parent folder of build folder)
 $repo = dirname(dirname(__FILE__));
 $here = dirname(__FILE__);
@@ -49,7 +52,7 @@ mkdir($fullpath);
 
 echo "Copy the files from the git repository.\n";
 chdir($repo);
-system('/usr/local/git/bin/git archive ' . $full . ' | tar -x -C ' . $fullpath);
+system($gitPath . ' archive ' . $full . ' | tar -x -C ' . $fullpath);
 
 
 echo "Delete old folders.\n";
@@ -75,7 +78,7 @@ for($num=0;$num < $release;$num++) {
 
 	// Here we get a list of all files that have changed between the two tags ($previousTag and $full) and save in diffdocs
 	$previousTag = $version . '.' . $num;
-	$command = '/usr/local/git/bin/git diff tags/'. $previousTag . ' tags/' . $full . ' --name-status > diffdocs/'.$version.'.'.$num;
+	$command = $gitPath . ' diff tags/'. $previousTag . ' tags/' . $full . ' --name-status > diffdocs/'.$version.'.'.$num;
 	system($command);
 
 	// $newfile will hold the array of files to include in diff package
