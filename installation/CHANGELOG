@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+17-Jun-2012 Jean-Marie Simonet
+ $ Updating installation ini file zh-CN
+
 17-Jun-2012 Christophe Demko
  ^ [#28643] Backport JApplicationBase and some minor fixes from the platform. (Rouven Weßling)
 
