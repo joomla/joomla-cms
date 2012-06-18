@@ -147,7 +147,7 @@ if ($user->authorise('core.manage', 'com_users'))
 	if ($createUser)
 	{
 		$menu->addChild(
-			new JMenuNode(JText::_('MOD_MENU_COM_CONTENT_NEW_CATEGORY'), 'index.php?option=com_categories&task=category.add&extension=com_users', 'class:newarticle')
+			new JMenuNode(JText::_('MOD_MENU_COM_CONTENT_NEW_CATEGORY'), 'index.php?option=com_categories&task=category.add&extension=com_users.notes', 'class:newarticle')
 		);
 		$menu->getParent();
 	}
