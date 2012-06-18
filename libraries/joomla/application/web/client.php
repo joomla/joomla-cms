@@ -116,7 +116,7 @@ class JApplicationWebClient
 
 	/**
 	 * @var    boolean  True if the web client is a robot.
-	 * @since  12.1
+	 * @since  12.3
 	 */
 	protected $robot = false;
 
