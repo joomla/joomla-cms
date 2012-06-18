@@ -16,7 +16,8 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Log
- * @since       12.1
+ * 
+ * @since       12.2
  */
 class JLoggerCallbackTestHelper
 {
@@ -28,6 +29,8 @@ class JLoggerCallbackTestHelper
 	 * @param   JLogEntry  $entry  A log entry to be processed.
 	 *
 	 * @return  null
+	 * 
+	 * @since   12.2
 	 */
 	public static function callback01(JLogEntry $entry)
 	{
@@ -40,6 +43,8 @@ class JLoggerCallbackTestHelper
 	 * @param   JLogEntry  $entry  A log entry to be processed.
 	 *
 	 * @return  null
+	 * 
+	 * @since   12.2
 	 */
 	public function callback02(JLogEntry $entry)
 	{
@@ -53,6 +58,8 @@ class JLoggerCallbackTestHelper
  * @param   JLogEntry  $entry  A log entry to be processed.
  *
  * @return  null
+ * 
+ * @since   12.2
  */
 function jLoggerCallbackTestHelperFunction(JLogEntry $entry)
 {

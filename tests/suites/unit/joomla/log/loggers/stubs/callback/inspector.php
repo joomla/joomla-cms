@@ -16,7 +16,8 @@
  * 
  * @package     Joomla.UnitTest
  * @subpackage  Log
- * @since       12.1
+ * 
+ * @since       12.2
  */
 class JLoggerCallbackInspector extends JLoggerCallback
 {
