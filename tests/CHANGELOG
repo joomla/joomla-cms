@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+18-June-2012 Mark Dexter
+ ^ Update phpunit.php for debugging system tests
+
 05-May-2012 Mark Dexter
  ^ Update phpunit.php for PHPUnit version 3.5
 
