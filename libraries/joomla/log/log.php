@@ -188,8 +188,22 @@ class JLog
 		}
 		$options['logger'] = strtolower($options['logger']);
 
+		// Special case - if a Closure object is sent as the callback (in case of JLoggerCallback)
+		// Closure objects are not serializable so swap it out for a unique id first then back again later
+		if (isset($options['callback']) && is_a($options['callback'], 'closure'))
+		{
+			$callback = $options['callback'];
+			$options['callback'] = spl_object_hash($options['callback']);
+		}
+
 		// Generate a unique signature for the JLog instance based on its options.
 		$signature = md5(serialize($options));
+
+		// Now that the options array has been serialized, swap the callback back in
+		if (isset($callback))
+		{
+			$options['callback'] = $callback;
+		}
 
 		// Register the configuration if it doesn't exist.
 		if (empty(self::$instance->configurations[$signature]))
