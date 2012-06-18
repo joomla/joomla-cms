@@ -4,10 +4,7 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.view');
 
 /**
  * Content categories view.
@@ -16,7 +13,7 @@ jimport('joomla.application.component.view');
  * @subpackage	com_weblinks
  * @since 1.5
  */
-class WeblinksViewCategories extends JView
+class WeblinksViewCategories extends JViewLegacy
 {
 	protected $state = null;
 	protected $item = null;

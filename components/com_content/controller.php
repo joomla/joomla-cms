@@ -6,10 +6,7 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.controller');
 
 /**
  * Content Component Controller
@@ -18,7 +15,7 @@ jimport('joomla.application.component.controller');
  * @subpackage	com_content
  * @since		1.5
  */
-class ContentController extends JController
+class ContentController extends JControllerLegacy
 {
 	function __construct($config = array())
 	{

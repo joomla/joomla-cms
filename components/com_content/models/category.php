@@ -6,7 +6,6 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.modellist');
@@ -209,7 +208,7 @@ class ContentModelCategory extends JModelList
 		$limit = $this->getState('list.limit');
 
 		if ($this->_articles === null && $category = $this->getCategory()) {
-			$model = JModel::getInstance('Articles', 'ContentModel', array('ignore_request' => true));
+			$model = JModelLegacy::getInstance('Articles', 'ContentModel', array('ignore_request' => true));
 			$model->setState('params', JFactory::getApplication()->getParams());
 			$model->setState('filter.category_id', $category->id);
 			$model->setState('filter.published', $this->getState('filter.published'));

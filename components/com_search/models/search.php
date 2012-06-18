@@ -6,10 +6,7 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.model');
 
 /**
  * Search Component Search Model
@@ -18,7 +15,7 @@ jimport('joomla.application.component.model');
  * @subpackage	com_search
  * @since 1.5
  */
-class SearchModelSearch extends JModel
+class SearchModelSearch extends JModelLegacy
 {
 	/**
 	 * Sezrch data array

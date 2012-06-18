@@ -6,10 +6,8 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
 jimport('joomla.application.component.helper');
 
 JTable::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR . '/tables');
@@ -20,7 +18,7 @@ JTable::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR . '/tables');
  * @package		Joomla.Site
  * @subpackage	com_banners
  */
-class BannersModelBanner extends JModel
+class BannersModelBanner extends JModelLegacy
 {
 	protected $_item;
 

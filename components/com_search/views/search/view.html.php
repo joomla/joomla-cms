@@ -6,10 +6,7 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.view');
 
 /**
  * HTML View class for the search component
@@ -19,7 +16,7 @@ jimport('joomla.application.component.view');
  * @subpackage	com_search
  * @since 1.0
  */
-class SearchViewSearch extends JView
+class SearchViewSearch extends JViewLegacy
 {
 	function display($tpl = null)
 	{

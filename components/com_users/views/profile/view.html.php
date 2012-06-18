@@ -8,8 +8,6 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
-
 /**
  * Profile view class for Users.
  *
@@ -17,7 +15,7 @@ jimport('joomla.application.component.view');
  * @subpackage	com_users
  * @since		1.6
  */
-class UsersViewProfile extends JView
+class UsersViewProfile extends JViewLegacy
 {
 	protected $data;
 	protected $form;

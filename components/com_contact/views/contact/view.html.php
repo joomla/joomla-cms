@@ -6,10 +6,8 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
 require_once JPATH_COMPONENT.'/models/category.php';
 
 /**
@@ -19,7 +17,7 @@ require_once JPATH_COMPONENT.'/models/category.php';
  * @subpackage	com_contact
  * @since 		1.5
  */
-class ContactViewContact extends JView
+class ContactViewContact extends JViewLegacy
 {
 	protected $state;
 	protected $form;
@@ -44,7 +42,7 @@ class ContactViewContact extends JView
 			$params->merge($item->params);
 
 			// Get Category Model data
-			$categoryModel = JModel::getInstance('Category', 'ContactModel', array('ignore_request' => true));
+			$categoryModel = JModelLegacy::getInstance('Category', 'ContactModel', array('ignore_request' => true));
 			$categoryModel->setState('category.id', $item->catid);
 			$categoryModel->setState('list.ordering', 'a.name');
 			$categoryModel->setState('list.direction', 'asc');

@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
-
 /**
  * Search HTML view class for the Finder package.
  *
@@ -18,7 +16,7 @@ jimport('joomla.application.component.view');
  * @subpackage  com_finder
  * @since       2.5
  */
-class FinderViewSearch extends JView
+class FinderViewSearch extends JViewLegacy
 {
 	protected $query;
 	protected $params;
