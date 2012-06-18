@@ -474,4 +474,20 @@ class JApplicationWebClient
 		// Mark this detection routine as run.
 		$this->detection['platform'] = true;
 	}
+
+	/**
+	 * Determines if the browser is a robot or not.
+	 *
+	 * @return  boolean  True if browser is a known robot.
+	 *
+	 * @since   12.1
+	 */
+	public function isRobot()
+	{
+		if (preg_match('/http|bot|robot|spider|crawler|curl|^$/i', $this->userAgent))
+		{
+			return true;
+		}
+		return false;
+	}
 }
