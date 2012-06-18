@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+"http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "../Developer_Manual.ent">
+%BOOK_ENTITIES;
+]>
+<chapter id="chap-Joomla_Platform_Manual-jauthorisation">
+  <title>The Authorisation Package</title>
+
+  <section>
+    <title>Introduction</title>
+
+    <para>The authorisation package is awesome.</para>
+  </section>
+
+  <section>
+    <title>Interfaces</title>
+
+    <para>Three interfaces are provided to support the authorisation package.</para>
+
+    <section>
+      <title>JAuthorisationAuthorisable</title>
+
+      <para>The <interfacename>JAuthorisationAuthorisable</interfacename> interface requires a class implement an
+      <methodname>authorise</methodname> method.</para>
+    </section>
+
+    <section>
+      <title>JAuthorisationAuthoriser</title>
+
+      <para>The <interfacename>JAuthorisationAuthoriser</interfacename> interface requires a class implement an isAllowed method
+      and a setRules method. The authorisation package provide two concrete classes implementing this interface (see
+      <classname>JAuthorisationAuthoriserDefault</classname> and <classname>JAuthorisationAuthoriserRoot</classname>). These align
+      with the strategies required for the Joomla CMS.</para>
+    </section>
+
+    <section>
+      <title>JAuthorisationRequestor</title>
+
+      <para>The <interfacename>JAuthorisationRequestor</interfacename> interface requires a class implement a getIdentities
+      method. The method must return an array of identities but there are no rules for how that array is constructed other
+      than it must be consistent with the rules by which the identities will be authorised.</para>
+
+      <para>A common strategy is to employ this interface in "user" objects and return an array of integers. Positive integers
+      would represent the groups the user belongs to and a single negative integer would represent the id of the user.</para>
+    </section>
+  </section>
+
+  <section>
+    <title>Classes</title>
+
+    <para>The classes in the Authorisation package.</para>
+
+    <section>
+      <title>JAuthorisationFactory</title>
+
+      <para>The JAuthorisationFactory class provides a method to retrieve a type of authoriser.</para>
+
+      <example>
+        <title>Using the JAuthorisationFactory class</title>
+
+        <programlisting>try
+{
+	$authoriser = JAuthorisationFactory::getInstace()
+		-&gt;getAuthoriser('default');
+}
+catch (Exception $e)
+{
+	// Handle exception.
+}</programlisting>
+      </example>
+    </section>
+
+    <section>
+      <title>JAuthorisationRule</title>
+
+      <para>The <classname>JAuthorisationRule</classname> class helps the developer to build a ruleset either programmatically,
+      using the <methodname>set</methodname> method, or by merging from multiple sources, using the <methodname>merge</methodname>
+      method.</para>
+    </section>
+
+    <section>
+      <title>JAuthorisationAuthoriserDefault</title>
+
+      <para>This is the default authoriser that emulates the rule strategy that is employed by the Joomla CMS. Authorisation of
+      actions are treated as denied unless otherwise specified (implicit deny). Authorisation will be denied if any identity for
+      an action is explicitly denied even if other identities explicitly allow the action.</para>
+    </section>
+
+    <section>
+      <title>JAuthorisationAuthoriserRoot</title>
+
+      <para>The root authoriser emulates a strategy whereby the requestor is always authorised to perform any action regardless of
+      any set rules.</para>
+    </section>
+  </section>
+</chapter>
