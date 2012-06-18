@@ -87,33 +87,131 @@ class JMailTest extends TestCase
 	}
 
 	/**
-	 * @todo Implement testAddRecipient().
+	 * Provides test data for request format detection.
+	 *
+	 * @return array
 	 */
-	public function testAddRecipient() {
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-				'This test has not been implemented yet.'
+	public function seedTestAdd()
+	{
+		// Recipient, name, method
+		return array(
+			array('test@example.com', 'test_name', 'AddAddress', array(array('test@example.com', 'test_name'))),
+			array(array('test_1@example.com', 'test_2@example.com'), 'test_name', 'AddAddress',
+				array(array('test_1@example.com', 'test_name'), array('test_2@example.com', 'test_name'))),
+			array(array('test_1@example.com', 'test_2@example.com'), array('test_name1', 'test_name2'), 'AddAddress',
+				array(array('test_1@example.com', 'test_name1'), array('test_2@example.com', 'test_name2'))),
+			array('test@example.com', 'test_name', 'AddCC', array(array('test@example.com', 'test_name'))),
+			array(array('test_1@example.com', 'test_2@example.com'), 'test_name', 'AddCC',
+				array(array('test_1@example.com', 'test_name'), array('test_2@example.com', 'test_name'))),
+			array(array('test_1@example.com', 'test_2@example.com'), array('test_name1', 'test_name2'), 'AddCC',
+				array(array('test_1@example.com', 'test_name1'), array('test_2@example.com', 'test_name2'))),
+			array('test@example.com', 'test_name', 'AddBCC', array(array('test@example.com', 'test_name'))),
+			array(array('test_1@example.com', 'test_2@example.com'), 'test_name', 'AddBCC',
+				array(array('test_1@example.com', 'test_name'), array('test_2@example.com', 'test_name'))),
+			array(array('test_1@example.com', 'test_2@example.com'), array('test_name1', 'test_name2'), 'AddBCC',
+				array(array('test_1@example.com', 'test_name1'), array('test_2@example.com', 'test_name2'))),
+			array('test@example.com', 'test_name', 'AddReplyTo',
+				array('test@example.com' => array('test@example.com', 'test_name'))),
+			array(array('test_1@example.com', 'test_2@example.com'), 'test_name', 'AddReplyTo',
+				array(
+					'test_1@example.com' => array('test_1@example.com', 'test_name'),
+					'test_2@example.com' => array('test_2@example.com', 'test_name')
+				)
+			),
+			array(array('test_1@example.com', 'test_2@example.com'), array('test_name1', 'test_name2'), 'AddReplyTo',
+				array(
+					'test_1@example.com' => array('test_1@example.com', 'test_name1'),
+					'test_2@example.com' => array('test_2@example.com', 'test_name2')
+				)
+			)
 		);
 	}
 
 	/**
-	 * @todo Implement testAddCC().
+	 * Tests the add method
+	 * 
+	 * @param   mixed   $recipient  Either a string or array of strings [email address(es)]
+	 * @param   mixed   $name       Either a string or array of strings [name(s)]
+	 * @param   string  $method     The parent method's name.
+	 * @param   array   $expected   The expected array.
+	 * 
+	 * @covers  JMail::add
+	 * @dataProvider  seedTestAdd
+	 * 
+	 * @return void
 	 */
-	public function testAddCC() {
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-				'This test has not been implemented yet.'
-		);
+	public function testAdd($recipient, $name, $method, $expected)
+	{
+		TestReflection::invoke($this->object, 'add', $recipient, $name, $method);
+
+		switch ($method)
+		{
+			case 'AddAddress':
+				$type = 'to';
+				break;
+			case 'AddCC':
+				$type = 'cc';
+				break;
+			case 'AddBCC':
+				$type = 'bcc';
+				break;
+			case 'AddReplyTo':
+				$type = 'ReplyTo';
+				break;
+		}
+
+		$this->assertThat($expected, $this->equalTo(TestReflection::getValue($this->object, $type)));
 	}
 
 	/**
-	 * @todo Implement testAddBCC().
+	 * Tests the addRecipient method.
+	 * 
+	 * @covers  JMail::addRecipient
+	 * 
+	 * @return void
 	 */
-	public function testAddBCC() {
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-				'This test has not been implemented yet.'
-		);
+	public function testAddRecipient()
+	{
+		$recipient = 'test@example.com';
+		$name = 'test_name';
+		$expected = array(array('test@example.com', 'test_name'));
+
+		$this->object->addRecipient($recipient, $name);
+		$this->assertThat($expected, $this->equalTo(TestReflection::getValue($this->object, 'to')));
+	}
+
+	/**
+	 * Tests the addCC method.
+	 * 
+	 * @covers  JMail::addCC
+	 * 
+	 * @return void
+	 */
+	public function testAddCC()
+	{
+		$recipient = 'test@example.com';
+		$name = 'test_name';
+		$expected = array(array('test@example.com', 'test_name'));
+
+		$this->object->addCC($recipient, $name);
+		$this->assertThat($expected, $this->equalTo(TestReflection::getValue($this->object, 'cc')));
+	}
+
+	/**
+	 * Tests the addBCC method.
+	 * 
+	 * @covers  JMail::addBCC
+	 * 
+	 * @return void
+	 */
+	public function testAddBCC()
+	{
+		$recipient = 'test@example.com';
+		$name = 'test_name';
+		$expected = array(array('test@example.com', 'test_name'));
+
+		$this->object->addBCC($recipient, $name);
+		$this->assertThat($expected, $this->equalTo(TestReflection::getValue($this->object, 'bcc')));
 	}
 
 	/**
@@ -142,13 +240,20 @@ class JMailTest extends TestCase
 	}
 
 	/**
-	 * @todo Implement testAddReplyTo().
+	 * Tests the addReplyTo method.
+	 * 
+	 * @covers  JMail::addReplyTo
+	 * 
+	 * @return void
 	 */
-	public function testAddReplyTo() {
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-				'This test has not been implemented yet.'
-		);
+	public function testAddReplyTo()
+	{
+		$recipient = 'test@example.com';
+		$name = 'test_name';
+		$expected = array('test@example.com' => array('test@example.com', 'test_name'));
+
+		$this->object->addReplyTo($recipient, $name);
+		$this->assertThat($expected, $this->equalTo(TestReflection::getValue($this->object, 'ReplyTo')));
 	}
 
 	/**
