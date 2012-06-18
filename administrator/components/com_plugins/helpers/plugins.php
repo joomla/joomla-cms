@@ -4,7 +4,6 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
 
 /**
@@ -94,7 +93,7 @@ class PluginsHelper
 		// Check of the xml file exists
 		$filePath = JPath::clean($templateBaseDir.'/templates/'.$templateDir.'/templateDetails.xml');
 		if (is_file($filePath)) {
-			$xml = JApplicationHelper::parseXMLInstallFile($filePath);
+			$xml = JInstaller::parseXMLInstallFile($filePath);
 
 			if ($xml['type'] != 'template') {
 				return false;

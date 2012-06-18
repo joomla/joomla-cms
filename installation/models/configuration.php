@@ -219,12 +219,12 @@ class JInstallationModelConfiguration extends JModelLegacy
 		$crypt = JUserHelper::getCryptedPassword($options->admin_password, $salt);
 		$cryptpass = $crypt.':'.$salt;
 
-		// first take the random admin user id
-		$session = JFactory::getSession();
-		$randUserId = $session->get('randUserId');
+		// take the admin user id
+		JLoader::register('JInstallationModelDatabase', JPATH_INSTALLATION . '/models/database.php');
+		$userId = JInstallationModelDatabase::getUserId();
 		
 		//we don't need anymore the randUserId in the session, let's remove it
-		$session->set('randUserId', null);
+		JInstallationModelDatabase::resetRandUserId();
 
 		// create the admin user
 		date_default_timezone_set('UTC');
@@ -234,7 +234,7 @@ class JInstallationModelConfiguration extends JModelLegacy
 		$query = $db->getQuery(true);
 		$query->select('id');
 		$query->from('#__users');
-		$query->where('id = ' . $db->quote($randUserId));
+		$query->where('id = ' . $db->quote($userId));
 
 		$db->setQuery($query);
 
@@ -253,7 +253,7 @@ class JInstallationModelConfiguration extends JModelLegacy
 			$query->set('lastvisitDate = '.$db->quote($nullDate));
 			$query->set('activation = '.$db->quote('0'));
 			$query->set('params = '.$db->quote(''));
-			$query->where('id = ' . $db->quote($randUserId));
+			$query->where('id = ' . $db->quote($userId));
 		}
 		else
 		{
@@ -267,7 +267,7 @@ class JInstallationModelConfiguration extends JModelLegacy
 			$query->insert('#__users', true);
 			$query->columns($columns);
 
-			$query->values($db->quote($randUserId) . ', '. $db->quote('Super User') . ', ' . $db->quote($options->admin_user) . ', '.
+			$query->values($db->quote($userId) . ', '. $db->quote('Super User') . ', ' . $db->quote($options->admin_user) . ', '.
 				$db->quote($options->admin_email). ', '. $db->quote($cryptpass). ', '. $db->quote('deprecated').', '.$db->quote('0').', '.$db->quote('1').', '.
 				$db->quote($installdate).', '.$db->quote($nullDate).', '.$db->quote('0').', '.$db->quote(''));
 		}
@@ -287,7 +287,7 @@ class JInstallationModelConfiguration extends JModelLegacy
 		$query = $db->getQuery(true);
 		$query->select('user_id');
 		$query->from('#__user_usergroup_map');
-		$query->where('user_id = ' . $db->quote($randUserId));
+		$query->where('user_id = ' . $db->quote($userId));
 
 		$db->setQuery($query);
 
@@ -295,7 +295,7 @@ class JInstallationModelConfiguration extends JModelLegacy
 		{
 			$query = $db->getQuery(true);
 			$query->update('#__user_usergroup_map');
-			$query->set('user_id = ' . $db->quote($randUserId));
+			$query->set('user_id = ' . $db->quote($userId));
 			$query->set('group_id = 8');
 		}
 		else
@@ -303,7 +303,7 @@ class JInstallationModelConfiguration extends JModelLegacy
 			$query = $db->getQuery(true);
 			$query->insert('#__user_usergroup_map', false);
 			$query->columns(array($db->quoteName('user_id'), $db->quoteName('group_id')));
-			$query->values($randUserId. ', '. '8');
+			$query->values($userId. ', '. '8');
 		}
 
 		$db->setQuery($query);

@@ -26,6 +26,35 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+17-Jun-2012 Jean-Marie Simonet
+ $ Updating installation ini file zh-CN
+
+17-Jun-2012 Christophe Demko
+ ^ [#28643] Backport JApplicationBase and some minor fixes from the platform. (Rouven Weßling)
+
+16-Jun-2012 Mark Dexter
+ # [#27267] Multiple Loggers fail when using formattedtext (Shaun Maunder)
+ # [#28411] Site breaks when deleting alternate style which is in use (Christophe Demko)
+ # [#27737] Clean up the unit tests (Rouven Weßling)
+
+16-Jun-2012 Christophe Demko
+ # [#28673] JSON data returned when uploading oversized file (Jonathan Chang)
+
+16-Jun-2012 Jean-Marie Simonet
+ $ Updating installation ini file pl-PL
+ ^ [#28644] Move JApplicationHelper::parseXMLInstallFile to JInstaller. Thanks Rouven.
+ ^ [#28649] Backport small changes to the MVC from the platform. Thanks Rouven
+
+15-Jun-2012 Christophe Demko
+ # [#28670] SQL error when installing trunk without sample data (Ofer Cohen)
+
+15-Jun-2012 Jean-Marie Simonet
+ $ Updating installation ini file sy-IQ + missing strings in en-AU, en-US and gu-IN
+ + [#28629] Multi-File Upload. Thanks Elijah
+ $ Updating installation ini files: af-ZA, be-BY, el-GR, gl-ES, he-IL
+ + [#28617] Add buttons in each menu selection tab in the module admin manager. Thanks Mathieu
+ # [#28592] Language in component folder. Thanks Lao
+
 14-Jun-2012 Christophe Demko
  ^ [#28667] Update TinyMCE to version 3.5.2 (Rouven Weßling)
 

@@ -19,7 +19,37 @@ require_once JPATH_INSTALLATION.'/helpers/database.php';
 class JInstallationModelDatabase extends JModelLegacy
 {
 
-	function initialise($options)
+	static protected $userId = 0;
+
+	static protected function generateRandUserId()
+	{
+		$session = JFactory::getSession();
+		$randUserId = $session->get('randUserId');
+		if (empty($randUserId)) {
+			// Create the ID for the root user only once and store in session
+			$randUserId = mt_rand(1, 1000);
+			$session->set('randUserId', $randUserId);
+		}
+		return $randUserId;
+		
+	}
+	
+	static public function resetRandUserId()
+	{
+		self::$userId = 0;
+		$session = JFactory::getSession();
+		$session->set('randUserId', self::$userId);
+	}
+	
+	static public function getUserId()
+	{
+		if (!self::$userId) {
+			self::$userId = self::generateRandUserId();
+		}
+		return self::$userId;
+	}
+	
+	public function initialise($options)
 	{
 		// Get the options as a JObject for easier handling.
 		$options = JArrayHelper::toObject($options, 'JObject');
@@ -330,10 +360,7 @@ class JInstallationModelDatabase extends JModelLegacy
 	 */
 	protected function postInstallSampleData($db) {
 		// Create the ID for the root user
-		$randUserId = mt_rand(1, 1000);
-
-		$session = JFactory::getSession();
-		$session->set('randUserId', $randUserId);
+		$userId = self::getUserId();
 		
 		// update all created_by field of the tables with the random user id
 		// categories (created_user_id), contact_details, content, newsfeeds, weblinks
@@ -347,7 +374,7 @@ class JInstallationModelDatabase extends JModelLegacy
 		foreach ($updates_array as $table => $field) {
 			$db->setQuery(
 				'UPDATE '.$db->quoteName('#__' . $table) .
-				' SET '.$db->quoteName($field).' = '.$db->Quote($randUserId)
+				' SET '.$db->quoteName($field).' = '.$db->Quote($userId)
 			);
 			$db->query();
 		}
