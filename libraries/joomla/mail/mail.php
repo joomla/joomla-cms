@@ -296,7 +296,7 @@ class JMail extends PHPMailer
 	 *
 	 * @return  JMail  Returns this object for chaining.
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 * @throws  InvalidArgumentException
 	 */
 	public function addAttachment($attachment, $name = '', $encoding = 'base64', $type = 'application/octet-stream')
