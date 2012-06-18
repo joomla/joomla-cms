@@ -23,6 +23,7 @@ defined('JPATH_PLATFORM') or die;
  * @property-read  string   $acceptEncoding  The web client's accepted encoding string.
  * @property-read  string   $acceptLanguage  The web client's accepted languages string.
  * @property-read  array    $detection       An array of flags determining whether or not a detection routine has been run.
+ * @property-read  boolean  $robot           True if the web client is a robot
  *
  * @package     Joomla.Platform
  * @subpackage  Application
@@ -112,6 +113,12 @@ class JApplicationWebClient
 	 * @since  12.1
 	 */
 	protected $acceptLanguage;
+
+	/**
+	 * @var    boolean  True if the web client is a robot.
+	 * @since  12.1
+	 */
+	protected $robot = false;
 
 	/**
 	 * @var    array  An array of flags determining whether or not a detection routine has been run.
@@ -208,6 +215,13 @@ class JApplicationWebClient
 				if (empty($this->detection['acceptEncoding']))
 				{
 					$this->detectEncoding($this->acceptEncoding);
+				}
+				break;
+
+			case 'robot':
+				if (empty($this->detection['robot']))
+				{
+					$this->detectRobot($this->userAgent);
 				}
 				break;
 		}
@@ -478,16 +492,23 @@ class JApplicationWebClient
 	/**
 	 * Determines if the browser is a robot or not.
 	 *
-	 * @return  boolean  True if browser is a known robot.
+	 * @param   string  $userAgent  The user-agent string to parse.
+	 *
+	 * @return  void
 	 *
 	 * @since   12.3
 	 */
-	public function isRobot()
+	protected function detectRobot($userAgent)
 	{
-		if (preg_match('/http|bot|robot|spider|crawler|curl|^$/i', $this->userAgent))
+		if (preg_match('/http|bot|robot|spider|crawler|curl|^$/i', $userAgent))
 		{
-			return true;
+			$this->robot = true;
 		}
-		return false;
+		else
+		{
+			$this->robot = false;
+		}
+
+		$this->detection['robot'] = true;
 	}
 }

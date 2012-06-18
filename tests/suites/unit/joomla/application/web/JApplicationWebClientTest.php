@@ -11,6 +11,10 @@ require_once __DIR__ . '/stubs/JWebClientInspector.php';
 
 /**
  * Test class for JApplicationWebClient.
+ *
+ * @package     Joomla.UnitTest
+ * @subpackage  Application
+ * @since       11.3
  */
 class JApplicationWebClientTest extends PHPUnit_Framework_TestCase
 {
@@ -121,7 +125,7 @@ class JApplicationWebClientTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @since   12.3
 	 */
-	public static function isRobotData()
+	public static function detectRobotData()
 	{
 		return array(
 			array('Googlebot/2.1 (+http://www.google.com/bot.html)', true),
@@ -150,11 +154,15 @@ class JApplicationWebClientTest extends PHPUnit_Framework_TestCase
 		$_SERVER['HTTP_USER_AGENT'] = 'Mozilla/5.0';
 
 		// Get a new JWebInspector instance.
-		$this->inspector = new JWebClientInspector();
+		$this->inspector = new JWebClientInspector;
 	}
 
 	/**
 	 * Tests the JApplicationWebClient::__construct method.
+	 *
+	 * @return void
+	 *
+	 * @since 11.3
 	 */
 	public function test__construct()
 	{
@@ -163,6 +171,10 @@ class JApplicationWebClientTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the JApplicationWebClient::__get method.
+	 *
+	 * @return void
+	 *
+	 * @since 11.3
 	 */
 	public function test__get()
 	{
@@ -279,21 +291,21 @@ class JApplicationWebClientTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Tests the JApplicationWebClient::isRobot method.
+	 * Tests the JApplicationWebClient::detectRobot method.
 	 *
 	 * @param   string   $userAgent  The user agent
 	 * @param   boolean  $expected   The expected results of the function
 	 *
 	 * @return  void
 	 *
-	 * @dataProvider isRobotData
+	 * @dataProvider detectRobotData
 	 * @since   12.3
 	 */
-	public function testisRobot($userAgent, $expected)
+	public function testDetectRobot($userAgent, $expected)
 	{
-		TestReflection::setValue($this->inspector, 'userAgent', $userAgent);
+		$this->inspector->detectRobot($userAgent);
 
 		// Test the assertions.
-		$this->assertEquals($expected, TestReflection::invoke($this->inspector, 'isRobot'), 'Robot detection failed');
+		$this->assertEquals($this->inspector->robot, $expected, 'Robot detection failed');
 	}
 }
