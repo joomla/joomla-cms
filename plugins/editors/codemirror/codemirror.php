@@ -122,6 +122,8 @@ class plgEditorCodemirror extends JPlugin
 		// Only add "px" to width and height if they are not given as a percentage
 		if (is_numeric($width)) {
 			$width .= 'px';
+		} elseif ($width == '100%') {
+			$width = 'auto';
 		}
 
 		// if height is given in pixels, compare it to the minheight param and keep the bigger of the two
@@ -188,6 +190,7 @@ class plgEditorCodemirror extends JPlugin
 		$options->height		= $height;
 		$options->width			= $width;
 		$options->continuousScanning = 500;
+		$options->iframeClass	= $this->params->get('editor_shadow') ? 'CodeMirror-frame-shadow' : 'CodeMirror-frame';
 
 		if ($this->params->get('linenumbers', 0)) {
 			$options->lineNumbers	= true;

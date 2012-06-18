@@ -9,8 +9,13 @@
 	padding-top: .4em;
 }
 
-.CodeMirror-wrapping
+.CodeMirror-frame,
+.CodeMirror-frame-shadow
 {
-	box-shadow: inset 0px 0px 3px #333;
 	background: #fafafa;
+}
+
+.CodeMirror-frame-shadow
+{
+	box-shadow: inset 0px 0px 1em #ccc;	
 }

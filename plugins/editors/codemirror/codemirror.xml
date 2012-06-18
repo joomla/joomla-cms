@@ -20,6 +20,15 @@
 		<fields name="params">
 
 			<fieldset name="basic">
+				<field name="editor_shadow" type="radio"
+					default="0"
+					description="PLG_CODEMIRROR_FIELD_SHADOW_DESC"
+					label="PLG_CODEMIRROR_FIELD_SHADOW_LABEL"
+				>
+					<option value="0">JOFF</option>
+					<option value="1">JON</option>
+				</field>
+
 				<field name="linenumbers" type="radio"
 					default="0"
 					description="PLG_CODEMIRROR_FIELD_LINENUMBERS_DESC"
