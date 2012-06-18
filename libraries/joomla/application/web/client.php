@@ -480,7 +480,7 @@ class JApplicationWebClient
 	 *
 	 * @return  boolean  True if browser is a known robot.
 	 *
-	 * @since   12.1
+	 * @since   12.3
 	 */
 	public function isRobot()
 	{
