@@ -19,6 +19,13 @@ defined('JPATH_PLATFORM') or die;
 class JApplicationWebRouterRest extends JApplicationWebRouterBase
 {
 	/**
+	 * @var     boolean  A boolean allowing to pass _method as parameter in POST requests
+	 *
+	 * @since  12.3
+	 */
+	protected $methodInPostRequest = false;
+
+	/**
 	 * @var    array  An array of HTTP Method => controller suffix pairs for routing the request.
 	 * @since  12.3
 	 */
@@ -76,6 +83,32 @@ class JApplicationWebRouterRest extends JApplicationWebRouterBase
 	}
 
 	/**
+	 * Set to allow or not method in POST request
+	 *
+	 * @param   boolean  $value  A boolean to allow or not method in POST request
+	 *
+	 * @return  void
+	 *
+	 * @since   12.3
+	 */
+	public function setMethodInPostRequest($value)
+	{
+		$this->methodInPostRequest = $value;
+	}
+
+	/**
+	 * Get the property to allow or not method in POST request
+	 *
+	 * @return  boolean
+	 *
+	 * @since   12.3
+	 */
+	public function getMethodInPostRequest()
+	{
+		return $this->methodInPostRequest;
+	}
+
+	/**
 	 * Get the controller class suffix string.
 	 *
 	 * @return  string
@@ -89,6 +122,19 @@ class JApplicationWebRouterRest extends JApplicationWebRouterBase
 		if (!isset($this->suffixMap[$this->input->getMethod()]))
 		{
 			throw new RuntimeException(sprintf('Unable to support the HTTP method `%s`.', $this->input->getMethod()), 404);
+		}
+
+		// Check if request method is POST
+		if ( $this->methodInPostRequest == true && strcmp(strtoupper($this->input->server->getMethod()), 'POST') === 0)
+		{
+			// Get the method from input
+			$postMethod = $this->input->get->getWord('_method');
+
+			// Validate that we have a map to handle the given HTTP method from input
+			if ($postMethod && isset($this->suffixMap[strtoupper($postMethod)]))
+			{
+				return ucfirst($this->suffixMap[strtoupper($postMethod)]);
+			}
 		}
 
 		return ucfirst($this->suffixMap[$this->input->getMethod()]);
