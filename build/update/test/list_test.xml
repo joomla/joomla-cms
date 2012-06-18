@@ -1,0 +1,3 @@
+<extensionset name="Joomla Core" description="Joomla! Core">
+	<extension name="Joomla" element="joomla" type="file" version="2.5.5" detailsurl="http://update.joomla.org/core/test/extension_test.xml" />
+</extensionset>
