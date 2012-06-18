@@ -74,7 +74,7 @@ class JHttpTransportCurl implements JHttpTransport
 		if (isset($data))
 		{
 			// If the data is a scalar value simply add it to the cURL post fields.
-			if (is_scalar($data) || (isset($headers['Content-type']) && strpos($headers['Content-type'], 'multipart/form-data') === 0))
+			if (is_scalar($data) || (isset($headers['Content-Type']) && strpos($headers['Content-Type'], 'multipart/form-data') === 0))
 			{
 				$options[CURLOPT_POSTFIELDS] = $data;
 			}
@@ -84,14 +84,15 @@ class JHttpTransportCurl implements JHttpTransport
 				$options[CURLOPT_POSTFIELDS] = http_build_query($data);
 			}
 
-			if (!isset($headers['Content-type']))
+			if (!isset($headers['Content-Type']))
 			{
-				$headers['Content-type'] = 'application/x-www-form-urlencoded';
+				$headers['Content-Type'] = 'application/x-www-form-urlencoded; charset=utf-8';
 			}
 
+			// Add the relevant headers.
 			if (is_scalar($options[CURLOPT_POSTFIELDS]))
 			{
-				$headers['Content-length'] = strlen($options[CURLOPT_POSTFIELDS]);
+				$headers['Content-Length'] = strlen($options[CURLOPT_POSTFIELDS]);
 			}
 		}
 

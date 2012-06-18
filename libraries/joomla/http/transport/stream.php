@@ -68,7 +68,7 @@ class JHttpTransportStream implements JHttpTransport
 		// Create the stream context options array with the required method offset.
 		$options = array('method' => strtoupper($method));
 
-		// If data exists let's encode it and make sure our Content-type header is set.
+		// If data exists let's encode it and make sure our Content-Type header is set.
 		if (isset($data))
 		{
 			// If the data is a scalar value simply add it to the stream context options.
@@ -82,12 +82,13 @@ class JHttpTransportStream implements JHttpTransport
 				$options['content'] = http_build_query($data);
 			}
 
-			if (!isset($headers['Content-type']))
+			if (!isset($headers['Content-Type']))
 			{
-				$headers['Content-type'] = 'application/x-www-form-urlencoded';
+				$headers['Content-Type'] = 'application/x-www-form-urlencoded; charset=utf-8';
 			}
 
-			$headers['Content-length'] = strlen($options['content']);
+			// Add the relevant headers.
+			$headers['Content-Length'] = strlen($options['content']);
 		}
 
 		// Build the headers string for the request.
