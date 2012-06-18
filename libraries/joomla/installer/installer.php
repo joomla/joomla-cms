@@ -828,7 +828,7 @@ class JInstaller extends JAdapter
 	 * Backward compatible method to parse through a queries element of the
 	 * installation manifest file and take appropriate action.
 	 *
-	 * @param   JXMLElement  $element  The XML node to process
+	 * @param   SimpleXMLElement  $element  The XML node to process
 	 *
 	 * @return  mixed  Number of queries processed or False on error
 	 *
@@ -975,8 +975,8 @@ class JInstaller extends JAdapter
 	/**
 	 * Set the schema version for an extension by looking at its latest update
 	 *
-	 * @param   JXMLElement  $schema  Schema Tag
-	 * @param   integer      $eid     Extension ID
+	 * @param   SimpleXMLElement  $schema  Schema Tag
+	 * @param   integer           $eid     Extension ID
 	 *
 	 * @return  void
 	 *
@@ -1047,10 +1047,10 @@ class JInstaller extends JAdapter
 	/**
 	 * Method to process the updates for an item
 	 *
-	 * @param   JXMLElement  $schema  The XML node to process
-	 * @param   integer      $eid     Extension Identifier
+	 * @param   SimpleXMLElement  $schema  The XML node to process
+	 * @param   integer           $eid     Extension Identifier
 	 *
-	 * @return  boolean      Result of the operations
+	 * @return  boolean           Result of the operations
 	 *
 	 * @since   11.1
 	 */
@@ -1181,10 +1181,10 @@ class JInstaller extends JAdapter
 	 * Method to parse through a files element of the installation manifest and take appropriate
 	 * action.
 	 *
-	 * @param   JXMLElement  $element   The XML node to process
-	 * @param   integer      $cid       Application ID of application to install to
-	 * @param   array        $oldFiles  List of old files (JXMLElement's)
-	 * @param   array        $oldMD5    List of old MD5 sums (indexed by filename with value as MD5)
+	 * @param   SimpleXMLElement  $element   The XML node to process
+	 * @param   integer           $cid       Application ID of application to install to
+	 * @param   array             $oldFiles  List of old files (SimpleXMLElement's)
+	 * @param   array             $oldMD5    List of old MD5 sums (indexed by filename with value as MD5)
 	 *
 	 * @return  boolean      True on success
 	 *
@@ -1239,7 +1239,7 @@ class JInstaller extends JAdapter
 		}
 
 		// Work out what files have been deleted
-		if ($oldFiles && ($oldFiles instanceof JXMLElement))
+		if ($oldFiles && ($oldFiles instanceof SimpleXMLElement))
 		{
 			$oldEntries = $oldFiles->children();
 
@@ -1303,8 +1303,8 @@ class JInstaller extends JAdapter
 	 * Method to parse through a languages element of the installation manifest and take appropriate
 	 * action.
 	 *
-	 * @param   JXMLElement  $element  The XML node to process
-	 * @param   integer      $cid      Application ID of application to install to
+	 * @param   SimpleXMLElement  $element  The XML node to process
+	 * @param   integer           $cid      Application ID of application to install to
 	 *
 	 * @return  boolean  True on success
 	 *
@@ -1415,8 +1415,8 @@ class JInstaller extends JAdapter
 	 * Method to parse through a media element of the installation manifest and take appropriate
 	 * action.
 	 *
-	 * @param   JXMLElement  $element  The XML node to process
-	 * @param   integer      $cid      Application ID of application to install to
+	 * @param   SimpleXMLElement  $element  The XML node to process
+	 * @param   integer           $cid      Application ID of application to install to
 	 *
 	 * @return  boolean     True on success
 	 *
@@ -1982,8 +1982,8 @@ class JInstaller extends JAdapter
 	/**
 	 * Compares two "files" entries to find deleted files/folders
 	 *
-	 * @param   array  $old_files  An array of JXMLElement objects that are the old files
-	 * @param   array  $new_files  An array of JXMLElement objects that are the new files
+	 * @param   array  $old_files  An array of SimpleXMLElement objects that are the old files
+	 * @param   array  $new_files  An array of SimpleXMLElement objects that are the new files
 	 *
 	 * @return  array  An array with the delete files and folders in findDeletedFiles[files] and findDeletedFiles[folders] respectively
 	 *

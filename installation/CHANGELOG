@@ -28,6 +28,7 @@ $ -> Language fix or change
 
 18-June-2012 Mark Dexter
  + Add update xml files to build folder
+ # [#28554] Mark JXMLElement as deprecated and don't use it in type hinting
 
 -------------------- 2.5.5 Stable Release [18-June-2012] ------------------
 
