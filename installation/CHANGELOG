@@ -26,7 +26,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
-18-Jun-2012 Jean-Marie Simonet
+19-Jun-2012 Mark Dexter
+ # [#28704] Menu type aliases causing fatal php error. Thanks Andrea.
+
+19-Jun-2012 Jean-Marie Simonet
  # [#28685] Edit article Button missing after upgrade to the latest version 2.5.5 from 2.5.4. Thanks Mark
  $ [#28695] *Lang string missing
  # [#28694] *Delete toolbar broken in com_media in 2.5.5
