@@ -150,6 +150,22 @@ class JUser extends JObject
 	public $guest = null;
 
 	/**
+	 * Last Reset Time
+	 *
+	 * @var    string
+	 * @since  Joomla 2.5.6
+	 */
+	public $lastResetTime = null;
+
+	/**
+	 * Count since last Reset Time
+	 *
+	 * @var    int
+	 * @since  Joomla 2.5.6
+	 */
+	public $resetCount = null;
+
+	/**
 	 * User parameters
 	 * @var    object
 	 * @since  11.1

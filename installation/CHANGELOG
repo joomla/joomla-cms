@@ -31,6 +31,7 @@ $ -> Language fix or change
  $ [#28695] *Lang string missing
  # [#28694] *Delete toolbar broken in com_media in 2.5.5
  # [#28702] 404 Hits of com_redirect fails after Manual update. Thanks Mark
+ # [#28703] JUser class is missing the public vars for the 2 new columns lastResetTime and resetCount. Thanks Beat.
 
 18-June-2012 Mark Dexter
  + Add update xml files to build folder
