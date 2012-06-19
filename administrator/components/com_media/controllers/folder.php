@@ -44,7 +44,7 @@ class MediaControllerFolder extends JController
 		$this->setRedirect($redirect);
 
 		// Just return if there's nothing to do
-		if (!empty($paths))
+		if (empty($paths))
 		{
 			return true;
 		}
