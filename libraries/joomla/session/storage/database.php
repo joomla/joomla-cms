@@ -20,39 +20,6 @@ defined('JPATH_PLATFORM') or die;
 class JSessionStorageDatabase extends JSessionStorage
 {
 	/**
-	 * @var    unknown  No idea what this does. Seems not to be used.
-	 * @since  12.1
-	 */
-	protected $data = null;
-
-	/**
-	 * Open the SessionHandler backend.
-	 *
-	 * @param   string  $save_path     The path to the session object.
-	 * @param   string  $session_name  The name of the session.
-	 *
-	 * @return  boolean  True on success, false otherwise.
-	 *
-	 * @since   11.1
-	 */
-	public function open($save_path, $session_name)
-	{
-		return true;
-	}
-
-	/**
-	 * Close the SessionHandler backend.
-	 *
-	 * @return  boolean  True on success, false otherwise.
-	 *
-	 * @since   11.1
-	 */
-	public function close()
-	{
-		return true;
-	}
-
-	/**
 	 * Read the data for a particular session identifier from the SessionHandler backend.
 	 *
 	 * @param   string  $id  The session identifier.

@@ -464,7 +464,7 @@ class JAccess
 		JLog::add(__METHOD__ . ' is deprecated. Use JAccess::getActionsFromFile or JAcces::getActionsFromData instead.', JLog::WARNING, 'deprecated');
 		$actions = self::getActionsFromFile(
 			JPATH_ADMINISTRATOR . '/components/' . $component . '/access.xml',
-			"/access/section[@name='" . $section . "']"
+			"/access/section[@name='" . $section . "']/"
 		);
 		if (empty($actions))
 		{

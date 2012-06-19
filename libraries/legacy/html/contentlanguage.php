@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Joomla.Platform
+ * @package     Joomla.Legacy
  * @subpackage  HTML
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Utility class working with content language select lists
  *
- * @package     Joomla.Platform
+ * @package     Joomla.Legacy
  * @subpackage  HTML
  * @since       11.1
  */

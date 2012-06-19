@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Joomla.Platform
+ * @package     Joomla.Legacy
  * @subpackage  Dispatcher
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
@@ -12,8 +12,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Deprecated class placeholder.  You should use JEventDispatcher instead.
  *
- * @package     Joomla.Platform
- * @subpackage  Event
+ * @package     Joomla.Legacy
+ * @subpackage  Dispatcher
  * @since       11.1
  * @deprecated  12.3
  */

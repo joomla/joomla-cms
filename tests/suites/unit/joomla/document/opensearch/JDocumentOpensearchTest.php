@@ -67,14 +67,7 @@ class JDocumentOpensearchTest extends TestCase
 		$this->assertThat(
 			$this->object->render(),
 			$this->equalTo('<?xml version="1.0" encoding="utf-8"?>
-<OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/">
-  <ShortName>ShortName</ShortName>
-  <Description>Description</Description>
-  <InputEncoding>UTF-8</InputEncoding>
-  <Url type="application/opensearchdescription+xml" rel="self" template=""/>
-  <Url type="text/html" template="http://www.example.com"/>
-  <Url type="application/rss+xml" rel="suggestions" template="http://www.example.com?format=feed"/>
-</OpenSearchDescription>
+<OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/"><ShortName>ShortName</ShortName><Description>Description</Description><InputEncoding>UTF-8</InputEncoding><Url type="application/opensearchdescription+xml" rel="self" template=""/><Url type="text/html" template="http://www.example.com"/><Url type="application/rss+xml" rel="suggestions" template="http://www.example.com?format=feed"/></OpenSearchDescription>
 ')
 		);
 

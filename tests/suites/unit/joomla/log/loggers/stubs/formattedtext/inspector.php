@@ -15,7 +15,7 @@
  * @package		Joomla.UnitTest
  * @subpackage  Log
  */
-class JLoggerFormattedTextInspector extends JLoggerFormattedText
+class JLogLoggerFormattedTextInspector extends JLogLoggerFormattedtext
 {
 	public $file;
 	public $format = '{DATETIME}	{PRIORITY}	{CATEGORY}	{MESSAGE}';

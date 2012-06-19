@@ -17,30 +17,30 @@ class JArchiveTest extends TestCase
 {
 	protected static $outputPath;
 
-    /**
-     * Sets up the fixture, for example, opens a network connection.
-     * This method is called before a test is executed.
-     */
-    protected function setUp()
-    {
+	/**
+	 * Sets up the fixture, for example, opens a network connection.
+	 * This method is called before a test is executed.
+	 */
+	protected function setUp()
+	{
 		self::$outputPath = __DIR__ . '/output';
 
 		if (!is_dir(self::$outputPath))
 		{
 			mkdir(self::$outputPath, 0777);
 		}
-    }
+	}
 
-    /**
-     * Tears down the fixture, for example, closes a network connection.
-     * This method is called after a test is executed.
-     */
-    protected function tearDown()
-    {
+	/**
+	 * Tears down the fixture, for example, closes a network connection.
+	 * This method is called after a test is executed.
+	 */
+	protected function tearDown()
+	{
 
-    }
+	}
 
-    /**
+	/**
 	 * Tests extracting ZIP.
 	 *
 	 * @group	JArchive
@@ -52,13 +52,13 @@ class JArchiveTest extends TestCase
 		if (!is_dir(self::$outputPath))
 		{
 			$this->markTestSkipped("Couldn't create folder.");
-            return;
+			return;
 		}
 
 		if (!JArchiveZip::isSupported())
 		{
 			$this->markTestSkipped('ZIP files can not be extracted.');
-            return;
+			return;
 		}
 
 		JArchive::extract(__DIR__ . '/logo.zip', self::$outputPath);
@@ -81,13 +81,13 @@ class JArchiveTest extends TestCase
 		if (!is_dir(self::$outputPath))
 		{
 			$this->markTestSkipped("Couldn't create folder.");
-            return;
+			return;
 		}
 
 		if (!JArchiveTar::isSupported())
 		{
 			$this->markTestSkipped('Tar files can not be extracted.');
-            return;
+			return;
 		}
 
 		JArchive::extract(__DIR__ . '/logo.tar', self::$outputPath);
@@ -108,10 +108,31 @@ class JArchiveTest extends TestCase
 	 */
 	public function testExtractGzip()
 	{
-		// Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
+		if (!is_dir(self::$outputPath))
+		{
+			$this->markTestSkipped("Couldn't create folder.");
+			return;
+		}
+
+		if (!is_writable(self::$outputPath) || !is_writable(JFactory::getConfig()->get('tmp_path')))
+		{
+			$this->markTestSkipped("Folder not writable.");
+			return;
+		}
+
+		if (!JArchiveGzip::isSupported())
+		{
+			$this->markTestSkipped('Gzip files can not be extracted.');
+			return;
+		}
+
+		JArchive::extract(__DIR__ . '/logo.gz', self::$outputPath . '/logo-gz.png');
+		$this->assertTrue(is_file(self::$outputPath . '/logo-gz.png'));
+
+		if (is_file(self::$outputPath . '/logo-gz.png'))
+		{
+			unlink(self::$outputPath . '/logo-gz.png');
+		}
 	}
 
 	/**
@@ -123,22 +144,47 @@ class JArchiveTest extends TestCase
 	 */
 	public function testExtractBzip2()
 	{
-		// Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
-    }
+		if (!is_dir(self::$outputPath))
+		{
+			$this->markTestSkipped("Couldn't create folder.");
+			return;
+		}
 
-    /**
-     * @todo Implement testGetAdapter().
-     */
-    public function testGetAdapter()
-    {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
-    }
+		if (!is_writable(self::$outputPath) || !is_writable(JFactory::getConfig()->get('tmp_path')))
+		{
+			$this->markTestSkipped("Folder not writable.");
+			return;
+		}
+
+		if (!JArchiveBzip2::isSupported())
+		{
+			$this->markTestSkipped('Bzip2 files can not be extracted.');
+			return;
+		}
+
+		JArchive::extract(__DIR__ . '/logo.bz2', self::$outputPath . '/logo-bz2.png');
+		$this->assertTrue(is_file(self::$outputPath . '/logo-bz2.png'));
+
+		if (is_file(self::$outputPath . '/logo-bz2.png'))
+		{
+			unlink(self::$outputPath . '/logo-bz2.png');
+		}
+	}
+
+	/**
+	 * @todo Implement testGetAdapter().
+	 */
+	public function testGetAdapter()
+	{
+		$zip = JArchive::getAdapter('zip');
+		$this->assertEquals('JArchiveZip', get_class($zip));
+		$bzip2 = JArchive::getAdapter('bzip2');
+		$this->assertEquals('JArchiveBzip2', get_class($bzip2));
+		$gzip = JArchive::getAdapter('gzip');
+		$this->assertEquals('JArchiveGzip', get_class($gzip));
+		$tar = JArchive::getAdapter('tar');
+		$this->assertEquals('JArchiveTar', get_class($tar));
+	}
 
 }
 

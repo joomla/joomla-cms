@@ -17,20 +17,20 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package     Joomla.Platform
  * @subpackage  Log
- * @since       11.1
+ * @since       12.2
  */
-abstract class JLogger
+abstract class JLogLogger
 {
 	/**
 	 * Options array for the JLog instance.
 	 * @var    array
-	 * @since  11.1
+	 * @since  12.2
 	 */
 	protected $options = array();
 
 	/**
 	 * @var    array  Translation array for JLogEntry priorities to text strings.
-	 * @since  11.1
+	 * @since  12.2
 	 */
 	protected $priorities = array(
 		JLog::EMERGENCY => 'EMERGENCY',
@@ -47,7 +47,7 @@ abstract class JLogger
 	 *
 	 * @param   array  &$options  Log object options.
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	public function __construct(array &$options)
 	{
@@ -62,7 +62,32 @@ abstract class JLogger
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	abstract public function addEntry(JLogEntry $entry);
+}
+
+/**
+ * Deprecated class placeholder.  You should use JAccessRule instead.
+ *
+ * @package     Joomla.Platform
+ * @subpackage  Access
+ * @since       11.1
+ * @deprecated  13.3
+ */
+abstract class JLogger extends JLogLogger
+{
+	/**
+	 * Constructor.
+	 *
+	 * @param   array  &$options  Log object options.
+	 *
+	 * @since   11.1
+	 * @deprecated  13.3
+	 */
+	public function __construct(array &$options)
+	{
+		JLog::add('JLogger is deprecated. Use JLogLogger instead.', JLog::WARNING, 'deprecated');
+		parent::__construct($options);
+	}
 }

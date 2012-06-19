@@ -164,7 +164,7 @@ abstract class JTable extends JObject
 	 *
 	 * @return  mixed    A JTable object if found or boolean false if one could not be found.
 	 *
-	 * @link	http://docs.joomla.org/JTable/getInstance
+	 * @link    http://docs.joomla.org/JTable/getInstance
 	 * @since   11.1
 	 */
 	public static function getInstance($type, $prefix = 'JTable', $config = array())
@@ -468,7 +468,7 @@ abstract class JTable extends JObject
 	 * to the JTable instance properties.
 	 *
 	 * @param   mixed    $keys   An optional primary key value to load the row by, or an array of fields to match.  If not
-	 * set the instance property value is used.
+	 *                           set the instance property value is used.
 	 * @param   boolean  $reset  True to reset the default values before loading the new row.
 	 *
 	 * @return  boolean  True if successful. False if row not found.
@@ -563,7 +563,7 @@ abstract class JTable extends JObject
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @link	http://docs.joomla.org/JTable/store
+	 * @link    http://docs.joomla.org/JTable/store
 	 * @since   11.1
 	 */
 	public function store($updateNulls = false)
@@ -670,7 +670,7 @@ abstract class JTable extends JObject
 	 * @param   mixed   $src             An associative array or object to bind to the JTable instance.
 	 * @param   string  $orderingFilter  Filter for the order updating
 	 * @param   mixed   $ignore          An optional array or space separated list of properties
-	 * to ignore while binding.
+	 *                                   to ignore while binding.
 	 *
 	 * @return  boolean  True on success.
 	 *
@@ -723,7 +723,7 @@ abstract class JTable extends JObject
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @link	http://docs.joomla.org/JTable/delete
+	 * @link    http://docs.joomla.org/JTable/delete
 	 * @since   11.1
 	 * @throws  UnexpectedValueException
 	 */
@@ -785,7 +785,7 @@ abstract class JTable extends JObject
 	 *
 	 * @param   integer  $userId  The Id of the user checking out the row.
 	 * @param   mixed    $pk      An optional primary key value to check out.  If not set
-	 * the instance property value is used.
+	 *                            the instance property value is used.
 	 *
 	 * @return  boolean  True on success.
 	 *
@@ -924,9 +924,9 @@ abstract class JTable extends JObject
 	 * not checked out -- as the user can still edit it.
 	 *
 	 * @param   integer  $with     The userid to preform the match with, if an item is checked
-	 * out by this user the function will return false.
+	 *                             out by this user the function will return false.
 	 * @param   integer  $against  The userid to perform the match against when the function
-	 * is used as a static function.
+	 *                             is used as a static function.
 	 *
 	 * @return  boolean  True if checked out.
 	 *
@@ -997,7 +997,7 @@ abstract class JTable extends JObject
 	 *
 	 * @param   string  $where  WHERE clause to use for limiting the selection of rows to compact the ordering values.
 	 *
-	 * @return  mixed  Boolean true on success.
+	 * @return  mixed  Boolean  True on success.
 	 *
 	 * @link    http://docs.joomla.org/JTable/reorder
 	 * @since   11.1
@@ -1058,9 +1058,9 @@ abstract class JTable extends JObject
 	 *
 	 * @param   integer  $delta  The direction and magnitude to move the row in the ordering sequence.
 	 * @param   string   $where  WHERE clause to use for limiting the selection of rows to compact the
-	 * ordering values.
+	 *                           ordering values.
 	 *
-	 * @return  mixed    Boolean true on success.
+	 * @return  mixed    Boolean  True on success.
 	 *
 	 * @link    http://docs.joomla.org/JTable/move
 	 * @since   11.1
@@ -1153,7 +1153,8 @@ abstract class JTable extends JObject
 	 * table.  The method respects checked out rows by other users and will attempt
 	 * to checkin rows that it can after adjustments are made.
 	 *
-	 * @param   mixed    $pks     An optional array of primary key values to update.  If not set the instance property value is used.
+	 * @param   mixed    $pks     An optional array of primary key values to update.
+	 *                            If not set the instance property value is used.
 	 * @param   integer  $state   The publishing state. eg. [0 = unpublished, 1 = published]
 	 * @param   integer  $userId  The user id of the user performing the operation.
 	 *

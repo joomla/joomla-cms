@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Joomla.Platform
+ * @package     Joomla.Legacy
  * @subpackage  Form
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
  * Form Field class for the Joomla Platform.
  * Provides a modal media selector including upload mechanism
  *
- * @package     Joomla.Platform
+ * @package     Joomla.Legacy
  * @subpackage  Form
  * @since       11.1
  */
@@ -170,13 +170,17 @@ class JFormFieldMedia extends JFormField
 		$showAsTooltip = false;
 		switch ($preview)
 		{
-			case 'no':
+			case 'no': // Deprecated parameter value
+			case 'false':
 			case 'none':
 				$showPreview = false;
 				break;
-			case 'yes':
+
+			case 'yes': // Deprecated parameter value
+			case 'true':
 			case 'show':
 				break;
+
 			case 'tooltip':
 			default:
 				$showAsTooltip = true;

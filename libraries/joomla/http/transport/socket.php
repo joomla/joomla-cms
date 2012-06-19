@@ -94,8 +94,12 @@ class JHttpTransportSocket implements JHttpTransport
 				$data = http_build_query($data);
 			}
 
+			if (!isset($headers['Content-Type']))
+			{
+				$headers['Content-Type'] = 'application/x-www-form-urlencoded; charset=utf-8';
+			}
+
 			// Add the relevant headers.
-			$headers['Content-Type'] = 'application/x-www-form-urlencoded; charset=utf-8';
 			$headers['Content-Length'] = strlen($data);
 		}
 

@@ -1,7 +1,7 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Application
+ * @package     Joomla.Legacy
+ * @subpackage  Controller
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -12,8 +12,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Controller tailored to suit most form-based admin operations.
  *
- * @package     Joomla.Platform
- * @subpackage  Application
+ * @package     Joomla.Legacy
+ * @subpackage  Controller
  * @since       11.1
  * @todo        Add ability to set redirect manually to better cope with frontend usage.
  */

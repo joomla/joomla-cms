@@ -14,9 +14,6 @@ defined('JPATH_PLATFORM') or die;
  */
 define('_QQ_', '"');
 
-// Import some libraries
-jimport('joomla.filesystem.stream');
-
 /**
  * Languages/translation handler class
  *
@@ -24,7 +21,7 @@ jimport('joomla.filesystem.stream');
  * @subpackage  Language
  * @since       11.1
  */
-class JLanguage extends JObject
+class JLanguage
 {
 	protected static $languages = array();
 
@@ -661,7 +658,7 @@ class JLanguage extends JObject
 			return false;
 		}
 
-		$path = "$basePath/language/$lang";
+		$path = $basePath . '/language/' . $lang;
 
 		// Return previous check results if it exists
 		if (isset($paths[$path]))
@@ -670,9 +667,7 @@ class JLanguage extends JObject
 		}
 
 		// Check if the language exists
-		jimport('joomla.filesystem.folder');
-
-		$paths[$path] = JFolder::exists($path);
+		$paths[$path] = is_dir($path);
 
 		return $paths[$path];
 	}
@@ -798,10 +793,13 @@ class JLanguage extends JObject
 	 */
 	protected function parse($filename)
 	{
-		// Capture hidden PHP errors from the parsing.
-		$php_errormsg = null;
-		$track_errors = ini_get('track_errors');
-		ini_set('track_errors', true);
+		if ($this->debug)
+		{
+			// Capture hidden PHP errors from the parsing.
+			$php_errormsg = null;
+			$track_errors = ini_get('track_errors');
+			ini_set('track_errors', true);
+		}
 
 		$contents = file_get_contents($filename);
 		$contents = str_replace('_QQ_', '"\""', $contents);
@@ -817,6 +815,8 @@ class JLanguage extends JObject
 
 		if ($this->debug)
 		{
+			jimport('joomla.filesystem.stream');
+
 			// Initialise variables for manually parsing the file for common errors.
 			$blacklist = array('YES', 'NO', 'NULL', 'FALSE', 'ON', 'OFF', 'NONE', 'TRUE');
 			$regex = '/^(|(\[[^\]]*\])|([A-Z][A-Z0-9_\-]*\s*=(\s*(("[^"]*")|(_QQ_)))+))\s*(;.*)?$/';
@@ -1243,50 +1243,32 @@ class JLanguage extends JObject
 	 */
 	public static function parseLanguageFiles($dir = null)
 	{
-		jimport('joomla.filesystem.folder');
-
 		$languages = array();
 
-		$subdirs = JFolder::folders($dir);
+		$iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir));
 
-		foreach ($subdirs as $path)
+		foreach ($iterator as $file)
 		{
-			$langs = self::parseXMLLanguageFiles("$dir/$path");
-			$languages = array_merge($languages, $langs);
-		}
+			$langs    = array();
+			$fileName = $file->getFilename();
 
-		return $languages;
-	}
-
-	/**
-	 * Parses XML files for language information
-	 *
-	 * @param   string  $dir  Directory of files.
-	 *
-	 * @return  array  Array holding the found languages as filename => metadata array.
-	 *
-	 * @since   11.1
-	 */
-	public static function parseXMLLanguageFiles($dir = null)
-	{
-		if ($dir == null)
-		{
-			return null;
-		}
-
-		$languages = array();
-		jimport('joomla.filesystem.folder');
-		$files = JFolder::files($dir, '^([-_A-Za-z]*)\.xml$');
-
-		foreach ($files as $file)
-		{
-			if ($content = file_get_contents("$dir/$file"))
+			if (!$file->isFile() || !preg_match("/^([-_A-Za-z]*)\.xml$/", $fileName))
 			{
-				if ($metadata = self::parseXMLLanguageFile("$dir/$file"))
+				continue;
+			}
+
+			try
+			{
+				$metadata = self::parseXMLLanguageFile($file->getRealPath());
+				if ($metadata)
 				{
-					$lang = str_replace('.xml', '', $file);
-					$languages[$lang] = $metadata;
+					$lang = str_replace('.xml', '', $fileName);
+					$langs[$lang] = $metadata;
 				}
+				$languages = array_merge($languages, $langs);
+			}
+			catch (RuntimeException $e)
+			{
 			}
 		}
 
@@ -1301,9 +1283,15 @@ class JLanguage extends JObject
 	 * @return  array  Array holding the found metadata as a key => value pair.
 	 *
 	 * @since   11.1
+	 * @throws  RuntimeException
 	 */
 	public static function parseXMLLanguageFile($path)
 	{
+		if (!is_readable($path))
+		{
+			throw new RuntimeException('File not found or not readable');
+		}
+
 		// Try to load the file
 		if (!$xml = JFactory::getXML($path))
 		{

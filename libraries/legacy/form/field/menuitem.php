@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Joomla.Platform
+ * @package     Joomla.Legacy
  * @subpackage  Form
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
@@ -17,7 +17,7 @@ require_once realpath(JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus
 /**
  * Supports an HTML grouped select list of menu item grouped by menu
  *
- * @package     Joomla.Platform
+ * @package     Joomla.Legacy
  * @subpackage  Form
  * @since       11.1
  */

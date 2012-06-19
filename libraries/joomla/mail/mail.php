@@ -193,16 +193,30 @@ class JMail extends PHPMailer
 		// If the recipient is an array, add each recipient... otherwise just add the one
 		if (is_array($recipient))
 		{
-			foreach ($recipient as $to)
+			if (is_array($name))
 			{
-				$to = JMailHelper::cleanLine($to);
-				$this->AddAddress($to);
+				$combined = array_combine($recipient, $name);
+				foreach ($combined as $recipientEmail => $recipientName)
+				{
+					$recipientEmail = JMailHelper::cleanLine($recipientEmail);
+					$recipientName = JMailHelper::cleanLine($recipientName);
+					$this->AddAddress($recipientEmail, $recipientName);
+				}
+			}
+			else
+			{
+				$name = JMailHelper::cleanLine($name);
+				foreach ($recipient as $to)
+				{
+					$to = JMailHelper::cleanLine($to);
+					$this->AddAddress($to, $name);
+				}
 			}
 		}
 		else
 		{
 			$recipient = JMailHelper::cleanLine($recipient);
-			$this->AddAddress($recipient);
+			$this->AddAddress($recipient, $name);
 		}
 
 		return $this;

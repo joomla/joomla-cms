@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Joomla.Platform
+ * @package     Joomla.Legacy
  * @subpackage  Application
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
@@ -18,7 +18,7 @@ jimport('joomla.environment.response');
  * supporting API functions. Derived clases should supply the route(), dispatch()
  * and render() functions.
  *
- * @package     Joomla.Platform
+ * @package     Joomla.Legacy
  * @subpackage  Application
  * @since       11.1
  */
@@ -132,10 +132,10 @@ class JApplication extends JApplicationBase
 
 		$this->loadDispatcher();
 
-		$this->set('requestTime', gmdate('Y-m-d H:i'));
+		$this->requestTime = gmdate('Y-m-d H:i');
 
 		// Used by task system to ensure that the system doesn't go over time.
-		$this->set('startTime', JProfiler::getmicrotime());
+		$this->startTime = JProfiler::getmicrotime();
 	}
 
 	/**
@@ -393,13 +393,6 @@ class JApplication extends JApplicationBase
 				// MSIE type browser and/or server cause issues when url contains utf8 character,so use a javascript redirect method
 				echo '<html><head><meta http-equiv="content-type" content="text/html; charset=' . $document->getCharset() . '" />'
 					. '<script>document.location.href=\'' . htmlspecialchars($url) . '\';</script></head></html>';
-			}
-			elseif (!$moved && $navigator->isBrowser('konqueror'))
-			{
-				// WebKit browser (identified as konqueror by Joomla!) - Do not use 303, as it causes subresources
-				// reload (https://bugs.webkit.org/show_bug.cgi?id=38690)
-				echo '<html><head><meta http-equiv="content-type" content="text/html; charset=' . $document->getCharset() . '" />'
-					. '<meta http-equiv="refresh" content="0; url=' . htmlspecialchars($url) . '" /></head></html>';
 			}
 			else
 			{
@@ -669,9 +662,10 @@ class JApplication extends JApplicationBase
 				if (isset($options['remember']) && $options['remember'])
 				{
 					// Create the encryption key, apply extra hardening using the user agent string.
-					$key = self::getHash(@$_SERVER['HTTP_USER_AGENT']);
+					$privateKey = self::getHash(@$_SERVER['HTTP_USER_AGENT']);
 
-					$crypt = new JSimpleCrypt($key);
+					$key = new JCryptKey('simple', $privateKey, $privateKey);
+					$crypt = new JCrypt(new JCryptCipherSimple, $key);
 					$rcookie = $crypt->encrypt(serialize($credentials));
 					$lifetime = time() + 365 * 24 * 60 * 60;
 
@@ -957,6 +951,8 @@ class JApplication extends JApplicationBase
 		}
 
 		$session = JFactory::getSession($options);
+		$session->initialise($this->input);
+		$session->start();
 
 		// TODO: At some point we need to get away from having session data always in the db.
 
@@ -977,8 +973,9 @@ class JApplication extends JApplicationBase
 		}
 
 		// Check to see the the session already exists.
-		if (($this->getCfg('session_handler') != 'database' && ($time % 2 || $session->isNew()))
-			|| ($this->getCfg('session_handler') == 'database' && $session->isNew()))
+		$handler = $this->getCfg('session_handler');
+		if (($handler != 'database' && ($time % 2 || $session->isNew()))
+			|| ($handler == 'database' && $session->isNew()))
 		{
 			$this->checkSession();
 		}
@@ -1037,9 +1034,13 @@ class JApplication extends JApplicationBase
 			}
 
 			// If the insert failed, exit the application.
-			if (!$db->execute())
+			try
 			{
-				jexit($db->getErrorMSG());
+				$db->execute();
+			}
+			catch (RuntimeException $e)
+			{
+				jexit($e->getMessage());
 			}
 
 			// Session doesn't exist yet, so create session variables

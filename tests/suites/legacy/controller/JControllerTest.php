@@ -57,7 +57,7 @@ class JControllerTest extends PHPUnit_Framework_TestCase
 	/**
      * Test JController::createFileName().
      *
-	 * @covers  JController::createFileName
+     * @covers  JController::createFileName
      */
 	public function testCreateFileName()
 	{
@@ -92,6 +92,8 @@ class JControllerTest extends PHPUnit_Framework_TestCase
 
 	/**
      * @todo Implement testGetInstance().
+     *
+     * @covers  JController::getInstance
      */
 	public function testGetInstance()
 	{

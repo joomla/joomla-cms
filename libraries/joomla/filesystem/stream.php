@@ -773,12 +773,13 @@ class JStream extends JObject
 		$track_errors = ini_get('track_errors');
 		ini_set('track_errors', true);
 		$remaining = $length;
+		$start = 0;
 
 		do
 		{
 			// If the amount remaining is greater than the chunk size, then use the chunk
 			$amount = ($remaining > $chunk) ? $chunk : $remaining;
-			$res = fwrite($this->fh, $string, $amount);
+			$res = fwrite($this->fh, substr($string, $start), $amount);
 
 			// Returns false on error or the number of bytes written
 			if ($res === false)
@@ -797,6 +798,7 @@ class JStream extends JObject
 			else
 			{
 				// Wrote something
+				$start += $amount;
 				$remaining -= $res;
 			}
 		}

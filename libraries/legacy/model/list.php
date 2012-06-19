@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Joomla.Platform
+ * @package     Joomla.Legacy
  * @subpackage  Model
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Model class for handling lists of items.
  *
- * @package     Joomla.Platform
+ * @package     Joomla.Legacy
  * @subpackage  Model
  * @since       11.1
  */
@@ -172,7 +172,6 @@ class JModelList extends JModel
 		}
 
 		// Create the pagination object.
-		jimport('joomla.html.pagination');
 		$limit = (int) $this->getState('list.limit') - (int) $this->getState('list.links');
 		$page = new JPagination($this->getTotal(), $this->getStart(), $limit);
 

@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Joomla.Platform
+ * @package     Joomla.Legacy
  * @subpackage  Form
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
@@ -16,7 +16,7 @@ jimport('joomla.filesystem.folder');
  * Form Field to display a list of the layouts for a component view from
  * the extension or template overrides.
  *
- * @package     Joomla.Platform
+ * @package     Joomla.Legacy
  * @subpackage  Form
  * @since       11.1
  */

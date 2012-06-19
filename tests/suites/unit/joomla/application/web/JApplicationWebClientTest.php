@@ -11,6 +11,10 @@ require_once __DIR__ . '/stubs/JWebClientInspector.php';
 
 /**
  * Test class for JApplicationWebClient.
+ *
+ * @package     Joomla.UnitTest
+ * @subpackage  Application
+ * @since       11.3
  */
 class JApplicationWebClientTest extends PHPUnit_Framework_TestCase
 {
@@ -115,6 +119,27 @@ class JApplicationWebClientTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Provides test data for isRobot method.
+	 *
+	 * @return  array
+	 *
+	 * @since   12.3
+	 */
+	public static function detectRobotData()
+	{
+		return array(
+			array('Googlebot/2.1 (+http://www.google.com/bot.html)', true),
+			array('msnbot/1.0 (+http://search.msn.com/msnbot.htm)', true),
+			array('Mozilla/4.0 compatible ZyBorg/1.0 (wn-14.zyborg@looksmart.net; http://www.WISEnutbot.com)', true),
+			array('Mozilla/2.0 (compatible; Ask Jeeves/Teoma; +http://sp.ask.com/docs/about/tech_crawling.html)', true),
+			array('Mozilla/5.0 (iPad; U; CPU OS 3_2_1 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Mobile/7B405', false),
+			array('Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/535.19 (KHTML, like Gecko) Chrome/18.0.1025.168 Safari/535.19', false),
+			array('BlackBerry8300/4.2.2 Profile/MIDP-2.0 Configuration/CLDC-1.1 VendorID/107 UP.Link/6.2.3.15.02011-10-16 20:20:17', false),
+			array('IE 7 ? Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; .NET CLR 1.1.4322; .NET CLR 2.0.50727; .NET CLR 3.0.04506.30)2011-10-16 20:20:09', false)
+		);
+	}
+
+	/**
 	 * Setup for testing.
 	 *
 	 * @return  void
@@ -129,11 +154,15 @@ class JApplicationWebClientTest extends PHPUnit_Framework_TestCase
 		$_SERVER['HTTP_USER_AGENT'] = 'Mozilla/5.0';
 
 		// Get a new JWebInspector instance.
-		$this->inspector = new JWebClientInspector();
+		$this->inspector = new JWebClientInspector;
 	}
 
 	/**
 	 * Tests the JApplicationWebClient::__construct method.
+	 *
+	 * @return void
+	 *
+	 * @since 11.3
 	 */
 	public function test__construct()
 	{
@@ -142,6 +171,10 @@ class JApplicationWebClientTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the JApplicationWebClient::__get method.
+	 *
+	 * @return void
+	 *
+	 * @since 11.3
 	 */
 	public function test__get()
 	{
@@ -255,5 +288,24 @@ class JApplicationWebClientTest extends PHPUnit_Framework_TestCase
 		// Test the assertions.
 		$this->assertEquals($this->inspector->mobile, $m, 'Mobile detection failed.');
 		$this->assertEquals($this->inspector->platform, $p, 'Platform detection failed.');
+	}
+
+	/**
+	 * Tests the JApplicationWebClient::detectRobot method.
+	 *
+	 * @param   string   $userAgent  The user agent
+	 * @param   boolean  $expected   The expected results of the function
+	 *
+	 * @return  void
+	 *
+	 * @dataProvider detectRobotData
+	 * @since   12.3
+	 */
+	public function testDetectRobot($userAgent, $expected)
+	{
+		$this->inspector->detectRobot($userAgent);
+
+		// Test the assertions.
+		$this->assertEquals($this->inspector->robot, $expected, 'Robot detection failed');
 	}
 }

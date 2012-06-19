@@ -242,12 +242,8 @@ class JArrayHelper
 
 		if (is_array($array))
 		{
-			$n = count($array);
-
-			for ($i = 0; $i < $n; $i++)
+			foreach ($array as $key => &$item)
 			{
-				$item = &$array[$i];
-
 				if (is_array($item) && isset($item[$index]))
 				{
 					$result[] = $item[$index];

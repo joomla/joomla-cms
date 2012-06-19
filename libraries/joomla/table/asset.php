@@ -96,7 +96,7 @@ class JTableAsset extends JTableNested
 	 *
 	 * @return  boolean  True if the instance is sane and able to be stored in the database.
 	 *
-	 * @link	http://docs.joomla.org/JTable/check
+	 * @link    http://docs.joomla.org/JTable/check
 	 * @since   11.1
 	 */
 	public function check()

@@ -310,7 +310,7 @@ class JApplicationWeb extends JApplicationBase
 		$options = array(
 			'template' => $this->get('theme'),
 			'file' => 'index.php',
-			'params' => ''
+			'params' => $this->get('themeParams')
 		);
 
 		if ($this->get('themes.base'))
@@ -1146,6 +1146,8 @@ class JApplicationWeb extends JApplicationBase
 			}
 			else
 			{
+				// Normalise slashes.
+				$mediaURI = '/' . trim($mediaURI, '/\\') . '/';
 				$this->set('uri.media.full', $this->get('uri.base.host') . $mediaURI);
 				$this->set('uri.media.path', $mediaURI);
 			}

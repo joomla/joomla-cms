@@ -137,9 +137,9 @@ class JDatabaseQueryElement
  * @subpackage  Database
  * @since       11.1
  *
- * @method      string  q()   q($text, $escape)  Alias for quote method
- * @method      string  qn()  qs($name, $as)     Alias for quoteName method
- * @method      string  e()   e($text, $extra)   Alias for escape method
+ * @method      string  q()   q($text, $escape = true)  Alias for quote method
+ * @method      string  qn()  qs($name, $as = null)     Alias for quoteName method
+ * @method      string  e()   e($text, $extra = false)   Alias for escape method
  */
 abstract class JDatabaseQuery
 {
@@ -855,8 +855,8 @@ abstract class JDatabaseQuery
 	 * $query->select('*')->from('#__a');
 	 *
 	 * @param   mixed   $tables         A string or array of table names.
-	 * 									It could be a JDatabaseQuery object (or a child of it) to use
-	 * 									a subquery in FROM clause.
+	 *                                  This can be a JDatabaseQuery object (or a child of it) when used
+	 *                                  as a subquery in FROM clause along with a value for $subQueryAlias.
 	 * @param   string  $subQueryAlias  Alias used when $tables is a JDatabaseQuery.
 	 *
 	 * @return  JDatabaseQuery  Returns this object to allow chaining.

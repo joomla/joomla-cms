@@ -503,8 +503,6 @@ class JInstallerTemplate extends JAdapterInstance
 	 */
 	public function discover_install()
 	{
-		$lang = JFactory::getLanguage();
-
 		// Templates are one of the easiest
 		// If its not in the extensions table we just add it
 		$client = JApplicationHelper::getClientInfo($this->parent->extension->client_id);
@@ -543,6 +541,7 @@ class JInstallerTemplate extends JAdapterInstance
 			$db = $this->parent->getDbo();
 			$query = $db->getQuery(true);
 			$query->insert($db->quoteName('#__template_styles'));
+			$lang = JFactory::getLanguage();
 			$debug = $lang->setDebug(false);
 			$columns = array($db->quoteName('template'),
 				$db->quoteName('client_id'),

@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Joomla.Platform
+ * @package     Joomla.Legacy
  * @subpackage  Form
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
@@ -15,7 +15,7 @@ JFormHelper::loadFieldClass('list');
  * Form Field class for the Joomla Platform.
  * Supports an HTML select list of categories
  *
- * @package     Joomla.Platform
+ * @package     Joomla.Legacy
  * @subpackage  Form
  * @since       11.1
  */

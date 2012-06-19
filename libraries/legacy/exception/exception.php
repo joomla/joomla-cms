@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Joomla.Platform
+ * @package     Joomla.Legacy
  * @subpackage  Exception
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Joomla! Exception object.
  *
- * @package     Joomla.Platform
+ * @package     Joomla.Legacy
  * @subpackage  Exception
  * @since       11.1
  * @deprecated  12.1

@@ -59,7 +59,7 @@ class JInputTest extends PHPUnit_Framework_TestCase
 	public function test__get()
 	{
 		$_POST['foo'] = 'bar';
-		
+
 		// Test the get method.
 		$this->assertThat(
 			$this->class->post->get('foo'),
@@ -71,7 +71,7 @@ class JInputTest extends PHPUnit_Framework_TestCase
 		$this->class->post->set('foo', 'notbar');
 		$this->assertThat(
 			$_POST['foo'],
-			$this->equalTo('notbar'),
+			$this->equalTo('bar'),
 			'Line: '.__LINE__.'.'
 		);
 

@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Joomla.Platform
+ * @package     Joomla.Legacy
  * @subpackage  Simplecrypt
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * JSimpleCrypt is a very simple encryption algorithm for encrypting/decrypting strings
  *
- * @package     Joomla.Platform
+ * @package     Joomla.Legacy
  * @subpackage  Simplecrypt
  * @since       11.1
  * @deprecated  12.3  Use JCrypt instead.
@@ -22,8 +22,9 @@ class JSimplecrypt
 	/**
 	 * Encryption/Decryption Key
 	 *
-	 * @var    JCrypt
-	 * @since  12.1
+	 * @var         JCrypt
+	 * @since       12.1
+	 * @deprecated  12.3  Use JCrypt instead.
 	 */
 	private $_crypt;
 
@@ -33,11 +34,12 @@ class JSimplecrypt
 	 *
 	 * @param   string  $privateKey  Optional encryption key
 	 *
-	 * @since   11.1
+	 * @since       11.1
+	 * @deprecated  12.3  Use JCrypt instead.
 	 */
 	public function __construct($privateKey = null)
 	{
-		JLog::add('JSimpleCrypt is deprecated.  Use JCrypt instead.', JLog::WARNING, 'deprecated');
+		JLog::add('JSimpleCrypt is deprecated. Use JCrypt instead.', JLog::WARNING, 'deprecated');
 
 		if (empty($privateKey))
 		{
@@ -59,6 +61,7 @@ class JSimplecrypt
 	 * @return  string
 	 *
 	 * @since   11.1
+	 * @deprecated  12.3  Use JCrypt instead.
 	 */
 	public function decrypt($s)
 	{
@@ -73,6 +76,7 @@ class JSimplecrypt
 	 * @return  string
 	 *
 	 * @since   11.1
+	 * @deprecated  12.3  Use JCrypt instead.
 	 */
 	public function encrypt($s)
 	{

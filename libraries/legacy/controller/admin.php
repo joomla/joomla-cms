@@ -1,7 +1,7 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Application
+ * @package     Joomla.Legacy
+ * @subpackage  Controller
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -15,8 +15,8 @@ defined('JPATH_PLATFORM') or die;
  * Controller (controllers are where you put all the actual code) Provides basic
  * functionality, such as rendering views (aka displaying templates).
  *
- * @package     Joomla.Platform
- * @subpackage  Application
+ * @package     Joomla.Legacy
+ * @subpackage  Controller
  * @since       11.1
  */
 class JControllerAdmin extends JController

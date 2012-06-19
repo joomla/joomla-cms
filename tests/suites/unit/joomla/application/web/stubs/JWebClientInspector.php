@@ -8,12 +8,21 @@
  */
 
 /**
- * @package		Joomla.UnitTest
- * @subpackage  Application
- * @since       11.3
+ * JWebClientInspector
+ *
+ * @package  Joomla.UnitTest
+ *
+ * @since    11.3
  */
 class JWebClientInspector extends JApplicationWebClient
 {
+	/**
+	 * Allows public access to protected method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
 	public function detectRequestURI()
 	{
 		return parent::detectRequestURI();
@@ -90,6 +99,20 @@ class JWebClientInspector extends JApplicationWebClient
 	}
 
 	/**
+	 * Allows public access to protected method.
+	 *
+	 * @param   string  $userAgent  The user-agent string to parse.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.3
+	 */
+	public function detectRobot($userAgent)
+	{
+		return parent::detectRobot($userAgent);
+	}
+
+	/**
 	 * Method for inspecting protected variables.
 	 *
 	 * @param   string  $name  The name of the property.
@@ -106,25 +129,57 @@ class JWebClientInspector extends JApplicationWebClient
 		}
 		else
 		{
-			throw new Exception('Undefined or private property: ' . __CLASS__.'::'.$name);
+			throw new Exception('Undefined or private property: ' . __CLASS__ . '::' . $name);
 		}
 	}
 
+	/**
+	 * loadClientInformation()
+	 *
+	 * @param   string  $userAgent  The user-agent string to parse.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
 	public function loadClientInformation($userAgent = null)
 	{
 		return parent::loadClientInformation($userAgent);
 	}
 
+	/**
+	 * fetchConfigurationData()
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
 	public function fetchConfigurationData()
 	{
 		return parent::fetchConfigurationData();
 	}
 
+	/**
+	 * loadSystemURIs()
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
 	public function loadSystemURIs()
 	{
 		return parent::loadSystemURIs();
 	}
 
+	/**
+	 * loadSystemURIs()
+	 *
+	 * @param   string  $ua  The user-agent string to parse.
+	 *
+	 * @return  string
+	 *
+	 * @since   11.3
+	 */
 	public function testHelperClient($ua)
 	{
 		$_SERVER['HTTP_USER_AGENT'] = $ua;

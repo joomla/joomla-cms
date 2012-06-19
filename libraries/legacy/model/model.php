@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Joomla.Platform
+ * @package     Joomla.Legacy
  * @subpackage  Model
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
@@ -15,7 +15,7 @@ defined('JPATH_PLATFORM') or die;
  * Acts as a Factory class for application specific objects and
  * provides many supporting API functions.
  *
- * @package     Joomla.Platform
+ * @package     Joomla.Legacy
  * @subpackage  Model
  * @since       11.1
  */

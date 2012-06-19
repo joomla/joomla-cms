@@ -55,11 +55,10 @@ class JFormRuleUrl extends JFormRule
 		else
 		{
 			$scheme = explode(',', $element['schemes']);
-
 		}
 
 		/*
-		 * This rule is only for full URLs with schemes because  parse_url does not parse
+		 * This rule is only for full URLs with schemes because parse_url does not parse
 		 * accurately without a scheme.
 		 * @see http://php.net/manual/en/function.parse-url.php
 		 */

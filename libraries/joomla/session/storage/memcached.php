@@ -30,14 +30,6 @@ class JSessionStorageMemcached extends JSessionStorage
 	private $_db;
 
 	/**
-	 * Use compression?
-	 *
-	 * @var    int
-	 * @since  11.1
-	 */
-	private $_compress = null;
-
-	/**
 	 * Use persistent connections
 	 *
 	 * @var    boolean
@@ -64,7 +56,6 @@ class JSessionStorageMemcached extends JSessionStorage
 
 		$config = JFactory::getConfig();
 
-		$this->_compress	= $config->get('memcache_compress', false)?Memcached::OPT_COMPRESSION:false;
 		$this->_persistent	= $config->get('memcache_persist', true);
 
 		// This will be an array of loveliness
@@ -171,22 +162,6 @@ class JSessionStorageMemcached extends JSessionStorage
 		$sess_id = 'sess_' . $id;
 		$this->_db->delete($sess_id . '_expire');
 		return $this->_db->delete($sess_id);
-	}
-
-	/**
-	 * Garbage collect stale sessions from the SessionHandler backend.
-	 *
-	 * -- Not Applicable in memcached --
-	 *
-	 * @param   integer  $maxlifetime  The maximum age of a session.
-	 *
-	 * @return  boolean  True on success, false otherwise.
-	 *
-	 * @since   11.1
-	 */
-	public function gc($maxlifetime = null)
-	{
-		return true;
 	}
 
 	/**

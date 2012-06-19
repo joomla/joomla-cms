@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Joomla.Platform
+ * @package     Joomla.Legacy
  * @subpackage  Categories
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * JCategories Class.
  *
- * @package     Joomla.Platform
+ * @package     Joomla.Legacy
  * @subpackage  Categories
  * @since       11.1
  */
@@ -373,7 +373,7 @@ class JCategories
 /**
  * Helper class to load Categorytree
  *
- * @package     Joomla.Platform
+ * @package     Joomla.Legacy
  * @subpackage  Categories
  * @since       11.1
  */
