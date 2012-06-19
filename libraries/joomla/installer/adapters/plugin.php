@@ -723,7 +723,7 @@ class JInstallerPlugin extends JAdapterInstance
 			$file_list = JFolder::files(JPATH_SITE . '/plugins/' . $folder, '\.xml$');
 			foreach ($file_list as $file)
 			{
-				$manifest_details = JInstaller::parseXMLInstallFile(JPATH_SITE . '/plugins/' . $folder . '/' . $file);
+				$manifest_details = JApplicationHelper::parseXMLInstallFile(JPATH_SITE . '/plugins/' . $folder . '/' . $file);
 				$file = JFile::stripExt($file);
 				// Ignore example plugins
 				if ($file == 'example')
@@ -747,7 +747,7 @@ class JInstallerPlugin extends JAdapterInstance
 				$file_list = JFolder::files(JPATH_SITE . '/plugins/' . $folder . '/' . $plugin_folder, '\.xml$');
 				foreach ($file_list as $file)
 				{
-					$manifest_details = JInstaller::parseXMLInstallFile(
+					$manifest_details = JApplicationHelper::parseXMLInstallFile(
 						JPATH_SITE . '/plugins/' . $folder . '/' . $plugin_folder . '/' . $file
 					);
 					$file = JFile::stripExt($file);
@@ -806,7 +806,7 @@ class JInstallerPlugin extends JAdapterInstance
 			$this->parent->set('message', '');
 		}
 		$this->parent->setPath('manifest', $manifestPath);
-		$manifest_details = JInstaller::parseXMLInstallFile($manifestPath);
+		$manifest_details = JApplicationHelper::parseXMLInstallFile($manifestPath);
 		$this->parent->extension->manifest_cache = json_encode($manifest_details);
 		$this->parent->extension->state = 0;
 		$this->parent->extension->name = $manifest_details['name'];
@@ -840,7 +840,7 @@ class JInstallerPlugin extends JAdapterInstance
 			. $this->parent->extension->element . '.xml';
 		$this->parent->manifest = $this->parent->isManifest($manifestPath);
 		$this->parent->setPath('manifest', $manifestPath);
-		$manifest_details = JInstaller::parseXMLInstallFile($this->parent->getPath('manifest'));
+		$manifest_details = JApplicationHelper::parseXMLInstallFile($this->parent->getPath('manifest'));
 		$this->parent->extension->manifest_cache = json_encode($manifest_details);
 
 		$this->parent->extension->name = $manifest_details['name'];

@@ -1005,7 +1005,7 @@ class JInstaller extends JAdapter
 				{
 					$dbDriver = 'sqlazure';
 				}
-				
+
 
 				$schemapath = '';
 
@@ -1950,7 +1950,7 @@ class JInstaller extends JAdapter
 	 */
 	public function generateManifestCache()
 	{
-		return json_encode(self::parseXMLInstallFile($this->getPath('manifest')));
+		return json_encode(JApplicationHelper::parseXMLInstallFile($this->getPath('manifest')));
 	}
 
 	/**
