@@ -21,8 +21,14 @@ jimport('joomla.event.dispatcher');
  * @subpackage  Application
  * @since       11.4
  */
-class JApplicationWeb extends JApplicationBase
+class JApplicationWeb
 {
+	/**
+	 * @var    JInput  The application input object.
+	 * @since  11.3
+	 */
+	public $input;
+
 	/**
 	 * @var    string  Character encoding string.
 	 * @since  11.3
@@ -52,6 +58,12 @@ class JApplicationWeb extends JApplicationBase
 	 * @since  11.3
 	 */
 	protected $config;
+
+	/**
+	 * @var    JDispatcher  The application dispatcher object.
+	 * @since  11.3
+	 */
+	protected $dispatcher;
 
 	/**
 	 * @var    JDocument  The application document object.
@@ -260,7 +272,16 @@ class JApplicationWeb extends JApplicationBase
 			$this->loadLanguage();
 		}
 
-		$this->loadDispatcher($dispatcher);
+		// If a dispatcher object is given use it.
+		if ($dispatcher instanceof JDispatcher)
+		{
+			$this->dispatcher = $dispatcher;
+		}
+		// Create the dispatcher based on the application logic.
+		else
+		{
+			$this->loadDispatcher();
+		}
 
 		return $this;
 	}
@@ -453,11 +474,9 @@ class JApplicationWeb extends JApplicationBase
 		{
 			// Expires in the past.
 			$this->setHeader('Expires', 'Mon, 1 Jan 2001 00:00:00 GMT', true);
-
 			// Always modified.
 			$this->setHeader('Last-Modified', gmdate('D, d M Y H:i:s') . ' GMT', true);
 			$this->setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0', false);
-
 			// HTTP 1.0
 			$this->setHeader('Pragma', 'no-cache');
 		}
@@ -465,7 +484,6 @@ class JApplicationWeb extends JApplicationBase
 		{
 			// Expires.
 			$this->setHeader('Expires', gmdate('D, d M Y H:i:s', time() + 900) . ' GMT');
-
 			// Last modified.
 			if ($this->modifiedDate instanceof JDate)
 			{
@@ -556,7 +574,7 @@ class JApplicationWeb extends JApplicationBase
 			 * For WebKit based browsers do not send a 303, as it causes subresource reloading.  You can view the
 			 * bug report at: https://bugs.webkit.org/show_bug.cgi?id=38690
 			 */
-			elseif (!$moved && ($this->client->engine == JWebClient::WEBKIT))
+			elseif (!$moved and ($this->client->engine == JWebClient::WEBKIT))
 			{
 				$html = '<html><head>';
 				$html .= '<meta http-equiv="refresh" content="0; url=' . $url . '" />';
@@ -576,6 +594,21 @@ class JApplicationWeb extends JApplicationBase
 
 		// Close the application after the redirect.
 		$this->close();
+	}
+
+	/**
+	 * Exit the application.
+	 *
+	 * @param   integer  $code  The exit code (optional; default is 0).
+	 *
+	 * @return  void
+	 *
+	 * @codeCoverageIgnore
+	 * @since   11.3
+	 */
+	public function close($code = 0)
+	{
+		exit($code);
 	}
 
 	/**
@@ -600,6 +633,46 @@ class JApplicationWeb extends JApplicationBase
 		}
 
 		return $this;
+	}
+
+	/**
+	 * Registers a handler to a particular event group.
+	 *
+	 * @param   string    $event    The event name.
+	 * @param   callback  $handler  The handler, a function or an instance of a event object.
+	 *
+	 * @return  JApplicationWeb  Instance of $this to allow chaining.
+	 *
+	 * @since   11.3
+	 */
+	public function registerEvent($event, $handler)
+	{
+		if ($this->dispatcher instanceof JDispatcher)
+		{
+			$this->dispatcher->register($event, $handler);
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Calls all handlers associated with an event group.
+	 *
+	 * @param   string  $event  The event name.
+	 * @param   array   $args   An array of arguments (optional).
+	 *
+	 * @return  array   An array of results from each function call, or null if no dispatcher is defined.
+	 *
+	 * @since   11.3
+	 */
+	public function triggerEvent($event, array $args = null)
+	{
+		if ($this->dispatcher instanceof JDispatcher)
+		{
+			return $this->dispatcher->trigger($event, $args);
+		}
+
+		return null;
 	}
 
 	/**
@@ -994,6 +1067,20 @@ class JApplicationWeb extends JApplicationBase
 	protected function header($string, $replace = true, $code = null)
 	{
 		header($string, $replace, $code);
+	}
+
+	/**
+	 * Method to create an event dispatcher for the Web application.  The logic and options for creating
+	 * this object are adequately generic for default cases but for many applications it will make sense
+	 * to override this method and create event dispatchers based on more specific needs.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	protected function loadDispatcher()
+	{
+		$this->dispatcher = JDispatcher::getInstance();
 	}
 
 	/**

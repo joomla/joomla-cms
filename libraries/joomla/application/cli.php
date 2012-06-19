@@ -19,13 +19,25 @@ jimport('joomla.event.dispatcher');
  * @subpackage  Application
  * @since       11.4
  */
-class JApplicationCli extends JApplicationBase
+class JApplicationCli
 {
+	/**
+	 * @var    JInputCli  The application input object.
+	 * @since  11.1
+	 */
+	public $input;
+
 	/**
 	 * @var    JRegistry  The application configuration object.
 	 * @since  11.1
 	 */
 	protected $config;
+
+	/**
+	 * @var    JDispatcher  The application dispatcher object.
+	 * @since  11.1
+	 */
+	protected $dispatcher;
 
 	/**
 	 * @var    JApplicationCli  The application instance.
@@ -85,7 +97,16 @@ class JApplicationCli extends JApplicationBase
 			$this->config = new JRegistry;
 		}
 
-		$this->loadDispatcher($dispatcher);
+		// If a dispatcher object is given use it.
+		if ($dispatcher instanceof JDispatcher)
+		{
+			$this->dispatcher = $dispatcher;
+		}
+		// Create the dispatcher based on the application logic.
+		else
+		{
+			$this->loadDispatcher();
+		}
 
 		// Load the configuration object.
 		$this->loadConfiguration($this->fetchConfigurationData());
@@ -176,6 +197,21 @@ class JApplicationCli extends JApplicationBase
 	}
 
 	/**
+	 * Exit the application.
+	 *
+	 * @param   integer  $code  The exit code (optional; default is 0).
+	 *
+	 * @return  void
+	 *
+	 * @codeCoverageIgnore
+	 * @since   11.1
+	 */
+	public function close($code = 0)
+	{
+		exit($code);
+	}
+
+	/**
 	 * Load an object or array into the application configuration object.
 	 *
 	 * @param   mixed  $data  Either an array or object to be loaded into the configuration object.
@@ -228,6 +264,46 @@ class JApplicationCli extends JApplicationBase
 	public function in()
 	{
 		return rtrim(fread(STDIN, 8192), "\n");
+	}
+
+	/**
+	 * Registers a handler to a particular event group.
+	 *
+	 * @param   string    $event    The event name.
+	 * @param   callback  $handler  The handler, a function or an instance of a event object.
+	 *
+	 * @return  JApplicationCli  Instance of $this to allow chaining.
+	 *
+	 * @since   11.1
+	 */
+	public function registerEvent($event, $handler)
+	{
+		if ($this->dispatcher instanceof JDispatcher)
+		{
+			$this->dispatcher->register($event, $handler);
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Calls all handlers associated with an event group.
+	 *
+	 * @param   string  $event  The event name.
+	 * @param   array   $args   An array of arguments (optional).
+	 *
+	 * @return  array   An array of results from each function call, or null if no dispatcher is defined.
+	 *
+	 * @since   11.1
+	 */
+	public function triggerEvent($event, array $args = null)
+	{
+		if ($this->dispatcher instanceof JDispatcher)
+		{
+			return $this->dispatcher->trigger($event, $args);
+		}
+
+		return null;
 	}
 
 	/**
@@ -293,6 +369,20 @@ class JApplicationCli extends JApplicationBase
 		}
 
 		return $config;
+	}
+
+	/**
+	 * Method to create an event dispatcher for the application.  The logic and options for creating
+	 * this object are adequately generic for default cases but for many applications it will make sense
+	 * to override this method and create event dispatchers based on more specific needs.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	protected function loadDispatcher()
+	{
+		$this->dispatcher = JDispatcher::getInstance();
 	}
 }
 

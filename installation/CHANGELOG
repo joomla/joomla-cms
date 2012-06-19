@@ -30,6 +30,7 @@ $ -> Language fix or change
  # [#28704] Menu type aliases causing fatal php error. Thanks Andrea.
  # [#28700] Fix a potentially fatal issue in JXMLElement. Thanks Rouven.
  # [#28698] Fatal error updating with Extension manager > Install. Thanks Michael.
+ # [#28684] JApplication::registerEvent() is not static anymore causing a fatal error
 
 19-Jun-2012 Jean-Marie Simonet
  # [#28685] Edit article Button missing after upgrade to the latest version 2.5.5 from 2.5.4. Thanks Mark

@@ -24,7 +24,7 @@ jimport('joomla.environment.response');
  * @subpackage  Application
  * @since       11.1
  */
-class JApplication extends JApplicationBase
+class JApplication extends JObject
 {
 	/**
 	 * The client identifier.
@@ -75,6 +75,14 @@ class JApplication extends JApplicationBase
 	public $startTime = null;
 
 	/**
+	 * The application input object.
+	 *
+	 * @var    JInput
+	 * @since  11.2
+	 */
+	public $input = null;
+
+	/**
 	 * @var    array  JApplication instances container.
 	 * @since  11.3
 	 */
@@ -107,7 +115,11 @@ class JApplication extends JApplicationBase
 			$config['session'] = true;
 		}
 
-		$this->input = new JInput;
+		// Create the input object
+		if (class_exists('JInput'))
+		{
+			$this->input = new JInput;
+		}
 
 		// Set the session default name.
 		if (!isset($config['session_name']))
@@ -132,8 +144,6 @@ class JApplication extends JApplicationBase
 		{
 			$this->_createSession(self::getHash($config['session_name']));
 		}
-
-		$this->loadDispatcher();
 
 		$this->set('requestTime', gmdate('Y-m-d H:i'));
 
@@ -175,7 +185,7 @@ class JApplication extends JApplicationBase
 				return $error;
 			}
 
-			self::$instances[$client] = $instance;
+			self::$instances[$client] = &$instance;
 		}
 
 		return self::$instances[$client];
@@ -307,6 +317,20 @@ class JApplication extends JApplicationBase
 	}
 
 	/**
+	 * Exit the application.
+	 *
+	 * @param   integer  $code  Exit code
+	 *
+	 * @return  void     Exits the application.
+	 *
+	 * @since    11.1
+	 */
+	public function close($code = 0)
+	{
+		exit($code);
+	}
+
+	/**
 	 * Redirect to another URL.
 	 *
 	 * Optionally enqueues a message in the system message queue (which will be displayed
@@ -338,11 +362,9 @@ class JApplication extends JApplicationBase
 		$url = preg_split("/[\r\n]/", $url);
 		$url = $url[0];
 
-		/*
-		 * If we don't start with a http we need to fix this before we proceed.
-		 * We could validly start with something else (e.g. ftp), though this would
-		 * be unlikely and isn't supported by this API.
-		 */
+		// If we don't start with a http we need to fix this before we proceed.
+		// We could validly start with something else (e.g. ftp), though this would
+		// be unlikely and isn't supported by this API.
 		if (!preg_match('#^http#i', $url))
 		{
 			$uri = JURI::getInstance();
@@ -394,7 +416,7 @@ class JApplication extends JApplicationBase
 				echo '<html><head><meta http-equiv="content-type" content="text/html; charset=' . $document->getCharset() . '" />'
 					. '<script>document.location.href=\'' . htmlspecialchars($url) . '\';</script></head></html>';
 			}
-			elseif (!$moved && $navigator->isBrowser('konqueror'))
+			elseif (!$moved and $navigator->isBrowser('konqueror'))
 			{
 				// WebKit browser (identified as konqueror by Joomla!) - Do not use 303, as it causes subresources
 				// reload (https://bugs.webkit.org/show_bug.cgi?id=38690)
@@ -588,6 +610,39 @@ class JApplication extends JApplicationBase
 	}
 
 	/**
+	 * Registers a handler to a particular event group.
+	 *
+	 * @param   string  $event    The event name.
+	 * @param   mixed   $handler  The handler, a function or an instance of a event object.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
+	 */
+	public static function registerEvent($event, $handler)
+	{
+		$dispatcher = JDispatcher::getInstance();
+		$dispatcher->register($event, $handler);
+	}
+
+	/**
+	 * Calls all handlers associated with an event group.
+	 *
+	 * @param   string  $event  The event name.
+	 * @param   array   $args   An array of arguments.
+	 *
+	 * @return  array  An array of results from each function call.
+	 *
+	 * @since   11.1
+	 */
+	public function triggerEvent($event, $args = null)
+	{
+		$dispatcher = JDispatcher::getInstance();
+
+		return $dispatcher->trigger($event, $args);
+	}
+
+	/**
 	 * Login authentication function.
 	 *
 	 * Username and encoded password are passed the onUserLogin event which
@@ -616,8 +671,8 @@ class JApplication extends JApplicationBase
 
 		if ($response->status === JAuthentication::STATUS_SUCCESS)
 		{
-			// Validate that the user should be able to login (different to being authenticated)
-			// This permits authentication plugins blocking the user
+			// validate that the user should be able to login (different to being authenticated)
+			// this permits authentication plugins blocking the user
 			$authorisations = $authenticate->authorise($response, $options);
 			foreach ($authorisations as $authorisation)
 			{
@@ -961,7 +1016,7 @@ class JApplication extends JApplicationBase
 
 		$session = JFactory::getSession($options);
 
-		// TODO: At some point we need to get away from having session data always in the db.
+		//TODO: At some point we need to get away from having session data always in the db.
 
 		$db = JFactory::getDBO();
 
@@ -980,9 +1035,8 @@ class JApplication extends JApplicationBase
 		}
 
 		// Check to see the the session already exists.
-		$handler = $this->getCfg('session_handler');
-		if (($handler != 'database' && ($time % 2 || $session->isNew()))
-			|| ($handler == 'database' && $session->isNew()))
+		if (($this->getCfg('session_handler') != 'database' && ($time % 2 || $session->isNew()))
+			|| ($this->getCfg('session_handler') == 'database' && $session->isNew()))
 		{
 			$this->checkSession();
 		}
