@@ -157,6 +157,22 @@ class JDocumentRendererHead extends JDocumentRenderer
 		// Generate script file links
 		foreach ($document->_scripts as $strSrc => $strAttr)
 		{
+			if (isset($document->_preScripts[$strSrc])) {
+				$buffer .= $tab . '<script type="' . $strAttr['mime'] . '"';
+
+				if ($strAttr['defer'])
+				{
+					$buffer .= ' defer="defer"';
+				}
+
+				if ($strAttr['async'])
+				{
+					$buffer .= ' async="async"';
+				}
+
+				$buffer .= '>' . $document->_preScripts[$strSrc] . '</script>' . $lnEnd;
+			}
+
 			$buffer .= $tab . '<script src="' . $strSrc . '"';
 			if (!is_null($strAttr['mime']))
 			{
@@ -171,6 +187,22 @@ class JDocumentRendererHead extends JDocumentRenderer
 				$buffer .= ' async="async"';
 			}
 			$buffer .= '></script>' . $lnEnd;
+
+			if (isset($document->_postScripts[$strSrc])) {
+				$buffer .= $tab . '<script type="' . $strAttr['mime'] . '"';
+
+				if ($strAttr['defer'])
+				{
+					$buffer .= ' defer="defer"';
+				}
+
+				if ($strAttr['async'])
+				{
+					$buffer .= ' async="async"';
+				}
+
+				$buffer .= '>' . $document->_postScripts[$strSrc] . '</script>' . $lnEnd;
+			}
 		}
 
 		// Generate script declarations

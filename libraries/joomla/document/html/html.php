@@ -136,6 +136,7 @@ class JDocumentHTML extends JDocument
 		$data['styleSheets'] = $this->_styleSheets;
 		$data['style']       = $this->_style;
 		$data['scripts']     = $this->_scripts;
+		$data['postScripts'] = $this->_postScripts;
 		$data['script']      = $this->_script;
 		$data['custom']      = $this->_custom;
 		return $data;
@@ -165,6 +166,7 @@ class JDocumentHTML extends JDocument
 		$this->_styleSheets = (isset($data['styleSheets']) && !empty($data['styleSheets'])) ? $data['styleSheets'] : $this->_styleSheets;
 		$this->_style = (isset($data['style']) && !empty($data['style'])) ? $data['style'] : $this->_style;
 		$this->_scripts = (isset($data['scripts']) && !empty($data['scripts'])) ? $data['scripts'] : $this->_scripts;
+		$this->_postScripts = (isset($data['postScripts']) && !empty($data['postScripts'])) ? $data['postScripts'] : $this->_postScripts;
 		$this->_script = (isset($data['script']) && !empty($data['script'])) ? $data['script'] : $this->_script;
 		$this->_custom = (isset($data['custom']) && !empty($data['custom'])) ? $data['custom'] : $this->_custom;
 
@@ -229,6 +231,10 @@ class JDocumentHTML extends JDocument
 		$this->_scripts = (isset($data['scripts']) && !empty($data['scripts']) && is_array($data['scripts']))
 			? array_merge($this->_scripts, $data['scripts'])
 			: $this->_scripts;
+
+		$this->_postScripts = (isset($data['postScripts']) && !empty($data['postScripts']) && is_array($data['postScripts']))
+			? array_merge($this->_postScripts, $data['postScripts'])
+			: $this->_postScripts;
 
 		if (isset($data['script']))
 		{
