@@ -36,10 +36,6 @@ class FinderController extends JControllerLegacy
 		// Initialise variables.
 		$input = JFactory::getApplication()->input;
 		$cachable = true;
-		$user = JFactory::getUser();
-
-		// Load plug-in language files.
-		FinderHelperLanguage::loadPluginLanguage();
 
 		// Load plug-in language files.
 		FinderHelperLanguage::loadPluginLanguage();
