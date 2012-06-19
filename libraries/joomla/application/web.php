@@ -1044,6 +1044,7 @@ class JApplicationWeb extends JApplicationBase
 
 		// Instantiate the session object.
 		$session = JSession::getInstance($handler, $options);
+		$session->initialise($this->input);
 		if ($session->getState() == 'expired')
 		{
 			$session->restart();
