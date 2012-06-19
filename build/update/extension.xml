@@ -23,10 +23,10 @@
 		<description>Joomla! 2.5 CMS</description>
 		<element>joomla</element>
 		<type>file</type>
-		<version>2.5.5</version>
+		<version>2.5.6</version>
 		<infourl title="Joomla!">http://www.joomla.org/</infourl>
 		<downloads>
-			<downloadurl type="full" format="zip">http://joomlacode.org/gf/download/frsrelease/17137/74612/Joomla_2.5.5-Stable-Update_Package.zip</downloadurl>			
+			<downloadurl type="full" format="zip">http://joomlacode.org/gf/download/frsrelease/17174/74755/Joomla_2.5.6-Stable-Update_Package.zip</downloadurl>			
 		</downloads>
 		<tags>
 			<tag>stable</tag>
@@ -41,10 +41,10 @@
 		<description>Joomla! 2.5 CMS</description>
 		<element>joomla</element>
 		<type>file</type>
-		<version>2.5.5</version>
+		<version>2.5.6</version>
 		<infourl title="Joomla!">http://www.joomla.org/</infourl>
 		<downloads>
-			<downloadurl type="full" format="zip">http://joomlacode.org/gf/download/frsrelease/17137/74608/Joomla_2.5.0_to_2.5.5-Stable-Patch_Package.zip</downloadurl>			
+			<downloadurl type="full" format="zip">http://joomlacode.org/gf/download/frsrelease/17174/74751/Joomla_2.5.0_to_2.5.6-Stable-Patch_Package.zip</downloadurl>			
 		</downloads>
 		<tags>
 			<tag>stable</tag>
