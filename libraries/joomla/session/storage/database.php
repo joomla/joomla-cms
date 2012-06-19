@@ -80,22 +80,11 @@ class JSessionStorageDatabase extends JSessionStorage
 			{
 				return false;
 			}
-
-			if ($db->getAffectedRows())
-			{
-				return true;
-			}
-			else
-			{
-				$query->clear();
-				$query->insert($db->quoteName('#__session'))
-				->columns($db->quoteName('session_id') . ', ' . $db->quoteName('data') . ', ' . $db->quoteName('time'))
-				->values($db->quote($id) . ', ' . $db->quote($data) . ', ' . $db->quote((int) time()));
-
-				// If the session does not exist, we need to insert the session.
-				$db->setQuery($query);
-				return (boolean) $db->execute();
-			}
+			/* Since $db->execute did not throw an exception, so the query was successful.
+			Either the data changed, or the data was identical.
+			In either case we are done.
+			*/
+			return true;
 		}
 		catch (Exception $e)
 		{
