@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+18-Jun-2012 Jean-Marie Simonet
+ # [#28685] Edit article Button missing after upgrade to the latest version 2.5.5 from 2.5.4. Thanks Mark
+
 18-June-2012 Mark Dexter
  + Add update xml files to build folder
  # [#28554] Mark JXMLElement as deprecated and don't use it in type hinting
