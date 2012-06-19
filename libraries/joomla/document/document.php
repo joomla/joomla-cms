@@ -139,6 +139,13 @@ class JDocument extends JObject
 	 */
 	public $_scripts = array();
 
+	/**
+	 * Array of scripts to run before specific linked scripts
+	 *
+	 * @var array
+	 * @since 12.2
+	 */
+	public $_preScripts = array();
 
 	/**
 	 * Array of scripts to run after specific linked scripts
@@ -464,6 +471,23 @@ class JDocument extends JObject
 		$this->_scripts[$url]['mime'] = $type;
 		$this->_scripts[$url]['defer'] = $defer;
 		$this->_scripts[$url]['async'] = $async;
+
+		return $this;
+	}
+
+	/**
+	 * Adds inline code immediately before a linked script
+	 *
+	 * @param   string $url
+	 * @param   string $code
+	 *
+	 * @return  JDocument instance of $this to allow chaining
+	 *
+	 * @since   12.2
+	 */
+	public function addPreScript($url, $code)
+	{
+		$this->_preScripts[$url] = $code;
 
 		return $this;
 	}
