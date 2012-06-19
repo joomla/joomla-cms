@@ -43,6 +43,9 @@ class FinderControllerSuggestions extends JControllerLegacy
 			$return = array();
 		}
 
+		// Use the correct json mime-type
+		header('Content-type: application/json');
+
 		// Send the response.
 		echo json_encode($return);
 		JFactory::getApplication()->close();
