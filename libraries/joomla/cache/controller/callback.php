@@ -142,7 +142,7 @@ class JCacheControllerCallback extends JCacheController
 				$locktest = $this->cache->lock($id);
 			}
 
-			if (isset($woptions['modulemode']))
+			if (isset($woptions['modulemode']) && $woptions['modulemode'] == 1)
 			{
 				$document = JFactory::getDocument();
 				$coptions['modulemode'] = $woptions['modulemode'];
