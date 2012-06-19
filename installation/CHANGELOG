@@ -26,6 +26,8 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+-------------------- 2.5.6 Stable Release [19-June-2012] ------------------
+
 19-Jun-2012 Mark Dexter
  # [#28704] Menu type aliases causing fatal php error. Thanks Andrea.
  # [#28700] Fix a potentially fatal issue in JXMLElement. Thanks Rouven.
