@@ -44,7 +44,7 @@ class FinderControllerSuggestions extends JControllerLegacy
 		}
 
 		// Use the correct json mime-type
-		header('Content-type: application/json');
+		header('Content-Type: application/json');
 
 		// Send the response.
 		echo json_encode($return);
