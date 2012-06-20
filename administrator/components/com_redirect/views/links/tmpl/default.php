@@ -20,23 +20,28 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_redirect&view=links'); ?>" method="post" name="adminForm" id="adminForm">
-	<fieldset id="filter-bar">
-		<div class="filter-search fltlft">
-			<label class="filter-search-lbl" for="filter_search"><?php echo JText::_('JSEARCH_FILTER_LABEL'); ?></label>
-			<input type="text" name="filter_search" id="filter_search" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" title="<?php echo JText::_('COM_REDIRECT_SEARCH_LINKS'); ?>" />
-			<button type="submit"><?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?></button>
-			<button type="button" onclick="document.id('filter_search').value='';this.form.submit();"><?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?></button>
+	<div id="filter-bar" class="btn-toolbar">
+		<div class="btn-group pull-right">
+			<a data-toggle="collapse" data-target="#filters" class="btn"><?php echo JText::_('JSEARCH_FILTER_LABEL'); ?> <span class="caret"></span></a>
 		</div>
-		<div class="filter-select fltrt">
+		<div class="filter-search btn-group pull-left">
+			<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('COM_REDIRECT_SEARCH_LINKS'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" title="<?php echo JText::_('COM_REDIRECT_SEARCH_LINKS'); ?>" />
+		</div>
+		<div class="btn-group pull-left">
+			<button class="btn tip" type="submit" title="<?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?>"><i class="icon-search"></i></button>
+			<button class="btn tip" type="button" title="<?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?>" onclick="document.id('filter_search').value='';this.form.submit();"><i class="icon-remove"></i></button>
+		</div>
+	</div>
+	<div class="clearfix"> </div>
+	<div class="collapse" id="filters">
+		<div class="filter-select well">
 			<select name="filter_state" class="inputbox" onchange="this.form.submit()">
 				<option value=""><?php echo JText::_('JOPTION_SELECT_PUBLISHED');?></option>
 				<?php echo JHtml::_('select.options', RedirectHelper::publishedOptions(), 'value', 'text', $this->state->get('filter.state'), true);?>
 			</select>
 		</div>
-	</fieldset>
-	<div class="clr"> </div>
-
-	<table class="adminlist">
+	</div>
+	<table class="table table-striped">
 		<thead>
 			<tr>
 				<th width="20">
@@ -45,20 +50,14 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 				<th class="title">
 					<?php echo JHtml::_('grid.sort', 'COM_REDIRECT_HEADING_OLD_URL', 'a.old_url', $listDirn, $listOrder); ?>
 				</th>
-				<th width="28%">
+				<th width="30%">
 					<?php echo JHtml::_('grid.sort', 'COM_REDIRECT_HEADING_NEW_URL', 'a.new_url', $listDirn, $listOrder); ?>
 				</th>
-				<th width="28%">
+				<th width="30%">
 					<?php echo JHtml::_('grid.sort', 'COM_REDIRECT_HEADING_REFERRER', 'a.referer', $listDirn, $listOrder); ?>
 				</th>
-				<th width="10%">
+				<th width="10%" class="nowrap">
 					<?php echo JHtml::_('grid.sort', 'COM_REDIRECT_HEADING_CREATED_DATE', 'a.created_date', $listDirn, $listOrder); ?>
-				</th>
-				<th width="5%">
-					<?php echo JHtml::_('grid.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
-				</th>
-				<th width="10%">
-					<?php echo JHtml::_('grid.sort', 'COM_REDIRECT_HEADING_HITS', 'a.hits', $listDirn, $listOrder); ?>
 				</th>
 				<th width="1%" class="nowrap">
 					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
@@ -67,7 +66,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 		</thead>
 		<tfoot>
 			<tr>
-				<td colspan="8">
+				<td colspan="7">
 					<?php echo $this->pagination->getListFooter(); ?>
 					<p class="footer-tip">
 						<?php if ($this->enabled) : ?>
@@ -90,6 +89,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 					<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 				</td>
 				<td>
+					<?php echo JHtml::_('redirect.published', $item->published, $i); ?>
 					<?php if ($canEdit) : ?>
 						<a href="<?php echo JRoute::_('index.php?option=com_redirect&task=link.edit&id='.$item->id);?>" title="<?php echo $this->escape($item->old_url); ?>">
 							<?php echo $this->escape(str_replace(JURI::root(), '', $item->old_url)); ?></a>
@@ -97,20 +97,14 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 							<?php echo $this->escape(str_replace(JURI::root(), '', $item->old_url)); ?>
 					<?php endif; ?>
 				</td>
-				<td>
+				<td class="small">
 					<?php echo $this->escape($item->new_url); ?>
 				</td>
-				<td>
+				<td class="small">
 					<?php echo $this->escape($item->referer); ?>
 				</td>
-				<td class="center">
+				<td class="small">
 					<?php echo JHtml::_('date', $item->created_date, JText::_('DATE_FORMAT_LC4')); ?>
-				</td>
-				<td class="center">
-					<?php echo JHtml::_('redirect.published', $item->published, $i); ?>
-				</td>
-				<td class="center">
-					<?php echo (int) $item->hits; ?>
 				</td>
 				<td class="center">
 					<?php echo (int) $item->id; ?>

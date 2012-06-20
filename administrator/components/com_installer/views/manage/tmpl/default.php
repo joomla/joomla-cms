@@ -27,7 +27,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 	<?php echo $this->loadTemplate('filter'); ?>
 
 	<?php if (count($this->items)) : ?>
-	<table class="adminlist">
+	<table class="table table-striped">
 		<thead>
 			<tr>
 				<th width="20">

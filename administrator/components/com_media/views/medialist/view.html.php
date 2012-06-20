@@ -31,11 +31,12 @@ class MediaViewMediaList extends JViewLegacy
 		JHtml::_('behavior.framework', true);
 
 		$document = JFactory::getDocument();
+		/*
 		$document->addStyleSheet('../media/media/css/medialist-'.$style.'.css');
 		if ($lang->isRTL()) :
 			$document->addStyleSheet('../media/media/css/medialist-'.$style.'_rtl.css');
 		endif;
-
+		*/
 		$document->addScriptDeclaration("
 		window.addEvent('domready', function() {
 			window.parent.document.updateUploader();

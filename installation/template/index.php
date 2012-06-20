@@ -14,11 +14,14 @@ $doc = JFactory::getDocument();
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 // Add Stylesheets
-$doc->addStyleSheet('../media/system/css/system.css');
+$doc->addStyleSheet('../templates/system/css/bootstrap.css');
+$doc->addStyleSheet('../templates/system/css/bootstrap-extended.css');
+$doc->addStyleSheet('../templates/system/css/bootstrap-responsive.css');
 $doc->addStyleSheet('template/css/template.css');
 
-if ($this->direction == 'rtl')
-{
+$doc->addStyleSheet('../templates/system/css/chosen.css');
+
+if ($this->direction == 'rtl') {
 	$doc->addStyleSheet('template/css/template_rtl.css');
 }
 
@@ -34,9 +37,15 @@ JText::script('INSTL_PROCESS_BUSY');
 JText::script('INSTL_SITE_SAMPLE_LOADED');
 JText::script('INSTL_FTP_SETTINGS_CORRECT');
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>" >
 	<head>
+		<script src="<?php echo JURI::root();?>templates/system/js/jquery.js"></script>
+		<script src="<?php echo JURI::root();?>templates/system/js/bootstrap.min.js"></script>
+		<script src="<?php echo JURI::root();?>templates/system/js/chosen.jquery.min.js"></script>
+		<script type="text/javascript">
+		  jQuery.noConflict();
+		</script>
 		<jdoc:include type="head" />
 
 		<!--[if IE 7]>
@@ -48,36 +57,52 @@ JText::script('INSTL_FTP_SETTINGS_CORRECT');
 			});
  		</script>
 	</head>
-	<body>
-		<div id="header">
-			<span class="logo"><a href="http://www.joomla.org" target="_blank"><img src="template/images/logo.png" alt="Joomla!" /></a></span>
-			<h1>Joomla! <?php echo JVERSION; ?> <?php echo JText::_('INSTL_INSTALLATION') ?></h1>
-		</div>
-		<jdoc:include type="message" />
-		<div id="content-box">
-			<div id="content-pad">
-				<div id="stepbar">
-					<?php echo JHtml::_('installation.stepbar'); ?>
-					<div class="box"></div>
-				</div>
-				<div id="warning">
-					<noscript>
-						<div id="javascript-warning">
-							<?php echo JText::_('INSTL_WARNJAVASCRIPT'); ?>
-						</div>
-					</noscript>
-				</div>
-				<div id="right">
-					<div id="rightpad">
-						<jdoc:include type="installation" />
+	<body class="installation">
+		<!-- Header -->
+		<div class="header">
+			<div class="header-inner">
+				<div class="container"> 
+					<div class="brand">
+						<img src="<?php echo $this->baseurl ?>/template/images/joomla.png" alt="Joomla" />
 					</div>
 				</div>
-				<div class="clr"></div>
 			</div>
 		</div>
-		<div id="copyright">
-			<?php $joomla= '<a href="http://www.joomla.org">Joomla!&#174;</a>';
-			echo JText::sprintf('JGLOBAL_ISFREESOFTWARE', $joomla) ?>
+		<!-- Container -->
+		<div class="container">
+			<?php echo JHtml::_('installation.stepbar'); ?>
+			<jdoc:include type="installation" />
+			<hr />
+			<div class="footer">
+				<p class="pull-right"><a href="#top" id="back-top">Back to top</a></p>
+				<p><?php $joomla= '<a href="http://www.joomla.org">Joomla!&#174;</a>';
+				echo JText::sprintf('JGLOBAL_ISFREESOFTWARE', $joomla) ?></p>
+			</div>
 		</div>
+		<script>
+			(function($){
+				$('*[rel=tooltip]').tooltip()
+				$('*[rel=popover]').popover()
+				
+				// Chosen select boxes
+				$("select").chosen({disable_search_threshold : 10 });
+				
+				// Turn radios into btn-group
+				$('.radio.btn-group label').addClass('btn')
+				$(".btn-group label:not(.active)").click(function(){
+				    var label = $(this);
+				    var input = $('#' + label.attr('for'));
+				    
+				    if (!input.prop('checked')){
+				        label.closest('.btn-group').find("label").removeClass('active btn-primary');                        
+				        label.addClass('active btn-primary'); 
+				        input.prop('checked', true);
+				    }
+				});
+				$(".btn-group input[checked=checked]").each(function(){
+				    $("label[for=" + $(this).attr('id') + "]").addClass('active btn-primary');
+				});
+		    })(jQuery);
+		</script>
 	</body>
 </html>

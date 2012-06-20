@@ -9,52 +9,73 @@
 
 defined('_JEXEC') or die; ?>
 
-<?php echo JHtml::_('sliders.panel', JText::_('JGLOBAL_FIELDSET_PUBLISHING'), 'publishing-details'); ?>
+<div class="control-group">
+	<div class="control-label">
+		<?php echo $this->form->getLabel('created_user_id'); ?>
+	</div>
+	<div class="controls">
+		<?php echo $this->form->getInput('created_user_id'); ?>
+	</div>
+</div>
 
-	<fieldset class="panelform">
-		<ul class="adminformlist">
+<?php if (intval($this->item->created_time)) : ?>
+	<div class="control-group">
+		<div class="control-label">
+			<?php echo $this->form->getLabel('created_time'); ?>
+		</div>
+		<div class="controls">
+			<?php echo $this->form->getInput('created_time'); ?>
+		</div>
+	</div>
+<?php endif; ?>
 
-			<li><?php echo $this->form->getLabel('created_user_id'); ?>
-			<?php echo $this->form->getInput('created_user_id'); ?></li>
-
-			<?php if (intval($this->item->created_time)) : ?>
-				<li><?php echo $this->form->getLabel('created_time'); ?>
-				<?php echo $this->form->getInput('created_time'); ?></li>
-			<?php endif; ?>
-
-			<?php if ($this->item->modified_user_id) : ?>
-				<li><?php echo $this->form->getLabel('modified_user_id'); ?>
-				<?php echo $this->form->getInput('modified_user_id'); ?></li>
-
-				<li><?php echo $this->form->getLabel('modified_time'); ?>
-				<?php echo $this->form->getInput('modified_time'); ?></li>
-			<?php endif; ?>
-
-		</ul>
-	</fieldset>
+<?php if ($this->item->modified_user_id) : ?>
+	<div class="control-group">
+		<div class="control-label">
+			<?php echo $this->form->getLabel('modified_user_id'); ?>
+		</div>
+		<div class="controls">
+			<?php echo $this->form->getInput('modified_user_id'); ?>
+		</div>
+	</div>
+	<div class="control-group">
+		<div class="control-label">
+			<?php echo $this->form->getLabel('modified_time'); ?>
+		</div>
+		<div class="controls">
+			<?php echo $this->form->getInput('modified_time'); ?>
+		</div>
+	</div>
+<?php endif; ?>
 
 <?php $fieldSets = $this->form->getFieldsets('params');
 
 foreach ($fieldSets as $name => $fieldSet) :
 	$label = !empty($fieldSet->label) ? $fieldSet->label : 'COM_CATEGORIES_'.$name.'_FIELDSET_LABEL';
-	echo JHtml::_('sliders.panel', JText::_($label), $name.'-options');
 	if (isset($fieldSet->description) && trim($fieldSet->description)) :
 		echo '<p class="tip">'.$this->escape(JText::_($fieldSet->description)).'</p>';
 	endif;
 	?>
-	<fieldset class="panelform">
-	<ul class="adminformlist">
-
 		<?php foreach ($this->form->getFieldset($name) as $field) : ?>
-			<li><?php echo $field->label; ?>
-			<?php echo $field->input; ?></li>
+			<div class="control-group">
+				<div class="control-label">
+					<?php echo $field->label; ?>
+				</div>
+				<div class="controls">
+					<?php echo $field->input; ?>
+				</div>
+			</div>
 		<?php endforeach; ?>
 
 		<?php if ($name=='basic'):?>
-			<li><?php echo $this->form->getLabel('note'); ?>
-			<?php echo $this->form->getInput('note'); ?></li>
+			<div class="control-group">
+				<div class="control-label">
+					<?php echo $this->form->getLabel('note'); ?>
+				</div>
+				<div class="controls">
+					<?php echo $this->form->getInput('note'); ?>
+				</div>
+			</div>
 		<?php endif;?>
-	</ul>
 
-	</fieldset>
 <?php endforeach; ?>

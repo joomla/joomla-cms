@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE install PUBLIC "-//Joomla! 2.5//DTD template 1.0//EN" "http://www.joomla.org/xml/dtd/2.5/template-install.dtd">
+<extension version="2.5" type="template" client="site">
+  <name>strapped</name>
+  <version>1.0</version>
+  <creationDate>4/30/2012</creationDate>
+  <author>Kyle Ledbetter</author>
+  <authorEmail>admin@joomla.org</authorEmail>
+  <copyright>Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.</copyright>
+  <description>TPL_STRAPPED_XML_DESCRIPTION</description>
+  <files>
+  	<filename>component.php</filename>
+    <filename>favicon.ico</filename>
+    <filename>index.php</filename>
+    <filename>LICENSE.txt</filename>
+    <filename>templateDetails.xml</filename>
+    <filename>template_preview.png</filename>
+    <filename>template_thumbnail.png</filename>
+    <folder>css</folder>
+    <folder>html</folder>
+    <folder>images</folder>
+    <folder>js</folder>
+    <folder>language</folder>
+  </files>
+  <positions>
+  	<position>debug</position>
+  	<position>position-0</position>
+  	<position>position-1</position>
+  	<position>position-2</position>
+  	<position>position-3</position>
+  	<position>position-4</position>
+  	<position>position-5</position>
+  	<position>position-6</position>
+  	<position>position-7</position>
+  	<position>position-8</position>
+  	<position>position-9</position>
+  	<position>position-10</position>
+  	<position>position-11</position>
+  	<position>position-12</position>
+  	<position>position-13</position>
+  	<position>position-14</position>
+  </positions>
+  <languages folder="language">
+      <language tag="en-GB">en-GB/en-GB.tpl_strapped.ini</language>
+      <language tag="en-GB">en-GB/en-GB.tpl_strapped.sys.ini</language>
+  </languages>
+  <config>
+	  <fields name="params">
+	  	<fieldset name="layout" label="Layout">
+  			<field name="theme" type="list" default="theme1" label="TPL_STRAPPED_COLOR_LABEL" description="TPL_STRAPPED_COLOR_DESC">
+  				<option value="theme1">TPL_STRAPPED_COLOR_1</option>
+  				<option value="theme2">TPL_STRAPPED_COLOR_2</option>
+  				<option value="theme3">TPL_STRAPPED_COLOR_3</option>
+  				<option value="theme4">TPL_STRAPPED_COLOR_4</option>
+  			</field>
+		</fieldset>
+	  </fields>
+  </config>
+</extension>

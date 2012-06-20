@@ -8,25 +8,41 @@
  */
 
 defined('_JEXEC') or die;
+
+$user = JFactory::getUser();
+$lang = JFactory::getLanguage();
 ?>
-
-<?php
-echo JHtml::_('sliders.start', 'panel-sliders', array('useCookie'=>'1'));
-
-foreach ($this->modules as $module) {
-	$output = JModuleHelper::renderModule($module);
-	$params = new JRegistry;
-	$params->loadString($module->params);
-	if ($params->get('automatic_title', '0')=='0') {
-		echo JHtml::_('sliders.panel', $module->title, 'cpanel-panel-'.$module->name);
+<div class="row-fluid">
+	<div class="span3">
+		<div class="sidebar-nav">
+			<ul class="nav nav-list">
+              <li class="nav-header">Submenu</li>
+              <li class="active"><a href="<?php echo $this->baseurl; ?>">Dashboard</a></li>
+              <li class="nav-header">System</li>
+              <?php if($user->authorise('core.admin')):?>
+              	<li><a href="<?php echo $this->baseurl; ?>/index.php?option=com_config">Global Configuration</a></li>
+              	<li><a href="<?php echo $this->baseurl; ?>/index.php?option=com_admin&view=sysinfo">System Information</a></li>
+              <?php endif;?>
+              <?php if($user->authorise('core.manage', 'com_cache')):?>
+             	 <li><a href="<?php echo $this->baseurl; ?>/index.php?option=com_cache">Clear Cache</a></li>
+              <?php endif;?>
+              <?php if($user->authorise('core.admin', 'com_checkin')):?>
+              	<li><a href="<?php echo $this->baseurl; ?>/index.php?option=com_checkin">Global Check-in</a></li>
+              <?php endif;?>
+              <?php if($user->authorise('core.manage', 'com_installer')):?>
+             	 <li><a href="<?php echo $this->baseurl; ?>/index.php?option=com_installer">Install Extensions</a></li>
+              <?php endif;?>
+            </ul>
+        </div>
+	</div>
+	<div class="span9">
+	<?php
+	foreach ($this->modules as $module) {
+		$output = JModuleHelper::renderModule($module, array('style' => 'well'));
+		$params = new JRegistry;
+		$params->loadString($module->params);
+		echo $output;
 	}
-	elseif (method_exists('mod'.$module->name.'Helper', 'getTitle')) {
-		echo JHtml::_('sliders.panel', call_user_func_array(array('mod'.$module->name.'Helper', 'getTitle'), array($params)), 'cpanel-panel-'.$module->name);
-	}
-	else {
-		echo JHtml::_('sliders.panel', JText::_('MOD_'.$module->name.'_TITLE'), 'cpanel-panel-'.$module->name);
-	}
-	echo $output;
-}
-
-echo JHtml::_('sliders.end');
+	?>
+	</div>
+</div>

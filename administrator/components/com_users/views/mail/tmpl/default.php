@@ -34,43 +34,46 @@ JFactory::getDocument()->addScriptDeclaration($script);
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_users&view=mail'); ?>" name="adminForm" method="post" id="adminForm">
-
-	<div class="width-30 fltlft">
-		<fieldset class="adminform">
+	<div class="row">
+	<div class="span3">
+		<fieldset class="form-inline">
 			<legend><?php echo JText::_('COM_USERS_MAIL_DETAILS'); ?></legend>
-			<ul class="adminformlist">
-			<li><?php echo $this->form->getLabel('recurse'); ?>
-			<?php echo $this->form->getInput('recurse'); ?></li>
-
-			<li><?php echo $this->form->getLabel('mode'); ?>
-			<?php echo $this->form->getInput('mode'); ?></li>
-
-			<li><?php echo $this->form->getLabel('disabled'); ?>
-			<?php echo $this->form->getInput('disabled'); ?></li>
-
-			<li><?php echo $this->form->getLabel('group'); ?>
-			<?php echo $this->form->getInput('group'); ?></li>
-
-			<li><?php echo $this->form->getLabel('bcc'); ?>
-			<?php echo $this->form->getInput('bcc'); ?></li>
-			</ul>
+			<div class="control-group">
+				<div class="controls checkbox"><?php echo $this->form->getInput('recurse'); ?></div>
+				<div class="control-label"><?php echo $this->form->getLabel('recurse'); ?></div>
+			</div>
+			<div class="control-group">
+				<div class="controls checkbox"><?php echo $this->form->getInput('mode'); ?></div>
+				<div class="control-label"><?php echo $this->form->getLabel('mode'); ?></div>
+			</div>
+			<div class="control-group">
+				<div class="controls checkbox"><?php echo $this->form->getInput('disabled'); ?></div>
+				<div class="control-label"><?php echo $this->form->getLabel('disabled'); ?></div>
+			</div>
+			<div class="control-group">
+				<div class="controls checkbox"><?php echo $this->form->getInput('bcc'); ?></div>
+				<div class="control-label"><?php echo $this->form->getLabel('bcc'); ?></div>
+			</div>
+			<div class="control-group">
+				<div class="control-label"><?php echo $this->form->getLabel('group'); ?></div>
+				<div class="controls"><?php echo $this->form->getInput('group'); ?></div>
+			</div>
 		</fieldset>
 	</div>
-
-	<div class="width-70 fltrt">
+	<div class="span9">
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('COM_USERS_MAIL_MESSAGE'); ?></legend>
-			<ul class="adminformlist">
-			<li><?php echo $this->form->getLabel('subject'); ?>
-			<?php echo $this->form->getInput('subject'); ?></li>
-
-			<li><?php echo $this->form->getLabel('message'); ?>
-			<?php echo $this->form->getInput('message'); ?></li>
-			</ul>
+			<div class="control-group">
+				<div class="control-label"><?php echo $this->form->getLabel('subject'); ?></div>
+				<div class="controls"><?php echo $this->form->getInput('subject'); ?></div>
+			</div>
+			<div class="control-group">
+				<div class="control-label"><?php echo $this->form->getLabel('message'); ?></div>
+				<div class="controls"><?php echo $this->form->getInput('message'); ?></div>
+			</div>
 		</fieldset>
 		<input type="hidden" name="task" value="" />
 		<?php echo JHtml::_('form.token'); ?>
 	</div>
-
-	<div class="clr"></div>
+	</div>
 </form>

@@ -2,7 +2,7 @@
 <form>
 	<fieldset>
 		<fieldset name="basic">
-			<field name="ftp_enable" type="list" id="ftp_enable" class="inputbox"
+			<field name="ftp_enable" type="radio" id="ftp_enable" class="btn-group"
 				label="INSTL_FTP_ENABLE_LABEL"
 				default="0"
 				filter="int"
@@ -34,7 +34,7 @@
 				default="21"
 				filter="int"
 			/>
-			<field name="ftp_save" type="radio" id="ftp_save" class="inputbox"
+			<field name="ftp_save" type="radio" id="ftp_save" class="btn-group"
 				label="INSTL_FTP_SAVE_LABEL"
 				default="0"
 				required="true"

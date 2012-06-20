@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 <?php
 
 if (!count($this->messages)) {
-	echo '<p class="nowarning">'. JText::_('COM_INSTALLER_MSG_WARNINGS_NONE').'</p>';
+	echo '<div class="alert alert-info"><a class="close" data-dismiss="alert" href="#">&times;</a>'. JText::_('COM_INSTALLER_MSG_WARNINGS_NONE').'</div>';
 } else {
 	echo JHtml::_('sliders.start', 'warning-sliders', array('useCookie'=>1));
 	foreach($this->messages as $message) {

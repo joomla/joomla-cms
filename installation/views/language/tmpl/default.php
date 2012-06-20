@@ -8,34 +8,34 @@
 
 defined('_JEXEC') or die;
 ?>
-<div id="step">
-	<div class="far-right">
-	<?php if ($this->document->direction == 'ltr') : ?>
-		<div class="button1-left"><div class="next"><a href="#" onclick="Install.submitform();" rel="next" title="<?php echo JText::_('JNext'); ?>"><?php echo JText::_('JNext'); ?></a></div></div>
-	<?php elseif ($this->document->direction == 'rtl') : ?>
-		<div class="button1-right"><div class="prev"><a href="#" onclick="Install.submitform();" rel="next" title="<?php echo JText::_('JNext'); ?>"><?php echo JText::_('JNext'); ?></a></div></div>
-	<?php endif; ?>
-	</div>
-	<h2><?php echo JText::_('INSTL_LANGUAGE_TITLE'); ?></h2>
-</div>
-<form action="index.php" method="post" id="adminForm" class="form-validate">
+<form action="index.php" method="post" id="adminForm" class="form-validate form-horizontal">
 	<div id="installer">
-		<div class="m">
-			<h3><?php echo JText::_('INSTL_SELECT_LANGUAGE_TITLE'); ?></h3>
-			<div class="install-text">
-				<?php echo JText::_('INSTL_SELECT_LANGUAGE_DESC'); ?>
+		<div class="btn-toolbar">
+			<div class="btn-group">
+				<a class="btn" data-toggle="modal" href="#licenseModal"><i class="icon-eye-open"></i> <?php echo JText::_('INSTL_LICENSE'); ?></a>
 			</div>
-			<div class="install-body">
-				<div class="m">
-					<fieldset>
-						<?php echo $this->form->getInput('language'); ?>
-					</fieldset>
-				</div>
-				<div class="clr"></div>
+			<div class="btn-group">
+				<a href="#" class="btn btn-primary" onclick="Install.submitform();" rel="next" title="<?php echo JText::_('JNext'); ?>"><i class="icon-arrow-right icon-white"></i> <?php echo JText::_('JNext'); ?></a>
 			</div>
-			<div class="clr"></div>
+		</div>
+		<h3><?php echo JText::_('INSTL_LANGUAGE_TITLE'); ?></h3>
+		<div class="control-group">
+			<label for="jform_language" class="control-label"><?php echo JText::_('INSTL_SELECT_LANGUAGE_TITLE'); ?></label>
+			<div class="controls">
+				<?php echo $this->form->getInput('language'); ?>
+			</div>
 		</div>
 	</div>
 	<input type="hidden" name="task" value="setup.setlanguage" />
 	<?php echo JHtml::_('form.token'); ?>
 </form>
+
+<div id="licenseModal" class="modal fade">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal">×</button>
+	    <h3><?php echo JText::_('INSTL_GNU_GPL_LICENSE'); ?></h3>
+	</div>
+	<div class="modal-body">
+		<iframe src="gpl.html" class="thumbnail span6 license" height="250" marginwidth="25" scrolling="auto"></iframe>
+	</div>
+</div>

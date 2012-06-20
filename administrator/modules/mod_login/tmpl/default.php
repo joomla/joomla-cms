@@ -10,29 +10,33 @@
 defined('_JEXEC') or die;
 JHtml::_('behavior.keepalive');
 ?>
-<form action="<?php echo JRoute::_('index.php', true, $params->get('usesecure')); ?>" method="post" id="form-login">
+<form action="<?php echo JRoute::_('index.php', true, $params->get('usesecure')); ?>" method="post" id="form-login" class="form-inline">
 	<fieldset class="loginform">
-
-				<label id="mod-login-username-lbl" for="mod-login-username"><?php echo JText::_('JGLOBAL_USERNAME'); ?></label>
-				<input name="username" id="mod-login-username" type="text" class="inputbox" size="15" />
-
-				<label id="mod-login-password-lbl" for="mod-login-password"><?php echo JText::_('JGLOBAL_PASSWORD'); ?></label>
-				<input name="passwd" id="mod-login-password" type="password" class="inputbox" size="15" />
-
-				<label id="mod-login-language-lbl" for="lang"><?php echo JText::_('MOD_LOGIN_LANGUAGE'); ?></label>
-				<?php echo $langs; ?>
-
-				<div class="button-holder">
-					<div class="button1">
-						<div class="next">
-							<a href="#" onclick="document.getElementById('form-login').submit();">
-								<?php echo JText::_('MOD_LOGIN_LOGIN'); ?></a>
-						</div>
-					</div>
+		<div class="control-group">
+			<div class="controls">
+			  <div class="input-prepend input-append">
+			    <span class="add-on"><i class="icon-user"></i></span><input name="username" id="mod-login-username" type="text" class="input-medium" rel="tooltip" title="<?php echo JText::_('JGLOBAL_USERNAME'); ?>" size="15" /><a href="<?php echo JURI::root()?>index.php?option=com_users&view=remind" class="btn width-50"><?php echo JText::_('MOD_LOGIN_REMIND'); ?></a>
+			  </div>
+			</div>
+		</div>
+		<div class="control-group">
+			<div class="controls">
+			  <div class="input-prepend input-append">
+			    <span class="add-on"><i class="icon-lock"></i></span><input name="passwd" id="mod-login-password" type="password" class="input-medium" rel="tooltip" title="<?php echo JText::_('JGLOBAL_PASSWORD'); ?>" size="15" /><a href="<?php echo JURI::root()?>index.php?option=com_users&view=reset" class="btn width-50"><?php echo JText::_('MOD_LOGIN_RESET'); ?></a>
+			  </div>
+			 </div>
+		</div>
+		<div class="control-group">
+			<div class="controls">
+				<div class="btn-group">
+					<input type="submit" class="btn btn-primary btn-large" value="<?php echo JText::_( 'MOD_LOGIN_LOGIN' ); ?>" /><a class="btn btn-primary btn-large" data-toggle="collapse" data-target="#language"><i class="icon-comment icon-white" rel="tooltip" title="<?php echo JText::_('MOD_LOGIN_LANGUAGE'); ?>"></i></a>
 				</div>
-
-		<div class="clr"></div>
-		<input type="submit" class="hidebtn" value="<?php echo JText::_( 'MOD_LOGIN_LOGIN' ); ?>" />
+			</div>
+		</div>
+		<div id="language" class="collapse fade">
+			<hr />
+		    <?php echo $langs; ?>
+		</div>
 		<input type="hidden" name="option" value="com_login" />
 		<input type="hidden" name="task" value="login" />
 		<input type="hidden" name="return" value="<?php echo $return; ?>" />

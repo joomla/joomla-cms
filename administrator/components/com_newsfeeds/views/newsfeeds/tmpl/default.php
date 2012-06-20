@@ -23,39 +23,40 @@ $saveOrder	= $listOrder == 'a.ordering';
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_newsfeeds&view=newsfeeds'); ?>" method="post" name="adminForm" id="adminForm">
-	<fieldset id="filter-bar">
-		<div class="filter-search fltlft">
-			<label class="filter-search-lbl" for="filter_search"><?php echo JText::_('JSEARCH_FILTER_LABEL'); ?></label>
-			<input type="text" name="filter_search" id="filter_search" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" title="<?php echo JText::_('COM_NEWSFEEDS_SEARCH_IN_TITLE'); ?>" />
-			<button type="submit"><?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?></button>
-			<button type="button" onclick="document.id('filter_search').value='';this.form.submit();"><?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?></button>
+	<div id="filter-bar" class="btn-toolbar">
+		<div class="btn-group pull-right">
+			<a data-toggle="collapse" data-target="#filters" class="btn"><?php echo JText::_('JSEARCH_FILTER_LABEL'); ?> <span class="caret"></span></a>
 		</div>
-		<div class="filter-select fltrt">
-
+		<div class="filter-search btn-group pull-left">
+			<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('COM_NEWSFEEDS_SEARCH_IN_TITLE'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" title="<?php echo JText::_('COM_NEWSFEEDS_SEARCH_IN_TITLE'); ?>" />
+		</div>
+		<div class="btn-group pull-left">
+			<button class="btn tip" type="submit" title="<?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?>"><i class="icon-search"></i></button>
+			<button class="btn tip" type="button" title="<?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?>" onclick="document.id('filter_search').value='';this.form.submit();"><i class="icon-remove"></i></button>
+		</div>
+	</div>
+	<div class="clearfix"> </div>
+	<div class="collapse" id="filters">
+		<div class="filter-select well">
 			<select name="filter_published" class="inputbox" onchange="this.form.submit()">
 				<option value=""><?php echo JText::_('JOPTION_SELECT_PUBLISHED');?></option>
 				<?php echo JHtml::_('select.options', JHtml::_('jgrid.publishedOptions'), 'value', 'text', $this->state->get('filter.state'), true);?>
 			</select>
-
 			<select name="filter_category_id" class="inputbox" onchange="this.form.submit()">
 				<option value=""><?php echo JText::_('JOPTION_SELECT_CATEGORY');?></option>
 				<?php echo JHtml::_('select.options', JHtml::_('category.options', 'com_newsfeeds'), 'value', 'text', $this->state->get('filter.category_id'));?>
 			</select>
-
-            <select name="filter_access" class="inputbox" onchange="this.form.submit()">
+	        <select name="filter_access" class="inputbox" onchange="this.form.submit()">
 				<option value=""><?php echo JText::_('JOPTION_SELECT_ACCESS');?></option>
 				<?php echo JHtml::_('select.options', JHtml::_('access.assetgroups'), 'value', 'text', $this->state->get('filter.access'));?>
 			</select>
-
 			<select name="filter_language" class="inputbox" onchange="this.form.submit()">
 				<option value=""><?php echo JText::_('JOPTION_SELECT_LANGUAGE');?></option>
 				<?php echo JHtml::_('select.options', JHtml::_('contentlanguage.existing', true, true), 'value', 'text', $this->state->get('filter.language'));?>
 			</select>
 		</div>
-	</fieldset>
-	<div class="clr"> </div>
-
-	<table class="adminlist">
+	</div>
+	<table class="table table-striped">
 		<thead>
 			<tr>
 				<th width="1%">
@@ -64,13 +65,7 @@ $saveOrder	= $listOrder == 'a.ordering';
 				<th class="title">
 					<?php echo JHtml::_('grid.sort', 'JGLOBAL_TITLE', 'a.name', $listDirn, $listOrder); ?>
 				</th>
-				<th width="5%">
-					<?php echo JHtml::_('grid.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
-				</th>
-				<th width="20%">
-					<?php echo JHtml::_('grid.sort',  'JCATEGORY', 'category_title', $listDirn, $listOrder); ?>
-				</th>
-				<th width="10%">
+				<th width="15%">
 					<?php echo JHtml::_('grid.sort',  'JGRID_HEADING_ORDERING', 'a.ordering', $listDirn, $listOrder); ?>
 					<?php if ($canOrder && $saveOrder) :?>
 						<?php echo JHtml::_('grid.order',  $this->items, 'filesave.png', 'newsfeeds.saveorder'); ?>
@@ -112,7 +107,8 @@ $saveOrder	= $listOrder == 'a.ordering';
 				<td class="center">
 					<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 				</td>
-				<td>
+				<td class="nowrap">
+					<?php echo JHtml::_('jgrid.published', $item->published, $i, 'newsfeeds.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
 					<?php if ($item->checked_out) : ?>
 						<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'newsfeeds.', $canCheckin); ?>
 					<?php endif; ?>
@@ -122,33 +118,31 @@ $saveOrder	= $listOrder == 'a.ordering';
 					<?php else : ?>
 							<?php echo $this->escape($item->name); ?>
 					<?php endif; ?>
-					<p class="smallsub">
-						<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias));?></p>
-				</td>
-				<td class="center">
-					<?php echo JHtml::_('jgrid.published', $item->published, $i, 'newsfeeds.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
-				</td>
-				<td class="center">
-					<?php echo $this->escape($item->category_title); ?>
+					<span class="small">
+						<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias));?>
+					</span>
+					<div class="small">
+						<?php echo $this->escape($item->category_title); ?>
+					</div>
 				</td>
 				<td class="order">
 					<?php if ($canChange) : ?>
-						<?php if ($saveOrder) :?>
-							<?php if ($listDirn == 'asc') : ?>
-								<span><?php echo $this->pagination->orderUpIcon($i, ($item->catid == @$this->items[$i-1]->catid), 'newsfeeds.orderup', 'JLIB_HTML_MOVE_UP', $ordering); ?></span>
-								<span><?php echo $this->pagination->orderDownIcon($i, $this->pagination->total, ($item->catid == @$this->items[$i+1]->catid), 'newsfeeds.orderdown', 'JLIB_HTML_MOVE_DOWN', $ordering); ?></span>
-							<?php elseif ($listDirn == 'desc') : ?>
-								<span><?php echo $this->pagination->orderUpIcon($i, ($item->catid == @$this->items[$i-1]->catid), 'newsfeeds.orderdown', 'JLIB_HTML_MOVE_UP', $ordering); ?></span>
-								<span><?php echo $this->pagination->orderDownIcon($i, $this->pagination->total, ($item->catid == @$this->items[$i+1]->catid), 'newsfeeds.orderup', 'JLIB_HTML_MOVE_DOWN', $ordering); ?></span>
+						<div class="input-prepend">
+							<?php if ($saveOrder) :?>
+								<?php if ($listDirn == 'asc') : ?>
+									<span class="add-on"><?php echo $this->pagination->orderUpIcon($i, ($item->catid == @$this->items[$i-1]->catid), 'newsfeeds.orderup', 'JLIB_HTML_MOVE_UP', $ordering); ?></span><span class="add-on"><?php echo $this->pagination->orderDownIcon($i, $this->pagination->total, ($item->catid == @$this->items[$i+1]->catid), 'newsfeeds.orderdown', 'JLIB_HTML_MOVE_DOWN', $ordering); ?></span>
+								<?php elseif ($listDirn == 'desc') : ?>
+									<span class="add-on"><?php echo $this->pagination->orderUpIcon($i, ($item->catid == @$this->items[$i-1]->catid), 'newsfeeds.orderdown', 'JLIB_HTML_MOVE_UP', $ordering); ?></span><span class="add-on"><?php echo $this->pagination->orderDownIcon($i, $this->pagination->total, ($item->catid == @$this->items[$i+1]->catid), 'newsfeeds.orderup', 'JLIB_HTML_MOVE_DOWN', $ordering); ?></span>
+								<?php endif; ?>
 							<?php endif; ?>
-						<?php endif; ?>
-						<?php $disabled = $saveOrder ?  '' : 'disabled="disabled"'; ?>
-						<input type="text" name="order[]" size="5" value="<?php echo $item->ordering;?>" <?php echo $disabled ?> class="text-area-order" />
+							<?php $disabled = $saveOrder ?  '' : 'disabled="disabled"'; ?>
+							<?php if(!$disabled = $saveOrder) : echo "<span class=\"add-on tip\" title=\"".JText::_('JDISABLED')."\"><i class=\"icon-ban-circle\"></i></span>"; endif;?><input type="text" name="order[]" size="5" value="<?php echo $item->ordering;?>" <?php echo $disabled ?> class="width-20 text-area-order" />
+						</div>
 					<?php else : ?>
 						<?php echo $item->ordering; ?>
 					<?php endif; ?>
 				</td>
-				<td class="center">
+				<td class="small">
 					<?php echo $this->escape($item->access_level); ?>
 				</td>
 				<td class="center">
@@ -157,7 +151,7 @@ $saveOrder	= $listOrder == 'a.ordering';
 				<td class="center">
 					<?php echo (int) $item->cache_time; ?>
 				</td>
-				<td class="center">
+				<td class="small">
 					<?php if ($item->language=='*'):?>
 						<?php echo JText::alt('JALL', 'language'); ?>
 					<?php else:?>

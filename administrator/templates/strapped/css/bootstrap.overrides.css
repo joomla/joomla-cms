@@ -1,0 +1,431 @@
+/* Overrides */
+hr{
+	margin: 10px 0;
+}
+#header ul,
+#sidebar ul,
+#title ul,
+ul.avatar-grid,
+ul.tools-menu,
+.profile-wrap ul,
+ul.widget-config-menu,
+.gradient-blue ul,
+code ul,
+ul.dropdown-menu{
+	list-style: none;
+	margin: 0;
+}
+
+.sidebar-add{
+	line-height: .6;
+}
+#title .finder .inputbox,
+.finder-field .inputbox.search-box{
+	line-height: 1;
+	margin-bottom: 0;	
+}
+#title .finder .active label{
+	color: #fff;
+}
+#title .finder label,
+.finder-filter-menu li{
+	line-height: 1.2;
+}
+#title .finder .inputbox{
+	-moz-box-shadow: none;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+}
+#sidebar .finder-filter-menu label{
+	margin-bottom: 0;
+}
+.datahub-list li,
+.avatar-grid li{
+	line-height: 1;
+	list-style: none;
+}
+
+.filter-menu li label{
+	margin-bottom: 0;
+}
+
+.workspace-layout-1 .zone-2{
+	margin-left: 0;
+}
+.widget-zone > li{
+	list-style: none;
+}
+widget-maximize, 
+.widget-title{
+	margin-left:5px;
+}
+#toolbar form{
+	margin: 0;
+}
+#toolbar select,
+#toolbar input{
+	font-size: 11px;
+	margin-bottom: 0;
+	padding: 1px 5px;
+	line-height: 1;
+	height: auto;
+}
+
+.datahub-session-meter-wrapper label{
+	display: inline;
+}
+
+#Kunena .container{
+	width: auto;
+}
+#Kunena .header h2,
+#Kunena .msg-header h2,
+#Kunena .kheader h2{
+	font-size: 18px;
+	line-height: 1.5;
+}
+
+.datahub-featured .datahub-row{
+	line-height: 14px;
+}
+
+/* Typography */
+.moduletable h3{
+	line-height: 1.2;
+}
+.adminlist thead th, .admintable thead th, .adminform thead th, .datahub-list thead th, .datahub-table thead th, .kgenstats .kblocktable th, .kpopsubjstats .kblocktable th, .kpopuserstats .kblocktable th, .kpopthanksstats .kblocktable th, #kwhoispage.kblocktable th, #dailyload .thead td, .kpopprofilestats .kblocktable th, .mceContentBody thead th{
+	line-height: 1.2;
+}
+/* Subnav */
+.subnav #global-nav,
+.subnav #profile-nav-user{
+	display: none;
+}
+
+/* Search */
+.com_finder #mainbody.fluid-content{
+	background: #fff;
+}
+/* Modal */
+#modal .modal {
+  position: static;
+  top: auto;
+  left: auto;
+  max-height: 2000px;
+  overflow: auto;
+  width: auto;
+  margin: auto;
+  background-color: transparent;
+  border: 0;
+  border: 0;
+  *border: 0;
+  /* IE6-7 */
+
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  -webkit-background-clip: padding-box;
+  -moz-background-clip: padding-box;
+  background-clip: padding-box;
+}
+
+#sbox-window {
+  padding: 0;
+  background-color: #ffffff;
+  border: 1px solid #999;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  *border: 1px solid #999;
+  /* IE6-7 */
+
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  border-radius: 6px;
+  -webkit-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+  -webkit-background-clip: padding-box;
+  -moz-background-clip: padding-box;
+  background-clip: padding-box;
+}
+
+#modal .modal.full,
+#modal .modal.fade.in.full{
+	margin: 0;
+	width: auto;
+}
+/* Modal Close Button */
+.btn.close{
+	opacity:1.0;
+	filter:alpha(opacity=100);
+}
+
+/* Joomla Tabs -> Bootsrap Nav Tabs */
+.tabs {
+  margin-left: 0;
+  margin-top: 0;
+  margin-bottom: 10px;
+  list-style: none;
+}
+.tabs > dt > span > h3 {
+  font-size: 13px;
+  line-height: 18px;
+}
+.tabs > dt > span {
+  display: block;
+}
+.tabs > dt > span:hover {
+  text-decoration: none;
+  background-color: #eeeeee;
+}
+.tabs .nav-header {
+  display: block;
+  padding: 3px 15px;
+  font-size: 11px;
+  font-weight: bold;
+  line-height: 18px;
+  color: #999999;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+  text-transform: uppercase;
+}
+.tabs dt + .nav-header {
+  margin-top: 9px;
+}
+.tabs {
+  *zoom: 1;
+}
+.tabs:before,
+.tabs:after {
+  display: table;
+  content: "";
+}
+.tabs:after {
+  clear: both;
+}
+.tabs > dt {
+  float: left;
+}
+.tabs > dt > span {
+  padding-right: 12px;
+  padding-left: 12px;
+  margin-right: 2px;
+  line-height: 14px;
+}
+.tabs {
+  border-bottom: 1px solid #ddd;
+}
+.tabs > dt {
+  margin-bottom: -1px;
+  font-weight: normal;
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-size: 13px;
+}
+.tabs > dt > span {
+  padding-top: 9px;
+  padding-bottom: 9px;
+  border: 1px solid transparent;
+  -webkit-border-radius: 4px 4px 0 0;
+  -moz-border-radius: 4px 4px 0 0;
+  border-radius: 4px 4px 0 0;
+}
+.tabs > dt > span:hover {
+  border-color: #eeeeee #eeeeee #dddddd;
+}
+.tabs > .open > span, .tabs > .open > span:hover {
+  color: #555555;
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-bottom-color: transparent;
+  cursor: default;
+}
+.tabs > .closed > span{
+	color: #08c;
+}
+/* Joomla Tabs in Modal -> Bootstrap Subnav */
+.modal .tabs {
+  border-bottom: 1px solid #ddd;
+}
+.modal .modal-body .tabs{
+	margin-top: -15px;
+	margin-left: -15px;
+	margin-right: -15px;
+}
+.modal .tabs > dt {
+  margin-bottom: -1px;
+}
+.modal .tabs > dt > span {
+  padding-top: 9px;
+  padding-bottom: 9px;
+  border: 1px solid transparent;
+  -webkit-border-radius: 4px 4px 0 0;
+  -moz-border-radius: 4px 4px 0 0;
+  border-radius: 4px 4px 0 0;
+}
+.modal .tabs > dt > span:hover {
+  border-color: #eeeeee #eeeeee #dddddd;
+}
+.modal .tabs > .open > span, .modal .tabs > .open > span:hover {
+  color: #555555;
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-bottom-color: transparent;
+  cursor: default;
+}
+.modal .tabs {
+	background: #e5e5e5; /* Old browsers */
+	background: -moz-linear-gradient(top,  #e5e5e5 0%, #c3c3c3 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#e5e5e5), color-stop(100%,#c3c3c3)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top,  #e5e5e5 0%,#c3c3c3 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top,  #e5e5e5 0%,#c3c3c3 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top,  #e5e5e5 0%,#c3c3c3 100%); /* IE10+ */
+	background: linear-gradient(top,  #e5e5e5 0%,#c3c3c3 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e5e5e5', endColorstr='#c3c3c3',GradientType=0 ); /* IE6-9 */
+	
+	padding-top: 5px;
+	
+	border-bottom: 1px solid #A5A5A5;
+}
+.modal .tabs > dt{
+	margin-left: 10px;
+	font-weight: normal;
+}
+
+.modal .tabs > dt > span {
+	color: #000;
+}
+
+.modal .tabs > .open > span,
+.modal .tabs > dt > span:hover{
+	border-top: 1px solid #A5A5A5;
+	border-right: 1px solid #A5A5A5;
+	border-left: 1px solid #A5A5A5;
+}
+/* Modal Overflow */
+.modal-body{
+	overflow-y: auto;
+}
+/* Modal Inputs */
+#modal input,
+#modal select{
+	width: auto;
+	max-width: 170px;
+}
+/* Modal Tables */
+.modal-body table td{
+	padding: 0 8px 0 0;
+}
+/* Fullscreen Modal */
+.modal-content .modal-body{
+	padding: 0;
+}
+.modal-content iframe{
+	border: 0;
+}
+.modal-header [class^="icon-"],
+.modal-header [class*=" icon-"]{
+	line-height: 18px;
+	height: 18px;
+}
+.modal-header.fullscreen-header{
+	margin-bottom: 20px;
+}
+/* Radios and Checkboxes in Menus and Navs */
+.navbar .nav li.search,
+.navbar .nav li.filter{
+	display: block;
+	float: left;
+}
+.dropdown-menu > li > input{
+	display: none;
+}
+.dropdown-menu > li > label{display:block;padding:3px 15px;clear:both;font-weight:normal;line-height:18px;color:#555555;white-space:nowrap;background-image: none;margin-bottom: 0;
+}
+.dropdown-menu > li > label:hover{
+	cursor: pointer;
+}
+.dropdown-menu > li > label:hover,.dropdown-menu > li.active > label,.dropdown-menu > li.active > label:hover,
+.dropdown-menu.keyword-suggestions li:hover{color:#ffffff;text-decoration:none;background-color:#0088cc;cursor: pointer;
+}
+.navbar .nav > form > li > a {
+float: none;
+padding: 10px 10px 11px;
+line-height: 19px;
+color: 
+#999;
+text-decoration: none;
+text-shadow: 0 -1px 0 
+rgba(0, 0, 0, 0.25);
+}
+
+/* Radios and Checkboxes in Nav Tabs Stacked */
+.nav-tabs > li > label {
+  padding-top: 9px;
+  padding-bottom: 9px;
+  border: 1px solid transparent;
+  -webkit-border-radius: 4px 4px 0 0;
+  -moz-border-radius: 4px 4px 0 0;
+  border-radius: 4px 4px 0 0;
+  color: #0088cc;
+}
+.nav-tabs > li > label:hover {
+  border-color: #eeeeee #eeeeee #dddddd;
+  color: #005580;
+  cursor: pointer;
+}
+.nav-tabs > li > label {
+	padding-right: 12px;
+	padding-left: 12px;
+	margin-right: 2px;
+	line-height: 14px;
+}
+.nav-tabs > .active > label, .nav-tabs > .active > label:hover {
+  color: #555555;
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-bottom-color: transparent;
+  cursor: default;
+}
+.nav-stacked > li input{
+	display: none;
+}
+.nav-stacked > li > label {
+  margin-right: 0;
+  margin-bottom: 0;
+}
+.nav-tabs.nav-stacked > li > label {
+  border: 1px solid #ddd;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+  background-image: none;
+}
+.nav-tabs.nav-stacked > li:first-child > label {
+  -webkit-border-radius: 4px 4px 0 0;
+  -moz-border-radius: 4px 4px 0 0;
+  border-radius: 4px 4px 0 0;
+}
+.nav-tabs.nav-stacked > li:last-child > label {
+  -webkit-border-radius: 0 0 4px 4px;
+  -moz-border-radius: 0 0 4px 4px;
+  border-radius: 0 0 4px 4px;
+}
+.nav-tabs.nav-stacked > li > label:hover {
+  border-color: #ddd;
+  z-index: 2;
+}
+
+/* Tags Dropdown Menu */
+.dropdown-menu.keyword-suggestions{
+	display: block;
+}
+#keyword-list .dropdown-menu.keyword-suggestions,
+#jform_invited .dropdown-menu.keyword-suggestions{
+	top: 28px !important;
+}
+
+/* Select Boxes In Toolbars */
+.btn-toolbar select{
+	max-width: 140px;
+}

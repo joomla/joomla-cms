@@ -31,6 +31,7 @@
 		/>
 
 		<field name="showtitle" type="radio"
+			class="btn-group"
 			default="1"
 			description="COM_MODULES_FIELD_SHOWTITLE_DESC"
 			label="COM_MODULES_FIELD_SHOWTITLE_LABEL"
@@ -40,7 +41,8 @@
 			<option value="0">JHIDE</option>
 		</field>
 
-		<field name="published" type="list"
+		<field name="published" type="radio"
+			class="btn-group"
 			default="1"
 			description="COM_MODULES_FIELD_PUBLISHED_DESC"
 			label="JSTATUS"

@@ -9,13 +9,11 @@
 
 defined('_JEXEC') or die;
 ?>
-<div class="width-100">
-	<fieldset class="adminform">
-		<legend><?php echo JText::_('COM_CONFIG_PERMISSION_SETTINGS'); ?></legend>
-		<?php foreach ($this->form->getFieldset('permissions') as $field): ?>
-			<?php echo $field->label; ?>
-			<div class="clr"> </div>
-			<?php echo $field->input; ?>
-		<?php endforeach; ?>
-	</fieldset>
-</div>
+<fieldset class="form-vertical">
+	<legend><?php echo JText::_('COM_CONFIG_PERMISSION_SETTINGS'); ?></legend>
+	<?php foreach ($this->form->getFieldset('permissions') as $field): ?>
+		<div class="control-group">
+			<div class="controls"><?php echo $field->input; ?></div>
+		</div>
+	<?php endforeach; ?>
+</fieldset>

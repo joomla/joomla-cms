@@ -14,23 +14,20 @@ $params = new JRegistry;
 $dispatcher	= JEventDispatcher::getInstance();
 $dispatcher->trigger('onContentBeforeDisplay', array('com_media.file', &$this->_tmp_doc, &$params));
 ?>
-		<div class="imgOutline">
-			<div class="imgTotal">
-				<div align="center" class="imgBorder">
-					<a style="display: block; width: 100%; height: 100%" title="<?php echo $this->_tmp_doc->name; ?>" >
-						<?php echo JHtml::_('image', $this->_tmp_doc->icon_32, $this->_tmp_doc->name, null, true, true) ? JHtml::_('image', $this->_tmp_doc->icon_32, $this->_tmp_doc->title, null, true) : JHtml::_('image', 'media/con_info.png', $this->_tmp_doc->name, null, true); ?></a>
-				</div>
-			</div>
-			<div class="controls">
+		<li class="imgOutline thumbnail height-80">
 			<?php if ($user->authorise('core.delete', 'com_media')):?>
-				<a class="delete-item" target="_top" href="index.php?option=com_media&amp;task=file.delete&amp;tmpl=index&amp;<?php echo JSession::getFormToken(); ?>=1&amp;folder=<?php echo $this->state->folder; ?>&amp;rm[]=<?php echo $this->_tmp_doc->name; ?>" rel="<?php echo $this->_tmp_doc->name; ?>"><?php echo JHtml::_('image', 'media/remove.png', JText::_('JACTION_DELETE'), array('width' => 16, 'height' => 16), true); ?></a>
-				<input type="checkbox" name="rm[]" value="<?php echo $this->_tmp_doc->name; ?>" />
+				<a class="close delete-item" target="_top" href="index.php?option=com_media&amp;task=file.delete&amp;tmpl=index&amp;<?php echo JSession::getFormToken(); ?>=1&amp;folder=<?php echo $this->state->folder; ?>&amp;rm[]=<?php echo $this->_tmp_doc->name; ?>" rel="<?php echo $this->_tmp_doc->name; ?>" title="<?php echo JText::_('JACTION_DELETE');?>">x</a>
+				<input class="pull-left" type="checkbox" name="rm[]" value="<?php echo $this->_tmp_doc->name; ?>" />
+				<div class="clearfix"></div>
 			<?php endif;?>
+			<div class="height-50">
+				<a style="display: block; width: 100%; height: 100%" title="<?php echo $this->_tmp_doc->name; ?>" >
+					<?php echo JHtml::_('image', $this->_tmp_doc->icon_32, $this->_tmp_doc->name, null, true, true) ? JHtml::_('image', $this->_tmp_doc->icon_32, $this->_tmp_doc->title, NULL, true) : JHtml::_('image', 'media/con_info.png', $this->_tmp_doc->name, NULL, true) ; ?></a>
 			</div>
-			<div class="imginfoBorder" title="<?php echo $this->_tmp_doc->name; ?>" >
+			<div class="small" title="<?php echo $this->_tmp_doc->name; ?>" >
 				<?php echo $this->_tmp_doc->title; ?>
 			</div>
-		</div>
+		</li>
 <?php
 $dispatcher->trigger('onContentAfterDisplay', array('com_media.file', &$this->_tmp_doc, &$params));
 ?>

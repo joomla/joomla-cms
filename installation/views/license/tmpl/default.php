@@ -8,24 +8,28 @@
 
 defined('_JEXEC') or die;
 ?>
-<div id="step">
-	<div class="far-right">
-<?php if ($this->document->direction == 'ltr') : ?>
-		<div class="button1-right"><div class="prev"><a href="index.php?view=preinstall" onclick="return Install.goToPage('preinstall');" rel="prev" title="<?php echo JText::_('JPREVIOUS'); ?>"><?php echo JText::_('JPREVIOUS'); ?></a></div></div>
-		<div class="button1-left"><div class="next"><a href="index.php?view=database" onclick="return Install.goToPage('database');" rel="next" title="<?php echo JText::_('JNEXT'); ?>"><?php echo JText::_('JNEXT'); ?></a></div></div>
-<?php elseif ($this->document->direction == 'rtl') : ?>
-		<div class="button1-right"><div class="prev"><a href="index.php?view=database" onclick="return Install.goToPage('database');" rel="next" title="<?php echo JText::_('JNEXT'); ?>"><?php echo JText::_('JNEXT'); ?></a></div></div>
-		<div class="button1-left"><div class="next"><a href="index.php?view=preinstall" onclick="return Install.goToPage('preinstall');" rel="prev" title="<?php echo JText::_('JPREVIOUS'); ?>"><?php echo JText::_('JPREVIOUS'); ?></a></div></div>
-<?php endif; ?>
-	</div>
-	<h2><?php echo JText::_('INSTL_LICENSE'); ?></h2>
-</div>
-<form action="index.php" method="post" id="adminForm" class="form-validate">
+<form action="index.php" method="post" id="adminForm" class="form-validate form-horizontal">
 	<div id="installer">
-		<div class="m">
-			<h3><?php echo JText::_('INSTL_GNU_GPL_LICENSE'); ?></h3>
-			<iframe src="gpl.html" class="license" marginwidth="25" scrolling="auto"></iframe>
-		</div>
+		<fieldset>
+			<legend><?php echo JText::_('INSTL_GNU_GPL_LICENSE'); ?></legend>
+			<div class="control-group">
+				<label for="" class="control-label">
+					<?php echo JText::_('INSTL_LICENSE'); ?>
+				</label>
+				<div class="controls">
+					<iframe src="gpl.html" class="thumbnail span9 license" height="300" marginwidth="25" scrolling="auto"></iframe>
+				</div>
+			</div>
+			<div class="form-actions">
+			<?php if ($this->document->direction == 'ltr') : ?>
+					<span class="prev"><a class="btn" href="index.php?view=preinstall" onclick="return Install.goToPage('preinstall');" rel="prev" title="<?php echo JText::_('JPREVIOUS'); ?>"><?php echo JText::_('JPREVIOUS'); ?></a></span> 
+					<span class="next"><a class="btn btn-primary" href="index.php?view=database" onclick="return Install.goToPage('database');" rel="next" title="<?php echo JText::_('JNEXT'); ?>"><?php echo JText::_('JNEXT'); ?></a></span>
+			<?php elseif ($this->document->direction == 'rtl') : ?>
+					<span class="prev"><a class="btn btn-primary" href="index.php?view=database" onclick="return Install.goToPage('database');" rel="next" title="<?php echo JText::_('JNEXT'); ?>"><?php echo JText::_('JNEXT'); ?></a></span> 
+					<span class="next"><a class="btn" href="index.php?view=preinstall" onclick="return Install.goToPage('preinstall');" rel="prev" title="<?php echo JText::_('JPREVIOUS'); ?>"><?php echo JText::_('JPREVIOUS'); ?></a></span>
+			<?php endif; ?>
+			</div>
+		</fieldset>
 	</div>
 	<input type="hidden" name="task" value="" />
 	<?php echo JHtml::_('form.token'); ?>

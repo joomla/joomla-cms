@@ -10,16 +10,17 @@
 defined('_JEXEC') or die;
 
 ?>
-<fieldset id="filter-bar">
-	<div class="filter-search fltlft">
-		<?php foreach($this->form->getFieldSet('search') as $field): ?>
-			<?php if (!$field->hidden): ?>
-				<?php echo $field->label; ?>
-			<?php endif; ?>
-			<?php echo $field->input; ?>
-		<?php endforeach; ?>
+<div id="filter-bar" class="btn-toolbar">
+	<div class="btn-group pull-right">
+		<a data-toggle="collapse" data-target="#filters" class="btn"><?php echo JText::_('JSEARCH_FILTER_LABEL'); ?> <span class="caret"></span></a>
 	</div>
-	<div class="filter-select fltrt">
+	<?php foreach($this->form->getFieldSet('search') as $field): ?>
+		<?php echo $field->input; ?>
+	<?php endforeach; ?>
+</div>
+<div class="clearfix"></div>
+<div class="collapse" id="filters">
+	<div class="filter-select well">
 		<?php foreach($this->form->getFieldSet('select') as $field): ?>
 			<?php if (!$field->hidden): ?>
 				<?php echo $field->label; ?>
@@ -27,5 +28,4 @@ defined('_JEXEC') or die;
 			<?php echo $field->input; ?>
 		<?php endforeach; ?>
 	</div>
-</fieldset>
-<div class="clr"></div>
+</div>

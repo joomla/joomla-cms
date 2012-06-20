@@ -19,28 +19,29 @@ $listOrder	= $this->escape($this->state->get('list.ordering'));
 $listDirn	= $this->escape($this->state->get('list.direction'));
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_templates&view=styles'); ?>" method="post" name="adminForm" id="adminForm">
-	<fieldset id="filter-bar">
-		<div class="filter-search fltlft">
-			<label class="filter-search-lbl" for="filter_search"><?php echo JText::_('JSEARCH_FILTER_LABEL'); ?></label>
-			<input type="text" name="filter_search" id="filter_search" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" title="<?php echo JText::_('COM_TEMPLATES_STYLES_FILTER_SEARCH_DESC'); ?>" />
-			<button type="submit"><?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?></button>
-			<button type="button" onclick="document.id('filter_search').value='';this.form.submit();"><?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?></button>
+	<div id="filter-bar" class="btn-toolbar">
+		<div class="filter-search btn-group pull-left">
+			<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('JSEARCH_FILTER_LABEL'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" title="<?php echo JText::_('COM_TEMPLATES_STYLES_FILTER_SEARCH_DESC'); ?>" />
 		</div>
-		<div class="filter-select fltrt">
-			<select name="filter_template" class="inputbox" onchange="this.form.submit()">
+		<div class="btn-group pull-left">
+			<button class="btn tip" type="submit" title="<?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?>"><i class="icon-search"></i></button>
+			<button class="btn tip" type="button" title="<?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?>" onclick="document.id('filter_search').value='';this.form.submit();"><i class="icon-remove"></i></button>
+		</div>
+		<div class="filter-select btn-group pull-left">
+			<select name="filter_template" class="input-medium" onchange="this.form.submit()">
 				<option value="0"><?php echo JText::_('COM_TEMPLATES_FILTER_TEMPLATE'); ?></option>
 				<?php echo JHtml::_('select.options', TemplatesHelper::getTemplateOptions($this->state->get('filter.client_id')), 'value', 'text', $this->state->get('filter.template'));?>
 			</select>
 
-			<select name="filter_client_id" class="inputbox" onchange="this.form.submit()">
+			<select name="filter_client_id" class="input-medium" onchange="this.form.submit()">
 				<option value="*"><?php echo JText::_('JGLOBAL_FILTER_CLIENT'); ?></option>
 				<?php echo JHtml::_('select.options', TemplatesHelper::getClientOptions(), 'value', 'text', $this->state->get('filter.client_id'));?>
 			</select>
 		</div>
-	</fieldset>
-	<div class="clr"> </div>
+	</div>
+	<div class="clear"> </div>
 
-	<table class="adminlist">
+	<table class="table table-striped">
 		<thead>
 			<tr>
 				<th width="5">
@@ -86,11 +87,12 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 
 				<td>
 					<?php if ($this->preview && $item->client_id == '0'): ?>
-						<a target="_blank"href="<?php echo JURI::root().'index.php?tp=1&templateStyle='.(int) $item->id ?>"  class="jgrid hasTip" title="<?php echo  htmlspecialchars(JText::_('COM_TEMPLATES_TEMPLATE_PREVIEW')); ?>::<?php echo htmlspecialchars($item->title);?>" ><span class="state icon-16-preview"><span class="text"><?php echo JText::_('COM_TEMPLATES_TEMPLATE_PREVIEW'); ?></span></span></a>
+						<a target="_blank"href="<?php echo JURI::root().'index.php?tp=1&templateStyle='.(int) $item->id ?>"  class="jgrid" title="<?php echo  htmlspecialchars(JText::_('COM_TEMPLATES_TEMPLATE_PREVIEW')); ?>::<?php echo htmlspecialchars($item->title);?>" >
+						<i class="icon-eye-open tip" rel="tooltip" data-original-title="<?php echo  htmlspecialchars(JText::_('COM_TEMPLATES_TEMPLATE_PREVIEW')); ?>" ></i></a>
 					<?php elseif ($item->client_id == '1'): ?>
-						<span class="jgrid hasTip" title="<?php echo  htmlspecialchars(JText::_('COM_TEMPLATES_TEMPLATE_NO_PREVIEW_ADMIN')); ?>" ><span class="state icon-16-nopreview"><span class="text"><?php echo JText::_('COM_TEMPLATES_TEMPLATE_NO_PREVIEW_ADMIN'); ?></span></span></span>
+						<span class="disabled"><i class="icon-eye-close tip" rel="tooltip" data-original-title="<?php echo  htmlspecialchars(JText::_('COM_TEMPLATES_TEMPLATE_NO_PREVIEW_ADMIN')); ?>" ></i></span>
 					<?php else: ?>
-						<span class="jgrid hasTip" title="<?php echo  htmlspecialchars(JText::_('COM_TEMPLATES_TEMPLATE_NO_PREVIEW')); ?>" ><span class="state icon-16-nopreview"><span class="text"><?php echo JText::_('COM_TEMPLATES_TEMPLATE_NO_PREVIEW'); ?></span></span></span>
+						<span class="disabled"><i class="icon-eye-close tip" rel="tooltip" data-original-title="<?php echo  htmlspecialchars(JText::_('COM_TEMPLATES_TEMPLATE_NO_PREVIEW')); ?>" ></i></span>
 					<?php endif; ?>
 					<?php if ($canEdit) : ?>
 					<a href="<?php echo JRoute::_('index.php?option=com_templates&task=style.edit&id='.(int) $item->id); ?>">
@@ -99,11 +101,11 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 						<?php echo $this->escape($item->title);?>
 					<?php endif; ?>
 				</td>
-				<td class="center">
+				<td class="small">
 					<?php echo $item->client_id == 0 ? JText::_('JSITE') : JText::_('JADMINISTRATOR'); ?>
 				</td>
 				<td>
-					<label for="cb<?php echo $i;?>">
+					<label for="cb<?php echo $i;?>" class="small">
 						<a href="<?php echo JRoute::_('index.php?option=com_templates&view=template&id='.(int) $item->e_id); ?>  ">
 							<?php echo ucfirst($this->escape($item->template));?>
 						</a>
@@ -122,7 +124,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 				</td>
 				<td class="center">
 					<?php if ($item->assigned > 0) : ?>
-							<?php echo JHtml::_('image', 'admin/tick.png', JText::plural('COM_TEMPLATES_ASSIGNED', $item->assigned), array('title'=>JText::plural('COM_TEMPLATES_ASSIGNED', $item->assigned)), true); ?>
+							<i class="icon-ok tip" rel="tooltip" title="<?php echo JText::plural('COM_TEMPLATES_ASSIGNED', $item->assigned)?>"></i>
 					<?php else : ?>
 							&#160;
 					<?php endif; ?>

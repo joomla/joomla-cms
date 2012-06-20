@@ -53,8 +53,8 @@
 				label="INSTL_SITE_METAKEYS_LABEL"
 				rows="3"
 			/>
-
-			<field name="site_offline" type="radio" id="site_offline" default="0"
+			
+			<field name="site_offline" type="radio" id="site_offline" class="btn-group" default="0"
 			label="INSTL_SITE_OFFLINE_LABEL"
 			filter="integer"
 			>

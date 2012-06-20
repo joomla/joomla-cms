@@ -12,18 +12,17 @@ $listOrder	= $this->escape($this->state->get('list.ordering'));
 $listDirn	= $this->escape($this->state->get('list.direction'));
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_checkin');?>" method="post" name="adminForm" id="adminForm">
-	<fieldset id="filter-bar">
-		<div class="filter-search fltlft">
-			<label class="filter-search-lbl" for="filter_search"><?php echo JText::_('JSEARCH_FILTER_LABEL'); ?></label>
-			<input type="text" name="filter_search" id="filter_search" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" title="<?php echo JText::_('COM_CHECKIN_FILTER_SEARCH_DESC'); ?>" />
-
-			<button type="submit" class="btn"><?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?></button>
-			<button type="button" onclick="document.id('filter_search').value='';this.form.submit();"><?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?></button>
+	<div class="btn-toolbar">
+		<div class="filter-search btn-group pull-left">
+			<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('JSEARCH_FILTER_LABEL'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" title="<?php echo JText::_('COM_CHECKIN_FILTER_SEARCH_DESC'); ?>" />
 		</div>
-	</fieldset>
-	<div class="clr"> </div>
+		<div class="btn-group pull-left">
+			<button type="button" class="btn tip" onclick="document.id('filter_search').value='';this.form.submit();" title="<?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?>"><i class="icon-remove"></i></button>
+		</div>
+	</div>
+	<div class="clearfix"> </div>
 
-	<table id="global-checkin" class="adminlist">
+	<table id="global-checkin" class="table table-striped">
 		<thead>
 			<tr>
 				<th width="1%">
@@ -38,7 +37,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 			<tr class="row<?php echo $i%2; ?>">
 				<td class="center"><?php echo JHtml::_('grid.id', $i, $table); ?></td>
 				<td><?php echo JText::sprintf('COM_CHECKIN_TABLE', $table); ?></td>
-				<td width="200" class="center"><?php echo $count; ?></td>
+				<td width="200" class="center"><span class="label label-info"><?php echo $count; ?></span></td>
 			</tr>
 		<?php endforeach;?>
 		</tbody>

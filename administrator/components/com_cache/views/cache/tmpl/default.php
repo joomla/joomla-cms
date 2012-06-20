@@ -14,15 +14,15 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_cache'); ?>" method="post" name="adminForm" id="adminForm">
-	<fieldset id="filter-bar">
-		<div class="filter-select fltrt">
+	<div id="filter-bar" class="btn-toolbar">
+		<div class="filter-select btn-group">
 			<select name="filter_client_id" class="inputbox" onchange="this.form.submit()">
 				<?php echo JHtml::_('select.options', CacheHelper::getClientOptions(), 'value', 'text', $this->state->get('clientId'));?>
 			</select>
 		</div>
-	</fieldset>
-	<div class="clr"> </div>
-<table class="adminlist">
+	</div>
+	<div class="clearfix"> </div>
+<table class="table table-striped">
 	<thead>
 		<tr>
 			<th class="title" width="10">

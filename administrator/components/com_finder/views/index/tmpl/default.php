@@ -41,14 +41,21 @@ Joomla.submitbutton = function(pressbutton) {
 </script>
 
 <form action="<?php echo JRoute::_('index.php?option=com_finder&view=index');?>" method="post" name="adminForm" id="adminForm">
-	<fieldset id="filter-bar">
-		<div class="filter-search fltlft">
-			<label class="filter-search-lbl" for="filter_search"><?php echo JText::sprintf('COM_FINDER_SEARCH_LABEL', JText::_('COM_FINDER_ITEMS')); ?></label>
-			<input type="text" name="filter_search" id="filter_search" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" title="<?php echo JText::_('COM_FINDER_FILTER_SEARCH_DESCRIPTION'); ?>" />
-			<button type="submit" class="btn"><?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?></button>
-			<button type="button" onclick="document.id('filter_search').value='';this.form.submit();"><?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?></button>
+	<div id="filter-bar" class="btn-toolbar">
+		<div class="btn-group pull-right">
+			<a data-toggle="collapse" data-target="#filters" class="btn"><?php echo JText::_('JSEARCH_FILTER_LABEL'); ?> <span class="caret"></span></a>
 		</div>
-		<div class="filter-select fltrt">
+		<div class="filter-search btn-group pull-left">
+			<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('COM_FINDER_FILTER_SEARCH_DESCRIPTION'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" title="<?php echo JText::_('COM_FINDER_FILTER_SEARCH_DESCRIPTION'); ?>" />
+		</div>
+		<div class="btn-group pull-left">
+			<button class="btn tip" type="submit" title="<?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?>"><i class="icon-search"></i></button>
+			<button class="btn tip" type="button" title="<?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?>" onclick="document.id('filter_search').value='';this.form.submit();"><i class="icon-remove"></i></button>
+		</div>
+	</div>
+	<div class="clearfix"> </div>
+	<div class="collapse" id="filters">
+		<div class="filter-select well">
 			<select name="filter_state" class="inputbox" onchange="this.form.submit()">
 				<option value=""><?php echo JText::_('COM_FINDER_INDEX_FILTER_BY_STATE');?></option>
 				<?php echo JHtml::_('select.options', JHtml::_('finder.statelist'), 'value', 'text', $this->state->get('filter.state'));?>
@@ -58,10 +65,16 @@ Joomla.submitbutton = function(pressbutton) {
 				<?php echo JHtml::_('select.options', JHtml::_('finder.typeslist'), 'value', 'text', $this->state->get('filter.type'));?>
 			</select>
 		</div>
-	</fieldset>
-	<div class="clr"> </div>
-
-	<table class="adminlist" style="clear: both;">
+	</div>
+	<?php if (!$this->pluginState['plg_content_finder']->enabled) : ?>
+		<div class="alert fade in">
+            <button class="close" data-dismiss="alert">×</button>
+            <?php
+            echo JText::_('COM_FINDER_INDEX_PLUGIN_CONTENT_NOT_ENABLED');
+            ?>
+          </div>
+	<?php endif; ?>
+	<table class="table table-striped">
 		<thead>
 			<tr>
 				<th width="1%">
@@ -70,30 +83,16 @@ Joomla.submitbutton = function(pressbutton) {
 				<th>
 					<?php echo JHtml::_('grid.sort', 'JGLOBAL_TITLE', 'l.title', $listDirn, $listOrder); ?>
 				</th>
-				<th width="5%">
-					<?php echo JHtml::_('grid.sort', 'JSTATUS', 'l.published', $listDirn, $listOrder); ?>
-				</th>
+				<th> </th>
 				<th width="5%">
 					<?php echo JHtml::_('grid.sort', 'COM_FINDER_INDEX_HEADING_INDEX_TYPE', 'l.type_id', $listDirn, $listOrder); ?>
 				</th>
-				<th width="20%">
-					<?php echo JHtml::_('grid.sort', 'COM_FINDER_INDEX_HEADING_LINK_URL', 'l.url', $listDirn, $listOrder); ?>
-				</th>
-				<th width="10%">
+				<th width="15%">
 					<?php echo JHtml::_('grid.sort', 'COM_FINDER_INDEX_HEADING_INDEX_DATE', 'l.indexdate', $listDirn, $listOrder); ?>
 				</th>
 			</tr>
 		</thead>
 		<tbody>
-			<?php if (!$this->pluginState['plg_content_finder']->enabled) : ?>
-			<tr class="row0">
-				<td align="center" colspan="7">
-					<?php
-					echo JText::_('COM_FINDER_INDEX_PLUGIN_CONTENT_NOT_ENABLED');
-					?>
-				</td>
-			</tr>
-			<?php endif; ?>
 			<?php if (count($this->items) == 0): ?>
 			<tr class="row0">
 				<td align="center" colspan="7">
@@ -116,30 +115,32 @@ Joomla.submitbutton = function(pressbutton) {
 					<?php echo JHtml::_('grid.id', $i, $item->link_id); ?>
 				</td>
 				<td>
-					<?php if (intval($item->publish_start_date) or intval($item->publish_end_date) or intval($item->start_date) or intval($item->end_date)) : ?>
-					<img src="<?php echo JURI::root();?>/media/system/images/calendar.png" style="border:1px;float:right" class="hasTip" title="<?php echo JText::sprintf('COM_FINDER_INDEX_DATE_INFO', $item->publish_start_date, $item->publish_end_date, $item->start_date, $item->end_date);?>" />
-					<?php endif; ?>
-					<?php echo $this->escape($item->title); ?>
-				</td>
-				<td class="center nowrap">
+					<h4>
 					<?php echo JHtml::_('jgrid.published', $item->published, $i, 'index.', $canChange, 'cb'); ?>
-				</td>
-				<td class="center nowrap">
+					<?php echo $this->escape($item->title); ?>
 					<?php
-					$key = FinderHelperLanguage::branchSingular($item->t_title);
-					echo $lang->hasKey($key) ? JText::_($key) : $item->t_title;
-					?>
-				</td>
-				<td class="nowrap">
-					<?php
+					echo '<small>';
 					if (strlen($item->url) > 80) {
 						echo substr($item->url, 0, 70) . '...';
 					} else {
 						echo $item->url;
 					}
+					echo '</small>';
+					?>
+					</h4>
+				</td>
+				<td>
+					<?php if (intval($item->publish_start_date) or intval($item->publish_end_date) or intval($item->start_date) or intval($item->end_date)) : ?>
+						<i class="icon-calendar pull-right pop" rel="popover" data-placement="left" title="<?php echo JText::_('JDETAILS');?>" data-content="<?php echo JText::sprintf('COM_FINDER_INDEX_DATE_INFO', $item->publish_start_date, $item->publish_end_date, $item->start_date, $item->end_date);?>"></i>
+					<?php endif; ?>
+				</td>
+				<td class="small nowrap">
+					<?php
+					$key = FinderHelperLanguage::branchSingular($item->t_title);
+					echo $lang->hasKey($key) ? JText::_($key) : $item->t_title;
 					?>
 				</td>
-				<td class="center nowrap">
+				<td class="small nowrap">
 					<?php echo JHtml::_('date', $item->indexdate, JText::_('DATE_FORMAT_LC4')); ?>
 				</td>
 			</tr>

@@ -21,23 +21,29 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_templates&view=templates'); ?>" method="post" name="adminForm" id="adminForm">
-	<fieldset id="filter-bar">
-		<div class="filter-search fltlft">
-			<label class="filter-search-lbl" for="filter_search"><?php echo JText::_('JSEARCH_FILTER_LABEL'); ?></label>
-			<input type="text" name="filter_search" id="filter_search" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" title="<?php echo JText::_('COM_TEMPLATES_TEMPLATES_FILTER_SEARCH_DESC'); ?>" />
-			<button type="submit"><?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?></button>
-			<button type="button" onclick="document.id('filter_search').value='';this.form.submit();"><?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?></button>
+	<div id="filter-bar" class="btn-toolbar">
+		<div class="btn-group pull-right">
+			<a data-toggle="collapse" data-target="#filters" class="btn"><?php echo JText::_('JSEARCH_FILTER_LABEL'); ?> <span class="caret"></span></a>
 		</div>
-		<div class="filter-select fltrt">
+		<div class="filter-search btn-group pull-left">
+			<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('COM_TEMPLATES_TEMPLATES_FILTER_SEARCH_DESC'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" title="<?php echo JText::_('COM_TEMPLATES_TEMPLATES_FILTER_SEARCH_DESC'); ?>" />
+		</div>
+		<div class="btn-group pull-left">
+			<button class="btn tip" type="submit" title="<?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?>"><i class="icon-search"></i></button>
+			<button class="btn tip" type="button" title="<?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?>" onclick="document.id('filter_search').value='';this.form.submit();"><i class="icon-remove"></i></button>
+		</div>
+	</div>
+	<div class="clearfix"> </div>
+	<div class="collapse" id="filters">
+		<div class="filter-select well">
 			<select name="filter_client_id" class="inputbox" onchange="this.form.submit()">
 				<option value="*"><?php echo JText::_('JGLOBAL_FILTER_CLIENT'); ?></option>
 				<?php echo JHtml::_('select.options', TemplatesHelper::getClientOptions(), 'value', 'text', $this->state->get('filter.client_id'));?>
 			</select>
 		</div>
-	</fieldset>
-	<div class="clr"> </div>
+	</div>
 
-	<table class="adminlist" id="template-mgr">
+	<table class="table table-striped" id="template-mgr">
 		<thead>
 			<tr>
 				<th class="col1template">
@@ -49,7 +55,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 				<th width="10%">
 					<?php echo JHtml::_('grid.sort', 'JCLIENT', 'a.client_id', $listDirn, $listOrder); ?>
 				</th>
-				<th width="10%" class="center">
+				<th width="10%">
 					<?php echo JText::_('JVERSION'); ?>
 				</th>
 				<th width="15%">
@@ -88,13 +94,13 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 					<?php endif; ?>
 					</p>
 				</td>
-				<td class="center">
+				<td class="small">
 					<?php echo $item->client_id == 0 ? JText::_('JSITE') : JText::_('JADMINISTRATOR'); ?>
 				</td>
-				<td class="center">
+				<td class="small">
 					<?php echo $this->escape($item->xmldata->get('version')); ?>
 				</td>
-				<td class="center">
+				<td class="small">
 					<?php echo $this->escape($item->xmldata->get('creationDate')); ?>
 				</td>
 				<td>

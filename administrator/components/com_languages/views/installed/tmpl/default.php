@@ -22,7 +22,7 @@ $clientId	= $this->state->get('filter.client_id', 0);
 		<?php echo $this->loadTemplate('ftp');?>
 	<?php endif; ?>
 
-	<table class="adminlist">
+	<table class="table table-striped">
 		<thead>
 			<tr>
 				<th width="20">

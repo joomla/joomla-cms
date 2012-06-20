@@ -1,0 +1,334 @@
+/* Body */
+body{
+	padding-top: 30px;
+}
+/* Login */
+.view-login{
+	padding-top: 0;
+	
+	background: #165387; /* Old browsers */
+	background: -moz-radial-gradient(center, ellipse cover,  #165387 0%, #142849 100%); /* FF3.6+ */
+	background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,#165387), color-stop(100%,#142849)); /* Chrome,Safari4+ */
+	background: -webkit-radial-gradient(center, ellipse cover,  #165387 0%,#142849 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-radial-gradient(center, ellipse cover,  #165387 0%,#142849 100%); /* Opera 12+ */
+	background: -ms-radial-gradient(center, ellipse cover,  #165387 0%,#142849 100%); /* IE10+ */
+	background: radial-gradient(center, ellipse cover,  #165387 0%,#142849 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#165387', endColorstr='#142849',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+}
+.view-login .container{
+	width: 300px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin-top: -206px;
+	margin-left: -150px;
+}
+.view-login .navbar-fixed-bottom{
+	padding-left: 20px;
+	padding-right: 20px;
+	text-align: center;
+}
+.view-login .navbar-fixed-bottom,
+.view-login .navbar-fixed-bottom a{
+	color: #FCFCFC;
+	text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+}
+.login.well{
+	padding-bottom: 0;
+	-moz-box-shadow: 0px 0px 60px rgba(0, 0, 0, 0.5), 0px 1px 0px rgba(255, 255, 255, 0.9) inset;
+	-webkit-box-shadow: 0px 0px 60px rgba(0, 0, 0, 0.5), 0px 1px 0px rgba(255, 255, 255, 0.9) inset;
+	box-shadow: 0px 0px 60px rgba(0, 0, 0, 0.5), 0px 0px 1px rgba(255, 255, 255, 0.9) inset;
+}
+.login-joomla{
+	display: inline-block;
+	height: 24px;
+	width: 24px;
+	text-indent: -9999px;
+	background: url('../images/login-joomla.png') no-repeat;
+	margin-left: -20px;
+}
+/* Typography */
+.small{
+	font-size: 11px;
+}
+.row-even .small,
+.row-odd .small,
+.row-even .small a,
+.row-odd .small a{
+	color: #888;
+}
+/* Navbar */
+body .navbar,
+body .navbar-fixed-top{
+	margin-bottom: 0;
+}
+.navbar-inner{
+	background: #142849;
+	min-height: 0;
+}
+.navbar .navbar-text{
+	line-height: 30px;
+}
+.navbar .brand{
+	padding: 7px 12px;
+	font-size: 16px;
+	margin-left: 0;
+	color: #ffffff;
+}
+.navbar .nav > li > a{
+	padding: 5px 10px;
+	color: #D2E3FC;
+}
+/* Header */
+.header{
+	background: #17568c; /* Old browsers */
+	background: -moz-linear-gradient(top,  #17568c 0%, #1a3867 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#17568c), color-stop(100%,#1a3867)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top,  #17568c 0%,#1a3867 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top,  #17568c 0%,#1a3867 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top,  #17568c 0%,#1a3867 100%); /* IE10+ */
+	background: linear-gradient(top,  #17568c 0%,#1a3867 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#17568c', endColorstr='#1a3867',GradientType=0 ); /* IE6-9 */
+	
+	border-top: 1px solid #3882C1;
+	
+	padding: 10px;
+	
+}
+.navbar .btn-navbar{
+	background: #17568c; /* Old browsers */
+	background: -moz-linear-gradient(top,  #17568c 0%, #1a3867 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#17568c), color-stop(100%,#1a3867)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top,  #17568c 0%,#1a3867 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top,  #17568c 0%,#1a3867 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top,  #17568c 0%,#1a3867 100%); /* IE10+ */
+	background: linear-gradient(top,  #17568c 0%,#1a3867 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#17568c', endColorstr='#1a3867',GradientType=0 ); /* IE6-9 */
+	
+	border: 1px solid #0D2242;
+}
+@media (max-width: 767px) {
+  .header{
+  	margin-left: -20px;
+  	margin-right: -20px;
+  }
+}
+.header .navbar-search{
+	margin-top: 0;
+}
+@media (max-width: 979px) {
+	.header .navbar-search{
+		border-top: 0;
+	    border-bottom: 0;
+	    -webkit-box-shadow: none;
+	    -moz-box-shadow: none;
+	    box-shadow: none;
+	}
+}
+/* Search Module */
+.navbar-search .search-query{
+	background: rgba(255, 255, 255, 0.3);
+}
+/* Logo */
+.logo{
+	width: 100%;
+	max-width: 143px;
+	height: auto;
+}
+.container-logo{
+	text-align: center;
+}
+/* Page Title */
+.page-title{
+	color:white;
+	text-shadow:1px 1px 1px rgba(0, 0, 0, 0.8);
+	font-weight:normal;
+	font-size:20px;
+}
+/* Subhead */
+.subhead{
+	background: #ffffff; /* Old browsers */
+	background: -moz-linear-gradient(top,  #ffffff 0%, #ededed 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#ededed)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top,  #ffffff 0%,#ededed 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top,  #ffffff 0%,#ededed 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top,  #ffffff 0%,#ededed 100%); /* IE10+ */
+	background: linear-gradient(top,  #ffffff 0%,#ededed 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ededed',GradientType=0 ); /* IE6-9 */
+	
+	border-bottom: 1px solid #D3D3D3;
+	
+	color: #0C192E;
+	text-shadow: 0 1px 0 #FFF;
+	
+	margin-bottom: 20px;
+	
+}
+.subhead-fixed{
+	position: fixed;
+	width: 100%;
+	top: 30px;
+	z-index: 100;
+	-moz-box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+	-webkit-box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+	box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 767px) {
+  .subhead{
+  	margin-left: -20px;
+  	margin-right: -20px;
+  	padding-left: 10px;
+  	padding-right: 10px;
+  }
+}
+.subhead h1{
+	font-size: 17px;
+	font-weight: normal;
+	margin-left: 10px;
+	margin-top: 6px;
+}
+/* Toolbar */
+#toolbar .btn-primary{
+	width: 148px;
+	margin-right: 20px;
+}
+/* Content */
+.well .page-header{
+	margin: -10px 0 18px 0;
+	padding-bottom: 5px;
+}
+.well .row-even p,
+.well .row-odd p{
+	margin-bottom: 0;
+}
+
+/* Row hover */
+.row-odd:hover,
+.row-even:hover{
+	background-color: #E5F7FC;
+}
+
+/* Row toolbars */
+.row-odd .btn-toolbar,
+.row-even .btn-toolbar{
+	margin: 0;
+}
+
+/* Sidebar */
+.sidebar-nav .nav-list > li > a{
+	color: #555;
+}
+.sidebar-nav .nav-list > li.active > a{
+	color: #fff;
+}
+
+/* Status Module */
+#status{
+	background: #EDEDED;
+	border-top: 1px solid #DDDDDD;
+	padding: 1px 10px 0 10px;
+	-moz-box-shadow: 0px 1px 0px rgba(255, 255, 255, 0.8) inset, 0px -35px 35px rgba(255, 255, 255, 0.6);
+	-webkit-box-shadow: 0px 1px 0px rgba(255, 255, 255, 0.8) inset, 0px -35px 35px rgba(255, 255, 255, 0.6);
+	box-shadow: 0px 1px 0px rgba(255, 255, 255, 0.8) inset, 0px -35px 35px rgba(255, 255, 255, 0.6);
+}
+#status i{
+	opacity: 0.65;
+	filter: alpha(opacity=65);
+}
+#status a{
+	color: #999999;
+}
+
+/* Pagination in toolbar */
+.pagination-toolbar{
+	margin: 0;
+}
+.pagination-toolbar a{
+	line-height: 26px;
+}
+
+/* Toolbar dropdown */
+.pull-right > .dropdown-menu{
+	left: auto;
+	right: 0;
+}
+
+/* Disabled (generic) */
+.disabled {
+  cursor: default;
+  background-image: none;
+  opacity: 0.65;
+  filter: alpha(opacity=65);
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+}
+
+/* Nav list filters */
+.nav-filters hr{
+	margin: 5px 0;
+}
+
+/* Module Assignment Tab */
+.view-module .tab-content{
+	overflow: visible;
+}
+#assignment.tab-pane{
+	min-height: 500px;
+}
+
+@media (max-width: 767px) {
+	.page-title{
+		text-align: center;
+	}
+	.navbar-search.pull-right{
+		float: none;
+		text-align: center;
+	}
+	.subhead-fixed{
+		position: static;
+		width: auto;
+	}
+}
+
+/* Subhead (toolbar) Collapse Button */
+.btn-subhead{
+	display: none;
+}
+
+/* Extended Responsive Styles */
+@media (max-width: 480px) {
+	.table th:nth-of-type(n+3),
+	.table td:nth-of-type(n+3){
+		display: none;
+		white-space: normal;
+	}
+	.pagination a{
+		padding: 5px;
+	}
+	.btn-group.divider,
+	.header .row-fluid .span3,
+	.header .row-fluid .span7,
+	.subhead-collapse{
+		display: none;
+	}
+	.btn{
+		font-size: 11px;
+		padding: 1px 4px 2px 4px;
+	}
+	.navbar .btn{
+		margin: 0;
+	}
+	.btn-subhead{
+		display: block;
+		margin: 10px 0;
+	}
+	.chzn-container,
+	.chzn-container .chzn-results,
+	.chzn-container-single .chzn-drop,
+	.btn-toolbar > .btn-group,
+	.btn-toolbar > .btn-group > .btn{
+		width: 99% !important;
+	}
+}

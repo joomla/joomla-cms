@@ -42,12 +42,12 @@ class JToolbarButtonSeparator extends JButton
 		$style = null;
 
 		// Separator class name
-		$class = (empty($definition[1])) ? 'spacer' : $definition[1];
+		$class = (empty($definition[1])) ? 'btn-group' : 'btn-group ' . $definition[1];
 
 		// Custom width
 		$style = (empty($definition[2])) ? null : ' style="width:' . intval($definition[2]) . 'px;"';
 
-		return '<li class="' . $class . '"' . $style . ">\n</li>\n";
+		return '<div class="' . $class . '"' . $style . ">\n</div>\n";
 	}
 
 	/**

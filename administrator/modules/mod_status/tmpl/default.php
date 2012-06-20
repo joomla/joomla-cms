@@ -14,21 +14,22 @@ $output = array();
 
 // Print the logged in users.
 if ($params->get('show_loggedin_users', 1)) :
-	$output[] = '<span class="loggedin-users">'.JText::plural('MOD_STATUS_USERS', $online_num).'</span>';
+	$output[] = '<div class="btn-group loggedin-users">'.JText::plural('MOD_STATUS_USERS', $online_num).'</div>';
 endif;
 
 // Print the back-end logged in users.
 if ($params->get('show_loggedin_users_admin', 1)) :
-	$output[] = '<span class="backloggedin-users">'.JText::plural('MOD_STATUS_BACKEND_USERS', $count).'</span>';
+	$output[] = '<div class="btn-group backloggedin-users">'.JText::plural('MOD_STATUS_BACKEND_USERS', $count).'</div>';
 endif;
 
 //  Print the inbox message.
 if ($params->get('show_messages', 1)) :
-	$output[] = '<span class="'.$inboxClass.'">'.
+	$output[] = '<div class="btn-group '.$inboxClass.'">'.
 			($hideLinks ? '' : '<a href="'.$inboxLink.'">').
+			'<i class="icon-envelope"></i> '.
 			JText::plural('MOD_STATUS_MESSAGES', $unread).
 			($hideLinks ? '' : '</a>').
-			'</span>';
+			'</div>';
 endif;
 
 // Output the items.

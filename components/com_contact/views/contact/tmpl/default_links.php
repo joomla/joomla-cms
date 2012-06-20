@@ -9,35 +9,48 @@
 
 defined('_JEXEC') or die;
 
-if ('plain' == $this->params->get('presentation_style')) :
-	echo '<h3>'.JText::_('COM_CONTACT_LINKS').'</h3>';
-else :
-	echo JHtml::_($this->params->get('presentation_style').'.panel', JText::_('COM_CONTACT_LINKS'), 'display-links');
-endif;
-?>
+if ($this->params->get('presentation_style')=='sliders'):?>
+<div class="accordion-group">
+	<div class="accordion-heading">
+		<a class="accordion-toggle" data-toggle="collapse" data-parent="accordionContact" href="#display-links">
+		<?php echo JText::_('COM_CONTACT_LINKS');?>
+		</a>
+	</div>
+	<div id="display-links" class="accordion-body collapse">
+		<div class="accordion-inner">
+<?php endif; ?>
+<?php if  ($this->params->get('presentation_style')=='plain'):?>
+<?php echo '<h3>'. JText::_('JGLOBAL_ARTICLES').'</h3>'; ?>
+<?php endif; ?>
 
-<div class="contact-links">
-	<ul>
-		<?php
-			foreach(range('a', 'e') as $char) :// letters 'a' to 'e'
-				$link = $this->contact->params->get('link'.$char);
-				$label = $this->contact->params->get('link'.$char.'_name');
+			<div class="contact-links">
+				<ul class="nav nav-list">
+					<?php
+					    foreach(range('a', 'e') as $char) :// letters 'a' to 'e'
+						    $link = $this->contact->params->get('link'.$char);
+						    $label = $this->contact->params->get('link'.$char.'_name');
+			
+						    if( ! $link) :
+						        continue;
+						    endif;
+			
+						    // Add 'http://' if not present
+						    $link = (0 === strpos($link, 'http')) ? $link : 'http://'.$link;
+			
+						    // If no label is present, take the link
+						    $label = ($label) ? $label : $link;
+						    ?>
+						<li>
+							<a href="<?php echo $link; ?>">
+							    <?php echo $label;  ?>
+							</a>
+						</li>
+					<?php endforeach; ?>
+				</ul>
+			</div>
 
-				if (!$link) :
-					continue;
-				endif;
-
-				// Add 'http://' if not present
-				$link = (0 === strpos($link, 'http')) ? $link : 'http://'.$link;
-
-				// If no label is present, take the link
-				$label = ($label) ? $label : $link;
-				?>
-			<li>
-				<a href="<?php echo $link; ?>">
-				    <?php echo $label;  ?>
-				</a>
-			</li>
-		<?php endforeach; ?>
-	</ul>
+<?php if ($this->params->get('presentation_style')=='sliders'):?>
+		</div>
+	</div>
 </div>
+<?php endif; ?>

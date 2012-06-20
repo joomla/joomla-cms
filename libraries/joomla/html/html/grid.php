@@ -74,7 +74,7 @@ abstract class JHtmlGrid
 	public static function sort($title, $order, $direction = 'asc', $selected = 0, $task = null, $new_direction = 'asc')
 	{
 		$direction = strtolower($direction);
-		$images = array('sort_asc.png', 'sort_desc.png');
+		$icon = array('chevron-down', 'chevron-up');
 		$index = intval($direction == 'desc');
 
 		if ($order != $selected)
@@ -92,7 +92,7 @@ abstract class JHtmlGrid
 
 		if ($order == $selected)
 		{
-			$html .= JHtml::_('image', 'system/' . $images[$index], '', null, true);
+			$html .= '<i class="icon-'.$icon[$index].'"></i>';
 		}
 
 		$html .= '</a>';
@@ -254,7 +254,7 @@ abstract class JHtmlGrid
 	{
 		// $image = JHtml::_('image','admin/'.$image, JText::_('JLIB_HTML_SAVE_ORDER'), NULL, true);
 		$href = '<a href="javascript:saveorder(' . (count($rows) - 1) . ', \'' . $task . '\')" class="saveorder" title="'
-			. JText::_('JLIB_HTML_SAVE_ORDER') . '"></a>';
+			. JText::_('JLIB_HTML_SAVE_ORDER') . '"><i class="icon-ok-circle pull-right"></i></a>';
 
 		return $href;
 	}

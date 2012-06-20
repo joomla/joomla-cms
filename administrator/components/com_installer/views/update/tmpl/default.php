@@ -17,7 +17,10 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 <div id="installer-update">
 <form action="<?php echo JRoute::_('index.php?option=com_installer&view=update');?>" method="post" name="adminForm" id="adminForm">
 	<?php if ($this->showMessage) : ?>
-		<?php echo $this->loadTemplate('message'); ?>
+		<div class="alert alert-info">
+			<a class="close" data-dismiss="alert" href="#">&times;</a>
+			<?php echo $this->loadTemplate('message'); ?>
+		</div>
 	<?php endif; ?>
 
 	<?php if ($this->ftp) : ?>
@@ -25,7 +28,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 	<?php endif; ?>
 
 	<?php if (count($this->items)) : ?>
-	<table class="adminlist" cellspacing="1">
+	<table class="table table-striped" cellspacing="1">
 		<thead>
 			<tr>
 				<th width="20"><input type="checkbox" name="checkall-toggle" value="" title="<?php echo JText::_('JGLOBAL_CHECK_ALL'); ?>" onclick="Joomla.checkAll(this)" /></th>
@@ -71,7 +74,10 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 		</tbody>
 	</table>
 	<?php else : ?>
-		<p class="nowarning"><?php echo JText::_('COM_INSTALLER_MSG_UPDATE_NOUPDATES'); ?></p>
+		<div class="alert alert-info">
+			<a class="close" data-dismiss="alert" href="#">&times;</a>
+			<?php echo JText::_('COM_INSTALLER_MSG_UPDATE_NOUPDATES'); ?>
+		</div>
 	<?php endif; ?>
 
 	<div>

@@ -21,42 +21,44 @@ $loggeduser = JFactory::getUser();
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_users&view=users');?>" method="post" name="adminForm" id="adminForm">
-	<fieldset id="filter-bar">
-		<div class="filter-search fltlft">
-			<label class="filter-search-lbl" for="filter_search"><?php echo JText::_('COM_USERS_SEARCH_USERS'); ?></label>
-			<input type="text" name="filter_search" id="filter_search" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" title="<?php echo JText::_('COM_USERS_SEARCH_USERS'); ?>" />
-			<button type="submit"><?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?></button>
-			<button type="button" onclick="document.id('filter_search').value='';this.form.submit();"><?php echo JText::_('JSEARCH_RESET'); ?></button>
+	<div id="filter-bar" class="btn-toolbar">
+		<div class="btn-group pull-right">
+			<a data-toggle="collapse" data-target="#filters" class="btn"><?php echo JText::_('JSEARCH_FILTER_LABEL'); ?> <span class="caret"></span></a>
 		</div>
-		<div class="filter-select fltrt">
-			<label for="filter_state">
-				<?php echo JText::_('COM_USERS_FILTER_LABEL'); ?>
-			</label>
-
-			<select name="filter_state" class="inputbox" onchange="this.form.submit()">
-				<option value="*"><?php echo JText::_('COM_USERS_FILTER_STATE');?></option>
-				<?php echo JHtml::_('select.options', UsersHelper::getStateOptions(), 'value', 'text', $this->state->get('filter.state'));?>
-			</select>
-
-			<select name="filter_active" class="inputbox" onchange="this.form.submit()">
-				<option value="*"><?php echo JText::_('COM_USERS_FILTER_ACTIVE');?></option>
-				<?php echo JHtml::_('select.options', UsersHelper::getActiveOptions(), 'value', 'text', $this->state->get('filter.active'));?>
-			</select>
-
-			<select name="filter_group_id" class="inputbox" onchange="this.form.submit()">
-				<option value=""><?php echo JText::_('COM_USERS_FILTER_USERGROUP');?></option>
-				<?php echo JHtml::_('select.options', UsersHelper::getGroups(), 'value', 'text', $this->state->get('filter.group_id'));?>
-			</select>
-
-			<select name="filter_range" id="filter_range" class="inputbox" onchange="this.form.submit()">
-				<option value=""><?php echo JText::_('COM_USERS_OPTION_FILTER_DATE');?></option>
-				<?php echo JHtml::_('select.options', Usershelper::getRangeOptions(), 'value', 'text', $this->state->get('filter.range'));?>
-			</select>
+		<div class="filter-search btn-group pull-left">
+			<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('COM_USERS_SEARCH_USERS'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" title="<?php echo JText::_('COM_USERS_SEARCH_USERS'); ?>" />
 		</div>
-	</fieldset>
-	<div class="clr"> </div>
+		<div class="btn-group pull-left">
+			<button type="submit" class="btn tip" title="<?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?>"><i class="icon-search"></i></button>
+			<button type="button" class="btn tip" onclick="document.id('filter_search').value='';this.form.submit();" title="<?php echo JText::_('JSEARCH_RESET'); ?>"><i class="icon-remove"></i></button>
+		</div>
+	</div>
+	<div class="clearfix"> </div>
+	<div class="collapse" id="filters">
+			<div class="filter-select well">
+				<select name="filter_state" class="inputbox" onchange="this.form.submit()">
+					<option value="*"><?php echo JText::_('COM_USERS_FILTER_STATE');?></option>
+					<?php echo JHtml::_('select.options', UsersHelper::getStateOptions(), 'value', 'text', $this->state->get('filter.state'));?>
+				</select>
+	
+				<select name="filter_active" class="inputbox" onchange="this.form.submit()">
+					<option value="*"><?php echo JText::_('COM_USERS_FILTER_ACTIVE');?></option>
+					<?php echo JHtml::_('select.options', UsersHelper::getActiveOptions(), 'value', 'text', $this->state->get('filter.active'));?>
+				</select>
+	
+				<select name="filter_group_id" class="inputbox" onchange="this.form.submit()">
+					<option value=""><?php echo JText::_('COM_USERS_FILTER_USERGROUP');?></option>
+					<?php echo JHtml::_('select.options', UsersHelper::getGroups(), 'value', 'text', $this->state->get('filter.group_id'));?>
+				</select>
+	
+				<select name="filter_range" id="filter_range" class="inputbox" onchange="this.form.submit()">
+					<option value=""><?php echo JText::_('COM_USERS_OPTION_FILTER_DATE');?></option>
+					<?php echo JHtml::_('select.options', Usershelper::getRangeOptions(), 'value', 'text', $this->state->get('filter.range'));?>
+				</select>
+			</div>
+		</div>
 
-	<table class="adminlist">
+	<table class="table table-striped">
 		<thead>
 			<tr>
 				<th width="1%">
@@ -115,7 +117,7 @@ $loggeduser = JFactory::getUser();
 					<?php endif; ?>
 				</td>
 				<td>
-					<div class="fltrt">
+					<div class="pull-right">
 						<?php echo JHtml::_('users.filterNotes', $item->note_count, $item->id); ?>
 						<?php echo JHtml::_('users.notes', $item->note_count, $item->id); ?>
 						<?php echo JHtml::_('users.addNote', $item->id); ?>
@@ -127,7 +129,7 @@ $loggeduser = JFactory::getUser();
 						<?php echo $this->escape($item->name); ?>
 					<?php endif; ?>
 					<?php if (JDEBUG) : ?>
-						<div class="fltrt"><div class="button2-left smallsub"><div class="blank"><a href="<?php echo JRoute::_('index.php?option=com_users&view=debuguser&user_id='.(int) $item->id);?>">
+						<div class="pull-right"><div class="button2-left smallsub"><div class="blank"><a href="<?php echo JRoute::_('index.php?option=com_users&view=debuguser&user_id='.(int) $item->id);?>">
 						<?php echo JText::_('COM_USERS_DEBUG_USER');?></a></div></div></div>
 					<?php endif; ?>
 				</td>

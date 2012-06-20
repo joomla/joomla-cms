@@ -25,7 +25,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 	<?php endif; ?>
 
 	<?php if (count($this->items)) : ?>
-	<table class="adminlist">
+	<table class="table table-striped">
 		<thead>
 			<tr>
 				<th width="20"><input type="checkbox" name="checkall-toggle" value="" title="<?php echo JText::_('JGLOBAL_CHECK_ALL'); ?>" onclick="Joomla.checkAll(this)" /></th>
@@ -66,9 +66,9 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 		<p>
 			<?php echo JText::_('COM_INSTALLER_MSG_DISCOVER_DESCRIPTION'); ?>
 		</p>
-		<p>
+		<div class="alert">
 			<?php echo JText::_('COM_INSTALLER_MSG_DISCOVER_NOEXTENSION'); ?>
-		</p>
+		</div>
 	<?php endif; ?>
 
 	<div>

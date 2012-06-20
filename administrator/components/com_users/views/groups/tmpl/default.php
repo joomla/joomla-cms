@@ -45,17 +45,18 @@ JText::script('COM_USERS_GROUPS_CONFIRM_DELETE');
 	}
 </script>
 <form action="<?php echo JRoute::_('index.php?option=com_users&view=groups');?>" method="post" name="adminForm" id="adminForm">
-	<fieldset id="filter-bar">
-		<div class="filter-search fltlft">
-			<label class="filter-search-lbl" for="filter_search"><?php echo JText::_('COM_USERS_SEARCH_GROUPS_LABEL'); ?></label>
-			<input type="text" name="filter_search" id="filter_search" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" title="<?php echo JText::_('COM_USERS_SEARCH_IN_GROUPS'); ?>" />
-			<button type="submit"><?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?></button>
-			<button type="button" onclick="document.id('filter_search').value='';this.form.submit();"><?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?></button>
+	<div id="filter-bar" class="btn-toolbar">
+		<div class="filter-search btn-group pull-left">
+			<input type="text" name="filter_search" placeholder="<?php echo JText::_('COM_USERS_SEARCH_GROUPS_LABEL'); ?>" id="filter_search" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" title="<?php echo JText::_('COM_USERS_SEARCH_IN_GROUPS'); ?>" />
 		</div>
-	</fieldset>
-	<div class="clr"> </div>
+		<div class="btn-group pull-left">
+			<button class="btn tip" type="submit" title="<?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?>"><i class="icon-search"></i></button>
+			<button class="btn tip" type="button" title="<?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?>" onclick="document.id('filter_search').value='';this.form.submit();"><i class="icon-remove"></i></button>
+		</div>
+	</div>
+	<div class="clearfix"> </div>
 
-	<table class="adminlist">
+	<table class="table table-striped">
 		<thead>
 			<tr>
 				<th width="1%">
@@ -64,7 +65,7 @@ JText::script('COM_USERS_GROUPS_CONFIRM_DELETE');
 				<th class="left">
 					<?php echo JText::_('COM_USERS_HEADING_GROUP_TITLE'); ?>
 				</th>
-				<th width="10%">
+				<th width="20%">
 					<?php echo JText::_('COM_USERS_HEADING_USERS_IN_GROUP'); ?>
 				</th>
 				<th width="5%">

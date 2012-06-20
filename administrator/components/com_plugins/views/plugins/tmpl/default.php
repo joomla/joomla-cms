@@ -21,15 +21,21 @@ $canOrder	= $user->authorise('core.edit.state',	'com_plugins');
 $saveOrder	= $listOrder == 'ordering';
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_plugins&view=plugins'); ?>" method="post" name="adminForm" id="adminForm">
-	<fieldset id="filter-bar">
-		<div class="filter-search fltlft">
-			<label class="filter-search-lbl" for="filter_search"><?php echo JText::_('JSEARCH_FILTER_LABEL'); ?></label>
-			<input type="text" name="filter_search" id="filter_search" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" title="<?php echo JText::_('COM_PLUGINS_SEARCH_IN_TITLE'); ?>" />
-			<button type="submit"><?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?></button>
-			<button type="button" onclick="document.id('filter_search').value='';this.form.submit();"><?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?></button>
+	<div id="filter-bar" class="btn-toolbar">
+		<div class="btn-group pull-right">
+			<a data-toggle="collapse" data-target="#filters" class="btn"><?php echo JText::_('JSEARCH_FILTER_LABEL'); ?> <span class="caret"></span></a>
 		</div>
-
-		<div class="filter-select fltrt">
+		<div class="filter-search btn-group pull-left">
+			<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('COM_PLUGINS_SEARCH_IN_TITLE'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" title="<?php echo JText::_('COM_PLUGINS_SEARCH_IN_TITLE'); ?>" />
+		</div>
+		<div class="btn-group pull-left">
+			<button class="btn tip" type="submit" title="<?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?>"><i class="icon-search"></i></button>
+			<button class="btn tip" type="button" title="<?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?>" onclick="document.id('filter_search').value='';this.form.submit();"><i class="icon-remove"></i></button>
+		</div>
+	</div>
+	<div class="clearfix"> </div>
+	<div class="collapse" id="filters">
+		<div class="filter-select well">
 			<select name="filter_state" class="inputbox" onchange="this.form.submit()">
 				<option value=""><?php echo JText::_('JOPTION_SELECT_PUBLISHED');?></option>
 				<?php echo JHtml::_('select.options', PluginsHelper::stateOptions(), 'value', 'text', $this->state->get('filter.state'), true);?>
@@ -45,10 +51,8 @@ $saveOrder	= $listOrder == 'ordering';
 				<?php echo JHtml::_('select.options', JHtml::_('access.assetgroups'), 'value', 'text', $this->state->get('filter.access'));?>
 			</select>
 		</div>
-	</fieldset>
-	<div class="clr"> </div>
-
-	<table class="adminlist">
+	</div>
+	<table class="table table-striped">
 		<thead>
 			<tr>
 				<th width="1%">
@@ -57,10 +61,7 @@ $saveOrder	= $listOrder == 'ordering';
 				<th class="title">
 					<?php echo JHtml::_('grid.sort', 'COM_PLUGINS_NAME_HEADING', 'name', $listDirn, $listOrder); ?>
 				</th>
-				<th width="5%">
-					<?php echo JHtml::_('grid.sort', 'JSTATUS', 'enabled', $listDirn, $listOrder); ?>
-				</th>
-				<th width="10%">
+				<th width="18%">
 					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ORDERING', 'ordering', $listDirn, $listOrder); ?>
 					<?php if ($canOrder && $saveOrder) :?>
 						<?php echo JHtml::_('grid.order',  $this->items, 'filesave.png', 'plugins.saveorder'); ?>
@@ -100,6 +101,7 @@ $saveOrder	= $listOrder == 'ordering';
 					<?php echo JHtml::_('grid.id', $i, $item->extension_id); ?>
 				</td>
 				<td>
+					<?php echo JHtml::_('jgrid.published', $item->enabled, $i, 'plugins.', $canChange); ?>
 					<?php if ($item->checked_out) : ?>
 						<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'plugins.', $canCheckin); ?>
 					<?php endif; ?>
@@ -110,34 +112,31 @@ $saveOrder	= $listOrder == 'ordering';
 							<?php echo $item->name; ?>
 					<?php endif; ?>
 				</td>
-				<td class="center">
-					<?php echo JHtml::_('jgrid.published', $item->enabled, $i, 'plugins.', $canChange); ?>
-				</td>
-				<td class="order">
+				<td class="order nowrap">
 					<?php if ($canChange) : ?>
-						<?php if ($saveOrder) :?>
-							<?php if ($listDirn == 'asc') : ?>
-								<span><?php echo $this->pagination->orderUpIcon($i, (@$this->items[$i-1]->folder == $item->folder), 'plugins.orderup', 'JLIB_HTML_MOVE_UP', $ordering); ?></span>
-								<span><?php echo $this->pagination->orderDownIcon($i, $this->pagination->total, (@$this->items[$i+1]->folder == $item->folder), 'plugins.orderdown', 'JLIB_HTML_MOVE_DOWN', $ordering); ?></span>
-							<?php elseif ($listDirn == 'desc') : ?>
-								<span><?php echo $this->pagination->orderUpIcon($i, (@$this->items[$i-1]->folder == $item->folder), 'plugins.orderdown', 'JLIB_HTML_MOVE_UP', $ordering); ?></span>
-								<span><?php echo $this->pagination->orderDownIcon($i, $this->pagination->total, (@$this->items[$i+1]->folder == $item->folder), 'plugins.orderup', 'JLIB_HTML_MOVE_DOWN', $ordering); ?></span>
+						<div class="input-prepend">
+							<?php if ($saveOrder) :?>
+								<?php if ($listDirn == 'asc') : ?>
+									<span class="add-on"><?php echo $this->pagination->orderUpIcon($i, (@$this->items[$i-1]->folder == $item->folder), 'plugins.orderup', 'JLIB_HTML_MOVE_UP', $ordering); ?></span><span class="add-on"><?php echo $this->pagination->orderDownIcon($i, $this->pagination->total, (@$this->items[$i+1]->folder == $item->folder), 'plugins.orderdown', 'JLIB_HTML_MOVE_DOWN', $ordering); ?></span>
+								<?php elseif ($listDirn == 'desc') : ?>
+									<span class="add-on"><?php echo $this->pagination->orderUpIcon($i, (@$this->items[$i-1]->folder == $item->folder), 'plugins.orderdown', 'JLIB_HTML_MOVE_UP', $ordering); ?></span><span class="add-on"><?php echo $this->pagination->orderDownIcon($i, $this->pagination->total, (@$this->items[$i+1]->folder == $item->folder), 'plugins.orderup', 'JLIB_HTML_MOVE_DOWN', $ordering); ?></span>
+								<?php endif; ?>
 							<?php endif; ?>
-						<?php endif; ?>
-						<?php $disabled = $saveOrder ?  '' : 'disabled="disabled"'; ?>
-						<input type="text" name="order[]" size="5" value="<?php echo $item->ordering;?>" <?php echo $disabled ?> class="text-area-order" />
+							<?php $disabled = $saveOrder ?  '' : 'disabled="disabled"'; ?>
+							<?php if(!$disabled = $saveOrder) : echo "<span class=\"add-on tip\" title=\"".JText::_('JDISABLED')."\"><i class=\"icon-ban-circle\"></i></span>"; endif;?><input type="text" name="order[]" size="5" value="<?php echo $item->ordering;?>" <?php echo $disabled ?> class="width-20 text-area-order" />
+						</div>
 					<?php else : ?>
 						<?php echo $item->ordering; ?>
 					<?php endif; ?>
 				</td>
 
-				<td class="nowrap center">
+				<td class="nowrap small">
 					<?php echo $this->escape($item->folder);?>
 				</td>
-				<td class="nowrap center">
+				<td class="nowrap small">
 					<?php echo $this->escape($item->element);?>
 				</td>
-				<td class="center">
+				<td class="small">
 					<?php echo $this->escape($item->access_level); ?>
 				</td>
 				<td class="center">

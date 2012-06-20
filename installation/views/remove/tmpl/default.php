@@ -8,18 +8,25 @@
 
 defined('_JEXEC') or die;
 ?>
-<div id="step">
-	<div class="far-right">
-<?php if ($this->document->direction == 'ltr') : ?>
-		<div class="button1-left"><div class="site"><a href="<?php echo JURI::root(); ?>" title="<?php echo JText::_('JSITE'); ?>"><?php echo JText::_('JSITE'); ?></a></div></div>
-		<div class="button1-left"><div class="admin"><a href="<?php echo JURI::root(); ?>administrator/" title="<?php echo JText::_('JADMINISTRATOR'); ?>"><?php echo JText::_('JADMINISTRATOR'); ?></a></div></div>
-<?php elseif ($this->document->direction == 'rtl') : ?>
-		<div class="button1-left"><div class="admin"><a href="<?php echo JURI::root(); ?>administrator/" title="<?php echo JText::_('JADMINISTRATOR'); ?>"><?php echo JText::_('JADMINISTRATOR'); ?></a></div></div>
-		<div class="button1-left"><div class="site"><a href="<?php echo JURI::root(); ?>" title="<?php echo JText::_('JSITE'); ?>"><?php echo JText::_('JSITE'); ?></a></div></div>
-<?php endif; ?>
+<fieldset>
+	<legend><?php echo JText::_('INSTL_COMPLETE_REMOVE_FOLDER'); ?></legend>
+	<div class="control-group">
+		<label for="" class="control-label">
+		
+		</label>
+		<div class="controls" id="installer">
+			<div class="alert alert-info">
+				<?php echo JText::_('INSTL_COMPLETE_REMOVE_INSTALLATION'); ?>
+			</div>
+		</div>
 	</div>
-	<h2><?php echo JText::_('INSTL_COMPLETE_REMOVE_FOLDER'); ?></h2>
-</div>
-<div id="installer">
-	<p class="error remove"><?php echo JText::_('INSTL_COMPLETE_REMOVE_INSTALLATION'); ?></p>
-</div>
+	<div class="control-group">
+		<label for="" class="control-label">
+		
+		</label>
+		<div class="controls">
+			<a class="btn" href="<?php echo JURI::root(); ?>" title="<?php echo JText::_('JSITE'); ?>"><i class="icon-eye-open"></i> <?php echo JText::_('JSITE'); ?></a> 
+			<a class="btn btn-primary" href="<?php echo JURI::root(); ?>administrator/" title="<?php echo JText::_('JADMINISTRATOR'); ?>"><i class="icon-lock icon-white"></i> <?php echo JText::_('JADMINISTRATOR'); ?></a>
+		</div>
+	</div>
+</fieldset>
