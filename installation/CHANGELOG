@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+20-Jun-2012 Jean-Marie Simonet
+ ^ Disable install checks for development
+
 -------------------- 2.5.6 Stable Release [19-June-2012] ------------------
 
 19-Jun-2012 Mark Dexter
