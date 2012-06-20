@@ -1,25 +1,27 @@
 <?php
 /**
- * @package		Joomla.Installation
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package    Joomla.Installation
+ * @copyright  Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 jimport('joomla.filesystem.file');
-require_once JPATH_INSTALLATION.'/helpers/database.php';
+require_once JPATH_INSTALLATION . '/helpers/database.php';
 
 /**
  * Install Configuration model for the Joomla Core Installer.
  *
- * @package		Joomla.Installation
- * @since		1.6
+ * @package  Joomla.Installation
+ * @since    3.0
  */
-class JInstallationModelConfiguration extends JModelLegacy
+class InstallationModelConfiguration extends JModelLegacy
 {
 	/**
-	 * @return boolean
+	 * @return  boolean
+	 *
+	 * @since   3.0
 	 */
 	public function setup($options)
 	{
@@ -41,10 +43,15 @@ class JInstallationModelConfiguration extends JModelLegacy
 		return true;
 	}
 
+	/**
+	 * @return  boolean
+	 *
+	 * @since   3.0
+	 */
 	function _createConfiguration($options)
 	{
 		// Create a new registry to build the configuration options.
-		$registry = new JRegistry();
+		$registry = new JRegistry;
 
 		/* Site Settings */
 		$registry->set('offline', $options->site_offline);
@@ -126,7 +133,7 @@ class JInstallationModelConfiguration extends JModelLegacy
 		$registry->set('session_handler', 'database');
 
 		// Generate the configuration class string buffer.
-		$buffer = $registry->toString('PHP', array('class'=>'JConfig', 'closingtag' => false));
+		$buffer = $registry->toString('PHP', array('class' => 'JConfig', 'closingtag' => false));
 
 		// Build the configuration file path.
 		$path = JPATH_CONFIGURATION . '/configuration.php';
@@ -135,7 +142,9 @@ class JInstallationModelConfiguration extends JModelLegacy
 		if (file_exists($path))
 		{
 			$canWrite = is_writable($path);
-		} else {
+		}
+		else
+		{
 			$canWrite = is_writable(JPATH_CONFIGURATION . '/');
 		}
 
@@ -144,7 +153,7 @@ class JInstallationModelConfiguration extends JModelLegacy
 		 * is not writable we need to use FTP
 		 */
 		$useFTP = false;
-		if ((file_exists($path) && !is_writable($path)) || (!file_exists($path) && !is_writable(dirname($path).'/')))
+		if ((file_exists($path) && !is_writable($path)) || (!file_exists($path) && !is_writable(dirname($path) . '/')))
 		{
 			$useFTP = true;
 		}
@@ -202,12 +211,17 @@ class JInstallationModelConfiguration extends JModelLegacy
 		return true;
 	}
 
+	/**
+	 * @return  boolean
+	 *
+	 * @since   3.0
+	 */
 	function _createRootUser($options)
 	{
 		// Get a database object.
 		try
 		{
-			$db = JInstallationHelperDatabase::getDBO($options->db_type, $options->db_host, $options->db_user, $options->db_pass, $options->db_name, $options->db_prefix);
+			$db = InstallationHelperDatabase::getDBO($options->db_type, $options->db_host, $options->db_user, $options->db_pass, $options->db_name, $options->db_prefix);
 		}
 		catch (RuntimeException $e)
 		{
@@ -217,20 +231,21 @@ class JInstallationModelConfiguration extends JModelLegacy
 		// Create random salt/password for the admin user
 		$salt = JUserHelper::genRandomPassword(32);
 		$crypt = JUserHelper::getCryptedPassword($options->admin_password, $salt);
-		$cryptpass = $crypt.':'.$salt;
+		$cryptpass = $crypt . ':' . $salt;
 
-		// take the admin user id
-		JLoader::register('JInstallationModelDatabase', JPATH_INSTALLATION . '/models/database.php');
-		$userId = JInstallationModelDatabase::getUserId();
-		
-		//we don't need anymore the randUserId in the session, let's remove it
-		JInstallationModelDatabase::resetRandUserId();
+		// Take the admin user id
+		JLoader::register('InstallationModelDatabase', JPATH_INSTALLATION . '/models/database.php');
+		$userId = InstallationModelDatabase::getUserId();
 
-		// create the admin user
+		// We don't need anymore the randUserId in the session, let's remove it
+		InstallationModelDatabase::resetRandUserId();
+
+		// Create the admin user
 		date_default_timezone_set('UTC');
-		$installdate	= date('Y-m-d H:i:s');
-		$nullDate		= $db->getNullDate();
-		//sqlsrv change
+		$installdate = date('Y-m-d H:i:s');
+		$nullDate    = $db->getNullDate();
+
+		// Sqlsrv change
 		$query = $db->getQuery(true);
 		$query->select('id');
 		$query->from('#__users');
@@ -242,23 +257,23 @@ class JInstallationModelConfiguration extends JModelLegacy
 		{
 			$query = $db->getQuery(true);
 			$query->update('#__users');
-			$query->set('name = '.$db->quote('Super User'));
-			$query->set('username = '.$db->quote($options->admin_user));
-			$query->set('email = '.$db->quote($options->admin_email));
-			$query->set('password = '.$db->quote($cryptpass));
-			$query->set('usertype = '.$db->quote('deprecated'));
+			$query->set('name = ' . $db->quote('Super User'));
+			$query->set('username = ' . $db->quote($options->admin_user));
+			$query->set('email = ' . $db->quote($options->admin_email));
+			$query->set('password = ' . $db->quote($cryptpass));
+			$query->set('usertype = ' . $db->quote('deprecated'));
 			$query->set('block = 0');
 			$query->set('sendEmail = 1');
-			$query->set('registerDate = '.$db->quote($installdate));
-			$query->set('lastvisitDate = '.$db->quote($nullDate));
-			$query->set('activation = '.$db->quote('0'));
-			$query->set('params = '.$db->quote(''));
+			$query->set('registerDate = ' . $db->quote($installdate));
+			$query->set('lastvisitDate = ' . $db->quote($nullDate));
+			$query->set('activation = ' . $db->quote('0'));
+			$query->set('params = ' . $db->quote(''));
 			$query->where('id = ' . $db->quote($userId));
 		}
 		else
 		{
 			$query = $db->getQuery(true);
-			$columns =  array($db->quoteName('id'), $db->quoteName('name'), $db->quoteName('username'),
+			$columns = array($db->quoteName('id'), $db->quoteName('name'), $db->quoteName('username'),
 							$db->quoteName('email'), $db->quoteName('password'),
 							$db->quoteName('usertype'),
 							$db->quoteName('block'),
@@ -267,9 +282,12 @@ class JInstallationModelConfiguration extends JModelLegacy
 			$query->insert('#__users', true);
 			$query->columns($columns);
 
-			$query->values($db->quote($userId) . ', '. $db->quote('Super User') . ', ' . $db->quote($options->admin_user) . ', '.
-				$db->quote($options->admin_email). ', '. $db->quote($cryptpass). ', '. $db->quote('deprecated').', '.$db->quote('0').', '.$db->quote('1').', '.
-				$db->quote($installdate).', '.$db->quote($nullDate).', '.$db->quote('0').', '.$db->quote(''));
+			$query->values(
+				$db->quote($userId) . ', ' . $db->quote('Super User') . ', ' . $db->quote($options->admin_user) . ', ' .
+				$db->quote($options->admin_email) . ', ' . $db->quote($cryptpass) . ', ' . $db->quote('deprecated') . ', ' .
+				$db->quote('0') . ', ' . $db->quote('1') . ', ' . $db->quote($installdate) . ', ' . $db->quote($nullDate) . ', ' .
+				$db->quote('0') . ', ' . $db->quote('')
+			);
 		}
 
 		$db->setQuery($query);
@@ -303,7 +321,7 @@ class JInstallationModelConfiguration extends JModelLegacy
 			$query = $db->getQuery(true);
 			$query->insert('#__user_usergroup_map', false);
 			$query->columns(array($db->quoteName('user_id'), $db->quoteName('group_id')));
-			$query->values($userId. ', '. '8');
+			$query->values($userId . ', ' . '8');
 		}
 
 		$db->setQuery($query);

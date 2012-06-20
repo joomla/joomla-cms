@@ -1,8 +1,8 @@
 <?php
 /**
- * @package		Joomla.Installation
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package    Joomla.Installation
+ * @copyright  Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_BASE') or die;
@@ -10,8 +10,8 @@ defined('JPATH_BASE') or die;
 /**
  * Form Rule class for the prefix DB.
  *
- * @package		Joomla.Installation
- * @since		1.7
+ * @package  Joomla.Installation
+ * @since    1.7
  */
 class JFormRulePrefix extends JFormRule
 {

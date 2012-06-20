@@ -1,8 +1,8 @@
 <?php
 /**
- * @package		Joomla.Installation
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package    Joomla.Installation
+ * @copyright  Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -10,16 +10,17 @@ defined('_JEXEC') or die;
 /**
  * Setup model for the Joomla Core Installer.
  *
- * @package		Joomla.Installation
- * @since		1.6
+ * @package  Joomla.Installation
+ * @since    3.0
  */
-class JInstallationModelSetup extends JModelLegacy
+class InstallationModelSetup extends JModelLegacy
 {
 	/**
 	 * Get the current setup options from the session.
 	 *
 	 * @return	array
-	 * @since	1.6
+	 *
+	 * @since	3.0
 	 */
 	public function getOptions()
 	{
@@ -32,10 +33,11 @@ class JInstallationModelSetup extends JModelLegacy
 	/**
 	 * Store the current setup options in the session.
 	 *
-	 * @param	array	$options
+	 * @param   array   $options
 	 *
-	 * @return	array
-	 * @since	1.6
+	 * @return  array
+	 *
+	 * @since   3.0
 	 */
 	public function storeOptions($options)
 	{
@@ -44,11 +46,12 @@ class JInstallationModelSetup extends JModelLegacy
 		$old = $session->get('setup.options', array());
 
 		// Merge the new setup options into the current ones and store in the session.
-		$options = array_merge($old, (array)$options);
+		$options = array_merge($old, (array) $options);
 		$session->set('setup.options', $options);
 
 		// If the setup language is set in the options, set it separately in the session and JLanguage.
-		if (!empty($options['language'])) {
+		if (!empty($options['language']))
+		{
 			$session->set('setup.language', $options['language']);
 			JFactory::getLanguage()->setLanguage($options['language']);
 		}
@@ -60,21 +63,23 @@ class JInstallationModelSetup extends JModelLegacy
 	 * Method to get the link form.
 	 *
 	 * @return	mixed	JForm object on success, false on failure.
-	 * @since	1.6
+	 *
+	 * @since	3.0
 	 */
 	public function getForm($view = null)
 	{
 		// Initialise variables.
 		$false = false;
 
-		if (!$view) {
+		if (!$view)
+		{
 			$view = JRequest::getWord('view', 'language');
 		}
 
 		// Get the form.
-		JForm::addFormPath(JPATH_COMPONENT.'/models/forms');
-		JForm::addFieldPath(JPATH_COMPONENT.'/models/fields');
-		JForm::addRulePath(JPATH_COMPONENT.'/models/rules');
+		JForm::addFormPath(JPATH_COMPONENT . '/models/forms');
+		JForm::addFieldPath(JPATH_COMPONENT . '/models/fields');
+		JForm::addRulePath(JPATH_COMPONENT . '/models/rules');
 
 		try
 		{
@@ -90,7 +95,8 @@ class JInstallationModelSetup extends JModelLegacy
 		$data = (array) $this->getOptions();
 
 		// Bind the form data if present.
-		if (!empty($data)) {
+		if (!empty($data))
+		{
 			$form->bind($data);
 		}
 
@@ -98,8 +104,10 @@ class JInstallationModelSetup extends JModelLegacy
 	}
 
 	/**
+	 *
 	 * @return	array
-	 * @since	1.6
+	 *
+	 * @since	3.0
 	 */
 	public function getDboptions()
 	{
@@ -118,7 +126,8 @@ class JInstallationModelSetup extends JModelLegacy
 		foreach ($map as $k => $v)
 		{
 			// Only list available options.
-			if (!function_exists($v)) {
+			if (!function_exists($v))
+			{
 				continue;
 			}
 
@@ -128,7 +137,8 @@ class JInstallationModelSetup extends JModelLegacy
 			$option->value = strtolower($k);
 
 			// Select the first available.
-			if (!$found) {
+			if (!$found)
+			{
 				$option->selected = ' selected="selected"';
 				$found = true;
 			}
@@ -143,7 +153,8 @@ class JInstallationModelSetup extends JModelLegacy
 	 * Generate a panel of language choices for the user to select their language
 	 *
 	 * @return	boolean True if successful
-	 * @since	1.6
+	 *
+	 * @since	3.0
 	 */
 	public function getLanguages()
 	{
@@ -153,21 +164,24 @@ class JInstallationModelSetup extends JModelLegacy
 		// Detect the native language.
 		$native = JLanguageHelper::detectLanguage();
 
-		if (empty($native)) {
+		if (empty($native))
+		{
 			$native = 'en-GB';
 		}
 
 		// Get a forced language if it exists.
 		$forced = $app->getLocalise();
 
-		if (!empty($forced['language'])) {
+		if (!empty($forced['language']))
+		{
 			$native = $forced['language'];
 		}
 
 		// Get the list of available languages.
 		$list = JLanguageHelper::createLanguageList($native);
 
-		if (!$list || $list instanceof Exception) {
+		if (!$list || $list instanceof Exception)
+		{
 			$list = array();
 		}
 
@@ -178,13 +192,15 @@ class JInstallationModelSetup extends JModelLegacy
 	 * Checks the availability of the parse_ini_file and parse_ini_string functions.
 	 *
 	 * @return	boolean
-	 * @since	1.6
+	 *
+	 * @since	3.0
 	 */
 	public function getIniParserAvailability()
 	{
 		$disabled_functions = ini_get('disable_functions');
 
-		if (!empty($disabled_functions)) {
+		if (!empty($disabled_functions))
+		{
 			// Attempt to detect them in the disable_functions black list
 			$disabled_functions = explode(',', trim($disabled_functions));
 			$number_of_disabled_functions = count($disabled_functions);
@@ -207,7 +223,8 @@ class JInstallationModelSetup extends JModelLegacy
 	 * Gets PHP options.
 	 *
 	 * @return	array
-	 * @since	1.6
+	 *
+	 * @since	3.0
 	 */
 	public function getPhpOptions()
 	{
@@ -240,13 +257,14 @@ class JInstallationModelSetup extends JModelLegacy
 		$available = JDatabase::getConnectors();
 		$option = new stdClass;
 		$option->label  = JText::_('INSTL_DATABASE_SUPPORT');
-		$option->label .= '<br />(' .implode(', ', $available). ')';
+		$option->label .= '<br />(' . implode(', ', $available) . ')';
 		$option->state  = count($available);
 		$option->notice = null;
 		$options[] = $option;
 
 		// Check for mbstring options.
-		if (extension_loaded('mbstring')) {
+		if (extension_loaded('mbstring'))
+		{
 			// Check for default MB language.
 			$option = new stdClass;
 			$option->label  = JText::_('INSTL_MB_LANGUAGE_IS_DEFAULT');
@@ -278,7 +296,7 @@ class JInstallationModelSetup extends JModelLegacy
 
 		// Check for configuration file writeable.
 		$option = new stdClass;
-		$option->label  = 'configuration.php '.JText::_('INSTL_WRITABLE');
+		$option->label  = 'configuration.php ' . JText::_('INSTL_WRITABLE');
 		$option->state  = (is_writable('../configuration.php') || (!file_exists('../configuration.php') && is_writable('../')));
 		$option->notice = ($option->state) ? null : JText::_('INSTL_NOTICEYOUCANSTILLINSTALL');
 		$options[] = $option;
@@ -290,7 +308,8 @@ class JInstallationModelSetup extends JModelLegacy
 	 * Checks if all of the mandatory PHP options are met
 	 *
 	 * @return	boolean
-	 * @since	1.6
+	 *
+	 * @since	3.0
 	 */
 	public function getPhpOptionsSufficient()
 	{
@@ -299,7 +318,8 @@ class JInstallationModelSetup extends JModelLegacy
 
 		foreach ($options as $option)
 		{
-			if (is_null($option->notice)) {
+			if (is_null($option->notice))
+			{
 				$result = ($result && $option->state);
 			}
 		}
@@ -311,7 +331,8 @@ class JInstallationModelSetup extends JModelLegacy
 	 * Gets PHP Settings.
 	 *
 	 * @return	array
-	 * @since	1.6
+	 *
+	 * @since	3.0
 	 */
 	public function getPhpSettings()
 	{
@@ -387,11 +408,12 @@ class JInstallationModelSetup extends JModelLegacy
 	/**
 	 * Method to validate the form data.
 	 *
-	 * @param	array	$data	The form data.
-	 * @param	string	$view	The view.
+	 * @param   array   $data  The form data.
+	 * @param   string  $view  The view.
 	 *
 	 * @return	mixed	Array of filtered data if valid, false otherwise.
-	 * @since	1.6
+	 *
+	 * @since	3.0
 	 */
 	public function validate($data, $view = null)
 	{
@@ -399,7 +421,8 @@ class JInstallationModelSetup extends JModelLegacy
 		$form = $this->getForm($view);
 
 		// Check for an error.
-		if ($form === false) {
+		if ($form === false)
+		{
 			return false;
 		}
 
@@ -408,13 +431,15 @@ class JInstallationModelSetup extends JModelLegacy
 		$return	= $form->validate($data);
 
 		// Check for an error.
-		if ($return instanceof Exception) {
+		if ($return instanceof Exception)
+		{
 			$this->setError($return->getMessage());
 			return false;
 		}
 
 		// Check the validation results.
-		if ($return === false) {
+		if ($return === false)
+		{
 			// Get the validation messages from the form.
 			foreach ($form->getErrors() as $message)
 			{

@@ -9,7 +9,7 @@ body{
 
 #header .logo {
 	float: left;
-	padding-left:15px;
+	padding-left: 15px;
 }
 
 #header span {
@@ -23,7 +23,7 @@ body{
 }
 
 #stepbar {
-	float:right;
+	float: right;
 }
 
 #right, #warning {
@@ -49,7 +49,7 @@ span.step {
 
 .install-text,
 .install-form {
-	float:right;
+	float: right;
 }
 
 .install-body {
@@ -61,7 +61,7 @@ h3.moofx-toggler {
 }
 
 h3.moofx-toggler-down {
-	background:url(../images/j_arrow_down.png) no-repeat scroll right;
+	background: url(../images/j_arrow_down.png) no-repeat scroll right;
 }
 
 #srcEncoding{
@@ -84,13 +84,13 @@ fieldset#jform_db_old input {
 	clear: right;
 }
 
- /* System Messages */
+/* System Messages */
 
- #system-message dd ul {
- 	background-position: 99.5% top;
- }
+#system-message dd ul {
+	background-position: 99.5% top;
+}
 
- /**
+/**
  * System Standard Messages
  */
 

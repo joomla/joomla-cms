@@ -1,9 +1,8 @@
 <?php
 /**
- * @package		Joomla.Framework
- * @subpackage	Form
- * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package    Joomla.Installation
+ * @copyright  Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_BASE') or die;
@@ -11,9 +10,8 @@ defined('JPATH_BASE') or die;
 /**
  * Form Field class for the Joomla Framework.
  *
- * @package		Joomla.Framework
- * @subpackage	Form
- * @since		1.6
+ * @package  Joomla.Installation
+ * @since    1.6
  */
 class JFormFieldPrefix extends JFormField
 {
@@ -29,26 +27,28 @@ class JFormFieldPrefix extends JFormField
 	 * Method to get the field input markup.
 	 *
 	 * @return	string	The field input markup.
+	 *
 	 * @since	1.6
 	 */
 	protected function getInput()
 	{
 		// Initialize some field attributes.
 		$size		= $this->element['size'] ? abs((int) $this->element['size']) : 5;
-		$maxLength	= $this->element['maxlength'] ? ' maxlength="'.(int) $this->element['maxlength'].'"' : '';
-		$class		= $this->element['class'] ? ' class="'.(string) $this->element['class'].'"' : '';
+		$maxLength	= $this->element['maxlength'] ? ' maxlength="' . (int) $this->element['maxlength'] . '"' : '';
+		$class		= $this->element['class'] ? ' class="' . (string) $this->element['class'] . '"' : '';
 		$readonly	= ((string) $this->element['readonly'] == 'true') ? ' readonly="readonly"' : '';
 		$disabled	= ((string) $this->element['disabled'] == 'true') ? ' disabled="disabled"' : '';
 
 		// Make sure somebody doesn't put in a too large prefix size value:
-		if ($size > 10) {
+		if ($size > 10)
+		{
 			$size = 10;
 		}
 
 		// If a prefix is already set, use it instead
 		$session = JFactory::getSession()->get('setup.options', array());
-		if(empty($session['db_prefix'])){
-
+		if (empty($session['db_prefix']))
+		{
 			// Create the random prefix:
 			$prefix = '';
 			$chars = range('a', 'z');
@@ -62,22 +62,24 @@ class JFormFieldPrefix extends JFormField
 			$symbols = array_merge($numbers, $chars);
 			shuffle($symbols);
 
-			for($i = 0, $j = $size - 1; $i < $j; ++$i) {
+			for ($i = 0, $j = $size - 1; $i < $j; ++$i)
+			{
 				$prefix .= $symbols[$i];
 			}
 
 			// Add in the underscore:
 			$prefix .= '_';
 		}
-		else {
+		else
+		{
 			$prefix = $session['db_prefix'];
 		}
 
 		// Initialize JavaScript field attributes.
-		$onchange	= $this->element['onchange'] ? ' onchange="'.(string) $this->element['onchange'].'"' : '';
+		$onchange	= $this->element['onchange'] ? ' onchange="' . (string) $this->element['onchange'] . '"' : '';
 
-		return '<input type="text" name="'.$this->name.'" id="'.$this->id.'"' .
-				' value="'.htmlspecialchars($prefix, ENT_COMPAT, 'UTF-8').'"' .
-				$class.$disabled.$readonly.$onchange.$maxLength.'/>';
+		return '<input type="text" name="' . $this->name . '" id="' . $this->id . '"' .
+				' value="' . htmlspecialchars($prefix, ENT_COMPAT, 'UTF-8') . '"' .
+				$class . $disabled . $readonly . $onchange . $maxLength . '/>';
 	}
 }

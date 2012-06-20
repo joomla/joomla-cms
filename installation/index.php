@@ -1,8 +1,8 @@
 <?php
 /**
- * @package		Joomla.Installation
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package    Joomla.Installation
+ * @copyright  Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 if (version_compare(PHP_VERSION, '5.3.1', '<'))
@@ -44,20 +44,22 @@ error_reporting(E_ALL);
 /*
  * Check for existing configuration file.
  */
-if (file_exists(JPATH_CONFIGURATION.'/configuration.php') && (filesize(JPATH_CONFIGURATION.'/configuration.php') > 10) && !file_exists(JPATH_INSTALLATION.'/index.php')) {
+if (file_exists(JPATH_CONFIGURATION . '/configuration.php') && (filesize(JPATH_CONFIGURATION . '/configuration.php') > 10)
+	&& !file_exists(JPATH_INSTALLATION . '/index.php'))
+{
 	header('Location: ../index.php');
 	exit();
 }
 
-//
-// Joomla system startup.
-//
+/*
+ * Joomla system startup.
+ */
 
 // Bootstrap the Joomla Framework.
-require_once JPATH_LIBRARIES.'/import.php';
+require_once JPATH_LIBRARIES . '/import.php';
 
 // Botstrap the CMS libraries.
-require_once JPATH_LIBRARIES.'/cms.php';
+require_once JPATH_LIBRARIES . '/cms.php';
 
 // Joomla library imports.
 jimport('joomla.database.table');

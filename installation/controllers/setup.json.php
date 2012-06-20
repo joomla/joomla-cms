@@ -12,15 +12,15 @@ defined('_JEXEC') or die;
  * - JSON Protocol -
  *
  * @package		Joomla.Installation
- * @since		1.6
+ * @since		3.0
  */
-class JInstallationControllerSetup extends JControllerLegacy
+class InstallationControllerSetup extends JControllerLegacy
 {
 	/**
 	 * Method to set the setup language for the application.
 	 *
-	 * @return	void
-	 * @since	1.7
+	 * @return  void
+	 * @since   3.0
 	 */
 	public function setlanguage()
 	{
@@ -48,7 +48,7 @@ class JInstallationControllerSetup extends JControllerLegacy
 		}
 
 		// Get the setup model.
-		$model = $this->getModel('Setup', 'JInstallationModel', array('dbo' => null));
+		$model = $this->getModel('Setup', 'InstallationModel', array('dbo' => null));
 
 		// Get the posted values from the request and validate them.
 		$data = JRequest::getVar('jform', array(), 'post', 'array');
@@ -85,8 +85,9 @@ class JInstallationControllerSetup extends JControllerLegacy
 	}
 
 	/**
-	 * @return	void
-	 * @since	1.7
+	 * @return  void
+	 *
+	 * @since   3.0
 	 */
 	public function database()
 	{
@@ -97,7 +98,7 @@ class JInstallationControllerSetup extends JControllerLegacy
 		$app = JFactory::getApplication();
 
 		// Get the setup model.
-		$model = $this->getModel('Setup', 'JInstallationModel', array('dbo' => null));
+		$model = $this->getModel('Setup', 'InstallationModel', array('dbo' => null));
 
 		// Get the posted values from the request and validate them.
 		$data = JRequest::getVar('jform', array(), 'post', 'array');
@@ -133,7 +134,7 @@ class JInstallationControllerSetup extends JControllerLegacy
 		$vars = $model->storeOptions($return);
 
 		// Get the database model.
-		$database = $this->getModel('Database', 'JInstallationModel', array('dbo' => null));
+		$database = $this->getModel('Database', 'InstallationModel', array('dbo' => null));
 
 		// Attempt to initialise the database.
 		$return = $database->initialise($vars);
@@ -157,7 +158,8 @@ class JInstallationControllerSetup extends JControllerLegacy
 
 	/**
 	 * @return	void
-	 * @since	1.7
+	 *
+	 * @since	3.0
 	 */
 	public function filesystem()
 	{
@@ -168,7 +170,7 @@ class JInstallationControllerSetup extends JControllerLegacy
 		$app = JFactory::getApplication();
 
 		// Get the setup model.
-		$model = $this->getModel('Setup', 'JInstallationModel', array('dbo' => null));
+		$model = $this->getModel('Setup', 'InstallationModel', array('dbo' => null));
 
 		// Get the posted values from the request and validate them.
 		$data = JRequest::getVar('jform', array(), 'post', 'array');
@@ -205,8 +207,9 @@ class JInstallationControllerSetup extends JControllerLegacy
 	}
 
 	/**
-	 * @return	void
-	 * @since	1.7
+	 * @return  void
+	 *
+	 * @since   3.0
 	 */
 	public function saveconfig()
 	{
@@ -217,7 +220,7 @@ class JInstallationControllerSetup extends JControllerLegacy
 		$app = JFactory::getApplication();
 
 		// Get the setup model.
-		$model = $this->getModel('Setup', 'JInstallationModel', array('dbo' => null));
+		$model = $this->getModel('Setup', 'InstallationModel', array('dbo' => null));
 
 		// Get the posted values from the request and validate them.
 		$data = JRequest::getVar('jform', array(), 'post', 'array');
@@ -257,7 +260,7 @@ class JInstallationControllerSetup extends JControllerLegacy
 		$vars = $model->storeOptions($return);
 
 		// Get the configuration model.
-		$configuration = $this->getModel('Configuration', 'JInstallationModel', array('dbo' => null));
+		$configuration = $this->getModel('Configuration', 'InstallationModel', array('dbo' => null));
 
 		// Attempt to setup the configuration.
 		$return = $configuration->setup($vars);
@@ -273,8 +276,9 @@ class JInstallationControllerSetup extends JControllerLegacy
 	}
 
 	/**
-	 * @return	void
-	 * @since	1.6
+	 * @return  void
+	 *
+	 * @since   3.0
 	 */
 	public function loadSampleData()
 	{
@@ -285,13 +289,13 @@ class JInstallationControllerSetup extends JControllerLegacy
 		$vars = JRequest::getVar('jform', array());
 
 		// Get the setup model.
-		$model = $this->getModel('Setup', 'JInstallationModel', array('dbo' => null));
+		$model = $this->getModel('Setup', 'InstallationModel', array('dbo' => null));
 
 		// Get the options from the session.
 		$vars = $model->storeOptions($vars);
 
 		// Get the database model.
-		$database = $this->getModel('Database', 'JInstallationModel', array('dbo' => null));
+		$database = $this->getModel('Database', 'InstallationModel', array('dbo' => null));
 
 		// Attempt to load the database sample data.
 		$return = $database->installSampleData($vars);
@@ -316,8 +320,9 @@ class JInstallationControllerSetup extends JControllerLegacy
 	}
 
 	/**
-	 * @return	void
-	 * @since	1.6
+	 * @return  void
+	 *
+	 * @since   3.0
 	 */
 	public function detectFtpRoot()
 	{
@@ -328,13 +333,13 @@ class JInstallationControllerSetup extends JControllerLegacy
 		$vars = JRequest::getVar('jform', array());
 
 		// Get the setup model.
-		$model = $this->getModel('Setup', 'JInstallationModel', array('dbo' => null));
+		$model = $this->getModel('Setup', 'InstallationModel', array('dbo' => null));
 
 		// Store the options in the session.
 		$vars = $model->storeOptions($vars);
 
 		// Get the database model.
-		$filesystem = $this->getModel('Filesystem', 'JInstallationModel', array('dbo' => null));
+		$filesystem = $this->getModel('Filesystem', 'InstallationModel', array('dbo' => null));
 
 		// Attempt to detect the Joomla root from the ftp account.
 		$return = $filesystem->detectFtpRoot($vars);
@@ -353,8 +358,9 @@ class JInstallationControllerSetup extends JControllerLegacy
 	}
 
 	/**
-	 * @return	void
-	 * @since	1.6
+	 * @return  void
+	 *
+	 * @since   3.0
 	 */
 	public function verifyFtpSettings()
 	{
@@ -365,13 +371,13 @@ class JInstallationControllerSetup extends JControllerLegacy
 		$vars = JRequest::getVar('jform', array());
 
 		// Get the setup model.
-		$model = $this->getModel('Setup', 'JInstallationModel', array('dbo' => null));
+		$model = $this->getModel('Setup', 'InstallationModel', array('dbo' => null));
 
 		// Store the options in the session.
 		$vars = $model->storeOptions($vars);
 
 		// Get the database model.
-		$filesystem = $this->getModel('Filesystem', 'JInstallationModel', array('dbo' => null));
+		$filesystem = $this->getModel('Filesystem', 'InstallationModel', array('dbo' => null));
 
 		// Verify the FTP settings.
 		$return = $filesystem->verifyFtpSettings($vars);
@@ -390,8 +396,9 @@ class JInstallationControllerSetup extends JControllerLegacy
 	}
 
 	/**
-	 * @return	void
-	 * @since	1.6
+	 * @return  void
+	 *
+	 * @since   3.0
 	 */
 	public function removeFolder()
 	{
@@ -475,8 +482,8 @@ class JInstallationControllerSetup extends JControllerLegacy
 	 *
 	 * @param	object	$response	JObject on success, Exception on failure.
 	 *
-	 * @return	void
-	 * @since	1.6
+	 * @return  void
+	 * @since   3.0
 	 */
 	public function sendResponse($response)
 	{
@@ -489,7 +496,7 @@ class JInstallationControllerSetup extends JControllerLegacy
 		}
 
 		// Send the JSON response.
-		echo json_encode(new JInstallationJsonResponse($response));
+		echo json_encode(new InstallationJsonResponse($response));
 
 		// Close the application.
 		$app = JFactory::getApplication();
@@ -500,10 +507,10 @@ class JInstallationControllerSetup extends JControllerLegacy
 /**
  * Joomla Core Installation JSON Response Class
  *
- * @package		Joomla.Installation
- * @since		1.6
+ * @package  Joomla.Installation
+ * @since    3.0
  */
-class JInstallationJsonResponse
+class InstallationJsonResponse
 {
 	function __construct($state)
 	{
