@@ -30,13 +30,12 @@ class JComponentHelper
 	 * Get the component information.
 	 *
 	 * @param   string   $option  The component option.
-	 * @param   boolean  $strict  If set and the component does not exist, the enabled attribute will be set to false.
 	 *
 	 * @return  object   An object with the information for the component.
 	 *
 	 * @since   11.1
 	 */
-	public static function getComponent($option, $strict = false)
+	public static function getComponent($option)
 	{
 		if (!isset(self::$components[$option]))
 		{
@@ -44,10 +43,11 @@ class JComponentHelper
 			{
 				$result = self::$components[$option];
 			}
+			// The component is not installed => enabled = false.
 			else
 			{
 				$result = new stdClass;
-				$result->enabled = $strict ? false : true;
+				$result->enabled = false;
 				$result->params = new JRegistry;
 			}
 		}
@@ -63,33 +63,31 @@ class JComponentHelper
 	 * Checks if the component is enabled
 	 *
 	 * @param   string   $option  The component option.
-	 * @param   boolean  $strict  If set and the component does not exist, false will be returned.
 	 *
 	 * @return  boolean
 	 *
 	 * @since   11.1
 	 */
-	public static function isEnabled($option, $strict = false)
+	public static function isEnabled($option)
 	{
-		$result = self::getComponent($option, $strict);
+		$result = self::getComponent($option);
 
-		return ($result->enabled | JFactory::getApplication()->isAdmin());
+		return $result->enabled;
 	}
 
 	/**
 	 * Gets the parameter object for the component
 	 *
 	 * @param   string   $option  The option for the component.
-	 * @param   boolean  $strict  If set and the component does not exist, false will be returned
 	 *
 	 * @return  JRegistry  A JRegistry object.
 	 *
 	 * @see     JRegistry
 	 * @since   11.1
 	 */
-	public static function getParams($option, $strict = false)
+	public static function getParams($option)
 	{
-		$component = self::getComponent($option, $strict);
+		$component = self::getComponent($option);
 
 		return $component->params;
 	}
