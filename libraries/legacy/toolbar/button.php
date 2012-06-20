@@ -79,9 +79,9 @@ abstract class JToolbarButton
 		}
 
 		// Build the HTML Button
-		$html .= "<li class=\"button\" $id>\n";
+		$html .= "<div class=\"btn-group\" $id>\n";
 		$html .= $action;
-		$html .= "</li>\n";
+		$html .= "</div>\n";
 
 		return $html;
 	}
@@ -99,7 +99,7 @@ abstract class JToolbarButton
 	 */
 	public function fetchIconClass($identifier)
 	{
-		return "icon-32-$identifier";
+		return "icon-$identifier";
 	}
 
 	/**

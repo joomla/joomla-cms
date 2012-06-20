@@ -55,9 +55,19 @@ class JFormFieldSample extends JFormFieldRadio
 		// Build the options list from the list of files.
 		if (is_array($files))
 		{
+			$first = 0;
 			foreach ($files as $file)
 			{
-				$options[] = JHtml::_('select.option', $file, $lang->hasKey($key = 'INSTL_' . ($file = JFile::stripExt($file)) . '_SET')?JText::_($key):$file);
+				$option = JHtml::_('select.option', $file, $lang->hasKey($key = 'INSTL_' . ($file = JFile::stripExt($file)) . '_SET')? JText::_($key) : $file);
+				if ( $option->value == $this->value) {
+					$first = $option;
+				} else {
+					$options[preg_replace('#[^a-z0-9]#i', '',($option->text.$option->value))] = $option;
+				}
+			}
+			ksort($options);
+			if ($first) {
+				array_unshift($options, $option);
 			}
 		}
 

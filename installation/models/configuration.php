@@ -83,12 +83,12 @@ class InstallationModelConfiguration extends JModelLegacy
 		$registry->set('gzip', 0);
 		$registry->set('error_reporting', 'default');
 		$registry->set('helpurl', 'http://help.joomla.org/proxy/index.php?option=com_help&amp;keyref=Help{major}{minor}:{keyref}');
-		$registry->set('ftp_host', $options->ftp_host);
-		$registry->set('ftp_port', $options->ftp_port);
-		$registry->set('ftp_user', $options->ftp_save ? $options->ftp_user : '');
-		$registry->set('ftp_pass', $options->ftp_save ? $options->ftp_pass : '');
-		$registry->set('ftp_root', $options->ftp_save ? $options->ftp_root : '');
-		$registry->set('ftp_enable', $options->ftp_enable);
+		$registry->set('ftp_host', isset($options->ftp_host) ? $options->ftp_host : '');
+		$registry->set('ftp_port', isset($options->ftp_host) ? $options->ftp_port : '');
+		$registry->set('ftp_user', (isset($options->ftp_save) && $options->ftp_save && isset($options->ftp_user)) ? $options->ftp_user : '');
+		$registry->set('ftp_pass', (isset($options->ftp_save) && $options->ftp_save && isset($options->ftp_pass)) ? $options->ftp_pass : '');
+		$registry->set('ftp_root', (isset($options->ftp_save) && $options->ftp_save && isset($options->ftp_root)) ? $options->ftp_root : '');
+		$registry->set('ftp_enable', isset($options->ftp_host) ? $options->ftp_enable : '');
 
 		/* Locale Settings */
 		$registry->set('offset', 'UTC');

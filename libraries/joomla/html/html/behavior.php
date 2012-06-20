@@ -647,35 +647,19 @@ abstract class JHtmlBehavior
 			return;
 		}
 
-		// Include MooTools framework
-		self::framework(true);
-
-		JHtml::_('stylesheet', 'system/mooRainbow.css', array('media' => 'all'), true);
-		JHtml::_('script', 'system/mooRainbow.js', false, true);
+		JHtml::_('stylesheet', JURI::root() . 'media/jui/css/colorpicker.css', array('media' => 'all'), true);
+		JHtml::_('script', JURI::root() . 'media/jui/js/bootstrap-colorpicker.js', false, true);
 
 		JFactory::getDocument()
 			->addScriptDeclaration(
-			"window.addEvent('domready', function(){
-				var nativeColorUi = false;
-				if (Browser.opera && (Browser.version >= 11.5)) {
-					nativeColorUi = true;
-				}
-				$$('.input-colorpicker').each(function(item){
-					if (nativeColorUi) {
-						item.type = 'color';
-					} else {
-						new MooRainbow(item, {
-							id: item.id,
-							imgPath: '" . JURI::root(true) . "/media/system/images/mooRainbow/',
-							onComplete: function(color) {
-								this.element.value = color.hex;
-							},
-							startColor: item.value.hexToRgb(true) ? item.value.hexToRgb(true) : [0, 0, 0]
-						});
-					}
+			"
+			!function ($) {
+				$(function(){
+				$('.input-colorpicker').colorpicker()
 				});
-			});
-		");
+			}(window.jQuery)
+			"
+		);
 
 		self::$loaded[__METHOD__] = true;
 	}

@@ -16,45 +16,45 @@ class JHtmlInstallation
 {
 	public static function stepbar()
 	{
-		$view = JFactory::getApplication()->input->getWord('view');
-		switch ($view) {
-			case '':
-			case 'language':
-				$on = 1;
-				break;
-			case 'preinstall':
-				$on = 2;
-				break;
-			case 'license':
-				$on = 3;
-				break;
-			case 'database':
-				$on = 4;
-				break;
-			case 'filesystem':
-				$on = 5;
-				break;
-			case 'site':
-				$on = 6;
-				break;
-			case 'complete':
-				$on = 7;
-				break;
-			case 'remove':
-				$on = 7;
-				break;
-			default:
-				$on = 1;
-		}
+		// Determine if the configuration file path is writable.
+		$path = JPATH_CONFIGURATION . '/configuration.php';
+		$useftp = (file_exists($path)) ? !is_writable($path) : !is_writable(JPATH_CONFIGURATION . '/');
 
-		$html = '<h2>'.JText::_('INSTL_STEPS_TITLE').'</h2>' .
-			'<div class="step'.($on == 1 ? ' active' : '').'" id="language">'.JText::_('INSTL_STEP_1_LABEL').'</div>' .
-			'<div class="step'.($on == 2 ? ' active' : '').'" id="preinstall">'.JText::_('INSTL_STEP_2_LABEL').'</div>' .
-			'<div class="step'.($on == 3 ? ' active' : '').'" id="license">'.JText::_('INSTL_STEP_3_LABEL').'</div>' .
-			'<div class="step'.($on == 4 ? ' active' : '').'" id="database">'.JText::_('INSTL_STEP_4_LABEL').'</div>' .
-			'<div class="step'.($on == 5 ? ' active' : '').'" id="filesystem">'.JText::_('INSTL_STEP_5_LABEL').'</div>' .
-			'<div class="step'.($on == 6 ? ' active' : '').'" id="site">'.JText::_('INSTL_STEP_6_LABEL').'</div>' .
-			'<div class="step'.($on == 7 ? ' active' : '').'" id="complete">'.JText::_('INSTL_STEP_7_LABEL').'</div>';
-			return $html;
+		$tabs = array();
+		$tabs[] = 'site';
+		$tabs[] = 'database';
+		if ($useftp) {
+			$tabs[] = 'ftp';
+		}
+		$tabs[] = 'summary';
+
+		$html = array();
+		$html[] = '<ul class="nav nav-tabs">';
+		foreach($tabs as $tab) {
+			$html[] = self::getTab($tab, $tabs);
+		}
+		$html[] = '</ul>';
+		return implode('', $html);
+	}
+	public static function getTab($id, &$tabs)
+	{
+		$num = self::getNumber($id, $tabs);
+		$view = self::getNumber(JRequest::getWord('view'), $tabs);
+		$tab = '<span class="badge">'.$num.'</span> '.JText::_('INSTL_STEP_'.strtoupper($id).'_LABEL');
+		if ($view+1 == $num) {
+			$tab = '<a href="#" onclick="Install.submitform();">'.$tab.'</a>';
+		} else if ($view < $num) {
+			$tab = '<span>'.$tab.'</span>';
+		} else  {
+			$tab = '<a href="#" onclick="return Install.goToPage(\''.$id.'\')">'.$tab.'</a>';
+		}
+		return '<li class="step'.($num == $view ? ' active' : '').'" id="'.$id.'">'.$tab.'</li>';
+	}
+
+	public static function getNumber($id, &$tabs)
+	{
+		$num = (int) array_search($id, $tabs);
+		$num++;
+		return $num;
 	}
 }

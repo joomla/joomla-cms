@@ -8,18 +8,19 @@
 
 defined('_JEXEC') or die;
 ?>
-<div id="step">
-	<div class="far-right">
-<?php if ($this->document->direction == 'ltr') : ?>
-		<div class="button1-left"><div class="site"><a href="<?php echo JURI::root(); ?>" title="<?php echo JText::_('JSITE'); ?>"><?php echo JText::_('JSITE'); ?></a></div></div>
-		<div class="button1-left"><div class="admin"><a href="<?php echo JURI::root(); ?>administrator/" title="<?php echo JText::_('JADMINISTRATOR'); ?>"><?php echo JText::_('JADMINISTRATOR'); ?></a></div></div>
-<?php elseif ($this->document->direction == 'rtl') : ?>
-		<div class="button1-left"><div class="admin"><a href="<?php echo JURI::root(); ?>administrator/" title="<?php echo JText::_('JADMINISTRATOR'); ?>"><?php echo JText::_('JADMINISTRATOR'); ?></a></div></div>
-		<div class="button1-left"><div class="site"><a href="<?php echo JURI::root(); ?>" title="<?php echo JText::_('JSITE'); ?>"><?php echo JText::_('JSITE'); ?></a></div></div>
-<?php endif; ?>
-	</div>
-	<h2><?php echo JText::_('INSTL_COMPLETE_REMOVE_FOLDER'); ?></h2>
+<div class="alert alert-success">
+	<h3><?php echo JText::_('INSTL_COMPLETE_TITLE'); ?></h3>
 </div>
-<div id="installer">
-	<p class="error remove"><?php echo JText::_('INSTL_COMPLETE_REMOVE_INSTALLATION'); ?></p>
+<div class="alert">
+	<p><?php echo JText::_('INSTL_COMPLETE_REMOVE_INSTALLATION'); ?></p>
+	<button class="btn btn-warning" name="instDefault" onclick="Install.removeFolder(this);"><i class="icon-ban-circle icon-white"></i> <?php echo JText::_('INSTL_COMPLETE_REMOVE_FOLDER'); ?></button>
+</div>
+
+<div class="btn-toolbar">
+	<div class="btn-group">
+		<a class="btn" href="<?php echo JURI::root(); ?>" title="<?php echo JText::_('JSITE'); ?>"><i class="icon-eye-open"></i> <?php echo JText::_('JSITE'); ?></a>
+	</div>
+	<div class="btn-group">
+		<a class="btn btn-primary" href="<?php echo JURI::root(); ?>administrator/" title="<?php echo JText::_('JADMINISTRATOR'); ?>"><i class="icon-lock icon-white"></i> <?php echo JText::_('JADMINISTRATOR'); ?></a>
+	</div>
 </div>

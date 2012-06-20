@@ -238,21 +238,24 @@ class plgEditorCodemirror extends JPlugin
 
 			// This will allow plugins to attach buttons or change the behavior on the fly using AJAX
 			$html[] = '<div id="editor-xtd-buttons">';
+			$html[] = '<div class="btn-toolbar">';
 
 			foreach ($results as $button)
 			{
 				// Results should be an object
 				if ($button->get('name')) {
-					$modal		= ($button->get('modal')) ? 'class="modal-button"' : null;
-					$href		= ($button->get('link')) ? 'href="'.JURI::base().$button->get('link').'"' : null;
+					$modal		= ($button->get('modal')) ? 'class="modal-button btn"' : null;
+					$href		= ($button->get('link')) ? ' class="btn" href="'.JURI::base().$button->get('link').'"' : null;
 					$onclick	= ($button->get('onclick')) ? 'onclick="'.$button->get('onclick').'"' : null;
 					$title      = ($button->get('title')) ? $button->get('title') : $button->get('text');
-					$html[] = '<div class="button2-left"><div class="'.$button->get('name').'">';
 					$html[] = '<a '.$modal.' title="'.$title.'" '.$href.' '.$onclick.' rel="'.$button->get('options').'">';
-					$html[] = $button->get('text').'</a></div></div>';
+					$html[] = '<i class="icon-' . $button->get('name'). '"></i> ';
+					$html[] = $button->get('text').'</a>';
 				}
+				
 			}
 
+			$html[] = '</div>';
 			$html[] = '</div>';
 		}
 

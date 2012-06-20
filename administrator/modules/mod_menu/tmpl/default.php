@@ -11,4 +11,4 @@ defined('_JEXEC') or die;
 
 require JModuleHelper::getLayoutPath('mod_menu', $enabled ? 'default_enabled' : 'default_disabled');
 
-$menu->renderMenu('menu', $enabled ? '' : 'disabled');
+$menu->renderMenu('menu', $enabled ? 'nav' : 'nav disabled');

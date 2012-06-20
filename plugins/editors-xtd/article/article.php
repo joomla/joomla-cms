@@ -71,8 +71,8 @@ class plgButtonArticle extends JPlugin
 		$button->modal = true;
 		$button->link = $link;
 		$button->text = JText::_('PLG_ARTICLE_BUTTON_ARTICLE');
-		$button->name = 'article';
-		$button->options = "{handler: 'iframe', size: {x: 770, y: 400}}";
+		$button->name = 'file-add';
+		$button->options = "{handler: 'iframe', size: {x: 800, y: 500}}";
 
 		return $button;
 	}

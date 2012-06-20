@@ -72,6 +72,9 @@ class ContentViewArticles extends JViewLegacy
 	{
 		$canDo	= ContentHelper::getActions($this->state->get('filter.category_id'));
 		$user		= JFactory::getUser();
+		// Get the toolbar object instance
+		$bar = JToolBar::getInstance('toolbar');
+		
 		JToolBarHelper::title(JText::_('COM_CONTENT_ARTICLES_TITLE'), 'article.png');
 
 		if ($canDo->get('core.create') || (count($user->getAuthorisedCategories('com_content', 'core.create'))) > 0 ) {
@@ -83,29 +86,56 @@ class ContentViewArticles extends JViewLegacy
 		}
 
 		if ($canDo->get('core.edit.state')) {
-			JToolBarHelper::divider();
 			JToolBarHelper::publish('articles.publish', 'JTOOLBAR_PUBLISH', true);
 			JToolBarHelper::unpublish('articles.unpublish', 'JTOOLBAR_UNPUBLISH', true);
 			JToolBarHelper::custom('articles.featured', 'featured.png', 'featured_f2.png', 'JFEATURED', true);
-			JToolBarHelper::divider();
 			JToolBarHelper::archiveList('articles.archive');
 			JToolBarHelper::checkin('articles.checkin');
 		}
 
 		if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete')) {
 			JToolBarHelper::deleteList('', 'articles.delete', 'JTOOLBAR_EMPTY_TRASH');
-			JToolBarHelper::divider();
 		}
 		elseif ($canDo->get('core.edit.state')) {
 			JToolBarHelper::trash('articles.trash');
-			JToolBarHelper::divider();
+		}
+		
+		// Add a batch button
+		if ($user->authorise('core.edit'))
+		{
+			$title = JText::_('JTOOLBAR_BATCH');
+			$dhtml = "<button data-toggle=\"modal\" data-target=\"#collapseModal\" class=\"btn\">
+						<i class=\"icon-checkbox-partial\" title=\"$title\"></i>
+						$title</button>";
+			$bar->appendButton('Custom', $dhtml, 'batch');
 		}
 
 		if ($canDo->get('core.admin')) {
 			JToolBarHelper::preferences('com_content');
-			JToolBarHelper::divider();
 		}
 
 		JToolBarHelper::help('JHELP_CONTENT_ARTICLE_MANAGER');
+	}
+
+	/**
+	 * Returns an array of fields the table can be sorted by
+	 *
+	 * @return  array  Array containing the field name to sort by as the key and display text as value
+	 *
+	 * @since   3.0
+	 */
+	protected function getSortFields()
+	{
+		return array(
+			'a.ordering' => JText::_('JGRID_HEADING_ORDERING'),
+			'a.state' => JText::_('JSTATUS'),
+			'a.title' => JText::_('JGLOBAL_TITLE'),
+			'category_title' => JText::_('JCATEGORY'),
+			'access_level' => JText::_('JGRID_HEADING_ACCESS'),
+			'a.created_by' => JText::_('JAUTHOR'),
+			'language' => JText::_('JGRID_HEADING_LANGUAGE'),
+			'a.created' => JText::_('JDATE'),
+			'a.id' => JText::_('JGRID_HEADING_ID')
+		);
 	}
 }

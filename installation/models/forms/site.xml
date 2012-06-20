@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
 	<fieldset>
+		<field name="language" type="language" id="language"
+			class="chzn-select-deselect"
+			label="INSTL_LANGUAGE_LABEL"
+			size="20"
+			default="en-GB"
+			onchange="Install.setlanguage();" />
+
 		<field name="site_name" type="text" id="site_name" class="inputbox"
 			label="INSTL_SITE_NAME_LABEL"
 			required="true"
@@ -30,17 +37,19 @@
 			field="admin_password"
 		/>
 
-		<field name="sample_file" type="sample" class="inputbox" id="db_old"
+		<field name="sample_file" type="sample" class="inputbox"
 			label="INSTL_SITE_SAMPLE_LABEL"
 		/>
 
 		<field name="db_type" type="hidden" />
 
-		<field name="sample_installed" type="text" id="sample_installed" class="hidden"
-			label=""
-			default="0"
-			required="true"
-		/>
+		<field name="site_sampledata" type="radio" id="site_sampledata" class="btn-group" default="0"
+			label="INSTL_SITE_INSTALL_SAMPLE_LABEL"
+			filter="integer"
+			>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
 
 		<!-- Advanced Settings -->
 		<fieldset name="advanced">
@@ -54,14 +63,13 @@
 				rows="3"
 			/>
 
-			<field name="site_offline" type="radio" id="site_offline" default="0"
+			<field name="site_offline" type="radio" id="site_offline" class="btn-group" default="0"
 			label="INSTL_SITE_OFFLINE_LABEL"
 			filter="integer"
 			>
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
-
 		</fieldset>
 	</fieldset>
 </form>

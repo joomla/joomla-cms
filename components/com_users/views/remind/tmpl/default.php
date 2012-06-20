@@ -13,27 +13,35 @@ JHtml::_('behavior.keepalive');
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
 ?>
-<div class="remind<?php echo $this->pageclass_sfx?>">
+<div class="remind <?php echo $this->pageclass_sfx?>">
 	<?php if ($this->params->get('show_page_heading')) : ?>
-	<h1>
-		<?php echo $this->escape($this->params->get('page_heading')); ?>
-	</h1>
+	<div class="page-header">
+		<h1>
+			<?php echo $this->escape($this->params->get('page_heading')); ?>
+		</h1>
+	</div>
 	<?php endif; ?>
 
-	<form id="user-registration" action="<?php echo JRoute::_('index.php?option=com_users&task=remind.remind'); ?>" method="post" class="form-validate">
+	<form id="user-registration" action="<?php echo JRoute::_('index.php?option=com_users&task=remind.remind'); ?>" method="post" class="form-validate form-horizontal">
 
 		<?php foreach ($this->form->getFieldsets() as $fieldset): ?>
-		<p><?php echo JText::_($fieldset->label); ?></p>		<fieldset>
-			<dl>
+		<p><?php echo JText::_($fieldset->label); ?></p>		
+		
+		<fieldset>
 			<?php foreach ($this->form->getFieldset($fieldset->name) as $name => $field): ?>
-				<dt><?php echo $field->label; ?></dt>
-				<dd><?php echo $field->input; ?></dd>
+				<div class="control-group">
+					<div class="control-label">
+						<?php echo $field->label; ?>
+					</div>
+					<div class="controls">
+						<?php echo $field->input; ?>
+					</div>
+				</div>
 			<?php endforeach; ?>
-			</dl>
 		</fieldset>
 		<?php endforeach; ?>
-		<div>
-			<button type="submit" class="validate"><?php echo JText::_('JSUBMIT'); ?></button>
+		<div class="form-actions">
+			<button type="submit" class="btn btn-primary validate"><?php echo JText::_('JSUBMIT'); ?></button>
 			<?php echo JHtml::_('form.token'); ?>
 		</div>
 	</form>

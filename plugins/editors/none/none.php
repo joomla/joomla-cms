@@ -168,20 +168,22 @@ class plgEditorNone extends JPlugin
 			$results = $this->_subject->getButtons($name, $buttons, $asset, $author);
 
 			// This will allow plugins to attach buttons or change the behavior on the fly using AJAX
-			$return .= "\n<div id=\"editor-xtd-buttons\">\n";
+			$return .= "\n<div id=\"editor-xtd-buttons\" class=\"btn-toolbar pull-left\">\n";
+			$return .= "\n<div class=\"btn-toolbar\">\n";
 
 			foreach ($results as $button)
 			{
 				// Results should be an object
 				if ($button->get('name')) {
-					$modal		= ($button->get('modal')) ? 'class="modal-button"' : null;
-					$href		= ($button->get('link')) ? 'href="'.JURI::base().$button->get('link').'"' : null;
+					$modal		= ($button->get('modal')) ? 'class="modal-button btn"' : null;
+					$href		= ($button->get('link')) ? 'class="btn" href="'.JURI::base().$button->get('link').'"' : null;
 					$onclick	= ($button->get('onclick')) ? 'onclick="'.$button->get('onclick').'"' : null;
 					$title      = ($button->get('title')) ? $button->get('title') : $button->get('text');
-					$return .= "<div class=\"button2-left\"><div class=\"".$button->get('name')."\"><a ".$modal." title=\"".$title."\" ".$href." ".$onclick." rel=\"".$button->get('options')."\">".$button->get('text')."</a></div></div>\n";
+					$return .= "<a ".$modal." title=\"".$title."\" ".$href." ".$onclick." rel=\"".$button->get('options')."\"><i class=\"icon-".$button->get('name')."\"></i> ".$button->get('text')."</a>\n";
 				}
 			}
 
+			$return .= "</div>\n";
 			$return .= "</div>\n";
 		}
 

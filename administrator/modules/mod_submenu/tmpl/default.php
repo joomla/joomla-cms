@@ -11,23 +11,22 @@ defined('_JEXEC') or die;
 
 $hide = JRequest::getInt('hidemainmenu');
 ?>
-<ul id="submenu">
+<ul id="submenu" class="nav nav-list">
 	<?php foreach ($list as $item) : ?>
-	<li>
+	<?php if (isset ($item[2]) && $item[2] == 1) :
+		?><li class="active"><?php
+	else :
+		?><li><?php
+	endif;
+	?>
 	<?php
 	if ($hide) :
 		if (isset ($item[2]) && $item[2] == 1) :
-			?><span class="nolink active"><?php echo $item[0]; ?></span><?php
-		else :
-			?><span class="nolink"><?php echo $item[0]; ?></span><?php
+			?><a class="nolink"><?php echo $item[0]; ?></span><?php
 		endif;
 	else :
 		if(strlen($item[1])) :
-			if (isset ($item[2]) && $item[2] == 1) :
-				?><a class="active" href="<?php echo JFilterOutput::ampReplace($item[1]); ?>"><?php echo $item[0]; ?></a><?php
-			else :
-				?><a href="<?php echo JFilterOutput::ampReplace($item[1]); ?>"><?php echo $item[0]; ?></a><?php
-			endif;
+			?><a href="<?php echo JFilterOutput::ampReplace($item[1]); ?>"><?php echo $item[0]; ?></a><?php
 		else :
 			?><?php echo $item[0]; ?><?php
 		endif;

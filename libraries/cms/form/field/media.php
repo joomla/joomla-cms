@@ -116,56 +116,10 @@ class JFormFieldMedia extends JFormField
 
 		// Initialize JavaScript field attributes.
 		$attr .= $this->element['onchange'] ? ' onchange="' . (string) $this->element['onchange'] . '"' : '';
-
+		
 		// The text field.
-		$html[] = '<div class="fltlft">';
-		$html[] = '	<input type="text" name="' . $this->name . '" id="' . $this->id . '"' . ' value="'
-			. htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '"' . ' readonly="readonly"' . $attr . ' />';
-		$html[] = '</div>';
-
-		$directory = (string) $this->element['directory'];
-		if ($this->value && file_exists(JPATH_ROOT . '/' . $this->value))
-		{
-			$folder = explode('/', $this->value);
-			array_diff_assoc($folder, explode('/', JComponentHelper::getParams('com_media')->get('image_path', 'images')));
-			array_pop($folder);
-			$folder = implode('/', $folder);
-		}
-		elseif (file_exists(JPATH_ROOT . '/' . JComponentHelper::getParams('com_media')->get('image_path', 'images') . '/' . $directory))
-		{
-			$folder = $directory;
-		}
-		else
-		{
-			$folder = '';
-		}
-
-		// The button.
-		if ($this->element['disabled'] != true)
-		{
-			$html[] = '<div class="button2-left">';
-			$html[] = '	<div class="blank">';
-			$html[] = '		<a class="modal" title="' . JText::_('JLIB_FORM_BUTTON_SELECT') . '"' . ' href="'
-				. ($this->element['readonly'] ? ''
-				: ($link ? $link
-					: 'index.php?option=com_media&amp;view=images&amp;tmpl=component&amp;asset=' . $asset . '&amp;author='
-					. $this->form->getValue($authorField)) . '&amp;fieldid=' . $this->id . '&amp;folder=' . $folder) . '"'
-				. ' rel="{handler: \'iframe\', size: {x: 800, y: 500}}">';
-			$html[] = JText::_('JLIB_FORM_BUTTON_SELECT') . '</a>';
-			$html[] = '	</div>';
-			$html[] = '</div>';
-
-			$html[] = '<div class="button2-left">';
-			$html[] = '	<div class="blank">';
-			$html[] = '		<a title="' . JText::_('JLIB_FORM_BUTTON_CLEAR') . '"' . ' href="#" onclick="';
-			$html[] = 'jInsertFieldValue(\'\', \'' . $this->id . '\');';
-			$html[] = 'return false;';
-			$html[] = '">';
-			$html[] = JText::_('JLIB_FORM_BUTTON_CLEAR') . '</a>';
-			$html[] = '	</div>';
-			$html[] = '</div>';
-		}
-
+		$html[] = '<div class="input-prepend input-append">';
+		
 		// The Preview.
 		$preview = (string) $this->element['preview'];
 		$showPreview = true;
@@ -220,13 +174,13 @@ class JFormFieldMedia extends JFormField
 			$previewImgEmpty = '<div id="' . $this->id . '_preview_empty"' . ($src ? ' style="display:none"' : '') . '>'
 				. JText::_('JLIB_FORM_MEDIA_PREVIEW_EMPTY') . '</div>';
 
-			$html[] = '<div class="media-preview fltlft">';
+			$html[] = '<div class="media-preview add-on">';
 			if ($showAsTooltip)
 			{
 				$tooltip = $previewImgEmpty . $previewImg;
 				$options = array(
 					'title' => JText::_('JLIB_FORM_MEDIA_PREVIEW_SELECTED_IMAGE'),
-					'text' => JText::_('JLIB_FORM_MEDIA_PREVIEW_TIP_TITLE'),
+					'text' => '<i class="icon-eye"></i>',
 					'class' => 'hasTipPreview'
 				);
 				$html[] = JHtml::tooltip($tooltip, $options);
@@ -238,6 +192,45 @@ class JFormFieldMedia extends JFormField
 			}
 			$html[] = '</div>';
 		}
+		
+		$html[] = '	<input type="text" class="input-medium" name="' . $this->name . '" id="' . $this->id . '"' . ' value="'
+			. htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '"' . ' readonly="readonly"' . $attr . ' />';
+
+		$directory = (string) $this->element['directory'];
+		if ($this->value && file_exists(JPATH_ROOT . '/' . $this->value))
+		{
+			$folder = explode('/', $this->value);
+			array_diff_assoc($folder, explode('/', JComponentHelper::getParams('com_media')->get('image_path', 'images')));
+			array_pop($folder);
+			$folder = implode('/', $folder);
+		}
+		elseif (file_exists(JPATH_ROOT . '/' . JComponentHelper::getParams('com_media')->get('image_path', 'images') . '/' . $directory))
+		{
+			$folder = $directory;
+		}
+		else
+		{
+			$folder = '';
+		}
+
+		// The button.
+		if ($this->element['disabled'] != true)
+		{
+			$html[] = '<a class="modal btn" title="' . JText::_('JLIB_FORM_BUTTON_SELECT') . '"' . ' href="'
+				. ($this->element['readonly'] ? ''
+				: ($link ? $link
+					: 'index.php?option=com_media&amp;view=images&amp;tmpl=component&amp;asset=' . $asset . '&amp;author='
+					. $this->form->getValue($authorField)) . '&amp;fieldid=' . $this->id . '&amp;folder=' . $folder) . '"'
+				. ' rel="{handler: \'iframe\', size: {x: 800, y: 500}}">';
+			$html[] = '<i class="icon-picture"></i> ';
+			$html[] = JText::_('JLIB_FORM_BUTTON_SELECT') . '</a><a class="btn" rel="tooltip" title="' . JText::_('JLIB_FORM_BUTTON_CLEAR') . '"' . ' href="#" onclick="';
+			$html[] = 'jInsertFieldValue(\'\', \'' . $this->id . '\');';
+			$html[] = 'return false;';
+			$html[] = '">';
+			$html[] = '<i class="icon-remove"></i></a>';
+		}
+		
+		$html[] = '</div>';
 
 		return implode("\n", $html);
 	}

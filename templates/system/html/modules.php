@@ -18,12 +18,40 @@ function modChrome_none($module, &$params, &$attribs)
 }
 
 /*
+ * html5 (chosen html5 tag and font headder tags)
+ */
+function modChrome_html5($module, &$params, &$attribs)
+{
+	$moduleTag      = $params->get('module_tag');
+	$headerTag      = htmlspecialchars($params->get('header_tag'));
+	$headerClass    = $params->get('header_class');
+	$bootstrapSize  = $params->get('bootstrap_size');
+	$moduleClass    = !empty($bootstrapSize) ? ' span' . (int) $bootstrapSize . '' : '';
+	$moduleClassSfx = htmlspecialchars($params->get('moduleclass_sfx'));
+
+	if (!empty ($module->content))
+	{
+		$html  = "<{$moduleTag} class=\"moduletable{$moduleClassSfx} {$moduleClass}\">";
+
+		if ((bool) $module->showtitle)
+		{
+			$html .= "<{$headerTag} class=\"{$headerClass}\">{$module->title}</{$headerTag}>";
+		}
+
+		$html .= $module->content;
+		$html .= "</{$moduleTag}>";
+
+		echo $html;
+	}
+}
+
+/*
  * Module chrome that wraps the module in a table
  */
 function modChrome_table($module, &$params, &$attribs)
 { ?>
 	<table cellpadding="0" cellspacing="0" class="moduletable<?php echo htmlspecialchars($params->get('moduleclass_sfx')); ?>">
-	<?php if ($module->showtitle != 0) : ?>
+	<?php if ((bool)$module->showtitle) : ?>
 		<tr>
 			<th>
 				<?php echo $module->title; ?>
@@ -61,7 +89,7 @@ function modChrome_xhtml($module, &$params, &$attribs)
 {
 	if (!empty ($module->content)) : ?>
 		<div class="moduletable<?php echo htmlspecialchars($params->get('moduleclass_sfx')); ?>">
-		<?php if ($module->showtitle != 0) : ?>
+		<?php if ((bool)$module->showtitle) : ?>
 			<h3><?php echo $module->title; ?></h3>
 		<?php endif; ?>
 			<?php echo $module->content; ?>
@@ -78,7 +106,7 @@ function modChrome_rounded($module, &$params, &$attribs)
 			<div>
 				<div>
 					<div>
-						<?php if ($module->showtitle != 0) : ?>
+						<?php if ((bool)$module->showtitle) : ?>
 							<h3><?php echo $module->title; ?></h3>
 						<?php endif; ?>
 					<?php echo $module->content; ?>
@@ -94,22 +122,26 @@ function modChrome_rounded($module, &$params, &$attribs)
  */
 function modChrome_outline($module, &$params, &$attribs)
 {
-	static $css=false;
+	static $css = false;
 	if (!$css)
 	{
-		$css=true;
+		$css = true;
+
 		jimport('joomla.environment.browser');
+
 		$doc = JFactory::getDocument();
 		$browser = JBrowser::getInstance();
 		$doc->addStyleDeclaration(".mod-preview-info { padding: 2px 4px 2px 4px; border: 1px solid black; position: absolute; background-color: white; color: red;}");
 		$doc->addStyleDeclaration(".mod-preview-wrapper { background-color:#eee; border: 1px dotted black; color:#700;}");
-		if ($browser->getBrowser()=='msie')
+		if ($browser->getBrowser() === 'msie')
 		{
-			if ($browser->getMajor() <= 7) {
+			if ($browser->getMajor() <= 7)
+			{
 				$doc->addStyleDeclaration(".mod-preview-info {filter: alpha(opacity=80);}");
 				$doc->addStyleDeclaration(".mod-preview-wrapper {filter: alpha(opacity=50);}");
 			}
-			else {
+			else
+			{
 				$doc->addStyleDeclaration(".mod-preview-info {-ms-filter: alpha(opacity=80);}");
 				$doc->addStyleDeclaration(".mod-preview-wrapper {-ms-filter: alpha(opacity=50);}");
 			}
@@ -122,11 +154,10 @@ function modChrome_outline($module, &$params, &$attribs)
 	}
 	?>
 	<div class="mod-preview">
-		<div class="mod-preview-info"><?php echo $module->position."[".$module->style."]"; ?></div>
+		<div class="mod-preview-info"><?php echo $module->position . "[" . $module->style . "]"; ?></div>
 		<div class="mod-preview-wrapper">
 			<?php echo $module->content; ?>
 		</div>
 	</div>
 	<?php
 }
-?>

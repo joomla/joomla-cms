@@ -9,14 +9,39 @@
 
 defined('_JEXEC') or die;
 
-$app  = JFactory::getApplication();
-$lang = JFactory::getLanguage();
-$file = 'language/'.$lang->getTag().'/'.$lang->getTag().'.css';
+$app   = JFactory::getApplication();
+$doc   = JFactory::getDocument();
+$lang  = JFactory::getLanguage();
+$input = $app->input;
+$user  = JFactory::getUser();
+
+// Add Stylesheets
+$doc->addStyleSheet('templates/' .$this->template. '/css/template.css');
+
+// If Right-to-Left
+if ($this->direction == 'rtl') :
+	$doc->addStyleSheet('../media/jui/css/bootstrap-rtl.css');
+endif;
+
+// Load specific language related CSS
+$file = 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css';
+if (JFile::exists($file)) :
+	$doc->addStyleSheet($file);
+endif;
+
+$doc->addStyleSheet('../media/jui/css/chosen.css');
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo  $this->language; ?>" lang="<?php echo  $this->language; ?>" dir="<?php echo  $this->direction; ?>">
 <head>
-<jdoc:include type="head" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<script src="../media/jui/js/jquery.js"></script>
+	<script src="../media/jui/js/bootstrap.min.js"></script>
+	<script src="../media/jui/js/chosen.jquery.min.js"></script>
+	<script type="text/javascript">
+	  jQuery.noConflict();
+	</script>
+	<jdoc:include type="head" />
 
 <!-- Load system style CSS -->
 <link rel="stylesheet" href="templates/system/css/system.css" type="text/css" />
@@ -33,17 +58,6 @@ $file = 'language/'.$lang->getTag().'/'.$lang->getTag().'.css';
 	endif;
 ?>
 <link href="templates/<?php echo $this->template ?>/css/colour_<?php echo $colour; ?>.css" rel="stylesheet" type="text/css" />
-
-<!-- Load additional CSS styles for rtl sites -->
-<?php if ($this->direction == 'rtl') : ?>
-	<link href="templates/<?php echo  $this->template ?>/css/template_rtl.css" rel="stylesheet" type="text/css" />
-	<link href="templates/<?php echo $this->template ?>/css/colour_<?php echo $colour; ?>_rtl.css" rel="stylesheet" type="text/css" />
-<?php endif; ?>
-
-<!-- Load specific language related css -->
-<?php if (is_file($file)) : ?>
-	<link href="<?php echo $file ?>" rel="stylesheet" type="text/css" />
-<?php  endif; ?>
 
 <!-- Load additional CSS styles for bold Text -->
 <?php if ($this->params->get('boldText')) : ?>
