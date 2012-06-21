@@ -340,14 +340,16 @@ abstract class JHtml
 					}
 					$files[] = $strip . '.' . $ext;
 
-					// Loop on 1 or 2 files and break on first found
+					// Loop on 1 or 2 files and break on first found.
+					// Add the content of the MD5SUM file located in the same folder to url to ensure cache browser refresh
+					// This MD5SUM file must represent the signature of the folder content
 					foreach ($files as $file)
 					{
 						// If the file is in the template folder
-						if (file_exists(JPATH_THEMES . "/$template/$folder/$file"))
+						if (file_exists($resource = JPATH_THEMES . "/$template/$folder/$file"))
 						{
-							$includes[] = JURI::base(true) . "/templates/$template/$folder/$file?" .
-								filemtime(JPATH_THEMES . "/$template/$folder/$file");
+							$includes[] = JURI::base(true) . "/templates/$template/$folder/$file" .
+								(file_exists($md5 = dirname($resource) . '/MD5SUM') ? ('?' . file_get_contents($md5)) : '');
 							break;
 						}
 						else
@@ -365,61 +367,61 @@ abstract class JHtml
 									list($element, $file) = explode('/', $file, 2);
 
 									// Try to deal with plugins group in the media folder
-									if (file_exists(JPATH_ROOT . "/media/$extension/$element/$folder/$file"))
+									if (file_exists($resource = JPATH_ROOT . "/media/$extension/$element/$folder/$file"))
 									{
-										$includes[] = JURI::root(true) . "/media/$extension/$element/$folder/$file?" .
-											filemtime(JPATH_ROOT . "/media/$extension/$element/$folder/$file");
+										$includes[] = JURI::root(true) . "/media/$extension/$element/$folder/$file" .
+											(file_exists($md5 = dirname($resource) . '/MD5SUM') ? ('?' . file_get_contents($md5)) : '');
 										break;
 									}
 									// Try to deal with classical file in a a media subfolder called element
-									elseif (file_exists(JPATH_ROOT . "/media/$extension/$folder/$element/$file"))
+									elseif (file_exists($resource = JPATH_ROOT . "/media/$extension/$folder/$element/$file"))
 									{
-										$includes[] = JURI::root(true) . "/media/$extension/$folder/$element/$file?" .
-											filemtime(JPATH_ROOT . "/media/$extension/$folder/$element/$file");
+										$includes[] = JURI::root(true) . "/media/$extension/$folder/$element/$file" .
+											(file_exists($md5 = dirname($resource) . '/MD5SUM') ? ('?' . file_get_contents($md5)) : '');
 										break;
 									}
 									// Try to deal with system files in the template folder
-									elseif (file_exists(JPATH_THEMES . "/$template/$folder/system/$element/$file"))
+									elseif (file_exists($resource = JPATH_THEMES . "/$template/$folder/system/$element/$file"))
 									{
-										$includes[] = JURI::root(true) . "/templates/$template/$folder/system/$element/$file?" .
-											filemtime(JPATH_THEMES . "/$template/$folder/system/$element/$file");
+										$includes[] = JURI::root(true) . "/templates/$template/$folder/system/$element/$file" .
+											(file_exists($md5 = dirname($resource) . '/MD5SUM') ? ('?' . file_get_contents($md5)) : '');
 										break;
 									}
 									// Try to deal with system files in the media folder
-									elseif (file_exists(JPATH_ROOT . "/media/system/$folder/$element/$file"))
+									elseif (file_exists($resource = JPATH_ROOT . "/media/system/$folder/$element/$file"))
 									{
-										$includes[] = JURI::root(true) . "/media/system/$folder/$element/$file?" .
-											filemtime(JPATH_ROOT . "/media/system/$folder/$element/$file");
+										$includes[] = JURI::root(true) . "/media/system/$folder/$element/$file" .
+											(file_exists($md5 = dirname($resource) . '/MD5SUM') ? ('?' . file_get_contents($md5)) : '');
 										break;
 									}
 								}
 								// Try to deals in the extension media folder
-								elseif (file_exists(JPATH_ROOT . "/media/$extension/$folder/$file"))
+								elseif (file_exists($resource = JPATH_ROOT . "/media/$extension/$folder/$file"))
 								{
-									$includes[] = JURI::root(true) . "/media/$extension/$folder/$file?" .
-										filemtime(JPATH_ROOT . "/media/$extension/$folder/$file");
+									$includes[] = JURI::root(true) . "/media/$extension/$folder/$file" .
+										(file_exists($md5 = dirname($resource) . '/MD5SUM') ? ('?' . file_get_contents($md5)) : '');
 									break;
 								}
 								// Try to deal with system files in the template folder
-								elseif (file_exists(JPATH_THEMES . "/$template/$folder/system/$file"))
+								elseif (file_exists($resource = JPATH_THEMES . "/$template/$folder/system/$file"))
 								{
-									$includes[] = JURI::root(true) . "/templates/$template/$folder/system/$file?" .
-										filemtime(JPATH_THEMES . "/$template/$folder/system/$file");
+									$includes[] = JURI::root(true) . "/templates/$template/$folder/system/$file" .
+										(file_exists($md5 = dirname($resource) . '/MD5SUM') ? ('?' . file_get_contents($md5)) : '');
 									break;
 								}
 								// Try to deal with system files in the media folder
-								elseif (file_exists(JPATH_ROOT . "/media/system/$folder/$file"))
+								elseif (file_exists($resource = JPATH_ROOT . "/media/system/$folder/$file"))
 								{
-									$includes[] = JURI::root(true) . "/media/system/$folder/$file?" .
-										filemtime(JPATH_ROOT . "/media/system/$folder/$file");
+									$includes[] = JURI::root(true) . "/media/system/$folder/$file" .
+										(file_exists($md5 = dirname($resource) . '/MD5SUM') ? ('?' . file_get_contents($md5)) : '');
 									break;
 								}
 							}
 							// Try to deal with system files in the media folder
-							elseif (file_exists(JPATH_ROOT . "/media/system/$folder/$file"))
+							elseif (file_exists($resource = JPATH_ROOT . "/media/system/$folder/$file"))
 							{
-								$includes[] = JURI::root(true) . "/media/system/$folder/$file?" .
-									filemtime(JPATH_ROOT . "/media/system/$folder/$file");
+								$includes[] = JURI::root(true) . "/media/system/$folder/$file" .
+									(file_exists($md5 = dirname($resource) . '/MD5SUM') ? ('?' . file_get_contents($md5)) : '');
 								break;
 							}
 						}
@@ -433,15 +435,15 @@ abstract class JHtml
 				foreach ($potential as $strip)
 				{
 					// Detect debug mode
-					if ($detect_debug && JFactory::getConfig()->get('debug') && file_exists(JPATH_ROOT . "/$strip-uncompressed.$ext"))
+					if ($detect_debug && JFactory::getConfig()->get('debug') && file_exists($resource = JPATH_ROOT . "/$strip-uncompressed.$ext"))
 					{
-						$includes[] = JURI::root(true) . "/$strip-uncompressed.$ext?" .
-							filemtime(JPATH_ROOT . "/$strip-uncompressed.$ext");
+						$includes[] = JURI::root(true) . "/$strip-uncompressed.$ext" .
+							(file_exists($md5 = dirname($resource) . '/MD5SUM') ? ('?' . file_get_contents($md5)) : '');
 					}
-					elseif (file_exists(JPATH_ROOT . "/$strip.$ext"))
+					elseif (file_exists($resource = JPATH_ROOT . "/$strip.$ext"))
 					{
-						$includes[] = JURI::root(true) . "/$strip.$ext?" .
-							filemtime(JPATH_ROOT . "/$strip.$ext");
+						$includes[] = JURI::root(true) . "/$strip.$ext" .
+							(file_exists($md5 = dirname($resource) . '/MD5SUM') ? ('?' . file_get_contents($md5)) : '');
 					}
 				}
 			}
