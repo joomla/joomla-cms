@@ -340,9 +340,11 @@ abstract class JHtml
 					}
 					$files[] = $strip . '.' . $ext;
 
-					// Loop on 1 or 2 files and break on first found.
-					// Add the content of the MD5SUM file located in the same folder to url to ensure cache browser refresh
-					// This MD5SUM file must represent the signature of the folder content
+					/*
+					 * Loop on 1 or 2 files and break on first found.
+					 * Add the content of the MD5SUM file located in the same folder to url to ensure cache browser refresh
+					 * This MD5SUM file must represent the signature of the folder content
+					 */
 					foreach ($files as $file)
 					{
 						// If the file is in the template folder
