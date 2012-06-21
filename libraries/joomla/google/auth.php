@@ -39,12 +39,13 @@ abstract class JGoogleAuth
 	 * @param   string  $url      The URL for the request.
 	 * @param   mixed   $data     The data to include in the request.
 	 * @param   array   $headers  The headers to send with the request.
+	 * @param   string  $method   The type of http request to send.
 	 *
 	 * @return  mixed  Data from Google.
 	 *
 	 * @since   1234
 	 */
-	abstract public function query($url, $data = null, $headers = null);
+	abstract public function query($url, $data = null, $headers = null, $method = 'post');
 
 	/**
 	 * Get an option from the JGoogleAuth object.

@@ -54,7 +54,7 @@ class JGoogleTest extends TestCase
 		$this->options = new JRegistry;
 		$this->client = $this->getMock('JHttp', array('post'));
 		$this->input = new JInput;
-		$this->oauth = new JOauth2client($this->options, $this->client, $this->input);
+		$this->oauth = new JOauthOauth2client($this->options, $this->client, $this->input);
 		$this->auth = new JGoogleAuthOauth2($this->options, $this->oauth);
 		$this->object = new JGoogle($this->options, $this->auth);
 	}
@@ -76,6 +76,8 @@ class JGoogleTest extends TestCase
 	 */
 	public function test__GetData()
 	{
+		$this->options->set('clientid', '1075367716947.apps.googleusercontent.com');
+		$this->options->set('redirecturi', 'http://j.aaronschmitz.com/web/calendar-test');
 		$this->assertThat(
 			$this->object->data('Picasa'),
 			$this->isInstanceOf('JGoogleDataPicasa')

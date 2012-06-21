@@ -17,7 +17,7 @@ jimport('joomla.environment.response');
  * @subpackage  Oauth
  * @since       1234
  */
-class JOauth2client
+class JOauthOauth2client
 {
 	/**
 	 * @var    JRegistry  Options for the OAuth2Client object.
@@ -62,7 +62,7 @@ class JOauth2client
 	 */
 	public function auth()
 	{
-		if ($data['code'] = $this->input->get('code'))
+		if ($data['code'] = $this->input->get('code', false, 'raw'))
 		{
 			$data['grant_type'] = 'authorization_code';
 			$data['redirect_uri'] = $this->getOption('redirecturi');
@@ -78,7 +78,7 @@ class JOauth2client
 			}
 			else
 			{
-				// Exception
+				throw new Exception('OAuth authentication failed with response code ' . $response->code);
 			}
 		}
 
@@ -97,7 +97,7 @@ class JOauth2client
 	{
 		if (!$this->getOption('authurl') || !$this->getOption('clientid'))
 		{
-			// Exception
+			throw new Exception('Authorization URL and client_id are required');
 		}
 
 		$url = $this->getOption('authurl');
@@ -146,12 +146,13 @@ class JOauth2client
 	 * @param   string  $url      The URL for the request.
 	 * @param   mixed   $data     The data to include in the request.
 	 * @param   array   $headers  The headers to send with the request.
+	 * @param   string  $method   The method with which to send the request.
      *
 	 * @return  string  The URL.
 	 *
 	 * @since   1234
 	 */
-	public function query($url, $data = null, $headers = null)
+	public function query($url, $data = null, $headers = null, $method = 'post')
 	{
 		if (!$headers)
 		{
@@ -177,13 +178,13 @@ class JOauth2client
 		{
 			if (!array_key_exists('refresh_token', $token))
 			{
-				// Exception
+				throw new Exception('Access token is expired and no refresh token is available.');
 			}
 			$token = $this->refreshToken($token['refresh_token']);
 		}
 
 		$headers['Authorization'] = 'Bearer ' . $token['access_token'];
-		return $this->client->post($url, $data, $headers);
+		return $this->client->$method($url, $data, $headers);
 	}
 
 	/**
@@ -273,7 +274,7 @@ class JOauth2client
 		}
 		else
 		{
-			// Exception
+			throw new Exception('Invalid data received refreshing token');
 		}
 	}
 }

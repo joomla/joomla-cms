@@ -8,7 +8,7 @@
  */
 
 defined('JPATH_PLATFORM') or die;
-jimport('joomla.oauth.oauth2');
+jimport('joomla.oauth.oauth2client');
 
 /**
  * Google OAuth authentication class
@@ -33,10 +33,18 @@ class JGoogleAuthOauth2 extends JGoogleAuth
 	 *
 	 * @since   1234
 	 */
-	public function __construct(JRegistry $options = null, JOauth2client $client = null)
+	public function __construct(JRegistry $options = null, JOauthOauth2client $client = null)
 	{
 		$this->options = isset($options) ? $options : new JRegistry;
-		$this->client = isset($client) ? $client : new JOauth2client($this->options);
+		if (isset($client))
+		{
+			$this->client = $client;
+		}
+		else
+		{
+			$http = new JGoogleHttp;
+			$this->client = new JOauthOauth2client($this->options, $http);
+		}
 	}
 
 	/**
@@ -49,7 +57,7 @@ class JGoogleAuthOauth2 extends JGoogleAuth
 	public function auth()
 	{
 		$this->googlize();
-		$this->client->auth();
+		return $this->client->auth();
 	}
 
 	/**
@@ -58,15 +66,16 @@ class JGoogleAuthOauth2 extends JGoogleAuth
 	 * @param   string  $url      The URL for the request.
 	 * @param   mixed   $data     The data to include in the request.
 	 * @param   array   $headers  The headers to send with the request.
+	 * @param   string  $method   The type of http request to send.
 	 *
 	 * @return  mixed  Data from Google.
 	 *
 	 * @since   1234
 	 */
-	public function query($url, $data = null, $headers = null)
+	public function query($url, $data = null, $headers = null, $method = 'post')
 	{
 		$this->googlize();
-		return $this->client->query($url, $data, $headers);
+		return $this->client->query($url, $data, $headers, $method);
 	}
 
 	/**

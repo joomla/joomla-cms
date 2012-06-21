@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM . '/joomla/oauth/oauth2.php';
+require_once JPATH_PLATFORM . '/joomla/oauth/oauth2client.php';
 
 /**
  * Test class for JOauth2client.
@@ -45,7 +45,7 @@ class JOauth2clientTest extends TestCase
 		$this->options = new JRegistry;
 		$this->client = $this->getMock('JHttp', array('post'));
 		$this->input = new JInput;
-		$this->object = new JOauth2client($this->options, $this->client, $this->input);
+		$this->object = new JOauthOauth2client($this->options, $this->client, $this->input);
 	}
 
 	/**

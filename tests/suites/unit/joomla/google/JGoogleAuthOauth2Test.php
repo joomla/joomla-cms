@@ -49,7 +49,7 @@ class JGoogleAuthOauth2Test extends PHPUnit_Framework_TestCase
 		$this->options = new JRegistry;
 		$this->client = $this->getMock('JHttp', array('post'));
 		$this->input = new JInput;
-		$this->oauth = new JOauth2client($this->options, $this->client, $this->input);
+		$this->oauth = new JOauthOauth2client($this->options, $this->client, $this->input);
 		$this->object = new JGoogleAuthOauth2($this->options, $this->oauth);
 	}
 

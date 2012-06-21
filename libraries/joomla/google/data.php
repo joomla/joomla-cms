@@ -31,6 +31,12 @@ abstract class JGoogleData
 	protected $auth;
 
 	/**
+	 * @var    Bool  Has this object been authenticated.
+	 * @since  1234
+	 */
+	protected $authenticated;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   JRegistry    $options  Google options object.
@@ -42,6 +48,7 @@ abstract class JGoogleData
 	{
 		$this->options = isset($options) ? $options : new JRegistry;
 		$this->auth = isset($auth) ? $auth : new JGoogleAuthOauth2($this->options);
+		$this->authenticated = $this->auth->auth();
 	}
 
 	/**
@@ -53,7 +60,19 @@ abstract class JGoogleData
 	 */
 	public function auth()
 	{
-		$this->client->auth();
+		return $this->authenticated = $this->auth->auth();
+	}
+
+	/**
+	 * Check authentication
+	 *
+	 * @return  bool  True if authenticated.
+	 *
+	 * @since   1234
+	 */
+	public function authenticated()
+	{
+		return $this->authenticated;
 	}
 
 	/**
@@ -62,13 +81,14 @@ abstract class JGoogleData
 	 * @param   string  $url      The URL for the request.
 	 * @param   mixed   $data     The data to include in the request.
 	 * @param   array   $headers  The headers to send with the request.
+	 * @param   string  $method   The type of http request to send.
 	 *
 	 * @return  mixed  Data from Google.
 	 *
 	 * @since   1234
 	 */
-	public function query($url, $data = null, $headers = null)
+	public function query($url, $data = null, $headers = null, $method = 'post')
 	{
-		$this->client->query($url, $data, $headers);
+		$this->client->query($url, $data, $headers, $method);
 	}
 }
