@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+22-Jun-2012 Jean-Marie Simonet
+ # [#28709] Commit of progress bar feature missed a layout file. Thanks Mark
+
 20-Jun-2012 Jean-Marie Simonet
  ^ Disable install checks for development
 
