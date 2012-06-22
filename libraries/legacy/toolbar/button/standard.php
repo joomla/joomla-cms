@@ -44,7 +44,7 @@ class JToolbarButtonStandard extends JButton
 		$class = $this->fetchIconClass($name);
 		$doTask = $this->_getCommand($text, $task, $list);
 
-		$html = "<a href=\"#\" onclick=\"$doTask\" class=\"toolbar\">\n";
+		$html = "<a href=\"javascript:void(0)\" onclick=\"$doTask\" class=\"toolbar\">\n";
 		$html .= "<span class=\"$class\">\n";
 		$html .= "</span>\n";
 		$html .= "$i18n_text\n";
