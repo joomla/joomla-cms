@@ -1,14 +1,16 @@
 <?php
 /**
- * @version		$Id: JModelTest.php 20196 2011-01-09 02:40:25Z ian $
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.UnitTest
+ * @subpackage  Model
+ *
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
- * Test class for JModel.
+ * Test class for JModelLegacy.
  */
-class JModelTest extends PHPUnit_Framework_TestCase
+class JModelLegacyTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 * @todo Implement testGetInstance().

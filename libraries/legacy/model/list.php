@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Model
  * @since       11.1
  */
-class JModelList extends JModel
+class JModelList extends JModelLegacy
 {
 	/**
 	 * Internal memory based cache array of data.
@@ -56,7 +56,7 @@ class JModelList extends JModel
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
-	 * @see     JController
+	 * @see     JModelLegacy
 	 * @since   11.1
 	 */
 	public function __construct($config = array())

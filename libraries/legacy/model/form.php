@@ -19,7 +19,7 @@ defined('JPATH_PLATFORM') or die;
  * @see         JformRule
  * @since       11.1
  */
-abstract class JModelForm extends JModel
+abstract class JModelForm extends JModelLegacy
 {
 	/**
 	 * Array of form objects.

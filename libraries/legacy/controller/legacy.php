@@ -19,7 +19,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Controller
  * @since       11.1
  */
-class JController extends JObject
+class JControllerLegacy extends JObject
 {
 	/**
 	 * The base path of the controller
@@ -143,7 +143,7 @@ class JController extends JObject
 	 */
 	public static function addModelPath($path, $prefix = '')
 	{
-		JModel::addIncludePath($path, $prefix);
+		JModelLegacy::addIncludePath($path, $prefix);
 	}
 
 	/**
@@ -206,7 +206,7 @@ class JController extends JObject
 	 * @param   string  $prefix  The prefix for the controller.
 	 * @param   array   $config  An array of optional constructor options.
 	 *
-	 * @return  JController
+	 * @return  JControllerLegacy
 	 *
 	 * @since   11.1
 	 * @throws  Exception if the controller cannot be loaded.
@@ -322,7 +322,7 @@ class JController extends JObject
 		}
 
 		// Determine the methods to exclude from the base class.
-		$xMethods = get_class_methods('JController');
+		$xMethods = get_class_methods('JControllerLegacy');
 
 		// Get the public methods in this class using reflection.
 		$r = new ReflectionClass($this);
@@ -429,7 +429,7 @@ class JController extends JObject
 	 * @param   string  $type  The path type (e.g. 'model', 'view').
 	 * @param   mixed   $path  The directory string  or stream array to search.
 	 *
-	 * @return  JController  A JController object to support chaining.
+	 * @return  JControllerLegacy  A JControllerLegacy object to support chaining.
 	 *
 	 * @since   11.1
 	 * @note    Replaces _addPath.
@@ -462,7 +462,7 @@ class JController extends JObject
 	 *
 	 * @param   mixed  $path  The directory (string) or list of directories (array) to add.
 	 *
-	 * @return  JController  This object to support chaining.
+	 * @return  JControllerLegacy  This object to support chaining.
 	 */
 	public function addViewPath($path)
 	{
@@ -547,7 +547,7 @@ class JController extends JObject
 		$modelName = preg_replace('/[^A-Z0-9_]/i', '', $name);
 		$classPrefix = preg_replace('/[^A-Z0-9_]/i', '', $prefix);
 
-		$result = JModel::getInstance($modelName, $classPrefix, $config);
+		$result = JModelLegacy::getInstance($modelName, $classPrefix, $config);
 
 		return $result;
 	}
@@ -613,7 +613,7 @@ class JController extends JObject
 	 * @param   boolean  $cachable   If true, the view output will be cached
 	 * @param   array    $urlparams  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
-	 * @return  JController  A JController object to support chaining.
+	 * @return  JControllerLegacy  A JControllerLegacy object to support chaining.
 	 *
 	 * @since   11.1
 	 */
@@ -913,7 +913,7 @@ class JController extends JObject
 	 *
 	 * @param   string  $method  The name of the method in the derived class to perform if a named task is not found.
 	 *
-	 * @return  JController  A JController object to support chaining.
+	 * @return  JControllerLegacy  A JControllerLegacy object to support chaining.
 	 *
 	 * @since   11.1
 	 */
@@ -930,7 +930,7 @@ class JController extends JObject
 	 * @param   string  $task    The task.
 	 * @param   string  $method  The name of the method in the derived class to perform for this task.
 	 *
-	 * @return  JController  A JController object to support chaining.
+	 * @return  JControllerLegacy  A JControllerLegacy object to support chaining.
 	 *
 	 * @since   11.1
 	 */
@@ -949,7 +949,7 @@ class JController extends JObject
 	 *
 	 * @param   string  $task  The task.
 	 *
-	 * @return  JController  This object to support chaining.
+	 * @return  JControllerLegacy  This object to support chaining.
 	 *
 	 * @since   11.1
 	 */
@@ -1045,7 +1045,7 @@ class JController extends JObject
 	 * @param   string  $msg   Message to display on redirect. Optional, defaults to value set internally by controller, if any.
 	 * @param   string  $type  Message type. Optional, defaults to 'message' or the type set by a previous call to setMessage.
 	 *
-	 * @return  JController  This object to support chaining.
+	 * @return  JControllerLegacy  This object to support chaining.
 	 *
 	 * @since   11.1
 	 */
