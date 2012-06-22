@@ -62,7 +62,7 @@ class JTwitter
 		$this->client  = isset($client) ? $client : new JTwitterHttp($this->options);
 
 		// Setup the default API url if not already set.
-		$this->options->def('api.url', 'http://api.twitter.com');
+		$this->options->def('api.url', 'https://api.twitter.com');
 	}
 
 	/**

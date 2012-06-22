@@ -19,24 +19,6 @@ defined('JPATH_PLATFORM') or die();
 class JTwitterHttp extends JHttp
 {
 	/**
-	 * @const  integer  Use no authentication for HTTP connections.
-	 * @since  12.1
-	 */
-	const AUTHENTICATION_NONE = 0;
-
-	/**
-	 * @const  integer  Use basic authentication for HTTP connections.
-	 * @since  12.1
-	 */
-	const AUTHENTICATION_BASIC = 1;
-
-	/**
-	 * @const  integer  Use OAuth authentication for HTTP connections.
-	 * @since  12.1
-	 */
-	const AUTHENTICATION_OAUTH = 2;
-
-	/**
 	 * Constructor.
 	 *
 	 * @param   JRegistry       &$options   Client options object.

@@ -82,16 +82,6 @@ abstract class JTwitterObject
 		// Get a new JUri object fousing the api url and given path.
 		$uri = new JUri($this->options->get('api.url') . $path);
 
-		if ($this->options->get('api.username', false))
-		{
-			$uri->setUser($this->options->get('api.username'));
-		}
-
-		if ($this->options->get('api.password', false))
-		{
-			$uri->setPass($this->options->get('api.password'));
-		}
-
 		return (string) $uri;
 	}
 
@@ -108,27 +98,36 @@ abstract class JTwitterObject
 		$path = '/1/account/rate_limit_status.json';
 
 		// Send the request.
-		return $this->sendRequest($path, 200);
+		return $this->sendRequest($path);
 	}
 
 	/**
 	 * Method to send the request.
 	 *
-	 * @param   string   $path  The path of the request to make
-	 * @param   integer  $code  The expected response code
+	 * @param   string   $path    The path of the request to make
+	 * @param   string   $method  The request method.
+	 * @param   mixed    $data    Either an associative array or a string to be sent with the post request.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   12.1
 	 * @throws  DomainException
 	 */
-	public function sendRequest($path, $code)
+	public function sendRequest($path, $method='get', $data='')
 	{
 		// Send the request.
-		$response = $this->client->get($this->fetchUrl($path));
+		switch ($method)
+		{
+			case 'get':
+				$response = $this->client->get($this->fetchUrl($path));
+				break;
+			case 'post':
+				$response = $this->client->post($this->fetchUrl($path), $data);
+				break;
+		}
 
 		// Validate the response code.
-		if ($response->code != $code)
+		if ($response->code != 200)
 		{
 			$error = json_decode($response->body);
 
@@ -136,5 +135,36 @@ abstract class JTwitterObject
 		}
 
 		return json_decode($response->body);
+	}
+
+	/**
+	 * Get an option from the JTwitterObject instance.
+	 *
+	 * @param   string  $key  The name of the option to get.
+	 *
+	 * @return  mixed  The option value.
+	 *
+	 * @since   12.1
+	 */
+	public function getOption($key)
+	{
+		return $this->options->get($key);
+	}
+
+	/**
+	 * Set an option for the JTwitterObject instance.
+	 *
+	 * @param   string  $key    The name of the option to set.
+	 * @param   mixed   $value  The option value to set.
+	 *
+	 * @return  JTwitterObject  This object for method chaining.
+	 *
+	 * @since   12.1
+	 */
+	public function setOption($key, $value)
+	{
+		$this->options->set($key, $value);
+
+		return $this;
 	}
 }
