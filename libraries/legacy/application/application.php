@@ -73,6 +73,12 @@ class JApplication extends JApplicationBase
 	public $startTime = null;
 
 	/**
+	 * @var    JApplicationWebClient  The application client object.
+	 * @since  12.2
+	 */
+	public $client;
+
+	/**
 	 * @var    array  JApplication instances container.
 	 * @since  11.3
 	 */
@@ -106,6 +112,10 @@ class JApplication extends JApplicationBase
 		// Create the input object
 		$this->input = new JInput;
 
+		$this->client = new JApplicationWebClient;
+
+		$this->loadDispatcher();
+
 		// Set the session default name.
 		if (!isset($config['session_name']))
 		{
@@ -129,8 +139,6 @@ class JApplication extends JApplicationBase
 		{
 			$this->_createSession(self::getHash($config['session_name']));
 		}
-
-		$this->loadDispatcher();
 
 		$this->requestTime = gmdate('Y-m-d H:i');
 
@@ -385,10 +393,9 @@ class JApplication extends JApplicationBase
 		else
 		{
 			$document = JFactory::getDocument();
-			jimport('joomla.environment.browser');
-			$navigator = JBrowser::getInstance();
+
 			jimport('phputf8.utils.ascii');
-			if ($navigator->isBrowser('msie') && !utf8_is_ascii($url))
+			if (($this->client->engine == JApplicationWebClient::TRIDENT) && !utf8_is_ascii($url))
 			{
 				// MSIE type browser and/or server cause issues when url contains utf8 character,so use a javascript redirect method
 				echo '<html><head><meta http-equiv="content-type" content="text/html; charset=' . $document->getCharset() . '" />'
@@ -1108,6 +1115,18 @@ class JApplication extends JApplicationBase
 		JLog::add('JApplication::isWinOS() is deprecated. Use the IS_WIN constant instead.', JLog::WARNING, 'deprecated');
 
 		return IS_WIN;
+	}
+
+	/**
+	 * Determine if we are using a secure (SSL) connection.
+	 *
+	 * @return  boolean  True if using SSL, false if not.
+	 *
+	 * @since   12.2
+	 */
+	public function isSSLConnection()
+	{
+		return ((isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == 'on')) || getenv('SSL_PROTOCOL_VERSION'));
 	}
 
 	/**

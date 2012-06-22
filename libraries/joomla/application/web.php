@@ -520,19 +520,6 @@ class JApplicationWeb extends JApplicationBase
 
 				echo $html;
 			}
-			/*
-			 * For WebKit based browsers do not send a 303, as it causes subresource reloading.  You can view the
-			 * bug report at: https://bugs.webkit.org/show_bug.cgi?id=38690
-			 */
-			elseif (!$moved && ($this->client->engine == JApplicationWebClient::WEBKIT))
-			{
-				$html = '<html><head>';
-				$html .= '<meta http-equiv="refresh" content="0; url=' . $url . '" />';
-				$html .= '<meta http-equiv="content-type" content="text/html; charset=' . $this->charSet . '" />';
-				$html .= '</head><body></body></html>';
-
-				echo $html;
-			}
 			else
 			{
 				// All other cases use the more efficient HTTP header for redirection.
@@ -962,6 +949,18 @@ class JApplicationWeb extends JApplicationBase
 	protected function header($string, $replace = true, $code = null)
 	{
 		header($string, $replace, $code);
+	}
+
+	/**
+	 * Determine if we are using a secure (SSL) connection.
+	 *
+	 * @return  boolean  True if using SSL, false if not.
+	 *
+	 * @since   12.2
+	 */
+	public function isSSLConnection()
+	{
+		return ((isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == 'on')) || getenv('SSL_PROTOCOL_VERSION'));
 	}
 
 	/**
