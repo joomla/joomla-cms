@@ -4,7 +4,6 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
 
 /**
@@ -46,7 +45,7 @@ class plgContentJoomla extends JPlugin
 		$user = JFactory::getUser();
 
 		// Messaging for new items
-		JModel::addIncludePath(JPATH_ADMINISTRATOR.'/components/com_messages/models', 'MessagesModel');
+		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR.'/components/com_messages/models', 'MessagesModel');
 		JTable::addIncludePath(JPATH_ADMINISTRATOR.'/components/com_messages/tables');
 
 		$db = JFactory::getDbo();
@@ -68,7 +67,7 @@ class plgContentJoomla extends JPlugin
 					'subject'		=> $lang->_('COM_CONTENT_NEW_ARTICLE'),
 					'message'		=> sprintf($lang->_('COM_CONTENT_ON_NEW_CONTENT'), $user->get('name'), $article->title)
 				);
-				$model_message = JModel::getInstance('Message', 'MessagesModel');
+				$model_message = JModelLegacy::getInstance('Message', 'MessagesModel');
 				$model_message->save($message);
 			}
 		}

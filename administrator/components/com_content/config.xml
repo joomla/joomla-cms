@@ -805,6 +805,18 @@
 				value="1">JGLOBAL_FULL_TEXT</option>
 		</field>
 
+		<field
+			name="feed_show_readmore"
+			type="radio"
+			label="JGLOBAL_FEED_SHOW_READMORE_LABEL"
+			description="JGLOBAL_FEED_SHOW_READMORE_DESC"
+			default="0">
+			<option
+				value="0">JHIDE</option>
+			<option
+				value="1">JSHOW</option>
+		</field>
+
 	</fieldset>
 
 	<fieldset

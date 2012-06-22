@@ -6,25 +6,20 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.model');
 
 $com_path = JPATH_SITE.'/components/com_content/';
 require_once $com_path.'router.php';
 require_once $com_path.'helpers/route.php';
 
-jimport('joomla.application.component.model');
-
-JModel::addIncludePath($com_path . '/models', 'ContentModel');
+JModelLegacy::addIncludePath($com_path . '/models', 'ContentModel');
 
 abstract class modArticlesCategoryHelper
 {
 	public static function getList(&$params)
 	{
 		// Get an instance of the generic articles model
-		$articles = JModel::getInstance('Articles', 'ContentModel', array('ignore_request' => true));
+		$articles = JModelLegacy::getInstance('Articles', 'ContentModel', array('ignore_request' => true));
 
 		// Set application parameters in model
 		$app = JFactory::getApplication();
@@ -64,7 +59,7 @@ abstract class modArticlesCategoryHelper
 
 								if (!$catid) {
 									// Get an instance of the generic article model
-									$article = JModel::getInstance('Article', 'ContentModel', array('ignore_request' => true));
+									$article = JModelLegacy::getInstance('Article', 'ContentModel', array('ignore_request' => true));
 
 									$article->setState('params', $appParams);
 									$article->setState('filter.published', 1);
@@ -107,7 +102,7 @@ abstract class modArticlesCategoryHelper
 		if ($catids) {
 			if ($params->get('show_child_category_articles', 0) && (int) $params->get('levels', 0) > 0) {
 				// Get an instance of the generic categories model
-				$categories = JModel::getInstance('Categories', 'ContentModel', array('ignore_request' => true));
+				$categories = JModelLegacy::getInstance('Categories', 'ContentModel', array('ignore_request' => true));
 				$categories->setState('params', $appParams);
 				$levels = $params->get('levels', 1) ? $params->get('levels', 1) : 9999;
 				$categories->setState('filter.get_children', $levels);

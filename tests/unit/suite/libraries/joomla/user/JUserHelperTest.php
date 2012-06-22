@@ -55,17 +55,6 @@ class JUserHelperTest extends JoomlaDatabaseTestCase
 		$this->setErrorhandlers($this->savedErrorState);
 	}
 
-	/**
-	 * @todo Implement testAddUserToGroup().
-	 */
-	public function testAddUserToGroup()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-		'This test has not been implemented yet.'
-		);
-	}
-
  /**
     * Test cases for userGroups
     *
@@ -124,50 +113,6 @@ class JUserHelperTest extends JoomlaDatabaseTestCase
 	}
 
 	/**
-	 * @todo Implement testRemoveUserFromGroup().
-	 */
-	public function testRemoveUserFromGroup()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-		'This test has not been implemented yet.'
-		);
-	}
-
-	/**
-	 * @todo Implement testSetUserGroups().
-	 */
-	public function testSetUserGroups()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-		'This test has not been implemented yet.'
-		);
-	}
-
-	/**
-	 * @todo Implement testGetProfile().
-	 */
-	public function testGetProfile()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-		'This test has not been implemented yet.'
-		);
-	}
-
-	/**
-	 * @todo Implement testActivateUser().
-	 */
-	public function testActivateUser()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-		'This test has not been implemented yet.'
-		);
-	}
-
-	/**
 	 * Test cases for userId
 	 *
 	 * @return array
@@ -210,38 +155,5 @@ class JUserHelperTest extends JoomlaDatabaseTestCase
 			$this->equalTo($error)
 		);
 	}
-
-	/**
-	 * @todo Implement testGetCryptedPassword().
-	 */
-	public function testGetCryptedPassword()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-		'This test has not been implemented yet.'
-		);
-	}
-
-	/**
-	 * @todo Implement testGetSalt().
-	 */
-	public function testGetSalt()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-		'This test has not been implemented yet.'
-		);
-	}
-
-	/**
-	 * @todo Implement testGenRandomPassword().
-	 */
-	public function testGenRandomPassword()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-		'This test has not been implemented yet.'
-		);
-	}
 }
-?>
+

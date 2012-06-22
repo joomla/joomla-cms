@@ -176,22 +176,6 @@ class JSessionStorageMemcache extends JSessionStorage
 	}
 
 	/**
-	 * Garbage collect stale sessions from the SessionHandler backend.
-	 *
-	 * -- Not Applicable in memcache --
-	 *
-	 * @param   integer  $maxlifetime  The maximum age of a session.
-	 *
-	 * @return  boolean  True on success, false otherwise.
-	 *
-	 * @since   11.1
-	 */
-	public function gc($maxlifetime = null)
-	{
-		return true;
-	}
-
-	/**
 	 * Test to see if the SessionHandler is available.
 	 *
 	 * @return boolean  True on success, false otherwise.
@@ -215,7 +199,7 @@ class JSessionStorageMemcache extends JSessionStorage
 		$lifetime = ini_get("session.gc_maxlifetime");
 		$expire = $this->_db->get($key . '_expire');
 
-		// set prune period
+		// Set prune period
 		if ($expire + $lifetime < time())
 		{
 			$this->_db->delete($key);

@@ -118,7 +118,7 @@ class JControllerForm extends JController
 				array('/s$/i', "s"),
 				array('/$/', "s"));
 
-			// check for matches using regular expressions
+			// Check for matches using regular expressions
 			foreach ($plural as $pattern)
 			{
 				if (preg_match($pattern[0], $this->view_item))
@@ -243,7 +243,7 @@ class JControllerForm extends JController
 	/**
 	 * Method to run batch operations.
 	 *
-	 * @param   object  $model  The model of the component being processed.
+	 * @param   JModel  $model  The model of the component being processed.
 	 *
 	 * @return	boolean	 True if successful, false otherwise and internal error is set.
 	 *
@@ -485,7 +485,7 @@ class JControllerForm extends JController
 	 */
 	protected function getRedirectToItemAppend($recordId = null, $urlVar = 'id')
 	{
-		$tmpl = JRequest::getCmd('tmpl');
+		$tmpl   = JRequest::getCmd('tmpl');
 		$layout = JRequest::getCmd('layout', 'edit');
 		$append = '';
 
@@ -560,11 +560,11 @@ class JControllerForm extends JController
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Initialise variables.
-		$app = JFactory::getApplication();
-		$lang = JFactory::getLanguage();
+		$app   = JFactory::getApplication();
+		$lang  = JFactory::getLanguage();
 		$model = $this->getModel();
 		$table = $model->getTable();
-		$data = JRequest::getVar('jform', array(), 'post', 'array');
+		$data  = JRequest::getVar('jform', array(), 'post', 'array');
 		$checkin = property_exists($table, 'checked_out');
 		$context = "$this->option.edit.$this->context";
 		$task = $this->getTask();

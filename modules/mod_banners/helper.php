@@ -6,22 +6,18 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.model');
 
 class modBannersHelper
 {
 	static function &getList(&$params)
 	{
-		jimport('joomla.application.component.model');
-		JModel::addIncludePath(JPATH_ROOT.'/components/com_banners/models', 'BannersModel');
+		JModelLegacy::addIncludePath(JPATH_ROOT.'/components/com_banners/models', 'BannersModel');
 		$document	= JFactory::getDocument();
 		$app		= JFactory::getApplication();
 		$keywords	= explode(',', $document->getMetaData('keywords'));
 
-		$model = JModel::getInstance('Banners', 'BannersModel', array('ignore_request'=>true));
+		$model = JModelLegacy::getInstance('Banners', 'BannersModel', array('ignore_request'=>true));
 		$model->setState('filter.client_id', (int) $params->get('cid'));
 		$model->setState('filter.category_id', $params->get('catid', array()));
 		$model->setState('list.limit', (int) $params->get('count', 1));

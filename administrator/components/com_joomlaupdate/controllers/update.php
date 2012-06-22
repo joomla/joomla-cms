@@ -4,7 +4,7 @@
  * @subpackage  com_joomlaupdate
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
- * @since       2.5.2
+ * @since       2.5.4
  */
 
 defined('_JEXEC') or die;
@@ -13,10 +13,10 @@ jimport('joomla.application.component.controller');
 
 /**
  * The Joomla! update controller for the Update view
- * 
+ *
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
- * @since       2.5.2
+ * @since       2.5.4
  */
 class JoomlaupdateControllerUpdate extends JController
 {
@@ -25,7 +25,7 @@ class JoomlaupdateControllerUpdate extends JController
 	 * 
 	 * @return void 
 	 * 
-	 * @since 2.5.2
+	 * @since 2.5.4
 	 */
 	public function download()
 	{
@@ -48,31 +48,35 @@ class JoomlaupdateControllerUpdate extends JController
 			$url = 'index.php?option=com_joomlaupdate';
 			$message = JText::_('COM_JOOMLAUPDATE_VIEW_UPDATE_DOWNLOADFAILED');
 		}
-		
+
 		$this->setRedirect($url, $message, $messageType);
 	}
 
 	/**
-	 * Start the installation of the new Joomla! version 
-	 * 
+	 * Start the installation of the new Joomla! version
+	 *
 	 * @return void
+	 *
+	 * @since 2.5.4
 	 */
 	public function install()
 	{
 		$this->_applyCredentials();
 
 		$model = $this->getModel('Default');
-		
+
 		$file = JFactory::getApplication()->getUserState('com_joomlaupdate.file', null);
 		$model->createRestorationFile($file);
-		
+
 		$this->display();
 	}
 
 	/**
 	 * Finalise the upgrade by running the necessary scripts
-	 * 
+	 *
 	 * @return void
+	 *
+	 * @since 2.5.4
 	 */
 	public function finalise()
 	{
@@ -89,7 +93,9 @@ class JoomlaupdateControllerUpdate extends JController
 	/**
 	 * Clean up after ourselves
 	 * 
-	 * @return void 
+	 * @return void
+	 *
+	 * @since 2.5.4
 	 */
 	public function cleanup()
 	{
@@ -99,18 +105,19 @@ class JoomlaupdateControllerUpdate extends JController
 
 		$model->cleanUp();
 
-		$url = 'index.php?option=com_joomlaupdate';
+		$url = 'index.php?option=com_joomlaupdate&layout=complete';
 		$this->setRedirect($url);
 	}
 
 	/**
 	 * Method to display a view.
 	 *
-	 * @param	boolean			If true, the view output will be cached
-	 * @param	array			An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 * @param	boolean  $cachable   If true, the view output will be cached
+	 * @param	array    $urlparams  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
 	 * @return	JController		This object to support chaining.
-	 * @since	2.5.2
+	 *
+	 * @since	2.5.4
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{
@@ -126,7 +133,7 @@ class JoomlaupdateControllerUpdate extends JController
 		if ($view = $this->getView($vName, $vFormat)) {
 			// Get the model for the view.
 			$model = $this->getModel('Default');
-			
+
 			// Push the model into the view (as default).
 			$view->setModel($model, true);
 			$view->setLayout($lName);
@@ -143,6 +150,8 @@ class JoomlaupdateControllerUpdate extends JController
 	 * Applies FTP credentials to Joomla! itself, when required
 	 * 
 	 * @return void
+	 *
+	 * @since	2.5.4
 	 */
 	protected function _applyCredentials()
 	{

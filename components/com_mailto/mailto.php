@@ -6,16 +6,14 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
 jimport('joomla.application.component.helper');
 
 require_once JPATH_COMPONENT.'/helpers/mailto.php';
 require_once JPATH_COMPONENT.'/controller.php';
 
-$controller = JController::getInstance('Mailto');
+$controller = JControllerLegacy::getInstance('Mailto');
 $controller->registerDefaultTask('mailto');
 $controller->execute(JRequest::getCmd('task'));
 

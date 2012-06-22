@@ -7,7 +7,6 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
 jimport('joomla.filesystem.file');
 require_once JPATH_INSTALLATION.'/helpers/database.php';
 
@@ -17,7 +16,7 @@ require_once JPATH_INSTALLATION.'/helpers/database.php';
  * @package		Joomla.Installation
  * @since		1.6
  */
-class JInstallationModelConfiguration extends JModel
+class JInstallationModelConfiguration extends JModelLegacy
 {
 	/**
 	 * @return boolean
@@ -28,12 +27,14 @@ class JInstallationModelConfiguration extends JModel
 		$options = JArrayHelper::toObject($options, 'JObject');
 
 		// Attempt to create the root user.
-		if (!$this->_createConfiguration($options)) {
+		if (!$this->_createConfiguration($options))
+		{
 			return false;
 		}
 
 		// Attempt to create the root user.
-		if (!$this->_createRootUser($options)) {
+		if (!$this->_createRootUser($options))
+		{
 			return false;
 		}
 
@@ -127,12 +128,12 @@ class JInstallationModelConfiguration extends JModel
 		// Generate the configuration class string buffer.
 		$buffer = $registry->toString('PHP', array('class'=>'JConfig', 'closingtag' => false));
 
-
 		// Build the configuration file path.
 		$path = JPATH_CONFIGURATION . '/configuration.php';
 
 		// Determine if the configuration file path is writable.
-		if (file_exists($path)) {
+		if (file_exists($path))
+		{
 			$canWrite = is_writable($path);
 		} else {
 			$canWrite = is_writable(JPATH_CONFIGURATION . '/');
@@ -143,21 +144,25 @@ class JInstallationModelConfiguration extends JModel
 		 * is not writable we need to use FTP
 		 */
 		$useFTP = false;
-		if ((file_exists($path) && !is_writable($path)) || (!file_exists($path) && !is_writable(dirname($path).'/'))) {
+		if ((file_exists($path) && !is_writable($path)) || (!file_exists($path) && !is_writable(dirname($path).'/')))
+		{
 			$useFTP = true;
 		}
 
 		// Check for safe mode
-		if (ini_get('safe_mode')) {
+		if (ini_get('safe_mode'))
+		{
 			$useFTP = true;
 		}
 
 		// Enable/Disable override
-		if (!isset($options->ftpEnable) || ($options->ftpEnable != 1)) {
+		if (!isset($options->ftpEnable) || ($options->ftpEnable != 1))
+		{
 			$useFTP = false;
 		}
 
-		if ($useFTP == true) {
+		if ($useFTP == true)
+		{
 			// Connect the FTP client
 			jimport('joomla.client.ftp');
 			jimport('joomla.filesystem.path');
@@ -169,19 +174,25 @@ class JInstallationModelConfiguration extends JModel
 			$file = JPath::clean(str_replace(JPATH_CONFIGURATION, $options->ftp_root, $path), '/');
 
 			// Use FTP write buffer to file
-			if (!$ftp->write($file, $buffer)) {
+			if (!$ftp->write($file, $buffer))
+			{
 				// Set the config string to the session.
 				$session = JFactory::getSession();
 				$session->set('setup.config', $buffer);
 			}
 
 			$ftp->quit();
-		} else {
-			if ($canWrite) {
+		}
+		else
+		{
+			if ($canWrite)
+			{
 				file_put_contents($path, $buffer);
 				$session = JFactory::getSession();
 				$session->set('setup.config', null);
-			} else {
+			}
+			else
+			{
 				// Set the config string to the session.
 				$session = JFactory::getSession();
 				$session->set('setup.config', $buffer);
@@ -208,6 +219,13 @@ class JInstallationModelConfiguration extends JModel
 		$crypt = JUserHelper::getCryptedPassword($options->admin_password, $salt);
 		$cryptpass = $crypt.':'.$salt;
 
+		// take the admin user id
+		JLoader::register('JInstallationModelDatabase', JPATH_INSTALLATION . '/models/database.php');
+		$userId = JInstallationModelDatabase::getUserId();
+		
+		//we don't need anymore the randUserId in the session, let's remove it
+		JInstallationModelDatabase::resetRandUserId();
+
 		// create the admin user
 		date_default_timezone_set('UTC');
 		$installdate	= date('Y-m-d H:i:s');
@@ -216,75 +234,89 @@ class JInstallationModelConfiguration extends JModel
 		$query = $db->getQuery(true);
 		$query->select('id');
 		$query->from('#__users');
-		$query->where('id = 42');
+		$query->where('id = ' . $db->quote($userId));
 
 		$db->setQuery($query);
 
-		if($db->loadResult())
+		if ($db->loadResult())
 		{
-		  $query = $db->getQuery(true);
-		  $query->update('#__users');
-		  $query->set('name = '.$db->quote('Super User'));
-		  $query->set('username = '.$db->quote($options->admin_user));
-		  $query->set('email = '.$db->quote($options->admin_email));
-		  $query->set('password = '.$db->quote($cryptpass));
-		  $query->set('usertype = '.$db->quote('deprecated'));
-		  $query->set('block = 0');
-		  $query->set('sendEmail = 1');
-		  $query->set('registerDate = '.$db->quote($installdate));
-		  $query->set('lastvisitDate = '.$db->quote($nullDate));
-		  $query->set('activation = '.$db->quote('0'));
-		  $query->set('params = '.$db->quote(''));
-		  $query->where('id = 42');
-		} else {
-		 $query = $db->getQuery(true);
-		  $columns =  array($db->quoteName('id'), $db->quoteName('name'), $db->quoteName('username'),
+			$query = $db->getQuery(true);
+			$query->update('#__users');
+			$query->set('name = '.$db->quote('Super User'));
+			$query->set('username = '.$db->quote($options->admin_user));
+			$query->set('email = '.$db->quote($options->admin_email));
+			$query->set('password = '.$db->quote($cryptpass));
+			$query->set('usertype = '.$db->quote('deprecated'));
+			$query->set('block = 0');
+			$query->set('sendEmail = 1');
+			$query->set('registerDate = '.$db->quote($installdate));
+			$query->set('lastvisitDate = '.$db->quote($nullDate));
+			$query->set('activation = '.$db->quote('0'));
+			$query->set('params = '.$db->quote(''));
+			$query->where('id = ' . $db->quote($userId));
+		}
+		else
+		{
+			$query = $db->getQuery(true);
+			$columns =  array($db->quoteName('id'), $db->quoteName('name'), $db->quoteName('username'),
 							$db->quoteName('email'), $db->quoteName('password'),
 							$db->quoteName('usertype'),
 							$db->quoteName('block'),
 							$db->quoteName('sendEmail'), $db->quoteName('registerDate'),
 							$db->quoteName('lastvisitDate'), $db->quoteName('activation'), $db->quoteName('params'));
-		  $query->insert('#__users', true);
-		  $query->columns($columns);
+			$query->insert('#__users', true);
+			$query->columns($columns);
 
-		  $query->values('42'. ', '. $db->quote('Super User'). ', '. $db->quote($options->admin_user). ', '.
-					$db->quote($options->admin_email). ', '. $db->quote($cryptpass). ', '. $db->quote('deprecated').', '.$db->quote('0').', '.$db->quote('1').', '.
-					$db->quote($installdate).', '.$db->quote($nullDate).', '.$db->quote('0').', '.$db->quote(''));
-	}
-	$db->setQuery($query);
-	if (!$db->query()) {
-		$this->setError($db->getErrorMsg());
-		return false;
-	}
+			$query->values($db->quote($userId) . ', '. $db->quote('Super User') . ', ' . $db->quote($options->admin_user) . ', '.
+				$db->quote($options->admin_email). ', '. $db->quote($cryptpass). ', '. $db->quote('deprecated').', '.$db->quote('0').', '.$db->quote('1').', '.
+				$db->quote($installdate).', '.$db->quote($nullDate).', '.$db->quote('0').', '.$db->quote(''));
+		}
 
-	// Map the super admin to the Super Admin Group
-	$query = $db->getQuery(true);
-	$query->select('user_id');
-	$query->from('#__user_usergroup_map');
-	$query->where('user_id = 42');
+		$db->setQuery($query);
+		try
+		{
+			$db->execute();
+		}
+		catch (RuntimeException $e)
+		{
+			$this->setError($e->getMessage());
+			return false;
+		}
 
-	$db->setQuery($query);
+		// Map the super admin to the Super Admin Group
+		$query = $db->getQuery(true);
+		$query->select('user_id');
+		$query->from('#__user_usergroup_map');
+		$query->where('user_id = ' . $db->quote($userId));
 
-    if($db->loadResult())
-    {
-      $query = $db->getQuery(true);
-      $query->update('#__user_usergroup_map');
-      $query->set('user_id = 42');
-      $query->set('group_id = 8');
-    } else {
-      $query = $db->getQuery(true);
-      $query->insert('#__user_usergroup_map', false);
-	  $query->columns(array($db->quoteName('user_id'), $db->quoteName('group_id')));
-	  $query->values('42'. ', '. '8');
+		$db->setQuery($query);
 
-    }
+		if ($db->loadResult())
+		{
+			$query = $db->getQuery(true);
+			$query->update('#__user_usergroup_map');
+			$query->set('user_id = ' . $db->quote($userId));
+			$query->set('group_id = 8');
+		}
+		else
+		{
+			$query = $db->getQuery(true);
+			$query->insert('#__user_usergroup_map', false);
+			$query->columns(array($db->quoteName('user_id'), $db->quoteName('group_id')));
+			$query->values($userId. ', '. '8');
+		}
 
-	$db->setQuery($query);
-	if (!$db->query()) {
-		$this->setError($db->getErrorMsg());
-		return false;
-	}
+		$db->setQuery($query);
+		try
+		{
+			$db->execute();
+		}
+		catch (RuntimeException $e)
+		{
+			$this->setError($e->getMessage());
+			return false;
+		}
 
-	return true;
+		return true;
 	}
 }

@@ -1,10 +1,12 @@
 <?php
 /**
- * PHPMailer language file.
- * English Version
+ * @package     Joomla.Platform
+ * @subpackage  Mail
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-// no direct access
 defined('JPATH_PLATFORM') or die;
 
 $PHPMAILER_LANG["authenticate"] = JText::_('PHPMAILER_AUTHENTICATE');

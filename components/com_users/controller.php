@@ -8,8 +8,6 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
-
 /**
  * Base controller class for Users.
  *
@@ -17,7 +15,7 @@ jimport('joomla.application.component.controller');
  * @subpackage	com_users
  * @since		1.5
  */
-class UsersController extends JController
+class UsersController extends JControllerLegacy
 {
 	/**
 	 * Method to display a view.

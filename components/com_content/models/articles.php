@@ -4,7 +4,6 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.modellist');
@@ -67,11 +66,9 @@ class ContentModelArticles extends JModelList
 		$app = JFactory::getApplication();
 
 		// List state information
-		//$value = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'));
 		$value = JRequest::getUInt('limit', $app->getCfg('list_limit', 0));
 		$this->setState('list.limit', $value);
 
-		//$value = $app->getUserStateFromRequest($this->context.'.limitstart', 'limitstart', 0);
 		$value = JRequest::getUInt('limitstart', 0);
 		$this->setState('list.start', $value);
 
@@ -204,6 +201,23 @@ class ContentModelArticles extends JModelList
 		// Define the basic group by list
 		$groupstring = 'a.id, a.title, a.alias, a.title_alias, a.introtext, a.checked_out, a.checked_out_time, a.catid, a.created, a.created_by, a.created_by_alias, a.created, a.modified, a.modified_by, uam.name, a.publish_up, a.attribs, a.metadata, a.metakey, a.metadesc, a.access, a.hits, a.xreference, a.featured, a.fulltext, a.state, a.publish_down, badcats.id, c.title, c.path, c.access, c.alias, uam.id, ua.name, ua.email, c.published, c.lft, a.ordering, fp.ordering, c.id, a.images, a.urls';
 
+		// Join on contact table
+		$subQuery = $db->getQuery(true);
+		$subQuery->select('contact.user_id, MAX(contact.id) AS id, contact.language');
+		$subQuery->from('#__contact_details AS contact');
+		$subQuery->where('contact.published = 1');
+		$subQuery->group('contact.user_id, contact.language');
+		$query->select('contact.id as contactid' );
+		$query->join('LEFT', '(' . $subQuery . ') AS contact ON contact.user_id = a.created_by');
+
+		// Join over the categories to get parent category titles
+		$query->select('parent.title as parent_title, parent.id as parent_id, parent.path as parent_route, parent.alias as parent_alias');
+		$query->join('LEFT', '#__categories as parent ON parent.id = c.parent_id');
+
+		// Join on voting table
+		$query->select('ROUND(v.rating_sum / v.rating_count, 0) AS rating, v.rating_count as rating_count');
+		$query->join('LEFT', '#__content_rating AS v ON a.id = v.content_id');
+
 		if ($params->get('link_author') != '0')
 		{
 			// Join on contact table
@@ -252,6 +266,7 @@ class ContentModelArticles extends JModelList
 			$user	= JFactory::getUser();
 			$groups	= implode(',', $user->getAuthorisedViewLevels());
 			$query->where('a.access IN ('.$groups.')');
+			$query->where('c.access IN ('.$groups.')');
 		}
 
 		// Filter by published state

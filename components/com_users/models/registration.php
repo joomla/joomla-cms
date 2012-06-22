@@ -92,22 +92,26 @@ class UsersModelRegistration extends JModelForm
 			);
 
 			// get all admin users
-			$query = 'SELECT name, email, sendEmail' .
+			$query = 'SELECT name, email, sendEmail, id' .
 						' FROM #__users' .
 						' WHERE sendEmail=1';
 
 			$db->setQuery( $query );
 			$rows = $db->loadObjectList();
 
-			// Send mail to all superadministrators id
+			// Send mail to all users with users creating permissions and receiving system emails
 			foreach( $rows as $row )
 			{
-				$return = JFactory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $row->email, $emailSubject, $emailBody);
+				$usercreator = JFactory::getUser($id = $row->id);
+				if ($usercreator->authorise('core.create', 'com_users'))
+				{
+					$return = JFactory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $row->email, $emailSubject, $emailBody);
 
-				// Check for an error.
-				if ($return !== true) {
-					$this->setError(JText::_('COM_USERS_REGISTRATION_ACTIVATION_NOTIFY_SEND_MAIL_FAILED'));
-					return false;
+					// Check for an error.
+					if ($return !== true) {
+						$this->setError(JText::_('COM_USERS_REGISTRATION_ACTIVATION_NOTIFY_SEND_MAIL_FAILED'));
+						return false;
+					}
 				}
 			}
 		}

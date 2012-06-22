@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
-
 /**
  * Suggestions JSON controller for Finder.
  *
@@ -18,7 +16,7 @@ jimport('joomla.application.component.controller');
  * @subpackage  com_finder
  * @since       2.5
  */
-class FinderControllerSuggestions extends JController
+class FinderControllerSuggestions extends JControllerLegacy
 {
 	/**
 	 * Method to find search query suggestions.

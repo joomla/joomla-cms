@@ -42,11 +42,10 @@ class Security0001Test extends SeleniumJoomlaTestCase
 		$this->open($link);
 		$this->waitForPageToLoad("30000");
 		$this->assertTrue($this->isElementPresent("//link[contains(@href,\"<script>\")]"));
-
 		print("Finish testXSS" . "\n");
 		$this->deleteAllVisibleCookies();
 	}
-	
+
 	function testPathDisclosure() {
 		print("Start testPathDisclosure" . "\n");
 		$this->setUp();
@@ -56,9 +55,13 @@ class Security0001Test extends SeleniumJoomlaTestCase
 		$this->open($link);
 		$this->waitForPageToLoad("30000");
 		$this->assertFalse($this->isTextPresent("Fatal error"));
+		$link = $this->cfg->path . 'index.php/using-joomla/extensions/components/content-component/article-category-list?start=-10';
+		$this->open($link, "true");
+		$this->waitForPageToLoad("30000");
+		$this->assertFalse($this->isElementPresent("//div[@class='error']"));
 		print("Finish testPathDisclosure" . "\n");
 		$this->deleteAllVisibleCookies();
-		
+
 	}
 
 }

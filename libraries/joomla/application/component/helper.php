@@ -27,15 +27,6 @@ class JComponentHelper
 	protected static $components = array();
 
 	/**
-	 * The component list cache
-	 *
-	 * @var    array
-	 * @since  11.1
-	 * @deprecated use $components declare as private
-	 */
-	protected static $_components = array();
-
-	/**
 	 * Get the component information.
 	 *
 	 * @param   string   $option  The component option.
@@ -106,7 +97,7 @@ class JComponentHelper
 	/**
 	 * Applies the global text filters to arbitrary text as per settings for current user groups
 	 *
-	 * @param   text  $text  The string to filter
+	 * @param   string  $text  The string to filter
 	 *
 	 * @return  string  The filtered string
 	 *
@@ -269,7 +260,8 @@ class JComponentHelper
 			// White lists take third precedence.
 			elseif ($whiteList)
 			{
-				$filter	= JFilterInput::getInstance($whiteListTags, $whiteListAttributes, 0, 0, 0);  // turn off xss auto clean
+				// Turn off xss auto clean
+				$filter	= JFilterInput::getInstance($whiteListTags, $whiteListAttributes, 0, 0, 0);
 			}
 			// No HTML takes last place.
 			else
@@ -315,6 +307,7 @@ class JComponentHelper
 
 		// Record the scope
 		$scope = $app->scope;
+
 		// Set scope to component name
 		$app->scope = $option;
 
@@ -330,6 +323,7 @@ class JComponentHelper
 		// Get component path
 		if ($app->isAdmin() && file_exists(JPATH_COMPONENT . '/admin.' . $file . '.php'))
 		{
+			JLog::add('Files in the format admin.COMPONENTNAME.php are considered deprecated and will not be loaded in Joomla 3.0.', JLog::WARNING, 'deprecated');
 			$path = JPATH_COMPONENT . '/admin.' . $file . '.php';
 		}
 		else
@@ -360,6 +354,7 @@ class JComponentHelper
 		$path = JApplicationHelper::getPath('toolbar');
 		if ($path && $app->isAdmin())
 		{
+			JLog::add('Files in the format toolbar.COMPONENTNAME.php are considered deprecated and will not be loaded in Joomla 3.0.', JLog::WARNING, 'deprecated');
 			// Get the task again, in case it has changed
 			$task = JRequest::getString('task');
 
@@ -392,7 +387,7 @@ class JComponentHelper
 	}
 
 	/**
-	 * Load the installed components into the _components property.
+	 * Load the installed components into the components property.
 	 *
 	 * @param   string  $option  The element value for the extension
 	 *

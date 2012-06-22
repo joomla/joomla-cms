@@ -71,7 +71,33 @@ class JFormFieldMedia extends JFormField
 			$script[] = '			if (typeof(elem.onchange) === "function") {';
 			$script[] = '				elem.onchange();';
 			$script[] = '			}';
+			$script[] = '			jMediaRefreshPreview(id);';
 			$script[] = '		}';
+			$script[] = '	}';
+
+			$script[] = '	function jMediaRefreshPreview(id) {';
+			$script[] = '		var value = document.id(id).value;';
+			$script[] = '		var img = document.id(id + "_preview");';
+			$script[] = '		if (img) {';
+			$script[] = '			if (value) {';
+			$script[] = '				img.src = "' . JURI::root() . '" + value;';
+			$script[] = '				document.id(id + "_preview_empty").setStyle("display", "none");';
+			$script[] = '				document.id(id + "_preview_img").setStyle("display", "");';
+			$script[] = '			} else { ';
+			$script[] = '				img.src = ""';
+			$script[] = '				document.id(id + "_preview_empty").setStyle("display", "");';
+			$script[] = '				document.id(id + "_preview_img").setStyle("display", "none");';
+			$script[] = '			} ';
+			$script[] = '		} ';
+			$script[] = '	}';
+
+			$script[] = '	function jMediaRefreshPreviewTip(tip)';
+			$script[] = '	{';
+			$script[] = '		tip.setStyle("display", "block");';
+			$script[] = '		var img = tip.getElement("img.media-preview");';
+			$script[] = '		var id = img.getProperty("id");';
+			$script[] = '		id = id.substring(0, id.length - "_preview".length);';
+			$script[] = '		jMediaRefreshPreview(id);';
 			$script[] = '	}';
 
 			// Add the script to the document head.
@@ -135,6 +161,69 @@ class JFormFieldMedia extends JFormField
 		$html[] = JText::_('JLIB_FORM_BUTTON_CLEAR') . '</a>';
 		$html[] = '	</div>';
 		$html[] = '</div>';
+
+		// The Preview.
+		$preview = (string) $this->element['preview'];
+		$showPreview = true;
+		$showAsTooltip = false;
+		switch ($preview)
+		{
+			case 'false':
+			case 'none':
+				$showPreview = false;
+				break;
+			case 'true':
+			case 'show':
+				break;
+			case 'tooltip':
+			default:
+				$showAsTooltip = true;
+				$options = array(
+					'onShow' => 'jMediaRefreshPreviewTip',
+				);
+				JHtml::_('behavior.tooltip', '.hasTipPreview', $options);
+				break;
+		}
+
+		if ($showPreview)
+		{
+			if ($this->value && file_exists(JPATH_ROOT . '/' . $this->value))
+			{
+				$src = JURI::root() . $this->value;
+			}
+			else
+			{
+				$src = '';
+			}
+
+			$attr = array(
+				'id' => $this->id . '_preview',
+				'class' => 'media-preview',
+				'style' => 'max-width:160px; max-height:100px;'
+			);
+			$img = JHtml::image($src, JText::_('JLIB_FORM_MEDIA_PREVIEW_ALT'), $attr);
+			$previewImg = '<div id="' . $this->id . '_preview_img"' . ($src ? '' : ' style="display:none"') . '>' . $img . '</div>';
+			$previewImgEmpty = '<div id="' . $this->id . '_preview_empty"' . ($src ? ' style="display:none"' : '') . '>'
+				. JText::_('JLIB_FORM_MEDIA_PREVIEW_EMPTY') . '</div>';
+
+			$html[] = '<div class="media-preview fltlft">';
+			if ($showAsTooltip)
+			{
+				$tooltip = $previewImgEmpty . $previewImg;
+				$options = array(
+					'title' => JText::_('JLIB_FORM_MEDIA_PREVIEW_SELECTED_IMAGE'),
+					'text' => JText::_('JLIB_FORM_MEDIA_PREVIEW_TIP_TITLE'),
+					'class' => 'hasTipPreview'
+				);
+				$html[] = JHtml::tooltip($tooltip, $options);
+			}
+			else
+			{
+				$html[] = ' ' . $previewImgEmpty;
+				$html[] = ' ' . $previewImg;
+			}
+			$html[] = '</div>';
+		}
 
 		return implode("\n", $html);
 	}

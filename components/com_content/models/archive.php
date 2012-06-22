@@ -115,7 +115,7 @@ class ContentModelArchive extends JModelList
 		// Get list limit
 		$app = JFactory::getApplication();
 		$itemid = JRequest::getInt('Itemid', 0);
-		$limit = $app->getUserStateFromRequest('com_content.archive.list' . $itemid . '.limit', 'limit', $params->get('display_num'));
+		$limit = $app->getUserStateFromRequest('com_content.archive.list' . $itemid . '.limit', 'limit', $params->get('display_num'), 'uint');
 		$this->setState('list.limit', $limit);
 
 		$this->setState('filter.language', $app->getLanguageFilter());
@@ -296,8 +296,8 @@ class ContentModelArchive extends JModelList
 			$params = $app->getParams();
 
 			// Get the pagination request variables
-			$limit		= JRequest::getVar('limit', $params->get('display_num', 20), '', 'int');
-			$limitstart	= JRequest::getVar('limitstart', 0, '', 'int');
+			$limit		= JRequest::getUInt('limit', $params->get('display_num', 20));
+			$limitstart	= JRequest::getUInt('limitstart', 0);
 
 			$query = $this->_buildQuery();
 

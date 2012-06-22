@@ -7,7 +7,6 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
 jimport('joomla.filesystem.file');
 require_once JPATH_INSTALLATION.'/helpers/database.php';
 
@@ -17,10 +16,40 @@ require_once JPATH_INSTALLATION.'/helpers/database.php';
  * @package		Joomla.Installation
  * @since		1.6
  */
-class JInstallationModelDatabase extends JModel
+class JInstallationModelDatabase extends JModelLegacy
 {
 
-	function initialise($options)
+	static protected $userId = 0;
+
+	static protected function generateRandUserId()
+	{
+		$session = JFactory::getSession();
+		$randUserId = $session->get('randUserId');
+		if (empty($randUserId)) {
+			// Create the ID for the root user only once and store in session
+			$randUserId = mt_rand(1, 1000);
+			$session->set('randUserId', $randUserId);
+		}
+		return $randUserId;
+		
+	}
+	
+	static public function resetRandUserId()
+	{
+		self::$userId = 0;
+		$session = JFactory::getSession();
+		$session->set('randUserId', self::$userId);
+	}
+	
+	static public function getUserId()
+	{
+		if (!self::$userId) {
+			self::$userId = self::generateRandUserId();
+		}
+		return self::$userId;
+	}
+	
+	public function initialise($options)
 	{
 		// Get the options as a JObject for easier handling.
 		$options = JArrayHelper::toObject($options, 'JObject');
@@ -83,18 +112,19 @@ class JInstallationModelDatabase extends JModel
 
 			// Check database version.
 			$db_version = $db->getVersion();
-			if (($position = strpos($db_version, '-')) !== false) {
-				$db_version = substr($db_version, 0, $position);
+			$type = $options->db_type;
+
+			if (!$db->isMinimumVersion()) {
+				$this->setError(JText::sprintf('INSTL_DATABASE_INVALID_'.strtoupper($type).'_VERSION', $db_version));
+				return false;
 			}
 
-			if (!version_compare($db_version, '5.0.4', '>=')) {
-				$this->setError(JText::sprintf('INSTL_DATABASE_INVALID_MYSQL_VERSION', $db_version));
-				return false;
-			}
-			// @internal MySQL versions pre 5.1.6 forbid . / or \ or NULL
-			if ((preg_match('#[\\\/\.\0]#', $options->db_name)) && (!version_compare($db_version, '5.1.6', '>='))) {
-				$this->setError(JText::sprintf('INSTL_DATABASE_INVALID_NAME', $db_version));
-				return false;
+			if ($type == ('mysql' || 'mysqli')) {
+				// @internal MySQL versions pre 5.1.6 forbid . / or \ or NULL
+				if ((preg_match('#[\\\/\.\0]#', $options->db_name)) && (!version_compare($db_version, '5.1.6', '>='))) {
+					$this->setError(JText::sprintf('INSTL_DATABASE_INVALID_NAME', $db_version));
+					return false;
+				}
 			}
 
 			// @internal Check for spaces in beginning or end of name
@@ -144,14 +174,17 @@ class JInstallationModelDatabase extends JModel
 			}
 
 			// Set the appropriate schema script based on UTF-8 support.
-			$type = $options->db_type;
 			if ($type == 'mysqli' || $type == 'mysql')
 			{
-				$schema = 'sql/'.(($type == 'mysqli') ? 'mysql' : $type).'/joomla.sql';
+				$schema = 'sql/mysql/joomla.sql';
 			}
 			elseif ($type == 'sqlsrv' || $type == 'sqlazure')
 			{
-				$schema = 'sql/'.(($type == 'sqlsrv') ? 'sqlazure' : $type).'/joomla.sql';
+				$schema = 'sql/sqlazure/joomla.sql';
+			}
+			else
+			{
+				$schema = 'sql/'. $type . '/joomla.sql';
 			}
 			// Check if the schema is a valid file
 			if (!JFile::exists($schema)) {
@@ -188,7 +221,7 @@ class JInstallationModelDatabase extends JModel
 
 			try
 			{
-				$db->query();
+				$db->execute();
 			}
 			catch (RuntimeException $e)
 			{
@@ -265,7 +298,7 @@ class JInstallationModelDatabase extends JModel
 
 				try
 				{
-					$db->query();
+					$db->execute();
 				}
 				catch (RuntimeException $e)
 				{
@@ -314,8 +347,38 @@ class JInstallationModelDatabase extends JModel
 			$this->setError(JText::sprintf('INSTL_ERROR_DB', $this->getError()));
 			return false;
 		}
+		
+		$this->postInstallSampleData($db);
 
 		return true;
+	}
+
+	/**
+	 * method to update the user id of the sample data content to the new rand user id
+	 * 
+	 * @param Database connector object $db 
+	 */
+	protected function postInstallSampleData($db) {
+		// Create the ID for the root user
+		$userId = self::getUserId();
+		
+		// update all created_by field of the tables with the random user id
+		// categories (created_user_id), contact_details, content, newsfeeds, weblinks
+		$updates_array = array(
+			'categories' => 'created_user_id',
+			'contact_details' => 'created_by',
+			'content' => 'created_by',
+			'newsfeeds' => 'created_by',
+			'weblinks' => 'created_by',
+		);
+		foreach ($updates_array as $table => $field) {
+			$db->setQuery(
+				'UPDATE '.$db->quoteName('#__' . $table) .
+				' SET '.$db->quoteName($field).' = '.$db->Quote($userId)
+			);
+			$db->query();
+		}
+
 	}
 
 	/**
@@ -391,7 +454,7 @@ class JInstallationModelDatabase extends JModel
 
 		try
 		{
-			$db->query();
+			$db->execute();
 		}
 		catch (RuntimeException $e)
 		{
@@ -476,7 +539,7 @@ class JInstallationModelDatabase extends JModel
 
 				try
 				{
-					$db->query();
+					$db->execute();
 				}
 				catch (RuntimeException $e)
 				{
@@ -508,7 +571,7 @@ class JInstallationModelDatabase extends JModel
 
 		try
 		{
-			$db->query();
+			$db->execute();
 		}
 		catch (RuntimeException $e)
 		{

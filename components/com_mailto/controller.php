@@ -6,18 +6,14 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.controller');
 
 /**
  * @package		Joomla.Site
  * @subpackage	com_mailto
  */
-class MailtoController extends JController
+class MailtoController extends JControllerLegacy
 {
-
 	/**
 	 * Show the form so that the user can send the link to someone
 	 *

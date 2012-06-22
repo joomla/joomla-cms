@@ -50,6 +50,12 @@ class JDatabaseSQLSrv extends JDatabase
 	protected $nullDate = '1900-01-01 00:00:00';
 
 	/**
+	 * @var    string  The minimum supported database version.
+	 * @since  12.1
+	 */
+	protected $dbMinimum = '10.50.1600.1';
+
+	/**
 	 * Test to see if the SQLSRV connector is available.
 	 *
 	 * @return  boolean  True on success, false otherwise.
@@ -183,7 +189,7 @@ class JDatabaseSQLSrv extends JDatabase
 		foreach ($constraints as $constraint)
 		{
 			$this->setQuery('sp_rename ' . $constraint . ',' . str_replace($prefix, $backup, $constraint));
-			$this->query();
+			$this->execute();
 		}
 	}
 
@@ -207,7 +213,7 @@ class JDatabaseSQLSrv extends JDatabase
 		$result = str_replace('\"', '"', $result);
 		$result = str_replace('\\\/', '/', $result);
 		$result = str_replace('\\\\', '\\', $result);
-		
+
 
 		if ($extra)
 		{
@@ -257,7 +263,7 @@ class JDatabaseSQLSrv extends JDatabase
 			$this->setQuery('DROP TABLE ' . $tableName);
 		}
 
-		$this->query();
+		$this->execute();
 
 		return $this;
 	}
@@ -489,8 +495,8 @@ class JDatabaseSQLSrv extends JDatabase
 	 */
 	public function getVersion()
 	{
-		//TODO: Don't hardcode this.
-		return '5.1.0';
+		$version = sqlsrv_server_info($this->connection);
+		return $version['SQLServerVersion'];
 	}
 
 	/**
@@ -546,7 +552,7 @@ class JDatabaseSQLSrv extends JDatabase
 		}
 		// Set the query and execute the insert.
 		$this->setQuery(sprintf($statement, implode(',', $fields), implode(',', $values)));
-		if (!$this->query())
+		if (!$this->execute())
 		{
 			return false;
 		}
@@ -586,7 +592,7 @@ class JDatabaseSQLSrv extends JDatabase
 		$ret = null;
 
 		// Execute the query and get the result set cursor.
-		if (!($cursor = $this->query()))
+		if (!($cursor = $this->execute()))
 		{
 			return null;
 		}
@@ -612,7 +618,7 @@ class JDatabaseSQLSrv extends JDatabase
 	 * @since   11.1
 	 * @throws  JDatabaseException
 	 */
-	public function query()
+	public function execute()
 	{
 		if (!is_resource($this->connection))
 		{
@@ -855,7 +861,7 @@ class JDatabaseSQLSrv extends JDatabase
 	public function transactionCommit()
 	{
 		$this->setQuery('COMMIT TRANSACTION');
-		$this->query();
+		$this->execute();
 	}
 
 	/**
@@ -869,7 +875,7 @@ class JDatabaseSQLSrv extends JDatabase
 	public function transactionRollback()
 	{
 		$this->setQuery('ROLLBACK TRANSACTION');
-		$this->query();
+		$this->execute();
 	}
 
 	/**
@@ -883,7 +889,7 @@ class JDatabaseSQLSrv extends JDatabase
 	public function transactionStart()
 	{
 		$this->setQuery('START TRANSACTION');
-		$this->query();
+		$this->execute();
 	}
 
 	/**
@@ -962,11 +968,11 @@ class JDatabaseSQLSrv extends JDatabase
 
 		// SET SHOWPLAN_ALL ON - will make sqlsrv to show some explain of query instead of run it
 		$this->setQuery('SET SHOWPLAN_ALL ON');
-		$this->query();
+		$this->execute();
 
 		// Execute the query and get the result set cursor.
 		$this->setQuery($backup);
-		if (!($cursor = $this->query()))
+		if (!($cursor = $this->execute()))
 		{
 			return null;
 		}
@@ -1001,7 +1007,7 @@ class JDatabaseSQLSrv extends JDatabase
 
 		// Remove the explain status.
 		$this->setQuery('SET SHOWPLAN_ALL OFF');
-		$this->query();
+		$this->execute();
 
 		// Restore the original query to its state before we ran the explain.
 		$this->sql = $backup;
@@ -1149,7 +1155,7 @@ class JDatabaseSQLSrv extends JDatabase
 
 		$this->setQuery("sp_rename '" . $oldTable . "', '" . $newTable . "'");
 
-		return $this->query();
+		return $this->execute();
 	}
 
 	/**

@@ -678,25 +678,22 @@ abstract class JHtmlBehavior
 				if (Browser.opera && (Browser.version >= 11.5)) {
 					nativeColorUi = true;
 				}
-				var elems = $$('.input-colorpicker');
-				elems.each(function(item){
+				$$('.input-colorpicker').each(function(item){
 					if (nativeColorUi) {
 						item.type = 'color';
 					} else {
-						new MooRainbow(item,
-						{
-							imgPath: '" . JURI::root(true)
-			. "/media/system/images/mooRainbow/',
+						new MooRainbow(item, {
+							id: item.id,
+							imgPath: '" . JURI::root(true) . "/media/system/images/mooRainbow/',
 							onComplete: function(color) {
 								this.element.value = color.hex;
 							},
-							startColor: item.value.hexToRgb(true)
+							startColor: item.value.hexToRgb(true) ? item.value.hexToRgb(true) : [0, 0, 0]
 						});
 					}
 				});
 			});
-		"
-		);
+		");
 
 		self::$loaded[__METHOD__] = true;
 	}

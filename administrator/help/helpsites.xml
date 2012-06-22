@@ -3,9 +3,6 @@
 	<sites>
 		<site
 			tag="en-GB"
-			url="http://help.joomla.org/proxy/index.php?option=com_help&amp;keyref=Help16:{keyref}">English (GB) - Joomla help wiki 1.6</site>
-		<site
-			tag="en-GB"
 			url="http://help.joomla.org/proxy/index.php?option=com_help&amp;keyref=Help{major}{minor}:{keyref}">English (GB) - Joomla help wiki</site>
 	</sites>
 </joshelp>

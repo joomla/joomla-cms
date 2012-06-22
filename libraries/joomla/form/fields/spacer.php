@@ -64,6 +64,7 @@ class JFormFieldSpacer extends JFormField
 		else
 		{
 			$label = '';
+
 			// Get the label text from the XML element, defaulting to the element name.
 			$text = $this->element['label'] ? (string) $this->element['label'] : (string) $this->element['name'];
 			$text = $this->translateLabel ? JText::_($text) : $text;

@@ -6,12 +6,10 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
-require_once JPATH_COMPONENT.'/helpers/route.php';
+require_once JPATH_COMPONENT . '/helpers/route.php';
 
-$controller = JController::getInstance('Contact');
+$controller = JControllerLegacy::getInstance('Contact');
 $controller->execute(JRequest::getCmd('task'));
 $controller->redirect();

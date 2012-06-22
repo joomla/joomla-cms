@@ -82,7 +82,7 @@ class JInstallerFile extends JAdapterInstance
 		if ($this->extensionExistsInSystem($element))
 		{
 			// Package with same name already exists
-			if (!$this->parent->getOverwrite())
+			if (!$this->parent->isOverwrite())
 			{
 				// we're not overwriting so abort
 				$this->parent->abort(JText::_('JLIB_INSTALLER_ABORT_FILE_SAME_NAME'));
@@ -201,7 +201,7 @@ class JInstallerFile extends JAdapterInstance
 		$db->setQuery($query);
 		try
 		{
-			$db->Query();
+			$db->execute();
 		}
 		catch (JException $e)
 		{
@@ -495,7 +495,7 @@ class JInstallerFile extends JAdapterInstance
 				->from('#__schemas')
 				->where('extension_id = ' . $row->extension_id);
 			$db->setQuery($query);
-			$db->Query();
+			$db->execute();
 
 			// Set root folder names
 			$packagePath = $this->parent->getPath('source');
@@ -588,7 +588,7 @@ class JInstallerFile extends JAdapterInstance
 
 		try
 		{
-			$db->Query();
+			$db->execute();
 		}
 		catch (JException $e)
 		{

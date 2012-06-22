@@ -101,7 +101,7 @@ class JForm
 	public function bind($data)
 	{
 		// Make sure there is a valid JForm XML document.
-		if (!($this->xml instanceof JXMLElement))
+		if (!($this->xml instanceof SimpleXMLElement))
 		{
 			return false;
 		}
@@ -196,7 +196,7 @@ class JForm
 	public function filter($data, $group = null)
 	{
 		// Make sure there is a valid JForm XML document.
-		if (!($this->xml instanceof JXMLElement))
+		if (!($this->xml instanceof SimpleXMLElement))
 		{
 			return false;
 		}
@@ -272,7 +272,7 @@ class JForm
 	public function getField($name, $group = null, $value = null)
 	{
 		// Make sure there is a valid JForm XML document.
-		if (!($this->xml instanceof JXMLElement))
+		if (!($this->xml instanceof SimpleXMLElement))
 		{
 			return false;
 		}
@@ -305,7 +305,7 @@ class JForm
 	public function getFieldAttribute($name, $attribute, $default = null, $group = null)
 	{
 		// Make sure there is a valid JForm XML document.
-		if (!($this->xml instanceof JXMLElement))
+		if (!($this->xml instanceof SimpleXMLElement))
 		{
 			// TODO: throw exception.
 
@@ -316,7 +316,7 @@ class JForm
 		$element = $this->findField($name, $group);
 
 		// If the element exists and the attribute exists for the field return the attribute value.
-		if (($element instanceof JXMLElement) && ((string) $element[$attribute]))
+		if (($element instanceof SimpleXMLElement) && ((string) $element[$attribute]))
 		{
 			return (string) $element[$attribute];
 		}
@@ -393,7 +393,7 @@ class JForm
 		$sets = array();
 
 		// Make sure there is a valid JForm XML document.
-		if (!($this->xml instanceof JXMLElement))
+		if (!($this->xml instanceof SimpleXMLElement))
 		{
 			return $fieldsets;
 		}
@@ -643,7 +643,7 @@ class JForm
 	public function load($data, $replace = true, $xpath = false)
 	{
 		// If the data to load isn't already an XML element or string return false.
-		if ((!($data instanceof JXMLElement)) && (!is_string($data)))
+		if ((!($data instanceof SimpleXMLElement)) && (!is_string($data)))
 		{
 			return false;
 		}
@@ -712,11 +712,14 @@ class JForm
 				if ($current = $this->findField((string) $field['name'], implode('.', $groups)))
 				{
 
-					// If set to replace found fields remove it from the current definition.
+					// If set to replace found fields, replace the data and remove the field so we don't add it twice.
 					if ($replace)
 					{
-						$dom = dom_import_simplexml($current);
-						$dom->parentNode->removeChild($dom);
+						$olddom = dom_import_simplexml($current);
+						$loadeddom = dom_import_simplexml($field);
+						$addeddom = $olddom->ownerDocument->importNode($loadeddom);
+						$olddom->parentNode->replaceChild($addeddom, $olddom);
+						$loadeddom->parentNode->removeChild($loadeddom);
 					}
 					else
 					{
@@ -786,7 +789,7 @@ class JForm
 	public function removeField($name, $group = null)
 	{
 		// Make sure there is a valid JForm XML document.
-		if (!($this->xml instanceof JXMLElement))
+		if (!($this->xml instanceof SimpleXMLElement))
 		{
 			// TODO: throw exception.
 			return false;
@@ -796,7 +799,7 @@ class JForm
 		$element = $this->findField($name, $group);
 
 		// If the element exists remove it from the form definition.
-		if ($element instanceof JXMLElement)
+		if ($element instanceof SimpleXMLElement)
 		{
 			$dom = dom_import_simplexml($element);
 			$dom->parentNode->removeChild($dom);
@@ -817,7 +820,7 @@ class JForm
 	public function removeGroup($group)
 	{
 		// Make sure there is a valid JForm XML document.
-		if (!($this->xml instanceof JXMLElement))
+		if (!($this->xml instanceof SimpleXMLElement))
 		{
 			// TODO: throw exception.
 			return false;
@@ -873,7 +876,7 @@ class JForm
 	public function setField(&$element, $group = null, $replace = true)
 	{
 		// Make sure there is a valid JForm XML document.
-		if (!($this->xml instanceof JXMLElement))
+		if (!($this->xml instanceof SimpleXMLElement))
 		{
 			// TODO: throw exception.
 
@@ -881,7 +884,7 @@ class JForm
 		}
 
 		// Make sure the element to set is valid.
-		if (!($element instanceof JXMLElement))
+		if (!($element instanceof SimpleXMLElement))
 		{
 			// TODO: throw exception.
 
@@ -899,7 +902,7 @@ class JForm
 		}
 
 		// If an existing field is found and replace flag is true remove the old field.
-		if ($replace && !empty($old) && ($old instanceof JXMLElement))
+		if ($replace && !empty($old) && ($old instanceof SimpleXMLElement))
 		{
 			$dom = dom_import_simplexml($old);
 			$dom->parentNode->removeChild($dom);
@@ -913,7 +916,7 @@ class JForm
 			$fields = &$this->findGroup($group);
 
 			// If an appropriate fields element was found for the group, add the element.
-			if (isset($fields[0]) && ($fields[0] instanceof JXMLElement))
+			if (isset($fields[0]) && ($fields[0] instanceof SimpleXMLElement))
 			{
 				self::addNode($fields[0], $element);
 			}
@@ -945,7 +948,7 @@ class JForm
 	public function setFieldAttribute($name, $attribute, $value, $group = null)
 	{
 		// Make sure there is a valid JForm XML document.
-		if (!($this->xml instanceof JXMLElement))
+		if (!($this->xml instanceof SimpleXMLElement))
 		{
 			// TODO: throw exception.
 
@@ -956,7 +959,7 @@ class JForm
 		$element = $this->findField($name, $group);
 
 		// If the element doesn't exist return false.
-		if (!($element instanceof JXMLElement))
+		if (!($element instanceof SimpleXMLElement))
 		{
 
 			return false;
@@ -989,7 +992,7 @@ class JForm
 	public function setFields(&$elements, $group = null, $replace = true)
 	{
 		// Make sure there is a valid JForm XML document.
-		if (!($this->xml instanceof JXMLElement))
+		if (!($this->xml instanceof SimpleXMLElement))
 		{
 			// TODO: throw exception.
 
@@ -999,7 +1002,7 @@ class JForm
 		// Make sure the elements to set are valid.
 		foreach ($elements as $element)
 		{
-			if (!($element instanceof JXMLElement))
+			if (!($element instanceof SimpleXMLElement))
 			{
 				// TODO: throw exception.
 
@@ -1074,7 +1077,7 @@ class JForm
 	public function validate($data, $group = null)
 	{
 		// Make sure there is a valid JForm XML document.
-		if (!($this->xml instanceof JXMLElement))
+		if (!($this->xml instanceof SimpleXMLElement))
 		{
 			return false;
 		}
@@ -1151,8 +1154,8 @@ class JForm
 	 */
 	protected function filterField($element, $value)
 	{
-		// Make sure there is a valid JXMLElement.
-		if (!($element instanceof JXMLElement))
+		// Make sure there is a valid SimpleXMLElement.
+		if (!($element instanceof SimpleXMLElement))
 		{
 			return false;
 		}
@@ -1401,7 +1404,7 @@ class JForm
 		$fields = array();
 
 		// Make sure there is a valid JForm XML document.
-		if (!($this->xml instanceof JXMLElement))
+		if (!($this->xml instanceof SimpleXMLElement))
 		{
 			return false;
 		}
@@ -1482,7 +1485,7 @@ class JForm
 	 *
 	 * @param   string  $name  The name of the fieldset.
 	 *
-	 * @return  mixed  Boolean false on error or array of JXMLElement objects.
+	 * @return  mixed  Boolean false on error or array of SimpleXMLElement objects.
 	 *
 	 * @since   11.1
 	 */
@@ -1492,7 +1495,7 @@ class JForm
 		$false = false;
 
 		// Make sure there is a valid JForm XML document.
-		if (!($this->xml instanceof JXMLElement))
+		if (!($this->xml instanceof SimpleXMLElement))
 		{
 			return $false;
 		}
@@ -1516,7 +1519,7 @@ class JForm
 	 * @param   boolean  $nested  True to also include fields in nested groups that are inside of the
 	 * group for which to find fields.
 	 *
-	 * @return  mixed  Boolean false on error or array of JXMLElement objects.
+	 * @return  mixed  Boolean false on error or array of SimpleXMLElement objects.
 	 *
 	 * @since   11.1
 	 */
@@ -1527,7 +1530,7 @@ class JForm
 		$fields = array();
 
 		// Make sure there is a valid JForm XML document.
-		if (!($this->xml instanceof JXMLElement))
+		if (!($this->xml instanceof SimpleXMLElement))
 		{
 			return $false;
 		}
@@ -1603,7 +1606,7 @@ class JForm
 		$tmp = array();
 
 		// Make sure there is a valid JForm XML document.
-		if (!($this->xml instanceof JXMLElement))
+		if (!($this->xml instanceof SimpleXMLElement))
 		{
 			return $false;
 		}
@@ -1659,7 +1662,7 @@ class JForm
 			// Only include valid XML objects.
 			foreach ($tmp as $element)
 			{
-				if ($element instanceof JXMLElement)
+				if ($element instanceof SimpleXMLElement)
 				{
 					$groups[] = $element;
 				}
@@ -1682,8 +1685,8 @@ class JForm
 	 */
 	protected function loadField($element, $group = null, $value = null)
 	{
-		// Make sure there is a valid JXMLElement.
-		if (!($element instanceof JXMLElement))
+		// Make sure there is a valid SimpleXMLElement.
+		if (!($element instanceof SimpleXMLElement))
 		{
 			return false;
 		}
@@ -1779,7 +1782,7 @@ class JForm
 	protected function syncPaths()
 	{
 		// Make sure there is a valid JForm XML document.
-		if (!($this->xml instanceof JXMLElement))
+		if (!($this->xml instanceof SimpleXMLElement))
 		{
 			return false;
 		}
@@ -1835,8 +1838,8 @@ class JForm
 	 */
 	protected function validateField($element, $group = null, $value = null, $input = null)
 	{
-		// Make sure there is a valid JXMLElement.
-		if (!$element instanceof JXMLElement)
+		// Make sure there is a valid SimpleXMLElement.
+		if (!$element instanceof SimpleXMLElement)
 		{
 			return new JException(JText::_('JLIB_FORM_ERROR_VALIDATE_FIELD'), -1, E_ERROR);
 		}
