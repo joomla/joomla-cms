@@ -805,9 +805,6 @@ class JLanguage
 		$contents = str_replace('_QQ_', '"\""', $contents);
 		$strings = @parse_ini_string($contents);
 
-		// Restore error tracking to what it was before.
-		ini_set('track_errors', $track_errors);
-
 		if (!is_array($strings))
 		{
 			$strings = array();
@@ -815,6 +812,9 @@ class JLanguage
 
 		if ($this->debug)
 		{
+			// Restore error tracking to what it was before.
+			ini_set('track_errors', $track_errors);
+
 			jimport('joomla.filesystem.stream');
 
 			// Initialise variables for manually parsing the file for common errors.
