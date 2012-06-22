@@ -19,7 +19,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Controller
  * @since       11.1
  */
-class JControllerAdmin extends JController
+class JControllerAdmin extends JControllerLegacy
 {
 	/**
 	 * The URL option for the component.
@@ -50,7 +50,7 @@ class JControllerAdmin extends JController
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
-	 * @see     JController
+	 * @see     JControllerLegacy
 	 * @since   11.1
 	 * @throws  Exception
 	 */
@@ -146,7 +146,7 @@ class JControllerAdmin extends JController
 	 * @param   boolean  $cachable   If true, the view output will be cached
 	 * @param   array    $urlparams  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
-	 * @return  JController  A JController object to support chaining.
+	 * @return  JControllerLegacy  A JControllerLegacy object to support chaining.
 	 *
 	 * @since   11.1
 	 */
