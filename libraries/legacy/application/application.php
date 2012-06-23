@@ -1094,10 +1094,13 @@ class JApplication extends JApplicationBase
 	 * @return  boolean  True if Windows OS
 	 *
 	 * @since   11.1
+	 * @deprecated  13.3 Use the IS_WIN constant instead.
 	 */
 	public static function isWinOS()
 	{
-		return strtoupper(substr(PHP_OS, 0, 3)) === 'WIN';
+		JLog::add('JApplication::isWinOS() is deprecated. Use the IS_WIN constant instead.', JLog::WARNING, 'deprecated');
+
+		return IS_WIN;
 	}
 
 	/**
