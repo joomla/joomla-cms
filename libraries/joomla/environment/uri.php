@@ -222,7 +222,7 @@ class JURI extends JObject
 				self::$base['prefix'] = $uri->toString(array('scheme', 'host', 'port'));
 				self::$base['path'] = rtrim($uri->toString(array('path')), '/\\');
 
-				if (JPATH_BASE == JPATH_ADMINISTRATOR)
+				if (JPATH_BASE."/administrator" == JPATH_ADMINISTRATOR)
 				{
 					self::$base['path'] .= '/administrator';
 				}
