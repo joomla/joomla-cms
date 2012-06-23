@@ -1200,7 +1200,8 @@ class JHtmlTest extends TestCase
 			JFactory::$document->_styleSheets,
 			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory');
 
-		$this->assertEquals(JFactory::$document->_styleSheets['/media/system/css/' . $element . '/' . $urlpath . $urlfilename]['attribs'],
+		$this->assertEquals(
+			JFactory::$document->_styleSheets['/media/system/css/' . $element . '/' . $urlpath . $urlfilename]['attribs'],
 			array('media' => 'print, screen'),
 			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory');
 
