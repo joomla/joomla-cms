@@ -30,40 +30,105 @@ class JFormFieldCheckboxTest extends TestCase
 	}
 
 	/**
-	 * Test the getInput method.
+	 * Test the getInput method where there is no value from the element
+	 * and no checked attribute.
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
-	public function testGetInput()
+	public function testGetInputNoValueNoChecked()
 	{
-		$form = new JFormInspector('form1');
+		$formField = new JFormFieldCheckbox;
 
-		$this->assertThat(
-			$form->load('<form><field name="checkbox" type="checkbox" /></form>'),
-			$this->isTrue(),
-			'Line:'.__LINE__.' XML string should load successfully.'
+		// Test with no checked element
+		$element = simplexml_load_string(
+		'<field name="color" type="checkbox" value="red" />');
+		TestReflection::setValue($formField, 'element', $element);
+		TestReflection::setValue($formField, 'id', 'myTestId');
+		TestReflection::setValue($formField, 'name', 'myTestName');
+
+		$this->assertEquals(
+			'<input type="checkbox" name="myTestName" id="myTestId" value="red" />',
+			TestReflection::invoke($formField, 'getInput'),
+			'The field with no value and no checked attribute did not produce the right html'
 		);
+	}
 
-		$field = new JFormFieldCheckbox($form);
+	/**
+	 * Test the getInput method where there is a value from the element
+	 * and no checked attribute.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.2
+	 */
+	public function testGetInputValueNoChecked()
+	{
+		$formField = new JFormFieldCheckbox;
 
-		$this->assertThat(
-			$field->setup($form->getXml()->field, 'value'),
-			$this->isTrue(),
-			'Line:'.__LINE__.' The setup method should return true.'
+		// Test with no checked element
+		$element = simplexml_load_string(
+		'<field name="color" type="checkbox" value="red" />');
+		TestReflection::setValue($formField, 'element', $element);
+		TestReflection::setValue($formField, 'id', 'myTestId');
+		TestReflection::setValue($formField, 'name', 'myTestName');
+		TestReflection::setValue($formField, 'value', 'red');
+
+		$this->assertEquals(
+			'<input type="checkbox" name="myTestName" id="myTestId" value="red" checked="checked" />',
+			TestReflection::invoke($formField, 'getInput'),
+			'The field with a value and no checked attribute did not produce the right html'
 		);
+	}
 
-		$this->assertThat(
-			strlen($field->input),
-			$this->greaterThan(0),
-			'Line:'.__LINE__.' The getInput method should return something without error.'
+	/**
+	 * Test the getInput method where there is a checked attribute
+	 *
+	 * @return  void
+	 *
+	 * @since   12.2
+	 */
+	public function testGetInputNoValueChecked()
+	{
+		$formField = new JFormFieldCheckbox;
+
+		// Test with checked element
+		$element = simplexml_load_string(
+		'<field name="color" type="checkbox" value="red" checked="checked" />');
+		TestReflection::setValue($formField, 'element', $element);
+		TestReflection::setValue($formField, 'id', 'myTestId');
+		TestReflection::setValue($formField, 'name', 'myTestName');
+
+		$this->assertEquals(
+			'<input type="checkbox" name="myTestName" id="myTestId" value="red" checked="checked" />',
+			TestReflection::invoke($formField, 'getInput'),
+			'The field with no value and the checked attribute did not produce the right html'
 		);
+	}
 
-		$this->assertThat(
-			$field->input,
-			$this->equalTo('<input type="checkbox" name="checkbox" id="checkbox" value="1" />'),
-			'Line:'.__LINE__.' The getInput method should return something without error.'
+	/**
+	 * Test the getInput method where the field is disabled
+	 *
+	 * @return  void
+	 *
+	 * @since   12.2
+	 */
+	public function testGetInputDisabled()
+	{
+		$formField = new JFormFieldCheckbox;
+
+		// Test with checked element
+		$element = simplexml_load_string(
+		'<field name="color" type="checkbox" value="red" disabled="true" />');
+		TestReflection::setValue($formField, 'element', $element);
+		TestReflection::setValue($formField, 'id', 'myTestId');
+		TestReflection::setValue($formField, 'name', 'myTestName');
+
+		$this->assertEquals(
+			'<input type="checkbox" name="myTestName" id="myTestId" value="red" disabled="disabled" />',
+			TestReflection::invoke($formField, 'getInput'),
+			'The field set to disabled did not produce the right html'
 		);
 	}
 }
