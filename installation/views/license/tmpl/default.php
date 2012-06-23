@@ -9,6 +9,9 @@ defined('_JEXEC') or die;
 ?>
 <div id="step">
 	<div class="far-right">
+	<div class="help">   
+<a rel="help" onclick="Joomla.popupWindow('http://docs.joomla.org/installation', 'Help', 700, 500, 1)"  href="#">  </a> </div>		
+
 <?php if ($this->document->direction == 'ltr') : ?>
 		<div class="button1-right"><div class="prev"><a href="index.php?view=preinstall" onclick="return Install.goToPage('preinstall');" rel="prev" title="<?php echo JText::_('JPREVIOUS'); ?>"><?php echo JText::_('JPREVIOUS'); ?></a></div></div>
 		<div class="button1-left"><div class="next"><a href="index.php?view=database" onclick="return Install.goToPage('database');" rel="next" title="<?php echo JText::_('JNEXT'); ?>"><?php echo JText::_('JNEXT'); ?></a></div></div>
