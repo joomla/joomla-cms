@@ -9,6 +9,7 @@ defined('_JEXEC') or die;
 ?>
 <div id="step">
 	<div class="far-right">
+	
 	<div class="help">   
 <a rel="help" onclick="Joomla.popupWindow('http://docs.joomla.org/installation', 'Help', 700, 500, 1)"  href="#">  </a> </div>		
 
