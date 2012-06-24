@@ -5,12 +5,21 @@
  * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
+//define('_JEXEC', 1);
+//define('DS', DIRECTORY_SEPARATOR);
+
+if (!defined('_JDEFINES')) {
+	//define('JPATH_BASE', dirname(__FILE__));
+	require_once JPATH_BASE.'/includes/defines.php';
+}
 
 // no direct access
 defined('_JEXEC') or die;
 JHtml::_('behavior.keepalive');
 ?>
-<?php if ($type == 'logout') : ?>
+<?php 
+
+if ($type == 'logout') : ?>
 <form action="<?php echo JRoute::_('index.php', true, $params->get('usesecure')); ?>" method="post" id="login-form">
 <?php if ($params->get('greeting')) : ?>
 	<div class="login-greeting">
@@ -30,7 +39,8 @@ JHtml::_('behavior.keepalive');
 	</div>
 </form>
 <?php else : ?>
-<form action="<?php echo JRoute::_('index.php', true, $params->get('usesecure')); ?>" method="post" id="login-form" >
+<form action="<?php echo JRoute::_('.'.'/administrator/index.php', true, $params->get('usesecure')); ?>" method="post" id="login-form" >
+
 	<?php if ($params->get('pretext')): ?>
 		<div class="pretext">
 		<p><?php echo $params->get('pretext'); ?></p>
