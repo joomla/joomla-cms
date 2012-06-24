@@ -572,6 +572,7 @@ div.inlineError {
 	#right, #warning {
 		margin-left: 0;
 	}
+	
 	html body div#content-box div#content-pad div#right div#rightpad div#step div.far-right div.help a{
 background: url("../images/help.jpg") no-repeat;  
     float: left;
@@ -583,4 +584,5 @@ background: url("../images/help.jpg") no-repeat;
 
 html body div#content-box div#content-pad div#right div#rightpad div#step div.far-right div.help {
 background: url("../images/help.jpg") no-repeat;
+
 }

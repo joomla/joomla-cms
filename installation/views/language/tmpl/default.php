@@ -10,8 +10,7 @@ defined('_JEXEC') or die;
 <div id="step">
 	<div class="far-right">
 	
-	<div class="help">   
-<a rel="help" onclick="Joomla.popupWindow('http://docs.joomla.org/installation', 'Help', 700, 500, 1)"  href="#">  </a> </div>		
+	<div class="help"> <a rel="help" onclick="Joomla.popupWindow('http://docs.joomla.org/installation', 'Help', 700, 500, 1)"  href="#">  </a> </div>		
 
 	<?php if ($this->document->direction == 'ltr') : ?>
 		<div class="button1-left"><div class="next"><a href="#" onclick="Install.submitform();" rel="next" title="<?php echo JText::_('JNext'); ?>"><?php echo JText::_('JNext'); ?></a></div></div>
