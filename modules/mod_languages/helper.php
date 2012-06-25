@@ -29,9 +29,12 @@ abstract class modLanguagesHelper
 		}
 		
 		// Load associations
-		if ($app->get('menu_associations', 0)) {
+		$assoc = isset($app->menu_associations) ? $app->menu_associations : 0;
+		if ($assoc)
+		{
 			$active = $menu->getActive();
-			if ($active) {
+			if ($active)
+			{
 				$associations = MenusHelper::getAssociations($active->id);
 			}
 		}
