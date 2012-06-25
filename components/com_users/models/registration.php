@@ -316,6 +316,7 @@ class UsersModelRegistration extends JModelForm
 		$data['email']		= $data['email1'];
 		$data['password']	= $data['password1'];
 		$useractivation = $params->get('useractivation');
+		$sendpassword = $params->get('sendpassword', 1);
 
 		// Check if the user needs to activate their account.
 		if (($useractivation == 1) || ($useractivation == 2)) {
@@ -359,15 +360,29 @@ class UsersModelRegistration extends JModelForm
 				$data['sitename']
 			);
 
-			$emailBody = JText::sprintf(
-				'COM_USERS_EMAIL_REGISTERED_WITH_ADMIN_ACTIVATION_BODY',
-				$data['name'],
-				$data['sitename'],
-				$data['siteurl'].'index.php?option=com_users&task=registration.activate&token='.$data['activation'],
-				$data['siteurl'],
-				$data['username'],
-				$data['password_clear']
-			);
+			if ($sendpassword)
+			{
+				$emailBody = JText::sprintf(
+					'COM_USERS_EMAIL_REGISTERED_WITH_ADMIN_ACTIVATION_BODY',
+					$data['name'],
+					$data['sitename'],
+					$data['siteurl'].'index.php?option=com_users&task=registration.activate&token='.$data['activation'],
+					$data['siteurl'],
+					$data['username'],
+					$data['password_clear']
+				);
+			}
+			else
+			{
+				$emailBody = JText::sprintf(
+					'COM_USERS_EMAIL_REGISTERED_WITH_ADMIN_ACTIVATION_BODY_NOPW',
+					$data['name'],
+					$data['sitename'],
+					$data['siteurl'].'index.php?option=com_users&task=registration.activate&token='.$data['activation'],
+					$data['siteurl'],
+					$data['username']
+				);
+			}
 		}
 		elseif ($useractivation == 1)
 		{
@@ -382,16 +397,32 @@ class UsersModelRegistration extends JModelForm
 				$data['sitename']
 			);
 
-			$emailBody = JText::sprintf(
-				'COM_USERS_EMAIL_REGISTERED_WITH_ACTIVATION_BODY',
-				$data['name'],
-				$data['sitename'],
-				$data['siteurl'].'index.php?option=com_users&task=registration.activate&token='.$data['activation'],
-				$data['siteurl'],
-				$data['username'],
-				$data['password_clear']
-			);
-		} else {
+			if ($sendpassword)
+			{
+				$emailBody = JText::sprintf(
+					'COM_USERS_EMAIL_REGISTERED_WITH_ACTIVATION_BODY',
+					$data['name'],
+					$data['sitename'],
+					$data['siteurl'].'index.php?option=com_users&task=registration.activate&token='.$data['activation'],
+					$data['siteurl'],
+					$data['username'],
+					$data['password_clear']
+				);
+			}
+			else
+			{
+				$emailBody = JText::sprintf(
+					'COM_USERS_EMAIL_REGISTERED_WITH_ACTIVATION_BODY_NOPW',
+					$data['name'],
+					$data['sitename'],
+					$data['siteurl'].'index.php?option=com_users&task=registration.activate&token='.$data['activation'],
+					$data['siteurl'],
+					$data['username']
+				);
+			}
+		}
+		else
+		{
 
 			$emailSubject	= JText::sprintf(
 				'COM_USERS_EMAIL_ACCOUNT_DETAILS',
