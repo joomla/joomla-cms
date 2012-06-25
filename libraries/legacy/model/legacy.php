@@ -294,6 +294,7 @@ abstract class JModelLegacy extends JObject
 	 * @return  array  An array of results.
 	 *
 	 * @since   11.1
+	 * @throws  RuntimeException
 	 */
 	protected function _getList($query, $limitstart = 0, $limit = 0)
 	{

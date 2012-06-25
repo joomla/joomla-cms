@@ -328,12 +328,15 @@ abstract class JModuleHelper
 
 		// Set the query
 		$db->setQuery($query);
-		$modules = $db->loadObjectList();
 		$clean = array();
 
-		if ($db->getErrorNum())
+		try
 		{
-			JLog::add(JText::sprintf('JLIB_APPLICATION_ERROR_MODULE_LOAD', $db->getErrorMsg()), JLog::WARNING, 'jerror');
+			$modules = $db->loadObjectList();
+		}
+		catch (RuntimeException $e)
+		{
+			JLog::add(JText::sprintf('JLIB_APPLICATION_ERROR_MODULE_LOAD', $e->getMessage()), JLog::WARNING, 'jerror');
 			return $clean;
 		}
 
