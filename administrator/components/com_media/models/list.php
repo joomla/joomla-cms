@@ -4,10 +4,8 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
 jimport('joomla.filesystem.folder');
 jimport('joomla.filesystem.file');
 
@@ -18,7 +16,7 @@ jimport('joomla.filesystem.file');
  * @subpackage	com_media
  * @since 1.5
  */
-class MediaModelList extends JModel
+class MediaModelList extends JModelLegacy
 {
 	function getState($property = null, $default = null)
 	{

@@ -8,7 +8,6 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
 jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.folder');
 
@@ -19,7 +18,7 @@ jimport('joomla.filesystem.folder');
  * @subpackage	com_menus
  * @version		1.6
  */
-class MenusViewItems extends JView
+class MenusViewItems extends JViewLegacy
 {
 	protected $f_levels;
 	protected $items;

@@ -4,9 +4,7 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
-jimport('joomla.application.component.controller');
 
 /**
  * Redirect master display controller.
@@ -15,7 +13,7 @@ jimport('joomla.application.component.controller');
  * @subpackage	com_redirect
  * @since		1.6
  */
-class RedirectController extends JController
+class RedirectController extends JControllerLegacy
 {
 	/**
 	 * @var		string	The default view.

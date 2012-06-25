@@ -4,10 +4,7 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.view');
 
 /**
  * HTML View class for the Languages component
@@ -16,7 +13,7 @@ jimport('joomla.application.component.view');
  * @subpackage	com_languages
  * @since		1.5
  */
-class LanguagesViewLanguage extends JView
+class LanguagesViewLanguage extends JViewLegacy
 {
 	public $item;
 	public $form;

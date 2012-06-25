@@ -4,10 +4,7 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.controller');
 
 /**
  * Users master display controller.
@@ -16,7 +13,7 @@ jimport('joomla.application.component.controller');
  * @subpackage	com_users
  * @since		1.6
  */
-class UsersController extends JController
+class UsersController extends JControllerLegacy
 {
 	/**
 	 * Checks whether a user can see this view.

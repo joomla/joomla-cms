@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
-
 /**
  * User note edit view
  *
@@ -18,7 +16,7 @@ jimport('joomla.application.component.view');
  * @subpackage  com_users
  * @since       2.5
  */
-class UsersViewNote extends JView
+class UsersViewNote extends JViewLegacy
 {
 	/**
 	 * The edit form.

@@ -655,7 +655,7 @@ class UsersModelUser extends JModelAdmin
 		$user = JFactory::getUser();
 		if ($user->authorise('core.edit', 'com_users') && $user->authorise('core.manage', 'com_users'))
 		{
-			$model = JModel::getInstance('Groups', 'UsersModel', array('ignore_request' => true));
+			$model = JModelLegacy::getInstance('Groups', 'UsersModel', array('ignore_request' => true));
 			return $model->getItems();
 		}
 		else

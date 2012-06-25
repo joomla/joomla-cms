@@ -6,8 +6,6 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
-
 /**
  * The HTML Users access levels view.
  *
@@ -15,7 +13,7 @@ jimport('joomla.application.component.view');
  * @subpackage	com_users
  * @since		1.6
  */
-class UsersViewLevels extends JView
+class UsersViewLevels extends JViewLegacy
 {
 	protected $items;
 	protected $pagination;

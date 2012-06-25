@@ -4,10 +4,7 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.view');
 
 /**
  * Categories view class for the Category package.
@@ -16,7 +13,7 @@ jimport('joomla.application.component.view');
  * @subpackage	com_categories
  * @since		1.6
  */
-class CategoriesViewCategories extends JView
+class CategoriesViewCategories extends JViewLegacy
 {
 	protected $items;
 	protected $pagination;

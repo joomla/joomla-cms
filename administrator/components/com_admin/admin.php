@@ -6,14 +6,10 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
 // No access check.
 
-// Include dependancies
-jimport('joomla.application.component.controller');
-
-$controller	= JController::getInstance('Admin');
+$controller	= JControllerLegacy::getInstance('Admin');
 $controller->execute(JRequest::getCmd('task'));
 $controller->redirect();

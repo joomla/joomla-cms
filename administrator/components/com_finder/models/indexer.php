@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
-
 /**
  * Indexer model class for Finder.
  *
@@ -18,6 +16,6 @@ jimport('joomla.application.component.model');
  * @subpackage  com_finder
  * @since       2.5
  */
-class FinderModelIndexer extends JModel
+class FinderModelIndexer extends JModelLegacy
 {
 }

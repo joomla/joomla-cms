@@ -6,7 +6,6 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
 // Access check.
@@ -42,9 +41,6 @@ if (substr(strtolower($view), 0, 6) == "images" || $popup_upload == 1) {
 define('COM_MEDIA_BASE',	JPATH_ROOT.'/'.$params->get($path, 'images'));
 define('COM_MEDIA_BASEURL', JURI::root().$params->get($path, 'images'));
 
-// Include dependancies
-jimport('joomla.application.component.controller');
-
-$controller	= JController::getInstance('Media');
+$controller	= JControllerLegacy::getInstance('Media');
 $controller->execute(JRequest::getCmd('task'));
 $controller->redirect();

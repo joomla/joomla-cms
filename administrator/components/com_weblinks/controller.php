@@ -6,7 +6,6 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
 
 /**
@@ -16,7 +15,7 @@ defined('_JEXEC') or die;
  * @subpackage	com_weblinks
  * @since		1.5
  */
-class WeblinksController extends JController
+class WeblinksController extends JControllerLegacy
 {
 	/**
 	 * Method to display a view.

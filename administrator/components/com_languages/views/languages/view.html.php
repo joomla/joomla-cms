@@ -4,10 +4,7 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.view');
 
 /**
  * HTML Languages View class for the Languages component
@@ -16,7 +13,7 @@ jimport('joomla.application.component.view');
  * @subpackage	com_languages
  * @since		1.6
  */
-class LanguagesViewLanguages extends JView
+class LanguagesViewLanguages extends JViewLegacy
 {
 	protected $items;
 	protected $pagination;

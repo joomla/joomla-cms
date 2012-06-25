@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+26-Jun-2012 Christophe Demko
+ ^ [#28730] Use the MVC legacy aliases in the administrator (Rouven Weßling)
+
 25-Jun-2012 Christophe Demko
  ^ [#28683] Replace uses of JHtml::core() (Michael Babker)
  ^ [#28736] Don't use APIs not present in Platform 12.2 (Rouven Weßling)

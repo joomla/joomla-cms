@@ -192,7 +192,7 @@ class MessagesModelMessage extends JModelAdmin
 		}
 
 		// Load the recipient user configuration.
-		$model = JModel::getInstance('Config', 'MessagesModel', array('ignore_request' => true));
+		$model = JModelLegacy::getInstance('Config', 'MessagesModel', array('ignore_request' => true));
 		$model->setState('user.id', $table->user_id_to);
 		$config = $model->getItem();
 		if (empty($config)) {

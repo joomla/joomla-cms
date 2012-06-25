@@ -19,7 +19,7 @@ JLoader::register('FinderIndexer', JPATH_COMPONENT_ADMINISTRATOR . '/helpers/ind
  * @subpackage  com_finder
  * @since       2.5
  */
-class FinderControllerIndexer extends JController
+class FinderControllerIndexer extends JControllerLegacy
 {
 	/**
 	 * Method to start the indexer.

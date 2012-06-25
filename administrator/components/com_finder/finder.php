@@ -14,9 +14,7 @@ if (!JFactory::getUser()->authorise('core.manage', 'com_finder')) {
 	return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
 }
 
-jimport('joomla.application.component.controller');
-
 // Execute the task.
-$controller	= JController::getInstance('Finder');
+$controller	= JControllerLegacy::getInstance('Finder');
 $controller->execute(JFactory::getApplication()->input->get('task', '', 'cmd'));
 $controller->redirect();

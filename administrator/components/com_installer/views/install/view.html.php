@@ -5,7 +5,6 @@
  * @since		1.5
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
 include_once dirname(__FILE__).'/../default/view.php';

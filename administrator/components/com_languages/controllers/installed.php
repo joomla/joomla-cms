@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  * @subpackage	com_languages
  * @since		1.5
  */
-class LanguagesControllerInstalled extends JController
+class LanguagesControllerInstalled extends JControllerLegacy
 {
 	/**
 	 * task to set the default language
