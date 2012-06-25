@@ -29,6 +29,7 @@ $ -> Language fix or change
 25-Jun-2012 Christophe Demko
  ^ [#28683] Replace uses of JHtml::core() (Michael Babker)
  ^ [#28736] Don't use APIs not present in Platform 12.2 (Rouven Weßling)
+ # [#28690] Wrong Content Type for JSON response (Elijah Madden)
 
 22-Jun-2012 Jean-Marie Simonet
  # [#28709] Commit of progress bar feature missed a layout file. Thanks Mark
