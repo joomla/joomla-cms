@@ -57,7 +57,7 @@ class LanguagesViewOverride extends JView
 	{
 		$doc = JFactory::getDocument();
 		$doc->addStyleSheet(JURI::root().'media/overrider/css/overrider.css');
-		JHTML::core();
+		JHtml::_('behavior.framework');
 		$doc->addScript(JURI::root().'media/overrider/js/overrider.js');
 
 		$this->form		= $this->get('Form');

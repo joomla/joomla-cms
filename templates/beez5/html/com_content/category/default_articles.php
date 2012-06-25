@@ -20,7 +20,7 @@ endif;
 
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 JHtml::_('behavior.tooltip');
-JHtml::core();
+JHtml::_('behavior.framework');
 
 $n = count($this->items);
 $listOrder	= $this->escape($this->state->get('list.ordering'));
