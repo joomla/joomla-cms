@@ -26,15 +26,43 @@
  <exclude-pattern>*/mootree*.css</exclude-pattern>
  <exclude-pattern>*/mooRainbow.css</exclude-pattern>
  <exclude-pattern>*/modal.css</exclude-pattern>
+ 
+ <exclude-pattern>administrator/components/com_joomlaupdate/restore.php</exclude-pattern>
+ <exclude-pattern>configuration.php</exclude-pattern>
 
  <!-- Include all sniffs in an external standard directory -->
 
  <!-- Include some additional sniffs from the Generic standard -->
 
- <rule ref="Generic.Files.LineEndings"/>
+ <rule ref="PEAR.Classes.ClassDeclaration"/>
  
+ <rule ref="Generic.Files.LineEndings"/>
+ <rule ref="Zend.Files.ClosingTag">
+  <exclude-pattern>*/tmpl/*</exclude-pattern>
+  <exclude-pattern>/templates/*</exclude-pattern>
+ </rule>
+ 
+ <rule ref="Generic.Formatting.DisallowMultipleStatements">
+  <exclude-pattern>*/tmpl/*</exclude-pattern>
+  <exclude-pattern>/templates/*</exclude-pattern>
+ </rule>
+
+ <rule ref="PEAR.NamingConventions.ValidClassName">
+  <!-- We only want this for libraries for now -->
+  <exclude-pattern>/administrator/*</exclude-pattern>
+  <exclude-pattern>/components/*</exclude-pattern>
+  <exclude-pattern>/plugins/*</exclude-pattern>
+  <exclude-pattern>/modules/*</exclude-pattern>
+  <exclude-pattern>/installation/*</exclude-pattern>
+  <exclude-pattern>/cli/*</exclude-pattern>
+  <exclude-pattern>/templates/*</exclude-pattern>
+  <exclude-pattern>/language/*</exclude-pattern>
+ </rule>
+ <rule ref="Generic.NamingConventions.UpperCaseConstantName"/>
+
  <rule ref="Generic.PHP.DisallowShortOpenTag"/>
  <rule ref="Generic.PHP.DeprecatedFunctions"/>
+ <rule ref="Generic.PHP.ForbiddenFunctions"/>
 
  <rule ref="Squiz.Scope.StaticThisUsage"/>
 
