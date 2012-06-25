@@ -4,7 +4,6 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
 
 jimport('joomla.html.pagination');
@@ -246,7 +245,6 @@ class plgContentPagebreak extends JPlugin
 
 		foreach ($matches as $bot) {
 			$link = JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid).'&showall=&limitstart='. ($i-1));
-
 
 			if (@$bot[0]) {
 				$attrs2 = JUtility::parseAttributes($bot[0]);

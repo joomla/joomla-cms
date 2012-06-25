@@ -34,7 +34,6 @@ class UsersViewLevel extends JViewLegacy
 			return false;
 		}
 
-
 		$this->addToolbar();
 		parent::display($tpl);
 	}

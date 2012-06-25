@@ -28,7 +28,7 @@ abstract class MailtoHelper
 		$mailto_links = $session->get('com_mailto.links', array());
 		if(!isset($mailto_links[$hash]))
 		{
-			$mailto_links[$hash] = new stdClass();
+			$mailto_links[$hash] = new stdClass;
 		}
 		$mailto_links[$hash]->link = $url;
 		$mailto_links[$hash]->expiry = time();
@@ -79,7 +79,5 @@ abstract class MailtoHelper
 			$session->set('com_mailto.links', $mailto_links);
 			$cleaned = true;
 		}
-
-
 	}
 }

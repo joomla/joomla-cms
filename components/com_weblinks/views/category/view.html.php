@@ -72,7 +72,7 @@ class WeblinksViewCategory extends JViewLegacy
 				$item->link = $item->url;
 			}
 
-			$temp		= new JRegistry();
+			$temp = new JRegistry;
 			$temp->loadString($item->params);
 			$item->params = clone($params);
 			$item->params->merge($temp);

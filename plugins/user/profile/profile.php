@@ -184,7 +184,7 @@ class plgUserProfile extends JPlugin
 			'aboutme',
 			'dob',
 		);
-		
+
 		$tosarticle = $this->params->get('register_tos_article');
 		$tosenabled = $this->params->get('register-require_tos', 0);
 
@@ -201,7 +201,7 @@ class plgUserProfile extends JPlugin
 		}
 
 		foreach ($fields as $field)
-		{	
+		{
 			// Case using the users manager in admin
 			if ($name == 'com_users.user')
 			{

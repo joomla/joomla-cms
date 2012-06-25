@@ -219,7 +219,6 @@ class plgSearchContent extends JPlugin
 				.'AND (a.publish_down = '.$db->Quote($nullDate).' OR a.publish_down >= '.$db->Quote($now).')' );
 			$query->order($order);
 
-
 			// Filter by language
 			if ($app->isSite() && $app->getLanguageFilter()) {
 				$query->where('a.language in (' . $db->Quote($tag) . ',' . $db->Quote('*') . ')');

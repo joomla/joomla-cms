@@ -6,7 +6,6 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('JPATH_BASE') or die;
 
 /**
@@ -151,7 +150,7 @@ class JRouterSite extends JRouter
 		if (count($this->getVars()) == 1 || ( $app->getLanguageFilter() && count( $this->getVars()) == 2 )) {
 
 			$item = $menu->getItem($this->getVar('Itemid'));
-			if ($item !== NULL && is_array($item->query)) {
+			if ($item !== null && is_array($item->query)) {
 				$vars = $vars + $item->query;
 			}
 		}

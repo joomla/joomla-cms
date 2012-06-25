@@ -129,7 +129,6 @@ class InstallerModelInstall extends JModelLegacy
 
 		JInstallerHelper::cleanupInstall($package['packagefile'], $package['extractdir']);
 
-
 		return $result;
 	}
 

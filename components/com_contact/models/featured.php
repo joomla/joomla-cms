@@ -6,7 +6,6 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.modellist');
@@ -86,7 +85,7 @@ class ContactModelFeatured extends JModelList
 		for ($i = 0, $n = count($items); $i < $n; $i++) {
 			$item = &$items[$i];
 			if (!isset($this->_params)) {
-				$params = new JRegistry();
+				$params = new JRegistry;
 				$params->loadString($item->params);
 				$item->params = $params;
 			}
@@ -148,8 +147,6 @@ class ContactModelFeatured extends JModelList
 			$query->where($publishedWhere . ' = ' . (int) $state);
 		}
 
-
-
 		// Filter by language
 		if ($this->getState('filter.language')) {
 			$query->where('a.language in (' . $db->Quote(JFactory::getLanguage()->getTag()) . ',' . $db->Quote('*') . ')');
@@ -207,7 +204,4 @@ class ContactModelFeatured extends JModelList
 		// Load the parameters.
 		$this->setState('params', $params);
 	}
-
-
-
 }

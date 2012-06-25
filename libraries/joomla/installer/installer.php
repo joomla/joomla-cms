@@ -1006,7 +1006,6 @@ class JInstaller extends JAdapter
 					$dbDriver = 'sqlazure';
 				}
 
-
 				$schemapath = '';
 
 				foreach ($schemapaths as $entry)

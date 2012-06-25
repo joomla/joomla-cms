@@ -41,9 +41,7 @@ class ContentViewArchive extends JViewLegacy
 			$item->parent_slug = ($item->parent_alias) ? ($item->parent_id . ':' . $item->parent_alias) : $item->parent_id;
 		}
 
-
-
-		$form = new stdClass();
+		$form = new stdClass;
 		// Month Field
 		$months = array(
 			'' => JText::_('COM_CONTENT_MONTH'),
@@ -147,4 +145,3 @@ class ContentViewArchive extends JViewLegacy
 		}
 	}
 }
-?>

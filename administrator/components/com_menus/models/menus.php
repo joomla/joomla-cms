@@ -7,7 +7,6 @@
  * @subpackage  com_menus
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.modellist');
@@ -156,7 +155,6 @@ class MenusModelMenus extends JModelList
 		// Select all fields from the table.
 		$query->select($this->getState('list.select', 'a.*'));
 		$query->from($db->quoteName('#__menu_types').' AS a');
-
 
 		$query->group('a.id, a.menutype, a.title, a.description');
 

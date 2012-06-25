@@ -6,8 +6,8 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
+
 // Code to support edit links for weblinks
 // Create a shortcut for params.
 $params = &$this->item->params;
@@ -74,7 +74,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 					 <?php echo JText::_('COM_WEBLINKS_LINK'); ?>
 				<?php elseif ($this->params->get('icons') == 1) : ?>
 					<?php if (!$this->params->get('link_icons')) : ?>
-						<?php echo JHtml::_('image', 'system/'.$this->params->get('link_icons', 'weblink.png'), JText::_('COM_WEBLINKS_LINK'), NULL, true); ?>
+						<?php echo JHtml::_('image', 'system/'.$this->params->get('link_icons', 'weblink.png'), JText::_('COM_WEBLINKS_LINK'), null, true); ?>
 					<?php else: ?>
 						<?php echo '<img src="'.$this->params->get('link_icons').'" alt="'.JText::_('COM_WEBLINKS_LINK').'" />'; ?>
 					<?php endif; ?>

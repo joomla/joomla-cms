@@ -100,8 +100,8 @@ class AdminModelSysInfo extends JModelLegacy
 		if (is_null($this->info))
 		{
 			$this->info = array();
-			$version = new JVersion();
-			$platform = new JPlatform();
+			$version = new JVersion;
+			$platform = new JPlatform;
 			$db = JFactory::getDBO();
 			if (isset($_SERVER['SERVER_SOFTWARE'])) {
 				$sf = $_SERVER['SERVER_SOFTWARE'];
@@ -121,6 +121,7 @@ class AdminModelSysInfo extends JModelLegacy
 		}
 		return $this->info;
 	}
+
 	/**
 	 * method to get the PHP info
 	 *
@@ -147,6 +148,7 @@ class AdminModelSysInfo extends JModelLegacy
 		}
 		return $this->php_info;
 	}
+
 	/**
 	 * method to get the directory states
 	 *

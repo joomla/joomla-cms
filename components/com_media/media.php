@@ -6,7 +6,6 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
 $params = JComponentHelper::getParams('com_media');
@@ -69,7 +68,7 @@ else {
 $controllerClass = 'MediaController'.ucfirst($controllerName);
 
 if (class_exists($controllerClass)) {
-	$controller = new $controllerClass();
+	$controller = new $controllerClass;
 }
 else {
 	JError::raiseError(500, JText::_('JERROR_INVALID_CONTROLLER_CLASS'));

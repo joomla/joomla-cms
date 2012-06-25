@@ -92,7 +92,7 @@ class plgCaptchaRecaptcha extends JPlugin
 		$privatekey	= $this->params->get('private_key');
 		$remoteip	= JRequest::getVar('REMOTE_ADDR', '', 'SERVER');
 		$challenge	= JRequest::getString('recaptcha_challenge_field', '');
-		$response	= JRequest::getString('recaptcha_response_field', '');;
+		$response	= JRequest::getString('recaptcha_response_field', '');
 
 		// Check for Private Key
 		if (empty($privatekey))
@@ -223,7 +223,7 @@ class plgCaptchaRecaptcha extends JPlugin
 		{
 			return "lang : '" . $tag . "',";
 		}
-		
+
 		// If the default language is not available, let's search for a custom translation
 		if ($language->hasKey('PLG_RECAPTCHA_CUSTOM_LANG'))
 		{

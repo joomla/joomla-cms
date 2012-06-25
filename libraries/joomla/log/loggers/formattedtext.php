@@ -171,7 +171,7 @@ class JLoggerFormattedText extends JLogger
 
 		// Decode the entry priority into an English string.
 		$tmp['PRIORITY'] = $this->priorities[$entry->priority];
-		
+
 		// Fill in field data for the line.
 		$line = $this->format;
 		foreach ($this->fields as $field)

@@ -53,7 +53,7 @@ class WrapperViewWrapper extends JViewLegacy
 			$this->document->setMetadata('robots', $params->get('robots'));
 		}
 
-		$wrapper = new stdClass();
+		$wrapper = new stdClass;
 		// auto height control
 		if ($params->def('height_auto')) {
 			$wrapper->load = 'onload="iFrameHeight()"';

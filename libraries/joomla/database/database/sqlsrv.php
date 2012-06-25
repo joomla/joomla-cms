@@ -214,7 +214,6 @@ class JDatabaseSQLSrv extends JDatabase
 		$result = str_replace('\\\/', '/', $result);
 		$result = str_replace('\\\\', '\\', $result);
 
-
 		if ($extra)
 		{
 			// We need the below str_replace since the search in sql server doesn't recognize _ character.

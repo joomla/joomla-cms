@@ -31,7 +31,6 @@ class NewsfeedsViewCategories extends JViewLegacy
 		$items		= $this->get('Items');
 		$parent		= $this->get('Parent');
 
-
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
 			JError::raiseWarning(500, implode("\n", $errors));

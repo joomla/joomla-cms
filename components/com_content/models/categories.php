@@ -92,7 +92,7 @@ class ContentModelCategories extends JModelLegacy
 			$app = JFactory::getApplication();
 			$menu = $app->getMenu();
 			$active = $menu->getActive();
-			$params = new JRegistry();
+			$params = new JRegistry;
 
 			if ($active) {
 				$params->loadString($active->params);

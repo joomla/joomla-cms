@@ -4,9 +4,9 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 JLoader::register('MenusHelper', JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus.php');
+
 /**
  * Joomla! Language Filter Plugin
  *
@@ -304,7 +304,7 @@ class plgSystemLanguageFilter extends JPlugin
 	{
 		if ($this->params->get('automatic_change', '1')=='1' && key_exists('params', $user))
 		{
-			$registry = new JRegistry();
+			$registry = new JRegistry;
 			$registry->loadString($user['params']);
 			self::$_user_lang_code = $registry->get('language');
 			if (empty(self::$_user_lang_code)) {
@@ -312,7 +312,6 @@ class plgSystemLanguageFilter extends JPlugin
 			}
 		}
 	}
-
 
 	/**
 	 * after store user method
@@ -331,7 +330,7 @@ class plgSystemLanguageFilter extends JPlugin
 	{
 		if ($this->params->get('automatic_change', '1')=='1' && key_exists('params', $user) && $success)
 		{
-			$registry = new JRegistry();
+			$registry = new JRegistry;
 			$registry->loadString($user['params']);
 			$lang_code = $registry->get('language');
 			if (empty($lang_code)) {
@@ -387,7 +386,7 @@ class plgSystemLanguageFilter extends JPlugin
 					$associations = MenusHelper::getAssociations($active->id);
 				}
 			}
-			
+
 			$lang_code = $user['language'];
 			if (empty($lang_code))
 			{
@@ -412,7 +411,7 @@ class plgSystemLanguageFilter extends JPlugin
 					$itemid = $associations[$lang_code];
 					$app->setUserState('users.login.form.return', 'index.php?&Itemid='.$itemid);
 				}
-				else 
+				else
 				{
 					$itemid = isset($homes[$lang_code]) ? $homes[$lang_code]->id : $homes['*']->id;
 					$app->setUserState('users.login.form.return', 'index.php?&Itemid='.$itemid);

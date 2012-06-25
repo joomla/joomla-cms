@@ -44,7 +44,6 @@ class MediaViewImagesList extends JViewLegacy
 		parent::display($tpl);
 	}
 
-
 	function setFolder($index = 0)
 	{
 		if (isset($this->folders[$index])) {

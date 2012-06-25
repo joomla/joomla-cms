@@ -43,7 +43,7 @@ class JoomlaupdateController extends JControllerLegacy
 
 			// Get the model for the view.
 			$model = $this->getModel($vName);
-			
+
 			// Perform update source preference check and refresh update information
 			$model->applyUpdateSite();
 			$model->refreshUpdates();

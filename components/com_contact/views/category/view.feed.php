@@ -53,7 +53,7 @@ class ContactViewCategory extends JViewLegacy
 			@$date			= ($row->created ? date('r', strtotime($row->created)) : '');
 
 			// load individual item creator class
-			$item = new JFeedItem();
+			$item = new JFeedItem;
 			$item->title		= $title;
 			$item->link			= $link;
 			$item->description	= $description;

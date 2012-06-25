@@ -79,7 +79,6 @@ class plgSearchCategories extends JPlugin
 			$state[]=2;
 		}
 
-
 		$text = trim($text);
 		if ($text == '') {
 			return array();

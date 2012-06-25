@@ -4,7 +4,6 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.helper');
@@ -442,7 +441,6 @@ final class JSite extends JApplication
 			$id = (int) $tid;
 		}
 
-
 		$cache = JFactory::getCache('com_templates', '');
 		if ($this->_language_filter) {
 			$tag = JFactory::getLanguage()->getTag();
@@ -513,7 +511,7 @@ final class JSite extends JApplication
 	public function setTemplate($template, $styleParams=null)
  	{
  		if (is_dir(JPATH_THEMES . '/' . $template)) {
- 			$this->template = new stdClass();
+ 			$this->template = new stdClass;
  			$this->template->template = $template;
 			if ($styleParams instanceof JRegistry) {
 				$this->template->params = $styleParams;

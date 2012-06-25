@@ -6,7 +6,6 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
 /**
@@ -208,7 +207,6 @@ class ContentHelperQuery
 			$index = array();
 
 			// calculate number of empty cells in the array
-
 
 			// fill in all cells of the array
 			// put -1 in empty cells so we can skip later

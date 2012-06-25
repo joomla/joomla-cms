@@ -4,7 +4,6 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.modeladmin');
@@ -75,7 +74,6 @@ class UsersModelMail extends JModelAdmin
 		$user	= JFactory::getUser();
 		$acl	= JFactory::getACL();
 		$db		= $this->getDbo();
-
 
 		$mode		= array_key_exists('mode', $data) ? intval($data['mode']) : 0;
 		$subject	= array_key_exists('subject', $data) ? $data['subject'] : '';

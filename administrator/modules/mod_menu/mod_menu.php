@@ -6,7 +6,6 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
 // Include the module helper classes.
@@ -21,7 +20,7 @@ if (!class_exists('JAdminCssMenu')) {
 // Initialise variables.
 $lang		= JFactory::getLanguage();
 $user		= JFactory::getUser();
-$menu		= new JAdminCSSMenu();
+$menu		= new JAdminCSSMenu;
 $enabled	= JRequest::getInt('hidemainmenu') ? false : true;
 
 // Render the module layout

@@ -7,7 +7,6 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
 
 /**
@@ -73,7 +72,7 @@ function modChrome_beezTabs($module, $params, $attribs)
 	}
 
 	if ($modulecount == 1) {
-		$temp = new stdClass();
+		$temp = new stdClass;
 		$temp->content = $module->content;
 		$temp->title = $module->title;
 		$temp->params = $module->params;
@@ -103,7 +102,7 @@ function modChrome_beezTabs($module, $params, $attribs)
 		$modulecount--;
 		echo '</div>';
 	} else {
-		$temp = new stdClass();
+		$temp = new stdClass;
 		$temp->content = $module->content;
 		$temp->params = $module->params;
 		$temp->title = $module->title;

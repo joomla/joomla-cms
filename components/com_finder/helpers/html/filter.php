@@ -312,7 +312,6 @@ abstract class JHtmlFilter
 				return null;
 			}
 
-
 			// Iterate through the branches and build the branch groups.
 			foreach ($branches as $bk => $bv)
 			{

@@ -6,7 +6,6 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
 
 // Import library dependencies
@@ -161,7 +160,7 @@ class InstallerModelUpdate extends JModelList
 	{
 		$result = true;
 		foreach($uids as $uid) {
-			$update = new JUpdate();
+			$update = new JUpdate;
 			$instance = JTable::getInstance('update');
 			$instance->load($uid);
 			$update->loadFromXML($instance->detailsurl);

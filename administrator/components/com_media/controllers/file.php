@@ -4,7 +4,6 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
 
 jimport('joomla.filesystem.file');
@@ -80,7 +79,7 @@ class MediaControllerFile extends JControllerLegacy
 				JError::raiseNotice(100, JText::_('COM_MEDIA_ERROR_WARNFILETOOLARGE'));
 				return false;
 			}
-			
+
 			if (JFile::exists($file['filepath']))
 			{
 				// A file with this name already exists

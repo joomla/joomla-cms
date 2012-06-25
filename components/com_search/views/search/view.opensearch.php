@@ -39,7 +39,7 @@ class SearchViewSearch extends JViewLegacy
 			$searchUri .= '&Itemid='.$items[0]->id;
 		}
 
-		$htmlSearch = new JOpenSearchUrl();
+		$htmlSearch = new JOpenSearchUrl;
 		$htmlSearch->template = JRoute::_($searchUri);
 		$doc->addUrl($htmlSearch);
 	}

@@ -6,7 +6,6 @@
  * @license                GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
 
 jimport('joomla.filesystem.file');
@@ -150,7 +149,7 @@ $doc->addScript($this->baseurl.'/templates/'.$this->template.'/javascript/hide.j
                                         <?php if ($navposition=='left' and $showleft) : ?>
 
 
-                                                        <div class="left1 <?php if ($showRightColumn==NULL){ echo 'leftbigger';} ?>" id="nav">
+                                                        <div class="left1 <?php if ($showRightColumn == null){ echo 'leftbigger';} ?>" id="nav">
                                                    <jdoc:include type="modules" name="position-7" style="beezDivision" headerLevel="3" />
                                                                 <jdoc:include type="modules" name="position-4" style="beezHide" headerLevel="3" state="0 " />
                                                                 <jdoc:include type="modules" name="position-5" style="beezTabs" headerLevel="2"  id="3" />
@@ -196,7 +195,7 @@ $doc->addScript($this->baseurl.'/templates/'.$this->template.'/javascript/hide.j
 
                         <?php if ($navposition=='center' and $showleft) : ?>
 
-                                        <div class="left <?php if ($showRightColumn==NULL){ echo 'leftbigger';} ?>" id="nav" >
+                                        <div class="left <?php if ($showRightColumn == null){ echo 'leftbigger';} ?>" id="nav" >
 
                                                 <jdoc:include type="modules" name="position-7"  style="beezDivision" headerLevel="3" />
                                                 <jdoc:include type="modules" name="position-4" style="beezHide" headerLevel="3" state="0 " />

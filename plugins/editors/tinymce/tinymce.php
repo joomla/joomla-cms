@@ -345,7 +345,7 @@ class plgEditorTinymce extends JPlugin
 		// style
 		$style = $this->params->def('style', 1);
 
-		if ($style) 
+		if ($style)
 		{
 			$plugins[]	= 'style';
 			$buttons4[]	= 'styleprops';

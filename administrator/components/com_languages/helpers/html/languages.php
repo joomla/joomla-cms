@@ -4,7 +4,6 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
 /**
@@ -14,7 +13,8 @@ defined('_JEXEC') or die;
  * @subpackage	com_languages
  * @since		1.6
  */
-abstract class JHtmlLanguages {
+abstract class JHtmlLanguages
+{
 	/**
 	 * method to generate an information about the default language
 	 *
@@ -25,7 +25,7 @@ abstract class JHtmlLanguages {
 	public static function published($published)
 	{
 		if ($published) {
-			return JHtml::_('image', 'menu/icon-16-default.png', JText::_('COM_LANGUAGES_HEADING_DEFAULT'), NULL, true);
+			return JHtml::_('image', 'menu/icon-16-default.png', JText::_('COM_LANGUAGES_HEADING_DEFAULT'), null, true);
 		}
 		else {
 			return '&#160;';

@@ -481,7 +481,8 @@ class JInstallationModelFilesystem extends JModelLegacy
 		$ftpRoot = $app->getCfg('ftp_root');
 
 		// Do NOT use ftp if it is not enabled
-		if ($app->getCfg(ftp_enable) != 1) {
+		if ($app->getCfg('ftp_enable') != 1)
+		{
 			$ftpFlag = false;
 		}
 

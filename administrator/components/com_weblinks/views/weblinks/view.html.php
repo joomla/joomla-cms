@@ -64,7 +64,6 @@ class WeblinksViewWeblinks extends JViewLegacy
 			JToolBarHelper::publish('weblinks.publish', 'JTOOLBAR_PUBLISH', true);
 			JToolBarHelper::unpublish('weblinks.unpublish', 'JTOOLBAR_UNPUBLISH', true);
 
-
 			JToolBarHelper::divider();
 			JToolBarHelper::archiveList('weblinks.archive');
 			JToolBarHelper::checkin('weblinks.checkin');

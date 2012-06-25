@@ -6,7 +6,6 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
 
 /*
@@ -46,7 +45,7 @@ require_once JPATH_CONFIGURATION.'/configuration.php';
 ob_end_clean();
 
 // System configuration.
-$config = new JConfig();
+$config = new JConfig;
 
 // Set the error_reporting
 switch ($config->error_reporting)

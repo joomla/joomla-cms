@@ -145,7 +145,6 @@ class LoginModelLogin extends JModelLegacy
 				return $loginmodule;
 			}
 
-
 			// Return to simple indexing that matches the query order.
 			$loginmodule = $modules;
 

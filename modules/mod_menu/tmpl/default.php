@@ -6,7 +6,6 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
 
 // Note. It is important to remove spaces between elements.
@@ -14,7 +13,8 @@ defined('_JEXEC') or die;
 
 <ul class="menu<?php echo $class_sfx;?>"<?php
 	$tag = '';
-	if ($params->get('tag_id')!=NULL) {
+	if ($params->get('tag_id')!= null)
+	{
 		$tag = $params->get('tag_id').'';
 		echo ' id="'.$tag.'"';
 	}

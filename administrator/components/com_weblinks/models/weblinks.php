@@ -17,7 +17,6 @@ jimport('joomla.application.component.modellist');
  */
 class WeblinksModelWeblinks extends JModelList
 {
-
 	/**
 	 * Constructor.
 	 *
@@ -51,7 +50,6 @@ class WeblinksModelWeblinks extends JModelList
 
 		parent::__construct($config);
 	}
-
 
 	/**
 	 * Method to auto-populate the model state.

@@ -52,7 +52,6 @@ class LanguagesModelStrings extends JModelLegacy
 		$client		= $app->getUserState('com_languages.overrides.filter.client', 'site') ? 'administrator' : 'site';
 		$language	= $app->getUserState('com_languages.overrides.filter.language', 'en-GB');
 
-
 		$base = constant('JPATH_'.strtoupper($client));
 		$path = $base.'/language/' . $language;
 
@@ -85,7 +84,7 @@ class LanguagesModelStrings extends JModelLegacy
 				$query->clear('values');
 				foreach ($strings as $key => $string)
 				{
-					$query->values($this->_db->q($key).','.$this->_db->q($string).','.$this->_db->q(JPath::clean($file)));;
+					$query->values($this->_db->q($key).','.$this->_db->q($string).','.$this->_db->q(JPath::clean($file)));
 				}
 
 				try

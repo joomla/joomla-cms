@@ -196,7 +196,6 @@ class JInstallation extends JApplication
 
 				$guess = trim($guess);
 
-
 				$key = trim(strtoupper($key));
 				$key = preg_replace('#\s+#', '_', $key);
 				$key = preg_replace('#\W#', '', $key);
@@ -248,7 +247,7 @@ class JInstallation extends JApplication
 	public function getTemplate($params = false)
 	{
 		if ((bool) $params) {
-			$template = new stdClass();
+			$template = new stdClass;
 			$template->template = 'template';
 			$template->params = new JRegistry;
 			return $template;

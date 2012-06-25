@@ -49,7 +49,7 @@ class WeblinksViewCategory extends JViewLegacy
 			$date = ($item->date ? date('r', strtotime($item->date)) : '');
 
 			// load individual item creator class
-			$feeditem = new JFeedItem();
+			$feeditem = new JFeedItem;
 			$feeditem->title		= $title;
 			$feeditem->link			= $link;
 			$feeditem->description	= $description;
@@ -61,4 +61,3 @@ class WeblinksViewCategory extends JViewLegacy
 		}
 	}
 }
-?>

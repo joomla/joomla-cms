@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.modelform');
 jimport('joomla.event.dispatcher');
 jimport('joomla.database.table');
+
 /**
  * Rest model class for Users.
  *
@@ -341,7 +342,7 @@ class UsersModelReset extends JModelForm
 			$this->setError(JText::_('COM_USERS_REMIND_SUPERADMIN_ERROR'));
 			return false;
 		}
-		
+
 		// Make sure the user has not exceeded the reset limit
 		if (!$this->checkResetLimit($user)) {
 			$resetLimit = (int) JFactory::getApplication()->getParams()->get('reset_time');

@@ -70,7 +70,6 @@ class InstallerModelWarnings extends JModelList
 			$messages[] = array('message'=>JText::_('COM_INSTALLER_MSG_WARNINGS_FILEUPLOADSDISABLED'), 'description'=>JText::_('COM_INSTALLER_MSG_WARNINGS_FILEUPLOADISDISABLEDDESC'));
 		}
 
-
 		$upload_dir = ini_get('upload_tmp_dir');
 		if (!$upload_dir) {
 			$messages[] = array('message'=>JText::_('COM_INSTALLER_MSG_WARNINGS_PHPUPLOADNOTSET'), 'description'=>JText::_('COM_INSTALLER_MSG_WARNINGS_PHPUPLOADNOTSETDESC'));
@@ -96,7 +95,6 @@ class InstallerModelWarnings extends JModelList
 		} elseif ($memory_limit < (16 * 1024 * 1024)) { //16MB
 			$messages[] = array('message'=>JText::_('COM_INSTALLER_MSG_WARNINGS_MEDMEMORYWARN'), 'description'=>JText::_('COM_INSTALLER_MSG_WARNINGS_MEDMEMORYDESC'));
 		}
-
 
 		$post_max_size = $this->return_bytes(ini_get('post_max_size'));
 		$upload_max_filesize = $this->return_bytes(ini_get('upload_max_filesize'));

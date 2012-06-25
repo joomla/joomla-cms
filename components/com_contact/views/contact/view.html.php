@@ -74,7 +74,6 @@ class ContactViewContact extends JViewLegacy
 		$options['category_id']	= $item->catid;
 		$options['order by']	= 'a.default_con DESC, a.ordering ASC';
 
-
 		// Handle email cloaking
 		if ($item->email_to && $params->get('show_email')) {
 			$item->email_to = JHtml::_('email.cloak', $item->email_to);
@@ -87,7 +86,6 @@ class ContactViewContact extends JViewLegacy
 		else {
 			$params->set('address_check', 0);
 		}
-
 
 		// Manage the display mode for contact detail groups
 		switch ($params->get('contact_icons'))
@@ -116,12 +114,12 @@ class ContactViewContact extends JViewLegacy
 
 			default :
 				// icons
-				$image1 = JHtml::_('image', 'contacts/'.$params->get('icon_address', 'con_address.png'), JText::_('COM_CONTACT_ADDRESS').": ", NULL, true);
-				$image2 = JHtml::_('image', 'contacts/'.$params->get('icon_email', 'emailButton.png'), JText::_('JGLOBAL_EMAIL').": ", NULL, true);
-				$image3 = JHtml::_('image', 'contacts/'.$params->get('icon_telephone', 'con_tel.png'), JText::_('COM_CONTACT_TELEPHONE').": ", NULL, true);
-				$image4 = JHtml::_('image', 'contacts/'.$params->get('icon_fax', 'con_fax.png'), JText::_('COM_CONTACT_FAX').": ", NULL, true);
-				$image5 = JHtml::_('image', 'contacts/'.$params->get('icon_misc', 'con_info.png'), JText::_('COM_CONTACT_OTHER_INFORMATION').": ", NULL, true);
-				$image6 = JHtml::_('image', 'contacts/'.$params->get('icon_mobile', 'con_mobile.png'), JText::_('COM_CONTACT_MOBILE').": ", NULL, true);
+				$image1 = JHtml::_('image', 'contacts/'.$params->get('icon_address', 'con_address.png'), JText::_('COM_CONTACT_ADDRESS').": ", null, true);
+				$image2 = JHtml::_('image', 'contacts/'.$params->get('icon_email', 'emailButton.png'), JText::_('JGLOBAL_EMAIL').": ", null, true);
+				$image3 = JHtml::_('image', 'contacts/'.$params->get('icon_telephone', 'con_tel.png'), JText::_('COM_CONTACT_TELEPHONE').": ", null, true);
+				$image4 = JHtml::_('image', 'contacts/'.$params->get('icon_fax', 'con_fax.png'), JText::_('COM_CONTACT_FAX').": ", null, true);
+				$image5 = JHtml::_('image', 'contacts/'.$params->get('icon_misc', 'con_info.png'), JText::_('COM_CONTACT_OTHER_INFORMATION').": ", null, true);
+				$image6 = JHtml::_('image', 'contacts/'.$params->get('icon_mobile', 'con_mobile.png'), JText::_('COM_CONTACT_MOBILE').": ", null, true);
 
 				$params->set('marker_address',	$image1);
 				$params->set('marker_email',		$image2);

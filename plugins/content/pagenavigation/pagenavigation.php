@@ -4,7 +4,6 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
 
 /**
@@ -184,8 +183,6 @@ class plgContentPagenavigation extends JPlugin
 					</li>'
 					;
 				}
-
-
 
 				if ($row->next) {
 					$html .= '

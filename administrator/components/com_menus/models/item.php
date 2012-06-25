@@ -7,7 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
 
 // Include dependencies.
@@ -970,7 +969,6 @@ class MenusModelItem extends JModelAdmin
 				throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
 			}
 		}
-
 
 		// Load the specific type file
 		if (!$form->loadFile('item_'.$type, false, false)) {

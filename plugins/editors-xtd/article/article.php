@@ -4,7 +4,6 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
 /**
@@ -29,7 +28,6 @@ class plgButtonArticle extends JPlugin
 		parent::__construct($subject, $config);
 		$this->loadLanguage();
 	}
-
 
 	/**
 	 * Display the button
@@ -66,7 +64,7 @@ class plgButtonArticle extends JPlugin
 		 */
 		$link = 'index.php?option=com_content&amp;view=articles&amp;layout=modal&amp;tmpl=component&amp;'.JSession::getFormToken().'=1';
 
-		$button = new JObject();
+		$button = new JObject;
 		$button->set('modal', true);
 		$button->set('link', $link);
 		$button->set('text', JText::_('PLG_ARTICLE_BUTTON_ARTICLE'));

@@ -6,7 +6,6 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
 /**
@@ -26,7 +25,7 @@ class modSearchHelper
 	 */
 	public static function getSearchImage($button_text)
 	{
-		$img = JHtml::_('image', 'searchButton.gif', $button_text, NULL, true, true);
+		$img = JHtml::_('image', 'searchButton.gif', $button_text, null, true, true);
 		return $img;
 	}
 }

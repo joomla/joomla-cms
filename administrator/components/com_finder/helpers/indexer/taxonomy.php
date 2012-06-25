@@ -223,7 +223,7 @@ class FinderIndexerTaxonomy
 		$db->query();
 		$id = (int) $db->loadResult();
 
-		$map = new JObject();
+		$map = new JObject;
 		$map->link_id = (int) $linkId;
 		$map->node_id = (int) $nodeId;
 

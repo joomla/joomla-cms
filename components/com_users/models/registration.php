@@ -178,9 +178,9 @@ class UsersModelRegistration extends JModelForm
 	 */
 	public function getData()
 	{
-		if ($this->data === null) {
-
-			$this->data	= new stdClass();
+		if ($this->data === null)
+		{
+			$this->data	= new stdClass;
 			$app	= JFactory::getApplication();
 			$params	= JComponentHelper::getParams('com_users');
 
@@ -489,7 +489,7 @@ class UsersModelRegistration extends JModelForm
 			$db->setQuery($q);
 			$sendEmail = $db->loadColumn();
 			if (count($sendEmail) > 0) {
-				$jdate = new JDate();
+				$jdate = new JDate;
 				// Build the query to add the messages
 				$q = "INSERT INTO ".$db->quoteName('#__messages')." (".$db->quoteName('user_id_from').
 				", ".$db->quoteName('user_id_to').", ".$db->quoteName('date_time').
@@ -507,10 +507,16 @@ class UsersModelRegistration extends JModelForm
 		}
 
 		if ($useractivation == 1)
+		{
 			return "useractivate";
+		}
 		elseif ($useractivation == 2)
+		{
 			return "adminactivate";
+		}
 		else
+		{
 			return $user->id;
+		}
 	}
 }

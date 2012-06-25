@@ -5,7 +5,7 @@
  <!-- Exclude all JavaScript and CSS files. There are bugs and we don't have any rules anyways. -->
  <exclude-pattern>*.js</exclude-pattern>
  <exclude-pattern>*.css</exclude-pattern>
- 
+
  <!-- Exclude the index.html files. -->
  <exclude-pattern>*/index.html</exclude-pattern>
 
@@ -15,7 +15,7 @@
  <exclude-pattern>*/tests/*</exclude-pattern>
  <exclude-pattern>*/cache/*</exclude-pattern>
  <exclude-pattern>*/tmp/*</exclude-pattern>
- 
+
  <!-- Exclude 3rd party libraries. -->
  <exclude-pattern>*/phputf8/*</exclude-pattern>
  <exclude-pattern>*/simplepie/*</exclude-pattern>
@@ -26,7 +26,7 @@
  <exclude-pattern>*/mootree*.css</exclude-pattern>
  <exclude-pattern>*/mooRainbow.css</exclude-pattern>
  <exclude-pattern>*/modal.css</exclude-pattern>
- 
+
  <exclude-pattern>administrator/components/com_joomlaupdate/restore.php</exclude-pattern>
  <exclude-pattern>configuration.php</exclude-pattern>
 
@@ -35,16 +35,17 @@
  <!-- Include some additional sniffs from the Generic standard -->
 
  <rule ref="PEAR.Classes.ClassDeclaration"/>
- 
+
  <rule ref="Generic.Files.LineEndings"/>
  <rule ref="Zend.Files.ClosingTag">
   <exclude-pattern>*/tmpl/*</exclude-pattern>
   <exclude-pattern>/templates/*</exclude-pattern>
  </rule>
- 
+
  <rule ref="Generic.Formatting.DisallowMultipleStatements">
   <exclude-pattern>*/tmpl/*</exclude-pattern>
   <exclude-pattern>/templates/*</exclude-pattern>
+  <exclude-pattern>/installation/template/index.php</exclude-pattern>
  </rule>
 
  <rule ref="PEAR.NamingConventions.ValidClassName">

@@ -52,7 +52,7 @@ class ConfigModelApplication extends JModelForm
 	public function getData()
 	{
 		// Get the config data.
-		$config	= new JConfig();
+		$config	= new JConfig;
 		$data	= JArrayHelper::fromObject($config);
 
 		// Prime the asset_id for the rules.
@@ -128,7 +128,7 @@ class ConfigModelApplication extends JModelForm
 		// Save the text filters
 		if (isset($data['filters']))
 		{
-			$registry = new JRegistry();
+			$registry = new JRegistry;
 			$registry->loadArray(array('filters' => $data['filters']));
 
 			$extension = JTable::getInstance('extension');
@@ -153,7 +153,7 @@ class ConfigModelApplication extends JModelForm
 		}
 
 		// Get the previous configuration.
-		$prev = new JConfig();
+		$prev = new JConfig;
 		$prev = JArrayHelper::fromObject($prev);
 
 		// Merge the new data in. We do this to preserve values that were not in the form.
@@ -202,7 +202,7 @@ class ConfigModelApplication extends JModelForm
 
 		// Clear cache of com_config component.
 		$this->cleanCache('_system');
-		
+
 		// Write the configuration file.
 		return $this->writeConfigFile($config);
 	}
@@ -218,7 +218,7 @@ class ConfigModelApplication extends JModelForm
 	function removeroot()
 	{
 		// Get the previous configuration.
-		$prev = new JConfig();
+		$prev = new JConfig;
 		$prev = JArrayHelper::fromObject($prev);
 
 		// Create the new configuration object, and unset the root_user property

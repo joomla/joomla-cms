@@ -122,7 +122,7 @@ class ContentViewArticle extends JViewLegacy
 		JPluginHelper::importPlugin('content');
 		$results = $dispatcher->trigger('onContentPrepare', array ('com_content.article', &$item, &$this->params, $offset));
 
-		$item->event = new stdClass();
+		$item->event = new stdClass;
 		$results = $dispatcher->trigger('onContentAfterTitle', array('com_content.article', &$item, &$this->params, $offset));
 		$item->event->afterDisplayTitle = trim(implode("\n", $results));
 

@@ -78,7 +78,7 @@ class UsersViewNotes extends JViewLegacy
 
 		// turn parameters into registry objects
 		foreach ($this->items as $item) {
-			$item->cparams = new JRegistry();
+			$item->cparams = new JRegistry;
 			$item->cparams->loadString($item->category_params);
 		}
 

@@ -4,7 +4,6 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.modellist');
@@ -167,7 +166,7 @@ class LanguagesModelInstalled extends JModelList
 			foreach($langlist as $lang){
 				$file = $path . '/' . $lang . '/' . $lang.'.xml';
 				$info = JApplicationHelper::parseXMLLangMetaFile($file);
-				$row = new JObject();
+				$row = new JObject;
 				$row->language = $lang;
 
 				if (!is_array($info)) {

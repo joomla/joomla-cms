@@ -4,7 +4,6 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.modeladmin');
@@ -59,7 +58,6 @@ class RedirectModelLink extends JModelAdmin
 			return $user->authorise('core.admin', 'com_redirect');
 
 	}
-
 
 	/**
 	 * Returns a reference to the a Table object, always creating it.

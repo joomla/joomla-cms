@@ -31,16 +31,16 @@ class JInstallationModelDatabase extends JModelLegacy
 			$session->set('randUserId', $randUserId);
 		}
 		return $randUserId;
-		
+
 	}
-	
+
 	static public function resetRandUserId()
 	{
 		self::$userId = 0;
 		$session = JFactory::getSession();
 		$session->set('randUserId', self::$userId);
 	}
-	
+
 	static public function getUserId()
 	{
 		if (!self::$userId) {
@@ -48,7 +48,7 @@ class JInstallationModelDatabase extends JModelLegacy
 		}
 		return self::$userId;
 	}
-	
+
 	public function initialise($options)
 	{
 		// Get the options as a JObject for easier handling.
@@ -347,7 +347,7 @@ class JInstallationModelDatabase extends JModelLegacy
 			$this->setError(JText::sprintf('INSTL_ERROR_DB', $this->getError()));
 			return false;
 		}
-		
+
 		$this->postInstallSampleData($db);
 
 		return true;
@@ -355,13 +355,13 @@ class JInstallationModelDatabase extends JModelLegacy
 
 	/**
 	 * method to update the user id of the sample data content to the new rand user id
-	 * 
-	 * @param Database connector object $db 
+	 *
+	 * @param Database connector object $db
 	 */
 	protected function postInstallSampleData($db) {
 		// Create the ID for the root user
 		$userId = self::getUserId();
-		
+
 		// update all created_by field of the tables with the random user id
 		// categories (created_user_id), contact_details, content, newsfeeds, weblinks
 		$updates_array = array(

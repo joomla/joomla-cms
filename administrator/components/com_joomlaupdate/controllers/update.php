@@ -154,7 +154,7 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 	protected function _applyCredentials()
 	{
 		jimport('joomla.client.helper');
-		
+
 		if (!JClientHelper::hasCredentials('ftp'))
 		{
 			$user = JFactory::getApplication()->getUserStateFromRequest('com_joomlaupdate.ftp_user', 'ftp_user', null, 'raw');

@@ -6,7 +6,6 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
 
 require_once dirname(__FILE__) . '/articles.php';
@@ -131,7 +130,6 @@ class ContentModelFeatured extends ContentModelArticles
 		if (is_array($featuredCategories = $this->getState('filter.frontpage.categories'))) {
 			$query->where('a.catid IN (' . implode(',', $featuredCategories) . ')');
 		}
-
 
 		return $query;
 	}

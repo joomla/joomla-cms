@@ -188,8 +188,6 @@ class ContentModelCategory extends JModelList
 			$this->setState('filter.subcategories', true);
 		}
 
-
-
 		$this->setState('filter.language', $app->getLanguageFilter());
 
 		$this->setState('layout', JRequest::getCmd('layout'));
@@ -404,7 +402,7 @@ class ContentModelCategory extends JModelList
 		}
 
 		// Order subcategories
-		if (sizeof($this->_children)) {
+		if (count($this->_children)) {
 			$params = $this->getState()->get('params');
 			if ($params->get('orderby_pri') == 'alpha' || $params->get('orderby_pri') == 'ralpha') {
 				jimport('joomla.utilities.arrayhelper');

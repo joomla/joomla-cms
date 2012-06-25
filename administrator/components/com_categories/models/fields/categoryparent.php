@@ -149,10 +149,9 @@ class JFormFieldCategoryParent extends JFormFieldList
 					}
 				}
 
-
 		if (isset($row) && !isset($options[0])) {
 			if ($row->parent_id == '1') {
-				$parent = new stdClass();
+				$parent = new stdClass;
 				$parent->text = JText::_('JGLOBAL_ROOT_PARENT');
 				array_unshift($options, $parent);
 			}

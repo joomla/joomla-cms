@@ -55,7 +55,6 @@ class UsersViewUser extends JViewLegacy
 		$isNew		= ($this->item->id == 0);
 		$canDo		= UsersHelper::getActions();
 
-
 		$isNew	= ($this->item->id == 0);
 		$isProfile = $this->item->id == $user->id;
 		JToolBarHelper::title(JText::_($isNew ? 'COM_USERS_VIEW_NEW_USER_TITLE' : ($isProfile ? 'COM_USERS_VIEW_EDIT_PROFILE_TITLE' : 'COM_USERS_VIEW_EDIT_USER_TITLE')), $isNew ? 'user-add' : ($isProfile ? 'user-profile' : 'user-edit'));
