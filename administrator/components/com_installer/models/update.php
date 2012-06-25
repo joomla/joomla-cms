@@ -58,6 +58,18 @@ class InstallerModelUpdate extends JModelList
 		$this->setState('extension_message', $app->getUserState('com_installer.extension_message'));
 		$app->setUserState('com_installer.message', '');
 		$app->setUserState('com_installer.extension_message', '');
+		$filters = JRequest::getVar('filters');
+		if (empty($filters)) {
+			$data = $app->getUserState($this->context.'.data');
+			$filters = $data['filters'];
+		}
+		else {
+			$app->setUserState($this->context.'.data', array('filters'=>$filters));
+		}
+		$this->setState('filter.search', isset($filters['search']) ? $filters['search'] : '');
+		$this->setState('filter.type', isset($filters['type']) ? $filters['type'] : '');
+		$this->setState('filter.group', isset($filters['group']) ? $filters['group'] : '');
+		$this->setState('filter.client_id', isset($filters['client_id']) ? $filters['client_id'] : '');
 		parent::populateState('name', 'asc');
 	}
 
@@ -69,12 +81,26 @@ class InstallerModelUpdate extends JModelList
 	 */
 	protected function getListQuery()
 	{
-		$db		= $this->getDbo();
-		$query	= $db->getQuery(true);
+		$db = $this->getDbo();
+		$query = $db->getQuery(true);
+		$type = $this->getState('filter.type');
+		$client = $this->getState('filter.client_id');
+		$group = $this->getState('filter.group');
 		// grab updates ignoring new installs
 		$query->select('*')->from('#__updates')->where('extension_id != 0');
 		$query->order($this->getState('list.ordering').' '.$this->getState('list.direction'));
 
+		if ($type) {
+			$query->where('type=' . $this->_db->Quote($type));
+		}
+		if ($client != '') {
+			$query->where('client_id=' . intval($client));
+		}
+		if ($group != '' && in_array($type, array('plugin', 'library', ''))) {
+		
+			$query->where('folder=' . $this->_db->Quote($group == '*' ? '' : $group));
+		}
+		
 		// Filter by extension_id
 		if ($eid = $this->getState('filter.extension_id')) {
 			$query->where($db->nq('extension_id') . ' = ' . $db->q((int) $eid));
@@ -82,7 +108,12 @@ class InstallerModelUpdate extends JModelList
 			$query->where($db->nq('extension_id').' != '.$db->q(0));
 			$query->where($db->nq('extension_id').' != '.$db->q(700));
 		}
-
+		
+		// Filter by search
+		$search = $this->getState('filter.search');
+		if (!empty($search)) {
+			$query->where('name LIKE ' . $this->_db->Quote('%' . $search . '%'));
+		}
 		return $query;
 	}
 
@@ -246,5 +277,50 @@ class InstallerModelUpdate extends JModelList
 		JInstallerHelper::cleanupInstall($package['packagefile'], $package['extractdir']);
 
 		return $result;
+	}
+	
+	/**
+	* Method to get the row form.
+	*
+	* @param	array	$data		Data for the form.
+	* @param	boolean	$loadData	True if the form is to load its own data (default case), false if not.
+	* @return	mixed	A JForm object on success, false on failure
+	* @since	2.5.2
+	*/
+	public function getForm($data = array(), $loadData = true)
+	{
+		// Get the form.
+		$app = JFactory::getApplication();
+		JForm::addFormPath(JPATH_COMPONENT . '/models/forms');
+		JForm::addFieldPath(JPATH_COMPONENT . '/models/fields');
+		$form = JForm::getInstance('com_installer.update', 'update', array('load_data' => $loadData));
+	
+		// Check for an error.
+		if ($form == false) {
+			$this->setError($form->getMessage());
+			return false;
+		}
+		// Check the session for previously entered form data.
+		$data = $this->loadFormData();
+	
+		// Bind the form data if present.
+		if (!empty($data)) {
+			$form->bind($data);
+		}
+	
+		return $form;
+	}
+	
+	/**
+	 * Method to get the data that should be injected in the form.
+	 *
+	 * @return	mixed	The data for the form.
+	 * @since	2.5.2
+	 */
+	protected function loadFormData()
+	{
+		// Check the session for previously entered form data.
+		$data = JFactory::getApplication()->getUserState($this->context.'.data', array());
+		return $data;
 	}
 }
