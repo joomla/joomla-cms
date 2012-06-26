@@ -89,12 +89,6 @@ class JClientFtp
 	private $_type = null;
 
 	/**
-	 * @var    string  Native OS Type
-	 * @since  12.1
-	 */
-	private $_OS = null;
-
-	/**
 	 * @var    array  Array to hold ascii format file extensions
 	 * @since   12.1
 	 */
@@ -150,19 +144,6 @@ class JClientFtp
 			$options['type'] = FTP_BINARY;
 		}
 		$this->setOptions($options);
-
-		if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN')
-		{
-			$this->_OS = 'WIN';
-		}
-		elseif (strtoupper(substr(PHP_OS, 0, 3)) === 'MAC')
-		{
-			$this->_OS = 'MAC';
-		}
-		else
-		{
-			$this->_OS = 'UNIX';
-		}
 
 		if (FTP_NATIVE)
 		{
@@ -612,7 +593,7 @@ class JClientFtp
 		{
 			if (@ftp_site($this->_conn, 'CHMOD ' . $mode . ' ' . $path) === false)
 			{
-				if ($this->_OS != 'WIN')
+				if (!IS_WIN)
 				{
 					JLog::add(JText::_('JLIB_CLIENT_ERROR_JFTP_CHMOD_BAD_RESPONSE_NATIVE'), JLog::WARNING, 'jerror');
 				}
@@ -624,7 +605,7 @@ class JClientFtp
 		// Send change mode command and verify success [must convert mode from octal]
 		if (!$this->_putCmd('SITE CHMOD ' . $mode . ' ' . $path, array(200, 250)))
 		{
-			if ($this->_OS != 'WIN')
+			if (!IS_WIN)
 			{
 				JLog::add(JText::sprintf('JLIB_CLIENT_ERROR_JFTP_CHMOD_BAD_RESPONSE', $this->_response, $path, $mode), JLog::WARNING, 'jerror');
 			}
@@ -863,7 +844,17 @@ class JClientFtp
 		// Let's try to cleanup some line endings if it is ascii
 		if ($mode == FTP_ASCII)
 		{
-			$buffer = preg_replace("/" . CRLF . "/", $this->_lineEndings[$this->_OS], $buffer);
+			$os = 'UNIX';
+			if (IS_WIN)
+			{
+				$os = 'WIN';
+			}
+			elseif (IS_MAC)
+			{
+				$os = 'MAC';
+			}
+
+			$buffer = preg_replace("/" . CRLF . "/", $this->_lineEndings[$os], $buffer);
 		}
 
 		if (!$this->_verifyResponse(226))
