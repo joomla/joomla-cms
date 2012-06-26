@@ -173,7 +173,7 @@ class ControlPanel0004 extends SeleniumJoomlaTestCase
 		$this->waitForPageToLoad("30000");
 
 		echo "check that orders have changed\n";
-		$this->assertContains("Plugins ", $this->getTable("//table[@class=\"adminlist\"].4.1"));
+		$this->assertContains("Plugins", $this->getTable("//table[@class=\"adminlist\"].4.1"));
 		$this->assertContains("Languages", $this->getTable("//table[@class=\"adminlist\"].5.1"));
 		$this->assertContains("Templates", $this->getTable("//table[@class=\"adminlist\"].6.1"));
 		$this->assertContains("Modules", $this->getTable("//table[@class=\"adminlist\"].10.1"));

@@ -134,7 +134,8 @@ class Acl0001Test extends SeleniumJoomlaTestCase
         $permissions = array('Allowed', 'Allowed', 'Allowed', 'Allowed', 'Allowed', 'Allowed');
         $this->setPermissions('Article Manager', $groupName, $actions, $permissions);
 
-		echo "Allow" . $groupName . " back end access, deny admin access\n";
+		sleep(3); // Needed for google chrome
+        echo "Allow " . $groupName . " back end access, deny admin access\n";
 		$actions = array('Site Login', 'Admin Login', 'Configure', 'Access Component', 'Create', 'Delete', 'Edit', 'Edit State');
 		$permissions = array('Inherited', 'Allowed', 'Denied', 'Inherited', 'Inherited', 'Inherited', 'Inherited', 'Inherited');
 		$this->setPermissions('Global Configuration', $groupName, $actions, $permissions);

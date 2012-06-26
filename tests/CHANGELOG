@@ -26,7 +26,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
-18-June-2012 Mark Dexter
+26-Jun-2012 Mark Dexter
+ # Fixes for Selenium RC2 and Google Chrome browser
+
+18-Jun-2012 Mark Dexter
  ^ Update phpunit.php for debugging system tests
 
 05-May-2012 Mark Dexter
