@@ -28,6 +28,7 @@ $ -> Language fix or change
 
 26-Jun-2012 Jean-Marie Simonet
  # [#28745] mailto fatal error when sending article-mail in joomla 2.5.6. Thanks Rouven.
+ # [#28682] "Articles" appearing in title. Thanks Christophe
  
 26-Jun-2012 Christophe Demko
  ^ [#28730] Use the MVC legacy aliases in the administrator (Rouven Weßling)
