@@ -242,6 +242,7 @@ class JMail extends PHPMailer
 	public function addRecipient($recipient, $name = '')
 	{
 		$this->add($recipient, $name, 'AddAddress');
+		return $this;
 	}
 
 	/**
@@ -345,6 +346,7 @@ class JMail extends PHPMailer
 	public function addReplyTo($replyto, $name = '')
 	{
 		$this->add($replyto, $name, 'AddReplyTo');
+		return $this;
 	}
 
 	/**
