@@ -108,14 +108,14 @@ abstract class JHtml
 
 		$className = $prefix . ucfirst($file);
 
-		if (!class_exists($className, false))
+		if (!class_exists($className))
 		{
 			$path = JPath::find(self::$includePaths, strtolower($file) . '.php');
 			if ($path)
 			{
 				require_once $path;
 
-				if (!class_exists($className, false))
+				if (!class_exists($className))
 				{
 					throw new InvalidArgumentException(sprintf('%s not found.', $className), 500);
 				}

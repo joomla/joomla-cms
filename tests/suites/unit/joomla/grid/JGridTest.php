@@ -1,20 +1,17 @@
 <?php
 /**
  * @package     Joomla.UnitTest
- * @subpackage  HTML
+ * @subpackage  Grid
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-jimport('joomla.html.grid');
-
-
 /**
  * General inspector class for JGrid.
  *
  * @package Joomla.UnitTest
- * @subpackage HTML
+ * @subpackage Grid
  * @since 11.3
  */
 class JGridInspector extends JGrid
