@@ -8,7 +8,7 @@
 
 defined('_JEXEC') or die;
 
-class MailtoViewSent extends JView
+class MailtoViewSent extends JViewLegacy
 {
 	function display($tpl = null)
 	{
