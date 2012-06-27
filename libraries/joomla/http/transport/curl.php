@@ -135,39 +135,55 @@ class JHttpTransportCurl implements JHttpTransport
 		// Link: http://the-stickman.com/web-development/php-and-curl-disabling-100-continue-header/
 		$options[CURLOPT_HTTPHEADER][] = 'Expect:';
 
+		// Follow redirects.
+		$options[CURLOPT_FOLLOWLOCATION] = true;
+
 		// Set the cURL options.
 		curl_setopt_array($ch, $options);
 
 		// Execute the request and close the connection.
 		$content = curl_exec($ch);
+
+		// Get the request information.
+		$info = curl_getinfo($ch);
+
+		// Close the connection.
 		curl_close($ch);
 
-		return $this->getResponse($content);
+		return $this->getResponse($content, $info);
 	}
 
 	/**
 	 * Method to get a response object from a server response.
 	 *
 	 * @param   string  $content  The complete server response, including headers.
+	 * @param   array   $info     The cURL request information.
 	 *
 	 * @return  JHttpResponse
 	 *
 	 * @since   11.3
 	 * @throws  UnexpectedValueException
 	 */
-	protected function getResponse($content)
+	protected function getResponse($content, $info)
 	{
 		// Create the response object.
 		$return = new JHttpResponse;
 
-		// Split the response into headers and body.
-		$response = explode("\r\n\r\n", $content, 2);
+		// Get the number of redirects that occurred.
+		$redirects = isset($info['redirect_count']) ? $info['redirect_count'] : 0;
 
-		// Get the response headers as an array.
-		$headers = explode("\r\n", $response[0]);
+		/*
+		 * Split the response into headers and body. If cURL encountered redirects, the headers for the redirected requests will
+		 * also be included. So we split the response into header + body + the number of redirects and only use the last two
+		 * sections which should be the last set of headers and the actual body.
+		 */
+		$response = explode("\r\n\r\n", $content, 2 + $redirects);
 
 		// Set the body for the response.
-		$return->body = $response[1];
+		$return->body = array_pop($response);
+
+		// Get the last set of response headers as an array.
+		$headers = explode("\r\n", array_pop($response));
 
 		// Get the response code from the first offset of the response headers.
 		preg_match('/[0-9]{3}/', array_shift($headers), $matches);
