@@ -56,14 +56,16 @@ class ContentControllerFeatured extends ContentControllerArticles
 	/**
 	 * Method to publish a list of articles.
 	 *
-	 * @return	void
+	 * @return	Integer on success (number of items published) or False on failure.
 	 * @since	1.0
 	 */
 	function publish()
 	{
-		parent::publish();
+		$cids = parent::publish();
 
 		$this->setRedirect('index.php?option=com_content&view=featured');
+		
+		return $cids;
 	}
 
 	/**

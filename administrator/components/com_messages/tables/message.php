@@ -71,7 +71,7 @@ class MessagesTableMessage extends JTable
 	 *					set the instance property value is used.
 	 * @param	integer The publishing state. eg. [0 = unpublished, 1 = published]
 	 * @param	integer The user id of the user performing the operation.
-	 * @return	boolean	True on success.
+	 * @return	mixed Integer on success (number of items published) or False on failure.
 	 * @since	1.6
 	 */
 	public function publish($pks = null, $state = 1, $userId = 0)
@@ -120,6 +120,6 @@ class MessagesTableMessage extends JTable
 		}
 
 		$this->setError('');
-		return true;
+		return $this->_db->getAffectedRows();
 	}
 }

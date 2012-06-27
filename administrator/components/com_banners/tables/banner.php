@@ -199,7 +199,7 @@ class BannersTableBanner extends JTable
 	 *					set the instance property value is used.
 	 * @param	integer The publishing state. eg. [0 = unpublished, 1 = published, 2=archived, -2=trashed]
 	 * @param	integer The user id of the user performing the operation.
-	 * @return	boolean	True on success.
+	 * @return	mixed Integer on success (number of items published) or False on failure.
 	 * @since	1.6
 	 */
 	public function publish($pks = null, $state = 1, $userId = 0)
@@ -228,6 +228,7 @@ class BannersTableBanner extends JTable
 		// Get an instance of the table
 		$table = JTable::getInstance('Banner', 'BannersTable');
 
+		$affectedRows = 0;
 		// For all keys
 		foreach ($pks as $pk)
 		{
@@ -253,9 +254,13 @@ class BannersTableBanner extends JTable
 				{
 					$this->setError($table->getError());
 				}
+				$affectedRows += $this->_db->getAffectedRows();
 			}
 		}
-		return count($this->getErrors())==0;
+		if (count($this->getErrors())==0) {
+			return $affectedRows;
+		}
+		return FALSE;
 	}
 	/**
 	 * Method to set the sticky state for a row or list of rows in the database

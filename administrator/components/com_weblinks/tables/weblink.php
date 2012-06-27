@@ -157,7 +157,7 @@ class WeblinksTableWeblink extends JTable
 	 *					set the instance property value is used.
 	 * @param	integer The publishing state. eg. [0 = unpublished, 1 = published]
 	 * @param	integer The user id of the user performing the operation.
-	 * @return	boolean	True on success.
+	 * @return	mixed Integer on success (number of items published) or False on failure.
 	 * @since	1.0.4
 	 */
 	public function publish($pks = null, $state = 1, $userId = 0)
@@ -209,8 +209,9 @@ class WeblinksTableWeblink extends JTable
 			return false;
 		}
 
+		$affectedRows = $this->_db->getAffectedRows();
 		// If checkin is supported and all rows were adjusted, check them in.
-		if ($checkin && (count($pks) == $this->_db->getAffectedRows()))
+		if ($checkin && (count($pks) === $affectedRows))
 		{
 			// Checkin the rows.
 			foreach($pks as $pk)
@@ -225,6 +226,6 @@ class WeblinksTableWeblink extends JTable
 		}
 
 		$this->setError('');
-		return true;
+		return $affectedRows;
 	}
 }

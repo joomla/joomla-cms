@@ -465,13 +465,13 @@ class CategoriesModelCategory extends JModelAdmin
 	 * @param   array    $pks    A list of the primary keys to change.
 	 * @param   integer  $value  The value of the published state.
 	 *
-	 * @return  boolean  True on success.
+	 * @return  mixed Integer on success (number of items published) or False on failure.
 	 *
 	 * @since   2.5
 	 */
 	function publish(&$pks, $value = 1)
 	{
-		if (parent::publish($pks, $value)) {
+		if (($affectedRows = parent::publish($pks, $value)) !== FALSE) {
 			// Initialise variables.
 			$dispatcher	= JDispatcher::getInstance();
 			$extension	= JRequest::getCmd('extension');
@@ -482,8 +482,9 @@ class CategoriesModelCategory extends JModelAdmin
 			// Trigger the onCategoryChangeState event.
 			$dispatcher->trigger('onCategoryChangeState', array($extension, $pks, $value));
 
-			return true;
 		}
+
+		return $affectedRows;
 	}
 
 	/**

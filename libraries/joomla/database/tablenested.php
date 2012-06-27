@@ -876,7 +876,7 @@ class JTableNested extends JTable
 	 * @param   integer  $state   The publishing state. eg. [0 = unpublished, 1 = published]
 	 * @param   integer  $userId  The user id of the user performing the operation.
 	 *
-	 * @return  boolean  True on success.
+	 * @return  mixed Integer on success (number of items published) or False on failure.
 	 *
 	 * @link    http://docs.joomla.org/JTableNested/publish
 	 * @since   11.1
@@ -913,6 +913,7 @@ class JTableNested extends JTable
 		// Determine if there is checkout support for the table.
 		$checkoutSupport = (property_exists($this, 'checked_out') || property_exists($this, 'checked_out_time'));
 
+		$affectedRows = 0;
 		// Iterate over the primary keys to execute the publish action if possible.
 		foreach ($pks as $pk)
 		{
@@ -974,7 +975,7 @@ class JTableNested extends JTable
 
 			// Update and cascade the publishing state.
 			$query = $this->_db->getQuery(true)->update($this->_db->quoteName($this->_tbl))->set('published = ' . (int) $state)
-				->where('(lft > ' . (int) $node->lft . ' AND rgt < ' . (int) $node->rgt . ')' . ' OR ' . $k . ' = ' . (int) $pk);
+				->where($k . ' = ' . (int) $pk);
 			$this->_db->setQuery($query);
 
 			// Check for a database error.
@@ -983,6 +984,8 @@ class JTableNested extends JTable
 				$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_PUBLISH_FAILED', get_class($this), $this->_db->getErrorMsg()));
 				$this->setError($e);
 				return false;
+			} else {
+				$affectedRows += $this->_db->getAffectedRows();
 			}
 
 			// If checkout support exists for the object, check the row in.
@@ -999,7 +1002,7 @@ class JTableNested extends JTable
 		}
 
 		$this->setError('');
-		return true;
+		return $affectedRows;
 	}
 
 	/**

@@ -862,7 +862,8 @@ abstract class JModelAdmin extends JModelForm
 		}
 
 		// Attempt to change the state of the records.
-		if (!$table->publish($pks, $value, $user->get('id')))
+		if (($affectedRows = $table->publish($pks, $value, $user->get('id')))
+                                === FALSE)
 		{
 			$this->setError($table->getError());
 			return false;
@@ -881,8 +882,7 @@ abstract class JModelAdmin extends JModelForm
 
 		// Clear the component's cache
 		$this->cleanCache();
-
-		return true;
+		return $affectedRows;
 	}
 
 	/**

@@ -328,7 +328,7 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 	 * @param	array	$pks	A list of the primary keys to change.
 	 * @param	int		$value	The value of the published state.
 	 *
-	 * @return	boolean	True on success.
+	 * @return	mixed Integer on success (number of items published) or False on failure.
 	 * @since	1.6
 	 */
 	function publish(&$pks, $value = 1)
