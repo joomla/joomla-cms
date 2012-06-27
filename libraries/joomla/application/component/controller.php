@@ -21,6 +21,14 @@ defined('JPATH_PLATFORM') or die;
  */
 class JController extends JObject
 {
+	
+	/**
+	 * Defines controllers directory.
+	 *
+	 * @since  11.4
+	 */
+	const CONTROLLER_DIR = 'controllers';
+	
 	/**
 	 * ACO Section for the controller.
 	 *
@@ -165,6 +173,116 @@ class JController extends JObject
 		JModel::addIncludePath($path, $prefix);
 	}
 
+	
+	/**
+	 * Creates an environment array:
+	 *
+	 * array(
+	 *			'option'		=> $option,
+	 *			'component'		=> $component,
+	 * 			'controller'	=> $controller,
+	 *			'task'			=> $task,
+	 *			'format'		=> $format,
+	 *			'basePath'		=> $basePath
+	 *		);
+	 *
+	 *
+	 * @param string|null       $option      $_REQUEST['option'] e.g. 'com_example'
+	 * @param string|null       $component   the component base name e.g. 'example'
+	 * @param string|false|null $controller  the controller (false if it should not look for controllers)
+	 * @param string|null       $task        the task to execute
+	 * @param string|null       $format      the format (default html)
+	 * @param string|null       $basePath    the base path of the component
+	 * 
+	 * @return  array
+	 *
+	 * @since   11.4
+	 */
+	public static function createEnvironmentArray($option = null, $component = null, $controller = null, $task = null, $format = null, $basePath = null)
+	{
+	
+		$jinput = JApplication::getInput();
+	
+		if(is_null($option))
+		{
+			$option = $jinput->get('option', null);
+		}
+	
+		if(is_null($component) && is_string($option) && strlen($option)>4)
+		{
+			$component = substr($option, 4);
+		}
+	
+		/*
+		 * Priority of $controller
+		*   1) passed $controller variable
+		*   2) $_REQUEST['view']
+		*   3) $_REQUEST['task'] = controller.task
+		*   4) null
+		*/
+		if(is_null($controller))
+		{
+			//Direct setting of $controller overrides $_REQUEST['view']
+			$controller = $jinput->get('view', null);
+		}
+	
+		if(empty($task))
+		{
+			$task = $jinput->get('task', null);
+		}
+	
+		if(!is_null($task))
+		{
+			// Check for array format ( from getInstance() )
+			$filter = JFilterInput::getInstance();
+	
+			if (is_array($task))
+			{
+				$task = $filter->clean(array_pop(array_keys($task)), 'cmd');
+			}
+			else
+			{
+				$task = $filter->clean($task, 'cmd');
+			}
+				
+			// Check for a controller.task command.
+			if (strpos($task, '.') !== false)
+			{
+				// Explode the controller.task command.
+				list ($controllerTemp, $task) = explode('.', $task);
+					
+				if(is_null($controller))
+				{
+					//Direct setting of $controller and $_REQUEST['view'] override $_REQUEST['task']
+					$controller = $controllerTemp;
+				}
+	
+				unset($controllerTemp);
+	
+			}
+		}	
+	
+		if(is_null($format))
+		{
+			$format = $jinput->get('format', 'html', 'WORD');
+		}
+	
+		if(is_null($basePath))
+		{
+			$basePath = $jinput->get('JPATH_COMPONENT', JPATH_COMPONENT);
+		}
+	
+		return array(
+				'option'		=> $option,
+				'component'		=> $component,
+				'controller'	=> $controller,
+				'task'			=> $task,
+				'format'		=> $format,
+				'basePath'		=> $basePath
+			);
+	}
+	
+	
 	/**
 	 * Create the filename for a resource.
 	 *
@@ -310,6 +428,145 @@ class JController extends JObject
 		return self::$instance;
 	}
 
+	
+	
+	/**
+	 * Factory method to return self or a more specific controller in /controllers/$task.php
+	 *
+	 * @param   string  $prefix  The prefix for the controller.
+	 * @param   array   $config  An array of optional constructor options.
+	 *
+	 * @return  JController
+	 *
+	 * @since   11.4
+	 * @throws  Exception if the controller cannot be loaded.
+	 */
+	public static function factory($config = array(), $option = null, $component = null, $controller = null, $task = null, $format = null, $basePath = null)
+	{
+	
+		$environmentArray = self::createEnvironmentArray($option, $component, $controller, $task, $format, $basePath);
+		
+		/* $environmentArray: 
+			array(
+				'option'		=> $option,
+				'component'		=> $component,
+				'controller'	=> $controller,
+				'task'			=> $task,
+				'format'		=> $format,
+				'basePath'		=> $basePath
+				);
+		*/
+		
+		//Update some variables
+		$component  = $environmentArray['component'];
+		$controller = $environmentArray['controller'];
+		$task       = $environmentArray['task'];
+		$basePath   = $environmentArray['basePath'];
+		$format     = $environmentArray['format'];
+		$classname  = false;
+		
+		if (!empty($component) && !empty($controller)) 
+		{
+			
+			$classname = ucfirst($component) . 'Controller' . ucfirst($controller);
+			
+			if (!class_exists($classname))
+			{
+				$file      = self::createFileName('controller', array('name' => $controller, 'format' => $format));
+				$filepath  = $environmentArray['basePath'] . DS . self::CONTROLLER_DIR . DS . $file;
+			
+				if (file_exists($filepath))
+				{
+					require_once($filepath);	
+				}
+			}
+
+			if (!class_exists($classname))
+			{
+				//Try with $format = 'html'
+				$file      = self::createFileName('controller', array('name' => $controller));
+				$filepath  = $environmentArray['basePath'] . DS . self::CONTROLLER_DIR . DS . $file;
+					
+				if (file_exists($filepath))
+				{
+					require_once($filepath);
+				}
+				
+			}
+			
+			if (!class_exists($classname)) 
+			{	
+				throw new InvalidArgumentException(JText::sprintf('JLIB_APPLICATION_ERROR_INVALID_CONTROLLER', $controller, $format));
+			}
+			
+		} 
+		elseif (!empty($component)) //$controller is empty
+		{
+
+			/*
+			 * For mantaining backward compatibility with the old getInstance, it does three attempts:
+			 * 
+			 *  1) class $component.'Controller' in file .$format
+			 *  2) class $component.'Controller' in base file
+			 *  3) self
+			 */
+			
+			// First trial: class $component.'Controller'.'Controller' in file .$format
+			$classname   = ucfirst($component).'Controller';
+			
+			if (!class_exists($classname)) 
+			{
+				$file		 = self::createFileName('controller', array('name' => 'controller', 'format' => $format));
+				$filepath	 = $basePath . DS . $file;
+				
+				if (file_exists($filepath))
+				{
+					require_once($filepath);
+				}
+				
+				if (!class_exists($classname) && $format != 'html')
+				{
+					//Try with $format == 'html'
+					$file		 = self::createFileName('controller', array('name' => 'controller'));
+					$filepath	 = $basePath . DS . $file;
+					
+					if (file_exists($filepath))
+					{
+						require_once($filepath);
+					}
+				}
+				
+			}
+		}
+			
+				
+		if (!empty($classname) && class_exists($classname))
+		{
+			$instance = new $classname($config);
+		}
+		else
+		{	
+			//Insert debug log here? - no class found, instantiating self
+			$instance = new self($config);
+		}
+		
+		if(is_object($instance) && method_exists($instance, 'setTask'))
+		{
+			$instance->setTask($task);
+		}
+		
+		/*
+		 * Saves instance for getInstance()
+		 * Factory method always creates a new instance, helps avoid overlapping
+		 * between base class and controller classes
+		 * @TODO getInstance should be simplified and redefined as it does too many things
+		 */		
+		self::$instance = $instance;
+		
+	}
+	
+	
+	
 	/**
 	 * Constructor.
 	 *
@@ -734,7 +991,20 @@ class JController extends JObject
 	 */
 	public function execute($task)
 	{
-		$this->task = $task;
+		
+		if (!is_null($task))
+		{
+			$this->task = $task;
+		}
+		elseif (!is_null($this->task))
+		{
+			$task = $this->task; //Set by factory
+		}
+		else
+		{
+			return JError::raiseError(404, JText::sprintf('JLIB_APPLICATION_ERROR_EMPTY_TASK', $task));
+		}
+		
 
 		$task = strtolower($task);
 		if (isset($this->taskMap[$task]))
@@ -1150,4 +1420,22 @@ class JController extends JObject
 
 		return $this;
 	}
+	
+	/**
+	 * Set tas
+	 *
+	 * @param   string  $task  The task to be executed
+	 *
+	 * @return  JController  This object to support chaining.
+	 *
+	 * @since   11.4
+	 */
+	public function setTask($task)
+	{
+	
+		$this->task = $task;
+		
+		return $this;
+	}
+	
 }

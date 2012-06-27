@@ -315,6 +315,9 @@ class JComponentHelper
 		$option = preg_replace('/[^A-Z0-9_\.-]/i', '', $option);
 		$file = substr($option, 4);
 
+		// Building the base class ExampleController
+		$baseClass = ucfirst($file).'Controller';
+		
 		// Define component path.
 		define('JPATH_COMPONENT', JPATH_BASE . '/components/' . $option);
 		define('JPATH_COMPONENT_SITE', JPATH_SITE . '/components/' . $option);
@@ -348,7 +351,7 @@ class JComponentHelper
 		$contents = null;
 
 		// Execute the component.
-		$contents = self::executeComponent($path);
+		$contents = self::executeComponent($path, $baseClass);
 
 		// Build the component toolbar
 		$path = JApplicationHelper::getPath('toolbar');
@@ -371,16 +374,25 @@ class JComponentHelper
 	/**
 	 * Execute the component.
 	 *
-	 * @param   string  $path  The component path.
+	 * @param   string  $path       The component path.
+	 * @param   string  $baseClass  The base class of the component (ExampleController)
 	 *
 	 * @return  string  The component output
 	 *
 	 * @since   11.3
 	 */
-	protected static function executeComponent($path)
+	protected static function executeComponent($path, $baseClass)
 	{
 		ob_start();
 		require_once $path;
+		if(class_exists($baseClass)) //Compatible with older components 
+		{  			
+			//Return self ($baseClass) or directly the controller
+			$controller = $baseClass::factory();
+			/** @var JController $controller */
+			$controller->execute();
+			$controller->redirect();
+		}
 		$contents = ob_get_contents();
 		ob_end_clean();
 		return $contents;
