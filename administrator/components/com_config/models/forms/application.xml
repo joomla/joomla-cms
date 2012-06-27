@@ -106,6 +106,14 @@
 			size="30" />
 
 		<field
+			name="dbport"
+			type="text"
+			label="COM_CONFIG_FIELD_DATABASE_PORT_LABEL"
+			description="COM_CONFIG_FIELD_DATABASE_PORT_DESC"
+			maxlength="5"
+			size="5" />
+
+		<field
 			name="user"
 			type="text"
 			label="COM_CONFIG_FIELD_DATABASE_USERNAME_LABEL"

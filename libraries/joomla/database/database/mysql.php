@@ -72,6 +72,7 @@ class JDatabaseMySQL extends JDatabase
 		$options['password'] = (isset($options['password'])) ? $options['password'] : '';
 		$options['database'] = (isset($options['database'])) ? $options['database'] : '';
 		$options['select'] = (isset($options['select'])) ? (bool) $options['select'] : true;
+		$options['port'] = (isset($options['port'])) ? ':' . $options['port'] : '';
 
 		// Make sure the MySQL extension for PHP is installed and enabled.
 		if (!function_exists('mysql_connect'))
@@ -92,7 +93,7 @@ class JDatabaseMySQL extends JDatabase
 		}
 
 		// Attempt to connect to the server.
-		if (!($this->connection = @ mysql_connect($options['host'], $options['user'], $options['password'], true)))
+		if (!($this->connection = @ mysql_connect($options['host'] . $options['port'], $options['user'], $options['password'], true)))
 		{
 
 			// Legacy error handling switch based on the JError::$legacy switch.

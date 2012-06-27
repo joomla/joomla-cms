@@ -73,6 +73,12 @@ class JInstallationModelDatabase extends JModelLegacy
 			return false;
 		}
 
+		// Validate database port.
+		if (!empty($options->db_port) && !preg_match('/^[0-9]{0,5}$/', $options->db_port)) {
+			$this->setError(JText::_('INSTL_DATABASE_INVALID_DB_PORT'));
+			return false;
+		}
+
 		// Ensure that a database name was input.
 		if (empty($options->db_name)) {
 			$this->setError(JText::_('INSTL_DATABASE_EMPTY_NAME'));
@@ -102,7 +108,7 @@ class JInstallationModelDatabase extends JModelLegacy
 			// Get a database object.
 			try
 			{
-				$db = JInstallationHelperDatabase::getDbo($options->db_type, $options->db_host, $options->db_user, $options->db_pass, null, $options->db_prefix, false);
+				$db = JInstallationHelperDatabase::getDbo($options->db_type, $options->db_host, $options->db_port, $options->db_user, $options->db_pass, null, $options->db_prefix, false);
 			}
 			catch (RuntimeException $e)
 			{
@@ -319,7 +325,7 @@ class JInstallationModelDatabase extends JModelLegacy
 		// Get a database object.
 		try
 		{
-			$db = JInstallationHelperDatabase::getDBO($options->db_type, $options->db_host, $options->db_user, $options->db_pass, $options->db_name, $options->db_prefix);
+			$db = JInstallationHelperDatabase::getDBO($options->db_type, $options->db_host, $options->db_port, $options->db_user, $options->db_pass, $options->db_name, $options->db_prefix);
 		}
 		catch (RuntimeException $e)
 		{

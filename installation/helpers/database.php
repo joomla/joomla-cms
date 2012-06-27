@@ -30,7 +30,7 @@ class JInstallationHelperDatabase
 	 * @return	JDatabase
 	 * @since	1.0
 	 */
-	public static function & getDBO($driver, $host, $user, $password, $database, $prefix, $select = true)
+	public static function & getDBO($driver, $host, $port, $user, $password, $database, $prefix, $select = true)
 	{
 		static $db;
 
@@ -39,6 +39,7 @@ class JInstallationHelperDatabase
 			$options = array (
 				'driver' => $driver,
 				'host' => $host,
+				'port' => $port,
 				'user' => $user,
 				'password' => $password,
 				'database' => $database,

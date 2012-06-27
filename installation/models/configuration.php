@@ -64,6 +64,7 @@ class JInstallationModelConfiguration extends JModelLegacy
 		/* Database Settings */
 		$registry->set('dbtype', $options->db_type);
 		$registry->set('host', $options->db_host);
+		$registry->set('dbport', $options->db_port);
 		$registry->set('user', $options->db_user);
 		$registry->set('password', $options->db_pass);
 		$registry->set('db', $options->db_name);
@@ -207,7 +208,7 @@ class JInstallationModelConfiguration extends JModelLegacy
 		// Get a database object.
 		try
 		{
-			$db = JInstallationHelperDatabase::getDBO($options->db_type, $options->db_host, $options->db_user, $options->db_pass, $options->db_name, $options->db_prefix);
+			$db = JInstallationHelperDatabase::getDBO($options->db_type, $options->db_host, $options->db_port, $options->db_user, $options->db_pass, $options->db_name, $options->db_prefix);
 		}
 		catch (RuntimeException $e)
 		{

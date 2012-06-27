@@ -698,6 +698,7 @@ abstract class JFactory
 		$conf = self::getConfig();
 
 		$host = $conf->get('host');
+		$port = $conf->get('dbport');
 		$user = $conf->get('user');
 		$password = $conf->get('password');
 		$database = $conf->get('db');
@@ -705,7 +706,7 @@ abstract class JFactory
 		$driver = $conf->get('dbtype');
 		$debug = $conf->get('debug');
 
-		$options = array('driver' => $driver, 'host' => $host, 'user' => $user, 'password' => $password, 'database' => $database, 'prefix' => $prefix);
+		$options = array('driver' => $driver, 'host' => $host, 'port' => $port, 'user' => $user, 'password' => $password, 'database' => $database, 'prefix' => $prefix);
 
 		$db = JDatabase::getInstance($options);
 
