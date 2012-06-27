@@ -1474,16 +1474,6 @@ INSERT INTO `#__update_sites_extensions` VALUES
 (2, 700);
 
 
-CREATE TABLE  `#__update_categories` (
-  `categoryid` int(11) NOT NULL auto_increment,
-  `name` varchar(20) default '',
-  `description` text NOT NULL,
-  `parent` int(11) default '0',
-  `updatesite` int(11) default '0',
-  PRIMARY KEY  (`categoryid`)
-)  DEFAULT CHARSET=utf8 COMMENT='Update Categories';
-
-
 # -------------------------------------------------------
 
 #
