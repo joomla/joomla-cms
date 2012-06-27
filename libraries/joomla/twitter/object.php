@@ -60,8 +60,8 @@ abstract class JTwitterObject
 		if ($rate_limit->remaining_hits == 0)
 		{
 			// The IP has exceeded the Twitter API rate limit
-			throw new RuntimeException('This server has exceed the Twitter API rate limit for the given period.  The limit will reset at '
-						. $rate_limit->reset_time
+			throw new RuntimeException('This server has exceed the Twitter API rate limit for the given period.  The limit will reset in '
+						. $rate_limit->reset_time . 'seconds.'
 			);
 		}
 	}
@@ -71,14 +71,30 @@ abstract class JTwitterObject
 	 * add appropriate pagination details if necessary and also prepend the API url
 	 * to have a complete URL for the request.
 	 *
-	 * @param   string  $path  URL to inflect
+	 * @param   string  $path        URL to inflect
+	 * @param   array   $parameters  The parameters passed in the URL.
 	 *
 	 * @return  string  The request URL.
 	 *
 	 * @since   12.1
 	 */
-	protected function fetchUrl($path)
+	protected function fetchUrl($path, $parameters = null)
 	{
+		if ($parameters)
+		{
+			foreach ($parameters as $key => $value)
+			{
+				if (strpos($path, '?') === false)
+				{
+					$path .= '?' . $key . '=' . $value;
+				}
+				else
+				{
+					$path .= '&' . $key . '=' . $value;
+				}
+			}
+		}
+
 		// Get a new JUri object fousing the api url and given path.
 		$uri = new JUri($this->options->get('api.url') . $path);
 
@@ -104,25 +120,26 @@ abstract class JTwitterObject
 	/**
 	 * Method to send the request.
 	 *
-	 * @param   string   $path    The path of the request to make
-	 * @param   string   $method  The request method.
-	 * @param   mixed    $data    Either an associative array or a string to be sent with the post request.
+	 * @param   string  $path        The path of the request to make
+	 * @param   string  $method      The request method.
+	 * @param   array   $parameters  The parameters passed in the URL.
+	 * @param   mixed   $data        Either an associative array or a string to be sent with the post request.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   12.1
 	 * @throws  DomainException
 	 */
-	public function sendRequest($path, $method='get', $data='')
+	public function sendRequest($path, $method='get', $parameters = null, $data='')
 	{
 		// Send the request.
 		switch ($method)
 		{
 			case 'get':
-				$response = $this->client->get($this->fetchUrl($path));
+				$response = $this->client->get($this->fetchUrl($path, $parameters));
 				break;
 			case 'post':
-				$response = $this->client->post($this->fetchUrl($path), $data);
+				$response = $this->client->post($this->fetchUrl($path, $parameters), $data);
 				break;
 		}
 

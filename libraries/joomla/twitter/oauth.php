@@ -80,8 +80,6 @@ class JTwitterOAuth
 	 *
 	 * @param   string        $consumer_key     Twitter consumer key.
 	 * @param   string        $consumer_secret  Twitter consumer secret.
-	 * @param   string        $user_key         Twitter user token key.
-	 * @param   string        $user_secret      Twitter user token secret used to sign requests.
 	 * @param   string        $callback_url     Twitter calback URL.
 	 * @param   JTwitterHttp  $client           The HTTP client object.
 	 *
@@ -231,12 +229,13 @@ class JTwitterOAuth
 	 * @param   string  $method       The request method.
 	 * @param   array   &$parameters  Array containg request parameters.
 	 * @param   array   $data         The POST request data.
+	 * @param   array   $headers      An array of name-value pairs to include in the header of the request
 	 * 
 	 * @return  object  The JHttpResponse object.
 	 * 
 	 * @since 12.1
 	 */
-	public function oauthRequest($url, $method, &$parameters, $data=null)
+	public function oauthRequest($url, $method, &$parameters, $data = null, $headers = array())
 	{
 		// Set the parameters.
 		$defaults = array(
@@ -248,22 +247,45 @@ class JTwitterOAuth
 			'oauth_timestamp' => time()
 		);
 
-		// Sort the parameters alphabetically
-		uksort($parameters, 'strcmp');
-
 		$parameters = array_merge($parameters, $defaults);
 
-		// Sign the request.
-		$this->signRequest($url, $method, $parameters);
+		if ($data)
+		{
+			// Do not encode multipart parameters.
+			if (!array_key_exists('media[]', $data))
+			{
+				// Use all parameters for the signature.
+				$oauth_headers = array_merge($parameters, $data);
+			}
+			else
+			{
+				$oauth_headers = $parameters;
+			}
 
+			// Sign the request.
+			$this->signRequest($url, $method, $oauth_headers);
+
+			// Get parameters for the Authorization header.
+			$oauth_headers = array_diff_key($oauth_headers, $data);
+		}
+		else
+		{
+			$oauth_headers = $parameters;
+
+			// Sign the request.
+			$this->signRequest($url, $method, $oauth_headers);
+		}
+		
 		// Send the request.
 		switch ($method)
 		{
 			case 'GET':
-				$response = $this->client->get($this->to_url($url, $parameters));
+				$url = $this->to_url($url, $data);
+				$response = $this->client->get($url, array('Authorization' => $this->createHeader($headers)));
 				break;
 			case 'POST':
-				$response = $this->client->post($url, $data, array('Authorization' => $this->createHeader($parameters)));
+				$headers = array_merge($headers, array('Authorization' => $this->createHeader($oauth_headers)));
+				$response = $this->client->post($url, $data, $headers);
 				break;
 		}
 
