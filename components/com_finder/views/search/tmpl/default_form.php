@@ -60,6 +60,19 @@ defined('_JEXEC') or die;
 	var url = '<?php echo JRoute::_('index.php?option=com_finder&task=suggestions.display&format=json&tmpl=component', false); ?>';
 	var completer = new Autocompleter.Request.JSON(document.id('q'), url, {'postVar': 'q'});
 <?php endif; ?>
+		/*
+		 * This segment of code disable submit search if with no empty values, if desired.
+		 * Fallback and allow if javascript is disabled and still permit search
+		 */
+<?php if (!$this->params->get('allow_empty_query')): ?>
+	<?php JHtml::script('com_finder/disablesearch.js', false, true); ?>
+	var disable = new DisableSearch({
+		inputField: document.id('q'),
+		submitButton: document.id('s'),
+		minLength: 2
+	});
+	disable.checkInput();
+<?php endif; ?>
 	});
 </script>
 
@@ -79,11 +92,7 @@ defined('_JEXEC') or die;
 			<?php echo JText::_('COM_FINDER_SEARCH_TERMS'); ?>
 		</label>
 		<input type="text" name="q" id="q" size="30" value="<?php echo $this->escape($this->query->input); ?>" class="inputbox" />
-		<?php if ($this->escape($this->query->input) != '' || $this->params->get('allow_empty_search')):?>
-			<button name="Search" type="submit" class="button"><?php echo JText::_('JSEARCH_FILTER_SUBMIT');?></button>
-		<?php else: ?>
-			<button name="Search" type="" class="button"><?php echo JText::_('JSEARCH_FILTER_SUBMIT');?></button>
-		<?php endif; ?>
+		<button name="Search" id="s" type="submit" class="button"><?php echo JText::_('JSEARCH_FILTER_SUBMIT');?></button>
 </fieldset>
 
 	<?php if ($this->params->get('show_advanced', 1)): ?>
