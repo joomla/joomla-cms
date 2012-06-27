@@ -145,7 +145,7 @@ endif;
 		<div class="formelm">
 		<?php echo $this->form->getLabel('catid'); ?>
 		<span class="category">
-			<?php   echo $this->form->getInput('catid'); ?>
+		<?php echo $this->form->getInput('catid'); ?>
 		</span>
 
 		</div>
