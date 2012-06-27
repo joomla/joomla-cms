@@ -63,6 +63,7 @@ class JTableAsset extends JTableNested
 	public function __construct(&$db)
 	{
 		parent::__construct('#__assets', 'id', $db);
+        unset($this->alias);
 	}
 
 	/**
