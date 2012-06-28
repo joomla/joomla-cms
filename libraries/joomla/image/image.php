@@ -78,8 +78,7 @@ class JImage
 		if (!isset(self::$formats[IMAGETYPE_JPEG]))
 		{
 			$info = gd_info();
-			self::$formats[IMAGETYPE_JPEG] = (isset($info['JPEG Support']) && $info['JPEG Support']
-				|| isset($info['JPG Support']) && $info['JPG Support']) ? true : false;
+			self::$formats[IMAGETYPE_JPEG] = ($info['JPEG Support']) ? true : false;
 			self::$formats[IMAGETYPE_PNG] = ($info['PNG Support']) ? true : false;
 			self::$formats[IMAGETYPE_GIF] = ($info['GIF Read Support']) ? true : false;
 		}

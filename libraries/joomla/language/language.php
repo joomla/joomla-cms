@@ -368,7 +368,7 @@ class JLanguage
 	/**
 	 * Getter for transliteration function
 	 *
-	 * @return  string  Function name or the actual function for PHP 5.3.
+	 * @return  callable  The transliterator function
 	 *
 	 * @since   11.1
 	 */
@@ -380,9 +380,9 @@ class JLanguage
 	/**
 	 * Set the transliteration function.
 	 *
-	 * @param   mixed  $function  Function name (string) or the actual function for PHP 5.3 (function).
+	 * @param   callable  $function  Function name or the actual function.
 	 *
-	 * @return  mixed
+	 * @return  callable  The previous function.
 	 *
 	 * @since   11.1
 	 */
@@ -418,7 +418,7 @@ class JLanguage
 	/**
 	 * Getter for pluralSuffixesCallback function.
 	 *
-	 * @return  mixed  Function name (string) or the actual function for PHP 5.3 (function).
+	 * @return  callable  Function name or the actual function.
 	 *
 	 * @since   11.1
 	 */
@@ -430,9 +430,9 @@ class JLanguage
 	/**
 	 * Set the pluralSuffixes function.
 	 *
-	 * @param   mixed  $function  Function name (string) or actual function for PHP 5.3 (function)
+	 * @param   callable  $function  Function name or actual function.
 	 *
-	 * @return  mixed  Function name or the actual function for PHP 5.3.
+	 * @return  callable  The previous function.
 	 *
 	 * @since   11.1
 	 */
@@ -466,7 +466,7 @@ class JLanguage
 	/**
 	 * Getter for ignoredSearchWordsCallback function.
 	 *
-	 * @return  mixed  Function name (string) or the actual function for PHP 5.3 (function).
+	 * @return  callable  Function name or the actual function.
 	 *
 	 * @since   11.1
 	 */
@@ -478,9 +478,9 @@ class JLanguage
 	/**
 	 * Setter for the ignoredSearchWordsCallback function
 	 *
-	 * @param   mixed  $function  Function name (string) or actual function for PHP 5.3 (function)
+	 * @param   callable  $function  Function name or actual function.
 	 *
-	 * @return  mixed  Function name (string) or the actual function for PHP 5.3 (function)
+	 * @return  callable  The previous function.
 	 *
 	 * @since   11.1
 	 */
@@ -514,7 +514,7 @@ class JLanguage
 	/**
 	 * Getter for lowerLimitSearchWordCallback function
 	 *
-	 * @return  mixed  Function name (string) or the actual function for PHP 5.3 (function).
+	 * @return  callable  Function name or the actual function.
 	 *
 	 * @since   11.1
 	 */
@@ -526,9 +526,9 @@ class JLanguage
 	/**
 	 * Setter for the lowerLimitSearchWordCallback function.
 	 *
-	 * @param   mixed  $function  Function name (string) or actual function for PHP 5.3 (function)
+	 * @param   callable  $function  Function name or actual function.
 	 *
-	 * @return  string|function Function name or the actual function for PHP 5.3.
+	 * @return  callable  The previous function.
 	 *
 	 * @since   11.1
 	 */
@@ -562,7 +562,7 @@ class JLanguage
 	/**
 	 * Getter for upperLimitSearchWordCallback function
 	 *
-	 * @return  string|function  Function name or the actual function for PHP 5.3.
+	 * @return  callable  Function name or the actual function.
 	 *
 	 * @since   11.1
 	 */
@@ -574,9 +574,9 @@ class JLanguage
 	/**
 	 * Setter for the upperLimitSearchWordCallback function
 	 *
-	 * @param   string  $function  The name of the callback function.
+	 * @param   callable  $function  Function name or the actual function.
 	 *
-	 * @return  mixed  Function name (string) or the actual function for PHP 5.3 (function).
+	 * @return  callable  The previous function.
 	 *
 	 * @since   11.1
 	 */
@@ -610,7 +610,7 @@ class JLanguage
 	/**
 	 * Getter for searchDisplayedCharactersNumberCallback function
 	 *
-	 * @return  mixed  Function name or the actual function for PHP 5.3.
+	 * @return  callable  Function name or the actual function.
 	 *
 	 * @since   11.1
 	 */
@@ -622,9 +622,9 @@ class JLanguage
 	/**
 	 * Setter for the searchDisplayedCharactersNumberCallback function.
 	 *
-	 * @param   string  $function  The name of the callback.
+	 * @param   callable  $function  Function name or the actual function.
 	 *
-	 * @return  mixed  Function name (string) or the actual function for PHP 5.3 (function).
+	 * @return  callable  The previous function.
 	 *
 	 * @since   11.1
 	 */
