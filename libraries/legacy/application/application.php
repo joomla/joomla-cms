@@ -786,9 +786,12 @@ class JApplication extends JApplicationBase
 		}
 
 		jimport('joomla.application.router');
-		$router = JRouter::getInstance($name, $options);
 
-		if ($router instanceof Exception)
+		try
+		{
+			$router = JRouter::getInstance($name, $options);
+		}
+		catch (Exception $e)
 		{
 			return null;
 		}
@@ -838,9 +841,11 @@ class JApplication extends JApplicationBase
 			$name = $this->_name;
 		}
 
-		$pathway = JPathway::getInstance($name, $options);
-
-		if ($pathway instanceof Exception)
+		try
+		{
+			$pathway = JPathway::getInstance($name, $options);
+		}
+		catch (Exception $e)
 		{
 			return null;
 		}
@@ -865,9 +870,11 @@ class JApplication extends JApplicationBase
 			$name = $this->_name;
 		}
 
-		$menu = JMenu::getInstance($name, $options);
-
-		if ($menu instanceof Exception)
+		try
+		{
+			$menu = JMenu::getInstance($name, $options);
+		}
+		catch (Exception $e)
 		{
 			return null;
 		}
