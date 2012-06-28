@@ -30,7 +30,7 @@
 			field="admin_password"
 		/>
 
-		<field name="sample_file" type="sample" class="inputbox"
+		<field name="sample_file" type="sample" class="inputbox" id="db_old"
 			label="INSTL_SITE_SAMPLE_LABEL"
 		/>
 
