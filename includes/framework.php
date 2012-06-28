@@ -13,7 +13,6 @@ defined('_JEXEC') or die;
 //
 
 @ini_set('magic_quotes_runtime', 0);
-@ini_set('zend.ze1_compatibility_mode', '0');
 
 //
 // Installation check, and check on removal of the install directory.

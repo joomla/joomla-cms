@@ -5,9 +5,9 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// PHP 5 check
-if (version_compare(PHP_VERSION, '5.2.4', '<')) {
-	die('Your host needs to use PHP 5.2.4 or higher to run this version of Joomla!');
+if (version_compare(PHP_VERSION, '5.3.1', '<'))
+{
+	die('Your host needs to use PHP 5.3.1 or higher to run this version of Joomla!');
 }
 
 /**
@@ -40,7 +40,6 @@ define('JPATH_MANIFESTS',		JPATH_ADMINISTRATOR . '/manifests');
  */
 error_reporting(E_ALL);
 @ini_set('magic_quotes_runtime', 0);
-@ini_set('zend.ze1_compatibility_mode', '0');
 
 /*
  * Check for existing configuration file.
