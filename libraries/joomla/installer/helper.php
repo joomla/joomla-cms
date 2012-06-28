@@ -180,7 +180,8 @@ abstract class JInstallerHelper
 
 		foreach ($files as $file)
 		{
-			if (!$xml = JFactory::getXML($file))
+			$xml = simplexml_load_file($file)
+			if (!$xml)
 			{
 				continue;
 			}

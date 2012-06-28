@@ -104,7 +104,7 @@ class JPackageManifest extends JObject
 	{
 		$this->manifest_file = JFile::stripExt(basename($xmlfile));
 
-		$xml = JFactory::getXML($xmlfile);
+		$xml = simplexml_load_file($xmlfile);
 
 		if (!$xml)
 		{

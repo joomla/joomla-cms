@@ -23,7 +23,6 @@ class JFormRuleEqualsTest extends TestCase
 	 */
 	public function setUp()
 	{
-		jimport('joomla.utilities.xmlelement');
 		require_once JPATH_PLATFORM.'/joomla/form/rules/equals.php';
 	}
 
@@ -35,7 +34,7 @@ class JFormRuleEqualsTest extends TestCase
 		// Initialise variables.
 
 		$rule = new JFormRuleEquals;
-		$xml = simplexml_load_string('<form><field name="foo" /></form>', 'JXMLElement');
+		$xml = simplexml_load_string('<form><field name="foo" /></form>');
 
 		// Test fail conditions.
 

@@ -1293,7 +1293,8 @@ class JLanguage
 		}
 
 		// Try to load the file
-		if (!$xml = JFactory::getXML($path))
+		$xml = simplexml_load_file($path);
+		if (!$xml)
 		{
 			return null;
 		}
