@@ -14,8 +14,29 @@ require_once __DIR__ . '/stubs/controllerform.php';
  *
  * @since  11.1
  */
-class JControllerFormTest extends PHPUnit_Framework_TestCase
+class JControllerFormTest extends TestCase
 {
+	/**
+     * Sets up the fixture, for example, opens a network connection.
+     * This method is called before a test is executed.
+     */
+	protected function setUp()
+	{
+		$this->saveFactoryState();
+
+		JFactory::$application = $this->getMockApplication();
+		JFactory::$config = $this->getMockConfig();
+	}
+
+	/**
+	 * Tears down the fixture, for example, closes a network connection.
+	 * This method is called after a test is executed.
+	 */
+	protected function tearDown()
+	{
+		$this->restoreFactoryState();
+	}
+
 	/**
 	 * Tests the JControllerForm constructor.
 	 *

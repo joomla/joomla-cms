@@ -170,7 +170,7 @@ class JApplication extends JApplicationBase
 			{
 				include_once $path;
 
-				// Create a JRouter object.
+				// Create a JApplication object.
 				$classname = $prefix . ucfirst($client);
 				$instance = new $classname($config);
 			}
@@ -271,9 +271,6 @@ class JApplication extends JApplicationBase
 	public function dispatch($component = null)
 	{
 		$document = JFactory::getDocument();
-
-		$document->setTitle($this->getCfg('sitename') . ' - ' . JText::_('JADMINISTRATION'));
-		$document->setDescription($this->getCfg('MetaDesc'));
 
 		$contents = JComponentHelper::renderComponent($component);
 		$document->setBuffer($contents, 'component');

@@ -128,7 +128,17 @@ class JControllerLegacy extends JObject
 	protected $taskMap;
 
 	/**
-	 * @var    JControllerLegacy  Instance of this class.
+	 * Hold a JInput object for easier access to the input variables.
+	 *
+	 * @var    JInput
+	 * @since  12.2
+	 */
+	protected $input;
+
+	/**
+	 * Instance container.
+	 *
+	 * @var    JControllerLegacy
 	 * @since  12.2
 	 */
 	protected static $instance;
@@ -257,10 +267,10 @@ class JControllerLegacy extends JObject
 			$task = $command;
 
 			// Define the controller filename and path.
-			$file		 = self::createFileName('controller', array('name' => 'controller', 'format' => $format));
-			$path		 = $basePath . '/' . $file;
-			$backupfile  = self::createFileName('controller', array('name' => 'controller'));
-			$backuppath  = $basePath . '/' . $backupfile;
+			$file       = self::createFileName('controller', array('name' => 'controller', 'format' => $format));
+			$path       = $basePath . '/' . $file;
+			$backupfile = self::createFileName('controller', array('name' => 'controller'));
+			$backuppath = $basePath . '/' . $backupfile;
 		}
 
 		// Get the controller class name.
@@ -320,6 +330,8 @@ class JControllerLegacy extends JObject
 		{
 			JLog::addLogger(array('text_file' => 'jcontroller.log.php'), JLog::ALL, array('controller'));
 		}
+
+		$this->input = JFactory::getApplication()->input;
 
 		// Determine the methods to exclude from the base class.
 		$xMethods = get_class_methods('JControllerLegacy');
@@ -479,10 +491,12 @@ class JControllerLegacy extends JObject
 	 * @return  boolean  True if authorised
 	 *
 	 * @since   12.2
-	 * @deprecated  12.3
+	 * @deprecated  13.3  Use JAccess instead.
 	 */
 	public function authorise($task)
 	{
+		JLog::add(__METHOD__ . ' is deprecated. Use JAccess instead.', JLog::WARNING, 'deprecated');
+
 		return true;
 	}
 
@@ -621,9 +635,8 @@ class JControllerLegacy extends JObject
 	{
 		$document = JFactory::getDocument();
 		$viewType = $document->getType();
-		$input    = JFactory::getApplication()->input;
-		$viewName = $input->get('view', $this->default_view);
-		$viewLayout = $input->get('layout', 'default');
+		$viewName = $this->input->get('view', $this->default_view);
+		$viewLayout = $this->input->get('layout', 'default');
 
 		$view = $this->getView($viewName, $viewType, '', array('base_path' => $this->basePath, 'layout' => $viewLayout));
 
@@ -641,7 +654,7 @@ class JControllerLegacy extends JObject
 		// Display the view
 		if ($cachable && $viewType != 'feed' && $conf->get('caching') >= 1)
 		{
-			$option = $input->get('layout');
+			$option = $this->input->get('layout');
 			$cache = JFactory::getCache($option, 'view');
 
 			if (is_array($urlparams))
