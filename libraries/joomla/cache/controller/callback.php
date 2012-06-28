@@ -144,7 +144,7 @@ class JCacheControllerCallback extends JCacheController
 			if (isset($woptions['modulemode']) && $woptions['modulemode'] == 1)
 			{
 				$document = JFactory::getDocument();
-				$coptions['modulemode'] = $woptions['modulemode'];
+				$coptions['modulemode'] = 1;
 				$coptions['headerbefore'] = $document->getHeadData();
 			}
 			else
