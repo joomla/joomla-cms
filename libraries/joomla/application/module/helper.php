@@ -431,8 +431,8 @@ abstract class JModuleHelper
 		$cache = JFactory::getCache($cacheparams->cachegroup, 'callback');
 		$conf = JFactory::getConfig();
 
-		// Turn cache off for internal callers if parameters are set to off and for all logged in users
-		if ($moduleparams->get('owncache', null) === '0' || $conf->get('caching') == 0 || $user->get('id'))
+		// Turn cache off for internal callers if parameters are set to off
+		if ($moduleparams->get('owncache', null) === '0' || $conf->get('caching') == 0)
 		{
 			$cache->setCaching(false);
 		}
