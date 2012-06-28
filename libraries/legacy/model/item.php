@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Model
  * @since       11.1
  */
-abstract class JModelItem extends JModel
+abstract class JModelItem extends JModelLegacy
 {
 	/**
 	 * An item.

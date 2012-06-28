@@ -19,7 +19,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Model
  * @since       11.1
  */
-abstract class JModel extends JObject
+abstract class JModelLegacy extends JObject
 {
 	/**
 	 * Indicates if the internal state has been set
@@ -72,7 +72,7 @@ abstract class JModel extends JObject
 	protected $event_clean_cache = null;
 
 	/**
-	 * Add a directory where JModel should search for models. You may
+	 * Add a directory where JModelLegacy should search for models. You may
 	 * either pass a string or an array of directories.
 	 *
 	 * @param   mixed   $path    A path or array[sting] of paths to search.
@@ -294,6 +294,7 @@ abstract class JModel extends JObject
 	 * @return  array  An array of results.
 	 *
 	 * @since   11.1
+	 * @throws  RuntimeException
 	 */
 	protected function _getList($query, $limitstart = 0, $limit = 0)
 	{

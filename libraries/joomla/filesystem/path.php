@@ -9,12 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-// Define a boolean constant as true if a Windows based host
-define('JPATH_ISWIN', (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN'));
-
-// Define a boolean constant as true if a Mac based host
-define('JPATH_ISMAC', (strtoupper(substr(PHP_OS, 0, 3)) === 'MAC'));
-
 if (!defined('JPATH_ROOT'))
 {
 	// Define a string constant for the root directory of the file system in native format

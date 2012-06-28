@@ -187,7 +187,7 @@ class JApplicationHelper
 	public static function parseXMLLangMetaFile($path)
 	{
 		// Read the file to see if it's a valid component XML file
-		$xml = JFactory::getXML($path);
+		$xml = simplexml_load_file($path);
 
 		if (!$xml)
 		{

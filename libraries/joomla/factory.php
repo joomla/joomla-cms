@@ -615,20 +615,17 @@ abstract class JFactory
 
 		$options = array('driver' => $driver, 'host' => $host, 'user' => $user, 'password' => $password, 'database' => $database, 'prefix' => $prefix);
 
-		$db = JDatabaseDriver::getInstance($options);
-
-		if ($db instanceof Exception)
+		try
+		{
+			$db = JDatabaseDriver::getInstance($options);
+		}
+		catch (RuntimeException $e)
 		{
 			if (!headers_sent())
 			{
 				header('HTTP/1.1 500 Internal Server Error');
 			}
-			jexit('Database Error: ' . (string) $db);
-		}
-
-		if ($db->getErrorNum() > 0)
-		{
-			die(sprintf('Database connection error (%d): %s', $db->getErrorNum(), $db->getErrorMsg()));
+			jexit('Database Error: ' . $e->getMessage());
 		}
 
 		$db->setDebug($debug);

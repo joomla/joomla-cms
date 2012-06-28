@@ -184,12 +184,17 @@ class JInput implements Serializable
 				{
 					$results[$k] = $this->get($k, null, $v);
 				}
-				else
+				elseif (isset($datasource[$k]))
 				{
 					$results[$k] = $this->filter->clean($datasource[$k], $v);
 				}
+				else
+				{
+					$results[$k] = $this->filter->clean(null, $v);
+				}
 			}
 		}
+
 		return $results;
 	}
 

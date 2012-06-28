@@ -426,7 +426,7 @@ class JSession implements IteratorAggregate
 	 */
 	public function initialise(JInput $input)
 	{
-		$this->input = $input;
+		$this->_input = $input;
 	}
 
 	/**
@@ -594,11 +594,11 @@ class JSession implements IteratorAggregate
 			$session_name = session_name();
 
 			// Get the JInputCookie object
-			$cookie = $this->input->cookie;
+			$cookie = $this->_input->cookie;
 
 			if (is_null($cookie->get($session_name)))
 			{
-				$session_clean = $this->input->get($session_name, false, 'string');
+				$session_clean = $this->_input->get($session_name, false, 'string');
 
 				if ($session_clean)
 				{

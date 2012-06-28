@@ -396,7 +396,7 @@ class JInstallerPackage extends JAdapterInstance
 
 		}
 
-		$xml = JFactory::getXML($manifestFile);
+		$xml = simplexml_load_file($manifestFile);
 
 		// If we cannot load the XML file return false
 		if (!$xml)

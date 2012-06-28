@@ -57,6 +57,11 @@ JLoader::register('JRoute', JPATH_PLATFORM . '/joomla/application/route.php');
 // Register the folder for the moved JHtml classes
 JHtml::addIncludePath(JPATH_PLATFORM . '/legacy/html');
 
+// Add deprecated constants
+// @deprecated 12.3
+define('JPATH_ISWIN', IS_WIN);
+define('JPATH_ISMAC', IS_MAC);
+
 // Register classes where the names have been changed to fit the autoloader rules
 // @deprecated  12.3
 JLoader::register('JDatabaseQueryMySQL', JPATH_PLATFORM . '/joomla/database/query/mysql.php');

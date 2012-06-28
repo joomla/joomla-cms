@@ -1360,7 +1360,7 @@ class JFormTest extends TestCase
 		$form = new JFormInspector('form1');
 
 		$this->assertThat(
-			$form->load(JFactory::getXml('<notform><test /></notform>', false)),
+			$form->load(simplexml_load_string('<notform><test /></notform>')),
 			$this->isTrue(),
 			'Line:'.__LINE__.' Invalid root node name from XML object should still load.'
 		);

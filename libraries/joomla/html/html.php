@@ -108,14 +108,14 @@ abstract class JHtml
 
 		$className = $prefix . ucfirst($file);
 
-		if (!class_exists($className, false))
+		if (!class_exists($className))
 		{
 			$path = JPath::find(self::$includePaths, strtolower($file) . '.php');
 			if ($path)
 			{
 				require_once $path;
 
-				if (!class_exists($className, false))
+				if (!class_exists($className))
 				{
 					throw new InvalidArgumentException(sprintf('%s not found.', $className), 500);
 				}
@@ -831,14 +831,14 @@ abstract class JHtml
 				);
 				$done[] = $id;
 			}
-			return '<input type="text" title="' . (0 !== (int) $value ? self::_('date', $value) : '') . '" name="' . $name . '" id="' . $id
+			return '<input type="text" title="' . (0 !== (int) $value ? self::_('date', $value, null, null) : '') . '" name="' . $name . '" id="' . $id
 				. '" value="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '" ' . $attribs . ' />'
 				. self::_('image', 'system/calendar.png', JText::_('JLIB_HTML_CALENDAR'), array('class' => 'calendar', 'id' => $id . '_img'), true);
 		}
 		else
 		{
-			return '<input type="text" title="' . (0 !== (int) $value ? self::_('date', $value) : '')
-				. '" value="' . (0 !== (int) $value ? self::_('date', $value) : '') . '" ' . $attribs
+			return '<input type="text" title="' . (0 !== (int) $value ? self::_('date', $value, null, null) : '')
+				. '" value="' . (0 !== (int) $value ? self::_('date', $value, null, null) : '') . '" ' . $attribs
 				. ' /><input type="hidden" name="' . $name . '" id="' . $id . '" value="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '" />';
 		}
 	}
