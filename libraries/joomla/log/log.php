@@ -95,15 +95,6 @@ class JLog
 	protected static $instance;
 
 	/**
-	 * The array of instances created through the deprecated getInstance method.
-	 * @var         array
-	 * @since       11.1
-	 * @see         JLog::getInstance()
-	 * @deprecated  12.1
-	 */
-	public static $legacy = array();
-
-	/**
 	 * Container for JLogLogger configurations.
 	 * @var    array
 	 * @since  11.1

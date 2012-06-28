@@ -57,7 +57,7 @@ class JForm
 
 	/**
 	 * The form XML definition.
-	 * @var    object
+	 * @var    SimpleXMLElement
 	 * @since  11.1
 	 */
 	protected $xml;
@@ -650,7 +650,14 @@ class JForm
 		// Attempt to load the XML if a string.
 		if (is_string($data))
 		{
-			$data = JFactory::getXML($data, false);
+			try
+			{
+				$data = new SimpleXMLElement($data);
+			}
+			catch (Exception $e)
+			{
+				return false;
+			}
 
 			// Make sure the XML loaded correctly.
 			if (!$data)
@@ -675,7 +682,7 @@ class JForm
 			// Create a root element for the form.
 			else
 			{
-				$this->xml = new JXMLElement('<form></form>');
+				$this->xml = new SimpleXMLElement('<form></form>');
 			}
 		}
 
@@ -770,7 +777,7 @@ class JForm
 			}
 		}
 		// Attempt to load the XML file.
-		$xml = JFactory::getXML($file, true);
+		$xml = simplexml_load_file($file);
 
 		return $this->load($xml, $reset, $xpath);
 	}
@@ -853,7 +860,7 @@ class JForm
 		if ($xml)
 		{
 			unset($this->xml);
-			$this->xml = new JXMLElement('<form></form>');
+			$this->xml = new SimpleXMLElement('<form></form>');
 		}
 
 		return true;

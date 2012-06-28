@@ -1888,14 +1888,13 @@ class JInstaller extends JAdapter
 	 *
 	 * @param   string  $file  An xmlfile path to check
 	 *
-	 * @return  mixed  A JXMLElement, or null if the file failed to parse
+	 * @return  mixed  A SimpleXMLElement, or null if the file failed to parse
 	 *
 	 * @since   11.1
 	 */
 	public function isManifest($file)
 	{
-		// Initialise variables.
-		$xml = JFactory::getXML($file);
+		$xml = simplexml_load_file($data);
 
 		// If we cannot load the XML file return null
 		if (!$xml)

@@ -32,7 +32,6 @@ class JFormTest extends TestCase
 	public function setUp()
 	{
 		$this->saveFactoryState();
-		jimport('joomla.utilities.xmlelement');
 		include_once 'inspectors.php';
 		include_once 'JFormDataHelper.php';
 	}
@@ -143,10 +142,10 @@ class JFormTest extends TestCase
 	public function testAddNode()
 	{
 		// The source data.
-		$xml1 = simplexml_load_string('<form><fields /></form>', 'JXMLElement');
+		$xml1 = simplexml_load_string('<form><fields /></form>');
 
 		// The new data for adding the field.
-		$xml2 = simplexml_load_string('<form><field name="foo" /></form>', 'JXMLElement');
+		$xml2 = simplexml_load_string('<form><field name="foo" /></form>');
 
 		if ($xml1 === false || $xml2 === false) {
 			$this->fail('Error in text XML data');
@@ -1242,9 +1241,9 @@ class JFormTest extends TestCase
 		);
 
 		$this->assertThat(
-			($form->getXML() instanceof JXMLElement),
+			($form->getXML() instanceof SimpleXMLElement),
 			$this->isTrue(),
-			'Line:'.__LINE__.' The internal XML should be a JXMLElement object.'
+			'Line:'.__LINE__.' The internal XML should be a SimpleXMLElement object.'
 		);
 
 		// Test replace false.
@@ -1504,7 +1503,7 @@ class JFormTest extends TestCase
 		);
 
 		$this->assertThat(
-			($form->getXML() instanceof JXMLElement),
+			($form->getXML() instanceof SimpleXMLElement),
 			$this->isTrue(),
 			'Line:'.__LINE__.' XML string should parse successfully.'
 		);
@@ -1521,7 +1520,7 @@ class JFormTest extends TestCase
 		);
 
 		$this->assertThat(
-			($form->getXML() instanceof JXMLElement),
+			($form->getXML() instanceof SimpleXMLElement),
 			$this->isTrue(),
 			'Line:'.__LINE__.' XML string should parse successfully.'
 		);
@@ -1609,10 +1608,10 @@ class JFormTest extends TestCase
 	public function testMergeNode()
 	{
 		// The source data.
-		$xml1 = simplexml_load_string('<form><field name="foo" /></form>', 'JXMLElement');
+		$xml1 = simplexml_load_string('<form><field name="foo" /></form>');
 
 		// The new data for adding the field.
-		$xml2 = simplexml_load_string('<form><field name="bar" type="text" /></form>', 'JXMLElement');
+		$xml2 = simplexml_load_string('<form><field name="bar" type="text" /></form>');
 
 		if ($xml1 === false || $xml2 === false) {
 			$this->fail('Line:'.__LINE__.' Error in text XML data');
@@ -1634,10 +1633,10 @@ class JFormTest extends TestCase
 	public function testMergeNodes()
 	{
 		// The source data.
-		$xml1 = simplexml_load_string('<form><fields><field name="foo" /></fields></form>', 'JXMLElement');
+		$xml1 = simplexml_load_string('<form><fields><field name="foo" /></fields></form>');
 
 		// The new data for adding the field.
-		$xml2 = simplexml_load_string('<form><fields><field name="foo" type="text" /><field name="soap" /></fields></form>', 'JXMLElement');
+		$xml2 = simplexml_load_string('<form><fields><field name="foo" type="text" /><field name="soap" /></fields></form>');
 
 		if ($xml1 === false || $xml2 === false) {
 			$this->fail('Line:'.__LINE__.' Error in text XML data');
@@ -1826,7 +1825,7 @@ class JFormTest extends TestCase
 			'Line:'.__LINE__.' XML string should load successfully.'
 		);
 
-		$xml1 = simplexml_load_string('<form><field name="title" required="true" /></form>', 'JXMLElement');
+		$xml1 = simplexml_load_string('<form><field name="title" required="true" /></form>');
 
 		if ($xml1 === false) {
 			$this->fail('Error in text XML data');
@@ -1912,7 +1911,7 @@ class JFormTest extends TestCase
 			'Line:'.__LINE__.' XML string should load successfully.'
 		);
 
-		$xml1 = simplexml_load_string('<form><field name="title" required="true" /><field name="ordering" /></form>', 'JXMLElement');
+		$xml1 = simplexml_load_string('<form><field name="title" required="true" /><field name="ordering" /></form>');
 
 		if ($xml1 === false) {
 			$this->fail('Error in text XML data');
