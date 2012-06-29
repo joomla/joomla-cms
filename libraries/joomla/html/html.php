@@ -299,6 +299,9 @@ abstract class JHtml
 			$strip		= JFile::stripExt($file);
 			$ext		= JFile::getExt($file);
 
+			// Prepare array of files
+			$includes = array();
+
 			// Detect browser and compute potential files
 			if ($detect_browser)
 			{
@@ -317,9 +320,6 @@ abstract class JHtml
 				$potential = array($strip);
 			}
 
-			// Prepare array of files
-			$includes = array();
-
 			// If relative search in template directory or media directory
 			if ($relative)
 			{
@@ -330,6 +330,8 @@ abstract class JHtml
 				// For each potential files
 				foreach ($potential as $strip)
 				{
+					$files = array();
+
 					// Detect debug mode
 					if ($detect_debug && JFactory::getConfig()->get('debug'))
 					{
@@ -461,6 +463,8 @@ abstract class JHtml
 			{
 				foreach ($potential as $strip)
 				{
+					$files = array();
+
 					// Detect debug mode
 					if ($detect_debug && JFactory::getConfig()->get('debug'))
 					{
@@ -481,6 +485,7 @@ abstract class JHtml
 							$md5 = dirname($path) . '/MD5SUM';
 							$includes[] = JURI::root(true) . "/$file" .
 								(file_exists($md5) ? ('?' . file_get_contents($md5)) : '');
+							break;
 						}
 					}
 				}
