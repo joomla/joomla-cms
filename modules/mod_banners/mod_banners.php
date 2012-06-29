@@ -15,7 +15,7 @@ require_once dirname(__FILE__).'/helper.php';
 $headerText	= trim($params->get('header_text'));
 $footerText	= trim($params->get('footer_text'));
 
-require_once JPATH_ROOT . '/administrator/components/com_banners/helpers/banners.php';
+require_once JPATH_ADMINISTRATOR . '/components/com_banners/helpers/banners.php';
 BannersHelper::updateReset();
 $list = &modBannersHelper::getList($params);
 $moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'));

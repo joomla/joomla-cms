@@ -9,7 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-JLoader::register('JDatabaseException', JPATH_PLATFORM . '/joomla/database/databaseexception.php');
 jimport('joomla.filesystem.folder');
 
 /**
@@ -165,6 +164,12 @@ abstract class JDatabase implements JDatabaseInterface
 	 * @since  11.1
 	 */
 	protected static $instances = array();
+
+	/**
+	 * @var    string  The minimum supported database version.
+	 * @since  12.1
+	 */
+	protected $dbMinimum;
 
 	/**
 	 * Get a list of available database connectors.  The list will only be populated with connectors that both
@@ -644,6 +649,18 @@ abstract class JDatabase implements JDatabaseInterface
 	}
 
 	/**
+	 * Get the minimum supported database version.
+	 *
+	 * @return  string  The minimum version number for the database driver.
+	 *
+	 * @since   12.1
+	 */
+	public function getMinimum()
+	{
+		return $this->dbMinimum;
+	}
+
+	/**
 	 * Get the null or zero representation of a timestamp for the database driver.
 	 *
 	 * @return  string  Null or zero representation of a timestamp.
@@ -821,7 +838,7 @@ abstract class JDatabase implements JDatabaseInterface
 
 		// Set the query and execute the insert.
 		$this->setQuery(sprintf($statement, implode(',', $fields), implode(',', $values)));
-		if (!$this->query())
+		if (!$this->execute())
 		{
 			return false;
 		}
@@ -834,6 +851,18 @@ abstract class JDatabase implements JDatabaseInterface
 		}
 
 		return true;
+	}
+
+	/**
+	 * Method to check whether the installed database version is supported by the database driver
+	 *
+	 * @return  boolean  True if the database version is supported
+	 *
+	 * @since   12.1
+	 */
+	public function isMinimumVersion()
+	{
+		return version_compare($this->getVersion(), $this->dbMinimum) >= 0;
 	}
 
 	/**
@@ -851,7 +880,7 @@ abstract class JDatabase implements JDatabaseInterface
 		$ret = null;
 
 		// Execute the query and get the result set cursor.
-		if (!($cursor = $this->query()))
+		if (!($cursor = $this->execute()))
 		{
 			return null;
 		}
@@ -891,7 +920,7 @@ abstract class JDatabase implements JDatabaseInterface
 		$array = array();
 
 		// Execute the query and get the result set cursor.
-		if (!($cursor = $this->query()))
+		if (!($cursor = $this->execute()))
 		{
 			return null;
 		}
@@ -933,7 +962,7 @@ abstract class JDatabase implements JDatabaseInterface
 		$array = array();
 
 		// Execute the query and get the result set cursor.
-		if (!($cursor = $this->query()))
+		if (!($cursor = $this->execute()))
 		{
 			return null;
 		}
@@ -965,7 +994,7 @@ abstract class JDatabase implements JDatabaseInterface
 		static $cursor;
 
 		// Execute the query and get the result set cursor.
-		if (!($cursor = $this->query()))
+		if (!($cursor = $this->execute()))
 		{
 			return $this->errorNum ? null : false;
 		}
@@ -996,7 +1025,7 @@ abstract class JDatabase implements JDatabaseInterface
 		static $cursor;
 
 		// Execute the query and get the result set cursor.
-		if (!($cursor = $this->query()))
+		if (!($cursor = $this->execute()))
 		{
 			return $this->errorNum ? null : false;
 		}
@@ -1030,7 +1059,7 @@ abstract class JDatabase implements JDatabaseInterface
 		$ret = null;
 
 		// Execute the query and get the result set cursor.
-		if (!($cursor = $this->query()))
+		if (!($cursor = $this->execute()))
 		{
 			return null;
 		}
@@ -1068,7 +1097,7 @@ abstract class JDatabase implements JDatabaseInterface
 		$array = array();
 
 		// Execute the query and get the result set cursor.
-		if (!($cursor = $this->query()))
+		if (!($cursor = $this->execute()))
 		{
 			return null;
 		}
@@ -1106,7 +1135,7 @@ abstract class JDatabase implements JDatabaseInterface
 		$ret = null;
 
 		// Execute the query and get the result set cursor.
-		if (!($cursor = $this->query()))
+		if (!($cursor = $this->execute()))
 		{
 			return null;
 		}
@@ -1138,7 +1167,7 @@ abstract class JDatabase implements JDatabaseInterface
 		$ret = null;
 
 		// Execute the query and get the result set cursor.
-		if (!($cursor = $this->query()))
+		if (!($cursor = $this->execute()))
 		{
 			return null;
 		}
@@ -1175,7 +1204,7 @@ abstract class JDatabase implements JDatabaseInterface
 		$array = array();
 
 		// Execute the query and get the result set cursor.
-		if (!($cursor = $this->query()))
+		if (!($cursor = $this->execute()))
 		{
 			return null;
 		}
@@ -1219,7 +1248,20 @@ abstract class JDatabase implements JDatabaseInterface
 	 * @since   11.1
 	 * @throws  JDatabaseException
 	 */
-	abstract public function query();
+	public function query()
+	{
+		return $this->execute();
+	}
+
+	/**
+	 * Execute the SQL statement.
+	 *
+	 * @return  mixed  A database cursor resource on success, boolean false on failure.
+	 *
+	 * @since   12.1
+	 * @throws  JDatabaseException
+	 */
+	abstract public function execute();
 
 	/**
 	 * Method to quote and optionally escape a string to database requirements for insertion into the database.
@@ -1474,8 +1516,8 @@ abstract class JDatabase implements JDatabaseInterface
 	public function setQuery($query, $offset = 0, $limit = 0)
 	{
 		$this->sql = $query;
-		$this->limit = (int) $limit;
-		$this->offset = (int) $offset;
+		$this->limit = (int) max(0, $limit);
+		$this->offset = (int) max(0, $offset);
 
 		return $this;
 	}
@@ -1532,7 +1574,7 @@ abstract class JDatabase implements JDatabaseInterface
 	public function truncateTable($table)
 	{
 		$this->setQuery('TRUNCATE TABLE ' . $this->quoteName($table));
-		$this->query();
+		$this->execute();
 	}
 
 	/**
@@ -1605,7 +1647,7 @@ abstract class JDatabase implements JDatabaseInterface
 
 		// Set the query and execute the update.
 		$this->setQuery(sprintf($statement, implode(",", $fields), $where));
-		return $this->query();
+		return $this->execute();
 	}
 
 	/**

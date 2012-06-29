@@ -6,7 +6,6 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.modelform');
@@ -139,7 +138,6 @@ class ContactModelContact extends JModelForm
 				// Join on category table.
 				$query->select('c.title AS category_title, c.alias AS category_alias, c.access AS category_access');
 				$query->join('LEFT', '#__categories AS c on c.id = a.catid');
-
 
 				// Join over the categories to get parent category titles
 				$query->select('parent.title as parent_title, parent.id as parent_id, parent.path as parent_route, parent.alias as parent_alias');
@@ -340,7 +338,7 @@ class ContactModelContact extends JModelForm
 
 				//get the profile information for the linked user
 				require_once JPATH_ADMINISTRATOR.'/components/com_users/models/user.php';
-				$userModel = JModel::getInstance('User', 'UsersModel', array('ignore_request' => true));
+				$userModel = JModelLegacy::getInstance('User', 'UsersModel', array('ignore_request' => true));
 					$data = $userModel->getItem((int)$result->user_id);
 
 				JPluginHelper::importPlugin('user');

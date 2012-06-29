@@ -6,10 +6,7 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.view');
 
 /**
  * Frontpage View class
@@ -18,7 +15,7 @@ jimport('joomla.application.component.view');
  * @subpackage	com_contact
  * @since		1.6
  */
-class ContactViewFeatured extends JView
+class ContactViewFeatured extends JViewLegacy
 {
 	protected $state;
 	protected $items;
@@ -60,7 +57,7 @@ class ContactViewFeatured extends JView
 		{
 			$item		= &$items[$i];
 			$item->slug	= $item->alias ? ($item->id.':'.$item->alias) : $item->id;
-			$temp		= new JRegistry();
+			$temp		= new JRegistry;
 			$temp->loadString($item->params);
 			$item->params = clone($params);
 			$item->params->merge($temp);

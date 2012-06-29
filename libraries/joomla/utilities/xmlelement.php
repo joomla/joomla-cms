@@ -15,6 +15,7 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Platform
  * @subpackage  Utilities
  * @since       11.1
+ * @deprecated  13.3 Use SimpleXMLElement instead.
  */
 class JXMLElement extends SimpleXMLElement
 {
@@ -24,9 +25,11 @@ class JXMLElement extends SimpleXMLElement
 	 * @return  string
 	 *
 	 * @since   11.1
+	 * @deprecated 13.3  Use SimpleXMLElement::getName() instead.
 	 */
 	public function name()
 	{
+		JLog::add('JXMLElement::name() is deprecated, use SimpleXMLElement::getName() instead.', JLog::WARNING, 'deprecated');
 		return (string) $this->getName();
 	}
 
@@ -41,7 +44,7 @@ class JXMLElement extends SimpleXMLElement
 	public function data()
 	{
 		// Deprecation warning.
-		JLog::add('Jxmlelement::data() is deprecated.', JLog::WARNING, 'deprecated');
+		JLog::add('JXMLElement::data() is deprecated.', JLog::WARNING, 'deprecated');
 
 		return (string) $this;
 	}
@@ -76,9 +79,11 @@ class JXMLElement extends SimpleXMLElement
 	 * @return  string
 	 *
 	 * @since   11.1
+	 * @deprecated 13.3  Use SimpleXMLElement::asXML() instead.
 	 */
 	public function asFormattedXML($compressed = false, $indent = "\t", $level = 0)
 	{
+		JLog::add('JXMLElement::asFormattedXML() is deprecated, use SimpleXMLElement::asXML() instead.', JLog::WARNING, 'deprecated');
 		$out = '';
 
 		// Start a new line, indent by the number indicated in $level

@@ -4,16 +4,13 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.view');
 
 /**
  * @package		Joomla.Administrator
  * @subpackage	com_content
  */
-class ContentViewFeatured extends JView
+class ContentViewFeatured extends JViewLegacy
 {
 	protected $items;
 	protected $pagination;

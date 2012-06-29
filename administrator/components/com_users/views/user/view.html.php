@@ -6,13 +6,11 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
-
 /**
  * @package		Joomla.Administrator
  * @subpackage	com_users
  */
-class UsersViewUser extends JView
+class UsersViewUser extends JViewLegacy
 {
 	protected $form;
 	protected $item;
@@ -56,7 +54,6 @@ class UsersViewUser extends JView
 		$user		= JFactory::getUser();
 		$isNew		= ($this->item->id == 0);
 		$canDo		= UsersHelper::getActions();
-
 
 		$isNew	= ($this->item->id == 0);
 		$isProfile = $this->item->id == $user->id;

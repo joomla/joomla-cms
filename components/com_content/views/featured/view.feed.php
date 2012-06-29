@@ -4,10 +4,7 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.view');
 
 /**
  * Frontpage View class
@@ -16,18 +13,18 @@ jimport('joomla.application.component.view');
  * @subpackage	com_content
  * @since		1.5
  */
-class ContentViewFeatured extends JView
+class ContentViewFeatured extends JViewLegacy
 {
 	function display($tpl = null)
 	{
-		// parameters
-		$app		= JFactory::getApplication();
-		$db			= JFactory::getDbo();
-		$document	= JFactory::getDocument();
+		// Parameters
+		$app 		= JFactory::getApplication();
+		$doc		= JFactory::getDocument();
 		$params		= $app->getParams();
 		$feedEmail	= (@$app->getCfg('feed_email')) ? $app->getCfg('feed_email') : 'author';
 		$siteEmail	= $app->getCfg('mailfrom');
-		$document->link = JRoute::_('index.php?option=com_content&view=featured');
+
+		$doc->link	= JRoute::_('index.php?option=com_content&view=featured');
 
 		// Get some data from the model
 		JRequest::setVar('limit', $app->getCfg('feed_limit'));
@@ -42,22 +39,23 @@ class ContentViewFeatured extends JView
 			// Compute the article slug
 			$row->slug = $row->alias ? ($row->id . ':' . $row->alias) : $row->id;
 
-			// url link to article
+			// Url link to article
 			$link = JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid));
 
+			// Get row fulltext
+			$db = JFactory::getDBO();
+			$query = 'SELECT' .$db->quoteName('fulltext'). 'FROM #__content WHERE id ='.$row->id;
+			$db->setQuery($query);
+			$row->fulltext = $db->loadResult();
 
-			// strip html from feed item description text
-			// TODO: Only pull fulltext if necessary (actually, just get the necessary fields).
-			$description	= ($params->get('feed_summary', 0) ? $row->introtext/*.$row->fulltext*/ : $row->introtext);
+			$description	= ($params->get('feed_summary', 0) ? $row->introtext.$row->fulltext : $row->introtext);
 			$author			= $row->created_by_alias ? $row->created_by_alias : $row->author;
 
-			// load individual item creator class
-			$item = new JFeedItem();
+			// Load individual item creator class
+			$item				= new JFeedItem;
 			$item->title		= $title;
 			$item->link			= $link;
-			$item->description	= $description;
 			$item->date			= $row->created;
-
 			$item_category		= $categories->get($row->catid);
 			$item->category		= array();
 			$item->category[]	= JText::_('JFEATURED'); // All featured articles are categorized as "Featured"
@@ -67,16 +65,20 @@ class ContentViewFeatured extends JView
 				}
 			}
 
-			$item->author		= $author;
-			if ($feedEmail == 'site') {
-				$item->authorEmail = $siteEmail;
+			$item->author 		= $author;
+			$item->authorEmail	= (($feedEmail == 'site') ? $siteEmail : $row->author_email);
+
+			// Add readmore link to description if introtext is shown, show_readmore is true and fulltext exists
+			if (!$params->get('feed_summary', 0) && $params->get('feed_show_readmore', 0) && $row->fulltext)
+			{
+				$description .= '<p class="feed-readmore"><a target="_blank" href ="'.rtrim(JURI::base(), "/").str_replace(' ', '%20', $item->link).'">'.JText::_('COM_CONTENT_FEED_READMORE').'</a></p>';
 			}
-			else {
-				$item->authorEmail = $row->author_email;
-			}
-			// loads item info into rss array
-			$document->addItem($item);
+
+			// Load item description and add div
+			$item->description	= '<div class="feed-description">'.$description.'</div>';
+
+			// Loads item info into rss array
+			$doc->addItem($item);
 		}
 	}
 }
-?>

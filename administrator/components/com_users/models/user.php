@@ -11,6 +11,7 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.modeladmin');
+jimport('joomla.access.access');
 
 /**
  * User model.
@@ -328,7 +329,11 @@ class UsersModelUser extends JModelAdmin
 					}
 
 					$table->block = (int) $value;
-
+				// If unblocking, also change password reset count to zero to unblock reset
+					if ($table->block === 0)
+					{
+						$table->resetCount = 0;
+					}
 					// Allow an exception to be thrown.
 					try
 					{
@@ -540,7 +545,8 @@ class UsersModelUser extends JModelAdmin
 
 		JArrayHelper::toInteger($user_ids);
 
-		if ($group_id < 1)
+		// Non-super admin cannot work with super-admin group
+		if ((!JFactory::getUser()->get('isRoot') && JAccess::checkGroup($group_id, 'core.admin')) || $group_id < 1)
 		{
 			$this->setError(JText::_('COM_USERS_ERROR_INVALID_GROUP'));
 			return false;
@@ -649,7 +655,7 @@ class UsersModelUser extends JModelAdmin
 		$user = JFactory::getUser();
 		if ($user->authorise('core.edit', 'com_users') && $user->authorise('core.manage', 'com_users'))
 		{
-			$model = JModel::getInstance('Groups', 'UsersModel', array('ignore_request' => true));
+			$model = JModelLegacy::getInstance('Groups', 'UsersModel', array('ignore_request' => true));
 			return $model->getItems();
 		}
 		else

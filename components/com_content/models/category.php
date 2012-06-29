@@ -6,7 +6,6 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.modellist');
@@ -168,7 +167,7 @@ class ContentModelCategory extends JModelList
 		}
 		$this->setState('list.direction', $listOrder);
 
-		$this->setState('list.start', JRequest::getVar('limitstart', 0, '', 'int'));
+		$this->setState('list.start', JRequest::getUInt('limitstart', 0));
 
 		// set limit for query. If list, use parameter. If blog, add blog parameters for limit.
 		if ((JRequest::getCmd('layout') == 'blog') || $params->get('layout_type') == 'blog') {
@@ -176,7 +175,7 @@ class ContentModelCategory extends JModelList
 			$this->setState('list.links', $params->get('num_links'));
 		}
 		else {
-			$limit = $app->getUserStateFromRequest('com_content.category.list.' . $itemid . '.limit', 'limit', $params->get('display_num'));
+			$limit = $app->getUserStateFromRequest('com_content.category.list.' . $itemid . '.limit', 'limit', $params->get('display_num'), 'uint');
 		}
 
 		$this->setState('list.limit', $limit);
@@ -188,8 +187,6 @@ class ContentModelCategory extends JModelList
 			$this->setState('filter.max_category_levels', $params->get('show_subcategory_content', '1'));
 			$this->setState('filter.subcategories', true);
 		}
-
-
 
 		$this->setState('filter.language', $app->getLanguageFilter());
 
@@ -209,7 +206,7 @@ class ContentModelCategory extends JModelList
 		$limit = $this->getState('list.limit');
 
 		if ($this->_articles === null && $category = $this->getCategory()) {
-			$model = JModel::getInstance('Articles', 'ContentModel', array('ignore_request' => true));
+			$model = JModelLegacy::getInstance('Articles', 'ContentModel', array('ignore_request' => true));
 			$model->setState('params', JFactory::getApplication()->getParams());
 			$model->setState('filter.category_id', $category->id);
 			$model->setState('filter.published', $this->getState('filter.published'));
@@ -405,7 +402,7 @@ class ContentModelCategory extends JModelList
 		}
 
 		// Order subcategories
-		if (sizeof($this->_children)) {
+		if (count($this->_children)) {
 			$params = $this->getState()->get('params');
 			if ($params->get('orderby_pri') == 'alpha' || $params->get('orderby_pri') == 'ralpha') {
 				jimport('joomla.utilities.arrayhelper');

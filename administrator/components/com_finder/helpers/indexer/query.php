@@ -1302,20 +1302,20 @@ class FinderIndexerQuery
 		else
 		{
 			// Add the term to the query.
-//			$query->where('t.term = ' . $db->quote($token->term));
-//			$query->where('t.phrase = 0');
-//
-//			// Clone the query, replace the WHERE clause.
-//			$sub = clone($query);
-//			$sub->clear('where');
-//			$sub->where('t.stem = '.$db->quote($token->stem));
-//			$sub->where('t.phrase = 0');
-//
-//			// Union the two queries.
-//			$query->union($sub);
-
-			$query->where('(t.term = ' . $db->quote($token->term) . ' OR t.stem = ' . $db->quote($token->stem) . ')');
+			$query->where('t.term = ' . $db->quote($token->term));
 			$query->where('t.phrase = 0');
+
+			// Clone the query, replace the WHERE clause.
+			$sub = clone($query);
+			$sub->clear('where');
+			$sub->where('t.stem = '.$db->quote($token->stem));
+			$sub->where('t.phrase = 0');
+
+			// Union the two queries.
+			$query->union($sub);
+
+//			$query->where('(t.term = ' . $db->quote($token->term) . ' OR t.stem = ' . $db->quote($token->stem) . ')');
+//			$query->where('t.phrase = 0');
 		}
 
 		// Get the terms.

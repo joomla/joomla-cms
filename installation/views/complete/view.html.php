@@ -7,15 +7,13 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
-
 /**
  * The HTML Joomla Core Install Complete View
  *
  * @package		Joomla.Installation
  * @since		1.6
  */
-class JInstallationViewComplete extends JView
+class JInstallationViewComplete extends JViewLegacy
 {
 	/**
 	 * Display the view

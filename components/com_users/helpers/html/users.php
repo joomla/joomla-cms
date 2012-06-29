@@ -30,6 +30,7 @@ abstract class JHtmlUsers
 			return htmlspecialchars($value);
 		}
 	}
+
 	public static function spacer($value)
 	{
 		return '';
@@ -43,7 +44,7 @@ abstract class JHtmlUsers
 		}
 		else
 		{
-			$version = new JVersion();
+			$version = new JVersion;
 			$jver = explode( '.', $version->getShortVersion() );
 
 			$pathToXml = JPATH_ADMINISTRATOR.'/help/helpsites.xml';

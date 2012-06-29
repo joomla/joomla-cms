@@ -10,6 +10,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.modelform');
 jimport('joomla.event.dispatcher');
+jimport('joomla.database.table');
 
 /**
  * Rest model class for Users.
@@ -342,6 +343,12 @@ class UsersModelReset extends JModelForm
 			return false;
 		}
 
+		// Make sure the user has not exceeded the reset limit
+		if (!$this->checkResetLimit($user)) {
+			$resetLimit = (int) JFactory::getApplication()->getParams()->get('reset_time');
+			$this->setError(JText::plural('COM_USERS_REMIND_LIMIT_ERROR_N_HOURS', $resetLimit));
+			return false;
+		}
 		// Set the confirmation token.
 		$token = JApplication::getHash(JUserHelper::genRandomPassword());
 		$salt = JUserHelper::getSalt('crypt-md5');
@@ -389,5 +396,44 @@ class UsersModelReset extends JModelForm
 		}
 
 		return true;
+	}
+	/**
+	 * Method to check if user reset limit has been exceeded within the allowed time period.
+	 *
+	 * @param   JUser  the user doing the password reset
+	 *
+	 * @return  boolean true if user can do the reset, false if limit exceeded
+	 *
+	 * @since	2.5
+	 */
+	public function checkResetLimit($user)
+	{
+		$params = JFactory::getApplication()->getParams();
+		$maxCount = (int) $params->get('reset_count');
+		$resetHours = (int) $params->get('reset_time');
+		$result = true;
+
+		$lastResetTime = strtotime($user->lastResetTime) ? strtotime($user->lastResetTime) : 0;
+		$hoursSinceLastReset = (strtotime(JFactory::getDate()->toSql()) - $lastResetTime) / 3600;
+
+		// If it's been long enough, start a new reset count
+		if ($hoursSinceLastReset > $resetHours)
+		{
+			$user->lastResetTime = JFactory::getDate()->toSql();
+			$user->resetCount = 1;
+		}
+
+		// If we are under the max count, just increment the counter
+		elseif ($user->resetCount < $maxCount)
+		{
+			$user->resetCount;
+		}
+
+		// At this point, we know we have exceeded the maximum resets for the time period
+		else
+		{
+			$result = false;
+		}
+		return $result;
 	}
 }

@@ -6,10 +6,7 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.modellist');
 
 /**
  * Languages Strings Model
@@ -18,7 +15,7 @@ jimport('joomla.application.component.modellist');
  * @subpackage	com_languages
  * @since				2.5
  */
-class LanguagesModelStrings extends JModel
+class LanguagesModelStrings extends JModelLegacy
 {
 	/**
 	 * Method for refreshing the cache in the database with the known language strings
@@ -55,7 +52,6 @@ class LanguagesModelStrings extends JModel
 		$client		= $app->getUserState('com_languages.overrides.filter.client', 'site') ? 'administrator' : 'site';
 		$language	= $app->getUserState('com_languages.overrides.filter.language', 'en-GB');
 
-
 		$base = constant('JPATH_'.strtoupper($client));
 		$path = $base.'/language/' . $language;
 
@@ -88,7 +84,7 @@ class LanguagesModelStrings extends JModel
 				$query->clear('values');
 				foreach ($strings as $key => $string)
 				{
-					$query->values($this->_db->q($key).','.$this->_db->q($string).','.$this->_db->q(JPath::clean($file)));;
+					$query->values($this->_db->q($key).','.$this->_db->q($string).','.$this->_db->q(JPath::clean($file)));
 				}
 
 				try

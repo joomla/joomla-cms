@@ -6,10 +6,7 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.view');
 
 /**
  * HTML View class for the Contacts component
@@ -18,7 +15,7 @@ jimport('joomla.application.component.view');
  * @subpackage	com_contact
  * @since		1.5
  */
-class ContactViewCategory extends JView
+class ContactViewCategory extends JViewLegacy
 {
 	protected $state;
 	protected $items;
@@ -66,7 +63,7 @@ class ContactViewCategory extends JView
 		{
 			$item		= &$items[$i];
 			$item->slug	= $item->alias ? ($item->id.':'.$item->alias) : $item->id;
-			$temp		= new JRegistry();
+			$temp		= new JRegistry;
 			$temp->loadString($item->params);
 			$item->params = clone($params);
 			$item->params->merge($temp);

@@ -15,7 +15,12 @@ function saveIt(name) {
 		alert('No cookie available');
 	} else {
 		if (Browser.Features.localstorage) {
-			localStorage[name] = x;
+			try {
+				localStorage[name] = x;
+			}
+			catch (e) {
+				// Most likely the storage is full or deactivated
+			}
 		} else {
 			Cookie.write(name, x, {duration: 7});
 		}
@@ -113,6 +118,15 @@ window.addEvent('domready', function() {
 				if (cookieset == 'block') {
 					el.setStyle('display', 'block');
 					el.setProperty('aria-expanded', 'true');
+					el.slide('show');//.slide('hide').slide('in');
+					el.getParent().setProperty('class', 'slide');
+					var eltern = el.getParent().getParent();
+					var elternh = eltern.getElement('h3');
+					var elternbild = eltern.getElement('img');
+					elternbild.setProperties( {
+					alt : altopen,
+					src : bildzu
+					});
 				}
 
 			}

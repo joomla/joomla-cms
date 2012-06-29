@@ -26,9 +26,9 @@ else :
 	JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 ?>
 <article class="item-page<?php echo $this->pageclass_sfx?>">
-<?php if ($this->params->get('show_page_heading', 1)) : ?>
+<?php if ($this->params->get('show_page_heading')) : ?>
 
-<?php if ($this->params->get('show_page_heading', 1) and $params->get('show_title')) :?>
+<?php if ($this->params->get('show_page_heading') and $params->get('show_title')) :?>
 <hgroup>
 <?php endif; ?>
 <h1>
@@ -46,7 +46,7 @@ if (!empty($this->item->pagination) && $this->item->pagination && !$this->item->
 			<?php echo $this->escape($this->item->title); ?>
 		</h2>
 <?php endif; ?>
-<?php if ($this->params->get('show_page_heading', 1) and $params->get('show_title')) :?>
+<?php if ($this->params->get('show_page_heading') and $params->get('show_title')) :?>
 </hgroup>
 <?php endif; ?>
 

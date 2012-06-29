@@ -4,10 +4,7 @@
  * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  */
 
-// Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.controller');
 
 /**
  * Users mail controller.
@@ -15,7 +12,7 @@ jimport('joomla.application.component.controller');
  * @package		Joomla.Administrator
  * @subpackage	com_users
  */
-class UsersControllerMail extends JController
+class UsersControllerMail extends JControllerLegacy
 {
 	public function send()
 	{

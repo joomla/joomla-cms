@@ -7,7 +7,6 @@
  * @since		1.0
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
 // Access check.
@@ -15,9 +14,6 @@ if (!JFactory::getUser()->authorise('core.manage', 'com_installer')) {
 	return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
 }
 
-// Include dependancies
-jimport('joomla.application.component.controller');
-
-$controller	= JController::getInstance('Installer');
+$controller	= JControllerLegacy::getInstance('Installer');
 $controller->execute(JRequest::getCmd('task'));
 $controller->redirect();

@@ -4,10 +4,7 @@
  * @license		GNU General Public License, see LICENSE.php
  */
 
-// No direct access.
 defined('_JEXEC') or die;
-
-jimport( 'joomla.application.component.controller' );
 
 /**
  * Login Controller
@@ -16,7 +13,7 @@ jimport( 'joomla.application.component.controller' );
  * @subpackage	com_login
  * @since		1.5
  */
-class LoginController extends JController
+class LoginController extends JControllerLegacy
 {
 	/**
 	 * Typical view method for MVC based architecture

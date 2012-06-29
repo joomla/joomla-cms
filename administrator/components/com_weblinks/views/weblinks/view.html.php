@@ -4,10 +4,7 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.view');
 
 /**
  * View class for a list of weblinks.
@@ -16,7 +13,7 @@ jimport('joomla.application.component.view');
  * @subpackage	com_weblinks
  * @since		1.5
  */
-class WeblinksViewWeblinks extends JView
+class WeblinksViewWeblinks extends JViewLegacy
 {
 	protected $items;
 	protected $pagination;
@@ -66,7 +63,6 @@ class WeblinksViewWeblinks extends JView
 			JToolBarHelper::divider();
 			JToolBarHelper::publish('weblinks.publish', 'JTOOLBAR_PUBLISH', true);
 			JToolBarHelper::unpublish('weblinks.unpublish', 'JTOOLBAR_UNPUBLISH', true);
-
 
 			JToolBarHelper::divider();
 			JToolBarHelper::archiveList('weblinks.archive');

@@ -6,7 +6,6 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
 class modBreadCrumbsHelper
@@ -27,7 +26,7 @@ class modBreadCrumbsHelper
 
 		if ($params->get('showHome', 1))
 		{
-			$item = new stdClass();
+			$item = new stdClass;
 			$item->name = htmlspecialchars($params->get('homeText', JText::_('MOD_BREADCRUMBS_HOME')));
 			$item->link = JRoute::_('index.php?Itemid='.$app->getMenu()->getDefault()->id);
 			array_unshift($items, $item);
@@ -52,10 +51,10 @@ class modBreadCrumbsHelper
 		// specific one first, and if that is not present we load the default separator
 		if ($custom == null) {
 			if ($lang->isRTL()){
-				$_separator = JHtml::_('image', 'system/arrow_rtl.png', NULL, NULL, true);
+				$_separator = JHtml::_('image', 'system/arrow_rtl.png', null, null, true);
 			}
 			else{
-				$_separator = JHtml::_('image', 'system/arrow.png', NULL, NULL, true);
+				$_separator = JHtml::_('image', 'system/arrow.png', null, null, true);
 			}
 		} else {
 			$_separator = htmlspecialchars($custom);

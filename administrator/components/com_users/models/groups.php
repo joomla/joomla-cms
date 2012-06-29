@@ -98,7 +98,6 @@ class UsersModelGroups extends JModelList
 		if (empty($this->cache[$store])) {
 			$items = parent::getItems();
 
-
 			// Bail out on an error or empty list.
 			if (empty($items)) {
 				$this->cache[$store] = $items;

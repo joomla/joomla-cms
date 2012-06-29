@@ -6,10 +6,7 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.view');
 
 /**
  * HTML View class for the WebLinks component
@@ -19,7 +16,7 @@ jimport('joomla.application.component.view');
  * @subpackage	com_weblinks
  * @since 1.0
  */
-class WeblinksViewCategory extends JView
+class WeblinksViewCategory extends JViewLegacy
 {
 	function display($tpl = null)
 	{
@@ -52,7 +49,7 @@ class WeblinksViewCategory extends JView
 			$date = ($item->date ? date('r', strtotime($item->date)) : '');
 
 			// load individual item creator class
-			$feeditem = new JFeedItem();
+			$feeditem = new JFeedItem;
 			$feeditem->title		= $title;
 			$feeditem->link			= $link;
 			$feeditem->description	= $description;
@@ -64,4 +61,3 @@ class WeblinksViewCategory extends JView
 		}
 	}
 }
-?>

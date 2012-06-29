@@ -4,27 +4,25 @@
  * @subpackage  com_joomlaupdate
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
- * @since       2.5.2
+ * @since       2.5.4
  */
 
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.view');
 
 /**
  * Joomla! Update's Update View
  *
  * @package     Joomla.Administrator
  * @subpackage  com_installer
- * @since       2.5.2
+ * @since       2.5.4
  */
-class JoomlaupdateViewUpdate extends JView
+class JoomlaupdateViewUpdate extends JViewLegacy
 {
 	/**
 	 * Renders the view
-	 * 
+	 *
 	 * @param   string  $tpl  Template name
-	 * 
+	 *
 	 * @return void
 	 */
 	public function display($tpl=null)
@@ -41,7 +39,7 @@ class JoomlaupdateViewUpdate extends JView
 		JToolBarHelper::preferences('com_joomlaupdate');
 
 		// Load mooTools
-		JHtml::_('behavior.framework');
+		JHtml::_('behavior.framework', true);
 
 		$updateScript = <<<ENDSCRIPT
 var joomlaupdate_password = '$password';
@@ -50,12 +48,14 @@ var joomlaupdate_ajax_url = '$ajaxUrl';
 var joomlaupdate_return_url = '$returnUrl';
 
 ENDSCRIPT;
-		
+
 		// Load our Javascript
 		$document = JFactory::getDocument();
 		$document->addScript('../media/com_joomlaupdate/json2.js');
 		$document->addScript('../media/com_joomlaupdate/encryption.js');
 		$document->addScript('../media/com_joomlaupdate/update.js');
+		JHtml::_('script', 'system/progressbar.js', true, true);
+		JHtml::_('stylesheet', 'media/mediamanager.css', array(), true);
 		$document->addScriptDeclaration($updateScript);
 
 		// Render the view

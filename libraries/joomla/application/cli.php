@@ -97,6 +97,7 @@ class JApplicationCli
 			$this->config = new JRegistry;
 		}
 
+		// Reverted back for version CMS 2.5.6
 		// If a dispatcher object is given use it.
 		if ($dispatcher instanceof JDispatcher)
 		{

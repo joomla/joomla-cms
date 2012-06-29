@@ -12,7 +12,8 @@ defined('_JEXEC') or die;
  * @package		Joomla.Site
  * @since		1.6
  */
-abstract class en_GBLocalise {
+abstract class en_GBLocalise
+{
 	/**
 	 * Returns the potential suffixes for a specific number of items
 	 *

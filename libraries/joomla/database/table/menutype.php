@@ -136,7 +136,7 @@ class JTableMenuType extends JTable
 			$query->set('menutype=' . $this->_db->quote($this->menutype));
 			$query->where('menutype=' . $this->_db->quote($table->menutype));
 			$this->_db->setQuery($query);
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError(JText::sprintf('JLIB_DATABASE_ERROR_STORE_FAILED', get_class($this), $this->_db->getErrorMsg()));
 				return false;
@@ -152,7 +152,7 @@ class JTableMenuType extends JTable
 			$query->where('module=' . $this->_db->quote('mod_menu'));
 			$query->where('params LIKE ' . $this->_db->quote('%"menutype":' . json_encode($table->menutype) . '%'));
 			$this->_db->setQuery($query);
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError(JText::sprintf('JLIB_DATABASE_ERROR_STORE_FAILED', get_class($this), $this->_db->getErrorMsg()));
 				return false;
@@ -223,7 +223,7 @@ class JTableMenuType extends JTable
 			$query->where('menutype=' . $this->_db->quote($table->menutype));
 			$query->where('client_id=0');
 			$this->_db->setQuery($query);
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError(JText::sprintf('JLIB_DATABASE_ERROR_DELETE_FAILED', get_class($this), $this->_db->getErrorMsg()));
 				return false;
@@ -236,7 +236,7 @@ class JTableMenuType extends JTable
 			$query->where('module=' . $this->_db->quote('mod_menu'));
 			$query->where('params LIKE ' . $this->_db->quote('%"menutype":' . json_encode($table->menutype) . '%'));
 			$this->_db->setQuery($query);
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError(JText::sprintf('JLIB_DATABASE_ERROR_DELETE_FAILED', get_class($this), $this->_db->getErrorMsg()));
 				return false;

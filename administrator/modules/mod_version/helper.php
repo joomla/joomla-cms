@@ -6,7 +6,6 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
 /**
@@ -28,7 +27,7 @@ abstract class modVersionHelper
 		$method = 'get' . ucfirst($format) . "Version";
 
 		// Get the joomla version
-		$instance = new JVersion();
+		$instance = new JVersion;
 		$version = call_user_func(array($instance, $method));//$instance->{$method};
 
 		if ($format=='short' && !empty($product)) {

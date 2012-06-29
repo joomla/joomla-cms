@@ -636,7 +636,7 @@ class JCache extends JObject
 	{
 		$app = JFactory::getApplication();
 		// Get url parameters set by plugins
-		$registeredurlparams = $app->get('registeredurlparams');
+		$registeredurlparams = $app->registeredurlparams;
 
 		if (empty($registeredurlparams))
 		{

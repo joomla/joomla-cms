@@ -4,10 +4,7 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.view');
 
 /**
  * Displays the multilang status.
@@ -16,7 +13,7 @@ jimport('joomla.application.component.view');
  * @subpackage	com_languages
  * @since		1.7.1
  */
-class LanguagesViewMultilangstatus extends JView
+class LanguagesViewMultilangstatus extends JViewLegacy
 {
 	/**
 	 * Display the view

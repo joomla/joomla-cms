@@ -345,7 +345,7 @@ class plgEditorTinymce extends JPlugin
 		// style
 		$style = $this->params->def('style', 1);
 
-		if ($style) 
+		if ($style)
 		{
 			$plugins[]	= 'style';
 			$buttons4[]	= 'styleprops';
@@ -367,6 +367,15 @@ class plgEditorTinymce extends JPlugin
 		{
 			$plugins[]	= 'visualchars';
 			$buttons4[]	= 'visualchars';
+		}
+
+		// visualblocks
+		$visualblocks = $this->params->def('visualblocks', 1);
+
+		if ($visualblocks)
+		{
+			$plugins[]	= 'visualblocks';
+			$buttons4[]	= 'visualblocks';
 		}
 
 		// non-breaking

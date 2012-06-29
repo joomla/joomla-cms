@@ -6,14 +6,11 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
 require_once JPATH_SITE.'/components/com_content/helpers/route.php';
 
-jimport('joomla.application.component.model');
-
-JModel::addIncludePath(JPATH_SITE.'/components/com_content/models', 'ContentModel');
+JModelLegacy::addIncludePath(JPATH_SITE.'/components/com_content/models', 'ContentModel');
 
 abstract class modArticlesNewsHelper
 {
@@ -23,7 +20,7 @@ abstract class modArticlesNewsHelper
 		$db		= JFactory::getDbo();
 
 		// Get an instance of the generic articles model
-		$model = JModel::getInstance('Articles', 'ContentModel', array('ignore_request' => true));
+		$model = JModelLegacy::getInstance('Articles', 'ContentModel', array('ignore_request' => true));
 
 		// Set application parameters in model
 		$appParams = JFactory::getApplication()->getParams();
@@ -37,8 +34,8 @@ abstract class modArticlesNewsHelper
 
 		$model->setState('list.select', 'a.fulltext, a.id, a.title, a.alias, a.title_alias, a.introtext, a.state, a.catid, a.created, a.created_by, a.created_by_alias,' .
 			' a.modified, a.modified_by, a.publish_up, a.publish_down, a.images, a.urls, a.attribs, a.metadata, a.metakey, a.metadesc, a.access,' .
-			' a.hits, a.featured,' .
-			' LENGTH(a.fulltext) AS readmore');
+			' a.hits, a.featured' );
+
 		// Access filter
 		$access = !JComponentHelper::getParams('com_content')->get('show_noauth');
 		$authorised = JAccess::getAuthorisedViewLevels(JFactory::getUser()->get('id'));
@@ -63,7 +60,7 @@ abstract class modArticlesNewsHelper
 		$items = $model->getItems();
 
 		foreach ($items as &$item) {
-			$item->readmore = (trim($item->fulltext) != '');
+			$item->readmore = strlen(trim($item->fulltext));
 			$item->slug = $item->id.':'.$item->alias;
 			$item->catslug = $item->catid.':'.$item->category_alias;
 

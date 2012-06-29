@@ -2656,3 +2656,9 @@ fieldset.uploadform {
 #installer-database p.nowarning {
 	padding-left: 20px;
 }
+
+/* Spinner */
+.joomlaupdate_spinner {
+	float: left;
+	margin-right: 15px;
+}

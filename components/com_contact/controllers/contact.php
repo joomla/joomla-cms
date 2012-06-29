@@ -34,7 +34,6 @@ class ContactControllerContact extends JControllerForm
 
 		$contact = $model->getItem($id);
 
-
 		$params->merge($contact->params);
 
 		// Check for a valid session cookie

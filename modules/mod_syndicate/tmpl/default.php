@@ -6,11 +6,11 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
+
 ?>
 <a href="<?php echo $link ?>" class="syndicate-module<?php echo $moduleclass_sfx ?>">
-	<?php echo JHtml::_('image', 'system/livemarks.png', 'feed-image', NULL, true); ?>
+	<?php echo JHtml::_('image', 'system/livemarks.png', 'feed-image', null, true); ?>
 	<?php if ($params->get('display_text', 1)) : ?>
 		<span>
 		<?php if (str_replace(' ', '', $text) != '') : ?>

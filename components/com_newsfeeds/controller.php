@@ -6,10 +6,7 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.controller');
 
 /**
  * Newsfeeds Component Controller
@@ -18,7 +15,7 @@ jimport('joomla.application.component.controller');
  * @subpackage	com_newsfeeds
  * @since		1.5
  */
-class NewsfeedsController extends JController
+class NewsfeedsController extends JControllerLegacy
 {
 	/**
 	 * Method to show a newsfeeds view
@@ -43,7 +40,7 @@ class NewsfeedsController extends JController
 			$cachable = false;
 		}
 
-		$safeurlparams = array('id'=>'INT', 'limit'=>'INT', 'limitstart'=>'INT', 'filter_order'=>'CMD', 'filter_order_Dir'=>'CMD', 'lang'=>'CMD');
+		$safeurlparams = array('id'=>'INT', 'limit'=>'UINT', 'limitstart'=>'UINT', 'filter_order'=>'CMD', 'filter_order_Dir'=>'CMD', 'lang'=>'CMD');
 
 		parent::display($cachable, $safeurlparams);
 	}

@@ -80,7 +80,7 @@ abstract class MediaHelper
 			if (in_array($format, $images)) { // if its an image run it through getimagesize
 				// if tmp_name is empty, then the file was bigger than the PHP limit
 				if (!empty($file['tmp_name'])) {
-					if (($imginfo = getimagesize($file['tmp_name'])) === FALSE) {
+					if (($imginfo = getimagesize($file['tmp_name'])) === false) {
 						$err = 'COM_MEDIA_ERROR_WARNINVALID_IMG';
 						return false;
 					}

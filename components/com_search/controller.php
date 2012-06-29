@@ -6,10 +6,7 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.controller');
 
 /**
  * Search Component Controller
@@ -18,7 +15,7 @@ jimport('joomla.application.component.controller');
  * @subpackage	com_search
  * @since 1.5
  */
-class SearchController extends JController
+class SearchController extends JControllerLegacy
 {
 	/**
 	 * Method to display a view.
@@ -51,7 +48,7 @@ class SearchController extends JController
 		}
 		$post['ordering']	= JRequest::getWord('ordering', null, 'post');
 		$post['searchphrase']	= JRequest::getWord('searchphrase', 'all', 'post');
-		$post['limit']  = JRequest::getInt('limit', null, 'post');
+		$post['limit']  = JRequest::getUInt('limit', null, 'post');
 		if ($post['limit'] === null) unset($post['limit']);
 
 		$areas = JRequest::getVar('areas', null, 'post', 'array');
@@ -79,7 +76,6 @@ class SearchController extends JController
 		$uri = JURI::getInstance();
 		$uri->setQuery($post);
 		$uri->setVar('option', 'com_search');
-
 
 		$this->setRedirect(JRoute::_('index.php'.$uri->toString(array('query', 'fragment')), false));
 	}

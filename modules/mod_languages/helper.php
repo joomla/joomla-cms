@@ -6,7 +6,6 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
 JLoader::register('MenusHelper', JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus.php');
@@ -19,7 +18,7 @@ abstract class modLanguagesHelper
 		$lang 	= JFactory::getLanguage();
 		$app	= JFactory::getApplication();
 		$menu 	= $app->getMenu();
-		
+
 		// Get menu home items
 		$homes = array();
 		foreach($menu->getMenu() as $item) {
@@ -27,21 +26,24 @@ abstract class modLanguagesHelper
 				$homes[$item->language] = $item;
 			}
 		}
-		
+
 		// Load associations
-		if ($app->get('menu_associations', 0)) {
+		$assoc = isset($app->menu_associations) ? $app->menu_associations : 0;
+		if ($assoc)
+		{
 			$active = $menu->getActive();
-			if ($active) {
+			if ($active)
+			{
 				$associations = MenusHelper::getAssociations($active->id);
 			}
 		}
 
 		$levels		= $user->getAuthorisedViewLevels();
 		$languages	= JLanguageHelper::getLanguages();
-		
+
 		// Filter allowed languages
 		foreach($languages as $i => &$language) {
-			
+
 			// Do not display language without frontend UI
 			if (!JLanguage::exists($language->lang_code)) {
 				unset($languages[$i]);
@@ -63,7 +65,7 @@ abstract class modLanguagesHelper
 							$language->link = JRoute::_('index.php?lang='.$language->sef.'&Itemid='.$itemid);
 						}
 						else {
-							$language->link = 'index.php?lang='.$language->sef.'&Itemid='.$itemid;
+							$language->link = 'index.php?lang='.$language->sef.'&amp;Itemid='.$itemid;
 						}
 					}
 					else {

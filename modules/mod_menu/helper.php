@@ -77,6 +77,7 @@ class modMenuHelper
 					$item->active		= false;
 					$item->flink = $item->link;
 
+					// Reverted back for CMS version 2.5.6
 					switch ($item->type)
 					{
 						case 'separator':

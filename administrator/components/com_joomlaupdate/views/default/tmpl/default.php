@@ -4,12 +4,13 @@
  * @subpackage  com_joomlaupdate
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
- * @since       2.5.2
+ * @since       2.5.4
  */
 
 defined('_JEXEC') or die;
 
 $ftpFieldsDisplay = $this->ftp['enabled'] ? '' : 'style = "display: none"';
+
 ?>
 
 <?php if (is_null($this->updateInfo['object'])): ?>
@@ -33,7 +34,7 @@ $ftpFieldsDisplay = $this->ftp['enabled'] ? '' : 'style = "display: none"';
 	<legend>
 		<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_UPDATEFOUND') ?>
 	</legend>
-	
+
 	<table class="adminlist">
 		<tbody>
 			<tr class="row0">
@@ -117,7 +118,7 @@ $ftpFieldsDisplay = $this->ftp['enabled'] ? '' : 'style = "display: none"';
 					&nbsp;
 				</td>
 				<td>
-					<button type="submit">
+					<button class="submit" type="submit">
 						<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_INSTALLUPDATE') ?>
 					</button>
 				</td>
@@ -128,3 +129,9 @@ $ftpFieldsDisplay = $this->ftp['enabled'] ? '' : 'style = "display: none"';
 
 </form>
 <?php endif; ?>
+
+<div class="download_message" style="display: none">
+	<p></p>
+	<p class="nowarning"> <?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_DOWNLOAD_IN_PROGRESS'); ?></p>
+	<div class="joomlaupdate_spinner" />
+</div>

@@ -377,7 +377,7 @@ class JInstaller extends JAdapter
 					$query->delete($db->quoteName('#__extensions'));
 					$query->where($db->quoteName('extension_id') . ' = ' . (int) $step['id']);
 					$db->setQuery($query);
-					$stepval = $db->query();
+					$stepval = $db->execute();
 
 					break;
 
@@ -828,7 +828,7 @@ class JInstaller extends JAdapter
 	 * Backward compatible method to parse through a queries element of the
 	 * installation manifest file and take appropriate action.
 	 *
-	 * @param   JXMLElement  $element  The XML node to process
+	 * @param   SimpleXMLElement  $element  The XML node to process
 	 *
 	 * @return  mixed  Number of queries processed or False on error
 	 *
@@ -859,7 +859,7 @@ class JInstaller extends JAdapter
 		{
 			$db->setQuery($query->data());
 
-			if (!$db->query())
+			if (!$db->execute())
 			{
 				JError::raiseWarning(1, JText::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $db->stderr(true)));
 
@@ -958,7 +958,7 @@ class JInstaller extends JAdapter
 					{
 						$db->setQuery($query);
 
-						if (!$db->query())
+						if (!$db->execute())
 						{
 							JError::raiseWarning(1, JText::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $db->stderr(true)));
 
@@ -975,8 +975,8 @@ class JInstaller extends JAdapter
 	/**
 	 * Set the schema version for an extension by looking at its latest update
 	 *
-	 * @param   JXMLElement  $schema  Schema Tag
-	 * @param   integer      $eid     Extension ID
+	 * @param   SimpleXMLElement  $schema  Schema Tag
+	 * @param   integer           $eid     Extension ID
 	 *
 	 * @return  void
 	 *
@@ -1005,7 +1005,6 @@ class JInstaller extends JAdapter
 				{
 					$dbDriver = 'sqlazure';
 				}
-				
 
 				$schemapath = '';
 
@@ -1030,14 +1029,14 @@ class JInstaller extends JAdapter
 						->where('extension_id = ' . $eid);
 					$db->setQuery($query);
 
-					if ($db->query())
+					if ($db->execute())
 					{
 						$query->clear();
 						$query->insert($db->quoteName('#__schemas'));
 						$query->columns(array($db->quoteName('extension_id'), $db->quoteName('version_id')));
 						$query->values($eid . ', ' . $db->quote(end($files)));
 						$db->setQuery($query);
-						$db->query();
+						$db->execute();
 					}
 				}
 			}
@@ -1047,10 +1046,10 @@ class JInstaller extends JAdapter
 	/**
 	 * Method to process the updates for an item
 	 *
-	 * @param   JXMLElement  $schema  The XML node to process
-	 * @param   integer      $eid     Extension Identifier
+	 * @param   SimpleXMLElement  $schema  The XML node to process
+	 * @param   integer           $eid     Extension Identifier
 	 *
-	 * @return  boolean      Result of the operations
+	 * @return  boolean           Result of the operations
 	 *
 	 * @since   11.1
 	 */
@@ -1140,7 +1139,7 @@ class JInstaller extends JAdapter
 									{
 										$db->setQuery($query);
 
-										if (!$db->query())
+										if (!$db->execute())
 										{
 											JError::raiseWarning(1, JText::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $db->stderr(true)));
 
@@ -1161,14 +1160,14 @@ class JInstaller extends JAdapter
 						->where('extension_id = ' . $eid);
 					$db->setQuery($query);
 
-					if ($db->Query())
+					if ($db->execute())
 					{
 						$query->clear();
 						$query->insert($db->quoteName('#__schemas'));
 						$query->columns(array($db->quoteName('extension_id'), $db->quoteName('version_id')));
 						$query->values($eid . ', ' . $db->quote(end($files)));
 						$db->setQuery($query);
-						$db->Query();
+						$db->execute();
 					}
 				}
 			}
@@ -1181,10 +1180,10 @@ class JInstaller extends JAdapter
 	 * Method to parse through a files element of the installation manifest and take appropriate
 	 * action.
 	 *
-	 * @param   JXMLElement  $element   The XML node to process
-	 * @param   integer      $cid       Application ID of application to install to
-	 * @param   array        $oldFiles  List of old files (JXMLElement's)
-	 * @param   array        $oldMD5    List of old MD5 sums (indexed by filename with value as MD5)
+	 * @param   SimpleXMLElement  $element   The XML node to process
+	 * @param   integer           $cid       Application ID of application to install to
+	 * @param   array             $oldFiles  List of old files (SimpleXMLElement's)
+	 * @param   array             $oldMD5    List of old MD5 sums (indexed by filename with value as MD5)
 	 *
 	 * @return  boolean      True on success
 	 *
@@ -1239,7 +1238,7 @@ class JInstaller extends JAdapter
 		}
 
 		// Work out what files have been deleted
-		if ($oldFiles && ($oldFiles instanceof JXMLElement))
+		if ($oldFiles && ($oldFiles instanceof SimpleXMLElement))
 		{
 			$oldEntries = $oldFiles->children();
 
@@ -1303,8 +1302,8 @@ class JInstaller extends JAdapter
 	 * Method to parse through a languages element of the installation manifest and take appropriate
 	 * action.
 	 *
-	 * @param   JXMLElement  $element  The XML node to process
-	 * @param   integer      $cid      Application ID of application to install to
+	 * @param   SimpleXMLElement  $element  The XML node to process
+	 * @param   integer           $cid      Application ID of application to install to
 	 *
 	 * @return  boolean  True on success
 	 *
@@ -1415,8 +1414,8 @@ class JInstaller extends JAdapter
 	 * Method to parse through a media element of the installation manifest and take appropriate
 	 * action.
 	 *
-	 * @param   JXMLElement  $element  The XML node to process
-	 * @param   integer      $cid      Application ID of application to install to
+	 * @param   SimpleXMLElement  $element  The XML node to process
+	 * @param   integer           $cid      Application ID of application to install to
 	 *
 	 * @return  boolean     True on success
 	 *
@@ -1976,14 +1975,14 @@ class JInstaller extends JAdapter
 		$query->where('client_id = ' . intval($client));
 		$query->where('state = -1');
 
-		return $dbo->Query();
+		return $dbo->execute();
 	}
 
 	/**
 	 * Compares two "files" entries to find deleted files/folders
 	 *
-	 * @param   array  $old_files  An array of JXMLElement objects that are the old files
-	 * @param   array  $new_files  An array of JXMLElement objects that are the new files
+	 * @param   array  $old_files  An array of SimpleXMLElement objects that are the old files
+	 * @param   array  $new_files  An array of SimpleXMLElement objects that are the new files
 	 *
 	 * @return  array  An array with the delete files and folders in findDeletedFiles[files] and findDeletedFiles[folders] respectively
 	 *
@@ -2103,5 +2102,57 @@ class JInstaller extends JAdapter
 		}
 
 		return $retval;
+	}
+
+	/**
+	 * Parse a XML install manifest file.
+	 *
+	 * XML Root tag should be 'install' except for languages which use meta file.
+	 *
+	 * @param   string  $path  Full path to XML file.
+	 *
+	 * @return  array  XML metadata.
+	 *
+	 * @since   12.1
+	 */
+	public static function parseXMLInstallFile($path)
+	{
+		// Read the file to see if it's a valid component XML file
+		if (!$xml = JFactory::getXML($path))
+		{
+			return false;
+		}
+
+		// Check for a valid XML root tag.
+
+		// Should be 'install', but for backward compatibility we will accept 'extension'.
+		// Languages use 'metafile' instead
+
+		if ($xml->getName() != 'install' && $xml->getName() != 'extension' && $xml->getName() != 'metafile')
+		{
+			unset($xml);
+			return false;
+		}
+
+		$data = array();
+
+		$data['legacy'] = ($xml->getName() == 'mosinstall' || $xml->getName() == 'install');
+
+		$data['name'] = (string) $xml->name;
+
+		// Check if we're a language. If so use metafile.
+		$data['type'] = $xml->getName() == 'metafile' ? 'language' : (string) $xml->attributes()->type;
+
+		$data['creationDate'] = ((string) $xml->creationDate) ? (string) $xml->creationDate : JText::_('Unknown');
+		$data['author'] = ((string) $xml->author) ? (string) $xml->author : JText::_('Unknown');
+
+		$data['copyright'] = (string) $xml->copyright;
+		$data['authorEmail'] = (string) $xml->authorEmail;
+		$data['authorUrl'] = (string) $xml->authorUrl;
+		$data['version'] = (string) $xml->version;
+		$data['description'] = (string) $xml->description;
+		$data['group'] = (string) $xml->group;
+
+		return $data;
 	}
 }

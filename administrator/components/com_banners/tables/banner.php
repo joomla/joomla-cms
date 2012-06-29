@@ -73,6 +73,7 @@ class BannersTableBanner extends JTable
 
 		return true;
 	}
+
 	/**
 	 * Overloaded bind function
 	 *
@@ -84,7 +85,7 @@ class BannersTableBanner extends JTable
 	public function bind($array, $ignore = array())
 	{
 		if (isset($array['params']) && is_array($array['params'])) {
-			$registry = new JRegistry();
+			$registry = new JRegistry;
 			$registry->loadArray($array['params']);
 
 			if((int) $registry->get('width', 0) < 0){
@@ -257,6 +258,7 @@ class BannersTableBanner extends JTable
 		}
 		return count($this->getErrors())==0;
 	}
+
 	/**
 	 * Method to set the sticky state for a row or list of rows in the database
 	 * table.  The method respects checked out rows by other users and will attempt

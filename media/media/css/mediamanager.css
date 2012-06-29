@@ -54,9 +54,9 @@
 	margin-left: -15px;
 }
 
-#upload-flash .progress {
+#upload-flash .progress, img.progress {
 	background: url(../images/progress.gif) no-repeat;
-	background-position: +50% 0;
+	background-position: +100% 0;
 	margin-right: 0.5em;
 	vertical-align: middle;
 }
@@ -154,4 +154,33 @@ div#media-noimages {
 
 .overall-title, .current-title {
 	font-size:12px;
+}
+
+.spinner {
+	position: absolute;
+	opacity: 0.9;
+	filter: alpha(opacity=90);
+	-ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=90);
+	z-index: 999;
+	background: #fff;
+}
+.spinner-msg {
+	text-align: center;
+	font-weight: bold;
+}
+
+.spinner-img {
+	background: url(../../system/images/modal/spinner.gif) no-repeat;
+	width: 24px;
+	height: 24px;
+	margin: 0 auto;
+}
+
+p.nowarning {
+	float: left;
+	margin-right: 15px;
+}
+
+div#update-progress {
+	clear: both;
 }

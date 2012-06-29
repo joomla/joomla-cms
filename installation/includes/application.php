@@ -75,7 +75,7 @@ class JInstallation extends JApplication
 		require_once JPATH_COMPONENT.'/controller.php';
 
 		// Execute the task.
-		$controller	= JController::getInstance('JInstallation');
+		$controller	= JControllerLegacy::getInstance('JInstallation');
 		$controller->execute(JRequest::getVar('task'));
 		$controller->redirect();
 
@@ -196,7 +196,6 @@ class JInstallation extends JApplication
 
 				$guess = trim($guess);
 
-
 				$key = trim(strtoupper($key));
 				$key = preg_replace('#\s+#', '_', $key);
 				$key = preg_replace('#\W#', '', $key);
@@ -248,7 +247,7 @@ class JInstallation extends JApplication
 	public function getTemplate($params = false)
 	{
 		if ((bool) $params) {
-			$template = new stdClass();
+			$template = new stdClass;
 			$template->template = 'template';
 			$template->params = new JRegistry;
 			return $template;
@@ -269,7 +268,7 @@ class JInstallation extends JApplication
 		$options['name'] = $name;
 
 		$session = JFactory::getSession($options);
-		if (!is_a($session->get('registry'), 'JRegistry')) {
+		if (!$session->get('registry') instanceof JRegistry) {
 			// Registry has been corrupted somehow
 			$session->set('registry', new JRegistry('session'));
 		}
@@ -306,20 +305,20 @@ class JInstallation extends JApplication
 		return $ret;
 	}
 
-/**
- 	* Returns the installed language files in the administrative and
- 	* front-end area.
- 	*
- 	* @param	boolean	$db
- 	*
- 	* @return array Array with installed language packs in admin and site area
- 	*/
+	/**
+ 	 * Returns the installed language files in the administrative and
+ 	 * front-end area.
+ 	 *
+ 	 * @param	boolean	$db
+ 	 *
+ 	 * @return array Array with installed language packs in admin and site area
+ 	 */
  	public function getLocaliseAdmin($db=false)
  	{
  		jimport('joomla.filesystem.folder');
 
  		// Read the files in the admin area
- 		$path = JLanguage::getLanguagePath(JPATH_SITE . '/administrator');
+ 		$path = JLanguage::getLanguagePath(JPATH_ADMINISTRATOR);
  		$langfiles['admin'] = JFolder::folders($path);
 
  		// Read the files in the site area

@@ -5,7 +5,6 @@
  * @since		1.5
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
 include_once dirname(__FILE__).'/../default/view.php';
@@ -24,7 +23,7 @@ class InstallerViewInstall extends InstallerViewDefault
 	 */
 	function display($tpl=null)
 	{
-		$paths = new stdClass();
+		$paths = new stdClass;
 		$paths->first = '';
 		$state = $this->get('state');
 

@@ -32,15 +32,6 @@ class JCategories
 	 * @var    mixed
 	 * @since  11.1
 	 */
-	protected $nodes;
-
-	/**
-	 * Array of category nodes
-	 *
-	 * @var    mixed
-	 * @since  11.1
-	 * @deprecated use $nodes or declare as private
-	 */
 	protected $_nodes;
 
 	/**
@@ -48,15 +39,6 @@ class JCategories
 	 *
 	 * @var    array
 	 * @since  11.1
-	 */
-	protected $checkedCategories;
-
-	/**
-	 * Array of checked categories -- used to save values when _nodes are null
-	 *
-	 * @var    array
-	 * @since  11.1
-	 * @deprecated use $checkedCategories or declare as private
 	 */
 	protected $_checkedCategories;
 
@@ -66,15 +48,6 @@ class JCategories
 	 * @var    string
 	 * @since  11.1
 	 */
-	protected $extension = null;
-
-	/**
-	 * Name of the extension the categories belong to
-	 *
-	 * @var    string
-	 * @since  11.1
-	 * @deprecated use $extension or declare as private
-	 */
 	protected $_extension = null;
 
 	/**
@@ -82,15 +55,6 @@ class JCategories
 	 *
 	 * @var    string
 	 * @since  11.1
-	 */
-	protected $table = null;
-
-	/**
-	 * Name of the linked content table to get category content count
-	 *
-	 * @var    string
-	 * @since  11.1
-	 * @deprecated use $table or declare as private
 	 */
 	protected $_table = null;
 
@@ -100,15 +64,6 @@ class JCategories
 	 * @var    string
 	 * @since  11.1
 	 */
-	protected $field = null;
-
-	/**
-	 * Name of the category field
-	 *
-	 * @var    string
-	 * @since  11.1
-	 * @deprecated use $field or declare as private
-	 */
 	protected $_field = null;
 
 	/**
@@ -116,15 +71,6 @@ class JCategories
 	 *
 	 * @var    string
 	 * @since  11.1
-	 */
-	protected $key = null;
-
-	/**
-	 * Name of the key field
-	 *
-	 * @var    string
-	 * @since  11.1
-	 * @deprecated use $key or declare as private
 	 */
 	protected $_key = null;
 
@@ -134,15 +80,6 @@ class JCategories
 	 * @var    string
 	 * @since  11.1
 	 */
-	protected $statefield = null;
-
-	/**
-	 * Name of the items state field
-	 *
-	 * @var    string
-	 * @since  11.1
-	 * @deprecated use $statefield or declare as private
-	 */
 	protected $_statefield = null;
 
 	/**
@@ -150,15 +87,6 @@ class JCategories
 	 *
 	 * @var    array
 	 * @since  11.1
-	 */
-	protected $options = null;
-
-	/**
-	 * Array of options
-	 *
-	 * @var    array
-	 * @since  11.1
-	 * @deprecated use $options or declare as private
 	 */
 	protected $_options = null;
 
@@ -674,27 +602,11 @@ class JCategoryNode extends JObject
 	 * @var    object
 	 * @since  11.1
 	 */
-	protected $parent = null;
-
-	/**
-	 * Parent Category object
-	 *
-	 * @var    object
-	 * @since  11.1
-	 * @deprecated use $parent or declare as private
-	 */
 	protected $_parent = null;
 
 	/**
 	 * @var Array of Children
 	 * @since  11.1
-	 */
-	protected $children = array();
-
-	/**
-	 * @var Array of Children
-	 * @since  11.1
-	 * @deprecated use $children or declare as private
 	 */
 	protected $_children = array();
 
@@ -704,15 +616,6 @@ class JCategoryNode extends JObject
 	 * @var    array
 	 * @since  11.1
 	 */
-	protected $path = array();
-
-	/**
-	 * Path from root to this category
-	 *
-	 * @var    array
-	 * @since  11.1
-	 * @deprecated use $path or declare as private
-	 */
 	protected $_path = array();
 
 	/**
@@ -720,15 +623,6 @@ class JCategoryNode extends JObject
 	 *
 	 * @var    integer
 	 * @since  11.1
-	 */
-	protected $leftSibling = null;
-
-	/**
-	 * Category left of this one
-	 *
-	 * @var    integer
-	 * @since  11.1
-	 * @deprecated use $leftSibling or declare as private
 	 */
 	protected $_leftSibling = null;
 
@@ -738,15 +632,6 @@ class JCategoryNode extends JObject
 	 * @var
 	 * @since  11.1
 	 */
-	protected $rightSibling = null;
-
-	/**
-	 * Category right of this one
-	 *
-	 * @var
-	 * @since  11.1
-	 * @deprecated use $rightSibling or declare as private
-	 */
 	protected $_rightSibling = null;
 
 	/**
@@ -755,15 +640,6 @@ class JCategoryNode extends JObject
 	 * @var boolean
 	 * @since  11.1
 	 */
-	protected $allChildrenloaded = false;
-
-	/**
-	 * true if all children have been loaded
-	 *
-	 * @var boolean
-	 * @since  11.1
-	 * @deprecated use $allChildrenloaded or declare as private
-	 */
 	protected $_allChildrenloaded = false;
 
 	/**
@@ -771,15 +647,6 @@ class JCategoryNode extends JObject
 	 *
 	 * @var
 	 * @since  11.1
-	 */
-	protected $constructor = null;
-
-	/**
-	 * Constructor of this tree
-	 *
-	 * @var
-	 * @since  11.1
-	 * @deprecated use $constructor or declare as private
 	 */
 	protected $_constructor = null;
 

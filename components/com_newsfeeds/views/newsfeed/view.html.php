@@ -4,13 +4,9 @@
  * @subpackage	com_newsfeeds
  * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
- *
  */
 
-// Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.view');
 
 /**
  * HTML View class for the Newsfeeds component
@@ -20,7 +16,7 @@ jimport('joomla.application.component.view');
  * @subpackage	com_newsfeeds
  * @since 1.0
  */
-class NewsfeedsViewNewsfeed extends JView
+class NewsfeedsViewNewsfeed extends JViewLegacy
 {
 	/**
 	 * @var		object
@@ -59,7 +55,7 @@ class NewsfeedsViewNewsfeed extends JView
 
 		if ($item) {
 		// Get Category Model data
-		$categoryModel = JModel::getInstance('Category', 'NewsfeedsModel', array('ignore_request' => true));
+		$categoryModel = JModelLegacy::getInstance('Category', 'NewsfeedsModel', array('ignore_request' => true));
 		$categoryModel->setState('category.id', $item->catid);
 		$categoryModel->setState('list.ordering', 'a.name');
 		$categoryModel->setState('list.direction', 'asc');
@@ -154,7 +150,7 @@ class NewsfeedsViewNewsfeed extends JView
 		// Get the newsfeed
 		$newsfeed = $item;
 
-		$temp = new JRegistry();
+		$temp = new JRegistry;
 		$temp->loadString($item->params);
 		$params->merge($temp);
 
@@ -201,7 +197,7 @@ class NewsfeedsViewNewsfeed extends JView
 		$this->assignRef('state', $state);
 		$this->assignRef('item', $item);
 		$this->assignRef('user', $user);
-		$this->assign('print', $print);
+		$this->print = $print;
 
 		$this->_prepareDocument();
 

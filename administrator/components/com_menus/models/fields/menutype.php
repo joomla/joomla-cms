@@ -40,7 +40,7 @@ class JFormFieldMenutype extends JFormFieldList
 		$class		= ($v = $this->element['class']) ? ' class="'.$v.'"' : 'class="text_area"';
 
 		// Get a reverse lookup of the base link URL to Title
-		$model 	= JModel::getInstance('menutypes', 'menusModel');
+		$model 	= JModelLegacy::getInstance('menutypes', 'menusModel');
 		$rlu 	= $model->getReverseLookup();
 
 		switch ($this->value)

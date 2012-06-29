@@ -329,7 +329,7 @@ class plgFinderWeblinks extends FinderIndexerAdapter
 	{
 		$db = JFactory::getDbo();
 		// Check if we can use the supplied SQL query.
-		$sql = is_a($sql, 'JDatabaseQuery') ? $sql : $db->getQuery(true);
+		$sql = $sql instanceof JDatabaseQuery ? $sql : $db->getQuery(true);
 		$sql->select('a.id, a.catid, a.title, a.alias, a.url AS link, a.description AS summary');
 		$sql->select('a.metakey, a.metadesc, a.metadata, a.language, a.access, a.ordering');
 		$sql->select('a.created_by_alias, a.modified, a.modified_by');

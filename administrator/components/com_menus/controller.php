@@ -4,10 +4,7 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.controller');
 
 /**
  * Base controller class for Menu Manager.
@@ -16,7 +13,7 @@ jimport('joomla.application.component.controller');
  * @subpackage	com_menus
  * @version		1.6
  */
-class MenusController extends JController
+class MenusController extends JControllerLegacy
 {
 	/**
 	 * Method to display a view.

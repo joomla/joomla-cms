@@ -6,7 +6,6 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
 /**
@@ -26,7 +25,7 @@ class JHtmlIcon
 		$url = 'index.php?option=com_content&task=article.add&return='.base64_encode($uri).'&a_id=0&catid=' . $category->id;
 
 		if ($params->get('show_icons')) {
-			$text = JHtml::_('image', 'system/new.png', JText::_('JNEW'), NULL, true);
+			$text = JHtml::_('image', 'system/new.png', JText::_('JNEW'), null, true);
 		} else {
 			$text = JText::_('JNEW').'&#160;';
 		}
@@ -49,7 +48,7 @@ class JHtmlIcon
 		$status = 'width=400,height=350,menubar=yes,resizable=yes';
 
 		if ($params->get('show_icons')) {
-			$text = JHtml::_('image', 'system/emailButton.png', JText::_('JGLOBAL_EMAIL'), NULL, true);
+			$text = JHtml::_('image', 'system/emailButton.png', JText::_('JGLOBAL_EMAIL'), null, true);
 		} else {
 			$text = '&#160;'.JText::_('JGLOBAL_EMAIL');
 		}
@@ -96,7 +95,7 @@ class JHtmlIcon
 		// Show checked_out icon if the article is checked out by a different user
 		if (property_exists($article, 'checked_out') && property_exists($article, 'checked_out_time') && $article->checked_out > 0 && $article->checked_out != $user->get('id')) {
 			$checkoutUser = JFactory::getUser($article->checked_out);
-			$button = JHtml::_('image', 'system/checked_out.png', NULL, NULL, true);
+			$button = JHtml::_('image', 'system/checked_out.png', null, null, true);
 			$date = JHtml::_('date', $article->checked_out_time);
 			$tooltip = JText::_('JLIB_HTML_CHECKED_OUT').' :: '.JText::sprintf('COM_CONTENT_CHECKED_OUT_BY', $checkoutUser->name).' <br /> '.$date;
 			return '<span class="hasTip" title="'.htmlspecialchars($tooltip, ENT_COMPAT, 'UTF-8').'">'.$button.'</span>';
@@ -104,7 +103,7 @@ class JHtmlIcon
 
 		$url	= 'index.php?option=com_content&task=article.edit&a_id='.$article->id.'&return='.base64_encode($uri);
 		$icon	= $article->state ? 'edit.png' : 'edit_unpublished.png';
-		$text	= JHtml::_('image', 'system/'.$icon, JText::_('JGLOBAL_EDIT'), NULL, true);
+		$text	= JHtml::_('image', 'system/'.$icon, JText::_('JGLOBAL_EDIT'), null, true);
 
 		if ($article->state == 0) {
 			$overlib = JText::_('JUNPUBLISHED');
@@ -128,7 +127,6 @@ class JHtmlIcon
 		return $output;
 	}
 
-
 	static function print_popup($article, $params, $attribs = array())
 	{
 		$url  = ContentHelperRoute::getArticleRoute($article->slug, $article->catid);
@@ -138,7 +136,7 @@ class JHtmlIcon
 
 		// checks template image directory for image, if non found default are loaded
 		if ($params->get('show_icons')) {
-			$text = JHtml::_('image', 'system/printButton.png', JText::_('JGLOBAL_PRINT'), NULL, true);
+			$text = JHtml::_('image', 'system/printButton.png', JText::_('JGLOBAL_PRINT'), null, true);
 		} else {
 			$text = JText::_('JGLOBAL_ICON_SEP') .'&#160;'. JText::_('JGLOBAL_PRINT') .'&#160;'. JText::_('JGLOBAL_ICON_SEP');
 		}
@@ -154,7 +152,7 @@ class JHtmlIcon
 	{
 		// checks template image directory for image, if non found default are loaded
 		if ($params->get('show_icons')) {
-			$text = JHtml::_('image', 'system/printButton.png', JText::_('JGLOBAL_PRINT'), NULL, true);
+			$text = JHtml::_('image', 'system/printButton.png', JText::_('JGLOBAL_PRINT'), null, true);
 		} else {
 			$text = JText::_('JGLOBAL_ICON_SEP') .'&#160;'. JText::_('JGLOBAL_PRINT') .'&#160;'. JText::_('JGLOBAL_ICON_SEP');
 		}

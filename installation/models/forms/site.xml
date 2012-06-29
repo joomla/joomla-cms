@@ -6,7 +6,7 @@
 			required="true"
 		/>
 
-		<field name="admin_email" type="text" id="admin_email" class="inputbox"
+		<field name="admin_email" type="email" id="admin_email" class="inputbox"
 			label="INSTL_ADMIN_EMAIL_LABEL"
 			validate="email"
 			required="true"

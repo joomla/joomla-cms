@@ -20,11 +20,6 @@ define('_JEXEC', 1);
  */
 define('JPATH_BASE', dirname(__FILE__));
 
-/**
- * Shortcut for the directory separator character.
- */
-define('DS', DIRECTORY_SEPARATOR);
-
 // Set path constants.
 $parts = explode(DIRECTORY_SEPARATOR, JPATH_BASE);
 array_pop($parts);

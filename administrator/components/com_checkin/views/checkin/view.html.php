@@ -6,10 +6,7 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.view');
 
 /**
  * HTML View class for the Checkin component
@@ -19,7 +16,7 @@ jimport('joomla.application.component.view');
  * @subpackage	com_checkin
  * @since 1.0
  */
-class CheckinViewCheckin extends JView
+class CheckinViewCheckin extends JViewLegacy
 {
 	protected $tables;
 

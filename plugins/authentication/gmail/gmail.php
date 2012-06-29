@@ -5,7 +5,6 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
 
 /**
@@ -15,7 +14,8 @@ defined('_JEXEC') or die;
  * @subpackage	Authentication.gmail
  * @since 1.5
  */
-class plgAuthenticationGMail extends JPlugin {
+class plgAuthenticationGMail extends JPlugin
+{
 	/**
 	 * This method should handle any authentication and report back to the subject
 	 *
@@ -83,7 +83,7 @@ class plgAuthenticationGMail extends JPlugin {
 		if ($success) {
 			$response->status		= JAuthentication::STATUS_SUCCESS;
 			$response->error_message = '';
-			if (strpos($credentials['username'], '@') === FALSE) {
+			if (strpos($credentials['username'], '@') === false) {
 				if ($suffix) { // if there is a suffix then we want to apply it
 					$response->email = $credentials['username'] . '@' . $suffix;
 				} else { // if there isn't a suffix just use the default gmail one

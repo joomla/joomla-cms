@@ -4,10 +4,7 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.view');
 
 /**
  * View class for a list of redirection links.
@@ -16,7 +13,7 @@ jimport('joomla.application.component.view');
  * @subpackage	com_redirect
  * @since		1.6
  */
-class RedirectViewLinks extends JView
+class RedirectViewLinks extends JViewLegacy
 {
 	protected $enabled;
 	protected $items;
@@ -80,6 +77,7 @@ class RedirectViewLinks extends JView
 		}
 		if ($state->get('filter.state') == -2 && $canDo->get('core.delete')) {
 			JToolBarHelper::deleteList('', 'links.delete', 'JTOOLBAR_EMPTY_TRASH');
+			JToolBarHelper::divider();
 		} elseif ($canDo->get('core.edit.state')) {
 			JToolBarHelper::trash('links.trash');
 			JToolBarHelper::divider();

@@ -6,10 +6,7 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.controller');
 
 /**
  * Config Component Controller
@@ -18,7 +15,7 @@ jimport('joomla.application.component.controller');
  * @subpackage	com_config
  * @since 1.5
  */
-class ConfigController extends JController
+class ConfigController extends JControllerLegacy
 {
 	/**
 	 * @var		string	The default view.

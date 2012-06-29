@@ -38,7 +38,7 @@ abstract class JToolBarHelper
 		$html = '<div class="pagetitle '.htmlspecialchars(implode(' ', $icons)).'"><h2>'.$title.'</h2></div>';
 
 		$app = JFactory::getApplication();
-		$app->set('JComponentTitle', $html);
+		$app->JComponentTitle = $html;
 	}
 
 	/**

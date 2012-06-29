@@ -4,10 +4,7 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.model');
 
 /**
  * This models supports retrieving lists of contact categories.
@@ -16,7 +13,7 @@ jimport('joomla.application.component.model');
  * @subpackage	com_contact
  * @since		1.6
  */
-class ContactModelCategories extends JModel
+class ContactModelCategories extends JModelLegacy
 {
 	/**
 	 * Model context string.
@@ -93,7 +90,7 @@ class ContactModelCategories extends JModel
 			$app = JFactory::getApplication();
 			$menu = $app->getMenu();
 			$active = $menu->getActive();
-			$params = new JRegistry();
+			$params = new JRegistry;
 			if($active)
 			{
 				$params->loadString($active->params);

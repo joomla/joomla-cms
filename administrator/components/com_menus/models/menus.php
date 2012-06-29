@@ -7,7 +7,6 @@
  * @subpackage  com_menus
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.modellist');
@@ -157,7 +156,6 @@ class MenusModelMenus extends JModelList
 		$query->select($this->getState('list.select', 'a.*'));
 		$query->from($db->quoteName('#__menu_types').' AS a');
 
-
 		$query->group('a.id, a.menutype, a.title, a.description');
 
 		// Add the list ordering clause.
@@ -216,7 +214,7 @@ class MenusModelMenus extends JModelList
 	 */
 	public function &getModules()
 	{
-		$model	= JModel::getInstance('Menu', 'MenusModel', array('ignore_request' => true));
+		$model	= JModelLegacy::getInstance('Menu', 'MenusModel', array('ignore_request' => true));
 		$result	= &$model->getModules();
 
 		return $result;

@@ -1,0 +1,58 @@
+<?xml version="1.0" ?>
+<updates>
+	<update>
+		<name>Joomla! 1.7</name>
+		<description>Joomla! 1.7 CMS</description>
+		<element>joomla</element>
+		<type>file</type>
+		<version>1.7.0</version>
+		<infourl title="Joomla!">http://www.joomla.org/</infourl>
+		<downloads>
+			<downloadurl type="full" format="zip">http://joomlacode.org/gf/download/frsrelease/15901/68959/Joomla_1.6.x_to_1.7.0_Package.zip</downloadurl>			
+		</downloads>
+		<tags>
+			<tag>stable</tag>
+		</tags>
+		<maintainer>Sam Moffatt</maintainer>
+		<maintainerurl>http://sammoffatt.com.au</maintainerurl>
+		<section>Testing</section>
+		<targetplatform name="joomla" version="1.6" />
+	</update>
+	<update>
+		<name>Joomla! 2.5</name>
+		<description>Joomla! 2.5 CMS</description>
+		<element>joomla</element>
+		<type>file</type>
+		<version>2.5.5</version>
+		<infourl title="Joomla!">http://www.joomla.org/</infourl>
+		<downloads>
+			<downloadurl type="full" format="zip">http://update.joomla.org/core/test/Joomla_2.5.5-Stable-Update_Package.zip</downloadurl>			
+		</downloads>
+		<tags>
+			<tag>stable</tag>
+		</tags>
+		<maintainer>Sam Moffatt</maintainer>
+		<maintainerurl>http://sammoffatt.com.au</maintainerurl>
+		<section>Testing</section>
+		<targetplatform name="joomla" version="1.7" />
+	</update>
+	<update>
+		<name>Joomla! 2.5</name>
+		<description>Joomla! 2.5 CMS</description>
+		<element>joomla</element>
+		<type>file</type>
+		<version>2.5.5</version>
+		<infourl title="Joomla!">http://www.joomla.org/</infourl>
+		<downloads>
+			<downloadurl type="full" format="zip">http://update.joomla.org/core/test/Joomla_2.5.0_to_2.5.5-Stable-Patch_Package.zip</downloadurl>			
+		</downloads>
+		<tags>
+			<tag>stable</tag>
+		</tags>
+		<maintainer>Sam Moffatt</maintainer>
+		<maintainerurl>http://sammoffatt.com.au</maintainerurl>
+		<section>Testing</section>
+		<targetplatform name="joomla" version="2.5" />
+	</update>
+</updates>
+			

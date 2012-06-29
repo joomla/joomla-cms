@@ -4,10 +4,8 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
 jimport('joomla.filesystem.folder');
 jimport('joomla.filesystem.file');
 
@@ -18,7 +16,7 @@ jimport('joomla.filesystem.file');
  * @subpackage	com_media
  * @since 1.5
  */
-class MediaModelList extends JModel
+class MediaModelList extends JModelLegacy
 {
 	function getState($property = null, $default = null)
 	{
@@ -109,7 +107,7 @@ class MediaModelList extends JModel
 			foreach ($fileList as $file)
 			{
 				if (is_file($basePath.'/'.$file) && substr($file, 0, 1) != '.' && strtolower($file) !== 'index.html') {
-					$tmp = new JObject();
+					$tmp = new JObject;
 					$tmp->name = $file;
 					$tmp->title = $file;
 					$tmp->path = str_replace(DS, '/', JPath::clean($basePath . '/' . $file));
@@ -172,7 +170,7 @@ class MediaModelList extends JModel
 		if ($folderList !== false) {
 			foreach ($folderList as $folder)
 			{
-				$tmp = new JObject();
+				$tmp = new JObject;
 				$tmp->name = basename($folder);
 				$tmp->path = str_replace(DS, '/', JPath::clean($basePath . '/' . $folder));
 				$tmp->path_relative = str_replace($mediaBase, '', $tmp->path);

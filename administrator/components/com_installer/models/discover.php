@@ -6,7 +6,6 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
 
 // Import library dependencies
@@ -81,7 +80,6 @@ class InstallerModelDiscover extends InstallerModel
 			$extensions[$key] = $install;
 		}
 		unset($installedtmp);
-
 
 		foreach($results as $result) {
 			// check if we have a match on the element

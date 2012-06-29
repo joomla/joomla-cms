@@ -4,10 +4,7 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.view');
 
 /**
  * Categories view class for the Category package.
@@ -16,7 +13,7 @@ jimport('joomla.application.component.view');
  * @subpackage	com_categories
  * @since		1.6
  */
-class CategoriesViewCategories extends JView
+class CategoriesViewCategories extends JViewLegacy
 {
 	protected $items;
 	protected $pagination;
@@ -55,7 +52,7 @@ class CategoriesViewCategories extends JView
 		$options[]	= JHtml::_('select.option', '9', JText::_('J9'));
 		$options[]	= JHtml::_('select.option', '10', JText::_('J10'));
 
-		$this->assign('f_levels', $options);
+		$this->f_levels = $options;
 
 		$this->addToolbar();
 		parent::display($tpl);

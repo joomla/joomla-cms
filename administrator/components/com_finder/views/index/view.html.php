@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
-
 JLoader::register('FinderHelperLanguage', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/language.php');
 
 /**
@@ -20,7 +18,7 @@ JLoader::register('FinderHelperLanguage', JPATH_ADMINISTRATOR . '/components/com
  * @subpackage  com_finder
  * @since       2.5
  */
-class FinderViewIndex extends JView
+class FinderViewIndex extends JViewLegacy
 {
 	/**
 	 * Method to display the view.

@@ -5,7 +5,6 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.helper');
@@ -278,7 +277,7 @@ class JAdministrator extends JApplication
 
 			if (!file_exists(JPATH_THEMES . '/' . $template->template . '/index.php'))
 			{
-				$template->params = new JRegistry();
+				$template->params = new JRegistry;
 				$template->template = 'bluestork';
 			}
 		}
@@ -330,7 +329,7 @@ class JAdministrator extends JApplication
 			. ' AND user_id_to = ' . (int) $userid
 			;
 			$db->setQuery($query);
-			$db->query();
+			$db->execute();
 		}
 	}
 }

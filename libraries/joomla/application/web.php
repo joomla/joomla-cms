@@ -272,6 +272,7 @@ class JApplicationWeb
 			$this->loadLanguage();
 		}
 
+		// Reverted back for CMS version 2.5.6
 		// If a dispatcher object is given use it.
 		if ($dispatcher instanceof JDispatcher)
 		{

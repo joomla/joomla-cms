@@ -35,6 +35,7 @@ class RedirectModelLinks extends JModelList
 				'old_url', 'a.old_url',
 				'new_url', 'a.new_url',
 				'referer', 'a.referer',
+				'hits', 'a.hits',
 				'created_date', 'a.created_date',
 				'published', 'a.published',
 			);

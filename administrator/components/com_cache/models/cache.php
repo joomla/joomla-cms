@@ -6,7 +6,6 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.modellist');
@@ -61,7 +60,6 @@ class CacheModelCache extends JModelList
 		parent::populateState('group', 'asc');
 	}
 
-
 	/**
 	 * Method to get cache data
 	 *
@@ -96,8 +94,6 @@ class CacheModelCache extends JModelList
 		}
 		return $this->_data;
 	}
-
-
 
 	/**
 	 * Method to get cache instance

@@ -4,7 +4,6 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
 
 /**
@@ -89,7 +88,8 @@ abstract class modFeedHelper
 			?>
 				<tr>
 					<td align="center">
-						<img src="<?php echo htmlspecialchars($iUrl); ?>" alt="<?php echo htmlspecialchars(@$iTitle); ?>"/>
+						<img src="<?php echo htmlspecialchars($iUrl); ?>"
+						     alt="<?php echo htmlspecialchars(@$iTitle); ?>"/>
 					</td>
 				</tr>
 			<?php

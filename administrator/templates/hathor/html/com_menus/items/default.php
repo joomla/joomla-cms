@@ -107,7 +107,10 @@ $saveOrder 	= ($listOrder == 'a.lft' && $listDirn == 'asc');
 				<th class="home-col">
 					<?php echo JHtml::_('grid.sort', 'COM_MENUS_HEADING_HOME', 'a.home', $listDirn, $listOrder); ?>
 				</th>
-				<?php if ($app->get('menu_associations', 0)):?>
+				<?php
+				$assoc = isset($app->menu_associations) ? $app->menu_associations : 0;
+				if ($assoc):
+				?>
 				<th class="width-5">
 					<?php echo JHtml::_('grid.sort', 'COM_MENUS_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
 				</th>
@@ -194,7 +197,10 @@ $saveOrder 	= ($listOrder == 'a.lft' && $listDirn == 'asc');
 						<?php endif;?>
 					<?php endif; ?>
 				</td>
-				<?php if ($app->get('menu_associations', 0)):?>
+				<?php
+				$assoc = isset($app->menu_associations) ? $app->menu_associations : 0;
+				if ($assoc):
+				?>
 				<td class="center">
 					<?php if ($item->association):?>
 						<?php echo JHtml::_('MenusHtml.Menus.association', $item->id);?>
@@ -222,8 +228,10 @@ $saveOrder 	= ($listOrder == 'a.lft' && $listDirn == 'asc');
 	<?php echo $this->pagination->getListFooter(); ?>
 	<div class="clr"> </div>
 
-	<?php //Load the batch processing form. ?>
-	<?php echo $this->loadTemplate('batch'); ?>
+	<?php //Load the batch processing form.is user is allowed ?>
+	<?php if($user->authorize('core.create', 'com_menus') || $user->authorize('core.edit', 'com_menus')) : ?>
+		<?php echo $this->loadTemplate('batch'); ?>
+	<?php endif;?>
 
 	<input type="hidden" name="task" value="" />
 	<input type="hidden" name="boxchecked" value="0" />

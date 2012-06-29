@@ -6,12 +6,9 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
-
-class MailtoViewMailto extends JView
+class MailtoViewMailto extends JViewLegacy
 {
 	function display($tpl = null)
 	{
@@ -28,7 +25,7 @@ class MailtoViewMailto extends JView
 	function &getData()
 	{
 		$user = JFactory::getUser();
-		$data = new stdClass();
+		$data = new stdClass;
 
 		$data->link = urldecode(JRequest::getVar('link', '', 'method', 'base64'));
 

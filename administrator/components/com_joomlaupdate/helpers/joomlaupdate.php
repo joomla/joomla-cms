@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
- * @since       2.5.2
+ * @since       2.5.4
  */
 class JoomlaupdateHelper
 {
@@ -23,7 +23,7 @@ class JoomlaupdateHelper
 	 *
 	 * @return	JObject
 	 * 
-	 * @since	2.5.2
+	 * @since	2.5.4
 	 */
 	public static function getActions()
 	{
@@ -32,13 +32,11 @@ class JoomlaupdateHelper
 
 		$assetName = 'com_joomlaupdate';
 
-		$actions = array(
-			'core.admin', 'core.manage', 'core.edit.state', 'core.delete'
-		);
+		$actions = JAccess::getActions($assetName);
 
 		foreach ($actions as $action)
 		{
-			$result->set($action,	$user->authorise($action, $assetName));
+			$result->set($action->name,	$user->authorise($action->name, $assetName));
 		}
 
 		return $result;

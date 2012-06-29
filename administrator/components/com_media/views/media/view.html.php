@@ -4,10 +4,7 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.view');
 
 /**
  * HTML View class for the Media component
@@ -16,7 +13,7 @@ jimport('joomla.application.component.view');
  * @subpackage	com_media
  * @since 1.0
  */
-class MediaViewMedia extends JView
+class MediaViewMedia extends JViewLegacy
 {
 	function display($tpl = null)
 	{
@@ -103,9 +100,9 @@ class MediaViewMedia extends JView
 		$this->assignRef('session', $session);
 		$this->assignRef('config', $config);
 		$this->assignRef('state', $state);
-		$this->assign('require_ftp', $ftp);
-		$this->assign('folders_id', ' id="media-tree"');
-		$this->assign('folders', $this->get('folderTree'));
+		$this->require_ftp = $ftp;
+		$this->folders_id = ' id="media-tree"';
+		$this->folders = $this->get('folderTree');
 
 		// Set the toolbar
 		$this->addToolbar();

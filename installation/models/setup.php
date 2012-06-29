@@ -7,15 +7,13 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
-
 /**
  * Setup model for the Joomla Core Installer.
  *
  * @package		Joomla.Installation
  * @since		1.6
  */
-class JInstallationModelSetup extends JModel
+class JInstallationModelSetup extends JModelLegacy
 {
 	/**
 	 * Get the current setup options from the session.

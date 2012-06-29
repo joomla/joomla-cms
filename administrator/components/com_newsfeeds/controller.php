@@ -4,10 +4,7 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.controller');
 
 /**
  * Newsfeeds master display controller.
@@ -16,7 +13,7 @@ jimport('joomla.application.component.controller');
  * @subpackage	com_newsfeeds
  * @since		1.6
  */
-class NewsfeedsController extends JController
+class NewsfeedsController extends JControllerLegacy
 {
 	/**
 	 * Method to display a view.

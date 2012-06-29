@@ -56,12 +56,10 @@ class LanguagesHelper
 		$result		= new JObject;
 		$assetName	= 'com_languages';
 
-		$actions = array(
-			'core.admin', 'core.manage', 'core.create', 'core.edit', 'core.edit.state', 'core.delete'
-		);
+		$actions = JAccess::getActions($assetName);
 
 		foreach ($actions as $action) {
-			$result->set($action,	$user->authorise($action, $assetName));
+			$result->set($action->name,	$user->authorise($action->name, $assetName));
 		}
 
 		return $result;
@@ -154,6 +152,6 @@ class LanguagesHelper
 	{
 		$filter = JFilterInput::getInstance(null, null, 1, 1);
 
-		return str_replace('"', '"_QQ_"', $filter->clean($value));
+		return $filter->clean($value);
 	}
 }

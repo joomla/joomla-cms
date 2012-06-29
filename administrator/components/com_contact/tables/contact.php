@@ -6,9 +6,7 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
-
 
 /**
  * @package		Joomla.Administrator
@@ -37,13 +35,13 @@ class ContactTableContact extends JTable
 	public function bind($array, $ignore = '')
 	{
 		if (isset($array['params']) && is_array($array['params'])) {
-			$registry = new JRegistry();
+			$registry = new JRegistry;
 			$registry->loadArray($array['params']);
 			$array['params'] = (string) $registry;
 		}
 
 		if (isset($array['metadata']) && is_array($array['metadata'])) {
-			$registry = new JRegistry();
+			$registry = new JRegistry;
 			$registry->loadArray($array['metadata']);
 			$array['metadata'] = (string) $registry;
 		}
@@ -62,7 +60,7 @@ class ContactTableContact extends JTable
 	{
 		// Transform the params field
 		if (is_array($this->params)) {
-			$registry = new JRegistry();
+			$registry = new JRegistry;
 			$registry->loadArray($this->params);
 			$this->params = (string)$registry;
 		}

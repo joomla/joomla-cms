@@ -6,7 +6,6 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
 // Access check.
@@ -17,9 +16,6 @@ if (!JFactory::getUser()->authorise('core.manage', 'com_templates')) {
 // Register helper
 JLoader::register('TemplatesHelper', dirname(__FILE__) . '/helpers/templates.php');
 
-// Include dependancies
-jimport('joomla.application.component.controller');
-
-$controller	= JController::getInstance('Templates');
+$controller	= JControllerLegacy::getInstance('Templates');
 $controller->execute(JRequest::getCmd('task'));
 $controller->redirect();

@@ -171,7 +171,6 @@ class UsersControllerRegistration extends UsersController
 			$this->setRedirect(JRoute::_('index.php?option=com_users&view=login', false));
 		}
 
-
 		return true;
 	}
 }

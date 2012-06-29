@@ -46,8 +46,8 @@ class plgSearchContent extends JPlugin
 		$groups	= implode(',', $user->getAuthorisedViewLevels());
 		$tag = JFactory::getLanguage()->getTag();
 
-		require_once JPATH_SITE.'/components/com_content/helpers/route.php';
-		require_once JPATH_SITE.'/administrator/components/com_search/helpers/search.php';
+		require_once JPATH_SITE . '/components/com_content/helpers/route.php';
+		require_once JPATH_ADMINISTRATOR . '/components/com_search/helpers/search.php';
 
 		$searchText = $text;
 		if (is_array($areas)) {
@@ -218,7 +218,6 @@ class plgSearchContent extends JPlugin
 				.'AND (a.publish_up = '.$db->Quote($nullDate).' OR a.publish_up <= '.$db->Quote($now).') '
 				.'AND (a.publish_down = '.$db->Quote($nullDate).' OR a.publish_down >= '.$db->Quote($now).')' );
 			$query->order($order);
-
 
 			// Filter by language
 			if ($app->isSite() && $app->getLanguageFilter()) {

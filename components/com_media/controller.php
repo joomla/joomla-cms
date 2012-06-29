@@ -6,10 +6,7 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.controller');
 
 /**
  * Media Manager Component Controller
@@ -18,7 +15,7 @@ jimport('joomla.application.component.controller');
  * @subpackage	com_media
  * @version 1.5
  */
-class MediaController extends JController
+class MediaController extends JControllerLegacy
 {
 	/**
 	 * Method to display a view.

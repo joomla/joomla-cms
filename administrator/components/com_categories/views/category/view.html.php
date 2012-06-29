@@ -4,10 +4,7 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.view');
 
 /**
  * HTML View class for the Categories component
@@ -16,7 +13,7 @@ jimport('joomla.application.component.view');
  * @package		Joomla.Administrator
  * @subpackage	com_categories
  */
-class CategoriesViewCategory extends JView
+class CategoriesViewCategory extends JViewLegacy
 {
 	protected $form;
 	protected $item;

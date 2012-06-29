@@ -42,18 +42,6 @@ class JDispatcherTest extends JoomlaTestCase {
 	}
 
 	/**
-	 * Tests that we get a JDispatcher object
-	 */
-	public function testGetInstance() {
-		$dispatcher = JDispatcher::getInstance();
-
-		$this->assertThat(
-			$dispatcher,
-			$this->isInstanceOf('JDispatcher')
-		);
-	}
-
-	/**
 	 * Test register when used with a function to handle an event
 	 */
 	public function testRegisterWithFunction() {

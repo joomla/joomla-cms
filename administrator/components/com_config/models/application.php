@@ -6,7 +6,6 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.modelform');
@@ -53,7 +52,7 @@ class ConfigModelApplication extends JModelForm
 	public function getData()
 	{
 		// Get the config data.
-		$config	= new JConfig();
+		$config	= new JConfig;
 		$data	= JArrayHelper::fromObject($config);
 
 		// Prime the asset_id for the rules.
@@ -129,7 +128,7 @@ class ConfigModelApplication extends JModelForm
 		// Save the text filters
 		if (isset($data['filters']))
 		{
-			$registry = new JRegistry();
+			$registry = new JRegistry;
 			$registry->loadArray(array('filters' => $data['filters']));
 
 			$extension = JTable::getInstance('extension');
@@ -154,7 +153,7 @@ class ConfigModelApplication extends JModelForm
 		}
 
 		// Get the previous configuration.
-		$prev = new JConfig();
+		$prev = new JConfig;
 		$prev = JArrayHelper::fromObject($prev);
 
 		// Merge the new data in. We do this to preserve values that were not in the form.
@@ -203,7 +202,7 @@ class ConfigModelApplication extends JModelForm
 
 		// Clear cache of com_config component.
 		$this->cleanCache('_system');
-		
+
 		// Write the configuration file.
 		return $this->writeConfigFile($config);
 	}
@@ -219,7 +218,7 @@ class ConfigModelApplication extends JModelForm
 	function removeroot()
 	{
 		// Get the previous configuration.
-		$prev = new JConfig();
+		$prev = new JConfig;
 		$prev = JArrayHelper::fromObject($prev);
 
 		// Create the new configuration object, and unset the root_user property
@@ -260,14 +259,15 @@ class ConfigModelApplication extends JModelForm
 		}
 
 		// Attempt to write the configuration file as a PHP class named JConfig.
-		if (!JFile::write($file, $config->toString('PHP', array('class' => 'JConfig', 'closingtag' => false))))
+		$configuration = $config->toString('PHP', array('class' => 'JConfig', 'closingtag' => false));
+		if (!JFile::write($file, $configuration))
 		{
 			$this->setError(JText::_('COM_CONFIG_ERROR_WRITE_FAILED'));
 			return false;
 		}
 
 		// Attempt to make the file unwriteable if using FTP.
-		if ($prev['ftp_enable'] == 0 && !$ftp['enabled'] && JPath::isOwner($file) && !JPath::setPermissions($file, '0444'))
+		if (!$ftp['enabled'] && JPath::isOwner($file) && !JPath::setPermissions($file, '0444'))
 		{
 			JError::raiseNotice('SOME_ERROR_CODE', JText::_('COM_CONFIG_ERROR_CONFIGURATION_PHP_NOTUNWRITABLE'));
 		}

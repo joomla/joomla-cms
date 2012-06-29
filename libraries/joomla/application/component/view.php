@@ -25,28 +25,12 @@ class JView extends JObject
 	 *
 	 * @var    array
 	 */
-	protected $name = null;
-
-	/**
-	 * The name of the view
-	 *
-	 * @var    array
-	 * @deprecated use $name declare as private
-	 */
 	protected $_name = null;
 
 	/**
 	 * Registered models
 	 *
 	 * @var    array
-	 */
-	protected $models = array();
-
-	/**
-	 * Registered models
-	 *
-	 * @var    array
-	 * @deprecated use $models declare as private
 	 */
 	protected $_models = array();
 
@@ -55,28 +39,12 @@ class JView extends JObject
 	 *
 	 * @var    string
 	 */
-	protected $basePath = null;
-
-	/**
-	 * The base path of the view
-	 *
-	 * @var    string
-	 * @deprecated use $basePath declare as private
-	 */
 	protected $_basePath = null;
 
 	/**
 	 * The default model
 	 *
 	 * @var	string
-	 */
-	protected $defaultModel = null;
-
-	/**
-	 * The default model
-	 *
-	 * @var	string
-	 * @deprecated use $defaultModel declare as private
 	 */
 	protected $_defaultModel = null;
 
@@ -85,28 +53,12 @@ class JView extends JObject
 	 *
 	 * @var    string
 	 */
-	protected $layout = 'default';
-
-	/**
-	 * Layout name
-	 *
-	 * @var    string
-	 * @deprecated use $layout declare as private
-	 */
 	protected $_layout = 'default';
 
 	/**
 	 * Layout extension
 	 *
 	 * @var    string
-	 */
-	protected $layoutExt = 'php';
-
-	/**
-	 * Layout extension
-	 *
-	 * @var    string
-	 * @deprecated use $layoutExt declare as private
 	 */
 	protected $_layoutExt = 'php';
 
@@ -115,28 +67,12 @@ class JView extends JObject
 	 *
 	 * @var    string
 	 */
-	protected $layoutTemplate = '_';
-
-	/**
-	 * Layout template
-	 *
-	 * @var    string
-	 * @deprecated use $layoutTemplate declare as private
-	 */
 	protected $_layoutTemplate = '_';
 
 	/**
 	 * The set of search directories for resources (templates)
 	 *
 	 * @var array
-	 */
-	protected $path = array('template' => array(), 'helper' => array());
-
-	/**
-	 * The set of search directories for resources (templates)
-	 *
-	 * @var array
-	 * @deprecated use $path declare as private
 	 */
 	protected $_path = array('template' => array(), 'helper' => array());
 
@@ -145,28 +81,12 @@ class JView extends JObject
 	 *
 	 * @var string
 	 */
-	protected $template = null;
-
-	/**
-	 * The name of the default template source file.
-	 *
-	 * @var string
-	 * @deprecated use $template declare as private
-	 */
 	protected $_template = null;
 
 	/**
 	 * The output of the template script.
 	 *
 	 * @var string
-	 */
-	protected $output = null;
-
-	/**
-	 * The output of the template script.
-	 *
-	 * @var string
-	 * @deprecated use $output declare as private
 	 */
 	protected $_output = null;
 
@@ -175,28 +95,12 @@ class JView extends JObject
 	 *
 	 * @var string
 	 */
-	protected $escape = 'htmlspecialchars';
-
-	/**
-	 * Callback for escaping.
-	 *
-	 * @var string
-	 * @deprecated use $escape declare as private
-	 */
 	protected $_escape = 'htmlspecialchars';
 
 	/**
 	 * Charset to use in escaping mechanisms; defaults to urf8 (UTF-8)
 	 *
 	 * @var string
-	 */
-	protected $charset = 'UTF-8';
-
-	/**
-	 * Charset to use in escaping mechanisms; defaults to urf8 (UTF-8)
-	 *
-	 * @var string
-	 * @deprecated use $charset declare as private
 	 */
 	protected $_charset = 'UTF-8';
 
@@ -541,7 +445,7 @@ class JView extends JObject
 	 */
 	public function getName()
 	{
-		if (empty($this->name))
+		if (empty($this->_name))
 		{
 			$r = null;
 			if (!preg_match('/View((view)*(.*(view)?.*))$/i', get_class($this), $r))
@@ -552,10 +456,10 @@ class JView extends JObject
 			{
 				JError::raiseWarning('SOME_ERROR_CODE', JText::_('JLIB_APPLICATION_ERROR_VIEW_GET_NAME_SUBSTRING'));
 			}
-			$this->name = strtolower($r[3]);
+			$this->_name = strtolower($r[3]);
 		}
 
-		return $this->name;
+		return $this->_name;
 	}
 
 	/**
@@ -565,7 +469,7 @@ class JView extends JObject
 	 * referenced by the name without JModel, eg. JModelCategory is just
 	 * Category.
 	 *
-	 * @param   object   &$model   The model to add to the view.
+	 * @param   JModel   &$model   The model to add to the view.
 	 * @param   boolean  $default  Is this the default model?
 	 *
 	 * @return  object   The added model.
@@ -605,6 +509,7 @@ class JView extends JObject
 			// Convert parameter to array based on :
 			$temp = explode(':', $layout);
 			$this->_layout = $temp[1];
+
 			// Set layout template
 			$this->_layoutTemplate = $temp[0];
 		}
@@ -685,7 +590,7 @@ class JView extends JObject
 	 */
 	public function loadTemplate($tpl = null)
 	{
-		// clear prior output
+		// Clear prior output
 		$this->_output = null;
 
 		$template = JFactory::getApplication()->getTemplate();
@@ -694,6 +599,7 @@ class JView extends JObject
 
 		// Create the template file name based on the layout
 		$file = isset($tpl) ? $layout . '_' . $tpl : $layout;
+
 		// Clean the file name
 		$file = preg_replace('/[^A-Z0-9_\.-]/i', '', $file);
 		$tpl = isset($tpl) ? preg_replace('/[^A-Z0-9_\.-]/i', '', $tpl) : $tpl;
@@ -737,6 +643,7 @@ class JView extends JObject
 
 			// Start capturing output into a buffer
 			ob_start();
+
 			// Include the requested template filename in the local scope
 			// (this will execute the view logic).
 			include $this->_template;
@@ -765,10 +672,10 @@ class JView extends JObject
 	 */
 	public function loadHelper($hlp = null)
 	{
-		// clean the file name
+		// Clean the file name
 		$file = preg_replace('/[^A-Z0-9_\.-]/i', '', $hlp);
 
-		// load the template script
+		// Load the template script
 		jimport('joomla.filesystem.path');
 		$helper = JPath::find($this->_path['helper'], $this->_createFileName('helper', array('name' => $file)));
 
@@ -827,19 +734,19 @@ class JView extends JObject
 	 */
 	protected function _addPath($type, $path)
 	{
-		// just force to array
+		// Just force to array
 		settype($path, 'array');
 
-		// loop through the path directories
+		// Loop through the path directories
 		foreach ($path as $dir)
 		{
 			// no surrounding spaces allowed!
 			$dir = trim($dir);
 
-			// add trailing separators as needed
+			// Add trailing separators as needed
 			if (substr($dir, -1) != DIRECTORY_SEPARATOR)
 			{
-				// directory
+				// Directory
 				$dir .= DIRECTORY_SEPARATOR;
 			}
 

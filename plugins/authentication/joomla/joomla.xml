@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="2.5" type="plugin" group="auth">
+<extension version="2.5" type="plugin" group="authentication">
 	<name>plg_authentication_joomla</name>
 	<author>Joomla! Project</author>
 	<creationDate>November 2005</creationDate>

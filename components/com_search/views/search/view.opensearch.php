@@ -6,10 +6,8 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
 jimport('joomla.environment.uri');
 
 /**
@@ -20,7 +18,7 @@ jimport('joomla.environment.uri');
  * @subpackage	Search
  * @since 1.7
  */
-class SearchViewSearch extends JView
+class SearchViewSearch extends JViewLegacy
 {
 	function display($tpl = null)
 	{
@@ -41,7 +39,7 @@ class SearchViewSearch extends JView
 			$searchUri .= '&Itemid='.$items[0]->id;
 		}
 
-		$htmlSearch = new JOpenSearchUrl();
+		$htmlSearch = new JOpenSearchUrl;
 		$htmlSearch->template = JRoute::_($searchUri);
 		$doc->addUrl($htmlSearch);
 	}

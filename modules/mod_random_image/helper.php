@@ -6,7 +6,6 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
 class modRandomImageHelper
@@ -20,7 +19,6 @@ class modRandomImageHelper
 		$random		= mt_rand(0, $i - 1);
 		$image		= $images[$random];
 		$size		= getimagesize (JPATH_BASE . '/' . $image->folder . '/' . $image->name);
-
 
 		if ($width == '') {
 			$width = 100;

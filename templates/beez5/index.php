@@ -6,7 +6,6 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
 
 // check modules
@@ -150,9 +149,9 @@ $doc->addScript($this->baseurl.'/templates/'.$this->template.'/javascript/md_sty
 					<?php if ($navposition=='left' and $showleft) : ?>
 
 						<?php if(!$this->params->get('html5', 0)): ?>
-							<div class="left1 <?php if ($showRightColumn==NULL){ echo 'leftbigger';} ?>" id="nav">
+							<div class="left1 <?php if ($showRightColumn == null){ echo 'leftbigger';} ?>" id="nav">
 						<?php else: ?>
-							<nav class="left1 <?php if ($showRightColumn==NULL){ echo 'leftbigger';} ?>" id="nav">
+							<nav class="left1 <?php if ($showRightColumn == null){ echo 'leftbigger';} ?>" id="nav">
 						<?php endif; ?>
 
 								<jdoc:include type="modules" name="position-7" style="beezDivision" headerLevel="3" />
@@ -214,9 +213,9 @@ $doc->addScript($this->baseurl.'/templates/'.$this->template.'/javascript/md_sty
 			<?php if ($navposition=='center' and $showleft) : ?>
 
 				<?php if (!$this->params->get('html5', 0)): ?>
-					<div class="left <?php if ($showRightColumn==NULL){ echo 'leftbigger';} ?>" id="nav" >
+					<div class="left <?php if ($showRightColumn == null){ echo 'leftbigger';} ?>" id="nav" >
 				<?php else: ?>
-					<nav class="left <?php if ($showRightColumn==NULL){ echo 'leftbigger';} ?>" id="nav">
+					<nav class="left <?php if ($showRightColumn == null){ echo 'leftbigger';} ?>" id="nav">
 				<?php endif; ?>
 
 						<jdoc:include type="modules" name="position-7"  style="beezDivision" headerLevel="3" />

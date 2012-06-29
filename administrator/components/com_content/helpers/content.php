@@ -55,6 +55,7 @@ class ContentHelper
 	 */
 	public static function getActions($categoryId = 0, $articleId = 0)
 	{
+		// Reverted a change for version 2.5.6
 		$user	= JFactory::getUser();
 		$result	= new JObject;
 

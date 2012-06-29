@@ -4,7 +4,6 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
 include_once dirname(__FILE__).'/../default/view.php';
@@ -28,7 +27,7 @@ class InstallerViewUpdate extends InstallerViewDefault
 		$this->items		= $this->get('Items');
 		$this->pagination	= $this->get('Pagination');
 
-		$paths = new stdClass();
+		$paths = new stdClass;
 		$paths->first = '';
 
 		$this->assignRef('paths', $paths);

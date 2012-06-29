@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
-
 /**
  * Filter view class for Finder.
  *
@@ -18,7 +16,7 @@ jimport('joomla.application.component.view');
  * @subpackage  com_finder
  * @since       2.5
  */
-class FinderViewFilter extends JView
+class FinderViewFilter extends JViewLegacy
 {
 	/**
 	 * Method to display the view.

@@ -4,10 +4,7 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.view');
 
 /**
  * View class for download a list of tracks.
@@ -16,7 +13,7 @@ jimport('joomla.application.component.view');
  * @subpackage	com_banners
  * @since		1.6
  */
-class BannersViewDownload extends JView
+class BannersViewDownload extends JViewLegacy
 {
 	protected $form;
 	/**

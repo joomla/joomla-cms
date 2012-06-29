@@ -19,7 +19,7 @@ JLoader::register('FinderIndexer', JPATH_COMPONENT_ADMINISTRATOR . '/helpers/ind
  * @subpackage  com_finder
  * @since       2.5
  */
-class FinderControllerIndexer extends JController
+class FinderControllerIndexer extends JControllerLegacy
 {
 	/**
 	 * Method to start the indexer.
@@ -32,11 +32,16 @@ class FinderControllerIndexer extends JController
 	{
 		static $log;
 
-		if ($log == null)
+		$params = JComponentHelper::getParams('com_finder');
+
+		if ($params->get('enable_logging', '0'))
 		{
-			$options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
-			$options['text_file'] = 'indexer.php';
-			$log = JLog::addLogger($options);
+			if ($log == null)
+			{
+				$options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
+				$options['text_file'] = 'indexer.php';
+				$log = JLog::addLogger($options);
+			}
 		}
 
 		// Log the start
@@ -94,11 +99,16 @@ class FinderControllerIndexer extends JController
 	{
 		static $log;
 
-		if ($log == null)
+		$params = JComponentHelper::getParams('com_finder');
+
+		if ($params->get('enable_logging', '0'))
 		{
-			$options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
-			$options['text_file'] = 'indexer.php';
-			$log = JLog::addLogger($options);
+			if ($log == null)
+			{
+				$options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
+				$options['text_file'] = 'indexer.php';
+				$log = JLog::addLogger($options);
+			}
 		}
 
 		// Log the start
@@ -257,11 +267,16 @@ class FinderControllerIndexer extends JController
 	{
 		static $log;
 
-		if ($log == null)
+		$params = JComponentHelper::getParams('com_finder');
+
+		if ($params->get('enable_logging', '0'))
 		{
-			$options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
-			$options['text_file'] = 'indexer.php';
-			$log = JLog::addLogger($options);
+			if ($log == null)
+			{
+				$options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
+				$options['text_file'] = 'indexer.php';
+				$log = JLog::addLogger($options);
+			}
 		}
 
 		$backtrace = null;
@@ -308,11 +323,16 @@ class FinderIndexerResponse
 	{
 		static $log;
 
-		if ($log == null)
+		$params = JComponentHelper::getParams('com_finder');
+
+		if ($params->get('enable_logging', '0'))
 		{
-			$options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
-			$options['text_file'] = 'indexer.php';
-			$log = JLog::addLogger($options);
+			if ($log == null)
+			{
+				$options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
+				$options['text_file'] = 'indexer.php';
+				$log = JLog::addLogger($options);
+			}
 		}
 
 		// The old token is invalid so send a new one.

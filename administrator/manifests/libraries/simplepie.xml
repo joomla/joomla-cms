@@ -2,26 +2,18 @@
 <extension type="library" version="2.5">
 	<name>SimplePie</name>
 	<libraryname>simplepie</libraryname>
-	<version>1.0.1</version>
+	<version>1.2</version>
 	<description>LIB_SIMPLEPIE_XML_DESCRIPTION</description>
-	<creationDate>2008</creationDate>
-	<copyright>Copyright (C) 2008 SimplePie</copyright>
-	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<creationDate>2004</creationDate>
+	<copyright>Copyright (c) 2004-2009, Ryan Parman and Geoffrey Sneddon</copyright>
+	<license>http://www.opensource.org/licenses/bsd-license.php BSD License</license>
 	<author>SimplePie</author>
 	<authorEmail></authorEmail>
 	<authorUrl>http://simplepie.org/</authorUrl>
 	<packager>Joomla!</packager>
 	<packagerurl>http://www.joomla.org</packagerurl>
 	<update>http://update.joomla.org/libraries/simplepie</update>
-	<files>
-		<file>idn/ReadMe.txt</file>
-		<file>idn/LICENCE</file>
-		<file>idn/npdata.ser</file>
-		<file>idn/index.html</file>
-		<file>idn/idna_convert.class.php</file>
-		<file>simplepie.php</file>
-		<file>index.html</file>
-		<file>LICENSE.txt</file>
-		<file>README.txt</file>
+	<files folder="libraries">
+		<folder>simplepie</folder>
 	</files>
 </extension>

@@ -6,10 +6,8 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
 jimport('joomla.application.module.helper');
 
 /**
@@ -20,7 +18,7 @@ jimport('joomla.application.module.helper');
  * @subpackage	com_cpanel
  * @since 1.0
  */
-class CpanelViewCpanel extends JView
+class CpanelViewCpanel extends JViewLegacy
 {
 	protected $modules = null;
 

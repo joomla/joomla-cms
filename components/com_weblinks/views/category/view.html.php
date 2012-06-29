@@ -6,10 +6,7 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.view');
 
 /**
  * HTML View class for the WebLinks component
@@ -18,7 +15,7 @@ jimport('joomla.application.component.view');
  * @subpackage	com_weblinks
  * @since		1.5
  */
-class WeblinksViewCategory extends JView
+class WeblinksViewCategory extends JViewLegacy
 {
 	protected $state;
 	protected $items;
@@ -75,7 +72,7 @@ class WeblinksViewCategory extends JView
 				$item->link = $item->url;
 			}
 
-			$temp		= new JRegistry();
+			$temp = new JRegistry;
 			$temp->loadString($item->params);
 			$item->params = clone($params);
 			$item->params->merge($temp);

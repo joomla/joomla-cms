@@ -53,15 +53,15 @@ $menuTypes = MenusHelper::getMenuLinks();
 
 			<label id="jform_menuselect-lbl" for="jform_menuselect"><?php echo JText::_('JGLOBAL_MENU_SELECTION'); ?></label>
 
-			<button type="button" class="jform-assignments-button jform-rightbtn" onclick="$$('.chk-menulink').each(function(el) { el.checked = !el.checked; });">
+			<button type="button" class="jform-assignments-button jform-rightbtn" onclick="$$('.chkbox').each(function(el) { el.checked = !el.checked; });">
 				<?php echo JText::_('JGLOBAL_SELECTION_INVERT'); ?>
 			</button>
 
-			<button type="button" class="jform-assignments-button jform-rightbtn" onclick="$$('.chk-menulink').each(function(el) { el.checked = false; });">
+			<button type="button" class="jform-assignments-button jform-rightbtn" onclick="$$('.chkbox').each(function(el) { el.checked = false; });">
 				<?php echo JText::_('JGLOBAL_SELECTION_NONE'); ?>
 			</button>
 
-			<button type="button" class="jform-assignments-button jform-rightbtn" onclick="$$('.chk-menulink').each(function(el) { el.checked = true; });">
+			<button type="button" class="jform-assignments-button jform-rightbtn" onclick="$$('.chkbox').each(function(el) { el.checked = true; });">
 				<?php echo JText::_('JGLOBAL_SELECTION_ALL'); ?>
 			</button>
 
@@ -74,6 +74,23 @@ $menuTypes = MenusHelper::getMenuLinks();
 			<?php foreach ($menuTypes as &$type) :
 				echo JHtml::_('tabs.panel', $type->title ? $type->title : $type->menutype, $type->menutype.'-details');
 
+				$chkbox_class = 'chk-menulink-' . $type->id; ?>
+
+				<button type="button" class="jform-assignments-button jform-rightbtn" onclick="$$('.<?php echo $chkbox_class; ?>').each(function(el) { el.checked = !el.checked; });">
+					<?php echo JText::_('JGLOBAL_SELECTION_INVERT'); ?>
+				</button>
+
+				<button type="button" class="jform-assignments-button jform-rightbtn" onclick="$$('.<?php echo $chkbox_class; ?>').each(function(el) { el.checked = false; });">
+					<?php echo JText::_('JGLOBAL_SELECTION_NONE'); ?>
+				</button>
+
+				<button type="button" class="jform-assignments-button jform-rightbtn" onclick="$$('.<?php echo $chkbox_class; ?>').each(function(el) { el.checked = true; });">
+					<?php echo JText::_('JGLOBAL_SELECTION_ALL'); ?>
+				</button>
+
+				<div class="clr"></div>
+
+				<?php
 				$count 	= count($type->links);
 				$i		= 0;
 				if ($count) :
@@ -92,7 +109,7 @@ $menuTypes = MenusHelper::getMenuLinks();
 						endif;
 					?>
 					<li class="menu-link">
-						<input type="checkbox" class="chk-menulink" name="jform[assigned][]" value="<?php echo (int) $link->value;?>" id="link<?php echo (int) $link->value;?>"<?php echo $checked;?>/>
+						<input type="checkbox" class="chkbox <?php echo $chkbox_class; ?>" name="jform[assigned][]" value="<?php echo (int) $link->value;?>" id="link<?php echo (int) $link->value;?>"<?php echo $checked;?>/>
 						<label for="link<?php echo (int) $link->value;?>">
 							<?php echo $link->text; ?>
 						</label>

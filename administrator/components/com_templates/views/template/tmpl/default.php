@@ -112,8 +112,19 @@ $canDo	= TemplatesHelper::getActions();
 			</div>-->
 
 		</fieldset>
-
 		<div class="clr"></div>
 		<input type="hidden" name="task" value="" />
 	</div>
+<div class="width-50 fltrt">
 </form>
+<form action="<?php echo JRoute::_('index.php?option=com_templates&task=template.copy&id=' . JRequest::getInt('id')); ?>"
+		method="post" name="adminForm" id="adminForm">
+	<fieldset class="adminform" id="template-manager-css">
+		<legend><?php echo JText::_('COM_TEMPLATES_TEMPLATE_COPY');?></legend>
+		<label id="new_name" class="hasTip"  title="<?php echo JText::_('COM_TEMPLATES_TEMPLATE_NEW_NAME_DESC'); ?>"><?php echo JText::_('COM_TEMPLATES_TEMPLATE_NEW_NAME_LABEL')?></label>
+		<input class="inputbox" type="text" id="new_name" name="new_name"  />
+		<button type="submit"><?php echo JText::_('COM_TEMPLATES_TEMPLATE_COPY'); ?></button>
+	</fieldset>
+	<?php echo JHtml::_('form.token'); ?>
+</form>
+</div>

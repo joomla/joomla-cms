@@ -4,7 +4,6 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.modeladmin');
@@ -90,7 +89,6 @@ class MessagesModelMessage extends JModelAdmin
 							$this->setError($error);
 							return false;
 						}
-
 
 						$this->item->set('user_id_to', $message->user_id_from);
 						$re = JText::_('COM_MESSAGES_RE');
@@ -192,7 +190,7 @@ class MessagesModelMessage extends JModelAdmin
 		}
 
 		// Load the recipient user configuration.
-		$model = JModel::getInstance('Config', 'MessagesModel', array('ignore_request' => true));
+		$model = JModelLegacy::getInstance('Config', 'MessagesModel', array('ignore_request' => true));
 		$model->setState('user.id', $table->user_id_to);
 		$config = $model->getItem();
 		if (empty($config)) {
