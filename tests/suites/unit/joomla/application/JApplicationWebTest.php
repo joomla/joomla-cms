@@ -108,7 +108,6 @@ class JApplicationWebTest extends TestCase
 
 		JFactory::$document = $this->getMockDocument();
 		JFactory::$language = $this->getMockLanguage();
-
 	}
 
 	/**
@@ -1563,43 +1562,6 @@ class JApplicationWebTest extends TestCase
 	}
 
 	/**
-	 * Tests the JApplicationWeb::redirect method with webkit bug.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.3
-	 */
-	public function testRedirectWithWebkitBug()
-	{
-		$url = 'http://j.org/index.php';
-
-		// Inject the client information.
-		TestReflection::setValue(
-			$this->class,
-			'client',
-			(object) array(
-				'engine' => JApplicationWebClient::WEBKIT,
-			)
-		);
-
-		// Capture the output for this test.
-		ob_start();
-		$this->class->redirect($url);
-		$buffer = ob_get_contents();
-		ob_end_clean();
-
-		$this->assertThat(
-			trim($buffer),
-			$this->equalTo(
-				'<html><head>' .
-				'<meta http-equiv="refresh" content="0; url=' . $url . '" />' .
-				'<meta http-equiv="content-type" content="text/html; charset=utf-8" />' .
-				'</head><body></body></html>'
-			)
-		);
-	}
-
-	/**
 	 * Tests the JApplicationWeb::registerEvent method.
 	 *
 	 * @return  void
@@ -1792,6 +1754,26 @@ class JApplicationWebTest extends TestCase
 				)
 			),
 			'Tests that headers of the same name are replaced.'
+		);
+	}
+
+	/**
+	 * @covers JApplicationWeb::isSSLConnection
+	 */
+	public function testIsSSLConnection()
+	{
+		unset($_SERVER['HTTPS']);
+
+		$this->assertThat(
+			$this->class->isSSLConnection(),
+			$this->equalTo(false)
+		);
+
+		$_SERVER['HTTPS'] = 'on';
+
+		$this->assertThat(
+			$this->class->isSSLConnection(),
+			$this->equalTo(true)
 		);
 	}
 }
