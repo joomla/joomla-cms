@@ -934,4 +934,15 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 
 		return false;
 	}
+
+	/**
+	 * PDO does not support serialize
+	 *
+	 * @return  array
+	 * @since   12.3
+	 */
+	public function __sleep()
+	{
+		return array();
+	}
 }
