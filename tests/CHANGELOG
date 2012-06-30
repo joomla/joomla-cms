@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+30-Jun-2012 Mark Dexter
+ # More fixes for Selenium RC2 -- don't use TinyMCE for tests
+
 26-Jun-2012 Mark Dexter
  # Fixes for Selenium RC2 and Google Chrome browser
 
