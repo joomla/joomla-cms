@@ -368,12 +368,6 @@ class JSession implements IteratorAggregate
 				continue;
 			}
 
-			// If the class doesn't exist we have nothing left to do but look at the next type. We did our best.
-			if (!class_exists($class))
-			{
-				continue;
-			}
-
 			// Sweet!  Our class exists, so now we just need to know if it passes its test method.
 			// @deprecated 12.3 Stop checking with test()
 			if ($class::isSupported() || $class::test())
@@ -408,11 +402,7 @@ class JSession implements IteratorAggregate
 	public function isNew()
 	{
 		$counter = $this->get('session.counter');
-		if ($counter === 1)
-		{
-			return true;
-		}
-		return false;
+		return (bool) ($counter === 1);
 	}
 
 	/**
@@ -551,8 +541,8 @@ class JSession implements IteratorAggregate
 	}
 
 	/**
-     * Start a session.
-     *
+	 * Start a session.
+	 *
 	 * @return  boolean  true on success
 	 *
 	 * @since   12.2
