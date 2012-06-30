@@ -262,49 +262,42 @@ class JTwitterStatuses extends JTwitterObject
 		if ($in_reply_to_status_id)
 		{
 			$data['in_reply_to_status_id'] = $in_reply_to_status_id;
-			$parameters['in_reply_to_status_id'] = $in_reply_to_status_id;
 		}
 
 		// Check if lat is specified.
 		if ($lat)
 		{
 			$data['lat'] = $lat;
-			$parameters['lat'] = $lat;
 		}
 
 		// Check if long is specified.
 		if ($long)
 		{
 			$data['long'] = $long;
-			$parameters['long'] = $long;
 		}
 
 		// Check if place_id is specified.
 		if ($place_id)
 		{
 			$data['place_id'] = $place_id;
-			$parameters['place_id'] = $place_id;
 		}
 
 		// Check if display_coordinates is true.
 		if ($display_coordinates)
 		{
 			$data['display_coordinates'] = $display_coordinates;
-			$parameters['display_coordinates'] = $display_coordinates;
 		}
 
 		// Check if trim_user is true.
 		if ($trim_user)
 		{
 			$data['trim_user'] = $trim_user;
-			$parameters['trim_user'] = $trim_user;
 		}
 
 		// Check if entities is true.
 		if ($entities)
 		{
 			$data['include_entities'] = $entities;
-			$parameters['include_entities'] = $entities;
 		}
 
 		// Build the request path.
@@ -703,7 +696,7 @@ class JTwitterStatuses extends JTwitterObject
 		// Set parameters.
 		$parameters = array('oauth_token' => $oauth->getToken('key'));
 
-		$data = null;
+		$data = array();
 
 		// Check if trim_user is true
 		if ($trim_user)
@@ -750,7 +743,7 @@ class JTwitterStatuses extends JTwitterObject
 		// Set parameters.
 		$parameters = array('oauth_token' => $oauth->getToken('key'));
 
-		$data = null;
+		$data = array();
 
 		// Check if trim_user is true
 		if ($trim_user)
@@ -815,42 +808,36 @@ class JTwitterStatuses extends JTwitterObject
 		if ($in_reply_to_status_id)
 		{
 			$data['in_reply_to_status_id'] = $in_reply_to_status_id;
-			$parameters['in_reply_to_status_id'] = $in_reply_to_status_id;
 		}
 
 		// Check if lat is specified.
 		if ($lat)
 		{
 			$data['lat'] = $lat;
-			$parameters['lat'] = $lat;
 		}
 
 		// Check if long is specified.
 		if ($long)
 		{
 			$data['long'] = $long;
-			$parameters['long'] = $long;
 		}
 
 		// Check if place_id is specified.
 		if ($place_id)
 		{
 			$data['place_id'] = $place_id;
-			$parameters['place_id'] = $place_id;
 		}
 
 		// Check if display_coordinates is true.
 		if ($display_coordinates)
 		{
 			$data['display_coordinates'] = $display_coordinates;
-			$parameters['display_coordinates'] = $display_coordinates;
 		}
 
 		// Check if sensitive is true.
 		if ($sensitive)
 		{
 			$data['possibly_sensitive'] = $sensitive;
-			$parameters['possibly_sensitive'] = $sensitive;
 		}
 
 		// Send the request.
@@ -892,6 +879,7 @@ class JTwitterStatuses extends JTwitterObject
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   12.1
+	 * @throws  RuntimeException
 	 */
 	public function getOembed($id = null, $url = null, $maxwidth = null, $hide_media = false, $hide_thread = false, $omit_script = false,
 		$align = null, $related = null, $lang = null)

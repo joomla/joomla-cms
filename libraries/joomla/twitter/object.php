@@ -19,6 +19,12 @@ defined('JPATH_PLATFORM') or die();
 abstract class JTwitterObject
 {
 	/**
+	* @const integer The error code in case of success.
+	* @since 12.1
+	*/
+	const SUCCESS_CODE = 200;
+
+	/**
 	 * @var    JRegistry  Options for the Twitter object.
 	 * @since  12.1
 	 */
@@ -144,7 +150,7 @@ abstract class JTwitterObject
 		}
 
 		// Validate the response code.
-		if ($response->code != 200)
+		if ($response->code != self::SUCCESS_CODE)
 		{
 			$error = json_decode($response->body);
 

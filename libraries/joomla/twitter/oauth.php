@@ -235,7 +235,7 @@ class JTwitterOAuth
 	 * 
 	 * @since 12.1
 	 */
-	public function oauthRequest($url, $method, &$parameters, $data = null, $headers = array())
+	public function oauthRequest($url, $method, &$parameters, $data = array(), $headers = array())
 	{
 		// Set the parameters.
 		$defaults = array(
@@ -281,7 +281,7 @@ class JTwitterOAuth
 		{
 			case 'GET':
 				$url = $this->to_url($url, $data);
-				$response = $this->client->get($url, array('Authorization' => $this->createHeader($headers)));
+				$response = $this->client->get($url, array('Authorization' => $this->createHeader($oauth_headers)));
 				break;
 			case 'POST':
 				$headers = array_merge($headers, array('Authorization' => $this->createHeader($oauth_headers)));
