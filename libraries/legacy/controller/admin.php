@@ -111,7 +111,7 @@ class JControllerAdmin extends JControllerLegacy
 		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
 
 		// Get items to remove from the request.
-		$cid = JRequest::getVar('cid', array(), '', 'array');
+		$cid = JFactory::getApplication()->input->get('cid', array(), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -170,7 +170,7 @@ class JControllerAdmin extends JControllerLegacy
 		$input = JFactory::getApplication()->input;
 
 		// Get items to publish from the request.
-		$cid = JRequest::getVar('cid', array(), '', 'array');
+		$cid = JFactory::getApplication()->input->get('cid', array(), 'array');
 		$data = array('publish' => 1, 'unpublish' => 0, 'archive' => 2, 'trash' => -2, 'report' => -3);
 		$task = $this->getTask();
 		$value = JArrayHelper::getValue($data, $task, 0, 'int');
@@ -231,7 +231,7 @@ class JControllerAdmin extends JControllerLegacy
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Initialise variables.
-		$ids = JRequest::getVar('cid', null, 'post', 'array');
+		$ids = JFactory::getApplication()->input->post->get('cid', array(), 'array');
 		$inc = ($this->getTask() == 'orderup') ? -1 : +1;
 
 		$model = $this->getModel();
@@ -265,8 +265,9 @@ class JControllerAdmin extends JControllerLegacy
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Get the input
-		$pks = JRequest::getVar('cid', null, 'post', 'array');
-		$order = JRequest::getVar('order', null, 'post', 'array');
+		$input = JFactory::getApplication()->input;
+		$pks = $input->post->get('cid', array(), 'array');
+		$order = $input->post->get('order', array(), 'array');
 
 		// Sanitize the input
 		JArrayHelper::toInteger($pks);
@@ -307,7 +308,7 @@ class JControllerAdmin extends JControllerLegacy
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Initialise variables.
-		$ids = JRequest::getVar('cid', null, 'post', 'array');
+		$ids = JFactory::getApplication()->input->post->get('cid', array(), 'array');
 
 		$model = $this->getModel();
 		$return = $model->checkin($ids);
