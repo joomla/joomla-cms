@@ -2,7 +2,7 @@
 /**
  * @package     Joomla.Platform
  * @subpackage  Twitter
- * 
+ *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
@@ -16,7 +16,7 @@ jimport('joomla.environment.response');
  *
  * @package     Joomla.Platform
  * @subpackage  Twitter
- * 
+ *
  * @since       12.1
  */
 class JTwitterOAuth
@@ -94,11 +94,11 @@ class JTwitterOAuth
 
 	/**
 	 * Method to for the oauth flow.
-	 * 
+	 *
 	 * @return void
-	 * 
+	 *
 	 * @since  12.1
-	 * 
+	 *
 	 * @throws DomainException
 	 */
 	public function oauthFlow()
@@ -138,9 +138,9 @@ class JTwitterOAuth
 
 	/**
 	 * Method used to get a request token.
-	 * 
+	 *
 	 * @return void
-	 * 
+	 *
 	 * @since  12.1
 	 */
 	public function generateRequestToken()
@@ -172,9 +172,9 @@ class JTwitterOAuth
 
 	/**
 	 * Method used to authenticate the user.
-	 * 
+	 *
 	 * @return void
-	 * 
+	 *
 	 * @since  12.1
 	 */
 	public function authenticate()
@@ -186,9 +186,9 @@ class JTwitterOAuth
 
 	/**
 	 * Method used to authorize the application.
-	 * 
+	 *
 	 * @return void
-	 * 
+	 *
 	 * @since  12.1
 	 */
 	public function authorize()
@@ -200,9 +200,9 @@ class JTwitterOAuth
 
 	/**
 	 * Method used to get an access token.
-	 * 
+	 *
 	 * @return void
-	 * 
+	 *
 	 * @since  12.1
 	 */
 	public function generateAccessToken()
@@ -224,15 +224,15 @@ class JTwitterOAuth
 
 	/**
 	 * Method used to make an OAuth request.
-	 * 
+	 *
 	 * @param   string  $url          The request URL.
 	 * @param   string  $method       The request method.
 	 * @param   array   &$parameters  Array containg request parameters.
 	 * @param   array   $data         The POST request data.
 	 * @param   array   $headers      An array of name-value pairs to include in the header of the request
-	 * 
+	 *
 	 * @return  object  The JHttpResponse object.
-	 * 
+	 *
 	 * @since 12.1
 	 */
 	public function oauthRequest($url, $method, &$parameters, $data = array(), $headers = array())
@@ -275,7 +275,7 @@ class JTwitterOAuth
 			// Sign the request.
 			$this->signRequest($url, $method, $oauth_headers);
 		}
-		
+
 		// Send the request.
 		switch ($method)
 		{
@@ -302,11 +302,11 @@ class JTwitterOAuth
 
 	/**
 	 * Method used to create the header for the POST request.
-	 * 
+	 *
 	 * @param   array  &$parameters  Array containg request parameters.
-	 * 
+	 *
 	 * @return  string  The header.
-	 * 
+	 *
 	 * @since 12.1
 	 */
 	public function createHeader(&$parameters)
@@ -330,12 +330,12 @@ class JTwitterOAuth
 
 	/**
 	 * Method to create the URL formed string with the parameters.
-	 * 
+	 *
 	 * @param   string  $url          The request URL.
 	 * @param   array   &$parameters  Array containg request parameters.
-	 * 
+	 *
 	 * @return  string  The formed URL.
-	 * 
+	 *
 	 * @since  12.1
 	 */
 	public function to_url($url, &$parameters)
@@ -357,13 +357,13 @@ class JTwitterOAuth
 
 	/**
 	 * Method used to sign requests.
-	 * 
+	 *
 	 * @param   string  $url          The URL to sign.
 	 * @param   string  $method       The request method.
 	 * @param   array   &$parameters  Array containg request parameters.
-	 * 
+	 *
 	 * @return  void
-	 * 
+	 *
 	 * @since   12.1
 	 */
 	public function signRequest($url, $method, &$parameters)
@@ -380,13 +380,13 @@ class JTwitterOAuth
 
 	/**
 	 * Prepare the signature base string.
-	 * 
+	 *
 	 * @param   string  $url          The URL to sign.
 	 * @param   string  $method       The request method.
 	 * @param   array   &$parameters  Array containg request parameters.
 	 *
 	 * @return string  The base string.
-	 * 
+	 *
 	 * @since 12.1
 	 */
 	private function baseString($url, $method, &$parameters)
@@ -420,9 +420,9 @@ class JTwitterOAuth
 	 * If an array is passed each array value will will be encoded.
 	 *
 	 * @param   mixed  $data  The scalar or array to encode.
-	 * 
+	 *
 	 * @return  string  $data encoded in a way compatible with OAuth.
-	 * 
+	 *
 	 * @since 12.1
 	 */
 	public function safeEncode($data)
@@ -447,9 +447,9 @@ class JTwitterOAuth
 
 	/**
 	 * Method used to genereate the current nonce.
-	 * 
+	 *
 	 * @return  string  The current nonce.
-	 * 
+	 *
 	 * @since 12.1
 	 */
 	public static function generateNonce()
@@ -465,7 +465,7 @@ class JTwitterOAuth
 	 * Prepares the OAuth signing key.
 	 *
 	 * @return string  The prepared signing key.
-	 * 
+	 *
 	 * @since 12.1
 	 */
 	private function prepare_signing_key()
@@ -475,7 +475,7 @@ class JTwitterOAuth
 
 	/**
 	 * Get the current user id and screen name.
-	 * 
+	 *
 	 * @return  array  The user array.
 	 *
 	 * @since   12.1
@@ -487,9 +487,9 @@ class JTwitterOAuth
 
 	/**
 	 * Get the oauth token key or secret.
-	 * 
+	 *
 	 * @param   string  $key  The array key.
-	 * 
+	 *
 	 * @return  array  The oauth token key and secret.
 	 *
 	 * @since   12.1

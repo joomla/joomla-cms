@@ -159,9 +159,8 @@ class JTwitterStatuses extends JTwitterObject
 		$this->checkRateLimit();
 
 		$parameters = array();
-
 		// Determine which type of data was passed for $user
-		if (is_integer($user))
+		if (is_numeric($user))
 		{
 			$parameters['user_id'] = $user;
 		}
@@ -178,32 +177,8 @@ class JTwitterStatuses extends JTwitterObject
 		// Set the API base
 		$base = '/1/statuses/user_timeline.json';
 
-		// Check if a since_id is specified
-		if ($since_id > 0)
-		{
-			$parameters['since_id'] = (int) $since_id;
-		}
-
 		// Set the count string
 		$parameters['count'] = $count;
-
-		// Check if a max_id is specified
-		if ($max_id > 0)
-		{
-			$parameters['max_id'] = (int) $max_id;
-		}
-
-		// Check if a page is specified
-		if ($page > 0)
-		{
-			$parameters['page'] = (int) $page;
-		}
-
-		// Check if trim_user is true
-		if ($trim_user)
-		{
-			$parameters['trim_user'] = $trim_user;
-		}
 
 		// Check if include_rts is true
 		if ($include_rts)
@@ -223,13 +198,37 @@ class JTwitterStatuses extends JTwitterObject
 			$parameters['exclude_replies'] = $no_replies;
 		}
 
+		// Check if a since_id is specified
+		if ($since_id > 0)
+		{
+			$parameters['since_id'] = (int) $since_id;
+		}
+
+		// Check if a max_id is specified
+		if ($max_id > 0)
+		{
+			$parameters['max_id'] = (int) $max_id;
+		}
+
+		// Check if a page is specified
+		if ($page > 0)
+		{
+			$parameters['page'] = (int) $page;
+		}
+
+		// Check if trim_user is true
+		if ($trim_user)
+		{
+			$parameters['trim_user'] = $trim_user;
+		}
+
 		// Send the request.
 		return $this->sendRequest($base, 'get', $parameters);
 	}
 
 	/**
 	 * Method to post a tweet.
-	 * 
+	 *
 	 * @param   JTwitterOAuth  $oauth                  The JTwitterOAuth object.
 	 * @param   string         $status                 The text of the tweet.
 	 * @param   integer        $in_reply_to_status_id  The ID of an existing status that the update is in reply to.
@@ -241,7 +240,7 @@ class JTwitterStatuses extends JTwitterObject
 	 *                                                 the status author's numerical ID.
 	 * @param   boolean        $entities               When set to true,  each tweet will include a node called "entities,". This node offers a variety
 	 * 												   of metadata about the tweet in a discreet structure, including: user_mentions, urls, and hashtags.
-	 * 
+	 *
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   12.1
@@ -322,7 +321,7 @@ class JTwitterStatuses extends JTwitterObject
 	 * @param   integer        $page         Specifies the page of results to retrieve.
 	 * @param   boolean        $trim_user    When set to true, each tweet returned in a timeline will include a user object including only
 	 *                                       the status author's numerical ID.
-	 * @param   string         $contributor  This parameter enhances the contributors element of the status response to include the screen_name 
+	 * @param   string         $contributor  This parameter enhances the contributors element of the status response to include the screen_name
 	 *                                       of the contributor.
 	 *
 	 * @return  array  The decoded JSON response
@@ -342,14 +341,26 @@ class JTwitterStatuses extends JTwitterObject
 		// Set parameters.
 		$parameters = array('oauth_token' => $oauth->getToken('key'));
 
+		// Set the count string
+		$data['count'] = $count;
+
+		// Check if include_rts is true
+		if ($include_rts)
+		{
+			$data['include_rts'] = $include_rts;
+		}
+
+		// Check if entities is true
+		if ($entities)
+		{
+			$data['include_entities'] = $entities;
+		}
+
 		// Check if a since_id is specified
 		if ($since_id > 0)
 		{
 			$data['since_id'] = (int) $since_id;
 		}
-
-		// Set the count string
-		$data['count'] = $count;
 
 		// Check if a max_id is specified
 		if ($max_id > 0)
@@ -369,18 +380,6 @@ class JTwitterStatuses extends JTwitterObject
 			$data['trim_user'] = $trim_user;
 		}
 
-		// Check if include_rts is true
-		if ($include_rts)
-		{
-			$data['include_rts'] = $include_rts;
-		}
-
-		// Check if entities is true
-		if ($entities)
-		{
-			$data['include_entities'] = $entities;
-		}
-
 		// Check if contributor is true
 		if ($contributor)
 		{
@@ -396,12 +395,12 @@ class JTwitterStatuses extends JTwitterObject
 	}
 
 	/**
-	 * Method to get the most recent retweets posted by users the specified user follows. 
+	 * Method to get the most recent retweets posted by users the specified user follows.
 	 *
 	 * @param   mixed    $user       Either an integer containing the user ID or a string containing the screen name.
-	 * @param   integer  $since_id   Returns results with an ID greater than (that is, more recent than) the specified ID.
 	 * @param   integer  $count      Specifies the number of tweets to try and retrieve, up to a maximum of 200.  Retweets are always included
 	 *                               in the count, so it is always suggested to set $include_rts to true
+	 * @param   integer  $since_id   Returns results with an ID greater than (that is, more recent than) the specified ID.
 	 * @param   boolean  $entities   When set to true,  each tweet will include a node called "entities,". This node offers a variety of metadata
 	 *                               about the tweet in a discreet structure, including: user_mentions, urls, and hashtags.
 	 * @param   integer  $max_id     Returns results with an ID less than (that is, older than) the specified ID.
@@ -413,7 +412,7 @@ class JTwitterStatuses extends JTwitterObject
 	 *
 	 * @since   12.1
 	 */
-	public function getRetweetedToUser($user, $since_id = 0, $count = 20, $entities = false, $max_id = 0, $page = 0, $trim_user = false)
+	public function getRetweetedToUser($user, $count = 20, $since_id = 0, $entities = false, $max_id = 0, $page = 0, $trim_user = false)
 	{
 		// Check the rate limit for remaining hits
 		$this->checkRateLimit();
@@ -421,7 +420,7 @@ class JTwitterStatuses extends JTwitterObject
 		$parameters = array();
 
 		// Determine which type of data was passed for $user
-		if (is_integer($user))
+		if (is_numeric($user))
 		{
 			$parameters['user_id'] = $user;
 		}
@@ -436,16 +435,16 @@ class JTwitterStatuses extends JTwitterObject
 		}
 
 		// Set the API base
-		$base = '/1/statuses/retweeted_by_user.json';
+		$base = '/1/statuses/retweeted_to_user.json';
+
+		// Set the count string
+		$parameters['count'] = $count;
 
 		// Check if a since_id is specified
 		if ($since_id > 0)
 		{
 			$parameters['since_id'] = (int) $since_id;
 		}
-
-		// Set the count string
-		$parameters['count'] = $count;
 
 		// Check if a max_id is specified
 		if ($max_id > 0)
@@ -477,11 +476,11 @@ class JTwitterStatuses extends JTwitterObject
 
 	/**
 	 * Method to get the most recent tweets of the authenticated user that have been retweeted by others.
-	 * 
+	 *
 	 * @param   JTwitterOAuth  $oauth      The JTwitterOAuth object.
-	 * @param   integer        $since_id   Returns results with an ID greater than (that is, more recent than) the specified ID.
 	 * @param   integer        $count      Specifies the number of tweets to try and retrieve, up to a maximum of 200.  Retweets are always included
 	 *                                     in the count, so it is always suggested to set $include_rts to true
+	 * @param   integer        $since_id   Returns results with an ID greater than (that is, more recent than) the specified ID.
 	 * @param   boolean        $entities   When set to true,  each tweet will include a node called "entities,". This node offers a variety of metadata
 	 *                                     about the tweet in a discreet structure, including: user_mentions, urls, and hashtags.
 	 * @param   integer        $max_id     Returns results with an ID less than (that is, older than) the specified ID.
@@ -493,7 +492,7 @@ class JTwitterStatuses extends JTwitterObject
 	 *
 	 * @since   12.1
 	 */
-	public function getRetweetsOfMe($oauth, $since_id = 0, $count = 20, $entities = false, $max_id = 0, $page = 0, $trim_user = false)
+	public function getRetweetsOfMe($oauth, $count = 20, $since_id = 0, $entities = false, $max_id = 0, $page = 0, $trim_user = false)
 	{
 		// Check the rate limit for remaining hits
 		$this->checkRateLimit();
@@ -504,14 +503,14 @@ class JTwitterStatuses extends JTwitterObject
 		// Set parameters.
 		$parameters = array('oauth_token' => $oauth->getToken('key'));
 
+		// Set the count string
+		$data['count'] = $count;
+
 		// Check if a since_id is specified
 		if ($since_id > 0)
 		{
 			$data['since_id'] = (int) $since_id;
 		}
-
-		// Set the count string
-		$data['count'] = $count;
 
 		// Check if a max_id is specified
 		if ($max_id > 0)
@@ -547,7 +546,7 @@ class JTwitterStatuses extends JTwitterObject
 
 	/**
 	 * Method to show user objects of up to 100 members who retweeted the status.
-	 * 
+	 *
 	 * @param   integer  $id     The numerical ID of the desired status.
 	 * @param   integer  $count  Specifies the number of retweets to try and retrieve, up to a maximum of 100.
 	 * @param   integer  $page   Specifies the page of results to retrieve.
@@ -579,7 +578,7 @@ class JTwitterStatuses extends JTwitterObject
 
 	/**
 	 * Method to show user ids of up to 100 members who retweeted the status.
-	 * 
+	 *
 	 * @param   JTwitterOAuth  $oauth       The JTwitterOAuth object.
 	 * @param   integer        $id          The numerical ID of the desired status.
 	 * @param   integer        $count       Specifies the number of retweets to try and retrieve, up to a maximum of 100.
@@ -626,7 +625,7 @@ class JTwitterStatuses extends JTwitterObject
 
 	/**
 	 * Method to get up to 100 of the first retweets of a given tweet.
-	 * 
+	 *
 	 * @param   JTwitterOAuth  $oauth      The JTwitterOAuth object.
 	 * @param   integer        $id         The numerical ID of the desired status.
 	 * @param   integer        $count      Specifies the number of tweets to try and retrieve, up to a maximum of 200.  Retweets are always included
@@ -654,16 +653,16 @@ class JTwitterStatuses extends JTwitterObject
 		// Set the count string
 		$data['count'] = $count;
 
-		// Check if trim_user is true
-		if ($trim_user)
-		{
-			$data['trim_user'] = $trim_user;
-		}
-
 		// Check if entities is true
 		if ($entities)
 		{
 			$data['include_entities'] = $entities;
+		}
+
+		// Check if trim_user is true
+		if ($trim_user)
+		{
+			$data['trim_user'] = $trim_user;
 		}
 
 		// Build the request path.
@@ -676,7 +675,7 @@ class JTwitterStatuses extends JTwitterObject
 
 	/**
 	 * Method to delete the status specified by the required ID parameter.
-	 * 
+	 *
 	 * @param   JTwitterOAuth  $oauth      The JTwitterOAuth object.
 	 * @param   integer        $id         The numerical ID of the desired status.
 	 * @param   boolean        $entities   When set to true,  each tweet will include a node called "entities,". This node offers a variety of metadata
@@ -720,7 +719,7 @@ class JTwitterStatuses extends JTwitterObject
 
 	/**
 	 * Method to retweet a tweet.
-	 * 
+	 *
 	 * @param   JTwitterOAuth  $oauth      The JTwitterOAuth object.
 	 * @param   integer        $id         The numerical ID of the desired status.
 	 * @param   boolean        $entities   When set to true,  each tweet will include a node called "entities,". This node offers a variety of metadata
@@ -745,16 +744,16 @@ class JTwitterStatuses extends JTwitterObject
 
 		$data = array();
 
-		// Check if trim_user is true
-		if ($trim_user)
-		{
-			$data['trim_user'] = $trim_user;
-		}
-
 		// Check if entities is true
 		if ($entities)
 		{
 			$data['include_entities'] = $entities;
+		}
+
+		// Check if trim_user is true
+		if ($trim_user)
+		{
+			$data['trim_user'] = $trim_user;
 		}
 
 		// Build the request path.
@@ -767,7 +766,7 @@ class JTwitterStatuses extends JTwitterObject
 
 	/**
 	 * Method to post a tweet with media.
-	 * 
+	 *
 	 * @param   JTwitterOAuth  $oauth                  The JTwitterOAuth object.
 	 * @param   string         $status                 The text of the tweet.
 	 * @param   array          $media                  Files to upload
@@ -777,7 +776,7 @@ class JTwitterStatuses extends JTwitterObject
 	 * @param   string         $place_id               A place in the world.
 	 * @param   boolean        $display_coordinates    Whether or not to put a pin on the exact coordinates a tweet has been sent from.
 	 * @param   boolean        $sensitive              Set to true for content which may not be suitable for every audience.
-	 * 
+	 *
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   12.1
@@ -844,7 +843,7 @@ class JTwitterStatuses extends JTwitterObject
 		$response = $oauth->oauthRequest($path, 'POST', $parameters, $data, $header);
 
 		// Check Media Rate Limit.
-		$response_headers = $response->headers;
+		$response_headers = json_decode($response->headers, true);
 		if ($response_headers['X-MediaRateLimit-Remaining'] == 0)
 		{
 			// The IP has exceeded the Twitter API media rate limit
@@ -859,23 +858,23 @@ class JTwitterStatuses extends JTwitterObject
 	/**
 	 * Method to get information allowing the creation of an embedded representation of a Tweet on third party sites.
 	 * Note: either the id or url parameters must be specified in a request. It is not necessary to include both.
-	 * 
+	 *
 	 * @param   integer  $id           The Tweet/status ID to return embed code for.
 	 * @param   string   $url          The URL of the Tweet/status to be embedded.
 	 * @param   integer  $maxwidth     The maximum width in pixels that the embed should be rendered at. This value is constrained to be
-	 * 									between 250 and 550 pixels.
+	 * 								   between 250 and 550 pixels.
 	 * @param   boolean  $hide_media   Specifies whether the embedded Tweet should automatically expand images which were uploaded via
-	 * 									POST statuses/update_with_media.
+	 * 								   POST statuses/update_with_media.
 	 * @param   boolean  $hide_thread  Specifies whether the embedded Tweet should automatically show the original message in the case that
-	 * 									the embedded Tweet is a reply.
+	 * 								   the embedded Tweet is a reply.
 	 * @param   boolean  $omit_script  Specifies whether the embedded Tweet HTML should include a <script> element pointing to widgets.js. In cases where
-	 * 									a page already includes widgets.js, setting this value to true will prevent a redundant script element from being included.
+	 * 								   a page already includes widgets.js, setting this value to true will prevent a redundant script element from being included.
 	 * @param   string   $align        Specifies whether the embedded Tweet should be left aligned, right aligned, or centered in the page.
-	 * 									Valid values are left, right, center, and none.
+	 * 								   Valid values are left, right, center, and none.
 	 * @param   string   $related      A value for the TWT related parameter, as described in Web Intents. This value will be forwarded to all
-	 * 									Web Intents calls.
+	 * 								   Web Intents calls.
 	 * @param   string   $lang         Language code for the rendered embed. This will affect the text and localization of the rendered HTML.
-	 * 
+	 *
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   12.1
@@ -908,43 +907,43 @@ class JTwitterStatuses extends JTwitterObject
 		// Check if maxwidth is specified.
 		if ($maxwidth)
 		{
-			$data['maxwidth'] = $maxwidth;
+			$parameters['maxwidth'] = $maxwidth;
 		}
 
 		// Check if hide_media is true.
 		if ($hide_media)
 		{
-			$data['hide_media'] = $hide_media;
+			$parameters['hide_media'] = $hide_media;
 		}
 
 		// Check if hide_thread is true.
 		if ($hide_thread)
 		{
-			$data['hide_thread'] = $hide_thread;
+			$parameters['hide_thread'] = $hide_thread;
 		}
 
 		// Check if omit_script is true.
 		if ($omit_script)
 		{
-			$data['omit_script'] = $omit_script;
+			$parameters['omit_script'] = $omit_script;
 		}
 
 		// Check if align is specified.
 		if ($align)
 		{
-			$data['align'] = $align;
+			$parameters['align'] = $align;
 		}
 
 		// Check if related is specified.
 		if ($related)
 		{
-			$data['related'] = $related;
+			$parameters['related'] = $related;
 		}
 
 		// Check if lang is specified.
 		if ($lang)
 		{
-			$data['lang'] = $lang;
+			$parameters['lang'] = $lang;
 		}
 
 		// Send the request.

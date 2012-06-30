@@ -37,7 +37,13 @@ class JTwitter
 	protected $friends;
 
 	/**
-	 * @var    JTwitterHelp  Twitter API object for friends.
+	 * @var    JTwitterUsers  Twitter API object for users.
+	 * @since  12.1
+	 */
+	protected $users;
+
+	/**
+	 * @var    JTwitterHelp  Twitter API object for help.
 	 * @since  12.1
 	 */
 	protected $help;
@@ -76,31 +82,35 @@ class JTwitter
 	 */
 	public function __get($name)
 	{
-		if ($name == 'friends')
+		switch ($name)
 		{
-			if ($this->friends == null)
-			{
-				$this->friends = new JTwitterFriends($this->options, $this->client);
-			}
-			return $this->friends;
-		}
+			case 'friends':
+				if ($this->friends == null)
+				{
+					$this->friends = new JTwitterFriends($this->options, $this->client);
+				}
+				return $this->friends;
 
-		if ($name == 'help')
-		{
-			if ($this->help == null)
-			{
-				$this->help = new JTwitterHelp($this->options, $this->client);
-			}
-			return $this->help;
-		}
+			case 'help':
+				if ($this->help == null)
+				{
+					$this->help = new JTwitterHelp($this->options, $this->client);
+				}
+				return $this->help;
 
-		if ($name == 'statuses')
-		{
-			if ($this->statuses == null)
-			{
-				$this->statuses = new JTwitterStatuses($this->options, $this->client);
-			}
-			return $this->statuses;
+			case 'statuses':
+				if ($this->statuses == null)
+				{
+					$this->statuses = new JTwitterStatuses($this->options, $this->client);
+				}
+				return $this->statuses;
+
+			case 'users':
+				if ($this->users == null)
+				{
+					$this->users = new JTwitterUsers($this->options, $this->client);
+				}
+				return $this->users;
 		}
 	}
 

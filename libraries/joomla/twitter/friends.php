@@ -402,14 +402,15 @@ class JTwitterFriends extends JTwitterObject
 	/**
 	 * Method to get the relationship of the authenticating user to the comma separated list of up to 100 screen_names or user_ids provided.
 	 * 
-	 * @param   JTwitterOAuth  $oauth  The JTwitterOAuth object.
-	 * @param   mixed          $user   Either an integer containing a list of the user IDs or strings containing the screen names.
+	 * @param   JTwitterOAuth  $oauth        The JTwitterOAuth object.
+	 * @param   string         $screen_name  A comma separated list of screen names, up to 100 are allowed in a single request.
+	 * @param   string         $id           A comma separated list of user IDs, up to 100 are allowed in a single request.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   12.1
 	 */
-	public function getFriendshipsLookup($oauth, $user)
+	public function getFriendshipsLookup($oauth, $screen_name = null, $id = null)
 	{
 		// Check the rate limit for remaining hits
 		$this->checkRateLimit();
@@ -421,19 +422,19 @@ class JTwitterFriends extends JTwitterObject
 
 		$data = array();
 
-		// Determine which type of data was passed for $user
-		if (is_integer($user))
+		// Set user IDs and screen names.
+		if ($id)
 		{
-			$data['user_id'] = $user;
+			$data['user_id'] = $id;
 		}
-		elseif (is_string($user))
+		if ($screen_name)
 		{
-			$data['screen_name'] = $user;
+			$data['screen_name'] = $screen_name;
 		}
-		else
+		if ($id == null && $screen_name == null)
 		{
 			// We don't have a valid entry
-			throw new RuntimeException('The specified username is not in the correct format; must use integer or string');
+			throw new RuntimeException('You must specify either a comma separated list of screen names, user IDs, or a combination of the two');
 		}
 
 		// Set the API base
