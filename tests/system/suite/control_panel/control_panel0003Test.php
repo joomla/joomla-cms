@@ -20,6 +20,9 @@ class ControlPanel0003 extends SeleniumJoomlaTestCase
 		$this->setUp();
 		$this->gotoAdmin();
 		$this->doAdminLogin();
+		// Use No Editor
+		$this->setEditor('no editor');
+
 		$this->click("link=Control Panel");
 		$this->waitForPageToLoad("30000");
 		print("Load article manager." . "\n");
@@ -33,7 +36,9 @@ class ControlPanel0003 extends SeleniumJoomlaTestCase
 		$this->type("jform_title", "Com_Content001 Test Article");
 
 		print("Enter some text" . "\n");
-		$this->typeKeys("tinymce", "This is test text for an article");
+		$this->type("id=jform_articletext", "<p>This is test text for an article</p>");
+// 		$this->typeKeys("tinymce", "This is test text for an article");
+
 		print("Save the article" . "\n");
 		$this->click("//li[@id='toolbar-save']/a/span");
 		$this->waitForPageToLoad("30000");
@@ -49,7 +54,7 @@ class ControlPanel0003 extends SeleniumJoomlaTestCase
 		// test sleep command for hudson error
 		sleep(3);
 		print("Check that title and text are correct" . "\n");
-		$this->assertEquals("This is test text for an article", $this->getText("//body[@id='tinymce']/p"));
+		$this->assertTrue($this->isElementPresent("//textarea[contains(., 'This is test text')]"));
 		$this->assertEquals("Com_Content001 Test Article", $this->getValue("jform_title"));
 		print("Cancel edit" . "\n");
 		$this->click("//li[@id='toolbar-cancel']/a/span");
@@ -78,8 +83,11 @@ class ControlPanel0003 extends SeleniumJoomlaTestCase
 		print("Clear Article manager filter" . "\n");
 		$this->click("//button[@type='button']");
 		$this->waitForPageToLoad("30000");
-		$this->doAdminLogout();
 
+		// Set editor back to Tiny
+		$this->setEditor('Tiny');
+
+		$this->doAdminLogout();
 		print("Finished control_panel0003Test.php." . "\n");
 		$this->deleteAllVisibleCookies();
 	}
