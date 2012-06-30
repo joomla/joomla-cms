@@ -2,9 +2,9 @@
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
+ *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
- * @since       2.5.4
  */
 
 defined('_JEXEC') or die;
@@ -20,9 +20,9 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 {
 	/**
 	 * Performs the download of the update package
-	 * 
-	 * @return void 
-	 * 
+	 *
+	 * @return void
+	 *
 	 * @since 2.5.4
 	 */
 	public function download()
@@ -90,7 +90,7 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 
 	/**
 	 * Clean up after ourselves
-	 * 
+	 *
 	 * @return void
 	 *
 	 * @since 2.5.4
@@ -146,7 +146,7 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 
 	/**
 	 * Applies FTP credentials to Joomla! itself, when required
-	 * 
+	 *
 	 * @return void
 	 *
 	 * @since	2.5.4

@@ -1,17 +1,19 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Plugin
+ * @subpackage  Search.newsfeeds
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
 /**
  * Newsfeeds Search plugin
  *
  * @package		Joomla.Plugin
- * @subpackage	Search.content
+ * @subpackage	Search.newsfeeds
  * @since		1.6
  */
 class plgSearchNewsfeeds extends JPlugin

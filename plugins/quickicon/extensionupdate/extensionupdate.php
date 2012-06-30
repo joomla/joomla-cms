@@ -1,7 +1,10 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Plugin
+ * @subpackage  Quickicon.Extensionupdate
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -10,7 +13,7 @@ defined('_JEXEC') or die;
  * Joomla! udpate notification plugin
  *
  * @package		Joomla.Plugin
- * @subpackage	Quickicon.Joomla
+ * @subpackage	Quickicon.Extensionupdate
  * @since		2.5
  */
 class plgQuickiconExtensionupdate extends JPlugin

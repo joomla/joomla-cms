@@ -1,9 +1,10 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_menus
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_menus
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -39,7 +40,7 @@ JHtml::_('behavior.framework', true);
 					<tr class="no row<?php echo $i % 2;?>">
 				<?php else : ?>
 			<tr class="row<?php echo $i % 2;?>">
-				<?php endif; ?> 
+				<?php endif; ?>
 			<?php endif; ?>
 				<td>
 					<?php $link = 'index.php?option=com_modules&amp;client_id=0&amp;task=module.edit&amp;id='. $module->id.'&amp;tmpl=component&amp;view=module&amp;layout=modal' ; ?>

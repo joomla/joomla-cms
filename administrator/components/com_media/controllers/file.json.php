@@ -1,10 +1,12 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_media
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
 
 jimport('joomla.filesystem.file');
@@ -45,7 +47,7 @@ class MediaControllerFile extends JControllerLegacy
 		$file		= JRequest::getVar('Filedata', '', 'files', 'array');
 		$folder		= JRequest::getVar('folder', '', '', 'path');
 		$return		= JRequest::getVar('return-url', null, 'post', 'base64');
-		
+
 		if (
 			$_SERVER['CONTENT_LENGTH']>($params->get('upload_maxsize', 0) * 1024 * 1024) ||
 			$_SERVER['CONTENT_LENGTH']>(int)(ini_get('upload_max_filesize'))* 1024 * 1024 ||
@@ -60,7 +62,7 @@ class MediaControllerFile extends JControllerLegacy
 			echo json_encode($response);
 			return;
 		}
-		
+
 		// Set FTP credentials, if given
 		JClientHelper::setCredentialsFromRequest('ftp');
 

@@ -1,17 +1,19 @@
 <?php
 /**
+ * @package     Joomla.Plugin
+ * @subpackage  User.contactcreator
  *
- * Contact Creator
- * A tool to automatically create and synchronise contacts with a user
- * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
 
 /**
  * Class for Contact Creator
+ *
+ * A tool to automatically create and synchronise contacts with a user
+ *
  * @package		Joomla.Plugin
  * @subpackage	User.contactcreator
  * @version		1.6
