@@ -503,7 +503,7 @@ abstract class JModuleHelper
 				$ret = $cache->get(
 					array($cacheparams->class, $cacheparams->method),
 					$cacheparams->methodparams,
-					$module->id . $view_levels . JRequest::getVar('Itemid', null, 'default', 'INT'),
+					$module->id . $view_levels . JFactory::getApplication()->input->getInt('Itemid', null),
 					$wrkarounds,
 					$wrkaroundoptions
 				);
