@@ -697,9 +697,11 @@ class JController extends JObject
 			{
 				$app = JFactory::getApplication();
 
-				$registeredurlparams = $app->registeredurlparams;
-
-				if (empty($registeredurlparams))
+				if (!empty($app->registeredurlparams))
+				{
+					$registeredurlparams = $app->registeredurlparams;
+				}
+				else
 				{
 					$registeredurlparams = new stdClass;
 				}
