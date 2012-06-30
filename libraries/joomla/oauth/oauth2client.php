@@ -9,6 +9,7 @@
 
 defined('JPATH_PLATFORM') or die;
 jimport('joomla.environment.response');
+jimport('joomla.environment.uri');
 
 /**
  * Joomla Platform class for interacting with an OAuth 2.0 server.
@@ -26,10 +27,16 @@ class JOauthOauth2client
 	protected $options;
 
 	/**
-	 * @var    JHttp  The HTTP client object to use in sending HTTP requests.
+	 * @var    JHttpTransport  The HTTP transport object to use in sending HTTP requests.
 	 * @since  1234
 	 */
 	protected $client;
+
+	/**
+	 * @var    JHttp  The HTTP client object to use in sending HTTP requests.
+	 * @since  1234
+	 */
+	protected $http;
 
 	/**
 	 * @var    JInput  The input object to use in retrieving GET/POST data.
@@ -40,23 +47,24 @@ class JOauthOauth2client
 	/**
 	 * Constructor.
 	 *
-	 * @param   JRegistry  $options  OAuth2Client options object.
-	 * @param   JHttp      $client   The HTTP client object.
-	 * @param   JInput     $input    The input object.
+	 * @param   JRegistry       $options  OAuth2Client options object
+	 * @param   JHttpTransport  $client   The HTTP client object
+	 * @param   JInput          $input    The input object
 	 *
 	 * @since   1234
 	 */
-	public function __construct(JRegistry $options = null, JHttp $client = null, JInput $input = null)
+	public function __construct(JRegistry $options = null, JHttpTransport $client = null, JInput $input = null)
 	{
 		$this->options = isset($options) ? $options : new JRegistry;
-		$this->client  = isset($client) ? $client : new JHttp($this->options);
+		$this->client  = isset($client) ? $client : JHttpFactory::getAvailableDriver($this->options);
+		$this->http = new JHttp($this->options, $this->client);
 		$this->input = isset($input) ? $input : JFactory::getApplication()->input;
 	}
 
 	/**
 	 * Get the access token or redict to the authentication URL.
 	 *
-	 * @return  string  The access token.
+	 * @return  string  The access token
 	 *
 	 * @since   1234
 	 */
@@ -68,7 +76,7 @@ class JOauthOauth2client
 			$data['redirect_uri'] = $this->getOption('redirecturi');
 			$data['client_id'] = $this->getOption('clientid');
 			$data['client_secret'] = $this->getOption('clientsecret');
-			$response = $this->client->post($this->getOption('tokenurl'), $data);
+			$response = $this->http->post($this->getOption('tokenurl'), $data);
 
 			if ($response->code == 200)
 			{
@@ -78,7 +86,7 @@ class JOauthOauth2client
 			}
 			else
 			{
-				throw new Exception('OAuth authentication failed with response code ' . $response->code);
+				throw new RuntimeException('Error code ' . $response->code . ' received requesting access token: ' . $response->body . '.');
 			}
 		}
 
@@ -89,7 +97,7 @@ class JOauthOauth2client
 	/**
 	 * Create the URL for authentication.
 	 *
-	 * @return  JHttpResponse  The HTTP response.
+	 * @return  JHttpResponse  The HTTP response
 	 *
 	 * @since   1234
 	 */
@@ -97,7 +105,7 @@ class JOauthOauth2client
 	{
 		if (!$this->getOption('authurl') || !$this->getOption('clientid'))
 		{
-			throw new Exception('Authorization URL and client_id are required');
+			throw new InvalidArgumentException('Authorization URL and client_id are required');
 		}
 
 		$url = $this->getOption('authurl');
@@ -144,15 +152,16 @@ class JOauthOauth2client
 	 * Send a signed Oauth request.
 	 *
 	 * @param   string  $url      The URL for the request.
-	 * @param   mixed   $data     The data to include in the request.
-	 * @param   array   $headers  The headers to send with the request.
-	 * @param   string  $method   The method with which to send the request.
-     *
+	 * @param   mixed   $data     The data to include in the request
+	 * @param   array   $headers  The headers to send with the request
+	 * @param   string  $method   The method with which to send the request
+	 * @param   int     $timeout  The timeout for the request
+	 *
 	 * @return  string  The URL.
 	 *
 	 * @since   1234
 	 */
-	public function query($url, $data = null, $headers = null, $method = 'post')
+	public function query($url, $data = null, $headers = null, $method = 'post', $timeout = null)
 	{
 		if (!$headers)
 		{
@@ -178,21 +187,27 @@ class JOauthOauth2client
 		{
 			if (!array_key_exists('refresh_token', $token))
 			{
-				throw new Exception('Access token is expired and no refresh token is available.');
+				throw new RuntimeException('Access token is expired and no refresh token is available.');
 			}
 			$token = $this->refreshToken($token['refresh_token']);
 		}
 
 		$headers['Authorization'] = 'Bearer ' . $token['access_token'];
-		return $this->client->$method($url, $data, $headers);
+		$response = $this->client->request($method, new JURI($url), $data, $headers, $timeout);
+
+		if ($response->code != 200)
+		{
+			throw new RuntimeException('Error code ' . $response->code . ' received requesting data: ' . $response->body . '.');
+		}
+		return $response;
 	}
 
 	/**
 	 * Get an option from the JOauth2client instance.
 	 *
-	 * @param   string  $key  The name of the option to get.
+	 * @param   string  $key  The name of the option to get
 	 *
-	 * @return  mixed  The option value.
+	 * @return  mixed  The option value
 	 *
 	 * @since   1234
 	 */
@@ -204,10 +219,10 @@ class JOauthOauth2client
 	/**
 	 * Set an option for the JOauth2client instance.
 	 *
-	 * @param   string  $key    The name of the option to set.
-	 * @param   mixed   $value  The option value to set.
+	 * @param   string  $key    The name of the option to set
+	 * @param   mixed   $value  The option value to set
 	 *
-	 * @return  JOauth2client  This object for method chaining.
+	 * @return  JOauth2client  This object for method chaining
 	 *
 	 * @since   1234
 	 */
@@ -220,7 +235,7 @@ class JOauthOauth2client
 	/**
 	 * Get the access token from the JOauth2client instance.
 	 *
-	 * @return  array  The access token.
+	 * @return  array  The access token
 	 *
 	 * @since   1234
 	 */
@@ -232,9 +247,9 @@ class JOauthOauth2client
 	/**
 	 * Set an option for the JOauth2client instance.
 	 *
-	 * @param   array  $value  The access token.
+	 * @param   array  $value  The access token
 	 *
-	 * @return  JOauth2client  This object for method chaining.
+	 * @return  JOauth2client  This object for method chaining
 	 *
 	 * @since   1234
 	 */
@@ -247,9 +262,9 @@ class JOauthOauth2client
 	/**
 	 * Refresh the access token instance.
 	 *
-	 * @param   string  $token  The refresh token.
+	 * @param   string  $token  The refresh token
 	 *
-	 * @return  array  The new access token.
+	 * @return  array  The new access token
 	 *
 	 * @since   1234
 	 */
@@ -264,7 +279,7 @@ class JOauthOauth2client
 		$data['refresh_token'] = $token;
 		$data['client_id'] = $this->getOption('clientid');
 		$data['client_secret'] = $this->getOption('clientsecret');
-		$response = $this->client->post($this->getOption('tokenurl'), $data);
+		$response = $this->http->post($this->getOption('tokenurl'), $data);
 
 		if ($response->code == 200)
 		{
@@ -274,7 +289,7 @@ class JOauthOauth2client
 		}
 		else
 		{
-			throw new Exception('Invalid data received refreshing token');
+			throw new Exception('Error code ' . $response->code . ' received refreshing token: ' . $response->body . '.');
 		}
 	}
 }

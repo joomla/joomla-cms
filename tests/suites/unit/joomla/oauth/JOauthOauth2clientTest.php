@@ -43,7 +43,7 @@ class JOauth2clientTest extends TestCase
 	protected function setUp()
 	{
 		$this->options = new JRegistry;
-		$this->client = $this->getMock('JHttp', array('post'));
+		$this->client = $this->getMock('JHttpTransportStream', array('request'), array($this->options));
 		$this->input = new JInput;
 		$this->object = new JOauthOauth2client($this->options, $this->client, $this->input);
 	}
@@ -87,7 +87,7 @@ class JOauth2clientTest extends TestCase
 		$this->object->setOption('tokenurl', 'https://accounts.google.com/o/oauth2/token');
 		$this->object->setOption('clientsecret', 'jeDs8rKw_jDJW8MMf-ff8ejs');
 		$this->input->set('code', '4/wEr_dK8SDkjfpwmc98KejfiwJP-f4wm.kdowmnr82jvmeisjw94mKFIJE48mcEM');
-		$this->client->expects($this->once())->method('post')->will($this->returnCallback('httpTokenCallback'));
+		$this->client->expects($this->once())->method('request')->will($this->returnCallback('httpTokenCallback'));
 		$result = $this->object->auth();
 		$this->assertEquals('accessvalue', $result['access_token']);
 		$this->assertEquals('refreshvalue', $result['refresh_token']);
@@ -131,7 +131,7 @@ class JOauth2clientTest extends TestCase
 		$token['expires_in'] = 3600;
 		$this->object->setToken($token);
 
-		$this->client->expects($this->atLeastOnce())->method('post')->will($this->returnCallback('httpQueryCallback'));
+		$this->client->expects($this->atLeastOnce())->method('request')->will($this->returnCallback('httpQueryCallback'));
 		$result = $this->object->query('https://www.googleapis.com/auth/calendar', array('param' => 'value'));
 		$this->assertEquals('Lorem ipsum dolor sit amet.', $result->body);
 		$this->assertEquals(200, $result->code);
@@ -209,7 +209,7 @@ class JOauth2clientTest extends TestCase
 		$this->object->setOption('clientsecret', 'jeDs8rKw_jDJW8MMf-ff8ejs');
 		$this->object->setOption('redirecturi', 'http://localhost/oauth');
 
-		$this->client->expects($this->once())->method('post')->will($this->returnCallback('httpTokenCallback'));
+		$this->client->expects($this->once())->method('request')->will($this->returnCallback('httpTokenCallback'));
 		$result = $this->object->refreshToken();
 		$this->assertEquals('accessvalue', $result['access_token']);
 		$this->assertEquals('refreshvalue', $result['refresh_token']);
@@ -221,7 +221,7 @@ class JOauth2clientTest extends TestCase
 /**
  * Callback for the use of JHttp to return a token
  */
-function httpTokenCallback($url, $data)
+function httpTokenCallback($method, JUri $uri, $data = null, array $headers = null, $timeout = null, $userAgent = null)
 {
 	$response->code = 200;
 	$response->body = '{"access_token":"accessvalue","refresh_token":"refreshvalue","expires_in":3600}';
@@ -231,11 +231,11 @@ function httpTokenCallback($url, $data)
 /**
  * Callback for the use of JHttp to return a response to an OAuth request
  */
-function httpQueryCallback($url, $data)
+function httpQueryCallback($method, JUri $uri, $data = null, array $headers = null, $timeout = null, $userAgent = null)
 {
 	if (isset($data['grant_type']) && $data['grant_type'] == 'refresh_token')
 	{
-		return httpTokenCallback($url, $data);
+		return httpTokenCallback($method, $uri, $data, $headers, $timeout, $userAgent);
 	}
 	$response->code = 200;
 	$response->body = 'Lorem ipsum dolor sit amet.';

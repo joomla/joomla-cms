@@ -52,7 +52,7 @@ class JGoogleTest extends TestCase
 	protected function setUp()
 	{
 		$this->options = new JRegistry;
-		$this->client = $this->getMock('JHttp', array('post'));
+		$this->client = $this->getMock('JHttpTransportStream', array('request'), array($this->options));
 		$this->input = new JInput;
 		$this->oauth = new JOauthOauth2client($this->options, $this->client, $this->input);
 		$this->auth = new JGoogleAuthOauth2($this->options, $this->oauth);

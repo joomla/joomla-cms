@@ -36,15 +36,7 @@ class JGoogleAuthOauth2 extends JGoogleAuth
 	public function __construct(JRegistry $options = null, JOauthOauth2client $client = null)
 	{
 		$this->options = isset($options) ? $options : new JRegistry;
-		if (isset($client))
-		{
-			$this->client = $client;
-		}
-		else
-		{
-			$http = new JGoogleHttp;
-			$this->client = new JOauthOauth2client($this->options, $http);
-		}
+		$this->client = isset($client) ? $client : new JOauthOauth2client($this->options);
 	}
 
 	/**
