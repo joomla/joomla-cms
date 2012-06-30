@@ -402,7 +402,7 @@ class JSession implements IteratorAggregate
 	public function isNew()
 	{
 		$counter = $this->get('session.counter');
-		return (bool) ($counter === 1)
+		return (bool) ($counter === 1);
 	}
 
 	/**
