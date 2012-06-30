@@ -247,7 +247,7 @@ class TemplatesModelTemplate extends JModelLegacy
 		// Get list of language files
 		$result = true;
 		$files = JFolder::files($this->getState('to_path'), '.ini', true, true);
-		$newName = $this->getState('new_name');
+		$newName = strtolower($this->getState('new_name'));
 		$oldName = $this->getTemplate()->element;
 
 		foreach ($files as $file)
@@ -262,7 +262,7 @@ class TemplatesModelTemplate extends JModelLegacy
 		{
 			$contents = JFile::read($xmlFile);
 			$pattern[] = '#<name>\s*' . $oldName . '\s*</name>#';
-			$replace[] = '<name>'. $newName . '</name>';
+			$replace[] = '<name>'. ucfirst($newName) . '</name>';
 			$pattern[] = '#<language(.*)' . $oldName . '(.*)</language>#';
 			$replace[] = '<language${1}' . $newName . '${2}</language>';
 			$contents = preg_replace($pattern, $replace, $contents);

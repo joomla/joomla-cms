@@ -26,6 +26,12 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+30-Jun-2012
+ # [#28763] Make the field for installing sample data easier to use (Elin Waring)
+ # [#28751] *Copy Template Feature - language files have capital letters (Jean-Marie Simonet)
+ # [#28647] Registration form: language override for "Name" label causes side effects (Johannnes S-F)
+ # [#28759] Undefined property: JSite::$registeredurlparams (Rouven Weßling) 
+
 29-Jun-2012 Jean-Marie Simonet
  # [#28713] Article Media Manager: 'This file is too large to upload' appears in a Media Manager screen
  # [#28733] administrator/mod_menu Bug! Thanks Sebastian
