@@ -407,7 +407,7 @@ abstract class JFactory
 			$xml = simplexml_load_string($data, 'JXMLElement');
 		}
 
-		if (empty($xml))
+		if ($xml === false)
 		{
 			JLog::add(JText::_('JLIB_UTIL_ERROR_XML_LOAD'), JLog::WARNING, 'jerror');
 
