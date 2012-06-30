@@ -56,7 +56,7 @@ class MediaControllerFile extends JControllerLegacy
 			$_SERVER['CONTENT_LENGTH']>(int)(ini_get('memory_limit'))* 1024 * 1024
 		)
 		{
-			$this->setRedirect('index.php?option=com_media&folder=' . $this->folder, JText::_('COM_MEDIA_ERROR_WARNFILETOOLARGE'), 'error');
+			JError::raiseWarning(100, JText::_('COM_MEDIA_ERROR_WARNFILETOOLARGE'));
 			return false;
 		}
 		// Input is in the form of an associative array containing numerically indexed arrays

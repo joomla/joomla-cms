@@ -26,6 +26,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+29-Jun-2012 Jean-Marie Simonet
+ # [#28713] Article Media Manager: 'This file is too large to upload' appears in a Media Manager screen
+ # [#28733] administrator/mod_menu Bug! Thanks Sebastian
+
 26-Jun-2012 Jean-Marie Simonet
  # [#28745] mailto fatal error when sending article-mail in joomla 2.5.6. Thanks Rouven.
  # [#28682] "Articles" appearing in title. Thanks Christophe
