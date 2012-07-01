@@ -944,6 +944,31 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 	 */
 	public function __sleep()
 	{
-		return array();
+		$serializedProperties = array();
+
+		$reflect = new ReflectionClass($this);
+		$properties = $reflect->getProperties();
+		$staticProperties = $reflect->getStaticProperties();
+		foreach ($properties as $key => $property)
+		{
+			if (strcmp($property->name, 'connection') !== 0 && !array_key_exists($property->name, $staticProperties))
+			{
+				array_push($serializedProperties, $property->name);
+			}
+		}
+
+		return $serializedProperties;
+	}
+
+	/**
+	 * Wake up after serialization
+	 *
+	 * @return  array
+	 *
+	 * @since   12.3
+	 */
+	public function __wakeup()
+	{
+		$this->__construct($this->options);
 	}
 }
