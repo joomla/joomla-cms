@@ -947,10 +947,16 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 		$serializedProperties = array();
 
 		$reflect = new ReflectionClass($this);
+
+		// Get properties of the current class
 		$properties = $reflect->getProperties();
+
+		// Static properties of the current class
 		$staticProperties = $reflect->getStaticProperties();
+
 		foreach ($properties as $key => $property)
 		{
+			// Do not serialize connection (may be PDO) and static properties
 			if (strcmp($property->name, 'connection') !== 0 && !array_key_exists($property->name, $staticProperties))
 			{
 				array_push($serializedProperties, $property->name);
@@ -969,6 +975,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 	 */
 	public function __wakeup()
 	{
+		// Get connection back
 		$this->__construct($this->options);
 	}
 }
