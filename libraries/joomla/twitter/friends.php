@@ -35,7 +35,7 @@ class JTwitterFriends extends JTwitterObject
 		$this->checkRateLimit();
 
 		// Determine which type of data was passed for $user
-		if (is_integer($user))
+		if (is_numeric($user))
 		{
 			$parameters['user_id'] = $user;
 		}
@@ -79,7 +79,7 @@ class JTwitterFriends extends JTwitterObject
 		$this->checkRateLimit();
 
 		// Determine which type of data was passed for $user_a
-		if (is_integer($user_a))
+		if (is_numeric($user_a))
 		{
 			$parameters['source_id'] = $user_a;
 		}
@@ -94,7 +94,7 @@ class JTwitterFriends extends JTwitterObject
 		}
 
 		// Determine which type of data was passed for $user_b
-		if (is_integer($user_b))
+		if (is_numeric($user_b))
 		{
 			$parameters['target_id'] = $user_b;
 		}
@@ -132,7 +132,7 @@ class JTwitterFriends extends JTwitterObject
 		$this->checkRateLimit();
 
 		// Determine which type of data was passed for $user_a
-		if (is_integer($user_a))
+		if (is_numeric($user_a))
 		{
 			$parameters['user_id_a'] = $user_a;
 		}
@@ -147,7 +147,7 @@ class JTwitterFriends extends JTwitterObject
 		}
 
 		// Determine which type of data was passed for $user_b
-		if (is_integer($user_b))
+		if (is_numeric($user_b))
 		{
 			$parameters['user_id_b'] = $user_b;
 		}
@@ -185,7 +185,7 @@ class JTwitterFriends extends JTwitterObject
 		$this->checkRateLimit();
 
 		// Determine which type of data was passed for $user
-		if (is_integer($user))
+		if (is_numeric($user))
 		{
 			$parameters['user_id'] = $user;
 		}
@@ -214,7 +214,7 @@ class JTwitterFriends extends JTwitterObject
 
 	/**
 	 * Method to determine pending requests to follow the authenticating user.
-	 * 
+	 *
 	 * @param   JTwitterOAuth  $oauth       The JTwitterOAuth object.
 	 * @param   boolean        $string_ids  Set to true to return IDs as strings, false to return as integers.
 	 *
@@ -253,7 +253,7 @@ class JTwitterFriends extends JTwitterObject
 
 	/**
 	 * Method to determine every protected user for whom the authenticating user has a pending follow request.
-	 * 
+	 *
 	 * @param   JTwitterOAuth  $oauth       The JTwitterOAuth object.
 	 * @param   boolean        $string_ids  Set to true to return IDs as strings, false to return as integers.
 	 *
@@ -292,11 +292,11 @@ class JTwitterFriends extends JTwitterObject
 
 	/**
 	 * Allows the authenticating users to follow the user specified in the ID parameter.
-	 * 
-	 * @param   JTwitterOAuth  $oauth   The JTwitterOAuth object. 
+	 *
+	 * @param   JTwitterOAuth  $oauth   The JTwitterOAuth object.
 	 * @param   mixed          $user    Either an integer containing the user ID or a string containing the screen name.
 	 * @param   boolean        $follow  Enable notifications for the target user.
-	 * 
+	 *
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   12.1
@@ -313,7 +313,7 @@ class JTwitterFriends extends JTwitterObject
 		$data = array();
 
 		// Determine which type of data was passed for $user
-		if (is_integer($user))
+		if (is_numeric($user))
 		{
 			$data['user_id'] = $user;
 		}
@@ -346,12 +346,12 @@ class JTwitterFriends extends JTwitterObject
 
 	/**
 	 * Allows the authenticating users to unfollow the user specified in the ID parameter.
-	 * 
-	 * @param   JTwitterOAuth  $oauth     The JTwitterOAuth object. 
+	 *
+	 * @param   JTwitterOAuth  $oauth     The JTwitterOAuth object.
 	 * @param   mixed          $user      Either an integer containing the user ID or a string containing the screen name.
 	 * @param   boolean        $entities  When set to true,  each tweet will include a node called "entities,". This node offers a variety of metadata
 	 *                                    about the tweet in a discreet structure, including: user_mentions, urls, and hashtags.
-	 * 
+	 *
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   12.1
@@ -368,7 +368,7 @@ class JTwitterFriends extends JTwitterObject
 		$data = array();
 
 		// Determine which type of data was passed for $user
-		if (is_integer($user))
+		if (is_numeric($user))
 		{
 			$data['user_id'] = $user;
 		}
@@ -401,7 +401,7 @@ class JTwitterFriends extends JTwitterObject
 
 	/**
 	 * Method to get the relationship of the authenticating user to the comma separated list of up to 100 screen_names or user_ids provided.
-	 * 
+	 *
 	 * @param   JTwitterOAuth  $oauth        The JTwitterOAuth object.
 	 * @param   string         $screen_name  A comma separated list of screen names, up to 100 are allowed in a single request.
 	 * @param   string         $id           A comma separated list of user IDs, up to 100 are allowed in a single request.
@@ -450,12 +450,12 @@ class JTwitterFriends extends JTwitterObject
 
 	/**
 	 * Allows one to enable or disable retweets and device notifications from the specified user.
-	 * 
-	 * @param   JTwitterOAuth  $oauth     The JTwitterOAuth object. 
+	 *
+	 * @param   JTwitterOAuth  $oauth     The JTwitterOAuth object.
 	 * @param   mixed          $user      Either an integer containing the user ID or a string containing the screen name.
 	 * @param   boolean        $device    Enable/disable device notifications from the target user.
 	 * @param   boolean        $retweets  Enable/disable retweets from the target user.
-	 * 
+	 *
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   12.1
@@ -472,7 +472,7 @@ class JTwitterFriends extends JTwitterObject
 		$data = array();
 
 		// Determine which type of data was passed for $user
-		if (is_integer($user))
+		if (is_numeric($user))
 		{
 			$data['user_id'] = $user;
 		}
@@ -511,7 +511,7 @@ class JTwitterFriends extends JTwitterObject
 
 	/**
 	 * Method to get the user ids that currently authenticated user does not want to see retweets from.
-	 * 
+	 *
 	 * @param   JTwitterOAuth  $oauth       The JTwitterOAuth object.
 	 * @param   boolean        $string_ids  Set to true to return IDs as strings, false to return as integers.
 	 *
