@@ -39,11 +39,36 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 				}
 			?>
 		</div>
+		<hr />
+		<div class="filter-select">
+			<h4 class="page-header"><?php echo JText::_('JSEARCH_FILTER_LABEL');?></h4>
+		</div>
+		<?php $fields = count($this->form->getFieldSet('select'));
+		$i = 1;?>
+		<?php foreach($this->form->getFieldSet('select') as $field): ?>
+			<?php if (!$field->hidden): ?>
+				<?php echo $field->label; ?>
+			<?php endif; ?>
+			<?php echo $field->input; ?>
+		<?php if ($i != $fields) : ?>
+		<hr class="hr-condensed" />
+		<?php endif; ?>
+		<?php $i++; ?>
+		<?php endforeach; ?>
 	</div>
 	<!-- End Sidebar -->
 	<!-- Begin Content -->
 	<div class="span10">
-		<?php echo $this->loadTemplate('filter'); ?>
+		<div id="filter-bar" class="btn-toolbar">
+			<div class="filter-search btn-group pull-left">
+				<input type="text" name="filter_search" placeholder="<?php echo JText::_('JSEARCH_FILTER_LABEL'); ?>" id="filter_search" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" title="<?php echo JText::_('JSEARCH_FILTER'); ?>" />
+			</div>
+			<div class="btn-group pull-left">
+				<button class="btn tip" type="submit" rel="tooltip" title="<?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?>"><i class="icon-search"></i></button>
+				<button class="btn tip" type="button" onclick="document.id('filter_search').value='';this.form.submit();" rel="tooltip" title="<?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?>"><i class="icon-remove"></i></button>
+			</div>
+		</div>
+		<div class="clearfix"> </div>
 
 		<?php if (count($this->items)) : ?>
 		<table class="table table-striped">

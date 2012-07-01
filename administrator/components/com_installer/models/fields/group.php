@@ -33,7 +33,9 @@ class JFormFieldGroup extends JFormField
 	 */
 	protected function getInput()
 	{
-		$onchange	= $this->element['onchange'] ? ' onchange="'.(string) $this->element['onchange'].'"' : '';
+		$attr = '';
+		$attr .= $this->element['class'] ? ' class="' . (string) $this->element['class'] . '"' : '';
+		$attr .= $this->element['onchange'] ? ' onchange="' . (string) $this->element['onchange'] . '"' : '';
 		$options = array();
 
 		foreach ($this->element->children() as $option) {
@@ -53,7 +55,7 @@ class JFormFieldGroup extends JFormField
 			$options[] = JHtml::_('select.option', $folder, $folder);
 		}
 
-		$return = JHtml::_('select.genericlist', $options, $this->name, $onchange, 'value', 'text', $this->value, $this->id);
+		$return = JHtml::_('select.genericlist', $options, $this->name, $attr, 'value', 'text', $this->value, $this->id);
 
 		return $return;
 	}
