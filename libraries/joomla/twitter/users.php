@@ -81,7 +81,7 @@ class JTwitterUsers extends JTwitterObject
 		$this->checkRateLimit();
 
 		// Set the API base
-		$base = '/1/users/lookup.json';
+		$base = '/1/users/profile_image.json';
 
 		$parameters['screen_name'] = $screen_name;
 
@@ -149,7 +149,7 @@ class JTwitterUsers extends JTwitterObject
 		$response = $oauth->oauthRequest($path, 'GET', $parameters, $data);
 
 		// Check Feature Rate Limit.
-		$response_headers = $response->headers;
+		$response_headers = json_decode($response->headers, true);
 		if ($response_headers['X-FeatureRateLimit-Remaining'] == 0)
 		{
 			// The IP has exceeded the Twitter API media rate limit
@@ -178,7 +178,7 @@ class JTwitterUsers extends JTwitterObject
 		$this->checkRateLimit();
 
 		// Determine which type of data was passed for $user
-		if (is_integer($user))
+		if (is_numeric($user))
 		{
 			$parameters['user_id'] = $user;
 		}
@@ -223,7 +223,7 @@ class JTwitterUsers extends JTwitterObject
 		$this->checkRateLimit();
 
 		// Determine which type of data was passed for $user
-		if (is_integer($user))
+		if (is_numeric($user))
 		{
 			$parameters['user_id'] = $user;
 		}
@@ -274,7 +274,7 @@ class JTwitterUsers extends JTwitterObject
 		$this->checkRateLimit();
 
 		// Determine which type of data was passed for $user
-		if (is_integer($user))
+		if (is_numeric($user))
 		{
 			$parameters['user_id'] = $user;
 		}
@@ -371,13 +371,12 @@ class JTwitterUsers extends JTwitterObject
 	 * their most recent status if they are not a protected user.
 	 *
 	 * @param   string  $slug  The short name of list or a category.
-	 * @param   string  $lang  Restricts the suggested categories to the requested language.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   12.1
 	 */
-	public function getSuggestionsSlugMembers($slug, $lang = null)
+	public function getSuggestionsSlugMembers($slug)
 	{
 		// Check the rate limit for remaining hits
 		$this->checkRateLimit();

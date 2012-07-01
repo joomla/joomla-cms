@@ -149,6 +149,11 @@ abstract class JTwitterObject
 				break;
 		}
 
+		if (strpos($response->body, 'redirected') !== false)
+		{
+			return $response->headers['Location'];
+		}
+
 		// Validate the response code.
 		if ($response->code != self::SUCCESS_CODE)
 		{
