@@ -9,9 +9,20 @@
 
 defined('_JEXEC') or die;
 
+// Set up the sanitised target for the ul
+$ulTarget = str_replace('/', '-', $this->folders['data']->relative);
+
 ?>
-<ul <?php echo $this->folders_id; ?> class="nav nav-list collapse in" id="collapseFolder<?php foreach ($this->folders['children'] as $folder) : echo $i++; endforeach; ?>">
-<?php foreach ($this->folders['children'] as $folder) : ?>
-	<li id="<?php echo $folder['data']->relative; ?>"><i class="icon-folder-close pull-left" data-toggle="collapse" data-target="#collapseFolder<?php echo $i++; ?>"></i> <a href="index.php?option=com_media&amp;view=mediaList&amp;tmpl=component&amp;folder=<?php echo $folder['data']->relative; ?>" target="folderframe"><?php echo $folder['data']->name; ?></a><?php echo $this->getFolderLevel($folder); ?></li>
+<ul class="nav nav-list collapse in" id="collapseFolder-<?php echo $ulTarget; ?>">
+<?php foreach ($this->folders['children'] as $folder) :
+	// Get a sanitised name for the target
+	$target = str_replace('/', '-', $folder['data']->relative); ?>
+	<li id="<?php echo $target; ?>">
+		<i class="icon-folder-close pull-left" data-toggle="collapse" data-target="#collapseFolder-<?php echo $target; ?>"></i>
+		<a href="index.php?option=com_media&amp;view=mediaList&amp;tmpl=component&amp;folder=<?php echo $folder['data']->relative; ?>" target="folderframe">
+			<?php echo $folder['data']->name; ?>
+		</a>
+		<?php echo $this->getFolderLevel($folder); ?>
+	</li>
 <?php endforeach; ?>
 </ul>
