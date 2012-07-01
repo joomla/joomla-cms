@@ -6,7 +6,7 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  * @since		3.0
  */
- 
+
 // no direct access
 defined('_JEXEC') or die;
 
@@ -21,7 +21,7 @@ $doc->addStyleSheet('templates/'.$this->template.'/css/template.css');
 <!DOCTYPE html>
 <html>
 <head>
-	<?php 
+	<?php
 
     // Detecting Active Variables
     $option = JRequest::getCmd('option', '');
@@ -30,7 +30,6 @@ $doc->addStyleSheet('templates/'.$this->template.'/css/template.css');
     $task = JRequest::getCmd('task', '');
     $itemid = JRequest::getCmd('Itemid', '');
     $sitename = $app->getCfg('sitename');
-    $document =& JFactory::getDocument();
 	?>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<script src="../templates/system/js/jquery.js"></script>

@@ -6,7 +6,7 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  * @since		3.0
  */
- 
+
 defined('_JEXEC') or die;
 
 $app = JFactory::getApplication();
@@ -26,7 +26,7 @@ $user = JFactory::getUser();
 <!DOCTYPE html>
 <html>
 <head>
-	<?php 
+	<?php
     // Detecting Active Variables
     $option = JRequest::getCmd('option', '');
     $view = JRequest::getCmd('view', '');
@@ -39,8 +39,7 @@ $user = JFactory::getUser();
     else:
     $fullWidth = 0;
     endif;
-    $document = JFactory::getDocument();
-    
+
     // Adjusting content width
     if ($option == "com_cpanel") :
     	$span = "span8";
@@ -62,7 +61,7 @@ $user = JFactory::getUser();
 	  jQuery.noConflict();
 	</script>
 	<jdoc:include type="head" />
-	
+
 </head>
 
 <body class="site <?php echo $option . " view-" . $view . " layout-" . $layout . " task-" . $task . " itemid-" . $itemid . " ";?>" data-spy="scroll" data-target=".subhead" data-offset="87">
@@ -100,7 +99,7 @@ $user = JFactory::getUser();
 						</li>
 					</ul>
 				</div>
-				<!--/.nav-collapse --> 
+				<!--/.nav-collapse -->
 			</div>
 		</div>
 	</div>
@@ -196,22 +195,22 @@ $user = JFactory::getUser();
 			$('*[rel=tooltip]').tooltip()
 			$('.tip-bottom').tooltip({placement: "bottom"})
 			$('*[rel=popover]').popover()
-			
+
 			// fix sub nav on scroll
 		    var $win = $(window)
 		      , $nav = $('.subhead')
 		      , navTop = $('.subhead').length && $('.subhead').offset().top - 40
 		      , isFixed = 0
-		
+
 		    processScroll()
-		
+
 		    // hack sad times - holdover until rewrite for 2.1
 		    $nav.on('click', function () {
 		      if (!isFixed) setTimeout(function () {  $win.scrollTop($win.scrollTop() - 47) }, 10)
 		    })
-		
+
 		    $win.on('scroll', processScroll)
-		
+
 		    function processScroll() {
 		      var i, scrollTop = $win.scrollTop()
 		      if (scrollTop >= navTop && !isFixed) {
@@ -222,19 +221,19 @@ $user = JFactory::getUser();
 		        $nav.removeClass('subhead-fixed')
 		      }
 		    }
-		    
+
 		    // Chosen select boxes
 		    $("select").chosen({disable_search_threshold : 10 });
-		    
+
 		    // Turn radios into btn-group
 		    $('.radio.btn-group label').addClass('btn')
 		    $(".btn-group label:not(.active)").click(function(){
 		        var label = $(this);
 		        var input = $('#' + label.attr('for'));
-		        
+
 		        if (!input.prop('checked')){
-		            label.closest('.btn-group').find("label").removeClass('active btn-primary');                        
-		            label.addClass('active btn-primary'); 
+		            label.closest('.btn-group').find("label").removeClass('active btn-primary');
+		            label.addClass('active btn-primary');
 		            input.prop('checked', true);
 		        }
 		    });

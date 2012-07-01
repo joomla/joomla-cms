@@ -6,7 +6,7 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  * @since		3.0
  */
- 
+
 // no direct access
 defined('_JEXEC') or die;
 
@@ -20,12 +20,12 @@ $doc->addStyleSheet('templates/'.$this->template.'/css/template.css');
 $doc->addStyleSheet('templates/system/css/bootstrap-responsive.css');
 
 // Add current user information
-$user =& JFactory::getUser();
+$user = JFactory::getUser();
 ?>
 <!DOCTYPE html>
 <html>
 <head>
-	<?php 
+	<?php
 
     // Detecting Active Variables
     $option = JRequest::getCmd('option', '');
@@ -39,8 +39,7 @@ $user =& JFactory::getUser();
     else:
     $fullWidth = 0;
     endif;
-    $document =& JFactory::getDocument();
-    
+
     // Adjusting content width
     if ($this->countModules('position-7') && $this->countModules('position-8')) :
     	$span = "span6";
@@ -59,14 +58,14 @@ $user =& JFactory::getUser();
 	  jQuery.noConflict();
 	</script>
 	<jdoc:include type="head" />
-	
+
 </head>
 
 <body class="site <?php echo $option . " view-" . $view . " layout-" . $layout . " task-" . $task . " itemid-" . $itemid . " ";?>">
 	<!-- Header -->
 	<div class="header">
 		<div class="header-inner">
-			<div class="container"> 
+			<div class="container">
 				<a class="brand pull-left" href="<?php echo $this->baseurl; ?>">
 					<img src="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template ?>/images/logo.png" alt="<?php echo $sitename; ?>" />
 				</a>
@@ -74,7 +73,7 @@ $user =& JFactory::getUser();
 					<jdoc:include type="modules" name="smartsearchload" style="none" />
 				</div>
 				<jdoc:include type="modules" name="position-1" style="none" />
-				
+
 			</div>
 		</div>
 	</div>
