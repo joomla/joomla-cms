@@ -956,8 +956,8 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 
 		foreach ($properties as $key => $property)
 		{
-			// Do not serialize connection (may be PDO) and static properties
-			if (strcmp($property->name, 'connection') !== 0 && !array_key_exists($property->name, $staticProperties))
+			// Do not serialize properties that are PDO
+			if ($property->isStatic() == false && !($this->{$property->name} instanceof PDO))
 			{
 				array_push($serializedProperties, $property->name);
 			}
