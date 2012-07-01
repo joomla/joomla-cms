@@ -159,6 +159,7 @@ class JTwitterStatuses extends JTwitterObject
 		$this->checkRateLimit();
 
 		$parameters = array();
+
 		// Determine which type of data was passed for $user
 		if (is_numeric($user))
 		{

@@ -55,6 +55,12 @@ class JTwitter
 	protected $statuses;
 
 	/**
+	 * @var    JTwitterSearch  Twitter API object for search.
+	 * @since  12.1
+	 */
+	protected $search;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   JRegistry     $options  Twitter options object.
@@ -111,6 +117,13 @@ class JTwitter
 					$this->users = new JTwitterUsers($this->options, $this->client);
 				}
 				return $this->users;
+
+			case 'search':
+				if ($this->search == null)
+				{
+					$this->search = new JTwitterSearch($this->options, $this->client);
+				}
+				return $this->search;
 		}
 	}
 

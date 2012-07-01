@@ -102,7 +102,14 @@ abstract class JTwitterObject
 		}
 
 		// Get a new JUri object fousing the api url and given path.
-		$uri = new JUri($this->options->get('api.url') . $path);
+		if (strpos($path, 'http://search.twitter.com/search.json') === false)
+		{
+			$uri = new JUri($this->options->get('api.url') . $path);
+		}
+		else
+		{
+			$uri = new JUri($path);
+		}
 
 		return (string) $uri;
 	}
@@ -158,8 +165,9 @@ abstract class JTwitterObject
 		if ($response->code != self::SUCCESS_CODE)
 		{
 			$error = json_decode($response->body);
+			$error = $error->errors;
 
-			throw new DomainException($error->error, $response->code);
+			throw new DomainException($error[0]->message, $error[0]->code);
 		}
 
 		return json_decode($response->body);
