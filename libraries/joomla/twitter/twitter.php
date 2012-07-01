@@ -61,6 +61,12 @@ class JTwitter
 	protected $search;
 
 	/**
+	 * @var    JTwitterFavorites  Twitter API object for favorites.
+	 * @since  12.1
+	 */
+	protected $favorites;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   JRegistry     $options  Twitter options object.
@@ -124,6 +130,13 @@ class JTwitter
 					$this->search = new JTwitterSearch($this->options, $this->client);
 				}
 				return $this->search;
+
+			case 'favorites':
+				if ($this->favorites == null)
+				{
+					$this->favorites = new JTwitterFavorites($this->options, $this->client);
+				}
+				return $this->favorites;
 		}
 	}
 
