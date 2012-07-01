@@ -67,7 +67,13 @@ class FinderViewFilters extends JViewLegacy
 		if ($canDo->get('core.create'))
 		{
 			JToolBarHelper::addNew('filter.add');
+		}
+		if ($canDo->get('core.edit'))
+		{
 			JToolBarHelper::editList('filter.edit');
+		}
+		if (($canDo->get('core.create')) || ($canDo->get('core.edit')))
+		{
 			JToolBarHelper::divider();
 		}
 		if ($canDo->get('core.edit.state'))
@@ -81,13 +87,16 @@ class FinderViewFilters extends JViewLegacy
 			JToolBarHelper::deleteList('', 'filters.delete');
 			JToolBarHelper::divider();
 		}
+		
+		$toolbar->appendButton('Popup', 'stats', 'COM_FINDER_STATISTICS', 'index.php?option=com_finder&view=statistics&tmpl=component', 550, 500);
+		JToolBarHelper::divider();
+		
 		if ($canDo->get('core.admin'))
 		{
 			JToolBarHelper::preferences('com_finder');
+			JToolBarHelper::divider();
 		}
-		JToolBarHelper::divider();
-		$toolbar->appendButton('Popup', 'stats', 'COM_FINDER_STATISTICS', 'index.php?option=com_finder&view=statistics&tmpl=component', 550, 500);
-		JToolBarHelper::divider();
+		
 		JToolBarHelper::help('JHELP_COMPONENTS_FINDER_MANAGE_SEARCH_FILTERS');
 	}
 }

@@ -114,6 +114,11 @@ class FinderModelFilter extends JModelAdmin
 		{
 			return false;
 		}
+		if(!JFactory::getUser()->authorise('core.edit.state','com_finder'))
+		{
+			$form->setFieldAttribute('state', 'disabled', 'true');
+			$form->setFieldAttribute('state', 'filter', 'unset');
+		}
 
 		return $form;
 	}

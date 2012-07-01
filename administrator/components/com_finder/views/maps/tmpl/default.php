@@ -79,7 +79,7 @@ Joomla.submitbutton = function(pressbutton) {
 			</tr>
 			<?php endif; ?>
 
-			<?php $canChange	= JFactory::getUser()->authorise('core.manage',	'com_finder'); ?>
+			<?php $canChange	= JFactory::getUser()->authorise('core.edit.state',	'com_finder'); ?>
 			<?php foreach ($this->items as $i => $item): ?>
 
 			<tr class="row<?php echo $i % 2; ?>">
