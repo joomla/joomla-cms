@@ -1,20 +1,20 @@
 <?php
 /**
- * @package     Joomla.Platform
+ * @package     Joomla.Libraries
  * @subpackage  HTML
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die;
+defined('JPATH_BASE') or die;
 
 /**
  * Extended Utility class for batch processing widgets.
  *
- * @package     Joomla.Platform
+ * @package     Joomla.Libraries
  * @subpackage  HTML
- * @since       11.1
+ * @since       1.7
  */
 abstract class JHtmlBatch
 {
@@ -23,7 +23,7 @@ abstract class JHtmlBatch
 	 *
 	 * @return  string  The necessary HTML for the widget.
 	 *
-	 * @since   11.1
+	 * @since   1.7
 	 */
 	public static function access()
 	{
@@ -51,7 +51,7 @@ abstract class JHtmlBatch
 	 *
 	 * @return  string  The necessary HTML for the widget.
 	 *
-	 * @since   11.1
+	 * @since   1.7
 	 */
 	public static function item($extension)
 	{
@@ -74,13 +74,13 @@ abstract class JHtmlBatch
 	 *
 	 * @return  string  The necessary HTML for the widget.
 	 *
-	 * @since   11.3
+	 * @since   2.5
 	 */
 	public static function language()
 	{
 		// Create the batch selector to change the language on a selection list.
 		$lines = array(
-			'<label id="batch-language-lbl" for="batch-language" class="hasTip"'
+			'<label id="batch-language-lbl" for="batch-language-id" class="hasTip"'
 			. ' title="' . JText::_('JLIB_HTML_BATCH_LANGUAGE_LABEL') . '::' . JText::_('JLIB_HTML_BATCH_LANGUAGE_LABEL_DESC') . '">',
 			JText::_('JLIB_HTML_BATCH_LANGUAGE_LABEL'),
 			'</label>',
@@ -100,7 +100,7 @@ abstract class JHtmlBatch
 	 *
 	 * @return  string  The necessary HTML for the widget.
 	 *
-	 * @since   11.4
+	 * @since   2.5
 	 */
 	public static function user($noUser = true)
 	{

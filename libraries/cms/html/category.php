@@ -1,20 +1,20 @@
 <?php
 /**
- * @package     Joomla.Platform
+ * @package     Joomla.Libraries
  * @subpackage  HTML
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die;
+defined('JPATH_BASE') or die;
 
 /**
  * Utility class for categories
  *
- * @package     Joomla.Platform
+ * @package     Joomla.Libraries
  * @subpackage  HTML
- * @since       11.1
+ * @since       1.5
  */
 abstract class JHtmlCategory
 {
@@ -22,7 +22,7 @@ abstract class JHtmlCategory
 	 * Cached array of the category items.
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.5
 	 */
 	protected static $items = array();
 
@@ -35,7 +35,7 @@ abstract class JHtmlCategory
 	 *
 	 * @return  array
 	 *
-	 * @since   11.1
+	 * @since   1.5
 	 */
 	public static function options($extension, $config = array('filter.published' => array(0, 1)))
 	{
@@ -95,7 +95,7 @@ abstract class JHtmlCategory
 	 *
 	 * @return  array   Categories for the extension
 	 *
-	 * @since   11.1
+	 * @since   1.6
 	 */
 	public static function categories($extension, $config = array('filter.published' => array(0, 1)))
 	{
