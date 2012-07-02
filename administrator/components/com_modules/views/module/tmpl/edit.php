@@ -47,135 +47,121 @@ JFactory::getDocument()->addScriptDeclaration($script);
 		
 		<div class="tab-content">
 		  <div class="tab-pane active" id="details">
-		  	<?php if ((string) $this->item->xml->name != 'Login Form'): ?>
-		  	<div class="control-group">
-		  		<div class="control-label">
-		  			<?php echo $this->form->getLabel('published'); ?>
+		  	<div class="row-fluid">
+		  		<div class="span6">
+		  			<?php if ((string) $this->item->xml->name != 'Login Form'): ?>
+		  				<div class="control-group">
+		  					<div class="control-label">
+		  						<?php echo $this->form->getLabel('published'); ?>
+		  					</div>
+		  					<div class="controls">
+		  						<?php echo $this->form->getInput('published'); ?>
+		  					</div>
+		  				</div>
+		  				<?php endif; ?>
+		  				<div class="control-group">
+		  					<div class="control-label">
+		  						<?php echo $this->form->getLabel('title'); ?>
+		  					</div>
+		  					<div class="controls">
+		  						<?php echo $this->form->getInput('title'); ?>
+		  					</div>
+		  				</div>
+		  				<div class="control-group">
+		  					<div class="control-label">
+		  						<?php echo $this->form->getLabel('showtitle'); ?>
+		  					</div>
+		  					<div class="controls">
+		  						<?php echo $this->form->getInput('showtitle'); ?>
+		  					</div>
+		  				</div>
+		  				<div class="control-group">
+		  					<div class="control-label">
+		  						<?php echo $this->form->getLabel('position'); ?>
+		  						</div>
+		  						<div class="controls">
+		  							<?php echo $this->loadTemplate('positions'); ?>
+		  						</div>
+		  				</div>	  	
+		  				<div class="control-group">
+		  					<div class="control-label">
+		  						<?php echo $this->form->getLabel('access'); ?>
+		  					</div>
+		  					<div class="controls">
+		  						<?php echo $this->form->getInput('access'); ?>
+		  					</div>
+		  				</div>
+		  				<div class="control-group">
+		  					<div class="control-label">
+		  						<?php echo $this->form->getLabel('ordering'); ?>
+		  					</div>
+		  					<div class="controls">
+		  						<?php echo $this->form->getInput('ordering'); ?>
+		  					</div>
+		  				</div>
+		  				<?php if ((string) $this->item->xml->name != 'Login Form'): ?>
+		  					<div class="control-group">
+		  						<div class="control-label">
+		  							<?php echo $this->form->getLabel('publish_up'); ?>
+		  						</div>
+		  						<div class="controls">
+		  							<?php echo $this->form->getInput('publish_up'); ?>
+		  						</div>
+		  					</div>
+		  			
+		  					<div class="control-group">
+		  						<div class="control-label">
+		  							<?php echo $this->form->getLabel('publish_down'); ?>
+		  						</div>
+		  						<div class="controls">
+		  							<?php echo $this->form->getInput('publish_down'); ?>
+		  						</div>
+		  					</div>
+		  				<?php endif; ?>
+		  			
+		  				<div class="control-group">
+		  					<div class="control-label">
+		  						<?php echo $this->form->getLabel('language'); ?>
+		  					</div>
+		  					<div class="controls">
+		  						<?php echo $this->form->getInput('language'); ?>
+		  					</div>
+		  				</div>
+		  				<div class="control-group">
+		  					<div class="control-label">
+		  						<?php echo $this->form->getLabel('note'); ?>
+		  					</div>
+		  					<div class="controls">
+		  						<?php echo $this->form->getInput('note'); ?>
+		  					</div>
+		  				</div>
+		  				
 		  		</div>
-		  		<div class="controls">
-		  			<?php echo $this->form->getInput('published'); ?>
+		  		<div class="span6">
+		  			<?php if ($this->item->xml) : ?>
+		  				<?php if ($text = trim($this->item->xml->description)) : ?>
+		  				<blockquote>
+		  					<h4>
+		  						<?php echo JText::_('COM_MODULES_MODULE_DESCRIPTION'); ?>
+		  						 <?php if ($this->item->id) : ?>
+		  						 		<span class="label label-info"><?php echo JText::_('JGRID_HEADING_ID');?> : <?php echo $this->item->id; ?></span>
+		  						 	<?php endif; ?>
+		  					</h4>
+		  					<hr />
+		  					<div>
+		  						<?php echo JText::_($text); ?>
+		  					</div>
+		  					<hr />
+		  					<div>
+		  						<span class="label"><?php echo $this->item->client_id == 0 ? JText::_('JSITE') : JText::_('JADMINISTRATOR'); ?></span> / <span class="label"><?php if ($this->item->xml) echo ($text = (string) $this->item->xml->name) ? JText::_($text) : $this->item->module;else echo JText::_('COM_MODULES_ERR_XML');?></span> 
+		  					</div>
+		  				</blockquote>
+		  				<?php endif; ?>
+		  			<?php else : ?>
+		  				<div class="alert alert-error"><?php echo JText::_('COM_MODULES_ERR_XML'); ?></div>
+		  			<?php endif; ?>
 		  		</div>
 		  	</div>
-		  	<?php endif; ?>
-		  	<div class="control-group">
-		  		<div class="control-label">
-		  			<?php echo $this->form->getLabel('title'); ?>
-		  		</div>
-		  		<div class="controls">
-		  			<?php echo $this->form->getInput('title'); ?>
-		  		</div>
-		  	</div>
-	  		<div class="control-group">
-	  			<div class="control-label">
-	  				<?php echo $this->form->getLabel('showtitle'); ?>
-	  			</div>
-	  			<div class="controls">
-	  				<?php echo $this->form->getInput('showtitle'); ?>
-	  			</div>
-		  	</div>
-	  		<div class="control-group">
-	  			<div class="control-label">
-	  				<?php echo $this->form->getLabel('position'); ?>
-	  				</div>
-	  				<div class="controls">
-	  					<?php echo $this->form->getInput('position'); ?>
-	  				</div>
-	  		</div>	  	
-	  		<div class="control-group">
-	  			<div class="control-label">
-	  				<?php echo $this->form->getLabel('access'); ?>
-	  			</div>
-	  			<div class="controls">
-	  				<?php echo $this->form->getInput('access'); ?>
-	  			</div>
-	  		</div>
-	  		<div class="control-group">
-	  			<div class="control-label">
-	  				<?php echo $this->form->getLabel('ordering'); ?>
-	  			</div>
-	  			<div class="controls">
-	  				<?php echo $this->form->getInput('ordering'); ?>
-	  			</div>
-	  		</div>
-	  		<?php if ((string) $this->item->xml->name != 'Login Form'): ?>
-	  			<div class="control-group">
-	  				<div class="control-label">
-	  					<?php echo $this->form->getLabel('publish_up'); ?>
-	  				</div>
-	  				<div class="controls">
-	  					<?php echo $this->form->getInput('publish_up'); ?>
-	  				</div>
-	  			</div>
-	  	
-	  			<div class="control-group">
-	  				<div class="control-label">
-	  					<?php echo $this->form->getLabel('publish_down'); ?>
-	  				</div>
-	  				<div class="controls">
-	  					<?php echo $this->form->getInput('publish_down'); ?>
-	  				</div>
-	  			</div>
-	  		<?php endif; ?>
-	  	
-	  		<div class="control-group">
-	  			<div class="control-label">
-	  				<?php echo $this->form->getLabel('language'); ?>
-	  			</div>
-	  			<div class="controls">
-	  				<?php echo $this->form->getInput('language'); ?>
-	  			</div>
-	  		</div>
-	  		<div class="control-group">
-	  			<div class="control-label">
-	  				<?php echo $this->form->getLabel('note'); ?>
-	  			</div>
-	  			<div class="controls">
-	  				<?php echo $this->form->getInput('note'); ?>
-	  			</div>
-	  		</div>
-  			<?php if ($this->item->id) : ?>
-	  			<div class="control-group">
-	  				<div class="control-label">
-	  					<?php echo $this->form->getLabel('id'); ?>
-	  				</div>
-	  				<div class="controls">
-	  					<?php echo $this->form->getInput('id'); ?>
-	  				</div>
-	  			</div>
-  			<?php endif; ?>
-	  	
-	  		<div class="control-group">
-	  			<div class="control-label">
-	  				<?php echo $this->form->getLabel('module'); ?>
-	  			</div>
-	  			<div class="controls">
-		  			<?php echo $this->form->getInput('module'); ?>
-		  			<input type="text" size="35" value="<?php if ($this->item->xml) echo ($text = (string) $this->item->xml->name) ? JText::_($text) : $this->item->module;else echo JText::_('COM_MODULES_ERR_XML');?>" class="readonly" readonly="readonly" />
-	  			</div>
-	  		</div>
-	  		<div class="control-group">
-	  			<div class="control-label">
-	  				<?php echo $this->form->getLabel('client_id'); ?>
-	  			</div>
-	  			<div class="controls">
-	  				<input type="text" size="35" value="<?php echo $this->item->client_id == 0 ? JText::_('JSITE') : JText::_('JADMINISTRATOR'); ?>	" class="readonly" readonly="readonly" />
-	  				<?php echo $this->form->getInput('client_id'); ?>
-	  			</div>
-			</div>
-  			<?php if ($this->item->xml) : ?>
-  				<?php if ($text = trim($this->item->xml->description)) : ?>
-  				<div class="control-group">
-  					<label class="control-label">
-  						<?php echo JText::_('COM_MODULES_MODULE_DESCRIPTION'); ?>
-  					</label>
-  					<div class="controls disabled">
-  						<?php echo JText::_($text); ?>
-  					</div>
-  				</div>
-  				<?php endif; ?>
-  			<?php else : ?>
-  				<div class="alert alert-error"><?php echo JText::_('COM_MODULES_ERR_XML'); ?></div>
-  			<?php endif; ?>
 		  </div>
 		  <div class="tab-pane" id="options">
 		  	<?php echo $this->loadTemplate('options'); ?>
