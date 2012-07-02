@@ -844,7 +844,7 @@ class JTwitterStatuses extends JTwitterObject
 		$response = $oauth->oauthRequest($path, 'POST', $parameters, $data, $header);
 
 		// Check Media Rate Limit.
-		$response_headers = json_decode($response->headers, true);
+		$response_headers = $response->headers;
 		if ($response_headers['X-MediaRateLimit-Remaining'] == 0)
 		{
 			// The IP has exceeded the Twitter API media rate limit

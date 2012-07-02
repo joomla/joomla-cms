@@ -149,7 +149,7 @@ class JTwitterUsers extends JTwitterObject
 		$response = $oauth->oauthRequest($path, 'GET', $parameters, $data);
 
 		// Check Feature Rate Limit.
-		$response_headers = json_decode($response->headers, true);
+		$response_headers = $response->headers;
 		if ($response_headers['X-FeatureRateLimit-Remaining'] == 0)
 		{
 			// The IP has exceeded the Twitter API media rate limit

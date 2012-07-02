@@ -67,6 +67,12 @@ class JTwitter
 	protected $favorites;
 
 	/**
+	 * @var    JTwitterDirectMessages  Twitter API object for direct messages.
+	 * @since  12.1
+	 */
+	protected $directMessages;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   JRegistry     $options  Twitter options object.
@@ -137,6 +143,13 @@ class JTwitter
 					$this->favorites = new JTwitterFavorites($this->options, $this->client);
 				}
 				return $this->favorites;
+
+			case 'directMessages':
+				if ($this->directMessages == null)
+				{
+					$this->directMessages = new JTwitterDirectMessages($this->options, $this->client);
+				}
+				return $this->directMessages;
 		}
 	}
 

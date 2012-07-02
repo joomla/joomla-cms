@@ -293,9 +293,16 @@ class JTwitterOAuth
 		if ($response->code != 200)
 		{
 			$error = json_decode($response->body);
-			$error = $error->errors;
 
-			throw new DomainException($error[0]->message, $error[0]->code);
+			if (property_exists($error, 'error'))
+			{
+				throw new DomainException($error->error);
+			}
+			else
+			{
+				$error = $error->errors;
+				throw new DomainException($error[0]->message, $error[0]->code);
+			}
 		}
 
 		return $response;
