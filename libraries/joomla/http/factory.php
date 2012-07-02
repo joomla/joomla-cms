@@ -66,10 +66,7 @@ class JHttpFactory
 		foreach ($availableAdapters as $adapter)
 		{
 			$class = 'JHttpTransport' . ucfirst($adapter);
-			/**
-			 * on J!2.5 (PHP 5.2) the condition should be:
-			 * call_user_func_array(array($class, 'isSupported'), array())
-			 */
+
 			if ($class::isSupported())
 			{
 				return new $class($options);

@@ -24,7 +24,6 @@ class JFormRuleEmailTest extends TestCase
 	public function setUp()
 	{
 		$this->saveFactoryState();
-		jimport('joomla.utilities.xmlelement');
 		require_once JPATH_PLATFORM.'/joomla/form/rules/email.php';
 	}
 
@@ -46,7 +45,7 @@ class JFormRuleEmailTest extends TestCase
 		// Initialise variables.
 
 		$rule = new JFormRuleEmail;
-		$xml = simplexml_load_string('<form><field name="email1" /><field name="email2" unique="true" /></form>', 'JXMLElement');
+		$xml = simplexml_load_string('<form><field name="email1" /><field name="email2" unique="true" /></form>');
 
 		// Test fail conditions.
 

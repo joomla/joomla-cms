@@ -428,7 +428,7 @@ class JInstallerFile extends JAdapterInstance
 			// @todo remove code: . '/files/' . $manifest->filename);
 			$this->parent->setPath('extension_root', JPATH_ROOT);
 
-			$xml = JFactory::getXML($manifestFile);
+			$xml = simplexml_load_file($manifestFile);
 
 			// If we cannot load the XML file return null
 			if (!$xml)

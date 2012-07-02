@@ -16,7 +16,6 @@ defined('JPATH_PLATFORM') or die;
  */
 class JFormRuleUrlTest extends TestCase
 {
-
 	/**
 	 * set up for testing
 	 *
@@ -24,7 +23,6 @@ class JFormRuleUrlTest extends TestCase
 	 */
 	public function setUp()
 	{
-		jimport('joomla.utilities.xmlelement');
 		require_once JPATH_PLATFORM.'/joomla/form/rules/url.php';
 	}
 
@@ -42,7 +40,7 @@ class JFormRuleUrlTest extends TestCase
 		// The field allows you to optionally limit the accepted schemes to a specific list.
 		// Url1 tests without a list, Url2 tests with a list.
 		$xml = simplexml_load_string('<form><field name="url1" />
-		<field name="url2" schemes="gopher" /></form>', 'JXMLElement');
+		<field name="url2" schemes="gopher" /></form>');
 
 		if ($xmlfield == '0'){
 			if ($expected == 'false'){

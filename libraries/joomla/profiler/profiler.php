@@ -50,12 +50,6 @@ class JProfiler
 	protected $previousMem = 0.0;
 
 	/**
-	 * @var    boolean  Boolean if the OS is Windows.
-	 * @since  12.1
-	 */
-	protected $isWin = false;
-
-	/**
 	 * @var    array  JProfiler instances container.
 	 * @since  11.3
 	 */
@@ -73,7 +67,6 @@ class JProfiler
 		$this->start = $this->getmicrotime();
 		$this->prefix = $prefix;
 		$this->buffer = array();
-		$this->isWin = (substr(PHP_OS, 0, 3) == 'WIN');
 	}
 
 	/**
@@ -172,7 +165,7 @@ class JProfiler
 			$output = array();
 			$pid = getmypid();
 
-			if ($this->isWin)
+			if (IS_WIN)
 			{
 				// Windows workaround
 				@exec('tasklist /FI "PID eq ' . $pid . '" /FO LIST', $output);

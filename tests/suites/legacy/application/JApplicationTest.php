@@ -14,6 +14,15 @@
 class JApplicationTest extends PHPUnit_Framework_TestCase
 {
 	/**
+	 * Sets up the fixture, for example, opens a network connection.
+	 * This method is called before a test is executed.
+	 */
+	protected function setUp()
+	{
+		$this->object = new JApplication(array('session' => false));
+	}
+
+	/**
 	 * @todo Implement testGetInstance().
 	 */
 	public function testGetInstance()
@@ -35,13 +44,18 @@ class JApplicationTest extends PHPUnit_Framework_TestCase
 	 * @todo Implement testInitialise().
 	 * @cover JApplication::__construct
 	 */
-	public function testConstructJInput()
+	public function testConstruct()
 	{
-		$app = new JApplication(array('session' => false));
 		$this->assertThat(
-			$app->input,
+			$this->object->input,
 			$this->isInstanceOf('JInput'),
 			__LINE__ . 'JApplication->input not initialized properly'
+		);
+
+		$this->assertInstanceOf(
+			'JApplicationWebClient',
+			$this->object->client,
+			'Client property wrong type'
 		);
 	}
 
@@ -300,5 +314,25 @@ class JApplicationTest extends PHPUnit_Framework_TestCase
 	{
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete('This test has not been implemented yet.');
+	}
+
+	/**
+	 * @covers JApplication::isSSLConnection
+	 */
+	public function testIsSSLConnection()
+	{
+		unset($_SERVER['HTTPS']);
+
+		$this->assertThat(
+			$this->object->isSSLConnection(),
+			$this->equalTo(false)
+		);
+
+		$_SERVER['HTTPS'] = 'on';
+
+		$this->assertThat(
+			$this->object->isSSLConnection(),
+			$this->equalTo(true)
+		);
 	}
 }

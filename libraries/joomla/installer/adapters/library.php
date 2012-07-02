@@ -290,7 +290,7 @@ class JInstallerLibrary extends JAdapterInstance
 			// Set the library root path
 			$this->parent->setPath('extension_root', JPATH_PLATFORM . '/' . $manifest->libraryname);
 
-			$xml = JFactory::getXML($manifestFile);
+			$xml = simplexml_load_file($manifestFile);
 
 			// If we cannot load the XML file return null
 			if (!$xml)

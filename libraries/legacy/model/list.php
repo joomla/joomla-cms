@@ -123,12 +123,14 @@ class JModelList extends JModelLegacy
 
 		// Load the list items.
 		$query = $this->_getListQuery();
-		$items = $this->_getList($query, $this->getStart(), $this->getState('list.limit'));
 
-		// Check for a database error.
-		if ($this->_db->getErrorNum())
+		try
 		{
-			$this->setError($this->_db->getErrorMsg());
+			$items = $this->_getList($query, $this->getStart(), $this->getState('list.limit'));
+		}
+		catch (RuntimeException $e)
+		{
+			$this->setError($e->getMessage());
 			return false;
 		}
 
@@ -225,12 +227,13 @@ class JModelList extends JModelLegacy
 
 		// Load the total.
 		$query = $this->_getListQuery();
-		$total = (int) $this->_getListCount($query);
-
-		// Check for a database error.
-		if ($this->_db->getErrorNum())
+		try
 		{
-			$this->setError($this->_db->getErrorMsg());
+			$total = (int) $this->_getListCount($query);
+		}
+		catch (RuntimeException $e)
+		{
+			$this->setError($e->getMessage());
 			return false;
 		}
 
@@ -294,7 +297,7 @@ class JModelList extends JModelLegacy
 		{
 			$app = JFactory::getApplication();
 
-			$value = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'));
+			$value = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'), 'uint');
 			$limit = $value;
 			$this->setState('list.limit', $limit);
 

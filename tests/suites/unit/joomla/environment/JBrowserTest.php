@@ -8,7 +8,6 @@ require_once JPATH_PLATFORM.'/joomla/environment/browser.php';
  */
 class JBrowserTest extends PHPUnit_Framework_TestCase
 {
-
 	/**
 	 * @var JBrowser
 	 */
@@ -186,6 +185,9 @@ class JBrowserTest extends PHPUnit_Framework_TestCase
 		);
 	}
 
+	/**
+	 * @covers JBrowser::isSSLConnection
+	 */
 	public function testIsSSLConnection()
 	{
 		unset($_SERVER['HTTPS']);
@@ -202,5 +204,4 @@ class JBrowserTest extends PHPUnit_Framework_TestCase
 			$this->equalTo(true)
 		);
 	}
-
 }

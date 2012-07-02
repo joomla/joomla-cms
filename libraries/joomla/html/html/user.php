@@ -21,11 +21,13 @@ abstract class JHtmlUser
 	/**
 	 * Displays a list of user groups.
 	 *
+	 * @param   boolean  $includeSuperAdmin  true to include super admin groups, false to exclude them
+	 *
 	 * @return  array  An array containing a list of user groups.
 	 *
 	 * @since   11.4
 	 */
-	public static function groups()
+	public static function groups($includeSuperAdmin = false)
 	{
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
@@ -43,6 +45,20 @@ abstract class JHtmlUser
 			$groups[] = JHtml::_('select.option', $options[$i]->value, $options[$i]->text);
 		}
 
+		// Exclude super admin groups if requested
+		if (!$includeSuperAdmin)
+		{
+			$filteredGroups = array();
+			foreach ($groups as $group)
+			{
+				if (!JAccess::checkGroup($group->value, 'core.admin'))
+				{
+					$filteredGroups[] = $group;
+				}
+			}
+			$groups = $filteredGroups;
+		}
+
 		return $groups;
 	}
 
@@ -56,8 +72,8 @@ abstract class JHtmlUser
 	public static function userlist()
 	{
 		// Get the database object and a new query object.
-		$db		= JFactory::getDBO();
-		$query	= $db->getQuery(true);
+		$db    = JFactory::getDBO();
+		$query = $db->getQuery(true);
 
 		// Build the query.
 		$query->select('a.id AS value, a.name AS text');

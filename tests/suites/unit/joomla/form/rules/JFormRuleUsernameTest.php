@@ -23,7 +23,6 @@ class JFormRuleUsernameTest extends TestCase
 	 */
 	public function setUp()
 	{
-		jimport('joomla.utilities.xmlelement');
 		require_once JPATH_PLATFORM.'/joomla/form/rules/username.php';
 	}
 
@@ -35,7 +34,7 @@ class JFormRuleUsernameTest extends TestCase
 		// Initialise variables.
 
 		$rule = new JFormRuleUsername;
-		$xml = simplexml_load_string('<form><field name="foo" /></form>', 'JXMLElement');
+		$xml = simplexml_load_string('<form><field name="foo" /></form>');
 
 		// Test fail conditions.
 

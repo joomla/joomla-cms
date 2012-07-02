@@ -116,7 +116,7 @@ class JRouter extends JObject
 	 * @return  JRouter A JRouter object.
 	 *
 	 * @since   11.1
-	 * @throws  Exception
+	 * @throws  RuntimeException
 	 */
 	public static function getInstance($client, $options = array())
 	{
@@ -127,6 +127,8 @@ class JRouter extends JObject
 
 			if (!class_exists($classname))
 			{
+				JLog::add('Non-autoloadable JRouter subclasses are deprecated.', JLog::WARNING, 'deprecated');
+
 				// Load the router object
 				$info = JApplicationHelper::getClientInfo($client, true);
 
@@ -146,7 +148,7 @@ class JRouter extends JObject
 			}
 			else
 			{
-				throw new Exception(JText::sprintf('JLIB_APPLICATION_ERROR_ROUTER_LOAD', $client), 500);
+				throw new RuntimeException(JText::sprintf('JLIB_APPLICATION_ERROR_ROUTER_LOAD', $client), 500);
 			}
 		}
 

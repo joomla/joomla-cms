@@ -262,15 +262,20 @@ abstract class JModuleHelper
 		// Build the template and base path for the layout
 		$tPath = JPATH_THEMES . '/' . $template . '/html/' . $module . '/' . $layout . '.php';
 		$bPath = JPATH_BASE . '/modules/' . $module . '/tmpl/' . $defaultLayout . '.php';
+		$dPath = JPATH_BASE . '/modules/' . $module . '/tmpl/default.php';
 
 		// If the template has a layout override use it
 		if (file_exists($tPath))
 		{
 			return $tPath;
 		}
-		else
+		elseif (file_exists($bPath))
 		{
 			return $bPath;
+		}
+		else
+		{
+			return $dPath;
 		}
 	}
 
@@ -328,12 +333,15 @@ abstract class JModuleHelper
 
 		// Set the query
 		$db->setQuery($query);
-		$modules = $db->loadObjectList();
 		$clean = array();
 
-		if ($db->getErrorNum())
+		try
 		{
-			JLog::add(JText::sprintf('JLIB_APPLICATION_ERROR_MODULE_LOAD', $db->getErrorMsg()), JLog::WARNING, 'jerror');
+			$modules = $db->loadObjectList();
+		}
+		catch (RuntimeException $e)
+		{
+			JLog::add(JText::sprintf('JLIB_APPLICATION_ERROR_MODULE_LOAD', $e->getMessage()), JLog::WARNING, 'jerror');
 			return $clean;
 		}
 
@@ -495,7 +503,7 @@ abstract class JModuleHelper
 				$ret = $cache->get(
 					array($cacheparams->class, $cacheparams->method),
 					$cacheparams->methodparams,
-					$module->id . $view_levels . JRequest::getVar('Itemid', null, 'default', 'INT'),
+					$module->id . $view_levels . JFactory::getApplication()->input->getInt('Itemid', null),
 					$wrkarounds,
 					$wrkaroundoptions
 				);
