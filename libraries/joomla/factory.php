@@ -341,36 +341,18 @@ abstract class JFactory
 	 * @return  mixed  SimplePie parsed object on success, false on failure.
 	 *
 	 * @since   11.1
+	 * @deprecated  13.3  Use JSimplepieFactory::getFeedParser() instead.
 	 */
 	public static function getFeedParser($url, $cache_time = 0)
 	{
-		jimport('simplepie.simplepie');
-
-		$cache = self::getCache('feed_parser', 'callback');
-
-		if ($cache_time > 0)
+		if (!class_exists('JSimplepieFactory'))
 		{
-			$cache->setLifeTime($cache_time);
+			throw new BadMethodCallException('JSimplepieFactory not found');
 		}
 
-		$simplepie = new SimplePie(null, null, 0);
+		JLog::add(__METHOD__ . ' is deprecated.   Use JSimplepieFactory::getFeedParser() instead.', JLog::WARNING, 'deprecated');
 
-		$simplepie->enable_cache(false);
-		$simplepie->set_feed_url($url);
-		$simplepie->force_feed(true);
-
-		$contents = $cache->get(array($simplepie, 'init'), null, false, false);
-
-		if ($contents)
-		{
-			return $simplepie;
-		}
-		else
-		{
-			JLog::add(JText::_('JLIB_UTIL_ERROR_LOADING_FEED_DATA'), JLog::WARNING, 'jerror');
-		}
-
-		return false;
+		return JSimplepieFactory::getFeedParser($url, $cache_time);
 	}
 
 	/**
@@ -441,6 +423,8 @@ abstract class JFactory
 		{
 			throw new BadMethodCallException('JEditor not found');
 		}
+
+		JLog::add(__METHOD__ . ' is deprecated. Use JEditor directly.', JLog::WARNING, 'deprecated');
 
 		// Get the editor configuration setting
 		if (is_null($editor))
