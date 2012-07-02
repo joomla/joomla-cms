@@ -326,9 +326,9 @@ class JAuthentication extends JObject
 	 */
 	public static function authorise($response, $options = array())
 	{
-		// Get plugins in case they haven't been loaded already
-		JPluginHelper::getPlugin('user');
-		JPluginHelper::getPlugin('authentication');
+		// Get plugins in case they haven't been imported already
+		JPluginHelper::importPlugin('user');
+		JPluginHelper::importPlugin('authentication');
 		$dispatcher = JEventDispatcher::getInstance();
 		$results = $dispatcher->trigger('onUserAuthorisation', array($response, $options));
 		return $results;
