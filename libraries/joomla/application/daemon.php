@@ -362,11 +362,8 @@ class JApplicationDaemon extends JApplicationCli
 		// Trigger the onBeforeExecute event.
 		$this->triggerEvent('onBeforeExecute');
 
-		// Enable basic garbage collection.  Only available in PHP 5.3+
-		if (function_exists('gc_enable'))
-		{
-			gc_enable();
-		}
+		// Enable basic garbage collection.
+		gc_enable();
 
 		JLog::add('Starting ' . $this->name, JLog::INFO);
 
@@ -663,11 +660,8 @@ class JApplicationDaemon extends JApplicationCli
 	 */
 	protected function gc()
 	{
-		// Perform generic garbage collection.  Only available in PHP 5.3+
-		if (function_exists('gc_collect_cycles'))
-		{
-			gc_collect_cycles();
-		}
+		// Perform generic garbage collection.
+		gc_collect_cycles();
 
 		// Clear the stat cache so it doesn't blow up memory.
 		clearstatcache();
