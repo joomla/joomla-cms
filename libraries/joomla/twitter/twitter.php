@@ -73,6 +73,12 @@ class JTwitter
 	protected $directMessages;
 
 	/**
+	 * @var    JTwitterLists  Twitter API object for lists.
+	 * @since  12.1
+	 */
+	protected $lists;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   JRegistry     $options  Twitter options object.
@@ -150,6 +156,13 @@ class JTwitter
 					$this->directMessages = new JTwitterDirectMessages($this->options, $this->client);
 				}
 				return $this->directMessages;
+
+			case 'lists':
+				if ($this->lists == null)
+				{
+					$this->lists = new JTwitterLists($this->options, $this->client);
+				}
+				return $this->lists;
 		}
 	}
 
