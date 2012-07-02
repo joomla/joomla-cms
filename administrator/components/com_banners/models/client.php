@@ -31,7 +31,7 @@ class BannersModelClient extends JModelAdmin
 	{
 		if (!empty($record->id)) {
 				if ($record->state != -2) {
-					return ;
+					return;
 				}
 			$user = JFactory::getUser();
 

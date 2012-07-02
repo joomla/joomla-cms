@@ -53,7 +53,7 @@ $doc->addScript($this->baseurl.'/templates/'.$this->template.'/javascript/md_sty
 ?>
 		<link rel="stylesheet" href="<?php echo $file;?>" type="text/css" />
 <?php
-	 	endforeach;
+		endforeach;
 	endif;
 ?>
 		<?php if ($this->direction == 'rtl') : ?>
@@ -252,10 +252,10 @@ $doc->addScript($this->baseurl.'/templates/'.$this->template.'/javascript/md_sty
 					<?php endif; ?>
 					<?php if ($this->countModules('position-11')): ?>
 					<div class="box box3"> <jdoc:include type="modules" name="position-11" style="beezDivision" headerlevel="3" /></div>
-					<?php endif ; ?>
+					<?php endif; ?>
 				</div>
 			</div>
-		<?php endif ; ?>
+		<?php endif; ?>
 
 			<div id="footer-sub">
 

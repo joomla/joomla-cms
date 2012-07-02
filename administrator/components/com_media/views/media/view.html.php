@@ -89,7 +89,7 @@ class MediaViewMedia extends JViewLegacy
 		$js = "
 			var basepath = '".$base."';
 			var viewstyle = '".$style."';
-		" ;
+		";
 		$document->addScriptDeclaration($js);
 
 		/*

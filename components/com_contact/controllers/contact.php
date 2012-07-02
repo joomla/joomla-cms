@@ -106,7 +106,7 @@ class ContactControllerContact extends JControllerForm
 		if (!($sent instanceof Exception)) {
 			$msg = JText::_('COM_CONTACT_EMAIL_THANKS');
 		} else {
-			$msg = '' ;
+			$msg = '';
 		}
 
 		// Flush the data from the session

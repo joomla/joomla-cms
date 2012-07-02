@@ -87,7 +87,7 @@ class CategoriesViewCategories extends JViewLegacy
 		||	$lang->load($component, JPATH_BASE, $lang->getDefault(), false, false)
 		||	$lang->load($component, JPATH_ADMINISTRATOR.'/components/'.$component, $lang->getDefault(), false, false);
 
- 		// Load the category helper.
+		// Load the category helper.
 		require_once JPATH_COMPONENT.'/helpers/categories.php';
 
 		// Get the results for each action.
@@ -113,7 +113,7 @@ class CategoriesViewCategories extends JViewLegacy
 		JToolBarHelper::title($title, 'categories '.substr($component, 4).($section?"-$section":'').'-categories');
 
 		if ($canDo->get('core.create') || (count($user->getAuthorisedCategories($component, 'core.create'))) > 0 ) {
-			 JToolBarHelper::addNew('category.add');
+			JToolBarHelper::addNew('category.add');
 		}
 
 		if ($canDo->get('core.edit' ) || $canDo->get('core.edit.own')) {

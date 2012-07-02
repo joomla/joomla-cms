@@ -224,7 +224,7 @@ class AdminModelSysInfo extends JModelLegacy
 	}
 
 	private function _addDirectory($name, $path, $message = '') {
-	    $this->directories[$name] = array('writable' => is_writable($path), 'message' => $message);
+		$this->directories[$name] = array('writable' => is_writable($path), 'message' => $message);
 	}
 
 	/**

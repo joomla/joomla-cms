@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 class JHtmlInstallation
 {
 	public static function stepbar()
- 	{
+	{
 		$view = JRequest::getWord('view');
 		switch ($view) {
 			case '':
@@ -43,7 +43,7 @@ class JHtmlInstallation
 				$on = 1;
 		}
 
- 		$html = '<h2>'.JText::_('INSTL_STEPS_TITLE').'</h2>' .
+		$html = '<h2>'.JText::_('INSTL_STEPS_TITLE').'</h2>' .
 			'<div class="step'.($on == 1 ? ' active' : '').'" id="language">'.JText::_('INSTL_STEP_1_LABEL').'</div>' .
 			'<div class="step'.($on == 2 ? ' active' : '').'" id="preinstall">'.JText::_('INSTL_STEP_2_LABEL').'</div>' .
 			'<div class="step'.($on == 3 ? ' active' : '').'" id="license">'.JText::_('INSTL_STEP_3_LABEL').'</div>' .

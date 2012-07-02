@@ -38,10 +38,10 @@ else :
 <?php
 if (!empty($this->item->pagination) && $this->item->pagination && !$this->item->paginationposition && $this->item->paginationrelative)
 {
- echo $this->item->pagination;
+	echo $this->item->pagination;
 }
- ?>
-<?php if ($params->get('show_title')) : ?>
+
+if ($params->get('show_title')) : ?>
 		<h2>
 			<?php echo $this->escape($this->item->title); ?>
 		</h2>
@@ -135,7 +135,7 @@ if (!empty($this->item->pagination) && $this->item->pagination && !$this->item->
 
 			<?php if (!empty($this->item->contactid ) &&  $params->get('link_author') == true):?>
 				<?php 	echo JText::sprintf('COM_CONTENT_WRITTEN_BY' ,
-				 JHtml::_('link', JRoute::_('index.php?option=com_contact&view=contact&id='.$this->item->contactid), $author)); ?>
+				JHtml::_('link', JRoute::_('index.php?option=com_contact&view=contact&id='.$this->item->contactid), $author)); ?>
 
 			<?php else :?>
 				<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', $author); ?>
@@ -174,12 +174,12 @@ if (!empty($this->item->pagination) && $this->item->pagination && !$this->item->
 <?php
 if (!empty($this->item->pagination) AND $this->item->pagination AND !$this->item->paginationposition AND !$this->item->paginationrelative):
 	echo $this->item->pagination;
- endif;
+endif;
 ?>
 	<?php echo $this->item->text; ?>
 <?php
 if (!empty($this->item->pagination) AND $this->item->pagination AND $this->item->paginationposition AND!$this->item->paginationrelative):
-	 echo $this->item->pagination;?>
+	echo $this->item->pagination;?>
 <?php endif; ?>
 
 	<?php if (isset($urls) AND ((!empty($urls->urls_position)  AND ($urls->urls_position=='1')) OR ( $params->get('urls_position')=='1') )): ?>
@@ -188,7 +188,7 @@ if (!empty($this->item->pagination) AND $this->item->pagination AND $this->item-
 	<?php endif; ?>
 <?php
 if (!empty($this->item->pagination) AND $this->item->pagination AND $this->item->paginationposition AND $this->item->paginationrelative):
-	 echo $this->item->pagination;?>
+	echo $this->item->pagination;?>
 <?php endif; ?>
 	<?php echo $this->item->event->afterDisplayContent; ?>
 </article>

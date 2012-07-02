@@ -54,7 +54,7 @@ class plgEditorTinymce extends JPlugin
 		$skin	= $this->params->get('skin', '0');
 
 		switch ($skin)
-  		{
+		{
 			case '3':
 				$skin = 'skin : "o2k7", skin_variant : "black",';
 				break;

@@ -305,8 +305,8 @@ class JAdministrator extends JApplication
 		$query = 'SELECT *'
 		. ' FROM #__messages_cfg'
 		. ' WHERE user_id = ' . (int) $userid
-		. ' AND cfg_name = ' . $db->quote('auto_purge')
-		;
+		. ' AND cfg_name = ' . $db->quote('auto_purge');
+
 		$db->setQuery($query);
 		$config = $db->loadObject();
 
@@ -327,8 +327,8 @@ class JAdministrator extends JApplication
 
 			$query = 'DELETE FROM #__messages'
 			. ' WHERE date_time < ' . $db->Quote($pastStamp)
-			. ' AND user_id_to = ' . (int) $userid
-			;
+			. ' AND user_id_to = ' . (int) $userid;
+
 			$db->setQuery($query);
 			$db->execute();
 		}

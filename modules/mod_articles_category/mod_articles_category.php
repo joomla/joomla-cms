@@ -80,5 +80,5 @@ if (!empty($list)) {
 				break;
 		}
 	}
-    require JModuleHelper::getLayoutPath('mod_articles_category', $params->get('layout', 'default'));
+	require JModuleHelper::getLayoutPath('mod_articles_category', $params->get('layout', 'default'));
 }

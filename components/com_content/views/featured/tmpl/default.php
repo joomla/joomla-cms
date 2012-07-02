@@ -21,7 +21,7 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 	</h1>
 <?php endif; ?>
 
-<?php $leadingcount=0 ; ?>
+<?php $leadingcount=0; ?>
 <?php if (!empty($this->lead_items)) : ?>
 <div class="items-leading">
 	<?php foreach ($this->lead_items as &$item) : ?>
@@ -47,11 +47,11 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 	<?php
 		$key= ($key-$leadingcount)+1;
 		$rowcount=( ((int)$key-1) %	(int) $this->columns) +1;
-		$row = $counter / $this->columns ;
+		$row = $counter / $this->columns;
 
 		if ($rowcount==1) : ?>
 
-			<div class="items-row cols-<?php echo (int) $this->columns;?> <?php echo 'row-'.$row ; ?>">
+			<div class="items-row cols-<?php echo (int) $this->columns;?> <?php echo 'row-'.$row; ?>">
 		<?php endif; ?>
 		<div class="item column-<?php echo $rowcount;?><?php echo $item->state == 0 ? ' system-unpublished"' : null; ?>">
 			<?php

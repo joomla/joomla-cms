@@ -20,7 +20,7 @@ JHtml::_('behavior.keepalive');
 
 	<?php if (($this->params->get('logindescription_show') == 1 && str_replace(' ', '', $this->params->get('login_description')) != '') || $this->params->get('login_image') != '') : ?>
 	<div class="login-description">
-	<?php endif ; ?>
+	<?php endif; ?>
 
 		<?php if($this->params->get('logindescription_show') == 1) : ?>
 			<?php echo $this->params->get('login_description'); ?>
@@ -32,7 +32,7 @@ JHtml::_('behavior.keepalive');
 
 	<?php if (($this->params->get('logindescription_show') == 1 && str_replace(' ', '', $this->params->get('login_description')) != '') || $this->params->get('login_image') != '') : ?>
 	</div>
-	<?php endif ; ?>
+	<?php endif; ?>
 
 	<form action="<?php echo JRoute::_('index.php?option=com_users&task=user.login'); ?>" method="post">
 

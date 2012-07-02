@@ -77,15 +77,15 @@ class JSchemaChangeitemsqlsrv extends JSchemaChangeitem
 				if (isset($wordArray[6])) {
 					$type = $this->fixQuote($this->fixInteger($wordArray[5], $wordArray[6]));
 				}
-				$result = 'SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS  WHERE table_name = ' .$this->fixQuote($wordArray[2]) ;
+				$result = 'SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS  WHERE table_name = ' .$this->fixQuote($wordArray[2]);
 				$this->queryType = 'ALTER COLUMN COLUMN_NAME =' . $this->fixQuote($wordArray[4]);
 				$this->msgElements = array($this->fixQuote($wordArray[2]), $this->fixQuote($wordArray[4]));
 			}
 			elseif (strtoupper($wordArray[3]) == 'CHANGE') {
 				// Kludge to fix problem with "integer unsigned"
 				$type = $this->fixQuote($this->fixInteger($wordArray[6], $wordArray[7]));
-				$result = 'SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS  WHERE table_name = ' .$this->fixQuote($wordArray[2]) ;
-				$this->fixQuote($wordArray[4]) ;
+				$result = 'SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS  WHERE table_name = ' .$this->fixQuote($wordArray[2]);
+				$this->fixQuote($wordArray[4]);
 				$this->queryType = 'ALTER COLUMN COLUMN_NAME =' . $this->fixQuote($wordArray[4]);
 				$this->msgElements = array($this->fixQuote($wordArray[2]), $this->fixQuote($wordArray[4]));
 			}

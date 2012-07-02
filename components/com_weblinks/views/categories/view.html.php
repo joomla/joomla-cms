@@ -54,7 +54,7 @@ class WeblinksViewCategories extends JViewLegacy
 
 		$items = array($parent->id => $items);
 
-        //Escape strings for HTML output
+		//Escape strings for HTML output
 		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
 
 		$this->maxLevelcat = $params->get('maxLevelcat', -1);

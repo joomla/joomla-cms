@@ -166,7 +166,6 @@ class plgEditorCodemirror extends JPlugin
 					break;
 
 				default:
-					;
 					break;
 			} //switch
 		}

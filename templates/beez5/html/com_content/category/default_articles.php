@@ -65,7 +65,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 			<tr>
 
 				<th class="list-title" id="tableOrdering">
-					<?php  echo JHtml::_('grid.sort', 'COM_CONTENT_HEADING_TITLE', 'a.title', $listDirn, $listOrder) ; ?>
+					<?php echo JHtml::_('grid.sort', 'COM_CONTENT_HEADING_TITLE', 'a.title', $listDirn, $listOrder); ?>
 				</th>
 
 				<?php if ($date = $this->params->get('list_show_date')) : ?>

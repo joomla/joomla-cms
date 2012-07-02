@@ -36,7 +36,7 @@ JHtml::addIncludePath(JPATH_COMPONENT.'/helpers');
 <?php echo $this->loadTemplate('items'); ?>
 <?php if (!empty($this->children[$this->category->id])&& $this->maxLevel != 0) : ?>
 	<div class="cat-children">
-	<h3><?php echo JText::_('JGLOBAL_SUBCATEGORIES') ; ?></h3>
+	<h3><?php echo JText::_('JGLOBAL_SUBCATEGORIES'); ?></h3>
 	<?php echo $this->loadTemplate('children'); ?>
 	</div>
 <?php endif; ?>

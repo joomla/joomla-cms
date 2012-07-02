@@ -54,7 +54,7 @@ $canDo	= TemplatesHelper::getActions();
 					<?php endif; ?>
 				</li>
 				<?php endif; ?>
-				<?php if ($this->files['main']['offline']->exists) :  ;?>
+				<?php if ($this->files['main']['offline']->exists) : ?>
 					<li>
 						<?php $id = $this->files['main']['offline']->id; ?>
 						<?php if ($canDo->get('core.edit')) : ?>

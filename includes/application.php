@@ -285,8 +285,9 @@ final class JSite extends JApplication
 	 */
 	public function login($credentials, $options = array())
 	{
-		 // Set the application login entry point
-		if (!array_key_exists('entry_url', $options)) {
+		// Set the application login entry point
+		if (!array_key_exists('entry_url', $options))
+		{
 			$options['entry_url'] = JURI::base().'index.php?option=com_users&task=user.login';
 		}
 
@@ -490,10 +491,10 @@ final class JSite extends JApplication
 		// Fallback template
 		if (!file_exists(JPATH_THEMES . '/' . $template->template . '/index.php')) {
 			JError::raiseWarning(0, JText::_('JERROR_ALERTNOTEMPLATE'));
-		    $template->template = 'beez_20';
-		    if (!file_exists(JPATH_THEMES . '/beez_20/index.php')) {
-		    	$template->template = '';
-		    }
+			$template->template = 'beez_20';
+			if (!file_exists(JPATH_THEMES . '/beez_20/index.php')) {
+				$template->template = '';
+			}
 		}
 
 		// Cache the result
@@ -511,18 +512,18 @@ final class JSite extends JApplication
 	 * @param mixed		The template style parameters
 	 */
 	public function setTemplate($template, $styleParams=null)
- 	{
- 		if (is_dir(JPATH_THEMES . '/' . $template)) {
- 			$this->template = new stdClass;
- 			$this->template->template = $template;
+	{
+		if (is_dir(JPATH_THEMES . '/' . $template)) {
+			$this->template = new stdClass;
+			$this->template->template = $template;
 			if ($styleParams instanceof JRegistry) {
 				$this->template->params = $styleParams;
 			}
 			else {
 				$this->template->params = new JRegistry($styleParams);
 			}
- 		}
- 	}
+		}
+	}
 
 	/**
 	 * Return a reference to the JPathway object.

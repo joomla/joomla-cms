@@ -46,13 +46,13 @@ $class = ' class="first"';
 				<?php if ($child->getNumItems()==true) : ?>
 				<dl>
 					<dt>
-						<?php echo JText::_('COM_CONTENT_NUM_ITEMS') ; ?>
+						<?php echo JText::_('COM_CONTENT_NUM_ITEMS'); ?>
 					</dt>
 					<dd>
 						<?php echo $child->getNumItems(true); ?>
 					</dd>
 				</dl>
-				<?php endif ; ?>
+				<?php endif; ?>
 
 				<?php if (count($child->getChildren()) > 0 ) :
 					$this->children[$child->id] = $child->getChildren();

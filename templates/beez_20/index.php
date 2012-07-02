@@ -226,7 +226,7 @@ $doc->addScript($this->baseurl.'/templates/'.$this->template.'/javascript/hide.j
 
 
                         </div>
-                                <?php endif ; ?>
+                                <?php endif; ?>
 
                         <div id="footer-sub">
 

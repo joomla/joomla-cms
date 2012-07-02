@@ -158,7 +158,7 @@ $this->direction = $doc->direction;
 
 						<h3><?php echo JText::_('JERROR_LAYOUT_PLEASE_CONTACT_THE_SYSTEM_ADMINISTRATOR'); ?></h3>
 
-						<h2>#<?php echo $this->error->getCode() ;?>&nbsp;<?php echo $this->error->getMessage();?></h2> <br />
+						<h2>#<?php echo $this->error->getCode();?>&nbsp;<?php echo $this->error->getMessage();?></h2> <br />
 
 
 			</div><!-- end wrapper -->

@@ -105,8 +105,9 @@ $canEdit	= $this->item->params->get('access-edit');
 		<?php $author = ($this->item->created_by_alias ? $this->item->created_by_alias : $author);?>
 
 			<?php if (!empty($this->item->contactid ) &&  $params->get('link_author') == true):?>
-				<?php 	echo JText::sprintf('COM_CONTENT_WRITTEN_BY' ,
-				 JHtml::_('link', JRoute::_('index.php?option=com_contact&view=contact&id='.$this->item->contactid), $author)); ?>
+				<?php
+				echo JText::sprintf('COM_CONTENT_WRITTEN_BY' ,
+				JHtml::_('link', JRoute::_('index.php?option=com_contact&view=contact&id='.$this->item->contactid), $author)); ?>
 
 			<?php else :?>
 				<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', $author); ?>
@@ -156,7 +157,7 @@ $canEdit	= $this->item->params->get('access-edit');
 					elseif ($readmore = $this->item->alternative_readmore) :
 						echo $readmore;
 						if ($params->get('show_readmore_title', 0) != 0) :
-						    echo JHtml::_('string.truncate', ($this->item->title), $params->get('readmore_limit'));
+							echo JHtml::_('string.truncate', ($this->item->title), $params->get('readmore_limit'));
 						endif;
 					elseif ($params->get('show_readmore_title', 0) == 0) :
 						echo JText::sprintf('COM_CONTENT_READ_MORE_TITLE');

@@ -258,7 +258,7 @@ class plgFinderCategories extends FinderIndexerAdapter
 		$registry->loadString($item->metadata);
 		$item->metadata = $registry;
 
-		 /* Add the meta-data processing instructions based on the categories
+		/* Add the meta-data processing instructions based on the categories
 		 * configuration parameters.
 		 */
 		// Add the meta-author.

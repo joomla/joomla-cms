@@ -34,12 +34,13 @@ defined('_JEXEC') or die;
 			echo ' '.$separator.' ';
 		}
 	}  elseif ($params->get('showLast', 1)) { // when $i == $count -1 and 'showLast' is true
-		if($i > 0){
+		if ($i > 0)
+		{
 			echo ' '.$separator.' ';
 		}
-		 echo '<span>';
+		echo '<span>';
 		echo $list[$i]->name;
-		  echo '</span>';
+		echo '</span>';
 	}
 endfor; ?>
 </div>

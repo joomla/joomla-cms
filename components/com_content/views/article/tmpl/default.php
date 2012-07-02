@@ -28,9 +28,9 @@ $user		= JFactory::getUser();
 <?php
 if (!empty($this->item->pagination) AND $this->item->pagination && !$this->item->paginationposition && $this->item->paginationrelative)
 {
- echo $this->item->pagination;
+	echo $this->item->pagination;
 }
- ?>
+?>
 
 <?php if ($params->get('show_title')) : ?>
 	<h2>
@@ -172,12 +172,12 @@ endif; ?>
 <?php
 if (!empty($this->item->pagination) AND $this->item->pagination AND !$this->item->paginationposition AND !$this->item->paginationrelative):
 	echo $this->item->pagination;
- endif;
+endif;
 ?>
 <?php echo $this->item->text; ?>
 <?php
 if (!empty($this->item->pagination) AND $this->item->pagination AND $this->item->paginationposition AND!$this->item->paginationrelative):
-	 echo $this->item->pagination;?>
+	echo $this->item->pagination;?>
 <?php endif; ?>
 
 <?php if (isset($urls) AND ((!empty($urls->urls_position)  AND ($urls->urls_position=='1')) OR ( $params->get('urls_position')=='1') )): ?>
@@ -199,7 +199,7 @@ if (!empty($this->item->pagination) AND $this->item->pagination AND $this->item-
 		elseif ($readmore = $this->item->alternative_readmore) :
 			echo $readmore;
 			if ($params->get('show_readmore_title', 0) != 0) :
-			    echo JHtml::_('string.truncate', ($this->item->title), $params->get('readmore_limit'));
+				echo JHtml::_('string.truncate', ($this->item->title), $params->get('readmore_limit'));
 			endif;
 		elseif ($params->get('show_readmore_title', 0) == 0) :
 			echo JText::sprintf('COM_CONTENT_READ_MORE_TITLE');
@@ -212,7 +212,7 @@ if (!empty($this->item->pagination) AND $this->item->pagination AND $this->item-
 <?php endif; ?>
 <?php
 if (!empty($this->item->pagination) AND $this->item->pagination AND $this->item->paginationposition AND $this->item->paginationrelative):
-	 echo $this->item->pagination;?>
+	echo $this->item->pagination;?>
 <?php endif; ?>
 
 <?php echo $this->item->event->afterDisplayContent; ?>

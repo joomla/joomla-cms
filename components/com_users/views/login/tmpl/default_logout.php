@@ -18,7 +18,7 @@ defined('_JEXEC') or die;
 
 	<?php if (($this->params->get('logoutdescription_show') == 1 && str_replace(' ', '', $this->params->get('logout_description')) != '')|| $this->params->get('logout_image') != '') : ?>
 	<div class="logout-description">
-	<?php endif ; ?>
+	<?php endif; ?>
 
 		<?php if ($this->params->get('logoutdescription_show') == 1) : ?>
 			<?php echo $this->params->get('logout_description'); ?>
@@ -30,7 +30,7 @@ defined('_JEXEC') or die;
 
 	<?php if (($this->params->get('logoutdescription_show') == 1 && str_replace(' ', '', $this->params->get('logout_description')) != '')|| $this->params->get('logout_image') != '') : ?>
 	</div>
-	<?php endif ; ?>
+	<?php endif; ?>
 
 	<form action="<?php echo JRoute::_('index.php?option=com_users&task=user.logout'); ?>" method="post">
 		<div>

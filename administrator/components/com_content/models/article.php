@@ -174,7 +174,7 @@ class ContentModelArticle extends JModelAdmin
 	{
 		if (!empty($record->id)) {
 			if ($record->state != -2) {
-				return ;
+				return;
 			}
 			$user = JFactory::getUser();
 			return $user->authorise('core.delete', 'com_content.article.'.(int) $record->id);

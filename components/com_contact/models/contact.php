@@ -222,8 +222,7 @@ class ContactModelContact extends JModelForm
 				$this->_item[$pk]->profile = $extendedData->profile;
 			}
 		}
-  		return $this->_item[$pk];
-
+		return $this->_item[$pk];
 	}
 
 	protected function getContactQuery($pk = null)

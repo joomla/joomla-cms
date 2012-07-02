@@ -82,23 +82,23 @@ class ContentModelArchive extends ContentModelArticles
 			// Add routing for archive
 			//sqlsrv changes
 		$case_when = ' CASE WHEN ';
-	    $case_when .= $query->charLength('a.alias');
-	    $case_when .= ' THEN ';
-	    $a_id = $query->castAsChar('a.id');
-	    $case_when .= $query->concatenate(array($a_id, 'a.alias'), ':');
-	    $case_when .= ' ELSE ';
-	    $case_when .= $a_id.' END as slug';
+		$case_when .= $query->charLength('a.alias');
+		$case_when .= ' THEN ';
+		$a_id = $query->castAsChar('a.id');
+		$case_when .= $query->concatenate(array($a_id, 'a.alias'), ':');
+		$case_when .= ' ELSE ';
+		$case_when .= $a_id.' END as slug';
 
 		$query->select($case_when);
 
-	    $case_when = ' CASE WHEN ';
-	    $case_when .= $query->charLength('c.alias');
-	    $case_when .= ' THEN ';
-	    $c_id = $query->castAsChar('c.id');
-	    $case_when .= $query->concatenate(array($c_id, 'c.alias'), ':');
-	    $case_when .= ' ELSE ';
-	    $case_when .= $c_id.' END as catslug';
-	    $query->select($case_when);
+		$case_when = ' CASE WHEN ';
+		$case_when .= $query->charLength('c.alias');
+		$case_when .= ' THEN ';
+		$c_id = $query->castAsChar('c.id');
+		$case_when .= $query->concatenate(array($c_id, 'c.alias'), ':');
+		$case_when .= ' ELSE ';
+		$case_when .= $c_id.' END as catslug';
+		$query->select($case_when);
 
 		// Filter on month, year
 		// First, get the date field

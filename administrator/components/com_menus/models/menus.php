@@ -88,8 +88,8 @@ class MenusModelMenus extends JModelList
 			->from('#__menu AS m')
 			->where('m.published = 1')
 			->where('m.menutype IN ('.$menuTypes.')')
-			->group('m.menutype')
-			;
+			->group('m.menutype');
+
 		$db->setQuery($query);
 		$countPublished = $db->loadAssocList('menutype', 'count_published');
 

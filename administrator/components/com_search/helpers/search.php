@@ -124,15 +124,15 @@ class SearchHelper
 			$db = JFactory::getDbo();
 			$query = 'SELECT hits'
 			. ' FROM #__core_log_searches'
-			. ' WHERE LOWER(search_term) = "'.$search_term.'"'
-			;
+			. ' WHERE LOWER(search_term) = "'.$search_term.'"';
+
 			$db->setQuery($query);
 			$hits = intval($db->loadResult());
 			if ($hits) {
 				$query = 'UPDATE #__core_log_searches'
 				. ' SET hits = (hits + 1)'
-				. ' WHERE LOWER(search_term) = "'.$search_term.'"'
-				;
+				. ' WHERE LOWER(search_term) = "'.$search_term.'"';
+
 				$db->setQuery($query);
 				$db->query();
 			} else {

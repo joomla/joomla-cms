@@ -36,13 +36,13 @@ $class = ' class="first"';
 			<?php if ( $this->params->get('show_cat_num_articles', 1)) : ?>
 			<dl>
 				<dt>
-					<?php echo JText::_('COM_CONTENT_NUM_ITEMS') ; ?>
+					<?php echo JText::_('COM_CONTENT_NUM_ITEMS'); ?>
 				</dt>
 				<dd>
 					<?php echo $child->getNumItems(true); ?>
 				</dd>
 			</dl>
-			<?php endif ; ?>
+			<?php endif; ?>
 
 			<?php if (count($child->getChildren()) > 0 ) :
 				$this->children[$child->id] = $child->getChildren();

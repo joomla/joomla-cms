@@ -63,7 +63,7 @@ class CategoriesViewCategory extends JViewLegacy
 			return;
 		}
 
- 		// The extension can be in the form com_foo.section
+		// The extension can be in the form com_foo.section
 		$parts = explode('.', $extension);
 		$component = $parts[0];
 		$section = (count($parts) > 1) ? $parts[1] : null;

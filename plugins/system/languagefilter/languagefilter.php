@@ -117,7 +117,7 @@ class plgSystemLanguageFilter extends JPlugin
 			// Adding custom site name
 			$languages = JLanguageHelper::getLanguages('lang_code');
 			if (isset($languages[self::$tag]) && $languages[self::$tag]->sitename) {
-				JFactory::getConfig()->set('sitename', $languages[self::$tag]->sitename) ;
+				JFactory::getConfig()->set('sitename', $languages[self::$tag]->sitename);
 			}
 		}
 	}
@@ -203,7 +203,7 @@ class plgSystemLanguageFilter extends JPlugin
 				$lang_code = JLanguageHelper::detectLanguage();
 			} else {
 				$lang_code = self::$default_lang;
- 			}
+			}
 		}
 		if (self::$mode_sef) {
 			$path = $uri->getPath();
@@ -375,8 +375,8 @@ class plgSystemLanguageFilter extends JPlugin
 	 */
 	public function onUserLogin($user, $options = array())
 	{
- 		$app  = JFactory::getApplication();
- 		$menu = $app->getMenu();
+		$app  = JFactory::getApplication();
+		$menu = $app->getMenu();
 		if ($app->isSite() && $this->params->get('automatic_change', 1))
 		{
 			// Load associations
@@ -399,13 +399,13 @@ class plgSystemLanguageFilter extends JPlugin
 			if ($lang_code != self::$tag)
 			{
 				// Change language
- 				self::$tag = $lang_code;
+				self::$tag = $lang_code;
 
- 				// Create a cookie
- 				$conf = JFactory::getConfig();
- 				$cookie_domain 	= $conf->get('config.cookie_domain', '');
- 				$cookie_path 	= $conf->get('config.cookie_path', '/');
- 				setcookie(JApplication::getHash('language'), $lang_code, time() + 365 * 86400, $cookie_path, $cookie_domain);
+				// Create a cookie
+				$conf = JFactory::getConfig();
+				$cookie_domain 	= $conf->get('config.cookie_domain', '');
+				$cookie_path 	= $conf->get('config.cookie_path', '/');
+				setcookie(JApplication::getHash('language'), $lang_code, time() + 365 * 86400, $cookie_path, $cookie_domain);
 
 				// Change the language code
 				JFactory::getLanguage()->setLanguage($lang_code);
@@ -420,8 +420,8 @@ class plgSystemLanguageFilter extends JPlugin
 					$itemid = isset($homes[$lang_code]) ? $homes[$lang_code]->id : $homes['*']->id;
 					$app->setUserState('users.login.form.return', 'index.php?&Itemid='.$itemid);
 				}
- 			}
- 		}
+			}
+		}
 	}
 
 	/**

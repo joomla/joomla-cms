@@ -75,9 +75,9 @@ class plgSystemRedirect extends JPlugin
 				if(!$res) {
 
 					// If not, add the new url to the database.
-					 $query = $db->getQuery(true);
-					 $query->insert($db->quoteName('#__redirect_links'), false);
-					 $columns = array( $db->quoteName('old_url'),
+					$query = $db->getQuery(true);
+					$query->insert($db->quoteName('#__redirect_links'), false);
+					$columns = array( $db->quoteName('old_url'),
 									$db->quoteName('new_url'),
 									$db->quoteName('referer'),
 									$db->quoteName('comment'),
@@ -86,10 +86,10 @@ class plgSystemRedirect extends JPlugin
 									$db->quoteName('created_date')
 								);
 					$query->columns($columns);
-				    $query->values($db->Quote($current). ', '. $db->Quote('').
-				  				' ,'.$db->Quote($referer).', '.$db->Quote('').',1,0, '.
-								  $db->Quote(JFactory::getDate()->toSql())
-								);
+					$query->values($db->Quote($current). ', '. $db->Quote('').
+						' ,'.$db->Quote($referer).', '.$db->Quote('').',1,0, '.
+						$db->Quote(JFactory::getDate()->toSql())
+					);
 
 					$db->setQuery($query);
 					$db->query();
