@@ -298,15 +298,6 @@ final class JSite extends JApplication
 	}
 
 	/**
-	 * @deprecated 1.6	Use the authorise method instead.
-	 */
-	public function authorize($itemid)
-	{
-		JLog::add('JSite::authorize() is deprecated. Use JSite::authorise() instead.', JLog::WARNING, 'deprecated');
-		return $this->authorise($itemid);
-	}
-
-	/**
 	 * Check if the user can access the application
 	 */
 	public function authorise($itemid)

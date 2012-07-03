@@ -47,21 +47,6 @@ class FinderHelperLanguage
 	}
 
 	/**
-	 * Method to determine if the language filter plugin is enabled.
-	 * This works for both site and administrator.
-	 *
-	 * @return  boolean  True if site is supporting multiple languages; false otherwise.
-	 *
-	 * @since   2.5
-	 * @deprecated  3.0 Use JLanguageMultilang::isEnabled() instead.
-	 */
-	public static function isMultiLanguage()
-	{
-		JLog::add('FinderHelperLanguage::isMultiLanguage() is deprecated. Use JLanguageMultilang::isEnabled() instead. ', JLog::WARNING, 'deprecated');
-		return JLanguageMultilang::isEnabled();
-	}
-
-	/**
 	 * Method to load Smart Search component language file.
 	 *
 	 * @return  void
