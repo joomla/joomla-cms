@@ -251,7 +251,7 @@ var Installation = new Class({
 				if (r) {
 					Joomla.replaceTokens(r.token);
 					if (r.error == false) {
-						el.set('value', r.data.text);
+						el.set('text', r.data.text);
 						el.set('onclick','');
 						el.set('disabled', 'disabled');
 					} else {
