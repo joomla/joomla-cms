@@ -61,13 +61,13 @@ defined('_JEXEC') or die;
 			<table class="table table-striped table-condensed">
 				<thead>
 					<tr>
-						<th class="toggle">
+						<th>
 							<?php echo JText::_('INSTL_PRECHECK_DIRECTIVE'); ?>
 						</th>
-						<th class="toggle">
+						<th>
 							<?php echo JText::_('INSTL_PRECHECK_RECOMMENDED'); ?>
 						</th>
-						<th class="toggle">
+						<th>
 							<?php echo JText::_('INSTL_PRECHECK_ACTUAL'); ?>
 						</th>
 					</tr>
@@ -75,10 +75,10 @@ defined('_JEXEC') or die;
 				<tbody>
 					<?php foreach ($this->settings as $setting) : ?>
 					<tr>
-						<td class="item">
+						<td>
 							<?php echo $setting->label; ?>
 						</td>
-						<td class="toggle">
+						<td>
 							<span class="label label-<?php echo ($setting->state === $setting->recommended) ? 'success' : 'important'; ?> disabled">
 								<?php echo JText::_(($setting->recommended) ? 'JON' : 'JOFF'); ?>
 							</span>
