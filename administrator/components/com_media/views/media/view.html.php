@@ -79,9 +79,9 @@ class MediaViewMedia extends JViewLegacy
 			);
 		}
 
-		if (DS == '\\')
+		if (DIRECTORY_SEPARATOR == '\\')
 		{
-			$base = str_replace(DS, "\\\\", COM_MEDIA_BASE);
+			$base = str_replace(DIRECTORY_SEPARATOR, "\\\\", COM_MEDIA_BASE);
 		} else {
 			$base = COM_MEDIA_BASE;
 		}

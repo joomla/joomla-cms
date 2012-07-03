@@ -26,7 +26,11 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
-30-Jun-2012
+03-July-2012 Jean-Marie Simonet
+ # [#28741] E_STRICT: JArrayHelper::pivot should be declared as static. Thanks Christophe.
+ ^ [#28776] Replace DS with DIRECTORY_SEPARATOR in com_media. Thanks Michael
+
+30-Jun-2012 Mark Dexter
  # [#28763] Make the field for installing sample data easier to use (Elin Waring)
  # [#28751] *Copy Template Feature - language files have capital letters (Jean-Marie Simonet)
  # [#28647] Registration form: language override for "Name" label causes side effects (Johannnes S-F)

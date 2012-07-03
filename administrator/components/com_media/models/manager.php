@@ -52,8 +52,8 @@ class MediaModelManager extends JModelLegacy
 			$base = COM_MEDIA_BASE;
 		}
 		//corrections for windows paths
-		$base = str_replace(DS, '/', $base);
-		$com_media_base_uni = str_replace(DS, '/', COM_MEDIA_BASE);
+		$base = str_replace(DIRECTORY_SEPARATOR, '/', $base);
+		$com_media_base_uni = str_replace(DIRECTORY_SEPARATOR, '/', COM_MEDIA_BASE);
 
 		// Get the list of folders
 		jimport('joomla.filesystem.folder');
@@ -67,9 +67,9 @@ class MediaModelManager extends JModelLegacy
 
 		foreach ($folders as $folder)
 		{
-			$folder		= str_replace($com_media_base_uni, "", str_replace(DS, '/', $folder));
+			$folder		= str_replace($com_media_base_uni, "", str_replace(DIRECTORY_SEPARATOR, '/', $folder));
 			$value		= substr($folder, 1);
-			$text		= str_replace(DS, "/", $folder);
+			$text		= str_replace(DIRECTORY_SEPARATOR, "/", $folder);
 			$options[]	= JHtml::_('select.option', $value, $text);
 		}
 
@@ -96,7 +96,7 @@ class MediaModelManager extends JModelLegacy
 			$base = COM_MEDIA_BASE;
 		}
 
-		$mediaBase = str_replace(DS, '/', COM_MEDIA_BASE.'/');
+		$mediaBase = str_replace(DIRECTORY_SEPARATOR, '/', COM_MEDIA_BASE.'/');
 
 		// Get the list of folders
 		jimport('joomla.filesystem.folder');
@@ -106,7 +106,7 @@ class MediaModelManager extends JModelLegacy
 
 		foreach ($folders as $folder)
 		{
-			$folder		= str_replace(DS, '/', $folder);
+			$folder		= str_replace(DIRECTORY_SEPARATOR, '/', $folder);
 			$name		= substr($folder, strrpos($folder, '/') + 1);
 			$relative	= str_replace($mediaBase, '', $folder);
 			$absolute	= $folder;

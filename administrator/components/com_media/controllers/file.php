@@ -163,7 +163,7 @@ class MediaControllerFile extends JControllerLegacy
 			'tmp_name'	=> $tmp_name,
 			'error'		=> $error,
 			'size'		=> $size,
-			'filepath'	=> JPath::clean(implode(DS, array(COM_MEDIA_BASE, $this->folder, $name)))
+			'filepath'	=> JPath::clean(implode(DIRECTORY_SEPARATOR, array(COM_MEDIA_BASE, $this->folder, $name)))
 		);
 	}
 
@@ -239,7 +239,7 @@ class MediaControllerFile extends JControllerLegacy
 				continue;
 			}
 
-			$fullPath = JPath::clean(implode(DS, array(COM_MEDIA_BASE, $folder, $path)));
+			$fullPath = JPath::clean(implode(DIRECTORY_SEPARATOR, array(COM_MEDIA_BASE, $folder, $path)));
 			$object_file = new JObject(array('filepath' => $fullPath));
 			if (is_file($fullPath))
 			{
