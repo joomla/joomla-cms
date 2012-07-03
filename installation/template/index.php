@@ -87,29 +87,41 @@ JText::script('INSTL_FTP_SETTINGS_CORRECT');
 			</div>
 		</div>
 		<script>
-			(function($){
-				$('*[rel=tooltip]').tooltip()
-				$('*[rel=popover]').popover()
+			function initElements() {
+				(function($){
+					$('*[rel=tooltip]').tooltip()
+					$('*[rel=popover]').popover()
 
-				// Chosen select boxes
-				$("select").chosen({disable_search_threshold : 10 });
+					// Chosen select boxes
+					$("select").chosen({disable_search_threshold : 10 });
 
-				// Turn radios into btn-group
-				$('.radio.btn-group label').addClass('btn')
-				$(".btn-group label:not(.active)").click(function(){
-				    var label = $(this);
-				    var input = $('#' + label.attr('for'));
+					// Turn radios into btn-group
+					$('.radio.btn-group label').addClass('btn')
+					$(".btn-group label:not(.active)").click(function(){
+						var label = $(this);
+						var input = $('#' + label.attr('for'));
 
-				    if (!input.prop('checked')){
-				        label.closest('.btn-group').find("label").removeClass('active btn-primary');
-				        label.addClass('active btn-primary');
-				        input.prop('checked', true);
-				    }
-				});
-				$(".btn-group input[checked=checked]").each(function(){
-				    $("label[for=" + $(this).attr('id') + "]").addClass('active btn-primary');
-				});
-		    })(jQuery);
+						if (!input.prop('checked')){
+							label.closest('.btn-group').find("label").removeClass('active btn-success btn-danger');
+							if (input.val() === 0) {
+								label.addClass('active btn-danger');
+							} else {
+								label.addClass('active btn-success');
+							}
+							input.prop('checked', true);
+						}
+					});
+					$(".btn-group input[checked=checked]").each(function(){
+						var label = $("label[for=" + $(this).attr('id') + "]");
+						if ($(this).val() === 0) {
+							label.addClass('active btn-danger');
+						} else {
+							label.addClass('active btn-success');
+						}
+					});
+				})(jQuery);
+			}
+			initElements();
 		</script>
 	</body>
 </html>

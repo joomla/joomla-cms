@@ -100,6 +100,7 @@ var Installation = new Class({
 				active.removeClass('active');
 				var nextStep = document.id(page);
 				nextStep.addClass('active');
+				initElements();
 			}.bind(this)
 		}).send();
 
