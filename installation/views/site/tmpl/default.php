@@ -15,7 +15,7 @@ defined('_JEXEC') or die;
 					<?php echo JText::_('INSTL_SITE_SAMPLE_LABEL'); ?>
 				</h3>
 				<hr class="hr-condensed" />
-				<?php echo $this->form->getInput('sample_file'); ?> 
+				<?php echo $this->form->getInput('sample_file'); ?>
 				<hr class="hr-condensed" />
 				 <div class="message inlineError" id="theDefaultError" style="display: none">
 				 	<dl>
@@ -39,14 +39,11 @@ defined('_JEXEC') or die;
 			<form action="index.php" method="post" id="adminForm" class="form-validate form-horizontal">
 				<div class="btn-toolbar">
 					<div class="btn-group">
-						<a class="btn" href="index.php?view=filesystem" onclick="return Install.goToPage('filesystem');" rel="prev" title="<?php echo JText::_('JPrevious'); ?>"><i class="icon-arrow-left"></i> <?php echo JText::_('JPrevious'); ?></a>
-						
-					</div>
-					<div class="btn-group">
 						<a class="btn btn-warning" href="#collapseSample" data-toggle="collapse"><i class="icon-upload icon-white"></i> <?php echo JText::_('INSTL_SITE_INSTALL_SAMPLE_LABEL'); ?></a>
 					</div>
-					<div class="btn-group">
-						<a  class="btn btn-primary"  href="#" onclick="Install.submitform();" rel="next" title="<?php echo JText::_('JNext'); ?>"><i class="icon-arrow-right icon-white"></i> <?php echo JText::_('JNext'); ?></a>
+					<div class="btn-group pull-right">
+						<a class="btn" href="index.php?view=filesystem" onclick="return Install.goToPage('filesystem');" rel="prev" title="<?php echo JText::_('JPrevious'); ?>"><i class="icon-arrow-left"></i> <?php echo JText::_('JPrevious'); ?></a>
+						<a  class="btn btn-primary" href="#" onclick="Install.submitform();" rel="next" title="<?php echo JText::_('JNext'); ?>"><i class="icon-arrow-right icon-white"></i> <?php echo JText::_('JNext'); ?></a>
 					</div>
 				</div>
 				<h3><?php echo JText::_('INSTL_SITE'); ?></h3>

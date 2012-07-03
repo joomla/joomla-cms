@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 			<div class="btn-group">
 				<a class="btn" data-toggle="modal" href="#licenseModal"><i class="icon-eye-open"></i> <?php echo JText::_('INSTL_LICENSE'); ?></a>
 			</div>
-			<div class="btn-group">
+			<div class="btn-group pull-right">
 				<a href="#" class="btn btn-primary" onclick="Install.submitform();" rel="next" title="<?php echo JText::_('JNext'); ?>"><i class="icon-arrow-right icon-white"></i> <?php echo JText::_('JNext'); ?></a>
 			</div>
 		</div>
