@@ -1,9 +1,5 @@
 /* CSS Document */
-.brand{
-	display: block;
-	text-align: center;
-}
-.installation .container{
+.container{
 	width: 900px;
 }
 .thumbnail {
@@ -23,14 +19,11 @@
 	background-image: linear-gradient(#d9effa, #d9effa 25%, #ffffff);
 	background-repeat: no-repeat;
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#d9effa', endColorstr='#ffffff', GradientType=0);
-	border-top:3px solid #0088cc;
+	border-top: 3px solid #0088cc;
+	padding: 20px 0;
+	text-align: center;
 }
-.header-inner {
-	padding:20px 0;
-}
-.header .nav {
-	margin:10px 0;
-}
+
 .hero-unit{
 	background-color: #08C;
 }

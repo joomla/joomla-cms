@@ -57,16 +57,10 @@ JText::script('INSTL_FTP_SETTINGS_CORRECT');
 			});
  		</script>
 	</head>
-	<body class="installation">
+	<body>
 		<!-- Header -->
 		<div class="header">
-			<div class="header-inner">
-				<div class="container"> 
-					<div class="brand">
-						<img src="<?php echo $this->baseurl ?>/template/images/joomla.png" alt="Joomla" />
-					</div>
-				</div>
-			</div>
+			<img src="<?php echo $this->baseurl ?>/template/images/joomla.png" alt="Joomla" />
 		</div>
 		<!-- Container -->
 		<div class="container">
@@ -85,19 +79,19 @@ JText::script('INSTL_FTP_SETTINGS_CORRECT');
 			(function($){
 				$('*[rel=tooltip]').tooltip()
 				$('*[rel=popover]').popover()
-				
+
 				// Chosen select boxes
 				$("select").chosen({disable_search_threshold : 10 });
-				
+
 				// Turn radios into btn-group
 				$('.radio.btn-group label').addClass('btn')
 				$(".btn-group label:not(.active)").click(function(){
 				    var label = $(this);
 				    var input = $('#' + label.attr('for'));
-				    
+
 				    if (!input.prop('checked')){
-				        label.closest('.btn-group').find("label").removeClass('active btn-primary');                        
-				        label.addClass('active btn-primary'); 
+				        label.closest('.btn-group').find("label").removeClass('active btn-primary');
+				        label.addClass('active btn-primary');
 				        input.prop('checked', true);
 				    }
 				});

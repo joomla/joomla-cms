@@ -13,7 +13,6 @@ defined('_JEXEC') or die;
 		<div class="btn-toolbar">
 			<div class="btn-group">
 				<a class="btn" href="index.php?view=language" onclick="return Install.goToPage('language');" rel="prev" title="<?php echo JText::_('JPrevious'); ?>"><i class="icon-arrow-left"></i> <?php echo JText::_('JPrevious'); ?></a>
-				
 			</div>
 			<div class="btn-group">
 				<a class="btn" href="index.php?view=preinstall" onclick="return Install.goToPage('preinstall');" title="<?php echo JText::_('JCheck_Again'); ?>"><i class="icon-refresh"></i> <?php echo JText::_('JCheck_Again'); ?></a>
