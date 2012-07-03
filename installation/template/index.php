@@ -53,7 +53,7 @@ JText::script('INSTL_FTP_SETTINGS_CORRECT');
 		<![endif]-->
 		<script type="text/javascript">
 			window.addEvent('domready', function() {
-				window.Install = new Installation('rightpad', '<?php echo JURI::current(); ?>');
+				window.Install = new Installation('container-installation', '<?php echo JURI::current(); ?>');
 			});
  		</script>
 	</head>
@@ -71,7 +71,9 @@ JText::script('INSTL_FTP_SETTINGS_CORRECT');
 		<!-- Container -->
 		<div class="container">
 			<?php echo JHtml::_('installation.stepbar'); ?>
-			<jdoc:include type="installation" />
+			<div id="container-installation">
+				<jdoc:include type="installation" />
+			</div>
 			<hr />
 			<div class="footer">
 				<p class="pull-right"><a href="#top" id="back-top">Back to top</a></p>
