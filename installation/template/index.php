@@ -71,8 +71,19 @@ JText::script('INSTL_FTP_SETTINGS_CORRECT');
 			<hr />
 			<div class="footer">
 				<p class="pull-right"><a href="#top" id="back-top">Back to top</a></p>
-				<p><?php $joomla= '<a href="http://www.joomla.org">Joomla!&#174;</a>';
-				echo JText::sprintf('JGLOBAL_ISFREESOFTWARE', $joomla) ?></p>
+				<p><?php
+				$joomla = '<a href="http://www.joomla.org">Joomla!&#174;</a>';
+				$license = '<a data-toggle="modal" href="#licenseModal">' . JText::_('INSTL_GNU_GPL_LICENSE') . '</a>';
+				echo JText::sprintf('JGLOBAL_ISFREESOFTWARE', $joomla, $license); ?></p>
+			</div>
+		</div>
+		<div id="licenseModal" class="modal fade">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">×</button>
+			    <h3><?php echo JText::_('INSTL_GNU_GPL_LICENSE'); ?></h3>
+			</div>
+			<div class="modal-body">
+				<iframe src="gpl.html" class="thumbnail span6 license" height="250" marginwidth="25" scrolling="auto"></iframe>
 			</div>
 		</div>
 		<script>
