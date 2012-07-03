@@ -233,8 +233,8 @@ body .navbar-fixed-top{
 	box-shadow: 0px 1px 0px rgba(255, 255, 255, 0.8) inset, 0px -35px 35px rgba(255, 255, 255, 0.6);
 }
 #status i{
-	opacity: 0.65;
-	filter: alpha(opacity=65);
+	opacity: 0.40;
+	filter: alpha(opacity=40);
 }
 #status a{
 	color: #999999;
