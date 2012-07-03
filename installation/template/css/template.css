@@ -8,7 +8,11 @@
 .accordion-group {
 	background:#fff;
 }
-/* Header */
+
+.step.active span {
+	background-color: #f89406;
+}
+
 .header {
 	background-color: #ffffff;
 	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#d9effa), color-stop(25%, #d9effa), to(#ffffff));
