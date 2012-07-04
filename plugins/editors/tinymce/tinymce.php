@@ -421,7 +421,7 @@ class plgEditorTinymce extends JPlugin
 		if ($advimage)
 		{
 			$plugins[]	= 'advimage';
-			$elements[]	= 'img[class|src|border=0|alt|title|hspace|vspace|width|height|align|onmouseover|onmouseout|name|style]';
+			$elements[]	= 'img[class|src|alt|title|hspace|vspace|width|height|align|onmouseover|onmouseout|name|style]';
 		}
 
 		// advlink
