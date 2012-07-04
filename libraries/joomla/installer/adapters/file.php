@@ -485,6 +485,11 @@ class JInstallerFile extends JAdapterInstance
 			$msg = ob_get_contents();
 			ob_end_clean();
 
+			if ($msg != '')
+			{
+				$this->parent->set('extension_message', $msg);
+			}
+
 			// Let's run the uninstall queries for the extension
 			$result = $this->parent->parseSQLFiles($this->manifest->uninstall->sql);
 

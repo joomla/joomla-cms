@@ -451,6 +451,11 @@ class JInstallerPackage extends JAdapterInstance
 		$msg = ob_get_contents();
 		ob_end_clean();
 
+		if ($msg != '')
+		{
+			$this->parent->set('extension_message', $msg);
+		}
+
 		$error = false;
 		foreach ($manifest->filelist as $extension)
 		{

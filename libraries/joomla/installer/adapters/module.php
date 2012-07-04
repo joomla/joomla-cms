@@ -798,6 +798,11 @@ class JInstallerModule extends JAdapterInstance
 		$msg = ob_get_contents();
 		ob_end_clean();
 
+		if ($msg != '')
+		{
+			$this->parent->set('extension_message', $msg);
+		}
+
 		if (!($this->manifest instanceof SimpleXMLElement))
 		{
 			// Make sure we delete the folders

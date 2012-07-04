@@ -633,10 +633,6 @@ class JInstallerPlugin extends JAdapterInstance
 			}
 		}
 
-		// Create msg object; first use here
-		$msg = ob_get_contents();
-		ob_end_clean();
-
 		// Let's run the queries for the plugin
 		$utfresult = $this->parent->parseSQLFiles($this->manifest->uninstall->sql);
 		if ($utfresult === false)
@@ -678,7 +674,7 @@ class JInstallerPlugin extends JAdapterInstance
 		// Remove the plugin's folder
 		JFolder::delete($this->parent->getPath('extension_root'));
 
-		if ($msg)
+		if ($msg != '')
 		{
 			$this->parent->set('extension_message', $msg);
 		}
