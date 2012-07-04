@@ -57,6 +57,12 @@ JLoader::register('JRoute', JPATH_PLATFORM . '/joomla/application/route.php');
 // Register the folder for the moved JHtml classes
 JHtml::addIncludePath(JPATH_PLATFORM . '/legacy/html');
 
+// Register classes for compatability with PHP 5.3
+if (version_compare(PHP_VERSION, '5.4.0', '<'))
+{
+	JLoader::register('JsonSerializable', __DIR__ . '/compat/jsonserializable.php');
+}
+
 // Add deprecated constants
 // @deprecated 12.3
 define('JPATH_ISWIN', IS_WIN);

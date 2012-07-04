@@ -28,7 +28,8 @@ class JRegistryTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Test the JRegistry::__clone method.
-	 * @
+	 *
+	 * @covers  JRegistry::__clone
 	 */
 	public function test__clone()
 	{
@@ -50,6 +51,8 @@ class JRegistryTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Test the JRegistry::__toString method.
+	 *
+	 * @covers  JRegistry::__toString
 	 */
 	public function test__toString()
 	{
@@ -65,7 +68,54 @@ class JRegistryTest extends PHPUnit_Framework_TestCase
 		);
 	}
 
+	/**
+	 * Test the JRegistry::jsonSerialize method.
+	 *
+	 * @covers  JRegistry::jsonSerialize
+	 */
+	public function testJsonSerialize()
+	{
+		if (version_compare(PHP_VERSION, '5.4.0', '<'))
+		{
+			$this->markTestSkipped('This test requires PHP 5.4 or newer.');
+		}
 
+		$object = new stdClass();
+		$a = new JRegistry($object);
+		$a->set('foo', 'bar');
+
+		// __toString only allows for a JSON value.
+		$this->assertThat(
+			json_encode($a),
+			$this->equalTo('{"foo":"bar"}'),
+			'Line: '.__LINE__.'.'
+		);
+	}
+
+	/**
+	 * Tests serializing JRegistry objects.
+	 */
+	public function testSerialize()
+	{
+		$a = new JRegistry();
+		$a->set('foo', 'bar');
+
+		$serialized = serialize($a);
+		$b = unserialize($serialized);
+
+		// __toString only allows for a JSON value.
+		$this->assertThat(
+			$b,
+			$this->equalTo($a),
+			'Line: '.__LINE__.'.'
+		);
+	}
+
+	/**
+	 * Test the JRegistry::def method.
+	 *
+	 * @covers  JRegistry::def
+	 */
 	public function testDef()
 	{
 		$a = new JRegistry();
@@ -85,6 +135,8 @@ class JRegistryTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tet the JRegistry::bindData method.
+	 *
+	 * @covers  JRegistry::bindData
 	 */
 	public function testBindData()
 	{
@@ -121,7 +173,9 @@ class JRegistryTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Test the JReigstry::exists method.
+	 * Test the JRegistry::exists method.
+	 *
+	 * @covers  JRegistry::exists
 	 */
 	public function testExists()
 	{
@@ -162,7 +216,9 @@ class JRegistryTest extends PHPUnit_Framework_TestCase
 	}
 
 	/*
-	 * Test the JRegistry get method
+	 * Test the JRegistry::get method
+	 *
+	 * @covers  JRegistry::get
 	 */
 	public function testGet()
 	{
@@ -174,6 +230,8 @@ class JRegistryTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Test the JRegistry::getInstance method.
+	 *
+	 * @covers  JRegistry::getInstance
 	 */
 	public function testGetInstance()
 	{
@@ -206,6 +264,8 @@ class JRegistryTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Test the JRegistry::loadArray method.
+	 *
+	 * @covers  JRegistry::loadArray
 	 */
 	public function testLoadArray()
 	{
@@ -227,6 +287,8 @@ class JRegistryTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Test the JRegistry::loadFile method.
+	 *
+	 * @covers  JRegistry::loadFile
 	 */
 	public function testLoadFile()
 	{
@@ -269,6 +331,8 @@ class JRegistryTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Test the JRegistry::loadString() method.
+	 *
+	 * @covers  JRegistry::loadString
 	 */
 	public function testLoadString()
 	{
@@ -316,6 +380,8 @@ class JRegistryTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Test the JRegistry::loadObject method.
+	 *
+	 * @covers  JRegistry::loadObject
 	 */
 	public function testLoadObject()
 	{
@@ -345,6 +411,8 @@ class JRegistryTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Test the JRegistry::merge method.
+	 *
+	 * @covers  JRegistry::merge
 	 */
 	public function testMerge()
 	{
@@ -402,6 +470,8 @@ class JRegistryTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Test the JRegistry::set method.
+	 *
+	 * @covers  JRegistry::set
 	 */
 	public function testSet()
 	{
@@ -417,6 +487,8 @@ class JRegistryTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Test the JRegistry::toArray method.
+	 *
+	 * @covers  JRegistry::toArray
 	 */
 	public function testToArray()
 	{
@@ -440,6 +512,8 @@ class JRegistryTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Test the JRegistry::toObject method.
+	 *
+	 * @covers  JRegistry::toObject
 	 */
 	public function testToObject()
 	{
@@ -463,6 +537,8 @@ class JRegistryTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Test the JRegistry::toString method.
+	 *
+	 * @covers  JRegistry::toString
 	 */
 	public function testToString()
 	{

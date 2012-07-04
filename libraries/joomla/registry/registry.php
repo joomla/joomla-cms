@@ -18,7 +18,7 @@ jimport('joomla.utilities.arrayhelper');
  * @subpackage  Registry
  * @since       11.1
  */
-class JRegistry
+class JRegistry implements JsonSerializable
 {
 	/**
 	 * Registry Object
@@ -79,6 +79,20 @@ class JRegistry
 	public function __toString()
 	{
 		return $this->toString();
+	}
+
+	/**
+	 * Implementation for the JsonSerializable interface.
+	 * Allows us to pass JRegistry objects to json_encode.
+	 *
+	 * @return  object
+	 *
+	 * @since   12.2
+	 * @note    The interface is only present in PHP 5.4 and up.
+	 */
+	public function jsonSerialize()
+	{
+		return $this->data;
 	}
 
 	/**
