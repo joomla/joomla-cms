@@ -5001,8 +5001,12 @@ class AKFactory {
 }
 
 /**
- * AES implementation in PHP (c) Chris Veness 2005-2011.
- * Right to use and adapt is granted for under a simple creative commons attribution
+ * AES implementation in PHP (c) Chris Veness 2005-2011
+ * (http://www.movable-type.co.uk/scripts/aes-php.html)
+ * I offer these formulæ & scripts for free use and adaptation as my contribution to the 
+ * open-source info-sphere from which I have received so much. You are welcome to re-use these 
+ * scripts [under a simple attribution license or a GPL licence, without any warranty express or implied] 
+ * provided solely that you retain my copyright notice and a link to this page.
  * licence. No warranty of any form is offered.
  *
  * Modified for Akeeba Backup by Nicholas K. Dionysopoulos
