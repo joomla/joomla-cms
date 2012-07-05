@@ -683,7 +683,7 @@ class JControllerForm extends JController
 			$this->setRedirect(
 				JRoute::_(
 					'index.php?option=' . $this->option . '&view=' . $this->view_item
-					. $this->getRedirectToItemAppend($recordId, $key), false
+					. $this->getRedirectToItemAppend($recordId, $urlVar), false
 				)
 			);
 
@@ -703,7 +703,7 @@ class JControllerForm extends JController
 			$this->setRedirect(
 				JRoute::_(
 					'index.php?option=' . $this->option . '&view=' . $this->view_item
-					. $this->getRedirectToItemAppend($recordId, $key), false
+					. $this->getRedirectToItemAppend($recordId, $urlVar), false
 				)
 			);
 
@@ -723,7 +723,7 @@ class JControllerForm extends JController
 			$this->setRedirect(
 				JRoute::_(
 					'index.php?option=' . $this->option . '&view=' . $this->view_item
-					. $this->getRedirectToItemAppend($recordId, $key), false
+					. $this->getRedirectToItemAppend($recordId, $urlVar), false
 				)
 			);
 
@@ -752,7 +752,7 @@ class JControllerForm extends JController
 				$this->setRedirect(
 					JRoute::_(
 						'index.php?option=' . $this->option . '&view=' . $this->view_item
-						. $this->getRedirectToItemAppend($recordId, $key), false
+						. $this->getRedirectToItemAppend($recordId, $urlVar), false
 					)
 				);
 				break;
@@ -766,7 +766,7 @@ class JControllerForm extends JController
 				$this->setRedirect(
 					JRoute::_(
 						'index.php?option=' . $this->option . '&view=' . $this->view_item
-						. $this->getRedirectToItemAppend(null, $key), false
+						. $this->getRedirectToItemAppend(null, $urlVar), false
 					)
 				);
 				break;
