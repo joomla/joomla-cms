@@ -50,10 +50,11 @@ class AdminModelHelp extends JModelLegacy
 	function &getHelpSearch()
 	{
 		if (is_null($this->help_search)) {
-			$this->help_search = JRequest::getString('helpsearch');
+			$this->help_search = JFactory::getApplication()->input->getString('helpsearch');
 		}
 		return $this->help_search;
 	}
+
 	/**
 	 * Method to get the page
 	 * @return string page
@@ -62,11 +63,12 @@ class AdminModelHelp extends JModelLegacy
 	{
 		if (is_null($this->page))
 		{
-			$page = JRequest::getCmd('page', 'JHELP_START_HERE');
+			$page = JFactory::getApplication()->input->get('page', 'JHELP_START_HERE');
 			$this->page = JHelp::createUrl($page);
 		}
 		return $this->page;
 	}
+
 	/**
 	 * Method to get the lang tag
 	 * @return string lang iso tag
@@ -85,6 +87,7 @@ class AdminModelHelp extends JModelLegacy
 		}
 		return $this->lang_tag;
 	}
+
 	/**
 	 * Method to get the toc
 	 * @return array Table of contents

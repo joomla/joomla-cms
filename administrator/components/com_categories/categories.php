@@ -9,12 +9,15 @@
 
 defined('_JEXEC') or die;
 
-// Access check.
-if (!JFactory::getUser()->authorise('core.manage', JRequest::getCmd('extension'))) {
+$input = JFactory::getApplication()->input;
+
+if (!JFactory::getUser()->authorise('core.manage', $input->get('extension')))
+{
 	return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
 }
 
-// Execute the task.
+$task = $input->get('task');
+
 $controller	= JControllerLegacy::getInstance('Categories');
-$controller->execute(JRequest::getVar('task'));
+$controller->execute($task);
 $controller->redirect();

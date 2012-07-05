@@ -9,14 +9,16 @@
 
 defined('_JEXEC') or die;
 
-// Access check.
-if (!JFactory::getUser()->authorise('core.manage', 'com_content')) {
+if (!JFactory::getUser()->authorise('core.manage', 'com_content'))
+{
 	return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
 }
 
 // Register helper class
 JLoader::register('ContentHelper', dirname(__FILE__) . '/helpers/content.php');
 
+$task = JFactory::getApplication()->input->get('task');
+
 $controller = JControllerLegacy::getInstance('Content');
-$controller->execute(JRequest::getCmd('task'));
+$controller->execute($task);
 $controller->redirect();

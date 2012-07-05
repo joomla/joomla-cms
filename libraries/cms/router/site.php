@@ -145,11 +145,11 @@ class JRouterSite extends JRouter
 		$this->setVars($uri->getQuery(true));
 
 		//Get the itemid, if it hasn't been set force it to null
-		$this->setVar('Itemid', JRequest::getInt('Itemid', null));
+		$this->setVar('Itemid', $app->input->getInt('Itemid', null));
 
 		// Only an Itemid  OR if filter language plugin set? Get the full information from the itemid
-		if (count($this->getVars()) == 1 || ( $app->getLanguageFilter() && count( $this->getVars()) == 2 )) {
-
+		if (count($this->getVars()) == 1 || ($app->getLanguageFilter() && count( $this->getVars()) == 2 ))
+		{
 			$item = $menu->getItem($this->getVar('Itemid'));
 			if ($item !== null && is_array($item->query)) {
 				$vars = $vars + $item->query;

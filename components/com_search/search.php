@@ -9,11 +9,8 @@
 
 defined('_JEXEC') or die;
 
-// Create the controller
+$task = JFactory::getApplication()->input->get('task');
+
 $controller = JControllerLegacy::getInstance('Search');
-
-// Perform the Request task
-$controller->execute(JRequest::getCmd('task'));
-
-// Redirect if set by the controller
+$controller->execute($task);
 $controller->redirect();

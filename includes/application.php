@@ -62,7 +62,7 @@ final class JSite extends JApplication
 		JPluginHelper::importPlugin('system', 'languagefilter');
 
 		if (empty($options['language'])) {
-			$lang = JRequest::getString('language', null);
+			$lang = $this->input->getString('language', null);
 			if ($lang && JLanguage::exists($lang)) {
 				$options['language'] = $lang;
 			}
@@ -70,7 +70,7 @@ final class JSite extends JApplication
 
 		if ($this->_language_filter && empty($options['language'])) {
 			// Detect cookie language
-			$lang = JRequest::getString(self::getHash('language'), null , 'cookie');
+			$lang = $this->input->getString(self::getHash('language'), null , 'cookie');
 			// Make sure that the user's language exists
 			if ($lang && JLanguage::exists($lang)) {
 				$options['language'] = $lang;
@@ -135,7 +135,7 @@ final class JSite extends JApplication
 	{
 		parent::route();
 
-		$Itemid = JRequest::getInt('Itemid');
+		$Itemid = $this->input->getInt('Itemid');
 		$this->authorise($Itemid);
 	}
 
@@ -150,7 +150,7 @@ final class JSite extends JApplication
 		{
 			// Get the component if not set.
 			if (!$component) {
-				$component = JRequest::getCmd('option');
+				$component = $this->input->get('option');
 			}
 
 			$document	= JFactory::getDocument();
@@ -230,7 +230,7 @@ final class JSite extends JApplication
 			case 'html':
 			default:
 				$template	= $this->getTemplate(true);
-				$file		= JRequest::getCmd('tmpl', 'index');
+				$file		= $this->input->get('tmpl', 'index');
 
 				if (!$this->getCfg('offline') && ($file == 'offline')) {
 					$file = 'index';
@@ -345,7 +345,7 @@ final class JSite extends JApplication
 		{
 			// Get component parameters
 			if (!$option) {
-				$option = JRequest::getCmd('option');
+				$option = $this->input->get('option');
 			}
 			// Get new instance of component global parameters
 			$params[$hash] = clone JComponentHelper::getParams($option);
@@ -421,7 +421,7 @@ final class JSite extends JApplication
 		$menu = $this->getMenu();
 		$item = $menu->getActive();
 		if (!$item) {
-			$item = $menu->getItem(JRequest::getInt('Itemid'));
+			$item = $menu->getItem($this->input->getInt('Itemid'));
 		}
 
 		$id = 0;
@@ -476,7 +476,7 @@ final class JSite extends JApplication
 		}
 
 		// Allows for overriding the active template from the request
-		$template->template = JRequest::getCmd('template', $template->template);
+		$template->template = $this->input->get('template', $template->template);
 		$template->template = JFilterInput::getInstance()->clean($template->template, 'cmd'); // need to filter the default value as well
 
 		// Fallback template

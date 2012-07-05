@@ -9,12 +9,14 @@
 
 defined('_JEXEC') or die;
 
-// Access check.
-if (!JFactory::getUser()->authorise('core.manage', 'com_banners')) {
+if (!JFactory::getUser()->authorise('core.manage', 'com_banners'))
+{
 	return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
 }
 
+$task = JFactory::getApplication()->input->get('task');
+
 // Execute the task.
 $controller	= JControllerLegacy::getInstance('Banners');
-$controller->execute(JRequest::getCmd('task'));
+$controller->execute($task);
 $controller->redirect();

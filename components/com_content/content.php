@@ -9,10 +9,11 @@
 
 defined('_JEXEC') or die;
 
-// Include dependancies
 require_once JPATH_COMPONENT.'/helpers/route.php';
 require_once JPATH_COMPONENT.'/helpers/query.php';
 
+$task = JFactory::getApplication()->input->get('task');
+
 $controller = JControllerLegacy::getInstance('Content');
-$controller->execute(JRequest::getCmd('task'));
+$controller->execute($task);
 $controller->redirect();

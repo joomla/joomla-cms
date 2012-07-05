@@ -14,7 +14,8 @@ defined('_JEXEC') or die;
 // Tell the browser not to cache this page.
 JResponse::setHeader('Expires', 'Mon, 26 Jul 1997 05:00:00 GMT', true);
 
-// Execute the controller.
+$task = JFactory::getApplication()->input->get('task');
+
 $controller = JControllerLegacy::getInstance('Config');
-$controller->execute(JRequest::getCmd('task'));
+$controller->execute($task);
 $controller->redirect();

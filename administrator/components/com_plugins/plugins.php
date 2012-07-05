@@ -9,12 +9,13 @@
 
 defined('_JEXEC') or die;
 
-// Access check.
-if (!JFactory::getUser()->authorise('core.manage', 'com_plugins')) {
+if (!JFactory::getUser()->authorise('core.manage', 'com_plugins'))
+{
 	return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
 }
 
-// Create the controller
+$task = JFactory::getApplication()->input->get('task');
+
 $controller	= JControllerLegacy::getInstance('Plugins');
-$controller->execute(JRequest::getCmd('task'));
+$controller->execute($task);
 $controller->redirect();

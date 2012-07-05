@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+$task = JFactory::getApplication()->input->get('task');
+
 $controller = JControllerLegacy::getInstance('Wrapper');
-$controller->execute(JRequest::getCmd('task'));
+$controller->execute($task);
 $controller->redirect();

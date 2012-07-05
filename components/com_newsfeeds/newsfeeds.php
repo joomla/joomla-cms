@@ -9,10 +9,11 @@
 
 defined('_JEXEC') or die;
 
-// Require the com_content helper library
 require_once JPATH_COMPONENT.'/helpers/route.php';
 JTable::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR . '/tables');
 
+$task = JFactory::getApplication()->input->get('task');
+
 $controller	= JControllerLegacy::getInstance('Newsfeeds');
-$controller->execute(JRequest::getCmd('task'));
+$controller->execute($task);
 $controller->redirect();

@@ -65,8 +65,10 @@ class plgContentPagebreak extends JPlugin
 		// Expression to search for.
 		$regex = '#<hr(.*)class="system-pagebreak"(.*)\/>#iU';
 
-		$print = JRequest::getBool('print');
-		$showall = JRequest::getBool('showall');
+		$input = JFactory::getApplication()->input;
+
+		$print = $input->getBool('print');
+		$showall = $input->getBool('showall');
 
 		if (!$this->params->get('enabled', 1)) {
 			$print = true;
@@ -83,8 +85,8 @@ class plgContentPagebreak extends JPlugin
 		}
 
 		$db = JFactory::getDbo();
-		$view = JRequest::getString('view');
-		$full = JRequest::getBool('fullview');
+		$view = $input->getString('view');
+		$full = $input->getBool('fullview');
 
 		if (!$page) {
 			$page = 0;
@@ -213,8 +215,9 @@ class plgContentPagebreak extends JPlugin
 	protected function _createTOC(&$row, &$matches, &$page)
 	{
 		$heading = isset($row->title) ? $row->title : JText::_('PLG_CONTENT_PAGEBREAK_NO_TITLE');
-		$limitstart = JRequest::getUInt('limitstart', 0);
-		$showall = JRequest::getInt('showall', 0);
+		$input = JFactory::getApplication()->input;
+		$limitstart = $input->getUInt('limitstart', 0);
+		$showall = $input->getInt('showall', 0);
 		// TOC header.
 		$row->toc .= '<div id="article-index">';
 

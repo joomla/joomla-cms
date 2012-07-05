@@ -42,8 +42,9 @@ class plgButtonImage extends JPlugin
 		$app = JFactory::getApplication();
 		$params = JComponentHelper::getParams('com_media');
 		$user = JFactory::getUser();
-		$extension = JRequest::getCmd('option');
-		if ($asset == ''){
+		$extension = $app->input->get('option');
+		if ($asset == '')
+		{
 			$asset = $extension;
 		}
 		if (	$user->authorise('core.edit', $asset)

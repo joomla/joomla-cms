@@ -68,14 +68,14 @@ class JInstallation extends JApplication
 
 		// Execute the task.
 		$controller	= JControllerLegacy::getInstance('Installation');
-		$controller->execute(JRequest::getVar('task'));
+		$controller->execute($this->input->get('task'));
 		$controller->redirect();
 
 		// Get output from the buffer and clean it.
 		$contents = ob_get_contents();
 		ob_end_clean();
 
-		$file = JRequest::getCmd('tmpl', 'index');
+		$file = $this->input->get('tmpl', 'index');
 
 		$params = array(
 			'template'	=> 'template',
@@ -110,7 +110,7 @@ class JInstallation extends JApplication
 		// Check the request data for the language.
 		if (empty($options['language']))
 		{
-			$requestLang = JRequest::getCmd('lang', null);
+			$requestLang = $this->input->get('lang');
 			if (!is_null($requestLang))
 			{
 				$options['language'] = $requestLang;

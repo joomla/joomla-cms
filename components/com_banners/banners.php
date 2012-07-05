@@ -9,7 +9,8 @@
 
 defined('_JEXEC') or die;
 
-// Execute the task.
+$task = JFactory::getApplication()->input->get('task');
+
 $controller	= JControllerLegacy::getInstance('Banners');
-$controller->execute(JRequest::getVar('task', 'click'));
+$controller->execute($task);
 $controller->redirect();

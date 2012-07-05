@@ -9,10 +9,11 @@
 
 defined('_JEXEC') or die;
 
-$task = JRequest::getCmd('task');
+$input = JFactory::getApplication()->input;
+$task = $input->get('task');
 if ($task != 'login' && $task != 'logout')
 {
-	JRequest::setVar('task', '');
+	$input->set('task', '');
 	$task = '';
 }
 

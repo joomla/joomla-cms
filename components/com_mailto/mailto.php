@@ -12,8 +12,10 @@ defined('_JEXEC') or die;
 require_once JPATH_COMPONENT.'/helpers/mailto.php';
 require_once JPATH_COMPONENT.'/controller.php';
 
+$task = JFactory::getApplication()->input->get('task');
+
 $controller = JControllerLegacy::getInstance('Mailto');
 $controller->registerDefaultTask('mailto');
-$controller->execute(JRequest::getCmd('task'));
+$controller->execute($task);
 
 //$controller->redirect();

@@ -25,7 +25,8 @@ class JAdministratorHelper
 	 */
 	public static function findOption()
 	{
-		$option = strtolower(JRequest::getCmd('option'));
+		$input = JFactory::getApplication()->input;
+		$option = strtolower($input->get('option'));
 
 		$user = JFactory::getUser();
 		if (($user->get('guest')) || !$user->authorise('core.login.admin')) {
@@ -36,7 +37,7 @@ class JAdministratorHelper
 			$option = 'com_cpanel';
 		}
 
-		JRequest::setVar('option', $option);
+		$input->set('option', $option);
 		return $option;
 	}
 }

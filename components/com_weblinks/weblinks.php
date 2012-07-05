@@ -11,6 +11,8 @@ defined('_JEXEC') or die;
 
 require_once JPATH_COMPONENT.'/helpers/route.php';
 
+$task = JFactory::getApplication()->input->get('task');
+
 $controller	= JControllerLegacy::getInstance('Weblinks');
-$controller->execute(JRequest::getCmd('task'));
+$controller->execute($task);
 $controller->redirect();

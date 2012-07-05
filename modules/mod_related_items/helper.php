@@ -27,10 +27,10 @@ abstract class modRelatedItemsHelper
 		$groups		= implode(',', $user->getAuthorisedViewLevels());
 		$date		= JFactory::getDate();
 
-		$option		= JRequest::getCmd('option');
-		$view		= JRequest::getCmd('view');
+		$option		= $app->input->get('option');
+		$view		= $app->input->get('view');
 
-		$temp		= JRequest::getString('id');
+		$temp		= $app->input->getString('id');
 		$temp		= explode(':', $temp);
 		$id			= $temp[0];
 

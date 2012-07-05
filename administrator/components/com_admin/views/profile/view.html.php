@@ -48,7 +48,7 @@ class AdminViewProfile extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		JRequest::setVar('hidemainmenu', 1);
+		JFactory::getApplication()->input->set('hidemainmenu', 1);
 
 		JToolBarHelper::title(JText::_('COM_ADMIN_VIEW_PROFILE_TITLE'), 'user-profile');
 		JToolBarHelper::apply('profile.apply');

@@ -74,7 +74,7 @@ class InstallationModelSetup extends JModelLegacy
 
 		if (!$view)
 		{
-			$view = JRequest::getWord('view', 'language');
+			$view = JFactory::getApplication()->input->get('view', 'language', 'word');
 		}
 
 		// Get the form.

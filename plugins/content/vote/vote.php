@@ -43,7 +43,7 @@ class plgContentVote extends JPlugin
 			$rating = intval(@$row->rating);
 			$rating_count = intval(@$row->rating_count);
 
-			$view = JRequest::getString('view', '');
+			$view = JFactory::getApplication()->input->getString('view', '');
 			$img = '';
 
 			// look for images in template if available

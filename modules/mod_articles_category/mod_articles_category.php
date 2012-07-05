@@ -12,26 +12,28 @@ defined('_JEXEC') or die;
 // Include the helper functions only once
 require_once dirname(__FILE__).'/helper.php';
 
+$input = JFactory::getApplication()->input;
+
 		// Prep for Normal or Dynamic Modes
 		$mode = $params->get('mode', 'normal');
 		$idbase = null;
 		switch($mode)
 		{
 			case 'dynamic':
-				$option = JRequest::getCmd('option');
-				$view = JRequest::getCmd('view');
+				$option = $input->get('option');
+				$view = $input->get('view');
 				if ($option === 'com_content') {
 					switch($view)
 					{
 						case 'category':
-							$idbase = JRequest::getInt('id');
+							$idbase = $input->getInt('id');
 							break;
 						case 'categories':
-							$idbase = JRequest::getInt('id');
+							$idbase = $input->getInt('id');
 							break;
 						case 'article':
 							if ($params->get('show_on_article_page', 1)) {
-								$idbase = JRequest::getInt('catid');
+								$idbase = $input->getInt('catid');
 							}
 							break;
 					}

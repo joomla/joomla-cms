@@ -171,9 +171,9 @@ class JAdministrator extends JApplication
 	 */
 	public function render()
 	{
-		$component	= JRequest::getCmd('option', 'com_login');
+		$component	= $this->input->get('option', 'com_login');
 		$template	= $this->getTemplate(true);
-		$file		= JRequest::getCmd('tmpl', 'index');
+		$file		= $this->input->get('tmpl', 'index');
 
 		if ($component == 'com_login') {
 			$file = 'login';
@@ -233,7 +233,7 @@ class JAdministrator extends JApplication
 
 		if (!($result instanceof Exception))
 		{
-			$lang = JRequest::getCmd('lang');
+			$lang = $this->input->get('lang');
 			$lang = preg_replace('/[^A-Z-]/i', '', $lang);
 			$this->setUserState('application.lang', $lang );
 

@@ -16,7 +16,7 @@ class JHtmlInstallation
 {
 	public static function stepbar()
 	{
-		$view = JRequest::getWord('view');
+		$view = JFactory::getApplication()->input->getWord('view');
 		switch ($view) {
 			case '':
 			case 'language':

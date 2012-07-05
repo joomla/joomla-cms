@@ -22,10 +22,12 @@ class plgContentPagenavigation extends JPlugin
 	 */
 	public function onContentBeforeDisplay($context, &$row, &$params, $page=0)
 	{
-		$view = JRequest::getCmd('view');
-		$print = JRequest::getBool('print');
+		$app = JFactory::getApplication();
+		$view = $app->input->get('view');
+		$print = $app->input->getBool('print');
 
-		if ($print) {
+		if ($print)
+		{
 			return false;
 		}
 
@@ -33,7 +35,6 @@ class plgContentPagenavigation extends JPlugin
 			$html = '';
 			$db		= JFactory::getDbo();
 			$user	= JFactory::getUser();
-			$app	= JFactory::getApplication();
 			$lang	= JFactory::getLanguage();
 			$nullDate = $db->getNullDate();
 
