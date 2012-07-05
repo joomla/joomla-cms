@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+04-July-2012 Jean-Marie Simonet
+ # [#28779] *JS error in page 6 of installation. Thanks Michael
+
 03-July-2012 Jean-Marie Simonet
  # [#28741] E_STRICT: JArrayHelper::pivot should be declared as static. Thanks Christophe.
  ^ [#28776] Replace DS with DIRECTORY_SEPARATOR in com_media. Thanks Michael
