@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+05-July-2012 Jean-Marie Simonet
+ # [#28770] Loss of data when editing an article through the front end. Thanks Franz
+
 04-July-2012 Jean-Marie Simonet
  # [#28779] *JS error in page 6 of installation. Thanks Michael
 
