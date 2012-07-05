@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+05-Jul-2012 Mark Dexter
+ # Fix installation to chmod configuration before delete
+
 30-Jun-2012 Mark Dexter
  # More fixes for Selenium RC2 -- don't use TinyMCE for tests
 

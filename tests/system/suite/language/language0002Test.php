@@ -18,6 +18,7 @@ class Language0002Test extends SeleniumJoomlaTestCase
 
 		if (file_exists($configFile)) {
 			echo "Delete configuration file\n";
+			chmod($configFile, 0777);
 			unlink($configFile);
 		}
 		else {
