@@ -79,6 +79,12 @@ class JTwitter
 	protected $lists;
 
 	/**
+	 * @var    JTwitterPlaces  Twitter API object for places & geo.
+	 * @since  12.1
+	 */
+	protected $places;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   JRegistry     $options  Twitter options object.
@@ -163,6 +169,13 @@ class JTwitter
 					$this->lists = new JTwitterLists($this->options, $this->client);
 				}
 				return $this->lists;
+
+			case 'places':
+				if ($this->places == null)
+				{
+					$this->places = new JTwitterPlaces($this->options, $this->client);
+				}
+				return $this->places;
 		}
 	}
 
