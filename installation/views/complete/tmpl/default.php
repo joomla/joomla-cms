@@ -8,6 +8,7 @@
 
 defined('_JEXEC') or die;
 ?>
+<?php echo JHtml::_('installation.stepbar'); ?>
 <form action="index.php" method="post" id="adminForm" class="form-validate form-horizontal">
 	<div class="alert alert-error inlineError" id="theDefaultError" style="display: none">
 		<h4 class="alert-heading"><?php echo JText::_('JERROR'); ?></h4>
@@ -51,7 +52,7 @@ defined('_JEXEC') or die;
 		</div>
 		<div class="controls">
 			<div class="alert alert-error">
-				<textarea rows="5" cols="49" name="configcode" onclick="this.form.configcode.focus();this.form.configcode.select();" ><?php echo $this->config; ?></textarea>
+				<textarea rows="5" cols="49" name="configcode" onclick="this.form.configcode.focus();this.form.configcode.select();"><?php echo $this->config; ?></textarea>
 			</div>
 		</div>
 	</div>

@@ -8,6 +8,7 @@
 
 defined('_JEXEC') or die;
 ?>
+<?php echo JHtml::_('installation.stepbar'); ?>
 <form action="index.php" method="post" id="adminForm" class="form-validate form-horizontal">
 	<div class="btn-toolbar">
 		<div class="btn-group pull-right">

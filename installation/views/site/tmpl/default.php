@@ -8,6 +8,7 @@
 
 defined('_JEXEC') or die;
 ?>
+<?php echo JHtml::_('installation.stepbar'); ?>
 <div id="installer">
 		<div id="collapseSample" class="collapse">
 			<form enctype="multipart/form-data" action="index.php" method="post" class="form-horizontal" id="filename">

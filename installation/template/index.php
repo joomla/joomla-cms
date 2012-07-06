@@ -10,9 +10,6 @@ defined('_JEXEC') or die;
 
 $doc = JFactory::getDocument();
 
-// Include the component HTML helpers.
-JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
-
 // Add Stylesheets
 $doc->addStyleSheet('../templates/system/css/bootstrap.css');
 $doc->addStyleSheet('../templates/system/css/bootstrap-extended.css');
@@ -38,7 +35,7 @@ JText::script('INSTL_SITE_SAMPLE_LOADED');
 JText::script('INSTL_FTP_SETTINGS_CORRECT');
 ?>
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>" >
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 	<head>
 		<script src="<?php echo JURI::root();?>templates/system/js/jquery.js"></script>
 		<script src="<?php echo JURI::root();?>templates/system/js/bootstrap.min.js"></script>
@@ -64,7 +61,7 @@ JText::script('INSTL_FTP_SETTINGS_CORRECT');
 		</div>
 		<!-- Container -->
 		<div class="container">
-			<?php echo JHtml::_('installation.stepbar'); ?>
+			<jdoc:include type="message" />
 			<div id="container-installation">
 				<jdoc:include type="installation" />
 			</div>
@@ -80,7 +77,7 @@ JText::script('INSTL_FTP_SETTINGS_CORRECT');
 		<div id="licenseModal" class="modal fade">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal">×</button>
-			    <h3><?php echo JText::_('INSTL_GNU_GPL_LICENSE'); ?></h3>
+				<h3><?php echo JText::_('INSTL_GNU_GPL_LICENSE'); ?></h3>
 			</div>
 			<div class="modal-body">
 				<iframe src="gpl.html" class="thumbnail span6 license" height="250" marginwidth="25" scrolling="auto"></iframe>

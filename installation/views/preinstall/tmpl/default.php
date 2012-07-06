@@ -8,6 +8,7 @@
 
 defined('_JEXEC') or die;
 ?>
+<?php echo JHtml::_('installation.stepbar'); ?>
 <form action="index.php" method="post" id="adminForm" class="form-validate form-horizontal">
 	<div class="btn-toolbar">
 		<div class="btn-group">
@@ -36,7 +37,7 @@ defined('_JEXEC') or die;
 						<td>
 							<span class="label label-<?php echo ($option->state) ? 'success' : 'important'; ?>">
 								<?php echo JText::_(($option->state) ? 'JYES' : 'JNO'); ?>
-								<?php if($option->notice):?>
+								<?php if ($option->notice):?>
 									<i class="icon-info-sign icon-white" rel="tooltip" title="<?php echo $option->notice; ?>"></i>
 								<?php endif;?>
 							</span>

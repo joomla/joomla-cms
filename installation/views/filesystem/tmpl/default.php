@@ -8,11 +8,12 @@
 
 defined('_JEXEC') or die;
 ?>
+<?php echo JHtml::_('installation.stepbar'); ?>
 <form action="index.php" method="post" id="adminForm" class="form-validate form-horizontal">
 	<div class="btn-toolbar">
 		<div class="btn-group pull-right">
 			<a class="btn" href="index.php?view=database" onclick="return Install.goToPage('database');" rel="prev" title="<?php echo JText::_('JPrevious'); ?>"><i class="icon-arrow-left"></i> <?php echo JText::_('JPrevious'); ?></a>
-			<a  class="btn btn-primary"  href="#" onclick="Install.submitform();" rel="next" title="<?php echo JText::_('JNext'); ?>"><i class="icon-arrow-right icon-white"></i> <?php echo JText::_('JNext'); ?></a>
+			<a  class="btn btn-primary" href="#" onclick="Install.submitform();" rel="next" title="<?php echo JText::_('JNext'); ?>"><i class="icon-arrow-right icon-white"></i> <?php echo JText::_('JNext'); ?></a>
 		</div>
 	</div>
 	<h3><?php echo JText::_('INSTL_FTP_TITLE'); ?> <i class="icon-info-sign" title="<?php echo JText::_('INSTL_FTP'); ?>" data-content="<?php echo JText::_('INSTL_FTP_DESC'); ?>" rel="popover" data-placement="left"></i></h3>

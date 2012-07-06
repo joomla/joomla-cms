@@ -8,11 +8,12 @@
 
 defined('_JEXEC') or die;
 ?>
+<?php echo JHtml::_('installation.stepbar'); ?>
 <fieldset>
 	<legend><?php echo JText::_('INSTL_COMPLETE_REMOVE_FOLDER'); ?></legend>
 	<div class="control-group">
 		<label for="" class="control-label">
-		
+
 		</label>
 		<div class="controls" id="installer">
 			<div class="alert alert-info">
@@ -22,10 +23,10 @@ defined('_JEXEC') or die;
 	</div>
 	<div class="control-group">
 		<label for="" class="control-label">
-		
+
 		</label>
 		<div class="controls">
-			<a class="btn" href="<?php echo JURI::root(); ?>" title="<?php echo JText::_('JSITE'); ?>"><i class="icon-eye-open"></i> <?php echo JText::_('JSITE'); ?></a> 
+			<a class="btn" href="<?php echo JURI::root(); ?>" title="<?php echo JText::_('JSITE'); ?>"><i class="icon-eye-open"></i> <?php echo JText::_('JSITE'); ?></a>
 			<a class="btn btn-primary" href="<?php echo JURI::root(); ?>administrator/" title="<?php echo JText::_('JADMINISTRATOR'); ?>"><i class="icon-lock icon-white"></i> <?php echo JText::_('JADMINISTRATOR'); ?></a>
 		</div>
 	</div>
