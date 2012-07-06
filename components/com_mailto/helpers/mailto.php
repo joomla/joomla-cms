@@ -10,8 +10,8 @@
 defined('_JEXEC') or die;
 
 /**
- * @package		Joomla.Site
- * @subpackage	com_mailto
+ * @package     Joomla.Site
+ * @subpackage  com_mailto
  */
 abstract class MailtoHelper
 {

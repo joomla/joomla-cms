@@ -15,9 +15,9 @@ jimport('joomla.application.component.helper');
  *
  * Provide many supporting API functions
  *
- * @package		Joomla.Administrator
  * @final
- * @since		1.5
+ * @package  Joomla.Administrator
+ * @since    1.5
  */
 class JAdministrator extends JApplication
 {

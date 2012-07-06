@@ -12,9 +12,9 @@ defined('_JEXEC') or die;
 /**
  * GMail Authentication Plugin
  *
- * @package		Joomla.Plugin
- * @subpackage	Authentication.gmail
- * @since 1.5
+ * @package     Joomla.Plugin
+ * @subpackage  Authentication.gmail
+ * @since       1.5
  */
 class plgAuthenticationGMail extends JPlugin
 {

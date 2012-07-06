@@ -15,6 +15,10 @@ require_once $com_path.'helpers/route.php';
 
 JModelLegacy::addIncludePath($com_path . '/models', 'ContentModel');
 
+/**
+ * @package     Joomla.Site
+ * @subpackage  mod_articles_category
+ */
 abstract class modArticlesCategoryHelper
 {
 	public static function getList(&$params)

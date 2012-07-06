@@ -12,9 +12,9 @@ defined('JPATH_BASE') or die;
 /**
  * Form Field class for the Joomla Framework.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_modules
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_modules
+ * @since       1.6
  */
 class JFormFieldModuleOrder extends JFormField
 {

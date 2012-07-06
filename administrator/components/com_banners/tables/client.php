@@ -12,9 +12,9 @@ defined('_JEXEC') or die;
 /**
  * Client table
  *
- * @package		Joomla.Administrator
- * @subpackage	com_banners
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_banners
+ * @since       1.6
  */
 class BannersTableClient extends JTable
 {

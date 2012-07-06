@@ -14,9 +14,9 @@ jimport('joomla.application.component.modeladmin');
 /**
  * Redirect link model.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_redirect
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_redirect
+ * @since       1.6
  */
 class RedirectModelLink extends JModelAdmin
 {

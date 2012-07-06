@@ -12,6 +12,10 @@ defined('_JEXEC') or die;
 require_once JPATH_SITE.'/components/com_content/helpers/route.php';
 jimport('joomla.application.categories');
 
+/**
+ * @package     Joomla.Site
+ * @subpackage  mod_articles_categories
+ */
 abstract class modArticlesCategoriesHelper
 {
 	public static function getList(&$params)

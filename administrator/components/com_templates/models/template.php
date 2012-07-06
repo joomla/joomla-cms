@@ -10,9 +10,9 @@
 defined('_JEXEC') or die;
 
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_templates
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_templates
+ * @since       1.6
  */
 class TemplatesModelTemplate extends JModelLegacy
 {

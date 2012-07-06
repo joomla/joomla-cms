@@ -9,6 +9,10 @@
 
 defined('_JEXEC') or die;
 
+/**
+ * @package     Joomla.Site
+ * @subpackage  mod_login
+ */
 class modLoginHelper
 {
 	static function getReturnURL($params, $type)

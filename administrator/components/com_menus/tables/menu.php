@@ -9,12 +9,11 @@
 
 defined('_JEXEC') or die;
 
-// Import JTableMenu
 JLoader::register('JTableMenu', JPATH_PLATFORM . '/joomla/database/table/menu.php');
 
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_menus
+ * @package     Joomla.Administrator
+ * @subpackage  com_menus
  */
 class MenusTableMenu extends JTableMenu
 {
@@ -26,8 +25,8 @@ class MenusTableMenu extends JTableMenu
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @see     http://docs.joomla.org/JTableNested/delete
 	 * @since   2.5
+	 * @see     http://docs.joomla.org/JTableNested/delete
 	 */
 	public function delete($pk = null, $children = false)
 	{

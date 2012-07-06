@@ -16,10 +16,9 @@ jimport('joomla.application.categories');
 /**
  * Contact Component Category Tree
  *
- * @static
- * @package		Joomla.Site
- * @subpackage	com_contact
- * @since 1.6
+ * @package     Joomla.Site
+ * @subpackage  com_contact
+ * @since       1.6
  */
 class ContactCategories extends JCategories
 {

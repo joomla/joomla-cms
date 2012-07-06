@@ -12,9 +12,9 @@ defined('_JEXEC') or die;
 /**
  * Media Manager Component Controller
  *
- * @package		Joomla.Site
- * @subpackage	com_media
- * @version 1.5
+ * @package     Joomla.Site
+ * @subpackage  com_media
+ * @since       1.5
  */
 class MediaController extends JControllerLegacy
 {

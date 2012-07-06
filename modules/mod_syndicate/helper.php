@@ -9,6 +9,10 @@
 
 defined('_JEXEC') or die;
 
+/**
+ * @package     Joomla.Site
+ * @subpackage  mod_syndicate
+ */
 class modSyndicateHelper
 {
 	static function getLink(&$params)

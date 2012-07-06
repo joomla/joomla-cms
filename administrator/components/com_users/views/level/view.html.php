@@ -12,9 +12,9 @@ defined('_JEXEC') or die;
 /**
  * View to edit a user view level.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_users
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_users
+ * @since       1.6
  */
 class UsersViewLevel extends JViewLegacy
 {

@@ -14,9 +14,9 @@ jimport('joomla.application.component.controllerform');
 /**
  * Client controller class.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_banners
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_banners
+ * @since       1.6
  */
 class BannersControllerClient extends JControllerForm
 {

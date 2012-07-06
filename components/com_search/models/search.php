@@ -12,9 +12,9 @@ defined('_JEXEC') or die;
 /**
  * Search Component Search Model
  *
- * @package		Joomla.Site
- * @subpackage	com_search
- * @since 1.5
+ * @package     Joomla.Site
+ * @subpackage  com_search
+ * @since       1.5
  */
 class SearchModelSearch extends JModelLegacy
 {

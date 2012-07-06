@@ -12,9 +12,9 @@ defined('_JEXEC') or die;
 /**
  * Form Field Place class.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_installer
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_installer
+ * @since       1.6
  */
 class JFormFieldType extends JFormField
 {

@@ -10,9 +10,9 @@
 defined('_JEXEC') or die;
 
 /**
- * @package		Joomla.Administrator
- * @subpackage	mod_quickicon
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  mod_quickicon
+ * @since       1.6
  */
 abstract class modQuickIconHelper
 {

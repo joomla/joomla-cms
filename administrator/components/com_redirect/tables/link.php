@@ -12,9 +12,9 @@ defined('_JEXEC') or die;
 /**
  * Link Table for Redirect.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_redirect
- * @version		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_redirect
+ * @since       1.6
  */
 class RedirectTableLink extends JTable
 {

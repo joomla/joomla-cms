@@ -12,9 +12,9 @@ defined('_JEXEC') or die;
 /**
  * Finder Content Plugin
  *
- * @package		Joomla.Plugin
- * @subpackage	Content.finder
- * @since   2.5
+ * @package     Joomla.Plugin
+ * @subpackage  Content.finder
+ * @since       2.5
  */
 class plgContentFinder extends JPlugin
 {

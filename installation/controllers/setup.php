@@ -11,8 +11,8 @@ defined('_JEXEC') or die;
 /**
  * Setup controller for the Joomla Core Installer.
  *
- * @package		Joomla.Installation
- * @since		3.0
+ * @package  Joomla.Installation
+ * @since    3.0
  */
 class InstallationControllerSetup extends JControllerLegacy
 {

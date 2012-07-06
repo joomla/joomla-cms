@@ -12,9 +12,9 @@ defined('_JEXEC') or die;
 /**
  * Modules component helper.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_modules
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_modules
+ * @since       1.6
  */
 abstract class ModulesHelper
 {

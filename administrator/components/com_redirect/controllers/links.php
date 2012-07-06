@@ -14,9 +14,9 @@ jimport('joomla.application.component.controlleradmin');
 /**
  * Redirect link list controller class.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_redirect
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_redirect
+ * @since       1.6
  */
 class RedirectControllerLinks extends JControllerAdmin
 {

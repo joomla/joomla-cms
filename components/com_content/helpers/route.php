@@ -16,9 +16,9 @@ jimport('joomla.application.categories');
  * Content Component Route Helper
  *
  * @static
- * @package		Joomla.Site
- * @subpackage	com_content
- * @since 1.5
+ * @package     Joomla.Site
+ * @subpackage  com_content
+ * @since       1.5
  */
 abstract class ContentHelperRoute
 {

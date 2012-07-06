@@ -14,9 +14,9 @@ jimport('joomla.application.component.modeladmin');
 /**
  * Client model.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_banners
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_banners
+ * @since       1.6
  */
 class BannersModelClient extends JModelAdmin
 {

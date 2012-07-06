@@ -12,10 +12,9 @@ defined('_JEXEC') or die;
 /**
  * HTML View class for the Cache component
  *
- * @static
- * @package		Joomla.Administrator
- * @subpackage	com_cache
- * @since 1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_cache
+ * @since       1.6
  */
 class CacheViewCache extends JViewLegacy
 {

@@ -12,9 +12,9 @@ defined('_JEXEC') or die;
 /**
  * Contact component helper.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_contact
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_contact
+ * @since       1.6
  */
 class ContactHelper
 {

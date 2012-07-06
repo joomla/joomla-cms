@@ -12,8 +12,8 @@ defined('_JEXEC') or die;
 /**
  * Mock JSite class used to fool the frontend search plugins because they route the results.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_search
+ * @package     Joomla.Administrator
+ * @subpackage  com_search
  */
 class JSite extends JObject
 {

@@ -14,9 +14,9 @@ jimport('joomla.application.component.modellist');
 /**
  * Languages Overrides Model
  *
- * @package			Joomla.Administrator
- * @subpackage	com_languages
- * @since				2.5
+ * @package     Joomla.Administrator
+ * @subpackage  com_languages
+ * @since       2.5
  */
 class LanguagesModelOverrides extends JModelList
 {

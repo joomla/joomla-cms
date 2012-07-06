@@ -14,9 +14,9 @@ jimport('joomla.application.component.modeladmin');
 /**
  * Item Model for a Contact.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_contact
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_contact
+ * @since       1.6
  */
 class ContactModelContact extends JModelAdmin
 {

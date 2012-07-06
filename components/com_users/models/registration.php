@@ -15,9 +15,9 @@ jimport('joomla.event.dispatcher');
 /**
  * Registration model class for Users.
  *
- * @package		Joomla.Site
- * @subpackage	com_users
- * @since		1.6
+ * @package     Joomla.Site
+ * @subpackage  com_users
+ * @since       1.6
  */
 class UsersModelRegistration extends JModelForm
 {

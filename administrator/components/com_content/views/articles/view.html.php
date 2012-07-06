@@ -12,9 +12,9 @@ defined('_JEXEC') or die;
 /**
  * View class for a list of articles.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_content
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_content
+ * @since       1.6
  */
 class ContentViewArticles extends JViewLegacy
 {

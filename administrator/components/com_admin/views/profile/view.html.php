@@ -10,8 +10,8 @@
 defined('_JEXEC') or die;
 
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_admin
+ * @package     Joomla.Administrator
+ * @subpackage  com_admin
  */
 class AdminViewProfile extends JViewLegacy
 {

@@ -17,9 +17,9 @@ jimport('joomla.application.categories');
  * Weblinks Component Category Tree
  *
  * @static
- * @package		Joomla.Site
- * @subpackage	com_weblinks
- * @since 1.6
+ * @package     Joomla.Site
+ * @subpackage  com_weblinks
+ * @since       1.6
  */
 class WeblinksCategories extends JCategories
 {

@@ -14,9 +14,9 @@ jimport('joomla.application.component.modellist');
 jimport('joomla.updater.update');
 
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_installer
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_installer
+ * @since       1.6
  */
 class InstallerModelUpdate extends JModelList
 {

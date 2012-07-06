@@ -12,8 +12,8 @@ defined('_JEXEC') or die;
 require_once dirname(__FILE__).'/articles.php';
 
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_content
+ * @package     Joomla.Administrator
+ * @subpackage  com_content
  */
 class ContentControllerFeatured extends ContentControllerArticles
 {

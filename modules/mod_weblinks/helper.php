@@ -12,6 +12,10 @@ defined('_JEXEC') or die;
 require_once JPATH_SITE . '/components/com_weblinks/helpers/route.php';
 JModelLegacy::addIncludePath(JPATH_SITE . '/components/com_weblinks/models', 'WeblinksModel');
 
+/**
+ * @package     Joomla.Site
+ * @subpackage  mod_weblinks
+ */
 class modWeblinksHelper
 {
 	static function getList($params)

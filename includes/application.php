@@ -15,8 +15,8 @@ jimport('joomla.application.component.helper');
  *
  * Provide many supporting API functions
  *
- * @package		Joomla.Site
- * @subpackage	Application
+ * @package     Joomla.Site
+ * @subpackage  Application
  */
 final class JSite extends JApplication
 {

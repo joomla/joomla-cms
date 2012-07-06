@@ -12,9 +12,9 @@ defined('_JEXEC') or die;
 /**
  * Redirect component helper.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_redirect
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_redirect
+ * @since       1.6
  */
 class RedirectHelper
 {

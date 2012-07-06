@@ -9,6 +9,10 @@
 
 defined('_JEXEC') or die;
 
+/**
+ * @package     Joomla.Site
+ * @subpackage  mod_breadcrumbs
+ */
 class modBreadCrumbsHelper
 {
 	public static function getList(&$params)

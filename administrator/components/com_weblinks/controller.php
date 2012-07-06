@@ -12,9 +12,9 @@ defined('_JEXEC') or die;
 /**
  * Weblinks Weblink Controller
  *
- * @package		Joomla.Administrator
- * @subpackage	com_weblinks
- * @since		1.5
+ * @package     Joomla.Administrator
+ * @subpackage  com_weblinks
+ * @since       1.5
  */
 class WeblinksController extends JControllerLegacy
 {

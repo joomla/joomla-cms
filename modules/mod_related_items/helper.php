@@ -11,6 +11,10 @@ defined('_JEXEC') or die;
 
 require_once JPATH_SITE.'/components/com_content/helpers/route.php';
 
+/**
+ * @package     Joomla.Site
+ * @subpackage  mod_related_items
+ */
 abstract class modRelatedItemsHelper
 {
 	public static function getList($params)

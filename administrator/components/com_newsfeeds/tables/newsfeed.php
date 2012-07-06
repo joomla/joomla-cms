@@ -10,8 +10,8 @@
 defined('_JEXEC') or die;
 
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_newsfeeds
+ * @package     Joomla.Administrator
+ * @subpackage  com_newsfeeds
  */
 class NewsfeedsTableNewsfeed extends JTable
 {

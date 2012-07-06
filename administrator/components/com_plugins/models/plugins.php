@@ -14,9 +14,9 @@ jimport('joomla.application.component.modellist');
 /**
  * Methods supporting a list of plugin records.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_plugins
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_plugins
+ * @since       1.6
  */
 class PluginsModelPlugins extends JModelList
 {

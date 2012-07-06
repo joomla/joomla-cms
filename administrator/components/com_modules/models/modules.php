@@ -14,9 +14,9 @@ jimport('joomla.application.component.modellist');
 /**
  * Modules Component Module Model
  *
- * @package		Joomla.Administrator
- * @subpackage	com_modules
- * @since		1.5
+ * @package     Joomla.Administrator
+ * @subpackage  com_modules
+ * @since       1.5
  */
 class ModulesModelModules extends JModelList
 {

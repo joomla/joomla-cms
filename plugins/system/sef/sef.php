@@ -11,8 +11,8 @@ defined('_JEXEC') or die;
 /**
  * Joomla! SEF Plugin
  *
- * @package		Joomla.Plugin
- * @subpackage	System.sef
+ * @package     Joomla.Plugin
+ * @subpackage  System.sef
  */
 class plgSystemSef extends JPlugin
 {

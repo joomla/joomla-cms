@@ -12,9 +12,9 @@ defined('_JEXEC') or die;
 /**
  * View class for a list of redirection links.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_redirect
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_redirect
+ * @since       1.6
  */
 class RedirectViewLinks extends JViewLegacy
 {

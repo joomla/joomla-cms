@@ -14,10 +14,9 @@ jimport('joomla.application.module.helper');
 /**
  * HTML View class for the Cpanel component
  *
- * @static
- * @package		Joomla.Administrator
- * @subpackage	com_cpanel
- * @since 1.0
+ * @package     Joomla.Administrator
+ * @subpackage  com_cpanel
+ * @since       1.0
  */
 class CpanelViewCpanel extends JViewLegacy
 {

@@ -11,9 +11,9 @@ defined('JPATH_BASE') or die;
 /**
  * Class to create and parse routes for the site application
  *
- * @package		Joomla.Site
- * @subpackage	Application
- * @since		1.5
+ * @package     Joomla.Site
+ * @subpackage  Application
+ * @since       1.5
  */
 class JRouterSite extends JRouter
 {

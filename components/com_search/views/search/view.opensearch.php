@@ -14,10 +14,9 @@ jimport('joomla.environment.uri');
 /**
  * OpenSearch View class for the Search component
  *
- * @static
- * @package		Joomla.Site
- * @subpackage	Search
- * @since 1.7
+ * @package     Joomla.Site
+ * @subpackage  Search
+ * @since       1.7
  */
 class SearchViewSearch extends JViewLegacy
 {

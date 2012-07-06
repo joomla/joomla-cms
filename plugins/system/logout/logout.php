@@ -12,8 +12,8 @@ defined('JPATH_BASE') or die;
 /**
  * Plugin class for logout redirect handling.
  *
- * @package		Joomla.Plugin
- * @subpackage	System.logout
+ * @package     Joomla.Plugin
+ * @subpackage  System.logout
  */
 class plgSystemLogout extends JPlugin
 {

@@ -10,8 +10,8 @@
 defined('_JEXEC') or die;
 
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_config
+ * @package     Joomla.Administrator
+ * @subpackage  com_config
  */
 class ConfigViewApplication extends JViewLegacy
 {

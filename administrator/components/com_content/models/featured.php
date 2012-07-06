@@ -14,8 +14,8 @@ require_once dirname(__FILE__) . '/articles.php';
 /**
  * About Page Model
  *
- * @package		Joomla.Administrator
- * @subpackage	com_content
+ * @package     Joomla.Administrator
+ * @subpackage  com_content
  */
 class ContentModelFeatured extends ContentModelArticles
 {

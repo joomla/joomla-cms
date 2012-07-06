@@ -12,9 +12,9 @@ defined('_JEXEC') or die;
 /**
  * Plain Textarea Editor Plugin
  *
- * @package		Joomla.Plugin
- * @subpackage	Editors.none
- * @since		1.5
+ * @package     Joomla.Plugin
+ * @subpackage  Editors.none
+ * @since       1.5
  */
 class plgEditorNone extends JPlugin
 {

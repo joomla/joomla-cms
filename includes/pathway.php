@@ -11,9 +11,9 @@ defined('_JEXEC') or die;
 /**
  * Class to manage the site application pathway.
  *
- * @package		Joomla.Site
- * @subpackage	Application
- * @since		1.5
+ * @package     Joomla.Site
+ * @subpackage  Application
+ * @since       1.5
  */
 class JPathwaySite extends JPathway
 {

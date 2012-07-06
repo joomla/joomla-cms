@@ -12,9 +12,9 @@ defined('_JEXEC') or die;
 /**
  * Config Component Controller
  *
- * @package		Joomla.Administrator
- * @subpackage	com_config
- * @since 1.5
+ * @package     Joomla.Administrator
+ * @subpackage  com_config
+ * @since       1.5
  */
 class ConfigController extends JControllerLegacy
 {

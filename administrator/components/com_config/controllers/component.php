@@ -11,8 +11,9 @@ defined('_JEXEC') or die;
 
 /**
  * Note: this view is intended only to be opened in a popup
- * @package		Joomla.Administrator
- * @subpackage	com_config
+ *
+ * @package     Joomla.Administrator
+ * @subpackage  com_config
  */
 class ConfigControllerComponent extends JControllerLegacy
 {

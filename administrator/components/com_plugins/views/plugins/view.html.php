@@ -12,9 +12,9 @@ defined('_JEXEC') or die;
 /**
  * View class for a list of plugins.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_plugins
- * @since		1.5
+ * @package     Joomla.Administrator
+ * @subpackage  com_plugins
+ * @since       1.5
  */
 class PluginsViewPlugins extends JViewLegacy
 {

@@ -14,9 +14,9 @@ jimport('joomla.application.component.controlleradmin');
 /**
  * Clients list controller class.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_banners
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_banners
+ * @since       1.6
  */
 class BannersControllerClients extends JControllerAdmin
 {

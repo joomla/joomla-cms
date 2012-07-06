@@ -12,9 +12,9 @@ defined('_JEXEC') or die;
 /**
  * HTML View class for the Modules component
  *
- * @package		Joomla.Administrator
- * @subpackage	com_modules
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_modules
+ * @since       1.6
  */
 class ModulesViewSelect extends JViewLegacy
 {

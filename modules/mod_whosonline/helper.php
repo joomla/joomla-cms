@@ -9,6 +9,10 @@
 
 defined('_JEXEC') or die;
 
+/**
+ * @package     Joomla.Site
+ * @subpackage  mod_whosonline
+ */
 class modWhosonlineHelper
 {
 	// show online count

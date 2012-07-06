@@ -9,6 +9,10 @@
 
 defined('_JEXEC') or die;
 
+/**
+ * @package     Joomla.Site
+ * @subpackage  com_mailto
+ */
 class MailtoViewMailto extends JViewLegacy
 {
 	function display($tpl = null)

@@ -14,9 +14,9 @@ jimport('joomla.application.component.modelform');
 /**
  * Message configuration model.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_messages
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_messages
+ * @since       1.6
  */
 class MessagesModelConfig extends JModelForm
 {

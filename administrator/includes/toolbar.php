@@ -13,8 +13,7 @@ jimport('joomla.html.toolbar');
 /**
  * Utility class for the button bar.
  *
- * @package		Joomla.Administrator
- * @subpackage	Application
+ * @package     Joomla.Administrator
  */
 abstract class JToolBarHelper
 {
@@ -468,7 +467,7 @@ abstract class JToolBarHelper
 /**
  * Utility class for the submenu.
  *
- * @package		Joomla.Administrator
+ * @package  Joomla.Administrator
  */
 abstract class JSubMenuHelper
 {

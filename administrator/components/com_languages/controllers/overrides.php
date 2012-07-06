@@ -14,9 +14,9 @@ jimport('joomla.application.component.controlleradmin');
 /**
  * Languages Overrides Controller
  *
- * @package			Joomla.Administrator
- * @subpackage	com_languages
- * @since				2.5
+ * @package     Joomla.Administrator
+ * @subpackage  com_languages
+ * @since       2.5
  */
 class LanguagesControllerOverrides extends JControllerAdmin
 {

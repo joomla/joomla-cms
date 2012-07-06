@@ -10,8 +10,8 @@
 defined('_JEXEC') or die;
 
 /**
- * @package		Joomla.Site
- * @subpackage	com_media
+ * @package     Joomla.Site
+ * @subpackage  com_media
  */
 class MediaHelper
 {

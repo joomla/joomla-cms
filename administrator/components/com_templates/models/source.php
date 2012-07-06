@@ -12,9 +12,9 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.modelform');
 
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_templates
- * @since		1.5
+ * @package     Joomla.Administrator
+ * @subpackage  com_templates
+ * @since       1.5
  */
 class TemplatesModelSource extends JModelForm
 {

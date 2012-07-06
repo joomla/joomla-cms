@@ -9,6 +9,10 @@
 
 defined('_JEXEC') or die;
 
+/**
+ * @package     Joomla.Site
+ * @subpackage  mod_feed
+ */
 class modFeedHelper
 {
 	static function getFeed($params)

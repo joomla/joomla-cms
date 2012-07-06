@@ -11,6 +11,10 @@ defined('_JEXEC') or die;
 
 JLoader::register('MenusHelper', JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus.php');
 
+/**
+ * @package     Joomla.Site
+ * @subpackage  mod_languages
+ */
 abstract class modLanguagesHelper
 {
 	public static function getList(&$params)

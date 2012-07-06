@@ -12,9 +12,9 @@ defined('_JEXEC') or die;
 /**
  * View to edit a newsfeed.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_newsfeeds
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_newsfeeds
+ * @since       1.6
  */
 class NewsfeedsViewNewsfeed extends JViewLegacy
 {

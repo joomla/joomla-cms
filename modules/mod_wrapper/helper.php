@@ -9,6 +9,10 @@
 
 defined('_JEXEC') or die;
 
+/**
+ * @package     Joomla.Site
+ * @subpackage  mod_wrapper
+ */
 class modWrapperHelper
 {
 	static function getParams(&$params)

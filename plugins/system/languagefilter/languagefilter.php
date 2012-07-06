@@ -14,9 +14,9 @@ JLoader::register('MenusHelper', JPATH_ADMINISTRATOR . '/components/com_menus/he
 /**
  * Joomla! Language Filter Plugin
  *
- * @package		Joomla.Plugin
- * @subpackage	System.languagefilter
- * @since		1.6
+ * @package     Joomla.Plugin
+ * @subpackage  System.languagefilter
+ * @since       1.6
  */
 class plgSystemLanguageFilter extends JPlugin
 {

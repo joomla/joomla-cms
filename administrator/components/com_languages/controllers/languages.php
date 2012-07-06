@@ -12,9 +12,9 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.controlleradmin');
 
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_languages
- * @since	1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_languages
+ * @since       1.6
  */
 class LanguagesControllerLanguages extends JControllerAdmin
 {

@@ -14,9 +14,9 @@ jimport('joomla.application.component.modeladmin');
 /**
  * Languages Component Language Model
  *
- * @package		Joomla.Administrator
- * @subpackage	com_languages
- * @since		1.5
+ * @package     Joomla.Administrator
+ * @subpackage  com_languages
+ * @since       1.5
  */
 class LanguagesModelLanguage extends JModelAdmin
 {

@@ -14,9 +14,9 @@ jimport('joomla.application.component.modellist');
 /**
  * Newsfeeds Component Category Model
  *
- * @package		Joomla.Site
- * @subpackage	com_newsfeeds
- * @since 1.5
+ * @package     Joomla.Site
+ * @subpackage  com_newsfeeds
+ * @since       1.5
  */
 class NewsfeedsModelCategory extends JModelList
 {

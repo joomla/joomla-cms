@@ -14,9 +14,9 @@ jimport('joomla.application.component.controlleradmin');
 /**
  * Modules list controller class.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_modules
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_modules
+ * @since       1.6
  */
 class ModulesControllerModules extends JControllerAdmin
 {

@@ -15,9 +15,9 @@ jimport('joomla.filesystem.folder');
 /**
  * The HTML Menus Menu Items View.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_menus
- * @version		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_menus
+ * @since       1.6
  */
 class MenusViewItems extends JViewLegacy
 {

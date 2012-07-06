@@ -12,9 +12,9 @@ defined('_JEXEC') or die;
 /**
  * This models supports retrieving lists of contact categories.
  *
- * @package		Joomla.Site
- * @subpackage	com_contact
- * @since		1.6
+ * @package     Joomla.Site
+ * @subpackage  com_contact
+ * @since       1.6
  */
 class ContactModelCategories extends JModelLegacy
 {

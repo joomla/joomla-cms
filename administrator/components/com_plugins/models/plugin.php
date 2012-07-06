@@ -14,9 +14,9 @@ jimport('joomla.application.component.modeladmin');
 /**
  * Plugin model.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_plugins
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_plugins
+ * @since       1.6
  */
 class PluginsModelPlugin extends JModelAdmin
 {

@@ -13,9 +13,9 @@ jimport('joomla.application.component.modelform');
 jimport('joomla.event.dispatcher');
 
 /**
- * @package		Joomla.Site
- * @subpackage	com_contact
- * @since 1.5
+ * @package     Joomla.Site
+ * @subpackage  com_contact
+ * @since       1.5
  */
 class ContactModelContact extends JModelForm
 {

@@ -12,9 +12,9 @@ defined('_JEXEC') or die;
 /**
  * Installer helper.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_installer
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_installer
+ * @since       1.6
  */
 class InstallerHelper
 {

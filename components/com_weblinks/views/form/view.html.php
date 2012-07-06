@@ -12,9 +12,9 @@ defined('_JEXEC') or die;
 /**
  * HTML Article View class for the Weblinks component
  *
- * @package		Joomla.Site
- * @subpackage	com_weblinks
- * @since		1.5
+ * @package     Joomla.Site
+ * @subpackage  com_weblinks
+ * @since       1.5
  */
 class WeblinksViewForm extends JViewLegacy
 {

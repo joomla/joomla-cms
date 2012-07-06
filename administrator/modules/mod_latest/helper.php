@@ -14,8 +14,8 @@ JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR.'/components/com_content/models
 jimport('joomla.application.categories');
 
 /**
- * @package		Joomla.Administrator
- * @subpackage	mod_latest
+ * @package     Joomla.Administrator
+ * @subpackage  mod_latest
  */
 abstract class modLatestHelper
 {

@@ -14,9 +14,9 @@ jimport('joomla.database.table');
 /**
  * Message Table class
  *
- * @package		Joomla.Administrator
- * @subpackage	com_messages
- * @since		1.5
+ * @package     Joomla.Administrator
+ * @subpackage  com_messages
+ * @since       1.5
  */
 class MessagesTableMessage extends JTable
 {

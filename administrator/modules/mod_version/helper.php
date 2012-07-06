@@ -10,9 +10,9 @@
 defined('_JEXEC') or die;
 
 /**
- * @package		Joomla.Administrator
- * @subpackage	mod_version
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  mod_version
+ * @since       1.6
  */
 abstract class modVersionHelper
 {

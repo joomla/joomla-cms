@@ -14,8 +14,8 @@ jimport('joomla.application.component.modellist');
 /**
  * Methods supporting a list of article records.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_content
+ * @package     Joomla.Administrator
+ * @subpackage  com_content
  */
 class ContentModelArticles extends JModelList
 {

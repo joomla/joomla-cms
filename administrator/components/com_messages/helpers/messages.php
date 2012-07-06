@@ -10,9 +10,9 @@
 defined('_JEXEC') or die;
 
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_messages
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_messages
+ * @since       1.6
  */
 class MessagesHelper
 {
@@ -24,7 +24,6 @@ class MessagesHelper
 	 * @return	void
 	 * @since	1.6
 	 */
-
 	public static function addSubmenu($vName)
 	{
 		JSubMenuHelper::addEntry(

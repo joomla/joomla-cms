@@ -12,9 +12,9 @@ defined('_JEXEC') or die;
 /**
  * Installer Controller
  *
- * @package		Joomla.Administrator
- * @subpackage	com_installer
- * @since		1.5
+ * @package     Joomla.Administrator
+ * @subpackage  com_installer
+ * @since       1.5
  */
 class InstallerController extends JControllerLegacy
 {

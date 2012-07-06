@@ -12,9 +12,9 @@ defined('_JEXEC') or die;
 /**
  * Tracks list controller class.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_banners
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_banners
+ * @since       1.6
  */
 class BannersControllerTracks extends JControllerLegacy
 {

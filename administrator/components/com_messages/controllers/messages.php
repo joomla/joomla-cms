@@ -14,9 +14,9 @@ jimport('joomla.application.component.controlleradmin');
 /**
  * Messages list controller class.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_messages
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_messages
+ * @since       1.6
  */
 class MessagesControllerMessages extends JControllerAdmin
 {

@@ -14,9 +14,9 @@ jimport('joomla.application.component.controllerform');
 /**
  * Plugin controller class.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_plugins
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_plugins
+ * @since       1.6
  */
 class PluginsControllerPlugin extends JControllerForm
 {

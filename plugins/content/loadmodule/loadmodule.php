@@ -9,10 +9,15 @@
 
 defined('_JEXEC') or die;
 
+/**
+ * @package     Joomla.Plugin
+ * @subpackage  Content.loadmodule
+ */
 class plgContentLoadmodule extends JPlugin
 {
 	protected static $modules = array();
 	protected static $mods = array();
+
 	/**
 	 * Plugin that loads module positions within content
 	 *

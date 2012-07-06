@@ -14,9 +14,9 @@ require_once JPATH_COMPONENT_ADMINISTRATOR.'/models/weblink.php';
 /**
  * Weblinks model.
  *
- * @package		Joomla.Site
- * @subpackage	com_weblinks
- * @since		1.6
+ * @package     Joomla.Site
+ * @subpackage  com_weblinks
+ * @since       1.6
  */
 class WeblinksModelForm extends WeblinksModelWeblink
 {

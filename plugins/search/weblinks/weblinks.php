@@ -14,9 +14,9 @@ require_once JPATH_SITE.'/components/com_weblinks/helpers/route.php';
 /**
  * Weblinks Search plugin
  *
- * @package		Joomla.Plugin
- * @subpackage	Search.weblinks
- * @since		1.6
+ * @package     Joomla.Plugin
+ * @subpackage  Search.weblinks
+ * @since       1.6
  */
 class plgSearchWeblinks extends JPlugin
 {

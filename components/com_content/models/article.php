@@ -14,9 +14,9 @@ jimport('joomla.application.component.modelitem');
 /**
  * Content Component Article Model
  *
- * @package		Joomla.Site
- * @subpackage	com_content
- * @since 1.5
+ * @package     Joomla.Site
+ * @subpackage  com_content
+ * @since       1.5
  */
 class ContentModelArticle extends JModelItem
 {

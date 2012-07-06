@@ -14,9 +14,9 @@ jimport('joomla.language.help');
 /**
  * Admin Component Help Model
  *
- * @package		Joomla.Administrator
- * @subpackage	com_admin
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_admin
+ * @since       1.6
  */
 class AdminModelHelp extends JModelLegacy
 {

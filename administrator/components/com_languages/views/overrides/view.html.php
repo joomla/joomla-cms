@@ -12,9 +12,9 @@ defined('_JEXEC') or die;
 /**
  * View for language overrides list
  *
- * @package			Joomla.Administrator
- * @subpackage	com_languages
- * @since				2.5
+ * @package     Joomla.Administrator
+ * @subpackage  com_languages
+ * @since       2.5
  */
 class LanguagesViewOverrides extends JViewLegacy
 {

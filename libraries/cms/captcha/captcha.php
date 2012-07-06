@@ -15,9 +15,9 @@ jimport('joomla.filesystem.file');
  * Joomla! Captcha base object
  *
  * @abstract
- * @package		Joomla.Libraries
- * @subpackage	Captcha
- * @since		2.5
+ * @package     Joomla.Libraries
+ * @subpackage  Captcha
+ * @since       2.5
  */
 class JCaptcha extends JObject
 {
@@ -48,7 +48,7 @@ class JCaptcha extends JObject
 	/**
 	 * Captcha Plugin object
 	 *
-	 * @var	object
+	 * @var	   JPlugin
 	 * @since  2.5
 	 */
 	private $_captcha;
@@ -62,7 +62,7 @@ class JCaptcha extends JObject
 	private $_name;
 
 	/**
-	 * Captcha Plugin object
+	 * Array of instances of this class.
 	 *
 	 * @var	array
 	 */

@@ -12,8 +12,8 @@ defined('_JEXEC') or die;
 JLoader::register('MenusHelper', JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus.php');
 
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_menus
+ * @package     Joomla.Administrator
+ * @subpackage  com_menus
  */
 abstract class MenusHtmlMenus
 {

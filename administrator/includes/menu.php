@@ -11,9 +11,9 @@ defined('_JEXEC') or die;
 /**
  * JMenu class.
  *
- * @package		Joomla.Administrator
- * @subpackage	Application
- * @since		1.5
+ * @package     Joomla.Administrator
+ * @subpackage  Application
+ * @since       1.5
  */
 class JMenuAdministrator extends JMenu
 {

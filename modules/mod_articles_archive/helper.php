@@ -9,6 +9,10 @@
 
 defined('_JEXEC') or die;
 
+/**
+ * @package     Joomla.Site
+ * @subpackage  mod_articles_archive
+ */
 class modArchiveHelper
 {
 	static function getList(&$params)

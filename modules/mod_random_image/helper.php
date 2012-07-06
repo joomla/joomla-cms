@@ -9,6 +9,10 @@
 
 defined('_JEXEC') or die;
 
+/**
+ * @package     Joomla.Site
+ * @subpackage  mod_random_image
+ */
 class modRandomImageHelper
 {
 	static function getRandomImage(&$params, $images)

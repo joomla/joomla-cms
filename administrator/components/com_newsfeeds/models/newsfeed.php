@@ -14,9 +14,9 @@ jimport('joomla.application.component.modeladmin');
 /**
  * Newsfeed model.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_newsfeeds
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_newsfeeds
+ * @since       1.6
  */
 class NewsfeedsModelNewsfeed extends JModelAdmin
 {

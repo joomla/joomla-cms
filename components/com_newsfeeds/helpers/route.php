@@ -16,9 +16,9 @@ jimport('joomla.application.categories');
 /**
  * Newsfeeds Component Route Helper
  *
- * @package		Joomla.Site
- * @subpackage	com_newsfeeds
- * @since		1.5
+ * @package     Joomla.Site
+ * @subpackage  com_newsfeeds
+ * @since       1.5
  */
 abstract class NewsfeedsHelperRoute
 {

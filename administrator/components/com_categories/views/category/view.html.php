@@ -12,9 +12,8 @@ defined('_JEXEC') or die;
 /**
  * HTML View class for the Categories component
  *
- * @static
- * @package		Joomla.Administrator
- * @subpackage	com_categories
+ * @package     Joomla.Administrator
+ * @subpackage  com_categories
  */
 class CategoriesViewCategory extends JViewLegacy
 {

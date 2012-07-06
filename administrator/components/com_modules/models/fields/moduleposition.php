@@ -14,9 +14,9 @@ JFormHelper::loadFieldClass('text');
 /**
  * Supports a modal article picker.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_modules
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_modules
+ * @since       1.6
  */
 class JFormFieldModulePosition extends JFormFieldText
 {

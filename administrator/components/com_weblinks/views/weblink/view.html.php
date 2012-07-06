@@ -12,9 +12,9 @@ defined('_JEXEC') or die;
 /**
  * View to edit a weblink.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_weblinks
- * @since		1.5
+ * @package     Joomla.Administrator
+ * @subpackage  com_weblinks
+ * @since       1.5
  */
 class WeblinksViewWeblink extends JViewLegacy
 {

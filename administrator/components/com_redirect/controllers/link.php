@@ -14,9 +14,9 @@ jimport('joomla.application.component.controllerform');
 /**
  * Redirect link controller class.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_redirect
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_redirect
+ * @since       1.6
  */
 class RedirectControllerLink extends JControllerForm
 {

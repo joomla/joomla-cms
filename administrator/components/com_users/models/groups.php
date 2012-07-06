@@ -14,9 +14,9 @@ jimport('joomla.application.component.modellist');
 /**
  * Methods supporting a list of user group records.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_users
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_users
+ * @since       1.6
  */
 class UsersModelGroups extends JModelList
 {

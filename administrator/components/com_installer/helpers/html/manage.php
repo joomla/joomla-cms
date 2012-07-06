@@ -10,9 +10,9 @@
 defined('_JEXEC') or die;
 
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_installer
- * @since		2.5
+ * @package     Joomla.Administrator
+ * @subpackage  com_installer
+ * @since       2.5
  */
 abstract class InstallerHtmlManage
 {

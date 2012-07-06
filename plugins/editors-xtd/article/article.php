@@ -12,9 +12,9 @@ defined('_JEXEC') or die;
 /**
  * Editor Article buton
  *
- * @package		Joomla.Plugin
- * @subpackage	Editors-xtd.article
- * @since 1.5
+ * @package     Joomla.Plugin
+ * @subpackage  Editors-xtd.article
+ * @since       1.5
  */
 class plgButtonArticle extends JPlugin
 {

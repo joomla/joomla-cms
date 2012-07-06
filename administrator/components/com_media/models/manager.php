@@ -12,13 +12,12 @@ defined('_JEXEC') or die;
 /**
  * Media Component Manager Model
  *
- * @package		Joomla.Administrator
- * @subpackage	com_media
- * @since 1.5
+ * @package     Joomla.Administrator
+ * @subpackage  com_media
+ * @since       1.5
  */
 class MediaModelManager extends JModelLegacy
 {
-
 	function getState($property = null, $default = null)
 	{
 		static $set;

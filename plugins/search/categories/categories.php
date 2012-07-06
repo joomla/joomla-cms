@@ -14,9 +14,9 @@ require_once JPATH_SITE.'/components/com_content/helpers/route.php';
 /**
  * Categories Search plugin
  *
- * @package		Joomla.Plugin
- * @subpackage	Search.categories
- * @since		1.6
+ * @package     Joomla.Plugin
+ * @subpackage  Search.categories
+ * @since       1.6
  */
 class plgSearchCategories extends JPlugin
 {

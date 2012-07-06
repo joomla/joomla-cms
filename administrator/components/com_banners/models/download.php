@@ -14,9 +14,9 @@ jimport('joomla.application.component.modelform');
 /**
  * Download model.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_banners
- * @since		1.5
+ * @package     Joomla.Administrator
+ * @subpackage  com_banners
+ * @since       1.5
  */
 class BannersModelDownload extends JModelForm
 {

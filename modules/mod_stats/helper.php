@@ -10,9 +10,9 @@
 defined('_JEXEC') or die;
 
 /**
- * @package		Joomla.Site
- * @subpackage	mod_stats
- * @since		1.5
+ * @package     Joomla.Site
+ * @subpackage  mod_stats
+ * @since       1.5
  */
 class modStatsHelper
 {

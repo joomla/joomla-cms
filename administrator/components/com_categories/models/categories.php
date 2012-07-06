@@ -14,9 +14,9 @@ jimport('joomla.application.component.modellist');
 /**
  * Categories Component Categories Model
  *
- * @package		Joomla.Administrator
- * @subpackage	com_categories
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_categories
+ * @since       1.6
  */
 class CategoriesModelCategories extends JModelList
 {

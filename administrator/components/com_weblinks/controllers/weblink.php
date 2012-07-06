@@ -14,9 +14,9 @@ jimport('joomla.application.component.controllerform');
 /**
  * Weblink controller class.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_weblinks
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_weblinks
+ * @since       1.6
  */
 class WeblinksControllerWeblink extends JControllerForm
 {

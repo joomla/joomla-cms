@@ -12,9 +12,9 @@ defined('_JEXEC') or die;
 /**
  * Sysinfo View class for the Admin component
  *
- * @package		Joomla.Administrator
- * @subpackage	com_admin
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_admin
+ * @since       1.6
  */
 class AdminViewSysinfo extends JViewLegacy
 {

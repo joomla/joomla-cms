@@ -12,9 +12,9 @@ defined('JPATH_BASE') or die;
 /**
  * Supports an HTML select list of newsfeeds
  *
- * @package		Joomla.Administrator
- * @subpackage	com_newsfeeds
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_newsfeeds
+ * @since       1.6
  */
 class JFormFieldOrdering extends JFormField
 {

@@ -12,9 +12,9 @@ defined('_JEXEC') or die;
 /**
  * HTML Article View class for the Content component
  *
- * @package		Joomla.Site
- * @subpackage	com_content
- * @since		1.5
+ * @package     Joomla.Site
+ * @subpackage  com_content
+ * @since       1.5
  */
 class ContentViewArticle extends JViewLegacy
 {

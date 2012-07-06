@@ -12,8 +12,8 @@ defined('_JEXEC') or die;
 /**
  * Users mail view.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_users
+ * @package     Joomla.Administrator
+ * @subpackage  com_users
  */
 class UsersViewMail extends JViewLegacy
 {

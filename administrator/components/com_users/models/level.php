@@ -14,9 +14,9 @@ jimport('joomla.application.component.modeladmin');
 /**
  * User view level model.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_users
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_users
+ * @since       1.6
  */
 class UsersModelLevel extends JModelAdmin
 {

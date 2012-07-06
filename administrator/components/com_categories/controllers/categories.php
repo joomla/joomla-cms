@@ -14,9 +14,9 @@ jimport('joomla.application.component.controlleradmin');
 /**
  * The Categories List Controller
  *
- * @package		Joomla.Administrator
- * @subpackage	com_categories
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_categories
+ * @since       1.6
  */
 class CategoriesControllerCategories extends JControllerAdmin
 {

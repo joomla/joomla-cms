@@ -13,9 +13,9 @@ defined('_JEXEC') or die;
  * Utility class for creating HTML Grids
  *
  * @static
- * @package		Joomla.Administrator
- * @subpackage	com_redirect
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_redirect
+ * @since       1.6
  */
 class JHtmlRedirect
 {

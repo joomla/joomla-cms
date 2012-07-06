@@ -15,9 +15,9 @@ jimport('joomla.filesystem.file');
 /**
  * Media Component List Model
  *
- * @package		Joomla.Administrator
- * @subpackage	com_media
- * @since 1.5
+ * @package     Joomla.Administrator
+ * @subpackage  com_media
+ * @since       1.5
  */
 class MediaModelList extends JModelLegacy
 {

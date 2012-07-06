@@ -12,8 +12,8 @@ defined('_JEXEC') or die;
 jimport('joomla.base.tree');
 
 /**
- * @package		Joomla.Administrator
- * @subpackage	mod_menu
+ * @package     Joomla.Administrator
+ * @subpackage  mod_menu
  */
 class JAdminCssMenu extends JTree
 {
@@ -184,8 +184,8 @@ class JAdminCssMenu extends JTree
 }
 
 /**
- * @package		Joomla.Administrator
- * @subpackage	mod_menu
+ * @package     Joomla.Administrator
+ * @subpackage  mod_menu
  */
 class JMenuNode extends JNode
 {

@@ -14,9 +14,9 @@ jimport('joomla.application.component.modellist');
 /**
  * Methods supporting a list of user access level records.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_users
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_users
+ * @since       1.6
  */
 class UsersModelLevels extends JModelList
 {

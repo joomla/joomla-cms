@@ -17,9 +17,9 @@ jimport('joomla.application.categories');
  * Weblinks Component Route Helper
  *
  * @static
- * @package		Joomla.Site
- * @subpackage	com_weblinks
- * @since 1.5
+ * @package     Joomla.Site
+ * @subpackage  com_weblinks
+ * @since       1.5
  */
 abstract class WeblinksHelperRoute
 {

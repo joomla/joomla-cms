@@ -12,9 +12,9 @@ defined('JPATH_BASE') or die;
 /**
  * Supports an HTML select list of contacts
  *
- * @package		Joomla.Administrator
- * @subpackage	com_contact
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_contact
+ * @since       1.6
  */
 class JFormFieldOrdering extends JFormField
 {

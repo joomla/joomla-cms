@@ -12,9 +12,9 @@ defined('_JEXEC') or die;
 /**
  * Admin Controller
  *
- * @package		Joomla.Administrator
- * @subpackage	com_admin
- * @since 1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_admin
+ * @since       1.6
  */
 class AdminController extends JControllerLegacy
 {

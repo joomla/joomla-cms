@@ -12,7 +12,10 @@ defined('_JEXEC') or die;
 jimport('joomla.database.table');
 
 /**
- * Script file of joomla CMS
+ * Script file of Joomla CMS
+ *
+ * @package     Joomla.Administrator
+ * @subpackage  com_admin
  */
 class joomlaInstallerScript
 {

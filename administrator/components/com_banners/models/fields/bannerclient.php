@@ -16,9 +16,9 @@ require_once dirname(__FILE__) . '/../../helpers/banners.php';
 /**
  * Bannerclient Field class for the Joomla Framework.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_banners
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_banners
+ * @since       1.6
  */
 class JFormFieldBannerClient extends JFormFieldList
 {

@@ -17,9 +17,9 @@ jimport('joomla.application.categories');
  * Contact Component Route Helper
  *
  * @static
- * @package		Joomla.Site
- * @subpackage	com_contact
- * @since 1.5
+ * @package     Joomla.Site
+ * @subpackage  com_contact
+ * @since       1.5
  */
 abstract class ContactHelperRoute
 {

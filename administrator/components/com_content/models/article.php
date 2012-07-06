@@ -16,9 +16,9 @@ require_once JPATH_COMPONENT_ADMINISTRATOR.'/helpers/content.php';
 /**
  * Item Model for an Article.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_content
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_content
+ * @since       1.6
  */
 class ContentModelArticle extends JModelAdmin
 {

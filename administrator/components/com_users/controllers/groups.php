@@ -14,9 +14,9 @@ jimport('joomla.application.component.controlleradmin');
 /**
  * User groups list controller class.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_users
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_users
+ * @since       1.6
  */
 class UsersControllerGroups extends JControllerAdmin
 {

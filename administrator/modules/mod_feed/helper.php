@@ -10,8 +10,8 @@
 defined('_JEXEC') or die;
 
 /**
- * @package		Joomla.Administrator
- * @subpackage	mod_feed
+ * @package     Joomla.Administrator
+ * @subpackage  mod_feed
  */
 abstract class modFeedHelper
 {

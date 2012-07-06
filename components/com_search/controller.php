@@ -12,9 +12,9 @@ defined('_JEXEC') or die;
 /**
  * Search Component Controller
  *
- * @package		Joomla.Site
- * @subpackage	com_search
- * @since 1.5
+ * @package     Joomla.Site
+ * @subpackage  com_search
+ * @since       1.5
  */
 class SearchController extends JControllerLegacy
 {

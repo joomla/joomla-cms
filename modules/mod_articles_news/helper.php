@@ -13,6 +13,10 @@ require_once JPATH_SITE.'/components/com_content/helpers/route.php';
 
 JModelLegacy::addIncludePath(JPATH_SITE.'/components/com_content/models', 'ContentModel');
 
+/**
+ * @package     Joomla.Site
+ * @subpackage  mod_articles_news
+ */
 abstract class modArticlesNewsHelper
 {
 	public static function getList(&$params)

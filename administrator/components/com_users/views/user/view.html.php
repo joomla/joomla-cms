@@ -10,8 +10,8 @@
 defined('_JEXEC') or die;
 
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_users
+ * @package     Joomla.Administrator
+ * @subpackage  com_users
  */
 class UsersViewUser extends JViewLegacy
 {

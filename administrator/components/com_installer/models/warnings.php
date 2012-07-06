@@ -15,9 +15,9 @@ jimport('joomla.filesystem.folder');
 /**
  * Extension Manager Templates Model
  *
- * @package		Joomla.Administrator
- * @subpackage	com_installer
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_installer
+ * @since       1.6
  */
 class InstallerModelWarnings extends JModelList
 {

@@ -12,8 +12,8 @@ defined('_JEXEC') or die;
 /**
  * Pagenavigation plugin class.
  *
- * @package		Joomla.Plugin
- * @subpackage	Content.pagenavigation
+ * @package     Joomla.Plugin
+ * @subpackage  Content.pagenavigation
  */
 class plgContentPagenavigation extends JPlugin
 {

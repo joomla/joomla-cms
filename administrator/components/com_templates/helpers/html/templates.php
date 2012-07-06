@@ -10,8 +10,8 @@
 defined('_JEXEC') or die;
 
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_templates
+ * @package     Joomla.Administrator
+ * @subpackage  com_templates
  */
 class JHtmlTemplates
 {

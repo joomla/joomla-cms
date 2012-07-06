@@ -14,9 +14,9 @@ jimport('joomla.application.component.controlleradmin');
 /**
  * User view levels list controller class.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_users
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_users
+ * @since       1.6
  */
 class UsersControllerLevels extends JControllerAdmin
 {

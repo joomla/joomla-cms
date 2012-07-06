@@ -15,9 +15,9 @@ require_once JPATH_COMPONENT.'/helpers/debug.php';
 /**
  * Methods supporting a list of user records.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_users
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_users
+ * @since       1.6
  */
 class UsersModelDebugGroup extends JModelList
 {

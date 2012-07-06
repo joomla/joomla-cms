@@ -14,9 +14,9 @@ jimport('joomla.application.component.controlleradmin');
 /**
  * Weblinks list controller class.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_weblinks
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_weblinks
+ * @since       1.6
  */
 class WeblinksControllerWeblinks extends JControllerAdmin
 {

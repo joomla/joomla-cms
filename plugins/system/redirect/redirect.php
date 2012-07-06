@@ -12,8 +12,8 @@ defined('JPATH_BASE') or die;
 /**
  * Plugin class for redirect handling.
  *
- * @package		Joomla.Plugin
- * @subpackage	System.redirect
+ * @package     Joomla.Plugin
+ * @subpackage  System.redirect
  */
 class plgSystemRedirect extends JPlugin
 {

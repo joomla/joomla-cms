@@ -12,8 +12,8 @@ defined('_JEXEC') or die;
 /**
  * Joomla! P3P Header Plugin
  *
- * @package		Joomla.Plugin
- * @subpackage	System.p3p
+ * @package     Joomla.Plugin
+ * @subpackage  System.p3p
  */
 class plgSystemP3p extends JPlugin
 {

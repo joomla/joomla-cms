@@ -12,9 +12,9 @@ defined('_JEXEC') or die;
 /**
  * Utility class working with phpsetting
  *
- * @package		Joomla.Administrator
- * @subpackage	com_admin
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_admin
+ * @since       1.6
  */
 abstract class JHtmlPhpSetting
 {

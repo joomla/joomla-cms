@@ -12,8 +12,8 @@ defined('_JEXEC') or die;
  * Joomla Installation Database Helper Class.
  *
  * @static
- * @package		Joomla.Installation
- * @since		1.6
+ * @package  Joomla.Installation
+ * @since    1.6
  */
 class InstallationHelperDatabase
 {

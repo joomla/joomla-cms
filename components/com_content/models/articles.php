@@ -14,13 +14,12 @@ jimport('joomla.application.component.modellist');
 /**
  * This models supports retrieving lists of articles.
  *
- * @package		Joomla.Site
- * @subpackage	com_content
- * @since		1.6
+ * @package     Joomla.Site
+ * @subpackage  com_content
+ * @since       1.6
  */
 class ContentModelArticles extends JModelList
 {
-
 	/**
 	 * Constructor.
 	 *

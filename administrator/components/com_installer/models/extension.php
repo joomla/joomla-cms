@@ -15,9 +15,9 @@ jimport('joomla.application.component.modellist');
  * Extension Manager Abstract Extension Model
  *
  * @abstract
- * @package		Joomla.Administrator
- * @subpackage	com_installer
- * @since		1.5
+ * @package     Joomla.Administrator
+ * @subpackage  com_installer
+ * @since       1.5
  */
 class InstallerModel extends JModelList
 {

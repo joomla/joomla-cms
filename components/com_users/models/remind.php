@@ -15,9 +15,9 @@ jimport('joomla.event.dispatcher');
 /**
  * Remind model class for Users.
  *
- * @package		Joomla.Site
- * @subpackage	com_users
- * @version		1.5
+ * @package     Joomla.Site
+ * @subpackage  com_users
+ * @since       1.5
  */
 class UsersModelRemind extends JModelForm
 {
