@@ -82,7 +82,17 @@
 					<option
 						value="1">JYES</option>
 				</field>
-
+				<field
+					name="frameborder"
+					type="radio"
+					default="1"
+					label="MOD_WRAPPER_FIELD_FRAME_LABEL"
+					description="MOD_WRAPPER_FIELD_FRAME_DESC">
+					<option
+						value="0">JNO</option>
+					<option
+						value="1">JYES</option>
+				</field>
 				<field
 					name="target"
 					type="text"
