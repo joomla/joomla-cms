@@ -24,7 +24,6 @@ class JFormRuleColorTest extends TestCase
 	public function setUp()
 	{
 		$this->saveFactoryState();
-		jimport('joomla.utilities.xmlelement');
 		require_once JPATH_PLATFORM.'/joomla/form/rules/color.php';
 	}
 
@@ -84,7 +83,7 @@ class JFormRuleColorTest extends TestCase
 	public function testColorData($color, $expectedResult)
 	{
 		$rule = new JFormRuleColor;
-		$xml = simplexml_load_string('<form><field name="color1" /></form>', 'JXMLElement');
+		$xml = simplexml_load_string('<form><field name="color1" /></form>');
 		$this->assertThat(
 			$rule->test($xml->field[0], $color),
 			$this->equalTo($expectedResult),

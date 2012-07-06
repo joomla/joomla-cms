@@ -521,7 +521,7 @@ class JAccessTest extends TestCaseDatabase
 				array(),
 				"/access/section[@name='component']/",
 				false,
-				'Getting actions from neither a string, neither an JXMLElement must return false.'
+				'Getting actions from neither a string, neither an SimpleXMLElement must return false.'
 			),
 		);
 	}

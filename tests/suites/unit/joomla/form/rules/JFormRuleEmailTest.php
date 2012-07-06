@@ -97,7 +97,7 @@ class JFormRuleEmailTest extends TestCase
 	public function testEmailData($emailAddress, $expectedResult)
 	{
 		$rule = new JFormRuleEmail;
-		$xml = simplexml_load_string('<form><field name="email1" /></form>', 'JXMLElement');
+		$xml = simplexml_load_string('<form><field name="email1" /></form>');
 		$this->assertThat(
 			$rule->test($xml->field[0], $emailAddress),
 			$this->equalTo($expectedResult),
