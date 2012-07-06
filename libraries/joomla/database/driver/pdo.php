@@ -934,4 +934,48 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 
 		return false;
 	}
+
+	/**
+	 * PDO does not support serialize
+	 *
+	 * @return  array
+	 *
+	 * @since   12.3
+	 */
+	public function __sleep()
+	{
+		$serializedProperties = array();
+
+		$reflect = new ReflectionClass($this);
+
+		// Get properties of the current class
+		$properties = $reflect->getProperties();
+
+		// Static properties of the current class
+		$staticProperties = $reflect->getStaticProperties();
+
+		foreach ($properties as $key => $property)
+		{
+			// Do not serialize properties that are PDO
+			if ($property->isStatic() == false && !($this->{$property->name} instanceof PDO))
+			{
+				array_push($serializedProperties, $property->name);
+			}
+		}
+
+		return $serializedProperties;
+	}
+
+	/**
+	 * Wake up after serialization
+	 *
+	 * @return  array
+	 *
+	 * @since   12.3
+	 */
+	public function __wakeup()
+	{
+		// Get connection back
+		$this->__construct($this->options);
+	}
 }
