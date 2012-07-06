@@ -27,7 +27,7 @@ var Installation = new Class({
 			var button = document.id('theDefault').children[0];
 			button.setAttribute('disabled', 'disabled');
 			select.setAttribute('disabled', 'disabled');
-			button.setAttribute('value', Joomla.JText._('INSTL_SITE_SAMPLE_LOADED', 'Sample Data Installed Successfully.'));
+			button.set('text', Joomla.JText._('INSTL_SITE_SAMPLE_LOADED', 'Sample Data Installed Successfully.'));
 		}
     },
 
