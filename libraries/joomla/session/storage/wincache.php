@@ -14,7 +14,6 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package     Joomla.Platform
  * @subpackage  Session
- * @see         http://www.php.net/manual/en/function.session-set-save-handler.php
  * @since       11.1
  */
 class JSessionStorageWincache extends JSessionStorage
@@ -38,47 +37,15 @@ class JSessionStorageWincache extends JSessionStorage
 	}
 
 	/**
-	 * Read the data for a particular session identifier from the SessionHandler backend.
+	 * Register the functions of this class with PHP's session handler
 	 *
-	 * @param   string  $id  The session identifier.
+	 * @return  void
 	 *
-	 * @return  string  The session data.
-	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
-	public function read($id)
+	public function register()
 	{
-		$sess_id = 'sess_' . $id;
-		return (string) wincache_ucache_get($sess_id);
-	}
-
-	/**
-	 * Write session data to the SessionHandler backend.
-	 *
-	 * @param   string  $id            The session identifier.
-	 * @param   string  $session_data  The session data.
-	 *
-	 * @return  boolean  True on success, false otherwise.
-	 *
-	 * @since   11.1
-	 */
-	public function write($id, $session_data)
-	{
-		$sess_id = 'sess_' . $id;
-		return wincache_ucache_set($sess_id, $session_data, ini_get("session.gc_maxlifetime"));
-	}
-
-	/**
-	 * Destroy the data for a particular session identifier in the SessionHandler backend.
-	 *
-	 * @param   string  $id  The session identifier.
-	 *
-	 * @return  boolean  True on success, false otherwise.
-	 */
-	public function destroy($id)
-	{
-		$sess_id = 'sess_' . $id;
-		return wincache_ucache_delete($sess_id);
+		ini_set('session.save_handler', 'wincache');
 	}
 
 	/**

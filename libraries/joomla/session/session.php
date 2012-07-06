@@ -102,9 +102,6 @@ class JSession implements IteratorAggregate
 			session_destroy();
 		}
 
-		// Set default session save handler
-		ini_set('session.save_handler', 'files');
-
 		// Disable transparent sid support
 		ini_set('session.use_trans_sid', '0');
 
@@ -235,7 +232,7 @@ class JSession implements IteratorAggregate
 	 */
 	public static function getFormToken($forceNew = false)
 	{
-		$user = JFactory::getUser();
+		$user    = JFactory::getUser();
 		$session = JFactory::getSession();
 
 		// TODO: Decouple from legacy JApplication class.
