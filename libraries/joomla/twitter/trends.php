@@ -21,7 +21,8 @@ class JTwitterTrends extends JTwitterObject
 	/**
 	 * Method to get the top 10 trending topics for a specific WOEID, if trending information is available for it.
 	 *
-	 * @param   integer  $woeid    The Yahoo! Where On Earth ID of the location to return trending information for. Global information is available by using 1 as the WOEID.
+	 * @param   integer  $woeid    The Yahoo! Where On Earth ID of the location to return trending information for.
+	 * 							   Global information is available by using 1 as the WOEID.
 	 * @param   string   $exclude  Setting this equal to hashtags will remove all hashtags from the trends list.
 	 *
 	 * @return  array  The decoded JSON response
@@ -51,8 +52,8 @@ class JTwitterTrends extends JTwitterObject
 	/**
 	 * Method to get the locations that Twitter has trending topic information for.
 	 *
-	 * @param   float    $lat          The latitude to search around.
-	 * @param   float    $long         The longitude to search around.
+	 * @param   float  $lat   The latitude to search around.
+	 * @param   float  $long  The longitude to search around.
 	 *
 	 * @return  array  The decoded JSON response
 	 *

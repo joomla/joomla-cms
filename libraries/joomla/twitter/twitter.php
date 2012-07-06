@@ -91,6 +91,12 @@ class JTwitter
 	protected $trends;
 
 	/**
+	 * @var    JTwitterBlck  Twitter API object for block.
+	 * @since  12.1
+	 */
+	protected $block;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   JRegistry     $options  Twitter options object.
@@ -189,6 +195,13 @@ class JTwitter
 					$this->trends = new JTwitterTrends($this->options, $this->client);
 				}
 				return $this->trends;
+
+			case 'block':
+				if ($this->block == null)
+				{
+					$this->block = new JTwitterBlock($this->options, $this->client);
+				}
+				return $this->block;
 		}
 	}
 
