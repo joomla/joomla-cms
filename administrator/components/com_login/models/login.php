@@ -61,9 +61,9 @@ class LoginModelLogin extends JModelLegacy
 	 */
 	public static function getLoginModule($name = 'mod_login', $title = null)
 	{
-		$result		= null;
-		$modules	= LoginModelLogin::_load($name);
-		$total		= count($modules);
+		$result  = null;
+		$modules = self::_load($name);
+		$total   = count($modules);
 
 		for ($i = 0; $i < $total; $i++)
 		{

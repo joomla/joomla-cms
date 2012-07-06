@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-// Register dependent classes.
 JLoader::register('FinderIndexerHelper', dirname(__FILE__) . '/helper.php');
 JLoader::register('FinderIndexerParser', dirname(__FILE__) . '/parser.php');
 JLoader::register('FinderIndexerStemmer', dirname(__FILE__) . '/stemmer.php');
@@ -236,7 +235,7 @@ class FinderIndexer
 		}
 
 		// Get the indexer state.
-		$state = FinderIndexer::getState();
+		$state = self::getState();
 
 		// Get the signatures of the item.
 		$curSig = self::getSignature($item);
@@ -438,12 +437,12 @@ class FinderIndexer
 						}
 
 						// Tokenize a string of content and add it to the database.
-						$count += FinderIndexer::tokenizeToDB($ip, $group, $item->language, $format);
+						$count += self::tokenizeToDB($ip, $group, $item->language, $format);
 
 						// Check if we're approaching the memory limit of the token table.
 						if ($count > self::$state->options->get('memory_table_limit', 30000))
 						{
-							FinderIndexer::toggleTables(false);
+							self::toggleTables(false);
 						}
 					}
 				}
@@ -460,12 +459,12 @@ class FinderIndexer
 					}
 
 					// Tokenize a string of content and add it to the database.
-					$count += FinderIndexer::tokenizeToDB($item->$property, $group, $item->language, $format);
+					$count += self::tokenizeToDB($item->$property, $group, $item->language, $format);
 
 					// Check if we're approaching the memory limit of the token table.
 					if ($count > self::$state->options->get('memory_table_limit', 30000))
 					{
-						FinderIndexer::toggleTables(false);
+						self::toggleTables(false);
 					}
 				}
 			}
@@ -487,7 +486,7 @@ class FinderIndexer
 				FinderIndexerTaxonomy::addMap($linkId, $nodeId);
 
 				// Tokenize the node title and add them to the database.
-				$count += FinderIndexer::tokenizeToDB($node->title, self::META_CONTEXT, $item->language, $format);
+				$count += self::tokenizeToDB($node->title, self::META_CONTEXT, $item->language, $format);
 			}
 		}
 
@@ -805,7 +804,7 @@ class FinderIndexer
 		}
 
 		// Toggle the token tables back to memory tables.
-		FinderIndexer::toggleTables(true);
+		self::toggleTables(true);
 
 		// Mark afterTruncating in the profiler.
 		self::$profiler ? self::$profiler->mark('afterTruncating') : null;
@@ -829,7 +828,7 @@ class FinderIndexer
 		$query = $db->getQuery(true);
 
 		// Get the indexer state.
-		$state = FinderIndexer::getState();
+		$state = self::getState();
 
 		// Update the link counts and remove the mapping records.
 		for ($i = 0; $i <= 15; $i++)
@@ -916,7 +915,7 @@ class FinderIndexer
 	public static function optimize()
 	{
 		// Get the indexer state.
-		$state = FinderIndexer::getState();
+		$state = self::getState();
 
 		// Get the database object.
 		$db = JFactory::getDBO();
@@ -1021,7 +1020,7 @@ class FinderIndexer
 	protected static function getSignature($item)
 	{
 		// Get the indexer state.
-		$state = FinderIndexer::getState();
+		$state = self::getState();
 
 		// Get the relevant configuration variables.
 		$config = array();
@@ -1104,12 +1103,12 @@ class FinderIndexer
 				$tokens = FinderIndexerHelper::tokenize($string, $lang);
 
 				// Add the tokens to the database.
-				$count += FinderIndexer::addTokensToDB($tokens, $context);
+				$count += self::addTokensToDB($tokens, $context);
 
 				// Check if we're approaching the memory limit of the token table.
 				if ($count > self::$state->options->get('memory_table_limit', 30000))
 				{
-					FinderIndexer::toggleTables(false);
+					self::toggleTables(false);
 				}
 
 				unset($string);
@@ -1157,12 +1156,12 @@ class FinderIndexer
 				$tokens = FinderIndexerHelper::tokenize($string, $lang);
 
 				// Add the tokens to the database.
-				$count += FinderIndexer::addTokensToDB($tokens, $context);
+				$count += self::addTokensToDB($tokens, $context);
 
 				// Check if we're approaching the memory limit of the token table.
 				if ($count > self::$state->options->get('memory_table_limit', 30000))
 				{
-					FinderIndexer::toggleTables(false);
+					self::toggleTables(false);
 				}
 			}
 		}
@@ -1181,7 +1180,7 @@ class FinderIndexer
 			$tokens = FinderIndexerHelper::tokenize($input, $lang);
 
 			// Add the tokens to the database.
-			$count = FinderIndexer::addTokensToDB($tokens, $context);
+			$count = self::addTokensToDB($tokens, $context);
 		}
 
 		return $count;

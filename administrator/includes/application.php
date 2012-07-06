@@ -239,7 +239,7 @@ class JAdministrator extends JApplication
 			$lang = preg_replace('/[^A-Z-]/i', '', $lang);
 			$this->setUserState('application.lang', $lang );
 
-			JAdministrator::purgeMessages();
+			self::purgeMessages();
 		}
 
 		return $result;
