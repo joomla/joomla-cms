@@ -99,7 +99,7 @@ class JInstallerFile extends JAdapterInstance
 			}
 		}
 		// Set the file root path
-		$this->parent->setPath('extension_root', JPATH_ROOT);
+		$this->parent->setPath('extension_root', JPATH_MANIFESTS . '/files/' . $this->get('element'));
 
 		/**
 		 * ---------------------------------------------------------------------------------------------
@@ -343,6 +343,29 @@ class JInstallerFile extends JAdapterInstance
 			return false;
 		}
 
+		// If there is a manifest script, let's copy it.
+		if ($this->get('manifest_script'))
+		{
+			// First, we have to create a folder for the script if one isn't present
+			if (!file_exists($this->parent->getPath('extension_root')))
+			{
+				JFolder::create($this->parent->getPath('extension_root'));
+			}
+
+			$path['src'] = $this->parent->getPath('source') . '/' . $this->get('manifest_script');
+			$path['dest'] = $this->parent->getPath('extension_root') . '/' . $this->get('manifest_script');
+
+			if (!file_exists($path['dest']) || $this->parent->isOverwrite())
+			{
+				if (!$this->parent->copyFiles(array($path)))
+				{
+					// Install failed, rollback changes
+					$this->parent->abort(JText::_('JLIB_INSTALLER_ABORT_PACKAGE_INSTALL_MANIFEST'));
+
+					return false;
+				}
+			}
+		}
 		// Clobber any possible pending updates
 		$update = JTable::getInstance('update');
 		$uid = $update->find(
@@ -425,8 +448,7 @@ class JInstallerFile extends JAdapterInstance
 		if (file_exists($manifestFile))
 		{
 			// Set the files root path
-			// @todo remove code: . '/files/' . $manifest->filename);
-			$this->parent->setPath('extension_root', JPATH_ROOT);
+			$this->parent->setPath('extension_root', JPATH_MANIFESTS . '/files/' . $row->element);
 
 			$xml = simplexml_load_file($manifestFile);
 
@@ -563,6 +585,12 @@ class JInstallerFile extends JAdapterInstance
 
 			JFile::delete($manifestFile);
 
+			// Lastly, remove the extension_root
+			$folder = $this->parent->getPath('extension_root');
+			if (JFolder::exists($folder))
+			{
+				JFolder::delete($folder);
+			}
 		}
 		else
 		{
