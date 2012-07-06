@@ -112,7 +112,7 @@ var Installation = new Class({
 	 */
 	sampleData: function(el, filename) {
 		this.busy = true;
-		sample_data_spinner = new Spinner('sample-data-region');
+		sample_data_spinner = new Spinner('collapseSample');
 		sample_data_spinner.show(true);
 		el = document.id(el);
 		filename = document.id(filename);
