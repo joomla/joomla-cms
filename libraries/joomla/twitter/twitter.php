@@ -85,6 +85,12 @@ class JTwitter
 	protected $places;
 
 	/**
+	 * @var    JTwitterTrends  Twitter API object for trends.
+	 * @since  12.1
+	 */
+	protected $trends;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   JRegistry     $options  Twitter options object.
@@ -176,6 +182,13 @@ class JTwitter
 					$this->places = new JTwitterPlaces($this->options, $this->client);
 				}
 				return $this->places;
+
+			case 'trends':
+				if ($this->trends == null)
+				{
+					$this->trends = new JTwitterTrends($this->options, $this->client);
+				}
+				return $this->trends;
 		}
 	}
 
