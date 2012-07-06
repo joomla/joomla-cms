@@ -101,8 +101,27 @@ class JTwitterOAuth
 	 *
 	 * @throws DomainException
 	 */
-	public function oauthFlow()
+	public function oauth()
 	{
+		$session = JFactory::getSession();
+
+		// Already got some credentials stored
+		if ($session->get('key', null, 'oauth_token'))
+		{
+			// Get token form session.
+			$this->token = array('key' => $session->get('key', null, 'oauth_token'), 'secret' => $session->get('secret', null, 'oauth_token'));
+
+			$response = $this->verifyCredentials();
+			if ($response->code == 200)
+			{
+				return;
+			}
+			else
+			{
+				$this->token = null;
+			}
+		}
+
 		$request = JFactory::getApplication()->input;
 		$verifier = $request->get('oauth_verifier');
 
@@ -219,6 +238,12 @@ class JTwitterOAuth
 
 		// Save the access token.
 		$this->token = array('key' => $params['oauth_token'], 'secret' => $params['oauth_token_secret']);
+
+		// Save the request token in session
+		$session = JFactory::getSession();
+		$session->set('key', $this->token['key'], 'oauth_token');
+		$session->set('secret', $this->token['secret'], 'oauth_token');
+
 		$this->user = array('id' => $params['user_id'], 'screen_name' => $params['screen_name']);
 	}
 
@@ -290,7 +315,7 @@ class JTwitterOAuth
 		}
 
 		// Validate the response code.
-		if ($response->code != 200)
+		if (strpos($url, 'verify_credentials') === false && $response->code != 200)
 		{
 			$error = json_decode($response->body);
 
@@ -479,6 +504,65 @@ class JTwitterOAuth
 	private function prepare_signing_key()
 	{
 		return $this->safeEncode($this->consumer['secret']) . '&' . $this->safeEncode(($this->token) ? $this->token['secret'] : '');
+	}
+
+	/**
+	 * Returns an HTTP 200 OK response code and a representation of the requesting user if authentication was successful;
+	 * returns a 401 status code and an error message if not.
+	 *
+	 * @param   boolean  $entities     When set to either true, t or 1, each tweet will include a node called "entities,". This node offers a
+	 * 								   variety of metadata about the tweet in a discreet structure, including: user_mentions, urls, and hashtags.
+	 * @param   boolean  $skip_status  When set to either true, t or 1 statuses will not be included in the returned user objects.
+	 *
+	 * @return  array  The decoded JSON response
+	 *
+	 * @since   12.1
+	 */
+	public function verifyCredentials($entities = false, $skip_status = false)
+	{
+		// Set the parameters.
+		$parameters = array('oauth_token' => $this->getToken('key'));
+
+		$data = array();
+
+		// Check if entities is specified
+		if ($entities)
+		{
+			$data['include_entities'] = $entities;
+		}
+
+		// Check if skip_statuses is specified
+		if ($skip_status)
+		{
+			$data['skip_status'] = $skip_status;
+		}
+
+		// Set the API base
+		$path = 'https://api.twitter.com/1/account/verify_credentials.json';
+
+		// Send the request.
+		$response = $this->oauthRequest($path, 'GET', $parameters, $data);
+		return $response;
+	}
+
+	/**
+	 * Ends the session of the authenticating user, returning a null cookie.
+	 *
+	 * @return  array  The decoded JSON response
+	 *
+	 * @since   12.1
+	 */
+	public function endSession()
+	{
+		// Set parameters.
+		$parameters = array('oauth_token' => $this->getToken('key'));
+
+		// Set the API base
+		$path = 'https://api.twitter.com/1/account/end_session.json';
+
+		// Send the request.
+		$response = $this->oauthRequest($path, 'POST', $parameters);
+		return json_decode($response->body);
 	}
 
 	/**
