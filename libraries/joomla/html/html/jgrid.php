@@ -66,16 +66,14 @@ abstract class JHtmlJGrid
 			$html[] = ' title="' . addslashes(htmlspecialchars($translate ? JText::_($active_title) : $active_title, ENT_COMPAT, 'UTF-8')) . '">';
 			if ($active_class == "publish")
 			{
-				$html[] = '<span class="btn btn-micro active">';
-				$html[] = '<span class="btn btn-micro btn-success">&nbsp;';
-				$html[] = '</span>';
+				$html[] = '<span class="btn btn-micro btn-success">';
+				$html[] = '<i class="icon-ok icon-white"></i>';
 				$html[] = '</span>';
 			}
 			else if ($active_class == "unpublish")
 			{
-				$html[] = '<span class="btn btn-micro active">';
-				$html[] = '<span class="btn btn-micro btn-danger">&nbsp;';
-				$html[] = '</span>';
+				$html[] = '<span class="btn btn-micro btn-danger">';
+				$html[] = '<i class="icon-ban-circle icon-white"></i>';
 				$html[] = '</span>';
 			}
 			else
