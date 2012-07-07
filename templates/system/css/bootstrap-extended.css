@@ -230,23 +230,6 @@ body.modal {
   background-position: -287px -24px;
 }
 
-/* Transparency for Inactive Icons */
-.icon-unpublish,
-.icon-ban-circle,
-.icon-star-empty,
-.grid_false {
-	/* IE 8 */
-	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30)";
-	/* IE 5-7 */
-	filter: alpha(opacity=30);
-	/* Netscape */
-	-moz-opacity: 0.3;
-	/* Safari 1.x */
-	-khtml-opacity: 0.3;
-	/* Good browsers */
-	opacity: 0.3;
-}
-
 /* Specific Widths */
 .width-10 {
 	width: 10px;
@@ -391,4 +374,11 @@ fieldset.radio.btn-group {
     -webkit-border-radius: 4px 4px 0 0;
     -moz-border-radius: 4px 4px 0 0;
     border-radius: 4px 4px 0 0;
+}
+
+/* Extended Joomla Button Classes */
+.btn-micro {
+	padding: 1px 4px;
+	font-size: 10px;
+	line-height: 8px;
 }
