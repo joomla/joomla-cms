@@ -66,8 +66,8 @@ class UsersHelper
 			$extension = JRequest::getString('extension');
 			JSubMenuHelper::addEntry(
 				JText::_('COM_USERS_SUBMENU_NOTE_CATEGORIES'),
-				'index.php?option=com_categories&extension=com_users.notes',
-				$vName == 'categories' || $extension == 'com_users.notes'
+				'index.php?option=com_categories&extension=com_users',
+				$vName == 'categories' || $extension == 'com_users'
 			);
 		}
 	}
