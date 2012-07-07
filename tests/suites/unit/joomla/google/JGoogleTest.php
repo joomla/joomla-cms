@@ -11,7 +11,7 @@ require_once JPATH_PLATFORM . '/joomla/google/google.php';
 /**
  * Test class for JGoogle.
  */
-class JGoogleTest extends TestCase
+class JGoogleTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 * @var    JRegistry  Options for the JOauth2client object.

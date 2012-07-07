@@ -114,7 +114,8 @@ class JGoogleDataCalendar extends JGoogleData
 		if ($this->authenticated())
 		{
 			$options['id'] = $calendarID;
-			$jdata = $this->auth->query('https://www.googleapis.com/calendar/v3/users/me/calendarList', json_encode($options), array('Content-type' => 'application/json'));
+			$url = 'https://www.googleapis.com/calendar/v3/users/me/calendarList';
+			$jdata = $this->auth->query($url, json_encode($options), array('Content-type' => 'application/json'));
 			if ($data = json_decode($jdata->body, true))
 			{
 				return $data;
@@ -134,7 +135,7 @@ class JGoogleDataCalendar extends JGoogleData
 	 * Method to retrieve calendar list from Google
 	 *
 	 * @param   array  $options   Search settings
-	 * @param   int    $maxpages  Minimum number of events to retrieve (more may be retrieved depending on page size)
+	 * @param   int    $maxpages  Maximum number of pages of calendars to return
 	 *
 	 * @return  mixed  Data from Google
 	 *
@@ -268,7 +269,8 @@ class JGoogleDataCalendar extends JGoogleData
 		if ($this->authenticated())
 		{
 			$options['summary'] = $title;
-			$jdata = $this->auth->query('https://www.googleapis.com/calendar/v3/calendars', json_encode($options), array('Content-type' => 'application/json'));
+			$url = 'https://www.googleapis.com/calendar/v3/calendars';
+			$jdata = $this->auth->query($url, json_encode($options), array('Content-type' => 'application/json'));
 			if ($data = json_decode($jdata->body, true))
 			{
 				return $data;
@@ -395,7 +397,7 @@ class JGoogleDataCalendar extends JGoogleData
 	 * @throws InvalidArgumentException
 	 * @throws UnexpectedValueException
 	 */
-	public function createEvent($calendarID, $start = time() , $end = false, $options = array(), $timezone = false, $allday = false, $notify = false)
+	public function createEvent($calendarID, $start , $end = false, $options = array(), $timezone = false, $allday = false, $notify = false)
 	{
 		if ($this->authenticated())
 		{

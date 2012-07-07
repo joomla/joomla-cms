@@ -6,12 +6,12 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM . '/joomla/google/google.php';
+require_once JPATH_PLATFORM . '/joomla/google/data/adsense.php';
 
 /**
  * Test class for JGoogle.
  */
-class JGoogleAuthOauth2Test extends PHPUnit_Framework_TestCase
+class JGoogleDataAdsenseTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 * @var    JRegistry  Options for the JOauth2client object.
@@ -34,7 +34,12 @@ class JGoogleAuthOauth2Test extends PHPUnit_Framework_TestCase
 	protected $oauth;
 
 	/**
-	 * @var    JGoogleAuthOauth2  Object under test.
+	 * @var    JGoogleAuthOauth2  The Google OAuth client for sending requests.
+	 */
+	protected $auth;
+
+	/**
+	 * @var    JGoogleDataAdsense  Object under test.
 	 */
 	protected $object;
 
@@ -47,10 +52,13 @@ class JGoogleAuthOauth2Test extends PHPUnit_Framework_TestCase
 	protected function setUp()
 	{
 		$this->options = new JRegistry;
+		$this->options->set('authurl', 'http://url');
+		$this->options->set('clientid', '1234');
 		$this->client = $this->getMock('JHttpTransportStream', array('request'), array($this->options));
 		$this->input = new JInput;
 		$this->oauth = new JOauthOauth2client($this->options, $this->client, $this->input);
-		$this->object = new JGoogleAuthOauth2($this->options, $this->oauth);
+		$this->auth = new JGoogleAuthOauth2($this->options, $this->oauth);
+	$this->object = new JGoogleDataAdsense($this->options, $this->auth);
 	}
 
 	/**
@@ -61,35 +69,5 @@ class JGoogleAuthOauth2Test extends PHPUnit_Framework_TestCase
 	 */
 	protected function tearDown()
 	{
-	}
-
-	/**
-	 * Tests the setOption method
-	 * @group	JGoogle
-	 * @return void
-	 */
-	public function testSetOption()
-	{
-		$this->object->setOption('key', 'value');
-
-		$this->assertThat(
-			$this->options->get('key'),
-			$this->equalTo('value')
-		);
-	}
-
-	/**
-	 * Tests the getOption method
-	 * @group	JGoogle
-	 * @return void
-	 */
-	public function testGetOption()
-	{
-		$this->options->set('key', 'value');
-
-		$this->assertThat(
-			$this->object->getOption('key'),
-			$this->equalTo('value')
-		);
 	}
 }

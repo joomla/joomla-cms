@@ -12,7 +12,7 @@ require_once JPATH_PLATFORM . '/joomla/oauth/oauth2client.php';
 /**
  * Test class for JOauth2client.
  */
-class JOauth2clientTest extends TestCase
+class JOauth2clientTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 * @var    JRegistry  Options for the JOauth2client object.
