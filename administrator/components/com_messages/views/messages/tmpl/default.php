@@ -21,9 +21,6 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 
 <form action="<?php echo JRoute::_('index.php?option=com_messages&view=messages'); ?>" method="post" name="adminForm" id="adminForm">
 	<div id="filter-bar" class="btn-toolbar">
-		<div class="btn-group pull-right">
-			<a data-toggle="collapse" data-target="#filters" class="btn"><?php echo JText::_('JSEARCH_FILTER_LABEL'); ?> <span class="caret"></span></a>
-		</div>
 		<div class="filter-search btn-group pull-left">
 			<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('COM_MESSAGES_SEARCH_IN_SUBJECT'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" title="<?php echo JText::_('COM_MESSAGES_SEARCH_IN_SUBJECT'); ?>" />
 		</div>
@@ -31,16 +28,14 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 			<button class="btn tip" type="submit" title="<?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?>"><i class="icon-search"></i></button>
 			<button class="btn tip" type="button" title="<?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?>" onclick="document.id('filter_search').value='';this.form.submit();"><i class="icon-remove"></i></button>
 		</div>
-	</div>
-	<div class="clearfix"> </div>
-	<div class="collapse" id="filters">
-		<div class="filter-select well">
+		<div class="btn-group pull-left">
 			<select name="filter_state" class="inputbox" onchange="this.form.submit()">
 				<option value=""><?php echo JText::_('JOPTION_SELECT_PUBLISHED');?></option>
 				<?php echo JHtml::_('select.options', MessagesHelper::getStateOptions(), 'value', 'text', $this->state->get('filter.state'));?>
 			</select>
 		</div>
 	</div>
+	<div class="clearfix"> </div>
 	<table class="table table-striped">
 		<thead>
 			<tr>
