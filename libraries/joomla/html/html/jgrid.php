@@ -61,16 +61,33 @@ abstract class JHtmlJGrid
 		}
 		if ($enabled)
 		{
-			$html[] = '<a class="jgrid' . ($tip ? ' tip' : '') . '"';
+			$html[] = '<a class="jgrid" ' . ($tip ? 'rel="tooltip"' : '') . '';
 			$html[] = ' href="javascript:void(0);" onclick="return listItemTask(\'' . $checkbox . $i . '\',\'' . $prefix . $task . '\')"';
 			$html[] = ' title="' . addslashes(htmlspecialchars($translate ? JText::_($active_title) : $active_title, ENT_COMPAT, 'UTF-8')) . '">';
-			$html[] = '<i class="icon-' . $active_class . '">';
-			$html[] = '</i>';
+			if ($active_class == "publish")
+			{
+				$html[] = '<span class="btn btn-micro active">';
+				$html[] = '<span class="btn btn-micro btn-success">&nbsp;';
+				$html[] = '</span>';
+				$html[] = '</span>';
+			}
+			else if ($active_class == "unpublish")
+			{
+				$html[] = '<span class="btn btn-micro active">';
+				$html[] = '<span class="btn btn-micro btn-danger">&nbsp;';
+				$html[] = '</span>';
+				$html[] = '</span>';
+			}
+			else
+			{
+				$html[] = '<i class="icon-' . $active_class . '">';
+				$html[] = '</i>';
+			}
 			$html[] = '</a>';
 		}
 		else
 		{
-			$html[] = '<a class="jgrid' . ($tip ? ' tip' : '') . '"';
+			$html[] = '<a class="jgrid" ' . ($tip ? 'rel="tooltip"' : '') . '';
 			$html[] = ' title="' . addslashes(htmlspecialchars($translate ? JText::_($inactive_title) : $inactive_title, ENT_COMPAT, 'UTF-8')) . '">';
 			$html[] = '<i class="icon-' . $inactive_class . '">';
 			$html[] = '</i>';
