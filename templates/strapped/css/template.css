@@ -2,8 +2,9 @@
 /* Site Body Styles */
 body.site{
 	border-top:3px solid #0088cc;
+	padding: 20px;
+	background-color: #f4f6f7;
 }
-
 .thumbnail {
 	margin-bottom:9px;
 }
@@ -13,26 +14,29 @@ body.site{
 .select[multiple], select[size] {
 	height:28px;
 }
+/* Heading Fonts */
+h1,h2,h3,h4,h5,h6{
+	font-family: 'Open Sans', sans-serif;
+}
 /* Header */
-.header {
-	background-color: #ffffff;
-	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#d9effa), color-stop(25%, #d9effa), to(#ffffff));
-	background-image: -webkit-linear-gradient(#d9effa, #d9effa 25%, #ffffff);
-	background-image: -moz-linear-gradient(top, #d9effa, #d9effa 25%, #ffffff);
-	background-image: -ms-linear-gradient(#d9effa, #d9effa 25%, #ffffff);
-	background-image: -o-linear-gradient(#d9effa, #d9effa 25%, #ffffff);
-	background-image: linear-gradient(#d9effa, #d9effa 25%, #ffffff);
-	background-repeat: no-repeat;
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#d9effa', endColorstr='#ffffff', GradientType=0);
-}
-.header-inner {
-	padding:20px 0;
-}
-.header .nav {
-	margin:10px 0;
+.header{
+	margin-bottom: 10px;
 }
 .header .finder {
 	margin-top: 14px;
+}
+.header .finder .btn{
+	margin-top: 0px;
+}
+/* Nav */
+.navigation{
+	padding: 5px 0;
+	border-top: 1px solid rgba(0, 0, 0, 0.075);
+	border-bottom: 1px solid rgba(0, 0, 0, 0.075);
+	margin-bottom: 10px;
+}
+.navigation .nav-pills{
+	margin-bottom: 0;
 }
 /* Hero Banner Unit */
 .hero-unit{
@@ -41,6 +45,25 @@ body.site{
 .hero-unit > *{
 	color: white;
 	text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+}
+/* Container */
+.container{
+	max-width: 960px;
+}
+.body .container{
+	background-color: #fff;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
+	padding: 20px;
+	border: 1px solid rgba(0, 0, 0, 0.15);
+	-moz-box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.05);
+	-webkit-box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.05);
+	box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.05);
+}
+/* Wells */
+.well .page-header{
+	margin: 0px 0px 5px 0px;
 }
 /* Page Edit */
 .page-edit {
@@ -137,39 +160,6 @@ body.site{
 	}
 	.header {
 		background:transparent;	
-	}
-	.row-fluid .offset1 {
-	  margin-left: 0!important;
-	}
-	.row-fluid .offset2 {
-	  margin-left: 0!important;
-	}
-	.row-fluid .offset3 {
-	  margin-left: 0!important;
-	}
-	.row-fluid .offset4 {
-	  margin-left: 0!important;
-	}
-	.row-fluid .offset5 {
-	  margin-left: 0!important;
-	}
-	.row-fluid .offset6 {
-	  margin-left: 0!important;
-	}
-	.row-fluid .offset7 {
-	  margin-left: 0!important;
-	}
-	.row-fluid .offset8 {
-	  margin-left: 0!important;
-	}
-	.row-fluid .offset9 {
-	  margin-left: 0!important;
-	}
-	.row-fluid .offset10 {
-	  margin-left: 0!important;
-	}
-	.row-fluid .offset11 {
-	  margin-left: 0!important;
 	}
 	.header .brand {
 		float:none;
