@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+08-July-2012 Jean-Marie Simonet
+ # [#28510] DB error "session" table Duplicate entry. Thanks Rob
+
 05-July-2012 Jean-Marie Simonet
  # [#28770] Loss of data when editing an article through the front end. Thanks Franz
 
