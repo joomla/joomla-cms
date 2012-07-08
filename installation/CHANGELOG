@@ -28,7 +28,8 @@ $ -> Language fix or change
 
 08-July-2012 Jean-Marie Simonet
  # [#28510] DB error "session" table Duplicate entry. Thanks Rob
-
+ #^ [#28785] mod_wrapper doesn't support iframe without border. Thanks Andrea Sisti
+ 
 05-July-2012 Jean-Marie Simonet
  # [#28770] Loss of data when editing an article through the front end. Thanks Franz
 
