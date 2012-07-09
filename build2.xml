@@ -55,6 +55,35 @@
    -->
     <target name="build" depends="clean,phpcs,phploc,phpcpd"/>
 
+    <target name="installsqlitetest" depends="clean">
+        <antcall target="start-server"></antcall>
+        <exec executable="phpunit">
+            <arg value="-c"/>
+            <arg value="tests/installsqlite/phpunit.xml"/>
+            <arg value="--include-path"/>
+            <arg value="${basedir}/tests/installsqlite"/>
+        </exec>
+        <antcall target="stop-server"></antcall>
+    </target>
+
+    <target name="sqlitetests">
+        <antcall target="start-server"></antcall>
+        <exec executable="phpunit">
+            <arg value="-c"/>
+            <arg value="tests/installsqlite/phpunit.xml"/>
+            <arg value="--include-path"/>
+            <arg value="${basedir}/tests/installsqlite"/>
+        </exec>
+        <exec executable="phpunit">
+            <arg value="-c"/>
+            <arg value="tests/system-sqlite/phpunit.xml"/>
+            <arg value="--include-path"/>
+            <arg value="${basedir}/tests/system-sqlite"/>
+        </exec>
+        <antcall target="stop-server"></antcall>
+
+    </target>
+
     <target name="installtest" depends="clean">
         <antcall target="start-server"></antcall>
         <exec executable="phpunit">

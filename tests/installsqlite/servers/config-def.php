@@ -25,7 +25,7 @@ class SeleniumConfig
 	// $path is the rest of the URL to the Joomla! home page
 	// Example: Your full URL to Joomla! is http://localhost/joomla_16/index.php
 	// then $path would be '/joomla_16/'
-	public $path = '/joomla-cms-sqlite';
+	public $path = '/joomla-cms-testing';
 
 	// set the database host, database username, database pasword, and database name
 #	public $db_type = 'MySQL';
@@ -48,7 +48,7 @@ class SeleniumConfig
 	public $sample_data = true;
 
 	// set the site name
-	public $site_name = 'Joomla! Sqlite TEST';
+	public $site_name = 'Joomla! System Tests - Sqlite';
 
 	// set the admin login, admin password, and admin email address
 	public $username = 'admin';
@@ -60,8 +60,8 @@ class SeleniumConfig
 
 	// Screenshots
 	public $captureScreenshotOnFailure = true;
-	public $screenshotPath = '/home/jtester/repos/joomla-cms-sqlite/build/screenshots/';
-	public $screenshotUrl = 'http://dev.local/joomla-cms-sqlite/build/screenshots/';
+	public $screenshotPath = '/home/jtester/repos/joomla-cms-testing/build/screenshots/';
+	public $screenshotUrl = 'http://dev.local/joomla-cms-testing/build/screenshots/';
 
 	public function __construct()
 	{

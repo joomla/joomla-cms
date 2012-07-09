@@ -1,0 +1,21 @@
+<phpunit
+        colors="true"
+        convertErrorsToExceptions="true"
+        convertNoticesToExceptions="true"
+        convertWarningsToExceptions="true"
+        stopOnFailure="false">
+
+    <testsuite name="TestTest">
+        <file>tests/installsqlite/suite/TestSuite.php</file>
+    </testsuite>
+
+    <logging>
+        <log type="coverage-html" target="build/installsqlite-coverage"
+             title="Joomla-CMS SQLite" charset="UTF-8"
+             yui="true" highlight="true"
+             lowUpperBound="35" highLowerBound="70"/>
+        <log type="coverage-clover" target="build/logs/clover-installsqlite.xml"/>
+        <log type="junit" target="build/logs/junit-installsqlite.xml" logIncompleteSkipped="false"/>
+    </logging>
+
+</phpunit>
