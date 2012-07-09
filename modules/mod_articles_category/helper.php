@@ -300,9 +300,9 @@ abstract class modArticlesCategoryHelper
 
 			// Set new $maxlength that adjusts for the html tags
 			$maxLength += $diffLength;
-			if ($baseLength <= $maxLength)
+			if ($baseLength <= $maxLength || $diffLength <= 0)
 			{
-				return $html;
+				return $htmlString;
 			}
 		}
 		return $html;
