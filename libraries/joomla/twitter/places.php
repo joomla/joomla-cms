@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die();
  *
  * @package     Joomla.Platform
  * @subpackage  Twitter
- * @since       12.1
+ * @since       12.3
  */
 class JTwitterPlaces extends JTwitterObject
 {
@@ -25,7 +25,7 @@ class JTwitterPlaces extends JTwitterObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.1
+	 * @since   12.3
 	 */
 	public function getPlace($id)
 	{
@@ -53,7 +53,7 @@ class JTwitterPlaces extends JTwitterObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.1
+	 * @since   12.3
 	 */
 	public function getGeocode($lat, $long, $accuracy = null, $granularity = null, $max_results = 0, $callback = null)
 	{
@@ -114,7 +114,7 @@ class JTwitterPlaces extends JTwitterObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.1
+	 * @since   12.3
 	 * @throws  RuntimeException
 	 */
 	public function search($lat = null, $long = null, $query = null, $ip = null, $granularity = null, $accuracy = null, $max_results = 0,
@@ -208,7 +208,7 @@ class JTwitterPlaces extends JTwitterObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.1
+	 * @since   12.3
 	 */
 	public function getSimilarPlaces($lat, $long, $name, $within = null, $attribute = null, $callback = null)
 	{
@@ -258,7 +258,7 @@ class JTwitterPlaces extends JTwitterObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.1
+	 * @since   12.3
 	 */
 	public function createPlace($oauth, $lat, $long, $name, $token, $within, $attribute = null, $callback = null)
 	{

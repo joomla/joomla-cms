@@ -14,25 +14,25 @@ defined('JPATH_PLATFORM') or die();
  *
  * @package     Joomla.Platform
  * @subpackage  Twitter
- * @since       12.1
+ * @since       12.3
  */
 abstract class JTwitterObject
 {
 	/**
 	* @const integer The error code in case of success.
-	* @since 12.1
+	* @since 12.3
 	*/
 	const SUCCESS_CODE = 200;
 
 	/**
 	 * @var    JRegistry  Options for the Twitter object.
-	 * @since  12.1
+	 * @since  12.3
 	 */
 	protected $options;
 
 	/**
 	 * @var    JTwitterHttp  The HTTP client object to use in sending HTTP requests.
-	 * @since  12.1
+	 * @since  12.3
 	 */
 	protected $client;
 
@@ -42,7 +42,7 @@ abstract class JTwitterObject
 	 * @param   JRegistry     &$options  Twitter options object.
 	 * @param   JTwitterHttp  $client    The HTTP client object.
 	 *
-	 * @since   12.1
+	 * @since   12.3
 	 */
 	public function __construct(JRegistry &$options = null, JTwitterHttp $client = null)
 	{
@@ -55,7 +55,7 @@ abstract class JTwitterObject
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   12.3
 	 * @throws  RuntimeException
 	 */
 	public function checkRateLimit()
@@ -82,7 +82,7 @@ abstract class JTwitterObject
 	 *
 	 * @return  string  The request URL.
 	 *
-	 * @since   12.1
+	 * @since   12.3
 	 */
 	public function fetchUrl($path, $parameters = null)
 	{
@@ -119,7 +119,7 @@ abstract class JTwitterObject
 	 *
 	 * @return  array  The JSON response decoded
 	 *
-	 * @since   12.1
+	 * @since   12.3
 	 */
 	public function getRateLimit()
 	{
@@ -140,7 +140,7 @@ abstract class JTwitterObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.1
+	 * @since   12.3
 	 * @throws  DomainException
 	 */
 	public function sendRequest($path, $method='get', $parameters = null, $data='')
@@ -187,7 +187,7 @@ abstract class JTwitterObject
 	 *
 	 * @return  mixed  The option value.
 	 *
-	 * @since   12.1
+	 * @since   12.3
 	 */
 	public function getOption($key)
 	{
@@ -202,7 +202,7 @@ abstract class JTwitterObject
 	 *
 	 * @return  JTwitterObject  This object for method chaining.
 	 *
-	 * @since   12.1
+	 * @since   12.3
 	 */
 	public function setOption($key, $value)
 	{

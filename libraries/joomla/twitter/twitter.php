@@ -14,87 +14,93 @@ defined('JPATH_PLATFORM') or die();
  *
  * @package     Joomla.Platform
  * @subpackage  Twitter
- * @since       12.1
+ * @since       12.3
  */
 class JTwitter
 {
 	/**
 	 * @var    JRegistry  Options for the GitHub object.
-	 * @since  12.1
+	 * @since  12.3
 	 */
 	protected $options;
 
 	/**
 	 * @var    JTwitterHttp  The HTTP client object to use in sending HTTP requests.
-	 * @since  12.1
+	 * @since  12.3
 	 */
 	protected $client;
 
 	/**
 	 * @var    JTwitterFriends  Twitter API object for friends.
-	 * @since  12.1
+	 * @since  12.3
 	 */
 	protected $friends;
 
 	/**
 	 * @var    JTwitterUsers  Twitter API object for users.
-	 * @since  12.1
+	 * @since  12.3
 	 */
 	protected $users;
 
 	/**
 	 * @var    JTwitterHelp  Twitter API object for help.
-	 * @since  12.1
+	 * @since  12.3
 	 */
 	protected $help;
 
 	/**
 	 * @var    JTwitterStatuses  Twitter API object for statuses.
-	 * @since  12.1
+	 * @since  12.3
 	 */
 	protected $statuses;
 
 	/**
 	 * @var    JTwitterSearch  Twitter API object for search.
-	 * @since  12.1
+	 * @since  12.3
 	 */
 	protected $search;
 
 	/**
 	 * @var    JTwitterFavorites  Twitter API object for favorites.
-	 * @since  12.1
+	 * @since  12.3
 	 */
 	protected $favorites;
 
 	/**
 	 * @var    JTwitterDirectMessages  Twitter API object for direct messages.
-	 * @since  12.1
+	 * @since  12.3
 	 */
 	protected $directMessages;
 
 	/**
 	 * @var    JTwitterLists  Twitter API object for lists.
-	 * @since  12.1
+	 * @since  12.3
 	 */
 	protected $lists;
 
 	/**
 	 * @var    JTwitterPlaces  Twitter API object for places & geo.
-	 * @since  12.1
+	 * @since  12.3
 	 */
 	protected $places;
 
 	/**
 	 * @var    JTwitterTrends  Twitter API object for trends.
-	 * @since  12.1
+	 * @since  12.3
 	 */
 	protected $trends;
 
 	/**
-	 * @var    JTwitterBlck  Twitter API object for block.
-	 * @since  12.1
+	 * @var    JTwitterBlock  Twitter API object for block.
+	 * @since  12.3
 	 */
 	protected $block;
+
+	/**
+	 * @var    JTwitterProfile  Twitter API object for profile.
+	 * @since  12.3
+	 */
+	protected $profile;
 
 	/**
 	 * Constructor.
@@ -102,7 +108,7 @@ class JTwitter
 	 * @param   JRegistry     $options  Twitter options object.
 	 * @param   JTwitterHttp  $client   The HTTP client object.
 	 *
-	 * @since   12.1
+	 * @since   12.3
 	 */
 	public function __construct(JRegistry $options = null, JTwitterHttp $client = null)
 	{
@@ -120,7 +126,7 @@ class JTwitter
 	 *
 	 * @return  JTwitterObject  Twitter API object (statuses, users, favorites, etc.).
 	 *
-	 * @since   12.1
+	 * @since   12.3
 	 */
 	public function __get($name)
 	{
@@ -202,6 +208,13 @@ class JTwitter
 					$this->block = new JTwitterBlock($this->options, $this->client);
 				}
 				return $this->block;
+
+			case 'profile':
+				if ($this->profile == null)
+				{
+					$this->profile = new JTwitterProfile($this->options, $this->client);
+				}
+				return $this->profile;
 		}
 	}
 
@@ -212,7 +225,7 @@ class JTwitter
 	 *
 	 * @return  mixed  The option value.
 	 *
-	 * @since   12.1
+	 * @since   12.3
 	 */
 	public function getOption($key)
 	{
@@ -227,7 +240,7 @@ class JTwitter
 	 *
 	 * @return  JTwitter  This object for method chaining.
 	 *
-	 * @since   12.1
+	 * @since   12.3
 	 */
 	public function setOption($key, $value)
 	{

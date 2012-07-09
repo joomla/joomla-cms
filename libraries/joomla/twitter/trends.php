@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die();
  *
  * @package     Joomla.Platform
  * @subpackage  Twitter
- * @since       12.1
+ * @since       12.3
  */
 class JTwitterTrends extends JTwitterObject
 {
@@ -27,7 +27,7 @@ class JTwitterTrends extends JTwitterObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.1
+	 * @since   12.3
 	 */
 	public function getTrends($woeid, $exclude = null)
 	{
@@ -57,7 +57,7 @@ class JTwitterTrends extends JTwitterObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.1
+	 * @since   12.3
 	 */
 	public function getLocations($lat = null, $long = null)
 	{
@@ -93,7 +93,7 @@ class JTwitterTrends extends JTwitterObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.1
+	 * @since   12.3
 	 */
 	public function getDailyTrends($date = null, $exclude = null)
 	{
@@ -129,7 +129,7 @@ class JTwitterTrends extends JTwitterObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.1
+	 * @since   12.3
 	 */
 	public function getWeeklyTrends($date = null, $exclude = null)
 	{

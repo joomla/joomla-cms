@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die();
  *
  * @package     Joomla.Platform
  * @subpackage  Twitter
- * @since       12.1
+ * @since       12.3
  */
 class JTwitterHttp extends JHttp
 {
@@ -24,7 +24,7 @@ class JTwitterHttp extends JHttp
 	 * @param   JRegistry       &$options   Client options object.
 	 * @param   JHttpTransport  $transport  The HTTP transport object.
 	 *
-	 * @since   12.1
+	 * @since   12.3
 	 */
 	public function __construct(JRegistry &$options = null, JHttpTransport $transport = null)
 	{

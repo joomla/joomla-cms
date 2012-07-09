@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die();
  *
  * @package     Joomla.Platform
  * @subpackage  Twitter
- * @since       12.1
+ * @since       12.3
  */
 class JTwitterLists extends JTwitterObject
 {
@@ -25,7 +25,7 @@ class JTwitterLists extends JTwitterObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.1
+	 * @since   12.3
 	 * @throws  RuntimeException
 	 */
 	public function getAllLists($user)
@@ -71,7 +71,7 @@ class JTwitterLists extends JTwitterObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.1
+	 * @since   12.3
 	 * @throws  RuntimeException
 	 */
 	public function getListStatuses($list, $owner = null, $since_id = 0, $max_id = 0, $per_page = 0, $page = 0, $entities = false, $include_rts = false)
@@ -162,7 +162,8 @@ class JTwitterLists extends JTwitterObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.1
+	 * @since   12.3
+	 * @throws  RuntimeException
 	 */
 	public function getListMemberships($user, $filter = false)
 	{
@@ -210,7 +211,7 @@ class JTwitterLists extends JTwitterObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.1
+	 * @since   12.3
 	 * @throws  RuntimeException
 	 */
 	public function getListSubscribers($list, $owner = null, $entities = false, $skip_status = false)
@@ -279,7 +280,7 @@ class JTwitterLists extends JTwitterObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.1
+	 * @since   12.3
 	 * @throws  RuntimeException
 	 */
 	public function deleteListMembers($oauth, $list, $user_id = null, $screen_name = null, $owner = null)
@@ -351,7 +352,7 @@ class JTwitterLists extends JTwitterObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.1
+	 * @since   12.3
 	 * @throws  RuntimeException
 	 */
 	public function subscribe($oauth, $list, $owner = null)
@@ -416,7 +417,7 @@ class JTwitterLists extends JTwitterObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.1
+	 * @since   12.3
 	 * @throws  RuntimeException
 	 */
 	public function isListMember($oauth, $list, $user, $owner = null, $entities = false, $skip_status = false)
@@ -507,7 +508,7 @@ class JTwitterLists extends JTwitterObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.1
+	 * @since   12.3
 	 * @throws  RuntimeException
 	 */
 	public function isListSubscriber($oauth, $list, $user, $owner = null, $entities = false, $skip_status = false)
@@ -594,7 +595,7 @@ class JTwitterLists extends JTwitterObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.1
+	 * @since   12.3
 	 * @throws  RuntimeException
 	 */
 	public function unsubscribe($oauth, $list, $owner = null)
@@ -654,7 +655,7 @@ class JTwitterLists extends JTwitterObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.1
+	 * @since   12.3
 	 * @throws  RuntimeException
 	 */
 	public function addListMembers($oauth, $list, $user_id = null, $screen_name = null, $owner = null)
@@ -728,7 +729,7 @@ class JTwitterLists extends JTwitterObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.1
+	 * @since   12.3
 	 * @throws  RuntimeException
 	 */
 	public function getListMembers($list, $owner = null, $entities = false, $skip_status = false)
@@ -794,7 +795,7 @@ class JTwitterLists extends JTwitterObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.1
+	 * @since   12.3
 	 * @throws  RuntimeException
 	 */
 	public function getListById($list, $owner = null)
@@ -846,7 +847,7 @@ class JTwitterLists extends JTwitterObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.1
+	 * @since   12.3
 	 * @throws  RuntimeException
 	 */
 	public function getLists($user)
@@ -884,7 +885,7 @@ class JTwitterLists extends JTwitterObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.1
+	 * @since   12.3
 	 * @throws  RuntimeException
 	 */
 	public function getSubscriptions($user, $count = 0)
@@ -933,7 +934,7 @@ class JTwitterLists extends JTwitterObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.1
+	 * @since   12.3
 	 * @throws  RuntimeException
 	 */
 	public function updateList($oauth, $list, $owner = null, $name = null, $mode = null, $description = null)
@@ -1011,7 +1012,7 @@ class JTwitterLists extends JTwitterObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.1
+	 * @since   12.3
 	 */
 	public function createList($oauth, $name, $mode = null, $description = null)
 	{
@@ -1056,7 +1057,8 @@ class JTwitterLists extends JTwitterObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.1
+	 * @since   12.3
+	 * @throws  RuntimeException
 	 */
 	public function deleteList($oauth, $list, $owner = null)
 	{

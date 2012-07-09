@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die();
  *
  * @package     Joomla.Platform
  * @subpackage  Twitter
- * @since       12.1
+ * @since       12.3
  */
 class JTwitterHelp extends JTwitterObject
 {
@@ -23,7 +23,7 @@ class JTwitterHelp extends JTwitterObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.1
+	 * @since   12.3
 	 */
 	public function getLanguages()
 	{
@@ -46,7 +46,7 @@ class JTwitterHelp extends JTwitterObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.1
+	 * @since   12.3
 	 */
 	public function getConfiguration()
 	{
@@ -68,7 +68,7 @@ class JTwitterHelp extends JTwitterObject
 	 *
 	 * @return  string  The string "ok" in the requested format with a 200 OK HTTP status code.
 	 *
-	 * @since   12.1
+	 * @since   12.3
 	 */
 	public function test()
 	{

@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die();
  *
  * @package     Joomla.Platform
  * @subpackage  Twitter
- * @since       12.1
+ * @since       12.3
  */
 class JTwittersearch extends JTwitterObject
 {
@@ -41,7 +41,7 @@ class JTwittersearch extends JTwitterObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.1
+	 * @since   12.3
 	 */
 	public function search($query, $callback = null, $geocode = null, $lang = null, $locale = null, $page = 0, $result_type = null,
 		$rpp = 0, $show_user = false, $until = null, $since_id = 0, $max_id = 0, $entities = false)
@@ -138,7 +138,7 @@ class JTwittersearch extends JTwitterObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.1
+	 * @since   12.3
 	 */
 	public function getSavedSearches($oauth)
 	{
@@ -169,7 +169,7 @@ class JTwittersearch extends JTwitterObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.1
+	 * @since   12.3
 	 */
 	public function getSavedSearchesById($oauth, $id)
 	{
@@ -200,7 +200,7 @@ class JTwittersearch extends JTwitterObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.1
+	 * @since   12.3
 	 */
 	public function createSavedSearch($oauth, $query)
 	{
@@ -231,7 +231,7 @@ class JTwittersearch extends JTwitterObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.1
+	 * @since   12.3
 	 */
 	public function deleteSavedSearch($oauth, $id)
 	{
