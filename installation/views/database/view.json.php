@@ -15,7 +15,7 @@ jimport('joomla.application.component.view');
  * @package		Joomla.Installation
  * @since		1.6
  */
-class JInstallationViewDatabase extends JView
+class InstallationViewDatabase extends JView
 {
 	/**
 	 * @var JForm $form

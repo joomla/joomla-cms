@@ -166,7 +166,7 @@ class InstallationControllerSetup extends JControllerLegacy
 		// Check for a valid token. If invalid, send a 403 with the error message.
 		JRequest::checkToken('request') or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
 
-		$model = $this->getModel('Setup', 'JInstallationModel', array('dbo' => null));
+		$model = $this->getModel('Setup', 'InstallationModel', array('dbo' => null));
 
 		$view = $this->getView('Database', 'json');
 		$view->setModel($model, true);
