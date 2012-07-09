@@ -81,3 +81,4 @@ JLoader::register('JNode', JPATH_PLATFORM . '/legacy/base/node.php');
 JLoader::register('JObserver', JPATH_PLATFORM . '/legacy/base/observer.php');
 JLoader::register('JObservable', JPATH_PLATFORM . '/legacy/base/observable.php');
 JLoader::register('LogException', JPATH_PLATFORM . '/legacy/log/logexception.php');
+JLoader::register('JXMLElement', JPATH_PLATFORM . '/legacy/utilities/xmlelement.php');

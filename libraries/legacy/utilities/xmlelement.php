@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Joomla.Platform
+ * @package     Joomla.Legacy
  * @subpackage  Utilities
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Wrapper class for php SimpleXMLElement.
  *
- * @package     Joomla.Platform
+ * @package     Joomla.Legacy
  * @subpackage  Utilities
  * @since       11.1
  * @deprecated  13.3 Use SimpleXMLElement instead.
