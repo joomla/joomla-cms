@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package     Joomla.Legacy
  * @subpackage  Controller
- * @since       11.1
+ * @since       12.2
  * @todo        Add ability to set redirect manually to better cope with frontend usage.
  */
 class JControllerForm extends JControllerLegacy
@@ -23,7 +23,7 @@ class JControllerForm extends JControllerLegacy
 	 * The context for storing internal data, e.g. record.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  12.2
 	 */
 	protected $context;
 
@@ -31,7 +31,7 @@ class JControllerForm extends JControllerLegacy
 	 * The URL option for the component.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  12.2
 	 */
 	protected $option;
 
@@ -39,7 +39,7 @@ class JControllerForm extends JControllerLegacy
 	 * The URL view item variable.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  12.2
 	 */
 	protected $view_item;
 
@@ -47,7 +47,7 @@ class JControllerForm extends JControllerLegacy
 	 * The URL view list variable.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  12.2
 	 */
 	protected $view_list;
 
@@ -55,7 +55,7 @@ class JControllerForm extends JControllerLegacy
 	 * The prefix to use with controller messages.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  12.2
 	 */
 	protected $text_prefix;
 
@@ -65,7 +65,7 @@ class JControllerForm extends JControllerLegacy
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
 	 * @see     JControllerLegacy
-	 * @since   11.1
+	 * @since   12.2
 	 * @throws  Exception
 	 */
 	public function __construct($config = array())
@@ -139,7 +139,7 @@ class JControllerForm extends JControllerLegacy
 	 *
 	 * @return  mixed  True if the record can be added, a error object if not.
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	public function add()
 	{
@@ -187,7 +187,7 @@ class JControllerForm extends JControllerLegacy
 	 *
 	 * @return  boolean
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	protected function allowAdd($data = array())
 	{
@@ -205,7 +205,7 @@ class JControllerForm extends JControllerLegacy
 	 *
 	 * @return  boolean
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	protected function allowEdit($data = array(), $key = 'id')
 	{
@@ -222,7 +222,7 @@ class JControllerForm extends JControllerLegacy
 	 *
 	 * @return  boolean
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	protected function allowSave($data, $key = 'id')
 	{
@@ -246,7 +246,7 @@ class JControllerForm extends JControllerLegacy
 	 *
 	 * @return	boolean	 True if successful, false otherwise and internal error is set.
 	 *
-	 * @since	11.1
+	 * @since	12.2
 	 */
 	public function batch($model)
 	{
@@ -292,7 +292,7 @@ class JControllerForm extends JControllerLegacy
 	 *
 	 * @return  boolean  True if access level checks pass, false otherwise.
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	public function cancel($key = null)
 	{
@@ -375,7 +375,7 @@ class JControllerForm extends JControllerLegacy
 	 *
 	 * @return  boolean  True if access level check and checkout passes, false otherwise.
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	public function edit($key = null, $urlVar = null)
 	{
@@ -461,7 +461,7 @@ class JControllerForm extends JControllerLegacy
 	 *
 	 * @return  object  The model.
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	public function getModel($name = '', $prefix = '', $config = array('ignore_request' => true))
 	{
@@ -481,7 +481,7 @@ class JControllerForm extends JControllerLegacy
 	 *
 	 * @return  string  The arguments to append to the redirect URL.
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	protected function getRedirectToItemAppend($recordId = null, $urlVar = 'id')
 	{
@@ -514,7 +514,7 @@ class JControllerForm extends JControllerLegacy
 	 *
 	 * @return  string  The arguments to append to the redirect URL.
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	protected function getRedirectToListAppend()
 	{
@@ -539,7 +539,7 @@ class JControllerForm extends JControllerLegacy
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	protected function postSaveHook(JModelLegacy $model, $validData = array())
 	{
@@ -553,7 +553,7 @@ class JControllerForm extends JControllerLegacy
 	 *
 	 * @return  boolean  True if successful, false otherwise.
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	public function save($key = null, $urlVar = null)
 	{
