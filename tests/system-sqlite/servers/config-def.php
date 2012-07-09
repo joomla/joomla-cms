@@ -25,7 +25,7 @@ class SeleniumConfig
 	// $path is the rest of the URL to the Joomla! home page
 	// Example: Your full URL to Joomla! is http://localhost/joomla_16/index.php
 	// then $path would be '/joomla_16/'
-	public $path = '/joomla-cms-sqlite';
+	public $path = '/joomla-cms-sqlite/';
 
 	// set the database host, database username, database pasword, and database name
 #	public $db_type = 'MySQL';
