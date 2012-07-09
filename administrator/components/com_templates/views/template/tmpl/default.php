@@ -1,12 +1,12 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_templates
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_templates
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
 
 // Include the component HTML helpers.
@@ -15,7 +15,7 @@ JHtml::_('behavior.tooltip');
 JHtml::_('behavior.modal');
 $canDo	= TemplatesHelper::getActions();
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_templates&view=template'); ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo JRoute::_('index.php?option=com_templates&view=templates'); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="width-50 fltlft">
 		<fieldset class="adminform" id="template-manager">
 			<legend><?php echo JText::_('COM_TEMPLATES_TEMPLATE_DESCRIPTION');?></legend>
@@ -54,7 +54,7 @@ $canDo	= TemplatesHelper::getActions();
 					<?php endif; ?>
 				</li>
 				<?php endif; ?>
-				<?php if ($this->files['main']['offline']->exists) :  ;?>
+				<?php if ($this->files['main']['offline']->exists) : ?>
 					<li>
 						<?php $id = $this->files['main']['offline']->id; ?>
 						<?php if ($canDo->get('core.edit')) : ?>
@@ -112,8 +112,19 @@ $canDo	= TemplatesHelper::getActions();
 			</div>-->
 
 		</fieldset>
-
 		<div class="clr"></div>
 		<input type="hidden" name="task" value="" />
 	</div>
+<div class="width-50 fltrt">
 </form>
+<form action="<?php echo JRoute::_('index.php?option=com_templates&task=template.copy&id=' . JRequest::getInt('id')); ?>"
+		method="post" name="adminForm" id="adminForm">
+	<fieldset class="adminform" id="template-manager-css">
+		<legend><?php echo JText::_('COM_TEMPLATES_TEMPLATE_COPY');?></legend>
+		<label id="new_name" class="hasTip"  title="<?php echo JText::_('COM_TEMPLATES_TEMPLATE_NEW_NAME_DESC'); ?>"><?php echo JText::_('COM_TEMPLATES_TEMPLATE_NEW_NAME_LABEL')?></label>
+		<input class="inputbox" type="text" id="new_name" name="new_name"  />
+		<button type="submit"><?php echo JText::_('COM_TEMPLATES_TEMPLATE_COPY'); ?></button>
+	</fieldset>
+	<?php echo JHtml::_('form.token'); ?>
+</form>
+</div>

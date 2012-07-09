@@ -266,45 +266,43 @@ class JArchiveZip extends JObject
 	 */
 	private function _extractNative($archive, $destination, $options)
 	{
-		if ($zip = zip_open($archive))
+		$zip = zip_open($archive);
+		if (is_resource($zip))
 		{
-			if (is_resource($zip))
+			// Make sure the destination folder exists
+			if (!JFolder::create($destination))
 			{
-				// Make sure the destination folder exists
-				if (!JFolder::create($destination))
+				$this->set('error.message', 'Unable to create destination');
+				return false;
+			}
+
+			// Read files in the archive
+			while ($file = @zip_read($zip))
+			{
+				if (zip_entry_open($zip, $file, "r"))
 				{
-					$this->set('error.message', 'Unable to create destination');
+					if (substr(zip_entry_name($file), strlen(zip_entry_name($file)) - 1) != "/")
+					{
+						$buffer = zip_entry_read($file, zip_entry_filesize($file));
+
+						if (JFile::write($destination . '/' . zip_entry_name($file), $buffer) === false)
+						{
+							$this->set('error.message', 'Unable to write entry');
+							return false;
+						}
+
+						zip_entry_close($file);
+					}
+				}
+				else
+				{
+					$this->set('error.message', JText::_('JLIB_FILESYSTEM_ZIP_UNABLE_TO_READ_ENTRY'));
+
 					return false;
 				}
-
-				// Read files in the archive
-				while ($file = @zip_read($zip))
-				{
-					if (zip_entry_open($zip, $file, "r"))
-					{
-						if (substr(zip_entry_name($file), strlen(zip_entry_name($file)) - 1) != "/")
-						{
-							$buffer = zip_entry_read($file, zip_entry_filesize($file));
-
-							if (JFile::write($destination . '/' . zip_entry_name($file), $buffer) === false)
-							{
-								$this->set('error.message', 'Unable to write entry');
-								return false;
-							}
-
-							zip_entry_close($file);
-						}
-					}
-					else
-					{
-						$this->set('error.message', JText::_('JLIB_FILESYSTEM_ZIP_UNABLE_TO_READ_ENTRY'));
-
-						return false;
-					}
-				}
-
-				@zip_close($zip);
 			}
+
+			@zip_close($zip);
 		}
 		else
 		{

@@ -1,20 +1,21 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_config
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_config
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
 /**
  * Note: this view is intended only to be opened in a popup
- * @package		Joomla.Administrator
- * @subpackage	com_config
+ *
+ * @package     Joomla.Administrator
+ * @subpackage  com_config
  */
-class ConfigControllerComponent extends JController
+class ConfigControllerComponent extends JControllerLegacy
 {
 	/**
 	 * Class Constructor
@@ -37,7 +38,7 @@ class ConfigControllerComponent extends JController
 	function save()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Set FTP credentials, if given.
 		JClientHelper::setCredentialsFromRequest('ftp');

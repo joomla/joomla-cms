@@ -1,18 +1,20 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Plugin
+ * @subpackage  Extension.Joomla
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
 
 /**
  * Joomla! master extension plugin.
  *
- * @package		Joomla.Plugin
- * @subpackage	Extension.Joomla
- * @since		1.6
+ * @package     Joomla.Plugin
+ * @subpackage  Extension.Joomla
+ * @since       1.6
  */
 class plgExtensionJoomla extends JPlugin
 {
@@ -66,10 +68,8 @@ class plgExtensionJoomla extends JPlugin
 		{
 			$query->clear();
 			$query->insert('#__update_sites');
-			$query->set('name = ' . $dbo->Quote($name));
-			$query->set('type = '. $dbo->Quote($type));
-			$query->set('location = '. $dbo->Quote($location));
-			$query->set('enabled = '. (int)$enabled);
+			$query->columns(array($dbo->quoteName('name'), $dbo->quoteName('type'), $dbo->quoteName('location'), $dbo->quoteName('enabled')));
+			$query->values($dbo->quote($name) . ', ' . $dbo->quote($type) . ', ' . $dbo->quote($location) . ', ' . (int) $enabled);
 			$dbo->setQuery($query);
 			if ($dbo->query())
 			{
@@ -92,8 +92,8 @@ class plgExtensionJoomla extends JPlugin
 				// link this extension to the relevant update site
 				$query->clear();
 				$query->insert('#__update_sites_extensions');
-				$query->set('update_site_id = '. $update_site_id);
-				$query->set('extension_id = '. $this->eid);
+				$query->columns(array($dbo->quoteName('update_site_id'), $dbo->quoteName('extension_id')));
+				$query->values($update_site_id . ', ' . $this->eid);
 				$dbo->setQuery($query);
 				$dbo->query();
 			}

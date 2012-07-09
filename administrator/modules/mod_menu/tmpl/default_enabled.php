@@ -2,11 +2,11 @@
 /**
  * @package     Joomla.Administrator
  * @subpackage  mod_menu
+ *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
 
 /* @var $menu JAdminCSSMenu */
@@ -147,7 +147,7 @@ if ($user->authorise('core.manage', 'com_users'))
 	if ($createUser)
 	{
 		$menu->addChild(
-			new JMenuNode(JText::_('MOD_MENU_COM_CONTENT_NEW_CATEGORY'), 'index.php?option=com_categories&task=category.add&extension=com_users', 'class:newarticle')
+			new JMenuNode(JText::_('MOD_MENU_COM_CONTENT_NEW_CATEGORY'), 'index.php?option=com_categories&task=category.add&extension=com_users.notes', 'class:newarticle')
 		);
 		$menu->getParent();
 	}
@@ -200,7 +200,7 @@ if ($user->authorise('core.manage', 'com_menus'))
 		}
 		else
 		{
-			$image = JHtml::_('image', 'mod_languages/'.$menuType->image.'.gif', NULL, NULL, true, true);
+			$image = JHtml::_('image', 'mod_languages/'.$menuType->image.'.gif', null, null, true, true);
 			if (!$image)
 			{
 				$titleicon = ' <span>'.JHtml::_('image', 'menu/icon-16-language.png', $alt, array('title' => $menuType->title_native), true).'</span>';

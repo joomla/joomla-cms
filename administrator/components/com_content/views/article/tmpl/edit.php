@@ -1,12 +1,12 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_content
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_content
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
 
 // Include the component HTML helpers.
@@ -147,14 +147,14 @@ endif;
 		<?php  endif; ?>
 		<?php  $fieldSets = $this->form->getFieldsets('attribs'); ?>
 			<?php foreach ($fieldSets as $name => $fieldSet) : ?>
-				<?php // If the parameter says to show the article options or if the parameters have never been set, we will
-					  // show the article options. ?>
+				<?php
+					// If the parameter says to show the article options or if the parameters have never been set, we will
+					// show the article options.
+					if ($params['show_article_options'] || (( $params['show_article_options'] == '' && !empty($editoroptions) ))):
 
-				<?php if ($params['show_article_options'] || (( $params['show_article_options'] == '' && !empty($editoroptions) ))): ?>
-					<?php // Go through all the fieldsets except the configuration and basic-limited, which are
-						  // handled separately below. ?>
-
-					<?php if ($name != 'editorConfig' && $name != 'basic-limited') : ?>
+					// Go through all the fieldsets except the configuration and basic-limited, which are
+					// handled separately below.
+					if ($name != 'editorConfig' && $name != 'basic-limited') : ?>
 						<?php echo JHtml::_('sliders.panel', JText::_($fieldSet->label), $name.'-options'); ?>
 						<?php if (isset($fieldSet->description) && trim($fieldSet->description)) : ?>
 							<p class="tip"><?php echo $this->escape(JText::_($fieldSet->description));?></p>
@@ -176,9 +176,17 @@ endif;
 
 				<?php endif; ?>
 			<?php endforeach; ?>
-				<?php // We need to make a separate space for the configuration
-				      // so that those fields always show to those wih permissions ?>
-				<?php if ( $this->canDo->get('core.admin')   ):  ?>
+			<?php // Not the best place, but here for continuity with 1.5/1/6/1.7 ?>
+			<fieldset class="panelform">
+				<ul class="adminformlist">
+						<li><?php echo $this->form->getLabel('xreference'); ?>
+						<?php echo $this->form->getInput('xreference'); ?></li>
+				</ul>
+			</fieldset>
+				<?php
+					// We need to make a separate space for the configuration
+					// so that those fields always show to those wih permissions
+					if ( $this->canDo->get('core.admin')   ):  ?>
 					<?php  echo JHtml::_('sliders.panel', JText::_('COM_CONTENT_SLIDER_EDITOR_CONFIG'), 'configure-sliders'); ?>
 						<fieldset  class="panelform" >
 							<ul class="adminformlist">

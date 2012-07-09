@@ -7,7 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controlleradmin');
@@ -71,7 +70,7 @@ class UsersControllerUsers extends JControllerAdmin
 	public function changeBlock()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Initialise variables.
 		$ids	= JRequest::getVar('cid', array(), '', 'array');
@@ -119,7 +118,7 @@ class UsersControllerUsers extends JControllerAdmin
 	public function activate()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Initialise variables.
 		$ids	= JRequest::getVar('cid', array(), '', 'array');

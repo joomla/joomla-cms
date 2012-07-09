@@ -1,17 +1,19 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Plugin
+ * @subpackage  System.p3p
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
 /**
  * Joomla! P3P Header Plugin
  *
- * @package		Joomla.Plugin
- * @subpackage	System.p3p
+ * @package     Joomla.Plugin
+ * @subpackage  System.p3p
  */
 class plgSystemP3p extends JPlugin
 {

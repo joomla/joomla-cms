@@ -21,18 +21,19 @@ jimport('joomla.application.component.controlleradmin');
 class FinderControllerFilters extends JControllerAdmin
 {
 	/**
-	 * Proxy for getModel.
+	 * Method to get a model object, loading it if required.
 	 *
-	 * @param   string  $name    The model name. [optional]
-	 * @param   string  $prefix  The class prefix. [optional]
+	 * @param   string  $name    The model name. Optional.
+	 * @param   string  $prefix  The class prefix. Optional.
+	 * @param   array   $config  Configuration array for model. Optional.
 	 *
 	 * @return  object  The model.
 	 *
 	 * @since   2.5
 	 */
-	public function &getModel($name = 'Filter', $prefix = 'FinderModel')
+	public function getModel($name = 'Filter', $prefix = 'FinderModel', $config = array('ignore_request' => true))
 	{
-		$model = parent::getModel($name, $prefix, array('ignore_request' => true));
+		$model = parent::getModel($name, $prefix, $config);
 		return $model;
 	}
 }

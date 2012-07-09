@@ -212,7 +212,7 @@ class FinderModelIndex extends JModelList
 		return $query;
 	}
 
- 	/**
+	/**
 	 * Method to get the state of the Smart Search plug-ins.
 	 *
 	 * @return  array   Array of relevant plug-ins and whether they are enabled or not.

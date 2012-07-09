@@ -118,7 +118,7 @@ class JControllerForm extends JController
 				array('/s$/i', "s"),
 				array('/$/', "s"));
 
-			// check for matches using regular expressions
+			// Check for matches using regular expressions
 			foreach ($plural as $pattern)
 			{
 				if (preg_match($pattern[0], $this->view_item))
@@ -243,7 +243,7 @@ class JControllerForm extends JController
 	/**
 	 * Method to run batch operations.
 	 *
-	 * @param   object  $model  The model of the component being processed.
+	 * @param   JModel  $model  The model of the component being processed.
 	 *
 	 * @return	boolean	 True if successful, false otherwise and internal error is set.
 	 *
@@ -297,7 +297,7 @@ class JControllerForm extends JController
 	 */
 	public function cancel($key = null)
 	{
-		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Initialise variables.
 		$app = JFactory::getApplication();
@@ -485,7 +485,7 @@ class JControllerForm extends JController
 	 */
 	protected function getRedirectToItemAppend($recordId = null, $urlVar = 'id')
 	{
-		$tmpl = JRequest::getCmd('tmpl');
+		$tmpl   = JRequest::getCmd('tmpl');
 		$layout = JRequest::getCmd('layout', 'edit');
 		$append = '';
 
@@ -557,14 +557,14 @@ class JControllerForm extends JController
 	public function save($key = null, $urlVar = null)
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Initialise variables.
-		$app = JFactory::getApplication();
-		$lang = JFactory::getLanguage();
+		$app   = JFactory::getApplication();
+		$lang  = JFactory::getLanguage();
 		$model = $this->getModel();
 		$table = $model->getTable();
-		$data = JRequest::getVar('jform', array(), 'post', 'array');
+		$data  = JRequest::getVar('jform', array(), 'post', 'array');
 		$checkin = property_exists($table, 'checked_out');
 		$context = "$this->option.edit.$this->context";
 		$task = $this->getTask();
@@ -683,7 +683,7 @@ class JControllerForm extends JController
 			$this->setRedirect(
 				JRoute::_(
 					'index.php?option=' . $this->option . '&view=' . $this->view_item
-					. $this->getRedirectToItemAppend($recordId, $key), false
+					. $this->getRedirectToItemAppend($recordId, $urlVar), false
 				)
 			);
 
@@ -703,7 +703,7 @@ class JControllerForm extends JController
 			$this->setRedirect(
 				JRoute::_(
 					'index.php?option=' . $this->option . '&view=' . $this->view_item
-					. $this->getRedirectToItemAppend($recordId, $key), false
+					. $this->getRedirectToItemAppend($recordId, $urlVar), false
 				)
 			);
 
@@ -723,7 +723,7 @@ class JControllerForm extends JController
 			$this->setRedirect(
 				JRoute::_(
 					'index.php?option=' . $this->option . '&view=' . $this->view_item
-					. $this->getRedirectToItemAppend($recordId, $key), false
+					. $this->getRedirectToItemAppend($recordId, $urlVar), false
 				)
 			);
 
@@ -752,7 +752,7 @@ class JControllerForm extends JController
 				$this->setRedirect(
 					JRoute::_(
 						'index.php?option=' . $this->option . '&view=' . $this->view_item
-						. $this->getRedirectToItemAppend($recordId, $key), false
+						. $this->getRedirectToItemAppend($recordId, $urlVar), false
 					)
 				);
 				break;
@@ -766,7 +766,7 @@ class JControllerForm extends JController
 				$this->setRedirect(
 					JRoute::_(
 						'index.php?option=' . $this->option . '&view=' . $this->view_item
-						. $this->getRedirectToItemAppend(null, $key), false
+						. $this->getRedirectToItemAppend(null, $urlVar), false
 					)
 				);
 				break;

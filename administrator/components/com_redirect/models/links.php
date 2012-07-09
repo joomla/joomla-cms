@@ -1,12 +1,12 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_redirect
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_redirect
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.modellist');
@@ -14,9 +14,9 @@ jimport('joomla.application.component.modellist');
 /**
  * Methods supporting a list of redirect links.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_redirect
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_redirect
+ * @since       1.6
  */
 class RedirectModelLinks extends JModelList
 {
@@ -35,6 +35,7 @@ class RedirectModelLinks extends JModelList
 				'old_url', 'a.old_url',
 				'new_url', 'a.new_url',
 				'referer', 'a.referer',
+				'hits', 'a.hits',
 				'created_date', 'a.created_date',
 				'published', 'a.published',
 			);

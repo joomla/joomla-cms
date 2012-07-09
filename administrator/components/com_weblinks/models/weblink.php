@@ -1,10 +1,12 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_weblinks
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.modeladmin');
@@ -12,9 +14,9 @@ jimport('joomla.application.component.modeladmin');
 /**
  * Weblinks model.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_weblinks
- * @since		1.5
+ * @package     Joomla.Administrator
+ * @subpackage  com_weblinks
+ * @since       1.5
  */
 class WeblinksModelWeblink extends JModelAdmin
 {
@@ -35,7 +37,7 @@ class WeblinksModelWeblink extends JModelAdmin
 	{
 		if (!empty($record->id)) {
 			if ($record->state != -2) {
-				return ;
+				return;
 			}
 			$user = JFactory::getUser();
 

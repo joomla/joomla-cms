@@ -1,19 +1,20 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_languages
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_languages
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die;
 
 /**
  * JSON Response class
  *
- * @package	Joomla.Administrator
- * @since		2.5
+ * @package     Joomla.Administrator
+ * @subpackage  com_languages
+ * @since       2.5
  */
 class JJsonResponse
 {
@@ -23,7 +24,7 @@ class JJsonResponse
 	 * @var		boolean
 	 * @since	2.5
 	 */
-	public $success		= true;
+	public $success = true;
 
 	/**
 	 * Determines whether the request wasn't successful.
@@ -33,7 +34,7 @@ class JJsonResponse
 	 * @var		boolean
 	 * @since	2.5
 	 */
-	public $error			= false;
+	public $error = false;
 
 	/**
 	 * The main response message
@@ -41,7 +42,7 @@ class JJsonResponse
 	 * @var		string
 	 * @since	2.5
 	 */
-	public $message		= null;
+	public $message = null;
 
 	/**
 	 * Array of messages gathered in the JApplication object
@@ -49,7 +50,7 @@ class JJsonResponse
 	 * @var		array
 	 * @since	2.5
 	 */
-	public $messages	= null;
+	public $messages = null;
 
 	/**
 	 * The response data
@@ -57,7 +58,7 @@ class JJsonResponse
 	 * var		array/object
 	 * @since	2.5
 	 */
-	public $data			= null;
+	public $data = null;
 
 	/**
 	 * Constructor
@@ -99,16 +100,16 @@ class JJsonResponse
 		if ($response instanceof Exception)
 		{
 			// Prepare the error response
-			$this->success	= false;
-			$this->error		= true;
+			$this->success = false;
+			$this->error = true;
 			$this->message	= $response->getMessage();
 		}
 		else
 		{
 			// Prepare the response data
-			$this->success	= !$error;
-			$this->error		= $error;
-			$this->data			= $response;
+			$this->success = !$error;
+			$this->error = $error;
+			$this->data = $response;
 		}
 	}
 

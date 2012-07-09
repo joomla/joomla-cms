@@ -1,24 +1,22 @@
 <?php
 /**
- * @package		Joomla.Site
- * @subpackage	com_wrapper
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  com_wrapper
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.controller');
 
 /**
  * Content Component Controller
  *
- * @package		Joomla.Site
- * @subpackage	com_wrapper
- * @since		1.5
+ * @package     Joomla.Site
+ * @subpackage  com_wrapper
+ * @since       1.5
  */
-class WrapperController extends JController
+class WrapperController extends JControllerLegacy
 {
 	/**
 	 * Method to display a view.

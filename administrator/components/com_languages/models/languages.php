@@ -1,10 +1,12 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_languages
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.modellist');
@@ -12,9 +14,9 @@ jimport('joomla.application.component.modellist');
 /**
  * Languages Model Class
  *
- * @package		Joomla.Administrator
- * @subpackage	com_languages
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_languages
+ * @since       1.6
  */
 class LanguagesModelLanguages extends JModelList
 {
@@ -37,6 +39,7 @@ class LanguagesModelLanguages extends JModelList
 				'image', 'a.image',
 				'published', 'a.published',
 				'ordering', 'a.ordering',
+				'access', 'a.access', 'access_level',
 				'home', 'l.home',
 			);
 		}
@@ -60,6 +63,9 @@ class LanguagesModelLanguages extends JModelList
 		// Load the filter state.
 		$search = $this->getUserStateFromRequest($this->context.'.search', 'filter_search');
 		$this->setState('filter.search', $search);
+
+		$accessId = $this->getUserStateFromRequest($this->context.'.access', 'filter_access', null, 'int');
+		$this->setState('filter.access', $accessId);
 
 		$published = $this->getUserStateFromRequest($this->context.'.published', 'filter_published', '');
 		$this->setState('filter.published', $published);
@@ -88,6 +94,7 @@ class LanguagesModelLanguages extends JModelList
 	{
 		// Compile the store id.
 		$id	.= ':'.$this->getState('filter.search');
+		$id	.= ':'.$this->getState('filter.access');
 		$id	.= ':'.$this->getState('filter.published');
 
 		return parent::getStoreId($id);
@@ -109,6 +116,10 @@ class LanguagesModelLanguages extends JModelList
 		$query->select($this->getState('list.select', 'a.*', 'l.home'));
 		$query->from($db->quoteName('#__languages').' AS a');
 
+		// Join over the asset groups.
+		$query->select('ag.title AS access_level');
+		$query->join('LEFT', '#__viewlevels AS ag ON ag.id = a.access');
+
 		// Select the language home pages
 		$query->select('l.home AS home');
 		$query->join('LEFT', $db->quoteName('#__menu') . ' AS l  ON  l.language = a.lang_code AND l.home=1  AND l.language <> ' . $db->quote('*'));
@@ -127,6 +138,11 @@ class LanguagesModelLanguages extends JModelList
 		if (!empty($search)) {
 			$search = $db->Quote('%'.$db->escape($search, true).'%', false);
 			$query->where('(a.title LIKE '.$search.')');
+		}
+
+		// Filter by access level.
+		if ($access = $this->getState('filter.access')) {
+			$query->where('a.access = '.(int) $access);
 		}
 
 		// Add the list ordering clause.
@@ -188,10 +204,8 @@ class LanguagesModelLanguages extends JModelList
 	 */
 	protected function cleanCache($group = null, $client_id = 0)
 	{
-		parent::cleanCache('_system', 0);
-		parent::cleanCache('_system', 1);
-		parent::cleanCache('com_languages', 0);
-		parent::cleanCache('com_languages', 1);
+		parent::cleanCache('_system');
+		parent::cleanCache('com_languages');
 	}
 
 }

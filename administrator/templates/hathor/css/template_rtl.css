@@ -1192,3 +1192,30 @@ ul.helpmenu li {
 	border-top-left-radius: 3px;
 	border-top-right-radius: 3px;
 }
+
+/* Installer Database */
+#installer-database p.warning {
+	padding-left: 0;
+	padding-right: 20px
+}
+
+#installer-database p.nowarning {
+	padding-left: 0;
+	padding-right: 20px
+}
+
+p.nowarning {
+	float: right;
+	margin-left: 15px;
+	margin-right: 3px;
+}
+
+table.adminlist tfoot button {
+	float: right;
+}
+
+/* Spinner */
+.joomlaupdate_spinner {
+	float: right;
+	margin-left: 15px;
+}

@@ -4,7 +4,7 @@
 		<field name="name" type="text"
 			class="inputbox"
 			description="COM_USERS_USER_FIELD_NAME_DESC"
-			label="COM_USERS_HEADING_NAME"
+			label="COM_USERS_USER_FIELD_NAME_LABEL"
 			required="true"
 			size="30"
 		/>
@@ -67,6 +67,28 @@
 			size="22"
 			filter="user_utc"
 		/>
+
+		<field
+			name="lastResetTime"
+			type="calendar"
+			class="readonly"
+			label="COM_USERS_USER_FIELD_LASTRESET_LABEL"
+			description="COM_USERS_USER_FIELD_LASTRESET_DESC"
+			readonly="true"
+			format="%Y-%m-%d %H:%M:%S"
+			size="22"
+			filter="user_utc"
+		/>
+
+		<field
+			name="resetCount"
+			type="text"
+			class="readonly"
+			label="COM_USERS_USER_FIELD_RESETCOUNT_LABEL"
+			description ="COM_USERS_USER_FIELD_RESETCOUNT_DESC"
+			default="0"
+			readonly="true"
+			/>
 
 		<field
 				name="sendEmail"

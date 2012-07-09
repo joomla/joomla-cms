@@ -1,18 +1,20 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Plugin
+ * @subpackage  Editors.codemirror
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
 /**
  * CodeMirror Editor Plugin.
  *
- * @package		Joomla.Plugin
- * @subpackage	Editors.codemirror
- * @since		1.6
+ * @package     Joomla.Plugin
+ * @subpackage  Editors.codemirror
+ * @since       1.6
  */
 class plgEditorCodemirror extends JPlugin
 {
@@ -150,7 +152,7 @@ class plgEditorCodemirror extends JPlugin
 
 				case 'js':
 					$parserFile = array('tokenizejavascript.js', 'parsejavascript.js');
-					$styleSheet = 'jscolors.css';
+					$styleSheet = array('jscolors.css');
 					break;
 
 				case 'html':
@@ -164,7 +166,6 @@ class plgEditorCodemirror extends JPlugin
 					break;
 
 				default:
-					;
 					break;
 			} //switch
 		}

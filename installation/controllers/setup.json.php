@@ -1,8 +1,9 @@
 <?php
 /**
- * @package		Joomla.Installation
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package    Joomla.Installation
+ *
+ * @copyright  Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -11,21 +12,21 @@ defined('_JEXEC') or die;
  * Setup controller for the Joomla Core Installer.
  * - JSON Protocol -
  *
- * @package		Joomla.Installation
- * @since		1.6
+ * @package  Joomla.Installation
+ * @since    3.0
  */
-class JInstallationControllerSetup extends JController
+class InstallationControllerSetup extends JControllerLegacy
 {
 	/**
 	 * Method to set the setup language for the application.
 	 *
-	 * @return	void
-	 * @since	1.7
+	 * @return  void
+	 * @since   3.0
 	 */
 	public function setlanguage()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
+		JSession::checkToken() or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
 
 		// Get the application object.
 		$app = JFactory::getApplication();
@@ -48,7 +49,7 @@ class JInstallationControllerSetup extends JController
 		}
 
 		// Get the setup model.
-		$model = $this->getModel('Setup', 'JInstallationModel', array('dbo' => null));
+		$model = $this->getModel('Setup', 'InstallationModel', array('dbo' => null));
 
 		// Get the posted values from the request and validate them.
 		$data = JRequest::getVar('jform', array(), 'post', 'array');
@@ -85,19 +86,20 @@ class JInstallationControllerSetup extends JController
 	}
 
 	/**
-	 * @return	void
-	 * @since	1.7
+	 * @return  void
+	 *
+	 * @since   3.0
 	 */
 	public function database()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
+		JSession::checkToken() or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
 
 		// Get the application object.
 		$app = JFactory::getApplication();
 
 		// Get the setup model.
-		$model = $this->getModel('Setup', 'JInstallationModel', array('dbo' => null));
+		$model = $this->getModel('Setup', 'InstallationModel', array('dbo' => null));
 
 		// Get the posted values from the request and validate them.
 		$data = JRequest::getVar('jform', array(), 'post', 'array');
@@ -137,7 +139,7 @@ class JInstallationControllerSetup extends JController
 		$vars = $model->storeOptions($return);
 
 		// Get the database model.
-		$database = $this->getModel('Database', 'JInstallationModel', array('dbo' => null));
+		$database = $this->getModel('Database', 'InstallationModel', array('dbo' => null));
 
 		// Attempt to initialise the database.
 		$return = $database->initialise($vars);
@@ -183,18 +185,19 @@ class JInstallationControllerSetup extends JController
 
 	/**
 	 * @return	void
-	 * @since	1.7
+	 *
+	 * @since	3.0
 	 */
 	public function filesystem()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
+		JSession::checkToken() or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
 
 		// Get the application object.
 		$app = JFactory::getApplication();
 
 		// Get the setup model.
-		$model = $this->getModel('Setup', 'JInstallationModel', array('dbo' => null));
+		$model = $this->getModel('Setup', 'InstallationModel', array('dbo' => null));
 
 		// Get the posted values from the request and validate them.
 		$data = JRequest::getVar('jform', array(), 'post', 'array');
@@ -231,19 +234,20 @@ class JInstallationControllerSetup extends JController
 	}
 
 	/**
-	 * @return	void
-	 * @since	1.7
+	 * @return  void
+	 *
+	 * @since   3.0
 	 */
 	public function saveconfig()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
+		JSession::checkToken() or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
 
 		// Get the application object.
 		$app = JFactory::getApplication();
 
 		// Get the setup model.
-		$model = $this->getModel('Setup', 'JInstallationModel', array('dbo' => null));
+		$model = $this->getModel('Setup', 'InstallationModel', array('dbo' => null));
 
 		// Get the posted values from the request and validate them.
 		$data = JRequest::getVar('jform', array(), 'post', 'array');
@@ -283,7 +287,7 @@ class JInstallationControllerSetup extends JController
 		$vars = $model->storeOptions($return);
 
 		// Get the configuration model.
-		$configuration = $this->getModel('Configuration', 'JInstallationModel', array('dbo' => null));
+		$configuration = $this->getModel('Configuration', 'InstallationModel', array('dbo' => null));
 
 		// Attempt to setup the configuration.
 		$return = $configuration->setup($vars);
@@ -299,25 +303,26 @@ class JInstallationControllerSetup extends JController
 	}
 
 	/**
-	 * @return	void
-	 * @since	1.6
+	 * @return  void
+	 *
+	 * @since   3.0
 	 */
 	public function loadSampleData()
 	{
 		// Check for a valid token. If invalid, send a 403 with the error message.
-		JRequest::checkToken('request') or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
+		JSession::checkToken('request') or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
 
 		// Get the posted config options.
 		$vars = JRequest::getVar('jform', array());
 
 		// Get the setup model.
-		$model = $this->getModel('Setup', 'JInstallationModel', array('dbo' => null));
+		$model = $this->getModel('Setup', 'InstallationModel', array('dbo' => null));
 
 		// Get the options from the session.
 		$vars = $model->storeOptions($vars);
 
 		// Get the database model.
-		$database = $this->getModel('Database', 'JInstallationModel', array('dbo' => null));
+		$database = $this->getModel('Database', 'InstallationModel', array('dbo' => null));
 
 		// Attempt to load the database sample data.
 		$return = $database->installSampleData($vars);
@@ -342,25 +347,26 @@ class JInstallationControllerSetup extends JController
 	}
 
 	/**
-	 * @return	void
-	 * @since	1.6
+	 * @return  void
+	 *
+	 * @since   3.0
 	 */
 	public function detectFtpRoot()
 	{
 		// Check for a valid token. If invalid, send a 403 with the error message.
-		JRequest::checkToken('request') or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
+		JSession::checkToken('request') or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
 
 		// Get the posted config options.
 		$vars = JRequest::getVar('jform', array());
 
 		// Get the setup model.
-		$model = $this->getModel('Setup', 'JInstallationModel', array('dbo' => null));
+		$model = $this->getModel('Setup', 'InstallationModel', array('dbo' => null));
 
 		// Store the options in the session.
 		$vars = $model->storeOptions($vars);
 
 		// Get the database model.
-		$filesystem = $this->getModel('Filesystem', 'JInstallationModel', array('dbo' => null));
+		$filesystem = $this->getModel('Filesystem', 'InstallationModel', array('dbo' => null));
 
 		// Attempt to detect the Joomla root from the ftp account.
 		$return = $filesystem->detectFtpRoot($vars);
@@ -379,25 +385,26 @@ class JInstallationControllerSetup extends JController
 	}
 
 	/**
-	 * @return	void
-	 * @since	1.6
+	 * @return  void
+	 *
+	 * @since   3.0
 	 */
 	public function verifyFtpSettings()
 	{
 		// Check for a valid token. If invalid, send a 403 with the error message.
-		JRequest::checkToken('request') or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
+		JSession::checkToken('request') or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
 
 		// Get the posted config options.
 		$vars = JRequest::getVar('jform', array());
 
 		// Get the setup model.
-		$model = $this->getModel('Setup', 'JInstallationModel', array('dbo' => null));
+		$model = $this->getModel('Setup', 'InstallationModel', array('dbo' => null));
 
 		// Store the options in the session.
 		$vars = $model->storeOptions($vars);
 
 		// Get the database model.
-		$filesystem = $this->getModel('Filesystem', 'JInstallationModel', array('dbo' => null));
+		$filesystem = $this->getModel('Filesystem', 'InstallationModel', array('dbo' => null));
 
 		// Verify the FTP settings.
 		$return = $filesystem->verifyFtpSettings($vars);
@@ -416,15 +423,16 @@ class JInstallationControllerSetup extends JController
 	}
 
 	/**
-	 * @return	void
-	 * @since	1.6
+	 * @return  void
+	 *
+	 * @since   3.0
 	 */
 	public function removeFolder()
 	{
 		jimport('joomla.filesystem.folder');
 
 		// Check for a valid token. If invalid, send a 403 with the error message.
-		JRequest::checkToken('request') or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
+		JSession::checkToken('request') or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
 
 		// Get the posted config options.
 		$vars = JRequest::getVar('jform', array());
@@ -501,8 +509,8 @@ class JInstallationControllerSetup extends JController
 	 *
 	 * @param	object	$response	JObject on success, Exception on failure.
 	 *
-	 * @return	void
-	 * @since	1.6
+	 * @return  void
+	 * @since   3.0
 	 */
 	public function sendResponse($response)
 	{
@@ -515,7 +523,7 @@ class JInstallationControllerSetup extends JController
 		}
 
 		// Send the JSON response.
-		echo json_encode(new JInstallationJsonResponse($response));
+		echo json_encode(new InstallationJsonResponse($response));
 
 		// Close the application.
 		$app = JFactory::getApplication();
@@ -526,10 +534,10 @@ class JInstallationControllerSetup extends JController
 /**
  * Joomla Core Installation JSON Response Class
  *
- * @package		Joomla.Installation
- * @since		1.6
+ * @package  Joomla.Installation
+ * @since    3.0
  */
-class JInstallationJsonResponse
+class InstallationJsonResponse
 {
 	function __construct($state)
 	{
@@ -571,6 +579,3 @@ class JInstallationJsonResponse
 		}
 	}
 }
-
-// Set the error handler.
-//JError::setErrorHandling(E_ALL, 'callback', array('JInstallationControllerSetup', 'sendResponse'));

@@ -55,7 +55,6 @@ class JConfig {
 
 	/* Locale Settings */
 	public $offset = 'UTC';
-	public $offset_user = 'UTC';
 
 	/* Session settings */
 	public $lifetime = '15';					// Session time
@@ -85,6 +84,7 @@ class JConfig {
 	public $MetaKeys = 'joomla, Joomla';
 	public $MetaTitle = '1';
 	public $MetaAuthor = '1';
+	public $MetaVersion = '0';
 	public $robots = '';
 
 	/* SEO Settings */

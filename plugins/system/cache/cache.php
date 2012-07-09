@@ -1,17 +1,19 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Plugin
+ * @subpackage  System.cache
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
 /**
  * Joomla! Page Cache Plugin
  *
- * @package		Joomla.Plugin
- * @subpackage	System.cache
+ * @package     Joomla.Plugin
+ * @subpackage  System.cache
  */
 class plgSystemCache extends JPlugin
 {
@@ -55,6 +57,10 @@ class plgSystemCache extends JPlugin
 			return;
 		}
 
+		if (count($app->getMessageQueue())) {
+			return;
+		}
+
 		if ($user->get('guest') && $_SERVER['REQUEST_METHOD'] == 'GET') {
 			$this->_cache->setCaching(true);
 		}
@@ -82,6 +88,10 @@ class plgSystemCache extends JPlugin
 		$app = JFactory::getApplication();
 
 		if ($app->isAdmin() || JDEBUG) {
+			return;
+		}
+
+		if (count($app->getMessageQueue())) {
 			return;
 		}
 

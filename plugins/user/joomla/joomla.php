@@ -1,18 +1,21 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Plugin
+ * @subpackage  User.joomla
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
+
 defined('_JEXEC') or die;
 
 /**
  * Joomla User plugin
  *
- * @package		Joomla.Plugin
- * @subpackage	User.joomla
- * @since		1.5
+ * @package     Joomla.Plugin
+ * @subpackage  User.joomla
+ * @since       1.5
  */
 class plgUserJoomla extends JPlugin
 {
@@ -233,7 +236,7 @@ class plgUserJoomla extends JPlugin
 	 * @return	object	A JUser object
 	 * @since	1.5
 	 */
-	protected function &_getUser($user, $options = array())
+	protected function _getUser($user, $options = array())
 	{
 		$instance = JUser::getInstance();
 		if ($id = intval(JUserHelper::getUserId($user['username'])))  {

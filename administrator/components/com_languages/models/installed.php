@@ -1,10 +1,12 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_languages
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.modellist');
@@ -12,9 +14,9 @@ jimport('joomla.application.component.modellist');
 /**
  * Languages Component Languages Model
  *
- * @package		Joomla.Administrator
- * @subpackage	com_languages
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_languages
+ * @since       1.6
  */
 class LanguagesModelInstalled extends JModelList
 {
@@ -167,7 +169,7 @@ class LanguagesModelInstalled extends JModelList
 			foreach($langlist as $lang){
 				$file = $path . '/' . $lang . '/' . $lang.'.xml';
 				$info = JApplicationHelper::parseXMLLangMetaFile($file);
-				$row = new JObject();
+				$row = new JObject;
 				$row->language = $lang;
 
 				if (!is_array($info)) {
@@ -314,10 +316,9 @@ class LanguagesModelInstalled extends JModelList
 			return false;
 		}
 
-		// Clean the cache.
+		// Clean the cache of com_languages and component cache.
 		$this->cleanCache();
-		$this->cleanCache('_system', 0);
-		$this->cleanCache('_system', 1);
+		$this->cleanCache('_system');
 
 		return true;
 	}

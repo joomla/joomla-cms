@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
-
 /**
  * Search HTML view class for the Finder package.
  *
@@ -18,7 +16,7 @@ jimport('joomla.application.component.view');
  * @subpackage  com_finder
  * @since       2.5
  */
-class FinderViewSearch extends JView
+class FinderViewSearch extends JViewLegacy
 {
 	protected $query;
 	protected $params;
@@ -86,8 +84,8 @@ class FinderViewSearch extends JView
 
 		// Push out the query data.
 		JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
-		$this->assign('suggested', JHtml::_('query.suggested', $query));
-		$this->assign('explained', JHtml::_('query.explained', $query));
+		$this->suggested = JHtml::_('query.suggested', $query);
+		$this->explained = JHtml::_('query.explained', $query);
 
 		// Escape strings for HTML output
 		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));

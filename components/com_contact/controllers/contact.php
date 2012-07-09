@@ -1,15 +1,20 @@
 <?php
 /**
- * @package		Joomla.Site
- * @subpackage	Contact
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  com_contact
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controllerform');
 
+/**
+ * @package     Joomla.Site
+ * @subpackage  com_contact
+ */
 class ContactControllerContact extends JControllerForm
 {
 	public function getModel($name = '', $prefix = '', $config = array('ignore_request' => true))
@@ -20,7 +25,7 @@ class ContactControllerContact extends JControllerForm
 	public function submit()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Initialise variables.
 		$app	= JFactory::getApplication();
@@ -33,7 +38,6 @@ class ContactControllerContact extends JControllerForm
 		$data = JRequest::getVar('jform', array(), 'post', 'array');
 
 		$contact = $model->getItem($id);
-
 
 		$params->merge($contact->params);
 
@@ -103,8 +107,10 @@ class ContactControllerContact extends JControllerForm
 		}
 
 		// Set the success message if it was a success
-		if (!JError::isError($sent)) {
+		if (!($sent instanceof Exception)) {
 			$msg = JText::_('COM_CONTACT_EMAIL_THANKS');
+		} else {
+			$msg = '';
 		}
 
 		// Flush the data from the session

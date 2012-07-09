@@ -21,7 +21,7 @@ abstract class JPlugin extends JEvent
 	/**
 	 * A JRegistry object holding the parameters for the plugin
 	 *
-	 * @var    A JRegistry object
+	 * @var    JRegistry
 	 * @since  11.1
 	 */
 	public $params = null;
@@ -30,6 +30,7 @@ abstract class JPlugin extends JEvent
 	 * The name of the plugin
 	 *
 	 * @var    string
+	 * @since  11.1
 	 */
 	protected $_name = null;
 
@@ -37,6 +38,7 @@ abstract class JPlugin extends JEvent
 	 * The plugin type
 	 *
 	 * @var    string
+	 * @since  11.1
 	 */
 	protected $_type = null;
 

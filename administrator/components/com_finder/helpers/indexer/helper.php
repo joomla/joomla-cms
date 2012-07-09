@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-// Register dependent classes.
 JLoader::register('FinderIndexerStemmer', dirname(__FILE__) . '/stemmer.php');
 JLoader::register('FinderIndexerToken', dirname(__FILE__) . '/token.php');
 
@@ -75,7 +74,7 @@ class FinderIndexerHelper
 		$quotes = html_entity_decode('&#8216;&#8217;&#39;', ENT_QUOTES, 'UTF-8');
 
 		// Get the simple language key.
-		$lang = FinderIndexerHelper::getPrimaryLanguage($lang);
+		$lang = self::getPrimaryLanguage($lang);
 
 		/*
 		 * Parsing the string input into terms is a multi-step process.
@@ -312,7 +311,7 @@ class FinderIndexerHelper
 		// Load the common tokens for the language if necessary.
 		if (!isset($data[$lang]))
 		{
-			$data[$lang] = FinderIndexerHelper::getCommonWords($lang);
+			$data[$lang] = self::getCommonWords($lang);
 		}
 
 		// Check if the token is in the common array.
@@ -501,33 +500,11 @@ class FinderIndexerHelper
 		// Get the dispatcher.
 		$dispatcher = JDispatcher::getInstance();
 
-		// Load the content plugins if necessary and remove any problematic ones.
+		// Load the content plugins if necessary.
 		if (empty($loaded))
 		{
 			JPluginHelper::importPlugin('content');
 			$loaded = true;
-
-			// Create an array of problematic plugins
-			$conflicts = array('plgContentEmailCloak', 'plgContentLoadmodule');
-
-			// Check if we can access the observers
-			if (isset($dispatcher->_observers))
-			{
-				// Remove problematic plugins.
-				foreach ($dispatcher->_observers as $key => $handler)
-				{
-					// Remove any function based event handlers that conflict with Finder.
-					if (is_array($handler) && isset($handler['handler']) && in_array($handler['handler'], $conflicts))
-					{
-						unset($dispatcher->_observers[$key]);
-					}
-					// Remove any object based event handlers that conflict with Finder.
-					elseif (is_object($handler) && method_exists($handler, 'update') && in_array(get_class($handler), $conflicts))
-					{
-						unset($dispatcher->_observers[$key]);
-					}
-				}
-			}
 		}
 
 		// Instantiate the parameter object if necessary.

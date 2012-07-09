@@ -1,10 +1,12 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_languages
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.modeladmin');
@@ -12,9 +14,9 @@ jimport('joomla.application.component.modeladmin');
 /**
  * Languages Component Language Model
  *
- * @package		Joomla.Administrator
- * @subpackage	com_languages
- * @since		1.5
+ * @package     Joomla.Administrator
+ * @subpackage  com_languages
+ * @since       1.5
  */
 class LanguagesModelLanguage extends JModelAdmin
 {
@@ -24,7 +26,7 @@ class LanguagesModelLanguage extends JModelAdmin
 	 * @return	JTable
 	 * @since	1.6
 	 */
-	public function getTable($name='', $prefix='', $options = array())
+	public function getTable($name = '', $prefix = '', $options = array())
 	{
 		return JTable::getInstance('Language');
 	}
@@ -189,9 +191,7 @@ class LanguagesModelLanguage extends JModelAdmin
 	 */
 	protected function cleanCache($group = null, $client_id = 0)
 	{
-		parent::cleanCache('_system', 0);
-		parent::cleanCache('_system', 1);
-		parent::cleanCache('com_languages', 0);
-		parent::cleanCache('com_languages', 1);
+		parent::cleanCache('_system');
+		parent::cleanCache('com_languages');
 	}
 }

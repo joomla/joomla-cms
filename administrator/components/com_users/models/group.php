@@ -1,10 +1,12 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_users
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.modeladmin');
@@ -12,9 +14,9 @@ jimport('joomla.application.component.modeladmin');
 /**
  * User group model.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_users
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_users
+ * @since       1.6
  */
 class UsersModelGroup extends JModelAdmin
 {
@@ -134,13 +136,13 @@ class UsersModelGroup extends JModelAdmin
 			$groupSuperAdmin = ($groupSuperAdmin === false) ? false : true;
 		}
 
-        // Check for non-super admin trying to save with super admin group
+		// Check for non-super admin trying to save with super admin group
 		$iAmSuperAdmin	= JFactory::getUser()->authorise('core.admin');
-        if ((!$iAmSuperAdmin) && ($groupSuperAdmin)) {
-        	try
-        	{
+		if ((!$iAmSuperAdmin) && ($groupSuperAdmin)) {
+			try
+			{
 				throw new Exception(JText::_('JLIB_USER_ERROR_NOT_SUPERADMIN'));
-        	}
+			}
 			catch (Exception $e)
 			{
 				$this->setError($e->getMessage());
@@ -197,10 +199,11 @@ class UsersModelGroup extends JModelAdmin
 		// Get a row instance.
 		$table = $this->getTable();
 
-		// Trigger the onUserBeforeSave event.
+		// Load plugins.
 		JPluginHelper::importPlugin('user');
 		$dispatcher = JDispatcher::getInstance();
-        // Check if I am a Super Admin
+
+		// Check if I am a Super Admin
 		$iAmSuperAdmin	= $user->authorise('core.admin');
 
 		// do not allow to delete groups to which the current user belongs
@@ -227,7 +230,7 @@ class UsersModelGroup extends JModelAdmin
 						return false;
 					} else {
 						// Trigger the onUserAfterDeleteGroup event.
-						$dispatcher->trigger('onUserAfterDeleteGroup', array($user->getProperties(), true, $this->getError()));
+						$dispatcher->trigger('onUserAfterDeleteGroup', array($table->getProperties(), true, $this->getError()));
 					}
 				} else {
 					// Prune items that you can't change.

@@ -1,11 +1,14 @@
 <?php
 /**
- * @package		Joomla.Site
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  Template.beez_20
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
 $params = JFactory::getApplication()->getTemplate(true)->params;
 $logo =  $params->get('logo');
 $showRightColumn = 0;
@@ -155,7 +158,7 @@ $this->direction = $doc->direction;
 
 						<h3><?php echo JText::_('JERROR_LAYOUT_PLEASE_CONTACT_THE_SYSTEM_ADMINISTRATOR'); ?></h3>
 
-						<h2>#<?php echo $this->error->getCode() ;?>&nbsp;<?php echo $this->error->getMessage();?></h2> <br />
+						<h2>#<?php echo $this->error->getCode();?>&nbsp;<?php echo $this->error->getMessage();?></h2> <br />
 
 
 			</div><!-- end wrapper -->

@@ -20,13 +20,13 @@ final class JVersion
 	public $PRODUCT = 'Joomla!';
 
 	/** @var  string  Release version. */
-	public $RELEASE = '2.5';
+	public $RELEASE = '3.0';
 
 	/** @var  string  Maintenance version. */
-	public $DEV_LEVEL = '0';
+	public $DEV_LEVEL = '0_Alpha1';
 
 	/** @var  string  Development STATUS. */
-	public $DEV_STATUS = 'Stable';
+	public $DEV_STATUS = 'Alpha';
 
 	/** @var  string  Build number. */
 	public $BUILD = '';
@@ -35,7 +35,7 @@ final class JVersion
 	public $CODENAME = 'Ember';
 
 	/** @var  string  Release date. */
-	public $RELDATE = '24-Jan-2012';
+	public $RELDATE = '9-July-2012';
 
 	/** @var  string  Release time. */
 	public $RELTIME = '14:00';
@@ -73,12 +73,7 @@ final class JVersion
 	 */
 	public function getHelpVersion()
 	{
-		if ($this->RELEASE > '1.0') {
-			return '.' . str_replace('.', '', $this->RELEASE);
-		}
-		else {
-			return '';
-		}
+		return '.' . str_replace('.', '', $this->RELEASE);
 	}
 
 	/**
@@ -90,7 +85,7 @@ final class JVersion
 	 */
 	public function getShortVersion()
 	{
-		return $this->RELEASE.'.'.$this->DEV_LEVEL;
+		return $this->RELEASE . '.' . $this->DEV_LEVEL;
 	}
 
 	/**
@@ -102,9 +97,9 @@ final class JVersion
 	 */
 	public function getLongVersion()
 	{
-		return $this->PRODUCT.' '. $this->RELEASE.'.'.$this->DEV_LEVEL.' '
-				. $this->DEV_STATUS.' [ '.$this->CODENAME.' ] '.$this->RELDATE.' '
-				.$this->RELTIME.' '.$this->RELTZ;
+		return $this->PRODUCT . ' ' . $this->RELEASE . '.' . $this->DEV_LEVEL . ' '
+				. $this->DEV_STATUS . ' [ ' . $this->CODENAME . ' ] ' . $this->RELDATE . ' '
+				. $this->RELTIME . ' ' . $this->RELTZ;
 	}
 
 	/**
@@ -120,20 +115,24 @@ final class JVersion
 	 */
 	public function getUserAgent($component = null, $mask = false, $add_version = true)
 	{
-		if ($component === null) {
+		if ($component === null)
+		{
 			$component = 'Framework';
 		}
 
-		if ($add_version) {
-			$component .= '/'.$this->RELEASE;
+		if ($add_version)
+		{
+			$component .= '/' . $this->RELEASE;
 		}
 
 		// If masked pretend to look like Mozilla 5.0 but still identify ourselves.
-		if ($mask) {
-			return 'Mozilla/5.0 '. $this->PRODUCT .'/'. $this->RELEASE . '.'.$this->DEV_LEVEL . ($component ? ' '. $component : '');
+		if ($mask)
+		{
+			return 'Mozilla/5.0 ' . $this->PRODUCT . '/' . $this->RELEASE . '.' . $this->DEV_LEVEL . ($component ? ' ' . $component : '');
 		}
-		else {
-			return $this->PRODUCT .'/'. $this->RELEASE . '.'.$this->DEV_LEVEL . ($component ? ' '. $component : '');
+		else
+		{
+			return $this->PRODUCT . '/' . $this->RELEASE . '.' . $this->DEV_LEVEL . ($component ? ' ' . $component : '');
 		}
 	}
 }

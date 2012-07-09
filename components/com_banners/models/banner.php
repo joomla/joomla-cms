@@ -1,15 +1,14 @@
 <?php
 /**
- * @package		Joomla.Site
- * @subpackage	com_banners
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  com_banners
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
 jimport('joomla.application.component.helper');
 
 JTable::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR . '/tables');
@@ -17,10 +16,10 @@ JTable::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR . '/tables');
 /**
  * Banner model for the Joomla Banners component.
  *
- * @package		Joomla.Site
- * @subpackage	com_banners
+ * @package     Joomla.Site
+ * @subpackage  com_banners
  */
-class BannersModelBanner extends JModel
+class BannersModelBanner extends JModelLegacy
 {
 	protected $_item;
 
@@ -93,7 +92,7 @@ class BannersModelBanner extends JModel
 				// insert new count
 				//sqlsrv change
 				$query->insert('#__banner_tracks');
-				$query->columns(array($db->quoteName('cound'), $db->quoteName('track_type'),
+				$query->columns(array($db->quoteName('count'), $db->quoteName('track_type'),
 								$db->quoteName('banner_id') , $db->quoteName('track_date')));
 				$query->values( '1, 2,' . (int)$id . ',' . $db->Quote($trackDate));
 			}

@@ -2016,6 +2016,7 @@ a.jgrid:hover {	text-decoration: none;}
 .jgrid span.expired					{ background-image: url(../images/admin/publish_r.png); }
 .jgrid span.pending					{ background-image: url(../images/admin/publish_y.png); }
 .jgrid span.warning					{ background-image: url(../images/admin/publish_y.png); }
+.jgrid span.protected				{ background-image: url(../images/admin/icon-16-protected.png); }
 
 /* -- ICON STYLES ----------------------------- */
 .icon-16-alert						{	background-image: url(../images/menu/icon-16-alert.png);	}
@@ -2050,6 +2051,7 @@ a.jgrid:hover {	text-decoration: none;}
 .icon-16-help-shop					{	background-image: url(../images/menu/icon-16-help-shop.png);	}
 .icon-16-info						{	background-image: url(../images/menu/icon-16-info.png);	}
 .icon-16-install					{	background-image: url(../images/menu/icon-16-install.png);	}
+.icon-16-joomlaupdate				{	background-image: url(../images/menu/icon-16-install.png);	}
 .icon-16-language					{	background-image: url(../images/menu/icon-16-language.png);	}
 .icon-16-levels						{	background-image: url(../images/menu/icon-16-levels.png);	}
 .icon-16-logout						{	background-image: url(../images/menu/icon-16-logout.png);	}
@@ -2130,6 +2132,7 @@ a.jgrid:hover {	text-decoration: none;}
 .icon-32-remove						{	background-image: url(../images/toolbar/icon-32-remove.png);	}
 .icon-32-featured					{	background-image: url(../images/toolbar/icon-32-featured.png);	}
 .icon-32-stats						{	background-image: url(../images/toolbar/icon-32-stats.png);	}
+.icon-32-print						{	background-image: url(../images/toolbar/icon-32-print.png);	}
 .toolbar-inactive					{	background-position: 0 32px;  }
 
 /* -- HEADER ICON STYLES ----------------------------- */
@@ -3233,3 +3236,21 @@ span.update-badge {
     position: relative;
     top: -74px;
 }
+
+/* Installer Database */
+#installer-database p.warning {
+	padding-left: 20px;
+	background: transparent url(../images/admin/icon-16-deny.png) center left no-repeat;
+}
+
+#installer-database p.nowarning {
+	padding-left: 20px;
+	background: transparent url(../images/admin/icon-16-allow.png) center left no-repeat;
+}
+
+/* Spinner */
+.joomlaupdate_spinner {
+	float: left;
+	margin-right: 15px;
+}
+

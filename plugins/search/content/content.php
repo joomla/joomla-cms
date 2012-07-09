@@ -1,10 +1,12 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Plugin
+ * @subpackage  Search.content
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
 require_once JPATH_SITE.'/components/com_content/router.php';
@@ -12,9 +14,9 @@ require_once JPATH_SITE.'/components/com_content/router.php';
 /**
  * Content Search plugin
  *
- * @package		Joomla.Plugin
- * @subpackage	Search.content
- * @since		1.6
+ * @package     Joomla.Plugin
+ * @subpackage  Search.content
+ * @since       1.6
  */
 class plgSearchContent extends JPlugin
 {
@@ -46,8 +48,8 @@ class plgSearchContent extends JPlugin
 		$groups	= implode(',', $user->getAuthorisedViewLevels());
 		$tag = JFactory::getLanguage()->getTag();
 
-		require_once JPATH_SITE.'/components/com_content/helpers/route.php';
-		require_once JPATH_SITE.'/administrator/components/com_search/helpers/search.php';
+		require_once JPATH_SITE . '/components/com_content/helpers/route.php';
+		require_once JPATH_ADMINISTRATOR . '/components/com_search/helpers/search.php';
 
 		$searchText = $text;
 		if (is_array($areas)) {
@@ -219,7 +221,6 @@ class plgSearchContent extends JPlugin
 				.'AND (a.publish_down = '.$db->Quote($nullDate).' OR a.publish_down >= '.$db->Quote($now).')' );
 			$query->order($order);
 
-
 			// Filter by language
 			if ($app->isSite() && $app->getLanguageFilter()) {
 				$query->where('a.language in (' . $db->Quote($tag) . ',' . $db->Quote('*') . ')');
@@ -231,7 +232,7 @@ class plgSearchContent extends JPlugin
 
 			// find an itemid for archived to use if there isn't another one
 			$item	= $app->getMenu()->getItems('link', 'index.php?option=com_content&view=archive', true);
-			$itemid = isset($item) ? '&Itemid='.$item->id : '';
+			$itemid = isset($item->id) ? '&Itemid='.$item->id : '';
 
 			if (isset($list3))
 			{

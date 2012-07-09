@@ -1,7 +1,10 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_users
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -11,9 +14,9 @@ jimport('joomla.application.component.modellist');
 /**
  * Methods supporting a list of user group records.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_users
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_users
+ * @since       1.6
  */
 class UsersModelGroups extends JModelList
 {
@@ -97,7 +100,6 @@ class UsersModelGroups extends JModelList
 		// Try to load the data from internal storage.
 		if (empty($this->cache[$store])) {
 			$items = parent::getItems();
-
 
 			// Bail out on an error or empty list.
 			if (empty($items)) {

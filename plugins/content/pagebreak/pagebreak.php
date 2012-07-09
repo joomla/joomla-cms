@@ -1,15 +1,18 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Plugin
+ * @subpackage  Content.pagebreak
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
 
 jimport('joomla.html.pagination');
 jimport('joomla.html.html.sliders');
 jimport('joomla.html.html.tabs');
+jimport('joomla.utilities.utility');
 
 /**
  * Page break plugin
@@ -24,9 +27,9 @@ jimport('joomla.html.html.tabs');
  * or
  * <code><hr class="system-pagebreak" alt="The first page" title="The page title" /></code>
  *
- * @package		Joomla.Plugin
- * @subpackage	Content.pagebreak
- * @since		1.6
+ * @package     Joomla.Plugin
+ * @subpackage  Content.pagebreak
+ * @since       1.6
  */
 class plgContentPagebreak extends JPlugin
 {
@@ -213,7 +216,7 @@ class plgContentPagebreak extends JPlugin
 	protected function _createTOC(&$row, &$matches, &$page)
 	{
 		$heading = isset($row->title) ? $row->title : JText::_('PLG_CONTENT_PAGEBREAK_NO_TITLE');
-		$limitstart = JRequest::getInt('limitstart', 0);
+		$limitstart = JRequest::getUInt('limitstart', 0);
 		$showall = JRequest::getInt('showall', 0);
 		// TOC header.
 		$row->toc .= '<div id="article-index">';
@@ -245,7 +248,6 @@ class plgContentPagebreak extends JPlugin
 
 		foreach ($matches as $bot) {
 			$link = JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid).'&showall=&limitstart='. ($i-1));
-
 
 			if (@$bot[0]) {
 				$attrs2 = JUtility::parseAttributes($bot[0]);

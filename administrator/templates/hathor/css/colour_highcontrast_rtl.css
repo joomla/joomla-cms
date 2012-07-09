@@ -445,3 +445,12 @@ span.icon-16-locked {
 	border-left: 1px solid #1b3f7c;
 	border-right: 1px solid #000000;
 }
+
+/* Installer Database */
+#installer-database p.warning {
+	background-position: center right;
+}
+
+#installer-database p.nowarning {
+	background-position: center right;
+}

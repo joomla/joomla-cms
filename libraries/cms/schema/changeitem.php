@@ -138,7 +138,7 @@ abstract class JSchemaChangeitem extends JObject
 		$instance = null;
 		// Get the class name (mysql and mysqli both use mysql)
 		$dbname = (substr($db->name, 0, 5) == 'mysql') ? 'mysql' : $db->name;
-		$path = dirname(__FILE__).'/' . 'changeitem' . $dbname . '.php'  ;
+		$path = dirname(__FILE__).'/' . 'changeitem' . $dbname . '.php';
 		$class = 'JSchemaChangeitem' . $dbname;
 
 		// If the file exists register the class with our class loader.
@@ -188,7 +188,7 @@ abstract class JSchemaChangeitem extends JObject
 		if ($this->checkStatus === -2) {
 			// at this point we have a failed query
 			$this->db->setQuery($this->updateQuery);
-			if ($this->db->query()) {
+			if ($this->db->execute()) {
 				if ($this->check()) {
 					$this->checkStatus = 1;
 					$this->rerunStatus = 1;

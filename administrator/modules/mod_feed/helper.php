@@ -1,15 +1,17 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  mod_feed
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
 
 /**
- * @package		Joomla.Administrator
- * @subpackage	mod_feed
+ * @package     Joomla.Administrator
+ * @subpackage  mod_feed
  */
 abstract class modFeedHelper
 {
@@ -28,17 +30,13 @@ abstract class modFeedHelper
 
 		$filter = JFilterInput::getInstance();
 
-		//  get RSS parsed object
-		$options = array();
-		$options['rssUrl']		= $rssurl;
+		// get RSS parsed object
+		$cache_time = 0;
 		if ($params->get('cache')) {
-			$options['cache_time']  = $params->get('cache_time', 15) ;
-			$options['cache_time']	*= 60;
-		} else {
-			$options['cache_time'] = null;
+			$cache_time  = $params->get('cache_time', 15) * 60;
 		}
 
-		$rssDoc = JFactory::getXMLParser('RSS', $options);
+		$rssDoc = JFactory::getFeedParser($rssurl, $cache_time);
 
 		if ($rssDoc != false)
 		{
@@ -93,7 +91,8 @@ abstract class modFeedHelper
 			?>
 				<tr>
 					<td align="center">
-						<img src="<?php echo htmlspecialchars($iUrl); ?>" alt="<?php echo htmlspecialchars(@$iTitle); ?>"/>
+						<img src="<?php echo htmlspecialchars($iUrl); ?>"
+						     alt="<?php echo htmlspecialchars(@$iTitle); ?>"/>
 					</td>
 				</tr>
 			<?php

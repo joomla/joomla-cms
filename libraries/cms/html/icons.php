@@ -1,7 +1,7 @@
 <?php
 /**
- * @package     Joomla
- * @subpackage  Form
+ * @package     Joomla.Libraries
+ * @subpackage  HTML
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -12,9 +12,9 @@ defined('JPATH_BASE') or die;
 /**
  * Utility class for icons.
  *
- * @package		Cms.Libraries
- * @subpackage	Html
- * @since		2.5
+ * @package     Joomla.Libraries
+ * @subpackage  HTML
+ * @since       2.5
  */
 abstract class JHtmlIcons
 {

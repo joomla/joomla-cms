@@ -1,9 +1,9 @@
 <?php
 /**
- * @package		Joomla.Cli
+ * @package    Joomla.Cli
  *
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright  Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 // Make sure we're being called from the command line, not a web interface
@@ -17,7 +17,6 @@ if (array_key_exists('REQUEST_METHOD', $_SERVER)) die();
 
 // Set flag that this is a parent file.
 define('_JEXEC', 1);
-define('DS', DIRECTORY_SEPARATOR);
 
 error_reporting(E_ALL | E_NOTICE);
 ini_set('display_errors', 1);
@@ -59,7 +58,7 @@ class Updatecron extends JApplicationCli
 	 *
 	 * @since   2.5
 	 */
-	public function execute()
+	public function doExecute()
 	{
 		// Purge all old records
 		$db = JFactory::getDBO();

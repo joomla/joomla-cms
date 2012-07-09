@@ -1,22 +1,22 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_media
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.view');
 
 /**
  * HTML View class for the Media component
  *
- * @package		Joomla.Administrator
- * @subpackage	com_media
- * @since 1.0
+ * @package     Joomla.Administrator
+ * @subpackage  com_media
+ * @since       1.0
  */
-class MediaViewImagesList extends JView
+class MediaViewImagesList extends JViewLegacy
 {
 	function display($tpl = null)
 	{
@@ -39,14 +39,13 @@ class MediaViewImagesList extends JView
 		$folders = $this->get('folders');
 		$state = $this->get('state');
 
-		$this->assign('baseURL', COM_MEDIA_BASEURL);
+		$this->baseURL = COM_MEDIA_BASEURL;
 		$this->assignRef('images', $images);
 		$this->assignRef('folders', $folders);
 		$this->assignRef('state', $state);
 
 		parent::display($tpl);
 	}
-
 
 	function setFolder($index = 0)
 	{

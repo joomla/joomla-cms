@@ -18,6 +18,7 @@ class DoInstall extends SeleniumJoomlaTestCase
 
 		if (file_exists($configFile)) {
 			echo "Delete configuration file\n";
+			chmod($configFile, 0777);
 			unlink($configFile);
 		}
 		else {
@@ -28,7 +29,7 @@ class DoInstall extends SeleniumJoomlaTestCase
 		echo "Page through screen 1\n";
 		$this->open($cfg->path ."/installation/index.php");
 		$this->select("id=jform_language", "label=English (United Kingdom)");
-		
+
 		$this->click("//a[@rel=\"next\"]");
 		$this->waitforElement("//h3[contains(text(), 'Recommended settings')]");
 
@@ -96,7 +97,7 @@ class DoInstall extends SeleniumJoomlaTestCase
 		$this->setCache($cfg->cache);
 
 		// Check admin template -- change to hathor if specified in config file
-		if ($cfg->adminTemplate == 'hathor') {
+		if (isset($cfg->adminTemplate) && $cfg->adminTemplate == 'hathor') {
 			$this->click("link=Template Manager");
 			$this->waitForPageToLoad("30000");
 			$this->click("link=Hathor - Default");

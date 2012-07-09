@@ -1,10 +1,12 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_users
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.modeladmin');
@@ -12,9 +14,9 @@ jimport('joomla.application.component.modeladmin');
 /**
  * Users mail model.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_users
- * @since	1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_users
+ * @since       1.6
  */
 class UsersModelMail extends JModelAdmin
 {
@@ -75,7 +77,6 @@ class UsersModelMail extends JModelAdmin
 		$user	= JFactory::getUser();
 		$acl	= JFactory::getACL();
 		$db		= $this->getDbo();
-
 
 		$mode		= array_key_exists('mode', $data) ? intval($data['mode']) : 0;
 		$subject	= array_key_exists('subject', $data) ? $data['subject'] : '';

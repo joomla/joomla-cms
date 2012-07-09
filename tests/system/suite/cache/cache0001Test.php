@@ -399,6 +399,14 @@ class Cache0001Test extends SeleniumJoomlaTestCase
 		$this->gotoSite();
 		$this->assertTrue($this->isElementPresent("//form[@id='login-form']"));
 		$this->gotoAdmin();
+
+		echo "Clear cache files.\n";
+		$this->click("link=Clear Cache");
+		$this->waitForPageToLoad("30000");
+		$this->click("name=checkall-toggle");
+		$this->click("css=span.icon-32-delete");
+		$this->waitForPageToLoad("30000");
+
 		echo "Set caching to off.\n";
 		$this->setCache('off');
 		$this->doAdminLogout();

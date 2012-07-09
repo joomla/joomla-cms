@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
-
 /**
  * User notes list view
  *
@@ -18,7 +16,7 @@ jimport('joomla.application.component.view');
  * @subpackage  com_users
  * @since       2.5
  */
-class UsersViewNotes extends JView
+class UsersViewNotes extends JViewLegacy
 {
 	/**
 	 * A list of user note objects.
@@ -80,7 +78,7 @@ class UsersViewNotes extends JView
 
 		// turn parameters into registry objects
 		foreach ($this->items as $item) {
-			$item->cparams = new JRegistry();
+			$item->cparams = new JRegistry;
 			$item->cparams->loadString($item->category_params);
 		}
 

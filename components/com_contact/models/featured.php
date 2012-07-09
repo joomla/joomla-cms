@@ -1,19 +1,19 @@
 <?php
 /**
- * @package		Joomla.Site
- * @subpackage	com_contact
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  com_contact
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.modellist');
 
 /**
- * @package		Joomla.Site
- * @subpackage	com_contact
+ * @package     Joomla.Site
+ * @subpackage  com_contact
  */
 class ContactModelFeatured extends JModelList
 {
@@ -86,7 +86,7 @@ class ContactModelFeatured extends JModelList
 		for ($i = 0, $n = count($items); $i < $n; $i++) {
 			$item = &$items[$i];
 			if (!isset($this->_params)) {
-				$params = new JRegistry();
+				$params = new JRegistry;
 				$params->loadString($item->params);
 				$item->params = $params;
 			}
@@ -148,8 +148,6 @@ class ContactModelFeatured extends JModelList
 			$query->where($publishedWhere . ' = ' . (int) $state);
 		}
 
-
-
 		// Filter by language
 		if ($this->getState('filter.language')) {
 			$query->where('a.language in (' . $db->Quote(JFactory::getLanguage()->getTag()) . ',' . $db->Quote('*') . ')');
@@ -175,10 +173,10 @@ class ContactModelFeatured extends JModelList
 		$params	= JComponentHelper::getParams('com_contact');
 
 		// List state information
-		$limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'));
+		$limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'), 'uint');
 		$this->setState('list.limit', $limit);
 
-		$limitstart = JRequest::getVar('limitstart', 0, '', 'int');
+		$limitstart = JRequest::getUInt('limitstart', 0);
 		$this->setState('list.start', $limitstart);
 
 		$orderCol	= JRequest::getCmd('filter_order', 'ordering');
@@ -207,7 +205,4 @@ class ContactModelFeatured extends JModelList
 		// Load the parameters.
 		$this->setState('params', $params);
 	}
-
-
-
 }

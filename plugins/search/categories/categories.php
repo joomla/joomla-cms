@@ -1,10 +1,12 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Plugin
+ * @subpackage  Search.categories
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
 require_once JPATH_SITE.'/components/com_content/helpers/route.php';
@@ -12,9 +14,9 @@ require_once JPATH_SITE.'/components/com_content/helpers/route.php';
 /**
  * Categories Search plugin
  *
- * @package		Joomla.Plugin
- * @subpackage	Search.categories
- * @since		1.6
+ * @package     Joomla.Plugin
+ * @subpackage  Search.categories
+ * @since       1.6
  */
 class plgSearchCategories extends JPlugin
 {
@@ -78,7 +80,6 @@ class plgSearchCategories extends JPlugin
 		if ($sArchived) {
 			$state[]=2;
 		}
-
 
 		$text = trim($text);
 		if ($text == '') {

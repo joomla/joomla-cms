@@ -1,7 +1,10 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Plugin
+ * @subpackage  System.redirect
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_BASE') or die;
@@ -9,8 +12,8 @@ defined('JPATH_BASE') or die;
 /**
  * Plugin class for redirect handling.
  *
- * @package		Joomla.Plugin
- * @subpackage	System.redirect
+ * @package     Joomla.Plugin
+ * @subpackage  System.redirect
  */
 class plgSystemRedirect extends JPlugin
 {
@@ -61,35 +64,44 @@ class plgSystemRedirect extends JPlugin
 
 			// If a redirect exists and is published, permanently redirect.
 			if ($link and ($link->published == 1)) {
-				$app->redirect($link->new_url, null, null, true, true);
+				$app->redirect($link->new_url, null, null, true, false);
 			}
 			else
 			{
 				$referer = empty($_SERVER['HTTP_REFERER']) ? '' : $_SERVER['HTTP_REFERER'];
 
-				$db->setQuery('select id from '.$db->quoteName('#__redirect_links')."  where old_url='".$current."'");
+				$db->setQuery('SELECT id FROM ' . $db->quoteName('#__redirect_links') . '  WHERE old_url= ' . $db->quote($current));
 				$res = $db->loadResult();
 				if(!$res) {
 
 					// If not, add the new url to the database.
-					 $query = $db->getQuery(true);
-					 $query->insert($db->quoteName('#__redirect_links'), false);
-					 $columns = array( $db->quoteName('old_url'),
+					$query = $db->getQuery(true);
+					$query->insert($db->quoteName('#__redirect_links'), false);
+					$columns = array( $db->quoteName('old_url'),
 									$db->quoteName('new_url'),
 									$db->quoteName('referer'),
 									$db->quoteName('comment'),
+									$db->quoteName('hits'),
 									$db->quoteName('published'),
 									$db->quoteName('created_date')
 								);
 					$query->columns($columns);
-				    $query->values($db->Quote($current). ', '. $db->Quote('').
-				  				' ,'.$db->Quote($referer).', '.$db->Quote('').',0, '.
-								  $db->Quote(JFactory::getDate()->toSql())
-								);
+					$query->values($db->Quote($current). ', '. $db->Quote('').
+						' ,'.$db->Quote($referer).', '.$db->Quote('').',1,0, '.
+						$db->Quote(JFactory::getDate()->toSql())
+					);
 
 					$db->setQuery($query);
 					$db->query();
 
+				} else {
+					// Existing error url, increase hit counter
+					$query = $db->getQuery(true);
+					$query->update($db->quoteName('#__redirect_links'));
+					$query->set($db->quoteName('hits').' = '.$db->quoteName('hits').' + 1');
+					$query->where('id = '.(int)$res);
+					$db->setQuery((string)$query);
+					$db->query();
 				}
 				// Render the error page.
 				JError::customErrorPage($error);

@@ -1,12 +1,12 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_installer
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_installer
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
 
 // Import library dependencies
@@ -16,9 +16,9 @@ JLoader::register('joomlaInstallerScript', JPATH_ADMINISTRATOR . '/components/co
 /**
  * Installer Manage Model
  *
- * @package		Joomla.Administrator
- * @subpackage	com_installer
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_installer
+ * @since       1.6
  */
 class InstallerModelDatabase extends InstallerModel
 {
@@ -51,8 +51,9 @@ class InstallerModelDatabase extends InstallerModel
 		$changeSet->fix();
 		$this->fixSchemaVersion($changeSet);
 		$this->fixUpdateVersion();
-		$installer = new joomlaInstallerScript();
+		$installer = new joomlaInstallerScript;
 		$installer->deleteUnexistingFiles();
+		$this->fixDefaultTextFilters();
 	}
 
 	/**
@@ -160,7 +161,7 @@ class InstallerModelDatabase extends InstallerModel
 		$table->load('700');
 		$cache = new JRegistry($table->manifest_cache);
 		$updateVersion =  $cache->get('version');
-		$cmsVersion = new JVersion();
+		$cmsVersion = new JVersion;
 		if ($updateVersion == $cmsVersion->getShortVersion())
 		{
 			return $updateVersion;
@@ -180,5 +181,43 @@ class InstallerModelDatabase extends InstallerModel
 
 		}
 	}
-}
 
+	/**
+	 * For version 2.5.x only
+	 * Check if com_config parameters are blank.
+	 *
+	 * @return  string  default text filters (if any)
+	 */
+	public function getDefaultTextFilters()
+	{
+		$table = JTable::getInstance('Extension');
+		$table->load($table->find(array('name' => 'com_config')));
+		return $table->params;
+	}
+	/**
+	 * For version 2.5.x only
+	 * Check if com_config parameters are blank. If so, populate with com_content text filters.
+	 *
+	 * @return  mixed  boolean true if params are updated, null otherwise
+	 */
+	public function fixDefaultTextFilters()
+	{
+		$table = JTable::getInstance('Extension');
+		$table->load($table->find(array('name' => 'com_config')));
+
+		// Check for empty $config and non-empty content filters
+		if (!$table->params)
+		{
+			// Get filters from com_content and store if you find them
+			$contentParams = JComponentHelper::getParams('com_content');
+			if ($contentParams->get('filters'))
+			{
+				$newParams = new JRegistry;
+				$newParams->set('filters', $contentParams->get('filters'));
+				$table->params = (string) $newParams;
+				$table->store();
+				return true;
+			}
+		}
+	}
+}

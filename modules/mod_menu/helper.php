@@ -1,16 +1,18 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  mod_menu
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
 /**
- * @package		Joomla.Site
- * @subpackage	mod_menu
- * @since		1.5
+ * @package     Joomla.Site
+ * @subpackage  mod_menu
+ * @since       1.5
  */
 class modMenuHelper
 {
@@ -77,6 +79,7 @@ class modMenuHelper
 					$item->active		= false;
 					$item->flink = $item->link;
 
+					// Reverted back for CMS version 2.5.6
 					switch ($item->type)
 					{
 						case 'separator':

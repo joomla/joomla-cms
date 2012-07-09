@@ -339,3 +339,12 @@ span.icon-16-locked {
 #menu a {
 	background-position: right 50%;
 }
+
+/* Installer Database */
+#installer-database p.warning {
+	background-position: center right;
+}
+
+#installer-database p.nowarning {
+	background-position: center right;
+}

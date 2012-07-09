@@ -1,12 +1,12 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_content
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_users
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
 // Create the copy/move options.
@@ -23,7 +23,7 @@ $options = array(
 	<fieldset id="batch-choose-action" class="combo">
 		<select name="batch[group_id]" class="inputbox" id="batch-group-id">
 			<option value=""><?php echo JText::_('JSELECT') ?></option>
-			<?php echo JHtml::_('select.options', JHtml::_('user.groups')); ?>
+			<?php echo JHtml::_('select.options', JHtml::_('user.groups', JFactory::getUser()->get('isRoot'))); ?>
 		</select>
 		<?php echo JHtml::_('select.radiolist', $options, 'batch[group_action]', '', 'value', 'text', 'add') ?>
 	</fieldset>

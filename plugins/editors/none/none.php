@@ -1,18 +1,20 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Plugin
+ * @subpackage  Editors.none
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
 /**
  * Plain Textarea Editor Plugin
  *
- * @package		Joomla.Plugin
- * @subpackage	Editors.none
- * @since		1.5
+ * @package     Joomla.Plugin
+ * @subpackage  Editors.none
+ * @since       1.5
  */
 class plgEditorNone extends JPlugin
 {

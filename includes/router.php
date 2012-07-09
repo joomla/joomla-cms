@@ -1,20 +1,19 @@
 <?php
 /**
- * @package		Joomla.Site
- * @subpackage	Application
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package    Joomla.Site
+ *
+ * @copyright  Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('JPATH_BASE') or die;
 
 /**
  * Class to create and parse routes for the site application
  *
- * @package		Joomla.Site
- * @subpackage	Application
- * @since		1.5
+ * @package     Joomla.Site
+ * @subpackage  Application
+ * @since       1.5
  */
 class JRouterSite extends JRouter
 {
@@ -151,7 +150,7 @@ class JRouterSite extends JRouter
 		if (count($this->getVars()) == 1 || ( $app->getLanguageFilter() && count( $this->getVars()) == 2 )) {
 
 			$item = $menu->getItem($this->getVar('Itemid'));
-			if ($item !== NULL && is_array($item->query)) {
+			if ($item !== null && is_array($item->query)) {
 				$vars = $vars + $item->query;
 			}
 		}
@@ -219,7 +218,7 @@ class JRouterSite extends JRouter
 					$item->language = trim($item->language);
 				}
 				$length = strlen($item->route); //get the length of the route
-				if ($length > 0 && JString::strpos($route_lowercase.'/', $item->route.'/') === 0 && $item->type != 'menulink' && ($item->language == '*' || $item->language == $lang_tag)) {
+				if ($length > 0 && JString::strpos($route_lowercase.'/', $item->route.'/') === 0 && $item->type != 'menulink' && (!$app->getLanguageFilter() || $item->language == '*' || $item->language == $lang_tag)) {
 					// We have exact item for this language
 					if ($item->language == $lang_tag) {
 						$found = $item;

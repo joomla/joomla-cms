@@ -7,7 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
 
 // Include dependencies.
@@ -62,7 +61,7 @@ class MenusModelItem extends JModelAdmin
 	{
 		if (!empty($record->id)) {
 			if ($record->published != -2) {
-				return ;
+				return;
 			}
 			$user = JFactory::getUser();
 
@@ -747,10 +746,9 @@ class MenusModelItem extends JModelAdmin
 		// We are only interested if the module is displayed on ALL or THIS menu item (or the inverse ID number).
 		//sqlsrv changes for modulelink to menu manager
 		$query->select('a.id, a.title, a.position, a.published, map.menuid');
-		$query->select('(CASE WHEN map2.menuid < 0 THEN map2.menuid ELSE NULL END) as ' . $db->qn('exceptid'));
 		$query->from('#__modules AS a');
-		$query->join('LEFT', '#__modules_menu AS map ON map.moduleid = a.id AND (map.menuid = 0 OR ABS(map.menuid) = '.(int) $this->getState('item.id').')');
-		$query->join('LEFT', '#__modules_menu AS map2 ON map2.moduleid = a.id AND map2.menuid < 0');
+		$query->join('LEFT', sprintf('#__modules_menu AS map ON map.moduleid = a.id AND map.menuid IN (0, %1$d, -%1$d)', $this->getState('item.id')));
+		$query->select('(SELECT COUNT(*) FROM #__modules_menu WHERE moduleid = a.id AND menuid < 0) AS ' . $db->qn('except'));
 
 		// Join on the asset groups table.
 		$query->select('ag.title AS access_title');
@@ -762,8 +760,8 @@ class MenusModelItem extends JModelAdmin
 		$db->setQuery($query);
 		$result = $db->loadObjectList();
 
-		if ($error = $db->getError()) {
-			$this->setError($error);
+		if ($db->getErrorNum()) {
+			$this->setError($db->getErrorMsg());
 			return false;
 		}
 
@@ -820,7 +818,8 @@ class MenusModelItem extends JModelAdmin
 		}
 		$this->setState('item.parent_id', $parentId);
 
-		if (!($menuType = $app->getUserState('com_menus.edit.item.menutype'))) {
+		$menuType = $app->getUserState('com_menus.edit.item.menutype');
+		if (JRequest::getCmd('menutype', false)) {
 			$menuType = JRequest::getCmd('menutype', 'mainmenu');
 		}
 		$this->setState('item.menutype', $menuType);
@@ -970,7 +969,6 @@ class MenusModelItem extends JModelAdmin
 				throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
 			}
 		}
-
 
 		// Load the specific type file
 		if (!$form->loadFile('item_'.$type, false, false)) {

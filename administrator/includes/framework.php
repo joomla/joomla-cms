@@ -1,12 +1,11 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	Application
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package    Joomla.Administrator
+ *
+ * @copyright  Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
 
 /*
@@ -14,7 +13,6 @@ defined('_JEXEC') or die;
  */
 
 @ini_set('magic_quotes_runtime', 0);
-@ini_set('zend.ze1_compatibility_mode', '0');
 
 /*
  * Installation check, and check on removal of the install directory.
@@ -46,7 +44,7 @@ require_once JPATH_CONFIGURATION.'/configuration.php';
 ob_end_clean();
 
 // System configuration.
-$config = new JConfig();
+$config = new JConfig;
 
 // Set the error_reporting
 switch ($config->error_reporting)

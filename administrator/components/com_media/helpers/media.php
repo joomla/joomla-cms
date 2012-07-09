@@ -1,14 +1,17 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_media
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_media
+ * @package     Joomla.Administrator
+ * @subpackage  com_media
  */
 abstract class MediaHelper
 {
@@ -80,7 +83,7 @@ abstract class MediaHelper
 			if (in_array($format, $images)) { // if its an image run it through getimagesize
 				// if tmp_name is empty, then the file was bigger than the PHP limit
 				if (!empty($file['tmp_name'])) {
-					if (($imginfo = getimagesize($file['tmp_name'])) === FALSE) {
+					if (($imginfo = getimagesize($file['tmp_name'])) === false) {
 						$err = 'COM_MEDIA_ERROR_WARNINVALID_IMG';
 						return false;
 					}

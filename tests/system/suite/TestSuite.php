@@ -10,7 +10,6 @@ if (!defined('PHPUnit_MAIN_METHOD')) {
 }
 set_include_path(get_include_path() . PATH_SEPARATOR . './PEAR/' . PATH_SEPARATOR . '../');
 
-require_once 'PHPUnit/Framework.php';
 require_once 'PHPUnit/TextUI/TestRunner.php';
 require_once 'doInstall.php';
 require_once 'control_panel/control_panel0001Test.php';
@@ -32,6 +31,7 @@ require_once 'com_users/group0001Test.php';
 require_once 'com_users/group0002Test.php';
 require_once 'com_users/group0003Test.php';
 require_once 'modules/module0001Test.php';
+require_once 'modules/module0002Test.php';
 require_once 'redirect/redirect0001Test.php';
 require_once 'sample_data/sample_data0001Test.php';
 require_once 'acl/acl0001Test.php';
@@ -76,6 +76,7 @@ class TestSuite
 		$suite->addTestSuite('Group0002Test');
 		$suite->addTestSuite('Group0003Test');
 		$suite->addTestSuite('Module0001');
+		$suite->addTestSuite('Module0002');
 		$suite->addTestSuite('Redirect0001Test');
 		$suite->addTestSuite('SampleData0001');
 		$suite->addTestSuite('Acl0001Test');

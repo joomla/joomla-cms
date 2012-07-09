@@ -692,19 +692,46 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 		}
 	}
 
-	function setTinyText($text)
+	function setEditor($editor)
+	{
+		echo "Changing editor to $editor\n";
+		$this->jClick('Global Configuration');
+		$this->click("id=site");
+		switch (strtoupper($editor))
 		{
-			$this->selectFrame("jform_articletext_ifr");
-			$this->type("tinymce", $text);
-			$this->selectFrame("relative=top");
+			case 'NO EDITOR':
+			case 'NONE':
+				$select = 'label=Editor - None';
+				break;
+
+			case 'CODEMIRROR':
+				$select = 'label=Editor - CodeMirror';
+
+			case 'TINYMCE':
+			case 'TINY':
+			default:
+				$select = 'label=Editor - TinyMCE';
+				break;
 		}
 
+		$this->select("id=jform_editor", $select);
+		$this->click("css=span.icon-32-save");
+		$this->waitForPageToLoad("30000");
+	}
+
+	function setTinyText($text)
+	{
+		$this->selectFrame("jform_articletext_ifr");
+		$this->type("tinymce", $text);
+		$this->selectFrame("relative=top");
+	}
+
 	function toggleFeatured($articleTitle)
-		{
-			echo "Toggling Featured on/off for article " . $articleTitle . "\n";
-			$this->click("//table[@class='adminlist']/tbody//tr//td/a[contains(text(), '" . $articleTitle . "')]/../../td[4]/a/img");
-			$this->waitForPageToLoad("30000");
-		}
+	{
+		echo "Toggling Featured on/off for article " . $articleTitle . "\n";
+		$this->click("//table[@class='adminlist']/tbody//tr//td/a[contains(text(), '" . $articleTitle . "')]/../../td[4]/a/img");
+		$this->waitForPageToLoad("30000");
+	}
 
 	function togglePublished($articleTitle)
 	{

@@ -84,7 +84,7 @@ class JDocumentOpensearch extends JDocument
 			if (file_exists($dir . '/favicon.ico'))
 			{
 
-				$path = str_replace(JPATH_BASE . DS, '', $dir);
+				$path = str_replace(JPATH_BASE . '/', '', $dir);
 				$path = str_replace('\\', '/', $path);
 
 				$favicon = new JOpenSearchImage;

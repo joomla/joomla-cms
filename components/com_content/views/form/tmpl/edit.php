@@ -1,12 +1,12 @@
 <?php
 /**
- * @package		Joomla.Site
- * @subpackage	com_content
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  com_content
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
 JHtml::_('behavior.keepalive');
@@ -37,7 +37,7 @@ endif;
 	}
 </script>
 <div class="edit item-page<?php echo $this->pageclass_sfx; ?>">
-<?php if ($params->get('show_page_heading', 1)) : ?>
+<?php if ($params->get('show_page_heading')) : ?>
 <h1>
 	<?php echo $this->escape($params->get('page_heading')); ?>
 </h1>
@@ -144,13 +144,10 @@ endif;
 		<legend><?php echo JText::_('COM_CONTENT_PUBLISHING'); ?></legend>
 		<div class="formelm">
 		<?php echo $this->form->getLabel('catid'); ?>
-		<?php if($this->params->get('enable_category', 0) == 1) : ?>
 		<span class="category">
-		<?php echo $this->category_title; ?>
+			<?php   echo $this->form->getInput('catid'); ?>
 		</span>
-		<?php else : ?>
-		<?php echo $this->form->getInput('catid', null, $this->item->catid); ?>
-		<?php endif;?>
+
 		</div>
 		<div class="formelm">
 		<?php echo $this->form->getLabel('created_by_alias'); ?>

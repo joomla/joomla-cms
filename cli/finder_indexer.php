@@ -1,10 +1,9 @@
 <?php
 /**
- * @package     Joomla.CLI
- * @subpackage  com_finder
+ * @package    Joomla.Cli
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 // Make sure we're being called from the command line, not a web interface
@@ -18,7 +17,6 @@ if (array_key_exists('REQUEST_METHOD', $_SERVER)) die();
 
 // We are a valid entry point.
 define('_JEXEC', 1);
-define('DS', DIRECTORY_SEPARATOR);
 
 // Load system defines
 if (file_exists(dirname(dirname(__FILE__)) . '/defines.php'))
@@ -98,7 +96,7 @@ class FinderCli extends JApplicationCli
 	 *
 	 * @since   2.5
 	 */
-	public function execute()
+	public function doExecute()
 	{
 		// Print a blank line.
 		$this->out(JText::_('FINDER_CLI'));

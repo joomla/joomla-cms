@@ -82,8 +82,15 @@ abstract class JHtmlQuery
 			foreach ($query->filters as $branch => $nodes)
 			{
 				// Process the taxonomy nodes.
+				$lang = JFactory::getLanguage();
 				foreach ($nodes as $title => $id)
 				{
+					// Translate the title for Types
+					$key = FinderHelperLanguage::branchPlural($title);
+					if ($lang->hasKey($key)) {
+						$title = JText::_($key);
+					}
+
 					// Don't include the node if it is not in the request.
 					if (!in_array($id, $t))
 					{
@@ -93,7 +100,7 @@ abstract class JHtmlQuery
 					// Add the node to the explanation.
 					$bv = JString::strtolower($branch);
 					$nv = JString::strtolower($title);
-					$parts[] = '<span class="query-taxonomy">' . JText::sprintf('COM_FINDER_QUERY_TAXONOMY_NODE', $title, $branch) . '</span>';
+					$parts[] = '<span class="query-taxonomy">' . JText::sprintf('COM_FINDER_QUERY_TAXONOMY_NODE', $title, JText::_(FinderHelperLanguage::branchSingular($branch))) . '</span>';
 				}
 			}
 		}

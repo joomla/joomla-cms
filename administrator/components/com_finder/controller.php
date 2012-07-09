@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
-
 /**
  * Base controller class for Finder.
  *
@@ -18,7 +16,7 @@ jimport('joomla.application.component.controller');
  * @subpackage  com_finder
  * @since       2.5
  */
-class FinderController extends JController
+class FinderController extends JControllerLegacy
 {
 	/**
 	 * @var    string  The default view.

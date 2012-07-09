@@ -1,12 +1,12 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_installer
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_installer
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
 
 // Import library dependencies
@@ -14,9 +14,9 @@ jimport('joomla.application.component.modellist');
 jimport('joomla.updater.update');
 
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_installer
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_installer
+ * @since       1.6
  */
 class InstallerModelUpdate extends JModelList
 {
@@ -78,6 +78,9 @@ class InstallerModelUpdate extends JModelList
 		// Filter by extension_id
 		if ($eid = $this->getState('filter.extension_id')) {
 			$query->where($db->nq('extension_id') . ' = ' . $db->q((int) $eid));
+		} else {
+			$query->where($db->nq('extension_id').' != '.$db->q(0));
+			$query->where($db->nq('extension_id').' != '.$db->q(700));
 		}
 
 		return $query;
@@ -158,7 +161,7 @@ class InstallerModelUpdate extends JModelList
 	{
 		$result = true;
 		foreach($uids as $uid) {
-			$update = new JUpdate();
+			$update = new JUpdate;
 			$instance = JTable::getInstance('update');
 			$instance->load($uid);
 			$update->loadFromXML($instance->detailsurl);
@@ -166,7 +169,7 @@ class InstallerModelUpdate extends JModelList
 			$res = $this->install($update);
 
 			if ($res) {
-				$this->purge();
+				$instance->delete($uid);
 			}
 
 			$result = $res & $result;

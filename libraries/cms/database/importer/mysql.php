@@ -658,7 +658,7 @@ class JDatabaseImporterMysql extends JDatabaseImporter
 					foreach ($queries as $query)
 					{
 						$this->db->setQuery((string) $query);
-						if (!$this->db->query())
+						if (!$this->db->execute())
 						{
 							$this->out('Fail: ' . $this->db->getQuery());
 							throw new Exception($this->db->getErrorMsg());
@@ -677,7 +677,7 @@ class JDatabaseImporterMysql extends JDatabaseImporter
 				$sql = $this->xmlToCreate($table);
 
 				$this->db->setQuery((string) $sql);
-				if (!$this->db->query())
+				if (!$this->db->execute())
 				{
 					$this->out('Fail: ' . $this->db->getQuery());
 					throw new Exception($this->db->getErrorMsg());

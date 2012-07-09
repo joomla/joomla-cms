@@ -1,18 +1,20 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_languages
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
 
 /**
  * Multilang status helper.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_languages
- * @since		1.7.1
+ * @package     Joomla.Administrator
+ * @subpackage  com_languages
+ * @since       1.7.1
  */
 abstract class multilangstatusHelper
 {
@@ -26,20 +28,6 @@ abstract class multilangstatusHelper
 		$query->where('home = 1');
 		$query->where('published = 1');
 		$query->where('client_id = 0');
-		$db->setQuery($query);
-		return $db->loadResult();
-	}
-
-	public static function getLangfilter()
-	{
-		// check for activation of languagefilter
-		$db		= JFactory::getDBO();
-		$query	= $db->getQuery(true);
-		$query->select('COUNT(*)');
-		$query->from($db->quoteName('#__extensions'));
-		$query->where('type = '.$db->Quote('plugin'));
-		$query->where('element = '.$db->Quote('languagefilter'));
-		$query->where('enabled= 1');
 		$db->setQuery($query);
 		return $db->loadResult();
 	}

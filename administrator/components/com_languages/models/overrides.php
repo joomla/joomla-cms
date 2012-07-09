@@ -1,12 +1,12 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_languages
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_languages
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.modellist');
@@ -14,9 +14,9 @@ jimport('joomla.application.component.modellist');
 /**
  * Languages Overrides Model
  *
- * @package			Joomla.Administrator
- * @subpackage	com_languages
- * @since				2.5
+ * @package     Joomla.Administrator
+ * @subpackage  com_languages
+ * @since       2.5
  */
 class LanguagesModelOverrides extends JModelList
 {
@@ -85,7 +85,7 @@ class LanguagesModelOverrides extends JModelList
 		}
 
 		// Consider the pagination
-		if (!$all && $this->getTotal() > $this->getState('list.limit'))
+		if (!$all && $this->getState('list.limit') && $this->getTotal() > $this->getState('list.limit'))
 		{
 			$strings = array_slice($strings, $this->getStart(), $this->getState('list.limit'), true);
 		}
@@ -245,8 +245,12 @@ class LanguagesModelOverrides extends JModelList
 			}
 		}
 
+		foreach ($strings as $key => $string) {
+			$strings[$key] = str_replace('"', '"_QQ_"', $string);
+		}
+
 		// Write override.ini file with the left strings
-		$registry = new JRegistry();
+		$registry = new JRegistry;
 		$registry->loadObject($strings);
 
 		$filename = constant('JPATH_'.strtoupper($this->getState('filter.client'))).DS.'language'.DS.'overrides'.DS.$this->getState('filter.language').'.override.ini';

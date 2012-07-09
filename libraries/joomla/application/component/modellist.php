@@ -297,7 +297,7 @@ class JModelList extends JModel
 		{
 			$app = JFactory::getApplication();
 
-			$value = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'));
+			$value = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'), 'uint');
 			$limit = $value;
 			$this->setState('list.limit', $limit);
 

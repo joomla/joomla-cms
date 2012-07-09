@@ -1,14 +1,18 @@
 <?php
 /**
- * @package		Joomla.Site
- * @subpackage	mod_random_image
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  mod_random_image
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
+/**
+ * @package     Joomla.Site
+ * @subpackage  mod_random_image
+ */
 class modRandomImageHelper
 {
 	static function getRandomImage(&$params, $images)
@@ -20,7 +24,6 @@ class modRandomImageHelper
 		$random		= mt_rand(0, $i - 1);
 		$image		= $images[$random];
 		$size		= getimagesize (JPATH_BASE . '/' . $image->folder . '/' . $image->name);
-
 
 		if ($width == '') {
 			$width = 100;
@@ -103,8 +106,8 @@ class modRandomImageHelper
 		if (JString::strpos($folder, JPATH_SITE) === 0) {
 			$folder= str_replace(JPATH_BASE, '', $folder);
 		}
-		$folder = str_replace('\\', DS, $folder);
-		$folder = str_replace('/', DS, $folder);
+		$folder = str_replace('\\', DIRECTORY_SEPARATOR, $folder);
+		$folder = str_replace('/', DIRECTORY_SEPARATOR, $folder);
 
 		return $folder;
 	}

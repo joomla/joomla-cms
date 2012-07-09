@@ -1,13 +1,14 @@
 <?php
 /**
- * @package		Joomla.Site
- * @subpackage	mod_articles_category
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  mod_articles_category
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
+
 ?>
 <ul class="category-module<?php echo $moduleclass_sfx; ?>">
 <?php if ($grouped) : ?>
@@ -58,7 +59,7 @@ defined('_JEXEC') or die;
 		<?php if ($params->get('show_readmore')) :?>
 			<p class="mod-articles-category-readmore">
 				<a class="mod-articles-category-title <?php echo $item->active; ?>" href="<?php echo $item->link; ?>">
-				<?php if ($item->params->get('access-view')== FALSE) :
+				<?php if ($item->params->get('access-view') == false) :
 						echo JText::_('MOD_ARTICLES_CATEGORY_REGISTER_TO_READ_MORE');
 					elseif ($readmore = $item->alternative_readmore) :
 						echo $readmore;
@@ -123,7 +124,7 @@ defined('_JEXEC') or die;
 		<?php if ($params->get('show_readmore')) :?>
 			<p class="mod-articles-category-readmore">
 				<a class="mod-articles-category-title <?php echo $item->active; ?>" href="<?php echo $item->link; ?>">
-		        <?php if ($item->params->get('access-view')== FALSE) :
+		        <?php if ($item->params->get('access-view') == false) :
 						echo JText::_('MOD_ARTICLES_CATEGORY_REGISTER_TO_READ_MORE');
 					elseif ($readmore = $item->alternative_readmore) :
 						echo $readmore;

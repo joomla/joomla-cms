@@ -1,18 +1,20 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Plugin
+ * @subpackage  Editors-xtd.readmore
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
 /**
  * Editor Readmore buton
  *
- * @package		Joomla.Plugin
- * @subpackage	Editors-xtd.readmore
- * @since 1.5
+ * @package     Joomla.Plugin
+ * @subpackage  Editors-xtd.readmore
+ * @since       1.5
  */
 class plgButtonReadmore extends JPlugin
 {
@@ -44,7 +46,7 @@ class plgButtonReadmore extends JPlugin
 		// button is not active in specific content components
 
 		$getContent = $this->_subject->getContent($name);
-		$present = JText::_('PLG_READMORE_ALREADY_EXISTS', true) ;
+		$present = JText::_('PLG_READMORE_ALREADY_EXISTS', true);
 		$js = "
 			function insertReadmore(editor) {
 				var content = $getContent

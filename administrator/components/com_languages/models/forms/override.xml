@@ -22,6 +22,15 @@
 			filter="LanguagesHelper::filterText" />
 
 		<field
+			name="both"
+			type="checkbox"
+			class="inputbox"
+			label="COM_LANGUAGES_OVERRIDE_FIELD_BOTH_LABEL"
+			description="COM_LANGUAGES_OVERRIDE_FIELD_BOTH_DESC"
+			value="true"
+			filter="boolean" />
+
+		<field
 			name="searchstring"
 			type="text"
 			class="inputbox"

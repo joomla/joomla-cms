@@ -1,12 +1,12 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_languages
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_languages
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controlleradmin');
@@ -14,9 +14,9 @@ jimport('joomla.application.component.controlleradmin');
 /**
  * Languages Strings JSON Controller
  *
- * @package			Joomla.Administrator
- * @subpackage	com_languages
- * @since				2.5
+ * @package     Joomla.Administrator
+ * @subpackage  com_languages
+ * @since       2.5
  */
 class LanguagesControllerStrings extends JControllerAdmin
 {
@@ -33,7 +33,7 @@ class LanguagesControllerStrings extends JControllerAdmin
 	{
 		parent::__construct($config);
 
-		require_once JPATH_COMPONENT.DS.'helpers'.DS.'jsonresponse.php';
+		require_once JPATH_COMPONENT . '/helpers/jsonresponse.php';
 	}
 
 	/**

@@ -336,7 +336,7 @@ class JDatabaseMySQLi extends JDatabaseMySQL
 	 * @since   11.1
 	 * @throws  JDatabaseException
 	 */
-	public function query()
+	public function execute()
 	{
 		if (!is_object($this->connection))
 		{

@@ -90,7 +90,7 @@ class JInstallerPackage extends JAdapterInstance
 		$group = (string) $this->manifest->packagename;
 		if (!empty($group))
 		{
-			$this->parent->setPath('extension_root', JPATH_MANIFESTS . '/packages/' . implode(DS, explode('/', $group)));
+			$this->parent->setPath('extension_root', JPATH_MANIFESTS . '/packages/' . implode(DIRECTORY_SEPARATOR, explode('/', $group)));
 		}
 		else
 		{
@@ -179,7 +179,8 @@ class JInstallerPackage extends JAdapterInstance
 					$package = JInstallerHelper::unpack($file);
 				}
 				$tmpInstaller = new JInstaller;
-				if (!$tmpInstaller->install($package['dir']))
+				$installResult = $tmpInstaller->install($package['dir']);
+				if (!$installResult)
 				{
 					$this->parent->abort(
 						JText::sprintf(
@@ -193,7 +194,7 @@ class JInstallerPackage extends JAdapterInstance
 				{
 					$results[$i] = array(
 						'name' => $tmpInstaller->manifest->name,
-						'result' => $tmpInstaller->install($package['dir'])
+						'result' => $installResult
 					);
 				}
 				$i++;
@@ -289,7 +290,7 @@ class JInstallerPackage extends JAdapterInstance
 			$path['src'] = $this->parent->getPath('source') . '/' . $this->get('manifest_script');
 			$path['dest'] = $this->parent->getPath('extension_root') . '/' . $this->get('manifest_script');
 
-			if (!file_exists($path['dest']) || $this->parent->getOverwrite())
+			if (!file_exists($path['dest']) || $this->parent->isOverwrite())
 			{
 				if (!$this->parent->copyFiles(array($path)))
 				{

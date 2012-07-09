@@ -1,25 +1,22 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_checkin
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_checkin
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.view');
 
 /**
  * HTML View class for the Checkin component
  *
- * @static
- * @package		Joomla.Administrator
- * @subpackage	com_checkin
- * @since 1.0
+ * @package     Joomla.Administrator
+ * @subpackage  com_checkin
+ * @since       1.0
  */
-class CheckinViewCheckin extends JView
+class CheckinViewCheckin extends JViewLegacy
 {
 	protected $tables;
 

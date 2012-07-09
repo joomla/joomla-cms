@@ -1,12 +1,12 @@
 <?php
 /**
- * @package		Joomla.Site
- * @subpackage	com_content
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  com_content
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 $class = ' class="first"';
 ?>
@@ -36,13 +36,13 @@ $class = ' class="first"';
 			<?php if ( $this->params->get('show_cat_num_articles', 1)) : ?>
 			<dl>
 				<dt>
-					<?php echo JText::_('COM_CONTENT_NUM_ITEMS') ; ?>
+					<?php echo JText::_('COM_CONTENT_NUM_ITEMS'); ?>
 				</dt>
 				<dd>
 					<?php echo $child->getNumItems(true); ?>
 				</dd>
 			</dl>
-			<?php endif ; ?>
+			<?php endif; ?>
 
 			<?php if (count($child->getChildren()) > 0 ) :
 				$this->children[$child->id] = $child->getChildren();

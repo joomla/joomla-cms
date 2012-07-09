@@ -1,12 +1,12 @@
 <?php
 /**
- * @package		Joomla.Site
- * @subpackage	com_media
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  com_media
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
 $params = JComponentHelper::getParams('com_media');
@@ -29,6 +29,7 @@ define('COM_MEDIA_BASEURL', JURI::root().'/'.$params->get('image_path', 'images'
 
 $lang = JFactory::getLanguage();
 	$lang->load('com_media', JPATH_ADMINISTRATOR, null, false, false)
+	||	$lang->load('com_media', JPATH_SITE, null, false, false)
 	||	$lang->load('com_media', JPATH_ADMINISTRATOR, $lang->getDefault(), false, false);
 
 // Load the admin HTML view
@@ -68,7 +69,7 @@ else {
 $controllerClass = 'MediaController'.ucfirst($controllerName);
 
 if (class_exists($controllerClass)) {
-	$controller = new $controllerClass();
+	$controller = new $controllerClass;
 }
 else {
 	JError::raiseError(500, JText::_('JERROR_INVALID_CONTROLLER_CLASS'));

@@ -133,7 +133,7 @@ abstract class JHtmlFilter
 		foreach ($branches as $bk => $bv)
 		{
 			// If the multi-lang plug-in is enabled then drop the language branch.
-			if ($bv->title == 'Language' && FinderHelperLanguage::isMultiLanguage()) {
+			if ($bv->title == 'Language' && JLanguageMultilang::isEnabled()) {
 				continue;
 			}
 
@@ -152,7 +152,7 @@ abstract class JHtmlFilter
 		foreach ($branches as $bk => $bv)
 		{
 			// If the multi-lang plug-in is enabled then drop the language branch.
-			if ($bv->title == 'Language' && FinderHelperLanguage::isMultiLanguage()) {
+			if ($bv->title == 'Language' && JLanguageMultilang::isEnabled()) {
 				continue;
 			}
 
@@ -312,12 +312,11 @@ abstract class JHtmlFilter
 				return null;
 			}
 
-
 			// Iterate through the branches and build the branch groups.
 			foreach ($branches as $bk => $bv)
 			{
 				// If the multi-lang plug-in is enabled then drop the language branch.
-				if ($bv->title == 'Language' && FinderHelperLanguage::isMultiLanguage()) {
+				if ($bv->title == 'Language' && JLanguageMultilang::isEnabled()) {
 					continue;
 				}
 
@@ -377,7 +376,7 @@ abstract class JHtmlFilter
 		foreach ($branches as $bk => $bv)
 		{
 			// If the multi-lang plug-in is enabled then drop the language branch.
-			if ($bv->title == 'Language' && FinderHelperLanguage::isMultiLanguage()) {
+			if ($bv->title == 'Language' && JLanguageMultilang::isEnabled()) {
 				continue;
 			}
 

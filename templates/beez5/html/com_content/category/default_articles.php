@@ -1,12 +1,12 @@
 <?php
 /**
- * @package		Joomla.Site
- * @subpackage	Templates.beez5
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  Template.beez5
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
 $app = JFactory::getApplication();
@@ -20,7 +20,7 @@ endif;
 
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 JHtml::_('behavior.tooltip');
-JHtml::core();
+JHtml::_('behavior.framework');
 
 $n = count($this->items);
 $listOrder	= $this->escape($this->state->get('list.ordering'));
@@ -65,7 +65,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 			<tr>
 
 				<th class="list-title" id="tableOrdering">
-					<?php  echo JHtml::_('grid.sort', 'COM_CONTENT_HEADING_TITLE', 'a.title', $listDirn, $listOrder) ; ?>
+					<?php echo JHtml::_('grid.sort', 'COM_CONTENT_HEADING_TITLE', 'a.title', $listDirn, $listOrder); ?>
 				</th>
 
 				<?php if ($date = $this->params->get('list_show_date')) : ?>
@@ -114,19 +114,24 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 					</td>
 					<?php endif; ?>
 
-				<?php if ($this->params->get('list_show_author', 1) && !empty($article->author )) : ?>
-							<td class="list-author">
-								<?php $author =  $article->author ?>
-								<?php $author = ($article->created_by_alias ? $article->created_by_alias : $author);?>
+					<<?php if ($this->params->get('list_show_author', 1)) : ?>
+					<td class="list-author">
+						<?php if(!empty($article->author) || !empty($article->created_by_alias)) : ?>
+							<?php $author =  $article->author ?>
+							<?php $author = ($article->created_by_alias ? $article->created_by_alias : $author);?>
 
-									<?php if (!empty($article->contactid ) &&  $this->params->get('link_author') == true):?>
-										<?php 	echo
-										 JHtml::_('link', JRoute::_('index.php?option=com_contact&view=contact&id='.$article->contactid), $author); ?>
+							<?php if (!empty($article->contactid ) &&  $this->params->get('link_author') == true):?>
+								<?php echo JHtml::_(
+										'link',
+										JRoute::_('index.php?option=com_contact&view=contact&id='.$article->contactid),
+										$author
+								); ?>
 
-									<?php else :?>
-										<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', $author); ?>
-									<?php endif; ?>
-							</td>
+							<?php else :?>
+								<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', $author); ?>
+							<?php endif; ?>
+						<?php endif; ?>
+					</td>
 					<?php endif; ?>
 
 					<?php if ($this->params->get('list_show_hits', 1)) : ?>
@@ -139,7 +144,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 				<td>
 					<?php
 						echo $this->escape($article->title).' : ';
-						$menu		= JSite::getMenu();
+						$menu		= JFactory::getApplication()->getMenu();
 						$active		= $menu->getActive();
 						$itemId		= $active->id;
 						$link = JRoute::_('index.php?option=com_users&view=login&Itemid='.$itemId);

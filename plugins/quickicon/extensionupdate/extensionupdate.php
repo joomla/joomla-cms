@@ -1,7 +1,10 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Plugin
+ * @subpackage  Quickicon.Extensionupdate
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -9,9 +12,9 @@ defined('_JEXEC') or die;
 /**
  * Joomla! udpate notification plugin
  *
- * @package		Joomla.Plugin
- * @subpackage	Quickicon.Joomla
- * @since		2.5
+ * @package     Joomla.Plugin
+ * @subpackage  Quickicon.Extensionupdate
+ * @since       2.5
  */
 class plgQuickiconExtensionupdate extends JPlugin
 {
@@ -50,9 +53,9 @@ class plgQuickiconExtensionupdate extends JPlugin
 		$ajax_url = JURI::base().'index.php?option=com_installer&view=update&task=update.ajax';
 		$script = "var plg_quickicon_extensionupdate_ajax_url = '$ajax_url';\n";
 		$script .= 'var plg_quickicon_extensionupdate_text = {"UPTODATE" : "'.
-			JText::_('PLG_QUICKICON_EXTENSIONUPDATE_UPTODATE').'", "UPDATEFOUND": "'.
-			JText::_('PLG_QUICKICON_EXTENSIONUPDATE_UPDATEFOUND').'", "ERROR": "'.
-			JText::_('PLG_QUICKICON_EXTENSIONUPDATE_ERROR')."\"};\n";
+			JText::_('PLG_QUICKICON_EXTENSIONUPDATE_UPTODATE', true).'", "UPDATEFOUND": "'.
+			JText::_('PLG_QUICKICON_EXTENSIONUPDATE_UPDATEFOUND', true).'", "ERROR": "'.
+			JText::_('PLG_QUICKICON_EXTENSIONUPDATE_ERROR', true)."\"};\n";
 		$document = JFactory::getDocument();
 		$document->addScriptDeclaration($script);
 		$document->addScript(JURI::base().'../media/plg_quickicon_extensionupdate/extensionupdatecheck.js');

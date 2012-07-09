@@ -1,22 +1,22 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_categories
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.view');
 
 /**
  * Categories view class for the Category package.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_categories
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_categories
+ * @since       1.6
  */
-class CategoriesViewCategories extends JView
+class CategoriesViewCategories extends JViewLegacy
 {
 	protected $items;
 	protected $pagination;
@@ -55,7 +55,7 @@ class CategoriesViewCategories extends JView
 		$options[]	= JHtml::_('select.option', '9', JText::_('J9'));
 		$options[]	= JHtml::_('select.option', '10', JText::_('J10'));
 
-		$this->assign('f_levels', $options);
+		$this->f_levels = $options;
 
 		$this->addToolbar();
 		parent::display($tpl);
@@ -87,7 +87,7 @@ class CategoriesViewCategories extends JView
 		||	$lang->load($component, JPATH_BASE, $lang->getDefault(), false, false)
 		||	$lang->load($component, JPATH_ADMINISTRATOR.'/components/'.$component, $lang->getDefault(), false, false);
 
- 		// Load the category helper.
+		// Load the category helper.
 		require_once JPATH_COMPONENT.'/helpers/categories.php';
 
 		// Get the results for each action.
@@ -113,7 +113,7 @@ class CategoriesViewCategories extends JView
 		JToolBarHelper::title($title, 'categories '.substr($component, 4).($section?"-$section":'').'-categories');
 
 		if ($canDo->get('core.create') || (count($user->getAuthorisedCategories($component, 'core.create'))) > 0 ) {
-			 JToolBarHelper::addNew('category.add');
+			JToolBarHelper::addNew('category.add');
 		}
 
 		if ($canDo->get('core.edit' ) || $canDo->get('core.edit.own')) {

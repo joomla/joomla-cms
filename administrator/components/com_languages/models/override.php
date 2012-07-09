@@ -1,12 +1,12 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_languages
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_languages
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.modeladmin');
@@ -14,9 +14,9 @@ jimport('joomla.application.component.modeladmin');
 /**
  * Languages Override Model
  *
- * @package			Joomla.Administrator
- * @subpackage	com_languages
- * @since				2.5
+ * @package     Joomla.Administrator
+ * @subpackage  com_languages
+ * @since       2.5
  */
 class LanguagesModelOverride extends JModelAdmin
 {
@@ -50,7 +50,7 @@ class LanguagesModelOverride extends JModelAdmin
 		}
 		$form->setValue('client', null, JText::_('COM_LANGUAGES_VIEW_OVERRIDE_CLIENT_'.strtoupper($client)));
 		$form->setValue('language', null, JText::sprintf('COM_LANGUAGES_VIEW_OVERRIDE_LANGUAGE', $langName, $language));
-		$form->setValue('file', null, JPath::clean(constant('JPATH_'.strtoupper($client)).DS.'language'.DS.'overrides'.DS.$language.'.override.ini'));
+		$form->setValue('file', null, JPath::clean(constant('JPATH_'.strtoupper($client)) . '/language/overrides/' . $language . '.override.ini'));
 
 		return $form;
 	}
@@ -60,7 +60,7 @@ class LanguagesModelOverride extends JModelAdmin
 	 *
 	 * @return	mixed The data for the form
 	 *
-	 * @since	 2.5
+	 * @since		2.5
 	 */
 	protected function loadFormData()
 	{
@@ -89,10 +89,10 @@ class LanguagesModelOverride extends JModelAdmin
 		require_once JPATH_COMPONENT.'/helpers/languages.php';
 
 		$pk	= (!empty($pk)) ? $pk : JRequest::getCmd('id');
-		$filename = constant('JPATH_'.strtoupper($this->getState('filter.client'))).DS.'language'.DS.'overrides'.DS.$this->getState('filter.language', 'en-GB').'.override.ini';
+		$filename = constant('JPATH_'.strtoupper($this->getState('filter.client'))) . '/language/overrides/' . $this->getState('filter.language', 'en-GB').'.override.ini';
 		$strings = LanguagesHelper::parseFile($filename);
 
-		$result = new stdClass();
+		$result = new stdClass;
 		$result->key			= '';
 		$result->override	= '';
 		if (isset($strings[$pk]))
@@ -107,22 +107,31 @@ class LanguagesModelOverride extends JModelAdmin
 	/**
 	 * Method to save the form data.
 	 *
-	 * @param		array		$data The form data.
+	 * @param		array		$data							The form data.
+	 * @param		boolean	$opposite_client	Indicates whether the override should not be created for the current client
 	 *
 	 * @return	boolean	True on success, false otherwise.
 	 *
 	 * @since		2.5
 	 */
-	public function save($data)
+	public function save($data, $opposite_client = false)
 	{
 		$app = JFactory::getApplication();
 		require_once JPATH_COMPONENT.'/helpers/languages.php';
 
-		$client		= $app->getUserState('com_languages.overrides.filter.client', 0) ? 'administrator' : 'site';
+		$client		= $app->getUserState('com_languages.overrides.filter.client', 0);
 		$language	= $app->getUserState('com_languages.overrides.filter.language', 'en-GB');
 
+		// If the override should be created for both
+		if($opposite_client)
+		{
+			$client = 1 - $client;
+		}
+
+		$client = $client ? 'administrator' : 'site';
+
 		// Parse the override.ini file in oder to get the keys and strings
-		$filename	= constant('JPATH_'.strtoupper($client)).DS.'language'.DS.'overrides'.DS.$language.'.override.ini';
+		$filename	= constant('JPATH_'.strtoupper($client)) . '/language/overrides/' . $language . '.override.ini';
 		$strings	= LanguagesHelper::parseFile($filename);
 
 		if (isset($strings[$data['id']]))
@@ -147,13 +156,24 @@ class LanguagesModelOverride extends JModelAdmin
 			$strings = array($data['key'] => $data['override']) + $strings;
 		}
 
+		foreach ($strings as $key => $string) {
+			$strings[$key] = str_replace('"', '"_QQ_"', $string);
+		}
+
 		// Write override.ini file with the strings
-		$registry = new JRegistry();
+		$registry = new JRegistry;
 		$registry->loadObject($strings);
 
 		if (!JFile::write($filename, $registry->toString('INI')))
 		{
 			return false;
+		}
+
+		// If the override should be stored for both clients save
+		// it also for the other one and prevent endless recursion
+		if(isset($data['both']) && $data['both'] && !$opposite_client)
+		{
+			return $this->save($data, true);
 		}
 
 		return true;

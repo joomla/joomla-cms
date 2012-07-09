@@ -1,25 +1,24 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_content
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_content
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.modeladmin');
-
 
 require_once JPATH_COMPONENT_ADMINISTRATOR.'/helpers/content.php';
 
 /**
  * Item Model for an Article.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_content
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_content
+ * @since       1.6
  */
 class ContentModelArticle extends JModelAdmin
 {
@@ -175,7 +174,7 @@ class ContentModelArticle extends JModelAdmin
 	{
 		if (!empty($record->id)) {
 			if ($record->state != -2) {
-				return ;
+				return;
 			}
 			$user = JFactory::getUser();
 			return $user->authorise('core.delete', 'com_content.article.'.(int) $record->id);
@@ -276,8 +275,6 @@ class ContentModelArticle extends JModelAdmin
 			$registry = new JRegistry;
 			$registry->loadString($item->urls);
 			$item->urls = $registry->toArray();
-
-
 
 			$item->articletext = trim($item->fulltext) != '' ? $item->introtext . "<hr id=\"system-readmore\" />" . $item->fulltext : $item->introtext;
 		}
@@ -416,10 +413,8 @@ class ContentModelArticle extends JModelAdmin
 				$this->featured($this->getState($this->getName().'.id'), $data['featured']);
 			}
 
-
 			return true;
 		}
-
 
 		return false;
 	}

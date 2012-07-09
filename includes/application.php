@@ -1,10 +1,11 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package    Joomla.Site
+ *
+ * @copyright  Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.helper');
@@ -14,8 +15,8 @@ jimport('joomla.application.component.helper');
  *
  * Provide many supporting API functions
  *
- * @package		Joomla.Site
- * @subpackage	Application
+ * @package     Joomla.Site
+ * @subpackage  Application
  */
 final class JSite extends JApplication
 {
@@ -69,7 +70,6 @@ final class JSite extends JApplication
 
 		if ($this->_language_filter && empty($options['language'])) {
 			// Detect cookie language
-			jimport('joomla.utilities.utility');
 			$lang = JRequest::getString(self::getHash('language'), null , 'cookie');
 			// Make sure that the user's language exists
 			if ($lang && JLanguage::exists($lang)) {
@@ -184,6 +184,17 @@ final class JSite extends JApplication
 
 			$document->setTitle($params->get('page_title'));
 			$document->setDescription($params->get('page_description'));
+
+			// Add version number or not based on global configuration
+			if ($this->getCfg('MetaVersion', 0))
+			{
+				$document->setGenerator('Joomla! - Open Source Content Management  - Version ' . JVERSION);
+			}
+			else
+			{
+				$document->setGenerator('Joomla! - Open Source Content Management');
+			}
+
 			$contents = JComponentHelper::renderComponent($component);
 			$document->setBuffer($contents, 'component');
 
@@ -274,8 +285,9 @@ final class JSite extends JApplication
 	 */
 	public function login($credentials, $options = array())
 	{
-		 // Set the application login entry point
-		if (!array_key_exists('entry_url', $options)) {
+		// Set the application login entry point
+		if (!array_key_exists('entry_url', $options))
+		{
 			$options['entry_url'] = JURI::base().'index.php?option=com_users&task=user.login';
 		}
 
@@ -283,15 +295,6 @@ final class JSite extends JApplication
 		$options['action'] = 'core.login.site';
 
 		return parent::login($credentials, $options);
-	}
-
-	/**
-	 * @deprecated 1.6	Use the authorise method instead.
-	 */
-	public function authorize($itemid)
-	{
-		JLog::add('JSite::authorize() is deprecated. Use JSite::authorise() instead.', JLog::WARNING, 'deprecated');
-		return $this->authorise($itemid);
 	}
 
 	/**
@@ -369,6 +372,12 @@ final class JSite extends JApplication
 				$temp->loadString($menu->params);
 				$params[$hash]->merge($temp);
 				$title = $menu->title;
+			} else {
+				// get com_menu global settings
+				$temp = clone JComponentHelper::getParams('com_menus');
+				$params[$hash]->merge($temp);
+				// if supplied, use page title
+				$title = $temp->get('page_title', $title);
 			}
 
 			$params[$hash]->def('page_title', $title);
@@ -426,7 +435,6 @@ final class JSite extends JApplication
 			$id = (int) $tid;
 		}
 
-
 		$cache = JFactory::getCache('com_templates', '');
 		if ($this->_language_filter) {
 			$tag = JFactory::getLanguage()->getTag();
@@ -474,10 +482,10 @@ final class JSite extends JApplication
 		// Fallback template
 		if (!file_exists(JPATH_THEMES . '/' . $template->template . '/index.php')) {
 			JError::raiseWarning(0, JText::_('JERROR_ALERTNOTEMPLATE'));
-		    $template->template = 'beez_20';
-		    if (!file_exists(JPATH_THEMES . '/beez_20/index.php')) {
-		    	$template->template = '';
-		    }
+			$template->template = 'beez_20';
+			if (!file_exists(JPATH_THEMES . '/beez_20/index.php')) {
+				$template->template = '';
+			}
 		}
 
 		// Cache the result
@@ -495,18 +503,18 @@ final class JSite extends JApplication
 	 * @param mixed		The template style parameters
 	 */
 	public function setTemplate($template, $styleParams=null)
- 	{
- 		if (is_dir(JPATH_THEMES.DS.$template)) {
- 			$this->template = new stdClass();
- 			$this->template->template = $template;
+	{
+		if (is_dir(JPATH_THEMES . '/' . $template)) {
+			$this->template = new stdClass;
+			$this->template->template = $template;
 			if ($styleParams instanceof JRegistry) {
 				$this->template->params = $styleParams;
 			}
 			else {
 				$this->template->params = new JRegistry($styleParams);
 			}
- 		}
- 	}
+		}
+	}
 
 	/**
 	 * Return a reference to the JPathway object.

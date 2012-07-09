@@ -7,7 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.modeladmin');
@@ -153,7 +152,7 @@ class CategoriesModelCategory extends JModelAdmin
 			}
 
 			// Convert the metadata field to an array.
-			$registry = new JRegistry();
+			$registry = new JRegistry;
 			$registry->loadString($result->metadata);
 			$result->metadata = $registry->toArray();
 
@@ -317,6 +316,8 @@ class CategoriesModelCategory extends JModelAdmin
 		{
 			$lang->load($component, JPATH_BASE, null, false, false);
 			$lang->load($component, JPATH_BASE, $lang->getDefault(), false, false);
+			$lang->load($component, JPATH_BASE . '/components/' . $component, null, false, false);
+			$lang->load($component, JPATH_BASE . '/components/' . $component, $lang->getDefault(), false, false);
 
 			if (!$form->loadFile($path, false))
 			{

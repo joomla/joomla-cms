@@ -1,30 +1,30 @@
 <?php
 /**
- * @package		Joomla.Site
- * @subpackage	mod_articles_category
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  mod_articles_category
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.model');
 
 $com_path = JPATH_SITE.'/components/com_content/';
 require_once $com_path.'router.php';
 require_once $com_path.'helpers/route.php';
 
-jimport('joomla.application.component.model');
+JModelLegacy::addIncludePath($com_path . '/models', 'ContentModel');
 
-JModel::addIncludePath($com_path . '/models', 'ContentModel');
-
+/**
+ * @package     Joomla.Site
+ * @subpackage  mod_articles_category
+ */
 abstract class modArticlesCategoryHelper
 {
 	public static function getList(&$params)
 	{
 		// Get an instance of the generic articles model
-		$articles = JModel::getInstance('Articles', 'ContentModel', array('ignore_request' => true));
+		$articles = JModelLegacy::getInstance('Articles', 'ContentModel', array('ignore_request' => true));
 
 		// Set application parameters in model
 		$app = JFactory::getApplication();
@@ -64,7 +64,7 @@ abstract class modArticlesCategoryHelper
 
 								if (!$catid) {
 									// Get an instance of the generic article model
-									$article = JModel::getInstance('Article', 'ContentModel', array('ignore_request' => true));
+									$article = JModelLegacy::getInstance('Article', 'ContentModel', array('ignore_request' => true));
 
 									$article->setState('params', $appParams);
 									$article->setState('filter.published', 1);
@@ -107,7 +107,7 @@ abstract class modArticlesCategoryHelper
 		if ($catids) {
 			if ($params->get('show_child_category_articles', 0) && (int) $params->get('levels', 0) > 0) {
 				// Get an instance of the generic categories model
-				$categories = JModel::getInstance('Categories', 'ContentModel', array('ignore_request' => true));
+				$categories = JModelLegacy::getInstance('Categories', 'ContentModel', array('ignore_request' => true));
 				$categories->setState('params', $appParams);
 				$levels = $params->get('levels', 1) ? $params->get('levels', 1) : 9999;
 				$categories->setState('filter.get_children', $levels);
@@ -203,12 +203,14 @@ abstract class modArticlesCategoryHelper
 				// We know that user has the privilege to view the article
 				$item->link = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catslug));
 			}
-			 else {
+			else
+			{
 				// Angie Fixed Routing
 				$app	= JFactory::getApplication();
 				$menu	= $app->getMenu();
 				$menuitems	= $menu->getItems('link', 'index.php?option=com_users&view=login');
-			if(isset($menuitems[0])) {
+			if (isset($menuitems[0]))
+			{
 					$Itemid = $menuitems[0]->id;
 				} elseif (JRequest::getInt('Itemid') > 0) { //use Itemid from requesting page only if there is no existing menu
 					$Itemid = JRequest::getInt('Itemid');

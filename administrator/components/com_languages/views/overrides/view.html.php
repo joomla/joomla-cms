@@ -1,24 +1,22 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_languages
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_languages
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.view');
 
 /**
  * View for language overrides list
  *
- * @package			Joomla.Administrator
- * @subpackage	com_languages
- * @since				2.5
+ * @package     Joomla.Administrator
+ * @subpackage  com_languages
+ * @since       2.5
  */
-class LanguagesViewOverrides extends JView
+class LanguagesViewOverrides extends JViewLegacy
 {
 	/**
 	 * The items to list
@@ -55,8 +53,6 @@ class LanguagesViewOverrides extends JView
 	 */
 	function display($tpl = null)
 	{
-		jimport('joomla.language.helper');
-
 		// Get data from the model
 		$this->state			= $this->get('State');
 		$this->items			= $this->get('Overrides');

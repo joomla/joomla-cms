@@ -1,14 +1,20 @@
 <?php
 /**
- * @package		Joomla.Plugin
- * @subpackage	Content.geshi
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Plugin
+ * @subpackage  Content.geshi
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
 
+/**
+ * GeSHi Content Plugin
+ *
+ * @package     Joomla.Plugin
+ * @subpackage  Content.geshi
+ */
 class plgContentGeshi extends JPlugin
 {
 	/**

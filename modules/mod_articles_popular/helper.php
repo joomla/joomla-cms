@@ -1,26 +1,28 @@
 <?php
 /**
- * @package		Joomla.Site
- * @subpackage	mod_articles_popular
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  mod_articles_popular
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
 require_once JPATH_SITE.'/components/com_content/helpers/route.php';
 
-jimport('joomla.application.component.model');
+JModelLegacy::addIncludePath(JPATH_SITE.'/components/com_content/models', 'ContentModel');
 
-JModel::addIncludePath(JPATH_SITE.'/components/com_content/models', 'ContentModel');
-
+/**
+ * @package     Joomla.Site
+ * @subpackage  mod_articles_popular
+ */
 abstract class modArticlesPopularHelper
 {
 	public static function getList(&$params)
 	{
 		// Get an instance of the generic articles model
-		$model = JModel::getInstance('Articles', 'ContentModel', array('ignore_request' => true));
+		$model = JModelLegacy::getInstance('Articles', 'ContentModel', array('ignore_request' => true));
 
 		// Set application parameters in model
 		$app = JFactory::getApplication();
@@ -31,6 +33,7 @@ abstract class modArticlesPopularHelper
 		$model->setState('list.start', 0);
 		$model->setState('list.limit', (int) $params->get('count', 5));
 		$model->setState('filter.published', 1);
+		$model->setState('filter.featured', $params->get('show_front', 1) == 1 ? 'show' : 'hide');
 
 		// Access filter
 		$access = !JComponentHelper::getParams('com_content')->get('show_noauth');

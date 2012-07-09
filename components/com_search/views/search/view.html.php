@@ -1,25 +1,22 @@
 <?php
 /**
- * @package		Joomla.Site
- * @subpackage	com_search
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  com_search
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.view');
 
 /**
  * HTML View class for the search component
  *
- * @static
- * @package		Joomla.Site
- * @subpackage	com_search
- * @since 1.0
+ * @package     Joomla.Site
+ * @subpackage  com_search
+ * @since       1.0
  */
-class SearchViewSearch extends JView
+class SearchViewSearch extends JViewLegacy
 {
 	function display($tpl = null)
 	{
@@ -139,7 +136,7 @@ class SearchViewSearch extends JView
 				else {
 					$searchworda = preg_replace('#\xE3\x80\x80#s', ' ', $searchword);
 					$searchwords = preg_split("/\s+/u", $searchworda);
- 					$needle = $searchwords[0];
+					$needle = $searchwords[0];
 				}
 
 				$row = SearchHelper::prepareSearchContent($row, $needle);
@@ -185,15 +182,15 @@ class SearchViewSearch extends JView
 		$this->assignRef('lists',		$lists);
 		$this->assignRef('params',		$params);
 
-		$this->assign('ordering',		$state->get('ordering'));
-		$this->assign('searchword',		$searchword);
-		$this->assign('origkeyword',	$state->get('origkeyword'));
-		$this->assign('searchphrase',	$state->get('match'));
-		$this->assign('searchareas',	$areas);
+		$this->ordering = $state->get('ordering');
+		$this->searchword = $searchword;
+		$this->origkeyword = $state->get('origkeyword');
+		$this->searchphrase = $state->get('match');
+		$this->searchareas = $areas;
 
-		$this->assign('total',			$total);
-		$this->assign('error',			$error);
-		$this->assign('action',			$uri);
+		$this->total = $total;
+		$this->error = $error;
+		$this->action = $uri;
 
 		parent::display($tpl);
 	}

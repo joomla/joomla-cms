@@ -1,18 +1,20 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_modules
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
 
 /**
  * Modules component helper.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_modules
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_modules
+ * @since       1.6
  */
 abstract class ModulesHelper
 {
@@ -36,12 +38,10 @@ abstract class ModulesHelper
 		$user	= JFactory::getUser();
 		$result	= new JObject;
 
-		$actions = array(
-			'core.admin', 'core.manage', 'core.create', 'core.edit', 'core.edit.state', 'core.delete'
-		);
+		$actions = JAccess::getActions('com_modules');
 
 		foreach ($actions as $action) {
-			$result->set($action, $user->authorise($action, 'com_modules'));
+			$result->set($action->name, $user->authorise($action->name, 'com_modules'));
 		}
 
 		return $result;
@@ -154,7 +154,6 @@ abstract class ModulesHelper
 		$query->from('#__extensions as e');
 		$query->where('e.client_id = '.(int)$clientId);
 		$query->where('type = '.$db->quote('module'));
-		$query->where('enabled = 1');
 		$query->leftJoin('#__modules as m ON m.module=e.element AND m.client_id=e.client_id');
 		$query->where('m.module IS NOT NULL');
 		$query->group('element,name');

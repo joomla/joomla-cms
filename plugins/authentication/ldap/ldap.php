@@ -1,20 +1,21 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Plugin
+ * @subpackage  Authentication.ldap
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
 
 /**
  * LDAP Authentication Plugin
  *
- * @package		Joomla.Plugin
- * @subpackage	Authentication.ldap
- * @since 1.5
+ * @package     Joomla.Plugin
+ * @subpackage  Authentication.ldap
+ * @since       1.5
  */
-
 class plgAuthenticationLdap extends JPlugin
 {
 	/**

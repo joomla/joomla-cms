@@ -1,24 +1,25 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_media
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
 jimport('joomla.filesystem.folder');
 jimport('joomla.filesystem.file');
 
 /**
  * Media Component List Model
  *
- * @package		Joomla.Administrator
- * @subpackage	com_media
- * @since 1.5
+ * @package     Joomla.Administrator
+ * @subpackage  com_media
+ * @since       1.5
  */
-class MediaModelList extends JModel
+class MediaModelList extends JModelLegacy
 {
 	function getState($property = null, $default = null)
 	{
@@ -89,25 +90,30 @@ class MediaModelList extends JModel
 			$basePath = COM_MEDIA_BASE;
 		}
 
-		$mediaBase = str_replace(DS, '/', COM_MEDIA_BASE.'/');
+		$mediaBase = str_replace(DIRECTORY_SEPARATOR, '/', COM_MEDIA_BASE.'/');
 
 		$images		= array ();
 		$folders	= array ();
 		$docs		= array ();
 
-		// Get the list of files and folders from the given folder
-		$fileList	= JFolder::files($basePath);
-		$folderList = JFolder::folders($basePath);
+		$fileList = false;
+		$folderList = false;
+		if (file_exists($basePath))
+		{
+			// Get the list of files and folders from the given folder
+			$fileList	= JFolder::files($basePath);
+			$folderList = JFolder::folders($basePath);
+		}
 
 		// Iterate over the files if they exist
 		if ($fileList !== false) {
 			foreach ($fileList as $file)
 			{
 				if (is_file($basePath.'/'.$file) && substr($file, 0, 1) != '.' && strtolower($file) !== 'index.html') {
-					$tmp = new JObject();
+					$tmp = new JObject;
 					$tmp->name = $file;
 					$tmp->title = $file;
-					$tmp->path = str_replace(DS, '/', JPath::clean($basePath . '/' . $file));
+					$tmp->path = str_replace(DIRECTORY_SEPARATOR, '/', JPath::clean($basePath . '/' . $file));
 					$tmp->path_relative = str_replace($mediaBase, '', $tmp->path);
 					$tmp->size = filesize($tmp->path);
 
@@ -167,9 +173,9 @@ class MediaModelList extends JModel
 		if ($folderList !== false) {
 			foreach ($folderList as $folder)
 			{
-				$tmp = new JObject();
+				$tmp = new JObject;
 				$tmp->name = basename($folder);
-				$tmp->path = str_replace(DS, '/', JPath::clean($basePath . '/' . $folder));
+				$tmp->path = str_replace(DIRECTORY_SEPARATOR, '/', JPath::clean($basePath . '/' . $folder));
 				$tmp->path_relative = str_replace($mediaBase, '', $tmp->path);
 				$count = MediaHelper::countFiles($tmp->path);
 				$tmp->files = $count[0];

@@ -1,11 +1,11 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package    Joomla.Administrator
+ *
+ * @copyright  Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.helper');
@@ -15,9 +15,9 @@ jimport('joomla.application.component.helper');
  *
  * Provide many supporting API functions
  *
- * @package		Joomla.Administrator
  * @final
- * @since		1.5
+ * @package  Joomla.Administrator
+ * @since    1.5
  */
 class JAdministrator extends JApplication
 {
@@ -148,6 +148,7 @@ class JAdministrator extends JApplication
 
 			$document->setTitle($this->getCfg('sitename'). ' - ' .JText::_('JADMINISTRATION'));
 			$document->setDescription($this->getCfg('MetaDesc'));
+			$document->setGenerator('Joomla! - Open Source Content Management');
 
 			$contents = JComponentHelper::renderComponent($component);
 			$document->setBuffer($contents, 'component');
@@ -238,7 +239,7 @@ class JAdministrator extends JApplication
 			$lang = preg_replace('/[^A-Z-]/i', '', $lang);
 			$this->setUserState('application.lang', $lang );
 
-			JAdministrator::purgeMessages();
+			self::purgeMessages();
 		}
 
 		return $result;
@@ -277,7 +278,7 @@ class JAdministrator extends JApplication
 
 			if (!file_exists(JPATH_THEMES . '/' . $template->template . '/index.php'))
 			{
-				$template->params = new JRegistry();
+				$template->params = new JRegistry;
 				$template->template = 'bluestork';
 			}
 		}
@@ -304,8 +305,8 @@ class JAdministrator extends JApplication
 		$query = 'SELECT *'
 		. ' FROM #__messages_cfg'
 		. ' WHERE user_id = ' . (int) $userid
-		. ' AND cfg_name = ' . $db->quote('auto_purge')
-		;
+		. ' AND cfg_name = ' . $db->quote('auto_purge');
+
 		$db->setQuery($query);
 		$config = $db->loadObject();
 
@@ -326,10 +327,10 @@ class JAdministrator extends JApplication
 
 			$query = 'DELETE FROM #__messages'
 			. ' WHERE date_time < ' . $db->Quote($pastStamp)
-			. ' AND user_id_to = ' . (int) $userid
-			;
+			. ' AND user_id_to = ' . (int) $userid;
+
 			$db->setQuery($query);
-			$db->query();
+			$db->execute();
 		}
 	}
 }

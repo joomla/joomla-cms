@@ -1,25 +1,67 @@
 <?php
 /**
- * @package		Joomla.Installation
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package    Joomla.Installation
+ *
+ * @copyright  Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
 jimport('joomla.filesystem.file');
 
 /**
  * Database configuration model for the Joomla Core Installer.
  *
- * @package		Joomla.Installation
- * @since		1.6
+ * @package  Joomla.Installation
+ * @since    3.0
  */
-class JInstallationModelDatabase extends JModel
+class InstallationModelDatabase extends JModelLegacy
 {
+	static protected $userId = 0;
 
-	function initialise($options)
+	/**
+	 * @since	3.0
+	 */
+	static protected function generateRandUserId()
+	{
+		$session = JFactory::getSession();
+		$randUserId = $session->get('randUserId');
+		if (empty($randUserId))
+		{
+			// Create the ID for the root user only once and store in session
+			$randUserId = mt_rand(1, 1000);
+			$session->set('randUserId', $randUserId);
+		}
+		return $randUserId;
+	}
+
+	/**
+	 * @since	3.0
+	 */
+	static public function resetRandUserId()
+	{
+		self::$userId = 0;
+		$session = JFactory::getSession();
+		$session->set('randUserId', self::$userId);
+	}
+
+	/**
+	 * @since	3.0
+	 */
+	static public function getUserId()
+	{
+		if (!self::$userId)
+		{
+			self::$userId = self::generateRandUserId();
+		}
+		return self::$userId;
+	}
+
+	/**
+	 * @since	3.0
+	 */
+	public function initialise($options)
 	{
 		// Get the options as a JObject for easier handling.
 		$options = JArrayHelper::toObject($options, 'JObject');
@@ -70,6 +112,9 @@ class JInstallationModelDatabase extends JModel
 		return true;
 	}
 
+	/**
+	 * @since	3.0
+	 */
 	function installSampleData($options)
 	{
 		// @todo remove deprecated

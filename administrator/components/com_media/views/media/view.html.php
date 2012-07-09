@@ -1,22 +1,22 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_media
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.view');
 
 /**
  * HTML View class for the Media component
  *
- * @package		Joomla.Administrator
- * @subpackage	com_media
- * @since 1.0
+ * @package     Joomla.Administrator
+ * @subpackage  com_media
+ * @since       1.0
  */
-class MediaViewMedia extends JView
+class MediaViewMedia extends JViewLegacy
 {
 	function display($tpl = null)
 	{
@@ -79,9 +79,9 @@ class MediaViewMedia extends JView
 			);
 		}
 
-		if (DS == '\\')
+		if (DIRECTORY_SEPARATOR == '\\')
 		{
-			$base = str_replace(DS, "\\\\", COM_MEDIA_BASE);
+			$base = str_replace(DIRECTORY_SEPARATOR, "\\\\", COM_MEDIA_BASE);
 		} else {
 			$base = COM_MEDIA_BASE;
 		}
@@ -89,7 +89,7 @@ class MediaViewMedia extends JView
 		$js = "
 			var basepath = '".$base."';
 			var viewstyle = '".$style."';
-		" ;
+		";
 		$document->addScriptDeclaration($js);
 
 		/*
@@ -103,9 +103,9 @@ class MediaViewMedia extends JView
 		$this->assignRef('session', $session);
 		$this->assignRef('config', $config);
 		$this->assignRef('state', $state);
-		$this->assign('require_ftp', $ftp);
-		$this->assign('folders_id', ' id="media-tree"');
-		$this->assign('folders', $this->get('folderTree'));
+		$this->require_ftp = $ftp;
+		$this->folders_id = ' id="media-tree"';
+		$this->folders = $this->get('folderTree');
 
 		// Set the toolbar
 		$this->addToolbar();

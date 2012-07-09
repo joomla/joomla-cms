@@ -39,7 +39,7 @@
 			size="50"
 			default="images"
 			label="COM_MEDIA_FIELD_PATH_IMAGE_FOLDER_LABEL"
-			description="COM_MEDIA_FIELD_PATH_IAMGE_FOLDER_DESC" />
+			description="COM_MEDIA_FIELD_PATH_IMAGE_FOLDER_DESC" />
 
 		<field name="spacer3" type="spacer"
 			hr="true"
@@ -126,23 +126,6 @@
 			filter="rules"
 			validate="rules"
 			component="com_media"
-			section="component">
-			<action
-				name="core.admin"
-				title="JACTION_ADMIN"
-				description="JACTION_ADMIN_COMPONENT_DESC" />
-			<action
-				name="core.manage"
-				title="JACTION_MANAGE"
-				description="JACTION_MANAGE_COMPONENT_DESC" />
-			<action
-				name="core.create"
-				title="JACTION_CREATE"
-				description="JACTION_CREATE_COMPONENT_DESC" />
-			<action
-				name="core.delete"
-				title="JACTION_DELETE"
-				description="JACTION_DELETE_COMPONENT_DESC" />
-		</field>
+			section="component" />
 	</fieldset>
 </config>

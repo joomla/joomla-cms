@@ -22,7 +22,7 @@ jimport('joomla.environment.browser');
 class plgCaptchaRecaptcha extends JPlugin
 {
 	const RECAPTCHA_API_SERVER = "http://api.recaptcha.net";
-	const RECAPTCHA_API_SECURE_SERVER = "https://api-secure.recaptcha.net";
+	const RECAPTCHA_API_SECURE_SERVER = "https://www.google.com/recaptcha/api";
 	const RECAPTCHA_VERIFY_SERVER = "api-verify.recaptcha.net";
 
 	public function __construct($subject, $config)
@@ -92,7 +92,7 @@ class plgCaptchaRecaptcha extends JPlugin
 		$privatekey	= $this->params->get('private_key');
 		$remoteip	= JRequest::getVar('REMOTE_ADDR', '', 'SERVER');
 		$challenge	= JRequest::getString('recaptcha_challenge_field', '');
-		$response	= JRequest::getString('recaptcha_response_field', '');;
+		$response	= JRequest::getString('recaptcha_response_field', '');
 
 		// Check for Private Key
 		if (empty($privatekey))
@@ -122,7 +122,7 @@ class plgCaptchaRecaptcha extends JPlugin
 													'challenge'		=> $challenge,
 													'response'		=> $response
 												)
-										  );
+											);
 
 		$answers = explode("\n", $response[1]);
 
@@ -223,7 +223,7 @@ class plgCaptchaRecaptcha extends JPlugin
 		{
 			return "lang : '" . $tag . "',";
 		}
-		
+
 		// If the default language is not available, let's search for a custom translation
 		if ($language->hasKey('PLG_RECAPTCHA_CUSTOM_LANG'))
 		{
@@ -238,7 +238,7 @@ class plgCaptchaRecaptcha extends JPlugin
 			$custom[] ="\t".'help_btn : "' . JText::_('PLG_RECAPTCHA_HELP_BTN') . '",';
 			$custom[] ="\t".'incorrect_try_again : "' . JText::_('PLG_RECAPTCHA_INCORRECT_TRY_AGAIN') . '",';
 			$custom[] ='},';
-			$custom[] ="lang : '" . $lang . "',";
+			$custom[] ="lang : '" . $tag . "',";
 
 			return implode("\n", $custom);
 		}

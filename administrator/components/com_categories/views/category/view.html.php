@@ -1,22 +1,21 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_categories
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.view');
 
 /**
  * HTML View class for the Categories component
  *
- * @static
- * @package		Joomla.Administrator
- * @subpackage	com_categories
+ * @package     Joomla.Administrator
+ * @subpackage  com_categories
  */
-class CategoriesViewCategory extends JView
+class CategoriesViewCategory extends JViewLegacy
 {
 	protected $form;
 	protected $item;
@@ -63,7 +62,7 @@ class CategoriesViewCategory extends JView
 			return;
 		}
 
- 		// The extension can be in the form com_foo.section
+		// The extension can be in the form com_foo.section
 		$parts = explode('.', $extension);
 		$component = $parts[0];
 		$section = (count($parts) > 1) ? $parts[1] : null;

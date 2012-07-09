@@ -18,13 +18,13 @@ table.adminlist {
 	border-spacing: 1px;
 	background-color: #f3f3f3;
 	color: #666;
-	font-size: 11px
+	font-size: 11px;
 }
 
 table.adminlist td,
 table.adminlist th {
 	padding: 4px !important;
-	font-size: 11px
+	font-size: 11px;
 }
 
 table.adminlist thead th {
@@ -62,7 +62,7 @@ table.adminlist tbody tr {
 }
 
 table.adminlist tbody tr.row0:hover td,
-table.adminlist tbody tr.row1:hover td	{
+table.adminlist tbody tr.row1:hover td {
 	background-color: #e8f6fe;
 }
 
@@ -136,7 +136,7 @@ fieldset li,
 ol#property-values li {
 	list-style: none;
 	margin: 0;
-	padding: 5px
+	padding: 5px;
 }
 
 fieldset.filter {
@@ -149,7 +149,7 @@ fieldset.filter ol {
 	border: 0;
 	list-style: none;
 	margin: 0;
-	padding: 5px 0 0
+	padding: 5px 0 0;
 }
 
 fieldset.filter ol li {
@@ -167,7 +167,7 @@ fieldset.filter .left {
 	float: left;
 	width: auto;
 	margin: 0;
-	text-align: left
+	text-align: left;
 }
 
 fieldset.filter .left label {
@@ -221,7 +221,7 @@ fieldset button {
 	float: left;
 	width: auto;
 	margin: 5px 5px 5px 0;
-	font-size:11px !important
+	font-size: 11px !important;
 }
 
 .list-footer div.limit {
@@ -237,9 +237,9 @@ fieldset button {
 /* ++++++++++++++  pagination  ++++++++++++++ */
 
 .list-footer {
-	margin: 10px 0 ;
+	margin: 10px 0;
 	padding: 10px 0 10px 0;
-	text-align: center
+	text-align: center;
 }
 
 table .list-footer ul {
@@ -248,7 +248,7 @@ table .list-footer ul {
 	padding: 0;
 	text-align: left;
 	border: solid 0 #ccc;
-	float: left
+	float: left;
 }
 
 .list-footer li {
@@ -257,14 +257,14 @@ table .list-footer ul {
 	text-align: left;
 	border: solid 0 #eee;
 	margin: 0 2px;
-	font-size: 11px
+	font-size: 11px;
 }
 
 .list-footer li.pagination-start,
 .list-footer li.pagination-next,
 .list-footer li.pagination-end,
 .list-footer li.pagination-prev {
-	 border: 0;
+	border: 0;
 }
 
 .list-footer li.pagination-start ,
@@ -273,5 +273,5 @@ table .list-footer ul {
 }
 
 p.counter {
-	font-weight:bold;
+	font-weight: bold;
 }

@@ -1,17 +1,19 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  mod_menu
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
 
 jimport('joomla.base.tree');
 
 /**
- * @package		Joomla.Administrator
- * @subpackage	mod_menu
+ * @package     Joomla.Administrator
+ * @subpackage  mod_menu
  */
 class JAdminCssMenu extends JTree
 {
@@ -182,8 +184,8 @@ class JAdminCssMenu extends JTree
 }
 
 /**
- * @package		Joomla.Administrator
- * @subpackage	mod_menu
+ * @package     Joomla.Administrator
+ * @subpackage  mod_menu
  */
 class JMenuNode extends JNode
 {
@@ -230,11 +232,12 @@ class JMenuNode extends JNode
 			$params = $uri->getQuery(true);
 			$parts = array();
 
-			foreach ($params as $name => $value) {
+			foreach ($params as $name => $value)
+			{
 				$parts[] = str_replace(array('.', '_'), '-', $value);
- 			}
+			}
 
- 			$this->id = implode('-', $parts);
+			$this->id = implode('-', $parts);
 		}
 
 		$this->target	= $target;

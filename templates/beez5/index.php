@@ -1,12 +1,12 @@
 <?php
 /**
- * @package		Joomla.Site
- * @subpackage	Templates.beez5
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  Template.beez5
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
 
 // check modules
@@ -53,7 +53,7 @@ $doc->addScript($this->baseurl.'/templates/'.$this->template.'/javascript/md_sty
 ?>
 		<link rel="stylesheet" href="<?php echo $file;?>" type="text/css" />
 <?php
-	 	endforeach;
+		endforeach;
 	endif;
 ?>
 		<?php if ($this->direction == 'rtl') : ?>
@@ -80,14 +80,14 @@ $doc->addScript($this->baseurl.'/templates/'.$this->template.'/javascript/md_sty
 			var bildauf='<?php echo $this->baseurl ?>/templates/<?php echo $this->template; ?>/images/plus.png';
 			var bildzu='<?php echo $this->baseurl ?>/templates/<?php echo $this->template; ?>/images/minus.png';
 			var rightopen='<?php echo JText::_('TPL_BEEZ5_TEXTRIGHTOPEN', true); ?>';
-			var rightclose='<?php echo JText::_('TPL_BEEZ5_TEXTRIGHTCLOSE'); ?>';
-			var fontSizeTitle='<?php echo JText::_('TPL_BEEZ5_FONTSIZE'); ?>';
-            var bigger='<?php echo JText::_('TPL_BEEZ5_BIGGER'); ?>';
-            var reset='<?php echo JText::_('TPL_BEEZ5_RESET'); ?>';
-            var smaller='<?php echo JText::_('TPL_BEEZ5_SMALLER'); ?>';
-            var biggerTitle='<?php echo JText::_('TPL_BEEZ5_INCREASE_SIZE'); ?>';
-            var resetTitle='<?php echo JText::_('TPL_BEEZ5_REVERT_STYLES_TO_DEFAULT'); ?>';
-            var smallerTitle='<?php echo JText::_('TPL_BEEZ5_DECREASE_SIZE'); ?>';
+			var rightclose='<?php echo JText::_('TPL_BEEZ5_TEXTRIGHTCLOSE', true); ?>';
+			var fontSizeTitle='<?php echo JText::_('TPL_BEEZ5_FONTSIZE', true); ?>';
+            var bigger='<?php echo JText::_('TPL_BEEZ5_BIGGER', true); ?>';
+            var reset='<?php echo JText::_('TPL_BEEZ5_RESET', true); ?>';
+            var smaller='<?php echo JText::_('TPL_BEEZ5_SMALLER', true); ?>';
+            var biggerTitle='<?php echo JText::_('TPL_BEEZ5_INCREASE_SIZE', true); ?>';
+            var resetTitle='<?php echo JText::_('TPL_BEEZ5_REVERT_STYLES_TO_DEFAULT', true); ?>';
+            var smallerTitle='<?php echo JText::_('TPL_BEEZ5_DECREASE_SIZE', true); ?>';
 		</script>
 
 	</head>
@@ -150,9 +150,9 @@ $doc->addScript($this->baseurl.'/templates/'.$this->template.'/javascript/md_sty
 					<?php if ($navposition=='left' and $showleft) : ?>
 
 						<?php if(!$this->params->get('html5', 0)): ?>
-							<div class="left1 <?php if ($showRightColumn==NULL){ echo 'leftbigger';} ?>" id="nav">
+							<div class="left1 <?php if ($showRightColumn == null){ echo 'leftbigger';} ?>" id="nav">
 						<?php else: ?>
-							<nav class="left1 <?php if ($showRightColumn==NULL){ echo 'leftbigger';} ?>" id="nav">
+							<nav class="left1 <?php if ($showRightColumn == null){ echo 'leftbigger';} ?>" id="nav">
 						<?php endif; ?>
 
 								<jdoc:include type="modules" name="position-7" style="beezDivision" headerLevel="3" />
@@ -214,9 +214,9 @@ $doc->addScript($this->baseurl.'/templates/'.$this->template.'/javascript/md_sty
 			<?php if ($navposition=='center' and $showleft) : ?>
 
 				<?php if (!$this->params->get('html5', 0)): ?>
-					<div class="left <?php if ($showRightColumn==NULL){ echo 'leftbigger';} ?>" id="nav" >
+					<div class="left <?php if ($showRightColumn == null){ echo 'leftbigger';} ?>" id="nav" >
 				<?php else: ?>
-					<nav class="left <?php if ($showRightColumn==NULL){ echo 'leftbigger';} ?>" id="nav">
+					<nav class="left <?php if ($showRightColumn == null){ echo 'leftbigger';} ?>" id="nav">
 				<?php endif; ?>
 
 						<jdoc:include type="modules" name="position-7"  style="beezDivision" headerLevel="3" />
@@ -252,10 +252,10 @@ $doc->addScript($this->baseurl.'/templates/'.$this->template.'/javascript/md_sty
 					<?php endif; ?>
 					<?php if ($this->countModules('position-11')): ?>
 					<div class="box box3"> <jdoc:include type="modules" name="position-11" style="beezDivision" headerlevel="3" /></div>
-					<?php endif ; ?>
+					<?php endif; ?>
 				</div>
 			</div>
-		<?php endif ; ?>
+		<?php endif; ?>
 
 			<div id="footer-sub">
 

@@ -111,7 +111,7 @@ fieldset button {
     margin: 5px 0 5px 5px;
 }
 
- label.hidelabeltxt {
+label.hidelabeltxt {
 	text-indent: -9999em;
 }
 #imageForm fieldset label,
@@ -119,4 +119,7 @@ fieldset button {
     float: right;
     clear: none;
     clear: right;
+}
+.swiff-uploader-box {
+        right:auto!important;
 }

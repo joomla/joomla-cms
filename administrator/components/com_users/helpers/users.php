@@ -7,7 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
 
 /**
@@ -87,13 +86,11 @@ class UsersHelper
 			$user = JFactory::getUser();
 			self::$actions = new JObject;
 
-			$actions = array(
-				'core.admin', 'core.manage', 'core.create', 'core.edit', 'core.edit.state', 'core.delete'
-			);
+			$actions = JAccess::getActions('com_users');
 
 			foreach ($actions as $action)
 			{
-				self::$actions->set($action, $user->authorise($action, 'com_users'));
+				self::$actions->set($action->name, $user->authorise($action->name, 'com_users'));
 			}
 		}
 

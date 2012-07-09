@@ -1,21 +1,20 @@
 <?php
 /**
- * @package		Joomla.Installation
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package    Joomla.Installation
+ *
+ * @copyright  Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
-
 /**
  * The HTML Joomla Core Database Configuration View
  *
- * @package		Joomla.Installation
- * @since          1.6
+ * @package  Joomla.Installation
+ * @since    3.0
  */
-class JInstallationViewDatabase extends JView
+class InstallationViewDatabase extends JViewLegacy
 {
 	/**
 	 * @var JForm $form
@@ -30,6 +29,11 @@ class JInstallationViewDatabase extends JView
 	/**
 	 * Display the view
 	 *
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.0
 	 */
 	public function display($tpl = null)
 	{

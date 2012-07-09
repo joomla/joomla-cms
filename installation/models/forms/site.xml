@@ -6,7 +6,7 @@
 			required="true"
 		/>
 
-		<field name="admin_email" type="text" id="admin_email" class="inputbox"
+		<field name="admin_email" type="email" id="admin_email" class="inputbox"
 			label="INSTL_ADMIN_EMAIL_LABEL"
 			validate="email"
 			required="true"
@@ -30,7 +30,7 @@
 			field="admin_password"
 		/>
 
-		<field name="sample_file" type="sample" class="inputbox"
+		<field name="sample_file" type="sample" class="inputbox" id="db_old"
 			label="INSTL_SITE_SAMPLE_LABEL"
 		/>
 
@@ -53,7 +53,7 @@
 				label="INSTL_SITE_METAKEYS_LABEL"
 				rows="3"
 			/>
-			
+
 			<field name="site_offline" type="radio" id="site_offline" default="0"
 			label="INSTL_SITE_OFFLINE_LABEL"
 			filter="integer"
