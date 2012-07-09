@@ -548,7 +548,8 @@ language TEXT
 -- Table structure for table #__modules_menu
 
 CREATE TABLE IF NOT EXISTS #__modules_menu (
-moduleid INTEGER PRIMARY KEY DEFAULT '0',
+id INTEGER PRIMARY KEY DEFAULT '0',
+moduleid INTEGER DEFAULT '0',
 menuid INTEGER DEFAULT '0'
 );
 -- Table structure for table #__newsfeeds
