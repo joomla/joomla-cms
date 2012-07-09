@@ -48,7 +48,7 @@ class SeleniumConfig
 	public $sample_data = true;
 
 	// set the site name
-	public $site_name = 'Joomla! System Tests - Sqlite';
+	public $site_name = 'Joomla! - Sqlite Test';
 
 	// set the admin login, admin password, and admin email address
 	public $username = 'admin';

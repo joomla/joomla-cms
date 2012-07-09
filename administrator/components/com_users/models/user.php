@@ -186,6 +186,9 @@ class UsersModelUser extends JModelAdmin
 			return false;
 		}
 
+		// Make sure the id is not "0" but "null" for a new record.
+		$user->id = (0 === $user->id) ? null : $user->id;
+
 		// Store the data.
 		if (!$user->save())
 		{

@@ -230,7 +230,7 @@ class JUser extends JObject
 		else
 		{
 			//initialise
-			$this->id = 0;
+			$this->id = null;
 			$this->sendEmail = 0;
 			$this->aid = 0;
 			$this->guest = 1;
