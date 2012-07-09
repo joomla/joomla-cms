@@ -60,13 +60,18 @@ class ModulesViewModules extends JViewLegacy
 	{
 		$state	= $this->get('State');
 		$canDo	= ModulesHelper::getActions();
+		
+		// Get the toolbar object instance
+		$bar = JToolBar::getInstance('toolbar');
 
 		JToolBarHelper::title(JText::_('COM_MODULES_MANAGER_MODULES'), 'module.png');
 
 		if ($canDo->get('core.create')) {
-			//JToolBarHelper::addNew('module.add');
-			$bar = JToolBar::getInstance('toolbar');
-			$bar->appendButton('Popup', 'new', 'JTOOLBAR_NEW', 'index.php?option=com_modules&amp;view=select&amp;tmpl=component', 850, 400);
+			$title = JText::_('JTOOLBAR_NEW');
+			$dhtml = "<button onClick=\"location.href='index.php?option=com_modules&amp;view=select'\" class=\"btn btn-primary\">
+						<i class=\"icon-plus icon-white\" title=\"$title\"></i> 
+						$title</button>";
+			$bar->appendButton('Custom', $dhtml, 'new');
 		}
 
 		if ($canDo->get('core.edit')) {
