@@ -82,6 +82,7 @@
             <arg value="--include-path"/>
             <arg value="${basedir}/tests/system-sqlite"/>
             <arg value="--debug"/>
+            <arg value="--verbose"/>
         </exec>
         <antcall target="stop-server"></antcall>
 
