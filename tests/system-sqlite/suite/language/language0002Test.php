@@ -14,7 +14,7 @@ class Language0002Test extends SeleniumJoomlaTestCase
 	{
 		$this->setUp();
 		$cfg = $this->cfg;
-		$configFile = $cfg->folder.$cfg->path."configuration.php";
+		$configFile = $cfg->folder.$cfg->path.'configuration.php';
 
 		if (file_exists($configFile)) {
 			echo "Delete configuration file\n";
@@ -42,13 +42,18 @@ class Language0002Test extends SeleniumJoomlaTestCase
 		$this->waitforElement("//select[@id='jform_db_type']");
 
 		echo "Enter database information\n";
-		$dbtype = (isset($cfg->db_type)) ? $cfg->db_type : 'MySQLi';
+		$dbtype = (isset($cfg->db_type)) ? $cfg->db_type : 'Mysqli';
 		$this->select("jform_db_type", "label=".$dbtype);
-		$this->type("jform_db_host", $cfg->db_host);
-		$this->type("jform_db_user", $cfg->db_user);
-		$this->type("jform_db_pass", $cfg->db_pass);
+
+		if(false == in_array($cfg->db_type, array('Sqlite')))
+		{
+			$this->type("jform_db_host", $cfg->db_host);
+			$this->type("jform_db_user", $cfg->db_user);
+			$this->type("jform_db_pass", $cfg->db_pass);
+			$this->type("jform_db_name", $cfg->db_name);
+		}
+
 		$this->type("jform_db_prefix", $cfg->db_prefix);
-		$this->type("jform_db_name", $cfg->db_name);
 		$this->click("jform_db_old0");
 		$this->click("//a[@rel=\"next\"]");
 		$this->waitforElement("//select[@id='jform_ftp_enable']");
