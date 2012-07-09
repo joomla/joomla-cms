@@ -5,7 +5,13 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-require_once 'PHPUnit/Extensions/SeleniumTestCase.php';
+#require_once 'PHPUnit/Extensions/SeleniumTestCase.php';
+
+$configPath = __DIR__.'/servers/config-def.php';
+
+file_exists($configPath) || die('Please create the config-def.php file in '.$configPath);
+
+require_once $configPath;
 
 class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 {
@@ -13,14 +19,20 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 
 	public function setUp()
 	{
-		$cfg = new SeleniumConfig();
+		$cfg = new SeleniumConfig;
 		$this->cfg = $cfg; // save current configuration
 		$this->setBrowser($cfg->browser);
 		$this->setBrowserUrl($cfg->host . $cfg->path);
+
 		if (isset($cfg->selhost))
 		{
 			$this->setHost($cfg->selhost);
 		}
+
+		$this->captureScreenshotOnFailure = $cfg->captureScreenshotOnFailure;
+		$this->screenshotPath = $cfg->screenshotPath;
+		$this->screenshotUrl = $cfg->screenshotUrl;
+
 		echo ".\n" . 'Starting ' . get_class($this) . ".\n";
 	}
 
@@ -105,7 +117,7 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 	{
 		echo "Browsing to back end.\n";
 		$cfg = new SeleniumConfig();
-		$this->open($cfg->path . "administrator");
+		$this->open($cfg->path . '/administrator');
 		$this->waitForPageToLoad("30000");
 	}
 
@@ -692,46 +704,19 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 		}
 	}
 
-	function setEditor($editor)
-	{
-		echo "Changing editor to $editor\n";
-		$this->jClick('Global Configuration');
-		$this->click("id=site");
-		switch (strtoupper($editor))
+	function setTinyText($text)
 		{
-			case 'NO EDITOR':
-			case 'NONE':
-				$select = 'label=Editor - None';
-				break;
-
-			case 'CODEMIRROR':
-				$select = 'label=Editor - CodeMirror';
-
-			case 'TINYMCE':
-			case 'TINY':
-			default:
-				$select = 'label=Editor - TinyMCE';
-				break;
+			$this->selectFrame("jform_articletext_ifr");
+			$this->type("tinymce", $text);
+			$this->selectFrame("relative=top");
 		}
 
-		$this->select("id=jform_editor", $select);
-		$this->click("css=span.icon-32-save");
-		$this->waitForPageToLoad("30000");
-	}
-
-	function setTinyText($text)
-	{
-		$this->selectFrame("jform_articletext_ifr");
-		$this->type("tinymce", $text);
-		$this->selectFrame("relative=top");
-	}
-
 	function toggleFeatured($articleTitle)
-	{
-		echo "Toggling Featured on/off for article " . $articleTitle . "\n";
-		$this->click("//table[@class='adminlist']/tbody//tr//td/a[contains(text(), '" . $articleTitle . "')]/../../td[4]/a/img");
-		$this->waitForPageToLoad("30000");
-	}
+		{
+			echo "Toggling Featured on/off for article " . $articleTitle . "\n";
+			$this->click("//table[@class='adminlist']/tbody//tr//td/a[contains(text(), '" . $articleTitle . "')]/../../td[4]/a/img");
+			$this->waitForPageToLoad("30000");
+		}
 
 	function togglePublished($articleTitle)
 	{

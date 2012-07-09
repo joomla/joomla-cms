@@ -1,10 +1,20 @@
 <phpunit
-	colors="false"
+	colors="true"
 	convertErrorsToExceptions="true"
 	convertNoticesToExceptions="true"
 	convertWarningsToExceptions="true"
 	stopOnFailure="false">
-	<testsuite name="AllTests">
-		<directory>suite</directory>
+	
+	<testsuite name="TestTest">
+	  <file>tests/system/suite/TestSuite.php</file>
 	</testsuite>
+      
+
+    <logging>
+        <log type="coverage-html" target="build/system-coverage" title="Joomla-Platform" charset="UTF-8" yui="true" highlight="true"
+             lowUpperBound="35" highLowerBound="70" />
+        <log type="coverage-clover" target="build/logs/clover-system.xml" />
+        <log type="junit" target="build/logs/junit-system.xml" logIncompleteSkipped="false" />
+    </logging>
+
 </phpunit>
