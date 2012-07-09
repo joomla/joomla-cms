@@ -1894,7 +1894,7 @@ class JInstaller extends JAdapter
 	 */
 	public function isManifest($file)
 	{
-		$xml = simplexml_load_file($data);
+		$xml = simplexml_load_file($file);
 
 		// If we cannot load the XML file return null
 		if (!$xml)

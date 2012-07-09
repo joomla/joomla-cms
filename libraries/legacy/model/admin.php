@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package     Joomla.Legacy
  * @subpackage  Model
- * @since       11.1
+ * @since       12.2
  */
 abstract class JModelAdmin extends JModelForm
 {
@@ -22,7 +22,7 @@ abstract class JModelAdmin extends JModelForm
 	 * The prefix to use with controller messages.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  12.2
 	 */
 	protected $text_prefix = null;
 
@@ -30,7 +30,7 @@ abstract class JModelAdmin extends JModelForm
 	 * The event to trigger after deleting the data.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  12.2
 	 */
 	protected $event_after_delete = null;
 
@@ -38,7 +38,7 @@ abstract class JModelAdmin extends JModelForm
 	 * The event to trigger after saving the data.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  12.2
 	 */
 	protected $event_after_save = null;
 
@@ -46,7 +46,7 @@ abstract class JModelAdmin extends JModelForm
 	 * The event to trigger before deleting the data.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  12.2
 	 */
 	protected $event_before_delete = null;
 
@@ -54,7 +54,7 @@ abstract class JModelAdmin extends JModelForm
 	 * The event to trigger before saving the data.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  12.2
 	 */
 	protected $event_before_save = null;
 
@@ -62,7 +62,7 @@ abstract class JModelAdmin extends JModelForm
 	 * The event to trigger after changing the published state of the data.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  12.2
 	 */
 	protected $event_change_state = null;
 
@@ -72,7 +72,7 @@ abstract class JModelAdmin extends JModelForm
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
 	 * @see     JModelLegacy
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	public function __construct($config = array())
 	{
@@ -143,7 +143,7 @@ abstract class JModelAdmin extends JModelForm
 	 *
 	 * @return  boolean  Returns true on success, false on failure.
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	public function batch($commands, $pks, $contexts)
 	{
@@ -229,7 +229,7 @@ abstract class JModelAdmin extends JModelForm
 	 *
 	 * @return  boolean  True if successful, false otherwise and internal error is set.
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	protected function batchAccess($value, $pks, $contexts)
 	{
@@ -273,7 +273,7 @@ abstract class JModelAdmin extends JModelForm
 	 *
 	 * @return  mixed  An array of new IDs on success, boolean false on failure.
 	 *
-	 * @since	11.1
+	 * @since	12.2
 	 */
 	protected function batchCopy($value, $pks, $contexts)
 	{
@@ -437,7 +437,7 @@ abstract class JModelAdmin extends JModelForm
 	 *
 	 * @return  boolean  True if successful, false otherwise and internal error is set.
 	 *
-	 * @since	11.1
+	 * @since	12.2
 	 */
 	protected function batchMove($value, $pks, $contexts)
 	{
@@ -537,7 +537,7 @@ abstract class JModelAdmin extends JModelForm
 	 *
 	 * @return  boolean  True if allowed to delete the record. Defaults to the permission for the component.
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	protected function canDelete($record)
 	{
@@ -552,7 +552,7 @@ abstract class JModelAdmin extends JModelForm
 	 *
 	 * @return  boolean  True if allowed to change the state of the record. Defaults to the permission for the component.
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	protected function canEditState($record)
 	{
@@ -567,7 +567,7 @@ abstract class JModelAdmin extends JModelForm
 	 *
 	 * @return  mixed  Boolean false if there is an error, otherwise the count of records checked in.
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	public function checkin($pks = array())
 	{
@@ -614,7 +614,7 @@ abstract class JModelAdmin extends JModelForm
 	 *
 	 * @return  boolean  True if successful, false if an error occurs.
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	public function checkout($pk = null)
 	{
@@ -631,7 +631,7 @@ abstract class JModelAdmin extends JModelForm
 	 *
 	 * @return  boolean  True if successful, false if an error occurs.
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	public function delete(&$pks)
 	{
@@ -714,7 +714,7 @@ abstract class JModelAdmin extends JModelForm
 	 *
 	 * @return	array  Contains the modified title and alias.
 	 *
-	 * @since	11.1
+	 * @since	12.2
 	 */
 	protected function generateNewTitle($category_id, $alias, $title)
 	{
@@ -736,7 +736,7 @@ abstract class JModelAdmin extends JModelForm
 	 *
 	 * @return  mixed    Object on success, false on failure.
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	public function getItem($pk = null)
 	{
@@ -778,7 +778,7 @@ abstract class JModelAdmin extends JModelForm
 	 *
 	 * @return  array  An array of conditions to add to ordering queries.
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	protected function getReorderConditions($table)
 	{
@@ -790,7 +790,7 @@ abstract class JModelAdmin extends JModelForm
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	protected function populateState()
 	{
@@ -814,7 +814,7 @@ abstract class JModelAdmin extends JModelForm
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	protected function prepareTable($table)
 	{
@@ -829,7 +829,7 @@ abstract class JModelAdmin extends JModelForm
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	public function publish(&$pks, $value = 1)
 	{
@@ -894,7 +894,7 @@ abstract class JModelAdmin extends JModelForm
 	 *
 	 * @return  mixed  False on failure or error, true on success, null if the $pk is empty (no items selected).
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	public function reorder($pks, $delta = 0)
 	{
@@ -963,7 +963,7 @@ abstract class JModelAdmin extends JModelForm
 	 *
 	 * @return  boolean  True on success, False on error.
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	public function save($data)
 	{
@@ -1051,7 +1051,7 @@ abstract class JModelAdmin extends JModelForm
 	 *
 	 * @return  mixed
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	public function saveorder($pks = null, $order = null)
 	{

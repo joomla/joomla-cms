@@ -32,7 +32,6 @@ class JUtilityTest extends TestCase
 	 */
 	protected function setUp()
 	{
-		$this->saveFactoryState();
 	}
 
 	/**
@@ -43,7 +42,6 @@ class JUtilityTest extends TestCase
 	 */
 	protected function tearDown()
 	{
-		$this->restoreFactoryState();
 	}
 
 	/**
@@ -80,13 +78,5 @@ class JUtilityTest extends TestCase
 			JUtility::parseAttributes($tag),
 			$this->equalTo($expected)
 		);
-	}
-}
-
-class Mock_Session
-{
-	function getFormToken($data)
-	{
-		return (bool) $data;
 	}
 }

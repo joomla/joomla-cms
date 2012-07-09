@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package     Joomla.Legacy
  * @subpackage  Model
- * @since       11.1
+ * @since       12.2
  */
 abstract class JModelItem extends JModelLegacy
 {
@@ -29,7 +29,7 @@ abstract class JModelItem extends JModelLegacy
 	 * Model context string.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  12.2
 	 */
 	protected $_context = 'group.type';
 
@@ -44,7 +44,7 @@ abstract class JModelItem extends JModelLegacy
 	 *
 	 * @return  string  A store id.
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	protected function getStoreId($id = '')
 	{

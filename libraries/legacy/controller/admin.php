@@ -17,7 +17,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package     Joomla.Legacy
  * @subpackage  Controller
- * @since       11.1
+ * @since       12.2
  */
 class JControllerAdmin extends JControllerLegacy
 {
@@ -25,7 +25,7 @@ class JControllerAdmin extends JControllerLegacy
 	 * The URL option for the component.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  12.2
 	 */
 	protected $option;
 
@@ -33,7 +33,7 @@ class JControllerAdmin extends JControllerLegacy
 	 * The prefix to use with controller messages.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  12.2
 	 */
 	protected $text_prefix;
 
@@ -41,7 +41,7 @@ class JControllerAdmin extends JControllerLegacy
 	 * The URL view list variable.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  12.2
 	 */
 	protected $view_list;
 
@@ -51,7 +51,7 @@ class JControllerAdmin extends JControllerLegacy
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
 	 * @see     JControllerLegacy
-	 * @since   11.1
+	 * @since   12.2
 	 * @throws  Exception
 	 */
 	public function __construct($config = array())
@@ -103,7 +103,7 @@ class JControllerAdmin extends JControllerLegacy
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	public function delete()
 	{
@@ -148,7 +148,7 @@ class JControllerAdmin extends JControllerLegacy
 	 *
 	 * @return  JControllerLegacy  A JControllerLegacy object to support chaining.
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	public function display($cachable = false, $urlparams = array())
 	{
@@ -160,7 +160,7 @@ class JControllerAdmin extends JControllerLegacy
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	public function publish()
 	{
@@ -223,7 +223,7 @@ class JControllerAdmin extends JControllerLegacy
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	public function reorder()
 	{
@@ -257,7 +257,7 @@ class JControllerAdmin extends JControllerLegacy
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	public function saveorder()
 	{
@@ -300,7 +300,7 @@ class JControllerAdmin extends JControllerLegacy
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	public function checkin()
 	{

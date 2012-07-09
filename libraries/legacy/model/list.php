@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package     Joomla.Legacy
  * @subpackage  Model
- * @since       11.1
+ * @since       12.2
  */
 class JModelList extends JModelLegacy
 {
@@ -22,7 +22,7 @@ class JModelList extends JModelLegacy
 	 * Internal memory based cache array of data.
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  12.2
 	 */
 	protected $cache = array();
 
@@ -31,7 +31,7 @@ class JModelList extends JModelLegacy
 	 * when dealing with the getStoreId() method and caching data structures.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  12.2
 	 */
 	protected $context = null;
 
@@ -39,7 +39,7 @@ class JModelList extends JModelLegacy
 	 * Valid filter fields or ordering.
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  12.2
 	 */
 	protected $filter_fields = array();
 
@@ -47,7 +47,7 @@ class JModelList extends JModelLegacy
 	 * An internal cache for the last query used.
 	 *
 	 * @var    JDatabaseQuery
-	 * @since  11.1
+	 * @since  12.2
 	 */
 	protected $query = array();
 
@@ -57,7 +57,7 @@ class JModelList extends JModelLegacy
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
 	 * @see     JModelLegacy
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	public function __construct($config = array())
 	{
@@ -83,7 +83,7 @@ class JModelList extends JModelLegacy
 	 *
 	 * @return  JDatabaseQuery  A JDatabaseQuery object
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	protected function _getListQuery()
 	{
@@ -108,7 +108,7 @@ class JModelList extends JModelLegacy
 	 *
 	 * @return  mixed  An array of data items on success, false on failure.
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	public function getItems()
 	{
@@ -145,7 +145,7 @@ class JModelList extends JModelLegacy
 	 *
 	 * @return  JDatabaseQuery   A JDatabaseQuery object to retrieve the data set.
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	protected function getListQuery()
 	{
@@ -160,7 +160,7 @@ class JModelList extends JModelLegacy
 	 *
 	 * @return  JPagination  A JPagination object for the data set.
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	public function getPagination()
 	{
@@ -194,7 +194,7 @@ class JModelList extends JModelLegacy
 	 *
 	 * @return  string  A store id.
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	protected function getStoreId($id = '')
 	{
@@ -212,7 +212,7 @@ class JModelList extends JModelLegacy
 	 *
 	 * @return  integer  The total number of items available in the data set.
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	public function getTotal()
 	{
@@ -248,7 +248,7 @@ class JModelList extends JModelLegacy
 	 *
 	 * @return  integer  The starting number of items available in the data set.
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	public function getStart()
 	{
@@ -288,7 +288,7 @@ class JModelList extends JModelLegacy
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
@@ -344,7 +344,7 @@ class JModelList extends JModelLegacy
 	 *
 	 * @return  The request user state.
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	public function getUserStateFromRequest($key, $request, $default = null, $type = 'none', $resetPage = true)
 	{

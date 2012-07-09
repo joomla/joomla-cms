@@ -17,7 +17,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package     Joomla.Legacy
  * @subpackage  Controller
- * @since       11.1
+ * @since       12.2
  */
 class JControllerLegacy extends JObject
 {
@@ -25,7 +25,7 @@ class JControllerLegacy extends JObject
 	 * The base path of the controller
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  12.2
 	 * @note   Replaces _basePath.
 	 */
 	protected $basePath;
@@ -34,7 +34,7 @@ class JControllerLegacy extends JObject
 	 * The default view for the display method.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  12.2
 	 */
 	protected $default_view;
 
@@ -42,7 +42,7 @@ class JControllerLegacy extends JObject
 	 * The mapped task that was performed.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  12.2
 	 * @note   Replaces _doTask.
 	 */
 	protected $doTask;
@@ -51,7 +51,7 @@ class JControllerLegacy extends JObject
 	 * Redirect message.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  12.2
 	 * @note   Replaces _message.
 	 */
 	protected $message;
@@ -60,7 +60,7 @@ class JControllerLegacy extends JObject
 	 * Redirect message type.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  12.2
 	 * @note   Replaces _messageType.
 	 */
 	protected $messageType;
@@ -69,7 +69,7 @@ class JControllerLegacy extends JObject
 	 * Array of class methods
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  12.2
 	 * @note   Replaces _methods.
 	 */
 	protected $methods;
@@ -78,7 +78,7 @@ class JControllerLegacy extends JObject
 	 * The name of the controller
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  12.2
 	 * @note   Replaces _name.
 	 */
 	protected $name;
@@ -87,7 +87,7 @@ class JControllerLegacy extends JObject
 	 * The prefix of the models
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  12.2
 	 */
 	protected $model_prefix;
 
@@ -95,7 +95,7 @@ class JControllerLegacy extends JObject
 	 * The set of search directories for resources (views).
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  12.2
 	 * @note   Replaces _path.
 	 */
 	protected $paths;
@@ -104,7 +104,7 @@ class JControllerLegacy extends JObject
 	 * URL for redirection.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  12.2
 	 * @note   Replaces _redirect.
 	 */
 	protected $redirect;
@@ -113,7 +113,7 @@ class JControllerLegacy extends JObject
 	 * Current or most recently performed task.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  12.2
 	 * @note   Replaces _task.
 	 */
 	protected $task;
@@ -122,14 +122,14 @@ class JControllerLegacy extends JObject
 	 * Array of class methods to call for a given task.
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  12.2
 	 * @note   Replaces _taskMap.
 	 */
 	protected $taskMap;
 
 	/**
-	 * @var    JController  JController instance container.
-	 * @since  11.3
+	 * @var    JControllerLegacy  Instance of this class.
+	 * @since  12.2
 	 */
 	protected static $instance;
 
@@ -155,7 +155,7 @@ class JControllerLegacy extends JObject
 	 * @return  string  The filename.
 	 *
 	 * @note    Replaced _createFileName.
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	protected static function createFileName($type, $parts = array())
 	{
@@ -208,7 +208,7 @@ class JControllerLegacy extends JObject
 	 *
 	 * @return  JControllerLegacy
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 * @throws  Exception if the controller cannot be loaded.
 	 */
 	public static function getInstance($prefix, $config = array())
@@ -304,7 +304,7 @@ class JControllerLegacy extends JObject
 	 * Recognized key values include 'name', 'default_task', 'model_path', and
 	 * 'view_path' (this list is not meant to be comprehensive).
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	public function __construct($config = array())
 	{
@@ -431,7 +431,7 @@ class JControllerLegacy extends JObject
 	 *
 	 * @return  JControllerLegacy  A JControllerLegacy object to support chaining.
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 * @note    Replaces _addPath.
 	 */
 	protected function addPath($type, $path)
@@ -478,7 +478,7 @@ class JControllerLegacy extends JObject
 	 *
 	 * @return  boolean  True if authorised
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 * @deprecated  12.3
 	 */
 	public function authorise($task)
@@ -494,7 +494,7 @@ class JControllerLegacy extends JObject
 	 *
 	 * @return  boolean  True if the ID is in the edit list.
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	protected function checkEditId($context, $id)
 	{
@@ -538,7 +538,7 @@ class JControllerLegacy extends JObject
 	 *
 	 * @return  mixed   Model object on success; otherwise null failure.
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 * @note    Replaces _createModel.
 	 */
 	protected function createModel($name, $prefix = '', $config = array())
@@ -567,7 +567,7 @@ class JControllerLegacy extends JObject
 	 *
 	 * @return  mixed  View object on success; null or error result on failure.
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 * @note    Replaces _createView.
 	 * @throws  Exception
 	 */
@@ -615,7 +615,7 @@ class JControllerLegacy extends JObject
 	 *
 	 * @return  JControllerLegacy  A JControllerLegacy object to support chaining.
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	public function display($cachable = false, $urlparams = array())
 	{
@@ -683,7 +683,7 @@ class JControllerLegacy extends JObject
 	 *
 	 * @return  mixed   The value returned by the called method, false in error case.
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 * @throws  Exception
 	 */
 	public function execute($task)
@@ -719,7 +719,7 @@ class JControllerLegacy extends JObject
 	 *
 	 * @return  object  The model.
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	public function getModel($name = '', $prefix = '', $config = array())
 	{
@@ -764,7 +764,7 @@ class JControllerLegacy extends JObject
 	 *
 	 * @return  string  The name of the dispatcher
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 * @throws  Exception
 	 */
 	public function getName()
@@ -787,7 +787,7 @@ class JControllerLegacy extends JObject
 	 *
 	 * @return  string  The task that is being performed or was most recently performed.
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	public function getTask()
 	{
@@ -799,7 +799,7 @@ class JControllerLegacy extends JObject
 	 *
 	 * @return  array  Array[i] of task names.
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	public function getTasks()
 	{
@@ -816,7 +816,7 @@ class JControllerLegacy extends JObject
 	 *
 	 * @return  object  Reference to the view or an error.
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 * @throws  Exception
 	 */
 	public function getView($name = '', $type = '', $prefix = '', $config = array())
@@ -861,7 +861,7 @@ class JControllerLegacy extends JObject
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	protected function holdEditId($context, $id)
 	{
@@ -897,7 +897,7 @@ class JControllerLegacy extends JObject
 	 *
 	 * @return  boolean  False if no redirect exists.
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	public function redirect()
 	{
@@ -917,7 +917,7 @@ class JControllerLegacy extends JObject
 	 *
 	 * @return  JControllerLegacy  A JControllerLegacy object to support chaining.
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	public function registerDefaultTask($method)
 	{
@@ -934,7 +934,7 @@ class JControllerLegacy extends JObject
 	 *
 	 * @return  JControllerLegacy  A JControllerLegacy object to support chaining.
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	public function registerTask($task, $method)
 	{
@@ -953,7 +953,7 @@ class JControllerLegacy extends JObject
 	 *
 	 * @return  JControllerLegacy  This object to support chaining.
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	public function unregisterTask($task)
 	{
@@ -970,7 +970,7 @@ class JControllerLegacy extends JObject
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	protected function releaseEditId($context, $id)
 	{
@@ -1005,11 +1005,11 @@ class JControllerLegacy extends JObject
 	 * Sets the internal message that is passed with a redirect
 	 *
 	 * @param   string  $text  Message to display on redirect.
-	 * @param   string  $type  Message type (since 11.1). Optional, defaults to 'message'.
+	 * @param   string  $type  Message type. Optional, defaults to 'message'.
 	 *
 	 * @return  string  Previous message
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	public function setMessage($text, $type = 'message')
 	{
@@ -1029,7 +1029,7 @@ class JControllerLegacy extends JObject
 	 * @return  void
 	 *
 	 * @note    Replaces _setPath.
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	protected function setPath($type, $path)
 	{
@@ -1049,7 +1049,7 @@ class JControllerLegacy extends JObject
 	 *
 	 * @return  JControllerLegacy  This object to support chaining.
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	public function setRedirect($url, $msg = null, $type = null)
 	{
