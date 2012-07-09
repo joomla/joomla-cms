@@ -68,17 +68,20 @@
 
     <target name="sqlitetests">
         <antcall target="start-server"></antcall>
+        <!--
         <exec executable="phpunit">
             <arg value="-c"/>
             <arg value="tests/installsqlite/phpunit.xml"/>
-            <arg value="--include-path"/>
+            <arg value="-include-path"/>
             <arg value="${basedir}/tests/installsqlite"/>
         </exec>
+        -->
         <exec executable="phpunit">
             <arg value="-c"/>
             <arg value="tests/system-sqlite/phpunit.xml"/>
             <arg value="--include-path"/>
             <arg value="${basedir}/tests/system-sqlite"/>
+            <arg value="--debug"/>
         </exec>
         <antcall target="stop-server"></antcall>
 
