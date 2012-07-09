@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
  * JsonSerializable interface. This file should only be loaded on PHP < 5.4
  * It allows us to implement it in classes without requiring PHP 5.4
  *
- * @package     Joomla.Platform
+ * @package     Joomla.Compat
  * @since       12.2
  * @link        http://www.php.net/manual/en/jsonserializable.jsonserialize.php
  */
