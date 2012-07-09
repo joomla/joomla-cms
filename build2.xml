@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="joomla" default="build" basedir=".">
+    <property name="source" value="."/>
+
+    <target name="clean" description="Clean up and create artifact directories">
+        <delete dir="${basedir}/build/logs"/>
+        <delete dir="${basedir}/build/screenshots"/>
+        <delete dir="${basedir}/build/system-coverage"/>
+
+        <mkdir dir="${basedir}/build/logs"/>
+        <mkdir dir="${basedir}/build/screenshots"/>
+        <mkdir dir="${basedir}/build/system-coverage"/>
+    </target>
+
+    <target name="phpcs" description="Generate checkstyle.xml using PHP_CodeSniffer">
+        <exec executable="phpcs">
+            <arg value="--report=checkstyle"/>
+            <arg value="-p"/>
+            <arg value="--report-file=${basedir}/build/logs/checkstyle.xml"/>
+            <arg value="--standard=${basedir}/build/phpcs/Joomla"/>
+            <arg path="${source}"/>
+        </exec>
+    </target>
+
+    <target name="phploc" description="Measure project size using PHPLOC">
+        <exec executable="phploc">
+            <arg value="--log-csv"/>
+            <arg value="${basedir}/build/logs/phploc.csv"/>
+            <arg path="${source}"/>
+        </exec>
+    </target>
+
+    <target name="phpcpd" description="Find duplicate code using PHPCPD">
+        <exec executable="phpcpd">
+            <arg value="--log-pmd"/>
+            <arg value="${basedir}/build/logs/pmd-cpd.xml"/>
+            <arg path="${source}"/>
+        </exec>
+    </target>
+
+    <target name="phpmd-ci"
+            description="Perform project mess detection using PHPMD creating a log file for the continuous integration server">
+        <exec executable="phpmd">
+            <arg path="${source}"/>
+            <arg value="xml"/>
+            <arg value="${basedir}/build/phpmd.xml"/>
+            <arg value="--reportfile"/>
+            <arg value="${basedir}/build/logs/pmd.xml"/>
+        </exec>
+    </target>
+
+    <!--
+   <target name="build" depends="clean,phpcs,phploc,phpcpd,phpmd-ci" />
+   -->
+    <target name="build" depends="clean,phpcs,phploc,phpcpd"/>
+
+    <target name="installtest" depends="clean">
+        <antcall target="start-server"></antcall>
+        <exec executable="phpunit">
+            <arg value="-c"/>
+            <arg value="tests/install/phpunit.xml"/>
+            <arg value="--include-path"/>
+            <arg value="${basedir}/tests/install"/>
+        </exec>
+        <antcall target="stop-server"></antcall>
+    </target>
+
+    <target name="systemtests" depends="clean">
+        <antcall target="start-server"></antcall>
+        <exec executable="phpunit">
+            <arg value="-c"/>
+            <arg value="tests/system/phpunit.xml"/>
+            <arg value="--include-path"/>
+            <arg value="${basedir}/tests/system"/>
+        </exec>
+        <antcall target="stop-server"></antcall>
+    </target>
+
+    <!-- @author: http://adam.goucher.ca/?p=423 -->
+    <target name="start-server">
+        <echo>Starting the server...</echo>
+        <java jar="/home/jtester/bin/java/selenium-server-standalone-2.24.1.jar"
+              fork="true"
+              spawn="true">
+            <!--
+            <arg line="-proxyInjectionMode"/>
+            -->
+        </java>
+
+        <waitfor maxwait="30" maxwaitunit="second">
+            <and>
+                <socket server="localhost" port="4444"/>
+                <!-- this url will 403, so we say that it should start counting errors at 404 to skip -->
+                <http url="http://localhost:4444/selenium-server/core/index.html" errorsBeginAt="404"/>
+            </and>
+        </waitfor>
+    </target>
+
+    <!-- @author: http://adam.goucher.ca/?p=423 -->
+    <target name="stop-server">
+        <get taskname="selenium-shutdown"
+	     src="http://localhost:4444/selenium-server/driver/?cmd=shutDownSeleniumServer"
+             dest="result.txt" ignoreerrors="true" />
+        <echo taskname="selenium-shutdown" message="DGF Errors during shutdown are expected" />
+    </target>
+</project>
