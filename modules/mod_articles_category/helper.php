@@ -305,6 +305,7 @@ abstract class modArticlesCategoryHelper
 				return $html;
 			}
 		}
+		return $html;
 	}
 
 	public static function groupBy($list, $fieldName, $article_grouping_direction, $fieldNameToKeep = null)
