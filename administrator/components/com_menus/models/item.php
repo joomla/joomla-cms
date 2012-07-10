@@ -614,8 +614,7 @@ class MenusModelItem extends JModelAdmin
 		// Check for a table object error.
 		if ($error = $table->getError()) {
 			$this->setError($error);
-			$false = false;
-			return $false;
+			return false;
 		}
 
 		// Prime required properties.
@@ -689,7 +688,7 @@ class MenusModelItem extends JModelAdmin
 
 		// Convert to the JObject before adding the params.
 		$properties = $table->getProperties(1);
-		$result = JArrayHelper::toObject($properties, 'JObject');
+		$result = JArrayHelper::toObject($properties);
 
 		// Convert the params field to an array.
 		$registry = new JRegistry;
