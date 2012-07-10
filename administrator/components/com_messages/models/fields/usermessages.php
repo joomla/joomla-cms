@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 JFormHelper::loadFieldClass('user');
 
- /**
+/**
  * Supports an modal select of user that have access to com_messages
  *
  * @package     Joomla.Administrator

@@ -24,31 +24,30 @@ class plgSystemLog extends JPlugin
 
 		switch($response['status'])
 		{
-			case JAuthentication::STATUS_SUCCESS :
-			{
+			case JAuthentication::STATUS_SUCCESS:
 				$errorlog['status']  = $response['type'] . " CANCELED: ";
 				$errorlog['comment'] = $response['error_message'];
 				$log->addEntry($errorlog);
-			} break;
+				break;
 
 			case JAuthentication::STATUS_FAILURE :
-			{
 				$errorlog['status']  = $response['type'] . " FAILURE: ";
-				if ($this->params->get('log_username', 0)) {
+				if ($this->params->get('log_username', 0))
+				{
 					$errorlog['comment'] = $response['error_message'] . ' ("' . $response['username'] . '")';
 				}
-				else {
+				else
+				{
 					$errorlog['comment'] = $response['error_message'];
 				}
 				$log->addEntry($errorlog);
-			}	break;
+				break;
 
-			default :
-			{
+			default:
 				$errorlog['status']  = $response['type'] . " UNKNOWN ERROR: ";
 				$errorlog['comment'] = $response['error_message'];
 				$log->addEntry($errorlog);
-			}	break;
+				break;
 		}
 	}
 }
