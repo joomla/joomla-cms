@@ -47,7 +47,19 @@ class MenusModelItems extends JModelList
 				'client_id', 'a.client_id',
 				'home', 'a.home',
 			);
-			if (JFactory::getApplication()->get('menu_associations', 0)) {
+
+			$app = JFactory::getApplication();
+			if (isset($app->menu_associations))
+			{
+				$assoc = $app->menu_associations;
+			}
+			else
+			{
+				$assoc = 0;
+			}
+
+			if ($assoc)
+			{
 				$config['filter_fields'][] = 'association';
 			}
 		}

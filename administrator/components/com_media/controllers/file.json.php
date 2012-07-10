@@ -41,7 +41,7 @@ class MediaControllerFile extends JControllerLegacy
 
 		// Get the user
 		$user		= JFactory::getUser();
-		$log		= JLog::getInstance('upload.error.php');
+		JLog::addLogger(array('text_file' => 'upload.error.php'), JLog::ALL, array('upload'));
 
 		// Get some data from the request
 		$file		= JRequest::getVar('Filedata', '', 'files', 'array');
@@ -78,7 +78,7 @@ class MediaControllerFile extends JControllerLegacy
 
 			if (!MediaHelper::canUpload($file, $err))
 			{
-				$log->addEntry(array('comment' => 'Invalid: '.$filepath.': '.$err));
+				JLog::add('Invalid: ' . $filepath . ': ' . $err, JLog::INFO, 'upload');
 				$response = array(
 					'status' => '0',
 					'error' => JText::_($err)
@@ -95,7 +95,7 @@ class MediaControllerFile extends JControllerLegacy
 			$result = $dispatcher->trigger('onContentBeforeSave', array('com_media.file', &$object_file));
 			if (in_array(false, $result, true)) {
 				// There are some errors in the plugins
-				$log->addEntry(array('comment' => 'Errors before save: '.$filepath.' : '.implode(', ', $object_file->getErrors())));
+				JLog::add('Errors before save: ' . $filepath . ' : ' . implode(', ', $object_file->getErrors()), JLog::INFO, 'upload');
 				$response = array(
 					'status' => '0',
 					'error' => JText::plural('COM_MEDIA_ERROR_BEFORE_SAVE', count($errors = $object_file->getErrors()), implode('<br />', $errors))
@@ -107,7 +107,7 @@ class MediaControllerFile extends JControllerLegacy
 			if (JFile::exists($filepath))
 			{
 				// File exists
-				$log->addEntry(array('comment' => 'File exists: '.$filepath.' by user_id '.$user->id));
+				JLog::add('File exists: ' . $filepath . ' by user_id ' . $user->id, JLog::INFO, 'upload');
 				$response = array(
 					'status' => '0',
 					'error' => JText::_('COM_MEDIA_ERROR_FILE_EXISTS')
@@ -118,7 +118,7 @@ class MediaControllerFile extends JControllerLegacy
 			elseif (!$user->authorise('core.create', 'com_media'))
 			{
 				// File does not exist and user is not authorised to create
-				$log->addEntry(array('comment' => 'Create not permitted: '.$filepath.' by user_id '.$user->id));
+				JLog::add('Create not permitted: ' . $filepath . ' by user_id ' . $user->id, JLog::INFO, 'upload');
 				$response = array(
 					'status' => '0',
 					'error' => JText::_('COM_MEDIA_ERROR_CREATE_NOT_PERMITTED')
@@ -131,7 +131,7 @@ class MediaControllerFile extends JControllerLegacy
 			if (!JFile::upload($file['tmp_name'], $file['filepath']))
 			{
 				// Error in upload
-				$log->addEntry(array('comment' => 'Error on upload: '.$filepath));
+				JLog::add('Error on upload: ' . $filepath, JLog::INFO, 'upload');
 				$response = array(
 					'status' => '0',
 					'error' => JText::_('COM_MEDIA_ERROR_UNABLE_TO_UPLOAD_FILE')
@@ -143,7 +143,7 @@ class MediaControllerFile extends JControllerLegacy
 			{
 				// Trigger the onContentAfterSave event.
 				$dispatcher->trigger('onContentAfterSave', array('com_media.file', &$object_file, true));
-				$log->addEntry(array('comment' => $folder));
+				JLog::add($folder, JLog::INFO, 'upload');
 				$response = array(
 					'status' => '1',
 					'error' => JText::sprintf('COM_MEDIA_UPLOAD_COMPLETE', substr($file['filepath'], strlen(COM_MEDIA_BASE)))
