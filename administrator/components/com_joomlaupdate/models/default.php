@@ -257,7 +257,6 @@ class JoomlaupdateModelDefault extends JModelLegacy
 	public function createRestorationFile($basename = null)
 	{
 		// Get a password
-		jimport('joomla.user.helper');
 		$password = JUserHelper::genRandomPassword(32);
 		JFactory::getApplication()->setUserState('com_joomlaupdate.password', $password);
 
@@ -325,7 +324,6 @@ ENDDATA;
 			// If the tempdir is not writable, create a new writable subdirectory
 			if(!$writable) {
 				jimport('joomla.client.ftp');
-				jimport('joomla.client.helper');
 				jimport('joomla.filesystem.folder');
 
 				$FTPOptions = JClientHelper::getCredentials('ftp');
@@ -353,7 +351,6 @@ ENDDATA;
 				// If it exists and it is unwritable, try creating a writable admintools subdirectory
 				if(!is_writable($tempdir)) {
 					jimport('joomla.client.ftp');
-					jimport('joomla.client.helper');
 					jimport('joomla.filesystem.folder');
 
 					$FTPOptions = JClientHelper::getCredentials('ftp');

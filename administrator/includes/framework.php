@@ -96,7 +96,5 @@ if (JDEBUG) {
 // Joomla! library imports.
 jimport('joomla.application.menu');
 jimport('joomla.environment.uri');
-jimport('joomla.html.parameter');
-jimport('joomla.utilities.utility');
 jimport('joomla.event.dispatcher');
 jimport('joomla.utilities.arrayhelper');

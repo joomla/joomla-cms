@@ -406,8 +406,6 @@ class AdmintoolsHelperDownload
 			}
 		}
 
-		// Initialize variables
-		jimport('joomla.client.helper');
 		$ftpOptions = JClientHelper::getCredentials('ftp');
 
 		// Check to make sure the path valid and clean
