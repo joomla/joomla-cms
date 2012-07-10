@@ -361,19 +361,22 @@ abstract class JFactory
 	 * @param   string   $data    Full path and file name.
 	 * @param   boolean  $isFile  true to load a file or false to load a string.
 	 *
-	 * @return  mixed    JXMLElement on success or false on error.
+	 * @return  mixed    JXMLElement or SimpleXMLElement on success or false on error.
 	 *
 	 * @see     JXMLElement
 	 * @since   11.1
-	 * @note    This method will return SimpleXMLElement object in the future. Do not rely on JXMLElement's methods.
-	 * @todo    This may go in a separate class - error reporting may be improved.
+	 * @note    When JXMLElement is not present a SimpleXMLElement will be returned.
 	 * @deprecated  13.3 Use SimpleXML directly.
 	 */
 	public static function getXML($data, $isFile = true)
 	{
 		JLog::add(__METHOD__ . ' is deprecated. Use SimpleXML directly.', JLog::WARNING, 'deprecated');
 
-		jimport('joomla.utilities.xmlelement');
+		$class = 'SimpleXMLElement';
+		if (class_exists('JXMLElement'))
+		{
+			$class = 'JXMLElement';
+		}
 
 		// Disable libxml errors and allow to fetch error information as needed
 		libxml_use_internal_errors(true);
@@ -381,12 +384,12 @@ abstract class JFactory
 		if ($isFile)
 		{
 			// Try to load the XML file
-			$xml = simplexml_load_file($data, 'JXMLElement');
+			$xml = simplexml_load_file($data, $class);
 		}
 		else
 		{
 			// Try to load the XML string
-			$xml = simplexml_load_string($data, 'JXMLElement');
+			$xml = simplexml_load_string($data, $class);
 		}
 
 		if ($xml === false)
