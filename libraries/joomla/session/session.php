@@ -78,6 +78,12 @@ class JSession implements IteratorAggregate
 	protected static $instance;
 
 	/**
+	 * @var    string
+	 * @since  12.2
+	 */
+	protected $storeName;
+
+	/**
 	 * Holds the JInput object
 	 *
 	 * @var    JInput
@@ -93,7 +99,7 @@ class JSession implements IteratorAggregate
 	 *
 	 * @since   11.1
 	 */
-	public function __construct($store = 'none', $options = array())
+	public function __construct($store = 'none', array $options = array())
 	{
 		// Need to destroy any existing sessions started with session.auto_start
 		if (session_id())
@@ -111,13 +117,37 @@ class JSession implements IteratorAggregate
 		// Create handler
 		$this->_store = JSessionStorage::getInstance($store, $options);
 
+		$this->storeName = $store;
+
 		// Set options
 		$this->_setOptions($options);
 
 		$this->_setCookieParams();
 
 		$this->_state = 'inactive';
+	}
 
+	/**
+	 * Magic method to get read-only access to properties.
+	 *
+	 * @param   string  $name  Name of property to retrieve
+	 *
+	 * @return  mixed   The value of the property
+	 *
+	 * @since   12.2
+	 */
+	public function __get($name)
+	{
+		if ($name === 'storeName')
+		{
+			return $this->$name;
+		}
+
+		if ($name === 'state' || $name === 'expire')
+		{
+			$property = '_' . $name;
+			return $this->$property;
+		}
 	}
 
 	/**
@@ -344,7 +374,6 @@ class JSession implements IteratorAggregate
 		// Get an iterator and loop trough the driver classes.
 		$iterator = new DirectoryIterator(__DIR__ . '/storage');
 
-		$names = array();
 		foreach ($iterator as $file)
 		{
 			$fileName = $file->getFilename();
@@ -540,12 +569,17 @@ class JSession implements IteratorAggregate
 	/**
 	 * Start a session.
 	 *
-	 * @return  boolean  true on success
+	 * @return  void
 	 *
 	 * @since   12.2
 	 */
 	public function start()
 	{
+		if ($this->_state === 'active')
+		{
+			return;
+		}
+
 		$this->_start();
 
 		$this->_state = 'active';
@@ -556,8 +590,6 @@ class JSession implements IteratorAggregate
 
 		// Perform security checks
 		$this->_validate();
-
-		return true;
 	}
 
 	/**
@@ -572,7 +604,7 @@ class JSession implements IteratorAggregate
 	protected function _start()
 	{
 		// Start session if not started
-		if ($this->_state == 'restart')
+		if ($this->_state === 'restart')
 		{
 			session_id($this->_createId());
 		}
@@ -595,7 +627,7 @@ class JSession implements IteratorAggregate
 			}
 		}
 
-		/** 
+		/**
 		 * Write and Close handlers are called after destructing objects since PHP 5.0.5.
 		 * Thus destructors can use sessions but session handler can't use objects.
 		 * So we are moving session closure before destructing objects.
@@ -702,11 +734,6 @@ class JSession implements IteratorAggregate
 		$values = $_SESSION;
 
 		// Keep session config
-		$trans = ini_get('session.use_trans_sid');
-		if ($trans)
-		{
-			ini_set('session.use_trans_sid', 0);
-		}
 		$cookie = session_get_cookie_params();
 
 		// Create new session id
@@ -719,7 +746,6 @@ class JSession implements IteratorAggregate
 		$this->_store->register();
 
 		// Restore config
-		ini_set('session.use_trans_sid', $trans);
 		session_set_cookie_params($cookie['lifetime'], $cookie['path'], $cookie['domain'], $cookie['secure'], true);
 
 		// Restart session with new id
@@ -864,13 +890,13 @@ class JSession implements IteratorAggregate
 	/**
 	 * Set additional session options
 	 *
-	 * @param   array  &$options  List of parameter
+	 * @param   array  $options  List of parameter
 	 *
 	 * @return  boolean  True on success
 	 *
 	 * @since   11.1
 	 */
-	protected function _setOptions(&$options)
+	protected function _setOptions(array $options)
 	{
 		// Set name
 		if (isset($options['name']))
