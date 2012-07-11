@@ -28,6 +28,7 @@ $ -> Language fix or change
 
 11-July-2012 Jean-Marie Simonet
  # [#28535] Joomla 2.5.4 Timezones being doubled. Thanks Christophe and Andrea
+ # [#28034] White page on contact form with SEO enabled. Thanks Nikolai
 
 08-July-2012 Jean-Marie Simonet
  # [#28510] DB error "session" table Duplicate entry. Thanks Rob

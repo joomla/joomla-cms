@@ -147,7 +147,10 @@ function ContactParseRoute($segments)
 
 	// From the categories view, we can only jump to a category.
 	$id = (isset($item->query['id']) && $item->query['id'] > 1) ? $item->query['id'] : 'root';
-	$categories = JCategories::getInstance('Contact')->get($id)->getChildren();
+
+	$contactCategory = JCategories::getInstance('Contact')->get($id);
+
+	$categories = ($contactCategory) ? $contactCategory->getChildren() : array();
 	$vars['catid'] = $id;
 	$vars['id'] = $id;
 	$found = 0;
