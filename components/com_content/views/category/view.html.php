@@ -90,15 +90,17 @@ class ContentViewCategory extends JViewLegacy
 
 			$dispatcher = JDispatcher::getInstance();
 
-			$item->introtext = JHtml::_('content.prepare', $item->introtext, '', 'com_content.category');
+			$item->text = $item->introtext;
+			JPluginHelper::importPlugin('content');
+			$results = $dispatcher->trigger('onContentPrepare', array ('com_content.category', &$item, &$this->params, 0));
 
-			$results = $dispatcher->trigger('onContentAfterTitle', array('com_content.article', &$item, &$item->params, 0));
+			$results = $dispatcher->trigger('onContentAfterTitle', array('com_content.category', &$item, &$item->params, 0));
 			$item->event->afterDisplayTitle = trim(implode("\n", $results));
 
-			$results = $dispatcher->trigger('onContentBeforeDisplay', array('com_content.article', &$item, &$item->params, 0));
+			$results = $dispatcher->trigger('onContentBeforeDisplay', array('com_content.category', &$item, &$item->params, 0));
 			$item->event->beforeDisplayContent = trim(implode("\n", $results));
 
-			$results = $dispatcher->trigger('onContentAfterDisplay', array('com_content.article', &$item, &$item->params, 0));
+			$results = $dispatcher->trigger('onContentAfterDisplay', array('com_content.category', &$item, &$item->params, 0));
 			$item->event->afterDisplayContent = trim(implode("\n", $results));
 		}
 
