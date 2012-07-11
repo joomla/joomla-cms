@@ -52,7 +52,7 @@ class MenusViewMenus extends JViewLegacy
 	{
 		require_once JPATH_COMPONENT.'/helpers/menus.php';
 
-		$canDo	= MenusHelper::getActions($this->state->get('filter.parent_id'));
+		$canDo	= MenusHelper::getActions();
 
 		JToolBarHelper::title(JText::_('COM_MENUS_VIEW_MENUS_TITLE'), 'menumgr.png');
 
@@ -67,9 +67,9 @@ class MenusViewMenus extends JViewLegacy
 			JToolBarHelper::deleteList('', 'menus.delete');
 		}
 
-		JToolBarHelper::custom('menus.rebuild', 'refresh.png', 'refresh_f2.png', 'JTOOLBAR_REBUILD', false);
 		if ($canDo->get('core.admin')) {
 			JToolBarHelper::divider();
+			JToolBarHelper::custom('menus.rebuild', 'refresh.png', 'refresh_f2.png', 'JTOOLBAR_REBUILD', false);
 			JToolBarHelper::preferences('com_menus');
 		}
 		JToolBarHelper::divider();

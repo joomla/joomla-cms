@@ -165,7 +165,7 @@ class MenusViewItems extends JViewLegacy
 	{
 		require_once JPATH_COMPONENT.'/helpers/menus.php';
 
-		$canDo	= MenusHelper::getActions($this->state->get('filter.parent_id'));
+		$canDo  = MenusHelper::getActions(MenusHelper::getMenuIdFromType($this->state->get('filter.menutype')));
 
 		JToolBarHelper::title(JText::_('COM_MENUS_VIEW_ITEMS_TITLE'), 'menumgr.png');
 

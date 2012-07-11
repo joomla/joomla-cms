@@ -73,7 +73,7 @@ $modMenuId = (int) $this->get('ModMenuId');
 		<tbody>
 		<?php foreach ($this->items as $i => $item) :
 			$canCreate	= $user->authorise('core.create',		'com_menus');
-			$canEdit	= $user->authorise('core.edit',			'com_menus');
+			$canEdit  	= $user->authorise('core.edit',      'com_menus.menu.' . MenusHelper::getMenuIdFromType($item->menutype));
 			$canChange	= $user->authorise('core.edit.state',	'com_menus');
 		?>
 			<tr class="row<?php echo $i % 2; ?>">

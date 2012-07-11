@@ -36,6 +36,92 @@ class JTableMenu extends JTableNested
 	}
 
 	/**
+	 * Method to compute the default name of the asset.
+	 * The default name is in the form table_name.id
+	 * where id is the value of the primary key of the table.
+	 *
+	 * @return  string
+	 *
+	 * @since   11.1
+	 */
+	protected function _getAssetName()
+	{
+		$k = $this->_tbl_key;
+		return 'com_menus.item.' . (int) $this->$k;
+	}
+
+	/**
+	 * Method to return the title to use for the asset table.
+	 *
+	 * @return  string
+	 *
+	 * @since   11.1
+	 */
+	protected function _getAssetTitle()
+	{
+		return $this->title;
+	}
+
+	/**
+	 * Method to get the parent asset id for the record
+	 *
+	 * @param   JTable   $table  A JTable object (optional) for the asset parent
+	 * @param   integer  $id     The id (optional) of the content.
+	 *
+	 * @return  integer
+	 *
+	 * @since   11.1
+	 */
+	protected function _getAssetParentId($table = null, $id = null)
+	{
+		// Initialise variables.
+		$assetId = null;
+
+		// This is a menu item under a menu item.
+		if ($this->level > 1)
+		{
+			// Build the query to get the asset id for the parent menu item.
+			$query = $this->_db->getQuery(true);
+			$query->select($this->_db->quoteName('asset_id'));
+			$query->from($this->_db->quoteName('#__menu'));
+			$query->where($this->_db->quoteName('id') . ' = ' . $this->parent_id);
+
+			// Get the asset id from the database.
+			$this->_db->setQuery($query);
+			if ($result = $this->_db->loadResult())
+			{
+				$assetId = (int) $result;
+			}
+		}
+		// This is a menu item that needs to parent with the menutype.
+		elseif ($assetId === null)
+		{
+			// Build the query to get the asset id for the parent menutype.
+			$query = $this->_db->getQuery(true);
+			$query->select($this->_db->quoteName('asset_id'));
+			$query->from($this->_db->quoteName('#__menu_types'));
+			$query->where($this->_db->quoteName('menutype') . ' = ' . $this->_db->quote($this->menutype));
+
+			// Get the asset id from the database.
+			$this->_db->setQuery($query);
+			if ($result = $this->_db->loadResult())
+			{
+				$assetId = (int) $result;
+			}
+		}
+
+		// Return the asset id.
+		if ($assetId)
+		{
+			return $assetId;
+		}
+		else
+		{
+			return parent::_getAssetParentId($table, $id);
+		}
+	}
+
+	/**
 	 * Overloaded bind function
 	 *
 	 * @param   array  $array   Named array
@@ -73,6 +159,13 @@ class JTableMenu extends JTableNested
 			$registry = new JRegistry;
 			$registry->loadArray($array['params']);
 			$array['params'] = (string) $registry;
+		}
+
+		// Bind the rules.
+		if (isset($array['rules']) && is_array($array['rules']))
+		{
+			$rules = new JAccessRules($array['rules']);
+			$this->setRules($rules);
 		}
 
 		return parent::bind($array, $ignore);

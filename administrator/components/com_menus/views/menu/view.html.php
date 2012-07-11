@@ -30,6 +30,7 @@ class MenusViewMenu extends JViewLegacy
 		$this->form	= $this->get('Form');
 		$this->item	= $this->get('Item');
 		$this->state	= $this->get('State');
+		$this->canDo  = MenusHelper::getActions($this->state->get('menu.id'));
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
@@ -52,7 +53,7 @@ class MenusViewMenu extends JViewLegacy
 
 		$user		= JFactory::getUser();
 		$isNew		= ($this->item->id == 0);
-		$canDo		= MenusHelper::getActions($this->state->get('filter.parent_id'));
+		$canDo		= $this->canDo;
 
 		JToolBarHelper::title(JText::_($isNew ? 'COM_MENUS_VIEW_NEW_MENU_TITLE' : 'COM_MENUS_VIEW_EDIT_MENU_TITLE'), 'menu.png');
 

@@ -120,9 +120,10 @@ $saveOrder 	= ($listOrder == 'a.lft' && $listDirn == 'asc');
 		foreach ($this->items as $i => $item) :
 			$orderkey = array_search($item->id, $this->ordering[$item->parent_id]);
 			$canCreate	= $user->authorise('core.create',		'com_menus');
-			$canEdit	= $user->authorise('core.edit',			'com_menus');
+			$canEdit	= $user->authorise('core.edit',			'com_menus.menu.' . MenusHelper::getMenuIdFromType($item->menutype)) ||
+					$user->authorise('core.edit',			'com_menus.item.' . $item->id);
 			$canCheckin	= $user->authorise('core.manage',		'com_checkin') || $item->checked_out==$user->get('id')|| $item->checked_out==0;
-			$canChange	= $user->authorise('core.edit.state',	'com_menus') && $canCheckin;
+			$canChange	= $user->authorise('core.edit.state',	'com_menus.item.' . $item->id) && $canCheckin;
 			?>
 			<tr class="row<?php echo $i % 2; ?>">
 				<td class="center">
