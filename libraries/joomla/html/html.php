@@ -879,7 +879,7 @@ abstract class JHtml
 		else
 		{
 			return '<input type="text" title="' . (0 !== (int) $value ? self::_('date', $value, null, null) : '')
-				. '" value="' . (0 !== (int) $value ? self::_('date', $value, null, null) : '') . '" ' . $attribs
+				. '" value="' . (0 !== (int) $value ? self::_('date', $value, 'Y-m-d H:i:s', null) : '') . '" ' . $attribs
 				. ' /><input type="hidden" name="' . $name . '" id="' . $id . '" value="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '" />';
 		}
 	}
