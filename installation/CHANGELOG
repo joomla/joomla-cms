@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+11-July-2012 Jean-Marie Simonet
+ # [#28535] Joomla 2.5.4 Timezones being doubled. Thanks Christophe and Andrea
+
 08-July-2012 Jean-Marie Simonet
  # [#28510] DB error "session" table Duplicate entry. Thanks Rob
  #^ [#28785] mod_wrapper doesn't support iframe without border. Thanks Andrea Sisti
