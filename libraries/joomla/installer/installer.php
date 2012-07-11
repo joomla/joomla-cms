@@ -2121,8 +2121,6 @@ class JInstaller extends JAdapter
 
 		$data = array();
 
-		$data['legacy'] = ($xml->getName() == 'install');
-
 		$data['name'] = (string) $xml->name;
 
 		// Check if we're a language. If so use metafile.
