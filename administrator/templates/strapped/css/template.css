@@ -330,3 +330,9 @@ body .navbar-fixed-top{
 		width: 99% !important;
 	}
 }
+
+@media (max-width: 320px){
+	.view-login .navbar-fixed-bottom{
+		display: none;
+	}
+}
