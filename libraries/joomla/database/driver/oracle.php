@@ -411,24 +411,25 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
      * that matches the MySQL one used within most Joomla
      * tables.
      *
-     * @param   string  $dateformat  Oracle Date Format String
+     * @param   string  $dateFormat  Oracle Date Format String
      *
      * @return boolean
      *
      * @since  12.1
      */
-	public function setDateFormat($dateformat = 'DD-MON-RR')
+	public function setDateFormat($dateFormat = 'DD-MON-RR')
 	{
 		$this->connect();
 
-		$this->setQuery("alter session set nls_date_format = '$dateformat'");
+		$this->setQuery("ALTER SESSION SET NLS_DATE_FORMAT = '$dateFormat'");
+		$this->setQuery("ALTER SESSION SET NLS_TIMESTAMP_FORMAT = '$dateFormat'");
 
 		if (!$this->execute())
 		{
 			return false;
 		}
 
-		$this->dateformat = $dateformat;
+		$this->dateformat = $dateFormat;
 
 		return true;
 	}
