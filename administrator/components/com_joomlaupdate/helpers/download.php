@@ -30,7 +30,6 @@ class AdmintoolsHelperDownload
 	 */
 	public static function download($url, $target)
 	{
-		// Import Joomla! libraries
 		jimport('joomla.filesystem.file');
 
 		$hackPermissions = false;
@@ -415,8 +414,7 @@ class AdmintoolsHelperDownload
 		{
 
 			// Connect the FTP client
-			jimport('joomla.client.ftp');
-			$ftp = &JFTP::getInstance(
+			$ftp = JClientFtp::getInstance(
 				$ftpOptions['host'], $ftpOptions['port'], null,
 				$ftpOptions['user'], $ftpOptions['pass']
 			);
@@ -428,9 +426,7 @@ class AdmintoolsHelperDownload
 		}
 		elseif ($ftpOptions['enabled'] == 1)
 		{
-
 			// Translate path and delete
-			jimport('joomla.client.ftp');
 			$path = JPath::clean(str_replace(JPATH_ROOT, $ftpOptions['root'], $path), '/');
 
 			// FTP connector throws an error

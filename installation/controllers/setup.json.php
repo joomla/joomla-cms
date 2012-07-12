@@ -435,10 +435,9 @@ class InstallationControllerSetup extends JControllerLegacy
 
 		if ($useFTP == true) {
 			// Connect the FTP client
-			jimport('joomla.client.ftp');
 			jimport('joomla.filesystem.path');
 
-			$ftp = JFTP::getInstance($options->ftp_host, $options->ftp_port);
+			$ftp = JClientFtp::getInstance($options->ftp_host, $options->ftp_port);
 			$ftp->login($options->ftp_user, $options->ftp_pass);
 
 			// Translate path for the FTP account

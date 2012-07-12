@@ -323,11 +323,10 @@ ENDDATA;
 
 			// If the tempdir is not writable, create a new writable subdirectory
 			if(!$writable) {
-				jimport('joomla.client.ftp');
 				jimport('joomla.filesystem.folder');
 
 				$FTPOptions = JClientHelper::getCredentials('ftp');
-				$ftp = & JFTP::getInstance($FTPOptions['host'], $FTPOptions['port'], null, $FTPOptions['user'], $FTPOptions['pass']);
+				$ftp = JClientFtp::getInstance($FTPOptions['host'], $FTPOptions['port'], null, $FTPOptions['user'], $FTPOptions['pass']);
 				$dest = JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $tempdir.'/admintools'), '/');
 				if(!@mkdir($tempdir.'/admintools')) $ftp->mkdir($dest);
 				if(!@chmod($tempdir.'/admintools', 511)) $ftp->chmod($dest, 511);
@@ -350,11 +349,10 @@ ENDDATA;
 
 				// If it exists and it is unwritable, try creating a writable admintools subdirectory
 				if(!is_writable($tempdir)) {
-					jimport('joomla.client.ftp');
 					jimport('joomla.filesystem.folder');
 
 					$FTPOptions = JClientHelper::getCredentials('ftp');
-					$ftp = & JFTP::getInstance($FTPOptions['host'], $FTPOptions['port'], null, $FTPOptions['user'], $FTPOptions['pass']);
+					$ftp = JClientFtp::getInstance($FTPOptions['host'], $FTPOptions['port'], null, $FTPOptions['user'], $FTPOptions['pass']);
 					$dest = JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $tempdir.'/admintools'), '/');
 					if(!@mkdir($tempdir.'/admintools')) $ftp->mkdir($dest);
 					if(!@chmod($tempdir.'/admintools', 511)) $ftp->chmod($dest, 511);

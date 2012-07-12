@@ -51,8 +51,7 @@ class plgAuthenticationLdap extends JPlugin
 		$ldap_uid		= $this->params->get('ldap_uid');
 		$auth_method	= $this->params->get('auth_method');
 
-		jimport('joomla.client.ldap');
-		$ldap = new JLDAP($this->params);
+		$ldap = new JClientLdap($this->params);
 
 		if (!$ldap->connect())
 		{
