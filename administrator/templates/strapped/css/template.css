@@ -3,15 +3,14 @@ body{
 	padding-top: 30px;
 }
 /* Login */
-.view-login{
-	padding-top: 0;
-	
+.view-login{	
 	background: #165387; /* Old browsers */
-	background: -moz-radial-gradient(center, ellipse cover,  #165387 0%, #142849 100%); /* FF3.6+ */
-	background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,#165387), color-stop(100%,#142849)); /* Chrome,Safari4+ */
-	background: -o-radial-gradient(center, ellipse cover,  #165387 0%,#142849 100%); /* Opera 12+ */
-	background: -ms-radial-gradient(center, ellipse cover,  #165387 0%,#142849 100%); /* IE10+ */
-	background: radial-gradient(center, ellipse cover,  #165387 0%,#142849 100%); /* W3C */
+	background: -moz-radial-gradient(circle, #165387, #142849);  /* FF3.6+ */
+	background: -webkit-gradient(radial, center center, 0, center center, 460, from(#165387), to(#142849)); /* Safari 4-5, Chrome 1-9 */
+	background: -webkit-radial-gradient(circle, #165387, #142849); /* Safari 5.1+, Chrome 10+ */
+	background: -o-radial-gradient(circle, #165387, #142849); /* Opera 12+ */
+	background: -ms-radial-gradient(circle, #165387, #142849); /* IE10+ */
+	background: radial-gradient(circle, #165387, #142849); /* W3C */
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#165387', endColorstr='#142849',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
 }
 .view-login .container{
