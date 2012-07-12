@@ -277,6 +277,8 @@ class JInstallation extends JApplication
 		$options['name'] = $name;
 
 		$session = JFactory::getSession($options);
+		$session->initialise($this->input);
+		$session->start();
 		if (!$session->get('registry') instanceof JRegistry)
 		{
 			// Registry has been corrupted somehow
