@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.language.help');
-
 /**
  * Admin Component Help Model
  *

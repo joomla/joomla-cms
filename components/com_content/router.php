@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.categories');
-
 /**
  * Build the route for the com_content component
  *

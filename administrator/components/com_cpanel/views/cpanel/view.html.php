@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.module.helper');
-
 /**
  * HTML View class for the Cpanel component
  *

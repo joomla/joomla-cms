@@ -57,12 +57,13 @@ class InstallerControllerUpdate extends JControllerLegacy
 	{
 		// Check for request forgeries
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+
 		// Get the caching duration
-		jimport('joomla.application.component.helper');
 		$component = JComponentHelper::getComponent('com_installer');
 		$params = $component->params;
 		$cache_timeout = $params->get('cachetimeout', 6, 'int');
 		$cache_timeout = 3600 * $cache_timeout;
+
 		// Find updates
 		$model	= $this->getModel('update');
 		$result = $model->findUpdates(0, $cache_timeout);
@@ -104,7 +105,6 @@ class InstallerControllerUpdate extends JControllerLegacy
 
 		$cache_timeout = JRequest::getInt('cache_timeout', 0);
 		if($cache_timeout == 0) {
-			jimport('joomla.application.component.helper');
 			$component = JComponentHelper::getComponent('com_installer');
 			$params = $component->params;
 			$cache_timeout = $params->get('cachetimeout', 6, 'int');

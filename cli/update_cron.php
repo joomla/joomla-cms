@@ -64,7 +64,6 @@ class Updatecron extends JApplicationCli
 		$db = JFactory::getDBO();
 
 		// Get the update cache time
-		jimport('joomla.application.component.helper');
 		$component = JComponentHelper::getComponent('com_installer');
 
 		$params = $component->params;

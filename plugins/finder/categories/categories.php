@@ -9,7 +9,6 @@
 
 defined('JPATH_BASE') or die;
 
-jimport('joomla.application.component.helper');
 jimport('joomla.filesystem.file');
 
 require_once JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/adapter.php';

@@ -102,8 +102,6 @@ $this->direction = $doc->direction;
 								$logo =  $params->get('logo');
 							?>
 
-							<?php jimport( 'joomla.application.module.helper' ); ?>
-
 						 <h1 id="logo">
 
                                         <?php if ($logo): ?>

@@ -9,9 +9,6 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.helper');
-jimport('joomla.application.categories');
-
 /**
  * Content Component Route Helper
  *

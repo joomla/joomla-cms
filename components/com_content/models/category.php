@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.modellist');
-
 /**
  * This models supports retrieving a category, the articles associated with the category,
  * sibling, child and parent categories.

@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.modelform');
-
 /**
  * Message configuration model.
  *

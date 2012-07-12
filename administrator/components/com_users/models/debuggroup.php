@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.modellist');
 require_once JPATH_COMPONENT.'/helpers/debug.php';
 
 /**

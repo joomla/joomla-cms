@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controlleradmin');
-
 /**
  * Messages list controller class.
  *

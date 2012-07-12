@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.modellist');
-
 /**
  * Cache Model
  *
@@ -149,7 +147,6 @@ class CacheModelCache extends JModelList
 	public function getPagination()
 	{
 		if (empty($this->_pagination)) {
-			jimport('joomla.html.pagination');
 			$this->_pagination = new JPagination($this->getTotal(), $this->getState('list.start'), $this->getState('list.limit'));
 		}
 

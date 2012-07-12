@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.database.table');
-
 /**
  * Script file of Joomla CMS
  *
@@ -59,6 +57,7 @@ class joomlaInstallerScript
 		$this->updateManifestCaches();
 		$this->updateDatabase();
 	}
+
 	protected function updateDatabase()
 	{
 		$db = JFactory::getDbo();

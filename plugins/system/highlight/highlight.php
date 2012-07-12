@@ -9,8 +9,6 @@
 
 defined('JPATH_BASE') or die;
 
-jimport('joomla.application.component.helper');
-
 /**
  * System plugin to highlight terms.
  *

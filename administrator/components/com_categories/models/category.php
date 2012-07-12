@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.modeladmin');
-
 /**
  * Categories Component Category Model
  *
@@ -157,7 +155,6 @@ class CategoriesModelCategory extends JModelAdmin
 			$result->metadata = $registry->toArray();
 
 			// Convert the created and modified dates to local user time for display in the form.
-			jimport('joomla.utilities.date');
 			$tz = new DateTimeZone(JFactory::getApplication()->getCfg('offset'));
 
 			if (intval($result->created_time))
@@ -300,7 +297,6 @@ class CategoriesModelCategory extends JModelAdmin
 		$section = $this->getState('category.section');
 
 		// Get the component form if it exists
-		jimport('joomla.filesystem.path');
 		$name = 'category' . ($section ? ('.' . $section) : '');
 
 		// Looking first in the component models/forms folder

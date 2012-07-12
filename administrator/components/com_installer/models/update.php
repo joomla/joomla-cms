@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-// Import library dependencies
-jimport('joomla.application.component.modellist');
 jimport('joomla.updater.update');
 
 /**
