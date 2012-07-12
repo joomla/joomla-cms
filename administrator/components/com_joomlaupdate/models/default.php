@@ -62,17 +62,17 @@ class JoomlaupdateModelDefault extends JModelLegacy
 
 		$db = $this->getDbo();
 		$query = $db->getQuery(true)
-			->select($db->nq('us') . '.*')
+			->select($db->qn('us') . '.*')
 			->from(
-				$db->nq('#__update_sites_extensions') . ' AS ' . $db->nq('map')
+				$db->qn('#__update_sites_extensions') . ' AS ' . $db->qn('map')
 			)
 			->innerJoin(
-				$db->nq('#__update_sites') . ' AS ' . $db->nq('us') . ' ON (' .
-				$db->nq('us') . '.' . $db->nq('update_site_id') . ' = ' .
-					$db->nq('map') . '.' . $db->nq('update_site_id') . ')'
+				$db->qn('#__update_sites') . ' AS ' . $db->qn('us') . ' ON (' .
+				$db->qn('us') . '.' . $db->qn('update_site_id') . ' = ' .
+					$db->qn('map') . '.' . $db->qn('update_site_id') . ')'
 			)
 			->where(
-				$db->nq('map') . '.' . $db->nq('extension_id') . ' = ' . $db->q(700)
+				$db->qn('map') . '.' . $db->qn('extension_id') . ' = ' . $db->q(700)
 			);
 		$db->setQuery($query);
 		$update_site = $db->loadObject();
@@ -86,8 +86,8 @@ class JoomlaupdateModelDefault extends JModelLegacy
 
 			// Remove cached updates
 			$query = $db->getQuery(true)
-				->delete($db->nq('#__updates'))
-				->where($db->nq('extension_id').' = '.$db->q('700'));
+				->delete($db->qn('#__updates'))
+				->where($db->qn('extension_id').' = '.$db->q('700'));
 			$db->setQuery($query);
 			$db->query();
 		}
@@ -138,8 +138,8 @@ class JoomlaupdateModelDefault extends JModelLegacy
 		$db = $this->getDbo();
 		$query = $db->getQuery(true)
 			->select('*')
-			->from($db->nq('#__updates'))
-			->where($db->nq('extension_id') . ' = ' . $db->q(700));
+			->from($db->qn('#__updates'))
+			->where($db->qn('extension_id') . ' = ' . $db->q(700));
 		$db->setQuery($query);
 		$updateObject = $db->loadObject();
 

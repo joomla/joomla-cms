@@ -77,10 +77,10 @@ class InstallerModelUpdate extends JModelList
 
 		// Filter by extension_id
 		if ($eid = $this->getState('filter.extension_id')) {
-			$query->where($db->nq('extension_id') . ' = ' . $db->q((int) $eid));
+			$query->where($db->qn('extension_id') . ' = ' . $db->q((int) $eid));
 		} else {
-			$query->where($db->nq('extension_id').' != '.$db->q(0));
-			$query->where($db->nq('extension_id').' != '.$db->q(700));
+			$query->where($db->qn('extension_id').' != '.$db->q(0));
+			$query->where($db->qn('extension_id').' != '.$db->q(700));
 		}
 
 		return $query;
@@ -115,8 +115,8 @@ class InstallerModelUpdate extends JModelList
 		if ($db->Query()) {
 			// Reset the last update check timestamp
 			$query = $db->getQuery(true);
-			$query->update($db->nq('#__update_sites'));
-			$query->set($db->nq('last_check_timestamp').' = '.$db->q(0));
+			$query->update($db->qn('#__update_sites'));
+			$query->set($db->qn('last_check_timestamp').' = '.$db->q(0));
 			$db->setQuery($query);
 			$db->query();
 
