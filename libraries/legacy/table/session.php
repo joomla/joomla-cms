@@ -1,7 +1,7 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Database
+ * @package     Joomla.Legacy
+ * @subpackage  Table
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -9,12 +9,10 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.database.table');
-
 /**
  * Session table
  *
- * @package     Joomla.Platform
+ * @package     Joomla.Legacy
  * @subpackage  Table
  * @since       11.1
  */
@@ -23,11 +21,11 @@ class JTableSession extends JTable
 	/**
 	 * Constructor
 	 *
-	 * @param   JDatabase  &$db  A database connector object.
+	 * @param   JDatabaseDriver  $db  Database driver object.
 	 *
 	 * @since   11.1
 	 */
-	public function __construct(&$db)
+	public function __construct($db)
 	{
 		parent::__construct('#__session', 'session_id', $db);
 
@@ -179,11 +177,6 @@ class JTableSession extends JTable
 	 */
 	public function delete($oid = null)
 	{
-		//if (!$this->canDelete($msg))
-		//{
-		//	return $msg;
-		//}
-
 		$k = $this->_tbl_key;
 		if ($oid)
 		{
@@ -196,14 +189,7 @@ class JTableSession extends JTable
 		$query->where($this->_db->quoteName($this->_tbl_key) . ' = ' . $this->_db->quote($this->$k));
 		$this->_db->setQuery($query);
 
-		if ($this->_db->execute())
-		{
-			return true;
-		}
-		else
-		{
-			$this->setError($this->_db->getErrorMsg());
-			return false;
-		}
+		$this->_db->execute();
+		return true;
 	}
 }

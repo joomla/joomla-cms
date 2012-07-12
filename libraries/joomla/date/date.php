@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Platform
- * @subpackage  Utilities
+ * @subpackage  Date
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -13,8 +13,21 @@ defined('JPATH_PLATFORM') or die;
  * JDate is a class that stores a date and provides logic to manipulate
  * and render that date in a variety of formats.
  *
+ * @property-read  string   $daysinmonth   t - Number of days in the given month.
+ * @property-read  string   $dayofweek     N - ISO-8601 numeric representation of the day of the week.
+ * @property-read  string   $dayofyear     z - The day of the year (starting from 0).
+ * @property-read  boolean  $isleapyear    L - Whether it's a leap year.
+ * @property-read  string   $day           d - Day of the month, 2 digits with leading zeros.
+ * @property-read  string   $hour          H - 24-hour format of an hour with leading zeros.
+ * @property-read  string   $minute        i - Minutes with leading zeros.
+ * @property-read  string   $second        s - Seconds with leading zeros.
+ * @property-read  string   $month         m - Numeric representation of a month, with leading zeros.
+ * @property-read  string   $ordinal       S - English ordinal suffix for the day of the month, 2 characters.
+ * @property-read  string   $week          W - Numeric representation of the day of the week.
+ * @property-read  string   $year          Y - A full numeric representation of a year, 4 digits.
+ *
  * @package     Joomla.Platform
- * @subpackage  Utilities
+ * @subpackage  Date
  * @since       11.1
  */
 class JDate extends DateTime
@@ -50,41 +63,20 @@ class JDate extends DateTime
 	protected static $stz;
 
 	/**
-	 * An array of offsets and time zone strings representing the available
-	 * options from Joomla! CMS 1.5 and below.
-	 *
-	 * @deprecated    12.1
-	 *
-	 * @var    array
-	 * @since  11.1
-	 */
-	protected static $offsets = array('-12' => 'Etc/GMT-12', '-11' => 'Pacific/Midway', '-10' => 'Pacific/Honolulu', '-9.5' => 'Pacific/Marquesas',
-		'-9' => 'US/Alaska', '-8' => 'US/Pacific', '-7' => 'US/Mountain', '-6' => 'US/Central', '-5' => 'US/Eastern', '-4.5' => 'America/Caracas',
-		'-4' => 'America/Barbados', '-3.5' => 'Canada/Newfoundland', '-3' => 'America/Buenos_Aires', '-2' => 'Atlantic/South_Georgia',
-		'-1' => 'Atlantic/Azores', '0' => 'Europe/London', '1' => 'Europe/Amsterdam', '2' => 'Europe/Istanbul', '3' => 'Asia/Riyadh',
-		'3.5' => 'Asia/Tehran', '4' => 'Asia/Muscat', '4.5' => 'Asia/Kabul', '5' => 'Asia/Karachi', '5.5' => 'Asia/Calcutta',
-		'5.75' => 'Asia/Katmandu', '6' => 'Asia/Dhaka', '6.5' => 'Indian/Cocos', '7' => 'Asia/Bangkok', '8' => 'Australia/Perth',
-		'8.75' => 'Australia/West', '9' => 'Asia/Tokyo', '9.5' => 'Australia/Adelaide', '10' => 'Australia/Brisbane',
-		'10.5' => 'Australia/Lord_Howe', '11' => 'Pacific/Kosrae', '11.5' => 'Pacific/Norfolk', '12' => 'Pacific/Auckland',
-		'12.75' => 'Pacific/Chatham', '13' => 'Pacific/Tongatapu', '14' => 'Pacific/Kiritimati');
-
-	/**
 	 * The DateTimeZone object for usage in rending dates as strings.
 	 *
-	 * @var    object
-	 * @since  11.1
+	 * @var    DateTimeZone
+	 * @since  12.1
 	 */
-	protected $_tz;
+	protected $tz;
 
 	/**
 	 * Constructor.
 	 *
 	 * @param   string  $date  String in a format accepted by strtotime(), defaults to "now".
-	 * @param   mixed   $tz    Time zone to be used for the date.
+	 * @param   mixed   $tz    Time zone to be used for the date. Might be a string or a DateTimeZone object.
 	 *
 	 * @since   11.1
-	 *
-	 * @throws  JException
 	 */
 	public function __construct($date = 'now', $tz = null)
 	{
@@ -102,11 +94,6 @@ class JDate extends DateTime
 			{
 				$tz = self::$gmt;
 			}
-			elseif (is_numeric($tz))
-			{
-				// Translate from offset.
-				$tz = new DateTimeZone(self::$offsets[(string) $tz]);
-			}
 			elseif (is_string($tz))
 			{
 				$tz = new DateTimeZone($tz);
@@ -120,11 +107,11 @@ class JDate extends DateTime
 		// Call the DateTime constructor.
 		parent::__construct($date, $tz);
 
-		// reset the timezone for 3rd party libraries/extension that does not use JDate
+		// Reset the timezone for 3rd party libraries/extension that does not use JDate
 		date_default_timezone_set(self::$stz->getName());
 
 		// Set the timezone object for access later.
-		$this->_tz = $tz;
+		$this->tz = $tz;
 	}
 
 	/**
@@ -223,7 +210,6 @@ class JDate extends DateTime
 	 * @return  JDate
 	 *
 	 * @since   11.3
-	 * @throws  JException
 	 */
 	public static function getInstance($date = 'now', $tz = null)
 	{
@@ -334,7 +320,7 @@ class JDate extends DateTime
 
 		if ($local == false)
 		{
-			parent::setTimezone($this->_tz);
+			parent::setTimezone($this->tz);
 		}
 
 		return $return;
@@ -351,7 +337,7 @@ class JDate extends DateTime
 	 */
 	public function getOffsetFromGMT($hours = false)
 	{
-		return (float) $hours ? ($this->_tz->getOffset($this) / 3600) : $this->_tz->getOffset($this);
+		return (float) $hours ? ($this->tz->getOffset($this) / 3600) : $this->tz->getOffset($this);
 	}
 
 	/**
@@ -396,105 +382,18 @@ class JDate extends DateTime
 	}
 
 	/**
-	 * Set the date offset (in hours).
+	 * Method to wrap the setTimezone() function and set the internal time zone object.
 	 *
-	 * @param   float  $offset  The offset in hours.
+	 * @param   DateTimeZone  $tz  The new DateTimeZone object.
 	 *
-	 * @return  boolean  True on success.
-	 *
-	 * @since   11.1
-	 *
-	 * @deprecated    12.1  Use setTimezone instead.
-	 */
-	public function setOffset($offset)
-	{
-		// Deprecation warning.
-		JLog::add('JDate::setOffset() is deprecated.', JLog::WARNING, 'deprecated');
-
-		// Only set the timezone if the offset exists.
-		if (isset(self::$offsets[(string) $offset]))
-		{
-			$this->_tz = new DateTimeZone(self::$offsets[(string) $offset]);
-			$this->setTimezone($this->_tz);
-			return true;
-		}
-
-		return false;
-	}
-
-	/**
-	 * Method to wrap the setTimezone() function and set the internal
-	 * time zone object.
-	 *
-	 * @param   object  $tz  The new DateTimeZone object.
-	 *
-	 * @return  DateTimeZone  The old DateTimeZone object.
+	 * @return  JDate
 	 *
 	 * @since   11.1
 	 */
 	public function setTimezone($tz)
 	{
-		$this->_tz = $tz;
+		$this->tz = $tz;
 		return parent::setTimezone($tz);
-	}
-
-	/**
-	 * Gets the date in a specific format
-	 *
-	 * Returns a string formatted according to the given format. Month and weekday names and
-	 * other language dependent strings respect the current locale
-	 *
-	 * @param   string   $format  The date format specification string (see {@link PHP_MANUAL#strftime})
-	 * @param   boolean  $local   True to return the date string in the local time zone, false to return it in GMT.
-	 *
-	 * @return  string   The date as a formatted string.
-	 *
-	 * @deprecated  Use JDate::format() instead.
-	 *
-	 * @deprecated  12.1 Use JDate::format() instead.
-	 */
-	public function toFormat($format = '%Y-%m-%d %H:%M:%S', $local = false)
-	{
-		// Deprecation warning.
-		JLog::add('JDate::toFormat() is deprecated.', JLog::WARNING, 'deprecated');
-
-		// Set time zone to GMT as strftime formats according locale setting.
-		date_default_timezone_set('GMT');
-
-		// Generate the timestamp.
-		$time = (int) parent::format('U');
-
-		// If the returned time should be local add the GMT offset.
-		if ($local)
-		{
-			$time += $this->getOffsetFromGMT();
-		}
-
-		// Manually modify the month and day strings in the format.
-		if (strpos($format, '%a') !== false)
-		{
-			$format = str_replace('%a', $this->dayToString(date('w', $time), true), $format);
-		}
-		if (strpos($format, '%A') !== false)
-		{
-			$format = str_replace('%A', $this->dayToString(date('w', $time)), $format);
-		}
-		if (strpos($format, '%b') !== false)
-		{
-			$format = str_replace('%b', $this->monthToString(date('n', $time), true), $format);
-		}
-		if (strpos($format, '%B') !== false)
-		{
-			$format = str_replace('%B', $this->monthToString(date('n', $time)), $format);
-		}
-
-		// Generate the formatted string.
-		$date = strftime($format, $time);
-
-		// reset the timezone for 3rd party libraries/extension that does not use JDate
-		date_default_timezone_set(self::$stz->getName());
-
-		return $date;
 	}
 
 	/**
@@ -514,34 +413,17 @@ class JDate extends DateTime
 	}
 
 	/**
-	 * Gets the date as an MySQL datetime string.
-	 *
-	 * @param   boolean  $local  True to return the date string in the local time zone, false to return it in GMT.
-	 *
-	 * @return  string   The date string in MySQL datetime format.
-	 *
-	 * @link http://dev.mysql.com/doc/refman/5.0/en/datetime.html
-	 * @since   11.1
-	 * @deprecated 12.1 Use JDate::toSql()
-	 */
-	public function toMySQL($local = false)
-	{
-		JLog::add('JDate::toMySQL() is deprecated. Use JDate::toSql() instead.', JLog::WARNING, 'deprecated');
-		return $this->format('Y-m-d H:i:s', $local, false);
-	}
-
-	/**
 	 * Gets the date as an SQL datetime string.
 	 *
-	 * @param   boolean    $local  True to return the date string in the local time zone, false to return it in GMT.
-	 * @param   JDatabase  $dbo    The database driver or null to use JFactory::getDbo()
+	 * @param   boolean          $local  True to return the date string in the local time zone, false to return it in GMT.
+	 * @param   JDatabaseDriver  $dbo    The database driver or null to use JFactory::getDbo()
 	 *
 	 * @return  string     The date string in SQL datetime format.
 	 *
 	 * @link http://dev.mysql.com/doc/refman/5.0/en/datetime.html
 	 * @since   11.4
 	 */
-	public function toSql($local = false, JDatabase $dbo = null)
+	public function toSql($local = false, JDatabaseDriver $dbo = null)
 	{
 		if ($dbo === null)
 		{

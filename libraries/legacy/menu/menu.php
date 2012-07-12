@@ -1,7 +1,7 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Application
+ * @package     Joomla.Legacy
+ * @subpackage  Menu
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -12,8 +12,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * JMenu class
  *
- * @package     Joomla.Platform
- * @subpackage  Application
+ * @package     Joomla.Legacy
+ * @subpackage  Menu
  * @since       11.1
  */
 class JMenu extends JObject
@@ -88,27 +88,34 @@ class JMenu extends JObject
 	{
 		if (empty(self::$instances[$client]))
 		{
-			//Load the router object
-			$info = JApplicationHelper::getClientInfo($client, true);
+			// Create a JMenu object
+			$classname = 'JMenu' . ucfirst($client);
 
-			$path = $info->path . '/includes/menu.php';
-			if (file_exists($path))
+			if (!class_exists($classname))
 			{
-				include_once $path;
+				JLog::add('Non-autoloadable JMenu subclasses are deprecated.', JLog::WARNING, 'deprecated');
 
-				// Create a JPathway object
-				$classname = 'JMenu' . ucfirst($client);
-				$instance = new $classname($options);
+				// Load the menu object
+				$info = JApplicationHelper::getClientInfo($client, true);
+
+				if (is_object($info))
+				{
+					$path = $info->path . '/includes/menu.php';
+					if (file_exists($path))
+					{
+						include_once $path;
+					}
+				}
+			}
+
+			if (class_exists($classname))
+			{
+				self::$instances[$client] = new $classname($options);
 			}
 			else
 			{
-				//$error = JError::raiseError(500, 'Unable to load menu: '.$client);
-				//TODO: Solve this
-				$error = null;
-				return $error;
+				throw new Exception(JText::sprintf('JLIB_APPLICATION_ERROR_MENU_LOAD', $client), 500);
 			}
-
-			self::$instances[$client] = & $instance;
 		}
 
 		return self::$instances[$client];

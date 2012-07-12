@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Platform
- * @subpackage  Application
+ * @subpackage  Input
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -9,13 +9,11 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.application.input');
-
 /**
  * Joomla! Input CLI Class
  *
  * @package     Joomla.Platform
- * @subpackage  Application
+ * @subpackage  Input
  * @since       11.1
  */
 class JInputCLI extends JInput
@@ -61,6 +59,52 @@ class JInputCLI extends JInput
 
 		// Set the options for the class.
 		$this->options = $options;
+	}
+
+	/**
+	 * Method to serialize the input.
+	 *
+	 * @return  string  The serialized input.
+	 *
+	 * @since   12.1
+	 */
+	public function serialize()
+	{
+		// Load all of the inputs.
+		$this->loadAllInputs();
+
+		// Remove $_ENV and $_SERVER from the inputs.
+		$inputs = $this->inputs;
+		unset($inputs['env']);
+		unset($inputs['server']);
+
+		// Serialize the executable, args, options, data, and inputs.
+		return serialize(array($this->executable, $this->args, $this->options, $this->data, $inputs));
+	}
+
+	/**
+	 * Method to unserialize the input.
+	 *
+	 * @param   string  $input  The serialized input.
+	 *
+	 * @return  JInput  The input object.
+	 *
+	 * @since   12.1
+	 */
+	public function unserialize($input)
+	{
+		// Unserialize the executable, args, options, data, and inputs.
+		list($this->executable, $this->args, $this->options, $this->data, $this->inputs) = unserialize($input);
+
+		// Load the filter.
+		if (isset($this->options['filter']))
+		{
+			$this->filter = $this->options['filter'];
+		}
+		else
+		{
+			$this->filter = JFilterInput::getInstance();
+		}
 	}
 
 	/**

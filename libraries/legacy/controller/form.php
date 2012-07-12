@@ -1,7 +1,7 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Application
+ * @package     Joomla.Legacy
+ * @subpackage  Controller
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -9,23 +9,21 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.application.component.controller');
-
 /**
  * Controller tailored to suit most form-based admin operations.
  *
- * @package     Joomla.Platform
- * @subpackage  Application
- * @since       11.1
+ * @package     Joomla.Legacy
+ * @subpackage  Controller
+ * @since       12.2
  * @todo        Add ability to set redirect manually to better cope with frontend usage.
  */
-class JControllerForm extends JController
+class JControllerForm extends JControllerLegacy
 {
 	/**
 	 * The context for storing internal data, e.g. record.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  12.2
 	 */
 	protected $context;
 
@@ -33,7 +31,7 @@ class JControllerForm extends JController
 	 * The URL option for the component.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  12.2
 	 */
 	protected $option;
 
@@ -41,7 +39,7 @@ class JControllerForm extends JController
 	 * The URL view item variable.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  12.2
 	 */
 	protected $view_item;
 
@@ -49,7 +47,7 @@ class JControllerForm extends JController
 	 * The URL view list variable.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  12.2
 	 */
 	protected $view_list;
 
@@ -57,7 +55,7 @@ class JControllerForm extends JController
 	 * The prefix to use with controller messages.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  12.2
 	 */
 	protected $text_prefix;
 
@@ -66,8 +64,9 @@ class JControllerForm extends JController
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
-	 * @see     JController
-	 * @since   11.1
+	 * @see     JControllerLegacy
+	 * @since   12.2
+	 * @throws  Exception
 	 */
 	public function __construct($config = array())
 	{
@@ -91,7 +90,7 @@ class JControllerForm extends JController
 			$r = null;
 			if (!preg_match('/(.*)Controller(.*)/i', get_class($this), $r))
 			{
-				JError::raiseError(500, JText::_('JLIB_APPLICATION_ERROR_CONTROLLER_GET_NAME'));
+				throw new Exception(JText::_('JLIB_APPLICATION_ERROR_CONTROLLER_GET_NAME'), 500);
 			}
 			$this->context = strtolower($r[2]);
 		}
@@ -138,9 +137,9 @@ class JControllerForm extends JController
 	/**
 	 * Method to add a new record.
 	 *
-	 * @return  mixed  True if the record can be added, a JError object if not.
+	 * @return  mixed  True if the record can be added, a error object if not.
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	public function add()
 	{
@@ -188,7 +187,7 @@ class JControllerForm extends JController
 	 *
 	 * @return  boolean
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	protected function allowAdd($data = array())
 	{
@@ -206,7 +205,7 @@ class JControllerForm extends JController
 	 *
 	 * @return  boolean
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	protected function allowEdit($data = array(), $key = 'id')
 	{
@@ -223,7 +222,7 @@ class JControllerForm extends JController
 	 *
 	 * @return  boolean
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	protected function allowSave($data, $key = 'id')
 	{
@@ -243,11 +242,11 @@ class JControllerForm extends JController
 	/**
 	 * Method to run batch operations.
 	 *
-	 * @param   JModel  $model  The model of the component being processed.
+	 * @param   JModelLegacy  $model  The model of the component being processed.
 	 *
 	 * @return	boolean	 True if successful, false otherwise and internal error is set.
 	 *
-	 * @since	11.1
+	 * @since	12.2
 	 */
 	public function batch($model)
 	{
@@ -293,7 +292,7 @@ class JControllerForm extends JController
 	 *
 	 * @return  boolean  True if access level checks pass, false otherwise.
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	public function cancel($key = null)
 	{
@@ -311,7 +310,7 @@ class JControllerForm extends JController
 			$key = $table->getKeyName();
 		}
 
-		$recordId = JRequest::getInt($key);
+		$recordId = $app->input->getInt($key);
 
 		// Attempt to check-in the current record.
 		if ($recordId)
@@ -376,15 +375,16 @@ class JControllerForm extends JController
 	 *
 	 * @return  boolean  True if access level check and checkout passes, false otherwise.
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	public function edit($key = null, $urlVar = null)
 	{
 		// Initialise variables.
-		$app = JFactory::getApplication();
+		$app   = JFactory::getApplication();
+		$input = $app->input;
 		$model = $this->getModel();
 		$table = $model->getTable();
-		$cid = JRequest::getVar('cid', array(), 'post', 'array');
+		$cid = $input->post->get('cid', array(), 'array');
 		$context = "$this->option.edit.$this->context";
 
 		// Determine the name of the primary key for the data.
@@ -400,7 +400,7 @@ class JControllerForm extends JController
 		}
 
 		// Get the previous record id (if any) and the current record id.
-		$recordId = (int) (count($cid) ? $cid[0] : JRequest::getInt($urlVar));
+		$recordId = (int) (count($cid) ? $cid[0] : $input->getInt($urlVar));
 		$checkin = property_exists($table, 'checked_out');
 
 		// Access check.
@@ -461,7 +461,7 @@ class JControllerForm extends JController
 	 *
 	 * @return  object  The model.
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	public function getModel($name = '', $prefix = '', $config = array('ignore_request' => true))
 	{
@@ -481,12 +481,13 @@ class JControllerForm extends JController
 	 *
 	 * @return  string  The arguments to append to the redirect URL.
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	protected function getRedirectToItemAppend($recordId = null, $urlVar = 'id')
 	{
-		$tmpl   = JRequest::getCmd('tmpl');
-		$layout = JRequest::getCmd('layout', 'edit');
+		$input  = JFactory::getApplication()->input;
+		$tmpl   = $input->get('tmpl');
+		$layout = $input->get('layout', 'edit');
 		$append = '';
 
 		// Setup redirect info.
@@ -513,11 +514,11 @@ class JControllerForm extends JController
 	 *
 	 * @return  string  The arguments to append to the redirect URL.
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	protected function getRedirectToListAppend()
 	{
-		$tmpl = JRequest::getCmd('tmpl');
+		$tmpl = JFactory::getApplication()->input->get('tmpl');
 		$append = '';
 
 		// Setup redirect info.
@@ -533,14 +534,14 @@ class JControllerForm extends JController
 	 * Function that allows child controller access to model data
 	 * after the data has been saved.
 	 *
-	 * @param   JModel  &$model     The data model object.
-	 * @param   array   $validData  The validated data.
+	 * @param   JModelLegacy  $model      The data model object.
+	 * @param   array         $validData  The validated data.
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
-	protected function postSaveHook(JModel &$model, $validData = array())
+	protected function postSaveHook(JModelLegacy $model, $validData = array())
 	{
 	}
 
@@ -552,7 +553,7 @@ class JControllerForm extends JController
 	 *
 	 * @return  boolean  True if successful, false otherwise.
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	public function save($key = null, $urlVar = null)
 	{
@@ -561,10 +562,11 @@ class JControllerForm extends JController
 
 		// Initialise variables.
 		$app   = JFactory::getApplication();
+		$input = $app->input;
 		$lang  = JFactory::getLanguage();
 		$model = $this->getModel();
 		$table = $model->getTable();
-		$data  = JRequest::getVar('jform', array(), 'post', 'array');
+		$data  = $input->post->get('jform', array(), 'array');
 		$checkin = property_exists($table, 'checked_out');
 		$context = "$this->option.edit.$this->context";
 		$task = $this->getTask();
@@ -581,7 +583,7 @@ class JControllerForm extends JController
 			$urlVar = $key;
 		}
 
-		$recordId = JRequest::getInt($urlVar);
+		$recordId = $input->getInt($urlVar);
 
 		if (!$this->checkEditId($context, $recordId))
 		{

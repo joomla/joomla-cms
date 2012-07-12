@@ -1,7 +1,7 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Application
+ * @package     Joomla.Legacy
+ * @subpackage  Model
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -9,14 +9,12 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.application.component.modelform');
-
 /**
  * Prototype admin model.
  *
- * @package     Joomla.Platform
- * @subpackage  Application
- * @since       11.1
+ * @package     Joomla.Legacy
+ * @subpackage  Model
+ * @since       12.2
  */
 abstract class JModelAdmin extends JModelForm
 {
@@ -24,7 +22,7 @@ abstract class JModelAdmin extends JModelForm
 	 * The prefix to use with controller messages.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  12.2
 	 */
 	protected $text_prefix = null;
 
@@ -32,7 +30,7 @@ abstract class JModelAdmin extends JModelForm
 	 * The event to trigger after deleting the data.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  12.2
 	 */
 	protected $event_after_delete = null;
 
@@ -40,7 +38,7 @@ abstract class JModelAdmin extends JModelForm
 	 * The event to trigger after saving the data.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  12.2
 	 */
 	protected $event_after_save = null;
 
@@ -48,7 +46,7 @@ abstract class JModelAdmin extends JModelForm
 	 * The event to trigger before deleting the data.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  12.2
 	 */
 	protected $event_before_delete = null;
 
@@ -56,7 +54,7 @@ abstract class JModelAdmin extends JModelForm
 	 * The event to trigger before saving the data.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  12.2
 	 */
 	protected $event_before_save = null;
 
@@ -64,7 +62,7 @@ abstract class JModelAdmin extends JModelForm
 	 * The event to trigger after changing the published state of the data.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  12.2
 	 */
 	protected $event_change_state = null;
 
@@ -73,8 +71,8 @@ abstract class JModelAdmin extends JModelForm
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
-	 * @see     JController
-	 * @since   11.1
+	 * @see     JModelLegacy
+	 * @since   12.2
 	 */
 	public function __construct($config = array())
 	{
@@ -145,7 +143,7 @@ abstract class JModelAdmin extends JModelForm
 	 *
 	 * @return  boolean  Returns true on success, false on failure.
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	public function batch($commands, $pks, $contexts)
 	{
@@ -231,7 +229,7 @@ abstract class JModelAdmin extends JModelForm
 	 *
 	 * @return  boolean  True if successful, false otherwise and internal error is set.
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	protected function batchAccess($value, $pks, $contexts)
 	{
@@ -275,7 +273,7 @@ abstract class JModelAdmin extends JModelForm
 	 *
 	 * @return  mixed  An array of new IDs on success, boolean false on failure.
 	 *
-	 * @since	11.1
+	 * @since	12.2
 	 */
 	protected function batchCopy($value, $pks, $contexts)
 	{
@@ -439,7 +437,7 @@ abstract class JModelAdmin extends JModelForm
 	 *
 	 * @return  boolean  True if successful, false otherwise and internal error is set.
 	 *
-	 * @since	11.1
+	 * @since	12.2
 	 */
 	protected function batchMove($value, $pks, $contexts)
 	{
@@ -539,7 +537,7 @@ abstract class JModelAdmin extends JModelForm
 	 *
 	 * @return  boolean  True if allowed to delete the record. Defaults to the permission for the component.
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	protected function canDelete($record)
 	{
@@ -554,7 +552,7 @@ abstract class JModelAdmin extends JModelForm
 	 *
 	 * @return  boolean  True if allowed to change the state of the record. Defaults to the permission for the component.
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	protected function canEditState($record)
 	{
@@ -569,7 +567,7 @@ abstract class JModelAdmin extends JModelForm
 	 *
 	 * @return  mixed  Boolean false if there is an error, otherwise the count of records checked in.
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	public function checkin($pks = array())
 	{
@@ -616,7 +614,7 @@ abstract class JModelAdmin extends JModelForm
 	 *
 	 * @return  boolean  True if successful, false if an error occurs.
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	public function checkout($pk = null)
 	{
@@ -633,12 +631,12 @@ abstract class JModelAdmin extends JModelForm
 	 *
 	 * @return  boolean  True if successful, false if an error occurs.
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	public function delete(&$pks)
 	{
 		// Initialise variables.
-		$dispatcher = JDispatcher::getInstance();
+		$dispatcher = JEventDispatcher::getInstance();
 		$pks = (array) $pks;
 		$table = $this->getTable();
 
@@ -683,12 +681,12 @@ abstract class JModelAdmin extends JModelForm
 					$error = $this->getError();
 					if ($error)
 					{
-						JError::raiseWarning(500, $error);
+						JLog::add($error, JLog::WARNING, 'jerror');
 						return false;
 					}
 					else
 					{
-						JError::raiseWarning(403, JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'));
+						JLog::add(JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), JLog::WARNING, 'jerror');
 						return false;
 					}
 				}
@@ -716,7 +714,7 @@ abstract class JModelAdmin extends JModelForm
 	 *
 	 * @return	array  Contains the modified title and alias.
 	 *
-	 * @since	11.1
+	 * @since	12.2
 	 */
 	protected function generateNewTitle($category_id, $alias, $title)
 	{
@@ -738,7 +736,7 @@ abstract class JModelAdmin extends JModelForm
 	 *
 	 * @return  mixed    Object on success, false on failure.
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	public function getItem($pk = null)
 	{
@@ -780,7 +778,7 @@ abstract class JModelAdmin extends JModelForm
 	 *
 	 * @return  array  An array of conditions to add to ordering queries.
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	protected function getReorderConditions($table)
 	{
@@ -792,7 +790,7 @@ abstract class JModelAdmin extends JModelForm
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	protected function populateState()
 	{
@@ -801,7 +799,7 @@ abstract class JModelAdmin extends JModelForm
 		$key = $table->getKeyName();
 
 		// Get the pk of the record from the request.
-		$pk = JRequest::getInt($key);
+		$pk = JFactory::getApplication()->input->getInt($key);
 		$this->setState($this->getName() . '.id', $pk);
 
 		// Load the parameters.
@@ -812,13 +810,13 @@ abstract class JModelAdmin extends JModelForm
 	/**
 	 * Prepare and sanitise the table data prior to saving.
 	 *
-	 * @param   JTable  &$table  A reference to a JTable object.
+	 * @param   JTable  $table  A reference to a JTable object.
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
-	protected function prepareTable(&$table)
+	protected function prepareTable($table)
 	{
 		// Derived class will provide its own implementation if required.
 	}
@@ -831,12 +829,12 @@ abstract class JModelAdmin extends JModelForm
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	public function publish(&$pks, $value = 1)
 	{
 		// Initialise variables.
-		$dispatcher = JDispatcher::getInstance();
+		$dispatcher = JEventDispatcher::getInstance();
 		$user = JFactory::getUser();
 		$table = $this->getTable();
 		$pks = (array) $pks;
@@ -855,7 +853,7 @@ abstract class JModelAdmin extends JModelForm
 				{
 					// Prune items that you can't change.
 					unset($pks[$i]);
-					JError::raiseWarning(403, JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'));
+					JLog::add(JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), JLog::WARNING, 'jerror');
 					return false;
 				}
 			}
@@ -896,7 +894,7 @@ abstract class JModelAdmin extends JModelForm
 	 *
 	 * @return  mixed  False on failure or error, true on success, null if the $pk is empty (no items selected).
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	public function reorder($pks, $delta = 0)
 	{
@@ -919,7 +917,7 @@ abstract class JModelAdmin extends JModelForm
 					// Prune items that you can't change.
 					unset($pks[$i]);
 					$this->checkin($pk);
-					JError::raiseWarning(403, JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'));
+					JLog::add(JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), JLog::WARNING, 'jerror');
 					$allowed = false;
 					continue;
 				}
@@ -965,12 +963,12 @@ abstract class JModelAdmin extends JModelForm
 	 *
 	 * @return  boolean  True on success, False on error.
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	public function save($data)
 	{
 		// Initialise variables;
-		$dispatcher = JDispatcher::getInstance();
+		$dispatcher = JEventDispatcher::getInstance();
 		$table = $this->getTable();
 		$key = $table->getKeyName();
 		$pk = (!empty($data[$key])) ? $data[$key] : (int) $this->getState($this->getName() . '.id');
@@ -1007,7 +1005,7 @@ abstract class JModelAdmin extends JModelForm
 			}
 
 			// Trigger the onContentBeforeSave event.
-			$result = $dispatcher->trigger($this->event_before_save, array($this->option . '.' . $this->name, &$table, $isNew));
+			$result = $dispatcher->trigger($this->event_before_save, array($this->option . '.' . $this->name, $table, $isNew));
 			if (in_array(false, $result, true))
 			{
 				$this->setError($table->getError());
@@ -1025,7 +1023,7 @@ abstract class JModelAdmin extends JModelForm
 			$this->cleanCache();
 
 			// Trigger the onContentAfterSave event.
-			$dispatcher->trigger($this->event_after_save, array($this->option . '.' . $this->name, &$table, $isNew));
+			$dispatcher->trigger($this->event_after_save, array($this->option . '.' . $this->name, $table, $isNew));
 		}
 		catch (Exception $e)
 		{
@@ -1053,7 +1051,7 @@ abstract class JModelAdmin extends JModelForm
 	 *
 	 * @return  mixed
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	public function saveorder($pks = null, $order = null)
 	{
@@ -1076,7 +1074,7 @@ abstract class JModelAdmin extends JModelForm
 			{
 				// Prune items that you can't change.
 				unset($pks[$i]);
-				JError::raiseWarning(403, JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'));
+				JLog::add(JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), JLog::WARNING, 'jerror');
 			}
 			elseif ($table->ordering != $order[$i])
 			{

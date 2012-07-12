@@ -9,22 +9,13 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.log.logger');
-
-JLoader::register('LogException', JPATH_PLATFORM . '/joomla/log/logexception.php');
-
-JLoader::discover('JLogger', dirname(__FILE__) . '/loggers');
-
-// @deprecated  12.1
-jimport('joomla.filesystem.path');
-
 /**
  * Joomla! Log Class
  *
  * This class hooks into the global log configuration settings to allow for user configured
  * logging events to be sent to where the user wishes them to be sent. On high load sites
- * SysLog is probably the best (pure PHP function), then the text file based loggers (CSV, W3C
- * or plain FormattedText) and finally MySQL offers the most features (e.g. rapid searching)
+ * Syslog is probably the best (pure PHP function), then the text file based loggers (CSV, W3c
+ * or plain Formattedtext) and finally MySQL offers the most features (e.g. rapid searching)
  * but will incur a performance hit due to INSERT being issued.
  *
  * @package     Joomla.Platform
@@ -104,23 +95,14 @@ class JLog
 	protected static $instance;
 
 	/**
-	 * The array of instances created through the deprecated getInstance method.
-	 * @var         array
-	 * @since       11.1
-	 * @see         JLog::getInstance()
-	 * @deprecated  12.1
-	 */
-	public static $legacy = array();
-
-	/**
-	 * Container for JLogger configurations.
+	 * Container for JLogLogger configurations.
 	 * @var    array
 	 * @since  11.1
 	 */
 	protected $configurations = array();
 
 	/**
-	 * Container for JLogger objects.
+	 * Container for JLogLogger objects.
 	 * @var    array
 	 * @since  11.1
 	 */
@@ -154,7 +136,7 @@ class JLog
 	 *
 	 * @since   11.1
 	 */
-	public static function add($entry, $priority = JLog::INFO, $category = '', $date = null)
+	public static function add($entry, $priority = self::INFO, $category = '', $date = null)
 	{
 		// Automatically instantiate the singleton object if not already done.
 		if (empty(self::$instance))
@@ -172,8 +154,7 @@ class JLog
 	}
 
 	/**
-	 * Method to set the way the JError will handle different error levels.
-	 * Use this if you want to override the default settings.
+	 * Add a logger to the JLog instance.  Loggers route log entries to the correct files/systems to be logged.
 	 *
 	 * @param   array    $options     The object configuration array.
 	 * @param   integer  $priorities  Message priority
@@ -183,7 +164,7 @@ class JLog
 	 *
 	 * @since   11.1
 	 */
-	public static function addLogger(array $options, $priorities = JLog::ALL, $categories = array())
+	public static function addLogger(array $options, $priorities = self::ALL, $categories = array())
 	{
 		// Automatically instantiate the singleton object if not already done.
 		if (empty(self::$instance))
@@ -198,8 +179,22 @@ class JLog
 		}
 		$options['logger'] = strtolower($options['logger']);
 
+		// Special case - if a Closure object is sent as the callback (in case of JLoggerCallback)
+		// Closure objects are not serializable so swap it out for a unique id first then back again later
+		if (isset($options['callback']) && is_a($options['callback'], 'closure'))
+		{
+			$callback = $options['callback'];
+			$options['callback'] = spl_object_hash($options['callback']);
+		}
+
 		// Generate a unique signature for the JLog instance based on its options.
 		$signature = md5(serialize($options));
+
+		// Now that the options array has been serialized, swap the callback back in
+		if (isset($callback))
+		{
+			$options['callback'] = $callback;
+		}
 
 		// Register the configuration if it doesn't exist.
 		if (empty(self::$instance->configurations[$signature]))
@@ -210,66 +205,6 @@ class JLog
 		self::$instance->lookup[$signature] = (object) array(
 			'priorities' => $priorities,
 			'categories' => array_map('strtolower', (array) $categories));
-	}
-
-	/**
-	 * Returns a JLog object for a given log file/configuration, only creating it if it doesn't already exist.
-	 *
-	 * This method must be invoked as:
-	 * <code>$log = JLog::getInstance($file, $options, $path);</code>
-	 *
-	 * @param   string  $file     The filename of the log file.
-	 * @param   array   $options  The object configuration array.
-	 * @param   string  $path     The base path for the log file.
-	 *
-	 * @return  JLog
-	 *
-	 * @since   11.1
-	 *
-	 * @deprecated  12.1
-	 */
-	public static function getInstance($file = 'error.php', $options = null, $path = null)
-	{
-		// Deprecation warning.
-		JLog::add('JLog::getInstance() is deprecated.  See JLog::addLogger().', JLog::WARNING, 'deprecated');
-
-		// Get the system configuration object.
-		$config = JFactory::getConfig();
-
-		// Set default path if not set and sanitize it.
-		if (!$path)
-		{
-			$path = $config->get('log_path');
-		}
-
-		// If no options were explicitly set use the default from configuration.
-		if (empty($options))
-		{
-			$options = (array) $config->get('log_options');
-		}
-
-		// Fix up the options so that we use the w3c format.
-		$options['text_entry_format'] = empty($options['format']) ? null : $options['format'];
-		$options['text_file'] = $file;
-		$options['text_file_path'] = $path;
-		$options['logger'] = 'w3c';
-
-		// Generate a unique signature for the JLog instance based on its options.
-		$signature = md5(serialize($options));
-
-		// Only create the object if not already created.
-		if (empty(self::$legacy[$signature]))
-		{
-			self::$legacy[$signature] = new JLog;
-
-			// Register the configuration.
-			self::$legacy[$signature]->configurations[$signature] = $options;
-
-			// Setup the lookup to catch all.
-			self::$legacy[$signature]->lookup[$signature] = (object) array('priorities' => JLog::ALL, 'categories' => array());
-		}
-
-		return self::$legacy[$signature];
 	}
 
 	/**
@@ -291,62 +226,6 @@ class JLog
 	}
 
 	/**
-	 * Method to add an entry to the log file.
-	 *
-	 * @param   array  $entry  Array of values to map to the format string for the log file.
-	 *
-	 * @return  boolean  True on success.
-	 *
-	 * @since         11.1
-	 *
-	 * @deprecated    12.1  Use JLog::add() instead.
-	 */
-	public function addEntry($entry)
-	{
-		// Deprecation warning.
-		JLog::add('JLog::addEntry() is deprecated, use JLog::add() instead.', JLog::WARNING, 'deprecated');
-
-		// Easiest case is we already have a JLogEntry object to add.
-		if ($entry instanceof JLogEntry)
-		{
-			return $this->addLogEntry($entry);
-		}
-		// We have either an object or array that needs to be converted to a JLogEntry.
-		elseif (is_array($entry) || is_object($entry))
-		{
-			$tmp = new JLogEntry('');
-			foreach ((array) $entry as $k => $v)
-			{
-				switch ($k)
-				{
-					case 'c-ip':
-						$tmp->clientIP = $v;
-						break;
-					case 'status':
-						$tmp->category = $v;
-						break;
-					case 'level':
-						$tmp->priority = $v;
-						break;
-					case 'comment':
-						$tmp->message = $v;
-						break;
-					default:
-						$tmp->$k = $v;
-						break;
-				}
-			}
-		}
-		// Unrecognized type.
-		else
-		{
-			return false;
-		}
-
-		return $this->addLogEntry($tmp);
-	}
-
-	/**
 	 * Method to add an entry to the appropriate loggers.
 	 *
 	 * @param   JLogEntry  $entry  The JLogEntry object to send to the loggers.
@@ -354,7 +233,7 @@ class JLog
 	 * @return  void
 	 *
 	 * @since   11.1
-	 * @throws  LogException
+	 * @throws  RuntimeException
 	 */
 	protected function addLogEntry(JLogEntry $entry)
 	{
@@ -367,19 +246,19 @@ class JLog
 			if (empty($this->loggers[$signature]))
 			{
 
-				$class = 'JLogger' . ucfirst($this->configurations[$signature]['logger']);
+				$class = 'JLogLogger' . ucfirst($this->configurations[$signature]['logger']);
 				if (class_exists($class))
 				{
 					$this->loggers[$signature] = new $class($this->configurations[$signature]);
 				}
 				else
 				{
-					throw new LogException(JText::_('Unable to create a JLogger instance: '));
+					throw new RuntimeException('Unable to create a JLogLogger instance: ' . $class);
 				}
 			}
 
 			// Add the entry to the logger.
-			$this->loggers[$signature]->addEntry($entry);
+			$this->loggers[$signature]->addEntry(clone($entry));
 		}
 	}
 

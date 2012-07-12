@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Joomla.Platform
+ * @package     Joomla.Legacy
  * @subpackage  HTML
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Utility class working with content language select lists
  *
- * @package     Joomla.Platform
+ * @package     Joomla.Legacy
  * @subpackage  HTML
  * @since       11.1
  */
@@ -58,12 +58,6 @@ abstract class JHtmlContentLanguage
 			if ($all)
 			{
 				array_unshift(self::$items, new JObject(array('value' => '*', 'text' => $translate ? JText::alt('JALL', 'language') : 'JALL_LANGUAGE')));
-			}
-
-			// Detect errors
-			if ($db->getErrorNum())
-			{
-				JError::raiseWarning(500, $db->getErrorMsg());
 			}
 		}
 		return self::$items;

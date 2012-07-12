@@ -1,7 +1,7 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Application
+ * @package     Joomla.Legacy
+ * @subpackage  Categories
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -12,8 +12,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * JCategories Class.
  *
- * @package     Joomla.Platform
- * @subpackage  Application
+ * @package     Joomla.Legacy
+ * @subpackage  Categories
  * @since       11.1
  */
 class JCategories
@@ -210,6 +210,7 @@ class JCategories
 		$app = JFactory::getApplication();
 		$user = JFactory::getUser();
 		$extension = $this->_extension;
+
 		// Record that has this $id has been checked
 		$this->_checkedCategories[$id] = true;
 
@@ -218,7 +219,7 @@ class JCategories
 		// Right join with c for category
 		$query->select('c.*');
 		$case_when = ' CASE WHEN ';
-		$case_when .= $query->charLength('c.alias');
+		$case_when .= $query->charLength('c.alias') . '!=0';
 		$case_when .= ' THEN ';
 		$c_id = $query->castAsChar('c.id');
 		$case_when .= $query->concatenate(array($c_id, 'c.alias'), ':');
@@ -241,26 +242,12 @@ class JCategories
 
 		$query->order('c.lft');
 
-		// s for selected id
+		// Note: s for selected id
 		if ($id != 'root')
 		{
 			// Get the selected category
+			$query->leftJoin('#__categories AS s ON (s.lft <= c.lft AND s.rgt >= c.rgt) OR (s.lft > c.lft AND s.rgt < c.rgt)');
 			$query->where('s.id=' . (int) $id);
-			if ($app->isSite() && $app->getLanguageFilter())
-			{
-				$query->leftJoin('#__categories AS s ON (s.lft < c.lft AND s.rgt > c.rgt AND c.language in (' . $db->Quote(JFactory::getLanguage()->getTag()) . ',' . $db->Quote('*') . ')) OR (s.lft >= c.lft AND s.rgt <= c.rgt)');
-			}
-			else
-			{
-				$query->leftJoin('#__categories AS s ON (s.lft <= c.lft AND s.rgt >= c.rgt) OR (s.lft > c.lft AND s.rgt < c.rgt)');
-			}
-		}
-		else
-		{
-			if ($app->isSite() && $app->getLanguageFilter())
-			{
-				$query->where('c.language in (' . $db->Quote(JFactory::getLanguage()->getTag()) . ',' . $db->Quote('*') . ')');
-			}
 		}
 
 		$subQuery = ' (SELECT cat.id as id FROM #__categories AS cat JOIN #__categories AS parent ' .
@@ -269,7 +256,7 @@ class JCategories
 		$query->leftJoin($subQuery . 'AS badcats ON badcats.id = c.id');
 		$query->where('badcats.id is null');
 
-		// i for item
+		// Note: i for item
 		if (isset($this->_options['countItems']) && $this->_options['countItems'] == 1)
 		{
 			if ($this->_options['published'] == 1)
@@ -291,6 +278,15 @@ class JCategories
  			c.created_time, c.created_user_id, c.description, c.extension, c.hits, c.language, c.level,
 		 	c.lft, c.metadata, c.metadesc, c.metakey, c.modified_time, c.note, c.params, c.parent_id,
  			c.path, c.published, c.rgt, c.title, c.modified_user_id');
+
+		// Filter by language
+		if ($app->isSite() && $app->getLanguageFilter())
+		{
+			$query->where(
+				'(' . ($id != 'root' ? 'c.id=s.id OR ' : '') . 'c.language in (' . $db->Quote(JFactory::getLanguage()->getTag()) . ',' .
+				$db->Quote('*') . '))'
+			);
+		}
 
 		// Get the results
 		$db->setQuery($query);
@@ -377,13 +373,12 @@ class JCategories
 /**
  * Helper class to load Categorytree
  *
- * @package     Joomla.Platform
- * @subpackage  Application
+ * @package     Joomla.Legacy
+ * @subpackage  Categories
  * @since       11.1
  */
 class JCategoryNode extends JObject
 {
-
 	/**
 	 * Primary key
 	 *
@@ -443,7 +438,7 @@ class JCategoryNode extends JObject
 	/**
 	 * The menu title for the category (a short name)
 	 *
-	 * @var string
+	 * @var    string
 	 * @since  11.1
 	 */
 	public $title = null;
@@ -459,7 +454,7 @@ class JCategoryNode extends JObject
 	/**
 	 * Description of the category.
 	 *
-	 * @var string
+	 * @var    string
 	 * @since  11.1
 	 */
 	public $description = null;
@@ -475,7 +470,7 @@ class JCategoryNode extends JObject
 	/**
 	 * Whether the category is or is not checked out
 	 *
-	 * @var boolean
+	 * @var    boolean
 	 * @since  11.1
 	 */
 	public $checked_out = 0;
@@ -483,7 +478,7 @@ class JCategoryNode extends JObject
 	/**
 	 * The time at which the category was checked out
 	 *
-	 * @var    time
+	 * @var    string
 	 * @since  11.1
 	 */
 	public $checked_out_time = 0;
@@ -491,7 +486,7 @@ class JCategoryNode extends JObject
 	/**
 	 * Access level for the category
 	 *
-	 * @var integer
+	 * @var    integer
 	 * @since  11.1
 	 */
 	public $access = null;
@@ -499,7 +494,7 @@ class JCategoryNode extends JObject
 	/**
 	 * JSON string of parameters
 	 *
-	 * @var string
+	 * @var    string
 	 * @since  11.1
 	 */
 	public $params = null;
@@ -507,7 +502,7 @@ class JCategoryNode extends JObject
 	/**
 	 * Metadata description
 	 *
-	 * @var string
+	 * @var    string
 	 * @since  11.1
 	 */
 	public $metadesc = null;
@@ -515,7 +510,7 @@ class JCategoryNode extends JObject
 	/**
 	 * Key words for meta data
 	 *
-	 * @var string
+	 * @var    string
 	 * @since  11.1
 	 */
 	public $metakey = null;
@@ -523,27 +518,39 @@ class JCategoryNode extends JObject
 	/**
 	 * JSON string of other meta data
 	 *
-	 * @var string
+	 * @var    string
 	 * @since  11.1
 	 */
 	public $metadata = null;
 
+	/**
+	 * The ID of the user who created the category
+	 *
+	 * @var    integer
+	 * @since  11.1
+	 */
 	public $created_user_id = null;
 
 	/**
 	 * The time at which the category was created
 	 *
-	 * @var    time
+	 * @var    string
 	 * @since  11.1
 	 */
 	public $created_time = null;
 
+	/**
+	 * The ID of the user who last modified the category
+	 *
+	 * @var    integer
+	 * @since  11.1
+	 */
 	public $modified_user_id = null;
 
 	/**
 	 * The time at which the category was modified
 	 *
-	 * @var    time
+	 * @var    string
 	 * @since  11.1
 	 */
 	public $modified_time = null;
@@ -559,7 +566,7 @@ class JCategoryNode extends JObject
 	/**
 	 * The language for the category in xx-XX format
 	 *
-	 * @var    time
+	 * @var    string
 	 * @since  11.1
 	 */
 	public $language = null;
@@ -575,7 +582,7 @@ class JCategoryNode extends JObject
 	/**
 	 * Number of children items
 	 *
-	 * @var
+	 * @var    integer
 	 * @since  11.1
 	 */
 	public $childrennumitems = null;
@@ -653,19 +660,19 @@ class JCategoryNode extends JObject
 	/**
 	 * Class constructor
 	 *
-	 * @param   array          $category      The category data.
-	 * @param   JCategoryNode  &$constructor  The tree constructor.
+	 * @param   array          $category     The category data.
+	 * @param   JCategoryNode  $constructor  The tree constructor.
 	 *
 	 * @since   11.1
 	 */
-	public function __construct($category = null, &$constructor = null)
+	public function __construct($category = null, $constructor = null)
 	{
 		if ($category)
 		{
 			$this->setProperties($category);
 			if ($constructor)
 			{
-				$this->_constructor = &$constructor;
+				$this->_constructor = $constructor;
 			}
 
 			return true;
@@ -679,13 +686,13 @@ class JCategoryNode extends JObject
 	 *
 	 * If the category already has a parent, the link is unset
 	 *
-	 * @param   mixed  &$parent  JCategoryNode for the parent to be set or null
+	 * @param   mixed  $parent  JCategoryNode for the parent to be set or null
 	 *
 	 * @return  void
 	 *
 	 * @since   11.1
 	 */
-	public function setParent(&$parent)
+	public function setParent($parent)
 	{
 		if ($parent instanceof JCategoryNode || is_null($parent))
 		{
@@ -700,7 +707,7 @@ class JCategoryNode extends JObject
 				$parent->_children[] = & $this;
 			}
 
-			$this->_parent = & $parent;
+			$this->_parent = $parent;
 
 			if ($this->id != 'root')
 			{
@@ -725,13 +732,13 @@ class JCategoryNode extends JObject
 	 *
 	 * If the child already has a parent, the link is unset
 	 *
-	 * @param   JNode  &$child  The child to be added.
+	 * @param   JCategoryNode  $child  The child to be added.
 	 *
 	 * @return  void
 	 *
 	 * @since   11.1
 	 */
-	public function addChild(&$child)
+	public function addChild($child)
 	{
 		if ($child instanceof JCategoryNode)
 		{
@@ -794,11 +801,11 @@ class JCategoryNode extends JObject
 	/**
 	 * Get the parent of this node
 	 *
-	 * @return  mixed  JNode or null
+	 * @return  mixed  JCategoryNode or null
 	 *
 	 * @since   11.1
 	 */
-	public function &getParent()
+	public function getParent()
 	{
 		return $this->_parent;
 	}
@@ -830,8 +837,8 @@ class JCategoryNode extends JObject
 	/**
 	 * Function to set the left or right sibling of a category
 	 *
-	 * @param   object   $sibling  JCategoryNode object for the sibling
-	 * @param   boolean  $right    If set to false, the sibling is the left one
+	 * @param   JCategoryNode  $sibling  JCategoryNode object for the sibling
+	 * @param   boolean        $right    If set to false, the sibling is the left one
 	 *
 	 * @return  void
 	 *

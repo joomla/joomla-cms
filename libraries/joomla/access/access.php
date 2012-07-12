@@ -218,19 +218,20 @@ class JAccess
 		$query = $db->getQuery(true);
 		$query->select($recursive ? 'b.rules' : 'a.rules');
 		$query->from('#__assets AS a');
-		//sqlsrv change
+
+		// SQLsrv change
 		$query->group($recursive ? 'b.id, b.rules, b.lft' : 'a.id, a.rules, a.lft');
 
 		// If the asset identifier is numeric assume it is a primary key, else lookup by name.
 		if (is_numeric($asset))
 		{
 			// Get the root even if the asset is not found
-			$query->where('(a.id = ' . (int) $asset . ($recursive ? ' OR a.parent_id=0' : '') . ')');
+			$query->where('(a.id = ' . (int) $asset . ')');
 		}
 		else
 		{
 			// Get the root even if the asset is not found
-			$query->where('(a.name = ' . $db->quote($asset) . ($recursive ? ' OR a.parent_id=0' : '') . ')');
+			$query->where('(a.name = ' . $db->quote($asset) . ')');
 		}
 
 		// If we want the rules cascading up to the global asset node we need a self-join.
@@ -281,10 +282,20 @@ class JAccess
 
 		if (!isset(self::$groupsByUser[$storeId]))
 		{
+			// TODO: Uncouple this from JComponentHelper and allow for a configuration setting or value injection.
+			if (class_exists('JComponentHelper'))
+			{
+				$guestUsergroup = JComponentHelper::getParams('com_users')->get('guest_usergroup', 1);
+			}
+			else
+			{
+				$guestUsergroup = 1;
+			}
+
 			// Guest user (if only the actually assigned group is requested)
 			if (empty($userId) && !$recursive)
 			{
-				$result = array(JComponentHelper::getParams('com_users')->get('guest_usergroup', 1));
+				$result = array($guestUsergroup);
 			}
 			// Registered user and guest if all groups are requested
 			else
@@ -297,7 +308,7 @@ class JAccess
 				if (empty($userId))
 				{
 					$query->from('#__usergroups AS a');
-					$query->where('a.id = ' . (int) JComponentHelper::getParams('com_users')->get('guest_usergroup', 1));
+					$query->where('a.id = ' . (int) $guestUsergroup);
 				}
 				else
 				{
@@ -477,7 +488,7 @@ class JAccess
 	 */
 	public static function getActionsFromFile($file, $xpath = "/access/section[@name='component']/")
 	{
-		if (!is_file($file))
+		if (!is_file($file) || !is_readable($file))
 		{
 			// If unable to find the file return false.
 			return false;
@@ -485,7 +496,8 @@ class JAccess
 		else
 		{
 			// Else return the actions from the xml.
-			return self::getActionsFromData(JFactory::getXML($file, true), $xpath);
+			$xml = simplexml_load_file($file);
+			return self::getActionsFromData($xml, $xpath);
 		}
 	}
 
@@ -510,7 +522,14 @@ class JAccess
 		// Attempt to load the XML if a string.
 		if (is_string($data))
 		{
-			$data = JFactory::getXML($data, false);
+			try
+			{
+				$data = new SimpleXMLElement($data);
+			}
+			catch (Exception $e)
+			{
+				return false;
+			}
 
 			// Make sure the XML loaded correctly.
 			if (!$data)

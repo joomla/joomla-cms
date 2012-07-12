@@ -19,26 +19,6 @@ defined('JPATH_PLATFORM') or die;
 abstract class JHtmlList
 {
 	/**
-	 * Get a grouped list of pre-Joomla 1.6 access levels
-	 *
-	 * @param   object  &$row  The object (must have an access property).
-	 *
-	 * @return  string
-	 *
-	 * @since   11.1
-	 *
-	 * @deprecated  12.1 Use JHtml::_('access.assetgrouplist', 'access', $selected) instead
-	 * @see     JHtmlAccess::assetgrouplist
-	 */
-	public static function accesslevel(&$row)
-	{
-		// Deprecation warning.
-		JLog::add('JList::accesslevel is deprecated.', JLog::WARNING, 'deprecated');
-
-		return JHtml::_('access.assetgrouplist', 'access', $row->access);
-	}
-
-	/**
 	 * Build the select list to choose an image
 	 *
 	 * @param   string  $name        The name of the field
@@ -100,20 +80,13 @@ abstract class JHtmlList
 	 *
 	 * @since   11.1
 	 */
-	public static function genericordering($sql, $chop = '30')
+	public static function genericordering($sql, $chop = 30)
 	{
 		$db = JFactory::getDbo();
 		$options = array();
 		$db->setQuery($sql);
 
 		$items = $db->loadObjectList();
-
-		// Check for a database error.
-		if ($db->getErrorNum())
-		{
-			JError::raiseNotice(500, $db->getErrorMsg());
-			return false;
-		}
 
 		if (empty($items))
 		{
@@ -142,47 +115,6 @@ abstract class JHtmlList
 	}
 
 	/**
-	 * Build a select list with a specific ordering
-	 *
-	 * @param   integer  $value     The scalar value
-	 * @param   integer  $id        The id for an existing item in the list
-	 * @param   string   $query     The query
-	 * @param   integer  $neworder  1 if new and first, -1 if new and last,
-	 *                              0  or null if existing item
-	 *
-	 * @return  string  Html for the ordered list
-	 *
-	 * @since   11.1
-	 *
-	 * @see         JHtmlList::ordering
-	 * @deprecated  12.1  Use JHtml::_('list.ordering') instead
-	 */
-	public static function specificordering($value, $id, $query, $neworder = 0)
-	{
-		if (is_object($value))
-		{
-			$value = $value->ordering;
-		}
-
-		if ($id)
-		{
-			$neworder = 0;
-		}
-		else
-		{
-			if ($neworder)
-			{
-				$neworder = 1;
-			}
-			else
-			{
-				$neworder = -1;
-			}
-		}
-		return JHtmlList::ordering('ordering', $query, '', $value, $neworder);
-	}
-
-	/**
 	 * Build the select list for Ordering derived from a query
 	 *
 	 * @param   integer  $name      The scalar value
@@ -190,13 +122,12 @@ abstract class JHtmlList
 	 * @param   string   $attribs   HTML tag attributes
 	 * @param   string   $selected  The selected item
 	 * @param   integer  $neworder  1 if new and first, -1 if new and last, 0  or null if existing item
-	 * @param   string   $chop      The length of the truncated headline
 	 *
 	 * @return  string   Html for the select list
 	 *
 	 * @since   11.1
 	 */
-	public static function ordering($name, $query, $attribs = null, $selected = null, $neworder = null, $chop = null)
+	public static function ordering($name, $query, $attribs = null, $selected = null, $neworder = null)
 	{
 		if (empty($attribs))
 		{
@@ -231,29 +162,22 @@ abstract class JHtmlList
 	 * @param   integer  $nouser      If set include an option to select no user
 	 * @param   string   $javascript  Custom javascript
 	 * @param   string   $order       Specify a field to order by
-	 * @param   string   $reg         Deprecated  Excludes users who are explicitly in group 2.
 	 *
 	 * @return  string   The HTML for a list of users list of users
 	 *
 	 * @since  11.1
 	 */
-	public static function users($name, $active, $nouser = 0, $javascript = null, $order = 'name', $reg = 1)
+	public static function users($name, $active, $nouser = 0, $javascript = null, $order = 'name')
 	{
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
-
-		if ($reg)
-		{
-			// Does not include registered users in the list
-			// @deprecated
-			$query->where('m.group_id != 2');
-		}
 
 		$query->select('u.id AS value, u.name AS text');
 		$query->from('#__users AS u');
 		$query->join('LEFT', '#__user_usergroup_map AS m ON m.user_id = u.id');
 		$query->where('u.block = 0');
 		$query->order($order);
+		$query->group('u.id');
 		$db->setQuery($query);
 
 		if ($nouser)
@@ -295,7 +219,8 @@ abstract class JHtmlList
 	 *
 	 * @since   11.1
 	 */
-	public static function positions($name, $active = null, $javascript = null, $none = 1, $center = 1, $left = 1, $right = 1, $id = false)
+	public static function positions($name, $active = null, $javascript = null, $none = true, $center = true, $left = true, $right = true,
+		$id = false)
 	{
 		$pos = array();
 		if ($none)
@@ -329,41 +254,5 @@ abstract class JHtmlList
 		);
 
 		return $positions;
-	}
-
-	/**
-	 * Crates a select list of categories
-	 *
-	 * @param   string   $name        Name of the field
-	 * @param   string   $extension   Extension for which the categories will be listed
-	 * @param   string   $selected    Selected value
-	 * @param   string   $javascript  Custom javascript
-	 * @param   integer  $order       Not used.
-	 * @param   integer  $size        Size of the field
-	 * @param   boolean  $sel_cat     If null do not include a Select Categories row
-	 *
-	 * @return  string
-	 *
-	 * @deprecated    12.1  Use JHtmlCategory instead
-	 * @since   11.1
-	 * @see     JHtmlCategory
-	 */
-	public static function category($name, $extension, $selected = null, $javascript = null, $order = null, $size = 1, $sel_cat = 1)
-	{
-		// Deprecation warning.
-		JLog::add('JList::category is deprecated.', JLog::WARNING, 'deprecated');
-
-		$categories = JHtml::_('category.options', $extension);
-		if ($sel_cat)
-		{
-			array_unshift($categories, JHtml::_('select.option', '0', JText::_('JOPTION_SELECT_CATEGORY')));
-		}
-
-		$category = JHtml::_(
-			'select.genericlist', $categories, $name, 'class="inputbox" size="' . $size . '" ' . $javascript, 'value', 'text',
-			$selected
-		);
-
-		return $category;
 	}
 }

@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Platform
- * @subpackage  Database
+ * @subpackage  Table
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -9,13 +9,11 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.database.tablenested');
-
 /**
  * Table class supporting modified pre-order tree traversal behavior.
  *
  * @package     Joomla.Platform
- * @subpackage  Database
+ * @subpackage  Table
  * @link        http://docs.joomla.org/JTableAsset
  * @since       11.1
  */
@@ -56,17 +54,17 @@ class JTableAsset extends JTableNested
 	/**
 	 * Constructor
 	 *
-	 * @param   JDatabase  &$db  A database connector object
+	 * @param   JDatabaseDriver  $db  Database driver object.
 	 *
 	 * @since   11.1
 	 */
-	public function __construct(&$db)
+	public function __construct($db)
 	{
 		parent::__construct('#__assets', 'id', $db);
 	}
 
 	/**
-	 * Method to load an asset by it's name.
+	 * Method to load an asset by its name.
 	 *
 	 * @param   string  $name  The name of the asset.
 	 *
@@ -89,21 +87,16 @@ class JTableAsset extends JTableNested
 		{
 			return false;
 		}
-		// Check for a database error.
-		if ($error = $this->_db->getErrorMsg())
-		{
-			$this->setError($error);
-			return false;
-		}
+
 		return $this->load($assetId);
 	}
 
 	/**
-	 * Asset that the nested set data is valid.
+	 * Assert that the nested set data is valid.
 	 *
 	 * @return  boolean  True if the instance is sane and able to be stored in the database.
 	 *
-	 * @link	http://docs.joomla.org/JTable/check
+	 * @link    http://docs.joomla.org/JTable/check
 	 * @since   11.1
 	 */
 	public function check()
@@ -126,14 +119,7 @@ class JTableAsset extends JTableNested
 			}
 			else
 			{
-				if ($error = $this->_db->getErrorMsg())
-				{
-					$this->setError($error);
-				}
-				else
-				{
-					$this->setError(JText::_('JLIB_DATABASE_ERROR_INVALID_PARENT_ID'));
-				}
+				$this->setError('Invalid Parent ID');
 				return false;
 			}
 		}

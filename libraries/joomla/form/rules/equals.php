@@ -23,20 +23,21 @@ class JFormRuleEquals extends JFormRule
 	 * XML needs a validate attribute of equals and a field attribute
 	 * that is equal to the field to test against.
 	 *
-	 * @param   SimpleXMLElement  &$element  The SimpleXMLElement object representing the <field /> tag for the form field object.
-	 * @param   mixed             $value     The form field value to validate.
-	 * @param   string            $group     The field name group control value. This acts as as an array container for the field.
-	 *                                       For example if the field has name="foo" and the group value is set to "bar" then the
-	 *                                       full field name would end up being "bar[foo]".
-	 * @param   JRegistry         &$input    An optional JRegistry object with the entire data set to validate against the entire form.
-	 * @param   object            &$form     The form object for which the field is being tested.
+	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the <field /> tag for the form field object.
+	 * @param   mixed             $value    The form field value to validate.
+	 * @param   string            $group    The field name group control value. This acts as as an array container for the field.
+	 *                                      For example if the field has name="foo" and the group value is set to "bar" then the
+	 *                                      full field name would end up being "bar[foo]".
+	 * @param   JRegistry         $input    An optional JRegistry object with the entire data set to validate against the entire form.
+	 * @param   JForm             $form     The form object for which the field is being tested.
 	 *
 	 * @return  boolean  True if the value is valid, false otherwise.
 	 *
 	 * @since   11.1
-	 * @throws  JException on invalid rule.
+	 * @throws  InvalidArgumentException
+	 * @throws  UnexpectedValueException
 	 */
-	public function test(&$element, $value, $group = null, &$input = null, &$form = null)
+	public function test(SimpleXMLElement $element, $value, $group = null, JRegistry $input = null, JForm $form = null)
 	{
 		// Initialize variables.
 		$field = (string) $element['field'];
@@ -44,13 +45,17 @@ class JFormRuleEquals extends JFormRule
 		// Check that a validation field is set.
 		if (!$field)
 		{
-			return new JException(JText::sprintf('JLIB_FORM_INVALID_FORM_RULE', get_class($this)));
+			throw new UnexpectedValueException(sprintf('$field empty in %s::test', get_class($this)));
 		}
 
-		// Check that a valid JForm object is given for retrieving the validation field value.
-		if (!($form instanceof JForm))
+		if (is_null($form))
 		{
-			return new JException(JText::sprintf('JLIB_FORM_INVALID_FORM_OBJECT', get_class($this)));
+			throw new InvalidArgumentException(sprintf('The value for $form must not be null in %s', get_class($this)));
+		}
+
+		if (is_null($input))
+		{
+			throw new InvalidArgumentException(sprintf('The value for $input must not be null in %s', get_class($this)));
 		}
 
 		// Test the two values against each other.

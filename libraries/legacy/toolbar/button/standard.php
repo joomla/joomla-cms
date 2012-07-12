@@ -1,7 +1,7 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  HTML
+ * @package     Joomla.Legacy
+ * @subpackage  Toolbar
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -12,11 +12,11 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Renders a standard button
  *
- * @package     Joomla.Platform
- * @subpackage  HTML
- * @since       11.1
+ * @package     Joomla.Legacy
+ * @subpackage  Toolbar
+ * @since       12.1
  */
-class JButtonStandard extends JButton
+class JToolbarButtonStandard extends JButton
 {
 	/**
 	 * Button type
@@ -36,7 +36,7 @@ class JButtonStandard extends JButton
 	 *
 	 * @return  string  HTML string for the button
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	public function fetchButton($type = 'Standard', $name = '', $text = '', $task = '', $list = true)
 	{
@@ -44,7 +44,7 @@ class JButtonStandard extends JButton
 		$class = $this->fetchIconClass($name);
 		$doTask = $this->_getCommand($text, $task, $list);
 
-		$html = "<a href=\"#\" onclick=\"$doTask\" class=\"toolbar\">\n";
+		$html = "<a href=\"javascript:void(0)\" onclick=\"$doTask\" class=\"toolbar\">\n";
 		$html .= "<span class=\"$class\">\n";
 		$html .= "</span>\n";
 		$html .= "$i18n_text\n";
@@ -65,7 +65,7 @@ class JButtonStandard extends JButton
 	 *
 	 * @return  string  Button CSS Id
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	public function fetchId($type = 'Standard', $name = '', $text = '', $task = '', $list = true, $hideMenu = false)
 	{
@@ -81,7 +81,7 @@ class JButtonStandard extends JButton
 	 *
 	 * @return  string   JavaScript command string
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	protected function _getCommand($name, $task, $list)
 	{

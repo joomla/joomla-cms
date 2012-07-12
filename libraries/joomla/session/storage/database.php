@@ -32,10 +32,6 @@ class JSessionStorageDatabase extends JSessionStorage
 	{
 		// Get the database connection object and verify its connected.
 		$db = JFactory::getDbo();
-		if (!$db->connected())
-		{
-			return false;
-		}
 
 		try
 		{
@@ -69,10 +65,6 @@ class JSessionStorageDatabase extends JSessionStorage
 	{
 		// Get the database connection object and verify its connected.
 		$db = JFactory::getDbo();
-		if (!$db->connected())
-		{
-			return false;
-		}
 
 		try
 		{
@@ -113,10 +105,6 @@ class JSessionStorageDatabase extends JSessionStorage
 	{
 		// Get the database connection object and verify its connected.
 		$db = JFactory::getDbo();
-		if (!$db->connected())
-		{
-			return false;
-		}
 
 		try
 		{
@@ -148,10 +136,6 @@ class JSessionStorageDatabase extends JSessionStorage
 	{
 		// Get the database connection object and verify its connected.
 		$db = JFactory::getDbo();
-		if (!$db->connected())
-		{
-			return false;
-		}
 
 		// Determine the timestamp threshold with which to purge old sessions.
 		$past = time() - $lifetime;

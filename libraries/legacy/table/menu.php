@@ -1,7 +1,7 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Database
+ * @package     Joomla.Legacy
+ * @subpackage  Table
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -9,12 +9,10 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.database.tablenested');
-
 /**
  * Menu table
  *
- * @package     Joomla.Platform
+ * @package     Joomla.Legacy
  * @subpackage  Table
  * @since       11.1
  */
@@ -23,11 +21,11 @@ class JTableMenu extends JTableNested
 	/**
 	 * Constructor
 	 *
-	 * @param   JDatabase  &$db  A database connector object
+	 * @param   JDatabaseDriver  $db  Database driver object.
 	 *
 	 * @since   11.1
 	 */
-	public function __construct(&$db)
+	public function __construct($db)
 	{
 		parent::__construct('#__menu', 'id', $db);
 
@@ -54,7 +52,7 @@ class JTableMenu extends JTableNested
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_MENU_CANNOT_UNSET_DEFAULT_DEFAULT'));
 			return false;
 		}
-		//Verify that the default home menu set to "all" languages" is not unset
+		// Verify that the default home menu set to "all" languages" is not unset
 		if ($this->home == '1' && $this->language == '*' && ($array['language'] != '*'))
 		{
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_MENU_CANNOT_UNSET_DEFAULT'));
@@ -143,8 +141,9 @@ class JTableMenu extends JTableNested
 	public function store($updateNulls = false)
 	{
 		$db = JFactory::getDBO();
+
 		// Verify that the alias is unique
-		$table = JTable::getInstance('Menu', 'JTable');
+		$table = JTable::getInstance('Menu', 'JTable', array('dbo' => $this->getDbo()));
 		if ($table->load(array('alias' => $this->alias, 'parent_id' => $this->parent_id, 'client_id' => $this->client_id, 'language' => $this->language))
 			&& ($table->id != $this->id || $this->id == 0))
 		{
@@ -161,7 +160,7 @@ class JTableMenu extends JTableNested
 		// Verify that the home page for this language is unique
 		if ($this->home == '1')
 		{
-			$table = JTable::getInstance('Menu', 'JTable');
+			$table = JTable::getInstance('Menu', 'JTable', array('dbo' => $this->getDbo()));
 			if ($table->load(array('home' => '1', 'language' => $this->language)))
 			{
 				if ($table->checked_out && $table->checked_out != $this->checked_out)
@@ -197,6 +196,7 @@ class JTableMenu extends JTableNested
 			}
 		}
 		$newPath = trim(implode('/', $segments), ' /\\');
+
 		// Use new path for partial rebuild of table
 		// Rebuild will return positive integer on success, false on failure
 		return ($this->rebuild($this->{$this->_tbl_key}, $this->lft, $this->level, $newPath) > 0);

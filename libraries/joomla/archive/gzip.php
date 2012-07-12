@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Platform
- * @subpackage  FileSystem
+ * @subpackage  Archive
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -19,10 +19,10 @@ defined('JPATH_PLATFORM') or die;
  * @contributor  Michael Cochrane <mike@graftonhall.co.nz>
  *
  * @package     Joomla.Platform
- * @subpackage  FileSystem
+ * @subpackage  Archive
  * @since       11.1
  */
-class JArchiveGzip extends JObject
+class JArchiveGzip implements JArchiveExtractable
 {
 	/**
 	 * Gzip file flags.
@@ -50,62 +50,98 @@ class JArchiveGzip extends JObject
 	 * @return  boolean  True if successful
 	 *
 	 * @since   11.1
+	 * @throws  RuntimeException
 	 */
-	public function extract($archive, $destination, $options = array ())
+	public function extract($archive, $destination, array $options = array ())
 	{
 		// Initialise variables.
 		$this->_data = null;
 
 		if (!extension_loaded('zlib'))
 		{
-			$this->set('error.message', JText::_('JLIB_FILESYSTEM_GZIP_NOT_SUPPORTED'));
-
-			return JError::raiseWarning(100, $this->get('error.message'));
+			if (class_exists('JError'))
+			{
+				return JError::raiseWarning(100, 'The zlib extension is not available.');
+			}
+			else
+			{
+				throw new RuntimeException('The zlib extension is not available.');
+			}
 		}
 
 		if (!isset($options['use_streams']) || $options['use_streams'] == false)
 		{
 			if (!$this->_data = JFile::read($archive))
 			{
-				$this->set('error.message', 'Unable to read archive');
-				return JError::raiseWarning(100, $this->get('error.message'));
+				if (class_exists('JError'))
+				{
+					return JError::raiseWarning(100, 'Unable to read archive');
+				}
+				else
+				{
+					throw new RuntimeException('Unable to read archive');
+				}
 			}
 
 			$position = $this->_getFilePosition();
 			$buffer = gzinflate(substr($this->_data, $position, strlen($this->_data) - $position));
 			if (empty($buffer))
 			{
-				$this->set('error.message', 'Unable to decompress data');
-				return JError::raiseWarning(100, $this->get('error.message'));
+				if (class_exists('JError'))
+				{
+					return JError::raiseWarning(100, 'Unable to decompress data');
+				}
+				else
+				{
+					throw new RuntimeException('Unable to decompress data');
+				}
 			}
 
 			if (JFile::write($destination, $buffer) === false)
 			{
-				$this->set('error.message', 'Unable to write archive');
-				return JError::raiseWarning(100, $this->get('error.message'));
+				if (class_exists('JError'))
+				{
+					return JError::raiseWarning(100, 'Unable to write archive');
+				}
+				else
+				{
+					throw new RuntimeException('Unable to write archive');
+				}
 			}
 		}
 		else
 		{
 			// New style! streams!
 			$input = JFactory::getStream();
-			$input->set('processingmethod', 'gz'); // use gz
+
+			// Use gz
+			$input->set('processingmethod', 'gz');
 
 			if (!$input->open($archive))
 			{
-				$this->set('error.message', JText::_('JLIB_FILESYSTEM_GZIP_UNABLE_TO_READ'));
-
-				return JError::raiseWarning(100, $this->get('error.message'));
+				if (class_exists('JError'))
+				{
+					return JError::raiseWarning(100, 'Unable to read archive (gz)');
+				}
+				else
+				{
+					throw new RuntimeException('Unable to read archive (gz)');
+				}
 			}
 
 			$output = JFactory::getStream();
 
 			if (!$output->open($destination, 'w'))
 			{
-				$this->set('error.message', JText::_('JLIB_FILESYSTEM_GZIP_UNABLE_TO_WRITE'));
-				$input->close(); // close the previous file
-
-				return JError::raiseWarning(100, $this->get('error.message'));
+				$input->close();
+				if (class_exists('JError'))
+				{
+					return JError::raiseWarning(100, 'Unable to write archive (gz)');
+				}
+				else
+				{
+					throw new RuntimeException('Unable to write archive (gz)');
+				}
 			}
 
 			do
@@ -115,9 +151,15 @@ class JArchiveGzip extends JObject
 				{
 					if (!$output->write($this->_data))
 					{
-						$this->set('error.message', JText::_('JLIB_FILESYSTEM_GZIP_UNABLE_TO_WRITE_FILE'));
-
-						return JError::raiseWarning(100, $this->get('error.message'));
+						$input->close();
+						if (class_exists('JError'))
+						{
+							return JError::raiseWarning(100, 'Unable to write file (gz)');
+						}
+						else
+						{
+							throw new RuntimeException('Unable to write file (gz)');
+						}
 					}
 				}
 			}
@@ -147,17 +189,24 @@ class JArchiveGzip extends JObject
 	 * @return  integer  Data position marker for archive
 	 *
 	 * @since   11.1
+	 * @throws  RuntimeException
 	 */
 	public function _getFilePosition()
 	{
-		// gzipped file... unpack it first
+		// Gzipped file... unpack it first
 		$position = 0;
 		$info = @ unpack('CCM/CFLG/VTime/CXFL/COS', substr($this->_data, $position + 2));
 
 		if (!$info)
 		{
-			$this->set('error.message', JText::_('JLIB_FILESYSTEM_GZIP_UNABLE_TO_DECOMPRESS'));
-			return false;
+			if (class_exists('JError'))
+			{
+				return JError::raiseWarning(100, 'Unable to decompress data.');
+			}
+			else
+			{
+				throw new RuntimeException('Unable to decompress data.');
+			}
 		}
 
 		$position += 10;

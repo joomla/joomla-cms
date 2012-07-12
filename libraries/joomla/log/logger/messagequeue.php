@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.log.logger');
-
 /**
  * Joomla MessageQueue logger class.
  *
@@ -22,7 +20,7 @@ jimport('joomla.log.logger');
  * @subpackage  Log
  * @since       11.1
  */
-class JLoggerMessageQueue extends JLogger
+class JLogLoggerMessagequeue extends JLogLogger
 {
 	/**
 	 * Method to add an entry to the log.

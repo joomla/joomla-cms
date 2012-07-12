@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-JLoader::register('JDatabaseQuerySQLSrv', dirname(__FILE__) . '/sqlsrvquery.php');
-
 /**
  * Query Building Class.
  *
@@ -18,7 +16,7 @@ JLoader::register('JDatabaseQuerySQLSrv', dirname(__FILE__) . '/sqlsrvquery.php'
  * @subpackage  Database
  * @since       11.1
  */
-class JDatabaseQuerySQLAzure extends JDatabaseQuerySQLSrv
+class JDatabaseQuerySqlazure extends JDatabaseQuerySqlsrv
 {
 	/**
 	 * The character(s) used to quote SQL statement names such as table names or field names,

@@ -10,7 +10,6 @@
 defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.utilities.arrayhelper');
-JLoader::register('JRegistryFormat', dirname(__FILE__) . '/format.php');
 
 /**
  * JRegistry class
@@ -19,7 +18,7 @@ JLoader::register('JRegistryFormat', dirname(__FILE__) . '/format.php');
  * @subpackage  Registry
  * @since       11.1
  */
-class JRegistry
+class JRegistry implements JsonSerializable
 {
 	/**
 	 * Registry Object
@@ -80,6 +79,20 @@ class JRegistry
 	public function __toString()
 	{
 		return $this->toString();
+	}
+
+	/**
+	 * Implementation for the JsonSerializable interface.
+	 * Allows us to pass JRegistry objects to json_encode.
+	 *
+	 * @return  object
+	 *
+	 * @since   12.2
+	 * @note    The interface is only present in PHP 5.4 and up.
+	 */
+	public function jsonSerialize()
+	{
+		return $this->data;
 	}
 
 	/**
@@ -163,6 +176,7 @@ class JRegistry
 		// Initialize the current node to be the registry root.
 		$node = $this->data;
 		$found = false;
+
 		// Traverse the registry to find the correct node for the result.
 		foreach ($nodes as $n)
 		{
@@ -194,7 +208,7 @@ class JRegistry
 	 *
 	 * @param   string  $id  An ID for the registry instance
 	 *
-	 * @return  object  The JRegistry object.
+	 * @return  JRegistry  The JRegistry object.
 	 *
 	 * @since   11.1
 	 */
@@ -245,7 +259,7 @@ class JRegistry
 	 *
 	 * @param   string  $file     Path to file to load
 	 * @param   string  $format   Format of the file [optional: defaults to JSON]
-	 * @param   mixed   $options  Options used by the formatter
+	 * @param   array   $options  Options used by the formatter
 	 *
 	 * @return  boolean  True on success
 	 *
@@ -265,7 +279,7 @@ class JRegistry
 	 *
 	 * @param   string  $data     String to load into the registry
 	 * @param   string  $format   Format of the string
-	 * @param   mixed   $options  Options used by the formatter
+	 * @param   array   $options  Options used by the formatter
 	 *
 	 * @return  boolean  True on success
 	 *
@@ -285,27 +299,28 @@ class JRegistry
 	/**
 	 * Merge a JRegistry object into this one
 	 *
-	 * @param   JRegistry  &$source  Source JRegistry object to merge.
+	 * @param   JRegistry  $source  Source JRegistry object to merge.
 	 *
 	 * @return  boolean  True on success
 	 *
 	 * @since   11.1
 	 */
-	public function merge(&$source)
+	public function merge($source)
 	{
-		if ($source instanceof JRegistry)
+		if (!$source instanceof JRegistry)
 		{
-			// Load the variables into the registry's default namespace.
-			foreach ($source->toArray() as $k => $v)
-			{
-				if (($v !== null) && ($v !== ''))
-				{
-					$this->data->$k = $v;
-				}
-			}
-			return true;
+			return false;
 		}
-		return false;
+
+		// Load the variables into the registry's default namespace.
+		foreach ($source->toArray() as $k => $v)
+		{
+			if (($v !== null) && ($v !== ''))
+			{
+				$this->data->$k = $v;
+			}
+		}
+		return true;
 	}
 
 	/**
@@ -390,14 +405,14 @@ class JRegistry
 	/**
 	 * Method to recursively bind data to a parent object.
 	 *
-	 * @param   object  &$parent  The parent object on which to attach the data values.
-	 * @param   mixed   $data     An array or object of data to bind to the parent object.
+	 * @param   object  $parent  The parent object on which to attach the data values.
+	 * @param   mixed   $data    An array or object of data to bind to the parent object.
 	 *
 	 * @return  void
 	 *
 	 * @since   11.1
 	 */
-	protected function bindData(&$parent, $data)
+	protected function bindData($parent, $data)
 	{
 		// Ensure the input data is an array.
 		if (is_object($data))
@@ -449,195 +464,5 @@ class JRegistry
 		}
 
 		return $array;
-	}
-
-	//
-	// Following methods are deprecated
-	//
-
-	/**
-	 * Load an XML string into the registry into the given namespace [or default if a namespace is not given]
-	 *
-	 * @param   string  $data       XML formatted string to load into the registry
-	 * @param   string  $namespace  Namespace to load the XML string into [optional]
-	 *
-	 * @return  boolean  True on success
-	 *
-	 * @since   11.1
-	 *
-	 * @deprecated  12.1   Use loadString passing XML as the format instead.
-	 * @note
-	 */
-	public function loadXML($data, $namespace = null)
-	{
-		// @codeCoverageIgnoreStart
-		// Deprecation warning.
-		JLog::add('JRegistry::loadXML() is deprecated.', JLog::WARNING, 'deprecated');
-
-		return $this->loadString($data, 'XML');
-		// @codeCoverageIgnoreEnd
-	}
-
-	/**
-	 * Load an INI string into the registry into the given namespace [or default if a namespace is not given]
-	 *
-	 * @param   string  $data       INI formatted string to load into the registry
-	 * @param   string  $namespace  Namespace to load the INI string into [optional]
-	 * @param   mixed   $options    An array of options for the formatter, or boolean to process sections.
-	 *
-	 * @return  boolean  True on success
-	 *
-	 * @since   11.1
-	 *
-	 * @deprecated  12.1  Use loadString passing INI as the format instead.
-	 */
-	public function loadINI($data, $namespace = null, $options = array())
-	{
-		// @codeCoverageIgnoreStart
-		// Deprecation warning.
-		JLog::add('JRegistry::loadINI() is deprecated.', JLog::WARNING, 'deprecated');
-
-		return $this->loadString($data, 'INI', $options);
-		// @codeCoverageIgnoreEnd
-	}
-
-	/**
-	 * Load an JSON string into the registry into the given namespace [or default if a namespace is not given]
-	 *
-	 * @param   string  $data  JSON formatted string to load into the registry
-	 *
-	 * @return  boolean  True on success
-	 *
-	 * @deprecated    12.1  Use loadString passing JSON as the format instead.
-	 * @note    Use loadString instead.
-	 * @since   11.1
-	 */
-	public function loadJSON($data)
-	{
-		// @codeCoverageIgnoreStart
-		// Deprecation warning.
-		JLog::add('JRegistry::loadJSON() is deprecated.', JLog::WARNING, 'deprecated');
-
-		return $this->loadString($data, 'JSON');
-		// @codeCoverageIgnoreEnd
-	}
-
-	/**
-	 * Create a namespace
-	 *
-	 * @param   string  $namespace  Name of the namespace to create
-	 *
-	 * @return  boolean  True on success
-	 *
-	 * @deprecated    12.1
-	 * @note    Namespaces are no longer supported.
-	 * @since   11.1
-	 */
-	public function makeNameSpace($namespace)
-	{
-		// @codeCoverageIgnoreStart
-		// Deprecation warning.
-		JLog::add('JRegistry::makeNameSpace() is deprecated.', JLog::WARNING, 'deprecated');
-
-		//$this->_registry[$namespace] = array('data' => new stdClass());
-		return true;
-		// @codeCoverageIgnoreEnd
-	}
-
-	/**
-	 * Get the list of namespaces
-	 *
-	 * @return  array    List of namespaces
-	 *
-	 * @deprecated    12.1
-	 * @note    Namespaces are no longer supported.
-	 * @since   11.1
-	 */
-	public function getNameSpaces()
-	{
-		// @codeCoverageIgnoreStart
-		// Deprecation warning.
-		JLog::add('JRegistry::getNameSpaces() is deprecated.', JLog::WARNING, 'deprecated');
-
-		//return array_keys($this->_registry);
-		return array();
-		// @codeCoverageIgnoreEnd
-	}
-
-	/**
-	 * Get a registry value
-	 *
-	 * @param   string  $path     Registry path (e.g. joomla.content.showauthor)
-	 * @param   mixed   $default  Optional default value
-	 *
-	 * @return  mixed    Value of entry or null
-	 *
-	 * @deprecated    12.1
-	 * @note    Use get instead.
-	 * @since   11.1
-	 */
-	public function getValue($path, $default = null)
-	{
-		// @codeCoverageIgnoreStart
-		// Deprecation warning.
-		JLog::add('JRegistry::getValue() is deprecated. Use get instead.', JLog::WARNING, 'deprecated');
-
-		$parts = explode('.', $path);
-		if (count($parts) > 1)
-		{
-			unset($parts[0]);
-			$path = implode('.', $parts);
-		}
-		return $this->get($path, $default);
-		// @codeCoverageIgnoreEnd
-	}
-
-	/**
-	 * Set a registry value
-	 *
-	 * @param   string  $path   Registry Path (e.g. joomla.content.showauthor)
-	 * @param   mixed   $value  Value of entry
-	 *
-	 * @return  mixed    The value after setting.
-	 *
-	 * @deprecated    12.1
-	 * @note    Use set instead.
-	 * @since   11.1
-	 */
-	public function setValue($path, $value)
-	{
-		// @codeCoverageIgnoreStart
-		// Deprecation warning.
-		JLog::add('JRegistry::setValue() is deprecated. Use set instead.', JLog::WARNING, 'deprecated');
-
-		$parts = explode('.', $path);
-		if (count($parts) > 1)
-		{
-			unset($parts[0]);
-			$path = implode('.', $parts);
-		}
-		return $this->set($path, $value);
-		// @codeCoverageIgnoreEnd
-	}
-
-	/**
-	 * This method is added as an interim solution for API references in the Joomla! CMS 1.6 to the JRegistry
-	 * object where in 1.5 a JParameter object existed.  Because many extensions may call this method
-	 * we add it here as a means of "pain relief" until the 1.8 release.
-	 *
-	 * @return  boolean  True.
-	 *
-	 * @deprecated    12.1
-	 * @note    Load no longer supported.
-	 * @since   11.1
-	 */
-	public function loadSetupFile()
-	{
-		// @codeCoverageIgnoreStart
-		// Deprecation warning.
-		JLog::add('JRegistry::loadSetupFile() is deprecated.', JLog::WARNING, 'deprecated');
-
-		return true;
-		// @codeCoverageIgnoreEnd
 	}
 }

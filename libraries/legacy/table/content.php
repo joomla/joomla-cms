@@ -1,7 +1,7 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Database
+ * @package     Joomla.Legacy
+ * @subpackage  Table
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -9,13 +9,10 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.database.tableasset');
-jimport('joomla.database.table');
-
 /**
  * Content table
  *
- * @package     Joomla.Platform
+ * @package     Joomla.Legacy
  * @subpackage  Table
  * @since       11.1
  */
@@ -24,11 +21,11 @@ class JTableContent extends JTable
 	/**
 	 * Constructor
 	 *
-	 * @param   JDatabase  &$db  A database connector object
+	 * @param   JDatabaseDriver  $db  A database connector object
 	 *
 	 * @since   11.1
 	 */
-	public function __construct(&$db)
+	public function __construct($db)
 	{
 		parent::__construct('#__content', 'id', $db);
 	}
@@ -118,7 +115,7 @@ class JTableContent extends JTable
 	public function bind($array, $ignore = '')
 	{
 		// Search for the {readmore} tag and split the text up accordingly.
-		if (isset($array['articletext']))
+		if (!empty($array['articletext']))
 		{
 			$pattern = '#<hr\s+id=("|\')system-readmore("|\')\s*\/*>#i';
 			$tagPos = preg_match($pattern, $array['articletext']);
@@ -200,8 +197,10 @@ class JTableContent extends JTable
 		// Check the publish down date is not earlier than publish up.
 		if ($this->publish_down > $this->_db->getNullDate() && $this->publish_down < $this->publish_up)
 		{
-			$this->setError(JText::_('JGLOBAL_START_PUBLISH_AFTER_FINISH'));
-			return false;
+			// Swap the dates.
+			$temp = $this->publish_up;
+			$this->publish_up = $this->publish_down;
+			$this->publish_down = $temp;
 		}
 
 		// Clean up keywords -- eliminate extra spaces between phrases
@@ -209,9 +208,16 @@ class JTableContent extends JTable
 		if (!empty($this->metakey))
 		{
 			// Only process if not empty
-			$bad_characters = array("\n", "\r", "\"", "<", ">"); // array of characters to remove
-			$after_clean = JString::str_ireplace($bad_characters, "", $this->metakey); // remove bad characters
-			$keys = explode(',', $after_clean); // create array using commas as delimiter
+
+			// Array of characters to remove
+			$bad_characters = array("\n", "\r", "\"", "<", ">");
+
+			// Remove bad characters
+			$after_clean = JString::str_ireplace($bad_characters, "", $this->metakey);
+
+			// Create array using commas as delimiter
+			$keys = explode(',', $after_clean);
+
 			$clean_keys = array();
 
 			foreach ($keys as $key)
@@ -222,7 +228,8 @@ class JTableContent extends JTable
 					$clean_keys[] = trim($key);
 				}
 			}
-			$this->metakey = implode(", ", $clean_keys); // put array back together delimited by ", "
+			// Put array back together delimited by ", "
+			$this->metakey = implode(", ", $clean_keys);
 		}
 
 		return true;
@@ -359,43 +366,5 @@ class JTableContent extends JTable
 		$this->setError('');
 
 		return true;
-	}
-
-	/**
-	 * Converts record to XML
-	 *
-	 * @param   boolean  $mapKeysToText  Map foreign keys to text values
-	 *
-	 * @return  string  Record in XML format
-	 *
-	 * @since   11.1
-	 * @deprecated  12.1
-	 * @codeCoverageIgnore
-	 */
-	public function toXML($mapKeysToText = false)
-	{
-		// Deprecation warning.
-		JLog::add('JTableContent::toXML() is deprecated.', JLog::WARNING, 'deprecated');
-
-		if ($mapKeysToText)
-		{
-			// Get the JDatabaseQuery object
-			$query = $this->_db->getQuery(true);
-
-			$query->select($this->_db->quoteName('name'));
-			$query->from($this->_db->quoteName('#__categories'));
-			$query->where($this->_db->quoteName('id') . ' = ' . (int) $this->catid);
-			$this->_db->setQuery($query);
-			$this->catid = $this->_db->loadResult();
-
-			$query->clear();
-			$query->select($this->_db->quoteName('name'));
-			$query->from($this->_db->quoteName('#__users'));
-			$query->where($this->_db->quoteName('id') . ' = ' . (int) $this->created_by);
-			$this->_db->setQuery($query);
-			$this->created_by = $this->_db->loadResult();
-		}
-
-		return parent::toXML($mapKeysToText);
 	}
 }

@@ -1,7 +1,7 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Application
+ * @package     Joomla.Legacy
+ * @subpackage  Model
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -9,16 +9,14 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.application.component.model');
-
 /**
  * Prototype item model.
  *
- * @package     Joomla.Platform
- * @subpackage  Application
- * @since       11.1
+ * @package     Joomla.Legacy
+ * @subpackage  Model
+ * @since       12.2
  */
-abstract class JModelItem extends JModel
+abstract class JModelItem extends JModelLegacy
 {
 	/**
 	 * An item.
@@ -31,7 +29,7 @@ abstract class JModelItem extends JModel
 	 * Model context string.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  12.2
 	 */
 	protected $_context = 'group.type';
 
@@ -46,7 +44,7 @@ abstract class JModelItem extends JModel
 	 *
 	 * @return  string  A store id.
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	protected function getStoreId($id = '')
 	{

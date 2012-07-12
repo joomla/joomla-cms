@@ -1,7 +1,7 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Application
+ * @package     Joomla.Legacy
+ * @subpackage  Component
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -12,8 +12,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Component helper class
  *
- * @package     Joomla.Platform
- * @subpackage  Application
+ * @package     Joomla.Legacy
+ * @subpackage  Component
  * @since       11.1
  */
 class JComponentHelper
@@ -260,7 +260,7 @@ class JComponentHelper
 			// White lists take third precedence.
 			elseif ($whiteList)
 			{
-				// Turn off xss auto clean
+				// Turn off XSS auto clean
 				$filter	= JFilterInput::getInstance($whiteListTags, $whiteListAttributes, 0, 0, 0);
 			}
 			// No HTML takes last place.
@@ -284,6 +284,7 @@ class JComponentHelper
 	 * @return  object
 	 *
 	 * @since   11.1
+	 * @throws  Exception
 	 */
 	public static function renderComponent($option, $params = array())
 	{
@@ -300,9 +301,7 @@ class JComponentHelper
 
 		if (empty($option))
 		{
-			// Throw 404 if no component
-			JError::raiseError(404, JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'));
-			return;
+			throw new Exception(JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'), 404);
 		}
 
 		// Record the scope
@@ -320,24 +319,15 @@ class JComponentHelper
 		define('JPATH_COMPONENT_SITE', JPATH_SITE . '/components/' . $option);
 		define('JPATH_COMPONENT_ADMINISTRATOR', JPATH_ADMINISTRATOR . '/components/' . $option);
 
-		// Get component path
-		if ($app->isAdmin() && file_exists(JPATH_COMPONENT . '/admin.' . $file . '.php'))
-		{
-			JLog::add('Files in the format admin.COMPONENTNAME.php are considered deprecated and will not be loaded in Joomla 3.0.', JLog::WARNING, 'deprecated');
-			$path = JPATH_COMPONENT . '/admin.' . $file . '.php';
-		}
-		else
-		{
-			$path = JPATH_COMPONENT . '/' . $file . '.php';
-		}
+		$path = JPATH_COMPONENT . '/' . $file . '.php';
 
 		// If component is disabled throw error
 		if (!self::isEnabled($option) || !file_exists($path))
 		{
-			JError::raiseError(404, JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'));
+			throw new Exception(JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'), 404);
 		}
 
-		$task = JRequest::getString('task');
+		$task = $app->input->getString('task');
 
 		// Load common and local language files.
 		$lang->load($option, JPATH_BASE, null, false, false) || $lang->load($option, JPATH_COMPONENT, null, false, false)
@@ -349,18 +339,6 @@ class JComponentHelper
 
 		// Execute the component.
 		$contents = self::executeComponent($path);
-
-		// Build the component toolbar
-		$path = JApplicationHelper::getPath('toolbar');
-		if ($path && $app->isAdmin())
-		{
-			JLog::add('Files in the format toolbar.COMPONENTNAME.php are considered deprecated and will not be loaded in Joomla 3.0.', JLog::WARNING, 'deprecated');
-			// Get the task again, in case it has changed
-			$task = JRequest::getString('task');
-
-			// Make the toolbar
-			include_once $path;
-		}
 
 		// Revert the scope
 		$app->scope = $scope;
@@ -412,7 +390,7 @@ class JComponentHelper
 		if ($error = $db->getErrorMsg() || empty(self::$components[$option]))
 		{
 			// Fatal error.
-			JError::raiseWarning(500, JText::sprintf('JLIB_APPLICATION_ERROR_COMPONENT_NOT_LOADING', $option, $error));
+			JLog::add(JText::sprintf('JLIB_APPLICATION_ERROR_COMPONENT_NOT_LOADING', $option, $error), JLog::WARNING, 'jerror');
 			return false;
 		}
 

@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Database
  * @since       11.1
  */
-class JDatabaseImporterMySQL
+class JDatabaseImporterMysql extends JDatabaseImporter
 {
 	/**
 	 * @var    array  An array of cached data.
@@ -27,7 +27,7 @@ class JDatabaseImporterMySQL
 	/**
 	 * The database connector to use for exporting structure and/or data.
 	 *
-	 * @var    JDatabaseMySQL
+	 * @var    JDatabaseDriverMysql
 	 * @since  11.1
 	 */
 	protected $db = null;
@@ -51,7 +51,7 @@ class JDatabaseImporterMySQL
 	/**
 	 * An array of options for the exporter.
 	 *
-	 * @var    JObject
+	 * @var    object
 	 * @since  11.1
 	 */
 	protected $options = null;
@@ -65,7 +65,7 @@ class JDatabaseImporterMySQL
 	 */
 	public function __construct()
 	{
-		$this->options = new JObject;
+		$this->options = new stdClass;
 
 		$this->cache = array('columns' => array(), 'keys' => array());
 
@@ -83,7 +83,7 @@ class JDatabaseImporterMySQL
 	/**
 	 * Set the output option for the exporter to XML format.
 	 *
-	 * @return  JDatabaseImporterMySQL  Method supports chaining.
+	 * @return  JDatabaseImporterMysql  Method supports chaining.
 	 *
 	 * @since   11.1
 	 */
@@ -97,7 +97,7 @@ class JDatabaseImporterMySQL
 	/**
 	 * Checks if all data and options are in order prior to exporting.
 	 *
-	 * @return  JDatabaseImporterMySQL  Method supports chaining.
+	 * @return  JDatabaseImporterMysql  Method supports chaining.
 	 *
 	 * @since   11.1
 	 * @throws  Exception if an error is encountered.
@@ -105,7 +105,7 @@ class JDatabaseImporterMySQL
 	public function check()
 	{
 		// Check if the db connector has been set.
-		if (!($this->db instanceof JDatabaseMySql))
+		if (!($this->db instanceof JDatabaseDriverMysql))
 		{
 			throw new Exception('JPLATFORM_ERROR_DATABASE_CONNECTOR_WRONG_TYPE');
 		}
@@ -124,7 +124,7 @@ class JDatabaseImporterMySQL
 	 *
 	 * @param   mixed  $from  The data source to import.
 	 *
-	 * @return  JDatabaseImporterMySQL  Method supports chaining.
+	 * @return  JDatabaseImporterMysql  Method supports chaining.
 	 *
 	 * @since   11.1
 	 */
@@ -252,25 +252,27 @@ class JDatabaseImporterMySQL
 							&& ((string) $newLookup[$name][$i]['Collation'] == $oldLookup[$name][$i]->Collation)
 							&& ((string) $newLookup[$name][$i]['Index_type'] == $oldLookup[$name][$i]->Index_type));
 
-						// Debug.
-						//						echo '<pre>';
-						//						echo '<br />Non_unique:   '.
-						//							((string) $newLookup[$name][$i]['Non_unique'] == $oldLookup[$name][$i]->Non_unique ? 'Pass' : 'Fail').' '.
-						//							(string) $newLookup[$name][$i]['Non_unique'].' vs '.$oldLookup[$name][$i]->Non_unique;
-						//						echo '<br />Column_name:  '.
-						//							((string) $newLookup[$name][$i]['Column_name'] == $oldLookup[$name][$i]->Column_name ? 'Pass' : 'Fail').' '.
-						//							(string) $newLookup[$name][$i]['Column_name'].' vs '.$oldLookup[$name][$i]->Column_name;
-						//						echo '<br />Seq_in_index: '.
-						//							((string) $newLookup[$name][$i]['Seq_in_index'] == $oldLookup[$name][$i]->Seq_in_index ? 'Pass' : 'Fail').' '.
-						//							(string) $newLookup[$name][$i]['Seq_in_index'].' vs '.$oldLookup[$name][$i]->Seq_in_index;
-						//						echo '<br />Collation:    '.
-						//							((string) $newLookup[$name][$i]['Collation'] == $oldLookup[$name][$i]->Collation ? 'Pass' : 'Fail').' '.
-						//							(string) $newLookup[$name][$i]['Collation'].' vs '.$oldLookup[$name][$i]->Collation;
-						//						echo '<br />Index_type:   '.
-						//							((string) $newLookup[$name][$i]['Index_type'] == $oldLookup[$name][$i]->Index_type ? 'Pass' : 'Fail').' '.
-						//							(string) $newLookup[$name][$i]['Index_type'].' vs '.$oldLookup[$name][$i]->Index_type;
-						//						echo '<br />Same = '.($same ? 'true' : 'false');
-						//						echo '</pre>';
+						/*
+						Debug.
+						echo '<pre>';
+						echo '<br />Non_unique:   '.
+							((string) $newLookup[$name][$i]['Non_unique'] == $oldLookup[$name][$i]->Non_unique ? 'Pass' : 'Fail').' '.
+							(string) $newLookup[$name][$i]['Non_unique'].' vs '.$oldLookup[$name][$i]->Non_unique;
+						echo '<br />Column_name:  '.
+							((string) $newLookup[$name][$i]['Column_name'] == $oldLookup[$name][$i]->Column_name ? 'Pass' : 'Fail').' '.
+							(string) $newLookup[$name][$i]['Column_name'].' vs '.$oldLookup[$name][$i]->Column_name;
+						echo '<br />Seq_in_index: '.
+							((string) $newLookup[$name][$i]['Seq_in_index'] == $oldLookup[$name][$i]->Seq_in_index ? 'Pass' : 'Fail').' '.
+							(string) $newLookup[$name][$i]['Seq_in_index'].' vs '.$oldLookup[$name][$i]->Seq_in_index;
+						echo '<br />Collation:    '.
+							((string) $newLookup[$name][$i]['Collation'] == $oldLookup[$name][$i]->Collation ? 'Pass' : 'Fail').' '.
+							(string) $newLookup[$name][$i]['Collation'].' vs '.$oldLookup[$name][$i]->Collation;
+						echo '<br />Index_type:   '.
+							((string) $newLookup[$name][$i]['Index_type'] == $oldLookup[$name][$i]->Index_type ? 'Pass' : 'Fail').' '.
+							(string) $newLookup[$name][$i]['Index_type'].' vs '.$oldLookup[$name][$i]->Index_type;
+						echo '<br />Same = '.($same ? 'true' : 'false');
+						echo '</pre>';
+						 */
 
 						if (!$same)
 						{
@@ -620,13 +622,13 @@ class JDatabaseImporterMySQL
 	/**
 	 * Sets the database connector to use for exporting structure and/or data from MySQL.
 	 *
-	 * @param   JDatabaseMySQL  $db  The database connector.
+	 * @param   JDatabaseDriverMysql  $db  The database connector.
 	 *
-	 * @return  JDatabaseImporterMySQL  Method supports chaining.
+	 * @return  JDatabaseImporterMysql  Method supports chaining.
 	 *
 	 * @since   11.1
 	 */
-	public function setDbo(JDatabaseMySQL $db)
+	public function setDbo(JDatabaseDriverMysql $db)
 	{
 		$this->db = $db;
 
@@ -638,13 +640,13 @@ class JDatabaseImporterMySQL
 	 *
 	 * @param   boolean  $setting  True to export the structure, false to not.
 	 *
-	 * @return  JDatabaseImporterMySQL  Method supports chaining.
+	 * @return  JDatabaseImporterMysql  Method supports chaining.
 	 *
 	 * @since   11.1
 	 */
 	public function withStructure($setting = true)
 	{
-		$this->options->set('with-structure', (boolean) $setting);
+		$this->options->withStructure = (boolean) $setting;
 
 		return $this;
 	}

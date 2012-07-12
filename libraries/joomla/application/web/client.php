@@ -12,11 +12,24 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Class to model a Web Client.
  *
+ * @property-read  integer  $platform        The detected platform on which the web client runs.
+ * @property-read  boolean  $mobile          True if the web client is a mobile device.
+ * @property-read  integer  $engine          The detected rendering engine used by the web client.
+ * @property-read  integer  $browser         The detected browser used by the web client.
+ * @property-read  string   $browserVersion  The detected browser version used by the web client.
+ * @property-read  array    $languages       The priority order detected accepted languages for the client.
+ * @property-read  array    $encodings       The priority order detected accepted encodings for the client.
+ * @property-read  string   $userAgent       The web client's user agent string.
+ * @property-read  string   $acceptEncoding  The web client's accepted encoding string.
+ * @property-read  string   $acceptLanguage  The web client's accepted languages string.
+ * @property-read  array    $detection       An array of flags determining whether or not a detection routine has been run.
+ * @property-read  boolean  $robot           True if the web client is a robot
+ *
  * @package     Joomla.Platform
  * @subpackage  Application
- * @since       11.3
+ * @since       12.1
  */
-class JWebClient
+class JApplicationWebClient
 {
 	const WINDOWS = 1;
 	const WINDOWS_PHONE = 2;
@@ -39,81 +52,88 @@ class JWebClient
 	const CHROME = 19;
 	const SAFARI = 20;
 	const OPERA = 21;
+	const ANDROIDTABLET = 22;
 
 	/**
 	 * @var    integer  The detected platform on which the web client runs.
-	 * @since  11.3
+	 * @since  12.1
 	 */
 	protected $platform;
 
 	/**
 	 * @var    boolean  True if the web client is a mobile device.
-	 * @since  11.3
+	 * @since  12.1
 	 */
 	protected $mobile = false;
 
 	/**
 	 * @var    integer  The detected rendering engine used by the web client.
-	 * @since  11.3
+	 * @since  12.1
 	 */
 	protected $engine;
 
 	/**
 	 * @var    integer  The detected browser used by the web client.
-	 * @since  11.3
+	 * @since  12.1
 	 */
 	protected $browser;
 
 	/**
 	 * @var    string  The detected browser version used by the web client.
-	 * @since  11.3
+	 * @since  12.1
 	 */
 	protected $browserVersion;
 
 	/**
 	 * @var    array  The priority order detected accepted languages for the client.
-	 * @since  11.3
+	 * @since  12.1
 	 */
 	protected $languages = array();
 
 	/**
 	 * @var    array  The priority order detected accepted encodings for the client.
-	 * @since  11.3
+	 * @since  12.1
 	 */
 	protected $encodings = array();
 
 	/**
 	 * @var    string  The web client's user agent string.
-	 * @since  11.3
+	 * @since  12.1
 	 */
 	protected $userAgent;
 
 	/**
 	 * @var    string  The web client's accepted encoding string.
-	 * @since  11.3
+	 * @since  12.1
 	 */
 	protected $acceptEncoding;
 
 	/**
 	 * @var    string  The web client's accepted languages string.
-	 * @since  11.3
+	 * @since  12.1
 	 */
 	protected $acceptLanguage;
 
 	/**
+	 * @var    boolean  True if the web client is a robot.
+	 * @since  12.3
+	 */
+	protected $robot = false;
+
+	/**
 	 * @var    array  An array of flags determining whether or not a detection routine has been run.
-	 * @since  11.3
+	 * @since  12.1
 	 */
 	protected $detection = array();
 
 	/**
 	 * Class constructor.
 	 *
-	 * @param   mixed  $userAgent       The optional user-agent string to parse.
-	 * @param   mixed  $acceptEncoding  The optional client accept encoding string to parse.
-	 * @param   mixed  $acceptLanguage  The optional client accept language string to parse.
+	 * @param   string  $userAgent       The optional user-agent string to parse.
+	 * @param   string  $acceptEncoding  The optional client accept encoding string to parse.
+	 * @param   string  $acceptLanguage  The optional client accept language string to parse.
 	 *
-	 * @since   11.3
+	 * @since   12.1
 	 */
 	public function __construct($userAgent = null, $acceptEncoding = null, $acceptLanguage = null)
 	{
@@ -155,7 +175,7 @@ class JWebClient
 	 *
 	 * @return  mixed  The requested value if it exists.
 	 *
-	 * @since   11.3
+	 * @since   12.1
 	 */
 	public function __get($name)
 	{
@@ -197,6 +217,13 @@ class JWebClient
 					$this->detectEncoding($this->acceptEncoding);
 				}
 				break;
+
+			case 'robot':
+				if (empty($this->detection['robot']))
+				{
+					$this->detectRobot($this->userAgent);
+				}
+				break;
 		}
 
 		// Return the property if it exists.
@@ -213,7 +240,7 @@ class JWebClient
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   12.1
 	 */
 	protected function detectBrowser($userAgent)
 	{
@@ -255,7 +282,7 @@ class JWebClient
 			if (preg_match_all($pattern, $userAgent, $matches))
 			{
 				// Do we have both a Version and browser match?
-				if (count($matches['browser']) > 1)
+				if (count($matches['browser']) == 2)
 				{
 					// See whether Version or browser came first, and use the number accordingly.
 					if (strripos($userAgent, 'Version') < strripos($userAgent, $patternBrowser))
@@ -266,6 +293,14 @@ class JWebClient
 					{
 						$this->browserVersion = $matches['version'][1];
 					}
+				}
+				elseif (count($matches['browser']) > 2)
+				{
+						$key = array_search('Version', $matches['browser']);
+						if ($key)
+						{
+							$this->browserVersion = $matches['version'][$key];
+						}
 				}
 				// We only have a Version or a browser so use what we have.
 				else
@@ -286,7 +321,7 @@ class JWebClient
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   12.1
 	 */
 	protected function detectEncoding($acceptEncoding)
 	{
@@ -304,7 +339,7 @@ class JWebClient
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   12.1
 	 */
 	protected function detectEngine($userAgent)
 	{
@@ -350,7 +385,7 @@ class JWebClient
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   12.1
 	 */
 	protected function detectLanguage($acceptLanguage)
 	{
@@ -368,7 +403,7 @@ class JWebClient
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   12.1
 	 */
 	protected function detectPlatform($userAgent)
 	{
@@ -377,7 +412,7 @@ class JWebClient
 		{
 			$this->platform = self::WINDOWS;
 
-			// Let's look at the specific mobile options in the windows space.
+			// Let's look at the specific mobile options in the Windows space.
 			if (stripos($userAgent, 'Windows Phone') !== false)
 			{
 				$this->mobile = true;
@@ -395,7 +430,7 @@ class JWebClient
 			$this->mobile = true;
 			$this->platform = self::IPHONE;
 
-			// Let's look at the specific mobile options in the windows space.
+			// Let's look at the specific mobile options in the iOS space.
 			if (stripos($userAgent, 'iPad') !== false)
 			{
 				$this->platform = self::IPAD;
@@ -405,6 +440,18 @@ class JWebClient
 				$this->platform = self::IPOD;
 			}
 		}
+			// In case where iPhone is not mentioed in iPad user agent string
+			elseif (stripos($userAgent, 'iPad') !== false)
+			{
+				$this->mobile = true;
+				$this->platform = self::IPAD;
+			}
+			// In case where iPhone is not mentioed in iPod user agent string
+			elseif (stripos($userAgent, 'iPod') !== false)
+			{
+				$this->mobile = true;
+				$this->platform = self::IPOD;
+			}
 		// This has to come after the iPhone check because mac strings are also present in iOS devices.
 		elseif (preg_match('/macintosh|mac os x/i', $userAgent))
 		{
@@ -419,6 +466,19 @@ class JWebClient
 		{
 			$this->mobile = true;
 			$this->platform = self::ANDROID;
+			/**
+			 * Attempt to distinguish between Android phones and tablets
+			 * There is no totally foolproof method but certain rules almost always hold
+			 *   Android 3.x is only used for tablets
+			 *   Some devices and browsers encourage users to change their UA string to include Tablet.
+			 *   Google encourages manufacturers to exclude the string Mobile from tablet device UA strings.
+			 *   In some modes Kindle Android devices include the string Mobile but they include the string Silk.
+			 */
+			if (stripos($userAgent, 'Android 3') !== false || stripos($userAgent, 'Tablet') !== false
+				|| stripos($userAgent, 'Mobile') === false || stripos($userAgent, 'Silk') !== false )
+			{
+				$this->platform = self::ANDROIDTABLET;
+			}
 		}
 		elseif (stripos($userAgent, 'Linux') !== false)
 		{
@@ -427,5 +487,28 @@ class JWebClient
 
 		// Mark this detection routine as run.
 		$this->detection['platform'] = true;
+	}
+
+	/**
+	 * Determines if the browser is a robot or not.
+	 *
+	 * @param   string  $userAgent  The user-agent string to parse.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.3
+	 */
+	protected function detectRobot($userAgent)
+	{
+		if (preg_match('/http|bot|robot|spider|crawler|curl|^$/i', $userAgent))
+		{
+			$this->robot = true;
+		}
+		else
+		{
+			$this->robot = false;
+		}
+
+		$this->detection['robot'] = true;
 	}
 }

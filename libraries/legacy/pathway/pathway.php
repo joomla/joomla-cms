@@ -1,7 +1,7 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Application
+ * @package     Joomla.Legacy
+ * @subpackage  Pathway
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -14,8 +14,8 @@ defined('JPATH_PLATFORM') or die;
  *
  * The user's navigated path within the application.
  *
- * @package     Joomla.Platform
- * @subpackage  Application
+ * @package     Joomla.Legacy
+ * @subpackage  Pathway
  * @since       11.1
  */
 class JPathway extends JObject
@@ -24,7 +24,7 @@ class JPathway extends JObject
 	 * @var    array  Array to hold the pathway item objects
 	 * @since  11.1
 	 */
-	protected $_pathway = null;
+	protected $_pathway = array();
 
 	/**
 	 * @var    integer  Integer number of items in the pathway
@@ -47,8 +47,6 @@ class JPathway extends JObject
 	 */
 	public function __construct($options = array())
 	{
-		//Initialise the array
-		$this->_pathway = array();
 	}
 
 	/**
@@ -60,30 +58,40 @@ class JPathway extends JObject
 	 * @return  JPathway  A JPathway object.
 	 *
 	 * @since   11.1
+	 * @throws  RuntimeException
 	 */
 	public static function getInstance($client, $options = array())
 	{
 		if (empty(self::$instances[$client]))
 		{
-			//Load the router object
-			$info = JApplicationHelper::getClientInfo($client, true);
+			// Create a JPathway object
+			$classname = 'JPathway' . ucfirst($client);
 
-			$path = $info->path . '/includes/pathway.php';
-			if (file_exists($path))
+			if (!class_exists($classname))
 			{
-				include_once $path;
+				JLog::add('Non-autoloadable JPathway subclasses are deprecated.', JLog::WARNING, 'deprecated');
 
-				// Create a JPathway object
-				$classname = 'JPathway' . ucfirst($client);
-				$instance = new $classname($options);
+				// Load the pathway object
+				$info = JApplicationHelper::getClientInfo($client, true);
+
+				if (is_object($info))
+				{
+					$path = $info->path . '/includes/pathway.php';
+					if (file_exists($path))
+					{
+						include_once $path;
+					}
+				}
+			}
+
+			if (class_exists($classname))
+			{
+				self::$instances[$client] = new $classname($options);
 			}
 			else
 			{
-				$error = JError::raiseError(500, JText::sprintf('JLIB_APPLICATION_ERROR_PATHWAY_LOAD', $client));
-				return $error;
+				throw new RuntimeException(JText::sprintf('JLIB_APPLICATION_ERROR_PATHWAY_LOAD', $client), 500);
 			}
-
-			self::$instances[$client] = & $instance;
 		}
 
 		return self::$instances[$client];
@@ -116,10 +124,9 @@ class JPathway extends JObject
 	public function setPathway($pathway)
 	{
 		$oldPathway = $this->_pathway;
-		$pathway = (array) $pathway;
 
 		// Set the new pathway.
-		$this->_pathway = array_values($pathway);
+		$this->_pathway = array_values((array) $pathway);
 
 		return array_values($oldPathway);
 	}
@@ -134,7 +141,7 @@ class JPathway extends JObject
 	public function getPathwayNames()
 	{
 		// Initialise variables.
-		$names = array(null);
+		$names = array();
 
 		// Build the names array using just the names of each pathway item
 		foreach ($this->_pathway as $item)
@@ -142,7 +149,7 @@ class JPathway extends JObject
 			$names[] = $item->name;
 		}
 
-		//Use array_values to reset the array keys numerically
+		// Use array_values to reset the array keys numerically
 		return array_values($names);
 	}
 

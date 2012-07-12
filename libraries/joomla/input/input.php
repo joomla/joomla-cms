@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Platform
- * @subpackage  Application
+ * @subpackage  Input
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -9,31 +9,29 @@
 
 defined('JPATH_PLATFORM') or die;
 
-JLoader::discover('JInput', dirname(__FILE__) . '/input');
-
 /**
  * Joomla! Input Base Class
  *
  * This is an abstracted input class used to manage retrieving data from the application environment.
  *
  * @package     Joomla.Platform
- * @subpackage  Application
+ * @subpackage  Input
  * @since       11.1
  *
- * @method      integer  getInt()       getInt($name, $default)    Get a signed integer.
- * @method      integer  getUint()      getUint($name, $default)   Get an unsigned integer.
- * @method      float    getFloat()     getFloat($name, $default)  Get a floating-point number.
- * @method      boolean  getBool()      getBool($name, $default)   Get a boolean.
- * @method      string   getWord()      getWord($name, $default)
- * @method      string   getAlnum()     getAlnum($name, $default)
- * @method      string   getCmd()       getCmd($name, $default)
- * @method      string   getBase64()    getBase64($name, $default)
- * @method      string   getString()    getString($name, $default)
- * @method      string   getHtml()      getHtml($name, $default)
- * @method      string   getPath()      getPath($name, $default)
- * @method      string   getUsername()  getUsername($name, $default)
+ * @method      integer  getInt()       getInt($name, $default = null)    Get a signed integer.
+ * @method      integer  getUint()      getUint($name, $default = null)   Get an unsigned integer.
+ * @method      float    getFloat()     getFloat($name, $default = null)  Get a floating-point number.
+ * @method      boolean  getBool()      getBool($name, $default = null)   Get a boolean.
+ * @method      string   getWord()      getWord($name, $default = null)
+ * @method      string   getAlnum()     getAlnum($name, $default = null)
+ * @method      string   getCmd()       getCmd($name, $default = null)
+ * @method      string   getBase64()    getBase64($name, $default = null)
+ * @method      string   getString()    getString($name, $default = null)
+ * @method      string   getHtml()      getHtml($name, $default = null)
+ * @method      string   getPath()      getPath($name, $default = null)
+ * @method      string   getUsername()  getUsername($name, $default = null)
  */
-class JInput
+class JInput implements Serializable
 {
 	/**
 	 * Options array for the JInput instance.
@@ -88,11 +86,11 @@ class JInput
 
 		if (is_null($source))
 		{
-			$this->data = & $_REQUEST;
+			$this->data = &$_REQUEST;
 		}
 		else
 		{
-			$this->data = & $source;
+			$this->data = $source;
 		}
 
 		// Set the options for the class.
@@ -115,7 +113,7 @@ class JInput
 			return $this->inputs[$name];
 		}
 
-		$className = 'JInput' . $name;
+		$className = 'JInput' . ucfirst($name);
 		if (class_exists($className))
 		{
 			$this->inputs[$name] = new $className(null, $this->options);
@@ -186,12 +184,17 @@ class JInput
 				{
 					$results[$k] = $this->get($k, null, $v);
 				}
-				else
+				elseif (isset($datasource[$k]))
 				{
 					$results[$k] = $this->filter->clean($datasource[$k], $v);
 				}
+				else
+				{
+					$results[$k] = $this->filter->clean(null, $v);
+				}
 			}
 		}
+
 		return $results;
 	}
 
@@ -233,10 +236,10 @@ class JInput
 	/**
 	 * Magic method to get filtered input data.
 	 *
-	 * @param   mixed   $name       Name of the value to get.
-	 * @param   string  $arguments  Default value to return if variable does not exist.
+	 * @param   string  $name       Name of the filter type prefixed with 'get'.
+	 * @param   array   $arguments  [0] The name of the variable [1] The default value.
 	 *
-	 * @return  boolean  The filtered boolean input value.
+	 * @return  mixed   The filtered input value.
 	 *
 	 * @since   11.1
 	 */
@@ -268,5 +271,83 @@ class JInput
 	{
 		$method = strtoupper($_SERVER['REQUEST_METHOD']);
 		return $method;
+	}
+
+	/**
+	 * Method to serialize the input.
+	 *
+	 * @return  string  The serialized input.
+	 *
+	 * @since   12.1
+	 */
+	public function serialize()
+	{
+		// Load all of the inputs.
+		$this->loadAllInputs();
+
+		// Remove $_ENV and $_SERVER from the inputs.
+		$inputs = $this->inputs;
+		unset($inputs['env']);
+		unset($inputs['server']);
+
+		// Serialize the options, data, and inputs.
+		return serialize(array($this->options, $this->data, $inputs));
+	}
+
+	/**
+	 * Method to unserialize the input.
+	 *
+	 * @param   string  $input  The serialized input.
+	 *
+	 * @return  JInput  The input object.
+	 *
+	 * @since   12.1
+	 */
+	public function unserialize($input)
+	{
+		// Unserialize the options, data, and inputs.
+		list($this->options, $this->data, $this->inputs) = unserialize($input);
+
+		// Load the filter.
+		if (isset($this->options['filter']))
+		{
+			$this->filter = $this->options['filter'];
+		}
+		else
+		{
+			$this->filter = JFilterInput::getInstance();
+		}
+	}
+
+	/**
+	 * Method to load all of the global inputs.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 */
+	protected function loadAllInputs()
+	{
+		static $loaded = false;
+
+		if (!$loaded)
+		{
+			// Load up all the globals.
+			foreach ($GLOBALS as $global => $data)
+			{
+				// Check if the global starts with an underscore.
+				if (strpos($global, '_') === 0)
+				{
+					// Convert global name to input name.
+					$global = strtolower($global);
+					$global = substr($global, 1);
+
+					// Get the input.
+					$this->$global;
+				}
+			}
+
+			$loaded = true;
+		}
 	}
 }

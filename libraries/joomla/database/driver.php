@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 jimport('joomla.filesystem.folder');
 
 /**
- * Database interface class.
+ * Joomla Platform Database Interface
  *
  * @package     Joomla.Platform
  * @subpackage  Database
@@ -27,17 +27,20 @@ interface JDatabaseInterface
 	 *
 	 * @since   11.2
 	 */
-	public static function test();
+	public static function isSupported();
 }
 
 /**
- * Database connector class.
+ * Joomla Platform Database Driver Class
  *
  * @package     Joomla.Platform
  * @subpackage  Database
- * @since       11.1
+ * @since       12.1
+ *
+ * @method      string  q()   q($text, $escape = true)  Alias for quote method
+ * @method      string  qn()  qn($name, $as = null)     Alias for quoteName method
  */
-abstract class JDatabase implements JDatabaseInterface
+abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 {
 	/**
 	 * The name of the database.
@@ -114,6 +117,12 @@ abstract class JDatabase implements JDatabaseInterface
 	protected $offset = 0;
 
 	/**
+	 * @var    array  Passed in upon instantiation and saved.
+	 * @since  11.1
+	 */
+	protected $options;
+
+	/**
 	 * @var    mixed  The current SQL statement to execute.
 	 * @since  11.1
 	 */
@@ -146,21 +155,7 @@ abstract class JDatabase implements JDatabaseInterface
 	protected $errorMsg;
 
 	/**
-	 * @var         boolean  If true then there are fields to be quoted for the query.
-	 * @since       11.1
-	 * @deprecated  12.1
-	 */
-	protected $hasQuoted = false;
-
-	/**
-	 * @var         array  The fields that are to be quoted.
-	 * @since       11.1
-	 * @deprecated  12.1
-	 */
-	protected $quoted = array();
-
-	/**
-	 * @var    array  JDatabase instances container.
+	 * @var    array  JDatabaseDriver instances container.
 	 * @since  11.1
 	 */
 	protected static $instances = array();
@@ -169,7 +164,7 @@ abstract class JDatabase implements JDatabaseInterface
 	 * @var    string  The minimum supported database version.
 	 * @since  12.1
 	 */
-	protected $dbMinimum;
+	protected static $dbMinimum;
 
 	/**
 	 * Get a list of available database connectors.  The list will only be populated with connectors that both
@@ -182,53 +177,37 @@ abstract class JDatabase implements JDatabaseInterface
 	 */
 	public static function getConnectors()
 	{
-		// Instantiate variables.
 		$connectors = array();
 
-		// Get a list of types.
-		$types = JFolder::files(dirname(__FILE__) . '/database');
+		// Get an iterator and loop trough the driver classes.
+		$iterator = new DirectoryIterator(__DIR__ . '/driver');
 
-		// Loop through the types and find the ones that are available.
-		foreach ($types as $type)
+		foreach ($iterator as $file)
 		{
-			// Ignore some files.
-			if (($type == 'index.html') || stripos($type, 'importer') || stripos($type, 'exporter') || stripos($type, 'query') || stripos($type, 'exception'))
+			$fileName = $file->getFilename();
+
+			// Only load for php files.
+			// Note: DirectoryIterator::getExtension only available PHP >= 5.3.6
+			if (!$file->isFile() || substr($fileName, strrpos($fileName, '.') + 1) != 'php')
 			{
 				continue;
 			}
 
 			// Derive the class name from the type.
-			$class = str_ireplace(array('.php', 'sql'), array('', 'SQL'), 'JDatabase' . ucfirst(trim($type)));
+			$class = str_ireplace('.php', '', 'JDatabaseDriver' . ucfirst(trim($fileName)));
 
-			// If the class doesn't exist, let's look for it and register it.
-			if (!class_exists($class))
-			{
-				// Derive the file path for the driver class.
-				$path = dirname(__FILE__) . '/database/' . $type;
-
-				// If the file exists register the class with our class loader.
-				if (file_exists($path))
-				{
-					JLoader::register($class, $path);
-				}
-				// If it doesn't exist we are at an impasse so move on to the next type.
-				else
-				{
-					continue;
-				}
-			}
-
-			// If the class still doesn't exist we have nothing left to do but look at the next type.  We did our best.
+			// If the class doesn't exist we have nothing left to do but look at the next type. We did our best.
 			if (!class_exists($class))
 			{
 				continue;
 			}
 
-			// Sweet!  Our class exists, so now we just need to know if it passes it's test method.
-			if (call_user_func_array(array($class, 'test'), array()))
+			// Sweet!  Our class exists, so now we just need to know if it passes its test method.
+			// @deprecated 12.3 Stop checking with test()
+			if ($class::isSupported() || $class::test())
 			{
 				// Connector names should not have file extensions.
-				$connectors[] = str_ireplace('.php', '', $type);
+				$connectors[] = str_ireplace('.php', '', $fileName);
 			}
 		}
 
@@ -236,7 +215,7 @@ abstract class JDatabase implements JDatabaseInterface
 	}
 
 	/**
-	 * Method to return a JDatabase instance based on the given options.  There are three global options and then
+	 * Method to return a JDatabaseDriver instance based on the given options.  There are three global options and then
 	 * the rest are specific to the database driver.  The 'driver' option defines which JDatabaseDriver class is
 	 * used for the connection -- the default is 'mysql'.  The 'database' option determines which database is to
 	 * be used for the connection.  The 'select' option determines whether the connector should automatically select
@@ -247,7 +226,7 @@ abstract class JDatabase implements JDatabaseInterface
 	 *
 	 * @param   array  $options  Parameters to be passed to the database driver.
 	 *
-	 * @return  JDatabase  A database object.
+	 * @return  JDatabaseDriver  A database object.
 	 *
 	 * @since   11.1
 	 */
@@ -266,85 +245,22 @@ abstract class JDatabase implements JDatabaseInterface
 		{
 
 			// Derive the class name from the driver.
-			$class = 'JDatabase' . ucfirst($options['driver']);
-
-			// If the class doesn't exist, let's look for it and register it.
-			if (!class_exists($class))
-			{
-
-				// Derive the file path for the driver class.
-				$path = dirname(__FILE__) . '/database/' . $options['driver'] . '.php';
-
-				// If the file exists register the class with our class loader.
-				if (file_exists($path))
-				{
-					JLoader::register($class, $path);
-				}
-				// If it doesn't exist we are at an impasse so throw an exception.
-				else
-				{
-
-					// Legacy error handling switch based on the JError::$legacy switch.
-					// @deprecated  12.1
-
-					if (JError::$legacy)
-					{
-						// Deprecation warning.
-						JLog::add('JError is deprecated.', JLog::WARNING, 'deprecated');
-						JError::setErrorHandling(E_ERROR, 'die');
-						return JError::raiseError(500, JText::sprintf('JLIB_DATABASE_ERROR_LOAD_DATABASE_DRIVER', $options['driver']));
-					}
-					else
-					{
-						throw new JDatabaseException(JText::sprintf('JLIB_DATABASE_ERROR_LOAD_DATABASE_DRIVER', $options['driver']));
-					}
-				}
-			}
+			$class = 'JDatabaseDriver' . ucfirst(strtolower($options['driver']));
 
 			// If the class still doesn't exist we have nothing left to do but throw an exception.  We did our best.
 			if (!class_exists($class))
 			{
-
-				// Legacy error handling switch based on the JError::$legacy switch.
-				// @deprecated  12.1
-
-				if (JError::$legacy)
-				{
-					// Deprecation warning.
-					JLog::add('JError() is deprecated.', JLog::WARNING, 'deprecated');
-
-					JError::setErrorHandling(E_ERROR, 'die');
-					return JError::raiseError(500, JText::sprintf('JLIB_DATABASE_ERROR_LOAD_DATABASE_DRIVER', $options['driver']));
-				}
-				else
-				{
-					throw new JDatabaseException(JText::sprintf('JLIB_DATABASE_ERROR_LOAD_DATABASE_DRIVER', $options['driver']));
-				}
+				throw new RuntimeException(sprintf('Unable to load Database Driver: %s', $options['driver']));
 			}
 
-			// Create our new JDatabase connector based on the options given.
+			// Create our new JDatabaseDriver connector based on the options given.
 			try
 			{
 				$instance = new $class($options);
 			}
-			catch (JDatabaseException $e)
+			catch (RuntimeException $e)
 			{
-
-				// Legacy error handling switch based on the JError::$legacy switch.
-				// @deprecated  12.1
-
-				if (JError::$legacy)
-				{
-					// Deprecation warning.
-					JLog::add('JError() is deprecated.', JLog::WARNING, 'deprecated');
-
-					JError::setErrorHandling(E_ERROR, 'ignore');
-					return JError::raiseError(500, JText::sprintf('JLIB_DATABASE_ERROR_CONNECT_DATABASE', $e->getMessage()));
-				}
-				else
-				{
-					throw new JDatabaseException(JText::sprintf('JLIB_DATABASE_ERROR_CONNECT_DATABASE', $e->getMessage()));
-				}
+				throw new RuntimeException(sprintf('Unable to connect to the Database: %s', $e->getMessage()));
 			}
 
 			// Set the new connector to the global instances based on signature.
@@ -433,7 +349,6 @@ abstract class JDatabase implements JDatabaseInterface
 			case 'q':
 				return $this->quote($args[0], isset($args[1]) ? $args[1] : true);
 				break;
-			case 'nq':
 			case 'qn':
 				return $this->quoteName($args[0], isset($args[1]) ? $args[1] : null);
 				break;
@@ -447,7 +362,7 @@ abstract class JDatabase implements JDatabaseInterface
 	 *
 	 * @since   11.1
 	 */
-	protected function __construct($options)
+	public function __construct($options)
 	{
 		// Initialise object variables.
 		$this->_database = (isset($options['database'])) ? $options['database'] : '';
@@ -456,39 +371,20 @@ abstract class JDatabase implements JDatabaseInterface
 		$this->count = 0;
 		$this->errorNum = 0;
 		$this->log = array();
-		$this->quoted = array();
-		$this->hasQuoted = false;
 
-		// Set charactersets (needed for MySQL 4.1.2+).
-		$this->setUTF();
+		// Set class options.
+		$this->options = $options;
 	}
 
 	/**
-	 * Adds a field or array of field names to the list that are to be quoted.
+	 * Connects to the database if needed.
 	 *
-	 * @param   mixed  $quoted  Field name or array of names.
+	 * @return  void  Returns void if the database connected successfully.
 	 *
-	 * @return  void
-	 *
-	 * @deprecated  12.1
-	 * @since   11.1
+	 * @since   12.1
+	 * @throws  RuntimeException
 	 */
-	public function addQuoted($quoted)
-	{
-		// Deprecation warning.
-		JLog::add('JDatabase::addQuoted() is deprecated.', JLog::WARNING, 'deprecated');
-
-		if (is_string($quoted))
-		{
-			$this->quoted[] = $quoted;
-		}
-		else
-		{
-			$this->quoted = array_merge($this->quoted, (array) $quoted);
-		}
-
-		$this->hasQuoted = true;
-	}
+	abstract public function connect();
 
 	/**
 	 * Determines if the connection to the server is active.
@@ -500,15 +396,24 @@ abstract class JDatabase implements JDatabaseInterface
 	abstract public function connected();
 
 	/**
+	 * Disconnects the database.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 */
+	abstract public function disconnect();
+
+	/**
 	 * Drops a table from the database.
 	 *
 	 * @param   string   $table     The name of the database table to drop.
 	 * @param   boolean  $ifExists  Optionally specify that the table must exist before it is dropped.
 	 *
-	 * @return  JDatabase  Returns this object to support chaining.
+	 * @return  JDatabaseDriver     Returns this object to support chaining.
 	 *
 	 * @since   11.4
-	 * @throws  JDatabaseException
+	 * @throws  RuntimeException
 	 */
 	public abstract function dropTable($table, $ifExists = true);
 
@@ -657,7 +562,7 @@ abstract class JDatabase implements JDatabaseInterface
 	 */
 	public function getMinimum()
 	{
-		return $this->dbMinimum;
+		return static::$dbMinimum;
 	}
 
 	/**
@@ -696,6 +601,58 @@ abstract class JDatabase implements JDatabaseInterface
 	}
 
 	/**
+	 * Gets an exporter class object.
+	 *
+	 * @return  JDatabaseExporter  An exporter object.
+	 *
+	 * @since   12.1
+	 * @throws  RuntimeException
+	 */
+	public function getExporter()
+	{
+		// Derive the class name from the driver.
+		$class = 'JDatabaseExporter' . ucfirst($this->name);
+
+		// Make sure we have an exporter class for this driver.
+		if (!class_exists($class))
+		{
+			// If it doesn't exist we are at an impasse so throw an exception.
+			throw new RuntimeException('Database Exporter not found.');
+		}
+
+		$o = new $class;
+		$o->setDbo($this);
+
+		return $o;
+	}
+
+	/**
+	 * Gets an importer class object.
+	 *
+	 * @return  JDatabaseImporter  An importer object.
+	 *
+	 * @since   12.1
+	 * @throws  RuntimeException
+	 */
+	public function getImporter()
+	{
+		// Derive the class name from the driver.
+		$class = 'JDatabaseImporter' . ucfirst($this->name);
+
+		// Make sure we have an importer class for this driver.
+		if (!class_exists($class))
+		{
+			// If it doesn't exist we are at an impasse so throw an exception.
+			throw new RuntimeException('Database Importer not found');
+		}
+
+		$o = new $class;
+		$o->setDbo($this);
+
+		return $o;
+	}
+
+	/**
 	 * Get the current query object or a new JDatabaseQuery object.
 	 *
 	 * @param   boolean  $new  False to return the current query object, True to return a new JDatabaseQuery object.
@@ -703,9 +660,56 @@ abstract class JDatabase implements JDatabaseInterface
 	 * @return  JDatabaseQuery  The current query object or a new object extending the JDatabaseQuery class.
 	 *
 	 * @since   11.1
-	 * @throws  JDatabaseException
+	 * @throws  RuntimeException
 	 */
-	abstract public function getQuery($new = false);
+	public function getQuery($new = false)
+	{
+		if ($new)
+		{
+			// Derive the class name from the driver.
+			$class = 'JDatabaseQuery' . ucfirst($this->name);
+
+			// Make sure we have a query class for this driver.
+			if (!class_exists($class))
+			{
+				// If it doesn't exist we are at an impasse so throw an exception.
+				throw new RuntimeException('Database Query Class not found.');
+			}
+
+			return new $class($this);
+		}
+		else
+		{
+			return $this->sql;
+		}
+	}
+
+	/**
+	 * Get a new iterator on the current query.
+	 *
+	 * @param   string  $column  An option column to use as the iterator key.
+	 * @param   string  $class   The class of object that is returned.
+	 *
+	 * @return  JDatabaseIterator  A new database iterator.
+	 *
+	 * @since   12.1
+	 * @throws  RuntimeException
+	 */
+	public function getIterator($column = null, $class = 'stdClass')
+	{
+		// Derive the class name from the driver.
+		$iteratorClass = 'JDatabaseIterator' . ucfirst($this->name);
+
+		// Make sure we have an iterator class for this driver.
+		if (!class_exists($iteratorClass))
+		{
+			// If it doesn't exist we are at an impasse so throw an exception.
+			throw new RuntimeException(sprintf('class *%s* is not defined', $iteratorClass));
+		}
+
+		// Return a new iterator
+		return new $iteratorClass($this->execute(), $column, $class);
+	}
 
 	/**
 	 * Retrieves field information about the given tables.
@@ -716,7 +720,7 @@ abstract class JDatabase implements JDatabaseInterface
 	 * @return  array  An array of fields by table.
 	 *
 	 * @since   11.1
-	 * @throws  JDatabaseException
+	 * @throws  RuntimeException
 	 */
 	abstract public function getTableColumns($table, $typeOnly = true);
 
@@ -728,7 +732,7 @@ abstract class JDatabase implements JDatabaseInterface
 	 * @return  array  A list of the create SQL for the tables.
 	 *
 	 * @since   11.1
-	 * @throws  JDatabaseException
+	 * @throws  RuntimeException
 	 */
 	abstract public function getTableCreate($tables);
 
@@ -740,7 +744,7 @@ abstract class JDatabase implements JDatabaseInterface
 	 * @return  array  An array of keys for the table(s).
 	 *
 	 * @since   11.1
-	 * @throws  JDatabaseException
+	 * @throws  RuntimeException
 	 */
 	abstract public function getTableKeys($tables);
 
@@ -750,7 +754,7 @@ abstract class JDatabase implements JDatabaseInterface
 	 * @return  array  An array of all the tables in the database.
 	 *
 	 * @since   11.1
-	 * @throws  JDatabaseException
+	 * @throws  RuntimeException
 	 */
 	abstract public function getTableList();
 
@@ -760,8 +764,22 @@ abstract class JDatabase implements JDatabaseInterface
 	 * @return  boolean  True if the database engine supports UTF-8 character encoding.
 	 *
 	 * @since   11.1
+	 * @deprecated 12.3 Use hasUTFSupport() instead
 	 */
 	public function getUTFSupport()
+	{
+		JLog::add('JDatabase::getUTFSupport() is deprecated. Use JDatabase::hasUTFSupport() instead.', JLog::WARNING, 'deprecated');
+		return $this->hasUTFSupport();
+	}
+
+	/**
+	 * Determine whether or not the database engine supports UTF-8 character encoding.
+	 *
+	 * @return  boolean  True if the database engine supports UTF-8 character encoding.
+	 *
+	 * @since   12.1
+	 */
+	public function hasUTFSupport()
 	{
 		return $this->utf;
 	}
@@ -774,17 +792,6 @@ abstract class JDatabase implements JDatabaseInterface
 	 * @since   11.1
 	 */
 	abstract public function getVersion();
-
-	/**
-	 * Determines if the database engine supports UTF-8 character encoding.
-	 *
-	 * @return  boolean  True if supported.
-	 *
-	 * @since   11.1
-	 *
-	 * @deprecated  12.1
-	 */
-	abstract public function hasUTF();
 
 	/**
 	 * Method to get the auto-incremented value from the last INSERT statement.
@@ -805,16 +812,13 @@ abstract class JDatabase implements JDatabaseInterface
 	 * @return  boolean    True on success.
 	 *
 	 * @since   11.1
-	 * @throws  JDatabaseException
+	 * @throws  RuntimeException
 	 */
 	public function insertObject($table, &$object, $key = null)
 	{
 		// Initialise variables.
 		$fields = array();
 		$values = array();
-
-		// Create the base insert statement.
-		$statement = 'INSERT INTO ' . $this->quoteName($table) . ' (%s) VALUES (%s)';
 
 		// Iterate over the object variables to build the query fields and values.
 		foreach (get_object_vars($object) as $k => $v)
@@ -836,8 +840,14 @@ abstract class JDatabase implements JDatabaseInterface
 			$values[] = $this->quote($v);
 		}
 
+		// Create the base insert statement.
+		$query = $this->getQuery(true);
+		$query->insert($this->quoteName($table))
+				->columns($fields)
+				->values(implode(',', $values));
+
 		// Set the query and execute the insert.
-		$this->setQuery(sprintf($statement, implode(',', $fields), implode(',', $values)));
+		$this->setQuery($query);
 		if (!$this->execute())
 		{
 			return false;
@@ -862,7 +872,7 @@ abstract class JDatabase implements JDatabaseInterface
 	 */
 	public function isMinimumVersion()
 	{
-		return version_compare($this->getVersion(), $this->dbMinimum) >= 0;
+		return version_compare($this->getVersion(), static::$dbMinimum) >= 0;
 	}
 
 	/**
@@ -872,10 +882,12 @@ abstract class JDatabase implements JDatabaseInterface
 	 * @return  mixed  The return value or null if the query failed.
 	 *
 	 * @since   11.1
-	 * @throws  JDatabaseException
+	 * @throws  RuntimeException
 	 */
 	public function loadAssoc()
 	{
+		$this->connect();
+
 		// Initialise variables.
 		$ret = null;
 
@@ -912,10 +924,12 @@ abstract class JDatabase implements JDatabaseInterface
 	 * @return  mixed   The return value or null if the query failed.
 	 *
 	 * @since   11.1
-	 * @throws  JDatabaseException
+	 * @throws  RuntimeException
 	 */
 	public function loadAssocList($key = null, $column = null)
 	{
+		$this->connect();
+
 		// Initialise variables.
 		$array = array();
 
@@ -954,10 +968,12 @@ abstract class JDatabase implements JDatabaseInterface
 	 * @return  mixed    The return value or null if the query failed.
 	 *
 	 * @since   11.1
-	 * @throws  JDatabaseException
+	 * @throws  RuntimeException
 	 */
 	public function loadColumn($offset = 0)
 	{
+		$this->connect();
+
 		// Initialise variables.
 		$array = array();
 
@@ -987,16 +1003,22 @@ abstract class JDatabase implements JDatabaseInterface
 	 * @return  mixed   The result of the query as an array, false if there are no more rows.
 	 *
 	 * @since   11.1
-	 * @throws  JDatabaseException
+	 * @throws  RuntimeException
 	 */
 	public function loadNextObject($class = 'stdClass')
 	{
-		static $cursor;
+		JLog::add(__METHOD__ . '() is deprecated. Use JDatabase::getIterator() instead.', JLog::WARNING, 'deprecated');
+		$this->connect();
+
+		static $cursor = null;
 
 		// Execute the query and get the result set cursor.
-		if (!($cursor = $this->execute()))
+		if ( is_null($cursor) )
 		{
-			return $this->errorNum ? null : false;
+			if (!($cursor = $this->execute()))
+			{
+				return $this->errorNum ? null : false;
+			}
 		}
 
 		// Get the next row from the result set as an object of type $class.
@@ -1018,16 +1040,22 @@ abstract class JDatabase implements JDatabaseInterface
 	 * @return  mixed  The result of the query as an array, false if there are no more rows.
 	 *
 	 * @since   11.1
-	 * @throws  JDatabaseException
+	 * @throws  RuntimeException
 	 */
 	public function loadNextRow()
 	{
-		static $cursor;
+		JLog::add('JDatabase::loadNextRow() is deprecated. Use JDatabase::getIterator() instead.', JLog::WARNING, 'deprecated');
+		$this->connect();
+
+		static $cursor = null;
 
 		// Execute the query and get the result set cursor.
-		if (!($cursor = $this->execute()))
+		if ( is_null($cursor) )
 		{
-			return $this->errorNum ? null : false;
+			if (!($cursor = $this->execute()))
+			{
+				return $this->errorNum ? null : false;
+			}
 		}
 
 		// Get the next row from the result set as an object of type $class.
@@ -1051,10 +1079,12 @@ abstract class JDatabase implements JDatabaseInterface
 	 * @return  mixed   The return value or null if the query failed.
 	 *
 	 * @since   11.1
-	 * @throws  JDatabaseException
+	 * @throws  RuntimeException
 	 */
 	public function loadObject($class = 'stdClass')
 	{
+		$this->connect();
+
 		// Initialise variables.
 		$ret = null;
 
@@ -1089,10 +1119,12 @@ abstract class JDatabase implements JDatabaseInterface
 	 * @return  mixed   The return value or null if the query failed.
 	 *
 	 * @since   11.1
-	 * @throws  JDatabaseException
+	 * @throws  RuntimeException
 	 */
 	public function loadObjectList($key = '', $class = 'stdClass')
 	{
+		$this->connect();
+
 		// Initialise variables.
 		$array = array();
 
@@ -1127,10 +1159,12 @@ abstract class JDatabase implements JDatabaseInterface
 	 * @return  mixed  The return value or null if the query failed.
 	 *
 	 * @since   11.1
-	 * @throws  JDatabaseException
+	 * @throws  RuntimeException
 	 */
 	public function loadResult()
 	{
+		$this->connect();
+
 		// Initialise variables.
 		$ret = null;
 
@@ -1159,10 +1193,12 @@ abstract class JDatabase implements JDatabaseInterface
 	 * @return  mixed  The return value or null if the query failed.
 	 *
 	 * @since   11.1
-	 * @throws  JDatabaseException
+	 * @throws  RuntimeException
 	 */
 	public function loadRow()
 	{
+		$this->connect();
+
 		// Initialise variables.
 		$ret = null;
 
@@ -1196,10 +1232,12 @@ abstract class JDatabase implements JDatabaseInterface
 	 * @return  mixed   The return value or null if the query failed.
 	 *
 	 * @since   11.1
-	 * @throws  JDatabaseException
+	 * @throws  RuntimeException
 	 */
 	public function loadRowList($key = null)
 	{
+		$this->connect();
+
 		// Initialise variables.
 		$array = array();
 
@@ -1233,35 +1271,12 @@ abstract class JDatabase implements JDatabaseInterface
 	 *
 	 * @param   string  $tableName  The name of the table to unlock.
 	 *
-	 * @return  JDatabase  Returns this object to support chaining.
+	 * @return  JDatabaseDriver     Returns this object to support chaining.
 	 *
 	 * @since   11.4
-	 * @throws  JDatabaseException
+	 * @throws  RuntimeException
 	 */
 	public abstract function lockTable($tableName);
-
-	/**
-	 * Execute the SQL statement.
-	 *
-	 * @return  mixed  A database cursor resource on success, boolean false on failure.
-	 *
-	 * @since   11.1
-	 * @throws  JDatabaseException
-	 */
-	public function query()
-	{
-		return $this->execute();
-	}
-
-	/**
-	 * Execute the SQL statement.
-	 *
-	 * @return  mixed  A database cursor resource on success, boolean false on failure.
-	 *
-	 * @since   12.1
-	 * @throws  JDatabaseException
-	 */
-	abstract public function execute();
 
 	/**
 	 * Method to quote and optionally escape a string to database requirements for insertion into the database.
@@ -1283,9 +1298,9 @@ abstract class JDatabase implements JDatabaseInterface
 	 * risks and reserved word conflicts.
 	 *
 	 * @param   mixed  $name  The identifier name to wrap in quotes, or an array of identifier names to wrap in quotes.
-	 * 							Each type supports dot-notation name.
+	 *                        Each type supports dot-notation name.
 	 * @param   mixed  $as    The AS query part associated to $name. It can be string or array, in latter case it has to be
-	 * 							same length of $name; if is null there will not be any AS part for string or array element.
+	 *                        same length of $name; if is null there will not be any AS part for string or array element.
 	 *
 	 * @return  mixed  The quote wrapped name, same type of $name.
 	 *
@@ -1319,7 +1334,8 @@ abstract class JDatabase implements JDatabaseInterface
 			}
 			elseif (is_array($name) && (count($name) == count($as)))
 			{
-				for ($i = 0; $i < count($name); $i++)
+				$count = count($name);
+				for ($i = 0; $i < $count; $i++)
 				{
 					$fin[] = $this->quoteName($name[$i], $as[$i]);
 				}
@@ -1420,7 +1436,7 @@ abstract class JDatabase implements JDatabaseInterface
 				break;
 			}
 
-			// quote comes first, find end of quote
+			// Quote comes first, find end of quote
 			while (true)
 			{
 				$k = strpos($sql, $quoteChar, $j);
@@ -1444,7 +1460,7 @@ abstract class JDatabase implements JDatabaseInterface
 			}
 			if ($k === false)
 			{
-				// error in the query - no end quote; ignore it
+				// Error in the query - no end quote; ignore it
 				break;
 			}
 			$literal .= substr($sql, $startPos, $k - $startPos + 1);
@@ -1466,10 +1482,10 @@ abstract class JDatabase implements JDatabaseInterface
 	 * @param   string  $backup    Table prefix
 	 * @param   string  $prefix    For the table - used to rename constraints in non-mysql databases
 	 *
-	 * @return  JDatabase  Returns this object to support chaining.
+	 * @return  JDatabaseDriver    Returns this object to support chaining.
 	 *
 	 * @since   11.4
-	 * @throws  JDatabaseException
+	 * @throws  RuntimeException
 	 */
 	public abstract function renameTable($oldTable, $newTable, $backup = null, $prefix = null);
 
@@ -1481,7 +1497,7 @@ abstract class JDatabase implements JDatabaseInterface
 	 * @return  boolean  True if the database was successfully selected.
 	 *
 	 * @since   11.1
-	 * @throws  JDatabaseException
+	 * @throws  RuntimeException
 	 */
 	abstract public function select($database);
 
@@ -1509,7 +1525,7 @@ abstract class JDatabase implements JDatabaseInterface
 	 * @param   integer  $offset  The affected row offset to set.
 	 * @param   integer  $limit   The maximum affected rows to set.
 	 *
-	 * @return  JDatabase  This object to support method chaining.
+	 * @return  JDatabaseDriver  This object to support method chaining.
 	 *
 	 * @since   11.1
 	 */
@@ -1537,7 +1553,7 @@ abstract class JDatabase implements JDatabaseInterface
 	 * @return  void
 	 *
 	 * @since   11.1
-	 * @throws  JDatabaseException
+	 * @throws  RuntimeException
 	 */
 	abstract public function transactionCommit();
 
@@ -1547,7 +1563,7 @@ abstract class JDatabase implements JDatabaseInterface
 	 * @return  void
 	 *
 	 * @since   11.1
-	 * @throws  JDatabaseException
+	 * @throws  RuntimeException
 	 */
 	abstract public function transactionRollback();
 
@@ -1557,7 +1573,7 @@ abstract class JDatabase implements JDatabaseInterface
 	 * @return  void
 	 *
 	 * @since   11.1
-	 * @throws  JDatabaseException
+	 * @throws  RuntimeException
 	 */
 	abstract public function transactionStart();
 
@@ -1569,7 +1585,7 @@ abstract class JDatabase implements JDatabaseInterface
 	 * @return  void
 	 *
 	 * @since   11.3
-	 * @throws  JDatabaseException
+	 * @throws  RuntimeException
 	 */
 	public function truncateTable($table)
 	{
@@ -1588,7 +1604,7 @@ abstract class JDatabase implements JDatabaseInterface
 	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
-	 * @throws  JDatabaseException
+	 * @throws  RuntimeException
 	 */
 	public function updateObject($table, &$object, $key, $nulls = false)
 	{
@@ -1651,252 +1667,22 @@ abstract class JDatabase implements JDatabaseInterface
 	}
 
 	/**
+	 * Execute the SQL statement.
+	 *
+	 * @return  mixed  A database cursor resource on success, boolean false on failure.
+	 *
+	 * @since   12.1
+	 * @throws  RuntimeException
+	 */
+	abstract public function execute();
+
+	/**
 	 * Unlocks tables in the database.
 	 *
-	 * @return  JDatabase  Returns this object to support chaining.
+	 * @return  JDatabaseDriver  Returns this object to support chaining.
 	 *
 	 * @since   11.4
-	 * @throws  JDatabaseException
+	 * @throws  RuntimeException
 	 */
 	public abstract function unlockTables();
-
-	//
-	// Deprecated methods.
-	//
-
-	/**
-	 * Sets the debug level on or off
-	 *
-	 * @param   integer  $level  0 to disable debugging and 1 to enable it.
-	 *
-	 * @return  void
-	 *
-	 * @deprecated  12.1
-	 * @since   11.1
-	 */
-	public function debug($level)
-	{
-		// Deprecation warning.
-		JLog::add('JDatabase::debug() is deprecated, use JDatabase::setDebug() instead.', JLog::NOTICE, 'deprecated');
-
-		$this->setDebug(($level == 0) ? false : true);
-	}
-
-	/**
-	 * Diagnostic method to return explain information for a query.
-	 *
-	 * @return  string  The explain output.
-	 *
-	 * @deprecated  12.1
-	 * @since   11.1
-	 */
-	abstract public function explain();
-
-	/**
-	 * Gets the error message from the database connection.
-	 *
-	 * @param   boolean  $escaped  True to escape the message string for use in JavaScript.
-	 *
-	 * @return  string  The error message for the most recent query.
-	 *
-	 * @deprecated  12.1
-	 * @since   11.1
-	 */
-	public function getErrorMsg($escaped = false)
-	{
-		// Deprecation warning.
-		JLog::add('JDatabase::getErrorMsg() is deprecated, use exception handling instead.', JLog::WARNING, 'deprecated');
-
-		if ($escaped)
-		{
-			return addslashes($this->errorMsg);
-		}
-		else
-		{
-			return $this->errorMsg;
-		}
-	}
-
-	/**
-	 * Gets the error number from the database connection.
-	 *
-	 * @return      integer  The error number for the most recent query.
-	 *
-	 * @since       11.1
-	 * @deprecated  12.1
-	 */
-	public function getErrorNum()
-	{
-		// Deprecation warning.
-		JLog::add('JDatabase::getErrorNum() is deprecated, use exception handling instead.', JLog::WARNING, 'deprecated');
-
-		return $this->errorNum;
-	}
-
-	/**
-	 * Method to escape a string for usage in an SQL statement.
-	 *
-	 * @param   string   $text   The string to be escaped.
-	 * @param   boolean  $extra  Optional parameter to provide extra escaping.
-	 *
-	 * @return  string  The escaped string.
-	 *
-	 * @since   11.1
-	 * @deprecated  12.1
-	 */
-	public function getEscaped($text, $extra = false)
-	{
-		// Deprecation warning.
-		JLog::add('JDatabase::getEscaped() is deprecated. Use JDatabase::escape().', JLog::WARNING, 'deprecated');
-
-		return $this->escape($text, $extra);
-	}
-
-	/**
-	 * Retrieves field information about the given tables.
-	 *
-	 * @param   mixed    $tables    A table name or a list of table names.
-	 * @param   boolean  $typeOnly  True to only return field types.
-	 *
-	 * @return  array  An array of fields by table.
-	 *
-	 * @since   11.1
-	 * @throws  JDatabaseException
-	 * @deprecated  12.1
-	 */
-	public function getTableFields($tables, $typeOnly = true)
-	{
-		// Deprecation warning.
-		JLog::add('JDatabase::getTableFields() is deprecated. Use JDatabase::getTableColumns().', JLog::WARNING, 'deprecated');
-
-		$results = array();
-
-		settype($tables, 'array');
-
-		foreach ($tables as $table)
-		{
-			$results[$table] = $this->getTableColumns($table, $typeOnly);
-		}
-
-		return $results;
-	}
-
-	/**
-	 * Get the total number of SQL statements executed by the database driver.
-	 *
-	 * @return      integer
-	 *
-	 * @since       11.1
-	 * @deprecated  12.1
-	 */
-	public function getTicker()
-	{
-		// Deprecation warning.
-		JLog::add('JDatabase::getTicker() is deprecated, use JDatabase::getCount() instead.', JLog::NOTICE, 'deprecated');
-
-		return $this->count;
-	}
-
-	/**
-	 * Checks if field name needs to be quoted.
-	 *
-	 * @param   string  $field  The field name to be checked.
-	 *
-	 * @return  bool
-	 *
-	 * @deprecated  12.1
-	 * @since   11.1
-	 */
-	public function isQuoted($field)
-	{
-		// Deprecation warning.
-		JLog::add('JDatabase::isQuoted() is deprecated.', JLog::WARNING, 'deprecated');
-
-		if ($this->hasQuoted)
-		{
-			return in_array($field, $this->quoted);
-		}
-		else
-		{
-			return true;
-		}
-	}
-
-	/**
-	 * Method to get an array of values from the <var>$offset</var> field in each row of the result set from
-	 * the database query.
-	 *
-	 * @param   integer  $offset  The row offset to use to build the result array.
-	 *
-	 * @return  mixed    The return value or null if the query failed.
-	 *
-	 * @since   11.1
-	 * @throws  JDatabaseException
-	 * @deprecated  12.1
-	 */
-	public function loadResultArray($offset = 0)
-	{
-		// Deprecation warning.
-		JLog::add('JDatabase::loadResultArray() is deprecated. Use JDatabase::loadColumn().', JLog::WARNING, 'deprecated');
-
-		return $this->loadColumn($offset);
-	}
-
-	/**
-	 * Wrap an SQL statement identifier name such as column, table or database names in quotes to prevent injection
-	 * risks and reserved word conflicts.
-	 *
-	 * @param   string  $name  The identifier name to wrap in quotes.
-	 *
-	 * @return  string  The quote wrapped name.
-	 *
-	 * @since   11.1
-	 * @deprecated  12.1
-	 */
-	public function nameQuote($name)
-	{
-		// Deprecation warning.
-		JLog::add('JDatabase::nameQuote() is deprecated. Use JDatabase::quoteName().', JLog::WARNING, 'deprecated');
-
-		return $this->quoteName($name);
-	}
-
-	/**
-	 * Execute a query batch.
-	 *
-	 * @param   boolean  $abortOnError     Abort on error.
-	 * @param   boolean  $transactionSafe  Transaction safe queries.
-	 *
-	 * @return  mixed  A database resource if successful, false if not.
-	 *
-	 * @deprecated  12.1
-	 * @since   11.1
-	 */
-	abstract public function queryBatch($abortOnError = true, $transactionSafe = false);
-
-	/**
-	 * Return the most recent error message for the database connector.
-	 *
-	 * @param   boolean  $showSQL  True to display the SQL statement sent to the database as well as the error.
-	 *
-	 * @return  string  The error message for the most recent query.
-	 *
-	 * @deprecated  12.1
-	 * @since   11.1
-	 */
-	public function stderr($showSQL = false)
-	{
-		// Deprecation warning.
-		JLog::add('JDatabase::stderr() is deprecated.', JLog::WARNING, 'deprecated');
-
-		if ($this->errorNum != 0)
-		{
-			return JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $this->errorNum, $this->errorMsg)
-				. ($showSQL ? "<br />SQL = <pre>$this->sql</pre>" : '');
-		}
-		else
-		{
-			return JText::_('JLIB_DATABASE_FUNCTION_NOERROR');
-		}
-	}
 }

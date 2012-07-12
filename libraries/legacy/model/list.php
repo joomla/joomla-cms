@@ -1,7 +1,7 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Application
+ * @package     Joomla.Legacy
+ * @subpackage  Model
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -9,22 +9,20 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.application.component.model');
-
 /**
  * Model class for handling lists of items.
  *
- * @package     Joomla.Platform
- * @subpackage  Application
- * @since       11.1
+ * @package     Joomla.Legacy
+ * @subpackage  Model
+ * @since       12.2
  */
-class JModelList extends JModel
+class JModelList extends JModelLegacy
 {
 	/**
 	 * Internal memory based cache array of data.
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  12.2
 	 */
 	protected $cache = array();
 
@@ -33,7 +31,7 @@ class JModelList extends JModel
 	 * when dealing with the getStoreId() method and caching data structures.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  12.2
 	 */
 	protected $context = null;
 
@@ -41,7 +39,7 @@ class JModelList extends JModel
 	 * Valid filter fields or ordering.
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  12.2
 	 */
 	protected $filter_fields = array();
 
@@ -49,7 +47,7 @@ class JModelList extends JModel
 	 * An internal cache for the last query used.
 	 *
 	 * @var    JDatabaseQuery
-	 * @since  11.1
+	 * @since  12.2
 	 */
 	protected $query = array();
 
@@ -58,8 +56,8 @@ class JModelList extends JModel
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
-	 * @see     JController
-	 * @since   11.1
+	 * @see     JModelLegacy
+	 * @since   12.2
 	 */
 	public function __construct($config = array())
 	{
@@ -85,7 +83,7 @@ class JModelList extends JModel
 	 *
 	 * @return  JDatabaseQuery  A JDatabaseQuery object
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	protected function _getListQuery()
 	{
@@ -110,7 +108,7 @@ class JModelList extends JModel
 	 *
 	 * @return  mixed  An array of data items on success, false on failure.
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	public function getItems()
 	{
@@ -125,12 +123,14 @@ class JModelList extends JModel
 
 		// Load the list items.
 		$query = $this->_getListQuery();
-		$items = $this->_getList($query, $this->getStart(), $this->getState('list.limit'));
 
-		// Check for a database error.
-		if ($this->_db->getErrorNum())
+		try
 		{
-			$this->setError($this->_db->getErrorMsg());
+			$items = $this->_getList($query, $this->getStart(), $this->getState('list.limit'));
+		}
+		catch (RuntimeException $e)
+		{
+			$this->setError($e->getMessage());
 			return false;
 		}
 
@@ -145,7 +145,7 @@ class JModelList extends JModel
 	 *
 	 * @return  JDatabaseQuery   A JDatabaseQuery object to retrieve the data set.
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	protected function getListQuery()
 	{
@@ -160,7 +160,7 @@ class JModelList extends JModel
 	 *
 	 * @return  JPagination  A JPagination object for the data set.
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	public function getPagination()
 	{
@@ -174,7 +174,6 @@ class JModelList extends JModel
 		}
 
 		// Create the pagination object.
-		jimport('joomla.html.pagination');
 		$limit = (int) $this->getState('list.limit') - (int) $this->getState('list.links');
 		$page = new JPagination($this->getTotal(), $this->getStart(), $limit);
 
@@ -195,7 +194,7 @@ class JModelList extends JModel
 	 *
 	 * @return  string  A store id.
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	protected function getStoreId($id = '')
 	{
@@ -213,7 +212,7 @@ class JModelList extends JModel
 	 *
 	 * @return  integer  The total number of items available in the data set.
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	public function getTotal()
 	{
@@ -228,12 +227,13 @@ class JModelList extends JModel
 
 		// Load the total.
 		$query = $this->_getListQuery();
-		$total = (int) $this->_getListCount($query);
-
-		// Check for a database error.
-		if ($this->_db->getErrorNum())
+		try
 		{
-			$this->setError($this->_db->getErrorMsg());
+			$total = (int) $this->_getListCount($query);
+		}
+		catch (RuntimeException $e)
+		{
+			$this->setError($e->getMessage());
 			return false;
 		}
 
@@ -248,7 +248,7 @@ class JModelList extends JModel
 	 *
 	 * @return  integer  The starting number of items available in the data set.
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	public function getStart()
 	{
@@ -288,7 +288,7 @@ class JModelList extends JModel
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
@@ -344,18 +344,19 @@ class JModelList extends JModel
 	 *
 	 * @return  The request user state.
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	public function getUserStateFromRequest($key, $request, $default = null, $type = 'none', $resetPage = true)
 	{
 		$app = JFactory::getApplication();
+		$input     = $app->input;
 		$old_state = $app->getUserState($key);
 		$cur_state = (!is_null($old_state)) ? $old_state : $default;
-		$new_state = JRequest::getVar($request, null, 'default', $type);
+		$new_state = $input->get($request, null, $type);
 
 		if (($cur_state != $new_state) && ($resetPage))
 		{
-			JRequest::setVar('limitstart', 0);
+			$input->set('limitstart', 0);
 		}
 
 		// Save the new value only if it is set in this request.

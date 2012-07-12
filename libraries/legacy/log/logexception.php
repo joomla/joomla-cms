@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Joomla.Platform
+ * @package     Joomla.Legacy
  * @subpackage  Log
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
@@ -9,14 +9,16 @@
 
 defined('JPATH_PLATFORM') or die;
 
+JLog::add('LogException is deprecated, use SPL Exceptions instead.', JLog::WARNING, 'deprecated');
+
 /**
  * Exception class definition for the Log subpackage.
  *
- * @package     Joomla.Platform
+ * @package     Joomla.Legacy
  * @subpackage  Log
  * @since       11.1
  * @deprecated  12.3 Use semantic exceptions instead
  */
-class LogException extends Exception
+class LogException extends RuntimeException
 {
 }

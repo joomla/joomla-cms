@@ -1,7 +1,7 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Database
+ * @package     Joomla.Legacy
+ * @subpackage  Table
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -9,12 +9,10 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.database.table');
-
 /**
  * Menu Types table
  *
- * @package     Joomla.Platform
+ * @package     Joomla.Legacy
  * @subpackage  Table
  * @since       11.1
  */
@@ -23,11 +21,11 @@ class JTableMenuType extends JTable
 	/**
 	 * Constructor
 	 *
-	 * @param   JDatabase  &$db  A database connector object.
+	 * @param   JDatabaseDriver  $db  Database driver object.
 	 *
 	 * @since  11.1
 	 */
-	public function __construct(&$db)
+	public function __construct($db)
 	{
 		parent::__construct('#__menu_types', 'id', $db);
 	}
@@ -136,11 +134,7 @@ class JTableMenuType extends JTable
 			$query->set('menutype=' . $this->_db->quote($this->menutype));
 			$query->where('menutype=' . $this->_db->quote($table->menutype));
 			$this->_db->setQuery($query);
-			if (!$this->_db->execute())
-			{
-				$this->setError(JText::sprintf('JLIB_DATABASE_ERROR_STORE_FAILED', get_class($this), $this->_db->getErrorMsg()));
-				return false;
-			}
+			$this->_db->execute();
 
 			// Update the module items
 			$query = $this->_db->getQuery(true);
@@ -152,11 +146,7 @@ class JTableMenuType extends JTable
 			$query->where('module=' . $this->_db->quote('mod_menu'));
 			$query->where('params LIKE ' . $this->_db->quote('%"menutype":' . json_encode($table->menutype) . '%'));
 			$this->_db->setQuery($query);
-			if (!$this->_db->execute())
-			{
-				$this->setError(JText::sprintf('JLIB_DATABASE_ERROR_STORE_FAILED', get_class($this), $this->_db->getErrorMsg()));
-				return false;
-			}
+			$this->_db->execute();
 		}
 		return parent::store($updateNulls);
 	}
@@ -223,11 +213,7 @@ class JTableMenuType extends JTable
 			$query->where('menutype=' . $this->_db->quote($table->menutype));
 			$query->where('client_id=0');
 			$this->_db->setQuery($query);
-			if (!$this->_db->execute())
-			{
-				$this->setError(JText::sprintf('JLIB_DATABASE_ERROR_DELETE_FAILED', get_class($this), $this->_db->getErrorMsg()));
-				return false;
-			}
+			$this->_db->execute();
 
 			// Update the module items
 			$query = $this->_db->getQuery(true);
@@ -236,11 +222,7 @@ class JTableMenuType extends JTable
 			$query->where('module=' . $this->_db->quote('mod_menu'));
 			$query->where('params LIKE ' . $this->_db->quote('%"menutype":' . json_encode($table->menutype) . '%'));
 			$this->_db->setQuery($query);
-			if (!$this->_db->execute())
-			{
-				$this->setError(JText::sprintf('JLIB_DATABASE_ERROR_DELETE_FAILED', get_class($this), $this->_db->getErrorMsg()));
-				return false;
-			}
+			$this->_db->execute();
 		}
 		return parent::delete($pk);
 	}

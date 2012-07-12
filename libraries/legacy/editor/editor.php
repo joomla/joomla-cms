@@ -1,7 +1,7 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  HTML
+ * @package     Joomla.Legacy
+ * @subpackage  Editor
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -9,13 +9,11 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.event.dispatcher');
-
 /**
  * JEditor class to handle WYSIWYG editors
  *
- * @package     Joomla.Platform
- * @subpackage  HTML
+ * @package     Joomla.Legacy
+ * @subpackage  Editor
  * @since       11.1
  */
 class JEditor extends JObject
@@ -94,7 +92,7 @@ class JEditor extends JObject
 	 *
 	 * @param   string  $editor  The editor to use.
 	 *
-	 * @return  object  JEditor  The Editor object.
+	 * @return  JEditor The Editor object.
 	 *
 	 * @since   11.1
 	 */
@@ -234,7 +232,7 @@ class JEditor extends JObject
 	 */
 	public function initialise()
 	{
-		//check if editor is already loaded
+		// Check if editor is already loaded
 		if (is_null(($this->_editor)))
 		{
 			return;
@@ -249,7 +247,7 @@ class JEditor extends JObject
 		{
 			if (trim($result))
 			{
-				//$return .= $result;
+				// @todo remove code: $return .= $result;
 				$return = $result;
 			}
 		}
@@ -493,8 +491,7 @@ class JEditor extends JObject
 			$path = JPATH_PLUGINS . '/editors/' . $name . '/' . $name . '.php';
 			if (!JFile::exists($path))
 			{
-				$message = JText::_('JLIB_HTML_EDITOR_CANNOT_LOAD');
-				JError::raiseWarning(500, $message);
+				JLog::add(JText::_('JLIB_HTML_EDITOR_CANNOT_LOAD'), JLog::WARNING, 'jerror');
 				return false;
 			}
 		}

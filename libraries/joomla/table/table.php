@@ -1,13 +1,15 @@
 <?php
 /**
  * @package     Joomla.Platform
- * @subpackage  Database
+ * @subpackage  Table
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
+
+jimport('joomla.filesystem.path');
 
 /**
  * Abstract Table class
@@ -22,6 +24,14 @@ defined('JPATH_PLATFORM') or die;
  */
 abstract class JTable extends JObject
 {
+	/**
+	 * Include paths for searching for JTable classes.
+	 *
+	 * @var    array
+	 * @since  12.1
+	 */
+	private static $_includePaths = array();
+
 	/**
 	 * Name of the database table to model.
 	 *
@@ -39,9 +49,9 @@ abstract class JTable extends JObject
 	protected $_tbl_key = '';
 
 	/**
-	 * JDatabase connector object.
+	 * JDatabaseDriver object.
 	 *
-	 * @var    JDatabase
+	 * @var    JDatabaseDriver
 	 * @since  11.1
 	 */
 	protected $_db;
@@ -75,21 +85,22 @@ abstract class JTable extends JObject
 	 * be overridden by child classes to explicitly set the table and key fields
 	 * for a particular database table.
 	 *
-	 * @param   string     $table  Name of the table to model.
-	 * @param   string     $key    Name of the primary key field in the table.
-	 * @param   JDatabase  &$db    JDatabase connector object.
+	 * @param   string           $table  Name of the table to model.
+	 * @param   string           $key    Name of the primary key field in the table.
+	 * @param   JDatabaseDriver  $db     JDatabaseDriver object.
 	 *
 	 * @since   11.1
 	 */
-	public function __construct($table, $key, &$db)
+	public function __construct($table, $key, $db)
 	{
 		// Set internal variables.
 		$this->_tbl = $table;
 		$this->_tbl_key = $key;
-		$this->_db = &$db;
+		$this->_db = $db;
 
 		// Initialise the table properties.
-		if ($fields = $this->getFields())
+		$fields = $this->getFields();
+		if ($fields)
 		{
 			foreach ($fields as $name => $v)
 			{
@@ -120,6 +131,7 @@ abstract class JTable extends JObject
 	 * @return  mixed  An array of the field names, or false if an error occurs.
 	 *
 	 * @since   11.1
+	 * @throws  UnexpectedValueException
 	 */
 	public function getFields()
 	{
@@ -133,9 +145,7 @@ abstract class JTable extends JObject
 
 			if (empty($fields))
 			{
-				$e = new JException(JText::_('JLIB_DATABASE_ERROR_COLUMNS_NOT_FOUND'));
-				$this->setError($e);
-				return false;
+				throw new UnexpectedValueException(sprintf('No columns found for %s table', $name));
 			}
 			$cache = $fields;
 		}
@@ -154,7 +164,7 @@ abstract class JTable extends JObject
 	 *
 	 * @return  mixed    A JTable object if found or boolean false if one could not be found.
 	 *
-	 * @link	http://docs.joomla.org/JTable/getInstance
+	 * @link    http://docs.joomla.org/JTable/getInstance
 	 * @since   11.1
 	 */
 	public static function getInstance($type, $prefix = 'JTable', $config = array())
@@ -167,9 +177,8 @@ abstract class JTable extends JObject
 		if (!class_exists($tableClass))
 		{
 			// Search for the class file in the JTable include paths.
-			jimport('joomla.filesystem.path');
-
-			if ($path = JPath::find(JTable::addIncludePath(), strtolower($type) . '.php'))
+			$path = JPath::find(self::addIncludePath(), strtolower($type) . '.php');
+			if ($path)
 			{
 				// Import the class file.
 				include_once $path;
@@ -177,14 +186,14 @@ abstract class JTable extends JObject
 				// If we were unable to load the proper class, raise a warning and return false.
 				if (!class_exists($tableClass))
 				{
-					JError::raiseWarning(0, JText::sprintf('JLIB_DATABASE_ERROR_CLASS_NOT_FOUND_IN_FILE', $tableClass));
+					JLog::add(JText::sprintf('JLIB_DATABASE_ERROR_CLASS_NOT_FOUND_IN_FILE', $tableClass), JLog::WARNING, 'jerror');
 					return false;
 				}
 			}
 			else
 			{
 				// If we were unable to find the class file in the JTable include paths, raise a warning and return false.
-				JError::raiseWarning(0, JText::sprintf('JLIB_DATABASE_ERROR_NOT_SUPPORTED_FILE_NOT_FOUND', $type));
+				JLog::add(JText::sprintf('JLIB_DATABASE_ERROR_NOT_SUPPORTED_FILE_NOT_FOUND', $type), JLog::WARNING, 'jerror');
 				return false;
 			}
 		}
@@ -209,20 +218,17 @@ abstract class JTable extends JObject
 	 */
 	public static function addIncludePath($path = null)
 	{
-		// Declare the internal paths as a static variable.
-		static $_paths;
-
 		// If the internal paths have not been initialised, do so with the base table path.
-		if (!isset($_paths))
+		if (empty(self::$_includePaths))
 		{
-			$_paths = array(dirname(__FILE__) . '/table');
+			self::$_includePaths = array(__DIR__);
 		}
 
 		// Convert the passed path(s) to add to an array.
 		settype($path, 'array');
 
 		// If we have new paths to add, do so.
-		if (!empty($path) && !in_array($path, $_paths))
+		if (!empty($path) && !in_array($path, self::$_includePaths))
 		{
 			// Check and add each individual new path.
 			foreach ($path as $dir)
@@ -231,11 +237,11 @@ abstract class JTable extends JObject
 				$dir = trim($dir);
 
 				// Add to the front of the list so that custom paths are searched first.
-				array_unshift($_paths, $dir);
+				array_unshift(self::$_includePaths, $dir);
 			}
 		}
 
-		return $_paths;
+		return self::$_includePaths;
 	}
 
 	/**
@@ -322,9 +328,9 @@ abstract class JTable extends JObject
 	}
 
 	/**
-	 * Method to get the JDatabase connector object.
+	 * Method to get the JDatabaseDriver object.
 	 *
-	 * @return  JDatabase  The internal database connector object.
+	 * @return  JDatabaseDriver  The internal database driver object.
 	 *
 	 * @link    http://docs.joomla.org/JTable/getDBO
 	 * @since   11.1
@@ -335,24 +341,18 @@ abstract class JTable extends JObject
 	}
 
 	/**
-	 * Method to set the JDatabase connector object.
+	 * Method to set the JDatabaseDriver object.
 	 *
-	 * @param   object  &$db  A JDatabase connector object to be used by the table object.
+	 * @param   JDatabaseDriver  $db  A JDatabaseDriver object to be used by the table object.
 	 *
 	 * @return  boolean  True on success.
 	 *
 	 * @link    http://docs.joomla.org/JTable/setDBO
 	 * @since   11.1
 	 */
-	public function setDBO(&$db)
+	public function setDBO(JDatabaseDriver $db)
 	{
-		// Make sure the new database object is a JDatabase.
-		if (!($db instanceof JDatabase))
-		{
-			return false;
-		}
-
-		$this->_db = &$db;
+		$this->_db = $db;
 
 		return true;
 	}
@@ -425,15 +425,14 @@ abstract class JTable extends JObject
 	 *
 	 * @link    http://docs.joomla.org/JTable/bind
 	 * @since   11.1
+	 * @throws  UnexpectedValueException
 	 */
 	public function bind($src, $ignore = array())
 	{
 		// If the source value is not an array or object return false.
 		if (!is_object($src) && !is_array($src))
 		{
-			$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_BIND_FAILED_INVALID_SOURCE_ARGUMENT', get_class($this)));
-			$this->setError($e);
-			return false;
+			throw new InvalidArgumentException(sprintf('%s::bind(*%s*)', get_class($this), gettype($src)));
 		}
 
 		// If the source value is an object, get its accessible properties.
@@ -469,13 +468,15 @@ abstract class JTable extends JObject
 	 * to the JTable instance properties.
 	 *
 	 * @param   mixed    $keys   An optional primary key value to load the row by, or an array of fields to match.  If not
-	 * set the instance property value is used.
+	 *                           set the instance property value is used.
 	 * @param   boolean  $reset  True to reset the default values before loading the new row.
 	 *
-	 * @return  boolean  True if successful. False if row not found or on error (internal error state set in that case).
+	 * @return  boolean  True if successful. False if row not found.
 	 *
 	 * @link    http://docs.joomla.org/JTable/load
 	 * @since   11.1
+	 * @throws  RuntimeException
+	 * @throws  UnexpectedValueException
 	 */
 	public function load($keys = null, $reset = true)
 	{
@@ -515,9 +516,7 @@ abstract class JTable extends JObject
 			// Check that $field is in the table.
 			if (!in_array($field, $fields))
 			{
-				$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_CLASS_IS_MISSING_FIELD', get_class($this), $field));
-				$this->setError($e);
-				return false;
+				throw new UnexpectedValueException(sprintf('Missing field in database: %s &#160; %s.', get_class($this), $field));
 			}
 			// Add the search tuple to the query.
 			$query->where($this->_db->quoteName($field) . ' = ' . $this->_db->quote($value));
@@ -525,31 +524,11 @@ abstract class JTable extends JObject
 
 		$this->_db->setQuery($query);
 
-		try
-		{
-			$row = $this->_db->loadAssoc();
-		}
-		catch (RuntimeException $e)
-		{
-			$je = new JException($e->getMessage());
-			$this->setError($je);
-			return false;
-		}
-
-		// Legacy error handling switch based on the JError::$legacy switch.
-		// @deprecated  12.1
-		if (JError::$legacy && $this->_db->getErrorNum())
-		{
-			$e = new JException($this->_db->getErrorMsg());
-			$this->setError($e);
-			return false;
-		}
+		$row = $this->_db->loadAssoc();
 
 		// Check that we have a result.
 		if (empty($row))
 		{
-			$e = new JException(JText::_('JLIB_DATABASE_ERROR_EMPTY_ROW_RETURNED'));
-			$this->setError($e);
 			return false;
 		}
 
@@ -584,7 +563,7 @@ abstract class JTable extends JObject
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @link	http://docs.joomla.org/JTable/store
+	 * @link    http://docs.joomla.org/JTable/store
 	 * @since   11.1
 	 */
 	public function store($updateNulls = false)
@@ -601,19 +580,11 @@ abstract class JTable extends JObject
 		// If a primary key exists update the object, otherwise insert it.
 		if ($this->$k)
 		{
-			$stored = $this->_db->updateObject($this->_tbl, $this, $this->_tbl_key, $updateNulls);
+			$this->_db->updateObject($this->_tbl, $this, $this->_tbl_key, $updateNulls);
 		}
 		else
 		{
-			$stored = $this->_db->insertObject($this->_tbl, $this, $this->_tbl_key);
-		}
-
-		// If the store failed return false.
-		if (!$stored)
-		{
-			$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_STORE_FAILED', get_class($this), $this->_db->getErrorMsg()));
-			$this->setError($e);
-			return false;
+			$this->_db->insertObject($this->_tbl, $this, $this->_tbl_key);
 		}
 
 		// If the table is not set to track assets return true.
@@ -627,22 +598,23 @@ abstract class JTable extends JObject
 			$this->_unlock();
 		}
 
-		//
-		// Asset Tracking
-		//
+		/*
+		 * Asset Tracking
+		 */
 
 		$parentId = $this->_getAssetParentId();
 		$name = $this->_getAssetName();
 		$title = $this->_getAssetTitle();
 
-		$asset = JTable::getInstance('Asset', 'JTable', array('dbo' => $this->getDbo()));
+		$asset = self::getInstance('Asset', 'JTable', array('dbo' => $this->getDbo()));
 		$asset->loadByName($name);
 
 		// Re-inject the asset id.
 		$this->asset_id = $asset->id;
 
 		// Check for an error.
-		if ($error = $asset->getError())
+		$error = $asset->getError();
+		if ($error)
 		{
 			$this->setError($error);
 			return false;
@@ -681,12 +653,7 @@ abstract class JTable extends JObject
 			$query->where($this->_db->quoteName($k) . ' = ' . (int) $this->$k);
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->execute())
-			{
-				$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_STORE_FAILED_UPDATE_ASSET_ID', $this->_db->getErrorMsg()));
-				$this->setError($e);
-				return false;
-			}
+			$this->_db->execute();
 		}
 
 		return true;
@@ -703,7 +670,7 @@ abstract class JTable extends JObject
 	 * @param   mixed   $src             An associative array or object to bind to the JTable instance.
 	 * @param   string  $orderingFilter  Filter for the order updating
 	 * @param   mixed   $ignore          An optional array or space separated list of properties
-	 * to ignore while binding.
+	 *                                   to ignore while binding.
 	 *
 	 * @return  boolean  True on success.
 	 *
@@ -756,8 +723,9 @@ abstract class JTable extends JObject
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @link	http://docs.joomla.org/JTable/delete
+	 * @link    http://docs.joomla.org/JTable/delete
 	 * @since   11.1
+	 * @throws  UnexpectedValueException
 	 */
 	public function delete($pk = null)
 	{
@@ -768,9 +736,7 @@ abstract class JTable extends JObject
 		// If no primary key is given, return false.
 		if ($pk === null)
 		{
-			$e = new JException(JText::_('JLIB_DATABASE_ERROR_NULL_PRIMARY_KEY'));
-			$this->setError($e);
-			return false;
+			throw new UnexpectedValueException('Null primary key not allowed.');
 		}
 
 		// If tracking assets, remove the asset first.
@@ -779,7 +745,7 @@ abstract class JTable extends JObject
 			// Get and the asset name.
 			$this->$k = $pk;
 			$name = $this->_getAssetName();
-			$asset = JTable::getInstance('Asset');
+			$asset = self::getInstance('Asset');
 
 			if ($asset->loadByName($name))
 			{
@@ -804,12 +770,7 @@ abstract class JTable extends JObject
 		$this->_db->setQuery($query);
 
 		// Check for a database error.
-		if (!$this->_db->execute())
-		{
-			$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_DELETE_FAILED', get_class($this), $this->_db->getErrorMsg()));
-			$this->setError($e);
-			return false;
-		}
+		$this->_db->execute();
 
 		return true;
 	}
@@ -824,7 +785,7 @@ abstract class JTable extends JObject
 	 *
 	 * @param   integer  $userId  The Id of the user checking out the row.
 	 * @param   mixed    $pk      An optional primary key value to check out.  If not set
-	 * the instance property value is used.
+	 *                            the instance property value is used.
 	 *
 	 * @return  boolean  True on success.
 	 *
@@ -846,9 +807,7 @@ abstract class JTable extends JObject
 		// If no primary key is given, return false.
 		if ($pk === null)
 		{
-			$e = new JException(JText::_('JLIB_DATABASE_ERROR_NULL_PRIMARY_KEY'));
-			$this->setError($e);
-			return false;
+			throw new UnexpectedValueException('Null primary key not allowed.');
 		}
 
 		// Get the current time in MySQL format.
@@ -861,13 +820,7 @@ abstract class JTable extends JObject
 		$query->set($this->_db->quoteName('checked_out_time') . ' = ' . $this->_db->quote($time));
 		$query->where($this->_tbl_key . ' = ' . $this->_db->quote($pk));
 		$this->_db->setQuery($query);
-
-		if (!$this->_db->execute())
-		{
-			$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_CHECKOUT_FAILED', get_class($this), $this->_db->getErrorMsg()));
-			$this->setError($e);
-			return false;
-		}
+		$this->_db->execute();
 
 		// Set table values in the object.
 		$this->checked_out = (int) $userId;
@@ -902,9 +855,7 @@ abstract class JTable extends JObject
 		// If no primary key is given, return false.
 		if ($pk === null)
 		{
-			$e = new JException(JText::_('JLIB_DATABASE_ERROR_NULL_PRIMARY_KEY'));
-			$this->setError($e);
-			return false;
+			throw new UnexpectedValueException('Null primary key not allowed.');
 		}
 
 		// Check the row in by primary key.
@@ -916,12 +867,7 @@ abstract class JTable extends JObject
 		$this->_db->setQuery($query);
 
 		// Check for a database error.
-		if (!$this->_db->execute())
-		{
-			$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_CHECKIN_FAILED', get_class($this), $this->_db->getErrorMsg()));
-			$this->setError($e);
-			return false;
-		}
+		$this->_db->execute();
 
 		// Set table values in the object.
 		$this->checked_out = 0;
@@ -964,14 +910,7 @@ abstract class JTable extends JObject
 		$query->set($this->_db->quoteName('hits') . ' = (' . $this->_db->quoteName('hits') . ' + 1)');
 		$query->where($this->_tbl_key . ' = ' . $this->_db->quote($pk));
 		$this->_db->setQuery($query);
-
-		// Check for a database error.
-		if (!$this->_db->execute())
-		{
-			$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_HIT_FAILED', get_class($this), $this->_db->getErrorMsg()));
-			$this->setError($e);
-			return false;
-		}
+		$this->_db->execute();
 
 		// Set table values in the object.
 		$this->hits++;
@@ -985,15 +924,14 @@ abstract class JTable extends JObject
 	 * not checked out -- as the user can still edit it.
 	 *
 	 * @param   integer  $with     The userid to preform the match with, if an item is checked
-	 * out by this user the function will return false.
+	 *                             out by this user the function will return false.
 	 * @param   integer  $against  The userid to perform the match against when the function
-	 * is used as a static function.
+	 *                             is used as a static function.
 	 *
 	 * @return  boolean  True if checked out.
 	 *
 	 * @link    http://docs.joomla.org/JTable/isCheckedOut
 	 * @since   11.1
-	 * @todo    This either needs to be static or not.
 	 */
 	public function isCheckedOut($with = 0, $against = null)
 	{
@@ -1033,9 +971,7 @@ abstract class JTable extends JObject
 		// If there is no ordering field set an error and return false.
 		if (!property_exists($this, 'ordering'))
 		{
-			$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_CLASS_DOES_NOT_SUPPORT_ORDERING', get_class($this)));
-			$this->setError($e);
-			return false;
+			throw new UnexpectedValueException(sprintf('%s does not support ordering.', get_class($this)));
 		}
 
 		// Get the largest ordering value for a given where clause.
@@ -1051,15 +987,6 @@ abstract class JTable extends JObject
 		$this->_db->setQuery($query);
 		$max = (int) $this->_db->loadResult();
 
-		// Check for a database error.
-		if ($this->_db->getErrorNum())
-		{
-			$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_GET_NEXT_ORDER_FAILED', get_class($this), $this->_db->getErrorMsg()));
-			$this->setError($e);
-
-			return false;
-		}
-
 		// Return the largest ordering value + 1.
 		return ($max + 1);
 	}
@@ -1070,7 +997,7 @@ abstract class JTable extends JObject
 	 *
 	 * @param   string  $where  WHERE clause to use for limiting the selection of rows to compact the ordering values.
 	 *
-	 * @return  mixed  Boolean true on success.
+	 * @return  mixed  Boolean  True on success.
 	 *
 	 * @link    http://docs.joomla.org/JTable/reorder
 	 * @since   11.1
@@ -1080,9 +1007,7 @@ abstract class JTable extends JObject
 		// If there is no ordering field set an error and return false.
 		if (!property_exists($this, 'ordering'))
 		{
-			$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_CLASS_DOES_NOT_SUPPORT_ORDERING', get_class($this)));
-			$this->setError($e);
-			return false;
+			throw new UnexpectedValueException(sprintf('%s does not support ordering.', get_class($this)));
 		}
 
 		// Initialise variables.
@@ -1104,15 +1029,6 @@ abstract class JTable extends JObject
 		$this->_db->setQuery($query);
 		$rows = $this->_db->loadObjectList();
 
-		// Check for a database error.
-		if ($this->_db->getErrorNum())
-		{
-			$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_REORDER_FAILED', get_class($this), $this->_db->getErrorMsg()));
-			$this->setError($e);
-
-			return false;
-		}
-
 		// Compact the ordering values.
 		foreach ($rows as $i => $row)
 		{
@@ -1128,17 +1044,7 @@ abstract class JTable extends JObject
 					$query->set('ordering = ' . ($i + 1));
 					$query->where($this->_tbl_key . ' = ' . $this->_db->quote($row->$k));
 					$this->_db->setQuery($query);
-
-					// Check for a database error.
-					if (!$this->_db->execute())
-					{
-						$e = new JException(
-							JText::sprintf('JLIB_DATABASE_ERROR_REORDER_UPDATE_ROW_FAILED', get_class($this), $i, $this->_db->getErrorMsg())
-						);
-						$this->setError($e);
-
-						return false;
-					}
+					$this->_db->execute();
 				}
 			}
 		}
@@ -1152,21 +1058,20 @@ abstract class JTable extends JObject
 	 *
 	 * @param   integer  $delta  The direction and magnitude to move the row in the ordering sequence.
 	 * @param   string   $where  WHERE clause to use for limiting the selection of rows to compact the
-	 * ordering values.
+	 *                           ordering values.
 	 *
-	 * @return  mixed    Boolean true on success.
+	 * @return  mixed    Boolean  True on success.
 	 *
 	 * @link    http://docs.joomla.org/JTable/move
 	 * @since   11.1
+	 * @throws  UnexpectedValueException
 	 */
 	public function move($delta, $where = '')
 	{
 		// If there is no ordering field set an error and return false.
 		if (!property_exists($this, 'ordering'))
 		{
-			$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_CLASS_DOES_NOT_SUPPORT_ORDERING', get_class($this)));
-			$this->setError($e);
-			return false;
+			throw new UnexpectedValueException(sprintf('%s does not support ordering.', get_class($this)));
 		}
 
 		// If the change is none, do nothing.
@@ -1216,15 +1121,7 @@ abstract class JTable extends JObject
 			$query->set('ordering = ' . (int) $row->ordering);
 			$query->where($this->_tbl_key . ' = ' . $this->_db->quote($this->$k));
 			$this->_db->setQuery($query);
-
-			// Check for a database error.
-			if (!$this->_db->execute())
-			{
-				$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_MOVE_FAILED', get_class($this), $this->_db->getErrorMsg()));
-				$this->setError($e);
-
-				return false;
-			}
+			$this->_db->execute();
 
 			// Update the ordering field for the row to this instance's ordering value.
 			$query = $this->_db->getQuery(true);
@@ -1232,15 +1129,7 @@ abstract class JTable extends JObject
 			$query->set('ordering = ' . (int) $this->ordering);
 			$query->where($this->_tbl_key . ' = ' . $this->_db->quote($row->$k));
 			$this->_db->setQuery($query);
-
-			// Check for a database error.
-			if (!$this->_db->execute())
-			{
-				$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_MOVE_FAILED', get_class($this), $this->_db->getErrorMsg()));
-				$this->setError($e);
-
-				return false;
-			}
+			$this->_db->execute();
 
 			// Update the instance value.
 			$this->ordering = $row->ordering;
@@ -1253,15 +1142,7 @@ abstract class JTable extends JObject
 			$query->set('ordering = ' . (int) $this->ordering);
 			$query->where($this->_tbl_key . ' = ' . $this->_db->quote($this->$k));
 			$this->_db->setQuery($query);
-
-			// Check for a database error.
-			if (!$this->_db->execute())
-			{
-				$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_MOVE_FAILED', get_class($this), $this->_db->getErrorMsg()));
-				$this->setError($e);
-
-				return false;
-			}
+			$this->_db->execute();
 		}
 
 		return true;
@@ -1272,11 +1153,12 @@ abstract class JTable extends JObject
 	 * table.  The method respects checked out rows by other users and will attempt
 	 * to checkin rows that it can after adjustments are made.
 	 *
-	 * @param   mixed    $pks     An optional array of primary key values to update.  If not set the instance property value is used.
+	 * @param   mixed    $pks     An optional array of primary key values to update.
+	 *                            If not set the instance property value is used.
 	 * @param   integer  $state   The publishing state. eg. [0 = unpublished, 1 = published]
 	 * @param   integer  $userId  The user id of the user performing the operation.
 	 *
-	 * @return  boolean  True on success.
+	 * @return  boolean  True on success; false if $pks is empty.
 	 *
 	 * @link    http://docs.joomla.org/JTable/publish
 	 * @since   11.1
@@ -1301,9 +1183,6 @@ abstract class JTable extends JObject
 			// Nothing to set publishing state on, return false.
 			else
 			{
-				$e = new JException(JText::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
-				$this->setError($e);
-
 				return false;
 			}
 		}
@@ -1328,15 +1207,7 @@ abstract class JTable extends JObject
 		$query->where($k . ' = ' . implode(' OR ' . $k . ' = ', $pks));
 
 		$this->_db->setQuery($query);
-
-		// Check for a database error.
-		if (!$this->_db->execute())
-		{
-			$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_PUBLISH_FAILED', get_class($this), $this->_db->getErrorMsg()));
-			$this->setError($e);
-
-			return false;
-		}
+		$this->_db->execute();
 
 		// If checkin is supported and all rows were adjusted, check them in.
 		if ($checkin && (count($pks) == $this->_db->getAffectedRows()))
@@ -1359,145 +1230,12 @@ abstract class JTable extends JObject
 	}
 
 	/**
-	 * Generic check for whether dependencies exist for this object in the database schema
-	 *
-	 * Can be overloaded/supplemented by the child class
-	 *
-	 * @param   mixed  $pk     An optional primary key value check the row for.  If not
-	 * set the instance property value is used.
-	 * @param   array  $joins  An optional array to compiles standard joins formatted like:
-	 * [label => 'Label', name => 'table name' , idfield => 'field', joinfield => 'field']
-	 *
-	 * @return  boolean  True on success.
-	 *
-	 * @deprecated    12.1
-	 * @link    http://docs.joomla.org/JTable/canDelete
-	 * @since   11.1
-	 */
-	public function canDelete($pk = null, $joins = null)
-	{
-		// Deprecation warning.
-		JLog::add('JTable::canDelete() is deprecated.', JLog::WARNING, 'deprecated');
-
-		// Initialise variables.
-		$k = $this->_tbl_key;
-		$pk = (is_null($pk)) ? $this->$k : $pk;
-
-		// If no primary key is given, return false.
-		if ($pk === null)
-		{
-			return false;
-		}
-
-		if (is_array($joins))
-		{
-			// Get a query object.
-			$query = $this->_db->getQuery(true);
-
-			// Setup the basic query.
-			$query->select($this->_db->quoteName($this->_tbl_key));
-			$query->from($this->_db->quoteName($this->_tbl));
-			$query->where($this->_db->quoteName($this->_tbl_key) . ' = ' . $this->_db->quote($this->$k));
-			$query->group($this->_db->quoteName($this->_tbl_key));
-
-			// For each join add the select and join clauses to the query object.
-			foreach ($joins as $table)
-			{
-				$query->select('COUNT(DISTINCT ' . $table['idfield'] . ') AS ' . $table['idfield']);
-				$query->join('LEFT', $table['name'] . ' ON ' . $table['joinfield'] . ' = ' . $k);
-			}
-
-			// Get the row object from the query.
-			$this->_db->setQuery((string) $query, 0, 1);
-			$row = $this->_db->loadObject();
-
-			// Check for a database error.
-			if ($this->_db->getErrorNum())
-			{
-				$this->setError($this->_db->getErrorMsg());
-
-				return false;
-			}
-
-			$msg = array();
-			$i = 0;
-
-			foreach ($joins as $table)
-			{
-				$k = $table['idfield'] . $i;
-
-				if ($row->$k)
-				{
-					$msg[] = JText::_($table['label']);
-				}
-
-				$i++;
-			}
-
-			if (count($msg))
-			{
-				$this->setError("noDeleteRecord" . ": " . implode(', ', $msg));
-
-				return false;
-			}
-			else
-			{
-				return true;
-			}
-		}
-
-		return true;
-	}
-
-	/**
-	 * Method to export the JTable instance properties to an XML string.
-	 *
-	 * @param   boolean  $mapKeysToText  True to map foreign keys to text values.
-	 *
-	 * @return  string   XML string representation of the instance.
-	 *
-	 * @deprecated    12.1
-	 * @link    http://docs.joomla.org/JTable/toXML
-	 * @since   11.1
-	 */
-	public function toXML($mapKeysToText = false)
-	{
-		// Deprecation warning.
-		JLog::add('JTable::toXML() is deprecated.', JLog::WARNING, 'deprecated');
-
-		// Initialise variables.
-		$xml = array();
-		$map = $mapKeysToText ? ' mapkeystotext="true"' : '';
-
-		// Open root node.
-		$xml[] = '<record table="' . $this->_tbl . '"' . $map . '>';
-
-		// Get the publicly accessible instance properties.
-		foreach (get_object_vars($this) as $k => $v)
-		{
-			// If the value is null or non-scalar, or the field is internal ignore it.
-			if (!is_scalar($v) || ($v === null) || ($k[0] == '_'))
-			{
-				continue;
-			}
-
-			$xml[] = '	<' . $k . '><![CDATA[' . $v . ']]></' . $k . '>';
-		}
-
-		// Close root node.
-		$xml[] = '</record>';
-
-		// Return the XML array imploded over new lines.
-		return implode("\n", $xml);
-	}
-
-	/**
 	 * Method to lock the database table for writing.
 	 *
 	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
-	 * @throws  JDatabaseException
+	 * @throws  RuntimeException
 	 */
 	protected function _lock()
 	{

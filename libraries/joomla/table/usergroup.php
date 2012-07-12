@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Platform
- * @subpackage  Database
+ * @subpackage  Table
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -9,13 +9,11 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.database.table');
-
 /**
  * Usergroup table class.
  *
  * @package     Joomla.Platform
- * @subpackage  Database
+ * @subpackage  Table
  * @since       11.1
  */
 class JTableUsergroup extends JTable
@@ -23,11 +21,11 @@ class JTableUsergroup extends JTable
 	/**
 	 * Constructor
 	 *
-	 * @param   JDatabase  &$db  A database connector object
+	 * @param   JDatabaseDriver  $db  Database driver object.
 	 *
 	 * @since   11.1
 	 */
-	public function __construct(&$db)
+	public function __construct($db)
 	{
 		parent::__construct('#__usergroups', 'id', $db);
 	}
@@ -80,39 +78,40 @@ class JTableUsergroup extends JTable
 	 */
 	public function rebuild($parent_id = 0, $left = 0)
 	{
-		// get the database object
-		$db = &$this->_db;
+		// Get the database object
+		$db = $this->_db;
 
-		// get all children of this node
+		// Get all children of this node
 		$db->setQuery('SELECT id FROM ' . $this->_tbl . ' WHERE parent_id=' . (int) $parent_id . ' ORDER BY parent_id, title');
 		$children = $db->loadColumn();
 
-		// the right value of this node is the left value + 1
+		// The right value of this node is the left value + 1
 		$right = $left + 1;
 
-		// execute this function recursively over all children
+		// Execute this function recursively over all children
 		for ($i = 0, $n = count($children); $i < $n; $i++)
 		{
 			// $right is the current right value, which is incremented on recursion return
 			$right = $this->rebuild($children[$i], $right);
 
-			// if there is an update failure, return false to break out of the recursion
+			// If there is an update failure, return false to break out of the recursion
 			if ($right === false)
 			{
 				return false;
 			}
 		}
 
-		// we've got the left value, and now that we've processed
+		// We've got the left value, and now that we've processed
 		// the children of this node we also know the right value
 		$db->setQuery('UPDATE ' . $this->_tbl . ' SET lft=' . (int) $left . ', rgt=' . (int) $right . ' WHERE id=' . (int) $parent_id);
-		// if there is an update failure, return false to break out of the recursion
+
+		// If there is an update failure, return false to break out of the recursion
 		if (!$db->execute())
 		{
 			return false;
 		}
 
-		// return the right value of this node + 1
+		// Return the right value of this node + 1
 		return $right + 1;
 	}
 
@@ -144,6 +143,8 @@ class JTableUsergroup extends JTable
 	 * @return  mixed  Boolean or Exception.
 	 *
 	 * @since   11.1
+	 * @throws  RuntimeException on database error.
+	 * @throws  UnexpectedValueException on data error.
 	 */
 	public function delete($oid = null)
 	{
@@ -153,46 +154,42 @@ class JTableUsergroup extends JTable
 		}
 		if ($this->id == 0)
 		{
-			return new JException(JText::_('JGLOBAL_CATEGORY_NOT_FOUND'));
+			throw new UnexpectedValueException('Global Category not found');
 		}
 		if ($this->parent_id == 0)
 		{
-			return new JException(JText::_('JLIB_DATABASE_ERROR_DELETE_ROOT_CATEGORIES'));
+			throw new UnexpectedValueException('Root categories cannot be deleted.');
 		}
-		if ($this->lft == 0 or $this->rgt == 0)
+		if ($this->lft == 0 || $this->rgt == 0)
 		{
-			return new JException(JText::_('JLIB_DATABASE_ERROR_DELETE_CATEGORY'));
+			throw new UnexpectedValueException('Left-Right data inconsistency. Cannot delete usergroup.');
 		}
 
 		$db = $this->_db;
 
-		// Select the category ID and it's children
+		// Select the usergroup ID and its children
 		$query = $db->getQuery(true);
-		$query->select($db->quoteName('c') . '.' . $db->quoteName('id'));
+		$query->select($db->quoteName('c.id'));
 		$query->from($db->quoteName($this->_tbl) . 'AS c');
-		$query->where($db->quoteName('c') . '.' . $db->quoteName('lft') . ' >= ' . (int) $this->lft);
-		$query->where($db->quoteName('c') . '.' . $db->quoteName('rgt') . ' <= ' . (int) $this->rgt);
+		$query->where($db->quoteName('c.lft') . ' >= ' . (int) $this->lft);
+		$query->where($db->quoteName('c.rgt') . ' <= ' . (int) $this->rgt);
 		$db->setQuery($query);
 		$ids = $db->loadColumn();
 		if (empty($ids))
 		{
-			return new JException(JText::_('JLIB_DATABASE_ERROR_DELETE_CATEGORY'));
+			throw new UnexpectedValueException('Left-Right data inconsistency. Cannot delete usergroup.');
 		}
 
 		// Delete the category dependencies
 		// @todo Remove all related threads, posts and subscriptions
 
-		// Delete the category and its children
+		// Delete the usergroup and its children
 		$query->clear();
 		$query->delete();
 		$query->from($db->quoteName($this->_tbl));
 		$query->where($db->quoteName('id') . ' IN (' . implode(',', $ids) . ')');
 		$db->setQuery($query);
-		if (!$db->execute())
-		{
-			$this->setError($db->getErrorMsg());
-			return false;
-		}
+		$db->execute();
 
 		// Delete the usergroup in view levels
 		$replace = array();
@@ -205,7 +202,8 @@ class JTableUsergroup extends JTable
 		}
 
 		$query->clear();
-		//sqlsrv change. Alternative for regexp
+
+		// SQLSsrv change. Alternative for regexp
 		$query->select('id, rules');
 		$query->from('#__viewlevels');
 		$db->setQuery($query);
@@ -230,11 +228,7 @@ class JTableUsergroup extends JTable
 			$query->update('#__viewlevels');
 			$query->where('id IN (' . implode(',', $match_ids) . ')');
 			$db->setQuery($query);
-			if (!$db->execute())
-			{
-				$this->setError($db->getErrorMsg());
-				return false;
-			}
+			$db->execute();
 		}
 
 		// Delete the user to usergroup mappings for the group(s) from the database.
@@ -244,13 +238,6 @@ class JTableUsergroup extends JTable
 		$query->where($db->quoteName('group_id') . ' IN (' . implode(',', $ids) . ')');
 		$db->setQuery($query);
 		$db->execute();
-
-		// Check for a database error.
-		if ($db->getErrorNum())
-		{
-			$this->setError($db->getErrorMsg());
-			return false;
-		}
 
 		return true;
 	}

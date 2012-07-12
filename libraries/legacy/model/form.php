@@ -1,7 +1,7 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Application
+ * @package     Joomla.Legacy
+ * @subpackage  Model
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -9,25 +9,23 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.application.component.model');
-
 /**
  * Prototype form model.
  *
- * @package     Joomla.Platform
- * @subpackage  Application
+ * @package     Joomla.Legacy
+ * @subpackage  Model
  * @see         JForm
  * @see         JFormField
- * @see         JformRule
- * @since       11.1
+ * @see         JFormRule
+ * @since       12.2
  */
-abstract class JModelForm extends JModel
+abstract class JModelForm extends JModelLegacy
 {
 	/**
 	 * Array of form objects.
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  12.2
 	 */
 	protected $_forms = array();
 
@@ -38,7 +36,7 @@ abstract class JModelForm extends JModel
 	 *
 	 * @return  boolean  False on failure or error, true otherwise.
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	public function checkin($pk = null)
 	{
@@ -80,7 +78,7 @@ abstract class JModelForm extends JModel
 	 *
 	 * @return  boolean  False on failure or error, true otherwise.
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	public function checkout($pk = null)
 	{
@@ -123,7 +121,7 @@ abstract class JModelForm extends JModel
 	 *
 	 * @return  mixed  A JForm object on success, false on failure
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	abstract public function getForm($data = array(), $loadData = true);
 
@@ -139,7 +137,7 @@ abstract class JModelForm extends JModel
 	 * @return  mixed  JForm object on success, False on error.
 	 *
 	 * @see     JForm
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	protected function loadForm($name, $source = null, $options = array(), $clear = false, $xpath = false)
 	{
@@ -198,7 +196,7 @@ abstract class JModelForm extends JModel
 	 *
 	 * @return  array    The default data is an empty array.
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	protected function loadFormData()
 	{
@@ -215,7 +213,7 @@ abstract class JModelForm extends JModel
 	 * @return  void
 	 *
 	 * @see     JFormField
-	 * @since   11.1
+	 * @since   12.2
 	 * @throws  Exception if there is an error in the form event.
 	 */
 	protected function preprocessForm(JForm $form, $data, $group = 'content')
@@ -224,7 +222,7 @@ abstract class JModelForm extends JModel
 		JPluginHelper::importPlugin($group);
 
 		// Get the dispatcher.
-		$dispatcher = JDispatcher::getInstance();
+		$dispatcher = JEventDispatcher::getInstance();
 
 		// Trigger the form preparation event.
 		$results = $dispatcher->trigger('onContentPrepareForm', array($form, $data));
@@ -253,7 +251,7 @@ abstract class JModelForm extends JModel
 	 *
 	 * @see     JFormRule
 	 * @see     JFilterInput
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	public function validate($form, $data, $group = null)
 	{

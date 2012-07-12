@@ -63,11 +63,21 @@ class JFormFieldInteger extends JFormFieldList
 			// A position step will never reach the last number.
 			return $options;
 		}
-
-		// Build the options array.
-		for ($i = $first; $i <= $last; $i += $step)
+		elseif ($step < 0)
 		{
-			$options[] = JHtml::_('select.option', $i);
+			// Build the options array backwards.
+			for ($i = $first; $i >= $last; $i += $step)
+			{
+				$options[] = JHtml::_('select.option', $i);
+			}
+		}
+		else
+		{
+			// Build the options array.
+			for ($i = $first; $i <= $last; $i += $step)
+			{
+				$options[] = JHtml::_('select.option', $i);
+			}
 		}
 
 		// Merge any additional options in the XML definition.

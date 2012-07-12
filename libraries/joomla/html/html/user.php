@@ -21,7 +21,7 @@ abstract class JHtmlUser
 	/**
 	 * Displays a list of user groups.
 	 *
-	 * @param   boolean  true to include super admin groups, false to exclude them
+	 * @param   boolean  $includeSuperAdmin  true to include super admin groups, false to exclude them
 	 *
 	 * @return  array  An array containing a list of user groups.
 	 *
@@ -38,13 +38,6 @@ abstract class JHtmlUser
 		$query->order('a.lft ASC');
 		$db->setQuery($query);
 		$options = $db->loadObjectList();
-
-		// Check for a database error.
-		if ($db->getErrorNum())
-		{
-			JError::raiseNotice(500, $db->getErrorMsg());
-			return null;
-		}
 
 		for ($i = 0, $n = count($options); $i < $n; $i++)
 		{
@@ -79,8 +72,8 @@ abstract class JHtmlUser
 	public static function userlist()
 	{
 		// Get the database object and a new query object.
-		$db		= JFactory::getDBO();
-		$query	= $db->getQuery(true);
+		$db    = JFactory::getDBO();
+		$query = $db->getQuery(true);
 
 		// Build the query.
 		$query->select('a.id AS value, a.name AS text');
@@ -91,12 +84,6 @@ abstract class JHtmlUser
 		// Set the query and load the options.
 		$db->setQuery($query);
 		$items = $db->loadObjectList();
-
-		// Detect errors
-		if ($db->getErrorNum())
-		{
-			JError::raiseWarning(500, $db->getErrorMsg());
-		}
 
 		return $items;
 	}

@@ -9,12 +9,10 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.log.logger');
-
 /**
- * Joomla! SysLog Log class
+ * Joomla! Syslog Log class
  *
- * This class is designed to call the PHP SysLog function call which is then sent to the
+ * This class is designed to call the PHP Syslog function call which is then sent to the
  * system wide log system. For Linux/Unix based systems this is the syslog subsystem, for
  * the Windows based implementations this can be found in the Event Log. For Windows,
  * permissions may prevent PHP from properly outputting messages.
@@ -23,11 +21,11 @@ jimport('joomla.log.logger');
  * @subpackage  Log
  * @since       11.1
  */
-class JLoggerSysLog extends JLogger
+class JLogLoggerSyslog extends JLogLogger
 {
 	/**
-	 * @var    array  Translation array for JLogEntry priorities to SysLog priority names.
-	 * @since  11.1
+	 * @var array Translation array for JLogEntry priorities to SysLog priority names.
+	 * @since 11.1
 	 */
 	protected $priorities = array(
 		JLog::EMERGENCY => 'EMERG',
@@ -51,13 +49,13 @@ class JLoggerSysLog extends JLogger
 		// Call the parent constructor.
 		parent::__construct($options);
 
-		// Ensure that we have an identity string for the SysLog entries.
+		// Ensure that we have an identity string for the Syslog entries.
 		if (empty($this->options['sys_ident']))
 		{
 			$this->options['sys_ident'] = 'Joomla Platform';
 		}
 
-		// If the option to add the process id to SysLog entries is set use it, otherwise default to true.
+		// If the option to add the process id to Syslog entries is set use it, otherwise default to true.
 		if (isset($this->options['sys_add_pid']))
 		{
 			$this->options['sys_add_pid'] = (bool) $this->options['sys_add_pid'];
@@ -67,7 +65,7 @@ class JLoggerSysLog extends JLogger
 			$this->options['sys_add_pid'] = true;
 		}
 
-		// If the option to also send SysLog entries to STDERR is set use it, otherwise default to false.
+		// If the option to also send Syslog entries to STDERR is set use it, otherwise default to false.
 		if (isset($this->options['sys_use_stderr']))
 		{
 			$this->options['sys_use_stderr'] = (bool) $this->options['sys_use_stderr'];
@@ -77,7 +75,7 @@ class JLoggerSysLog extends JLogger
 			$this->options['sys_use_stderr'] = false;
 		}
 
-		// Build the SysLog options from our log object options.
+		// Build the Syslog options from our log object options.
 		$sysOptions = 0;
 		if ($this->options['sys_add_pid'])
 		{
@@ -88,7 +86,7 @@ class JLoggerSysLog extends JLogger
 			$sysOptions = $sysOptions | LOG_PERROR;
 		}
 
-		// Open the SysLog connection.
+		// Open the Syslog connection.
 		openlog((string) $this->options['sys_ident'], $sysOptions, LOG_USER);
 	}
 
@@ -116,7 +114,7 @@ class JLoggerSysLog extends JLogger
 		// Generate the value for the priority based on predefined constants.
 		$priority = constant(strtoupper('LOG_' . $this->priorities[$entry->priority]));
 
-		// Send the entry to SysLog.
+		// Send the entry to Syslog.
 		syslog($priority, '[' . $entry->category . '] ' . $entry->message);
 	}
 }

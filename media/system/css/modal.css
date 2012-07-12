@@ -149,8 +149,3 @@
 	top: -40px;
 	background: url(../images/modal/bg_nw.png) no-repeat;
 }
-@-moz-document url-prefix() {
-    .body-overlayed {
-	overflow: visible;
-    }
-}

@@ -9,7 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.methods');
 jimport('joomla.environment.uri');
 
 /**
@@ -113,7 +112,10 @@ class JDocumentOpensearch extends JDocument
 	public function render($cache = false, $params = array())
 	{
 		$xml = new DOMDocument('1.0', 'utf-8');
-		$xml->formatOutput = true;
+		if (defined('JDEBUG') && JDEBUG)
+		{
+			$xml->formatOutput = true;
+		}
 
 		// The OpenSearch Namespace
 		$osns = 'http://a9.com/-/spec/opensearch/1.1/';
@@ -148,7 +150,8 @@ class JDocumentOpensearch extends JDocument
 		{
 			$elUrl = $xml->createElementNS($osns, 'Url');
 			$elUrl->setAttribute('type', $url->type);
-			// Results is the defualt value so we don't need to add it
+
+			// Results is the default value so we don't need to add it
 			if ($url->rel != 'results')
 			{
 				$elUrl->setAttribute('rel', $url->rel);
@@ -181,13 +184,13 @@ class JDocumentOpensearch extends JDocument
 	/**
 	 * Adds an URL to the OpenSearch description.
 	 *
-	 * @param   JOpenSearchUrl  &$url  The url to add to the description.
+	 * @param   JOpenSearchUrl  $url  The url to add to the description.
 	 *
 	 * @return  JDocumentOpensearch instance of $this to allow chaining
 	 *
 	 * @since   11.1
 	 */
-	public function addUrl(&$url)
+	public function addUrl(JOpenSearchUrl $url)
 	{
 		$this->_urls[] = $url;
 
@@ -197,13 +200,13 @@ class JDocumentOpensearch extends JDocument
 	/**
 	 * Adds an image to the OpenSearch description.
 	 *
-	 * @param   JOpenSearchImage  &$image  The image to add to the description.
+	 * @param   JOpenSearchImage  $image  The image to add to the description.
 	 *
 	 * @return  JDocumentOpensearch instance of $this to allow chaining
 	 *
 	 * @since   11.1
 	 */
-	public function addImage(&$image)
+	public function addImage(JOpenSearchImage $image)
 	{
 		$this->_images[] = $image;
 
@@ -218,9 +221,8 @@ class JDocumentOpensearch extends JDocument
  * @subpackage  Document
  * @since       11.1
  */
-class JOpenSearchUrl extends JObject
+class JOpenSearchUrl
 {
-
 	/**
 	 * Type item element
 	 *
@@ -259,9 +261,8 @@ class JOpenSearchUrl extends JObject
  * @subpackage  Document
  * @since       11.1
  */
-class JOpenSearchImage extends JObject
+class JOpenSearchImage
 {
-
 	/**
 	 * The images MIME type
 	 *

@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Database
  * @since       11.1
  */
-class JDatabaseQuerySQLSrv extends JDatabaseQuery
+class JDatabaseQuerySqlsrv extends JDatabaseQuery
 {
 	/**
 	 * The character(s) used to quote SQL statement names such as table names or field names,
@@ -84,7 +84,6 @@ class JDatabaseQuerySQLSrv extends JDatabaseQuery
 					{
 						$query .= (string) $this->where;
 					}
-
 				}
 
 				break;
@@ -116,15 +115,17 @@ class JDatabaseQuerySQLSrv extends JDatabaseQuery
 	/**
 	 * Gets the function to determine the length of a character string.
 	 *
-	 * @param   string  $field  A value.
+	 * @param   string  $field      A value.
+	 * @param   string  $operator   Comparison operator between charLength integer value and $condition
+	 * @param   string  $condition  Integer value to compare charLength with.
 	 *
 	 * @return  string  The required char length call.
 	 *
 	 * @since 11.1
 	 */
-	public function charLength($field)
+	public function charLength($field, $operator = null, $condition = null)
 	{
-		return 'DATALENGTH(' . $field . ') IS NOT NULL';
+		return 'DATALENGTH(' . $field . ')' . (isset($operator) && isset($condition) ? ' ' . $operator . ' ' . $condition : '');
 	}
 
 	/**

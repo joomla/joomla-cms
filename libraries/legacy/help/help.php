@@ -1,7 +1,7 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Language
+ * @package     Joomla.Legacy
+ * @subpackage  Help
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -12,8 +12,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Help system class
  *
- * @package     Joomla.Platform
- * @subpackage  Language
+ * @package     Joomla.Legacy
+ * @subpackage  Help
  * @since       11.1
  */
 class JHelp
@@ -103,26 +103,46 @@ class JHelp
 		$lang->setDebug($debug);
 
 		// Replace substitution codes in help URL.
-		$search = array('{app}', // Application name (eg. 'Administrator')
-			'{component}', // Component name (eg. 'com_content')
-			'{keyref}', // Help screen key reference
-			'{language}', // Full language code (eg. 'en-GB')
-			'{langcode}', // Short language code (eg. 'en')
-			'{langregion}', // Region code (eg. 'GB')
-			'{major}', // Joomla major version number
-			'{minor}', // Joomla minor version number
-			'{maintenance}'// Joomla maintenance version number
+		$search = array(
+			// Application name (eg. 'Administrator')
+			'{app}',
+			// Component name (eg. 'com_content')
+			'{component}',
+			// Help screen key reference
+			'{keyref}',
+			// Full language code (eg. 'en-GB')
+			'{language}',
+			// Short language code (eg. 'en')
+			'{langcode}',
+			// Region code (eg. 'GB')
+			'{langregion}',
+			// Joomla major version number
+			'{major}',
+			// Joomla minor version number
+			'{minor}',
+			// Joomla maintenance version number
+			'{maintenance}'
 		);
 
-		$replace = array($app->getName(), // {app}
-			$component, // {component}
-			$keyref, // {keyref}
-			$lang->getTag(), // {language}
-			$jlang[0], // {langcode}
-			$jlang[1], // {langregion}
-			$jver[0], // {major}
-			$jver[1], // {minor}
-			$jver[2]// {maintenance}
+		$replace = array(
+			// {app}
+			$app->getName(),
+			// {component}
+			$component,
+			// {keyref}
+			$keyref,
+			// {language}
+			$lang->getTag(),
+			// {langcode}
+			$jlang[0],
+			// {langregion}
+			$jlang[1],
+			// {major}
+			$jver[0],
+			// {minor}
+			$jver[1],
+			// {maintenance}
+			$jver[2]
 		);
 
 		// If the help file is local then check it exists.
@@ -149,20 +169,19 @@ class JHelp
 	 * Builds a list of the help sites which can be used in a select option.
 	 *
 	 * @param   string  $pathToXml  Path to an XML file.
-	 * @param   string  $selected   Language tag to select (if exists).
 	 *
 	 * @return  array  An array of arrays (text, value, selected).
 	 *
 	 * @since   11.1
 	 */
-	public static function createSiteList($pathToXml, $selected = null)
+	public static function createSiteList($pathToXml)
 	{
 		$list = array();
 		$xml = false;
 
 		if (!empty($pathToXml))
 		{
-			$xml = JFactory::getXML($pathToXml);
+			$xml = simplexml_load_file($pathToXml);
 		}
 
 		if (!$xml)

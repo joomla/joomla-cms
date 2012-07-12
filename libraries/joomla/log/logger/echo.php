@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.log.logger');
-
 /**
  * Joomla Echo logger class.
  *
@@ -18,21 +16,30 @@ jimport('joomla.log.logger');
  * @subpackage  Log
  * @since       11.1
  */
-class JLoggerEcho extends JLogger
+class JLogLoggerEcho extends JLogLogger
 {
 	/**
-	 * @var    array  Translation array for JLogEntry priorities to text strings.
+	 * @var    string  Value to use at the end of an echoed log entry to separate lines.
 	 * @since  11.1
 	 */
-	protected $priorities = array(
-		JLog::EMERGENCY => 'EMERGENCY',
-		JLog::ALERT => 'ALERT',
-		JLog::CRITICAL => 'CRITICAL',
-		JLog::ERROR => 'ERROR',
-		JLog::WARNING => 'WARNING',
-		JLog::NOTICE => 'NOTICE',
-		JLog::INFO => 'INFO',
-		JLog::DEBUG => 'DEBUG');
+	protected $line_separator = "\n";
+
+	/**
+	 * Constructor.
+	 *
+	 * @param   array  &$options  Log object options.
+	 *
+	 * @since   12.1
+	 */
+	public function __construct(array &$options)
+	{
+		parent::__construct($options);
+
+		if (!empty($this->options['line_separator']))
+		{
+			$this->line_separator = $this->options['line_separator'];
+		}
+	}
 
 	/**
 	 * Method to add an entry to the log.
@@ -45,6 +52,8 @@ class JLoggerEcho extends JLogger
 	 */
 	public function addEntry(JLogEntry $entry)
 	{
-		echo $this->priorities[$entry->priority] . ': ' . $entry->message . (empty($entry->category) ? '' : ' [' . $entry->category . ']') . "\n";
+		echo $this->priorities[$entry->priority] . ': '
+			. $entry->message . (empty($entry->category) ? '' : ' [' . $entry->category . ']')
+			. $this->line_separator;
 	}
 }

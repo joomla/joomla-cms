@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Joomla.Platform
+ * @package     Joomla.Legacy
  * @subpackage  Application
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.application.input');
-jimport('joomla.event.dispatcher');
 jimport('joomla.environment.response');
 
 /**
@@ -20,11 +18,11 @@ jimport('joomla.environment.response');
  * supporting API functions. Derived clases should supply the route(), dispatch()
  * and render() functions.
  *
- * @package     Joomla.Platform
+ * @package     Joomla.Legacy
  * @subpackage  Application
  * @since       11.1
  */
-class JApplication extends JObject
+class JApplication extends JApplicationBase
 {
 	/**
 	 * The client identifier.
@@ -75,12 +73,10 @@ class JApplication extends JObject
 	public $startTime = null;
 
 	/**
-	 * The application input object.
-	 *
-	 * @var    JInput
-	 * @since  11.2
+	 * @var    JApplicationWebClient  The application client object.
+	 * @since  12.2
 	 */
-	public $input = null;
+	public $client;
 
 	/**
 	 * @var    array  JApplication instances container.
@@ -98,8 +94,6 @@ class JApplication extends JObject
 	 */
 	public function __construct($config = array())
 	{
-		jimport('joomla.error.profiler');
-
 		// Set the view name.
 		$this->_name = $this->getName();
 
@@ -116,10 +110,11 @@ class JApplication extends JObject
 		}
 
 		// Create the input object
-		if (class_exists('JInput'))
-		{
-			$this->input = new JInput;
-		}
+		$this->input = new JInput;
+
+		$this->client = new JApplicationWebClient;
+
+		$this->loadDispatcher();
 
 		// Set the session default name.
 		if (!isset($config['session_name']))
@@ -185,7 +180,7 @@ class JApplication extends JObject
 				return $error;
 			}
 
-			self::$instances[$client] = &$instance;
+			self::$instances[$client] = $instance;
 		}
 
 		return self::$instances[$client];
@@ -250,7 +245,10 @@ class JApplication extends JObject
 		$router = $this->getRouter();
 		$result = $router->parse($uri);
 
-		JRequest::set($result, 'get', false);
+		foreach ($result as $key => $value)
+		{
+			$this->input->def($key, $value);
+		}
 
 		// Trigger the onAfterRoute event.
 		JPluginHelper::importPlugin('system');
@@ -317,20 +315,6 @@ class JApplication extends JObject
 	}
 
 	/**
-	 * Exit the application.
-	 *
-	 * @param   integer  $code  Exit code
-	 *
-	 * @return  void     Exits the application.
-	 *
-	 * @since    11.1
-	 */
-	public function close($code = 0)
-	{
-		exit($code);
-	}
-
-	/**
 	 * Redirect to another URL.
 	 *
 	 * Optionally enqueues a message in the system message queue (which will be displayed
@@ -362,9 +346,11 @@ class JApplication extends JObject
 		$url = preg_split("/[\r\n]/", $url);
 		$url = $url[0];
 
-		// If we don't start with a http we need to fix this before we proceed.
-		// We could validly start with something else (e.g. ftp), though this would
-		// be unlikely and isn't supported by this API.
+		/*
+		 * If we don't start with a http we need to fix this before we proceed.
+		 * We could validly start with something else (e.g. ftp), though this would
+		 * be unlikely and isn't supported by this API.
+		 */
 		if (!preg_match('#^http#i', $url))
 		{
 			$uri = JURI::getInstance();
@@ -407,21 +393,13 @@ class JApplication extends JObject
 		else
 		{
 			$document = JFactory::getDocument();
-			jimport('joomla.environment.browser');
-			$navigator = JBrowser::getInstance();
+
 			jimport('phputf8.utils.ascii');
-			if ($navigator->isBrowser('msie') && !utf8_is_ascii($url))
+			if (($this->client->engine == JApplicationWebClient::TRIDENT) && !utf8_is_ascii($url))
 			{
 				// MSIE type browser and/or server cause issues when url contains utf8 character,so use a javascript redirect method
 				echo '<html><head><meta http-equiv="content-type" content="text/html; charset=' . $document->getCharset() . '" />'
 					. '<script>document.location.href=\'' . htmlspecialchars($url) . '\';</script></head></html>';
-			}
-			elseif (!$moved and $navigator->isBrowser('konqueror'))
-			{
-				// WebKit browser (identified as konqueror by Joomla!) - Do not use 303, as it causes subresources
-				// reload (https://bugs.webkit.org/show_bug.cgi?id=38690)
-				echo '<html><head><meta http-equiv="content-type" content="text/html; charset=' . $document->getCharset() . '" />'
-					. '<meta http-equiv="refresh" content="0; url=' . htmlspecialchars($url) . '" /></head></html>';
 			}
 			else
 			{
@@ -525,7 +503,7 @@ class JApplication extends JObject
 			$r = null;
 			if (!preg_match('/J(.*)/i', get_class($this), $r))
 			{
-				JError::raiseError(500, JText::_('JLIB_APPLICATION_ERROR_APPLICATION_GET_NAME'));
+				JLog::add(JText::_('JLIB_APPLICATION_ERROR_APPLICATION_GET_NAME'), JLog::WARNING, 'jerror');
 			}
 			$name = strtolower($r[1]);
 		}
@@ -594,7 +572,7 @@ class JApplication extends JObject
 	public function getUserStateFromRequest($key, $request, $default = null, $type = 'none')
 	{
 		$cur_state = $this->getUserState($key, $default);
-		$new_state = JRequest::getVar($request, null, 'default', $type);
+		$new_state = $this->input->get($request, null, $type);
 
 		// Save the new value only if it was set in this request.
 		if ($new_state !== null)
@@ -607,39 +585,6 @@ class JApplication extends JObject
 		}
 
 		return $new_state;
-	}
-
-	/**
-	 * Registers a handler to a particular event group.
-	 *
-	 * @param   string  $event    The event name.
-	 * @param   mixed   $handler  The handler, a function or an instance of a event object.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.1
-	 */
-	public static function registerEvent($event, $handler)
-	{
-		$dispatcher = JDispatcher::getInstance();
-		$dispatcher->register($event, $handler);
-	}
-
-	/**
-	 * Calls all handlers associated with an event group.
-	 *
-	 * @param   string  $event  The event name.
-	 * @param   array   $args   An array of arguments.
-	 *
-	 * @return  array  An array of results from each function call.
-	 *
-	 * @since   11.1
-	 */
-	public function triggerEvent($event, $args = null)
-	{
-		$dispatcher = JDispatcher::getInstance();
-
-		return $dispatcher->trigger($event, $args);
 	}
 
 	/**
@@ -671,8 +616,8 @@ class JApplication extends JObject
 
 		if ($response->status === JAuthentication::STATUS_SUCCESS)
 		{
-			// validate that the user should be able to login (different to being authenticated)
-			// this permits authentication plugins blocking the user
+			// Validate that the user should be able to login (different to being authenticated).
+			// This permits authentication plugins blocking the user
 			$authorisations = $authenticate->authorise($response, $options);
 			foreach ($authorisations as $authorisation)
 			{
@@ -753,7 +698,7 @@ class JApplication extends JObject
 		// If status is success, any error will have been raised by the user plugin
 		if ($response->status !== JAuthentication::STATUS_SUCCESS)
 		{
-			JError::raiseWarning('102001', $response->error_message);
+			JLog::add($response->error_message, JLog::WARNING, 'jerror');
 		}
 
 		return false;
@@ -824,7 +769,7 @@ class JApplication extends JObject
 	 *
 	 * @since   11.1
 	 */
-	public function getTemplate($params = false)
+	public function getTemplate($params = array())
 	{
 		return 'system';
 	}
@@ -848,9 +793,12 @@ class JApplication extends JObject
 		}
 
 		jimport('joomla.application.router');
-		$router = JRouter::getInstance($name, $options);
 
-		if ($router instanceof Exception)
+		try
+		{
+			$router = JRouter::getInstance($name, $options);
+		}
+		catch (Exception $e)
 		{
 			return null;
 		}
@@ -900,10 +848,11 @@ class JApplication extends JObject
 			$name = $this->_name;
 		}
 
-		jimport('joomla.application.pathway');
-		$pathway = JPathway::getInstance($name, $options);
-
-		if ($pathway instanceof Exception)
+		try
+		{
+			$pathway = JPathway::getInstance($name, $options);
+		}
+		catch (Exception $e)
 		{
 			return null;
 		}
@@ -928,10 +877,11 @@ class JApplication extends JObject
 			$name = $this->_name;
 		}
 
-		jimport('joomla.application.menu');
-		$menu = JMenu::getInstance($name, $options);
-
-		if ($menu instanceof Exception)
+		try
+		{
+			$menu = JMenu::getInstance($name, $options);
+		}
+		catch (Exception $e)
 		{
 			return null;
 		}
@@ -958,7 +908,7 @@ class JApplication extends JObject
 	 *
 	 * @param   string  $file  The path to the configuration file
 	 *
-	 * @return   object  A JConfig object
+	 * @return  JConfig  A JConfig object
 	 *
 	 * @since   11.1
 	 */
@@ -1015,8 +965,10 @@ class JApplication extends JObject
 		}
 
 		$session = JFactory::getSession($options);
+		$session->initialise($this->input);
+		$session->start();
 
-		//TODO: At some point we need to get away from having session data always in the db.
+		// TODO: At some point we need to get away from having session data always in the db.
 
 		$db = JFactory::getDBO();
 
@@ -1035,8 +987,9 @@ class JApplication extends JObject
 		}
 
 		// Check to see the the session already exists.
-		if (($this->getCfg('session_handler') != 'database' && ($time % 2 || $session->isNew()))
-			|| ($this->getCfg('session_handler') == 'database' && $session->isNew()))
+		$handler = $this->getCfg('session_handler');
+		if (($handler != 'database' && ($time % 2 || $session->isNew()))
+			|| ($handler == 'database' && $session->isNew()))
 		{
 			$this->checkSession();
 		}
@@ -1095,9 +1048,13 @@ class JApplication extends JObject
 			}
 
 			// If the insert failed, exit the application.
-			if (!$db->execute())
+			try
 			{
-				jexit($db->getErrorMSG());
+				$db->execute();
+			}
+			catch (RuntimeException $e)
+			{
+				jexit($e->getMessage());
 			}
 
 			// Session doesn't exist yet, so create session variables
@@ -1151,10 +1108,25 @@ class JApplication extends JObject
 	 * @return  boolean  True if Windows OS
 	 *
 	 * @since   11.1
+	 * @deprecated  13.3 Use the IS_WIN constant instead.
 	 */
 	public static function isWinOS()
 	{
-		return strtoupper(substr(PHP_OS, 0, 3)) === 'WIN';
+		JLog::add('JApplication::isWinOS() is deprecated. Use the IS_WIN constant instead.', JLog::WARNING, 'deprecated');
+
+		return IS_WIN;
+	}
+
+	/**
+	 * Determine if we are using a secure (SSL) connection.
+	 *
+	 * @return  boolean  True if using SSL, false if not.
+	 *
+	 * @since   12.2
+	 */
+	public function isSSLConnection()
+	{
+		return ((isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == 'on')) || getenv('SSL_PROTOCOL_VERSION'));
 	}
 
 	/**

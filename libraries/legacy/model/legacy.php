@@ -1,7 +1,7 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Application
+ * @package     Joomla.Legacy
+ * @subpackage  Model
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -15,17 +15,17 @@ defined('JPATH_PLATFORM') or die;
  * Acts as a Factory class for application specific objects and
  * provides many supporting API functions.
  *
- * @package     Joomla.Platform
- * @subpackage  Application
- * @since       11.1
+ * @package     Joomla.Legacy
+ * @subpackage  Model
+ * @since       12.2
  */
-abstract class JModel extends JObject
+abstract class JModelLegacy extends JObject
 {
 	/**
 	 * Indicates if the internal state has been set
 	 *
 	 * @var    boolean
-	 * @since  11.1
+	 * @since  12.2
 	 */
 	protected $__state_set = null;
 
@@ -33,7 +33,7 @@ abstract class JModel extends JObject
 	 * Database Connector
 	 *
 	 * @var    object
-	 * @since  11.1
+	 * @since  12.2
 	 */
 	protected $_db;
 
@@ -41,8 +41,7 @@ abstract class JModel extends JObject
 	 * The model (base) name
 	 *
 	 * @var    string
-	 * @note   Replaces _name variable in 11.1
-	 * @since  11.1
+	 * @since  12.2
 	 */
 	protected $name;
 
@@ -50,7 +49,7 @@ abstract class JModel extends JObject
 	 * The URL option for the component.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  12.2
 	 */
 	protected $option = null;
 
@@ -58,8 +57,7 @@ abstract class JModel extends JObject
 	 * A state object
 	 *
 	 * @var    string
-	 * @note   Replaces _state variable in 11.1
-	 * @since  11.1
+	 * @since  12.2
 	 */
 	protected $state;
 
@@ -67,12 +65,12 @@ abstract class JModel extends JObject
 	 * The event to trigger when cleaning cache.
 	 *
 	 * @var      string
-	 * @since    11.1
+	 * @since    12.2
 	 */
 	protected $event_clean_cache = null;
 
 	/**
-	 * Add a directory where JModel should search for models. You may
+	 * Add a directory where JModelLegacy should search for models. You may
 	 * either pass a string or an array of directories.
 	 *
 	 * @param   mixed   $path    A path or array[sting] of paths to search.
@@ -80,7 +78,7 @@ abstract class JModel extends JObject
 	 *
 	 * @return  array  An array with directory elements. If prefix is equal to '', all directories are returned.
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	public static function addIncludePath($path = '', $prefix = '')
 	{
@@ -126,11 +124,10 @@ abstract class JModel extends JObject
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	public static function addTablePath($path)
 	{
-		jimport('joomla.database.table');
 		JTable::addIncludePath($path);
 	}
 
@@ -142,7 +139,7 @@ abstract class JModel extends JObject
 	 *
 	 * @return  string  The filename
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	protected static function _createFileName($type, $parts = array())
 	{
@@ -167,7 +164,7 @@ abstract class JModel extends JObject
 	 *
 	 * @return  mixed   A model object or false on failure
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	public static function getInstance($type, $prefix = '', $config = array())
 	{
@@ -188,7 +185,7 @@ abstract class JModel extends JObject
 
 				if (!class_exists($modelClass))
 				{
-					JError::raiseWarning(0, JText::sprintf('JLIB_APPLICATION_ERROR_MODELCLASS_NOT_FOUND', $modelClass));
+					JLog::add(JText::sprintf('JLIB_APPLICATION_ERROR_MODELCLASS_NOT_FOUND', $modelClass), JLog::WARNING, 'jerror');
 					return false;
 				}
 			}
@@ -206,7 +203,8 @@ abstract class JModel extends JObject
 	 *
 	 * @param   array  $config  An array of configuration options (name, state, dbo, table_path, ignore_request).
 	 *
-	 * @since   11.1
+	 * @since   12.2
+	 * @throws  Exception
 	 */
 	public function __construct($config = array())
 	{
@@ -217,7 +215,7 @@ abstract class JModel extends JObject
 
 			if (!preg_match('/(.*)Model/i', get_class($this), $r))
 			{
-				JError::raiseError(500, JText::_('JLIB_APPLICATION_ERROR_MODEL_GET_NAME'));
+				throw new Exception(JText::_('JLIB_APPLICATION_ERROR_MODEL_GET_NAME'), 500);
 			}
 
 			$this->option = 'com_' . strtolower($r[1]);
@@ -293,7 +291,8 @@ abstract class JModel extends JObject
 	 *
 	 * @return  array  An array of results.
 	 *
-	 * @since   11.1
+	 * @since   12.2
+	 * @throws  RuntimeException
 	 */
 	protected function _getList($query, $limitstart = 0, $limit = 0)
 	{
@@ -310,7 +309,7 @@ abstract class JModel extends JObject
 	 *
 	 * @return  integer  Number of rows for query
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	protected function _getListCount($query)
 	{
@@ -329,7 +328,7 @@ abstract class JModel extends JObject
 	 *
 	 * @return  mixed  Model object or boolean false if failed
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 * @see     JTable::getInstance
 	 */
 	protected function _createTable($name, $prefix = 'Table', $config = array())
@@ -350,7 +349,7 @@ abstract class JModel extends JObject
 	/**
 	 * Method to get the database driver object
 	 *
-	 * @return  JDatabase
+	 * @return  JDatabaseDriver
 	 */
 	public function getDbo()
 	{
@@ -365,7 +364,8 @@ abstract class JModel extends JObject
 	 *
 	 * @return  string  The name of the model
 	 *
-	 * @since   11.1
+	 * @since   12.2
+	 * @throws  Exception
 	 */
 	public function getName()
 	{
@@ -374,7 +374,7 @@ abstract class JModel extends JObject
 			$r = null;
 			if (!preg_match('/Model(.*)/i', get_class($this), $r))
 			{
-				JError::raiseError(500, JText::_('JLIB_APPLICATION_ERROR_MODEL_GET_NAME'));
+				throw new Exception(JText::_('JLIB_APPLICATION_ERROR_MODEL_GET_NAME'), 500);
 			}
 			$this->name = strtolower($r[1]);
 		}
@@ -390,7 +390,7 @@ abstract class JModel extends JObject
 	 *
 	 * @return  object  The property where specified, the state object where omitted
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	public function getState($property = null, $default = null)
 	{
@@ -415,7 +415,8 @@ abstract class JModel extends JObject
 	 *
 	 * @return  JTable  A JTable object
 	 *
-	 * @since   11.1
+	 * @since   12.2
+	 * @throws  Exception
 	 */
 	public function getTable($name = '', $prefix = 'Table', $options = array())
 	{
@@ -429,9 +430,7 @@ abstract class JModel extends JObject
 			return $table;
 		}
 
-		JError::raiseError(0, JText::sprintf('JLIB_APPLICATION_ERROR_TABLE_NAME_NOT_SUPPORTED', $name));
-
-		return null;
+		throw new Exception(JText::sprintf('JLIB_APPLICATION_ERROR_TABLE_NAME_NOT_SUPPORTED', $name), 0);
 	}
 
 	/**
@@ -444,7 +443,7 @@ abstract class JModel extends JObject
 	 * @return  void
 	 *
 	 * @note    Calling getState in this method will result in recursion.
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	protected function populateState()
 	{
@@ -453,15 +452,15 @@ abstract class JModel extends JObject
 	/**
 	 * Method to set the database driver object
 	 *
-	 * @param   JDatabase  &$db  A JDatabase based object
+	 * @param   JDatabaseDriver  $db  A JDatabaseDriver based object
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
-	public function setDbo(&$db)
+	public function setDbo($db)
 	{
-		$this->_db = &$db;
+		$this->_db = $db;
 	}
 
 	/**
@@ -472,7 +471,7 @@ abstract class JModel extends JObject
 	 *
 	 * @return  mixed  The previous value of the property or null if not set.
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	public function setState($property, $value = null)
 	{
@@ -487,16 +486,16 @@ abstract class JModel extends JObject
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	protected function cleanCache($group = null, $client_id = 0)
 	{
 		// Initialise variables;
 		$conf = JFactory::getConfig();
-		$dispatcher = JDispatcher::getInstance();
+		$dispatcher = JEventDispatcher::getInstance();
 
 		$options = array(
-			'defaultgroup' => ($group) ? $group : (isset($this->option) ? $this->option : JRequest::getCmd('option')),
+			'defaultgroup' => ($group) ? $group : (isset($this->option) ? $this->option : JFactory::getApplication()->input->get('option')),
 			'cachebase' => ($client_id) ? JPATH_ADMINISTRATOR . '/cache' : $conf->get('cache_path', JPATH_SITE . '/cache'));
 
 		$cache = JCache::getInstance('callback', $options);
