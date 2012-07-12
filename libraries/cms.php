@@ -29,3 +29,9 @@ if (!defined('JVERSION')) {
 	$jversion = new JVersion;
 	define('JVERSION', $jversion->getShortVersion());
 }
+
+// Set up the message queue logger for web requests
+if (array_key_exists('REQUEST_METHOD', $_SERVER))
+{
+	JLog::addLogger(array('logger' => 'messagequeue'), JLog::ALL, array('jerror'));
+}
