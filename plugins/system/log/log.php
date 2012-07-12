@@ -17,9 +17,8 @@ defined('_JEXEC') or die;
  */
 class plgSystemLog extends JPlugin
 {
-	function onUserLoginFailure($response)
+	public function onUserLoginFailure($response)
 	{
-		$log = JLog::getInstance();
 		$errorlog = array();
 
 		switch($response['status'])
@@ -27,10 +26,9 @@ class plgSystemLog extends JPlugin
 			case JAuthentication::STATUS_SUCCESS:
 				$errorlog['status']  = $response['type'] . " CANCELED: ";
 				$errorlog['comment'] = $response['error_message'];
-				$log->addEntry($errorlog);
 				break;
 
-			case JAuthentication::STATUS_FAILURE :
+			case JAuthentication::STATUS_FAILURE:
 				$errorlog['status']  = $response['type'] . " FAILURE: ";
 				if ($this->params->get('log_username', 0))
 				{
@@ -40,14 +38,14 @@ class plgSystemLog extends JPlugin
 				{
 					$errorlog['comment'] = $response['error_message'];
 				}
-				$log->addEntry($errorlog);
 				break;
 
 			default:
 				$errorlog['status']  = $response['type'] . " UNKNOWN ERROR: ";
 				$errorlog['comment'] = $response['error_message'];
-				$log->addEntry($errorlog);
 				break;
 		}
+		JLog::addLogger(array(), JLog::INFO);
+		JLog::add($errorlog['comment'], JLog::INFO, $errorlog['status']);
 	}
 }
