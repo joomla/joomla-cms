@@ -123,14 +123,14 @@ class ModulesControllerModule extends JControllerForm
 	/**
 	 * Function that allows child controller access to model data after the data has been saved.
 	 *
-	 * @param   JModelLegacy  &$model     The data model object.
+	 * @param   JModelLegacy  $model      The data model object.
 	 * @param   array         $validData  The validated data.
 	 *
 	 * @return  void
 	 *
 	 * @since   1.6
 	 */
-	protected function postSaveHook(JModelLegacy &$model, $validData = array())
+	protected function postSaveHook(JModelLegacy $model, $validData = array())
 	{
 		// Initialise variables.
 		$app = JFactory::getApplication();
