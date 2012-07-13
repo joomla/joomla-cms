@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.environment.uri');
-
 /**
  * OpenSearch class, provides an easy interface to display an OpenSearch document
  *

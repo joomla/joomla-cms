@@ -7,8 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM . '/joomla/environment/uri.php';
-
 /**
  * Mockup object to test Model handling in JView
  *
