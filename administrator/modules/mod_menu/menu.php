@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
  * @package     Joomla.Administrator
  * @subpackage  mod_menu
  */
-class JAdminCssMenu extends JTree
+class JAdminCssMenu extends JObject
 {
 	/**
 	 * CSS string to add to document head
@@ -21,10 +21,64 @@ class JAdminCssMenu extends JTree
 	 */
 	protected $_css = null;
 
-	function __construct()
+	/**
+	 * Root node
+	 *
+	 * @var    object
+	 */
+	protected $_root = null;
+
+	/**
+	 * Current working node
+	 *
+	 * @var    object
+	 */
+	protected $_current = null;
+
+	/**
+	 * Constructor
+	 */
+	public function __construct()
 	{
 		$this->_root = new JMenuNode('ROOT');
 		$this->_current = & $this->_root;
+	}
+
+	/**
+	 * Method to add a child
+	 *
+	 * @param   JMenuNode  &$node       The node to process
+	 * @param   boolean    $setCurrent  True to set as current working node
+	 *
+	 * @return  void
+	 */
+	public function addChild(JMenuNode &$node, $setCurrent = false)
+	{
+		$this->_current->addChild($node);
+		if ($setCurrent)
+		{
+			$this->_current = &$node;
+		}
+	}
+
+	/**
+	 * Method to get the parent
+	 *
+	 * @return  void
+	 */
+	public function getParent()
+	{
+		$this->_current = &$this->_current->getParent();
+	}
+
+	/**
+	 * Method to get the parent
+	 *
+	 * @return  void
+	 */
+	public function reset()
+	{
+		$this->_current = &$this->_root;
 	}
 
 	function addSeparator()
@@ -185,7 +239,7 @@ class JAdminCssMenu extends JTree
  * @package     Joomla.Administrator
  * @subpackage  mod_menu
  */
-class JMenuNode extends JNode
+class JMenuNode extends JObject
 {
 	/**
 	 * Node Title
@@ -217,6 +271,19 @@ class JMenuNode extends JNode
 	 */
 	public $active = false;
 
+	/**
+	 * Parent node
+	 * @var    object
+	 */
+	protected $_parent = null;
+
+	/**
+	 * Array of Children
+	 *
+	 * @var    array
+	 */
+	protected $_children = array();
+
 	public function __construct($title, $link = null, $class = null, $active = false, $target = null, $titleicon = null)
 	{
 		$this->title	= $titleicon ? $title.$titleicon : $title;
@@ -239,5 +306,82 @@ class JMenuNode extends JNode
 		}
 
 		$this->target	= $target;
+	}
+
+	/**
+	 * Add child to this node
+	 *
+	 * If the child already has a parent, the link is unset
+	 *
+	 * @param   JMenuNode  &$child  The child to be added
+	 *
+	 * @return  void
+	 */
+	public function addChild(JMenuNode &$child)
+	{
+		$child->setParent($this);
+	}
+
+	/**
+	 * Set the parent of a this node
+	 *
+	 * If the node already has a parent, the link is unset
+	 *
+	 * @param   JMenuNode   &$parent  The JMenuNode for parent to be set or null
+	 *
+	 * @return  void
+	 */
+	public function setParent(JMenuNode &$parent = null)
+	{
+		$hash = spl_object_hash($this);
+		if (!is_null($this->_parent))
+		{
+			unset($this->_parent->children[$hash]);
+		}
+		if (!is_null($parent))
+		{
+			$parent->_children[$hash] = & $this;
+		}
+		$this->_parent = & $parent;
+	}
+
+	/**
+	 * Get the children of this node
+	 *
+	 * @return  array    The children
+	 */
+	public function &getChildren()
+	{
+		return $this->_children;
+	}
+
+	/**
+	 * Get the parent of this node
+	 *
+	 * @return  mixed   JMenuNode object with the parent or null for no parent
+	 */
+	public function &getParent()
+	{
+		return $this->_parent;
+	}
+
+	/**
+	 * Test if this node has children
+	 *
+	 * @return   boolean  True if there are children
+	 */
+	public function hasChildren()
+	{
+		return (bool) count($this->_children);
+	}
+
+	/**
+	 * Test if this node has a parent
+	 *
+	 * @return  boolean  True if there is a parent
+	 */
+	public function hasParent()
+	{
+		return $this->getParent() != null;
 	}
 }
