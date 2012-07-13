@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+jimport('joomla.environment.uri');
+
 /**
  * Content Component HTML Helper
  *
@@ -21,7 +23,7 @@ class JHtmlIcon
 {
 	static function create($category, $params)
 	{
-		$uri = JFactory::getURI();
+		$uri = JURI::getInstance();
 
 		$url = 'index.php?option=com_content&task=article.add&return='.base64_encode($uri).'&a_id=0&catid=' . $category->id;
 
@@ -79,7 +81,7 @@ class JHtmlIcon
 		// Initialise variables.
 		$user	= JFactory::getUser();
 		$userId	= $user->get('id');
-		$uri	= JFactory::getURI();
+		$uri	= JURI::getInstance();
 
 		// Ignore if in a popup window.
 		if ($params && $params->get('popup')) {

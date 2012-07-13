@@ -70,11 +70,11 @@ class UsersModelMail extends JModelAdmin
 	public function send()
 	{
 		// Initialise variables.
-		$data	= JRequest::getVar('jform', array(), 'post', 'array');
-		$app	= JFactory::getApplication();
-		$user	= JFactory::getUser();
-		$acl	= JFactory::getACL();
-		$db		= $this->getDbo();
+		$data   = JRequest::getVar('jform', array(), 'post', 'array');
+		$app    = JFactory::getApplication();
+		$user   = JFactory::getUser();
+		$access = new JAccess;
+		$db     = $this->getDbo();
 
 		$mode		= array_key_exists('mode', $data) ? intval($data['mode']) : 0;
 		$subject	= array_key_exists('subject', $data) ? $data['subject'] : '';
@@ -97,7 +97,7 @@ class UsersModelMail extends JModelAdmin
 		}
 
 		// get users in the group out of the acl
-		$to = $acl->getUsersByGroup($grp, $recurse);
+		$to = $access->getUsersByGroup($grp, $recurse);
 
 		// Get all users email and group except for senders
 		$query	= $db->getQuery(true);

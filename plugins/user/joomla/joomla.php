@@ -248,8 +248,6 @@ class plgUserJoomla extends JPlugin
 		// Default to Registered.
 		$defaultUserGroup = $config->get('new_usertype', 2);
 
-		$acl = JFactory::getACL();
-
 		$instance->set('id'			, 0);
 		$instance->set('name'			, $user['fullname']);
 		$instance->set('username'		, $user['username']);

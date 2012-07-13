@@ -65,9 +65,6 @@ class ContactViewContact extends JViewLegacy
 		$return = '';
 
 		if ((!in_array($item->access, $groups)) || (!in_array($item->category_access, $groups))) {
-			$uri		= JFactory::getURI();
-			$return		= (string)$uri;
-
 			JError::raiseWarning(403, JText::_('JERROR_ALERTNOAUTHOR'));
 			return;
 		}

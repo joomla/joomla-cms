@@ -154,8 +154,7 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 		$temp->loadString($item->params);
 		$params->merge($temp);
 
-		//  get RSS parsed object
-		$rssDoc = JFactory::getFeedParser($newsfeed->link, $newsfeed->cache_time);
+		$rssDoc = JSimplepieFactory::getFeedParser($newsfeed->link, $newsfeed->cache_time);
 
 		if ($rssDoc == false) {
 			$msg = JText::_('COM_NEWSFEEDS_ERRORS_FEED_NOT_RETRIEVED');

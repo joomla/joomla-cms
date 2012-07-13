@@ -43,7 +43,8 @@ class modLoginHelper
 		if (!$url)
 		{
 			// stay on the same page
-			$uri = clone JFactory::getURI();
+			jimport('joomla.environment.uri');
+			$uri = clone JURI::getInstance();
 			$vars = $router->parse($uri);
 			unset($vars['lang']);
 			if ($router->getMode() == JROUTER_MODE_SEF)

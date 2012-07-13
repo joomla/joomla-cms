@@ -8,6 +8,8 @@
 
 defined('_JEXEC') or die;
 
+jimport('joomla.environment.uri');
+
 /**
  * Joomla! Application class
  *
@@ -235,8 +237,8 @@ final class JSite extends JApplication
 				}
 
 				if ($this->getCfg('offline') && !$user->authorise('core.login.offline')) {
-					$uri		= JFactory::getURI();
-					$return		= (string)$uri;
+					$uri    = JURI::getInstance();
+					$return = (string)$uri;
 					$this->setUserState('users.login.form.data', array( 'return' => $return ) );
 					$file = 'offline';
 					JResponse::setHeader('Status', '503 Service Temporarily Unavailable', 'true');
@@ -308,8 +310,8 @@ final class JSite extends JApplication
 			if ($user->get('id') == 0)
 			{
 				// Redirect to login
-				$uri		= JFactory::getURI();
-				$return		= (string)$uri;
+				$uri    = JURI::getInstance();
+				$return = (string)$uri;
 
 				$this->setUserState('users.login.form.data', array( 'return' => $return ) );
 

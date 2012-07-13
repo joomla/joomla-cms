@@ -58,7 +58,8 @@ class plgSystemLanguageFilter extends JPlugin
 				}
 
 				$app->setLanguageFilter(true);
-				$uri = JFactory::getURI();
+				jimport('joomla.environment.uri');
+				$uri = JURI::getInstance();
 				if (self::$mode_sef) {
 					// Get the route path from the request.
 					$path = JString::substr($uri->toString(), JString::strlen($uri->base()));

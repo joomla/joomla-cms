@@ -20,9 +20,9 @@ class ModulesViewPreview extends JViewLegacy
 {
 	function display($tpl = null)
 	{
-		$editor = JFactory::getEditor();
+		$editor = JFactory::getConfig()->get('editor');
 
-		$this->assignRef('editor',		$editor);
+		$this->editor = JEditor::getInstance($editor);
 
 		parent::display($tpl);
 	}

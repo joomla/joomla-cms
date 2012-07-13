@@ -22,24 +22,25 @@ class SearchViewSearch extends JViewLegacy
 	{
 		require_once JPATH_COMPONENT_ADMINISTRATOR.'/helpers/search.php';
 
-		// Initialise some variables
-		$app	= JFactory::getApplication();
-		$pathway = $app->getPathway();
-		$uri	= JFactory::getURI();
+		jimport('joomla.environment.uri');
 
-		$error	= null;
-		$rows	= null;
-		$results= null;
-		$total	= 0;
+		$app     = JFactory::getApplication();
+		$pathway = $app->getPathway();
+		$uri     = JURI::getInstance();
+
+		$error   = null;
+		$rows    = null;
+		$results = null;
+		$total   = 0;
 
 		// Get some data from the model
-		$areas	= $this->get('areas');
-		$state		= $this->get('state');
+		$areas      = $this->get('areas');
+		$state      = $this->get('state');
 		$searchword = $state->get('keyword');
-		$params = $app->getParams();
+		$params     = $app->getParams();
 
-		$menus	= $app->getMenu();
-		$menu	= $menus->getActive();
+		$menus = $app->getMenu();
+		$menu  = $menus->getActive();
 
 		// because the application sets a default page title, we need to get it
 		// right from the menu item itself
