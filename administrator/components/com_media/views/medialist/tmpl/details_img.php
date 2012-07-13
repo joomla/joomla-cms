@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 $user = JFactory::getUser();
 $params = new JRegistry;
-$dispatcher	= JDispatcher::getInstance();
+$dispatcher	= JEventDispatcher::getInstance();
 $dispatcher->trigger('onContentBeforeDisplay', array('com_media.file', &$this->_tmp_img, &$params));
 ?>
 		<tr>

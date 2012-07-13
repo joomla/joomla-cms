@@ -142,7 +142,7 @@ class FinderCli extends JApplicationCli
 		$this->out(JText::_('FINDER_CLI_STARTING_INDEXER'), true);
 
 		// Trigger the onStartIndex event.
-		JDispatcher::getInstance()->trigger('onStartIndex');
+		JEventDispatcher::getInstance()->trigger('onStartIndex');
 
 		// Remove the script time limit.
 		@set_time_limit(0);
@@ -154,7 +154,7 @@ class FinderCli extends JApplicationCli
 		$this->out(JText::_('FINDER_CLI_SETTING_UP_PLUGINS'), true);
 
 		// Trigger the onBeforeIndex event.
-		JDispatcher::getInstance()->trigger('onBeforeIndex');
+		JEventDispatcher::getInstance()->trigger('onBeforeIndex');
 
 		// Startup reporting.
 		$this->out(JText::sprintf('FINDER_CLI_SETUP_ITEMS', $state->totalItems, round(microtime(true) - $this->_time, 3)), true);
@@ -174,7 +174,7 @@ class FinderCli extends JApplicationCli
 			$state->batchOffset = 0;
 
 			// Trigger the onBuildIndex event.
-			JDispatcher::getInstance()->trigger('onBuildIndex');
+			JEventDispatcher::getInstance()->trigger('onBuildIndex');
 
 			// Batch reporting.
 			$this->out(JText::sprintf('FINDER_CLI_BATCH_COMPLETE', ($i + 1), round(microtime(true) - $this->_qtime, 3)), true);

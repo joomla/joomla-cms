@@ -199,7 +199,7 @@ class UsersModelGroup extends JModelAdmin
 
 		// Load plugins.
 		JPluginHelper::importPlugin('user');
-		$dispatcher = JDispatcher::getInstance();
+		$dispatcher = JEventDispatcher::getInstance();
 
 		// Check if I am a Super Admin
 		$iAmSuperAdmin	= $user->authorise('core.admin');

@@ -193,7 +193,7 @@ class TemplatesModelSource extends JModelForm
 			return false;
 		}
 
-		$dispatcher = JDispatcher::getInstance();
+		$dispatcher = JEventDispatcher::getInstance();
 		$fileName	= $this->getState('filename');
 		$client		= JApplicationHelper::getClientInfo($template->client_id);
 		$filePath	= JPath::clean($client->path.'/templates/'.$template->element.'/'.$fileName);

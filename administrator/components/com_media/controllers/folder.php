@@ -65,7 +65,7 @@ class MediaControllerFolder extends JControllerLegacy
 		$ret = true;
 
 		JPluginHelper::importPlugin('content');
-		$dispatcher	= JDispatcher::getInstance();
+		$dispatcher	= JEventDispatcher::getInstance();
 		if (count($paths))
 		{
 			foreach ($paths as $path)
@@ -170,7 +170,7 @@ class MediaControllerFolder extends JControllerLegacy
 				// Trigger the onContentBeforeSave event.
 				$object_file = new JObject(array('filepath' => $path));
 				JPluginHelper::importPlugin('content');
-				$dispatcher	= JDispatcher::getInstance();
+				$dispatcher	= JEventDispatcher::getInstance();
 				$result = $dispatcher->trigger('onContentBeforeSave', array('com_media.folder', &$object_file));
 				if (in_array(false, $result, true))
 				{

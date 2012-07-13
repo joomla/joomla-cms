@@ -88,7 +88,7 @@ class ContentViewCategory extends JViewLegacy
 
 			$item->event = new stdClass;
 
-			$dispatcher = JDispatcher::getInstance();
+			$dispatcher = JEventDispatcher::getInstance();
 
 			$item->introtext = JHtml::_('content.prepare', $item->introtext, '', 'com_content.category');
 

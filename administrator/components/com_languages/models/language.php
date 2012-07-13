@@ -133,7 +133,7 @@ class LanguagesModelLanguage extends JModelAdmin
 		$langId	= (int) $this->getState('language.id');
 		$isNew	= true;
 
-		$dispatcher = JDispatcher::getInstance();
+		$dispatcher = JEventDispatcher::getInstance();
 		JPluginHelper::importPlugin('extension');
 
 		$table = $this->getTable();

@@ -37,7 +37,7 @@ class ContactViewContact extends JViewLegacy
 		$app		= JFactory::getApplication();
 		$params 	= $app->getParams();
 		$user		= JFactory::getUser();
-		$dispatcher =& JDispatcher::getInstance();
+		$dispatcher = JEventDispatcher::getInstance();
 
 		// Compute lastname, firstname and middlename
 		$item->name = trim($item->name);

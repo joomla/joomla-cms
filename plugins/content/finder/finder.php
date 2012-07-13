@@ -30,7 +30,7 @@ class plgContentFinder extends JPlugin
 	 */
 	public function onContentAfterSave($context, $article, $isNew)
 	{
-		$dispatcher	= JDispatcher::getInstance();
+		$dispatcher	= JEventDispatcher::getInstance();
 		JPluginHelper::importPlugin('finder');
 
 		// Trigger the onFinderAfterSave event.
@@ -49,7 +49,7 @@ class plgContentFinder extends JPlugin
 	 */
 	public function onContentBeforeSave($context, $article, $isNew)
 	{
-		$dispatcher	= JDispatcher::getInstance();
+		$dispatcher	= JEventDispatcher::getInstance();
 		JPluginHelper::importPlugin('finder');
 
 		// Trigger the onFinderBeforeSave event.
@@ -67,7 +67,7 @@ class plgContentFinder extends JPlugin
 	 */
 	public function onContentAfterDelete($context, $article)
 	{
-		$dispatcher	= JDispatcher::getInstance();
+		$dispatcher	= JEventDispatcher::getInstance();
 		JPluginHelper::importPlugin('finder');
 
 		// Trigger the onFinderAfterDelete event.
@@ -87,7 +87,7 @@ class plgContentFinder extends JPlugin
 	 */
 	public function onContentChangeState($context, $pks, $value)
 	{
-		$dispatcher	= JDispatcher::getInstance();
+		$dispatcher	= JEventDispatcher::getInstance();
 		JPluginHelper::importPlugin('finder');
 
 		// Trigger the onFinderChangeState event.
@@ -106,7 +106,7 @@ class plgContentFinder extends JPlugin
 	 */
 	public function onCategoryChangeState($extension, $pks, $value)
 	{
-		$dispatcher	= JDispatcher::getInstance();
+		$dispatcher	= JEventDispatcher::getInstance();
 		JPluginHelper::importPlugin('finder');
 
 		// Trigger the onFinderCategoryChangeState event.

@@ -341,7 +341,7 @@ class ContactModelContact extends JModelForm
 				JPluginHelper::importPlugin('user');
 				$form = new JForm('com_users.profile');
 				// Get the dispatcher.
-				$dispatcher	= JDispatcher::getInstance();
+				$dispatcher	= JEventDispatcher::getInstance();
 
 				// Trigger the form preparation event.
 				$dispatcher->trigger('onContentPrepareForm', array($form, $data));

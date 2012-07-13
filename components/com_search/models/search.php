@@ -128,7 +128,7 @@ class SearchModelSearch extends JModelLegacy
 			$areas = $this->getAreas();
 
 			JPluginHelper::importPlugin('search');
-			$dispatcher = JDispatcher::getInstance();
+			$dispatcher = JEventDispatcher::getInstance();
 			$results = $dispatcher->trigger('onContentSearch', array(
 				$this->getState('keyword'),
 				$this->getState('match'),
@@ -193,7 +193,7 @@ class SearchModelSearch extends JModelLegacy
 			$areas = array();
 
 			JPluginHelper::importPlugin('search');
-			$dispatcher = JDispatcher::getInstance();
+			$dispatcher = JEventDispatcher::getInstance();
 			$searchareas = $dispatcher->trigger('onContentSearchAreas');
 
 			foreach ($searchareas as $area) {

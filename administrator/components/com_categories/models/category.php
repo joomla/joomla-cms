@@ -364,7 +364,7 @@ class CategoriesModelCategory extends JModelAdmin
 	public function save($data)
 	{
 		// Initialise variables;
-		$dispatcher = JDispatcher::getInstance();
+		$dispatcher = JEventDispatcher::getInstance();
 		$table = $this->getTable();
 		$pk = (!empty($data['id'])) ? $data['id'] : (int) $this->getState($this->getName() . '.id');
 		$isNew = true;
@@ -468,7 +468,7 @@ class CategoriesModelCategory extends JModelAdmin
 	{
 		if (parent::publish($pks, $value)) {
 			// Initialise variables.
-			$dispatcher	= JDispatcher::getInstance();
+			$dispatcher	= JEventDispatcher::getInstance();
 			$extension	= JRequest::getCmd('extension');
 
 			// Include the content plugins for the change of category state event.

@@ -44,7 +44,7 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 		// Initialise variables.
 		$app		= JFactory::getApplication();
 		$user		= JFactory::getUser();
-		$dispatcher	= JDispatcher::getInstance();
+		$dispatcher	= JEventDispatcher::getInstance();
 
 		// Get view related request variables.
 		$print = JRequest::getBool('print');
