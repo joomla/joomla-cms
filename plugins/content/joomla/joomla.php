@@ -98,7 +98,7 @@ class plgContentJoomla extends JPlugin
 			return true;
 		}
 
-		$extension = JFactory::getApplication->input->getString('extension');
+		$extension = JFactory::getApplication()->input->getString('extension');
 
 		// Default to true if not a core extension
 		$result = true;
