@@ -281,7 +281,7 @@ class FinderIndexerHelper
 		$query->columns(array($db->quoteName('title'), $db->quoteName('mime')));
 		$query->values($db->quote($title) . ', ' . $db->quote($mime));
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 
 		// Check for a database error.
 		if ($db->getErrorNum())

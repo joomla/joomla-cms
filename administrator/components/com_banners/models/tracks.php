@@ -218,7 +218,7 @@ class BannersModelTracks extends JModelList
 
 			$db->setQuery((string)$query);
 			$this->setError((string)$query);
-			$db->query();
+			$db->execute();
 
 			// Check for a database error.
 			if ($db->getErrorNum()) {

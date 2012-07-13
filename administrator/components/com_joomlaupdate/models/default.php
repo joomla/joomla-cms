@@ -89,7 +89,7 @@ class JoomlaupdateModelDefault extends JModelLegacy
 				->delete($db->qn('#__updates'))
 				->where($db->qn('extension_id').' = '.$db->q('700'));
 			$db->setQuery($query);
-			$db->query();
+			$db->execute();
 		}
 	}
 
@@ -506,7 +506,7 @@ ENDDATA;
 		$db->setQuery($query);
 		try
 		{
-			$db->Query();
+			$db->execute();
 		}
 		catch (RuntimeException $e)
 		{

@@ -150,7 +150,7 @@ class ContentModelArticle extends JModelAdmin
 				$query->insert($db->quoteName('#__content_frontpage'));
 				$query->values($newId . ', 0');
 				$db->setQuery($query);
-				$db->query();
+				$db->execute();
 			}
 		}
 
@@ -446,7 +446,7 @@ class ContentModelArticle extends JModelAdmin
 				' SET featured = '.(int) $value.
 				' WHERE id IN ('.implode(',', $pks).')'
 			);
-			if (!$db->query()) {
+			if (!$db->execute()) {
 				throw new Exception($db->getErrorMsg());
 			}
 
@@ -457,7 +457,7 @@ class ContentModelArticle extends JModelAdmin
 					'DELETE FROM #__content_frontpage' .
 					' WHERE content_id IN ('.implode(',', $pks).')'
 				);
-				if (!$db->query()) {
+				if (!$db->execute()) {
 					throw new Exception($db->getErrorMsg());
 				}
 			} else {
@@ -486,7 +486,7 @@ class ContentModelArticle extends JModelAdmin
 						'INSERT INTO #__content_frontpage ('.$db->quoteName('content_id').', '.$db->quoteName('ordering').')' .
 						' VALUES '.implode(',', $tuples)
 					);
-					if (!$db->query()) {
+					if (!$db->execute()) {
 						$this->setError($db->getErrorMsg());
 						return false;
 					}

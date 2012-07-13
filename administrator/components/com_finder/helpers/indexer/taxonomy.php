@@ -220,7 +220,7 @@ class FinderIndexerTaxonomy
 		$query->where($db->quoteName('link_id') . ' = ' . (int)$linkId);
 		$query->where($db->quoteName('node_id') . ' = ' . (int)$nodeId);
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 		$id = (int) $db->loadResult();
 
 		$map = new JObject;
@@ -346,7 +346,7 @@ class FinderIndexerTaxonomy
 		$query->from($db->quoteName('#__finder_taxonomy_map'));
 		$query->where($db->quoteName('link_id') . ' = ' . (int) $linkId);
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 
 		// Check for a database error.
 		if ($db->getErrorNum())
@@ -383,7 +383,7 @@ class FinderIndexerTaxonomy
 			' WHERE t.' . $db->quoteName('parent_id') . ' > 1' .
 			' AND m.' . $db->quoteName('link_id') . ' IS NULL';
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 
 		// Check for a database error.
 		if ($db->getErrorNum())

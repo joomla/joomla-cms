@@ -586,7 +586,7 @@ class UsersModelUser extends JModelAdmin
 			$db->setQuery($query);
 
 			// Check for database errors.
-			if (!$db->query())
+			if (!$db->execute())
 			{
 				$this->setError($db->getErrorMsg());
 				return false;
@@ -629,7 +629,7 @@ class UsersModelUser extends JModelAdmin
 			$db->setQuery($query);
 
 			// Check for database errors.
-			if (!$db->query())
+			if (!$db->execute())
 			{
 				$this->setError($db->getErrorMsg());
 				return false;

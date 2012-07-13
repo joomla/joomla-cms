@@ -207,7 +207,7 @@ class BannersModelBanners extends JModelList
 			$query->where('id = '.(int)$id);
 			$db->setQuery((string)$query);
 
-			if (!$db->query()) {
+			if (!$db->execute()) {
 				JError::raiseError(500, $db->getErrorMsg());
 			}
 
@@ -233,7 +233,7 @@ class BannersModelBanners extends JModelList
 
 				$db->setQuery((string)$query);
 
-				if (!$db->query()) {
+				if (!$db->execute()) {
 					JError::raiseError(500, $db->getErrorMsg());
 				}
 
@@ -260,7 +260,7 @@ class BannersModelBanners extends JModelList
 
 				$db->setQuery((string)$query);
 
-				if (!$db->query()) {
+				if (!$db->execute()) {
 					JError::raiseError(500, $db->getErrorMsg());
 				}
 			}

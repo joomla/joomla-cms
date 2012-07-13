@@ -288,7 +288,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 		$query->set($this->db->quoteName($property) . ' = ' . (int) $value);
 		$query->where($this->db->quoteName('url') . ' = ' . $item);
 		$this->db->setQuery($query);
-		$this->db->query();
+		$this->db->execute();
 
 		// Check for a database error.
 		if ($this->db->getErrorNum())

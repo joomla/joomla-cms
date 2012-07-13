@@ -39,7 +39,7 @@ class BannersModelBanner extends JModelLegacy
 
 		$db->setQuery((string) $query);
 
-		if (!$db->query()) {
+		if (!$db->execute()) {
 			JError::raiseError(500, $db->getErrorMsg());
 		}
 
@@ -70,7 +70,7 @@ class BannersModelBanner extends JModelLegacy
 
 			$db->setQuery((string) $query);
 
-			if (!$db->query()) {
+			if (!$db->execute()) {
 				JError::raiseError(500, $db->getErrorMsg());
 			}
 
@@ -97,7 +97,7 @@ class BannersModelBanner extends JModelLegacy
 
 			$db->setQuery((string) $query);
 
-			if (!$db->query()) {
+			if (!$db->execute()) {
 				JError::raiseError(500, $db->getErrorMsg());
 			}
 		}
@@ -135,7 +135,7 @@ class BannersModelBanner extends JModelLegacy
 
 				$db->setQuery((string) $query);
 
-				if (!$db->query()) {
+				if (!$db->execute()) {
 					JError::raiseError(500, $db->getErrorMsg());
 				}
 

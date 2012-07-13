@@ -110,7 +110,7 @@ class MessagesModelMessage extends JModelAdmin
 					$query->update('#__messages');
 					$query->set('state = 1');
 					$query->where('message_id = '.$this->item->message_id);
-					$db->setQuery($query)->query();
+					$db->setQuery($query)->execute();
 				}
 			}
 

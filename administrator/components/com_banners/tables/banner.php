@@ -37,7 +37,7 @@ class BannersTableBanner extends JTable
 		. ' WHERE id = ' . (int) $this->id;
 
 		$this->_db->setQuery($query);
-		$this->_db->query();
+		$this->_db->execute();
 	}
 
 	/**

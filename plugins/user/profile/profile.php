@@ -265,7 +265,7 @@ class plgUserProfile extends JPlugin
 					" AND profile_key LIKE 'profile.%'"
 				);
 
-				if (!$db->query())
+				if (!$db->execute())
 				{
 					throw new Exception($db->getErrorMsg());
 				}
@@ -280,7 +280,7 @@ class plgUserProfile extends JPlugin
 
 				$db->setQuery('INSERT INTO #__user_profiles VALUES '.implode(', ', $tuples));
 
-				if (!$db->query())
+				if (!$db->execute())
 				{
 					throw new Exception($db->getErrorMsg());
 				}
@@ -324,7 +324,7 @@ class plgUserProfile extends JPlugin
 					" AND profile_key LIKE 'profile.%'"
 				);
 
-				if (!$db->query())
+				if (!$db->execute())
 				{
 					throw new Exception($db->getErrorMsg());
 				}

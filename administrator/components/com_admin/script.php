@@ -39,7 +39,7 @@ class joomlaInstallerScript
 			$query->insert('#__schemas');
 			$query->set('extension_id=700, version_id='.$db->quote('1.6.0-2011-01-10'));
 			$db->setQuery($query);
-			$db->query();
+			$db->execute();
 		}
 		return true;
 	}
@@ -77,7 +77,7 @@ class joomlaInstallerScript
 				{
 					$query = 'ALTER TABLE #__update_sites_extensions ENGINE = ' . $result->Engine;
 					$db->setQuery($query);
-					$db->query();
+					$db->execute();
 					if ($db->getErrorNum())
 					{
 						echo JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $db->getErrorNum(), $db->getErrorMsg()).'<br />';
@@ -103,7 +103,7 @@ class joomlaInstallerScript
 			$query->values($db->quote('joomla'). ', '. $db->quote('package').', '.$db->quote('pkg_joomla') . ', 1, 1, 1');
 
 			$db->setQuery($query);
-			$db->query();
+			$db->execute();
 			if ($db->getErrorNum())
 			{
 				echo JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $db->getErrorNum(), $db->getErrorMsg()).'<br />';

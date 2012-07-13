@@ -157,7 +157,7 @@ class RedirectModelLink extends JModelAdmin
 				' SET '.$db->quoteName('new_url').' = '.$db->Quote($url).', '.$db->quoteName('published').' = 1, '.$db->quoteName('comment').' = '.$db->Quote($comment) .
 				' WHERE '.$db->quoteName('id').' IN ('.implode(',', $pks).')'
 			);
-			$db->query();
+			$db->execute();
 
 			// Check for a database error.
 			if ($error = $this->_db->getErrorMsg())

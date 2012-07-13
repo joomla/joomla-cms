@@ -252,7 +252,7 @@ class ContentModelArticle extends JModelItem
 						' WHERE id = '.(int) $pk
 				);
 
-				if (!$db->query()) {
+				if (!$db->execute()) {
 						$this->setError($db->getErrorMsg());
 						return false;
 				}
@@ -284,7 +284,7 @@ class ContentModelArticle extends JModelItem
 						' VALUES ( '.(int) $pk.', '.$db->Quote($userIP).', '.(int) $rate.', 1 )'
 				);
 
-				if (!$db->query()) {
+				if (!$db->execute()) {
 						$this->setError($db->getErrorMsg());
 						return false;
 				}
@@ -296,7 +296,7 @@ class ContentModelArticle extends JModelItem
 							' SET rating_count = rating_count + 1, rating_sum = rating_sum + '.(int) $rate.', lastip = '.$db->Quote($userIP) .
 							' WHERE content_id = '.(int) $pk
 					);
-					if (!$db->query()) {
+					if (!$db->execute()) {
 							$this->setError($db->getErrorMsg());
 							return false;
 					}

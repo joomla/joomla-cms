@@ -104,7 +104,7 @@ class MessagesModelConfig extends JModelForm
 				'DELETE FROM #__messages_cfg'.
 				' WHERE user_id = '. $userId
 			);
-			$db->query();
+			$db->execute();
 			if ($error = $db->getErrorMsg()) {
 				$this->setError($error);
 				return false;
@@ -121,7 +121,7 @@ class MessagesModelConfig extends JModelForm
 					' (user_id, cfg_name, cfg_value)'.
 					' VALUES '.implode(',', $tuples)
 				);
-				$db->query();
+				$db->execute();
 				if ($error = $db->getErrorMsg()) {
 					$this->setError($error);
 					return false;

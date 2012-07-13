@@ -78,7 +78,7 @@ class FinderTableMap extends JTable
 		$query->set($this->_db->quoteName('state') . ' = ' . (int) $state);
 		$query->where($where);
 		$this->_db->setQuery($query);
-		$this->_db->query();
+		$this->_db->execute();
 
 		// Check for a database error.
 		if ($this->_db->getErrorNum())

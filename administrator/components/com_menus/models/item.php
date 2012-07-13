@@ -494,7 +494,7 @@ class MenusModelItem extends JModelAdmin
 			$query->set($db->quoteName('menutype') . ' = ' . $db->quote($menuType));
 			$query->where($db->quoteName('id') . ' IN (' . implode(',', $children) . ')');
 			$db->setQuery($query);
-			$db->query();
+			$db->execute();
 
 			// Check for a database error.
 			if ($db->getErrorNum())
@@ -1068,7 +1068,7 @@ class MenusModelItem extends JModelAdmin
 				' SET params = '.$db->quote($params).
 				' WHERE id = '.(int) $item->id
 			);
-			if (!$db->query()) {
+			if (!$db->execute()) {
 				$this->setError($error);
 				return false;
 			}
@@ -1212,7 +1212,7 @@ class MenusModelItem extends JModelAdmin
 			$query->where('context='.$db->quote('com_menus.item'));
 			$query->where('id IN ('.implode(',', $associations).')');
 			$db->setQuery($query);
-			$db->query();
+			$db->execute();
 			if ($error = $db->getErrorMsg()) {
 				$this->setError($error);
 				return false;
@@ -1227,7 +1227,7 @@ class MenusModelItem extends JModelAdmin
 					$query->values($id.','.$db->quote('com_menus.item').','.$db->quote($key));
 				}
 				$db->setQuery($query);
-				$db->query();
+				$db->execute();
 				if ($error = $db->getErrorMsg()) {
 					$this->setError($error);
 					return false;

@@ -92,7 +92,7 @@ class plgSystemRedirect extends JPlugin
 					);
 
 					$db->setQuery($query);
-					$db->query();
+					$db->execute();
 
 				} else {
 					// Existing error url, increase hit counter
@@ -101,7 +101,7 @@ class plgSystemRedirect extends JPlugin
 					$query->set($db->quoteName('hits').' = '.$db->quoteName('hits').' + 1');
 					$query->where('id = '.(int)$res);
 					$db->setQuery((string)$query);
-					$db->query();
+					$db->execute();
 				}
 				// Render the error page.
 				JError::customErrorPage($error);

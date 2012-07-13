@@ -441,7 +441,7 @@ class TemplatesModelStyle extends JModelAdmin
 				$query->where('template_style_id!='.(int) $table->id);
 				$query->where('checked_out in (0,'.(int) $user->id.')');
 				$db->setQuery($query);
-				$db->query();
+				$db->execute();
 				$n += $db->getAffectedRows();
 			}
 
@@ -457,7 +457,7 @@ class TemplatesModelStyle extends JModelAdmin
 			$query->where('template_style_id='.(int) $table->id);
 			$query->where('checked_out in (0,'.(int) $user->id.')');
 			$db->setQuery($query);
-			$db->query();
+			$db->execute();
 
 			$n += $db->getAffectedRows();
 			if ($n > 0) {
@@ -515,7 +515,7 @@ class TemplatesModelStyle extends JModelAdmin
 			' AND home = \'1\''
 		);
 
-		if (!$db->query()) {
+		if (!$db->execute()) {
 			throw new Exception($db->getErrorMsg());
 		}
 
@@ -526,7 +526,7 @@ class TemplatesModelStyle extends JModelAdmin
 			' WHERE id = '.(int) $id
 		);
 
-		if (!$db->query()) {
+		if (!$db->execute()) {
 			throw new Exception($db->getErrorMsg());
 		}
 
@@ -580,7 +580,7 @@ class TemplatesModelStyle extends JModelAdmin
 			' WHERE id = '.(int) $id
 		);
 
-		if (!$db->query()) {
+		if (!$db->execute()) {
 			throw new Exception($db->getErrorMsg());
 		}
 

@@ -78,7 +78,7 @@ class CheckinModelCheckin extends JModelList
 			}
 
 			$db->setQuery($query);
-			if ($db->query()) {
+			if ($db->execute()) {
 				$results = $results + $db->getAffectedRows();
 			}
 		}
@@ -148,7 +148,7 @@ class CheckinModelCheckin extends JModelList
 					->where('checked_out > 0');
 
 				$db->setQuery($query);
-				if ($db->query()) {
+				if ($db->execute()) {
 					$results[$tn] = $db->loadResult();
 				} else {
 					continue;

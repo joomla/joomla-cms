@@ -499,7 +499,7 @@ class UsersModelRegistration extends JModelForm
 				}
 				$q .= implode(',', $messages);
 				$db->setQuery($q);
-				$db->query();
+				$db->execute();
 			}
 			return false;
 		}

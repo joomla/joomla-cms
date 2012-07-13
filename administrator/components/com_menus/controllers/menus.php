@@ -162,7 +162,7 @@ class MenusControllerMenus extends JControllerLegacy
 						'UPDATE #__menu' .
 						' SET component_id = '.$componentId.
 						' WHERE id = '.$item->id
-					)->query();
+					)->execute();
 					//echo "<br>".$db->getQuery();
 
 					if ($error = $db->getErrorMsg()) {

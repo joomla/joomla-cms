@@ -346,7 +346,7 @@ class FinderModelMaps extends JModelList
 		$query->from($db->quoteName('#__finder_taxonomy'));
 		$query->where($db->quoteName('parent_id') . ' > 1');
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 
 		// Check for a database error.
 		if ($db->getErrorNum())
@@ -360,7 +360,7 @@ class FinderModelMaps extends JModelList
 		$query->from($db->quoteName('#__finder_taxonomy_map'));
 		$query->where('1');
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 
 		// Check for a database error.
 		if ($db->getErrorNum())

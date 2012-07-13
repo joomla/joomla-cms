@@ -265,7 +265,7 @@ class FinderIndexer
 				$query->from($db->quoteName('#__finder_links_terms' . dechex($i)));
 				$query->where($db->quoteName('link_id') . ' = ' . (int) $linkId);
 				$db->setQuery($query);
-				$db->query();
+				$db->execute();
 
 				// Check for a database error.
 				if ($db->getErrorNum())
@@ -331,7 +331,7 @@ class FinderIndexer
 				. $db->quote($item->sale_price)
 			);
 			$db->setQuery($query);
-			$db->query();
+			$db->execute();
 
 			// Check for a database error.
 			if ($db->getErrorNum())
@@ -366,7 +366,7 @@ class FinderIndexer
 			$query->set($db->qn('sale_price') . ' = ' . $db->quote($item->sale_price));
 			$query->where('link_id = ' . (int) $linkId);
 			$db->setQuery($query);
-			$db->query();
+			$db->execute();
 
 			// Check for a database error.
 			if ($db->getErrorNum())
@@ -527,7 +527,7 @@ class FinderIndexer
 		{
 			// Run the query to aggregate the tokens for this context..
 			$db->setQuery(sprintf($query, $multiplier, $context, $context));
-			$db->query();
+			$db->execute();
 
 			// Check for a database error.
 			if ($db->getErrorNum())
@@ -566,7 +566,7 @@ class FinderIndexer
 						' GROUP BY ta.term';
 
 		$db->setQuery($queryInsIgn);
-		$db->query();
+		$db->execute();
 
 		// Check for a database error.
 		if ($db->getErrorNum())
@@ -603,7 +603,7 @@ class FinderIndexer
 									$db->quoteName('soundex') . ' = ' . $db->quote($subQuVal->soundex);
 
 			$db->setQuery($quRepl_p1);
-			$db->query();
+			$db->execute();
 
 			$quRepl_p2 = 'INSERT INTO ' . $db->quoteName('#__finder_terms') .
 						' (' . $db->quoteName('term') .
@@ -621,7 +621,7 @@ class FinderIndexer
 						' GROUP BY ta.term';
 
 			$db->setQuery($quRepl_p2);
-			$db->query();
+			$db->execute();
 
 			// Check for a database error.
 			if ($db->getErrorNum())
@@ -646,7 +646,7 @@ class FinderIndexer
 			' WHERE ta.term_id = 0' .
 			' GROUP BY ta.term'
 		);
-		$db->query();
+		$db->execute();
 
 		// Check for a database error.
 		if ($db->getErrorNum())
@@ -667,7 +667,7 @@ class FinderIndexer
 		$query->set('ta.term_id = t.term_id');
 		$query->where('ta.term_id = 0');
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 
 		// Check for a database error.
 		if ($db->getErrorNum())
@@ -689,7 +689,7 @@ class FinderIndexer
 		$query->join('INNER', $db->quoteName('#__finder_tokens_aggregate') . ' AS ta ON ta.term_id = t.term_id');
 		$query->set('t.' . $db->quoteName('links') . ' = t.links + 1');
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 
 		// Check for a database error.
 		if ($db->getErrorNum())
@@ -712,7 +712,7 @@ class FinderIndexer
 		$query->update($db->quoteName('#__finder_tokens_aggregate'));
 		$query->set($db->quoteName('map_suffix') . ' = SUBSTR(MD5(SUBSTR(' . $db->quoteName('term') . ', 1, 1)), 1, 1)');
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 
 		// Check for a database error.
 		if ($db->getErrorNum())
@@ -751,7 +751,7 @@ class FinderIndexer
 				' GROUP BY ' . $db->quoteName('term') .
 				' ORDER BY ' . $db->quoteName('term') . ' DESC'
 			);
-			$db->query();
+			$db->execute();
 
 			// Check for a database error.
 			if ($db->getErrorNum())
@@ -770,7 +770,7 @@ class FinderIndexer
 		$query->set($db->quoteName('md5sum') . ' = ' . $db->quote($curSig));
 		$query->where($db->quoteName('link_id') . ' = ' . $db->quote($linkId));
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 
 		// Check for a database error.
 		if ($db->getErrorNum())
@@ -838,7 +838,7 @@ class FinderIndexer
 			$query->set($db->quoteName('t'). '.' . $db->quoteName('links') . ' ='.  $db->quoteName('t') .'.' . $db->quoteName('links') . ' - 1');
 			$query->where($db->quoteName('m') . '.' . $db->quoteName('link_id') . ' = ' . $db->quote((int) $linkId));
 			$db->setQuery($query);
-			$db->query();
+			$db->execute();
 
 			// Check for a database error.
 			if ($db->getErrorNum())
@@ -853,7 +853,7 @@ class FinderIndexer
 			$query->from($db->quoteName('#__finder_links_terms' . dechex($i)));
 			$query->where($db->quoteName('link_id') . ' = ' . (int) $linkId);
 			$db->setQuery($query);
-			$db->query();
+			$db->execute();
 
 			// Check for a database error.
 			if ($db->getErrorNum())
@@ -869,7 +869,7 @@ class FinderIndexer
 		$query->from($db->quoteName('#__finder_terms'));
 		$query->where($db->quoteName('links') . ' <= 0');
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 
 		// Check for a database error.
 		if ($db->getErrorNum())
@@ -884,7 +884,7 @@ class FinderIndexer
 		$query->from($db->quoteName('#__finder_links'));
 		$query->where($db->quoteName('link_id') . ' = ' . $db->quote((int) $linkId));
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 
 		// Check for a database error.
 		if ($db->getErrorNum())
@@ -925,7 +925,7 @@ class FinderIndexer
 		$query->from($db->quoteName('#__finder_terms'));
 		$query->where($db->quoteName('links') . ' <= 0');
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 
 		// Check for a database error.
 		if ($db->getErrorNum())
@@ -940,7 +940,7 @@ class FinderIndexer
 		if (strpos($db->name, 'mysql') === 0)
 		{
 			$db->setQuery('OPTIMIZE TABLE ' . $db->quoteName('#__finder_links'));
-			$db->query();
+			$db->execute();
 
 			// Check for a database error.
 			if ($db->getErrorNum())
@@ -958,7 +958,7 @@ class FinderIndexer
 			{
 				// Optimize the terms mapping table.
 				$db->setQuery('OPTIMIZE TABLE ' . $db->quoteName('#__finder_links_terms' . dechex($i)));
-				$db->query();
+				$db->execute();
 
 				// Check for a database error.
 				if ($db->getErrorNum())
@@ -975,7 +975,7 @@ class FinderIndexer
 		if (strpos($db->name, 'mysql') === 0)
 		{
 			$db->setQuery('OPTIMIZE TABLE ' . $db->quoteName('#__finder_links_terms'));
-			$db->query();
+			$db->execute();
 
 			// Check for a database error.
 			if ($db->getErrorNum())
@@ -994,7 +994,7 @@ class FinderIndexer
 		if (strpos($db->name, 'mysql') === 0)
 		{
 			$db->setQuery('OPTIMIZE TABLE ' . $db->quoteName('#__finder_taxonomy_map'));
-			$db->query();
+			$db->execute();
 
 			// Check for a database error.
 			if ($db->getErrorNum())
@@ -1235,7 +1235,7 @@ class FinderIndexer
 					)
 		);
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 
 		// Check for a database error.
 		if ($db->getErrorNum())
@@ -1277,7 +1277,7 @@ class FinderIndexer
 		{
 			// Set the tokens table to Memory.
 			$db->setQuery('ALTER TABLE ' . $db->quoteName('#__finder_tokens') . ' ENGINE = MEMORY');
-			$db->query();
+			$db->execute();
 
 			// Check for a database error.
 			if ($db->getErrorNum())
@@ -1288,7 +1288,7 @@ class FinderIndexer
 
 			// Set the tokens aggregate table to Memory.
 			$db->setQuery('ALTER TABLE ' . $db->quoteName('#__finder_tokens_aggregate') . ' ENGINE = MEMORY');
-			$db->query();
+			$db->execute();
 
 			// Check for a database error.
 			if ($db->getErrorNum())
@@ -1305,7 +1305,7 @@ class FinderIndexer
 		{
 			// Set the tokens table to MyISAM.
 			$db->setQuery('ALTER TABLE ' . $db->quoteName('#__finder_tokens') . ' ENGINE = MYISAM');
-			$db->query();
+			$db->execute();
 
 			// Check for a database error.
 			if ($db->getErrorNum())
@@ -1316,7 +1316,7 @@ class FinderIndexer
 
 			// Set the tokens aggregate table to MyISAM.
 			$db->setQuery('ALTER TABLE ' . $db->quoteName('#__finder_tokens_aggregate') . ' ENGINE = MYISAM');
-			$db->query();
+			$db->execute();
 
 			// Check for a database error.
 			if ($db->getErrorNum())

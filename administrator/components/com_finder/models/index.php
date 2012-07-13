@@ -228,7 +228,7 @@ class FinderModelIndex extends JModelList
 		$query->where($db->quoteName('folder') . ' IN(' .  $db->quote('system') . ',' . $db->quote('content') . ')');
 		$query->where($db->quoteName('element') . ' = ' .  $db->quote('finder'));
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 		$plugins = $db->loadObjectList('name');
 
 		return $plugins;
@@ -336,7 +336,7 @@ class FinderModelIndex extends JModelList
 		$query->from($db->quoteName('#__finder_taxonomy'));
 		$query->where($db->quoteName('id') . ' > 1');
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 
 		// Check for a database error.
 		if ($db->getErrorNum())

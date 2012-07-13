@@ -37,7 +37,7 @@ class LanguagesModelStrings extends JModelLegacy
 		try
 		{
 			$this->_db->setQuery('TRUNCATE TABLE '.$this->_db->qn('#__overrider'));
-			$this->_db->query();
+			$this->_db->execute();
 		}
 		catch (RuntimeException $e)
 		{
@@ -91,7 +91,7 @@ class LanguagesModelStrings extends JModelLegacy
 				try
 				{
 					$this->_db->setQuery($query);
-					if (!$this->_db->query())
+					if (!$this->_db->execute())
 					{
 						return new Exception($this->_db->getErrorMsg());
 					}

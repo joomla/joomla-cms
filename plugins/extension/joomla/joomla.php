@@ -71,7 +71,7 @@ class plgExtensionJoomla extends JPlugin
 			$query->columns(array($dbo->quoteName('name'), $dbo->quoteName('type'), $dbo->quoteName('location'), $dbo->quoteName('enabled')));
 			$query->values($dbo->quote($name) . ', ' . $dbo->quote($type) . ', ' . $dbo->quote($location) . ', ' . (int) $enabled);
 			$dbo->setQuery($query);
-			if ($dbo->query())
+			if ($dbo->execute())
 			{
 				// link up this extension to the update site
 				$update_site_id = $dbo->insertid();
@@ -95,7 +95,7 @@ class plgExtensionJoomla extends JPlugin
 				$query->columns(array($dbo->quoteName('update_site_id'), $dbo->quoteName('extension_id')));
 				$query->values($update_site_id . ', ' . $this->eid);
 				$dbo->setQuery($query);
-				$dbo->query();
+				$dbo->execute();
 			}
 		}
 	}
@@ -136,7 +136,7 @@ class plgExtensionJoomla extends JPlugin
 			$query = $db->getQuery(true);
 			$query->delete()->from('#__update_sites_extensions')->where('extension_id = '. $eid);
 			$db->setQuery($query);
-			$db->Query();
+			$db->execute();
 
 			// delete any unused update sites
 			$query->clear();
@@ -168,12 +168,12 @@ class plgExtensionJoomla extends JPlugin
 					$query->clear();
 					$query->delete()->from('#__updates')->where('update_site_id IN ('. implode(',', $update_sites_pending_delete) .')');
 					$db->setQuery($query);
-					$db->query();
+					$db->execute();
 				}
 
 				// note: this might wipe out the entire table if there are no extensions linked
 				$db->setQuery($updatesite_delete);
-				$db->query();
+				$db->execute();
 
 			}
 
@@ -181,7 +181,7 @@ class plgExtensionJoomla extends JPlugin
 			$query->clear();
 			$query->delete()->from('#__updates')->where('extension_id = '. $eid);
 			$db->setQuery($query);
-			$db->query();
+			$db->execute();
 		}
 	}
 

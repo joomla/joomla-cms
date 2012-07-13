@@ -105,7 +105,7 @@ class MessagesTableMessage extends JTable
 			' SET '.$this->_db->quoteName('state').' = '.(int) $state .
 			' WHERE ('.$where.')'
 		);
-		$this->_db->query();
+		$this->_db->execute();
 
 		// Check for a database error.
 		if ($this->_db->getErrorNum()) {

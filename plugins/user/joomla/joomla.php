@@ -41,7 +41,7 @@ class plgUserJoomla extends JPlugin
 			'DELETE FROM '.$db->quoteName('#__session') .
 			' WHERE '.$db->quoteName('userid').' = '.(int) $user['id']
 		);
-		$db->Query();
+		$db->execute();
 
 		return true;
 	}
@@ -175,7 +175,7 @@ class plgUserJoomla extends JPlugin
 			'	'.$db->quoteName('userid').' = '.(int) $instance->get('id') .
 			' WHERE '.$db->quoteName('session_id').' = '.$db->quote($session->getId())
 		);
-		$db->query();
+		$db->execute();
 
 		// Hit the user last visit field
 		$instance->setLastVisit();
@@ -219,7 +219,7 @@ class plgUserJoomla extends JPlugin
 			' WHERE '.$db->quoteName('userid').' = '.(int) $user['id'] .
 			' AND '.$db->quoteName('client_id').' = '.(int) $options['clientid']
 		);
-		$db->query();
+		$db->execute();
 
 		return true;
 	}

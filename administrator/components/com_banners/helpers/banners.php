@@ -159,7 +159,7 @@ class BannersHelper
 			$query->set($db->quoteName('clicks').' = '.$db->quote(0));
 			$query->where($db->quoteName('id').' = '.$db->quote($row->id));
 			$db->setQuery((string)$query);
-			$db->query();
+			$db->execute();
 
 			// Check for a database error.
 			if ($db->getErrorNum()) {

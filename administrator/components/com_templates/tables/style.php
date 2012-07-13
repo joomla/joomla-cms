@@ -83,7 +83,7 @@ class TemplatesTableStyle extends JTable
 			$query->where('client_id='.(int)$this->client_id);
 			$query->where('home='.$this->_db->quote($this->home));
 			$this->_db->setQuery($query);
-			$this->_db->query();
+			$this->_db->execute();
 		}
 		return parent::store($updateNulls);
 	}
