@@ -310,7 +310,7 @@ class JUpdate extends JObject
 		xml_set_element_handler($this->xmlParser, '_startElement', '_endElement');
 		xml_set_character_data_handler($this->xmlParser, '_characterData');
 
-		if (!xml_parse($this->xmlParser, $response->data))
+		if (!xml_parse($this->xmlParser, $response->body))
 		{
 			die(
 				sprintf(
