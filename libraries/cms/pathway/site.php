@@ -1,9 +1,10 @@
 <?php
 /**
- * @package    Joomla.Site
+ * @package     Joomla.Libraries
+ * @subpackage  Pathway
  *
- * @copyright  Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -11,8 +12,8 @@ defined('_JEXEC') or die;
 /**
  * Class to manage the site application pathway.
  *
- * @package     Joomla.Site
- * @subpackage  Application
+ * @package     Joomla.Libraries
+ * @subpackage  Pathway
  * @since       1.5
  */
 class JPathwaySite extends JPathway
@@ -22,7 +23,6 @@ class JPathwaySite extends JPathway
 	 *
 	 * @param	array
 	 *
-	 * @return	JPathwaySite
 	 * @since	1.5
 	 */
 	public function __construct($options = array())
