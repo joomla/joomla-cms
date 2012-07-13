@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 $app   = JFactory::getApplication();
-$input = app->input;
+$input = $app->input;
 
 $params = JComponentHelper::getParams('com_media');
 // Make sure the user is authorized to view this page
