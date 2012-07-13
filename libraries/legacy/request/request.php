@@ -48,7 +48,7 @@ class JRequest
 	 */
 	public static function getURI()
 	{
-		$uri = JFactory::getURI();
+		$uri = JURI::getInstance();
 		return $uri->toString(array('path', 'query'));
 	}
 

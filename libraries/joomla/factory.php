@@ -454,8 +454,6 @@ abstract class JFactory
 	{
 		JLog::add(__METHOD__ . ' is deprecated. Use JURI directly.', JLog::WARNING, 'deprecated');
 
-		jimport('joomla.environment.uri');
-
 		return JURI::getInstance($uri);
 	}
 

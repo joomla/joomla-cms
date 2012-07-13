@@ -1,13 +1,11 @@
 <?php
 /**
  * @package     Joomla.UnitTest
- * @subpackage  Environment
+ * @subpackage  Uri
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-
-require_once JPATH_PLATFORM.'/joomla/environment/uri.php';
 
 /**
  * Test class for JURI.
@@ -60,6 +58,7 @@ class JURITest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   11.1
+	 * @covers  JURI::__toString
 	 */
 	public function test__toString()
 	{
@@ -77,6 +76,7 @@ class JURITest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   11.1
+	 * @covers  JURI::getInstance
 	 */
 	public function testGetInstance()
 	{
@@ -107,6 +107,7 @@ class JURITest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   11.1
+	 * @covers  JURI::base
 	 */
 	public function testBase()
 	{
@@ -120,6 +121,7 @@ class JURITest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   11.1
+	 * @covers  JURI::root
 	 */
 	public function testRoot()
 	{
@@ -135,6 +137,7 @@ class JURITest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   11.1
+	 * @covers  JURI::current
 	 */
 	public function testCurrent()
 	{
@@ -150,6 +153,7 @@ class JURITest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   11.1
+	 * @covers  JURI::parse
 	 */
 	public function testParse()
 	{
@@ -177,6 +181,7 @@ class JURITest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   11.1
+	 * @covers  JURI::toString
 	 */
 	public function testToString()
 	{
@@ -209,6 +214,7 @@ class JURITest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   11.1
+	 * @covers  JURI::setVar
 	 */
 	public function testSetVar()
 	{
@@ -226,6 +232,7 @@ class JURITest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   11.1
+	 * @covers  JURI::hasVar
 	 */
 	public function testHasVar()
 	{
@@ -248,6 +255,7 @@ class JURITest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   11.1
+	 * @covers  JURI::getVar
 	 */
 	public function testGetVar()
 	{
@@ -275,6 +283,7 @@ class JURITest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   11.1
+	 * @covers  JURI::delVar
 	 */
 	public function testDelVar()
 	{
@@ -299,6 +308,7 @@ class JURITest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   11.1
+	 * @covers  JURI::setQuery
 	 */
 	public function testSetQuery()
 	{
@@ -308,16 +318,16 @@ class JURITest extends PHPUnit_Framework_TestCase
 			$this->object->getQuery(),
 			$this->equalTo('somevar=somevalue')
 		);
-		
+
 		$this->object->setQuery('somevar=somevalue&amp;test=true');
-		
+
 		$this->assertThat(
 			$this->object->getQuery(),
 			$this->equalTo('somevar=somevalue&test=true')
 		);
-		
+
 		$this->object->setQuery(array('somevar' => 'somevalue', 'test' => 'true'));
-		
+
 		$this->assertThat(
 			$this->object->getQuery(),
 			$this->equalTo('somevar=somevalue&test=true')
@@ -330,6 +340,7 @@ class JURITest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   11.1
+	 * @covers  JURI::getQuery
 	 */
 	public function testGetQuery()
 	{
@@ -339,7 +350,7 @@ class JURITest extends PHPUnit_Framework_TestCase
 			$this->object->getQuery(),
 			$this->equalTo('var=value')
 		);
-		
+
 		$this->assertThat(
 			$this->object->getQuery(true),
 			$this->equalTo(array('var' => 'value'))
@@ -352,6 +363,7 @@ class JURITest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   11.1
+	 * @covers  JURI::buildQuery
 	 */
 	public function testBuildQuery()
 	{
@@ -375,6 +387,7 @@ class JURITest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   11.1
+	 * @covers  JURI::getScheme
 	 */
 	public function testGetScheme()
 	{
@@ -392,6 +405,7 @@ class JURITest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   11.1
+	 * @covers  JURI::setScheme
 	 */
 	public function testSetScheme()
 	{
@@ -409,6 +423,7 @@ class JURITest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   11.1
+	 * @covers  JURI::getUser
 	 */
 	public function testGetUser()
 	{
@@ -426,6 +441,7 @@ class JURITest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   11.1
+	 * @covers  JURI::setUser
 	 */
 	public function testSetUser()
 	{
@@ -443,6 +459,7 @@ class JURITest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   11.1
+	 * @covers  JURI::getPass
 	 */
 	public function testGetPass()
 	{
@@ -460,6 +477,7 @@ class JURITest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   11.1
+	 * @covers  JURI::setPass
 	 */
 	public function testSetPass()
 	{
@@ -477,6 +495,7 @@ class JURITest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   11.1
+	 * @covers  JURI::getHost
 	 */
 	public function testGetHost()
 	{
@@ -494,6 +513,7 @@ class JURITest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   11.1
+	 * @covers  JURI::setHost
 	 */
 	public function testSetHost()
 	{
@@ -511,6 +531,7 @@ class JURITest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   11.1
+	 * @covers  JURI::getPort
 	 */
 	public function testGetPort()
 	{
@@ -528,6 +549,7 @@ class JURITest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   11.1
+	 * @covers  JURI::setPort
 	 */
 	public function testSetPort()
 	{
@@ -545,6 +567,7 @@ class JURITest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   11.1
+	 * @covers  JURI::getPath
 	 */
 	public function testGetPath()
 	{
@@ -562,6 +585,7 @@ class JURITest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   11.1
+	 * @covers  JURI::setPath
 	 */
 	public function testSetPath()
 	{
@@ -579,6 +603,7 @@ class JURITest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   11.1
+	 * @covers  JURI::getFragment
 	 */
 	public function testGetFragment()
 	{
@@ -596,6 +621,7 @@ class JURITest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   11.1
+	 * @covers  JURI::setFragment
 	 */
 	public function testSetFragment()
 	{
@@ -613,6 +639,7 @@ class JURITest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   11.1
+	 * @covers  JURI::isSSL
 	 */
 	public function testIsSSL()
 	{
@@ -633,6 +660,7 @@ class JURITest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * @todo Implement testIsInternal().
+	 * @covers  JURI::isInternal
 	 */
 	public function testIsInternal()
 	{

@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.environment.uri');
-
 /**
  * OpenSearch class, provides an easy interface to display an OpenSearch document
  *
@@ -70,7 +68,7 @@ class JDocumentOpensearch extends JDocument
 		$update = new JOpenSearchUrl;
 		$update->type = 'application/opensearchdescription+xml';
 		$update->rel = 'self';
-		$update->template = JRoute::_(JFactory::getURI());
+		$update->template = JRoute::_(JURI::getInstance());
 		$this->addUrl($update);
 
 		// Add the favicon as the default image
