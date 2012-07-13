@@ -255,7 +255,7 @@ class InstallationModelSetup extends JModelLegacy
 
 		// Check for database support.
 		// We are satisfied if there is at least one database driver available.
-		$available = JDatabase::getConnectors();
+		$available = JDatabaseDriver::getConnectors();
 		$option = new stdClass;
 		$option->label  = JText::_('INSTL_DATABASE_SUPPORT');
 		$option->label .= '<br />(' . implode(', ', $available) . ')';

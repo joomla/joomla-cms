@@ -18,7 +18,7 @@ defined('_JEXEC') or die;
 class InstallationHelperDatabase
 {
 	/**
-	 * Method to get a JDatabase object.
+	 * Method to get a JDatabaseDriver object.
 	 *
 	 * @param	string	$driver		The database driver to use.
 	 * @param	string	$host		The hostname to connect on.
@@ -28,7 +28,7 @@ class InstallationHelperDatabase
 	 * @param	string	$prefix		The table prefix to use.
 	 * @param	boolean $select		True if the database should be selected.
 	 *
-	 * @return	JDatabase
+	 * @return	JDatabaseDriver
 	 * @since	1.0
 	 */
 	public static function getDBO($driver, $host, $user, $password, $database, $prefix, $select = true)
@@ -48,7 +48,7 @@ class InstallationHelperDatabase
 			);
 
 			// Get a database object.
-			$db = JDatabase::getInstance($options);
+			$db = JDatabaseDriver::getInstance($options);
 		}
 
 		return $db;

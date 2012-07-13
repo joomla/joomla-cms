@@ -415,7 +415,7 @@ class InstallationModelDatabase extends JModelLegacy
 	/**
 	 * method to update the user id of the sample data content to the new rand user id
 	 *
-	 * @param   JDatabase  $db  Database connector object $db*
+	 * @param   JDatabaseDriver  $db  Database connector object $db*
 	 *
 	 * @return  void
 	 *
@@ -450,9 +450,9 @@ class InstallationModelDatabase extends JModelLegacy
 	/**
 	 * Method to backup all tables in a database with a given prefix.
 	 *
-	 * @param   JDatabase  $db      JDatabase object.
-	 * @param   string     $name    Name of the database to process.
-	 * @param   string     $prefix  Database table prefix.
+	 * @param   JDatabaseDriver  $db      JDatabaseDriver object.
+	 * @param   string           $name    Name of the database to process.
+	 * @param   string           $prefix  Database table prefix.
 	 *
 	 * @return	boolean	True on success.
 	 *
@@ -507,8 +507,8 @@ class InstallationModelDatabase extends JModelLegacy
 	/**
 	 * Method to create a new database.
 	 *
-	 * @param   JDatabase   $db    JDatabase object.
-	 * @param   string      $name  Name of the database to create.
+	 * @param   JDatabaseDriver  $db    JDatabaseDriver object.
+	 * @param   string           $name  Name of the database to create.
 	 *
 	 * @return	boolean	True on success.
 	 *
@@ -538,9 +538,9 @@ class InstallationModelDatabase extends JModelLegacy
 	/**
 	 * Method to delete all tables in a database with a given prefix.
 	 *
-	 * @param   JDatabase  $db      JDatabase object.
-	 * @param   string     $name    Name of the database to process.
-	 * @param   string     $prefix  Database table prefix.
+	 * @param   JDatabaseDriver  $db      JDatabaseDriver object.
+	 * @param   string           $name    Name of the database to process.
+	 * @param   string           $prefix  Database table prefix.
 	 *
 	 * @return	boolean	True on success.
 	 *
@@ -580,8 +580,8 @@ class InstallationModelDatabase extends JModelLegacy
 	/**
 	 * Method to import a database schema from a file.
 	 *
-	 * @param   JDatabase  $db      JDatabase object.
-	 * @param   string     $schema  Path to the schema file.
+	 * @param   JDatabaseDriver  $db      JDatabase object.
+	 * @param   string           $schema  Path to the schema file.
 	 *
 	 * @return	boolean	True on success.
 	 *
@@ -630,8 +630,8 @@ class InstallationModelDatabase extends JModelLegacy
 	/**
 	 * Method to set the database character set to UTF-8.
 	 *
-	 * @param   JDatabase  $db    JDatabase object.
-	 * @param   string     $name  Name of the database to process.
+	 * @param   JDatabaseDriver  $db    JDatabase object.
+	 * @param   string           $name  Name of the database to process.
 	 *
 	 * @return	boolean	True on success.
 	 *

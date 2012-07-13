@@ -18,7 +18,7 @@ class NewsfeedsTableNewsfeed extends JTable
 	/**
 	 * Constructor
 	 *
-	 * @param JDatabase A database connector object
+	 * @param JDatabaseDriver A database connector object
 	 */
 	public function __construct(&$db)
 	{

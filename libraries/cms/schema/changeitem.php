@@ -60,9 +60,9 @@ abstract class JSchemaChangeitem extends JObject
 	public $checkQueryExpected = 1;
 
 	/**
-	* JDatabase object
+	* JDatabaseDriver object
 	*
-	* @var    string
+	* @var    JDatabaseDriver
 	*/
 	public $db = null;
 
@@ -106,10 +106,10 @@ abstract class JSchemaChangeitem extends JObject
 	/**
 	 * Constructor: builds check query and message from $updateQuery
 	 *
-	 * @param   JDatabase  $db
-	 * @param   string     $file   full path name of the sql file
-	 * @param   string     $query   text of the sql query (one line of the file)
-	 * @param   string     $checkQuery
+	 * @param   JDatabaseDriver  $db
+	 * @param   string           $file   full path name of the sql file
+	 * @param   string           $query   text of the sql query (one line of the file)
+	 * @param   string           $checkQuery
 	 *
 	 * @since   2.5
 	 */
@@ -125,9 +125,9 @@ abstract class JSchemaChangeitem extends JObject
 	 *
 	 * Returns an instance of the correct schemachangeitem for the $db
 	 *
-	 * @param   JDatabase $db
-	 * @param   string    $file   full path name of the sql file
-	 * @param   string    $query  text of the sql query (one line of the file)
+	 * @param   JDatabaseDriver $db
+	 * @param   string          $file   full path name of the sql file
+	 * @param   string          $query  text of the sql query (one line of the file)
 	 *
 	 * @return  JSchemaChangeItem for the $db driver
 	 *

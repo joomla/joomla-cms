@@ -21,7 +21,7 @@ class UsersTableNote extends JTable
 	/**
 	 * Constructor
 	 *
-	 * @param  JDatabase  &$db  Database object
+	 * @param  JDatabaseDriver  &$db  Database object
 	 *
 	 * @since  2.5
 	 */
