@@ -296,7 +296,7 @@ class JInstallation extends JApplication
 	 */
 	public function getLocalise()
 	{
-		$xml = JFactory::getXML(JPATH_SITE . '/installation/localise.xml');
+		$xml = simplexml_load_file(JPATH_SITE . '/installation/localise.xml');
 
 		if (!$xml)
 		{

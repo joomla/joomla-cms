@@ -50,7 +50,7 @@ abstract class JHtmlUsers
 			$pathToXml = JPATH_ADMINISTRATOR.'/help/helpsites.xml';
 
 			$text = $value;
-			if (!empty($pathToXml) && $xml = JFactory::getXML($pathToXml))
+			if (!empty($pathToXml) && $xml = simplexml_load_file($pathToXml))
 			{
 				foreach ($xml->sites->site as $site)
 				{

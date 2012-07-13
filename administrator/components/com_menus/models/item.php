@@ -996,7 +996,7 @@ class MenusModelItem extends JModelAdmin
 		if ($assoc) {
 			$languages = JLanguageHelper::getLanguages('lang_code');
 
-			$addform = new JXMLElement('<form />');
+			$addform = new SimpleXMLElement('<form />');
 			$fields = $addform->addChild('fields');
 			$fields->addAttribute('name', 'associations');
 			$fieldset = $fields->addChild('fieldset');
