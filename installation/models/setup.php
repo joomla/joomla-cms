@@ -239,6 +239,20 @@ class InstallationModelSetup extends JModelLegacy
 		$option->notice = null;
 		$options[] = $option;
 
+		// Check for magic quotes gpc.
+		$option = new stdClass;
+		$option->label = JText::_('INSTL_MAGIC_QUOTES_GPC');
+		$option->state = (ini_get('magic_quotes_gpc') == false);
+		$option->notice = null;
+		$options[] = $option;
+
+		// Check for register globals.
+		$option = new stdClass;
+		$option->label = JText::_('INSTL_REGISTER_GLOBALS');
+		$option->state = (ini_get('register_globals') == false);
+		$option->notice = null;
+		$options[] = $option;
+
 		// Check for zlib support.
 		$option = new stdClass;
 		$option->label  = JText::_('INSTL_ZLIB_COMPRESSION_SUPPORT');
@@ -365,20 +379,6 @@ class InstallationModelSetup extends JModelLegacy
 		$setting = new stdClass;
 		$setting->label = JText::_('INSTL_MAGIC_QUOTES_RUNTIME');
 		$setting->state = (bool) ini_get('magic_quotes_runtime');
-		$setting->recommended = false;
-		$settings[] = $setting;
-
-		// Check for magic quotes gpc.
-		$setting = new stdClass;
-		$setting->label = JText::_('INSTL_MAGIC_QUOTES_GPC');
-		$setting->state = (bool) ini_get('magic_quotes_gpc');
-		$setting->recommended = false;
-		$settings[] = $setting;
-
-		// Check for register globals.
-		$setting = new stdClass;
-		$setting->label = JText::_('INSTL_REGISTER_GLOBALS');
-		$setting->state = (bool) ini_get('register_globals');
 		$setting->recommended = false;
 		$settings[] = $setting;
 
