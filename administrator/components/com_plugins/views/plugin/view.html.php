@@ -50,10 +50,10 @@ class PluginsViewPlugin extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		JRequest::setVar('hidemainmenu', true);
+		JFactory::getApplication()->input->set('hidemainmenu', true);
 
-		$user		= JFactory::getUser();
-		$canDo		= PluginsHelper::getActions();
+		$user  = JFactory::getUser();
+		$canDo = PluginsHelper::getActions();
 
 		JToolBarHelper::title(JText::sprintf('COM_PLUGINS_MANAGER_PLUGIN', JText::_($this->item->name)), 'plugin');
 

@@ -36,10 +36,10 @@ class ContentViewArticle extends JViewLegacy
 		$userId		= $user->get('id');
 		$dispatcher	= JEventDispatcher::getInstance();
 
-		$this->item		= $this->get('Item');
-		$this->print	= JRequest::getBool('print');
-		$this->state	= $this->get('State');
-		$this->user		= $user;
+		$this->item  = $this->get('Item');
+		$this->print = $app->input->getBool('print');
+		$this->state = $this->get('State');
+		$this->user  = $user;
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {

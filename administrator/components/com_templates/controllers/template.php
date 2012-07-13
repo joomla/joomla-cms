@@ -33,10 +33,10 @@ class TemplatesControllerTemplate extends JControllerLegacy
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$app = JFactory::getApplication();
-		JRequest::setVar('installtype', 'folder');
-		$newName = JRequest::getCmd('new_name');
+		$this->input->set('installtype', 'folder');
+		$newName = $this->input->get('new_name');
 		$newNameRaw = JRequest::getVar('new_name', null, '', 'string');
-		$templateID = JRequest::getInt('id', 0);
+		$templateID = $this->input->getInt('id', 0);
 		$this->setRedirect('index.php?option=com_templates&view=template&id=' . $templateID);
 		$model = $this->getModel('Template', 'TemplatesModel');
 		$model->setState('new_name', $newName);
@@ -85,7 +85,7 @@ class TemplatesControllerTemplate extends JControllerLegacy
 			}
 
 			// Call installation model
-			JRequest::setVar('install_directory', JFactory::getConfig()->get('tmp_path') . '/' . $model->getState('tmp_prefix'));
+			$this->input->set('install_directory', JFactory::getConfig()->get('tmp_path') . '/' . $model->getState('tmp_prefix'));
 			$installModel = $this->getModel('Install', 'InstallerModel');
 			JFactory::getLanguage()->load('com_installer');
 			if (!$installModel->install())

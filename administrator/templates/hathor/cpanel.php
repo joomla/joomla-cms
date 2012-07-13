@@ -90,13 +90,13 @@ $file = 'language/'.$lang->getTag().'/'.$lang->getTag().'.css';
 		<jdoc:include type="modules" name="status"/>
 			<?php
 			//Display an harcoded logout
-			$task = JRequest::getCmd('task');
-			if ($task == 'edit' || $task == 'editA' || JRequest::getInt('hidemainmenu')) {
+			$task = $app->input->get('task');
+			if ($task == 'edit' || $task == 'editA' || $app->input->getInt('hidemainmenu')) {
 				$logoutLink = '';
 			} else {
 				$logoutLink = JRoute::_('index.php?option=com_login&task=logout&'. JSession::getFormToken() .'=1');
 			}
-			$hideLinks	= JRequest::getBool('hidemainmenu');
+			$hideLinks = $app->input->getBool('hidemainmenu');
 			$output = array();
 			// Print the Preview link to Main site.
 			$output[] = '<span class="viewsite"><a href="'.JURI::root().'" target="_blank">'.JText::_('JGLOBAL_VIEW_SITE').'</a></span>';

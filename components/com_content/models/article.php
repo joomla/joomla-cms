@@ -37,10 +37,10 @@ class ContentModelArticle extends JModelItem
 		$app = JFactory::getApplication('site');
 
 		// Load state from the request.
-		$pk = JRequest::getInt('id');
+		$pk = $app->input->getInt('id');
 		$this->setState('article.id', $pk);
 
-		$offset = JRequest::getUInt('limitstart');
+		$offset = $app->input->getUInt('limitstart');
 		$this->setState('list.offset', $offset);
 
 		// Load the parameters.
@@ -235,19 +235,19 @@ class ContentModelArticle extends JModelItem
 	 */
 	public function hit($pk = 0)
 	{
-			$hitcount = JRequest::getInt('hitcount', 1);
+		$input    = JFactory::getApplication()->input;
+		$hitcount = $input->getInt('hitcount', 1);
 
-			if ($hitcount)
-			{
-				// Initialise variables.
-				$pk = (!empty($pk)) ? $pk : (int) $this->getState('article.id');
-				$db = $this->getDbo();
+		if ($hitcount)
+		{
+			$pk = (!empty($pk)) ? $pk : (int) $this->getState('article.id');
+			$db = $this->getDbo();
 
-				$db->setQuery(
-						'UPDATE #__content' .
-						' SET hits = hits + 1' .
-						' WHERE id = '.(int) $pk
-				);
+			$db->setQuery(
+					'UPDATE #__content' .
+					' SET hits = hits + 1' .
+					' WHERE id = '.(int) $pk
+			);
 
 			try
 			{

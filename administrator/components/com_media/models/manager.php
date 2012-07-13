@@ -22,11 +22,14 @@ class MediaModelManager extends JModelLegacy
 	{
 		static $set;
 
-		if (!$set) {
+		if (!$set)
+		{
+			$input = JFactory::getApplication()->input;
+
 			$folder = JRequest::getVar('folder', '', '', 'path');
 			$this->setState('folder', $folder);
 
-			$fieldid = JRequest::getCmd('fieldid', '');
+			$fieldid = $input->get('fieldid', '');
 			$this->setState('field.id', $fieldid);
 
 			$parent = str_replace("\\", "/", dirname($folder));

@@ -32,11 +32,11 @@ class MenusController extends JControllerLegacy
 		require_once JPATH_COMPONENT.'/helpers/menus.php';
 
 		// Load the submenu.
-		MenusHelper::addSubmenu(JRequest::getCmd('view'));
+		MenusHelper::addSubmenu($this->input->get('view'));
 
-		$view	= JRequest::getCmd('view', 'menus');
-		$layout = JRequest::getCmd('layout', 'default');
-		$id		= JRequest::getInt('id');
+		$view   = $this->input->get('view', 'menus');
+		$layout = $this->input->get('layout', 'default');
+		$id     = $this->input->getInt('id');
 
 		// Check for edit form.
 		if ($view == 'menu' && $layout == 'edit' && !$this->checkEditId('com_menus.edit.menu', $id)) {

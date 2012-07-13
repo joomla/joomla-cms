@@ -51,7 +51,7 @@ class ContentControllerArticle extends JControllerForm
 	{
 		// Initialise variables.
 		$user		= JFactory::getUser();
-		$categoryId	= JArrayHelper::getValue($data, 'catid', JRequest::getInt('catid'), 'int');
+		$categoryId	= JArrayHelper::getValue($data, 'catid', $this->input->getInt('catid'), 'int');
 		$allow		= null;
 
 		if ($categoryId) {
@@ -178,9 +178,9 @@ class ContentControllerArticle extends JControllerForm
 	protected function getRedirectToItemAppend($recordId = null, $urlVar = 'a_id')
 	{
 		// Need to override the parent method completely.
-		$tmpl		= JRequest::getCmd('tmpl');
-		$layout		= JRequest::getCmd('layout', 'edit');
-		$append		= '';
+		$tmpl   = $this->input->get('tmpl');
+		$layout = $this->input->get('layout', 'edit');
+		$append = '';
 
 		// Setup redirect info.
 		if ($tmpl) {
@@ -197,9 +197,9 @@ class ContentControllerArticle extends JControllerForm
 			$append .= '&'.$urlVar.'='.$recordId;
 		}
 
-		$itemId	= JRequest::getInt('Itemid');
+		$itemId	= $this->input->getInt('Itemid');
 		$return	= $this->getReturnPage();
-		$catId = JRequest::getInt('catid', null, 'get');
+		$catId  = $this->input->getInt('catid', null, 'get');
 
 		if ($itemId) {
 			$append .= '&Itemid='.$itemId;
@@ -289,12 +289,12 @@ class ContentControllerArticle extends JControllerForm
 		// Check for request forgeries.
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		$user_rating = JRequest::getInt('user_rating', -1);
+		$user_rating = $this->input->getInt('user_rating', -1);
 
 		if ( $user_rating > -1 ) {
-			$url = JRequest::getString('url', '');
-			$id = JRequest::getInt('id', 0);
-			$viewName = JRequest::getString('view', $this->default_view);
+			$url = $this->input->getString('url', '');
+			$id = $this->input->getInt('id', 0);
+			$viewName = $this->input->getString('view', $this->default_view);
 			$model = $this->getModel($viewName);
 
 			if ($model->storeVote($id, $user_rating)) {

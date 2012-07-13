@@ -43,12 +43,12 @@ class WeblinksModelForm extends WeblinksModelWeblink
 		$app = JFactory::getApplication();
 
 		// Load state from the request.
-		$pk = JRequest::getInt('w_id');
+		$pk = $app->input->getInt('w_id');
 		$this->setState('weblink.id', $pk);
 		// Add compatibility variable for default naming conventions.
 		$this->setState('form.id', $pk);
 
-		$categoryId	= JRequest::getInt('catid');
+		$categoryId	= $app->input->getInt('catid');
 		$this->setState('weblink.catid', $categoryId);
 
 		$return = JRequest::getVar('return', null, 'default', 'base64');
@@ -63,6 +63,6 @@ class WeblinksModelForm extends WeblinksModelWeblink
 		$params	= $app->getParams();
 		$this->setState('params', $params);
 
-		$this->setState('layout', JRequest::getCmd('layout'));
+		$this->setState('layout', $app->input->get('layout'));
 	}
 }

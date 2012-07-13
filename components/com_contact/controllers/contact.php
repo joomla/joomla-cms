@@ -29,7 +29,7 @@ class ContactControllerContact extends JControllerForm
 		$app    = JFactory::getApplication();
 		$model  = $this->getModel('contact');
 		$params = JComponentHelper::getParams('com_contact');
-		$stub   = JRequest::getString('id');
+		$stub   = $this->input->getString('id');
 		$id     = (int) $stub;
 
 		// Get the data from POST

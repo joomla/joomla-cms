@@ -29,7 +29,7 @@ class ContentControllerArticle extends JControllerForm
 
 		// An article edit form can come from the articles or featured view.
 		// Adjust the redirect view on the value of 'return' in the request.
-		if (JRequest::getCmd('return') == 'featured')
+		if ($this->input->get('return') == 'featured')
 		{
 			$this->view_list = 'featured';
 			$this->view_item = 'article&return=featured';
@@ -49,7 +49,7 @@ class ContentControllerArticle extends JControllerForm
 	{
 		// Initialise variables.
 		$user = JFactory::getUser();
-		$categoryId = JArrayHelper::getValue($data, 'catid', JRequest::getInt('filter_category_id'), 'int');
+		$categoryId = JArrayHelper::getValue($data, 'catid', $this->input->getInt('filter_category_id'), 'int');
 		$allow = null;
 
 		if ($categoryId)

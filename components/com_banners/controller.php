@@ -20,9 +20,10 @@ class BannersController extends JControllerLegacy
 {
 	function click()
 	{
-		$id = JRequest::getInt('id', 0);
+		$id = $this->input->getInt('id', 0);
 
-		if ($id) {
+		if ($id)
+		{
 			$model = $this->getModel('Banner', 'BannersModel', array('ignore_request' => true));
 			$model->setState('banner.id', $id);
 			$model->click();

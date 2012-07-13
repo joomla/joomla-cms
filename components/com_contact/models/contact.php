@@ -42,7 +42,7 @@ class ContactModelContact extends JModelForm
 		$app = JFactory::getApplication('site');
 
 		// Load state from the request.
-		$pk = JRequest::getInt('id');
+		$pk = $app->input->getInt('id');
 		$this->setState('contact.id', $pk);
 
 		// Load the parameters.

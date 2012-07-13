@@ -28,10 +28,12 @@ class CategoriesViewCategory extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$this->form		= $this->get('Form');
-		$this->item		= $this->get('Item');
-		$this->state	= $this->get('State');
-		$this->canDo	= CategoriesHelper::getActions($this->state->get('category.component'));
+		$this->form  = $this->get('Form');
+		$this->item  = $this->get('Item');
+		$this->state = $this->get('State');
+		$this->canDo = CategoriesHelper::getActions($this->state->get('category.component'));
+
+		$input = JFactory::getApplication()->input;
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
@@ -40,7 +42,7 @@ class CategoriesViewCategory extends JViewLegacy
 		}
 
 		parent::display($tpl);
-		JRequest::setVar('hidemainmenu', true);
+		$input->set('hidemainmenu', true);
 		$this->addToolbar();
 	}
 
@@ -51,8 +53,8 @@ class CategoriesViewCategory extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		// Initialise variables.
-		$extension	= JRequest::getCmd('extension');
+		$input      = JFactory::getApplication()->input;
+		$extension	= $input->get('extension');
 		$user		= JFactory::getUser();
 		$userId		= $user->get('id');
 

@@ -50,11 +50,11 @@ class UsersViewLevel extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		JRequest::setVar('hidemainmenu', 1);
+		JFactory::getApplication()->input->set('hidemainmenu', true);
 
-		$user		= JFactory::getUser();
+		$user   = JFactory::getUser();
 		$isNew	= ($this->item->id == 0);
-		$canDo		= UsersHelper::getActions();
+		$canDo  = UsersHelper::getActions();
 
 		JToolBarHelper::title(JText::_($isNew ? 'COM_USERS_VIEW_NEW_LEVEL_TITLE' : 'COM_USERS_VIEW_EDIT_LEVEL_TITLE'), 'levels-add');
 

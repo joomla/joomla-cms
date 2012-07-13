@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+10-Aug-2012 Rouven Weßling
+ ^ Reduce use of deprecated JDatabase and JRequest methods.
+
 05-Aug-2012 Mark Dexter
  # [#28904] Typo in recent commit broke single newsfeed
 

@@ -104,7 +104,7 @@ class TemplatesModelTemplate extends JModelLegacy
 		$app = JFactory::getApplication('administrator');
 
 		// Load the User state.
-		$pk = (int) JRequest::getInt('id');
+		$pk = $app->input->getInt('id');
 		$this->setState('extension.id', $pk);
 
 		// Load the parameters.

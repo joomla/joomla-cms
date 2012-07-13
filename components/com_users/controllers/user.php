@@ -47,7 +47,7 @@ class UsersControllerUser extends UsersController
 
 		// Get the log in options.
 		$options = array();
-		$options['remember'] = JRequest::getBool('remember', false);
+		$options['remember'] = $this->input->getBool('remember', false);
 		$options['return'] = $data['return'];
 
 		// Get the log in credentials.

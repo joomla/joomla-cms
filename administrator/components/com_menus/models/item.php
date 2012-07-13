@@ -825,22 +825,24 @@ class MenusModelItem extends JModelAdmin
 		$app = JFactory::getApplication('administrator');
 
 		// Load the User state.
-		$pk = (int) JRequest::getInt('id');
+		$pk = $app->input->getInt('id');
 		$this->setState('item.id', $pk);
 
 		if (!($parentId = $app->getUserState('com_menus.edit.item.parent_id'))) {
-			$parentId = JRequest::getInt('parent_id');
+			$parentId = $app->input->getInt('parent_id');
 		}
 		$this->setState('item.parent_id', $parentId);
 
 		$menuType = $app->getUserState('com_menus.edit.item.menutype');
-		if (JRequest::getCmd('menutype', false)) {
-			$menuType = JRequest::getCmd('menutype', 'mainmenu');
+		if ($app->input->get('menutype', false))
+		{
+			$menuType = $app->input->get('menutype', 'mainmenu');
 		}
 		$this->setState('item.menutype', $menuType);
 
-		if (!($type = $app->getUserState('com_menus.edit.item.type'))){
-			$type = JRequest::getCmd('type');
+		if (!($type = $app->getUserState('com_menus.edit.item.type')))
+		{
+			$type = $app->input->get('type');
 			// Note a new menu item will have no field type.
 			// The field is required so the user has to change it.
 		}

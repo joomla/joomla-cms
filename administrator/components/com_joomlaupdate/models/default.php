@@ -258,10 +258,11 @@ class JoomlaupdateModelDefault extends JModelLegacy
 	{
 		// Get a password
 		$password = JUserHelper::genRandomPassword(32);
-		JFactory::getApplication()->setUserState('com_joomlaupdate.password', $password);
+		$app = JFactory::getApplication();
+		$app->setUserState('com_joomlaupdate.password', $password);
 
 		// Do we have to use FTP?
-		$method = JRequest::getCmd('method', 'direct');
+		$method = $app->get('method', 'direct');
 
 		// Get the absolute path to site's root
 		$siteroot = JPATH_SITE;
@@ -279,8 +280,8 @@ class JoomlaupdateModelDefault extends JModelLegacy
 		$file  = $tempdir . '/' . $basename;
 
 		$filesize = @filesize($file);
-		JFactory::getApplication()->setUserState('com_joomlaupdate.password', $password);
-		JFactory::getApplication()->setUserState('com_joomlaupdate.filesize', $filesize);
+		$app->setUserState('com_joomlaupdate.password', $password);
+		$app->setUserState('com_joomlaupdate.filesize', $filesize);
 
 		$data = "<?php\ndefined('_AKEEBA_RESTORATION') or die('Restricted access');\n";
 		$data .= '$restoration_setup = array('."\n";
@@ -302,11 +303,11 @@ ENDDATA;
 			// Fetch the FTP parameters from the request. Note: The password should be
 			// allowed as raw mode, otherwise something like !@<sdf34>43H% would be
 			// sanitised to !@43H% which is just plain wrong.
-			$ftp_host = JRequest::getVar('ftp_host', '');
-			$ftp_port = JRequest::getVar('ftp_port', '21');
-			$ftp_user = JRequest::getVar('ftp_user', '');
-			$ftp_pass = JRequest::getVar('ftp_pass', '', 'default', 'none', 2);
-			$ftp_root = JRequest::getVar('ftp_root', '');
+			$ftp_host = $app->input->get('ftp_host', '');
+			$ftp_port = $app->input->get('ftp_port', '21');
+			$ftp_user = $app->input->get('ftp_user', '');
+			$ftp_pass = $app->input->get('ftp_pass', '', 'default', 'none', 2);
+			$ftp_root = $app->input->get('ftp_root', '');
 
 			// Is the tempdir really writable?
 			$writable = @is_writeable($tempdir);

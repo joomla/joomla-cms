@@ -91,7 +91,7 @@ class WeblinksModelWeblink extends JModelAdmin
 	public function getForm($data = array(), $loadData = true)
 	{
 		// Initialise variables.
-		$app	= JFactory::getApplication();
+		$app = JFactory::getApplication();
 
 		// Get the form.
 		$form = $this->loadForm('com_weblinks.weblink', 'weblink', array('control' => 'jform', 'load_data' => $loadData));
@@ -142,9 +142,10 @@ class WeblinksModelWeblink extends JModelAdmin
 			$data = $this->getItem();
 
 			// Prime some default values.
-			if ($this->getState('weblink.id') == 0) {
+			if ($this->getState('weblink.id') == 0)
+			{
 				$app = JFactory::getApplication();
-				$data->set('catid', JRequest::getInt('catid', $app->getUserState('com_weblinks.weblinks.filter.category_id')));
+				$data->set('catid', $app->input->get('catid', $app->getUserState('com_weblinks.weblinks.filter.category_id'), 'int'));
 			}
 		}
 

@@ -44,12 +44,12 @@ class ConfigControllerComponent extends JControllerLegacy
 		JClientHelper::setCredentialsFromRequest('ftp');
 
 		// Initialise variables.
-		$app	= JFactory::getApplication();
-		$model	= $this->getModel('Component');
-		$form	= $model->getForm();
-		$data	= JRequest::getVar('jform', array(), 'post', 'array');
-		$id		= JRequest::getInt('id');
-		$option	= JRequest::getCmd('component');
+		$app    = JFactory::getApplication();
+		$model  = $this->getModel('Component');
+		$form   = $model->getForm();
+		$data   = JRequest::getVar('jform', array(), 'post', 'array');
+		$id     = $this->input->getInt('id');
+		$option = $this->input->get('component');
 
 		// Check if the user is authorized to do this.
 		if (!JFactory::getUser()->authorise('core.admin', $option))

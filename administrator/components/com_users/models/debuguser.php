@@ -86,7 +86,9 @@ class UsersModelDebugUser extends JModelList
 		$app = JFactory::getApplication('administrator');
 
 		// Adjust the context to support modal layouts.
-		if ($layout = JRequest::getVar('layout', 'default')) {
+		$layout = $app->input->get('layout', 'default');
+		if ($layout)
+		{
 			$this->context .= '.'.$layout;
 		}
 
@@ -110,7 +112,7 @@ class UsersModelDebugUser extends JModelList
 		$this->setState('filter.component', $component);
 
 		// Load the parameters.
-		$params		= JComponentHelper::getParams('com_users');
+		$params = JComponentHelper::getParams('com_users');
 		$this->setState('params', $params);
 
 		// List state information.

@@ -34,8 +34,8 @@ class MediaControllerFolder extends JControllerLegacy
 		$user	= JFactory::getUser();
 
 		// Get some data from the request
-		$tmpl	= JRequest::getCmd('tmpl');
-		$paths	= JRequest::getVar('rm', array(), '', 'array');
+		$tmpl   = $this->input->get('tmpl');
+		$paths  = JRequest::getVar('rm', array(), '', 'array');
 		$folder = JRequest::getVar('folder', '', '', 'path');
 
 		$redirect = 'index.php?option=com_media&folder=' . $folder;
@@ -138,11 +138,11 @@ class MediaControllerFolder extends JControllerLegacy
 
 		$user = JFactory::getUser();
 
-		$folder			= JRequest::getCmd('foldername', '');
-		$folderCheck	= JRequest::getVar('foldername', null, '', 'string', JREQUEST_ALLOWRAW);
-		$parent			= JRequest::getVar('folderbase', '', '', 'path');
+		$folder      = $this->input->get('foldername', '');
+		$folderCheck = JRequest::getVar('foldername', null, '', 'string', JREQUEST_ALLOWRAW);
+		$parent      = JRequest::getVar('folderbase', '', '', 'path');
 
-		$this->setRedirect('index.php?option=com_media&folder='.$parent.'&tmpl='.JRequest::getCmd('tmpl', 'index'));
+		$this->setRedirect('index.php?option=com_media&folder=' . $parent . '&tmpl=' . $this->input->get('tmpl', 'index'));
 
 		if (strlen($folder) > 0)
 		{
@@ -156,7 +156,7 @@ class MediaControllerFolder extends JControllerLegacy
 			// Set FTP credentials, if given
 			JClientHelper::setCredentialsFromRequest('ftp');
 
-			JRequest::setVar('folder', $parent);
+			$this->input->set('folder', $parent);
 
 			if (($folderCheck !== null) && ($folder !== $folderCheck))
 			{
@@ -187,7 +187,7 @@ class MediaControllerFolder extends JControllerLegacy
 				$dispatcher->trigger('onContentAfterSave', array('com_media.folder', &$object_file, true));
 				$this->setMessage(JText::sprintf('COM_MEDIA_CREATE_COMPLETE', substr($path, strlen(COM_MEDIA_BASE))));
 			}
-			JRequest::setVar('folder', ($parent) ? $parent.'/'.$folder : $folder);
+			$this->input->set('folder', ($parent) ? $parent.'/'.$folder : $folder);
 		}
 	}
 }

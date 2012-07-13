@@ -52,7 +52,7 @@ class LanguagesViewLanguage extends JViewLegacy
 	{
 		require_once JPATH_COMPONENT.'/helpers/languages.php';
 
-		JRequest::setVar('hidemainmenu', 1);
+		JFactory::getApplication()->input->set('hidemainmenu', 1);
 		$isNew = empty($this->item->lang_id);
 		$canDo	= LanguagesHelper::getActions();
 

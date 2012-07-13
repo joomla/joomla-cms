@@ -260,7 +260,7 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 			// Prime some default values.
 			if ($this->getState('newsfeed.id') == 0) {
 				$app = JFactory::getApplication();
-				$data->set('catid', JRequest::getInt('catid', $app->getUserState('com_newsfeeds.newsfeeds.filter.category_id')));
+				$data->set('catid', $app->input->get('catid', $app->getUserState('com_newsfeeds.newsfeeds.filter.category_id'), 'int'));
 			}
 		}
 

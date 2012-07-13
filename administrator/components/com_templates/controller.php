@@ -36,11 +36,11 @@ class TemplatesController extends JControllerLegacy
 	public function display($cachable = false, $urlparams = false)
 	{
 		// Load the submenu.
-		TemplatesHelper::addSubmenu(JRequest::getCmd('view', 'styles'));
+		TemplatesHelper::addSubmenu($this->input->get('view', 'styles'));
 
-		$view		= JRequest::getCmd('view', 'styles');
-		$layout 	= JRequest::getCmd('layout', 'default');
-		$id			= JRequest::getInt('id');
+		$view   = $this->input->get('view', 'styles');
+		$layout = $this->input->get('layout', 'default');
+		$id     = $this->input->getInt('id');
 
 		// Check for edit form.
 		if ($view == 'style' && $layout == 'edit' && !$this->checkEditId('com_templates.edit.style', $id)) {
@@ -60,7 +60,7 @@ class TemplatesController extends JControllerLegacy
 	*/
 	function preview()
 	{
-		JRequest::setVar('view', 'prevuuw');
+		$this->input->set('view', 'prevuuw');
 		parent::display();
 	}
 }

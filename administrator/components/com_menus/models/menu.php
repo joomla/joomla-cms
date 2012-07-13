@@ -86,7 +86,7 @@ class MenusModelMenu extends JModelForm
 		$app = JFactory::getApplication('administrator');
 
 		// Load the User state.
-		$id = (int) JRequest::getInt('id');
+		$id = $app->input->getInt('id');
 		$this->setState('menu.id', $id);
 
 		// Load the parameters.

@@ -32,11 +32,11 @@ class NewsfeedsController extends JControllerLegacy
 		require_once JPATH_COMPONENT.'/helpers/newsfeeds.php';
 
 		// Load the submenu.
-		NewsfeedsHelper::addSubmenu(JRequest::getCmd('view', 'newsfeeds'));
+		NewsfeedsHelper::addSubmenu($this->input->get('view', 'newsfeeds'));
 
-		$view		= JRequest::getCmd('view', 'newsfeeds');
-		$layout 	= JRequest::getCmd('layout', 'default');
-		$id			= JRequest::getInt('id');
+		$view   = $this->input->get('view', 'newsfeeds');
+		$layout = $this->input->get('layout', 'default');
+		$id     = $this->input->getInt('id');
 
 		// Check for edit form.
 		if ($view == 'newsfeed' && $layout == 'edit' && !$this->checkEditId('com_newsfeeds.edit.newsfeed', $id)) {

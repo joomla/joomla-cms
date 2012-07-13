@@ -50,7 +50,8 @@ class ModulesModelModule extends JModelAdmin
 		$app = JFactory::getApplication('administrator');
 
 		// Load the User state.
-		if (!($pk = (int) JRequest::getInt('id')))
+		$pk = $app->input->getInt('id');
+		if (!$pk)
 		{
 			if ($extensionId = (int) $app->getUserState('com_modules.add.module.extension_id'))
 			{
@@ -873,8 +874,8 @@ class ModulesModelModule extends JModelAdmin
 	 */
 	public function save($data)
 	{
-		// Initialise variables;
 		$dispatcher = JEventDispatcher::getInstance();
+		$input      = JFactory::getApplication()->input;
 		$table		= $this->getTable();
 		$pk			= (!empty($data['id'])) ? $data['id'] : (int) $this->getState('module.id');
 		$isNew		= true;
@@ -890,7 +891,7 @@ class ModulesModelModule extends JModelAdmin
 		}
 
 		// Alter the title and published state for Save as Copy
-		if (JRequest::getVar('task') == 'save2copy')
+		if ($input->get('task') == 'save2copy')
 		{
 			$orig_data	= JRequest::getVar('jform', array(), 'post', 'array');
 			$orig_table = clone($this->getTable());

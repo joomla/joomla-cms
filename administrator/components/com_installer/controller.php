@@ -35,9 +35,9 @@ class InstallerController extends JControllerLegacy
 		$document = JFactory::getDocument();
 
 		// Set the default view name and format from the Request.
-		$vName		= JRequest::getCmd('view', 'install');
-		$vFormat	= $document->getType();
-		$lName		= JRequest::getCmd('layout', 'default');
+		$vName   = $this->input->get('view', 'install');
+		$vFormat = $document->getType();
+		$lName   = $this->input->get('layout', 'default');
 
 		// Get and render the view.
 		if ($view = $this->getView($vName, $vFormat)) {

@@ -65,7 +65,8 @@ class ContactModelContacts extends JModelList
 		$app = JFactory::getApplication();
 
 		// Adjust the context to support modal layouts.
-		if ($layout = JRequest::getVar('layout')) {
+		if ($layout = $app->input->get('layout'))
+		{
 			$this->context .= '.'.$layout;
 		}
 

@@ -20,12 +20,12 @@ class WeblinksViewCategory extends JViewLegacy
 {
 	function display($tpl = null)
 	{
-		$app	= JFactory::getApplication();
+		$app      = JFactory::getApplication();
 		$document = JFactory::getDocument();
 
-		$document->link = JRoute::_(WeblinksHelperRoute::getCategoryRoute(JRequest::getVar('id', null, '', 'int')));
+		$document->link = JRoute::_(WeblinksHelperRoute::getCategoryRoute($app->input->getInt('id')));
 
-		JRequest::setVar('limit', $app->getCfg('feed_limit'));
+		$app->input->set('limit', $app->getCfg('feed_limit'));
 		$siteEmail = $app->getCfg('mailfrom');
 		$fromName = $app->getCfg('fromname');
 		$document->editor = $fromName;

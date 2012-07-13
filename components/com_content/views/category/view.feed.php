@@ -20,16 +20,16 @@ class ContentViewCategory extends JViewLegacy
 {
 	function display()
 	{
-		$app		= JFactory::getApplication();
-		$doc		= JFactory::getDocument();
-		$params 	= $app->getParams();
-		$feedEmail	= (@$app->getCfg('feed_email')) ? $app->getCfg('feed_email') : 'author';
-		$siteEmail	= $app->getCfg('mailfrom');
+		$app       = JFactory::getApplication();
+		$doc       = JFactory::getDocument();
+		$params    = $app->getParams();
+		$feedEmail = (@$app->getCfg('feed_email')) ? $app->getCfg('feed_email') : 'author';
+		$siteEmail = $app->getCfg('mailfrom');
 
 		// Get some data from the model
-		JRequest::setVar('limit', $app->getCfg('feed_limit'));
-		$category	= $this->get('Category');
-		$rows		= $this->get('Items');
+		$app->input->set('limit', $app->getCfg('feed_limit'));
+		$category = $this->get('Category');
+		$rows     = $this->get('Items');
 
 		$doc->link = JRoute::_(ContentHelperRoute::getCategoryRoute($category->id));
 

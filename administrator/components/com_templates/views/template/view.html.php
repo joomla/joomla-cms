@@ -50,9 +50,9 @@ class TemplatesViewTemplate extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		JRequest::setVar('hidemainmenu', true);
-		$user		= JFactory::getUser();
-		$canDo		= TemplatesHelper::getActions();
+		JFactory::getApplication()->input->set('hidemainmenu', true);
+		$user  = JFactory::getUser();
+		$canDo = TemplatesHelper::getActions();
 
 		JToolBarHelper::title(JText::_('COM_TEMPLATES_MANAGER_VIEW_TEMPLATE'), 'thememanager');
 

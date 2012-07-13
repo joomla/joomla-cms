@@ -27,12 +27,15 @@ class ConfigModelComponent extends JModelForm
 	 */
 	protected function populateState()
 	{
+		$input = JFactory::getApplication()->input;
+
 		// Set the component (option) we are dealing with.
-		$component = JRequest::getCmd('component');
+		$component = $input->get('component');
 		$this->setState('component.option', $component);
 
 		// Set an alternative path for the configuration file.
-		if ($path = JRequest::getString('path')) {
+		if ($path = $input->getString('path'))
+		{
 			$path = JPath::clean(JPATH_SITE . '/' . $path);
 			JPath::check($path);
 			$this->setState('component.path', $path);

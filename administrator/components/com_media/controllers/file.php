@@ -198,7 +198,7 @@ class MediaControllerFile extends JControllerLegacy
 		JSession::checkToken('request') or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Get some data from the request
-		$tmpl	= JRequest::getCmd('tmpl');
+		$tmpl	= $this->input->get('tmpl');
 		$paths	= JRequest::getVar('rm', array(), '', 'array');
 		$folder = JRequest::getVar('folder', '', '', 'path');
 

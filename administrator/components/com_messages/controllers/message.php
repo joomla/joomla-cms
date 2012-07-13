@@ -40,9 +40,12 @@ class MessagesControllerMessage extends JControllerForm
 	 */
 	public function reply()
 	{
-		if ($replyId = JRequest::getInt('reply_id')) {
-			$this->setRedirect('index.php?option=com_messages&view=message&layout=edit&reply_id='.$replyId);
-		} else {
+		if ($replyId = $this->input->getInt('reply_id'))
+		{
+			$this->setRedirect('index.php?option=com_messages&view=message&layout=edit&reply_id=' . $replyId);
+		}
+		else
+		{
 			$this->setMessage(JText::_('COM_MESSAGES_INVALID_REPLY_ID'));
 			$this->setRedirect('index.php?option=com_messages&view=messages');
 		}

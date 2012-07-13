@@ -25,7 +25,8 @@ class LanguagesControllerInstalled extends JControllerLegacy
 	{
 		// Check for request forgeries
 		JSession::checkToken() or jexit(JText::_('JInvalid_Token'));
-		$cid = JRequest::getCmd('cid', '');
+
+		$cid = $this->input->get('cid', '');
 		$model = $this->getModel('installed');
 		if ($model->publish($cid))
 		{

@@ -251,11 +251,9 @@ class InstallationModelDatabase extends JModelLegacy
 				}
 			}
 			$query = $db->getQuery(true);
-			$query->insert('#__schemas');
+			$query->insert($db->quoteName('#__schemas'));
 			$query->columns(
-				array(
-					$db->quoteName('extension_id'),
-					$db->quoteName('version_id'))
+				array($db->quoteName('extension_id'), $db->quoteName('version_id'))
 			);
 			$query->values('700, ' . $db->quote($version));
 			$db->setQuery($query);

@@ -9,11 +9,11 @@
 
 defined('_JEXEC') or die;
 
-// Initialise variables.
 $config	= JFactory::getConfig();
-$user	= JFactory::getUser();
-$db		= JFactory::getDbo();
-$lang	= JFactory::getLanguage();
+$user   = JFactory::getUser();
+$db     = JFactory::getDbo();
+$lang   = JFactory::getLanguage();
+$input  = JFactory::getApplication()->input;
 
 // Get the number of unread messages in your inbox.
 $query	= $db->getQuery(true);
@@ -34,9 +34,12 @@ $db->setQuery($query);
 $count = (int) $db->loadResult();
 
 // Set the inbox link.
-if (JRequest::getInt('hidemainmenu')) {
+if ($input->getBool('hidemainmenu'))
+{
 	$inboxLink = '';
-} else {
+}
+else
+{
 	$inboxLink = JRoute::_('index.php?option=com_messages');
 }
 

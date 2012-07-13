@@ -186,18 +186,20 @@ class ContactModelCategory extends JModelList
 		$app	= JFactory::getApplication();
 		$params	= JComponentHelper::getParams('com_contact');
 		$db		= $this->getDbo();
+
 		// List state information
-		$format = JRequest::getWord('format');
+		$format = $app->input->getWord('format');
 		if ($format == 'feed')
 		{
 			$limit = $app->getCfg('feed_limit');
 		}
-		else {
+		else
+		{
 			$limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'), 'uint');
 		}
 		$this->setState('list.limit', $limit);
 
-		$limitstart = JRequest::getUInt('limitstart', 0);
+		$limitstart = $app->input->get('limitstart', 0, 'uint');
 		$this->setState('list.start', $limitstart);
 
 		// Get list ordering default from the parameters
@@ -208,19 +210,19 @@ class ContactModelCategory extends JModelList
 		$mergedParams = clone $params;
 		$mergedParams->merge($menuParams);
 
-		$orderCol	= JRequest::getCmd('filter_order', $mergedParams->get('initial_sort', 'ordering'));
+		$orderCol	= $app->input->get('filter_order', $mergedParams->get('initial_sort', 'ordering'));
 		if (!in_array($orderCol, $this->filter_fields)) {
 			$orderCol = 'ordering';
 		}
 		$this->setState('list.ordering', $orderCol);
 
-		$listOrder	= JRequest::getCmd('filter_order_Dir', 'ASC');
+		$listOrder	= $app->input->get('filter_order_Dir', 'ASC');
 		if (!in_array(strtoupper($listOrder), array('ASC', 'DESC', ''))) {
 			$listOrder = 'ASC';
 		}
 		$this->setState('list.direction', $listOrder);
 
-		$id = JRequest::getVar('id', 0, '', 'int');
+		$id = $app->input->get('id', 0, 'int');
 		$this->setState('category.id', $id);
 
 		$user = JFactory::getUser();

@@ -92,7 +92,7 @@ class LanguagesViewOverride extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		JRequest::setVar('hidemainmenu', true);
+		JFactory::getApplication()->input->set('hidemainmenu', true);
 
 		$canDo	= LanguagesHelper::getActions();
 

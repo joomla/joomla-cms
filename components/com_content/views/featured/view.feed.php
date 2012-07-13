@@ -21,18 +21,18 @@ class ContentViewFeatured extends JViewLegacy
 	function display($tpl = null)
 	{
 		// Parameters
-		$app 		= JFactory::getApplication();
-		$doc		= JFactory::getDocument();
-		$params		= $app->getParams();
-		$feedEmail	= (@$app->getCfg('feed_email')) ? $app->getCfg('feed_email') : 'author';
-		$siteEmail	= $app->getCfg('mailfrom');
+		$app       = JFactory::getApplication();
+		$doc       = JFactory::getDocument();
+		$params    = $app->getParams();
+		$feedEmail = (@$app->getCfg('feed_email')) ? $app->getCfg('feed_email') : 'author';
+		$siteEmail = $app->getCfg('mailfrom');
 
 		$doc->link	= JRoute::_('index.php?option=com_content&view=featured');
 
 		// Get some data from the model
-		JRequest::setVar('limit', $app->getCfg('feed_limit'));
+		$app->input->set('limit', $app->getCfg('feed_limit'));
 		$categories = JCategories::getInstance('Content');
-		$rows		= $this->get('Items');
+		$rows       = $this->get('Items');
 		foreach ($rows as $row)
 		{
 			// strip html from feed item title

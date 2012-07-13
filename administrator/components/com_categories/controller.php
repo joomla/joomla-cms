@@ -37,7 +37,7 @@ class CategoriesController extends JControllerLegacy
 
 		// Guess the JText message prefix. Defaults to the option.
 		if (empty($this->extension)) {
-			$this->extension = JRequest::getCmd('extension', 'com_content');
+			$this->extension = $this->input->get('extension', 'com_content');
 		}
 	}
 
@@ -56,10 +56,10 @@ class CategoriesController extends JControllerLegacy
 		$document = JFactory::getDocument();
 
 		// Set the default view name and format from the Request.
-		$vName		= JRequest::getCmd('view', 'categories');
-		$vFormat	= $document->getType();
-		$lName		= JRequest::getCmd('layout', 'default');
-		$id			= JRequest::getInt('id');
+		$vName   = $this->input->get('view', 'categories');
+		$vFormat = $document->getType();
+		$lName   = $this->input->get('layout', 'default');
+		$id      = $this->input->getInt('id');
 
 		// Check for edit form.
 		if ($vName == 'category' && $lName == 'edit' && !$this->checkEditId('com_categories.edit.category', $id)) {

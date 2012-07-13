@@ -91,8 +91,8 @@ class plgSystemLanguageFilter extends JPlugin
 					$cookie_domain 	= $conf->get('config.cookie_domain', '');
 					$cookie_path 	= $conf->get('config.cookie_path', '/');
 					setcookie(JApplication::getHash('language'), $lang_code, time() + 365 * 86400, $cookie_path, $cookie_domain);
-					// set the request var
-					JRequest::setVar('language', $lang_code);
+					// Set the request var
+					$app->input->set('language', $lang_code);
 				}
 			}
 			parent::__construct($subject, $config);
@@ -453,13 +453,15 @@ class plgSystemLanguageFilter extends JPlugin
 			} else {
 				$active_link = JRoute::_($active->link.'&Itemid='.$active->id, false);
 			}
-			if ($active_link == JUri::base(true).'/') {
+			if ($active_link == JURI::base(true).'/')
+			{
 				$active_link .= 'index.php';
 			}
 
 			// Get current link
-			$current_link = JRequest::getUri();
-			if ($current_link == JUri::base(true).'/') {
+			$current_link = JURI::getInstance()->toString(array('path', 'query'));
+			if ($current_link == JURI::base(true).'/')
+			{
 				$current_link .= 'index.php';
 			}
 

@@ -33,7 +33,8 @@ class ContentControllerArticles extends JControllerAdmin
 
 		// Articles default form can come from the articles or featured view.
 		// Adjust the redirect view on the value of 'view' in the request.
-		if (JRequest::getCmd('view') == 'featured') {
+		if ($this->input->get('view') == 'featured')
+		{
 			$this->view_list = 'featured';
 		}
 

@@ -87,11 +87,11 @@ class plgCaptchaRecaptcha extends JPlugin
 	  */
 	public function onCheckAnswer($code)
 	{
-		// Initialise variables
-		$privatekey	= $this->params->get('private_key');
-		$remoteip	= JRequest::getVar('REMOTE_ADDR', '', 'SERVER');
-		$challenge	= JRequest::getString('recaptcha_challenge_field', '');
-		$response	= JRequest::getString('recaptcha_response_field', '');
+		$input      = JFactory::getApplication()->input;
+		$privatekey = $this->params->get('private_key');
+		$remoteip   = JRequest::getVar('REMOTE_ADDR', '', 'SERVER');
+		$challenge  = $input->get('recaptcha_challenge_field', '', 'string');
+		$response   = $input->get('recaptcha_response_field', '', 'string');
 
 		// Check for Private Key
 		if (empty($privatekey))

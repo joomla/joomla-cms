@@ -50,11 +50,11 @@ class TemplatesViewStyle extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		JRequest::setVar('hidemainmenu', true);
+		JFactory::getApplication()->input->set('hidemainmenu', true);
 
-		$user		= JFactory::getUser();
-		$isNew		= ($this->item->id == 0);
-		$canDo		= TemplatesHelper::getActions();
+		$user  = JFactory::getUser();
+		$isNew = ($this->item->id == 0);
+		$canDo = TemplatesHelper::getActions();
 
 		JToolBarHelper::title(
 			$isNew ? JText::_('COM_TEMPLATES_MANAGER_ADD_STYLE')

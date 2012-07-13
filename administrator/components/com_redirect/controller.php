@@ -38,11 +38,11 @@ class RedirectController extends JControllerLegacy
 		require_once JPATH_COMPONENT.'/helpers/redirect.php';
 
 		// Load the submenu.
-		RedirectHelper::addSubmenu(JRequest::getCmd('view', 'links'));
+		RedirectHelper::addSubmenu($this->input->get('view', 'links'));
 
-		$view		= JRequest::getCmd('view', 'links');
-		$layout 	= JRequest::getCmd('layout', 'default');
-		$id			= JRequest::getInt('id');
+		$view   = $this->input->get('view', 'links');
+		$layout = $this->input->get('layout', 'default');
+		$id     = $this->input->getInt('id');
 
 		// Check for edit form.
 		if ($view == 'link' && $layout == 'edit' && !$this->checkEditId('com_redirect.edit.link', $id)) {

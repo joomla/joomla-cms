@@ -46,13 +46,13 @@ class InstallationController extends JControllerLegacy
 			$default_view	= 'language';
 		}
 
-		$vName		= JRequest::getWord('view', $default_view);
-		$vFormat	= $document->getType();
-		$lName		= JRequest::getWord('layout', 'default');
+		$vName   = $this->input->getWord('view', $default_view);
+		$vFormat = $document->getType();
+		$lName   = $this->input->getWord('layout', 'default');
 
 		if (strcmp($vName, $default_view) == 0)
 		{
-			JRequest::setVar('view', $default_view);
+			$this->input->set('view', $default_view);
 		}
 
 		if ($view = $this->getView($vName, $vFormat))

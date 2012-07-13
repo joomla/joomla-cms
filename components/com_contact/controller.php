@@ -35,8 +35,8 @@ class ContactController extends JControllerLegacy
 		$document = JFactory::getDocument();
 
 		// Set the default view name and format from the Request.
-		$vName		= JRequest::getCmd('view', 'categories');
-		JRequest::setVar('view', $vName);
+		$vName = $this->input->get('view', 'categories');
+		$this->input->set('view', $vName);
 
 		$user = JFactory::getUser();
 

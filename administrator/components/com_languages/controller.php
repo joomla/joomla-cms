@@ -38,12 +38,12 @@ class LanguagesController extends JControllerLegacy
 		require_once JPATH_COMPONENT.'/helpers/languages.php';
 
 		// Load the submenu.
-		LanguagesHelper::addSubmenu(JRequest::getCmd('view', 'installed'));
+		LanguagesHelper::addSubmenu($this->input->get('view', 'installed'));
 
-		$view	= JRequest::getCmd('view', 'languages');
-		$layout	= JRequest::getCmd('layout', 'default');
-		$client	= JRequest::getInt('client');
-		$id		= JRequest::getInt('id');
+		$view   = $this->input->get('view', 'languages');
+		$layout = $this->input->get('layout', 'default');
+		$client = $this->input->getInt('client');
+		$id     = $this->input->getInt('id');
 
 		// Check for edit form.
 		if ($view == 'language' && $layout == 'edit' && !$this->checkEditId('com_languages.edit.language', $id)) {

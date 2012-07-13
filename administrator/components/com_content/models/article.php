@@ -360,15 +360,15 @@ class ContentModelArticle extends JModelAdmin
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		$data = JFactory::getApplication()->getUserState('com_content.edit.article.data', array());
+		$app  = JFactory::getApplication();
+		$data = $app->getUserState('com_content.edit.article.data', array());
 
 		if (empty($data)) {
 			$data = $this->getItem();
 
 			// Prime some default values.
 			if ($this->getState('article.id') == 0) {
-				$app = JFactory::getApplication();
-				$data->set('catid', JRequest::getInt('catid', $app->getUserState('com_content.articles.filter.category_id')));
+				$data->set('catid', $app->input->getInt('catid', $app->getUserState('com_content.articles.filter.category_id')));
 			}
 		}
 
@@ -385,6 +385,8 @@ class ContentModelArticle extends JModelAdmin
 	 */
 	public function save($data)
 	{
+		$app = JFactory::getApplication();
+
 		if (isset($data['images']) && is_array($data['images']))
 		{
 			$registry = new JRegistry;
@@ -400,7 +402,8 @@ class ContentModelArticle extends JModelAdmin
 		}
 
 		// Alter the title for save as copy
-		if (JRequest::getVar('task') == 'save2copy') {
+		if ($app->input->get('task') == 'save2copy')
+		{
 			list($title, $alias) = $this->generateNewTitle($data['catid'], $data['alias'], $data['title']);
 			$data['title']	= $title;
 			$data['alias']	= $alias;

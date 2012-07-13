@@ -66,19 +66,19 @@ class ContentModelArticles extends JModelList
 		$app = JFactory::getApplication();
 
 		// List state information
-		$value = JRequest::getUInt('limit', $app->getCfg('list_limit', 0));
+		$value = $app->input->get('limit', $app->getCfg('list_limit', 0), 'uint');
 		$this->setState('list.limit', $value);
 
-		$value = JRequest::getUInt('limitstart', 0);
+		$value = $app->input->get('limitstart', 0, 'uint');
 		$this->setState('list.start', $value);
 
-		$orderCol	= JRequest::getCmd('filter_order', 'a.ordering');
+		$orderCol = $app->input->get('filter_order', 'a.ordering');
 		if (!in_array($orderCol, $this->filter_fields)) {
 			$orderCol = 'a.ordering';
 		}
 		$this->setState('list.ordering', $orderCol);
 
-		$listOrder	= JRequest::getCmd('filter_order_Dir', 'ASC');
+		$listOrder = $app->input->get('filter_order_Dir', 'ASC');
 		if (!in_array(strtoupper($listOrder), array('ASC', 'DESC', ''))) {
 			$listOrder = 'ASC';
 		}
@@ -103,7 +103,7 @@ class ContentModelArticles extends JModelList
 			$this->setState('filter.access', false);
 		}
 
-		$this->setState('layout', JRequest::getCmd('layout'));
+		$this->setState('layout', $app->input->get('layout'));
 	}
 
 	/**
@@ -480,6 +480,7 @@ class ContentModelArticles extends JModelList
 		$userId	= $user->get('id');
 		$guest	= $user->get('guest');
 		$groups	= $user->getAuthorisedViewLevels();
+		$input  = JFactory::getApplication()->input;
 
 		// Get the global params
 		$globalParams = JComponentHelper::getParams('com_content', true);
@@ -499,7 +500,7 @@ class ContentModelArticles extends JModelList
 			// For blogs, article params override menu item params only if menu param = 'use_article'
 			// Otherwise, menu item params control the layout
 			// If menu item is 'use_article' and there is no article param, use global
-			if ((JRequest::getString('layout') == 'blog') || (JRequest::getString('view') == 'featured')
+			if (($input->getString('layout') == 'blog') || ($input->getString('view') == 'featured')
 				|| ($this->getState('params')->get('layout_type') == 'blog')) {
 				// create an array of just the params set to 'use_article'
 				$menuParamsArray = $this->getState('params')->toArray();

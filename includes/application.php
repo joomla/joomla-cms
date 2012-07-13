@@ -428,8 +428,9 @@ final class JSite extends JApplication
 		}
 		$condition = '';
 
-		$tid = JRequest::getVar('templateStyle', 0);
-		if (is_numeric($tid) && (int) $tid > 0) {
+		$tid = $this->input->get('templateStyle', 0, 'uint');
+		if (is_numeric($tid) && (int) $tid > 0)
+		{
 			$id = (int) $tid;
 		}
 

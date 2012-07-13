@@ -56,21 +56,21 @@ class SearchModelSearch extends JModelLegacy
 		parent::__construct();
 
 		//Get configuration
-		$app	= JFactory::getApplication();
+		$app    = JFactory::getApplication();
 		$config = JFactory::getConfig();
 
 		// Get the pagination request variables
 		$this->setState('limit', $app->getUserStateFromRequest('com_search.limit', 'limit', $config->get('list_limit'), 'uint'));
-		$this->setState('limitstart', JRequest::getUInt('limitstart', 0));
+		$this->setState('limitstart', $app->input->get('limitstart', 0, 'uint'));
 
 		// Set the search parameters
-		$keyword		= urldecode(JRequest::getString('searchword'));
-		$match			= JRequest::getWord('searchphrase', 'all');
-		$ordering		= JRequest::getWord('ordering', 'newest');
+		$keyword  = urldecode($app->input->getString('searchword'));
+		$match    = $app->input->get('searchphrase', 'all', 'word');
+		$ordering = $app->input->get('ordering', 'newest', 'word');
 		$this->setSearch($keyword, $match, $ordering);
 
 		//Set the search areas
-		$areas = JRequest::getVar('areas');
+		$areas = $app->input->get('areas');
 		$this->setAreas($areas);
 	}
 
@@ -87,7 +87,7 @@ class SearchModelSearch extends JModelLegacy
 		if (isset($keyword)) {
 			$this->setState('origkeyword', $keyword);
 			if($match !== 'exact') {
-				$keyword 		= preg_replace('#\xE3\x80\x80#s', ' ', $keyword);
+				$keyword = preg_replace('#\xE3\x80\x80#s', ' ', $keyword);
 			}
 			$this->setState('keyword', $keyword);
 		}

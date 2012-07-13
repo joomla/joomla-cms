@@ -185,7 +185,7 @@ class PluginsModelPlugin extends JModelAdmin
 		$app = JFactory::getApplication('administrator');
 
 		// Load the User state.
-		$pk = (int) JRequest::getInt('extension_id');
+		$pk = $app->input->getInt('extension_id');
 		$this->setState('plugin.id', $pk);
 	}
 

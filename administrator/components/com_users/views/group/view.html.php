@@ -50,11 +50,11 @@ class UsersViewGroup extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		JRequest::setVar('hidemainmenu', 1);
+		JFactory::getApplication()->input->set('hidemainmenu', true);
 
-		$user		= JFactory::getUser();
-		$isNew		= ($this->item->id == 0);
-		$canDo		= UsersHelper::getActions();
+		$user  = JFactory::getUser();
+		$isNew = ($this->item->id == 0);
+		$canDo = UsersHelper::getActions();
 
 		JToolBarHelper::title(JText::_($isNew ? 'COM_USERS_VIEW_NEW_GROUP_TITLE' : 'COM_USERS_VIEW_EDIT_GROUP_TITLE'), 'groups-add');
 

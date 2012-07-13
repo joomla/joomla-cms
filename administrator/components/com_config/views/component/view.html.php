@@ -42,6 +42,6 @@ class ConfigViewComponent extends JViewLegacy
 		$this->document->setTitle(JText::_('JGLOBAL_EDIT_PREFERENCES'));
 
 		parent::display($tpl);
-		JRequest::setVar('hidemainmenu', true);
+		JFactory::getApplication()->input->set('hidemainmenu', true);
 	}
 }

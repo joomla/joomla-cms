@@ -62,7 +62,7 @@ class UsersHelper
 				$vName == 'notes'
 			);
 
-			$extension = JRequest::getString('extension');
+			$extension = JFactory::getApplication()->input->getString('extension');
 			JSubMenuHelper::addEntry(
 				JText::_('COM_USERS_SUBMENU_NOTE_CATEGORIES'),
 				'index.php?option=com_categories&extension=com_users.notes',

@@ -65,7 +65,8 @@ class ContentModelArticles extends JModelList
 		$session = JFactory::getSession();
 
 		// Adjust the context to support modal layouts.
-		if ($layout = JRequest::getVar('layout')) {
+		if ($layout = $app->input->get('layout'))
+		{
 			$this->context .= '.'.$layout;
 		}
 

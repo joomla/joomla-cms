@@ -100,10 +100,10 @@ class InstallerControllerUpdate extends JControllerLegacy
 		// asynchronously. This means that between requests the token might
 		// change, making it impossible for AJAX to work.
 
-		$eid = JRequest::getInt('eid', 0);
+		$eid  = $this->input->getInt('eid', 0);
 		$skip = JRequest::getVar('skip', array(), 'default', 'array');
 
-		$cache_timeout = JRequest::getInt('cache_timeout', 0);
+		$cache_timeout = $this->input->getInt('cache_timeout', 0);
 		if($cache_timeout == 0) {
 			$component = JComponentHelper::getComponent('com_installer');
 			$params = $component->params;

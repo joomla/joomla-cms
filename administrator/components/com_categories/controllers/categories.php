@@ -43,7 +43,7 @@ class CategoriesControllerCategories extends JControllerAdmin
 	{
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		$extension = JRequest::getCmd('extension');
+		$extension = $this->input->get('extension');
 		$this->setRedirect(JRoute::_('index.php?option=com_categories&view=categories&extension='.$extension, false));
 
 		// Initialise variables.
@@ -72,7 +72,7 @@ class CategoriesControllerCategories extends JControllerAdmin
 
 		// Get the arrays from the Request
 		$order	= JRequest::getVar('order',	null, 'post', 'array');
-		$originalOrder = explode(',', JRequest::getString('original_order_values'));
+		$originalOrder = explode(',', $this->input->getString('original_order_values'));
 
 		// Make sure something has changed
 		if (!($order === $originalOrder)) {

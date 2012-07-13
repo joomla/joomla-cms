@@ -24,7 +24,7 @@ class WrapperController extends JControllerLegacy
 	 * @param	boolean			If true, the view output will be cached
 	 * @param	array			An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
-	 * @return	JController		This object to support chaining.
+	 * @return	JControllerLegacy  This object to support chaining.
 	 * @since	1.5
 	 */
 	public function display($cachable = false, $urlparams = false)
@@ -32,8 +32,8 @@ class WrapperController extends JControllerLegacy
 		$cachable = true;
 
 		// Set the default view name and format from the Request.
-		$vName = JRequest::getCmd('view', 'wrapper');
-		JRequest::setVar('view', $vName);
+		$vName = $this->input->get('view', 'wrapper');
+		$this->input->set('view', $vName);
 
 		return parent::display($cachable, array('Itemid' => 'INT'));
 	}
