@@ -24,7 +24,7 @@ class JFormFieldSearchFilter extends JFormFieldList
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  1.7
+	 * @since  2.5
 	 */
 	protected $type = 'SearchFilter';
 
@@ -33,7 +33,7 @@ class JFormFieldSearchFilter extends JFormFieldList
 	 *
 	 * @return  array  The field option objects.
 	 *
-	 * @since   1.7
+	 * @since   2.5
 	 */
 	public function getOptions()
 	{

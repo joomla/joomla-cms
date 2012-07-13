@@ -200,7 +200,7 @@ class FinderTableFilter extends JTable
 		if ($this->filter_id)
 		{
 			// Existing item
-			$this->modified = $date->toMySQL();
+			$this->modified = $date->toSql();
 			$this->modified_by = $user->get('id');
 		}
 		else
@@ -209,7 +209,7 @@ class FinderTableFilter extends JTable
 			// so we don't touch it if it is set.
 			if (!intval($this->created))
 			{
-				$this->created = $date->toMySQL();
+				$this->created = $date->toSql();
 			}
 			if (empty($this->created_by))
 			{

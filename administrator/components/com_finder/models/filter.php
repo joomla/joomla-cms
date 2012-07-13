@@ -101,7 +101,7 @@ class FinderModelFilter extends JModelAdmin
 	 *
 	 * @return  mixed  A JForm object on success, false on failure
 	 *
-	 * @since   1.6
+	 * @since   2.5
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
