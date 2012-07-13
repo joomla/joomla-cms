@@ -16,8 +16,6 @@ if (!JFactory::getUser()->authorise('core.manage', 'com_templates'))
 
 JLoader::register('TemplatesHelper', dirname(__FILE__) . '/helpers/templates.php');
 
-$task = JFactory::getApplication()->input->get('task');
-
 $controller	= JControllerLegacy::getInstance('Templates');
-$controller->execute($task);
+$controller->execute(JFactory::getApplication()->input->get('task'));
 $controller->redirect();

@@ -16,8 +16,6 @@ if (!JFactory::getUser()->authorise('core.manage', 'com_users'))
 
 JLoader::register('UsersHelper', dirname(__FILE__) . '/helpers/users.php');
 
-$task = JFactory::getApplication()->input->get('task');
-
 $controller	= JControllerLegacy::getInstance('Users');
-$controller->execute($task);
+$controller->execute(JFactory::getApplication()->input->get('task'));
 $controller->redirect();

@@ -14,8 +14,6 @@ if (!JFactory::getUser()->authorise('core.manage', 'com_search'))
 	return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
 }
 
-$task = JFactory::getApplication()->input->get('task');
-
 $controller	= JControllerLegacy::getInstance('Search');
-$controller->execute($task);
+$controller->execute(JFactory::getApplication()->input->get('task'));
 $controller->redirect();

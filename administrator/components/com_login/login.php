@@ -17,6 +17,6 @@ if ($task != 'login' && $task != 'logout')
 	$task = '';
 }
 
-$controller	= JControllerLegacy::getInstance('Login');
+$controller = JControllerLegacy::getInstance('Login');
 $controller->execute($task);
 $controller->redirect();

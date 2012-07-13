@@ -688,10 +688,6 @@ class JControllerLegacy extends JObject
 	 */
 	public function execute($task)
 	{
-		if (strpos($task, '.') !== false) {
-			list($tmp, $task) = explode('.', $task);
-		}
-		
 		$this->task = $task;
 
 		$task = strtolower($task);

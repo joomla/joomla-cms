@@ -11,8 +11,6 @@ defined('_JEXEC') or die;
 
 require_once JPATH_COMPONENT.'/helpers/route.php';
 
-$task = JFactory::getApplication()->input->get('task', 'display');
-
 $controller = JControllerLegacy::getInstance('Users');
-$controller->execute($task);
+$controller->execute(JFactory::getApplication()->input->get('task', 'display'));
 $controller->redirect();

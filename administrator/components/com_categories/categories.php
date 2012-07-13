@@ -19,5 +19,5 @@ if (!JFactory::getUser()->authorise('core.manage', $input->get('extension')))
 $task = $input->get('task');
 
 $controller	= JControllerLegacy::getInstance('Categories');
-$controller->execute($task);
+$controller->execute($input->get('task'));
 $controller->redirect();

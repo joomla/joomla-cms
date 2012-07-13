@@ -9,14 +9,11 @@
 
 defined('_JEXEC') or die;
 
-// Access check.
 if (!JFactory::getUser()->authorise('core.manage', 'com_weblinks'))
 {
 	return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
 }
 
-$task = JFactory::getApplication()->input->get('task');
-
 $controller	= JControllerLegacy::getInstance('Weblinks');
-$controller->execute($task);
+$controller->execute(JFactory::getApplication()->input->get('task'));
 $controller->redirect();

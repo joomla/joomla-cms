@@ -17,8 +17,6 @@ if (!JFactory::getUser()->authorise('core.manage', 'com_content'))
 // Register helper class
 JLoader::register('ContentHelper', dirname(__FILE__) . '/helpers/content.php');
 
-$task = JFactory::getApplication()->input->get('task');
-
 $controller = JControllerLegacy::getInstance('Content');
-$controller->execute($task);
+$controller->execute(JFactory::getApplication()->input->get('task'));
 $controller->redirect();
