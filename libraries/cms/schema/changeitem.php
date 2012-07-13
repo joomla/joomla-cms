@@ -106,28 +106,26 @@ abstract class JSchemaChangeitem extends JObject
 	/**
 	 * Constructor: builds check query and message from $updateQuery
 	 *
-	 * @param   JDatabaseDriver  $db
-	 * @param   string           $file   full path name of the sql file
-	 * @param   string           $query   text of the sql query (one line of the file)
-	 * @param   string           $checkQuery
+	 * @param   JDatabaseDriver  $db     Database connector object
+	 * @param   string           $file   Full path name of the sql file
+	 * @param   string           $query  Text of the sql query (one line of the file)
 	 *
 	 * @since   2.5
 	 */
-	public function __construct($db, $file, $updateQuery)
+	public function __construct($db, $file, $query)
 	{
-		$this->updateQuery = $updateQuery;
+		$this->updateQuery = $query;
 		$this->file = $file;
 		$this->db = $db;
 		$this->buildCheckQuery();
 	}
 
 	/**
-	 *
 	 * Returns an instance of the correct schemachangeitem for the $db
 	 *
-	 * @param   JDatabaseDriver $db
-	 * @param   string          $file   full path name of the sql file
-	 * @param   string          $query  text of the sql query (one line of the file)
+	 * @param   JDatabaseDriver  $db     Database connector object
+	 * @param   string           $file   Full path name of the sql file
+	 * @param   string           $query  Text of the sql query (one line of the file)
 	 *
 	 * @return  JSchemaChangeItem for the $db driver
 	 *
@@ -136,18 +134,19 @@ abstract class JSchemaChangeitem extends JObject
 	public static function getInstance($db, $file, $query)
 	{
 		$instance = null;
+
 		// Get the class name (mysql and mysqli both use mysql)
 		$dbname = (substr($db->name, 0, 5) == 'mysql') ? 'mysql' : $db->name;
-		$path = dirname(__FILE__).'/' . 'changeitem' . $dbname . '.php';
+		$path = dirname(__FILE__) . '/' . 'changeitem' . $dbname . '.php';
 		$class = 'JSchemaChangeitem' . $dbname;
 
 		// If the file exists register the class with our class loader.
-		if (file_exists($path)) {
+		if (file_exists($path))
+		{
 			JLoader::register($class, $path);
 			$instance = new $class($db, $file, $query);
 		}
 		return $instance;
-
 	}
 
 	/**
@@ -161,17 +160,23 @@ abstract class JSchemaChangeitem extends JObject
 	public function check()
 	{
 		$this->checkStatus = -1;
-		if ($this->checkQuery) {
+		if ($this->checkQuery)
+		{
 			$this->db->setQuery($this->checkQuery);
 			$rows = $this->db->loadObject();
-			if ($rows !== false) {
-				if (count($rows) === $this->checkQueryExpected) {
+			if ($rows !== false)
+			{
+				if (count($rows) === $this->checkQueryExpected)
+				{
 					$this->checkStatus = 1;
-				} else {
+				}
+				else
+				{
 					$this->checkStatus = -2;
 				}
 			}
-			else {
+			else
+			{
 				$this->checkStatus = -2;
 			}
 		}
@@ -181,21 +186,30 @@ abstract class JSchemaChangeitem extends JObject
 	/**
 	 * Runs the update query to apply the change to the database
 	 *
-	 * @since  2.5
+	 * @return  void
+	 *
+	 * @since   2.5
 	 */
 	public function fix()
 	{
-		if ($this->checkStatus === -2) {
-			// at this point we have a failed query
+		if ($this->checkStatus === -2)
+		{
+			// At this point we have a failed query
 			$this->db->setQuery($this->updateQuery);
-			if ($this->db->execute()) {
-				if ($this->check()) {
+			if ($this->db->execute())
+			{
+				if ($this->check())
+				{
 					$this->checkStatus = 1;
 					$this->rerunStatus = 1;
-				} else {
+				}
+				else
+				{
 					$this->rerunStatus = -2;
 				}
-			} else {
+			}
+			else
+			{
 				$this->rerunStatus = -2;
 			}
 		}

@@ -21,7 +21,7 @@ abstract class JHtmlIcons
 	/**
 	 * Method to generate html code for a list of buttons
 	 *
-	 * @param   array   $buttons  Array of buttons
+	 * @param   array  $buttons  Array of buttons
 	 *
 	 * @return  string
 	 *
@@ -40,7 +40,7 @@ abstract class JHtmlIcons
 	/**
 	 * Method to generate html code for a list of buttons
 	 *
-	 * @param   array|object   $button  Button properties
+	 * @param   array|object  $button  Button properties
 	 *
 	 * @return  string
 	 *
@@ -64,7 +64,7 @@ abstract class JHtmlIcons
 				// Take each pair of permission, context values.
 				for ($i = 0, $n = count($button['access']); $i < $n; $i += 2)
 				{
-					if (!$user->authorise($button['access'][$i], $button['access'][$i+1]))
+					if (!$user->authorise($button['access'][$i], $button['access'][$i + 1]))
 					{
 						return '';
 					}
@@ -79,7 +79,9 @@ abstract class JHtmlIcons
 		$html[] = (empty($button['onclick']) ? '' : (' onclick="' . $button['onclick'] . '"'));
 		$html[] = (empty($button['title']) ? '' : (' title="' . htmlspecialchars($button['title']) . '"'));
 		$html[] = '>';
-		$html[] = JHtml::_('image', empty($button['image']) ? '' : $button['image'], empty($button['alt']) ? null : htmlspecialchars($button['alt']), null, true);
+		$html[] = JHtml::_('image', empty($button['image']) ? '' : $button['image'],
+						empty($button['alt']) ? null : htmlspecialchars($button['alt']), null, true
+					);
 		$html[] = (empty($button['text'])) ? '' : ('<span>' . $button['text'] . '</span>');
 		$html[] = '</a>';
 		$html[] = '</div>';

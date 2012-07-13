@@ -42,7 +42,7 @@ class JFormFieldCaptcha extends JFormField
 	{
 		$result = parent::setup($element, $value, $group);
 
-		$plugin    = $this->element['plugin'] ? (string) $this->element['plugin'] : JFactory::getApplication()->getParams()->get('captcha', JFactory::getConfig()->get('captcha'));
+		$plugin = $this->element['plugin'] ? (string) $this->element['plugin'] : JFactory::getApplication()->getParams()->get('captcha', JFactory::getConfig()->get('captcha'));
 		if ($plugin === 0 || $plugin === '0' || $plugin === '' || $plugin === null)
 		{
 			$this->hidden = true;

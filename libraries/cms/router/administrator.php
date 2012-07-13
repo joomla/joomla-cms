@@ -19,7 +19,11 @@ defined('JPATH_BASE') or die;
 class JRouterAdministrator extends JRouter
 {
 	/**
-	 * Function to convert a route to an internal URI
+	 * Function to convert a route to an internal URI.
+	 *
+	 * @param   JURI  $uri  The uri.
+	 *
+	 * @return  array
 	 */
 	public function parse($uri)
 	{
@@ -29,12 +33,13 @@ class JRouterAdministrator extends JRouter
 	/**
 	 * Function to convert an internal URI to a route
 	 *
-	 * @param	string	$uri	The internal URL
+	 * @param   string  $url  The internal URL
 	 *
-	 * @return	string	The absolute search engine friendly URL
-	 * @since	1.5
+	 * @return  string  The absolute search engine friendly URL
+	 *
+	 * @since   1.5
 	 */
-	function build($url)
+	public function build($url)
 	{
 		// Create the URI object
 		$uri = parent::build($url);
@@ -42,8 +47,8 @@ class JRouterAdministrator extends JRouter
 		// Get the path data
 		$route = $uri->getPath();
 
-		//Add basepath to the uri
-		$uri->setPath(JURI::base(true).'/'.$route);
+		// Add basepath to the uri
+		$uri->setPath(JURI::base(true) . '/' . $route);
 
 		return $uri;
 	}
