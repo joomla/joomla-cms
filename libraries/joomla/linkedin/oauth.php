@@ -86,6 +86,7 @@ class JLinkedinOAuth extends JOAuth1aClient
 	/**
 	 * Method to validate a response.
 	 *
+	 * @param   string         $url       The request URL.
 	 * @param   JHttpResponse  $response  The response to validate.
 	 *
 	 * @return  void
@@ -93,7 +94,7 @@ class JLinkedinOAuth extends JOAuth1aClient
 	 * @since  12.3
 	 * @throws DomainException
 	 */
-	public function validateResponse($response)
+	public function validateResponse($url, $response)
 	{
 		if ($response->code != 200)
 		{

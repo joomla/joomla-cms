@@ -288,8 +288,6 @@ abstract class JOAuth1aClient
 		switch ($method)
 		{
 			case 'GET':
-				$url = $this->to_url($url, $data);
-				print_r($url);
 				$response = $this->client->get($url, array('Authorization' => $this->createHeader($oauth_headers)));
 				break;
 			case 'POST':
@@ -299,7 +297,7 @@ abstract class JOAuth1aClient
 		}
 
 		// Validate the response code.
-		$this->validateResponse($response);
+		$this->validateResponse($url, $response);
 
 		return $response;
 	}
@@ -307,6 +305,7 @@ abstract class JOAuth1aClient
 	/**
 	 * Method to validate a response.
 	 *
+	 * @param   string         $url       The request URL.
 	 * @param   JHttpResponse  $response  The response to validate.
 	 *
 	 * @return  void
@@ -314,7 +313,7 @@ abstract class JOAuth1aClient
 	 * @since  12.3
 	 * @throws DomainException
 	 */
-	abstract public function validateResponse($response);
+	abstract public function validateResponse($url, $response);
 
 	/**
 	 * Method used to create the header for the POST request.
