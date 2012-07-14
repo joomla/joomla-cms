@@ -62,23 +62,19 @@ abstract class JError
 	protected static $stack = array();
 
 	/**
-	 * Method to determine if a value is an exception object.  This check supports
-	 * both JException and PHP5 Exception objects
+	 * Method to determine if a value is an exception object.
 	 *
-	 * @param   mixed  &$object  Object to check
+	 * @param   mixed  $object  Object to check.
 	 *
 	 * @return  boolean  True if argument is an exception, false otherwise.
 	 *
-	 * @since   11.1
-	 *
 	 * @deprecated  12.1
+	 * @since   11.1
 	 */
-	public static function isError(& $object)
+	public static function isError($object)
 	{
-		// Deprecation warning.
 		JLog::add('JError::isError() is deprecated.', JLog::WARNING, 'deprecated');
 
-		// Supports PHP 5 exception handling
 		return $object instanceof Exception;
 	}
 
