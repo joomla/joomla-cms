@@ -92,6 +92,14 @@ class JSession implements IteratorAggregate
 	private $_input = null;
 
 	/**
+	 * Holds the event dispatcher object
+	 *
+	 * @var    JEventDispatcher
+	 * @since  12.2
+	 */
+	private $_dispatcher = null;
+
+	/**
 	 * Constructor
 	 *
 	 * @param   string  $store    The type of storage for the session.
@@ -433,15 +441,17 @@ class JSession implements IteratorAggregate
 	/**
 	 * Check whether this session is currently created
 	 *
-	 * @param   JInput  $input  JInput object for the session to use.
+	 * @param   JInput            $input       JInput object for the session to use.
+	 * @param   JEventDispatcher  $dispatcher  Dispatcher object for the session to use.
 	 *
 	 * @return  void.
 	 *
 	 * @since   12.2
 	 */
-	public function initialise(JInput $input)
+	public function initialise(JInput $input, JEventDispatcher $dispatcher = null)
 	{
-		$this->_input = $input;
+		$this->_input      = $input;
+		$this->_dispatcher = $dispatcher;
 	}
 
 	/**
@@ -589,6 +599,11 @@ class JSession implements IteratorAggregate
 
 		// Perform security checks
 		$this->_validate();
+
+		if ($this->_dispatcher instanceof JEventDispatcher)
+		{
+			$this->_dispatcher->trigger('onAfterSessionStart');
+		}
 	}
 
 	/**
