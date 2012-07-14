@@ -7,12 +7,10 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM . '/joomla/access/rules.php';
-
 /**
  * @package     Joomla.Platform
  */
-class JRulesTest extends PHPUnit_Framework_TestCase
+class JAccessRulesTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 * This method tests both the contructor and the __toString magic method.
@@ -24,6 +22,8 @@ class JRulesTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   11.1
+	 * @covers  JAccessRules::__construct
+	 * @covers  JAccessRules::__toString
 	 */
 	public function test__construct()
 	{
@@ -40,21 +40,21 @@ class JRulesTest extends PHPUnit_Framework_TestCase
 		$object = (object) $array;
 
 		// Test input as string.
-		$rules = new JRules($string);
+		$rules = new JAccessRules($string);
 		$this->assertThat(
 			(string) $rules,
 			$this->equalTo($string),
 			'Checks input as an string.'
 		);
 
-		$rules = new JRules($array);
+		$rules = new JAccessRules($array);
 		$this->assertThat(
 			(string) $rules,
 			$this->equalTo($string),
 			'Checks input as an array.'
 		);
 
-		$rules = new JRules($object);
+		$rules = new JAccessRules($object);
 		$this->assertThat(
 			(string) $rules,
 			$this->equalTo($string),
@@ -63,11 +63,12 @@ class JRulesTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Tests the JRules::mergeRule method.
+	 * Tests the JAccessRules::mergeAction method.
 	 *
 	 * @return  void
 	 *
 	 * @since   11.1
+	 * @covers  JAccessRules::mergeAction
 	 */
 	public function testMergeRule()
 	{
@@ -85,8 +86,8 @@ class JRulesTest extends PHPUnit_Framework_TestCase
 			)
 		);
 
-		// Construct and empty JRules.
-		$rules = new JRules('');
+		// Construct and empty JAccessRules.
+		$rules = new JAccessRules('');
 		$rules->mergeAction('edit', $identities);
 
 		$this->assertThat(
@@ -121,11 +122,12 @@ class JRulesTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Tests the JRules::merge method.
+	 * Tests the JAccessRules::merge method.
 	 *
 	 * @return  void
 	 *
 	 * @since   11.1
+	 * @covers  JAccessRules::merge
 	 */
 	public function testMerge()
 	{
@@ -162,29 +164,29 @@ class JRulesTest extends PHPUnit_Framework_TestCase
 		);
 
 		// Test construction by string
-		$rules1 = new JRules($string1);
+		$rules1 = new JAccessRules($string1);
 		$this->assertThat(
 			(string) $rules1,
 			$this->equalTo($string1)
 		);
 
 		// Test construction by array.
-		$rules1 = new JRules($array1);
+		$rules1 = new JAccessRules($array1);
 		$this->assertThat(
 			(string) $rules1,
 			$this->equalTo($string1)
 		);
 
-		// Test merge by JRules.
-		$rules1 = new JRules($array1);
-		$rules2 = new JRules('');
+		// Test merge by JAccessRules.
+		$rules1 = new JAccessRules($array1);
+		$rules2 = new JAccessRules('');
 		$rules2->merge($rules1);
 		$this->assertThat(
 			(string) $rules2,
 			$this->equalTo($string1)
 		);
 
-		$rules1 = new JRules($array1);
+		$rules1 = new JAccessRules($array1);
 		$rules1->merge($array2);
 		$this->assertThat(
 			(string) $rules1,
@@ -194,11 +196,12 @@ class JRulesTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Tests the JRules::allow method.
+	 * Tests the JAccessRules::allow method.
 	 *
 	 * @return  void
 	 *
 	 * @since   11.1
+	 * @covers  JAccessRules::allow
 	 */
 	function testAllow()
 	{
@@ -212,7 +215,7 @@ class JRulesTest extends PHPUnit_Framework_TestCase
 			)
 		);
 
-		$rules = new JRules($array1);
+		$rules = new JAccessRules($array1);
 
 		// Explicit allow.
 		$this->assertTrue(
@@ -246,11 +249,12 @@ class JRulesTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Tests the JRules::getAllowed method.
+	 * Tests the JAccessRules::getAllowed method.
 	 *
 	 * @return  void
 	 *
 	 * @since   11.1
+	 * @covers  JAccessRules::getAllowed
 	 */
 	function testGetAllowed()
 	{
@@ -271,9 +275,8 @@ class JRulesTest extends PHPUnit_Framework_TestCase
 		$result->set('create', true);
 		$result->set('edit', true);
 
-		$rules		= new JRules($array1);
-		$allowed	= $rules->getAllowed(-42);
-
+		$rules   = new JAccessRules($array1);
+		$allowed = $rules->getAllowed(-42);
 
 		$this->assertThat(
 			$result,
