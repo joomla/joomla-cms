@@ -188,12 +188,6 @@ class JTableContent extends JTable
 			$this->fulltext = '';
 		}
 
-		if (trim($this->introtext) == '' && trim($this->fulltext) == '')
-		{
-			$this->setError(JText::_('JGLOBAL_ARTICLE_MUST_HAVE_TEXT'));
-			return false;
-		}
-
 		// Check the publish down date is not earlier than publish up.
 		if ($this->publish_down > $this->_db->getNullDate() && $this->publish_down < $this->publish_up)
 		{
