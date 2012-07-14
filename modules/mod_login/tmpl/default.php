@@ -58,7 +58,7 @@ JHtml::_('behavior.keepalive');
 	</div>
 	<?php endif; ?>
 	<div class="btn-group">
-		<input type="submit" name="Submit" class="btn btn-primary" value="<?php echo JText::_('JLOGIN') ?>" />
+		<button type="submit" name="Submit" class="btn btn-primary"><?php echo JText::_('JLOGIN') ?></button>
 		<a class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
 			<span class="caret"></span>
 		</a>
