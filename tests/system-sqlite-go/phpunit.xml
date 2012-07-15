@@ -6,7 +6,7 @@
         stopOnFailure="false">
 
     <testsuite name="TestTest">
-        <file>tests/system-sqlite/suite/TestSuite.php</file>
+        <file>tests/system-sqlite-go/suite/TestSuite.php</file>
     </testsuite>
 
     <logging>
