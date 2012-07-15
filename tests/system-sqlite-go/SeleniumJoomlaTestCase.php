@@ -862,6 +862,7 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 		catch (PHPUnit_Framework_AssertionFailedError $e) {
 			echo "**Warning: PHP Notice found on page\n";
 			array_push($this->verificationErrors, $this->getTraceFiles($e));
+			$this->captureEntirePageScreenshot();
 		}
 	}
 
