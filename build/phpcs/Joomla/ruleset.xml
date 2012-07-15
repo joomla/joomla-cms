@@ -35,10 +35,7 @@
  <!-- Include some additional sniffs from the Generic standard -->
 
  <rule ref="PEAR.Classes.ClassDeclaration"/>
- <rule ref="Squiz.Classes.SelfMemberReference">
-  <exclude-pattern>/libraries/joomla/*</exclude-pattern>
-  <exclude-pattern>/libraries/legacy/*</exclude-pattern>
- </rule>
+ <rule ref="Squiz.Classes.SelfMemberReference"/>
 
  <rule ref="Generic.Files.LineEndings"/>
  <rule ref="Zend.Files.ClosingTag">
