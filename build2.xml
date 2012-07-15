@@ -2,15 +2,21 @@
 
 <project name="joomla" default="build" basedir=".">
     <property name="source" value="."/>
+    <property name="webRoot" value="/home/jtester/repos/joomla-cms-sqlite"/>
 
     <target name="clean" description="Clean up and create artifact directories">
         <delete dir="${basedir}/build/logs"/>
         <delete dir="${basedir}/build/screenshots"/>
         <delete dir="${basedir}/build/system-coverage"/>
 
+        <delete dir="${webRoot}/build/screenshots"/>
+
         <mkdir dir="${basedir}/build/logs"/>
         <mkdir dir="${basedir}/build/screenshots"/>
         <mkdir dir="${basedir}/build/system-coverage"/>
+
+        <mkdir dir="${webRoot}/build/screenshots"/>
+        <echo file="${webRoot}/build/screenshots/hello.txt">I am just a Dummy :|</echo>
     </target>
 
     <target name="phpcs" description="Generate checkstyle.xml using PHP_CodeSniffer">
