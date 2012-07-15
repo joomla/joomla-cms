@@ -225,10 +225,14 @@ body .navbar-fixed-top{
 #status{
 	background: #EDEDED;
 	border-top: 1px solid #DDDDDD;
-	padding: 1px 10px 0 10px;
+	padding: 2px 10px;
 	-moz-box-shadow: 0px 1px 0px rgba(255, 255, 255, 0.8) inset, 0px -35px 35px rgba(255, 255, 255, 0.6);
 	-webkit-box-shadow: 0px 1px 0px rgba(255, 255, 255, 0.8) inset, 0px -35px 35px rgba(255, 255, 255, 0.6);
 	box-shadow: 0px 1px 0px rgba(255, 255, 255, 0.8) inset, 0px -35px 35px rgba(255, 255, 255, 0.6);
+}
+#status .btn-toolbar,
+#status p{
+	margin: 0px;
 }
 #status i{
 	opacity: 0.40;
