@@ -155,32 +155,7 @@ class JProfiler
 	 */
 	public function getMemory()
 	{
-		if (function_exists('memory_get_usage'))
-		{
-			return memory_get_usage();
-		}
-		else
-		{
-			// Initialise variables.
-			$output = array();
-			$pid = getmypid();
-
-			if (IS_WIN)
-			{
-				// Windows workaround
-				@exec('tasklist /FI "PID eq ' . $pid . '" /FO LIST', $output);
-				if (!isset($output[5]))
-				{
-					$output[5] = null;
-				}
-				return substr($output[5], strpos($output[5], ':') + 1);
-			}
-			else
-			{
-				@exec("ps -o rss -p $pid", $output);
-				return $output[1] * 1024;
-			}
-		}
+		return memory_get_usage();
 	}
 
 	/**
