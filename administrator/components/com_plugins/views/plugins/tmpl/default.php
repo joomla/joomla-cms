@@ -37,17 +37,17 @@ $saveOrder	= $listOrder == 'ordering';
 			?>
 			<div class="filter-select">
 				<h4 class="page-header"><?php echo JText::_('JSEARCH_FILTER_LABEL');?></h4>
-				<select name="filter_state" class="inputbox" onchange="this.form.submit()">
+				<select name="filter_state" class="span12 small" onchange="this.form.submit()">
 					<option value=""><?php echo JText::_('JOPTION_SELECT_PUBLISHED');?></option>
 					<?php echo JHtml::_('select.options', PluginsHelper::stateOptions(), 'value', 'text', $this->state->get('filter.state'), true);?>
 				</select>
 				<hr class="hr-condensed" />
-				<select name="filter_folder" class="inputbox" onchange="this.form.submit()">
+				<select name="filter_folder" class="span12 small" onchange="this.form.submit()">
 					<option value=""><?php echo JText::_('COM_PLUGINS_OPTION_FOLDER');?></option>
 					<?php echo JHtml::_('select.options', PluginsHelper::folderOptions(), 'value', 'text', $this->state->get('filter.folder'));?>
 				</select>
 				<hr class="hr-condensed" />
-				<select name="filter_access" class="inputbox" onchange="this.form.submit()">
+				<select name="filter_access" class="span12 small" onchange="this.form.submit()">
 					<option value=""><?php echo JText::_('JOPTION_SELECT_ACCESS');?></option>
 					<?php echo JHtml::_('select.options', JHtml::_('access.assetgroups'), 'value', 'text', $this->state->get('filter.access'));?>
 				</select>
@@ -82,7 +82,7 @@ $saveOrder	= $listOrder == 'ordering';
 							<?php echo JHtml::_('grid.order',  $this->items, 'filesave.png', 'plugins.saveorder'); ?>
 						<?php endif; ?>
 					</th>
-	
+
 					<th class="nowrap" width="10%">
 						<?php echo JHtml::_('grid.sort', 'COM_PLUGINS_FOLDER_HEADING', 'folder', $listDirn, $listOrder); ?>
 					</th>
@@ -144,7 +144,7 @@ $saveOrder	= $listOrder == 'ordering';
 							<?php echo $item->ordering; ?>
 						<?php endif; ?>
 					</td>
-	
+
 					<td class="nowrap small">
 						<?php echo $this->escape($item->folder);?>
 					</td>
@@ -161,7 +161,7 @@ $saveOrder	= $listOrder == 'ordering';
 				<?php endforeach; ?>
 			</tbody>
 		</table>
-	
+
 		<div>
 			<input type="hidden" name="task" value="" />
 			<input type="hidden" name="boxchecked" value="0" />
