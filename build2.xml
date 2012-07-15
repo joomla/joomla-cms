@@ -66,7 +66,7 @@
         <antcall target="stop-server"></antcall>
     </target>
 
-    <target name="sqlitetests">
+    <target name="sqlitetests" depends="clean">
         <antcall target="start-server"></antcall>
         <!--
         <exec executable="phpunit">
@@ -86,6 +86,23 @@
         </exec>
         <antcall target="stop-server"></antcall>
 
+    </target>
+
+    <target name="sqlitetests-go" depends="clean">
+        <!--
+        <antcall target="start-server"></antcall>
+        -->
+        <exec executable="phpunit">
+            <arg value="-c"/>
+            <arg value="tests/system-sqlite-go/phpunit.xml"/>
+            <arg value="--include-path"/>
+            <arg value="${basedir}/tests/system-sqlite-go"/>
+            <arg value="--debug"/>
+            <arg value="--verbose"/>
+        </exec>
+        <!--
+        <antcall target="stop-server"></antcall>
+        -->
     </target>
 
     <target name="installtest" depends="clean">
