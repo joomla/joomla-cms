@@ -10,12 +10,12 @@
     </testsuite>
 
     <logging>
-        <log type="coverage-html" target="build/system-sqlite-coverage"
+        <log type="coverage-html" target="../../build/system-sqlite-coverage"
              title="Joomla-CMS SQLite" charset="UTF-8"
              yui="true" highlight="true"
              lowUpperBound="35" highLowerBound="70"/>
-        <log type="coverage-clover" target="build/logs/clover-system-sqlite.xml"/>
-        <log type="junit" target="build/logs/junit-system-sqlite.xml"
+        <log type="coverage-clover" target="../../build/logs/clover-system-sqlite.xml"/>
+        <log type="junit" target="../../build/logs/junit-system-sqlite.xml"
              logIncompleteSkipped="false"/>
     </logging>
 
