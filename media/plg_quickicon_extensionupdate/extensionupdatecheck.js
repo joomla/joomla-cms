@@ -22,14 +22,14 @@ jQuery(document).ready(function() {
 				}
 			} else {
 				// An error occured
-				jQuery('#plg_quickicon_extensionupdate').find('span').html(plg_quickicon_extensionupdate_text.UPTODATE);
+				jQuery('#plg_quickicon_extensionupdate').find('span').html(plg_quickicon_extensionupdate_text.ERROR);
 			}
 		},
 		error: function(jqXHR, textStatus, errorThrown) {
 			// An error occured
-			jQuery('#plg_quickicon_extensionupdate').find('span').html(plg_quickicon_extensionupdate_text.UPTODATE);
+			jQuery('#plg_quickicon_extensionupdate').find('span').html(plg_quickicon_extensionupdate_text.ERROR);
 		},
-		url: plg_quickicon_extensionupdate_ajax_url + 'eid=0&skip=700'
+		url: plg_quickicon_extensionupdate_ajax_url + '&eid=0&skip=700'
 	};
 	ajax_object = new jQuery.ajax(ajax_structure);
 });
