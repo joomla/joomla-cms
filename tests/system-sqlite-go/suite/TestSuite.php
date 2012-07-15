@@ -15,10 +15,12 @@ require_once 'doInstall.php';
 //require_once 'control_panel/control_panel0001Test.php';
 //require_once 'control_panel/control_panel0002Test.php';
 //require_once 'control_panel/control_panel0003Test.php';
-require_once 'control_panel/control_panel0004Test.php';
+##require_once 'control_panel/control_panel0004Test.php';
 /*
 require_once 'control_panel/control_panel0005Test.php';
+*/
 require_once 'menus/menu0001Test.php';
+/*
 require_once 'menus/menu0002Test.php';
 */
 //require_once 'articles/article0001Test.php';
@@ -63,7 +65,7 @@ class TestSuite
 		//$suite->addTestSuite('ControlPanel0001');
 		//$suite->addTestSuite('ControlPanel0002');
 		//$suite->addTestSuite('ControlPanel0003');
-		$suite->addTestSuite('ControlPanel0004');
+		##$suite->addTestSuite('ControlPanel0004');
 		/*
 		$suite->addTestSuite('ControlPanel0005');
 		$suite->addTestSuite('Menu0001');
@@ -81,7 +83,9 @@ class TestSuite
 		//$suite->addTestSuite('Group0001Test');
 		//$suite->addTestSuite('Group0002Test');
 		//$suite->addTestSuite('Group0003Test');
+		*/
 		$suite->addTestSuite('Module0001');
+		/*
 		$suite->addTestSuite('Module0002');
 		$suite->addTestSuite('Redirect0001Test');
 		$suite->addTestSuite('SampleData0001');
