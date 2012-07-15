@@ -33,7 +33,7 @@ JHtml::_('behavior.formvalidation');
 			<i class="icon-ok icon-white"></i> <?php echo JText::_('JSAVE');?></button>
 		<button class="btn" type="button" onclick="Joomla.submitform('component.apply', this.form);">
 			<i class="icon-ok"></i> <?php echo JText::_('JAPPLY');?></button>
-		<button class="btn pull-right" type="button" onclick="window.parent.jQuery('#modal').modal('hide');">
+		<button class="btn pull-right" type="button" onclick="window.parent.jQuery('#modal-options').modal('hide');">
 			<i class="icon-remove"></i> <?php echo JText::_('JCANCEL');?></button>
 	</div>
 	<ul class="nav nav-tabs" id="configTabs">
