@@ -25,9 +25,9 @@ require_once 'menus/menu0002Test.php';
 //require_once 'articles/article0002Test.php';
 //require_once 'articles/article0003Test.php';
 //require_once 'articles/article0004Test.php';
-require_once 'articles/featured0001Test.php';
-/*
+//require_once 'articles/featured0001Test.php';
 require_once 'articles/featured0002Test.php';
+/*
 require_once 'com_users/user0001Test.php';
 require_once 'com_users/user0002Test.php';
 require_once 'com_users/group0001Test.php';
@@ -73,9 +73,9 @@ class TestSuite
 		//$suite->addTestSuite('Article0002');
 		//$suite->addTestSuite('Article0003');
 		//$suite->addTestSuite('Article0004');
-		$suite->addTestSuite('Featured0001Test');
-		/*
+		//$suite->addTestSuite('Featured0001Test');
 		$suite->addTestSuite('Featured0002Test');
+		/*
 		$suite->addTestSuite('User0001Test');
 		$suite->addTestSuite('User0002Test');
 		$suite->addTestSuite('Group0001Test');
