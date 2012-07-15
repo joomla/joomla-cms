@@ -361,6 +361,10 @@ fieldset.radio.btn-group {
 	border: 0;
 }
 
+/* Tabbed Content */
+.tab-content{
+	overflow: visible;
+}
 /* Non-linkable nav-tabs */
 .nav-tabs > li > span {
     display: block;
