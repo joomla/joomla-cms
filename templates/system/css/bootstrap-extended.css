@@ -400,3 +400,9 @@ fieldset.radio.btn-group {
 	border-radius: 4px;
 	z-index: 100;
 }
+
+/* Page Header */
+.page-header{
+	margin: 2px 0px 10px 0px;
+	padding-bottom: 5px;
+}
