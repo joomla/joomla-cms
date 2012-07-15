@@ -55,7 +55,7 @@ class LanguagesModelOverrides extends JModelList
 		}
 
 		// Parse the override.ini file in oder to get the keys and strings
-		$filename = constant('JPATH_'.strtoupper($this->getState('filter.client'))).DS.'language'.DS.'overrides'.DS.$this->getState('filter.language').'.override.ini';
+		$filename = constant('JPATH_' . strtoupper($this->getState('filter.client'))) . '/language/overrides/' . $this->getState('filter.language') . '.override.ini';
 		$strings = LanguagesHelper::parseFile($filename);
 
 		// Consider the odering
