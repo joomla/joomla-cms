@@ -90,6 +90,7 @@ abstract class JOAuth1aClient
 			$this->token = array('key' => $session->get('key', null, 'oauth_token'), 'secret' => $session->get('secret', null, 'oauth_token'));
 
 			$response = $this->verifyCredentials();
+
 			if ($response)
 			{
 				return;
@@ -98,7 +99,6 @@ abstract class JOAuth1aClient
 			{
 				$this->token = null;
 			}
-			return;
 		}
 
 		$request = JFactory::getApplication()->input;
@@ -145,11 +145,6 @@ abstract class JOAuth1aClient
 	 */
 	public function generateRequestToken()
 	{
-		// Set the parameters.
-		$parameters = array(
-			'oauth_token' => $this->consumer['key']
-		);
-
 		$parameters = array();
 
 		// Make an OAuth request for the Request Token.
@@ -247,7 +242,6 @@ abstract class JOAuth1aClient
 	{
 		// Set the parameters.
 		$defaults = array(
-			'oauth_callback' => $this->callback_url,
 			'oauth_consumer_key' => $this->consumer['key'],
 			'oauth_signature_method' => 'HMAC-SHA1',
 			'oauth_version' => '1.0',
@@ -288,6 +282,7 @@ abstract class JOAuth1aClient
 		switch ($method)
 		{
 			case 'GET':
+				$url = $this->to_url($url, $data);
 				$response = $this->client->get($url, array('Authorization' => $this->createHeader($oauth_headers)));
 				break;
 			case 'POST':
