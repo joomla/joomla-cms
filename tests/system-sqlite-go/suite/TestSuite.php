@@ -68,7 +68,9 @@ class TestSuite
 		##$suite->addTestSuite('ControlPanel0004');
 		/*
 		$suite->addTestSuite('ControlPanel0005');
+		*/
 		$suite->addTestSuite('Menu0001');
+		/*
 		$suite->addTestSuite('Menu0002');
 		*/
 		//$suite->addTestSuite('Article0001');
@@ -84,8 +86,8 @@ class TestSuite
 		//$suite->addTestSuite('Group0002Test');
 		//$suite->addTestSuite('Group0003Test');
 		*/
-		$suite->addTestSuite('Module0001');
 		/*
+		$suite->addTestSuite('Module0001');
 		$suite->addTestSuite('Module0002');
 		$suite->addTestSuite('Redirect0001Test');
 		$suite->addTestSuite('SampleData0001');
