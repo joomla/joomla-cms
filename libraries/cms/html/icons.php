@@ -71,8 +71,8 @@ abstract class JHtmlIcons
 				}
 			}
 		}
-		
-		$html[] = '<div class="row-fluid">';
+
+		$html[] = '<div class="row-fluid"' . (empty($button['id']) ? '' : (' id="' . $button['id'] . '"')) . '>';
 		$html[] = '<div class="span12">';
 		$html[] = '<a href="' . $button['link'] . '"';
 		$html[] = (empty($button['target']) ? '' : (' target="' . $button['target'] . '"'));

@@ -5,45 +5,38 @@
 
 var plg_quickicon_jupdatecheck_ajax_structure = {};
 
-window.addEvent('domready', function(){
+jQuery(document).ready(function() {
 	plg_quickicon_jupdatecheck_ajax_structure = {
-		onSuccess: function(msg, responseXML)
-		{
+		success: function(data, textStatus, jqXHR) {
 			try {
-				var updateInfoList = JSON.decode(msg, true);
+				var updateInfoList = jQuery.parseJSON(data);
 			} catch(e) {
 				// An error occured
-				document.id('plg_quickicon_joomlaupdate').getElements('img').setProperty('src',plg_quickicon_joomlaupdate_img.ERROR);
-				document.id('plg_quickicon_joomlaupdate').getElements('span').set('html', plg_quickicon_joomlaupdate_text.ERROR);
+				jQuery('#plg_quickicon_joomlaupdate').find('span').html(plg_quickicon_joomlaupdate_text.ERROR);
 			}
 			if (updateInfoList instanceof Array) {
 				if (updateInfoList.length < 1) {
 					// No updates
-					document.id('plg_quickicon_joomlaupdate').getElements('img').setProperty('src',plg_quickicon_joomlaupdate_img.UPTODATE);
-					document.id('plg_quickicon_joomlaupdate').getElements('span').set('html', plg_quickicon_joomlaupdate_text.UPTODATE);
+					jQuery('#plg_quickicon_joomlaupdate').find('span').replaceWith(plg_quickicon_joomlaupdate_text.UPTODATE);
 				} else {
 					var updateInfo = updateInfoList.shift();
 					if (updateInfo.version != plg_quickicon_jupdatecheck_jversion) {
 						var updateString = plg_quickicon_joomlaupdate_text.UPDATEFOUND.replace("%s", updateInfo.version+"");
-						document.id('plg_quickicon_joomlaupdate').getElements('img').setProperty('src',plg_quickicon_joomlaupdate_img.UPDATEFOUND);
-						document.id('plg_quickicon_joomlaupdate').getElements('span').set('html', updateString);
+						jQuery('#plg_quickicon_joomlaupdate').find('span').html(updateString);
 					} else {
-						document.id('plg_quickicon_joomlaupdate').getElements('img').setProperty('src',plg_quickicon_joomlaupdate_img.UPTODATE);
-						document.id('plg_quickicon_joomlaupdate').getElements('span').set('html', plg_quickicon_joomlaupdate_text.UPTODATE);
+						jQuery('#plg_quickicon_joomlaupdate').find('span').html(plg_quickicon_joomlaupdate_text.UPTODATE);
 					}
 				}
 			} else {
 				// An error occured
-				document.id('plg_quickicon_joomlaupdate').getElements('img').setProperty('src',plg_quickicon_joomlaupdate_img.ERROR);
-				document.id('plg_quickicon_joomlaupdate').getElements('span').set('html', plg_quickicon_joomlaupdate_text.ERROR);
+				jQuery('#plg_quickicon_joomlaupdate').find('span').html(plg_quickicon_joomlaupdate_text.ERROR);
 			}
 		},
-		onFailure: function(req) {
+		error: function(jqXHR, textStatus, errorThrown) {
 			// An error occured
-			document.id('plg_quickicon_joomlaupdate').getElements('img').setProperty('src',plg_quickicon_joomlaupdate_img.ERROR);
-			document.id('plg_quickicon_joomlaupdate').getElements('span').set('html', plg_quickicon_joomlaupdate_text.ERROR);
+			jQuery('#plg_quickicon_joomlaupdate').find('span').html(plg_quickicon_joomlaupdate_text.ERROR);
 		},
-		url: plg_quickicon_joomlaupdate_ajax_url
+		url: plg_quickicon_joomlaupdate_ajax_url + '&eid=700&cache_timeout=3600'
 	};
-	setTimeout("ajax_object = new Request(plg_quickicon_jupdatecheck_ajax_structure); ajax_object.send('eid=700&cache_timeout=3600');", 2000);
+	setTimeout("ajax_object = new jQuery.ajax(plg_quickicon_jupdatecheck_ajax_structure);", 2000);
 });
