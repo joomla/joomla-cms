@@ -10,8 +10,9 @@ if (!defined('PHPUnit_MAIN_METHOD')) {
 }
 set_include_path(get_include_path() . PATH_SEPARATOR . './PEAR/' . PATH_SEPARATOR . '../');
 
-require_once 'PHPUnit/TextUI/TestRunner.php';
+#require_once 'PHPUnit/TextUI/TestRunner.php';
 require_once 'doInstall.php';
+/*
 require_once 'control_panel/control_panel0001Test.php';
 require_once 'control_panel/control_panel0002Test.php';
 require_once 'control_panel/control_panel0003Test.php';
@@ -44,7 +45,7 @@ require_once 'language/language0001Test.php';
 require_once 'language/language0002Test.php';
 require_once 'cache/cache0001Test.php';
 require_once 'security/security0001Test.php';
-
+*/
 
 class TestSuite
 {
@@ -57,6 +58,7 @@ class TestSuite
 	{
 		$suite = new PHPUnit_Framework_TestSuite('PHPUnit Framework');
 		$suite->addTestSuite('DoInstall');
+		/*
 		$suite->addTestSuite('ControlPanel0001');
 		$suite->addTestSuite('ControlPanel0002');
 		$suite->addTestSuite('ControlPanel0003');
@@ -90,6 +92,8 @@ class TestSuite
 		$suite->addTestSuite('Language0002Test');
 		$suite->addTestSuite('Cache0001Test');
 		$suite->addTestSuite('Security0001Test');
+		*/
+
 		return $suite;
 	}
 }
