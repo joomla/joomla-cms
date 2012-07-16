@@ -100,19 +100,19 @@ class JFormFieldRules extends JFormField
 
 		// Prepare output
 		$html = array();
-		
+
 		$html[] = '<div id="permissions-sliders" class="tabbable tabs-left">';
 		$html[] = '<p class="rule-desc">' . JText::_('JLIB_RULES_SETTINGS_DESC') . '</p>';
 		// Building tab nav
 		$html[] = '<ul class="nav nav-tabs">';
 		foreach ($groups as $group)
-		{			
+		{
 			// Initial Active Tab
 			$active= "";
 			if($group->value == 1):
 			$active= "active";
 			endif;
-			
+
 			$html[] = '<li class="'.$active.'">';
 				$html[] = '<a href="#permission-'. $group->value .'" data-toggle="tab">';
 				$html[] = str_repeat('<span class="level">&ndash;</i> ', $curLevel = $group->level) . $group->text;
@@ -120,7 +120,7 @@ class JFormFieldRules extends JFormField
 			$html[] = '</li>';
 		}
 		$html[] = '</ul>';
-		
+
 		$html[] = '<div class="tab-content" style="width:auto;">';
 
 		// Start a row for each user group.
@@ -129,12 +129,12 @@ class JFormFieldRules extends JFormField
 			// Initial Active Pane
 			$active= "";
 			if($group->value == 1):
-			$active= "active";
+			$active= " active";
 			endif;
-			
+
 			$difLevel = $group->level - $curLevel;
 
-			$html[] = '<div class="tab-pane '.$active.'" id="permission-'. $group->value .'">';
+			$html[] = '<div class="tab-pane' . $active . '" id="permission-' . $group->value .'">';
 			$html[] = '<table class="table table-striped">';
 			$html[] = '<thead>';
 			$html[] = '<tr>';
@@ -271,7 +271,7 @@ class JFormFieldRules extends JFormField
 		}
 
 		$html[] = '</div></div>';
-		
+
 		$html[] = '<div class="alert">';
 		if ($section == 'component' || $section == null)
 		{

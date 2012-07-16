@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+require_once dirname(dirname(__DIR__)) . '/helper/component.php';
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_config
@@ -52,6 +54,9 @@ class ConfigViewApplication extends JViewLegacy
 		$this->assignRef('ftp',		$ftp);
 		$this->assignRef('usersParams', $usersParams);
 		$this->assignRef('mediaParams', $mediaParams);
+
+		$this->components = ConfigHelperComponent::getComponentsWithConfig();
+		ConfigHelperComponent::loadLanguageForComponents($this->components);
 
 		$this->addToolbar();
 		parent::display($tpl);
