@@ -62,6 +62,23 @@ abstract class JError
 	protected static $stack = array();
 
 	/**
+	 * Method to determine if a value is an exception object.
+	 *
+	 * @param   mixed  $object  Object to check.
+	 *
+	 * @return  boolean  True if argument is an exception, false otherwise.
+	 *
+	 * @deprecated  12.1
+	 * @since   11.1
+	 */
+	public static function isError($object)
+	{
+		JLog::add('JError::isError() is deprecated.', JLog::WARNING, 'deprecated');
+
+		return $object instanceof Exception;
+	}
+
+	/**
 	 * Method for retrieving the last exception object in the error stack
 	 *
 	 * @param   boolean  $unset  True to remove the error from the stack.
