@@ -19,6 +19,11 @@ $doc->addStyleSheet('templates/system/css/bootstrap-extended.css');
 $doc->addStyleSheet('templates/'.$this->template.'/css/template.css');
 $doc->addStyleSheet('templates/system/css/bootstrap-responsive.css');
 
+// If Right-to-Left
+if ($this->direction == 'rtl') :
+	$doc->addStyleSheet('templates/system/css/bootstrap-rtl.css');
+endif;
+
 // Add current user information
 $user = JFactory::getUser();
 ?>

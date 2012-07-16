@@ -20,6 +20,11 @@ $doc->addStyleSheet('../templates/system/css/bootstrap-extended.css');
 $doc->addStyleSheet('templates/'.$this->template.'/css/template.css');
 $doc->addStyleSheet('../templates/system/css/bootstrap-responsive.min.css');
 
+// If Right-to-Left
+if ($this->direction == 'rtl') :
+	$doc->addStyleSheet('../templates/system/css/bootstrap-rtl.css');
+endif;
+
 $doc->addStyleSheet('../templates/system/css/chosen.css');
 
 // Detecting Active Variables
