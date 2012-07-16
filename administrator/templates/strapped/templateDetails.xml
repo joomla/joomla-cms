@@ -44,7 +44,7 @@
   <config>
 	  <fields name="params">
 	  	<fieldset name="layout" label="Layout">
-  			<field name="loginColor"  class="" type="color" default=""
+  			<field name="loginColor" class="" type="color" default=""
   				label="TPL_STRAPPED_COLOR_LABEL"
   				description="TPL_STRAPPED_COLOR_DESC" />
 		</fieldset>
