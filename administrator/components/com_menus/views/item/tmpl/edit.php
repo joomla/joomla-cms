@@ -74,6 +74,34 @@ JHtml::_('behavior.modal');
 								<?php echo $this->form->getInput('type'); ?>
 							</div>
 						</div>
+						
+						<?php
+							$fieldSets = $this->form->getFieldsets('request');
+						
+							if (!empty($fieldSets)) :
+								$fieldSet = array_shift($fieldSets);
+								$label = !empty($fieldSet->label) ? $fieldSet->label : 'COM_MENUS_'.$fieldSet->name.'_FIELDSET_LABEL';
+								if (isset($fieldSet->description) && trim($fieldSet->description)) :
+									echo '<p class="tip">'.$this->escape(JText::_($fieldSet->description)).'</p>';
+								endif;
+							?>
+									<?php $hidden_fields = ''; ?>
+										<?php foreach ($this->form->getFieldset('request') as $field) : ?>
+										<?php if (!$field->hidden) : ?>
+										<div class="control-group">
+											<div class="control-label">
+												<?php echo $field->label; ?>
+											</div>
+											<div class="controls">
+												<?php echo $field->input; ?>
+											</div>
+										</div>
+										<?php else : $hidden_fields.= $field->input; ?>
+										<?php endif; ?>
+										<?php endforeach; ?>
+									<?php echo $hidden_fields; ?>
+						<?php endif; ?>
+						
 						<div class="control-group">
 							<div class="control-label">
 								<?php echo $this->form->getLabel('title'); ?>
@@ -124,14 +152,7 @@ JHtml::_('behavior.modal');
 							</div>
 						<?php endif ?>
 			
-						<div class="control-group">
-							<div class="control-label">
-								<?php echo $this->form->getLabel('access'); ?>
-							</div>
-							<div class="controls">
-								<?php echo $this->form->getInput('access'); ?>
-							</div>
-						</div>
+						
 			
 						<div class="control-group">
 							<div class="control-label">
@@ -160,16 +181,16 @@ JHtml::_('behavior.modal');
 							</div>
 						</div>
 			
-						<div class="control-group">
-							<div class="control-label">
-								<?php echo $this->form->getLabel('browserNav'); ?>
-							</div>
-							<div class="controls">
-								<?php echo $this->form->getInput('browserNav'); ?>
-							</div>
-						</div>
 					</div>
 					<div class="span6">
+						<div class="control-group">
+							<div class="control-label">
+								<?php echo $this->form->getLabel('access'); ?>
+							</div>
+							<div class="controls">
+								<?php echo $this->form->getInput('access'); ?>
+							</div>
+						</div>
 						<?php if ($this->item->type == 'component') : ?>
 							<div class="control-group">
 								<div class="control-label">
@@ -182,10 +203,18 @@ JHtml::_('behavior.modal');
 						<?php endif; ?>
 						<div class="control-group">
 							<div class="control-label">
-								<?php echo $this->form->getLabel('note'); ?>
+								<?php echo $this->form->getLabel('browserNav'); ?>
 							</div>
 							<div class="controls">
-								<?php echo $this->form->getInput('note'); ?>
+								<?php echo $this->form->getInput('browserNav'); ?>
+							</div>
+						</div>
+						<div class="control-group">
+							<div class="control-label">
+								<?php echo $this->form->getLabel('template_style_id'); ?>
+							</div>
+							<div class="controls">
+								<?php echo $this->form->getInput('template_style_id'); ?>
 							</div>
 						</div>
 						<div class="control-group">
@@ -196,13 +225,12 @@ JHtml::_('behavior.modal');
 								<?php echo $this->form->getInput('language'); ?>
 							</div>
 						</div>
-						
 						<div class="control-group">
 							<div class="control-label">
-								<?php echo $this->form->getLabel('template_style_id'); ?>
+								<?php echo $this->form->getLabel('note'); ?>
 							</div>
 							<div class="controls">
-								<?php echo $this->form->getInput('template_style_id'); ?>
+								<?php echo $this->form->getInput('note'); ?>
 							</div>
 						</div>
 						<div class="control-group">
