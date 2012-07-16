@@ -254,7 +254,7 @@ abstract class JOAuth1aClient
 		if ($data)
 		{
 			// Do not encode multipart parameters.
-			if (empty($headers))
+			if (!isset($headers['Content-Type']))
 			{
 				// Use all parameters for the signature.
 				$oauth_headers = array_merge($parameters, $data);
