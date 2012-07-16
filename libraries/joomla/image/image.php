@@ -593,16 +593,16 @@ class JImage
 		switch ($type)
 		{
 			case IMAGETYPE_GIF:
-				imagegif($this->handle, $path);
+				return imagegif($this->handle, $path);
 				break;
 
 			case IMAGETYPE_PNG:
-				imagepng($this->handle, $path, (array_key_exists('quality', $options)) ? $options['quality'] : 0);
+				return imagepng($this->handle, $path, (array_key_exists('quality', $options)) ? $options['quality'] : 0);
 				break;
 
 			case IMAGETYPE_JPEG:
 			default:
-				imagejpeg($this->handle, $path, (array_key_exists('quality', $options)) ? $options['quality'] : 100);
+				return imagejpeg($this->handle, $path, (array_key_exists('quality', $options)) ? $options['quality'] : 100);
 		}
 	}
 
