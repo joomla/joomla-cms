@@ -37,17 +37,18 @@ class ConfigHelperComponent
 		return is_file(JPATH_ADMINISTRATOR . '/components/' . $component . '/config.xml');
 	}
 
-	public static function getComponentsWithConfig()
+	public static function getComponentsWithConfig($authCheck = true)
 	{
 		$result = array();
 		$components = self::getAllComponents();
+		$user = JFactory::getUser();
 
 		// Remove com_config from the array as that may have weird side effects
 		$components = array_diff($components, array("com_config"));
 
 		foreach ($components as $component)
 		{
-			if (self::hasComponentConfig($component))
+			if (self::hasComponentConfig($component) && (!$authCheck || $user->authorise('core.manage', $component)))
 			{
 				$result[] = $component;
 			}

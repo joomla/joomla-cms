@@ -33,7 +33,9 @@ $menu->addChild(
 );
 $menu->addSeparator();
 
-if ($user->authorise('core.admin'))
+// Need to rethink what check we need here
+//if ($user->authorise('core.admin'))
+if (1)
 {
 	$menu->addChild(new JMenuNode(JText::_('MOD_MENU_CONFIGURATION'), 'index.php?option=com_config', 'class:config'));
 	$menu->addSeparator();

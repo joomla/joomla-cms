@@ -10,9 +10,15 @@
 defined('_JEXEC') or die;
 ?>
 <ul class="nav nav-list">
+	<?php
+		if ($this->userIsSuperAdmin):
+	?>
 	<li class="nav-header"><?php echo JText::_('COM_CONFIG_SYSTEM'); ?></li>
 	<li class="active"><a href="index.php?option=com_config"><?php echo JText::_('COM_CONFIG_GLOBAL_CONFIGURATION'); ?></a></li>
 	<li class="divider"></li>
+	<?php
+		endif;
+	?>
 	<li class="nav-header"><?php echo JText::_('COM_CONFIG_COMPONENT_FIELDSET_LABEL'); ?></li>
 	<?php
 		foreach($this->components as $component):
@@ -21,6 +27,4 @@ defined('_JEXEC') or die;
 	<?php
 		endforeach;
 	?>
-	<li class="divider"></li>
-	<li class="nav-header"><?php echo JText::_('Extensions'); ?></li>
 </ul>

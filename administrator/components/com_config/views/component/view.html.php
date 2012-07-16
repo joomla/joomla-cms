@@ -24,6 +24,7 @@ class ConfigViewComponent extends JViewLegacy
 	{
 		$form		= $this->get('Form');
 		$component	= $this->get('Component');
+		$user = JFactory::getUser();
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
@@ -41,6 +42,9 @@ class ConfigViewComponent extends JViewLegacy
 
 		$this->components = ConfigHelperComponent::getComponentsWithConfig();
 		ConfigHelperComponent::loadLanguageForComponents($this->components);
+
+		$this->userIsSuperAdmin = $user->authorise('core.admin');
+		$this->currentComponent = JFactory::getApplication()->input->get('component');
 
 		$this->addToolbar();
 		parent::display($tpl);
