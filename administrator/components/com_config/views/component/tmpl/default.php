@@ -50,19 +50,19 @@ JHtml::_('behavior.formvalidation');
 					foreach ($fieldSets as $name => $fieldSet) :
 				?>
 					<div class="tab-pane" id="<?php echo $name;?>">
-				<?php
-					if (isset($fieldSet->description) && !empty($fieldSet->description)) :
-						echo '<p class="tab-description">'.JText::_($fieldSet->description).'</p>';
-					endif;
-					foreach ($this->form->getFieldset($name) as $field):
-				?>
-					<div class="control-group">
-				<?php if (!$field->hidden) : ?>
-						<div class="control-label">
-							<?php echo $field->label; ?>
-						</div>
-				<?php endif; ?>
-						<div class="controls">
+						<?php
+							if (isset($fieldSet->description) && !empty($fieldSet->description)) :
+								echo '<p class="tab-description">'.JText::_($fieldSet->description).'</p>';
+							endif;
+							foreach ($this->form->getFieldset($name) as $field):
+						?>
+							<div class="control-group">
+						<?php if (!$field->hidden && $name != "permissions") : ?>
+								<div class="control-label">
+									<?php echo $field->label; ?>
+								</div>
+						<?php endif; ?>
+						<div class="<?php if ($name != "permissions") : ?>controls<?php endif; ?>">
 							<?php echo $field->input; ?>
 						</div>
 					</div>
