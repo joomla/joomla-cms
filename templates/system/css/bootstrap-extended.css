@@ -365,6 +365,9 @@ fieldset.radio.btn-group {
 .tab-content{
 	overflow: visible;
 }
+.tabs-left .tab-content{
+	overflow: auto;
+}
 /* Non-linkable nav-tabs */
 .nav-tabs > li > span {
     display: block;
