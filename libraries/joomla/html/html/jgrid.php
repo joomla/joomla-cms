@@ -70,7 +70,7 @@ abstract class JHtmlJGrid
 				$html[] = '<i class="icon-ok icon-white"></i>';
 				$html[] = '</span>';
 			}
-			else if ($active_class == "unpublish")
+			elseif ($active_class == "unpublish")
 			{
 				$html[] = '<span class="btn btn-micro btn-danger">';
 				$html[] = '<i class="icon-ban-circle icon-white"></i>';
@@ -87,8 +87,17 @@ abstract class JHtmlJGrid
 		{
 			$html[] = '<a class="jgrid" ' . ($tip ? 'rel="tooltip"' : '') . '';
 			$html[] = ' title="' . addslashes(htmlspecialchars($translate ? JText::_($inactive_title) : $inactive_title, ENT_COMPAT, 'UTF-8')) . '">';
-			$html[] = '<i class="icon-' . $inactive_class . '">';
-			$html[] = '</i>';
+			if ($active_class == "protected")
+			{
+				$html[] = '<span class="btn btn-micro btn-warning">';
+				$html[] = '<i class="icon-lock icon-white"></i>';
+				$html[] = '</span>';
+			}
+			else
+			{
+				$html[] = '<i class="icon-' . $inactive_class . '">';
+				$html[] = '</i>';
+			}
 			$html[] = '</a>';
 		}
 		return implode($html);
