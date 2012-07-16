@@ -9,8 +9,10 @@
 
 defined('_JEXEC') or die;
 
-$app = JFactory::getApplication();
-$doc = JFactory::getDocument();
+$app   = JFactory::getApplication();
+$doc   = JFactory::getDocument();
+$input = $app->input;
+$user  = JFactory::getUser();
 
 // Add Stylesheets
 $doc->addStyleSheet('../templates/system/css/bootstrap.min.css');
@@ -20,39 +22,46 @@ $doc->addStyleSheet('../templates/system/css/bootstrap-responsive.min.css');
 
 $doc->addStyleSheet('../templates/system/css/chosen.css');
 
-// Add current user information
-$user = JFactory::getUser();
+// Detecting Active Variables
+$option = $input->get('option', '');
+$view = $input->get('view', '');
+$layout = $input->get('layout', '');
+$task = $input->get('task', '');
+$itemid = $input->get('Itemid', '');
+$sitename = $app->getCfg('sitename');
+
+if($task == "edit" || $layout == "form" )
+{
+    $fullWidth = 1;
+}
+else
+{
+    $fullWidth = 0;
+}
+
+$cpanel = false;
+if ($option == "com_cpanel")
+{
+	$cpanel = true;
+}
+
+// Adjusting content width
+if ($cpanel) :
+	$span = "span8";
+elseif ($this->countModules('left') && $this->countModules('right')) :
+	$span = "span6";
+elseif ($this->countModules('left') && !$this->countModules('right')) :
+	$span = "span10";
+elseif (!$this->countModules('left') && $this->countModules('right')) :
+	$span = "span8";
+else :
+	$span = "span12";
+endif;
+
 ?>
 <!DOCTYPE html>
 <html>
 <head>
-	<?php
-    // Detecting Active Variables
-    $option = JRequest::getCmd('option', '');
-    $view = JRequest::getCmd('view', '');
-    $layout = JRequest::getCmd('layout', '');
-    $task = JRequest::getCmd('task', '');
-    $itemid = JRequest::getCmd('Itemid', '');
-    $sitename = $app->getCfg('sitename');
-    if($task == "edit" || $layout == "form" ) :
-    $fullWidth = 1;
-    else:
-    $fullWidth = 0;
-    endif;
-
-    // Adjusting content width
-    if ($option == "com_cpanel") :
-    	$span = "span8";
-    elseif ($this->countModules('left') && $this->countModules('right')) :
-    	$span = "span6";
-    elseif ($this->countModules('left') && !$this->countModules('right')) :
-    	$span = "span10";
-    elseif (!$this->countModules('left') && $this->countModules('right')) :
-    	$span = "span8";
-    else :
-    	$span = "span12";
-    endif;
-	?>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<script src="../templates/system/js/jquery.js"></script>
 	<script src="../templates/system/js/bootstrap.min.js"></script>
@@ -61,7 +70,6 @@ $user = JFactory::getUser();
 	  jQuery.noConflict();
 	</script>
 	<jdoc:include type="head" />
-
 </head>
 
 <body class="site <?php echo $option . " view-" . $view . " layout-" . $layout . " task-" . $task . " itemid-" . $itemid . " ";?>" data-spy="scroll" data-target=".subhead" data-offset="87">
@@ -141,7 +149,7 @@ $user = JFactory::getUser();
 	<!-- container-fluid -->
 	<div class="container-fluid">
 		<div class="row-fluid">
-			<?php if (($this->countModules('left')) && ($option != "com_cpanel")): ?>
+			<?php if (($this->countModules('left')) && $cpanel): ?>
 			<!-- Begin Sidebar -->
 			<div id="sidebar" class="span2">
 				<div class="sidebar-nav">
@@ -158,12 +166,12 @@ $user = JFactory::getUser();
 				<jdoc:include type="modules" name="bottom" style="xhtml" />
 				<!-- End Content -->
 			</div>
-			<?php if (($this->countModules('right')) || ($option == "com_cpanel")) : ?>
+			<?php if (($this->countModules('right')) || $cpanel) : ?>
 			<div id="aside" class="span4">
 				<!-- Begin Right Sidebar -->
 				<?php
 				/* Load cpanel modules */
-				if ($option == "com_cpanel"):?>
+				if ($cpanel):?>
 					<jdoc:include type="modules" name="icon" style="well" />
 				<?php endif;?>
 				<jdoc:include type="modules" name="right" style="xhtml" />
