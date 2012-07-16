@@ -101,8 +101,12 @@ class JFormFieldRules extends JFormField
 		// Prepare output
 		$html = array();
 
-		$html[] = '<div id="permissions-sliders" class="tabbable tabs-left">';
+		// Description
 		$html[] = '<p class="rule-desc">' . JText::_('JLIB_RULES_SETTINGS_DESC') . '</p>';
+		
+		// Begin tabs
+		$html[] = '<div id="permissions-sliders" class="tabbable tabs-left">';
+		
 		// Building tab nav
 		$html[] = '<ul class="nav nav-tabs">';
 		foreach ($groups as $group)
@@ -121,7 +125,7 @@ class JFormFieldRules extends JFormField
 		}
 		$html[] = '</ul>';
 
-		$html[] = '<div class="tab-content" style="width:auto;">';
+		$html[] = '<div class="tab-content">';
 
 		// Start a row for each user group.
 		foreach ($groups as $group)
