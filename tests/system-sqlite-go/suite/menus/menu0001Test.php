@@ -89,7 +89,7 @@ class Menu0001 extends SeleniumJoomlaTestCase
 		$this->click("//button[@type='submit']");
 		$this->waitForPageToLoad("30000");
 		$this->click("link=position-7");
-		
+
 		// Wait for jSelectPosition element to disappear
 		$this->waitforElement("//iframe[contains(@src, 'jSelectPosition')]", 30, false);
 

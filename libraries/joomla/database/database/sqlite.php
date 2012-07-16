@@ -732,17 +732,4 @@ class JDatabaseSqlite extends JDatabase implements Serializable
 	{
 		return $this->dbPath;
 	}
-
-	/**
-	 * Execute the SQL statement.
-	 *
-	 * @return  mixed  A database cursor resource on success, boolean false on failure.
-	 *
-	 * @since   12.1
-	 * @throws  JDatabaseException
-	 */
-	public function xexecute()
-	{
-		// TODO: Implement execute() method.
-	}
-}//class
+}
