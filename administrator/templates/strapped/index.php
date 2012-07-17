@@ -9,8 +9,11 @@
 
 defined('_JEXEC') or die;
 
+jimport('joomla.filesystem.file');
+
 $app   = JFactory::getApplication();
 $doc   = JFactory::getDocument();
+$lang  = JFactory::getLanguage();
 $input = $app->input;
 $user  = JFactory::getUser();
 
@@ -23,6 +26,12 @@ $doc->addStyleSheet('../templates/system/css/bootstrap-responsive.min.css');
 // If Right-to-Left
 if ($this->direction == 'rtl') :
 	$doc->addStyleSheet('../templates/system/css/bootstrap-rtl.css');
+endif;
+
+// Load specific language related CSS
+$file = 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css';
+if (JFile::exists($file)) :
+	$doc->addStyleSheet($file);
 endif;
 
 $doc->addStyleSheet('../templates/system/css/chosen.css');
