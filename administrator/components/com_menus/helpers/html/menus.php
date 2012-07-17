@@ -20,7 +20,7 @@ abstract class MenusHtmlMenus
 	/**
 	 * @param	int $itemid	The menu item id
 	 */
-	static function association($itemid)
+	public static function association($itemid)
 	{
 		// Get the associations
 		$associations = MenusHelper::getAssociations($itemid);

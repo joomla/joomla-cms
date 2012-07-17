@@ -10,11 +10,17 @@
 defined('_JEXEC') or die;
 
 /**
+ * Helper for mod_feed
+ *
  * @package     Joomla.Administrator
  * @subpackage  mod_feed
+ * @since       1.5
  */
 abstract class modFeedHelper
 {
+	/**
+	 * @since  1.5
+	 */
 	public static function render($params)
 	{
 		// module params

@@ -18,7 +18,7 @@ defined('_JEXEC') or die;
  */
 class ContentController extends JControllerLegacy
 {
-	function __construct($config = array())
+	public function __construct($config = array())
 	{
 		$this->input = JFactory::getApplication()->input;
 

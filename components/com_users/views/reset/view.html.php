@@ -30,7 +30,7 @@ class UsersViewReset extends JViewLegacy
 	 * @param	string	The template file to include
 	 * @since	1.5
 	 */
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		// This name will be used to get the model
 		$name = $this->getLayout();

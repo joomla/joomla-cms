@@ -81,7 +81,7 @@ class MediaController extends JControllerLegacy
 		return $this;
 	}
 
-	function ftpValidate()
+	public function ftpValidate()
 	{
 		// Set FTP credentials, if given
 		JClientHelper::setCredentialsFromRequest('ftp');

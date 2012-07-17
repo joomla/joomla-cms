@@ -57,7 +57,7 @@ class BannersModelBanners extends JModelList
 	 *
 	 * @since	1.6
 	 */
-	function &getCategoryOrders()
+	public function &getCategoryOrders()
 	{
 		if (!isset($this->cache['categoryorders'])) {
 			$db		= $this->getDbo();

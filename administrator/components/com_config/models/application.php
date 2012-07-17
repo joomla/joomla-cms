@@ -216,7 +216,7 @@ class ConfigModelApplication extends JModelForm
 	 *
 	 * @since	1.6
 	 */
-	function removeroot()
+	public function removeroot()
 	{
 		// Get the previous configuration.
 		$prev = new JConfig;

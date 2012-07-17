@@ -10,8 +10,11 @@
 defined('_JEXEC') or die;
 
 /**
+ * Tree based class to render the admin menu
+ *
  * @package     Joomla.Administrator
  * @subpackage  mod_menu
+ * @since       1.5
  */
 class JAdminCssMenu extends JObject
 {
@@ -81,12 +84,12 @@ class JAdminCssMenu extends JObject
 		$this->_current = &$this->_root;
 	}
 
-	function addSeparator()
+	public function addSeparator()
 	{
 		$this->addChild(new JMenuNode(null, null, 'separator', false));
 	}
 
-	function renderMenu($id = 'menu', $class = '')
+	public function renderMenu($id = 'menu', $class = '')
 	{
 		$depth = 1;
 
@@ -119,7 +122,7 @@ class JAdminCssMenu extends JObject
 		}
 	}
 
-	function renderLevel($depth)
+	public function renderLevel($depth)
 	{
 		/*
 		 * Build the CSS class suffix
@@ -198,7 +201,7 @@ class JAdminCssMenu extends JObject
 	 * @return	string	CSS class name
 	 * @since	1.5
 	 */
-	function getIconClass($identifier)
+	public function getIconClass($identifier)
 	{
 		static $classes;
 
@@ -236,8 +239,12 @@ class JAdminCssMenu extends JObject
 }
 
 /**
+ * A Node for JAdminCssMenu
+ *
  * @package     Joomla.Administrator
  * @subpackage  mod_menu
+ * @since       1.5
+ * @see         JAdminCssMenu
  */
 class JMenuNode extends JObject
 {

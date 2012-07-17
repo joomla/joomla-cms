@@ -16,6 +16,7 @@ JTable::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR . '/tables');
  *
  * @package     Joomla.Site
  * @subpackage  com_banners
+ * @since       1.5
  */
 class BannersModelBanner extends JModelLegacy
 {
@@ -25,8 +26,10 @@ class BannersModelBanner extends JModelLegacy
 	 * Clicks the URL, incrementing the counter
 	 *
 	 * @return	void
+	 *
+	 * @since   1.5
 	 */
-	function click()
+	public function click()
 	{
 		$id = $this->getState('banner.id');
 
@@ -125,7 +128,7 @@ class BannersModelBanner extends JModelLegacy
 	 *
 	 * @return	object
 	 */
-	function &getItem()
+	public function &getItem()
 	{
 		if (!isset($this->_item))
 		{
@@ -173,8 +176,10 @@ class BannersModelBanner extends JModelLegacy
 	 * Get the URL for a banner
 	 *
 	 * @return	string
+	 *
+	 * @since   1.5
 	 */
-	function getUrl()
+	public function getUrl()
 	{
 		$item = $this->getItem();
 		$url = $item->clickurl;

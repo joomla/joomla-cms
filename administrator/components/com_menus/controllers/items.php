@@ -28,7 +28,7 @@ class MenusControllerItems extends JControllerAdmin
 	 * Proxy for getModel
 	 * @since	1.6
 	 */
-	function getModel($name = 'Item', $prefix = 'MenusModel', $config = array())
+	public function getModel($name = 'Item', $prefix = 'MenusModel', $config = array())
 	{
 		return parent::getModel($name, $prefix, array('ignore_request' => true));
 	}
@@ -85,7 +85,7 @@ class MenusControllerItems extends JControllerAdmin
 	 *
 	 * @since	1.6
 	 */
-	function setDefault()
+	public function setDefault()
 	{
 		// Check for request forgeries
 		JSession::checkToken('request') or die(JText::_('JINVALID_TOKEN'));

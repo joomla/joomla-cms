@@ -18,7 +18,7 @@ defined('_JEXEC') or die;
  */
 class WeblinksViewCategory extends JViewLegacy
 {
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		$app      = JFactory::getApplication();
 		$document = JFactory::getDocument();

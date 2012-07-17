@@ -10,13 +10,15 @@
 defined('_JEXEC') or die;
 
 /**
+ * Helper for mod_syndicate
+ *
  * @package     Joomla.Site
  * @subpackage  mod_syndicate
  * @since       1.5
  */
 class modSyndicateHelper
 {
-	static function getLink(&$params)
+	public static function getLink(&$params)
 	{
 		$document = JFactory::getDocument();
 

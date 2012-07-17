@@ -53,7 +53,7 @@ class AdminModelSysInfo extends JModelLegacy
 	 *
 	 * @return array some php settings
 	 */
-	function &getPhpSettings()
+	public function &getPhpSettings()
 	{
 		if (is_null($this->php_settings))
 		{
@@ -77,12 +77,13 @@ class AdminModelSysInfo extends JModelLegacy
 		}
 		return $this->php_settings;
 	}
+
 	/**
 	 * method to get the config
 	 *
 	 * @return array config values
 	 */
-	function &getConfig()
+	public function &getConfig()
 	{
 		if (is_null($this->config))
 		{
@@ -95,12 +96,13 @@ class AdminModelSysInfo extends JModelLegacy
 		}
 		return $this->config;
 	}
+
 	/**
 	 * method to get the system information
 	 *
 	 * @return array system information values
 	 */
-	function &getInfo()
+	public function &getInfo()
 	{
 		if (is_null($this->info))
 		{
@@ -132,7 +134,7 @@ class AdminModelSysInfo extends JModelLegacy
 	 *
 	 * @return string PHP info
 	 */
-	function &getPHPInfo()
+	public function &getPHPInfo()
 	{
 		if (is_null($this->php_info))
 		{
@@ -238,7 +240,7 @@ class AdminModelSysInfo extends JModelLegacy
 	 *
 	 * has to be removed (it is present in the config...)
 	 */
-	function &getEditor()
+	public function &getEditor()
 	{
 		if (is_null($this->editor))
 		{

@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     Joomla.Administrator
  * @subpackage  com_config
+ * @since       1.5
  */
 class ConfigModelComponent extends JModelForm
 {

@@ -51,7 +51,7 @@ class SearchModelSearch extends JModelLegacy
 	 *
 	 * @since 1.5
 	 */
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 
@@ -82,7 +82,7 @@ class SearchModelSearch extends JModelLegacy
 	 * @param string mathcing option, exact|any|all
 	 * @param string ordering option, newest|oldest|popular|alpha|category
 	 */
-	function setSearch($keyword, $match = 'all', $ordering = 'newest')
+	public function setSearch($keyword, $match = 'all', $ordering = 'newest')
 	{
 		if (isset($keyword)) {
 			$this->setState('origkeyword', $keyword);
@@ -108,7 +108,7 @@ class SearchModelSearch extends JModelLegacy
 	 * @param	array	Active areas
 	 * @param	array	Search areas
 	 */
-	function setAreas($active = array(), $search = array())
+	public function setAreas($active = array(), $search = array())
 	{
 		$this->_areas['active'] = $active;
 		$this->_areas['search'] = $search;
@@ -120,7 +120,7 @@ class SearchModelSearch extends JModelLegacy
 	 * @access public
 	 * @return array
 	 */
-	function getData()
+	public function getData()
 	{
 		// Lets load the content if it doesn't already exist
 		if (empty($this->_data))
@@ -158,7 +158,7 @@ class SearchModelSearch extends JModelLegacy
 	 * @access public
 	 * @return integer
 	 */
-	function getTotal()
+	public function getTotal()
 	{
 		return $this->_total;
 	}
@@ -169,7 +169,7 @@ class SearchModelSearch extends JModelLegacy
 	 * @access public
 	 * @return integer
 	 */
-	function getPagination()
+	public function getPagination()
 	{
 		// Lets load the content if it doesn't already exist
 		if (empty($this->_pagination))
@@ -185,7 +185,7 @@ class SearchModelSearch extends JModelLegacy
 	 *
 	 * @since 1.5
 	 */
-	function getAreas()
+	public function getAreas()
 	{
 		// Load the Category data
 		if (empty($this->_areas['search']))

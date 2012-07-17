@@ -52,7 +52,7 @@ class joomlaInstallerScript
 	 *
 	 * @return void
 	 */
-	function update($installer)
+	public function update($installer)
 	{
 		$this->deleteUnexistingFiles();
 		$this->updateManifestCaches();
@@ -314,6 +314,7 @@ class joomlaInstallerScript
 			}
 		}
 	}
+
 	public function deleteUnexistingFiles()
 	{
 		$files = array(

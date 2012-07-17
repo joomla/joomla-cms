@@ -63,7 +63,7 @@ class MessagesHelper
 	 *
 	 * @return	array	An array of JHtmlOption elements.
 	 */
-	static function getStateOptions()
+	public static function getStateOptions()
 	{
 		// Build the filter options.
 		$options	= array();

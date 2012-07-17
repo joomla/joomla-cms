@@ -18,7 +18,7 @@ defined('_JEXEC') or die;
  */
 class plgSystemRemember extends JPlugin
 {
-	function onAfterInitialise()
+	public function onAfterInitialise()
 	{
 		$app = JFactory::getApplication();
 

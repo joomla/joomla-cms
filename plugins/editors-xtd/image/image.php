@@ -37,7 +37,7 @@ class plgButtonImage extends JPlugin
 	 *
 	 * @return array A two element array of (imageName, textToInsert)
 	 */
-	function onDisplay($name, $asset, $author)
+	public function onDisplay($name, $asset, $author)
 	{
 		$app = JFactory::getApplication();
 		$params = JComponentHelper::getParams('com_media');

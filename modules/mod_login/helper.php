@@ -10,13 +10,15 @@
 defined('_JEXEC') or die;
 
 /**
+ * Helper for mod_login
+ *
  * @package     Joomla.Site
  * @subpackage  mod_login
  * @since       1.5
  */
 class modLoginHelper
 {
-	static function getReturnURL($params, $type)
+	public static function getReturnURL($params, $type)
 	{
 		$app	= JFactory::getApplication();
 		$router = $app->getRouter();
@@ -76,7 +78,7 @@ class modLoginHelper
 		return base64_encode($url);
 	}
 
-	static function getType()
+	public static function getType()
 	{
 		$user = JFactory::getUser();
 		return (!$user->get('guest')) ? 'logout' : 'login';

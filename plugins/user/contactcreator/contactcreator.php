@@ -34,7 +34,7 @@ class plgUserContactCreator extends JPlugin
 		$this->loadLanguage();
 	}
 
-	function onUserAfterSave($user, $isnew, $success, $msg)
+	public function onUserAfterSave($user, $isnew, $success, $msg)
 	{
 		if(!$success) {
 			return false; // if the user wasn't stored we don't resync

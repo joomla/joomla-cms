@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     Joomla.Administrator
  * @subpackage  com_config
+ * @since       1.5
  */
 class ConfigControllerComponent extends JControllerLegacy
 {
@@ -24,7 +25,7 @@ class ConfigControllerComponent extends JControllerLegacy
 	 * @return	void
 	 * @since	1.5
 	 */
-	function __construct($config = array())
+	public function __construct($config = array())
 	{
 		parent::__construct($config);
 
@@ -35,7 +36,7 @@ class ConfigControllerComponent extends JControllerLegacy
 	/**
 	 * Save the configuration
 	 */
-	function save()
+	public function save()
 	{
 		// Check for request forgeries.
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));

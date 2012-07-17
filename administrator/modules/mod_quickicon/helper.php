@@ -10,6 +10,8 @@
 defined('_JEXEC') or die;
 
 /**
+ * Helper for mod_quickicon
+ *
  * @package     Joomla.Administrator
  * @subpackage  mod_quickicon
  * @since       1.6

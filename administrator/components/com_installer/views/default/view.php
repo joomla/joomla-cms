@@ -21,7 +21,7 @@ class InstallerViewDefault extends JViewLegacy
 	/**
 	 * @since	1.5
 	 */
-	function __construct($config = null)
+	public function __construct($config = null)
 	{
 		$app = JFactory::getApplication();
 		parent::__construct($config);
@@ -32,7 +32,7 @@ class InstallerViewDefault extends JViewLegacy
 	/**
 	 * @since	1.5
 	 */
-	function display($tpl=null)
+	public function display($tpl=null)
 	{
 		// Get data from the model
 		$state	= $this->get('State');

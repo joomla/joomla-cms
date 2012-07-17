@@ -27,7 +27,7 @@ class plgSystemLogout extends JPlugin
 	 * @return	void
 	 * @since	1.6
 	 */
-	function __construct(&$subject, $config)
+	public function __construct(&$subject, $config)
 	{
 		parent::__construct($subject, $config);
 		$this->loadLanguage();
@@ -69,7 +69,7 @@ class plgSystemLogout extends JPlugin
 		return true;
 	}
 
-	static function handleError(&$error)
+	public static function handleError(&$error)
 	{
 		// Get the application object.
 		$app = JFactory::getApplication();

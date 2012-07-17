@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     Joomla.Administrator
  * @subpackage  com_search
+ * @since       1.5
  */
 class SearchHelper
 {
@@ -48,7 +49,7 @@ class SearchHelper
 		return $result;
 	}
 
-	static function santiseSearchWord(&$searchword, $searchphrase)
+	public static function santiseSearchWord(&$searchword, $searchphrase)
 	{
 		$ignored = false;
 
@@ -88,7 +89,10 @@ class SearchHelper
 		return $ignored;
 	}
 
-	static function limitSearchWord(&$searchword)
+	/**
+	 * @since  1.5
+	 */
+	public static function limitSearchWord(&$searchword)
 	{
 		$restriction = false;
 
@@ -110,7 +114,10 @@ class SearchHelper
 		return $restriction;
 	}
 
-	static function logSearch($search_term)
+	/**
+	 * @since  1.5
+	 */
+	public static function logSearch($search_term)
 	{
 		$db = JFactory::getDbo();
 
@@ -149,6 +156,8 @@ class SearchHelper
 	 * @param string The source string
 	 * @param string The searchword to select around
 	 * @return string
+	 *
+	 * @since  1.5
 	 */
 	public static function prepareSearchContent($text, $searchword)
 	{
@@ -202,8 +211,10 @@ class SearchHelper
 	 * @param int Number of chars to return
 	 * @param string The searchword to select around
 	 * @return string
+	 *
+	 * @since  1.5
 	 */
-	static function _smartSubstr($text, $searchword)
+	public static function _smartSubstr($text, $searchword)
 	{
 		$lang = JFactory::getLanguage();
 		$length = $lang->getSearchDisplayedCharactersNumber();

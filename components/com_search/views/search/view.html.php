@@ -18,7 +18,7 @@ defined('_JEXEC') or die;
  */
 class SearchViewSearch extends JViewLegacy
 {
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		require_once JPATH_COMPONENT_ADMINISTRATOR.'/helpers/search.php';
 

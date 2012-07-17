@@ -331,7 +331,7 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 	 * @return	boolean	True on success.
 	 * @since	1.6
 	 */
-	function publish(&$pks, $value = 1)
+	public function publish(&$pks, $value = 1)
 	{
 		$result = parent::publish($pks, $value);
 

@@ -10,6 +10,8 @@
 defined('_JEXEC') or die;
 
 /**
+ * Helper for mod_menu
+ *
  * @package     Joomla.Site
  * @subpackage  mod_menu
  * @since       1.5
@@ -24,7 +26,7 @@ class modMenuHelper
 	 * @return	array
 	 * @since	1.5
 	 */
-	static function getList(&$params)
+	public static function getList(&$params)
 	{
 		$app = JFactory::getApplication();
 		$menu = $app->getMenu();

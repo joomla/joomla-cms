@@ -78,7 +78,7 @@ class InstallationControllerSetup extends JControllerLegacy
 	/**
 	 * @since	3.0
 	 */
-	function database()
+	public function database()
 	{
 		// Check for request forgeries.
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
@@ -144,7 +144,7 @@ class InstallationControllerSetup extends JControllerLegacy
 	/**
 	 * @since	3.0
 	 */
-	function filesystem()
+	public function filesystem()
 	{
 		// Check for request forgeries.
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
@@ -189,7 +189,7 @@ class InstallationControllerSetup extends JControllerLegacy
 	/**
 	 * @since	3.0
 	 */
-	function saveconfig()
+	public function saveconfig()
 	{
 		// Check for request forgeries.
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));

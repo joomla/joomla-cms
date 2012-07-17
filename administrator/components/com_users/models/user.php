@@ -280,7 +280,7 @@ class UsersModelUser extends JModelAdmin
 	 *
 	 * @since   1.6
 	 */
-	function block(&$pks, $value = 1)
+	public function block(&$pks, $value = 1)
 	{
 		// Initialise variables.
 		$app		= JFactory::getApplication();
@@ -391,7 +391,7 @@ class UsersModelUser extends JModelAdmin
 	 *
 	 * @since   1.6
 	 */
-	function activate(&$pks)
+	public function activate(&$pks)
 	{
 		// Initialise variables.
 		$dispatcher	= JEventDispatcher::getInstance();

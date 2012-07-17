@@ -29,7 +29,7 @@ class ContentViewCategories extends JViewLegacy
 	 *
 	 * @return	mixed	False on error, null otherwise.
 	 */
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		// Initialise variables
 		$state		= $this->get('State');

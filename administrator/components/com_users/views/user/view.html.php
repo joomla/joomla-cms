@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_users
+ * @since       1.5
  */
 class UsersViewUser extends JViewLegacy
 {
@@ -27,6 +28,8 @@ class UsersViewUser extends JViewLegacy
 
 	/**
 	 * Display the view
+	 *
+	 * @since  1.5
 	 */
 	public function display($tpl = null)
 	{

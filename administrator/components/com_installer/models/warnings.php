@@ -55,7 +55,7 @@ class InstallerModelWarnings extends JModelList
 	 *
 	 * @since	1.6
 	 */
-	function getItems()
+	public function getItems()
 	{
 		static $messages;
 		if ($messages) {

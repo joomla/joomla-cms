@@ -18,7 +18,7 @@ defined('_JEXEC') or die;
  */
 class MediaModelManager extends JModelLegacy
 {
-	function getState($property = null, $default = null)
+	public function getState($property = null, $default = null)
 	{
 		static $set;
 

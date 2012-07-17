@@ -34,7 +34,7 @@ class SearchController extends JControllerLegacy
 		return parent::display($cachable, $urlparams);
 	}
 
-	function search()
+	public function search()
 	{
 		// slashes cause errors, <> get stripped anyway later on. # causes problems.
 		$badchars = array('#', '>', '<', '\\');

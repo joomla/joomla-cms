@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_media
+ * @since       1.5
  */
 abstract class MediaHelper
 {

@@ -37,7 +37,7 @@ class plgSearchCategories extends JPlugin
 	/**
 	 * @return array An array of search areas
 	 */
-	function onContentSearchAreas()
+	public function onContentSearchAreas()
 	{
 		static $areas = array(
 		'categories' => 'PLG_SEARCH_CATEGORIES_CATEGORIES'
@@ -56,7 +56,7 @@ class plgSearchCategories extends JPlugin
 	 * @param string ordering option, newest|oldest|popular|alpha|category
 	 * @param mixed An array if restricted to areas, null if search all
 	 */
-	function onContentSearch($text, $phrase='', $ordering='', $areas=null)
+	public function onContentSearch($text, $phrase='', $ordering='', $areas=null)
 	{
 		$db		= JFactory::getDbo();
 		$user	= JFactory::getUser();

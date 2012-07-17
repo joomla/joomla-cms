@@ -12,6 +12,8 @@ defined('_JEXEC') or die;
 JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR.'/components/com_content/models', 'ContentModel');
 
 /**
+ * Helper for mod_latest
+ *
  * @package     Joomla.Administrator
  * @subpackage  mod_latest
  */

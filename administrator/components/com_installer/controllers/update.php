@@ -20,7 +20,7 @@ class InstallerControllerUpdate extends JControllerLegacy
 	 *
 	 * @since	1.6
 	 */
-	function update()
+	public function update()
 	{
 		// Check for request forgeries
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
@@ -53,7 +53,7 @@ class InstallerControllerUpdate extends JControllerLegacy
 	 *
 	 * @since	1.6
 	 */
-	function find()
+	public function find()
 	{
 		// Check for request forgeries
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
@@ -76,7 +76,7 @@ class InstallerControllerUpdate extends JControllerLegacy
 	 *
 	 * @since	1.6
 	 */
-	function purge()
+	public function purge()
 	{
 		// Purge updates
 		// Check for request forgeries
@@ -94,7 +94,7 @@ class InstallerControllerUpdate extends JControllerLegacy
 	 *
 	 * @since 2.5
 	 */
-	function ajax()
+	public function ajax()
 	{
 		// Note: we don't do a token check as we're fetching information
 		// asynchronously. This means that between requests the token might

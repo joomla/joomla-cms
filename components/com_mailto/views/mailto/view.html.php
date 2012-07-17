@@ -12,10 +12,14 @@ defined('_JEXEC') or die;
 /**
  * @package     Joomla.Site
  * @subpackage  com_mailto
+ * @since       1.5
  */
 class MailtoViewMailto extends JViewLegacy
 {
-	function display($tpl = null)
+	/**
+	 * @since  1.5
+	 */
+	public function display($tpl = null)
 	{
 		$data = $this->getData();
 		if ($data === false) {
@@ -27,6 +31,9 @@ class MailtoViewMailto extends JViewLegacy
 		parent::display($tpl);
 	}
 
+	/**
+	 * @since  1.5
+	 */
 	function &getData()
 	{
 		$user = JFactory::getUser();

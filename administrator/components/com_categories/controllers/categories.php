@@ -27,7 +27,7 @@ class CategoriesControllerCategories extends JControllerAdmin
 	 * @return	object	The model.
 	 * @since	1.6
 	 */
-	function getModel($name = 'Category', $prefix = 'CategoriesModel', $config = array('ignore_request' => true))
+	public function getModel($name = 'Category', $prefix = 'CategoriesModel', $config = array('ignore_request' => true))
 	{
 		$model = parent::getModel($name, $prefix, $config);
 		return $model;

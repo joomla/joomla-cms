@@ -27,7 +27,7 @@ class LanguagesViewLanguages extends JViewLegacy
 	/**
 	 * Display the view
 	 */
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		$this->items		= $this->get('Items');
 		$this->pagination	= $this->get('Pagination');

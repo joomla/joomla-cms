@@ -64,7 +64,7 @@ class InstallerModelInstall extends JModelLegacy
 	 * @return	boolean result of install
 	 * @since	1.5
 	 */
-	function install()
+	public function install()
 	{
 		$this->setState('action', 'install');
 

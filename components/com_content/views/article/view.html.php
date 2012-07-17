@@ -28,7 +28,7 @@ class ContentViewArticle extends JViewLegacy
 
 	protected $user;
 
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		// Initialise variables.
 		$app		= JFactory::getApplication();

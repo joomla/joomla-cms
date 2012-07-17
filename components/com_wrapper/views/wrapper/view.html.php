@@ -12,9 +12,13 @@ defined('_JEXEC') or die;
 /**
  * @package     Joomla.Site
  * @subpackage  com_wrapper
+ * @since       1.5
  */
 class WrapperViewWrapper extends JViewLegacy
 {
+	/**
+	 * @since  1.5
+	 */
 	public function display($tpl = null)
 	{
 		$app		= JFactory::getApplication();

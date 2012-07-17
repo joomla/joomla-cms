@@ -23,7 +23,7 @@ class plgSearchContent extends JPlugin
 	/**
 	 * @return array An array of search areas
 	 */
-	function onContentSearchAreas()
+	public function onContentSearchAreas()
 	{
 		static $areas = array(
 			'content' => 'JGLOBAL_ARTICLES'
@@ -40,7 +40,7 @@ class plgSearchContent extends JPlugin
 	 * @param string ordering option, newest|oldest|popular|alpha|category
 	 * @param mixed An array if the search it to be restricted to areas, null if search all
 	 */
-	function onContentSearch($text, $phrase='', $ordering='', $areas=null)
+	public function onContentSearch($text, $phrase='', $ordering='', $areas=null)
 	{
 		$db		= JFactory::getDbo();
 		$app	= JFactory::getApplication();

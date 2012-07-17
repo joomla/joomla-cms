@@ -28,7 +28,7 @@ class WeblinksViewCategory extends JViewLegacy
 
 	protected $pagination;
 
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		$app		= JFactory::getApplication();
 		$params		= $app->getParams();

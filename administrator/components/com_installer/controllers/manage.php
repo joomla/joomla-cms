@@ -95,7 +95,7 @@ class InstallerControllerManage extends JControllerLegacy
 	 *
 	 * @since	1.6
 	 */
-	function refresh()
+	public function refresh()
 	{
 		// Check for request forgeries
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));

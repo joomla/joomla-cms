@@ -297,7 +297,7 @@ class MenusControllerItem extends JControllerForm
 	 *
 	 * @since   1.6
 	 */
-	function setType()
+	public function setType()
 	{
 		// Initialise variables.
 		$app = JFactory::getApplication();

@@ -101,7 +101,7 @@ class ContactTableContact extends JTable
 	 * @see JTable::check
 	 * @since 1.5
 	 */
-	function check()
+	public function check()
 	{
 		$this->default_con = (int) $this->default_con;
 

@@ -20,7 +20,7 @@ class ContentControllerFeatured extends ContentControllerArticles
 	/**
 	 * Removes an item
 	 */
-	function delete()
+	public function delete()
 	{
 		// Check for request forgeries
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
@@ -62,7 +62,7 @@ class ContentControllerFeatured extends ContentControllerArticles
 	 * @return	void
 	 * @since	1.0
 	 */
-	function publish()
+	public function publish()
 	{
 		parent::publish();
 

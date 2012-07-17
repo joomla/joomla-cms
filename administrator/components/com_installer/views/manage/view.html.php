@@ -31,7 +31,7 @@ class InstallerViewManage extends InstallerViewDefault
 	/**
 	 * @since	1.6
 	 */
-	function display($tpl=null)
+	public function display($tpl = null)
 	{
 		// Get data from the model
 		$this->state		= $this->get('State');

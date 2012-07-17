@@ -28,7 +28,7 @@ class plgAuthenticationGMail extends JPlugin
 	 * @return	boolean
 	 * @since 1.5
 	 */
-	function onUserAuthenticate($credentials, $options, &$response)
+	public function onUserAuthenticate($credentials, $options, &$response)
 	{
 		$message = '';
 		$success = 0;

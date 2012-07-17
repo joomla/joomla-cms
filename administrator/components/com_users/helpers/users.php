@@ -104,7 +104,7 @@ class UsersHelper
 	 *
 	 * @since   1.6
 	 */
-	static function getStateOptions()
+	public static function getStateOptions()
 	{
 		// Build the filter options.
 		$options = array();
@@ -121,7 +121,7 @@ class UsersHelper
 	 *
 	 * @since   1.6
 	 */
-	static function getActiveOptions()
+	public static function getActiveOptions()
 	{
 		// Build the filter options.
 		$options = array();
@@ -138,7 +138,7 @@ class UsersHelper
 	 *
 	 * @since   1.6
 	 */
-	static function getGroups()
+	public static function getGroups()
 	{
 		$db = JFactory::getDbo();
 		$db->setQuery(

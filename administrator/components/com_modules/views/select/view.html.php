@@ -25,7 +25,7 @@ class ModulesViewSelect extends JViewLegacy
 	/**
 	 * Display the view
 	 */
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		$state		= $this->get('State');
 		$items		= $this->get('Items');

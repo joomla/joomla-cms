@@ -26,7 +26,7 @@ class ContentViewArchive extends JViewLegacy
 
 	protected $pagination = null;
 
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		$app = JFactory::getApplication();
 		$user		= JFactory::getUser();

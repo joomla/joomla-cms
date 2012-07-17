@@ -18,7 +18,7 @@ defined('_JEXEC') or die;
  */
 class ContactViewCategory extends JViewLegacy
 {
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {

@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 /**
  * @package     Joomla.Site
  * @subpackage  com_contact
+ * @since       1.5
  */
 class ContactModelCategory extends JModelList
 {

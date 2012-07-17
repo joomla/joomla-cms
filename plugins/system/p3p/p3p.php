@@ -21,7 +21,7 @@ class plgSystemP3p extends JPlugin
 	/*
 	 * @since   1.6
 	 */
-	function onAfterInitialise()
+	public function onAfterInitialise()
 	{
 		// Get the header
 		$header = $this->params->get('header', 'NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM');

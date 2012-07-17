@@ -54,7 +54,7 @@ class NewsfeedsTableNewsfeed extends JTable
 	 *
 	 * @return	boolean	True on success.
 	 */
-	function check()
+	public function check()
 	{
 		// Check for valid name.
 		if (trim($this->name) == '') {

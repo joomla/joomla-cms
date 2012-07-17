@@ -76,7 +76,7 @@ abstract class ModulesHelper
 		return $options;
 	}
 
-	static function getPositions($clientId)
+	public static function getPositions($clientId)
 	{
 		$db		= JFactory::getDbo();
 		$query	= $db->getQuery(true);

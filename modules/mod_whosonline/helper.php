@@ -10,6 +10,8 @@
 defined('_JEXEC') or die;
 
 /**
+ * Helper for mod_whosonline
+ *
  * @package     Joomla.Site
  * @subpackage  mod_whosonline
  * @since       1.5
@@ -17,7 +19,7 @@ defined('_JEXEC') or die;
 class modWhosonlineHelper
 {
 	// show online count
-	static function getOnlineCount()
+	public static function getOnlineCount()
 	{
 		$db		= JFactory::getDbo();
 		// calculate number of guests and users
@@ -51,7 +53,7 @@ class modWhosonlineHelper
 	}
 
 	// show online member names
-	static function getOnlineUserNames($params)
+	public static function getOnlineUserNames($params)
 	{
 		$db		= JFactory::getDbo();
 		$query	= $db->getQuery(true);

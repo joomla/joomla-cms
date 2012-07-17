@@ -23,7 +23,7 @@ class MessagesTableMessage extends JTable
 	 *
 	 * @param database A database connector object
 	 */
-	function __construct(& $db)
+	public function __construct(& $db)
 	{
 		parent::__construct('#__messages', 'message_id', $db);
 	}
@@ -33,7 +33,7 @@ class MessagesTableMessage extends JTable
 	 *
 	 * @return boolean
 	 */
-	function check()
+	public function check()
 	{
 		// Check the to and from users.
 		$user = new JUser($this->user_id_from);

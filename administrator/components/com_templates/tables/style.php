@@ -57,7 +57,7 @@ class TemplatesTableStyle extends JTable
 	 *
 	 * @return	boolean	True on success.
 	 */
-	function check()
+	public function check()
 	{
 		if (empty($this->title))
 		{

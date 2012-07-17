@@ -10,6 +10,8 @@
 defined('_JEXEC') or die;
 
 /**
+ * Helper for mod_menu
+ *
  * @package     Joomla.Administrator
  * @subpackage  mod_menu
  * @since       1.5

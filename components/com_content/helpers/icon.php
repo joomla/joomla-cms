@@ -19,7 +19,7 @@ defined('_JEXEC') or die;
  */
 class JHtmlIcon
 {
-	static function create($category, $params)
+	public static function create($category, $params)
 	{
 		$uri = JURI::getInstance();
 
@@ -37,7 +37,7 @@ class JHtmlIcon
 		return $output;
 	}
 
-	static function email($article, $params, $attribs = array())
+	public static function email($article, $params, $attribs = array())
 	{
 		require_once JPATH_SITE . '/components/com_mailto/helpers/mailto.php';
 		$uri	= JURI::getInstance();
@@ -74,7 +74,7 @@ class JHtmlIcon
 	 * @return	string	The HTML for the article edit icon.
 	 * @since	1.6
 	 */
-	static function edit($article, $params, $attribs = array())
+	public static function edit($article, $params, $attribs = array())
 	{
 		// Initialise variables.
 		$user	= JFactory::getUser();
@@ -128,7 +128,7 @@ class JHtmlIcon
 		return $output;
 	}
 
-	static function print_popup($article, $params, $attribs = array())
+	public static function print_popup($article, $params, $attribs = array())
 	{
 		$url  = ContentHelperRoute::getArticleRoute($article->slug, $article->catid);
 		$url .= '&tmpl=component&print=1&layout=default&page='.@ $request->limitstart;
@@ -149,7 +149,7 @@ class JHtmlIcon
 		return JHtml::_('link', JRoute::_($url), $text, $attribs);
 	}
 
-	static function print_screen($article, $params, $attribs = array())
+	public static function print_screen($article, $params, $attribs = array())
 	{
 		// checks template image directory for image, if non found default are loaded
 		if ($params->get('show_icons')) {

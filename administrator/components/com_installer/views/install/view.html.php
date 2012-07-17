@@ -23,7 +23,7 @@ class InstallerViewInstall extends InstallerViewDefault
 	/**
 	 * @since	1.5
 	 */
-	function display($tpl=null)
+	public function display($tpl = null)
 	{
 		$paths = new stdClass;
 		$paths->first = '';

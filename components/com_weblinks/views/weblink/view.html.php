@@ -22,7 +22,7 @@ class WeblinksViewWeblink extends JViewLegacy
 
 	protected $item;
 
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		$app		= JFactory::getApplication();
 		$params		= $app->getParams();

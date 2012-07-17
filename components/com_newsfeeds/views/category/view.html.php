@@ -28,7 +28,7 @@ class NewsfeedsViewCategory extends JViewLegacy
 
 	protected $pagination;
 
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		$app		= JFactory::getApplication();
 		$user		= JFactory::getUser();

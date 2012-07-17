@@ -1315,7 +1315,7 @@ class MenusModelItem extends JModelAdmin
 	 * @return	boolean	True on success.
 	 * @since	1.6
 	 */
-	function setHome(&$pks, $value = 1)
+	public function setHome(&$pks, $value = 1)
 	{
 		// Initialise variables.
 		$table		= $this->getTable();
@@ -1385,7 +1385,7 @@ class MenusModelItem extends JModelAdmin
 	 * @return	boolean	True on success.
 	 * @since	1.6
 	 */
-	function publish(&$pks, $value = 1)
+	public function publish(&$pks, $value = 1)
 	{
 		// Initialise variables.
 		$table		= $this->getTable();

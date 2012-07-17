@@ -10,13 +10,15 @@
 defined('_JEXEC') or die;
 
 /**
+ * Helper for mod_banners
+ *
  * @package     Joomla.Site
  * @subpackage  mod_banners
  * @since       1.5
  */
 class modBannersHelper
 {
-	static function &getList(&$params)
+	public static function &getList(&$params)
 	{
 		JModelLegacy::addIncludePath(JPATH_ROOT.'/components/com_banners/models', 'BannersModel');
 		$document	= JFactory::getDocument();

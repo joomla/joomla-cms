@@ -10,13 +10,15 @@
 defined('_JEXEC') or die;
 
 /**
+ * Helper for mod_random_image
+ *
  * @package     Joomla.Site
  * @subpackage  mod_random_image
  * @since       1.5
  */
 class modRandomImageHelper
 {
-	static function getRandomImage(&$params, $images)
+	public static function getRandomImage(&$params, $images)
 	{
 		$width	= $params->get('width');
 		$height	= $params->get('height');
@@ -53,7 +55,7 @@ class modRandomImageHelper
 		return $image;
 	}
 
-	static function getImages(&$params, $folder)
+	public static function getImages(&$params, $folder)
 	{
 		$type		= $params->get('type', 'jpg');
 
@@ -93,7 +95,7 @@ class modRandomImageHelper
 		return $images;
 	}
 
-	static function getFolder(&$params)
+	public static function getFolder(&$params)
 	{
 		$folder	= $params->get('folder');
 

@@ -40,7 +40,7 @@ class ContactControllerContacts extends JControllerAdmin
 	 * @return	void
 	 * @since	1.6
 	 */
-	function featured()
+	public function featured()
 	{
 		// Check for request forgeries
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));

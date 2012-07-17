@@ -18,7 +18,7 @@ defined('_JEXEC') or die;
  */
 class ContentViewFeatured extends JViewLegacy
 {
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		// Parameters
 		$app       = JFactory::getApplication();

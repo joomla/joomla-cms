@@ -57,7 +57,7 @@ class plgEditorNone extends JPlugin
 	 *
 	 * @return	void
 	 */
-	function onSave()
+	public function onSave()
 	{
 		return;
 	}
@@ -69,7 +69,7 @@ class plgEditorNone extends JPlugin
 	 *
 	 * @return	string
 	 */
-	function onGetContent($id)
+	public function onGetContent($id)
 	{
 		return "document.getElementById('$id').value;\n";
 	}
@@ -82,7 +82,7 @@ class plgEditorNone extends JPlugin
 	 *
 	 * @return	string
 	 */
-	function onSetContent($id, $html)
+	public function onSetContent($id, $html)
 	{
 		return "document.getElementById('$id').value = $html;\n";
 	}
@@ -92,7 +92,7 @@ class plgEditorNone extends JPlugin
 	 *
 	 * @return	string
 	 */
-	function onGetInsertMethod($id)
+	public function onGetInsertMethod($id)
 	{
 		static $done = false;
 
@@ -125,7 +125,7 @@ class plgEditorNone extends JPlugin
 	 *
 	 * @return	string
 	 */
-	function onDisplay($name, $content, $width, $height, $col, $row, $buttons = true, $id = null, $asset = null, $author = null, $params = array())
+	public function onDisplay($name, $content, $width, $height, $col, $row, $buttons = true, $id = null, $asset = null, $author = null, $params = array())
 	{
 		if (empty($id)) {
 			$id = $name;
@@ -146,7 +146,7 @@ class plgEditorNone extends JPlugin
 		return $editor;
 	}
 
-	function _displayButtons($name, $buttons, $asset, $author)
+	public function _displayButtons($name, $buttons, $asset, $author)
 	{
 		// Load modal popup behavior
 		JHtml::_('behavior.modal', 'a.modal-button');

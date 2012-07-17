@@ -62,7 +62,7 @@ class InstallerModelDiscover extends InstallerModel
 	 *
 	 * @since	1.6
 	 */
-	function discover()
+	public function discover()
 	{
 		$installer	= JInstaller::getInstance();
 		$results	= $installer->discover();
@@ -96,7 +96,7 @@ class InstallerModelDiscover extends InstallerModel
 	 *
 	 * @since	1.6
 	 */
-	function discover_install()
+	public function discover_install()
 	{
 		$app = JFactory::getApplication();
 		$installer = JInstaller::getInstance();
@@ -132,7 +132,7 @@ class InstallerModelDiscover extends InstallerModel
 	 *
 	 * @since	1.6
 	 */
-	function purge()
+	public function purge()
 	{
 		$db		= JFactory::getDBO();
 		$query	= $db->getQuery(true);

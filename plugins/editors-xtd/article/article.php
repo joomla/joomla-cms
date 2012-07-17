@@ -37,7 +37,7 @@ class plgButtonArticle extends JPlugin
 	 *
 	 * @return array A four element array of (article_id, article_title, category_id, object)
 	 */
-	function onDisplay($name)
+	public function onDisplay($name)
 	{
 		/*
 		 * Javascript to insert the link

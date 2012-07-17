@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
  * Utility class for the button bar.
  *
  * @package  Joomla.Administrator
+ * @since    1.5
  */
 abstract class JToolbarHelper
 {
@@ -50,7 +51,7 @@ abstract class JToolbarHelper
 	 *
 	 * @return  void
 	 *
-	 * @since   1.0
+	 * @since   1.5
 	 */
 	public static function spacer($width = '')
 	{
@@ -65,7 +66,7 @@ abstract class JToolbarHelper
 	 *
 	 * @return  void
 	 *
-	 * @since   1.0
+	 * @since   1.5
 	 */
 	public static function divider()
 	{
@@ -86,7 +87,7 @@ abstract class JToolbarHelper
 	 *
 	 * @return  void
 	 *
-	 * @since   1.0
+	 * @since   1.5
 	 */
 	public static function custom($task = '', $icon = '', $iconOver = '', $alt = '', $listSelect = true)
 	{
@@ -107,7 +108,7 @@ abstract class JToolbarHelper
 	 *
 	 * @return  void
 	 *
-	 * @since   1.0
+	 * @since   1.5
 	 */
 	public static function preview($url = '', $updateEditors = false)
 	{
@@ -127,7 +128,7 @@ abstract class JToolbarHelper
 	 *
 	 * @return  void
 	 *
-	 * @since   1.0
+	 * @since   1.5
 	 */
 	public static function help($ref, $com = false, $override = null, $component = null)
 	{
@@ -146,7 +147,7 @@ abstract class JToolbarHelper
 	 *
 	 * @return  void
 	 *
-	 * @since   1.0
+	 * @since   1.5
 	 */
 	public static function back($alt = 'JTOOLBAR_BACK', $href = 'javascript:history.back();')
 	{
@@ -164,7 +165,7 @@ abstract class JToolbarHelper
 	 *
 	 * @return  void
 	 *
-	 * @since   1.0
+	 * @since   1.5
 	 */
 	public static function media_manager($directory = '', $alt = 'JTOOLBAR_UPLOAD')
 	{
@@ -182,7 +183,7 @@ abstract class JToolbarHelper
 	 *
 	 * @return  void
 	 *
-	 * @since   1.0
+	 * @since   1.5
 	 */
 	public static function makeDefault($task = 'default', $alt = 'JTOOLBAR_DEFAULT')
 	{
@@ -200,7 +201,7 @@ abstract class JToolbarHelper
 	 *
 	 * @return  void
 	 *
-	 * @since   1.0
+	 * @since   1.5
 	 */
 	public static function assign($task = 'assign', $alt = 'JTOOLBAR_ASSIGN')
 	{
@@ -219,7 +220,7 @@ abstract class JToolbarHelper
 	 *
 	 * @return  void
 	 *
-	 * @since   1.0
+	 * @since   1.5
 	 */
 	public static function addNew($task = 'add', $alt = 'JTOOLBAR_NEW', $check = false)
 	{
@@ -238,7 +239,7 @@ abstract class JToolbarHelper
 	 *
 	 * @return  void
 	 *
-	 * @since   1.0
+	 * @since   1.5
 	 */
 	public static function publish($task = 'publish', $alt = 'JTOOLBAR_PUBLISH', $check = false)
 	{
@@ -256,7 +257,7 @@ abstract class JToolbarHelper
 	 *
 	 * @return  void
 	 *
-	 * @since   1.0
+	 * @since   1.5
 	 */
 	public static function publishList($task = 'publish', $alt = 'JTOOLBAR_PUBLISH')
 	{
@@ -275,7 +276,7 @@ abstract class JToolbarHelper
 	 *
 	 * @return  void
 	 *
-	 * @since   1.0
+	 * @since   1.5
 	 */
 	public static function unpublish($task = 'unpublish', $alt = 'JTOOLBAR_UNPUBLISH', $check = false)
 	{
@@ -293,7 +294,7 @@ abstract class JToolbarHelper
 	 *
 	 * @return  void
 	 *
-	 * @since   1.0
+	 * @since   1.5
 	 */
 	public static function unpublishList($task = 'unpublish', $alt = 'JTOOLBAR_UNPUBLISH')
 	{
@@ -311,7 +312,7 @@ abstract class JToolbarHelper
 	 *
 	 * @return  void
 	 *
-	 * @since   1.0
+	 * @since   1.5
 	 */
 	public static function archiveList($task = 'archive', $alt = 'JTOOLBAR_ARCHIVE')
 	{
@@ -329,7 +330,7 @@ abstract class JToolbarHelper
 	 *
 	 * @return  void
 	 *
-	 * @since   1.0
+	 * @since   1.5
 	 */
 	public static function unarchiveList($task = 'unarchive', $alt = 'JTOOLBAR_UNARCHIVE')
 	{
@@ -347,7 +348,7 @@ abstract class JToolbarHelper
 	 *
 	 * @return  void
 	 *
-	 * @since   1.0
+	 * @since   1.5
 	 */
 	public static function editList($task = 'edit', $alt = 'JTOOLBAR_EDIT')
 	{
@@ -365,7 +366,7 @@ abstract class JToolbarHelper
 	 *
 	 * @return  void
 	 *
-	 * @since   1.0
+	 * @since   1.5
 	 */
 	public static function editHtml($task = 'edit_source', $alt = 'JTOOLBAR_EDIT_HTML')
 	{
@@ -383,7 +384,7 @@ abstract class JToolbarHelper
 	 *
 	 * @return  void
 	 *
-	 * @since   1.0
+	 * @since   1.5
 	 */
 	public static function editCss($task = 'edit_css', $alt = 'JTOOLBAR_EDIT_CSS')
 	{
@@ -402,7 +403,7 @@ abstract class JToolbarHelper
 	 *
 	 * @return  void
 	 *
-	 * @since   1.0
+	 * @since   1.5
 	 */
 	public static function deleteList($msg = '', $task = 'remove', $alt = 'JTOOLBAR_DELETE')
 	{
@@ -428,7 +429,7 @@ abstract class JToolbarHelper
 	 *
 	 * @return  void
 	 *
-	 * @since   1.0
+	 * @since   1.5
 	 */
 	public static function trash($task = 'remove', $alt = 'JTOOLBAR_TRASH', $check = true)
 	{
@@ -447,7 +448,7 @@ abstract class JToolbarHelper
 	 *
 	 * @return  void
 	 *
-	 * @since   1.0
+	 * @since   1.5
 	 */
 	public static function apply($task = 'apply', $alt = 'JTOOLBAR_APPLY')
 	{
@@ -466,7 +467,7 @@ abstract class JToolbarHelper
 	 *
 	 * @return  void
 	 *
-	 * @since   1.0
+	 * @since   1.5
 	 */
 	public static function save($task = 'save', $alt = 'JTOOLBAR_SAVE')
 	{
@@ -542,7 +543,7 @@ abstract class JToolbarHelper
 	 *
 	 * @return  void
 	 *
-	 * @since   1.0
+	 * @since   1.5
 	 */
 	public static function cancel($task = 'cancel', $alt = 'JTOOLBAR_CANCEL')
 	{
@@ -563,7 +564,7 @@ abstract class JToolbarHelper
 	 *
 	 * @return  void
 	 *
-	 * @since   1.0
+	 * @since   1.5
 	 */
 	public static function preferences($component, $height = '550', $width = '875', $alt = 'JToolbar_Options', $path = '', $onClose = '')
 	{
@@ -582,6 +583,7 @@ abstract class JToolbarHelper
  * Utility class for the submenu.
  *
  * @package  Joomla.Administrator
+ * @since    1.5
  */
 abstract class JSubMenuHelper
 {
@@ -591,6 +593,8 @@ abstract class JSubMenuHelper
 	 * @param	string	$name	Name of the menu item.
 	 * @param	string	$link	URL of the menu item.
 	 * @param	bool	True if the item is active, false otherwise.
+	 *
+	 * @since    1.5
 	 */
 	public static function addEntry($name, $link = '', $active = false)
 	{

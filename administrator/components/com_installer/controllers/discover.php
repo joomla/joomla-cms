@@ -32,7 +32,7 @@ class InstallerControllerDiscover extends JControllerLegacy
 	 *
 	 * @since	1.6
 	 */
-	function install()
+	public function install()
 	{
 		$model = $this->getModel('discover');
 		$model->discover_install();
@@ -44,7 +44,7 @@ class InstallerControllerDiscover extends JControllerLegacy
 	 *
 	 * @since	1.6
 	 */
-	function purge()
+	public function purge()
 	{
 		$model = $this->getModel('discover');
 		$model->purge();

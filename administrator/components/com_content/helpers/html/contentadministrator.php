@@ -19,7 +19,7 @@ abstract class JHtmlContentAdministrator
 	 * @param	int $value	The state value
 	 * @param	int $i
 	 */
-	static function featured($value = 0, $i, $canChange = true)
+	public static function featured($value = 0, $i, $canChange = true)
 	{
 		// Array of image, task, title, action
 		$states	= array(

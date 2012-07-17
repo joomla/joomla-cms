@@ -13,12 +13,14 @@ require_once JPATH_SITE . '/components/com_weblinks/helpers/route.php';
 JModelLegacy::addIncludePath(JPATH_SITE . '/components/com_weblinks/models', 'WeblinksModel');
 
 /**
+ * Helper for mod_weblinks
+ *
  * @package     Joomla.Site
  * @subpackage  mod_weblinks
  */
 class modWeblinksHelper
 {
-	static function getList($params)
+	public static function getList($params)
 	{
 
 		// Get an instance of the generic articles model

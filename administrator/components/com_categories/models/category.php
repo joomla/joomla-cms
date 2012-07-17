@@ -465,7 +465,7 @@ class CategoriesModelCategory extends JModelAdmin
 	 *
 	 * @since   2.5
 	 */
-	function publish(&$pks, $value = 1)
+	public function publish(&$pks, $value = 1)
 	{
 		if (parent::publish($pks, $value)) {
 			// Initialise variables.

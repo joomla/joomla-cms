@@ -10,13 +10,15 @@
 defined('_JEXEC') or die;
 
 /**
+ * Helper for mod_feed
+ *
  * @package     Joomla.Site
  * @subpackage  mod_feed
  * @since       1.5
  */
 class modFeedHelper
 {
-	static function getFeed($params)
+	public static function getFeed($params)
 	{
 		// module params
 		$rssurl	= $params->get('rssurl', '');

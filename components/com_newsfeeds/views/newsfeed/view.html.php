@@ -39,7 +39,7 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 	/**
 	 * @since	1.6
 	 */
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		// Initialise variables.
 		$app		= JFactory::getApplication();

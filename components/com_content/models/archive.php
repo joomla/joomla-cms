@@ -62,7 +62,7 @@ class ContentModelArchive extends ContentModelArticles
 	/**
 	 * @return	JDatabaseQuery
 	 */
-	function getListQuery()
+	protected function getListQuery()
 	{
 		// Set the archive ordering
 		$params = $this->state->params;

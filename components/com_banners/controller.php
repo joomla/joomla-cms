@@ -18,7 +18,7 @@ defined('_JEXEC') or die;
  */
 class BannersController extends JControllerLegacy
 {
-	function click()
+	public function click()
 	{
 		$id = $this->input->getInt('id', 0);
 

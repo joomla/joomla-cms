@@ -35,7 +35,7 @@ class plgSearchContacts extends JPlugin
 	/**
 	* @return array An array of search areas
 	*/
-	function onContentSearchAreas()
+	public function onContentSearchAreas()
 	{
 		static $areas = array(
 			'contacts' => 'PLG_SEARCH_CONTACTS_CONTACTS'
@@ -52,7 +52,7 @@ class plgSearchContacts extends JPlugin
 	* @param string matching option, exact|any|all
 	* @param string ordering option, newest|oldest|popular|alpha|category
 	 */
-	function onContentSearch($text, $phrase='', $ordering='', $areas=null)
+	public function onContentSearch($text, $phrase='', $ordering='', $areas=null)
 	{
 		$db		= JFactory::getDbo();
 		$app	= JFactory::getApplication();

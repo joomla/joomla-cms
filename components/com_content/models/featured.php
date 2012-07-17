@@ -108,7 +108,7 @@ class ContentModelFeatured extends ContentModelArticles
 	/**
 	 * @return	JDatabaseQuery
 	 */
-	function getListQuery()
+	protected function getListQuery()
 	{
 		// Set the blog ordering
 		$params = $this->state->params;

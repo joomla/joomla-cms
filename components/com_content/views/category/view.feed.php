@@ -18,7 +18,7 @@ defined('_JEXEC') or die;
  */
 class ContentViewCategory extends JViewLegacy
 {
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		$app       = JFactory::getApplication();
 		$doc       = JFactory::getDocument();

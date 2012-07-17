@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     Joomla.Administrator
  * @subpackage  com_content
+ * @since       1.5
  */
 class ContentController extends JControllerLegacy
 {

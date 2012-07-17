@@ -36,7 +36,7 @@ class ContentViewCategory extends JViewLegacy
 
 	protected $columns = 1;
 
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		$app	= JFactory::getApplication();
 		$user	= JFactory::getUser();

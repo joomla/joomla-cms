@@ -23,7 +23,7 @@ class InstallerViewWarnings extends InstallerViewDefault
 	/**
 	 * @since	1.6
 	 */
-	function display($tpl=null)
+	public function display($tpl = null)
 	{
 		$items = $this->get('Items');
 		$this->messages = &$items;

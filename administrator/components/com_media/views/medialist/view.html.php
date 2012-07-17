@@ -18,7 +18,7 @@ defined('_JEXEC') or die;
  */
 class MediaViewMediaList extends JViewLegacy
 {
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		// Do not allow cache
 		JResponse::allowCache(false);

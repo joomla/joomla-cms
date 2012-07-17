@@ -12,6 +12,8 @@ defined('_JEXEC') or die;
 JLoader::register('JTableMenu', JPATH_PLATFORM . '/joomla/database/table/menu.php');
 
 /**
+ * Menu table
+ *
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  */

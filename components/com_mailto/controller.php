@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 /**
  * @package     Joomla.Site
  * @subpackage  com_mailto
+ * @since       1.5
  */
 class MailtoController extends JControllerLegacy
 {
@@ -21,7 +22,7 @@ class MailtoController extends JControllerLegacy
 	 * @access public
 	 * @since 1.5
 	 */
-	function mailto()
+	public function mailto()
 	{
 		$session = JFactory::getSession();
 		$session->set('com_mailto.formtime', time());
@@ -35,7 +36,7 @@ class MailtoController extends JControllerLegacy
 	 * @access public
 	 * @since 1.5
 	 */
-	function send()
+	public function send()
 	{
 		// Check for request forgeries
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));

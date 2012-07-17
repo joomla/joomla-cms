@@ -12,10 +12,14 @@ defined('_JEXEC') or die;
 /**
  * @package     Joomla.Site
  * @subpackage  com_mailto
+ * @since       1.5
  */
 class MailtoViewSent extends JViewLegacy
 {
-	function display($tpl = null)
+	/**
+	 * @since  1.5
+	 */
+	public function display($tpl = null)
 	{
 		parent::display($tpl);
 	}

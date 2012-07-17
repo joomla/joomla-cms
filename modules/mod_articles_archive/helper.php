@@ -10,12 +10,18 @@
 defined('_JEXEC') or die;
 
 /**
+ * Helper for mod_articles_archive
+ *
  * @package     Joomla.Site
  * @subpackage  mod_articles_archive
+ * @since       1.5
  */
 class modArchiveHelper
 {
-	static function getList(&$params)
+	/*
+	 * @since  1.5
+	 */
+	public static function getList(&$params)
 	{
 		//get database
 		$db		= JFactory::getDbo();

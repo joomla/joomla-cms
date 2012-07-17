@@ -23,14 +23,14 @@ class BannersTableBanner extends JTable
 	 *
 	 * @since	1.5
 	 */
-	function __construct(&$_db)
+	public function __construct(&$_db)
 	{
 		parent::__construct('#__banners', 'id', $_db);
 		$date = JFactory::getDate();
 		$this->created = $date->toSql();
 	}
 
-	function clicks()
+	public function clicks()
 	{
 		$query = 'UPDATE #__banners'
 		. ' SET clicks = (clicks + 1)'
@@ -47,7 +47,7 @@ class BannersTableBanner extends JTable
 	 * @see		JTable::check
 	 * @since	1.5
 	 */
-	function check()
+	public function check()
 	{
 		// Set name
 		$this->name = htmlspecialchars_decode($this->name, ENT_QUOTES);
@@ -122,7 +122,7 @@ class BannersTableBanner extends JTable
 	 *
 	 * @param boolean $updateNulls True to update fields even if they are null.
 	 */
-	function store($updateNulls = false)
+	public function store($updateNulls = false)
 	{
 		if (empty($this->id))
 		{

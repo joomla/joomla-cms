@@ -18,7 +18,7 @@ defined('_JEXEC') or die;
  */
 class SearchViewSearch extends JViewLegacy
 {
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		$doc = JFactory::getDocument();
 		$app = JFactory::getApplication();

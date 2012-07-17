@@ -93,7 +93,8 @@ class PluginsHelper
 
 		return $options;
 	}
-	function parseXMLTemplateFile($templateBaseDir, $templateDir)
+
+	public function parseXMLTemplateFile($templateBaseDir, $templateDir)
 	{
 		$data = new JObject;
 

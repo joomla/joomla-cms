@@ -10,6 +10,8 @@
 defined('_JEXEC') or die;
 
 /**
+ * Helper for mod_logged
+ *
  * @package     Joomla.Administrator
  * @subpackage  mod_logged
  */

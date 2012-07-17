@@ -18,7 +18,7 @@ defined('_JEXEC') or die;
  */
 class MediaViewMedia extends JViewLegacy
 {
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		$app	= JFactory::getApplication();
 		$config = JComponentHelper::getParams('com_media');

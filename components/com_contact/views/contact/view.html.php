@@ -28,7 +28,7 @@ class ContactViewContact extends JViewLegacy
 
 	protected $return_page;
 
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		// Initialise variables.
 		$app		= JFactory::getApplication();

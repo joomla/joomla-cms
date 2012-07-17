@@ -10,13 +10,15 @@
 defined('_JEXEC') or die;
 
 /**
+ * Helper for mod_wrapper
+ *
  * @package     Joomla.Site
  * @subpackage  mod_wrapper
  * @since       1.5
  */
 class modWrapperHelper
 {
-	static function getParams(&$params)
+	public static function getParams(&$params)
 	{
 		$params->def('url', '');
 		$params->def('scrolling', 'auto');

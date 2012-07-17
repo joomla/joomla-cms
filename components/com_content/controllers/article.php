@@ -284,7 +284,7 @@ class ContentControllerArticle extends JControllerForm
 	 * @return	void
 	 * @since	1.6.1
 	 */
-	function vote()
+	public function vote()
 	{
 		// Check for request forgeries.
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));

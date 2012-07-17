@@ -25,7 +25,7 @@ class UsersViewMail extends JViewLegacy
 	/**
 	 * Display the view
 	 */
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		// Get data from the model
 		$this->form = $this->get('Form');

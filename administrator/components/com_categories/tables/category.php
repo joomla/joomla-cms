@@ -13,8 +13,11 @@ defined('_JEXEC') or die;
 JLoader::register('JTableCategory', JPATH_PLATFORM . '/joomla/database/table/category.php');
 
 /**
+ * Category table
+ *
  * @package     Joomla.Administrator
  * @subpackage  com_categories
+ * @since       1.6
  */
 class CategoriesTableCategory extends JTableCategory
 {
