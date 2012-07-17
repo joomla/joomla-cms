@@ -168,13 +168,15 @@ class JImage
 
 		// Sanitize height.
 		$height = $this->sanitizeHeight($height, $width);
-		
-		// autocrop offsets
-		if (is_null($left)) {
-		    $left = round(($this->getWidth() - $width) / 2);
+
+		// Autocrop offsets
+		if (is_null($left))
+		{
+			$left = round(($this->getWidth() - $width) / 2);
 		}
-		if (is_null($top)) {
-		    $top = round(($this->getHeight() - $height) / 2);
+		if (is_null($top))
+		{
+			$top = round(($this->getHeight() - $height) / 2);
 		}
 
 		// Sanitize left.
