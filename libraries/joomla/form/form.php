@@ -1851,7 +1851,7 @@ class JForm
 					{
 						$message = JText::_($element['name']);
 					}
-					$message = JText::sprintf(JLIB_FORM_VALIDATE_FIELD_REQUIRED, $message);
+					$message = JText::sprintf('JLIB_FORM_VALIDATE_FIELD_REQUIRED', $message);
 				}
 
 				return new RuntimeException($message);
@@ -1894,7 +1894,7 @@ class JForm
 			else
 			{
 				$message = JText::_($element['label']);
-				$message = JText::sprintf(JLIB_FORM_VALIDATE_FIELD_INVALID, $message);
+				$message = JText::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', $message);
 				return new UnexpectedValueException($message);
 			}
 		}
