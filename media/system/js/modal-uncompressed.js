@@ -277,13 +277,18 @@ var SqueezeBox = {
 	toggleOverlay: function(state) {
 		if (this.options.overlay) {
 			var full = this.doc.getSize().x;
+			var disabled = false;
 			this.overlay.set('aria-hidden', (state) ? 'false' : 'true');
 			this.doc.body[(state) ? 'addClass' : 'removeClass']('body-overlayed');
 			if (state) {
 				this.scrollOffset = this.doc.getWindow().getSize().x - full;
+				disabled = true;
 			} else {
 				this.doc.body.setStyle('margin-right', '');
 			}
+			this.doc.getElements('select').each(function(dropdown){
+				dropdown.set('disabled',disabled);
+			});
 		}
 	},
 
