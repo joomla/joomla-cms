@@ -63,7 +63,7 @@ class ContactTableContact extends JTable
 		if (is_array($this->params)) {
 			$registry = new JRegistry;
 			$registry->loadArray($this->params);
-			$this->params = (string)$registry;
+			$this->params = (string) $registry;
 		}
 
 		$date	= JFactory::getDate();

@@ -67,8 +67,8 @@ $doc->addScript($this->baseurl.'/templates/'.$this->template.'/javascript/hide.j
 <![endif]-->
 
 <script type="text/javascript">
-	var big ='<?php echo (int)$this->params->get('wrapperLarge');?>%';
-	var small='<?php echo (int)$this->params->get('wrapperSmall'); ?>%';
+	var big ='<?php echo (int) $this->params->get('wrapperLarge');?>%';
+	var small='<?php echo (int) $this->params->get('wrapperSmall'); ?>%';
 	var altopen='<?php echo JText::_('TPL_BEEZ2_ALTOPEN', true); ?>';
 	var altclose='<?php echo JText::_('TPL_BEEZ2_ALTCLOSE', true); ?>';
 	var bildauf='<?php echo $this->baseurl ?>/templates/<?php echo $this->template; ?>/images/plus.png';

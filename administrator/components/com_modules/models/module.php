@@ -355,8 +355,8 @@ class ModulesModelModule extends JModelAdmin
 					$query	= $db->getQuery(true);
 					$query->delete();
 					$query->from('#__modules_menu');
-					$query->where('moduleid='.(int)$pk);
-					$db->setQuery((string)$query);
+					$query->where('moduleid=' . (int) $pk);
+					$db->setQuery((string) $query);
 					$db->execute();
 				}
 
@@ -432,14 +432,14 @@ class ModulesModelModule extends JModelAdmin
 				$query	= $db->getQuery(true);
 				$query->select('menuid');
 				$query->from('#__modules_menu');
-				$query->where('moduleid='.(int)$pk);
+				$query->where('moduleid=' . (int) $pk);
 
-				$this->_db->setQuery((string)$query);
+				$this->_db->setQuery((string) $query);
 				$rows = $this->_db->loadColumn();
 
 				foreach ($rows as $menuid)
 				{
-					$tuples[] = '('.(int) $table->id.','.(int) $menuid.')';
+					$tuples[] = '(' . (int) $table->id . ',' . (int) $menuid . ')';
 				}
 			}
 			else
@@ -946,8 +946,8 @@ class ModulesModelModule extends JModelAdmin
 		$query	= $db->getQuery(true);
 		$query->delete();
 		$query->from('#__modules_menu');
-		$query->where('moduleid = '.(int)$table->id);
-		$db->setQuery((string)$query);
+		$query->where('moduleid = ' . (int) $table->id);
+		$db->setQuery((string) $query);
 		$db->execute();
 
 		if (!$db->execute())
@@ -981,8 +981,8 @@ class ModulesModelModule extends JModelAdmin
 				$query->clear();
 				$query->insert('#__modules_menu');
 				$query->columns(array($db->quoteName('moduleid'), $db->quoteName('menuid')));
-				$query->values((int)$table->id . ', 0');
-				$db->setQuery((string)$query);
+				$query->values((int) $table->id . ', 0');
+				$db->setQuery((string) $query);
 				if (!$db->execute())
 				{
 					$this->setError($db->getErrorMsg());

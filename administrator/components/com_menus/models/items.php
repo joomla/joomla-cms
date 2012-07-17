@@ -250,7 +250,7 @@ class MenusModelItems extends JModelList
 		// Filter the items over the parent id if set.
 		$parentId = $this->getState('filter.parent_id');
 		if (!empty($parentId)) {
-			$query->where('p.id = '.(int)$parentId);
+			$query->where('p.id = ' . (int) $parentId);
 		}
 
 		// Filter the items over the menu id if set.

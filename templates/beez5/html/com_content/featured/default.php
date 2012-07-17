@@ -53,7 +53,7 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 
 	<?php
 		$key= ($key-$leadingcount)+1;
-		$rowcount=( ((int)$key-1) %	(int) $this->columns) +1;
+		$rowcount=(((int) $key-1) % (int) $this->columns) +1;
 		$row = $counter / $this->columns;
 
 		if ($rowcount==1) : ?>

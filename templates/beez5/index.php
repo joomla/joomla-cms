@@ -70,8 +70,8 @@ $doc->addScript($this->baseurl.'/templates/'.$this->template.'/javascript/md_sty
 		<script type="text/javascript" src="<?php echo $this->baseurl ?>/templates/<?php echo $this->template; ?>/javascript/hide.js"></script>
 
 		<script type="text/javascript">
-			var big ='<?php echo (int)$this->params->get('wrapperLarge');?>%';
-			var small='<?php echo (int)$this->params->get('wrapperSmall'); ?>%';
+			var big ='<?php echo (int) $this->params->get('wrapperLarge');?>%';
+			var small='<?php echo (int) $this->params->get('wrapperSmall'); ?>%';
 			var altopen='<?php echo JText::_('TPL_BEEZ5_ALTOPEN', true); ?>';
 			var altclose='<?php echo JText::_('TPL_BEEZ5_ALTCLOSE', true); ?>';
 			var bildauf='<?php echo $this->baseurl ?>/templates/<?php echo $this->template; ?>/images/plus.png';

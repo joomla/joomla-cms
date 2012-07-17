@@ -31,10 +31,10 @@ abstract class ContentHelperRoute
 		);
 		//Create the link
 		$link = 'index.php?option=com_content&view=article&id='. $id;
-		if ((int)$catid > 1)
+		if ((int) $catid > 1)
 		{
 			$categories = JCategories::getInstance('Content');
-			$category = $categories->get((int)$catid);
+			$category = $categories->get((int) $catid);
 			if($category)
 			{
 				$needles['category'] = array_reverse($category->getPath());
@@ -167,8 +167,8 @@ abstract class ContentHelperRoute
 				{
 					foreach($ids as $id)
 					{
-						if (isset(self::$lookup[$view][(int)$id])) {
-							return self::$lookup[$view][(int)$id];
+						if (isset(self::$lookup[$view][(int) $id])) {
+							return self::$lookup[$view][(int) $id];
 						}
 					}
 				}

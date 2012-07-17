@@ -78,7 +78,7 @@ function ContentBuildRoute(&$query)
 					$aquery = $db->setQuery($db->getQuery(true)
 						->select('alias')
 						->from('#__content')
-						->where('id='.(int)$query['id'])
+						->where('id=' . (int) $query['id'])
 					);
 					$alias = $db->loadResult();
 					$query['id'] = $query['id'].':'.$alias;
@@ -116,7 +116,7 @@ function ContentBuildRoute(&$query)
 		$array = array();
 
 		foreach($path as $id) {
-			if ((int)$id == (int)$mCatid) {
+			if ((int) $id == (int) $mCatid) {
 				break;
 			}
 
@@ -128,7 +128,7 @@ function ContentBuildRoute(&$query)
 		$array = array_reverse($array);
 
 		if (!$advanced && count($array)) {
-			$array[0] = (int)$catid.':'.$array[0];
+			$array[0] = (int) $catid . ':' . $array[0];
 		}
 
 		$segments = array_merge($segments, $array);
@@ -227,7 +227,7 @@ function ContentParseRoute($segments)
 		// we check to see if an alias is given.  If not, we assume it is an article
 		if (strpos($segments[0], ':') === false) {
 			$vars['view'] = 'article';
-			$vars['id'] = (int)$segments[0];
+			$vars['id'] = (int) $segments[0];
 			return $vars;
 		}
 
@@ -242,15 +242,15 @@ function ContentParseRoute($segments)
 
 			return $vars;
 		} else {
-			$query = 'SELECT alias, catid FROM #__content WHERE id = '.(int)$id;
+			$query = 'SELECT alias, catid FROM #__content WHERE id = ' . (int) $id;
 			$db->setQuery($query);
 			$article = $db->loadObject();
 
 			if ($article) {
 				if ($article->alias == $alias) {
 					$vars['view'] = 'article';
-					$vars['catid'] = (int)$article->catid;
-					$vars['id'] = (int)$id;
+					$vars['catid'] = (int) $article->catid;
+					$vars['id'] = (int) $id;
 
 					return $vars;
 				}
@@ -262,9 +262,9 @@ function ContentParseRoute($segments)
 	// because the first segment will have the target category id prepended to it.  If the
 	// last segment has a number prepended, it is an article, otherwise, it is a category.
 	if (!$advanced) {
-		$cat_id = (int)$segments[0];
+		$cat_id = (int) $segments[0];
 
-		$article_id = (int)$segments[$count - 1];
+		$article_id = (int) $segments[$count - 1];
 
 		if ($article_id > 0) {
 			$vars['view'] = 'article';

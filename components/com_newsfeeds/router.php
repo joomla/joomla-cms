@@ -71,11 +71,11 @@ function NewsfeedsBuildRoute(&$query)
 				$array = array();
 				foreach($path as $id)
 				{
-					if((int) $id == (int)$menuCatid)
+					if ((int) $id == (int) $menuCatid)
 					{
 						break;
 					}
-					if($advanced)
+					if ($advanced)
 					{
 						list($tmp, $id) = explode(':', $id, 2);
 					}
@@ -83,9 +83,9 @@ function NewsfeedsBuildRoute(&$query)
 				}
 				$segments = array_merge($segments, array_reverse($array));
 			}
-			if($view == 'newsfeed')
+			if ($view == 'newsfeed')
 			{
-				if($advanced)
+				if ($advanced)
 				{
 					list($tmp, $id) = explode(':', $query['id'], 2);
 				} else {

@@ -123,8 +123,8 @@ class plgContentPagenavigation extends JPlugin
 			$query->select('a.id,'.$case_when.','.$case_when1);
 			$query->from('#__content AS a');
 			$query->leftJoin('#__categories AS cc ON cc.id = a.catid');
-			$query->where('a.catid = '. (int)$row->catid .' AND a.state = '. (int)$row->state
-						. ($canPublish ? '' : ' AND a.access = ' .(int)$row->access) . $xwhere);
+			$query->where('a.catid = ' . (int) $row->catid . ' AND a.state = ' . (int) $row->state
+						. ($canPublish ? '' : ' AND a.access = ' . (int) $row->access) . $xwhere);
 			$query->order($orderby);
 			if ($app->isSite() && $app->getLanguageFilter()) {
 				$query->where('a.language in ('.$db->quote($lang->getTag()).','.$db->quote('*').')');

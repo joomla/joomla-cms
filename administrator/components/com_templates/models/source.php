@@ -75,7 +75,8 @@ class TemplatesModelSource extends JModelForm
 		$query->where('(a.name ='.$db->quote('plg_editors_codemirror').' AND a.enabled = 1) OR (a.name ='.$db->quote('plg_editors_none').' AND a.enabled = 1)');
 		$db->setQuery($query);
 		$state = $db->loadResult();
-		if ((int)$state < 1 ) {
+		if ((int) $state < 1 )
+		{
 			$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_EDITOR_DISABLED'), 'warning');
 		}
 

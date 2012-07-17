@@ -108,7 +108,7 @@ class BannersTableBanner extends JTable
 			$registry->set('width', ($width ? $width : ''));
 			$registry->set('height', ($height ? $height : ''));
 
-			$array['params'] = (string)$registry;
+			$array['params'] = (string) $registry;
 		}
 
 		if (isset($array['imptotal'])) {

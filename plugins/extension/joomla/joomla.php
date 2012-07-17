@@ -61,7 +61,7 @@ class plgExtensionJoomla extends JPlugin
 		$query = $dbo->getQuery(true);
 		$query->select('update_site_id')->from('#__update_sites')->where('location = '. $dbo->Quote($location));
 		$dbo->setQuery($query);
-		$update_site_id = (int)$dbo->loadResult();
+		$update_site_id = (int) $dbo->loadResult();
 
 		// if it doesn't exist, add it!
 		if (!$update_site_id)
@@ -86,7 +86,7 @@ class plgExtensionJoomla extends JPlugin
 			$query->select('update_site_id')->from('#__update_sites_extensions');
 			$query->where('update_site_id = '. $update_site_id)->where('extension_id = '. $this->eid);
 			$dbo->setQuery($query);
-			$tmpid = (int)$dbo->loadResult();
+			$tmpid = (int) $dbo->loadResult();
 			if(!$tmpid)
 			{
 				// link this extension to the relevant update site
@@ -229,7 +229,7 @@ class plgExtensionJoomla extends JPlugin
 		}
 		else
 		{
-			$data = (string)$updateservers;
+			$data = (string) $updateservers;
 
 			if (strlen($data))
 			{

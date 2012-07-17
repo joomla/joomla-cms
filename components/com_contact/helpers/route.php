@@ -137,8 +137,8 @@ abstract class ContactHelperRoute
 				{
 					foreach($ids as $id)
 					{
-						if (isset(self::$lookup[$view][(int)$id])) {
-							return self::$lookup[$view][(int)$id];
+						if (isset(self::$lookup[$view][(int) $id])) {
+							return self::$lookup[$view][(int) $id];
 						}
 					}
 				}

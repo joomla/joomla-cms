@@ -183,7 +183,7 @@ class UsersModelRegistration extends JModelForm
 			$params	= JComponentHelper::getParams('com_users');
 
 			// Override the base user data with any data in the session.
-			$temp = (array)$app->getUserState('com_users.registration.data', array());
+			$temp = (array) $app->getUserState('com_users.registration.data', array());
 			foreach ($temp as $k => $v) {
 				$this->data->$k = $v;
 			}
@@ -303,7 +303,7 @@ class UsersModelRegistration extends JModelForm
 
 		// Initialise the table with JUser.
 		$user = new JUser;
-		$data = (array)$this->getData();
+		$data = (array) $this->getData();
 
 		// Merge in the registration data.
 		foreach ($temp as $k => $v) {

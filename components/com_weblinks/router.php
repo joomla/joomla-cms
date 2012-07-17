@@ -81,7 +81,7 @@ function WeblinksBuildRoute(&$query)
 				$array = array();
 				foreach($path as $id)
 				{
-					if ((int) $id == (int)$menuCatid) {
+					if ((int) $id == (int) $menuCatid) {
 						break;
 					}
 

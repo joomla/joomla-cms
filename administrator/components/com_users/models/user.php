@@ -672,7 +672,7 @@ class UsersModelUser extends JModelAdmin
 	public function getAssignedGroups($userId = null)
 	{
 		// Initialise variables.
-		$userId = (!empty($userId)) ? $userId : (int)$this->getState('user.id');
+		$userId = (!empty($userId)) ? $userId : (int) $this->getState('user.id');
 
 		if (empty($userId))
 		{

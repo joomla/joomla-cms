@@ -36,7 +36,7 @@ abstract class modQuickIconHelper
 	 */
 	public static function &getButtons($params)
 	{
-		$key = (string)$params;
+		$key = (string) $params;
 		if (!isset(self::$buttons[$key])) {
 			$context = $params->get('context', 'mod_quickicon');
 			if ($context == 'mod_quickicon')

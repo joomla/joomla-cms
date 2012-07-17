@@ -101,7 +101,7 @@ abstract class modLatestHelper
 	public static function getTitle($params)
 	{
 		$who = $params->get('user_id');
-		$catid = (int)$params->get('catid');
+		$catid = (int) $params->get('catid');
 		$type = $params->get('ordering') == 'c_dsc' ? '_CREATED' : '_MODIFIED';
 		if ($catid)
 		{
@@ -117,6 +117,6 @@ abstract class modLatestHelper
 		{
 			$title = '';
 		}
-		return JText::plural('MOD_LATEST_TITLE'.$type.($catid ? "_CATEGORY" : '').($who!='0' ? "_$who" : ''), (int)$params->get('count'), $title);
+		return JText::plural('MOD_LATEST_TITLE' . $type. ($catid ? "_CATEGORY" : '') . ($who != '0' ? "_$who" : ''), (int) $params->get('count'), $title);
 	}
 }

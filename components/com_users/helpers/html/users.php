@@ -54,9 +54,9 @@ abstract class JHtmlUsers
 			{
 				foreach ($xml->sites->site as $site)
 				{
-					if ((string)$site->attributes()->url == $value)
+					if ((string) $site->attributes()->url == $value)
 					{
-						$text = (string)$site;
+						$text = (string) $site;
 						break;
 					}
 				}

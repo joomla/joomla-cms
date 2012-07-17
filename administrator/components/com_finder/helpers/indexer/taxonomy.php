@@ -217,8 +217,8 @@ class FinderIndexerTaxonomy
 		$query = $db->getQuery(true);
 		$query->select($db->quoteName('link_id'));
 		$query->from($db->quoteName('#__finder_taxonomy_map'));
-		$query->where($db->quoteName('link_id') . ' = ' . (int)$linkId);
-		$query->where($db->quoteName('node_id') . ' = ' . (int)$nodeId);
+		$query->where($db->quoteName('link_id') . ' = ' . (int) $linkId);
+		$query->where($db->quoteName('node_id') . ' = ' . (int) $nodeId);
 		$db->setQuery($query);
 		$db->execute();
 		$id = (int) $db->loadResult();

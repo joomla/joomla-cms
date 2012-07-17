@@ -138,8 +138,8 @@ class ModulesModelPositions extends JModelList
 					||	$lang->load('tpl_'.$template->element.'.sys', $client->path.'/templates/'.$template->element, $lang->getDefault(), false, false);
 						foreach ($xml->positions[0] as $position)
 						{
-							$value = (string)$position['value'];
-							$label = (string)$position;
+							$value = (string) $position['value'];
+							$label = (string) $position;
 							if (!$value) {
 								$value = $label;
 								$label = preg_replace('/[^a-zA-Z0-9_\-]/', '_', 'TPL_'.$template->element.'_POSITION_'.$value);

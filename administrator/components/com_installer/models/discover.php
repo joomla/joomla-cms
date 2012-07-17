@@ -139,7 +139,7 @@ class InstallerModelDiscover extends InstallerModel
 		$query->delete();
 		$query->from('#__extensions');
 		$query->where('state = -1');
-		$db->setQuery((string)$query);
+		$db->setQuery((string) $query);
 		if ($db->execute()) {
 			$this->_message = JText::_('COM_INSTALLER_MSG_DISCOVER_PURGEDDISCOVEREDEXTENSIONS');
 			return true;

@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 /* @var $menu JAdminCSSMenu */
 
-$shownew = (boolean)$params->get('shownew', 1);
+$shownew = (boolean) $params->get('shownew', 1);
 $showhelp = $params->get('showhelp', 1);
 $user = JFactory::getUser();
 $lang = JFactory::getLanguage();

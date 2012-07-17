@@ -89,7 +89,7 @@ class ContactModelContact extends JModelForm
 
 	protected function loadFormData()
 	{
-		$data = (array)JFactory::getApplication()->getUserState('com_contact.contact.data', array());
+		$data = (array) JFactory::getApplication()->getUserState('com_contact.contact.data', array());
 		return $data;
 	}
 
@@ -319,7 +319,7 @@ class ContactModelContact extends JModelForm
 
 				$query->from('#__content as a');
 				$query->leftJoin('#__categories as c on a.catid=c.id');
-				$query->where('a.created_by = '.(int)$result->user_id);
+				$query->where('a.created_by = ' . (int) $result->user_id);
 				$query->where('a.access IN ('. $groups.')');
 				$query->order('a.state DESC, a.created DESC');
 				// filter per language if plugin published
@@ -336,7 +336,7 @@ class ContactModelContact extends JModelForm
 				//get the profile information for the linked user
 				require_once JPATH_ADMINISTRATOR.'/components/com_users/models/user.php';
 				$userModel = JModelLegacy::getInstance('User', 'UsersModel', array('ignore_request' => true));
-					$data = $userModel->getItem((int)$result->user_id);
+				$data = $userModel->getItem((int) $result->user_id);
 
 				JPluginHelper::importPlugin('user');
 				$form = new JForm('com_users.profile');

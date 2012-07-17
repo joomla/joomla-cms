@@ -104,7 +104,7 @@ class MenusModelMenu extends JModelForm
 	public function &getItem($itemId = null)
 	{
 		// Initialise variables.
-		$itemId = (!empty($itemId)) ? $itemId : (int)$this->getState('menu.id');
+		$itemId = (!empty($itemId)) ? $itemId : (int) $this->getState('menu.id');
 		$false	= false;
 
 		// Get a menu item row instance.
@@ -169,8 +169,8 @@ class MenusModelMenu extends JModelForm
 	 */
 	public function save($data)
 	{
-		$id	= (!empty($data['id'])) ? $data['id'] : (int)$this->getState('menu.id');
-		$isNew	= true;
+		$id	= (!empty($data['id'])) ? $data['id'] : (int) $this->getState('menu.id');
+		$isNew = true;
 
 		// Get a row instance.
 		$table = $this->getTable();

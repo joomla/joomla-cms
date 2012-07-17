@@ -378,9 +378,9 @@ class TemplatesModelStyle extends JModelAdmin
 
 		// Initialise variables;
 		$dispatcher = JEventDispatcher::getInstance();
-		$table		= $this->getTable();
-		$pk			= (!empty($data['id'])) ? $data['id'] : (int)$this->getState('style.id');
-		$isNew		= true;
+		$table      = $this->getTable();
+		$pk         = (!empty($data['id'])) ? $data['id'] : (int) $this->getState('style.id');
+		$isNew      = true;
 
 		// Include the extension plugins for the save events.
 		JPluginHelper::importPlugin('extension');
@@ -436,7 +436,7 @@ class TemplatesModelStyle extends JModelAdmin
 				// Update the mapping for menu items that this style IS assigned to.
 				$query = $db->getQuery(true);
 				$query->update('#__menu');
-				$query->set('template_style_id='.(int)$table->id);
+				$query->set('template_style_id='.(int) $table->id);
 				$query->where('id IN ('.implode(',', $data['assigned']).')');
 				$query->where('template_style_id!='.(int) $table->id);
 				$query->where('checked_out in (0,'.(int) $user->id.')');
@@ -497,7 +497,7 @@ class TemplatesModelStyle extends JModelAdmin
 		}
 
 		$style = JTable::getInstance('Style', 'TemplatesTable');
-		if (!$style->load((int)$id)) {
+		if (!$style->load((int) $id)) {
 			throw new Exception(JText::_('COM_TEMPLATES_ERROR_STYLE_NOT_FOUND'));
 		}
 

@@ -204,8 +204,8 @@ class BannersModelBanners extends JModelList
 			$query->clear();
 			$query->update('#__banners');
 			$query->set('impmade = (impmade + 1)');
-			$query->where('id = '.(int)$id);
-			$db->setQuery((string)$query);
+			$query->where('id = ' . (int) $id);
+			$db->setQuery((string) $query);
 
 			if (!$db->execute()) {
 				JError::raiseError(500, $db->getErrorMsg());
@@ -231,7 +231,7 @@ class BannersModelBanners extends JModelList
 				$query->where('banner_id=' . (int) $id);
 				$query->where('track_date=' . $db->Quote($trackDate));
 
-				$db->setQuery((string)$query);
+				$db->setQuery((string) $query);
 
 				if (!$db->execute()) {
 					JError::raiseError(500, $db->getErrorMsg());
@@ -246,7 +246,7 @@ class BannersModelBanners extends JModelList
 					$query->update('#__banner_tracks');
 					$query->set($db->quoteName('count').' = ('.$db->quoteName('count').' + 1)');
 					$query->where('track_type=1');
-					$query->where('banner_id='.(int)$id);
+					$query->where('banner_id=' . (int) $id);
 					$query->where('track_date='.$db->Quote($trackDate));
 				}
 				else {
@@ -258,7 +258,7 @@ class BannersModelBanners extends JModelList
 					$query->values( '1, 1, ' . (int) $id . ', ' . $db->Quote($trackDate));
 				}
 
-				$db->setQuery((string)$query);
+				$db->setQuery((string) $query);
 
 				if (!$db->execute()) {
 					JError::raiseError(500, $db->getErrorMsg());

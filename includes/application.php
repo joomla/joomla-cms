@@ -238,7 +238,7 @@ final class JSite extends JApplication
 
 				if ($this->getCfg('offline') && !$user->authorise('core.login.offline')) {
 					$uri    = JURI::getInstance();
-					$return = (string)$uri;
+					$return = (string) $uri;
 					$this->setUserState('users.login.form.data', array( 'return' => $return ) );
 					$file = 'offline';
 					JResponse::setHeader('Status', '503 Service Temporarily Unavailable', 'true');
@@ -311,7 +311,7 @@ final class JSite extends JApplication
 			{
 				// Redirect to login
 				$uri    = JURI::getInstance();
-				$return = (string)$uri;
+				$return = (string) $uri;
 
 				$this->setUserState('users.login.form.data', array( 'return' => $return ) );
 

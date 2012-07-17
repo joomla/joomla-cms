@@ -126,7 +126,7 @@ class UsersControllerProfile extends UsersController
 			$app->setUserState('com_users.edit.profile.data', $data);
 
 			// Redirect back to the edit screen.
-			$userId = (int)$app->getUserState('com_users.edit.profile.id');
+			$userId = (int) $app->getUserState('com_users.edit.profile.id');
 			$this->setMessage(JText::sprintf('COM_USERS_PROFILE_SAVE_FAILED', $model->getError()), 'warning');
 			$this->setRedirect(JRoute::_('index.php?option=com_users&view=profile&layout=edit&user_id='.$userId, false));
 			return false;
@@ -146,7 +146,7 @@ class UsersControllerProfile extends UsersController
 
 			default:
 				// Check in the profile.
-				$userId = (int)$app->getUserState('com_users.edit.profile.id');
+				$userId = (int) $app->getUserState('com_users.edit.profile.id');
 				if ($userId) {
 					$model->checkin($userId);
 				}

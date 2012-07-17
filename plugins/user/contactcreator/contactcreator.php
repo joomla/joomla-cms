@@ -45,7 +45,7 @@ class plgUserContactCreator extends JPlugin
 		}
 
 		// ensure the user id is really an int
-		$user_id = (int)$user['id'];
+		$user_id = (int) $user['id'];
 
 		if (empty($user_id)) {
 			die('invalid userid');

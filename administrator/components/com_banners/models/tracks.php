@@ -216,8 +216,8 @@ class BannersModelTracks extends JModelList
 
 			$query->where('banner_id IN (SELECT id FROM '.$db->quoteName('#__banners').' WHERE '.$where.')');
 
-			$db->setQuery((string)$query);
-			$this->setError((string)$query);
+			$db->setQuery((string) $query);
+			$this->setError((string) $query);
 			$db->execute();
 
 			// Check for a database error.
@@ -325,7 +325,7 @@ class BannersModelTracks extends JModelList
 			$query->select('title');
 			$query->from($db->quoteName('#__categories'));
 			$query->where($db->quoteName('id').'='.$db->quote($categoryId));
-			$db->setQuery((string)$query);
+			$db->setQuery((string) $query);
 			$name = $db->loadResult();
 
 			if ($db->getErrorNum()) {
@@ -355,7 +355,7 @@ class BannersModelTracks extends JModelList
 			$query->select('name');
 			$query->from($db->quoteName('#__banner_clients'));
 			$query->where($db->quoteName('id').'='.$db->quote($clientId));
-			$db->setQuery((string)$query);
+			$db->setQuery((string) $query);
 			$name = $db->loadResult();
 			if ($db->getErrorNum()) {
 				$this->setError($db->getErrorMsg());

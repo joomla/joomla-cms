@@ -37,7 +37,7 @@ class JFormFieldGroup extends JFormField
 		$options = array();
 
 		foreach ($this->element->children() as $option) {
-			$options[] = JHtml::_('select.option', (string)$option->attributes()->value, JText::_(trim((string) $option)));
+			$options[] = JHtml::_('select.option', (string) $option->attributes()->value, JText::_(trim((string) $option)));
 		}
 
 		$dbo = JFactory::getDbo();
@@ -46,7 +46,7 @@ class JFormFieldGroup extends JFormField
 		$query->from('#__extensions');
 		$query->where('folder != '.$dbo->quote(''));
 		$query->order('folder');
-		$dbo->setQuery((string)$query);
+		$dbo->setQuery((string) $query);
 		$folders = $dbo->loadColumn();
 
 		foreach($folders as $folder) {

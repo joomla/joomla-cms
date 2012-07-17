@@ -92,7 +92,7 @@ abstract class modPopularHelper
 	public static function getTitle($params)
 	{
 		$who = $params->get('user_id');
-		$catid = (int)$params->get('catid');
+		$catid = (int) $params->get('catid');
 		if ($catid)
 		{
 			$category = JCategories::getInstance('Content')->get($catid);
@@ -107,6 +107,6 @@ abstract class modPopularHelper
 		{
 			$title = '';
 		}
-		return JText::plural('MOD_POPULAR_TITLE'.($catid ? "_CATEGORY" : '').($who!='0' ? "_$who" : ''), (int)$params->get('count'), $title);
+		return JText::plural('MOD_POPULAR_TITLE' . ($catid ? "_CATEGORY" : '') . ($who != '0' ? "_$who" : ''), (int) $params->get('count'), $title);
 	}
 }

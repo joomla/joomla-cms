@@ -99,8 +99,8 @@ class plgSystemRedirect extends JPlugin
 					$query = $db->getQuery(true);
 					$query->update($db->quoteName('#__redirect_links'));
 					$query->set($db->quoteName('hits').' = '.$db->quoteName('hits').' + 1');
-					$query->where('id = '.(int)$res);
-					$db->setQuery((string)$query);
+					$query->where('id = ' . (int) $res);
+					$db->setQuery((string) $query);
 					$db->execute();
 				}
 				// Render the error page.

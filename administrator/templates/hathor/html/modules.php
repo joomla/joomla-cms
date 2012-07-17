@@ -30,7 +30,7 @@ function modChrome_xhtmlid($module, &$params, &$attribs)
 {
 	if ($module->content) {
 		?>
-		<div id="<?php echo (int)$attribs['id'] ?>">
+		<div id="<?php echo (int) $attribs['id'] ?>">
 
 				<?php echo $module->content; ?>
 				<div class="clr"></div>

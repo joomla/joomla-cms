@@ -65,7 +65,7 @@ class BannersModelBanner extends JModelLegacy
 			$query->select($db->quoteName('count'));
 			$query->from('#__banner_tracks');
 			$query->where('track_type=2');
-			$query->where('banner_id='.(int)$id);
+			$query->where('banner_id=' . (int) $id);
 			$query->where('track_date='.$db->Quote($trackDate));
 
 			$db->setQuery((string) $query);
@@ -83,7 +83,7 @@ class BannersModelBanner extends JModelLegacy
 				$query->update('#__banner_tracks');
 				$query->set($db->quoteName('count').' = ('.$db->quoteName('count') . ' + 1)');
 				$query->where('track_type=2');
-				$query->where('banner_id='.(int)$id);
+				$query->where('banner_id=' . (int) $id);
 				$query->where('track_date='.$db->Quote($trackDate));
 			}
 			else {
@@ -92,7 +92,7 @@ class BannersModelBanner extends JModelLegacy
 				$query->insert('#__banner_tracks');
 				$query->columns(array($db->quoteName('count'), $db->quoteName('track_type'),
 								$db->quoteName('banner_id') , $db->quoteName('track_date')));
-				$query->values( '1, 2,' . (int)$id . ',' . $db->Quote($trackDate));
+				$query->values( '1, 2,' . (int) $id . ',' . $db->Quote($trackDate));
 			}
 
 			$db->setQuery((string) $query);

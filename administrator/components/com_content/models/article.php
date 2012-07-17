@@ -385,19 +385,20 @@ class ContentModelArticle extends JModelAdmin
 	 */
 	public function save($data)
 	{
-			if (isset($data['images']) && is_array($data['images'])) {
-				$registry = new JRegistry;
-				$registry->loadArray($data['images']);
-				$data['images'] = (string)$registry;
+		if (isset($data['images']) && is_array($data['images']))
+		{
+			$registry = new JRegistry;
+			$registry->loadArray($data['images']);
+			$data['images'] = (string) $registry;
+		}
 
-			}
+		if (isset($data['urls']) && is_array($data['urls']))
+		{
+			$registry = new JRegistry;
+			$registry->loadArray($data['urls']);
+			$data['urls'] = (string) $registry;
+		}
 
-			if (isset($data['urls']) && is_array($data['urls'])) {
-				$registry = new JRegistry;
-				$registry->loadArray($data['urls']);
-				$data['urls'] = (string)$registry;
-
-			}
 		// Alter the title for save as copy
 		if (JRequest::getVar('task') == 'save2copy') {
 			list($title, $alias) = $this->generateNewTitle($data['catid'], $data['alias'], $data['title']);
@@ -450,7 +451,8 @@ class ContentModelArticle extends JModelAdmin
 				throw new Exception($db->getErrorMsg());
 			}
 
-			if ((int)$value == 0) {
+			if ((int) $value == 0)
+			{
 				// Adjust the mapping table.
 				// Clear the existing features settings.
 				$db->setQuery(

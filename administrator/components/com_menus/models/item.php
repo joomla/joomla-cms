@@ -575,7 +575,7 @@ class MenusModelItem extends JModelAdmin
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		return array_merge((array)$this->getItem(), (array)JFactory::getApplication()->getUserState('com_menus.edit.item.data', array()));
+		return array_merge((array) $this->getItem(), (array) JFactory::getApplication()->getUserState('com_menus.edit.item.data', array()));
 	}
 
 	/**
@@ -600,7 +600,7 @@ class MenusModelItem extends JModelAdmin
 	public function getItem($pk = null)
 	{
 		// Initialise variables.
-		$pk = (!empty($pk)) ? $pk : (int)$this->getState('item.id');
+		$pk = (!empty($pk)) ? $pk : (int) $this->getState('item.id');
 
 		// Get a level row instance.
 		$table = $this->getTable();
@@ -1061,7 +1061,7 @@ class MenusModelItem extends JModelAdmin
 		{
 			$registry = new JRegistry;
 			$registry->loadString($item->params);
-			$params = (string)$registry;
+			$params = (string) $registry;
 
 			$db->setQuery(
 				'UPDATE #__menu' .
@@ -1093,10 +1093,10 @@ class MenusModelItem extends JModelAdmin
 	public function save($data)
 	{
 		// Initialise variables.
-		$pk		= (!empty($data['id'])) ? $data['id'] : (int)$this->getState('item.id');
-		$isNew	= true;
-		$db		= $this->getDbo();
-		$table	= $this->getTable();
+		$pk    = (!empty($data['id'])) ? $data['id'] : (int) $this->getState('item.id');
+		$isNew = true;
+		$db    = $this->getDbo();
+		$table = $this->getTable();
 
 		// Load the row if saving an existing item.
 		if ($pk > 0) {
