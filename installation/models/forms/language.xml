@@ -6,6 +6,7 @@
 			label="INSTL_LANGUAGE_LABEL"
 			size="20"
 			default="en-GB"
-			required="true" />
+			required="true"
+			onchange="submit()" />
 	</fieldset>
 </form>
