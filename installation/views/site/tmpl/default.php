@@ -49,77 +49,83 @@ defined('_JEXEC') or die;
 		</div>
 		<h3><?php echo JText::_('INSTL_SITE'); ?></h3>
 		<hr class="hr-condensed" />
-		<div class="control-group">
-			<div class="control-label">
-				<?php echo $this->form->getLabel('site_name'); ?>
+		<div class="row-fluid">
+			<div class="span6">
+				<div class="control-group">
+					<div class="control-label">
+						<?php echo $this->form->getLabel('site_name'); ?>
+					</div>
+					<div class="controls">
+						<?php echo $this->form->getInput('site_name'); ?>
+					</div>
+				</div>
+				<div class="control-group">
+					<div class="control-label">
+						<?php echo $this->form->getLabel('site_metadesc'); ?>
+					</div>
+					<div class="controls">
+						<?php echo $this->form->getInput('site_metadesc'); ?>
+						<p class="help-block">
+							<?php echo JText::_('INSTL_SITE_METADESC_TITLE_LABEL'); ?>
+						</p>
+					</div>
+				</div>
+				<div class="control-group">
+					<div class="control-label">
+						<?php echo $this->form->getLabel('site_metakeys'); ?>
+					</div>
+					<div class="controls">
+						<?php echo $this->form->getInput('site_metakeys'); ?>
+						<p class="help-block">
+							<?php echo JText::_('INSTL_SITE_METAKEYS_TITLE_LABEL'); ?>
+						</p>
+					</div>
+				</div>
+				<div class="control-group">
+					<div class="control-label">
+						<?php echo $this->form->getLabel('site_offline'); ?>
+					</div>
+					<div class="controls">
+						<?php echo $this->form->getInput('site_offline'); ?>
+						<p class="help-block">
+							<?php echo JText::_('INSTL_SITE_OFFLINE_TITLE_LABEL'); ?>
+						</p>
+					</div>
+				</div>
 			</div>
-			<div class="controls">
-				<?php echo $this->form->getInput('site_name'); ?>
-			</div>
-		</div>
-		<div class="control-group">
-			<div class="control-label">
-				<?php echo $this->form->getLabel('admin_email'); ?>
-			</div>
-			<div class="controls">
-				<?php echo $this->form->getInput('admin_email'); ?>
-			</div>
-		</div>
-		<div class="control-group">
-			<div class="control-label">
-				<?php echo $this->form->getLabel('admin_user'); ?>
-			</div>
-			<div class="controls">
-				<?php echo $this->form->getInput('admin_user'); ?>
-			</div>
-		</div>
-		<div class="control-group">
-			<div class="control-label">
-				<?php echo $this->form->getLabel('admin_password'); ?>
-			</div>
-			<div class="controls">
-				<?php echo $this->form->getInput('admin_password'); ?>
-			</div>
-		</div>
-		<div class="control-group">
-			<div class="control-label">
-				<?php echo $this->form->getLabel('admin_password2'); ?>
-			</div>
-			<div class="controls">
-				<?php echo $this->form->getInput('admin_password2'); ?>
-			</div>
-		</div>
-		<div class="control-group">
-			<div class="control-label">
-				<?php echo $this->form->getLabel('site_metadesc'); ?>
-			</div>
-			<div class="controls">
-				<?php echo $this->form->getInput('site_metadesc'); ?>
-				<p class="help-block">
-					<?php echo JText::_('INSTL_SITE_METADESC_TITLE_LABEL'); ?>
-				</p>
-			</div>
-		</div>
-		<div class="control-group">
-			<div class="control-label">
-				<?php echo $this->form->getLabel('site_metakeys'); ?>
-			</div>
-			<div class="controls">
-				<?php echo $this->form->getInput('site_metakeys'); ?>
-				<p class="help-block">
-					<?php echo JText::_('INSTL_SITE_METAKEYS_TITLE_LABEL'); ?>
-				</p>
-			</div>
-		</div>
-		<div class="control-group">
-			<div class="control-label">
-				<?php echo $this->form->getLabel('site_offline'); ?>
-			</div>
-			<div class="controls">
-				<?php echo $this->form->getInput('site_offline'); ?>
-				<p class="help-block">
-					<?php echo JText::_('INSTL_SITE_OFFLINE_TITLE_LABEL'); ?>
-				</p>
+			<div class="span6">
+				<div class="control-group">
+					<div class="control-label">
+						<?php echo $this->form->getLabel('admin_email'); ?>
+					</div>
+					<div class="controls">
+						<?php echo $this->form->getInput('admin_email'); ?>
+					</div>
+				</div>
+				<div class="control-group">
+					<div class="control-label">
+						<?php echo $this->form->getLabel('admin_user'); ?>
+					</div>
+					<div class="controls">
+						<?php echo $this->form->getInput('admin_user'); ?>
+					</div>
+				</div>
+				<div class="control-group">
+					<div class="control-label">
+						<?php echo $this->form->getLabel('admin_password'); ?>
+					</div>
+					<div class="controls">
+						<?php echo $this->form->getInput('admin_password'); ?>
+					</div>
+				</div>
+				<div class="control-group">
+					<div class="control-label">
+						<?php echo $this->form->getLabel('admin_password2'); ?>
+					</div>
+					<div class="controls">
+						<?php echo $this->form->getInput('admin_password2'); ?>
+					</div>
+				</div>
 			</div>
 		</div>
 
