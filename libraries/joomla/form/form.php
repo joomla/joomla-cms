@@ -1839,7 +1839,7 @@ class JForm
 				// Does the field have a defined error message?
 				if ($element['message'])
 				{
-					$message = $element['message'];
+					$message = JText::_($element['message']);
 				}
 				else
 				{
@@ -1884,10 +1884,11 @@ class JForm
 		if ($valid === false)
 		{
 			// Does the field have a defined error message?
-			$message = (string) $element['message'];
+			$message = (string) ($element['message']);
 
 			if ($message)
 			{
+				$message = JText::_($element['message']);
 				return new UnexpectedValueException($message);
 			}
 			else
