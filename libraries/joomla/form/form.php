@@ -1839,7 +1839,7 @@ class JForm
 				// Does the field have a defined error message?
 				if ($element['message'])
 				{
-					$message = $element['message'];
+					$message = JText::_($element['message']);
 				}
 				else
 				{
@@ -1851,7 +1851,7 @@ class JForm
 					{
 						$message = JText::_($element['name']);
 					}
-					$message = sprintf('Field required: %s', $message);
+					$message = JText::sprintf('JLIB_FORM_VALIDATE_FIELD_REQUIRED', $message);
 				}
 
 				return new RuntimeException($message);
@@ -1888,11 +1888,14 @@ class JForm
 
 			if ($message)
 			{
+				$message = JText::_($element['message']);
 				return new UnexpectedValueException($message);
 			}
 			else
 			{
-				return new UnexpectedValueException((string) $element['label']);
+				$message = JText::_($element['label']);
+				$message = JText::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', $message);
+				return new UnexpectedValueException($message);
 			}
 		}
 
