@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Joomla.Legacy
+ * @package     Joomla.Libraries
  * @subpackage  Form
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
@@ -13,11 +13,10 @@ defined('JPATH_PLATFORM') or die;
  * Form Field class for the Joomla Platform.
  * An editarea field for content creation
  *
- * @package     Joomla.Legacy
+ * @package     Joomla.Libraries
  * @subpackage  Form
- * @see         JFormFieldEditors
  * @see         JEditor
- * @since       11.1
+ * @since       1.6
  */
 class JFormFieldEditor extends JFormField
 {
@@ -25,15 +24,15 @@ class JFormFieldEditor extends JFormField
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.6
 	 */
 	public $type = 'Editor';
 
 	/**
 	 * The JEditor object.
 	 *
-	 * @var    object
-	 * @since  11.1
+	 * @var    JEditor
+	 * @since  1.6
 	 */
 	protected $editor;
 
@@ -42,18 +41,17 @@ class JFormFieldEditor extends JFormField
 	 *
 	 * @return  string  The field input markup.
 	 *
-	 * @since   11.1
+	 * @since   1.6
 	 */
 	protected function getInput()
 	{
-		// Initialize some field attributes.
-		$rows = (int) $this->element['rows'];
-		$cols = (int) $this->element['cols'];
-		$height = ((string) $this->element['height']) ? (string) $this->element['height'] : '250';
-		$width = ((string) $this->element['width']) ? (string) $this->element['width'] : '100%';
-		$assetField = $this->element['asset_field'] ? (string) $this->element['asset_field'] : 'asset_id';
+		$rows        = (int) $this->element['rows'];
+		$cols        = (int) $this->element['cols'];
+		$height      = ((string) $this->element['height']) ? (string) $this->element['height'] : '250';
+		$width       = ((string) $this->element['width']) ? (string) $this->element['width'] : '100%';
+		$assetField  = $this->element['asset_field'] ? (string) $this->element['asset_field'] : 'asset_id';
 		$authorField = $this->element['created_by_field'] ? (string) $this->element['created_by_field'] : 'created_by';
-		$asset = $this->form->getValue($assetField) ? $this->form->getValue($assetField) : (string) $this->element['asset_id'];
+		$asset       = $this->form->getValue($assetField) ? $this->form->getValue($assetField) : (string) $this->element['asset_id'];
 
 		// Build the buttons array.
 		$buttons = (string) $this->element['buttons'];
@@ -89,7 +87,7 @@ class JFormFieldEditor extends JFormField
 	 *
 	 * @return  JEditor  The JEditor object.
 	 *
-	 * @since   11.1
+	 * @since   1.6
 	 */
 	protected function getEditor()
 	{
@@ -150,7 +148,7 @@ class JFormFieldEditor extends JFormField
 	 *
 	 * @return  string  The JEditor object output.
 	 *
-	 * @since   11.1
+	 * @since   1.6
 	 */
 	public function save()
 	{
