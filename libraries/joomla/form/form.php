@@ -2026,10 +2026,10 @@ class JForm
 	}
 
 	/**
-	 * Update the attributes of the a child node
+	 * Update the attributes of a child node
 	 *
-	 * @param   SimpleXMLElement  $source  The source element on which to append.
-	 * @param   SimpleXMLElement  $new     The new element to append.
+	 * @param   SimpleXMLElement  $source  The source element on which to append the attributes
+	 * @param   SimpleXMLElement  $new     The new element to append
 	 *
 	 * @return  void
 	 *
