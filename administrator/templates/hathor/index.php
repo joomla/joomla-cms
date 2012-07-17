@@ -59,10 +59,6 @@ $file = 'language/'.$lang->getTag().'/'.$lang->getTag().'.css';
 <!--[if IE 7]>
 	<link href="templates/<?php echo  $this->template ?>/css/ie7.css" rel="stylesheet" type="text/css" />
 <![endif]-->
-<!--[if lte IE 6]>
-	<link href="templates/<?php echo  $this->template ?>/css/ie6.css" rel="stylesheet" type="text/css" />
-<![endif]-->
-
 <!-- Load Template JavaScript -->
 <script type="text/javascript" src="templates/<?php  echo  $this->template  ?>/js/template.js"></script>
 

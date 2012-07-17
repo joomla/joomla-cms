@@ -40,10 +40,6 @@ if ($this->direction == 'rtl') {
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 <head>
 	<jdoc:include type="head" />
-
-<!--[if lte IE 6]>
-	<link href="<?php echo $this->baseurl ?>/templates/<?php echo $this->template; ?>/css/ieonly.css" rel="stylesheet" type="text/css" />
-<![endif]-->
 </head>
 <body class="contentpane">
 	<div id="all">

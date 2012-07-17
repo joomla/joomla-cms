@@ -62,24 +62,6 @@ $doc->addScript($this->baseurl.'/templates/'.$this->template.'/javascript/hide.j
 <head>
 <jdoc:include type="head" />
 
-<!--[if lte IE 6]>
-<link href="<?php echo $this->baseurl ?>/templates/<?php echo $this->template; ?>/css/ieonly.css" rel="stylesheet" type="text/css" />
-<?php if ($color=="personal") : ?>
-<style type="text/css">
-#line {
-	width:98% ;
-}
-.logoheader {
-	height:200px;
-}
-#header ul.menu {
-	display:block !important;
-	width:98.2% ;
-}
-</style>
-<?php endif; ?>
-<![endif]-->
-
 <!--[if IE 7]>
 <link href="<?php echo $this->baseurl ?>/templates/<?php echo $this->template; ?>/css/ie7only.css" rel="stylesheet" type="text/css" />
 <![endif]-->
