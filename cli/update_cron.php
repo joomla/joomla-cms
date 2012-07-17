@@ -6,9 +6,6 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// Make sure we're being called from the command line, not a web interface
-if (array_key_exists('REQUEST_METHOD', $_SERVER)) die();
-
 /**
  * This is a CRON script which should be called from the command-line, not the
  * web. For example something like:
