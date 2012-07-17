@@ -354,11 +354,25 @@ abstract class JOAuth1aClient
 		{
 			if (strpos($url, '?') === false)
 			{
-				$url .= '?' . $key . '=' . $value;
+				if (strpos($key ,'=') === false)
+				{
+					$url .= '?' . $key . '=' . $value;
+				}
+				else
+				{
+					$url .= '?' . $key . ',' . $value;
+				}
 			}
 			else
 			{
-				$url .= '&' . $key . '=' . $value;
+				if (strpos($key ,'=') === false)
+				{
+					$url .= '&' . $key . '=' . $value;
+				}
+				else
+				{
+					$url .= '&' . $key . ',' . $value;
+				}
 			}
 		}
 
@@ -409,7 +423,15 @@ abstract class JOAuth1aClient
 		{
 			$key = $this->safeEncode($key);
 			$value = $this->safeEncode($value);
-			$kv[] = "{$key}={$value}";
+
+			if (strpos($key, '=') === false)
+			{
+				$kv[] = "{$key}={$value}";
+			}
+			else
+			{
+				$kv[] = "{$key},{$value}";
+			}
 		}
 		// Form the parameter string.
 		$params = implode('&', $kv);
