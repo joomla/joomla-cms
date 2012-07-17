@@ -227,8 +227,6 @@ class ConfigModelApplication extends JModelForm
 
 		// Write the configuration file.
 		return $this->writeConfigFile($config);
-
-		return true;
 	}
 
 	/**
