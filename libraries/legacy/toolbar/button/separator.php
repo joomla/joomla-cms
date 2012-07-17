@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Toolbar
  * @since       11.1
  */
-class JToolbarButtonSeparator extends JButton
+class JToolbarButtonSeparator extends JToolbarButton
 {
 	/**
 	 * Button type
