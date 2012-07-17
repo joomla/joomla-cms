@@ -4001,13 +4001,9 @@ class AKUnarchiverJPS extends AKUnarchiverJPA
 			$this->runState = AK_STATE_DATAREAD;
 			return true;
 		}
-		else
-		{
-			$this->setError('An uncompressed file was detected; this is not supported by this archive extraction utility');
-			return false;
-		}
 
-		return true;
+		$this->setError('An uncompressed file was detected; this is not supported by this archive extraction utility');
+		return false;
 	}
 
 	private function processTypeFileCompressedSimple()

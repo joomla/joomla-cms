@@ -234,7 +234,6 @@ class PluginsModelPlugin extends JModelAdmin
 			$formFile = JPath::clean(JPATH_PLUGINS.'/'.$folder.'/'.$element.'.xml');
 			if (!file_exists($formFile)) {
 				throw new Exception(JText::sprintf('COM_PLUGINS_ERROR_FILE_NOT_FOUND', $element.'.xml'));
-				return false;
 			}
 		}
 
