@@ -1884,7 +1884,7 @@ class JForm
 		if ($valid === false)
 		{
 			// Does the field have a defined error message?
-			$message = (string) ($element['message']);
+			$message = (string) $element['message'];
 
 			if ($message)
 			{
