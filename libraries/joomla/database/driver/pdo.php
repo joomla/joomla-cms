@@ -534,7 +534,6 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 			// Reset this flag and throw an exception.
 			$checkingConnected = true;
 			die('Recursion trying to check if connected.');
-			throw new RuntimeException('Not connected to database.');
 		}
 
 		// Backup the query state.
