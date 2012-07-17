@@ -576,7 +576,7 @@ class JImage
 	 * @param   integer  $type     The image type to save the file as.
 	 * @param   array    $options  The image type options to use in saving the file.
 	 *
-	 * @return  void
+	 * @return  boolean
 	 *
 	 * @see     http://www.php.net/manual/image.constants.php
 	 * @since   11.3
