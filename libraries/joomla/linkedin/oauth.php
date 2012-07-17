@@ -67,7 +67,7 @@ class JLinkedinOAuth extends JOAuth1aClient
 		$data['format'] = 'json';
 
 		// Set the API url.
-		$path = 'https://api.linkedin.com/v1/people/test';
+		$path = 'https://api.linkedin.com/v1/people::(~)';
 
 		// Send the request.
 		$response = $this->oauthRequest($path, 'GET', $parameters, $data);
@@ -96,7 +96,7 @@ class JLinkedinOAuth extends JOAuth1aClient
 	 */
 	public function validateResponse($url, $response)
 	{
-		if (strpos($url, 'test') === false && $response->code != 200)
+		if (strpos($url, '::(~)') === false && $response->code != 200)
 		{
 			$error = json_decode($response->body);
 			throw new DomainException('Error code ' . $error->errorCode . ' received with message: ' . $error->message . '.');
