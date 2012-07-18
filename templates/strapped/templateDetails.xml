@@ -21,6 +21,7 @@
     <folder>images</folder>
     <folder>js</folder>
     <folder>language</folder>
+    <folder>less</folder>
   </files>
   <positions>
   	<position>debug</position>
