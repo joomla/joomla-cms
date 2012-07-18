@@ -324,7 +324,7 @@ class JInstallerModule extends JAdapterInstance
 		{
 			if ($this->parent->manifestClass->preflight($this->route, $this) === false)
 			{
-				// Install failed, rollback changes
+				// Preflight failed, rollback changes
 				$this->parent->abort(JText::_('JLIB_INSTALLER_ABORT_MOD_INSTALL_CUSTOM_INSTALL_FAILURE'));
 
 				return false;
@@ -581,7 +581,7 @@ class JInstallerModule extends JAdapterInstance
 		$this->parent->setUpgrade(true);
 
 		// Set the route for the install
-		$this->route = 'Update';
+		$this->route = 'update';
 
 		// Go to install which handles updates properly
 		return $this->install();

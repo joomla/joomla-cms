@@ -1218,7 +1218,7 @@ class JInstallerComponent extends JAdapterInstance
 			// Remove existing menu items if overwrite has been enabled
 			if ($option)
 			{
-				// If something goes wrong, theres no way to rollback TODO: Search for better solution
+				// If something goes wrong, there's no way to rollback TODO: Search for better solution
 				$this->_removeAdminMenus($componentrow);
 			}
 

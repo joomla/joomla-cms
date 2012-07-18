@@ -907,7 +907,7 @@ class JInstaller extends JAdapter
 				}
 
 				// Create an array of queries from the sql file
-				$queries = JInstallerHelper::splitSql($buffer);
+				$queries = JDatabaseDriver::splitSql($buffer);
 
 				if (count($queries) == 0)
 				{
@@ -1082,7 +1082,7 @@ class JInstaller extends JAdapter
 								}
 
 								// Create an array of queries from the sql file
-								$queries = JInstallerHelper::splitSql($buffer);
+								$queries = JDatabaseDriver::splitSql($buffer);
 
 								if (count($queries) == 0)
 								{
