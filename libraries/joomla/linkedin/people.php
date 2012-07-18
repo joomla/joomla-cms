@@ -178,7 +178,7 @@ class JLinkedinPeople extends JLinkedinObject
 	 * Method to get information about people.
 	 *
 	 * @param   JLinkedinOAuth  $oauth            The JLinkedinOAuth object.
-	 * @param   string          $fields           Request fields beyond the default ones.
+	 * @param   string          $fields           Request fields beyond the default ones. provide 'api-standard-profile-request' field for out of network profiles.
 	 * @param   string          $keywords         Members who have all the keywords anywhere in their profile.
 	 * @param   string          $first_name       Members with a matching first name. Matches must be exact.
 	 * @param   string          $last_name        Members with a matching last name. Matches must be exactly.
@@ -368,6 +368,32 @@ class JLinkedinPeople extends JLinkedinObject
 
 		// Send the request.
 		$response = $oauth->oauthRequest($path, 'GET', $parameters, $data);
+
+		if (strpos($fields, 'api-standard-profile-request') === false)
+		{
+			return json_decode($response->body);
+		}
+
+		// Get header name.
+		$name = explode('"name": "', $response->body);
+		$name = explode('"', $name[1]);
+		$name = $name[0];
+
+		// Get header value.
+		$value = explode('"value": "', $response->body);
+		$value = explode('"', $value[1]);
+		$value = $value[0];
+
+		// Get request url.
+		$url = explode('"url": "', $response->body);
+		$url = explode('"', $url[1]);
+		$url = $url[0];
+
+		// Build header for out of network profile.
+		$header[$name] = $value;
+
+		// Send the request.
+		$response = $oauth->oauthRequest($url, 'GET', $parameters, $data, $header);
 		return json_decode($response->body);
 	}
 }
