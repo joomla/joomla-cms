@@ -213,8 +213,8 @@ class JTableUser extends JTable
 		$query->where($this->_db->quoteName('id') . ' != ' . (int) $this->id);
 		$this->_db->setQuery($query);
 
-		$xid = intval($this->_db->loadResult());
-		if ($xid && $xid != intval($this->id))
+		$xid = (int) $this->_db->loadResult();
+		if ($xid && $xid != (int) $this->id)
 		{
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_USERNAME_INUSE'));
 			return false;
@@ -227,8 +227,8 @@ class JTableUser extends JTable
 		$query->where($this->_db->quoteName('email') . ' = ' . $this->_db->quote($this->email));
 		$query->where($this->_db->quoteName('id') . ' != ' . (int) $this->id);
 		$this->_db->setQuery($query);
-		$xid = intval($this->_db->loadResult());
-		if ($xid && $xid != intval($this->id))
+		$xid = (int) $this->_db->loadResult();
+		if ($xid && $xid != (int) $this->id)
 		{
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_EMAIL_INUSE'));
 			return false;
@@ -244,9 +244,9 @@ class JTableUser extends JTable
 			$query->from($this->_db->quoteName('#__users'));
 			$query->where($this->_db->quoteName('username') . ' = ' . $this->_db->quote($rootUser));
 			$this->_db->setQuery($query);
-			$xid = intval($this->_db->loadResult());
-			if ($rootUser == $this->username && (!$xid || $xid && $xid != intval($this->id))
-				|| $xid && $xid == intval($this->id) && $rootUser != $this->username)
+			$xid = (int) $this->_db->loadResult();
+			if ($rootUser == $this->username && (!$xid || $xid && $xid != (int) $this->id)
+				|| $xid && $xid == (int) $this->id && $rootUser != $this->username)
 			{
 				$this->setError(JText::_('JLIB_DATABASE_ERROR_USERNAME_CANNOT_CHANGE'));
 				return false;
@@ -341,7 +341,7 @@ class JTableUser extends JTable
 		$k = $this->_tbl_key;
 		if ($userId)
 		{
-			$this->$k = intval($userId);
+			$this->$k = (int) $userId;
 		}
 
 		// Delete the user.

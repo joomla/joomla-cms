@@ -75,7 +75,7 @@ abstract class JHtmlGrid
 	{
 		$direction = strtolower($direction);
 		$images = array('sort_asc.png', 'sort_desc.png');
-		$index = intval($direction == 'desc');
+		$index = (int) $direction == 'desc';
 
 		if ($order != $selected)
 		{

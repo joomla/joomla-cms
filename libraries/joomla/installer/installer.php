@@ -1944,7 +1944,7 @@ class JInstaller extends JAdapter
 		$query->where('type = ' . $dbo->Quote($type));
 		$query->where('element = ' . $dbo->Quote($element));
 		$query->where('folder = ' . $dbo->Quote($folder));
-		$query->where('client_id = ' . intval($client));
+		$query->where('client_id = ' . (int) $client);
 		$query->where('state = -1');
 
 		return $dbo->execute();

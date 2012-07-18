@@ -545,7 +545,7 @@ class JImage
 		}
 
 		// Sanitize input
-		$angle = floatval($angle);
+		$angle = (float) $angle;
 
 		// Create the new truecolor image handle.
 		$handle = imagecreatetruecolor($this->getWidth(), $this->getHeight());
@@ -675,8 +675,8 @@ class JImage
 		switch ($scaleMethod)
 		{
 			case self::SCALE_FILL:
-				$dimensions->width = intval(round($width));
-				$dimensions->height = intval(round($height));
+				$dimensions->width = (int) round($width);
+				$dimensions->height = (int) round($height);
 				break;
 
 			case self::SCALE_INSIDE:
@@ -704,8 +704,8 @@ class JImage
 					$ratio = ($rx < $ry) ? $rx : $ry;
 				}
 
-				$dimensions->width = intval(round($this->getWidth() / $ratio));
-				$dimensions->height = intval(round($this->getHeight() / $ratio));
+				$dimensions->width = (int) round($this->getWidth() / $ratio);
+				$dimensions->height = (int) round($this->getHeight() / $ratio);
 				break;
 
 			default:
@@ -734,12 +734,12 @@ class JImage
 		// If we were given a percentage, calculate the integer value.
 		if (preg_match('/^[0-9]+(\.[0-9]+)?\%$/', $height))
 		{
-			$height = intval(round($this->getHeight() * floatval(str_replace('%', '', $height)) / 100));
+			$height = (int) round($this->getHeight() * (float) str_replace('%', '', $height) / 100);
 		}
 		// Else do some rounding so we come out with a sane integer value.
 		else
 		{
-			$height = intval(round(floatval($height)));
+			$height = (int) round((float) $height);
 		}
 
 		return $height;
@@ -756,7 +756,7 @@ class JImage
 	 */
 	protected function sanitizeOffset($offset)
 	{
-		return intval(round(floatval($offset)));
+		return (int) round((float) $offset);
 	}
 
 	/**
@@ -777,12 +777,12 @@ class JImage
 		// If we were given a percentage, calculate the integer value.
 		if (preg_match('/^[0-9]+(\.[0-9]+)?\%$/', $width))
 		{
-			$width = intval(round($this->getWidth() * floatval(str_replace('%', '', $width)) / 100));
+			$width = (int) round($this->getWidth() * (float) str_replace('%', '', $width) / 100);
 		}
 		// Else do some rounding so we come out with a sane integer value.
 		else
 		{
-			$width = intval(round(floatval($width)));
+			$width = (int) round((float) $width);
 		}
 
 		return $width;

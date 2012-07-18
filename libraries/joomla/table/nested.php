@@ -109,7 +109,7 @@ class JTableNested extends JTable
 	 */
 	public function debug($level)
 	{
-		$this->_debug = intval($level);
+		$this->_debug = (int) $level;
 	}
 
 	/**
