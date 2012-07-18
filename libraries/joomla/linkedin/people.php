@@ -49,12 +49,9 @@ class JLinkedinPeople extends JLinkedinObject
 		{
 			$base .= 'id=' . $id;
 		}
-		else
+		elseif (!$url)
 		{
-			if (!$url)
-			{
-				$base .= '~';
-			}
+			$base .= '~';
 		}
 
 		// Check if profile url is specified.
@@ -163,7 +160,7 @@ class JLinkedinPeople extends JLinkedinObject
 		// Check if modified_since is specified.
 		if ($modified_since)
 		{
-			$data['modified_since'] = $modified_since;
+			$data['modified-since'] = $modified_since;
 		}
 
 		// Build the request path.
@@ -191,7 +188,7 @@ class JLinkedinPeople extends JLinkedinObject
 	 * @param   string          $current_school   A value of true matches members who currently attend the school specified in the school-name parameter.
 	 * @param   string          $country_code     Matches members with a location in a specific country. Values are defined in by ISO 3166 standard.
 	 * 											  Country codes must be in all lower case.
-	 * @param   string          $postal_code      Matches members centered around a Postal Code. Must be combined with the country-code parameter.
+	 * @param   integer         $postal_code      Matches members centered around a Postal Code. Must be combined with the country-code parameter.
 	 * 											  Not supported for all countries.
 	 * @param   integer         $distance         Matches members within a distance from a central point. This is measured in miles.
 	 * @param   string          $facets           Facet buckets to return, e.g. location.
@@ -230,7 +227,7 @@ class JLinkedinPeople extends JLinkedinObject
 		// Check if keywords is specified.
 		if ($keywords)
 		{
-			$data['keywords'] = rawurlencode($keywords);
+			$data['keywords'] = $keywords;
 		}
 
 		// Check if first_name is specified.
@@ -242,13 +239,13 @@ class JLinkedinPeople extends JLinkedinObject
 		// Check if last_name is specified.
 		if ($last_name)
 		{
-			$data['last-name'] = rawurlencode($last_name);
+			$data['last-name'] = $last_name;
 		}
 
 		// Check if company-name is specified.
 		if ($company_name)
 		{
-			$data['company-name'] = rawurlencode($company_name);
+			$data['company-name'] = $company_name;
 		}
 
 		// Check if current_company is specified.
@@ -260,7 +257,7 @@ class JLinkedinPeople extends JLinkedinObject
 		// Check if title is specified.
 		if ($title)
 		{
-			$data['title'] = rawurlencode($title);
+			$data['title'] = $title;
 		}
 
 		// Check if current_title is specified.
@@ -272,7 +269,7 @@ class JLinkedinPeople extends JLinkedinObject
 		// Check if school_name is specified.
 		if ($school_name)
 		{
-			$data['school-name'] = rawurlencode($school_name);
+			$data['school-name'] = $school_name;
 		}
 
 		// Check if current_school is specified.
