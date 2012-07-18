@@ -4,8 +4,6 @@
  * @license    GNU General Public License
  */
 
-require_once JPATH_PLATFORM.'/joomla/database/database/mysqliimporter.php';
-
 /**
  * Tests the JDatabaseMySqlImporter class.
  *

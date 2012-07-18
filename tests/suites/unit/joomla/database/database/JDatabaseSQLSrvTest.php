@@ -7,12 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM.'/joomla/log/log.php';
-require_once JPATH_PLATFORM.'/joomla/database/database.php';
-require_once JPATH_PLATFORM.'/joomla/database/database/sqlsrv.php';
-require_once JPATH_PLATFORM.'/joomla/database/query.php';
-require_once JPATH_PLATFORM.'/joomla/database/query/sqlsrv.php';
-
 /**
  * Test class for JDatabaseSQLSrv.
  *

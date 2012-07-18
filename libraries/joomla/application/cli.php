@@ -292,15 +292,3 @@ class JApplicationCli extends JApplicationBase
 		// Your application routines go here.
 	}
 }
-
-/**
- * Deprecated class placeholder.  You should use JApplicationCli instead.
- *
- * @package     Joomla.Platform
- * @subpackage  Application
- * @since       11.1
- * @deprecated  12.3
- */
-class JCli extends JApplicationCli
-{
-}
