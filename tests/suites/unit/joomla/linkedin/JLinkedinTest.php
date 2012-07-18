@@ -76,6 +76,21 @@ class JLinkedinTest extends TestCase
 	}
 
 	/**
+	 * Tests the magic __get method - groups
+	 *
+	 * @return  void
+	 *
+	 * @since   12.3
+	 */
+	public function test__GetGroups()
+	{
+		$this->assertThat(
+			$this->object->groups,
+			$this->isInstanceOf('JLinkedinGroups')
+		);
+	}
+
+	/**
 	 * Tests the magic __get method - other (non existant)
 	 *
 	 * @return  void

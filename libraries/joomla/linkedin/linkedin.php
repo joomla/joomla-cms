@@ -37,6 +37,12 @@ class JLinkedin
 	protected $people;
 
 	/**
+	 * @var    JLinkedinGroups  Linkedin API object for people.
+	 * @since  12.3
+	 */
+	protected $groups;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   JRegistry      $options  Linkedin options object.
@@ -72,6 +78,16 @@ class JLinkedin
 					$this->people = new JLinkedinPeople($this->options, $this->client);
 				}
 				return $this->people;
+		}
+
+		switch ($name)
+		{
+			case 'groups':
+				if ($this->groups == null)
+				{
+					$this->groups = new JLinkedinGroups($this->options, $this->client);
+				}
+				return $this->groups;
 		}
 	}
 
