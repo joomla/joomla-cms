@@ -155,7 +155,7 @@ class JImage
 	 * @since   11.3
 	 * @throws  LogicException
 	 */
-	public function crop($width, $height, $left, $top, $createNew = true)
+	public function crop($width, $height, $left = null, $top = null, $createNew = true)
 	{
 		// Make sure the resource handle is valid.
 		if (!$this->isLoaded())
@@ -168,6 +168,16 @@ class JImage
 
 		// Sanitize height.
 		$height = $this->sanitizeHeight($height, $width);
+
+		// Autocrop offsets
+		if (is_null($left))
+		{
+			$left = round(($this->getWidth() - $width) / 2);
+		}
+		if (is_null($top))
+		{
+			$top = round(($this->getHeight() - $height) / 2);
+		}
 
 		// Sanitize left.
 		$left = $this->sanitizeOffset($left);
