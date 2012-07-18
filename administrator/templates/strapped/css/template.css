@@ -45,6 +45,12 @@ body{
 	background: url('../images/login-joomla.png') no-repeat;
 	margin-left: -20px;
 }
+.login .chzn-drop {
+	width: 228px !important;
+}
+.login .chzn-single {
+	width: 220px !important;
+}
 /* Typography */
 .small{
 	font-size: 11px;

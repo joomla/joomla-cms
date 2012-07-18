@@ -11,15 +11,15 @@ defined('_JEXEC') or die;
 $doc = JFactory::getDocument();
 
 // Add Stylesheets
-$doc->addStyleSheet('../templates/system/css/bootstrap.css');
-$doc->addStyleSheet('../templates/system/css/bootstrap-extended.css');
-$doc->addStyleSheet('../templates/system/css/bootstrap-responsive.css');
+$doc->addStyleSheet('../media/jui/css/bootstrap.css');
+$doc->addStyleSheet('../media/jui/css/bootstrap-extended.css');
+$doc->addStyleSheet('../media/jui/css/bootstrap-responsive.css');
 $doc->addStyleSheet('template/css/template.css');
 
-$doc->addStyleSheet('../templates/system/css/chosen.css');
+$doc->addStyleSheet('../media/jui/css/chosen.css');
 
 if ($this->direction == 'rtl') {
-	$doc->addStyleSheet('template/css/template_rtl.css');
+	$doc->addStyleSheet('../media/jui/css/bootstrap-rtl.css');
 }
 
 // Load the JavaScript behaviors
@@ -37,9 +37,9 @@ JText::script('INSTL_FTP_SETTINGS_CORRECT');
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 	<head>
-		<script src="<?php echo JURI::root();?>templates/system/js/jquery.js"></script>
-		<script src="<?php echo JURI::root();?>templates/system/js/bootstrap.min.js"></script>
-		<script src="<?php echo JURI::root();?>templates/system/js/chosen.jquery.min.js"></script>
+		<script src="<?php echo JURI::root();?>media/jui/js/jquery.js"></script>
+		<script src="<?php echo JURI::root();?>media/jui/js/bootstrap.min.js"></script>
+		<script src="<?php echo JURI::root();?>media/jui/js/chosen.jquery.min.js"></script>
 		<script type="text/javascript">
 		  jQuery.noConflict();
 		</script>

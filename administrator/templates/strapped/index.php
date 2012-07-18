@@ -18,14 +18,14 @@ $input = $app->input;
 $user  = JFactory::getUser();
 
 // Add Stylesheets
-$doc->addStyleSheet('../templates/system/css/bootstrap.min.css');
-$doc->addStyleSheet('../templates/system/css/bootstrap-extended.css');
+$doc->addStyleSheet('../media/jui/css/bootstrap.min.css');
+$doc->addStyleSheet('../media/jui/css/bootstrap-extended.css');
 $doc->addStyleSheet('templates/'.$this->template.'/css/template.css');
-$doc->addStyleSheet('../templates/system/css/bootstrap-responsive.min.css');
+$doc->addStyleSheet('../media/jui/css/bootstrap-responsive.min.css');
 
 // If Right-to-Left
 if ($this->direction == 'rtl') :
-	$doc->addStyleSheet('../templates/system/css/bootstrap-rtl.css');
+	$doc->addStyleSheet('../media/jui/css/bootstrap-rtl.css');
 endif;
 
 // Load specific language related CSS
@@ -34,7 +34,7 @@ if (JFile::exists($file)) :
 	$doc->addStyleSheet($file);
 endif;
 
-$doc->addStyleSheet('../templates/system/css/chosen.css');
+$doc->addStyleSheet('../media/jui/css/chosen.css');
 
 // Detecting Active Variables
 $option = $input->get('option', '');
@@ -77,9 +77,9 @@ endif;
 <html>
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<script src="../templates/system/js/jquery.js"></script>
-	<script src="../templates/system/js/bootstrap.min.js"></script>
-	<script src="../templates/system/js/chosen.jquery.min.js"></script>
+	<script src="../media/jui/js/jquery.js"></script>
+	<script src="../media/jui/js/bootstrap.min.js"></script>
+	<script src="../media/jui/js/chosen.jquery.min.js"></script>
 	<script type="text/javascript">
 	  jQuery.noConflict();
 	</script>

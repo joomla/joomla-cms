@@ -409,3 +409,22 @@ fieldset.radio.btn-group {
 	margin: 2px 0px 10px 0px;
 	padding-bottom: 5px;
 }
+/* Input Prepend Chosen Select Boxes */
+.input-prepend .chzn-container-single .chzn-single {
+	border-color: #CCC;
+	height: 26px;
+	-webkit-border-radius: 0 3px 3px 0;
+	-moz-border-radius: 0 3px 3px 0;
+	border-radius: 0 3px 3px 0;
+	-moz-box-shadow: none;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+}
+.input-prepend .chzn-container-active .chzn-single-with-drop {
+	-webkit-border-radius: 0 3px 0 0;
+	-moz-border-radius: 0 3px 0 0;
+	border-radius: 0 3px 0 0;
+}
+.input-prepend .chzn-container-single .chzn-drop{
+	border-color: #CCC;
+}

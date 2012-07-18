@@ -14,9 +14,15 @@ $app = JFactory::getApplication();
 $doc = JFactory::getDocument();
 
 // Add Stylesheets
-$doc->addStyleSheet('../templates/system/css/bootstrap.min.css');
-$doc->addStyleSheet('../templates/system/css/bootstrap-extended.css');
+$doc->addStyleSheet('../media/jui/css/bootstrap.min.css');
+$doc->addStyleSheet('../media/jui/css/bootstrap-extended.css');
 $doc->addStyleSheet('templates/'.$this->template.'/css/template.css');
+// If Right-to-Left
+if ($this->direction == 'rtl') :
+	$doc->addStyleSheet('../media/jui/css/bootstrap-rtl.css');
+endif;
+// Chosen Selects
+$doc->addStyleSheet('../media/jui/css/chosen.css');
 ?>
 <!DOCTYPE html>
 <html>
@@ -32,8 +38,9 @@ $doc->addStyleSheet('templates/'.$this->template.'/css/template.css');
     $sitename = $app->getCfg('sitename');
 	?>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<script src="../templates/system/js/jquery.js"></script>
-	<script src="../templates/system/js/bootstrap.min.js"></script>
+	<script src="../media/jui/js/jquery.js"></script>
+	<script src="../media/jui/js/bootstrap.min.js"></script>
+	<script src="../media/jui/js/chosen.jquery.min.js"></script>
 	<script type="text/javascript">
 	  jQuery.noConflict();
 	</script>
@@ -90,7 +97,12 @@ $doc->addStyleSheet('templates/'.$this->template.'/css/template.css');
 	</div>
 	<jdoc:include type="modules" name="debug" style="none" />
 	<script>
-		jQuery('*[rel=tooltip]').tooltip()
+		(function($){
+			$('*[rel=tooltip]').tooltip()
+			$('*[rel=popover]').popover()
+		    // Chosen select boxes
+		    $("select").chosen({disable_search_threshold : 10 });
+	    })(jQuery);
 	</script>
 </body>
 </html>

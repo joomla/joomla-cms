@@ -14,14 +14,14 @@ $app = JFactory::getApplication();
 $doc = JFactory::getDocument();
 
 // Add Stylesheets
-$doc->addStyleSheet('templates/system/css/bootstrap.css');
-$doc->addStyleSheet('templates/system/css/bootstrap-extended.css');
+$doc->addStyleSheet('media/jui/css/bootstrap.min.css');
+$doc->addStyleSheet('media/jui/css/bootstrap-extended.css');
 $doc->addStyleSheet('templates/'.$this->template.'/css/template.css');
-$doc->addStyleSheet('templates/system/css/bootstrap-responsive.css');
+$doc->addStyleSheet('media/jui/css/bootstrap-responsive.css');
 
 // If Right-to-Left
 if ($this->direction == 'rtl') :
-	$doc->addStyleSheet('templates/system/css/bootstrap-rtl.css');
+	$doc->addStyleSheet('media/jui/css/bootstrap-rtl.css');
 endif;
 
 // Add current user information
@@ -58,8 +58,8 @@ $user = JFactory::getUser();
 	?>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
-	<script src="<?php echo $this->baseurl; ?>/templates/system/js/jquery.js"></script>
-	<script src="<?php echo $this->baseurl; ?>/templates/system/js/bootstrap.min.js"></script>
+	<script src="<?php echo $this->baseurl; ?>/media/jui/js/jquery.js"></script>
+	<script src="<?php echo $this->baseurl; ?>/media/jui/js/bootstrap.min.js"></script>
 	<script type="text/javascript">
 	  jQuery.noConflict();
 	</script>
