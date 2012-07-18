@@ -51,28 +51,6 @@ abstract class JLinkedinObject
 	}
 
 	/**
-	 * Method to check the rate limit for the requesting IP address
-	 *
-	 * @return  void
-	 *
-	 * @since   12.3
-	 * @throws  RuntimeException
-	 */
-	public function checkRateLimit()
-	{
-		// Check the rate limit for remaining hits
-		$rate_limit = $this->getRateLimit();
-
-		if ($rate_limit->remaining_hits == 0)
-		{
-			// The IP has exceeded the Twitter API rate limit
-			throw new RuntimeException('This server has exceed the Twitter API rate limit for the given period.  The limit will reset at '
-						. $rate_limit->reset_time
-			);
-		}
-	}
-
-	/**
 	 * Method to build and return a full request URL for the request.  This method will
 	 * add appropriate pagination details if necessary and also prepend the API url
 	 * to have a complete URL for the request.
@@ -101,33 +79,10 @@ abstract class JLinkedinObject
 			}
 		}
 
-		// Get a new JUri object fousing the api url and given path.
-		if (strpos($path, 'http://search.twitter.com/search.json') === false)
-		{
-			$uri = new JUri($this->options->get('api.url') . $path);
-		}
-		else
-		{
-			$uri = new JUri($path);
-		}
+		// Get a new JUri object focusing the api url and given path.
+		$uri = new JUri($path);
 
 		return (string) $uri;
-	}
-
-	/**
-	 * Method to retrieve the rate limit for the requesting IP address
-	 *
-	 * @return  array  The JSON response decoded
-	 *
-	 * @since   12.3
-	 */
-	public function getRateLimit()
-	{
-		// Build the request path.
-		$path = '/1/account/rate_limit_status.json';
-
-		// Send the request.
-		return $this->sendRequest($path);
 	}
 
 	/**
@@ -155,7 +110,7 @@ abstract class JLinkedinObject
 				$response = $this->client->post($this->fetchUrl($path, $parameters), $data);
 				break;
 		}
-print_r($response);
+
 		if (strpos($response->body, 'redirected') !== false)
 		{
 			return $response->headers['Location'];
@@ -181,7 +136,7 @@ print_r($response);
 	}
 
 	/**
-	 * Get an option from the JTwitterObject instance.
+	 * Get an option from the JLinkedinObject instance.
 	 *
 	 * @param   string  $key  The name of the option to get.
 	 *
@@ -195,12 +150,12 @@ print_r($response);
 	}
 
 	/**
-	 * Set an option for the JTwitterObject instance.
+	 * Set an option for the JLinkedinObject instance.
 	 *
 	 * @param   string  $key    The name of the option to set.
 	 * @param   mixed   $value  The option value to set.
 	 *
-	 * @return  JTwitterObject  This object for method chaining.
+	 * @return  JLinkedinObject  This object for method chaining.
 	 *
 	 * @since   12.3
 	 */

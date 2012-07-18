@@ -352,26 +352,29 @@ abstract class JOAuth1aClient
 	{
 		foreach ($parameters as $key => $value)
 		{
-			if (strpos($url, '?') === false)
+			if (is_array($value))
 			{
-				if (strpos($key ,'=') === false)
+				foreach ($value as $k => $v)
 				{
-					$url .= '?' . $key . '=' . $value;
-				}
-				else
-				{
-					$url .= '?' . $key . ',' . $value;
+					if (strpos($url, '?') === false)
+					{
+						$url .= '?' . $key . '=' . $k . ',' . $v;
+					}
+					else
+					{
+						$url .= '&' . $key . '=' . $k . ',' . $v;
+					}
 				}
 			}
 			else
 			{
-				if (strpos($key ,'=') === false)
+				if (strpos($url, '?') === false)
 				{
-					$url .= '&' . $key . '=' . $value;
+					$url .= '?' . $key . '=' . rawurlencode($value);
 				}
 				else
 				{
-					$url .= '&' . $key . ',' . $value;
+					$url .= '&' . $key . '=' . rawurlencode($value);
 				}
 			}
 		}
@@ -422,15 +425,20 @@ abstract class JOAuth1aClient
 		foreach ($parameters as $key => $value)
 		{
 			$key = $this->safeEncode($key);
-			$value = $this->safeEncode($value);
 
-			if (strpos($key, '=') === false)
+			if (is_array($value))
 			{
-				$kv[] = "{$key}={$value}";
+				foreach ($value as $k => $v)
+				{
+					$v = $this->safeEncode($k . ',' . $v);
+					$kv[] = "{$key}={$v}";
+				}
 			}
 			else
 			{
-				$kv[] = "{$key},{$value}";
+
+				$value = $this->safeEncode($value);
+				$kv[] = "{$key}={$value}";
 			}
 		}
 		// Form the parameter string.

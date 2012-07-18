@@ -180,31 +180,36 @@ class JLinkedinPeople extends JLinkedinObject
 	 * @param   JLinkedinOAuth  $oauth            The JLinkedinOAuth object.
 	 * @param   string          $fields           Request fields beyond the default ones.
 	 * @param   string          $keywords         Members who have all the keywords anywhere in their profile.
-	 * @param   string          $first-name       Members with a matching first name. Matches must be exact.
-	 * @param   string          $last-name        Members with a matching last name. Matches must be exactly.
-	 * @param   string          $company-name     Members who have a matching company name on their profile.
-	 * @param   boolean         $current-company  A value of true matches members who currently work at the company specified in the company-name parameter.
+	 * @param   string          $first_name       Members with a matching first name. Matches must be exact.
+	 * @param   string          $last_name        Members with a matching last name. Matches must be exactly.
+	 * @param   string          $company_name     Members who have a matching company name on their profile.
+	 * @param   boolean         $current_company  A value of true matches members who currently work at the company specified in the company-name
+	 * 											  parameter.
 	 * @param   string          $title            Matches members with that title on their profile.
-	 * @param   boolean         $current-title    A value of true matches members whose title is currently the one specified in the title-name parameter.
-	 * @param   string          $school-name      Members who have a matching school name on their profile.
-	 * @param   string          $current-school   A value of true matches members who currently attend the school specified in the school-name parameter.
-	 * @param   string          $country-code     Matches members with a location in a specific country. Values are defined in by ISO 3166 standard. Country codes must be in all lower case.
-	 * @param   string          $postal-code      Matches members centered around a Postal Code. Must be combined with the country-code parameter. Not supported for all countries.
+	 * @param   boolean         $current_title    A value of true matches members whose title is currently the one specified in the title-name parameter.
+	 * @param   string          $school_name      Members who have a matching school name on their profile.
+	 * @param   string          $current_school   A value of true matches members who currently attend the school specified in the school-name parameter.
+	 * @param   string          $country_code     Matches members with a location in a specific country. Values are defined in by ISO 3166 standard.
+	 * 											  Country codes must be in all lower case.
+	 * @param   string          $postal_code      Matches members centered around a Postal Code. Must be combined with the country-code parameter.
+	 * 											  Not supported for all countries.
 	 * @param   integer         $distance         Matches members within a distance from a central point. This is measured in miles.
 	 * @param   string          $facets           Facet buckets to return, e.g. location.
-	 * @param   array           $facet            Array of facet values to search over. Contains values for location, industry, network, language, current-company,
+	 * @param   array           $facet            Array of facet values to search over. Contains values for location, industry, network, language,
+	 * 											  current-company,
 	 * 											  past-company and school, in exactly this order, null must be specified for an element if no value.
 	 * @param   integer         $start            Starting location within the result set for paginated returns.
 	 * @param   integer         $count            The number of results returned.
-	 * @param   string          $sort
+	 * @param   string          $sort             Controls the search result order. There are four options: connections, recommenders,
+	 * 											  distance and relevance.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   12.3
 	 */
-	public function search($oauth, $fields = null, $keywords = null, $first_name = null, $last_name = null, $company_name = null, $current_company = null,
-		$title = null, $current_title = null, $school_name = null, $current_school = null, $country_code = null, $postal_code = null, $distance = null,
-		$facets = null, $facet = null, $start = 0, $count = 10, $sort = null)
+	public function search($oauth, $fields = null, $keywords = null, $first_name = null, $last_name = null, $company_name = null,
+		$current_company = null, $title = null, $current_title = null, $school_name = null, $current_school = null, $country_code = null,
+		$postal_code = null, $distance = null, $facets = null, $facet = null, $start = 0, $count = 10, $sort = null)
 	{
 		// Set parameters.
 		$parameters = array(
@@ -231,7 +236,7 @@ class JLinkedinPeople extends JLinkedinObject
 		// Check if first_name is specified.
 		if ($first_name)
 		{
-			$data['first-name'] = rawurlencode($first_name);
+			$data['first-name'] = $first_name;
 		}
 
 		// Check if last_name is specified.
@@ -303,37 +308,38 @@ class JLinkedinPeople extends JLinkedinObject
 		// Check if facet is specified.
 		if ($facet)
 		{
+			$data['facet'] = array();
 			for ($i = 0; $i < count($facet); $i++)
 			{
 				if ($facet[$i])
 				{
 					if ($i == 0)
 					{
-						$data['facet=location'] = $facet[$i];
+						$data['facet']['location'] = $facet[$i];
 					}
 					if ($i == 1)
 					{
-						$data['facet=industry'] = $facet[$i];
+						$data['facet']['industry'] = $facet[$i];
 					}
 					if ($i == 2)
 					{
-						$data['facet=network'] = $facet[$i];
+						$data['facet']['network'] = $facet[$i];
 					}
 					if ($i == 3)
 					{
-						$data['facet=language'] = $facet[$i];
+						$data['facet']['language'] = $facet[$i];
 					}
 					if ($i == 4)
 					{
-						$data['facet=current-company'] = $facet[$i];
+						$data['facet']['current-company'] = $facet[$i];
 					}
 					if ($i == 5)
 					{
-						$data['facet=past-company'] = $facet[$i];
+						$data['facet']['past-company'] = $facet[$i];
 					}
 					if ($i == 6)
 					{
-						$data['facet=school'] = $facet[$i];
+						$data['facet']['school'] = $facet[$i];
 					}
 				}
 			}
