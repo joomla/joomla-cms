@@ -120,7 +120,7 @@ abstract class JToolbarButton
  * @package     Joomla.Legacy
  * @subpackage  Toolbar
  * @since       11.1
- * @deprecated  12.3
+ * @deprecated  13.3  Use JToolbarButton instead.
  */
 abstract class JButton extends JToolbarButton
 {
@@ -128,9 +128,12 @@ abstract class JButton extends JToolbarButton
 	 * Constructor
 	 *
 	 * @param   object  $parent  The parent
+	 *
+	 * @deprecated  13.3  Use JToolbarButton instead.
 	 */
 	public function __construct($parent = null)
 	{
+		JLog::add('JButton is deprecated. Use JToolbarButton instead.', JLog::WARNING, 'deprecated');
 		parent::__construct($parent);
 	}
 }

@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Toolbar
  * @since       12.1
  */
-class JToolbarButtonCustom extends JButton
+class JToolbarButtonCustom extends JToolbarButton
 {
 	/**
 	 * Button type

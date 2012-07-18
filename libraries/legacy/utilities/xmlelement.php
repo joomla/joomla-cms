@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+JLog::add('JXMLElement is deprecated. Use SimpleXMLElement.', JLog::WARNING, 'deprecated');
+
 /**
  * Wrapper class for php SimpleXMLElement.
  *
