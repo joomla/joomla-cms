@@ -8,7 +8,7 @@
  */
 
 require_once JPATH_PLATFORM . '/joomla/image/filter.php';
-require_once JPATH_PLATFORM . '/joomla/image/filters/edgedetect.php';
+require_once JPATH_PLATFORM . '/joomla/image/filter/contrast.php';
 
 /**
  * Test class for JImage.
@@ -17,7 +17,7 @@ require_once JPATH_PLATFORM . '/joomla/image/filters/edgedetect.php';
  * @subpackage  Image
  * @since       11.4
  */
-class JImageFilterEdgedetectTest extends TestCase
+class JImageFilterContrastTest extends TestCase
 {
 	/**
 	 * Setup for testing.
@@ -71,13 +71,41 @@ class JImageFilterEdgedetectTest extends TestCase
 		imagefilledrectangle($imageHandle, 0, 0, 50, 99, $dark);
 		imagefilledrectangle($imageHandle, 51, 0, 99, 99, $light);
 
-		$filter = new JImageFilterEdgedetect($imageHandle);
+		$filter = new JImageFilterContrast($imageHandle);
 
-		$filter->execute(array());
+		$filter->execute(array(IMG_FILTER_CONTRAST => -10));
 
 		$this->assertEquals(
-			187,
-			imagecolorat($imageHandle, 51, 25) >> 16 & 0xFF
+			82,
+			imagecolorat($imageHandle, 25, 25) >> 16 & 0xFF
 		);
 	}
+
+	/**
+	 * Tests the JImageFilterBrightness::execute method - invalid argument.
+	 *
+	 * This tests to make sure an exception is properly thrown.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.4
+	 *
+	 * @expectedException  InvalidArgumentException
+	 */
+	public function testExecuteInvalidArgument()
+	{
+		// Create a image handle of the correct size.
+		$imageHandle = imagecreatetruecolor(100, 100);
+
+		// Define red.
+		$red = imagecolorallocate($imageHandle, 127, 0, 0);
+
+		// Draw a red rectangle to fill the image.
+		imagefilledrectangle($imageHandle, 0, 0, 100, 100, $red);
+
+		$filter = new JImageFilterContrast($imageHandle);
+
+		$filter->execute(array());
+	}
+
 }

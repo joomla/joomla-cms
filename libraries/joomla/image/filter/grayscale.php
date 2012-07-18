@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Image
  * @since       11.3
  */
-class JImageFilterGrayScale extends JImageFilter
+class JImageFilterGrayscale extends JImageFilter
 {
 	/**
 	 * Method to apply a filter to an image resource.
