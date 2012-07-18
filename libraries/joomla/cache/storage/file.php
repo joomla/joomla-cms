@@ -572,7 +572,7 @@ class JCacheStorageFile extends JCacheStorage
 				{
 					if ($recurse)
 					{
-						if (is_integer($recurse))
+						if (is_int($recurse))
 						{
 							$arr2 = $this->_filesInFolder($dir, $filter, $recurse - 1, $fullpath);
 						}
@@ -673,7 +673,7 @@ class JCacheStorageFile extends JCacheStorage
 					}
 					if ($recurse)
 					{
-						if (is_integer($recurse))
+						if (is_int($recurse))
 						{
 							$arr2 = $this->_folders($dir, $filter, $recurse - 1, $fullpath, $exclude, $excludefilter);
 						}

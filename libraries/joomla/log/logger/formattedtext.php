@@ -165,7 +165,7 @@ class JLogLoggerFormattedtext extends JLogLogger
 		}
 
 		// Write the new entry to the file.
-		if (!fputs($this->file, $line . "\n"))
+		if (!fwrite($this->file, $line . "\n"))
 		{
 			throw new RuntimeException('Cannot write to log file.');
 		}
@@ -236,7 +236,7 @@ class JLogLoggerFormattedtext extends JLogLogger
 		}
 		if ($head)
 		{
-			if (!fputs($this->file, $head))
+			if (!fwrite($this->file, $head))
 			{
 				throw new RuntimeException('Cannot fput file for log');
 			}

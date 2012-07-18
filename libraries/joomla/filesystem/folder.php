@@ -596,7 +596,7 @@ abstract class JFolder
 				if ($isDir && $recurse)
 				{
 					// Search recursively
-					if (is_integer($recurse))
+					if (is_int($recurse))
 					{
 						// Until depth 0 is reached
 						$arr = array_merge($arr, self::_items($fullpath, $filter, $recurse - 1, $full, $exclude, $excludefilter_string, $findfiles));
