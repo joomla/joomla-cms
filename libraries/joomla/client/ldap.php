@@ -147,7 +147,7 @@ class JClientLdap
 					return false;
 				}
 			}
-			if (!@ldap_set_option($this->_resource, LDAP_OPT_REFERRALS, intval($this->no_referrals)))
+			if (!@ldap_set_option($this->_resource, LDAP_OPT_REFERRALS, (int) $this->no_referrals))
 			{
 				return false;
 			}
@@ -558,7 +558,7 @@ class JClientLdap
 	public static function LDAPNetAddr($networkaddress)
 	{
 		$addr = "";
-		$addrtype = intval(substr($networkaddress, 0, 1));
+		$addrtype = (int) substr($networkaddress, 0, 1);
 
 		// Throw away bytes 0 and 1 which should be the addrtype and the "#" separator
 		$networkaddress = substr($networkaddress, 2);

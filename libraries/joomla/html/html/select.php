@@ -297,9 +297,9 @@ abstract class JHtmlSelect
 			$options['list.attr'] = $attribs;
 			$options['list.select'] = $selected;
 		}
-		$start = intval($start);
-		$end = intval($end);
-		$inc = intval($inc);
+		$start = (int) $start;
+		$end   = (int) $end;
+		$inc   = (int) $inc;
 
 		$data = array();
 		for ($i = $start; $i <= $end; $i += $inc)
