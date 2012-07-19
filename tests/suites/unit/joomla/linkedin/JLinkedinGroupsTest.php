@@ -371,4 +371,88 @@ class JLinkedinGroupsTest extends TestCase
 
 		$this->object->getSettings($this->oauth, $person_id, $group_id, $fields, $start, $count);
 	}
+
+	/**
+	 * Tests the changeSettings method
+	 *
+	 * @return  void
+	 *
+	 * @since   12.3
+	 */
+	public function testChangeSettings()
+	{
+		$group_id = '12345';
+		$show_logo = true;
+		$digest_frequency = 'daily';
+		$announcements = true;
+		$allow_messages = true;
+		$new_post = true;
+
+		$path = '/v1/people/~/group-memberships/' . $group_id;
+
+		$xml = '<group-membership>
+				<show-group-logo-in-profile>true</show-group-logo-in-profile>
+				<email-digest-frequency>
+				<code>daily</code>
+				</email-digest-frequency>
+				<email-announcements-from-managers>true</email-announcements-from-managers>
+				<allow-messages-from-members>true</allow-messages-from-members>
+				<email-for-every-new-post>true</email-for-every-new-post>
+				</group-membership>';
+
+		$returnData = new stdClass;
+		$returnData->code = 200;
+		$returnData->headers = array('Location' => 'some/url');
+
+		$this->client->expects($this->once())
+			->method('put', $xml)
+			->with($path)
+			->will($this->returnValue($returnData));
+
+		$this->assertThat(
+			$this->object->changeSettings($this->oauth, $group_id, $show_logo, $digest_frequency, $announcements, $allow_messages, $new_post),
+			$this->equalTo('some/url')
+		);
+	}
+
+	/**
+	 * Tests the changeSettings method - failure
+	 *
+	 * @return  void
+	 *
+	 * @expectedException DomainException
+	 * @since   12.3
+	 */
+	public function testChangeSettingsFailure()
+	{
+		$group_id = '12345';
+		$show_logo = true;
+		$digest_frequency = 'daily';
+		$announcements = true;
+		$allow_messages = true;
+		$new_post = true;
+
+		$path = '/v1/people/~/group-memberships/' . $group_id;
+
+		$xml = '<group-membership>
+				<show-group-logo-in-profile>true</show-group-logo-in-profile>
+				<email-digest-frequency>
+				<code>daily</code>
+				</email-digest-frequency>
+				<email-announcements-from-managers>true</email-announcements-from-managers>
+				<allow-messages-from-members>true</allow-messages-from-members>
+				<email-for-every-new-post>true</email-for-every-new-post>
+				</group-membership>';
+
+		$returnData = new stdClass;
+		$returnData->code = 403;
+		$returnData->body = 'Throttle limit for calls to this resource is reached.';
+
+		$this->client->expects($this->once())
+			->method('put', $xml)
+			->with($path)
+			->will($this->returnValue($returnData));
+
+		$this->object->changeSettings($this->oauth, $group_id, $show_logo, $digest_frequency, $announcements, $allow_messages, $new_post);
+	}
 }

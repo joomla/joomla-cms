@@ -251,7 +251,7 @@ abstract class JOAuth1aClient
 
 		$parameters = array_merge($parameters, $defaults);
 
-		if ($data)
+		if (is_array($data))
 		{
 			// Do not encode multipart parameters.
 			if (!isset($headers['Content-Type']))
@@ -288,6 +288,10 @@ abstract class JOAuth1aClient
 			case 'POST':
 				$headers = array_merge($headers, array('Authorization' => $this->createHeader($oauth_headers)));
 				$response = $this->client->post($url, $data, $headers);
+				break;
+			case 'PUT':
+				$headers = array_merge($headers, array('Authorization' => $this->createHeader($oauth_headers)));
+				$response = $this->client->put($url, $data, $headers);
 				break;
 		}
 

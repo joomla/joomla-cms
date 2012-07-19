@@ -96,6 +96,12 @@ class JLinkedinOAuth extends JOAuth1aClient
 	 */
 	public function validateResponse($url, $response)
 	{
+		// Check throttle limit.
+		if ($response->code == 403)
+		{
+			throw new DomainException('Throttle limit for calls to this resource is reached. Daily counters reset at midnight UTC.');
+		}
+
 		if (strpos($url, '::(~)') === false && $response->code != 200)
 		{
 			$error = json_decode($response->body);

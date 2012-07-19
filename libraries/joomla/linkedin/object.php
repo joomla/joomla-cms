@@ -136,6 +136,27 @@ abstract class JLinkedinObject
 	}
 
 	/**
+	 * Method to convert boolean to string.
+	 *
+	 * @param   boolean  $bool  The boolean value to convert.
+	 *
+	 * @return  string  String with the converted boolean.
+	 *
+	 * @since 12.3
+	 */
+	public function boolean_to_string($bool)
+	{
+		if ($bool)
+		{
+			return 'true';
+		}
+		else
+		{
+			return 'false';
+		}
+	}
+
+	/**
 	 * Get an option from the JLinkedinObject instance.
 	 *
 	 * @param   string  $key  The name of the option to get.
