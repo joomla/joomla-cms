@@ -83,4 +83,82 @@ class JLinkedinGroupsTest extends TestCase
 	protected function tearDown()
 	{
 	}
+
+	/**
+	 * Tests the getGroup method
+	 *
+	 * @return  void
+	 *
+	 * @since   12.3
+	 */
+	public function testGetGroup()
+	{
+		$id = '12345';
+		$fields = '(id,name,short-description,description,relation-to-viewer:(membership-state,available-actions),is-open-to-non-members)';
+		$start = 1;
+		$count = 0;
+
+		// Set request parameters.
+		$data['format'] = 'json';
+		$data['start'] = $start;
+		$data['count'] = $count;
+
+		$path = '/v1/groups/' . $id;
+
+		$path .= ':' . $fields;
+
+		$returnData = new stdClass;
+		$returnData->code = 200;
+		$returnData->body = $this->sampleString;
+
+		$path = $this->oauth->to_url($path, $data);
+
+		$this->client->expects($this->once())
+			->method('get')
+			->with($path)
+			->will($this->returnValue($returnData));
+
+		$this->assertThat(
+			$this->object->getGroup($this->oauth, $id, $fields, $start, $count),
+			$this->equalTo(json_decode($this->sampleString))
+		);
+	}
+
+	/**
+	 * Tests the getGroup method - failure
+	 *
+	 * @return  void
+	 *
+	 * @since   12.3
+	 * @expectedException DomainException
+	 */
+	public function testGetGroupFailure()
+	{
+		$id = '12345';
+		$fields = '(id,name,short-description,description,relation-to-viewer:(membership-state,available-actions),is-open-to-non-members)';
+		$start = 1;
+		$count = 0;
+
+		// Set request parameters.
+		$data['format'] = 'json';
+		$data['start'] = $start;
+		$data['count'] = $count;
+
+		$path = '/v1/groups/' . $id;
+
+		$path .= ':' . $fields;
+
+		$returnData = new stdClass;
+		$returnData->code = 401;
+		$returnData->body = $this->errorString;
+
+		$path = $this->oauth->to_url($path, $data);
+
+		$this->client->expects($this->once())
+			->method('get')
+			->with($path)
+			->will($this->returnValue($returnData));
+
+		$this->object->getGroup($this->oauth, $id, $fields, $start, $count);
+	}
 }
