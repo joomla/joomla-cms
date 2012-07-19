@@ -63,14 +63,14 @@ class ContentViewCategory extends JViewLegacy
 			$item->date			= $date;
 			$item->category		= $row->category_title;
 			$item->author		= $author;
-			if ($feedEmail == 'site') 
+			if ($feedEmail == 'site')
 			{
  				$item->authorEmail = $siteEmail;
-			} 
+			}
 			elseif($feedEmail === 'author')
 			{
- 				$item->authorEmail = $row->author_email;
- 			}
+				$item->authorEmail = $row->author_email;
+			}
 
 			// Add readmore link to description if introtext is shown, show_readmore is true and fulltext exists
 			if (!$params->get('feed_summary', 0) && $params->get('feed_show_readmore', 0) && $row->fulltext)
