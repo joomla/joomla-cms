@@ -49,7 +49,6 @@ class JRequestTest_GetVar extends PHPUnit_Framework_TestCase
 	 * @dataProvider getVarData
 	 * @covers JRequest::getVar
 	 * @covers JRequest::_cleanVar
-	 * @covers JRequest::_stripSlashesRecursive
 	 */
 	public function testGetVarFromDataSet($name, $default, $hash, $type, $mask, $expect, $filterCalls)
 	{
