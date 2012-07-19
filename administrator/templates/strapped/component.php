@@ -13,9 +13,8 @@ $doc = JFactory::getDocument();
 $lang  = JFactory::getLanguage();
 
 // Add Stylesheets
-$doc->addStyleSheet('../media/jui/css/bootstrap.min.css');
-$doc->addStyleSheet('../media/jui/css/bootstrap-extended.css');
-$doc->addStyleSheet('../media/jui/css/chosen.min.css');
+$doc->addStyleSheet('templates/' .$this->template. '/css/template.css');
+$doc->addStyleSheet('../media/jui/css/chosen.css');
 
 // If Right-to-Left
 if ($this->direction == 'rtl') :
@@ -41,7 +40,7 @@ endif;
 	<jdoc:include type="head" />
 	<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/<?php echo $this->template ?>/css/template.css" type="text/css" />
 </head>
-<body class="contentpane modal">
+<body class="contentpane component">
 	<jdoc:include type="message" />
 	<jdoc:include type="component" />
 	<script>

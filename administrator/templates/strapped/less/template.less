@@ -1,50 +1,127 @@
+// CSS Reset
+@import "../../../../media/jui/less/reset.less";
+
+// Core variables and mixins
+@import "variables.less"; // Custom for this template
+@import "../../../../media/jui/less/mixins.less";
+
+// Grid system and page structure
+@import "../../../../media/jui/less/scaffolding.less";
+@import "../../../../media/jui/less/grid.less";
+@import "../../../../media/jui/less/layouts.less";
+
+// Base CSS
+@import "../../../../media/jui/less/type.less";
+@import "../../../../media/jui/less/code.less";
+@import "../../../../media/jui/less/forms.less";
+@import "../../../../media/jui/less/tables.less";
+
+// Components: common
+@import "../../../../media/jui/less/sprites.less";
+@import "../../../../media/jui/less/dropdowns.less";
+@import "../../../../media/jui/less/wells.less";
+@import "../../../../media/jui/less/component-animations.less";
+@import "../../../../media/jui/less/close.less";
+
+// Components: Buttons & Alerts
+@import "../../../../media/jui/less/buttons.less";
+@import "../../../../media/jui/less/button-groups.less";
+@import "../../../../media/jui/less/alerts.less"; // Note: alerts share common CSS with buttons and thus have styles in buttons.less
+
+// Components: Nav
+@import "../../../../media/jui/less/navs.less";
+@import "../../../../media/jui/less/navbar.less";
+@import "../../../../media/jui/less/breadcrumbs.less";
+@import "../../../../media/jui/less/pagination.less";
+@import "../../../../media/jui/less/pager.less";
+
+// Components: Popovers
+@import "modals.less";
+@import "../../../../media/jui/less/tooltip.less";
+@import "../../../../media/jui/less/popovers.less";
+
+// Components: Misc
+@import "../../../../media/jui/less/thumbnails.less";
+@import "../../../../media/jui/less/labels-badges.less";
+@import "../../../../media/jui/less/progress-bars.less";
+@import "../../../../media/jui/less/accordion.less";
+@import "../../../../media/jui/less/carousel.less";
+@import "../../../../media/jui/less/hero-unit.less";
+
+// Utility classes
+@import "../../../../media/jui/less/utilities.less";
+
+// RESPONSIVE CLASSES
+// ------------------
+
+@import "../../../../media/jui/less/responsive-utilities.less";
+
+
+// MEDIA QUERIES
+// ------------------
+
+// Phones to portrait tablets and narrow desktops
+@import "../../../../media/jui/less/responsive-767px-max.less";
+
+// Tablets to regular desktops
+@import "../../../../media/jui/less/responsive-768px-979px.less";
+
+// Large desktops
+@import "../../../../media/jui/less/responsive-1200px-min.less";
+
+
+// RESPONSIVE NAVBAR
+// ------------------
+
+// From 979px and below, show a button to toggle navbar contents
+@import "../../../../media/jui/less/responsive-navbar.less";
+
+// Extended for JUI
+@import "../../../../media/jui/less/bootstrap-extended.less"; // Has to be last to override when necessary
+
 /* Body */
-body{
-	padding-top: 30px;
+html {
+    height: 100%;
+}
+body {
+    height: 100%;
 }
 /* Login */
 .view-login{	
-	background: #165387; /* Old browsers */
-	background: -moz-radial-gradient(circle, #165387, #142849);  /* FF3.6+ */
-	background: -webkit-gradient(radial, center center, 0, center center, 460, from(#165387), to(#142849)); /* Safari 4-5, Chrome 1-9 */
-	background: -webkit-radial-gradient(circle, #165387, #142849); /* Safari 5.1+, Chrome 10+ */
-	background: -o-radial-gradient(circle, #165387, #142849); /* Opera 12+ */
-	background: -ms-radial-gradient(circle, #165387, #142849); /* IE10+ */
-	background: radial-gradient(circle, #165387, #142849); /* W3C */
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#165387', endColorstr='#142849',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+	#gradient > .radial(@loginBackgroundHighlight, @loginBackground);
+	
+	.container{
+		width: 300px;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		margin-top: -206px;
+		margin-left: -150px;
+	}
+	.navbar-fixed-bottom{
+		padding-left: 20px;
+		padding-right: 20px;
+		text-align: center;
+	}
+	.navbar-fixed-bottom,
+	.navbar-fixed-bottom a{
+		color: #FCFCFC;
+		text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+	}
+	.well{
+		padding-bottom: 0;
+		.box-shadow(~"0px 0px 60px rgba(0, 0, 0, 0.5), 0px 1px 0px rgba(255, 255, 255, 0.9) inset");
+	}
+	.login-joomla{
+		display: inline-block;
+		height: 24px;
+		width: 24px;
+		text-indent: -9999px;
+		background: url('../images/login-joomla.png') no-repeat;
+		margin-left: -20px;
+	}
 }
-.view-login .container{
-	width: 300px;
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	margin-top: -206px;
-	margin-left: -150px;
-}
-.view-login .navbar-fixed-bottom{
-	padding-left: 20px;
-	padding-right: 20px;
-	text-align: center;
-}
-.view-login .navbar-fixed-bottom,
-.view-login .navbar-fixed-bottom a{
-	color: #FCFCFC;
-	text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
-}
-.login.well{
-	padding-bottom: 0;
-	-moz-box-shadow: 0px 0px 60px rgba(0, 0, 0, 0.5), 0px 1px 0px rgba(255, 255, 255, 0.9) inset;
-	-webkit-box-shadow: 0px 0px 60px rgba(0, 0, 0, 0.5), 0px 1px 0px rgba(255, 255, 255, 0.9) inset;
-	box-shadow: 0px 0px 60px rgba(0, 0, 0, 0.5), 0px 0px 1px rgba(255, 255, 255, 0.9) inset;
-}
-.login-joomla{
-	display: inline-block;
-	height: 24px;
-	width: 24px;
-	text-indent: -9999px;
-	background: url('../images/login-joomla.png') no-repeat;
-	margin-left: -20px;
-}
+
 .login .chzn-drop {
 	width: 228px !important;
 }
@@ -85,14 +162,7 @@ body .navbar-fixed-top{
 }
 /* Header */
 .header{
-	background: #17568c; /* Old browsers */
-	background: -moz-linear-gradient(top,  #17568c 0%, #1a3867 100%); /* FF3.6+ */
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#17568c), color-stop(100%,#1a3867)); /* Chrome,Safari4+ */
-	background: -webkit-linear-gradient(top,  #17568c 0%,#1a3867 100%); /* Chrome10+,Safari5.1+ */
-	background: -o-linear-gradient(top,  #17568c 0%,#1a3867 100%); /* Opera 11.10+ */
-	background: -ms-linear-gradient(top,  #17568c 0%,#1a3867 100%); /* IE10+ */
-	background: linear-gradient(top,  #17568c 0%,#1a3867 100%); /* W3C */
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#17568c', endColorstr='#1a3867',GradientType=0 ); /* IE6-9 */
+	#gradient > .vertical(@headerBackgroundHighlight, @headerBackground);
 	
 	border-top: 1px solid #3882C1;
 	
@@ -235,17 +305,16 @@ body .navbar-fixed-top{
 	-moz-box-shadow: 0px 1px 0px rgba(255, 255, 255, 0.8) inset, 0px -35px 35px rgba(255, 255, 255, 0.6);
 	-webkit-box-shadow: 0px 1px 0px rgba(255, 255, 255, 0.8) inset, 0px -35px 35px rgba(255, 255, 255, 0.6);
 	box-shadow: 0px 1px 0px rgba(255, 255, 255, 0.8) inset, 0px -35px 35px rgba(255, 255, 255, 0.6);
-}
-#status .btn-toolbar,
-#status p{
-	margin: 0px;
-}
-#status i{
-	opacity: 0.40;
-	filter: alpha(opacity=40);
-}
-#status a{
-	color: #999999;
+	
+	.btn-toolbar,p{
+		margin: 0px;
+	}
+	i{
+		.opacity(40)
+	}
+	a{
+		color: #999999;
+	}
 }
 
 /* Pagination in toolbar */
@@ -286,6 +355,20 @@ body .navbar-fixed-top{
 	min-height: 500px;
 }
 
+// Button color
+.btn-primary.active,
+.btn-warning.active,
+.btn-danger.active,
+.btn-success.active,
+.btn-info.active,
+.btn-inverse.active {
+	color: rgba(255,255,255,.95);
+}
+@media (min-width: 980px) {
+	body {
+	    padding-top: 30px;
+	}
+}
 @media (max-width: 767px) {
 	.page-title{
 		text-align: center;

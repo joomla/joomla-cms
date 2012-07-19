@@ -18,10 +18,7 @@ $input = $app->input;
 $user  = JFactory::getUser();
 
 // Add Stylesheets
-$doc->addStyleSheet('../media/jui/css/bootstrap.min.css');
-$doc->addStyleSheet('../media/jui/css/bootstrap-extended.css');
-$doc->addStyleSheet('templates/'.$this->template.'/css/template.css');
-$doc->addStyleSheet('../media/jui/css/bootstrap-responsive.min.css');
+$doc->addStyleSheet('templates/' .$this->template. '/css/template.css');
 
 // If Right-to-Left
 if ($this->direction == 'rtl') :
