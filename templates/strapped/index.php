@@ -14,10 +14,7 @@ $app = JFactory::getApplication();
 $doc = JFactory::getDocument();
 
 // Add Stylesheets
-$doc->addStyleSheet('media/jui/css/bootstrap.min.css');
-$doc->addStyleSheet('media/jui/css/bootstrap-extended.css');
 $doc->addStyleSheet('templates/'.$this->template.'/css/template.css');
-$doc->addStyleSheet('media/jui/css/bootstrap-responsive.css');
 
 // If Right-to-Left
 if ($this->direction == 'rtl') :
