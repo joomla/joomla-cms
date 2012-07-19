@@ -273,4 +273,102 @@ class JLinkedinGroupsTest extends TestCase
 
 		$this->object->getMemberships($this->oauth, $id, $fields, $start, $count, $membership_state);
 	}
+
+	/**
+	 * Tests the getSettings method
+	 *
+	 * @return  void
+	 *
+	 * @dataProvider seedId
+	 * @since   12.3
+	 */
+	public function testGetSettings($person_id)
+	{
+		$group_id = '12345';
+		$fields = '(group:(id,name),membership-state,email-digest-frequency,email-announcements-from-managers,allow-messages-from-members,email-for-every-new-post)';
+		$start = 1;
+		$count = 10;
+
+		// Set request parameters.
+		$data['format'] = 'json';
+		$data['start'] = $start;
+		$data['count'] = $count;
+
+		if ($person_id)
+		{
+			$path = '/v1/people/' . $person_id . '/group-memberships';
+		}
+		else
+		{
+			$path = '/v1/people/~/group-memberships';
+		}
+
+		$path .= '/' . $group_id;
+
+		$path .= ':' . $fields;
+
+		$returnData = new stdClass;
+		$returnData->code = 200;
+		$returnData->body = $this->sampleString;
+
+		$path = $this->oauth->to_url($path, $data);
+
+		$this->client->expects($this->once())
+			->method('get')
+			->with($path)
+			->will($this->returnValue($returnData));
+
+		$this->assertThat(
+			$this->object->getSettings($this->oauth, $person_id, $group_id, $fields, $start, $count),
+			$this->equalTo(json_decode($this->sampleString))
+		);
+	}
+
+	/**
+	 * Tests the getSettings method - failure
+	 *
+	 * @return  void
+	 *
+	 * @dataProvider seedId
+	 * @expectedException DomainException
+	 * @since   12.3
+	 */
+	public function testGetSettingsFailure($person_id)
+	{
+		$group_id = '12345';
+		$fields = '(group:(id,name),membership-state,email-digest-frequency,email-announcements-from-managers,allow-messages-from-members,email-for-every-new-post)';
+		$start = 1;
+		$count = 10;
+
+		// Set request parameters.
+		$data['format'] = 'json';
+		$data['start'] = $start;
+		$data['count'] = $count;
+
+		if ($person_id)
+		{
+			$path = '/v1/people/' . $person_id . '/group-memberships';
+		}
+		else
+		{
+			$path = '/v1/people/~/group-memberships';
+		}
+
+		$path .= '/' . $group_id;
+
+		$path .= ':' . $fields;
+
+		$returnData = new stdClass;
+		$returnData->code = 401;
+		$returnData->body = $this->errorString;
+
+		$path = $this->oauth->to_url($path, $data);
+
+		$this->client->expects($this->once())
+			->method('get')
+			->with($path)
+			->will($this->returnValue($returnData));
+
+		$this->object->getSettings($this->oauth, $person_id, $group_id, $fields, $start, $count);
+	}
 }

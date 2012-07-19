@@ -137,4 +137,72 @@ class JLinkedinGroups extends JLinkedinObject
 		$response = $oauth->oauthRequest($path, 'GET', $parameters, $data);
 		return json_decode($response->body);
 	}
+
+	/**
+	 * Method to find the groups a member belongs to.
+	 *
+	 * @param   JLinkedinOAuth  $oauth      The JLinkedinOAuth object.
+	 * @param   string          $person_id  The unique identifier for a user.
+	 * @param   string          $group_id   The unique identifier for a group.
+	 * @param   string          $fields     Request fields beyond the default ones.
+	 * @param   integer         $start      Starting location within the result set for paginated returns.
+	 * @param   integer         $count      The number of results returned.
+	 *
+	 * @return  array  The decoded JSON response
+	 *
+	 * @since   12.3
+	 */
+	public function getSettings($oauth, $person_id = null, $group_id = null, $fields = null, $start = 0, $count = 5)
+	{
+		// Set parameters.
+		$parameters = array(
+			'oauth_token' => $oauth->getToken('key')
+		);
+
+		// Set the API base
+		$base = '/v1/people/';
+
+		// Check if person_id is specified.
+		if ($person_id)
+		{
+			$base .= $person_id . '/group-memberships';
+		}
+		else
+		{
+			$base .= '~/group-memberships';
+		}
+
+		// Check if group_id is specified.
+		if ($group_id)
+		{
+			$base .= '/' . $group_id;
+		}
+
+		$data['format'] = 'json';
+
+		// Check if fields is specified.
+		if ($fields)
+		{
+			$base .= ':' . $fields;
+		}
+
+		// Check if start is specified.
+		if ($start > 0)
+		{
+			$data['start'] = $start;
+		}
+
+		// Check if count is specified.
+		if ($count != 5)
+		{
+			$data['count'] = $count;
+		}
+
+		// Build the request path.
+		$path = $this->getOption('api.url') . $base;
+
+		// Send the request.
+		$response = $oauth->oauthRequest($path, 'GET', $parameters, $data);
+		return json_decode($response->body);
+	}
 }
