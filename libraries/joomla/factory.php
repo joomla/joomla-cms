@@ -695,10 +695,13 @@ abstract class JFactory
 	{
 		$lang = self::getLanguage();
 
+		$jinput = JFactory::getApplication()->input;
+		$type = $jinput->get('format', 'html' , 'word');
+
 		$attributes = array('charset' => 'utf-8', 'lineend' => 'unix', 'tab' => '  ', 'language' => $lang->getTag(),
 			'direction' => $lang->isRTL() ? 'rtl' : 'ltr');
 
-		return JDocument::getInstance('html', $attributes);
+		return JDocument::getInstance($type, $attributes);
 	}
 
 	/**
