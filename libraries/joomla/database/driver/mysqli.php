@@ -596,7 +596,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	{
 		$this->connect();
 
-		mysqli_query($this->connection, "SET NAMES 'utf8'");
+		return $this->connection->set_charset('utf8');
 	}
 
 	/**
