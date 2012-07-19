@@ -695,8 +695,8 @@ abstract class JFactory
 	{
 		$lang = self::getLanguage();
 
-		$jinput = JFactory::getApplication()->input;
-		$type = $jinput->get('format', 'html' , 'word');
+		$input = self::getApplication()->input;
+		$type = $input->get('format', 'html' , 'word');
 
 		$attributes = array('charset' => 'utf-8', 'lineend' => 'unix', 'tab' => '  ', 'language' => $lang->getTag(),
 			'direction' => $lang->isRTL() ? 'rtl' : 'ltr');
