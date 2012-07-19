@@ -12,11 +12,13 @@ defined('_JEXEC') or die;
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 
 // Create shortcuts to some parameters.
-$params		= $this->item->params;
-$images = json_decode($this->item->images);
-$urls = json_decode($this->item->urls);
-$canEdit	= $this->item->params->get('access-edit');
-$user		= JFactory::getUser();
+$params  = $this->item->params;
+$images  = json_decode($this->item->images);
+$urls    = json_decode($this->item->urls);
+$canEdit = $this->item->params->get('access-edit');
+$user    = JFactory::getUser();
+
+JHtml::_('behavior.caption');
 
 ?>
 <div class="item-page<?php echo $this->pageclass_sfx?>">

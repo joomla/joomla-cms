@@ -28,6 +28,7 @@ $ -> Language fix or change
 
 18-July-2012 Jean-Marie Simonet
  # [#28837] Can't get past step 4 "Database Configuration". Thanks Shaun.
+ # [#28511] Move the caption behavior from the controller to the layouts in com_content. Thanks Rouven and Peter.
 
 ========== VERSION 3.0 APLHA 1 RELEASED ==========
 
