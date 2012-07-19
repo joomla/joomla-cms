@@ -2029,10 +2029,10 @@ class JForm
 	}
 
 	/**
-	 * Adds a new child SimpleXMLElement node to the source.
+	 * Update the attributes of a child node
 	 *
-	 * @param   SimpleXMLElement  $source  The source element on which to append.
-	 * @param   SimpleXMLElement  $new     The new element to append.
+	 * @param   SimpleXMLElement  $source  The source element on which to append the attributes
+	 * @param   SimpleXMLElement  $new     The new element to append
 	 *
 	 * @return  void
 	 *
@@ -2052,8 +2052,6 @@ class JForm
 				$source->addAttribute($name, $value);
 			}
 		}
-
-		// What to do with child elements?
 	}
 
 	/**
