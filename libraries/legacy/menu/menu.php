@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Menu
  * @since       11.1
  */
-class JMenu extends JObject
+class JMenu
 {
 	/**
 	 * Array to hold the menu items
