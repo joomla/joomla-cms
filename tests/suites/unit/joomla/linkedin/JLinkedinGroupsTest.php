@@ -96,7 +96,7 @@ class JLinkedinGroupsTest extends TestCase
 		$id = '12345';
 		$fields = '(id,name,short-description,description,relation-to-viewer:(membership-state,available-actions),is-open-to-non-members)';
 		$start = 1;
-		$count = 0;
+		$count = 10;
 
 		// Set request parameters.
 		$data['format'] = 'json';
@@ -137,7 +137,7 @@ class JLinkedinGroupsTest extends TestCase
 		$id = '12345';
 		$fields = '(id,name,short-description,description,relation-to-viewer:(membership-state,available-actions),is-open-to-non-members)';
 		$start = 1;
-		$count = 0;
+		$count = 10;
 
 		// Set request parameters.
 		$data['format'] = 'json';
@@ -160,5 +160,117 @@ class JLinkedinGroupsTest extends TestCase
 			->will($this->returnValue($returnData));
 
 		$this->object->getGroup($this->oauth, $id, $fields, $start, $count);
+	}
+
+	/**
+	* Provides test data for request format detection.
+	*
+	* @return array
+	*
+	* @since 12.3
+	*/
+	public function seedId()
+	{
+		// Member ID
+		return array(
+			array('lcnIwDU0S6'),
+			array(null)
+			);
+	}
+
+	/**
+	 * Tests the getMemberships method
+	 *
+	 * @return  void
+	 *
+	 * @dataProvider seedId
+	 * @since   12.3
+	 */
+	public function testGetMemberships($id)
+	{
+		$fields = '(id,name,short-description,description,relation-to-viewer:(membership-state,available-actions),is-open-to-non-members)';
+		$start = 1;
+		$count = 10;
+		$membership_state = 'member';
+
+		// Set request parameters.
+		$data['format'] = 'json';
+		$data['start'] = $start;
+		$data['count'] = $count;
+		$data['membership-state'] = $membership_state;
+
+		if ($id)
+		{
+			$path = '/v1/people/' . $id . '/group-memberships';
+		}
+		else
+		{
+			$path = '/v1/people/~/group-memberships';
+		}
+
+		$path .= ':' . $fields;
+
+		$returnData = new stdClass;
+		$returnData->code = 200;
+		$returnData->body = $this->sampleString;
+
+		$path = $this->oauth->to_url($path, $data);
+
+		$this->client->expects($this->once())
+			->method('get')
+			->with($path)
+			->will($this->returnValue($returnData));
+
+		$this->assertThat(
+			$this->object->getMemberships($this->oauth, $id, $fields, $start, $count, $membership_state),
+			$this->equalTo(json_decode($this->sampleString))
+		);
+	}
+
+	/**
+	 * Tests the getMemberships method - failure
+	 *
+	 * @return  void
+	 *
+	 * @dataProvider seedId
+	 * @expectedException DomainException
+	 * @since   12.3
+	 */
+	public function testGetMembershipsFailure($id)
+	{
+		$fields = '(id,name,short-description,description,relation-to-viewer:(membership-state,available-actions),is-open-to-non-members)';
+		$start = 1;
+		$count = 10;
+		$membership_state = 'member';
+
+		// Set request parameters.
+		$data['format'] = 'json';
+		$data['start'] = $start;
+		$data['count'] = $count;
+		$data['membership-state'] = $membership_state;
+
+		if ($id)
+		{
+			$path = '/v1/people/' . $id . '/group-memberships';
+		}
+		else
+		{
+			$path = '/v1/people/~/group-memberships';
+		}
+
+		$path .= ':' . $fields;
+
+		$returnData = new stdClass;
+		$returnData->code = 401;
+		$returnData->body = $this->errorString;
+
+		$path = $this->oauth->to_url($path, $data);
+
+		$this->client->expects($this->once())
+			->method('get')
+			->with($path)
+			->will($this->returnValue($returnData));
+
+		$this->object->getMemberships($this->oauth, $id, $fields, $start, $count, $membership_state);
 	}
 }

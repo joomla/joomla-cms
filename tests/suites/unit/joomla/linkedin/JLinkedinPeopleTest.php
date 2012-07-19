@@ -101,7 +101,7 @@ class JLinkedinPeopleTest extends TestCase
 	{
 		// Member ID or url
 		return array(
-			array('lcnIwDU0S6', null, ),
+			array('lcnIwDU0S6', null),
 			array(null, 'http://www.linkedin.com/in/dianaprajescu'),
 			array(null, null)
 			);
