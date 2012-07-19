@@ -103,16 +103,16 @@ class JInstallationModelDatabase extends JModelLegacy
 			try
 			{
 				$db = JInstallationHelperDatabase::getDbo($options->db_type, $options->db_host, $options->db_user, $options->db_pass, null, $options->db_prefix, false);
+
+				// Check database version.
+				$db_version = $db->getVersion();
+				$type = $options->db_type;
 			}
 			catch (RuntimeException $e)
 			{
 				$this->setError(JText::sprintf('INSTL_DATABASE_COULD_NOT_CONNECT', $e->getMessage()));
 				return false;
 			}
-
-			// Check database version.
-			$db_version = $db->getVersion();
-			$type = $options->db_type;
 
 			if (!$db->isMinimumVersion()) {
 				$this->setError(JText::sprintf('INSTL_DATABASE_INVALID_'.strtoupper($type).'_VERSION', $db_version));
