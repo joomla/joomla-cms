@@ -36,7 +36,7 @@ $listDirn		= $this->escape($this->state->get('list.direction')); ?>
 		<thead>
 			<tr>
 				<th width="1%">
-					<input type="checkbox" name="checkall-toggle" value="" onclick="checkAll(this)" />
+					<input type="checkbox" name="checkall-toggle" value="" onclick="Joomla.checkAll(this)" />
 				</th>
 				<th width="30%" class="left">
 					<?php echo JHtml::_('grid.sort', 'COM_LANGUAGES_VIEW_OVERRIDES_KEY', 'key', $listDirn, $listOrder); ?>
