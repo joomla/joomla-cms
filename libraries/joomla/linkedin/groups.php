@@ -537,9 +537,9 @@ class JLinkedinGroups extends JLinkedinObject
 	/**
 	 * Method to retrieve details about a post.
 	 *
-	 * @param   JLinkedinOAuth  $oauth           The JLinkedinOAuth object.
-	 * @param   string          $post_id        The unique identifier for a post.
-	 * @param   string          $fields          Request fields beyond the default ones.
+	 * @param   JLinkedinOAuth  $oauth    The JLinkedinOAuth object.
+	 * @param   string          $post_id  The unique identifier for a post.
+	 * @param   string          $fields   Request fields beyond the default ones.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
@@ -561,6 +561,58 @@ class JLinkedinGroups extends JLinkedinObject
 		if ($fields)
 		{
 			$base .= ':' . $fields;
+		}
+
+		// Build the request path.
+		$path = $this->getOption('api.url') . $base;
+
+		// Send the request.
+		$response = $oauth->oauthRequest($path, 'GET', $parameters, $data);
+
+		return json_decode($response->body);
+	}
+
+	/**
+	 * Method to retrieve all comments of a post.
+	 *
+	 * @param   JLinkedinOAuth  $oauth    The JLinkedinOAuth object.
+	 * @param   string          $post_id  The unique identifier for a post.
+	 * @param   string          $fields   Request fields beyond the default ones.
+	 * @param   integer         $start    Starting location within the result set for paginated returns.
+	 * @param   integer         $count    The number of results returned.
+	 *
+	 * @return  array  The decoded JSON response
+	 *
+	 * @since   12.3
+	 */
+	public function getPostComments($oauth, $post_id, $fields = null, $start = 0, $count = 0)
+	{
+		// Set parameters.
+		$parameters = array(
+			'oauth_token' => $oauth->getToken('key')
+		);
+
+		// Set the API base
+		$base = '/v1/posts/' . $post_id . '/comments';
+
+		$data['format'] = 'json';
+
+		// Check if fields is specified.
+		if ($fields)
+		{
+			$base .= ':' . $fields;
+		}
+
+		// Check if start is specified.
+		if ($start > 0)
+		{
+			$data['start'] = $start;
+		}
+
+		// Check if count is specified.
+		if ($count > 0)
+		{
+			$data['count'] = $count;
 		}
 
 		// Build the request path.

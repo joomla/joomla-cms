@@ -869,4 +869,82 @@ class JLinkedinGroupsTest extends TestCase
 
 		$this->object->getPost($this->oauth, $post_id, $fields);
 	}
+
+	/**
+	 * Tests the getPostComments method
+	 *
+	 * @return  void
+	 *
+	 * @since   12.3
+	 */
+	public function testGetPostComments()
+	{
+		$post_id = 'g-12345';
+		$fields = '(creator:(first-name,last-name,picture-url),creation-timestamp,text))';
+		$start = 1;
+		$count = 5;
+
+		// Set request parameters.
+		$data['format'] = 'json';
+		$data['start'] = $start;
+		$data['count'] = $count;
+
+		$path = '/v1/posts/' . $post_id . '/comments';
+
+		$path .= ':' . $fields;
+
+		$returnData = new stdClass;
+		$returnData->code = 200;
+		$returnData->body = $this->sampleString;
+
+		$path = $this->oauth->to_url($path, $data);
+
+		$this->client->expects($this->once())
+			->method('get')
+			->with($path)
+			->will($this->returnValue($returnData));
+
+		$this->assertThat(
+			$this->object->getPostComments($this->oauth, $post_id, $fields, $start, $count),
+			$this->equalTo(json_decode($this->sampleString))
+		);
+	}
+
+	/**
+	 * Tests the getPostComments method - failure
+	 *
+	 * @return  void
+	 *
+	 * @expectedException DomainException
+	 * @since   12.3
+	 */
+	public function testGetPostCommentsFailure()
+	{
+		$post_id = 'g-12345';
+		$fields = '(creator:(first-name,last-name,picture-url),creation-timestamp,text))';
+		$start = 1;
+		$count = 5;
+
+		// Set request parameters.
+		$data['format'] = 'json';
+		$data['start'] = $start;
+		$data['count'] = $count;
+
+		$path = '/v1/posts/' . $post_id . '/comments';
+
+		$path .= ':' . $fields;
+
+		$returnData = new stdClass;
+		$returnData->code = 401;
+		$returnData->body = $this->errorString;
+
+		$path = $this->oauth->to_url($path, $data);
+
+		$this->client->expects($this->once())
+			->method('get')
+			->with($path)
+			->will($this->returnValue($returnData));
+
+		$this->object->getPostComments($this->oauth, $post_id, $fields, $start, $count);
+	}
 }
