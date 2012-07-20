@@ -207,7 +207,7 @@ class JLinkedinGroups extends JLinkedinObject
 	}
 
 	/**
-	 * Method to find the groups a member belongs to.
+	 * Method to change a groups settings.
 	 *
 	 * @param   JLinkedinOAuth  $oauth             The JLinkedinOAuth object.
 	 * @param   string          $group_id          The unique identifier for a group.
@@ -269,11 +269,107 @@ class JLinkedinGroups extends JLinkedinObject
 		// Send the request.
 		$response = $oauth->oauthRequest($path, 'PUT', $parameters, $xml, $header);
 
-		if (empty($response->body))
+		return $response;
+	}
+
+	/**
+	 * Method to join a group.
+	 *
+	 * @param   JLinkedinOAuth  $oauth             The JLinkedinOAuth object.
+	 * @param   string          $group_id          The unique identifier for a group.
+	 * @param   boolean         $show_logo         Show group logo in profile.
+	 * @param   string          $digest_frequency  E-mail digest frequency.
+	 * @param   boolean         $announcements     E-mail announcements from managers.
+	 * @param   boolean         $allow_messages    Allow messages from members.
+	 * @param   boolean         $new_post          E-mail for every new post.
+	 *
+	 * @return  array  The decoded JSON response
+	 *
+	 * @since   12.3
+	 */
+	public function joinGroup($oauth, $group_id, $show_logo = null, $digest_frequency = null, $announcements = null, $allow_messages = null, $new_post = null)
+	{
+		// Set parameters.
+		$parameters = array(
+			'oauth_token' => $oauth->getToken('key')
+		);
+
+		// Set the success response code.
+		$oauth->setOption('sucess_code', 201);
+
+		// Set the API base
+		$base = '/v1/people/~/group-memberships';
+
+		// Build xml.
+		$xml = '<group-membership><group><id>' . $group_id . '</id></group>';
+
+		if (!is_null($show_logo))
 		{
-			return $response->headers['Location'];
+			$xml .= '<show-group-logo-in-profile>' . $this->boolean_to_string($show_logo) . '</show-group-logo-in-profile>';
 		}
 
-		return json_decode($response->body);
+		if ($digest_frequency)
+		{
+			$xml .= '<email-digest-frequency><code>' . $digest_frequency . '</code></email-digest-frequency>';
+		}
+
+		if (!is_null($announcements))
+		{
+			$xml .= '<email-announcements-from-managers>' . $this->boolean_to_string($announcements) . '</email-announcements-from-managers>';
+		}
+
+		if (!is_null($allow_messages))
+		{
+			$xml .= '<allow-messages-from-members>' . $this->boolean_to_string($allow_messages) . '</allow-messages-from-members>';
+		}
+
+		if (!is_null($new_post))
+		{
+			$xml .= '<email-for-every-new-post>' . $this->boolean_to_string($new_post) . '</email-for-every-new-post>';
+		}
+
+		$xml .= '<membership-state><code>member</code></membership-state></group-membership>';
+
+		// Build the request path.
+		$path = $this->getOption('api.url') . $base;
+
+		$header['Content-Type'] = 'text/xml';
+
+		// Send the request.
+		$response = $oauth->oauthRequest($path, 'POST', $parameters, $xml, $header);
+
+		return $response;
+	}
+
+	/**
+	 * Method to leave a group.
+	 *
+	 * @param   JLinkedinOAuth  $oauth             The JLinkedinOAuth object.
+	 * @param   string          $group_id          The unique identifier for a group.
+	 *
+	 * @return  array  The decoded JSON response
+	 *
+	 * @since   12.3
+	 */
+	public function leaveGroup($oauth, $group_id)
+	{
+		// Set parameters.
+		$parameters = array(
+			'oauth_token' => $oauth->getToken('key')
+		);
+
+		// Set the success response code.
+		$oauth->setOption('sucess_code', 204);
+
+		// Set the API base
+		$base = '/v1/people/~/group-memberships/' . $group_id;
+
+		// Build the request path.
+		$path = $this->getOption('api.url') . $base;
+
+		// Send the request.
+		$response = $oauth->oauthRequest($path, 'DELETE', $parameters);
+
+		return $response;
 	}
 }

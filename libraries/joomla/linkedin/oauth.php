@@ -102,7 +102,12 @@ class JLinkedinOAuth extends JOAuth1aClient
 			throw new DomainException('Throttle limit for calls to this resource is reached. Daily counters reset at midnight UTC.');
 		}
 
-		if (strpos($url, '::(~)') === false && $response->code != 200)
+		if (!$code = $this->getOption('sucess_code'))
+		{
+			$code = 200;
+		}
+
+		if (strpos($url, '::(~)') === false && $response->code != $code)
 		{
 			$error = json_decode($response->body);
 			throw new DomainException('Error code ' . $error->errorCode . ' received with message: ' . $error->message . '.');

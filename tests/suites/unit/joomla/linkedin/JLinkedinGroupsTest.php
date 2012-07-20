@@ -391,27 +391,29 @@ class JLinkedinGroupsTest extends TestCase
 		$path = '/v1/people/~/group-memberships/' . $group_id;
 
 		$xml = '<group-membership>
-				<show-group-logo-in-profile>true</show-group-logo-in-profile>
-				<email-digest-frequency>
-				<code>daily</code>
-				</email-digest-frequency>
-				<email-announcements-from-managers>true</email-announcements-from-managers>
-				<allow-messages-from-members>true</allow-messages-from-members>
-				<email-for-every-new-post>true</email-for-every-new-post>
+				  <show-group-logo-in-profile>true</show-group-logo-in-profile>
+				  <email-digest-frequency>
+				    <code>daily</code>
+				  </email-digest-frequency>
+				  <email-announcements-from-managers>true</email-announcements-from-managers>
+				  <allow-messages-from-members>true</allow-messages-from-members>
+				  <email-for-every-new-post>true</email-for-every-new-post>
 				</group-membership>';
+
+		$header['Content-Type'] = 'text/xml';
 
 		$returnData = new stdClass;
 		$returnData->code = 200;
-		$returnData->headers = array('Location' => 'some/url');
+		$returnData->body = $this->sampleString;
 
 		$this->client->expects($this->once())
-			->method('put', $xml)
+			->method('put', $xml, $header)
 			->with($path)
 			->will($this->returnValue($returnData));
 
 		$this->assertThat(
 			$this->object->changeSettings($this->oauth, $group_id, $show_logo, $digest_frequency, $announcements, $allow_messages, $new_post),
-			$this->equalTo('some/url')
+			$this->equalTo($returnData)
 		);
 	}
 
@@ -435,24 +437,180 @@ class JLinkedinGroupsTest extends TestCase
 		$path = '/v1/people/~/group-memberships/' . $group_id;
 
 		$xml = '<group-membership>
-				<show-group-logo-in-profile>true</show-group-logo-in-profile>
-				<email-digest-frequency>
-				<code>daily</code>
-				</email-digest-frequency>
-				<email-announcements-from-managers>true</email-announcements-from-managers>
-				<allow-messages-from-members>true</allow-messages-from-members>
-				<email-for-every-new-post>true</email-for-every-new-post>
+				  <show-group-logo-in-profile>true</show-group-logo-in-profile>
+				  <email-digest-frequency>
+				    <code>daily</code>
+				  </email-digest-frequency>
+				  <email-announcements-from-managers>true</email-announcements-from-managers>
+				  <allow-messages-from-members>true</allow-messages-from-members>
+				  <email-for-every-new-post>true</email-for-every-new-post>
 				</group-membership>';
+
+		$header['Content-Type'] = 'text/xml';
 
 		$returnData = new stdClass;
 		$returnData->code = 403;
 		$returnData->body = 'Throttle limit for calls to this resource is reached.';
 
 		$this->client->expects($this->once())
-			->method('put', $xml)
+			->method('put', $xml, $header)
 			->with($path)
 			->will($this->returnValue($returnData));
 
 		$this->object->changeSettings($this->oauth, $group_id, $show_logo, $digest_frequency, $announcements, $allow_messages, $new_post);
+	}
+
+	/**
+	 * Tests the joinGroup method
+	 *
+	 * @return  void
+	 *
+	 * @since   12.3
+	 */
+	public function testJoinGroup()
+	{
+		$group_id = '12345';
+		$show_logo = true;
+		$digest_frequency = 'daily';
+		$announcements = true;
+		$allow_messages = true;
+		$new_post = true;
+
+		$path = '/v1/people/~/group-memberships';
+
+		$xml = '<group-membership>
+				  <group>
+				    <id>' . $group_id . '</id>
+				  </group>
+				  <show-group-logo-in-profile>true</show-group-logo-in-profile>
+				  <email-digest-frequency>
+				    <code>daily</code>
+				  </email-digest-frequency>
+				  <email-announcements-from-managers>true</email-announcements-from-managers>
+				  <allow-messages-from-members>true</allow-messages-from-members>
+				  <email-for-every-new-post>false</email-for-every-new-post>
+				  <membership-state>
+				    <code>member</code>
+				  </membership-state>
+				</group-membership>';
+
+		$header['Content-Type'] = 'text/xml';
+
+		$returnData = new stdClass;
+		$returnData->code = 201;
+		$returnData->body = $this->sampleString;
+
+		$this->client->expects($this->once())
+			->method('post', $xml, $header)
+			->with($path)
+			->will($this->returnValue($returnData));
+
+		$this->assertThat(
+			$this->object->joinGroup($this->oauth, $group_id, $show_logo, $digest_frequency, $announcements, $allow_messages, $new_post),
+			$this->equalTo($returnData)
+		);
+	}
+
+	/**
+	 * Tests the joinGroup method - failure
+	 *
+	 * @return  void
+	 *
+	 * @expectedException DomainException
+	 * @since   12.3
+	 */
+	public function testJoinGroupFailure()
+	{
+		$group_id = '12345';
+		$show_logo = true;
+		$digest_frequency = 'daily';
+		$announcements = true;
+		$allow_messages = true;
+		$new_post = true;
+
+		$path = '/v1/people/~/group-memberships';
+
+		$xml = '<group-membership>
+				  <group>
+				    <id>' . $group_id . '</id>
+				  </group>
+				  <show-group-logo-in-profile>true</show-group-logo-in-profile>
+				  <email-digest-frequency>
+				    <code>daily</code>
+				  </email-digest-frequency>
+				  <email-announcements-from-managers>true</email-announcements-from-managers>
+				  <allow-messages-from-members>true</allow-messages-from-members>
+				  <email-for-every-new-post>false</email-for-every-new-post>
+				  <membership-state>
+				    <code>member</code>
+				  </membership-state>
+				</group-membership>';
+
+		$header['Content-Type'] = 'text/xml';
+
+		$returnData = new stdClass;
+		$returnData->code = 403;
+		$returnData->body = 'Throttle limit for calls to this resource is reached.';
+
+		$this->client->expects($this->once())
+			->method('post', $xml, $header)
+			->with($path)
+			->will($this->returnValue($returnData));
+
+		$this->object->joinGroup($this->oauth, $group_id, $show_logo, $digest_frequency, $announcements, $allow_messages, $new_post);
+	}
+
+	/**
+	 * Tests the leaveGroup method
+	 *
+	 * @return  void
+	 *
+	 * @since   12.3
+	 */
+	public function testLeaveGroup()
+	{
+		$group_id = '12345';
+
+		$path = '/v1/people/~/group-memberships/' . $group_id;
+
+		$returnData = new stdClass;
+		$returnData->code = 204;
+		$returnData->body = $this->sampleString;
+
+		$this->client->expects($this->once())
+			->method('delete')
+			->with($path)
+			->will($this->returnValue($returnData));
+
+		$this->assertThat(
+			$this->object->leaveGroup($this->oauth, $group_id),
+			$this->equalTo($returnData)
+		);
+	}
+
+	/**
+	 * Tests the leaveGroup method - failure
+	 *
+	 * @return  void
+	 *
+	 * @expectedException DomainException
+	 * @since   12.3
+	 */
+	public function testLeaveGroupFailure()
+	{
+		$group_id = '12345';
+
+		$path = '/v1/people/~/group-memberships/' . $group_id;
+
+		$returnData = new stdClass;
+		$returnData->code = 401;
+		$returnData->body = $this->errorString;
+
+		$this->client->expects($this->once())
+			->method('delete')
+			->with($path)
+			->will($this->returnValue($returnData));
+
+		$this->object->leaveGroup($this->oauth, $group_id);
 	}
 }
