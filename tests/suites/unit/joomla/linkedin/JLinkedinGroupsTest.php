@@ -613,4 +613,94 @@ class JLinkedinGroupsTest extends TestCase
 
 		$this->object->leaveGroup($this->oauth, $group_id);
 	}
+
+	/**
+	 * Tests the getDiscussions method
+	 *
+	 * @return  void
+	 *
+	 * @since   12.3
+	 */
+	public function testGetDiscussions()
+	{
+		$id = '12345';
+		$fields = '(creation-timestamp,title,summary,creator:(first-name,last-name),likes,attachment:(content-url,title),relation-to-viewer)';
+		$start = 1;
+		$count = 10;
+		$order = 'recency';
+		$category = 'discussion';
+		$modified_since = '1302727083000';
+
+		// Set request parameters.
+		$data['format'] = 'json';
+		$data['start'] = $start;
+		$data['count'] = $count;
+		$data['order'] = $order;
+		$data['category'] = $category;
+		$data['modified-since'] = $modified_since;
+
+		$path = '/v1/groups/' . $id . '/posts';
+
+		$path .= ':' . $fields;
+
+		$returnData = new stdClass;
+		$returnData->code = 200;
+		$returnData->body = $this->sampleString;
+
+		$path = $this->oauth->to_url($path, $data);
+
+		$this->client->expects($this->once())
+			->method('get')
+			->with($path)
+			->will($this->returnValue($returnData));
+
+		$this->assertThat(
+			$this->object->getDiscussions($this->oauth, $id, $fields, $start, $count, $order, $category, $modified_since),
+			$this->equalTo(json_decode($this->sampleString))
+		);
+	}
+
+	/**
+	 * Tests the getDiscussions method - failure
+	 *
+	 * @return  void
+	 *
+	 * @expectedException DomainException
+	 * @since   12.3
+	 */
+	public function testGetDiscussionsFailure()
+	{
+		$id = '12345';
+		$fields = '(creation-timestamp,title,summary,creator:(first-name,last-name),likes,attachment:(content-url,title),relation-to-viewer)';
+		$start = 1;
+		$count = 10;
+		$order = 'recency';
+		$category = 'discussion';
+		$modified_since = '1302727083000';
+
+		// Set request parameters.
+		$data['format'] = 'json';
+		$data['start'] = $start;
+		$data['count'] = $count;
+		$data['order'] = $order;
+		$data['category'] = $category;
+		$data['modified-since'] = $modified_since;
+
+		$path = '/v1/groups/' . $id . '/posts';
+
+		$path .= ':' . $fields;
+
+		$returnData = new stdClass;
+		$returnData->code = 401;
+		$returnData->body = $this->errorString;
+
+		$path = $this->oauth->to_url($path, $data);
+
+		$this->client->expects($this->once())
+			->method('get')
+			->with($path)
+			->will($this->returnValue($returnData));
+
+		$this->object->getDiscussions($this->oauth, $id, $fields, $start, $count, $order, $category, $modified_since);
+	}
 }
