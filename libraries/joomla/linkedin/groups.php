@@ -623,4 +623,43 @@ class JLinkedinGroups extends JLinkedinObject
 
 		return json_decode($response->body);
 	}
+
+	/**
+	 * Method to retrieve all comments of a post.
+	 *
+	 * @param   JLinkedinOAuth  $oauth     The JLinkedinOAuth object.
+	 * @param   string          $group_id  The unique identifier for a group.
+	 * @param   string          $title     Post title.
+	 * @param   string          $summary   Post summary.
+	 *
+	 * @return  array  The decoded JSON response
+	 *
+	 * @since   12.3
+	 */
+	public function createPost($oauth, $group_id, $title, $summary)
+	{
+		// Set parameters.
+		$parameters = array(
+			'oauth_token' => $oauth->getToken('key')
+		);
+
+		// Set the success response code.
+		$oauth->setOption('sucess_code', 201);
+
+		// Set the API base
+		$base = '/v1/groups/' . $group_id . '/posts';
+
+		// Build xml.
+		$xml = '<post><title>' . $title . '</title><summary>' . $summary . '</summary></post>';
+
+		// Build the request path.
+		$path = $this->getOption('api.url') . $base;
+
+		$header['Content-Type'] = 'text/xml';
+
+		// Send the request.
+		$response = $oauth->oauthRequest($path, 'POST', $parameters, $xml, $header);
+
+		return $response;
+	}
 }

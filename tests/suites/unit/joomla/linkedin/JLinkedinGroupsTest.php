@@ -947,4 +947,70 @@ class JLinkedinGroupsTest extends TestCase
 
 		$this->object->getPostComments($this->oauth, $post_id, $fields, $start, $count);
 	}
+
+	/**
+	 * Tests the createPost method
+	 *
+	 * @return  void
+	 *
+	 * @since   12.3
+	 */
+	public function testCreatePost()
+	{
+		$group_id = '12345';
+		$title = 'post title';
+		$summary = 'post summary';
+
+		$path = '/v1/groups/' . $group_id . '/posts';
+
+		$xml = '<post><title>' . $title . '</title><summary>' . $summary . '</summary></post>';
+
+		$header['Content-Type'] = 'text/xml';
+
+		$returnData = new stdClass;
+		$returnData->code = 201;
+		$returnData->body = $this->sampleString;
+
+		$this->client->expects($this->once())
+			->method('post', $xml, $header)
+			->with($path)
+			->will($this->returnValue($returnData));
+
+		$this->assertThat(
+			$this->object->createPost($this->oauth, $group_id, $title, $summary),
+			$this->equalTo($returnData)
+		);
+	}
+
+	/**
+	 * Tests the createPost method - failure
+	 *
+	 * @return  void
+	 *
+	 * @expectedException DomainException
+	 * @since   12.3
+	 */
+	public function testCreatePostFailure()
+	{
+		$group_id = '12345';
+		$title = 'post title';
+		$summary = 'post summary';
+
+		$path = '/v1/groups/' . $group_id . '/posts';
+
+		$xml = '<post><title>' . $title . '</title><summary>' . $summary . '</summary></post>';
+
+		$header['Content-Type'] = 'text/xml';
+
+		$returnData = new stdClass;
+		$returnData->code = 401;
+		$returnData->body = $this->errorString;
+
+		$this->client->expects($this->once())
+			->method('post', $xml, $header)
+			->with($path)
+			->will($this->returnValue($returnData));
+
+		$this->object->createPost($this->oauth, $group_id, $title, $summary);
+	}
 }
