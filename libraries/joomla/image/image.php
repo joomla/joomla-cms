@@ -141,6 +141,86 @@ class JImage
 	}
 
 	/**
+	 * Method to create thumbnails for the current image. It allows creation by resizing
+	 * or croppping the original image.
+	 *
+	 * @param   mixed    $thumbSizes      string of array of string. Example: $thumbSizes = array('150x75','250x150');
+	 * @param   integer  $creationMethod  1-3 resize $scaleMethod | 4 create croppping
+	 * @param   string   $thumbsFolder    destination thumbs folder. null generates a thumbs folder in the image folder
+	 *
+	 * @return array of JImage || null for none
+	 *
+	 * @throws LogicException
+	 */
+	public function createThumbs($thumbSizes, $creationMethod = 2, $thumbsFolder = null)
+	{
+		// Make sure the resource handle is valid.
+		if (!$this->isLoaded())
+		{
+			throw new LogicException('No valid image was loaded.');
+		}
+		if (!empty($thumbSizes))
+		{
+			// Accept a single thumbsize string as parameter
+			if (!is_array($thumbSizes))
+			{
+				$thumbSizes = array($thumbSizes);
+			}
+			// No thumbFolder set -> we will create a thumbs folder in the image folder
+			if (is_null($thumbsFolder))
+			{
+				$thumbsFolder = dirname($this->getPath()) . DIRECTORY_SEPARATOR . 'thumbs';
+			}
+
+			if (JFolder::exists($thumbsFolder) || JFolder::create($thumbsFolder))
+			{
+				$generated = array();
+
+				// Generate thumbs
+				foreach ($thumbSizes as $thumbSize)
+				{
+					// Desired thumbnail size
+					$size = explode('x', strtolower($thumbSize));
+					if (count($size) != 2)
+					{
+						return false;
+					}
+					$thumbWidth 	= $size[0];
+					$thumbHeight	= $size[1];
+
+					// Source object
+					$imgProperties = self::getImageFileProperties($this->getPath());
+
+					// Generate thumb name
+					$filename 		= JFile::getName($this->getPath());
+					$fileExtension 	= JFile::getExt($filename);
+					$thumbFileName 	= str_replace('.' . $fileExtension, '_' . $thumbWidth . 'x' . $thumbHeight . '.' . $fileExtension, $filename);
+
+					// Generate thumb cropping image
+					if ($creationMethod == 4)
+					{
+						$thumb = $this->crop($thumbWidth, $thumbHeight, null, null, true);
+					}
+					// Generate thumb resizing image
+					else
+					{
+						$thumb = $this->resize($thumbWidth, $thumbHeight, true, $creationMethod);
+					}
+
+					// Save thumb
+					$thumbFileName = $thumbsFolder . DIRECTORY_SEPARATOR . $thumbFileName;
+					if ($thumb->toFile($thumbFileName, $imgProperties->type))
+					{
+						$generated[] = $thumb;
+					}
+				}
+				return $generated;
+			}
+		}
+		return null;
+	}
+
+	/**
 	 * Method to crop the current image.
 	 *
 	 * @param   mixed    $width      The width of the image section to crop in pixels or a percentage.
