@@ -799,4 +799,74 @@ class JLinkedinGroupsTest extends TestCase
 
 		$this->object->getUserPosts($this->oauth, $group_id, $role, $person_id, $fields, $start, $count, $order, $category, $modified_since);
 	}
+
+	/**
+	 * Tests the getPost method
+	 *
+	 * @return  void
+	 *
+	 * @since   12.3
+	 */
+	public function testGetPost()
+	{
+		$post_id = 'g-12345';
+		$fields = '(id,type,category,creator,title,relation-to-viewer:(is-following,is-liked),likes,comments,site-group-post-url)';
+
+		// Set request parameters.
+		$data['format'] = 'json';
+
+		$path = '/v1/posts/' . $post_id;
+
+		$path .= ':' . $fields;
+
+		$returnData = new stdClass;
+		$returnData->code = 200;
+		$returnData->body = $this->sampleString;
+
+		$path = $this->oauth->to_url($path, $data);
+
+		$this->client->expects($this->once())
+			->method('get')
+			->with($path)
+			->will($this->returnValue($returnData));
+
+		$this->assertThat(
+			$this->object->getPost($this->oauth, $post_id, $fields),
+			$this->equalTo(json_decode($this->sampleString))
+		);
+	}
+
+	/**
+	 * Tests the getPost method - failure
+	 *
+	 * @return  void
+	 *
+	 * @expectedException DomainException
+	 * @since   12.3
+	 */
+	public function testGetPostFailure()
+	{
+		$post_id = 'g-12345';
+		$fields = '(id,type,category,creator,title,relation-to-viewer:(is-following,is-liked),likes,comments,site-group-post-url)';
+
+		// Set request parameters.
+		$data['format'] = 'json';
+
+		$path = '/v1/posts/' . $post_id;
+
+		$path .= ':' . $fields;
+
+		$returnData = new stdClass;
+		$returnData->code = 401;
+		$returnData->body = $this->errorString;
+
+		$path = $this->oauth->to_url($path, $data);
+
+		$this->client->expects($this->once())
+			->method('get')
+			->with($path)
+			->will($this->returnValue($returnData));
+
+		$this->object->getPost($this->oauth, $post_id, $fields);
+	}
 }

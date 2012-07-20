@@ -533,4 +533,42 @@ class JLinkedinGroups extends JLinkedinObject
 
 		return json_decode($response->body);
 	}
+
+	/**
+	 * Method to retrieve details about a post.
+	 *
+	 * @param   JLinkedinOAuth  $oauth           The JLinkedinOAuth object.
+	 * @param   string          $post_id        The unique identifier for a post.
+	 * @param   string          $fields          Request fields beyond the default ones.
+	 *
+	 * @return  array  The decoded JSON response
+	 *
+	 * @since   12.3
+	 */
+	public function getPost($oauth, $post_id, $fields = null)
+	{
+		// Set parameters.
+		$parameters = array(
+			'oauth_token' => $oauth->getToken('key')
+		);
+
+		// Set the API base
+		$base = '/v1/posts/' . $post_id;
+
+		$data['format'] = 'json';
+
+		// Check if fields is specified.
+		if ($fields)
+		{
+			$base .= ':' . $fields;
+		}
+
+		// Build the request path.
+		$path = $this->getOption('api.url') . $base;
+
+		// Send the request.
+		$response = $oauth->oauthRequest($path, 'GET', $parameters, $data);
+
+		return json_decode($response->body);
+	}
 }
