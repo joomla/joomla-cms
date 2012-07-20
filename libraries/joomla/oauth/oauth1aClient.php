@@ -81,7 +81,7 @@ abstract class JOAuth1aClient
 	 */
 	public function oauth()
 	{
-		/*$session = JFactory::getSession();
+		$session = JFactory::getSession();
 
 		// Already got some credentials stored
 		if ($session->get('key', null, 'oauth_token'))
@@ -99,7 +99,7 @@ abstract class JOAuth1aClient
 			{
 				$this->token = null;
 			}
-		}*/
+		}
 
 		$request = JFactory::getApplication()->input;
 		$verifier = $request->get('oauth_verifier');

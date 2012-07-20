@@ -445,4 +445,92 @@ class JLinkedinGroups extends JLinkedinObject
 
 		return json_decode($response->body);
 	}
+
+	/**
+	 * Method to get posts a user started / participated in / follows for a group.
+	 *
+	 * @param   JLinkedinOAuth  $oauth           The JLinkedinOAuth object.
+	 * @param   string          $group_id        The unique identifier for a group.
+	 * @param   string          $role            Filter for posts related to the caller. Valid for: creator, commenter, follower.
+	 * @param   string          $person_id       The unique identifier for a user.
+	 * @param   string          $fields          Request fields beyond the default ones.
+	 * @param   integer         $start           Starting location within the result set for paginated returns.
+	 * @param   integer         $count           The number of results returned.
+	 * @param   string          $order           Sort order for posts. Valid for: recency, popularity.
+	 * @param   string          $category        Category of posts. Valid for: discussion
+	 * @param   string          $modified_since  Timestamp filter for posts created after the specified value.
+	 *
+	 * @return  array  The decoded JSON response
+	 *
+	 * @since   12.3
+	 */
+	public function getUserPosts($oauth, $group_id, $role, $person_id = null, $fields = null, $start = 0, $count = 0, $order = null, $category = 'discussion', $modified_since = null)
+	{
+		// Set parameters.
+		$parameters = array(
+			'oauth_token' => $oauth->getToken('key')
+		);
+
+		// Set the API base
+		$base = '/v1/people/';
+
+		// Check if person_id is specified.
+		if ($person_id)
+		{
+			$base .= $person_id;
+		}
+		else
+		{
+			$base .= '~';
+		}
+
+		$base .= '/group-memberships/' . $group_id . '/posts';
+
+		$data['format'] = 'json';
+		$data['role'] = $role;
+
+		// Check if fields is specified.
+		if ($fields)
+		{
+			$base .= ':' . $fields;
+		}
+
+		// Check if start is specified.
+		if ($start > 0)
+		{
+			$data['start'] = $start;
+		}
+
+		// Check if count is specified.
+		if ($count > 0)
+		{
+			$data['count'] = $count;
+		}
+
+		// Check if order is specified.
+		if ($order)
+		{
+			$data['order'] = $order;
+		}
+
+		// Check if category is specified.
+		if ($category)
+		{
+			$data['category'] = $category;
+		}
+
+		// Check if modified_since is specified.
+		if ($modified_since)
+		{
+			$data['modified-since'] = $modified_since;
+		}
+
+		// Build the request path.
+		$path = $this->getOption('api.url') . $base;
+
+		// Send the request.
+		$response = $oauth->oauthRequest($path, 'GET', $parameters, $data);
+
+		return json_decode($response->body);
+	}
 }
