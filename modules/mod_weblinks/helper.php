@@ -34,8 +34,6 @@ class modWeblinksHelper
 		$model->setState('list.limit', (int) $params->get('count', 5));
 
 		$model->setState('filter.state', 1);
-		$model->setState('filter.archived', 0);
-		$model->setState('filter.approved', 1);
 
 		// Access filter
 		$access = !JComponentHelper::getParams('com_weblinks')->get('show_noauth');
