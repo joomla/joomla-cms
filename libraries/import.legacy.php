@@ -41,11 +41,11 @@ if (!class_exists('JLoader'))
 
 class_exists('JLoader') or die;
 
-// Register the legacy library base path for deprecated or legacy libraries.
-JLoader::registerPrefix('J', JPATH_PLATFORM . '/legacy');
-
 // Setup the autoloaders.
 JLoader::setup();
+
+// Register the legacy library base path for deprecated or legacy libraries.
+JLoader::registerPrefix('J', JPATH_PLATFORM . '/legacy');
 
 // Import the Joomla Factory.
 JLoader::import('joomla.factory');
