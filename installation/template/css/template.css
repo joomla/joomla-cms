@@ -426,7 +426,7 @@ input.hidden {
 /* Clear fix */
 
 .cf:before,
-.cf:after, 
+.cf:after,
 #installer:before,
 #installer:after {
     content: "";
