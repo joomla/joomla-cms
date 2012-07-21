@@ -18,7 +18,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Pathway
  * @since       11.1
  */
-class JPathway extends JObject
+class JPathway
 {
 	/**
 	 * @var    array  Array to hold the pathway item objects
