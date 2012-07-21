@@ -78,7 +78,7 @@ abstract class JString
 	 *
 	 * @return  array   The splitted string.
 	 *
-	 * @deprecated  12.3
+	 * @deprecated  12.3 Use JStringNormalise::fromCamelCase()
 	 * @since   11.3
 	 */
 	public static function splitCamelCase($string)

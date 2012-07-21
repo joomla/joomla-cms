@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Joomla.Platform
+ * @package     Joomla.Legacy
  * @subpackage  Database
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
@@ -14,11 +14,11 @@ JLog::add('JDatabaseMysqli is deprecated, use JDatabaseDriverMysqli instead.', J
 /**
  * MySQLi database driver
  *
- * @package     Joomla.Platform
+ * @package     Joomla.Legacy
  * @subpackage  Database
  * @see         http://php.net/manual/en/book.mysqli.php
  * @since       11.1
- * @deprecated  13.1
+ * @deprecated  13.1 Use JDatabaseDriverMysqli instead.
  */
 class JDatabaseMysqli extends JDatabaseDriverMysqli
 {
