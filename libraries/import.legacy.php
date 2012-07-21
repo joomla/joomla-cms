@@ -41,11 +41,11 @@ if (!class_exists('JLoader'))
 
 class_exists('JLoader') or die;
 
-// Register the legacy library base path for deprecated or legacy libraries.
-JLoader::registerPrefix('J', JPATH_PLATFORM . '/legacy');
-
 // Setup the autoloaders.
 JLoader::setup();
+
+// Register the legacy library base path for deprecated or legacy libraries.
+JLoader::registerPrefix('J', JPATH_PLATFORM . '/legacy');
 
 // Import the Joomla Factory.
 JLoader::import('joomla.factory');
@@ -70,10 +70,6 @@ define('JPATH_ISMAC', IS_MAC);
 
 // Register classes where the names have been changed to fit the autoloader rules
 // @deprecated  12.3
-JLoader::register('JDatabaseQueryMySQL', JPATH_PLATFORM . '/joomla/database/query/mysql.php');
-JLoader::register('JDatabaseQueryMySQLi', JPATH_PLATFORM . '/joomla/database/query/mysqli.php');
-JLoader::register('JDatabaseQuerySQLAzure', JPATH_PLATFORM . '/joomla/database/query/sqlazure.php');
-JLoader::register('JDatabaseQuerySQLSrv', JPATH_PLATFORM . '/joomla/database/query/sqlsrv.php');
 JLoader::register('JToolBar', JPATH_PLATFORM . '/legacy/toolbar/toolbar.php');
 JLoader::register('JSimpleCrypt', JPATH_PLATFORM . '/legacy/simplecrypt/simplecrypt.php');
 JLoader::register('JTree', JPATH_PLATFORM . '/legacy/base/tree.php');
