@@ -132,7 +132,7 @@ class JApplicationWebRouterBase extends JApplicationWebRouter
 		$controller = false;
 
 		// Trim the query string off.
-		$route = preg_replace('/([^?]*).*/', '\1', $route);
+		$route = preg_replace('/([^?]*).*/u', '\1', $route);
 
 		// Sanitize and explode the route.
 		$route = trim(parse_url($route, PHP_URL_PATH), ' /');
