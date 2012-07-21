@@ -554,6 +554,9 @@ class JHtmlTest extends TestCase
 			->method('getTemplate')
 			->will($this->returnValue($template));
 
+		// @todo We need to mock this.
+		$mock->input = new JInput;
+
 		JFactory::$application = $mock;
 
 		// we create the file that JHtml::image will look for
@@ -832,7 +835,7 @@ class JHtmlTest extends TestCase
 			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory');
 
 		$this->assertThat(
-			JHtml::script($extension . '/' . $element . '/' . $urlpath . $urlfilename, 
+			JHtml::script($extension . '/' . $element . '/' . $urlpath . $urlfilename,
 				false, true, true, true, false),
 			$this->equalTo(JURI::base(true) . '/media/system/js/' . $element . '/' . $urlpath . 'script1.js'),
 			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the media directory');
@@ -893,6 +896,9 @@ class JHtmlTest extends TestCase
 		$mock->expects($this->any())
 			->method('getTemplate')
 			->will($this->returnValue($template));
+
+		// @todo We need to mock this.
+		$mock->input = new JInput;
 
 		JFactory::$application = $mock;
 
@@ -1010,7 +1016,7 @@ class JHtmlTest extends TestCase
 		JHtml::stylesheet($extension . '/' . $element . '/' . $urlpath . $urlfilename, array(), true);
 
 		$this->assertArrayHasKey(
-			'/media/' . $extension . '/css/' . $element . '/' . $urlpath . $urlfilename, 
+			'/media/' . $extension . '/css/' . $element . '/' . $urlpath . $urlfilename,
 			JFactory::$document->_styleSheets,
 			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory');
 
@@ -1057,7 +1063,7 @@ class JHtmlTest extends TestCase
 			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory');
 
 		$this->assertThat(
-			JHtml::stylesheet($extension . '/' . $element . '/' . $urlpath . $urlfilename, array(), true, true), 
+			JHtml::stylesheet($extension . '/' . $element . '/' . $urlpath . $urlfilename, array(), true, true),
 			$this->equalTo(''),
 			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the media directory');
 

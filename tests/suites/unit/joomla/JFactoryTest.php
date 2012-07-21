@@ -111,7 +111,7 @@ class JFactoryTest extends TestCase
 				'This test has not been implemented completely yet.'
 		);
 	}
-	
+
 	/**
 	 * Tests the JFactory::getDocument method.
 	 *
@@ -124,11 +124,15 @@ class JFactoryTest extends TestCase
 	 */
 	function testGetDocument()
 	{
+		JFactory::$application = TestMockApplication::create($this);
+
 		$this->assertInstanceOf(
 			'JDocument',
 			JFactory::getDocument(),
 			'Line: '.__LINE__
 		);
+
+		JFactory::$application = null;
 
 		$this->markTestIncomplete(
 				'This test has not been implemented completely yet.'

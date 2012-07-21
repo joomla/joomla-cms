@@ -115,6 +115,10 @@ class JHtmlBehaviorTest extends TestCase
 		$mock->expects($this->any())
 			->method('getTemplate')
 			->will($this->returnValue($template));
+
+		// @todo We need to mock this.
+		$mock->input = new JInput;
+
 		JFactory::$application = $mock;
 
 		JHtmlBehaviorInspector::resetLoaded();
@@ -159,6 +163,10 @@ class JHtmlBehaviorTest extends TestCase
 		$mock->expects($this->any())
 			->method('getTemplate')
 			->will($this->returnValue($template));
+
+		// @todo We need to mock this.
+		$mock->input = new JInput;
+
 		JFactory::$application = $mock;
 
 		JHtmlBehaviorInspector::resetLoaded();
@@ -187,6 +195,10 @@ class JHtmlBehaviorTest extends TestCase
 		$mock->expects($this->any())
 			->method('getTemplate')
 			->will($this->returnValue($template));
+
+		// @todo We need to mock this.
+		$mock->input = new JInput;
+
 		JFactory::$application = $mock;
 
 		JHtmlBehaviorInspector::resetLoaded();
@@ -215,6 +227,10 @@ class JHtmlBehaviorTest extends TestCase
 		$mock->expects($this->any())
 			->method('getTemplate')
 			->will($this->returnValue($template));
+
+		// @todo We need to mock this.
+		$mock->input = new JInput;
+
 		JFactory::$application = $mock;
 
 		JHtmlBehaviorInspector::resetLoaded();
@@ -243,6 +259,10 @@ class JHtmlBehaviorTest extends TestCase
 		$mock->expects($this->any())
 			->method('getTemplate')
 			->will($this->returnValue($template));
+
+		// @todo We need to mock this.
+		$mock->input = new JInput;
+
 		JFactory::$application = $mock;
 
 		JHtmlBehaviorInspector::resetLoaded();
@@ -312,6 +332,10 @@ class JHtmlBehaviorTest extends TestCase
 		$mock->expects($this->any())
 			->method('getTemplate')
 			->will($this->returnValue($template));
+
+		// @todo We need to mock this.
+		$mock->input = new JInput;
+
 		JFactory::$application = $mock;
 
 		JHtmlBehaviorInspector::resetLoaded();
@@ -381,6 +405,10 @@ class JHtmlBehaviorTest extends TestCase
 		$mock->expects($this->any())
 			->method('getTemplate')
 			->will($this->returnValue($template));
+
+		// @todo We need to mock this.
+		$mock->input = new JInput;
+
 		JFactory::$application = $mock;
 
 		JHtmlBehaviorInspector::resetLoaded();
@@ -436,6 +464,10 @@ class JHtmlBehaviorTest extends TestCase
 		$mock->expects($this->any())
 			->method('getTemplate')
 			->will($this->returnValue($template));
+
+		// @todo We need to mock this.
+		$mock->input = new JInput;
+
 		JFactory::$application = $mock;
 
 		JHtmlBehaviorInspector::resetLoaded();
@@ -491,6 +523,10 @@ class JHtmlBehaviorTest extends TestCase
 		$mock->expects($this->any())
 			->method('getTemplate')
 			->will($this->returnValue($template));
+
+		// @todo We need to mock this.
+		$mock->input = new JInput;
+
 		JFactory::$application = $mock;
 
 		JHtmlBehaviorInspector::resetLoaded();
@@ -540,6 +576,10 @@ class JHtmlBehaviorTest extends TestCase
 		$mock->expects($this->any())
 			->method('getTemplate')
 			->will($this->returnValue($template));
+
+		// @todo We need to mock this.
+		$mock->input = new JInput;
+
 		JFactory::$application = $mock;
 
 		JHtmlBehaviorInspector::resetLoaded();
@@ -568,6 +608,10 @@ class JHtmlBehaviorTest extends TestCase
 		$mock->expects($this->any())
 			->method('getTemplate')
 			->will($this->returnValue($template));
+
+		// @todo We need to mock this.
+		$mock->input = new JInput;
+
 		JFactory::$application = $mock;
 
 		JHtmlBehaviorInspector::resetLoaded();
@@ -596,6 +640,10 @@ class JHtmlBehaviorTest extends TestCase
 		$mock->expects($this->any())
 			->method('getTemplate')
 			->will($this->returnValue($template));
+
+		// @todo We need to mock this.
+		$mock->input = new JInput;
+
 		JFactory::$application = $mock;
 
 		JHtmlBehaviorInspector::resetLoaded();
@@ -624,6 +672,10 @@ class JHtmlBehaviorTest extends TestCase
 		$mock->expects($this->any())
 			->method('getTemplate')
 			->will($this->returnValue($template));
+
+		// @todo We need to mock this.
+		$mock->input = new JInput;
+
 		JFactory::$application = $mock;
 
 		JHtmlBehaviorInspector::resetLoaded();
@@ -652,6 +704,10 @@ class JHtmlBehaviorTest extends TestCase
 		$mock->expects($this->any())
 			->method('getTemplate')
 			->will($this->returnValue($template));
+
+		// @todo We need to mock this.
+		$mock->input = new JInput;
+
 		JFactory::$application = $mock;
 
 		JHtmlBehaviorInspector::resetLoaded();
