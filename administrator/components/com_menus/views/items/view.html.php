@@ -82,6 +82,7 @@ class MenusViewItems extends JViewLegacy
 								// Look for the first view node off of the root node.
 								if ($view = $xml->xpath('view[1]')) {
 									if (!empty($view[0]['title'])) {
+										$value .= ' » ' . JText::_(trim((string) $view[0]['title']));
 										$vars['layout'] = isset($vars['layout']) ? $vars['layout'] : 'default';
 
 										// Attempt to load the layout xml file.
@@ -113,6 +114,9 @@ class MenusViewItems extends JViewLegacy
 											if (!empty($layout[0]->message[0])) {
 												$item->item_type_desc = JText::_(trim((string) $layout[0]->message[0]));
 											}
+										}
+										if (!isset($item->item_type_desc) && !empty($view[0]->message[0])){
+											$item->item_type_desc = JText::_(trim((string) $view[0]->message[0]));
 										}
 									}
 								}
