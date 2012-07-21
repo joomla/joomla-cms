@@ -42,18 +42,18 @@ class JApplicationWebRouterBaseTest extends TestCase
 			array('', false, 'home', array(), 1),
 			array('articles/4', true, 'home', array(), 1),
 			array('', false, 'index', array(), 2),
-			array('login', false, 'login', array(), 2),
-			array('articles', false, 'articles', array(), 2),
-			array('articles/4', false, 'article', array('article_id' => 4), 2),
+			array('login', false, 'login', array('_rawRoute' => 'login'), 2),
+			array('articles', false, 'articles', array('_rawRoute' => 'articles'), 2),
+			array('articles/4', false, 'article', array('article_id' => 4, '_rawRoute' => 'articles/4'), 2),
 			array('articles/4/crap', true, '', array(), 2),
 			array('test', true, '', array(), 2),
 			array('test/foo', true, '', array(), 2),
 			array('test/foo/path', true, '', array(), 2),
-			array('test/foo/path/bar', false, 'test', array('seg1' => 'foo', 'seg2' => 'bar'), 2),
-			array('content/article-1/*', false, 'content', array(), 2),
-			array('content/cat-1/article-1', false, 'article', array('category' => 'cat-1', 'article' => 'article-1'), 2),
-			array('content/cat-1/cat-2/article-1', false, 'article', array('category' => 'cat-1/cat-2', 'article' => 'article-1'), 2),
-			array('content/cat-1/cat-2/cat-3/article-1', false, 'article', array('category' => 'cat-1/cat-2/cat-3', 'article' => 'article-1'), 2)
+			array('test/foo/path/bar', false, 'test', array('seg1' => 'foo', 'seg2' => 'bar', '_rawRoute' => 'test/foo/path/bar'), 2),
+			array('content/article-1/*', false, 'content', array('_rawRoute' => 'content/article-1/*'), 2),
+			array('content/cat-1/article-1', false, 'article', array('category' => 'cat-1', 'article' => 'article-1', '_rawRoute' => 'content/cat-1/article-1'), 2),
+			array('content/cat-1/cat-2/article-1', false, 'article', array('category' => 'cat-1/cat-2', 'article' => 'article-1', '_rawRoute' => 'content/cat-1/cat-2/article-1'), 2),
+			array('content/cat-1/cat-2/cat-3/article-1', false, 'article', array('category' => 'cat-1/cat-2/cat-3', 'article' => 'article-1', '_rawRoute' => 'content/cat-1/cat-2/cat-3/article-1'), 2)
 		);
 	}
 
