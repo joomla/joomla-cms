@@ -116,7 +116,7 @@ $saveOrder	= $listOrder == 'a.ordering';
 									<?php endif; ?>
 								<?php endif; ?>
 								<?php $disabled = $saveOrder ?  '' : 'disabled="disabled"'; ?>
-								<input class="span1" type="text" name="order[]" size="5" value="<?php echo $item->ordering;?>" <?php echo $disabled ?> class="text-area-order" />
+								<input class="span1" type="text" name="order[]" size="5" value="<?php echo $item->ordering;?>" <?php echo $disabled ?> title="<?php echo $item->title; ?> order" class="text-area-order" />
 							<?php else : ?>
 								<?php echo $item->ordering; ?>
 							<?php endif; ?>

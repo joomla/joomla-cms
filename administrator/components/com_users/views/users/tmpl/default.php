@@ -38,21 +38,33 @@ $loggeduser = JFactory::getUser();
 				<hr />
 				<div class="filter-select">
 					<h4 class="page-header"><?php echo JText::_('JSEARCH_FILTER_LABEL');?></h4>
-					<select name="filter_state" class="span12 small" onchange="this.form.submit()">
+					<label class="hide-text" for="filter_state">
+						<?php echo JText::_('COM_USERS_FILTER_LABEL'); ?>
+					</label>
+					<select name="filter_state" id="filter_state" class="span12 small" onchange="this.form.submit()">
 						<option value="*"><?php echo JText::_('COM_USERS_FILTER_STATE');?></option>
 						<?php echo JHtml::_('select.options', UsersHelper::getStateOptions(), 'value', 'text', $this->state->get('filter.state'));?>
 					</select>
 					<hr class="hr-condensed" />
-					<select name="filter_active" class="span12 small" onchange="this.form.submit()">
+					<label class="hide-text" for="filter_active">
+						<?php echo JText::_('COM_USERS_FILTER_ACTIVE'); ?>
+					</label>
+					<select name="filter_active" id="filter_active" class="span12 small" onchange="this.form.submit()">
 						<option value="*"><?php echo JText::_('COM_USERS_FILTER_ACTIVE');?></option>
 						<?php echo JHtml::_('select.options', UsersHelper::getActiveOptions(), 'value', 'text', $this->state->get('filter.active'));?>
 					</select>
 					<hr class="hr-condensed" />
-					<select name="filter_group_id" class="span12 small" onchange="this.form.submit()">
+					<label class="hide-text" for="filter_group_id">
+						<?php echo JText::_('COM_USERS_FILTER_USERGROUP'); ?>
+					</label>
+					<select name="filter_group_id" id="filter_group_id" class="span12 small" onchange="this.form.submit()">
 						<option value=""><?php echo JText::_('COM_USERS_FILTER_USERGROUP');?></option>
 						<?php echo JHtml::_('select.options', UsersHelper::getGroups(), 'value', 'text', $this->state->get('filter.group_id'));?>
 					</select>
 					<hr class="hr-condensed" />
+					<label class="hide-text" for="filter_range">
+						<?php echo JText::_('COM_USERS_FILTER_FILTER_DATE'); ?>
+					</label>
 					<select name="filter_range" id="filter_range" class="span12 small" onchange="this.form.submit()">
 						<option value=""><?php echo JText::_('COM_USERS_OPTION_FILTER_DATE');?></option>
 						<?php echo JHtml::_('select.options', Usershelper::getRangeOptions(), 'value', 'text', $this->state->get('filter.range'));?>

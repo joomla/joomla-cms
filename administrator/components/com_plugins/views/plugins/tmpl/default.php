@@ -37,17 +37,26 @@ $saveOrder	= $listOrder == 'ordering';
 			?>
 			<div class="filter-select">
 				<h4 class="page-header"><?php echo JText::_('JSEARCH_FILTER_LABEL');?></h4>
-				<select name="filter_state" class="span12 small" onchange="this.form.submit()">
+				<label class="hide-text" for="filter_state">
+					<?php echo JText::_('JOPTION_SELECT_PUBLISHED'); ?>
+				</label>
+				<select name="filter_state" id="filter_state" class="span12 small" onchange="this.form.submit()">
 					<option value=""><?php echo JText::_('JOPTION_SELECT_PUBLISHED');?></option>
 					<?php echo JHtml::_('select.options', PluginsHelper::stateOptions(), 'value', 'text', $this->state->get('filter.state'), true);?>
 				</select>
 				<hr class="hr-condensed" />
-				<select name="filter_folder" class="span12 small" onchange="this.form.submit()">
+				<label class="hide-text" for="filter_folder">
+					<?php echo JText::_('COM_PLUGINS_OPTION_FOLDER'); ?>
+				</label>
+				<select name="filter_folder" id="filter_folder" class="span12 small" onchange="this.form.submit()">
 					<option value=""><?php echo JText::_('COM_PLUGINS_OPTION_FOLDER');?></option>
 					<?php echo JHtml::_('select.options', PluginsHelper::folderOptions(), 'value', 'text', $this->state->get('filter.folder'));?>
 				</select>
 				<hr class="hr-condensed" />
-				<select name="filter_access" class="span12 small" onchange="this.form.submit()">
+				<label class="hide-text" for="filter_access">
+					<?php echo JText::_('JOPTION_SELECT_ACCESS'); ?>
+				</label>
+				<select name="filter_access" id="filter_access"class="span12 small" onchange="this.form.submit()">
 					<option value=""><?php echo JText::_('JOPTION_SELECT_ACCESS');?></option>
 					<?php echo JHtml::_('select.options', JHtml::_('access.assetgroups'), 'value', 'text', $this->state->get('filter.access'));?>
 				</select>
@@ -138,7 +147,7 @@ $saveOrder	= $listOrder == 'ordering';
 									<?php endif; ?>
 								<?php endif; ?>
 								<?php $disabled = $saveOrder ?  '' : 'disabled="disabled"'; ?>
-								<?php if(!$disabled = $saveOrder) : echo "<span class=\"add-on tip\" title=\"".JText::_('JDISABLED')."\"><i class=\"icon-ban-circle\"></i></span>"; endif;?><input type="text" name="order[]" size="5" value="<?php echo $item->ordering;?>" <?php echo $disabled ?> class="width-20 text-area-order" />
+								<?php if(!$disabled = $saveOrder) : echo "<span class=\"add-on tip\" title=\"".JText::_('JDISABLED')."\"><i class=\"icon-ban-circle\"></i></span>"; endif;?><input type="text" name="order[]" size="5" value="<?php echo $item->ordering;?>" <?php echo $disabled ?> title="<?php echo $item->name; ?> order" class="width-20 text-area-order" />
 							</div>
 						<?php else : ?>
 							<?php echo $item->ordering; ?>

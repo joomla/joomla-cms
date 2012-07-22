@@ -29,21 +29,31 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 		</div>
 
 		<div class="right">
-			<select name="filter_access" class="inputbox" onchange="this.form.submit()">
+			<label class="hide-text" for="filter_access">
+				<?php echo JText::_('JOPTION_SELECT_ACCESS'); ?>
+			</label>
+			<select name="filter_access" id="filter_access" class="inputbox" onchange="this.form.submit()">
 				<option value=""><?php echo JText::_('JOPTION_SELECT_ACCESS');?></option>
 				<?php echo JHtml::_('select.options', JHtml::_('access.assetgroups'), 'value', 'text', $this->state->get('filter.access'));?>
 			</select>
-
-			<select name="filter_published" class="inputbox" onchange="this.form.submit()">
+			<label class="hide-text" for="filter_published">
+				<?php echo JText::_('JOPTION_SELECT_PUBLISHED'); ?>
+			</label>
+			<select name="filter_published" id="filter_published" class="inputbox" onchange="this.form.submit()">
 				<option value=""><?php echo JText::_('JOPTION_SELECT_PUBLISHED');?></option>
 				<?php echo JHtml::_('select.options', JHtml::_('jgrid.publishedOptions'), 'value', 'text', $this->state->get('filter.published'), true);?>
 			</select>
-
-			<select name="filter_category_id" class="inputbox" onchange="this.form.submit()">
+			<label class="hide-text" for="filter_category_id">
+				<?php echo JText::_('JOPTION_SELECT_CATEGORY'); ?>
+			</label>
+			<select name="filter_category_id" id="filter_category_id" class="inputbox" onchange="this.form.submit()">
 				<option value=""><?php echo JText::_('JOPTION_SELECT_CATEGORY');?></option>
 				<?php echo JHtml::_('select.options', JHtml::_('category.options', 'com_contact'), 'value', 'text', $this->state->get('filter.category_id'));?>
 			</select>
-			<select name="filter_language" class="inputbox" onchange="this.form.submit()">
+			<label class="hide-text" for="filter_language">
+				<?php echo JText::_('JOPTION_SELECT_LANGUAGE'); ?>
+			</label>
+			<select name="filter_language" id="filter_language" class="inputbox" onchange="this.form.submit()">
 				<option value=""><?php echo JText::_('JOPTION_SELECT_LANGUAGE');?></option>
 				<?php echo JHtml::_('select.options', JHtml::_('contentlanguage.existing', true, true), 'value', 'text', $this->state->get('filter.language'));?>
 			</select>

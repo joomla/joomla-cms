@@ -29,19 +29,26 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 		</div>
 
 		<div class="filter-select fltrt">
-			<select name="filter_component" class="inputbox" onchange="this.form.submit()">
+			<label class="hide-text" for="filter_component">
+				<?php echo JText::_('COM_USERS_OPTION_SELECT_COMPONENT'); ?>
+			</label>
+			<select name="filter_component" id="filter_component" class="inputbox" onchange="this.form.submit()">
 				<option value=""><?php echo JText::_('COM_USERS_OPTION_SELECT_COMPONENT');?></option>
 				<?php if (!empty($this->components)) {
 					echo JHtml::_('select.options', $this->components, 'value', 'text', $this->state->get('filter.component'));
 				}?>
 			</select>
-
-			<select name="filter_level_start" class="inputbox" onchange="this.form.submit()">
+			<label class="hide-text" for="filter_level_start">
+				<?php echo JText::_('COM_USERS_OPTION_SELECT_LEVEL_START'); ?>
+			</label>
+			<select name="filter_level_start" id="filter_level_start" class="inputbox" onchange="this.form.submit()">
 				<option value=""><?php echo JText::_('COM_USERS_OPTION_SELECT_LEVEL_START');?></option>
 				<?php echo JHtml::_('select.options', $this->levels, 'value', 'text', $this->state->get('filter.level_start'));?>
 			</select>
-
-			<select name="filter_level_end" class="inputbox" onchange="this.form.submit()">
+			<label class="hide-text" for="filter_level_end">
+				<?php echo JText::_('COM_USERS_OPTION_SELECT_LEVEL_END'); ?>
+			</label>
+			<select name="filter_level_end" id="filter_level_end"class="inputbox" onchange="this.form.submit()">
 				<option value=""><?php echo JText::_('COM_USERS_OPTION_SELECT_LEVEL_END');?></option>
 				<?php echo JHtml::_('select.options', $this->levels, 'value', 'text', $this->state->get('filter.level_end'));?>
 			</select>

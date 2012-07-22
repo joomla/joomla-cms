@@ -46,11 +46,17 @@ Joomla.submitbutton = function(pressbutton) {
 				<hr />
 				<div class="filter-select">
 					<h4 class="page-header"><?php echo JText::_('JSEARCH_FILTER_LABEL');?></h4>
-					<select name="filter_branch" class="span12 small" onchange="this.form.submit()" id="filter_branch">
+					<label class="hide-text" for="filter_branch">
+						<?php echo JText::sprintf('COM_FINDER_FILTER_BY', JText::_('COM_FINDER_MAPS')); ?>
+					</label>
+					<select name="filter_branch" id="filter_branch" class="span12 small" onchange="this.form.submit()" id="filter_branch">
 						<?php echo JHtml::_('select.options', JHtml::_('finder.mapslist'), 'value', 'text', $this->state->get('filter.branch'));?>
 					</select>
 					<hr class="hr-condensed" />
-					<select name="filter_state" class="span12 small" onchange="this.form.submit()">
+					<label class="hide-text" for="filter_state">
+						<?php echo JText::_('COM_FINDER_INDEX_FILTER_BY_STATE'); ?>
+					</label>
+					<select name="filter_state" id="filter_state" class="span12 small" onchange="this.form.submit()">
 						<option value=""><?php echo JText::_('COM_FINDER_INDEX_FILTER_BY_STATE');?></option>
 						<?php echo JHtml::_('select.options', JHtml::_('finder.statelist'), 'value', 'text', $this->state->get('filter.state'));?>
 					</select>

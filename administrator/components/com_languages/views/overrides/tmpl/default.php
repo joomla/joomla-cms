@@ -32,7 +32,10 @@ $listDirn		= $this->escape($this->state->get('list.direction')); ?>
 				<hr />
 				<div class="filter-select">
 					<h4 class="page-header"><?php echo JText::_('JSEARCH_FILTER_LABEL');?></h4>
-					<select name="filter_language_client" class="span12 small" onchange="this.form.submit()">
+					<label class="hide-text" for="filter_language_client">
+						<?php echo JText::_('JOPTION_SELECT_LANGUAGE_CLIENT'); ?>
+					</label>
+					<select name="filter_language_client" id="filter_language_client" class="span12 small" onchange="this.form.submit()">
 						<?php echo JHtml::_('select.options', $this->languages, null, 'text', $this->state->get('filter.language_client')); ?>
 					</select>
 				</div>
@@ -56,7 +59,7 @@ $listDirn		= $this->escape($this->state->get('list.direction')); ?>
 				<thead>
 					<tr>
 						<th width="1%">
-							<input type="checkbox" name="checkall-toggle" value="" onclick="checkAll(this)" />
+							<input type="checkbox" name="checkall-toggle" value="" title="<?php echo JText::_('JGLOBAL_CHECK_ALL'); ?>" onclick="checkAll(this)" />
 						</th>
 						<th width="30%" class="left">
 							<?php echo JHtml::_('grid.sort', 'COM_LANGUAGES_VIEW_OVERRIDES_KEY', 'key', $listDirn, $listOrder); ?>

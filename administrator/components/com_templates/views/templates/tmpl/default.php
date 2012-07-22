@@ -38,7 +38,10 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 			<hr />
 			<div class="filter-select">
 				<h4 class="page-header"><?php echo JText::_('JSEARCH_FILTER_LABEL');?></h4>
-				<select name="filter_client_id" class="span12 small" onchange="this.form.submit()">
+				<label class="hide-text" for="filter_client_id">
+					<?php echo JText::_('JGLOBAL_FILTER_CLIENT'); ?>
+				</label>
+				<select name="filter_client_id" id="filter_client_id" class="span12 small" onchange="this.form.submit()">
 					<option value="*"><?php echo JText::_('JGLOBAL_FILTER_CLIENT'); ?></option>
 					<?php echo JHtml::_('select.options', TemplatesHelper::getClientOptions(), 'value', 'text', $this->state->get('filter.client_id'));?>
 				</select>

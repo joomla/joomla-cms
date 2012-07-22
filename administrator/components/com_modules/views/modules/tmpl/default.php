@@ -49,31 +49,49 @@ $saveOrder	= $listOrder == 'ordering';
 				<hr />
 				<div class="filter-select">
 					<h4 class="page-header"><?php echo JText::_('JSEARCH_FILTER_LABEL');?></h4>
-					<select name="filter_client_id" class="span12 small" onchange="this.form.submit()">
+					<label class="hide-text" for="filter_client_id">
+						<?php echo JText::_('JGLOBAL_FILTER_CLIENT'); ?>
+					</label>
+					<select name="filter_client_id" id="filter_client_id" class="span12 small" onchange="this.form.submit()">
 						<?php echo JHtml::_('select.options', ModulesHelper::getClientOptions(), 'value', 'text', $this->state->get('filter.client_id'));?>
 					</select>
 					<hr class="hr-condensed" />
-		             <select name="filter_state" class="span12 small" onchange="this.form.submit()">
+					<label class="hide-text" for="filter_state">
+						<?php echo JText::_('JOPTION_SELECT_PUBLISHED'); ?>
+					</label>
+		             <select name="filter_state" id="filter_state" class="span12 small" onchange="this.form.submit()">
 						<option value=""><?php echo JText::_('JOPTION_SELECT_PUBLISHED');?></option>
 						<?php echo JHtml::_('select.options', ModulesHelper::getStateOptions(), 'value', 'text', $this->state->get('filter.state'));?>
 					</select>
 					<hr class="hr-condensed" />
-					<select name="filter_position" class="span12 small" onchange="this.form.submit()">
+					<label class="hide-text" for="filter_position">
+						<?php echo JText::_('COM_MODULES_OPTION_SELECT_POSITION'); ?>
+					</label>
+					<select name="filter_position" id="filter_position" class="span12 small" onchange="this.form.submit()">
 						<option value=""><?php echo JText::_('COM_MODULES_OPTION_SELECT_POSITION');?></option>
 						<?php echo JHtml::_('select.options', ModulesHelper::getPositions($this->state->get('filter.client_id')), 'value', 'text', $this->state->get('filter.position'));?>
 					</select>
 					<hr class="hr-condensed" />
-		            <select name="filter_module" class="span12 small" onchange="this.form.submit()">
+					<label class="hide-text" for="filter_module">
+						<?php echo JText::_('COM_MODULES_OPTION_SELECT_MODULE'); ?>
+					</label>
+		            <select name="filter_module" id="filter_module" class="span12 small" onchange="this.form.submit()">
 						<option value=""><?php echo JText::_('COM_MODULES_OPTION_SELECT_MODULE');?></option>
 						<?php echo JHtml::_('select.options', ModulesHelper::getModules($this->state->get('filter.client_id')), 'value', 'text', $this->state->get('filter.module'));?>
 					</select>
 					<hr class="hr-condensed" />
-					<select name="filter_access" class="span12 small" onchange="this.form.submit()">
+					<label class="hide-text" for="filter_access">
+						<?php echo JText::_('JOPTION_SELECT_ACCESS'); ?>
+					</label>
+					<select name="filter_access" id="filter_access" class="span12 small" onchange="this.form.submit()">
 						<option value=""><?php echo JText::_('JOPTION_SELECT_ACCESS');?></option>
 						<?php echo JHtml::_('select.options', JHtml::_('access.assetgroups'), 'value', 'text', $this->state->get('filter.access'));?>
 					</select>
 					<hr class="hr-condensed" />
-					<select name="filter_language" class="span12 small" onchange="this.form.submit()">
+					<label class="hide-text" for="filter_language">
+						<?php echo JText::_('JOPTION_SELECT_LANGUAGE'); ?>
+					</label>
+					<select name="filter_language" id="filter_language" class="span12 small" onchange="this.form.submit()">
 						<option value=""><?php echo JText::_('JOPTION_SELECT_LANGUAGE');?></option>
 						<?php echo JHtml::_('select.options', JHtml::_('contentlanguage.existing', true, true), 'value', 'text', $this->state->get('filter.language'));?>
 					</select>
@@ -97,7 +115,7 @@ $saveOrder	= $listOrder == 'ordering';
 				<thead>
 					<tr>
 						<th width="1%">
-							<input type="checkbox" name="checkall-toggle" value="" onclick="checkAll(this)" />
+							<input type="checkbox" name="checkall-toggle" value="" title="<?php echo JText::_('JGLOBAL_CHECK_ALL'); ?>" onclick="checkAll(this)" />
 						</th>
 						<th class="title">
 							<?php echo JHtml::_('grid.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
@@ -186,7 +204,7 @@ $saveOrder	= $listOrder == 'ordering';
 										<?php endif; ?>
 									<?php endif; ?>
 									<?php $disabled = $saveOrder ?  '' : 'disabled="disabled"'; ?>
-									<?php if(!$disabled = $saveOrder) : echo "<span class=\"add-on\" rel=\"tooltip\" title=\"".JText::_('JDISABLED')."\"><i class=\"icon-ban-circle\"></i></span>"; endif;?><input type="text" name="order[]" size="5" value="<?php echo $item->ordering;?>" <?php echo $disabled ?> class="width-20 text-area-order" />
+									<?php if(!$disabled = $saveOrder) : echo "<span class=\"add-on\" rel=\"tooltip\" title=\"".JText::_('JDISABLED')."\"><i class=\"icon-ban-circle\"></i></span>"; endif;?><input type="text" name="order[]" size="5" value="<?php echo $item->ordering;?>" <?php echo $disabled ?> title="<?php echo $item->title; ?> order" class="width-20 text-area-order" />
 								</div>
 							<?php else : ?>
 								<?php echo $item->ordering; ?>

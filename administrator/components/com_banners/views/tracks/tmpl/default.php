@@ -37,18 +37,27 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 				<hr />
 				<div class="filter-select">
 					<h4 class="page-header"><?php echo JText::_('JSEARCH_FILTER_LABEL');?></h4>
-					<select name="filter_client_id" class="span12 small" onchange="this.form.submit()">
+					<label class="hide-text" for="filter_client_id">
+						<?php echo JText::_('COM_BANNERS_SELECT_CLIENT'); ?>
+					</label>
+					<select name="filter_client_id" id="filter_client_id" class="span12 small" onchange="this.form.submit()">
 						<option value=""><?php echo JText::_('COM_BANNERS_SELECT_CLIENT');?></option>
 						<?php echo JHtml::_('select.options', BannersHelper::getClientOptions(), 'value', 'text', $this->state->get('filter.client_id'));?>
 					</select>
 					<hr class="hr-condensed" />
+					<label class="hide-text" for="filter_category_id">
+						<?php echo JText::_('JOPTION_SELECT_CATEGORY'); ?>
+					</label>
 					<?php $category = $this->state->get('filter.category_id');?>
-					<select name="filter_category_id" class="span12 small" onchange="this.form.submit()">
+					<select name="filter_category_id" id="filter_category_id" class="span12 small" onchange="this.form.submit()">
 						<option value=""><?php echo JText::_('JOPTION_SELECT_CATEGORY');?></option>
 						<?php echo JHtml::_('select.options', JHtml::_('category.options', 'com_banners'), 'value', 'text', $category);?>
 					</select>
 					<hr class="hr-condensed" />
-			        <select name="filter_type" class="span12 small" onchange="this.form.submit()">
+					<label class="hide-text" for="filter_type">
+						<?php echo JText::_('BANNERS_SELECT_TYPE'); ?>
+					</label>
+			        <select name="filter_type" id="filter_type" class="span12 small" onchange="this.form.submit()">
 						<?php echo JHtml::_('select.options', array(JHtml::_('select.option', '0', JText::_('COM_BANNERS_SELECT_TYPE')), JHtml::_('select.option', 1, JText::_('COM_BANNERS_IMPRESSION')), JHtml::_('select.option', 2, JText::_('COM_BANNERS_CLICK'))), 'value', 'text', $this->state->get('filter.type'));?>
 					</select>
 				</div>

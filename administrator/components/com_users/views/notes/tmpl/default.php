@@ -36,13 +36,19 @@ $canEdit = $user->authorise('core.edit', 'com_users');
 				<hr />
 				<div class="filter-select">
 					<h4 class="page-header"><?php echo JText::_('JSEARCH_FILTER_LABEL');?></h4>
+					<label class="hide-text" for="filter_category_id">
+						<?php echo JText::_('JOPTION_SELECT_CATEGORY'); ?>
+					</label>
 					<select name="filter_category_id" id="filter_category_id" class="span12 small" onchange="this.form.submit()">
 						<option value=""><?php echo JText::_('JOPTION_SELECT_CATEGORY');?></option>
 						<?php echo JHtml::_('select.options', JHtml::_('category.options', 'com_users.notes'),
 							'value', 'text', $this->state->get('filter.category_id'));?>
 					</select>
 					<hr class="hr-condensed" />
-					<select name="filter_published" class="span12 small" onchange="this.form.submit()">
+					<label class="hide-text" for="filter_published">
+						<?php echo JText::_('JOPTION_SELECT_PUBLISHED'); ?>
+					</label>
+					<select name="filter_published" id="filter_published" class="span12 small" onchange="this.form.submit()">
 						<option value=""><?php echo JText::_('JOPTION_SELECT_PUBLISHED');?></option>
 						<?php echo JHtml::_('select.options', JHtml::_('jgrid.publishedOptions'),
 							 'value', 'text', $this->state->get('filter.state'), true);?>

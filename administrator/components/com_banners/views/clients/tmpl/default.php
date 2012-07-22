@@ -38,7 +38,10 @@ $params		= (isset($this->state->params)) ? $this->state->params : new JObject;
 				<hr />
 				<div class="filter-select">
 					<h4 class="page-header"><?php echo JText::_('JSEARCH_FILTER_LABEL');?></h4>
-					<select name="filter_state" class="span12 small" onchange="this.form.submit()">
+					<label class="hide-text" for="filter_state">
+						<?php echo JText::_('JOPTION_SELECT_PUBLISHED'); ?>
+					</label>
+					<select name="filter_state" id="filter_state" class="span12 small" onchange="this.form.submit()">
 						<option value=""><?php echo JText::_('JOPTION_SELECT_PUBLISHED');?></option>
 						<?php echo JHtml::_('select.options', JHtml::_('jgrid.publishedOptions'), 'value', 'text', $this->state->get('filter.state'), true);?>
 					</select>

@@ -39,22 +39,34 @@ $params		= (isset($this->state->params)) ? $this->state->params : new JObject;
 				<hr />
 				<div class="filter-select">
 					<h4 class="page-header"><?php echo JText::_('JSEARCH_FILTER_LABEL');?></h4>
-					<select name="filter_state" class="span12 small" onchange="this.form.submit()">
+					<label class="hide-text" for="filter_state">
+						<?php echo JText::_('JOPTION_SELECT_PUBLISHED'); ?>
+					</label>
+					<select name="filter_state" id="filter_state" class="span12 small" onchange="this.form.submit()">
 						<option value=""><?php echo JText::_('JOPTION_SELECT_PUBLISHED');?></option>
 						<?php echo JHtml::_('select.options', JHtml::_('jgrid.publishedOptions'), 'value', 'text', $this->state->get('filter.state'), true);?>
 					</select>
 					<hr class="hr-condensed" />
-					<select name="filter_client_id" class="span12 small" onchange="this.form.submit()">
+					<label class="hide-text" for="filter_client_id">
+						<?php echo JText::_('COM_BANNERS_SELECT_CLIENT'); ?>
+					</label>
+					<select name="filter_client_id" id="filter_client_id" class="span12 small" onchange="this.form.submit()">
 						<option value=""><?php echo JText::_('COM_BANNERS_SELECT_CLIENT');?></option>
 						<?php echo JHtml::_('select.options', BannersHelper::getClientOptions(), 'value', 'text', $this->state->get('filter.client_id'));?>
 					</select>
 					<hr class="hr-condensed" />
-					<select name="filter_category_id" class="span12 small" onchange="this.form.submit()">
+					<label class="hide-text" for="filter_category_id">
+						<?php echo JText::_('JOPTION_SELECT_CATEGORY'); ?>
+					</label>
+					<select name="filter_category_id" id="filter_category_id" class="span12 small" onchange="this.form.submit()">
 						<option value=""><?php echo JText::_('JOPTION_SELECT_CATEGORY');?></option>
 						<?php echo JHtml::_('select.options', JHtml::_('category.options', 'com_banners'), 'value', 'text', $this->state->get('filter.category_id'));?>
 					</select>
 					<hr class="hr-condensed" />
-					<select name="filter_language" class="span12 small" onchange="this.form.submit()">
+					<label class="hide-text" for="filter_language">
+						<?php echo JText::_('JOPTION_SELECT_LANGUAGE'); ?>
+					</label>
+					<select name="filter_language" id="filter_language" class="span12 small" onchange="this.form.submit()">
 						<option value=""><?php echo JText::_('JOPTION_SELECT_LANGUAGE');?></option>
 						<?php echo JHtml::_('select.options', JHtml::_('contentlanguage.existing', true, true), 'value', 'text', $this->state->get('filter.language'));?>
 					</select>
@@ -170,7 +182,7 @@ $params		= (isset($this->state->params)) ? $this->state->params : new JObject;
 										<?php endif; ?>
 									<?php endif; ?>
 									<?php $disabled = $saveOrder ?  '' : 'disabled="disabled"'; ?>
-									<?php if(!$disabled = $saveOrder) : echo "<span class=\"add-on tip\" title=\"".JText::_('JDISABLED')."\"><i class=\"icon-ban-circle\"></i></span>"; endif;?><input type="text" name="order[]" size="5" value="<?php echo $item->ordering;?>" <?php echo $disabled; ?> class="width-20 text-area-order" />
+									<?php if(!$disabled = $saveOrder) : echo "<span class=\"add-on tip\" title=\"".JText::_('JDISABLED')."\"><i class=\"icon-ban-circle\"></i></span>"; endif;?><input type="text" name="order[]" size="5" value="<?php echo $item->ordering;?>" <?php echo $disabled; ?> title="<?php echo $item->name; ?> order" class="width-20 text-area-order" />
 								</div>
 							<?php else : ?>
 								<?php echo $item->ordering; ?>
