@@ -647,7 +647,7 @@ class JControllerLegacy extends JObject
 			$view->setModel($model, true);
 		}
 
-		$view->assignRef('document', $document);
+		$view->document = $document;
 
 		$conf = JFactory::getConfig();
 
@@ -827,7 +827,7 @@ class JControllerLegacy extends JObject
 	 * @param   string  $prefix  The class prefix. Optional.
 	 * @param   array   $config  Configuration array for view. Optional.
 	 *
-	 * @return  object  Reference to the view or an error.
+	 * @return  JViewLegacy  Reference to the view or an error.
 	 *
 	 * @since   12.2
 	 * @throws  Exception
