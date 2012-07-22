@@ -9,6 +9,7 @@ TRUNCATE `#__menu_types`;
 TRUNCATE `#__modules`;
 TRUNCATE `#__modules_menu`;
 TRUNCATE `#__usergroups`;
+TRUNCATE `#__viewlevels`;
 
 CREATE TABLE IF NOT EXISTS `#__assets` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
@@ -1111,16 +1112,17 @@ CREATE TABLE IF NOT EXISTS `#__usergroups` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=13 ;
 
 INSERT IGNORE INTO `#__usergroups` (`id`, `parent_id`, `lft`, `rgt`, `title`) VALUES
-(1, 0, 1, 20, 'Public'),
-(2, 1, 6, 17, 'Registered'),
-(3, 2, 7, 14, 'Author'),
-(4, 3, 8, 11, 'Editor'),
-(5, 4, 9, 10, 'Publisher'),
-(6, 1, 2, 5, 'Manager'),
-(7, 6, 3, 4, 'Administrator'),
-(8, 1, 18, 19, 'Super Users'),
-(10, 3, 12, 13, 'Shop Suppliers (Example)'),
-(12, 2, 15, 16, 'Customer Group (Example)');
+(1, 0, 1, 22, 'Public'),
+(2, 1, 8, 19, 'Registered'),
+(3, 2, 9, 16, 'Author'),
+(4, 3, 10, 13, 'Editor'),
+(5, 4, 11, 12, 'Publisher'),
+(6, 1, 4, 7, 'Manager'),
+(7, 6, 5, 6, 'Administrator'),
+(8, 1, 20, 21, 'Super Users'),
+(10, 3, 14, 15, 'Shop Suppliers (Example)'),
+(12, 2, 17, 18, 'Customer Group (Example)'),
+(13, 1, 2, 3, 'Guest');
 
 CREATE TABLE IF NOT EXISTS `#__viewlevels` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
@@ -1135,7 +1137,8 @@ INSERT IGNORE INTO `#__viewlevels` (`id`, `title`, `ordering`, `rules`) VALUES
 (1, 'Public', 0, '[1]'),
 (2, 'Registered', 1, '[6,2,8]'),
 (3, 'Special', 2, '[6,3,8]'),
-(4, 'Customer Access Level (Example)', 3, '[6,3,12]');
+(4, 'Customer Access Level (Example)', 3, '[6,3,12]'),
+(5, 'Guest', 0, '[13]');
 
 CREATE TABLE IF NOT EXISTS `#__weblinks` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -1187,4 +1190,8 @@ INSERT IGNORE INTO `#__weblinks` (`id`, `catid`, `title`, `alias`, `url`, `descr
 (7, 31, 'Baw Baw National Park', 'baw-baw-national-park', 'http://www.parkweb.vic.gov.au/1park_display.cfm?park=44', '<p>Park of the Austalian Alps National Parks system, Baw Baw  features sub alpine vegetation, beautiful views, and opportunities for hiking, skiing and other outdoor activities.</p>', 0, 1, 0, '0000-00-00 00:00:00', 1, 1, '{"target":"0","count_clicks":""}', 'en-GB', '2011-01-01 00:00:01', 42, 'Joomla', '0000-00-00 00:00:00', 0, '', '', '{"robots":"","author":"","rights":""}', 0, '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, ''),
 (8, 31, 'Kakadu', 'kakadu', 'http://www.environment.gov.au/parks/kakadu/index.html', '<p>Kakadu is known for both its cultural heritage and its natural features. It is one of a small number of places listed as World Heritage Places for both reasons. Extensive rock art is found there.</p>', 0, 1, 0, '0000-00-00 00:00:00', 2, 1, '{"target":"0","count_clicks":""}', 'en-GB', '2011-01-01 00:00:01', 42, 'Joomla', '0000-00-00 00:00:00', 0, '', '', '{"robots":"","author":"","rights":""}', 0, '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, ''),
 (9, 31, 'Pulu Keeling', 'pulu-keeling', 'http://www.environment.gov.au/parks/cocos/index.html', '<p>Located on an atoll 2000 kilometers north of Perth, Pulu Keeling is Australia''s smallest national park.</p>', 0, 1, 0, '0000-00-00 00:00:00', 3, 1, '{"target":"0","count_clicks":""}', 'en-GB', '2011-01-01 00:00:01', 42, 'Joomla', '0000-00-00 00:00:00', 0, '', '', '{"robots":"","author":"","rights":""}', 0, '', '2010-07-10 23:44:03', '0000-00-00 00:00:00', 1, '');
+
+
+UPDATE `default_extensions` SET `params`='{"allowUserRegistration":"1","new_usertype":"2","guest_usergroup":"13","sendpassword":"1","useractivation":"1","mail_to_admin":"0","captcha":"","frontend_userparams":"1","site_language":"0","change_login_name":"0","reset_count":"10","reset_time":"1","mailSubjectPrefix":"","mailBodySuffix":""}' WHERE extension_id=25;
+
 SET FOREIGN_KEY_CHECKS=1;

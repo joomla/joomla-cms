@@ -1,3 +1,7 @@
+#
+# IMPORTANT - THIS FILE MUST BE SAVED WITH UTF-8 ENCODING ONLY. BEWARE IF EDITING!
+#
+
 SET FOREIGN_KEY_CHECKS=0;
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -8,7 +12,6 @@ TRUNCATE `#__menu`;
 TRUNCATE `#__menu_types`;
 TRUNCATE `#__modules`;
 TRUNCATE `#__modules_menu`;
-TRUNCATE `#__usergroups`;
 TRUNCATE `#__template_styles`;
 
 CREATE TABLE IF NOT EXISTS `#__assets` (
@@ -528,30 +531,6 @@ CREATE TABLE IF NOT EXISTS `#__usergroups` (
   KEY `idx_usergroup_adjacency_lookup` (`parent_id`),
   KEY `idx_usergroup_nested_set_lookup` (`lft`,`rgt`) USING BTREE
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
-
-INSERT IGNORE INTO `#__usergroups` (`id`, `parent_id`, `lft`, `rgt`, `title`) VALUES
-(1, 0, 1, 20, 'Public'),
-(2, 1, 6, 17, 'Registered'),
-(3, 2, 7, 14, 'Author'),
-(4, 3, 8, 11, 'Editor'),
-(5, 4, 9, 10, 'Publisher'),
-(6, 1, 2, 5, 'Manager'),
-(7, 6, 3, 4, 'Administrator'),
-(8, 1, 18, 19, 'Super Users');
-
-CREATE TABLE IF NOT EXISTS `#__viewlevels` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
-  `title` varchar(100) NOT NULL DEFAULT '',
-  `ordering` int(11) NOT NULL DEFAULT '0',
-  `rules` varchar(5120) NOT NULL COMMENT 'JSON encoded access control.',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `idx_assetgroup_title_lookup` (`title`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
-
-INSERT IGNORE INTO `#__viewlevels` (`id`, `title`, `ordering`, `rules`) VALUES
-(1, 'Public', 0, '[1]'),
-(2, 'Registered', 1, '[6,2,8]'),
-(3, 'Special', 2, '[6,3,8]');
 
 CREATE TABLE IF NOT EXISTS `#__weblinks` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
