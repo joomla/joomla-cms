@@ -769,7 +769,6 @@ class JPagination
 			$prop = explode('.', $property);
 			$prop[1] = ucfirst($prop[1]);
 			$property = implode($prop);
-			var_dump($property);
 		}
 		if (isset($this->$property))
 		{
