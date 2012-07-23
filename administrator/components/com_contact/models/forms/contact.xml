@@ -700,4 +700,15 @@
 				size="20" />
 		</fieldset>
 	</fields>
+		<field name="hits"
+			type="text"
+			class="readonly"
+			size="6" label="JGLOBAL_HITS"
+			description="COM_CONTACT_HITS_DESC"
+			readonly="true"
+			filter="unset" />
+		<field name="version" type="text" class="readonly"
+			label="COM_CONTACT_FIELD_VERSION_LABEL" size="6" description="COM_CONTACT_FIELD_VERSION_DESC"
+			readonly="true" filter="unset" />
+
 </form>

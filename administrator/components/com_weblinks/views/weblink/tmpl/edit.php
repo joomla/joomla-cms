@@ -89,6 +89,11 @@ JHtml::_('behavior.formvalidation');
 				<li><?php echo $this->form->getLabel('publish_down'); ?>
 				<?php echo $this->form->getInput('publish_down'); ?></li>
 
+				<?php if ($this->item->version) : ?>
+					<li><?php echo $this->form->getLabel('version'); ?>
+					<?php echo $this->form->getInput('version'); ?></li>
+				<?php endif; ?>
+
 				<?php if ($this->item->modified_by) : ?>
 					<li><?php echo $this->form->getLabel('modified_by'); ?>
 					<?php echo $this->form->getInput('modified_by'); ?></li>
@@ -106,6 +111,23 @@ JHtml::_('behavior.formvalidation');
 		</fieldset>
 
 		<?php echo $this->loadTemplate('params'); ?>
+			<?php echo JHtml::_('sliders.panel', JText::_('COM_WEBLINKS_FIELDSET_IMAGES'), 'images-options'); ?>
+				<fieldset class="panelform">
+				<ul class="adminformlist">
+					<li>
+					<?php echo $this->form->getLabel('images'); ?>
+					<?php echo $this->form->getInput('images'); ?></li>
+
+					<?php foreach($this->form->getGroup('images') as $field): ?>
+						<li>
+							<?php if (!$field->hidden): ?>
+								<?php echo $field->label; ?>
+							<?php endif; ?>
+							<?php echo $field->input; ?>
+						</li>
+					<?php endforeach; ?>
+				</ul>
+				</fieldset>
 
 		<?php echo $this->loadTemplate('metadata'); ?>
 

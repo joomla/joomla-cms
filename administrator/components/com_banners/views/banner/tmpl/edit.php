@@ -109,6 +109,15 @@ JHtml::_('behavior.formvalidation');
 			<?php endforeach; ?>
 			</ul>
 		</fieldset>
+	<?php echo JHtml::_('sliders.panel', JText::_('COM_BANNERS_GROUP_LABEL_BANNER_DETAILS'), 'banner-details'); ?>
+		<fieldset class="panelform">
+		<ul class="adminformlist">
+			<?php foreach($this->form->getFieldset('bannerdetails') as $field): ?>
+				<li><?php echo $field->label; ?>
+					<?php echo $field->input; ?></li>
+			<?php endforeach; ?>
+			</ul>
+		</fieldset>
 
 	<?php echo JHtml::_('sliders.panel', JText::_('JGLOBAL_FIELDSET_METADATA_OPTIONS'), 'metadata'); ?>
 		<fieldset class="panelform">

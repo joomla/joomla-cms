@@ -99,6 +99,15 @@ JHtml::_('behavior.formvalidation');
 						<?php echo $this->form->getInput('modified'); ?></li>
 					<?php endif; ?>
 
+					<?php if ($this->item->version) : ?>
+						<li><?php echo $this->form->getLabel('version'); ?>
+						<?php echo $this->form->getInput('version'); ?></li>
+					<?php endif; ?>
+
+					<?php if ($this->item->hits) : ?>
+						<li><?php echo $this->form->getLabel('hits'); ?>
+						<?php echo $this->form->getInput('hits'); ?></li>
+					<?php endif; ?>
 				</ul>
 			</fieldset>
 			<?php echo JHtml::_('sliders.panel', JText::_('COM_CONTACT_CONTACT_DETAILS'), 'basic-options'); ?>
