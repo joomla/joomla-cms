@@ -632,7 +632,7 @@ class JLinkedinGroups extends JLinkedinObject
 	 * @param   string          $title     Post title.
 	 * @param   string          $summary   Post summary.
 	 *
-	 * @return  array  The decoded JSON response
+	 * @return  string  The created post's id.
 	 *
 	 * @since   12.3
 	 */
@@ -660,7 +660,9 @@ class JLinkedinGroups extends JLinkedinObject
 		// Send the request.
 		$response = $oauth->oauthRequest($path, 'POST', $parameters, $xml, $header);
 
-		return $response;
+		// Return the post id.
+		$response = explode('posts/', $response->headers['Location']);
+		return $response[1];
 	}
 
 	/**
@@ -842,7 +844,6 @@ class JLinkedinGroups extends JLinkedinObject
 	 *
 	 * @param   JLinkedinOAuth  $oauth    The JLinkedinOAuth object.
 	 * @param   string          $post_id  The unique identifier for a group.
-	 * @param   string          $flag     Flag as a 'promotion' or 'job'.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
@@ -915,7 +916,7 @@ class JLinkedinGroups extends JLinkedinObject
 	 * @param   string          $post_id  The unique identifier for a group.
 	 * @param   string          $comment  The post comment's text.
 	 *
-	 * @return  array  The decoded JSON response
+	 * @return  string   The created comment's id.
 	 *
 	 * @since   12.3
 	 */
@@ -946,5 +947,37 @@ class JLinkedinGroups extends JLinkedinObject
 		// Return the comment id.
 		$response = explode('comments/', $response->headers['Location']);
 		return $response[1];
+	}
+
+	/**
+	 * Method to delete a comment if the current user is the creator or flag it as inappropriate otherwise.
+	 *
+	 * @param   JLinkedinOAuth  $oauth       The JLinkedinOAuth object.
+	 * @param   string          $comment_id  The unique identifier for a group.
+	 *
+	 * @return  array  The decoded JSON response
+	 *
+	 * @since   12.3
+	 */
+	public function deleteComment($oauth, $comment_id)
+	{
+		// Set parameters.
+		$parameters = array(
+			'oauth_token' => $oauth->getToken('key')
+		);
+
+		// Set the success response code.
+		$oauth->setOption('success_code', 204);
+
+		// Set the API base
+		$base = '/v1/comments/' . $comment_id;
+
+		// Build the request path.
+		$path = $this->getOption('api.url') . $base;
+
+		// Send the request.
+		$response = $oauth->oauthRequest($path, 'DELETE', $parameters);
+
+		return $response;
 	}
 }

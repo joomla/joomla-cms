@@ -980,6 +980,7 @@ class JLinkedinGroupsTest extends TestCase
 		$returnData = new stdClass;
 		$returnData->code = 201;
 		$returnData->body = $this->sampleString;
+		$returnData->headers = array('Location' => 'https://api.linkedin.com/v1/posts/g_12334_234512');
 
 		$this->client->expects($this->once())
 			->method('post', $xml, $header)
@@ -988,7 +989,7 @@ class JLinkedinGroupsTest extends TestCase
 
 		$this->assertThat(
 			$this->object->createPost($this->oauth, $group_id, $title, $summary),
-			$this->equalTo($returnData)
+			$this->equalTo('g_12334_234512')
 		);
 	}
 
@@ -1489,5 +1490,59 @@ class JLinkedinGroupsTest extends TestCase
 			->will($this->returnValue($returnData));
 
 		$this->object->addComment($this->oauth, $post_id, $comment);
+	}
+
+	/**
+	 * Tests the deleteComment method
+	 *
+	 * @return  void
+	 *
+	 * @since   12.3
+	 */
+	public function testDeleteComment()
+	{
+		$comment_id = 'g_12345';
+
+		$path = '/v1/comments/' . $comment_id;
+
+		$returnData = new stdClass;
+		$returnData->code = 204;
+		$returnData->body = $this->sampleString;
+
+		$this->client->expects($this->once())
+			->method('delete')
+			->with($path)
+			->will($this->returnValue($returnData));
+
+		$this->assertThat(
+			$this->object->deleteComment($this->oauth, $comment_id),
+			$this->equalTo($returnData)
+		);
+	}
+
+	/**
+	 * Tests the deleteComment method - failure
+	 *
+	 * @return  void
+	 *
+	 * @expectedException DomainException
+	 * @since   12.3
+	 */
+	public function testDeleteCommentFailure()
+	{
+		$comment_id = 'g_12345';
+
+		$path = '/v1/comments/' . $comment_id;
+
+		$returnData = new stdClass;
+		$returnData->code = 401;
+		$returnData->body = $this->errorString;
+
+		$this->client->expects($this->once())
+			->method('delete')
+			->with($path)
+			->will($this->returnValue($returnData));
+
+		$this->object->deleteComment($this->oauth, $comment_id);
 	}
 }
