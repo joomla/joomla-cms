@@ -175,7 +175,8 @@ class JLinkedinPeople extends JLinkedinObject
 	 * Method to get information about people.
 	 *
 	 * @param   JLinkedinOAuth  $oauth            The JLinkedinOAuth object.
-	 * @param   string          $fields           Request fields beyond the default ones. provide 'api-standard-profile-request' field for out of network profiles.
+	 * @param   string          $fields           Request fields beyond the default ones. provide 'api-standard-profile-request'
+	 * 											  field for out of network profiles.
 	 * @param   string          $keywords         Members who have all the keywords anywhere in their profile.
 	 * @param   string          $first_name       Members with a matching first name. Matches must be exact.
 	 * @param   string          $last_name        Members with a matching last name. Matches must be exactly.

@@ -48,7 +48,6 @@ class JLinkedinOAuthTest extends TestCase
 	 */
 	protected $errorString = '{"errorCode":401, "message": "Generic error"}';
 
-
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
@@ -99,6 +98,10 @@ class JLinkedinOAuthTest extends TestCase
 
 	/**
 	 * Tests the verifyCredentials method
+	 *
+	 * @param   integer  $code      The return code.
+	 * @param   string   $body      The JSON string.
+	 * @param   boolean  $expected  Expected return value.
 	 *
 	 * @return  void
 	 *

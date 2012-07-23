@@ -184,12 +184,14 @@ class JLinkedinGroupsTest extends TestCase
 	/**
 	 * Tests the getMemberships method
 	 *
+	 * @param   string  $person_id  The unique identifier for a user.
+	 *
 	 * @return  void
 	 *
 	 * @dataProvider seedId
 	 * @since   12.3
 	 */
-	public function testGetMemberships($id)
+	public function testGetMemberships($person_id)
 	{
 		$fields = '(id,name,short-description,description,relation-to-viewer:(membership-state,available-actions),is-open-to-non-members)';
 		$start = 1;
@@ -202,9 +204,9 @@ class JLinkedinGroupsTest extends TestCase
 		$data['count'] = $count;
 		$data['membership-state'] = $membership_state;
 
-		if ($id)
+		if ($person_id)
 		{
-			$path = '/v1/people/' . $id . '/group-memberships';
+			$path = '/v1/people/' . $person_id . '/group-memberships';
 		}
 		else
 		{
@@ -225,7 +227,7 @@ class JLinkedinGroupsTest extends TestCase
 			->will($this->returnValue($returnData));
 
 		$this->assertThat(
-			$this->object->getMemberships($this->oauth, $id, $fields, $start, $count, $membership_state),
+			$this->object->getMemberships($this->oauth, $person_id, $fields, $start, $count, $membership_state),
 			$this->equalTo(json_decode($this->sampleString))
 		);
 	}
@@ -233,13 +235,15 @@ class JLinkedinGroupsTest extends TestCase
 	/**
 	 * Tests the getMemberships method - failure
 	 *
+	 * @param   string  $person_id  The unique identifier for a user.
+	 *
 	 * @return  void
 	 *
 	 * @dataProvider seedId
 	 * @expectedException DomainException
 	 * @since   12.3
 	 */
-	public function testGetMembershipsFailure($id)
+	public function testGetMembershipsFailure($person_id)
 	{
 		$fields = '(id,name,short-description,description,relation-to-viewer:(membership-state,available-actions),is-open-to-non-members)';
 		$start = 1;
@@ -252,9 +256,9 @@ class JLinkedinGroupsTest extends TestCase
 		$data['count'] = $count;
 		$data['membership-state'] = $membership_state;
 
-		if ($id)
+		if ($person_id)
 		{
-			$path = '/v1/people/' . $id . '/group-memberships';
+			$path = '/v1/people/' . $person_id . '/group-memberships';
 		}
 		else
 		{
@@ -274,11 +278,13 @@ class JLinkedinGroupsTest extends TestCase
 			->with($path)
 			->will($this->returnValue($returnData));
 
-		$this->object->getMemberships($this->oauth, $id, $fields, $start, $count, $membership_state);
+		$this->object->getMemberships($this->oauth, $person_id, $fields, $start, $count, $membership_state);
 	}
 
 	/**
 	 * Tests the getSettings method
+	 *
+	 * @param   string  $person_id  The unique identifier for a user.
 	 *
 	 * @return  void
 	 *
@@ -288,7 +294,8 @@ class JLinkedinGroupsTest extends TestCase
 	public function testGetSettings($person_id)
 	{
 		$group_id = '12345';
-		$fields = '(group:(id,name),membership-state,email-digest-frequency,email-announcements-from-managers,allow-messages-from-members,email-for-every-new-post)';
+		$fields = '(group:(id,name),membership-state,email-digest-frequency,email-announcements-from-managers,
+			allow-messages-from-members,email-for-every-new-post)';
 		$start = 1;
 		$count = 10;
 
@@ -330,6 +337,8 @@ class JLinkedinGroupsTest extends TestCase
 	/**
 	 * Tests the getSettings method - failure
 	 *
+	 * @param   string  $person_id  The unique identifier for a user.
+	 *
 	 * @return  void
 	 *
 	 * @dataProvider seedId
@@ -339,7 +348,8 @@ class JLinkedinGroupsTest extends TestCase
 	public function testGetSettingsFailure($person_id)
 	{
 		$group_id = '12345';
-		$fields = '(group:(id,name),membership-state,email-digest-frequency,email-announcements-from-managers,allow-messages-from-members,email-for-every-new-post)';
+		$fields = '(group:(id,name),membership-state,email-digest-frequency,email-announcements-from-managers,
+			allow-messages-from-members,email-for-every-new-post)';
 		$start = 1;
 		$count = 10;
 
@@ -709,6 +719,8 @@ class JLinkedinGroupsTest extends TestCase
 
 	/**
 	 * Tests the getUserPosts method
+	 *
+	 * @param   string  $person_id  The unique identifier for a user.
 	 *
 	 * @return  void
 	 *
@@ -1549,6 +1561,8 @@ class JLinkedinGroupsTest extends TestCase
 	/**
 	 * Tests the getSuggested method
 	 *
+	 * @param   string  $person_id  The unique identifier for a user.
+	 *
 	 * @return  void
 	 *
 	 * @dataProvider seedId
@@ -1595,6 +1609,8 @@ class JLinkedinGroupsTest extends TestCase
 	/**
 	 * Tests the getSuggested method - failure
 	 *
+	 * @param   string  $person_id  The unique identifier for a user.
+	 *
 	 * @return  void
 	 *
 	 * @dataProvider seedId
@@ -1639,6 +1655,8 @@ class JLinkedinGroupsTest extends TestCase
 	/**
 	 * Tests the deleteSuggestion method
 	 *
+	 * @param   string  $person_id  The unique identifier for a user.
+	 *
 	 * @return  void
 	 *
 	 * @dataProvider seedId
@@ -1677,6 +1695,8 @@ class JLinkedinGroupsTest extends TestCase
 
 	/**
 	 * Tests the deleteSuggestion method - failure
+	 *
+	 * @param   string  $person_id  The unique identifier for a user.
 	 *
 	 * @return  void
 	 *

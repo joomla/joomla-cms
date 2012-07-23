@@ -221,7 +221,8 @@ class JLinkedinGroups extends JLinkedinObject
 	 *
 	 * @since   12.3
 	 */
-	public function changeSettings($oauth, $group_id, $show_logo = null, $digest_frequency = null, $announcements = null, $allow_messages = null, $new_post = null)
+	public function changeSettings($oauth, $group_id, $show_logo = null, $digest_frequency = null, $announcements = null,
+		$allow_messages = null, $new_post = null)
 	{
 		// Set parameters.
 		$parameters = array(
@@ -287,7 +288,8 @@ class JLinkedinGroups extends JLinkedinObject
 	 *
 	 * @since   12.3
 	 */
-	public function joinGroup($oauth, $group_id, $show_logo = null, $digest_frequency = null, $announcements = null, $allow_messages = null, $new_post = null)
+	public function joinGroup($oauth, $group_id, $show_logo = null, $digest_frequency = null, $announcements = null,
+		$allow_messages = null, $new_post = null)
 	{
 		// Set parameters.
 		$parameters = array(
@@ -344,8 +346,8 @@ class JLinkedinGroups extends JLinkedinObject
 	/**
 	 * Method to leave a group.
 	 *
-	 * @param   JLinkedinOAuth  $oauth             The JLinkedinOAuth object.
-	 * @param   string          $group_id          The unique identifier for a group.
+	 * @param   JLinkedinOAuth  $oauth     The JLinkedinOAuth object.
+	 * @param   string          $group_id  The unique identifier for a group.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
@@ -464,7 +466,8 @@ class JLinkedinGroups extends JLinkedinObject
 	 *
 	 * @since   12.3
 	 */
-	public function getUserPosts($oauth, $group_id, $role, $person_id = null, $fields = null, $start = 0, $count = 0, $order = null, $category = 'discussion', $modified_since = null)
+	public function getUserPosts($oauth, $group_id, $role, $person_id = null, $fields = null, $start = 0, $count = 0,
+		$order = null, $category = 'discussion', $modified_since = null)
 	{
 		// Set parameters.
 		$parameters = array(

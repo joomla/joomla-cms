@@ -29,8 +29,8 @@ class JLinkedinOAuth extends JOAuth1aClient
 	/**
 	 * Constructor.
 	 *
-	 * @param   JRegistry      $options          JLinkedinOAuth options object.
-	 * @param   JLinkedinHttp  $client           The HTTP client object.
+	 * @param   JRegistry      $options  JLinkedinOAuth options object.
+	 * @param   JLinkedinHttp  $client   The HTTP client object.
 	 *
 	 * @since 12.3
 	 */

@@ -52,7 +52,8 @@ class JLinkedinPeopleTest extends TestCase
 	 * @var    string  Sample JSON string used to access out of network profiles.
 	 * @since  12.3
 	 */
-	protected $outString = '{"headers": { "_total": 1, "values": [{ "name": "x-li-auth-token", "value": "NAME_SEARCH:-Ogn" }] }, "url": "/v1/people/oAFz-3CZyv"}';
+	protected $outString = '{"headers": { "_total": 1, "values": [{ "name": "x-li-auth-token",
+				"value": "NAME_SEARCH:-Ogn" }] }, "url": "/v1/people/oAFz-3CZyv"}';
 
 	/**
 	 * @var    string  Sample JSON error message.
@@ -114,6 +115,9 @@ class JLinkedinPeopleTest extends TestCase
 	/**
 	 * Tests the getProfile method
 	 *
+	 * @param   string  $id   Member id of the profile you want.
+	 * @param   string  $url  The public profile URL.
+	 *
 	 * @return  void
 	 *
 	 * @dataProvider seedIdUrl
@@ -155,7 +159,6 @@ class JLinkedinPeopleTest extends TestCase
 		$returnData->code = 200;
 		$returnData->body = $this->sampleString;
 
-
 		$path = $this->oauth->toUrl($path, $data);
 
 		$this->client->expects($this->once())
@@ -171,6 +174,9 @@ class JLinkedinPeopleTest extends TestCase
 
 	/**
 	 * Tests the getProfile method - failure
+	 *
+	 * @param   string  $id   Member id of the profile you want.
+	 * @param   string  $url  The public profile URL.
 	 *
 	 * @return  void
 	 *
@@ -214,7 +220,6 @@ class JLinkedinPeopleTest extends TestCase
 		$returnData->code = 401;
 		$returnData->body = $this->errorString;
 
-
 		$path = $this->oauth->toUrl($path, $data);
 
 		$this->client->expects($this->once())
@@ -227,6 +232,9 @@ class JLinkedinPeopleTest extends TestCase
 
 	/**
 	 * Tests the getConnections method
+	 *
+	 * @param   string  $id   Member id of the profile you want.
+	 * @param   string  $url  The public profile URL.
 	 *
 	 * @return  void
 	 *
@@ -252,16 +260,16 @@ class JLinkedinPeopleTest extends TestCase
 
 		if ($url)
 		{
-			$path .= 'url=' . rawurlencode($url) . '/connections';;
+			$path .= 'url=' . rawurlencode($url) . '/connections';
 		}
 
 		if ($id)
 		{
-			$path .= 'id=' . $id . '/connections';;
+			$path .= 'id=' . $id . '/connections';
 		}
 		elseif (!$url)
 		{
-			$path .= '~' . '/connections';;
+			$path .= '~' . '/connections';
 		}
 
 		$path .= ':' . $fields;
@@ -285,6 +293,9 @@ class JLinkedinPeopleTest extends TestCase
 
 	/**
 	 * Tests the getConnections method - failure
+	 *
+	 * @param   string  $id   Member id of the profile you want.
+	 * @param   string  $url  The public profile URL.
 	 *
 	 * @return  void
 	 *
@@ -311,16 +322,16 @@ class JLinkedinPeopleTest extends TestCase
 
 		if ($url)
 		{
-			$path .= 'url=' . rawurlencode($url) . '/connections';;
+			$path .= 'url=' . rawurlencode($url) . '/connections';
 		}
 
 		if ($id)
 		{
-			$path .= 'id=' . $id . '/connections';;
+			$path .= 'id=' . $id . '/connections';
 		}
 		elseif (!$url)
 		{
-			$path .= '~' . '/connections';;
+			$path .= '~' . '/connections';
 		}
 
 		$path .= ':' . $fields;
@@ -357,6 +368,8 @@ class JLinkedinPeopleTest extends TestCase
 
 	/**
 	 * Tests the search method
+	 *
+	 * @param   string  $fields  Request fields beyond the default ones. provide 'api-standard-profile-request' field for out of network profiles.
 	 *
 	 * @return  void
 	 *
@@ -457,10 +470,12 @@ class JLinkedinPeopleTest extends TestCase
 		}
 
 		$this->assertThat(
-			$this->object->search($this->oauth, $fields, $keywords, $first_name, $last_name, $company_name,
-				$current_company, $title, $current_title, $school_name, $current_school, $country_code ,
-				$postal_code, $distance, $facets, $facet, $start, $count, $sort),
-				$this->equalTo(json_decode($this->sampleString))
+			$this->object->search(
+				$this->oauth, $fields, $keywords, $first_name, $last_name, $company_name,
+				$current_company, $title, $current_title, $school_name, $current_school, $country_code,
+				$postal_code, $distance, $facets, $facet, $start, $count, $sort
+				),
+			$this->equalTo(json_decode($this->sampleString))
 		);
 	}
 
@@ -536,8 +551,10 @@ class JLinkedinPeopleTest extends TestCase
 			->with($path)
 			->will($this->returnValue($returnData));
 
-		$this->object->search($this->oauth, $fields, $keywords, $first_name, $last_name, $company_name,
-			$current_company, $title, $current_title, $school_name, $current_school, $country_code ,
-			$postal_code, $distance, $facets, $facet, $start, $count, $sort);
+		$this->object->search(
+			$this->oauth, $fields, $keywords, $first_name, $last_name, $company_name,
+			$current_company, $title, $current_title, $school_name, $current_school, $country_code,
+			$postal_code, $distance, $facets, $facet, $start, $count, $sort
+			);
 	}
 }
