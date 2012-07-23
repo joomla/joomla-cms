@@ -1028,4 +1028,47 @@ class JLinkedinGroups extends JLinkedinObject
 
 		return json_decode($response->body);
 	}
+
+	/**
+	 * Method to delete a group suggestion for a user.
+	 *
+	 * @param   JLinkedinOAuth  $oauth          The JLinkedinOAuth object.
+	 * @param   string          $suggestion_id  The unique identifier for a suggestion.
+	 * @param   string          $person_id      The unique identifier for a user.
+	 *
+	 * @return  array  The decoded JSON response
+	 *
+	 * @since   12.3
+	 */
+	public function deleteSuggestion($oauth, $suggestion_id, $person_id = null)
+	{
+		// Set parameters.
+		$parameters = array(
+			'oauth_token' => $oauth->getToken('key')
+		);
+
+		// Set the success response code.
+		$oauth->setOption('success_code', 204);
+
+		// Set the API base
+		$base = '/v1/people/';
+
+		// Check if person_id is specified.
+		if ($person_id)
+		{
+			$base .= $person_id . '/suggestions/groups/' . $suggestion_id;
+		}
+		else
+		{
+			$base .= '~/suggestions/groups/' . $suggestion_id;
+		}
+
+		// Build the request path.
+		$path = $this->getOption('api.url') . $base;
+
+		// Send the request.
+		$response = $oauth->oauthRequest($path, 'DELETE', $parameters);
+
+		return $response;
+	}
 }

@@ -1635,4 +1635,80 @@ class JLinkedinGroupsTest extends TestCase
 
 		$this->object->getSuggested($this->oauth, $person_id, $fields);
 	}
+
+	/**
+	 * Tests the deleteSuggestion method
+	 *
+	 * @return  void
+	 *
+	 * @dataProvider seedId
+	 * @since   12.3
+	 */
+	public function testDeleteSuggestion($person_id)
+	{
+		$suggestion_id = '12345';
+
+		// Set the API base
+		$path = '/v1/people/';
+
+		if ($person_id)
+		{
+			$path .= $person_id . '/suggestions/groups/' . $suggestion_id;
+		}
+		else
+		{
+			$path .= '~/suggestions/groups/' . $suggestion_id;
+		}
+
+		$returnData = new stdClass;
+		$returnData->code = 204;
+		$returnData->body = $this->sampleString;
+
+		$this->client->expects($this->once())
+			->method('delete')
+			->with($path)
+			->will($this->returnValue($returnData));
+
+		$this->assertThat(
+			$this->object->deleteSuggestion($this->oauth, $suggestion_id, $person_id),
+			$this->equalTo($returnData)
+		);
+	}
+
+	/**
+	 * Tests the deleteSuggestion method - failure
+	 *
+	 * @return  void
+	 *
+	 * @dataProvider seedId
+	 * @expectedException DomainException
+	 * @since   12.3
+	 */
+	public function testDeleteSuggestionFailure($person_id)
+	{
+		$suggestion_id = '12345';
+
+		// Set the API base
+		$path = '/v1/people/';
+
+		if ($person_id)
+		{
+			$path .= $person_id . '/suggestions/groups/' . $suggestion_id;
+		}
+		else
+		{
+			$path .= '~/suggestions/groups/' . $suggestion_id;
+		}
+
+		$returnData = new stdClass;
+		$returnData->code = 401;
+		$returnData->body = $this->errorString;
+
+		$this->client->expects($this->once())
+			->method('delete')
+			->with($path)
+			->will($this->returnValue($returnData));
+
+		$this->object->deleteSuggestion($this->oauth, $suggestion_id, $person_id);
+	}
 }
