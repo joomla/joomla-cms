@@ -64,7 +64,10 @@ class JLinkedinOAuthTest extends TestCase
 		$this->options = new JRegistry;
 		$this->client = $this->getMock('JLinkedinHttp', array('get', 'post', 'delete', 'put'));
 
-		$this->oauth = new JLinkedinOAuth($key, $secret, $my_url, $this->options, $this->client);
+		$this->options->set('consumer_key', $key);
+		$this->options->set('consumer_secret', $secret);
+		$this->options->set('callback', $my_url);
+		$this->oauth = new JLinkedinOAuth($this->options, $this->client);
 		$this->oauth->setToken($key, $secret);
 	}
 
@@ -114,7 +117,7 @@ class JLinkedinOAuthTest extends TestCase
 		$returnData->code = $code;
 		$returnData->body = $body;
 
-		$path = $this->oauth->to_url($path, $data);
+		$path = $this->oauth->toUrl($path, $data);
 
 		$this->client->expects($this->once())
 			->method('get')

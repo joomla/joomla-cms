@@ -295,7 +295,7 @@ class JLinkedinGroups extends JLinkedinObject
 		);
 
 		// Set the success response code.
-		$oauth->setOption('sucess_code', 201);
+		$oauth->setOption('success_code', 201);
 
 		// Set the API base
 		$base = '/v1/people/~/group-memberships';
@@ -359,7 +359,7 @@ class JLinkedinGroups extends JLinkedinObject
 		);
 
 		// Set the success response code.
-		$oauth->setOption('sucess_code', 204);
+		$oauth->setOption('success_code', 204);
 
 		// Set the API base
 		$base = '/v1/people/~/group-memberships/' . $group_id;
@@ -644,7 +644,7 @@ class JLinkedinGroups extends JLinkedinObject
 		);
 
 		// Set the success response code.
-		$oauth->setOption('sucess_code', 201);
+		$oauth->setOption('success_code', 201);
 
 		// Set the API base
 		$base = '/v1/groups/' . $group_id . '/posts';
@@ -661,5 +661,73 @@ class JLinkedinGroups extends JLinkedinObject
 		$response = $oauth->oauthRequest($path, 'POST', $parameters, $xml, $header);
 
 		return $response;
+	}
+
+	/**
+	 * Method to like or unlike a post.
+	 *
+	 * @param   JLinkedinOAuth  $oauth    The JLinkedinOAuth object.
+	 * @param   string          $post_id  The unique identifier for a group.
+	 * @param   boolean         $like     True to like post, false otherwise.
+	 *
+	 * @return  array  The decoded JSON response
+	 *
+	 * @since   12.3
+	 */
+	private function like_unlike($oauth, $post_id, $like)
+	{
+		// Set parameters.
+		$parameters = array(
+			'oauth_token' => $oauth->getToken('key')
+		);
+
+		// Set the success response code.
+		$oauth->setOption('success_code', 204);
+
+		// Set the API base
+		$base = '/v1/posts/' . $post_id . '/relation-to-viewer/is-liked';
+
+		// Build xml.
+		$xml = '<is-liked>' . $this->boolean_to_string($like) . '</is-liked>';
+
+		// Build the request path.
+		$path = $this->getOption('api.url') . $base;
+
+		$header['Content-Type'] = 'text/xml';
+
+		// Send the request.
+		$response = $oauth->oauthRequest($path, 'PUT', $parameters, $xml, $header);
+
+		return $response;
+	}
+
+	/**
+	 * Method used to like a post.
+	 *
+	 * @param   JLinkedinOAuth  $oauth    The JLinkedinOAuth object.
+	 * @param   string          $post_id  The unique identifier for a group.
+	 *
+	 * @return  array  The decoded JSON response
+	 *
+	 * @since   12.3
+	 */
+	public function likePost($oauth, $post_id)
+	{
+		return $this->like_unlike($oauth, $post_id, true);
+	}
+
+	/**
+	 * Method used to unlike a post.
+	 *
+	 * @param   JLinkedinOAuth  $oauth    The JLinkedinOAuth object.
+	 * @param   string          $post_id  The unique identifier for a group.
+	 *
+	 * @return  array  The decoded JSON response
+	 *
+	 * @since   12.3
+	 */
+	public function unlikePost($oauth, $post_id)
+	{
+		return $this->like_unlike($oauth, $post_id, false);
 	}
 }

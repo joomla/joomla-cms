@@ -76,7 +76,11 @@ class JLinkedinPeopleTest extends TestCase
 		$this->client = $this->getMock('JLinkedinHttp', array('get', 'post', 'delete', 'put'));
 
 		$this->object = new JLinkedinPeople($this->options, $this->client);
-		$this->oauth = new JLinkedinOAuth($key, $secret, $my_url, $this->options, $this->client);
+
+		$this->options->set('consumer_key', $key);
+		$this->options->set('consumer_secret', $secret);
+		$this->options->set('callback', $my_url);
+		$this->oauth = new JLinkedinOAuth($this->options, $this->client);
 		$this->oauth->setToken($key, $secret);
 	}
 
@@ -152,7 +156,7 @@ class JLinkedinPeopleTest extends TestCase
 		$returnData->body = $this->sampleString;
 
 
-		$path = $this->oauth->to_url($path, $data);
+		$path = $this->oauth->toUrl($path, $data);
 
 		$this->client->expects($this->once())
 			->method('get', $header)
@@ -211,7 +215,7 @@ class JLinkedinPeopleTest extends TestCase
 		$returnData->body = $this->errorString;
 
 
-		$path = $this->oauth->to_url($path, $data);
+		$path = $this->oauth->toUrl($path, $data);
 
 		$this->client->expects($this->once())
 			->method('get', $header)
@@ -266,7 +270,7 @@ class JLinkedinPeopleTest extends TestCase
 		$returnData->code = 200;
 		$returnData->body = $this->sampleString;
 
-		$path = $this->oauth->to_url($path, $data);
+		$path = $this->oauth->toUrl($path, $data);
 
 		$this->client->expects($this->once())
 			->method('get')
@@ -325,7 +329,7 @@ class JLinkedinPeopleTest extends TestCase
 		$returnData->code = 401;
 		$returnData->body = $this->errorString;
 
-		$path = $this->oauth->to_url($path, $data);
+		$path = $this->oauth->toUrl($path, $data);
 
 		$this->client->expects($this->once())
 			->method('get')
@@ -415,7 +419,7 @@ class JLinkedinPeopleTest extends TestCase
 		$returnData->code = 200;
 		$returnData->body = $this->sampleString;
 
-		$path = $this->oauth->to_url($path, $data);
+		$path = $this->oauth->toUrl($path, $data);
 
 		if (strpos($fields, 'api-standard-profile-request') === false)
 		{
@@ -440,7 +444,7 @@ class JLinkedinPeopleTest extends TestCase
 			$returnData->body = $this->sampleString;
 
 			$path = '/v1/people/oAFz-3CZyv';
-			$path = $this->oauth->to_url($path, $data);
+			$path = $this->oauth->toUrl($path, $data);
 
 			$name = 'x-li-auth-token';
 			$value = 'NAME_SEARCH:-Ogn';
@@ -525,7 +529,7 @@ class JLinkedinPeopleTest extends TestCase
 		$returnData->code = 401;
 		$returnData->body = $this->errorString;
 
-		$path = $this->oauth->to_url($path, $data);
+		$path = $this->oauth->toUrl($path, $data);
 
 		$this->client->expects($this->once())
 			->method('get')

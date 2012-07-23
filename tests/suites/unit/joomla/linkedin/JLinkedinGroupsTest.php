@@ -70,7 +70,11 @@ class JLinkedinGroupsTest extends TestCase
 		$this->client = $this->getMock('JLinkedinHttp', array('get', 'post', 'delete', 'put'));
 
 		$this->object = new JLinkedinGroups($this->options, $this->client);
-		$this->oauth = new JLinkedinOAuth($key, $secret, $my_url, $this->options, $this->client);
+
+		$this->options->set('consumer_key', $key);
+		$this->options->set('consumer_secret', $secret);
+		$this->options->set('callback', $my_url);
+		$this->oauth = new JLinkedinOAuth($this->options, $this->client);
 		$this->oauth->setToken($key, $secret);
 	}
 
@@ -111,7 +115,7 @@ class JLinkedinGroupsTest extends TestCase
 		$returnData->code = 200;
 		$returnData->body = $this->sampleString;
 
-		$path = $this->oauth->to_url($path, $data);
+		$path = $this->oauth->toUrl($path, $data);
 
 		$this->client->expects($this->once())
 			->method('get')
@@ -145,14 +149,13 @@ class JLinkedinGroupsTest extends TestCase
 		$data['count'] = $count;
 
 		$path = '/v1/groups/' . $id;
-
 		$path .= ':' . $fields;
 
 		$returnData = new stdClass;
 		$returnData->code = 401;
 		$returnData->body = $this->errorString;
 
-		$path = $this->oauth->to_url($path, $data);
+		$path = $this->oauth->toUrl($path, $data);
 
 		$this->client->expects($this->once())
 			->method('get')
@@ -214,7 +217,7 @@ class JLinkedinGroupsTest extends TestCase
 		$returnData->code = 200;
 		$returnData->body = $this->sampleString;
 
-		$path = $this->oauth->to_url($path, $data);
+		$path = $this->oauth->toUrl($path, $data);
 
 		$this->client->expects($this->once())
 			->method('get')
@@ -264,7 +267,7 @@ class JLinkedinGroupsTest extends TestCase
 		$returnData->code = 401;
 		$returnData->body = $this->errorString;
 
-		$path = $this->oauth->to_url($path, $data);
+		$path = $this->oauth->toUrl($path, $data);
 
 		$this->client->expects($this->once())
 			->method('get')
@@ -311,7 +314,7 @@ class JLinkedinGroupsTest extends TestCase
 		$returnData->code = 200;
 		$returnData->body = $this->sampleString;
 
-		$path = $this->oauth->to_url($path, $data);
+		$path = $this->oauth->toUrl($path, $data);
 
 		$this->client->expects($this->once())
 			->method('get')
@@ -362,7 +365,7 @@ class JLinkedinGroupsTest extends TestCase
 		$returnData->code = 401;
 		$returnData->body = $this->errorString;
 
-		$path = $this->oauth->to_url($path, $data);
+		$path = $this->oauth->toUrl($path, $data);
 
 		$this->client->expects($this->once())
 			->method('get')
@@ -647,7 +650,7 @@ class JLinkedinGroupsTest extends TestCase
 		$returnData->code = 200;
 		$returnData->body = $this->sampleString;
 
-		$path = $this->oauth->to_url($path, $data);
+		$path = $this->oauth->toUrl($path, $data);
 
 		$this->client->expects($this->once())
 			->method('get')
@@ -694,7 +697,7 @@ class JLinkedinGroupsTest extends TestCase
 		$returnData->code = 401;
 		$returnData->body = $this->errorString;
 
-		$path = $this->oauth->to_url($path, $data);
+		$path = $this->oauth->toUrl($path, $data);
 
 		$this->client->expects($this->once())
 			->method('get')
@@ -709,13 +712,13 @@ class JLinkedinGroupsTest extends TestCase
 	 *
 	 * @return  void
 	 *
+	 * @dataProvider seedId
 	 * @since   12.3
 	 */
-	public function testGetUserPosts()
+	public function testGetUserPosts($person_id)
 	{
 		$group_id = '12345';
 		$role = 'creator';
-		$person_id = '123345456';
 		$fields = '(creation-timestamp,title,summary,creator:(first-name,last-name),likes,attachment:(content-url,title),relation-to-viewer)';
 		$start = 1;
 		$count = 10;
@@ -732,7 +735,14 @@ class JLinkedinGroupsTest extends TestCase
 		$data['category'] = $category;
 		$data['modified-since'] = $modified_since;
 
-		$path = '/v1/people/' . $person_id . '/group-memberships/' . $group_id . '/posts';
+		if ($person_id)
+		{
+			$path = '/v1/people/' . $person_id . '/group-memberships/' . $group_id . '/posts';
+		}
+		else
+		{
+			$path = '/v1/people/~/group-memberships/' . $group_id . '/posts';
+		}
 
 		$path .= ':' . $fields;
 
@@ -740,7 +750,7 @@ class JLinkedinGroupsTest extends TestCase
 		$returnData->code = 200;
 		$returnData->body = $this->sampleString;
 
-		$path = $this->oauth->to_url($path, $data);
+		$path = $this->oauth->toUrl($path, $data);
 
 		$this->client->expects($this->once())
 			->method('get')
@@ -790,7 +800,7 @@ class JLinkedinGroupsTest extends TestCase
 		$returnData->code = 401;
 		$returnData->body = $this->errorString;
 
-		$path = $this->oauth->to_url($path, $data);
+		$path = $this->oauth->toUrl($path, $data);
 
 		$this->client->expects($this->once())
 			->method('get')
@@ -823,7 +833,7 @@ class JLinkedinGroupsTest extends TestCase
 		$returnData->code = 200;
 		$returnData->body = $this->sampleString;
 
-		$path = $this->oauth->to_url($path, $data);
+		$path = $this->oauth->toUrl($path, $data);
 
 		$this->client->expects($this->once())
 			->method('get')
@@ -860,7 +870,7 @@ class JLinkedinGroupsTest extends TestCase
 		$returnData->code = 401;
 		$returnData->body = $this->errorString;
 
-		$path = $this->oauth->to_url($path, $data);
+		$path = $this->oauth->toUrl($path, $data);
 
 		$this->client->expects($this->once())
 			->method('get')
@@ -897,7 +907,7 @@ class JLinkedinGroupsTest extends TestCase
 		$returnData->code = 200;
 		$returnData->body = $this->sampleString;
 
-		$path = $this->oauth->to_url($path, $data);
+		$path = $this->oauth->toUrl($path, $data);
 
 		$this->client->expects($this->once())
 			->method('get')
@@ -938,7 +948,7 @@ class JLinkedinGroupsTest extends TestCase
 		$returnData->code = 401;
 		$returnData->body = $this->errorString;
 
-		$path = $this->oauth->to_url($path, $data);
+		$path = $this->oauth->toUrl($path, $data);
 
 		$this->client->expects($this->once())
 			->method('get')
@@ -1012,5 +1022,112 @@ class JLinkedinGroupsTest extends TestCase
 			->will($this->returnValue($returnData));
 
 		$this->object->createPost($this->oauth, $group_id, $title, $summary);
+	}
+
+	/**
+	 * Tests the like_unlike method
+	 *
+	 * @return  void
+	 *
+	 * @since   12.3
+	 */
+	public function testLike_unlike()
+	{
+		// Method tested via requesting classes
+		$this->markTestSkipped('This method is tested via requesting classes.');
+	}
+
+	/**
+	 * Tests the likePost method
+	 *
+	 * @return  void
+	 *
+	 * @since   12.3
+	 */
+	public function testLikePost()
+	{
+		$post_id = 'g_12345';
+
+		$path = '/v1/posts/' . $post_id . '/relation-to-viewer/is-liked';
+
+		$xml = '<is-liked>true</is-liked>';
+
+		$header['Content-Type'] = 'text/xml';
+
+		$returnData = new stdClass;
+		$returnData->code = 204;
+		$returnData->body = $this->sampleString;
+
+		$this->client->expects($this->once())
+			->method('put', $xml, $header)
+			->with($path)
+			->will($this->returnValue($returnData));
+
+		$this->assertThat(
+			$this->object->likePost($this->oauth, $post_id),
+			$this->equalTo($returnData)
+		);
+	}
+
+	/**
+	 * Tests the likePost method - failure
+	 *
+	 * @return  void
+	 *
+	 * @expectedException DomainException
+	 * @since   12.3
+	 */
+	public function testLikePostFailure()
+	{
+		$post_id = 'g_12345';
+
+		$path = '/v1/posts/' . $post_id . '/relation-to-viewer/is-liked';
+
+		$xml = '<is-liked>true</is-liked>';
+
+		$header['Content-Type'] = 'text/xml';
+
+		$returnData = new stdClass;
+		$returnData->code = 401;
+		$returnData->body = $this->errorString;
+
+		$this->client->expects($this->once())
+			->method('put', $xml, $header)
+			->with($path)
+			->will($this->returnValue($returnData));
+
+		$this->object->likePost($this->oauth, $post_id);
+	}
+
+	/**
+	 * Tests the unlikePost method
+	 *
+	 * @return  void
+	 *
+	 * @since   12.3
+	 */
+	public function testUnlikePost()
+	{
+		$post_id = 'g_12345';
+
+		$path = '/v1/posts/' . $post_id . '/relation-to-viewer/is-liked';
+
+		$xml = '<is-liked>false</is-liked>';
+
+		$header['Content-Type'] = 'text/xml';
+
+		$returnData = new stdClass;
+		$returnData->code = 204;
+		$returnData->body = $this->sampleString;
+
+		$this->client->expects($this->once())
+			->method('put', $xml, $header)
+			->with($path)
+			->will($this->returnValue($returnData));
+
+		$this->assertThat(
+			$this->object->unlikePost($this->oauth, $post_id),
+			$this->equalTo($returnData)
+		);
 	}
 }
