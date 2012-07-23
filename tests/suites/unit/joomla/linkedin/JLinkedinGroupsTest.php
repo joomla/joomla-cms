@@ -1425,4 +1425,69 @@ class JLinkedinGroupsTest extends TestCase
 
 		$this->object->getComment($this->oauth, $comment_id, $fields);
 	}
+
+	/**
+	 * Tests the addComment method
+	 *
+	 * @return  void
+	 *
+	 * @since   12.3
+	 */
+	public function testAddComment()
+	{
+		$post_id = 'g_12345';
+		$comment = 'some comment';
+
+		$path = '/v1/posts/' . $post_id . '/comments';
+
+		$xml = '<comment><text>' . $comment . '</text></comment>';
+
+		$header['Content-Type'] = 'text/xml';
+
+		$returnData = new stdClass;
+		$returnData->code = 201;
+		$returnData->body = $this->sampleString;
+		$returnData->headers = array('Location' => 'https://api.linkedin.com/v1/comments/g_12334_234512');
+
+		$this->client->expects($this->once())
+			->method('post', $xml, $header)
+			->with($path)
+			->will($this->returnValue($returnData));
+
+		$this->assertThat(
+			$this->object->addComment($this->oauth, $post_id, $comment),
+			$this->equalTo('g_12334_234512')
+		);
+	}
+
+	/**
+	 * Tests the addComment method - failure
+	 *
+	 * @return  void
+	 *
+	 * @expectedException DomainException
+	 * @since   12.3
+	 */
+	public function testAddCommentFailure()
+	{
+		$post_id = 'g_12345';
+		$comment = 'some comment';
+
+		$path = '/v1/posts/' . $post_id . '/comments';
+
+		$xml = '<comment><text>' . $comment . '</text></comment>';
+
+		$header['Content-Type'] = 'text/xml';
+
+		$returnData = new stdClass;
+		$returnData->code = 401;
+		$returnData->body = $this->errorString;
+
+		$this->client->expects($this->once())
+			->method('post', $xml, $header)
+			->with($path)
+			->will($this->returnValue($returnData));
+
+		$this->object->addComment($this->oauth, $post_id, $comment);
+	}
 }
