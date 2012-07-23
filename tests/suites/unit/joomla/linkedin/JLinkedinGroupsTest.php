@@ -1355,4 +1355,74 @@ class JLinkedinGroupsTest extends TestCase
 
 		$this->object->deletePost($this->oauth, $post_id);
 	}
+
+	/**
+	 * Tests the getComment method
+	 *
+	 * @return  void
+	 *
+	 * @since   12.3
+	 */
+	public function testGetComment()
+	{
+		$comment_id = 'g-12345';
+		$fields = '(id,text,creator,creation-timestamp,relation-to-viewer)';
+
+		// Set request parameters.
+		$data['format'] = 'json';
+
+		$path = '/v1/comments/' . $comment_id;
+
+		$path .= ':' . $fields;
+
+		$returnData = new stdClass;
+		$returnData->code = 200;
+		$returnData->body = $this->sampleString;
+
+		$path = $this->oauth->toUrl($path, $data);
+
+		$this->client->expects($this->once())
+			->method('get')
+			->with($path)
+			->will($this->returnValue($returnData));
+
+		$this->assertThat(
+			$this->object->getComment($this->oauth, $comment_id, $fields),
+			$this->equalTo(json_decode($this->sampleString))
+		);
+	}
+
+	/**
+	 * Tests the getComment method - failure
+	 *
+	 * @return  void
+	 *
+	 * @expectedException DomainException
+	 * @since   12.3
+	 */
+	public function testGetCommentFailure()
+	{
+		$comment_id = 'g-12345';
+		$fields = '(id,text,creator,creation-timestamp,relation-to-viewer)';
+
+		// Set request parameters.
+		$data['format'] = 'json';
+
+		$path = '/v1/comments/' . $comment_id;
+
+		$path .= ':' . $fields;
+
+		$returnData = new stdClass;
+		$returnData->code = 401;
+		$returnData->body = $this->errorString;
+
+		$path = $this->oauth->toUrl($path, $data);
+
+		$this->client->expects($this->once())
+			->method('get')
+			->with($path)
+			->will($this->returnValue($returnData));
+
+		$this->object->getComment($this->oauth, $comment_id, $fields);
+	}
 }
