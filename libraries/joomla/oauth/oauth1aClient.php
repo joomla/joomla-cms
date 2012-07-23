@@ -84,10 +84,10 @@ abstract class JOAuth1aClient
 		if (empty($verifier))
 		{
 			// Generate a request token.
-			$this->generateRequestToken();
+			$this->_generateRequestToken();
 
 			// Authenticate the user and authorise the app.
-			$this->authorise();
+			$this->_authorise();
 		}
 		// Callback
 		else
@@ -107,7 +107,7 @@ abstract class JOAuth1aClient
 			$this->token['verifier'] = $request->get('oauth_verifier');
 
 			// Generate access token.
-			$this->generateAccessToken();
+			$this->_generateAccessToken();
 
 			// Return the access token.
 			return $this->token;
@@ -122,7 +122,7 @@ abstract class JOAuth1aClient
 	 * @since  12.3
 	 * @throws  DomainException
 	 */
-	public function generateRequestToken()
+	private function _generateRequestToken()
 	{
 		// Set the callback URL.
 		$parameters = array(
@@ -156,7 +156,7 @@ abstract class JOAuth1aClient
 	 *
 	 * @since  12.3
 	 */
-	public function authenticate()
+	private function _authenticate()
 	{
 		$url = $this->getOption('authenticateURL') . '?oauth_token=' . $this->token['key'];
 
@@ -174,7 +174,7 @@ abstract class JOAuth1aClient
 	 *
 	 * @since  12.3
 	 */
-	public function authorise()
+	private function _authorise()
 	{
 		$url = $this->getOption('authoriseURL') . '?oauth_token=' . $this->token['key'];
 
@@ -192,7 +192,7 @@ abstract class JOAuth1aClient
 	 *
 	 * @since  12.3
 	 */
-	public function generateAccessToken()
+	private function _generateAccessToken()
 	{
 		// Set the parameters.
 		$parameters = array(
@@ -250,7 +250,7 @@ abstract class JOAuth1aClient
 			}
 
 			// Sign the request.
-			$oauth_headers = $this->signRequest($url, $method, $oauth_headers);
+			$oauth_headers = $this->_signRequest($url, $method, $oauth_headers);
 
 			// Get parameters for the Authorisation header.
 			$oauth_headers = array_diff_key($oauth_headers, $data);
@@ -260,7 +260,7 @@ abstract class JOAuth1aClient
 			$oauth_headers = $parameters;
 
 			// Sign the request.
-			$oauth_headers = $this->signRequest($url, $method, $oauth_headers);
+			$oauth_headers = $this->_signRequest($url, $method, $oauth_headers);
 		}
 
 		// Send the request.
@@ -268,18 +268,18 @@ abstract class JOAuth1aClient
 		{
 			case 'GET':
 				$url = $this->toUrl($url, $data);
-				$response = $this->client->get($url, array('Authorization' => $this->createHeader($oauth_headers)));
+				$response = $this->client->get($url, array('Authorization' => $this->_createHeader($oauth_headers)));
 				break;
 			case 'POST':
-				$headers = array_merge($headers, array('Authorization' => $this->createHeader($oauth_headers)));
+				$headers = array_merge($headers, array('Authorization' => $this->_createHeader($oauth_headers)));
 				$response = $this->client->post($url, $data, $headers);
 				break;
 			case 'PUT':
-				$headers = array_merge($headers, array('Authorization' => $this->createHeader($oauth_headers)));
+				$headers = array_merge($headers, array('Authorization' => $this->_createHeader($oauth_headers)));
 				$response = $this->client->put($url, $data, $headers);
 				break;
 			case 'DELETE':
-				$headers = array_merge($headers, array('Authorization' => $this->createHeader($oauth_headers)));
+				$headers = array_merge($headers, array('Authorization' => $this->_createHeader($oauth_headers)));
 				$response = $this->client->delete($url, $headers);
 				break;
 		}
@@ -312,7 +312,7 @@ abstract class JOAuth1aClient
 	 *
 	 * @since 12.3
 	 */
-	public function createHeader(&$parameters)
+	private function _createHeader(&$parameters)
 	{
 		$header = 'OAuth ';
 
@@ -386,7 +386,7 @@ abstract class JOAuth1aClient
 	 *
 	 * @since   12.3
 	 */
-	public function signRequest($url, $method, $parameters)
+	private function _signRequest($url, $method, $parameters)
 	{
 		// Create the signature base string.
 		$base = $this->_baseString($url, $method, $parameters);
