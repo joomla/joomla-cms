@@ -798,4 +798,42 @@ class JLinkedinGroups extends JLinkedinObject
 	{
 		return $this->_followUnfollow($oauth, $post_id, false);
 	}
+
+	/**
+	 * Method to flag a post as a Promotion or Job.
+	 *
+	 * @param   JLinkedinOAuth  $oauth    The JLinkedinOAuth object.
+	 * @param   string          $post_id  The unique identifier for a group.
+	 * @param   string          $flag     Flag as a 'promotion' or 'job'.
+	 *
+	 * @return  array  The decoded JSON response
+	 *
+	 * @since   12.3
+	 */
+	public function flagPost($oauth, $post_id, $flag)
+	{
+		// Set parameters.
+		$parameters = array(
+			'oauth_token' => $oauth->getToken('key')
+		);
+
+		// Set the success response code.
+		$oauth->setOption('success_code', 204);
+
+		// Set the API base
+		$base = '/v1/posts/' . $post_id . '/category/code';
+
+		// Build xml.
+		$xml = '<code>' . $flag . '</code>';
+
+		// Build the request path.
+		$path = $this->getOption('api.url') . $base;
+
+		$header['Content-Type'] = 'text/xml';
+
+		// Send the request.
+		$response = $oauth->oauthRequest($path, 'PUT', $parameters, $xml, $header);
+
+		return $response;
+	}
 }

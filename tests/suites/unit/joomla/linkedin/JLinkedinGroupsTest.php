@@ -1237,4 +1237,68 @@ class JLinkedinGroupsTest extends TestCase
 			$this->equalTo($returnData)
 		);
 	}
+
+	/**
+	 * Tests the flagPost method
+	 *
+	 * @return  void
+	 *
+	 * @since   12.3
+	 */
+	public function testFalgPost()
+	{
+		$flag = 'promotion';
+		$post_id = 'g_12345';
+
+		$path = '/v1/posts/' . $post_id . '/category/code';
+
+		$xml = '<code>' . $flag . '</code>';
+
+		$header['Content-Type'] = 'text/xml';
+
+		$returnData = new stdClass;
+		$returnData->code = 204;
+		$returnData->body = $this->sampleString;
+
+		$this->client->expects($this->once())
+			->method('put', $xml, $header)
+			->with($path)
+			->will($this->returnValue($returnData));
+
+		$this->assertThat(
+			$this->object->flagPost($this->oauth, $post_id, $flag),
+			$this->equalTo($returnData)
+		);
+	}
+
+	/**
+	 * Tests the flagPost method - failure
+	 *
+	 * @return  void
+	 *
+	 * @expectedException DomainException
+	 * @since   12.3
+	 */
+	public function testFalgPostFailure()
+	{
+		$flag = 'promotion';
+		$post_id = 'g_12345';
+
+		$path = '/v1/posts/' . $post_id . '/category/code';
+
+		$xml = '<code>' . $flag . '</code>';
+
+		$header['Content-Type'] = 'text/xml';
+
+		$returnData = new stdClass;
+		$returnData->code = 401;
+		$returnData->body = $this->errorString;
+
+		$this->client->expects($this->once())
+			->method('put', $xml, $header)
+			->with($path)
+			->will($this->returnValue($returnData));
+
+		$this->object->flagPost($this->oauth, $post_id, $flag);
+	}
 }
