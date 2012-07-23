@@ -1301,4 +1301,58 @@ class JLinkedinGroupsTest extends TestCase
 
 		$this->object->flagPost($this->oauth, $post_id, $flag);
 	}
+
+	/**
+	 * Tests the deletePost method
+	 *
+	 * @return  void
+	 *
+	 * @since   12.3
+	 */
+	public function testDeletePost()
+	{
+		$post_id = 'g_12345';
+
+		$path = '/v1/posts/' . $post_id;
+
+		$returnData = new stdClass;
+		$returnData->code = 204;
+		$returnData->body = $this->sampleString;
+
+		$this->client->expects($this->once())
+			->method('delete')
+			->with($path)
+			->will($this->returnValue($returnData));
+
+		$this->assertThat(
+			$this->object->deletePost($this->oauth, $post_id),
+			$this->equalTo($returnData)
+		);
+	}
+
+	/**
+	 * Tests the deletePost method - failure
+	 *
+	 * @return  void
+	 *
+	 * @expectedException DomainException
+	 * @since   12.3
+	 */
+	public function testDeletePostFailure()
+	{
+		$post_id = 'g_12345';
+
+		$path = '/v1/posts/' . $post_id;
+
+		$returnData = new stdClass;
+		$returnData->code = 401;
+		$returnData->body = $this->errorString;
+
+		$this->client->expects($this->once())
+			->method('delete')
+			->with($path)
+			->will($this->returnValue($returnData));
+
+		$this->object->deletePost($this->oauth, $post_id);
+	}
 }

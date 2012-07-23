@@ -836,4 +836,37 @@ class JLinkedinGroups extends JLinkedinObject
 
 		return $response;
 	}
+
+	/**
+	 * Method to delete a post if the current user is the creator or flag it as inappropriate otherwise.
+	 *
+	 * @param   JLinkedinOAuth  $oauth    The JLinkedinOAuth object.
+	 * @param   string          $post_id  The unique identifier for a group.
+	 * @param   string          $flag     Flag as a 'promotion' or 'job'.
+	 *
+	 * @return  array  The decoded JSON response
+	 *
+	 * @since   12.3
+	 */
+	public function deletePost($oauth, $post_id)
+	{
+		// Set parameters.
+		$parameters = array(
+			'oauth_token' => $oauth->getToken('key')
+		);
+
+		// Set the success response code.
+		$oauth->setOption('success_code', 204);
+
+		// Set the API base
+		$base = '/v1/posts/' . $post_id;
+
+		// Build the request path.
+		$path = $this->getOption('api.url') . $base;
+
+		// Send the request.
+		$response = $oauth->oauthRequest($path, 'DELETE', $parameters);
+
+		return $response;
+	}
 }
