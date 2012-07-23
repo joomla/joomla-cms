@@ -29,15 +29,12 @@ class JLinkedinOAuth extends JOAuth1aClient
 	/**
 	 * Constructor.
 	 *
-	 * @param   string         $consumer_key     Linkedin consumer key.
-	 * @param   string         $consumer_secret  Linkedin consumer secret.
-	 * @param   string         $callback_url     Linkedin calback URL.
 	 * @param   JRegistry      $options          JLinkedinOAuth options object.
 	 * @param   JLinkedinHttp  $client           The HTTP client object.
 	 *
 	 * @since 12.3
 	 */
-	public function __construct($consumer_key, $consumer_secret, $callback_url, JRegistry $options = null, JLinkedinHttp $client = null)
+	public function __construct(JRegistry $options = null, JLinkedinHttp $client = null)
 	{
 		$this->options = isset($options) ? $options : new JRegistry;
 
@@ -47,7 +44,7 @@ class JLinkedinOAuth extends JOAuth1aClient
 		$this->setOption('requestTokenURL', 'https://www.linkedin.com/uas/oauth/requestToken');
 
 		// Call the JOAuth1aClient constructor to setup the object.
-		parent::__construct($consumer_key, $consumer_secret, $callback_url, $this->options, $client);
+		parent::__construct($this->options, $client);
 	}
 
 	/**
@@ -102,7 +99,7 @@ class JLinkedinOAuth extends JOAuth1aClient
 			throw new DomainException('Throttle limit for calls to this resource is reached. Daily counters reset at midnight UTC.');
 		}
 
-		if (!$code = $this->getOption('sucess_code'))
+		if (!$code = $this->getOption('success_code'))
 		{
 			$code = 200;
 		}
