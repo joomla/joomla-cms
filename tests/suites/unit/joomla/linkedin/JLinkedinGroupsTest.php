@@ -1025,13 +1025,13 @@ class JLinkedinGroupsTest extends TestCase
 	}
 
 	/**
-	 * Tests the like_unlike method
+	 * Tests the _likeUnlike method
 	 *
 	 * @return  void
 	 *
 	 * @since   12.3
 	 */
-	public function testLike_unlike()
+	public function test_likeUnlike()
 	{
 		// Method tested via requesting classes
 		$this->markTestSkipped('This method is tested via requesting classes.');
@@ -1127,6 +1127,113 @@ class JLinkedinGroupsTest extends TestCase
 
 		$this->assertThat(
 			$this->object->unlikePost($this->oauth, $post_id),
+			$this->equalTo($returnData)
+		);
+	}
+
+	/**
+	 * Tests the _followUnfollow method
+	 *
+	 * @return  void
+	 *
+	 * @since   12.3
+	 */
+	public function test_followUnfollow()
+	{
+		// Method tested via requesting classes
+		$this->markTestSkipped('This method is tested via requesting classes.');
+	}
+
+	/**
+	 * Tests the followPost method
+	 *
+	 * @return  void
+	 *
+	 * @since   12.3
+	 */
+	public function testFollowPost()
+	{
+		$post_id = 'g_12345';
+
+		$path = '/v1/posts/' . $post_id . '/relation-to-viewer/is-following';
+
+		$xml = '<is-following>true</is-following>';
+
+		$header['Content-Type'] = 'text/xml';
+
+		$returnData = new stdClass;
+		$returnData->code = 204;
+		$returnData->body = $this->sampleString;
+
+		$this->client->expects($this->once())
+			->method('put', $xml, $header)
+			->with($path)
+			->will($this->returnValue($returnData));
+
+		$this->assertThat(
+			$this->object->followPost($this->oauth, $post_id),
+			$this->equalTo($returnData)
+		);
+	}
+
+	/**
+	 * Tests the followPost method - failure
+	 *
+	 * @return  void
+	 *
+	 * @expectedException DomainException
+	 * @since   12.3
+	 */
+	public function testFollowPostFailure()
+	{
+		$post_id = 'g_12345';
+
+		$path = '/v1/posts/' . $post_id . '/relation-to-viewer/is-following';
+
+		$xml = '<is-following>true</is-following>';
+
+		$header['Content-Type'] = 'text/xml';
+
+		$returnData = new stdClass;
+		$returnData->code = 401;
+		$returnData->body = $this->errorString;
+
+		$this->client->expects($this->once())
+			->method('put', $xml, $header)
+			->with($path)
+			->will($this->returnValue($returnData));
+
+		$this->object->followPost($this->oauth, $post_id);
+	}
+
+	/**
+	 * Tests the unfollowPost method
+	 *
+	 * @return  void
+	 *
+	 * @since   12.3
+	 */
+	public function testUnfollowPost()
+	{
+		$post_id = 'g_12345';
+
+		$path = '/v1/posts/' . $post_id . '/relation-to-viewer/is-following';
+
+		$xml = '<is-following>false</is-following>';
+
+		$header['Content-Type'] = 'text/xml';
+
+		$returnData = new stdClass;
+		$returnData->code = 204;
+		$returnData->body = $this->sampleString;
+
+		$this->client->expects($this->once())
+			->method('put', $xml, $header)
+			->with($path)
+			->will($this->returnValue($returnData));
+
+		$this->assertThat(
+			$this->object->unfollowPost($this->oauth, $post_id),
 			$this->equalTo($returnData)
 		);
 	}

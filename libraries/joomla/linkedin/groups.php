@@ -674,7 +674,7 @@ class JLinkedinGroups extends JLinkedinObject
 	 *
 	 * @since   12.3
 	 */
-	private function like_unlike($oauth, $post_id, $like)
+	private function _likeUnlike($oauth, $post_id, $like)
 	{
 		// Set parameters.
 		$parameters = array(
@@ -713,7 +713,7 @@ class JLinkedinGroups extends JLinkedinObject
 	 */
 	public function likePost($oauth, $post_id)
 	{
-		return $this->like_unlike($oauth, $post_id, true);
+		return $this->_likeUnlike($oauth, $post_id, true);
 	}
 
 	/**
@@ -728,6 +728,74 @@ class JLinkedinGroups extends JLinkedinObject
 	 */
 	public function unlikePost($oauth, $post_id)
 	{
-		return $this->like_unlike($oauth, $post_id, false);
+		return $this->_likeUnlike($oauth, $post_id, false);
+	}
+
+	/**
+	 * Method to follow or unfollow a post.
+	 *
+	 * @param   JLinkedinOAuth  $oauth    The JLinkedinOAuth object.
+	 * @param   string          $post_id  The unique identifier for a group.
+	 * @param   boolean         $follow   True to like post, false otherwise.
+	 *
+	 * @return  array  The decoded JSON response
+	 *
+	 * @since   12.3
+	 */
+	private function _followUnfollow($oauth, $post_id, $follow)
+	{
+		// Set parameters.
+		$parameters = array(
+			'oauth_token' => $oauth->getToken('key')
+		);
+
+		// Set the success response code.
+		$oauth->setOption('success_code', 204);
+
+		// Set the API base
+		$base = '/v1/posts/' . $post_id . '/relation-to-viewer/is-following';
+
+		// Build xml.
+		$xml = '<is-following>' . $this->boolean_to_string($follow) . '</is-following>';
+
+		// Build the request path.
+		$path = $this->getOption('api.url') . $base;
+
+		$header['Content-Type'] = 'text/xml';
+
+		// Send the request.
+		$response = $oauth->oauthRequest($path, 'PUT', $parameters, $xml, $header);
+
+		return $response;
+	}
+
+	/**
+	 * Method used to follow a post.
+	 *
+	 * @param   JLinkedinOAuth  $oauth    The JLinkedinOAuth object.
+	 * @param   string          $post_id  The unique identifier for a group.
+	 *
+	 * @return  array  The decoded JSON response
+	 *
+	 * @since   12.3
+	 */
+	public function followPost($oauth, $post_id)
+	{
+		return $this->_followUnfollow($oauth, $post_id, true);
+	}
+
+	/**
+	 * Method used to unfollow a post.
+	 *
+	 * @param   JLinkedinOAuth  $oauth    The JLinkedinOAuth object.
+	 * @param   string          $post_id  The unique identifier for a group.
+	 *
+	 * @return  array  The decoded JSON response
+	 *
+	 * @since   12.3
+	 */
+	public function unfollowPost($oauth, $post_id)
+	{
+		return $this->_followUnfollow($oauth, $post_id, false);
 	}
 }
