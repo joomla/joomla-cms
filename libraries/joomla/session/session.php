@@ -395,8 +395,7 @@ class JSession implements IteratorAggregate
 			}
 
 			// Sweet!  Our class exists, so now we just need to know if it passes its test method.
-			// @deprecated 12.3 Stop checking with test()
-			if ($class::isSupported() || $class::test())
+			if ($class::isSupported())
 			{
 				// Connector names should not have file extensions.
 				$connectors[] = str_ireplace('.php', '', $fileName);
