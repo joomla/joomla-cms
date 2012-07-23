@@ -1545,4 +1545,94 @@ class JLinkedinGroupsTest extends TestCase
 
 		$this->object->deleteComment($this->oauth, $comment_id);
 	}
+
+	/**
+	 * Tests the getSuggested method
+	 *
+	 * @return  void
+	 *
+	 * @dataProvider seedId
+	 * @since   12.3
+	 */
+	public function testGetSuggested($person_id)
+	{
+		$fields = '(id,name,is-open-to-non-members)';
+
+		// Set request parameters.
+		$data['format'] = 'json';
+
+		// Set the API base
+		$path = '/v1/people/';
+
+		if ($person_id)
+		{
+			$path .= $person_id . '/suggestions/groups';
+		}
+		else
+		{
+			$path .= '~/suggestions/groups';
+		}
+
+		$path .= ':' . $fields;
+
+		$returnData = new stdClass;
+		$returnData->code = 200;
+		$returnData->body = $this->sampleString;
+
+		$path = $this->oauth->toUrl($path, $data);
+
+		$this->client->expects($this->once())
+			->method('get')
+			->with($path)
+			->will($this->returnValue($returnData));
+
+		$this->assertThat(
+			$this->object->getSuggested($this->oauth, $person_id, $fields),
+			$this->equalTo(json_decode($this->sampleString))
+		);
+	}
+
+	/**
+	 * Tests the getSuggested method - failure
+	 *
+	 * @return  void
+	 *
+	 * @dataProvider seedId
+	 * @expectedException DomainException
+	 * @since   12.3
+	 */
+	public function testGetSuggestedFailure($person_id)
+	{
+		$fields = '(id,name,is-open-to-non-members)';
+
+		// Set request parameters.
+		$data['format'] = 'json';
+
+		// Set the API base
+		$path = '/v1/people/';
+
+		if ($person_id)
+		{
+			$path .= $person_id . '/suggestions/groups';
+		}
+		else
+		{
+			$path .= '~/suggestions/groups';
+		}
+
+		$path .= ':' . $fields;
+
+		$returnData = new stdClass;
+		$returnData->code = 401;
+		$returnData->body = $this->errorString;
+
+		$path = $this->oauth->toUrl($path, $data);
+
+		$this->client->expects($this->once())
+			->method('get')
+			->with($path)
+			->will($this->returnValue($returnData));
+
+		$this->object->getSuggested($this->oauth, $person_id, $fields);
+	}
 }

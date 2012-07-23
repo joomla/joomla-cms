@@ -980,4 +980,52 @@ class JLinkedinGroups extends JLinkedinObject
 
 		return $response;
 	}
+
+	/**
+	 * Method to get suggested groups for a user.
+	 *
+	 * @param   JLinkedinOAuth  $oauth      The JLinkedinOAuth object.
+	 * @param   string          $person_id  The unique identifier for a user.
+	 * @param   string          $fields     Request fields beyond the default ones.
+	 *
+	 * @return  array  The decoded JSON response
+	 *
+	 * @since   12.3
+	 */
+	public function getSuggested($oauth, $person_id = null, $fields = null)
+	{
+		// Set parameters.
+		$parameters = array(
+			'oauth_token' => $oauth->getToken('key')
+		);
+
+		// Set the API base
+		$base = '/v1/people/';
+
+		// Check if person_id is specified.
+		if ($person_id)
+		{
+			$base .= $person_id . '/suggestions/groups';
+		}
+		else
+		{
+			$base .= '~/suggestions/groups';
+		}
+
+		$data['format'] = 'json';
+
+		// Check if fields is specified.
+		if ($fields)
+		{
+			$base .= ':' . $fields;
+		}
+
+		// Build the request path.
+		$path = $this->getOption('api.url') . $base;
+
+		// Send the request.
+		$response = $oauth->oauthRequest($path, 'GET', $parameters, $data);
+
+		return json_decode($response->body);
+	}
 }
