@@ -1833,7 +1833,7 @@ class JForm
 
 		if ($required)
 		{
-		// If the field is required and the value is empty return an error message.
+			// If the field is required and the value is empty return an error message.
 			if (($value === '') || ($value === null))
 			{
 				if ($element['label'])
