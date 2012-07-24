@@ -82,38 +82,42 @@ class MenusViewItems extends JViewLegacy
 								// Look for the first view node off of the root node.
 								if ($view = $xml->xpath('view[1]')) {
 									if (!empty($view[0]['title'])) {
-										$vars['layout'] = isset($vars['layout']) ? $vars['layout'] : 'default';
+										$value .= ' » ' . JText::_(trim((string) $view[0]['title']));
+									}
+									$vars['layout'] = isset($vars['layout']) ? $vars['layout'] : 'default';
 
-										// Attempt to load the layout xml file.
-										// If Alternative Menu Item, get template folder for layout file
-										if (strpos($vars['layout'], ':') > 0)
-										{
-											// Use template folder for layout file
-											$temp = explode(':', $vars['layout']);
-											$file = JPATH_SITE.'/templates/'.$temp[0].'/html/'.$item->componentname.'/'.$vars['view'].'/'.$temp[1].'.xml';
-											// Load template language file
-											$lang->load('tpl_'.$temp[0].'.sys', JPATH_SITE, null, false, false)
-											||	$lang->load('tpl_'.$temp[0].'.sys', JPATH_SITE.'/templates/'.$temp[0], null, false, false)
-											||	$lang->load('tpl_'.$temp[0].'.sys', JPATH_SITE, $lang->getDefault(), false, false)
-											||	$lang->load('tpl_'.$temp[0].'.sys', JPATH_SITE.'/templates/'.$temp[0], $lang->getDefault(), false, false);
+									// Attempt to load the layout xml file.
+									// If Alternative Menu Item, get template folder for layout file
+									if (strpos($vars['layout'], ':') > 0)
+									{
+										// Use template folder for layout file
+										$temp = explode(':', $vars['layout']);
+										$file = JPATH_SITE.'/templates/'.$temp[0].'/html/'.$item->componentname.'/'.$vars['view'].'/'.$temp[1].'.xml';
+										// Load template language file
+										$lang->load('tpl_'.$temp[0].'.sys', JPATH_SITE, null, false, false)
+										||	$lang->load('tpl_'.$temp[0].'.sys', JPATH_SITE.'/templates/'.$temp[0], null, false, false)
+										||	$lang->load('tpl_'.$temp[0].'.sys', JPATH_SITE, $lang->getDefault(), false, false)
+										||	$lang->load('tpl_'.$temp[0].'.sys', JPATH_SITE.'/templates/'.$temp[0], $lang->getDefault(), false, false);
 
-										}
-										else
-										{
-											// Get XML file from component folder for standard layouts
-											$file = JPATH_SITE.'/components/'.$item->componentname.'/views/'.$vars['view'].'/tmpl/'.$vars['layout'].'.xml';
-										}
-										if (JFile::exists($file) && $xml = simplexml_load_file($file)) {
-											// Look for the first view node off of the root node.
-											if ($layout = $xml->xpath('layout[1]')) {
-												if (!empty($layout[0]['title'])) {
-													$value .= ' » ' . JText::_(trim((string) $layout[0]['title']));
-												}
-											}
-											if (!empty($layout[0]->message[0])) {
-												$item->item_type_desc = JText::_(trim((string) $layout[0]->message[0]));
+									}
+									else
+									{
+										// Get XML file from component folder for standard layouts
+										$file = JPATH_SITE.'/components/'.$item->componentname.'/views/'.$vars['view'].'/tmpl/'.$vars['layout'].'.xml';
+									}
+									if (JFile::exists($file) && $xml = simplexml_load_file($file)) {
+										// Look for the first view node off of the root node.
+										if ($layout = $xml->xpath('layout[1]')) {
+											if (!empty($layout[0]['title'])) {
+												$value .= ' » ' . JText::_(trim((string) $layout[0]['title']));
 											}
 										}
+										if (!empty($layout[0]->message[0])) {
+											$item->item_type_desc = JText::_(trim((string) $layout[0]->message[0]));
+										}
+									}
+									if (!isset($item->item_type_desc) && !empty($view[0]->message[0])) {
+										$item->item_type_desc = JText::_(trim((string) $view[0]->message[0]));
 									}
 								}
 								unset($xml);
