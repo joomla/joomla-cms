@@ -1836,23 +1836,15 @@ class JForm
 			// If the field is required and the value is empty return an error message.
 			if (($value === '') || ($value === null))
 			{
-				// Does the field have a defined error message?
-				if ($element['message'])
+				if ($element['label'])
 				{
-					$message = JText::_($element['message']);
+					$message = JText::_($element['label']);
 				}
 				else
 				{
-					if ($element['label'])
-					{
-						$message = JText::_($element['label']);
-					}
-					else
-					{
-						$message = JText::_($element['name']);
-					}
-					$message = JText::sprintf('JLIB_FORM_VALIDATE_FIELD_REQUIRED', $message);
+					$message = JText::_($element['name']);
 				}
+				$message = JText::sprintf('JLIB_FORM_VALIDATE_FIELD_REQUIRED', $message);
 
 				return new RuntimeException($message);
 			}
