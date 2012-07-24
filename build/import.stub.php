@@ -54,6 +54,12 @@ JLoader::setup();
 // Import the base Joomla Platform libraries.
 JLoader::import('joomla.factory');
 
+// Register classes for compatability with PHP 5.3
+if (version_compare(PHP_VERSION, '5.4.0', '<'))
+{
+	JLoader::register('JsonSerializable', JPATH_PLATFORM . '/compat/jsonserializable.php');
+}
+
 // Register classes that don't follow one file per class naming conventions.
 JLoader::register('JText', JPATH_PLATFORM . '/joomla/language/text.php');
 JLoader::register('JRoute', JPATH_PLATFORM . '/joomla/application/route.php');

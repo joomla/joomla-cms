@@ -3,6 +3,7 @@
 	<code stub="build/import.stub.php">
 		<file>libraries/loader.php</file>
 		<file>libraries/platform.php</file>
+		<folder recursive="true" localPath="compat">libraries/compat</folder>
 		<folder recursive="true" localPath="joomla">libraries/joomla</folder>
 		<folder recursive="true" localPath="phpmailer">libraries/phpmailer</folder>
 		<folder recursive="true" localPath="phputf8">libraries/phputf8</folder>
