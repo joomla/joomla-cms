@@ -635,4 +635,78 @@ class JLinkedinCompaniesTest extends TestCase
 
 		$this->object->getSuggested($this->oauth, $fields, $start, $count);
 	}
+
+	/**
+	 * Tests the getProducts method
+	 *
+	 * @return  void
+	 *
+	 * @since   12.3
+	 */
+	public function testGetProducts()
+	{
+		$id = 12345;
+		$fields = '(id,name,type,creation-timestamp)';
+		$start = 1;
+		$count = 10;
+
+		// Set request parameters.
+		$data['format'] = 'json';
+		$data['start'] = $start;
+		$data['count'] = $count;
+
+		$path = '/v1/companies/' . $id . '/products:' . $fields;
+
+		$returnData = new stdClass;
+		$returnData->code = 200;
+		$returnData->body = $this->sampleString;
+
+		$path = $this->oauth->toUrl($path, $data);
+
+		$this->client->expects($this->once())
+			->method('get')
+			->with($path)
+			->will($this->returnValue($returnData));
+
+		$this->assertThat(
+			$this->object->getProducts($this->oauth, $id, $fields, $start, $count),
+			$this->equalTo(json_decode($this->sampleString))
+		);
+	}
+
+	/**
+	 * Tests the getProducts method - failure
+	 *
+	 * @return  void
+	 *
+	 * @expectedException DomainException
+	 * @since   12.3
+	 */
+	public function testGetProductsFailure()
+	{
+		$id = 12345;
+		$fields = '(id,name,type,creation-timestamp)';
+		$start = 1;
+		$count = 10;
+
+		// Set request parameters.
+		$data['format'] = 'json';
+		$data['start'] = $start;
+		$data['count'] = $count;
+
+		$path = '/v1/companies/' . $id . '/products:' . $fields;
+
+		$returnData = new stdClass;
+		$returnData->code = 401;
+		$returnData->body = $this->errorString;
+
+		$path = $this->oauth->toUrl($path, $data);
+
+		$this->client->expects($this->once())
+			->method('get')
+			->with($path)
+			->will($this->returnValue($returnData));
+
+		$this->object->getProducts($this->oauth, $id, $fields, $start, $count);
+	}
 }
