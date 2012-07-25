@@ -197,24 +197,24 @@ div.button {
 }
 
 .button .refresh {
-	background: url(../images/j_button1_refresh.png) 95% 0 no-repeat;
+	background: url(../images/j_button1_refresh.png?v=1) 95% 0 no-repeat;
 }
 
 .button a[rel=prev] {
 	padding: 0 6px 0 30px;
-	background: url(../images/j_button1_prev.png) 10% 2px no-repeat;
+	background: url(../images/j_button1_prev.png?v=1) 10% 2px no-repeat;
 }
 
 .button a[rel=next] {
-	background: url(../images/j_button1_next.png) 90% 2px no-repeat;
+	background: url(../images/j_button1_next.png?v=1) 90% 2px no-repeat;
 }
 
 .button .site {
-	background: url(../images/j_button1_site.png) 90% 3px no-repeat;
+	background: url(../images/j_button1_site.png?v=1) 90% 3px no-repeat;
 }
 
 .button .admin {
-	background: url(../images/j_button1_admin.png) 90% 2px no-repeat;
+	background: url(../images/j_button1_admin.png?v=1) 90% 2px no-repeat;
 }
 
 .button a {
