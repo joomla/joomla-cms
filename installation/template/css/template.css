@@ -197,7 +197,7 @@ div.button {
 }
 
 .button .refresh {
-	background: url(../images/j_button1_refresh.png?v=1) 95% 0 no-repeat;
+	background: url(../images/j_button1_refresh.png?v=1) 95% 1px no-repeat;
 }
 
 .button a[rel=prev] {
