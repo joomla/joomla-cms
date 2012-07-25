@@ -563,4 +563,76 @@ class JLinkedinCompaniesTest extends TestCase
 
 		$this->object->unfollow($this->oauth, $id);
 	}
+
+	/**
+	 * Tests the getSuggested method
+	 *
+	 * @return  void
+	 *
+	 * @since   12.3
+	 */
+	public function testGetSuggested()
+	{
+		$fields = '(id,name,email-domains)';
+		$start = 1;
+		$count = 10;
+
+		// Set request parameters.
+		$data['format'] = 'json';
+		$data['start'] = $start;
+		$data['count'] = $count;
+
+		$path = '/v1/people/~/suggestions/to-follow/companies:' . $fields;
+
+		$returnData = new stdClass;
+		$returnData->code = 200;
+		$returnData->body = $this->sampleString;
+
+		$path = $this->oauth->toUrl($path, $data);
+
+		$this->client->expects($this->once())
+			->method('get')
+			->with($path)
+			->will($this->returnValue($returnData));
+
+		$this->assertThat(
+			$this->object->getSuggested($this->oauth, $fields, $start, $count),
+			$this->equalTo(json_decode($this->sampleString))
+		);
+	}
+
+	/**
+	 * Tests the getSuggested method - failure
+	 *
+	 * @return  void
+	 *
+	 * @expectedException DomainException
+	 * @since   12.3
+	 */
+	public function testGetSuggestedFailure()
+	{
+		$fields = '(id,name,email-domains)';
+		$start = 1;
+		$count = 10;
+
+		// Set request parameters.
+		$data['format'] = 'json';
+		$data['start'] = $start;
+		$data['count'] = $count;
+
+		$path = '/v1/people/~/suggestions/to-follow/companies:' . $fields;
+
+		$returnData = new stdClass;
+		$returnData->code = 401;
+		$returnData->body = $this->errorString;
+
+		$path = $this->oauth->toUrl($path, $data);
+
+		$this->client->expects($this->once())
+			->method('get')
+			->with($path)
+			->will($this->returnValue($returnData));
+
+		$this->object->getSuggested($this->oauth, $fields, $start, $count);
+	}
 }
