@@ -509,4 +509,58 @@ class JLinkedinCompaniesTest extends TestCase
 
 		$this->object->follow($this->oauth, $id);
 	}
+
+	/**
+	 * Tests the unfollow method
+	 *
+	 * @return  void
+	 *
+	 * @since   12.3
+	 */
+	public function testUnfollow()
+	{
+		$id = '12345';
+
+		$path = '/v1/people/~/following/companies/id=' . $id;
+
+		$returnData = new stdClass;
+		$returnData->code = 204;
+		$returnData->body = $this->sampleString;
+
+		$this->client->expects($this->once())
+			->method('delete')
+			->with($path)
+			->will($this->returnValue($returnData));
+
+		$this->assertThat(
+			$this->object->unfollow($this->oauth, $id),
+			$this->equalTo($returnData)
+		);
+	}
+
+	/**
+	 * Tests the unfollow method - failure
+	 *
+	 * @return  void
+	 *
+	 * @expectedException DomainException
+	 * @since   12.3
+	 */
+	public function testUnfollowFailure()
+	{
+		$id = '12345';
+
+		$path = '/v1/people/~/following/companies/id=' . $id;
+
+		$returnData = new stdClass;
+		$returnData->code = 401;
+		$returnData->body = $this->errorString;
+
+		$this->client->expects($this->once())
+			->method('delete')
+			->with($path)
+			->will($this->returnValue($returnData));
+
+		$this->object->unfollow($this->oauth, $id);
+	}
 }

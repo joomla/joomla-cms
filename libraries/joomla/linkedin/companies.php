@@ -322,4 +322,36 @@ class JLinkedinCompanies extends JLinkedinObject
 
 		return $response;
 	}
+
+	/**
+	 * Method to unfollow a company.
+	 *
+	 * @param   JLinkedinOAuth  $oauth  The JLinkedinOAuth object.
+	 * @param   string          $id     The unique identifier for a company.
+	 *
+	 * @return  array  The decoded JSON response
+	 *
+	 * @since   12.3
+	 */
+	public function unfollow($oauth, $id)
+	{
+		// Set parameters.
+		$parameters = array(
+			'oauth_token' => $oauth->getToken('key')
+		);
+
+		// Set the success response code.
+		$oauth->setOption('success_code', 204);
+
+		// Set the API base
+		$base = '/v1/people/~/following/companies/id=' . $id;
+
+		// Build the request path.
+		$path = $this->getOption('api.url') . $base;
+
+		// Send the request.
+		$response = $oauth->oauthRequest($path, 'DELETE', $parameters);
+
+		return $response;
+	}
 }
