@@ -49,6 +49,12 @@ class JLinkedin
 	protected $companies;
 
 	/**
+	 * @var    JLinkedinJobs  Linkedin API object for jobs.
+	 * @since  12.3
+	 */
+	protected $jobs;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   JRegistry      $options  Linkedin options object.
@@ -98,6 +104,13 @@ class JLinkedin
 					$this->companies = new JLinkedinCompanies($this->options, $this->client);
 				}
 				return $this->companies;
+
+			case 'jobs':
+				if ($this->jobs == null)
+				{
+					$this->jobs = new JLinkedinJobs($this->options, $this->client);
+				}
+				return $this->jobs;
 		}
 	}
 

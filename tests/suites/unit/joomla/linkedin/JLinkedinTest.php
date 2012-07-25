@@ -106,6 +106,21 @@ class JLinkedinTest extends TestCase
 	}
 
 	/**
+	 * Tests the magic __get method - jobs
+	 *
+	 * @return  void
+	 *
+	 * @since   12.3
+	 */
+	public function test__GetJobs()
+	{
+		$this->assertThat(
+			$this->object->jobs,
+			$this->isInstanceOf('JLinkedinJobs')
+		);
+	}
+
+	/**
 	 * Tests the magic __get method - other (non existant)
 	 *
 	 * @return  void

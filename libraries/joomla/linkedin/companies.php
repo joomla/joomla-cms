@@ -140,8 +140,7 @@ class JLinkedinCompanies extends JLinkedinObject
 	 * Method to get information about people.
 	 *
 	 * @param   JLinkedinOAuth  $oauth     The JLinkedinOAuth object.
-	 * @param   string          $fields    Request fields beyond the default ones. provide 'api-standard-profile-request'
-	 * 									   field for out of network profiles.
+	 * @param   string          $fields  Request fields beyond the default ones.
 	 * @param   string          $keywords  Members who have all the keywords anywhere in their profile.
 	 * @param   boolean         $hq        Matching companies by the headquarters location. When this is set to "true" and a location facet is used,
 	 * 									   this restricts returned companies to only those whose headquarters resides in the specified location.
