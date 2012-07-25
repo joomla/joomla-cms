@@ -168,7 +168,7 @@ class JLinkedinCompaniesTest extends TestCase
 	}
 
 	/**
-	 * Tests the getCompanies method
+	 * Tests the getCompanies method - failure
 	 *
 	 * @return  void
 	 *
@@ -200,5 +200,81 @@ class JLinkedinCompaniesTest extends TestCase
 			->will($this->returnValue($returnData));
 
 		$this->object->getCompanies($this->oauth, $id, $name, $domain, $fields);
+	}
+
+	/**
+	 * Tests the getUpdates method
+	 *
+	 * @return  void
+	 *
+	 * @since   12.3
+	 */
+	public function testGetUpdates()
+	{
+		$id = 12345;
+		$type = 'new-hire';
+		$count = 10;
+		$start = 1;
+
+		// Set request parameters.
+		$data['format'] = 'json';
+		$data['event-type'] = $type;
+		$data['count'] = $count;
+		$data['start'] = $start;
+
+		$path = '/v1/companies/' . $id . '/updates';
+
+		$returnData = new stdClass;
+		$returnData->code = 200;
+		$returnData->body = $this->sampleString;
+
+		$path = $this->oauth->toUrl($path, $data);
+
+		$this->client->expects($this->once())
+			->method('get')
+			->with($path)
+			->will($this->returnValue($returnData));
+
+		$this->assertThat(
+			$this->object->getUpdates($this->oauth, $id, $type, $count, $start),
+			$this->equalTo(json_decode($this->sampleString))
+		);
+	}
+
+	/**
+	 * Tests the getUpdates method - failure
+	 *
+	 * @return  void
+	 *
+	 * @expectedException DomainException
+	 * @since   12.3
+	 */
+	public function testGetUpdatesFailure()
+	{
+		$id = 12345;
+		$type = 'new-hire';
+		$count = 10;
+		$start = 1;
+
+		// Set request parameters.
+		$data['format'] = 'json';
+		$data['event-type'] = $type;
+		$data['count'] = $count;
+		$data['start'] = $start;
+
+		$path = '/v1/companies/' . $id . '/updates';
+
+		$returnData = new stdClass;
+		$returnData->code = 401;
+		$returnData->body = $this->errorString;
+
+		$path = $this->oauth->toUrl($path, $data);
+
+		$this->client->expects($this->once())
+			->method('get')
+			->with($path)
+			->will($this->returnValue($returnData));
+
+		$this->object->getUpdates($this->oauth, $id, $type, $count, $start);
 	}
 }
