@@ -185,7 +185,7 @@ header .logo {
 div.button {
 	float: left;
 	margin-left: 5px;
-	background-color: #CCC;
+	background-color: #f0f0f0;
 	background-image: -o-linear-gradient(bottom, #E6E6E6 47%, #FBFBFB 55%);
 	background-image: -moz-linear-gradient(bottom, #E6E6E6 47%, #FBFBFB 55%);
 	background-image: -webkit-linear-gradient(bottom, #E6E6E6 47%, #FBFBFB 55%);
