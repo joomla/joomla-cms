@@ -447,4 +447,66 @@ class JLinkedinCompaniesTest extends TestCase
 
 		$this->object->getFollowed($this->oauth, $fields);
 	}
+
+	/**
+	 * Tests the follow method
+	 *
+	 * @return  void
+	 *
+	 * @since   12.3
+	 */
+	public function testFollow()
+	{
+		$id = '12345';
+
+		$path = '/v1/people/~/following/companies';
+
+		$xml = '<company><id>' . $id . '</id></company>';
+
+		$header['Content-Type'] = 'text/xml';
+
+		$returnData = new stdClass;
+		$returnData->code = 201;
+		$returnData->body = $this->sampleString;
+
+		$this->client->expects($this->once())
+			->method('post', $xml, $header)
+			->with($path)
+			->will($this->returnValue($returnData));
+
+		$this->assertThat(
+			$this->object->follow($this->oauth, $id),
+			$this->equalTo($returnData)
+		);
+	}
+
+	/**
+	 * Tests the follow method - failure
+	 *
+	 * @return  void
+	 *
+	 * @expectedException DomainException
+	 * @since   12.3
+	 */
+	public function testFollowFailure()
+	{
+		$id = '12345';
+
+		$path = '/v1/people/~/following/companies';
+
+		$xml = '<company><id>' . $id . '</id></company>';
+
+		$header['Content-Type'] = 'text/xml';
+
+		$returnData = new stdClass;
+		$returnData->code = 401;
+		$returnData->body = $this->errorString;
+
+		$this->client->expects($this->once())
+			->method('post', $xml, $header)
+			->with($path)
+			->will($this->returnValue($returnData));
+
+		$this->object->follow($this->oauth, $id);
+	}
 }
