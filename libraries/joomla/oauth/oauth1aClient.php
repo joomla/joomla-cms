@@ -363,11 +363,11 @@ abstract class JOAuth1aClient
 			{
 				if (strpos($url, '?') === false)
 				{
-					$url .= '?' . $key . '=' . $value;
+					$url .= '?' . $key . '=' . $this->safeEncode($value);
 				}
 				else
 				{
-					$url .= '&' . $key . '=' . $value;
+					$url .= '&' . $key . '=' . $this->safeEncode($value);
 				}
 			}
 		}

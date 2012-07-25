@@ -37,10 +37,16 @@ class JLinkedin
 	protected $people;
 
 	/**
-	 * @var    JLinkedinGroups  Linkedin API object for people.
+	 * @var    JLinkedinGroups  Linkedin API object for groups.
 	 * @since  12.3
 	 */
 	protected $groups;
+
+	/**
+	 * @var    JLinkedinCompanies  Linkedin API object for companies.
+	 * @since  12.3
+	 */
+	protected $companies;
 
 	/**
 	 * Constructor.
@@ -78,16 +84,20 @@ class JLinkedin
 					$this->people = new JLinkedinPeople($this->options, $this->client);
 				}
 				return $this->people;
-		}
 
-		switch ($name)
-		{
 			case 'groups':
 				if ($this->groups == null)
 				{
 					$this->groups = new JLinkedinGroups($this->options, $this->client);
 				}
 				return $this->groups;
+
+			case 'companies':
+				if ($this->companies == null)
+				{
+					$this->companies = new JLinkedinCompanies($this->options, $this->client);
+				}
+				return $this->companies;
 		}
 	}
 
