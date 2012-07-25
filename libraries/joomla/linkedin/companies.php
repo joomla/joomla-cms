@@ -87,11 +87,11 @@ class JLinkedinCompanies extends JLinkedinObject
 	/**
 	 * Method to read shares for a particular company .
 	 *
-	 * @param   JLinkedinOAuth  $oauth   The JLinkedinOAuth object.
-	 * @param   string          $id      The unique company identifier.
-	 * @param   string          $type    Any valid Company Update Type from the table: https://developer.linkedin.com/reading-company-updates.
-	 * @param   integer         $count   Maximum number of updates to return.
-	 * @param   integer         $start   The offset by which to start Network Update pagination.
+	 * @param   JLinkedinOAuth  $oauth  The JLinkedinOAuth object.
+	 * @param   string          $id     The unique company identifier.
+	 * @param   string          $type   Any valid Company Update Type from the table: https://developer.linkedin.com/reading-company-updates.
+	 * @param   integer         $count  Maximum number of updates to return.
+	 * @param   integer         $start  The offset by which to start Network Update pagination.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
@@ -143,7 +143,8 @@ class JLinkedinCompanies extends JLinkedinObject
 	 * @param   string          $fields    Request fields beyond the default ones. provide 'api-standard-profile-request'
 	 * 									   field for out of network profiles.
 	 * @param   string          $keywords  Members who have all the keywords anywhere in their profile.
-	 * @param   boolean         $hq        Matching companies by the headquarters location. When this is set to "true" and a location facet is used, this restricts returned companies to only those whose headquarters resides in the specified location.
+	 * @param   boolean         $hq        Matching companies by the headquarters location. When this is set to "true" and a location facet is used,
+	 * 									   this restricts returned companies to only those whose headquarters resides in the specified location.
 	 * @param   string          $facets    Facet buckets to return, e.g. location.
 	 * @param   array           $facet     Array of facet values to search over. Contains values for location, industry, network, company-size,
 	 * 									   num-followers-range and fortune, in exactly this order, null must be specified for an element if no value.
@@ -253,8 +254,8 @@ class JLinkedinCompanies extends JLinkedinObject
 	/**
 	 * Method to get a list of companies the current member is following.
 	 *
-	 * @param   JLinkedinOAuth  $oauth      The JLinkedinOAuth object.
-	 * @param   string          $fields     Request fields beyond the default ones.
+	 * @param   JLinkedinOAuth  $oauth   The JLinkedinOAuth object.
+	 * @param   string          $fields  Request fields beyond the default ones.
 	 *
 	 * @return  array  The decoded JSON response
 	 *

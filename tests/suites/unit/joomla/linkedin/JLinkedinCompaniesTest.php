@@ -110,6 +110,10 @@ class JLinkedinCompaniesTest extends TestCase
 	/**
 	 * Tests the getCompanies method
 	 *
+	 * @param   integer  $id      The unique internal numeric company identifier.
+	 * @param   string   $name    The unique string identifier for a company.
+	 * @param   string   $domain  Company email domains.
+	 *
 	 * @return  void
 	 *
 	 * @dataProvider seedGetCompanies
