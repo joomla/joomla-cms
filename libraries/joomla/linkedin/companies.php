@@ -249,4 +249,40 @@ class JLinkedinCompanies extends JLinkedinObject
 		$response = $oauth->oauthRequest($path, 'GET', $parameters, $data);
 		return json_decode($response->body);
 	}
+
+	/**
+	 * Method to get a list of companies the current member is following.
+	 *
+	 * @param   JLinkedinOAuth  $oauth      The JLinkedinOAuth object.
+	 * @param   string          $fields     Request fields beyond the default ones.
+	 *
+	 * @return  array  The decoded JSON response
+	 *
+	 * @since   12.3
+	 */
+	public function getFollowed($oauth, $fields = null)
+	{
+		// Set parameters.
+		$parameters = array(
+			'oauth_token' => $oauth->getToken('key')
+		);
+
+		// Set the API base
+		$base = '/v1/people/~/following/companies';
+
+		$data['format'] = 'json';
+
+		// Check if fields is specified.
+		if ($fields)
+		{
+			$base .= ':' . $fields;
+		}
+
+		// Build the request path.
+		$path = $this->getOption('api.url') . $base;
+
+		// Send the request.
+		$response = $oauth->oauthRequest($path, 'GET', $parameters, $data);
+		return json_decode($response->body);
+	}
 }

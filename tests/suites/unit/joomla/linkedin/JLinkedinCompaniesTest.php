@@ -368,9 +368,7 @@ class JLinkedinCompaniesTest extends TestCase
 		$data['count'] = $count;
 		$data['sort'] = $sort;
 
-		$path = '/v1/company-search';
-
-		$path .= ':' . $fields;
+		$path = '/v1/company-search:' . $fields;
 
 		$returnData = new stdClass;
 		$returnData->code = 401;
@@ -384,5 +382,69 @@ class JLinkedinCompaniesTest extends TestCase
 			->will($this->returnValue($returnData));
 
 		$this->object->search($this->oauth, $fields, $keywords, $hq, $facets, $facet, $start, $count, $sort);
+	}
+
+	/**
+	 * Tests the getFollowed method
+	 *
+	 * @return  void
+	 *
+	 * @since   12.3
+	 */
+	public function testGetFollowed()
+	{
+		$fields = '(id,name,email-domains)';
+
+		// Set request parameters.
+		$data['format'] = 'json';
+
+		$path = '/v1/people/~/following/companies:' . $fields;
+
+		$returnData = new stdClass;
+		$returnData->code = 200;
+		$returnData->body = $this->sampleString;
+
+		$path = $this->oauth->toUrl($path, $data);
+
+		$this->client->expects($this->once())
+			->method('get')
+			->with($path)
+			->will($this->returnValue($returnData));
+
+		$this->assertThat(
+			$this->object->getFollowed($this->oauth, $fields),
+			$this->equalTo(json_decode($this->sampleString))
+		);
+	}
+
+	/**
+	 * Tests the getFollowed method - failure
+	 *
+	 * @return  void
+	 *
+	 * @expectedException DomainException
+	 * @since   12.3
+	 */
+	public function testGetFollowedFailure()
+	{
+		$fields = '(id,name,email-domains)';
+
+		// Set request parameters.
+		$data['format'] = 'json';
+
+		$path = '/v1/people/~/following/companies:' . $fields;
+
+		$returnData = new stdClass;
+		$returnData->code = 401;
+		$returnData->body = $this->errorString;
+
+		$path = $this->oauth->toUrl($path, $data);
+
+		$this->client->expects($this->once())
+			->method('get')
+			->with($path)
+			->will($this->returnValue($returnData));
+
+		$this->object->getFollowed($this->oauth, $fields);
 	}
 }
