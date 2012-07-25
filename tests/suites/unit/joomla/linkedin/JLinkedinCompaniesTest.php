@@ -277,4 +277,112 @@ class JLinkedinCompaniesTest extends TestCase
 
 		$this->object->getUpdates($this->oauth, $id, $type, $count, $start);
 	}
+
+	/**
+	 * Tests the search method
+	 *
+	 * @return  void
+	 *
+	 * @since   12.3
+	 */
+	public function testSearch()
+	{
+		$fields = '(facets)';
+		$keywords = 'linkedin';
+		$hq = true;
+		$facets = 'location,industry,network,num-followers-range,fortune';
+		$facet = array('us-84', 47, 'F', 'B', 100, 100);
+		$start = 1;
+		$count = 50;
+		$sort = 'relevance';
+
+		// Set request parameters.
+		$data['format'] = 'json';
+		$data['keywords'] = $keywords;
+		$data['hq-only'] = $hq;
+		$data['facets'] = $facets;
+		$data['facet'] = array();
+		$data['facet']['location'] = $facet[0];
+		$data['facet']['industry'] = $facet[1];
+		$data['facet']['network'] = $facet[2];
+		$data['facet']['num-followers-range'] = $facet[3];
+		$data['facet']['fortune'] = $facet[4];
+
+		$data['start'] = $start;
+		$data['count'] = $count;
+		$data['sort'] = $sort;
+
+		$path = '/v1/company-search';
+
+		$path .= ':' . $fields;
+
+		$returnData = new stdClass;
+		$returnData->code = 200;
+		$returnData->body = $this->sampleString;
+
+		$path = $this->oauth->toUrl($path, $data);
+
+		$this->client->expects($this->once())
+			->method('get')
+			->with($path)
+			->will($this->returnValue($returnData));
+
+		$this->assertThat(
+			$this->object->search($this->oauth, $fields, $keywords, $hq, $facets, $facet, $start, $count, $sort),
+			$this->equalTo(json_decode($this->sampleString))
+		);
+	}
+
+	/**
+	 * Tests the search method - failure
+	 *
+	 * @return  void
+	 *
+	 * @expectedException DomainException
+	 * @since   12.3
+	 */
+	public function testSearchFailure()
+	{
+		$fields = '(facets)';
+		$keywords = 'linkedin';
+		$hq = true;
+		$facets = 'location,industry,network,num-followers-range,fortune';
+		$facet = array('us-84', 47, 'F', 'B', 100, 100);
+		$start = 1;
+		$count = 50;
+		$sort = 'relevance';
+
+		// Set request parameters.
+		$data['format'] = 'json';
+		$data['keywords'] = $keywords;
+		$data['hq-only'] = $hq;
+		$data['facets'] = $facets;
+		$data['facet'] = array();
+		$data['facet']['location'] = $facet[0];
+		$data['facet']['industry'] = $facet[1];
+		$data['facet']['network'] = $facet[2];
+		$data['facet']['num-followers-range'] = $facet[3];
+		$data['facet']['fortune'] = $facet[4];
+
+		$data['start'] = $start;
+		$data['count'] = $count;
+		$data['sort'] = $sort;
+
+		$path = '/v1/company-search';
+
+		$path .= ':' . $fields;
+
+		$returnData = new stdClass;
+		$returnData->code = 401;
+		$returnData->body = $this->errorString;
+
+		$path = $this->oauth->toUrl($path, $data);
+
+		$this->client->expects($this->once())
+			->method('get')
+			->with($path)
+			->will($this->returnValue($returnData));
+
+		$this->object->search($this->oauth, $fields, $keywords, $hq, $facets, $facet, $start, $count, $sort);
+	}
 }

@@ -135,4 +135,118 @@ class JLinkedinCompanies extends JLinkedinObject
 		$response = $oauth->oauthRequest($path, 'GET', $parameters, $data);
 		return json_decode($response->body);
 	}
+
+	/**
+	 * Method to get information about people.
+	 *
+	 * @param   JLinkedinOAuth  $oauth     The JLinkedinOAuth object.
+	 * @param   string          $fields    Request fields beyond the default ones. provide 'api-standard-profile-request'
+	 * 									   field for out of network profiles.
+	 * @param   string          $keywords  Members who have all the keywords anywhere in their profile.
+	 * @param   boolean         $hq        Matching companies by the headquarters location. When this is set to "true" and a location facet is used, this restricts returned companies to only those whose headquarters resides in the specified location.
+	 * @param   string          $facets    Facet buckets to return, e.g. location.
+	 * @param   array           $facet     Array of facet values to search over. Contains values for location, industry, network, company-size,
+	 * 									   num-followers-range and fortune, in exactly this order, null must be specified for an element if no value.
+	 * @param   integer         $start     Starting location within the result set for paginated returns.
+	 * @param   integer         $count     The number of results returned.
+	 * @param   string          $sort      Controls the search result order. There are four options: relevance, relationship,
+	 * 									   followers and company-size.
+	 *
+	 * @return  array  The decoded JSON response
+	 *
+	 * @since   12.3
+	 */
+	public function search($oauth, $fields = null, $keywords = null, $hq = false, $facets = null, $facet = null, $start = 0, $count = 0, $sort = null)
+	{
+		// Set parameters.
+		$parameters = array(
+			'oauth_token' => $oauth->getToken('key')
+		);
+
+		// Set the API base
+		$base = '/v1/company-search';
+
+		$data['format'] = 'json';
+
+		// Check if fields is specified.
+		if ($fields)
+		{
+			$base .= ':' . $fields;
+		}
+
+		// Check if keywords is specified.
+		if ($keywords)
+		{
+			$data['keywords'] = $keywords;
+		}
+
+		// Check if hq is true.
+		if ($hq)
+		{
+			$data['hq-only'] = $hq;
+		}
+
+		// Check if facets is specified.
+		if ($facets)
+		{
+			$data['facets'] = $facets;
+		}
+
+		// Check if facet is specified.
+		if ($facet)
+		{
+			$data['facet'] = array();
+			for ($i = 0; $i < count($facet); $i++)
+			{
+				if ($facet[$i])
+				{
+					if ($i == 0)
+					{
+						$data['facet']['location'] = $facet[$i];
+					}
+					if ($i == 1)
+					{
+						$data['facet']['industry'] = $facet[$i];
+					}
+					if ($i == 2)
+					{
+						$data['facet']['network'] = $facet[$i];
+					}
+					if ($i == 3)
+					{
+						$data['facet']['num-followers-range'] = $facet[$i];
+					}
+					if ($i == 4)
+					{
+						$data['facet']['fortune'] = $facet[$i];
+					}
+				}
+			}
+		}
+
+		// Check if start is specified.
+		if ($start > 0)
+		{
+			$data['start'] = $start;
+		}
+
+		// Check if count is specified.
+		if ($count > 0)
+		{
+			$data['count'] = $count;
+		}
+
+		// Check if sort is specified.
+		if ($sort)
+		{
+			$data['sort'] = $sort;
+		}
+
+		// Build the request path.
+		$path = $this->getOption('api.url') . $base;
+
+		// Send the request.
+		$response = $oauth->oauthRequest($path, 'GET', $parameters, $data);
+		return json_decode($response->body);
+	}
 }
