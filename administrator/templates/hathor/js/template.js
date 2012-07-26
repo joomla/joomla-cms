@@ -130,11 +130,3 @@ window.addEvent('domready', function() {
 	setAriaRoleElementsById();
 	setAriaProperties();
 });
-
-/**
- * For IE6 - Background flicker fix
- */
-try {
-	document.execCommand('BackgroundImageCache', false, true);
-} catch (e) {
-}

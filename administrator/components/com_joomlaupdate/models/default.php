@@ -2,14 +2,12 @@
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
+ *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.model');
 
 /**
  * Joomla! update overview Model
@@ -19,7 +17,7 @@ jimport('joomla.application.component.model');
  * @author      nikosdion <nicholas@dionysopoulos.me>
  * @since       2.5.4
  */
-class JoomlaupdateModelDefault extends JModel
+class JoomlaupdateModelDefault extends JModelLegacy
 {
 	/**
 	 * Detects if the Joomla! update site currently in use matches the one
@@ -64,17 +62,17 @@ class JoomlaupdateModelDefault extends JModel
 
 		$db = $this->getDbo();
 		$query = $db->getQuery(true)
-			->select($db->nq('us') . '.*')
+			->select($db->qn('us') . '.*')
 			->from(
-				$db->nq('#__update_sites_extensions') . ' AS ' . $db->nq('map')
+				$db->qn('#__update_sites_extensions') . ' AS ' . $db->qn('map')
 			)
 			->innerJoin(
-				$db->nq('#__update_sites') . ' AS ' . $db->nq('us') . ' ON (' .
-				$db->nq('us') . '.' . $db->nq('update_site_id') . ' = ' .
-					$db->nq('map') . '.' . $db->nq('update_site_id') . ')'
+				$db->qn('#__update_sites') . ' AS ' . $db->qn('us') . ' ON (' .
+				$db->qn('us') . '.' . $db->qn('update_site_id') . ' = ' .
+					$db->qn('map') . '.' . $db->qn('update_site_id') . ')'
 			)
 			->where(
-				$db->nq('map') . '.' . $db->nq('extension_id') . ' = ' . $db->q(700)
+				$db->qn('map') . '.' . $db->qn('extension_id') . ' = ' . $db->q(700)
 			);
 		$db->setQuery($query);
 		$update_site = $db->loadObject();
@@ -88,10 +86,10 @@ class JoomlaupdateModelDefault extends JModel
 
 			// Remove cached updates
 			$query = $db->getQuery(true)
-				->delete($db->nq('#__updates'))
-				->where($db->nq('extension_id').' = '.$db->q('700'));
+				->delete($db->qn('#__updates'))
+				->where($db->qn('extension_id').' = '.$db->q('700'));
 			$db->setQuery($query);
-			$db->query();
+			$db->execute();
 		}
 	}
 
@@ -140,8 +138,8 @@ class JoomlaupdateModelDefault extends JModel
 		$db = $this->getDbo();
 		$query = $db->getQuery(true)
 			->select('*')
-			->from($db->nq('#__updates'))
-			->where($db->nq('extension_id') . ' = ' . $db->q(700));
+			->from($db->qn('#__updates'))
+			->where($db->qn('extension_id') . ' = ' . $db->q(700));
 		$db->setQuery($query);
 		$updateObject = $db->loadObject();
 
@@ -259,7 +257,6 @@ class JoomlaupdateModelDefault extends JModel
 	public function createRestorationFile($basename = null)
 	{
 		// Get a password
-		jimport('joomla.user.helper');
 		$password = JUserHelper::genRandomPassword(32);
 		JFactory::getApplication()->setUserState('com_joomlaupdate.password', $password);
 
@@ -326,12 +323,10 @@ ENDDATA;
 
 			// If the tempdir is not writable, create a new writable subdirectory
 			if(!$writable) {
-				jimport('joomla.client.ftp');
-				jimport('joomla.client.helper');
 				jimport('joomla.filesystem.folder');
 
 				$FTPOptions = JClientHelper::getCredentials('ftp');
-				$ftp = & JFTP::getInstance($FTPOptions['host'], $FTPOptions['port'], null, $FTPOptions['user'], $FTPOptions['pass']);
+				$ftp = JClientFtp::getInstance($FTPOptions['host'], $FTPOptions['port'], null, $FTPOptions['user'], $FTPOptions['pass']);
 				$dest = JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $tempdir.'/admintools'), '/');
 				if(!@mkdir($tempdir.'/admintools')) $ftp->mkdir($dest);
 				if(!@chmod($tempdir.'/admintools', 511)) $ftp->chmod($dest, 511);
@@ -354,12 +349,10 @@ ENDDATA;
 
 				// If it exists and it is unwritable, try creating a writable admintools subdirectory
 				if(!is_writable($tempdir)) {
-					jimport('joomla.client.ftp');
-					jimport('joomla.client.helper');
 					jimport('joomla.filesystem.folder');
 
 					$FTPOptions = JClientHelper::getCredentials('ftp');
-					$ftp = & JFTP::getInstance($FTPOptions['host'], $FTPOptions['port'], null, $FTPOptions['user'], $FTPOptions['pass']);
+					$ftp = JClientFtp::getInstance($FTPOptions['host'], $FTPOptions['port'], null, $FTPOptions['user'], $FTPOptions['pass']);
 					$dest = JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $tempdir.'/admintools'), '/');
 					if(!@mkdir($tempdir.'/admintools')) $ftp->mkdir($dest);
 					if(!@chmod($tempdir.'/admintools', 511)) $ftp->chmod($dest, 511);
@@ -513,7 +506,7 @@ ENDDATA;
 		$db->setQuery($query);
 		try
 		{
-			$db->Query();
+			$db->execute();
 		}
 		catch (RuntimeException $e)
 		{

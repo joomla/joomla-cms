@@ -24,7 +24,7 @@ abstract class JHtmlSelect
 	 * @var     array
 	 * @since   11.1
 	 */
-	static protected $_optionDefaults = array(
+	static protected $optionDefaults = array(
 		'option' => array('option.attr' => null, 'option.disable' => 'disable', 'option.id' => null, 'option.key' => 'value',
 			'option.key.toHtml' => true, 'option.label' => null, 'option.label.toHtml' => true, 'option.text' => 'text',
 			'option.text.toHtml' => true));
@@ -153,7 +153,7 @@ abstract class JHtmlSelect
 	 *
 	 * @since   11.1
 	 *
-	 * @throws  JException If a group has unprocessable contents.
+	 * @throws  RuntimeException If a group has contents that cannot be processed.
 	 */
 	public static function groupedlist($data, $name, $options = array())
 	{
@@ -241,7 +241,7 @@ abstract class JHtmlSelect
 			}
 			else
 			{
-				throw new JException('Invalid group contents.', 1, E_WARNING);
+				throw new RuntimeException('Invalid group contents.', 1);
 			}
 
 			if ($noGroup)
@@ -286,6 +286,7 @@ abstract class JHtmlSelect
 		{
 			// Assume we have an options array
 			$options = array_merge($options, $attribs);
+
 			// Extract the format and remove it from downstream options
 			$format = $options['option.format'];
 			unset($options['option.format']);
@@ -327,7 +328,6 @@ abstract class JHtmlSelect
 	 */
 	public static function optgroup($text, $optKey = 'value', $optText = 'text')
 	{
-		// Deprecation warning.
 		JLog::add('JSelect::optgroup is deprecated.', JLog::WARNING, 'deprecated');
 
 		// Set initial state
@@ -400,7 +400,7 @@ abstract class JHtmlSelect
 			$options['option.text'] = $optText;
 			$options['disable'] = $disable;
 		}
-		$obj = new JObject;
+		$obj = new stdClass;
 		$obj->$options['option.key'] = $value;
 		$obj->$options['option.text'] = trim($text) ? $text : $value;
 
@@ -480,7 +480,7 @@ abstract class JHtmlSelect
 	{
 		$options = array_merge(
 			JHtml::$formatOptions,
-			self::$_optionDefaults['option'],
+			self::$optionDefaults['option'],
 			array('format.depth' => 0, 'groups' => true, 'list.select' => null, 'list.translate' => false)
 		);
 
@@ -556,11 +556,13 @@ abstract class JHtmlSelect
 				$text = $element;
 			}
 
-			// The use of options that contain optgroup HTML elements was
-			// somewhat hacked for J1.5. J1.6 introduces the grouplist() method
-			// to handle this better. The old solution is retained through the
-			// "groups" option, which defaults true in J1.6, but should be
-			// deprecated at some point in the future.
+			/*
+			 * The use of options that contain optgroup HTML elements was
+			 * somewhat hacked for J1.5. J1.6 introduces the grouplist() method
+			 * to handle this better. The old solution is retained through the
+			 * "groups" option, which defaults true in J1.6, but should be
+			 * deprecated at some point in the future.
+			 */
 
 			$key = (string) $key;
 			if ($options['groups'] && $key == '<OPTGROUP>')
@@ -575,7 +577,7 @@ abstract class JHtmlSelect
 			}
 			else
 			{
-				// if no string after hyphen - take hyphen out
+				// If no string after hyphen - take hyphen out
 				$splitText = explode(' - ', $text, 2);
 				$text = $splitText[0];
 				if (isset($splitText[1]))

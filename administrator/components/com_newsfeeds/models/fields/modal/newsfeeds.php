@@ -1,7 +1,10 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_newsfeeds
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_BASE') or die;
@@ -9,9 +12,9 @@ defined('JPATH_BASE') or die;
 /**
  * Supports a modal newsfeeds picker.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_newsfeeds
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_newsfeeds
+ * @since       1.6
  */
 class JFormFieldModal_Newsfeeds extends JFormField
 {
@@ -56,7 +59,6 @@ class JFormFieldModal_Newsfeeds extends JFormField
 		// Add the script to the document head.
 		JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 
-
 		// Get the title of the linked chart
 		$db = JFactory::getDBO();
 		$db->setQuery(
@@ -80,10 +82,13 @@ class JFormFieldModal_Newsfeeds extends JFormField
 		$html = "\n".'<div class="fltlft"><input type="text" id="'.$this->id.'_name" value="'.htmlspecialchars($title, ENT_QUOTES, 'UTF-8').'" disabled="disabled" /></div>';
 		$html .= '<div class="button2-left"><div class="blank"><a class="modal" title="'.JText::_('COM_NEWSFEEDS_CHANGE_FEED_BUTTON').'"  href="'.$link.'" rel="{handler: \'iframe\', size: {x: 800, y: 450}}">'.JText::_('COM_NEWSFEEDS_CHANGE_FEED_BUTTON').'</a></div></div>'."\n";
 		// The active newsfeed id field.
-		if (0 == (int)$this->value) {
+		if (0 == (int) $this->value)
+		{
 			$value = '';
-		} else {
-			$value = (int)$this->value;
+		}
+		else
+		{
+			$value = (int) $this->value;
 		}
 
 		// class='required' for client side validation

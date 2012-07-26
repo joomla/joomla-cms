@@ -69,7 +69,7 @@ abstract class JHtmlBanner
 
 		return $options;
 	}
-	
+
 	/**
 	 * Returns a pinned state on a grid
 	 *

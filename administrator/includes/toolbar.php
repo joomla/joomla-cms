@@ -1,19 +1,17 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package    Joomla.Administrator
+ *
+ * @copyright  Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
-
-jimport('joomla.html.toolbar');
 
 /**
  * Utility class for the button bar.
  *
- * @package		Joomla.Administrator
- * @subpackage	Application
+ * @package     Joomla.Administrator
  */
 abstract class JToolBarHelper
 {
@@ -38,7 +36,7 @@ abstract class JToolBarHelper
 		$html = '<div class="pagetitle '.htmlspecialchars(implode(' ', $icons)).'"><h2>'.$title.'</h2></div>';
 
 		$app = JFactory::getApplication();
-		$app->set('JComponentTitle', $html);
+		$app->JComponentTitle = $html;
 	}
 
 	/**
@@ -85,22 +83,6 @@ abstract class JToolBarHelper
 
 		// Add a standard button.
 		$bar->appendButton('Standard', $icon, $alt, $task, $listSelect);
-	}
-
-	/**
-	 * Writes a custom option and task button for the button bar.
-	 *
-	 * @param	string	$task		The task to perform (picked up by the switch($task) blocks.
-	 * @param	string	$icon		The image to display.
-	 * @param	string	$iconOver	The image to display when moused over.
-	 * @param	string	$alt		The alt text for the icon image.
-	 * @param	bool	$listSelect	True if required to check that a standard list item is checked.
-	 * @since	1.0
-	 * @deprecated
-	 */
-	public static function customX($task = '', $icon = '', $iconOver = '', $alt = '', $listSelect = true)
-	{
-		self::custom($task, $icon, $iconOver, $alt, $listSelect);
 	}
 
 	/**
@@ -206,20 +188,6 @@ abstract class JToolBarHelper
 	}
 
 	/**
-	 * Writes the common 'new' icon for the button bar.
-	 * Extended version of addNew() calling hideMainMenu() before Joomla.submitbutton().
-	 *
-	 * @param	string	$task	An override for the task.
-	 * @param	string	$alt	An override for the alt text.
-	 * @since	1.0
-	 * @deprecated
-	 */
-	public static function addNewX($task = 'add', $alt = 'JTOOLBAR_NEW')
-	{
-		self::addNew($task, $alt);
-	}
-
-	/**
 	 * Writes a common 'publish' button.
 	 *
 	 * @param	string	$task	An override for the task.
@@ -320,20 +288,6 @@ abstract class JToolBarHelper
 	}
 
 	/**
-	 * Writes a common 'edit' button for a list of records.
-	 * Extended version of editList() calling hideMainMenu() before Joomla.submitbutton().
-	 *
-	 * @param	string	$task	An override for the task.
-	 * @param	string	$alt	An override for the alt text.
-	 * @since	1.0
-	 * @deprecated
-	 */
-	public static function editListX($task = 'edit', $alt = 'JTOOLBAR_EDIT')
-	{
-		self::editList($task, $alt);
-	}
-
-	/**
 	 * Writes a common 'edit' button for a template html.
 	 *
 	 * @param	string	$task	An override for the task.
@@ -348,20 +302,6 @@ abstract class JToolBarHelper
 	}
 
 	/**
-	 * Writes a common 'edit' button for a template html.
-	 * Extended version of editHtml() calling hideMainMenu() before Joomla.submitbutton().
-	 *
-	 * @param	string	$task	An override for the task.
-	 * @param	string	$alt	An override for the alt text.
-	 * @since	1.0
-	 * @deprecated
-	 */
-	public static function editHtmlX($task = 'edit_source', $alt = 'JTOOLBAR_EDIT_HTML')
-	{
-		self::editHtml($task, $alt);
-	}
-
-	/**
 	 * Writes a common 'edit' button for a template css.
 	 *
 	 * @param	string	$task	An override for the task.
@@ -373,20 +313,6 @@ abstract class JToolBarHelper
 		$bar = JToolBar::getInstance('toolbar');
 		// Add an edit css button (hide).
 		$bar->appendButton('Standard', 'editcss', $alt, $task, true);
-	}
-
-	/**
-	 * Writes a common 'edit' button for a template css.
-	 * Extended version of editCss() calling hideMainMenu() before Joomla.submitbutton().
-	 *
-	 * @param	string	$task	An override for the task.
-	 * @param	string	$alt	An override for the alt text.
-	 * @since	1.0
-	 * @deprecated
-	 */
-	public static function editCssX($task = 'edit_css', $alt = 'JTOOLBAR_EDIT_CSS')
-	{
-		self::editCss($task, $alt);
 	}
 
 	/**
@@ -406,21 +332,6 @@ abstract class JToolBarHelper
 		} else {
 			$bar->appendButton('Standard', 'delete', $alt, $task, true);
 		}
-	}
-
-	/**
-	 * Writes a common 'delete' button for a list of records.
-	 * Extended version of deleteList() calling hideMainMenu() before Joomla.submitbutton().
-	 *
-	 * @param	string	$msg	Postscript for the 'are you sure' message.
-	 * @param	string	$task	An override for the task.
-	 * @param	string	$alt	An override for the alt text.
-	 * @since	1.0
-	 * @deprecated
-	 */
-	public static function deleteListX($msg = '', $task = 'remove', $alt = 'JTOOLBAR_DELETE')
-	{
-		self::deleteList($msg, $task, $alt);
 	}
 
 	/**
@@ -554,7 +465,7 @@ abstract class JToolBarHelper
 /**
  * Utility class for the submenu.
  *
- * @package		Joomla.Administrator
+ * @package  Joomla.Administrator
  */
 abstract class JSubMenuHelper
 {

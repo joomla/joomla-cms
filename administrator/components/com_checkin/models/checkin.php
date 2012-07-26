@@ -1,21 +1,20 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_checkin
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_checkin
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.modellist');
-
 /**
  * Checkin Model
  *
- * @package		Joomla.Administrator
- * @subpackage	com_checkin
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_checkin
+ * @since       1.6
  */
 class CheckinModelCheckin extends JModelList
 {
@@ -79,7 +78,7 @@ class CheckinModelCheckin extends JModelList
 			}
 
 			$db->setQuery($query);
-			if ($db->query()) {
+			if ($db->execute()) {
 				$results = $results + $db->getAffectedRows();
 			}
 		}
@@ -149,7 +148,7 @@ class CheckinModelCheckin extends JModelList
 					->where('checked_out > 0');
 
 				$db->setQuery($query);
-				if ($db->query()) {
+				if ($db->execute()) {
 					$results[$tn] = $db->loadResult();
 				} else {
 					continue;

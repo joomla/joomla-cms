@@ -1,12 +1,12 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_installer
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_installer
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
 
 // Import library dependencies
@@ -16,9 +16,9 @@ JLoader::register('joomlaInstallerScript', JPATH_ADMINISTRATOR . '/components/co
 /**
  * Installer Manage Model
  *
- * @package		Joomla.Administrator
- * @subpackage	com_installer
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_installer
+ * @since       1.6
  */
 class InstallerModelDatabase extends InstallerModel
 {
@@ -51,7 +51,7 @@ class InstallerModelDatabase extends InstallerModel
 		$changeSet->fix();
 		$this->fixSchemaVersion($changeSet);
 		$this->fixUpdateVersion();
-		$installer = new joomlaInstallerScript();
+		$installer = new joomlaInstallerScript;
 		$installer->deleteUnexistingFiles();
 		$this->fixDefaultTextFilters();
 	}
@@ -121,7 +121,7 @@ class InstallerModelDatabase extends InstallerModel
 			$query->delete($db->qn('#__schemas'));
 			$query->where($db->qn('extension_id') . ' = 700');
 			$db->setQuery($query);
-			$db->query();
+			$db->execute();
 
 			// Add new row
 			$query = $db->getQuery(true);
@@ -129,7 +129,7 @@ class InstallerModelDatabase extends InstallerModel
 			$query->set($db->qn('extension_id') . '= 700');
 			$query->set($db->qn('version_id') . '= ' . $db->q($schema));
 			$db->setQuery($query);
-			if ($db->query()) {
+			if ($db->execute()) {
 				$result = $schema;
 			}
 		}
@@ -161,7 +161,7 @@ class InstallerModelDatabase extends InstallerModel
 		$table->load('700');
 		$cache = new JRegistry($table->manifest_cache);
 		$updateVersion =  $cache->get('version');
-		$cmsVersion = new JVersion();
+		$cmsVersion = new JVersion;
 		if ($updateVersion == $cmsVersion->getShortVersion())
 		{
 			return $updateVersion;
@@ -212,7 +212,7 @@ class InstallerModelDatabase extends InstallerModel
 			$contentParams = JComponentHelper::getParams('com_content');
 			if ($contentParams->get('filters'))
 			{
-				$newParams = new JRegistry();
+				$newParams = new JRegistry;
 				$newParams->set('filters', $contentParams->get('filters'));
 				$table->params = (string) $newParams;
 				$table->store();
@@ -221,4 +221,3 @@ class InstallerModelDatabase extends InstallerModel
 		}
 	}
 }
-

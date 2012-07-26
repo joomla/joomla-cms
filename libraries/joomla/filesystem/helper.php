@@ -221,7 +221,7 @@ class JFilesystemHelper
 
 		if (!$streams)
 		{
-			$streams = array_merge(stream_get_wrappers(), JFilesystemHelper::getJStreams());
+			$streams = array_merge(stream_get_wrappers(), self::getJStreams());
 		}
 
 		return $streams;
@@ -267,7 +267,7 @@ class JFilesystemHelper
 
 		if (!$streams)
 		{
-			$streams = array_map(array('JFile', 'stripExt'), JFolder::files(dirname(__FILE__) . '/streams', '.php'));
+			$streams = array_map(array('JFile', 'stripExt'), JFolder::files(__DIR__ . '/streams', '.php'));
 		}
 
 		return $streams;
@@ -284,6 +284,6 @@ class JFilesystemHelper
 	 */
 	public static function isJoomlaStream($streamname)
 	{
-		return in_array($streamname, JFilesystemHelper::getJStreams());
+		return in_array($streamname, self::getJStreams());
 	}
 }

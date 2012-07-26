@@ -1,23 +1,22 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_admin
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.model');
-jimport('joomla.language.help');
 
 /**
  * Admin Component Help Model
  *
- * @package		Joomla.Administrator
- * @subpackage	com_admin
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_admin
+ * @since       1.6
  */
-class AdminModelHelp extends JModel
+class AdminModelHelp extends JModelLegacy
 {
 	/**
 	 * @var string the search string
@@ -51,10 +50,11 @@ class AdminModelHelp extends JModel
 	function &getHelpSearch()
 	{
 		if (is_null($this->help_search)) {
-			$this->help_search = JRequest::getString('helpsearch');
+			$this->help_search = JFactory::getApplication()->input->getString('helpsearch');
 		}
 		return $this->help_search;
 	}
+
 	/**
 	 * Method to get the page
 	 * @return string page
@@ -63,11 +63,12 @@ class AdminModelHelp extends JModel
 	{
 		if (is_null($this->page))
 		{
-			$page = JRequest::getCmd('page', 'JHELP_START_HERE');
+			$page = JFactory::getApplication()->input->get('page', 'JHELP_START_HERE');
 			$this->page = JHelp::createUrl($page);
 		}
 		return $this->page;
 	}
+
 	/**
 	 * Method to get the lang tag
 	 * @return string lang iso tag
@@ -86,6 +87,7 @@ class AdminModelHelp extends JModel
 		}
 		return $this->lang_tag;
 	}
+
 	/**
 	 * Method to get the toc
 	 * @return array Table of contents

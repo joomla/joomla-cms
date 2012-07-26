@@ -1,14 +1,18 @@
 <?php
 /**
- * @package		Joomla.Site
- * @subpackage	mod_login
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  mod_login
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
+/**
+ * @package     Joomla.Site
+ * @subpackage  mod_login
+ */
 class modLoginHelper
 {
 	static function getReturnURL($params, $type)
@@ -39,7 +43,8 @@ class modLoginHelper
 		if (!$url)
 		{
 			// stay on the same page
-			$uri = clone JFactory::getURI();
+			jimport('joomla.environment.uri');
+			$uri = clone JURI::getInstance();
 			$vars = $router->parse($uri);
 			unset($vars['lang']);
 			if ($router->getMode() == JROUTER_MODE_SEF)

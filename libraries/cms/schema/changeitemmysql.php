@@ -19,7 +19,6 @@ defined('_JEXEC') or die;
 class JSchemaChangeitemmysql extends JSchemaChangeitem
 {
 	/**
-	 *
 	 * Checks a DDL query to see if it is a known type
 	 * If yes, build a check query to see if the DDL has been run on the database.
 	 * If successful, the $msgElements, $queryType, $checkStatus and $checkQuery fields are populated.
@@ -42,52 +41,63 @@ class JSchemaChangeitemmysql extends JSchemaChangeitem
 		$this->checkStatus = -1; // change status to skipped
 		$result = null;
 
-		// remove any newlines
+		// Remove any newlines
 		$this->updateQuery = str_replace("\n", '', $this->updateQuery);
 
-		// fix up extra spaces around () and in general
+		// Fix up extra spaces around () and in general
 		$find = array('#((\s*)\(\s*([^)\s]+)\s*)(\))#', '#(\s)(\s*)#');
 		$replace = array('($3)', '$1');
 		$updateQuery = preg_replace($find, $replace, $this->updateQuery);
 		$wordArray = explode(' ', $updateQuery);
 
-		// first, make sure we have an array of at least 6 elements
+		// First, make sure we have an array of at least 6 elements
 		// if not, we can't make a check query for this one
-		if (count($wordArray) < 6) {
-			return; // done with method
+		if (count($wordArray) < 6)
+		{
+			// Done with method
+			return;
 		}
 
-		// we can only make check queries for alter table and create table queries
+		// We can only make check queries for alter table and create table queries
 		$command = strtoupper($wordArray[0] . ' ' . $wordArray[1]);
-		if ($command === 'ALTER TABLE') {
+		if ($command === 'ALTER TABLE')
+		{
 			$alterCommand = strtoupper($wordArray[3] . ' ' . $wordArray[4]);
-			if ($alterCommand == 'ADD COLUMN') {
+			if ($alterCommand == 'ADD COLUMN')
+			{
 				$result = 'SHOW COLUMNS IN ' . $wordArray[2] .
 					' WHERE field = ' . $this->fixQuote($wordArray[5]);
 				$this->queryType = 'ADD_COLUMN';
 				$this->msgElements = array($this->fixQuote($wordArray[2]), $this->fixQuote($wordArray[5]));
 			}
-			elseif ($alterCommand == 'ADD INDEX' || $alterCommand == 'ADD UNIQUE') {
-				if ($pos = strpos($wordArray[5], '(')) {
+			elseif ($alterCommand == 'ADD INDEX' || $alterCommand == 'ADD UNIQUE')
+			{
+				if ($pos = strpos($wordArray[5], '('))
+				{
 					$index = $this->fixQuote(substr($wordArray[5], 0, $pos));
-				} else {
+				}
+				else
+				{
 					$index = $this->fixQuote($wordArray[5]);
 				}
 				$result = 'SHOW INDEXES IN ' . $wordArray[2] . ' WHERE Key_name = ' . $index;
 				$this->queryType = 'ADD_INDEX';
 				$this->msgElements = array($this->fixQuote($wordArray[2]), $index);
 			}
-			elseif ($alterCommand == 'DROP INDEX') {
+			elseif ($alterCommand == 'DROP INDEX')
+			{
 				$index = $this->fixQuote($wordArray[5]);
 				$result = 'SHOW INDEXES IN ' . $wordArray[2] . ' WHERE Key_name = ' . $index;
 				$this->queryType = 'DROP_INDEX';
 				$this->checkQueryExpected = 0;
 				$this->msgElements = array($this->fixQuote($wordArray[2]), $index);
 			}
-			elseif (strtoupper($wordArray[3]) == 'MODIFY') {
+			elseif (strtoupper($wordArray[3]) == 'MODIFY')
+			{
 				// Kludge to fix problem with "integer unsigned"
 				$type = $this->fixQuote($wordArray[5]);
-				if (isset($wordArray[6])) {
+				if (isset($wordArray[6]))
+				{
 					$type = $this->fixQuote($this->fixInteger($wordArray[5], $wordArray[6]));
 				}
 				$result = 'SHOW COLUMNS IN ' . $wordArray[2] . ' WHERE field = '
@@ -95,7 +105,8 @@ class JSchemaChangeitemmysql extends JSchemaChangeitem
 				$this->queryType = 'CHANGE_COLUMN_TYPE';
 				$this->msgElements = array($this->fixQuote($wordArray[2]), $this->fixQuote($wordArray[4]), $type);
 			}
-			elseif (strtoupper($wordArray[3]) == 'CHANGE') {
+			elseif (strtoupper($wordArray[3]) == 'CHANGE')
+			{
 				// Kludge to fix problem with "integer unsigned"
 				$type = $this->fixQuote($this->fixInteger($wordArray[6], $wordArray[7]));
 				$result = 'SHOW COLUMNS IN ' . $wordArray[2] . ' WHERE field = ' .
@@ -105,11 +116,14 @@ class JSchemaChangeitemmysql extends JSchemaChangeitem
 			}
 		}
 
-		if ($command == 'CREATE TABLE') {
-			if (strtoupper($wordArray[2].$wordArray[3].$wordArray[4]) == 'IFNOTEXISTS') {
+		if ($command == 'CREATE TABLE')
+		{
+			if (strtoupper($wordArray[2] . $wordArray[3] . $wordArray[4]) == 'IFNOTEXISTS')
+			{
 				$table = $wordArray[5];
 			}
-			else {
+			else
+			{
 				$table = $wordArray[2];
 			}
 			$result = 'SHOW TABLES LIKE ' . $this->fixQuote($table);
@@ -117,12 +131,16 @@ class JSchemaChangeitemmysql extends JSchemaChangeitem
 			$this->msgElements = array($this->fixQuote($table));
 		}
 
-		// set fields based on results
-		if ($this->checkQuery = $result) {
-			$this->checkStatus = 0; // unchecked status
+		// Set fields based on results
+		if ($this->checkQuery = $result)
+		{
+			// Unchecked status
+			$this->checkStatus = 0;
 		}
-		else {
-			$this->checkStatus = -1; // skipped
+		else
+		{
+			// Skipped
+			$this->checkStatus = -1;
 		}
 	}
 
@@ -131,29 +149,30 @@ class JSchemaChangeitemmysql extends JSchemaChangeitem
 	 * If you change a column to "integer unsigned" it shows
 	 * as "int(10) unsigned" in the check query.
 	 *
-	 * @param  string  $type1  the column type
-	 * @param  string  $type2  the column attributes
+	 * @param   string  $type1  the column type
+	 * @param   string  $type2  the column attributes
 	 *
-	 * @return string  The original or changed column type.
+	 * @return  string  The original or changed column type.
 	 *
-	 * @since  2.5
+	 * @since   2.5
 	 */
 	private function fixInteger($type1, $type2)
 	{
 		$result = $type1;
-		if (strtolower($type1) == "integer" && strtolower(substr($type2, 0, 8)) == 'unsigned') {
+		if (strtolower($type1) == "integer" && strtolower(substr($type2, 0, 8)) == 'unsigned')
+		{
 			$result = 'int(10) unsigned';
 		}
 		return $result;
 	}
 
 	/**
-	 *
 	 * Fixes up a string for inclusion in a query.
 	 * Replaces name quote character with normal quote for literal.
 	 * Drops trailing semi-colon. Injects the database prefix.
 	 *
 	 * @param   string  $string  The input string to be cleaned up.
+	 *
 	 * @return  string  The modified string.
 	 *
 	 * @since   2.5
@@ -165,5 +184,4 @@ class JSchemaChangeitemmysql extends JSchemaChangeitem
 		$string = str_replace('#__', $this->db->getPrefix(), $string);
 		return $this->db->quote($string);
 	}
-
 }

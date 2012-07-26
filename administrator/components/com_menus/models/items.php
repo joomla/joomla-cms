@@ -1,19 +1,20 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_menus
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.modellist');
-
 /**
  * Menu Item List Model for Menus.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_menus
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_menus
+ * @since       1.6
  */
 class MenusModelItems extends JModelList
 {
@@ -44,7 +45,19 @@ class MenusModelItems extends JModelList
 				'client_id', 'a.client_id',
 				'home', 'a.home',
 			);
-			if (JFactory::getApplication()->get('menu_associations', 0)) {
+
+			$app = JFactory::getApplication();
+			if (isset($app->menu_associations))
+			{
+				$assoc = $app->menu_associations;
+			}
+			else
+			{
+				$assoc = 0;
+			}
+
+			if ($assoc)
+			{
 				$config['filter_fields'][] = 'association';
 			}
 		}
@@ -194,7 +207,9 @@ class MenusModelItems extends JModelList
 		$query->join('LEFT', '#__viewlevels AS ag ON ag.id = a.access');
 
 		// Join over the associations.
-		if ($app->get('menu_associations', 0)) {
+		$assoc = isset($app->menu_associations) ? $app->menu_associations : 0;
+		if ($assoc)
+		{
 			$query->select('COUNT(asso2.id)>1 as association');
 			$query->join('LEFT', '#__associations AS asso ON asso.id = a.id AND asso.context='.$db->quote('com_menus.item'));
 			$query->join('LEFT', '#__associations AS asso2 ON asso2.key = asso.key');
@@ -235,7 +250,7 @@ class MenusModelItems extends JModelList
 		// Filter the items over the parent id if set.
 		$parentId = $this->getState('filter.parent_id');
 		if (!empty($parentId)) {
-			$query->where('p.id = '.(int)$parentId);
+			$query->where('p.id = ' . (int) $parentId);
 		}
 
 		// Filter the items over the menu id if set.
@@ -252,7 +267,7 @@ class MenusModelItems extends JModelList
 		// Implement View Level Access
 		if (!$user->authorise('core.admin'))
 		{
-		    $groups	= implode(',', $user->getAuthorisedViewLevels());
+			$groups	= implode(',', $user->getAuthorisedViewLevels());
 			$query->where('a.access IN ('.$groups.')');
 		}
 

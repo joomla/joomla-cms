@@ -4,7 +4,7 @@
  * @subpackage  com_users
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -21,7 +21,7 @@ class UsersTableNote extends JTable
 	/**
 	 * Constructor
 	 *
-	 * @param  JDatabase  &$db  Database object
+	 * @param  JDatabaseDriver  &$db  Database object
 	 *
 	 * @since  2.5
 	 */
@@ -42,7 +42,7 @@ class UsersTableNote extends JTable
 	public function store($updateNulls = false)
 	{
 		// Initialise variables.
-		$date = JFactory::getDate()->toMySQL();
+		$date = JFactory::getDate()->toSql();
 		$userId = JFactory::getUser()->get('id');
 
 		if (empty($this->id))
@@ -121,7 +121,7 @@ class UsersTableNote extends JTable
 
 		// Update the publishing state for rows with the given primary keys.
 		$this->_db->setQuery($query);
-		$this->_db->query();
+		$this->_db->execute();
 
 		// Check for a database error.
 		if ($this->_db->getErrorNum())

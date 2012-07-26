@@ -1,25 +1,22 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_content
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_content
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.modeladmin');
-
 
 require_once JPATH_COMPONENT_ADMINISTRATOR.'/helpers/content.php';
 
 /**
  * Item Model for an Article.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_content
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_content
+ * @since       1.6
  */
 class ContentModelArticle extends JModelAdmin
 {
@@ -153,7 +150,7 @@ class ContentModelArticle extends JModelAdmin
 				$query->insert($db->quoteName('#__content_frontpage'));
 				$query->values($newId . ', 0');
 				$db->setQuery($query);
-				$db->query();
+				$db->execute();
 			}
 		}
 
@@ -175,7 +172,7 @@ class ContentModelArticle extends JModelAdmin
 	{
 		if (!empty($record->id)) {
 			if ($record->state != -2) {
-				return ;
+				return;
 			}
 			$user = JFactory::getUser();
 			return $user->authorise('core.delete', 'com_content.article.'.(int) $record->id);
@@ -216,7 +213,7 @@ class ContentModelArticle extends JModelAdmin
 	 * @return	void
 	 * @since	1.6
 	 */
-	protected function prepareTable(&$table)
+	protected function prepareTable($table)
 	{
 		// Set the publish date to now
 		$db = $this->getDbo();
@@ -276,8 +273,6 @@ class ContentModelArticle extends JModelAdmin
 			$registry = new JRegistry;
 			$registry->loadString($item->urls);
 			$item->urls = $registry->toArray();
-
-
 
 			$item->articletext = trim($item->fulltext) != '' ? $item->introtext . "<hr id=\"system-readmore\" />" . $item->fulltext : $item->introtext;
 		}
@@ -390,19 +385,20 @@ class ContentModelArticle extends JModelAdmin
 	 */
 	public function save($data)
 	{
-			if (isset($data['images']) && is_array($data['images'])) {
-				$registry = new JRegistry;
-				$registry->loadArray($data['images']);
-				$data['images'] = (string)$registry;
+		if (isset($data['images']) && is_array($data['images']))
+		{
+			$registry = new JRegistry;
+			$registry->loadArray($data['images']);
+			$data['images'] = (string) $registry;
+		}
 
-			}
+		if (isset($data['urls']) && is_array($data['urls']))
+		{
+			$registry = new JRegistry;
+			$registry->loadArray($data['urls']);
+			$data['urls'] = (string) $registry;
+		}
 
-			if (isset($data['urls']) && is_array($data['urls'])) {
-				$registry = new JRegistry;
-				$registry->loadArray($data['urls']);
-				$data['urls'] = (string)$registry;
-
-			}
 		// Alter the title for save as copy
 		if (JRequest::getVar('task') == 'save2copy') {
 			list($title, $alias) = $this->generateNewTitle($data['catid'], $data['alias'], $data['title']);
@@ -416,10 +412,8 @@ class ContentModelArticle extends JModelAdmin
 				$this->featured($this->getState($this->getName().'.id'), $data['featured']);
 			}
 
-
 			return true;
 		}
-
 
 		return false;
 	}
@@ -453,18 +447,19 @@ class ContentModelArticle extends JModelAdmin
 				' SET featured = '.(int) $value.
 				' WHERE id IN ('.implode(',', $pks).')'
 			);
-			if (!$db->query()) {
+			if (!$db->execute()) {
 				throw new Exception($db->getErrorMsg());
 			}
 
-			if ((int)$value == 0) {
+			if ((int) $value == 0)
+			{
 				// Adjust the mapping table.
 				// Clear the existing features settings.
 				$db->setQuery(
 					'DELETE FROM #__content_frontpage' .
 					' WHERE content_id IN ('.implode(',', $pks).')'
 				);
-				if (!$db->query()) {
+				if (!$db->execute()) {
 					throw new Exception($db->getErrorMsg());
 				}
 			} else {
@@ -493,7 +488,7 @@ class ContentModelArticle extends JModelAdmin
 						'INSERT INTO #__content_frontpage ('.$db->quoteName('content_id').', '.$db->quoteName('ordering').')' .
 						' VALUES '.implode(',', $tuples)
 					);
-					if (!$db->query()) {
+					if (!$db->execute()) {
 						$this->setError($db->getErrorMsg());
 						return false;
 					}

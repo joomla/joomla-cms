@@ -67,11 +67,11 @@ class Article0004 extends SeleniumJoomlaTestCase
 		$this->click("link=Article Manager");
 		$this->waitForPageToLoad("30000");
 		echo "Check that first three articles are as expected\n";
-		$this->assertEquals("Administrator Components (Alias: administrator-components)", $this->getTable("//form[@id='adminForm']/table.1.1"));
+		$this->assertTrue((bool) strpos($this->getTable("//form[@id='adminForm']/table.1.1"), 'Alias: administrator-components'));
 		$this->assertEquals("Components", $this->getTable("//form[@id='adminForm']/table.1.4"));
-		$this->assertEquals("Archive Module (Alias: archive-module)", $this->getTable("//form[@id='adminForm']/table.2.1"));
+		$this->assertTrue((bool) strpos($this->getTable("//form[@id='adminForm']/table.2.1"), '(Alias: archive-module'));
 		$this->assertEquals("Content Modules", $this->getTable("//form[@id='adminForm']/table.2.4"));
-		$this->assertEquals("Article Categories Module (Alias: article-categories-module)", $this->getTable("//form[@id='adminForm']/table.3.1"));
+		$this->assertTrue((bool) strpos($this->getTable("//form[@id='adminForm']/table.3.1"), 'Alias: article-categories-module'));
 		$this->assertEquals("Content Modules", $this->getTable("//form[@id='adminForm']/table.3.4"));
 		echo "Select first three articles and batch copy to Park Site\n";
 		$this->click("cb0");
@@ -86,9 +86,9 @@ class Article0004 extends SeleniumJoomlaTestCase
 		echo "Check that new articles are in Park Site category\n";
 		$this->select("filter_category_id", "label=- Park Site");
 		$this->waitForPageToLoad("30000");
-		$this->assertEquals("Administrator Components (Alias: administrator-components)", $this->getTable("//form[@id='adminForm']/table.1.1"));
-		$this->assertEquals("Archive Module (Alias: archive-module)", $this->getTable("//form[@id='adminForm']/table.2.1"));
-		$this->assertEquals("Article Categories Module (Alias: article-categories-module)", $this->getTable("//form[@id='adminForm']/table.3.1"));
+		$this->assertTrue((bool) strpos($this->getTable("//form[@id='adminForm']/table.1.1"), 'Alias: administrator-components'));
+		$this->assertTrue((bool) strpos($this->getTable("//form[@id='adminForm']/table.2.1"), '(Alias: archive-module'));
+		$this->assertTrue((bool) strpos($this->getTable("//form[@id='adminForm']/table.3.1"), 'Alias: article-categories-module'));
 		echo "Trash and delete new articles\n";
 		$this->click("cb0");
 		$this->click("cb1");
@@ -106,11 +106,11 @@ class Article0004 extends SeleniumJoomlaTestCase
 		$this->waitForPageToLoad("30000");
 
 		echo "Check that first three articles are as expected\n";
-		$this->assertEquals("Administrator Components (Alias: administrator-components)", $this->getTable("//form[@id='adminForm']/table.1.1"));
+		$this->assertTrue((bool) strpos($this->getTable("//form[@id='adminForm']/table.1.1"), 'Alias: administrator-components'));
 		$this->assertEquals("Components", $this->getTable("//form[@id='adminForm']/table.1.4"));
-		$this->assertEquals("Archive Module (Alias: archive-module)", $this->getTable("//form[@id='adminForm']/table.2.1"));
+		$this->assertTrue((bool) strpos($this->getTable("//form[@id='adminForm']/table.2.1"), 'Alias: archive-module'));
 		$this->assertEquals("Content Modules", $this->getTable("//form[@id='adminForm']/table.2.4"));
-		$this->assertEquals("Article Categories Module (Alias: article-categories-module)", $this->getTable("//form[@id='adminForm']/table.3.1"));
+		$this->assertTrue((bool) strpos($this->getTable("//form[@id='adminForm']/table.3.1"), 'Alias: article-categories-module'));
 		$this->assertEquals("Content Modules", $this->getTable("//form[@id='adminForm']/table.3.4"));
 
 		echo "Test copying to same category\n";
@@ -124,7 +124,7 @@ class Article0004 extends SeleniumJoomlaTestCase
 		echo "Check for success message\n";
 		$this->assertTrue($this->isElementPresent("//dl[@id=\"system-message\"][contains(., 'success')]"));
 		echo "Check that new article is created with correct name and alias\n";
-		$this->assertEquals("Administrator Components (2) (Alias: administrator-components-2)", $this->getTable("//form[@id='adminForm']/table.2.1"));
+		$this->assertTrue((bool) strpos($this->getTable("//form[@id='adminForm']/table.2.1"), 'Alias: administrator-components-2'));
 		$this->assertEquals("Components", $this->getTable("//form[@id='adminForm']/table.2.4"));
 		echo "Trash and delete new article\n";
 		$this->click("cb1");
@@ -152,11 +152,11 @@ class Article0004 extends SeleniumJoomlaTestCase
 		$this->click("link=Article Manager");
 		$this->waitForPageToLoad("30000");
 		echo "Check initial values for articles";
-		$this->assertEquals("Archive Module (Alias: archive-module)", $this->getTable("//form[@id='adminForm']/table.2.1"));
+		$this->assertTrue((bool) strpos($this->getTable("//form[@id='adminForm']/table.2.1"), 'Alias: archive-module'));
 		$this->assertEquals("Content Modules", $this->getTable("//form[@id='adminForm']/table.2.4"));
-		$this->assertEquals("Article Categories Module (Alias: article-categories-module)", $this->getTable("//form[@id='adminForm']/table.3.1"));
+		$this->assertTrue((bool) strpos($this->getTable("//form[@id='adminForm']/table.3.1"), 'Alias: article-categories-module'));
 		$this->assertEquals("Content Modules", $this->getTable("//form[@id='adminForm']/table.3.4"));
-		$this->assertEquals("Articles Category Module (Alias: articles-category-module)", $this->getTable("//form[@id='adminForm']/table.4.1"));
+		$this->assertTrue((bool) strpos($this->getTable("//form[@id='adminForm']/table.4.1"), 'Alias: articles-category-module'));
 		$this->assertEquals("Content Modules", $this->getTable("//form[@id='adminForm']/table.4.4"));
 		echo "Move Archive Module, Content Modules, Article Categories Module to Languages Category\n";
 		$this->click("cb1");
@@ -168,11 +168,11 @@ class Article0004 extends SeleniumJoomlaTestCase
 		echo "Check for success message\n";
 		$this->assertTrue($this->isElementPresent("//dl[@id=\"system-message\"][contains(., 'success')]"));
 		echo "Check that articles movd to new category\n";
-		$this->assertEquals("Archive Module (Alias: archive-module)", $this->getTable("//form[@id='adminForm']/table.2.1"));
+		$this->assertTrue((bool) strpos($this->getTable("//form[@id='adminForm']/table.2.1"), 'Alias: archive-module'));
 		$this->assertEquals("Languages", $this->getTable("//form[@id='adminForm']/table.2.4"));
-		$this->assertEquals("Article Categories Module (Alias: article-categories-module)", $this->getTable("//form[@id='adminForm']/table.3.1"));
+		$this->assertTrue((bool) strpos($this->getTable("//form[@id='adminForm']/table.3.1"), 'Alias: article-categories-module'));
 		$this->assertEquals("Languages", $this->getTable("//form[@id='adminForm']/table.3.4"));
-		$this->assertEquals("Articles Category Module (Alias: articles-category-module)", $this->getTable("//form[@id='adminForm']/table.4.1"));
+		$this->assertTrue((bool) strpos($this->getTable("//form[@id='adminForm']/table.4.1"), 'Alias: articles-category-module'));
 		$this->assertEquals("Languages", $this->getTable("//form[@id='adminForm']/table.4.4"));
 		echo "Move articles back to original category\n";
 		$this->click("cb1");
@@ -184,11 +184,11 @@ class Article0004 extends SeleniumJoomlaTestCase
 		echo "Check for success message\n";
 		$this->assertTrue($this->isElementPresent("//dl[@id=\"system-message\"][contains(., 'success')]"));
 		echo "Check that articles are back to original category\n";
-		$this->assertEquals("Archive Module (Alias: archive-module)", $this->getTable("//form[@id='adminForm']/table.2.1"));
+		$this->assertTrue((bool) strpos($this->getTable("//form[@id='adminForm']/table.2.1"), 'Alias: archive-module'));
 		$this->assertEquals("Content Modules", $this->getTable("//form[@id='adminForm']/table.2.4"));
-		$this->assertEquals("Article Categories Module (Alias: article-categories-module)", $this->getTable("//form[@id='adminForm']/table.3.1"));
+		$this->assertTrue((bool) strpos($this->getTable("//form[@id='adminForm']/table.3.1"), 'Alias: article-categories-module'));
 		$this->assertEquals("Content Modules", $this->getTable("//form[@id='adminForm']/table.3.4"));
-		$this->assertEquals("Articles Category Module (Alias: articles-category-module)", $this->getTable("//form[@id='adminForm']/table.4.1"));
+		$this->assertTrue((bool) strpos($this->getTable("//form[@id='adminForm']/table.4.1"), 'Alias: articles-category-module'));
 		$this->assertEquals("Content Modules", $this->getTable("//form[@id='adminForm']/table.4.4"));
 
 		echo "Finished testBatchMove\n";

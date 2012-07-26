@@ -1,18 +1,20 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Plugin
+ * @subpackage  Search.contacts
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
 /**
  * Contacts Search plugin
  *
- * @package		Joomla.Plugin
- * @subpackage	Search.contacts
- * @since		1.6
+ * @package     Joomla.Plugin
+ * @subpackage  Search.contacts
+ * @since       1.6
  */
 class plgSearchContacts extends JPlugin
 {
@@ -122,7 +124,7 @@ class plgSearchContacts extends JPlugin
 			$query->select('a.name AS title, \'\' AS created, a.con_position, a.misc, '
 					.$case_when.','.$case_when1.', '
 					. $query->concatenate(array("a.name", "a.con_position", "a.misc"), ",").' AS text,'
-                    . $query->concatenate(array($db->Quote($section), "c.title"), " / ").' AS section,'
+					. $query->concatenate(array($db->Quote($section), "c.title"), " / ").' AS section,'
 					. '\'2\' AS browsernav');
 			$query->from('#__contact_details AS a');
 			$query->innerJoin('#__categories AS c ON c.id = a.catid');

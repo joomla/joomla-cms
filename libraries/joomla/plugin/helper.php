@@ -90,20 +90,20 @@ abstract class JPluginHelper
 	 * Loads all the plugin files for a particular type if no specific plugin is specified
 	 * otherwise only the specific plugin is loaded.
 	 *
-	 * @param   string       $type        The plugin type, relates to the sub-directory in the plugins directory.
-	 * @param   string       $plugin      The plugin name.
-	 * @param   boolean      $autocreate  Autocreate the plugin.
-	 * @param   JDispatcher  $dispatcher  Optionally allows the plugin to use a different dispatcher.
+	 * @param   string            $type        The plugin type, relates to the sub-directory in the plugins directory.
+	 * @param   string            $plugin      The plugin name.
+	 * @param   boolean           $autocreate  Autocreate the plugin.
+	 * @param   JEventDispatcher  $dispatcher  Optionally allows the plugin to use a different dispatcher.
 	 *
 	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
 	 */
-	public static function importPlugin($type, $plugin = null, $autocreate = true, $dispatcher = null)
+	public static function importPlugin($type, $plugin = null, $autocreate = true, JEventDispatcher $dispatcher = null)
 	{
 		static $loaded = array();
 
-		// check for the default args, if so we can optimise cheaply
+		// Check for the default args, if so we can optimise cheaply
 		$defaults = false;
 		if (is_null($plugin) && $autocreate == true && is_null($dispatcher))
 		{
@@ -141,31 +141,27 @@ abstract class JPluginHelper
 	/**
 	 * Loads the plugin file.
 	 *
-	 * @param   JPlugin      &$plugin     The plugin.
-	 * @param   boolean      $autocreate  True to autocreate.
-	 * @param   JDispatcher  $dispatcher  Optionally allows the plugin to use a different dispatcher.
+	 * @param   JPlugin           $plugin      The plugin.
+	 * @param   boolean           $autocreate  True to autocreate.
+	 * @param   JEventDispatcher  $dispatcher  Optionally allows the plugin to use a different dispatcher.
 	 *
 	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
 	 */
-	protected static function _import(&$plugin, $autocreate = true, $dispatcher = null)
+	protected static function _import($plugin, $autocreate = true, JEventDispatcher $dispatcher = null)
 	{
 		static $paths = array();
 
 		$plugin->type = preg_replace('/[^A-Z0-9_\.-]/i', '', $plugin->type);
 		$plugin->name = preg_replace('/[^A-Z0-9_\.-]/i', '', $plugin->name);
 
-		$legacypath = JPATH_PLUGINS . '/' . $plugin->type . '/' . $plugin->name . '.php';
 		$path = JPATH_PLUGINS . '/' . $plugin->type . '/' . $plugin->name . '/' . $plugin->name . '.php';
 
-		if (!isset($paths[$path]) || !isset($paths[$legacypath]))
+		if (!isset($paths[$path]))
 		{
-			$pathExists = file_exists($path);
-			if ($pathExists || file_exists($legacypath))
+			if (file_exists($path))
 			{
-				$path = $pathExists ? $path : $legacypath;
-
 				if (!isset($paths[$path]))
 				{
 					require_once $path;
@@ -177,7 +173,7 @@ abstract class JPluginHelper
 					// Makes sure we have an event dispatcher
 					if (!is_object($dispatcher))
 					{
-						$dispatcher = JDispatcher::getInstance();
+						$dispatcher = JEventDispatcher::getInstance();
 					}
 
 					$className = 'plg' . $plugin->type . $plugin->name;
@@ -235,12 +231,6 @@ abstract class JPluginHelper
 				->order('ordering');
 
 			self::$plugins = $db->setQuery($query)->loadObjectList();
-
-			if ($error = $db->getErrorMsg())
-			{
-				JError::raiseWarning(500, $error);
-				return false;
-			}
 
 			$cache->store(self::$plugins, $levels);
 		}

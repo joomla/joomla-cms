@@ -1,8 +1,9 @@
 <?php
 /**
- * @package		Joomla.Installation
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package    Joomla.Installation
+ *
+ * @copyright  Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -11,13 +12,13 @@ defined('_JEXEC') or die;
  * Joomla Installation Database Helper Class.
  *
  * @static
- * @package		Joomla.Installation
- * @since		1.6
+ * @package  Joomla.Installation
+ * @since    1.6
  */
-class JInstallationHelperDatabase
+class InstallationHelperDatabase
 {
 	/**
-	 * Method to get a JDatabase object.
+	 * Method to get a JDatabaseDriver object.
 	 *
 	 * @param	string	$driver		The database driver to use.
 	 * @param	string	$host		The hostname to connect on.
@@ -27,10 +28,10 @@ class JInstallationHelperDatabase
 	 * @param	string	$prefix		The table prefix to use.
 	 * @param	boolean $select		True if the database should be selected.
 	 *
-	 * @return	JDatabase
+	 * @return	JDatabaseDriver
 	 * @since	1.0
 	 */
-	public static function & getDBO($driver, $host, $user, $password, $database, $prefix, $select = true)
+	public static function getDBO($driver, $host, $user, $password, $database, $prefix, $select = true)
 	{
 		static $db;
 
@@ -47,7 +48,7 @@ class JInstallationHelperDatabase
 			);
 
 			// Get a database object.
-			$db = JDatabase::getInstance($options);
+			$db = JDatabaseDriver::getInstance($options);
 		}
 
 		return $db;

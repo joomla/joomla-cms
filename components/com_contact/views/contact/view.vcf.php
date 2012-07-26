@@ -1,13 +1,18 @@
 <?php
 /**
- * @package		Joomla.Site
- * @subpackage	com_contact
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  com_contact
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+/**
+ * @package     Joomla.Site
+ * @subpackage  com_contact
+ */
 class ContactViewContact extends JViewLegacy
 {
 	protected $state;
@@ -32,7 +37,7 @@ class ContactViewContact extends JViewLegacy
 		$app		= JFactory::getApplication();
 		$params 	= $app->getParams();
 		$user		= JFactory::getUser();
-		$dispatcher =& JDispatcher::getInstance();
+		$dispatcher = JEventDispatcher::getInstance();
 
 		// Compute lastname, firstname and middlename
 		$item->name = trim($item->name);

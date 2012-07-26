@@ -1,25 +1,26 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Plugin
+ * @subpackage  Editors-xtd.pagebreak
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
 /**
  * Editor Pagebreak buton
  *
- * @package		Joomla.Plugin
- * @subpackage	Editors-xtd.pagebreak
- * @since 1.5
+ * @package     Joomla.Plugin
+ * @subpackage  Editors-xtd.pagebreak
+ * @since       1.5
  */
 class plgButtonPagebreak extends JPlugin
 {
 	/**
 	 * Constructor
 	 *
-	 * @access      protected
 	 * @param       object  $subject The object to observe
 	 * @param       array   $config  An array that holds the plugin configuration
 	 * @since       1.5

@@ -7,10 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.modeladmin');
 
 /**
  * Module model.
@@ -236,7 +233,7 @@ class ModulesModelModule extends JModelAdmin
 					$query->columns(array($db->quoteName('moduleid'), $db->quoteName('menuid')));
 					$query->values($newId . ', ' . $menu);
 					$db->setQuery($query);
-					$db->query();
+					$db->execute();
 				}
 			}
 			else
@@ -358,9 +355,9 @@ class ModulesModelModule extends JModelAdmin
 					$query	= $db->getQuery(true);
 					$query->delete();
 					$query->from('#__modules_menu');
-					$query->where('moduleid='.(int)$pk);
-					$db->setQuery((string)$query);
-					$db->query();
+					$query->where('moduleid=' . (int) $pk);
+					$db->setQuery((string) $query);
+					$db->execute();
 				}
 
 				// Clear module cache
@@ -435,14 +432,14 @@ class ModulesModelModule extends JModelAdmin
 				$query	= $db->getQuery(true);
 				$query->select('menuid');
 				$query->from('#__modules_menu');
-				$query->where('moduleid='.(int)$pk);
+				$query->where('moduleid=' . (int) $pk);
 
-				$this->_db->setQuery((string)$query);
+				$this->_db->setQuery((string) $query);
 				$rows = $this->_db->loadColumn();
 
 				foreach ($rows as $menuid)
 				{
-					$tuples[] = '('.(int) $table->id.','.(int) $menuid.')';
+					$tuples[] = '(' . (int) $table->id . ',' . (int) $menuid . ')';
 				}
 			}
 			else
@@ -457,7 +454,7 @@ class ModulesModelModule extends JModelAdmin
 			$query = 'INSERT INTO #__modules_menu (moduleid,menuid) VALUES '.implode(',', $tuples);
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				return JError::raiseWarning(500, $this->_db->getErrorMsg());
 			}
@@ -761,7 +758,7 @@ class ModulesModelModule extends JModelAdmin
 	 *
 	 * @since   1.6
 	 */
-	protected function prepareTable(&$table)
+	protected function prepareTable($table)
 	{
 		$date = JFactory::getDate();
 		$user = JFactory::getUser();
@@ -872,7 +869,7 @@ class ModulesModelModule extends JModelAdmin
 	public function save($data)
 	{
 		// Initialise variables;
-		$dispatcher = JDispatcher::getInstance();
+		$dispatcher = JEventDispatcher::getInstance();
 		$table		= $this->getTable();
 		$pk			= (!empty($data['id'])) ? $data['id'] : (int) $this->getState('module.id');
 		$isNew		= true;
@@ -949,11 +946,11 @@ class ModulesModelModule extends JModelAdmin
 		$query	= $db->getQuery(true);
 		$query->delete();
 		$query->from('#__modules_menu');
-		$query->where('moduleid = '.(int)$table->id);
-		$db->setQuery((string)$query);
-		$db->query();
+		$query->where('moduleid = ' . (int) $table->id);
+		$db->setQuery((string) $query);
+		$db->execute();
 
-		if (!$db->query())
+		if (!$db->execute())
 		{
 			$this->setError($db->getErrorMsg());
 			return false;
@@ -984,9 +981,9 @@ class ModulesModelModule extends JModelAdmin
 				$query->clear();
 				$query->insert('#__modules_menu');
 				$query->columns(array($db->quoteName('moduleid'), $db->quoteName('menuid')));
-				$query->values((int)$table->id . ', 0');
-				$db->setQuery((string)$query);
-				if (!$db->query())
+				$query->values((int) $table->id . ', 0');
+				$db->setQuery((string) $query);
+				if (!$db->execute())
 				{
 					$this->setError($db->getErrorMsg());
 					return false;
@@ -1009,7 +1006,7 @@ class ModulesModelModule extends JModelAdmin
 					implode(',', $tuples)
 				);
 
-				if (!$db->query())
+				if (!$db->execute())
 				{
 					$this->setError($db->getErrorMsg());
 					return false;

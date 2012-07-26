@@ -1,22 +1,22 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @package     Joomla.Administrator
+ * @subpackage  com_login
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
-
-jimport( 'joomla.application.component.model' );
 
 /**
  * Login Model
  *
- * @package		Joomla.Administrator
- * @subpackage	com_login
- * @since		1.5
+ * @package     Joomla.Administrator
+ * @subpackage  com_login
+ * @since       1.5
  */
-class LoginModelLogin extends JModel
+class LoginModelLogin extends JModelLegacy
 {
 	/**
 	 * Method to auto-populate the model state.
@@ -61,9 +61,9 @@ class LoginModelLogin extends JModel
 	 */
 	public static function getLoginModule($name = 'mod_login', $title = null)
 	{
-		$result		= null;
-		$modules	= LoginModelLogin::_load($name);
-		$total		= count($modules);
+		$result  = null;
+		$modules = self::_load($name);
+		$total   = count($modules);
 
 		for ($i = 0; $i < $total; $i++)
 		{
@@ -147,7 +147,6 @@ class LoginModelLogin extends JModel
 				JError::raiseWarning(500, JText::sprintf('JLIB_APPLICATION_ERROR_MODULE_LOAD', $db->getErrorMsg()));
 				return $loginmodule;
 			}
-
 
 			// Return to simple indexing that matches the query order.
 			$loginmodule = $modules;

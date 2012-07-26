@@ -1,22 +1,20 @@
 <?php
 /**
- * @package		Joomla.Site
- * @subpackage	com_users
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  com_users
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.modelform');
-jimport('joomla.event.dispatcher');
-jimport('joomla.database.table');
 /**
  * Rest model class for Users.
  *
- * @package		Joomla.Site
- * @subpackage	com_users
- * @since		1.5
+ * @package     Joomla.Site
+ * @subpackage  com_users
+ * @since       1.5
  */
 class UsersModelReset extends JModelForm
 {
@@ -341,7 +339,7 @@ class UsersModelReset extends JModelForm
 			$this->setError(JText::_('COM_USERS_REMIND_SUPERADMIN_ERROR'));
 			return false;
 		}
-		
+
 		// Make sure the user has not exceeded the reset limit
 		if (!$this->checkResetLimit($user)) {
 			$resetLimit = (int) JFactory::getApplication()->getParams()->get('reset_time');

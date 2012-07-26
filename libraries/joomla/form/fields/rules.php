@@ -71,11 +71,6 @@ class JFormFieldRules extends JFormField
 			$query->where($db->quoteName('name') . ' = ' . $db->quote($component));
 			$db->setQuery($query);
 			$assetId = (int) $db->loadResult();
-
-			if ($error = $db->getErrorMsg())
-			{
-				JError::raiseNotice(500, $error);
-			}
 		}
 		else
 		{
@@ -85,9 +80,12 @@ class JFormFieldRules extends JFormField
 		}
 
 		// Use the compact form for the content rules (deprecated).
-		//if (!empty($component) && $section != 'component') {
-		//	return JHtml::_('rules.assetFormWidget', $actions, $assetId, $assetId ? null : $component, $this->name, $this->id);
-		//}
+
+		/* @todo remove code:
+		if (!empty($component) && $section != 'component') {
+			return JHtml::_('rules.assetFormWidget', $actions, $assetId, $assetId ? null : $component, $this->name, $this->id);
+		}
+		 */
 
 		// Full width format.
 
@@ -278,6 +276,9 @@ class JFormFieldRules extends JFormField
 		}
 		$html[] = '</div></div>';
 
+		// Get the JInput object
+		$input = JFactory::getApplication()->input;
+
 		$js = "window.addEvent('domready', function(){ new Fx.Accordion($$('div#permissions-sliders.pane-sliders .panel h3.pane-toggler'),"
 			. "$$('div#permissions-sliders.pane-sliders .panel div.pane-slider'), {onActive: function(toggler, i) {toggler.addClass('pane-toggler-down');"
 			. "toggler.removeClass('pane-toggler');i.addClass('pane-down');i.removeClass('pane-hide');Cookie.write('jpanesliders_permissions-sliders"
@@ -285,8 +286,8 @@ class JFormFieldRules extends JFormField
 			. "',$$('div#permissions-sliders.pane-sliders .panel h3').indexOf(toggler));},"
 			. "onBackground: function(toggler, i) {toggler.addClass('pane-toggler');toggler.removeClass('pane-toggler-down');i.addClass('pane-hide');"
 			. "i.removeClass('pane-down');}, duration: 300, display: "
-			. JRequest::getInt('jpanesliders_permissions-sliders' . $component, 0, 'cookie') . ", show: "
-			. JRequest::getInt('jpanesliders_permissions-sliders' . $component, 0, 'cookie') . ", alwaysHide:true, opacity: false}); });";
+			. $input->cookie->get('jpanesliders_permissions-sliders' . $component, 0, 'integer') . ", show: "
+			. $input->cookie->get('jpanesliders_permissions-sliders' . $component, 0, 'integer') . ", alwaysHide:true, opacity: false}); });";
 
 		JFactory::getDocument()->addScriptDeclaration($js);
 

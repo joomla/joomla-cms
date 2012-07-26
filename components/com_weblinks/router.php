@@ -1,21 +1,13 @@
 <?php
 /**
- * @package		Joomla.Site
- * @subpackage	com_weblinks
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
- */
-
- /* Weblinks Component Route Helper
+ * @package     Joomla.Site
+ * @subpackage  com_weblinks
  *
- * @package		Joomla.Site
- * @subpackage	com_weblinks
- * @since 1.6
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
-
-jimport('joomla.application.categories');
 
 /**
  * Build the route for the com_weblinks component
@@ -89,7 +81,7 @@ function WeblinksBuildRoute(&$query)
 				$array = array();
 				foreach($path as $id)
 				{
-					if ((int) $id == (int)$menuCatid) {
+					if ((int) $id == (int) $menuCatid) {
 						break;
 					}
 

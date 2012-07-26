@@ -1,9 +1,10 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_config
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_config
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_BASE') or die;
@@ -11,9 +12,9 @@ defined('JPATH_BASE') or die;
 /**
  * Text Filters form field.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_config
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_config
+ * @since       1.6
  */
 class JFormFieldFilters extends JFormField
 {

@@ -41,8 +41,8 @@ h1, h2, h3, h4, h5,
 }
 
 .newsection {
-  height: 20px;
-  clear:both;
+	height: 20px;
+	clear: both;
 }
 
 form {
@@ -108,14 +108,14 @@ td.item + td {
 }
 
 #content-box {
-  float: none !important;
-  float: left;
-  border-left: 1px solid #ccc;
-  border-right: 1px solid #ccc;
-  border-bottom: 1px solid #ccc;
-  padding-bottom: 11px;
-  border-bottom-left-radius: 8px;
-  border-bottom-right-radius: 8px;
+	float: none !important;
+	float: left;
+	border-left: 1px solid #ccc;
+	border-right: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
+	padding-bottom: 11px;
+	border-bottom-left-radius: 8px;
+	border-bottom-right-radius: 8px;
 }
 
 #content-pad {
@@ -131,7 +131,7 @@ td.item + td {
 }
 
 #stepbar div.box {
-	background:  url(../images/j_joomla_box.png) 50% 20px no-repeat;
+	background: url(../images/j_joomla_box.png) 50% 20px no-repeat;
 	height: 140px;
 }
 
@@ -379,7 +379,7 @@ h4.moofx-toggler-down {
 
 /* hack to stop ugly aliasing in IE */
 div.moofx-slider {
-  background: #fbfbfb;
+	background: #fbfbfb;
 }
 
 .final-table {
@@ -474,6 +474,7 @@ fieldset#jform_db_old input {
 	float: left;
 	clear: left;
 }
+
 
 /* error messages and notices */
 

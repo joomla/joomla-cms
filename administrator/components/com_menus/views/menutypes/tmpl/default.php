@@ -1,9 +1,10 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_menus
- * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_menus
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -20,7 +21,7 @@ defined('_JEXEC') or die;
 <ul class="menu_types">
 	<?php foreach ($this->types as $name => $list): ?>
 	<li><dl class="menu_type">
-			<dt><?php echo JText::_($name) ;?></dt>
+			<dt><?php echo JText::_($name); ?></dt>
 			<dd><ul>
 					<?php foreach ($list as $item): ?>
 					<li><a class="choose_type" href="#" title="<?php echo JText::_($item->description); ?>"

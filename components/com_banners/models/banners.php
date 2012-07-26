@@ -1,25 +1,22 @@
 <?php
 /**
- * @package		Joomla.Site
- * @subpackage	com_banners
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  com_banners
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.modellist');
-jimport('joomla.application.component.helper');
 
 JTable::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR . '/tables');
 
 /**
  * Banners model for the Joomla Banners component.
  *
- * @package		Joomla.Site
- * @subpackage	com_banners
- * @since		1.6
+ * @package     Joomla.Site
+ * @subpackage  com_banners
+ * @since       1.6
  */
 class BannersModelBanners extends JModelList
 {
@@ -207,10 +204,10 @@ class BannersModelBanners extends JModelList
 			$query->clear();
 			$query->update('#__banners');
 			$query->set('impmade = (impmade + 1)');
-			$query->where('id = '.(int)$id);
-			$db->setQuery((string)$query);
+			$query->where('id = ' . (int) $id);
+			$db->setQuery((string) $query);
 
-			if (!$db->query()) {
+			if (!$db->execute()) {
 				JError::raiseError(500, $db->getErrorMsg());
 			}
 
@@ -234,9 +231,9 @@ class BannersModelBanners extends JModelList
 				$query->where('banner_id=' . (int) $id);
 				$query->where('track_date=' . $db->Quote($trackDate));
 
-				$db->setQuery((string)$query);
+				$db->setQuery((string) $query);
 
-				if (!$db->query()) {
+				if (!$db->execute()) {
 					JError::raiseError(500, $db->getErrorMsg());
 				}
 
@@ -249,7 +246,7 @@ class BannersModelBanners extends JModelList
 					$query->update('#__banner_tracks');
 					$query->set($db->quoteName('count').' = ('.$db->quoteName('count').' + 1)');
 					$query->where('track_type=1');
-					$query->where('banner_id='.(int)$id);
+					$query->where('banner_id=' . (int) $id);
 					$query->where('track_date='.$db->Quote($trackDate));
 				}
 				else {
@@ -261,9 +258,9 @@ class BannersModelBanners extends JModelList
 					$query->values( '1, 1, ' . (int) $id . ', ' . $db->Quote($trackDate));
 				}
 
-				$db->setQuery((string)$query);
+				$db->setQuery((string) $query);
 
-				if (!$db->query()) {
+				if (!$db->execute()) {
 					JError::raiseError(500, $db->getErrorMsg());
 				}
 			}

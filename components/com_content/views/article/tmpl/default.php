@@ -1,26 +1,28 @@
 <?php
 /**
- * @package		Joomla.Site
- * @subpackage	com_content
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  com_content
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 
 // Create shortcuts to some parameters.
-$params		= $this->item->params;
-$images = json_decode($this->item->images);
-$urls = json_decode($this->item->urls);
-$canEdit	= $this->item->params->get('access-edit');
-$user		= JFactory::getUser();
+$params  = $this->item->params;
+$images  = json_decode($this->item->images);
+$urls    = json_decode($this->item->urls);
+$canEdit = $this->item->params->get('access-edit');
+$user    = JFactory::getUser();
+
+JHtml::_('behavior.caption');
 
 ?>
 <div class="item-page<?php echo $this->pageclass_sfx?>">
-<?php if ($this->params->get('show_page_heading', 1)) : ?>
+<?php if ($this->params->get('show_page_heading')) : ?>
 	<h1>
 	<?php echo $this->escape($this->params->get('page_heading')); ?>
 	</h1>
@@ -28,9 +30,9 @@ $user		= JFactory::getUser();
 <?php
 if (!empty($this->item->pagination) AND $this->item->pagination && !$this->item->paginationposition && $this->item->paginationrelative)
 {
- echo $this->item->pagination;
+	echo $this->item->pagination;
 }
- ?>
+?>
 
 <?php if ($params->get('show_title')) : ?>
 	<h2>
@@ -172,12 +174,12 @@ endif; ?>
 <?php
 if (!empty($this->item->pagination) AND $this->item->pagination AND !$this->item->paginationposition AND !$this->item->paginationrelative):
 	echo $this->item->pagination;
- endif;
+endif;
 ?>
 <?php echo $this->item->text; ?>
 <?php
 if (!empty($this->item->pagination) AND $this->item->pagination AND $this->item->paginationposition AND!$this->item->paginationrelative):
-	 echo $this->item->pagination;?>
+	echo $this->item->pagination;?>
 <?php endif; ?>
 
 <?php if (isset($urls) AND ((!empty($urls->urls_position)  AND ($urls->urls_position=='1')) OR ( $params->get('urls_position')=='1') )): ?>
@@ -199,7 +201,7 @@ if (!empty($this->item->pagination) AND $this->item->pagination AND $this->item-
 		elseif ($readmore = $this->item->alternative_readmore) :
 			echo $readmore;
 			if ($params->get('show_readmore_title', 0) != 0) :
-			    echo JHtml::_('string.truncate', ($this->item->title), $params->get('readmore_limit'));
+				echo JHtml::_('string.truncate', ($this->item->title), $params->get('readmore_limit'));
 			endif;
 		elseif ($params->get('show_readmore_title', 0) == 0) :
 			echo JText::sprintf('COM_CONTENT_READ_MORE_TITLE');
@@ -212,7 +214,7 @@ if (!empty($this->item->pagination) AND $this->item->pagination AND $this->item-
 <?php endif; ?>
 <?php
 if (!empty($this->item->pagination) AND $this->item->pagination AND $this->item->paginationposition AND $this->item->paginationrelative):
-	 echo $this->item->pagination;?>
+	echo $this->item->pagination;?>
 <?php endif; ?>
 
 <?php echo $this->item->event->afterDisplayContent; ?>

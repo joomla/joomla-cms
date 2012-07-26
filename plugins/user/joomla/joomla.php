@@ -1,18 +1,20 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Plugin
+ * @subpackage  User.joomla
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
 
 /**
  * Joomla User plugin
  *
- * @package		Joomla.Plugin
- * @subpackage	User.joomla
- * @since		1.5
+ * @package     Joomla.Plugin
+ * @subpackage  User.joomla
+ * @since       1.5
  */
 class plgUserJoomla extends JPlugin
 {
@@ -39,7 +41,7 @@ class plgUserJoomla extends JPlugin
 			'DELETE FROM '.$db->quoteName('#__session') .
 			' WHERE '.$db->quoteName('userid').' = '.(int) $user['id']
 		);
-		$db->Query();
+		$db->execute();
 
 		return true;
 	}
@@ -173,7 +175,7 @@ class plgUserJoomla extends JPlugin
 			'	'.$db->quoteName('userid').' = '.(int) $instance->get('id') .
 			' WHERE '.$db->quoteName('session_id').' = '.$db->quote($session->getId())
 		);
-		$db->query();
+		$db->execute();
 
 		// Hit the user last visit field
 		$instance->setLastVisit();
@@ -217,7 +219,7 @@ class plgUserJoomla extends JPlugin
 			' WHERE '.$db->quoteName('userid').' = '.(int) $user['id'] .
 			' AND '.$db->quoteName('client_id').' = '.(int) $options['clientid']
 		);
-		$db->query();
+		$db->execute();
 
 		return true;
 	}
@@ -242,12 +244,9 @@ class plgUserJoomla extends JPlugin
 		}
 
 		//TODO : move this out of the plugin
-		jimport('joomla.application.component.helper');
 		$config	= JComponentHelper::getParams('com_users');
 		// Default to Registered.
 		$defaultUserGroup = $config->get('new_usertype', 2);
-
-		$acl = JFactory::getACL();
 
 		$instance->set('id'			, 0);
 		$instance->set('name'			, $user['fullname']);

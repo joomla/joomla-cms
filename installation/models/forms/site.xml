@@ -30,7 +30,7 @@
 			field="admin_password"
 		/>
 
-		<field name="sample_file" type="sample" class="inputbox"
+		<field name="sample_file" type="sample" class="inputbox" id="db_old"
 			label="INSTL_SITE_SAMPLE_LABEL"
 		/>
 
@@ -53,7 +53,7 @@
 				label="INSTL_SITE_METAKEYS_LABEL"
 				rows="3"
 			/>
-			
+
 			<field name="site_offline" type="radio" id="site_offline" default="0"
 			label="INSTL_SITE_OFFLINE_LABEL"
 			filter="integer"

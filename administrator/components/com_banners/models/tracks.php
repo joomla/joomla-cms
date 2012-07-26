@@ -1,19 +1,20 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_banners
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.modellist');
-
 /**
  * Methods supporting a list of tracks.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_banners
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_banners
+ * @since       1.6
  */
 class BannersModelTracks extends JModelList
 {
@@ -215,9 +216,9 @@ class BannersModelTracks extends JModelList
 
 			$query->where('banner_id IN (SELECT id FROM '.$db->quoteName('#__banners').' WHERE '.$where.')');
 
-			$db->setQuery((string)$query);
-			$this->setError((string)$query);
-			$db->query();
+			$db->setQuery((string) $query);
+			$this->setError((string) $query);
+			$db->execute();
 
 			// Check for a database error.
 			if ($db->getErrorNum()) {
@@ -324,7 +325,7 @@ class BannersModelTracks extends JModelList
 			$query->select('title');
 			$query->from($db->quoteName('#__categories'));
 			$query->where($db->quoteName('id').'='.$db->quote($categoryId));
-			$db->setQuery((string)$query);
+			$db->setQuery((string) $query);
 			$name = $db->loadResult();
 
 			if ($db->getErrorNum()) {
@@ -354,7 +355,7 @@ class BannersModelTracks extends JModelList
 			$query->select('name');
 			$query->from($db->quoteName('#__banner_clients'));
 			$query->where($db->quoteName('id').'='.$db->quote($clientId));
-			$db->setQuery((string)$query);
+			$db->setQuery((string) $query);
 			$name = $db->loadResult();
 			if ($db->getErrorNum()) {
 				$this->setError($db->getErrorMsg());

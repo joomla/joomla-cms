@@ -1,11 +1,12 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
- * @since		1.5
+ * @package     Joomla.Administrator
+ * @subpackage  com_installer
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
 include_once dirname(__FILE__).'/../default/view.php';
@@ -13,9 +14,9 @@ include_once dirname(__FILE__).'/../default/view.php';
 /**
  * Extension Manager Install View
  *
- * @package		Joomla.Administrator
- * @subpackage	com_installer
- * @since		1.5
+ * @package     Joomla.Administrator
+ * @subpackage  com_installer
+ * @since       1.5
  */
 class InstallerViewInstall extends InstallerViewDefault
 {
@@ -24,7 +25,7 @@ class InstallerViewInstall extends InstallerViewDefault
 	 */
 	function display($tpl=null)
 	{
-		$paths = new stdClass();
+		$paths = new stdClass;
 		$paths->first = '';
 		$state = $this->get('state');
 

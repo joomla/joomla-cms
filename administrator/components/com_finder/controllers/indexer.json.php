@@ -19,7 +19,7 @@ JLoader::register('FinderIndexer', JPATH_COMPONENT_ADMINISTRATOR . '/helpers/ind
  * @subpackage  com_finder
  * @since       2.5
  */
-class FinderControllerIndexer extends JController
+class FinderControllerIndexer extends JControllerLegacy
 {
 	/**
 	 * Method to start the indexer.
@@ -72,7 +72,7 @@ class FinderControllerIndexer extends JController
 		try
 		{
 			// Trigger the onStartIndex event.
-			JDispatcher::getInstance()->trigger('onStartIndex');
+			JEventDispatcher::getInstance()->trigger('onStartIndex');
 
 			// Get the indexer state.
 			$state = FinderIndexer::getState();
@@ -179,10 +179,10 @@ class FinderControllerIndexer extends JController
 		try
 		{
 			// Trigger the onBeforeIndex event.
-			JDispatcher::getInstance()->trigger('onBeforeIndex');
+			JEventDispatcher::getInstance()->trigger('onBeforeIndex');
 
 			// Trigger the onBuildIndex event.
-			JDispatcher::getInstance()->trigger('onBuildIndex');
+			JEventDispatcher::getInstance()->trigger('onBuildIndex');
 
 			// Get the indexer state.
 			$state = FinderIndexer::getState();

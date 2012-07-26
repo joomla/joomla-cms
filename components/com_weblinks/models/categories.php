@@ -1,7 +1,10 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  com_weblinks
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -9,9 +12,9 @@ defined('_JEXEC') or die;
 /**
  * This models supports retrieving lists of article categories.
  *
- * @package		Joomla.Site
- * @subpackage	com_weblinks
- * @since		1.6
+ * @package     Joomla.Site
+ * @subpackage  com_weblinks
+ * @since       1.6
  */
 class WeblinksModelCategories extends JModelLegacy
 {
@@ -90,7 +93,7 @@ class WeblinksModelCategories extends JModelLegacy
 			$app = JFactory::getApplication();
 			$menu = $app->getMenu();
 			$active = $menu->getActive();
-			$params = new JRegistry();
+			$params = new JRegistry;
 			if($active)
 			{
 				$params->loadString($active->params);

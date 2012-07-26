@@ -1,12 +1,12 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_templates
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_templates
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
 
 // Include the component HTML helpers.
@@ -54,7 +54,7 @@ $canDo	= TemplatesHelper::getActions();
 					<?php endif; ?>
 				</li>
 				<?php endif; ?>
-				<?php if ($this->files['main']['offline']->exists) :  ;?>
+				<?php if ($this->files['main']['offline']->exists) : ?>
 					<li>
 						<?php $id = $this->files['main']['offline']->id; ?>
 						<?php if ($canDo->get('core.edit')) : ?>

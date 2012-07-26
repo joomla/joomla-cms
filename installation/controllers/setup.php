@@ -1,8 +1,9 @@
 <?php
 /**
- * @package		Joomla.Installation
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package    Joomla.Installation
+ *
+ * @copyright  Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -10,16 +11,17 @@ defined('_JEXEC') or die;
 /**
  * Setup controller for the Joomla Core Installer.
  *
- * @package		Joomla.Installation
- * @since		1.6
+ * @package  Joomla.Installation
+ * @since    3.0
  */
-class JInstallationControllerSetup extends JControllerLegacy
+class InstallationControllerSetup extends JControllerLegacy
 {
 	/**
 	 * Method to set the setup language for the application.
 	 *
 	 * @return	void
-	 * @since	1.6
+	 *
+	 * @since	3.0
 	 */
 	public function setlanguage()
 	{
@@ -40,7 +42,7 @@ class JInstallationControllerSetup extends JControllerLegacy
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Get the setup model.
-		$model = $this->getModel('Setup', 'JInstallationModel', array('dbo' => null));
+		$model = $this->getModel('Setup', 'InstallationModel', array('dbo' => null));
 
 		// Get the posted values from the request and validate them.
 		$data = JRequest::getVar('jform', array(), 'post', 'array');
@@ -75,7 +77,7 @@ class JInstallationControllerSetup extends JControllerLegacy
 	}
 
 	/**
-	 * @since	1.6
+	 * @since	3.0
 	 */
 	function database()
 	{
@@ -86,7 +88,7 @@ class JInstallationControllerSetup extends JControllerLegacy
 		$app = JFactory::getApplication();
 
 		// Get the setup model.
-		$model = $this->getModel('Setup', 'JInstallationModel', array('dbo' => null));
+		$model = $this->getModel('Setup', 'InstallationModel', array('dbo' => null));
 
 		// Get the posted values from the request and validate them.
 		$data = JRequest::getVar('jform', array(), 'post', 'array');
@@ -120,7 +122,7 @@ class JInstallationControllerSetup extends JControllerLegacy
 		$vars = $model->storeOptions($return);
 
 		// Get the database model.
-		$database = $this->getModel('Database', 'JInstallationModel', array('dbo' => null));
+		$database = $this->getModel('Database', 'InstallationModel', array('dbo' => null));
 
 		// Attempt to initialise the database.
 		$return = $database->initialise($vars);
@@ -141,7 +143,7 @@ class JInstallationControllerSetup extends JControllerLegacy
 	}
 
 	/**
-	 * @since	1.6
+	 * @since	3.0
 	 */
 	function filesystem()
 	{
@@ -152,7 +154,7 @@ class JInstallationControllerSetup extends JControllerLegacy
 		$app = JFactory::getApplication();
 
 		// Get the setup model.
-		$model = $this->getModel('Setup', 'JInstallationModel', array('dbo' => null));
+		$model = $this->getModel('Setup', 'InstallationModel', array('dbo' => null));
 
 		// Get the posted values from the request and validate them.
 		$data = JRequest::getVar('jform', array(), 'post', 'array');
@@ -186,7 +188,7 @@ class JInstallationControllerSetup extends JControllerLegacy
 	}
 
 	/**
-	 * @since	1.6
+	 * @since	3.0
 	 */
 	function saveconfig()
 	{
@@ -197,7 +199,7 @@ class JInstallationControllerSetup extends JControllerLegacy
 		$app = JFactory::getApplication();
 
 		// Get the setup model.
-		$model = $this->getModel('Setup', 'JInstallationModel', array('dbo' => null));
+		$model = $this->getModel('Setup', 'InstallationModel', array('dbo' => null));
 
 		// Get the posted values from the request and validate them.
 		$data = JRequest::getVar('jform', array(), 'post', 'array');
@@ -235,7 +237,7 @@ class JInstallationControllerSetup extends JControllerLegacy
 		$vars = $model->storeOptions($return);
 
 		// Get the configuration model.
-		$configuration = $this->getModel('Configuration', 'JInstallationModel', array('dbo' => null));
+		$configuration = $this->getModel('Configuration', 'InstallationModel', array('dbo' => null));
 
 		// Attempt to setup the configuration.
 		$return = $configuration->setup($vars);

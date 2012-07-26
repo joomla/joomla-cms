@@ -1,24 +1,24 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_newsfeeds
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_newsfeeds
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
 
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_newsfeeds
+ * @package     Joomla.Administrator
+ * @subpackage  com_newsfeeds
  */
 class NewsfeedsTableNewsfeed extends JTable
 {
 	/**
 	 * Constructor
 	 *
-	 * @param JDatabase A database connector object
+	 * @param JDatabaseDriver A database connector object
 	 */
 	public function __construct(&$db)
 	{
@@ -36,13 +36,13 @@ class NewsfeedsTableNewsfeed extends JTable
 	public function bind($array, $ignore = '')
 	{
 		if (isset($array['params']) && is_array($array['params'])) {
-			$registry = new JRegistry();
+			$registry = new JRegistry;
 			$registry->loadArray($array['params']);
 			$array['params'] = (string) $registry;
 		}
 
 		if (isset($array['metadata']) && is_array($array['metadata'])) {
-			$registry = new JRegistry();
+			$registry = new JRegistry;
 			$registry->loadArray($array['metadata']);
 			$array['metadata'] = (string) $registry;
 		}

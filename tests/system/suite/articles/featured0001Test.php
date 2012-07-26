@@ -39,7 +39,7 @@ class Featured0001Test extends SeleniumJoomlaTestCase
 			}
 			sleep(1);
 		}
-
+		sleep(3);
 		echo "Reverse the article order on the front page\n";
 		$this->click("link=Featured Articles");
 		$this->waitForPageToLoad("30000");

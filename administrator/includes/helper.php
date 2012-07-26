@@ -1,18 +1,19 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package    Joomla.Administrator
+ *
+ * @copyright  Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
 /**
  * Joomla! Administrator Application helper class.
  * Provide many supporting API functions.
  *
- * @package		Joomla.Administrator
- * @subpackage	Application
+ * @package     Joomla.Administrator
+ * @subpackage  Application
  */
 class JAdministratorHelper
 {
@@ -24,7 +25,8 @@ class JAdministratorHelper
 	 */
 	public static function findOption()
 	{
-		$option = strtolower(JRequest::getCmd('option'));
+		$input = JFactory::getApplication()->input;
+		$option = strtolower($input->get('option'));
 
 		$user = JFactory::getUser();
 		if (($user->get('guest')) || !$user->authorise('core.login.admin')) {
@@ -35,7 +37,7 @@ class JAdministratorHelper
 			$option = 'com_cpanel';
 		}
 
-		JRequest::setVar('option', $option);
+		$input->set('option', $option);
 		return $option;
 	}
 }

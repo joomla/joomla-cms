@@ -1,22 +1,21 @@
 <?php
 /**
- * @package		Joomla.Site
- * @subpackage	com_content
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  com_content
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.modellist');
 
 /**
  * This models supports retrieving a category, the articles associated with the category,
  * sibling, child and parent categories.
  *
- * @package		Joomla.Site
- * @subpackage	com_content
- * @since		1.5
+ * @package     Joomla.Site
+ * @subpackage  com_content
+ * @since       1.5
  */
 class ContentModelCategory extends JModelList
 {
@@ -187,8 +186,6 @@ class ContentModelCategory extends JModelList
 			$this->setState('filter.max_category_levels', $params->get('show_subcategory_content', '1'));
 			$this->setState('filter.subcategories', true);
 		}
-
-
 
 		$this->setState('filter.language', $app->getLanguageFilter());
 
@@ -404,7 +401,7 @@ class ContentModelCategory extends JModelList
 		}
 
 		// Order subcategories
-		if (sizeof($this->_children)) {
+		if (count($this->_children)) {
 			$params = $this->getState()->get('params');
 			if ($params->get('orderby_pri') == 'alpha' || $params->get('orderby_pri') == 'ralpha') {
 				jimport('joomla.utilities.arrayhelper');

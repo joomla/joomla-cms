@@ -1,12 +1,12 @@
 <?php
 /**
- * @package		Joomla.Site
- * @subpackage	com_content
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  com_content
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
 
 require_once dirname(__FILE__) . '/articles.php';
@@ -14,9 +14,9 @@ require_once dirname(__FILE__) . '/articles.php';
 /**
  * Content Component Archive Model
  *
- * @package		Joomla.Site
- * @subpackage	com_content
- * @since		1.5
+ * @package     Joomla.Site
+ * @subpackage  com_content
+ * @since       1.5
  */
 class ContentModelArchive extends ContentModelArticles
 {
@@ -82,23 +82,23 @@ class ContentModelArchive extends ContentModelArticles
 			// Add routing for archive
 			//sqlsrv changes
 		$case_when = ' CASE WHEN ';
-	    $case_when .= $query->charLength('a.alias');
-	    $case_when .= ' THEN ';
-	    $a_id = $query->castAsChar('a.id');
-	    $case_when .= $query->concatenate(array($a_id, 'a.alias'), ':');
-	    $case_when .= ' ELSE ';
-	    $case_when .= $a_id.' END as slug';
+		$case_when .= $query->charLength('a.alias');
+		$case_when .= ' THEN ';
+		$a_id = $query->castAsChar('a.id');
+		$case_when .= $query->concatenate(array($a_id, 'a.alias'), ':');
+		$case_when .= ' ELSE ';
+		$case_when .= $a_id.' END as slug';
 
 		$query->select($case_when);
 
-	    $case_when = ' CASE WHEN ';
-	    $case_when .= $query->charLength('c.alias');
-	    $case_when .= ' THEN ';
-	    $c_id = $query->castAsChar('c.id');
-	    $case_when .= $query->concatenate(array($c_id, 'c.alias'), ':');
-	    $case_when .= ' ELSE ';
-	    $case_when .= $c_id.' END as catslug';
-	    $query->select($case_when);
+		$case_when = ' CASE WHEN ';
+		$case_when .= $query->charLength('c.alias');
+		$case_when .= ' THEN ';
+		$c_id = $query->castAsChar('c.id');
+		$case_when .= $query->concatenate(array($c_id, 'c.alias'), ':');
+		$case_when .= ' ELSE ';
+		$case_when .= $c_id.' END as catslug';
+		$query->select($case_when);
 
 		// Filter on month, year
 		// First, get the date field
@@ -144,7 +144,7 @@ class ContentModelArchive extends ContentModelArticles
 		return $this->_data;
 	}
 
-	// JModel override to add alternating value for $odd
+	// JModelLegacy override to add alternating value for $odd
 	protected function _getList($query, $limitstart=0, $limit=0)
 	{
 		$result = parent::_getList($query, $limitstart, $limit);

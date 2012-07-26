@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.modellist');
-
 /**
  * Index model class for Finder.
  *
@@ -102,7 +100,7 @@ class FinderModelIndex extends JModelList
 	public function delete(&$pks)
 	{
 		// Initialise variables.
-		$dispatcher = JDispatcher::getInstance();
+		$dispatcher = JEventDispatcher::getInstance();
 		$user = JFactory::getUser();
 		$pks = (array) $pks;
 		$table = $this->getTable();
@@ -212,7 +210,7 @@ class FinderModelIndex extends JModelList
 		return $query;
 	}
 
- 	/**
+	/**
 	 * Method to get the state of the Smart Search plug-ins.
 	 *
 	 * @return  array   Array of relevant plug-ins and whether they are enabled or not.
@@ -230,7 +228,7 @@ class FinderModelIndex extends JModelList
 		$query->where($db->quoteName('folder') . ' IN(' .  $db->quote('system') . ',' . $db->quote('content') . ')');
 		$query->where($db->quoteName('element') . ' = ' .  $db->quote('finder'));
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 		$plugins = $db->loadObjectList('name');
 
 		return $plugins;
@@ -338,7 +336,7 @@ class FinderModelIndex extends JModelList
 		$query->from($db->quoteName('#__finder_taxonomy'));
 		$query->where($db->quoteName('id') . ' > 1');
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 
 		// Check for a database error.
 		if ($db->getErrorNum())
@@ -413,7 +411,7 @@ class FinderModelIndex extends JModelList
 	public function publish(&$pks, $value = 1)
 	{
 		// Initialise variables.
-		$dispatcher = JDispatcher::getInstance();
+		$dispatcher = JEventDispatcher::getInstance();
 		$user = JFactory::getUser();
 		$table = $this->getTable();
 		$pks = (array) $pks;

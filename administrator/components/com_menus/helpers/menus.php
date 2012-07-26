@@ -1,18 +1,20 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_menus
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
 
 /**
  * Menus component helper.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_menus
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_menus
+ * @since       1.6
  */
 class MenusHelper
 {
@@ -232,7 +234,7 @@ class MenusHelper
 		$query->innerJoin('#__associations as a ON a.id=m.id AND a.context='.$db->quote('com_menus.item'));
 		$query->innerJoin('#__associations as a2 ON a.key=a2.key');
 		$query->innerJoin('#__menu as m2 ON a2.id=m2.id');
-		$query->where('m.id='.(int)$pk);
+		$query->where('m.id=' . (int) $pk);
 		$query->select('m2.language, m2.id');
 		$db->setQuery($query);
 		$menuitems = $db->loadObjectList('language');

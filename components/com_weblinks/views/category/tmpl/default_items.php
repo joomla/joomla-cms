@@ -1,19 +1,20 @@
 <?php
 /**
- * @package		Joomla.Site
- * @subpackage	com_weblinks
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  com_weblinks
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
+
 // Code to support edit links for weblinks
 // Create a shortcut for params.
 $params = &$this->item->params;
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 JHtml::_('behavior.tooltip');
-JHtml::core();
+JHtml::_('behavior.framework');
 
 // Get the user object.
 $user = JFactory::getUser();
@@ -74,7 +75,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 					 <?php echo JText::_('COM_WEBLINKS_LINK'); ?>
 				<?php elseif ($this->params->get('icons') == 1) : ?>
 					<?php if (!$this->params->get('link_icons')) : ?>
-						<?php echo JHtml::_('image', 'system/'.$this->params->get('link_icons', 'weblink.png'), JText::_('COM_WEBLINKS_LINK'), NULL, true); ?>
+						<?php echo JHtml::_('image', 'system/'.$this->params->get('link_icons', 'weblink.png'), JText::_('COM_WEBLINKS_LINK'), null, true); ?>
 					<?php else: ?>
 						<?php echo '<img src="'.$this->params->get('link_icons').'" alt="'.JText::_('COM_WEBLINKS_LINK').'" />'; ?>
 					<?php endif; ?>
@@ -108,7 +109,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 							// open in a modal window
 							JHtml::_('behavior.modal', 'a.modal'); ?>
 							<a class="modal" href="<?php echo $link;?>"  rel="{handler: 'iframe', size: {x:<?php echo $this->escape($width);?>, y:<?php echo $this->escape($height);?>}}">
-								<?php echo $this->escape($item->title). ' </a>' ;
+								<?php echo $this->escape($item->title). ' </a>';
 							break;
 
 						default:

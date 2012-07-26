@@ -1,20 +1,20 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_menus
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.modelform');
 
 /**
  * Menu Item Model for Menus.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_menus
- * @version		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_menus
+ * @since       1.6
  */
 class MenusModelMenu extends JModelForm
 {
@@ -104,7 +104,7 @@ class MenusModelMenu extends JModelForm
 	public function &getItem($itemId = null)
 	{
 		// Initialise variables.
-		$itemId = (!empty($itemId)) ? $itemId : (int)$this->getState('menu.id');
+		$itemId = (!empty($itemId)) ? $itemId : (int) $this->getState('menu.id');
 		$false	= false;
 
 		// Get a menu item row instance.
@@ -169,8 +169,8 @@ class MenusModelMenu extends JModelForm
 	 */
 	public function save($data)
 	{
-		$id	= (!empty($data['id'])) ? $data['id'] : (int)$this->getState('menu.id');
-		$isNew	= true;
+		$id	= (!empty($data['id'])) ? $data['id'] : (int) $this->getState('menu.id');
+		$isNew = true;
 
 		// Get a row instance.
 		$table = $this->getTable();

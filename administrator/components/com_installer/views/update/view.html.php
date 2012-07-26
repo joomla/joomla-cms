@@ -1,10 +1,12 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_installer
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
 include_once dirname(__FILE__).'/../default/view.php';
@@ -12,9 +14,9 @@ include_once dirname(__FILE__).'/../default/view.php';
 /**
  * Extension Manager Update View
  *
- * @package		Joomla.Administrator
- * @subpackage	com_installer
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_installer
+ * @since       1.6
  */
 class InstallerViewUpdate extends InstallerViewDefault
 {
@@ -27,8 +29,13 @@ class InstallerViewUpdate extends InstallerViewDefault
 		$this->state		= $this->get('State');
 		$this->items		= $this->get('Items');
 		$this->pagination	= $this->get('Pagination');
+<<<<<<< HEAD
 		$this->form	= $this->get('Form');
 		$paths = new stdClass();
+=======
+
+		$paths = new stdClass;
+>>>>>>> fde890837c088df43d66ddec9a0402cc911fb84d
 		$paths->first = '';
 
 		JError::raiseNotice(500, JText::_('COM_INSTALLER_MSG_WARNINGS_UPDATE_NOTICE'));

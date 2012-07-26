@@ -1,18 +1,20 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_banners
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
 
 /**
  * Banner table
  *
- * @package		Joomla.Administrator
- * @subpackage	com_banners
- * @since		1.5
+ * @package     Joomla.Administrator
+ * @subpackage  com_banners
+ * @since       1.5
  */
 class BannersTableBanner extends JTable
 {
@@ -32,10 +34,10 @@ class BannersTableBanner extends JTable
 	{
 		$query = 'UPDATE #__banners'
 		. ' SET clicks = (clicks + 1)'
-		. ' WHERE id = ' . (int) $this->id
-		;
+		. ' WHERE id = ' . (int) $this->id;
+
 		$this->_db->setQuery($query);
-		$this->_db->query();
+		$this->_db->execute();
 	}
 
 	/**
@@ -73,6 +75,7 @@ class BannersTableBanner extends JTable
 
 		return true;
 	}
+
 	/**
 	 * Overloaded bind function
 	 *
@@ -84,7 +87,7 @@ class BannersTableBanner extends JTable
 	public function bind($array, $ignore = array())
 	{
 		if (isset($array['params']) && is_array($array['params'])) {
-			$registry = new JRegistry();
+			$registry = new JRegistry;
 			$registry->loadArray($array['params']);
 
 			if((int) $registry->get('width', 0) < 0){
@@ -105,7 +108,7 @@ class BannersTableBanner extends JTable
 			$registry->set('width', ($width ? $width : ''));
 			$registry->set('height', ($height ? $height : ''));
 
-			$array['params'] = (string)$registry;
+			$array['params'] = (string) $registry;
 		}
 
 		if (isset($array['imptotal'])) {
@@ -257,6 +260,7 @@ class BannersTableBanner extends JTable
 		}
 		return count($this->getErrors())==0;
 	}
+
 	/**
 	 * Method to set the sticky state for a row or list of rows in the database
 	 * table.  The method respects checked out rows by other users and will attempt

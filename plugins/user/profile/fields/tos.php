@@ -76,7 +76,7 @@ class JFormFieldTos extends JFormFieldRadio
 				ENT_COMPAT, 'UTF-8'
 			) . '"';
 		}
-		
+
 		$tosarticle = $this->element['article'] ? (int) $this->element['article'] : 1;
 		$link = '<a class="modal" title="" href="index.php?option=com_content&amp;view=article&amp;layout=modal&amp;id=' . $tosarticle . '&amp;tmpl=component" rel="{handler: \'iframe\', size: {x:800, y:500}}">' . $text . '</a>';
 

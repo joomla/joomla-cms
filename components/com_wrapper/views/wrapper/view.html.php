@@ -1,16 +1,17 @@
 <?php
 /**
- * @package		Joomla.Site
- * @subpackage	com_wrapper
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  com_wrapper
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 /**
- * @package		Joomla.Site
- * @subpackage	com_wrapper
+ * @package     Joomla.Site
+ * @subpackage  com_wrapper
  */
 class WrapperViewWrapper extends JViewLegacy
 {
@@ -53,7 +54,7 @@ class WrapperViewWrapper extends JViewLegacy
 			$this->document->setMetadata('robots', $params->get('robots'));
 		}
 
-		$wrapper = new stdClass();
+		$wrapper = new stdClass;
 		// auto height control
 		if ($params->def('height_auto')) {
 			$wrapper->load = 'onload="iFrameHeight()"';

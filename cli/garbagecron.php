@@ -1,17 +1,13 @@
 <?php
 /**
- * @package		Joomla.Cli
+ * @package    Joomla.Cli
  *
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright  Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
-
-// Make sure we're being called from the command line, not a web interface
-if (array_key_exists('REQUEST_METHOD', $_SERVER)) die();
 
 // Initialize Joomla framework
 define('_JEXEC', 1);
-define('DS', DIRECTORY_SEPARATOR);
 
 // Load system defines
 if (file_exists(dirname(dirname(__FILE__)) . '/defines.php'))
@@ -26,7 +22,7 @@ if (!defined('_JDEFINES'))
 }
 
 // Get the framework.
-require_once JPATH_LIBRARIES . '/import.php';
+require_once JPATH_LIBRARIES . '/import.legacy.php.php';
 
 // Bootstrap the CMS libraries.
 require_once JPATH_LIBRARIES . '/cms.php';

@@ -1,26 +1,22 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_installer
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_installer
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
-
-// Import library dependencies
-
-jimport('joomla.application.component.model');
 
 /**
  * Extension Manager Install Model
  *
- * @package		Joomla.Administrator
- * @subpackage	com_installer
- * @since		1.5
+ * @package     Joomla.Administrator
+ * @subpackage  com_installer
+ * @since       1.5
  */
-class InstallerModelInstall extends JModel
+class InstallerModelInstall extends JModelLegacy
 {
 	/**
 	 * @var object JTable object
@@ -133,7 +129,6 @@ class InstallerModelInstall extends JModel
 		}
 
 		JInstallerHelper::cleanupInstall($package['packagefile'], $package['extractdir']);
-
 
 		return $result;
 	}

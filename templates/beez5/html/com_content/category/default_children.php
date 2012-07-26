@@ -1,12 +1,12 @@
 <?php
 /**
- * @package		Joomla.Site
- * @subpackage	Templates.beez5
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  Template.beez5
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
 $app = JFactory::getApplication();
@@ -46,13 +46,13 @@ $class = ' class="first"';
 				<?php if ($child->getNumItems()==true) : ?>
 				<dl>
 					<dt>
-						<?php echo JText::_('COM_CONTENT_NUM_ITEMS') ; ?>
+						<?php echo JText::_('COM_CONTENT_NUM_ITEMS'); ?>
 					</dt>
 					<dd>
 						<?php echo $child->getNumItems(true); ?>
 					</dd>
 				</dl>
-				<?php endif ; ?>
+				<?php endif; ?>
 
 				<?php if (count($child->getChildren()) > 0 ) :
 					$this->children[$child->id] = $child->getChildren();

@@ -1,9 +1,10 @@
 <?php
 /**
- * @package		Joomla.Site
- * @subpackage	com_users
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  com_users
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -187,7 +188,7 @@ function UsersParseRoute($segments)
 	// Set the package id if present.
 	if ($userId) {
 		// Set the package id.
-		$vars['user_id'] = (int)$userId;
+		$vars['user_id'] = (int) $userId;
 
 		// Set the view to package if not already set.
 		if (empty($vars['view'])) {

@@ -1,13 +1,10 @@
 <?php
 /**
- * @package		Joomla.Cli
+ * @package    Joomla.Cli
  *
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright  Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
-
-// Make sure we're being called from the command line, not a web interface
-if (array_key_exists('REQUEST_METHOD', $_SERVER)) die();
 
 /**
  * This is a CRON script which should be called from the command-line, not the
@@ -17,7 +14,6 @@ if (array_key_exists('REQUEST_METHOD', $_SERVER)) die();
 
 // Set flag that this is a parent file.
 define('_JEXEC', 1);
-define('DS', DIRECTORY_SEPARATOR);
 
 error_reporting(E_ALL | E_NOTICE);
 ini_set('display_errors', 1);
@@ -34,7 +30,7 @@ if (!defined('_JDEFINES'))
 	require_once JPATH_BASE . '/includes/defines.php';
 }
 
-require_once JPATH_LIBRARIES . '/import.php';
+require_once JPATH_LIBRARIES . '/import.legacy.php';
 require_once JPATH_LIBRARIES . '/cms.php';
 
 // Force library to be in JError legacy mode
@@ -65,7 +61,6 @@ class Updatecron extends JApplicationCli
 		$db = JFactory::getDBO();
 
 		// Get the update cache time
-		jimport('joomla.application.component.helper');
 		$component = JComponentHelper::getComponent('com_installer');
 
 		$params = $component->params;

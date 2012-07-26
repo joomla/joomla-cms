@@ -1,20 +1,20 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_users
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.modeladmin');
 
 /**
  * Users mail model.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_users
- * @since	1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_users
+ * @since       1.6
  */
 class UsersModelMail extends JModelAdmin
 {
@@ -70,12 +70,11 @@ class UsersModelMail extends JModelAdmin
 	public function send()
 	{
 		// Initialise variables.
-		$data	= JRequest::getVar('jform', array(), 'post', 'array');
-		$app	= JFactory::getApplication();
-		$user	= JFactory::getUser();
-		$acl	= JFactory::getACL();
-		$db		= $this->getDbo();
-
+		$data   = JRequest::getVar('jform', array(), 'post', 'array');
+		$app    = JFactory::getApplication();
+		$user   = JFactory::getUser();
+		$access = new JAccess;
+		$db     = $this->getDbo();
 
 		$mode		= array_key_exists('mode', $data) ? intval($data['mode']) : 0;
 		$subject	= array_key_exists('subject', $data) ? $data['subject'] : '';
@@ -98,7 +97,7 @@ class UsersModelMail extends JModelAdmin
 		}
 
 		// get users in the group out of the acl
-		$to = $acl->getUsersByGroup($grp, $recurse);
+		$to = $access->getUsersByGroup($grp, $recurse);
 
 		// Get all users email and group except for senders
 		$query	= $db->getQuery(true);

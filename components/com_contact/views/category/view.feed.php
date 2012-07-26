@@ -1,9 +1,10 @@
 <?php
 /**
- * @package		Joomla.Site
- * @subpackage	com_contact
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  com_contact
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -11,9 +12,9 @@ defined('_JEXEC') or die;
 /**
  * HTML View class for the Contact component
  *
- * @package		Joomla.Site
- * @subpackage	com_contact
- * @since 1.5
+ * @package     Joomla.Site
+ * @subpackage  com_contact
+ * @since       1.5
  */
 class ContactViewCategory extends JViewLegacy
 {
@@ -53,7 +54,7 @@ class ContactViewCategory extends JViewLegacy
 			@$date			= ($row->created ? date('r', strtotime($row->created)) : '');
 
 			// load individual item creator class
-			$item = new JFeedItem();
+			$item = new JFeedItem;
 			$item->title		= $title;
 			$item->link			= $link;
 			$item->description	= $description;

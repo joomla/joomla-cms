@@ -1,22 +1,22 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @package     Joomla.Administrator
+ * @subpackage  com_login
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
-
-jimport( 'joomla.application.component.controller' );
 
 /**
  * Login Controller
  *
- * @package		Joomla.Administrator
- * @subpackage	com_login
- * @since		1.5
+ * @package     Joomla.Administrator
+ * @subpackage  com_login
+ * @since       1.5
  */
-class LoginController extends JController
+class LoginController extends JControllerLegacy
 {
 	/**
 	 * Typical view method for MVC based architecture

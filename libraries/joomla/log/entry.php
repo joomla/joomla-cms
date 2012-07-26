@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.utilities.date');
-
 /**
  * Joomla! Log Entry class
  *
@@ -53,7 +51,7 @@ class JLogEntry
 	public $priority = JLog::INFO;
 
 	/**
-	 * List of available log priority levels [Based on the SysLog default levels].
+	 * List of available log priority levels [Based on the Syslog default levels].
 	 * @var    array
 	 * @since  11.1
 	 */

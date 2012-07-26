@@ -1,19 +1,19 @@
 <?php
-
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_admin
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_admin
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
-jimport('joomla.database.table');
-
 /**
- * Script file of joomla CMS
+ * Script file of Joomla CMS
+ *
+ * @package     Joomla.Administrator
+ * @subpackage  com_admin
  */
 class joomlaInstallerScript
 {
@@ -39,7 +39,7 @@ class joomlaInstallerScript
 			$query->insert('#__schemas');
 			$query->set('extension_id=700, version_id='.$db->quote('1.6.0-2011-01-10'));
 			$db->setQuery($query);
-			$db->query();
+			$db->execute();
 		}
 		return true;
 	}
@@ -57,6 +57,7 @@ class joomlaInstallerScript
 		$this->updateManifestCaches();
 		$this->updateDatabase();
 	}
+
 	protected function updateDatabase()
 	{
 		$db = JFactory::getDbo();
@@ -76,7 +77,7 @@ class joomlaInstallerScript
 				{
 					$query = 'ALTER TABLE #__update_sites_extensions ENGINE = ' . $result->Engine;
 					$db->setQuery($query);
-					$db->query();
+					$db->execute();
 					if ($db->getErrorNum())
 					{
 						echo JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $db->getErrorNum(), $db->getErrorMsg()).'<br />';
@@ -102,7 +103,7 @@ class joomlaInstallerScript
 			$query->values($db->quote('joomla'). ', '. $db->quote('package').', '.$db->quote('pkg_joomla') . ', 1, 1, 1');
 
 			$db->setQuery($query);
-			$db->query();
+			$db->execute();
 			if ($db->getErrorNum())
 			{
 				echo JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $db->getErrorNum(), $db->getErrorMsg()).'<br />';
@@ -297,7 +298,7 @@ class joomlaInstallerScript
 		}
 		$db->setQuery($query);
 		$extensions = $db->loadObjectList();
-		$installer = new JInstaller();
+		$installer = new JInstaller;
 		// Check for a database error.
 		if ($db->getErrorNum())
 		{

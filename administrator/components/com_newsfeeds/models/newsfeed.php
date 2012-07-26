@@ -1,20 +1,20 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_newsfeeds
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.modeladmin');
 
 /**
  * Newsfeed model.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_newsfeeds
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_newsfeeds
+ * @since       1.6
  */
 class NewsfeedsModelNewsfeed extends JModelAdmin
 {
@@ -154,7 +154,7 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 	{
 		if (!empty($record->id)) {
 			if ($record->published != -2) {
-				return ;
+				return;
 			}
 			$user = JFactory::getUser();
 
@@ -290,7 +290,7 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 	/**
 	 * Prepare and sanitise the table prior to saving.
 	 */
-	protected function prepareTable(&$table)
+	protected function prepareTable($table)
 	{
 		$date = JFactory::getDate();
 		$user = JFactory::getUser();

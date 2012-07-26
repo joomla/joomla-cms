@@ -1,20 +1,20 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_installer
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @package     Joomla.Administrator
+ * @subpackage  com_installer
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
 
 /**
  * Form Field Place class.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_installer
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_installer
+ * @since       1.6
  */
 class JFormFieldGroup extends JFormField
 {
@@ -37,7 +37,7 @@ class JFormFieldGroup extends JFormField
 		$options = array();
 
 		foreach ($this->element->children() as $option) {
-			$options[] = JHtml::_('select.option', (string)$option->attributes()->value, JText::_(trim((string) $option)));
+			$options[] = JHtml::_('select.option', (string) $option->attributes()->value, JText::_(trim((string) $option)));
 		}
 
 		$dbo = JFactory::getDbo();
@@ -46,7 +46,7 @@ class JFormFieldGroup extends JFormField
 		$query->from('#__extensions');
 		$query->where('folder != '.$dbo->quote(''));
 		$query->order('folder');
-		$dbo->setQuery((string)$query);
+		$dbo->setQuery((string) $query);
 		$folders = $dbo->loadColumn();
 
 		foreach($folders as $folder) {

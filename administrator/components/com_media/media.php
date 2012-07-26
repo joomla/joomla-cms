@@ -1,21 +1,22 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_media
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_media
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
+
+$input  = JFactory::getApplication()->input;
+$user   = JFactory::getUser();
+$asset  = $input->get('asset');
+$author = $input->get('author');
 
 // Access check.
 
-$user = JFactory::getUser();
-$asset = JRequest::getCmd('asset');
-$author = JRequest::getCmd('author');
-
-if (	!$user->authorise('core.manage', 'com_media')
+if (!$user->authorise('core.manage', 'com_media')
 	&&	(!$asset or (
 			!$user->authorise('core.edit', $asset)
 		&&	!$user->authorise('core.create', $asset)
@@ -31,7 +32,7 @@ $params = JComponentHelper::getParams('com_media');
 require_once JPATH_COMPONENT.'/helpers/media.php';
 
 // Set the path definitions
-$popup_upload = JRequest::getCmd('pop_up', null);
+$popup_upload = $input->get('pop_up', null);
 $path = "file_path";
 
 $view = JRequest::getCmd('view');
@@ -42,9 +43,6 @@ if (substr(strtolower($view), 0, 6) == "images" || $popup_upload == 1) {
 define('COM_MEDIA_BASE',	JPATH_ROOT.'/'.$params->get($path, 'images'));
 define('COM_MEDIA_BASEURL', JURI::root().$params->get($path, 'images'));
 
-// Include dependancies
-jimport('joomla.application.component.controller');
-
-$controller	= JController::getInstance('Media');
-$controller->execute(JRequest::getCmd('task'));
+$controller	= JControllerLegacy::getInstance('Media');
+$controller->execute($input->get('task'));
 $controller->redirect();

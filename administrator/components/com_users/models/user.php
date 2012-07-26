@@ -7,11 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.modeladmin');
-jimport('joomla.access.access');
 
 /**
  * User model.
@@ -54,7 +50,7 @@ class UsersModelUser extends JModelAdmin
 		$result = parent::getItem($pk);
 
 		// Get the dispatcher and load the users plugins.
-		$dispatcher	= JDispatcher::getInstance();
+		$dispatcher	= JEventDispatcher::getInstance();
 		JPluginHelper::importPlugin('user');
 
 		// Trigger the data preparation event.
@@ -107,7 +103,7 @@ class UsersModelUser extends JModelAdmin
 
 		// TODO: Maybe this can go into the parent model somehow?
 		// Get the dispatcher and load the users plugins.
-		$dispatcher	= JDispatcher::getInstance();
+		$dispatcher	= JEventDispatcher::getInstance();
 		JPluginHelper::importPlugin('user');
 
 		// Trigger the data preparation event.
@@ -220,7 +216,7 @@ class UsersModelUser extends JModelAdmin
 
 		// Trigger the onUserBeforeSave event.
 		JPluginHelper::importPlugin('user');
-		$dispatcher = JDispatcher::getInstance();
+		$dispatcher = JEventDispatcher::getInstance();
 
 		if (in_array($user->id, $pks))
 		{
@@ -288,7 +284,7 @@ class UsersModelUser extends JModelAdmin
 	{
 		// Initialise variables.
 		$app		= JFactory::getApplication();
-		$dispatcher	= JDispatcher::getInstance();
+		$dispatcher	= JEventDispatcher::getInstance();
 		$user		= JFactory::getUser();
 		// Check if I am a Super Admin
 		$iAmSuperAdmin	= $user->authorise('core.admin');
@@ -398,7 +394,7 @@ class UsersModelUser extends JModelAdmin
 	function activate(&$pks)
 	{
 		// Initialise variables.
-		$dispatcher	= JDispatcher::getInstance();
+		$dispatcher	= JEventDispatcher::getInstance();
 		$user		= JFactory::getUser();
 		// Check if I am a Super Admin
 		$iAmSuperAdmin	= $user->authorise('core.admin');
@@ -590,7 +586,7 @@ class UsersModelUser extends JModelAdmin
 			$db->setQuery($query);
 
 			// Check for database errors.
-			if (!$db->query())
+			if (!$db->execute())
 			{
 				$this->setError($db->getErrorMsg());
 				return false;
@@ -633,7 +629,7 @@ class UsersModelUser extends JModelAdmin
 			$db->setQuery($query);
 
 			// Check for database errors.
-			if (!$db->query())
+			if (!$db->execute())
 			{
 				$this->setError($db->getErrorMsg());
 				return false;
@@ -655,7 +651,7 @@ class UsersModelUser extends JModelAdmin
 		$user = JFactory::getUser();
 		if ($user->authorise('core.edit', 'com_users') && $user->authorise('core.manage', 'com_users'))
 		{
-			$model = JModel::getInstance('Groups', 'UsersModel', array('ignore_request' => true));
+			$model = JModelLegacy::getInstance('Groups', 'UsersModel', array('ignore_request' => true));
 			return $model->getItems();
 		}
 		else
@@ -676,7 +672,7 @@ class UsersModelUser extends JModelAdmin
 	public function getAssignedGroups($userId = null)
 	{
 		// Initialise variables.
-		$userId = (!empty($userId)) ? $userId : (int)$this->getState('user.id');
+		$userId = (!empty($userId)) ? $userId : (int) $this->getState('user.id');
 
 		if (empty($userId))
 		{

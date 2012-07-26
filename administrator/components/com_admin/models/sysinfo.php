@@ -1,20 +1,20 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_admin
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
-
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_admin
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_admin
+ * @since       1.6
  */
-class AdminModelSysInfo extends JModel
+class AdminModelSysInfo extends JModelLegacy
 {
 	/**
 	 * @var array some php settings
@@ -103,8 +103,8 @@ class AdminModelSysInfo extends JModel
 		if (is_null($this->info))
 		{
 			$this->info = array();
-			$version = new JVersion();
-			$platform = new JPlatform();
+			$version = new JVersion;
+			$platform = new JPlatform;
 			$db = JFactory::getDBO();
 			if (isset($_SERVER['SERVER_SOFTWARE'])) {
 				$sf = $_SERVER['SERVER_SOFTWARE'];
@@ -124,6 +124,7 @@ class AdminModelSysInfo extends JModel
 		}
 		return $this->info;
 	}
+
 	/**
 	 * method to get the PHP info
 	 *
@@ -150,6 +151,7 @@ class AdminModelSysInfo extends JModel
 		}
 		return $this->php_info;
 	}
+
 	/**
 	 * method to get the directory states
 	 *
@@ -222,7 +224,7 @@ class AdminModelSysInfo extends JModel
 	}
 
 	private function _addDirectory($name, $path, $message = '') {
-	    $this->directories[$name] = array('writable' => is_writable($path), 'message' => $message);
+		$this->directories[$name] = array('writable' => is_writable($path), 'message' => $message);
 	}
 
 	/**

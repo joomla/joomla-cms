@@ -1,12 +1,12 @@
 <?php
 /**
- * @package		Joomla.Site
- * @subpackage	Templates.atomic
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  Template.atomic
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
 
 // Note. It is important to remove spaces between elements.
@@ -14,7 +14,8 @@ defined('_JEXEC') or die;
 <!-- The class on the root UL tag was changed to match the Blueprint nav style -->
 <ul class="joomla-nav<?php echo $params->get('class_sfx');?>"<?php
 	$tag = '';
-	if ($params->get('tag_id')!=NULL) {
+	if ($params->get('tag_id') != null)
+	{
 		$tag = $params->get('tag_id').'';
 		echo ' id="'.$tag.'"';
 	}

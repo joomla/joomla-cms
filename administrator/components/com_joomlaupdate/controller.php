@@ -1,24 +1,22 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_joomlaupdate
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @package     Joomla.Administrator
+ * @subpackage  com_joomlaupdate
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.controller');
 
 /**
  * Joomla! Update Controller
  *
- * @package		Joomla.Administrator
- * @subpackage	com_joomlaupdate
- * @since		2.5.4
+ * @package     Joomla.Administrator
+ * @subpackage  com_joomlaupdate
+ * @since       2.5.4
  */
-class JoomlaupdateController extends JController
+class JoomlaupdateController extends JControllerLegacy
 {
 	/**
 	 * Method to display a view.
@@ -46,7 +44,7 @@ class JoomlaupdateController extends JController
 
 			// Get the model for the view.
 			$model = $this->getModel($vName);
-			
+
 			// Perform update source preference check and refresh update information
 			$model->applyUpdateSite();
 			$model->refreshUpdates();

@@ -19,7 +19,7 @@ JFormHelper::loadFieldClass('groupedlist');
  * @subpackage  Form
  * @since       1.6
  */
-class JFormFieldTemplateStyle extends JFormFieldGroupedList
+class JFormFieldTemplatestyle extends JFormFieldGroupedList
 {
 	/**
 	 * The form field type.

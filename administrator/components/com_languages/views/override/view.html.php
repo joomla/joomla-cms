@@ -1,24 +1,22 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_languages
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_languages
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.view');
 
 /**
  * View to edit an language override
  *
- * @package			Joomla.Administrator
- * @subpackage	com_languages
- * @since				2.5
+ * @package     Joomla.Administrator
+ * @subpackage  com_languages
+ * @since       2.5
  */
-class LanguagesViewOverride extends JView
+class LanguagesViewOverride extends JViewLegacy
 {
 	/**
 	 * The form to use for the view
@@ -57,7 +55,7 @@ class LanguagesViewOverride extends JView
 	{
 		$doc = JFactory::getDocument();
 		$doc->addStyleSheet(JURI::root().'media/overrider/css/overrider.css');
-		JHTML::core();
+		JHtml::_('behavior.framework');
 		$doc->addScript(JURI::root().'media/overrider/js/overrider.js');
 
 		$this->form		= $this->get('Form');

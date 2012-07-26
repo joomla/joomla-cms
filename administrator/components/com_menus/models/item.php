@@ -7,14 +7,10 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
 
-// Include dependencies.
-jimport('joomla.application.component.modeladmin');
 jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.folder');
-jimport('joomla.tablenested');
 require_once JPATH_COMPONENT.'/helpers/menus.php';
 
 /**
@@ -62,7 +58,7 @@ class MenusModelItem extends JModelAdmin
 	{
 		if (!empty($record->id)) {
 			if ($record->published != -2) {
-				return ;
+				return;
 			}
 			$user = JFactory::getUser();
 
@@ -498,7 +494,7 @@ class MenusModelItem extends JModelAdmin
 			$query->set($db->quoteName('menutype') . ' = ' . $db->quote($menuType));
 			$query->where($db->quoteName('id') . ' IN (' . implode(',', $children) . ')');
 			$db->setQuery($query);
-			$db->query();
+			$db->execute();
 
 			// Check for a database error.
 			if ($db->getErrorNum())
@@ -579,7 +575,7 @@ class MenusModelItem extends JModelAdmin
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		return array_merge((array)$this->getItem(), (array)JFactory::getApplication()->getUserState('com_menus.edit.item.data', array()));
+		return array_merge((array) $this->getItem(), (array) JFactory::getApplication()->getUserState('com_menus.edit.item.data', array()));
 	}
 
 	/**
@@ -604,7 +600,7 @@ class MenusModelItem extends JModelAdmin
 	public function getItem($pk = null)
 	{
 		// Initialise variables.
-		$pk = (!empty($pk)) ? $pk : (int)$this->getState('item.id');
+		$pk = (!empty($pk)) ? $pk : (int) $this->getState('item.id');
 
 		// Get a level row instance.
 		$table = $this->getTable();
@@ -615,8 +611,7 @@ class MenusModelItem extends JModelAdmin
 		// Check for a table object error.
 		if ($error = $table->getError()) {
 			$this->setError($error);
-			$false = false;
-			return $false;
+			return false;
 		}
 
 		// Prime required properties.
@@ -690,7 +685,7 @@ class MenusModelItem extends JModelAdmin
 
 		// Convert to the JObject before adding the params.
 		$properties = $table->getProperties(1);
-		$result = JArrayHelper::toObject($properties, 'JObject');
+		$result = JArrayHelper::toObject($properties);
 
 		// Convert the params field to an array.
 		$registry = new JRegistry;
@@ -719,7 +714,18 @@ class MenusModelItem extends JModelAdmin
 		}
 
 		// Load associated menu items
-		if (JFactory::getApplication()->get('menu_associations', 0)) {
+		$app = JFactory::getApplication();
+		if (isset($app->menu_associations))
+		{
+			$assoc = $app->menu_associations;
+		}
+		else
+		{
+			$assoc = 0;
+		}
+
+		if ($assoc)
+		{
 			if ($pk != null) {
 				$result->associations = MenusHelper::getAssociations($pk);
 			}
@@ -971,17 +977,26 @@ class MenusModelItem extends JModelAdmin
 			}
 		}
 
-
 		// Load the specific type file
 		if (!$form->loadFile('item_'.$type, false, false)) {
 			throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
 		}
 
 		// Association menu items
-		if (JFactory::getApplication()->get('menu_associations', 0)) {
+		$app = JFactory::getApplication();
+		if (isset($app->menu_associations))
+		{
+			$assoc = $app->menu_associations;
+		}
+		else
+		{
+			$assoc = 0;
+		}
+
+		if ($assoc) {
 			$languages = JLanguageHelper::getLanguages('lang_code');
 
-			$addform = new JXMLElement('<form />');
+			$addform = new SimpleXMLElement('<form />');
 			$fields = $addform->addChild('fields');
 			$fields->addAttribute('name', 'associations');
 			$fieldset = $fields->addChild('fieldset');
@@ -1046,14 +1061,14 @@ class MenusModelItem extends JModelAdmin
 		{
 			$registry = new JRegistry;
 			$registry->loadString($item->params);
-			$params = (string)$registry;
+			$params = (string) $registry;
 
 			$db->setQuery(
 				'UPDATE #__menu' .
 				' SET params = '.$db->quote($params).
 				' WHERE id = '.(int) $item->id
 			);
-			if (!$db->query()) {
+			if (!$db->execute()) {
 				$this->setError($error);
 				return false;
 			}
@@ -1078,10 +1093,10 @@ class MenusModelItem extends JModelAdmin
 	public function save($data)
 	{
 		// Initialise variables.
-		$pk		= (!empty($data['id'])) ? $data['id'] : (int)$this->getState('item.id');
-		$isNew	= true;
-		$db		= $this->getDbo();
-		$table	= $this->getTable();
+		$pk    = (!empty($data['id'])) ? $data['id'] : (int) $this->getState('item.id');
+		$isNew = true;
+		$db    = $this->getDbo();
+		$table = $this->getTable();
 
 		// Load the row if saving an existing item.
 		if ($pk > 0) {
@@ -1163,7 +1178,17 @@ class MenusModelItem extends JModelAdmin
 		$this->setState('item.menutype', $table->menutype);
 
 		// Load associated menu items
-		if (JFactory::getApplication()->get('menu_associations', 0)) {
+		$app = JFactory::getApplication();
+		if (isset($app->menu_associations))
+		{
+			$assoc = $app->menu_associations;
+		}
+		else
+		{
+			$assoc = 0;
+		}
+
+		if ($assoc) {
 			// Adding self to the association
 			$associations = $data['associations'];
 			foreach ($associations as $tag=>$id) {
@@ -1187,7 +1212,7 @@ class MenusModelItem extends JModelAdmin
 			$query->where('context='.$db->quote('com_menus.item'));
 			$query->where('id IN ('.implode(',', $associations).')');
 			$db->setQuery($query);
-			$db->query();
+			$db->execute();
 			if ($error = $db->getErrorMsg()) {
 				$this->setError($error);
 				return false;
@@ -1202,7 +1227,7 @@ class MenusModelItem extends JModelAdmin
 					$query->values($id.','.$db->quote('com_menus.item').','.$db->quote($key));
 				}
 				$db->setQuery($query);
-				$db->query();
+				$db->execute();
 				if ($error = $db->getErrorMsg()) {
 					$this->setError($error);
 					return false;

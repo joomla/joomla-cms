@@ -288,7 +288,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 		$query->set($this->db->quoteName($property) . ' = ' . (int) $value);
 		$query->where($this->db->quoteName('url') . ' = ' . $item);
 		$this->db->setQuery($query);
-		$this->db->query();
+		$this->db->execute();
 
 		// Check for a database error.
 		if ($this->db->getErrorNum())
@@ -476,7 +476,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 		$query = $this->db->getQuery(true);
 		$query->select($this->db->quoteName('access'));
 		$query->from($this->db->quoteName('#__categories'));
-		$query->where($this->db->quoteName('id') . ' = ' . (int)$row->id);
+		$query->where($this->db->quoteName('id') . ' = ' . (int) $row->id);
 		$this->db->setQuery($query);
 
 		// Store the access level to determine if it changes
@@ -497,7 +497,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 		$query = $this->db->getQuery(true);
 		$query->select($this->db->quoteName('access'));
 		$query->from($this->db->quoteName($this->table));
-		$query->where($this->db->quoteName('id') . ' = ' . (int)$row->id);
+		$query->where($this->db->quoteName('id') . ' = ' . (int) $row->id);
 		$this->db->setQuery($query);
 
 		// Store the access level to determine if it changes

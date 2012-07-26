@@ -1,13 +1,14 @@
 <?php
 /**
- * @package		Joomla.Site
- * @subpackage	com_users
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
- * @since		1.5
+ * @package     Joomla.Site
+ * @subpackage  com_users
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
 JHtml::_('behavior.keepalive');
 ?>
 <div class="login<?php echo $this->pageclass_sfx?>">
@@ -19,7 +20,7 @@ JHtml::_('behavior.keepalive');
 
 	<?php if (($this->params->get('logindescription_show') == 1 && str_replace(' ', '', $this->params->get('login_description')) != '') || $this->params->get('login_image') != '') : ?>
 	<div class="login-description">
-	<?php endif ; ?>
+	<?php endif; ?>
 
 		<?php if($this->params->get('logindescription_show') == 1) : ?>
 			<?php echo $this->params->get('login_description'); ?>
@@ -31,7 +32,7 @@ JHtml::_('behavior.keepalive');
 
 	<?php if (($this->params->get('logindescription_show') == 1 && str_replace(' ', '', $this->params->get('login_description')) != '') || $this->params->get('login_image') != '') : ?>
 	</div>
-	<?php endif ; ?>
+	<?php endif; ?>
 
 	<form action="<?php echo JRoute::_('index.php?option=com_users&task=user.login'); ?>" method="post">
 

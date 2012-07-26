@@ -1,19 +1,17 @@
 <?php
 /**
-bv * @package		Joomla.Site
- * @subpackage	com_contact
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  com_contact
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.modellist');
-
 /**
- * @package		Joomla.Site
- * @subpackage	com_contact
+ * @package     Joomla.Site
+ * @subpackage  com_contact
  */
 class ContactModelCategory extends JModelList
 {
@@ -90,7 +88,7 @@ class ContactModelCategory extends JModelList
 		for ($i = 0, $n = count($items); $i < $n; $i++) {
 			$item = &$items[$i];
 			if (!isset($this->_params)) {
-				$params = new JRegistry();
+				$params = new JRegistry;
 				$params->loadString($item->params);
 				$item->params = $params;
 			}
@@ -137,7 +135,6 @@ class ContactModelCategory extends JModelList
 		$query->from($db->quoteName('#__contact_details').' AS a');
 		$query->join('LEFT', '#__categories AS c ON c.id = a.catid');
 		$query->where('a.access IN ('.$groups.')');
-
 
 		// Filter by category.
 		if ($categoryId = $this->getState('category.id')) {
@@ -203,7 +200,7 @@ class ContactModelCategory extends JModelList
 		$this->setState('list.start', $limitstart);
 
 		// Get list ordering default from the parameters
-		$menuParams = new JRegistry();
+		$menuParams = new JRegistry;
 		if ($menu = $app->getMenu()->getActive()) {
 			$menuParams->loadString($menu->params);
 		}
@@ -254,7 +251,7 @@ class ContactModelCategory extends JModelList
 			$app = JFactory::getApplication();
 			$menu = $app->getMenu();
 			$active = $menu->getActive();
-			$params = new JRegistry();
+			$params = new JRegistry;
 
 			if($active)
 			{

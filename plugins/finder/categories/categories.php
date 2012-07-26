@@ -9,10 +9,8 @@
 
 defined('JPATH_BASE') or die;
 
-jimport('joomla.application.component.helper');
 jimport('joomla.filesystem.file');
 
-// Load the base adapter.
 require_once JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/adapter.php';
 
 /**
@@ -258,7 +256,7 @@ class plgFinderCategories extends FinderIndexerAdapter
 		$registry->loadString($item->metadata);
 		$item->metadata = $registry;
 
-		 /* Add the meta-data processing instructions based on the categories
+		/* Add the meta-data processing instructions based on the categories
 		 * configuration parameters.
 		 */
 		// Add the meta-author.
@@ -277,15 +275,11 @@ class plgFinderCategories extends FinderIndexerAdapter
 
 		// Build the necessary route and path information.
 		$item->url = $this->getURL($item->id, $item->extension, $this->layout);
-		if (class_exists($extension . 'HelperRoute') && method_exists($extension . 'HelperRoute', 'getCategoryRoute'))
+
+		$class = $extension . 'HelperRoute';
+		if (class_exists($class) && method_exists($class, 'getCategoryRoute'))
 		{
-			$class = $extension . 'HelperRoute';
-
-			// This is necessary for PHP 5.2 compatibility
-			$item->route = call_user_func(array($class, 'getCategoryRoute'), $item->id);
-
-			// Use this when PHP 5.3 is minimum supported
-			//$item->route = $class::getCategoryRoute($item->id);
+			$item->route = $class::getCategoryRoute($item->id);
 		}
 		else
 		{

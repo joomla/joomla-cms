@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-// Register dependent classes.
 JLoader::register('FinderIndexerStemmer', dirname(__FILE__) . '/stemmer.php');
 JLoader::register('FinderIndexerToken', dirname(__FILE__) . '/token.php');
 
@@ -75,7 +74,7 @@ class FinderIndexerHelper
 		$quotes = html_entity_decode('&#8216;&#8217;&#39;', ENT_QUOTES, 'UTF-8');
 
 		// Get the simple language key.
-		$lang = FinderIndexerHelper::getPrimaryLanguage($lang);
+		$lang = self::getPrimaryLanguage($lang);
 
 		/*
 		 * Parsing the string input into terms is a multi-step process.
@@ -282,7 +281,7 @@ class FinderIndexerHelper
 		$query->columns(array($db->quoteName('title'), $db->quoteName('mime')));
 		$query->values($db->quote($title) . ', ' . $db->quote($mime));
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 
 		// Check for a database error.
 		if ($db->getErrorNum())
@@ -312,7 +311,7 @@ class FinderIndexerHelper
 		// Load the common tokens for the language if necessary.
 		if (!isset($data[$lang]))
 		{
-			$data[$lang] = FinderIndexerHelper::getCommonWords($lang);
+			$data[$lang] = self::getCommonWords($lang);
 		}
 
 		// Check if the token is in the common array.
@@ -458,7 +457,7 @@ class FinderIndexerHelper
 	public static function getContentExtras(FinderIndexerResult &$item)
 	{
 		// Get the event dispatcher.
-		$dispatcher = JDispatcher::getInstance();
+		$dispatcher = JEventDispatcher::getInstance();
 
 		// Load the finder plugin group.
 		JPluginHelper::importPlugin('finder');
@@ -499,7 +498,7 @@ class FinderIndexerHelper
 		static $loaded;
 
 		// Get the dispatcher.
-		$dispatcher = JDispatcher::getInstance();
+		$dispatcher = JEventDispatcher::getInstance();
 
 		// Load the content plugins if necessary.
 		if (empty($loaded))

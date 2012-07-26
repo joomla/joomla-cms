@@ -1,10 +1,12 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_media
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
 
 jimport('joomla.filesystem.file');
@@ -13,11 +15,11 @@ jimport('joomla.filesystem.folder');
 /**
  * Folder Media Controller
  *
- * @package		Joomla.Administrator
- * @subpackage	com_media
- * @since 1.5
+ * @package     Joomla.Administrator
+ * @subpackage  com_media
+ * @since       1.5
  */
-class MediaControllerFolder extends JController
+class MediaControllerFolder extends JControllerLegacy
 {
 
 	/**
@@ -63,7 +65,7 @@ class MediaControllerFolder extends JController
 		$ret = true;
 
 		JPluginHelper::importPlugin('content');
-		$dispatcher	= JDispatcher::getInstance();
+		$dispatcher	= JEventDispatcher::getInstance();
 		if (count($paths))
 		{
 			foreach ($paths as $path)
@@ -75,7 +77,7 @@ class MediaControllerFolder extends JController
 					continue;
 				}
 
-				$fullPath = JPath::clean(implode(DS, array(COM_MEDIA_BASE, $folder, $path)));
+				$fullPath = JPath::clean(implode(DIRECTORY_SEPARATOR, array(COM_MEDIA_BASE, $folder, $path)));
 				$object_file = new JObject(array('filepath' => $fullPath));
 				if (is_file($fullPath))
 				{
@@ -168,7 +170,7 @@ class MediaControllerFolder extends JController
 				// Trigger the onContentBeforeSave event.
 				$object_file = new JObject(array('filepath' => $path));
 				JPluginHelper::importPlugin('content');
-				$dispatcher	= JDispatcher::getInstance();
+				$dispatcher	= JEventDispatcher::getInstance();
 				$result = $dispatcher->trigger('onContentBeforeSave', array('com_media.folder', &$object_file));
 				if (in_array(false, $result, true))
 				{

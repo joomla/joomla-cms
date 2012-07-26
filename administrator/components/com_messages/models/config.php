@@ -1,20 +1,20 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_messages
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.modelform');
 
 /**
  * Message configuration model.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_messages
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_messages
+ * @since       1.6
  */
 class MessagesModelConfig extends JModelForm
 {
@@ -104,7 +104,7 @@ class MessagesModelConfig extends JModelForm
 				'DELETE FROM #__messages_cfg'.
 				' WHERE user_id = '. $userId
 			);
-			$db->query();
+			$db->execute();
 			if ($error = $db->getErrorMsg()) {
 				$this->setError($error);
 				return false;
@@ -121,7 +121,7 @@ class MessagesModelConfig extends JModelForm
 					' (user_id, cfg_name, cfg_value)'.
 					' VALUES '.implode(',', $tuples)
 				);
-				$db->query();
+				$db->execute();
 				if ($error = $db->getErrorMsg()) {
 					$this->setError($error);
 					return false;

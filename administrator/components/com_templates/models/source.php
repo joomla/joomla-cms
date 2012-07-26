@@ -1,20 +1,18 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_templates
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_templates
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.modelform');
-
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_templates
- * @since		1.5
+ * @package     Joomla.Administrator
+ * @subpackage  com_templates
+ * @since       1.5
  */
 class TemplatesModelSource extends JModelForm
 {
@@ -77,7 +75,8 @@ class TemplatesModelSource extends JModelForm
 		$query->where('(a.name ='.$db->quote('plg_editors_codemirror').' AND a.enabled = 1) OR (a.name ='.$db->quote('plg_editors_none').' AND a.enabled = 1)');
 		$db->setQuery($query);
 		$state = $db->loadResult();
-		if ((int)$state < 1 ) {
+		if ((int) $state < 1 )
+		{
 			$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_EDITOR_DISABLED'), 'warning');
 		}
 
@@ -195,7 +194,7 @@ class TemplatesModelSource extends JModelForm
 			return false;
 		}
 
-		$dispatcher = JDispatcher::getInstance();
+		$dispatcher = JEventDispatcher::getInstance();
 		$fileName	= $this->getState('filename');
 		$client		= JApplicationHelper::getClientInfo($template->client_id);
 		$filePath	= JPath::clean($client->path.'/templates/'.$template->element.'/'.$fileName);

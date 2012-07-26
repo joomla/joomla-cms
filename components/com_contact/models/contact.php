@@ -1,21 +1,18 @@
 <?php
 /**
- * @package		Joomla.Site
- * @subpackage	com_contact
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  com_contact
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.modelform');
-jimport('joomla.event.dispatcher');
-
 /**
- * @package		Joomla.Site
- * @subpackage	com_contact
- * @since 1.5
+ * @package     Joomla.Site
+ * @subpackage  com_contact
+ * @since       1.5
  */
 class ContactModelContact extends JModelForm
 {
@@ -92,7 +89,7 @@ class ContactModelContact extends JModelForm
 
 	protected function loadFormData()
 	{
-		$data = (array)JFactory::getApplication()->getUserState('com_contact.contact.data', array());
+		$data = (array) JFactory::getApplication()->getUserState('com_contact.contact.data', array());
 		return $data;
 	}
 
@@ -139,7 +136,6 @@ class ContactModelContact extends JModelForm
 				// Join on category table.
 				$query->select('c.title AS category_title, c.alias AS category_alias, c.access AS category_access');
 				$query->join('LEFT', '#__categories AS c on c.id = a.catid');
-
 
 				// Join over the categories to get parent category titles
 				$query->select('parent.title as parent_title, parent.id as parent_id, parent.path as parent_route, parent.alias as parent_alias');
@@ -223,8 +219,7 @@ class ContactModelContact extends JModelForm
 				$this->_item[$pk]->profile = $extendedData->profile;
 			}
 		}
-  		return $this->_item[$pk];
-
+		return $this->_item[$pk];
 	}
 
 	protected function getContactQuery($pk = null)
@@ -324,7 +319,7 @@ class ContactModelContact extends JModelForm
 
 				$query->from('#__content as a');
 				$query->leftJoin('#__categories as c on a.catid=c.id');
-				$query->where('a.created_by = '.(int)$result->user_id);
+				$query->where('a.created_by = ' . (int) $result->user_id);
 				$query->where('a.access IN ('. $groups.')');
 				$query->order('a.state DESC, a.created DESC');
 				// filter per language if plugin published
@@ -341,12 +336,12 @@ class ContactModelContact extends JModelForm
 				//get the profile information for the linked user
 				require_once JPATH_ADMINISTRATOR.'/components/com_users/models/user.php';
 				$userModel = JModelLegacy::getInstance('User', 'UsersModel', array('ignore_request' => true));
-					$data = $userModel->getItem((int)$result->user_id);
+				$data = $userModel->getItem((int) $result->user_id);
 
 				JPluginHelper::importPlugin('user');
 				$form = new JForm('com_users.profile');
 				// Get the dispatcher.
-				$dispatcher	= JDispatcher::getInstance();
+				$dispatcher	= JEventDispatcher::getInstance();
 
 				// Trigger the form preparation event.
 				$dispatcher->trigger('onContentPrepareForm', array($form, $data));

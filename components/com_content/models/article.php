@@ -1,22 +1,20 @@
 <?php
 /**
- * @package		Joomla.Site
- * @subpackage	com_content
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  com_content
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.modelitem');
 
 /**
  * Content Component Article Model
  *
- * @package		Joomla.Site
- * @subpackage	com_content
- * @since 1.5
+ * @package     Joomla.Site
+ * @subpackage  com_content
+ * @since       1.5
  */
 class ContentModelArticle extends JModelItem
 {
@@ -101,7 +99,7 @@ class ContentModelArticle extends JModelItem
 				// Join on user table.
 				$query->select('u.name AS author');
 				$query->join('LEFT', '#__users AS u on u.id = a.created_by');
-		
+
 				// Join on contact table
 				$subQuery = $db->getQuery(true);
 				$subQuery->select('contact.user_id, MAX(contact.id) AS id, contact.language');
@@ -110,7 +108,7 @@ class ContentModelArticle extends JModelItem
 				$subQuery->group('contact.user_id, contact.language');
 				$query->select('contact.id as contactid' );
 				$query->join('LEFT', '(' . $subQuery . ') AS contact ON contact.user_id = a.created_by');
-				
+
 				// Join over the categories to get parent category titles
 				$query->select('parent.title as parent_title, parent.id as parent_id, parent.path as parent_route, parent.alias as parent_alias');
 				$query->join('LEFT', '#__categories as parent ON parent.id = c.parent_id');
@@ -240,75 +238,75 @@ class ContentModelArticle extends JModelItem
 	 */
 	public function hit($pk = 0)
 	{
-            $hitcount = JRequest::getInt('hitcount', 1);
+			$hitcount = JRequest::getInt('hitcount', 1);
 
-            if ($hitcount)
-            {
-                // Initialise variables.
-                $pk = (!empty($pk)) ? $pk : (int) $this->getState('article.id');
-                $db = $this->getDbo();
+			if ($hitcount)
+			{
+				// Initialise variables.
+				$pk = (!empty($pk)) ? $pk : (int) $this->getState('article.id');
+				$db = $this->getDbo();
 
-                $db->setQuery(
-                        'UPDATE #__content' .
-                        ' SET hits = hits + 1' .
-                        ' WHERE id = '.(int) $pk
-                );
+				$db->setQuery(
+						'UPDATE #__content' .
+						' SET hits = hits + 1' .
+						' WHERE id = '.(int) $pk
+				);
 
-                if (!$db->query()) {
-                        $this->setError($db->getErrorMsg());
-                        return false;
-                }
-            }
+				if (!$db->execute()) {
+						$this->setError($db->getErrorMsg());
+						return false;
+				}
+			}
 
-            return true;
+			return true;
 	}
 
-    public function storeVote($pk = 0, $rate = 0)
-    {
-        if ( $rate >= 1 && $rate <= 5 && $pk > 0 )
-        {
-            $userIP = $_SERVER['REMOTE_ADDR'];
-            $db = $this->getDbo();
+	public function storeVote($pk = 0, $rate = 0)
+	{
+		if ( $rate >= 1 && $rate <= 5 && $pk > 0 )
+		{
+			$userIP = $_SERVER['REMOTE_ADDR'];
+			$db = $this->getDbo();
 
-            $db->setQuery(
-                    'SELECT *' .
-                    ' FROM #__content_rating' .
-                    ' WHERE content_id = '.(int) $pk
-            );
+			$db->setQuery(
+					'SELECT *' .
+					' FROM #__content_rating' .
+					' WHERE content_id = '.(int) $pk
+			);
 
-            $rating = $db->loadObject();
+			$rating = $db->loadObject();
 
-            if (!$rating)
-            {
-                // There are no ratings yet, so lets insert our rating
-                $db->setQuery(
-                        'INSERT INTO #__content_rating ( content_id, lastip, rating_sum, rating_count )' .
-                        ' VALUES ( '.(int) $pk.', '.$db->Quote($userIP).', '.(int) $rate.', 1 )'
-                );
+			if (!$rating)
+			{
+				// There are no ratings yet, so lets insert our rating
+				$db->setQuery(
+						'INSERT INTO #__content_rating ( content_id, lastip, rating_sum, rating_count )' .
+						' VALUES ( '.(int) $pk.', '.$db->Quote($userIP).', '.(int) $rate.', 1 )'
+				);
 
-                if (!$db->query()) {
-                        $this->setError($db->getErrorMsg());
-                        return false;
-                }
-            } else {
-                if ($userIP != ($rating->lastip))
-                {
-                    $db->setQuery(
-                            'UPDATE #__content_rating' .
-                            ' SET rating_count = rating_count + 1, rating_sum = rating_sum + '.(int) $rate.', lastip = '.$db->Quote($userIP) .
-                            ' WHERE content_id = '.(int) $pk
-                    );
-                    if (!$db->query()) {
-                            $this->setError($db->getErrorMsg());
-                            return false;
-                    }
-                } else {
-                    return false;
-                }
-            }
-            return true;
-        }
-        JError::raiseWarning( 'SOME_ERROR_CODE', JText::sprintf('COM_CONTENT_INVALID_RATING', $rate), "JModelArticle::storeVote($rate)");
-        return false;
-    }
+				if (!$db->execute()) {
+						$this->setError($db->getErrorMsg());
+						return false;
+				}
+			} else {
+				if ($userIP != ($rating->lastip))
+				{
+					$db->setQuery(
+							'UPDATE #__content_rating' .
+							' SET rating_count = rating_count + 1, rating_sum = rating_sum + '.(int) $rate.', lastip = '.$db->Quote($userIP) .
+							' WHERE content_id = '.(int) $pk
+					);
+					if (!$db->execute()) {
+							$this->setError($db->getErrorMsg());
+							return false;
+					}
+				} else {
+					return false;
+				}
+			}
+			return true;
+		}
+		JError::raiseWarning( 'SOME_ERROR_CODE', JText::sprintf('COM_CONTENT_INVALID_RATING', $rate), "JModelArticle::storeVote($rate)");
+		return false;
+	}
 }

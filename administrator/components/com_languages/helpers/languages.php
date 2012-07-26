@@ -1,18 +1,20 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_languages
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
 
 /**
  * Languages component helper.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_languages
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_languages
+ * @since       1.6
  */
 class LanguagesHelper
 {
@@ -83,39 +85,13 @@ class LanguagesHelper
 			return array();
 		}
 
-		// Capture hidden PHP errors from the parsing
-		$version			= phpversion();
-		$php_errormsg	= null;
-		$track_errors	= ini_get('track_errors');
-		ini_set('track_errors', true);
+		$contents = file_get_contents($filename);
+		$contents = str_replace('_QQ_', '"\""', $contents);
+		$strings  = @parse_ini_string($contents);
 
-		if ($version >= '5.3.1')
+		if ($strings === false)
 		{
-			$contents = file_get_contents($filename);
-			$contents = str_replace('_QQ_', '"\""', $contents);
-			$strings 	= @parse_ini_string($contents);
-
-			if ($strings === false)
-			{
-				return array();
-			}
-		}
-		else
-		{
-			$strings = @parse_ini_file($filename);
-
-			if ($strings === false)
-			{
-				return array();
-			}
-
-			if ($version == '5.3.0' && is_array($strings))
-			{
-				foreach ($strings as $key => $string)
-				{
-					$strings[$key] = str_replace('_QQ_', '"', $string);
-				}
-			}
+			return array();
 		}
 
 		return $strings;

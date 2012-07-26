@@ -1,22 +1,24 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_templates
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
 
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_templates
+ * @package     Joomla.Administrator
+ * @subpackage  com_templates
  */
 class TemplatesTableStyle extends JTable
 {
 	/**
 	 * Constructor
 	 *
-	 * @param JDatabase A database connector object
+	 * @param JDatabaseDriver A database connector object
 	 */
 	public function __construct(&$db)
 	{
@@ -35,9 +37,9 @@ class TemplatesTableStyle extends JTable
 	{
 		if (isset($array['params']) && is_array($array['params']))
 		{
-			$registry = new JRegistry();
+			$registry = new JRegistry;
 			$registry->loadArray($array['params']);
-			$array['params'] = (string)$registry;
+			$array['params'] = (string) $registry;
 		}
 
 		// Verify that the default style is not unset
@@ -78,10 +80,10 @@ class TemplatesTableStyle extends JTable
 			$query = $this->_db->getQuery(true);
 			$query->update('#__template_styles');
 			$query->set('home=\'0\'');
-			$query->where('client_id='.(int)$this->client_id);
+			$query->where('client_id=' . (int) $this->client_id);
 			$query->where('home='.$this->_db->quote($this->home));
 			$this->_db->setQuery($query);
-			$this->_db->query();
+			$this->_db->execute();
 		}
 		return parent::store($updateNulls);
 	}
@@ -103,7 +105,7 @@ class TemplatesTableStyle extends JTable
 			$query = $this->_db->getQuery(true);
 			$query->from('#__template_styles');
 			$query->select('id');
-			$query->where('client_id='.(int)$this->client_id);
+			$query->where('client_id=' . (int) $this->client_id);
 			$query->where('template='.$this->_db->quote($this->template));
 			$this->_db->setQuery($query);
 			$results = $this->_db->loadColumn();

@@ -33,9 +33,9 @@ class JSchemaChangeset extends JObject
 	protected $changeItems = array();
 
 	/**
-	* JDatabase object
+	* JDatabaseDriver object
 	*
-	* @var    string
+	* @var    JDatabaseDriver
 	*/
 	protected $db = null;
 
@@ -50,8 +50,8 @@ class JSchemaChangeset extends JObject
 	 * Constructor: builds array of $changeItems by processing the .sql files in a folder.
 	 * The folder for the Joomla core updates is administrator/components/com_admin/sql/updates/<database>.
 	 *
-	 * @param   JDatabase  $db      The current database object
-	 * @param   string     $folder  The full path to the folder containing the update queries
+	 * @param   JDatabaseDriver  $db      The current database object
+	 * @param   string           $folder  The full path to the folder containing the update queries
 	 *
 	 * @since   2.5
 	 */
@@ -71,8 +71,8 @@ class JSchemaChangeset extends JObject
 	 * Returns the existing JSchemaChangeset object if it exists.
 	 * Otherwise, it creates a new one.
 	 *
-	 * @param   JDatabase  $db      The current database object
-	 * @param   string     $folder  The full path to the folder containing the update queries
+	 * @param   JDatabaseDriver  $db      The current database object
+	 * @param   string           $folder  The full path to the folder containing the update queries
 	 *
 	 * @return  JSchemaChangeSet    The (possibly chached) instance of JSchemaChangeSet
 	 *

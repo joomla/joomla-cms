@@ -1,10 +1,12 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Plugin
+ * @subpackage  Search.content
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
 require_once JPATH_SITE.'/components/com_content/router.php';
@@ -12,9 +14,9 @@ require_once JPATH_SITE.'/components/com_content/router.php';
 /**
  * Content Search plugin
  *
- * @package		Joomla.Plugin
- * @subpackage	Search.content
- * @since		1.6
+ * @package     Joomla.Plugin
+ * @subpackage  Search.content
+ * @since       1.6
  */
 class plgSearchContent extends JPlugin
 {
@@ -218,7 +220,6 @@ class plgSearchContent extends JPlugin
 				.'AND (a.publish_up = '.$db->Quote($nullDate).' OR a.publish_up <= '.$db->Quote($now).') '
 				.'AND (a.publish_down = '.$db->Quote($nullDate).' OR a.publish_down >= '.$db->Quote($now).')' );
 			$query->order($order);
-
 
 			// Filter by language
 			if ($app->isSite() && $app->getLanguageFilter()) {

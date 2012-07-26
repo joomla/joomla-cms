@@ -42,10 +42,12 @@ class plgCaptchaRecaptcha extends JPlugin
 	 */
 	public function onInit($id)
 	{
-		// Initialise variables
-		$lang		= $this->_getLanguage();
-		$pubkey		= $this->params->get('public_key', '');
-		$theme		= $this->params->get('theme', 'clean');
+		$document = JFactory::getDocument();
+		$app      = JFactory::getApplication();
+
+		$lang   = $this->_getLanguage();
+		$pubkey = $this->params->get('public_key', '');
+		$theme  = $this->params->get('theme', 'clean');
 
 		if ($pubkey == null || $pubkey == '')
 		{
@@ -53,13 +55,12 @@ class plgCaptchaRecaptcha extends JPlugin
 		}
 
 		$server = self::RECAPTCHA_API_SERVER;
-		if (JBrowser::getInstance()->isSSLConnection())
+		if ($app->isSSLConnection())
 		{
 			$server = self::RECAPTCHA_API_SECURE_SERVER;
 		}
 
 		JHtml::_('script', $server.'/js/recaptcha_ajax.js');
-		$document = JFactory::getDocument();
 		$document->addScriptDeclaration('window.addEvent(\'domready\', function() {
 			Recaptcha.create("'.$pubkey.'", "dynamic_recaptcha_1", {theme: "'.$theme.'",'.$lang.'tabindex: 0});});'
 		);
@@ -92,7 +93,7 @@ class plgCaptchaRecaptcha extends JPlugin
 		$privatekey	= $this->params->get('private_key');
 		$remoteip	= JRequest::getVar('REMOTE_ADDR', '', 'SERVER');
 		$challenge	= JRequest::getString('recaptcha_challenge_field', '');
-		$response	= JRequest::getString('recaptcha_response_field', '');;
+		$response	= JRequest::getString('recaptcha_response_field', '');
 
 		// Check for Private Key
 		if (empty($privatekey))
@@ -122,7 +123,7 @@ class plgCaptchaRecaptcha extends JPlugin
 													'challenge'		=> $challenge,
 													'response'		=> $response
 												)
-										  );
+											);
 
 		$answers = explode("\n", $response[1]);
 
@@ -223,7 +224,7 @@ class plgCaptchaRecaptcha extends JPlugin
 		{
 			return "lang : '" . $tag . "',";
 		}
-		
+
 		// If the default language is not available, let's search for a custom translation
 		if ($language->hasKey('PLG_RECAPTCHA_CUSTOM_LANG'))
 		{

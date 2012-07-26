@@ -52,7 +52,7 @@ class JDocumentRendererAtom extends JDocumentRenderer
 		$now = JFactory::getDate();
 		$now->setTimeZone($tz);
 
-		$data = &$this->_doc;
+		$data = $this->_doc;
 
 		$uri = JFactory::getURI();
 		$url = $uri->toString(array('scheme', 'user', 'pass', 'host', 'port'));
@@ -108,7 +108,7 @@ class JDocumentRendererAtom extends JDocumentRenderer
 			}
 			$feed .= "	</author>\n";
 		}
-		$feed .= "	<generator uri=\"http://joomla.org\" version=\"2.5\">" . $data->getGenerator() . "</generator>\n";
+		$feed .= "	<generator uri=\"http://joomla.org\" version=\"1.6\">" . $data->getGenerator() . "</generator>\n";
 		$feed .= '	<link rel="self" type="application/atom+xml" href="' . str_replace(' ', '%20', $url . $syndicationURL) . "\"/>\n";
 
 		for ($i = 0, $count = count($data->items); $i < $count; $i++)

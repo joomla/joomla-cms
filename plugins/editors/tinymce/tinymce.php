@@ -1,7 +1,10 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Plugin
+ * @subpackage  Editors.tinymce
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -9,9 +12,9 @@ defined('_JEXEC') or die;
 /**
  * TinyMCE Editor Plugin
  *
- * @package		Joomla.Plugin
- * @subpackage	Editors.tinymce
- * @since		1.5
+ * @package     Joomla.Plugin
+ * @subpackage  Editors.tinymce
+ * @since       1.5
  */
 class plgEditorTinymce extends JPlugin
 {
@@ -51,7 +54,7 @@ class plgEditorTinymce extends JPlugin
 		$skin	= $this->params->get('skin', '0');
 
 		switch ($skin)
-  		{
+		{
 			case '3':
 				$skin = 'skin : "o2k7", skin_variant : "black",';
 				break;
@@ -345,7 +348,7 @@ class plgEditorTinymce extends JPlugin
 		// style
 		$style = $this->params->def('style', 1);
 
-		if ($style) 
+		if ($style)
 		{
 			$plugins[]	= 'style';
 			$buttons4[]	= 'styleprops';

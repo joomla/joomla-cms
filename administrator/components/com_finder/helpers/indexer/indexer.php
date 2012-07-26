@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-// Register dependent classes.
 JLoader::register('FinderIndexerHelper', dirname(__FILE__) . '/helper.php');
 JLoader::register('FinderIndexerParser', dirname(__FILE__) . '/parser.php');
 JLoader::register('FinderIndexerStemmer', dirname(__FILE__) . '/stemmer.php');
@@ -140,7 +139,6 @@ class FinderIndexer
 		// Setup the profiler if debugging is enabled.
 		if (JFactory::getApplication()->getCfg('debug'))
 		{
-			jimport('joomla.error.profiler');
 			self::$profiler = JProfiler::getInstance('FinderIndexer');
 		}
 
@@ -236,7 +234,7 @@ class FinderIndexer
 		}
 
 		// Get the indexer state.
-		$state = FinderIndexer::getState();
+		$state = self::getState();
 
 		// Get the signatures of the item.
 		$curSig = self::getSignature($item);
@@ -267,7 +265,7 @@ class FinderIndexer
 				$query->from($db->quoteName('#__finder_links_terms' . dechex($i)));
 				$query->where($db->quoteName('link_id') . ' = ' . (int) $linkId);
 				$db->setQuery($query);
-				$db->query();
+				$db->execute();
 
 				// Check for a database error.
 				if ($db->getErrorNum())
@@ -333,7 +331,7 @@ class FinderIndexer
 				. $db->quote($item->sale_price)
 			);
 			$db->setQuery($query);
-			$db->query();
+			$db->execute();
 
 			// Check for a database error.
 			if ($db->getErrorNum())
@@ -368,7 +366,7 @@ class FinderIndexer
 			$query->set($db->qn('sale_price') . ' = ' . $db->quote($item->sale_price));
 			$query->where('link_id = ' . (int) $linkId);
 			$db->setQuery($query);
-			$db->query();
+			$db->execute();
 
 			// Check for a database error.
 			if ($db->getErrorNum())
@@ -438,12 +436,12 @@ class FinderIndexer
 						}
 
 						// Tokenize a string of content and add it to the database.
-						$count += FinderIndexer::tokenizeToDB($ip, $group, $item->language, $format);
+						$count += self::tokenizeToDB($ip, $group, $item->language, $format);
 
 						// Check if we're approaching the memory limit of the token table.
 						if ($count > self::$state->options->get('memory_table_limit', 30000))
 						{
-							FinderIndexer::toggleTables(false);
+							self::toggleTables(false);
 						}
 					}
 				}
@@ -460,12 +458,12 @@ class FinderIndexer
 					}
 
 					// Tokenize a string of content and add it to the database.
-					$count += FinderIndexer::tokenizeToDB($item->$property, $group, $item->language, $format);
+					$count += self::tokenizeToDB($item->$property, $group, $item->language, $format);
 
 					// Check if we're approaching the memory limit of the token table.
 					if ($count > self::$state->options->get('memory_table_limit', 30000))
 					{
-						FinderIndexer::toggleTables(false);
+						self::toggleTables(false);
 					}
 				}
 			}
@@ -487,7 +485,7 @@ class FinderIndexer
 				FinderIndexerTaxonomy::addMap($linkId, $nodeId);
 
 				// Tokenize the node title and add them to the database.
-				$count += FinderIndexer::tokenizeToDB($node->title, self::META_CONTEXT, $item->language, $format);
+				$count += self::tokenizeToDB($node->title, self::META_CONTEXT, $item->language, $format);
 			}
 		}
 
@@ -529,7 +527,7 @@ class FinderIndexer
 		{
 			// Run the query to aggregate the tokens for this context..
 			$db->setQuery(sprintf($query, $multiplier, $context, $context));
-			$db->query();
+			$db->execute();
 
 			// Check for a database error.
 			if ($db->getErrorNum())
@@ -568,7 +566,7 @@ class FinderIndexer
 						' GROUP BY ta.term';
 
 		$db->setQuery($queryInsIgn);
-		$db->query();
+		$db->execute();
 
 		// Check for a database error.
 		if ($db->getErrorNum())
@@ -605,7 +603,7 @@ class FinderIndexer
 									$db->quoteName('soundex') . ' = ' . $db->quote($subQuVal->soundex);
 
 			$db->setQuery($quRepl_p1);
-			$db->query();
+			$db->execute();
 
 			$quRepl_p2 = 'INSERT INTO ' . $db->quoteName('#__finder_terms') .
 						' (' . $db->quoteName('term') .
@@ -623,7 +621,7 @@ class FinderIndexer
 						' GROUP BY ta.term';
 
 			$db->setQuery($quRepl_p2);
-			$db->query();
+			$db->execute();
 
 			// Check for a database error.
 			if ($db->getErrorNum())
@@ -648,7 +646,7 @@ class FinderIndexer
 			' WHERE ta.term_id = 0' .
 			' GROUP BY ta.term'
 		);
-		$db->query();
+		$db->execute();
 
 		// Check for a database error.
 		if ($db->getErrorNum())
@@ -669,7 +667,7 @@ class FinderIndexer
 		$query->set('ta.term_id = t.term_id');
 		$query->where('ta.term_id = 0');
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 
 		// Check for a database error.
 		if ($db->getErrorNum())
@@ -691,7 +689,7 @@ class FinderIndexer
 		$query->join('INNER', $db->quoteName('#__finder_tokens_aggregate') . ' AS ta ON ta.term_id = t.term_id');
 		$query->set('t.' . $db->quoteName('links') . ' = t.links + 1');
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 
 		// Check for a database error.
 		if ($db->getErrorNum())
@@ -714,7 +712,7 @@ class FinderIndexer
 		$query->update($db->quoteName('#__finder_tokens_aggregate'));
 		$query->set($db->quoteName('map_suffix') . ' = SUBSTR(MD5(SUBSTR(' . $db->quoteName('term') . ', 1, 1)), 1, 1)');
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 
 		// Check for a database error.
 		if ($db->getErrorNum())
@@ -753,7 +751,7 @@ class FinderIndexer
 				' GROUP BY ' . $db->quoteName('term') .
 				' ORDER BY ' . $db->quoteName('term') . ' DESC'
 			);
-			$db->query();
+			$db->execute();
 
 			// Check for a database error.
 			if ($db->getErrorNum())
@@ -772,7 +770,7 @@ class FinderIndexer
 		$query->set($db->quoteName('md5sum') . ' = ' . $db->quote($curSig));
 		$query->where($db->quoteName('link_id') . ' = ' . $db->quote($linkId));
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 
 		// Check for a database error.
 		if ($db->getErrorNum())
@@ -805,7 +803,7 @@ class FinderIndexer
 		}
 
 		// Toggle the token tables back to memory tables.
-		FinderIndexer::toggleTables(true);
+		self::toggleTables(true);
 
 		// Mark afterTruncating in the profiler.
 		self::$profiler ? self::$profiler->mark('afterTruncating') : null;
@@ -829,7 +827,7 @@ class FinderIndexer
 		$query = $db->getQuery(true);
 
 		// Get the indexer state.
-		$state = FinderIndexer::getState();
+		$state = self::getState();
 
 		// Update the link counts and remove the mapping records.
 		for ($i = 0; $i <= 15; $i++)
@@ -840,7 +838,7 @@ class FinderIndexer
 			$query->set($db->quoteName('t'). '.' . $db->quoteName('links') . ' ='.  $db->quoteName('t') .'.' . $db->quoteName('links') . ' - 1');
 			$query->where($db->quoteName('m') . '.' . $db->quoteName('link_id') . ' = ' . $db->quote((int) $linkId));
 			$db->setQuery($query);
-			$db->query();
+			$db->execute();
 
 			// Check for a database error.
 			if ($db->getErrorNum())
@@ -855,7 +853,7 @@ class FinderIndexer
 			$query->from($db->quoteName('#__finder_links_terms' . dechex($i)));
 			$query->where($db->quoteName('link_id') . ' = ' . (int) $linkId);
 			$db->setQuery($query);
-			$db->query();
+			$db->execute();
 
 			// Check for a database error.
 			if ($db->getErrorNum())
@@ -871,7 +869,7 @@ class FinderIndexer
 		$query->from($db->quoteName('#__finder_terms'));
 		$query->where($db->quoteName('links') . ' <= 0');
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 
 		// Check for a database error.
 		if ($db->getErrorNum())
@@ -886,7 +884,7 @@ class FinderIndexer
 		$query->from($db->quoteName('#__finder_links'));
 		$query->where($db->quoteName('link_id') . ' = ' . $db->quote((int) $linkId));
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 
 		// Check for a database error.
 		if ($db->getErrorNum())
@@ -916,7 +914,7 @@ class FinderIndexer
 	public static function optimize()
 	{
 		// Get the indexer state.
-		$state = FinderIndexer::getState();
+		$state = self::getState();
 
 		// Get the database object.
 		$db = JFactory::getDBO();
@@ -927,7 +925,7 @@ class FinderIndexer
 		$query->from($db->quoteName('#__finder_terms'));
 		$query->where($db->quoteName('links') . ' <= 0');
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 
 		// Check for a database error.
 		if ($db->getErrorNum())
@@ -942,7 +940,7 @@ class FinderIndexer
 		if (strpos($db->name, 'mysql') === 0)
 		{
 			$db->setQuery('OPTIMIZE TABLE ' . $db->quoteName('#__finder_links'));
-			$db->query();
+			$db->execute();
 
 			// Check for a database error.
 			if ($db->getErrorNum())
@@ -960,7 +958,7 @@ class FinderIndexer
 			{
 				// Optimize the terms mapping table.
 				$db->setQuery('OPTIMIZE TABLE ' . $db->quoteName('#__finder_links_terms' . dechex($i)));
-				$db->query();
+				$db->execute();
 
 				// Check for a database error.
 				if ($db->getErrorNum())
@@ -977,7 +975,7 @@ class FinderIndexer
 		if (strpos($db->name, 'mysql') === 0)
 		{
 			$db->setQuery('OPTIMIZE TABLE ' . $db->quoteName('#__finder_links_terms'));
-			$db->query();
+			$db->execute();
 
 			// Check for a database error.
 			if ($db->getErrorNum())
@@ -996,7 +994,7 @@ class FinderIndexer
 		if (strpos($db->name, 'mysql') === 0)
 		{
 			$db->setQuery('OPTIMIZE TABLE ' . $db->quoteName('#__finder_taxonomy_map'));
-			$db->query();
+			$db->execute();
 
 			// Check for a database error.
 			if ($db->getErrorNum())
@@ -1021,7 +1019,7 @@ class FinderIndexer
 	protected static function getSignature($item)
 	{
 		// Get the indexer state.
-		$state = FinderIndexer::getState();
+		$state = self::getState();
 
 		// Get the relevant configuration variables.
 		$config = array();
@@ -1104,12 +1102,12 @@ class FinderIndexer
 				$tokens = FinderIndexerHelper::tokenize($string, $lang);
 
 				// Add the tokens to the database.
-				$count += FinderIndexer::addTokensToDB($tokens, $context);
+				$count += self::addTokensToDB($tokens, $context);
 
 				// Check if we're approaching the memory limit of the token table.
 				if ($count > self::$state->options->get('memory_table_limit', 30000))
 				{
-					FinderIndexer::toggleTables(false);
+					self::toggleTables(false);
 				}
 
 				unset($string);
@@ -1157,12 +1155,12 @@ class FinderIndexer
 				$tokens = FinderIndexerHelper::tokenize($string, $lang);
 
 				// Add the tokens to the database.
-				$count += FinderIndexer::addTokensToDB($tokens, $context);
+				$count += self::addTokensToDB($tokens, $context);
 
 				// Check if we're approaching the memory limit of the token table.
 				if ($count > self::$state->options->get('memory_table_limit', 30000))
 				{
-					FinderIndexer::toggleTables(false);
+					self::toggleTables(false);
 				}
 			}
 		}
@@ -1181,7 +1179,7 @@ class FinderIndexer
 			$tokens = FinderIndexerHelper::tokenize($input, $lang);
 
 			// Add the tokens to the database.
-			$count = FinderIndexer::addTokensToDB($tokens, $context);
+			$count = self::addTokensToDB($tokens, $context);
 		}
 
 		return $count;
@@ -1237,7 +1235,7 @@ class FinderIndexer
 					)
 		);
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 
 		// Check for a database error.
 		if ($db->getErrorNum())
@@ -1279,7 +1277,7 @@ class FinderIndexer
 		{
 			// Set the tokens table to Memory.
 			$db->setQuery('ALTER TABLE ' . $db->quoteName('#__finder_tokens') . ' ENGINE = MEMORY');
-			$db->query();
+			$db->execute();
 
 			// Check for a database error.
 			if ($db->getErrorNum())
@@ -1290,7 +1288,7 @@ class FinderIndexer
 
 			// Set the tokens aggregate table to Memory.
 			$db->setQuery('ALTER TABLE ' . $db->quoteName('#__finder_tokens_aggregate') . ' ENGINE = MEMORY');
-			$db->query();
+			$db->execute();
 
 			// Check for a database error.
 			if ($db->getErrorNum())
@@ -1307,7 +1305,7 @@ class FinderIndexer
 		{
 			// Set the tokens table to MyISAM.
 			$db->setQuery('ALTER TABLE ' . $db->quoteName('#__finder_tokens') . ' ENGINE = MYISAM');
-			$db->query();
+			$db->execute();
 
 			// Check for a database error.
 			if ($db->getErrorNum())
@@ -1318,7 +1316,7 @@ class FinderIndexer
 
 			// Set the tokens aggregate table to MyISAM.
 			$db->setQuery('ALTER TABLE ' . $db->quoteName('#__finder_tokens_aggregate') . ' ENGINE = MYISAM');
-			$db->query();
+			$db->execute();
 
 			// Check for a database error.
 			if ($db->getErrorNum())

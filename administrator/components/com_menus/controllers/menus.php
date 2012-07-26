@@ -1,21 +1,22 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_menus
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-jimport( 'joomla.application.component.controller' );
-
 /**
  * The Menu List Controller
  *
- * @package		Joomla.Administrator
- * @subpackage	com_menus
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_menus
+ * @since       1.6
  */
-class MenusControllerMenus extends JController
+class MenusControllerMenus extends JControllerLegacy
 {
 	/**
 	 * Display the view
@@ -161,7 +162,7 @@ class MenusControllerMenus extends JController
 						'UPDATE #__menu' .
 						' SET component_id = '.$componentId.
 						' WHERE id = '.$item->id
-					)->query();
+					)->execute();
 					//echo "<br>".$db->getQuery();
 
 					if ($error = $db->getErrorMsg()) {

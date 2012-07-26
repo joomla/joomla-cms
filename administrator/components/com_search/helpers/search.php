@@ -1,17 +1,19 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_search
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
 
 /**
  * Search component helper.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_search
+ * @package     Joomla.Administrator
+ * @subpackage  com_search
  */
 class SearchHelper
 {
@@ -122,21 +124,21 @@ class SearchHelper
 			$db = JFactory::getDbo();
 			$query = 'SELECT hits'
 			. ' FROM #__core_log_searches'
-			. ' WHERE LOWER(search_term) = "'.$search_term.'"'
-			;
+			. ' WHERE LOWER(search_term) = "'.$search_term.'"';
+
 			$db->setQuery($query);
 			$hits = intval($db->loadResult());
 			if ($hits) {
 				$query = 'UPDATE #__core_log_searches'
 				. ' SET hits = (hits + 1)'
-				. ' WHERE LOWER(search_term) = "'.$search_term.'"'
-				;
+				. ' WHERE LOWER(search_term) = "'.$search_term.'"';
+
 				$db->setQuery($query);
-				$db->query();
+				$db->execute();
 			} else {
 				$query = 'INSERT INTO #__core_log_searches VALUES ("'.$search_term.'", 1)';
 				$db->setQuery($query);
-				$db->query();
+				$db->execute();
 			}
 		}
 	}

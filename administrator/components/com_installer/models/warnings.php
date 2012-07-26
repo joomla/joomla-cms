@@ -1,22 +1,22 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_installer
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_installer
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.modellist');
 jimport('joomla.filesystem.folder');
 
 /**
  * Extension Manager Templates Model
  *
- * @package		Joomla.Administrator
- * @subpackage	com_installer
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_installer
+ * @since       1.6
  */
 class InstallerModelWarnings extends JModelList
 {
@@ -70,7 +70,6 @@ class InstallerModelWarnings extends JModelList
 			$messages[] = array('message'=>JText::_('COM_INSTALLER_MSG_WARNINGS_FILEUPLOADSDISABLED'), 'description'=>JText::_('COM_INSTALLER_MSG_WARNINGS_FILEUPLOADISDISABLEDDESC'));
 		}
 
-
 		$upload_dir = ini_get('upload_tmp_dir');
 		if (!$upload_dir) {
 			$messages[] = array('message'=>JText::_('COM_INSTALLER_MSG_WARNINGS_PHPUPLOADNOTSET'), 'description'=>JText::_('COM_INSTALLER_MSG_WARNINGS_PHPUPLOADNOTSETDESC'));
@@ -96,7 +95,6 @@ class InstallerModelWarnings extends JModelList
 		} elseif ($memory_limit < (16 * 1024 * 1024)) { //16MB
 			$messages[] = array('message'=>JText::_('COM_INSTALLER_MSG_WARNINGS_MEDMEMORYWARN'), 'description'=>JText::_('COM_INSTALLER_MSG_WARNINGS_MEDMEMORYDESC'));
 		}
-
 
 		$post_max_size = $this->return_bytes(ini_get('post_max_size'));
 		$upload_max_filesize = $this->return_bytes(ini_get('upload_max_filesize'));

@@ -1,13 +1,13 @@
 <?php
 /**
- * @package		Joomla.Site
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  com_contact
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
-
-jimport('joomla.application.categories');
 
 /**
  * Build the route for the com_contact component
@@ -70,7 +70,7 @@ function ContactBuildRoute(&$query){
 				$array = array();
 				foreach($path as $id)
 				{
-					if((int) $id == (int)$menuCatid)
+					if((int) $id == (int) $menuCatid)
 					{
 						break;
 					}
@@ -147,7 +147,10 @@ function ContactParseRoute($segments)
 
 	// From the categories view, we can only jump to a category.
 	$id = (isset($item->query['id']) && $item->query['id'] > 1) ? $item->query['id'] : 'root';
-	$categories = JCategories::getInstance('Contact')->get($id)->getChildren();
+
+	$contactCategory = JCategories::getInstance('Contact')->get($id);
+
+	$categories = ($contactCategory) ? $contactCategory->getChildren() : array();
 	$vars['catid'] = $id;
 	$vars['id'] = $id;
 	$found = 0;

@@ -1,7 +1,10 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Plugin
+ * @subpackage  System.redirect
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_BASE') or die;
@@ -9,8 +12,8 @@ defined('JPATH_BASE') or die;
 /**
  * Plugin class for redirect handling.
  *
- * @package		Joomla.Plugin
- * @subpackage	System.redirect
+ * @package     Joomla.Plugin
+ * @subpackage  System.redirect
  */
 class plgSystemRedirect extends JPlugin
 {
@@ -72,9 +75,9 @@ class plgSystemRedirect extends JPlugin
 				if(!$res) {
 
 					// If not, add the new url to the database.
-					 $query = $db->getQuery(true);
-					 $query->insert($db->quoteName('#__redirect_links'), false);
-					 $columns = array( $db->quoteName('old_url'),
+					$query = $db->getQuery(true);
+					$query->insert($db->quoteName('#__redirect_links'), false);
+					$columns = array( $db->quoteName('old_url'),
 									$db->quoteName('new_url'),
 									$db->quoteName('referer'),
 									$db->quoteName('comment'),
@@ -83,22 +86,22 @@ class plgSystemRedirect extends JPlugin
 									$db->quoteName('created_date')
 								);
 					$query->columns($columns);
-				    $query->values($db->Quote($current). ', '. $db->Quote('').
-				  				' ,'.$db->Quote($referer).', '.$db->Quote('').',1,0, '.
-								  $db->Quote(JFactory::getDate()->toSql())
-								);
+					$query->values($db->Quote($current). ', '. $db->Quote('').
+						' ,'.$db->Quote($referer).', '.$db->Quote('').',1,0, '.
+						$db->Quote(JFactory::getDate()->toSql())
+					);
 
 					$db->setQuery($query);
-					$db->query();
+					$db->execute();
 
 				} else {
 					// Existing error url, increase hit counter
 					$query = $db->getQuery(true);
 					$query->update($db->quoteName('#__redirect_links'));
 					$query->set($db->quoteName('hits').' = '.$db->quoteName('hits').' + 1');
-					$query->where('id = '.(int)$res);
-					$db->setQuery((string)$query);
-					$db->query();
+					$query->where('id = ' . (int) $res);
+					$db->setQuery((string) $query);
+					$db->execute();
 				}
 				// Render the error page.
 				JError::customErrorPage($error);

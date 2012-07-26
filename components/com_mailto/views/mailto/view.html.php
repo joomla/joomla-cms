@@ -1,13 +1,18 @@
 <?php
 /**
- * @package		Joomla.Site
- * @subpackage	com_mailto
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  com_mailto
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+/**
+ * @package     Joomla.Site
+ * @subpackage  com_mailto
+ */
 class MailtoViewMailto extends JViewLegacy
 {
 	function display($tpl = null)
@@ -25,7 +30,7 @@ class MailtoViewMailto extends JViewLegacy
 	function &getData()
 	{
 		$user = JFactory::getUser();
-		$data = new stdClass();
+		$data = new stdClass;
 
 		$data->link = urldecode(JRequest::getVar('link', '', 'method', 'base64'));
 

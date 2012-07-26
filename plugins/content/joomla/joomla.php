@@ -1,7 +1,10 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Plugin
+ * @subpackage  Content.joomla
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -9,9 +12,9 @@ defined('_JEXEC') or die;
 /**
  * Example Content Plugin
  *
- * @package		Joomla.Plugin
- * @subpackage	Content.joomla
- * @since		1.6
+ * @package     Joomla.Plugin
+ * @subpackage  Content.joomla
+ * @since       1.6
  */
 class plgContentJoomla extends JPlugin
 {
@@ -95,7 +98,7 @@ class plgContentJoomla extends JPlugin
 			return true;
 		}
 
-		$extension = JRequest::getString('extension');
+		$extension = JFactory::getApplication()->input->getString('extension');
 
 		// Default to true if not a core extension
 		$result = true;

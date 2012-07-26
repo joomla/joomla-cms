@@ -1,18 +1,19 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_admin
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
-
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_admin
+ * @package     Joomla.Administrator
+ * @subpackage  com_admin
  */
-class AdminViewProfile extends JView
+class AdminViewProfile extends JViewLegacy
 {
 	protected $form;
 	protected $item;
@@ -47,7 +48,7 @@ class AdminViewProfile extends JView
 	 */
 	protected function addToolbar()
 	{
-		JRequest::setVar('hidemainmenu', 1);
+		JFactory::getApplication()->input->set('hidemainmenu', 1);
 
 		JToolBarHelper::title(JText::_('COM_ADMIN_VIEW_PROFILE_TITLE'), 'user-profile');
 		JToolBarHelper::apply('profile.apply');

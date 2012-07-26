@@ -1,11 +1,14 @@
 <?php
 /**
- * @package		Joomla.Site
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  Template.beez_20
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
 $params = JFactory::getApplication()->getTemplate(true)->params;
 $logo =  $params->get('logo');
 $showRightColumn = 0;
@@ -59,9 +62,6 @@ $this->direction = $doc->direction;
 				<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/<?php echo $this->template; ?>/css/<?php echo $color ?>_rtl.css" type="text/css" />
 			<?php endif; ?>
 		<?php endif; ?>
-		<!--[if lte IE 6]>
-			<link href="<?php echo $this->baseurl ?>/templates/<?php echo $this->template; ?>/css/ieonly.css" rel="stylesheet" type="text/css" />
-		<![endif]-->
 		<!--[if IE 7]>
 			<link href="<?php echo $this->baseurl ?>/templates/<?php echo $this->template; ?>/css/ie7only.css" rel="stylesheet" type="text/css" />
 		<![endif]-->
@@ -98,8 +98,6 @@ $this->direction = $doc->direction;
 								$params = JFactory::getApplication()->getTemplate(true)->params;
 								$logo =  $params->get('logo');
 							?>
-
-							<?php jimport( 'joomla.application.module.helper' ); ?>
 
 						 <h1 id="logo">
 
@@ -155,7 +153,7 @@ $this->direction = $doc->direction;
 
 						<h3><?php echo JText::_('JERROR_LAYOUT_PLEASE_CONTACT_THE_SYSTEM_ADMINISTRATOR'); ?></h3>
 
-						<h2>#<?php echo $this->error->getCode() ;?>&nbsp;<?php echo $this->error->getMessage();?></h2> <br />
+						<h2>#<?php echo $this->error->getCode();?>&nbsp;<?php echo $this->error->getMessage();?></h2> <br />
 
 
 			</div><!-- end wrapper -->

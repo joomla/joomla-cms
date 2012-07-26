@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.modellist');
-
 /**
  * Methods supporting a list of user records.
  *
@@ -334,8 +332,6 @@ class UsersModelUsers extends JModelList
 		// Apply the range filter.
 		if ($range = $this->getState('filter.range'))
 		{
-			jimport('joomla.utilities.date');
-
 			// Get UTC for now.
 			$dNow = new JDate;
 			$dStart = clone $dNow;

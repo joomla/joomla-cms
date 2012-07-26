@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Utilities
  * @since       11.1
  */
-class JArrayHelper
+abstract class JArrayHelper
 {
 	/**
 	 * Option to perform case-sensitive sorts.
@@ -77,7 +77,7 @@ class JArrayHelper
 			}
 			elseif (is_array($default))
 			{
-				JArrayHelper::toInteger($default, null);
+				self::toInteger($default, null);
 				$array = $default;
 			}
 			else
@@ -107,7 +107,7 @@ class JArrayHelper
 			{
 				if (is_array($v))
 				{
-					$obj->$k = JArrayHelper::toObject($v, $class);
+					$obj->$k = self::toObject($v, $class);
 				}
 				else
 				{
@@ -145,7 +145,7 @@ class JArrayHelper
 						$output[] = $key;
 					}
 					// This is value is an array, go and do it again!
-					$output[] = JArrayHelper::toString($item, $inner_glue, $outer_glue, $keepOuterKey);
+					$output[] = self::toString($item, $inner_glue, $outer_glue, $keepOuterKey);
 				}
 				else
 				{
@@ -242,12 +242,8 @@ class JArrayHelper
 
 		if (is_array($array))
 		{
-			$n = count($array);
-
-			for ($i = 0; $i < $n; $i++)
+			foreach ($array as $key => &$item)
 			{
-				$item = &$array[$i];
-
 				if (is_array($item) && isset($item[$index]))
 				{
 					$result[] = $item[$index];
@@ -256,7 +252,7 @@ class JArrayHelper
 				{
 					$result[] = $item->$index;
 				}
-				// else ignore the entry
+				// Else ignore the entry
 			}
 		}
 		return $result;
@@ -370,7 +366,7 @@ class JArrayHelper
 	 *
 	 * @since   11.3
 	 */
-	public function pivot($source, $key = null)
+	public static function pivot($source, $key = null)
 	{
 		$result = array();
 		$counter = array();
@@ -450,7 +446,7 @@ class JArrayHelper
 	 */
 	public static function sortObjects(&$a, $k, $direction = 1, $caseSensitive = true, $locale = false)
 	{
-		if (!is_array($locale) or !is_array($locale[0]))
+		if (!is_array($locale) || !is_array($locale[0]))
 		{
 			$locale = array($locale);
 		}
@@ -505,7 +501,7 @@ class JArrayHelper
 			$va = $a->$key[$i];
 			$vb = $b->$key[$i];
 
-			if ((is_bool($va) or is_numeric($va)) and (is_bool($vb) or is_numeric($vb)))
+			if ((is_bool($va) || is_numeric($va)) && (is_bool($vb) || is_numeric($vb)))
 			{
 				$cmp = $va - $vb;
 			}

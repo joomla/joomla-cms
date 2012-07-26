@@ -1,9 +1,9 @@
 <?php
 /**
- * @package     Joomla.Libraries
+ * @package    Joomla.Libraries
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
@@ -30,7 +30,8 @@ if (!defined('JVERSION')) {
 	define('JVERSION', $jversion->getShortVersion());
 }
 
-// Register the location of renamed classes so they can be autoloaded
-// The old name are considered deprecated and this should be removed in 3.0
-JLoader::register('JRule', JPATH_PLATFORM . '/joomla/access/rule.php');
-JLoader::register('JRules', JPATH_PLATFORM . '/joomla/access/rules.php');
+// Set up the message queue logger for web requests
+if (array_key_exists('REQUEST_METHOD', $_SERVER))
+{
+	JLog::addLogger(array('logger' => 'messagequeue'), JLog::ALL, array('jerror'));
+}

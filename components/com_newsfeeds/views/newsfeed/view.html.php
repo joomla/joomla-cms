@@ -1,10 +1,10 @@
 <?php
 /**
- * @package		Joomla.Site
- * @subpackage	com_newsfeeds
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  com_newsfeeds
  *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -12,10 +12,9 @@ defined('_JEXEC') or die;
 /**
  * HTML View class for the Newsfeeds component
  *
- * @static
- * @package		Joomla.Site
- * @subpackage	com_newsfeeds
- * @since 1.0
+ * @package     Joomla.Site
+ * @subpackage  com_newsfeeds
+ * @since       1.0
  */
 class NewsfeedsViewNewsfeed extends JViewLegacy
 {
@@ -45,7 +44,7 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 		// Initialise variables.
 		$app		= JFactory::getApplication();
 		$user		= JFactory::getUser();
-		$dispatcher	= JDispatcher::getInstance();
+		$dispatcher	= JEventDispatcher::getInstance();
 
 		// Get view related request variables.
 		$print = JRequest::getBool('print');
@@ -151,12 +150,11 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 		// Get the newsfeed
 		$newsfeed = $item;
 
-		$temp = new JRegistry();
+		$temp = new JRegistry;
 		$temp->loadString($item->params);
 		$params->merge($temp);
 
-		//  get RSS parsed object
-		$rssDoc = JFactory::getFeedParser($newsfeed->link, $newsfeed->cache_time);
+		$rssDoc = JSimplepieFactory::getFeedParser($newsfeed->link, $newsfeed->cache_time);
 
 		if ($rssDoc == false) {
 			$msg = JText::_('COM_NEWSFEEDS_ERRORS_FEED_NOT_RETRIEVED');
@@ -247,7 +245,7 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 				$path[] = array('title' => $category->title, 'link' => NewsfeedsHelperRoute::getCategoryRoute($category->id));
 				$category = $category->getParent();
 			}
- 			$path = array_reverse($path);
+			$path = array_reverse($path);
 			foreach($path as $item)
 			{
 				$pathway->addItem($item['title'], $item['link']);

@@ -1,21 +1,20 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_messages
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
-
-jimport('joomla.database.table');
 
 /**
  * Message Table class
  *
- * @package		Joomla.Administrator
- * @subpackage	com_messages
- * @since		1.5
+ * @package     Joomla.Administrator
+ * @subpackage  com_messages
+ * @since       1.5
  */
 class MessagesTableMessage extends JTable
 {
@@ -106,7 +105,7 @@ class MessagesTableMessage extends JTable
 			' SET '.$this->_db->quoteName('state').' = '.(int) $state .
 			' WHERE ('.$where.')'
 		);
-		$this->_db->query();
+		$this->_db->execute();
 
 		// Check for a database error.
 		if ($this->_db->getErrorNum()) {

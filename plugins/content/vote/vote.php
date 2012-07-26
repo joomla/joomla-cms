@@ -1,17 +1,19 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Plugin
+ * @subpackage  Content.vote
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
 
 /**
  * Vote plugin.
  *
- * @package		Joomla.Plugin
- * @subpackage	Content.vote
+ * @package     Joomla.Plugin
+ * @subpackage  Content.vote
  */
 class plgContentVote extends JPlugin
 {
@@ -41,12 +43,12 @@ class plgContentVote extends JPlugin
 			$rating = intval(@$row->rating);
 			$rating_count = intval(@$row->rating_count);
 
-			$view = JRequest::getString('view', '');
+			$view = JFactory::getApplication()->input->getString('view', '');
 			$img = '';
 
 			// look for images in template if available
-			$starImageOn = JHtml::_('image', 'system/rating_star.png', NULL, NULL, true);
-			$starImageOff = JHtml::_('image', 'system/rating_star_blank.png', NULL, NULL, true);
+			$starImageOn = JHtml::_('image', 'system/rating_star.png', null, null, true);
+			$starImageOff = JHtml::_('image', 'system/rating_star_blank.png', null, null, true);
 
 			for ($i=0; $i < $rating; $i++) {
 				$img .= $starImageOn;
@@ -60,7 +62,8 @@ class plgContentVote extends JPlugin
 
 			if ( $view == 'article' && $row->state == 1)
 			{
-				$uri = JFactory::getURI();
+				jimport('joomla.environment.uri');
+				$uri = JURI::getInstance();
 				$uri->setQuery($uri->getQuery().'&hitcount=0');
 
 				$html .= '<form method="post" action="' . $uri->toString() . '">';

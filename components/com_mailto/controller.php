@@ -1,16 +1,17 @@
 <?php
 /**
- * @package		Joomla.Site
- * @subpackage	com_mailto
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  com_mailto
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 /**
- * @package		Joomla.Site
- * @subpackage	com_mailto
+ * @package     Joomla.Site
+ * @subpackage  com_mailto
  */
 class MailtoController extends JControllerLegacy
 {
@@ -45,7 +46,7 @@ class MailtoController extends JControllerLegacy
 
 		$timeout = $session->get('com_mailto.formtime', 0);
 		if ($timeout == 0 || time() - $timeout < 20) {
-			JError::raiseNotice(500, JText:: _ ('COM_MAILTO_EMAIL_NOT_SENT'));
+			JError::raiseNotice(500, JText::_('COM_MAILTO_EMAIL_NOT_SENT'));
 			return $this->mailto();
 		}
 
@@ -58,7 +59,7 @@ class MailtoController extends JControllerLegacy
 		// Verify that this is a local link
 		if (!$link || !JURI::isInternal($link)) {
 			//Non-local url...
-			JError::raiseNotice(500, JText:: _ ('COM_MAILTO_EMAIL_NOT_SENT'));
+			JError::raiseNotice(500, JText::_('COM_MAILTO_EMAIL_NOT_SENT'));
 			return $this->mailto();
 		}
 
@@ -125,7 +126,7 @@ class MailtoController extends JControllerLegacy
 		}
 
 		// Build the message to send
-		$msg	= JText :: _('COM_MAILTO_EMAIL_MSG');
+		$msg	= JText::_('COM_MAILTO_EMAIL_MSG');
 		$body	= sprintf($msg, $SiteName, $sender, $from, $link);
 
 		// Clean the email data
@@ -136,7 +137,7 @@ class MailtoController extends JControllerLegacy
 		// Send the email
 		if (JFactory::getMailer()->sendMail($from, $sender, $email, $subject, $body) !== true)
 		{
-			JError::raiseNotice(500, JText:: _ ('COM_MAILTO_EMAIL_NOT_SENT'));
+			JError::raiseNotice(500, JText::_('COM_MAILTO_EMAIL_NOT_SENT'));
 			return $this->mailto();
 		}
 

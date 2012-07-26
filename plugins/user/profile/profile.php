@@ -1,19 +1,20 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Plugin
+ * @subpackage  User.profile
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_BASE') or die;
 
-jimport('joomla.utilities.date');
-
 /**
  * An example custom profile plugin.
  *
- * @package		Joomla.Plugin
- * @subpackage	User.profile
- * @version		1.6
+ * @package     Joomla.Plugin
+ * @subpackage  User.profile
+ * @since       1.6
  */
 class plgUserProfile extends JPlugin
 {
@@ -184,7 +185,7 @@ class plgUserProfile extends JPlugin
 			'aboutme',
 			'dob',
 		);
-		
+
 		$tosarticle = $this->params->get('register_tos_article');
 		$tosenabled = $this->params->get('register-require_tos', 0);
 
@@ -201,7 +202,7 @@ class plgUserProfile extends JPlugin
 		}
 
 		foreach ($fields as $field)
-		{	
+		{
 			// Case using the users manager in admin
 			if ($name == 'com_users.user')
 			{
@@ -264,7 +265,7 @@ class plgUserProfile extends JPlugin
 					" AND profile_key LIKE 'profile.%'"
 				);
 
-				if (!$db->query())
+				if (!$db->execute())
 				{
 					throw new Exception($db->getErrorMsg());
 				}
@@ -279,7 +280,7 @@ class plgUserProfile extends JPlugin
 
 				$db->setQuery('INSERT INTO #__user_profiles VALUES '.implode(', ', $tuples));
 
-				if (!$db->query())
+				if (!$db->execute())
 				{
 					throw new Exception($db->getErrorMsg());
 				}
@@ -323,7 +324,7 @@ class plgUserProfile extends JPlugin
 					" AND profile_key LIKE 'profile.%'"
 				);
 
-				if (!$db->query())
+				if (!$db->execute())
 				{
 					throw new Exception($db->getErrorMsg());
 				}
