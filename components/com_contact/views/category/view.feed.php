@@ -30,7 +30,7 @@ class ContactViewCategory extends JViewLegacy
 
 		$doc	= JFactory::getDocument();
 		$params = $app->getParams();
-		$feedEmail	= (@$app->getCfg('feed_email')) ? $app->getCfg('feed_email') : 'author';
+		$feedEmail	= $app->getCfg('feed_email', 'author');
 		$siteEmail	= $app->getCfg('mailfrom');
 
 		JRequest::setVar('limit', $app->getCfg('feed_limit'));
@@ -62,7 +62,7 @@ class ContactViewCategory extends JViewLegacy
 			$item->link			= $link;
 			$item->description	= $description;
 			$item->date			= $date;
-			$item->category		= $category;->title;
+			$item->category		= $category->title;
 			$item->author		= $author;
 
 			// We don't have the author email so we have to use site in both cases.
