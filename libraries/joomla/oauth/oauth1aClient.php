@@ -214,7 +214,7 @@ abstract class JOAuth1aClient
 	 *
 	 * @param   string  $url          The request URL.
 	 * @param   string  $method       The request method.
-	 * @param   array   &$parameters  Array containing request parameters.
+	 * @param   array   $parameters  Array containing request parameters.
 	 * @param   array   $data         The POST request data.
 	 * @param   array   $headers      An array of name-value pairs to include in the header of the request
 	 *
@@ -223,7 +223,7 @@ abstract class JOAuth1aClient
 	 * @since 12.3
 	 * @throws  DomainException
 	 */
-	public function oauthRequest($url, $method, &$parameters, $data = array(), $headers = array())
+	public function oauthRequest($url, $method, $parameters, $data = array(), $headers = array())
 	{
 		// Set the parameters.
 		$defaults = array(
@@ -306,13 +306,13 @@ abstract class JOAuth1aClient
 	/**
 	 * Method used to create the header for the POST request.
 	 *
-	 * @param   array  &$parameters  Array containing request parameters.
+	 * @param   array  $parameters  Array containing request parameters.
 	 *
 	 * @return  string  The header.
 	 *
 	 * @since 12.3
 	 */
-	private function _createHeader(&$parameters)
+	private function _createHeader($parameters)
 	{
 		$header = 'OAuth ';
 
@@ -335,7 +335,7 @@ abstract class JOAuth1aClient
 	 * Method to create the URL formed string with the parameters.
 	 *
 	 * @param   string  $url          The request URL.
-	 * @param   array   &$parameters  Array containing request parameters.
+	 * @param   array   $parameters  Array containing request parameters.
 	 *
 	 * @return  string  The formed URL.
 	 *
@@ -363,11 +363,11 @@ abstract class JOAuth1aClient
 			{
 				if (strpos($url, '?') === false)
 				{
-					$url .= '?' . $key . '=' . $this->safeEncode($value);
+					$url .= '?' . $key . '=' . $value;
 				}
 				else
 				{
-					$url .= '&' . $key . '=' . $this->safeEncode($value);
+					$url .= '&' . $key . '=' . $value;
 				}
 			}
 		}
@@ -380,7 +380,7 @@ abstract class JOAuth1aClient
 	 *
 	 * @param   string  $url          The URL to sign.
 	 * @param   string  $method       The request method.
-	 * @param   array   &$parameters  Array containing request parameters.
+	 * @param   array   $parameters  Array containing request parameters.
 	 *
 	 * @return  void
 	 *
@@ -405,13 +405,13 @@ abstract class JOAuth1aClient
 	 *
 	 * @param   string  $url          The URL to sign.
 	 * @param   string  $method       The request method.
-	 * @param   array   &$parameters  Array containing request parameters.
+	 * @param   array   $parameters  Array containing request parameters.
 	 *
 	 * @return string  The base string.
 	 *
 	 * @since 12.3
 	 */
-	private function _baseString($url, $method, &$parameters)
+	private function _baseString($url, $method, $parameters)
 	{
 		// Sort the parameters alphabetically
 		uksort($parameters, 'strcmp');

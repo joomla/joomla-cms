@@ -137,10 +137,10 @@ class JLinkedinCompanies extends JLinkedinObject
 	}
 
 	/**
-	 * Method to get information about people.
+	 * Method to search across company pages.
 	 *
 	 * @param   JLinkedinOAuth  $oauth     The JLinkedinOAuth object.
-	 * @param   string          $fields  Request fields beyond the default ones.
+	 * @param   string          $fields    Request fields beyond the default ones.
 	 * @param   string          $keywords  Members who have all the keywords anywhere in their profile.
 	 * @param   boolean         $hq        Matching companies by the headquarters location. When this is set to "true" and a location facet is used,
 	 * 									   this restricts returned companies to only those whose headquarters resides in the specified location.
@@ -177,7 +177,7 @@ class JLinkedinCompanies extends JLinkedinObject
 		// Check if keywords is specified.
 		if ($keywords)
 		{
-			$data['keywords'] = $keywords;
+			$data['keywords'] = $oauth->safeEncode($keywords);
 		}
 
 		// Check if hq is true.
@@ -214,9 +214,13 @@ class JLinkedinCompanies extends JLinkedinObject
 					}
 					if ($i == 3)
 					{
-						$data['facet']['num-followers-range'] = $facet[$i];
+						$data['facet']['company-size'] = $facet[$i];
 					}
 					if ($i == 4)
+					{
+						$data['facet']['num-followers-range'] = $facet[$i];
+					}
+					if ($i == 5)
 					{
 						$data['facet']['fortune'] = $facet[$i];
 					}

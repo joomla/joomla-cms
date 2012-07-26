@@ -405,4 +405,130 @@ class JLinkedinJobsTest extends TestCase
 
 		$this->object->getSuggested($this->oauth, $fields, $start, $count);
 	}
+
+	/**
+	 * Tests the search method
+	 *
+	 * @return  void
+	 *
+	 * @since   12.3
+	 */
+	public function testSearch()
+	{
+		$fields = '(facets)';
+		$keywords = 'quality, internet';
+		$company_name = 'Google';
+		$job_title = 'Software Engineer';
+		$country_code = 'us';
+		$postal_code = 12345;
+		$distance = 500;
+		$facets = 'company,date-posted,location,job-function,industry,salary';
+		$facet = array('Google', 1232435, 'us:84', 'developer', 6, 1000);
+		$start = 1;
+		$count = 50;
+		$sort = 'R';
+
+		// Set request parameters.
+		$data['format'] = 'json';
+		$data['keywords'] = $this->oauth->safeEncode($keywords);
+		$data['company-name'] = $this->oauth->safeEncode($company_name);
+		$data['job-title'] = $this->oauth->safeEncode($job_title);
+		$data['country-code'] = $country_code;
+		$data['postal-code'] = $postal_code;
+		$data['distance'] = $distance;
+		$data['facets'] = $facets;
+		$data['facet'] = array();
+		$data['facet']['company'] = $this->oauth->safeEncode($facet[0]);
+		$data['facet']['date-posted'] = $facet[1];
+		$data['facet']['location'] = $facet[2];
+		$data['facet']['job-function'] = $this->oauth->safeEncode($facet[3]);
+		$data['facet']['industry'] = $facet[4];
+		$data['facet']['salary'] = $facet[5];
+
+		$data['start'] = $start;
+		$data['count'] = $count;
+		$data['sort'] = $sort;
+
+		$path = '/v1/job-search';
+
+		$path .= ':' . $fields;
+
+		$returnData = new stdClass;
+		$returnData->code = 200;
+		$returnData->body = $this->sampleString;
+
+		$path = $this->oauth->toUrl($path, $data);
+
+		$this->client->expects($this->once())
+			->method('get')
+			->with($path)
+			->will($this->returnValue($returnData));
+
+		$this->assertThat(
+			$this->object->search($this->oauth, $fields, $keywords, $company_name, $job_title, $country_code, $postal_code, $distance, $facets, $facet, $start, $count, $sort),
+			$this->equalTo(json_decode($this->sampleString))
+		);
+	}
+
+	/**
+	 * Tests the search method - failure
+	 *
+	 * @return  void
+	 *
+	 * @expectedException DomainException
+	 * @since   12.3
+	 */
+	public function testSearchFailure()
+	{
+		$fields = '(facets)';
+		$keywords = 'quality, internet';
+		$company_name = 'Google';
+		$job_title = 'Software Engineer';
+		$country_code = 'us';
+		$postal_code = 12345;
+		$distance = 500;
+		$facets = 'company,date-posted,location,job-function,industry,salary';
+		$facet = array('Google', 1232435, 'us:84', 'developer', 6, 1000);
+		$start = 1;
+		$count = 50;
+		$sort = 'R';
+
+		// Set request parameters.
+		$data['format'] = 'json';
+		$data['keywords'] = $this->oauth->safeEncode($keywords);
+		$data['company-name'] = $this->oauth->safeEncode($company_name);
+		$data['job-title'] = $this->oauth->safeEncode($job_title);
+		$data['country-code'] = $country_code;
+		$data['postal-code'] = $postal_code;
+		$data['distance'] = $distance;
+		$data['facets'] = $facets;
+		$data['facet'] = array();
+		$data['facet']['company'] = $this->oauth->safeEncode($facet[0]);
+		$data['facet']['date-posted'] = $facet[1];
+		$data['facet']['location'] = $facet[2];
+		$data['facet']['job-function'] = $this->oauth->safeEncode($facet[3]);
+		$data['facet']['industry'] = $facet[4];
+		$data['facet']['salary'] = $facet[5];
+
+		$data['start'] = $start;
+		$data['count'] = $count;
+		$data['sort'] = $sort;
+
+		$path = '/v1/job-search';
+
+		$path .= ':' . $fields;
+
+		$returnData = new stdClass;
+		$returnData->code = 401;
+		$returnData->body = $this->errorString;
+
+		$path = $this->oauth->toUrl($path, $data);
+
+		$this->client->expects($this->once())
+			->method('get')
+			->with($path)
+			->will($this->returnValue($returnData));
+
+		$this->object->search($this->oauth, $fields, $keywords, $company_name, $job_title, $country_code, $postal_code, $distance, $facets, $facet, $start, $count, $sort);
+	}
 }

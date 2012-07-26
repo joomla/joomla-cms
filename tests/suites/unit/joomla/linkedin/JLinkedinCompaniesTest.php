@@ -294,7 +294,7 @@ class JLinkedinCompaniesTest extends TestCase
 		$fields = '(facets)';
 		$keywords = 'linkedin';
 		$hq = true;
-		$facets = 'location,industry,network,num-followers-range,fortune';
+		$facets = 'location,industry,network,company-size,num-followers-range,fortune';
 		$facet = array('us-84', 47, 'F', 'B', 100, 100);
 		$start = 1;
 		$count = 50;
@@ -302,15 +302,16 @@ class JLinkedinCompaniesTest extends TestCase
 
 		// Set request parameters.
 		$data['format'] = 'json';
-		$data['keywords'] = $keywords;
+		$data['keywords'] = $this->oauth->safeEncode($keywords);
 		$data['hq-only'] = $hq;
 		$data['facets'] = $facets;
 		$data['facet'] = array();
 		$data['facet']['location'] = $facet[0];
 		$data['facet']['industry'] = $facet[1];
 		$data['facet']['network'] = $facet[2];
-		$data['facet']['num-followers-range'] = $facet[3];
-		$data['facet']['fortune'] = $facet[4];
+		$data['facet']['company-size'] = $facet[3];
+		$data['facet']['num-followers-range'] = $facet[4];
+		$data['facet']['fortune'] = $facet[5];
 
 		$data['start'] = $start;
 		$data['count'] = $count;
@@ -350,7 +351,7 @@ class JLinkedinCompaniesTest extends TestCase
 		$fields = '(facets)';
 		$keywords = 'linkedin';
 		$hq = true;
-		$facets = 'location,industry,network,num-followers-range,fortune';
+		$facets = 'location,industry,network,company-size,num-followers-range,fortune';
 		$facet = array('us-84', 47, 'F', 'B', 100, 100);
 		$start = 1;
 		$count = 50;
@@ -358,15 +359,16 @@ class JLinkedinCompaniesTest extends TestCase
 
 		// Set request parameters.
 		$data['format'] = 'json';
-		$data['keywords'] = $keywords;
+		$data['keywords'] = $this->oauth->safeEncode($keywords);
 		$data['hq-only'] = $hq;
 		$data['facets'] = $facets;
 		$data['facet'] = array();
 		$data['facet']['location'] = $facet[0];
 		$data['facet']['industry'] = $facet[1];
 		$data['facet']['network'] = $facet[2];
-		$data['facet']['num-followers-range'] = $facet[3];
-		$data['facet']['fortune'] = $facet[4];
+		$data['facet']['company-size'] = $facet[3];
+		$data['facet']['num-followers-range'] = $facet[4];
+		$data['facet']['fortune'] = $facet[5];
 
 		$data['start'] = $start;
 		$data['count'] = $count;
