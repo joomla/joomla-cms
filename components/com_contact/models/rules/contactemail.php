@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_PLATFORM. '/joomla/form/rules/email.php';
+JFormHelper::loadFieldClass('email');
 
 /**
  * JFormRule for com_contact to make sure the E-Mail adress is not blocked.

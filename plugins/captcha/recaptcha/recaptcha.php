@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.environment.browser');
-
 /**
  * Recaptcha Plugin.
  * Based on the oficial recaptcha library( http://recaptcha.net/plugins/php/ )

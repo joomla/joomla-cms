@@ -792,8 +792,7 @@ class ModulesModelModule extends JModelAdmin
 	 */
 	protected function preprocessForm(JForm $form, $data, $group = 'content')
 	{
-		jimport('joomla.filesystem.file');
-		jimport('joomla.filesystem.folder');
+		jimport('joomla.filesystem.path');
 
 		// Initialise variables.
 		$lang		= JFactory::getLanguage();

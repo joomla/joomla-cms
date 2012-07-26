@@ -10,7 +10,7 @@ defined('JPATH_BASE') or die;
 
 jimport('joomla.filesystem.folder');
 jimport('joomla.filesystem.file');
-JLoader::register('JFormFieldRadio', JPATH_LIBRARIES.'/joomla/form/fields/radio.php');
+JFormHelper::loadFieldClass('radio');
 
 /**
  * Sample data Form Field class.

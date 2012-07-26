@@ -11,7 +11,6 @@ defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.folder');
-JLoader::register('JSchemaChangeitem', JPATH_LIBRARIES . '/cms/schema/changeitem.php');
 
 /**
  * Contains a set of JSchemaChange objects for a particular instance of Joomla.

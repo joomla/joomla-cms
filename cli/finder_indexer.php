@@ -38,7 +38,6 @@ JError::$legacy = true;
 
 // Import necessary classes not handled by the autoloaders
 jimport('joomla.environment.uri');
-jimport('joomla.utilities.utility');
 jimport('joomla.utilities.arrayhelper');
 
 // Import the configuration.

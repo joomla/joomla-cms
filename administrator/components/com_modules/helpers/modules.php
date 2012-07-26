@@ -78,8 +78,6 @@ abstract class ModulesHelper
 
 	static function getPositions($clientId)
 	{
-		jimport('joomla.filesystem.folder');
-
 		$db		= JFactory::getDbo();
 		$query	= $db->getQuery(true);
 

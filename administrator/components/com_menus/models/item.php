@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.filesystem.file');
-jimport('joomla.filesystem.folder');
 require_once JPATH_COMPONENT.'/helpers/menus.php';
 
 /**

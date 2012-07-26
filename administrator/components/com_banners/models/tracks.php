@@ -433,7 +433,6 @@ class BannersModelTracks extends JModelList
 				// run the packager
 				jimport('joomla.filesystem.folder');
 				jimport('joomla.filesystem.file');
-				jimport('joomla.filesystem.archive');
 				$delete = JFolder::files($app->getCfg('tmp_path').'/', uniqid('banners_tracks_'), false, true);
 
 				if (!empty($delete)) {

@@ -317,8 +317,7 @@ class TemplatesModelStyle extends JModelAdmin
 			throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
 		}
 
-		jimport('joomla.filesystem.file');
-		jimport('joomla.filesystem.folder');
+		jimport('joomla.filesystem.path');
 
 		$formFile	= JPath::clean($client->path.'/templates/'.$template.'/templateDetails.xml');
 

@@ -198,8 +198,7 @@ class PluginsModelPlugin extends JModelAdmin
 	 */
 	protected function preprocessForm(JForm $form, $data, $group = 'content')
 	{
-		jimport('joomla.filesystem.file');
-		jimport('joomla.filesystem.folder');
+		jimport('joomla.filesystem.path');
 
 		// Initialise variables.
 		$folder		= $this->getState('item.folder');
@@ -207,7 +206,7 @@ class PluginsModelPlugin extends JModelAdmin
 		$lang		= JFactory::getLanguage();
 		$client		= JApplicationHelper::getClientInfo(0);
 
-	// Load the core and/or local language sys file(s) for the ordering field.
+		// Load the core and/or local language sys file(s) for the ordering field.
 		$db = JFactory::getDbo();
 		$query = 'SELECT element' .
 				' FROM #__extensions' .
