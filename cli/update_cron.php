@@ -33,9 +33,6 @@ if (!defined('_JDEFINES'))
 require_once JPATH_LIBRARIES . '/import.legacy.php';
 require_once JPATH_LIBRARIES . '/cms.php';
 
-// Force library to be in JError legacy mode
-JError::$legacy = true;
-
 // Load the configuration
 require_once JPATH_CONFIGURATION . '/configuration.php';
 

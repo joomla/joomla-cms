@@ -27,9 +27,6 @@ require_once JPATH_LIBRARIES . '/import.legacy.php.php';
 // Bootstrap the CMS libraries.
 require_once JPATH_LIBRARIES . '/cms.php';
 
-// Force library to be in JError legacy mode
-JError::$legacy = true;
-
 /**
  * Cron job to trash expired cache data
  *

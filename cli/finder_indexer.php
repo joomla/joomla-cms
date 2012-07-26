@@ -33,9 +33,6 @@ require_once JPATH_LIBRARIES . '/import.legacy.php';
 // Bootstrap the CMS libraries.
 require_once JPATH_LIBRARIES . '/cms.php';
 
-// Force library to be in JError legacy mode
-JError::$legacy = true;
-
 // Import necessary classes not handled by the autoloaders
 jimport('joomla.environment.uri');
 jimport('joomla.utilities.arrayhelper');
