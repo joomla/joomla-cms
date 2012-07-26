@@ -217,4 +217,120 @@ class JLinkedinJobsTest extends TestCase
 
 		$this->object->getBookmarked($this->oauth, $fields);
 	}
+
+	/**
+	 * Tests the bookmark method
+	 *
+	 * @return  void
+	 *
+	 * @since   12.3
+	 */
+	public function testBookmark()
+	{
+		$id = '12345';
+
+		$path = '/v1/people/~/job-bookmarks';
+
+		$xml = '<job-bookmark><job><id>' . $id . '</id></job></job-bookmark>';
+
+		$header['Content-Type'] = 'text/xml';
+
+		$returnData = new stdClass;
+		$returnData->code = 201;
+		$returnData->body = $this->sampleString;
+
+		$this->client->expects($this->once())
+			->method('post', $xml, $header)
+			->with($path)
+			->will($this->returnValue($returnData));
+
+		$this->assertThat(
+			$this->object->bookmark($this->oauth, $id),
+			$this->equalTo($returnData)
+		);
+	}
+
+	/**
+	 * Tests the bookmark method - failure
+	 *
+	 * @return  void
+	 *
+	 * @expectedException DomainException
+	 * @since   12.3
+	 */
+	public function testBookmarkFailure()
+	{
+		$id = '12345';
+
+		$path = '/v1/people/~/job-bookmarks';
+
+		$xml = '<job-bookmark><job><id>' . $id . '</id></job></job-bookmark>';
+
+		$header['Content-Type'] = 'text/xml';
+
+		$returnData = new stdClass;
+		$returnData->code = 401;
+		$returnData->body = $this->errorString;
+
+		$this->client->expects($this->once())
+			->method('post', $xml, $header)
+			->with($path)
+			->will($this->returnValue($returnData));
+
+		$this->object->bookmark($this->oauth, $id);
+	}
+
+	/**
+	 * Tests the deleteBookmark method
+	 *
+	 * @return  void
+	 *
+	 * @since   12.3
+	 */
+	public function testDeleteBookmark()
+	{
+		$id = '12345';
+
+		$path = '/v1/people/~/job-bookmarks/' . $id;
+
+		$returnData = new stdClass;
+		$returnData->code = 204;
+		$returnData->body = $this->sampleString;
+
+		$this->client->expects($this->once())
+			->method('delete')
+			->with($path)
+			->will($this->returnValue($returnData));
+
+		$this->assertThat(
+			$this->object->deleteBookmark($this->oauth, $id),
+			$this->equalTo($returnData)
+		);
+	}
+
+	/**
+	 * Tests the deleteBookmark method - failure
+	 *
+	 * @return  void
+	 *
+	 * @expectedException DomainException
+	 * @since   12.3
+	 */
+	public function testDeleteBookmarkFailure()
+	{
+		$id = '12345';
+
+		$path = '/v1/people/~/job-bookmarks/' . $id;
+
+		$returnData = new stdClass;
+		$returnData->code = 401;
+		$returnData->body = $this->errorString;
+
+		$this->client->expects($this->once())
+			->method('delete')
+			->with($path)
+			->will($this->returnValue($returnData));
+
+		$this->object->deleteBookmark($this->oauth, $id);
+	}
 }

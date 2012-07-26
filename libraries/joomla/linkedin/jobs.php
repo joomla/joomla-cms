@@ -57,10 +57,9 @@ class JLinkedinJobs extends JLinkedinObject
 	}
 
 	/**
-	 * Method to get a list of bookmarked jobs for a member.
+	 * Method to get a list of bookmarked jobs for the current member.
 	 *
 	 * @param   JLinkedinOAuth  $oauth   The JLinkedinOAuth object.
-	 * @param   integer         $id      The unique identifier for a job.
 	 * @param   string          $fields  Request fields beyond the default ones.
 	 *
 	 * @return  array  The decoded JSON response
@@ -92,5 +91,72 @@ class JLinkedinJobs extends JLinkedinObject
 		// Send the request.
 		$response = $oauth->oauthRequest($path, 'GET', $parameters, $data);
 		return json_decode($response->body);
+	}
+
+	/**
+	 * Method to bookmark a job to the current user's account.
+	 *
+	 * @param   JLinkedinOAuth  $oauth  The JLinkedinOAuth object.
+	 * @param   integer         $id     The unique identifier for a job.
+	 *
+	 * @return  array  The decoded JSON response
+	 *
+	 * @since   12.3
+	 */
+	public function bookmark($oauth, $id)
+	{
+		// Set parameters.
+		$parameters = array(
+			'oauth_token' => $oauth->getToken('key')
+		);
+
+		// Set the success response code.
+		$oauth->setOption('success_code', 201);
+
+		// Set the API base
+		$base = '/v1/people/~/job-bookmarks';
+
+		// Build xml.
+		$xml = '<job-bookmark><job><id>' . $id . '</id></job></job-bookmark>';
+
+		// Build the request path.
+		$path = $this->getOption('api.url') . $base;
+
+		$header['Content-Type'] = 'text/xml';
+
+		// Send the request.
+		$response = $oauth->oauthRequest($path, 'POST', $parameters, $xml, $header);
+		return $response;
+	}
+
+	/**
+	 * Method to delete a bookmark.
+	 *
+	 * @param   JLinkedinOAuth  $oauth  The JLinkedinOAuth object.
+	 * @param   integer         $id     The unique identifier for a job.
+	 *
+	 * @return  array  The decoded JSON response
+	 *
+	 * @since   12.3
+	 */
+	public function deleteBookmark($oauth, $id)
+	{
+		// Set parameters.
+		$parameters = array(
+			'oauth_token' => $oauth->getToken('key')
+		);
+
+		// Set the success response code.
+		$oauth->setOption('success_code', 204);
+
+		// Set the API base
+		$base = '/v1/people/~/job-bookmarks/' . $id;
+
+		// Build the request path.
+		$path = $this->getOption('api.url') . $base;
+
+		// Send the request.
+		$response = $oauth->oauthRequest($path, 'DELETE', $parameters);
+		return $response;
 	}
 }
