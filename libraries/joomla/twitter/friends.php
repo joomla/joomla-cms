@@ -302,7 +302,7 @@ class JTwitterFriends extends JTwitterObject
 	 * @since   12.3
 	 * @throws  RuntimeException
 	 */
-	public function createFriendship($oauth, $user, $follow = false)
+	public function follow($oauth, $user, $follow = false)
 	{
 		// Set parameters.
 		$parameters = array(
@@ -357,7 +357,7 @@ class JTwitterFriends extends JTwitterObject
 	 * @since   12.3
 	 * @throws  RuntimeException
 	 */
-	public function deleteFriendship($oauth, $user, $entities = false)
+	public function unfollow($oauth, $user, $entities = false)
 	{
 		// Set parameters.
 		$parameters = array(
