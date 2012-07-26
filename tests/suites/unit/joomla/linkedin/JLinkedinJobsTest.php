@@ -153,4 +153,68 @@ class JLinkedinJobsTest extends TestCase
 
 		$this->object->getJob($this->oauth, $id, $fields);
 	}
+
+	/**
+	 * Tests the getBookmarked method
+	 *
+	 * @return  void
+	 *
+	 * @since   12.3
+	 */
+	public function testGetBookmarked()
+	{
+		$fields = '(id,position)';
+
+		// Set request parameters.
+		$data['format'] = 'json';
+
+		$path = '/v1/people/~/job-bookmarks:' . $fields;
+
+		$returnData = new stdClass;
+		$returnData->code = 200;
+		$returnData->body = $this->sampleString;
+
+		$path = $this->oauth->toUrl($path, $data);
+
+		$this->client->expects($this->once())
+			->method('get')
+			->with($path)
+			->will($this->returnValue($returnData));
+
+		$this->assertThat(
+			$this->object->getBookmarked($this->oauth, $fields),
+			$this->equalTo(json_decode($this->sampleString))
+		);
+	}
+
+	/**
+	 * Tests the getBookmarked method - failure
+	 *
+	 * @return  void
+	 *
+	 * @expectedException DomainException
+	 * @since   12.3
+	 */
+	public function testGetBookmarkedFailure()
+	{
+		$fields = '(id,position)';
+
+		// Set request parameters.
+		$data['format'] = 'json';
+
+		$path = '/v1/people/~/job-bookmarks:' . $fields;
+
+		$returnData = new stdClass;
+		$returnData->code = 401;
+		$returnData->body = $this->errorString;
+
+		$path = $this->oauth->toUrl($path, $data);
+
+		$this->client->expects($this->once())
+			->method('get')
+			->with($path)
+			->will($this->returnValue($returnData));
+
+		$this->object->getBookmarked($this->oauth, $fields);
+	}
 }

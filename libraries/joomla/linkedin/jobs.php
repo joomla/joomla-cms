@@ -55,4 +55,42 @@ class JLinkedinJobs extends JLinkedinObject
 		$response = $oauth->oauthRequest($path, 'GET', $parameters, $data);
 		return json_decode($response->body);
 	}
+
+	/**
+	 * Method to get a list of bookmarked jobs for a member.
+	 *
+	 * @param   JLinkedinOAuth  $oauth   The JLinkedinOAuth object.
+	 * @param   integer         $id      The unique identifier for a job.
+	 * @param   string          $fields  Request fields beyond the default ones.
+	 *
+	 * @return  array  The decoded JSON response
+	 *
+	 * @since   12.3
+	 */
+	public function getBookmarked($oauth, $fields = null)
+	{
+		// Set parameters.
+		$parameters = array(
+			'oauth_token' => $oauth->getToken('key')
+		);
+
+		// Set the API base
+		$base = '/v1/people/~/job-bookmarks';
+
+		// Set request parameters.
+		$data['format'] = 'json';
+
+		// Check if fields is specified.
+		if ($fields)
+		{
+			$base .= ':' . $fields;
+		}
+
+		// Build the request path.
+		$path = $this->getOption('api.url') . $base;
+
+		// Send the request.
+		$response = $oauth->oauthRequest($path, 'GET', $parameters, $data);
+		return json_decode($response->body);
+	}
 }
