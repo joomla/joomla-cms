@@ -13,7 +13,7 @@
  */
 
 // We are a valid entry point.
-define('_JEXEC', 1);
+const _JEXEC = 1;
 
 // Load system defines
 if (file_exists(dirname(dirname(__FILE__)) . '/defines.php'))

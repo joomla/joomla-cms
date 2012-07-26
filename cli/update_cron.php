@@ -13,7 +13,7 @@
  */
 
 // Set flag that this is a parent file.
-define('_JEXEC', 1);
+const _JEXEC = 1;
 
 error_reporting(E_ALL | E_NOTICE);
 ini_set('display_errors', 1);
