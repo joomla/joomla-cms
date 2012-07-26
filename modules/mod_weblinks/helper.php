@@ -34,8 +34,6 @@ class modWeblinksHelper
 		$model->setState('list.limit', (int) $params->get('count', 5));
 
 		$model->setState('filter.state', 1);
-		$model->setState('filter.archived', 0);
-		$model->setState('filter.approved', 1);
 
 		// Access filter
 		$access = !JComponentHelper::getParams('com_weblinks')->get('show_noauth');
@@ -70,7 +68,7 @@ class modWeblinksHelper
 		$case_when2 .= $c_id.' END as catslug';
 
 		$model->setState('list.select', 'a.*, c.published AS c_published,'.$case_when1.','.$case_when2.','.
-		'DATE_FORMAT(a.date, "%Y-%m-%d") AS created');
+		'DATE_FORMAT(a.created, "%Y-%m-%d") AS created');
 
 		$model->setState('filter.c.published', 1);
 
