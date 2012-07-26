@@ -62,14 +62,13 @@ class JRouterSite extends JRouter
 			}
 		}
 
-		// Remove the suffix
+		// Identify format
 		if ($this->_mode == JROUTER_MODE_SEF)
 		{
 			if ($app->getCfg('sef_suffix') && !(substr($path, -9) == 'index.php' || substr($path, -1) == '/'))
 			{
 				if ($suffix = pathinfo($path, PATHINFO_EXTENSION))
 				{
-					$path = str_replace('.' . $suffix, '', $path);
 					$vars['format'] = $suffix;
 				}
 			}
@@ -201,6 +200,18 @@ class JRouterSite extends JRouter
 		$app	= JApplication::getInstance('site');
 		$menu	= $app->getMenu(true);
 		$route	= $uri->getPath();
+
+		// Remove the suffix
+		if ($this->_mode == JROUTER_MODE_SEF)
+		{
+			if ($app->getCfg('sef_suffix'))
+			{
+				if ($suffix = pathinfo($route, PATHINFO_EXTENSION))
+				{
+					$route = str_replace('.' . $suffix, '', $route);
+				}
+			}
+		}
 
 		// Get the variables from the uri
 		$vars = $uri->getQuery(true);

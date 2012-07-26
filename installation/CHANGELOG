@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+25-July-2012 Jean-Marie Simonet
+ [#28846] *When URL Language Code is removed, language switcher module redirects to URL without .html suffix. Thanks Dennis
+ 
 18-July-2012 Jean-Marie Simonet
  # [#28837] Can't get past step 4 "Database Configuration". Thanks Shaun.
  # [#28511] Move the caption behavior from the controller to the layouts in com_content. Thanks Rouven and Peter.
