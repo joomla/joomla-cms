@@ -412,13 +412,13 @@ class JLinkedinPeopleTest extends TestCase
 		$data['distance'] = $distance;
 		$data['facets'] = $facets;
 		$data['facet'] = array();
-		$data['facet']['location'] = $facet[0];
-		$data['facet']['industry'] = $facet[1];
-		$data['facet']['network'] = $facet[2];
-		$data['facet']['language'] = $facet[3];
-		$data['facet']['current-company'] = $facet[4];
-		$data['facet']['past-company'] = $facet[5];
-		$data['facet']['school'] = $facet[6];
+		$data['facet'][] = 'location,' . $facet[0];
+		$data['facet'][] = 'industry,' . $facet[1];
+		$data['facet'][] = 'network,' . $facet[2];
+		$data['facet'][] = 'language,' . $facet[3];
+		$data['facet'][] = 'current-company,' . $facet[4];
+		$data['facet'][] = 'past-company,' . $facet[5];
+		$data['facet'][] = 'school,' . $facet[6];
 
 		$data['start'] = $start;
 		$data['count'] = $count;
@@ -524,13 +524,13 @@ class JLinkedinPeopleTest extends TestCase
 		$data['distance'] = $distance;
 		$data['facets'] = $facets;
 		$data['facet'] = array();
-		$data['facet']['location'] = $facet[0];
-		$data['facet']['industry'] = $facet[1];
-		$data['facet']['network'] = $facet[2];
-		$data['facet']['language'] = $facet[3];
-		$data['facet']['current-company'] = $facet[4];
-		$data['facet']['past-company'] = $facet[5];
-		$data['facet']['school'] = $facet[6];
+		$data['facet'][] = 'location,' . $facet[0];
+		$data['facet'][] = 'industry,' . $facet[1];
+		$data['facet'][] = 'network,' . $facet[2];
+		$data['facet'][] = 'language,' . $facet[3];
+		$data['facet'][] = 'current-company,' . $facet[4];
+		$data['facet'][] = 'past-company,' . $facet[5];
+		$data['facet'][] = 'school,' . $facet[6];
 
 		$data['start'] = $start;
 		$data['count'] = $count;

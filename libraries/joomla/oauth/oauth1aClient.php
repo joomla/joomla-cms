@@ -351,11 +351,11 @@ abstract class JOAuth1aClient
 				{
 					if (strpos($url, '?') === false)
 					{
-						$url .= '?' . $key . '=' . $k . ',' . $v;
+						$url .= '?' . $key . '=' . $v;
 					}
 					else
 					{
-						$url .= '&' . $key . '=' . $k . ',' . $v;
+						$url .= '&' . $key . '=' . $v;
 					}
 				}
 			}
@@ -425,7 +425,7 @@ abstract class JOAuth1aClient
 			{
 				foreach ($value as $k => $v)
 				{
-					$v = $this->safeEncode($k . ',' . $v);
+					$v = $this->safeEncode($v);
 					$kv[] = "{$key}={$v}";
 				}
 			}

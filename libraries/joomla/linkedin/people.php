@@ -313,31 +313,31 @@ class JLinkedinPeople extends JLinkedinObject
 				{
 					if ($i == 0)
 					{
-						$data['facet']['location'] = $facet[$i];
+						$data['facet'][] = 'location,' . $facet[$i];
 					}
 					if ($i == 1)
 					{
-						$data['facet']['industry'] = $facet[$i];
+						$data['facet'][] = 'industry,' . $facet[$i];
 					}
 					if ($i == 2)
 					{
-						$data['facet']['network'] = $facet[$i];
+						$data['facet'][] = 'network,' . $facet[$i];
 					}
 					if ($i == 3)
 					{
-						$data['facet']['language'] = $facet[$i];
+						$data['facet'][] = 'language,' . $facet[$i];
 					}
 					if ($i == 4)
 					{
-						$data['facet']['current-company'] = $facet[$i];
+						$data['facet'][] = 'current-company,' . $facet[$i];
 					}
 					if ($i == 5)
 					{
-						$data['facet']['past-company'] = $facet[$i];
+						$data['facet'][] = 'past-company,' . $facet[$i];
 					}
 					if ($i == 6)
 					{
-						$data['facet']['school'] = $facet[$i];
+						$data['facet'][] = 'school,' . $facet[$i];
 					}
 				}
 			}

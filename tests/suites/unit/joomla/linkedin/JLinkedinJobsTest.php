@@ -438,12 +438,12 @@ class JLinkedinJobsTest extends TestCase
 		$data['distance'] = $distance;
 		$data['facets'] = $facets;
 		$data['facet'] = array();
-		$data['facet']['company'] = $this->oauth->safeEncode($facet[0]);
-		$data['facet']['date-posted'] = $facet[1];
-		$data['facet']['location'] = $facet[2];
-		$data['facet']['job-function'] = $this->oauth->safeEncode($facet[3]);
-		$data['facet']['industry'] = $facet[4];
-		$data['facet']['salary'] = $facet[5];
+		$data['facet'][] = 'company,' . $this->oauth->safeEncode($facet[0]);
+		$data['facet'][] = 'date-posted,' . $facet[1];
+		$data['facet'][] = 'location,' . $facet[2];
+		$data['facet'][] = 'job-function,' . $this->oauth->safeEncode($facet[3]);
+		$data['facet'][] = 'industry,' . $facet[4];
+		$data['facet'][] = 'salary,' . $facet[5];
 
 		$data['start'] = $start;
 		$data['count'] = $count;
@@ -503,12 +503,12 @@ class JLinkedinJobsTest extends TestCase
 		$data['distance'] = $distance;
 		$data['facets'] = $facets;
 		$data['facet'] = array();
-		$data['facet']['company'] = $this->oauth->safeEncode($facet[0]);
-		$data['facet']['date-posted'] = $facet[1];
-		$data['facet']['location'] = $facet[2];
-		$data['facet']['job-function'] = $this->oauth->safeEncode($facet[3]);
-		$data['facet']['industry'] = $facet[4];
-		$data['facet']['salary'] = $facet[5];
+		$data['facet'][] = 'company,' . $this->oauth->safeEncode($facet[0]);
+		$data['facet'][] = 'date-posted,' . $facet[1];
+		$data['facet'][] = 'location,' . $facet[2];
+		$data['facet'][] = 'job-function,' . $this->oauth->safeEncode($facet[3]);
+		$data['facet'][] = 'industry,' . $facet[4];
+		$data['facet'][] = 'salary,' . $facet[5];
 
 		$data['start'] = $start;
 		$data['count'] = $count;

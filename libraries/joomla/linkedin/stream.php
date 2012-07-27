@@ -222,12 +222,13 @@ class JLinkedinStream extends JLinkedinObject
 	 * @param   JLinkedinOAuth  $oauth  The JLinkedinOAuth object.
 	 * @param   string          $id     Member id of the profile you want.
 	 * @param   string          $url    The public profile URL.
+	 * @param   boolean         $self   Used to return member's feed. Omitted to return aggregated network feed.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   12.3
 	 */
-	public function getShareStream($oauth, $id = null, $url = null)
+	public function getShareStream($oauth, $id = null, $url = null, $self = true)
 	{
 		// Set parameters.
 		$parameters = array(
@@ -256,9 +257,107 @@ class JLinkedinStream extends JLinkedinObject
 		$base .= '/network';
 
 		// Set request parameters.
-		$data['type'] = 'SHAR';
-		$data['scope'] = 'self';
 		$data['format'] = 'json';
+		$data['type'] = 'SHAR';
+
+		// Check if self is true
+		if ($self)
+		{
+			$data['scope'] = 'self';
+		}
+
+		// Build the request path.
+		$path = $this->getOption('api.url') . $base;
+
+		// Send the request.
+		$response = $oauth->oauthRequest($path, 'GET', $parameters, $data);
+		return json_decode($response->body);
+	}
+
+	/**
+	 * Method to get the users network updates.
+	 *
+	 * @param   JLinkedinOAuth  $oauth   The JLinkedinOAuth object.
+	 * @param   string          $id      Member id.
+	 * @param   boolean         $self    Used to return member's feed. Omitted to return aggregated network feed.
+	 * @param   mixed           $type    String containing any valid Network Update Type from the table or an array of strings
+	 * 									 to specify more than one Network Update type.
+	 * @param   integer         $count   Number of updates to return, with a maximum of 250.
+	 * @param   integer         $start   The offset by which to start Network Update pagination.
+	 * @param   string          $after   Timestamp after which to retrieve updates.
+	 * @param   string          $before  Timestamp before which to retrieve updates.
+	 * @param   boolean         $hidden  Whether to display updates from people the member has chosen to "hide" from their update stream.
+	 *
+	 * @return  array  The decoded JSON response
+	 *
+	 * @since   12.3
+	 */
+	public function getNetworkUpdates($oauth, $id = null, $self = true, $type = null, $count = 0, $start = 0, $after = null, $before = null, $hidden = false)
+	{
+		// Set parameters.
+		$parameters = array(
+			'oauth_token' => $oauth->getToken('key')
+		);
+
+		// Set the API base
+		$base = '/v1/people/';
+
+		// Check if a member id is specified.
+		if ($id)
+		{
+			$base .= $id;
+		}
+		else
+		{
+			$base .= '~';
+		}
+
+		$base .= '/network/updates';
+
+		// Set request parameters.
+		$data['format'] = 'json';
+
+		// Check if self is true.
+		if ($self)
+		{
+			$data['scope'] = 'self';
+		}
+
+		// Check if type is specified.
+		if ($type)
+		{
+			$data['type'] = $type;
+		}
+
+		// Check if count is specified.
+		if ($count > 0)
+		{
+			$data['count'] = $count;
+		}
+
+		// Check if start is specified.
+		if ($start > 0)
+		{
+			$data['start'] = $start;
+		}
+
+		// Check if after is specified.
+		if ($after)
+		{
+			$data['after'] = $after;
+		}
+
+		// Check if before is specified.
+		if ($before > 0)
+		{
+			$data['before'] = $before;
+		}
+
+		// Check if hidden is true.
+		if ($hidden)
+		{
+			$data['hidden'] = $hidden;
+		}
 
 		// Build the request path.
 		$path = $this->getOption('api.url') . $base;

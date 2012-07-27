@@ -416,9 +416,9 @@ class JLinkedinStreamTest extends TestCase
 	public function testGetShareStream($id, $url)
 	{
 		// Set request parameters.
+		$data['format'] = 'json';
 		$data['type'] = 'SHAR';
 		$data['scope'] = 'self';
-		$data['format'] = 'json';
 
 		$path = '/v1/people/';
 
@@ -469,9 +469,10 @@ class JLinkedinStreamTest extends TestCase
 	public function testGetShareStreamFailure()
 	{
 		// Set request parameters.
+		$data['format'] = 'json';
 		$data['type'] = 'SHAR';
 		$data['scope'] = 'self';
-		$data['format'] = 'json';
+
 
 		$path = '/v1/people/~/network';
 
@@ -487,5 +488,125 @@ class JLinkedinStreamTest extends TestCase
 			->will($this->returnValue($returnData));
 
 		$this->object->getShareStream($this->oauth);
+	}
+
+	/**
+	* Provides test data for request format detection.
+	*
+	* @return array
+	*
+	* @since 12.3
+	*/
+	public function seedId()
+	{
+		// Member ID or url
+		return array(
+			array('lcnIwDU0S6'),
+			array(null)
+			);
+	}
+
+	/**
+	 * Tests the getNetworkUpdates method
+	 *
+	 * @param   string  $id  Member id.
+	 *
+	 * @return  void
+	 *
+	 * @dataProvider seedId
+	 * @since   12.3
+	 */
+	public function testGetNetworkUpdates($id)
+	{
+		$self = true;
+		$type = array('PICT', 'STAT');
+		$count = 50;
+		$start = 1;
+		$after = '123346574';
+		$before = '123534663';
+		$hidden = true;
+
+		// Set request parameters.
+		$data['format'] = 'json';
+		$data['scope'] = 'self';
+		$data['type'] = $type;
+		$data['count'] = $count;
+		$data['start'] = $start;
+		$data['after'] = $after;
+		$data['before'] = $before;
+		$data['hidden'] = true;
+
+		$path = '/v1/people/';
+
+		if ($id)
+		{
+			$path .= $id;
+		}
+		else
+		{
+			$path .= '~';
+		}
+
+		$path .= '/network/updates';
+
+		$returnData = new stdClass;
+		$returnData->code = 200;
+		$returnData->body = $this->sampleString;
+
+		$path = $this->oauth->toUrl($path, $data);
+
+		$this->client->expects($this->once())
+			->method('get')
+			->with($path)
+			->will($this->returnValue($returnData));
+
+		$this->assertThat(
+			$this->object->getNetworkUpdates($this->oauth, $id, $self, $type, $count, $start, $after, $before, $hidden),
+			$this->equalTo(json_decode($this->sampleString))
+		);
+	}
+
+	/**
+	 * Tests the getNetworkUpdates method - failure
+	 *
+	 * @return  void
+	 *
+	 * @expectedException DomainException
+	 * @since   12.3
+	 */
+	public function testGetNetworkUpdatesFailure()
+	{
+		$self = true;
+		$type = array('PICT', 'STAT');
+		$count = 50;
+		$start = 1;
+		$after = '123346574';
+		$before = '123534663';
+		$hidden = true;
+
+		// Set request parameters.
+		$data['format'] = 'json';
+		$data['scope'] = 'self';
+		$data['type'] = $type;
+		$data['count'] = $count;
+		$data['start'] = $start;
+		$data['after'] = $after;
+		$data['before'] = $before;
+		$data['hidden'] = true;
+
+		$path = '/v1/people/~/network/updates';
+
+		$returnData = new stdClass;
+		$returnData->code = 401;
+		$returnData->body = $this->errorString;
+
+		$path = $this->oauth->toUrl($path, $data);
+
+		$this->client->expects($this->once())
+			->method('get')
+			->with($path)
+			->will($this->returnValue($returnData));
+
+		$this->object->getNetworkUpdates($this->oauth, null, $self, $type, $count, $start, $after, $before, $hidden);
 	}
 }

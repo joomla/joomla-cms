@@ -305,27 +305,27 @@ class JLinkedinJobs extends JLinkedinObject
 				{
 					if ($i == 0)
 					{
-						$data['facet']['company'] = $oauth->safeEncode($facet[$i]);
+						$data['facet'][] = 'company,' . $oauth->safeEncode($facet[$i]);
 					}
 					if ($i == 1)
 					{
-						$data['facet']['date-posted'] = $facet[$i];
+						$data['facet'][] = 'date-posted,' . $facet[$i];
 					}
 					if ($i == 2)
 					{
-						$data['facet']['location'] = $facet[$i];
+						$data['facet'][] = 'location,' . $facet[$i];
 					}
 					if ($i == 3)
 					{
-						$data['facet']['job-function'] = $oauth->safeEncode($facet[$i]);
+						$data['facet'][] = 'job-function,' . $oauth->safeEncode($facet[$i]);
 					}
 					if ($i == 4)
 					{
-						$data['facet']['industry'] = $facet[$i];
+						$data['facet'][] = 'industry,' . $facet[$i];
 					}
 					if ($i == 5)
 					{
-						$data['facet']['salary'] = $facet[$i];
+						$data['facet'][] = 'salary,' . $facet[$i];
 					}
 				}
 			}

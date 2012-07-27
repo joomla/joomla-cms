@@ -306,12 +306,12 @@ class JLinkedinCompaniesTest extends TestCase
 		$data['hq-only'] = $hq;
 		$data['facets'] = $facets;
 		$data['facet'] = array();
-		$data['facet']['location'] = $facet[0];
-		$data['facet']['industry'] = $facet[1];
-		$data['facet']['network'] = $facet[2];
-		$data['facet']['company-size'] = $facet[3];
-		$data['facet']['num-followers-range'] = $facet[4];
-		$data['facet']['fortune'] = $facet[5];
+		$data['facet'][] = 'location,' . $facet[0];
+		$data['facet'][] = 'industry,' . $facet[1];
+		$data['facet'][] = 'network,' . $facet[2];
+		$data['facet'][] = 'company-size,' . $facet[3];
+		$data['facet'][] = 'num-followers-range,' . $facet[4];
+		$data['facet'][] = 'fortune,' . $facet[5];
 
 		$data['start'] = $start;
 		$data['count'] = $count;
@@ -363,12 +363,12 @@ class JLinkedinCompaniesTest extends TestCase
 		$data['hq-only'] = $hq;
 		$data['facets'] = $facets;
 		$data['facet'] = array();
-		$data['facet']['location'] = $facet[0];
-		$data['facet']['industry'] = $facet[1];
-		$data['facet']['network'] = $facet[2];
-		$data['facet']['company-size'] = $facet[3];
-		$data['facet']['num-followers-range'] = $facet[4];
-		$data['facet']['fortune'] = $facet[5];
+		$data['facet'][] = 'location,' . $facet[0];
+		$data['facet'][] = 'industry,' . $facet[1];
+		$data['facet'][] = 'network,' . $facet[2];
+		$data['facet'][] = 'company-size,' . $facet[3];
+		$data['facet'][] = 'num-followers-range,' . $facet[4];
+		$data['facet'][] = 'fortune,' . $facet[5];
 
 		$data['start'] = $start;
 		$data['count'] = $count;
