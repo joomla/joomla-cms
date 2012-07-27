@@ -202,4 +202,290 @@ class JLinkedinStreamTest extends TestCase
 
 		$this->object->share($this->oauth, $visibility, $comment);
 	}
+
+	/**
+	 * Tests the reshare method
+	 *
+	 * @return  void
+	 *
+	 * @since   12.3
+	 */
+	public function testReshare()
+	{
+		$id = 's123435';
+		$visibility = 'anyone';
+		$comment = 'some comment';
+		$twitter = true;
+
+		$path = '/v1/people/~/shares?twitter-post=true';
+
+		// Build xml.
+		$xml = '<share>
+				  <visibility>
+					 <code>' . $visibility . '</code>
+				  </visibility>';
+
+		// Check if comment specified.
+		if ($comment)
+		{
+			$xml .= '<comment>' . $comment . '</comment>';
+		}
+
+		$xml .= '   <attribution>
+					   <share>
+					   	  <id>' . $id . '</id>
+					   </share>
+					</attribution>
+				 </share>';
+
+		$header['Content-Type'] = 'text/xml';
+
+		$returnData = new stdClass;
+		$returnData->code = 201;
+		$returnData->body = $this->sampleString;
+
+		$this->client->expects($this->once())
+			->method('post', $xml, $header)
+			->with($path)
+			->will($this->returnValue($returnData));
+
+		$this->assertThat(
+			$this->object->reshare($this->oauth, $visibility, $id, $comment, $twitter),
+			$this->equalTo($returnData)
+		);
+	}
+
+	/**
+	 * Tests the reshare method - failure
+	 *
+	 * @return  void
+	 *
+	 * @expectedException DomainException
+	 * @since   12.3
+	 */
+	public function testReshareFailure()
+	{
+		$id = 's123435';
+		$visibility = 'anyone';
+		$comment = 'some comment';
+		$twitter = true;
+
+		$path = '/v1/people/~/shares?twitter-post=true';
+
+		// Build xml.
+		$xml = '<share>
+				  <visibility>
+					 <code>' . $visibility . '</code>
+				  </visibility>';
+
+		// Check if comment specified.
+		if ($comment)
+		{
+			$xml .= '<comment>' . $comment . '</comment>';
+		}
+
+		$xml .= '   <attribution>
+					   <share>
+					   	  <id>' . $id . '</id>
+					   </share>
+					</attribution>
+				 </share>';
+
+		$header['Content-Type'] = 'text/xml';
+
+		$returnData = new stdClass;
+		$returnData->code = 401;
+		$returnData->body = $this->errorString;
+
+		$this->client->expects($this->once())
+			->method('post', $xml, $header)
+			->with($path)
+			->will($this->returnValue($returnData));
+
+		$this->object->reshare($this->oauth, $visibility, $id, $comment, $twitter);
+	}
+
+	/**
+	* Provides test data for request format detection.
+	*
+	* @return array
+	*
+	* @since 12.3
+	*/
+	public function seedIdUrl()
+	{
+		// Member ID or url
+		return array(
+			array('lcnIwDU0S6', null),
+			array(null, 'http://www.linkedin.com/in/dianaprajescu'),
+			array(null, null)
+			);
+	}
+
+	/**
+	 * Tests the getCurrentShare method
+	 *
+	 * @param   string  $id   Member id of the profile you want.
+	 * @param   string  $url  The public profile URL.
+	 *
+	 * @return  void
+	 *
+	 * @dataProvider seedIdUrl
+	 * @since   12.3
+	 */
+	public function testGetCurrentShare($id, $url)
+	{
+		// Set request parameters.
+		$data['format'] = 'json';
+
+		$path = '/v1/people/';
+
+		if ($url)
+		{
+			$path .= 'url=' . $this->oauth->safeEncode($url);
+		}
+
+		if ($id)
+		{
+			$path .= 'id=' . $id;
+		}
+		elseif (!$url)
+		{
+			$path .= '~';
+		}
+
+		$path .= ':(current-share)';
+
+		$returnData = new stdClass;
+		$returnData->code = 200;
+		$returnData->body = $this->sampleString;
+
+		$path = $this->oauth->toUrl($path, $data);
+
+		$this->client->expects($this->once())
+			->method('get')
+			->with($path)
+			->will($this->returnValue($returnData));
+
+		$this->assertThat(
+			$this->object->getCurrentShare($this->oauth, $id, $url),
+			$this->equalTo(json_decode($this->sampleString))
+		);
+	}
+
+	/**
+	 * Tests the getCurrentShare method - failure
+	 *
+	 * @return  void
+	 *
+	 * @expectedException DomainException
+	 * @since   12.3
+	 */
+	public function testGetCurrentShareFailure()
+	{
+		// Set request parameters.
+		$data['format'] = 'json';
+
+		$path = '/v1/people/~:(current-share)';
+
+		$returnData = new stdClass;
+		$returnData->code = 401;
+		$returnData->body = $this->errorString;
+
+		$path = $this->oauth->toUrl($path, $data);
+
+		$this->client->expects($this->once())
+			->method('get')
+			->with($path)
+			->will($this->returnValue($returnData));
+
+		$this->object->getCurrentShare($this->oauth);
+	}
+
+	/**
+	 * Tests the getShareStream method
+	 *
+	 * @param   string  $id   Member id of the profile you want.
+	 * @param   string  $url  The public profile URL.
+	 *
+	 * @return  void
+	 *
+	 * @dataProvider seedIdUrl
+	 * @since   12.3
+	 */
+	public function testGetShareStream($id, $url)
+	{
+		// Set request parameters.
+		$data['type'] = 'SHAR';
+		$data['scope'] = 'self';
+		$data['format'] = 'json';
+
+		$path = '/v1/people/';
+
+		if ($url)
+		{
+			$path .= 'url=' . $this->oauth->safeEncode($url);
+		}
+
+		if ($id)
+		{
+			$path .= $id;
+		}
+		elseif (!$url)
+		{
+			$path .= '~';
+		}
+
+		$path .= '/network';
+
+		$returnData = new stdClass;
+		$returnData->code = 200;
+		$returnData->body = $this->sampleString;
+
+		$path = $this->oauth->toUrl($path, $data);
+
+		$this->client->expects($this->once())
+			->method('get')
+			->with($path)
+			->will($this->returnValue($returnData));
+
+		$this->assertThat(
+			$this->object->getShareStream($this->oauth, $id, $url),
+			$this->equalTo(json_decode($this->sampleString))
+		);
+	}
+
+	/**
+	 * Tests the getShareStream method - failure
+	 *
+	 * @param   string  $id   Member id of the profile you want.
+	 * @param   string  $url  The public profile URL.
+	 *
+	 * @return  void
+	 *
+	 * @expectedException DomainException
+	 * @since   12.3
+	 */
+	public function testGetShareStreamFailure()
+	{
+		// Set request parameters.
+		$data['type'] = 'SHAR';
+		$data['scope'] = 'self';
+		$data['format'] = 'json';
+
+		$path = '/v1/people/~/network';
+
+		$returnData = new stdClass;
+		$returnData->code = 401;
+		$returnData->body = $this->errorString;
+
+		$path = $this->oauth->toUrl($path, $data);
+
+		$this->client->expects($this->once())
+			->method('get')
+			->with($path)
+			->will($this->returnValue($returnData));
+
+		$this->object->getShareStream($this->oauth);
+	}
 }
