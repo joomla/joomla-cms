@@ -121,6 +121,21 @@ class JLinkedinTest extends TestCase
 	}
 
 	/**
+	 * Tests the magic __get method - stream
+	 *
+	 * @return  void
+	 *
+	 * @since   12.3
+	 */
+	public function test__GetStream()
+	{
+		$this->assertThat(
+			$this->object->stream,
+			$this->isInstanceOf('JLinkedinStream')
+		);
+	}
+
+	/**
 	 * Tests the magic __get method - other (non existant)
 	 *
 	 * @return  void

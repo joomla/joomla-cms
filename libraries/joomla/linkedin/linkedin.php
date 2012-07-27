@@ -55,6 +55,12 @@ class JLinkedin
 	protected $jobs;
 
 	/**
+	 * @var    JLinkedinStream  Linkedin API object for social stream.
+	 * @since  12.3
+	 */
+	protected $stream;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   JRegistry      $options  Linkedin options object.
@@ -111,6 +117,13 @@ class JLinkedin
 					$this->jobs = new JLinkedinJobs($this->options, $this->client);
 				}
 				return $this->jobs;
+
+			case 'stream':
+				if ($this->stream == null)
+				{
+					$this->stream = new JLinkedinStream($this->options, $this->client);
+				}
+				return $this->stream;
 		}
 	}
 
