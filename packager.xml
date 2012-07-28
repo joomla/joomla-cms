@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<packager minify="false" alias="joomla.phar" destination="build/joomla.phar">
+	<code stub="build/import.stub.php">
+		<file>libraries/loader.php</file>
+		<file>libraries/platform.php</file>
+		<folder recursive="true" localPath="compat">libraries/compat</folder>
+		<folder recursive="true" localPath="joomla">libraries/joomla</folder>
+		<folder recursive="true" localPath="phpmailer">libraries/phpmailer</folder>
+		<folder recursive="true" localPath="phputf8">libraries/phputf8</folder>
+		<folder recursive="true" localPath="simplepie">libraries/simplepie</folder>
+	</code>
+
+	<metadata>
+		<element name="version" value="1.0" />
+		<element name="authors">
+			<element name="OpenSourceMatters, Inc.">
+				<element name="email" value="admin@joomla.org" />
+			</element>
+		</element>
+	</metadata>
+</packager>
