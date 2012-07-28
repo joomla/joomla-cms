@@ -186,6 +186,26 @@ class JLanguage
 		$class = str_replace('-', '_', $lang . 'Localise');
 		if (!class_exists($class) && defined('JPATH_SITE'))
 		{
+			// Class does not exist. Try to find it in the Site Language Overrides Folder
+			$localise = JPATH_SITE . "/language/overrides/$lang.localise.php";
+			if (file_exists($localise))
+			{
+				require_once $localise;
+			}
+		}
+
+		if (!class_exists($class) && defined('JPATH_ADMINISTRATOR'))
+		{
+			// Class does not exist. Try to find it in the Administrator Language Overrides Folder
+			$localise = JPATH_ADMINISTRATOR . "/language/overrides/$lang.localise.php";
+			if (file_exists($localise))
+			{
+				require_once $localise;
+			}
+		}
+
+		if (!class_exists($class) && defined('JPATH_SITE'))
+		{
 			// Class does not exist. Try to find it in the Site Language Folder
 			$localise = JPATH_SITE . "/language/$lang/$lang.localise.php";
 			if (file_exists($localise))
