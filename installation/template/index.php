@@ -44,40 +44,34 @@ JText::script('INSTL_FTP_SETTINGS_CORRECT');
 		<![endif]-->
 		<script type="text/javascript">
 			window.addEvent('domready', function() {
-				window.Install = new Installation('rightpad', '<?php echo JURI::current(); ?>');
+				window.Install = new Installation('right', '<?php echo JURI::current(); ?>');
 			});
  		</script>
 	</head>
 	<body>
-		<div id="header">
-			<span class="logo"><a href="http://www.joomla.org" target="_blank"><img src="template/images/logo.png" alt="Joomla!" /></a></span>
+		<header>
+			<a href="http://www.joomla.org" class="logo" target="_blank"><img src="template/images/logo.png" alt="Joomla!" width="143" height="30" /></a>
 			<h1>Joomla! <?php echo JVERSION; ?> <?php echo JText::_('INSTL_INSTALLATION') ?></h1>
-		</div>
+		</header>
 		<jdoc:include type="message" />
 		<div id="content-box">
-			<div id="content-pad">
-				<div id="stepbar">
-					<?php echo JHtml::_('installation.stepbar'); ?>
-					<div class="box"></div>
-				</div>
-				<div id="warning">
-					<noscript>
-						<div id="javascript-warning">
-							<?php echo JText::_('INSTL_WARNJAVASCRIPT'); ?>
-						</div>
-					</noscript>
-				</div>
-				<div id="right">
-					<div id="rightpad">
-						<jdoc:include type="installation" />
+			<div id="stepbar">
+				<?php echo JHtml::_('installation.stepbar'); ?>
+				<div class="box"></div>
+			</div>
+			<div id="warning">
+				<noscript>
+					<div id="javascript-warning">
+						<?php echo JText::_('INSTL_WARNJAVASCRIPT'); ?>
 					</div>
-				</div>
-				<div class="clr"></div>
+				</noscript>
+			</div>
+			<div id="right">
+				<jdoc:include type="installation" />
 			</div>
 		</div>
 		<div id="copyright">
-			<?php $joomla= '<a href="http://www.joomla.org">Joomla!&#174;</a>';
-			echo JText::sprintf('JGLOBAL_ISFREESOFTWARE', $joomla) ?>
+			<?php echo JText::sprintf('JGLOBAL_ISFREESOFTWARE', '<a href="http://www.joomla.org">Joomla!&#174;</a>') ?>
 		</div>
 	</body>
 </html>

@@ -5,6 +5,9 @@
 
 /* CSS Document */
 
+.install-body {
+	zoom: 1;
+}
 
 fieldset#jform_db_old label {
 	clear: both;
