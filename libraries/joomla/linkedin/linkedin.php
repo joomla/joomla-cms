@@ -61,6 +61,12 @@ class JLinkedin
 	protected $stream;
 
 	/**
+	 * @var    JLinkedinCommunications  Linkedin API object for communications.
+	 * @since  12.3
+	 */
+	protected $communications;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   JRegistry      $options  Linkedin options object.
@@ -124,6 +130,13 @@ class JLinkedin
 					$this->stream = new JLinkedinStream($this->options, $this->client);
 				}
 				return $this->stream;
+
+			case 'communications':
+				if ($this->communications == null)
+				{
+					$this->communications = new JLinkedinCommunications($this->options, $this->client);
+				}
+				return $this->communications;
 		}
 	}
 

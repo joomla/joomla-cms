@@ -136,6 +136,21 @@ class JLinkedinTest extends TestCase
 	}
 
 	/**
+	 * Tests the magic __get method - communications
+	 *
+	 * @return  void
+	 *
+	 * @since   12.3
+	 */
+	public function test__GetCommunications()
+	{
+		$this->assertThat(
+			$this->object->communications,
+			$this->isInstanceOf('JLinkedinCommunications')
+		);
+	}
+
+	/**
 	 * Tests the magic __get method - other (non existant)
 	 *
 	 * @return  void
