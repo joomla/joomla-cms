@@ -366,4 +366,34 @@ class JLinkedinStream extends JLinkedinObject
 		$response = $oauth->oauthRequest($path, 'GET', $parameters, $data);
 		return json_decode($response->body);
 	}
+
+	/**
+	 * Method to get information about the current member's network.
+	 *
+	 * @param   JLinkedinOAuth  $oauth  The JLinkedinOAuth object.
+	 *
+	 * @return  array  The decoded JSON response
+	 *
+	 * @since   12.3
+	 */
+	public function getNetworkStats($oauth)
+	{
+		// Set parameters.
+		$parameters = array(
+			'oauth_token' => $oauth->getToken('key')
+		);
+
+		// Set the API base
+		$base = '/v1/people/~/network/network-stats';
+
+		// Set request parameters.
+		$data['format'] = 'json';
+
+		// Build the request path.
+		$path = $this->getOption('api.url') . $base;
+
+		// Send the request.
+		$response = $oauth->oauthRequest($path, 'GET', $parameters, $data);
+		return json_decode($response->body);
+	}
 }
