@@ -396,4 +396,44 @@ class JLinkedinStream extends JLinkedinObject
 		$response = $oauth->oauthRequest($path, 'GET', $parameters, $data);
 		return json_decode($response->body);
 	}
+
+	/**
+	 * Method to get the users network updates.
+	 *
+	 * @param   JLinkedinOAuth  $oauth  The JLinkedinOAuth object.
+	 * @param   string          $body   The actual content of the update. You can use HTML to include links to the user name and the content the user created.
+	 * 									Other HTML tags are not supported. All body text should be HTML entity escaped and UTF-8 compliant.
+	 *
+	 * @return  array  The decoded JSON response
+	 *
+	 * @since   12.3
+	 */
+	public function postNetworkUpdate($oauth, $body)
+	{
+		// Set parameters.
+		$parameters = array(
+			'oauth_token' => $oauth->getToken('key')
+		);
+
+		// Set the success response code.
+		$oauth->setOption('success_code', 201);
+
+		// Set the API base
+		$base = '/v1/people/~/person-activities';
+
+		// Build the xml.
+		$xml = '<activity locale="en_US">
+					<content-type>linkedin-html</content-type>
+				    <body>' . $body . '</body>
+				</activity>';
+
+		$header['Content-Type'] = 'text/xml';
+
+		// Build the request path.
+		$path = $this->getOption('api.url') . $base;
+
+		// Send the request.
+		$response = $oauth->oauthRequest($path, 'POST', $parameters, $xml, $header);
+		return $response;
+	}
 }

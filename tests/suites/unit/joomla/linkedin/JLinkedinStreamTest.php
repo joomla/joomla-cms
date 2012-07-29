@@ -669,4 +669,74 @@ class JLinkedinStreamTest extends TestCase
 
 		$this->object->getNetworkStats($this->oauth);
 	}
+
+	/**
+	 * Tests the postNetworkUpdate method
+	 *
+	 * @return  void
+	 *
+	 * @since   12.3
+	 */
+	public function testPostNetworkUpdate()
+	{
+		$body = '&amp;lt;a href=&amp;quot;http://www.linkedin.com/profile?viewProfile=&amp;amp;key=3639896&amp;amp;authToken=JdAa&amp;amp;authType=name&amp;amp;trk=api*a119686*s128146*&amp;quot;&amp;gt;Kirsten Jones&amp;lt;/a&amp;gt; is reading about &amp;lt;a href=&amp;quot;http://www.tigers.com&amp;quot;&amp;gt;Tigers&amp;lt;/a&amp;gt;http://www.tigers.com&amp;gt;Tigers&amp;lt;/a&amp;gt;..';
+
+		$path = '/v1/people/~/person-activities';
+
+		// Build the xml.
+		$xml = '<activity locale="en_US">
+					<content-type>linkedin-html</content-type>
+				    <body>' . $body . '</body>
+				</activity>';
+
+		$header['Content-Type'] = 'text/xml';
+
+		$returnData = new stdClass;
+		$returnData->code = 201;
+		$returnData->body = $this->sampleString;
+
+		$this->client->expects($this->once())
+			->method('post', $xml, $header)
+			->with($path)
+			->will($this->returnValue($returnData));
+
+		$this->assertThat(
+			$this->object->postNetworkUpdate($this->oauth, $body),
+			$this->equalTo($returnData)
+		);
+	}
+
+	/**
+	 * Tests the postNetworkUpdate method - failure
+	 *
+	 * @return  void
+	 *
+	 * @expectedException DomainException
+	 * @since   12.3
+	 */
+	public function testPostNetworkUpdateFailure()
+	{
+		$body = '&amp;lt;a href=&amp;quot;http://www.linkedin.com/profile?viewProfile=&amp;amp;key=3639896&amp;amp;authToken=JdAa&amp;amp;authType=name&amp;amp;trk=api*a119686*s128146*&amp;quot;&amp;gt;Kirsten Jones&amp;lt;/a&amp;gt; is reading about &amp;lt;a href=&amp;quot;http://www.tigers.com&amp;quot;&amp;gt;Tigers&amp;lt;/a&amp;gt;http://www.tigers.com&amp;gt;Tigers&amp;lt;/a&amp;gt;..';
+
+		$path = '/v1/people/~/person-activities';
+
+		// Build the xml.
+		$xml = '<activity locale="en_US">
+					<content-type>linkedin-html</content-type>
+				    <body>' . $body . '</body>
+				</activity>';
+
+		$header['Content-Type'] = 'text/xml';
+
+		$returnData = new stdClass;
+		$returnData->code = 401;
+		$returnData->body = $this->errorString;
+
+		$this->client->expects($this->once())
+			->method('post', $xml, $header)
+			->with($path)
+			->will($this->returnValue($returnData));
+
+		$this->object->postNetworkUpdate($this->oauth, $body);
+	}
 }
