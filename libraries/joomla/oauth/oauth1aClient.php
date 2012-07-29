@@ -361,6 +361,11 @@ abstract class JOAuth1aClient
 			}
 			else
 			{
+				if (strpos($value, ' ') !== false)
+				{
+					$value = $this->safeEncode($value);
+				}
+
 				if (strpos($url, '?') === false)
 				{
 					$url .= '?' . $key . '=' . $value;
@@ -431,7 +436,6 @@ abstract class JOAuth1aClient
 			}
 			else
 			{
-
 				$value = $this->safeEncode($value);
 				$kv[] = "{$key}={$value}";
 			}

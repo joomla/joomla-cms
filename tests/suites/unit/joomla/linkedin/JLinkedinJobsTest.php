@@ -430,9 +430,9 @@ class JLinkedinJobsTest extends TestCase
 
 		// Set request parameters.
 		$data['format'] = 'json';
-		$data['keywords'] = $this->oauth->safeEncode($keywords);
-		$data['company-name'] = $this->oauth->safeEncode($company_name);
-		$data['job-title'] = $this->oauth->safeEncode($job_title);
+		$data['keywords'] = $keywords;
+		$data['company-name'] = $company_name;
+		$data['job-title'] = $job_title;
 		$data['country-code'] = $country_code;
 		$data['postal-code'] = $postal_code;
 		$data['distance'] = $distance;
@@ -495,9 +495,9 @@ class JLinkedinJobsTest extends TestCase
 
 		// Set request parameters.
 		$data['format'] = 'json';
-		$data['keywords'] = $this->oauth->safeEncode($keywords);
-		$data['company-name'] = $this->oauth->safeEncode($company_name);
-		$data['job-title'] = $this->oauth->safeEncode($job_title);
+		$data['keywords'] = $keywords;
+		$data['company-name'] = $company_name;
+		$data['job-title'] = $job_title;
 		$data['country-code'] = $country_code;
 		$data['postal-code'] = $postal_code;
 		$data['distance'] = $distance;

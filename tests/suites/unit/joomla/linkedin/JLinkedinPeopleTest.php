@@ -398,14 +398,14 @@ class JLinkedinPeopleTest extends TestCase
 
 		// Set request parameters.
 		$data['format'] = 'json';
-		$data['keywords'] = $this->oauth->safeEncode($keywords);
-		$data['first-name'] = $this->oauth->safeEncode($first_name);
-		$data['last-name'] = $this->oauth->safeEncode($last_name);
-		$data['company-name'] = $this->oauth->safeEncode($company_name);
+		$data['keywords'] = $keywords;
+		$data['first-name'] = $first_name;
+		$data['last-name'] = $last_name;
+		$data['company-name'] = $company_name;
 		$data['current-company'] = $current_company;
-		$data['title'] = $this->oauth->safeEncode($title);
+		$data['title'] = $title;
 		$data['current-title'] = $current_title;
-		$data['school-name'] = $this->oauth->safeEncode($school_name);
+		$data['school-name'] = $school_name;
 		$data['current-school'] = $current_school;
 		$data['country-code'] = $country_code;
 		$data['postal-code'] = $postal_code;
@@ -510,14 +510,14 @@ class JLinkedinPeopleTest extends TestCase
 
 		// Set request parameters.
 		$data['format'] = 'json';
-		$data['keywords'] = $this->oauth->safeEncode($keywords);
-		$data['first-name'] = $this->oauth->safeEncode($first_name);
-		$data['last-name'] = $this->oauth->safeEncode($last_name);
-		$data['company-name'] = $this->oauth->safeEncode($company_name);
+		$data['keywords'] = $keywords;
+		$data['first-name'] = $first_name;
+		$data['last-name'] = $last_name;
+		$data['company-name'] = $company_name;
 		$data['current-company'] = $current_company;
-		$data['title'] = $this->oauth->safeEncode($title);
+		$data['title'] = $title;
 		$data['current-title'] = $current_title;
-		$data['school-name'] = $this->oauth->safeEncode($school_name);
+		$data['school-name'] = $school_name;
 		$data['current-school'] = $current_school;
 		$data['country-code'] = $country_code;
 		$data['postal-code'] = $postal_code;

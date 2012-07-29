@@ -177,7 +177,7 @@ class JLinkedinCompanies extends JLinkedinObject
 		// Check if keywords is specified.
 		if ($keywords)
 		{
-			$data['keywords'] = $oauth->safeEncode($keywords);
+			$data['keywords'] = $keywords;
 		}
 
 		// Check if hq is true.

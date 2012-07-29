@@ -302,7 +302,7 @@ class JLinkedinCompaniesTest extends TestCase
 
 		// Set request parameters.
 		$data['format'] = 'json';
-		$data['keywords'] = $this->oauth->safeEncode($keywords);
+		$data['keywords'] = $keywords;
 		$data['hq-only'] = $hq;
 		$data['facets'] = $facets;
 		$data['facet'] = array();
@@ -359,7 +359,7 @@ class JLinkedinCompaniesTest extends TestCase
 
 		// Set request parameters.
 		$data['format'] = 'json';
-		$data['keywords'] = $this->oauth->safeEncode($keywords);
+		$data['keywords'] = $keywords;
 		$data['hq-only'] = $hq;
 		$data['facets'] = $facets;
 		$data['facet'] = array();

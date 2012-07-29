@@ -228,25 +228,25 @@ class JLinkedinPeople extends JLinkedinObject
 		// Check if keywords is specified.
 		if ($keywords)
 		{
-			$data['keywords'] = $oauth->safeEncode($keywords);
+			$data['keywords'] = $keywords;
 		}
 
 		// Check if first_name is specified.
 		if ($first_name)
 		{
-			$data['first-name'] = $oauth->safeEncode($first_name);
+			$data['first-name'] = $first_name;
 		}
 
 		// Check if last_name is specified.
 		if ($last_name)
 		{
-			$data['last-name'] = $oauth->safeEncode($last_name);
+			$data['last-name'] = $last_name;
 		}
 
 		// Check if company-name is specified.
 		if ($company_name)
 		{
-			$data['company-name'] = $oauth->safeEncode($company_name);
+			$data['company-name'] = $company_name;
 		}
 
 		// Check if current_company is specified.
@@ -258,7 +258,7 @@ class JLinkedinPeople extends JLinkedinObject
 		// Check if title is specified.
 		if ($title)
 		{
-			$data['title'] = $oauth->safeEncode($title);
+			$data['title'] = $title;
 		}
 
 		// Check if current_title is specified.
@@ -270,7 +270,7 @@ class JLinkedinPeople extends JLinkedinObject
 		// Check if school_name is specified.
 		if ($school_name)
 		{
-			$data['school-name'] = $oauth->safeEncode($school_name);
+			$data['school-name'] = $school_name;
 		}
 
 		// Check if current_school is specified.

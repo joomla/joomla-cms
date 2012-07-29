@@ -256,19 +256,19 @@ class JLinkedinJobs extends JLinkedinObject
 		// Check if keywords is specified.
 		if ($keywords)
 		{
-			$data['keywords'] = $oauth->safeEncode($keywords);
+			$data['keywords'] = $keywords;
 		}
 
 		// Check if company-name is specified.
 		if ($company_name)
 		{
-			$data['company-name'] = $oauth->safeEncode($company_name);
+			$data['company-name'] = $company_name;
 		}
 
 		// Check if job-title is specified.
 		if ($job_title)
 		{
-			$data['job-title'] = $oauth->safeEncode($job_title);
+			$data['job-title'] = $job_title;
 		}
 
 		// Check if country_code is specified.
