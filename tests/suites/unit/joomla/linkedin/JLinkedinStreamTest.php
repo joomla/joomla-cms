@@ -873,4 +873,175 @@ class JLinkedinStreamTest extends TestCase
 
 		$this->object->postComment($this->oauth, $key, $comment);
 	}
+
+	/**
+	 * Tests the geLikes method
+	 *
+	 * @return  void
+	 *
+	 * @since   12.3
+	 */
+	public function testGetLikes()
+	{
+		$key = 'APPM-187317358-5635333363205165056-196773';
+
+		// Set request parameters.
+		$data['format'] = 'json';
+
+		$path = '/v1/people/~/network/updates/key=' . $key . '/likes';
+
+		$returnData = new stdClass;
+		$returnData->code = 200;
+		$returnData->body = $this->sampleString;
+
+		$path = $this->oauth->toUrl($path, $data);
+
+		$this->client->expects($this->once())
+			->method('get')
+			->with($path)
+			->will($this->returnValue($returnData));
+
+		$this->assertThat(
+			$this->object->getLikes($this->oauth, $key),
+			$this->equalTo(json_decode($this->sampleString))
+		);
+	}
+
+	/**
+	 * Tests the geLikes method - failure
+	 *
+	 * @return  void
+	 *
+	 * @expectedException DomainException
+	 * @since   12.3
+	 */
+	public function testGetLikesFailure()
+	{
+		$key = 'APPM-187317358-5635333363205165056-196773';
+
+		// Set request parameters.
+		$data['format'] = 'json';
+
+		$path = '/v1/people/~/network/updates/key=' . $key . '/likes';
+
+		$returnData = new stdClass;
+		$returnData->code = 401;
+		$returnData->body = $this->errorString;
+
+		$path = $this->oauth->toUrl($path, $data);
+
+		$this->client->expects($this->once())
+			->method('get')
+			->with($path)
+			->will($this->returnValue($returnData));
+
+		$this->object->getLikes($this->oauth, $key);
+	}
+
+	/**
+	 * Tests the _likeUnlike method
+	 *
+	 * @return  void
+	 *
+	 * @since   12.3
+	 */
+	public function test_likeUnlike()
+	{
+		// Method tested via requesting classes
+		$this->markTestSkipped('This method is tested via requesting classes.');
+	}
+
+	/**
+	 * Tests the like method
+	 *
+	 * @return  void
+	 *
+	 * @since   12.3
+	 */
+	public function testLike()
+	{
+		$key = 'APPM-187317358-5635333363205165056-196773';
+
+		$path = '/v1/people/~/network/updates/key=' . $key . '/is-liked';
+
+		$xml = '<is-liked>true</is-liked>';
+
+		$header['Content-Type'] = 'text/xml';
+
+		$returnData = new stdClass;
+		$returnData->code = 204;
+		$returnData->body = $this->sampleString;
+
+		$this->client->expects($this->once())
+			->method('put', $xml, $header)
+			->with($path)
+			->will($this->returnValue($returnData));
+
+		$this->assertThat(
+			$this->object->like($this->oauth, $key),
+			$this->equalTo($returnData)
+		);
+	}
+
+	/**
+	 * Tests the like method - failure
+	 *
+	 * @return  void
+	 *
+	 * @expectedException DomainException
+	 * @since   12.3
+	 */
+	public function testLikeFailure()
+	{
+		$key = 'APPM-187317358-5635333363205165056-196773';
+
+		$path = '/v1/people/~/network/updates/key=' . $key . '/is-liked';
+
+		$xml = '<is-liked>true</is-liked>';
+
+		$header['Content-Type'] = 'text/xml';
+
+		$returnData = new stdClass;
+		$returnData->code = 401;
+		$returnData->body = $this->errorString;
+
+		$this->client->expects($this->once())
+			->method('put', $xml, $header)
+			->with($path)
+			->will($this->returnValue($returnData));
+
+		$this->object->like($this->oauth, $key);
+	}
+
+	/**
+	 * Tests the unlike method
+	 *
+	 * @return  void
+	 *
+	 * @since   12.3
+	 */
+	public function testUnlike()
+	{
+		$key = 'APPM-187317358-5635333363205165056-196773';
+
+		$path = '/v1/people/~/network/updates/key=' . $key . '/is-liked';
+
+		$xml = '<is-liked>false</is-liked>';
+
+		$header['Content-Type'] = 'text/xml';
+
+		$returnData = new stdClass;
+		$returnData->code = 204;
+		$returnData->body = $this->sampleString;
+
+		$this->client->expects($this->once())
+			->method('put', $xml, $header)
+			->with($path)
+			->will($this->returnValue($returnData));
+
+		$this->assertThat(
+			$this->object->unlike($this->oauth, $key),
+			$this->equalTo($returnData)
+		);
+	}
 }

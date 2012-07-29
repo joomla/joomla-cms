@@ -506,4 +506,103 @@ class JLinkedinStream extends JLinkedinObject
 		$response = $oauth->oauthRequest($path, 'POST', $parameters, $xml, $header);
 		return $response;
 	}
+
+	/**
+	 * Method to retrieve the complete list of people who liked an update.
+	 *
+	 * @param   JLinkedinOAuth  $oauth  The JLinkedinOAuth object.
+	 * @param   string          $key    update/update-key representing an update.
+	 *
+	 * @return  array  The decoded JSON response
+	 *
+	 * @since   12.3
+	 */
+	public function getLikes($oauth, $key)
+	{
+		// Set parameters.
+		$parameters = array(
+			'oauth_token' => $oauth->getToken('key')
+		);
+
+		// Set the API base
+		$base = '/v1/people/~/network/updates/key=' . $key . '/likes';
+
+		// Set request parameters.
+		$data['format'] = 'json';
+
+		// Build the request path.
+		$path = $this->getOption('api.url') . $base;
+
+		// Send the request.
+		$response = $oauth->oauthRequest($path, 'GET', $parameters, $data);
+		return json_decode($response->body);
+	}
+
+	/**
+	 * Method to like or unlike an update.
+	 *
+	 * @param   JLinkedinOAuth  $oauth    The JLinkedinOAuth object.
+	 * @param   string          $key    update/update-key representing an update.
+	 * @param   boolean         $like     True to like update, false otherwise.
+	 *
+	 * @return  array  The decoded JSON response
+	 *
+	 * @since   12.3
+	 */
+	private function _likeUnlike($oauth, $key, $like)
+	{
+		// Set parameters.
+		$parameters = array(
+			'oauth_token' => $oauth->getToken('key')
+		);
+
+		// Set the success response code.
+		$oauth->setOption('success_code', 204);
+
+		// Set the API base
+		$base = '/v1/people/~/network/updates/key=' . $key . '/is-liked';
+
+		// Build xml.
+		$xml = '<is-liked>' . $this->boolean_to_string($like) . '</is-liked>';
+
+		// Build the request path.
+		$path = $this->getOption('api.url') . $base;
+
+		$header['Content-Type'] = 'text/xml';
+
+		// Send the request.
+		$response = $oauth->oauthRequest($path, 'PUT', $parameters, $xml, $header);
+
+		return $response;
+	}
+
+	/**
+	 * Method used to like an update.
+	 *
+	 * @param   JLinkedinOAuth  $oauth    The JLinkedinOAuth object.
+	 * @param   string          $key    update/update-key representing an update.
+	 *
+	 * @return  array  The decoded JSON response
+	 *
+	 * @since   12.3
+	 */
+	public function like($oauth, $key)
+	{
+		return $this->_likeUnlike($oauth, $key, true);
+	}
+
+	/**
+	 * Method used to unlike an update.
+	 *
+	 * @param   JLinkedinOAuth  $oauth    The JLinkedinOAuth object.
+	 * @param   string          $key    update/update-key representing an update.
+	 *
+	 * @return  array  The decoded JSON response
+	 *
+	 * @since   12.3
+	 */
+	public function unlike($oauth, $key)
+	{
+		return $this->_likeUnlike($oauth, $key, false);
+	}
 }
