@@ -739,4 +739,138 @@ class JLinkedinStreamTest extends TestCase
 
 		$this->object->postNetworkUpdate($this->oauth, $body);
 	}
+
+	/**
+	 * Tests the getComments method
+	 *
+	 * @return  void
+	 *
+	 * @since   12.3
+	 */
+	public function testGetComments()
+	{
+		$key = 'APPM-187317358-5635333363205165056-196773';
+
+		// Set request parameters.
+		$data['format'] = 'json';
+
+		$path = '/v1/people/~/network/updates/key=' . $key . '/update-comments';
+
+		$returnData = new stdClass;
+		$returnData->code = 200;
+		$returnData->body = $this->sampleString;
+
+		$path = $this->oauth->toUrl($path, $data);
+
+		$this->client->expects($this->once())
+			->method('get')
+			->with($path)
+			->will($this->returnValue($returnData));
+
+		$this->assertThat(
+			$this->object->getComments($this->oauth, $key),
+			$this->equalTo(json_decode($this->sampleString))
+		);
+	}
+
+	/**
+	 * Tests the getComments method - failure
+	 *
+	 * @return  void
+	 *
+	 * @expectedException DomainException
+	 * @since   12.3
+	 */
+	public function testGetCommentsFailure()
+	{
+		$key = 'APPM-187317358-5635333363205165056-196773';
+
+		// Set request parameters.
+		$data['format'] = 'json';
+
+		$path = '/v1/people/~/network/updates/key=' . $key . '/update-comments';
+
+		$returnData = new stdClass;
+		$returnData->code = 401;
+		$returnData->body = $this->errorString;
+
+		$path = $this->oauth->toUrl($path, $data);
+
+		$this->client->expects($this->once())
+			->method('get')
+			->with($path)
+			->will($this->returnValue($returnData));
+
+		$this->object->getComments($this->oauth, $key);
+	}
+
+	/**
+	 * Tests the postComment method
+	 *
+	 * @return  void
+	 *
+	 * @since   12.3
+	 */
+	public function testPostComment()
+	{
+		$key = 'APPM-187317358-5635333363205165056-196773';
+		$comment = 'Comment text';
+
+		$path = '/v1/people/~/network/updates/key=' . $key . '/update-comments';
+
+		// Build the xml.
+		$xml = '<update-comment>
+				  <comment>' . $comment . '</comment>
+				</update-comment>';
+
+		$header['Content-Type'] = 'text/xml';
+
+		$returnData = new stdClass;
+		$returnData->code = 201;
+		$returnData->body = $this->sampleString;
+
+		$this->client->expects($this->once())
+			->method('post', $xml, $header)
+			->with($path)
+			->will($this->returnValue($returnData));
+
+		$this->assertThat(
+			$this->object->postComment($this->oauth, $key, $comment),
+			$this->equalTo($returnData)
+		);
+	}
+
+	/**
+	 * Tests the postComment method - failure
+	 *
+	 * @return  void
+	 *
+	 * @expectedException DomainException
+	 * @since   12.3
+	 */
+	public function testPostCommentFailure()
+	{
+		$key = 'APPM-187317358-5635333363205165056-196773';
+		$comment = 'Comment text';
+
+		$path = '/v1/people/~/network/updates/key=' . $key . '/update-comments';
+
+		// Build the xml.
+		$xml = '<update-comment>
+				  <comment>' . $comment . '</comment>
+				</update-comment>';
+
+		$header['Content-Type'] = 'text/xml';
+
+		$returnData = new stdClass;
+		$returnData->code = 401;
+		$returnData->body = $this->errorString;
+
+		$this->client->expects($this->once())
+			->method('post', $xml, $header)
+			->with($path)
+			->will($this->returnValue($returnData));
+
+		$this->object->postComment($this->oauth, $key, $comment);
+	}
 }

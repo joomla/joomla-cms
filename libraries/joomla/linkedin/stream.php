@@ -436,4 +436,74 @@ class JLinkedinStream extends JLinkedinObject
 		$response = $oauth->oauthRequest($path, 'POST', $parameters, $xml, $header);
 		return $response;
 	}
+
+	/**
+	 * Method to retrieve all comments for a given network update.
+	 *
+	 * @param   JLinkedinOAuth  $oauth  The JLinkedinOAuth object.
+	 * @param   string          $key    update/update-key representing an update.
+	 *
+	 * @return  array  The decoded JSON response
+	 *
+	 * @since   12.3
+	 */
+	public function getComments($oauth, $key)
+	{
+		// Set parameters.
+		$parameters = array(
+			'oauth_token' => $oauth->getToken('key')
+		);
+
+		// Set the API base
+		$base = '/v1/people/~/network/updates/key=' . $key . '/update-comments';
+
+		// Set request parameters.
+		$data['format'] = 'json';
+
+		// Build the request path.
+		$path = $this->getOption('api.url') . $base;
+
+		// Send the request.
+		$response = $oauth->oauthRequest($path, 'GET', $parameters, $data);
+		return json_decode($response->body);
+	}
+
+	/**
+	 * Method to post a new comment to an existing update.
+	 *
+	 * @param   JLinkedinOAuth  $oauth    The JLinkedinOAuth object.
+	 * @param   string          $key      update/update-key representing an update.
+	 * @param   string          $comment  Maximum length of 700 characters
+	 *
+	 * @return  array  The decoded JSON response
+	 *
+	 * @since   12.3
+	 */
+	public function postComment($oauth, $key, $comment)
+	{
+		// Set parameters.
+		$parameters = array(
+			'oauth_token' => $oauth->getToken('key')
+		);
+
+		// Set the success response code.
+		$oauth->setOption('success_code', 201);
+
+		// Set the API base
+		$base = '/v1/people/~/network/updates/key=' . $key . '/update-comments';
+
+		// Build the xml.
+		$xml = '<update-comment>
+				  <comment>' . $comment . '</comment>
+				</update-comment>';
+
+		$header['Content-Type'] = 'text/xml';
+
+		// Build the request path.
+		$path = $this->getOption('api.url') . $base;
+
+		// Send the request.
+		$response = $oauth->oauthRequest($path, 'POST', $parameters, $xml, $header);
+		return $response;
+	}
 }
