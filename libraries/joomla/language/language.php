@@ -184,44 +184,31 @@ class JLanguage
 
 		// Look for a language specific localise class
 		$class = str_replace('-', '_', $lang . 'Localise');
-		if (!class_exists($class) && defined('JPATH_SITE'))
+		$paths = array();
+		if (defined('JPATH_SITE'))
 		{
-			// Class does not exist. Try to find it in the Site Language Overrides Folder
-			$localise = JPATH_SITE . "/language/overrides/$lang.localise.php";
-			if (file_exists($localise))
-			{
-				require_once $localise;
-			}
+			// Note: Manual indexing to enforce load order.
+			$paths[0] = JPATH_SITE . "/language/overrides/$lang.localise.php";
+			$paths[2] = JPATH_SITE . "/language/$lang/$lang.localise.php";
 		}
 
-		if (!class_exists($class) && defined('JPATH_ADMINISTRATOR'))
+		if (defined('JPATH_ADMINISTRATOR'))
 		{
-			// Class does not exist. Try to find it in the Administrator Language Overrides Folder
-			$localise = JPATH_ADMINISTRATOR . "/language/overrides/$lang.localise.php";
-			if (file_exists($localise))
-			{
-				require_once $localise;
-			}
+			// Note: Manual indexing to enforce load order.
+			$paths[1] = JPATH_ADMINISTRATOR . "/language/overrides/$lang.localise.php";
+			$paths[3] = JPATH_ADMINISTRATOR . "/language/$lang/$lang.localise.php";
 		}
 
-		if (!class_exists($class) && defined('JPATH_SITE'))
+		ksort($paths); 
+		$path = reset($paths);
+		
+		while (!class_exists($class) && $path)
 		{
-			// Class does not exist. Try to find it in the Site Language Folder
-			$localise = JPATH_SITE . "/language/$lang/$lang.localise.php";
-			if (file_exists($localise))
+			if (file_exists($path))
 			{
-				require_once $localise;
+				require_once $path;
 			}
-		}
-
-		if (!class_exists($class) && defined('JPATH_ADMINISTRATOR'))
-		{
-			// Class does not exist. Try to find it in the Administrator Language Folder
-			$localise = JPATH_ADMINISTRATOR . "/language/$lang/$lang.localise.php";
-			if (file_exists($localise))
-			{
-				require_once $localise;
-			}
+			$path = next($paths);
 		}
 
 		if (class_exists($class))
