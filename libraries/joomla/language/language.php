@@ -199,9 +199,9 @@ class JLanguage
 			$paths[3] = JPATH_ADMINISTRATOR . "/language/$lang/$lang.localise.php";
 		}
 
-		ksort($paths); 
+		ksort($paths);
 		$path = reset($paths);
-		
+
 		while (!class_exists($class) && $path)
 		{
 			if (file_exists($path))
