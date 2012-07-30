@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+"http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "../../Developer_Manual.ent">
+%BOOK_ENTITIES;
+]>
+<section id="chap-Joomla_Platform_Manual-Linkedin">
+  <title>The Linkedin Package</title>
+
+  <section>
+    <title>Using the Linkedin Package</title>
+
+    <para>The Linkedin package is designed to be a straightforward interface for working with Linkedin. It is based on the REST API.
+    You can find documentation on the API at <ulink url="http://developer.linkedin.com/rest">http://developer.linkedin.com/rest.</ulink></para>
+
+    <para>JLinkedin is built upon the JHttp package which provides an easy way to consume URLs and web services in a transport
+    independent way. JHttp currently supports streams, sockets and CURL. It is possible to create a custom context and inject it
+    into the JLinkedin class if one so desires.</para>
+
+    <section>
+      <title>Instantiating JLinkedin</title>
+
+      <para>Instantiating JLinkedin is easy:</para>
+
+      <programlisting>$linkedin = new JLinkedin;</programlisting>
+
+      <para>This creates a basic JLinkedin object that can be used to access resources on linkedin.com, using an active access token.</para>
+
+      <para>Generating an access token can be done by instantiating JLinkedinOauth.
+      <simplelist>
+        <member>Create a Linkedin application at <ulink url="https://www.linkedin.com/secure/developer">https://www.linkedin.com/secure/developer</ulink>
+        in order to request permissions.
+        </member>
+        <member>Instantiate JLinkedinOauth, passing the JRegistry options needed. The API key, API secret and callback URL (which is the script's path)
+        from the Linkedin application are passed through the JRegistry object. By default you have to set and send headers manually in your application,
+        but if you want this to be done automatically you can set JRegistry's' option 'sendheaders' to true.
+          <element>
+          	<programlisting>
+	          	$options = new JRegistry;
+				$options->set('consumer_key', $api_key);
+				$options->set('consumer_secret', $api_secret);
+				$options->set('callback', $callback_url);
+				$options->set('sendheaders', true);
+				$oauth = new JLinkedinOauth($options);
+			</programlisting>
+          </element>
+          Now you can authenticate and request the user to authorise your application in order to get an access token, but if you already have
+          an access token stored you can set it to the JLinkedinOauth object and if it's still valid your application will use it.
+          <element>
+          	<programlisting>
+          		// Set the stored access token.
+          		$oauth->setToken($token['key'], $token['secret']);
+          		
+          		$access_token = $oauth->auth();
+          	</programlisting>
+          </element>
+          When calling the auth() method, your stored access token will be used only if it's valid, a new one will be created if you don't have an access token
+          or if the stored one is not valid. The method will return the access token used.
+        </member>
+      </simplelist>
+      </para>
+    </section>
+
+    <section>
+      <title>Accessing the JLinkedin API's objects</title>
+
+      <para>The Linkedin package covers almost all Resources of the REST API:
+        <simplelist>
+          <member>Communications object interacts with Communications resources.</member>
+          <member>Companies object interacts with Companies resources.</member>
+          <member>Groups object interacts with Groups resources.</member>
+          <member>Jobs object interacts with Jobs resources.</member>
+          <member>People object interacts with People and Connections resources.</member>
+          <member>Stream object interacts with Social Stream resources.</member>
+        </simplelist>
+      </para>
+
+      <para>Once a JLinkedin object has been created, it is simple to use it to access Linkedin:
+        <programlisting>
+        	$people = $linkedin-&gt;people-&gt;getConnections($oauth);
+        </programlisting>
+        This will retrieve a list of connections for a user who has granted access to his/her account.
+        The JLinkedinOauth object will be passed as first parameter of the method.
+      </para>
+    </section>
+
+    <section>
+      <title>A More Complete Example</title>
+
+      <para>See below for an example demonstrating more of the JLinkedin package:
+        <programlisting>
+        	$linkedin = new JLinkedin;
+        	
+        	// Set options.
+        	$options = new JRegistry;
+			$options->set('consumer_key', $api_key);
+			$options->set('consumer_secret', $api_secret);
+			$options->set('callback', $callback_url);
+			
+			// Automatically set and send headers.
+			$options->set('sendheaders', true);
+			
+			$oauth = new JLinkedinOauth($options);
+			
+			// Set the stored access token, if there is one.
+			if ($token = $this->getStoredToken())
+			{
+       			$oauth->setToken($token['key'], $token['secret']);
+       		}
+        	
+       		$access_token = $oauth->auth();
+       		
+       		// Store the new access token.
+       		if ($access_token != $this->getStoredToken())
+       		{
+       			$this->storeToken($access_token);
+       		}
+       		
+       		// Get connections.
+       		$people = $linkedin-&gt;people-&gt;getConnections($oauth);
+       		
+       		echo 'Total connections: ' . $people->_total;
+			echo '<br /><br />';
+	
+			foreach ($people->values as $connection)
+			{
+				print_r($connection);
+				echo '<br /><br />';
+			}
+        </programlisting>
+      </para>
+    </section>
+
+    <section>
+      <title>More Information</title>
+
+      <para>The following resources contain more information:
+      	<simplelist>
+          <member><ulink url="http://api.joomla.org">Joomla! API Reference</ulink></member>
+          <member><ulink url="http://developer.linkedin.com/rest">Linkedin REST API Reference</ulink></member>
+        </simplelist>
+      </para>
+    </section>
+  </section>
+</section>
