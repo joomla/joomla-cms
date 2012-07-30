@@ -90,9 +90,7 @@ class JLinkedinPeople extends JLinkedinObject
 	/**
 	 * Method to get a list of connections for a user who has granted access to his/her account.
 	 *
-	 * @param   JLinkedinOAuth  $oauth           The JLinkedinOAuth object.
-	 * @param   string          $id              Member id of the profile you want.
-	 * @param   string          $url             The public profile URL.
+	 * @param   JLinkedinOauth  $oauth           The JLinkedinOauth object.
 	 * @param   string          $fields          Request fields beyond the default ones.
 	 * @param   integer         $start           Starting location within the result set for paginated returns.
 	 * @param   integer         $count           The number of results returned.
@@ -103,7 +101,7 @@ class JLinkedinPeople extends JLinkedinObject
 	 *
 	 * @since   12.3
 	 */
-	public function getConnections($oauth, $id = null, $url = null, $fields = null, $start = 0, $count = 500, $modified = null, $modified_since = null)
+	public function getConnections($oauth, $fields = null, $start = 0, $count = 500, $modified = null, $modified_since = null)
 	{
 		// Set parameters.
 		$parameters = array(
@@ -111,28 +109,9 @@ class JLinkedinPeople extends JLinkedinObject
 		);
 
 		// Set the API base
-		$base = '/v1/people/';
+		$base = '/v1/people/~/connections';
 
 		$data['format'] = 'json';
-
-		// Check if a member id is specified.
-		if ($id)
-		{
-			$base .= 'id=' . $id . '/connections';
-		}
-		else
-		{
-			if (!$url)
-			{
-				$base .= '~' . '/connections';
-			}
-		}
-
-		// Check if profile url is specified.
-		if ($url)
-		{
-			$base .= 'url=' . $oauth->safeEncode($url) . '/connections';
-		}
 
 		// Check if fields is specified.
 		if ($fields)

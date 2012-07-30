@@ -233,15 +233,11 @@ class JLinkedinPeopleTest extends TestCase
 	/**
 	 * Tests the getConnections method
 	 *
-	 * @param   string  $id   Member id of the profile you want.
-	 * @param   string  $url  The public profile URL.
-	 *
 	 * @return  void
 	 *
-	 * @dataProvider seedIdUrl
 	 * @since   12.3
 	 */
-	public function testGetConnections($id, $url)
+	public function testGetConnections()
 	{
 		$fields = '(id,first-name,last-name)';
 		$start = 1;
@@ -256,21 +252,7 @@ class JLinkedinPeopleTest extends TestCase
 		$data['modified'] = $modified;
 		$data['modified-since'] = $modified_since;
 
-		$path = '/v1/people/';
-
-		if ($url)
-		{
-			$path .= 'url=' . $this->oauth->safeEncode($url) . '/connections';
-		}
-
-		if ($id)
-		{
-			$path .= 'id=' . $id . '/connections';
-		}
-		elseif (!$url)
-		{
-			$path .= '~' . '/connections';
-		}
+		$path = '/v1/people/~/connections';
 
 		$path .= ':' . $fields;
 
@@ -286,7 +268,7 @@ class JLinkedinPeopleTest extends TestCase
 			->will($this->returnValue($returnData));
 
 		$this->assertThat(
-			$this->object->getConnections($this->oauth, $id, $url, $fields, $start, $count, $modified, $modified_since),
+			$this->object->getConnections($this->oauth, $fields, $start, $count, $modified, $modified_since),
 			$this->equalTo(json_decode($this->sampleString))
 		);
 	}
@@ -294,16 +276,12 @@ class JLinkedinPeopleTest extends TestCase
 	/**
 	 * Tests the getConnections method - failure
 	 *
-	 * @param   string  $id   Member id of the profile you want.
-	 * @param   string  $url  The public profile URL.
-	 *
 	 * @return  void
 	 *
-	 * @dataProvider seedIdUrl
 	 * @since   12.3
 	 * @expectedException DomainException
 	 */
-	public function testGetConnectionsFailure($id, $url)
+	public function testGetConnectionsFailure()
 	{
 		$fields = '(id,first-name,last-name)';
 		$start = 1;
@@ -318,21 +296,7 @@ class JLinkedinPeopleTest extends TestCase
 		$data['modified'] = $modified;
 		$data['modified-since'] = $modified_since;
 
-		$path = '/v1/people/';
-
-		if ($url)
-		{
-			$path .= 'url=' . $this->oauth->safeEncode($url) . '/connections';
-		}
-
-		if ($id)
-		{
-			$path .= 'id=' . $id . '/connections';
-		}
-		elseif (!$url)
-		{
-			$path .= '~' . '/connections';
-		}
+		$path = '/v1/people/~/connections';
 
 		$path .= ':' . $fields;
 
@@ -347,7 +311,7 @@ class JLinkedinPeopleTest extends TestCase
 			->with($path)
 			->will($this->returnValue($returnData));
 
-		$this->object->getConnections($this->oauth, $id, $url, $fields, $start, $count, $modified, $modified_since);
+		$this->object->getConnections($this->oauth, $fields, $start, $count, $modified, $modified_since);
 	}
 
 	/**
