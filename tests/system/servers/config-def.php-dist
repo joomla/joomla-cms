@@ -27,6 +27,10 @@ class SeleniumConfig
 	// then $path would be '/joomla_16/'
 	var $path = '/your_joomla_root/';
 
+	// Set to true if you want to capture screenshots on failure (only for Firefox)
+	var $captureScreenshotOnFailure = false;
+	var $screenShotPath = 'tests/system/screenshots';
+
 	// set the database host, database username, database pasword, and database name
 	var $db_type = 'MySQL';
 	var $db_host = 'localhost';

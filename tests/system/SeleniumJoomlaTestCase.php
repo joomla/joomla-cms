@@ -10,6 +10,9 @@ require_once 'PHPUnit/Extensions/SeleniumTestCase.php';
 class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 {
 	public $cfg; // configuration so tests can get at the fields
+	protected $captureScreenshotOnFailure = false;
+	protected $screenshotPath = null;
+	protected $screenshotUrl = null;
 
 	public function setUp()
 	{
@@ -22,6 +25,13 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 			$this->setHost($cfg->selhost);
 		}
 		echo ".\n" . 'Starting ' . get_class($this) . ".\n";
+
+		if (isset($cfg->captureScreenshotOnFailure) && $cfg->captureScreenshotOnFailure)
+		{
+			$this->captureScreenshotOnFailure = true;
+			$this->screenshotPath = $cfg->folder . $cfg->path . $cfg->screenShotPath;
+			$this->screenshotUrl = $cfg->host . $cfg->path . $cfg->screenShotPath;
+		}
 	}
 
 	function checkMessage($message)
