@@ -63,7 +63,7 @@ class JSchemaChangeset extends JObject
 		$updateQueries = $this->getUpdateQueries($updateFiles);
 		foreach ($updateQueries as $obj)
 		{
-			$this->changeItems[] = JSchemaChangeItem::getInstance($db, $obj->file, $obj->updateQuery);
+			$this->changeItems[] = JSchemaChangeitem::getInstance($db, $obj->file, $obj->updateQuery);
 		}
 	}
 
