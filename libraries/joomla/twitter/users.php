@@ -98,7 +98,7 @@ class JTwitterUsers extends JTwitterObject
 	/**
 	 * Method used to search for users
 	 *
-	 * @param   JTwitterOAuth  $oauth     The JTwitterOAuth object.
+	 * @param   JTwitterOauth  $oauth     The JTwitterOauth object.
 	 * @param   string         $query     The search query to run against people search.
 	 * @param   integer        $page      Specifies the page of results to retrieve.
 	 * @param   integer        $per_page  The number of people to retrieve. Maximum of 20 allowed per page.
@@ -115,9 +115,10 @@ class JTwitterUsers extends JTwitterObject
 		// Check the rate limit for remaining hits
 		$this->checkRateLimit();
 
+		$token = $oauth->getToken();
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $oauth->getToken('key')
+			'oauth_token' => $token['key']
 		);
 
 		$data['q'] = rawurlencode($query);

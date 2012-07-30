@@ -272,7 +272,7 @@ class JTwitterLists extends JTwitterObject
 	/**
 	 * Method to remove multiple members from a list, by specifying a comma-separated list of member ids or screen names.
 	 *
-	 * @param   JTwitterOAuth  $oauth        The JTwitterOAuth object.
+	 * @param   JTwitterOauth  $oauth        The JTwitterOauth object.
 	 * @param   mixed          $list         Either an integer containing the list ID or a string containing the list slug.
 	 * @param   string         $user_id      A comma separated list of user IDs, up to 100 are allowed in a single request.
 	 * @param   string         $screen_name  A comma separated list of screen names, up to 100 are allowed in a single request.
@@ -285,8 +285,9 @@ class JTwitterLists extends JTwitterObject
 	 */
 	public function deleteListMembers($oauth, $list, $user_id = null, $screen_name = null, $owner = null)
 	{
+		$token = $oauth->getToken();
 		// Set parameters.
-		$parameters = array('oauth_token' => $oauth->getToken('key'));
+		$parameters = array('oauth_token' => $token['key']);
 
 		// Determine which type of data was passed for $list
 		if (is_numeric($list))
@@ -346,7 +347,7 @@ class JTwitterLists extends JTwitterObject
 	/**
 	 * Method to subscribe the authenticated user to the specified list.
 	 *
-	 * @param   JTwitterOAuth  $oauth  The JTwitterOAuth object.
+	 * @param   JTwitterOauth  $oauth  The JTwitterOauth object.
 	 * @param   mixed          $list   Either an integer containing the list ID or a string containing the list slug.
 	 * @param   mixed          $owner  Either an integer containing the user ID or a string containing the screen name of the owner.
 	 *
@@ -360,8 +361,9 @@ class JTwitterLists extends JTwitterObject
 		// Check the rate limit for remaining hits
 		$this->checkRateLimit();
 
+		$token = $oauth->getToken();
 		// Set parameters.
-		$parameters = array('oauth_token' => $oauth->getToken('key'));
+		$parameters = array('oauth_token' => $token['key']);
 
 		// Determine which type of data was passed for $list
 		if (is_numeric($list))
@@ -407,7 +409,7 @@ class JTwitterLists extends JTwitterObject
 	/**
 	 * Method to check if the specified user is a member of the specified list.
 	 *
-	 * @param   JTwitterOAuth  $oauth        The JTwitterOAuth object.
+	 * @param   JTwitterOauth  $oauth        The JTwitterOauth object.
 	 * @param   mixed          $list         Either an integer containing the list ID or a string containing the list slug.
 	 * @param   mixed          $user         Either an integer containing the user ID or a string containing the screen name of the user to remove.
 	 * @param   mixed          $owner        Either an integer containing the user ID or a string containing the screen name of the owner.
@@ -425,8 +427,9 @@ class JTwitterLists extends JTwitterObject
 		// Check the rate limit for remaining hits
 		$this->checkRateLimit();
 
+		$token = $oauth->getToken();
 		// Set parameters.
-		$parameters = array('oauth_token' => $oauth->getToken('key'));
+		$parameters = array('oauth_token' => $token['key']);
 
 		// Determine which type of data was passed for $list
 		if (is_numeric($list))
@@ -498,7 +501,7 @@ class JTwitterLists extends JTwitterObject
 	/**
 	 * Method to check if the specified user is a subscriber of the specified list.
 	 *
-	 * @param   JTwitterOAuth  $oauth        The JTwitterOAuth object.
+	 * @param   JTwitterOauth  $oauth        The JTwitterOauth object.
 	 * @param   mixed          $list         Either an integer containing the list ID or a string containing the list slug.
 	 * @param   mixed          $user         Either an integer containing the user ID or a string containing the screen name of the user to remove.
 	 * @param   mixed          $owner        Either an integer containing the user ID or a string containing the screen name of the owner.
@@ -516,8 +519,9 @@ class JTwitterLists extends JTwitterObject
 		// Check the rate limit for remaining hits
 		$this->checkRateLimit();
 
+		$token = $oauth->getToken();
 		// Set parameters.
-		$parameters = array('oauth_token' => $oauth->getToken('key'));
+		$parameters = array('oauth_token' => $token['key']);
 
 		// Determine which type of data was passed for $list
 		if (is_numeric($list))
@@ -589,7 +593,7 @@ class JTwitterLists extends JTwitterObject
 	/**
 	 * Method to unsubscribe the authenticated user from the specified list.
 	 *
-	 * @param   JTwitterOAuth  $oauth  The JTwitterOAuth object.
+	 * @param   JTwitterOauth  $oauth  The JTwitterOauth object.
 	 * @param   mixed          $list   Either an integer containing the list ID or a string containing the list slug.
 	 * @param   mixed          $owner  Either an integer containing the user ID or a string containing the screen name of the owner.
 	 *
@@ -600,8 +604,9 @@ class JTwitterLists extends JTwitterObject
 	 */
 	public function unsubscribe($oauth, $list, $owner = null)
 	{
+		$token = $oauth->getToken();
 		// Set parameters.
-		$parameters = array('oauth_token' => $oauth->getToken('key'));
+		$parameters = array('oauth_token' => $token['key']);
 
 		// Determine which type of data was passed for $list
 		if (is_numeric($list))
@@ -647,7 +652,7 @@ class JTwitterLists extends JTwitterObject
 	/**
 	 * Method to add multiple members to a list, by specifying a comma-separated list of member ids or screen names.
 	 *
-	 * @param   JTwitterOAuth  $oauth        The JTwitterOAuth object.
+	 * @param   JTwitterOauth  $oauth        The JTwitterOauth object.
 	 * @param   mixed          $list         Either an integer containing the list ID or a string containing the list slug.
 	 * @param   string         $user_id      A comma separated list of user IDs, up to 100 are allowed in a single request.
 	 * @param   string         $screen_name  A comma separated list of screen names, up to 100 are allowed in a single request.
@@ -660,8 +665,9 @@ class JTwitterLists extends JTwitterObject
 	 */
 	public function addListMembers($oauth, $list, $user_id = null, $screen_name = null, $owner = null)
 	{
+		$token = $oauth->getToken();
 		// Set parameters.
-		$parameters = array('oauth_token' => $oauth->getToken('key'));
+		$parameters = array('oauth_token' => $token['key']);
 
 		// Determine which type of data was passed for $list
 		if (is_numeric($list))
@@ -924,7 +930,7 @@ class JTwitterLists extends JTwitterObject
 	/**
 	 * Method to update the specified list
 	 *
-	 * @param   JTwitterOAuth  $oauth        The JTwitterOAuth object.
+	 * @param   JTwitterOauth  $oauth        The JTwitterOauth object.
 	 * @param   mixed          $list         Either an integer containing the list ID or a string containing the list slug.
 	 * @param   mixed          $owner        Either an integer containing the user ID or a string containing the screen name of the owner.
 	 * @param   string         $name         The name of the list.
@@ -939,8 +945,9 @@ class JTwitterLists extends JTwitterObject
 	 */
 	public function updateList($oauth, $list, $owner = null, $name = null, $mode = null, $description = null)
 	{
+		$token = $oauth->getToken();
 		// Set parameters.
-		$parameters = array('oauth_token' => $oauth->getToken('key'));
+		$parameters = array('oauth_token' => $token['key']);
 
 		// Determine which type of data was passed for $list
 		if (is_numeric($list))
@@ -1004,7 +1011,7 @@ class JTwitterLists extends JTwitterObject
 	/**
 	 * Method to create a new list for the authenticated user.
 	 *
-	 * @param   JTwitterOAuth  $oauth        The JTwitterOAuth object.
+	 * @param   JTwitterOauth  $oauth        The JTwitterOauth object.
 	 * @param   string         $name         The name of the list.
 	 * @param   string         $mode         Whether your list is public or private. Values can be public or private. If no mode is
 	 * 										 specified the list will be public.
@@ -1016,8 +1023,9 @@ class JTwitterLists extends JTwitterObject
 	 */
 	public function createList($oauth, $name, $mode = null, $description = null)
 	{
+		$token = $oauth->getToken();
 		// Set parameters.
-		$parameters = array('oauth_token' => $oauth->getToken('key'));
+		$parameters = array('oauth_token' => $token['key']);
 
 		// Check if name is specified.
 		if ($name)
@@ -1051,7 +1059,7 @@ class JTwitterLists extends JTwitterObject
 	/**
 	 * Method to delete a specified list.
 	 *
-	 * @param   JTwitterOAuth  $oauth  The JTwitterOAuth object.
+	 * @param   JTwitterOauth  $oauth  The JTwitterOauth object.
 	 * @param   mixed          $list   Either an integer containing the list ID or a string containing the list slug.
 	 * @param   mixed          $owner  Either an integer containing the user ID or a string containing the screen name of the owner.
 	 *
@@ -1062,8 +1070,9 @@ class JTwitterLists extends JTwitterObject
 	 */
 	public function deleteList($oauth, $list, $owner = null)
 	{
+		$token = $oauth->getToken();
 		// Set parameters.
-		$parameters = array('oauth_token' => $oauth->getToken('key'));
+		$parameters = array('oauth_token' => $token['key']);
 
 		// Determine which type of data was passed for $list
 		if (is_numeric($list))

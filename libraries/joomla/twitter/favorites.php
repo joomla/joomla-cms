@@ -21,7 +21,7 @@ class JTwitterFavorites extends JTwitterObject
 	/**
 	 * Method to get the most recent favorite statuses for the authenticating or specified user.
 	 *
-	 * @param   JTwitterOAuth  $oauth     The JTwitterOAuth object.
+	 * @param   JTwitterOauth  $oauth     The JTwitterOauth object.
 	 * @param   mixed          $user      Either an integer containing the user ID or a string containing the screen name.
 	 * @param   integer        $count     Specifies the number of tweets to try and retrieve, up to a maximum of 200.  Retweets are always included
 	 *                                    in the count, so it is always suggested to set $include_rts to true
@@ -43,8 +43,9 @@ class JTwitterFavorites extends JTwitterObject
 		// Set the API base.
 		$base = '/1/favorites.json';
 
+		$token = $oauth->getToken();
 		// Set parameters.
-		$parameters = array('oauth_token' => $oauth->getToken('key'));
+		$parameters = array('oauth_token' => $token['key']);
 
 		// Determine which type of data was passed for $user
 		if (is_numeric($user))
@@ -94,7 +95,7 @@ class JTwitterFavorites extends JTwitterObject
 	/**
 	 * Method to favorite the status specified in the ID parameter as the authenticating user
 	 *
-	 * @param   JTwitterOAuth  $oauth     The JTwitterOAuth object.
+	 * @param   JTwitterOauth  $oauth     The JTwitterOauth object.
 	 * @param   integer        $id        The numerical ID of the desired status.
 	 * @param   boolean        $entities  When set to true,  each tweet will include a node called "entities,". This node offers a variety
 	 * 									  of metadata about the tweet in a discreet structure, including: user_mentions, urls, and hashtags.
@@ -108,8 +109,9 @@ class JTwitterFavorites extends JTwitterObject
 		// Set the API base.
 		$base = '/1/favorites/create/' . $id . '.json';
 
+		$token = $oauth->getToken();
 		// Set parameters.
-		$parameters = array('oauth_token' => $oauth->getToken('key'));
+		$parameters = array('oauth_token' => $token['key']);
 
 		// Check if entities is true.
 		$data = array();
@@ -129,7 +131,7 @@ class JTwitterFavorites extends JTwitterObject
 	/**
 	 * Method to un-favorites the status specified in the ID parameter as the authenticating user.
 	 *
-	 * @param   JTwitterOAuth  $oauth  The JTwitterOAuth object.
+	 * @param   JTwitterOauth  $oauth  The JTwitterOauth object.
 	 * @param   integer        $id     The numerical ID of the desired status.
 	 *
 	 * @return  array  The decoded JSON response
@@ -141,8 +143,9 @@ class JTwitterFavorites extends JTwitterObject
 		// Set the API base.
 		$base = '/1/favorites/destroy/' . $id . '.json';
 
+		$token = $oauth->getToken();
 		// Set parameters.
-		$parameters = array('oauth_token' => $oauth->getToken('key'));
+		$parameters = array('oauth_token' => $token['key']);
 
 		// Build the request path.
 		$path = $this->getOption('api.url') . $base;

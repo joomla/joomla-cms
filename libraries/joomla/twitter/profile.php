@@ -21,7 +21,7 @@ class JTwitterProfile extends JTwitterObject
 	/**
 	 * Method to et values that users are able to set under the "Account" tab of their settings page.
 	 *
-	 * @param   JTwitterOAuth  $oauth        The JTwitterOAuth object.
+	 * @param   JTwitterOauth  $oauth        The JTwitterOauth object.
 	 * @param   string         $name         Full name associated with the profile. Maximum of 20 characters.
 	 * @param   string         $url          URL associated with the profile. Will be prepended with "http://" if not present. Maximum of 100 characters.
 	 * @param   string         $location     The city or country describing where the user of the account is located. The contents are not normalized
@@ -37,8 +37,9 @@ class JTwitterProfile extends JTwitterObject
 	 */
 	public function updateProfile($oauth, $name = null, $url = null, $location = null, $description = null, $entities = false, $skip_status = false)
 	{
+		$token = $oauth->getToken();
 		// Set parameters.
-		$parameters = array('oauth_token' => $oauth->getToken('key'));
+		$parameters = array('oauth_token' => $token['key']);
 
 		$data = array();
 
@@ -93,7 +94,7 @@ class JTwitterProfile extends JTwitterObject
 	 * Method to update the authenticating user's profile background image. This method can also be used to enable or disable the profile
 	 * background image.
 	 *
-	 * @param   JTwitterOAuth  $oauth        The JTwitterOAuth object.
+	 * @param   JTwitterOauth  $oauth        The JTwitterOauth object.
 	 * @param   string         $image        The background image for the profile.
 	 * @param   boolean        $tile         Whether or not to tile the background image.
 	 * @param   boolean        $entities     When set to either true, t or 1, each tweet will include a node called "entities,". This node offers a
@@ -107,8 +108,9 @@ class JTwitterProfile extends JTwitterObject
 	 */
 	public function updateProfileBackgroundImage($oauth, $image = null, $tile = false, $entities = false, $skip_status = false, $use = false)
 	{
+		$token = $oauth->getToken();
 		// Set parameters.
-		$parameters = array('oauth_token' => $oauth->getToken('key'));
+		$parameters = array('oauth_token' => $token['key']);
 
 		$data = array();
 
@@ -158,7 +160,7 @@ class JTwitterProfile extends JTwitterObject
 	/**
 	 * Method to update the authenticating user's profile image.
 	 *
-	 * @param   JTwitterOAuth  $oauth        The JTwitterOAuth object.
+	 * @param   JTwitterOauth  $oauth        The JTwitterOauth object.
 	 * @param   string         $image        The background image for the profile.
 	 * @param   boolean        $entities     When set to either true, t or 1, each tweet will include a node called "entities,". This node offers a
 	 * 								  		 variety of metadata about the tweet in a discreet structure, including: user_mentions, urls, and hashtags.
@@ -170,8 +172,9 @@ class JTwitterProfile extends JTwitterObject
 	 */
 	public function updateProfileImage($oauth, $image = null, $entities = false, $skip_status = false)
 	{
+		$token = $oauth->getToken();
 		// Set parameters.
-		$parameters = array('oauth_token' => $oauth->getToken('key'));
+		$parameters = array('oauth_token' => $token['key']);
 
 		$data = array();
 
@@ -209,7 +212,7 @@ class JTwitterProfile extends JTwitterObject
 	/**
 	 * Method to set one or more hex values that control the color scheme of the authenticating user's profile page on twitter.com.
 	 *
-	 * @param   JTwitterOAuth  $oauth           The JTwitterOAuth object.
+	 * @param   JTwitterOauth  $oauth           The JTwitterOauth object.
 	 * @param   string         $background      Profile background color.
 	 * @param   string         $link            Profile link color.
 	 * @param   string         $sidebar_border  Profile sidebar's border color.
@@ -226,8 +229,9 @@ class JTwitterProfile extends JTwitterObject
 	public function updateProfileColors($oauth, $background = null, $link = null, $sidebar_border = null, $sidebar_fill = null, $text = null,
 		$entities = false, $skip_status = false)
 	{
+		$token = $oauth->getToken();
 		// Set parameters.
-		$parameters = array('oauth_token' => $oauth->getToken('key'));
+		$parameters = array('oauth_token' => $token['key']);
 
 		$data = array();
 
@@ -287,7 +291,7 @@ class JTwitterProfile extends JTwitterObject
 	/**
 	 * Method to get the current count of friends, followers, updates (statuses) and favorites of the authenticating user.
 	 *
-	 * @param   JTwitterOAuth  $oauth  The JTwitterOAuth object.
+	 * @param   JTwitterOauth  $oauth  The JTwitterOauth object.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
@@ -298,8 +302,9 @@ class JTwitterProfile extends JTwitterObject
 		// Check the rate limit for remaining hits
 		$this->checkRateLimit();
 
+		$token = $oauth->getToken();
 		// Set parameters.
-		$parameters = array('oauth_token' => $oauth->getToken('key'));
+		$parameters = array('oauth_token' => $token['key']);
 
 		// Set the API base
 		$base = '/1/account/totals.json';
@@ -315,7 +320,7 @@ class JTwitterProfile extends JTwitterObject
 	/**
 	 * Method to get the settings (including current trend, geo and sleep time information) for the authenticating user.
 	 *
-	 * @param   JTwitterOAuth  $oauth  The JTwitterOAuth object.
+	 * @param   JTwitterOauth  $oauth  The JTwitterOauth object.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
@@ -326,8 +331,9 @@ class JTwitterProfile extends JTwitterObject
 		// Check the rate limit for remaining hits
 		$this->checkRateLimit();
 
+		$token = $oauth->getToken();
 		// Set parameters.
-		$parameters = array('oauth_token' => $oauth->getToken('key'));
+		$parameters = array('oauth_token' => $token['key']);
 
 		// Set the API base
 		$base = '/1/account/settings.json';
@@ -343,7 +349,7 @@ class JTwitterProfile extends JTwitterObject
 	/**
 	 * Method to update the authenticating user's settings.
 	 *
-	 * @param   JTwitterOAuth  $oauth        The JTwitterOAuth object.
+	 * @param   JTwitterOauth  $oauth        The JTwitterOauth object.
 	 * @param   integer        $location     The Yahoo! Where On Earth ID to use as the user's default trend location.
 	 * @param   boolean        $sleep_time   When set to true, t or 1, will enable sleep time for the user.
 	 * @param   integer        $start_sleep  The hour that sleep time should begin if it is enabled.
@@ -359,8 +365,9 @@ class JTwitterProfile extends JTwitterObject
 	public function updateSettings($oauth, $location = null, $sleep_time = false, $start_sleep = null, $end_sleep = null,
 		$time_zone = null, $lang = null)
 	{
+		$token = $oauth->getToken();
 		// Set parameters.
-		$parameters = array('oauth_token' => $oauth->getToken('key'));
+		$parameters = array('oauth_token' => $token['key']);
 
 		$data = array();
 

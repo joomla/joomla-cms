@@ -134,7 +134,7 @@ class JTwittersearch extends JTwitterObject
 	/**
 	 * Method to get the authenticated user's saved search queries.
 	 *
-	 * @param   JTwitterOAuth  $oauth  The JTwitterOAuth object.
+	 * @param   JTwitterOauth  $oauth  The JTwitterOauth object.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
@@ -148,9 +148,10 @@ class JTwittersearch extends JTwitterObject
 		// Set the API base
 		$base = '/1/saved_searches.json';
 
+		$token = $oauth->getToken();
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $oauth->getToken('key')
+			'oauth_token' => $token['key']
 		);
 
 		// Build the request path.
@@ -164,7 +165,7 @@ class JTwittersearch extends JTwitterObject
 	/**
 	 * Method to get the information for the saved search represented by the given id.
 	 *
-	 * @param   JTwitterOAuth  $oauth  The JTwitterOAuth object.
+	 * @param   JTwitterOauth  $oauth  The JTwitterOauth object.
 	 * @param   integer        $id     The ID of the saved search.
 	 *
 	 * @return  array  The decoded JSON response
@@ -179,9 +180,10 @@ class JTwittersearch extends JTwitterObject
 		// Set the API base
 		$base = '/1/saved_searches/' . $id . '.json';
 
+		$token = $oauth->getToken();
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $oauth->getToken('key')
+			'oauth_token' => $token['key']
 		);
 
 		// Build the request path.
@@ -195,7 +197,7 @@ class JTwittersearch extends JTwitterObject
 	/**
 	 * Method to create a new saved search for the authenticated user.
 	 *
-	 * @param   JTwitterOAuth  $oauth  The JTwitterOAuth object.
+	 * @param   JTwitterOauth  $oauth  The JTwitterOauth object.
 	 * @param   string         $query  The query of the search the user would like to save.
 	 *
 	 * @return  array  The decoded JSON response
@@ -207,9 +209,10 @@ class JTwittersearch extends JTwitterObject
 		// Set the API base
 		$base = '/1/saved_searches/create.json';
 
+		$token = $oauth->getToken();
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $oauth->getToken('key')
+			'oauth_token' => $token['key']
 		);
 
 		// Set POST request data
@@ -226,7 +229,7 @@ class JTwittersearch extends JTwitterObject
 	/**
 	 * Method to delete a saved search for the authenticating user.
 	 *
-	 * @param   JTwitterOAuth  $oauth  The JTwitterOAuth object.
+	 * @param   JTwitterOauth  $oauth  The JTwitterOauth object.
 	 * @param   integer        $id     The ID of the saved search.
 	 *
 	 * @return  array  The decoded JSON response
@@ -238,9 +241,10 @@ class JTwittersearch extends JTwitterObject
 		// Set the API base
 		$base = '/1/saved_searches/destroy/' . $id . '.json';
 
+		$token = $oauth->getToken();
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $oauth->getToken('key')
+			'oauth_token' => $token['key']
 		);
 
 		// Build the request path.
