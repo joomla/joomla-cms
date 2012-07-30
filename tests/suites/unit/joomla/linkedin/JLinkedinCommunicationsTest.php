@@ -217,7 +217,8 @@ class JLinkedinCommunicationsTest extends TestCase
 
 		$returnData = new stdClass;
 		$returnData->code = 200;
-		$returnData->body = '{"apiStandardProfileRequest": {"headers": {"_total": 1,"values": [{"name": "x-li-auth-token","value": "' . $name . ':' . $value . '"}]}}}';
+		$returnData->body = '{"apiStandardProfileRequest": {"headers": {"_total": 1,"values": [{"name": "x-li-auth-token","value": "' .
+			$name . ':' . $value . '"}]}}}';
 
 		$data['format'] = 'json';
 		$data['first-name'] = $first_name;

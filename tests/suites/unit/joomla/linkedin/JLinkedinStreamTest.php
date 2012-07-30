@@ -107,6 +107,12 @@ class JLinkedinStreamTest extends TestCase
 	/**
 	 * Tests the share method
 	 *
+	 * @param   string  $comment      Text of member's comment.
+	 * @param   string  $title        Title of shared document.
+	 * @param   string  $url          URL for shared content.
+	 * @param   string  $image        URL for image of shared content.
+	 * @param   string  $description  Description of shared content.
+	 *
 	 * @return  void
 	 *
 	 * @dataProvider seedShare
@@ -458,9 +464,6 @@ class JLinkedinStreamTest extends TestCase
 	/**
 	 * Tests the getShareStream method - failure
 	 *
-	 * @param   string  $id   Member id of the profile you want.
-	 * @param   string  $url  The public profile URL.
-	 *
 	 * @return  void
 	 *
 	 * @expectedException DomainException
@@ -472,7 +475,6 @@ class JLinkedinStreamTest extends TestCase
 		$data['format'] = 'json';
 		$data['type'] = 'SHAR';
 		$data['scope'] = 'self';
-
 
 		$path = '/v1/people/~/network';
 
@@ -679,7 +681,9 @@ class JLinkedinStreamTest extends TestCase
 	 */
 	public function testPostNetworkUpdate()
 	{
-		$body = '&amp;lt;a href=&amp;quot;http://www.linkedin.com/profile?viewProfile=&amp;amp;key=3639896&amp;amp;authToken=JdAa&amp;amp;authType=name&amp;amp;trk=api*a119686*s128146*&amp;quot;&amp;gt;Kirsten Jones&amp;lt;/a&amp;gt; is reading about &amp;lt;a href=&amp;quot;http://www.tigers.com&amp;quot;&amp;gt;Tigers&amp;lt;/a&amp;gt;http://www.tigers.com&amp;gt;Tigers&amp;lt;/a&amp;gt;..';
+		$body = '&amp;lt;a href=&amp;quot;http://www.linkedin.com/profile?viewProfile=&amp;amp;key=3639896&amp;amp;authToken=JdAa&amp;amp;
+			authType=name&amp;amp;trk=api*a119686*s128146*&amp;quot;&amp;gt;Kirsten Jones&amp;lt;/a&amp;gt; is reading about &amp;lt;
+			a href=&amp;quot;http://www.tigers.com&amp;quot;&amp;gt;Tigers&amp;lt;/a&amp;gt;http://www.tigers.com&amp;gt;Tigers&amp;lt;/a&amp;gt;..';
 
 		$path = '/v1/people/~/person-activities';
 
@@ -716,7 +720,9 @@ class JLinkedinStreamTest extends TestCase
 	 */
 	public function testPostNetworkUpdateFailure()
 	{
-		$body = '&amp;lt;a href=&amp;quot;http://www.linkedin.com/profile?viewProfile=&amp;amp;key=3639896&amp;amp;authToken=JdAa&amp;amp;authType=name&amp;amp;trk=api*a119686*s128146*&amp;quot;&amp;gt;Kirsten Jones&amp;lt;/a&amp;gt; is reading about &amp;lt;a href=&amp;quot;http://www.tigers.com&amp;quot;&amp;gt;Tigers&amp;lt;/a&amp;gt;http://www.tigers.com&amp;gt;Tigers&amp;lt;/a&amp;gt;..';
+		$body = '&amp;lt;a href=&amp;quot;http://www.linkedin.com/profile?viewProfile=&amp;amp;key=3639896&amp;amp;authToken=JdAa&amp;amp;
+			authType=name&amp;amp;trk=api*a119686*s128146*&amp;quot;&amp;gt;Kirsten Jones&amp;lt;/a&amp;gt; is reading about &amp;lt;
+			a href=&amp;quot;http://www.tigers.com&amp;quot;&amp;gt;Tigers&amp;lt;/a&amp;gt;http://www.tigers.com&amp;gt;Tigers&amp;lt;/a&amp;gt;..';
 
 		$path = '/v1/people/~/person-activities';
 

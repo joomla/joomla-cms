@@ -237,7 +237,7 @@ class JLinkedinGroups extends JLinkedinObject
 
 		if (!is_null($show_logo))
 		{
-			$xml .= '<show-group-logo-in-profile>' . $this->boolean_to_string($show_logo) . '</show-group-logo-in-profile>';
+			$xml .= '<show-group-logo-in-profile>' . $this->booleanToString($show_logo) . '</show-group-logo-in-profile>';
 		}
 
 		if ($digest_frequency)
@@ -247,17 +247,17 @@ class JLinkedinGroups extends JLinkedinObject
 
 		if (!is_null($announcements))
 		{
-			$xml .= '<email-announcements-from-managers>' . $this->boolean_to_string($announcements) . '</email-announcements-from-managers>';
+			$xml .= '<email-announcements-from-managers>' . $this->booleanToString($announcements) . '</email-announcements-from-managers>';
 		}
 
 		if (!is_null($allow_messages))
 		{
-			$xml .= '<allow-messages-from-members>' . $this->boolean_to_string($allow_messages) . '</allow-messages-from-members>';
+			$xml .= '<allow-messages-from-members>' . $this->booleanToString($allow_messages) . '</allow-messages-from-members>';
 		}
 
 		if (!is_null($new_post))
 		{
-			$xml .= '<email-for-every-new-post>' . $this->boolean_to_string($new_post) . '</email-for-every-new-post>';
+			$xml .= '<email-for-every-new-post>' . $this->booleanToString($new_post) . '</email-for-every-new-post>';
 		}
 
 		$xml .= '</group-membership>';
@@ -307,7 +307,7 @@ class JLinkedinGroups extends JLinkedinObject
 
 		if (!is_null($show_logo))
 		{
-			$xml .= '<show-group-logo-in-profile>' . $this->boolean_to_string($show_logo) . '</show-group-logo-in-profile>';
+			$xml .= '<show-group-logo-in-profile>' . $this->booleanToString($show_logo) . '</show-group-logo-in-profile>';
 		}
 
 		if ($digest_frequency)
@@ -317,17 +317,17 @@ class JLinkedinGroups extends JLinkedinObject
 
 		if (!is_null($announcements))
 		{
-			$xml .= '<email-announcements-from-managers>' . $this->boolean_to_string($announcements) . '</email-announcements-from-managers>';
+			$xml .= '<email-announcements-from-managers>' . $this->booleanToString($announcements) . '</email-announcements-from-managers>';
 		}
 
 		if (!is_null($allow_messages))
 		{
-			$xml .= '<allow-messages-from-members>' . $this->boolean_to_string($allow_messages) . '</allow-messages-from-members>';
+			$xml .= '<allow-messages-from-members>' . $this->booleanToString($allow_messages) . '</allow-messages-from-members>';
 		}
 
 		if (!is_null($new_post))
 		{
-			$xml .= '<email-for-every-new-post>' . $this->boolean_to_string($new_post) . '</email-for-every-new-post>';
+			$xml .= '<email-for-every-new-post>' . $this->booleanToString($new_post) . '</email-for-every-new-post>';
 		}
 
 		$xml .= '<membership-state><code>member</code></membership-state></group-membership>';
@@ -693,7 +693,7 @@ class JLinkedinGroups extends JLinkedinObject
 		$base = '/v1/posts/' . $post_id . '/relation-to-viewer/is-liked';
 
 		// Build xml.
-		$xml = '<is-liked>' . $this->boolean_to_string($like) . '</is-liked>';
+		$xml = '<is-liked>' . $this->booleanToString($like) . '</is-liked>';
 
 		// Build the request path.
 		$path = $this->getOption('api.url') . $base;
@@ -761,7 +761,7 @@ class JLinkedinGroups extends JLinkedinObject
 		$base = '/v1/posts/' . $post_id . '/relation-to-viewer/is-following';
 
 		// Build xml.
-		$xml = '<is-following>' . $this->boolean_to_string($follow) . '</is-following>';
+		$xml = '<is-following>' . $this->booleanToString($follow) . '</is-following>';
 
 		// Build the request path.
 		$path = $this->getOption('api.url') . $base;

@@ -26,7 +26,7 @@ class JLinkedinStream extends JLinkedinObject
 	 * @param   string          $comment      Text of member's comment.
 	 * @param   string          $title        Title of shared document.
 	 * @param   string          $url          URL for shared content.
-	 * @param   string          $image         URL for image of shared content.
+	 * @param   string          $image        URL for image of shared content.
 	 * @param   string          $description  Description of shared content.
 	 * @param   boolean         $twitter      True to have LinkedIn pass the status message along to a member's tethered Twitter account.
 	 *
@@ -292,7 +292,8 @@ class JLinkedinStream extends JLinkedinObject
 	 *
 	 * @since   12.3
 	 */
-	public function getNetworkUpdates($oauth, $id = null, $self = true, $type = null, $count = 0, $start = 0, $after = null, $before = null, $hidden = false)
+	public function getNetworkUpdates($oauth, $id = null, $self = true, $type = null, $count = 0, $start = 0, $after = null, $before = null,
+		$hidden = false)
 	{
 		// Set parameters.
 		$parameters = array(
@@ -401,8 +402,8 @@ class JLinkedinStream extends JLinkedinObject
 	 * Method to get the users network updates.
 	 *
 	 * @param   JLinkedinOAuth  $oauth  The JLinkedinOAuth object.
-	 * @param   string          $body   The actual content of the update. You can use HTML to include links to the user name and the content the user created.
-	 * 									Other HTML tags are not supported. All body text should be HTML entity escaped and UTF-8 compliant.
+	 * @param   string          $body   The actual content of the update. You can use HTML to include links to the user name and the content the user
+	 * 									created. Other HTML tags are not supported. All body text should be HTML entity escaped and UTF-8 compliant.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
@@ -541,9 +542,9 @@ class JLinkedinStream extends JLinkedinObject
 	/**
 	 * Method to like or unlike an update.
 	 *
-	 * @param   JLinkedinOAuth  $oauth    The JLinkedinOAuth object.
-	 * @param   string          $key    update/update-key representing an update.
-	 * @param   boolean         $like     True to like update, false otherwise.
+	 * @param   JLinkedinOAuth  $oauth  The JLinkedinOAuth object.
+	 * @param   string          $key    Update/update-key representing an update.
+	 * @param   boolean         $like   True to like update, false otherwise.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
@@ -563,7 +564,7 @@ class JLinkedinStream extends JLinkedinObject
 		$base = '/v1/people/~/network/updates/key=' . $key . '/is-liked';
 
 		// Build xml.
-		$xml = '<is-liked>' . $this->boolean_to_string($like) . '</is-liked>';
+		$xml = '<is-liked>' . $this->booleanToString($like) . '</is-liked>';
 
 		// Build the request path.
 		$path = $this->getOption('api.url') . $base;
@@ -579,8 +580,8 @@ class JLinkedinStream extends JLinkedinObject
 	/**
 	 * Method used to like an update.
 	 *
-	 * @param   JLinkedinOAuth  $oauth    The JLinkedinOAuth object.
-	 * @param   string          $key    update/update-key representing an update.
+	 * @param   JLinkedinOAuth  $oauth  The JLinkedinOAuth object.
+	 * @param   string          $key    Update/update-key representing an update.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
@@ -594,8 +595,8 @@ class JLinkedinStream extends JLinkedinObject
 	/**
 	 * Method used to unlike an update.
 	 *
-	 * @param   JLinkedinOAuth  $oauth    The JLinkedinOAuth object.
-	 * @param   string          $key    update/update-key representing an update.
+	 * @param   JLinkedinOAuth  $oauth  The JLinkedinOAuth object.
+	 * @param   string          $key    Update/update-key representing an update.
 	 *
 	 * @return  array  The decoded JSON response
 	 *

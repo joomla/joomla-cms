@@ -617,7 +617,7 @@ class JLinkedinGroupsTest extends TestCase
 
 		$returnData = new stdClass;
 		$returnData->code = 401;
-		$returnData->body = $this->errorString;
+		$returnData->body = 'unauthorized';
 
 		$this->client->expects($this->once())
 			->method('delete')

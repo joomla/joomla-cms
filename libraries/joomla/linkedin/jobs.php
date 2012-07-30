@@ -224,11 +224,12 @@ class JLinkedinJobs extends JLinkedinObject
 	 * 										   Not supported for all countries.
 	 * @param   integer         $distance      Matches members within a distance from a central point. This is measured in miles.
 	 * @param   string          $facets        Facet buckets to return, e.g. location.
-	 * @param   array           $facet         Array of facet values to search over. Contains values for company, date-posted, location, job-function, industry,
-	 * 										   and salary, in exactly this order, null must be specified for an element if no value.
+	 * @param   array           $facet         Array of facet values to search over. Contains values for company, date-posted, location, job-function,
+	 * 										   industry, and salary, in exactly this order, null must be specified for an element if no value.
 	 * @param   integer         $start         Starting location within the result set for paginated returns.
 	 * @param   integer         $count         The number of results returned.
-	 * @param   string          $sort          Controls the search result order. There are four options: R (relationship), DA (date-posted-asc), DD (date-posted-desc).
+	 * @param   string          $sort          Controls the search result order. There are four options: R (relationship), DA (date-posted-asc),
+	 * 										   DD (date-posted-desc).
 	 *
 	 * @return  array  The decoded JSON response
 	 *

@@ -465,7 +465,10 @@ class JLinkedinJobsTest extends TestCase
 			->will($this->returnValue($returnData));
 
 		$this->assertThat(
-			$this->object->search($this->oauth, $fields, $keywords, $company_name, $job_title, $country_code, $postal_code, $distance, $facets, $facet, $start, $count, $sort),
+			$this->object->search(
+				$this->oauth, $fields, $keywords, $company_name, $job_title, $country_code, $postal_code, $distance,
+				$facets, $facet, $start, $count, $sort
+				),
 			$this->equalTo(json_decode($this->sampleString))
 		);
 	}
@@ -529,6 +532,9 @@ class JLinkedinJobsTest extends TestCase
 			->with($path)
 			->will($this->returnValue($returnData));
 
-		$this->object->search($this->oauth, $fields, $keywords, $company_name, $job_title, $country_code, $postal_code, $distance, $facets, $facet, $start, $count, $sort);
+		$this->object->search(
+			$this->oauth, $fields, $keywords, $company_name, $job_title, $country_code, $postal_code, $distance,
+			$facets, $facet, $start, $count, $sort
+			);
 	}
 }

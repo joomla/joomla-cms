@@ -165,13 +165,10 @@ class JLinkedinCommunications extends JLinkedinObject
 	/**
 	 * Method used to send messages via LinkedIn between two or more individuals connected to the member sending the message..
 	 *
-	 * @param   JLinkedinOAuth  $oauth       The JLinkedinOAuth object.
-	 * @param   string          $id          Member id.
-	 * @param   string          $first_name  A string containing frist name of the recipient.
-	 * @param   string          $last_name   A string containing last name of the recipient.
-	 * @param   string          $subject     The subject of the message that will be sent to the recipient
-	 * @param   string          $body        A text of the message.
-	 * @param   string          $connection  Only connecting as a 'friend' is supported presently.
+	 * @param   JLinkedinOAuth  $oauth      The JLinkedinOAuth object.
+	 * @param   mixed           $recipient  A string containing the member id or an array of ids.
+	 * @param   string          $subject    The subject of the message that will be sent to the recipient
+	 * @param   string          $body       A text of the message.
 	 *
 	 * @return  array  The decoded JSON response
 	 *

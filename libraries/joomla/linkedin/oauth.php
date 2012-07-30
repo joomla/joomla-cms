@@ -18,10 +18,10 @@ jimport('joomla.oauth.oauth1aClient');
  *
  * @since       12.3
  */
-class JLinkedinOAuth extends JOAuth1aClient
+class JLinkedinOauth extends JOauth1aClient
 {
 	/**
-	* @var    JRegistry  Options for the JFacebookOAuth object.
+	* @var    JRegistry  Options for the JLinkedinOauth object.
 	* @since  12.3
 	*/
 	protected $options;
@@ -29,7 +29,7 @@ class JLinkedinOAuth extends JOAuth1aClient
 	/**
 	 * Constructor.
 	 *
-	 * @param   JRegistry      $options  JLinkedinOAuth options object.
+	 * @param   JRegistry      $options  JLinkedinOauth options object.
 	 * @param   JLinkedinHttp  $client   The HTTP client object.
 	 *
 	 * @since 12.3
@@ -43,7 +43,7 @@ class JLinkedinOAuth extends JOAuth1aClient
 		$this->setOption('authoriseURL', 'https://www.linkedin.com/uas/oauth/authorize');
 		$this->setOption('requestTokenURL', 'https://www.linkedin.com/uas/oauth/requestToken');
 
-		// Call the JOAuth1aClient constructor to setup the object.
+		// Call the JOauth1aClient constructor to setup the object.
 		parent::__construct($this->options, $client);
 	}
 
