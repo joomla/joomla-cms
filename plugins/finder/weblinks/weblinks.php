@@ -332,7 +332,7 @@ class plgFinderWeblinks extends FinderIndexerAdapter
 		$sql->select('a.metakey, a.metadesc, a.metadata, a.language, a.access, a.ordering');
 		$sql->select('a.created_by_alias, a.modified, a.modified_by');
 		$sql->select('a.publish_up AS publish_start_date, a.publish_down AS publish_end_date');
-		$sql->select('a.state AS state, a.ordering, a.access, a.approved, a.created AS start_date, a.params');
+		$sql->select('a.state AS state, a.ordering, a.access, a.created AS start_date, a.params');
 		$sql->select('c.title AS category, c.published AS cat_state, c.access AS cat_access');
 
 		// Handle the alias CASE WHEN portion of the query
@@ -356,7 +356,6 @@ class plgFinderWeblinks extends FinderIndexerAdapter
 
 		$sql->from('#__weblinks AS a');
 		$sql->join('LEFT', '#__categories AS c ON c.id = a.catid');
-		$sql->where('a.approved = 1');
 
 		return $sql;
 	}
