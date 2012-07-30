@@ -161,4 +161,61 @@ class JLinkedinCommunications extends JLinkedinObject
 		$response = $oauth->oauthRequest($path, 'POST', $parameters, $xml, $header);
 		return $response;
 	}
+
+	/**
+	 * Method used to send messages via LinkedIn between two or more individuals connected to the member sending the message..
+	 *
+	 * @param   JLinkedinOAuth  $oauth       The JLinkedinOAuth object.
+	 * @param   string          $id          Member id.
+	 * @param   string          $first_name  A string containing frist name of the recipient.
+	 * @param   string          $last_name   A string containing last name of the recipient.
+	 * @param   string          $subject     The subject of the message that will be sent to the recipient
+	 * @param   string          $body        A text of the message.
+	 * @param   string          $connection  Only connecting as a 'friend' is supported presently.
+	 *
+	 * @return  array  The decoded JSON response
+	 *
+	 * @since   12.3
+	 */
+	public function sendMessage($oauth, $recipient, $subject, $body)
+	{
+		// Set parameters.
+		$parameters = array(
+			'oauth_token' => $oauth->getToken('key')
+		);
+
+		// Set the success response code.
+		$oauth->setOption('success_code', 201);
+
+		// Set the API base.
+		$base = '/v1/people/~/mailbox';
+
+		// Build the xml.
+		$xml = '<mailbox-item>
+				  <recipients>';
+
+		if (is_array($recipient))
+		{
+			foreach ($recipient as $r)
+			{
+				$xml .= '<recipient>
+							<person path="/people/' . $r . '"/>
+						</recipient>';
+			}
+		}
+
+		$xml .= '</recipients>
+				 <subject>' . $subject . '</subject>
+				 <body>' . $body . '</body>
+				</mailbox-item>';
+
+		$header['Content-Type'] = 'text/xml';
+
+		// Build the request path.
+		$path = $this->getOption('api.url') . $base;
+
+		// Send the request.
+		$response = $oauth->oauthRequest($path, 'POST', $parameters, $xml, $header);
+		return $response;
+	}
 }

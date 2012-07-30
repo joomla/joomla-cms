@@ -309,4 +309,94 @@ class JLinkedinCommunicationsTest extends TestCase
 
 		$this->object->inviteById($this->oauth, $id, $first_name, $last_name, $subject, $body, $connection);
 	}
+
+	/**
+	 * Tests the sendMessage method
+	 *
+	 * @return  void
+	 *
+	 * @since   12.3
+	 */
+	public function testSendMessage()
+	{
+		$recipient = array('~', 'lcnIwDU0S6');
+		$subject = 'Subject';
+		$body = 'body';
+
+		$path = '/v1/people/~/mailbox';
+
+		// Build the xml.
+		$xml = '<mailbox-item>
+				  <recipients>
+				  	<recipient>
+						<person path="/people/~"/>
+					</recipient>
+					<recipient>
+						<person path="/people/lcnIwDU0S6"/>
+					</recipient>
+				  </recipients>
+				  <subject>' . $subject . '</subject>
+				  <body>' . $body . '</body>
+				</mailbox-item>';
+
+		$header['Content-Type'] = 'text/xml';
+
+		$returnData = new stdClass;
+		$returnData->code = 201;
+		$returnData->body = $this->sampleString;
+
+		$this->client->expects($this->once())
+			->method('post', $xml, $header)
+			->with($path)
+			->will($this->returnValue($returnData));
+
+		$this->assertThat(
+			$this->object->sendMessage($this->oauth, $recipient, $subject, $body),
+			$this->equalTo($returnData)
+		);
+	}
+
+	/**
+	 * Tests the sendMessage method - failure
+	 *
+	 * @return  void
+	 *
+	 * @expectedException DomainException
+	 * @since   12.3
+	 */
+	public function testSendMessageFailure()
+	{
+		$recipient = array('~', 'lcnIwDU0S6');
+		$subject = 'Subject';
+		$body = 'body';
+
+		$path = '/v1/people/~/mailbox';
+
+		// Build the xml.
+		$xml = '<mailbox-item>
+				  <recipients>
+				  	<recipient>
+						<person path="/people/~"/>
+					</recipient>
+					<recipient>
+						<person path="/people/lcnIwDU0S6"/>
+					</recipient>
+				  </recipients>
+				  <subject>' . $subject . '</subject>
+				  <body>' . $body . '</body>
+				</mailbox-item>';
+
+		$header['Content-Type'] = 'text/xml';
+
+		$returnData = new stdClass;
+		$returnData->code = 401;
+		$returnData->body = $this->errorString;
+
+		$this->client->expects($this->once())
+			->method('post', $xml, $header)
+			->with($path)
+			->will($this->returnValue($returnData));
+
+		$this->object->sendMessage($this->oauth, $recipient, $subject, $body);
+	}
 }
