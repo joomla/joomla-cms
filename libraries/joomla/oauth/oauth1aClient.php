@@ -61,7 +61,7 @@ abstract class JOauth1aClient
 	 *
 	 * @throws DomainException
 	 */
-	public function oauth()
+	public function auth()
 	{
 		// Already got some credentials stored?
 		if ($this->token)
