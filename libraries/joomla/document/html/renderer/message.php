@@ -31,8 +31,35 @@ class JDocumentRendererMessage extends JDocumentRenderer
 	 */
 	public function render($name, $params = array (), $content = null)
 	{
+		$msgList 	= $this->getData();
+		$buffer 	= null;
+		$app 		= JFactory::getApplication();
+		$chromePath = JPATH_THEMES . '/' . $app->getTemplate() . '/html/message.php';
+		$itemOverride = false;
+
+		if (file_exists($chromePath))
+		{
+			include_once $chromePath;
+			if (function_exists('renderMessage'))
+			{
+				$itemOverride = true;
+			}
+		}
+
+		$buffer = ($itemOverride) ? renderMessage($msgList) : $this->renderDefaultMessage($msgList);
+
+		return $buffer;
+	}
+	/**
+	 * Renders the error stack and returns the results as a string
+	 *
+	 * @return  string  The output of the script
+	 *
+	 * @since   11.1
+	 */
+	private function getData()
+	{
 		// Initialise variables.
-		$buffer = null;
 		$lists = null;
 
 		// Get the message queue
@@ -50,14 +77,20 @@ class JDocumentRendererMessage extends JDocumentRenderer
 			}
 		}
 
+		return $lists;
+	}
+
+	private function renderDefaultMessage($msgList)
+	{
 		// Build the return string
-		$buffer .= "\n<div id=\"system-message-container\">";
+		$buffer 	= null;
+		$buffer    .= "\n<div id=\"system-message-container\">";
 
 		// If messages exist render them
-		if (is_array($lists))
+		if (is_array($msgList))
 		{
 			$buffer .= "\n<dl id=\"system-message\">";
-			foreach ($lists as $type => $msgs)
+			foreach ($msgList as $type => $msgs)
 			{
 				if (count($msgs))
 				{
@@ -76,6 +109,7 @@ class JDocumentRendererMessage extends JDocumentRenderer
 		}
 
 		$buffer .= "\n</div>";
+
 		return $buffer;
 	}
 }
