@@ -78,7 +78,7 @@ class JOauthOauth2client
 			$data['client_secret'] = $this->getOption('clientsecret');
 			$response = $this->http->post($this->getOption('tokenurl'), $data);
 
-			if ($response->code >= 200 && $response->code < 300)
+			if ($response->code >= 200 && $response->code < 400)
 			{
 
 				if ($response->headers['Content-Type'] == 'application/json')
@@ -220,7 +220,7 @@ class JOauthOauth2client
 
 		$response = $this->client->request($method, new JURI($url), $data, $headers, $timeout);
 
-		if ($response->code < 200 || $response->code >= 300)
+		if ($response->code < 200 || $response->code >= 400)
 		{
 			throw new RuntimeException('Error code ' . $response->code . ' received requesting data: ' . $response->body . '.');
 		}
@@ -321,7 +321,7 @@ class JOauthOauth2client
 		$data['client_secret'] = $this->getOption('clientsecret');
 		$response = $this->http->post($this->getOption('tokenurl'), $data);
 
-		if ($response->code >= 200 || $response->code < 300)
+		if ($response->code >= 200 || $response->code < 400)
 		{
 			if ($response->headers['Content-Type'] == 'application/json')
 			{
