@@ -50,20 +50,9 @@ abstract class JPluginHelper
 		}
 
 		// Build the template and base path for the layout
-		$tPath = JPATH_THEMES . DIRECTORY_SEPARATOR . $template
-		. DIRECTORY_SEPARATOR . 'html'
-		. DIRECTORY_SEPARATOR . 'plg_' . $type . '_' . $name
-		. DIRECTORY_SEPARATOR . $layout . '.php';
-		$bPath = JPATH_BASE . DIRECTORY_SEPARATOR . 'plugins'
-		. DIRECTORY_SEPARATOR . $type
-		. DIRECTORY_SEPARATOR . $name
-		. DIRECTORY_SEPARATOR . 'tmpl'
-		. DIRECTORY_SEPARATOR . $defaultLayout . '.php';
-		$dPath = JPATH_BASE . DIRECTORY_SEPARATOR . 'plugins'
-		. DIRECTORY_SEPARATOR . $type
-		. DIRECTORY_SEPARATOR . $name
-		. DIRECTORY_SEPARATOR . 'tmpl'
-		. DIRECTORY_SEPARATOR . 'default.php';
+		$tPath = JPATH_THEMES . '/' . $template . '/html/plg_' . $type . '_' . $name . '/' . $layout . '.php';
+		$bPath = JPATH_BASE . '/plugins/' . $type . '/' . $name . '/tmpl/' . $defaultLayout . '.php';
+		$dPath = JPATH_BASE . '/plugins/' . $type . '/' . $name . '/tmpl/' . 'default.php';
 
 		// If the template has a layout override use it
 		if (file_exists($tPath))
