@@ -3419,6 +3419,23 @@ separator=
 			<value>44</value>
 			<value>6</value>
 		</row>
+		<row>
+			<value>45</value>
+			<value>7</value>
+		</row>
+		<row>
+			<value>46</value>
+			<value>4</value>
+		</row>
+		<row>
+			<value>47</value>
+			<value>7</value>
+		</row>
+		<row>
+			<value>47</value>
+			<value>4</value>
+		</row>
+
 	</table>
 	<table name="jos_usergroups">
 		<column>id</column>
@@ -3499,8 +3516,8 @@ separator=
 		<row>
 			<value>42</value>
 			<value>Super User</value>
-			<value>admin</value>
-			<value>admin@example.com</value>
+			<value>superadmin</value>
+			<value>superadmin@example.com</value>
 			<value>7017fe127670faddb25f3a893a36229c:eCU2KtKahxQIMH5i3nwc05zVTBtZXbVV</value>
 			<value>deprecated</value>
 			<value>0</value>
@@ -3551,6 +3568,48 @@ separator=
 			<value>0000-00-00 00:00:00</value>
 			<value></value>
 			<value>{&quot;admin_language&quot;:&quot;&quot;,&quot;language&quot;:&quot;&quot;,&quot;editor&quot;:&quot;&quot;,&quot;helpsite&quot;:&quot;&quot;,&quot;timezone&quot;:&quot;&quot;}</value>
+		</row>
+		<row>
+			<value>45</value>
+			<value>Admin</value>
+			<value>admin</value>
+			<value>admin@example.com</value>
+			<value>7017fe127670faddb25f3a893a36229c:eCU2KtKahxQIMH5i3nwc05zVTBtZXbVV</value>
+			<value>deprecated</value>
+			<value>0</value>
+			<value>1</value>
+			<value>2010-02-13 00:34:42</value>
+			<value>0000-00-00 00:00:00</value>
+			<value></value>
+			<value></value>
+		</row>
+		<row>
+			<value>46</value>
+			<value>Editor</value>
+			<value>editor</value>
+			<value>editor@example.com</value>
+			<value>7017fe127670faddb25f3a893a36229c:eCU2KtKahxQIMH5i3nwc05zVTBtZXbVV</value>
+			<value>deprecated</value>
+			<value>0</value>
+			<value>1</value>
+			<value>2010-02-13 00:34:42</value>
+			<value>0000-00-00 00:00:00</value>
+			<value></value>
+			<value></value>
+		</row>
+		<row>
+			<value>47</value>
+			<value>EditorandAdmin</value>
+			<value>editorandadmin</value>
+			<value>editorandadmin@example.com</value>
+			<value>7017fe127670faddb25f3a893a36229c:eCU2KtKahxQIMH5i3nwc05zVTBtZXbVV</value>
+			<value>deprecated</value>
+			<value>0</value>
+			<value>1</value>
+			<value>2010-02-13 00:34:42</value>
+			<value>0000-00-00 00:00:00</value>
+			<value></value>
+			<value></value>
 		</row>
 	</table>
 	<table name="jos_viewlevels">

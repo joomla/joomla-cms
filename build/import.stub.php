@@ -6,10 +6,13 @@
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
+// Setup the Pharsanity!
+Phar::interceptFileFuncs();
+
 // Set the platform root path as a constant if necessary.
 if (!defined('JPATH_PLATFORM'))
 {
-	define('JPATH_PLATFORM', __DIR__);
+	define('JPATH_PLATFORM', 'phar://' . __FILE__);
 }
 
 // Detect the native operating system type.
@@ -39,7 +42,11 @@ if (!class_exists('JLoader'))
 	require_once JPATH_PLATFORM . '/loader.php';
 }
 
-class_exists('JLoader') or die;
+// Make sure that the Joomla Platform has been successfully loaded.
+if (!class_exists('JLoader'))
+{
+	throw new RuntimeException('Joomla Platform not loaded.');
+}
 
 // Setup the autoloaders.
 JLoader::setup();
@@ -56,3 +63,6 @@ if (version_compare(PHP_VERSION, '5.4.0', '<'))
 // Register classes that don't follow one file per class naming conventions.
 JLoader::register('JText', JPATH_PLATFORM . '/joomla/language/text.php');
 JLoader::register('JRoute', JPATH_PLATFORM . '/joomla/application/route.php');
+
+// End of the Phar Stub.
+__HALT_COMPILER();?>
