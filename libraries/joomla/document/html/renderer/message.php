@@ -50,17 +50,16 @@ class JDocumentRendererMessage extends JDocumentRenderer
 
 		return $buffer;
 	}
+
 	/**
-	 * Renders the error stack and returns the results as a string
+	 * Get and prepare system message data for output
 	 *
-	 * @return  string  The output of the script
-	 *
-	 * @since   11.1
+	 * @return  array  An array contains system message
 	 */
 	private function getData()
 	{
 		// Initialise variables.
-		$lists = null;
+		$lists = array();
 
 		// Get the message queue
 		$messages = JFactory::getApplication()->getMessageQueue();
@@ -80,10 +79,17 @@ class JDocumentRendererMessage extends JDocumentRenderer
 		return $lists;
 	}
 
+	/**
+	 * Render the system message if no message template file found
+	 *
+	 * @param   array   An array contains system message
+	 *
+	 * @return  string  System message markup
+	 */
 	private function renderDefaultMessage($msgList)
 	{
 		// Build the return string
-		$buffer 	= null;
+		$buffer 	= '';
 		$buffer    .= "\n<div id=\"system-message-container\">";
 
 		// If messages exist render them
