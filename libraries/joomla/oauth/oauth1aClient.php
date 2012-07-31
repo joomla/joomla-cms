@@ -574,15 +574,15 @@ abstract class JOauth1aClient
 	/**
 	 * Set the oauth token.
 	 *
-	 * @param   string  $key     The token key to set.
-	 * @param   string  $secret  The token value to set.
+	 * @param   array  $token  The access token key and secret.
 	 *
-	 * @return  void
+	 * @return  JOauth2client  This object for method chaining.
 	 *
 	 * @since   12.3
 	 */
-	public function setToken($key, $secret)
+	public function setToken($token)
 	{
-		$this->token = array('key' => $key, 'secret' => $secret);
+		$this->token = $token;
+		return $this;
 	}
 }

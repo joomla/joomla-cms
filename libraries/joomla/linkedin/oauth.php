@@ -56,9 +56,10 @@ class JLinkedinOauth extends JOauth1aClient
 	 */
 	public function verifyCredentials()
 	{
+		$token = $this->getToken();
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $this->getToken('key')
+			'oauth_token' => $token['key']
 		);
 
 		$data['format'] = 'json';

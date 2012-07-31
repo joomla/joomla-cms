@@ -33,9 +33,10 @@ class JLinkedinGroups extends JLinkedinObject
 	 */
 	public function getGroup($oauth, $id, $fields = null, $start = 0, $count = 5)
 	{
+		$token = $oauth->getToken();
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $oauth->getToken('key')
+			'oauth_token' => $token['key']
 		);
 
 		// Set the API base
@@ -86,9 +87,10 @@ class JLinkedinGroups extends JLinkedinObject
 	 */
 	public function getMemberships($oauth, $id = null, $fields = null, $start = 0, $count = 5, $membership_state = null)
 	{
+		$token = $oauth->getToken();
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $oauth->getToken('key')
+			'oauth_token' => $token['key']
 		);
 
 		// Set the API base
@@ -154,9 +156,10 @@ class JLinkedinGroups extends JLinkedinObject
 	 */
 	public function getSettings($oauth, $person_id = null, $group_id = null, $fields = null, $start = 0, $count = 5)
 	{
+		$token = $oauth->getToken();
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $oauth->getToken('key')
+			'oauth_token' => $token['key']
 		);
 
 		// Set the API base
@@ -224,9 +227,10 @@ class JLinkedinGroups extends JLinkedinObject
 	public function changeSettings($oauth, $group_id, $show_logo = null, $digest_frequency = null, $announcements = null,
 		$allow_messages = null, $new_post = null)
 	{
+		$token = $oauth->getToken();
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $oauth->getToken('key')
+			'oauth_token' => $token['key']
 		);
 
 		// Set the API base
@@ -291,9 +295,10 @@ class JLinkedinGroups extends JLinkedinObject
 	public function joinGroup($oauth, $group_id, $show_logo = null, $digest_frequency = null, $announcements = null,
 		$allow_messages = null, $new_post = null)
 	{
+		$token = $oauth->getToken();
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $oauth->getToken('key')
+			'oauth_token' => $token['key']
 		);
 
 		// Set the success response code.
@@ -355,9 +360,10 @@ class JLinkedinGroups extends JLinkedinObject
 	 */
 	public function leaveGroup($oauth, $group_id)
 	{
+		$token = $oauth->getToken();
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $oauth->getToken('key')
+			'oauth_token' => $token['key']
 		);
 
 		// Set the success response code.
@@ -393,9 +399,10 @@ class JLinkedinGroups extends JLinkedinObject
 	 */
 	public function getDiscussions($oauth, $id, $fields = null, $start = 0, $count = 0, $order = null, $category = 'discussion', $modified_since = null)
 	{
+		$token = $oauth->getToken();
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $oauth->getToken('key')
+			'oauth_token' => $token['key']
 		);
 
 		// Set the API base
@@ -469,9 +476,10 @@ class JLinkedinGroups extends JLinkedinObject
 	public function getUserPosts($oauth, $group_id, $role, $person_id = null, $fields = null, $start = 0, $count = 0,
 		$order = null, $category = 'discussion', $modified_since = null)
 	{
+		$token = $oauth->getToken();
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $oauth->getToken('key')
+			'oauth_token' => $token['key']
 		);
 
 		// Set the API base
@@ -550,9 +558,10 @@ class JLinkedinGroups extends JLinkedinObject
 	 */
 	public function getPost($oauth, $post_id, $fields = null)
 	{
+		$token = $oauth->getToken();
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $oauth->getToken('key')
+			'oauth_token' => $token['key']
 		);
 
 		// Set the API base
@@ -590,9 +599,10 @@ class JLinkedinGroups extends JLinkedinObject
 	 */
 	public function getPostComments($oauth, $post_id, $fields = null, $start = 0, $count = 0)
 	{
+		$token = $oauth->getToken();
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $oauth->getToken('key')
+			'oauth_token' => $token['key']
 		);
 
 		// Set the API base
@@ -641,9 +651,10 @@ class JLinkedinGroups extends JLinkedinObject
 	 */
 	public function createPost($oauth, $group_id, $title, $summary)
 	{
+		$token = $oauth->getToken();
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $oauth->getToken('key')
+			'oauth_token' => $token['key']
 		);
 
 		// Set the success response code.
@@ -681,9 +692,10 @@ class JLinkedinGroups extends JLinkedinObject
 	 */
 	private function _likeUnlike($oauth, $post_id, $like)
 	{
+		$token = $oauth->getToken();
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $oauth->getToken('key')
+			'oauth_token' => $token['key']
 		);
 
 		// Set the success response code.
@@ -749,9 +761,10 @@ class JLinkedinGroups extends JLinkedinObject
 	 */
 	private function _followUnfollow($oauth, $post_id, $follow)
 	{
+		$token = $oauth->getToken();
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $oauth->getToken('key')
+			'oauth_token' => $token['key']
 		);
 
 		// Set the success response code.
@@ -817,9 +830,10 @@ class JLinkedinGroups extends JLinkedinObject
 	 */
 	public function flagPost($oauth, $post_id, $flag)
 	{
+		$token = $oauth->getToken();
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $oauth->getToken('key')
+			'oauth_token' => $token['key']
 		);
 
 		// Set the success response code.
@@ -854,9 +868,10 @@ class JLinkedinGroups extends JLinkedinObject
 	 */
 	public function deletePost($oauth, $post_id)
 	{
+		$token = $oauth->getToken();
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $oauth->getToken('key')
+			'oauth_token' => $token['key']
 		);
 
 		// Set the success response code.
@@ -887,9 +902,10 @@ class JLinkedinGroups extends JLinkedinObject
 	 */
 	public function getComment($oauth, $comment_id, $fields = null)
 	{
+		$token = $oauth->getToken();
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $oauth->getToken('key')
+			'oauth_token' => $token['key']
 		);
 
 		// Set the API base
@@ -925,9 +941,10 @@ class JLinkedinGroups extends JLinkedinObject
 	 */
 	public function addComment($oauth, $post_id, $comment)
 	{
+		$token = $oauth->getToken();
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $oauth->getToken('key')
+			'oauth_token' => $token['key']
 		);
 
 		// Set the success response code.
@@ -964,9 +981,10 @@ class JLinkedinGroups extends JLinkedinObject
 	 */
 	public function deleteComment($oauth, $comment_id)
 	{
+		$token = $oauth->getToken();
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $oauth->getToken('key')
+			'oauth_token' => $token['key']
 		);
 
 		// Set the success response code.
@@ -997,9 +1015,10 @@ class JLinkedinGroups extends JLinkedinObject
 	 */
 	public function getSuggested($oauth, $person_id = null, $fields = null)
 	{
+		$token = $oauth->getToken();
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $oauth->getToken('key')
+			'oauth_token' => $token['key']
 		);
 
 		// Set the API base
@@ -1045,9 +1064,10 @@ class JLinkedinGroups extends JLinkedinObject
 	 */
 	public function deleteSuggestion($oauth, $suggestion_id, $person_id = null)
 	{
+		$token = $oauth->getToken();
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $oauth->getToken('key')
+			'oauth_token' => $token['key']
 		);
 
 		// Set the success response code.

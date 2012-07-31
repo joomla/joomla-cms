@@ -49,7 +49,7 @@
           <element>
           	<programlisting>
           		// Set the stored access token.
-          		$oauth->setToken($token['key'], $token['secret']);
+          		$oauth->setToken(array('key' => $token['key'], 'secret' => $token['secret']));
           		
           		$access_token = $oauth->auth();
           	</programlisting>
@@ -105,7 +105,7 @@
 			// Set the stored access token, if there is one.
 			if ($token = $this->getStoredToken())
 			{
-       			$oauth->setToken($token['key'], $token['secret']);
+       			$oauth->setToken(array('key' => $token['key'], 'secret' => $token['secret']));
        		}
         	
        		$access_token = $oauth->auth();

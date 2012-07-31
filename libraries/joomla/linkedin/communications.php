@@ -35,9 +35,10 @@ class JLinkedinCommunications extends JLinkedinObject
 	 */
 	public function inviteByEmail($oauth, $email, $first_name, $last_name, $subject, $body, $connection = 'friend')
 	{
+		$token = $oauth->getToken();
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $oauth->getToken('key')
+			'oauth_token' => $token['key']
 		);
 
 		// Set the success response code.
@@ -92,9 +93,10 @@ class JLinkedinCommunications extends JLinkedinObject
 	 */
 	public function inviteById($oauth, $id, $first_name, $last_name, $subject, $body, $connection = 'friend')
 	{
+		$token = $oauth->getToken();
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $oauth->getToken('key')
+			'oauth_token' => $token['key']
 		);
 
 		// Set the API base for people search.
@@ -176,9 +178,10 @@ class JLinkedinCommunications extends JLinkedinObject
 	 */
 	public function sendMessage($oauth, $recipient, $subject, $body)
 	{
+		$token = $oauth->getToken();
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $oauth->getToken('key')
+			'oauth_token' => $token['key']
 		);
 
 		// Set the success response code.

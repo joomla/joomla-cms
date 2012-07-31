@@ -83,7 +83,7 @@ class JLinkedinCommunicationsTest extends TestCase
 		$this->options->set('callback', $my_url);
 		$this->oauth = new JLinkedinOauth($this->options, $this->client, $this->input);
 
-		$this->oauth->setToken($key, $secret);
+		$this->oauth->setToken(array('key' => $key, 'secret' => $secret));
 	}
 
 	/**
