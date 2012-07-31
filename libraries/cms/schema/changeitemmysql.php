@@ -92,6 +92,14 @@ class JSchemaChangeitemmysql extends JSchemaChangeitem
 				$this->checkQueryExpected = 0;
 				$this->msgElements = array($this->fixQuote($wordArray[2]), $index);
 			}
+			elseif ($alterCommand == 'DROP COLUMN')
+			{
+				$index = $this->fixQuote($wordArray[5]);
+				$result = 'SHOW COLUMNS IN ' . $wordArray[2] . ' WHERE Field = ' . $index;
+				$this->queryType = 'DROP_COLUMN';
+				$this->checkQueryExpected = 0;
+				$this->msgElements = array($this->fixQuote($wordArray[2]), $index);
+			}
 			elseif (strtoupper($wordArray[3]) == 'MODIFY')
 			{
 				// Kludge to fix problem with "integer unsigned"
