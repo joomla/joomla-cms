@@ -31,6 +31,12 @@ class JLinkedinCommunicationsTest extends TestCase
 	protected $client;
 
 	/**
+	 * @var    JInput The input object to use in retrieving GET/POST data.
+	 * @since  12.3
+	 */
+	protected $input;
+
+	/**
 	 * @var    JLinkedinCommunications  Object under test.
 	 * @since  12.3
 	 */
@@ -67,6 +73,7 @@ class JLinkedinCommunicationsTest extends TestCase
 		$my_url = "http://127.0.0.1/gsoc/joomla-platform/linkedin_test.php";
 
 		$this->options = new JRegistry;
+		$this->input = new JInput;
 		$this->client = $this->getMock('JLinkedinHttp', array('get', 'post', 'delete', 'put'));
 
 		$this->object = new JLinkedinCommunications($this->options, $this->client);
@@ -74,7 +81,8 @@ class JLinkedinCommunicationsTest extends TestCase
 		$this->options->set('consumer_key', $key);
 		$this->options->set('consumer_secret', $secret);
 		$this->options->set('callback', $my_url);
-		$this->oauth = new JLinkedinOAuth($this->options, $this->client);
+		$this->oauth = new JLinkedinOauth($this->options, $this->client, $this->input);
+
 		$this->oauth->setToken($key, $secret);
 	}
 

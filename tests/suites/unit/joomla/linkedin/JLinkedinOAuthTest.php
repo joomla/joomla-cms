@@ -31,7 +31,13 @@ class JLinkedinOAuthTest extends TestCase
 	protected $client;
 
 	/**
-	 * @var    JLinkedinOAuth  Authentication object for the Twitter object.
+	 * @var    JInput The input object to use in retrieving GET/POST data.
+	 * @since  12.3
+	 */
+	protected $input;
+
+	/**
+	 * @var    JLinkedinOauth  Authentication object for the Twitter object.
 	 * @since  12.3
 	 */
 	protected $oauth;
@@ -61,12 +67,14 @@ class JLinkedinOAuthTest extends TestCase
 		$my_url = "http://127.0.0.1/gsoc/joomla-platform/linkedin_test.php";
 
 		$this->options = new JRegistry;
+		$this->input = new JInput;
 		$this->client = $this->getMock('JLinkedinHttp', array('get', 'post', 'delete', 'put'));
 
 		$this->options->set('consumer_key', $key);
 		$this->options->set('consumer_secret', $secret);
 		$this->options->set('callback', $my_url);
-		$this->oauth = new JLinkedinOAuth($this->options, $this->client);
+		$this->oauth = new JLinkedinOauth($this->options, $this->client, $this->input);
+
 		$this->oauth->setToken($key, $secret);
 	}
 

@@ -39,17 +39,25 @@ abstract class JOauth1aClient
 	protected $client;
 
 	/**
+	 * @var    JInput The input object to use in retrieving GET/POST data.
+	 * @since  12.3
+	 */
+	protected $input;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   JRegistry  $options  Oauth1aClient options object.
 	 * @param   JHttp      $client   The HTTP client object.
+	 * @param   JInput     $input    The input object
 	 *
 	 * @since 12.3
 	 */
-	public function __construct(JRegistry $options = null, JHttp $client = null)
+	public function __construct(JRegistry $options = null, JHttp $client = null, JInput $input = null)
 	{
 		$this->options = isset($options) ? $options : new JRegistry;
 		$this->client = isset($client) ? $client : new JHttp($this->options);
+		$this->input = isset($input) ? $input : JFactory::getApplication()->input;
 	}
 
 	/**
@@ -78,8 +86,7 @@ abstract class JOauth1aClient
 			}
 		}
 
-		$request = JFactory::getApplication()->input;
-		$verifier = $request->get('oauth_verifier');
+		$verifier = $this->input->get('oauth_verifier');
 
 		if (empty($verifier))
 		{
@@ -98,13 +105,13 @@ abstract class JOauth1aClient
 			$this->token = array('key' => $session->get('key', null, 'oauth_token'), 'secret' => $session->get('secret', null, 'oauth_token'));
 
 			// Verify the returned request token.
-			if ($this->token['key'] != $request->get('oauth_token'))
+			if ($this->token['key'] != $this->input->get('oauth_token'))
 			{
 				throw new DomainException('Bad session!');
 			}
 
 			// Set token verifier.
-			$this->token['verifier'] = $request->get('oauth_verifier');
+			$this->token['verifier'] = $this->input->get('oauth_verifier');
 
 			// Generate access token.
 			$this->_generateAccessToken();
@@ -555,15 +562,13 @@ abstract class JOauth1aClient
 	/**
 	 * Get the oauth token key or secret.
 	 *
-	 * @param   string  $key  The array key.
-	 *
 	 * @return  array  The oauth token key and secret.
 	 *
 	 * @since   12.3
 	 */
-	public function getToken($key)
+	public function getToken()
 	{
-		return $this->token[$key];
+		return $this->token;
 	}
 
 	/**

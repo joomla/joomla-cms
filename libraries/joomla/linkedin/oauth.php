@@ -34,7 +34,7 @@ class JLinkedinOauth extends JOauth1aClient
 	 *
 	 * @since 12.3
 	 */
-	public function __construct(JRegistry $options = null, JLinkedinHttp $client = null)
+	public function __construct(JRegistry $options = null, JLinkedinHttp $client = null, JInput $input = null)
 	{
 		$this->options = isset($options) ? $options : new JRegistry;
 
@@ -44,7 +44,7 @@ class JLinkedinOauth extends JOauth1aClient
 		$this->setOption('requestTokenURL', 'https://www.linkedin.com/uas/oauth/requestToken');
 
 		// Call the JOauth1aClient constructor to setup the object.
-		parent::__construct($this->options, $client);
+		parent::__construct($this->options, $client, $input);
 	}
 
 	/**
