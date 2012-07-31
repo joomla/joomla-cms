@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+31-July-2012 Jean-Marie Simonet
+ [#28877] Overriding settings in the language xx-XX.localise.php
+ 
 25-July-2012 Jean-Marie Simonet
  [#28846] *When URL Language Code is removed, language switcher module redirects to URL without .html suffix. Thanks Dennis
 
