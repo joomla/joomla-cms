@@ -200,4 +200,20 @@ class JHttpTest extends PHPUnit_Framework_TestCase
 			$this->equalTo('ReturnString')
 		);
 	}
+
+	/**
+	 * Tests the patch method
+	 */
+	public function testPatch()
+	{
+		$this->transport->expects($this->once())
+			->method('request')
+			->with('PATCH', new JUri('http://example.com'), array('key' => 'value'), array('testHeader'))
+			->will($this->returnValue('ReturnString'));
+
+		$this->assertThat(
+			$this->object->patch('http://example.com', array('key' => 'value'), array('testHeader')),
+			$this->equalTo('ReturnString')
+		);
+	}
 }
