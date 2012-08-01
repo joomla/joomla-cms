@@ -312,7 +312,7 @@ class JHttp
 	 *
 	 * @return  JHttpResponse
 	 *
-	 * @since   11.3
+	 * @since   12.2
 	 */
 	public function patch($url, $data, array $headers = null, $timeout = null)
 	{
