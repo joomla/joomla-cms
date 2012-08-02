@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.filesystem.file');
+jimport('joomla.filesystem.path');
 require_once JPATH_COMPONENT.'/helpers/menus.php';
 
 /**
@@ -897,7 +897,8 @@ class MenusModelItem extends JModelAdmin
 
 				// Check for the layout XML file. Use standard xml file if it exists.
 				$path = JPath::clean($base.'/views/'.$view.'/tmpl/'.$layout.'.xml');
-				if (JFile::exists($path)) {
+				if (is_file($path))
+				{
 					$formFile = $path;
 				}
 
@@ -907,7 +908,7 @@ class MenusModelItem extends JModelAdmin
 				{
 					$temp = explode(':', $layout);
 					$templatePath = JPATH::clean(JPATH_SITE.'/templates/'.$temp[0].'/html/'.$option.'/'.$view.'/'.$temp[1].'.xml');
-					if (JFile::exists($templatePath))
+					if (is_file($templatePath))
 					{
 						$formFile = $templatePath;
 					}
@@ -917,7 +918,7 @@ class MenusModelItem extends JModelAdmin
 			//Now check for a view manifest file
 			if (!$formFile)
 			{
-				if (isset($view) && JFile::exists($path = JPath::clean($base.'/views/'.$view.'/metadata.xml')))
+				if (isset($view) && is_file($path = JPath::clean($base.'/views/'.$view.'/metadata.xml')))
 				{
 					$formFile = $path;
 				}
@@ -925,7 +926,7 @@ class MenusModelItem extends JModelAdmin
 				{
 					//Now check for a component manifest file
 					$path = JPath::clean($base.'/metadata.xml');
-					if (JFile::exists($path))
+					if (is_file($path))
 					{
 						$formFile = $path;
 					}
@@ -969,7 +970,8 @@ class MenusModelItem extends JModelAdmin
 			$path='null';
 		}
 
-		if (JFile::exists($path)) {
+		if (is_file($path))
+		{
 			// Add the component params last of all to the existing form.
 			if (!$form->load($path, true, '/config')) {
 				throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));

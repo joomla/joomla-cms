@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.filesystem.file');
-
 /**
  * The HTML Menus Menu Items View.
  *
@@ -77,7 +75,7 @@ class MenusViewItems extends JViewLegacy
 						if (isset($vars['view'])) {
 							// Attempt to load the view xml file.
 							$file = JPATH_SITE.'/components/'.$item->componentname.'/views/'.$vars['view'].'/metadata.xml';
-							if (JFile::exists($file) && $xml = simplexml_load_file($file)) {
+							if (is_file($file) && $xml = simplexml_load_file($file)) {
 								// Look for the first view node off of the root node.
 								if ($view = $xml->xpath('view[1]')) {
 									if (!empty($view[0]['title'])) {
@@ -102,7 +100,7 @@ class MenusViewItems extends JViewLegacy
 											// Get XML file from component folder for standard layouts
 											$file = JPATH_SITE.'/components/'.$item->componentname.'/views/'.$vars['view'].'/tmpl/'.$vars['layout'].'.xml';
 										}
-										if (JFile::exists($file) && $xml = simplexml_load_file($file)) {
+										if (is_file($file) && $xml = simplexml_load_file($file)) {
 											// Look for the first view node off of the root node.
 											if ($layout = $xml->xpath('layout[1]')) {
 												if (!empty($layout[0]['title'])) {

@@ -9,9 +9,7 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.filesystem.file');
-
-$app = JFactory::getApplication();
+$app  = JFactory::getApplication();
 $lang = JFactory::getLanguage();
 $file = 'language/'.$lang->getTag().'/'.$lang->getTag().'.css';
 ?>
@@ -43,7 +41,7 @@ $file = 'language/'.$lang->getTag().'/'.$lang->getTag().'.css';
 <?php endif; ?>
 
 <!-- Load specific language related css -->
-<?php if (JFile::exists($file)) : ?>
+<?php if (is_file($file)) : ?>
 	<link href="<?php echo $file ?>" rel="stylesheet" type="text/css" />
 <?php  endif; ?>
 

@@ -71,17 +71,20 @@ class AdminModelHelp extends JModelLegacy
 
 	/**
 	 * Method to get the lang tag
-	 * @return string lang iso tag
+	 *
+	 * @return  string  lang iso tag
 	 */
-	function &getLangTag()
+	function getLangTag()
 	{
 		if (is_null($this->lang_tag))
 		{
 			$lang = JFactory::getLanguage();
 			$this->lang_tag = $lang->getTag();
-			jimport('joomla.filesystem.folder');
-			if (!JFolder::exists(JPATH_BASE . '/help/' . $this->lang_tag)) {
-				$this->lang_tag = 'en-GB'; // use english as fallback
+
+			if (!is_dir(JPATH_BASE . '/help/' . $this->lang_tag))
+			{
+				// Use english as fallback
+				$this->lang_tag = 'en-GB';
 			}
 
 		}
