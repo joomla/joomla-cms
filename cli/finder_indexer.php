@@ -35,7 +35,6 @@ require_once JPATH_LIBRARIES . '/cms.php';
 
 // Import necessary classes not handled by the autoloaders
 jimport('joomla.environment.uri');
-jimport('joomla.utilities.arrayhelper');
 
 // Import the configuration.
 require_once JPATH_CONFIGURATION . '/configuration.php';

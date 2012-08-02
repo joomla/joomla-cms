@@ -92,4 +92,3 @@ if (JDEBUG) {
 
 // Joomla! library imports.
 jimport('joomla.environment.uri');
-jimport('joomla.utilities.arrayhelper');

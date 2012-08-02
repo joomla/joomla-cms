@@ -102,4 +102,3 @@ if (JDEBUG) {
 //
 
 jimport('joomla.environment.uri');
-jimport('joomla.utilities.arrayhelper');
