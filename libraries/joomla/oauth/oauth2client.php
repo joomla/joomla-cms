@@ -9,7 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 jimport('joomla.environment.response');
-jimport('joomla.environment.uri');
 
 /**
  * Joomla Platform class for interacting with an OAuth 2.0 server.
