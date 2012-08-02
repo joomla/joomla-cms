@@ -91,10 +91,7 @@ class LanguagesModelStrings extends JModelLegacy
 				try
 				{
 					$this->_db->setQuery($query);
-					if (!$this->_db->execute())
-					{
-						return new Exception($this->_db->getErrorMsg());
-					}
+					$this->_db->execute();
 				}
 				catch (RuntimeException $e)
 				{

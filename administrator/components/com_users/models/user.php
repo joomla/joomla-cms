@@ -585,10 +585,13 @@ class UsersModelUser extends JModelAdmin
 
 			$db->setQuery($query);
 
-			// Check for database errors.
-			if (!$db->execute())
+			try
 			{
-				$this->setError($db->getErrorMsg());
+				$db->execute();
+			}
+			catch (RuntimeException $e)
+			{
+				$this->setError($e->getMessage());
 				return false;
 			}
 		}
@@ -628,10 +631,13 @@ class UsersModelUser extends JModelAdmin
 			$query->columns(array($db->quoteName('user_id'), $db->quoteName('group_id')));
 			$db->setQuery($query);
 
-			// Check for database errors.
-			if (!$db->execute())
+			try
 			{
-				$this->setError($db->getErrorMsg());
+				$db->execute();
+			}
+			catch (RuntimeException $e)
+			{
+				$this->setError($e->getMessage());
 				return false;
 			}
 		}

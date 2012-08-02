@@ -82,10 +82,16 @@ class RedirectHelper
 			' WHERE folder = '.$db->quote('system').
 			'  AND element = '.$db->quote('redirect')
 		);
-		$result = (boolean) $db->loadResult();
-		if ($error = $db->getErrorMsg()) {
-			JError::raiseWarning(500, $error);
+
+		try
+		{
+			$result = (boolean) $db->loadResult();
 		}
+		catch (RuntimeException $e)
+		{
+			JError::raiseWarning(500, $e->getMessage());
+		}
+
 		return $result;
 	}
 }

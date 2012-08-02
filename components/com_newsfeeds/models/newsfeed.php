@@ -114,12 +114,9 @@ class NewsfeedsModelNewsfeed extends JModelItem
 
 				$data = $db->loadObject();
 
-				if ($error = $db->getErrorMsg()) {
-					throw new Exception($error);
-				}
-
-				if (empty($data)) {
-					throw new JException(JText::_('COM_NEWSFEEDS_ERROR_FEED_NOT_FOUND'), 404);
+				if (empty($data))
+				{
+					throw new Exception(JText::_('COM_NEWSFEEDS_ERROR_FEED_NOT_FOUND'), 404);
 				}
 
 				// Check for published state if filter set.
@@ -151,7 +148,7 @@ class NewsfeedsModelNewsfeed extends JModelItem
 
 				$this->_item[$pk] = $data;
 			}
-			catch (JException $e)
+			catch (Exception $e)
 			{
 				$this->setError($e);
 				$this->_item[$pk] = false;

@@ -513,10 +513,7 @@ class TemplatesModelStyle extends JModelAdmin
 			' WHERE client_id = '.(int) $style->client_id .
 			' AND home = \'1\''
 		);
-
-		if (!$db->execute()) {
-			throw new Exception($db->getErrorMsg());
-		}
+		$db->execute();
 
 		// Set the new home style.
 		$db->setQuery(
@@ -524,10 +521,7 @@ class TemplatesModelStyle extends JModelAdmin
 			' SET home = \'1\'' .
 			' WHERE id = '.(int) $id
 		);
-
-		if (!$db->execute()) {
-			throw new Exception($db->getErrorMsg());
-		}
+		$db->execute();
 
 		// Clean the cache.
 		$this->cleanCache();
@@ -562,10 +556,7 @@ class TemplatesModelStyle extends JModelAdmin
 		);
 		$style = $db->loadObject();
 
-		if ($error = $db->getErrorMsg()) {
-			throw new Exception($error);
-		}
-		elseif (!is_numeric($style->client_id)) {
+		if (!is_numeric($style->client_id)) {
 			throw new Exception(JText::_('COM_TEMPLATES_ERROR_STYLE_NOT_FOUND'));
 		}
 		elseif ($style->home=='1') {
@@ -578,10 +569,7 @@ class TemplatesModelStyle extends JModelAdmin
 			' SET home = \'0\'' .
 			' WHERE id = '.(int) $id
 		);
-
-		if (!$db->execute()) {
-			throw new Exception($db->getErrorMsg());
-		}
+		$db->execute();
 
 		// Clean the cache.
 		$this->cleanCache();

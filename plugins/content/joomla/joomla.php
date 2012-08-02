@@ -170,17 +170,18 @@ class plgContentJoomla extends JPlugin
 		$query->from($table);
 		$query->where('catid = ' . $catid);
 		$db->setQuery($query);
-		$count = $db->loadResult();
 
-		// Check for DB error.
-		if ($error = $db->getErrorMsg())
+		try
 		{
-			JError::raiseWarning(500, $error);
+			$count = $db->loadResult();
+		}
+		catch (RuntimeException $e)
+		{
+			JError::raiseWarning(500, $e->getMessage());
 			return false;
 		}
-		else {
-			return $count;
-		}
+
+		return $count;
 	}
 
 	/**
@@ -212,18 +213,18 @@ class plgContentJoomla extends JPlugin
 			$query->from($table);
 			$query->where('catid IN (' . implode(',', $childCategoryIds) . ')');
 			$db->setQuery($query);
-			$count = $db->loadResult();
 
-			// Check for DB error.
-			if ($error = $db->getErrorMsg())
+			try
 			{
-				JError::raiseWarning(500, $error);
+				$count = $db->loadResult();
+			}
+			catch (RuntimeException $e)
+			{
+				JError::raiseWarning(500, $e->getMessage());
 				return false;
 			}
-			else
-			{
-				return $count;
-			}
+
+			return $count;
 		}
 		else
 		// If we didn't have any categories to check, return 0

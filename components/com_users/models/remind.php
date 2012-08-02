@@ -106,11 +106,14 @@ class UsersModelRemind extends JModelForm
 
 		// Get the user id.
 		$db->setQuery((string) $query);
-		$user = $db->loadObject();
 
-		// Check for an error.
-		if ($db->getErrorNum()) {
-			$this->setError(JText::sprintf('COM_USERS_DATABASE_ERROR', $db->getErrorMsg()), 500);
+		try
+		{
+			$user = $db->loadObject();
+		}
+		catch (RuntimeException $e)
+		{
+			$this->setError(JText::sprintf('COM_USERS_DATABASE_ERROR', $e->getMessage()), 500);
 			return false;
 		}
 

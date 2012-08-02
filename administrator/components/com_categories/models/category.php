@@ -609,11 +609,14 @@ class CategoriesModelCategory extends JModelAdmin
 		$query->select('COUNT(id)');
 		$query->from($db->quoteName('#__categories'));
 		$db->setQuery($query);
-		$count = $db->loadResult();
 
-		if ($error = $db->getErrorMsg())
+		try
 		{
-			$this->setError($error);
+			$count = $db->loadResult();
+		}
+		catch (RuntimeException $e)
+		{
+			$this->setError($e->getMessage());
 			return false;
 		}
 
@@ -819,7 +822,16 @@ class CategoriesModelCategory extends JModelAdmin
 				$query->from($db->quoteName('#__categories'));
 				$query->where($db->quoteName('lft' ) .' BETWEEN ' . (int) $table->lft . ' AND ' . (int) $table->rgt);
 				$db->setQuery($query);
-				$children = array_merge($children, (array) $db->loadColumn());
+
+				try
+				{
+					$children = array_merge($children, (array) $db->loadColumn());
+				}
+				catch (RuntimeException $e)
+				{
+					$this->setError($e->getMessage());
+					return false;
+				}
 			}
 
 			// Store the row.
@@ -843,13 +855,6 @@ class CategoriesModelCategory extends JModelAdmin
 			// Remove any duplicates and sanitize ids.
 			$children = array_unique($children);
 			JArrayHelper::toInteger($children);
-
-			// Check for a database error.
-			if ($db->getErrorNum())
-			{
-				$this->setError($db->getErrorMsg());
-				return false;
-			}
 		}
 
 		return true;

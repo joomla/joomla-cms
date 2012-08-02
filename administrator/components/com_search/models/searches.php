@@ -167,8 +167,14 @@ class SearchModelSearches extends JModelList
 		$db->setQuery(
 			'DELETE FROM #__core_log_searches'
 		);
-		if (!$db->execute()) {
-			$this->setError($db->getErrorMsg());
+
+		try
+		{
+			$db->execute();
+		}
+		catch (RuntimeException $e)
+		{
+			$this->setError($e->getMessage());
 			return false;
 		}
 

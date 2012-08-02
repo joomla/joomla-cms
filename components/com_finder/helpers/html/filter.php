@@ -57,10 +57,12 @@ abstract class JHtmlFilter
 
 			// Load the filter data.
 			$db->setQuery($query);
-			$filter = $db->loadObject();
 
-			// Check for an error.
-			if ($db->getErrorNum())
+			try
+			{
+				$filter = $db->loadObject();
+			}
+			catch (RuntimeException $e)
 			{
 				return null;
 			}
@@ -95,10 +97,12 @@ abstract class JHtmlFilter
 
 		// Load the branches.
 		$db->setQuery($query);
-		$branches = $db->loadObjectList('id');
 
-		// Check for an error.
-		if ($db->getErrorNum())
+		try
+		{
+			$branches = $db->loadObjectList('id');
+		}
+		catch (RuntimeException $e)
 		{
 			return null;
 		}
@@ -167,10 +171,12 @@ abstract class JHtmlFilter
 
 			// Load the branches.
 			$db->setQuery($query);
-			$nodes = $db->loadObjectList('id');
 
-			// Check for an error.
-			if ($db->getErrorNum())
+			try
+			{
+				$nodes = $db->loadObjectList('id');
+			}
+			catch (RuntimeException $e)
 			{
 				return null;
 			}
@@ -260,10 +266,12 @@ abstract class JHtmlFilter
 
 				// Load the filter data.
 				$db->setQuery($sql);
-				$filter = $db->loadObject();
 
-				// Check for an error.
-				if ($db->getErrorNum())
+				try
+				{
+					$filter = $db->loadObject();
+				}
+				catch (RuntimeException $e)
 				{
 					return null;
 				}
@@ -298,10 +306,12 @@ abstract class JHtmlFilter
 
 			// Load the branches.
 			$db->setQuery($sql);
-			$branches = $db->loadObjectList('id');
 
-			// Check for an error.
-			if ($db->getErrorNum())
+			try
+			{
+				$branches = $db->loadObjectList('id');
+			}
+			catch (RuntimeException $e)
 			{
 				return null;
 			}
@@ -337,10 +347,12 @@ abstract class JHtmlFilter
 
 				// Load the branches.
 				$db->setQuery($sql);
-				$branches[$bk]->nodes = $db->loadObjectList('id');
 
-				// Check for an error.
-				if ($db->getErrorNum())
+				try
+				{
+					$branches[$bk]->nodes = $db->loadObjectList('id');
+				}
+				catch (RuntimeException $e)
 				{
 					return null;
 				}
