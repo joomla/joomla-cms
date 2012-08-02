@@ -33,7 +33,7 @@ class InstallationControllerSetup extends JControllerLegacy
 
 		if ($session->isNew())
 		{
-			$appl->enqueueMessage(JText::_('INSTL_COOKIES_NOT_ENABLED'), 'error');
+			$app->enqueueMessage(JText::_('INSTL_COOKIES_NOT_ENABLED'), 'error');
 			return false;
 		}
 

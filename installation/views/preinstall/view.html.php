@@ -36,7 +36,7 @@ class InstallationViewPreinstall extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			$appl->enqueueMessage(implode("\n", $errors), 'error');
+			$app->enqueueMessage(implode("\n", $errors), 'error');
 		}
 
 		parent::display($tpl);
