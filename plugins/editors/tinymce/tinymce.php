@@ -786,7 +786,7 @@ class plgEditorTinymce extends JPlugin
 						. '"><i class="icon-' . $button->get('name'). '"></i> ' . $button->get('text') . "</a>\n";
 				}
 			}
-			
+
 			$return .= "</div>\n";
 			$return .= "</div>\n";
 		}

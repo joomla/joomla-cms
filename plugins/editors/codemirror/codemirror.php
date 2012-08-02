@@ -252,7 +252,6 @@ class plgEditorCodemirror extends JPlugin
 					$html[] = '<i class="icon-' . $button->get('name'). '"></i> ';
 					$html[] = $button->get('text').'</a>';
 				}
-				
 			}
 
 			$html[] = '</div>';

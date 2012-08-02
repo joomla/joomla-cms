@@ -103,10 +103,10 @@ class JFormFieldRules extends JFormField
 
 		// Description
 		$html[] = '<p class="rule-desc">' . JText::_('JLIB_RULES_SETTINGS_DESC') . '</p>';
-		
+
 		// Begin tabs
 		$html[] = '<div id="permissions-sliders" class="tabbable tabs-left">';
-		
+
 		// Building tab nav
 		$html[] = '<ul class="nav nav-tabs">';
 		foreach ($groups as $group)
