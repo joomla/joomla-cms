@@ -64,8 +64,8 @@ class InstallationModelDatabase extends JModelLegacy
 	 */
 	public function initialise($options)
 	{
-		// Get the options as a JObject for easier handling.
-		$options = JArrayHelper::toObject($options, 'JObject');
+		// Get the options as a object for easier handling.
+		$options = JArrayHelper::toObject($options);
 
 		// Load the back-end language files so that the DB error messages work
 		$jlang = JFactory::getLanguage();
@@ -368,8 +368,8 @@ class InstallationModelDatabase extends JModelLegacy
 	 */
 	function installSampleData($options)
 	{
-		// Get the options as a JObject for easier handling.
-		$options = JArrayHelper::toObject($options, 'JObject');
+		// Get the options as a object for easier handling.
+		$options = JArrayHelper::toObject($options);
 
 		// Get a database object.
 		try

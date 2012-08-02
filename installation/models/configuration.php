@@ -26,8 +26,8 @@ class InstallationModelConfiguration extends JModelLegacy
 	 */
 	public function setup($options)
 	{
-		// Get the options as a JObject for easier handling.
-		$options = JArrayHelper::toObject($options, 'JObject');
+		// Get the options as an object for easier handling.
+		$options = JArrayHelper::toObject($options);
 
 		// Attempt to create the root user.
 		if (!$this->_createConfiguration($options))

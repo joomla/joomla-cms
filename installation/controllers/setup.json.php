@@ -55,7 +55,7 @@ class InstallationControllerSetup extends JControllerLegacy
 		$data = JRequest::getVar('jform', array(), 'post', 'array');
 		$return	= $model->validate($data, 'language');
 
-		$r = new JObject();
+		$r = new stdClass;
 		// Check for validation errors.
 		if ($return === false) {
 			// Get the validation messages.
@@ -105,7 +105,7 @@ class InstallationControllerSetup extends JControllerLegacy
 		$data = JRequest::getVar('jform', array(), 'post', 'array');
 		$return	= $model->validate($data, 'database');
 
-		$r = new JObject();
+		$r = new stdClass;
 		// Check for validation errors.
 		if ($return === false) {
 			// Store the options in the session.
@@ -177,7 +177,7 @@ class InstallationControllerSetup extends JControllerLegacy
 		$data = JRequest::getVar('jform', array(), 'post', 'array');
 		$return	= $model->validate($data, 'filesystem');
 
-		$r = new JObject();
+		$r = new stdClass;
 		// Check for validation errors.
 		if ($return === false) {
 			// Get the validation messages.
@@ -233,7 +233,7 @@ class InstallationControllerSetup extends JControllerLegacy
 		unset($data['admin_password2']);
 		$model->storeOptions($data);
 
-		$r = new JObject();
+		$r = new stdClass;
 		// Check for validation errors.
 		if ($return === false) {
 			// Get the validation messages.
@@ -313,7 +313,7 @@ class InstallationControllerSetup extends JControllerLegacy
 		}
 
 		// Create a response body.
-		$r = new JObject();
+		$r = new stdClass;
 		$r->sampleDataLoaded = true;
 
 		// Send the response.
@@ -351,7 +351,7 @@ class InstallationControllerSetup extends JControllerLegacy
 		}
 
 		// Create a response body.
-		$r = new JObject();
+		$r = new stdClass;
 		$r->root = $return;
 
 		// Send the response.
@@ -389,7 +389,7 @@ class InstallationControllerSetup extends JControllerLegacy
 		}
 
 		// Create a response body.
-		$r = new JObject();
+		$r = new stdClass;
 		$r->valid = $return;
 
 		// Send the response.
@@ -468,7 +468,7 @@ class InstallationControllerSetup extends JControllerLegacy
 		}
 
 		// Create a response body.
-		$r = new JObject();
+		$r = new stdClass;
 		$r->text = JText::_('INSTL_COMPLETE_FOLDER_REMOVED');
 
 		// Send the response.
@@ -478,9 +478,9 @@ class InstallationControllerSetup extends JControllerLegacy
 	/**
 	 * Method to handle a send a JSON response. The data parameter
 	 * can be a Exception object for when an error has occurred or
-	 * a JObject for a good response.
+	 * a stdClss object for a good response.
 	 *
-	 * @param	object	$response	JObject on success, Exception on failure.
+	 * @param	object	$response	stdClass on success, Exception on failure.
 	 *
 	 * @return  void
 	 * @since   3.0

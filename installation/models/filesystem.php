@@ -30,8 +30,8 @@ class InstallationModelFilesystem extends JModelLegacy
 	 */
 	public function detectFtpRoot($options)
 	{
-		// Get the options as a JObject for easier handling.
-		$options = JArrayHelper::toObject($options, 'JObject');
+		// Get the options as a object for easier handling.
+		$options = JArrayHelper::toObject($options);
 
 		// Connect and login to the FTP server.
 		// Use binary transfer mode to be able to compare files.
@@ -131,8 +131,8 @@ class InstallationModelFilesystem extends JModelLegacy
 	 */
 	public function verifyFtpSettings($options)
 	{
-		// Get the options as a JObject for easier handling.
-		$options = JArrayHelper::toObject($options, 'JObject');
+		// Get the options as a object for easier handling.
+		$options = JArrayHelper::toObject($options);
 
 		// Connect and login to the FTP server.
 		@$ftp = JClientFtp::getInstance($options->get('ftp_host'), $options->get('ftp_port'));
@@ -443,8 +443,8 @@ class InstallationModelFilesystem extends JModelLegacy
 	 */
 	public function setFolderPermissions($folder, $options)
 	{
-		// Get the options as a JObject for easier handling.
-		$options = JArrayHelper::toObject($options, 'JObject');
+		// Get the options as a object for easier handling.
+		$options = JArrayHelper::toObject($options);
 
 		// Initialise variables.
 		$ftpFlag = false;

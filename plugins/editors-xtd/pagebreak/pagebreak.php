@@ -48,11 +48,11 @@ class plgButtonPagebreak extends JPlugin
 		JHtml::_('behavior.modal');
 
 		$button = new JObject;
-		$button->set('modal', true);
-		$button->set('link', $link);
-		$button->set('text', JText::_('PLG_EDITORSXTD_PAGEBREAK_BUTTON_PAGEBREAK'));
-		$button->set('name', 'pagebreak');
-		$button->set('options', "{handler: 'iframe', size: {x: 400, y: 100}}");
+		$button->modal = true;
+		$button->link = $link;
+		$button->text = JText::_('PLG_EDITORSXTD_PAGEBREAK_BUTTON_PAGEBREAK');
+		$button->name = 'pagebreak';
+		$button->options = "{handler: 'iframe', size: {x: 400, y: 100}}";
 
 		return $button;
 	}
