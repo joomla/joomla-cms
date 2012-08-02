@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.environment.uri');
-
 /**
  * OpenSearch View class for Finder
  *

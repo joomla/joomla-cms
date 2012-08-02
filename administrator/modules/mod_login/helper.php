@@ -36,7 +36,6 @@ abstract class modLoginHelper
 	 */
 	public static function getReturnURI()
 	{
-		jimport('joomla.environment.uri');
 		$uri = JURI::getInstance();
 		$return = 'index.php'.$uri->toString(array('query'));
 		if($return != 'index.php?option=com_login'){

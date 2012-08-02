@@ -62,7 +62,6 @@ class plgContentVote extends JPlugin
 
 			if ( $view == 'article' && $row->state == 1)
 			{
-				jimport('joomla.environment.uri');
 				$uri = JURI::getInstance();
 				$uri->setQuery($uri->getQuery().'&hitcount=0');
 

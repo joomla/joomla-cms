@@ -42,8 +42,7 @@ class modLoginHelper
 		}
 		if (!$url)
 		{
-			// stay on the same page
-			jimport('joomla.environment.uri');
+			// Stay on the same page
 			$uri = clone JURI::getInstance();
 			$vars = $router->parse($uri);
 			unset($vars['lang']);

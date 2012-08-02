@@ -96,9 +96,3 @@ unset($config);
 if (JDEBUG) {
 	$_PROFILER = JProfiler::getInstance('Application');
 }
-
-//
-// Joomla library imports.
-//
-
-jimport('joomla.environment.uri');

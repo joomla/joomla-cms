@@ -33,9 +33,6 @@ require_once JPATH_LIBRARIES . '/import.legacy.php';
 // Bootstrap the CMS libraries.
 require_once JPATH_LIBRARIES . '/cms.php';
 
-// Import necessary classes not handled by the autoloaders
-jimport('joomla.environment.uri');
-
 // Import the configuration.
 require_once JPATH_CONFIGURATION . '/configuration.php';
 

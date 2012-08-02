@@ -62,9 +62,6 @@ require_once JPATH_LIBRARIES . '/import.legacy.php';
 // Botstrap the CMS libraries.
 require_once JPATH_LIBRARIES . '/cms.php';
 
-// Joomla library imports.
-jimport('joomla.environment.uri');
-
 // Create the application object.
 $app = JFactory::getApplication('installation');
 

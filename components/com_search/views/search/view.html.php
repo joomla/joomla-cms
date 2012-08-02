@@ -22,8 +22,6 @@ class SearchViewSearch extends JViewLegacy
 	{
 		require_once JPATH_COMPONENT_ADMINISTRATOR.'/helpers/search.php';
 
-		jimport('joomla.environment.uri');
-
 		$app     = JFactory::getApplication();
 		$pathway = $app->getPathway();
 		$uri     = JURI::getInstance();

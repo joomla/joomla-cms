@@ -16,7 +16,7 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.multiselect');
 
-$uri = JFactory::getUri();
+$uri = JUri::getInstance();
 $return = base64_encode($uri);
 $user = JFactory::getUser();
 $userId = $user->get('id');
