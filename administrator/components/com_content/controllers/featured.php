@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-require_once dirname(__FILE__).'/articles.php';
+require_once __DIR__ . '/articles.php';
 
 /**
  * @package     Joomla.Administrator

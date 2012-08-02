@@ -10,12 +10,14 @@
 defined('_JEXEC') or die;
 
 // Include the module helper classes.
-if (!class_exists('ModMenuHelper')) {
-	require dirname(__FILE__).'/helper.php';
+if (!class_exists('ModMenuHelper'))
+{
+	require __DIR__ . '/helper.php';
 }
 
-if (!class_exists('JAdminCssMenu')) {
-	require dirname(__FILE__).'/menu.php';
+if (!class_exists('JAdminCssMenu'))
+{
+	require __DIR__ . '/menu.php';
 }
 
 // Initialise variables.

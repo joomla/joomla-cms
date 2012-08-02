@@ -8,7 +8,7 @@
  */
 
 defined('_JEXEC') or die;
-JLoader::register('JDatabaseSQLSrv', dirname(__FILE__) . '/Changeitemsqlsrv.php');
+JLoader::register('JDatabaseSQLSrv', __DIR__ . '/Changeitemsqlsrv.php');
 
 /**
  * Checks the database schema against one MySQL DDL query to see if it has been run.

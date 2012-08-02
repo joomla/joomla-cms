@@ -9,8 +9,8 @@
 
 defined('_JEXEC') or die;
 
-JLoader::register('FinderIndexerStemmer', dirname(__FILE__) . '/stemmer.php');
-JLoader::register('FinderIndexerToken', dirname(__FILE__) . '/token.php');
+JLoader::register('FinderIndexerStemmer', __DIR__ . '/stemmer.php');
+JLoader::register('FinderIndexerToken', __DIR__ . '/token.php');
 
 /**
  * Helper class for the Finder indexer package.

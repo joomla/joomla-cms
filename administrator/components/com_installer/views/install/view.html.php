@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-include_once dirname(__FILE__).'/../default/view.php';
+include_once __DIR__ . '/../default/view.php';
 
 /**
  * Extension Manager Install View

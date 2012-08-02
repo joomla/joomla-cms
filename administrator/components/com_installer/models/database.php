@@ -9,8 +9,7 @@
 
 defined('_JEXEC') or die;
 
-// Import library dependencies
-JLoader::register('InstallerModel', dirname(__FILE__) . '/extension.php');
+JLoader::register('InstallerModel', __DIR__ . '/extension.php');
 JLoader::register('joomlaInstallerScript', JPATH_ADMINISTRATOR . '/components/com_admin/script.php');
 
 /**

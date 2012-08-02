@@ -9,11 +9,11 @@
 
 defined('_JEXEC') or die;
 
-JLoader::register('FinderIndexerHelper', dirname(__FILE__) . '/helper.php');
-JLoader::register('FinderIndexerParser', dirname(__FILE__) . '/parser.php');
-JLoader::register('FinderIndexerStemmer', dirname(__FILE__) . '/stemmer.php');
-JLoader::register('FinderIndexerTaxonomy', dirname(__FILE__) . '/taxonomy.php');
-JLoader::register('FinderIndexerToken', dirname(__FILE__) . '/token.php');
+JLoader::register('FinderIndexerHelper', __DIR__ . '/helper.php');
+JLoader::register('FinderIndexerParser', __DIR__ . '/parser.php');
+JLoader::register('FinderIndexerStemmer', __DIR__ . '/stemmer.php');
+JLoader::register('FinderIndexerTaxonomy', __DIR__ . '/taxonomy.php');
+JLoader::register('FinderIndexerToken', __DIR__ . '/token.php');
 
 jimport('joomla.filesystem.file');
 

@@ -10,7 +10,7 @@ defined('_JEXEC') or die;
 
 // Set the platform root path as a constant if necessary.
 if (!defined('JPATH_PLATFORM')) {
-	define('JPATH_PLATFORM', dirname(__FILE__));
+	define('JPATH_PLATFORM', __DIR__);
 }
 
 // Import the library loader if necessary.
