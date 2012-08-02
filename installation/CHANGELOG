@@ -28,6 +28,8 @@ $ -> Language fix or change
 
 02-Aug-2012 Mark Dexter
  # [#28855] Fix Array to string conversion notices (PHP 5.4 only)
+ # [#28825] Blank article can't be saved
+ # [#28827] INSTL_ADMIN_EMAIL_LABEL translation is missing
 
 31-Jul-2012 Mark Dexter
  ^ [#28854] Update Core and Sample SQL filies in installation and related changes
