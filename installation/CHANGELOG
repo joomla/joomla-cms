@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+02-Aug-2012 Mark Dexter
+ # [#28855] Fix Array to string conversion notices (PHP 5.4 only)
+
 31-Jul-2012 Mark Dexter
  ^ [#28854] Update Core and Sample SQL filies in installation and related changes
 
