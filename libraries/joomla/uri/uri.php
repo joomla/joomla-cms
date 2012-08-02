@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Platform
- * @subpackage  Environment
+ * @subpackage  Uri
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -17,10 +17,10 @@ defined('JPATH_PLATFORM') or die;
  * the current executing script from the server regardless of server.
  *
  * @package     Joomla.Platform
- * @subpackage  Environment
+ * @subpackage  Uri
  * @since       11.1
  */
-class JURI
+class JUri
 {
 	/**
 	 * @var    string Original URI
@@ -146,7 +146,6 @@ class JURI
 	 */
 	public static function getInstance($uri = 'SERVER')
 	{
-
 		if (empty(self::$instances[$uri]))
 		{
 			// Are we obtaining the URI from the server?
@@ -198,7 +197,6 @@ class JURI
 				$theURI = $uri;
 			}
 
-			// Create the new JURI instance
 			self::$instances[$uri] = new JURI($theURI);
 		}
 		return self::$instances[$uri];

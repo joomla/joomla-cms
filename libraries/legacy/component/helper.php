@@ -385,9 +385,18 @@ class JComponentHelper
 
 		$cache = JFactory::getCache('_system', 'callback');
 
-		self::$components[$option] = $cache->get(array($db, 'loadObject'), null, $option, false);
+		try
+		{
+			self::$components[$option] = $cache->get(array($db, 'loadObject'), null, $option, false);
+		}
+		catch (RuntimeException $e)
+		{
+			// Fatal error.
+			JLog::add(JText::sprintf('JLIB_APPLICATION_ERROR_COMPONENT_NOT_LOADING', $option, $error), JLog::WARNING, 'jerror');
+			return false;
+		}
 
-		if ($error = $db->getErrorMsg() || empty(self::$components[$option]))
+		if (empty(self::$components[$option]))
 		{
 			// Fatal error.
 			JLog::add(JText::sprintf('JLIB_APPLICATION_ERROR_COMPONENT_NOT_LOADING', $option, $error), JLog::WARNING, 'jerror');

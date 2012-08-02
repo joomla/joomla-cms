@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Menu
  * @since       11.1
  */
-class JMenu extends JObject
+class JMenu
 {
 	/**
 	 * Array to hold the menu items
@@ -93,8 +93,7 @@ class JMenu extends JObject
 
 			if (!class_exists($classname))
 			{
-				JLog::add('Non-autoloadable JMenu subclasses are deprecated.', JLog::WARNING, 'deprecated');
-
+				// @deprecated 13.3 Everything in this block is deprecated but the warning is only logged after the file_exists
 				// Load the menu object
 				$info = JApplicationHelper::getClientInfo($client, true);
 
@@ -103,6 +102,7 @@ class JMenu extends JObject
 					$path = $info->path . '/includes/menu.php';
 					if (file_exists($path))
 					{
+						JLog::add('Non-autoloadable JMenu subclasses are deprecated.', JLog::WARNING, 'deprecated');
 						include_once $path;
 					}
 				}

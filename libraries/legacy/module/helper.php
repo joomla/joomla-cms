@@ -61,7 +61,6 @@ abstract class JModuleHelper
 			$result->showtitle = 0;
 			$result->control   = '';
 			$result->params    = '';
-			$result->user      = 0;
 		}
 
 		return $result;
@@ -159,8 +158,7 @@ abstract class JModuleHelper
 		$path = JPATH_BASE . '/modules/' . $module->module . '/' . $module->module . '.php';
 
 		// Load the module
-		// $module->user is a check for 1.0 custom modules and is deprecated refactoring
-		if (empty($module->user) && file_exists($path))
+		if (file_exists($path))
 		{
 			$lang = JFactory::getLanguage();
 

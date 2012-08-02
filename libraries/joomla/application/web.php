@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.environment.uri');
-
 /**
  * Base class for a Joomla! Web application.
  *

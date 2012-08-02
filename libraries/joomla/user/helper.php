@@ -236,7 +236,7 @@ abstract class JUserHelper
 		$query->where($db->quoteName('block') . ' = 1');
 		$query->where($db->quoteName('lastvisitDate') . ' = ' . $db->quote('0000-00-00 00:00:00'));
 		$db->setQuery($query);
-		$id = intval($db->loadResult());
+		$id = (int) $db->loadResult();
 
 		// Is it a valid user to activate?
 		if ($id)

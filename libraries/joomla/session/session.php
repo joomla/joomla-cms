@@ -395,8 +395,7 @@ class JSession implements IteratorAggregate
 			}
 
 			// Sweet!  Our class exists, so now we just need to know if it passes its test method.
-			// @deprecated 12.3 Stop checking with test()
-			if ($class::isSupported() || $class::test())
+			if ($class::isSupported())
 			{
 				// Connector names should not have file extensions.
 				$connectors[] = str_ireplace('.php', '', $fileName);
@@ -606,7 +605,7 @@ class JSession implements IteratorAggregate
 		// Start session if not started
 		if ($this->_state === 'restart')
 		{
-			session_id($this->_createId());
+			session_regenerate_id(true);
 		}
 		else
 		{
@@ -631,6 +630,8 @@ class JSession implements IteratorAggregate
 		 * Write and Close handlers are called after destructing objects since PHP 5.0.5.
 		 * Thus destructors can use sessions but session handler can't use objects.
 		 * So we are moving session closure before destructing objects.
+		 *
+		 * Replace with session_register_shutdown() when dropping compatibility with PHP 5.3
 		 */
 		register_shutdown_function('session_write_close');
 
@@ -704,8 +705,7 @@ class JSession implements IteratorAggregate
 		$this->_state = 'restart';
 
 		// Regenerate session id
-		$id = $this->_createId();
-		session_id($id);
+		session_regenerate_id(true);
 		$this->_start();
 		$this->_state = 'active';
 
@@ -736,9 +736,6 @@ class JSession implements IteratorAggregate
 		// Keep session config
 		$cookie = session_get_cookie_params();
 
-		// Create new session id
-		$id = $this->_createId();
-
 		// Kill session
 		session_destroy();
 
@@ -749,7 +746,7 @@ class JSession implements IteratorAggregate
 		session_set_cookie_params($cookie['lifetime'], $cookie['path'], $cookie['domain'], $cookie['secure'], true);
 
 		// Restart session with new id
-		session_id($id);
+		session_regenerate_id(true);
 		session_start();
 
 		return true;
@@ -774,25 +771,6 @@ class JSession implements IteratorAggregate
 	public function close()
 	{
 		session_write_close();
-	}
-
-	/**
-	 * Create a session id
-	 *
-	 * @return  string  Session ID
-	 *
-	 * @since   11.1
-	 */
-	protected function _createId()
-	{
-		$id = 0;
-		while (strlen($id) < 32)
-		{
-			$id .= mt_rand(0, mt_getrandmax());
-		}
-
-		$id = md5(uniqid($id, true));
-		return $id;
 	}
 
 	/**
