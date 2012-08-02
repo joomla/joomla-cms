@@ -31,10 +31,9 @@ class InstallationControllerSetup extends JControllerLegacy
 		// Check for potentially unwritable session
 		$session = JFactory::getSession();
 
-		if ($session->isNew()) {
-			JError::setErrorHandling(E_ERROR, 'message');
-			JError::raise(E_ERROR, 500, JText::_('INSTL_COOKIES_NOT_ENABLED'));
-
+		if ($session->isNew())
+		{
+			$appl->enqueueMessage(JText::_('INSTL_COOKIES_NOT_ENABLED'), 'error');
 			return false;
 		}
 

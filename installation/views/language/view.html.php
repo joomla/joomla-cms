@@ -33,7 +33,7 @@ class InstallationViewLanguage extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			JError::raiseError(500, implode("\n", $errors));
+			$appl->enqueueMessage(implode("\n", $errors), 'error');
 			return false;
 		}
 
