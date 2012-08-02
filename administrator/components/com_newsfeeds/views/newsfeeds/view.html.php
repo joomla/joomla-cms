@@ -51,6 +51,8 @@ class NewsfeedsViewNewsfeeds extends JViewLegacy
 		$state	= $this->get('State');
 		$canDo	= NewsfeedsHelper::getActions($state->get('filter.category_id'));
 		$user	= JFactory::getUser();
+		// Get the toolbar object instance
+		$bar = JToolBar::getInstance('toolbar');
 		JToolBarHelper::title(JText::_('COM_NEWSFEEDS_MANAGER_NEWSFEEDS'), 'newsfeeds.png');
 		if (count($user->getAuthorisedCategories('com_newsfeeds', 'core.create')) > 0) {
 			JToolBarHelper::addNew('newsfeed.add');
@@ -59,10 +61,8 @@ class NewsfeedsViewNewsfeeds extends JViewLegacy
 			JToolBarHelper::editList('newsfeed.edit');
 		}
 		if ($canDo->get('core.edit.state')) {
-			JToolBarHelper::divider();
 			JToolBarHelper::publish('newsfeeds.publish', 'JTOOLBAR_PUBLISH', true);
 			JToolBarHelper::unpublish('newsfeeds.unpublish', 'JTOOLBAR_UNPUBLISH', true);
-			JToolBarHelper::divider();
 			JToolBarHelper::archiveList('newsfeeds.archive');
 		}
 		if ($canDo->get('core.admin')) {
@@ -70,15 +70,43 @@ class NewsfeedsViewNewsfeeds extends JViewLegacy
 			}
 		if ($state->get('filter.state') == -2 && $canDo->get('core.delete')) {
 			JToolBarHelper::deleteList('', 'newsfeeds.delete', 'JTOOLBAR_EMPTY_TRASH');
-			JToolBarHelper::divider();
 		} elseif ($canDo->get('core.edit.state')) {
 			JToolBarHelper::trash('newsfeeds.trash');
-			JToolBarHelper::divider();
+		}
+		// Add a batch button
+		if ($user->authorise('core.edit'))
+		{
+			$title = JText::_('JTOOLBAR_BATCH');
+			$dhtml = "<button data-toggle=\"modal\" data-target=\"#collapseModal\" class=\"btn\">
+						<i class=\"icon-checkbox-partial\" title=\"$title\"></i>
+						$title</button>";
+			$bar->appendButton('Custom', $dhtml, 'batch');
 		}
 		if ($canDo->get('core.admin')) {
 			JToolBarHelper::preferences('com_newsfeeds');
-			JToolBarHelper::divider();
 		}
 		JToolBarHelper::help('JHELP_COMPONENTS_NEWSFEEDS_FEEDS');
+	}
+	
+	/**
+	 * Returns an array of fields the table can be sorted by
+	 *
+	 * @return  array  Array containing the field name to sort by as the key and display text as value
+	 *
+	 * @since   3.0
+	 */
+	protected function getSortFields()
+	{
+		return array(
+			'a.ordering' => JText::_('JGRID_HEADING_ORDERING'),
+			'a.published' => JText::_('JSTATUS'),
+			'a.name' => JText::_('JGLOBAL_TITLE'),
+			'category_title' => JText::_('JCATEGORY'),
+			'a.access' => JText::_('JGRID_HEADING_ACCESS'),
+			'numarticles' => JText::_('COM_NEWSFEEDS_NUM_ARTICLES_HEADING'),
+			'a.cache_time' => JText::_('COM_NEWSFEEDS_CACHE_TIME_HEADING'),
+			'a.language' => JText::_('JGRID_HEADING_LANGUAGE'),
+			'a.id' => JText::_('JGRID_HEADING_ID')
+		);
 	}
 }
