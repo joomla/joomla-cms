@@ -873,7 +873,7 @@ abstract class JHtml
 			}
 			return '<div class="input-append"><input type="text" title="' . (0 !== (int) $value ? self::_('date', $value) : '') . '" name="' . $name . '" id="' . $id
 				. '" value="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '" ' . $attribs . ' /><button class="btn" id="' . $id . '_img"><i class="icon-calendar"></i></button></div>';
-				
+
 		}
 		else
 		{

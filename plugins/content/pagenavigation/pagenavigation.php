@@ -178,8 +178,7 @@ class plgContentPagenavigation extends JPlugin
 			// Output.
 			if ($row->prev || $row->next) {
 				$html = '
-				<ul class="pager">'
-				;
+				<ul class="pager">';
 				if ($row->prev) {
 					$html .= '
 					<li class="previous">

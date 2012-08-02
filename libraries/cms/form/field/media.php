@@ -116,10 +116,10 @@ class JFormFieldMedia extends JFormField
 
 		// Initialize JavaScript field attributes.
 		$attr .= $this->element['onchange'] ? ' onchange="' . (string) $this->element['onchange'] . '"' : '';
-		
+
 		// The text field.
 		$html[] = '<div class="input-prepend input-append">';
-		
+
 		// The Preview.
 		$preview = (string) $this->element['preview'];
 		$showPreview = true;
@@ -192,7 +192,7 @@ class JFormFieldMedia extends JFormField
 			}
 			$html[] = '</div>';
 		}
-		
+
 		$html[] = '	<input type="text" class="input-medium" name="' . $this->name . '" id="' . $this->id . '"' . ' value="'
 			. htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '"' . ' readonly="readonly"' . $attr . ' />';
 
@@ -229,7 +229,7 @@ class JFormFieldMedia extends JFormField
 			$html[] = '">';
 			$html[] = '<i class="icon-remove"></i></a>';
 		}
-		
+
 		$html[] = '</div>';
 
 		return implode("\n", $html);
