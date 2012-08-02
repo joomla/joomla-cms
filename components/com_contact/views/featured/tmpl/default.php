@@ -22,7 +22,7 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 <?php endif; ?>
 
 <?php echo $this->loadTemplate('items'); ?>
-<?php if ($this->params->def('show_pagination', 2) == 1  || ($this->params->get('show_pagination') == 2 && $this->pagination->get('pages.total') > 1)) : ?>
+<?php if ($this->params->def('show_pagination', 2) == 1  || ($this->params->get('show_pagination') == 2 && $this->pagination->pagesTotal > 1)) : ?>
 	<div class="pagination">
 
 		<?php if ($this->params->def('show_pagination_results', 1)) : ?>
