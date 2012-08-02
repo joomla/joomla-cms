@@ -180,7 +180,7 @@ class MessagesModelMessage extends JModelAdmin
 		if (empty($table->user_id_from)) {
 			$table->user_id_from = JFactory::getUser()->get('id');
 		}
-		if (intval($table->date_time) == 0) {
+		if ((int) $table->date_time == 0) {
 			$table->date_time = JFactory::getDate()->toSql();
 		}
 

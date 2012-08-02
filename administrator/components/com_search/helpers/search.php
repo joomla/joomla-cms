@@ -127,7 +127,7 @@ class SearchHelper
 			. ' WHERE LOWER(search_term) = "'.$search_term.'"';
 
 			$db->setQuery($query);
-			$hits = intval($db->loadResult());
+			$hits = (int) $db->loadResult();
 			if ($hits) {
 				$query = 'UPDATE #__core_log_searches'
 				. ' SET hits = (hits + 1)'

@@ -76,12 +76,12 @@ class UsersModelMail extends JModelAdmin
 		$access = new JAccess;
 		$db     = $this->getDbo();
 
-		$mode		= array_key_exists('mode', $data) ? intval($data['mode']) : 0;
+		$mode		= array_key_exists('mode', $data) ? (int) $data['mode'] : 0;
 		$subject	= array_key_exists('subject', $data) ? $data['subject'] : '';
-		$grp		= array_key_exists('group', $data) ? intval($data['group']) : 0;
-		$recurse	= array_key_exists('recurse', $data) ? intval($data['recurse']) : 0;
-		$bcc		= array_key_exists('bcc', $data) ? intval($data['bcc']) : 0;
-		$disabled	= array_key_exists('disabled', $data) ? intval($data['disabled']) : 0;
+		$grp		= array_key_exists('group', $data) ? (int) $data['group'] : 0;
+		$recurse	= array_key_exists('recurse', $data) ? (int) $data['recurse'] : 0;
+		$bcc		= array_key_exists('bcc', $data) ? (int) $data['bcc'] : 0;
+		$disabled	= array_key_exists('disabled', $data) ? (int) $data['disabled'] : 0;
 		$message_body = array_key_exists('message', $data) ? $data['message'] : '';
 
 		// automatically removes html formatting

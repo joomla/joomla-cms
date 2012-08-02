@@ -28,11 +28,11 @@ $button			= $params->get('button', '');
 $imagebutton	= $params->get('imagebutton', '');
 $button_pos		= $params->get('button_pos', 'left');
 $button_text	= htmlspecialchars($params->get('button_text', JText::_('MOD_SEARCH_SEARCHBUTTON_TEXT')));
-$width			= intval($params->get('width', 20));
+$width			= (int) $params->get('width', 20);
 $maxlength		= $upper_limit;
 $text			= htmlspecialchars($params->get('text', JText::_('MOD_SEARCH_SEARCHBOX_TEXT')));
 $label			= htmlspecialchars($params->get('label', JText::_('MOD_SEARCH_LABEL_TEXT')));
-$set_Itemid		= intval($params->get('set_itemid', 0));
+$set_Itemid		= (int) $params->get('set_itemid', 0);
 $moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'));
 
 if ($imagebutton) {

@@ -23,7 +23,7 @@ abstract class modRelatedItemsHelper
 		$app		= JFactory::getApplication();
 		$user		= JFactory::getUser();
 		$userId		= (int) $user->get('id');
-		$count		= intval($params->get('count', 5));
+		$count		= (int) $params->get('count', 5);
 		$groups		= implode(',', $user->getAuthorisedViewLevels());
 		$date		= JFactory::getDate();
 

@@ -70,7 +70,7 @@ class WeblinksTableWeblink extends JTable
 		} else {
 			// New weblink. A weblink created and created_by field can be set by the user,
 			// so we don't touch either of these if they are set.
-			if (!intval($this->created)) {
+			if (!(int) $this->created) {
 				$this->created = $date->toSql();
 			}
 			if (empty($this->created_by)) {
@@ -110,8 +110,8 @@ class WeblinksTableWeblink extends JTable
 		$query = 'SELECT id FROM #__weblinks WHERE title = '.$this->_db->Quote($this->title).' AND catid = '.(int) $this->catid;
 		$this->_db->setQuery($query);
 
-		$xid = intval($this->_db->loadResult());
-		if ($xid && $xid != intval($this->id)) {
+		$xid = (int) $this->_db->loadResult();
+		if ($xid && $xid != (int) $this->id) {
 			$this->setError(JText::_('COM_WEBLINKS_ERR_TABLES_NAME'));
 			return false;
 		}

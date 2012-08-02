@@ -66,9 +66,10 @@ class RedirectTableLink extends JTable
 		$query = 'SELECT id FROM #__redirect_links WHERE old_url ='.$db->Quote($this->old_url);
 		$db->setQuery($query);
 
-		$xid = intval($db->loadResult());
+		$xid = (int) $db->loadResult();
 
-		if ($xid && $xid != intval($this->id)) {
+		if ($xid && $xid != (int) $this->id)
+		{
 			$this->setError(JText::_('COM_REDIRECT_ERROR_DUPLICATE_OLD_URL'));
 			return false;
 		}

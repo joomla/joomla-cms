@@ -110,7 +110,7 @@ $canEdit = $user->authorise('core.edit', 'com_users');
 					<?php echo JHtml::_('jgrid.published', $item->state, $i, 'notes.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
 				</td>
 				<td class="center">
-					<?php if (intval($item->review_time)) : ?>
+					<?php if ((int) $item->review_time) : ?>
 						<?php echo $this->escape($item->review_time); ?>
 					<?php else : ?>
 						<?php echo JText::_('COM_USERS_EMPTY_REVIEW'); ?>

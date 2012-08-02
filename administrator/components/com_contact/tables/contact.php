@@ -75,7 +75,7 @@ class ContactTableContact extends JTable
 		} else {
 			// New newsfeed. A feed created and created_by field can be set by the user,
 			// so we don't touch either of these if they are set.
-			if (!intval($this->created)) {
+			if (!(int) $this->created) {
 				$this->created = $date->toSql();
 			}
 			if (empty($this->created_by)) {
@@ -102,7 +102,7 @@ class ContactTableContact extends JTable
 	 */
 	function check()
 	{
-		$this->default_con = intval($this->default_con);
+		$this->default_con = (int) $this->default_con;
 
 		if (JFilterInput::checkAttribute(array ('href', $this->webpage))) {
 			$this->setError(JText::_('COM_CONTACT_WARNING_PROVIDE_VALID_URL'));
@@ -118,8 +118,8 @@ class ContactTableContact extends JTable
 		$query = 'SELECT id FROM #__contact_details WHERE name = '.$this->_db->Quote($this->name).' AND catid = '.(int) $this->catid;
 		$this->_db->setQuery($query);
 
-		$xid = intval($this->_db->loadResult());
-		if ($xid && $xid != intval($this->id)) {
+		$xid = (int) $this->_db->loadResult();
+		if ($xid && $xid != (int) $this->id) {
 			$this->setError(JText::_('COM_CONTACT_WARNING_SAME_NAME'));
 			return false;
 		}
@@ -138,7 +138,7 @@ class ContactTableContact extends JTable
 		}
 
 		// Check the publish down date is not earlier than publish up.
-		if (intval($this->publish_down) > 0 && $this->publish_down < $this->publish_up) {
+		if ((int) $this->publish_down > 0 && $this->publish_down < $this->publish_up) {
 			$this->setError(JText::_('JGLOBAL_START_PUBLISH_AFTER_FINISH'));
 			return false;
 		}

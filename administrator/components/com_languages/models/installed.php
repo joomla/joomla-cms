@@ -247,7 +247,7 @@ class LanguagesModelInstalled extends JModelList
 		$query->where('state = 0');
 		$query->where('enabled = 1');
 
-		$query->where('client_id=' . intval($client));
+		$query->where('client_id=' . (int) $client);
 
 		// for client_id = 1 do we need to check language table also ?
 		$db->setQuery($query);

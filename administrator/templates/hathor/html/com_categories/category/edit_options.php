@@ -18,7 +18,7 @@ defined('_JEXEC') or die; ?>
 			<li><?php echo $this->form->getLabel('created_user_id'); ?>
 			<?php echo $this->form->getInput('created_user_id'); ?></li>
 
-			<?php if (intval($this->item->created_time)) : ?>
+			<?php if ((int) $this->item->created_time) : ?>
 				<li><?php echo $this->form->getLabel('created_time'); ?>
 				<?php echo $this->form->getInput('created_time'); ?></li>
 			<?php endif; ?>

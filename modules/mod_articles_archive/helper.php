@@ -30,7 +30,7 @@ class modArchiveHelper
 			$query->where('language in ('.$db->quote(JFactory::getLanguage()->getTag()).','.$db->quote('*').')');
 		}
 
-		$db->setQuery($query, 0, intval($params->get('count')));
+		$db->setQuery($query, 0, (int) $params->get('count'));
 		$rows = (array) $db->loadObjectList();
 
 		$app	= JFactory::getApplication();

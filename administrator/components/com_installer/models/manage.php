@@ -263,14 +263,14 @@ class InstallerModelManage extends InstallerModel
 			else
 			{
 				$query->where('protected = 0');
-				$query->where('enabled=' . intval($status));
+				$query->where('enabled=' . (int) $status);
 			}
 		}
 		if ($type) {
 			$query->where('type=' . $this->_db->Quote($type));
 		}
 		if ($client != '') {
-			$query->where('client_id=' . intval($client));
+			$query->where('client_id=' . (int) $client);
 		}
 		if ($group != '' && in_array($type, array('plugin', 'library', ''))) {
 

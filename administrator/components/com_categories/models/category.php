@@ -157,7 +157,7 @@ class CategoriesModelCategory extends JModelAdmin
 			// Convert the created and modified dates to local user time for display in the form.
 			$tz = new DateTimeZone(JFactory::getApplication()->getCfg('offset'));
 
-			if (intval($result->created_time))
+			if ((int) $result->created_time)
 			{
 				$date = new JDate($result->created_time);
 				$date->setTimezone($tz);
@@ -168,7 +168,7 @@ class CategoriesModelCategory extends JModelAdmin
 				$result->created_time = null;
 			}
 
-			if (intval($result->modified_time))
+			if ((int) $result->modified_time)
 			{
 				$date = new JDate($result->modified_time);
 				$date->setTimezone($tz);

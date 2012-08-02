@@ -40,8 +40,8 @@ class plgContentVote extends JPlugin
 
 		if ($params->get('show_vote'))
 		{
-			$rating = intval(@$row->rating);
-			$rating_count = intval(@$row->rating_count);
+			$rating = (int) @$row->rating;
+			$rating_count = (int) @$row->rating_count;
 
 			$view = JFactory::getApplication()->input->getString('view', '');
 			$img = '';

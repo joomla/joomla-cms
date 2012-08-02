@@ -283,10 +283,10 @@ class FinderIndexer
 		self::$profiler ? self::$profiler->mark('afterUnmapping') : null;
 
 		// Perform cleanup on the item data.
-		$item->publish_start_date = intval($item->publish_start_date) != 0 ? $item->publish_start_date : $nd;
-		$item->publish_end_date = intval($item->publish_end_date) != 0 ? $item->publish_end_date : $nd;
-		$item->start_date = intval($item->start_date) != 0 ? $item->start_date : $nd;
-		$item->end_date = intval($item->end_date) != 0 ? $item->end_date : $nd;
+		$item->publish_start_date = (int) $item->publish_start_date != 0 ? $item->publish_start_date : $nd;
+		$item->publish_end_date = (int) $item->publish_end_date != 0 ? $item->publish_end_date : $nd;
+		$item->start_date = (int) $item->start_date != 0 ? $item->start_date : $nd;
+		$item->end_date = (int) $item->end_date != 0 ? $item->end_date : $nd;
 
 		// Prepare the item description.
 		$item->description = FinderIndexerHelper::parse($item->summary);

@@ -44,7 +44,7 @@ function ContactBuildRoute(&$query){
 	};
 
 	// are we dealing with a contact that is attached to a menu item?
-	if (isset($view) && ($mView == $view) and (isset($query['id'])) and ($mId == intval($query['id']))) {
+	if (isset($view) && ($mView == $view) and (isset($query['id'])) and ($mId == (int) $query['id'])) {
 		unset($query['view']);
 		unset($query['catid']);
 		unset($query['id']);
@@ -52,7 +52,7 @@ function ContactBuildRoute(&$query){
 	}
 
 	if (isset($view) and ($view == 'category' or $view == 'contact')) {
-		if ($mId != intval($query['id']) || $mView != $view) {
+		if ($mId != (int) $query['id'] || $mView != $view) {
 			if($view == 'contact' && isset($query['catid']))
 			{
 				$catid = $query['catid'];

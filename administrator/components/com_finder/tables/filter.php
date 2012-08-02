@@ -207,7 +207,7 @@ class FinderTableFilter extends JTable
 		{
 			// New item. A filter's created field can be set by the user,
 			// so we don't touch it if it is set.
-			if (!intval($this->created))
+			if (!(int) $this->created)
 			{
 				$this->created = $date->toSql();
 			}
