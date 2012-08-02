@@ -39,8 +39,8 @@ class JoomlaupdateController extends JControllerLegacy
 
 		// Get and render the view.
 		if ($view = $this->getView($vName, $vFormat)) {
-			$ftp	= JClientHelper::setCredentialsFromRequest('ftp');
-			$view->assignRef('ftp', $ftp);
+			$ftp = JClientHelper::setCredentialsFromRequest('ftp');
+			$view->ftp = &$ftp;
 
 			// Get the model for the view.
 			$model = $this->getModel($vName);
@@ -54,7 +54,7 @@ class JoomlaupdateController extends JControllerLegacy
 			$view->setLayout($lName);
 
 			// Push document object into the view.
-			$view->assignRef('document', $document);
+			$view->document = $document;
 			$view->display();
 		}
 

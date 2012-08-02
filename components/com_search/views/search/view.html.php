@@ -178,10 +178,10 @@ class SearchViewSearch extends JViewLegacy
 		//Escape strings for HTML output
 		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
 
-		$this->assignRef('pagination',  $pagination);
-		$this->assignRef('results',		$results);
-		$this->assignRef('lists',		$lists);
-		$this->assignRef('params',		$params);
+		$this->pagination = &$pagination;
+		$this->results = &$results;
+		$this->lists = &$lists;
+		$this->params = &$params;
 
 		$this->ordering = $state->get('ordering');
 		$this->searchword = $searchword;

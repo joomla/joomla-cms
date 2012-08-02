@@ -46,7 +46,7 @@ class InstallerViewDefault extends JViewLegacy
 		}
 
 		$this->showMessage = $showMessage;
-		$this->assignRef('state',		$state);
+		$this->state = &$state;
 
 		JHtml::_('behavior.tooltip');
 		$this->addToolbar();

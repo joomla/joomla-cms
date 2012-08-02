@@ -53,10 +53,10 @@ class MediaViewMediaList extends JViewLegacy
 		$state = $this->get('state');
 
 		$this->baseURL = JURI::root();
-		$this->assignRef('images', $images);
-		$this->assignRef('documents', $documents);
-		$this->assignRef('folders', $folders);
-		$this->assignRef('state', $state);
+		$this->images = &$images;
+		$this->documents = &$documents;
+		$this->folders = &$folders;
+		$this->state = &$state;
 
 		parent::display($tpl);
 	}

@@ -47,11 +47,11 @@ class ConfigViewApplication extends JViewLegacy
 		// Load settings for the FTP layer.
 		$ftp = JClientHelper::setCredentialsFromRequest('ftp');
 
-		$this->assignRef('form',	$form);
-		$this->assignRef('data',	$data);
-		$this->assignRef('ftp',		$ftp);
-		$this->assignRef('usersParams', $usersParams);
-		$this->assignRef('mediaParams', $mediaParams);
+		$this->form = &$form;
+		$this->data = &$data;
+		$this->ftp = &$ftp;
+		$this->usersParams = &$usersParams;
+		$this->mediaParams = &$mediaParams;
 
 		$this->addToolbar();
 		parent::display($tpl);

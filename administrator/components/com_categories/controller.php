@@ -81,7 +81,8 @@ class CategoriesController extends JControllerLegacy
 			$view->setLayout($lName);
 
 			// Push document object into the view.
-			$view->assignRef('document', $document);
+			$view->document = $document;
+
 			// Load the submenu.
 			require_once JPATH_COMPONENT.'/helpers/categories.php';
 

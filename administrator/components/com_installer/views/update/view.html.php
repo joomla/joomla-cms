@@ -33,7 +33,7 @@ class InstallerViewUpdate extends InstallerViewDefault
 		$paths = new stdClass;
 		$paths->first = '';
 
-		$this->assignRef('paths', $paths);
+		$this->paths = &$paths;
 
 		parent::display($tpl);
 	}

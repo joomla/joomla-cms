@@ -41,8 +41,8 @@ class InstallerController extends JControllerLegacy
 
 		// Get and render the view.
 		if ($view = $this->getView($vName, $vFormat)) {
-			$ftp	= JClientHelper::setCredentialsFromRequest('ftp');
-			$view->assignRef('ftp', $ftp);
+			$ftp = JClientHelper::setCredentialsFromRequest('ftp');
+			$view->ftp = &$ftp;
 
 			// Get the model for the view.
 			$model = $this->getModel($vName);
@@ -52,7 +52,8 @@ class InstallerController extends JControllerLegacy
 			$view->setLayout($lName);
 
 			// Push document object into the view.
-			$view->assignRef('document', $document);
+			$view->document = $document;
+
 			// Load the submenu.
 			InstallerHelper::addSubmenu($vName);
 			$view->display();

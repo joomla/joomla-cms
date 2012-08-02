@@ -143,13 +143,13 @@ class ContactViewContact extends JViewLegacy
 		//Escape strings for HTML output
 		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
 
-		$this->assignRef('contact',		$item);
-		$this->assignRef('params',		$params);
-		$this->assignRef('return',		$return);
-		$this->assignRef('state', 		$state);
-		$this->assignRef('item', 		$item);
-		$this->assignRef('user', 		$user);
-		$this->assignRef('contacts', 	$contacts);
+		$this->contact  = &$item;
+		$this->params   = &$params;
+		$this->return   = &$return;
+		$this->state    = &$state;
+		$this->item     = &$item;
+		$this->user     = &$user;
+		$this->contacts = &$contacts;
 
 		// Override the layout only if this is not the active menu item
 		// If it is the active menu item, then the view and item id will match

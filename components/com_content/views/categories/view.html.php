@@ -60,9 +60,9 @@ class ContentViewCategories extends JViewLegacy
 		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
 
 		$this->maxLevelcat = $params->get('maxLevelcat', -1);
-		$this->assignRef('params',		$params);
-		$this->assignRef('parent',		$parent);
-		$this->assignRef('items',		$items);
+		$this->params = &$params;
+		$this->parent = &$parent;
+		$this->items  = &$items;
 
 		$this->_prepareDocument();
 

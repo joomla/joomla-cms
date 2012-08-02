@@ -34,8 +34,8 @@ class ConfigViewComponent extends JViewLegacy
 			$form->bind($component->params);
 		}
 
-		$this->assignRef('form',		$form);
-		$this->assignRef('component',	$component);
+		$this->form = &$form;
+		$this->component = &$component;
 
 		$this->document->setTitle(JText::_('JGLOBAL_EDIT_PREFERENCES'));
 

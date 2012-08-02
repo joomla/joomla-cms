@@ -33,7 +33,7 @@ class ContentViewArticle extends JViewLegacy
 			$eName		= preg_replace( '#[^A-Z0-9\-\_\[\]]#i', '', $eName );
 			$document	= JFactory::getDocument();
 			$document->setTitle(JText::_('COM_CONTENT_PAGEBREAK_DOC_TITLE'));
-			$this->assignRef('eName', $eName);
+			$this->eName = &$eName;
 			parent::display($tpl);
 			return;
 		}

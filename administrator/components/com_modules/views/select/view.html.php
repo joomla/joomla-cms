@@ -36,8 +36,8 @@ class ModulesViewSelect extends JViewLegacy
 			return false;
 		}
 
-		$this->assignRef('state',		$state);
-		$this->assignRef('items',		$items);
+		$this->state = &$state;
+		$this->items = &$items;
 
 		parent::display($tpl);
 	}

@@ -100,9 +100,9 @@ class MediaViewMedia extends JViewLegacy
 
 		$session	= JFactory::getSession();
 		$state		= $this->get('state');
-		$this->assignRef('session', $session);
-		$this->assignRef('config', $config);
-		$this->assignRef('state', $state);
+		$this->session = $session;
+		$this->config = &$config;
+		$this->state = &$state;
 		$this->require_ftp = $ftp;
 		$this->folders_id = ' id="media-tree"';
 		$this->folders = $this->get('folderTree');
