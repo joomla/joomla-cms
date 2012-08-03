@@ -74,6 +74,8 @@ class CategoriesViewCategories extends JViewLegacy
 		$section	= $this->state->get('filter.section');
 		$canDo		= null;
 		$user		= JFactory::getUser();
+		// Get the toolbar object instance
+		$bar = JToolBar::getInstance('toolbar');
 
 		// Avoid nonsense situation.
 		if ($component == 'com_categories') {
@@ -118,13 +120,11 @@ class CategoriesViewCategories extends JViewLegacy
 
 		if ($canDo->get('core.edit' ) || $canDo->get('core.edit.own')) {
 			JToolBarHelper::editList('category.edit');
-			JToolBarHelper::divider();
 		}
 
 		if ($canDo->get('core.edit.state')) {
 			JToolBarHelper::publish('categories.publish', 'JTOOLBAR_PUBLISH', true);
 			JToolBarHelper::unpublish('categories.unpublish', 'JTOOLBAR_UNPUBLISH', true);
-			JToolBarHelper::divider();
 			JToolBarHelper::archiveList('categories.archive');
 		}
 
@@ -137,13 +137,21 @@ class CategoriesViewCategories extends JViewLegacy
 		}
 		elseif ($canDo->get('core.edit.state')) {
 			JToolBarHelper::trash('categories.trash');
-			JToolBarHelper::divider();
+		}
+		
+		// Add a batch button
+		if ($canDo->get('core.edit'))
+		{
+			$title = JText::_('JTOOLBAR_BATCH');
+			$dhtml = "<button data-toggle=\"modal\" data-target=\"#collapseModal\" class=\"btn\">
+						<i class=\"icon-checkbox-partial\" title=\"$title\"></i>
+						$title</button>";
+			$bar->appendButton('Custom', $dhtml, 'batch');
 		}
 
 		if ($canDo->get('core.admin')) {
 			JToolBarHelper::custom('categories.rebuild', 'refresh.png', 'refresh_f2.png', 'JTOOLBAR_REBUILD', false);
 			JToolBarHelper::preferences($component);
-			JToolBarHelper::divider();
 		}
 
 		// Compute the ref_key if it does exist in the component
@@ -164,5 +172,24 @@ class CategoriesViewCategories extends JViewLegacy
 			$url = null;
 		}
 		JToolBarHelper::help($ref_key, JComponentHelper::getParams( $component )->exists('helpURL'), $url);
+	}
+	
+	/**
+	 * Returns an array of fields the table can be sorted by
+	 *
+	 * @return  array  Array containing the field name to sort by as the key and display text as value
+	 *
+	 * @since   3.0
+	 */
+	protected function getSortFields()
+	{
+		return array(
+			'a.lft' => JText::_('JGRID_HEADING_ORDERING'),
+			'a.state' => JText::_('JSTATUS'),
+			'a.title' => JText::_('JGLOBAL_TITLE'),
+			'a.access' => JText::_('JGRID_HEADING_ACCESS'),
+			'language' => JText::_('JGRID_HEADING_LANGUAGE'),
+			'a.id' => JText::_('JGRID_HEADING_ID')
+		);
 	}
 }
