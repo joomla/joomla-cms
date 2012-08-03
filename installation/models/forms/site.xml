@@ -37,20 +37,17 @@
 			field="admin_password"
 		/>
 
-		<!-- Advanced Settings -->
-		<fieldset name="advanced">
-			<field name="site_metadesc" type="textarea" id="site_metadesc" class="text_area"
-				label="INSTL_SITE_METADESC_LABEL"
-				rows="3"
-			/>
+		<field name="site_metadesc" type="textarea" id="site_metadesc" class="text_area"
+			label="INSTL_SITE_METADESC_LABEL"
+			rows="3"
+		/>
 
-			<field name="site_offline" type="radio" id="site_offline" class="btn-group" default="0"
-			label="INSTL_SITE_OFFLINE_LABEL"
-			filter="integer"
-			>
-				<option value="0">JNO</option>
-				<option value="1">JYES</option>
-			</field>
-		</fieldset>
+		<field name="site_offline" type="radio" id="site_offline" class="btn-group" default="0"
+		label="INSTL_SITE_OFFLINE_LABEL"
+		filter="integer"
+		>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
 	</fieldset>
 </form>
