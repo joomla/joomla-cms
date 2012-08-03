@@ -90,7 +90,11 @@ else
 		{
 			border-top: 3px solid <?php echo $this->params->get('templateColor');?>;
 		}
-		.navbar-inner, .nav-list > .active > a, .nav-list > .active > a:hover, .dropdown-menu li > a:hover, .dropdown-menu .active > a, .dropdown-menu .active > a:hover
+		a
+		{
+			color: <?php echo $this->params->get('templateColor');?>;
+		}
+		.navbar-inner, .nav-list > .active > a, .nav-list > .active > a:hover, .dropdown-menu li > a:hover, .dropdown-menu .active > a, .dropdown-menu .active > a:hover, .nav-pills > .active > a, .nav-pills > .active > a:hover
 		{
 			background: <?php echo $this->params->get('templateColor');?>;
 		}
