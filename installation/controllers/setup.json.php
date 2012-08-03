@@ -17,7 +17,6 @@ defined('_JEXEC') or die;
  */
 class InstallationControllerSetup extends JControllerLegacy
 {
-
 	/**
 	 * Method to set the setup language for the application.
 	 *
@@ -58,16 +57,20 @@ class InstallationControllerSetup extends JControllerLegacy
 
 		$r = new stdClass;
 		// Check for validation errors.
-		if ($return === false) {
+		if ($return === false)
+		{
 			// Get the validation messages.
 			$errors	= $model->getErrors();
 
 			// Push up to three validation messages out to the user.
 			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++)
 			{
-				if ($errors[$i] instanceof Exception) {
+				if ($errors[$i] instanceof Exception)
+				{
 					$app->enqueueMessage($errors[$i]->getMessage(), 'warning');
-				} else {
+				}
+				else
+				{
 					$app->enqueueMessage($errors[$i], 'warning');
 				}
 			}
@@ -92,7 +95,7 @@ class InstallationControllerSetup extends JControllerLegacy
 	 */
 	public function preinstall()
 	{
-		$r = new JObject();
+		$r = new stdClass;
 		$r->view = 'preinstall';
 		$this->sendResponse($r);
 	}
@@ -103,11 +106,12 @@ class InstallationControllerSetup extends JControllerLegacy
 	 */
 	public function site()
 	{
-		if(!($vars = $this->checkForm('site'))) {
+		if (!($vars = $this->checkForm('site')))
+		{
 			return false;
 		}
 
-		$r = new JObject();
+		$r = new stdClass;
 		$r->view = 'database';
 		$this->sendResponse($r);
 	}
@@ -118,7 +122,8 @@ class InstallationControllerSetup extends JControllerLegacy
 	 */
 	public function database()
 	{
-		if(!($vars = $this->checkForm('database'))) {
+		if (!($vars = $this->checkForm('database')))
+		{
 			return false;
 		}
 
@@ -126,7 +131,7 @@ class InstallationControllerSetup extends JControllerLegacy
 		$path = JPATH_CONFIGURATION . '/configuration.php';
 		$useftp = (file_exists($path)) ? !is_writable($path) : !is_writable(JPATH_CONFIGURATION . '/');
 
-		$r = new JObject();
+		$r = new stdClass;
 		$r->view = $useftp ? 'ftp' : 'summary';
 
 		// Get the database model.
@@ -136,7 +141,8 @@ class InstallationControllerSetup extends JControllerLegacy
 		$return = $database->createDatabase($vars);
 
 		// Check if the database was initialised
-		if (!$return) {
+		if (!$return)
+		{
 			$app = JFactory::getApplication();
 			$app->enqueueMessage($database->getError(), 'notice');
 			$r->view = 'database';
@@ -151,11 +157,12 @@ class InstallationControllerSetup extends JControllerLegacy
 	 */
 	public function ftp()
 	{
-		if(!($vars = $this->checkForm('ftp'))) {
+		if (!($vars = $this->checkForm('ftp')))
+		{
 			return false;
 		}
 
-		$r = new JObject();
+		$r = new stdClass;
 		$r->view = 'summary';
 		$this->sendResponse($r);
 	}
@@ -166,11 +173,12 @@ class InstallationControllerSetup extends JControllerLegacy
 	 */
 	public function summary()
 	{
-		if(!($vars = $this->checkForm('summary'))) {
+		if (!($vars = $this->checkForm('summary')))
+		{
 			return false;
 		}
 
-		$r = new JObject();
+		$r = new stdClass;
 		$r->view = 'install';
 		$this->sendResponse($r);
 	}
@@ -192,7 +200,7 @@ class InstallationControllerSetup extends JControllerLegacy
 	 */
 	public function install_database_backup()
 	{
-		$r = new JObject();
+		$r = new stdClass;
 		$r->view = 'install';
 
 		// Get the setup model.
@@ -222,7 +230,7 @@ class InstallationControllerSetup extends JControllerLegacy
 	 */
 	public function install_database()
 	{
-		$r = new JObject();
+		$r = new stdClass;
 		$r->view = 'install';
 
 		// Get the setup model.
@@ -251,7 +259,7 @@ class InstallationControllerSetup extends JControllerLegacy
 	 */
 	public function install_sample()
 	{
-		$r = new JObject();
+		$r = new stdClass;
 		$r->view = 'install';
 
 		// Get the setup model.
@@ -280,7 +288,7 @@ class InstallationControllerSetup extends JControllerLegacy
 	 */
 	public function install_config()
 	{
-		$r = new JObject();
+		$r = new stdClass;
 		$r->view = 'install';
 
 		// Get the setup model.
@@ -309,7 +317,7 @@ class InstallationControllerSetup extends JControllerLegacy
 	 */
 	public function install_email()
 	{
-		$r = new JObject();
+		$r = new stdClass;
 		$r->view = 'install';
 
 		// Get the setup model.
@@ -437,7 +445,7 @@ class InstallationControllerSetup extends JControllerLegacy
 			}
 
 			// Redirect back to the page.
-			$r = new JObject();
+			$r = new stdClass;
 			$r->view = $page;
 			$this->sendResponse($r);
 
