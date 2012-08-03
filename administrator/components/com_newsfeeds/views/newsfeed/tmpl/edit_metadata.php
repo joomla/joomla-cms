@@ -25,7 +25,7 @@ foreach ($fieldSets as $name => $fieldSet) :
 					<div class="controls"><?php echo $this->form->getInput('metadesc'); ?></div>
 				</div>
 				<div class="control-group">
-					<div class="control-label"<?php echo $this->form->getLabel('metakey'); ?></div>
+					<div class="control-label"><?php echo $this->form->getLabel('metakey'); ?></div>
 					<div class="controls"><?php echo $this->form->getInput('metakey'); ?></div>
 				</div>
 				<div class="control-group">

@@ -107,7 +107,7 @@ textarea {
   clear: both;
 }
 .hide-text {
-  font: a;
+  font: 0/0 a;
   color: transparent;
   text-shadow: none;
   background-color: transparent;
@@ -1556,7 +1556,7 @@ table .span24 {
 .open {
   *z-index: 1000;
 }
-.open > .dropdown-menu {
+.open  > .dropdown-menu {
   display: block;
 }
 .pull-right > .dropdown-menu {
@@ -5448,7 +5448,7 @@ body .navbar-fixed-top {
 }
 .navbar .nav > li > a {
   padding: 5px 10px;
-  color: rgba(255, 255, 255, 0.8);
+  color: #D2E3FC;
 }
 /* Header */
 .header {
@@ -5750,4 +5750,8 @@ body .navbar-fixed-top {
   width: auto;
   padding-right: 5px;
   text-align: left;
+}
+/*Need a width auto*/
+.width-auto {
+  width: auto;
 }
