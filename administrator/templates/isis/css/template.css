@@ -107,7 +107,7 @@ textarea {
   clear: both;
 }
 .hide-text {
-  font: 0/0 a;
+  font: a;
   color: transparent;
   text-shadow: none;
   background-color: transparent;
@@ -1556,7 +1556,7 @@ table .span24 {
 .open {
   *z-index: 1000;
 }
-.open  > .dropdown-menu {
+.open > .dropdown-menu {
   display: block;
 }
 .pull-right > .dropdown-menu {
@@ -4896,6 +4896,10 @@ fieldset.radio.btn-group {
 .form-vertical .controls {
   margin-left: 0;
 }
+/* Auto Width */
+.width-auto {
+  width: auto;
+}
 @font-face {
   font-family: 'IcoMoon';
   src: url('../../../../media/jui/fonts/IcoMoon.eot');
@@ -5412,6 +5416,9 @@ body {
 .view-login .navbar-fixed-bottom {
   position: absolute;
 }
+.view-login .input-medium {
+  width: 184px;
+}
 .login .chzn-drop {
   width: 228px !important;
 }
@@ -5448,7 +5455,7 @@ body .navbar-fixed-top {
 }
 .navbar .nav > li > a {
   padding: 5px 10px;
-  color: #D2E3FC;
+  color: rgba(255, 255, 255, 0.8);
 }
 /* Header */
 .header {
@@ -5750,8 +5757,4 @@ body .navbar-fixed-top {
   width: auto;
   padding-right: 5px;
   text-align: left;
-}
-/*Need a width auto*/
-.width-auto {
-  width: auto;
 }

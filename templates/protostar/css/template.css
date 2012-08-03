@@ -4896,6 +4896,10 @@ fieldset.radio.btn-group {
 .form-vertical .controls {
   margin-left: 0;
 }
+/* Auto Width */
+.width-auto {
+  width: auto;
+}
 @font-face {
   font-family: 'IcoMoon';
   src: url('../../../media/jui/fonts/IcoMoon.eot');

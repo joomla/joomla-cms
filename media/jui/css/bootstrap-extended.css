@@ -386,13 +386,6 @@ fieldset.radio.btn-group {
   margin: 2px 0px 10px 0px;
   padding-bottom: 5px;
 }
-
-/* Table: highlighted row */
-table tr.active td,
-table tr.active th {
-	background-color: #f9f9f9;
-}
-
 /* Input Prepend Chosen Select Boxes */
 .input-prepend .chzn-container-single .chzn-single {
   border-color: #CCC;
@@ -436,4 +429,8 @@ table tr.active th {
 }
 .form-vertical .controls {
   margin-left: 0;
+}
+/* Auto Width */
+.width-auto {
+  width: auto;
 }
