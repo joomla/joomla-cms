@@ -1,13 +1,12 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	Templates.strapped
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
- * @since		3.0
+ * @package     Joomla.Administrator
+ * @subpackage  Templates.isis
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
 /**
@@ -33,7 +32,7 @@ function modChrome_title($module, &$params, &$attribs)
 		echo "<div class=\"module-title\"><h6>".$module->title."</h6></div>";
 		echo $module->content;
 	}
-} 
+}
 
 function modChrome_no($module, &$params, &$attribs)
 {

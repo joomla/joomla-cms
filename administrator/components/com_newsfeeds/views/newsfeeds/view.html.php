@@ -87,7 +87,7 @@ class NewsfeedsViewNewsfeeds extends JViewLegacy
 		}
 		JToolBarHelper::help('JHELP_COMPONENTS_NEWSFEEDS_FEEDS');
 	}
-	
+
 	/**
 	 * Returns an array of fields the table can be sorted by
 	 *

@@ -23,32 +23,40 @@ class JHtmlInstallation
 		$tabs = array();
 		$tabs[] = 'site';
 		$tabs[] = 'database';
-		if ($useftp) {
+		if ($useftp)
+		{
 			$tabs[] = 'ftp';
 		}
 		$tabs[] = 'summary';
 
 		$html = array();
 		$html[] = '<ul class="nav nav-tabs">';
-		foreach($tabs as $tab) {
+		foreach($tabs as $tab)
+		{
 			$html[] = self::getTab($tab, $tabs);
 		}
 		$html[] = '</ul>';
 		return implode('', $html);
 	}
+
 	public static function getTab($id, &$tabs)
 	{
 		$num = self::getNumber($id, $tabs);
 		$view = self::getNumber(JRequest::getWord('view'), $tabs);
-		$tab = '<span class="badge">'.$num.'</span> '.JText::_('INSTL_STEP_'.strtoupper($id).'_LABEL');
-		if ($view+1 == $num) {
-			$tab = '<a href="#" onclick="Install.submitform();">'.$tab.'</a>';
-		} else if ($view < $num) {
-			$tab = '<span>'.$tab.'</span>';
-		} else  {
-			$tab = '<a href="#" onclick="return Install.goToPage(\''.$id.'\')">'.$tab.'</a>';
+		$tab = '<span class="badge">' . $num . '</span> ' . JText::_('INSTL_STEP_' . strtoupper($id) . '_LABEL');
+		if ($view+1 == $num)
+		{
+			$tab = '<a href="#" onclick="Install.submitform();">' . $tab . '</a>';
 		}
-		return '<li class="step'.($num == $view ? ' active' : '').'" id="'.$id.'">'.$tab.'</li>';
+		elseif ($view < $num)
+		{
+			$tab = '<span>' . $tab . '</span>';
+		}
+		else
+		{
+			$tab = '<a href="#" onclick="return Install.goToPage(\'' . $id . '\')">' . $tab . '</a>';
+		}
+		return '<li class="step' . ($num == $view ? ' active' : '') . '" id="' . $id . '">' . $tab . '</li>';
 	}
 
 	public static function getNumber($id, &$tabs)

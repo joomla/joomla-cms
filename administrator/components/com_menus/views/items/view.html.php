@@ -163,12 +163,12 @@ class MenusViewItems extends JViewLegacy
 		require_once JPATH_COMPONENT.'/helpers/menus.php';
 
 		$canDo	= MenusHelper::getActions($this->state->get('filter.parent_id'));
-		
+
 		// Get the toolbar object instance
 		$bar = JToolBar::getInstance('toolbar');
 
 		JToolBarHelper::title(JText::_('COM_MENUS_VIEW_ITEMS_TITLE'), 'menumgr.png');
-		
+
 		if ($canDo->get('core.create')) {
 			JToolBarHelper::addNew('item.add');
 		}
@@ -197,7 +197,7 @@ class MenusViewItems extends JViewLegacy
 		if (JFactory::getUser()->authorise('core.admin')) {
 			JToolBarHelper::custom('items.rebuild', 'refresh.png', 'refresh_f2.png', 'JToolbar_Rebuild', false);
 		}
-		
+
 		// Add a batch button
 		if ($canDo->get('core.edit'))
 		{
@@ -207,10 +207,10 @@ class MenusViewItems extends JViewLegacy
 						$title</button>";
 			$bar->appendButton('Custom', $dhtml, 'batch');
 		}
-		
+
 		JToolBarHelper::help('JHELP_MENUS_MENU_ITEM_MANAGER');
 	}
-	
+
 	/**
 	 * Returns an array of fields the table can be sorted by
 	 *

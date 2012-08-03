@@ -161,7 +161,7 @@ $sortFields = $this->getSortFields();
 					$canCheckin	= $user->authorise('core.manage',		'com_checkin') || $item->checked_out == $userId || $item->checked_out == 0;
 					$canEditOwn	= $user->authorise('core.edit.own',		'com_contact.category.'.$item->catid) && $item->created_by == $userId;
 					$canChange	= $user->authorise('core.edit.state',	'com_contact.category.'.$item->catid) && $canCheckin;
-		
+
 					$item->cat_link = JRoute::_('index.php?option=com_categories&extension=com_contact&task=edit&type=other&id='.$item->catid);
 					?>
 					<tr class="row<?php echo $i % 2; ?>" sortable-group-id="<?php echo $item->catid?>">
@@ -211,41 +211,41 @@ $sortFields = $this->getSortFields();
 							<div class="pull-left">
 								<?php
 									// Create dropdown items
-				 					JHtml::_('dropdown.edit', $item->id, 'contact.');
-				 					JHtml::_('dropdown.divider');
-				 					if ($item->published) :
-				 						JHtml::_('dropdown.unpublish', 'cb' . $i, 'contacts.');
-				 					else :
-				 						JHtml::_('dropdown.publish', 'cb' . $i, 'contacts.');
-				 					endif;
+									JHtml::_('dropdown.edit', $item->id, 'contact.');
+									JHtml::_('dropdown.divider');
+									if ($item->published) :
+										JHtml::_('dropdown.unpublish', 'cb' . $i, 'contacts.');
+									else :
+										JHtml::_('dropdown.publish', 'cb' . $i, 'contacts.');
+									endif;
 
-				 					if ($item->featured) :
-				 						JHtml::_('dropdown.unfeatured', 'cb' . $i, 'contacts.');
-				 					else :
-				 						JHtml::_('dropdown.featured', 'cb' . $i, 'contacts.');
-				 					endif;
+									if ($item->featured) :
+										JHtml::_('dropdown.unfeatured', 'cb' . $i, 'contacts.');
+									else :
+										JHtml::_('dropdown.featured', 'cb' . $i, 'contacts.');
+									endif;
 
-				 					JHtml::_('dropdown.divider');
+									JHtml::_('dropdown.divider');
 
-				 					if ($archived) :
-				 						JHtml::_('dropdown.unarchive', 'cb' . $i, 'contacts.');
-				 					else :
-				 						JHtml::_('dropdown.archive', 'cb' . $i, 'contacts.');
-				 					endif;
+									if ($archived) :
+										JHtml::_('dropdown.unarchive', 'cb' . $i, 'contacts.');
+									else :
+										JHtml::_('dropdown.archive', 'cb' . $i, 'contacts.');
+									endif;
 
-				 					if ($item->checked_out) :
-				 						JHtml::_('dropdown.checkin', 'cb' . $i, 'contacts.');
-				 					endif;
+									if ($item->checked_out) :
+										JHtml::_('dropdown.checkin', 'cb' . $i, 'contacts.');
+									endif;
 
-				 					if ($trashed) :
-				 						JHtml::_('dropdown.untrash', 'cb' . $i, 'contacts.');
-				 					else :
-				 						JHtml::_('dropdown.trash', 'cb' . $i, 'contacts.');
-				 					endif;
+									if ($trashed) :
+										JHtml::_('dropdown.untrash', 'cb' . $i, 'contacts.');
+									else :
+										JHtml::_('dropdown.trash', 'cb' . $i, 'contacts.');
+									endif;
 
-				 					// render dropdown list
-				 					echo JHtml::_('dropdown.render');
-			 					?>
+									// render dropdown list
+									echo JHtml::_('dropdown.render');
+								?>
 							</div>
 						</td>
 						<td align="small hidden-phone">
@@ -282,7 +282,7 @@ $sortFields = $this->getSortFields();
 			</table>
 			<?php //Load the batch processing form. ?>
 			<?php echo $this->loadTemplate('batch'); ?>
-		
+
 			<div>
 				<input type="hidden" name="task" value="" />
 				<input type="hidden" name="boxchecked" value="0" />

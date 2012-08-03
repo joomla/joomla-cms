@@ -10,13 +10,12 @@
 defined('_JEXEC') or die;
 
 ?>
-
 <div class="row-striped">
 	<?php if (count($list)) : ?>
-		<?php foreach ($list as $i=>$item) : 
+		<?php foreach ($list as $i=>$item) :
 			// Calculate popular items
 			$hits = (int) $item->hits;
-			
+
 			if($hits >= 25)  $hits_class = 'warning';
 			if($hits > 100) $hits_class = 'important';
 			if($hits < 24)   $hits_class = 'info';
@@ -29,7 +28,7 @@ defined('_JEXEC') or die;
 						<?php if ($item->checked_out) : ?>
 								<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time); ?>
 						<?php endif; ?>
-		
+
 						<?php if ($item->link) :?>
 							<a href="<?php echo $item->link; ?>">
 								<?php echo htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8');?></a>

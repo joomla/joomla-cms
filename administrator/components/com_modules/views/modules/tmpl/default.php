@@ -227,7 +227,7 @@ $sortFields = $this->getSortFields();
 								<?php else : ?>
 										<?php echo $this->escape($item->title); ?>
 								<?php endif; ?>
-			
+
 								<?php if (!empty($item->note)) : ?>
 									<div class="small">
 										<?php echo JText::sprintf('JGLOBAL_LIST_NOTE', $this->escape($item->note));?>
@@ -237,29 +237,29 @@ $sortFields = $this->getSortFields();
 							<div class="pull-left">
 								<?php
 									// Create dropdown items
-				 					JHtml::_('dropdown.edit', $item->id, 'module.');
-				 					JHtml::_('dropdown.divider');
-				 					if ($item->published) :
-				 						JHtml::_('dropdown.unpublish', 'cb' . $i, 'modules.');
-				 					else :
-				 						JHtml::_('dropdown.publish', 'cb' . $i, 'modules.');
-				 					endif;
+									JHtml::_('dropdown.edit', $item->id, 'module.');
+									JHtml::_('dropdown.divider');
+									if ($item->published) :
+										JHtml::_('dropdown.unpublish', 'cb' . $i, 'modules.');
+									else :
+										JHtml::_('dropdown.publish', 'cb' . $i, 'modules.');
+									endif;
 
-				 					JHtml::_('dropdown.divider');
+									JHtml::_('dropdown.divider');
 
-				 					if ($item->checked_out) :
-				 						JHtml::_('dropdown.checkin', 'cb' . $i, 'modules.');
-				 					endif;
+									if ($item->checked_out) :
+										JHtml::_('dropdown.checkin', 'cb' . $i, 'modules.');
+									endif;
 
-				 					if ($trashed) :
-				 						JHtml::_('dropdown.untrash', 'cb' . $i, 'modules.');
-				 					else :
-				 						JHtml::_('dropdown.trash', 'cb' . $i, 'modules.');
-				 					endif;
+									if ($trashed) :
+										JHtml::_('dropdown.untrash', 'cb' . $i, 'modules.');
+									else :
+										JHtml::_('dropdown.trash', 'cb' . $i, 'modules.');
+									endif;
 
-				 					// render dropdown list
-				 					echo JHtml::_('dropdown.render');
-				 					?>
+									// render dropdown list
+									echo JHtml::_('dropdown.render');
+									?>
 							</div>
 						</td>
 						<td class="small hidden-phone">
@@ -279,7 +279,7 @@ $sortFields = $this->getSortFields();
 						<td class="small visible-desktop">
 							<?php echo $item->pages; ?>
 						</td>
-		
+
 						<td class="small hidden-phone">
 							<?php echo $this->escape($item->access_level); ?>
 						</td>
@@ -299,10 +299,10 @@ $sortFields = $this->getSortFields();
 					<?php endforeach; ?>
 				</tbody>
 			</table>
-		
+
 			<?php //Load the batch processing form. ?>
 			<?php echo $this->loadTemplate('batch'); ?>
-		
+
 			<div>
 				<input type="hidden" name="task" value="" />
 				<input type="hidden" name="boxchecked" value="0" />

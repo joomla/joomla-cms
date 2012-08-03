@@ -1,9 +1,12 @@
 <?php
 /**
-* @copyright Copyright (C) 2008 JoomlaPraise. All rights reserved.
-*/
+ * @package     Joomla.Administrator
+ * @subpackage  Templates.protostar
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
 
-// no direct access
 defined('_JEXEC') or die;
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

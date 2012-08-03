@@ -65,7 +65,7 @@ JHtml::_('behavior.modal');
 								<?php echo $this->form->getInput('published'); ?>
 							</div>
 						</div>
-						
+
 						<div class="control-group">
 							<div class="control-label">
 								<?php echo $this->form->getLabel('type'); ?>
@@ -74,10 +74,10 @@ JHtml::_('behavior.modal');
 								<?php echo $this->form->getInput('type'); ?>
 							</div>
 						</div>
-						
+
 						<?php
 							$fieldSets = $this->form->getFieldsets('request');
-						
+
 							if (!empty($fieldSets)) :
 								$fieldSet = array_shift($fieldSets);
 								$label = !empty($fieldSet->label) ? $fieldSet->label : 'COM_MENUS_'.$fieldSet->name.'_FIELDSET_LABEL';
@@ -101,7 +101,7 @@ JHtml::_('behavior.modal');
 										<?php endforeach; ?>
 									<?php echo $hidden_fields; ?>
 						<?php endif; ?>
-						
+
 						<div class="control-group">
 							<div class="control-label">
 								<?php echo $this->form->getLabel('title'); ?>
@@ -121,7 +121,7 @@ JHtml::_('behavior.modal');
 								</div>
 							</div>
 						<?php endif; ?>
-			
+
 						<?php if ($this->item->type == 'alias'): ?>
 							<div class="control-group">
 								<div class="control-label">
@@ -129,7 +129,7 @@ JHtml::_('behavior.modal');
 								</div>
 							</div>
 						<?php endif; ?>
-			
+
 						<?php if ($this->item->type !='url'): ?>
 							<div class="control-group">
 								<div class="control-label">
@@ -140,7 +140,7 @@ JHtml::_('behavior.modal');
 								</div>
 							</div>
 						<?php endif; ?>
-			
+
 						<?php if ($this->item->type !=='url'): ?>
 							<div class="control-group">
 								<div class="control-label">
@@ -151,9 +151,9 @@ JHtml::_('behavior.modal');
 								</div>
 							</div>
 						<?php endif ?>
-			
-						
-			
+
+
+
 						<div class="control-group">
 							<div class="control-label">
 								<?php echo $this->form->getLabel('menutype'); ?>
@@ -162,7 +162,7 @@ JHtml::_('behavior.modal');
 								<?php echo $this->form->getInput('menutype'); ?>
 							</div>
 						</div>
-			
+
 						<div class="control-group">
 							<div class="control-label">
 								<?php echo $this->form->getLabel('parent_id'); ?>
@@ -171,7 +171,7 @@ JHtml::_('behavior.modal');
 								<?php echo $this->form->getInput('parent_id'); ?>
 							</div>
 						</div>
-			
+
 						<div class="control-group">
 							<div class="control-label">
 								<?php echo $this->form->getLabel('menuordering'); ?>
@@ -180,7 +180,7 @@ JHtml::_('behavior.modal');
 								<?php echo $this->form->getInput('menuordering'); ?>
 							</div>
 						</div>
-			
+
 					</div>
 					<div class="span6">
 						<div class="control-group">

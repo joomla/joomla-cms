@@ -32,7 +32,7 @@ $published = $this->state->get('filter.published');
 				<?php echo JHtml::_('batch.language'); ?>
 			</div>
 		</div>
-		<?php if ($published >= 0) 
+		<?php if ($published >= 0)
 		{
 		?>
       		<div id="batch-choose-action" class="combo control-group">
@@ -52,8 +52,8 @@ $published = $this->state->get('filter.published');
       			</div>
       		</div>
       	<?php
-      	}
-      	?>
+		}
+		?>
 	</div>
 	<div class="modal-footer">
 		<button class="btn" type="button" onclick="document.id('batch-menu-id').value='';document.id('batch-access').value='';document.id('batch-language-id').value=''" data-dismiss="modal">

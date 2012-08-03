@@ -38,7 +38,7 @@ JHtml::_('behavior.caption');
 		<div class="clr"></div>
 	</div>
 	<?php endif; ?>
-	<?php $leadingcount=0 ; ?>
+	<?php $leadingcount = 0; ?>
 	<?php if (!empty($this->lead_items)) : ?>
 	<div class="items-leading">
 		<?php foreach ($this->lead_items as &$item) : ?>
@@ -67,7 +67,7 @@ JHtml::_('behavior.caption');
 		$row = $counter / $this->columns;
 
 		if ($rowcount==1) : ?>
-	<div class="items-row cols-<?php echo (int) $this->columns;?> <?php echo 'row-'.$row ; ?> row-fluid">
+	<div class="items-row cols-<?php echo (int) $this->columns;?> <?php echo 'row-'.$row; ?> row-fluid">
 		<?php endif; ?>
 		<div class="item column-<?php echo $rowcount;?><?php echo $item->state == 0 ? ' system-unpublished' : null; ?> span<?php echo round((12/$this->columns));?>">
 			<?php
@@ -77,7 +77,7 @@ JHtml::_('behavior.caption');
 		</div>
 		<?php $counter++; ?>
 		<?php if (($rowcount == $this->columns) or ($counter ==$introcount)): ?>
-		
+
 	</div>
 	<hr class="divider-vertical" />
 	<?php endif; ?>

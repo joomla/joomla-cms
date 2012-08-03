@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
-$params = &$this->params;
+$params = $this->params;
 ?>
 
 <div id="archive-items">
@@ -29,7 +29,7 @@ $params = &$this->params;
 				<?php $author = ($item->created_by_alias ? $item->created_by_alias : $author);?>
 				<?php if (!empty($item->contactid ) &&  $params->get('link_author') == true):?>
 				<?php 	echo JText::sprintf('COM_CONTENT_WRITTEN_BY' ,
-				 JHtml::_('link', JRoute::_('index.php?option=com_contact&view=contact&id='.$item->contactid), $author)); ?>
+				JHtml::_('link', JRoute::_('index.php?option=com_contact&view=contact&id='.$item->contactid), $author)); ?>
 				<?php else :?>
 				<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', $author); ?>
 				<?php endif; ?>

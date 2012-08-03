@@ -45,7 +45,7 @@ $canEdit = $user->authorise('core.edit', 'com_users');
 					<select name="filter_published" class="span12 small" onchange="this.form.submit()">
 						<option value=""><?php echo JText::_('JOPTION_SELECT_PUBLISHED');?></option>
 						<?php echo JHtml::_('select.options', JHtml::_('jgrid.publishedOptions'),
-							 'value', 'text', $this->state->get('filter.state'), true);?>
+							'value', 'text', $this->state->get('filter.state'), true);?>
 					</select>
 				</div>
 			</div>
@@ -63,7 +63,7 @@ $canEdit = $user->authorise('core.edit', 'com_users');
 				</div>
 				<div class="clearfix"> </div>
 			</div>
-		
+
 			<table class="table table-striped">
 				<thead>
 					<tr>
@@ -145,7 +145,7 @@ $canEdit = $user->authorise('core.edit', 'com_users');
 					<?php endforeach; ?>
 				</tbody>
 			</table>
-		
+
 			<input type="hidden" name="task" value="" />
 			<input type="hidden" name="boxchecked" value="0" />
 			<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>" />

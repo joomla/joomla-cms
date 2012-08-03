@@ -138,7 +138,7 @@ class CategoriesViewCategories extends JViewLegacy
 		elseif ($canDo->get('core.edit.state')) {
 			JToolBarHelper::trash('categories.trash');
 		}
-		
+
 		// Add a batch button
 		if ($canDo->get('core.edit'))
 		{
@@ -173,7 +173,7 @@ class CategoriesViewCategories extends JViewLegacy
 		}
 		JToolBarHelper::help($ref_key, JComponentHelper::getParams( $component )->exists('helpURL'), $url);
 	}
-	
+
 	/**
 	 * Returns an array of fields the table can be sorted by
 	 *

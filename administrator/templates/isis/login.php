@@ -1,13 +1,12 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	Templates.strapped
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
- * @since		3.0
+ * @package     Joomla.Administrator
+ * @subpackage  Templates.strapped
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
 $app = JFactory::getApplication();
@@ -22,20 +21,18 @@ if ($this->direction == 'rtl') :
 endif;
 // Chosen Selects
 $doc->addStyleSheet('../media/jui/css/chosen.css');
+
+// Detecting Active Variables
+$option = JRequest::getCmd('option', '');
+$view = JRequest::getCmd('view', '');
+$layout = JRequest::getCmd('layout', '');
+$task = JRequest::getCmd('task', '');
+$itemid = JRequest::getCmd('Itemid', '');
+$sitename = $app->getCfg('sitename');
 ?>
 <!DOCTYPE html>
 <html>
 <head>
-	<?php
-
-    // Detecting Active Variables
-    $option = JRequest::getCmd('option', '');
-    $view = JRequest::getCmd('view', '');
-    $layout = JRequest::getCmd('layout', '');
-    $task = JRequest::getCmd('task', '');
-    $itemid = JRequest::getCmd('Itemid', '');
-    $sitename = $app->getCfg('sitename');
-	?>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<script src="../media/jui/js/jquery.js"></script>
 	<script src="../media/jui/js/bootstrap.min.js"></script>

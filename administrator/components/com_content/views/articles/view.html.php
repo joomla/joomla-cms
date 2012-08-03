@@ -74,7 +74,7 @@ class ContentViewArticles extends JViewLegacy
 		$user		= JFactory::getUser();
 		// Get the toolbar object instance
 		$bar = JToolBar::getInstance('toolbar');
-		
+
 		JToolBarHelper::title(JText::_('COM_CONTENT_ARTICLES_TITLE'), 'article.png');
 
 		if ($canDo->get('core.create') || (count($user->getAuthorisedCategories('com_content', 'core.create'))) > 0 ) {
@@ -99,7 +99,7 @@ class ContentViewArticles extends JViewLegacy
 		elseif ($canDo->get('core.edit.state')) {
 			JToolBarHelper::trash('articles.trash');
 		}
-		
+
 		// Add a batch button
 		if ($user->authorise('core.edit'))
 		{

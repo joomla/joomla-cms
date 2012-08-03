@@ -27,14 +27,12 @@ JHtml::_('behavior.caption');
 	<div class="page-header">
 		<h1> <?php echo $this->escape($this->params->get('page_heading')); ?> </h1>
 	</div>
-	<?php endif; ?>
-	<?php
+	<?php endif;
 if (!empty($this->item->pagination) AND $this->item->pagination && !$this->item->paginationposition && $this->item->paginationrelative)
 {
 	echo $this->item->pagination;
 }
- ?>
-	<?php if ($canEdit ||  $params->get('show_print_icon') || $params->get('show_email_icon')) : ?>
+	if ($canEdit ||  $params->get('show_print_icon') || $params->get('show_email_icon')) : ?>
 	<div class="btn-group pull-right"> <a class="btn dropdown-toggle" data-toggle="dropdown" href="#"> <i class="icon-cog"></i> <span class="caret"></span> </a>
 		<ul class="dropdown-menu">
 			<?php if (!$this->print) : ?>
@@ -80,7 +78,7 @@ if (!empty($this->item->pagination) AND $this->item->pagination && !$this->item-
 		</h2>
 	</div>
 	<?php endif; ?>
-	
+
 	<?php if (isset ($this->item->toc)) :
 		echo $this->item->toc;
 	endif; ?>
@@ -140,7 +138,7 @@ endif;
 	<?php if ($useDefList) : ?>
 	<div class="btn-toolbar article-info">
 		<?php endif; ?>
-		
+
 		<?php if ($params->get('show_modify_date')) : ?>
 		<div class="btn-group modified"> <i class="icon-calendar"></i> <?php echo JText::sprintf('COM_CONTENT_LAST_UPDATED', JHtml::_('date', $this->item->modified, JText::_('DATE_FORMAT_LC3'))); ?> </div>
 		<?php endif; ?>

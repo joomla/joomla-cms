@@ -1,12 +1,12 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_modules
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_modules
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
 
 // Initiasile related data.
@@ -73,24 +73,24 @@ $menuTypes = MenusHelper::getMenuLinks();
 
 			<?php foreach ($menuTypes as &$type) :
 				echo JHtml::_('tabs.panel', $type->title ? $type->title : $type->menutype, $type->menutype.'-details');
-				
+
 				$chkbox_class = 'chk-menulink-' . $type->id; ?>
-				
+
 				<button type="button" class="jform-assignments-button jform-rightbtn" onclick="$$('.<?php echo $chkbox_class; ?>').each(function(el) { el.checked = !el.checked; });">
 					<?php echo JText::_('JGLOBAL_SELECTION_INVERT'); ?>
 				</button>
-				
+
 				<button type="button" class="jform-assignments-button jform-rightbtn" onclick="$$('.<?php echo $chkbox_class; ?>').each(function(el) { el.checked = false; });">
 					<?php echo JText::_('JGLOBAL_SELECTION_NONE'); ?>
 				</button>
-				
+
 				<button type="button" class="jform-assignments-button jform-rightbtn" onclick="$$('.<?php echo $chkbox_class; ?>').each(function(el) { el.checked = true; });">
 					<?php echo JText::_('JGLOBAL_SELECTION_ALL'); ?>
 				</button>
-				
+
 				<div class="clr"></div>
-				
-				<?php 
+
+				<?php
 				$count 	= count($type->links);
 				$i		= 0;
 				if ($count) :

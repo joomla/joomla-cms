@@ -18,7 +18,7 @@ foreach ($fieldSets as $name => $fieldSet) :
 		echo '<p class="alert alert-info">'.$this->escape(JText::_($fieldSet->description)).'</p>';
 	endif;
 	?>
-			<?php if ($name == 'jmetadata') : // Include the real fields in this panel. 
+			<?php if ($name == 'jmetadata') : // Include the real fields in this panel.
 			?>
 				<div class="control-group">
 					<div class="control-label"><?php echo $this->form->getLabel('metadesc'); ?></div>

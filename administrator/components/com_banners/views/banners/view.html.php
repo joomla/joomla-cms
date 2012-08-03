@@ -70,7 +70,7 @@ class BannersViewBanners extends JViewLegacy
 		$user = JFactory::getUser();
 		// Get the toolbar object instance
 		$bar = JToolBar::getInstance('toolbar');
-		
+
 		JToolBarHelper::title(JText::_('COM_BANNERS_MANAGER_BANNERS'), 'banners.png');
 		if (count($user->getAuthorisedCategories('com_banners', 'core.create')) > 0)
 		{
@@ -116,7 +116,7 @@ class BannersViewBanners extends JViewLegacy
 		{
 			JToolBarHelper::trash('banners.trash');
 		}
-		
+
 		// Add a batch button
 		if ($user->authorise('core.edit'))
 		{
@@ -133,7 +133,7 @@ class BannersViewBanners extends JViewLegacy
 		}
 		JToolBarHelper::help('JHELP_COMPONENTS_BANNERS_BANNERS');
 	}
-	
+
 	/**
 	 * Returns an array of fields the table can be sorted by
 	 *

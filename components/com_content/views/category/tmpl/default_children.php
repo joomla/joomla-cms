@@ -29,12 +29,12 @@ $class = ' class="first"';
 				<span class="badge badge-info tip" rel="tooltip" title="<?php echo JText::_('COM_CONTENT_NUM_ITEMS'); ?>">
 					<?php echo $child->getNumItems(true); ?>
 				</span>
-				<?php endif ; ?>
-				
+				<?php endif; ?>
+
 				<?php if (count($child->getChildren()) > 0) : ?>
 				<a href="#category-<?php echo $child->id;?>" data-toggle="collapse" data-toggle="button" class="btn btn-mini pull-right"><i class="icon-plus"></i></a>
 			<?php endif;?>
-				
+
 			</h3>
 			<?php if ($this->params->get('show_subcat_desc') == 1) :?>
 			<?php if ($child->description) : ?>
@@ -43,11 +43,10 @@ $class = ' class="first"';
 				</div>
 			<?php endif; ?>
 			<?php endif; ?>
-			
 
 			<?php if (count($child->getChildren()) > 0) :?>
 			<div class="collapse fade" id="category-<?php echo $child->id;?>">
-				<?php	
+				<?php
 				$this->children[$child->id] = $child->getChildren();
 				$this->category = $child;
 				$this->maxLevel--;
@@ -59,7 +58,7 @@ $class = ' class="first"';
 				?>
 			</div>
 			<?php endif; ?>
-			
+
 			</div>
 		<?php endif; ?>
 	<?php endforeach; ?>

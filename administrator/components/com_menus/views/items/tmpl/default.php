@@ -225,7 +225,7 @@ $sortFields = $this->getSortFields();
 							<?php endif; ?>
 						</td>
 						<td class="order hidden-phone">
-							<?php if ($canChange) : 
+							<?php if ($canChange) :
 							?>
 								<div class="btn-group pull-left">
 									<?php if ($saveOrder) : ?>
@@ -270,7 +270,7 @@ $sortFields = $this->getSortFields();
 			<?php if($user->authorise('core.create', 'com_menus') || $user->authorise('core.edit', 'com_menus')) : ?>
 				<?php echo $this->loadTemplate('batch'); ?>
 			<?php endif;?>
-		
+
 			<div>
 				<input type="hidden" name="task" value="" />
 				<input type="hidden" name="boxchecked" value="0" />

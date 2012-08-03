@@ -62,7 +62,7 @@ class ContactViewContacts extends JViewLegacy
 		$user	= JFactory::getUser();
 		// Get the toolbar object instance
 		$bar = JToolBar::getInstance('toolbar');
-		
+
 		JToolBarHelper::title(JText::_('COM_CONTACT_MANAGER_CONTACTS'), 'contact.png');
 
 		if ($canDo->get('core.create') || (count($user->getAuthorisedCategories('com_contact', 'core.create'))) > 0) {
@@ -86,7 +86,7 @@ class ContactViewContacts extends JViewLegacy
 		elseif ($canDo->get('core.edit.state')) {
 			JToolBarHelper::trash('contacts.trash');
 		}
-		
+
 		// Add a batch button
 		if ($user->authorise('core.edit'))
 		{
@@ -103,7 +103,7 @@ class ContactViewContacts extends JViewLegacy
 
 		JToolBarHelper::help('JHELP_COMPONENTS_CONTACTS_CONTACTS');
 	}
-	
+
 	/**
 	 * Returns an array of fields the table can be sorted by
 	 *

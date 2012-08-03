@@ -36,7 +36,7 @@ $canDo	= TemplatesHelper::getActions();
 							<?php $id = $this->files['main']['index']->id; ?>
 							<?php if ($canDo->get('core.edit')) : ?>
 							<a href="<?php echo JRoute::_('index.php?option=com_templates&task=source.edit&id='.$id);?>">
-								<i class="icon-edit"></i> 
+								<i class="icon-edit"></i>
 							<?php endif; ?>
 								<?php echo JText::_('COM_TEMPLATES_TEMPLATE_EDIT_MAIN');?>
 							<?php if ($canDo->get('core.edit')) : ?>
@@ -48,7 +48,7 @@ $canDo	= TemplatesHelper::getActions();
 							<?php $id = $this->files['main']['error']->id; ?>
 							<?php if ($canDo->get('core.edit')) : ?>
 								<a href="<?php echo JRoute::_('index.php?option=com_templates&task=source.edit&id='.$id);?>">
-									<i class="icon-edit"></i> 
+									<i class="icon-edit"></i>
 							<?php endif; ?>
 								<?php echo JText::_('COM_TEMPLATES_TEMPLATE_EDIT_ERROR');?>
 							<?php if ($canDo->get('core.edit')) : ?>
@@ -56,12 +56,12 @@ $canDo	= TemplatesHelper::getActions();
 							<?php endif; ?>
 						</li>
 						<?php endif; ?>
-						<?php if ($this->files['main']['offline']->exists) :  ;?>
+						<?php if ($this->files['main']['offline']->exists) : ?>
 							<li>
 								<?php $id = $this->files['main']['offline']->id; ?>
 								<?php if ($canDo->get('core.edit')) : ?>
 									<a href="<?php echo JRoute::_('index.php?option=com_templates&task=source.edit&id='.$id);?>">
-										<i class="icon-edit"></i> 
+										<i class="icon-edit"></i>
 								<?php endif; ?>
 								<?php echo JText::_('COM_TEMPLATES_TEMPLATE_EDIT_OFFLINEVIEW');?>
 								<?php if ($canDo->get('core.edit')) : ?>
@@ -74,7 +74,7 @@ $canDo	= TemplatesHelper::getActions();
 							<?php $id = $this->files['main']['print']->id; ?>
 							<?php if ($canDo->get('core.edit')) : ?>
 								<a href="<?php echo JRoute::_('index.php?option=com_templates&task=source.edit&id='.$id);?>">
-									<i class="icon-edit"></i> 
+									<i class="icon-edit"></i>
 							<?php endif; ?>
 								<?php echo JText::_('COM_TEMPLATES_TEMPLATE_EDIT_PRINTVIEW');?>
 							<?php if ($canDo->get('core.edit')) : ?>
@@ -94,9 +94,9 @@ $canDo	= TemplatesHelper::getActions();
 						<li>
 							<?php if ($canDo->get('core.edit')) : ?>
 							<a href="<?php echo JRoute::_('index.php?option=com_templates&task=source.edit&id='.$file->id);?>">
-								<i class="icon-edit"></i> 
+								<i class="icon-edit"></i>
 							<?php endif; ?>
-		
+
 								<?php echo JText::sprintf('COM_TEMPLATES_TEMPLATE_EDIT_CSS', $file->name);?>
 							<?php if ($canDo->get('core.edit')) : ?>
 							</a>

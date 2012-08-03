@@ -103,23 +103,23 @@ class JHtmlIcon
 		}
 
 		$url	= 'index.php?option=com_content&task=article.edit&a_id='.$article->id.'&return='.base64_encode($uri);
-		
+
 		if ($article->state == 0) {
 					$overlib = JText::_('JUNPUBLISHED');
 				}
 				else {
 					$overlib = JText::_('JPUBLISHED');
 				}
-		
+
 				$date = JHtml::_('date', $article->created);
 				$author = $article->created_by_alias ? $article->created_by_alias : $article->author;
-		
+
 				$overlib .= '&lt;br /&gt;';
 				$overlib .= $date;
 				$overlib .= '&lt;br /&gt;';
 				$overlib .= JText::sprintf('COM_CONTENT_WRITTEN_BY', htmlspecialchars($author, ENT_COMPAT, 'UTF-8'));
-		
-		$icon	= $article->state ? 'edit' : 'eye-close';		
+
+		$icon	= $article->state ? 'edit' : 'eye-close';
 		$text = '<i class="icon-'.$icon.' tip" title="'.JText::_('COM_CONTENT_EDIT_ITEM').' :: '.$overlib.'"></i> '.JText::_('JGLOBAL_EDIT');
 
 		$output = JHtml::_('link', JRoute::_($url), $text);

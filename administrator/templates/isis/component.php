@@ -1,16 +1,18 @@
 <?php
 /**
-* @copyright Copyright (C) 2008 JoomlaPraise. All rights reserved.
-*/
+ * @package     Joomla.Administrator
+ * @subpackage  Templates.isis
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
 
-// no direct access
 defined('_JEXEC') or die;
 
-jimport('joomla.filesystem.file');
 
 $app = JFactory::getApplication();
 $doc = JFactory::getDocument();
-$lang  = JFactory::getLanguage();
+$lang = JFactory::getLanguage();
 
 // Add Stylesheets
 $doc->addStyleSheet('templates/' .$this->template. '/css/template.css');
@@ -23,7 +25,7 @@ endif;
 
 // Load specific language related CSS
 $file = 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css';
-if (JFile::exists($file)) :
+if (is_file($file)) :
 	$doc->addStyleSheet($file);
 endif;
 

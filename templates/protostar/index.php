@@ -1,13 +1,12 @@
 <?php
 /**
- * @package		Joomla.Site
- * @subpackage	Templates.strapped
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
- * @since		3.0
+ * @package     Joomla.Administrator
+ * @subpackage  Templates.protostar
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
 $app = JFactory::getApplication();
@@ -20,13 +19,14 @@ $layout = JRequest::getCmd('layout', '');
 $task = JRequest::getCmd('task', '');
 $itemid = JRequest::getCmd('Itemid', '');
 $sitename = $app->getCfg('sitename');
+
 if($task == "edit" || $layout == "form" )
 {
-$fullWidth = 1;
+	$fullWidth = 1;
 }
 else
 {
-$fullWidth = 0;
+	$fullWidth = 0;
 }
 
 // Add Stylesheets
@@ -46,11 +46,11 @@ if ($this->countModules('position-7') && $this->countModules('position-8'))
 {
 	$span = "span6";
 }
-else if ($this->countModules('position-7') && !$this->countModules('position-8'))
+elseif ($this->countModules('position-7') && !$this->countModules('position-8'))
 {
 	$span = "span9";
 }
-else if (!$this->countModules('position-7') && $this->countModules('position-8'))
+elseif (!$this->countModules('position-7') && $this->countModules('position-8'))
 {
 	$span = "span9";
 }

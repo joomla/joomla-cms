@@ -26,23 +26,23 @@ if ($this->params->get('presentation_style')=='sliders'):?>
 			<div class="contact-links">
 				<ul class="nav nav-list">
 					<?php
-					    foreach(range('a', 'e') as $char) :// letters 'a' to 'e'
-						    $link = $this->contact->params->get('link'.$char);
-						    $label = $this->contact->params->get('link'.$char.'_name');
-			
-						    if( ! $link) :
-						        continue;
-						    endif;
-			
-						    // Add 'http://' if not present
-						    $link = (0 === strpos($link, 'http')) ? $link : 'http://'.$link;
-			
-						    // If no label is present, take the link
-						    $label = ($label) ? $label : $link;
-						    ?>
+					foreach(range('a', 'e') as $char) :// letters 'a' to 'e'
+						$link = $this->contact->params->get('link'.$char);
+						$label = $this->contact->params->get('link'.$char.'_name');
+
+						if (!$link) :
+							continue;
+						endif;
+
+						// Add 'http://' if not present
+						$link = (0 === strpos($link, 'http')) ? $link : 'http://'.$link;
+
+						// If no label is present, take the link
+						$label = ($label) ? $label : $link;
+						?>
 						<li>
 							<a href="<?php echo $link; ?>">
-							    <?php echo $label;  ?>
+							    <?php echo $label; ?>
 							</a>
 						</li>
 					<?php endforeach; ?>

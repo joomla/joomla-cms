@@ -37,7 +37,7 @@ JHtml::_('behavior.keepalive');
 		?>
 		<li><a href="#params-<?php echo $name;?>" data-toggle="tab"><?php echo JText::_($fieldSet->label);?></a></li>
 		<?php endforeach; ?>
-		<?php 
+		<?php
 		$fieldSets = $this->form->getFieldsets('metadata');
 		foreach ($fieldSets as $name => $fieldSet) :
 		?>
@@ -115,7 +115,7 @@ JHtml::_('behavior.keepalive');
 						<div class="controls"><?php echo $this->form->getInput('modified'); ?></div>
 					</div>
 				<?php endif; ?>
-				
+
 				<div class="control-group">
 					<div class="control-label"><?php echo $this->form->getLabel('numarticles'); ?></div>
 					<div class="controls"><?php echo $this->form->getInput('numarticles'); ?></div>
@@ -129,9 +129,9 @@ JHtml::_('behavior.keepalive');
 					<div class="controls"><?php echo $this->form->getInput('rtl'); ?></div>
 				</div>
 
-				<?php //echo $this->form->getLabel('xreference'); // Missing from schema! 
+				<?php //echo $this->form->getLabel('xreference'); // Missing from schema!
 				?>
-				<?php //echo $this->form->getInput('xreference'); 
+				<?php //echo $this->form->getInput('xreference');
 				?>
 		</div>
 		<?php echo $this->loadTemplate('params'); ?>

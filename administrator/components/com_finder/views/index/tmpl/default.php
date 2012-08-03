@@ -85,11 +85,11 @@ Joomla.submitbutton = function(pressbutton) {
 			<div class="clearfix"> </div>
 			<?php if (!$this->pluginState['plg_content_finder']->enabled) : ?>
 				<div class="alert fade in">
-		            <button class="close" data-dismiss="alert">×</button>
+					<button class="close" data-dismiss="alert">×</button>
 		            <?php
-		            echo JText::_('COM_FINDER_INDEX_PLUGIN_CONTENT_NOT_ENABLED');
-		            ?>
-		          </div>
+						echo JText::_('COM_FINDER_INDEX_PLUGIN_CONTENT_NOT_ENABLED');
+					?>
+				</div>
 			<?php endif; ?>
 			<table class="table table-striped">
 				<thead>
@@ -123,10 +123,10 @@ Joomla.submitbutton = function(pressbutton) {
 						</td>
 					</tr>
 					<?php endif; ?>
-		
+
 					<?php $canChange	= JFactory::getUser()->authorise('core.manage',	'com_finder'); ?>
 					<?php foreach ($this->items as $i => $item): ?>
-		
+
 					<tr class="row<?php echo $i % 2; ?>">
 						<td class="center">
 							<?php echo JHtml::_('grid.id', $i, $item->link_id); ?>
@@ -161,7 +161,7 @@ Joomla.submitbutton = function(pressbutton) {
 							<?php echo JHtml::_('date', $item->indexdate, JText::_('DATE_FORMAT_LC4')); ?>
 						</td>
 					</tr>
-		
+
 					<?php endforeach; ?>
 				</tbody>
 				<tfoot>
@@ -172,7 +172,7 @@ Joomla.submitbutton = function(pressbutton) {
 					</tr>
 				</tfoot>
 			</table>
-		
+
 			<input type="hidden" name="task" value="display" />
 			<input type="hidden" name="boxchecked" value="0" />
 			<input type="hidden" name="filter_order" value="<?php echo $listOrder ?>" />

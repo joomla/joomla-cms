@@ -33,17 +33,17 @@ $menuTypes = MenusHelper::getMenuLinks();
 						?>
 				  <optgroup label="<?php echo $type->title;?>">
 					  	<?php
-					  	foreach ($type->links as $link) :
-					  		if (trim($this->item->assignment) == '-'):
-					  			$selected = '';
-					  		elseif ($this->item->assignment == 0):
-					  			$selected = ' selected="selected"';
-					  		elseif ($this->item->assignment < 0):
-					  			$selected = in_array(-$link->value, $this->item->assigned) ? ' selected="selected"' : '';
-					  		elseif ($this->item->assignment > 0) :
-					  			$selected = in_array($link->value, $this->item->assigned) ? ' selected="selected"' : '';
-					  		endif;
-					  	?>
+						foreach ($type->links as $link) :
+							if (trim($this->item->assignment) == '-'):
+								$selected = '';
+							elseif ($this->item->assignment == 0):
+								$selected = ' selected="selected"';
+							elseif ($this->item->assignment < 0):
+								$selected = in_array(-$link->value, $this->item->assigned) ? ' selected="selected"' : '';
+							elseif ($this->item->assignment > 0) :
+								$selected = in_array($link->value, $this->item->assigned) ? ' selected="selected"' : '';
+							endif;
+						?>
 				    		<option value="<?php echo (int) $link->value;?>" <?php echo $selected;?>><?php echo $link->text; ?></option>
 				    <?php endforeach; ?>
 				  </optgroup>

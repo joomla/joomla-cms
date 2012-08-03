@@ -43,7 +43,7 @@ class JToolbarButtonStandard extends JToolbarButton
 		$i18n_text = JText::_($text);
 		$class = $this->fetchIconClass($name);
 		$doTask = $this->_getCommand($text, $task, $list);
-		
+
 		if ($name == "apply" || $name == "new")
 		{
 			$btnClass = "btn btn-primary";

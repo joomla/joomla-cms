@@ -41,7 +41,7 @@ class ModulesViewSelect extends JViewLegacy
 
 		parent::display($tpl);
 	}
-	
+
 	/**
 	 * Add the page title and toolbar.
 	 *
@@ -51,14 +51,14 @@ class ModulesViewSelect extends JViewLegacy
 	{
 		// Add page title
 		JToolBarHelper::title(JText::_('COM_MODULES_MANAGER_MODULES'), 'module.png');
-		
+
 		// Get the toolbar object instance
 		$bar = JToolBar::getInstance('toolbar');
-		
+
 		// Cancel
 		$title = JText::_('JTOOLBAR_CANCEL');
 		$dhtml = "<button onClick=\"location.href='index.php?option=com_modules'\" class=\"btn\">
-					<i class=\"icon-remove\" title=\"$title\"></i> 
+					<i class=\"icon-remove\" title=\"$title\"></i>
 					$title</button>";
 		$bar->appendButton('Custom', $dhtml, 'new');
 	}

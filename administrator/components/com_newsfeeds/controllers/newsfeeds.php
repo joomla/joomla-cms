@@ -26,7 +26,7 @@ class NewsfeedsControllerNewsfeeds extends JControllerAdmin
 		$model = parent::getModel($name, $prefix, $config);
 		return $model;
 	}
-	
+
 	/**
 	 * Method to save the submitted ordering values for records via AJAX.
 	 *

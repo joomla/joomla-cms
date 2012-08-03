@@ -60,7 +60,7 @@ class ModulesViewModules extends JViewLegacy
 	{
 		$state	= $this->get('State');
 		$canDo	= ModulesHelper::getActions();
-		
+
 		// Get the toolbar object instance
 		$bar = JToolBar::getInstance('toolbar');
 
@@ -69,7 +69,7 @@ class ModulesViewModules extends JViewLegacy
 		if ($canDo->get('core.create')) {
 			$title = JText::_('JTOOLBAR_NEW');
 			$dhtml = "<button onClick=\"location.href='index.php?option=com_modules&amp;view=select'\" class=\"btn btn-primary\">
-						<i class=\"icon-plus icon-white\" title=\"$title\"></i> 
+						<i class=\"icon-plus icon-white\" title=\"$title\"></i>
 						$title</button>";
 			$bar->appendButton('Custom', $dhtml, 'new');
 		}
@@ -93,7 +93,7 @@ class ModulesViewModules extends JViewLegacy
 		} elseif ($canDo->get('core.edit.state')) {
 			JToolBarHelper::trash('modules.trash');
 		}
-		
+
 		// Add a batch button
 		if ($canDo->get('core.edit'))
 		{
@@ -109,7 +109,7 @@ class ModulesViewModules extends JViewLegacy
 		}
 		JToolBarHelper::help('JHELP_EXTENSIONS_MODULE_MANAGER');
 	}
-	
+
 	/**
 	 * Returns an array of fields the table can be sorted by
 	 *

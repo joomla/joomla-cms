@@ -92,7 +92,7 @@ class ContactControllerContacts extends JControllerAdmin
 
 		return $model;
 	}
-	
+
 	/**
 	 * Method to save the submitted ordering values for records via AJAX.
 	 *

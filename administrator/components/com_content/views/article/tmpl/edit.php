@@ -79,7 +79,7 @@ endif;
 			 	 <li><a href="#permissions" data-toggle="tab"><?php echo JText::_('COM_CONTENT_FIELDSET_RULES');?></a></li>
 			 	<?php endif ?>
 			</ul>
-			
+
 			<div class="tab-content">
 				<!-- Begin Tabs -->
 				<div class="tab-pane active" id="general">
@@ -89,8 +89,8 @@ endif;
 						</div>
 						<?php echo $this->form->getInput('articletext'); ?>
 					</fieldset>
-					<?php 
-						// The url and images fields only show if the configuration is set to allow them. This is for legacy reasons. 
+					<?php
+						// The url and images fields only show if the configuration is set to allow them. This is for legacy reasons.
 					?>
 					<?php if ($params['show_urls_images_backend']): ?>
 						<div class="row-fluid">
@@ -134,7 +134,7 @@ endif;
 						</div>
 					<?php endif; ?>
 				</div>
-				
+
 				<?php // Do not show the publishing options if the edit form is configured not to. ?>
 					<?php  if ($params['show_publishing_options'] || ( $params['show_publishing_options'] = '' && !empty($editoroptions)) ): ?>
 						<div class="tab-pane" id="publishing">
@@ -216,7 +216,7 @@ endif;
 											</div>
 										</div>
 									<?php endif; ?>
-					
+
 									<?php if ($this->item->version) : ?>
 										<div class="control-group">
 											<div class="control-label">
@@ -227,7 +227,7 @@ endif;
 											</div>
 										</div>
 									<?php endif; ?>
-					
+
 									<?php if ($this->item->hits) : ?>
 										<div class="control-group">
 											<div class="control-label">
@@ -245,18 +245,19 @@ endif;
 					<?php  $fieldSets = $this->form->getFieldsets('attribs'); ?>
 						<?php foreach ($fieldSets as $name => $fieldSet) : ?>
 							<div class="tab-pane" id="attrib-<?php echo $name;?>">
-							<?php // If the parameter says to show the article options or if the parameters have never been set, we will
-								  // show the article options. ?>
-				
-							<?php if ($params['show_article_options'] || (( $params['show_article_options'] == '' && !empty($editoroptions) ))): ?>
-								<?php // Go through all the fieldsets except the configuration and basic-limited, which are
-									  // handled separately below. ?>
-				
-								<?php if ($name != 'editorConfig' && $name != 'basic-limited') : ?>
-									<?php if (isset($fieldSet->description) && trim($fieldSet->description)) : ?>
-										<p class="tip"><?php echo $this->escape(JText::_($fieldSet->description));?></p>
-									<?php endif; ?>
-										<?php foreach ($this->form->getFieldset($name) as $field) : ?>
+							<?php
+								// If the parameter says to show the article options or if the parameters have never been set, we will
+								// show the article options.
+
+								if ($params['show_article_options'] || (( $params['show_article_options'] == '' && !empty($editoroptions) ))):
+									// Go through all the fieldsets except the configuration and basic-limited, which are
+									// handled separately below.
+
+									if ($name != 'editorConfig' && $name != 'basic-limited') : ?>
+										<?php if (isset($fieldSet->description) && trim($fieldSet->description)) : ?>
+											<p class="tip"><?php echo $this->escape(JText::_($fieldSet->description));?></p>
+										<?php endif;
+										foreach ($this->form->getFieldset($name) as $field) : ?>
 											<div class="control-group">
 												<div class="control-label">
 													<?php echo $field->label; ?>
@@ -265,20 +266,21 @@ endif;
 													<?php echo $field->input; ?>
 												</div>
 											</div>
-										<?php endforeach; ?>
-								<?php endif ?>
-								<?php // If we are not showing the options we need to use the hidden fields so the values are not lost.  ?>
-							<?php  elseif ($name == 'basic-limited'): ?>
-									<?php foreach ($this->form->getFieldset('basic-limited') as $field) : ?>
-										<?php  echo $field->input; ?>
-									<?php endforeach; ?>
-				
-							<?php endif; ?>
+										<?php endforeach;
+									endif;
+								// If we are not showing the options we need to use the hidden fields so the values are not lost.
+								elseif ($name == 'basic-limited'):
+									foreach ($this->form->getFieldset('basic-limited') as $field) :
+										echo $field->input;
+									endforeach;
+								endif;
+							?>
 							</div>
-						<?php endforeach; ?>
-					<?php // We need to make a separate space for the configuration
-					      // so that those fields always show to those wih permissions ?>
-					<?php if ( $this->canDo->get('core.admin')   ):  ?>
+						<?php endforeach;
+						// We need to make a separate space for the configuration
+						// so that those fields always show to those wih permissions
+
+					    if ($this->canDo->get('core.admin')):  ?>
 						<div class="tab-pane" id="editor">
 							<?php foreach ($this->form->getFieldset('editorConfig') as $field) : ?>
 								<div class="control-group">
@@ -292,13 +294,13 @@ endif;
 							<?php endforeach; ?>
 						</div>
 					<?php endif ?>
-					
+
 					<div class="tab-pane" id="metadata">
 						<fieldset>
 							<?php echo $this->loadTemplate('metadata'); ?>
 						</fieldset>
 					</div>
-				
+
 					<?php if ($this->canDo->get('core.admin')): ?>
 						<div class="tab-pane" id="permissions">
 							<fieldset>
@@ -326,7 +328,7 @@ endif;
 						<?php echo $this->form->getInput('state'); ?>
 					</div>
 				</div>
-		
+
 				<div class="control-group">
 					<div class="control-label">
 						<?php echo $this->form->getLabel('access'); ?>
