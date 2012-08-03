@@ -56,30 +56,30 @@ $sortFields = $this->getSortFields();
 				<hr />
 				<div class="filter-select hidden-phone">
 					<h4 class="page-header"><?php echo JText::_('JSEARCH_FILTER_LABEL');?></h4>
-					<label for="menutype" class="element-invisible"><?php echo JText::_('COM_CONTENT_FILTER_SEARCH_DESC');?></label>
+					<label for="menutype" class="element-invisible"><?php echo JText::_('JSEARCH_FILTER_LABEL');?></label>
 					<select name="menutype" id="menutype" class="span12 small" onchange="this.form.submit()">
 						<?php echo JHtml::_('select.options', JHtml::_('menu.menus'), 'value', 'text', $this->state->get('filter.menutype'));?>
 					</select>
 					<hr class="hr-condensed" />
-					<label for="filter_level" class="element-invisible"><?php echo JText::_('COM_CONTENT_FILTER_SEARCH_DESC');?></label>
+					<label for="filter_level" class="element-invisible"><?php echo JText::_('COM_MENUS_OPTION_SELECT_LEVEL');?></label>
 					<select name="filter_level" id="filter_level" class="span12 small" onchange="this.form.submit()">
 						<option value=""><?php echo JText::_('COM_MENUS_OPTION_SELECT_LEVEL');?></option>
 						<?php echo JHtml::_('select.options', $this->f_levels, 'value', 'text', $this->state->get('filter.level'));?>
 					</select>
 					<hr class="hr-condensed" />
-					<label for="filter_published" class="element-invisible"><?php echo JText::_('COM_CONTENT_FILTER_SEARCH_DESC');?></label>
+					<label for="filter_published" class="element-invisible"><?php echo JText::_('JOPTION_SELECT_PUBLISHED');?></label>
 			        <select name="filter_published" id="filter_published" class="span12 small" onchange="this.form.submit()">
 						<option value=""><?php echo JText::_('JOPTION_SELECT_PUBLISHED');?></option>
 						<?php echo JHtml::_('select.options', JHtml::_('jgrid.publishedOptions', array('archived' => false)), 'value', 'text', $this->state->get('filter.published'), true);?>
 					</select>
 					<hr class="hr-condensed" />
-					<label for="filter_access" class="element-invisible"><?php echo JText::_('COM_CONTENT_FILTER_SEARCH_DESC');?></label>
+					<label for="filter_access" class="element-invisible"><?php echo JText::_('JOPTION_SELECT_ACCESS');?></label>
 			        <select name="filter_access" id="filter_access" class="span12 small" onchange="this.form.submit()">
 						<option value=""><?php echo JText::_('JOPTION_SELECT_ACCESS');?></option>
 						<?php echo JHtml::_('select.options', JHtml::_('access.assetgroups'), 'value', 'text', $this->state->get('filter.access'));?>
 					</select>
 					<hr class="hr-condensed" />
-					<label for="filter_language" class="element-invisible"><?php echo JText::_('COM_CONTENT_FILTER_SEARCH_DESC');?></label>
+					<label for="filter_language" class="element-invisible"><?php echo JText::_('JOPTION_SELECT_LANGUAGE');?></label>
 					<select name="filter_language" id="filter_language" class="span12 small" onchange="this.form.submit()">
 						<option value=""><?php echo JText::_('JOPTION_SELECT_LANGUAGE');?></option>
 						<?php echo JHtml::_('select.options', JHtml::_('contentlanguage.existing', true, true), 'value', 'text', $this->state->get('filter.language'));?>
@@ -95,7 +95,7 @@ $sortFields = $this->getSortFields();
 					<label for="filter_search" class="element-invisible"><?php echo JText::_('COM_CONTENT_FILTER_SEARCH_DESC');?></label>
 					<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('COM_MENUS_ITEMS_SEARCH_FILTER'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" title="<?php echo JText::_('COM_MENUS_ITEMS_SEARCH_FILTER'); ?>" />
 				</div>
-				<div class="btn-group pull-left">
+				<div class="btn-group pull-left hidden-phone">
 					<button class="btn" rel="tooltip" type="submit" title="<?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?>"><i class="icon-search"></i></button>
 					<button class="btn" rel="tooltip" type="button" onclick="document.id('filter_search').value='';this.form.submit();" title="<?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?>"><i class="icon-remove"></i></button>
 				</div>
