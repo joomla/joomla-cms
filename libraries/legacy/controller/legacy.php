@@ -655,7 +655,7 @@ class JControllerLegacy extends JObject
 		if ($cachable && $viewType != 'feed' && $conf->get('caching') >= 1)
 		{
 			$option = $this->input->get('layout');
-			$cache = JFactory::getCache($option, 'view');
+			$cache = JFactory::getCache($option, 'option');
 
 			if (is_array($urlparams))
 			{
