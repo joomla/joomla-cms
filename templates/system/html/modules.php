@@ -51,7 +51,7 @@ function modChrome_html5($module, &$params, &$attribs)
 function modChrome_table($module, &$params, &$attribs)
 { ?>
 	<table cellpadding="0" cellspacing="0" class="moduletable<?php echo htmlspecialchars($params->get('moduleclass_sfx')); ?>">
-	<?php if ((bool)$module->showtitle) : ?>
+	<?php if ((bool) $module->showtitle) : ?>
 		<tr>
 			<th>
 				<?php echo $module->title; ?>
@@ -89,7 +89,7 @@ function modChrome_xhtml($module, &$params, &$attribs)
 {
 	if (!empty ($module->content)) : ?>
 		<div class="moduletable<?php echo htmlspecialchars($params->get('moduleclass_sfx')); ?>">
-		<?php if ((bool)$module->showtitle) : ?>
+		<?php if ((bool) $module->showtitle) : ?>
 			<h3><?php echo $module->title; ?></h3>
 		<?php endif; ?>
 			<?php echo $module->content; ?>
@@ -106,7 +106,7 @@ function modChrome_rounded($module, &$params, &$attribs)
 			<div>
 				<div>
 					<div>
-						<?php if ((bool)$module->showtitle) : ?>
+						<?php if ((bool) $module->showtitle) : ?>
 							<h3><?php echo $module->title; ?></h3>
 						<?php endif; ?>
 					<?php echo $module->content; ?>
