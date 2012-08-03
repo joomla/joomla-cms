@@ -2246,6 +2246,7 @@ a.jgrid:hover {	text-decoration: none;}
 #menu li ul {
 	visibility: hidden;
 	position: absolute;
+	z-index: 999;
 }
 
 #menu li li ul {
