@@ -25,29 +25,48 @@ $prev = $useftp ? 'ftp' : 'database';
 	<h3><?php echo JText::_('INSTL_SUMMARY'); ?></h3>
 	<hr class="hr-condensed" />
 
-	<div class="control-group" id="summary_email">
-		<div class="control-label">
-			<?php echo $this->form->getLabel('summary_email'); ?>
+	<div class="row-fluid">
+		<div class="span6">
+			<div class="control-group" id="summary_email">
+				<div class="control-label">
+					<?php echo $this->form->getLabel('summary_email'); ?>
+				</div>
+				<div class="controls">
+					<?php echo $this->form->getInput('summary_email'); ?>
+					<p class="help-block">
+						<?php echo JText::sprintf('INSTL_SUMMARY_EMAIL_DESC', '<span class="label">'.$this->options['admin_email'].'</span>'); ?>
+					</p>
+				</div>
+			</div>
+			<div class="control-group" id="email_passwords">
+				<div class="control-label">
+					<?php echo $this->form->getLabel('summary_email_passwords'); ?>
+				</div>
+				<div class="controls">
+					<?php echo $this->form->getInput('summary_email_passwords'); ?>
+					<p class="help-block">
+						<?php echo JText::_('INSTL_SUMMARY_EMAIL_PASSWORDS_DESC'); ?>
+					</p>
+				</div>
+			</div>
 		</div>
-		<div class="controls">
-			<?php echo $this->form->getInput('summary_email'); ?>
-			<p class="help-block">
-				<?php echo JText::sprintf('INSTL_SUMMARY_EMAIL_DESC', '<span class="label">'.$this->options['admin_email'].'</span>'); ?>
-			</p>
+		<div class="span6">
+			<div class="control-group">
+				<div class="control-label">
+					<?php echo $this->form->getLabel('summary_sampledata'); ?>
+				</div>
+				<div class="controls">
+					<?php echo $this->form->getInput('summary_sampledata'); ?>
+					<div class="help-block">
+						<?php echo $this->form->getInput('sample_file'); ?>
+					</div>
+					<p class="help-block">
+						<?php echo JText::_('INSTL_SITE_INSTALL_SAMPLE_DESC'); ?>
+					</p>
+				</div>
+			</div>
 		</div>
 	</div>
-	<div class="control-group" id="email_passwords">
-		<div class="control-label">
-			<?php echo $this->form->getLabel('summary_email_passwords'); ?>
-		</div>
-		<div class="controls">
-			<?php echo $this->form->getInput('summary_email_passwords'); ?>
-			<p class="help-block">
-				<?php echo JText::_('INSTL_SUMMARY_EMAIL_PASSWORDS_DESC'); ?>
-			</p>
-		</div>
-	</div>
-
 
 	<h3><?php echo JText::_('INSTL_SITE'); ?></h3>
 	<hr class="hr-condensed" />

@@ -37,20 +37,6 @@
 			field="admin_password"
 		/>
 
-		<field name="sample_file" type="sample" class="inputbox"
-			label="INSTL_SITE_SAMPLE_LABEL"
-		/>
-
-		<field name="db_type" type="hidden" />
-
-		<field name="site_sampledata" type="radio" id="site_sampledata" class="btn-group" default="0"
-			label="INSTL_SITE_INSTALL_SAMPLE_LABEL"
-			filter="integer"
-			>
-			<option value="0">JNO</option>
-			<option value="1">JYES</option>
-		</field>
-
 		<!-- Advanced Settings -->
 		<fieldset name="advanced">
 			<field name="site_metadesc" type="textarea" id="site_metadesc" class="text_area"

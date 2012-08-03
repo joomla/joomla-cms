@@ -111,20 +111,6 @@ defined('_JEXEC') or die;
 			</div>
 		</div>
 		<div class="span6">
-			<div class="control-group">
-				<div class="control-label">
-					<?php echo $this->form->getLabel('site_sampledata'); ?>
-				</div>
-				<div class="controls">
-					<?php echo $this->form->getInput('site_sampledata'); ?>
-					<div class="help-block">
-						<?php echo $this->form->getInput('sample_file'); ?>
-					</div>
-					<p class="help-block">
-						<?php echo JText::_('INSTL_SITE_INSTALL_SAMPLE_DESC'); ?>
-					</p>
-				</div>
-			</div>
 		</div>
 	</div>
 
