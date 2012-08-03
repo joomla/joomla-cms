@@ -1,8 +1,8 @@
 ==============================================================
-  Jokte! - Primera distribución Latinoamericana de Joomla!(R)
+  Jokte! - CMS desarrollado por latinomaericanos
 ==============================================================
 
-Jokte! es un sistema de Administración de contenidos creado por la comunidad latinoamericana juuntos.org, basado en Joomla!(R), completamente compatible con Joomla!(R), sus Actualizaciones y sus Extensiones.
+Jokte! es un sistema de Administración de contenidos creado por la comunidad latinoamericana juuntos.org, basado en Joomla!(R).
 
 Jokte! es 100% libre ya que su licencia es GPL y su marca es Copyleft.
 
