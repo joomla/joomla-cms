@@ -349,7 +349,7 @@ abstract class JString
 			{
 				$encoding = 'CP' . $m[1];
 			}
-			elseif (stristr($locale, 'UTF-8'))
+			elseif (stristr($locale, 'UTF-8') || stristr($locale, 'utf8'))
 			{
 				$encoding = 'UTF-8';
 			}
@@ -408,7 +408,7 @@ abstract class JString
 			{
 				$encoding = 'CP' . $m[1];
 			}
-			elseif (stristr($locale, 'UTF-8'))
+			elseif (stristr($locale, 'UTF-8') || stristr($locale, 'utf8'))
 			{
 				$encoding = 'UTF-8';
 			}
