@@ -31,6 +31,10 @@ var Installation = new Class({
 			return false;
 		}
 
+		if (form.task.value == 'setup.site') {
+			$('setlanguage').value = $$('html').getProperty('lang')[0];
+		}
+
 		var req = new Request.JSON({
 			method: 'post',
 			url: this.baseUrl,
