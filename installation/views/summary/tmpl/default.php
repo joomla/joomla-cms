@@ -38,7 +38,7 @@ $prev = $useftp ? 'ftp' : 'database';
 					</p>
 				</div>
 			</div>
-			<div class="control-group" id="email_passwords">
+			<div class="control-group" id="email_passwords" style="display:none;">
 				<div class="control-label">
 					<?php echo $this->form->getLabel('summary_email_passwords'); ?>
 				</div>
@@ -68,10 +68,10 @@ $prev = $useftp ? 'ftp' : 'database';
 		</div>
 	</div>
 
-	<h3><?php echo JText::_('INSTL_SITE'); ?></h3>
-	<hr class="hr-condensed" />
 	<div class="row-fluid">
 		<div class="span6">
+			<h3><?php echo JText::_('INSTL_SITE'); ?></h3>
+			<hr class="hr-condensed" />
 			<table class="table table-striped table-condensed">
 				<tbody>
 				<tr>
@@ -92,26 +92,6 @@ $prev = $useftp ? 'ftp' : 'database';
 					</td>
 				</tr>
 				<?php endif; ?>
-				<?php if($this->options['site_metakeys']) : ?>
-				<tr>
-					<td class="item">
-						<?php echo JText::_('INSTL_SITE_METAKEYS_LABEL'); ?>
-					</td>
-					<td>
-						<?php echo $this->options['site_metakeys']; ?>
-					</td>
-				</tr>
-				<?php endif; ?>
-				<tr>
-					<td class="item">
-						<?php echo JText::_('INSTL_SITE_INSTALL_SAMPLE_LABEL'); ?>
-					</td>
-					<td>
-						<span class="label label-<?php echo ($this->options['site_sampledata']) ? 'success' : 'important'; ?>">
-							<?php echo JText::_(($this->options['site_sampledata']) ? 'JYES' : 'JNO'); ?>
-						</span>
-					</td>
-				</tr>
 				<tr>
 					<td class="item">
 						<?php echo JText::_('INSTL_SITE_OFFLINE_LABEL'); ?>
@@ -129,8 +109,6 @@ $prev = $useftp ? 'ftp' : 'database';
 				</tr>
 				</tfoot>
 			</table>
-		</div>
-		<div class="span6">
 			<table class="table table-striped table-condensed">
 				<tbody>
 				<tr>
@@ -165,8 +143,6 @@ $prev = $useftp ? 'ftp' : 'database';
 				</tfoot>
 			</table>
 		</div>
-	</div>
-	<div class="row-fluid">
 		<div class="span6">
 			<h3><?php echo JText::_('INSTL_DATABASE'); ?></h3>
 			<hr class="hr-condensed" />
@@ -238,7 +214,9 @@ $prev = $useftp ? 'ftp' : 'database';
 				</tfoot>
 			</table>
 		</div>
-		<?php if($useftp) : ?>
+	</div>
+	<?php if($useftp) : ?>
+	<div class="row-fluid">
 		<div class="span6">
 			<h3><?php echo JText::_('INSTL_FTP'); ?></h3>
 			<hr class="hr-condensed" />
@@ -306,8 +284,8 @@ $prev = $useftp ? 'ftp' : 'database';
 				</tfoot>
 			</table>
 		</div>
-		<?php endif; ?>
 	</div>
+	<?php endif; ?>
 	<div class="row-fluid">
 		<div class="span6">
 			<h3><?php echo JText::_('INSTL_PRECHECK_TITLE'); ?></h3>
@@ -394,5 +372,6 @@ $prev = $useftp ? 'ftp' : 'database';
 		document.getElements('input[name=jform[summary_email]]').each(function(el){
 			el.addEvent('click', function(){Install.toggle('email_passwords', 'summary_email', 1);});
 		});
+		Install.toggle('email_passwords', 'summary_email', 1);
 	});
 </script>
