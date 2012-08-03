@@ -35,11 +35,11 @@ class BannersModelBanners extends JModelList
 	protected function getStoreId($id = '')
 	{
 		// Compile the store id.
-		$id	.= ':'.$this->getState('filter.search');
-		$id	.= ':'.$this->getState('filter.tag_search');
-		$id	.= ':'.$this->getState('filter.client_id');
-		$id	.= ':'.$this->getState('filter.category_id');
-		$id	.= ':'.$this->getState('filter.keywords');
+		$id	.= ':' . $this->getState('filter.search');
+		$id	.= ':' . $this->getState('filter.tag_search');
+		$id	.= ':' . $this->getState('filter.client_id');
+		$id	.= ':' . serialize($this->getState('filter.category_id'));
+		$id	.= ':' . serialize($this->getState('filter.keywords'));
 
 		return parent::getStoreId($id);
 	}
