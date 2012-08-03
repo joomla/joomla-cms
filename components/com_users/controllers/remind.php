@@ -27,7 +27,7 @@ class UsersControllerRemind extends UsersController
 	public function remind()
 	{
 		// Check the request token.
-		JRequest::checkToken('post') or jexit(JText::_('JINVALID_TOKEN'));
+		JSession::checkToken('post') or jexit(JText::_('JINVALID_TOKEN'));
 
 		$app	= JFactory::getApplication();
 		$model	= $this->getModel('Remind', 'UsersModel');

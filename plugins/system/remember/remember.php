@@ -4,7 +4,6 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
 /**
@@ -27,7 +26,6 @@ class plgSystemRemember extends JPlugin
 		$user = JFactory::getUser();
 		if ($user->get('guest'))
 		{
-			jimport('joomla.utilities.utility');
 			$hash = JApplication::getHash('JLOGIN_REMEMBER');
 
 			if ($str = JRequest::getString($hash, '', 'cookie', JREQUEST_ALLOWRAW | JREQUEST_NOTRIM))
@@ -36,9 +34,10 @@ class plgSystemRemember extends JPlugin
 
 				// Create the encryption key, apply extra hardening using the user agent string.
                 // Since we're decoding, no UA validity check is required.
-				$key = JApplication::getHash(@$_SERVER['HTTP_USER_AGENT']);
+				$privateKey = JApplication::getHash(@$_SERVER['HTTP_USER_AGENT']);
 
-				$crypt = new JSimpleCrypt($key);
+				$key = new JCryptKey('simple', $privateKey, $privateKey);
+				$crypt = new JCrypt(new JCryptCipherSimple, $key);
 				$str = $crypt->decrypt($str);
                 $cookieData = @unserialize($str);
                 // Deserialized cookie could be any object structure, so make sure the

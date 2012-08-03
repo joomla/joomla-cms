@@ -37,7 +37,7 @@ class JFormFieldGroup extends JFormField
 		$options = array();
 
 		foreach ($this->element->children() as $option) {
-			$options[] = JHtml::_('select.option', (string)$option->attributes()->value, JText::_(trim($option->data())));
+			$options[] = JHtml::_('select.option', (string)$option->attributes()->value, JText::_(trim((string) $option)));
 		}
 
 		$dbo = JFactory::getDbo();

@@ -535,6 +535,11 @@
 			</fieldset>
 
 	</fields>
+	
+	<field name="xreference" type="text"
+		label="JFIELD_KEY_REFERENCE_LABEL"
+		description="JFIELD_KEY_REFERENCE_DESC" 
+		class="inputbox" size="20" />
 
 	<fields name="images">
 			<field

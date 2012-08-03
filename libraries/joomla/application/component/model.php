@@ -27,15 +27,6 @@ abstract class JModel extends JObject
 	 * @var    boolean
 	 * @since  11.1
 	 */
-	protected $stateSet = null;
-
-	/**
-	 * Indicates if the internal state has been set
-	 *
-	 * @var    boolean
-	 * @since  11.1
-	 * @deprecated use $stateSet declare as private
-	 */
 	protected $__state_set = null;
 
 	/**
@@ -43,15 +34,6 @@ abstract class JModel extends JObject
 	 *
 	 * @var    object
 	 * @since  11.1
-	 */
-	protected $db;
-
-	/**
-	 * Database Connector
-	 *
-	 * @var    object
-	 * @since  11.1
-	 * @deprecated use $db declare as private
 	 */
 	protected $_db;
 
@@ -195,10 +177,10 @@ abstract class JModel extends JObject
 		if (!class_exists($modelClass))
 		{
 			jimport('joomla.filesystem.path');
-			$path = JPath::find(JModel::addIncludePath(null, $prefix), JModel::_createFileName('model', array('name' => $type)));
+			$path = JPath::find(self::addIncludePath(null, $prefix), self::_createFileName('model', array('name' => $type)));
 			if (!$path)
 			{
-				$path = JPath::find(JModel::addIncludePath(null, ''), JModel::_createFileName('model', array('name' => $type)));
+				$path = JPath::find(self::addIncludePath(null, ''), self::_createFileName('model', array('name' => $type)));
 			}
 			if ($path)
 			{
@@ -333,7 +315,7 @@ abstract class JModel extends JObject
 	protected function _getListCount($query)
 	{
 		$this->_db->setQuery($query);
-		$this->_db->query();
+		$this->_db->execute();
 
 		return $this->_db->getNumRows();
 	}
@@ -366,9 +348,9 @@ abstract class JModel extends JObject
 	}
 
 	/**
-	 * Method to get the database connector object
+	 * Method to get the database driver object
 	 *
-	 * @return  JDatabase  JDatabase connector object
+	 * @return  JDatabase
 	 */
 	public function getDbo()
 	{
@@ -469,9 +451,9 @@ abstract class JModel extends JObject
 	}
 
 	/**
-	 * Method to set the database connector object
+	 * Method to set the database driver object
 	 *
-	 * @param   object  &$db  A JDatabase based object
+	 * @param   JDatabase  &$db  A JDatabase based object
 	 *
 	 * @return  void
 	 *

@@ -42,7 +42,7 @@
 			<option
 				value="2">COM_USERS_CONFIG_FIELD_USERACTIVATION_OPTION_ADMINACTIVATION</option>
 		</field>
-		
+
 		<field
 			name="mail_to_admin"
 			type="radio"
@@ -91,6 +91,37 @@
 			<option
 				value="1">JSHOW</option>
 		</field>
+		<field
+			name="change_login_name"
+			type="radio"
+			default="0"
+			label="COM_USERS_CONFIG_FIELD_CHANGEUSERNAME_LABEL"
+			description="COM_USERS_CONFIG_FIELD_CHANGEUSERNAME_DESC">
+			<option
+				value="0">JNO</option>
+			<option
+				value="1">JYES</option>
+		</field>
+		<field
+			name="reset_count"
+			type="integer"
+			label="COM_USERS_CONFIG_FIELD_FRONTEND_RESET_COUNT_LABEL"
+			description="COM_USERS_CONFIG_FIELD_FRONTEND_RESET_COUNT_DESC"
+			first="0"
+			last="20"
+			step="1"
+			default="10">
+			</field>
+		<field
+			name="reset_time"
+			type="integer"
+			label="COM_USERS_CONFIG_FIELD_FRONTEND_RESET_TIME_LABEL"
+			description="COM_USERS_CONFIG_FIELD_FRONTEND_RESET_TIME_DESC"
+			first="1"
+			last="24"
+			step="1"
+			default="1">
+			</field>
 	</fieldset>
 
  	<fieldset
@@ -129,31 +160,6 @@
 			filter="rules"
 			validate="rules"
 			component="com_users"
-			section="component">
-			<action
-				name="core.admin"
-				title="JACTION_ADMIN"
-				description="JACTION_ADMIN_COMPONENT_DESC" />
-			<action
-				name="core.manage"
-				title="JACTION_MANAGE"
-				description="JACTION_MANAGE_COMPONENT_DESC" />
-			<action
-				name="core.create"
-				title="JACTION_CREATE"
-				description="JACTION_CREATE_COMPONENT_DESC" />
-			<action
-				name="core.delete"
-				title="JACTION_DELETE"
-				description="JACTION_DELETE_COMPONENT_DESC" />
-			<action
-				name="core.edit"
-				title="JACTION_EDIT"
-				description="JACTION_EDIT_COMPONENT_DESC" />
-			<action
-				name="core.edit.state"
-				title="JACTION_EDITSTATE"
-				description="JACTION_EDITSTATE_COMPONENT_DESC" />
-		</field>
+			section="component" />
 	</fieldset>
 </config>

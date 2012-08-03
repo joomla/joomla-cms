@@ -48,6 +48,7 @@
 				label="COM_WRAPPER_FIELD_HEIGHT_LABEL"
 				size="5"
 			/>
+
 		</fieldset>
 
 		<!-- Advanced options. -->
@@ -70,6 +71,16 @@
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
+
+                        <field name="frameborder" type="radio"
+                                default="1"
+                                description="COM_WRAPPER_FIELD_FRAME_DESC"
+                                label="COM_WRAPPER_FIELD_FRAME_LABEL"
+                        >
+                                <option value="0">JNO</option>
+                                <option value="1">JYES</option>
+                        </field>
+
 		</fieldset>
 	</fields>
 </metadata>

@@ -27,7 +27,7 @@ class UsersControllerReset extends UsersController
 	public function request()
 	{
 		// Check the request token.
-		JRequest::checkToken('post') or jexit(JText::_('JINVALID_TOKEN'));
+		JSession::checkToken('post') or jexit(JText::_('JINVALID_TOKEN'));
 
 		$app	= JFactory::getApplication();
 		$model	= $this->getModel('Reset', 'UsersModel');
@@ -72,7 +72,7 @@ class UsersControllerReset extends UsersController
 			$route	= 'index.php?option=com_users&view=reset&layout=confirm'.$itemid;
 
 			// Proceed to step two.
-			$this->setRedirect(JRoute::_($route, false), $message);
+			$this->setRedirect(JRoute::_($route, false));
 			return true;
 		}
 	}
@@ -86,7 +86,7 @@ class UsersControllerReset extends UsersController
 	function confirm()
 	{
 		// Check the request token.
-		JRequest::checkToken('request') or jexit(JText::_('JINVALID_TOKEN'));
+		JSession::checkToken('request') or jexit(JText::_('JINVALID_TOKEN'));
 
 		$app	= JFactory::getApplication();
 		$model	= $this->getModel('Reset', 'UsersModel');
@@ -145,7 +145,7 @@ class UsersControllerReset extends UsersController
 	public function complete()
 	{
 		// Check for request forgeries
-		JRequest::checkToken('post') or jexit(JText::_('JINVALID_TOKEN'));
+		JSession::checkToken('post') or jexit(JText::_('JINVALID_TOKEN'));
 
 		$app	= JFactory::getApplication();
 		$model	= $this->getModel('Reset', 'UsersModel');		$data	= JRequest::getVar('jform', array(), 'post', 'array');

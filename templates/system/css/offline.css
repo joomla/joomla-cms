@@ -1,61 +1,118 @@
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
- */
+ * @package     Jokte.Site
+ * @subpackage	jokteantu
+ * @author 	Equipo de desarrollo juuntos.
+ * @copyright   Copyleft (Comparte igual) Open Jokte.
+ * @license     GNU General Public License version 3 or later; see LICENSE.txt
+ * This version may have been modified pursuant to the GNU General Public License, 
+ * and as distributed it includes or is derivative of works licensed under 
+ * the GNU General Public License or other free or open source software licenses.
+*/
 
-body {
-	margin: 0; padding: 0;
-	font-family: Arial, Helvetica, Sans Serif; font-size: 78%;
-	color: #333333;
-	text-align: center;
+/*******
+ * ****OFFLINE*/
+ 
+ 
+ body{
+ font-family: FreeSans,Verdana, Geneva,Helvetica,Arial,Sans-Serif;
+    font-size: 14px;    
+       color: #333;
+    padding: 0px;
+    text-align: justify;}
+    
+    #margen.outline{
+box-shadow: -1px -2px 3px #FFFFFF, 3px 5px 10px #CCCCCC, 6px 0 25px #EEEEEE;
+  -moz-box-shadow: -1px -2px 3px #FFFFFF, 3px 5px 10px #CCCCCC, 6px 0 25px #EEEEEE;
+  -webkit-box-shadow: -1px -2px 3px #FFFFFF, 3px 5px 10px #CCCCCC, 6px 0 25px #EEEEEE;
+  background:#fff;
+  padding:20px;
+
+width:40%;
+margin: 5px 25px 15px;}
+
+#bodyBg {
+    background: url("../images/jokte-logo.png") no-repeat scroll 85% 70% transparent;
+    width: 450px;
+    margin: 15px auto 15px auto;
+    overflow: hidden;
+    padding: 15px;
+  box-shadow:-1px -2px 3px #FFFFFF, 3px 5px 10px #CCCCCC, 6px 0 25px #EEEEEE;
+  -moz-box-shadow:-1px -2px 3px #FFFFFF, 3px 5px 10px #CCCCCC, 6px 0 25px #EEEEEE;
+  -webkit-box-shadow:-1px -2px 3px #FFFFFF, 3px 5px 10px #CCCCCC, 6px 0 25px #EEEEEE;
 }
-
-img  {
-	border: 0 none;
-	margin-left: auto;
-	margin-right: auto;
-}
-
-/* -- id styles ------------------------------------- */
-
-#frame {
-	margin: 20px auto;
-	width: 400px;
-	padding: 20px;
-}
-
-#frame form {
-	text-align: left;
+#mensaje {
+    text-align: center;
 }
 
 /* -- class styles ---------------------------------- */
 
 .outline {
-  border: 1px solid #cccccc;
+ 
   background: #ffffff;
-  padding: 2px;
+  padding: 2px;   
 }
 
 /* -- form styles ----------------------------------- */
 
-form    { margin: auto; }
-form p  { margin: 0; padding: 0; }
-form fieldset { border: 0 none; margin: 0em; padding: 0.2em;}
-label         { display: block; float: left; }
-input 		  { padding: 1px; }
-input.button  { width: auto; height: 1.8em; cursor: pointer; }
+.outline  form    { margin: auto; }
+.outline  form p  { margin: 0; padding: 0; }
+.outline  form fieldset { border: 0 none; margin: 0em; padding: 0.2em;}
+.outline  label         { display: block; float: left; }
 
-label   { margin: 5px 0px 2px 0px; width: 10em;}
-form p  { padding: 0.2em 0 0.2em 0; }
-form br  { display: none; }
-input    { border: 1px solid #0E67A1; }
-input.button 		 { background-color: white; }
-input.button:hover { border-color:  #FC902E; }
+.outline  input.button  { width: auto; height: 1.8em; cursor: pointer; }
+
+.outline label   { margin: 5px 0px 2px 0px; width: 10em;}
+.outline form p  { padding: 0.2em 0 0.2em 0; }
+.outline form br  { display: none; }
+.outline input    {border: none;background: #ddd;border: 1px solid #eee;padding:1px; max-width:80%; }
+.outline input.button 		 { background-color: #ddd; }
+.outline input.button:hover { border-color:  #666;background:#333;color:#fff; }
+
+.outline input:hover{background:#fff;border:1px solid #ccc;}
+.outline input:focus{background:#fff;border:1px solid #ccc;}
 
 
 
-#frmlogin	      { margin: 0 10px 0 10px;  }
-#frmlogin fieldset.button { text-align: right; }
+
+.joktetop{
+text-align:center;
+
+}
+.joktetop2{
+line-height:1px;
+height:1px;
+background:#888888;
+}
+
+#remember {
+    margin-top: 7px;
+}
+
+.joktetop img{padding-top:30px;}
+
+.joktepie{
+display:block; 
+bottom:0px; 
+height:30px;
+width:96%; 
+padding:10px; 
+text-align:center; 
+font-weight:bold; 
+color:#fff; 
+background:#333;
+}
+
+.joktepie a:link,
+.joktepie a:visited,
+.joktepie a:active{
+text-decoration: underline;
+color:#FAFAFA;
+}
+
+.joktepie a:hover{
+color:#ccc;
+}
+
 
 
 

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE install SYSTEM "http://dev.joomla.org/xml/1.5/module-install.dtd">
+<install type="module" version="1.0" client="site">
+	<name>JOKTE! Anuncio </name>
+	<author>Juuntos.org</author>
+	<creationDate>Marzo 2012</creationDate>
+	<copyright>Copyleft 2012. El único derecho reservado es el derecho a ejercer nuestra libertad.</copyright>
+	<license>GPL</license>
+	<authorEmail>info@juuntos.org</authorEmail>
+	<authorUrl>www.juuntos.org</authorUrl>
+	<version>1.0</version>
+	<description>Muestra un pequeño banner y enlace a JOKTE! CMS</description>
+	<files>
+		<filename module="mod_mjokte">mod_mjokte.php</filename>
+		<filename>index.html</filename>
+		<filename>helper.php</filename>
+		<filename>jokte.gif</filename>
+		<folder>tmpl</folder>
+	</files>
+	<params>
+		<param name="moduleclass_sfx" type="text" default="" label="Module Class Suffix" description="JOKTE! CMS 100% Libre. Imagen de 100x50px." />
+	</params>
+</install>

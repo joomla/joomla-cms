@@ -148,6 +148,7 @@ class JAdministrator extends JApplication
 
 			$document->setTitle($this->getCfg('sitename'). ' - ' .JText::_('JADMINISTRATION'));
 			$document->setDescription($this->getCfg('MetaDesc'));
+			$document->setGenerator('Jokte! - Open Source Content Management');
 
 			$contents = JComponentHelper::renderComponent($component);
 			$document->setBuffer($contents, 'component');
@@ -329,7 +330,7 @@ class JAdministrator extends JApplication
 			. ' AND user_id_to = ' . (int) $userid
 			;
 			$db->setQuery($query);
-			$db->query();
+			$db->execute();
 		}
 	}
 }

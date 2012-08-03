@@ -6,11 +6,10 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
 require_once JPATH_SITE . '/components/com_weblinks/helpers/route.php';
-JModel::addIncludePath(JPATH_SITE . '/components/com_weblinks/models', 'WeblinksModel');
+JModelLegacy::addIncludePath(JPATH_SITE . '/components/com_weblinks/models', 'WeblinksModel');
 
 class modWeblinksHelper
 {
@@ -18,7 +17,7 @@ class modWeblinksHelper
 	{
 
 		// Get an instance of the generic articles model
-		$model = JModel::getInstance('Category', 'WeblinksModel', array('ignore_request' => true));
+		$model = JModelLegacy::getInstance('Category', 'WeblinksModel', array('ignore_request' => true));
 
 		// Set application parameters in model
 		$app = JFactory::getApplication();
@@ -63,7 +62,7 @@ class modWeblinksHelper
 		$c_id = $query->castAsChar('c.id');
 		$case_when2 .= $query->concatenate(array($c_id, 'c.alias'), ':');
 		$case_when2 .= ' ELSE ';
-		$case_when2 .= $c_id.' END as slug';
+		$case_when2 .= $c_id.' END as catslug';
 
 		$model->setState('list.select', 'a.*, c.published AS c_published,'.$case_when1.','.$case_when2.','.
 		'DATE_FORMAT(a.date, "%Y-%m-%d") AS created');

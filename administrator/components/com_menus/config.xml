@@ -1,6 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
 	<fieldset
+		name="page-options"
+		label="COM_MENUS_PAGE_OPTIONS_LABEL"
+		>
+
+		<field
+			name="page_title"
+			type="text"
+			label="COM_MENUS_ITEM_FIELD_PAGE_TITLE_LABEL"
+			description="COM_MENUS_ITEM_FIELD_PAGE_TITLE_DESC"
+			/>
+		<field
+			name="show_page_heading"
+			type="radio"
+			label="COM_MENUS_ITEM_FIELD_SHOW_PAGE_HEADING_LABEL"
+			description="COM_MENUS_ITEM_FIELD_SHOW_PAGE_HEADING_DESC"
+			default="0"
+			filter="integer"
+			>
+			<option value="0" class="no">JNO</option>
+			<option value="1" class="yes">JYES</option>
+		</field>
+		<field
+			name="page_heading"
+			type="text"
+			label="COM_MENUS_ITEM_FIELD_PAGE_HEADING_LABEL"
+			description="COM_MENUS_ITEM_FIELD_PAGE_HEADING_DESC"
+			/>
+		<field
+			name="pageclass_sfx"
+			type="text"
+			label="COM_MENUS_ITEM_FIELD_PAGE_CLASS_LABEL"
+			description="COM_MENUS_ITEM_FIELD_PAGE_CLASS_DESC"
+			/>
+	</fieldset>
+
+	<fieldset
 		name="permissions"
 		label="JCONFIG_PERMISSIONS_LABEL"
 		description="JCONFIG_PERMISSIONS_DESC"
@@ -13,31 +49,6 @@
 			filter="rules"
 			validate="rules"
 			component="com_menus"
-			section="component">
-			<action
-				name="core.admin"
-				title="JACTION_ADMIN"
-				description="JACTION_ADMIN_COMPONENT_DESC" />
-			<action
-				name="core.manage"
-				title="JACTION_MANAGE"
-				description="JACTION_MANAGE_COMPONENT_DESC" />
-			<action
-				name="core.create"
-				title="JACTION_CREATE"
-				description="JACTION_CREATE_COMPONENT_DESC" />
-			<action
-				name="core.delete"
-				title="JACTION_DELETE"
-				description="JACTION_DELETE_COMPONENT_DESC" />
-			<action
-				name="core.edit"
-				title="JACTION_EDIT"
-				description="JACTION_EDIT_COMPONENT_DESC" />
-			<action
-				name="core.edit.state"
-				title="JACTION_EDITSTATE"
-				description="JACTION_EDITSTATE_COMPONENT_DESC" />
-		</field>
+			section="component" />
 	</fieldset>
 </config>

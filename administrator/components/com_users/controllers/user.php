@@ -65,7 +65,7 @@ class UsersControllerUser extends JControllerForm
 	 */
 	public function batch($model = null)
 	{
-		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Set the model
 		$model = $this->getModel('User', '', array());

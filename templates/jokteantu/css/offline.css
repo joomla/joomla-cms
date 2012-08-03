@@ -1,0 +1,138 @@
+/**
+ * @version		$Id: offline.css 21331 2011-05-11 04:28:32Z eddieajau $
+ * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+body {
+	margin: 0; padding: 0;
+	font-family: Arial, Helvetica, Sans Serif; font-size: 78%;
+	color: #333333;
+	background: #FAFAFA;
+	text-align: center;
+}
+
+img  {
+	border: 0 none;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+/* -- id styles ------------------------------------- */
+
+#frame {
+	margin: 40px auto;
+	width: 400px;
+	padding: 20px;
+	-moz-border-radius: 18px;
+	-webkit-border-radius: 18px;
+	border-radius: 18px;
+	/*IE 7 AND 8 DO NOT SUPPORT BORDER RADIUS*/
+	-moz-box-shadow: 0px 0px 20px #000000;
+	-webkit-box-shadow: 0px 0px 20px #000000;
+	box-shadow: 0px 0px 20px #000000;
+	/*IE 7 AND 8 DO NOT SUPPORT BLUR PROPERTY OF SHADOWS*/
+	filter: progid: DXImageTransform.Microsoft.gradient(startColorstr = '#ffffff', endColorstr = '#e8e5dc');
+	/*INNER ELEMENTS MUST NOT BREAK THIS ELEMENTS BOUNDARIES*/
+	/*Element must have a height (not auto)*/
+	/*All filters must be placed together*/
+	-ms-filter: "progid: DXImageTransform.Microsoft.gradient(startColorstr = '#ffffff', endColorstr = '#e8e5dc')";
+	/*Element must have a height (not auto)*/
+	/*All filters must be placed together*/
+	background-image: -moz-linear-gradient(top, #ffffff, #e8e5dc);
+	background-image: -ms-linear-gradient(top, #ffffff, #e8e5dc);
+	background-image: -o-linear-gradient(top, #ffffff, #e8e5dc);
+	background-image: -webkit-gradient(linear, center top, center bottom, from(#ffffff), to(#e8e5dc));
+	background-image: -webkit-linear-gradient(top, #ffffff, #e8e5dc);
+	background-image: linear-gradient(top, #ffffff, #e8e5dc);
+	-moz-background-clip: padding;
+	-webkit-background-clip: padding-box;
+	background-clip: padding-box;
+	/*Use "background-clip: padding-box" when using rounded corners to avoid the gradient bleeding through the corners*/
+	/*--IE9 WILL PLACE THE FILTER ON TOP OF THE ROUNDED CORNERS--*/
+}
+
+#frame form {
+	text-align: left;
+}
+
+/* -- class styles ---------------------------------- */
+
+.outline {
+  border: 1px solid #cccccc;
+  background: #ffffff;
+  padding: 2px;   
+}
+
+/* -- form styles ----------------------------------- */
+
+form    { margin: auto; }
+form p  { margin: 0; padding: 0; }
+form fieldset { border: 0 none; margin: 0em; padding: 0.2em;}
+label         { display: block; float: left; }
+input 		  { padding: 1px; }
+input.button  { width: auto; height: 1.8em; cursor: pointer; }
+
+label   { margin: 5px 0px 2px 0px; width: 10em;}
+form p  { padding: 0.2em 0 0.2em 0; }
+form br  { display: none; }
+input    { border: 1px solid #0E67A1; }
+input.button 		 { background-color: white; }
+input.button:hover { border-color:  #FC902E; }
+
+input:hover{background:#FFFFAA;border:1px solid red;}
+input:focus{background:#FFFFAA;border:1px solid red;}
+
+
+#frmlogin	      { margin: 0 10px 0 10px;  }
+#frmlogin fieldset.button { text-align: right; }
+
+.joktetop{
+height: 210px;
+background:#ececec url(../images/gentelatam.png) center no-repeat;
+border-bottom:1px solid #727272;
+}
+.joktetop2{
+line-height:1px;
+height:1px;
+background:#888888;
+}
+
+.joktetop3{
+line-height:1px;
+height:1px;
+background:#A0A0A0;
+}
+
+.joktetop4{
+line-height:1px;
+height:1px;
+background:#B8B8B8;
+}
+
+.joktetop img{padding-top:30px;}
+
+.joktepie{
+display:block; 
+bottom:0px; 
+height:30px;
+width:100%; 
+position:fixed;  
+padding:10px; 
+text-align:center; 
+font-weight:bold; 
+color:#fff; 
+background:#333;
+}
+
+.joktepie a:link,
+.joktepie a:visited,
+.joktepie a:active{
+text-decoration:none;
+color:#FAFAFA;
+}
+
+.joktepie a:hover{
+color:#ccc;
+}
+

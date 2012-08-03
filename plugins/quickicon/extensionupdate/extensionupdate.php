@@ -50,9 +50,9 @@ class plgQuickiconExtensionupdate extends JPlugin
 		$ajax_url = JURI::base().'index.php?option=com_installer&view=update&task=update.ajax';
 		$script = "var plg_quickicon_extensionupdate_ajax_url = '$ajax_url';\n";
 		$script .= 'var plg_quickicon_extensionupdate_text = {"UPTODATE" : "'.
-			JText::_('PLG_QUICKICON_EXTENSIONUPDATE_UPTODATE').'", "UPDATEFOUND": "'.
-			JText::_('PLG_QUICKICON_EXTENSIONUPDATE_UPDATEFOUND').'", "ERROR": "'.
-			JText::_('PLG_QUICKICON_EXTENSIONUPDATE_ERROR')."\"};\n";
+			JText::_('PLG_QUICKICON_EXTENSIONUPDATE_UPTODATE', true).'", "UPDATEFOUND": "'.
+			JText::_('PLG_QUICKICON_EXTENSIONUPDATE_UPDATEFOUND', true).'", "ERROR": "'.
+			JText::_('PLG_QUICKICON_EXTENSIONUPDATE_ERROR', true)."\"};\n";
 		$document = JFactory::getDocument();
 		$document->addScriptDeclaration($script);
 		$document->addScript(JURI::base().'../media/plg_quickicon_extensionupdate/extensionupdatecheck.js');

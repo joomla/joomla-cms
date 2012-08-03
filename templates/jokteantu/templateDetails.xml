@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE install PUBLIC "-//Jokte! //DTD plantilla //es-LA" "http://www.jokte.org/install/template-install.dtd">
+<extension version="2.5" type="template" client="site" method="upgrade">
+	<name>jokteantu</name>
+	<creationDate>16 Enero 2012</creationDate>
+	<author>Equipo de desarrollo Jokte</author>
+	<authorEmail>info@jokte.org</authorEmail>
+	<authorUrl>http://www.jokte.org</authorUrl>
+	<copyright>CopyLeft 2012 - 2014 Jokte, todos los derechos compartidos.</copyright>
+	<license>GNU General Public License version 3 or later; see LICENSE.txt</license>
+	<version>1.0.0</version>
+	<description>TPL_JOKTE_XML_DESCRIPTION</description>
+	<files>
+		<folder>asset</folder>
+		<folder>css</folder>
+		<folder>elements</folder>
+		<folder>fonts</folder>
+		<folder>html</folder>
+		<folder>images</folder>
+		<folder>javascript</folder>		
+		<folder>language</folder>
+		<filename>index.html</filename>
+		<filename>index.php</filename>
+		<filename>templateDetails.xml</filename>
+		<filename>template_preview.png</filename>
+		<filename>template_thumbnail.png</filename>
+		<filename>favicon.ico</filename>
+		<filename>error.php</filename>
+	</files>
+	<positions>
+		<position>user1</position>
+		<position>socialnet</position>
+		<position>banner1</position>
+		<position>banner2</position>
+		<position>topmenu</position>
+		<position>manager</position>
+		<position>slide</position>
+		<position>user2</position>
+		<position>user3</position>
+		<position>user4</position>
+		<position>breadcrumb</position>
+		<position>sobrecontent</position>
+		<position>bajocontent</position>
+		<position>lefttop</position>
+		<position>insetleft</position>
+		<position>outsetleft</position>
+		<position>leftbottom</position>		
+		<position>righttop</position>
+		<position>inset</position>
+		<position>outset</position>
+		<position>rightbottom</position>
+		<position>user5</position>
+		<position>user6</position>
+		<position>user7</position>
+		<position>footmenu</position>
+		<position>foot</position>
+		<position>debug</position>
+	</positions>
+	<!-- 	For core templates, we also install/uninstall the language files in the core language folders.
+	-->
+	<languages folder="language">
+		<language tag="es-LA">es-LA/es-LA.tpl_jokteantu.ini</language>
+		<language tag="es-LA">es-LA/es-LA.tpl_jokteantu.sys.ini</language>
+		<language tag="override">languages/overrides/es-LA.com_content.override.ini
+		</language>
+	</languages>
+	<config>
+		<fields name="params">
+			
+			<fieldset name="basic" addfieldpath="/templates/jokteantu/elements">					
+				<field name="a-logomisc" type="separators" class="fulltext" fielName="gray" value="ABOUT_LOGOMISC_DESC" default="ABOUT_LOGOMISC" />				
+				
+				<field name="logo" type="media"
+					label="TPL_JOKTEANTU_LOGO_LABEL"
+					description="TPL_JOKTEANTU_LOGO_DESC"
+					directory="stories" 
+				/>
+				<field name="sitename" type="text" size="50"
+					label="TPL_JOKTEANTU_SITENAME"
+					description="TPL_JOKTEANTU_SITENAME_DESC"
+				/>
+				<field name="siteslogan" type="text" size="50"
+					label="TPL_JOKTEANTU_SITESLOGAN"
+					description="TPL_JOKTEANTU_SITESLOGAN_DESC"
+				/>
+				<field name="typeslogan" type="radio"
+					label="TPL_JOKTENANTU_SLOGANTYPE"
+					descripcion="TPL_JOKTENANTU_SLOGANTYPE_DESC">
+						<option value="0">TPL_INTOOLTIP</option>
+						<option value="1">TPL_INSMALLTEXT</option>
+				</field>
+				
+				<field name="a-body" type="separators" class="fulltext" fielName="gray" value="ABOUT_BODYMENU_DESC" default="ABOUT_BODYMENU" />			
+				<field name="body"  type="text" default="900"
+					label="TPL_JOKTEANTU_BODYBG_ANCHO_LABEL"
+					description="TPL_JOKTEANTU_BODYBG_ANCHO_DESC"
+					filter="integer" 
+				/>
+
+				<field name="typobody"  type="list" default="Imprima"
+					label="TPL_JOKTEANTU_TYPO_BODY"
+					description="TPL_JOKTEANTU_TYPO_BODY_DESC">
+						<option value="Imprima">Imprima</option>
+						<option value="no-google">No Google Font</option>	
+						<option value="Acme">Acme</option>
+						<option value="Karla">Karla</option>
+				</field>
+				<field name="typoespecial"  type="list" default="Oswald"
+					label="TPL_JOKTEANTU_TYPO_ESPECIAL"
+					description="TPL_JOKTEANTU_TYPO_ESPECIAL_DESC">
+						<option value="Oswald">Oswald</option>
+						<option value="no-google">No Google font</option>	
+						<option value="Acme">Acme</option>
+						<option value="Karla">Karla</option>
+						<option value="Almendra">Almendra</option>
+				</field>
+			</fieldset>
+			
+			<!-- Skins CSS -->
+			<fieldset name="SKINS">
+				<field name="a-skins" type="separators" class="fulltext" fielName="gray" value="ABOUT_SKINS_DESC" default="ABOUT_SKINS" />
+				<field name="skincss" type="skins" 
+					directory="templates/jokteantu/css/skins/" 
+					label="TPL_JOKTEANTU_SKINS" 
+					description="TPL_JOKTEANTU_SKINS_DESC" 
+				/>
+				
+				<field name="errorskin" type="eskins" 
+					directory="templates/jokteantu/css/skins/" 
+					label="TPL_JOKTEANTU_ERROR_SKINS" 
+					description="TPL_JOKTEANTU_ERROR_SKINS_DESC" 
+				/>
+			</fieldset>
+				
+			<!-- Tamaño de las posiciones -->
+			<fieldset name="SIZES">
+				<field name="a-sizes" type="separators" class="fulltext" fielName="gray" value="ABOUT_SIZES_DESC" default="ABOUT_SIZES" />
+			
+				<field name="user1"  type="text" default="25"
+					label="TPL_JOKTEANTU_USER1_ANCHO_LABEL"
+					description="TPL_JOKTEANTU_USER1_ANCHO_DESC"
+				/>
+				
+				<field name="banners" type="modules" default="50|50" labels="Banner 1|Banner 2" items="2" size="2" class="serialize_multiple" 
+					label="JOKTEANTU_BANNERS"  
+					description="JOKTEANTU_BANNERS_DESC" />			
+				
+				<field name="userstop" type="modules" default="33|33|33" labels="User 2|User 3|User 4" items="3" size="2" class="serialize_multiple" 
+					label="JOKTEANTU_MODULOS24"  
+					description="JOKTEANTU_MODULOS24_DESC" />
+				
+				<field name="usersbottom" type="modules" default="33|33|33" labels="User 5|User 6|User 7" items="3" size="2" class="serialize_multiple"
+					label="JOKTEANTU_MODULOS57"  
+					description="JOKTEANTU_MODULOS57_DESC" />
+								
+				<field name="left"  type="text" default="20"
+					label="TPL_JOKTEANTU_IZQ_ANCHO_LABEL"
+					description="TPL_JOKTEANTU_IZQ_ANCHO_DESC"
+				/>
+				
+				<field name="content"  type="text" default="55"
+					label="TPL_JOKTEANTU_CONT_ANCHO_LABEL"
+					description="TPL_JOKTEANTU_CONT_ANCHO_DESC"
+				/>
+				
+				<field name="right"  type="text" default="20"
+					label="TPL_JOKTEANTU_DER_ANCHO_LABEL"
+					description="TPL_JOKTEANTU_DER_ANCHO_DESC"
+				/>
+				
+			</fieldset>
+			
+			<!-- Google Analytics -->
+			<fieldset name="ANALYTICS">	
+				<field name="a-analytics" type="separators" class="fulltext" fielName="gray" value="ABOUT_ANALYTICS_DESC" default="ABOUT_ANALYTICS" />
+				<field name="isanalytics" type="radio" default="0"
+					label="TPL_JOKTEANTU_GOOGLE_ANALYTICS" 
+					description="TPL_JOKTEANTU_GOOGLE_ANALYTICS_DESC">
+						<option value="0">JNO</option>
+						<option value="1">JYES</option>
+				</field>
+				<field name="analyticsid" type="text" default="UA-xxxxxx-x" 
+					label="TPL_JOKTEANTU_GOOGLE_ANALYTICS_ID"
+					description="TPL_JOKTEANTU_GOOGLE_ANALYTICS_ID_DESC"	
+				/>
+			</fieldset>
+			
+			<!-- Grilla de posiciones -->
+			<fieldset name="LAYOUT">				
+				<field name="a-posimg" type="separators" class="posimg" fielName="layout" default="LAYOUT_IMAGE" />				
+			</fieldset>
+						
+			<!-- Acerca de Jokte! -->
+			<fieldset name="ABOUT">				
+				<field name="abouthis" type="separators" class="about" fielName="gray" default="ABOUT_ARTICLES" />				
+			</fieldset>
+			
+		</fields>
+	</config>
+</extension>

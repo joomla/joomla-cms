@@ -1,8 +1,8 @@
 <?php
 /**
  * @package    Joomla.Site
- *
- * @copyright  Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @author     juuntos.org
+ * @copyright  Copyleft.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -17,13 +17,13 @@ defined('_JEXEC') or die;
 final class JVersion
 {
 	/** @var  string  Product name. */
-	public $PRODUCT = 'Joomla!';
+	public $PRODUCT = 'Jokte!';
 
 	/** @var  string  Release version. */
 	public $RELEASE = '2.5';
 
 	/** @var  string  Maintenance version. */
-	public $DEV_LEVEL = '2';
+	public $DEV_LEVEL = '6';
 
 	/** @var  string  Development STATUS. */
 	public $DEV_STATUS = 'Stable';
@@ -35,7 +35,7 @@ final class JVersion
 	public $CODENAME = 'Ember';
 
 	/** @var  string  Release date. */
-	public $RELDATE = '5-March-2012';
+	public $RELDATE = '19-June-2012';
 
 	/** @var  string  Release time. */
 	public $RELTIME = '14:00';
@@ -44,10 +44,10 @@ final class JVersion
 	public $RELTZ = 'GMT';
 
 	/** @var  string  Copyright Notice. */
-	public $COPYRIGHT = 'Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.';
+	public $COPYRIGHT = 'Copyleft juuntos.org.';
 
 	/** @var  string  Link text. */
-	public $URL = '<a href="http://www.joomla.org">Joomla!</a> is Free Software released under the GNU General Public License.';
+	public $URL = '<a href="http://www.jokte.org">Jokte!</a> is Free Software released under the GNU General Public License.';
 
 	/**
 	 * Compares two a "PHP standardized" version number against the current Joomla version.
@@ -73,12 +73,7 @@ final class JVersion
 	 */
 	public function getHelpVersion()
 	{
-		if ($this->RELEASE > '1.0') {
-			return '.' . str_replace('.', '', $this->RELEASE);
-		}
-		else {
-			return '';
-		}
+		return '.' . str_replace('.', '', $this->RELEASE);
 	}
 
 	/**
@@ -90,7 +85,7 @@ final class JVersion
 	 */
 	public function getShortVersion()
 	{
-		return $this->RELEASE.'.'.$this->DEV_LEVEL;
+		return $this->RELEASE . '.' . $this->DEV_LEVEL;
 	}
 
 	/**
@@ -102,9 +97,9 @@ final class JVersion
 	 */
 	public function getLongVersion()
 	{
-		return $this->PRODUCT.' '. $this->RELEASE.'.'.$this->DEV_LEVEL.' '
-				. $this->DEV_STATUS.' [ '.$this->CODENAME.' ] '.$this->RELDATE.' '
-				.$this->RELTIME.' '.$this->RELTZ;
+		return $this->PRODUCT . ' ' . $this->RELEASE . '.' . $this->DEV_LEVEL . ' '
+				. $this->DEV_STATUS . ' [ ' . $this->CODENAME . ' ] ' . $this->RELDATE . ' '
+				. $this->RELTIME . ' ' . $this->RELTZ;
 	}
 
 	/**
@@ -120,20 +115,24 @@ final class JVersion
 	 */
 	public function getUserAgent($component = null, $mask = false, $add_version = true)
 	{
-		if ($component === null) {
+		if ($component === null)
+		{
 			$component = 'Framework';
 		}
 
-		if ($add_version) {
-			$component .= '/'.$this->RELEASE;
+		if ($add_version)
+		{
+			$component .= '/' . $this->RELEASE;
 		}
 
 		// If masked pretend to look like Mozilla 5.0 but still identify ourselves.
-		if ($mask) {
-			return 'Mozilla/5.0 '. $this->PRODUCT .'/'. $this->RELEASE . '.'.$this->DEV_LEVEL . ($component ? ' '. $component : '');
+		if ($mask)
+		{
+			return 'Mozilla/5.0 ' . $this->PRODUCT . '/' . $this->RELEASE . '.' . $this->DEV_LEVEL . ($component ? ' ' . $component : '');
 		}
-		else {
-			return $this->PRODUCT .'/'. $this->RELEASE . '.'.$this->DEV_LEVEL . ($component ? ' '. $component : '');
+		else
+		{
+			return $this->PRODUCT . '/' . $this->RELEASE . '.' . $this->DEV_LEVEL . ($component ? ' ' . $component : '');
 		}
 	}
 }

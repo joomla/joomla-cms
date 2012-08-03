@@ -1,0 +1,33 @@
+[01-Aug-2012 20:20:08 UTC] PHP Warning:  var_dump() [<a href='function.var-dump'>function.var-dump</a>]: Couldn't fetch mysqli_result in /home2/joktecom/public_html/administrator/components/com_installer/models/install.php on line 313
+[01-Aug-2012 20:20:08 UTC] PHP Warning:  var_dump() [<a href='function.var-dump'>function.var-dump</a>]: Couldn't fetch mysqli_result in /home2/joktecom/public_html/administrator/components/com_installer/models/install.php on line 313
+[01-Aug-2012 20:20:08 UTC] PHP Warning:  var_dump() [<a href='function.var-dump'>function.var-dump</a>]: Property access is not allowed yet in /home2/joktecom/public_html/administrator/components/com_installer/models/install.php on line 313
+[01-Aug-2012 20:20:08 UTC] PHP Warning:  var_dump() [<a href='function.var-dump'>function.var-dump</a>]: Couldn't fetch mysqli_result in /home2/joktecom/public_html/administrator/components/com_installer/models/install.php on line 313
+[01-Aug-2012 20:20:08 UTC] PHP Warning:  var_dump() [<a href='function.var-dump'>function.var-dump</a>]: Property access is not allowed yet in /home2/joktecom/public_html/administrator/components/com_installer/models/install.php on line 313
+[01-Aug-2012 20:24:16 UTC] PHP Warning:  substr() expects parameter 1 to be string, array given in /home2/joktecom/public_html/libraries/joomla/installer/helper.php on line 61
+[01-Aug-2012 20:24:16 UTC] PHP Warning:  substr() expects parameter 1 to be string, resource given in /home2/joktecom/public_html/libraries/joomla/installer/helper.php on line 61
+[01-Aug-2012 20:24:59 UTC] PHP Warning:  substr() expects parameter 1 to be string, array given in /home2/joktecom/public_html/libraries/joomla/installer/helper.php on line 61
+[01-Aug-2012 20:24:59 UTC] PHP Warning:  substr() expects parameter 1 to be string, resource given in /home2/joktecom/public_html/libraries/joomla/installer/helper.php on line 61
+[01-Aug-2012 20:25:01 UTC] PHP Warning:  constant() [<a href='function.constant'>function.constant</a>]: Couldn't find constant JPATH_ in /home2/joktecom/public_html/libraries/joomla/installer/adapters/module.php on line 117
+[01-Aug-2012 20:25:01 UTC] PHP Warning:  constant() [<a href='function.constant'>function.constant</a>]: Couldn't find constant JPATH_ in /home2/joktecom/public_html/libraries/joomla/installer/adapters/module.php on line 119
+[01-Aug-2012 20:32:49 UTC] PHP Warning:  substr() expects parameter 1 to be string, array given in /home2/joktecom/public_html/libraries/joomla/installer/helper.php on line 61
+[01-Aug-2012 20:32:49 UTC] PHP Warning:  substr() expects parameter 1 to be string, resource given in /home2/joktecom/public_html/libraries/joomla/installer/helper.php on line 61
+[01-Aug-2012 20:42:33 UTC] PHP Warning:  substr() expects parameter 1 to be string, array given in /home2/joktecom/public_html/libraries/joomla/installer/helper.php on line 61
+[01-Aug-2012 20:42:33 UTC] PHP Warning:  substr() expects parameter 1 to be string, resource given in /home2/joktecom/public_html/libraries/joomla/installer/helper.php on line 61
+[01-Aug-2012 20:48:19 UTC] PHP Warning:  substr() expects parameter 1 to be string, array given in /home2/joktecom/public_html/libraries/joomla/installer/helper.php on line 61
+[01-Aug-2012 20:48:19 UTC] PHP Warning:  substr() expects parameter 1 to be string, resource given in /home2/joktecom/public_html/libraries/joomla/installer/helper.php on line 61
+[01-Aug-2012 20:50:53 UTC] PHP Warning:  substr() expects parameter 1 to be string, array given in /home2/joktecom/public_html/libraries/joomla/installer/helper.php on line 61
+[01-Aug-2012 20:50:53 UTC] PHP Warning:  substr() expects parameter 1 to be string, resource given in /home2/joktecom/public_html/libraries/joomla/installer/helper.php on line 61
+[01-Aug-2012 23:30:15 UTC] PHP Warning:  substr() expects parameter 1 to be string, array given in /home2/joktecom/public_html/libraries/joomla/installer/helper.php on line 61
+[01-Aug-2012 23:30:15 UTC] PHP Warning:  substr() expects parameter 1 to be string, resource given in /home2/joktecom/public_html/libraries/joomla/installer/helper.php on line 61
+[01-Aug-2012 23:30:36 UTC] PHP Warning:  substr() expects parameter 1 to be string, array given in /home2/joktecom/public_html/libraries/joomla/installer/helper.php on line 61
+[01-Aug-2012 23:30:36 UTC] PHP Warning:  substr() expects parameter 1 to be string, resource given in /home2/joktecom/public_html/libraries/joomla/installer/helper.php on line 61
+[01-Aug-2012 23:38:18 UTC] PHP Warning:  substr() expects parameter 1 to be string, array given in /home2/joktecom/public_html/libraries/joomla/installer/helper.php on line 61
+[01-Aug-2012 23:38:18 UTC] PHP Warning:  substr() expects parameter 1 to be string, resource given in /home2/joktecom/public_html/libraries/joomla/installer/helper.php on line 61
+[01-Aug-2012 23:43:01 UTC] PHP Warning:  substr() expects parameter 1 to be string, array given in /home2/joktecom/public_html/libraries/joomla/installer/helper.php on line 61
+[01-Aug-2012 23:43:01 UTC] PHP Warning:  substr() expects parameter 1 to be string, resource given in /home2/joktecom/public_html/libraries/joomla/installer/helper.php on line 61
+[01-Aug-2012 23:50:50 UTC] PHP Warning:  substr() expects parameter 1 to be string, array given in /home2/joktecom/public_html/libraries/joomla/installer/helper.php on line 61
+[01-Aug-2012 23:50:50 UTC] PHP Warning:  substr() expects parameter 1 to be string, resource given in /home2/joktecom/public_html/libraries/joomla/installer/helper.php on line 61
+[02-Aug-2012 02:30:17 UTC] PHP Warning:  substr() expects parameter 1 to be string, array given in /home2/joktecom/public_html/libraries/joomla/installer/helper.php on line 61
+[02-Aug-2012 02:30:17 UTC] PHP Warning:  substr() expects parameter 1 to be string, resource given in /home2/joktecom/public_html/libraries/joomla/installer/helper.php on line 61
+[02-Aug-2012 02:30:17 UTC] PHP Warning:  constant() [<a href='function.constant'>function.constant</a>]: Couldn't find constant JPATH_ in /home2/joktecom/public_html/libraries/joomla/installer/adapters/module.php on line 117
+[02-Aug-2012 02:30:17 UTC] PHP Warning:  constant() [<a href='function.constant'>function.constant</a>]: Couldn't find constant JPATH_ in /home2/joktecom/public_html/libraries/joomla/installer/adapters/module.php on line 119

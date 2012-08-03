@@ -50,6 +50,9 @@ class InstallerViewManage extends InstallerViewDefault
 			);
 		}
 
+		// Include the component HTML helpers.
+		JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+
 		// Display the view
 		parent::display($tpl);
 	}

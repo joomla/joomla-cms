@@ -160,9 +160,8 @@ class ConfigModelComponent extends JModelForm
 			return false;
 		}
 
-		// Clean the cache.
-		$this->cleanCache('_system', 0);
-		$this->cleanCache('_system', 1);
+		// Clean the component cache.
+		$this->cleanCache('_system');
 
 		return true;
 	}

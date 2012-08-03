@@ -1,0 +1,20 @@
+/**
+ * @package     Jokte.Site
+ * @subpackage  jokteantu
+ * @author      juuntos.org
+ * @copyright   Copyleft.
+ * @license     GNU General Public License version 3 or later; see LICENSE.txt
+*/
+
+/***rojo***/
+
+a, a:link {
+    color: #AE0C0C;
+}
+a:hover{
+color:#888;}
+span.capital {
+    color: #AE0C0C;
+    }
+    .search .phrases legend,.search .only legend,.search h1 {
+color:#AE0C0C;}

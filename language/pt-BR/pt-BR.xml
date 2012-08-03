@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metafile version="2.5" client="site">
+    <tag>pt-BR</tag>
+    <name>Português (Brasil)</name>
+    <description>Pacote de idioma em Português Brasileiro para o site (frontend) do Joomla!</description>    
+	<version>2.5.1</version>
+	<creationDate>2012-02-07</creationDate>
+    <author>Joomleiros</author>
+    <authorUrl>http://joomlacode.org/gf/project/portuguesebr/</authorUrl>
+    <authorEmail>traducao@joomleiros.com</authorEmail>
+    <copyright>Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved. Copyright (C) Translation 2005 - 2012 Joomleiros. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+    <description><![CDATA[Arquivos de Idioma em Português Brasileiro para Joomla! 2.5 - Site.<br/>
+				 Copyrights: 2005 - 2011 Joomla! Brasil.<br/>
+				 Todos os direitos reservados.<br/>
+				 <a href="http://joomlacode.org/gf/project/portuguesebr/" target="_blank">Joomla! Brasil</a> é o único detentor dos copyrights desta tradução.<br/>
+				 De acordo com termo de licenciamento de <a href="http://www.opensourcematters.org" target="_blank">OpenSourceMatters</a> e <a href="http://www.joomla.org" target="_blank">Joomla!</a> todos os arquivos de idioma devem ser licenciados sob a <a href="http://www.gnu.org/licenses/gpl-2.0.html" target="_blank"> licença GNU/GPL (v.2.0)</a>.
+				 Esta tradução está licenciada sob esta licença. Se você encontrar algum erro de digitação, traduções incorretas ou se deseja sugerir melhorias, entre em contato com o <a href="mailto:traducao@joomla.com.br">coordenador</a> da tradução.<br/><br/>]]>
+	</description>
+	<files>
+		<filename>pt-BR.com_contact.ini</filename>
+		<filename>pt-BR.com_content.ini</filename>
+		<filename>pt-BR.com_finder.ini</filename>
+		<filename>pt-BR.com_mailto.ini</filename>
+		<filename>pt-BR.com_media.ini</filename>
+		<filename>pt-BR.com_messages.ini</filename>
+		<filename>pt-BR.com_newsfeeds.ini</filename>
+		<filename>pt-BR.com_search.ini</filename>
+		<filename>pt-BR.com_users.ini</filename>
+		<filename>pt-BR.com_weblinks.ini</filename>
+		<filename>pt-BR.com_wrapper.ini</filename>
+		<filename>pt-BR.files_joomla.sys.ini</filename>
+		<filename>pt-BR.finder_cli.ini</filename>
+		<filename>pt-BR.ini</filename>
+		<filename>pt-BR.lib_joomla.ini</filename>
+		<filename>pt-BR.lib_joomla.sys.ini</filename>
+		<filename>pt-BR.lib_phpmailer.sys.ini</filename>
+		<filename>pt-BR.lib_phputf8.sys.ini</filename>
+		<filename>pt-BR.lib_simplepie.sys.ini</filename>
+		<filename>pt-BR.localise.php</filename>
+		<filename>pt-BR.mod_articles_archive.ini</filename>
+		<filename>pt-BR.mod_articles_archive.sys.ini</filename>
+		<filename>pt-BR.mod_articles_categories.ini</filename>
+		<filename>pt-BR.mod_articles_categories.sys.ini</filename>
+		<filename>pt-BR.mod_articles_category.ini</filename>
+		<filename>pt-BR.mod_articles_category.sys.ini</filename>
+		<filename>pt-BR.mod_articles_latest.ini</filename>
+		<filename>pt-BR.mod_articles_latest.sys.ini</filename>
+		<filename>pt-BR.mod_articles_news.ini</filename>
+		<filename>pt-BR.mod_articles_news.sys.ini</filename>
+		<filename>pt-BR.mod_articles_popular.ini</filename>
+		<filename>pt-BR.mod_articles_popular.sys.ini</filename>
+		<filename>pt-BR.mod_banners.ini</filename>
+		<filename>pt-BR.mod_banners.sys.ini</filename>
+		<filename>pt-BR.mod_breadcrumbs.ini</filename>
+		<filename>pt-BR.mod_breadcrumbs.sys.ini</filename>
+		<filename>pt-BR.mod_custom.ini</filename>
+		<filename>pt-BR.mod_custom.sys.ini</filename>
+		<filename>pt-BR.mod_feed.ini</filename>
+		<filename>pt-BR.mod_feed.sys.ini</filename>
+		<filename>pt-BR.mod_finder.ini</filename>
+		<filename>pt-BR.mod_finder.sys.ini</filename>
+		<filename>pt-BR.mod_footer.ini</filename>
+		<filename>pt-BR.mod_footer.sys.ini</filename>
+		<filename>pt-BR.mod_languages.ini</filename>
+		<filename>pt-BR.mod_languages.sys.ini</filename>
+		<filename>pt-BR.mod_login.ini</filename>
+		<filename>pt-BR.mod_login.sys.ini</filename>
+		<filename>pt-BR.mod_menu.ini</filename>
+		<filename>pt-BR.mod_menu.sys.ini</filename>
+		<filename>pt-BR.mod_random_image.ini</filename>
+		<filename>pt-BR.mod_random_image.sys.ini</filename>
+		<filename>pt-BR.mod_related_items.ini</filename>
+		<filename>pt-BR.mod_related_items.sys.ini</filename>
+		<filename>pt-BR.mod_search.ini</filename>
+		<filename>pt-BR.mod_search.sys.ini</filename>
+		<filename>pt-BR.mod_stats.ini</filename>
+		<filename>pt-BR.mod_stats.sys.ini</filename>
+		<filename>pt-BR.mod_syndicate.ini</filename>
+		<filename>pt-BR.mod_syndicate.sys.ini</filename>
+		<filename>pt-BR.mod_users_latest.ini</filename>
+		<filename>pt-BR.mod_users_latest.sys.ini</filename>
+		<filename>pt-BR.mod_weblinks.ini</filename>
+		<filename>pt-BR.mod_weblinks.sys.ini</filename>
+		<filename>pt-BR.mod_whosonline.ini</filename>
+		<filename>pt-BR.mod_whosonline.sys.ini</filename>
+		<filename>pt-BR.mod_wrapper.ini</filename>
+		<filename>pt-BR.mod_wrapper.sys.ini</filename>
+		<filename>pt-BR.pkg_joomla.sys.ini</filename>
+		<filename>pt-BR.tpl_atomic.ini</filename>
+		<filename>pt-BR.tpl_atomic.sys.ini</filename>
+		<filename>pt-BR.tpl_beez_20.ini</filename>
+		<filename>pt-BR.tpl_beez_20.sys.ini</filename>
+		<filename>pt-BR.tpl_beez5.ini</filename>
+		<filename>pt-BR.tpl_beez5.sys.ini</filename>
+	</files>
+	<metadata>
+		<name>Português (Brasil)</name>
+		<tag>pt-BR</tag>
+    	<locale>pt_BR.utf8, pt_BR.UTF-8, pt_BR, ptb, pt-br, Brazilian, Portuguese</locale>
+		<rtl>0</rtl>
+		<firstDay>0</firstDay>
+	</metadata>
+	<params />
+</metafile>

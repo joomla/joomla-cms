@@ -21,18 +21,19 @@ jimport('joomla.application.component.controlleradmin');
 class FinderControllerIndex extends JControllerAdmin
 {
 	/**
-	 * Proxy for getModel.
+	 * Method to get a model object, loading it if required.
 	 *
-	 * @param   string  $name    The model name. [optional]
-	 * @param   string  $prefix  The class prefix. [optional]
+	 * @param   string  $name    The model name. Optional.
+	 * @param   string  $prefix  The class prefix. Optional.
+	 * @param   array   $config  Configuration array for model. Optional.
 	 *
 	 * @return  object  The model.
 	 *
 	 * @since   2.5
 	 */
-	public function &getModel($name = 'Index', $prefix = 'FinderModel')
+	public function getModel($name = 'Index', $prefix = 'FinderModel', $config = array('ignore_request' => true))
 	{
-		$model = parent::getModel($name, $prefix, array('ignore_request' => true));
+		$model = parent::getModel($name, $prefix, $config);
 		return $model;
 	}
 
@@ -45,13 +46,13 @@ class FinderControllerIndex extends JControllerAdmin
 	 */
 	public function purge()
 	{
-		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Remove the script time limit.
 		@set_time_limit(0);
 
 		// Initialize variables.
-		$model = &$this->getModel('Index', 'FinderModel');
+		$model = $this->getModel('Index', 'FinderModel');
 
 		// Attempt to purge the index.
 		$return = $model->purge();

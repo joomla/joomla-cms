@@ -2,10 +2,7 @@
 <joshelp>
 	<sites>
 		<site
-			tag="en-GB"
-			url="http://help.joomla.org/proxy/index.php?option=com_help&amp;keyref=Help16:{keyref}">English (GB) - Joomla help wiki 1.6</site>
-		<site
-			tag="en-GB"
-			url="http://help.joomla.org/proxy/index.php?option=com_help&amp;keyref=Help{major}{minor}:{keyref}">English (GB) - Joomla help wiki</site>
+			tag="es-LA"
+			url="http://ayuda.juuntos.net">Español (LA) - Wiki de Ayuda Jokte</site>			
 	</sites>
 </joshelp>

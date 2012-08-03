@@ -52,7 +52,7 @@ class MediaViewMediaList extends JView
 		$folders = $this->get('folders');
 		$state = $this->get('state');
 
-		$this->assign('baseURL', JURI::root());
+		$this->baseURL = JURI::root();
 		$this->assignRef('images', $images);
 		$this->assignRef('documents', $documents);
 		$this->assignRef('folders', $folders);

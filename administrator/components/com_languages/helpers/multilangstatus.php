@@ -30,18 +30,14 @@ abstract class multilangstatusHelper
 		return $db->loadResult();
 	}
 
+	/**
+	 * @since  1.7.1
+	 * @deprecated  3.0
+	 */
 	public static function getLangfilter()
 	{
-		// check for activation of languagefilter
-		$db		= JFactory::getDBO();
-		$query	= $db->getQuery(true);
-		$query->select('COUNT(*)');
-		$query->from($db->quoteName('#__extensions'));
-		$query->where('type = '.$db->Quote('plugin'));
-		$query->where('element = '.$db->Quote('languagefilter'));
-		$query->where('enabled= 1');
-		$db->setQuery($query);
-		return $db->loadResult();
+		JLog::add('multilangstatusHelper::getLangfilter() is deprecated. Use JLanguageMultilang::isEnabled() instead. ', JLog::WARNING, 'deprecated');
+		return JLanguageMultilang::isEnabled();
 	}
 
 	public static function getLangswitchers()

@@ -41,7 +41,7 @@ class LanguagesModelStrings extends JModel
 			$this->_db->setQuery('TRUNCATE TABLE '.$this->_db->qn('#__overrider'));
 			$this->_db->query();
 		}
-		catch (JDatabaseException $e)
+		catch (RuntimeException $e)
 		{
 			return $e;
 		}
@@ -56,8 +56,8 @@ class LanguagesModelStrings extends JModel
 		$language	= $app->getUserState('com_languages.overrides.filter.language', 'en-GB');
 
 
-		$base = constant('JPATH_'.strtoupper($client)).DS;
-		$path = $base.'language'.DS.$language;
+		$base = constant('JPATH_'.strtoupper($client));
+		$path = $base.'/language/' . $language;
 
 		$files = array();
 
@@ -68,20 +68,16 @@ class LanguagesModelStrings extends JModel
 		}
 
 		// Parse language directories of components
-		$path = $base.'components';
-		$files = array_merge($files, JFolder::files($path, $language.'.*ini$', 3, true));
+		$files = array_merge($files, JFolder::files($base.'/components', $language.'.*ini$', 3, true));
 
 		// Parse language directories of modules
-		$path = $base.'modules';
-		$files = array_merge($files, JFolder::files($path, $language.'.*ini$', 3, true));
+		$files = array_merge($files, JFolder::files($base.'/modules', $language.'.*ini$', 3, true));
 
 		// Parse language directories of templates
-		$path = $base.'templates';
-		$files = array_merge($files, JFolder::files($path, $language.'.*ini$', 3, true));
+		$files = array_merge($files, JFolder::files($base.'/templates', $language.'.*ini$', 3, true));
 
 		// Parse language directories of plugins
-		$path = JPATH_ROOT.DS.'plugins';
-		$files = array_merge($files, JFolder::files($path, $language.'.*ini$', 3, true));
+		$files = array_merge($files, JFolder::files(JPATH_PLUGINS, $language.'.*ini$', 3, true));
 
 		// Parse all found ini files and add the strings to the database cache
 		foreach ($files as $file)
@@ -89,23 +85,21 @@ class LanguagesModelStrings extends JModel
 			$strings = LanguagesHelper::parseFile($file);
 			if ($strings && count($strings))
 			{
-				//$query->clear('values');
-				$values = array();
+				$query->clear('values');
 				foreach ($strings as $key => $string)
 				{
-					//$query->values($this->_db->q($key).','.$this->_db->q($string).','.$this->_db->q(JPath::clean($file)));
-					$values[] = '('.$this->_db->q($key).','.$this->_db->q($string).','.$this->_db->q(JPath::clean($file)).')';
+					$query->values($this->_db->q($key).','.$this->_db->q($string).','.$this->_db->q(JPath::clean($file)));;
 				}
 
 				try
 				{
-					$this->_db->setQuery($query.' (constant, string, file) VALUES '.implode(',', $values));
+					$this->_db->setQuery($query);
 					if (!$this->_db->query())
 					{
 						return new Exception($this->_db->getErrorMsg());
 					}
 				}
-				catch (JDatabaseException $e)
+				catch (RuntimeException $e)
 				{
 					return $e;
 				}
@@ -163,7 +157,7 @@ class LanguagesModelStrings extends JModel
 				$results['more'] = $limitstart + 10;
 			}
 		}
-		catch (JDatabaseException $e)
+		catch (RuntimeException $e)
 		{
 			return $e;
 		}

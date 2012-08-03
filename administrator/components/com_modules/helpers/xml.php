@@ -6,7 +6,6 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
 /**
@@ -27,7 +26,7 @@ class ModulesHelperXML
 			}
 			else
 			{
-				$data = JApplicationHelper::parseXMLInstallFile($row->path . '/' . $row->file);
+				$data = JInstaller::parseXMLInstallFile($row->path . '/' . $row->file);
 
 				if ($data['type'] == 'module')
 				{

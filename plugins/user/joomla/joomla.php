@@ -233,7 +233,7 @@ class plgUserJoomla extends JPlugin
 	 * @return	object	A JUser object
 	 * @since	1.5
 	 */
-	protected function &_getUser($user, $options = array())
+	protected function _getUser($user, $options = array())
 	{
 		$instance = JUser::getInstance();
 		if ($id = intval(JUserHelper::getUserId($user['username'])))  {

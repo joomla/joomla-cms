@@ -262,15 +262,20 @@ abstract class JModuleHelper
 		// Build the template and base path for the layout
 		$tPath = JPATH_THEMES . '/' . $template . '/html/' . $module . '/' . $layout . '.php';
 		$bPath = JPATH_BASE . '/modules/' . $module . '/tmpl/' . $defaultLayout . '.php';
+		$dPath = JPATH_BASE . '/modules/' . $module . '/tmpl/default.php';
 
 		// If the template has a layout override use it
 		if (file_exists($tPath))
 		{
 			return $tPath;
 		}
-		else
+		elseif (file_exists($bPath))
 		{
 			return $bPath;
+		}
+		else
+		{
+			return $dPath;
 		}
 	}
 
@@ -349,9 +354,8 @@ abstract class JModuleHelper
 			{
 				$module = &$modules[$i];
 
-				// The module is excluded if there is an explicit prohibition or if
-				// the Itemid is missing or zero and the module is in exclude mode.
-				$negHit = ($negId === (int) $module->menuid) || (!$negId && (int) $module->menuid < 0);
+				// The module is excluded if there is an explicit prohibition
+				$negHit = ($negId === (int) $module->menuid);
 
 				if (isset($dupes[$module->id]))
 				{

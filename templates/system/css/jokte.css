@@ -1,0 +1,192 @@
+/**
+ * @package     Jokte.Site
+ * @subpackage	jokteantu
+ * @author 	Equipo de desarrollo juuntos.
+ * @copyright   Copyleft (Comparte igual) Open Jokte.
+ * @license     GNU General Public License version 3 or later; see LICENSE.txt
+ * 
+*/
+
+/*Ayuda base estructural de layout*/
+/*Categoria blog*/
+.row-separator {
+    border: 0 none;
+    clear: both;
+    display: block;
+    height: 1px;
+    margin: 0;
+}
+.item-separator {
+  
+    margin: 0;
+}
+.items-leading {
+  
+    margin-bottom: 5px;
+}
+
+.cols-1 {
+    display: block;
+    float: none !important;
+    margin: 0 !important;
+}
+.cols-2 h2,.cols-3 h2 {
+    font-size: 0.9em;
+    margin-top: 0;
+    max-width: 60%;
+}
+.cols-2 .column-1 {
+    float: left;
+    width: 46%;
+}
+.cols-2 .column-2 {
+    float: right;
+    margin: 0;
+    width: 46%;
+}
+.cols-3 .column-1 {
+    float: left;
+    margin-right: 4%;
+    padding: 0 5px;
+    width: 29%;
+}
+.cols-3 .column-2 {
+    float: left;
+    margin-left: 0;
+    padding: 0 5px;
+    width: 29%;
+}
+.cols-3 .column-3 {
+    float: right;
+    padding: 0 5px;
+    width: 29%;
+}
+
+.column-1, .column-2, .column-3 {
+    padding: 10px 5px;
+}
+.column-2 {
+    margin-left: 40%;
+    width: 55%;
+}
+.column-3 {
+    width: 30%;
+}
+
+/*paginador*/
+
+.pagination {
+    clear: both;
+    text-align: center;
+    margin: 15px 0px 0px 0px;
+  font-size:0.8em;
+  height:55px;
+}
+
+.pagination p.counter {
+    text-align: center;
+}
+
+.pagination ul {
+    list-style: none;
+    padding: 0;
+  height:45px;
+}
+.pagination li {
+    margin-left: 1px;
+    margin-right: 1px;
+}
+
+.pagination ul li {
+    list-style: none;
+    display: inline;
+   
+}
+
+.pagenav {
+    list-style: none;
+    width: 45%;
+    margin: 5px auto;
+}
+.pagenav-prev {
+    float: left;
+    margin-right: 20px;
+}
+.invalid { border-color: #ff0000; }
+label.invalid { color: #ff0000; }
+
+
+
+.page span {
+	color: #000;
+	font-weight: bold;
+}
+
+
+/* Tooltips */
+div.tooltip {
+	float: left;
+	background: #ffc;
+	border: 1px solid #D4D5AA;
+	padding: 5px;
+	max-width: 200px;
+	z-index:13000;
+}
+
+div.tooltip h4 {
+	padding: 0;
+	margin: 0;
+	font-size: 95%;
+	font-weight: bold;
+	margin-top: -15px;
+	padding-top: 15px;
+	padding-bottom: 5px;
+	background: url(../images/selector-arrow.png) no-repeat;
+}
+
+div.tooltip p {
+	font-size: 90%;
+	margin: 0;
+}
+
+/* Caption imagenes */
+
+.img_caption .left {
+        float: left;
+        margin-right: 1em;
+}
+
+.img_caption .right {
+        float: right;
+        margin-left: 1em;
+}
+
+.img_caption .left p {
+        clear: left;
+        text-align: center;
+}
+
+.img_caption .right p {
+        clear: right;
+        text-align: center;
+}
+
+.img_caption  {
+	text-align: center!important;
+}
+
+.img_caption.none {
+	margin-left:auto;
+	margin-right:auto;
+}
+
+
+/* Calendar */
+a img.calendar {
+	width: 16px;
+	height: 16px;
+	margin-left: 3px;
+	background: url(../images/calendar.png) no-repeat;
+	cursor: pointer;
+	vertical-align: middle;
+}

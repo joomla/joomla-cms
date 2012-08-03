@@ -28,17 +28,13 @@ abstract class modFeedHelper
 
 		$filter = JFilterInput::getInstance();
 
-		//  get RSS parsed object
-		$options = array();
-		$options['rssUrl']		= $rssurl;
+		// get RSS parsed object
+		$cache_time = 0;
 		if ($params->get('cache')) {
-			$options['cache_time']  = $params->get('cache_time', 15) ;
-			$options['cache_time']	*= 60;
-		} else {
-			$options['cache_time'] = null;
+			$cache_time  = $params->get('cache_time', 15) * 60;
 		}
 
-		$rssDoc = JFactory::getXMLParser('RSS', $options);
+		$rssDoc = JFactory::getFeedParser($rssurl, $cache_time);
 
 		if ($rssDoc != false)
 		{

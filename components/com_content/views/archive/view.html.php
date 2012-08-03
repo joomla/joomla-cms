@@ -4,10 +4,7 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.view');
 
 /**
  * HTML View class for the Content component
@@ -16,7 +13,7 @@ jimport('joomla.application.component.view');
  * @subpackage	com_content
  * @since 1.5
  */
-class ContentViewArchive extends JView
+class ContentViewArchive extends JViewLegacy
 {
 	protected $state = null;
 	protected $item = null;
@@ -90,7 +87,7 @@ class ContentViewArchive extends JView
 		//Escape strings for HTML output
 		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
 
-		$this->assign('filter', $state->get('list.filter'));
+		$this->filter = $state->get('list.filter');
 		$this->assignRef('form', $form);
 		$this->assignRef('items', $items);
 		$this->assignRef('params', $params);

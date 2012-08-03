@@ -33,7 +33,7 @@ class LanguagesControllerStrings extends JControllerAdmin
 	{
 		parent::__construct($config);
 
-		require_once JPATH_COMPONENT.DS.'helpers'.DS.'jsonresponse.php';
+		require_once JPATH_COMPONENT . '/helpers/jsonresponse.php';
 	}
 
 	/**

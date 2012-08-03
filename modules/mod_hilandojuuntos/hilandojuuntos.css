@@ -1,0 +1,23 @@
+/**
+ * @version		Hilos Juuntos v1 - 11:54 martes, 14 de febrero de 2012
+ * @copyleft	Miguel Tuyaré para la Comunidad Juuntos.org
+ * @licencia	GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+ /* Estilo para el Cuerpo principal del bloque de hilos */
+.jh-feed{border:1px solid #CCC;margin:5px;padding: 10px;}
+
+/* Estilos para el Título del bloque */
+.jh-sep{font-variant:small-caps;font-weight:bold;padding:2px;border:1px dotted #CCC;font-size:16px;text-shadow:1px 1px #808080}
+
+/* Estilos para el Título del hilo */
+.jh-title{font-variant:small-caps;font-weight:bold; padding: 2px 0}
+
+/* Estilos para la descripción del hilo */
+.jh-desc{font-style:italic;padding: 2px 0;}
+
+/* Estilos para el título de cada noticia - También se puede maquetar la lista */
+ .jh-feed ul li a{}
+ 
+ /* Estilos para el texto de cada noticia (párrafo)*/
+.jh-text{}

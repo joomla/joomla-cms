@@ -18,12 +18,16 @@ abstract class modArticlesCategoriesHelper
 	{
 		$categories = JCategories::getInstance('Content');
 		$category = $categories->get($params->get('parent', 'root'));
-		$items = $category->getChildren();
-		if($params->get('count', 0) > 0 && count($items) > $params->get('count', 0))
+
+		if ($category != null)
 		{
-			$items = array_slice($items, 0, $params->get('count', 0));
+			$items = $category->getChildren();
+			if($params->get('count', 0) > 0 && count($items) > $params->get('count', 0))
+			{
+				$items = array_slice($items, 0, $params->get('count', 0));
+			}
+			return $items;
 		}
-		return $items;
 	}
 
 }

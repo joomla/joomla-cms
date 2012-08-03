@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- $Id: es-LA.xml 434 2011-08-12 01:08:00Z shacker $ -->
-<metafile version="1.7" client="administrator">
-	<name>Español (Latinoamericano)</name>
+<metafile version="2.5" client="administrator">
+	<name>Español Latinoamericano</name>
 	<version>1.0.0</version>
-	<creationDate>2012-01-12</creationDate>
-	<author>Jokte Latinoamericano</author>
-	<authorEmail>info@jokte.org</authorEmail>
-	<authorUrl>www.jokte.org</authorUrl>
-	<copyright>Copyright (C) 2005 - 2011 Open Source Matters. Todos los derechos reservados.</copyright>
+	<creationDate>2012-02-1</creationDate>
+	<author>Juuntos/Jokte! Latinoamérica</author>
+	<authorEmail>traductores@juuntos.org</authorEmail>
+	<authorUrl>juuntos.org</authorUrl>
+	<copyright>Copyright (C) 2005 - 2011 Open Source Matters and comunidadjoomla.org. All rights reserved.</copyright>
 	<license>GNU General Public License versión 2 o superior; ver LICENSE.txt</license>
-	<description>es-LA idioma administrador</description>
+	<description>Idioma Español latinoamericano para vista Administración, creado por Juuntos/Jokte! en base a traducción de Comunidad Joomla.org</description>
 	<files>
 		<filename>es-LA.com_admin.ini</filename>
 		<filename>es-LA.com_admin.sys.ini</filename>

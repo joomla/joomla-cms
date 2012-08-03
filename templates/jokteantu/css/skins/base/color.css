@@ -1,0 +1,44 @@
+/**
+ * @package     Jokte.Site
+ * @subpackage	jokteantu
+ * @author 	    Equipo de desarrollo juuntos.
+ * @copyleft    (comparte igual)  Jokte!
+ * @license     GNU General Public License version 3 o superior.
+*/
+
+/***Base***/
+
+
+
+a, a:link {
+    text-decoration: none;
+    color: #666;
+}
+
+a:hover,h2 a:hover, h3 a:hover, .item-title a:hover{
+    text-decoration: none;
+    color: #AE0C0C;
+
+}
+h2, h3 {
+    font-size: 1.8em;
+}
+.search .phrases legend,.search .only legend,.search h1 {
+color:#666;}
+.blog-featured h2, .item-page h2 {
+    margin: 0 0 3px;
+    line-height: 1em;
+    color:#666;
+}
+span.capital{
+color:#666;}
+
+span.pagenav{
+color:#AE0C0C;
+
+}
+span.pagenav:hover {
+    color: #AE0C0C;
+  
+}
+

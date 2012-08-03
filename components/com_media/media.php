@@ -29,6 +29,7 @@ define('COM_MEDIA_BASEURL', JURI::root().'/'.$params->get('image_path', 'images'
 
 $lang = JFactory::getLanguage();
 	$lang->load('com_media', JPATH_ADMINISTRATOR, null, false, false)
+	||	$lang->load('com_media', JPATH_SITE, null, false, false)
 	||	$lang->load('com_media', JPATH_ADMINISTRATOR, $lang->getDefault(), false, false);
 
 // Load the admin HTML view

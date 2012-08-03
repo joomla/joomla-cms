@@ -317,6 +317,8 @@ class CategoriesModelCategory extends JModelAdmin
 		{
 			$lang->load($component, JPATH_BASE, null, false, false);
 			$lang->load($component, JPATH_BASE, $lang->getDefault(), false, false);
+			$lang->load($component, JPATH_BASE . '/components/' . $component, null, false, false);
+			$lang->load($component, JPATH_BASE . '/components/' . $component, $lang->getDefault(), false, false);
 
 			if (!$form->loadFile($path, false))
 			{

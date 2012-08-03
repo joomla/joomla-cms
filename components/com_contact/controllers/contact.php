@@ -20,7 +20,7 @@ class ContactControllerContact extends JControllerForm
 	public function submit()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Initialise variables.
 		$app	= JFactory::getApplication();
@@ -103,8 +103,10 @@ class ContactControllerContact extends JControllerForm
 		}
 
 		// Set the success message if it was a success
-		if (!JError::isError($sent)) {
+		if (!($sent instanceof Exception)) {
 			$msg = JText::_('COM_CONTACT_EMAIL_THANKS');
+		} else {
+			$msg = '' ;
 		}
 
 		// Flush the data from the session

@@ -53,6 +53,9 @@ $canDo = LanguagesHelper::getActions();
 					<?php echo $this->form->getInput('published'); ?></li>
 				<?php endif; ?>
 
+				<li><?php echo $this->form->getLabel('access'); ?>
+				<?php echo $this->form->getInput('access'); ?></li>
+
 				<li><?php echo $this->form->getLabel('description'); ?>
 				<?php echo $this->form->getInput('description'); ?></li>
 

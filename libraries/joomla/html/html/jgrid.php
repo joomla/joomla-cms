@@ -221,7 +221,7 @@ abstract class JHtmlJGrid
 	 * @param   boolean       $enabled   An optional setting for access control on the action.
 	 * @param   string        $checkbox  An optional prefix for checkboxes.
 	 *
-	 * @return  The Html code
+	 * @return  string  The HTML code
 	 *
 	 * @see     JHtmlJGrid::state
 	 * @since   11.1

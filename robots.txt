@@ -1,4 +1,4 @@
-# If the Joomla site is installed within a folder such as at
+# If the Jokte! site is installed within a folder such as at
 # e.g. www.example.com/joomla/ the robots.txt file MUST be
 # moved to the site root at e.g. www.example.com/robots.txt
 # AND the joomla folder name MUST be prefixed to the disallowed

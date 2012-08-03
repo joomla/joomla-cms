@@ -1,0 +1,66 @@
+.nn_multiselect {
+	width: 400px;
+	background-color: #F0F0F0;
+	border: 1px solid #CCCCCC;
+}
+.nnms_filterbox {
+	float: left;
+	padding: 5px;
+}
+.nnms_filterbox input {
+	border: 1px solid #CCCCCC;
+	margin: 0;
+}
+.nnms_filtercontrols {
+	padding: 7px 0;
+	border-bottom: 1px solid #CCCCCC;
+	float: left;
+}
+.nnms_filtercontrols li {
+	display: inline-block;
+	padding: 0 5px !important;
+	white-space: nowrap;
+}
+.nnms_filtercontrols a {
+	color: #84D1E0;
+}
+.nnms_filtercontrols span {
+	padding-left: 3px;
+}
+.nnms_empty {
+	border-bottom: 1px solid #CCCCCC;
+	padding: 0 0 3px 0;
+}
+
+.nn_multiselect ol {
+	padding: 0 0 3px 0;
+	clear: left;
+	max-height: 200px;
+	overflow-x: hidden;
+	overflow-y: auto;
+	background-color: #FFFFFF;
+}
+.nn_multiselect ol li {
+	cursor: pointer;
+	list-style-type: none;
+	padding: 2px 10px 2px 25px !important;
+	border-bottom: 1px solid #CCCCCC;
+	background: transparent url(checkbox.png) 0 0 no-repeat;
+	white-space: nowrap;
+}
+.nn_multiselect ol li.selected {
+	background-position: 0 -20px;
+	background-color: #D5EEFF;
+}
+.nn_multiselect ol li:hover {
+	background-color: #F0F0F0;
+}
+.nn_multiselect ol li.selected:hover {
+	background-color: #E3EFF7;
+}
+.nn_multiselect ol li.disabled,
+.nn_multiselect ol li.disabled:hover {
+	cursor: default;
+	background: #FFFFFF none;
+	color: #146295;
+}

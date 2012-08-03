@@ -26,7 +26,7 @@ class LanguagesViewMultilangstatus extends JView
 		require_once JPATH_COMPONENT . '/helpers/multilangstatus.php';
 
 		$this->homes			= multilangstatusHelper::getHomes();
-		$this->language_filter	= multilangstatusHelper::getLangfilter();
+		$this->language_filter	= JLanguageMultilang::isEnabled();
 		$this->switchers		= multilangstatusHelper::getLangswitchers();
 		$this->listUsersError	= multilangstatusHelper::getContacts();
 		$this->contentlangs		= multilangstatusHelper::getContentlangs();

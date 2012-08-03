@@ -38,7 +38,7 @@ class ConfigControllerApplication extends JController
 	public function save()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Check if the user is authorized to do this.
 		if (!JFactory::getUser()->authorise('core.admin'))
@@ -163,14 +163,14 @@ class ConfigControllerApplication extends JController
 	 */
 	public function removeroot()
 	{
+		// Check for request forgeries.
+		JSession::checkToken('get') or die('Invalid Token');
+
 		// Check if the user is authorized to do this.
 		if (!JFactory::getUser()->authorise('core.admin')) {
 			JFactory::getApplication()->redirect('index.php', JText::_('JERROR_ALERTNOAUTHOR'));
 			return;
 		}
-
-		// Check for request forgeries.
-		JRequest::checkToken( 'get' ) or die( 'Invalid Token' );
 
 		// Initialise model.
 		$model	= $this->getModel('Application');

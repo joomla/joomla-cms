@@ -207,7 +207,7 @@ class JPath
 		}
 		else
 		{
-			// Remove double slashes and backslashes and convert all slashes and backslashes to DS
+			// Remove double slashes and backslashes and convert all slashes and backslashes to DIRECTORY_SEPARATOR
 			$path = preg_replace('#[/\\\\]+#', $ds, $path);
 		}
 

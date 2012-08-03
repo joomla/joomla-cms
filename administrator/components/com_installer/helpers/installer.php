@@ -45,11 +45,30 @@ class InstallerHelper
 			'index.php?option=com_installer&view=discover',
 			$vName == 'discover'
 		);
-		JSubMenuHelper::addEntry(
+        JSubMenuHelper::addEntry(
+			JText::_('COM_INSTALLER_SUBMENU_SITES'),
+			'index.php?option=com_installer&view=sites',
+			$vName == 'sites'
+		);
+		
+        JSubMenuHelper::addEntry(
 			JText::_('COM_INSTALLER_SUBMENU_DATABASE'),
 			'index.php?option=com_installer&view=database',
 			$vName == 'database'
 		);
+        
+        JSubMenuHelper::addEntry(
+			JText::_('COM_INSTALLER_SUBMENU_ONE_CLICK_INSTALL'),
+			'index.php?option=com_installer&view=oneclick',
+			$vName == 'oneclick'
+		);
+        
+        JSubMenuHelper::addEntry(
+			JText::_('COM_INSTALLER_SUBMENU_JOKTE_REGISTER'),
+			'index.php?option=com_installer&view=regjokte',
+			$vName == 'regjokte'
+		);
+        
 		JSubMenuHelper::addEntry(
 		JText::_('COM_INSTALLER_SUBMENU_WARNINGS'),
 					'index.php?option=com_installer&view=warnings',
@@ -70,12 +89,10 @@ class InstallerHelper
 
 		$assetName = 'com_installer';
 
-		$actions = array(
-			'core.admin', 'core.manage', 'core.edit.state', 'core.delete'
-		);
+		$actions = JAccess::getActions($assetName);
 
 		foreach ($actions as $action) {
-			$result->set($action,	$user->authorise($action, $assetName));
+			$result->set($action->name,	$user->authorise($action->name, $assetName));
 		}
 
 		return $result;

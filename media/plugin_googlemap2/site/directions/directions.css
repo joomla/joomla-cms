@@ -1,0 +1,141 @@
+/* CSS Document */
+
+.svPanel {
+  position: relative;
+}
+
+.status {
+  position: relative;
+/*  top: -120px;  top is determined by plugin */
+  left: 0px;
+  width: 100%;
+  text-align: center;
+  font: 32pt sans-serif;
+  color: #666666;
+  background-color: white;
+}
+
+.instruction {
+  position: relative;
+  top: -30px;
+  left: 0px;
+  width: 100%;
+  text-align: center;
+  font: 16pt sans-serif;
+  color: #eeeeee;
+  display: none;
+}
+
+.svPanel {
+}
+
+.directions {
+}
+
+.map {
+}
+
+.streetview {
+}
+
+.progressBorder {
+  position: relative;
+  width: 100%;
+  height: 10px;
+  margin: 2px 0px 2px 0px;
+  border: 1px solid #000066;
+  background-color: white;
+  overflow: hidden;
+}
+
+.progressBar {
+  position: absolute;
+  background-color: #000066;
+  width: 100%;
+  height: 8px;
+  top: 1px;
+  right:1px;
+}
+
+.waypoint {
+  position: relative;
+  background-color: #eeeeee;
+  border: 1px solid #666666;
+  padding: 6px;
+  margin: 4px;
+  font: 10pt sans-serif;
+  cursor: pointer;
+}
+
+.letterIcon {
+  width: 24px;
+  height: 38px;
+  background-image: none;
+}
+
+.waypointAddress {
+  position: absolute;
+  top: 17px;
+  left: 32px;
+}
+
+.summary {
+  padding: 4px;
+  font: 10pt sans-serif;
+}
+
+.dstep {
+  border-top: 1px solid #666666;
+  padding: 4px;
+  padding-left: 8px;
+  font: 10pt sans-serif;
+  margin-left: 4px;
+  margin-right: 4px;
+  cursor: pointer;
+  background-color: white;
+}
+
+.animlabel {
+  width: 72px;
+  text-align: right;
+  float: left;
+  position: relative;
+  top: 4px;
+  margin-right: 5px;
+}
+
+.stepselected {
+	background: #eeeeff;
+}
+
+.animbuttonforms {
+	float: left;
+	text-align: left;
+}
+
+.animformspeed {
+	float: left;
+	margin-left: 10px;
+}
+
+.animformaddress {
+	float: left;
+	margin-left: 10px;
+}
+
+.animroute {
+	float: left;
+	text-align: left;
+	margin-left: 10px;
+}
+
+.animformdirtype {
+	float: left;
+	margin-left: 10px;
+	text-align: left;
+}
+
+.animinput {
+	float:left;
+	text-align:left;
+}

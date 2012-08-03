@@ -281,12 +281,12 @@ class JAccess
 
 		if (!isset(self::$groupsByUser[$storeId]))
 		{
-			// Guest user
-			if (empty($userId))
+			// Guest user (if only the actually assigned group is requested)
+			if (empty($userId) && !$recursive)
 			{
 				$result = array(JComponentHelper::getParams('com_users')->get('guest_usergroup', 1));
 			}
-			// Registered user
+			// Registered user and guest if all groups are requested
 			else
 			{
 				$db = JFactory::getDbo();
@@ -294,9 +294,17 @@ class JAccess
 				// Build the database query to get the rules for the asset.
 				$query = $db->getQuery(true);
 				$query->select($recursive ? 'b.id' : 'a.id');
-				$query->from('#__user_usergroup_map AS map');
-				$query->where('map.user_id = ' . (int) $userId);
-				$query->leftJoin('#__usergroups AS a ON a.id = map.group_id');
+				if (empty($userId))
+				{
+					$query->from('#__usergroups AS a');
+					$query->where('a.id = ' . (int) JComponentHelper::getParams('com_users')->get('guest_usergroup', 1));
+				}
+				else
+				{
+					$query->from('#__user_usergroup_map AS map');
+					$query->where('map.user_id = ' . (int) $userId);
+					$query->leftJoin('#__usergroups AS a ON a.id = map.group_id');
+				}
 
 				// If we want the rules cascading up to the global asset node we need a self-join.
 				if ($recursive)
@@ -433,34 +441,105 @@ class JAccess
 	 *
 	 * @since   11.1
 	 *
+	 * @deprecated  12.3  Use JAccess::getActionsFromFile or JAccess::getActionsFromData instead.
+	 *
+	 * @codeCoverageIgnore
+	 *
 	 * @todo    Need to decouple this method from the CMS. Maybe check if $component is a
 	 *          valid file (or create a getActionsFromFile method).
 	 */
 	public static function getActions($component, $section = 'component')
 	{
-		$actions = array();
-
-		if (defined('JPATH_ADMINISTRATOR') && is_file(JPATH_ADMINISTRATOR . '/components/' . $component . '/access.xml'))
+		JLog::add(__METHOD__ . ' is deprecated. Use JAccess::getActionsFromFile or JAcces::getActionsFromData instead.', JLog::WARNING, 'deprecated');
+		$actions = self::getActionsFromFile(
+			JPATH_ADMINISTRATOR . '/components/' . $component . '/access.xml',
+			"/access/section[@name='" . $section . "']/"
+		);
+		if (empty($actions))
 		{
-			$xml = simplexml_load_file(JPATH_ADMINISTRATOR . '/components/' . $component . '/access.xml');
+			return array();
+		}
+		else
+		{
+			return $actions;
+		}
+	}
 
-			foreach ($xml->children() as $child)
+	/**
+	 * Method to return a list of actions from a file for which permissions can be set.
+	 *
+	 * @param   string  $file   The path to the XML file.
+	 * @param   string  $xpath  An optional xpath to search for the fields.
+	 *
+	 * @return  boolean|array   False if case of error or the list of actions available.
+	 *
+	 * @since   12.1
+	 */
+	public static function getActionsFromFile($file, $xpath = "/access/section[@name='component']/")
+	{
+		if (!is_file($file))
+		{
+			// If unable to find the file return false.
+			return false;
+		}
+		else
+		{
+			// Else return the actions from the xml.
+			return self::getActionsFromData(JFactory::getXML($file, true), $xpath);
+		}
+	}
+
+	/**
+	 * Method to return a list of actions from a string or from an xml for which permissions can be set.
+	 *
+	 * @param   string|SimpleXMLElement  $data   The XML string or an XML element.
+	 * @param   string                   $xpath  An optional xpath to search for the fields.
+	 *
+	 * @return  boolean|array   False if case of error or the list of actions available.
+	 *
+	 * @since   12.1
+	 */
+	public static function getActionsFromData($data, $xpath = "/access/section[@name='component']/")
+	{
+		// If the data to load isn't already an XML element or string return false.
+		if ((!($data instanceof SimpleXMLElement)) && (!is_string($data)))
+		{
+			return false;
+		}
+
+		// Attempt to load the XML if a string.
+		if (is_string($data))
+		{
+			$data = JFactory::getXML($data, false);
+
+			// Make sure the XML loaded correctly.
+			if (!$data)
 			{
-				if ($section == (string) $child['name'])
-				{
-					foreach ($child->children() as $action)
-					{
-						$actions[] = (object) array(
-							'name' => (string) $action['name'],
-							'title' => (string) $action['title'],
-							'description' => (string) $action['description']);
-					}
-
-					break;
-				}
+				return false;
 			}
 		}
 
+		// Initialise the actions array
+		$actions = array();
+
+		// Get the elements from the xpath
+		$elements = $data->xpath($xpath . 'action[@name][@title][@description]');
+
+		// If there some elements, analyse them
+		if (!empty($elements))
+		{
+			foreach ($elements as $action)
+			{
+				// Add the action to the actions array
+				$actions[] = (object) array(
+					'name' => (string) $action['name'],
+					'title' => (string) $action['title'],
+					'description' => (string) $action['description']
+				);
+			}
+		}
+
+		// Finally return the actions array
 		return $actions;
 	}
 }

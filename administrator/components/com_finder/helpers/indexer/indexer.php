@@ -168,7 +168,7 @@ class FinderIndexer
 	public static function setState($data)
 	{
 		// Check the state object.
-		if (empty($data) || !is_a($data, 'JObject'))
+		if (empty($data) || !$data instanceof JObject)
 		{
 			return false;
 		}
@@ -838,7 +838,7 @@ class FinderIndexer
 			$query->update($db->quoteName('#__finder_terms') . ' AS t');
 			$query->join('INNER', $db->quoteName('#__finder_links_terms' . dechex($i)) . ' AS m ON m.term_id = t.term_id');
 			$query->set($db->quoteName('t'). '.' . $db->quoteName('links') . ' ='.  $db->quoteName('t') .'.' . $db->quoteName('links') . ' - 1');
-			$query->where($db->quoteName('m') . '.' . $db->quoteName('link_id') . ' = ' . (int) $db->quote($linkId));
+			$query->where($db->quoteName('m') . '.' . $db->quoteName('link_id') . ' = ' . $db->quote((int) $linkId));
 			$db->setQuery($query);
 			$db->query();
 
@@ -884,7 +884,7 @@ class FinderIndexer
 		$query->clear();
 		$query->delete();
 		$query->from($db->quoteName('#__finder_links'));
-		$query->where($db->quoteName('link_id') . ' = ' . (int) $db->quote($linkId));
+		$query->where($db->quoteName('link_id') . ' = ' . $db->quote((int) $linkId));
 		$db->setQuery($query);
 		$db->query();
 

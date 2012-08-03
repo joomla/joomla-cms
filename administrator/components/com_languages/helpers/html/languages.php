@@ -42,7 +42,7 @@ abstract class JHtmlLanguages {
 	 */
 	public static function id($rowNum, $language)
 	{
-		return '<input type="radio" id="cb'.$rowNum.'" name="cid" value="'.htmlspecialchars($language).'" onclick="isChecked(this.checked);" title="'.($rowNum+1).'"/>';
+		return '<input type="radio" id="cb'.$rowNum.'" name="cid" value="'.htmlspecialchars($language).'" onclick="Joomla.isChecked(this.checked);" title="'.($rowNum+1).'"/>';
 	}
 
 	public static function clients()

@@ -324,6 +324,7 @@
 			label="COM_CONFIG_FIELD_MAIL_SMTP_USERNAME_LABEL"
 			description="COM_CONFIG_FIELD_MAIL_SMTP_USERNAME_DESC"
 			filter="string"
+			autocomplete="off"
 			size="30" />
 
 		<field
@@ -332,6 +333,7 @@
 			label="COM_CONFIG_FIELD_MAIL_SMTP_PASSWORD_LABEL"
 			description="COM_CONFIG_FIELD_MAIL_SMTP_PASSWORD_DESC"
 			filter="raw"
+			autocomplete="off"
 			size="30" />
 
 		<field
@@ -392,6 +394,18 @@
 			default="1"
 			label="COM_CONFIG_FIELD_METAAUTHOR_LABEL"
 			description="COM_CONFIG_FIELD_METAAUTHOR_DESC"
+			filter="integer">
+			<option
+				value="1">JYES</option>
+			<option
+				value="0">JNO</option>
+		</field>
+		<field
+			name="MetaVersion"
+			type="radio"
+			default="0"
+			label="COM_CONFIG_FIELD_METAVERSION_LABEL"
+			description="COM_CONFIG_FIELD_METAVERSION_DESC"
 			filter="integer">
 			<option
 				value="1">JYES</option>
@@ -711,14 +725,6 @@
 	<fieldset
 		name="system"
 		label="CONFIG_SYSTEM_SETTINGS_LABEL">
-		<field
-			name="secret"
-			type="text"
-			label="COM_CONFIG_FIELD_SECRET_LABEL"
-			description="COM_CONFIG_FIELD_SECRET_DESC"
-			required="true"
-			readonly="true"
-			filter="alnum" />
 
 		<field
 			name="log_path"

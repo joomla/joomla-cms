@@ -103,7 +103,7 @@ class JFormFieldCategoryEdit extends JFormFieldList
 			$query->where('a.published IN (' . implode(',', $published) . ')');
 		}
 
-		$query->group('a.id, a.title, a.level, a.lft, a.rgt, a.extension, a.parent_id');
+		$query->group('a.id, a.title, a.level, a.lft, a.rgt, a.extension, a.parent_id, a.published');
 		$query->order('a.lft ASC');
 
 		// Get the options.

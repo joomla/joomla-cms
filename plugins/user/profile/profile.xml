@@ -22,7 +22,8 @@
 	<config>
 		<fields name="params">
 
-			<fieldset name="basic">
+			<fieldset name="basic"
+				addfieldpath="/administrator/components/com_content/models/fields">
 				<field name="register-require-user" type="spacer" class="text"
 					label="PLG_USER_PROFILE_FIELD_NAME_REGISTER_REQUIRE_USER"
 				/>
@@ -131,14 +132,20 @@
 				<field
 					name="register-require_tos"
 					type="list"
-
+					default="0"
 					label="PLG_USER_PROFILE_FIELD_TOS_LABEL"
 					description="PLG_USER_PROFILE_FIELD_TOS_DESC"
 				>
 					<option	value="2">JOPTION_REQUIRED</option>
-					<option	value="1">JOPTION_OPTIONAL</option>
 					<option	value="0">JDISABLED</option>
 				</field>
+				<field
+					name="register_tos_article"
+					type="modal_article"
+
+					label="PLG_USER_PROFILE_FIELD_TOS_ARTICLE_LABEL"
+					description="PLG_USER_PROFILE_FIELD_TOS_ARTICLE_DESC"
+				/>
 				<field
 					name="register-require_dob"
 					type="list"
@@ -252,16 +259,6 @@
 
 					label="PLG_USER_PROFILE_FIELD_ABOUT_ME_LABEL"
 					description="PLG_USER_PROFILE_FIELD_ABOUT_ME_DESC">
-					<option	value="2">JOPTION_REQUIRED</option>
-					<option	value="1">JOPTION_OPTIONAL</option>
-					<option	value="0">JDISABLED</option>
-				</field>
-				<field
-					name="profile-require_tos"
-					type="list"
-
-					label="PLG_USER_PROFILE_FIELD_TOS_LABEL"
-					description="PLG_USER_PROFILE_FIELD_TOS_DESC">
 					<option	value="2">JOPTION_REQUIRED</option>
 					<option	value="1">JOPTION_OPTIONAL</option>
 					<option	value="0">JDISABLED</option>

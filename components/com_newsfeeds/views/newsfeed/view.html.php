@@ -7,10 +7,7 @@
  *
  */
 
-// Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.view');
 
 /**
  * HTML View class for the Newsfeeds component
@@ -20,7 +17,7 @@ jimport('joomla.application.component.view');
  * @subpackage	com_newsfeeds
  * @since 1.0
  */
-class NewsfeedsViewNewsfeed extends JView
+class NewsfeedsViewNewsfeed extends JViewLegacy
 {
 	/**
 	 * @var		object
@@ -59,7 +56,7 @@ class NewsfeedsViewNewsfeed extends JView
 
 		if ($item) {
 		// Get Category Model data
-		$categoryModel = JModel::getInstance('Category', 'NewsfeedsModel', array('ignore_request' => true));
+		$categoryModel = JModelLegacy::getInstance('Category', 'NewsfeedsModel', array('ignore_request' => true));
 		$categoryModel->setState('category.id', $item->catid);
 		$categoryModel->setState('list.ordering', 'a.name');
 		$categoryModel->setState('list.direction', 'asc');
@@ -159,11 +156,7 @@ class NewsfeedsViewNewsfeed extends JView
 		$params->merge($temp);
 
 		//  get RSS parsed object
-		$options = array();
-		$options['rssUrl']		= $newsfeed->link;
-		$options['cache_time']	= $newsfeed->cache_time;
-
-		$rssDoc = JFactory::getXMLParser('RSS', $options);
+		$rssDoc = JFactory::getFeedParser($newsfeed->link, $newsfeed->cache_time);
 
 		if ($rssDoc == false) {
 			$msg = JText::_('COM_NEWSFEEDS_ERRORS_FEED_NOT_RETRIEVED');
@@ -205,7 +198,7 @@ class NewsfeedsViewNewsfeed extends JView
 		$this->assignRef('state', $state);
 		$this->assignRef('item', $item);
 		$this->assignRef('user', $user);
-		$this->assign('print', $print);
+		$this->print = $print;
 
 		$this->_prepareDocument();
 

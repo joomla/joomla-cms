@@ -340,7 +340,7 @@ class ContactModelContact extends JModelForm
 
 				//get the profile information for the linked user
 				require_once JPATH_ADMINISTRATOR.'/components/com_users/models/user.php';
-				$userModel = JModel::getInstance('User', 'UsersModel', array('ignore_request' => true));
+				$userModel = JModelLegacy::getInstance('User', 'UsersModel', array('ignore_request' => true));
 					$data = $userModel->getItem((int)$result->user_id);
 
 				JPluginHelper::importPlugin('user');

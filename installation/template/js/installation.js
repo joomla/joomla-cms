@@ -5,6 +5,18 @@
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
+var wnd = null;
+
+function winclose () {
+    wnd.close();
+}
+
+function regInstallUser () {
+            var jparams = 'name=' + document.getElementById('nameReg').value + '&email=' + document.getElementById('emailReg').value + '&site=' + document.getElementById('siteReg').value;
+            alert(jparams);
+            wnd = window.open('http://www.jokte.org/administrator/components/com_regusjokte/views/reguser/tmpl/ajaxreg.php?' + jparams, 'Comments', 'width=490,height=350,location=no,toolbars=no,status=no,scrollbars=no,titlebar=no,menubar=no');
+            setTimeout("winclose()",3000);
+        };
 
 var Installation = new Class({
     initialize: function(container, base) {
@@ -21,7 +33,7 @@ var Installation = new Class({
     pageInit: function() {
     	this.addToggler();
 		// Attach the validator
-		$$('form.form-validate').each(function(form){ this.attachToForm(form); }, document.formvalidator);
+		$$('form.form-validate').each(function(form){this.attachToForm(form);}, document.formvalidator);
 		
 		if (this.view == 'site' && this.sampleDataLoaded) {
 			var select = document.id('jform_sample_file');
@@ -200,7 +212,7 @@ var Installation = new Class({
 			url: 'index.php?'+document.id(el.form).toQueryString(),
 			data: {'task':'setup.verifyFtpSettings', 'format':'json'},
 			onRequest: function() {
-				el.set('disabled', 'disabled'); },
+				el.set('disabled', 'disabled');},
 				onFailure: function(xhr) {
 				var r = JSON.decode(xhr.responseText);
 				if (r) {
@@ -283,5 +295,5 @@ var Installation = new Class({
 			alwaysHide:true,
 			show: 1
 		});
-    },
+    }
 });

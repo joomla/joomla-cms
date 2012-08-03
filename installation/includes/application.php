@@ -1,8 +1,7 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Installation
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -37,8 +36,7 @@ class JInstallation extends JApplication
 		$config['clientId'] = 2;
 		parent::__construct($config);
 
-		JError::setErrorHandling(E_ALL, 'Ignore');
-		$this->_createConfiguration();
+		$this->_createConfiguration('');
 
 		// Set the root in the URI based on the application name.
 		JURI::root(null, str_replace('/'.$this->getName(), '', JURI::base(true)));
@@ -77,7 +75,7 @@ class JInstallation extends JApplication
 		require_once JPATH_COMPONENT.'/controller.php';
 
 		// Execute the task.
-		$controller	= JController::getInstance('JInstallation');
+		$controller	= JControllerLegacy::getInstance('JInstallation');
 		$controller->execute(JRequest::getVar('task'));
 		$controller->redirect();
 
@@ -236,7 +234,7 @@ class JInstallation extends JApplication
 	 *
 	 * @return	void
 	 */
-	public function _createConfiguration()
+	public function _createConfiguration($file)
 	{
 		// Create the registry with a default namespace of config which is read only
 		$this->_registry = new JRegistry('config');
@@ -271,7 +269,7 @@ class JInstallation extends JApplication
 		$options['name'] = $name;
 
 		$session = JFactory::getSession($options);
-		if (!is_a($session->get('registry'), 'JRegistry')) {
+		if (!$session->get('registry') instanceof JRegistry) {
 			// Registry has been corrupted somehow
 			$session->set('registry', new JRegistry('session'));
 		}
@@ -308,20 +306,20 @@ class JInstallation extends JApplication
 		return $ret;
 	}
 
-/**
- 	* Returns the installed language files in the administrative and
- 	* front-end area.
- 	*
- 	* @param	boolean	$db
- 	*
- 	* @return array Array with installed language packs in admin and site area
- 	*/
+	/**
+ 	 * Returns the installed language files in the administrative and
+ 	 * front-end area.
+ 	 *
+ 	 * @param	boolean	$db
+ 	 *
+ 	 * @return array Array with installed language packs in admin and site area
+ 	 */
  	public function getLocaliseAdmin($db=false)
  	{
  		jimport('joomla.filesystem.folder');
 
  		// Read the files in the admin area
- 		$path = JLanguage::getLanguagePath(JPATH_SITE . '/administrator');
+ 		$path = JLanguage::getLanguagePath(JPATH_ADMINISTRATOR);
  		$langfiles['admin'] = JFolder::folders($path);
 
  		// Read the files in the site area

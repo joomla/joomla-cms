@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE install SYSTEM "http://dev.joomla.org/xml/1.5/module-install.dtd">
+<extension type="module" version="2.0" client="site" method="upgrade">
+    <name>Libre HTML</name>
+    <author>TILATAM S. A.</author>
+    <creationDate>julio 2011</creationDate>
+    <copyright>Copyleft</copyright>
+    <license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+    <authorEmail>info@tilatam.com</authorEmail>
+    <authorUrl>http://www.tilatam.com</authorUrl>
+    <version>2.0</version>
+    <description>LIBHTML_DESCIPTION</description>
+    <files>
+        <filename module="mod_librehtml">mod_librehtml.php</filename>
+    </files>
+    <languages>
+        <language tag="en-GB">language/en-GB.mod_librehtml.ini</language>
+        <language tag="es-LA">language/es-LA.mod_librehtml.ini</language>
+        <language tag="pt-BR">language/pt-BR.mod_librehtml.ini</language>
+    </languages>
+    <config>
+        <fields name="params">
+            <fieldset name="basic">
+                <field name="moduleclass_sfx" type="text" default="" label="LIBHTML_LABEL_CSS" description="LIBHTML_TOOLTIP_CSS" />
+                <field name="cache" type="radio" default="0" label="LIBHTML_LABEL_CACHE" description="LIBHTML_TOOLTIP_CACHE">
+                    <option value="0">No</option>
+                    <option value="1">LIBHTML_OPT_YES</option>
+                </field>
+                <field name="@spacer" type="spacer" default="" label="LIBHTML_LABEL_CACHE" description="LIBHTML_TOOLTIP_CACHE" />
+                <field name="fwd_html" type="textarea" filter="raw" default="" label="LIBHTML_LABEL_HTML" description="Add any Html or Javascript Here. Eg: Google Adsense Code, Copy and Paste Scripts" cols="70" rows="30" />
+                <field name="@spacer" type="spacer" default="" label="" description="" />
+                <field name="clean_js" type="list" default="1" label="LIBHTML_LABEL_CLS_JS" description="LIBHTML_TOOLTIP_CLS_JS">
+                    <option value="0">LIBHTML_OPT_NO</option>
+                    <option value="1">LIBHTML_OPT_YES</option>
+                </field>
+                <field name="clean_css" type="list" default="1" label="LIBHTML_LABEL_CLS_CSS" description="LIBHTML_TOOLTIP_CLS_CSS">
+                    <option value="0">LIBHTML_OPT_NO</option>
+                    <option value="1">LIBHTML_OPT_YES</option>
+                </field>
+                <field name="clean_all" type="list" default="1" label="LIBHTML_LABEL_CLS_HTML" description="LIBHTML_TOOLTIP_CLS_HTML">
+                    <option value="0">LIBHTML_OPT_NO</option>
+                    <option value="1">LIBHTML_OPT_YES</option>
+                </field>
+            </fieldset>
+        </fields>
+    </config>
+</extension>

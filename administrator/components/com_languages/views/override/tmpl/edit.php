@@ -45,6 +45,10 @@ JHtml::_('behavior.keepalive');
 				<?php echo $this->form->getInput('key'); ?></li>
 				<li><?php echo $this->form->getLabel('override'); ?>
 				<?php echo $this->form->getInput('override'); ?></li>
+				<?php if($this->state->get('filter.client') == 'administrator'): ?>
+				<li><?php echo $this->form->getLabel('both'); ?>
+				<?php echo $this->form->getInput('both'); ?></li>
+				<?php endif; ?>
 				<li><?php echo $this->form->getLabel('language'); ?>
 				<?php echo $this->form->getInput('language'); ?></li>
 				<li><?php echo $this->form->getLabel('client'); ?>

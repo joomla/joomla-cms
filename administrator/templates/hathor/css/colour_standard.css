@@ -768,6 +768,10 @@ a img.calendar {
 	background-image: url(../images/admin/publish_y.png);
 }
 
+.jgrid span.protected	{
+	background-image: url(../images/admin/icon-16-protected.png);
+}
+
 /**
  * Menu Icons
  * These icons are used on the Administrator menu
@@ -894,6 +898,10 @@ a img.calendar {
 }
 
 .icon-16-install {
+	background-image: url(../images/menu/icon-16-install.png);
+}
+
+.icon-16-joomlaupdate {
 	background-image: url(../images/menu/icon-16-install.png);
 }
 
@@ -1213,6 +1221,10 @@ a img.calendar {
 
 .icon-32-stats {
 	background-image: url(../images/toolbar/icon-32-stats.png);
+}
+
+.icon-32-print {
+    background-image: url(../images/toolbar/icon-32-print.png);
 }
 
 /**

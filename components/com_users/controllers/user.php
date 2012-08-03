@@ -26,7 +26,7 @@ class UsersControllerUser extends UsersController
 	 */
 	public function login()
 	{
-		JRequest::checkToken('post') or jexit(JText::_('JInvalid_Token'));
+		JSession::checkToken('post') or jexit(JText::_('JInvalid_Token'));
 
 		$app = JFactory::getApplication();
 
@@ -74,7 +74,7 @@ class UsersControllerUser extends UsersController
 	 */
 	public function logout()
 	{
-		JRequest::checkToken('default') or jexit(JText::_('JInvalid_Token'));
+		JSession::checkToken('request') or jexit(JText::_('JInvalid_Token'));
 
 		$app = JFactory::getApplication();
 
@@ -104,7 +104,7 @@ class UsersControllerUser extends UsersController
 	 */
 	public function register()
 	{
-		JRequest::checkToken('post') or jexit(JText::_('JINVALID_TOKEN'));
+		JSession::checkToken('post') or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Get the form data.
 		$data	= JRequest::getVar('user', array(), 'post', 'array');
@@ -164,7 +164,7 @@ class UsersControllerUser extends UsersController
 	public function remind()
 	{
 		// Check the request token.
-		JRequest::checkToken('post') or jexit(JText::_('JINVALID_TOKEN'));
+		JSession::checkToken('post') or jexit(JText::_('JINVALID_TOKEN'));
 
 		$app	= JFactory::getApplication();
 		$model	= $this->getModel('User', 'UsersModel');
@@ -223,6 +223,6 @@ class UsersControllerUser extends UsersController
 	public function resend()
 	{
 		// Check for request forgeries
-		JRequest::checkToken('post') or jexit(JText::_('JINVALID_TOKEN'));
+		JSession::checkToken('post') or jexit(JText::_('JINVALID_TOKEN'));
 	}
 }

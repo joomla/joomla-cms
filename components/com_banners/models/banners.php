@@ -37,12 +37,17 @@ class BannersModelBanners extends JModelList
 	 */
 	protected function getStoreId($id = '')
 	{
+                $filter_search = $this->getState('filter.search');
+                $filter_tagSearch = $this->getState('filter.tag_search');
+                $filter_clientId = $this->getState('filter.client_id');
+                $filter_catId = $this->getState('filter.category_id');
+                $filter_keywords = $this->getState('filter.keywords');
 		// Compile the store id.
-		$id	.= ':'.$this->getState('filter.search');
-		$id	.= ':'.$this->getState('filter.tag_search');
-		$id	.= ':'.$this->getState('filter.client_id');
-		$id	.= ':'.$this->getState('filter.category_id');
-		$id	.= ':'.$this->getState('filter.keywords');
+		$id	.= ':'. (is_array($filter_search) ? $filter_search[0] : $filter_search);
+                $id	.= ':'. (is_array($filter_tagSearch) ? $filter_tagSearch[0] : $filter_tagSearch);
+                $id	.= ':'. (is_array($filter_clientId) ? $filter_clientId[0] : $filter_clientId);
+                $id	.= ':'. (is_array($filter_catId) ? $filter_catId[0] : $filter_catId);
+                $id	.= ':'. (is_array($filter_keywords) ? $filter_keywords[0] : $filter_keywords);
 
 		return parent::getStoreId($id);
 	}
@@ -73,21 +78,19 @@ class BannersModelBanners extends JModelList
 			'a.cid as cid,'.
 			'a.params as params,'.
 			'a.custombannercode as custombannercode,'.
-			'a.track_impressions as track_impressions'
+			'a.track_impressions as track_impressions,'.
+			'cl.track_impressions as client_track_impressions'
 			);
-			$query->from('#__banners as a');
-			$query->where('a.state=1');
-			$query->where('('.$query->currentTimestamp().' >= a.publish_up OR a.publish_up = '.$nullDate.')');
-			$query->where('('.$query->currentTimestamp().' <= a.publish_down OR a.publish_down = '.$nullDate.')');
-			$query->where('(a.imptotal = 0 OR a.impmade <= a.imptotal)');
-
-
+		$query->from('#__banners as a');
+		$query->join('LEFT', '#__banner_clients AS cl ON cl.id = a.cid');
+		$query->where('a.state=1');
+		$query->where('('.$query->currentTimestamp().' >= a.publish_up OR a.publish_up = '.$nullDate.')');
+		$query->where('('.$query->currentTimestamp().' <= a.publish_down OR a.publish_down = '.$nullDate.')');
+		$query->where('(a.imptotal = 0 OR a.impmade <= a.imptotal)');
 
 		if ($cid) {
-			$query->where('a.cid = ' . (int) $cid);
-			$query->join('LEFT', '#__banner_clients AS cl ON cl.id = a.cid');
 			$query->join('LEFT', '#__categories as cat ON a.catid = cat.id');
-			$query->select('cl.track_impressions as client_track_impressions');
+			$query->where('a.cid = ' . (int) $cid);
 			$query->where('cl.state = 1');
 		}
 

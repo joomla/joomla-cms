@@ -1,0 +1,78 @@
+/* moodalbox CSS */
+
+div#mb_overlay {
+position: absolute;
+left: 0;
+width: 100%;
+background-color: #000;
+cursor: pointer;
+z-index:999;
+}
+
+div#mb_center, div#mb_bottom {
+position: absolute;
+left: 50%;
+overflow: hidden;
+background-color: #DDD;
+z-index:1000;
+}
+
+div#mb_center {
+background-color: #FFF;
+z-index:1000;
+}
+
+div#mb_contents {
+width: 400px;
+height: 400px;
+z-index:1000;
+border: 10px solid #DDD;
+overflow: auto;
+background-color: #FFF;
+visibility: hidden;
+}
+
+.mb_loading {
+background: #DDD url(../img/loading.gif) no-repeat center center;
+z-index:1000;
+}
+
+#mb_error {
+z-index:1000;
+font-size: 1.2em;
+color: #CD0000;
+font-weight: bold;
+text-align: center;
+padding: 0.5em;
+font-family: Verdana, Helvetica, sans-serif;
+}
+
+#mb_error em {
+font-size: 0.8em;
+}
+
+div#mb_bottom {
+z-index:1000;
+font-family: Verdana, Helvetica, sans-serif;
+font-size: 10px;
+color: #666;
+line-height: 1.4em;
+text-align: left;
+border: 10px solid #DDD;
+border-top-style: none;
+}
+
+a#mb_close_link {
+z-index:1000;
+display: block;
+float: right;
+width: 66px;
+height: 22px;
+background: transparent url(../img/closelabel.gif) no-repeat center;
+margin: 5px 0;
+}
+
+div#mb_caption {
+z-index:1000;
+margin-right: 71px;
+}

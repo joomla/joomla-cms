@@ -7,6 +7,8 @@
  */
 
 defined('_JEXEC') or die;
+$nfo = $this->getDataInstall();
+
 ?>
 <div id="step">
 	<div class="far-right">
@@ -21,7 +23,7 @@ defined('_JEXEC') or die;
 	<h2><?php echo JText::_('INSTL_COMPLETE'); ?></h2>
 </div>
 
-<form action="index.php" method="post" id="adminForm" class="form-validate">
+<form action="index.php" method="post" id="adminForm" class="form-validate">    
 	<div id="installer">
 		<div class="m">
 			<h3><?php echo JText::_('INSTL_COMPLETE_TITLE'); ?></h3>
@@ -38,6 +40,15 @@ defined('_JEXEC') or die;
 								<td class="error">
 									<?php echo JText::_('INSTL_COMPLETE_REMOVE_INSTALLATION'); ?>
 								</td>
+							</tr>
+                                                        <tr>
+								<td>
+                                                                    <input class="button" type="button" name="regInstall" id="regInstall" value="<?php echo JText::_('INSTL_COMPLETE_REG_USER'); ?>" onclick="regInstallUser();"/>
+                                                                    <input type="hidden" name="email" id="emailReg" value="<?php echo $nfo['email']; ?>" />
+                                                                    <input type="hidden" name="name" id="nameReg" value="<?php echo $nfo['name']; ?>" />
+                                                                    <input type="hidden" name="site" id="siteReg" value="<?php echo $nfo['site']; ?>" />
+                                                                    <div id="okReg" class="notice"></div>
+                                                                </td>
 							</tr>
 							<tr>
 								<td><input class="button" type="button" name="instDefault" value="<?php echo JText::_('INSTL_COMPLETE_REMOVE_FOLDER'); ?>" onclick="Install.removeFolder(this);"/></td>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fields name="filters">
+		<fieldset
+			name="search"
+		>
+			<field type="search"
+				name="search"
+				submit="yes"
+				onchange="this.form.submit();"
+				label="JSEARCH_FILTER_LABEL"
+				description="JSEARCH_FILTER"
+			/>
+		</fieldset>
+		<fieldset
+			name="select"
+		>
+            
+            <field type="updatesites" name="update_site_id" hidden="true" onchange="this.form.submit();">
+                <option value="">COM_INSTALLER_VALUE_UPDATESITE_SELECT</option>
+            </field>
+
+			<field type="updatetype"
+				name="type"
+				hidden="true"
+				onchange="this.form.submit();"
+			>
+				<option value="">COM_INSTALLER_VALUE_TYPE_SELECT</option>
+			</field>
+			<field type="updatefolder"
+				name="folder"
+				hidden="true"
+				onchange="this.form.submit();"
+			>
+				<option value="">COM_INSTALLER_VALUE_FOLDER_SELECT</option>
+			</field>
+		</fieldset>
+	</fields>
+</form>

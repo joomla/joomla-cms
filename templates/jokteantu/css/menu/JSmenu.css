@@ -1,0 +1,65 @@
+/*menu hernan*/
+
+
+div#izquierda div.moduletable ul.menu li {
+    line-height: 30px;
+    font-size: 13px;
+    padding: 1px 5px;
+    width: 130px !important;
+    overflow: hidden;
+}
+
+div#derecha div.moduletable ul.menu li {
+    line-height: 30px;
+    font-size: 13px;
+    padding: 1px 5px;
+    /*width: 130px !important;
+    overflow: hidden;*/
+}
+
+div#izquierda div.moduletable ul.menu li ul, div#derecha div.moduletable ul.menu li ul {
+    background: #ccc;
+    list-style: none;
+    padding: 0px;
+}
+
+div#izquierda div.moduletable ul.menu li ul li ul {
+    position: absolute;
+    background: #ccc;
+    list-style: none;
+    padding: 0px;
+    margin-top: -31px;
+    margin-left: 120px;
+    border-radius: 7px;
+    -ms-border-radius: 7px;
+    -moz-border-radius: 7px;
+    -webkit-border-radius: 7px;
+    -khtml-border-radius: 7px;
+}
+
+div#derecha div.moduletable ul.menu li ul li ul {
+    position: absolute;
+    background: #ccc;
+    list-style: none;
+    padding: 0px;
+    margin-top: -31px;
+    margin-left: -88px;
+    border-radius: 7px;
+    -ms-border-radius: 7px;
+    -moz-border-radius: 7px;
+    -webkit-border-radius: 7px;
+    -khtml-border-radius: 7px;
+}
+
+.fxTop, .fxIzq, .fxDer {
+    background: #999;
+    border-radius: 10px;
+    -ms-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -khtml-border-radius: 10px;
+}
+
+ul.menu li.active {
+    text-decoration: underline;
+}

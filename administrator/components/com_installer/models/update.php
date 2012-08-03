@@ -78,6 +78,9 @@ class InstallerModelUpdate extends JModelList
 		// Filter by extension_id
 		if ($eid = $this->getState('filter.extension_id')) {
 			$query->where($db->nq('extension_id') . ' = ' . $db->q((int) $eid));
+		} else {
+			$query->where($db->nq('extension_id').' != '.$db->q(0));
+			//$query->where($db->nq('extension_id').' != '.$db->q(700));
 		}
 
 		return $query;
@@ -146,6 +149,40 @@ class InstallerModelUpdate extends JModelList
 		}
 	}
 
+    /**
+     * Get current extensions
+     * 
+     * @since   2.5
+     * @return  object
+     */
+    public function getUpdates()
+    {
+        $db = JFactory::getDBO();
+        $db->setQuery('SELECT * FROM #__updates');
+        if ($updates = $db->loadObjectList())
+        {
+            return $updates;
+        }
+        return false;
+    }
+    
+	/**
+     * Get current extensions
+     * 
+     * @since   2.5
+     * @return  object
+     */
+    public function getExtensions()
+    {
+        $db = JFactory::getDBO();
+        $db->setQuery('SELECT * FROM #__extensions');
+        if ($extensions = $db->loadObjectList())
+        {
+            return $extensions;
+        }
+        return false;
+    }
+
 	/**
 	 * Update function.
 	 *
@@ -165,8 +202,9 @@ class InstallerModelUpdate extends JModelList
 			// install sets state and enqueues messages
 			$res = $this->install($update);
 
+            // Disabling the purging of the update list, instead deleting specific row
 			if ($res) {
-				$this->purge();
+				$instance->delete($uid);
 			}
 
 			$result = $res & $result;

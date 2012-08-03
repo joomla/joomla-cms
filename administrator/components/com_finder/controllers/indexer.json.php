@@ -32,11 +32,16 @@ class FinderControllerIndexer extends JController
 	{
 		static $log;
 
-		if ($log == null)
+		$params = JComponentHelper::getParams('com_finder');
+
+		if ($params->get('enable_logging', '0'))
 		{
-			$options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
-			$options['text_file'] = 'indexer.php';
-			$log = JLog::addLogger($options);
+			if ($log == null)
+			{
+				$options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
+				$options['text_file'] = 'indexer.php';
+				$log = JLog::addLogger($options);
+			}
 		}
 
 		// Log the start
@@ -48,7 +53,7 @@ class FinderControllerIndexer extends JController
 		header('Expires: -1');
 
 		// Check for a valid token. If invalid, send a 403 with the error message.
-		JRequest::checkToken('request') or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
+		JSession::checkToken('request') or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
 
 		// Put in a buffer to silence noise.
 		ob_start();
@@ -94,11 +99,16 @@ class FinderControllerIndexer extends JController
 	{
 		static $log;
 
-		if ($log == null)
+		$params = JComponentHelper::getParams('com_finder');
+
+		if ($params->get('enable_logging', '0'))
 		{
-			$options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
-			$options['text_file'] = 'indexer.php';
-			$log = JLog::addLogger($options);
+			if ($log == null)
+			{
+				$options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
+				$options['text_file'] = 'indexer.php';
+				$log = JLog::addLogger($options);
+			}
 		}
 
 		// Log the start
@@ -110,7 +120,7 @@ class FinderControllerIndexer extends JController
 		header('Expires: -1');
 
 		// Check for a valid token. If invalid, send a 403 with the error message.
-		JRequest::checkToken('request') or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
+		JSession::checkToken('request') or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
 
 		// Put in a buffer to silence noise.
 		ob_start();
@@ -214,7 +224,7 @@ class FinderControllerIndexer extends JController
 		header('Expires: -1');
 
 		// Check for a valid token. If invalid, send a 403 with the error message.
-		JRequest::checkToken('request') or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
+		JSession::checkToken('request') or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
 
 		// Put in a buffer to silence noise.
 		ob_start();
@@ -257,11 +267,16 @@ class FinderControllerIndexer extends JController
 	{
 		static $log;
 
-		if ($log == null)
+		$params = JComponentHelper::getParams('com_finder');
+
+		if ($params->get('enable_logging', '0'))
 		{
-			$options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
-			$options['text_file'] = 'indexer.php';
-			$log = JLog::addLogger($options);
+			if ($log == null)
+			{
+				$options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
+				$options['text_file'] = 'indexer.php';
+				$log = JLog::addLogger($options);
+			}
 		}
 
 		$backtrace = null;
@@ -308,11 +323,16 @@ class FinderIndexerResponse
 	{
 		static $log;
 
-		if ($log == null)
+		$params = JComponentHelper::getParams('com_finder');
+
+		if ($params->get('enable_logging', '0'))
 		{
-			$options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
-			$options['text_file'] = 'indexer.php';
-			$log = JLog::addLogger($options);
+			if ($log == null)
+			{
+				$options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
+				$options['text_file'] = 'indexer.php';
+				$log = JLog::addLogger($options);
+			}
 		}
 
 		// The old token is invalid so send a new one.

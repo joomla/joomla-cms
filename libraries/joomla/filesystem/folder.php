@@ -47,8 +47,8 @@ abstract class JFolder
 		}
 
 		// Eliminate trailing directory separators, if any
-		$src = rtrim($src, DS);
-		$dest = rtrim($dest, DS);
+		$src = rtrim($src, DIRECTORY_SEPARATOR);
+		$dest = rtrim($dest, DIRECTORY_SEPARATOR);
 
 		if (!self::exists($src))
 		{
@@ -661,7 +661,6 @@ abstract class JFolder
 	 */
 	public static function makeSafe($path)
 	{
-		//$ds = (DS == '\\') ? '\\/' : DS;
 		$regex = array('#[^A-Za-z0-9:_\\\/-]#');
 		return preg_replace($regex, '', $path);
 	}

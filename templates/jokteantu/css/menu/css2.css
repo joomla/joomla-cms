@@ -1,0 +1,209 @@
+﻿/**
+ *Menu css
+ * @package     Jokte.Site
+ * @subpackage	jokteantu
+ * @author 	    Equipo de desarrollo juuntos.
+ * @copyleft    (comparte igual)  Jokte!
+ * @license     GNU General Public License version 3 o superior.
+ * ******************************************************************************/
+ 
+.moduletable_menu {
+    height: 35px;
+    width: 95%;
+    margin: 0 auto;
+    position: relative;
+    z-index: 10;
+}
+.moduletable_menu ul {
+    margin:13px 0 0 0;
+    text-align: center;
+	list-style: none;
+	padding:0;
+}
+
+.moduletable_menu li {
+	text-transform: uppercase;
+ 	font-size:0.9em;
+    display: inline-block;
+	margin: 0 5px;
+	min-width:80px;
+	height:35px;
+	background-color: transparent;
+    background-image: url("images/cuadro-izq.png"),url("images/cuadro-der.png");
+    background-position: 0 100%,100% 5px;
+	background-repeat: no-repeat;	
+}
+.moduletable_menu li:hover, .moduletable_menu li.active{
+background-color: transparent;
+    background-image: url("images/cuadro-izq-h.png"),url("images/cuadro-der-h.png");
+    background-origin: padding-box;
+    background-position: 0 100%,100% 5px;
+    background-repeat: no-repeat}
+
+.moduletable_menu li a, span.separator {
+	padding: 10px;
+	display: block;
+	padding: 10px 10px 8px 10px;
+	color:#333;}
+
+.moduletable_menu li a:hover {
+	color:#ae0c0c;}
+	
+/*Segundo nivel*/
+
+ 
+.moduletable_menu ul ul, .moduletable_menu ul .parent ul,.moduletable_menu ul ul .parent:hover ul ul{
+    float: left;
+	background-color:transparent;
+    margin-left: 0;
+    margin-top: 0;
+    text-align: left;
+    width: 50px;
+	visibility: hidden;
+	}
+
+.moduletable_menu ul .parent:hover ul,.moduletable_menu ul ul ul .parent:hover ul {
+    visibility: visible;
+}
+
+.moduletable_menu li.parent ul li {
+	background:#eee;
+    margin-left: 0px;
+    padding: 0 0 8px 5px;
+	border-top: 1px solid #eee;
+}
+
+.moduletable_menu .menu ul li{
+    height: 30px;
+    width: 200px;
+  	margin: 0px;
+	background-image: none;
+}
+.moduletable_menu .menu ul li:hover{}
+.moduletable_menu .menu ul li:hover {
+    background-color: #fff;
+    background-image: none;
+    box-shadow: 1px 1px 2px #ccc;
+	-moz-box-shadow: 1px 1px 2px #ccc;
+	-webkit-box-shadow: 1px 1px 2px #ccc;}
+.moduletable_menu .menu ul li:hover a{
+}
+.moduletable_menu .menu ul li:hover ul li{
+
+}
+.moduletable_menu .menu ul ul {
+ 
+}
+.moduletable_menu .menu ul li li {}
+
+.moduletable_menu .parent ul .parent li {}
+
+/*tercer nivel*/
+.moduletable_menu ul ul li.parent:hover ul{
+    display: block;
+    margin-left: 200px;
+    margin-top: -37px;    
+}
+.moduletable_menu ul ul ul {
+    display: none;
+	margin-left: 150px;
+	font-size: 1.05em;
+}
+
+/*menu Vertical*/
+.moduletable ul.menu{
+	font-size: 0.8em;
+	line-height: 20px;
+	text-transform:uppercase;
+	padding:1px 5px;}
+
+.moduletable ul.menu li{
+min-height:25px;
+background:#FBFCFD;
+}
+.moduletable ul.menu li a{
+display:block;
+padding: 0 5px;}
+	
+.moduletable ul.menu li.active {
+      background-color: #333;
+}
+.moduletable ul.menu li.parent a {
+    color: #AE0C0C;
+}
+.moduletable ul.menu li.parent.active li,.moduletable ul.menu .alias-parent-active li{/*para los parent inferior*/
+border-left:1px solid #333;}
+
+.moduletable ul.menu .active.deeper.parent li {
+    /*background-color: transparent;
+    float: left;
+    font-size: 1.01em;
+    width:100%;
+ */
+}
+.moduletable ul.menu .active.deeper.parent li a{
+color:#AE0C0C;
+ padding:0px 5px;
+}
+.moduletable ul.menu li.active a {
+    color: #FFFFFF;
+    display:block;
+    padding:3px 5px;
+}
+.moduletable ul.menu li.active li {/*para personalizar los parent*/
+   
+    
+   }
+
+.moduletable ul.menu li.active li.parent a {
+    color: #333333;
+}
+.moduletable ul.menu li.active li.parent {
+    background: #333;
+	line-height:20px;
+}
+
+#izquierda .moduletable ul {
+    display: inline;
+    float: left;
+    list-style-image: none;
+    list-style-position: outside;
+    list-style-type: none;
+    margin-bottom: 0px;
+    margin-top: 0;
+    padding: 5px 0 0 0;
+    text-align: left;
+    background: transparent;
+}
+
+#izquierda .moduletable ul.menu li.active.deeper.parent li.active, #izquierda .moduletable ul.menu li.active.deeper.parent li.active.deeper.parent li .active,#izquierda .moduletable ul.menu li.active.deeper.parent li.active.deeper.parent li ul li.active  {
+    border-left: 1px dashed red;
+	padding-left:4px;
+	margin-left:5px;
+	border-bottom:1px dashed #ccc;
+}
+#derecha .moduletable ul{
+    display: inline;
+    float: right;
+    list-style-image: none;
+    list-style-position: outside;
+    list-style-type: none;
+    margin-bottom: 0px;
+    margin-top: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    padding-right: 5px;
+    padding-top: 5px;
+    text-align: right;
+    background: #fff;
+	min-width:100%;
+}
+#derecha .moduletable ul.menu li.active.deeper.parent li.active, #derecha.moduletable ul.menu li.active.deeper.parent li.active.deeper.parent li .active,#derecha .moduletable ul.menu li.active.deeper.parent li.active.deeper.parent li ul li.active  {
+    border-right: 1px dashed red;
+	padding-right:4px;
+	margin-right:5px;
+	border-bottom:1px dashed #ccc;
+}
+li.active li.active li.active li.active {
+    background: #fff;
+}

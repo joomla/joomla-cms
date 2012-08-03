@@ -4,10 +4,7 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.model');
 
 /**
  * This models supports retrieving lists of newsfeed categories.
@@ -16,7 +13,7 @@ jimport('joomla.application.component.model');
  * @subpackage	com_newsfeeds
  * @since		1.6
  */
-class NewsfeedsModelCategories extends JModel
+class NewsfeedsModelCategories extends JModelLegacy
 {
 	/**
 	 * Model context string.

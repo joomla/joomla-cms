@@ -10,7 +10,7 @@
 defined('JPATH_PLATFORM') or die;
 
 /**
- * Base object class.
+ * Joomla Platform Object Class
  *
  * This class allows for simple but smart objects with get and set methods
  * and an internal error handler.
@@ -22,10 +22,12 @@ defined('JPATH_PLATFORM') or die;
 class JObject
 {
 	/**
-	 * An array of error messages or JExceptions objects.
+	 * An array of error messages or Exception objects.
 	 *
 	 * @var    array
 	 * @since  11.1
+	 * @see     JError
+	 * @deprecated 12.3  JError has been deprecated
 	 */
 	protected $_errors = array();
 
@@ -51,6 +53,7 @@ class JObject
 	 * @return  string  The classname.
 	 *
 	 * @since   11.1
+	 * @deprecated 12.3  Classes should provide their own __toString() implementation.
 	 */
 	public function __toString()
 	{
@@ -131,6 +134,8 @@ class JObject
 	 * @return  string   Error message
 	 *
 	 * @since   11.1
+	 * @see     JError
+	 * @deprecated 12.3  JError has been deprecated
 	 */
 	public function getError($i = null, $toString = true)
 	{
@@ -165,6 +170,8 @@ class JObject
 	 * @return  array  Array of error messages or JErrors.
 	 *
 	 * @since   11.1
+	 * @see     JError
+	 * @deprecated 12.3  JError has been deprecated
 	 */
 	public function getErrors()
 	{
@@ -222,6 +229,8 @@ class JObject
 	 * @return  void
 	 *
 	 * @since   11.1
+	 * @see     JError
+	 * @deprecated 12.3  JError has been deprecated
 	 */
 	public function setError($error)
 	{

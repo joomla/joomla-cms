@@ -1003,6 +1003,10 @@ a img.calendar {
 	background-image: url(../images/menu/icon-16-install.png);
 }
 
+.icon-16-joomlaupdate {
+	background-image: url(../images/menu/icon-16-install.png);
+}
+
 .icon-16-language {
 	background-image: url(../images/menu/icon-16-language.png);
 }
@@ -1311,6 +1315,10 @@ a img.calendar {
 
 .icon-32-stats {
 	background-image: url(../images/toolbar/icon-32-stats.png);
+}
+
+.icon-32-print {
+    background-image: url(../images/toolbar/icon-32-print.png);
 }
 
 /**

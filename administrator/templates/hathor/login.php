@@ -108,7 +108,7 @@ $file = 'language/'.$lang->getTag().'/'.$lang->getTag().'.css';
 	<!-- Footer -->
 	<div id="footer">
 		<p class="copyright">
-			<?php $joomla= '<a href="http://www.joomla.org">Joomla!&#174;</a>';
+			<?php $joomla= '<a href="http://www.jokte.org">Jookte!</a>';
 			echo JText::sprintf('JGLOBAL_ISFREESOFTWARE', $joomla) ?>
 		</p>
 	</div>

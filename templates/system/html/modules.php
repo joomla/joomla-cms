@@ -1,6 +1,14 @@
 <?php
 /**
- * @package		Joomla.Site
+ * /**
+ *Chromes defecto jokte! jxhtml,_menu
+ * @package     Jokte.Site
+ * @subpackage	jokteantu
+ * @author 	juuntos.org
+ * @copyright   Copyleft.
+ * @license     GNU General Public License version 3 or later; see LICENSE.txt
+ * ******************************************************************************
+ *Chromes defecto joomla (xhtml,none,rounded,horz,table,outline)
  * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -8,6 +16,41 @@
 // no direct access
 defined('_JEXEC') or die;
 
+
+/*
+ * jxhtml (Variación de xhtml que nos permite mayor sensibilidad para agrupar los titulos h3 dentreo de una div personalizable)
+ */
+function modChrome_jxhtml($module, &$params, &$attribs)
+{
+	if (!empty ($module->content)) : ?>
+		<div class="moduletable<?php echo htmlspecialchars($params->get('moduleclass_sfx')); ?>">
+		<?php if ($module->showtitle != 0) : ?>
+		<div class="tit">
+		<h3><?php echo $module->title; ?></h3>
+		</div>
+		<?php endif; ?>
+			<?php echo $module->content; ?>
+		</div>
+	<?php endif;
+}
+
+/*
+ * jxmenu (Variación de xhtml que nos permite mayor asignar la extensión _menu , generando por defecto la clase .moduletable_menu )
+ */
+function modChrome_jxmenu($module, &$params, &$attribs)
+{
+	if (!empty ($module->content)) : ?>
+		<div class="moduletable_menu<?php echo htmlspecialchars($params->get('moduleclass_sfx')); ?>">
+		<?php if ($module->showtitle != 0) : ?>
+		<div>
+		<h3><?php echo $module->title; ?></h3>
+		</div>
+		<?php endif; ?>
+			<?php echo $module->content; ?>
+		</div>
+	<?php endif;
+}
+/*
 /*
  * none (output raw module content)
  */

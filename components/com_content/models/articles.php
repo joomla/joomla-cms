@@ -4,7 +4,6 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.modellist');
@@ -67,11 +66,9 @@ class ContentModelArticles extends JModelList
 		$app = JFactory::getApplication();
 
 		// List state information
-		//$value = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'));
 		$value = JRequest::getUInt('limit', $app->getCfg('list_limit', 0));
 		$this->setState('list.limit', $value);
 
-		//$value = $app->getUserStateFromRequest($this->context.'.limitstart', 'limitstart', 0);
 		$value = JRequest::getUInt('limitstart', 0);
 		$this->setState('list.start', $value);
 
@@ -124,7 +121,9 @@ class ContentModelArticles extends JModelList
 	protected function getStoreId($id = '')
 	{
 		// Compile the store id.
-		$id .= ':'.$this->getState('filter.published');
+                $pubVal = $this->getState('filter.published');
+            
+		$id .= ':'.( is_array($pubVal) ? 0 : $this->getState('filter.published'));
 		$id .= ':'.$this->getState('filter.access');
 		$id .= ':'.$this->getState('filter.featured');
 		$id .= ':'.$this->getState('filter.article_id');
@@ -212,7 +211,7 @@ class ContentModelArticles extends JModelList
 		$subQuery->group('contact.user_id, contact.language');
 		$query->select('contact.id as contactid' );
 		$query->join('LEFT', '(' . $subQuery . ') AS contact ON contact.user_id = a.created_by');
-		
+
 		// Join over the categories to get parent category titles
 		$query->select('parent.title as parent_title, parent.id as parent_id, parent.path as parent_route, parent.alias as parent_alias');
 		$query->join('LEFT', '#__categories as parent ON parent.id = c.parent_id');
@@ -248,6 +247,7 @@ class ContentModelArticles extends JModelList
 			$user	= JFactory::getUser();
 			$groups	= implode(',', $user->getAuthorisedViewLevels());
 			$query->where('a.access IN ('.$groups.')');
+			$query->where('c.access IN ('.$groups.')');
 		}
 
 		// Filter by published state

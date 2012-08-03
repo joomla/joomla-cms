@@ -341,64 +341,38 @@ if ($im || $mm || $pm || $tm || $lm)
 }
 
 //
-// Help Submenu
+// Ayuda Juuntos / Jokte!
 //
 if ($showhelp == 1)
 {
 	$menu->addChild(
-		new JMenuNode(JText::_('MOD_MENU_HELP'), '#'), true
-	);
-	$menu->addChild(
-		new JMenuNode(JText::_('MOD_MENU_HELP_JOOMLA'), 'index.php?option=com_admin&view=help', 'class:help')
+		new JMenuNode(JText::_('MOD_MENU_AYUDA_JUUNTOS_JOKTE'), '#'), true
 	);
 	$menu->addSeparator();
+        
+        $menu->addChild(
+		new JMenuNode(JText::_('MOD_MENU_ABOUT_JUUNTOS'), 'index.php?option=com_admin&view=disclaimer', 'class:help-jrd')
+	);
 
 	$menu->addChild(
-		new JMenuNode(JText::_('MOD_MENU_HELP_SUPPORT_OFFICIAL_FORUM'), 'http://forum.joomla.org', 'class:help-forum', false, '_blank')
+		new JMenuNode(JText::_('MOD_MENU_AYUDA_FORO_JUUNTOS'), 'http://juuntos.org/foro.html', 'class:help-forum', false, '_blank')
 	);
-	if ($forum_url = $params->get('forum_url'))
-	{
-		$menu->addChild(
-			new JMenuNode(JText::_('MOD_MENU_HELP_SUPPORT_CUSTOM_FORUM'), $forum_url, 'class:help-forum', false, '_blank')
-		);
-	}
-	$debug = $lang->setDebug(false);
-	if ($lang->hasKey('MOD_MENU_HELP_SUPPORT_OFFICIAL_LANGUAGE_FORUM_VALUE') && JText::_('MOD_MENU_HELP_SUPPORT_OFFICIAL_LANGUAGE_FORUM_VALUE') != '')
-	{
-		$forum_url = 'http://forum.joomla.org/viewforum.php?f=' . (int) JText::_('MOD_MENU_HELP_SUPPORT_OFFICIAL_LANGUAGE_FORUM_VALUE');
-		$lang->setDebug($debug);
-		$menu->addChild(
-			new JMenuNode(JText::_('MOD_MENU_HELP_SUPPORT_OFFICIAL_LANGUAGE_FORUM'), $forum_url, 'class:help-forum', false, '_blank')
-		);
-	}
-	$lang->setDebug($debug);
 	$menu->addChild(
-		new JMenuNode(JText::_('MOD_MENU_HELP_DOCUMENTATION'), 'http://docs.joomla.org', 'class:help-docs', false, '_blank')
+		new JMenuNode(JText::_('MOD_MENU_AYUDA_DOCUMENTACION'), 'http://jdocs.juuntos.net', 'class:help-docs', false, '_blank')
 	);
 	$menu->addSeparator();
+	
 	$menu->addChild(
 		new JMenuNode(JText::_('MOD_MENU_HELP_LINKS'), '#', 'class:weblinks'), true
 	);
 	$menu->addChild(
-		new JMenuNode(JText::_('MOD_MENU_HELP_EXTENSIONS'), 'http://extensions.joomla.org', 'class:help-jed', false, '_blank')
+		new JMenuNode(JText::_('MOD_MENU_HELP_EXTENSIONS'), 'http://extensiones.juuntos.net', 'class:help-jed', false, '_blank')
 	);
 	$menu->addChild(
-		new JMenuNode(JText::_('MOD_MENU_HELP_TRANSLATIONS'), 'http://community.joomla.org/translations.html', 'class:help-trans', false, '_blank')
+		new JMenuNode(JText::_('MOD_MENU_AYUDA_PACTO'), 'http://juuntos.org/comunidad-juuntos/nuestro-pacto-social.html', 'class:help-jed', false, '_blank')
 	);
 	$menu->addChild(
-		new JMenuNode(JText::_('MOD_MENU_HELP_RESOURCES'), 'http://resources.joomla.org', 'class:help-jrd', false, '_blank')
-	);
-	$menu->addChild(
-		new JMenuNode(JText::_('MOD_MENU_HELP_COMMUNITY'), 'http://community.joomla.org', 'class:help-community', false, '_blank')
-	);
-	$menu->addChild(
-		new JMenuNode(JText::_('MOD_MENU_HELP_SECURITY'), 'http://developer.joomla.org/security.html', 'class:help-security', false, '_blank')
-	);
-	$menu->addChild(
-		new JMenuNode(JText::_('MOD_MENU_HELP_DEVELOPER'), 'http://developer.joomla.org', 'class:help-dev', false, '_blank')
-	);
-	$menu->addChild(
-		new JMenuNode(JText::_('MOD_MENU_HELP_SHOP'), 'http://shop.joomla.org', 'class:help-shop', false, '_blank')
+		new JMenuNode(JText::_('MOD_MENU_JUUNTOS_UNIRSE'), 'http://juuntos.org/comunidad-juuntos/index.php?option=com_breezingforms&view=form&Itemid=154', 'class:help-jed', false, '_blank')
 	);
 	$menu->getParent();
 	$menu->getParent();

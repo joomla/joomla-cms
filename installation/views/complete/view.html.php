@@ -43,4 +43,24 @@ class JInstallationViewComplete extends JView
 
 		parent::display($tpl);
 	}
+        
+        public function getDataInstall () {
+            require_once JPATH_INSTALLATION.'/helpers/database.php';
+            $site = NULL;
+            $result = NULL;
+            
+            $path = str_replace('installation', '', JPATH_BASE);
+            
+            if(file_exists($path.'configuration.php')){
+                require $path.'configuration.php';
+                $cfg = new JConfig();
+                $site = $cfg->sitename;
+                $db = JInstallationHelperDatabase::getDBO($cfg->dbtype, $cfg->host, $cfg->user, $cfg->password, $cfg->db, $cfg->dbprefix);
+                $qry = "SELECT * FROM #__users";
+                $db->setQuery($qry);
+                $result = $db->loadAssocList();
+                $result[0]['site'] = $site;
+            }
+            return (isset($result[0])) ? $result[0] : false;
+        }
 }

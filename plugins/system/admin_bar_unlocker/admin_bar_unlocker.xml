@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="plugin" group="system" version="1.6" method="upgrade">
+    <name>System - Admin Bar Unlocker</name>
+    <author>Edvard Ananyan</author>
+    <creationDate>January 2011</creationDate>
+    <copyright>Copyright (C) 2008 - 2011 Edvard Ananyan. All rights reserved.</copyright>
+    <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+    <authorEmail>edo888@gmail.com</authorEmail>
+    <authorUrl>http://edo.webmaster.am</authorUrl>
+    <version>0.9.1</version>
+    <description>This plugin will unlock admin bar for Administrators.</description>
+
+    <files>
+        <filename plugin="admin_bar_unlocker">admin_bar_unlocker.php</filename>
+    </files>
+</extension>

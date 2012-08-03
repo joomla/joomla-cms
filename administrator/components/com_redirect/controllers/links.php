@@ -26,7 +26,7 @@ class RedirectControllerLinks extends JControllerAdmin
 	public function activate()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Initialise variables.
 		$ids		= JRequest::getVar('cid', array(), '', 'array');

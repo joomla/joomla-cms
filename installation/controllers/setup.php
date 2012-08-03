@@ -137,7 +137,7 @@ class JInstallationControllerSetup extends JController
 			);
 			$dummy = $model->storeOptions($data);
 
-			$this->setRedirect('index.php?view=filesystem');
+			$this->setRedirect('index.php?view=site');
 		}
 	}
 
@@ -147,7 +147,7 @@ class JInstallationControllerSetup extends JController
 	function filesystem()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		//JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Get the application object.
 		$app = JFactory::getApplication();
@@ -192,25 +192,26 @@ class JInstallationControllerSetup extends JController
 	function saveconfig()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		//JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Get the application object.
 		$app = JFactory::getApplication();
 
 		// Get the setup model.
 		$model = $this->getModel('Setup', 'JInstallationModel', array('dbo' => null));
-
+                
 		// Get the posted values from the request and validate them.
-		$data = JRequest::getVar('jform', array(), 'post', 'array');
+		$data = JRequest::getVar('jform', array(), 'get', 'array');
+                
 		$return	= $model->validate($data, 'site');
-
+                
 		// Attempt to save the data before validation
 		$form = $model->getForm();
 		$data = $form->filter($data);
 		unset($data['admin_password2']);
 		$model->storeOptions($data);
-
-		// Check for validation errors.
+                
+		/* Check for validation errors.
 		if ($return === false) {
 			// Get the validation messages.
 			$errors	= $model->getErrors();
@@ -230,7 +231,7 @@ class JInstallationControllerSetup extends JController
 
 			return false;
 		}
-
+                */
 		// Store the options in the session.
 		unset($return['admin_password2']);
 		$vars = $model->storeOptions($return);
@@ -240,7 +241,7 @@ class JInstallationControllerSetup extends JController
 
 		// Attempt to setup the configuration.
 		$return = $configuration->setup($vars);
-
+                
 		// Ensure a language was set.
 		if (!$return) {
 			$this->setMessage($configuration->getError(), 'notice');

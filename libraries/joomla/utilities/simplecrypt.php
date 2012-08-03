@@ -15,6 +15,7 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Platform
  * @subpackage  Utilities
  * @since       11.1
+ * @deprecated  12.3  Use JCrypt instead.
  */
 class JSimpleCrypt extends JObject
 {
@@ -32,9 +33,12 @@ class JSimpleCrypt extends JObject
 	 * @param   string  $key  Optional encryption key
 	 *
 	 * @since   11.1
+	 * @deprecated  12.3  Use JCrypt instead.
 	 */
 	public function __construct($key = null)
 	{
+		JLog::add('JSimpleCrypt is deprecated. Use JCrypt instead.', JLog::WARNING, 'deprecated');
+
 		if ($key)
 		{
 			$this->_key = (string) $key;
@@ -54,6 +58,7 @@ class JSimpleCrypt extends JObject
 	 * @return  string
 	 *
 	 * @since   11.1
+	 * @deprecated  12.3  Use JCrypt instead.
 	 */
 	public function decrypt($s)
 	{
@@ -71,6 +76,7 @@ class JSimpleCrypt extends JObject
 	 * @return  string
 	 *
 	 * @since   11.1
+	 * @deprecated  12.3  Use JCrypt instead.
 	 */
 	public function encrypt($s)
 	{
@@ -94,6 +100,7 @@ class JSimpleCrypt extends JObject
 	 * @return  integer
 	 *
 	 * @since   11.1
+	 * @deprecated  12.3  Use JCrypt instead.
 	 */
 	protected function _hexToInt($s, $i)
 	{
@@ -169,6 +176,7 @@ class JSimpleCrypt extends JObject
 	 * @return  array  An array of integers.
 	 *
 	 * @since   11.1
+	 * @deprecated  12.3  Use JCrypt instead.
 	 */
 	protected function _hexToIntArray($s)
 	{
@@ -192,6 +200,7 @@ class JSimpleCrypt extends JObject
 	 * @return  integer
 	 *
 	 * @since   11.1
+	 * @deprecated  12.3  Use JCrypt instead.
 	 */
 	protected function _charToInt($c)
 	{
@@ -208,6 +217,7 @@ class JSimpleCrypt extends JObject
 	 * @return  string
 	 *
 	 * @since   11.1
+	 * @deprecated  12.3  Use JCrypt instead.
 	 */
 	protected function _xorString($ai)
 	{
@@ -238,6 +248,7 @@ class JSimpleCrypt extends JObject
 	 * @return  string
 	 *
 	 * @since   11.1
+	 * @deprecated  12.3  Use JCrypt instead.
 	 */
 	protected function _intToHex($i)
 	{
@@ -264,6 +275,7 @@ class JSimpleCrypt extends JObject
 	 * @return  array  An array of integers
 	 *
 	 * @since   11.1
+	 * @deprecated  12.3  Use JCrypt instead.
 	 */
 	protected function _xorCharString($s)
 	{

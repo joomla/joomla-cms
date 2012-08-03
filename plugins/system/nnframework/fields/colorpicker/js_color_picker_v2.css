@@ -1,0 +1,182 @@
+input.nn_color {
+	border: 1px solid silver;
+	padding-right: 20px;
+	background: #FFFFFF url(inputbg.gif) repeat-y 112% 0;
+}
+
+#dhtmlgoodies_colorPicker {
+	position: absolute;
+	width: 250px;
+	padding-bottom: 1px;
+	background-color: #FFF;
+	border: 1px solid #CCCCCC;
+
+	width: 252px; /* IE 5.x */
+	width /* */: /**/ 250px; /* Other browsers */
+	width: /**/ 250px;
+
+}
+
+#dhtmlgoodies_colorPicker .colorPicker_topRow {
+	padding-bottom: 1px;
+	border-bottom: 3px double #CCCCCC;
+	background-color: #F6F6F6;
+	padding-left: 2px;
+
+	height: 21px; /* IE 5.x */
+	height /* */: /**/ 17px; /* Other browsers */
+	height: /**/ 17px;
+
+}
+#dhtmlgoodies_colorPicker #color_picker_content {
+	padding: 5px;
+}
+#dhtmlgoodies_colorPicker .colorPicker_statusBar {
+	height: 13px;
+	padding-bottom: 2px;
+	border-top: 3px double #CCCCCC;
+	background-color: #F6F6F6;
+	padding-left: 2px;
+	clear: both;
+
+	height: 18px; /* IE 5.x */
+	height /* */: /**/ 13px; /* Other browsers */
+	height: /**/ 13px;
+
+}
+
+#dhtmlgoodies_colorPicker .colorSquare {
+	margin-left: 1px;
+	margin-bottom: 1px;
+	float: left;
+	border: 1px solid #000;
+	cursor: pointer;
+
+	width: 12px; /* IE 5.x */
+	width /* */: /**/ 10px; /* Other browsers */
+	width: /**/ 10px;
+
+	height: 12px; /* IE 5.x */
+	height /* */: /**/ 10px; /* Other browsers */
+	height: /**/ 10px;
+
+}
+
+.colorPickerTab_inactive, .colorPickerTab_active {
+	border: 1px solid #CCCCCC;
+	background-color: #DDDDDD;
+	padding: 1px 5px 0 5px;
+	margin: 2px 2px 0 2px;
+	cursor: pointer;
+	height: 14px;
+}
+.colorPickerTab_inactive {
+}
+.colorPickerTab_active {
+	background-color: #F6F6F6;
+	border-bottom: 1px solid #F6F6F6;
+}
+.colorPickerTab_inactive span, .colorPickerTab_active span {
+	font-weight: bold;
+	font-family: arial;
+	font-size: 11px;
+	vertical-align: middle;
+	float: left;
+	-moz-user-select: no;
+}
+.colorPickerTab_inactive img, .colorPickerTab_active img {
+	float: left;
+}
+.colorPickerCloseButton {
+	width: 11px;
+	height: 11px;
+	text-align: center;
+	line-height: 10px;
+	border: 1px solid #CCCCCC;
+	position: absolute;
+	right: 1px;
+	font-size: 12px;
+	font-weight: bold;
+	top: 1px;
+	padding: 1px;
+	cursor: pointer;
+
+	width: 15px; /* IE 5.x */
+	width /* */: /**/ 11px; /* Other browsers */
+	width: /**/ 11px;
+
+	height: 15px; /* IE 5.x */
+	height /* */: /**/ 11px; /* Other browsers */
+	height: /**/ 11px;
+
+}
+#colorPicker_statusBarTxt {
+	font-size: 11px;
+	font-family: arial;
+	vertical-align: top;
+	line-height: 13px;
+
+}
+form {
+	padding-left: 5px;
+}
+
+.form_widget_amount_slider {
+	border-top: 1px solid #9d9c99;
+	border-left: 1px solid #9d9c99;
+	border-bottom: 1px solid #eee;
+	border-right: 1px solid #eee;
+	background-color: #f0ede0;
+	position: absolute;
+	bottom: 0px;
+
+	width: 5px; /* IE 5.x */
+	width /* */: /**/ 3px; /* Other browsers */
+	width: /**/ 3px;
+
+	height: 5px; /* IE 5.x */
+	height /* */: /**/ 3px; /* Other browsers */
+	height: /**/ 3px;
+
+}
+.colorSliderLabel {
+	width: 15px;
+	height: 20px;
+	float: left;
+	font-size: 11px;
+	font-weight: bold;
+	clear: both;
+}
+.colorSlider {
+	width: 175px;
+	height: 20px;
+	float: left;
+}
+.colorInput {
+	width: 45px;
+	height: 20px;
+	float: left;
+}
+.colorPreviewDiv {
+	width: 186px;
+	margin-right: 2px;
+	margin-top: 1px;
+	border: 1px solid #CCC;
+	height: 20px;
+	float: left;
+	cursor: pointer;
+
+	width: 188px; /* IE 5.x */
+	width /* */: /**/ 186px; /* Other browsers */
+	width: /**/ 186px;
+
+	height: 22px; /* IE 5.x */
+	height /* */: /**/ 20px; /* Other browsers */
+	height: /**/ 20px;
+
+}
+.colorCodeDiv {
+	width: 50px;
+	height: 20px;
+	float: left;
+}

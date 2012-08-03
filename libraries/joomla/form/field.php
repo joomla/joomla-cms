@@ -27,9 +27,9 @@ abstract class JFormField
 	protected $description;
 
 	/**
-	 * The JXMLElement object of the <field /> XML element that describes the form field.
+	 * The SimpleXMLElement object of the <field /> XML element that describes the form field.
 	 *
-	 * @var    JXMLElement
+	 * @var    SimpleXMLElement
 	 * @since  11.1
 	 */
 	protected $element;
@@ -166,6 +166,14 @@ abstract class JFormField
 	protected $value;
 
 	/**
+	 * The label's CSS class of the form field
+	 *
+	 * @var    mixed
+	 * @since  11.1
+	 */
+	protected $labelClass;
+
+	/**
 	 * The count value for generated name field
 	 *
 	 * @var    integer
@@ -236,6 +244,7 @@ abstract class JFormField
 			case 'type':
 			case 'validate':
 			case 'value':
+			case 'labelClass':
 			case 'fieldname':
 			case 'group':
 				return $this->$name;
@@ -288,7 +297,7 @@ abstract class JFormField
 	/**
 	 * Method to attach a JForm object to the field.
 	 *
-	 * @param   object  &$element  The JXmlElement object representing the <field /> tag for the form field object.
+	 * @param   object  &$element  The SimpleXMLElement object representing the <field /> tag for the form field object.
 	 * @param   mixed   $value     The form field value to validate.
 	 * @param   string  $group     The field name group control value. This acts as as an array container for the field.
 	 *                             For example if the field has name="foo" and the group value is set to "bar" then the
@@ -301,7 +310,7 @@ abstract class JFormField
 	public function setup(&$element, $value, $group = null)
 	{
 		// Make sure there is a valid JFormField XML element.
-		if (!($element instanceof JXMLElement) || (string) $element->getName() != 'field')
+		if (!($element instanceof SimpleXMLElement) || (string) $element->getName() != 'field')
 		{
 			return false;
 		}
@@ -370,6 +379,9 @@ abstract class JFormField
 
 		// Set the field default value.
 		$this->value = $value;
+
+		// Set the CSS class of field label
+		$this->labelClass = (string) $element['labelclass'];
 
 		return true;
 	}
@@ -483,6 +495,7 @@ abstract class JFormField
 		// Build the class for the label.
 		$class = !empty($this->description) ? 'hasTip' : '';
 		$class = $this->required == true ? $class . ' required' : $class;
+		$class = !empty($this->labelClass) ? $class . ' ' . $this->labelClass : $class;
 
 		// Add the opening label tag and main attributes attributes.
 		$label .= '<label id="' . $this->id . '-lbl" for="' . $this->id . '" class="' . $class . '"';

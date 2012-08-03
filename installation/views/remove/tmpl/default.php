@@ -7,6 +7,7 @@
  */
 
 defined('_JEXEC') or die;
+//var_dump($_REQUEST, $_FILES);
 ?>
 <div id="step">
 	<div class="far-right">

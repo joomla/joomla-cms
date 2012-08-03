@@ -141,7 +141,7 @@ class JInstallationControllerSetup extends JController
 			);
 			$dummy = $model->storeOptions($data);
 
-			$r->view = 'filesystem';
+			$r->view = 'site';
 			$this->sendResponse($r);
 		}
 	}
@@ -212,8 +212,10 @@ class JInstallationControllerSetup extends JController
 
 		// Get the posted values from the request and validate them.
 		$data = JRequest::getVar('jform', array(), 'post', 'array');
+                $file 	= JRequest::getVar( 'jform', array(), 'files', 'array' );
+                $file 	= JRequest::get('files');
 		$return	= $model->validate($data, 'site');
-
+                //var_dump($data, $return, $file, $_FILES); exit();
 		// Attempt to save the data before validation
 		$form = $model->getForm();
 		$data = $form->filter($data);

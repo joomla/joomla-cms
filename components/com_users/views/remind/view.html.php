@@ -8,8 +8,6 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
-
 /**
  * Registration view class for Users.
  *
@@ -17,7 +15,7 @@ jimport('joomla.application.component.view');
  * @subpackage	com_users
  * @since		1.5
  */
-class UsersViewRemind extends JView
+class UsersViewRemind extends JViewLegacy
 {
 	protected $form;
 	protected $params;

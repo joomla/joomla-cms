@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<install version="2.5" client="site" type="language" method="upgrade">
+    <name>Latinoamericano (LA)</name>
+    <tag>es-LA</tag>
+    <version>2.5.1</version>
+    <creationDate>2012-2-1</creationDate>
+    <author>Spanish Translation Team: Comunidad Juuntos</author>
+    <authorEmail>info@juuntos.org</authorEmail>
+    <authorUrl>www.juuntos.org</authorUrl>
+    <copyright>Copyleft 2012 - 2014 juuntos.org. All rights free.</copyright>
+    <license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+    <description>Spanish language pack for Jokte! 2.5.1 - Site</description>
+    	<files>
+                <filename>index.html</filename>
+                <filename>es-LA.com_contact.ini</filename>
+		<filename>es-LA.com_content.ini</filename>
+                <filename>es-LA.com_finder.ini</filename>
+		<filename>es-LA.com_mailto.ini</filename>
+		<filename>es-LA.com_media.ini</filename>
+		<filename>es-LA.com_messages.ini</filename>
+		<filename>es-LA.com_newsfeeds.ini</filename>
+		<filename>es-LA.com_search.ini</filename>
+		<filename>es-LA.com_users.ini</filename>
+		<filename>es-LA.com_weblinks.ini</filename>
+		<filename>es-LA.com_wrapper.ini</filename>
+		<filename>es-LA.files_joomla.sys.ini</filename>
+                <filename>es-LA.finder_cli.ini</filename>
+		<filename>es-LA.lib_joomla.ini</filename>
+		<filename>es-LA.lib_joomla.sys.ini</filename>
+		<filename>es-LA.lib_phpmailer.sys.ini</filename>
+		<filename>es-LA.lib_phputf8.sys.ini</filename>
+		<filename>es-LA.lib_simplepie.sys.ini</filename>
+		<filename>es-LA.ini</filename>
+		<filename>es-LA.localise.php</filename>
+		<filename>es-LA.mod_articles_archive.ini</filename>
+		<filename>es-LA.mod_articles_archive.sys.ini</filename>
+		<filename>es-LA.mod_articles_categories.ini</filename>
+		<filename>es-LA.mod_articles_categories.sys.ini</filename>
+		<filename>es-LA.mod_articles_category.ini</filename>
+		<filename>es-LA.mod_articles_category.sys.ini</filename>
+		<filename>es-LA.mod_articles_latest.ini</filename>
+		<filename>es-LA.mod_articles_latest.sys.ini</filename>
+		<filename>es-LA.mod_articles_news.ini</filename>
+		<filename>es-LA.mod_articles_news.sys.ini</filename>
+		<filename>es-LA.mod_articles_popular.ini</filename>
+		<filename>es-LA.mod_articles_popular.sys.ini</filename>
+		<filename>es-LA.mod_banners.ini</filename>
+		<filename>es-LA.mod_banners.sys.ini</filename>
+		<filename>es-LA.mod_breadcrumbs.ini</filename>
+		<filename>es-LA.mod_breadcrumbs.sys.ini</filename>
+		<filename>es-LA.mod_custom.ini</filename>
+		<filename>es-LA.mod_custom.sys.ini</filename>
+		<filename>es-LA.mod_feed.ini</filename>
+		<filename>es-LA.mod_feed.sys.ini</filename>
+                <filename>es-LA.mod_finder.ini</filename>
+                <filename>es-LA.mod_finder.sys.ini</filename>
+		<filename>es-LA.mod_footer.ini</filename>
+		<filename>es-LA.mod_footer.sys.ini</filename>
+		<filename>es-LA.mod_languages.ini</filename>
+		<filename>es-LA.mod_languages.sys.ini</filename>
+		<filename>es-LA.mod_login.ini</filename>
+		<filename>es-LA.mod_login.sys.ini</filename>
+		<filename>es-LA.mod_menu.ini</filename>
+		<filename>es-LA.mod_menu.sys.ini</filename>
+		<filename>es-LA.mod_random_image.ini</filename>
+		<filename>es-LA.mod_random_image.sys.ini</filename>
+		<filename>es-LA.mod_related_items.ini</filename>
+		<filename>es-LA.mod_related_items.sys.ini</filename>
+		<filename>es-LA.mod_search.ini</filename>
+		<filename>es-LA.mod_search.sys.ini</filename>
+		<filename>es-LA.mod_stats.ini</filename>
+		<filename>es-LA.mod_stats.sys.ini</filename>
+		<filename>es-LA.mod_syndicate.ini</filename>
+		<filename>es-LA.mod_syndicate.sys.ini</filename>
+		<filename>es-LA.mod_users_latest.ini</filename>
+		<filename>es-LA.mod_users_latest.sys.ini</filename>
+		<filename>es-LA.mod_weblinks.ini</filename>
+		<filename>es-LA.mod_weblinks.sys.ini</filename>
+		<filename>es-LA.mod_whosonline.ini</filename>
+		<filename>es-LA.mod_whosonline.sys.ini</filename>
+		<filename>es-LA.mod_wrapper.ini</filename>
+		<filename>es-LA.mod_wrapper.sys.ini</filename>
+		<filename>es-LA.pkg_joomla.sys.ini</filename>
+		<filename>es-LA.tpl_atomic.ini</filename>
+		<filename>es-LA.tpl_atomic.sys.ini</filename>
+		<filename>es-LA.tpl_beez_20.ini</filename>
+		<filename>es-LA.tpl_beez_20.sys.ini</filename>
+		<filename>es-LA.tpl_beez5.ini</filename>
+		<filename>es-LA.tpl_beez5.sys.ini</filename>
+		<filename file="meta">install.xml</filename>
+                <filename file="meta">es-LA.xml</filename>
+	</files>
+</install>

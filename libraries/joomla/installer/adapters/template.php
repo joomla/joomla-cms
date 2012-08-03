@@ -78,6 +78,9 @@ class JInstallerTemplate extends JAdapterInstance
 	 */
 	public function install()
 	{
+		// Get a database connector object
+		$db = $this->parent->getDbo();
+
 		$lang = JFactory::getLanguage();
 		$xml = $this->parent->getManifest();
 
@@ -109,26 +112,45 @@ class JInstallerTemplate extends JAdapterInstance
 		$this->set('name', $name);
 		$this->set('element', $element);
 
-		$db = $this->parent->getDbo();
+		// Check to see if a template by the same name is already installed.
 		$query = $db->getQuery(true);
-		$query->select($db->quoteName('extension_id'));
-		$query->from($db->quoteName('#__extensions'));
-		$query->where($db->quoteName('type') . ' = ' . $db->quote('template'));
-		$query->where($db->quoteName('element') . ' = ' . $element);
-		$id = $db->loadResult();
+		$query->select($query->qn('extension_id'))->from($query->qn('#__extensions'));
+		$query->where($query->qn('type') . ' = ' . $query->q('template'));
+		$query->where($query->qn('element') . ' = ' . $query->q($element));
+		$db->setQuery($query);
+
+		try
+		{
+			$id = $db->loadResult();
+		}
+		catch (RuntimeException $e)
+		{
+			// Install failed, roll back changes
+			$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_TPL_INSTALL_ROLLBACK'), $e->getMessage());
+			return false;
+		}
+
+		// Legacy error handling switch based on the JError::$legacy switch.
+		// @deprecated  12.1
+		if (JError::$legacy && $db->getErrorNum())
+		{
+			// Install failed, roll back changes
+			$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_TPL_INSTALL_ROLLBACK', $db->stderr(true)));
+			return false;
+		}
 
 		// Set the template root path
 		$this->parent->setPath('extension_root', $basePath . '/templates/' . $element);
 
 		// if it's on the fs...
-		if (file_exists($this->parent->getPath('extension_root')) && (!$this->parent->getOverwrite() || $this->parent->getUpgrade()))
+		if (file_exists($this->parent->getPath('extension_root')) && (!$this->parent->isOverwrite() || $this->parent->isUpgrade()))
 		{
 			$updateElement = $xml->update;
 			// Upgrade manually set or
 			// Update function available or
 			// Update tag detected
-			if ($this->parent->getUpgrade() || ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'update'))
-				|| is_a($updateElement, 'JXMLElement'))
+			if ($this->parent->isUpgrade() || ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'update'))
+				|| $updateElement)
 			{
 				// Force this one
 				$this->parent->setOverwrite(true);
@@ -139,14 +161,14 @@ class JInstallerTemplate extends JAdapterInstance
 					$this->route = 'update';
 				}
 			}
-			elseif (!$this->parent->getOverwrite())
+			elseif (!$this->parent->isOverwrite())
 			{
 				// Overwrite is not set
 				// If we didn't have overwrite set, find an update function or find an update tag so let's call it safe
 				$this->parent
 					->abort(
 					JText::sprintf(
-						'JLIB_INSTALLER_ABORT_PLG_INSTALL_DIRECTORY', JText::_('JLIB_INSTALLER_' . $this->route),
+						'JLIB_INSTALLER_ABORT_TPL_INSTALL_ANOTHER_TEMPLATE_USING_DIRECTORY', JText::_('JLIB_INSTALLER_' . $this->route),
 						$this->parent->getPath('extension_root')
 					)
 				);
@@ -158,7 +180,7 @@ class JInstallerTemplate extends JAdapterInstance
 		 * If the template directory already exists, then we will assume that the template is already
 		 * installed or another template is using that directory.
 		 */
-		if (file_exists($this->parent->getPath('extension_root')) && !$this->parent->getOverwrite())
+		if (file_exists($this->parent->getPath('extension_root')) && !$this->parent->isOverwrite())
 		{
 			JError::raiseWarning(
 				100,
@@ -264,17 +286,26 @@ class JInstallerTemplate extends JAdapterInstance
 		{
 			//insert record in #__template_styles
 			$query = $db->getQuery(true);
-			$query->insert('#__template_styles');
-			$query->set('template=' . $db->Quote($row->element));
-			$query->set('client_id=' . $db->Quote($clientId));
-			$query->set('home=0');
+			$query->insert($db->quoteName('#__template_styles'));
 			$debug = $lang->setDebug(false);
-			$query->set('title=' . $db->Quote(JText::sprintf('JLIB_INSTALLER_DEFAULT_STYLE', JText::_($this->get('name')))));
+			$columns = array($db->quoteName('template'),
+				$db->quoteName('client_id'),
+				$db->quoteName('home'),
+				$db->quoteName('title'),
+				$db->quoteName('params')
+			);
+			$query->columns($columns);
+			$query->values(
+				$db->Quote($row->element)
+				. ',' . $db->Quote($clientId)
+				. ',' . $db->Quote(0)
+				. ',' . $db->Quote(JText::sprintf('JLIB_INSTALLER_DEFAULT_STYLE', JText::_($this->get('name'))))
+				. ',' . $db->Quote($row->params)
+			);
 			$lang->setDebug($debug);
-			$query->set('params=' . $db->Quote($row->params));
 			$db->setQuery($query);
 			// There is a chance this could fail but we don't care...
-			$db->query();
+			$db->execute();
 		}
 
 		return $row->get('extension_id');
@@ -362,7 +393,7 @@ class JInstallerTemplate extends JAdapterInstance
 		// We do findManifest to avoid problem when uninstalling a list of extensions: getManifest cache its manifest file
 		$this->parent->findManifest();
 		$manifest = $this->parent->getManifest();
-		if (!($manifest instanceof JXMLElement))
+		if (!($manifest instanceof SimpleXMLElement))
 		{
 			// Kill the extension entry
 			$row->delete($row->extension_id);
@@ -394,11 +425,11 @@ class JInstallerTemplate extends JAdapterInstance
 			. ' SET #__menu.template_style_id = 0' . ' WHERE #__template_styles.template = ' . $db->Quote(strtolower($name))
 			. ' AND #__template_styles.client_id = ' . $db->Quote($clientId);
 		$db->setQuery($query);
-		$db->Query();
+		$db->execute();
 
 		$query = 'DELETE FROM #__template_styles' . ' WHERE template = ' . $db->Quote($name) . ' AND client_id = ' . $db->Quote($clientId);
 		$db->setQuery($query);
-		$db->Query();
+		$db->execute();
 
 		$row->delete($row->extension_id);
 		unset($row);
@@ -474,6 +505,7 @@ class JInstallerTemplate extends JAdapterInstance
 		// Templates are one of the easiest
 		// If its not in the extensions table we just add it
 		$client = JApplicationHelper::getClientInfo($this->parent->extension->client_id);
+		$lang = JFactory::getLanguage();
 		$manifestPath = $client->path . '/templates/' . $this->parent->extension->element . '/templateDetails.xml';
 		$this->parent->manifest = $this->parent->isManifest($manifestPath);
 		$description = (string) $this->parent->manifest->description;
@@ -508,14 +540,25 @@ class JInstallerTemplate extends JAdapterInstance
 			//insert record in #__template_styles
 			$db = $this->parent->getDbo();
 			$query = $db->getQuery(true);
-			$query->insert('#__template_styles');
-			$query->set('template=' . $db->Quote($this->parent->extension->element));
-			$query->set('client_id=' . $db->Quote($this->parent->extension->client_id));
-			$query->set('home=0');
-			$query->set('title=' . $db->Quote(JText::sprintf('JLIB_INSTALLER_DEFAULT_STYLE', $this->parent->extension->name)));
-			$query->set('params=' . $db->Quote($this->parent->extension->params));
+			$query->insert($db->quoteName('#__template_styles'));
+			$debug = $lang->setDebug(false);
+			$columns = array($db->quoteName('template'),
+				$db->quoteName('client_id'),
+				$db->quoteName('home'),
+				$db->quoteName('title'),
+				$db->quoteName('params')
+			);
+			$query->columns($columns);
+			$query->values(
+				$db->Quote($this->parent->extension->element)
+				. ',' . $db->Quote($this->parent->extension->client_id)
+				. ',' . $db->Quote(0)
+				. ',' . $db->Quote(JText::sprintf('JLIB_INSTALLER_DEFAULT_STYLE', $this->parent->extension->name))
+				. ',' . $db->Quote($this->parent->extension->params)
+			);
+			$lang->setDebug($debug);
 			$db->setQuery($query);
-			$db->query();
+			$db->execute();
 
 			return $this->parent->extension->get('extension_id');
 		}

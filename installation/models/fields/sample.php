@@ -1,8 +1,7 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.Installation
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -39,9 +38,12 @@ class JFormFieldSample extends JFormFieldList
 		// Initialize variables.
 		$lang = JFactory::getLanguage();
 		$options = array();
-		$type = $this->form instanceof JForm ? $this->form->getValue('db_type') : 'mysql';
+		$type = $this->form instanceof JForm ? $this->form->getValue('db_type') : 'mysql' || 'sqlazure';
 		if ($type == 'mysqli') {
 			$type='mysql';
+		}
+		elseif($type='sqlsrv'){
+			$type='sqlazure';
 		}
 		// Get a list of files in the search path with the given filter.
 		$files = JFolder::files(JPATH_INSTALLATION.'/sql/'.$type, '^sample.*\.sql$');
