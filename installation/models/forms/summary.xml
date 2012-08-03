@@ -22,7 +22,7 @@
 			label="INSTL_SITE_SAMPLE_LABEL"
 		/>
 
-		<field name="summary_sampledata" type="radio" id="summary_sampledata" class="btn-group" default="0"
+		<field name="site_sampledata" type="radio" id="site_sampledata" class="btn-group" default="0"
 			label="INSTL_SITE_INSTALL_SAMPLE_LABEL"
 			filter="integer"
 			>
