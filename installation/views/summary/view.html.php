@@ -38,7 +38,7 @@ class InstallationViewSummary extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			JError::raiseError(500, implode("\n", $errors));
+			$app->enqueueMessage(implode("\n", $errors), 'error');
 			return false;
 		}
 
