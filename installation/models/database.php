@@ -140,8 +140,8 @@ class InstallationModelDatabase extends JModelLegacy
 			return false;
 		}
 
-		// Get the options as a JObject for easier handling.
-		$options = JArrayHelper::toObject($options, 'JObject');
+		// Get the options as a object for easier handling.
+		$options = JArrayHelper::toObject($options);
 
 		// Check database version.
 		$db_version = $db->getVersion();
@@ -225,8 +225,8 @@ class InstallationModelDatabase extends JModelLegacy
 			return false;
 		}
 
-		// Get the options as a JObject for easier handling.
-		$options = JArrayHelper::toObject($options, 'JObject');
+		// Get the options as a object for easier handling.
+		$options = JArrayHelper::toObject($options);
 
 		// Set the character set to UTF-8 for pre-existing databases.
 		$this->setDatabaseCharset($db, $options->db_name);
@@ -268,8 +268,8 @@ class InstallationModelDatabase extends JModelLegacy
 			return false;
 		}
 
-		// Get the options as a JObject for easier handling.
-		$options = JArrayHelper::toObject($options, 'JObject');
+		// Get the options as a object for easier handling.
+		$options = JArrayHelper::toObject($options);
 
 		// Check database type.
 		$type = $options->db_type;
@@ -446,8 +446,8 @@ class InstallationModelDatabase extends JModelLegacy
 			return false;
 		}
 
-		// Get the options as a JObject for easier handling.
-		$options = JArrayHelper::toObject($options, 'JObject');
+		// Get the options as a object for easier handling.
+		$options = JArrayHelper::toObject($options);
 
 		// Build the path to the sample data file.
 		$type = $options->db_type;
