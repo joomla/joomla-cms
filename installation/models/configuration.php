@@ -112,7 +112,7 @@ class InstallationModelConfiguration extends JModelLegacy
 
 		/* Meta Settings */
 		$registry->set('MetaDesc', $options->site_metadesc);
-		$registry->set('MetaKeys', $options->site_metakeys);
+		$registry->set('MetaKeys', '');
 		$registry->set('MetaTitle', 1);
 		$registry->set('MetaAuthor', 1);
 		$registry->set('MetaVersion', 0);
