@@ -32,12 +32,17 @@ $ -> Language fix or change
  # [#28827] INSTL_ADMIN_EMAIL_LABEL translation is missing
  # [#28817] Cache not being cleared automatically when changes are made in back end
 
+02-Aug-2012 Rouven Weßling
+ ^ Merge latest platform (fc189e3e0cc964cef238aeb0799c7c72c1c988da)
+ ^ Reduce use of deprecated platform APIs
+ ^ Don't always load JArrayHelper
+
 31-Jul-2012 Mark Dexter
  ^ [#28854] Update Core and Sample SQL filies in installation and related changes
 
 25-Jul-2012 Jean-Marie Simonet
  [#28846] *When URL Language Code is removed, language switcher module redirects to URL without .html suffix. Thanks Dennis
- 
+
 18-Jul-2012 Jean-Marie Simonet
  # [#28837] Can't get past step 4 "Database Configuration". Thanks Shaun.
  # [#28511] Move the caption behavior from the controller to the layouts in com_content. Thanks Rouven and Peter.
