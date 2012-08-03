@@ -185,6 +185,7 @@ class plgEditorNone extends JPlugin
 
 			$return .= "</div>\n";
 			$return .= "</div>\n";
+			$return .= "<div class=\"clearfix\"></div>\n";
 		}
 
 		return $return;
