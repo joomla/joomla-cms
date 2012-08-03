@@ -26,12 +26,12 @@ class JHtmlIcon
 		$url = 'index.php?option=com_content&task=article.add&return='.base64_encode($uri).'&a_id=0&catid=' . $category->id;
 
 		if ($params->get('show_icons')) {
-			$text = JHtml::_('image', 'system/new.png', JText::_('JNEW'), null, true);
+			$text = '<i class="icon-plus"></i> ' . JText::_('JNEW') . '&#160;';
 		} else {
 			$text = JText::_('JNEW').'&#160;';
 		}
 
-		$button =  JHtml::_('link', JRoute::_($url), $text);
+		$button =  JHtml::_('link', JRoute::_($url), $text, 'class="btn btn-primary"');
 
 		$output = '<span class="hasTip" title="'.JText::_('COM_CONTENT_CREATE_ARTICLE').'">'.$button.'</span>';
 		return $output;
