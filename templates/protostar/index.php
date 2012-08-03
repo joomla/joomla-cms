@@ -29,29 +29,29 @@ $user = JFactory::getUser();
 <head>
 	<?php
 
-    // Detecting Active Variables
-    $option = JRequest::getCmd('option', '');
-    $view = JRequest::getCmd('view', '');
-    $layout = JRequest::getCmd('layout', '');
-    $task = JRequest::getCmd('task', '');
-    $itemid = JRequest::getCmd('Itemid', '');
-    $sitename = $app->getCfg('sitename');
-    if($task == "edit" || $layout == "form" ) :
-    $fullWidth = 1;
-    else:
-    $fullWidth = 0;
-    endif;
+	// Detecting Active Variables
+	$option = JRequest::getCmd('option', '');
+	$view = JRequest::getCmd('view', '');
+	$layout = JRequest::getCmd('layout', '');
+	$task = JRequest::getCmd('task', '');
+	$itemid = JRequest::getCmd('Itemid', '');
+	$sitename = $app->getCfg('sitename');
+	if($task == "edit" || $layout == "form" ) :
+	$fullWidth = 1;
+	else:
+	$fullWidth = 0;
+	endif;
 
-    // Adjusting content width
-    if ($this->countModules('position-7') && $this->countModules('position-8')) :
-    	$span = "span6";
-    elseif ($this->countModules('position-7') && !$this->countModules('position-8')) :
-    	$span = "span9";
-    elseif (!$this->countModules('position-7') && $this->countModules('position-8')) :
-    	$span = "span9";
-    else :
-    	$span = "span12";
-    endif;
+	// Adjusting content width
+	if ($this->countModules('position-7') && $this->countModules('position-8')) :
+		$span = "span6";
+	elseif ($this->countModules('position-7') && !$this->countModules('position-8')) :
+		$span = "span9";
+	elseif (!$this->countModules('position-7') && $this->countModules('position-8')) :
+		$span = "span9";
+	else :
+		$span = "span12";
+	endif;
 	?>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
@@ -65,7 +65,7 @@ $user = JFactory::getUser();
 </head>
 
 <body class="site <?php echo $option . " view-" . $view . " layout-" . $layout . " task-" . $task . " itemid-" . $itemid . " ";?>">
-	
+
 	<!-- Body -->
 	<div class="body">
 		<div class="container">
@@ -115,7 +115,7 @@ $user = JFactory::getUser();
 					<!-- End Right Sidebar -->
 				</div>
 				<?php endif; ?>
-			</div>		
+			</div>
 		</div>
 	</div>
 	<!-- Footer -->

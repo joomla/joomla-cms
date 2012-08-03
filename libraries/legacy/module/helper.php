@@ -201,7 +201,7 @@ abstract class JModuleHelper
 		$paramsChromeStyle = $params->get('style');
 		if ($paramsChromeStyle)
 		{
-			$attribs['style'] = preg_replace('/^(system|'.$template.')\-/i', '', $paramsChromeStyle);
+			$attribs['style'] = preg_replace('/^(system|' . $template . ')\-/i', '', $paramsChromeStyle);
 		}
 
 		// Make sure a style is set
