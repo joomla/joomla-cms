@@ -40,7 +40,9 @@ class JFormFieldSample extends JFormFieldRadio
 		// Initialize variables.
 		$lang = JFactory::getLanguage();
 		$options = array();
-		$type = $this->form instanceof JForm ? $this->form->getValue('db_type') : 'mysql' || 'sqlazure';
+		$type = $this->form->getValue('db_type');
+
+		// Some database drivers share DDLs; point these drivers to the correct parent
 		if ($type == 'mysqli')
 		{
 			$type = 'mysql';
@@ -49,25 +51,16 @@ class JFormFieldSample extends JFormFieldRadio
 		{
 			$type = 'sqlazure';
 		}
+
 		// Get a list of files in the search path with the given filter.
 		$files = JFolder::files(JPATH_INSTALLATION . '/sql/' . $type, '^sample.*\.sql$');
 
 		// Build the options list from the list of files.
 		if (is_array($files))
 		{
-			$first = 0;
 			foreach ($files as $file)
 			{
-				$option = JHtml::_('select.option', $file, $lang->hasKey($key = 'INSTL_' . ($file = JFile::stripExt($file)) . '_SET')? JText::_($key) : $file);
-				if ( $option->value == $this->value) {
-					$first = $option;
-				} else {
-					$options[preg_replace('#[^a-z0-9]#i', '',($option->text.$option->value))] = $option;
-				}
-			}
-			ksort($options);
-			if ($first) {
-				array_unshift($options, $option);
+				$options[] = JHtml::_('select.option', $file, $lang->hasKey($key = 'INSTL_' . ($file = JFile::stripExt($file)) . '_SET') ? JText::_($key) : $file);
 			}
 		}
 
