@@ -382,7 +382,7 @@ abstract class JHtmlFilter
 			$html .= JHtml::_('filter.dates', $query, $options);
 		}
 
-		$html .= '<ul id="finder-filter-select-list">';
+		$html .= '<div id="finder-filter-select-list" class="form-horizontal">';
 
 		// Iterate through all branches and build code.
 		foreach ($branches as $bk => $bv)
@@ -405,16 +405,18 @@ abstract class JHtmlFilter
 				$active = count($active) === 1 ? array_shift($active) : null;
 			}
 
-			$html .= '<li class="filter-branch' . $classSuffix . '">';
-			$html .= '<label for="tax-' . JFilterOutput::stringUrlSafe($bv->title) . '">';
+			$html .= '<div class="filter-branch' . $classSuffix . ' control-group">';
+			$html .= '<label for="tax-' . JFilterOutput::stringUrlSafe($bv->title) . '" class="control-label">';
 			$html .= JText::sprintf('COM_FINDER_FILTER_BRANCH_LABEL', JText::_(FinderHelperLanguage::branchSingular($bv->title)));
 			$html .= '</label>';
+			$html .= '<div class="controls">';
 			$html .= JHtml::_('select.genericlist', $branches[$bk]->nodes, 't[]', 'class="inputbox"', 'id', 'title', $active, 'tax-' . JFilterOutput::stringUrlSafe($bv->title));
-			$html .= '</li>';
+			$html .= '</div>';
+			$html .= '</div>';
 		}
 
 		// Close the widget.
-		$html .= '</ul>';
+		$html .= '</div>';
 
 		// Load the CSS/JS resources.
 		if ($loadMedia)
