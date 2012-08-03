@@ -97,7 +97,7 @@ defined('_JEXEC') or die;
 		</div>
 	</div>
 	<div class="row-fluid">
-		<div class="span6">
+		<div class="span12">
 			<div class="control-group">
 				<div class="control-label">
 					<?php echo $this->form->getLabel('site_offline'); ?>
@@ -109,8 +109,6 @@ defined('_JEXEC') or die;
 					</p>
 				</div>
 			</div>
-		</div>
-		<div class="span6">
 		</div>
 	</div>
 
