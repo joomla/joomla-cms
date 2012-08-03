@@ -13,46 +13,65 @@ defined('_JEXEC') or die;
 $app = JFactory::getApplication();
 $doc = JFactory::getDocument();
 
+// Detecting Active Variables
+$option = JRequest::getCmd('option', '');
+$view = JRequest::getCmd('view', '');
+$layout = JRequest::getCmd('layout', '');
+$task = JRequest::getCmd('task', '');
+$itemid = JRequest::getCmd('Itemid', '');
+$sitename = $app->getCfg('sitename');
+if($task == "edit" || $layout == "form" )
+{
+$fullWidth = 1;
+}
+else
+{
+$fullWidth = 0;
+}
+
 // Add Stylesheets
 $doc->addStyleSheet('templates/'.$this->template.'/css/template.css');
 
 // If Right-to-Left
-if ($this->direction == 'rtl') :
+if ($this->direction == 'rtl')
+{
 	$doc->addStyleSheet('media/jui/css/bootstrap-rtl.css');
-endif;
+}
 
 // Add current user information
 $user = JFactory::getUser();
+
+// Adjusting content width
+if ($this->countModules('position-7') && $this->countModules('position-8'))
+{
+	$span = "span6";
+}
+else if ($this->countModules('position-7') && !$this->countModules('position-8'))
+{
+	$span = "span9";
+}
+else if (!$this->countModules('position-7') && $this->countModules('position-8'))
+{
+	$span = "span9";
+}
+else
+{
+	$span = "span12";
+}
+
+// Logo file
+if ($this->params->get('logoFile'))
+{
+	$logo = JURI::root() . $this->params->get('logoFile');
+}
+else
+{
+	$logo = $this->baseurl . "/templates/" . $this->template . "/images/logo.png";
+}
 ?>
 <!DOCTYPE html>
 <html>
 <head>
-	<?php
-
-	// Detecting Active Variables
-	$option = JRequest::getCmd('option', '');
-	$view = JRequest::getCmd('view', '');
-	$layout = JRequest::getCmd('layout', '');
-	$task = JRequest::getCmd('task', '');
-	$itemid = JRequest::getCmd('Itemid', '');
-	$sitename = $app->getCfg('sitename');
-	if($task == "edit" || $layout == "form" ) :
-	$fullWidth = 1;
-	else:
-	$fullWidth = 0;
-	endif;
-
-	// Adjusting content width
-	if ($this->countModules('position-7') && $this->countModules('position-8')) :
-		$span = "span6";
-	elseif ($this->countModules('position-7') && !$this->countModules('position-8')) :
-		$span = "span9";
-	elseif (!$this->countModules('position-7') && $this->countModules('position-8')) :
-		$span = "span9";
-	else :
-		$span = "span12";
-	endif;
-	?>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
 	<script src="<?php echo $this->baseurl; ?>/media/jui/js/jquery.js"></script>
@@ -61,7 +80,30 @@ $user = JFactory::getUser();
 	  jQuery.noConflict();
 	</script>
 	<jdoc:include type="head" />
-
+	<?php
+	// Template color
+	if ($this->params->get('templateColor'))
+	{
+	?>
+	<style type="text/css">
+		body.site
+		{
+			border-top: 3px solid <?php echo $this->params->get('templateColor');?>;
+		}
+		.navbar-inner, .nav-list > .active > a, .nav-list > .active > a:hover, .dropdown-menu li > a:hover, .dropdown-menu .active > a, .dropdown-menu .active > a:hover
+		{
+			background: <?php echo $this->params->get('templateColor');?>;
+		}
+		.navbar-inner
+		{
+			-moz-box-shadow: 0 1px 3px rgba(0, 0, 0, .25), inset 0 -1px 0 rgba(0, 0, 0, .1), inset 0 30px 10px rgba(0, 0, 0, .2);
+			-webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, .25), inset 0 -1px 0 rgba(0, 0, 0, .1), inset 0 30px 10px rgba(0, 0, 0, .2);
+			box-shadow: 0 1px 3px rgba(0, 0, 0, .25), inset 0 -1px 0 rgba(0, 0, 0, .1), inset 0 30px 10px rgba(0, 0, 0, .2);
+		}
+	</style>
+	<?php
+	}
+	?>
 </head>
 
 <body class="site <?php echo $option . " view-" . $view . " layout-" . $layout . " task-" . $task . " itemid-" . $itemid . " ";?>">
@@ -73,7 +115,7 @@ $user = JFactory::getUser();
 			<div class="header">
 				<div class="header-inner">
 					<a class="brand pull-left" href="<?php echo $this->baseurl; ?>">
-						<img src="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template ?>/images/logo.png" alt="<?php echo $sitename; ?>" />
+						<img src="<?php echo $logo;?>" alt="<?php echo $sitename; ?>" />
 					</a>
 					<div class="header-search pull-right">
 						<jdoc:include type="modules" name="smartsearchload" style="none" />
