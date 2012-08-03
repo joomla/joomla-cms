@@ -22,7 +22,21 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 $ordering 	= ($listOrder == 'a.lft');
 $canOrder	= $user->authorise('core.edit.state',	'com_menus');
 $saveOrder 	= ($listOrder == 'a.lft' && $listDirn == 'asc');
+$sortFields = $this->getSortFields();
 ?>
+<script type="text/javascript">
+	Joomla.orderTable = function() {
+		table = document.getElementById("sortTable");
+		direction = document.getElementById("directionTable");
+		order = table.options[table.selectedIndex].value;
+		if (order != '<?php echo $listOrder; ?>') {
+			dirn = 'asc';
+		} else {
+			dirn = direction.options[direction.selectedIndex].value;
+		}
+		Joomla.tableOrdering(order, dirn, '');
+	}
+</script>
 <?php //Set up the filter bar. ?>
 <form action="<?php echo JRoute::_('index.php?option=com_menus&view=items');?>" method="post" name="adminForm" id="adminForm">
 	<div class="row-fluid">
@@ -40,28 +54,33 @@ $saveOrder 	= ($listOrder == 'a.lft' && $listDirn == 'asc');
 					}
 				?>
 				<hr />
-				<div class="filter-select">
+				<div class="filter-select hidden-phone">
 					<h4 class="page-header"><?php echo JText::_('JSEARCH_FILTER_LABEL');?></h4>
-					<select name="menutype" class="span12 small" onchange="this.form.submit()">
+					<label for="menutype" class="element-invisible"><?php echo JText::_('COM_CONTENT_FILTER_SEARCH_DESC');?></label>
+					<select name="menutype" id="menutype" class="span12 small" onchange="this.form.submit()">
 						<?php echo JHtml::_('select.options', JHtml::_('menu.menus'), 'value', 'text', $this->state->get('filter.menutype'));?>
 					</select>
 					<hr class="hr-condensed" />
-					<select name="filter_level" class="span12 small" onchange="this.form.submit()">
+					<label for="filter_level" class="element-invisible"><?php echo JText::_('COM_CONTENT_FILTER_SEARCH_DESC');?></label>
+					<select name="filter_level" id="filter_level" class="span12 small" onchange="this.form.submit()">
 						<option value=""><?php echo JText::_('COM_MENUS_OPTION_SELECT_LEVEL');?></option>
 						<?php echo JHtml::_('select.options', $this->f_levels, 'value', 'text', $this->state->get('filter.level'));?>
 					</select>
 					<hr class="hr-condensed" />
-			        <select name="filter_published" class="span12 small" onchange="this.form.submit()">
+					<label for="filter_published" class="element-invisible"><?php echo JText::_('COM_CONTENT_FILTER_SEARCH_DESC');?></label>
+			        <select name="filter_published" id="filter_published" class="span12 small" onchange="this.form.submit()">
 						<option value=""><?php echo JText::_('JOPTION_SELECT_PUBLISHED');?></option>
 						<?php echo JHtml::_('select.options', JHtml::_('jgrid.publishedOptions', array('archived' => false)), 'value', 'text', $this->state->get('filter.published'), true);?>
 					</select>
 					<hr class="hr-condensed" />
-			        <select name="filter_access" class="span12 small" onchange="this.form.submit()">
+					<label for="filter_access" class="element-invisible"><?php echo JText::_('COM_CONTENT_FILTER_SEARCH_DESC');?></label>
+			        <select name="filter_access" id="filter_access" class="span12 small" onchange="this.form.submit()">
 						<option value=""><?php echo JText::_('JOPTION_SELECT_ACCESS');?></option>
 						<?php echo JHtml::_('select.options', JHtml::_('access.assetgroups'), 'value', 'text', $this->state->get('filter.access'));?>
 					</select>
 					<hr class="hr-condensed" />
-					<select name="filter_language" class="span12 small" onchange="this.form.submit()">
+					<label for="filter_language" class="element-invisible"><?php echo JText::_('COM_CONTENT_FILTER_SEARCH_DESC');?></label>
+					<select name="filter_language" id="filter_language" class="span12 small" onchange="this.form.submit()">
 						<option value=""><?php echo JText::_('JOPTION_SELECT_LANGUAGE');?></option>
 						<?php echo JHtml::_('select.options', JHtml::_('contentlanguage.existing', true, true), 'value', 'text', $this->state->get('filter.language'));?>
 					</select>
@@ -73,11 +92,31 @@ $saveOrder 	= ($listOrder == 'a.lft' && $listDirn == 'asc');
 		<div class="span10">
 			<div id="filter-bar" class="btn-toolbar">
 				<div class="filter-search btn-group pull-left">
+					<label for="filter_search" class="element-invisible"><?php echo JText::_('COM_CONTENT_FILTER_SEARCH_DESC');?></label>
 					<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('COM_MENUS_ITEMS_SEARCH_FILTER'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" title="<?php echo JText::_('COM_MENUS_ITEMS_SEARCH_FILTER'); ?>" />
 				</div>
 				<div class="btn-group pull-left">
 					<button class="btn" rel="tooltip" type="submit" title="<?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?>"><i class="icon-search"></i></button>
 					<button class="btn" rel="tooltip" type="button" onclick="document.id('filter_search').value='';this.form.submit();" title="<?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?>"><i class="icon-remove"></i></button>
+				</div>
+				<div class="btn-group pull-right hidden-phone">
+					<label for="limit" class="element-invisible"><?php echo JText::_('JFIELD_PLG_SEARCH_SEARCHLIMIT_DESC');?></label>
+					<?php echo $this->pagination->getLimitBox(); ?>
+				</div>
+				<div class="btn-group pull-right hidden-phone">
+					<label for="directionTable" class="element-invisible"><?php echo JText::_('JFIELD_ORDERING_DESC');?></label>
+					<select name="directionTable" id="directionTable" class="input-small" onchange="Joomla.orderTable()">
+						<option value=""><?php echo JText::_('JFIELD_ORDERING_DESC');?></option>
+						<option value="asc" <?php if ($listDirn == 'asc') echo 'selected="selected"'; ?>><?php echo JText::_('JGLOBAL_ORDER_ASCENDING');?></option>
+						<option value="desc" <?php if ($listDirn == 'desc') echo 'selected="selected"'; ?>><?php echo JText::_('JGLOBAL_ORDER_DESCENDING');?></option>
+					</select>
+				</div>
+				<div class="btn-group pull-right">
+					<label for="sortTable" class="element-invisible"><?php echo JText::_('JGLOBAL_SORT_BY');?></label>
+					<select name="sortTable" id="sortTable" class="input-medium" onchange="Joomla.orderTable()">
+						<option value=""><?php echo JText::_('JGLOBAL_SORT_BY');?></option>
+						<?php echo JHtml::_('select.options', $sortFields, 'value', 'text', $listOrder);?>
+					</select>
 				</div>
 			</div>
 			<div class="clearfix"> </div>
@@ -85,33 +124,36 @@ $saveOrder 	= ($listOrder == 'a.lft' && $listDirn == 'asc');
 			<table class="table table-striped">
 				<thead>
 					<tr>
-						<th width="1%">
+						<th width="1%" class="hidden-phone">
 							<input type="checkbox" name="checkall-toggle" value="" title="<?php echo JText::_('JGLOBAL_CHECK_ALL'); ?>" onclick="Joomla.checkAll(this)" />
+						</th>
+						<th width="5%" class="center">
+							<?php echo JHtml::_('grid.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
 						</th>
 						<th class="title">
 							<?php echo JHtml::_('grid.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 						</th>
-						<th width="5%">
+						<th width="5%" class="hidden-phone">
 							<?php echo JHtml::_('grid.sort', 'COM_MENUS_HEADING_HOME', 'a.home', $listDirn, $listOrder); ?>
 						</th>
-						<th width="13%">
+						<th width="13%" nowrap="nowrap" class="hidden-phone">
 							<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ORDERING', 'a.lft', $listDirn, $listOrder); ?>
 							<?php if ($canOrder && $saveOrder) :?>
 								<?php echo JHtml::_('grid.order',  $this->items, 'filesave.png', 'items.saveorder'); ?>
 							<?php endif; ?>
 						</th>
-						<th width="10%">
+						<th width="10%" class="hidden-phone">
 							<?php echo JHtml::_('grid.sort',  'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 						</th>
 						<?php if (isset($app->menu_associations)) : ?>
-						<th width="5%">
+						<th width="5%" class="hidden-phone">
 							<?php echo JHtml::_('grid.sort', 'COM_MENUS_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
 						</th>
 						<?php endif;?>
-						<th width="5%">
+						<th width="5%" class="hidden-phone">
 							<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
 						</th>
-						<th width="1%" class="nowrap">
+						<th width="1%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('grid.sort',  'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
@@ -135,11 +177,13 @@ $saveOrder 	= ($listOrder == 'a.lft' && $listDirn == 'asc');
 					$canChange	= $user->authorise('core.edit.state',	'com_menus') && $canCheckin;
 					?>
 					<tr class="row<?php echo $i % 2; ?>">
-						<td class="center">
+						<td class="center hidden-phone">
 							<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 						</td>
-						<td>
+						<td class="center">
 							<?php echo JHtml::_('MenusHtml.Menus.state', $item->published, $i, $canChange, 'cb'); ?>
+						</td>
+						<td>
 							<?php echo str_repeat('<span class="gi">|&mdash;</span>', $item->level-1) ?>
 							<?php if ($item->checked_out) : ?>
 								<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'items.', $canCheckin); ?>
@@ -167,7 +211,7 @@ $saveOrder 	= ($listOrder == 'a.lft' && $listDirn == 'asc');
 									<?php echo $this->escape($item->item_type); ?></span>
 								</div>
 						</td>
-						<td class="center">
+						<td class="center hidden-phone">
 							<?php if ($item->type == 'component') : ?>
 								<?php if ($item->language=='*' || $item->home=='0'):?>
 									<?php echo JHtml::_('jgrid.isdefault', $item->home, $i, 'items.', ($item->language != '*' || !$item->home) && $canChange);?>
@@ -180,31 +224,32 @@ $saveOrder 	= ($listOrder == 'a.lft' && $listDirn == 'asc');
 								<?php endif;?>
 							<?php endif; ?>
 						</td>
-						<td class="order">
-							<?php if ($canChange) : ?>
-								<div class="input-prepend">
+						<td class="order hidden-phone">
+							<?php if ($canChange) : 
+							?>
+								<div class="btn-group pull-left">
 									<?php if ($saveOrder) : ?>
-										<span class="add-on"><?php echo $this->pagination->orderUpIcon($i, isset($this->ordering[$item->parent_id][$orderkey - 1]), 'items.orderup', 'JLIB_HTML_MOVE_UP', $ordering); ?></span><span class="add-on"><?php echo $this->pagination->orderDownIcon($i, $this->pagination->total, isset($this->ordering[$item->parent_id][$orderkey + 1]), 'items.orderdown', 'JLIB_HTML_MOVE_DOWN', $ordering); ?></span>
+										<?php echo $this->pagination->orderUpIcon($i, isset($this->ordering[$item->parent_id][$orderkey - 1]), 'items.orderup', 'JLIB_HTML_MOVE_UP', $ordering); ?><?php echo $this->pagination->orderDownIcon($i, $this->pagination->total, isset($this->ordering[$item->parent_id][$orderkey + 1]), 'items.orderdown', 'JLIB_HTML_MOVE_DOWN', $ordering); ?>
 									<?php endif; ?>
-									<?php $disabled = $saveOrder ?  '' : 'disabled="disabled"'; ?>
-									<?php if(!$disabled = $saveOrder) : echo "<span class=\"add-on tip\" title=\"".JText::_('JDISABLED')."\"><i class=\"icon-ban-circle\"></i></span>"; endif;?><input type="text" name="order[]" class="width-20" size="5" value="<?php echo $orderkey + 1;?>" <?php echo $disabled ?> class="text-area-order" />
-									<?php $originalOrders[] = $orderkey + 1; ?>
 								</div>
+									<?php $disabled = $saveOrder ?  '' : 'disabled="disabled"'; ?>
+									<?php if(!$disabled = $saveOrder) : echo "<span class=\"btn btn-micro disabled\" rel=\"tooltip\" title=\"".JText::_('JORDERINGDISABLED')."\"><i class=\"icon-ban-circle\"></i></span>"; endif;?><input type="text" name="order[]" class="width-20 pull-right" size="5" value="<?php echo $orderkey + 1;?>" <?php echo $disabled ?> class="text-area-order" />
+									<?php $originalOrders[] = $orderkey + 1; ?>
 							<?php else : ?>
 								<?php echo $orderkey + 1;?>
 							<?php endif; ?>
 						</td>
-						<td class="small">
+						<td class="small hidden-phone">
 							<?php echo $this->escape($item->access_level); ?>
 						</td>
 						<?php if (isset($app->menu_associations)):?>
-						<td class="small">
+						<td class="small hidden-phone">
 							<?php if ($item->association):?>
 								<?php echo JHtml::_('MenusHtml.Menus.association', $item->id);?>
 							<?php endif;?>
 						</td>
 						<?php endif;?>
-						<td class="small">
+						<td class="small hidden-phone">
 							<?php if ($item->language==''):?>
 								<?php echo JText::_('JDEFAULT'); ?>
 							<?php elseif ($item->language=='*'):?>
@@ -213,7 +258,7 @@ $saveOrder 	= ($listOrder == 'a.lft' && $listDirn == 'asc');
 								<?php echo $item->language_title ? $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
 							<?php endif;?>
 						</td>
-						<td class="center">
+						<td class="center hidden-phone">
 							<span title="<?php echo sprintf('%d-%d', $item->lft, $item->rgt);?>">
 								<?php echo (int) $item->id; ?></span>
 						</td>
