@@ -76,6 +76,15 @@ else
 	$span = "span12";
 }
 
+// Logo file
+if ($this->params->get('logoFile'))
+{
+	$logo = JURI::root() . $this->params->get('logoFile');
+}
+else
+{
+	$logo = $this->baseurl . "/templates/" . $this->template . "/images/logo.png";
+}
 ?>
 <!DOCTYPE html>
 <html>
@@ -89,6 +98,25 @@ else
 		jQuery.noConflict();
 	</script>
 	<jdoc:include type="head" />
+	<?php
+	// Template color
+	if ($this->params->get('templateColor'))
+	{
+	?>
+	<style type="text/css">
+		.header, .navbar-inner, .nav-list > .active > a, .nav-list > .active > a:hover, .dropdown-menu li > a:hover, .dropdown-menu .active > a, .dropdown-menu .active > a:hover
+		{
+			background: <?php echo $this->params->get('templateColor');?>;
+		}
+		.navbar-inner{
+			-moz-box-shadow: 0 1px 3px rgba(0, 0, 0, .25), inset 0 -1px 0 rgba(0, 0, 0, .1), inset 0 30px 10px rgba(0, 0, 0, .2);
+			-webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, .25), inset 0 -1px 0 rgba(0, 0, 0, .1), inset 0 30px 10px rgba(0, 0, 0, .2);
+			box-shadow: 0 1px 3px rgba(0, 0, 0, .25), inset 0 -1px 0 rgba(0, 0, 0, .1), inset 0 30px 10px rgba(0, 0, 0, .2);
+		}
+	</style>
+	<?php
+	}
+	?>
 </head>
 
 <body class="site <?php echo $option . " view-" . $view . " layout-" . $layout . " task-" . $task . " itemid-" . $itemid . " ";?>" data-spy="scroll" data-target=".subhead" data-offset="87">
@@ -141,7 +169,7 @@ else
 		<div class="container-fluid">
 			<div class="row-fluid">
 				<div class="span2 container-logo">
-					<a class="logo" href="<?php echo $this->baseurl; ?>"><img src="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template ?>/images/logo.png" alt="<?php echo $sitename; ?>" /></a>
+					<a class="logo" href="<?php echo $this->baseurl; ?>"><img src="<?php echo $logo;?>" alt="<?php echo $sitename; ?>" /></a>
 				</div>
 				<div class="span7">
 					<h1 class="page-title"><?php echo JHtml::_('string.truncate', $app->JComponentTitle, 40, false, false);?></h1>
