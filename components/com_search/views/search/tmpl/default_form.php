@@ -52,10 +52,10 @@ $upper_limit = $lang->getUpperLimitSearchWord();
 		<?php foreach ($this->searchareas['search'] as $val => $txt) :
 			$checked = is_array($this->searchareas['active']) && in_array($val, $this->searchareas['active']) ? 'checked="checked"' : '';
 		?>
-		<input type="checkbox" name="areas[]" value="<?php echo $val;?>" id="area-<?php echo $val;?>" <?php echo $checked;?> />
-			<label for="area-<?php echo $val;?>">
-				<?php echo JText::_($txt); ?>
-			</label>
+		<label for="area-<?php echo $val;?>" class="checkbox">
+			<input type="checkbox" name="areas[]" value="<?php echo $val;?>" id="area-<?php echo $val;?>" <?php echo $checked;?> >
+			<?php echo JText::_($txt); ?>
+		</label>
 		<?php endforeach; ?>
 		</fieldset>
 	<?php endif; ?>
