@@ -37,10 +37,10 @@
           <element>
           	<programlisting>
 	          	$options = new JRegistry;
-				$options->set('consumer_key', $api_key);
-				$options->set('consumer_secret', $api_secret);
-				$options->set('callback', $callback_url);
-				$options->set('sendheaders', true);
+				$options-&gt;set('consumer_key', $api_key);
+				$options-&gt;set('consumer_secret', $api_secret);
+				$options-&gt;set('callback', $callback_url);
+				$options-&gt;set('sendheaders', true);
 				$oauth = new JLinkedinOauth($options);
 			</programlisting>
           </element>
@@ -49,7 +49,7 @@
           <element>
           	<programlisting>
           		// Set the stored access token.
-          		$oauth->setToken(array('key' => $token['key'], 'secret' => $token['secret']));
+          		$oauth->setToken($token);
           		
           		$access_token = $oauth->auth();
           	</programlisting>
@@ -93,27 +93,27 @@
         	
         	// Set options.
         	$options = new JRegistry;
-			$options->set('consumer_key', $api_key);
-			$options->set('consumer_secret', $api_secret);
-			$options->set('callback', $callback_url);
+			$options-&gt;set('consumer_key', $api_key);
+			$options-&gt;set('consumer_secret', $api_secret);
+			$options-&gt;set('callback', $callback_url);
 			
 			// Automatically set and send headers.
-			$options->set('sendheaders', true);
+			$options-&gt;set('sendheaders', true);
 			
 			$oauth = new JLinkedinOauth($options);
 			
 			// Set the stored access token, if there is one.
-			if ($token = $this->getStoredToken())
+			if ($token = $this-&gt;getStoredToken())
 			{
-       			$oauth->setToken(array('key' => $token['key'], 'secret' => $token['secret']));
+       			$oauth-&gt;setToken($token);
        		}
         	
-       		$access_token = $oauth->auth();
+       		$access_token = $oauth-&gt;auth();
        		
        		// Store the new access token.
-       		if ($access_token != $this->getStoredToken())
+       		if ($access_token != $this-&gt;getStoredToken())
        		{
-       			$this->storeToken($access_token);
+       			$this-&gt;storeToken($access_token);
        		}
        		
        		// Get connections.
