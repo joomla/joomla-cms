@@ -8,7 +8,7 @@
  */
 
 defined('JPATH_PLATFORM') or die();
-jimport('joomla.oauth.oauth1aClient');
+jimport('joomla.oauth.oauth1aclient');
 
 /**
  * Joomla Platform class for generating Linkedin API access token.
@@ -18,7 +18,7 @@ jimport('joomla.oauth.oauth1aClient');
  *
  * @since       12.3
  */
-class JLinkedinOauth extends JOauth1aClient
+class JLinkedinOauth extends JOauthOauth1aclient
 {
 	/**
 	* @var    JRegistry  Options for the JLinkedinOauth object.
