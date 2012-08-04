@@ -160,12 +160,8 @@ class ContactModelContact extends JModelForm
 
 				$data = $db->loadObject();
 
-				if ($error = $db->getErrorMsg()) {
-					throw new JException($error);
-				}
-
 				if (empty($data)) {
-					throw new JException(JText::_('COM_CONTACT_ERROR_CONTACT_NOT_FOUND'), 404);
+					throw new Exception(JText::_('COM_CONTACT_ERROR_CONTACT_NOT_FOUND'), 404);
 				}
 
 				// Check for published state if filter set.
@@ -204,7 +200,7 @@ class ContactModelContact extends JModelForm
 
 				$this->_item[$pk] = $data;
 			}
-			catch (JException $e)
+			catch (Exception $e)
 			{
 				$this->setError($e);
 				$this->_item[$pk] = false;
@@ -264,16 +260,13 @@ class ContactModelContact extends JModelForm
 			$groups = implode(',', $user->getAuthorisedViewLevels());
 			$query->where('a.access IN ('.$groups.')');
 
-			try {
+			try
+			{
 				$db->setQuery($query);
 				$result = $db->loadObject();
 
-				if ($error = $db->getErrorMsg()) {
-					throw new Exception($error);
-				}
-
 				if (empty($result)) {
-						throw new JException(JText::_('COM_CONTACT_ERROR_CONTACT_NOT_FOUND'), 404);
+					throw new Exception(JText::_('COM_CONTACT_ERROR_CONTACT_NOT_FOUND'), 404);
 				}
 
 			// If we are showing a contact list, then the contact parameters take priority
@@ -283,7 +276,9 @@ class ContactModelContact extends JModelForm
 					$registry->loadString($result->params);
 					$this->getState('params')->merge($registry);
 				}
-			} catch (Exception $e) {
+			}
+			catch (Exception $e)
+			{
 				$this->setError($e);
 				return false;
 			}

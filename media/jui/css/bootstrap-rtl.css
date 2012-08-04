@@ -1,0 +1,246 @@
+/* Bootstrap RTL */
+/* Pull right or left */
+.pull-right {
+	float: left;
+}
+
+.pull-left {
+	float: right;
+}
+/* Tables */
+.table th,
+.table td {
+	text-align: right;
+}
+/* Navbar */
+.navbar .brand {
+	float: right;
+	padding: 8px 20px 12px;
+	margin-right: -20px;
+	margin-left: 0;
+}
+.navbar .nav,
+.navbar .nav > li {
+	float: right;
+}
+.navbar .nav.pull-right {
+	margin-right: 10px;
+	margin-left: 0px;
+}
+.pull-right > .dropdown-menu {
+	left: 0;
+	right: auto;
+}
+/* Grid */
+[class*="span"] {
+	float: right;
+	margin-right: 20px;
+	margin-left: 0px;
+}
+.row-fluid [class*="span"] {
+	float: right;
+	margin-right: 2.127659574%;
+	*margin-right: 2.0744680846382977%;
+	margin-left: 0px;
+	*margin-left: 0px;
+}
+
+.row-fluid [class*="span"]:first-child {
+	margin-right: 0;
+}
+/* Forms */
+.form-horizontal .control-label {
+	float: right;
+	width: 140px;
+	padding-top: 5px;
+	text-align: right;
+}
+	
+.form-horizontal .controls {
+	*display: inline-block;
+	*padding-right: 20px;
+	margin-right: 160px;
+	*margin-right: 0;
+	margin-left: 0;
+	text-align: right;
+}
+	
+	.form-horizontal .controls:first-child {
+	*padding-right: 160px;
+}
+/* Nav */
+/* Tabs */
+.nav-tabs > li,
+.nav-pills > li {
+	float: right;
+}
+/* Buttons */
+/* Button Groups */
+.btn-group > .btn {
+	float: right;
+	margin-right: -1px;
+	margin-left: 0;
+}
+
+.btn-group > .btn:first-child {
+	margin-right: 0;
+}
+.btn-group > .btn:first-child,
+.radio.btn-group > label:first-of-type {
+	margin-left: 0;
+	-webkit-border-bottom-left-radius: 0px;
+	border-bottom-left-radius: 0px;
+	-webkit-border-top-left-radius: 0px;
+	border-top-left-radius: 0px;
+	-moz-border-radius-bottomleft: 0px;
+	-moz-border-radius-topleft: 0px;
+	
+	-webkit-border-bottom-right-radius: 4px;
+	border-bottom-right-radius: 4px;
+	-webkit-border-top-right-radius: 4px;
+	border-top-right-radius: 4px;
+	-moz-border-radius-bottomright: 4px;
+	-moz-border-radius-topright: 4px;
+}
+
+.btn-group > .btn:last-child,
+.btn-group > .dropdown-toggle {
+	-webkit-border-top-right-radius: 0px;
+	border-top-right-radius: 0px;
+	-webkit-border-bottom-right-radius: 0px;
+	border-bottom-right-radius: 0px;
+	-moz-border-radius-topright: 0px;
+	-moz-border-radius-bottomright: 0px;
+	
+	-webkit-border-top-left-radius: 4px;
+	border-top-left-radius: 4px;
+	-webkit-border-bottom-left-radius: 4px;
+	border-bottom-left-radius: 4px;
+	-moz-border-radius-topleft: 4px;
+	-moz-border-radius-bottomleft: 4px;
+}
+
+.btn-group > .btn.large:first-child {
+	-webkit-border-bottom-left-radius: 0px;
+	border-bottom-left-radius: 0px;
+	-webkit-border-top-left-radius: 0px;
+	border-top-left-radius: 0px;
+	-moz-border-radius-bottomleft: 0px;
+	-moz-border-radius-topleft: 0px;
+	
+	margin-right: 0;
+	-webkit-border-bottom-right-radius: 6px;
+	border-bottom-right-radius: 6px;
+	-webkit-border-top-right-radius: 6px;
+	border-top-right-radius: 6px;
+	-moz-border-radius-bottomright: 6px;
+	-moz-border-radius-topright: 6px;
+}
+
+.btn-group > .btn.large:last-child,
+.btn-group > .large.dropdown-toggle {
+	-webkit-border-top-right-radius: 0px;
+	border-top-right-radius: 0px;
+	-webkit-border-bottom-right-radius: 0px;
+	border-bottom-right-radius: 0px;
+	-moz-border-radius-topright: 0px;
+	-moz-border-radius-bottomright: 0px;
+	
+	-webkit-border-top-left-radius: 6px;
+	border-top-left-radius: 6px;
+	-webkit-border-bottom-left-radius: 6px;
+	border-bottom-left-radius: 6px;
+	-moz-border-radius-topleft: 6px;
+	-moz-border-radius-bottomleft: 6px;
+}
+
+.btn-group > .btn:first-child:last-child {
+	margin-left: 0;
+	-webkit-border-top-left-radius: 4px;
+	border-top-left-radius: 4px;
+	-webkit-border-bottom-left-radius: 4px;
+	border-bottom-left-radius: 4px;
+	-moz-border-radius-topleft: 4px;
+	-moz-border-radius-bottomleft: 4px;
+	
+	-webkit-border-bottom-right-radius: 4px;
+	border-bottom-right-radius: 4px;
+	-webkit-border-top-right-radius: 4px;
+	border-top-right-radius: 4px;
+	-moz-border-radius-bottomright: 4px;
+	-moz-border-radius-topright: 4px;
+}
+/* Forms */
+/* Input Prepend and Append */
+.input-prepend .add-on{
+	float: right;
+}
+.input-append .add-on{
+	float: left;
+}
+.input-prepend .add-on,
+.input-prepend .btn {
+	margin-left: -1px;
+	margin-right: 0;
+}
+
+.input-prepend .add-on:first-child,
+.input-prepend .btn:first-child {
+	-webkit-border-radius: 0 3px 3px 0;
+	-moz-border-radius: 0 3px 3px 0;
+	border-radius: 0 3px 3px 0;
+}
+
+.input-append input,
+.input-append select,
+.input-append .uneditable-input {
+	-webkit-border-radius: 0 3px 3px 0;
+	-moz-border-radius: 0 3px 3px 0;
+	border-radius: 0 3px 3px 0;
+}
+
+.input-append .uneditable-input {
+	border-left-color: #ccc;
+	border-right-color: #eee;
+}
+
+.input-append .add-on:last-child,
+.input-append .btn:last-child {
+	-webkit-border-radius: 3px 0 0 3px;
+	-moz-border-radius: 3px 0 0 3px;
+	border-radius: 3px 0 0 3px;
+}
+
+.input-prepend.input-append input,
+.input-prepend.input-append select,
+.input-prepend.input-append .uneditable-input {
+	-webkit-border-radius: 0;
+	-moz-border-radius: 0;
+	border-radius: 0;
+}
+
+.input-prepend.input-append .add-on:first-child,
+.input-prepend.input-append .btn:first-child {
+	margin-left: -1px;
+	margin-right: 0px;
+	-webkit-border-radius: 0 3px 3px 0;
+	-moz-border-radius: 0 3px 3px 0;
+	border-radius: 0 3px 3px 0;
+}
+
+.input-prepend.input-append .add-on:last-child,
+.input-prepend.input-append .btn:last-child {
+	margin-right: -1px;
+	margin-left: 0px;
+	-webkit-border-radius: 3px 0 0 3px;
+	-moz-border-radius: 3px 0 0 3px;
+	border-radius: 3px 0 0 3px;
+}
+
+.input-prepend input,
+.input-prepend select,
+.input-prepend .uneditable-input {
+	-webkit-border-radius: 3px 0 0 3px;
+	-moz-border-radius: 3px 0 0 3px;
+	border-radius: 3px 0 0 3px;
+}

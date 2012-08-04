@@ -226,13 +226,6 @@ class FinderIndexer
 		$db->setQuery($query);
 		$link = $db->loadObject();
 
-		// Check for a database error.
-		if ($db->getErrorNum())
-		{
-			// Throw database error exception.
-			throw new Exception($db->getErrorMsg(), 500);
-		}
-
 		// Get the indexer state.
 		$state = self::getState();
 
@@ -266,13 +259,6 @@ class FinderIndexer
 				$query->where($db->quoteName('link_id') . ' = ' . (int) $linkId);
 				$db->setQuery($query);
 				$db->execute();
-
-				// Check for a database error.
-				if ($db->getErrorNum())
-				{
-					// Throw database error exception.
-					throw new Exception($db->getErrorMsg(), 500);
-				}
 			}
 
 			// Remove the taxonomy maps.
@@ -333,13 +319,6 @@ class FinderIndexer
 			$db->setQuery($query);
 			$db->execute();
 
-			// Check for a database error.
-			if ($db->getErrorNum())
-			{
-				// Throw database error exception.
-				throw new Exception($db->getErrorMsg(), 500);
-			}
-
 			// Get the link id.
 			$linkId = (int) $db->insertid();
 		}
@@ -367,13 +346,6 @@ class FinderIndexer
 			$query->where('link_id = ' . (int) $linkId);
 			$db->setQuery($query);
 			$db->execute();
-
-			// Check for a database error.
-			if ($db->getErrorNum())
-			{
-				// Throw database error exception.
-				throw new Exception($db->getErrorMsg(), 500);
-			}
 		}
 
 		// Set up the variables we will need during processing.
@@ -386,22 +358,8 @@ class FinderIndexer
 		// Truncate the tokens tables.
 		$db->truncateTable('#__finder_tokens');
 
-		// Check for a database error.
-		if ($db->getErrorNum())
-		{
-			// Throw database error exception.
-			throw new Exception($db->getErrorMsg(), 500);
-		}
-
 		// Truncate the tokens aggregate table.
 		$db->truncateTable('#__finder_tokens_aggregate');
-
-		// Check for a database error.
-		if ($db->getErrorNum())
-		{
-			// Throw database error exception.
-			throw new Exception($db->getErrorMsg(), 500);
-		}
 
 		/*
 		 * Process the item's content. The items can customize their
@@ -528,13 +486,6 @@ class FinderIndexer
 			// Run the query to aggregate the tokens for this context..
 			$db->setQuery(sprintf($query, $multiplier, $context, $context));
 			$db->execute();
-
-			// Check for a database error.
-			if ($db->getErrorNum())
-			{
-				// Throw database error exception.
-				throw new Exception($db->getErrorMsg(), 500);
-			}
 		}
 
 		// Mark afterAggregating in the profiler.
@@ -623,11 +574,6 @@ class FinderIndexer
 			$db->setQuery($quRepl_p2);
 			$db->execute();
 
-			// Check for a database error.
-			if ($db->getErrorNum())
-			{
-				throw new Exception($db->getErrorMsg(), 500);
-			}
 		}
 		End of failing edit */
 
@@ -648,14 +594,6 @@ class FinderIndexer
 		);
 		$db->execute();
 
-		// Check for a database error.
-		if ($db->getErrorNum())
-		{
-			{
-				throw new Exception($db->getErrorMsg(), 500);
-			}
-		}
-
 		/*
 		 * Now, we just inserted a bunch of new records into the terms table
 		 * so we need to go back and update the aggregate table with all the
@@ -668,13 +606,6 @@ class FinderIndexer
 		$query->where('ta.term_id = 0');
 		$db->setQuery($query);
 		$db->execute();
-
-		// Check for a database error.
-		if ($db->getErrorNum())
-		{
-			// Throw database error exception.
-			throw new Exception($db->getErrorMsg(), 500);
-		}
 
 		// Mark afterTerms in the profiler.
 		self::$profiler ? self::$profiler->mark('afterTerms') : null;
@@ -691,13 +622,6 @@ class FinderIndexer
 		$db->setQuery($query);
 		$db->execute();
 
-		// Check for a database error.
-		if ($db->getErrorNum())
-		{
-			// Throw database error exception.
-			throw new Exception($db->getErrorMsg(), 500);
-		}
-
 		// Mark afterTerms in the profiler.
 		self::$profiler ? self::$profiler->mark('afterTerms') : null;
 
@@ -713,13 +637,6 @@ class FinderIndexer
 		$query->set($db->quoteName('map_suffix') . ' = SUBSTR(MD5(SUBSTR(' . $db->quoteName('term') . ', 1, 1)), 1, 1)');
 		$db->setQuery($query);
 		$db->execute();
-
-		// Check for a database error.
-		if ($db->getErrorNum())
-		{
-			// Throw database error exception.
-			throw new Exception($db->getErrorMsg(), 500);
-		}
 
 		/*
 		 * At this point, the aggregate table contains a record for each
@@ -752,13 +669,6 @@ class FinderIndexer
 				' ORDER BY ' . $db->quoteName('term') . ' DESC'
 			);
 			$db->execute();
-
-			// Check for a database error.
-			if ($db->getErrorNum())
-			{
-				// Throw database error exception.
-				throw new Exception($db->getErrorMsg(), 500);
-			}
 		}
 
 		// Mark afterMapping in the profiler.
@@ -772,35 +682,14 @@ class FinderIndexer
 		$db->setQuery($query);
 		$db->execute();
 
-		// Check for a database error.
-		if ($db->getErrorNum())
-		{
-			// Throw database error exception.
-			throw new Exception($db->getErrorMsg(), 500);
-		}
-
 		// Mark afterSigning in the profiler.
 		self::$profiler ? self::$profiler->mark('afterSigning') : null;
 
 		// Truncate the tokens tables.
 		$db->truncateTable('#__finder_tokens');
 
-		// Check for a database error.
-		if ($db->getErrorNum())
-		{
-			// Throw database error exception.
-			throw new Exception($db->getErrorMsg(), 500);
-		}
-
 		// Truncate the tokens aggregate table.
 		$db->truncateTable('#__finder_tokens_aggregate');
-
-		// Check for a database error.
-		if ($db->getErrorNum())
-		{
-			// Throw database error exception.
-			throw new Exception($db->getErrorMsg(), 500);
-		}
 
 		// Toggle the token tables back to memory tables.
 		self::toggleTables(true);
@@ -840,13 +729,6 @@ class FinderIndexer
 			$db->setQuery($query);
 			$db->execute();
 
-			// Check for a database error.
-			if ($db->getErrorNum())
-			{
-				// Throw database error exception.
-				throw new Exception($db->getErrorMsg(), 500);
-			}
-
 			// Remove all records from the mapping tables.
 			$query->clear();
 			$query->delete();
@@ -854,13 +736,6 @@ class FinderIndexer
 			$query->where($db->quoteName('link_id') . ' = ' . (int) $linkId);
 			$db->setQuery($query);
 			$db->execute();
-
-			// Check for a database error.
-			if ($db->getErrorNum())
-			{
-				// Throw database error exception.
-				throw new Exception($db->getErrorMsg(), 500);
-			}
 		}
 
 		// Delete all orphaned terms.
@@ -871,13 +746,6 @@ class FinderIndexer
 		$db->setQuery($query);
 		$db->execute();
 
-		// Check for a database error.
-		if ($db->getErrorNum())
-		{
-			// Throw database error exception.
-			throw new Exception($db->getErrorMsg(), 500);
-		}
-
 		// Delete the link from the index.
 		$query->clear();
 		$query->delete();
@@ -885,13 +753,6 @@ class FinderIndexer
 		$query->where($db->quoteName('link_id') . ' = ' . $db->quote((int) $linkId));
 		$db->setQuery($query);
 		$db->execute();
-
-		// Check for a database error.
-		if ($db->getErrorNum())
-		{
-			// Throw database error exception.
-			throw new Exception($db->getErrorMsg(), 500);
-		}
 
 		// Remove the taxonomy maps.
 		FinderIndexerTaxonomy::removeMaps($linkId);
@@ -927,13 +788,6 @@ class FinderIndexer
 		$db->setQuery($query);
 		$db->execute();
 
-		// Check for a database error.
-		if ($db->getErrorNum())
-		{
-			// Throw database error exception.
-			throw new Exception($db->getErrorMsg(), 500);
-		}
-
 		// Optimize the links table.
 		//@TODO: PostgreSQL doesn't support OPTIMIZE TABLE
 		// Temporary workaround for non-MySQL solutions
@@ -941,13 +795,6 @@ class FinderIndexer
 		{
 			$db->setQuery('OPTIMIZE TABLE ' . $db->quoteName('#__finder_links'));
 			$db->execute();
-
-			// Check for a database error.
-			if ($db->getErrorNum())
-			{
-				// Throw database error exception.
-				throw new Exception($db->getErrorMsg(), 500);
-			}
 		}
 
 		//@TODO: PostgreSQL doesn't support OPTIMIZE TABLE
@@ -959,13 +806,6 @@ class FinderIndexer
 				// Optimize the terms mapping table.
 				$db->setQuery('OPTIMIZE TABLE ' . $db->quoteName('#__finder_links_terms' . dechex($i)));
 				$db->execute();
-
-				// Check for a database error.
-				if ($db->getErrorNum())
-				{
-					// Throw database error exception.
-					throw new Exception($db->getErrorMsg(), 500);
-				}
 			}
 		}
 
@@ -976,13 +816,6 @@ class FinderIndexer
 		{
 			$db->setQuery('OPTIMIZE TABLE ' . $db->quoteName('#__finder_links_terms'));
 			$db->execute();
-
-			// Check for a database error.
-			if ($db->getErrorNum())
-			{
-				// Throw database error exception.
-				throw new Exception($db->getErrorMsg(), 500);
-			}
 		}
 
 		// Remove the orphaned taxonomy nodes.
@@ -995,13 +828,6 @@ class FinderIndexer
 		{
 			$db->setQuery('OPTIMIZE TABLE ' . $db->quoteName('#__finder_taxonomy_map'));
 			$db->execute();
-
-			// Check for a database error.
-			if ($db->getErrorNum())
-			{
-				// Throw database error exception.
-				throw new Exception($db->getErrorMsg(), 500);
-			}
 		}
 
 		return true;
@@ -1237,13 +1063,6 @@ class FinderIndexer
 		$db->setQuery($query);
 		$db->execute();
 
-		// Check for a database error.
-		if ($db->getErrorNum())
-		{
-			// Throw database error exception.
-			throw new Exception($db->getErrorMsg(), 500);
-		}
-
 		return $values;
 	}
 
@@ -1279,23 +1098,9 @@ class FinderIndexer
 			$db->setQuery('ALTER TABLE ' . $db->quoteName('#__finder_tokens') . ' ENGINE = MEMORY');
 			$db->execute();
 
-			// Check for a database error.
-			if ($db->getErrorNum())
-			{
-				// Throw database error exception.
-				throw new Exception($db->getErrorMsg(), 500);
-			}
-
 			// Set the tokens aggregate table to Memory.
 			$db->setQuery('ALTER TABLE ' . $db->quoteName('#__finder_tokens_aggregate') . ' ENGINE = MEMORY');
 			$db->execute();
-
-			// Check for a database error.
-			if ($db->getErrorNum())
-			{
-				// Throw database error exception.
-				throw new Exception($db->getErrorMsg(), 500);
-			}
 
 			// Set the internal state.
 			$state = $memory;
@@ -1307,23 +1112,9 @@ class FinderIndexer
 			$db->setQuery('ALTER TABLE ' . $db->quoteName('#__finder_tokens') . ' ENGINE = MYISAM');
 			$db->execute();
 
-			// Check for a database error.
-			if ($db->getErrorNum())
-			{
-				// Throw database error exception.
-				throw new Exception($db->getErrorMsg(), 500);
-			}
-
 			// Set the tokens aggregate table to MyISAM.
 			$db->setQuery('ALTER TABLE ' . $db->quoteName('#__finder_tokens_aggregate') . ' ENGINE = MYISAM');
 			$db->execute();
-
-			// Check for a database error.
-			if ($db->getErrorNum())
-			{
-				// Throw database error exception.
-				throw new Exception($db->getErrorMsg(), 500);
-			}
 
 			// Set the internal state.
 			$state = $memory;

@@ -33,6 +33,18 @@ class ConfigControllerComponent extends JControllerLegacy
 	}
 
 	/**
+	 * Cancel operation
+	 */
+	function cancel()
+	{
+		// Clean the session data.
+		$app = JFactory::getApplication();
+		$app->setUserState('com_config.config.global.data',	null);
+
+		$this->setRedirect('index.php');
+	}
+
+	/**
 	 * Save the configuration
 	 */
 	function save()
@@ -79,7 +91,7 @@ class ConfigControllerComponent extends JControllerLegacy
 			$app->setUserState('com_config.config.global.data', $data);
 
 			// Redirect back to the edit screen.
-			$this->setRedirect(JRoute::_('index.php?option=com_config&view=component&component='.$option.'&tmpl=component', false));
+			$this->setRedirect(JRoute::_('index.php?option=com_config&view=component&component=' . $option, false));
 			return false;
 		}
 
@@ -99,7 +111,7 @@ class ConfigControllerComponent extends JControllerLegacy
 
 			// Save failed, go back to the screen and display a notice.
 			$message = JText::sprintf('JERROR_SAVE_FAILED', $model->getError());
-			$this->setRedirect('index.php?option=com_config&view=component&component='.$option.'&tmpl=component', $message, 'error');
+			$this->setRedirect('index.php?option=com_config&view=component&component='  . $option, $message, 'error');
 			return false;
 		}
 
@@ -108,12 +120,12 @@ class ConfigControllerComponent extends JControllerLegacy
 		{
 			case 'apply':
 				$message = JText::_('COM_CONFIG_SAVE_SUCCESS');
-				$this->setRedirect('index.php?option=com_config&view=component&component='.$option.'&tmpl=component&refresh=1', $message);
+				$this->setRedirect('index.php?option=com_config&view=component&component=' . $option, $message);
 				break;
 
 			case 'save':
 			default:
-				$this->setRedirect('index.php?option=com_config&view=close&tmpl=component');
+				$this->setRedirect('index.php');
 				break;
 		}
 

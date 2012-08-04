@@ -61,7 +61,7 @@ class plgButtonImage extends JPlugin
 			$button->modal = true;
 			$button->link = $link;
 			$button->text = JText::_('PLG_IMAGE_BUTTON_IMAGE');
-			$button->name = 'image';
+			$button->name = 'picture';
 			$button->options = "{handler: 'iframe', size: {x: 800, y: 500}}";
 			return $button;
 		}

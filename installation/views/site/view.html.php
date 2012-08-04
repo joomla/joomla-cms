@@ -29,7 +29,6 @@ class InstallationViewSite extends JViewLegacy
 	{
 		$state = $this->get('State');
 		$form  = $this->get('Form');
-		$sample_installed = $form->getValue('sample_installed', null, 0);
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -40,7 +39,6 @@ class InstallationViewSite extends JViewLegacy
 
 		$this->state = $state;
 		$this->form  = $form;
-		$this->sample_installed = $sample_installed;
 
 		return parent::display($tpl);
 	}

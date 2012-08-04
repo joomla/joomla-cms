@@ -126,33 +126,27 @@ Joomla.checkAll = function(checkbox, stub) {
 Joomla.renderMessages = function(messages) {
 	Joomla.removeMessages();
 	var container = document.id('system-message-container');
-
-	var dl = new Element('dl', {
-		id: 'system-message',
-		role: 'alert'
-	});
+	
 	Object.each(messages, function (item, type) {
-		var dt = new Element('dt', {
-			'class': type,
-			html: type
+		var div = new Element('div', {
+			id: 'system-message',
+			'class': 'alert alert-' + type
 		});
-		dt.inject(dl);
-		var dd = new Element('dd', {
-			'class': type
+		div.inject(container);
+		var h4 = new Element('h4', {
+			'class' : 'alert-heading',
+			html: Joomla.JText._(type)		
 		});
-		dd.addClass('message');
-		var list = new Element('ul');
-
+		h4.inject(div);
+		var divList = new Element('div');
 		Array.each(item, function (item, index, object) {
-			var li = new Element('li', {
+			var p = new Element('p', {
 				html: item
 			});
-			li.inject(list);
+			p.inject(divList);
 		}, this);
-		list.inject(dd);
-		dd.inject(dl);
+		divList.inject(div);
 	}, this);
-	dl.inject(container);
 };
 
 

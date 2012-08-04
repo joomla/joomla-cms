@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE install PUBLIC "-//Joomla! 2.5//DTD template 1.0//EN" "http://www.joomla.org/xml/dtd/2.5/template-install.dtd">
+<extension version="2.5" type="template" client="administrator">
+  <name>isis</name>
+  <version>1.0</version>
+  <creationDate>3/30/2012</creationDate>
+  <author>Kyle Ledbetter</author>
+  <authorEmail>admin@joomla.org</authorEmail>
+  <copyright>Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.</copyright>
+  <description>TPL_ISIS_XML_DESCRIPTION</description>
+  <files>
+  	<filename>component.php</filename>
+  	<filename>cpanel.php</filename>
+    <filename>favicon.ico</filename>
+    <filename>index.php</filename>
+    <filename>LICENSE.txt</filename>
+    <filename>login.php</filename>
+    <filename>templateDetails.xml</filename>
+    <filename>template_preview.png</filename>
+    <filename>template_thumbnail.png</filename>
+    <folder>css</folder>
+    <folder>html</folder>
+    <folder>images</folder>
+    <folder>img</folder>
+    <folder>js</folder>
+    <folder>language</folder>
+    <folder>less</folder>
+  </files>
+  <positions>
+    <position>menu</position>
+    <position>submenu</position>
+    <position>toolbar</position>
+    <position>title</position>
+    <position>status</position>
+    <position>icon</position>
+    <position>cp_shell</position>
+    <position>cpanel</position>
+    <position>footer</position>
+    <position>login</position>
+    <position>debug</position>
+  </positions>
+  <languages folder="language">
+      <language tag="en-GB">en-GB/en-GB.tpl_isis.ini</language>
+      <language tag="en-GB">en-GB/en-GB.tpl_isis.sys.ini</language>
+  </languages>
+  <config>
+	  <fields name="params">
+	  	<fieldset name="layout" label="Layout">
+  			<field name="templateColor" class="" type="color" default=""
+  				label="TPL_ISIS_COLOR_LABEL"
+  				description="TPL_ISIS_COLOR_DESC" />
+  			<field name="logoFile" class="" type="media" default=""
+  				label="TPL_ISIS_LOGO_LABEL"
+  				description="TPL_ISIS_LOGO_DESC" />
+		</fieldset>
+	  </fields>
+  </config>
+</extension>

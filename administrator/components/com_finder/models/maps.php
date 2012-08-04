@@ -348,26 +348,12 @@ class FinderModelMaps extends JModelList
 		$db->setQuery($query);
 		$db->execute();
 
-		// Check for a database error.
-		if ($db->getErrorNum())
-		{
-			$this->setError($db->getErrorMsg());
-			return false;
-		}
-
 		$query->clear();
 		$query->delete();
 		$query->from($db->quoteName('#__finder_taxonomy_map'));
 		$query->where('1');
 		$db->setQuery($query);
 		$db->execute();
-
-		// Check for a database error.
-		if ($db->getErrorNum())
-		{
-			$this->setError($db->getErrorMsg());
-			return false;
-		}
 
 		return true;
 	}

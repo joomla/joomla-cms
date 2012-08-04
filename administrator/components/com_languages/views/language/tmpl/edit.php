@@ -23,73 +23,132 @@ $canDo = LanguagesHelper::getActions();
 	}
 </script>
 
-<form action="<?php echo JRoute::_('index.php?option=com_languages&layout=edit&lang_id='.(int) $this->item->lang_id); ?>" method="post" name="adminForm" id="language-form" class="form-validate">
-	<div class="width-60 fltlft">
-		<fieldset class="adminform">
-			<?php if ($this->item->lang_id) : ?>
-				<legend><?php echo JText::sprintf('JGLOBAL_RECORD_NUMBER', $this->item->lang_id); ?></legend>
-			<?php else : ?>
-				<legend><?php echo JText::_('COM_LANGUAGES_VIEW_LANGUAGE_EDIT_NEW_TITLE'); ?></legend>
+<form action="<?php echo JRoute::_('index.php?option=com_languages&layout=edit&lang_id='.(int) $this->item->lang_id); ?>" method="post" name="adminForm" id="language-form" class="form-validate form-horizontal">
+	<fieldset>
+	<ul class="nav nav-tabs">
+		<li class="active"><a href="#details" data-toggle="tab"><?php echo JText::_('JDETAILS');?></a></li>
+		<li><a href="#metadata" data-toggle="tab"><?php echo JText::_('JGLOBAL_FIELDSET_METADATA_OPTIONS');?></a></li>
+		<li><a href="#site_name" data-toggle="tab"><?php echo JText::_('COM_LANGUAGES_FIELDSET_SITE_NAME_LABEL');?></a></li>
+	</ul>
+	
+	<div class="tab-content">
+		<div class="tab-pane active" id="details">
+			<div class="control-group">
+		  		<div class="controls">
+					<?php if ($this->item->lang_id) : ?>
+						<?php echo JText::sprintf('JGLOBAL_RECORD_NUMBER', $this->item->lang_id); ?>
+					<?php else : ?>
+						<?php echo JText::_('COM_LANGUAGES_VIEW_LANGUAGE_EDIT_NEW_TITLE'); ?>
+					<?php endif; ?>
+				</div>
+			</div>
+	
+			<div class="control-group">
+					<div class="control-label">
+						<?php echo $this->form->getLabel('title'); ?>
+					</div>
+					<div class="controls">
+						<?php echo $this->form->getInput('title'); ?>
+					</div>
+			</div>
+			<div class="control-group">
+					<div class="control-label">
+						<?php echo $this->form->getLabel('title_native'); ?>
+					</div>
+					<div class="controls">
+						<?php echo $this->form->getInput('title_native'); ?>
+					</div>
+			</div>
+			<div class="control-group">
+					<div class="control-label">
+						<?php echo $this->form->getLabel('sef'); ?>
+					</div>
+					<div class="controls">
+						<?php echo $this->form->getInput('sef'); ?>
+					</div>
+			</div>
+			<div class="control-group">
+					<div class="control-label">
+						<?php echo $this->form->getLabel('image'); ?>
+					</div>
+					<div class="controls">
+						<?php echo $this->form->getInput('image'); ?>
+					</div>
+			</div>
+			<div class="control-group">
+					<div class="control-label">
+						<?php echo $this->form->getLabel('lang_code'); ?>
+					</div>
+					<div class="controls">
+						<?php echo $this->form->getInput('lang_code'); ?>
+					</div>
+			</div>
+			<?php if ($canDo->get('core.edit.state')) : ?>
+				<div class="control-group">
+					<div class="control-label">
+						<?php echo $this->form->getLabel('published'); ?>
+					</div>
+					<div class="controls">
+						<?php echo $this->form->getInput('published'); ?>
+					</div>
+				</div>
 			<?php endif; ?>
-
-			<ul class="adminformlist">
-				<li><?php echo $this->form->getLabel('title'); ?>
-				<?php echo $this->form->getInput('title'); ?></li>
-
-				<li><?php echo $this->form->getLabel('title_native'); ?>
-				<?php echo $this->form->getInput('title_native'); ?></li>
-
-				<li><?php echo $this->form->getLabel('sef'); ?>
-				<?php echo $this->form->getInput('sef'); ?></li>
-
-				<li><?php echo $this->form->getLabel('image'); ?>
-				<?php echo $this->form->getInput('image'); ?></li>
-
-				<li><?php echo $this->form->getLabel('lang_code'); ?>
-				<?php echo $this->form->getInput('lang_code'); ?></li>
-
-				<?php if ($canDo->get('core.edit.state')) : ?>
-					<li><?php echo $this->form->getLabel('published'); ?>
-					<?php echo $this->form->getInput('published'); ?></li>
-				<?php endif; ?>
-
-				<li><?php echo $this->form->getLabel('access'); ?>
-				<?php echo $this->form->getInput('access'); ?></li>
-
-				<li><?php echo $this->form->getLabel('description'); ?>
-				<?php echo $this->form->getInput('description'); ?></li>
-
-				<li><?php echo $this->form->getLabel('lang_id'); ?>
-				<?php echo $this->form->getInput('lang_id'); ?></li>
-			</ul>
-		</fieldset>
-	</div>
-	<div class="width-40 fltrt">
-		<?php echo JHtml::_('sliders.start', 'language-sliders-'.$this->item->lang_code, array('useCookie'=>1)); ?>
-
-		<?php echo JHtml::_('sliders.panel', JText::_('JGLOBAL_FIELDSET_METADATA_OPTIONS'), 'metadata'); ?>
-			<fieldset class="adminform">
-				<?php foreach($this->form->getFieldset('metadata') as $field): ?>
+	
+			<div class="control-group">
+					<div class="control-label">
+						<?php echo $this->form->getLabel('access'); ?>
+					</div>
+					<div class="controls">
+						<?php echo $this->form->getInput('access'); ?>
+					</div>
+			</div>
+			<div class="control-group">
+					<div class="control-label">
+						<?php echo $this->form->getLabel('description'); ?>
+					</div>
+					<div class="controls">
+						<?php echo $this->form->getInput('description'); ?>
+					</div>
+			</div>
+			<div class="control-group">
+					<div class="control-label">
+						<?php echo $this->form->getLabel('lang_id'); ?>
+					</div>
+					<div class="controls">
+						<?php echo $this->form->getInput('lang_id'); ?>
+					</div>
+			</div>
+		</div>
+		<div class="tab-pane" id="metadata">
+			<?php foreach($this->form->getFieldset('metadata') as $field): ?>
+				<div class="control-group">
 					<?php if (!$field->hidden): ?>
-						<?php echo $field->label; ?>
+						<div class="control-label">
+							<?php echo $field->label; ?>
+						</div>
 					<?php endif; ?>
-					<?php echo $field->input; ?>
-				<?php endforeach; ?>
-			</fieldset>
-
-		<?php echo JHtml::_('sliders.panel', JText::_('COM_LANGUAGES_FIELDSET_SITE_NAME_LABEL'), 'site_name'); ?>
-			<fieldset class="adminform">
-				<?php foreach($this->form->getFieldset('site_name') as $field): ?>
+					<div class="controls">
+						<?php echo $field->input; ?>
+					</div>
+				</div>
+			<?php endforeach; ?>
+		</div>
+		<div class="tab-pane" id="site_name">
+			<?php foreach($this->form->getFieldset('site_name') as $field): ?>
+				<div class="control-group">
 					<?php if (!$field->hidden): ?>
-						<?php echo $field->label; ?>
+						<div class="control-label">
+							<?php echo $field->label; ?>
+						</div>
 					<?php endif; ?>
-					<?php echo $field->input; ?>
-				<?php endforeach; ?>
-			</fieldset>
-
-		<?php echo JHtml::_('sliders.end'); ?>
-		<input type="hidden" name="task" value="" />
-		<?php echo JHtml::_('form.token'); ?>
+					<div class="controls">
+						<?php echo $field->input; ?>
+					</div>
+				</div>
+			<?php endforeach; ?>
+		</div>
 	</div>
-	<div class="clr"> </div>
+	</fieldset>
+	<input type="hidden" name="task" value="" />
+	<?php echo JHtml::_('form.token'); ?>
 </form>

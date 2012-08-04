@@ -8,7 +8,7 @@
 		<field name="asset_id" type="hidden" filter="unset" />
 
 		<field name="title" type="text" label="JGLOBAL_TITLE"
-			description="JFIELD_TITLE_DESC" class="inputbox" size="30"
+			description="JFIELD_TITLE_DESC" class="input-xlarge" size="30"
 			required="true" />
 
 		<field name="alias" type="text" label="JFIELD_ALIAS_LABEL"
@@ -19,7 +19,7 @@
 			filter="JComponentHelper::filterText" buttons="true" />
 
 		<field name="state" type="list" label="JSTATUS"
-			description="JFIELD_PUBLISHED_DESC" class="inputbox"
+			description="JFIELD_PUBLISHED_DESC" class="span12 small"
 			filter="intval" size="1" default="1"
 		>
 			<option value="1">
@@ -94,14 +94,14 @@
 			class="inputbox" rows="3" cols="30" />
 
 		<field name="access" type="accesslevel" label="JFIELD_ACCESS_LABEL"
-			description="JFIELD_ACCESS_DESC" class="inputbox" size="1" />
+			description="JFIELD_ACCESS_DESC" class="span12 small" size="1" />
 
 		<field name="hits" type="text" label="JGLOBAL_HITS"
 			description="COM_CONTENT_FIELD_HITS_DESC" class="readonly" size="6"
 			readonly="true" filter="unset" />
 
 		<field name="language" type="contentlanguage" label="JFIELD_LANGUAGE_LABEL"
-			description="COM_CONTENT_FIELD_LANGUAGE_DESC" class="inputbox"
+			description="COM_CONTENT_FIELD_LANGUAGE_DESC" class="span12 small"
 		>
 			<option value="*">JALL</option>
 		</field>
@@ -110,6 +110,7 @@
 			label="JFEATURED"
 			description="COM_CONTENT_FIELD_FEATURED_DESC"
 			default="0"
+			class="span12 small"
 		>
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
@@ -126,7 +127,8 @@
 		<fieldset name="basic" label="COM_CONTENT_ATTRIBS_FIELDSET_LABEL">
 			<field
 				name="show_title"
-				type="list"
+				type="radio"
+				class="btn-group"
 				label="JGLOBAL_SHOW_TITLE_LABEL"
 				description="JGLOBAL_SHOW_TITLE_DESC">
 				<option value="">JGLOBAL_USE_GLOBAL</option>
@@ -136,7 +138,8 @@
 
 			<field
 				name="link_titles"
-				type="list"
+				type="radio"
+				class="btn-group"
 				label="JGLOBAL_LINKED_TITLES_LABEL"
 				description="JGLOBAL_LINKED_TITLES_DESC">
 				<option value="">JGLOBAL_USE_GLOBAL</option>
@@ -144,7 +147,9 @@
 				<option value="1">JYES</option>
 			</field>
 
-			<field name="show_intro" type="list"
+			<field name="show_intro"
+				type="radio"
+				class="btn-group"
 				description="JGLOBAL_SHOW_INTRO_DESC"
 				label="JGLOBAL_SHOW_INTRO_LABEL"
 				>
@@ -155,7 +160,8 @@
 
 			<field
 				name="show_category"
-				type="list"
+				type="radio"
+				class="btn-group"
 				label="JGLOBAL_SHOW_CATEGORY_LABEL"
 				description="JGLOBAL_SHOW_CATEGORY_DESC">
 				<option value="">JGLOBAL_USE_GLOBAL</option>
@@ -165,7 +171,8 @@
 
 			<field
 				name="link_category"
-				type="list"
+				type="radio"
+				class="btn-group"
 				label="JGLOBAL_LINK_CATEGORY_LABEL"
 				description="JGLOBAL_LINK_CATEGORY_DESC">
 				<option value="">JGLOBAL_USE_GLOBAL</option>
@@ -175,7 +182,8 @@
 
 			<field
 				name="show_parent_category"
-				type="list"
+				type="radio"
+				class="btn-group"
 				label="JGLOBAL_SHOW_PARENT_CATEGORY_LABEL"
 				description="JGLOBAL_SHOW_PARENT_CATEGORY_DESC">
 				<option	value="">JGLOBAL_USE_GLOBAL</option>
@@ -185,7 +193,8 @@
 
 			<field
 				name="link_parent_category"
-				type="list"
+				type="radio"
+				class="btn-group"
 				label="JGLOBAL_LINK_PARENT_CATEGORY_LABEL"
 				description="JGLOBAL_LINK_PARENT_CATEGORY_DESC">
 				<option value="">JGLOBAL_USE_GLOBAL</option>
@@ -195,7 +204,8 @@
 
 			<field
 				name="show_author"
-				type="list"
+				type="radio"
+				class="btn-group"
 				label="JGLOBAL_SHOW_AUTHOR_LABEL"
 				description="JGLOBAL_SHOW_AUTHOR_DESC">
 				<option	value="">JGLOBAL_USE_GLOBAL</option>
@@ -205,7 +215,8 @@
 
 			<field
 				name="link_author"
-				type="list"
+				type="radio"
+				class="btn-group"
 				label="JGLOBAL_LINK_AUTHOR_LABEL"
 				description="JGLOBAL_LINK_AUTHOR_DESC">
 				<option	value="">JGLOBAL_USE_GLOBAL</option>
@@ -215,7 +226,8 @@
 
 			<field
 				name="show_create_date"
-				type="list"
+				type="radio"
+				class="btn-group"
 				label="JGLOBAL_SHOW_CREATE_DATE_LABEL"
 				description="JGLOBAL_SHOW_CREATE_DATE_DESC">
 				<option	value="">JGLOBAL_USE_GLOBAL</option>
@@ -225,7 +237,8 @@
 
 			<field
 				name="show_modify_date"
-				type="list"
+				type="radio"
+				class="btn-group"
 				label="JGLOBAL_SHOW_MODIFY_DATE_LABEL"
 				description="JGLOBAL_SHOW_MODIFY_DATE_DESC">
 				<option	value="">JGLOBAL_USE_GLOBAL</option>
@@ -235,7 +248,8 @@
 
 			<field
 				name="show_publish_date"
-				type="list"
+				type="radio"
+				class="btn-group"
 				label="JGLOBAL_SHOW_PUBLISH_DATE_LABEL"
 				description="JGLOBAL_SHOW_PUBLISH_DATE_DESC">
 				<option value="">JGLOBAL_USE_GLOBAL</option>
@@ -245,7 +259,8 @@
 
 			<field
 				name="show_item_navigation"
-				type="list"
+				type="radio"
+				class="btn-group"
 				label="JGLOBAL_SHOW_NAVIGATION_LABEL"
 				description="JGLOBAL_SHOW_NAVIGATION_DESC">
 				<option value="">JGLOBAL_USE_GLOBAL</option>
@@ -255,7 +270,8 @@
 
 			<field
 				name="show_icons"
-				type="list"
+				type="radio"
+				class="btn-group"
 				label="JGLOBAL_SHOW_ICONS_LABEL"
 				description="JGLOBAL_SHOW_ICONS_DESC">
 				<option value="">JGLOBAL_USE_GLOBAL</option>
@@ -265,7 +281,8 @@
 
 			<field
 				name="show_print_icon"
-				type="list"
+				type="radio"
+				class="btn-group"
 				label="JGLOBAL_SHOW_PRINT_ICON_LABEL"
 				description="JGLOBAL_SHOW_PRINT_ICON_DESC">
 				<option value="">JGLOBAL_USE_GLOBAL</option>
@@ -275,7 +292,8 @@
 
 			<field
 				name="show_email_icon"
-				type="list"
+				type="radio"
+				class="btn-group"
 				label="JGLOBAL_SHOW_EMAIL_ICON_LABEL"
 				description="JGLOBAL_SHOW_EMAIL_ICON_DESC">
 				<option	value="">JGLOBAL_USE_GLOBAL</option>
@@ -284,7 +302,8 @@
 			</field>
 			<field
 				name="show_vote"
-				type="list"
+				type="radio"
+				class="btn-group"
 				label="JGLOBAL_SHOW_VOTE_LABEL"
 				description="JGLOBAL_SHOW_VOTE_DESC"
 			>
@@ -294,7 +313,8 @@
 			</field>
 			<field
 				name="show_hits"
-				type="list"
+				type="radio"
+				class="btn-group"
 				label="JGLOBAL_SHOW_HITS_LABEL"
 				description="JGLOBAL_SHOW_HITS_DESC">
 				<option	value="">JGLOBAL_USE_GLOBAL</option>
@@ -304,7 +324,8 @@
 
 			<field
 				name="show_noauth"
-				type="list"
+				type="radio"
+				class="btn-group"
 				label="JGLOBAL_SHOW_UNAUTH_LINKS_LABEL"
 				description="JGLOBAL_SHOW_UNAUTH_LINKS_DESC">
 						<option value="">JGLOBAL_USE_GLOBAL</option>
@@ -313,7 +334,8 @@
 			</field>
 			<field
 				name="urls_position"
-				type="list"
+				type="radio"
+				class="btn-group"
 				label="COM_CONTENT_FIELD_URLSPOSITION_LABEL"
 				description="COM_CONTENT_FIELD_URLSPOSITION_DESC">
 				<option value="">JGLOBAL_USE_GLOBAL</option>
@@ -340,7 +362,8 @@
 			<fieldset name="editorConfig">
 			<field
 				name="show_publishing_options"
-				type="list"
+				type="radio"
+				class="btn-group"
 				default=""
 				label="COM_CONTENT_SHOW_PUBLISHING_OPTIONS_LABEL"
 				description="COM_CONTENT_SHOW_PUBLISHING_OPTIONS_DESC"
@@ -352,7 +375,8 @@
 			</field>
 			<field
 				name="show_article_options"
-				type="list"
+				type="radio"
+				class="btn-group"
 				default=""
 				label="COM_CONTENT_SHOW_ARTICLE_OPTIONS_LABEL"
 				description="COM_CONTENT_SHOW_ARTICLE_OPTIONS_DESC"
@@ -364,7 +388,8 @@
 			</field>
 			<field
 				name="show_urls_images_backend"
-				type="list"
+				type="radio"
+				class="btn-group"
 				default=""
 				label="COM_CONTENT_SHOW_IMAGES_URLS_BACK_LABEL"
 				description="COM_CONTENT_SHOW_IMAGES_URLS_BACK_DESC"
@@ -376,7 +401,8 @@
 			</field>
 			<field
 				name="show_urls_images_frontend"
-				type="list"
+				type="radio"
+				class="btn-group"
 				default=""
 				label="COM_CONTENT_SHOW_IMAGES_URLS_FRONT_LABEL"
 				description="COM_CONTENT_SHOW_IMAGES_URLS_FRONT_DESC"
@@ -581,7 +607,8 @@
 				description="COM_CONTENT_FIELD_FULL_DESC" />
 			<field
 				name="float_fulltext"
-				type="list"
+				type="radio"
+				class="btn-group"
 				label="COM_CONTENT_FLOAT_LABEL"
 				description="COM_CONTENT_FLOAT_DESC">
 					<option value="">JGLOBAL_USE_GLOBAL</option>
@@ -603,11 +630,6 @@
 				size="20" />
 	</fields>
 	<fields name="urls">
-		<field
-			name="spacer3"
-			type="spacer"
-			hr="true"
-			/>
 			<field
 				name="urla"
 				type="url"
@@ -636,7 +658,7 @@
 				<option value="3">JBROWSERTARGET_MODAL</option>
 			</field>
 			<field
-				name="spacer4"
+				name="spacer3"
 				type="spacer"
 				hr="true"
 				/>
@@ -668,7 +690,7 @@
 					<option value="3">JBROWSERTARGET_MODAL</option>
 			</field>
 			<field
-				name="spacer5"
+				name="spacer4"
 				type="spacer"
 				hr="true"
 				/>

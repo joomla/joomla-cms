@@ -655,7 +655,6 @@ abstract class JHtmlSelect
 		$translate = false)
 	{
 		reset($data);
-		$html = '';
 
 		if (is_array($attribs))
 		{
@@ -663,6 +662,8 @@ abstract class JHtmlSelect
 		}
 
 		$id_text = $idtag ? $idtag : $name;
+
+		$html = '<div class="controls">';
 
 		foreach ($data as $obj)
 		{
@@ -688,10 +689,12 @@ abstract class JHtmlSelect
 			{
 				$extra .= ((string) $k == (string) $selected ? ' checked="checked"' : '');
 			}
-			$html .= "\n\t" . '<input type="radio" name="' . $name . '"' . ' id="' . $id_text . $k . '" value="' . $k . '"' . ' ' . $extra . ' '
-				. $attribs . '/>' . "\n\t" . '<label for="' . $id_text . $k . '"' . ' id="' . $id_text . $k . '-lbl" class="radiobtn">' . $t
-				. '</label>';
+			$html .= "\n\t" . '<label for="' . $id_text . $k . '"' . ' id="' . $id_text . $k . '-lbl" class="radio">';
+			$html .= "\n\t" . "\n\t" . '<input type="radio" name="' . $name . '"' . ' id="' . $id_text . $k . '" value="' . $k . '"' . ' ' . $extra . ' '
+				. $attribs . '>' . $t;
+			$html .= "\n\t" . '</label>';
 		}
+		$html .= '</div>';
 		$html .= "\n";
 		return $html;
 	}

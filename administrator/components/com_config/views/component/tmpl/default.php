@@ -23,52 +23,59 @@ JHtml::_('behavior.formvalidation');
 		}
 	}
 </script>
-<form action="<?php echo JRoute::_('index.php?option=com_config');?>" id="component-form" method="post" name="adminForm" autocomplete="off" class="form-validate">
-	<fieldset>
-		<div class="fltrt">
-			<button type="button" onclick="Joomla.submitform('component.apply', this.form);">
-				<?php echo JText::_('JAPPLY');?></button>
-			<button type="button" onclick="Joomla.submitform('component.save', this.form);">
-				<?php echo JText::_('JSAVE');?></button>
-			<button type="button" onclick="<?php echo JRequest::getBool('refresh', 0) ? 'window.parent.location.href=window.parent.location.href;' : '';?>  window.parent.SqueezeBox.close();">
-				<?php echo JText::_('JCANCEL');?></button>
+<form action="<?php echo JRoute::_('index.php?option=com_config');?>" id="component-form" method="post" name="adminForm" autocomplete="off" class="form-validate form-horizontal">
+	<div class="row-fluid">
+		<!-- Begin Sidebar -->
+		<div id="sidebar" class="span2">
+			<div class="sidebar-nav">
+				<?php echo $this->loadTemplate('navigation'); ?>
+			</div>
 		</div>
-		<div class="configuration" >
-			<?php echo JText::_($this->component->option.'_configuration') ?>
-		</div>
-	</fieldset>
-
-	<?php
-	echo JHtml::_('tabs.start', 'config-tabs-'.$this->component->option.'_configuration', array('useCookie'=>1));
-		$fieldSets = $this->form->getFieldsets();
-		foreach ($fieldSets as $name => $fieldSet) :
-			$label = empty($fieldSet->label) ? 'COM_CONFIG_'.$name.'_FIELDSET_LABEL' : $fieldSet->label;
-			echo JHtml::_('tabs.panel', JText::_($label), 'publishing-details');
-			if (isset($fieldSet->description) && !empty($fieldSet->description)) :
-				echo '<p class="tab-description">'.JText::_($fieldSet->description).'</p>';
-			endif;
-	?>
-			<ul class="config-option-list">
-			<?php
-			foreach ($this->form->getFieldset($name) as $field):
-			?>
-				<li>
-				<?php if (!$field->hidden) : ?>
-				<?php echo $field->label; ?>
-				<?php endif; ?>
-				<?php echo $field->input; ?>
-				</li>
-			<?php
-			endforeach;
-			?>
+		<!-- End Sidebar -->
+		<div class="span10">
+			<ul class="nav nav-tabs" id="configTabs">
+				<?php
+					$fieldSets = $this->form->getFieldsets();
+					foreach ($fieldSets as $name => $fieldSet) :
+						$label = empty($fieldSet->label) ? 'COM_CONFIG_'.$name.'_FIELDSET_LABEL' : $fieldSet->label;
+				?>
+					<li><a href="#<?php echo $name;?>" data-toggle="tab"><?php echo  JText::_($label);?></a></li>
+				<?php
+					endforeach;
+				?>
 			</ul>
-
-
-	<div class="clr"></div>
-	<?php
-		endforeach;
-	echo JHtml::_('tabs.end');
-	?>
+			<div class="tab-content">
+				<?php
+					$fieldSets = $this->form->getFieldsets();
+					foreach ($fieldSets as $name => $fieldSet) :
+				?>
+					<div class="tab-pane" id="<?php echo $name;?>">
+						<?php
+							if (isset($fieldSet->description) && !empty($fieldSet->description)) :
+								echo '<p class="tab-description">'.JText::_($fieldSet->description).'</p>';
+							endif;
+							foreach ($this->form->getFieldset($name) as $field):
+						?>
+							<div class="control-group">
+						<?php if (!$field->hidden && $name != "permissions") : ?>
+								<div class="control-label">
+									<?php echo $field->label; ?>
+								</div>
+						<?php endif; ?>
+						<div class="<?php if ($name != "permissions") : ?>controls<?php endif; ?>">
+							<?php echo $field->input; ?>
+						</div>
+					</div>
+				<?php
+					endforeach;
+				?>
+				</div>
+				<?php
+				endforeach;
+				?>
+			</div>
+		</div>
+	</div>
 	<div>
 		<input type="hidden" name="id" value="<?php echo $this->component->id;?>" />
 		<input type="hidden" name="component" value="<?php echo $this->component->option;?>" />
@@ -76,3 +83,6 @@ JHtml::_('behavior.formvalidation');
 		<?php echo JHtml::_('form.token'); ?>
 	</div>
 </form>
+<script type="text/javascript">
+		jQuery('#configTabs a:first').tab('show'); // Select first tab
+</script>

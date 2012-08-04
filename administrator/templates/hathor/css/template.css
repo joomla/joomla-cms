@@ -2662,3 +2662,21 @@ fieldset.uploadform {
 	float: left;
 	margin-right: 15px;
 }
+.btn-group {
+  position: relative;
+  display: inline-block;
+}
+
+.btn-group + .btn-group {
+  margin-left: 5px;
+}
+
+.btn-group > .btn {
+  position: relative;
+  float: left;
+  margin-left: -1px;
+}
+.icon-48-cpanel {
+	height: 50px;
+	width: 50%;
+}

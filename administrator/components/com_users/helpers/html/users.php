@@ -57,7 +57,7 @@ class JHtmlUsers
 		$title = JText::_('COM_USERS_ADD_NOTE');
 
 		return '<a href="' . JRoute::_('index.php?option=com_users&task=note.add&u_id=' . (int) $userId) . '">'
-				. JHtml::_('image', 'admin/note_add_16.png', 'COM_USERS_NOTES', array('title' => $title), true) . '</a>';
+				. '<span class="label label-info"><i class="icon-vcard"></i>' . $title . '</span></a>';
 	}
 
 	/**

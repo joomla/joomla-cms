@@ -61,21 +61,25 @@ abstract class JHtmlJGrid
 		}
 		if ($enabled)
 		{
-			$html[] = '<a class="jgrid' . ($tip ? ' hasTip' : '') . '"';
+			$html[] = '<a class="btn btn-micro ' . ($active_class == "publish" ? 'active' : '') . '" ' . ($tip ? 'rel="tooltip"' : '') . '';
 			$html[] = ' href="javascript:void(0);" onclick="return listItemTask(\'' . $checkbox . $i . '\',\'' . $prefix . $task . '\')"';
 			$html[] = ' title="' . addslashes(htmlspecialchars($translate ? JText::_($active_title) : $active_title, ENT_COMPAT, 'UTF-8')) . '">';
-			$html[] = '<span class="state ' . $active_class . '">';
-			$html[] = $text ? ('<span class="text">' . ($translate ? JText::_($text):$text) . '</span>') : '';
-			$html[] = '</span>';
+			$html[] = '<i class="icon-' . $active_class . '">';
+			$html[] = '</i>';
 			$html[] = '</a>';
 		}
 		else
 		{
-			$html[] = '<a class="jgrid' . ($tip ? ' hasTip' : '') . '"';
+			$html[] = '<a class="btn btn-micro disabled jgrid" ' . ($tip ? 'rel="tooltip"' : '') . '';
 			$html[] = ' title="' . addslashes(htmlspecialchars($translate ? JText::_($inactive_title) : $inactive_title, ENT_COMPAT, 'UTF-8')) . '">';
-			$html[] = '<span class="state ' . $inactive_class . '">';
-			$html[] = $text ? ('<span class="text">' . ($translate ? JText::_($text) : $text) . '</span>') :'';
-			$html[] = '</span>';
+			if ($active_class == "protected")
+			{
+				$html[] = '<i class="icon-lock"></i>';
+			}
+			else
+			{
+				$html[] = '<i class="icon-' . $inactive_class . '"></i>';
+			}
 			$html[] = '</a>';
 		}
 		return implode($html);
@@ -237,8 +241,8 @@ abstract class JHtmlJGrid
 		}
 
 		$states = array(
-			1 => array('unsetDefault', 'JDEFAULT', 'JLIB_HTML_UNSETDEFAULT_ITEM', 'JDEFAULT', false, 'default', 'default'),
-			0 => array('setDefault', '', 'JLIB_HTML_SETDEFAULT_ITEM', '', false, 'notdefault', 'notdefault'),
+			1 => array('unsetDefault', 'JDEFAULT', 'JLIB_HTML_UNSETDEFAULT_ITEM', 'JDEFAULT', false, 'star', 'star'),
+			0 => array('setDefault', '', 'JLIB_HTML_SETDEFAULT_ITEM', '', false, 'star-empty', 'star-empty'),
 		);
 
 		return self::state($states, $value, $i, $prefix, $enabled, true, $checkbox);

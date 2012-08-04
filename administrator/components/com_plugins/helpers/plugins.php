@@ -81,10 +81,14 @@ class PluginsHelper
 		$query->order('folder');
 
 		$db->setQuery($query);
-		$options = $db->loadObjectList();
 
-		if ($error = $db->getErrorMsg()) {
-			JError::raiseWarning(500, $error);
+		try
+		{
+			$options = $db->loadObjectList();
+		}
+		catch (RuntimeException $e)
+		{
+			JError::raiseWarning(500, $e->getMessage());
 		}
 
 		return $options;

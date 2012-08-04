@@ -289,13 +289,6 @@ abstract class FinderIndexerAdapter extends JPlugin
 		$this->db->setQuery($query);
 		$this->db->execute();
 
-		// Check for a database error.
-		if ($this->db->getErrorNum())
-		{
-			// Throw database error exception.
-			throw new Exception($this->db->getErrorMsg(), 500);
-		}
-
 		return true;
 	}
 
@@ -357,13 +350,6 @@ abstract class FinderIndexerAdapter extends JPlugin
 		$query->where($this->db->quoteName('url') . ' = ' . $url);
 		$this->db->setQuery($query);
 		$items = $this->db->loadColumn();
-
-		// Check for a database error.
-		if ($this->db->getErrorNum())
-		{
-			// Throw database error exception.
-			throw new Exception($this->db->getErrorMsg(), 500);
-		}
 
 		// Check the items.
 		if (empty($items))
@@ -539,13 +525,6 @@ abstract class FinderIndexerAdapter extends JPlugin
 		$this->db->setQuery($sql);
 		$return = (int) $this->db->loadResult();
 
-		// Check for a database error.
-		if ($this->db->getErrorNum())
-		{
-			// Throw database error exception.
-			throw new Exception($this->db->getErrorMsg(), 500);
-		}
-
 		return $return;
 	}
 
@@ -570,13 +549,6 @@ abstract class FinderIndexerAdapter extends JPlugin
 		// Get the item to index.
 		$this->db->setQuery($sql);
 		$row = $this->db->loadAssoc();
-
-		// Check for a database error.
-		if ($this->db->getErrorNum())
-		{
-			// Throw database error exception.
-			throw new Exception($this->db->getErrorMsg(), 500);
-		}
 
 		// Convert the item to a result object.
 		$item = JArrayHelper::toObject($row, 'FinderIndexerResult');
@@ -611,13 +583,6 @@ abstract class FinderIndexerAdapter extends JPlugin
 		// Get the content items to index.
 		$this->db->setQuery($this->getListQuery($sql), $offset, $limit);
 		$rows = $this->db->loadAssocList();
-
-		// Check for a database error.
-		if ($this->db->getErrorNum())
-		{
-			// Throw database error exception.
-			throw new Exception($this->db->getErrorMsg(), 500);
-		}
 
 		// Convert the items to result objects.
 		foreach ($rows as $row)
@@ -771,13 +736,6 @@ abstract class FinderIndexerAdapter extends JPlugin
 		$this->db->setQuery($query);
 		$result = (int) $this->db->loadResult();
 
-		// Check for a database error.
-		if ($this->db->getErrorNum())
-		{
-			// Throw database error exception.
-			throw new Exception($this->db->getErrorMsg(), 500);
-		}
-
 		return $result;
 	}
 
@@ -830,13 +788,6 @@ abstract class FinderIndexerAdapter extends JPlugin
 		// Get the menu params from the database.
 		$this->db->setQuery($sql);
 		$params = $this->db->loadResult();
-
-		// Check for a database error.
-		if ($this->db->getErrorNum())
-		{
-			// Throw database error exception.
-			throw new Exception($this->db->getErrorMsg(), 500);
-		}
 
 		// Check the results.
 		if (empty($params))

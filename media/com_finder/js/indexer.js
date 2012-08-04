@@ -20,10 +20,12 @@ var FinderProgressBar = new Class({
 	},
 	createElements: function () {
 		var box = new Element('div', {
-			id: this.options.boxID
+			id: this.options.boxID,
+			class: 'progress progress-striped active'
 		});
 		var perc = new Element('div', {
 			id: this.options.percentageID,
+			class: 'bar',
 			'style': 'width:0px;'
 		});
 		perc.inject(box);

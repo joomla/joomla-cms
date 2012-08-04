@@ -10,20 +10,18 @@
 defined('_JEXEC') or die;
 $user = JFactory::getUser();
 ?>
-		<div class="imgOutline">
-			<div class="imgTotal">
-				<div align="center" class="imgBorder">
-					<a href="index.php?option=com_media&amp;view=mediaList&amp;tmpl=component&amp;folder=<?php echo $this->_tmp_folder->path_relative; ?>" target="folderframe">
-						<?php echo JHtml::_('image', 'media/folder.png', JText::_('COM_MEDIA_FOLDER'), array('width' => 80, 'height' => 80, 'border' => 0), true); ?></a>
-				</div>
-			</div>
-			<div class="controls">
+		<li class="imgOutline thumbnail height-80">
 			<?php if ($user->authorise('core.delete', 'com_media')):?>
-				<a class="delete-item" target="_top" href="index.php?option=com_media&amp;task=folder.delete&amp;tmpl=index&amp;<?php echo JSession::getFormToken(); ?>=1&amp;folder=<?php echo $this->state->folder; ?>&amp;rm[]=<?php echo $this->_tmp_folder->name; ?>" rel="<?php echo $this->_tmp_folder->name; ?> :: <?php echo $this->_tmp_folder->files+$this->_tmp_folder->folders; ?>"><?php echo JHtml::_('image', 'media/remove.png', JText::_('JACTION_DELETE'), array('width' => 16, 'height' => 16, 'border' => 0), true); ?></a>
-				<input type="checkbox" name="rm[]" value="<?php echo $this->_tmp_folder->name; ?>" />
+				<a class="close delete-item" target="_top" href="index.php?option=com_media&amp;task=folder.delete&amp;tmpl=index&amp;<?php echo JSession::getFormToken(); ?>=1&amp;folder=<?php echo $this->state->folder; ?>&amp;rm[]=<?php echo $this->_tmp_folder->name; ?>" rel="<?php echo $this->_tmp_folder->name; ?> :: <?php echo $this->_tmp_folder->files+$this->_tmp_folder->folders; ?>" title="<?php echo JText::_('JACTION_DELETE');?>">x</a>
+				<input class="pull-left" type="checkbox" name="rm[]" value="<?php echo $this->_tmp_folder->name; ?>" />
+				<div class="clearfix"></div>
 			<?php endif;?>
+			<div class="height-50">
+				<a href="index.php?option=com_media&amp;view=mediaList&amp;tmpl=component&amp;folder=<?php echo $this->_tmp_folder->path_relative; ?>" target="folderframe">
+					<i class="icon-folder-2"></i>
+				</a>
 			</div>
-			<div class="imginfoBorder">
+			<div class="small">
 				<a href="index.php?option=com_media&amp;view=mediaList&amp;tmpl=component&amp;folder=<?php echo $this->_tmp_folder->path_relative; ?>" target="folderframe"><?php echo substr($this->_tmp_folder->name, 0, 10) . (strlen($this->_tmp_folder->name) > 10 ? '...' : ''); ?></a>
 			</div>
-		</div>
+		</li>
