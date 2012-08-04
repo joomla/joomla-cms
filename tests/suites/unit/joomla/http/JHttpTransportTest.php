@@ -100,6 +100,29 @@ class JHttpTransportTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Tests the request method with a get request with a bad domain
+	 *
+	 * @dataProvider      transportProvider
+	 * @expectedException RuntimeException
+	 */
+	public function testBadDomainRequestGet($transportClass)
+	{
+		$transport = new $transportClass($this->options);
+		$response = $transport->request('get', new JUri('http://xommunity.joomla.org'));
+	}
+
+	/**
+	 * Tests the request method with a get request for non existant url
+	 *
+	 * @dataProvider  transportProvider
+	 */
+	public function testRequestGet404($transportClass)
+	{
+		$transport = new $transportClass($this->options);
+		$response = $transport->request('get', new JUri($this->stubUrl . ':80'));
+	}
+
+	/**
 	 * Tests the request method with a put request
 	 *
 	 * @param   string  $transportClass  @todo
