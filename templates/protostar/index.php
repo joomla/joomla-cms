@@ -122,7 +122,7 @@ else
 						<img src="<?php echo $logo;?>" alt="<?php echo $sitename; ?>" />
 					</a>
 					<div class="header-search pull-right">
-						<jdoc:include type="modules" name="smartsearchload" style="none" />
+						<jdoc:include type="modules" name="position-0" style="none" />
 					</div>
 					<div class="clearfix"></div>
 				</div>
