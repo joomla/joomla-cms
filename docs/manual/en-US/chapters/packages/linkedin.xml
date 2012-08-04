@@ -138,6 +138,7 @@
       	<simplelist>
           <member><ulink url="http://api.joomla.org">Joomla! API Reference</ulink></member>
           <member><ulink url="http://developer.linkedin.com/rest">Linkedin REST API Reference</ulink></member>
+          <member><ulink url="https://gist.github.com/3258864">Web Application using JLinkedin package.</ulink></member>
         </simplelist>
       </para>
     </section>
