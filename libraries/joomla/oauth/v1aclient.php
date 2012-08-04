@@ -18,10 +18,10 @@ jimport('joomla.environment.response');
  *
  * @since       12.2
  */
-abstract class JOauth1aClient
+abstract class JOauthV1aclient
 {
 	/**
-	 * @var    JRegistry  Options for the OAuth1aClient object.
+	 * @var    JRegistry  Options for the JOauthV1aclient object.
 	 * @since  1234
 	 */
 	protected $options;
