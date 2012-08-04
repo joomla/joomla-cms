@@ -144,8 +144,16 @@ class InstallationModelDatabase extends JModelLegacy
 		$options = JArrayHelper::toObject($options);
 
 		// Check database version.
-		$db_version = $db->getVersion();
 		$type = $options->db_type;
+		try
+		{
+			$db_version = $db->getVersion();
+		}
+		catch (RuntimeException $e)
+		{
+			$this->setError(JText::sprintf('INSTL_DATABASE_COULD_NOT_CONNECT', $e->getMessage()));
+			return false;
+		}
 
 		if (!$db->isMinimumVersion())
 		{
