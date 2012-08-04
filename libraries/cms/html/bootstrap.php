@@ -135,7 +135,8 @@ abstract class JHtmlBootstrap
 			self::$loaded[__METHOD__]['active'] = $opt['active'];
 		}
 
-		return '<div id="' . $selector . '" class="accordion">';
+		return '<div id="' . $selector . '" class="accordion">'
+			. '<div class="accordion-group">';
 	}
 
 	/**
@@ -147,7 +148,7 @@ abstract class JHtmlBootstrap
 	 */
 	public static function endAccordion()
 	{
-		return '</div>';
+		return '</div></div>';
 	}
 
 	/**
@@ -165,8 +166,7 @@ abstract class JHtmlBootstrap
 	{
 		$in = (self::$loaded['JHtmlBootstrap::startAccordion']['active'] == $id) ? ' in' : '';
 
-		$html = '<div class="accordion-group">'
-				. '<div class="accordion-heading">'
+		$html = '<div class="accordion-heading">'
 				. '<h4><a href="#' . $id . '" data-parent="#' . $selector . '" data-toggle="collapse" class="accordion-toggle">'
 				. $text
 				. '</a></h4>'
@@ -186,8 +186,7 @@ abstract class JHtmlBootstrap
 	 */
 	public static function endSlide()
 	{
-		// @TODO: This assumes there is one slide in the accordion
-		return '</div></div></div>';
+		return '</div></div>';
 	}
 
 	/**
