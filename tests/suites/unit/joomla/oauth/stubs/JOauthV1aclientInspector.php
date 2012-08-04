@@ -15,7 +15,7 @@
  *
  * @since       12.2
  */
-class JOauth1aClientInspector extends JOauth1aClient
+class JOauthV1aclientInspector extends JOauthV1aclient
 {
 	/**
 	 * Mimic verifing credentials.
