@@ -47,9 +47,7 @@ $published = $this->state->get('filter.published');
       			</div>
       		</div>
       		<div id="batch-copy-move" class="control-group radio">
-      			<div class="controls">
-      				<?php echo JHtml::_( 'select.radiolist', $options, 'batch[move_copy]', '', 'value', 'text', 'm'); ?>
-      			</div>
+				<?php echo JHtml::_('select.radiolist', $options, 'batch[move_copy]', '', 'value', 'text', 'm'); ?>
       		</div>
       	<?php
 		}

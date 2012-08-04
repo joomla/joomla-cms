@@ -46,9 +46,7 @@ $extension	= $this->escape($this->state->get('filter.extension'));
 	      		</div>
 	      	</div>
   			<div class="control-group radio">
-  				<div class="controls">
-		      		<?php echo JHtml::_( 'select.radiolist', $options, 'batch[move_copy]', '', 'value', 'text', 'm'); ?>
-  				</div>
+				<?php echo JHtml::_('select.radiolist', $options, 'batch[move_copy]', '', 'value', 'text', 'm'); ?>
       		</div>
       	<?php endif; ?>
 	</div>
