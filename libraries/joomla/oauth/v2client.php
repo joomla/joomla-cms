@@ -114,7 +114,7 @@ class JOauthV2client
 		if (!$token || !array_key_exists('access_token', $token))
 		{
 			return false;
-		}
+	}
 		elseif (array_key_exists('expires_in', $token) && $token['created'] + $token['expires_in'] < time() + 20)
 		{
 			return false;
