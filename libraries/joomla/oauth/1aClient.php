@@ -96,6 +96,7 @@ abstract class JOauth1aClient
 			// Authenticate the user and authorise the app.
 			$this->_authorise();
 		}
+
 		// Callback
 		else
 		{
