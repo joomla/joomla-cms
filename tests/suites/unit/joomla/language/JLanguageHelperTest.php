@@ -55,10 +55,13 @@ class JLanguageHelperTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testDetectLanguage()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-				'This test has not been implemented yet.'
-		);
+		$help = new JLanguageHelper();
+        $lang = $help->detectLanguage();
+
+		// Since we're running in a CLI context we can only check the defualt value
+        $this->assertNull(
+                $lang
+        );
 	}
 
 	/**

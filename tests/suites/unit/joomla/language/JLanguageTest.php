@@ -157,13 +157,15 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * @covers JLanguage::getTransliterator
-	 * @todo Implement testGetTransliterator().
 	 */
 	public function testGetTransliterator()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-				'This test has not been implemented yet.'
+		$lang = new JLanguage('');
+
+		// The first time you run the method returns NULL
+		// Only if there is an setTransliterator, this test is wrong
+		$this->assertNull(
+			$lang->getTransliterator()
 		);
 	}
 
@@ -173,9 +175,52 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testSetTransliterator()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-				'This test has not been implemented yet.'
+		$function1	= 'phpinfo';
+		$function2	= 'print';
+		$lang		= new JLanguage('');
+
+		// set -> $funtion1: set returns NULL and get returns $function1
+		$this->assertNull(
+			$lang->setTransliterator($function1)
+		);
+
+		$get = $lang->getTransliterator();
+		$this->assertEquals(
+			$function1,
+			$get,
+			'Line: '.__LINE__
+		);
+
+		$this->assertNotEquals(
+			$function2,
+			$get,
+			'Line: '.__LINE__
+		);
+
+		// set -> $function2: set returns $function1 and get retuns $function2
+		$set = $lang->setTransliterator($function2);
+		$this->assertEquals(
+			$function1,
+			$set,
+			'Line: '.__LINE__
+		);
+
+		$this->assertNotEquals(
+			$function2,
+			$set,
+			'Line: '.__LINE__
+		);
+
+		$this->assertEquals(
+			$function2,
+			$lang->getTransliterator(),
+			'Line: '.__LINE__
+		);
+
+		$this->assertNotEquals(
+			$function1,
+			$lang->getTransliterator(),
+			'Line: '.__LINE__
 		);
 	}
 

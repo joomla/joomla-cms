@@ -5,6 +5,7 @@
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 require_once JPATH_PLATFORM . '/joomla/date/date.php';
 
 /**
@@ -41,6 +42,11 @@ class JDateTest extends TestCaseDatabase
 				'Fri 12/26/2008 13:45',
 			),
 			'tzCT' => array(
+				'12/23/2008 13:45',
+				'US/Central',
+				'Tue 12/23/2008 13:45',
+			),
+			"tzCT" => array(
 				'12/23/2008 13:45',
 				'US/Central',
 				'Tue 12/23/2008 13:45',
@@ -315,7 +321,7 @@ class JDateTest extends TestCaseDatabase
 	 *
 	 * @since   11.3
 	 */
-	function casesToMySQL()
+	function casesToSQL()
 	{
 		return array(
 			'basic' => array(
@@ -737,7 +743,7 @@ class JDateTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @dataProvider casesToMySQL
+	 * @dataProvider casesToSQL
 	 * @since   11.3
 	 * @covers  JDate::toSql
 	 */
