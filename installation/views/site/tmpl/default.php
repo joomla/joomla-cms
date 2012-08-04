@@ -36,6 +36,7 @@ defined('_JEXEC') or die;
 				</div>
 				<div class="controls">
 					<?php echo $this->form->getInput('site_name'); ?>
+					<p class="help-block"><?php echo JText::_('INSTL_SITE_NAME_DESC'); ?></p>
 				</div>
 			</div>
 			<div class="control-group">
@@ -57,6 +58,7 @@ defined('_JEXEC') or die;
 				</div>
 				<div class="controls">
 					<?php echo $this->form->getInput('admin_email'); ?>
+					<p class="help-block"><?php echo JText::_('INSTL_ADMIN_EMAIL_DESC'); ?></p>
 				</div>
 			</div>
 			<div class="control-group">
@@ -65,6 +67,7 @@ defined('_JEXEC') or die;
 				</div>
 				<div class="controls">
 					<?php echo $this->form->getInput('admin_user'); ?>
+					<p class="help-block"><?php echo JText::_('INSTL_ADMIN_USER_DESC'); ?></p>
 				</div>
 			</div>
 			<div class="control-group">
@@ -73,6 +76,7 @@ defined('_JEXEC') or die;
 				</div>
 				<div class="controls">
 					<?php echo $this->form->getInput('admin_password'); ?>
+					<p class="help-block"><?php echo JText::_('INSTL_ADMIN_PASSWORD_DESC'); ?></p>
 				</div>
 			</div>
 			<div class="control-group">
