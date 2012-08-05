@@ -15,7 +15,7 @@ $options = array(
 );
 $published = $this->state->get('filter.published');
 ?>
-<div class="modal fade" id="collapseModal">
+<div class="modal hide fade" id="collapseModal">
 	<div class="modal-header">
 		<button type="button" class="close" data-dismiss="modal">x</button>
 		<h3><?php echo JText::_('COM_MENUS_BATCH_OPTIONS');?></h3>
