@@ -30,6 +30,16 @@ if (JFile::exists($file)) :
 endif;
 
 $doc->addStyleSheet('../media/jui/css/chosen.css');
+// Logo file
+if ($this->params->get('logoFile'))
+{
+	$logo = JURI::root() . $this->params->get('logoFile');
+}
+else
+{
+	$logo = $this->baseurl . "/templates/" . $this->template . "/images/logo.png";
+}
+
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo  $this->language; ?>" lang="<?php echo  $this->language; ?>" dir="<?php echo  $this->direction; ?>">
@@ -122,6 +132,7 @@ $doc->addStyleSheet('../media/jui/css/chosen.css');
 			endforeach;
 		?>
 	</div>
+	<!-- Header -->
 
 	<!-- Content Area -->
 	<div id="content">
