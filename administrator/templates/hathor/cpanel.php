@@ -109,9 +109,9 @@ $doc->addStyleSheet('../media/jui/css/chosen.css');
 			$hideLinks	= JRequest::getBool('hidemainmenu');
 			$output = array();
 			// Print the Preview link to Main site.
-			$output[] = '<span class="viewsite"><a href="'.JURI::root().'" target="_blank">'.JText::_('JGLOBAL_VIEW_SITE').'</a></span>';
+			//$output[] = '<span class="viewsite"><a href="'.JURI::root().'" target="_blank">'.JText::_('JGLOBAL_VIEW_SITE').'</a></span>';
 			// Print the logout link.
-			$output[] = '<span class="logout">' .($hideLinks ? '' : '<a href="'.$logoutLink.'">').JText::_('JLOGOUT').($hideLinks ? '' : '</a>').'</span>';
+			//$output[] = '<span class="logout">' .($hideLinks ? '' : '<a href="'.$logoutLink.'">').JText::_('JLOGOUT').($hideLinks ? '' : '</a>').'</span>';
 			// Output the items.
 			foreach ($output as $item) :
 			echo $item;

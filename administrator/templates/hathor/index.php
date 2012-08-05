@@ -89,14 +89,14 @@ else
 <body id="minwidth-body">
 <div id="containerwrap">
 
-	<!-- Header Logo & Status -->
+	<!-- Header Logo -->
 	<div id="header">
 
 		<!-- Site Title and Skip to Content -->
 		<div class="title-ua">
-			<h1 class="title"><?php echo $this->params->get('showSiteName') ? $app->getCfg('sitename'). " " . JText::_('JADMINISTRATION') : JText::_('JADMINISTRATION'); ?></h1>
+			<h1 class="title"><?php echo $this->params->get('showSiteName') ? $app->getCfg('sitename') . " " . JText::_('JADMINISTRATION') : JText::_('JADMINISTRATION'); ?></h1>
 			<div id="skiplinkholder"><p><a id="skiplink" href="#skiptarget"><?php echo JText::_('TPL_HATHOR_SKIP_TO_MAIN_CONTENT'); ?></a></p></div>
-		</div>
+      	</div>
 
 	</div><!-- end header -->
 
@@ -104,7 +104,7 @@ else
 	<div id="nav">
 		<div id="module-menu">
 			<h2 class="element-invisible"><?php echo JText::_('TPL_HATHOR_MAIN_MENU'); ?></h2>
-			<jdoc:include type="modules" name="menu"/>
+			<jdoc:include type="modules" name="menu" />
 		</div>
 		<div class="clr"></div>
 	</div><!-- end nav -->
@@ -112,7 +112,7 @@ else
 	<!-- Status Module -->
 	<div id="module-status">
 		<jdoc:include type="modules" name="status"/>
-		<?php
+			<?php
 			//Display an harcoded logout
 			$task = JRequest::getCmd('task');
 			if ($task == 'edit' || $task == 'editA' || JRequest::getInt('hidemainmenu')) {
@@ -123,16 +123,15 @@ else
 			$hideLinks	= JRequest::getBool('hidemainmenu');
 			$output = array();
 			// Print the Preview link to Main site.
-			$output[] = '<span class="viewsite"><a href="'.JURI::root().'" target="_blank">'.JText::_('JGLOBAL_VIEW_SITE').'</a></span>';
+			//$output[] = '<span class="viewsite"><a href="'.JURI::root().'" target="_blank">'.JText::_('JGLOBAL_VIEW_SITE').'</a></span>';
 			// Print the logout link.
-			$output[] = '<span class="logout">' .($hideLinks ? '' : '<a href="'.$logoutLink.'">').JText::_('JLOGOUT').($hideLinks ? '' : '</a>').'</span>';
+			//$output[] = '<span class="logout">' .($hideLinks ? '' : '<a href="'.$logoutLink.'">').JText::_('JLOGOUT').($hideLinks ? '' : '</a>').'</span>';
 			// Output the items.
 			foreach ($output as $item) :
 			echo $item;
 			endforeach;
-		?>
+			?>
 	</div>
-	<!-- Header -->
 
 	<!-- Content Area -->
 	<div id="content">

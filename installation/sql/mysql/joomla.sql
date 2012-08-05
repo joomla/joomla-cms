@@ -1476,7 +1476,7 @@ INSERT INTO `#__template_styles` (`id`, `template`, `client_id`, `home`, `title`
 (2, 'bluestork', 1, '0', 'Bluestork - Default', '{"useRoundedCorners":"1","showSiteName":"0"}'),
 (3, 'atomic', 0, '0', 'Atomic - Default', '{}'),
 (4, 'beez_20', 0, '0', 'Beez2 - Default', '{"wrapperSmall":"53","wrapperLarge":"72","logo":"images\\/joomla_black.gif","sitetitle":"Joomla!","sitedescription":"Open Source Content Management","navposition":"left","templatecolor":"personal","html5":"0"}'),
-(5, 'hathor', 1, '0', 'Hathor - Default', '{"showSiteName":"0","colourChoice":"","boldText":"0"}'),
+(5, 'hathor', 1, '0', 'Hathor - Default', '{"showSiteName":"0","colourChoice":"blue","boldText":"0"}'),
 (6, 'beez5', 0, '0', 'Beez5 - Default', '{"wrapperSmall":"53","wrapperLarge":"72","logo":"images\\/sampledata\\/fruitshop\\/fruits.gif","sitetitle":"Joomla!","sitedescription":"Open Source Content Management","navposition":"left","html5":"0"}'),
 (7, 'isis', 1, '1', 'Isis - Default', '{}'),
 (8, 'protostar', 0, '1', 'Protostar - Default', '{}');
