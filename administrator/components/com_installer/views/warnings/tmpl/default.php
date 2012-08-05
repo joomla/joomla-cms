@@ -22,7 +22,7 @@ defined('_JEXEC') or die;
 					$output = JModuleHelper::renderModule($module);
 					$params = new JRegistry;
 					$params->loadString($module->params);
-					echo $output;
+
 				}
 			?>
 		</div>

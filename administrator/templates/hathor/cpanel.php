@@ -12,6 +12,14 @@ defined('_JEXEC') or die;
 $app  = JFactory::getApplication();
 $lang = JFactory::getLanguage();
 $file = 'language/'.$lang->getTag().'/'.$lang->getTag().'.css';
+$doc   = JFactory::getDocument();
+$input = $app->input;
+$user  = JFactory::getUser();
+
+// Add Stylesheets
+$doc->addStyleSheet('templates/' .$this->template. '/css/template.css');
+
+
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo  $this->language; ?>" lang="<?php echo  $this->language; ?>" dir="<?php echo  $this->direction; ?>">
@@ -20,7 +28,20 @@ $file = 'language/'.$lang->getTag().'/'.$lang->getTag().'.css';
 
 <!-- Load system style CSS -->
 <link rel="stylesheet" href="templates/system/css/system.css" type="text/css" />
+<?php
+// If Right-to-Left
+if ($this->direction == 'rtl') :
+	$doc->addStyleSheet('../media/jui/css/bootstrap-rtl.css');
+endif;
 
+// Load specific language related CSS
+$file = 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css';
+if (JFile::exists($file)) :
+	$doc->addStyleSheet($file);
+endif;
+
+$doc->addStyleSheet('../media/jui/css/chosen.css');
+?>
 <!-- Load Template CSS -->
 <link href="templates/<?php echo  $this->template ?>/css/template.css" rel="stylesheet" type="text/css" />
 
@@ -33,17 +54,6 @@ $file = 'language/'.$lang->getTag().'/'.$lang->getTag().'.css';
 	endif;
 ?>
 <link href="templates/<?php echo $this->template ?>/css/colour_<?php echo $colour; ?>.css" rel="stylesheet" type="text/css" />
-
-<!-- Load additional CSS styles for rtl sites -->
-<?php if ($this->direction == 'rtl') : ?>
-	<link href="templates/<?php echo  $this->template ?>/css/template_rtl.css" rel="stylesheet" type="text/css" />
-	<link href="templates/<?php echo $this->template ?>/css/colour_<?php echo $colour; ?>_rtl.css" rel="stylesheet" type="text/css" />
-<?php endif; ?>
-
-<!-- Load specific language related css -->
-<?php if (is_file($file)) : ?>
-	<link href="<?php echo $file ?>" rel="stylesheet" type="text/css" />
-<?php  endif; ?>
 
 <!-- Load additional CSS styles for bold Text -->
 <?php if ($this->params->get('boldText')) : ?>
@@ -128,10 +138,10 @@ $file = 'language/'.$lang->getTag().'/'.$lang->getTag().'.css';
 				<div class="adminform">
 
 					<!-- Display the Quick Icon Shortcuts -->
-					<div class="cpanel-icons">
+					<div class="cpanel-icons well">
 						<?php if ($this->countModules('icon')>1):?>
 							<?php echo JHtml::_('sliders.start', 'position-icon', array('useCookie' => 1));?>
-							<jdoc:include type="modules" name="icon" style="sliders" />
+							<jdoc:include type="modules" name="icon" />
 							<?php echo JHtml::_('sliders.end');?>
 						<?php else:?>
 							<jdoc:include type="modules" name="icon" />
@@ -139,7 +149,7 @@ $file = 'language/'.$lang->getTag().'/'.$lang->getTag().'.css';
 					</div>
 
 					<!-- Display Admin Information Panels -->
-					<div class="cpanel-component">
+					<div class="cpanel-component well">
 						<jdoc:include type="component" />
 					</div>
 
