@@ -102,12 +102,37 @@ class JOauth2clientTest extends PHPUnit_Framework_TestCase
 		$this->object->setOption('tokenurl', 'https://accounts.google.com/o/oauth2/token');
 		$this->object->setOption('clientsecret', 'jeDs8rKw_jDJW8MMf-ff8ejs');
 		$this->input->set('code', '4/wEr_dK8SDkjfpwmc98KejfiwJP-f4wm.kdowmnr82jvmeisjw94mKFIJE48mcEM');
-		$this->http->expects($this->once())->method('post')->will($this->returnCallback('postCallback'));
+		$this->http->expects($this->once())->method('post')->will($this->returnCallback('postOauthCallback'));
 		$result = $this->object->auth();
 		$this->assertEquals('accessvalue', $result['access_token']);
 		$this->assertEquals('refreshvalue', $result['refresh_token']);
 		$this->assertEquals(3600, $result['expires_in']);
 		$this->assertEquals(time(), $result['created'], 10);
+	}
+
+	/**
+	 * Tests the isauth method
+	 *
+	 * @group	JOauth
+	 * @return void
+	 */
+	public function testIsAuth()
+	{
+		$this->assertEquals(false, $this->object->isAuth());
+
+		$token['access_token'] = 'accessvalue';
+		$token['refresh_token'] = 'refreshvalue';
+		$token['created'] = time();
+		$token['expires_in'] = 3600;
+		$this->object->setToken($token);
+
+		$this->assertEquals(true, $this->object->isAuth());
+
+		$token['created'] = time() - 4000;
+		$token['expires_in'] = 3600;
+		$this->object->setToken($token);
+
+		$this->assertEquals(false, $this->object->isAuth());
 	}
 
 	/**
@@ -148,12 +173,12 @@ class JOauth2clientTest extends PHPUnit_Framework_TestCase
 		$token['expires_in'] = 3600;
 		$this->object->setToken($token);
 
-		$this->http->expects($this->once())->method('get')->will($this->returnCallback('getCallback'));
+		$this->http->expects($this->once())->method('get')->will($this->returnCallback('getOauthCallback'));
 		$result = $this->object->query('https://www.googleapis.com/auth/calendar', array('param' => 'value'), array(), 'get');
 		$this->assertEquals($result->body, 'Lorem ipsum dolor sit amet.');
 		$this->assertEquals(200, $result->code);
 
-		$this->http->expects($this->once())->method('post')->will($this->returnCallback('postCallback'));
+		$this->http->expects($this->once())->method('post')->will($this->returnCallback('postOauthCallback'));
 		$result = $this->object->query('https://www.googleapis.com/auth/calendar', array('param' => 'value'), array(), 'post');
 		$this->assertEquals($result->body, 'Lorem ipsum dolor sit amet.');
 		$this->assertEquals(200, $result->code);
@@ -252,7 +277,7 @@ class JOauth2clientTest extends PHPUnit_Framework_TestCase
 		$this->object->setOption('userefresh', true);
 		$this->object->setToken(array('access_token' => 'RANDOM STRING OF DATA', 'expires' => 3600, 'refresh_token' => ' RANDOM STRING OF DATA'));
 
-		$this->http->expects($this->once())->method('post')->will($this->returnCallback('postCallback'));
+		$this->http->expects($this->once())->method('post')->will($this->returnCallback('postOauthCallback'));
 		$result = $this->object->refreshToken();
 		$this->assertEquals('accessvalue', $result['access_token']);
 		$this->assertEquals('refreshvalue', $result['refresh_token']);
@@ -273,7 +298,7 @@ class JOauth2clientTest extends PHPUnit_Framework_TestCase
  *
  * @since   12.2
  */
-function postCallback($url, $data, array $headers = null, $timeout = null)
+function postOauthCallback($url, $data, array $headers = null, $timeout = null)
 {
 	if (isset($data['grant_type']))
 	{
@@ -301,7 +326,7 @@ function postCallback($url, $data, array $headers = null, $timeout = null)
  *
  * @since   12.2
  */
-function getCallback($url, array $headers = null, $timeout = null)
+function getOauthCallback($url, array $headers = null, $timeout = null)
 {
 	$response->code = 200;
 	$response->headers = array('Content-Type' => 'text/html');
