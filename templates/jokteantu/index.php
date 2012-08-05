@@ -26,17 +26,45 @@ require_once (JPATH_BASE . DS . 'templates' . DS . $this->template . '/asset/ass
 require_once (JPATH_BASE . DS . 'templates' . DS . $this->template . '/asset/skins.php');
 
 ?>
+<?php
+    /*
+     * No se si evitar el modo quirk para xhtml afecte los Chromes de los módulos 
+     * porque estos utilizan jxhtml, probaré eliminando el quirk y revisaré
+     * los títulos h3. Un quirk es un capricho del navegador ;)
+     */
+?>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>" >
+<!DOCTYPE html>
+<html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>" >
     <head>
         <jdoc:include type="head" />	
+
+        <?php
+            /*
+             * PARA HACER: Inicializar en las hojas de estilo las propiedades CSS
+             * de los nuevos elementos HTML
+             */
+        ?>
+
 		<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/system/css/system.css" type="text/css" />
 		<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/system/css/jokte.css" type="text/css" />
         <!--<script type="text/javascript" src="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/javascript/menus.js"></script>-->		
         <link type="text/css" rel="stylesheet" href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/template.css" />
 		<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/<?php echo $this->template; ?>/css/menu/css2.css" type="text/css" />		
 		<link type="text/css" rel="stylesheet" href="<?php echo $baseurlskin; ?>/color.css" />
+
+        <?php
+            /* 
+             * - Se podría brindar mayor compatibilidad entre navegadores especialmente
+             * para IE 6, 7, 8, 9 al crear un script en JavaScript que cree en el DOM
+             * los nuevos elementos como header, section, aside, nav entre otros, 
+             * correspondientes a la especificación HTML5 y sean renderizados correctamente.
+             *
+             * - Evitaríamos la línea siguiente
+             * - ie9.css (404)
+             */
+            var_dump($baseurlskin);
+        ?>
 		<!--[if lte IE 9]>
 			<link href="<?php echo $baseurlskin; ?>/ie9.css" rel="stylesheet" type="text/css" />
 		<![endif]-->	
@@ -62,7 +90,14 @@ font-family:'<?php echo $typoespecial; ?>',gargi,Verdana, Geneva, sans-serif;}
 
 		
     </head>
-
+    
+    <?php
+        /*
+         * - Conservo el body para respetar las propiedades de estilo preestablecidas
+         * - Doy inicio a la implementación de los nuevos elementos HTML5 en el 
+         * - documento
+         */
+    ?>
     <body>
    
         <div id="bodyBg" style="width:<?php echo $bodyw; ?>px;"><!-- ancho flexible según parametro -->
