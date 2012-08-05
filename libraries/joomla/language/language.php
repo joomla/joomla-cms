@@ -1015,7 +1015,7 @@ class JLanguage
 	 */
 	public function isRTL()
 	{
-		return $this->metadata['rtl'];
+		return (bool) $this->metadata['rtl'];
 	}
 
 	/**
@@ -1130,13 +1130,18 @@ class JLanguage
 	public static function getMetadata($lang)
 	{
 		$path = self::getLanguagePath(JPATH_BASE, $lang);
-		$file = "$lang.xml";
+		$file = $lang . '.xml';
 
 		$result = null;
 
 		if (is_file("$path/$file"))
 		{
 			$result = self::parseXMLLanguageFile("$path/$file");
+		}
+
+		if (empty($result))
+		{
+			return null;
 		}
 
 		return $result;
@@ -1171,11 +1176,11 @@ class JLanguage
 	 */
 	public static function getLanguagePath($basePath = JPATH_BASE, $language = null)
 	{
-		$dir = "$basePath/language";
+		$dir = $basePath . '/language';
 
 		if (!empty($language))
 		{
-			$dir .= "/$language";
+			$dir .= '/' . $language;
 		}
 
 		return $dir;

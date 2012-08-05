@@ -44,14 +44,14 @@ class JLanguageInspector extends JLanguage
 	{
 		$this->$property = $value;
 	}
-	
+
 	/**
 	 * Calls any inaccessible method from the class.
-	 * 
-	 * @param string 	$name Name of the method to invoke 
+	 *
+	 * @param string 	$name Name of the method to invoke
 	 * @param array 	$parameters Parameters to be handed over to the original method
-	 * 
-	 * @return mixed The return value of the method 
+	 *
+	 * @return mixed The return value of the method
 	 */
 	public function __call($name, $parameters = false)
 	{

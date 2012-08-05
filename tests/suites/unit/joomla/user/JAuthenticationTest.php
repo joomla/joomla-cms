@@ -166,6 +166,18 @@ class JAuthenticationTest extends TestCase
 	}
 
 	/**
+	 * @covers  JAuthentication::getInstance
+	 */
+	public function testGetInstance()
+	{
+		$instance = JAuthentication::getInstance();
+		$this->assertThat(
+			$instance,
+			$this->isInstanceOf('JAuthentication')
+		);
+	}
+
+	/**
 	 * This checks for the correct Long Version.
 	 *
 	 * @return  void
