@@ -123,10 +123,12 @@ abstract class ModulesHelper
 		$query->from('#__extensions');
 		$query->where('client_id = '.(int) $clientId);
 		$query->where('type = '.$db->quote('template'));
-		if ($state!='') {
+		if ($state != '')
+		{
 			$query->where('enabled = '.$db->quote($state));
 		}
-		if ($template!='') {
+		if ($template != '')
+		{
 			$query->where('element = '.$db->quote($template));
 		}
 
@@ -159,7 +161,8 @@ abstract class ModulesHelper
 		$db->setQuery($query);
 		$modules = $db->loadObjectList();
 		$lang = JFactory::getLanguage();
-		foreach ($modules as $i=>$module) {
+		foreach ($modules as $i => $module)
+		{
 			$extension = $module->value;
 			$path = $clientId ? JPATH_ADMINISTRATOR : JPATH_SITE;
 			$source = $path . "/modules/$extension";

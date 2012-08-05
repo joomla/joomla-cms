@@ -10,9 +10,9 @@
 defined('_JEXEC') or die;
 
 $app = JFactory::getApplication();
-$templateparams =$app->getTemplate(true)->params;
+$templateparams = $app->getTemplate(true)->params;
 
-if ($templateparams->get('html5')!=1)
+if ($templateparams->get('html5') != 1)
 {
 	require JPATH_BASE.'/components/com_content/views/category/tmpl/blog.php';
 	//evtl. ersetzen durch JPATH_COMPONENT.'/views/...'
@@ -24,7 +24,7 @@ $cparams = JComponentHelper::getParams('com_media');
 // It will be a separate class if the user starts it with a space
 ?>
 <section class="blog<?php echo $this->pageclass_sfx;?>">
-<?php if ($this->params->get('show_page_heading')!=0 or $this->params->get('show_category_title')): ?>
+<?php if ($this->params->get('show_page_heading') != 0 or $this->params->get('show_category_title')): ?>
 <h1>
 	<?php echo $this->escape($this->params->get('page_heading')); ?>
 	<?php if ($this->params->get('show_category_title'))
@@ -50,7 +50,7 @@ $cparams = JComponentHelper::getParams('com_media');
 
 
 
-<?php $leadingcount=0; ?>
+<?php $leadingcount = 0; ?>
 <?php if (!empty($this->lead_items)) : ?>
 <div class="items-leading">
 	<?php foreach ($this->lead_items as &$item) : ?>
@@ -67,18 +67,18 @@ $cparams = JComponentHelper::getParams('com_media');
 </div>
 <?php endif; ?>
 <?php
-	$introcount=(count($this->intro_items));
-	$counter=0;
+	$introcount = (count($this->intro_items));
+	$counter = 0;
 ?>
 <?php if (!empty($this->intro_items)) : ?>
 
 	<?php foreach ($this->intro_items as $key => &$item) : ?>
 	<?php
-		$key= ($key-$leadingcount) + 1;
-		$rowcount=(((int) $key-1) % (int) $this->columns) +1;
+		$key = ($key - $leadingcount) + 1;
+		$rowcount = (((int) $key - 1) % (int) $this->columns) + 1;
 		$row = $counter / $this->columns;
 
-		if ($rowcount==1) : ?>
+		if ($rowcount == 1) : ?>
 	<div class="items-row cols-<?php echo (int) $this->columns;?> <?php echo 'row-'.$row; ?>">
 	<?php endif; ?>
 	<article class="item column-<?php echo $rowcount;?><?php echo $item->state == 0 ? ' system-unpublished' : null; ?>">
@@ -88,7 +88,7 @@ $cparams = JComponentHelper::getParams('com_media');
 		?>
 	</article>
 	<?php $counter++; ?>
-	<?php if (($rowcount == $this->columns) or ($counter ==$introcount)): ?>
+	<?php if (($rowcount == $this->columns) or ($counter == $introcount)): ?>
 				<span class="row-separator"></span>
 				</div>
 
@@ -105,7 +105,7 @@ $cparams = JComponentHelper::getParams('com_media');
 <?php endif; ?>
 
 
-	<?php if (is_array($this->children[$this->category->id]) && count($this->children[$this->category->id]) > 0 && $this->params->get('maxLevel') !=0) : ?>
+	<?php if (is_array($this->children[$this->category->id]) && count($this->children[$this->category->id]) > 0 && $this->params->get('maxLevel') != 0) : ?>
 		<div class="cat-children">
 		<h3>
 <?php echo JTEXT::_('JGLOBAL_SUBCATEGORIES'); ?>

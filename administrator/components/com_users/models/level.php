@@ -192,7 +192,7 @@ class UsersModelLevel extends JModelAdmin
 	public function save($data)
 	{
 		if (!isset($data['rules'])) {
-			$data['rules']=array();
+			$data['rules'] = array();
 		}
 
 		return parent::save($data);

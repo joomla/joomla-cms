@@ -19,8 +19,11 @@ defined('_JEXEC') or die;
 class UsersViewDebugUser extends JViewLegacy
 {
 	protected $actions;
+
 	protected $items;
+
 	protected $pagination;
+
 	protected $state;
 
 	/**

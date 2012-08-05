@@ -27,7 +27,7 @@ foreach ($fieldSets as $name => $fieldSet) :
 				<?php echo $field->label; ?>
 				<?php echo $field->input; ?>
 			</li>
-			<?php else : $hidden_fields.= $field->input; ?>
+			<?php else : $hidden_fields .= $field->input; ?>
 			<?php endif; ?>
 			<?php endforeach; ?>
 		</ul>

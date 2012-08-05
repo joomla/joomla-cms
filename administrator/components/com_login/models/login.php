@@ -113,12 +113,12 @@ class LoginModelLogin extends JModelLegacy
 			return $clean;
 		}
 
-		$app		= JFactory::getApplication();
-		$lang 		= JFactory::getLanguage()->getTag();
-		$clientId 	= (int) $app->getClientId();
+		$app      = JFactory::getApplication();
+		$lang     = JFactory::getLanguage()->getTag();
+		$clientId = (int) $app->getClientId();
 
-		$cache 		= JFactory::getCache ('com_modules', '');
-		$cacheid 	= md5(serialize(array( $clientId, $lang)));
+		$cache       = JFactory::getCache('com_modules', '');
+		$cacheid     = md5(serialize(array($clientId, $lang)));
 		$loginmodule = array();
 
 		if (!($clean = $cache->get($cacheid))) {

@@ -18,7 +18,7 @@ $userId		= $user->get('id');
 $listOrder	= $this->escape($this->state->get('list.ordering'));
 $listDirn	= $this->escape($this->state->get('list.direction'));
 $canOrder	= $user->authorise('core.edit.state', 'com_banners.category');
-$saveOrder	= $listOrder=='ordering';
+$saveOrder	= $listOrder == 'ordering';
 $params		= (isset($this->state->params)) ? $this->state->params : new JObject;
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_banners&view=banners'); ?>" method="post" name="adminForm" id="adminForm">
@@ -61,7 +61,7 @@ $params		= (isset($this->state->params)) ? $this->state->params : new JObject;
 					<input type="checkbox" name="checkall-toggle" value="" title="<?php echo JText::_('JGLOBAL_CHECK_ALL'); ?>" onclick="Joomla.checkAll(this)" />
 				</th>
 				<th>
-					<?php echo JHtml::_('grid.sort',  'COM_BANNERS_HEADING_NAME', 'a.name', $listDirn, $listOrder); ?>
+					<?php echo JHtml::_('grid.sort', 'COM_BANNERS_HEADING_NAME', 'a.name', $listDirn, $listOrder); ?>
 				</th>
 				<th width="5%">
 					<?php echo JHtml::_('grid.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
@@ -76,9 +76,9 @@ $params		= (isset($this->state->params)) ? $this->state->params : new JObject;
 					<?php echo JHtml::_('grid.sort', 'JCATEGORY', 'category_title', $listDirn, $listOrder); ?>
 				</th>
 				<th width="10%">
-					<?php echo JHtml::_('grid.sort',  'JGRID_HEADING_ORDERING', 'ordering', $listDirn, $listOrder); ?>
+					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ORDERING', 'ordering', $listDirn, $listOrder); ?>
 					<?php if ($canOrder && $saveOrder): ?>
-						<?php echo JHtml::_('grid.order',  $this->items, 'filesave.png', 'banners.saveorder'); ?>
+						<?php echo JHtml::_('grid.order', $this->items, 'filesave.png', 'banners.saveorder'); ?>
 					<?php endif;?>
 				</th>
 				<th width="5%">
@@ -110,12 +110,12 @@ $params		= (isset($this->state->params)) ? $this->state->params : new JObject;
 		</tfoot>
 		<tbody>
 		<?php foreach ($this->items as $i => $item) :
-			$ordering	= ($listOrder == 'ordering');
-			$item->cat_link = JRoute::_('index.php?option=com_categories&extension=com_banners&task=edit&type=other&cid[]='. $item->catid);
-			$canCreate	= $user->authorise('core.create',		'com_banners.category.'.$item->catid);
-			$canEdit	= $user->authorise('core.edit',			'com_banners.category.'.$item->catid);
-			$canCheckin	= $user->authorise('core.manage',		'com_checkin') || $item->checked_out == $userId || $item->checked_out == 0;
-			$canChange	= $user->authorise('core.edit.state',	'com_banners.category.'.$item->catid) && $canCheckin;
+			$ordering   = ($listOrder == 'ordering');
+			$item->cat_link = JRoute::_('index.php?option=com_categories&extension=com_banners&task=edit&type=other&cid[]=' . $item->catid);
+			$canCreate  = $user->authorise('core.create',     'com_banners.category.' . $item->catid);
+			$canEdit    = $user->authorise('core.edit',       'com_banners.category.' . $item->catid);
+			$canCheckin = $user->authorise('core.manage',     'com_checkin') || $item->checked_out == $userId || $item->checked_out == 0;
+			$canChange  = $user->authorise('core.edit.state', 'com_banners.category.' . $item->catid) && $canCheckin;
 			?>
 			<tr class="row<?php echo $i % 2; ?>">
 				<td class="center">
@@ -150,11 +150,11 @@ $params		= (isset($this->state->params)) ? $this->state->params : new JObject;
 					<?php if ($canChange) : ?>
 						<?php if ($saveOrder) : ?>
 							<?php if ($listDirn == 'asc') : ?>
-								<span><?php echo $this->pagination->orderUpIcon($i, (@$this->items[$i-1]->catid == $item->catid), 'banners.orderup', 'JLIB_HTML_MOVE_UP', $ordering); ?></span>
-								<span><?php echo $this->pagination->orderDownIcon($i, $this->pagination->total, (@$this->items[$i+1]->catid == $item->catid), 'banners.orderdown', 'JLIB_HTML_MOVE_DOWN', $ordering); ?></span>
+								<span><?php echo $this->pagination->orderUpIcon($i, (@$this->items[$i - 1]->catid == $item->catid), 'banners.orderup', 'JLIB_HTML_MOVE_UP', $ordering); ?></span>
+								<span><?php echo $this->pagination->orderDownIcon($i, $this->pagination->total, (@$this->items[$i + 1]->catid == $item->catid), 'banners.orderdown', 'JLIB_HTML_MOVE_DOWN', $ordering); ?></span>
 							<?php elseif ($listDirn == 'desc') : ?>
-								<span><?php echo $this->pagination->orderUpIcon($i, (@$this->items[$i-1]->catid == $item->catid), 'banners.orderdown', 'JLIB_HTML_MOVE_UP', $ordering); ?></span>
-								<span><?php echo $this->pagination->orderDownIcon($i, $this->pagination->total, (@$this->items[$i+1]->catid == $item->catid), 'banners.orderup', 'JLIB_HTML_MOVE_DOWN', $ordering); ?></span>
+								<span><?php echo $this->pagination->orderUpIcon($i, (@$this->items[$i - 1]->catid == $item->catid), 'banners.orderdown', 'JLIB_HTML_MOVE_UP', $ordering); ?></span>
+								<span><?php echo $this->pagination->orderDownIcon($i, $this->pagination->total, (@$this->items[$i + 1]->catid == $item->catid), 'banners.orderup', 'JLIB_HTML_MOVE_DOWN', $ordering); ?></span>
 							<?php endif; ?>
 						<?php endif; ?>
 						<?php $disabled = $saveOrder ?  '' : 'disabled="disabled"'; ?>
@@ -168,7 +168,7 @@ $params		= (isset($this->state->params)) ? $this->state->params : new JObject;
 				</td>
 				<td class="center">
 					<?php echo $item->clicks;?> -
-					<?php echo sprintf('%.2f%%', $item->impmade ? 100 * $item->clicks/$item->impmade : 0);?>
+					<?php echo sprintf('%.2f%%', $item->impmade ? 100 * $item->clicks / $item->impmade : 0);?>
 				</td>
 				<td>
 					<?php echo $item->metakey; ?>
@@ -181,7 +181,7 @@ $params		= (isset($this->state->params)) ? $this->state->params : new JObject;
 					<?php endif;?>
 				</td>
 				<td class="center nowrap">
-					<?php if ($item->language=='*'):?>
+					<?php if ($item->language == '*'):?>
 						<?php echo JText::alt('JALL', 'language'); ?>
 					<?php else:?>
 						<?php echo $item->language_title ? $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>

@@ -51,7 +51,7 @@ $params		= (isset($this->state->params)) ? $this->state->params : new JObject;
 					<?php echo JHtml::_('grid.sort', 'COM_BANNERS_HEADING_CONTACT', 'contact', $listDirn, $listOrder); ?>
 				</th>
 				<th width="5%">
-					<?php echo JHtml::_('grid.sort',  'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
+					<?php echo JHtml::_('grid.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
 				</th>
 				<th width="5%">
 					<?php echo JHtml::_('grid.sort', 'COM_BANNERS_HEADING_ACTIVE', 'nbanners', $listDirn, $listOrder); ?>
@@ -77,10 +77,10 @@ $params		= (isset($this->state->params)) ? $this->state->params : new JObject;
 		<tbody>
 		<?php foreach ($this->items as $i => $item) :
 			$ordering	= ($listOrder == 'ordering');
-			$canCreate	= $user->authorise('core.create',		'com_banners');
-			$canEdit	= $user->authorise('core.edit',			'com_banners');
-			$canCheckin	= $user->authorise('core.manage',		'com_checkin') || $item->checked_out==$user->get('id') || $item->checked_out==0;
-			$canChange	= $user->authorise('core.edit.state',	'com_banners') && $canCheckin;
+			$canCreate	= $user->authorise('core.create',     'com_banners');
+			$canEdit	= $user->authorise('core.edit',       'com_banners');
+			$canCheckin	= $user->authorise('core.manage',     'com_checkin') || $item->checked_out == $user->get('id') || $item->checked_out == 0;
+			$canChange	= $user->authorise('core.edit.state', 'com_banners') && $canCheckin;
 			?>
 			<tr class="row<?php echo $i % 2; ?>">
 				<td class="center">
@@ -110,7 +110,7 @@ $params		= (isset($this->state->params)) ? $this->state->params : new JObject;
 					<?php echo $item->metakey; ?>
 				</td>
 				<td class="center">
-					<?php if ($item->purchase_type<0):?>
+					<?php if ($item->purchase_type < 0):?>
 						<?php echo JText::sprintf('COM_BANNERS_DEFAULT', JText::_('COM_BANNERS_FIELD_VALUE_'.$params->get('purchase_type')));?>
 					<?php else:?>
 						<?php echo JText::_('COM_BANNERS_FIELD_VALUE_'.$item->purchase_type);?>

@@ -10,6 +10,8 @@
 defined('_JEXEC') or die;
 
 /**
+ * Model for the system information
+ *
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  * @since       1.6
@@ -157,7 +159,8 @@ class AdminModelSysInfo extends JModelLegacy
 	 *
 	 * @return array states of directories
 	 */
-	public function getDirectory() {
+	public function getDirectory()
+	{
 		if (is_null($this->directories))
 		{
 			$this->directories = array();
@@ -223,7 +226,8 @@ class AdminModelSysInfo extends JModelLegacy
 		return $this->directories;
 	}
 
-	private function _addDirectory($name, $path, $message = '') {
+	private function _addDirectory($name, $path, $message = '')
+	{
 		$this->directories[$name] = array('writable' => is_writable($path), 'message' => $message);
 	}
 

@@ -68,7 +68,7 @@ JHtml::_('behavior.formvalidation');
 	</div>
 
 	<div class="width-40 fltrt">
-		<?php echo JHtml::_('sliders.start', 'weblink-sliders-'.$this->item->id, array('useCookie'=>1)); ?>
+		<?php echo JHtml::_('sliders.start', 'weblink-sliders-' . $this->item->id, array('useCookie' => 1)); ?>
 
 		<?php echo JHtml::_('sliders.panel', JText::_('JGLOBAL_FIELDSET_PUBLISHING'), 'publishing-details'); ?>
 

@@ -19,7 +19,9 @@ defined('_JEXEC') or die;
 class ContactViewContacts extends JViewLegacy
 {
 	protected $items;
+
 	protected $pagination;
+
 	protected $state;
 
 	/**

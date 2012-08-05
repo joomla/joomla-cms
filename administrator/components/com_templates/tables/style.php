@@ -43,7 +43,8 @@ class TemplatesTableStyle extends JTable
 		}
 
 		// Verify that the default style is not unset
-		if ($array['home']=='0' && $this->home=='1') {
+		if ($array['home'] == '0' && $this->home == '1')
+		{
 			$this->setError(JText::_('COM_TEMPLATES_ERROR_CANNOT_UNSET_DEFAULT_STYLE'));
 			return false;
 		}
@@ -76,7 +77,8 @@ class TemplatesTableStyle extends JTable
 	 */
 	public function store($updateNulls = false)
 	{
-		if ($this->home!='0') {
+		if ($this->home != '0')
+		{
 			$query = $this->_db->getQuery(true);
 			$query->update('#__template_styles');
 			$query->set('home=\'0\'');
@@ -109,7 +111,8 @@ class TemplatesTableStyle extends JTable
 			$query->where('template='.$this->_db->quote($this->template));
 			$this->_db->setQuery($query);
 			$results = $this->_db->loadColumn();
-			if (count($results)==1 && $results[0]==$pk) {
+			if (count($results) == 1 && $results[0] == $pk)
+			{
 				$this->setError(JText::_('COM_TEMPLATES_ERROR_CANNOT_DELETE_LAST_STYLE'));
 				return false;
 			}

@@ -74,7 +74,7 @@ $canDo = TemplatesHelper::getActions();
 
 	<?php echo JHtml::_('sliders.end'); ?>
 	</div>
-	<?php if ($user->authorise('core.edit', 'com_menu') && $this->item->client_id==0):?>
+	<?php if ($user->authorise('core.edit', 'com_menu') && $this->item->client_id == 0):?>
 		<?php if ($canDo->get('core.edit.state')) : ?>
 			<div class="width-60 fltlft">
 			<?php echo $this->loadTemplate('assignment'); ?>

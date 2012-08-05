@@ -31,7 +31,7 @@ class JHtmlIcon
 			$text = JText::_('JNEW').'&#160;';
 		}
 
-		$button =  JHtml::_('link', JRoute::_($url), $text);
+		$button = JHtml::_('link', JRoute::_($url), $text);
 
 		$output = '<span class="hasTip" title="'.JText::_('COM_CONTENT_CREATE_ARTICLE').'">'.$button.'</span>';
 		return $output;
@@ -43,7 +43,7 @@ class JHtmlIcon
 		$uri	= JURI::getInstance();
 		$base	= $uri->toString(array('scheme', 'host', 'port'));
 		$template = JFactory::getApplication()->getTemplate();
-		$link	= $base.JRoute::_(ContentHelperRoute::getArticleRoute($article->slug, $article->catid) , false);
+		$link	= $base.JRoute::_(ContentHelperRoute::getArticleRoute($article->slug, $article->catid), false);
 		$url	= 'index.php?option=com_mailto&tmpl=component&template='.$template.'&link='.MailToHelper::addLink($link);
 
 		$status = 'width=400,height=350,menubar=yes,resizable=yes';

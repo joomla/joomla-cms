@@ -19,7 +19,9 @@ defined('_JEXEC') or die;
 class CategoriesViewCategories extends JViewLegacy
 {
 	protected $items;
+
 	protected $pagination;
+
 	protected $state;
 
 	/**
@@ -99,7 +101,7 @@ class CategoriesViewCategories extends JViewLegacy
 		}
 		// Else if the component section string exits, let's use it
 		elseif ($lang->hasKey($component_section_key = strtoupper($component.($section?"_$section":'')))) {
-			$title = JText::sprintf( 'COM_CATEGORIES_CATEGORIES_TITLE', $this->escape(JText::_($component_section_key)));
+			$title = JText::sprintf('COM_CATEGORIES_CATEGORIES_TITLE', $this->escape(JText::_($component_section_key)));
 		}
 		// Else use the base title
 		else {
@@ -116,7 +118,8 @@ class CategoriesViewCategories extends JViewLegacy
 			JToolBarHelper::addNew('category.add');
 		}
 
-		if ($canDo->get('core.edit' ) || $canDo->get('core.edit.own')) {
+		if ($canDo->get('core.edit') || $canDo->get('core.edit.own'))
+		{
 			JToolBarHelper::editList('category.edit');
 			JToolBarHelper::divider();
 		}
@@ -163,6 +166,6 @@ class CategoriesViewCategories extends JViewLegacy
 		else {
 			$url = null;
 		}
-		JToolBarHelper::help($ref_key, JComponentHelper::getParams( $component )->exists('helpURL'), $url);
+		JToolBarHelper::help($ref_key, JComponentHelper::getParams($component)->exists('helpURL'), $url);
 	}
 }

@@ -43,9 +43,9 @@ $saveOrder	= $listOrder == 'a.ordering';
 					<?php echo JHtml::_('grid.sort', 'COM_USERS_HEADING_LEVEL_NAME', 'a.title', $listDirn, $listOrder); ?>
 				</th>
 				<th width="10%">
-					<?php echo JHtml::_('grid.sort',  'JGRID_HEADING_ORDERING', 'a.ordering', $listDirn, $listOrder); ?>
+					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ORDERING', 'a.ordering', $listDirn, $listOrder); ?>
 					<?php if ($canOrder && $saveOrder) :?>
-						<?php echo JHtml::_('grid.order',  $this->items, 'filesave.png', 'levels.saveorder'); ?>
+						<?php echo JHtml::_('grid.order', $this->items, 'filesave.png', 'levels.saveorder'); ?>
 					<?php endif; ?>
 				</th>
 				<th width="5%">
@@ -66,10 +66,10 @@ $saveOrder	= $listOrder == 'a.ordering';
 		<tbody>
 		<?php $count = count($this->items); ?>
 		<?php foreach ($this->items as $i => $item) :
-			$ordering	= ($listOrder == 'a.ordering');
-			$canCreate	= $user->authorise('core.create',		'com_users');
-			$canEdit	= $user->authorise('core.edit',			'com_users');
-			$canChange	= $user->authorise('core.edit.state',	'com_users');
+			$ordering  = ($listOrder == 'a.ordering');
+			$canCreate = $user->authorise('core.create',     'com_users');
+			$canEdit   = $user->authorise('core.edit',       'com_users');
+			$canChange = $user->authorise('core.edit.state', 'com_users');
 			?>
 			<tr class="row<?php echo $i % 2; ?>">
 				<td class="center">

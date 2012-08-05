@@ -41,8 +41,8 @@ function modChrome_sliders($module, &$params, &$attribs)
 	$content = trim($module->content);
 	if (!empty($content))
 	{
-		if ($params->get('automatic_title', '0')=='0') {
-			echo JHtml::_('sliders.panel', $module->title, 'module'.$module->id);
+		if ($params->get('automatic_title', '0') == '0') {
+			echo JHtml::_('sliders.panel', $module->title, 'module' . $module->id);
 		}
 		elseif (method_exists('mod'.$module->name.'Helper', 'getTitle')) {
 			echo JHtml::_('sliders.panel', call_user_func_array(array('mod'.$module->name.'Helper','getTitle'), array($params, $module)), 'module'.$module->id);
@@ -62,7 +62,8 @@ function modChrome_tabs($module, &$params, &$attribs)
 	$content = trim($module->content);
 	if (!empty($content))
 	{
-		if ($params->get('automatic_title', '0')=='0') {
+		if ($params->get('automatic_title', '0') == '0')
+		{
 			echo JHtml::_('tabs.panel', $module->title, 'module'.$module->id);
 		}
 		elseif (method_exists('mod'.$module->name.'Helper', 'getTitle')) {

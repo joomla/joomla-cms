@@ -19,7 +19,9 @@ defined('_JEXEC') or die;
 class LanguagesViewLanguage extends JViewLegacy
 {
 	public $item;
+
 	public $form;
+
 	public $state;
 
 	/**

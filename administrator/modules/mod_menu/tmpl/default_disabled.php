@@ -44,11 +44,11 @@ if ($user->authorise('core.manage', 'com_content'))
 //
 
 // Get the authorised components and sub-menus.
-$components = ModMenuHelper::getComponents( true );
+$components = ModMenuHelper::getComponents(true);
 
 // Check if there are any components, otherwise, don't display the components menu item
 if ($components) {
-	$menu->addChild(new JMenuNode(JText::_('MOD_MENU_COMPONENTS'),  null, 'disabled'));
+	$menu->addChild(new JMenuNode(JText::_('MOD_MENU_COMPONENTS'), null, 'disabled'));
 }
 
 //

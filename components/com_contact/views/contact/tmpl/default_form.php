@@ -59,7 +59,7 @@ if (isset($this->error)) : ?>
 					<input type="hidden" name="task" value="contact.submit" />
 					<input type="hidden" name="return" value="<?php echo $this->return_page;?>" />
 					<input type="hidden" name="id" value="<?php echo $this->contact->slug; ?>" />
-					<?php echo JHtml::_( 'form.token' ); ?>
+					<?php echo JHtml::_('form.token'); ?>
 				</dd>
 			</dl>
 		</fieldset>

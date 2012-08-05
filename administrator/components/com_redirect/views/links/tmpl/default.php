@@ -81,9 +81,9 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 		</tfoot>
 		<tbody>
 		<?php foreach ($this->items as $i => $item) :
-			$canCreate	= $user->authorise('core.create',		'com_redirect');
-			$canEdit	= $user->authorise('core.edit',			'com_redirect');
-			$canChange	= $user->authorise('core.edit.state',	'com_redirect');
+			$canCreate = $user->authorise('core.create',     'com_redirect');
+			$canEdit   = $user->authorise('core.edit',       'com_redirect');
+			$canChange = $user->authorise('core.edit.state', 'com_redirect');
 			?>
 			<tr class="row<?php echo $i % 2; ?>">
 				<td class="center">

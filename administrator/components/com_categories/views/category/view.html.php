@@ -18,7 +18,9 @@ defined('_JEXEC') or die;
 class CategoriesViewCategory extends JViewLegacy
 {
 	protected $form;
+
 	protected $item;
+
 	protected $state;
 
 	/**
@@ -86,7 +88,7 @@ class CategoriesViewCategory extends JViewLegacy
 		}
 		// Else if the component section string exits, let's use it
 		elseif ($lang->hasKey($component_section_key = $component.($section?"_$section":''))) {
-			$title = JText::sprintf( 'COM_CATEGORIES_CATEGORY_'.($isNew?'ADD':'EDIT').'_TITLE', $this->escape(JText::_($component_section_key)));
+			$title = JText::sprintf('COM_CATEGORIES_CATEGORY_'.($isNew?'ADD':'EDIT').'_TITLE', $this->escape(JText::_($component_section_key)));
 		}
 		// Else use the base title
 		else {
@@ -146,6 +148,6 @@ class CategoriesViewCategory extends JViewLegacy
 		else {
 			$url = null;
 		}
-		JToolBarHelper::help($ref_key, JComponentHelper::getParams( $component )->exists('helpURL'), $url, $component);
+		JToolBarHelper::help($ref_key, JComponentHelper::getParams($component)->exists('helpURL'), $url, $component);
 	}
 }

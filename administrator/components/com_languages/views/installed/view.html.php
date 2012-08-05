@@ -36,12 +36,12 @@ class LanguagesViewInstalled extends JViewLegacy
 	/**
 	 * @var object pagination information
 	 */
-	protected $pagination=null;
+	protected $pagination = null;
 
 	/**
 	 * @var array languages information
 	 */
-	protected $rows=null;
+	protected $rows = null;
 
 	/**
 	 * @var object user object
@@ -54,11 +54,11 @@ class LanguagesViewInstalled extends JViewLegacy
 	function display($tpl = null)
 	{
 		// Get data from the model
-		$this->ftp			= $this->get('Ftp');
-		$this->option		= $this->get('Option');
-		$this->pagination	= $this->get('Pagination');
-		$this->rows			= $this->get('Data');
-		$this->state		= $this->get('State');
+		$this->ftp        = $this->get('Ftp');
+		$this->option     = $this->get('Option');
+		$this->pagination = $this->get('Pagination');
+		$this->rows       = $this->get('Data');
+		$this->state      = $this->get('State');
 
 		$document = JFactory::getDocument();
 		$document->setBuffer($this->loadTemplate('navigation'), 'modules', 'submenu');

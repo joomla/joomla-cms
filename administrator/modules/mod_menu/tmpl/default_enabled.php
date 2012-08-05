@@ -207,7 +207,7 @@ if ($user->authorise('core.manage', 'com_menus'))
 			}
 			else
 			{
-				$titleicon = ' <span>'.JHtml::_('image', 'mod_languages/'.$menuType->image.'.gif', $alt, array('title'=>$menuType->title_native), true).'</span>';
+				$titleicon = ' <span>' . JHtml::_('image', 'mod_languages/' . $menuType->image . '.gif', $alt, array('title' => $menuType->title_native), true) . '</span>';
 			}
 		}
 		$menu->addChild(
@@ -233,7 +233,7 @@ if ($user->authorise('core.manage', 'com_content'))
 	$menu->addChild(
 		new JMenuNode(JText::_('MOD_MENU_COM_CONTENT'), '#'), true
 	);
-	$createContent =  $shownew && $user->authorise('core.create', 'com_content');
+	$createContent = $shownew && $user->authorise('core.create', 'com_content');
 	$menu->addChild(
 		new JMenuNode(JText::_('MOD_MENU_COM_CONTENT_ARTICLE_MANAGER'), 'index.php?option=com_content', 'class:article'), $createContent
 	);
@@ -272,7 +272,7 @@ if ($user->authorise('core.manage', 'com_content'))
 //
 
 // Get the authorised components and sub-menus.
-$components = ModMenuHelper::getComponents( true );
+$components = ModMenuHelper::getComponents(true);
 
 // Check if there are any components, otherwise, don't render the menu
 if ($components)

@@ -10,6 +10,8 @@
 defined('_JEXEC') or die;
 
 /**
+ * Model for component configuration
+ *
  * @package     Joomla.Administrator
  * @subpackage  com_config
  */

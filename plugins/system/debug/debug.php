@@ -404,7 +404,7 @@ class plgSystemDebug extends JPlugin
 
 		$html = '';
 
-		$html .= '<h4>' . JText::sprintf('PLG_DEBUG_QUERIES_LOGGED',  $db->getCount()) . '</h4>';
+		$html .= '<h4>' . JText::sprintf('PLG_DEBUG_QUERIES_LOGGED', $db->getCount()) . '</h4>';
 
 		$html .= '<ol>';
 

@@ -111,7 +111,7 @@ class plgUserProfile extends JPlugin
 		else
 		{
 			$value = htmlspecialchars($value);
-			if (substr ($value, 0, 4) == "http")
+			if (substr($value, 0, 4) == "http")
 			{
 				return '<a href="'.$value.'">'.$value.'</a>';
 			}

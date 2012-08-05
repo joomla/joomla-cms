@@ -19,8 +19,11 @@ defined('_JEXEC') or die;
 class MenusViewItems extends JViewLegacy
 {
 	protected $f_levels;
+
 	protected $items;
+
 	protected $pagination;
+
 	protected $state;
 
 	/**

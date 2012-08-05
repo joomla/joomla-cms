@@ -19,8 +19,11 @@ defined('_JEXEC') or die;
 class FinderViewSearch extends JViewLegacy
 {
 	protected $query;
+
 	protected $params;
+
 	protected $state;
+
 	protected $user;
 
 	/**

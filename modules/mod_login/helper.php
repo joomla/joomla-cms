@@ -20,7 +20,7 @@ class modLoginHelper
 		$app	= JFactory::getApplication();
 		$router = $app->getRouter();
 		$url = null;
-		if ($itemid =  $params->get($type))
+		if ($itemid = $params->get($type))
 		{
 			$db		= JFactory::getDbo();
 			$query	= $db->getQuery(true);

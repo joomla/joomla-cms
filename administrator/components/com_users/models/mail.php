@@ -167,12 +167,12 @@ class UsersModelMail extends JModelAdmin
 			// Fill the data (specially for the 'mode', 'group' and 'bcc': they could not exist in the array
 			// when the box is not checked and in this case, the default value would be used instead of the '0'
 			// one)
-			$data['mode']=$mode;
-			$data['subject']=$subject;
-			$data['group']=$grp;
-			$data['recurse']=$recurse;
-			$data['bcc']=$bcc;
-			$data['message']=$message_body;
+			$data['mode'] = $mode;
+			$data['subject'] = $subject;
+			$data['group'] = $grp;
+			$data['recurse'] = $recurse;
+			$data['bcc'] = $bcc;
+			$data['message'] = $message_body;
 			$app->setUserState('com_users.display.mail.data', array());
 			$app->enqueueMessage(JText::plural('COM_USERS_MAIL_EMAIL_SENT_TO_N_USERS', count($rows)), 'message');
 			return true;

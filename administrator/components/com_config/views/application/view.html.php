@@ -10,13 +10,17 @@
 defined('_JEXEC') or die;
 
 /**
+ * View for the global configuration
+ *
  * @package     Joomla.Administrator
  * @subpackage  com_config
  */
 class ConfigViewApplication extends JViewLegacy
 {
 	public $state;
+
 	public $form;
+
 	public $data;
 
 	/**

@@ -19,8 +19,11 @@ defined('_JEXEC') or die;
 class SearchViewSearches extends JViewLegacy
 {
 	protected $enabled;
+
 	protected $items;
+
 	protected $pagination;
+
 	protected $state;
 
 	/**

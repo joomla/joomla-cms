@@ -44,10 +44,10 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 			</tr>
 		</tfoot>
 		<tbody>
-		<?php foreach($this->items as $i=>$item):
+		<?php foreach ($this->items as $i => $item):
 			$client	= $item->client_id ? JText::_('JADMINISTRATOR') : JText::_('JSITE');
 		?>
-			<tr class="row<?php echo $i%2; ?>">
+			<tr class="row<?php echo $i % 2; ?>">
 				<td><?php echo JHtml::_('grid.id', $i, $item->update_id); ?></td>
 				<td>
 					<span class="editlinktip hasTip" title="<?php echo JText::_('JGLOBAL_DESCRIPTION');?>::<?php echo $item->description ? $this->escape($item->description) : JText::_('COM_INSTALLER_MSG_UPDATE_NODESC'); ?>">

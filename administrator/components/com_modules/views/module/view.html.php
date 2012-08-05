@@ -19,7 +19,9 @@ defined('_JEXEC') or die;
 class ModulesViewModule extends JViewLegacy
 {
 	protected $form;
+
 	protected $item;
+
 	protected $state;
 
 	/**
@@ -56,7 +58,7 @@ class ModulesViewModule extends JViewLegacy
 		$canDo		= ModulesHelper::getActions($this->state->get('filter.category_id'), $this->item->id);
 		$item		= $this->get('Item');
 
-		JToolBarHelper::title( JText::sprintf('COM_MODULES_MANAGER_MODULE', JText::_($this->item->module)), 'module.png');
+		JToolBarHelper::title(JText::sprintf('COM_MODULES_MANAGER_MODULE', JText::_($this->item->module)), 'module.png');
 
 		// If not checked out, can save the item.
 		if (!$checkedOut && ($canDo->get('core.edit') || $canDo->get('core.create') )) {

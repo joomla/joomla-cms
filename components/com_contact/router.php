@@ -16,7 +16,8 @@ defined('_JEXEC') or die;
  *
  * @return	array	The URL arguments to use to assemble the subsequent URL.
  */
-function ContactBuildRoute(&$query){
+function ContactBuildRoute(&$query)
+{
 	$segments = array();
 
 	// get a menu item based on Itemid or currently active

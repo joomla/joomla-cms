@@ -17,13 +17,13 @@ JHtml::_('behavior.caption');
 // It will be a separate class if the user starts it with a space
 ?>
 <div class="blog-featured<?php echo $this->pageclass_sfx;?>">
-<?php if ( $this->params->get('show_page_heading')!=0) : ?>
+<?php if ( $this->params->get('show_page_heading') != 0) : ?>
 	<h1>
 	<?php echo $this->escape($this->params->get('page_heading')); ?>
 	</h1>
 <?php endif; ?>
 
-<?php $leadingcount=0; ?>
+<?php $leadingcount = 0; ?>
 <?php if (!empty($this->lead_items)) : ?>
 <div class="items-leading">
 	<?php foreach ($this->lead_items as &$item) : ?>
@@ -40,18 +40,18 @@ JHtml::_('behavior.caption');
 </div>
 <?php endif; ?>
 <?php
-	$introcount=(count($this->intro_items));
-	$counter=0;
+	$introcount = (count($this->intro_items));
+	$counter = 0;
 ?>
 <?php if (!empty($this->intro_items)) : ?>
 	<?php foreach ($this->intro_items as $key => &$item) : ?>
 
 	<?php
-		$key= ($key-$leadingcount)+1;
-		$rowcount=(((int) $key-1) % (int) $this->columns) + 1;
+		$key = ($key - $leadingcount) + 1;
+		$rowcount = (((int) $key - 1) % (int) $this->columns) + 1;
 		$row = $counter / $this->columns;
 
-		if ($rowcount==1) : ?>
+		if ($rowcount == 1) : ?>
 
 			<div class="items-row cols-<?php echo (int) $this->columns;?> <?php echo 'row-'.$row; ?>">
 		<?php endif; ?>
@@ -62,7 +62,7 @@ JHtml::_('behavior.caption');
 			?>
 		</div>
 		<?php $counter++; ?>
-			<?php if (($rowcount == $this->columns) or ($counter ==$introcount)): ?>
+			<?php if (($rowcount == $this->columns) or ($counter == $introcount)): ?>
 				<span class="row-separator"></span>
 				</div>
 

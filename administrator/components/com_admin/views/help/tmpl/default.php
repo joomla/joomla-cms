@@ -34,7 +34,7 @@ defined('_JEXEC') or die;
 
 			<div class="helpIndex">
 				<ul class="subext">
-					<?php foreach ($this->toc as $k=>$v):?>
+					<?php foreach ($this->toc as $k => $v):?>
 						<li>
 						    <?php $url = JHelp::createUrl('JHELP_'.strtoupper($k)); ?>
 							<?php echo JHtml::_('link', $url, $v, array('target' => 'helpFrame'));?>

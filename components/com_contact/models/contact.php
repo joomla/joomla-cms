@@ -247,8 +247,10 @@ class ContactModelContact extends JModelForm
 			$case_when1 .= $query->concatenate(array($c_id, 'cc.alias'), ':');
 			$case_when1 .= ' ELSE ';
 			$case_when1 .= $c_id.' END as catslug';
-			$query->select('a.*, cc.access as category_access, cc.title as category_name, '
-			.$case_when.','.$case_when1);
+			$query->select(
+				'a.*, cc.access as category_access, cc.title as category_name, '
+				. $case_when . ',' . $case_when1
+			);
 
 			$query->from('#__contact_details AS a');
 

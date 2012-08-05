@@ -21,23 +21,28 @@ class AdminViewHelp extends JViewLegacy
 	/**
 	 * @var string the search string
 	 */
-	protected $help_search=null;
+	protected $help_search = null;
+
 	/**
 	 * @var string the page to be viewed
 	 */
-	protected $page=null;
+	protected $page = null;
+
 	/**
 	 * @var string the iso language tag
 	 */
-	protected $lang_tag=null;
+	protected $lang_tag = null;
+
 	/**
 	 * @var array Table of contents
 	 */
-	protected $toc=null;
+	protected $toc = null;
+
 	/**
 	 * @var string url for the latest version check
 	 */
-	protected $latest_version_check= 'http://www.joomla.org/download.html';
+	protected $latest_version_check = 'http://www.joomla.org/download.html';
+
 	/**
 	 * @var string url for the start here link.
 	 */

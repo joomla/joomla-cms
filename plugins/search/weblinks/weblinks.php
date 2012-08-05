@@ -37,7 +37,8 @@ class plgSearchWeblinks extends JPlugin
 	/**
 	 * @return array An array of search areas
 	 */
-	function onContentSearchAreas() {
+	function onContentSearchAreas()
+	{
 		static $areas = array(
 			'weblinks' => 'PLG_SEARCH_WEBLINKS_WEBLINKS'
 			);
@@ -69,15 +70,15 @@ class plgSearchWeblinks extends JPlugin
 			}
 		}
 
-		$sContent		= $this->params->get('search_content',		1);
-		$sArchived		= $this->params->get('search_archived',		1);
-		$limit			= $this->params->def('search_limit',		50);
+		$sContent  = $this->params->get('search_content', 1);
+		$sArchived = $this->params->get('search_archived', 1);
+		$limit     = $this->params->def('search_limit', 50);
 		$state = array();
 		if ($sContent) {
-			$state[]=1;
+			$state[] = 1;
 		}
 		if ($sArchived) {
-			$state[]=2;
+			$state[] = 2;
 		}
 
 		$text = trim($text);

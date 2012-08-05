@@ -188,7 +188,8 @@ class ContactModelCategory extends JModelList
 		$db		= $this->getDbo();
 		// List state information
 		$format = JRequest::getWord('format');
-		if ($format=='feed') {
+		if ($format == 'feed')
+		{
 			$limit = $app->getCfg('feed_limit');
 		}
 		else {
@@ -213,7 +214,7 @@ class ContactModelCategory extends JModelList
 		}
 		$this->setState('list.ordering', $orderCol);
 
-		$listOrder	=  JRequest::getCmd('filter_order_Dir', 'ASC');
+		$listOrder	= JRequest::getCmd('filter_order_Dir', 'ASC');
 		if (!in_array(strtoupper($listOrder), array('ASC', 'DESC', ''))) {
 			$listOrder = 'ASC';
 		}

@@ -22,7 +22,7 @@ class MailtoViewMailto extends JViewLegacy
 			return false;
 		}
 
-		$this->set('data'  , $data);
+		$this->set('data', $data);
 
 		parent::display($tpl);
 	}

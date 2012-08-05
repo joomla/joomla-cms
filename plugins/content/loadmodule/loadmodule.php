@@ -10,12 +10,16 @@
 defined('_JEXEC') or die;
 
 /**
+ * Plug-in to enable loading modules into content (e.g. articles)
+ * This uses the {loadmodule} syntax
+ *
  * @package     Joomla.Plugin
  * @subpackage  Content.loadmodule
  */
 class plgContentLoadmodule extends JPlugin
 {
 	protected static $modules = array();
+
 	protected static $mods = array();
 
 	/**

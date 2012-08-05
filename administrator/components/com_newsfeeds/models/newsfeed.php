@@ -312,7 +312,7 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 				$db->setQuery('SELECT MAX(ordering) FROM #__newsfeeds');
 				$max = $db->loadResult();
 
-				$table->ordering = $max+1;
+				$table->ordering = $max + 1;
 			}
 		}
 		else {

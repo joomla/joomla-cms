@@ -19,13 +19,19 @@ defined('_JEXEC') or die;
 class ContentViewFeatured extends JViewLegacy
 {
 	protected $state = null;
+
 	protected $item = null;
+
 	protected $items = null;
+
 	protected $pagination = null;
 
 	protected $lead_items = array();
+
 	protected $intro_items = array();
+
 	protected $link_items = array();
+
 	protected $columns = 1;
 
 	/**

@@ -45,13 +45,13 @@ class JFormFieldCategoryParent extends JFormFieldList
 		// For categories the old category is the category id 0 for new category.
 		if ($this->element['parent'])
 		{
-			$oldCat = $jinput->get('id',0);
+			$oldCat = $jinput->get('id', 0);
 			$oldParent = $this->form->getValue($name);
 		}
 		else
 		// For items the old category is the category they are in when opened or 0 if new.
 		{
-			$thisItem = $jinput->get('id',0);
+			$thisItem = $jinput->get('id', 0);
 			$oldCat = $this->form->getValue($name);
 		}
 

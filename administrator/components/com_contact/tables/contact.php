@@ -84,7 +84,8 @@ class ContactTableContact extends JTable
 		}
 		// Verify that the alias is unique
 		$table = JTable::getInstance('Contact', 'ContactTable');
-		if ($table->load(array('alias'=>$this->alias, 'catid'=>$this->catid)) && ($table->id != $this->id || $this->id==0)) {
+		if ($table->load(array('alias' => $this->alias, 'catid' => $this->catid)) && ($table->id != $this->id || $this->id == 0))
+		{
 			$this->setError(JText::_('COM_CONTACT_ERROR_UNIQUE_ALIAS'));
 			return false;
 		}

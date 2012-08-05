@@ -258,7 +258,8 @@ class ContentModelArticles extends JModelList
 	 * @return	JDatabaseQuery
 	 * @since	1.6
 	 */
-	public function getAuthors() {
+	public function getAuthors()
+	{
 		// Create a new query object.
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);

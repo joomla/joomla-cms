@@ -19,6 +19,7 @@ defined('_JEXEC') or die;
 class ModulesViewSelect extends JViewLegacy
 {
 	protected $state;
+
 	protected $items;
 
 	/**

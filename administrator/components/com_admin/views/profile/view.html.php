@@ -10,13 +10,17 @@
 defined('_JEXEC') or die;
 
 /**
+ * View for the user profile
+ *
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  */
 class AdminViewProfile extends JViewLegacy
 {
 	protected $form;
+
 	protected $item;
+
 	protected $state;
 
 	/**

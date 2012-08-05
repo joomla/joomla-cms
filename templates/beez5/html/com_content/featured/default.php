@@ -10,9 +10,9 @@
 defined('_JEXEC') or die;
 
 $app = JFactory::getApplication();
-$templateparams =$app->getTemplate(true)->params;
+$templateparams = $app->getTemplate(true)->params;
 
-if ($templateparams->get('html5')!=1)
+if ($templateparams->get('html5') != 1)
 {
 	require JPATH_BASE.'/components/com_content/views/featured/tmpl/default.php';
 	//evtl. ersetzen durch JPATH_COMPONENT.'/views/...'
@@ -23,7 +23,7 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 // It will be a separate class if the user starts it with a space
 ?>
 <section class="blog-featured<?php echo $this->pageclass_sfx;?>">
-<?php if ( $this->params->get('show_page_heading')!=0) : ?>
+<?php if ( $this->params->get('show_page_heading') != 0) : ?>
 	<h1>
 	<?php echo $this->escape($this->params->get('page_heading')); ?>
 	</h1>
@@ -45,18 +45,18 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 </div>
 <?php endif; ?>
 <?php
-	$introcount=(count($this->intro_items));
-	$counter=0;
+	$introcount = (count($this->intro_items));
+	$counter = 0;
 ?>
 <?php if (!empty($this->intro_items)) : ?>
 	<?php foreach ($this->intro_items as $key => &$item) : ?>
 
 	<?php
-		$key= ($key-$leadingcount)+1;
-		$rowcount=(((int) $key-1) % (int) $this->columns) +1;
+		$key = ($key - $leadingcount) + 1;
+		$rowcount = (((int) $key - 1) % (int) $this->columns) + 1;
 		$row = $counter / $this->columns;
 
-		if ($rowcount==1) : ?>
+		if ($rowcount == 1) : ?>
 
 			<div class="items-row cols-<?php echo (int) $this->columns;?> <?php echo 'row-'.$row; ?>">
 		<?php endif; ?>
@@ -67,7 +67,7 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 			?>
 		</article>
 		<?php $counter++; ?>
-			<?php if (($rowcount == $this->columns) or ($counter ==$introcount)): ?>
+			<?php if (($rowcount == $this->columns) or ($counter == $introcount)): ?>
 				<span class="row-separator"></span>
 				</div>
 

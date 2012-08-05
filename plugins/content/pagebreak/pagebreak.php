@@ -131,8 +131,9 @@ class plgContentPagebreak extends JPlugin
 				if ($page) {
 					$page_text = $page + 1;
 
-					if ($page && @$matches[$page-1][2]) {
-						$attrs = JUtility::parseAttributes($matches[$page-1][1]);
+					if ($page && @$matches[$page - 1][2])
+					{
+						$attrs = JUtility::parseAttributes($matches[$page - 1][1]);
 
 						if (@$attrs['title']) {
 							$row->page_title = $attrs['title'];
@@ -186,7 +187,7 @@ class plgContentPagebreak extends JPlugin
 				foreach ($text as $key => $subtext) {
 
 					if ($key >= 1) {
-						$match= $matches[$key-1];
+						$match = $matches[$key - 1];
 						$match = (array) JUtility::parseAttributes($match[0]);
 						if (isset($match['alt'])) {
 							$title	= stripslashes($match["alt"]);
@@ -221,14 +222,14 @@ class plgContentPagebreak extends JPlugin
 		// TOC header.
 		$row->toc .= '<div id="article-index">';
 
-		if($this->params->get('article_index')==1)
+		if($this->params->get('article_index') == 1)
 		{
-			$headingtext= JText::_('PLG_CONTENT_PAGEBREAK_ARTICLE_INDEX');
+			$headingtext = JText::_('PLG_CONTENT_PAGEBREAK_ARTICLE_INDEX');
 
 			if($this->params->get('article_index_text')) {
-				htmlspecialchars($headingtext=$this->params->get('article_index_text'));
+				htmlspecialchars($headingtext = $this->params->get('article_index_text'));
 			}
-			$row->toc .='<h3>'.$headingtext.'</h3>';
+			$row->toc .= '<h3>' . $headingtext . '</h3>';
 
 		}
 
@@ -247,7 +248,7 @@ class plgContentPagebreak extends JPlugin
 		$i = 2;
 
 		foreach ($matches as $bot) {
-			$link = JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid).'&showall=&limitstart='. ($i-1));
+			$link = JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid).'&showall=&limitstart='. ($i - 1));
 
 			if (@$bot[0]) {
 				$attrs2 = JUtility::parseAttributes($bot[0]);
@@ -262,7 +263,7 @@ class plgContentPagebreak extends JPlugin
 			} else {
 				$title	= JText::sprintf('PLG_CONTENT_PAGEBREAK_PAGE_NUM', $i);
 			}
-			$class = ($limitstart == $i-1) ? 'toclink active' : 'toclink';
+			$class = ($limitstart == $i - 1) ? 'toclink active' : 'toclink';
 			$row->toc .= '
 				<li>
 
@@ -302,7 +303,7 @@ class plgContentPagebreak extends JPlugin
 			$pnSpace = ' ';
 		}
 
-		if ($page < $n-1) {
+		if ($page < $n - 1) {
 			$page_next = $page + 1;
 
 			$link_next = JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid).'&showall=&limitstart='. ($page_next));

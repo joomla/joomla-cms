@@ -250,13 +250,14 @@ class plgUserJoomla extends JPlugin
 		// Default to Registered.
 		$defaultUserGroup = $config->get('new_usertype', 2);
 
-		$instance->set('id'			, 0);
-		$instance->set('name'			, $user['fullname']);
-		$instance->set('username'		, $user['username']);
-		$instance->set('password_clear'	, $user['password_clear']);
-		$instance->set('email'			, $user['email']);	// Result should contain an email (check)
-		$instance->set('usertype'		, 'deprecated');
-		$instance->set('groups'		, array($defaultUserGroup));
+		$instance->set('id',             0);
+		$instance->set('name',           $user['fullname']);
+		$instance->set('username',       $user['username']);
+		$instance->set('password_clear', $user['password_clear']);
+		// Result should contain an email (check)
+		$instance->set('email',          $user['email']);
+		$instance->set('usertype',       'deprecated');
+		$instance->set('groups',         array($defaultUserGroup));
 
 		//If autoregister is set let's register the user
 		$autoregister = isset($options['autoregister']) ? $options['autoregister'] :  $this->params->get('autoregister', 1);

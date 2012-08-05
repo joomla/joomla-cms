@@ -129,7 +129,7 @@ $file = 'language/'.$lang->getTag().'/'.$lang->getTag().'.css';
 
 					<!-- Display the Quick Icon Shortcuts -->
 					<div class="cpanel-icons">
-						<?php if ($this->countModules('icon')>1):?>
+						<?php if ($this->countModules('icon') > 1):?>
 							<?php echo JHtml::_('sliders.start', 'position-icon', array('useCookie' => 1));?>
 							<jdoc:include type="modules" name="icon" style="sliders" />
 							<?php echo JHtml::_('sliders.end');?>
@@ -161,7 +161,7 @@ $file = 'language/'.$lang->getTag().'/'.$lang->getTag().'.css';
 	<div id="footer">
 		<jdoc:include type="modules" name="footer" style="none"  />
 		<p class="copyright">
-			<?php $joomla= '<a href="http://www.joomla.org">Joomla!&#174;</a>';
+			<?php $joomla = '<a href="http://www.joomla.org">Joomla!&#174;</a>';
 			echo JText::sprintf('JGLOBAL_ISFREESOFTWARE', $joomla) ?>
 		</p>
 	</div>

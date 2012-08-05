@@ -19,7 +19,9 @@ defined('_JEXEC') or die;
 class NewsfeedsViewNewsfeeds extends JViewLegacy
 {
 	protected $items;
+
 	protected $pagination;
+
 	protected $state;
 
 	/**

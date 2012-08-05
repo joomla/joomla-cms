@@ -14,7 +14,8 @@ $showRightColumn	= ($this->countModules('position-3') or $this->countModules('po
 $showbottom			= ($this->countModules('position-9') or $this->countModules('position-10') or $this->countModules('position-11'));
 $showleft			= ($this->countModules('position-4') or $this->countModules('position-7') or $this->countModules('position-5'));
 
-if ($showRightColumn==0 and $showleft==0) {
+if ($showRightColumn == 0 and $showleft == 0)
+{
 	$showno = 0;
 }
 
@@ -127,7 +128,7 @@ $doc->addScript($this->baseurl.'/templates/'.$this->template.'/javascript/hide.j
 
                                         </div>
 
-                                        <?php if ($navposition=='left' and $showleft) : ?>
+                                        <?php if ($navposition == 'left' and $showleft) : ?>
 
 
                                                         <div class="left1 <?php if ($showRightColumn == null){ echo 'leftbigger';} ?>" id="nav">
@@ -174,7 +175,7 @@ $doc->addScript($this->baseurl.'/templates/'.$this->template.'/javascript/hide.j
                                         </div><!-- end right -->
                                         <?php endif; ?>
 
-                        <?php if ($navposition=='center' and $showleft) : ?>
+                        <?php if ($navposition == 'center' and $showleft) : ?>
 
                                         <div class="left <?php if ($showRightColumn == null){ echo 'leftbigger';} ?>" id="nav" >
 

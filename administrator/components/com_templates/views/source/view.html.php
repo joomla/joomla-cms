@@ -19,9 +19,13 @@ defined('_JEXEC') or die;
 class TemplatesViewSource extends JViewLegacy
 {
 	protected $form;
+
 	protected $ftp;
+
 	protected $source;
+
 	protected $state;
+
 	protected $template;
 
 	/**

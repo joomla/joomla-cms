@@ -19,7 +19,9 @@ defined('_JEXEC') or die;
 class CheckinModelCheckin extends JModelList
 {
 	protected $total;
+
 	protected $tables;
+
 	/**
 	 * Method to auto-populate the model state.
 	 *
@@ -142,7 +144,7 @@ class CheckinModelCheckin extends JModelList
 			}
 			foreach ($tables as $tn)
 			{
-				$query=$db->getQuery(true)
+				$query = $db->getQuery(true)
 					->select('COUNT(*)')
 					->from($db->quoteName($tn))
 					->where('checked_out > 0');
@@ -155,9 +157,10 @@ class CheckinModelCheckin extends JModelList
 				}
 			}
 			$this->total = count($results);
-			if ($this->getState('list.ordering')=='table')
+			if ($this->getState('list.ordering') == 'table')
 			{
-				if ($this->getState('list.direction')=='asc') {
+				if ($this->getState('list.direction') == 'asc')
+				{
 					ksort($results);
 				}
 				else {
@@ -166,7 +169,8 @@ class CheckinModelCheckin extends JModelList
 			}
 			else
 			{
-				if ($this->getState('list.direction')=='asc') {
+				if ($this->getState('list.direction') == 'asc')
+				{
 					asort($results);
 				}
 				else {

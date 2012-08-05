@@ -26,7 +26,7 @@ JHtml::_('behavior.keepalive');
 			<?php echo $this->params->get('login_description'); ?>
 		<?php endif; ?>
 
-		<?php if (($this->params->get('login_image')!='')) :?>
+		<?php if (($this->params->get('login_image') != '')) :?>
 			<img src="<?php echo $this->escape($this->params->get('login_image')); ?>" class="login-image" alt="<?php echo JTEXT::_('COM_USER_LOGIN_IMAGE_ALT')?>"/>
 		<?php endif; ?>
 

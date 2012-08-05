@@ -26,8 +26,8 @@ class InstallerControllerManage extends JControllerLegacy
 	{
 		parent::__construct($config);
 
-		$this->registerTask('unpublish',		'publish');
-		$this->registerTask('publish',			'publish');
+		$this->registerTask('unpublish', 'publish');
+		$this->registerTask('publish',   'publish');
 	}
 
 	/**

@@ -19,10 +19,15 @@ defined('_JEXEC') or die;
 class TemplatesViewPrevuuw extends JViewLegacy
 {
 	protected $client;
+
 	protected $id;
+
 	protected $option;
+
 	protected $template;
+
 	protected $tp;
+
 	protected $url;
 
 	/**

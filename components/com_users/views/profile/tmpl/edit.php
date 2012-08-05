@@ -14,7 +14,7 @@ JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
 //load user_profile plugin language
 $lang = JFactory::getLanguage();
-$lang->load( 'plg_user_profile', JPATH_ADMINISTRATOR );
+$lang->load('plg_user_profile', JPATH_ADMINISTRATOR);
 ?>
 <div class="profile-edit<?php echo $this->pageclass_sfx?>">
 <?php if ($this->params->get('show_page_heading')) : ?>
@@ -36,7 +36,7 @@ $lang->load( 'plg_user_profile', JPATH_ADMINISTRATOR );
 			<?php else:?>
 				<dt>
 					<?php echo $field->label; ?>
-					<?php if (!$field->required && $field->type!='Spacer' && $field->name!='jform[username]'): ?>
+					<?php if (!$field->required && $field->type != 'Spacer' && $field->name != 'jform[username]'): ?>
 						<span class="optional"><?php echo JText::_('COM_USERS_OPTIONAL'); ?></span>
 					<?php endif; ?>
 				</dt>

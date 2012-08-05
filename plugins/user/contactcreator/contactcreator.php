@@ -60,7 +60,7 @@ class plgUserContactCreator extends JPlugin
 
 		$dbo = JFactory::getDBO();
 		// grab the contact ID for this user; note $user_id is cleaned above
-		$dbo->setQuery('SELECT id FROM #__contact_details WHERE user_id = '. $user_id );
+		$dbo->setQuery('SELECT id FROM #__contact_details WHERE user_id = '. $user_id);
 		$id = $dbo->loadResult();
 
 		JTable::addIncludePath(JPATH_ADMINISTRATOR.'/components/com_contact/tables');

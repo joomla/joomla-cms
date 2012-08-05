@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 
 <ul class="menu<?php echo $class_sfx;?>"<?php
 	$tag = '';
-	if ($params->get('tag_id')!= null)
+	if ($params->get('tag_id') != null)
 	{
 		$tag = $params->get('tag_id').'';
 		echo ' id="'.$tag.'"';
@@ -32,7 +32,7 @@ foreach ($list as $i => &$item) :
 	}
 	elseif ($item->type == 'alias') {
 		$aliasToId = $item->params->get('aliasoptions');
-		if (count($path) > 0 && $aliasToId == $path[count($path)-1]) {
+		if (count($path) > 0 && $aliasToId == $path[count($path) - 1]) {
 			$class .= ' active';
 		}
 		elseif (in_array($aliasToId, $path)) {

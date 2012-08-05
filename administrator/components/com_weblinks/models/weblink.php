@@ -197,7 +197,7 @@ class WeblinksModelWeblink extends JModelAdmin
 				$db->setQuery('SELECT MAX(ordering) FROM #__weblinks');
 				$max = $db->loadResult();
 
-				$table->ordering = $max+1;
+				$table->ordering = $max + 1;
 			}
 		}
 		else {

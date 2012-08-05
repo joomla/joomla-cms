@@ -235,7 +235,7 @@ class JAdministrator extends JApplication
 		{
 			$lang = $this->input->get('lang');
 			$lang = preg_replace('/[^A-Z-]/i', '', $lang);
-			$this->setUserState('application.lang', $lang );
+			$this->setUserState('application.lang', $lang);
 
 			self::purgeMessages();
 		}

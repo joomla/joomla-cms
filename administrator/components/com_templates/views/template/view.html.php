@@ -19,7 +19,9 @@ defined('_JEXEC') or die;
 class TemplatesViewTemplate extends JViewLegacy
 {
 	protected $files;
+
 	protected $state;
+
 	protected $template;
 
 	/**

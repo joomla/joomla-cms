@@ -243,7 +243,8 @@ class MenusHelper
 			JError::raiseWarning(500, $error);
 			return false;
 		}
-		foreach ($menuitems as $tag=>$item) {
+		foreach ($menuitems as $tag => $item)
+		{
 			$associations[$tag] = $item->id;
 		}
 		return $associations;

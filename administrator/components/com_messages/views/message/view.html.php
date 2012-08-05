@@ -19,7 +19,9 @@ defined('_JEXEC') or die;
 class MessagesViewMessage extends JViewLegacy
 {
 	protected $form;
+
 	protected $item;
+
 	protected $state;
 
 	public function display($tpl = null)

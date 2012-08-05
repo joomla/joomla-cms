@@ -207,7 +207,7 @@ class UsersModelGroup extends JModelAdmin
 		// do not allow to delete groups to which the current user belongs
 		foreach ($pks as $i => $pk) {
 			if (in_array($pk, $groups)) {
-				JError::raiseWarning( 403, JText::_('COM_USERS_DELETE_ERROR_INVALID_GROUP'));
+				JError::raiseWarning(403, JText::_('COM_USERS_DELETE_ERROR_INVALID_GROUP'));
 				return false;
 			}
 		}

@@ -56,7 +56,7 @@ $cacheparams->method = 'getList';
 $cacheparams->methodparams = $params;
 $cacheparams->modeparams = $cacheid;
 
-$list = JModuleHelper::moduleCache ($module, $params, $cacheparams);
+$list = JModuleHelper::moduleCache($module, $params, $cacheparams);
 
 
 if (!empty($list)) {

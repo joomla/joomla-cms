@@ -79,20 +79,20 @@ class SearchViewSearch extends JViewLegacy
 
 		// built select lists
 		$orders = array();
-		$orders[] = JHtml::_('select.option',  'newest', JText::_('COM_SEARCH_NEWEST_FIRST'));
-		$orders[] = JHtml::_('select.option',  'oldest', JText::_('COM_SEARCH_OLDEST_FIRST'));
-		$orders[] = JHtml::_('select.option',  'popular', JText::_('COM_SEARCH_MOST_POPULAR'));
-		$orders[] = JHtml::_('select.option',  'alpha', JText::_('COM_SEARCH_ALPHABETICAL'));
-		$orders[] = JHtml::_('select.option',  'category', JText::_('JCATEGORY'));
+		$orders[] = JHtml::_('select.option', 'newest', JText::_('COM_SEARCH_NEWEST_FIRST'));
+		$orders[] = JHtml::_('select.option', 'oldest', JText::_('COM_SEARCH_OLDEST_FIRST'));
+		$orders[] = JHtml::_('select.option', 'popular', JText::_('COM_SEARCH_MOST_POPULAR'));
+		$orders[] = JHtml::_('select.option', 'alpha', JText::_('COM_SEARCH_ALPHABETICAL'));
+		$orders[] = JHtml::_('select.option', 'category', JText::_('JCATEGORY'));
 
 		$lists = array();
 		$lists['ordering'] = JHtml::_('select.genericlist', $orders, 'ordering', 'class="inputbox"', 'value', 'text', $state->get('ordering'));
 
-		$searchphrases		= array();
-		$searchphrases[]	= JHtml::_('select.option',  'all', JText::_('COM_SEARCH_ALL_WORDS'));
-		$searchphrases[]	= JHtml::_('select.option',  'any', JText::_('COM_SEARCH_ANY_WORDS'));
-		$searchphrases[]	= JHtml::_('select.option',  'exact', JText::_('COM_SEARCH_EXACT_PHRASE'));
-		$lists['searchphrase' ]= JHtml::_('select.radiolist',  $searchphrases, 'searchphrase', '', 'value', 'text', $state->get('match'));
+		$searchphrases   = array();
+		$searchphrases[] = JHtml::_('select.option', 'all', JText::_('COM_SEARCH_ALL_WORDS'));
+		$searchphrases[] = JHtml::_('select.option', 'any', JText::_('COM_SEARCH_ANY_WORDS'));
+		$searchphrases[] = JHtml::_('select.option', 'exact', JText::_('COM_SEARCH_EXACT_PHRASE'));
+		$lists['searchphrase'] = JHtml::_('select.radiolist', $searchphrases, 'searchphrase', '', 'value', 'text', $state->get('match'));
 
 		// log the search
 		SearchHelper::logSearch($searchword);
@@ -124,7 +124,7 @@ class SearchViewSearch extends JViewLegacy
 
 			require_once JPATH_SITE . '/components/com_content/helpers/route.php';
 
-			for ($i=0, $count = count($results); $i < $count; $i++)
+			for ($i = 0, $count = count($results); $i < $count; $i++)
 			{
 				$row = &$results[$i]->text;
 

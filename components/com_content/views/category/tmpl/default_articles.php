@@ -116,15 +116,19 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 
 					<?php if ($this->params->get('list_show_date')) : ?>
 					<td class="list-date">
-						<?php echo JHtml::_('date', $article->displayDate, $this->escape(
-						$this->params->get('date_format', JText::_('DATE_FORMAT_LC3')))); ?>
+						<?php
+						echo JHtml::_(
+							'date', $article->displayDate, $this->escape(
+								$this->params->get('date_format', JText::_('DATE_FORMAT_LC3'))
+							)
+						); ?>
 					</td>
 					<?php endif; ?>
 
 					<?php if ($this->params->get('list_show_author', 1)) : ?>
 					<td class="list-author">
 						<?php if(!empty($article->author) || !empty($article->created_by_alias)) : ?>
-							<?php $author =  $article->author ?>
+							<?php $author = $article->author ?>
 							<?php $author = ($article->created_by_alias ? $article->created_by_alias : $author);?>
 
 							<?php if (!empty($article->contactid ) &&  $this->params->get('link_author') == true):?>
@@ -160,7 +164,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 							$fullURL->setVar('return', base64_encode($returnURL));
 						?>
 						<a href="<?php echo $fullURL; ?>" class="register">
-							<?php echo JText::_( 'COM_CONTENT_REGISTER_TO_READ_MORE' ); ?></a>
+							<?php echo JText::_('COM_CONTENT_REGISTER_TO_READ_MORE'); ?></a>
 					</td>
 				<?php endif; ?>
 				</tr>

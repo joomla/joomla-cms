@@ -19,7 +19,9 @@ defined('_JEXEC') or die;
 class LanguagesViewLanguages extends JViewLegacy
 {
 	protected $items;
+
 	protected $pagination;
+
 	protected $state;
 
 	/**

@@ -19,7 +19,9 @@ defined('_JEXEC') or die;
 class UsersViewLevel extends JViewLegacy
 {
 	protected $form;
+
 	protected $item;
+
 	protected $state;
 
 	/**

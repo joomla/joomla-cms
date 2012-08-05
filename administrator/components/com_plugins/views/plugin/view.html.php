@@ -19,7 +19,9 @@ defined('_JEXEC') or die;
 class PluginsViewPlugin extends JViewLegacy
 {
 	protected $item;
+
 	protected $form;
+
 	protected $state;
 
 	/**

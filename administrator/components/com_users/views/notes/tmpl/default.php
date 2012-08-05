@@ -30,14 +30,20 @@ $canEdit = $user->authorise('core.edit', 'com_users');
 		<div class="filter-select fltrt">
 			<select name="filter_category_id" id="filter_category_id" class="inputbox" onchange="this.form.submit()">
 				<option value=""><?php echo JText::_('JOPTION_SELECT_CATEGORY');?></option>
-				<?php echo JHtml::_('select.options', JHtml::_('category.options', 'com_users.notes'),
-					'value', 'text', $this->state->get('filter.category_id'));?>
+				<?php
+				echo JHtml::_(
+					'select.options', JHtml::_('category.options', 'com_users.notes'),
+					'value', 'text', $this->state->get('filter.category_id')
+				); ?>
 			</select>
 
 			<select name="filter_published" class="inputbox" onchange="this.form.submit()">
 				<option value=""><?php echo JText::_('JOPTION_SELECT_PUBLISHED');?></option>
-				<?php echo JHtml::_('select.options', JHtml::_('jgrid.publishedOptions'),
-					'value', 'text', $this->state->get('filter.state'), true);?>
+				<?php
+				echo JHtml::_(
+					'select.options', JHtml::_('jgrid.publishedOptions'),
+					'value', 'text', $this->state->get('filter.state'), true
+				); ?>
 			</select>
 		</div>
 	</fieldset>
@@ -58,7 +64,7 @@ $canEdit = $user->authorise('core.edit', 'com_users');
 					<?php echo JHtml::_('grid.sort', 'COM_USERS_CATEGORY_HEADING', 'c.title', $listDirn, $listOrder); ?>
 				</th>
 				<th width="5%">
-					<?php echo JHtml::_('grid.sort',  'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
+					<?php echo JHtml::_('grid.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
 				</th>
 				<th width="10%">
 					<?php echo JHtml::_('grid.sort', 'COM_USERS_REVIEW_HEADING', 'a.review_time', $listDirn, $listOrder); ?>

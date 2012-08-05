@@ -19,7 +19,9 @@ defined('_JEXEC') or die;
 class PluginsViewPlugins extends JViewLegacy
 {
 	protected $items;
+
 	protected $pagination;
+
 	protected $state;
 
 	/**
@@ -40,8 +42,8 @@ class PluginsViewPlugins extends JViewLegacy
 			// Check if there are no matching items
 		if(!count($this->items)){
 			JFactory::getApplication()->enqueueMessage(
-				JText::_('COM_PLUGINS_MSG_MANAGE_NO_PLUGINS')
-				, 'warning'
+				JText::_('COM_PLUGINS_MSG_MANAGE_NO_PLUGINS'),
+				'warning'
 			);
 		}
 

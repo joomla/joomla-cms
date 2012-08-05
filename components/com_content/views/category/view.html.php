@@ -19,14 +19,21 @@ defined('_JEXEC') or die;
 class ContentViewCategory extends JViewLegacy
 {
 	protected $state;
+
 	protected $items;
+
 	protected $category;
+
 	protected $children;
+
 	protected $pagination;
 
 	protected $lead_items = array();
+
 	protected $intro_items = array();
+
 	protected $link_items = array();
+
 	protected $columns = 1;
 
 	function display($tpl = null)

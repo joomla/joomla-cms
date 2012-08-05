@@ -78,7 +78,7 @@ class ContentModelArticles extends JModelList
 		}
 		$this->setState('list.ordering', $orderCol);
 
-		$listOrder	=  JRequest::getCmd('filter_order_Dir', 'ASC');
+		$listOrder	= JRequest::getCmd('filter_order_Dir', 'ASC');
 		if (!in_array(strtoupper($listOrder), array('ASC', 'DESC', ''))) {
 			$listOrder = 'ASC';
 		}
@@ -207,7 +207,7 @@ class ContentModelArticles extends JModelList
 		$subQuery->from('#__contact_details AS contact');
 		$subQuery->where('contact.published = 1');
 		$subQuery->group('contact.user_id, contact.language');
-		$query->select('contact.id as contactid' );
+		$query->select('contact.id as contactid');
 		$query->join('LEFT', '(' . $subQuery . ') AS contact ON contact.user_id = a.created_by');
 
 		// Join over the categories to get parent category titles
@@ -413,8 +413,10 @@ class ContentModelArticles extends JModelList
 
 			case 'relative':
 				$relativeDate = (int) $this->getState('filter.relative_date', 0);
-				$query->where($dateField.' >= DATE_SUB('.$nowDate.', INTERVAL ' .
-					$relativeDate.' DAY)');
+				$query->where(
+					$dateField.' >= DATE_SUB(' . $nowDate.', INTERVAL ' .
+					$relativeDate.' DAY)'
+				);
 				break;
 
 			case 'off':

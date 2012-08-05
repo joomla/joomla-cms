@@ -29,9 +29,9 @@ JDEBUG ? $_PROFILER->mark('afterLoad') : null;
 $app = JFactory::getApplication('administrator');
 
 // Initialise the application.
-$app->initialise(array(
-	'language' => $app->getUserState('application.lang')
-));
+$app->initialise(
+	array('language' => $app->getUserState('application.lang'))
+);
 
 // Mark afterIntialise in the profiler.
 JDEBUG ? $_PROFILER->mark('afterInitialise') : null;

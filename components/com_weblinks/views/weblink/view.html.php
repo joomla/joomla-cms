@@ -19,6 +19,7 @@ defined('_JEXEC') or die;
 class WeblinksViewWeblink extends JViewLegacy
 {
 	protected $state;
+
 	protected $item;
 
 	function display($tpl = null)

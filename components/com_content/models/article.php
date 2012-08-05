@@ -77,17 +77,18 @@ class ContentModelArticle extends JModelItem
 				$db = $this->getDbo();
 				$query = $db->getQuery(true);
 
-				$query->select($this->getState(
-					'item.select', 'a.id, a.asset_id, a.title, a.alias, a.introtext, a.fulltext, ' .
-					// If badcats is not null, this means that the article is inside an unpublished category
-					// In this case, the state is set to 0 to indicate Unpublished (even if the article state is Published)
-				'CASE WHEN badcats.id is null THEN a.state ELSE 0 END AS state, ' .
-					'a.catid, a.created, a.created_by, a.created_by_alias, ' .
-				// use created if modified is 0
-				'CASE WHEN a.modified = 0 THEN a.created ELSE a.modified END as modified, ' .
-					'a.modified_by, a.checked_out, a.checked_out_time, a.publish_up, a.publish_down, ' .
-					'a.images, a.urls, a.attribs, a.version, a.ordering, ' .
-					'a.metakey, a.metadesc, a.access, a.hits, a.metadata, a.featured, a.language, a.xreference'
+				$query->select(
+					$this->getState(
+						'item.select', 'a.id, a.asset_id, a.title, a.alias, a.introtext, a.fulltext, ' .
+						// If badcats is not null, this means that the article is inside an unpublished category
+						// In this case, the state is set to 0 to indicate Unpublished (even if the article state is Published)
+						'CASE WHEN badcats.id is null THEN a.state ELSE 0 END AS state, ' .
+						'a.catid, a.created, a.created_by, a.created_by_alias, ' .
+						// use created if modified is 0
+						'CASE WHEN a.modified = 0 THEN a.created ELSE a.modified END as modified, ' .
+						'a.modified_by, a.checked_out, a.checked_out_time, a.publish_up, a.publish_down, ' .
+						'a.images, a.urls, a.attribs, a.version, a.ordering, ' .
+						'a.metakey, a.metadesc, a.access, a.hits, a.metadata, a.featured, a.language, a.xreference'
 					)
 				);
 				$query->from('#__content AS a');
@@ -106,7 +107,7 @@ class ContentModelArticle extends JModelItem
 				$subQuery->from('#__contact_details AS contact');
 				$subQuery->where('contact.published = 1');
 				$subQuery->group('contact.user_id, contact.language');
-				$query->select('contact.id as contactid' );
+				$query->select('contact.id as contactid');
 				$query->join('LEFT', '(' . $subQuery . ') AS contact ON contact.user_id = a.created_by');
 
 				// Join over the categories to get parent category titles
@@ -306,7 +307,7 @@ class ContentModelArticle extends JModelItem
 			}
 			return true;
 		}
-		JError::raiseWarning( 'SOME_ERROR_CODE', JText::sprintf('COM_CONTENT_INVALID_RATING', $rate), "JModelArticle::storeVote($rate)");
+		JError::raiseWarning('SOME_ERROR_CODE', JText::sprintf('COM_CONTENT_INVALID_RATING', $rate), "JModelArticle::storeVote($rate)");
 		return false;
 	}
 }

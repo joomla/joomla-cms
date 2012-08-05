@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+05-Aug-2012 Rouven Weßling
+ ^ Add additional sinffs to the code style checker
+
 02-Aug-2012 Mark Dexter
  # [#28855] Fix Array to string conversion notices (PHP 5.4 only)
  # [#28825] Blank article can't be saved

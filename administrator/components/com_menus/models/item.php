@@ -967,7 +967,7 @@ class MenusModelItem extends JModelAdmin
 			$path = JPath::clean(JPATH_ADMINISTRATOR.'/components/'.$option.'/config.xml');
 		}
 		else {
-			$path='null';
+			$path = 'null';
 		}
 
 		if (is_file($path))
@@ -1122,7 +1122,7 @@ class MenusModelItem extends JModelAdmin
 					$table->setLocation($data['menuordering'], 'after');
 				}
 				// Just leave it where it is if no change is made.
-				elseif ( $data['menuordering'] && $table->id ==  $data['menuordering'])
+				elseif ($data['menuordering'] && $table->id == $data['menuordering'])
 				{
 					unset( $data['menuordering']);
 				}
@@ -1192,7 +1192,8 @@ class MenusModelItem extends JModelAdmin
 		if ($assoc) {
 			// Adding self to the association
 			$associations = $data['associations'];
-			foreach ($associations as $tag=>$id) {
+			foreach ($associations as $tag => $id)
+			{
 				if (empty($id)) {
 					unset($associations[$tag]);
 				}
@@ -1204,7 +1205,7 @@ class MenusModelItem extends JModelAdmin
 				JError::raiseNotice(403, JText::_('COM_MENUS_ERROR_ALL_LANGUAGE_ASSOCIATED'));
 			}
 
-			$associations[$table->language]=$table->id;
+			$associations[$table->language] = $table->id;
 
 			// Deleting old association for these items
 			$db = JFactory::getDbo();
@@ -1219,12 +1220,14 @@ class MenusModelItem extends JModelAdmin
 				return false;
 			}
 
-			if (!$all_language && count($associations)>1) {
+			if (!$all_language && count($associations) > 1)
+			{
 				// Adding new association for these items
 				$key = md5(json_encode($associations));
 				$query->clear();
 				$query->insert('#__associations');
-				foreach ($associations as $tag=>$id) {
+				foreach ($associations as $tag => $id)
+				{
 					$query->values($id.','.$db->quote('com_menus.item').','.$db->quote($key));
 				}
 				$db->setQuery($query);

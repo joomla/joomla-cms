@@ -229,7 +229,7 @@ class ContentModelCategory extends JModelList
 				}
 			}
 			else {
-				$this->_articles=array();
+				$this->_articles = array();
 			}
 
 			$this->_pagination = $model->getPagination();

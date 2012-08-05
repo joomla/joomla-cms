@@ -22,7 +22,7 @@ class modBannersHelper
 		$app		= JFactory::getApplication();
 		$keywords	= explode(',', $document->getMetaData('keywords'));
 
-		$model = JModelLegacy::getInstance('Banners', 'BannersModel', array('ignore_request'=>true));
+		$model = JModelLegacy::getInstance('Banners', 'BannersModel', array('ignore_request' => true));
 		$model->setState('filter.client_id', (int) $params->get('cid'));
 		$model->setState('filter.category_id', $params->get('catid', array()));
 		$model->setState('list.limit', (int) $params->get('count', 1));

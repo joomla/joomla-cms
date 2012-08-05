@@ -19,7 +19,9 @@ defined('_JEXEC') or die;
 class ModulesViewModules extends JViewLegacy
 {
 	protected $items;
+
 	protected $pagination;
+
 	protected $state;
 
 	/**
@@ -40,8 +42,8 @@ class ModulesViewModules extends JViewLegacy
 		// Check if there are no matching items
 		if(!count($this->items)){
 			JFactory::getApplication()->enqueueMessage(
-				JText::_('COM_MODULES_MSG_MANAGE_NO_MODULES')
-				, 'warning'
+				JText::_('COM_MODULES_MSG_MANAGE_NO_MODULES'),
+				'warning'
 			);
 		}
 

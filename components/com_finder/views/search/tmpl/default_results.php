@@ -58,7 +58,7 @@ if ($this->total == 0):
 <?php
 else:
 	// Prepare the pagination string.  Results X - Y of Z
-	$start	= (int) $this->pagination->get('limitstart')+1;
+	$start	= (int) $this->pagination->get('limitstart') + 1;
 	$total	= (int) $this->pagination->get('total');
 	$limit	= (int) $this->pagination->get('limit') * $this->pagination->pagesTotal;
 	$limit	= (int) ($limit > $total ? $total : $limit);

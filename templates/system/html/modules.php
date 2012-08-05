@@ -94,16 +94,16 @@ function modChrome_rounded($module, &$params, &$attribs)
  */
 function modChrome_outline($module, &$params, &$attribs)
 {
-	static $css=false;
+	static $css = false;
 	if (!$css)
 	{
-		$css=true;
+		$css = true;
 		jimport('joomla.environment.browser');
 		$doc = JFactory::getDocument();
 		$browser = JBrowser::getInstance();
 		$doc->addStyleDeclaration(".mod-preview-info { padding: 2px 4px 2px 4px; border: 1px solid black; position: absolute; background-color: white; color: red;}");
 		$doc->addStyleDeclaration(".mod-preview-wrapper { background-color:#eee; border: 1px dotted black; color:#700;}");
-		if ($browser->getBrowser()=='msie')
+		if ($browser->getBrowser() == 'msie')
 		{
 			if ($browser->getMajor() <= 7) {
 				$doc->addStyleDeclaration(".mod-preview-info {filter: alpha(opacity=80);}");

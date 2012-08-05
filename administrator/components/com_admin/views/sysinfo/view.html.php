@@ -21,23 +21,27 @@ class AdminViewSysinfo extends JViewLegacy
 	/**
 	 * @var array some php settings
 	 */
-	protected $php_settings=null;
+	protected $php_settings = null;
+
 	/**
 	 * @var array config values
 	 */
-	protected $config=null;
+	protected $config = null;
+
 	/**
 	 * @var array somme system values
 	 */
-	protected $info=null;
+	protected $info = null;
+
 	/**
 	 * @var string php info
 	 */
-	protected $php_info=null;
+	protected $php_info = null;
+
 	/**
 	 * @var array informations about writable state of directories
 	 */
-	protected $directory=null;
+	protected $directory = null;
 
 	/**
 	 * Display the view

@@ -206,12 +206,12 @@ class BannersModelTracks extends JModelList
 			// Filter by client
 			$clientId = $this->getState('filter.client_id');
 			if (!empty($clientId)) {
-				$where.=' AND cid = '.(int) $clientId;
+				$where .= ' AND cid = '.(int) $clientId;
 			}
 
 			// Filter by category
 			if (!empty($categoryId)) {
-				$where.=' AND catid = '.(int) $categoryId;
+				$where .= ' AND catid = '.(int) $categoryId;
 			}
 
 			$query->where('banner_id IN (SELECT id FROM '.$db->quoteName('#__banners').' WHERE '.$where.')');
@@ -401,7 +401,7 @@ class BannersModelTracks extends JModelList
 		if (!isset($this->content)) {
 
 			$this->content = '';
-			$this->content.=
+			$this->content .=
 			'"'.str_replace('"', '""', JText::_('COM_BANNERS_HEADING_NAME')).'","'.
 				str_replace('"', '""', JText::_('COM_BANNERS_HEADING_CLIENT')).'","'.
 				str_replace('"', '""', JText::_('JCATEGORY')).'","'.
@@ -411,11 +411,11 @@ class BannersModelTracks extends JModelList
 
 			foreach($this->getItems() as $item) {
 
-				$this->content.=
+				$this->content .=
 				'"'.str_replace('"', '""', $item->name).'","'.
 					str_replace('"', '""', $item->client_name).'","'.
 					str_replace('"', '""', $item->category_title).'","'.
-					str_replace('"', '""', ($item->track_type==1 ? JText::_('COM_BANNERS_IMPRESSION'): JText::_('COM_BANNERS_CLICK'))).'","'.
+					str_replace('"', '""', ($item->track_type == 1 ? JText::_('COM_BANNERS_IMPRESSION'): JText::_('COM_BANNERS_CLICK'))) . '","' .
 					str_replace('"', '""', $item->count).'","'.
 					str_replace('"', '""', $item->track_date).'"'."\n";
 			}
@@ -424,7 +424,7 @@ class BannersModelTracks extends JModelList
 				$app = JFactory::getApplication('administrator');
 
 				$files = array();
-				$files['track']=array();
+				$files['track'] = array();
 				$files['track']['name'] = $this->getBasename() . '.csv';
 				$files['track']['data'] = $this->content;
 				$files['track']['time'] = time();

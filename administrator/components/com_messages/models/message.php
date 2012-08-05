@@ -219,11 +219,11 @@ class MessagesModelMessage extends JModelAdmin
 			$lang = JLanguage::getInstance($toUser->getParam('admin_language', $default_language), $debug);
 			$lang->load('com_messages', JPATH_ADMINISTRATOR);
 
-			$siteURL	= JURI::root() . 'administrator/index.php?option=com_messages&view=message&message_id='.$table->message_id;
-			$sitename	= JFactory::getApplication()->getCfg('sitename');
+			$siteURL  = JURI::root() . 'administrator/index.php?option=com_messages&view=message&message_id='.$table->message_id;
+			$sitename = JFactory::getApplication()->getCfg('sitename');
 
-			$subject	= sprintf ($lang->_('COM_MESSAGES_NEW_MESSAGE_ARRIVED'), $sitename);
-			$msg		= sprintf ($lang->_('COM_MESSAGES_PLEASE_LOGIN'), $siteURL);
+			$subject = sprintf($lang->_('COM_MESSAGES_NEW_MESSAGE_ARRIVED'), $sitename);
+			$msg     = sprintf($lang->_('COM_MESSAGES_PLEASE_LOGIN'), $siteURL);
 			JFactory::getMailer()->sendMail($fromUser->email, $fromUser->name, $toUser->email, $subject, $msg);
 		}
 

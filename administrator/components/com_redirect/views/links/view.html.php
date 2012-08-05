@@ -19,8 +19,11 @@ defined('_JEXEC') or die;
 class RedirectViewLinks extends JViewLegacy
 {
 	protected $enabled;
+
 	protected $items;
+
 	protected $pagination;
+
 	protected $state;
 
 	/**

@@ -16,9 +16,13 @@ defined('_JEXEC') or die;
 class UsersViewUser extends JViewLegacy
 {
 	protected $form;
+
 	protected $item;
+
 	protected $grouplist;
+
 	protected $groups;
+
 	protected $state;
 
 	/**
@@ -38,7 +42,7 @@ class UsersViewUser extends JViewLegacy
 			return false;
 		}
 
-		$this->form->setValue('password',		null);
+		$this->form->setValue('password', null);
 		$this->form->setValue('password2',	null);
 
 		parent::display($tpl);

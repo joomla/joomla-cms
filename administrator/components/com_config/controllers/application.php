@@ -10,6 +10,8 @@
 defined('_JEXEC') or die;
 
 /**
+ * Controller for global configuration
+ *
  * @package     Joomla.Administrator
  * @subpackage  com_config
  */

@@ -19,7 +19,9 @@ defined('_JEXEC') or die;
 class ContentViewArticle extends JViewLegacy
 {
 	protected $form;
+
 	protected $item;
+
 	protected $state;
 
 	/**
@@ -29,9 +31,9 @@ class ContentViewArticle extends JViewLegacy
 	{
 		if ($this->getLayout() == 'pagebreak') {
 			// TODO: This is really dogy - should change this one day.
-			$eName		= JRequest::getVar('e_name');
-			$eName		= preg_replace( '#[^A-Z0-9\-\_\[\]]#i', '', $eName );
-			$document	= JFactory::getDocument();
+			$eName    = JRequest::getVar('e_name');
+			$eName    = preg_replace('#[^A-Z0-9\-\_\[\]]#i', '', $eName);
+			$document = JFactory::getDocument();
 			$document->setTitle(JText::_('COM_CONTENT_PAGEBREAK_DOC_TITLE'));
 			$this->eName = &$eName;
 			parent::display($tpl);

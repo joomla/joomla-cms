@@ -50,31 +50,33 @@ class plgContentVote extends JPlugin
 			$starImageOn = JHtml::_('image', 'system/rating_star.png', null, null, true);
 			$starImageOff = JHtml::_('image', 'system/rating_star_blank.png', null, null, true);
 
-			for ($i=0; $i < $rating; $i++) {
+			for ($i = 0; $i < $rating; $i++)
+			{
 				$img .= $starImageOn;
 			}
-			for ($i=$rating; $i < 5; $i++) {
+			for ($i = $rating; $i < 5; $i++)
+			{
 				$img .= $starImageOff;
 			}
 			$html .= '<span class="content_rating">';
-			$html .= JText::sprintf( 'PLG_VOTE_USER_RATING', $img, $rating_count );
+			$html .= JText::sprintf('PLG_VOTE_USER_RATING', $img, $rating_count);
 			$html .= "</span>\n<br />\n";
 
-			if ( $view == 'article' && $row->state == 1)
+			if ($view == 'article' && $row->state == 1)
 			{
 				$uri = JURI::getInstance();
 				$uri->setQuery($uri->getQuery().'&hitcount=0');
 
 				$html .= '<form method="post" action="' . $uri->toString() . '">';
 				$html .= '<div class="content_vote">';
-				$html .= JText::_( 'PLG_VOTE_POOR' );
+				$html .= JText::_('PLG_VOTE_POOR');
 				$html .= '<input type="radio" title="'.JText::sprintf('PLG_VOTE_VOTE', '1').'" name="user_rating" value="1" />';
 				$html .= '<input type="radio" title="'.JText::sprintf('PLG_VOTE_VOTE', '2').'" name="user_rating" value="2" />';
 				$html .= '<input type="radio" title="'.JText::sprintf('PLG_VOTE_VOTE', '3').'" name="user_rating" value="3" />';
 				$html .= '<input type="radio" title="'.JText::sprintf('PLG_VOTE_VOTE', '4').'" name="user_rating" value="4" />';
 				$html .= '<input type="radio" title="'.JText::sprintf('PLG_VOTE_VOTE', '5').'" name="user_rating" value="5" checked="checked" />';
-				$html .= JText::_( 'PLG_VOTE_BEST' );
-				$html .= '&#160;<input class="button" type="submit" name="submit_vote" value="'. JText::_( 'PLG_VOTE_RATE' ) .'" />';
+				$html .= JText::_('PLG_VOTE_BEST');
+				$html .= '&#160;<input class="button" type="submit" name="submit_vote" value="'. JText::_('PLG_VOTE_RATE') .'" />';
 				$html .= '<input type="hidden" name="task" value="article.vote" />';
 				$html .= '<input type="hidden" name="hitcount" value="0" />';
 				$html .= '<input type="hidden" name="url" value="'.  $uri->toString() .'" />';

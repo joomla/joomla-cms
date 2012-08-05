@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 /**
  * Utility class for the button bar.
  *
- * @package     Joomla.Administrator
+ * @package  Joomla.Administrator
  */
 abstract class JToolBarHelper
 {

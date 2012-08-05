@@ -69,7 +69,7 @@ $menuTypes = MenusHelper::getMenuLinks();
 
 			<div id="menu-assignment">
 
-			<?php echo JHtml::_('tabs.start', 'module-menu-assignment-tabs', array('useCookie'=>1));?>
+			<?php echo JHtml::_('tabs.start', 'module-menu-assignment-tabs', array('useCookie' => 1));?>
 
 			<?php foreach ($menuTypes as &$type) :
 				echo JHtml::_('tabs.panel', $type->title ? $type->title : $type->menutype, $type->menutype.'-details');
@@ -114,7 +114,7 @@ $menuTypes = MenusHelper::getMenuLinks();
 							<?php echo $link->text; ?>
 						</label>
 					</li>
-					<?php if ($count > 20 && ++$i == ceil($count/2)) :?>
+					<?php if ($count > 20 && ++$i == ceil($count / 2)) :?>
 					</ul><ul class="menu-links">
 					<?php endif; ?>
 					<?php endforeach; ?>

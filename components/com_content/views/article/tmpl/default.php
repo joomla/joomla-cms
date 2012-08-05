@@ -50,13 +50,13 @@ if (!empty($this->item->pagination) AND $this->item->pagination && !$this->item-
 	<?php if (!$this->print) : ?>
 		<?php if ($params->get('show_print_icon')) : ?>
 			<li class="print-icon">
-			<?php echo JHtml::_('icon.print_popup',  $this->item, $params); ?>
+			<?php echo JHtml::_('icon.print_popup', $this->item, $params); ?>
 			</li>
 		<?php endif; ?>
 
 		<?php if ($params->get('show_email_icon')) : ?>
 			<li class="email-icon">
-			<?php echo JHtml::_('icon.email',  $this->item, $params); ?>
+			<?php echo JHtml::_('icon.email', $this->item, $params); ?>
 			</li>
 		<?php endif; ?>
 
@@ -68,7 +68,7 @@ if (!empty($this->item->pagination) AND $this->item->pagination && !$this->item-
 
 	<?php else : ?>
 		<li>
-		<?php echo JHtml::_('icon.print_screen',  $this->item, $params); ?>
+		<?php echo JHtml::_('icon.print_screen', $this->item, $params); ?>
 		</li>
 	<?php endif; ?>
 
@@ -155,7 +155,7 @@ endif; ?>
 	<?php echo $this->item->toc; ?>
 <?php endif; ?>
 
-<?php if (isset($urls) AND ((!empty($urls->urls_position) AND ($urls->urls_position=='0')) OR  ($params->get('urls_position')=='0' AND empty($urls->urls_position) ))
+<?php if (isset($urls) AND ((!empty($urls->urls_position) AND ($urls->urls_position == '0')) OR  ($params->get('urls_position') == '0' AND empty($urls->urls_position) ))
 		OR (empty($urls->urls_position) AND (!$params->get('urls_position')))): ?>
 <?php echo $this->loadTemplate('links'); ?>
 <?php endif; ?>
@@ -182,7 +182,7 @@ if (!empty($this->item->pagination) AND $this->item->pagination AND $this->item-
 	echo $this->item->pagination;?>
 <?php endif; ?>
 
-<?php if (isset($urls) AND ((!empty($urls->urls_position)  AND ($urls->urls_position=='1')) OR ( $params->get('urls_position')=='1') )): ?>
+<?php if (isset($urls) AND ((!empty($urls->urls_position)  AND ($urls->urls_position == '1')) OR ( $params->get('urls_position') == '1') )): ?>
 <?php echo $this->loadTemplate('links'); ?>
 <?php endif; ?>
 	<?php //optional teaser intro text for guests ?>

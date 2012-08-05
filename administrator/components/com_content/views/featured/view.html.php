@@ -16,7 +16,9 @@ defined('_JEXEC') or die;
 class ContentViewFeatured extends JViewLegacy
 {
 	protected $items;
+
 	protected $pagination;
+
 	protected $state;
 
 	/**

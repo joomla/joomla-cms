@@ -50,7 +50,7 @@ abstract class JHtmlDirectory
 			$output = $dir;
 		}
 		else {
-			$output ='';
+			$output = '';
 		}
 		if (empty($message)) {
 			return $output;

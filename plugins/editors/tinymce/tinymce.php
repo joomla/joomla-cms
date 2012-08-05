@@ -100,7 +100,7 @@ class plgEditorTinymce extends JPlugin
 		$query->from('#__template_styles');
 		$query->where('client_id=0 AND home=1');
 
-		$db->setQuery( $query );
+		$db->setQuery($query);
 		$template = $db->loadResult();
 
 		$content_css = '';
@@ -110,7 +110,7 @@ class plgEditorTinymce extends JPlugin
 		if ( $content_css_custom )
 		{
 			// If URL, just pass it to $content_css
-			if (strpos( $content_css_custom, 'http' ) !==false)
+			if (strpos($content_css_custom, 'http') !== false)
 			{
 				$content_css = 'content_css : "'. $content_css_custom .'",';
 			}
@@ -121,7 +121,7 @@ class plgEditorTinymce extends JPlugin
 
 				// Issue warning notice if the file is not found (but pass name to $content_css anyway to avoid TinyMCE error
 				if (!file_exists($templates_path . '/' . $template . '/css/' . $content_css_custom)) {
-					$msg = sprintf (JText::_('PLG_TINY_ERR_CUSTOMCSSFILENOTPRESENT'), $content_css_custom);
+					$msg = sprintf(JText::_('PLG_TINY_ERR_CUSTOMCSSFILENOTPRESENT'), $content_css_custom);
 					JError::raiseNotice('SOME_ERROR_CODE', $msg);
 				}
 			}
@@ -219,7 +219,7 @@ class plgEditorTinymce extends JPlugin
 		// Plugins
 
 		// fonts
-		$fonts =  $this->params->def( 'fonts', 1 );
+		$fonts = $this->params->def('fonts', 1);
 
 		if ($fonts)
 		{
@@ -227,7 +227,7 @@ class plgEditorTinymce extends JPlugin
 		}
 
 		// paste
-		$paste =  $this->params->def('paste', 1);
+		$paste = $this->params->def('paste', 1);
 
 		if ($paste)
 		{
@@ -238,7 +238,7 @@ class plgEditorTinymce extends JPlugin
 		}
 
 		// search & replace
-		$searchreplace		=  $this->params->def('searchreplace', 1);
+		$searchreplace = $this->params->def('searchreplace', 1);
 
 		if ($searchreplace)
 		{
@@ -267,7 +267,7 @@ class plgEditorTinymce extends JPlugin
 		}
 
 		// colors
-		$colors =  $this->params->def('colors', 1);
+		$colors = $this->params->def('colors', 1);
 
 		if ($colors)
 		{
@@ -391,7 +391,7 @@ class plgEditorTinymce extends JPlugin
 		}
 
 		// blockquote
-		$blockquote	= $this->params->def( 'blockquote', 1 );
+		$blockquote	= $this->params->def('blockquote', 1);
 
 		if ($blockquote)
 		{
@@ -399,7 +399,7 @@ class plgEditorTinymce extends JPlugin
 		}
 
 		// wordcount
-		$wordcount	= $this->params->def( 'wordcount', 1 );
+		$wordcount	= $this->params->def('wordcount', 1);
 
 		if ($wordcount)
 		{
@@ -671,7 +671,7 @@ class plgEditorTinymce extends JPlugin
 	{
 		$doc = JFactory::getDocument();
 
-		$js= "
+		$js = "
 			function isBrowserIE() {
 				return navigator.appName==\"Microsoft Internet Explorer\";
 			}

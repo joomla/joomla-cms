@@ -79,8 +79,8 @@ class InstallerModelDatabase extends InstallerModel
 	 * @return  mixed  the return value from the query, or null if the query fails
 	 * @throws Exception
 	 */
-
-	public function getSchemaVersion() {
+	public function getSchemaVersion()
+	{
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 		$query->select('version_id')->from($db->qn('#__schemas'))
@@ -159,7 +159,7 @@ class InstallerModelDatabase extends InstallerModel
 		$table = JTable::getInstance('Extension');
 		$table->load('700');
 		$cache = new JRegistry($table->manifest_cache);
-		$updateVersion =  $cache->get('version');
+		$updateVersion = $cache->get('version');
 		$cmsVersion = new JVersion;
 		if ($updateVersion == $cmsVersion->getShortVersion())
 		{

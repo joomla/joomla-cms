@@ -38,8 +38,8 @@ class UsersControllerUsers extends JControllerAdmin
 	{
 		parent::__construct($config);
 
-		$this->registerTask('block',		'changeBlock');
-		$this->registerTask('unblock',		'changeBlock');
+		$this->registerTask('block', 'changeBlock');
+		$this->registerTask('unblock', 'changeBlock');
 	}
 
 	/**

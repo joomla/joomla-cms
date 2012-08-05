@@ -163,7 +163,7 @@ class TemplatesModelStyle extends JModelAdmin
 	{
 		// Alter the title
 		$table = $this->getTable();
-		while ($table->load(array('title'=>$title)))
+		while ($table->load(array('title' => $title)))
 		{
 			$title = JString::increment($title);
 		}
@@ -336,8 +336,9 @@ class TemplatesModelStyle extends JModelAdmin
 
 		// Disable home field if it is default style
 
-		if ((is_array($data) && array_key_exists('home', $data) && $data['home']=='1')
-			|| ((is_object($data) && isset($data->home) && $data->home=='1'))){
+		if ((is_array($data) && array_key_exists('home', $data) && $data['home'] == '1')
+			|| ((is_object($data) && isset($data->home) && $data->home == '1')))
+		{
 			$form->setFieldAttribute('home', 'readonly', 'true');
 		}
 
@@ -392,7 +393,7 @@ class TemplatesModelStyle extends JModelAdmin
 		if (JRequest::getVar('task') == 'save2copy') {
 			$data['title'] = $this->generateNewTitle(null, null, $data['title']);
 			$data['home'] = 0;
-			$data['assigned'] ='';
+			$data['assigned'] = '';
 		}
 
 		// Bind the data.
@@ -424,10 +425,11 @@ class TemplatesModelStyle extends JModelAdmin
 		}
 
 		$user = JFactory::getUser();
-		if ($user->authorise('core.edit', 'com_menus') && $table->client_id==0) {
-			$n		= 0;
-			$db		= JFactory::getDbo();
-			$user	= JFactory::getUser();
+		if ($user->authorise('core.edit', 'com_menus') && $table->client_id == 0)
+		{
+			$n    = 0;
+			$db   = JFactory::getDbo();
+			$user = JFactory::getUser();
 
 			if (!empty($data['assigned']) && is_array($data['assigned'])) {
 				JArrayHelper::toInteger($data['assigned']);
@@ -568,7 +570,8 @@ class TemplatesModelStyle extends JModelAdmin
 		elseif (!is_numeric($style->client_id)) {
 			throw new Exception(JText::_('COM_TEMPLATES_ERROR_STYLE_NOT_FOUND'));
 		}
-		elseif ($style->home=='1') {
+		elseif ($style->home == '1')
+		{
 			throw new Exception(JText::_('COM_TEMPLATES_ERROR_CANNOT_UNSET_DEFAULT_STYLE'));
 		}
 

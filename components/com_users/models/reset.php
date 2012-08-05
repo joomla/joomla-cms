@@ -237,7 +237,7 @@ class UsersModelReset extends JModelForm
 			return false;
 		}
 
-		$parts	= explode( ':', $user->activation );
+		$parts	= explode(':', $user->activation);
 		$crypt	= $parts[0];
 		if (!isset($parts[1])) {
 			$this->setError(JText::_('COM_USERS_USER_NOT_FOUND'));

@@ -39,7 +39,7 @@ $modMenuId = (int) $this->get('ModMenuId');
 					<input type="checkbox" name="checkall-toggle" value="" title="<?php echo JText::_('JGLOBAL_CHECK_ALL'); ?>" onclick="Joomla.checkAll(this)" />
 				</th>
 				<th rowspan="2">
-					<?php echo JHtml::_('grid.sort',  'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
+					<?php echo JHtml::_('grid.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 				</th>
 				<th width="30%" colspan="3">
 					<?php echo JText::_('COM_MENUS_HEADING_NUMBER_MENU_ITEMS'); ?>
@@ -48,7 +48,7 @@ $modMenuId = (int) $this->get('ModMenuId');
 					<?php echo JText::_('COM_MENUS_HEADING_LINKED_MODULES'); ?>
 				</th>
 				<th width="1%" class="nowrap" rowspan="2">
-					<?php echo JHtml::_('grid.sort',  'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
+					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 				</th>
 			</tr>
 			<tr>
@@ -72,9 +72,9 @@ $modMenuId = (int) $this->get('ModMenuId');
 		</tfoot>
 		<tbody>
 		<?php foreach ($this->items as $i => $item) :
-			$canCreate	= $user->authorise('core.create',		'com_menus');
-			$canEdit	= $user->authorise('core.edit',			'com_menus');
-			$canChange	= $user->authorise('core.edit.state',	'com_menus');
+			$canCreate = $user->authorise('core.create',     'com_menus');
+			$canEdit   = $user->authorise('core.edit',       'com_menus');
+			$canChange = $user->authorise('core.edit.state', 'com_menus');
 		?>
 			<tr class="row<?php echo $i % 2; ?>">
 				<td class="center">

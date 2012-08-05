@@ -19,9 +19,13 @@ defined('_JEXEC') or die;
 class WeblinksViewCategory extends JViewLegacy
 {
 	protected $state;
+
 	protected $items;
+
 	protected $category;
+
 	protected $children;
+
 	protected $pagination;
 
 	function display($tpl = null)
@@ -85,7 +89,7 @@ class WeblinksViewCategory extends JViewLegacy
 		$category->params->merge($cparams);
 
 		$children = array($category->id => $children);
-		$maxLevel =  $params->get('maxLevel', -1);
+		$maxLevel = $params->get('maxLevel', -1);
 
 		$this->maxLevel   = &$maxLevel;
 		$this->state      = &$state;

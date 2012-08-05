@@ -301,12 +301,12 @@ class ContentModelArticle extends JModelAdmin
 		// The front end calls this model and uses a_id to avoid id clashes so we need to check for that first.
 		if ($jinput->get('a_id'))
 		{
-			$id =  $jinput->get('a_id', 0);
+			$id = $jinput->get('a_id', 0);
 		}
 		// The back end uses id so we use that the rest of the time and set it to 0 by default.
 		else
 		{
-			$id =  $jinput->get('id', 0);
+			$id = $jinput->get('id', 0);
 		}
 		// Determine correct permissions to check.
 		if ($this->getState('article.id'))

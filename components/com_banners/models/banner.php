@@ -45,7 +45,7 @@ class BannersModelBanner extends JModelLegacy
 
 		// track clicks
 
-		$item =  $this->getItem();
+		$item = $this->getItem();
 
 		$trackClicks = $item->track_clicks;
 
@@ -90,9 +90,11 @@ class BannersModelBanner extends JModelLegacy
 				// insert new count
 				//sqlsrv change
 				$query->insert('#__banner_tracks');
-				$query->columns(array($db->quoteName('count'), $db->quoteName('track_type'),
-								$db->quoteName('banner_id') , $db->quoteName('track_date')));
-				$query->values( '1, 2,' . (int) $id . ',' . $db->Quote($trackDate));
+				$query->columns(
+					array($db->quoteName('count'), $db->quoteName('track_type'),
+						$db->quoteName('banner_id') , $db->quoteName('track_date'))
+				);
+				$query->values('1, 2,' . (int) $id . ',' . $db->Quote($trackDate));
 			}
 
 			$db->setQuery((string) $query);
@@ -116,7 +118,7 @@ class BannersModelBanner extends JModelLegacy
 
 			$id = $this->getState('banner.id');
 
-			$this->_item =  $cache->get($id);
+			$this->_item = $cache->get($id);
 
 			if ($this->_item === false) {
 				// redirect to banner url

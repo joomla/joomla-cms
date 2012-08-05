@@ -19,7 +19,9 @@ defined('_JEXEC') or die;
 class TemplatesViewStyles extends JViewLegacy
 {
 	protected $items;
+
 	protected $pagination;
+
 	protected $state;
 
 	/**
@@ -41,8 +43,8 @@ class TemplatesViewStyles extends JViewLegacy
 			// Check if there are no matching items
 		if(!count($this->items)) {
 			JFactory::getApplication()->enqueueMessage(
-				JText::_('COM_TEMPLATES_MSG_MANAGE_NO_STYLES')
-				, 'warning'
+				JText::_('COM_TEMPLATES_MSG_MANAGE_NO_STYLES'),
+				'warning'
 			);
 		}
 

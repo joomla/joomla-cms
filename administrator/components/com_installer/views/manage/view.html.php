@@ -21,8 +21,11 @@ include_once __DIR__ . '/../default/view.php';
 class InstallerViewManage extends InstallerViewDefault
 {
 	protected $items;
+
 	protected $pagination;
+
 	protected $form;
+
 	protected $state;
 
 	/**
@@ -45,8 +48,8 @@ class InstallerViewManage extends InstallerViewDefault
 		//Check if there are no matching items
 		if(!count($this->items)){
 			JFactory::getApplication()->enqueueMessage(
-				JText::_('COM_INSTALLER_MSG_MANAGE_NOEXTENSION')
-				, 'warning'
+				JText::_('COM_INSTALLER_MSG_MANAGE_NOEXTENSION'),
+				'warning'
 			);
 		}
 

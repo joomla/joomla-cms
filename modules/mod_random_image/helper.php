@@ -20,10 +20,10 @@ class modRandomImageHelper
 		$width	= $params->get('width');
 		$height	= $params->get('height');
 
-		$i			= count($images);
-		$random		= mt_rand(0, $i - 1);
-		$image		= $images[$random];
-		$size		= getimagesize (JPATH_BASE . '/' . $image->folder . '/' . $image->name);
+		$i      = count($images);
+		$random = mt_rand(0, $i - 1);
+		$image  = $images[$random];
+		$size   = getimagesize(JPATH_BASE . '/' . $image->folder . '/' . $image->name);
 
 		if ($width == '') {
 			$width = 100;
@@ -33,11 +33,11 @@ class modRandomImageHelper
 			$width = $size[0];
 		}
 
-		$coeff = $size[0]/$size[1];
+		$coeff = $size[0] / $size[1];
 		if ($height == '') {
-			$height = (int) ($width/$coeff);
+			$height = (int) ($width / $coeff);
 		} else {
-			$newheight = min ($height, (int) ($width/$coeff));
+			$newheight = min($height, (int) ($width / $coeff));
 			if ($newheight < $height) {
 				$height = $newheight;
 			} else {
@@ -104,7 +104,7 @@ class modRandomImageHelper
 		}
 		// if folder includes absolute path, remove
 		if (JString::strpos($folder, JPATH_SITE) === 0) {
-			$folder= str_replace(JPATH_BASE, '', $folder);
+			$folder = str_replace(JPATH_BASE, '', $folder);
 		}
 		$folder = str_replace('\\', DIRECTORY_SEPARATOR, $folder);
 		$folder = str_replace('/', DIRECTORY_SEPARATOR, $folder);

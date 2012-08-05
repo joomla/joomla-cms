@@ -52,14 +52,14 @@ class JFormFieldCategoryEdit extends JFormFieldList
 		{
 			$oldCat = $jinput->get('id', 0);
 			$oldParent = $this->form->getValue($name, 0);
-			$extension = $this->element['extension'] ? (string) $this->element['extension'] : (string) $jinput->get('extension','com_content');
+			$extension = $this->element['extension'] ? (string) $this->element['extension'] : (string) $jinput->get('extension', 'com_content');
 		}
 		else
 		// For items the old category is the category they are in when opened or 0 if new.
 		{
-			$thisItem = $jinput->get('id',0);
+			$thisItem = $jinput->get('id', 0);
 			$oldCat = $this->form->getValue($name, 0);
-			$extension = $this->element['extension'] ? (string) $this->element['extension'] : (string) $jinput->get('option','com_content');
+			$extension = $this->element['extension'] ? (string) $this->element['extension'] : (string) $jinput->get('option', 'com_content');
 		}
 
 		$db		= JFactory::getDbo();

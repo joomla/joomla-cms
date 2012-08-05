@@ -26,7 +26,7 @@ defined('_JEXEC') or die;
 	</thead>
 <?php if (count($list)) : ?>
 	<tbody>
-	<?php foreach ($list as $i=>$item) : ?>
+	<?php foreach ($list as $i => $item) : ?>
 		<tr>
 			<th scope="row">
 				<?php if ($item->checked_out) : ?>

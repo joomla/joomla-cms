@@ -83,19 +83,19 @@ class ModulesModelPositions extends JModelList
 	{
 		if (!isset($this->items))
 		{
-			$lang				= JFactory::getLanguage();
-			$search				= $this->getState('filter.search');
-			$state				= $this->getState('filter.state');
-			$clientId			= $this->getState('filter.client_id');
-			$filter_template	= $this->getState('filter.template');
-			$type				= $this->getState('filter.type');
-			$ordering			= $this->getState('list.ordering');
-			$direction			= $this->getState('list.direction');
-			$limitstart			= $this->getState('list.start');
-			$limit				= $this->getState('list.limit');
-			$client				= JApplicationHelper::getClientInfo($clientId);
+			$lang            = JFactory::getLanguage();
+			$search          = $this->getState('filter.search');
+			$state           = $this->getState('filter.state');
+			$clientId        = $this->getState('filter.client_id');
+			$filter_template = $this->getState('filter.template');
+			$type            = $this->getState('filter.type');
+			$ordering        = $this->getState('list.ordering');
+			$direction       = $this->getState('list.direction');
+			$limitstart      = $this->getState('list.start');
+			$limit           = $this->getState('list.limit');
+			$client          = JApplicationHelper::getClientInfo($clientId);
 
-			if ($type!='template')
+			if ($type != 'template')
 			{
 				// Get the database object and a new query object.
 				$query	= $this->_db->getQuery(true);
@@ -113,13 +113,14 @@ class ModulesModelPositions extends JModelList
 					$this->setError($error);
 					return false;
 				}
-				foreach ($positions as $value=>$position) {
+				foreach ($positions as $value => $position)
+				{
 					$positions[$value] = array();
 				}
 			}
 			else
 			{
-				$positions=array();
+				$positions = array();
 			}
 
 			// Load the positions from the installed templates.
@@ -148,14 +149,16 @@ class ModulesModelPositions extends JModelList
 									$label = $altlabel;
 								}
 							}
-							if ($type=='user' || ($state!='' && $state!=$template->enabled)) {
+							if ($type == 'user' || ($state != '' && $state != $template->enabled))
+							{
 								unset($positions[$value]);
 							}
-							elseif (preg_match(chr(1).$search.chr(1).'i', $value) && ($filter_template=='' || $filter_template==$template->element)) {
+							elseif (preg_match(chr(1) . $search . chr(1) . 'i', $value) && ($filter_template == '' || $filter_template == $template->element))
+							{
 								if (!isset($positions[$value])) {
 									$positions[$value] = array();
 								}
-								$positions[$value][$template->name]=$label;
+								$positions[$value][$template->name] = $label;
 							}
 						}
 					}

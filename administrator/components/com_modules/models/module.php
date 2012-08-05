@@ -527,8 +527,8 @@ class ModulesModelModule extends JModelAdmin
 		}
 
 		// These variables are used to add data from the plugin XML files.
-		$this->setState('item.client_id',	$clientId);
-		$this->setState('item.module',		$module);
+		$this->setState('item.client_id', $clientId);
+		$this->setState('item.module', $module);
 
 		// Get the form.
 		$form = $this->loadForm('com_modules.module', 'module', array('control' => 'jform', 'load_data' => $loadData));
@@ -1032,8 +1032,8 @@ class ModulesModelModule extends JModelAdmin
 			return;
 		}
 
-		$this->setState('module.extension_id',	$extensionId);
-		$this->setState('module.id',			$table->id);
+		$this->setState('module.extension_id', $extensionId);
+		$this->setState('module.id', $table->id);
 
 		// Clear modules cache
 		$this->cleanCache();

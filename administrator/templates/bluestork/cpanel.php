@@ -83,7 +83,7 @@ if ($this->params->get('highContrast')) {
 			<div class="m" >
 				<div class="adminform">
 					<div class="cpanel-left">
-						<?php if ($this->countModules('icon')>1):?>
+						<?php if ($this->countModules('icon') > 1):?>
 							<?php echo JHtml::_('sliders.start', 'position-icon', array('useCookie' => 1));?>
 							<jdoc:include type="modules" name="icon" style="sliders" />
 							<?php echo JHtml::_('sliders.end');?>
@@ -105,7 +105,7 @@ if ($this->params->get('highContrast')) {
 	<jdoc:include type="modules" name="footer" style="none"  />
 	<div id="footer">
 		<p class="copyright">
-			<?php $joomla= '<a href="http://www.joomla.org">Joomla!&#174;</a>';
+			<?php $joomla = '<a href="http://www.joomla.org">Joomla!&#174;</a>';
 				echo JText::sprintf('JGLOBAL_ISFREESOFTWARE', $joomla) ?>
 		</p>
 	</div>

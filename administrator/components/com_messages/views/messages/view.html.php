@@ -19,7 +19,9 @@ defined('_JEXEC') or die;
 class MessagesViewMessages extends JViewLegacy
 {
 	protected $items;
+
 	protected $pagination;
+
 	protected $state;
 
 	/**

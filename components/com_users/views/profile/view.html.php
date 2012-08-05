@@ -19,8 +19,11 @@ defined('_JEXEC') or die;
 class UsersViewProfile extends JViewLegacy
 {
 	protected $data;
+
 	protected $form;
+
 	protected $params;
+
 	protected $state;
 
 	/**

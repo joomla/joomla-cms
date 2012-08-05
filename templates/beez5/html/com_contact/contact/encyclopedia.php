@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-$cparams = JComponentHelper::getParams ('com_media');
+$cparams = JComponentHelper::getParams('com_media');
 ?>
 <div class="contact<?php echo $this->pageclass_sfx?>">
 		<?php $contactLink = ContactHelperRoute::getCategoryRoute($this->contact->catid);?>
@@ -32,7 +32,7 @@ $cparams = JComponentHelper::getParams ('com_media');
 			<?php if ($this->contact->address) {
 				JHtml::_('behavior.caption');
 			}?>
-				<?php echo JHtml::_('image', $this->contact->image, JText::_('COM_CONTACT_IMAGE_DETAILS'), array('align' => 'middle', 'class' =>'caption', 'title'=> $this->contact->address)); ?>
+				<?php echo JHtml::_('image', $this->contact->image, JText::_('COM_CONTACT_IMAGE_DETAILS'), array('align' => 'middle', 'class' => 'caption', 'title' => $this->contact->address)); ?>
 			</div>
 		<?php endif; ?>
 	</div>
@@ -61,14 +61,14 @@ $cparams = JComponentHelper::getParams ('com_media');
 	</div>
 
 <div class="clr"> </div>
-	<?php  if ($this->params->get('presentation_style')!='plain'):?>
+	<?php  if ($this->params->get('presentation_style') != 'plain'):?>
 		<?php  echo  JHtml::_($this->params->get('presentation_style').'.start', 'contact-slider'); ?>
 	<?php endif ?>
 <div class="encyclopedia_links">
 <?php echo $this->loadTemplate('links'); ?>
 
 </div>
-	<?php if ($this->params->get('presentation_style')!='plain'):?>
+	<?php if ($this->params->get('presentation_style') != 'plain'):?>
 			<?php echo JHtml::_($this->params->get('presentation_style').'.end'); ?>
 			<?php endif; ?>
 </div>

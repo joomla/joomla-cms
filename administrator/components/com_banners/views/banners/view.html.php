@@ -19,8 +19,11 @@ defined('_JEXEC') or die;
 class BannersViewBanners extends JViewLegacy
 {
 	protected $categories;
+
 	protected $items;
+
 	protected $pagination;
+
 	protected $state;
 
 	/**

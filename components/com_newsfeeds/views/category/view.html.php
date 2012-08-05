@@ -19,9 +19,13 @@ defined('_JEXEC') or die;
 class NewsfeedsViewCategory extends JViewLegacy
 {
 	protected $state;
+
 	protected $items;
+
 	protected $category;
+
 	protected $categories;
+
 	protected $pagination;
 
 	function display($tpl = null)

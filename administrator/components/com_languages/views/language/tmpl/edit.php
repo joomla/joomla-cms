@@ -65,7 +65,7 @@ $canDo = LanguagesHelper::getActions();
 		</fieldset>
 	</div>
 	<div class="width-40 fltrt">
-		<?php echo JHtml::_('sliders.start', 'language-sliders-'.$this->item->lang_code, array('useCookie'=>1)); ?>
+		<?php echo JHtml::_('sliders.start', 'language-sliders-' . $this->item->lang_code, array('useCookie' => 1)); ?>
 
 		<?php echo JHtml::_('sliders.panel', JText::_('JGLOBAL_FIELDSET_METADATA_OPTIONS'), 'metadata'); ?>
 			<fieldset class="adminform">

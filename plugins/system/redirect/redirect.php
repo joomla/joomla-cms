@@ -86,7 +86,8 @@ class plgSystemRedirect extends JPlugin
 									$db->quoteName('created_date')
 								);
 					$query->columns($columns);
-					$query->values($db->Quote($current). ', '. $db->Quote('').
+					$query->values(
+						$db->Quote($current) . ', '. $db->Quote('') .
 						' ,'.$db->Quote($referer).', '.$db->Quote('').',1,0, '.
 						$db->Quote(JFactory::getDate()->toSql())
 					);

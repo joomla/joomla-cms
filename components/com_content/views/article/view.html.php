@@ -19,9 +19,13 @@ defined('_JEXEC') or die;
 class ContentViewArticle extends JViewLegacy
 {
 	protected $item;
+
 	protected $params;
+
 	protected $print;
+
 	protected $state;
+
 	protected $user;
 
 	function display($tpl = null)
@@ -109,7 +113,8 @@ class ContentViewArticle extends JViewLegacy
 
 		}
 
-		if ($item->params->get('show_intro', '1')=='1') {
+		if ($item->params->get('show_intro', '1') == '1')
+		{
 			$item->text = $item->introtext.' '.$item->fulltext;
 		}
 		elseif ($item->fulltext) {

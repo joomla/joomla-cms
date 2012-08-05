@@ -16,7 +16,8 @@ defined('_JEXEC') or die;
 class modWhosonlineHelper
 {
 	// show online count
-	static function getOnlineCount() {
+	static function getOnlineCount()
+	{
 		$db		= JFactory::getDbo();
 		// calculate number of guests and users
 		$result	= array();
@@ -49,7 +50,8 @@ class modWhosonlineHelper
 	}
 
 	// show online member names
-	static function getOnlineUserNames($params) {
+	static function getOnlineUserNames($params)
+	{
 		$db		= JFactory::getDbo();
 		$query	= $db->getQuery(true);
 		$query->select('a.username, a.time, a.userid, a.usertype, a.client_id');

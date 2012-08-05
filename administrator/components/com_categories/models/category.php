@@ -817,7 +817,7 @@ class CategoriesModelCategory extends JModelAdmin
 				$query->clear();
 				$query->select('id');
 				$query->from($db->quoteName('#__categories'));
-				$query->where($db->quoteName('lft' ) .' BETWEEN ' . (int) $table->lft . ' AND ' . (int) $table->rgt);
+				$query->where($db->quoteName('lft') .' BETWEEN ' . (int) $table->lft . ' AND ' . (int) $table->rgt);
 				$db->setQuery($query);
 				$children = array_merge($children, (array) $db->loadColumn());
 			}

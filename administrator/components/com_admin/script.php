@@ -73,7 +73,7 @@ class joomlaInstallerScript
 			}
 			foreach ($results as $result)
 			{
-				if ($result->Support=='DEFAULT')
+				if ($result->Support == 'DEFAULT')
 				{
 					$query = 'ALTER TABLE #__update_sites_extensions ENGINE = ' . $result->Engine;
 					$db->setQuery($query);
@@ -92,14 +92,16 @@ class joomlaInstallerScript
 	protected function updateManifestCaches()
 	{
 		// TODO Remove this for 2.5
-		if (!JTable::getInstance('Extension')->load(array('element'=> 'pkg_joomla', 'type'=>'package'))) {
+		if (!JTable::getInstance('Extension')->load(array('element' => 'pkg_joomla', 'type' => 'package'))) {
 			// Create the package pkg_joomla
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true);
 			$query->insert('#__extensions');
-			$query->columns(array($db->quoteName('name'), $db->quoteName('type'),
-								$db->quoteName('element'), $db->quoteName('enabled'), $db->quoteName('access'),
-								$db->quoteName('protected')));
+			$query->columns(
+				array($db->quoteName('name'), $db->quoteName('type'),
+				$db->quoteName('element'), $db->quoteName('enabled'), $db->quoteName('access'),
+				$db->quoteName('protected'))
+			);
 			$query->values($db->quote('joomla'). ', '. $db->quote('package').', '.$db->quote('pkg_joomla') . ', 1, 1, 1');
 
 			$db->setQuery($query);
@@ -113,7 +115,7 @@ class joomlaInstallerScript
 
 		// TODO Remove this for 2.5
 		$table = JTable::getInstance('Extension');
-		if ($table->load(array('element'=> 'mod_online', 'type'=>'module', 'client_id'=>1))) {
+		if ($table->load(array('element' => 'mod_online', 'type' => 'module', 'client_id' => 1))) {
 			if (!file_exists(JPATH_ADMINISTRATOR . '/modules/mod_online')) {
 				// Delete this extension
 				if (!$table->delete()) {
@@ -133,7 +135,7 @@ class joomlaInstallerScript
 
 		// TODO Remove this for 2.5
 		$table = JTable::getInstance('Extension');
-		if ($table->load(array('element'=> 'mod_unread', 'type'=>'module', 'client_id'=>1))) {
+		if ($table->load(array('element' => 'mod_unread', 'type' => 'module', 'client_id' => 1))) {
 			if (!file_exists(JPATH_ADMINISTRATOR . '/modules/mod_unread')) {
 				// Delete this extension
 				if (!$table->delete()) {

@@ -55,13 +55,13 @@ if ($params->get('show_title')) : ?>
 		<?php if (!$this->print) : ?>
 				<?php if ($params->get('show_print_icon')) : ?>
 				<li class="print-icon">
-						<?php echo JHtml::_('icon.print_popup',  $this->item, $params); ?>
+						<?php echo JHtml::_('icon.print_popup', $this->item, $params); ?>
 				</li>
 				<?php endif; ?>
 
 				<?php if ($params->get('show_email_icon')) : ?>
 				<li class="email-icon">
-						<?php echo JHtml::_('icon.email',  $this->item, $params); ?>
+						<?php echo JHtml::_('icon.email', $this->item, $params); ?>
 				</li>
 				<?php endif; ?>
 				<?php if ($this->user->authorise('core.edit', 'com_content.article.'.$this->item->id)) : ?>
@@ -71,7 +71,7 @@ if ($params->get('show_title')) : ?>
 					<?php endif; ?>
 		<?php else : ?>
 				<li>
-						<?php echo JHtml::_('icon.print_screen',  $this->item, $params); ?>
+						<?php echo JHtml::_('icon.print_screen', $this->item, $params); ?>
 				</li>
 		<?php endif; ?>
 		</ul>
@@ -130,12 +130,13 @@ if ($params->get('show_title')) : ?>
 <?php endif; ?>
 <?php if ($params->get('show_author') && !empty($this->item->author )) : ?>
 	<dd class="createdby">
-		<?php $author =  $this->item->author; ?>
+		<?php $author = $this->item->author; ?>
 		<?php $author = ($this->item->created_by_alias ? $this->item->created_by_alias : $author);?>
 
 			<?php if (!empty($this->item->contactid ) &&  $params->get('link_author') == true):?>
-				<?php 	echo JText::sprintf('COM_CONTENT_WRITTEN_BY' ,
-				JHtml::_('link', JRoute::_('index.php?option=com_contact&view=contact&id='.$this->item->contactid), $author)); ?>
+				<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY',
+					JHtml::_('link', JRoute::_('index.php?option=com_contact&view=contact&id=' . $this->item->contactid), $author)
+				); ?>
 
 			<?php else :?>
 				<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', $author); ?>
@@ -155,7 +156,7 @@ if ($params->get('show_title')) : ?>
 		<?php echo $this->item->toc; ?>
 	<?php endif; ?>
 
-<?php if (isset($urls) AND ((!empty($urls->urls_position) AND ($urls->urls_position=='0')) OR  ($params->get('urls_position')=='0' AND empty($urls->urls_position) ))
+<?php if (isset($urls) AND ((!empty($urls->urls_position) AND ($urls->urls_position == '0')) OR ($params->get('urls_position') == '0' AND empty($urls->urls_position)))
 		OR (empty($urls->urls_position) AND (!$params->get('urls_position')))): ?>
 
 	<?php echo $this->loadTemplate('links'); ?>
@@ -182,7 +183,7 @@ if (!empty($this->item->pagination) AND $this->item->pagination AND $this->item-
 	echo $this->item->pagination;?>
 <?php endif; ?>
 
-	<?php if (isset($urls) AND ((!empty($urls->urls_position)  AND ($urls->urls_position=='1')) OR ( $params->get('urls_position')=='1') )): ?>
+	<?php if (isset($urls) AND ((!empty($urls->urls_position) AND ($urls->urls_position == '1')) OR ( $params->get('urls_position') == '1'))): ?>
 
 	<?php echo $this->loadTemplate('links'); ?>
 	<?php endif; ?>

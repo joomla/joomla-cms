@@ -302,7 +302,7 @@ ENDDATA;
 			// Fetch the FTP parameters from the request. Note: The password should be
 			// allowed as raw mode, otherwise something like !@<sdf34>43H% would be
 			// sanitised to !@43H% which is just plain wrong.
-			$ftp_host = JRequest::getVar('ftp_host','');
+			$ftp_host = JRequest::getVar('ftp_host', '');
 			$ftp_port = JRequest::getVar('ftp_port', '21');
 			$ftp_user = JRequest::getVar('ftp_user', '');
 			$ftp_pass = JRequest::getVar('ftp_pass', '', 'default', 'none', 2);
@@ -312,7 +312,7 @@ ENDDATA;
 			$writable = @is_writeable($tempdir);
 			if($writable) {
 				// Let's be REALLY sure
-				$fp = @fopen($tempdir.'/test.txt','w');
+				$fp = @fopen($tempdir . '/test.txt', 'w');
 				if($fp === false) {
 					$writable = false;
 				} else {
@@ -344,7 +344,7 @@ ENDDATA;
 					jimport('joomla.filesystem.folder');
 					jimport('joomla.filesystem.file');
 					JFolder::create($tempdir, 511);
-					JFile::write($tempdir.'/.htaccess',"order deny, allow\ndeny from all\nallow from none\n");
+					JFile::write($tempdir . '/.htaccess', "order deny, allow\ndeny from all\nallow from none\n");
 				}
 
 				// If it exists and it is unwritable, try creating a writable admintools subdirectory
@@ -368,7 +368,7 @@ ENDDATA;
 					$tempdir = '/tmp';
 				} else {
 					// Try to find the system temp path
-					$tmpfile = @tempnam("dummy","");
+					$tmpfile = @tempnam("dummy", "");
 					$systemp = @dirname($tmpfile);
 					@unlink($tmpfile);
 					if(!empty($systemp)) {
@@ -379,7 +379,7 @@ ENDDATA;
 				}
 			}
 
-			$data.=<<<ENDDATA
+			$data .= <<<ENDDATA
 	,
 	'kickstart.ftp.ssl' => '0',
 	'kickstart.ftp.passive' => '1',
@@ -403,7 +403,7 @@ ENDDATA;
 		}
 
 		// Write new file. First try with JFile.
-		$result = JFile::write( $configpath, $data );
+		$result = JFile::write($configpath, $data);
 		// In case JFile used FTP but direct access could help
 		if(!$result) {
 			if(function_exists('file_put_contents')) {

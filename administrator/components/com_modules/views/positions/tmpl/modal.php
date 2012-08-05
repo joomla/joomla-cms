@@ -72,8 +72,8 @@ $type		= $this->state->get('filter.type');
 			</tr>
 		</tfoot>
 		<tbody>
-		<?php $i=1; foreach ($this->items as $value=>$templates) : ?>
-			<tr class="row<?php echo $i=1-$i;?>">
+		<?php $i = 1; foreach ($this->items as $value => $templates) : ?>
+			<tr class="row<?php echo $i = 1 - $i;?>">
 				<td>
 					<a class="pointer" onclick="if (window.parent) window.parent.<?php echo $function;?>('<?php echo $value; ?>');"><?php echo $this->escape($value); ?></a>
 				</td>

@@ -21,7 +21,9 @@ JLoader::register('BannersHelper', JPATH_COMPONENT.'/helpers/banners.php');
 class BannersViewClient extends JViewLegacy
 {
 	protected $form;
+
 	protected $item;
+
 	protected $state;
 
 	/**

@@ -19,7 +19,9 @@ defined('_JEXEC') or die;
 class WeblinksViewCategories extends JViewLegacy
 {
 	protected $state = null;
+
 	protected $item = null;
+
 	protected $items = null;
 
 	/**

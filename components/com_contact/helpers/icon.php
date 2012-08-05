@@ -24,7 +24,7 @@ class JHtmlIcon
 		require_once JPATH_SITE . '/components/com_mailto/helpers/mailto.php';
 		$uri	= JURI::getInstance();
 		$base	= $uri->toString(array('scheme', 'host', 'port'));
-		$link	= $base.JRoute::_(ContentHelperRoute::getArticleRoute($article->slug, $article->catid) , false);
+		$link	= $base . JRoute::_(ContentHelperRoute::getArticleRoute($article->slug, $article->catid), false);
 		$url	= 'index.php?option=com_mailto&tmpl=component&link='.MailToHelper::addLink($link);
 
 		$status = 'width=400,height=350,menubar=yes,resizable=yes';
