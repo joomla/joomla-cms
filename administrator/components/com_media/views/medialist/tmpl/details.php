@@ -12,12 +12,12 @@ $user = JFactory::getUser();
 ?>
 <form target="_parent" action="index.php?option=com_media&amp;tmpl=index&amp;folder=<?php echo $this->state->folder; ?>" method="post" id="mediamanager-form" name="mediamanager-form">
 	<div class="manager">
-	<table width="100%" cellspacing="0">
+	<table class="table table-striped table-condensed">
 	<thead>
 		<tr>
 			<th width="1%"><?php echo JText::_('JGLOBAL_PREVIEW'); ?></th>
 			<th><?php echo JText::_('COM_MEDIA_NAME'); ?></th>
-			<th width="8%"><?php echo JText::_('COM_MEDIA_PIXEL_DIMENSIONS'); ?></th>
+			<th width="15%"><?php echo JText::_('COM_MEDIA_PIXEL_DIMENSIONS'); ?></th>
 			<th width="8%"><?php echo JText::_('COM_MEDIA_FILESIZE'); ?></th>
 		<?php if ($user->authorise('core.delete', 'com_media')):?>
 			<th width="8%"><?php echo JText::_('JACTION_DELETE'); ?></th>

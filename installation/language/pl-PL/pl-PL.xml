@@ -1,21 +1,21 @@
-<?xml version="1.0" encoding="utf-8"?>
-<metafile
-	version="2.5"
-	client="installation">
-	<name>Polski (Polska)</name>
-	<version>2.5</version>
-	<creationDate>September 2011</creationDate>
-	<author>Polskie Centrum Joomla! - Maciej Słojewski, Stefan Wajda</author>
-	<copyright>Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.</copyright>
-	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
-	<description>Polski plik językowy instalatora Joomla</description>
-	<files>
-		<filename>pl-PL.ini</filename>
-	</files>
-	<metadata>
-		<name>Polski (Polska)</name>
-		<tag>pl-PL</tag>
-		<rtl>0</rtl>
-	</metadata>
-	<params />
-</metafile>
+<?xml version="1.0" encoding="utf-8"?>	
+<metafile	
+	version="2.5"	
+	client="installation">	
+	<name>Polski (Polska)</name>	
+	<version>2.5</version>	
+	<creationDate>September 2011</creationDate>	
+	<author>Polskie Centrum Joomla! - Maciej Słojewski, Stefan Wajda</author>	
+	<copyright>Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.</copyright>	
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>	
+	<description>Polski plik językowy instalatora Joomla</description>	
+	<files>	
+		<filename>pl-PL.ini</filename>	
+	</files>	
+	<metadata>	
+		<name>Polski (Polska)</name>	
+		<tag>pl-PL</tag>	
+		<rtl>0</rtl>	
+	</metadata>	
+	<params />	
+</metafile>	

@@ -9,19 +9,35 @@
 
 defined('_JEXEC') or die;
 ?>
-<ul class="adminformlist">
-	<li><?php echo $this->form->getLabel('metadesc'); ?>
-	<?php echo $this->form->getInput('metadesc'); ?></li>
-
-	<li><?php echo $this->form->getLabel('metakey'); ?>
-	<?php echo $this->form->getInput('metakey'); ?></li>
-
-	<?php foreach($this->form->getGroup('metadata') as $field): ?>
+<div class="control-group">
+	<div class="control-label">
+		<?php echo $this->form->getLabel('metadesc'); ?>
+	</div>
+	<div class="controls">
+		<?php echo $this->form->getInput('metadesc'); ?>
+	</div>
+</div>
+<div class="control-group">
+	<div class="control-label">
+		<?php echo $this->form->getLabel('metakey'); ?>
+	</div>
+	<div class="controls">
+		<?php echo $this->form->getInput('metakey'); ?>
+	</div>
+</div>
+<?php foreach($this->form->getGroup('metadata') as $field): ?>
+	<div class="control-group">
 		<?php if ($field->hidden): ?>
-			<li><?php echo $field->input; ?></li>
+			<div class="controls">
+				<?php echo $field->input; ?>
+			</div>
 		<?php else: ?>
-			<li><?php echo $field->label; ?>
-			<?php echo $field->input; ?></li>
+			<div class="control-label">
+				<?php echo $field->label; ?>
+			</div>
+			<div class="controls">
+				<?php echo $field->input; ?>
+			</div>
 		<?php endif; ?>
-	<?php endforeach; ?>
-</ul>
+	</div>
+<?php endforeach; ?>

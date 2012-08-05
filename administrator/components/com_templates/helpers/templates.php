@@ -118,4 +118,45 @@ class TemplatesHelper
 
 		return $data;
 	}
+
+	public static function getPositions($clientId, $templateDir)
+	{
+		$positions = array();
+
+		$templateBaseDir = $clientId ? JPATH_ADMINISTRATOR : JPATH_SITE;
+		$filePath = JPath::clean($templateBaseDir.'/templates/'.$templateDir.'/templateDetails.xml');
+
+		if (is_file($filePath))
+		{
+			// Read the file to see if it's a valid component XML file
+			$xml = simplexml_load_file($filePath);
+			if (!$xml)
+			{
+				return false;
+			}
+
+			// Check for a valid XML root tag.
+
+			// Extensions use 'extension' as the root tag.  Languages use 'metafile' instead
+
+			if ($xml->getName() != 'extension' && $xml->getName() != 'metafile')
+			{
+				unset($xml);
+				return false;
+			}
+
+			$positions = (array) $xml->positions;
+
+			if (isset($positions['position']))
+			{
+				$positions = $positions['position'];
+			}
+			else
+			{
+				$positions = array();
+			}
+		}
+
+		return $positions;
+	}
 }

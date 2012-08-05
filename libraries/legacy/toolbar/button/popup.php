@@ -44,18 +44,30 @@ class JToolbarButtonPopup extends JToolbarButton
 	 */
 	public function fetchButton($type = 'Popup', $name = '', $text = '', $url = '', $width = 640, $height = 480, $top = 0, $left = 0, $onClose = '')
 	{
-		JHtml::_('behavior.modal');
 
 		$text = JText::_($text);
-		$class = $this->fetchIconClass($name);
+		$class = 'cog';
 		$doTask = $this->_getCommand($name, $url, $width, $height, $top, $left);
 
-		$html = "<a class=\"modal\" href=\"$doTask\" rel=\"{handler: 'iframe', size: {x: $width, y: $height}, onClose: function() {" . $onClose
+		$html = "<button class=\"btn\" data-toggle=\"collapse\" data-target=\"#modal-" . $name . "\" rel=\"{onClose: function() {" . $onClose
 			. "}}\">\n";
-		$html .= "<span class=\"$class\">\n";
-		$html .= "</span>\n";
+		$html .= "<i class=\"icon-$class\">\n";
+		$html .= "</i>\n";
 		$html .= "$text\n";
-		$html .= "</a>\n";
+
+		$iframe = "<div class=\"collapse fade\" id=\"modal-" . $name . "\">";
+		$iframe .= "<iframe class=\"iframe\" src=\"$url\" height=\"$height\" width=\"100%\"></iframe>";
+		$iframe .= "</div>";
+
+		$html .= "<script>\n";
+		$html .= "
+			!function ($) {
+				$('div.container-collapse').replaceWith('$iframe');
+			}(window.jQuery)
+			";
+		$html .= "</script>\n";
+
+		$html .= "</button>\n";
 
 		return $html;
 	}

@@ -160,14 +160,19 @@ class TemplatesModelSource extends JModelForm
 			'  AND type = '.$db->quote('template')
 		);
 
-		$result = $db->loadObject();
+		try
+		{
+			$result = $db->loadObject();
+		}
+		catch (RuntimeException $e)
+		{
+			$this->setError($e->getMessage());
+			$this->_template = false;
+			return false;
+		}
+
 		if (empty($result)) {
-			if ($error = $db->getErrorMsg()) {
-				$this->setError($error);
-			}
-			else {
-				$this->setError(JText::_('COM_TEMPLATES_ERROR_EXTENSION_RECORD_NOT_FOUND'));
-			}
+			$this->setError(JText::_('COM_TEMPLATES_ERROR_EXTENSION_RECORD_NOT_FOUND'));
 			$this->_template = false;
 		} else {
 			$this->_template = $result;

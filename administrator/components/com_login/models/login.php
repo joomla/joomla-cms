@@ -141,10 +141,14 @@ class LoginModelLogin extends JModelLegacy
 
 			// Set the query
 			$db->setQuery($query);
-			$modules = $db->loadObjectList();
 
-			if ($db->getErrorNum()){
-				JError::raiseWarning(500, JText::sprintf('JLIB_APPLICATION_ERROR_MODULE_LOAD', $db->getErrorMsg()));
+			try
+			{
+				$modules = $db->loadObjectList();
+			}
+			catch (RuntimeException $e)
+			{
+				JError::raiseWarning(500, JText::sprintf('JLIB_APPLICATION_ERROR_MODULE_LOAD', $e->getMessage()));
 				return $loginmodule;
 			}
 

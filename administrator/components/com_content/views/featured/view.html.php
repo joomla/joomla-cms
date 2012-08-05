@@ -58,27 +58,44 @@ class ContentViewFeatured extends JViewLegacy
 		}
 
 		if ($canDo->get('core.edit.state')) {
-			JToolBarHelper::divider();
 			JToolBarHelper::publish('articles.publish', 'JTOOLBAR_PUBLISH', true);
 			JToolBarHelper::unpublish('articles.unpublish', 'JTOOLBAR_UNPUBLISH', true);
-			JToolBarHelper::divider();
+			JToolBarHelper::custom('featured.delete', 'remove.png', 'remove_f2.png', 'JTOOLBAR_REMOVE', true);
 			JToolBarHelper::archiveList('articles.archive');
 			JToolBarHelper::checkin('articles.checkin');
-			JToolBarHelper::custom('featured.delete', 'remove.png', 'remove_f2.png', 'JTOOLBAR_REMOVE', true);
 		}
 
 		if ($state->get('filter.published') == -2 && $canDo->get('core.delete')) {
 			JToolBarHelper::deleteList('', 'articles.delete', 'JTOOLBAR_EMPTY_TRASH');
-			JToolBarHelper::divider();
 		} elseif ($canDo->get('core.edit.state')) {
-			JToolBarHelper::divider();
 			JToolBarHelper::trash('articles.trash');
 		}
 
 		if ($canDo->get('core.admin')) {
 			JToolBarHelper::preferences('com_content');
-			JToolBarHelper::divider();
 		}
 		JToolBarHelper::help('JHELP_CONTENT_FEATURED_ARTICLES');
+	}
+
+	/**
+	 * Returns an array of fields the table can be sorted by
+	 *
+	 * @return  array  Array containing the field name to sort by as the key and display text as value
+	 *
+	 * @since   3.0
+	 */
+	protected function getSortFields()
+	{
+		return array(
+			'fp.ordering' => JText::_('JGRID_HEADING_ORDERING'),
+			'a.state' => JText::_('JSTATUS'),
+			'a.title' => JText::_('JGLOBAL_TITLE'),
+			'category_title' => JText::_('JCATEGORY'),
+			'access_level' => JText::_('JGRID_HEADING_ACCESS'),
+			'a.created_by' => JText::_('JAUTHOR'),
+			'language' => JText::_('JGRID_HEADING_LANGUAGE'),
+			'a.created' => JText::_('JDATE'),
+			'a.id' => JText::_('JGRID_HEADING_ID')
+		);
 	}
 }

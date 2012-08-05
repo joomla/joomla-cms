@@ -29,7 +29,7 @@ class InstallerController extends JControllerLegacy
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{
-		require_once JPATH_COMPONENT.'/helpers/installer.php';
+		require_once JPATH_ADMINISTRATOR . '/components/com_installer/helpers/installer.php';
 
 		// Get the document object.
 		$document = JFactory::getDocument();

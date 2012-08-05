@@ -419,7 +419,7 @@ CREATE TABLE [#__users](
 	[activation] [nvarchar](100) NOT NULL,
 	[params] [nvarchar](max) NOT NULL,
 	[lastResetTime] [datetime] NOT NULL,
-	[resetCount] [int] NOT NULL,	
+	[resetCount] [int] NOT NULL,
  CONSTRAINT [PK_#__users_id] PRIMARY KEY CLUSTERED
 (
 	[id] ASC
@@ -1026,11 +1026,13 @@ End;
 
 SET IDENTITY_INSERT #__template_styles  ON;
 
-INSERT INTO #__template_styles (id, template, client_id, home, title, params) VALUES (2, 'bluestork', '1', '1', 'Bluestork - Default', '{"useRoundedCorners":"1","showSiteName":"0"}');
+INSERT INTO #__template_styles (id, template, client_id, home, title, params) VALUES (2, 'bluestork', '1', '0', 'Bluestork - Default', '{"useRoundedCorners":"1","showSiteName":"0"}');
 INSERT INTO #__template_styles (id, template, client_id, home, title, params) VALUES (3, 'atomic', '0', '0', 'Atomic - Default', '{}');
-INSERT INTO #__template_styles (id, template, client_id, home, title, params) VALUES (4, 'beez_20', 0, 1, 'Beez2 - Default', '{"wrapperSmall":"53","wrapperLarge":"72","logo":"images\\/joomla_black.gif","sitetitle":"Joomla!","sitedescription":"Open Source Content Management","navposition":"left","templatecolor":"personal","html5":"0"}');
+INSERT INTO #__template_styles (id, template, client_id, home, title, params) VALUES (4, 'beez_20', 0, 0, 'Beez2 - Default', '{"wrapperSmall":"53","wrapperLarge":"72","logo":"images\\/joomla_black.gif","sitetitle":"Joomla!","sitedescription":"Open Source Content Management","navposition":"left","templatecolor":"personal","html5":"0"}');
 INSERT INTO #__template_styles (id, template, client_id, home, title, params) VALUES (5, 'hathor', '1', '0', 'Hathor - Default', '{"showSiteName":"0","colourChoice":"","boldText":"0"}');
 INSERT INTO #__template_styles (id, template, client_id, home, title, params) VALUES (6, 'beez5', 0, 0, 'Beez5 - Default', '{"wrapperSmall":"53","wrapperLarge":"72","logo":"images\\/sampledata\\/fruitshop\\/fruits.gif","sitetitle":"Joomla!","sitedescription":"Open Source Content Management","navposition":"left","html5":"0"}');
+INSERT INTO #__template_styles (id, template, client_id, home, title, params) VALUES (7, 'isis', 1, 1, 'Isis - Default Admin', '{}');
+INSERT INTO #__template_styles (id, template, client_id, home, title, params) VALUES (8, 'protostar', 0, 1, 'Protostar - Default Site', '{}');
 SET IDENTITY_INSERT #__template_styles  OFF;
 
 
@@ -2867,7 +2869,11 @@ SELECT 503, 'beez_20', 'template', 'beez_20', '', 0, 1, 1, 0, 'a:11:{s:6:"legacy
 UNION ALL
 SELECT 504, 'hathor', 'template', 'hathor', '', 1, 1, 1, 0, 'a:11:{s:6:"legacy";b:0;s:4:"name";s:6:"hathor";s:4:"type";s:8:"template";s:12:"creationDate";s:8:"May 2010";s:6:"author";s:11:"Andrea Tarr";s:9:"copyright";s:72:"Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.";s:11:"authorEmail";s:25:"hathor@tarrconsulting.com";s:9:"authorUrl";s:29:"http://www.tarrconsulting.com";s:7:"version";s:5:"1.6.0";s:11:"description";s:26:"TPL_HATHOR_XML_DESCRIPTION";s:5:"group";s:0:"";}', '{"showSiteName":"0","colourChoice":"0","boldText":"0"}', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
-SELECT 505, 'beez5', 'template', 'beez5', '', 0, 1, 1, 0, 'a:11:{s:6:"legacy";b:0;s:4:"name";s:5:"beez5";s:4:"type";s:8:"template";s:12:"creationDate";s:11:"21 May 2010";s:6:"author";s:12:"Angie Radtke";s:9:"copyright";s:72:"Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.";s:11:"authorEmail";s:23:"a.radtke@derauftritt.de";s:9:"authorUrl";s:26:"http://www.der-auftritt.de";s:7:"version";s:5:"1.6.0";s:11:"description";s:25:"TPL_BEEZ5_XML_DESCRIPTION";s:5:"group";s:0:"";}', '{"wrapperSmall":"53","wrapperLarge":"72","sitetitle":"","sitedescription":"","navposition":"center","html5":"0"}', '', '', 0, '1900-01-01 00:00:00', 0, 0;
+SELECT 505, 'beez5', 'template', 'beez5', '', 0, 1, 1, 0, 'a:11:{s:6:"legacy";b:0;s:4:"name";s:5:"beez5";s:4:"type";s:8:"template";s:12:"creationDate";s:11:"21 May 2010";s:6:"author";s:12:"Angie Radtke";s:9:"copyright";s:72:"Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.";s:11:"authorEmail";s:23:"a.radtke@derauftritt.de";s:9:"authorUrl";s:26:"http://www.der-auftritt.de";s:7:"version";s:5:"1.6.0";s:11:"description";s:25:"TPL_BEEZ5_XML_DESCRIPTION";s:5:"group";s:0:"";}', '{"wrapperSmall":"53","wrapperLarge":"72","sitetitle":"","sitedescription":"","navposition":"center","html5":"0"}', '', '', 0, '1900-01-01 00:00:00', 0, 0
+UNION ALL
+SELECT 506, 'isis', 'template', 'isis', '', 1, 1, 1, 0, 'a:11:{s:6:"legacy";b:0;s:4:"name";s:8:"strapped";s:4:"type";s:8:"template";s:12:"creationDate";s:10:"03\\/30\\/2012";s:6:"author";s:14:"Kyle Ledbetter";s:9:"copyright";s:72:"Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.";s:11:"authorEmail";s:22:"kyle@kyleledbetter.com";s:9:"authorUrl";s:28:"http://www.kyleledbetter.com";s:7:"version";s:3:"3.0";s:11:"description";s:24:"TPL_ISIS_XML_DESCRIPTION";s:5:"group";s:0:"";}', '{"theme":"theme1"}', '', '', 0, '1900-01-01 00:00:00', 0, 0
+UNION ALL
+SELECT 507, 'protostar', 'template', 'protostar', '', 0, 1, 1, 0, 'a:11:{s:6:"legacy";b:0;s:4:"name";s:8:"strapped";s:4:"type";s:8:"template";s:12:"creationDate";s:10:"03\\/30\\/2012";s:6:"author";s:14:"Kyle Ledbetter";s:9:"copyright";s:72:"Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.";s:11:"authorEmail";s:22:"kyle@kyleledbetter.com";s:9:"authorUrl";s:28:"http://www.kyleledbetter.com";s:7:"version";s:3:"3.0";s:11:"description";s:29:"TPL_PROTOSTAR_XML_DESCRIPTION";s:5:"group";s:0:"";}', '{"theme":"theme1"}', '', '', 0, '1900-01-01 00:00:00', 0, 0;
 
 INSERT INTO #__extensions (extension_id, name, type, element, folder, client_id, enabled, access, protected, manifest_cache, params, custom_data, system_data, checked_out, checked_out_time, ordering, state)
 SELECT 600, 'English (United Kingdom)', 'language', 'en-GB', '', 0, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0

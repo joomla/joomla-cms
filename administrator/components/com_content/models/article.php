@@ -447,9 +447,7 @@ class ContentModelArticle extends JModelAdmin
 				' SET featured = '.(int) $value.
 				' WHERE id IN ('.implode(',', $pks).')'
 			);
-			if (!$db->execute()) {
-				throw new Exception($db->getErrorMsg());
-			}
+			$db->execute();
 
 			if ((int) $value == 0)
 			{
@@ -459,9 +457,7 @@ class ContentModelArticle extends JModelAdmin
 					'DELETE FROM #__content_frontpage' .
 					' WHERE content_id IN ('.implode(',', $pks).')'
 				);
-				if (!$db->execute()) {
-					throw new Exception($db->getErrorMsg());
-				}
+				$db->execute();
 			} else {
 				// first, we find out which of our new featured articles are already featured.
 				$query = $db->getQuery(true);
@@ -471,9 +467,7 @@ class ContentModelArticle extends JModelAdmin
 				//echo $query;
 				$db->setQuery($query);
 
-				if (!is_array($old_featured = $db->loadColumn())) {
-					throw new Exception($db->getErrorMsg());
-				}
+				$old_featured = $db->loadColumn();
 
 				// we diff the arrays to get a list of the articles that are newly featured
 				$new_featured = array_diff($pks, $old_featured);
@@ -488,10 +482,7 @@ class ContentModelArticle extends JModelAdmin
 						'INSERT INTO #__content_frontpage ('.$db->quoteName('content_id').', '.$db->quoteName('ordering').')' .
 						' VALUES '.implode(',', $tuples)
 					);
-					if (!$db->execute()) {
-						$this->setError($db->getErrorMsg());
-						return false;
-					}
+					$db->execute();
 				}
 			}
 

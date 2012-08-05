@@ -150,8 +150,6 @@ abstract class JHtmlAccess
 
 		$html = array();
 
-		$html[] = '<ul class="checklist usergroups">';
-
 		for ($i = 0, $n = count($groups); $i < $n; $i++)
 		{
 			$item = &$groups[$i];
@@ -171,16 +169,17 @@ abstract class JHtmlAccess
 				$rel = ($item->parent_id > 0) ? ' rel="' . $count . 'group_' . $item->parent_id . '"' : '';
 
 				// Build the HTML for the item.
-				$html[] = '	<li>';
-				$html[] = '		<input type="checkbox" name="' . $name . '[]" value="' . $item->id . '" id="' . $eid . '"';
-				$html[] = '				' . $checked . $rel . ' />';
-				$html[] = '		<label for="' . $eid . '">';
-				$html[] = '		' . str_repeat('<span class="gi">|&mdash;</span>', $item->level) . $item->title;
-				$html[] = '		</label>';
-				$html[] = '	</li>';
+				$html[] = '	<div class="control-group">';
+				$html[] = '		<div class="controls">';
+				$html[] = '			<label class="checkbox" for="' . $eid . '">';
+				$html[] = '			<input type="checkbox" name="' . $name . '[]" value="' . $item->id . '" id="' . $eid . '"';
+				$html[] = '					' . $checked . $rel . ' />';
+				$html[] = '			' . str_repeat('<span class="gi">|&mdash;</span>', $item->level) . $item->title;
+				$html[] = '			</label>';
+				$html[] = '		</div>';
+				$html[] = '	</div>';
 			}
 		}
-		$html[] = '</ul>';
 
 		return implode("\n", $html);
 	}

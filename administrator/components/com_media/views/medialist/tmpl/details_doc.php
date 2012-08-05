@@ -25,11 +25,11 @@ $dispatcher->trigger('onContentBeforeDisplay', array('com_media.file', &$this->_
 
 			</td>
 			<td class="filesize">
-				<?php echo MediaHelper::parseSize($this->_tmp_doc->size); ?>
+				<?php echo JHtml::_('number.bytes', $this->_tmp_doc->size); ?>
 			</td>
 		<?php if ($user->authorise('core.delete', 'com_media')):?>
 			<td>
-				<a class="delete-item" target="_top" href="index.php?option=com_media&amp;task=file.delete&amp;tmpl=index&amp;<?php echo JSession::getFormToken(); ?>=1&amp;folder=<?php echo $this->state->folder; ?>&amp;rm[]=<?php echo $this->_tmp_doc->name; ?>" rel="<?php echo $this->_tmp_doc->name; ?>"><?php echo JHtml::_('image', 'media/remove.png', JText::_('JACTION_DELETE'), array('width' => 16, 'height' => 16, 'border' => 0), true);?></a>
+				<a class="delete-item" target="_top" href="index.php?option=com_media&amp;task=file.delete&amp;tmpl=index&amp;<?php echo JSession::getFormToken(); ?>=1&amp;folder=<?php echo $this->state->folder; ?>&amp;rm[]=<?php echo $this->_tmp_doc->name; ?>" rel="<?php echo $this->_tmp_doc->name; ?>"><i class="icon-remove" rel="tooltip" title="<?php echo JText::_('JACTION_DELETE');?>"></i></a>
 				<input type="checkbox" name="rm[]" value="<?php echo $this->_tmp_doc->name; ?>" />
 			</td>
 		<?php endif;?>

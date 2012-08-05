@@ -164,7 +164,7 @@ class plgContentPagebreak extends JPlugin
 				$text[$page] = str_replace('<hr id="system-readmore" />', '', $text[$page]);
 				$row->text .= $text[$page];
 				// $row->text .= '<br />';
-				$row->text .= '<div class="pagination">';
+				$row->text .= '<div class="pager">';
 
 				// Adds navigation between pages to bottom of text.
 				if ($hasToc) {
@@ -219,7 +219,7 @@ class plgContentPagebreak extends JPlugin
 		$limitstart = $input->getUInt('limitstart', 0);
 		$showall = $input->getInt('showall', 0);
 		// TOC header.
-		$row->toc .= '<div id="article-index">';
+		$row->toc .= '<div class="pull-right article-index">';
 
 		if($this->params->get('article_index')==1)
 		{
@@ -234,8 +234,8 @@ class plgContentPagebreak extends JPlugin
 
 		// TOC first Page link.
 		$class = ($limitstart === 0 && $showall === 0) ? 'toclink active' : 'toclink';
-		$row->toc .= '<ul>
-		<li>
+		$row->toc .= '<ul class="nav nav-tabs nav-stacked">
+		<li class="'.$class.'">
 
 			<a href="'. JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid).'&showall=&limitstart=') .'" class="'.$class.'">'
 			. $heading .

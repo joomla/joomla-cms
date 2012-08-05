@@ -8,6 +8,7 @@
 		<field
 			name="template_positions_display"
 			type="radio"
+			class="btn-group"
 			default="0"
 			label="COM_TEMPLATES_CONFIG_POSITIONS_LABEL"
 			description="COM_TEMPLATES_CONFIG_POSITIONS_DESC">

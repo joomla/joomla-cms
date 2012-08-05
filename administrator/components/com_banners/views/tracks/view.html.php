@@ -69,4 +69,21 @@ class BannersViewTracks extends JViewLegacy
 		}
 		JToolBarHelper::help('JHELP_COMPONENTS_BANNERS_TRACKS');
 	}
+	/**
+	 * Returns an array of fields the table can be sorted by
+	 *
+	 * @return  array  Array containing the field name to sort by as the key and display text as value
+	 *
+	 * @since   3.0
+	 */
+	protected function getSortFields()
+	{
+		return array(
+			'b.name' => JText::_('COM_BANNERS_HEADING_NAME'),
+			'cl.name' => JText::_('COM_BANNERS_HEADING_CLIENT'),
+			'track_type' => JText::_('COM_BANNERS_HEADING_TYPE'),
+			'count' => JText::_('COM_BANNERS_HEADING_COUNT'),
+			'track_date' => JText::_('JDATE')
+		);
+	}
 }

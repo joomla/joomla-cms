@@ -140,7 +140,7 @@ class AdminModelSysInfo extends JModelLegacy
 			$phpinfo = ob_get_contents();
 			ob_end_clean();
 			preg_match_all('#<body[^>]*>(.*)</body>#siU', $phpinfo, $output);
-			$output = preg_replace('#<table[^>]*>#', '<table class="adminlist">', $output[1][0]);
+			$output = preg_replace('#<table[^>]*>#', '<table class="table table-striped">', $output[1][0]);
 			$output = preg_replace('#(\w),(\w)#', '\1, \2', $output);
 			$output = preg_replace('#<hr />#', '', $output);
 			$output = str_replace('<div class="center">', '', $output);

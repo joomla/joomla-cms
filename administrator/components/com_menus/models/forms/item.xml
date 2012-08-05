@@ -69,9 +69,9 @@
 
 		<field
 			name="published"
-			type="list"
+			type="radio"
+			class="btn-group"
 			id="published"
-			class="inputbox"
 			label="JSTATUS"
 			description="JFIELD_PUBLISHED_DESC"
 			size="1"
@@ -165,7 +165,7 @@
 			label="COM_MENUS_ITEM_FIELD_HOME_LABEL"
 			description="COM_MENUS_ITEM_FIELD_HOME_DESC"
 			default="0"
-			class="inputbox"
+			class="btn-group"
 			filter="integer">
 			<option
 				value="0">JNO</option>

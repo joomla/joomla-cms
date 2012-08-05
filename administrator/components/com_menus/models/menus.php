@@ -89,11 +89,14 @@ class MenusModelMenus extends JModelList
 			->group('m.menutype');
 
 		$db->setQuery($query);
-		$countPublished = $db->loadAssocList('menutype', 'count_published');
 
-		if ($db->getErrorNum())
+		try
 		{
-			$this->setError($db->getErrorMsg());
+			$countPublished = $db->loadAssocList('menutype', 'count_published');
+		}
+		catch (RuntimeException $e)
+		{
+			$this->setError($e->getMessage());
 			return false;
 		}
 
@@ -102,11 +105,14 @@ class MenusModelMenus extends JModelList
 			->where('m.published = 0')
 			->where('m.menutype IN ('.$menuTypes.')');
 		$db->setQuery($query);
-		$countUnpublished = $db->loadAssocList('menutype', 'count_published');
 
-		if ($db->getErrorNum())
+		try
 		{
-			$this->setError($db->getErrorMsg());
+			$countUnpublished = $db->loadAssocList('menutype', 'count_published');
+		}
+		catch (RuntimeException $e)
+		{
+			$this->setError($e->getMessage());
 			return false;
 		}
 
@@ -115,11 +121,14 @@ class MenusModelMenus extends JModelList
 			->where('m.published = -2')
 			->where('m.menutype IN ('.$menuTypes.')');
 		$db->setQuery($query);
-		$countTrashed = $db->loadAssocList('menutype', 'count_published');
 
-		if ($db->getErrorNum())
+		try
 		{
-			$this->setError($db->getErrorMsg());
+			$countTrashed = $db->loadAssocList('menutype', 'count_published');
+		}
+		catch (RuntimeException $e)
+		{
+			$this->setError($e->getMessage);
 			return false;
 		}
 

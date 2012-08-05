@@ -8,20 +8,6 @@
 	width: 350px;
 }
 
-#finder-progress-box {
-	background-color: #EEEEEE;
-	border: 1px solid #CCCCCC;
-	height: 20px;
-	width: 350px;
-}
-
-#finder-progress-perc {
-	background-color: #96B4E0;
-	border: 1px solid #0B55C4;
-	height: 20px;
-	margin: -1px 0 0 -1px;
-}
-
 #finder-progress-status {
 	font-size: 14px;
 	font-weight: bold;

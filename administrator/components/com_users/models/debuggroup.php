@@ -157,13 +157,14 @@ class UsersModelDebugGroup extends JModelList
 			->where('id = '.$groupId);
 
 		$db->setQuery($query);
-		$group = $db->loadObject();
 
-		// Check for DB error.
-		$error	= $db->getErrorMsg();
-		if ($error) {
-			$this->setError($error);
-
+		try
+		{
+			$group = $db->loadObject();
+		}
+		catch (RuntimeException $e)
+		{
+			$this->setError($e->getMessage());
 			return false;
 		}
 

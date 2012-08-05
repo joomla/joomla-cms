@@ -24,6 +24,7 @@ $file = 'language/'.$lang->getTag().'/'.$lang->getTag().'.css';
 
 <link href="templates/system/css/system.css" type="text/css" rel="stylesheet" type="text/css" />
 <link href="templates/<?php echo  $this->template ?>/css/template.css" rel="stylesheet" type="text/css" />
+<link href="templates/<?php echo  $this->template ?>/css/icomoon.css" rel="stylesheet" type="text/css" />
 
 <?php
 	if (!$this->params->get('colourChoice')) :

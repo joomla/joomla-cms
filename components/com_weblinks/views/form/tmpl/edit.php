@@ -29,56 +29,84 @@ $params = $this->state->get('params');
 	}
 </script>
 <div class="edit<?php echo $this->pageclass_sfx; ?>">
-<?php if ($this->params->get('show_page_heading')) : ?>
-<h1>
-	<?php echo $this->escape($this->params->get('page_heading')); ?>
-</h1>
-<?php endif; ?>
-<form action="<?php echo JRoute::_('index.php?option=com_weblinks&view=form&w_id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="adminForm" class="form-validate">
-	<fieldset>
-		<legend><?php echo JText::_('COM_WEBLINKS_LINK'); ?></legend>
-
-			<div class="formelm">
-			<?php echo $this->form->getLabel('title'); ?>
-			<?php echo $this->form->getInput('title'); ?>
+	<?php if ($this->params->get('show_page_heading')) : ?>
+	<h1>
+		<?php echo $this->escape($this->params->get('page_heading')); ?>
+	</h1>
+	<?php endif; ?>
+	<form action="<?php echo JRoute::_('index.php?option=com_weblinks&view=form&w_id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="adminForm" class="form-validate form-vertical">
+		<div class="btn-toolbar">
+			<div class="btn-group">
+				<button type="button" class="btn btn-primary" onclick="Joomla.submitbutton('weblink.save')">
+					<i class="icon-ok"></i> <?php echo JText::_('JSAVE') ?>
+				</button>
 			</div>
-
-			<div class="formelm">
-			<?php echo $this->form->getLabel('alias'); ?>
-			<?php echo $this->form->getInput('alias'); ?>
+			<div class="btn-group">
+				<button type="button" class="btn" onclick="Joomla.submitbutton('weblink.cancel')">
+					<i class="icon-cancel"></i> <?php echo JText::_('JCANCEL') ?>
+				</button>
 			</div>
-
-			<div class="formelm">
-			<?php echo $this->form->getLabel('catid'); ?>
-			<?php echo $this->form->getInput('catid'); ?>
+		</div>
+			
+		<hr class="hr-condensed" />
+		<div class="control-group">
+			<div class="control-label">
+				<?php echo $this->form->getLabel('title'); ?>
 			</div>
-			<div class="formelm">
-			<?php echo $this->form->getLabel('url'); ?>
-			<?php echo $this->form->getInput('url'); ?>
+			<div class="controls">
+				<?php echo $this->form->getInput('title'); ?>
 			</div>
-			<?php if ($this->user->authorise('core.edit.state', 'com_weblinks.weblink')): ?>
-				<div class="formelm">
-				<?php echo $this->form->getLabel('state'); ?>
-				<?php echo $this->form->getInput('state'); ?>
+		</div>
+		<div class="control-group">
+			<div class="control-label">
+				<?php echo $this->form->getLabel('alias'); ?>
+			</div>
+			<div class="controls">
+				<?php echo $this->form->getInput('alias'); ?>
+			</div>
+		</div>
+		<div class="control-group">
+			<div class="control-label">
+				<?php echo $this->form->getLabel('catid'); ?>
+			</div>
+			<div class="controls">
+				<?php echo $this->form->getInput('catid'); ?>
+			</div>
+		</div>
+		<div class="control-group">
+			<div class="control-label">
+				<?php echo $this->form->getLabel('url'); ?>
+			</div>
+			<div class="controls">
+				<?php echo $this->form->getInput('url'); ?>
+			</div>
+		</div>
+		<?php if ($this->user->authorise('core.edit.state', 'com_weblinks.weblink')): ?>
+			<div class="control-group">
+				<div class="control-label">
+					<?php echo $this->form->getLabel('state'); ?>
 				</div>
-			<?php endif; ?>
-			<div class="formelm">
-			<?php echo $this->form->getLabel('language'); ?>
-			<?php echo $this->form->getInput('language'); ?>
+				<div class="controls">
+					<?php echo $this->form->getInput('state'); ?>
+				</div>
 			</div>
-			<div class="formelm-buttons">
-			<button type="button" onclick="Joomla.submitbutton('weblink.save')">
-				<?php echo JText::_('JSAVE') ?>
-			</button>
-			<button type="button" onclick="Joomla.submitbutton('weblink.cancel')">
-				<?php echo JText::_('JCANCEL') ?>
-			</button>
+		<?php endif; ?>
+		<div class="control-group">
+			<div class="control-label">
+				<?php echo $this->form->getLabel('language'); ?>
 			</div>
-			<div>
-			<?php echo $this->form->getLabel('description'); ?>
-			<?php echo $this->form->getInput('description'); ?>
+			<div class="controls">
+				<?php echo $this->form->getInput('language'); ?>
 			</div>
-	</fieldset>
+		</div>
+		<div class="control-group">
+			<div class="control-label">
+				<?php echo $this->form->getLabel('description'); ?>
+			</div>
+			<div class="controls">
+				<?php echo $this->form->getInput('description'); ?>
+			</div>
+		</div>
 
 		<input type="hidden" name="return" value="<?php echo $this->return_page;?>" />
 		<input type="hidden" name="task" value="" />

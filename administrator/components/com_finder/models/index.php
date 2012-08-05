@@ -287,13 +287,6 @@ class FinderModelIndex extends JModelList
 		// Truncate the links table.
 		$db->truncateTable('#__finder_links');
 
-		// Check for a database error.
-		if ($db->getErrorNum())
-		{
-			// Throw database error exception.
-			throw new Exception($db->getErrorMsg(), 500);
-		}
-
 		// Truncate the links terms tables.
 		for ($i = 0; $i <= 15; $i++)
 		{
@@ -301,34 +294,13 @@ class FinderModelIndex extends JModelList
 			$suffix = dechex($i);
 
 			$db->truncateTable('#__finder_links_terms' . $suffix);
-
-			// Check for a database error.
-			if ($db->getErrorNum())
-			{
-				// Throw database error exception.
-				throw new Exception($db->getErrorMsg(), 500);
-			}
 		}
 
 		// Truncate the terms table.
 		$db->truncateTable('#__finder_terms');
 
-		// Check for a database error.
-		if ($db->getErrorNum())
-		{
-			// Throw database error exception.
-			throw new Exception($db->getErrorMsg(), 500);
-		}
-
 		// Truncate the taxonomy map table.
 		$db->truncateTable('#__finder_taxonomy_map');
-
-		// Check for a database error.
-		if ($db->getErrorNum())
-		{
-			// Throw database error exception.
-			throw new Exception($db->getErrorMsg(), 500);
-		}
 
 		// Delete all the taxonomy nodes except the root.
 		$query = $db->getQuery(true);
@@ -338,32 +310,11 @@ class FinderModelIndex extends JModelList
 		$db->setQuery($query);
 		$db->execute();
 
-		// Check for a database error.
-		if ($db->getErrorNum())
-		{
-			// Throw database error exception.
-			throw new Exception($db->getErrorMsg(), 500);
-		}
-
 		// Truncate the tokens tables.
 		$db->truncateTable('#__finder_tokens');
 
-		// Check for a database error.
-		if ($db->getErrorNum())
-		{
-			// Throw database error exception.
-			throw new Exception($db->getErrorMsg(), 500);
-		}
-
 		// Truncate the tokens aggregate table.
 		$db->truncateTable('#__finder_tokens_aggregate');
-
-		// Check for a database error.
-		if ($db->getErrorNum())
-		{
-			// Throw database error exception.
-			throw new Exception($db->getErrorMsg(), 500);
-		}
 
 		return true;
 	}

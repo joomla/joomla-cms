@@ -42,11 +42,14 @@ class JFormFieldUserMessages extends JFormFieldUser
 		$query->select('id');
 		$query->from('#__usergroups');
 		$db->setQuery($query);
-		$groups = $db->loadColumn();
 
-		// Check for a database error.
-		if ($db->getErrorNum()) {
-			JError::raiseNotice(500, $db->getErrorMsg());
+		try
+		{
+			$groups = $db->loadColumn();
+		}
+		catch (RuntimeException $e)
+		{
+			JError::raiseNotice(500, $e->getMessage());
 			return null;
 		}
 
