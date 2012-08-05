@@ -164,7 +164,7 @@ class MediaViewMedia extends JViewLegacy
 		// Add a delete button
 		if ($user->authorise('core.admin', 'com_media'))
 		{
-			JToolBarHelper::preferences('com_media', 450, 800, 'JToolbar_Options', '', 'window.location.reload()');
+			JToolBarHelper::preferences('com_media', 'JToolbar_Options');
 			JToolBarHelper::divider();
 		}
 		JToolBarHelper::help('JHELP_CONTENT_MEDIA_MANAGER');
