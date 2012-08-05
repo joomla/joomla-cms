@@ -272,20 +272,20 @@ class JTwitterLists extends JTwitterObject
 	/**
 	 * Method to remove multiple members from a list, by specifying a comma-separated list of member ids or screen names.
 	 *
-	 * @param   JTwitterOauth  $oauth        The JTwitterOauth object.
-	 * @param   mixed          $list         Either an integer containing the list ID or a string containing the list slug.
-	 * @param   string         $user_id      A comma separated list of user IDs, up to 100 are allowed in a single request.
-	 * @param   string         $screen_name  A comma separated list of screen names, up to 100 are allowed in a single request.
-	 * @param   mixed          $owner        Either an integer containing the user ID or a string containing the screen name of the owner.
+	 * @param   mixed   $list         Either an integer containing the list ID or a string containing the list slug.
+	 * @param   string  $user_id      A comma separated list of user IDs, up to 100 are allowed in a single request.
+	 * @param   string  $screen_name  A comma separated list of screen names, up to 100 are allowed in a single request.
+	 * @param   mixed   $owner        Either an integer containing the user ID or a string containing the screen name of the owner.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   12.3
 	 * @throws  RuntimeException
 	 */
-	public function deleteListMembers($oauth, $list, $user_id = null, $screen_name = null, $owner = null)
+	public function deleteListMembers($list, $user_id = null, $screen_name = null, $owner = null)
 	{
-		$token = $oauth->getToken();
+		$token = $this->oauth->getToken();
+
 		// Set parameters.
 		$parameters = array('oauth_token' => $token['key']);
 
@@ -340,7 +340,7 @@ class JTwitterLists extends JTwitterObject
 		$path = $this->getOption('api.url') . $base;
 
 		// Send the request.
-		$response = $oauth->oauthRequest($path, 'POST', $parameters, $data);
+		$response = $this->oauth->oauthRequest($path, 'POST', $parameters, $data);
 		return json_decode($response->body);
 	}
 
@@ -356,12 +356,13 @@ class JTwitterLists extends JTwitterObject
 	 * @since   12.3
 	 * @throws  RuntimeException
 	 */
-	public function subscribe($oauth, $list, $owner = null)
+	public function subscribe($list, $owner = null)
 	{
 		// Check the rate limit for remaining hits
 		$this->checkRateLimit();
 
-		$token = $oauth->getToken();
+		$token = $this->oauth->getToken();
+
 		// Set parameters.
 		$parameters = array('oauth_token' => $token['key']);
 
@@ -402,7 +403,7 @@ class JTwitterLists extends JTwitterObject
 		$path = $this->getOption('api.url') . $base;
 
 		// Send the request.
-		$response = $oauth->oauthRequest($path, 'POST', $parameters, $data);
+		$response = $this->oauth->oauthRequest($path, 'POST', $parameters, $data);
 		return json_decode($response->body);
 	}
 
@@ -422,12 +423,13 @@ class JTwitterLists extends JTwitterObject
 	 * @since   12.3
 	 * @throws  RuntimeException
 	 */
-	public function isListMember($oauth, $list, $user, $owner = null, $entities = false, $skip_status = false)
+	public function isListMember($list, $user, $owner = null, $entities = false, $skip_status = false)
 	{
 		// Check the rate limit for remaining hits
 		$this->checkRateLimit();
 
-		$token = $oauth->getToken();
+		$token = $this->oauth->getToken();
+
 		// Set parameters.
 		$parameters = array('oauth_token' => $token['key']);
 
@@ -494,7 +496,7 @@ class JTwitterLists extends JTwitterObject
 		$path = $this->getOption('api.url') . $base;
 
 		// Send the request.
-		$response = $oauth->oauthRequest($path, 'GET', $parameters, $data);
+		$response = $this->oauth->oauthRequest($path, 'GET', $parameters, $data);
 		return json_decode($response->body);
 	}
 
@@ -514,12 +516,13 @@ class JTwitterLists extends JTwitterObject
 	 * @since   12.3
 	 * @throws  RuntimeException
 	 */
-	public function isListSubscriber($oauth, $list, $user, $owner = null, $entities = false, $skip_status = false)
+	public function isListSubscriber($list, $user, $owner = null, $entities = false, $skip_status = false)
 	{
 		// Check the rate limit for remaining hits
 		$this->checkRateLimit();
 
-		$token = $oauth->getToken();
+		$token = $this->oauth->getToken();
+
 		// Set parameters.
 		$parameters = array('oauth_token' => $token['key']);
 
@@ -586,7 +589,7 @@ class JTwitterLists extends JTwitterObject
 		$path = $this->getOption('api.url') . $base;
 
 		// Send the request.
-		$response = $oauth->oauthRequest($path, 'GET', $parameters, $data);
+		$response = $this->oauth->oauthRequest($path, 'GET', $parameters, $data);
 		return json_decode($response->body);
 	}
 
@@ -602,9 +605,10 @@ class JTwitterLists extends JTwitterObject
 	 * @since   12.3
 	 * @throws  RuntimeException
 	 */
-	public function unsubscribe($oauth, $list, $owner = null)
+	public function unsubscribe($list, $owner = null)
 	{
-		$token = $oauth->getToken();
+		$token = $this->oauth->getToken();
+
 		// Set parameters.
 		$parameters = array('oauth_token' => $token['key']);
 
@@ -645,7 +649,7 @@ class JTwitterLists extends JTwitterObject
 		$path = $this->getOption('api.url') . $base;
 
 		// Send the request.
-		$response = $oauth->oauthRequest($path, 'POST', $parameters, $data);
+		$response = $this->oauth->oauthRequest($path, 'POST', $parameters, $data);
 		return json_decode($response->body);
 	}
 
@@ -663,9 +667,10 @@ class JTwitterLists extends JTwitterObject
 	 * @since   12.3
 	 * @throws  RuntimeException
 	 */
-	public function addListMembers($oauth, $list, $user_id = null, $screen_name = null, $owner = null)
+	public function addListMembers($list, $user_id = null, $screen_name = null, $owner = null)
 	{
-		$token = $oauth->getToken();
+		$token = $this->oauth->getToken();
+
 		// Set parameters.
 		$parameters = array('oauth_token' => $token['key']);
 
@@ -720,7 +725,7 @@ class JTwitterLists extends JTwitterObject
 		$path = $this->getOption('api.url') . $base;
 
 		// Send the request.
-		$response = $oauth->oauthRequest($path, 'POST', $parameters, $data);
+		$response = $this->oauth->oauthRequest($path, 'POST', $parameters, $data);
 		return json_decode($response->body);
 	}
 
@@ -930,22 +935,22 @@ class JTwitterLists extends JTwitterObject
 	/**
 	 * Method to update the specified list
 	 *
-	 * @param   JTwitterOauth  $oauth        The JTwitterOauth object.
-	 * @param   mixed          $list         Either an integer containing the list ID or a string containing the list slug.
-	 * @param   mixed          $owner        Either an integer containing the user ID or a string containing the screen name of the owner.
-	 * @param   string         $name         The name of the list.
-	 * @param   string         $mode         Whether your list is public or private. Values can be public or private. If no mode is
-	 * 										 specified the list will be public.
-	 * @param   string         $description  The description to give the list.
+	 * @param   mixed   $list         Either an integer containing the list ID or a string containing the list slug.
+	 * @param   mixed   $owner        Either an integer containing the user ID or a string containing the screen name of the owner.
+	 * @param   string  $name         The name of the list.
+	 * @param   string  $mode         Whether your list is public or private. Values can be public or private. If no mode is
+	 * 								  specified the list will be public.
+	 * @param   string  $description  The description to give the list.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   12.3
 	 * @throws  RuntimeException
 	 */
-	public function updateList($oauth, $list, $owner = null, $name = null, $mode = null, $description = null)
+	public function updateList($list, $owner = null, $name = null, $mode = null, $description = null)
 	{
-		$token = $oauth->getToken();
+		$token = $this->oauth->getToken();
+
 		// Set parameters.
 		$parameters = array('oauth_token' => $token['key']);
 
@@ -1004,26 +1009,26 @@ class JTwitterLists extends JTwitterObject
 		$path = $this->getOption('api.url') . $base;
 
 		// Send the request.
-		$response = $oauth->oauthRequest($path, 'POST', $parameters, $data);
+		$response = $this->oauth->oauthRequest($path, 'POST', $parameters, $data);
 		return json_decode($response->body);
 	}
 
 	/**
 	 * Method to create a new list for the authenticated user.
 	 *
-	 * @param   JTwitterOauth  $oauth        The JTwitterOauth object.
-	 * @param   string         $name         The name of the list.
-	 * @param   string         $mode         Whether your list is public or private. Values can be public or private. If no mode is
-	 * 										 specified the list will be public.
-	 * @param   string         $description  The description to give the list.
+	 * @param   string  $name         The name of the list.
+	 * @param   string  $mode         Whether your list is public or private. Values can be public or private. If no mode is
+	 * 								  specified the list will be public.
+	 * @param   string  $description  The description to give the list.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   12.3
 	 */
-	public function createList($oauth, $name, $mode = null, $description = null)
+	public function createList($name, $mode = null, $description = null)
 	{
-		$token = $oauth->getToken();
+		$token = $this->oauth->getToken();
+
 		// Set parameters.
 		$parameters = array('oauth_token' => $token['key']);
 
@@ -1052,25 +1057,25 @@ class JTwitterLists extends JTwitterObject
 		$path = $this->getOption('api.url') . $base;
 
 		// Send the request.
-		$response = $oauth->oauthRequest($path, 'POST', $parameters, $data);
+		$response = $this->oauth->oauthRequest($path, 'POST', $parameters, $data);
 		return json_decode($response->body);
 	}
 
 	/**
 	 * Method to delete a specified list.
 	 *
-	 * @param   JTwitterOauth  $oauth  The JTwitterOauth object.
-	 * @param   mixed          $list   Either an integer containing the list ID or a string containing the list slug.
-	 * @param   mixed          $owner  Either an integer containing the user ID or a string containing the screen name of the owner.
+	 * @param   mixed  $list   Either an integer containing the list ID or a string containing the list slug.
+	 * @param   mixed  $owner  Either an integer containing the user ID or a string containing the screen name of the owner.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   12.3
 	 * @throws  RuntimeException
 	 */
-	public function deleteList($oauth, $list, $owner = null)
+	public function deleteList($list, $owner = null)
 	{
-		$token = $oauth->getToken();
+		$token = $this->oauth->getToken();
+
 		// Set parameters.
 		$parameters = array('oauth_token' => $token['key']);
 
@@ -1111,7 +1116,7 @@ class JTwitterLists extends JTwitterObject
 		$path = $this->getOption('api.url') . $base;
 
 		// Send the request.
-		$response = $oauth->oauthRequest($path, 'POST', $parameters, $data);
+		$response = $this->oauth->oauthRequest($path, 'POST', $parameters, $data);
 		return json_decode($response->body);
 	}
 }

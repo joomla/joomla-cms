@@ -134,13 +134,11 @@ class JTwittersearch extends JTwitterObject
 	/**
 	 * Method to get the authenticated user's saved search queries.
 	 *
-	 * @param   JTwitterOauth  $oauth  The JTwitterOauth object.
-	 *
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   12.3
 	 */
-	public function getSavedSearches($oauth)
+	public function getSavedSearches()
 	{
 		// Check the rate limit for remaining hits
 		$this->checkRateLimit();
@@ -148,7 +146,8 @@ class JTwittersearch extends JTwitterObject
 		// Set the API base
 		$base = '/1/saved_searches.json';
 
-		$token = $oauth->getToken();
+		$token = $this->oauth->getToken();
+
 		// Set parameters.
 		$parameters = array(
 			'oauth_token' => $token['key']
@@ -158,21 +157,20 @@ class JTwittersearch extends JTwitterObject
 		$path = $this->getOption('api.url') . $base;
 
 		// Send the request.
-		$response = $oauth->oauthRequest($path, 'GET', $parameters);
+		$response = $this->oauth->oauthRequest($path, 'GET', $parameters);
 		return json_decode($response->body);
 	}
 
 	/**
 	 * Method to get the information for the saved search represented by the given id.
 	 *
-	 * @param   JTwitterOauth  $oauth  The JTwitterOauth object.
-	 * @param   integer        $id     The ID of the saved search.
+	 * @param   integer  $id  The ID of the saved search.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   12.3
 	 */
-	public function getSavedSearchesById($oauth, $id)
+	public function getSavedSearchesById($id)
 	{
 		// Check the rate limit for remaining hits
 		$this->checkRateLimit();
@@ -180,7 +178,8 @@ class JTwittersearch extends JTwitterObject
 		// Set the API base
 		$base = '/1/saved_searches/' . $id . '.json';
 
-		$token = $oauth->getToken();
+		$token = $this->oauth->getToken();
+
 		// Set parameters.
 		$parameters = array(
 			'oauth_token' => $token['key']
@@ -190,26 +189,26 @@ class JTwittersearch extends JTwitterObject
 		$path = $this->getOption('api.url') . $base;
 
 		// Send the request.
-		$response = $oauth->oauthRequest($path, 'GET', $parameters);
+		$response = $this->oauth->oauthRequest($path, 'GET', $parameters);
 		return json_decode($response->body);
 	}
 
 	/**
 	 * Method to create a new saved search for the authenticated user.
 	 *
-	 * @param   JTwitterOauth  $oauth  The JTwitterOauth object.
-	 * @param   string         $query  The query of the search the user would like to save.
+	 * @param   string  $query  The query of the search the user would like to save.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   12.3
 	 */
-	public function createSavedSearch($oauth, $query)
+	public function createSavedSearch($query)
 	{
 		// Set the API base
 		$base = '/1/saved_searches/create.json';
 
-		$token = $oauth->getToken();
+		$token = $this->oauth->getToken();
+
 		// Set parameters.
 		$parameters = array(
 			'oauth_token' => $token['key']
@@ -222,26 +221,26 @@ class JTwittersearch extends JTwitterObject
 		$path = $this->getOption('api.url') . $base;
 
 		// Send the request.
-		$response = $oauth->oauthRequest($path, 'POST', $parameters, $data);
+		$response = $this->oauth->oauthRequest($path, 'POST', $parameters, $data);
 		return json_decode($response->body);
 	}
 
 	/**
 	 * Method to delete a saved search for the authenticating user.
 	 *
-	 * @param   JTwitterOauth  $oauth  The JTwitterOauth object.
-	 * @param   integer        $id     The ID of the saved search.
+	 * @param   integer  $id  The ID of the saved search.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   12.3
 	 */
-	public function deleteSavedSearch($oauth, $id)
+	public function deleteSavedSearch($id)
 	{
 		// Set the API base
 		$base = '/1/saved_searches/destroy/' . $id . '.json';
 
-		$token = $oauth->getToken();
+		$token = $this->oauth->getToken();
+
 		// Set parameters.
 		$parameters = array(
 			'oauth_token' => $token['key']
@@ -251,7 +250,7 @@ class JTwittersearch extends JTwitterObject
 		$path = $this->getOption('api.url') . $base;
 
 		// Send the request.
-		$response = $oauth->oauthRequest($path, 'POST', $parameters);
+		$response = $this->oauth->oauthRequest($path, 'POST', $parameters);
 		return json_decode($response->body);
 	}
 }

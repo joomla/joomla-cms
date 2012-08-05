@@ -21,23 +21,23 @@ class JTwitterBlock extends JTwitterObject
 	/**
 	 * Method to get the top 10 trending topics for a specific WOEID, if trending information is available for it.
 	 *
-	 * @param   JTwitterOauth  $oauth        The JTwitterOauth object.
-	 * @param   integer        $page         Specifies the page of results to retrieve.
-	 * @param   integer        $per_page     Specifies the number of results to retrieve per page.
-	 * @param   boolean        $entities     When set to either true, t or 1, each tweet will include a node called "entities". This node offers a
-	 * 										 variety of metadata about the tweet in a discreet structure, including: user_mentions, urls, and hashtags.
-	 * @param   boolean        $skip_status  When set to either true, t or 1 statuses will not be included in the returned user objects.
+	 * @param   integer  $page          Specifies the page of results to retrieve.
+	 * @param   integer  $per_page      Specifies the number of results to retrieve per page.
+	 * @param   boolean  $entities      When set to either true, t or 1, each tweet will include a node called "entities". This node offers a
+	 * 								    variety of metadata about the tweet in a discreet structure, including: user_mentions, urls, and hashtags.
+	 * @param   boolean   $skip_status  When set to either true, t or 1 statuses will not be included in the returned user objects.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   12.3
 	 */
-	public function getBlocking($oauth, $page = 0, $per_page = 0, $entities = false, $skip_status = false)
+	public function getBlocking($page = 0, $per_page = 0, $entities = false, $skip_status = false)
 	{
 		// Check the rate limit for remaining hits
 		$this->checkRateLimit();
 
-		$token = $oauth->getToken();
+		$token = $this->oauth->getToken();
+
 		// Set parameters.
 		$parameters = array('oauth_token' => $token['key']);
 
@@ -74,25 +74,24 @@ class JTwitterBlock extends JTwitterObject
 		$path = $this->getOption('api.url') . $base;
 
 		// Send the request.
-		$response = $oauth->oauthRequest($path, 'GET', $parameters, $data);
+		$response = $this->oauth->oauthRequest($path, 'GET', $parameters, $data);
 		return json_decode($response->body);
 	}
 
 	/**
 	 * Method to block the specified user from following the authenticating user.
 	 *
-	 * @param   JTwitterOauth  $oauth        The JTwitterOauth object.
-	 * @param   mixed          $user         Either an integer containing the user ID or a string containing the screen name.
-	 * @param   boolean        $entities     When set to either true, t or 1, each tweet will include a node called "entities,". This node offers a
-	 * 										 variety of metadata about the tweet in a discreet structure, including: user_mentions, urls, and hashtags.
-	 * @param   boolean        $skip_status  When set to either true, t or 1 statuses will not be included in the returned user objects.
+	 * @param   mixed    $user         Either an integer containing the user ID or a string containing the screen name.
+	 * @param   boolean  $entities     When set to either true, t or 1, each tweet will include a node called "entities,". This node offers a
+	 * 								   variety of metadata about the tweet in a discreet structure, including: user_mentions, urls, and hashtags.
+	 * @param   boolean  $skip_status  When set to either true, t or 1 statuses will not be included in the returned user objects.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   12.3
 	 * @throws  RuntimeException
 	 */
-	public function block($oauth, $user, $entities = false, $skip_status = false)
+	public function block($user, $entities = false, $skip_status = false)
 	{
 		// Check the rate limit for remaining hits
 		$this->checkRateLimit();
@@ -112,7 +111,8 @@ class JTwitterBlock extends JTwitterObject
 			throw new RuntimeException('The specified username is not in the correct format; must use integer or string');
 		}
 
-		$token = $oauth->getToken();
+		$token = $this->oauth->getToken();
+
 		// Set parameters.
 		$parameters = array('oauth_token' => $token['key']);
 
@@ -135,25 +135,24 @@ class JTwitterBlock extends JTwitterObject
 		$path = $this->getOption('api.url') . $base;
 
 		// Send the request.
-		$response = $oauth->oauthRequest($path, 'POST', $parameters, $data);
+		$response = $this->oauth->oauthRequest($path, 'POST', $parameters, $data);
 		return json_decode($response->body);
 	}
 
 	/**
 	 * Method to unblock the specified user from following the authenticating user.
 	 *
-	 * @param   JTwitterOauth  $oauth        The JTwitterOauth object.
-	 * @param   mixed          $user         Either an integer containing the user ID or a string containing the screen name.
-	 * @param   boolean        $entities     When set to either true, t or 1, each tweet will include a node called "entities,". This node offers a
-	 * 										 variety of metadata about the tweet in a discreet structure, including: user_mentions, urls, and hashtags.
-	 * @param   boolean        $skip_status  When set to either true, t or 1 statuses will not be included in the returned user objects.
+	 * @param   mixed    $user         Either an integer containing the user ID or a string containing the screen name.
+	 * @param   boolean  $entities     When set to either true, t or 1, each tweet will include a node called "entities,". This node offers a
+	 * 								   variety of metadata about the tweet in a discreet structure, including: user_mentions, urls, and hashtags.
+	 * @param   boolean  $skip_status  When set to either true, t or 1 statuses will not be included in the returned user objects.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   12.3
 	 * @throws  RuntimeException
 	 */
-	public function unblock($oauth, $user, $entities = false, $skip_status = false)
+	public function unblock($user, $entities = false, $skip_status = false)
 	{
 		// Check the rate limit for remaining hits
 		$this->checkRateLimit();
@@ -173,7 +172,8 @@ class JTwitterBlock extends JTwitterObject
 			throw new RuntimeException('The specified username is not in the correct format; must use integer or string');
 		}
 
-		$token = $oauth->getToken();
+		$token = $this->oauth->getToken();
+
 		// Set parameters.
 		$parameters = array('oauth_token' => $token['key']);
 
@@ -196,7 +196,7 @@ class JTwitterBlock extends JTwitterObject
 		$path = $this->getOption('api.url') . $base;
 
 		// Send the request.
-		$response = $oauth->oauthRequest($path, 'POST', $parameters, $data);
+		$response = $this->oauth->oauthRequest($path, 'POST', $parameters, $data);
 		return json_decode($response->body);
 	}
 }

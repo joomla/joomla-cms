@@ -16,25 +16,24 @@ defined('JPATH_PLATFORM') or die();
  * @subpackage  Twitter
  * @since       12.3
  */
-class JTwitterDirectMessages extends JTwitterObject
+class JTwitterDirectmessages extends JTwitterObject
 {
 	/**
 	 * Method to get the most recent direct messages sent to the authenticating user.
 	 *
-	 * @param   JTwitterOauth  $oauth        The JTwitterOauth object.
-	 * @param   integer        $since_id     Returns results with an ID greater than (that is, more recent than) the specified ID.
-	 * @param   integer        $max_id       Returns results with an ID less than (that is, older than) or equal to the specified ID.
-	 * @param   integer        $count        Specifies the number of direct messages to try and retrieve, up to a maximum of 200.
-	 * @param   integer        $page         Specifies the page of results to retrieve.
-	 * @param   boolean        $entities     When set to true,  each tweet will include a node called "entities,". This node offers a variety of metadata
-	 *                                       about the tweet in a discreet structure, including: user_mentions, urls, and hashtags.
-	 * @param   boolean        $skip_status  When set to either true, t or 1 statuses will not be included in the returned user objects.
+	 * @param   integer  $since_id     Returns results with an ID greater than (that is, more recent than) the specified ID.
+	 * @param   integer  $max_id       Returns results with an ID less than (that is, older than) or equal to the specified ID.
+	 * @param   integer  $count        Specifies the number of direct messages to try and retrieve, up to a maximum of 200.
+	 * @param   integer  $page         Specifies the page of results to retrieve.
+	 * @param   boolean  $entities     When set to true,  each tweet will include a node called "entities,". This node offers a variety of metadata
+	 *                                 about the tweet in a discreet structure, including: user_mentions, urls, and hashtags.
+	 * @param   boolean  $skip_status  When set to either true, t or 1 statuses will not be included in the returned user objects.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   12.3
 	 */
-	public function getDirectMessages($oauth, $since_id = 0, $max_id =  0, $count = 20, $page = 0, $entities = false, $skip_status = false)
+	public function getDirectMessages($since_id = 0, $max_id =  0, $count = 20, $page = 0, $entities = false, $skip_status = false)
 	{
 		// Check the rate limit for remaining hits
 		$this->checkRateLimit();
@@ -42,7 +41,8 @@ class JTwitterDirectMessages extends JTwitterObject
 		// Set the API base
 		$base = '/1/direct_messages.json';
 
-		$token = $oauth->getToken();
+		$token = $this->oauth->getToken();
+
 		// Set parameters.
 		$parameters = array('oauth_token' => $token['key']);
 
@@ -86,26 +86,25 @@ class JTwitterDirectMessages extends JTwitterObject
 		$path = $this->getOption('api.url') . $base;
 
 		// Send the request.
-		$response = $oauth->oauthRequest($path, 'GET', $parameters, $data);
+		$response = $this->oauth->oauthRequest($path, 'GET', $parameters, $data);
 		return json_decode($response->body);
 	}
 
 	/**
 	 * Method to get the most recent direct messages sent by the authenticating user.
 	 *
-	 * @param   JTwitterOauth  $oauth     The JTwitterOauth object.
-	 * @param   integer        $since_id  Returns results with an ID greater than (that is, more recent than) the specified ID.
-	 * @param   integer        $max_id    Returns results with an ID less than (that is, older than) or equal to the specified ID.
-	 * @param   integer        $count     Specifies the number of direct messages to try and retrieve, up to a maximum of 200.
-	 * @param   integer        $page      Specifies the page of results to retrieve.
-	 * @param   boolean        $entities  When set to true,  each tweet will include a node called "entities,". This node offers a variety of metadata
-	 *                                    about the tweet in a discreet structure, including: user_mentions, urls, and hashtags.
+	 * @param   integer  $since_id  Returns results with an ID greater than (that is, more recent than) the specified ID.
+	 * @param   integer  $max_id    Returns results with an ID less than (that is, older than) or equal to the specified ID.
+	 * @param   integer  $count     Specifies the number of direct messages to try and retrieve, up to a maximum of 200.
+	 * @param   integer  $page      Specifies the page of results to retrieve.
+	 * @param   boolean  $entities  When set to true,  each tweet will include a node called "entities,". This node offers a variety of metadata
+	 *                              about the tweet in a discreet structure, including: user_mentions, urls, and hashtags.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   12.3
 	 */
-	public function getSentDirectMessages($oauth, $since_id = 0, $max_id =  0, $count = 20, $page = 0, $entities = false)
+	public function getSentDirectMessages($since_id = 0, $max_id =  0, $count = 20, $page = 0, $entities = false)
 	{
 		// Check the rate limit for remaining hits
 		$this->checkRateLimit();
@@ -113,7 +112,8 @@ class JTwitterDirectMessages extends JTwitterObject
 		// Set the API base
 		$base = '/1/direct_messages/sent.json';
 
-		$token = $oauth->getToken();
+		$token = $this->oauth->getToken();
+
 		// Set parameters.
 		$parameters = array('oauth_token' => $token['key']);
 
@@ -151,28 +151,28 @@ class JTwitterDirectMessages extends JTwitterObject
 		$path = $this->getOption('api.url') . $base;
 
 		// Send the request.
-		$response = $oauth->oauthRequest($path, 'GET', $parameters, $data);
+		$response = $this->oauth->oauthRequest($path, 'GET', $parameters, $data);
 		return json_decode($response->body);
 	}
 
 	/**
 	 * Method to send a new direct message to the specified user from the authenticating user.
 	 *
-	 * @param   JTwitterOauth  $oauth  The JTwitterOauth object.
-	 * @param   mixed          $user   Either an integer containing the user ID or a string containing the screen name.
-	 * @param   string         $text   The text of your direct message. Be sure to keep the message under 140 characters.
+	 * @param   mixed   $user  Either an integer containing the user ID or a string containing the screen name.
+	 * @param   string  $text  The text of your direct message. Be sure to keep the message under 140 characters.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   12.3
 	 * @throws  RuntimeException
 	 */
-	public function sendDirectMessages($oauth, $user, $text)
+	public function sendDirectMessages($user, $text)
 	{
 		// Set the API base
 		$base = '/1/direct_messages/new.json';
 
-		$token = $oauth->getToken();
+		$token = $this->oauth->getToken();
+
 		// Set parameters.
 		$parameters = array('oauth_token' => $token['key']);
 
@@ -197,21 +197,20 @@ class JTwitterDirectMessages extends JTwitterObject
 		$path = $this->getOption('api.url') . $base;
 
 		// Send the request.
-		$response = $oauth->oauthRequest($path, 'POST', $parameters, $data);
+		$response = $this->oauth->oauthRequest($path, 'POST', $parameters, $data);
 		return json_decode($response->body);
 	}
 
 	/**
 	 * Method to get a single direct message, specified by an id parameter.
 	 *
-	 * @param   JTwitterOauth  $oauth  The JTwitterOauth object.
-	 * @param   integer        $id     The ID of the direct message.
+	 * @param   integer  $id  The ID of the direct message.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   12.3
 	 */
-	public function getDirectMessagesById($oauth, $id)
+	public function getDirectMessagesById($id)
 	{
 		// Check the rate limit for remaining hits
 		$this->checkRateLimit();
@@ -219,7 +218,8 @@ class JTwitterDirectMessages extends JTwitterObject
 		// Set the API base
 		$base = '/1/direct_messages/show/' . $id . '.json';
 
-		$token = $oauth->getToken();
+		$token = $this->oauth->getToken();
+
 		// Set parameters.
 		$parameters = array('oauth_token' => $token['key']);
 
@@ -227,28 +227,28 @@ class JTwitterDirectMessages extends JTwitterObject
 		$path = $this->getOption('api.url') . $base;
 
 		// Send the request.
-		$response = $oauth->oauthRequest($path, 'GET', $parameters);
+		$response = $this->oauth->oauthRequest($path, 'GET', $parameters);
 		return json_decode($response->body);
 	}
 
 	/**
 	 * Method to delete the direct message specified in the required ID parameter.
 	 *
-	 * @param   JTwitterOauth  $oauth     The JTwitterOauth object.
-	 * @param   integer        $id        The ID of the direct message.
-	 * @param   boolean        $entities  When set to true,  each tweet will include a node called "entities,". This node offers a variety of metadata
-	 *                                    about the tweet in a discreet structure, including: user_mentions, urls, and hashtags.
+	 * @param   integer  $id        The ID of the direct message.
+	 * @param   boolean  $entities  When set to true,  each tweet will include a node called "entities,". This node offers a variety of metadata
+	 *                              about the tweet in a discreet structure, including: user_mentions, urls, and hashtags.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   12.3
 	 */
-	public function deleteDirectMessages($oauth, $id, $entities = false)
+	public function deleteDirectMessages($id, $entities = false)
 	{
 		// Set the API base
 		$base = '/1/direct_messages/destroy/' . $id . '.json';
 
-		$token = $oauth->getToken();
+		$token = $this->oauth->getToken();
+
 		// Set parameters.
 		$parameters = array('oauth_token' => $token['key']);
 
@@ -264,7 +264,7 @@ class JTwitterDirectMessages extends JTwitterObject
 		$path = $this->getOption('api.url') . $base;
 
 		// Send the request.
-		$response = $oauth->oauthRequest($path, 'POST', $parameters, $data);
+		$response = $this->oauth->oauthRequest($path, 'POST', $parameters, $data);
 		return json_decode($response->body);
 	}
 }

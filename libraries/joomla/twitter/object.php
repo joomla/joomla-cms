@@ -19,35 +19,37 @@ defined('JPATH_PLATFORM') or die();
 abstract class JTwitterObject
 {
 	/**
-	* @const integer The error code in case of success.
-	* @since 12.3
-	*/
-	const SUCCESS_CODE = 200;
-
-	/**
 	 * @var    JRegistry  Options for the Twitter object.
 	 * @since  12.3
 	 */
 	protected $options;
 
 	/**
-	 * @var    JTwitterHttp  The HTTP client object to use in sending HTTP requests.
+	 * @var    JHttp  The HTTP client object to use in sending HTTP requests.
 	 * @since  12.3
 	 */
 	protected $client;
+	
+	/**
+	 * @var JTwitterOAuth The OAuth client.
+	 * @since 12.3
+	 */
+	protected $oauth;
 
 	/**
 	 * Constructor.
 	 *
-	 * @param   JRegistry     &$options  Twitter options object.
-	 * @param   JTwitterHttp  $client    The HTTP client object.
+	 * @param   JRegistry      &$options  Twitter options object.
+	 * @param   JTwitterHttp   $client    The HTTP client object.
+	 * @param   JTwitterOAuth  $oauth     The OAuth client.
 	 *
 	 * @since   12.3
 	 */
-	public function __construct(JRegistry &$options = null, JTwitterHttp $client = null)
+	public function __construct(JRegistry &$options = null, JHttp $client = null, JTwitterOAuth $oauth = null)
 	{
 		$this->options = isset($options) ? $options : new JRegistry;
-		$this->client = isset($client) ? $client : new JTwitterHttp($this->options);
+		$this->client = isset($client) ? $client : new JHttp($this->options);
+		$this->oauth = $oauth;
 	}
 
 	/**
@@ -162,7 +164,7 @@ abstract class JTwitterObject
 		}
 
 		// Validate the response code.
-		if ($response->code != self::SUCCESS_CODE)
+		if ($response->code != 200)
 		{
 			$error = json_decode($response->body);
 

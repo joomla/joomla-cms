@@ -8,8 +8,6 @@
  */
 
 defined('JPATH_PLATFORM') or die();
-jimport('joomla.oauth.oauth1aClient');
-
 
 /**
  * Joomla Platform class for generating Twitter API access token.
@@ -19,7 +17,7 @@ jimport('joomla.oauth.oauth1aClient');
  *
  * @since       12.3
  */
-class JTwitterOauth extends JOAuth1aClient
+class JTwitterOAuth extends JOAuth1Client
 {
 	/**
 	* @var JRegistry Options for the JTwitterOauth object.
@@ -30,23 +28,23 @@ class JTwitterOauth extends JOAuth1aClient
 	/**
 	 * Constructor.
 	 *
-	 * @param   JRegistry     $options  JTwitterOauth options object.
-	 * @param   JTwitterHttp  $client   The HTTP client object.
-	 * @param   JInput        $input    The input object
+	 * @param   JRegistry  $options  JTwitterOauth options object.
+	 * @param   JHttp      $client   The HTTP client object.
+	 * @param   JInput     $input    The input object
 	 *
 	 * @since 12.3
 	 */
-	public function __construct(JRegistry $options = null, JTwitterHttp $client = null, JInput $input = null)
+	public function __construct(JRegistry $options = null, JHttp $client = null, JInput $input = null)
 	{
 		$this->options = isset($options) ? $options : new JRegistry;
 
-		$this->setOption('accessTokenURL', 'https://api.twitter.com/oauth/access_token');
-		$this->setOption('authenticateURL', 'https://api.twitter.com/oauth/authenticate');
-		$this->setOption('authoriseURL', 'https://api.twitter.com/oauth/authorize');
-		$this->setOption('requestTokenURL', 'https://api.twitter.com/oauth/request_token');
+		$this->options->def('accessTokenURL', 'https://api.twitter.com/oauth/access_token');
+		$this->options->def('authenticateURL', 'https://api.twitter.com/oauth/authenticate');
+		$this->options->def('authoriseURL', 'https://api.twitter.com/oauth/authorize');
+		$this->options->def('requestTokenURL', 'https://api.twitter.com/oauth/request_token');
 
-		// Call the JOauth1aClient constructor to setup the object.
-		parent::__construct($this->options, $client, $input);
+		// Call the JOAuth1Client constructor to setup the object.
+		parent::__construct(null, $this->options, $client, $input);
 	}
 
 	/**
@@ -59,6 +57,7 @@ class JTwitterOauth extends JOAuth1aClient
 	public function verifyCredentials()
 	{
 		$token = $this->getToken();
+
 		// Set the parameters.
 		$parameters = array('oauth_token' => $token['key']);
 
@@ -89,6 +88,7 @@ class JTwitterOauth extends JOAuth1aClient
 	public function endSession()
 	{
 		$token = $this->getToken();
+
 		// Set parameters.
 		$parameters = array('oauth_token' => $token['key']);
 

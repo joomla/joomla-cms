@@ -21,23 +21,23 @@ class JTwitterProfile extends JTwitterObject
 	/**
 	 * Method to et values that users are able to set under the "Account" tab of their settings page.
 	 *
-	 * @param   JTwitterOauth  $oauth        The JTwitterOauth object.
-	 * @param   string         $name         Full name associated with the profile. Maximum of 20 characters.
-	 * @param   string         $url          URL associated with the profile. Will be prepended with "http://" if not present. Maximum of 100 characters.
-	 * @param   string         $location     The city or country describing where the user of the account is located. The contents are not normalized
-	 * 										 or geocoded in any way. Maximum of 30 characters.
-	 * @param   string         $description  A description of the user owning the account. Maximum of 160 characters.
-	 * @param   boolean        $entities     When set to either true, t or 1, each tweet will include a node called "entities,". This node offers a
-	 * 								  		 variety of metadata about the tweet in a discreet structure, including: user_mentions, urls, and hashtags.
-	 * @param   boolean        $skip_status  When set to either true, t or 1 statuses will not be included in the returned user objects.
+	 * @param   string   $name         Full name associated with the profile. Maximum of 20 characters.
+	 * @param   string   $url          URL associated with the profile. Will be prepended with "http://" if not present. Maximum of 100 characters.
+	 * @param   string   $location     The city or country describing where the user of the account is located. The contents are not normalized
+	 * 								   or geocoded in any way. Maximum of 30 characters.
+	 * @param   string   $description  A description of the user owning the account. Maximum of 160 characters.
+	 * @param   boolean  $entities     When set to either true, t or 1, each tweet will include a node called "entities,". This node offers a
+	 * 								   variety of metadata about the tweet in a discreet structure, including: user_mentions, urls, and hashtags.
+	 * @param   boolean  $skip_status  When set to either true, t or 1 statuses will not be included in the returned user objects.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   12.3
 	 */
-	public function updateProfile($oauth, $name = null, $url = null, $location = null, $description = null, $entities = false, $skip_status = false)
+	public function updateProfile($name = null, $url = null, $location = null, $description = null, $entities = false, $skip_status = false)
 	{
-		$token = $oauth->getToken();
+		$token = $this->oauth->getToken();
+
 		// Set parameters.
 		$parameters = array('oauth_token' => $token['key']);
 
@@ -86,7 +86,7 @@ class JTwitterProfile extends JTwitterObject
 		$path = $this->getOption('api.url') . $base;
 
 		// Send the request.
-		$response = $oauth->oauthRequest($path, 'POST', $parameters, $data);
+		$response = $this->oauth->oauthRequest($path, 'POST', $parameters, $data);
 		return json_decode($response->body);
 	}
 
@@ -94,21 +94,21 @@ class JTwitterProfile extends JTwitterObject
 	 * Method to update the authenticating user's profile background image. This method can also be used to enable or disable the profile
 	 * background image.
 	 *
-	 * @param   JTwitterOauth  $oauth        The JTwitterOauth object.
-	 * @param   string         $image        The background image for the profile.
-	 * @param   boolean        $tile         Whether or not to tile the background image.
-	 * @param   boolean        $entities     When set to either true, t or 1, each tweet will include a node called "entities,". This node offers a
-	 * 								  		 variety of metadata about the tweet in a discreet structure, including: user_mentions, urls, and hashtags.
-	 * @param   boolean        $skip_status  When set to either true, t or 1 statuses will not be included in the returned user objects.
-	 * @param   boolean        $use          Determines whether to display the profile background image or not.
+	 * @param   string   $image        The background image for the profile.
+	 * @param   boolean  $tile         Whether or not to tile the background image.
+	 * @param   boolean  $entities     When set to either true, t or 1, each tweet will include a node called "entities,". This node offers a
+	 * 								   variety of metadata about the tweet in a discreet structure, including: user_mentions, urls, and hashtags.
+	 * @param   boolean  $skip_status  When set to either true, t or 1 statuses will not be included in the returned user objects.
+	 * @param   boolean  $use          Determines whether to display the profile background image or not.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   12.3
 	 */
-	public function updateProfileBackgroundImage($oauth, $image = null, $tile = false, $entities = false, $skip_status = false, $use = false)
+	public function updateProfileBackgroundImage($image = null, $tile = false, $entities = false, $skip_status = false, $use = false)
 	{
-		$token = $oauth->getToken();
+		$token = $this->oauth->getToken();
+
 		// Set parameters.
 		$parameters = array('oauth_token' => $token['key']);
 
@@ -153,26 +153,26 @@ class JTwitterProfile extends JTwitterObject
 		$path = $this->getOption('api.url') . $base;
 
 		// Send the request.
-		$response = $oauth->oauthRequest($path, 'POST', $parameters, $data, $header);
+		$response = $this->oauth->oauthRequest($path, 'POST', $parameters, $data, $header);
 		return json_decode($response->body);
 	}
 
 	/**
 	 * Method to update the authenticating user's profile image.
 	 *
-	 * @param   JTwitterOauth  $oauth        The JTwitterOauth object.
-	 * @param   string         $image        The background image for the profile.
-	 * @param   boolean        $entities     When set to either true, t or 1, each tweet will include a node called "entities,". This node offers a
-	 * 								  		 variety of metadata about the tweet in a discreet structure, including: user_mentions, urls, and hashtags.
-	 * @param   boolean        $skip_status  When set to either true, t or 1 statuses will not be included in the returned user objects.
+	 * @param   string   $image        The background image for the profile.
+	 * @param   boolean  $entities     When set to either true, t or 1, each tweet will include a node called "entities,". This node offers a
+	 * 								   variety of metadata about the tweet in a discreet structure, including: user_mentions, urls, and hashtags.
+	 * @param   boolean  $skip_status  When set to either true, t or 1 statuses will not be included in the returned user objects.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   12.3
 	 */
-	public function updateProfileImage($oauth, $image = null, $entities = false, $skip_status = false)
+	public function updateProfileImage($image = null, $entities = false, $skip_status = false)
 	{
-		$token = $oauth->getToken();
+		$token = $this->oauth->getToken();
+
 		// Set parameters.
 		$parameters = array('oauth_token' => $token['key']);
 
@@ -205,31 +205,31 @@ class JTwitterProfile extends JTwitterObject
 		$path = $this->getOption('api.url') . $base;
 
 		// Send the request.
-		$response = $oauth->oauthRequest($path, 'POST', $parameters, $data, $header);
+		$response = $this->oauth->oauthRequest($path, 'POST', $parameters, $data, $header);
 		return json_decode($response->body);
 	}
 
 	/**
 	 * Method to set one or more hex values that control the color scheme of the authenticating user's profile page on twitter.com.
 	 *
-	 * @param   JTwitterOauth  $oauth           The JTwitterOauth object.
-	 * @param   string         $background      Profile background color.
-	 * @param   string         $link            Profile link color.
-	 * @param   string         $sidebar_border  Profile sidebar's border color.
-	 * @param   string         $sidebar_fill    Profile sidebar's fill color.
-	 * @param   string         $text            Profile text color.
-	 * @param   boolean        $entities        When set to either true, t or 1, each tweet will include a node called "entities,". This node offers a
-	 * 											variety of metadata about the tweet in a discreet structure, including: user_mentions, urls, and hashtags.
-	 * @param   boolean        $skip_status     When set to either true, t or 1 statuses will not be included in the returned user objects.
+	 * @param   string   $background      Profile background color.
+	 * @param   string   $link            Profile link color.
+	 * @param   string   $sidebar_border  Profile sidebar's border color.
+	 * @param   string   $sidebar_fill    Profile sidebar's fill color.
+	 * @param   string   $text            Profile text color.
+	 * @param   boolean  $entities        When set to either true, t or 1, each tweet will include a node called "entities,". This node offers a
+	 * 									  variety of metadata about the tweet in a discreet structure, including: user_mentions, urls, and hashtags.
+	 * @param   boolean  $skip_status     When set to either true, t or 1 statuses will not be included in the returned user objects.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   12.3
 	 */
-	public function updateProfileColors($oauth, $background = null, $link = null, $sidebar_border = null, $sidebar_fill = null, $text = null,
+	public function updateProfileColors($background = null, $link = null, $sidebar_border = null, $sidebar_fill = null, $text = null,
 		$entities = false, $skip_status = false)
 	{
-		$token = $oauth->getToken();
+		$token = $this->oauth->getToken();
+
 		// Set parameters.
 		$parameters = array('oauth_token' => $token['key']);
 
@@ -284,25 +284,24 @@ class JTwitterProfile extends JTwitterObject
 		$path = $this->getOption('api.url') . $base;
 
 		// Send the request.
-		$response = $oauth->oauthRequest($path, 'POST', $parameters, $data);
+		$response = $this->oauth->oauthRequest($path, 'POST', $parameters, $data);
 		return json_decode($response->body);
 	}
 
 	/**
 	 * Method to get the current count of friends, followers, updates (statuses) and favorites of the authenticating user.
 	 *
-	 * @param   JTwitterOauth  $oauth  The JTwitterOauth object.
-	 *
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   12.3
 	 */
-	public function getTotals($oauth)
+	public function getTotals()
 	{
 		// Check the rate limit for remaining hits
 		$this->checkRateLimit();
 
-		$token = $oauth->getToken();
+		$token = $this->oauth->getToken();
+
 		// Set parameters.
 		$parameters = array('oauth_token' => $token['key']);
 
@@ -313,25 +312,24 @@ class JTwitterProfile extends JTwitterObject
 		$path = $this->getOption('api.url') . $base;
 
 		// Send the request.
-		$response = $oauth->oauthRequest($path, 'GET', $parameters);
+		$response = $this->oauth->oauthRequest($path, 'GET', $parameters);
 		return json_decode($response->body);
 	}
 
 	/**
 	 * Method to get the settings (including current trend, geo and sleep time information) for the authenticating user.
 	 *
-	 * @param   JTwitterOauth  $oauth  The JTwitterOauth object.
-	 *
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   12.3
 	 */
-	public function getSettings($oauth)
+	public function getSettings()
 	{
 		// Check the rate limit for remaining hits
 		$this->checkRateLimit();
 
-		$token = $oauth->getToken();
+		$token = $this->oauth->getToken();
+
 		// Set parameters.
 		$parameters = array('oauth_token' => $token['key']);
 
@@ -342,30 +340,30 @@ class JTwitterProfile extends JTwitterObject
 		$path = $this->getOption('api.url') . $base;
 
 		// Send the request.
-		$response = $oauth->oauthRequest($path, 'GET', $parameters);
+		$response = $this->oauth->oauthRequest($path, 'GET', $parameters);
 		return json_decode($response->body);
 	}
 
 	/**
 	 * Method to update the authenticating user's settings.
 	 *
-	 * @param   JTwitterOauth  $oauth        The JTwitterOauth object.
-	 * @param   integer        $location     The Yahoo! Where On Earth ID to use as the user's default trend location.
-	 * @param   boolean        $sleep_time   When set to true, t or 1, will enable sleep time for the user.
-	 * @param   integer        $start_sleep  The hour that sleep time should begin if it is enabled.
-	 * @param   integer        $end_sleep    The hour that sleep time should end if it is enabled.
-	 * @param   string         $time_zone    The timezone dates and times should be displayed in for the user. The timezone must be one of the
-	 * 										 Rails TimeZone names.
-	 * @param   string         $lang         The language which Twitter should render in for this user.
+	 * @param   integer  $location     The Yahoo! Where On Earth ID to use as the user's default trend location.
+	 * @param   boolean  $sleep_time   When set to true, t or 1, will enable sleep time for the user.
+	 * @param   integer  $start_sleep  The hour that sleep time should begin if it is enabled.
+	 * @param   integer  $end_sleep    The hour that sleep time should end if it is enabled.
+	 * @param   string   $time_zone    The timezone dates and times should be displayed in for the user. The timezone must be one of the
+	 * 								   Rails TimeZone names.
+	 * @param   string   $lang         The language which Twitter should render in for this user.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   12.3
 	 */
-	public function updateSettings($oauth, $location = null, $sleep_time = false, $start_sleep = null, $end_sleep = null,
+	public function updateSettings($location = null, $sleep_time = false, $start_sleep = null, $end_sleep = null,
 		$time_zone = null, $lang = null)
 	{
-		$token = $oauth->getToken();
+		$token = $this->oauth->getToken();
+
 		// Set parameters.
 		$parameters = array('oauth_token' => $token['key']);
 
@@ -414,7 +412,7 @@ class JTwitterProfile extends JTwitterObject
 		$path = $this->getOption('api.url') . $base;
 
 		// Send the request.
-		$response = $oauth->oauthRequest($path, 'POST', $parameters, $data);
+		$response = $this->oauth->oauthRequest($path, 'POST', $parameters, $data);
 		return json_decode($response->body);
 	}
 }

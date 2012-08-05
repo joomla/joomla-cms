@@ -247,25 +247,25 @@ class JTwitterPlaces extends JTwitterObject
 	/**
 	 * Method to create a new place object at the given latitude and longitude.
 	 *
-	 * @param   JTwitterOauth  $oauth      The JTwitterOauth object.
-	 * @param   float          $lat        The latitude to search around.
-	 * @param   float          $long       The longitude to search around.
-	 * @param   string         $name       The name a place is known as.
-	 * @param   string         $geo_token  The token found in the response from geo/similar_places.
-	 * @param   string         $within     This is the place_id which you would like to restrict the search results to.
-	 * @param   string         $attribute  This parameter searches for places which have this given street address.
-	 * @param   string         $callback   If supplied, the response will use the JSONP format with a callback of the given name.
+	 * @param   float   $lat        The latitude to search around.
+	 * @param   float   $long       The longitude to search around.
+	 * @param   string  $name       The name a place is known as.
+	 * @param   string  $geo_token  The token found in the response from geo/similar_places.
+	 * @param   string  $within     This is the place_id which you would like to restrict the search results to.
+	 * @param   string  $attribute  This parameter searches for places which have this given street address.
+	 * @param   string  $callback   If supplied, the response will use the JSONP format with a callback of the given name.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   12.3
 	 */
-	public function createPlace($oauth, $lat, $long, $name, $geo_token, $within, $attribute = null, $callback = null)
+	public function createPlace($lat, $long, $name, $geo_token, $within, $attribute = null, $callback = null)
 	{
 		// Check the rate limit for remaining hits
 		$this->checkRateLimit();
 
-		$token = $oauth->getToken();
+		$token = $this->oauth->getToken();
+
 		// Set parameters.
 		$parameters = array('oauth_token' => $token['key']);
 
@@ -294,7 +294,7 @@ class JTwitterPlaces extends JTwitterObject
 		$path = $this->getOption('api.url') . $base;
 
 		// Send the request.
-		$response = $oauth->oauthRequest($path, 'POST', $parameters, $data);
+		$response = $this->oauth->oauthRequest($path, 'POST', $parameters, $data);
 		return json_decode($response->body);
 	}
 }

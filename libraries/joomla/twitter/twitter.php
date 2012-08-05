@@ -25,10 +25,16 @@ class JTwitter
 	protected $options;
 
 	/**
-	 * @var    JTwitterHttp  The HTTP client object to use in sending HTTP requests.
+	 * @var    JHttp  The HTTP client object to use in sending HTTP requests.
 	 * @since  12.3
 	 */
 	protected $client;
+	
+	/**
+	 * @var JTwitterOAuth The OAuth client.
+	 * @since 12.3
+	 */
+	protected $oauth;
 
 	/**
 	 * @var    JTwitterFriends  Twitter API object for friends.
@@ -110,10 +116,11 @@ class JTwitter
 	 *
 	 * @since   12.3
 	 */
-	public function __construct(JRegistry $options = null, JTwitterHttp $client = null)
+	public function __construct(JTwitterOAuth $oauth = null, JRegistry $options = null, JHttp $client = null)
 	{
+		$this->oauth = $oauth;
 		$this->options = isset($options) ? $options : new JRegistry;
-		$this->client  = isset($client) ? $client : new JTwitterHttp($this->options);
+		$this->client  = isset($client) ? $client : new JHttp($this->options);
 
 		// Setup the default API url if not already set.
 		$this->options->def('api.url', 'https://api.twitter.com');
@@ -135,84 +142,84 @@ class JTwitter
 			case 'friends':
 				if ($this->friends == null)
 				{
-					$this->friends = new JTwitterFriends($this->options, $this->client);
+					$this->friends = new JTwitterFriends($this->options, $this->client, $this->oauth);
 				}
 				return $this->friends;
 
 			case 'help':
 				if ($this->help == null)
 				{
-					$this->help = new JTwitterHelp($this->options, $this->client);
+					$this->help = new JTwitterHelp($this->options, $this->client, $this->oauth);
 				}
 				return $this->help;
 
 			case 'statuses':
 				if ($this->statuses == null)
 				{
-					$this->statuses = new JTwitterStatuses($this->options, $this->client);
+					$this->statuses = new JTwitterStatuses($this->options, $this->client, $this->oauth);
 				}
 				return $this->statuses;
 
 			case 'users':
 				if ($this->users == null)
 				{
-					$this->users = new JTwitterUsers($this->options, $this->client);
+					$this->users = new JTwitterUsers($this->options, $this->client, $this->oauth);
 				}
 				return $this->users;
 
 			case 'search':
 				if ($this->search == null)
 				{
-					$this->search = new JTwitterSearch($this->options, $this->client);
+					$this->search = new JTwitterSearch($this->options, $this->client, $this->oauth);
 				}
 				return $this->search;
 
 			case 'favorites':
 				if ($this->favorites == null)
 				{
-					$this->favorites = new JTwitterFavorites($this->options, $this->client);
+					$this->favorites = new JTwitterFavorites($this->options, $this->client, $this->oauth);
 				}
 				return $this->favorites;
 
 			case 'directMessages':
 				if ($this->directMessages == null)
 				{
-					$this->directMessages = new JTwitterDirectMessages($this->options, $this->client);
+					$this->directMessages = new JTwitterDirectmessages($this->options, $this->client, $this->oauth);
 				}
 				return $this->directMessages;
 
 			case 'lists':
 				if ($this->lists == null)
 				{
-					$this->lists = new JTwitterLists($this->options, $this->client);
+					$this->lists = new JTwitterLists($this->options, $this->client, $this->oauth);
 				}
 				return $this->lists;
 
 			case 'places':
 				if ($this->places == null)
 				{
-					$this->places = new JTwitterPlaces($this->options, $this->client);
+					$this->places = new JTwitterPlaces($this->options, $this->client, $this->oauth);
 				}
 				return $this->places;
 
 			case 'trends':
 				if ($this->trends == null)
 				{
-					$this->trends = new JTwitterTrends($this->options, $this->client);
+					$this->trends = new JTwitterTrends($this->options, $this->client, $this->oauth);
 				}
 				return $this->trends;
 
 			case 'block':
 				if ($this->block == null)
 				{
-					$this->block = new JTwitterBlock($this->options, $this->client);
+					$this->block = new JTwitterBlock($this->options, $this->client, $this->oauth);
 				}
 				return $this->block;
 
 			case 'profile':
 				if ($this->profile == null)
 				{
-					$this->profile = new JTwitterProfile($this->options, $this->client);
+					$this->profile = new JTwitterProfile($this->options, $this->client, $this->oauth);
 				}
 				return $this->profile;
 		}

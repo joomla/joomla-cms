@@ -215,19 +215,19 @@ class JTwitterFriends extends JTwitterObject
 	/**
 	 * Method to determine pending requests to follow the authenticating user.
 	 *
-	 * @param   JTwitterOauth  $oauth       The JTwitterOauth object.
-	 * @param   boolean        $string_ids  Set to true to return IDs as strings, false to return as integers.
+	 * @param   boolean  $string_ids  Set to true to return IDs as strings, false to return as integers.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   12.3
 	 */
-	public function getFriendshipsIncoming($oauth, $string_ids = true)
+	public function getFriendshipsIncoming($string_ids = true)
 	{
 		// Check the rate limit for remaining hits
 		$this->checkRateLimit();
 
-		$token = $oauth->getToken();
+		$token = $this->oauth->getToken();
+
 		// Set parameters.
 		$parameters = array(
 			'oauth_token' => $token['key']
@@ -248,26 +248,26 @@ class JTwitterFriends extends JTwitterObject
 		$path = $this->getOption('api.url') . $base;
 
 		// Send the request.
-		$response = $oauth->oauthRequest($path, 'GET', $parameters, $data);
+		$response = $this->oauth->oauthRequest($path, 'GET', $parameters, $data);
 		return json_decode($response->body);
 	}
 
 	/**
 	 * Method to determine every protected user for whom the authenticating user has a pending follow request.
 	 *
-	 * @param   JTwitterOauth  $oauth       The JTwitterOauth object.
-	 * @param   boolean        $string_ids  Set to true to return IDs as strings, false to return as integers.
+	 * @param   boolean  $string_ids  Set to true to return IDs as strings, false to return as integers.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   12.3
 	 */
-	public function getFriendshipsOutgoing($oauth, $string_ids = true)
+	public function getFriendshipsOutgoing($string_ids = true)
 	{
 		// Check the rate limit for remaining hits
 		$this->checkRateLimit();
 
-		$token = $oauth->getToken();
+		$token = $this->oauth->getToken();
+
 		// Set parameters.
 		$parameters = array(
 			'oauth_token' => $token['key']
@@ -288,25 +288,25 @@ class JTwitterFriends extends JTwitterObject
 		$path = $this->getOption('api.url') . $base;
 
 		// Send the request.
-		$response = $oauth->oauthRequest($path, 'GET', $parameters, $data);
+		$response = $this->oauth->oauthRequest($path, 'GET', $parameters, $data);
 		return json_decode($response->body);
 	}
 
 	/**
 	 * Allows the authenticating users to follow the user specified in the ID parameter.
 	 *
-	 * @param   JTwitterOauth  $oauth   The JTwitterOauth object.
-	 * @param   mixed          $user    Either an integer containing the user ID or a string containing the screen name.
-	 * @param   boolean        $follow  Enable notifications for the target user.
+	 * @param   mixed    $user    Either an integer containing the user ID or a string containing the screen name.
+	 * @param   boolean  $follow  Enable notifications for the target user.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   12.3
 	 * @throws  RuntimeException
 	 */
-	public function follow($oauth, $user, $follow = false)
+	public function follow($user, $follow = false)
 	{
-		$token = $oauth->getToken();
+		$token = $this->oauth->getToken();
+
 		// Set parameters.
 		$parameters = array(
 			'oauth_token' => $token['key']
@@ -343,26 +343,26 @@ class JTwitterFriends extends JTwitterObject
 		$path = $this->getOption('api.url') . $base;
 
 		// Send the request.
-		$response = $oauth->oauthRequest($path, 'POST', $parameters, $data);
+		$response = $this->oauth->oauthRequest($path, 'POST', $parameters, $data);
 		return json_decode($response->body);
 	}
 
 	/**
 	 * Allows the authenticating users to unfollow the user specified in the ID parameter.
 	 *
-	 * @param   JTwitterOauth  $oauth     The JTwitterOauth object.
-	 * @param   mixed          $user      Either an integer containing the user ID or a string containing the screen name.
-	 * @param   boolean        $entities  When set to true,  each tweet will include a node called "entities,". This node offers a variety of metadata
-	 *                                    about the tweet in a discreet structure, including: user_mentions, urls, and hashtags.
+	 * @param   mixed    $user      Either an integer containing the user ID or a string containing the screen name.
+	 * @param   boolean  $entities  When set to true,  each tweet will include a node called "entities,". This node offers a variety of metadata
+	 *                              about the tweet in a discreet structure, including: user_mentions, urls, and hashtags.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   12.3
 	 * @throws  RuntimeException
 	 */
-	public function unfollow($oauth, $user, $entities = false)
+	public function unfollow($user, $entities = false)
 	{
-		$token = $oauth->getToken();
+		$token = $this->oauth->getToken();
+
 		// Set parameters.
 		$parameters = array(
 			'oauth_token' => $token['key']
@@ -399,28 +399,28 @@ class JTwitterFriends extends JTwitterObject
 		$path = $this->getOption('api.url') . $base;
 
 		// Send the request.
-		$response = $oauth->oauthRequest($path, 'POST', $parameters, $data);
+		$response = $this->oauth->oauthRequest($path, 'POST', $parameters, $data);
 		return json_decode($response->body);
 	}
 
 	/**
 	 * Method to get the relationship of the authenticating user to the comma separated list of up to 100 screen_names or user_ids provided.
 	 *
-	 * @param   JTwitterOauth  $oauth        The JTwitterOauth object.
-	 * @param   string         $screen_name  A comma separated list of screen names, up to 100 are allowed in a single request.
-	 * @param   string         $id           A comma separated list of user IDs, up to 100 are allowed in a single request.
+	 * @param   string  $screen_name  A comma separated list of screen names, up to 100 are allowed in a single request.
+	 * @param   string  $id           A comma separated list of user IDs, up to 100 are allowed in a single request.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   12.3
 	 * @throws  RuntimeException
 	 */
-	public function getFriendshipsLookup($oauth, $screen_name = null, $id = null)
+	public function getFriendshipsLookup($screen_name = null, $id = null)
 	{
 		// Check the rate limit for remaining hits
 		$this->checkRateLimit();
 
-		$token = $oauth->getToken();
+		$token = $this->oauth->getToken();
+
 		// Set parameters.
 		$parameters = array(
 			'oauth_token' => $token['key']
@@ -450,26 +450,26 @@ class JTwitterFriends extends JTwitterObject
 		$path = $this->getOption('api.url') . $base;
 
 		// Send the request.
-		$response = $oauth->oauthRequest($path, 'GET', $parameters, $data);
+		$response = $this->oauth->oauthRequest($path, 'GET', $parameters, $data);
 		return json_decode($response->body);
 	}
 
 	/**
 	 * Allows one to enable or disable retweets and device notifications from the specified user.
 	 *
-	 * @param   JTwitterOauth  $oauth     The JTwitterOauth object.
-	 * @param   mixed          $user      Either an integer containing the user ID or a string containing the screen name.
-	 * @param   boolean        $device    Enable/disable device notifications from the target user.
-	 * @param   boolean        $retweets  Enable/disable retweets from the target user.
+	 * @param   mixed    $user      Either an integer containing the user ID or a string containing the screen name.
+	 * @param   boolean  $device    Enable/disable device notifications from the target user.
+	 * @param   boolean  $retweets  Enable/disable retweets from the target user.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   12.3
 	 * @throws  RuntimeException
 	 */
-	public function updateFriendship($oauth, $user, $device = false, $retweets = false)
+	public function updateFriendship($user, $device = false, $retweets = false)
 	{
-		$token = $oauth->getToken();
+		$token = $this->oauth->getToken();
+
 		// Set parameters.
 		$parameters = array(
 			'oauth_token' => $token['key']
@@ -512,26 +512,26 @@ class JTwitterFriends extends JTwitterObject
 		$path = $this->getOption('api.url') . $base;
 
 		// Send the request.
-		$response = $oauth->oauthRequest($path, 'POST', $parameters, $data);
+		$response = $this->oauth->oauthRequest($path, 'POST', $parameters, $data);
 		return json_decode($response->body);
 	}
 
 	/**
 	 * Method to get the user ids that currently authenticated user does not want to see retweets from.
 	 *
-	 * @param   JTwitterOauth  $oauth       The JTwitterOauth object.
-	 * @param   boolean        $string_ids  Set to true to return IDs as strings, false to return as integers.
+	 * @param   boolean  $string_ids  Set to true to return IDs as strings, false to return as integers.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   12.3
 	 */
-	public function getFriendshipNoRetweetIds($oauth, $string_ids = true)
+	public function getFriendshipNoRetweetIds($string_ids = true)
 	{
 		// Check the rate limit for remaining hits
 		$this->checkRateLimit();
 
-		$token = $oauth->getToken();
+		$token = $this->oauth->getToken();
+
 		// Set parameters.
 		$parameters = array(
 			'oauth_token' => $token['key']
@@ -552,7 +552,7 @@ class JTwitterFriends extends JTwitterObject
 		$path = $this->getOption('api.url') . $base;
 
 		// Send the request.
-		$response = $oauth->oauthRequest($path, 'GET', $parameters, $data);
+		$response = $this->oauth->oauthRequest($path, 'GET', $parameters, $data);
 		return json_decode($response->body);
 	}
 }

@@ -67,15 +67,16 @@ class JTwitterUsers extends JTwitterObject
 	/**
 	 * Method to access the profile image in various sizes for the user with the indicated screen_name.
 	 *
-	 * @param   string  $screen_name  The screen name of the user for whom to return results for.
-	 * 								  Helpful for disambiguating when a valid screen name is also a user ID.
-	 * @param   string  $size         Specifies the size of image to fetch. Not specifying a size will give the default, normal size of 48px by 48px.
+	 * @param   string   $screen_name  The screen name of the user for whom to return results for.
+	 * 								   Helpful for disambiguating when a valid screen name is also a user ID.
+	 * @param   boolean  $redirect     If false this will return the URL of the profile picture without a 302 redirect.
+	 * @param   string   $size         Specifies the size of image to fetch. Not specifying a size will give the default, normal size of 48px by 48px.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   12.3
 	 */
-	public function getUserProfileImage($screen_name, $size = null)
+	public function getUserProfileImage($screen_name, $redirect = true, $size = null)
 	{
 		// Check the rate limit for remaining hits
 		$this->checkRateLimit();
@@ -91,6 +92,12 @@ class JTwitterUsers extends JTwitterObject
 			$parameters['size'] = $size;
 		}
 
+		if ($redirect == false)
+		{
+			// Don't follow redirect.
+			$this->setOption('follow_location', 0);
+		}
+
 		// Send the request.
 		return $this->sendRequest($base, 'get', $parameters);
 	}
@@ -98,24 +105,24 @@ class JTwitterUsers extends JTwitterObject
 	/**
 	 * Method used to search for users
 	 *
-	 * @param   JTwitterOauth  $oauth     The JTwitterOauth object.
-	 * @param   string         $query     The search query to run against people search.
-	 * @param   integer        $page      Specifies the page of results to retrieve.
-	 * @param   integer        $per_page  The number of people to retrieve. Maximum of 20 allowed per page.
-	 * @param   boolean        $entities  When set to either true, t or 1, each tweet will include a node called "entities,". This node offers a
-	 * 									  variety of metadata about the tweet in a discreet structure, including: user_mentions, urls, and hashtags.
+	 * @param   string   $query     The search query to run against people search.
+	 * @param   integer  $page      Specifies the page of results to retrieve.
+	 * @param   integer  $per_page  The number of people to retrieve. Maximum of 20 allowed per page.
+	 * @param   boolean  $entities  When set to either true, t or 1, each tweet will include a node called "entities,". This node offers a
+	 * 								variety of metadata about the tweet in a discreet structure, including: user_mentions, urls, and hashtags.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   12.3
 	 * @throws  RuntimeException
 	 */
-	public function searchUsers($oauth, $query, $page = 0, $per_page = 0, $entities = false)
+	public function searchUsers($query, $page = 0, $per_page = 0, $entities = false)
 	{
 		// Check the rate limit for remaining hits
 		$this->checkRateLimit();
 
-		$token = $oauth->getToken();
+		$token = $this->oauth->getToken();
+
 		// Set parameters.
 		$parameters = array(
 			'oauth_token' => $token['key']
@@ -148,7 +155,7 @@ class JTwitterUsers extends JTwitterObject
 		$path = $this->getOption('api.url') . $base;
 
 		// Send the request.
-		$response = $oauth->oauthRequest($path, 'GET', $parameters, $data);
+		$response = $this->oauth->oauthRequest($path, 'GET', $parameters, $data);
 
 		// Check Feature Rate Limit.
 		$response_headers = $response->headers;

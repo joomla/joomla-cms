@@ -230,23 +230,22 @@ class JTwitterStatuses extends JTwitterObject
 	/**
 	 * Method to post a tweet.
 	 *
-	 * @param   JTwitterOauth  $oauth                  The JTwitterOauth object.
-	 * @param   string         $status                 The text of the tweet.
-	 * @param   integer        $in_reply_to_status_id  The ID of an existing status that the update is in reply to.
-	 * @param   float          $lat                    The latitude of the location this tweet refers to.
-	 * @param   float          $long                   The longitude of the location this tweet refers to.
-	 * @param   string         $place_id               A place in the world.
-	 * @param   boolean        $display_coordinates    Whether or not to put a pin on the exact coordinates a tweet has been sent from.
-	 * @param   boolean        $trim_user              When set to true, each tweet returned in a timeline will include a user object including only
-	 *                                                 the status author's numerical ID.
-	 * @param   boolean        $entities               When set to true,  each tweet will include a node called "entities,". This node offers a variety
-	 * 												   of metadata about the tweet in a discreet structure, including: user_mentions, urls, and hashtags.
+	 * @param   string   $status                 The text of the tweet.
+	 * @param   integer  $in_reply_to_status_id  The ID of an existing status that the update is in reply to.
+	 * @param   float    $lat                    The latitude of the location this tweet refers to.
+	 * @param   float    $long                   The longitude of the location this tweet refers to.
+	 * @param   string   $place_id               A place in the world.
+	 * @param   boolean  $display_coordinates    Whether or not to put a pin on the exact coordinates a tweet has been sent from.
+	 * @param   boolean  $trim_user              When set to true, each tweet returned in a timeline will include a user object including only
+	 *                                           the status author's numerical ID.
+	 * @param   boolean  $entities               When set to true,  each tweet will include a node called "entities,". This node offers a variety
+	 * 											 of metadata about the tweet in a discreet structure, including: user_mentions, urls, and hashtags.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   12.3
 	 */
-	public function tweet($oauth, $status, $in_reply_to_status_id = null, $lat = null, $long = null, $place_id = null, $display_coordinates = false,
+	public function tweet($status, $in_reply_to_status_id = null, $lat = null, $long = null, $place_id = null, $display_coordinates = false,
 		$trim_user = false, $entities = false)
 	{
 		// Set the API base.
@@ -255,7 +254,8 @@ class JTwitterStatuses extends JTwitterObject
 		// Set POST data.
 		$data = array('status' => utf8_encode($status));
 
-		$token = $oauth->getToken();
+		$token = $this->oauth->getToken();
+
 		// Set parameters.
 		$parameters = array('oauth_token' => $token['key']);
 
@@ -305,7 +305,7 @@ class JTwitterStatuses extends JTwitterObject
 		$path = $this->getOption('api.url') . $base;
 
 		// Send the request.
-		$response = $oauth->oauthRequest($path, 'POST', $parameters, $data);
+		$response = $this->oauth->oauthRequest($path, 'POST', $parameters, $data);
 		return json_decode($response->body);
 	}
 
@@ -331,7 +331,7 @@ class JTwitterStatuses extends JTwitterObject
 	 * @since   12.3
 	 * @throws  RuntimeException
 	 */
-	public function getMentions($oauth, $count = 20, $include_rts = true, $entities = false, $since_id = 0, $max_id = 0,
+	public function getMentions($count = 20, $include_rts = true, $entities = false, $since_id = 0, $max_id = 0,
 		$page = 0, $trim_user = false, $contributor = false)
 	{
 		// Check the rate limit for remaining hits
@@ -340,7 +340,8 @@ class JTwitterStatuses extends JTwitterObject
 		// Set the API base
 		$base = '/1/statuses/mentions.json';
 
-		$token = $oauth->getToken();
+		$token = $this->oauth->getToken();
+
 		// Set parameters.
 		$parameters = array('oauth_token' => $token['key']);
 
@@ -393,7 +394,7 @@ class JTwitterStatuses extends JTwitterObject
 		$path = $this->getOption('api.url') . $base;
 
 		// Send the request.
-		$response = $oauth->oauthRequest($path, 'GET', $parameters, $data);
+		$response = $this->oauth->oauthRequest($path, 'GET', $parameters, $data);
 		return json_decode($response->body);
 	}
 
@@ -481,22 +482,21 @@ class JTwitterStatuses extends JTwitterObject
 	/**
 	 * Method to get the most recent tweets of the authenticated user that have been retweeted by others.
 	 *
-	 * @param   JTwitterOauth  $oauth      The JTwitterOauth object.
-	 * @param   integer        $count      Specifies the number of tweets to try and retrieve, up to a maximum of 200.  Retweets are always included
-	 *                                     in the count, so it is always suggested to set $include_rts to true
-	 * @param   integer        $since_id   Returns results with an ID greater than (that is, more recent than) the specified ID.
-	 * @param   boolean        $entities   When set to true,  each tweet will include a node called "entities,". This node offers a variety of metadata
-	 *                                     about the tweet in a discreet structure, including: user_mentions, urls, and hashtags.
-	 * @param   integer        $max_id     Returns results with an ID less than (that is, older than) the specified ID.
-	 * @param   integer        $page       Specifies the page of results to retrieve.
-	 * @param   boolean        $trim_user  When set to true, each tweet returned in a timeline will include a user object including only
-	 *                                     the status author's numerical ID.
+	 * @param   integer  $count      Specifies the number of tweets to try and retrieve, up to a maximum of 200.  Retweets are always included
+	 *                               in the count, so it is always suggested to set $include_rts to true
+	 * @param   integer  $since_id   Returns results with an ID greater than (that is, more recent than) the specified ID.
+	 * @param   boolean  $entities   When set to true,  each tweet will include a node called "entities,". This node offers a variety of metadata
+	 *                               about the tweet in a discreet structure, including: user_mentions, urls, and hashtags.
+	 * @param   integer  $max_id     Returns results with an ID less than (that is, older than) the specified ID.
+	 * @param   integer  $page       Specifies the page of results to retrieve.
+	 * @param   boolean  $trim_user  When set to true, each tweet returned in a timeline will include a user object including only
+	 *                               the status author's numerical ID.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   12.3
 	 */
-	public function getRetweetsOfMe($oauth, $count = 20, $since_id = 0, $entities = false, $max_id = 0, $page = 0, $trim_user = false)
+	public function getRetweetsOfMe($count = 20, $since_id = 0, $entities = false, $max_id = 0, $page = 0, $trim_user = false)
 	{
 		// Check the rate limit for remaining hits
 		$this->checkRateLimit();
@@ -504,7 +504,8 @@ class JTwitterStatuses extends JTwitterObject
 		// Set the API base
 		$base = '/1/statuses/retweets_of_me.json';
 
-		$token = $oauth->getToken();
+		$token = $this->oauth->getToken();
+
 		// Set parameters.
 		$parameters = array('oauth_token' => $token['key']);
 
@@ -545,7 +546,7 @@ class JTwitterStatuses extends JTwitterObject
 		$path = $this->getOption('api.url') . $base;
 
 		// Send the request.
-		$response = $oauth->oauthRequest($path, 'GET', $parameters, $data);
+		$response = $this->oauth->oauthRequest($path, 'GET', $parameters, $data);
 		return json_decode($response->body);
 	}
 
@@ -584,17 +585,16 @@ class JTwitterStatuses extends JTwitterObject
 	/**
 	 * Method to show user ids of up to 100 members who retweeted the status.
 	 *
-	 * @param   JTwitterOauth  $oauth       The JTwitterOauth object.
-	 * @param   integer        $id          The numerical ID of the desired status.
-	 * @param   integer        $count       Specifies the number of retweets to try and retrieve, up to a maximum of 100.
-	 * @param   integer        $page        Specifies the page of results to retrieve.
-	 * @param   boolean        $string_ids  Set to true to return IDs as strings, false to return as integers.
+	 * @param   integer  $id          The numerical ID of the desired status.
+	 * @param   integer  $count       Specifies the number of retweets to try and retrieve, up to a maximum of 100.
+	 * @param   integer  $page        Specifies the page of results to retrieve.
+	 * @param   boolean  $string_ids  Set to true to return IDs as strings, false to return as integers.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   12.3
 	 */
-	public function getRetweetedByIds($oauth, $id, $count = 20, $page = 0, $string_ids = false)
+	public function getRetweetedByIds($id, $count = 20, $page = 0, $string_ids = false)
 	{
 		// Check the rate limit for remaining hits
 		$this->checkRateLimit();
@@ -602,7 +602,8 @@ class JTwitterStatuses extends JTwitterObject
 		// Set the API base
 		$base = '/1/statuses/' . $id . '/retweeted_by.json';
 
-		$token = $oauth->getToken();
+		$token = $this->oauth->getToken();
+
 		// Set parameters.
 		$parameters = array('oauth_token' => $token['key']);
 
@@ -625,27 +626,26 @@ class JTwitterStatuses extends JTwitterObject
 		$path = $this->getOption('api.url') . $base;
 
 		// Send the request.
-		$response = $oauth->oauthRequest($path, 'GET', $parameters, $data);
+		$response = $this->oauth->oauthRequest($path, 'GET', $parameters, $data);
 		return json_decode($response->body);
 	}
 
 	/**
 	 * Method to get up to 100 of the first retweets of a given tweet.
 	 *
-	 * @param   JTwitterOauth  $oauth      The JTwitterOauth object.
-	 * @param   integer        $id         The numerical ID of the desired status.
-	 * @param   integer        $count      Specifies the number of tweets to try and retrieve, up to a maximum of 200.  Retweets are always included
-	 *                                     in the count, so it is always suggested to set $include_rts to true
-	 * @param   boolean        $entities   When set to true,  each tweet will include a node called "entities,". This node offers a variety of metadata
-	 *                                     about the tweet in a discreet structure, including: user_mentions, urls, and hashtags.
-	 * @param   boolean        $trim_user  When set to true, each tweet returned in a timeline will include a user object including only
-	 *                                     the status author's numerical ID.
+	 * @param   integer  $id         The numerical ID of the desired status.
+	 * @param   integer  $count      Specifies the number of tweets to try and retrieve, up to a maximum of 200.  Retweets are always included
+	 *                               in the count, so it is always suggested to set $include_rts to true
+	 * @param   boolean  $entities   When set to true,  each tweet will include a node called "entities,". This node offers a variety of metadata
+	 *                               about the tweet in a discreet structure, including: user_mentions, urls, and hashtags.
+	 * @param   boolean  $trim_user  When set to true, each tweet returned in a timeline will include a user object including only
+	 *                               the status author's numerical ID.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   12.3
 	 */
-	public function getRetweetsById($oauth, $id, $count = 20, $entities = false, $trim_user = false)
+	public function getRetweetsById($id, $count = 20, $entities = false, $trim_user = false)
 	{
 		// Check the rate limit for remaining hits
 		$this->checkRateLimit();
@@ -653,7 +653,8 @@ class JTwitterStatuses extends JTwitterObject
 		// Set the API base
 		$base = '/1/statuses/retweets/' . $id . '.json';
 
-		$token = $oauth->getToken();
+		$token = $this->oauth->getToken();
+
 		// Set parameters.
 		$parameters = array('oauth_token' => $token['key']);
 
@@ -676,30 +677,30 @@ class JTwitterStatuses extends JTwitterObject
 		$path = $this->getOption('api.url') . $base;
 
 		// Send the request.
-		$response = $oauth->oauthRequest($path, 'GET', $parameters, $data);
+		$response = $this->oauth->oauthRequest($path, 'GET', $parameters, $data);
 		return json_decode($response->body);
 	}
 
 	/**
 	 * Method to delete the status specified by the required ID parameter.
 	 *
-	 * @param   JTwitterOauth  $oauth      The JTwitterOauth object.
-	 * @param   integer        $id         The numerical ID of the desired status.
-	 * @param   boolean        $entities   When set to true,  each tweet will include a node called "entities,". This node offers a variety of metadata
-	 *                                     about the tweet in a discreet structure, including: user_mentions, urls, and hashtags.
-	 * @param   boolean        $trim_user  When set to true, each tweet returned in a timeline will include a user object including only
-	 *                                     the status author's numerical ID.
+	 * @param   integer  $id         The numerical ID of the desired status.
+	 * @param   boolean  $entities   When set to true,  each tweet will include a node called "entities,". This node offers a variety of metadata
+	 *                               about the tweet in a discreet structure, including: user_mentions, urls, and hashtags.
+	 * @param   boolean  $trim_user  When set to true, each tweet returned in a timeline will include a user object including only
+	 *                               the status author's numerical ID.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   12.3
 	 */
-	public function deleteTweet($oauth, $id, $entities = false, $trim_user = false)
+	public function deleteTweet($id, $entities = false, $trim_user = false)
 	{
 		// Set the API base
 		$base = '/1/statuses/destroy/' . $id . '.json';
 
-		$token = $oauth->getToken();
+		$token = $this->oauth->getToken();
+
 		// Set parameters.
 		$parameters = array('oauth_token' => $token['key']);
 
@@ -721,25 +722,24 @@ class JTwitterStatuses extends JTwitterObject
 		$path = $this->getOption('api.url') . $base;
 
 		// Send the request.
-		$response = $oauth->oauthRequest($path, 'POST', $parameters, $data);
+		$response = $this->oauth->oauthRequest($path, 'POST', $parameters, $data);
 		return json_decode($response->body);
 	}
 
 	/**
 	 * Method to retweet a tweet.
 	 *
-	 * @param   JTwitterOauth  $oauth      The JTwitterOauth object.
-	 * @param   integer        $id         The numerical ID of the desired status.
-	 * @param   boolean        $entities   When set to true,  each tweet will include a node called "entities,". This node offers a variety of metadata
-	 *                                     about the tweet in a discreet structure, including: user_mentions, urls, and hashtags.
-	 * @param   boolean        $trim_user  When set to true, each tweet returned in a timeline will include a user object including only
-	 *                                     the status author's numerical ID.
+	 * @param   integer  $id         The numerical ID of the desired status.
+	 * @param   boolean  $entities   When set to true,  each tweet will include a node called "entities,". This node offers a variety of metadata
+	 *                               about the tweet in a discreet structure, including: user_mentions, urls, and hashtags.
+	 * @param   boolean  $trim_user  When set to true, each tweet returned in a timeline will include a user object including only
+	 *                               the status author's numerical ID.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   12.3
 	 */
-	public function retweet($oauth, $id, $entities = false, $trim_user = false)
+	public function retweet($id, $entities = false, $trim_user = false)
 	{
 		// Check the rate limit for remaining hits
 		$this->checkRateLimit();
@@ -747,7 +747,8 @@ class JTwitterStatuses extends JTwitterObject
 		// Set the API base
 		$base = '/1/statuses/retweet/' . $id . '.json';
 
-		$token = $oauth->getToken();
+		$token = $this->oauth->getToken();
+
 		// Set parameters.
 		$parameters = array('oauth_token' => $token['key']);
 
@@ -769,29 +770,28 @@ class JTwitterStatuses extends JTwitterObject
 		$path = $this->getOption('api.url') . $base;
 
 		// Send the request.
-		$response = $oauth->oauthRequest($path, 'POST', $parameters, $data);
+		$response = $this->oauth->oauthRequest($path, 'POST', $parameters, $data);
 		return json_decode($response->body);
 	}
 
 	/**
 	 * Method to post a tweet with media.
 	 *
-	 * @param   JTwitterOauth  $oauth                  The JTwitterOauth object.
-	 * @param   string         $status                 The text of the tweet.
-	 * @param   array          $media                  Files to upload
-	 * @param   integer        $in_reply_to_status_id  The ID of an existing status that the update is in reply to.
-	 * @param   float          $lat                    The latitude of the location this tweet refers to.
-	 * @param   float          $long                   The longitude of the location this tweet refers to.
-	 * @param   string         $place_id               A place in the world.
-	 * @param   boolean        $display_coordinates    Whether or not to put a pin on the exact coordinates a tweet has been sent from.
-	 * @param   boolean        $sensitive              Set to true for content which may not be suitable for every audience.
+	 * @param   string   $status                 The text of the tweet.
+	 * @param   array    $media                  Files to upload
+	 * @param   integer  $in_reply_to_status_id  The ID of an existing status that the update is in reply to.
+	 * @param   float    $lat                    The latitude of the location this tweet refers to.
+	 * @param   float    $long                   The longitude of the location this tweet refers to.
+	 * @param   string   $place_id               A place in the world.
+	 * @param   boolean  $display_coordinates    Whether or not to put a pin on the exact coordinates a tweet has been sent from.
+	 * @param   boolean  $sensitive              Set to true for content which may not be suitable for every audience.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   12.3
 	 * @throws  RuntimeException
 	 */
-	public function tweetWithMedia($oauth, $status, $media, $in_reply_to_status_id = null, $lat = null, $long = null, $place_id = null,
+	public function tweetWithMedia($status, $media, $in_reply_to_status_id = null, $lat = null, $long = null, $place_id = null,
 		$display_coordinates = false, $sensitive = false)
 	{
 		// Check the rate limit for remaining hits
@@ -806,7 +806,8 @@ class JTwitterStatuses extends JTwitterObject
 			'status' => utf8_encode($status)
 		);
 
-		$token = $oauth->getToken();
+		$token = $this->oauth->getToken();
+
 		// Set parameters.
 		$parameters = array(
 			'oauth_token' => $token['key']
@@ -851,7 +852,7 @@ class JTwitterStatuses extends JTwitterObject
 		}
 
 		// Send the request.
-		$response = $oauth->oauthRequest($path, 'POST', $parameters, $data, $header);
+		$response = $this->oauth->oauthRequest($path, 'POST', $parameters, $data, $header);
 
 		// Check Media Rate Limit.
 		$response_headers = $response->headers;
