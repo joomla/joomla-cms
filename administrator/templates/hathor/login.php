@@ -24,6 +24,7 @@ $file = 'language/'.$lang->getTag().'/'.$lang->getTag().'.css';
 
 <!-- Load Template CSS -->
 <link href="templates/<?php echo $this->template ?>/css/template.css" rel="stylesheet" type="text/css" />
+<link href="templates/<?php echo $this->template ?>/css/icomoon.css" rel="stylesheet" type="text/css" />
 
 <!-- Load additional CSS styles for colors -->
 <?php

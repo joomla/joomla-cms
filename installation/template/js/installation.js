@@ -49,7 +49,7 @@ var Installation = new Class({
 					Joomla.renderMessages(r.messages);
 				}
 				var lang = $$('html').getProperty('lang')[0];
-				if (lang.toLowerCase() === r.lang.toLowerCase()) {
+				if (r.lang !== null && lang.toLowerCase() === r.lang.toLowerCase()) {
 					Install.goToPage(r.data.view, true);
 				} else {
 					window.location = this.baseUrl+'?view='+r.data.view;
