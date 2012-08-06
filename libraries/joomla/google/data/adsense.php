@@ -55,6 +55,7 @@ class JGoogleDataAdsense extends JGoogleData
 	 */
 	protected function listGetData($url, $maxpages = 1, $token = null)
 	{
+		$qurl = $url;
 		if (strpos($url, '&'))
 		{
 			$qurl .= '&pageToken=' . $token;
@@ -64,7 +65,9 @@ class JGoogleDataAdsense extends JGoogleData
 			$qurl .= 'pageToken=' . $token;
 		}
 		$jdata = $this->auth->query($qurl);
-		if ($data = json_decode($jdata->body, true) && array_key_exists('items', $data))
+		$data = json_decode($jdata->body, true);
+
+		if ($data && array_key_exists('items', $data))
 		{
 			if ($maxpages != 1 && array_key_exists('nextPageToken', $data))
 			{
@@ -126,7 +129,7 @@ class JGoogleDataAdsense extends JGoogleData
 		{
 			$next = array_key_exists('nextPageToken', $options) ? $options['nextPage'] : null;
 			unset($options['nextPageToken']);
-			$url = 'https://www.googleapis.com/adsense/v1.1/accounts?' . explode($options, '&');
+			$url = 'https://www.googleapis.com/adsense/v1.1/accounts?' . implode('&', $options);
 			return $this->listGetData($url, $maxpages, $next);
 		}
 		else
@@ -153,7 +156,7 @@ class JGoogleDataAdsense extends JGoogleData
 		{
 			$next = array_key_exists('nextPageToken', $options) ? $options['nextPage'] : null;
 			unset($options['nextPageToken']);
-			$url = 'https://www.googleapis.com/adsense/v1.1/accounts/' . $accountID . '/adclients?' . explode($options, '&');
+			$url = 'https://www.googleapis.com/adsense/v1.1/accounts/' . $accountID . '/adclients?' . implode('&', $options);
 			return $this->listGetData($url, $maxpages, $next);
 		}
 		else
@@ -215,7 +218,7 @@ class JGoogleDataAdsense extends JGoogleData
 			$next = array_key_exists('nextPageToken', $options) ? $options['nextPage'] : null;
 			unset($options['nextPageToken']);
 			$url = 'https://www.googleapis.com/adsense/v1.1/accounts/' . $accountID;
-			$url .= '/adclients/' . $adclientID . '/adunits/' . $adunitID . '/customchannels?' . explode($options, '&');
+			$url .= '/adclients/' . $adclientID . '/adunits/' . $adunitID . '/customchannels?' . implode('&', $options);
 			return $this->listGetData($url, $maxpages, $next);
 		}
 		else
@@ -276,7 +279,7 @@ class JGoogleDataAdsense extends JGoogleData
 			$next = array_key_exists('nextPageToken', $options) ? $options['nextPage'] : null;
 			unset($options['nextPageToken']);
 			$url = 'https://www.googleapis.com/adsense/v1.1/accounts/' . $accountID . '/adclients/' . $adclientID;
-			$url .= '/customchannels?' . explode($options, '&');
+			$url .= '/customchannels?' . implode('&', $options);
 			return $this->listGetData($url, $maxpages, $next);
 		}
 		else
@@ -306,7 +309,7 @@ class JGoogleDataAdsense extends JGoogleData
 			$next = array_key_exists('nextPageToken', $options) ? $options['nextPage'] : null;
 			unset($options['nextPageToken']);
 			$url = 'https://www.googleapis.com/adsense/v1.1/accounts/' . $accountID . '/adclients/' . $adclientID;
-			$url .= '/customchannels/' . $channelID . '/adunits?' . explode($options, '&');
+			$url .= '/customchannels/' . $channelID . '/adunits?' . implode('&', $options);
 			return $this->listGetData($url, $maxpages, $next);
 		}
 		else
@@ -318,22 +321,24 @@ class JGoogleDataAdsense extends JGoogleData
 	/**
 	 * Method to generate a report from Google AdSense
 	 *
-	 * @param   string  $accountID  ID of account
-	 * @param   array   $options    Search settings
-	 * @param   int     $maxpages   Maximum number of pages of accounts to return
+	 * @param   string  $accountID   ID of account
+	 * @param   string  $adclientID  ID of client
+	 * @param   array   $options     Search settings
+	 * @param   int     $maxpages    Maximum number of pages of accounts to return
 	 *
 	 * @return  mixed  Data from Google
 	 *
 	 * @since   1234
 	 * @throws UnexpectedValueException
 	 */
-	public function listUrlChannels($accountID, $options = array(), $maxpages = 1)
+	public function listUrlChannels($accountID, $adclientID, $options = array(), $maxpages = 1)
 	{
 		if ($this->authenticated())
 		{
 			$next = array_key_exists('nextPageToken', $options) ? $options['nextPage'] : null;
 			unset($options['nextPageToken']);
-			$url = 'https://www.googleapis.com/adsense/v1.1/accounts/' . $accountID . '/adclients/' . $adclientID . '/urlchannels?' . explode($options, '&');
+			$url = 'https://www.googleapis.com/adsense/v1.1/accounts/' . $accountID;
+			$url .= '/adclients/' . $adclientID . '/urlchannels?' . implode('&', $options);
 			return $this->listGetData($url, $maxpages, $next);
 		}
 		else
@@ -356,7 +361,7 @@ class JGoogleDataAdsense extends JGoogleData
 	 * @since   1234
 	 * @throws UnexpectedValueException
 	 */
-	public function generateReport($accountID, $start, $end, $options = array(), $maxpages = 1)
+	public function generateReport($accountID, $start, $end = false, $options = array(), $maxpages = 1)
 	{
 		if ($this->authenticated())
 		{
@@ -378,7 +383,11 @@ class JGoogleDataAdsense extends JGoogleData
 				throw new InvalidArgumentException('Invalid start time.');
 			}
 
-			if (is_int($end))
+			if (!$end)
+			{
+				$endobj = new DateTime;
+			}
+			elseif (is_int($end))
 			{
 				$endobj = new DateTime;
 				$endobj->setTimestamp($end);
@@ -402,7 +411,7 @@ class JGoogleDataAdsense extends JGoogleData
 			$begin = array_key_exists('startIndex', $options) ? $options['startIndex'] : 0;
 			unset($options['startIndex']);
 
-			$url = 'https://www.googleapis.com/adsense/v1.1/accounts/' . $accountID . '/reports?' . explode($options, '&');
+			$url = 'https://www.googleapis.com/adsense/v1.1/accounts/' . $accountID . '/reports?' . implode('&', $options);
 			if (strpos($url, '&'))
 			{
 				$url .= '&';
@@ -413,7 +422,9 @@ class JGoogleDataAdsense extends JGoogleData
 			do
 			{
 				$jdata = $this->auth->query($url . 'startIndex=' . count($data['rows']));
-				if ($newdata = json_decode($jdata->body, true) && array_key_exists('items', $newdata))
+				$newdata = json_decode($jdata->body, true);
+
+				if ($newdata && array_key_exists('rows', $newdata))
 				{
 					$newdata['rows'] = array_merge($data['rows'], $newdata['rows']);
 					$data = $newdata;
