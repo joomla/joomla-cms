@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+05-Aug-2012 Mark Dexter
+ # [#28904] Typo in recent commit broke single newsfeed
+
 05-Aug-2012 Rouven Weßling
  ^ Add additional sinffs to the code style checker
 
