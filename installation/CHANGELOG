@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+7-August-2012 Jean-Marie Simonet
+ + [#28896] Installing Language packs from Extension Manager in 2.5.x. Thanks Javier
+
 31-July-2012 Jean-Marie Simonet
  [#28877] Overriding settings in the language xx-XX.localise.php
  

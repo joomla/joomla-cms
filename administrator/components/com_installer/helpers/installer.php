@@ -55,6 +55,11 @@ class InstallerHelper
 					'index.php?option=com_installer&view=warnings',
 		$vName == 'warnings'
 		);
+		JSubMenuHelper::addEntry(
+			JText::_('COM_INSTALLER_SUBMENU_LANGUAGES'),
+			'index.php?option=com_installer&view=languages',
+			$vName == 'languages'
+		);
 	}
 
 	/**
