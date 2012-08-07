@@ -1,0 +1,1 @@
+<jdoc:include type="installation" />
