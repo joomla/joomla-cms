@@ -31,7 +31,10 @@ class WeblinksViewCategory extends JViewLegacy
 		$fromName = $app->getCfg('fromname');
 		$feedEmail	= $app->getCfg('feed_email', 'author');
 		$document->editor = $fromName;
-		$document->editorEmail = $siteEmail;
+		if ($feedEmail != "none")
+		{
+			$document->editorEmail = $siteEmail;
+		}
 
 		// Get some data from the model
 		$items		= $this->get('Items');
@@ -48,7 +51,7 @@ class WeblinksViewCategory extends JViewLegacy
 
 			// strip html from feed item description text
 			$description = $item->description;
-			$author			= $item->created_by_alias ? $item->created_by_alias : $item->created_by;
+			$author			= $item->created_by_alias ? $item->created_by_alias : $item->author;
 			$date = ($item->date ? date('r', strtotime($item->date)) : '');
 
 			// load individual item creator class
@@ -67,7 +70,7 @@ class WeblinksViewCategory extends JViewLegacy
 			}
 			elseif($feedEmail === 'author')
 			{
-				$feeditem->authorEmail = $siteEmail;
+				$feeditem->authorEmail = $item->author_email;
 			}
 
 			// loads item info into rss array

@@ -32,6 +32,7 @@ class ContactViewCategory extends JViewLegacy
 		$params = $app->getParams();
 		$feedEmail	= $app->getCfg('feed_email', 'author');
 		$siteEmail	= $app->getCfg('mailfrom');
+		$fromName = $app->getCfg('fromname');
 
 		JRequest::setVar('limit', $app->getCfg('feed_limit'));
 		// Get some data from the models
@@ -53,7 +54,7 @@ class ContactViewCategory extends JViewLegacy
 			$link = JRoute::_(ContactHelperRoute::getContactRoute($row->slug, $row->catid));
 
 			$description	= $row->address;
-			$author			= $row->created_by_alias ? $row->created_by_alias : $row->created_by;
+			$author			= $row->created_by_alias ? $row->created_by_alias : $row->author;
 			@$date			= ($row->created ? date('r', strtotime($row->created)) : '');
 
 			// load individual item creator class
@@ -72,7 +73,7 @@ class ContactViewCategory extends JViewLegacy
 			}
 			elseif($feedEmail == 'author')
 			{
-				$item->authorEmail = $siteEmail;
+				$item->authorEmail = $row->author_email;
 			}
 
 			// loads item info into rss array
