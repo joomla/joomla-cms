@@ -719,6 +719,9 @@
 				value="author">COM_CONFIG_FIELD_VALUE_AUTHOR_EMAIL</option>
 			<option
 				value="site">COM_CONFIG_FIELD_VALUE_SITE_EMAIL</option>
+			<option
+				value="none">COM_CONFIG_FIELD_VALUE_NO_EMAIL</option>
+
 		</field>
 	</fieldset>
 
