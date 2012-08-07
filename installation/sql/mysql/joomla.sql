@@ -1486,9 +1486,9 @@ CREATE TABLE IF NOT EXISTS `#__template_styles` (
 --
 
 INSERT INTO `#__template_styles` (`id`, `template`, `client_id`, `home`, `title`, `params`) VALUES
-(2, 'storkantu', 1, '1', 'storkantu - Defecto', '{"showSiteName":"0","colourChoice":"","boldText":"0"}'),
-(3, 'jokteantu', 0, '1', 'jokteantu - Defecto', '{"logo":"images\\/logos\\/jokte-logo-front.png","sitename":"JoKte! CMS 100% Libre","siteslogan":"Software 100% Libre y Latinoamericano","typeslogan":"1","body":980,"tipomenu":"css2","typobody":"no-google","typoespecial":"Oswald","skincss":"red","errorskin":"base","user1":"25","banners":["50","50"],"userstop":["33","33","33"],"usersbottom":["33","33","33"],"left":"16","content":"67","right":"17","twitter":"jokte","isanalytics":"1","analyticsid":"UA-xxxxxx-x"}'),
-(4, 'hathor', 1, '0', 'Hathor - Defecto', '{"showSiteName":"0","colourChoice":"","boldText":"0"}');
+(2, 'storkantu', 1, '1', 'storkantu - Predeterminado', '{"showSiteName":"0","colourChoice":"","boldText":"0"}'),
+(3, 'jokteantu', 0, '1', 'jokteantu - Predeterminado', '{"logo":"images\\/logos\\/jokte-logo-front.png","sitename":"JoKte! CMS 100% Libre","siteslogan":"Software 100% Libre y Latinoamericano","typeslogan":"1","body":980,"tipomenu":"css2","typobody":"no-google","typoespecial":"Oswald","skincss":"red","errorskin":"base","user1":"25","banners":["50","50"],"userstop":["33","33","33"],"usersbottom":["33","33","33"],"left":"16","content":"67","right":"17","twitter":"jokte","isanalytics":"1","analyticsid":"UA-xxxxxx-x"}'),
+(4, 'hathor', 1, '0', 'Hathor - Predeterminado', '{"showSiteName":"0","colourChoice":"","boldText":"0"}');
 
 -- --------------------------------------------------------
 
