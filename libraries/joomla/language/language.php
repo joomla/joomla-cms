@@ -826,7 +826,7 @@ class JLanguage
 
 			// Initialise variables for manually parsing the file for common errors.
 			$blacklist = array('YES', 'NO', 'NULL', 'FALSE', 'ON', 'OFF', 'NONE', 'TRUE');
-            $regex = '/^(|(\[[^\]]*\])|([A-Z][A-Z0-9_\-\.\"\']*\s*=(\s*(("([^"]|\\\")*")|(_QQ_)))+))\s*(;.*)?$/';
+            $regex = '/^(|(\[[^\]]*\])|([A-Z][A-Z0-9_\-\.]*\s*=(\s*(("([^"]|\\\")*")|(_QQ_)))+))\s*(;.*)?$/';
 			$this->debug = false;
 			$errors = array();
 			$lineNumber = 0;
