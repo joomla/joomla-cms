@@ -15,33 +15,14 @@ class JUserHelperTest extends JoomlaDatabaseTestCase
 	protected $object;
 
 	/**
-	 * Receives the callback from JError and logs the required error information for the test.
-	 *
-	 * @param	JException	The JException object from JError
-	 *
-	 * @return	bool	To not continue with JError processing
-	 */
-	static function errorCallback( $error )
-	{
-		JUserHelperTest::$actualError['code'] = $error->get('code');
-		JUserHelperTest::$actualError['msg'] = $error->get('message');
-		JUserHelperTest::$actualError['info'] = $error->get('info');
-		return false;
-	}
-
-	/**
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
 	 */
 	protected function setUp()
 	{
-		jimport('joomla.user.user');
 		parent::setUp();
 
 		$this->saveFactoryState();
-		$this->saveErrorHandlers();
-		$this->setErrorCallback('JUserHelperTest');
-		JUserHelperTest::$actualError = array();
 
 		$this->object = new JUserHelper;
 	}
@@ -55,7 +36,7 @@ class JUserHelperTest extends JoomlaDatabaseTestCase
 		$this->setErrorhandlers($this->savedErrorState);
 	}
 
- /**
+	/**
     * Test cases for userGroups
     *
     * Each test case provides
@@ -78,15 +59,6 @@ class JUserHelperTest extends JoomlaDatabaseTestCase
                array( 'Super Users' => 8 ),
                array(),
            ),
-           'unknownUser' => array(
-               1000,
-               array(),
-               array(
-                   'code' => 'SOME_ERROR_CODE',
-                   'msg'  => 'JLIB_USER_ERROR_UNABLE_TO_LOAD_USER',
-                   'info' => ''
-               ),
-           ),
        );
    }
 
@@ -105,50 +77,6 @@ class JUserHelperTest extends JoomlaDatabaseTestCase
 		$this->assertThat(
 			JUserHelper::getUserGroups($userid),
 			$this->equalTo($expected)
-		);
-		$this->assertThat(
-			JUserHelperTest::$actualError,
-			$this->equalTo($error)
-		);
-	}
-
-	/**
-	 * Test cases for userId
-	 *
-	 * @return array
-	 */
-	function casesGetUserId()
-	{
-		return array(
-			'admin' => array(
-				'admin',
-				42,
-				array(),
-			),
-			'unknown' => array(
-				'unknown',
-				null,
-				array(),
-			),
-		);
-	}
-
-	/**
-	 * TestingGetUserGroups().
-	 *
-	 * @param	string	User name
-	 * @param	int 	Expected user id
-	 * @param	array	Expected error info
-	 *
-	 * @return void
-	 * @dataProvider casesGetUserId
-	 */
-	public function testGetUserId( $username, $expected, $error )
-	{
-		$expResult = $expected;
-		$this->assertThat(
-			JUserHelper::getUserId($username),
-			$this->equalTo($expResult)
 		);
 		$this->assertThat(
 			JUserHelperTest::$actualError,
