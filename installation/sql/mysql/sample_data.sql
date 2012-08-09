@@ -140,7 +140,7 @@ INSERT IGNORE INTO `#__assets` (`id`, `parent_id`, `lft`, `rgt`, `level`, `name`
 (193, 107, 190, 191, 4, 'com_content.article.99', 'Pluguines de Búsqueda', '{"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
 (194, 107, 192, 193, 4, 'com_content.article.100', 'Pluguines de Usuario', '{"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
 (195, 107, 194, 195, 4, 'com_content.article.101', 'Pluguines de Sistema', '{"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
-(196, 109, 204, 205, 4, 'com_content.article.102', 'Idioma es_LA en JOKTE! CMS', '{"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
+(196, 109, 204, 205, 4, 'com_content.article.102', 'Sufijo de geolocalización es_LA en JOKTE! CMS', '{"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
 (197, 109, 206, 207, 4, 'com_content.article.103', 'Lenguas Originarias en JOKTE! CMS', '{"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
 (198, 108, 198, 199, 4, 'com_content.article.104', 'Plantilla y Framework Jokte! Antu', '{"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
 (199, 108, 200, 201, 4, 'com_content.article.105', 'Plantilla Responsive Jokte! Kyju', '{"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
