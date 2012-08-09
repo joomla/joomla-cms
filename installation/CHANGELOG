@@ -26,34 +26,37 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
-7-August-2012 Jean-Marie Simonet
+09-Aug-2012 Mark Dexter
+ # [#25663] "Can't build admin menu item" error while (re)installing component. Thanks Nicholas.
+
+07-Aug-2012 Jean-Marie Simonet
  + [#28896] Installing Language packs from Extension Manager in 2.5.x. Thanks Javier
 
-31-July-2012 Jean-Marie Simonet
+31-Jul-2012 Jean-Marie Simonet
  [#28877] Overriding settings in the language xx-XX.localise.php
  
-25-July-2012 Jean-Marie Simonet
+25-Jul-2012 Jean-Marie Simonet
  [#28846] *When URL Language Code is removed, language switcher module redirects to URL without .html suffix. Thanks Dennis
 
-18-July-2012 Jean-Marie Simonet
+18-Jul-2012 Jean-Marie Simonet
  # [#28837] Can't get past step 4 "Database Configuration". Thanks Shaun.
 
-11-July-2012 Jean-Marie Simonet
+11-Jul-2012 Jean-Marie Simonet
  # [#28535] Joomla 2.5.4 Timezones being doubled. Thanks Christophe and Andrea
  # [#28034] White page on contact form with SEO enabled. Thanks Nikolai
  # [#28743] Update TinyMCE to version 3.5.4.1. Thanks Rouven
 
-08-July-2012 Jean-Marie Simonet
+08-Jul-2012 Jean-Marie Simonet
  # [#28510] DB error "session" table Duplicate entry. Thanks Rob
  #^ [#28785] mod_wrapper doesn't support iframe without border. Thanks Andrea Sisti
  
-05-July-2012 Jean-Marie Simonet
+05-Jul-2012 Jean-Marie Simonet
  # [#28770] Loss of data when editing an article through the front end. Thanks Franz
 
-04-July-2012 Jean-Marie Simonet
+04-Jul-2012 Jean-Marie Simonet
  # [#28779] *JS error in page 6 of installation. Thanks Michael
 
-03-July-2012 Jean-Marie Simonet
+03-Jul-2012 Jean-Marie Simonet
  # [#28741] E_STRICT: JArrayHelper::pivot should be declared as static. Thanks Christophe.
  ^ [#28776] Replace DS with DIRECTORY_SEPARATOR in com_media. Thanks Michael
 
