@@ -58,6 +58,11 @@ JHtml::_('behavior.keepalive');
 			<li><?php echo $this->form->getLabel('id'); ?>
 			<?php echo $this->form->getInput('id'); ?></li>
 			</ul>
+			
+				<?php echo $this->form->getLabel('description'); ?>
+				<div class="clr"></div>
+				<?php echo $this->form->getInput('description'); ?>
+			
 		</fieldset>
 	</div>
 
@@ -77,6 +82,24 @@ JHtml::_('behavior.keepalive');
 				<li><?php echo $this->form->getLabel('created'); ?>
 				<?php echo $this->form->getInput('created'); ?></li>
 
+				<?php if ($this->item->modified_by) : ?>
+						<li><?php echo $this->form->getLabel('modified_by'); ?>
+						<?php echo $this->form->getInput('modified_by'); ?></li>
+
+						<li><?php echo $this->form->getLabel('modified'); ?>
+						<?php echo $this->form->getInput('modified'); ?></li>
+				<?php endif; ?>
+
+				<?php if ($this->item->version) : ?>
+					<li><?php echo $this->form->getLabel('version'); ?>
+					<?php echo $this->form->getInput('version'); ?></li>
+				<?php endif; ?>
+
+				<?php if ($this->item->hits) : ?>
+					<li><?php echo $this->form->getLabel('hits'); ?>
+					<?php echo $this->form->getInput('hits'); ?></li>
+				<?php endif; ?>
+
 				<li><?php echo $this->form->getLabel('publish_up'); ?>
 				<?php echo $this->form->getInput('publish_up'); ?></li>
 
@@ -90,7 +113,9 @@ JHtml::_('behavior.keepalive');
 					<li><?php echo $this->form->getLabel('modified'); ?>
 					<?php echo $this->form->getInput('modified'); ?></li>
 				<?php endif; ?>
-
+			</ul>
+			
+			<ul>
 				<li><?php echo $this->form->getLabel('numarticles'); ?>
 				<?php echo $this->form->getInput('numarticles'); ?></li>
 
@@ -103,9 +128,27 @@ JHtml::_('behavior.keepalive');
 				<li><?php //echo $this->form->getLabel('xreference'); // Missing from schema! ?>
 				<?php //echo $this->form->getInput('xreference'); ?></li>
 			</ul>
+
 			</fieldset>
 
 			<?php echo $this->loadTemplate('params'); ?>
+			<?php echo JHtml::_('sliders.panel', JText::_('COM_NEWSFEEDS_FIELDSET_IMAGES'), 'images-options'); ?>
+				<fieldset class="panelform">
+				<ul class="adminformlist">
+					<li>
+					<?php echo $this->form->getLabel('images'); ?>
+					<?php echo $this->form->getInput('images'); ?></li>
+
+					<?php foreach($this->form->getGroup('images') as $field): ?>
+						<li>
+							<?php if (!$field->hidden): ?>
+								<?php echo $field->label; ?>
+							<?php endif; ?>
+							<?php echo $field->input; ?>
+						</li>
+					<?php endforeach; ?>
+				</ul>
+				</fieldset>
 
 			<?php echo $this->loadTemplate('metadata'); ?>
 

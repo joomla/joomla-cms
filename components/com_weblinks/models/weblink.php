@@ -47,7 +47,7 @@ class WeblinksModelWeblink extends JModelItem
 	}
 
 	/**
-	 * Method to get an ojbect.
+	 * Method to get an object.
 	 *
 	 * @param	integer	The id of the object to get.
 	 *
