@@ -119,4 +119,96 @@ class JInstallerTest extends TestCase
 			'getUpgrade did not return the expected value.'
 		);
 	}
+
+	/**
+	 * @covers  JInstaller::getPath
+	 */
+	public function testGetPath()
+	{
+		$this->assertThat(
+			$this->object->getPath('path1_getpath', 'default_value'),
+			$this->equalTo('default_value'),
+			'getPath did not return the default value for an undefined path'
+		);
+
+		$this->object->setPath('path2_getpath', JPATH_BASE.'/required_path');
+
+		$this->assertThat(
+			$this->object->getPath('path2_getpath', 'default_value'),
+			$this->equalTo(JPATH_BASE.'/required_path'),
+			'getPath did not return the previously set value for the path'
+		);
+	}
+
+	/**
+	 * @covers  JInstaller::abort
+	 */
+	public function testAbortQuery()
+	{
+		$this->object->pushStep(array('type' => 'query'));
+
+		$this->assertThat(
+			$this->object->abort(),
+			$this->isFalse()
+		);
+	}
+
+	/**
+	 * @covers  JInstaller::abort
+	 */
+	public function testAbortDefault()
+	{
+		$adapterMock = $this->getMock('test', array('_rollback_testtype'));
+
+		$adapterMock->expects($this->once())
+			->method('_rollback_testtype')
+			->with($this->equalTo(array('type' => 'testtype')))
+			->will($this->returnValue(true));
+
+		$this->object->setAdapter('testadapter', $adapterMock);
+
+		$this->object->pushStep(array('type' => 'testtype'));
+
+		$this->assertThat(
+			$this->object->abort(null, 'testadapter'),
+			$this->isTrue()
+		);
+	}
+
+	/**
+	 * Test that if the type is not good we fall back properly
+	 * @covers  JInstaller::abort
+	 */
+	public function testAbortBadType()
+	{
+		$this->object->pushStep(array('type' => 'badstep'));
+
+		$this->assertThat(
+			$this->object->abort(null, false),
+			$this->isFalse()
+		);
+	}
+
+	/**
+	 * This test is weak and may need removal at some point
+	 * @covers  JInstaller::abort
+	 *
+	 * @expectedException  RuntimeException
+	 */
+	public function testAbortDebug()
+	{
+		$configMock = $this->getMock('test', array('get'));
+
+		$configMock->expects($this->atLeastOnce())
+			->method('get')
+			->with($this->equalTo('debug'))
+			->will($this->returnValue(true));
+
+		JFactory::$config = $configMock;
+
+		$this->assertThat(
+			$this->object->abort(),
+			$this->isTrue()
+		);
+	}
 }
