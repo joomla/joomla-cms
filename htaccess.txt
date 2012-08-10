@@ -1,5 +1,5 @@
 ##
-# @package		Joomla
+# @package		JOKTE! CMS
 # @copyright	Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.
 # @license		GNU General Public License version 2 or later; see LICENSE.txt
 ##
@@ -21,6 +21,10 @@ Options +FollowSymLinks
 ## Mod_rewrite in use.
 
 RewriteEngine On
+
+##Redireccionamiento de www.dominio.com a dominio.com. Descomenta y reemplaza para aplicar 
+#RewriteCond %{HTTP_HOST} ^www.tudominio.com [NC]
+#RewriteRule ^(.*)$ http://tudominio.com/$1 [L,R=301]
 
 ## Begin - Rewrite rules to block out some common exploits.
 # If you experience problems on your site block out the operations listed below
