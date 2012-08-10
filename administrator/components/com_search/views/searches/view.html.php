@@ -55,16 +55,16 @@ class SearchViewSearches extends JViewLegacy
 	{
 		$canDo	= SearchHelper::getActions();
 
-		JToolBarHelper::title(JText::_('COM_SEARCH_MANAGER_SEARCHES'), 'search.png');
+		JToolbarHelper::title(JText::_('COM_SEARCH_MANAGER_SEARCHES'), 'search.png');
 
 		if ($canDo->get('core.edit.state')) {
-			JToolBarHelper::custom('searches.reset', 'refresh.png', 'refresh_f2.png', 'JSEARCH_RESET', false);
+			JToolbarHelper::custom('searches.reset', 'refresh.png', 'refresh_f2.png', 'JSEARCH_RESET', false);
 		}
-		JToolBarHelper::divider();
+		JToolbarHelper::divider();
 		if ($canDo->get('core.admin')) {
-			JToolBarHelper::preferences('com_search');
+			JToolbarHelper::preferences('com_search');
 		}
-		JToolBarHelper::divider();
-		JToolBarHelper::help('JHELP_COMPONENTS_SEARCH');
+		JToolbarHelper::divider();
+		JToolbarHelper::help('JHELP_COMPONENTS_SEARCH');
 	}
 }

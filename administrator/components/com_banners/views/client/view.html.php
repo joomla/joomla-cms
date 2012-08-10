@@ -60,29 +60,29 @@ class BannersViewClient extends JViewLegacy
 		$checkedOut	= !($this->item->checked_out == 0 || $this->item->checked_out == $user->get('id'));
 		$canDo		= BannersHelper::getActions();
 
-		JToolBarHelper::title($isNew ? JText::_('COM_BANNERS_MANAGER_CLIENT_NEW') : JText::_('COM_BANNERS_MANAGER_CLIENT_EDIT'), 'banners-clients.png');
+		JToolbarHelper::title($isNew ? JText::_('COM_BANNERS_MANAGER_CLIENT_NEW') : JText::_('COM_BANNERS_MANAGER_CLIENT_EDIT'), 'banners-clients.png');
 
 		// If not checked out, can save the item.
 		if (!$checkedOut && ($canDo->get('core.edit')||$canDo->get('core.create'))) {
-			JToolBarHelper::apply('client.apply');
-			JToolBarHelper::save('client.save');
+			JToolbarHelper::apply('client.apply');
+			JToolbarHelper::save('client.save');
 		}
 		if (!$checkedOut && $canDo->get('core.create')) {
 
-			JToolBarHelper::save2new('client.save2new');
+			JToolbarHelper::save2new('client.save2new');
 		}
 		// If an existing item, can save to a copy.
 		if (!$isNew && $canDo->get('core.create')) {
-			JToolBarHelper::save2copy('client.save2copy');
+			JToolbarHelper::save2copy('client.save2copy');
 		}
 
 		if (empty($this->item->id))  {
-			JToolBarHelper::cancel('client.cancel');
+			JToolbarHelper::cancel('client.cancel');
 		} else {
-			JToolBarHelper::cancel('client.cancel', 'JTOOLBAR_CLOSE');
+			JToolbarHelper::cancel('client.cancel', 'JTOOLBAR_CLOSE');
 		}
 
-		JToolBarHelper::divider();
-		JToolBarHelper::help('JHELP_COMPONENTS_BANNERS_CLIENTS_EDIT');
+		JToolbarHelper::divider();
+		JToolbarHelper::help('JHELP_COMPONENTS_BANNERS_CLIENTS_EDIT');
 	}
 }

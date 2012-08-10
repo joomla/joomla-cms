@@ -43,12 +43,12 @@ class UsersViewMail extends JViewLegacy
 	{
 		JFactory::getApplication()->input->set('hidemainmenu', true);
 
-		JToolBarHelper::title(JText::_('COM_USERS_MASS_MAIL'), 'massmail.png');
-		JToolBarHelper::custom('mail.send', 'send.png', 'send_f2.png', 'COM_USERS_TOOLBAR_MAIL_SEND_MAIL', false);
-		JToolBarHelper::cancel('mail.cancel');
-		JToolBarHelper::divider();
-		JToolBarHelper::preferences('com_users');
-		JToolBarHelper::divider();
-		JToolBarHelper::help('JHELP_USERS_MASS_MAIL_USERS');
+		JToolbarHelper::title(JText::_('COM_USERS_MASS_MAIL'), 'massmail.png');
+		JToolbarHelper::custom('mail.send', 'send.png', 'send_f2.png', 'COM_USERS_TOOLBAR_MAIL_SEND_MAIL', false);
+		JToolbarHelper::cancel('mail.cancel');
+		JToolbarHelper::divider();
+		JToolbarHelper::preferences('com_users');
+		JToolbarHelper::divider();
+		JToolbarHelper::help('JHELP_USERS_MASS_MAIL_USERS');
 	}
 }

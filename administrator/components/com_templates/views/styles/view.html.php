@@ -63,30 +63,30 @@ class TemplatesViewStyles extends JViewLegacy
 		$canDo	= TemplatesHelper::getActions();
 		$isSite	= ($state->get('filter.client_id') == 0);
 
-		JToolBarHelper::title(JText::_('COM_TEMPLATES_MANAGER_STYLES'), 'thememanager');
+		JToolbarHelper::title(JText::_('COM_TEMPLATES_MANAGER_STYLES'), 'thememanager');
 
 		if ($canDo->get('core.edit.state')) {
-			JToolBarHelper::makeDefault('styles.setDefault', 'COM_TEMPLATES_TOOLBAR_SET_HOME');
-			JToolBarHelper::divider();
+			JToolbarHelper::makeDefault('styles.setDefault', 'COM_TEMPLATES_TOOLBAR_SET_HOME');
+			JToolbarHelper::divider();
 		}
 
 		if ($canDo->get('core.edit')) {
-			JToolBarHelper::editList('style.edit');
+			JToolbarHelper::editList('style.edit');
 		}
 		if ($canDo->get('core.create')) {
-			JToolBarHelper::custom('styles.duplicate', 'copy.png', 'copy_f2.png', 'JTOOLBAR_DUPLICATE', true);
-			JToolBarHelper::divider();
+			JToolbarHelper::custom('styles.duplicate', 'copy.png', 'copy_f2.png', 'JTOOLBAR_DUPLICATE', true);
+			JToolbarHelper::divider();
 		}
 
 		if ($canDo->get('core.delete')) {
-			JToolBarHelper::deleteList('', 'styles.delete');
-			JToolBarHelper::divider();
+			JToolbarHelper::deleteList('', 'styles.delete');
+			JToolbarHelper::divider();
 		}
 
 		if ($canDo->get('core.admin')) {
-			JToolBarHelper::preferences('com_templates');
-			JToolBarHelper::divider();
+			JToolbarHelper::preferences('com_templates');
+			JToolbarHelper::divider();
 		}
-		JToolBarHelper::help('JHELP_EXTENSIONS_TEMPLATE_MANAGER_STYLES');
+		JToolbarHelper::help('JHELP_EXTENSIONS_TEMPLATE_MANAGER_STYLES');
 	}
 }

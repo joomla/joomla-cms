@@ -52,24 +52,24 @@ class UsersViewGroups extends JViewLegacy
 	{
 		$canDo	= UsersHelper::getActions();
 
-		JToolBarHelper::title(JText::_('COM_USERS_VIEW_GROUPS_TITLE'), 'groups');
+		JToolbarHelper::title(JText::_('COM_USERS_VIEW_GROUPS_TITLE'), 'groups');
 
 		if ($canDo->get('core.create')) {
-			JToolBarHelper::addNew('group.add');
+			JToolbarHelper::addNew('group.add');
 		}
 		if ($canDo->get('core.edit')) {
-			JToolBarHelper::editList('group.edit');
-			JToolBarHelper::divider();
+			JToolbarHelper::editList('group.edit');
+			JToolbarHelper::divider();
 		}
 		if ($canDo->get('core.delete')) {
-			JToolBarHelper::deleteList('', 'groups.delete');
-			JToolBarHelper::divider();
+			JToolbarHelper::deleteList('', 'groups.delete');
+			JToolbarHelper::divider();
 		}
 
 		if ($canDo->get('core.admin')) {
-			JToolBarHelper::preferences('com_users');
-			JToolBarHelper::divider();
+			JToolbarHelper::preferences('com_users');
+			JToolbarHelper::divider();
 		}
-		JToolBarHelper::help('JHELP_USERS_GROUPS');
+		JToolbarHelper::help('JHELP_USERS_GROUPS');
 	}
 }

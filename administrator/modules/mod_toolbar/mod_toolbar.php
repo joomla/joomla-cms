@@ -9,6 +9,6 @@
 
 defined('_JEXEC') or die;
 
-$toolbar = JToolBar::getInstance('toolbar')->render('toolbar');
+$toolbar = JToolbar::getInstance('toolbar')->render('toolbar');
 
 require JModuleHelper::getLayoutPath('mod_toolbar', $params->get('layout', 'default'));

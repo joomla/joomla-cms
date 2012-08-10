@@ -55,34 +55,34 @@ class BannersViewClients extends JViewLegacy
 
 		$canDo	= BannersHelper::getActions();
 
-		JToolBarHelper::title(JText::_('COM_BANNERS_MANAGER_CLIENTS'), 'banners-clients.png');
+		JToolbarHelper::title(JText::_('COM_BANNERS_MANAGER_CLIENTS'), 'banners-clients.png');
 		if ($canDo->get('core.create')) {
-			JToolBarHelper::addNew('client.add');
+			JToolbarHelper::addNew('client.add');
 		}
 		if ($canDo->get('core.edit')) {
-			JToolBarHelper::editList('client.edit');
+			JToolbarHelper::editList('client.edit');
 		}
 		if ($canDo->get('core.edit.state')) {
-			JToolBarHelper::divider();
-			JToolBarHelper::publish('clients.publish', 'JTOOLBAR_PUBLISH', true);
-			JToolBarHelper::unpublish('clients.unpublish', 'JTOOLBAR_UNPUBLISH', true);
-			JToolBarHelper::divider();
-			JToolBarHelper::archiveList('clients.archive');
-			JToolBarHelper::checkin('clients.checkin');
+			JToolbarHelper::divider();
+			JToolbarHelper::publish('clients.publish', 'JTOOLBAR_PUBLISH', true);
+			JToolbarHelper::unpublish('clients.unpublish', 'JTOOLBAR_UNPUBLISH', true);
+			JToolbarHelper::divider();
+			JToolbarHelper::archiveList('clients.archive');
+			JToolbarHelper::checkin('clients.checkin');
 		}
 		if ($this->state->get('filter.state') == -2 && $canDo->get('core.delete')) {
-			JToolBarHelper::deleteList('', 'clients.delete', 'JTOOLBAR_EMPTY_TRASH');
-			JToolBarHelper::divider();
+			JToolbarHelper::deleteList('', 'clients.delete', 'JTOOLBAR_EMPTY_TRASH');
+			JToolbarHelper::divider();
 		} elseif ($canDo->get('core.edit.state')) {
-			JToolBarHelper::trash('clients.trash');
-			JToolBarHelper::divider();
+			JToolbarHelper::trash('clients.trash');
+			JToolbarHelper::divider();
 		}
 
 		if ($canDo->get('core.admin')) {
-			JToolBarHelper::preferences('com_banners');
-			JToolBarHelper::divider();
+			JToolbarHelper::preferences('com_banners');
+			JToolbarHelper::divider();
 		}
 
-		JToolBarHelper::help('JHELP_COMPONENTS_BANNERS_CLIENTS');
+		JToolbarHelper::help('JHELP_COMPONENTS_BANNERS_CLIENTS');
 	}
 }

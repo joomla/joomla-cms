@@ -62,39 +62,39 @@ class ContactViewContacts extends JViewLegacy
 		require_once JPATH_COMPONENT.'/helpers/contact.php';
 		$canDo	= ContactHelper::getActions($this->state->get('filter.category_id'));
 		$user	= JFactory::getUser();
-		JToolBarHelper::title(JText::_('COM_CONTACT_MANAGER_CONTACTS'), 'contact.png');
+		JToolbarHelper::title(JText::_('COM_CONTACT_MANAGER_CONTACTS'), 'contact.png');
 
 		if ($canDo->get('core.create') || (count($user->getAuthorisedCategories('com_contact', 'core.create'))) > 0) {
-			JToolBarHelper::addNew('contact.add');
+			JToolbarHelper::addNew('contact.add');
 		}
 
 		if (($canDo->get('core.edit')) || ($canDo->get('core.edit.own'))) {
-			JToolBarHelper::editList('contact.edit');
+			JToolbarHelper::editList('contact.edit');
 		}
 
 		if ($canDo->get('core.edit.state')) {
-			JToolBarHelper::divider();
-			JToolBarHelper::publish('contacts.publish', 'JTOOLBAR_PUBLISH', true);
-			JToolBarHelper::unpublish('contacts.unpublish', 'JTOOLBAR_UNPUBLISH', true);
-			JToolBarHelper::divider();
-			JToolBarHelper::archiveList('contacts.archive');
-			JToolBarHelper::checkin('contacts.checkin');
+			JToolbarHelper::divider();
+			JToolbarHelper::publish('contacts.publish', 'JTOOLBAR_PUBLISH', true);
+			JToolbarHelper::unpublish('contacts.unpublish', 'JTOOLBAR_UNPUBLISH', true);
+			JToolbarHelper::divider();
+			JToolbarHelper::archiveList('contacts.archive');
+			JToolbarHelper::checkin('contacts.checkin');
 		}
 
 		if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete')) {
-			JToolBarHelper::deleteList('', 'contacts.delete', 'JTOOLBAR_EMPTY_TRASH');
-			JToolBarHelper::divider();
+			JToolbarHelper::deleteList('', 'contacts.delete', 'JTOOLBAR_EMPTY_TRASH');
+			JToolbarHelper::divider();
 		}
 		elseif ($canDo->get('core.edit.state')) {
-			JToolBarHelper::trash('contacts.trash');
-			JToolBarHelper::divider();
+			JToolbarHelper::trash('contacts.trash');
+			JToolbarHelper::divider();
 		}
 
 		if ($canDo->get('core.admin')) {
-			JToolBarHelper::preferences('com_contact');
-			JToolBarHelper::divider();
+			JToolbarHelper::preferences('com_contact');
+			JToolbarHelper::divider();
 		}
 
-		JToolBarHelper::help('JHELP_COMPONENTS_CONTACTS_CONTACTS');
+		JToolbarHelper::help('JHELP_COMPONENTS_CONTACTS_CONTACTS');
 	}
 }

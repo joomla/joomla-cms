@@ -56,8 +56,8 @@ class UsersViewDebugUser extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		JToolBarHelper::title(JText::sprintf('COM_USERS_VIEW_DEBUG_USER_TITLE', $this->user->id, $this->user->name), 'user');
+		JToolbarHelper::title(JText::sprintf('COM_USERS_VIEW_DEBUG_USER_TITLE', $this->user->id, $this->user->name), 'user');
 
-		JToolBarHelper::help('JHELP_USERS_DEBUG_USERS');
+		JToolbarHelper::help('JHELP_USERS_DEBUG_USERS');
 	}
 }

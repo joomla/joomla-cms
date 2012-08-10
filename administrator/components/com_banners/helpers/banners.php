@@ -40,7 +40,7 @@ class BannersHelper
 			$vName == 'categories'
 		);
 		if ($vName == 'categories') {
-			JToolBarHelper::title(
+			JToolbarHelper::title(
 				JText::sprintf('COM_CATEGORIES_CATEGORIES_TITLE', JText::_('com_banners')),
 				'banners-categories');
 		}

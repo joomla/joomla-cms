@@ -101,37 +101,37 @@ class CategoriesViewCategory extends JViewLegacy
 		JHtml::_('stylesheet', $component.'/administrator/categories.css', array(), true);
 
 		// Prepare the toolbar.
-		JToolBarHelper::title($title, 'category-'.($isNew?'add':'edit').' '.substr($component, 4).($section?"-$section":'').'-category-'.($isNew?'add':'edit'));
+		JToolbarHelper::title($title, 'category-'.($isNew?'add':'edit').' '.substr($component, 4).($section?"-$section":'').'-category-'.($isNew?'add':'edit'));
 
 		// For new records, check the create permission.
 		if ($isNew && (count($user->getAuthorisedCategories($component, 'core.create')) > 0)) {
-			JToolBarHelper::apply('category.apply');
-			JToolBarHelper::save('category.save');
-			JToolBarHelper::save2new('category.save2new');
+			JToolbarHelper::apply('category.apply');
+			JToolbarHelper::save('category.save');
+			JToolbarHelper::save2new('category.save2new');
 		}
 
 		// If not checked out, can save the item.
 		elseif (!$checkedOut && ($canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_user_id == $userId))) {
-			JToolBarHelper::apply('category.apply');
-			JToolBarHelper::save('category.save');
+			JToolbarHelper::apply('category.apply');
+			JToolbarHelper::save('category.save');
 			if ($canDo->get('core.create')) {
-				JToolBarHelper::save2new('category.save2new');
+				JToolbarHelper::save2new('category.save2new');
 			}
 		}
 
 		// If an existing item, can save to a copy.
 		if (!$isNew && $canDo->get('core.create')) {
-			JToolBarHelper::save2copy('category.save2copy');
+			JToolbarHelper::save2copy('category.save2copy');
 		}
 
 		if (empty($this->item->id))  {
-			JToolBarHelper::cancel('category.cancel');
+			JToolbarHelper::cancel('category.cancel');
 		}
 		else {
-			JToolBarHelper::cancel('category.cancel', 'JTOOLBAR_CLOSE');
+			JToolbarHelper::cancel('category.cancel', 'JTOOLBAR_CLOSE');
 		}
 
-		JToolBarHelper::divider();
+		JToolbarHelper::divider();
 
 		// Compute the ref_key if it does exist in the component
 		if (!$lang->hasKey($ref_key = strtoupper($component.($section?"_$section":'')).'_CATEGORY_'.($isNew?'ADD':'EDIT').'_HELP_KEY')) {
@@ -150,6 +150,6 @@ class CategoriesViewCategory extends JViewLegacy
 		else {
 			$url = null;
 		}
-		JToolBarHelper::help($ref_key, JComponentHelper::getParams($component)->exists('helpURL'), $url, $component);
+		JToolbarHelper::help($ref_key, JComponentHelper::getParams($component)->exists('helpURL'), $url, $component);
 	}
 }

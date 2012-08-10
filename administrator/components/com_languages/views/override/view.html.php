@@ -96,30 +96,30 @@ class LanguagesViewOverride extends JViewLegacy
 
 		$canDo	= LanguagesHelper::getActions();
 
-		JToolBarHelper::title(JText::_('COM_LANGUAGES_VIEW_OVERRIDE_EDIT_TITLE'), 'langmanager');
+		JToolbarHelper::title(JText::_('COM_LANGUAGES_VIEW_OVERRIDE_EDIT_TITLE'), 'langmanager');
 
 		if ($canDo->get('core.edit'))
 		{
-			JToolBarHelper::apply('override.apply');
-			JToolBarHelper::save('override.save');
+			JToolbarHelper::apply('override.apply');
+			JToolbarHelper::save('override.save');
 		}
 
 		// This component does not support Save as Copy
 
 		if ($canDo->get('core.edit') && $canDo->get('core.create'))
 		{
-			JToolBarHelper::save2new('override.save2new');
+			JToolbarHelper::save2new('override.save2new');
 		}
 
 		if (empty($this->item->key))
 		{
-			JToolBarHelper::cancel('override.cancel');
+			JToolbarHelper::cancel('override.cancel');
 		}
 		else
 		{
-			JToolBarHelper::cancel('override.cancel', 'JTOOLBAR_CLOSE');
+			JToolbarHelper::cancel('override.cancel', 'JTOOLBAR_CLOSE');
 		}
-		JToolBarHelper::divider();
-		JToolBarHelper::help('JHELP_EXTENSIONS_LANGUAGE_MANAGER_OVERRIDES_EDIT');
+		JToolbarHelper::divider();
+		JToolbarHelper::help('JHELP_EXTENSIONS_LANGUAGE_MANAGER_OVERRIDES_EDIT');
 	}
 }

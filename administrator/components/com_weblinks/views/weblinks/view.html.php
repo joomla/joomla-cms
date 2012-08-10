@@ -56,35 +56,35 @@ class WeblinksViewWeblinks extends JViewLegacy
 		$canDo	= WeblinksHelper::getActions($state->get('filter.category_id'));
 		$user	= JFactory::getUser();
 
-		JToolBarHelper::title(JText::_('COM_WEBLINKS_MANAGER_WEBLINKS'), 'weblinks.png');
+		JToolbarHelper::title(JText::_('COM_WEBLINKS_MANAGER_WEBLINKS'), 'weblinks.png');
 		if (count($user->getAuthorisedCategories('com_weblinks', 'core.create')) > 0) {
-			JToolBarHelper::addNew('weblink.add');
+			JToolbarHelper::addNew('weblink.add');
 		}
 		if ($canDo->get('core.edit')) {
-			JToolBarHelper::editList('weblink.edit');
+			JToolbarHelper::editList('weblink.edit');
 		}
 		if ($canDo->get('core.edit.state')) {
 
-			JToolBarHelper::divider();
-			JToolBarHelper::publish('weblinks.publish', 'JTOOLBAR_PUBLISH', true);
-			JToolBarHelper::unpublish('weblinks.unpublish', 'JTOOLBAR_UNPUBLISH', true);
+			JToolbarHelper::divider();
+			JToolbarHelper::publish('weblinks.publish', 'JTOOLBAR_PUBLISH', true);
+			JToolbarHelper::unpublish('weblinks.unpublish', 'JTOOLBAR_UNPUBLISH', true);
 
-			JToolBarHelper::divider();
-			JToolBarHelper::archiveList('weblinks.archive');
-			JToolBarHelper::checkin('weblinks.checkin');
+			JToolbarHelper::divider();
+			JToolbarHelper::archiveList('weblinks.archive');
+			JToolbarHelper::checkin('weblinks.checkin');
 		}
 		if ($state->get('filter.state') == -2 && $canDo->get('core.delete')) {
-			JToolBarHelper::deleteList('', 'weblinks.delete', 'JTOOLBAR_EMPTY_TRASH');
-			JToolBarHelper::divider();
+			JToolbarHelper::deleteList('', 'weblinks.delete', 'JTOOLBAR_EMPTY_TRASH');
+			JToolbarHelper::divider();
 		} elseif ($canDo->get('core.edit.state')) {
-			JToolBarHelper::trash('weblinks.trash');
-			JToolBarHelper::divider();
+			JToolbarHelper::trash('weblinks.trash');
+			JToolbarHelper::divider();
 		}
 		if ($canDo->get('core.admin')) {
-			JToolBarHelper::preferences('com_weblinks');
-			JToolBarHelper::divider();
+			JToolbarHelper::preferences('com_weblinks');
+			JToolbarHelper::divider();
 		}
 
-		JToolBarHelper::help('JHELP_COMPONENTS_WEBLINKS_LINKS');
+		JToolbarHelper::help('JHELP_COMPONENTS_WEBLINKS_LINKS');
 	}
 }

@@ -65,7 +65,7 @@ class TemplatesViewPrevuuw extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		JToolBarHelper::title(JText::_('COM_TEMPLATES_MANAGER'), 'thememanager');
-		JToolBarHelper::custom('edit', 'back.png', 'back_f2.png', 'Back', false, false);
+		JToolbarHelper::title(JText::_('COM_TEMPLATES_MANAGER'), 'thememanager');
+		JToolbarHelper::custom('edit', 'back.png', 'back_f2.png', 'Back', false, false);
 	}
 }

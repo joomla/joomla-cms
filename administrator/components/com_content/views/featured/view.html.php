@@ -50,37 +50,37 @@ class ContentViewFeatured extends JViewLegacy
 		$state	= $this->get('State');
 		$canDo	= ContentHelper::getActions($this->state->get('filter.category_id'));
 
-		JToolBarHelper::title(JText::_('COM_CONTENT_FEATURED_TITLE'), 'featured.png');
+		JToolbarHelper::title(JText::_('COM_CONTENT_FEATURED_TITLE'), 'featured.png');
 
 		if ($canDo->get('core.create')) {
-			JToolBarHelper::addNew('article.add');
+			JToolbarHelper::addNew('article.add');
 		}
 		if ($canDo->get('core.edit')) {
-			JToolBarHelper::editList('article.edit');
+			JToolbarHelper::editList('article.edit');
 		}
 
 		if ($canDo->get('core.edit.state')) {
-			JToolBarHelper::divider();
-			JToolBarHelper::publish('articles.publish', 'JTOOLBAR_PUBLISH', true);
-			JToolBarHelper::unpublish('articles.unpublish', 'JTOOLBAR_UNPUBLISH', true);
-			JToolBarHelper::divider();
-			JToolBarHelper::archiveList('articles.archive');
-			JToolBarHelper::checkin('articles.checkin');
-			JToolBarHelper::custom('featured.delete', 'remove.png', 'remove_f2.png', 'JTOOLBAR_REMOVE', true);
+			JToolbarHelper::divider();
+			JToolbarHelper::publish('articles.publish', 'JTOOLBAR_PUBLISH', true);
+			JToolbarHelper::unpublish('articles.unpublish', 'JTOOLBAR_UNPUBLISH', true);
+			JToolbarHelper::divider();
+			JToolbarHelper::archiveList('articles.archive');
+			JToolbarHelper::checkin('articles.checkin');
+			JToolbarHelper::custom('featured.delete', 'remove.png', 'remove_f2.png', 'JTOOLBAR_REMOVE', true);
 		}
 
 		if ($state->get('filter.published') == -2 && $canDo->get('core.delete')) {
-			JToolBarHelper::deleteList('', 'articles.delete', 'JTOOLBAR_EMPTY_TRASH');
-			JToolBarHelper::divider();
+			JToolbarHelper::deleteList('', 'articles.delete', 'JTOOLBAR_EMPTY_TRASH');
+			JToolbarHelper::divider();
 		} elseif ($canDo->get('core.edit.state')) {
-			JToolBarHelper::divider();
-			JToolBarHelper::trash('articles.trash');
+			JToolbarHelper::divider();
+			JToolbarHelper::trash('articles.trash');
 		}
 
 		if ($canDo->get('core.admin')) {
-			JToolBarHelper::preferences('com_content');
-			JToolBarHelper::divider();
+			JToolbarHelper::preferences('com_content');
+			JToolbarHelper::divider();
 		}
-		JToolBarHelper::help('JHELP_CONTENT_FEATURED_ARTICLES');
+		JToolbarHelper::help('JHELP_CONTENT_FEATURED_ARTICLES');
 	}
 }

@@ -167,39 +167,39 @@ class MenusViewItems extends JViewLegacy
 
 		$canDo	= MenusHelper::getActions($this->state->get('filter.parent_id'));
 
-		JToolBarHelper::title(JText::_('COM_MENUS_VIEW_ITEMS_TITLE'), 'menumgr.png');
+		JToolbarHelper::title(JText::_('COM_MENUS_VIEW_ITEMS_TITLE'), 'menumgr.png');
 
 		if ($canDo->get('core.create')) {
-			JToolBarHelper::addNew('item.add');
+			JToolbarHelper::addNew('item.add');
 		}
 		if ($canDo->get('core.edit')) {
-			JToolBarHelper::editList('item.edit');
+			JToolbarHelper::editList('item.edit');
 		}
 		if ($canDo->get('core.edit.state')) {
-			JToolBarHelper::divider();
-			JToolBarHelper::publish('items.publish', 'JTOOLBAR_PUBLISH', true);
-			JToolBarHelper::unpublish('items.unpublish', 'JTOOLBAR_UNPUBLISH', true);
+			JToolbarHelper::divider();
+			JToolbarHelper::publish('items.publish', 'JTOOLBAR_PUBLISH', true);
+			JToolbarHelper::unpublish('items.unpublish', 'JTOOLBAR_UNPUBLISH', true);
 		}
 		if (JFactory::getUser()->authorise('core.admin')) {
-			JToolBarHelper::divider();
-			JToolBarHelper::checkin('items.checkin', 'JTOOLBAR_CHECKIN', true);
+			JToolbarHelper::divider();
+			JToolbarHelper::checkin('items.checkin', 'JTOOLBAR_CHECKIN', true);
 		}
 
 		if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete')) {
-			JToolBarHelper::deleteList('', 'items.delete', 'JTOOLBAR_EMPTY_TRASH');
+			JToolbarHelper::deleteList('', 'items.delete', 'JTOOLBAR_EMPTY_TRASH');
 		}
 		elseif ($canDo->get('core.edit.state')) {
-			JToolBarHelper::trash('items.trash');
+			JToolbarHelper::trash('items.trash');
 		}
 
 		if ($canDo->get('core.edit.state')) {
-			JToolBarHelper::makeDefault('items.setDefault', 'COM_MENUS_TOOLBAR_SET_HOME');
-			JToolBarHelper::divider();
+			JToolbarHelper::makeDefault('items.setDefault', 'COM_MENUS_TOOLBAR_SET_HOME');
+			JToolbarHelper::divider();
 		}
 		if (JFactory::getUser()->authorise('core.admin')) {
-			JToolBarHelper::custom('items.rebuild', 'refresh.png', 'refresh_f2.png', 'JToolbar_Rebuild', false);
-			JToolBarHelper::divider();
+			JToolbarHelper::custom('items.rebuild', 'refresh.png', 'refresh_f2.png', 'JToolbar_Rebuild', false);
+			JToolbarHelper::divider();
 		}
-		JToolBarHelper::help('JHELP_MENUS_MENU_ITEM_MANAGER');
+		JToolbarHelper::help('JHELP_MENUS_MENU_ITEM_MANAGER');
 	}
 }

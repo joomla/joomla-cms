@@ -52,23 +52,23 @@ class UsersViewLevels extends JViewLegacy
 	{
 		$canDo	= UsersHelper::getActions();
 
-		JToolBarHelper::title(JText::_('COM_USERS_VIEW_LEVELS_TITLE'), 'levels');
+		JToolbarHelper::title(JText::_('COM_USERS_VIEW_LEVELS_TITLE'), 'levels');
 
 		if ($canDo->get('core.create')) {
-			JToolBarHelper::addNew('level.add');
+			JToolbarHelper::addNew('level.add');
 		}
 		if ($canDo->get('core.edit')) {
-			JToolBarHelper::editList('level.edit');
-			JToolBarHelper::divider();
+			JToolbarHelper::editList('level.edit');
+			JToolbarHelper::divider();
 		}
 		if ($canDo->get('core.delete')) {
-			JToolBarHelper::deleteList('', 'level.delete');
-			JToolBarHelper::divider();
+			JToolbarHelper::deleteList('', 'level.delete');
+			JToolbarHelper::divider();
 		}
 		if ($canDo->get('core.admin')) {
-			JToolBarHelper::preferences('com_users');
-			JToolBarHelper::divider();
+			JToolbarHelper::preferences('com_users');
+			JToolbarHelper::divider();
 		}
-		JToolBarHelper::help('JHELP_USERS_ACCESS_LEVELS');
+		JToolbarHelper::help('JHELP_USERS_ACCESS_LEVELS');
 	}
 }

@@ -77,18 +77,18 @@ class LanguagesViewInstalled extends JViewLegacy
 
 		$canDo	= LanguagesHelper::getActions();
 
-		JToolBarHelper::title(JText::_('COM_LANGUAGES_VIEW_INSTALLED_TITLE'), 'langmanager.png');
+		JToolbarHelper::title(JText::_('COM_LANGUAGES_VIEW_INSTALLED_TITLE'), 'langmanager.png');
 
 		if ($canDo->get('core.edit.state')) {
-			JToolBarHelper::makeDefault('installed.setDefault');
-			JToolBarHelper::divider();
+			JToolbarHelper::makeDefault('installed.setDefault');
+			JToolbarHelper::divider();
 		}
 
 		if ($canDo->get('core.admin')) {
-			JToolBarHelper::preferences('com_languages');
-			JToolBarHelper::divider();
+			JToolbarHelper::preferences('com_languages');
+			JToolbarHelper::divider();
 		}
 
-		JToolBarHelper::help('JHELP_EXTENSIONS_LANGUAGE_MANAGER_INSTALLED');
+		JToolbarHelper::help('JHELP_EXTENSIONS_LANGUAGE_MANAGER_INSTALLED');
 	}
 }

@@ -112,41 +112,41 @@ class CategoriesViewCategories extends JViewLegacy
 		JHtml::_('stylesheet', $component.'/administrator/categories.css', array(), true);
 
 		// Prepare the toolbar.
-		JToolBarHelper::title($title, 'categories '.substr($component, 4).($section?"-$section":'').'-categories');
+		JToolbarHelper::title($title, 'categories '.substr($component, 4).($section?"-$section":'').'-categories');
 
 		if ($canDo->get('core.create') || (count($user->getAuthorisedCategories($component, 'core.create'))) > 0 ) {
-			JToolBarHelper::addNew('category.add');
+			JToolbarHelper::addNew('category.add');
 		}
 
 		if ($canDo->get('core.edit') || $canDo->get('core.edit.own'))
 		{
-			JToolBarHelper::editList('category.edit');
-			JToolBarHelper::divider();
+			JToolbarHelper::editList('category.edit');
+			JToolbarHelper::divider();
 		}
 
 		if ($canDo->get('core.edit.state')) {
-			JToolBarHelper::publish('categories.publish', 'JTOOLBAR_PUBLISH', true);
-			JToolBarHelper::unpublish('categories.unpublish', 'JTOOLBAR_UNPUBLISH', true);
-			JToolBarHelper::divider();
-			JToolBarHelper::archiveList('categories.archive');
+			JToolbarHelper::publish('categories.publish', 'JTOOLBAR_PUBLISH', true);
+			JToolbarHelper::unpublish('categories.unpublish', 'JTOOLBAR_UNPUBLISH', true);
+			JToolbarHelper::divider();
+			JToolbarHelper::archiveList('categories.archive');
 		}
 
 		if (JFactory::getUser()->authorise('core.admin')) {
-			JToolBarHelper::checkin('categories.checkin');
+			JToolbarHelper::checkin('categories.checkin');
 		}
 
 		if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete', $component)) {
-			JToolBarHelper::deleteList('', 'categories.delete', 'JTOOLBAR_EMPTY_TRASH');
+			JToolbarHelper::deleteList('', 'categories.delete', 'JTOOLBAR_EMPTY_TRASH');
 		}
 		elseif ($canDo->get('core.edit.state')) {
-			JToolBarHelper::trash('categories.trash');
-			JToolBarHelper::divider();
+			JToolbarHelper::trash('categories.trash');
+			JToolbarHelper::divider();
 		}
 
 		if ($canDo->get('core.admin')) {
-			JToolBarHelper::custom('categories.rebuild', 'refresh.png', 'refresh_f2.png', 'JTOOLBAR_REBUILD', false);
-			JToolBarHelper::preferences($component);
-			JToolBarHelper::divider();
+			JToolbarHelper::custom('categories.rebuild', 'refresh.png', 'refresh_f2.png', 'JTOOLBAR_REBUILD', false);
+			JToolbarHelper::preferences($component);
+			JToolbarHelper::divider();
 		}
 
 		// Compute the ref_key if it does exist in the component
@@ -166,6 +166,6 @@ class CategoriesViewCategories extends JViewLegacy
 		else {
 			$url = null;
 		}
-		JToolBarHelper::help($ref_key, JComponentHelper::getParams($component)->exists('helpURL'), $url);
+		JToolbarHelper::help($ref_key, JComponentHelper::getParams($component)->exists('helpURL'), $url);
 	}
 }

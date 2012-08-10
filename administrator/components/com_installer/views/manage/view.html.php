@@ -69,17 +69,17 @@ class InstallerViewManage extends InstallerViewDefault
 	{
 		$canDo	= InstallerHelper::getActions();
 		if ($canDo->get('core.edit.state')) {
-			JToolBarHelper::publish('manage.publish', 'JTOOLBAR_ENABLE', true);
-			JToolBarHelper::unpublish('manage.unpublish', 'JTOOLBAR_DISABLE', true);
-			JToolBarHelper::divider();
+			JToolbarHelper::publish('manage.publish', 'JTOOLBAR_ENABLE', true);
+			JToolbarHelper::unpublish('manage.unpublish', 'JTOOLBAR_DISABLE', true);
+			JToolbarHelper::divider();
 		}
-		JToolBarHelper::custom('manage.refresh', 'refresh', 'refresh', 'JTOOLBAR_REFRESH_CACHE', true);
-		JToolBarHelper::divider();
+		JToolbarHelper::custom('manage.refresh', 'refresh', 'refresh', 'JTOOLBAR_REFRESH_CACHE', true);
+		JToolbarHelper::divider();
 		if ($canDo->get('core.delete')) {
-			JToolBarHelper::deleteList('', 'manage.remove', 'JTOOLBAR_UNINSTALL');
-			JToolBarHelper::divider();
+			JToolbarHelper::deleteList('', 'manage.remove', 'JTOOLBAR_UNINSTALL');
+			JToolbarHelper::divider();
 		}
 		parent::addToolbar();
-		JToolBarHelper::help('JHELP_EXTENSIONS_EXTENSION_MANAGER_MANAGE');
+		JToolbarHelper::help('JHELP_EXTENSIONS_EXTENSION_MANAGER_MANAGE');
 	}
 }

@@ -126,7 +126,7 @@ class MediaViewMedia extends JViewLegacy
 		$user = JFactory::getUser();
 
 		// Set the titlebar text
-		JToolBarHelper::title(JText::_('COM_MEDIA'), 'mediamanager.png');
+		JToolbarHelper::title(JText::_('COM_MEDIA'), 'mediamanager.png');
 
 		// Add a delete button
 		if ($user->authorise('core.delete', 'com_media'))
@@ -136,15 +136,15 @@ class MediaViewMedia extends JViewLegacy
 						<span class=\"icon-32-delete\" title=\"$title\"></span>
 						$title</a>";
 			$bar->appendButton('Custom', $dhtml, 'delete');
-			JToolBarHelper::divider();
+			JToolbarHelper::divider();
 		}
 		// Add a delete button
 		if ($user->authorise('core.admin', 'com_media'))
 		{
-			JToolBarHelper::preferences('com_media', 450, 800, 'JToolbar_Options', '', 'window.location.reload()');
-			JToolBarHelper::divider();
+			JToolbarHelper::preferences('com_media', 450, 800, 'JToolbar_Options', '', 'window.location.reload()');
+			JToolbarHelper::divider();
 		}
-		JToolBarHelper::help('JHELP_CONTENT_MEDIA_MANAGER');
+		JToolbarHelper::help('JHELP_CONTENT_MEDIA_MANAGER');
 	}
 
 	function getFolderLevel($folder)

@@ -24,7 +24,7 @@ abstract class modSubmenuHelper
 	public static function getItems()
 	{
 		// Initialise variables.
-		$menu = JToolBar::getInstance('submenu');
+		$menu = JToolbar::getInstance('submenu');
 
 		$list = $menu->getItems();
 

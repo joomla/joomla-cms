@@ -62,31 +62,31 @@ class BannersViewBanner extends JViewLegacy
 		// Since we don't track these assets at the item level, use the category id.
 		$canDo		= BannersHelper::getActions($this->item->catid, 0);
 
-		JToolBarHelper::title($isNew ? JText::_('COM_BANNERS_MANAGER_BANNER_NEW') : JText::_('COM_BANNERS_MANAGER_BANNER_EDIT'), 'banners.png');
+		JToolbarHelper::title($isNew ? JText::_('COM_BANNERS_MANAGER_BANNER_NEW') : JText::_('COM_BANNERS_MANAGER_BANNER_EDIT'), 'banners.png');
 
 		// If not checked out, can save the item.
 		if (!$checkedOut && ($canDo->get('core.edit') || count($user->getAuthorisedCategories('com_banners', 'core.create')) > 0)) {
-			JToolBarHelper::apply('banner.apply');
-			JToolBarHelper::save('banner.save');
+			JToolbarHelper::apply('banner.apply');
+			JToolbarHelper::save('banner.save');
 
 			if ($canDo->get('core.create')) {
-				JToolBarHelper::save2new('banner.save2new');
+				JToolbarHelper::save2new('banner.save2new');
 			}
 		}
 
 		// If an existing item, can save to a copy.
 		if (!$isNew && $canDo->get('core.create')) {
-			JToolBarHelper::save2copy('banner.save2copy');
+			JToolbarHelper::save2copy('banner.save2copy');
 		}
 
 		if (empty($this->item->id))  {
-			JToolBarHelper::cancel('banner.cancel');
+			JToolbarHelper::cancel('banner.cancel');
 		}
 		else {
-			JToolBarHelper::cancel('banner.cancel', 'JTOOLBAR_CLOSE');
+			JToolbarHelper::cancel('banner.cancel', 'JTOOLBAR_CLOSE');
 		}
 
-		JToolBarHelper::divider();
-		JToolBarHelper::help('JHELP_COMPONENTS_BANNERS_BANNERS_EDIT');
+		JToolbarHelper::divider();
+		JToolbarHelper::help('JHELP_COMPONENTS_BANNERS_BANNERS_EDIT');
 	}
 }

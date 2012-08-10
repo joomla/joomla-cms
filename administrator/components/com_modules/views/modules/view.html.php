@@ -63,42 +63,42 @@ class ModulesViewModules extends JViewLegacy
 		$state	= $this->get('State');
 		$canDo	= ModulesHelper::getActions();
 
-		JToolBarHelper::title(JText::_('COM_MODULES_MANAGER_MODULES'), 'module.png');
+		JToolbarHelper::title(JText::_('COM_MODULES_MANAGER_MODULES'), 'module.png');
 
 		if ($canDo->get('core.create')) {
-			//JToolBarHelper::addNew('module.add');
+			//JToolbarHelper::addNew('module.add');
 			$bar = JToolBar::getInstance('toolbar');
 			$bar->appendButton('Popup', 'new', 'JTOOLBAR_NEW', 'index.php?option=com_modules&amp;view=select&amp;tmpl=component', 850, 400);
 		}
 
 		if ($canDo->get('core.edit')) {
-			JToolBarHelper::editList('module.edit');
+			JToolbarHelper::editList('module.edit');
 		}
 
 		if ($canDo->get('core.create')) {
-			JToolBarHelper::custom('modules.duplicate', 'copy.png', 'copy_f2.png', 'JTOOLBAR_DUPLICATE', true);
+			JToolbarHelper::custom('modules.duplicate', 'copy.png', 'copy_f2.png', 'JTOOLBAR_DUPLICATE', true);
 		}
 
 		if ($canDo->get('core.edit.state')) {
-			JToolBarHelper::divider();
-			JToolBarHelper::publish('modules.publish', 'JTOOLBAR_PUBLISH', true);
-			JToolBarHelper::unpublish('modules.unpublish', 'JTOOLBAR_UNPUBLISH', true);
-			JToolBarHelper::divider();
-			JToolBarHelper::checkin('modules.checkin');
+			JToolbarHelper::divider();
+			JToolbarHelper::publish('modules.publish', 'JTOOLBAR_PUBLISH', true);
+			JToolbarHelper::unpublish('modules.unpublish', 'JTOOLBAR_UNPUBLISH', true);
+			JToolbarHelper::divider();
+			JToolbarHelper::checkin('modules.checkin');
 		}
 
 		if ($state->get('filter.state') == -2 && $canDo->get('core.delete')) {
-			JToolBarHelper::deleteList('', 'modules.delete', 'JTOOLBAR_EMPTY_TRASH');
-			JToolBarHelper::divider();
+			JToolbarHelper::deleteList('', 'modules.delete', 'JTOOLBAR_EMPTY_TRASH');
+			JToolbarHelper::divider();
 		} elseif ($canDo->get('core.edit.state')) {
-			JToolBarHelper::trash('modules.trash');
-			JToolBarHelper::divider();
+			JToolbarHelper::trash('modules.trash');
+			JToolbarHelper::divider();
 		}
 
 		if ($canDo->get('core.admin')) {
-			JToolBarHelper::preferences('com_modules');
-			JToolBarHelper::divider();
+			JToolbarHelper::preferences('com_modules');
+			JToolbarHelper::divider();
 		}
-		JToolBarHelper::help('JHELP_EXTENSIONS_MODULE_MANAGER');
+		JToolbarHelper::help('JHELP_EXTENSIONS_MODULE_MANAGER');
 	}
 }

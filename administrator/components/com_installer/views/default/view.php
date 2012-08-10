@@ -61,11 +61,11 @@ class InstallerViewDefault extends JViewLegacy
 	protected function addToolbar()
 	{
 		$canDo	= InstallerHelper::getActions();
-		JToolBarHelper::title(JText::_('COM_INSTALLER_HEADER_' . $this->getName()), 'install.png');
+		JToolbarHelper::title(JText::_('COM_INSTALLER_HEADER_' . $this->getName()), 'install.png');
 
 		if ($canDo->get('core.admin')) {
-			JToolBarHelper::preferences('com_installer');
-			JToolBarHelper::divider();
+			JToolbarHelper::preferences('com_installer');
+			JToolbarHelper::divider();
 		}
 
 		// Document

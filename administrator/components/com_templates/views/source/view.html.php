@@ -62,16 +62,16 @@ class TemplatesViewSource extends JViewLegacy
 		$user		= JFactory::getUser();
 		$canDo		= TemplatesHelper::getActions();
 
-		JToolBarHelper::title(JText::_('COM_TEMPLATES_MANAGER_EDIT_FILE'), 'thememanager');
+		JToolbarHelper::title(JText::_('COM_TEMPLATES_MANAGER_EDIT_FILE'), 'thememanager');
 
 		// Can save the item.
 		if ($canDo->get('core.edit')) {
-			JToolBarHelper::apply('source.apply');
-			JToolBarHelper::save('source.save');
+			JToolbarHelper::apply('source.apply');
+			JToolbarHelper::save('source.save');
 		}
 
-		JToolBarHelper::cancel('source.cancel');
-		JToolBarHelper::divider();
-		JToolBarHelper::help('JHELP_EXTENSIONS_TEMPLATE_MANAGER_TEMPLATES_EDIT_SOURCE');
+		JToolbarHelper::cancel('source.cancel');
+		JToolbarHelper::divider();
+		JToolbarHelper::help('JHELP_EXTENSIONS_TEMPLATE_MANAGER_TEMPLATES_EDIT_SOURCE');
 	}
 }

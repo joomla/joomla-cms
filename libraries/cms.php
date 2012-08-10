@@ -38,3 +38,9 @@ if (array_key_exists('REQUEST_METHOD', $_SERVER))
 {
 	JLog::addLogger(array('logger' => 'messagequeue'), JLog::ALL, array('jerror'));
 }
+
+// Register classes where the names have been changed to fit the autoloader rules
+// @deprecated  4.0
+JLoader::register('JToolBar', JPATH_PLATFORM . '/cms/toolbar/toolbar.php');
+JLoader::register('JButton',  JPATH_PLATFORM . '/cms/toolbar/button.php');
+

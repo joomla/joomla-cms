@@ -84,7 +84,7 @@ class JToolbar
 	{
 		if (empty(self::$instances[$name]))
 		{
-			self::$instances[$name] = new JToolBar($name);
+			self::$instances[$name] = new JToolbar($name);
 		}
 
 		return self::$instances[$name];
@@ -264,7 +264,7 @@ class JToolbar
 	}
 
 	/**
-	 * Add a directory where JToolBar should search for button types in LIFO order.
+	 * Add a directory where JToolbar should search for button types in LIFO order.
 	 *
 	 * You may either pass a string or an array of directories.
 	 *
