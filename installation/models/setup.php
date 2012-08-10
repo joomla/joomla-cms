@@ -69,12 +69,13 @@ class InstallationModelSetup extends JModelLegacy
 	 */
 	public function getForm($view = null)
 	{
-		// Initialise variables.
+		$app = JFactory::getApplication();
+
 		$false = false;
 
 		if (!$view)
 		{
-			$view = JFactory::getApplication()->input->get('view', 'language', 'word');
+			$view = $app->input->get('view', 'language', 'word');
 		}
 
 		// Get the form.
@@ -108,7 +109,7 @@ class InstallationModelSetup extends JModelLegacy
 	 *
 	 * @return	array
 	 *
-	 * @since	3.0
+	 * @since   3.0
 	 */
 	public function getDboptions()
 	{
@@ -225,7 +226,7 @@ class InstallationModelSetup extends JModelLegacy
 	 *
 	 * @return	array
 	 *
-	 * @since	3.0
+	 * @since   3.0
 	 */
 	public function getPhpOptions()
 	{
@@ -234,22 +235,22 @@ class InstallationModelSetup extends JModelLegacy
 
 		// Check the PHP Version.
 		$option = new stdClass;
-		$option->label  = JText::_('INSTL_PHP_VERSION').' >= 5.3.1';
+		$option->label  = JText::_('INSTL_PHP_VERSION') . ' >= 5.3.1';
 		$option->state  = version_compare(PHP_VERSION, '5.3.1', '>=');
 		$option->notice = null;
 		$options[] = $option;
 
 		// Check for magic quotes gpc.
 		$option = new stdClass;
-		$option->label = JText::_('INSTL_MAGIC_QUOTES_GPC');
-		$option->state = (ini_get('magic_quotes_gpc') == false);
+		$option->label  = JText::_('INSTL_MAGIC_QUOTES_GPC');
+		$option->state  = (ini_get('magic_quotes_gpc') == false);
 		$option->notice = null;
 		$options[] = $option;
 
 		// Check for register globals.
 		$option = new stdClass;
-		$option->label = JText::_('INSTL_REGISTER_GLOBALS');
-		$option->state = (ini_get('register_globals') == false);
+		$option->label  = JText::_('INSTL_REGISTER_GLOBALS');
+		$option->state  = (ini_get('register_globals') == false);
 		$option->notice = null;
 		$options[] = $option;
 
@@ -297,15 +298,15 @@ class InstallationModelSetup extends JModelLegacy
 
 		// Check for a missing native parse_ini_file implementation
 		$option = new stdClass;
-		$option->label = JText::_('INSTL_PARSE_INI_FILE_AVAILABLE');
-		$option->state = $this->getIniParserAvailability();
+		$option->label  = JText::_('INSTL_PARSE_INI_FILE_AVAILABLE');
+		$option->state  = $this->getIniParserAvailability();
 		$option->notice = null;
 		$options[] = $option;
 
 		// Check for missing native json_encode / json_decode support
 		$option = new stdClass;
-		$option->label = JText::_('INSTL_JSON_SUPPORT_AVAILABLE');
-		$option->state = function_exists('json_encode') && function_exists('json_decode');
+		$option->label  = JText::_('INSTL_JSON_SUPPORT_AVAILABLE');
+		$option->state  = function_exists('json_encode') && function_exists('json_decode');
 		$option->notice = null;
 		$options[] = $option;
 
@@ -322,9 +323,9 @@ class InstallationModelSetup extends JModelLegacy
 	/**
 	 * Checks if all of the mandatory PHP options are met
 	 *
-	 * @return	boolean
+	 * @return  boolean  True on success
 	 *
-	 * @since	3.0
+	 * @since   3.0
 	 */
 	public function getPhpOptionsSufficient()
 	{
@@ -345,9 +346,9 @@ class InstallationModelSetup extends JModelLegacy
 	/**
 	 * Gets PHP Settings.
 	 *
-	 * @return	array
+	 * @return  array
 	 *
-	 * @since	3.0
+	 * @since   3.0
 	 */
 	public function getPhpSettings()
 	{
@@ -412,7 +413,7 @@ class InstallationModelSetup extends JModelLegacy
 	 * @param   array   $data  The form data.
 	 * @param   string  $view  The view.
 	 *
-	 * @return	mixed	Array of filtered data if valid, false otherwise.
+	 * @return  mixed   Array of filtered data if valid, false otherwise.
 	 *
 	 * @since	3.0
 	 */
@@ -429,7 +430,7 @@ class InstallationModelSetup extends JModelLegacy
 
 		// Filter and validate the form data.
 		$data = $form->filter($data);
-		$return	= $form->validate($data);
+		$return = $form->validate($data);
 
 		// Check for an error.
 		if ($return instanceof Exception)

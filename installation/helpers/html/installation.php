@@ -9,15 +9,25 @@
 defined('_JEXEC') or die;
 
 /**
+ * HTML utility class for the installation application
+ *
  * @package  Joomla.Installation
  * @since    1.6
  */
 class JHtmlInstallation
 {
+	/**
+	 * Method to generate the side bar
+	 *
+	 * @return  string  Markup for the side bar
+	 *
+	 * @since   1.6
+	 */
 	public static function stepbar()
 	{
 		$view = JFactory::getApplication()->input->getWord('view');
-		switch ($view) {
+		switch ($view)
+		{
 			case '':
 			case 'language':
 				$on = 1;
@@ -47,14 +57,15 @@ class JHtmlInstallation
 				$on = 1;
 		}
 
-		$html = '<h2>'.JText::_('INSTL_STEPS_TITLE').'</h2>' .
-			'<div class="step'.($on == 1 ? ' active' : '').'" id="language">'.JText::_('INSTL_STEP_1_LABEL').'</div>' .
-			'<div class="step'.($on == 2 ? ' active' : '').'" id="preinstall">'.JText::_('INSTL_STEP_2_LABEL').'</div>' .
-			'<div class="step'.($on == 3 ? ' active' : '').'" id="license">'.JText::_('INSTL_STEP_3_LABEL').'</div>' .
-			'<div class="step'.($on == 4 ? ' active' : '').'" id="database">'.JText::_('INSTL_STEP_4_LABEL').'</div>' .
-			'<div class="step'.($on == 5 ? ' active' : '').'" id="filesystem">'.JText::_('INSTL_STEP_5_LABEL').'</div>' .
-			'<div class="step'.($on == 6 ? ' active' : '').'" id="site">'.JText::_('INSTL_STEP_6_LABEL').'</div>' .
-			'<div class="step'.($on == 7 ? ' active' : '').'" id="complete">'.JText::_('INSTL_STEP_7_LABEL').'</div>';
-			return $html;
+		$html = '<h2>' . JText::_('INSTL_STEPS_TITLE') . '</h2>' .
+			'<div class="step' . ($on == 1 ? ' active' : '') . '" id="language">' . JText::_('INSTL_STEP_1_LABEL') . '</div>' .
+			'<div class="step' . ($on == 2 ? ' active' : '') . '" id="preinstall">' . JText::_('INSTL_STEP_2_LABEL') . '</div>' .
+			'<div class="step' . ($on == 3 ? ' active' : '') . '" id="license">' . JText::_('INSTL_STEP_3_LABEL') . '</div>' .
+			'<div class="step' . ($on == 4 ? ' active' : '') . '" id="database">' . JText::_('INSTL_STEP_4_LABEL') . '</div>' .
+			'<div class="step' . ($on == 5 ? ' active' : '') . '" id="filesystem">' . JText::_('INSTL_STEP_5_LABEL') . '</div>' .
+			'<div class="step' . ($on == 6 ? ' active' : '') . '" id="site">' . JText::_('INSTL_STEP_6_LABEL') . '</div>' .
+			'<div class="step' . ($on == 7 ? ' active' : '') . '" id="complete">' . JText::_('INSTL_STEP_7_LABEL') . '</div>';
+
+		return $html;
 	}
 }

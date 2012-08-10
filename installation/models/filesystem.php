@@ -471,9 +471,7 @@ class InstallationModelFilesystem extends JModelLegacy
 			// Translate path for the FTP account
 			$path = JPath::clean($ftpRoot . "/" . $folder);
 
-			/*
-			 * chmod using ftp
-			 */
+			// Chmod using ftp
 			if (!$client->chmod($path, '0755'))
 			{
 				$ret = false;
@@ -486,7 +484,7 @@ class InstallationModelFilesystem extends JModelLegacy
 		{
 			$path = JPath::clean(JPATH_SITE . '/' . $folder);
 
-			if (!@ chmod($path, octdec('0755')))
+			if (!@chmod($path, octdec('0755')))
 			{
 				$ret = false;
 			}
@@ -561,7 +559,7 @@ class InstallationModelFilesystem extends JModelLegacy
 		}
 		else
 		{
-			$ret = @ chmod($path, $mode);
+			$ret = @chmod($path, $mode);
 		}
 
 		return $ret;

@@ -139,9 +139,9 @@ class JRouterSite extends JRouter
 	 */
 	protected function _parseRawRoute($uri)
 	{
-		$vars	= array();
-		$app	= JApplication::getInstance('site');
-		$menu	= $app->getMenu(true);
+		$vars = array();
+		$app  = JApplication::getInstance('site');
+		$menu = $app->getMenu(true);
 
 		// Handle an empty URL (special case)
 		if (!$uri->getVar('Itemid') && !$uri->getVar('option'))
@@ -196,10 +196,10 @@ class JRouterSite extends JRouter
 	 */
 	protected function _parseSefRoute($uri)
 	{
-		$vars	= array();
-		$app	= JApplication::getInstance('site');
-		$menu	= $app->getMenu(true);
-		$route	= $uri->getPath();
+		$vars  = array();
+		$app   = JApplication::getInstance('site');
+		$menu  = $app->getMenu(true);
+		$route = $uri->getPath();
 
 		// Remove the suffix
 		if ($this->_mode == JROUTER_MODE_SEF)
