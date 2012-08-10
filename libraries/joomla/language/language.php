@@ -822,29 +822,22 @@ class JLanguage
 			// Restore error tracking to what it was before.
 			ini_set('track_errors', $track_errors);
 
-			jimport('joomla.filesystem.stream');
-
 			// Initialise variables for manually parsing the file for common errors.
 			$blacklist = array('YES', 'NO', 'NULL', 'FALSE', 'ON', 'OFF', 'NONE', 'TRUE');
-			$regex = '/^(|(\[[^\]]*\])|([A-Z][A-Z0-9_\-]*\s*=(\s*(("[^"]*")|(_QQ_)))+))\s*(;.*)?$/';
+			$regex = '/^(|(\[[^\]]*\])|([A-Z][A-Z0-9_\-\.]*\s*=(\s*(("([^"]|\\\")*")|(_QQ_)))+))\s*(;.*)?$/';
 			$this->debug = false;
 			$errors = array();
-			$lineNumber = 0;
 
 			// Open the file as a stream.
-			$stream = new JStream;
-			$stream->open($filename);
+			$file = new SplFileObject($filename);
 
-			while (!$stream->eof())
+			foreach ($file as $lineNumber => $line)
 			{
-				$line = $stream->gets();
-
 				// Avoid BOM error as BOM is OK when using parse_ini
 				if ($lineNumber == 0)
 				{
 					$line = str_replace("\xEF\xBB\xBF", '', $line);
 				}
-				$lineNumber++;
 
 				// Check that the key is not in the blacklist and that the line format passes the regex.
 				$key = strtoupper(trim(substr($line, 0, strpos($line, '='))));
@@ -854,8 +847,6 @@ class JLanguage
 					$errors[] = $lineNumber;
 				}
 			}
-
-			$stream->close();
 
 			// Check if we encountered any errors.
 			if (count($errors))
@@ -1015,7 +1006,7 @@ class JLanguage
 	 */
 	public function isRTL()
 	{
-		return $this->metadata['rtl'];
+		return (bool) $this->metadata['rtl'];
 	}
 
 	/**
@@ -1130,13 +1121,18 @@ class JLanguage
 	public static function getMetadata($lang)
 	{
 		$path = self::getLanguagePath(JPATH_BASE, $lang);
-		$file = "$lang.xml";
+		$file = $lang . '.xml';
 
 		$result = null;
 
 		if (is_file("$path/$file"))
 		{
 			$result = self::parseXMLLanguageFile("$path/$file");
+		}
+
+		if (empty($result))
+		{
+			return null;
 		}
 
 		return $result;
@@ -1171,11 +1167,11 @@ class JLanguage
 	 */
 	public static function getLanguagePath($basePath = JPATH_BASE, $language = null)
 	{
-		$dir = "$basePath/language";
+		$dir = $basePath . '/language';
 
 		if (!empty($language))
 		{
-			$dir .= "/$language";
+			$dir .= '/' . $language;
 		}
 
 		return $dir;

@@ -342,7 +342,7 @@ class JAuthentication extends JObject
  * @subpackage  User
  * @since       11.1
  */
-class JAuthenticationResponse extends JObject
+class JAuthenticationResponse
 {
 	/**
 	 * Response status (see status codes)
@@ -454,13 +454,4 @@ class JAuthenticationResponse extends JObject
 	 * @since  11.1
 	 */
 	public $timezone = '';
-
-	/**
-	 * Constructor
-	 *
-	 * @since   11.1
-	 */
-	public function __construct()
-	{
-	}
 }
