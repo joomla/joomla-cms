@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE install PUBLIC "-//Joomla! 1.6//DTD template 1.0//EN" "http://www.joomla.org/xml/dtd/1.6/template-install.dtd">
+<extension version="2.5" type="template" client="site" method="upgrade">
+	<name>joktekyju</name>
+	<creationDate>julio 2012</creationDate>
+	<author>Equipo de desarrollo Jokte</author>
+	<authorEmail>info@jokte.org</authorEmail>
+	<authorUrl>http://www.jokte.org</authorUrl>
+	<copyright>CopyLeft 2012 - 2014 Jokte, todos los derechos compartidos.</copyright>
+	<license>GNU General Public License version 3 or later; see LICENSE.txt</license>
+	<version>1.0.0</version>
+	<description>TPL_JOKTEKYJU_XML_DESCRIPTION</description>
+	<files>
+		<folder>css</folder>
+		<folder>html</folder>
+		<folder>images</folder>
+		<filename>index.html</filename>
+		<filename>index.php</filename>
+		<filename>templateDetails.xml</filename>
+		<filename>template_preview.png</filename>
+		<filename>template_thumbnail.png</filename>
+		<filename>favicon.ico</filename>		
+	</files>
+	<positions>
+		<position>logo</position>
+		<position>search</position>
+		<position>user1</position>
+		<position>menutop</position>
+		<position>user2</position>
+		<position>user3</position>
+		<position>user4</position>
+		<position>top1</position>
+		<position>top2</position>
+		<position>top3</position>
+		<position>top4</position>		
+		<position>left</position>
+		<position>right</position>
+		<position>bot1</position>
+		<position>bot2</position>
+		<position>bot3</position>
+		<position>bot4</position>		
+		<position>foot</position>
+		<position>user5</position>
+		<position>footmenu</position>		
+	</positions>
+	
+	<config>
+		<fields name="params">
+			<fieldset name="basic">			
+				<field name="logo" type="media"
+					label="TPL_JOKTEANTU_LOGO_LABEL"
+					description="TPL_JOKTEANTU_LOGO_DESC"
+					directory="stories" 
+				/>
+				<field name="sitename" type="text" size="50"
+					label="TPL_JOKTEANTU_SITENAME"
+					description="TPL_JOKTEANTU_SITENAME_DESC"
+				/>
+				<field name="siteslogan" type="text" size="50"
+					label="TPL_JOKTEANTU_SITESLOGAN"
+					description="TPL_JOKTEANTU_SITESLOGAN_DESC"
+				/>
+				<field name="typeslogan" type="radio"
+					label="TPL_JOKTENANTU_SLOGANTYPE"
+					descripcion="TPL_JOKTENANTU_SLOGANTYPE_DESC">
+						<option value="0">TPL_INTOOLTIP</option>
+						<option value="1">TPL_INSMALLTEXT</option>
+				</field>			
+			</fieldset>		
+		</fields>
+	</config>
+</extension>
