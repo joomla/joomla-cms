@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package     Joomla.Legacy
  * @subpackage  Help
- * @since       11.1
+ * @since       1.5
  */
 class JHelp
 {
@@ -28,7 +28,7 @@ class JHelp
 	 *
 	 * @return  string
 	 *
-	 * @since   11.1
+	 * @since   1.5
 	 */
 	public static function createURL($ref, $useComponent = false, $override = null, $component = null)
 	{
@@ -171,7 +171,7 @@ class JHelp
 	 *
 	 * @return  array  An array of arrays (text, value, selected).
 	 *
-	 * @since   11.1
+	 * @since   1.5
 	 */
 	public static function createSiteList($pathToXml)
 	{

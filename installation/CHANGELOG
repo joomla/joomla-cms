@@ -28,6 +28,8 @@ $ -> Language fix or change
 
 10-Aug-2012 Rouven Weßling
  ^ Reduce use of deprecated JDatabase and JRequest methods.
+ ^ Merge latest platform (2f2d084af274840e7103fe6ad826926be8b3eb06)
+ ^ Move JToolbar and JHelp to the CMS libraries
 
 05-Aug-2012 Mark Dexter
  # [#28904] Typo in recent commit broke single newsfeed
