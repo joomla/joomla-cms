@@ -10,47 +10,44 @@
 defined('JPATH_PLATFORM') or die;
 
 /**
- * Renders a standard button with a confirm dialog
+ * Renders a standard button
  *
  * @package     Joomla.Legacy
  * @subpackage  Toolbar
- * @since       12.1
+ * @since       3.0
  */
-class JToolbarButtonConfirm extends JToolbarButton
+class JToolbarButtonStandard extends JToolbarButton
 {
 	/**
 	 * Button type
 	 *
 	 * @var    string
 	 */
-	protected $_name = 'Confirm';
+	protected $_name = 'Standard';
 
 	/**
 	 * Fetch the HTML for the button
 	 *
-	 * @param   string   $type      Unused string.
-	 * @param   string   $msg       Message to render
-	 * @param   string   $name      Name to be used as apart of the id
-	 * @param   string   $text      Button text
-	 * @param   string   $task      The task associated with the button
-	 * @param   boolean  $list      True to allow use of lists
-	 * @param   boolean  $hideMenu  True to hide the menu on click
+	 * @param   string   $type  Unused string.
+	 * @param   string   $name  The name of the button icon class.
+	 * @param   string   $text  Button text.
+	 * @param   string   $task  Task associated with the button.
+	 * @param   boolean  $list  True to allow lists
 	 *
-	 * @return  string   HTML string for the button
+	 * @return  string  HTML string for the button
 	 *
-	 * @since   12.1
+	 * @since   3.0
 	 */
-	public function fetchButton($type = 'Confirm', $msg = '', $name = '', $text = '', $task = '', $list = true, $hideMenu = false)
+	public function fetchButton($type = 'Standard', $name = '', $text = '', $task = '', $list = true)
 	{
-		$text = JText::_($text);
-		$msg = JText::_($msg, true);
+		$i18n_text = JText::_($text);
 		$class = $this->fetchIconClass($name);
-		$doTask = $this->_getCommand($msg, $name, $task, $list);
+		$doTask = $this->_getCommand($text, $task, $list);
 
 		$html = "<a href=\"javascript:void(0)\" onclick=\"$doTask\" class=\"toolbar\">\n";
 		$html .= "<span class=\"$class\">\n";
 		$html .= "</span>\n";
-		$html .= "$text\n";
+		$html .= "$i18n_text\n";
 		$html .= "</a>\n";
 
 		return $html;
@@ -59,7 +56,7 @@ class JToolbarButtonConfirm extends JToolbarButton
 	/**
 	 * Get the button CSS Id
 	 *
-	 * @param   string   $type      Button type
+	 * @param   string   $type      Unused string.
 	 * @param   string   $name      Name to be used as apart of the id
 	 * @param   string   $text      Button text
 	 * @param   string   $task      The task associated with the button
@@ -68,9 +65,9 @@ class JToolbarButtonConfirm extends JToolbarButton
 	 *
 	 * @return  string  Button CSS Id
 	 *
-	 * @since   12.1
+	 * @since   3.0
 	 */
-	public function fetchId($type = 'Confirm', $name = '', $text = '', $task = '', $list = true, $hideMenu = false)
+	public function fetchId($type = 'Standard', $name = '', $text = '', $task = '', $list = true, $hideMenu = false)
 	{
 		return $this->_parent->getName() . '-' . $name;
 	}
@@ -78,16 +75,15 @@ class JToolbarButtonConfirm extends JToolbarButton
 	/**
 	 * Get the JavaScript command for the button
 	 *
-	 * @param   object   $msg   The message to display.
-	 * @param   string   $name  Not used.
+	 * @param   string   $name  The task name as seen by the user
 	 * @param   string   $task  The task used by the application
 	 * @param   boolean  $list  True is requires a list confirmation.
 	 *
-	 * @return  string  JavaScript command string
+	 * @return  string   JavaScript command string
 	 *
-	 * @since   12.1
+	 * @since   3.0
 	 */
-	protected function _getCommand($msg, $name, $task, $list)
+	protected function _getCommand($name, $task, $list)
 	{
 		JHtml::_('behavior.framework');
 		$message = JText::_('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST');
@@ -95,11 +91,11 @@ class JToolbarButtonConfirm extends JToolbarButton
 
 		if ($list)
 		{
-			$cmd = "if (document.adminForm.boxchecked.value==0){alert('$message');}else{if (confirm('$msg')){Joomla.submitbutton('$task');}}";
+			$cmd = "if (document.adminForm.boxchecked.value==0){alert('$message');}else{ Joomla.submitbutton('$task')}";
 		}
 		else
 		{
-			$cmd = "if (confirm('$msg')){Joomla.submitbutton('$task');}";
+			$cmd = "Joomla.submitbutton('$task')";
 		}
 
 		return $cmd;

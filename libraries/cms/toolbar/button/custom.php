@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package     Joomla.Legacy
  * @subpackage  Toolbar
- * @since       12.1
+ * @since       3.0
  */
 class JToolbarButtonCustom extends JToolbarButton
 {
@@ -34,7 +34,7 @@ class JToolbarButtonCustom extends JToolbarButton
 	 *
 	 * @return  string   HTML string for the button
 	 *
-	 * @since   12.1
+	 * @since   3.0
 	 */
 	public function fetchButton($type = 'Custom', $html = '', $id = 'custom')
 	{
@@ -50,7 +50,7 @@ class JToolbarButtonCustom extends JToolbarButton
 	 *
 	 * @return  string  Button CSS Id
 	 *
-	 * @since   12.1
+	 * @since   3.0
 	 */
 	public function fetchId($type = 'Custom', $html = '', $id = 'custom')
 	{

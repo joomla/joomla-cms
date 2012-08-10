@@ -9,14 +9,12 @@
 
 defined('JPATH_PLATFORM') or die;
 
-JLoader::register('JButton', __DIR__ . '/button.php');
-
 /**
  * ToolBar handler
  *
  * @package     Joomla.Legacy
  * @subpackage  Toolbar
- * @since       11.1
+ * @since       1.5
  */
 class JToolbar
 {
@@ -51,8 +49,8 @@ class JToolbar
 	/**
 	 * Stores the singleton instances of various toolbar.
 	 *
-	 * @var JToolbar
-	 * @since 11.3
+	 * @var    JToolbar
+	 * @since  2.5
 	 */
 	protected static $instances = array();
 
@@ -61,7 +59,7 @@ class JToolbar
 	 *
 	 * @param   string  $name  The toolbar name.
 	 *
-	 * @since   11.1
+	 * @since   1.5
 	 */
 	public function __construct($name = 'toolbar')
 	{
@@ -73,14 +71,14 @@ class JToolbar
 	}
 
 	/**
-	 * Returns the global JToolBar object, only creating it if it
+	 * Returns the global JToolbar object, only creating it if it
 	 * doesn't already exist.
 	 *
 	 * @param   string  $name  The name of the toolbar.
 	 *
-	 * @return  JToolBar  The JToolBar object.
+	 * @return  JToolbar  The JToolbar object.
 	 *
-	 * @since   11.1
+	 * @since   1.5
 	 */
 	public static function getInstance($name = 'toolbar')
 	{
@@ -97,7 +95,7 @@ class JToolbar
 	 *
 	 * @return  string  The set value.
 	 *
-	 * @since   11.1
+	 * @since   1.5
 	 */
 	public function appendButton()
 	{
@@ -112,7 +110,7 @@ class JToolbar
 	 *
 	 * @return  array
 	 *
-	 * @since   11.1
+	 * @since   1.6
 	 */
 	public function getItems()
 	{
@@ -124,7 +122,7 @@ class JToolbar
 	 *
 	 * @return  string
 	 *
-	 * @since   11.1
+	 * @since   1.6
 	 */
 	public function getName()
 	{
@@ -136,7 +134,7 @@ class JToolbar
 	 *
 	 * @return  string
 	 *
-	 * @since   11.1
+	 * @since   1.5
 	 */
 	public function prependButton()
 	{
@@ -151,7 +149,7 @@ class JToolbar
 	 *
 	 * @return  string  HTML for the toolbar.
 	 *
-	 * @since   11.1
+	 * @since   1.5
 	 */
 	public function render()
 	{
@@ -182,7 +180,7 @@ class JToolbar
 	 *
 	 * @return  string
 	 *
-	 * @since   11.1
+	 * @since   1.5
 	 */
 	public function renderButton(&$node)
 	{
@@ -205,9 +203,9 @@ class JToolbar
 	 * @param   string   $type  Button Type
 	 * @param   boolean  $new   False by default
 	 *
-	 * @return  object
+	 * @return  boolean
 	 *
-	 * @since   11.1
+	 * @since   1.5
 	 */
 	public function loadButtonType($type, $new = false)
 	{
@@ -278,8 +276,8 @@ class JToolbar
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
-	 * @see JToolbar
+	 * @since   boolean
+	 * @see     JToolbar
 	 */
 	public function addButtonPath($path)
 	{

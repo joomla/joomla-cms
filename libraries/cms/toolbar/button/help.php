@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package     Joomla.Legacy
  * @subpackage  Toolbar
- * @since       12.1
+ * @since       3.0
  */
 class JToolbarButtonHelp extends JToolbarButton
 {
@@ -34,7 +34,7 @@ class JToolbarButtonHelp extends JToolbarButton
 	 *
 	 * @return  string
 	 *
-	 * @since   12.1
+	 * @since   3.0
 	 */
 	public function fetchButton($type = 'Help', $ref = '', $com = false, $override = null, $component = null)
 	{
@@ -58,7 +58,7 @@ class JToolbarButtonHelp extends JToolbarButton
 	 *
 	 * @return  string	Button CSS Id
 	 *
-	 * @since   12.1
+	 * @since   3.0
 	 */
 	public function fetchId()
 	{
@@ -75,7 +75,7 @@ class JToolbarButtonHelp extends JToolbarButton
 	 *
 	 * @return  string   JavaScript command string
 	 *
-	 * @since   12.1
+	 * @since   3.0
 	 */
 	protected function _getCommand($ref, $com, $override, $component)
 	{

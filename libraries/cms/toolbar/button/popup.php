@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package     Joomla.Legacy
  * @subpackage  Toolbar
- * @since       12.1
+ * @since       3.0
  */
 class JToolbarButtonPopup extends JToolbarButton
 {
@@ -40,7 +40,7 @@ class JToolbarButtonPopup extends JToolbarButton
 	 *
 	 * @return  string  HTML string for the button
 	 *
-	 * @since   12.1
+	 * @since   3.0
 	 */
 	public function fetchButton($type = 'Popup', $name = '', $text = '', $url = '', $width = 640, $height = 480, $top = 0, $left = 0, $onClose = '')
 	{
@@ -70,7 +70,7 @@ class JToolbarButtonPopup extends JToolbarButton
 	 *
 	 * @return  string	Button CSS Id
 	 *
-	 * @since   12.1
+	 * @since   3.0
 	 */
 	public function fetchId($type, $name)
 	{
@@ -89,7 +89,7 @@ class JToolbarButtonPopup extends JToolbarButton
 	 *
 	 * @return  string   JavaScript command string
 	 *
-	 * @since   12.1
+	 * @since   3.0
 	 */
 	protected function _getCommand($name, $url, $width, $height, $top, $left)
 	{

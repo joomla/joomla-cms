@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package     Joomla.Legacy
  * @subpackage  Toolbar
- * @since       11.1
+ * @since       3.0
  */
 class JToolbarButtonSeparator extends JToolbarButton
 {
@@ -33,7 +33,7 @@ class JToolbarButtonSeparator extends JToolbarButton
 	 * @return  string  The HTML for the separator
 	 *
 	 * @see     JButton::render()
-	 * @since   12.1
+	 * @since   3.0
 	 */
 	public function render(&$definition)
 	{
@@ -55,7 +55,7 @@ class JToolbarButtonSeparator extends JToolbarButton
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0
 	 */
 	public function fetchButton()
 	{

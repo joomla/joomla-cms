@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package     Joomla.Legacy
  * @subpackage  Toolbar
- * @since       12.1
+ * @since       3.0
  */
 abstract class JToolbarButton
 {
@@ -50,6 +50,8 @@ abstract class JToolbarButton
 	 * Get the element name
 	 *
 	 * @return  string   type of the parameter
+	 *
+	 * @since   3.0
 	 */
 	public function getName()
 	{
@@ -62,6 +64,8 @@ abstract class JToolbarButton
 	 * @param   array  &$definition  Parameters to be passed
 	 *
 	 * @return  string
+	 *
+	 * @since   3.0
 	 */
 	public function render(&$definition)
 	{
@@ -95,7 +99,7 @@ abstract class JToolbarButton
 	 *
 	 * @return  string  CSS class name
 	 *
-	 * @since   11.1
+	 * @since   3.0
 	 */
 	public function fetchIconClass($identifier)
 	{
@@ -109,7 +113,7 @@ abstract class JToolbarButton
 	 *
 	 * @return  string
 	 *
-	 * @since   11.1
+	 * @since   3.0
 	 */
 	abstract public function fetchButton();
 }
@@ -119,8 +123,8 @@ abstract class JToolbarButton
  *
  * @package     Joomla.Legacy
  * @subpackage  Toolbar
- * @since       11.1
- * @deprecated  13.3  Use JToolbarButton instead.
+ * @since       1.5
+ * @deprecated  4.0  Use JToolbarButton instead.
  */
 abstract class JButton extends JToolbarButton
 {
@@ -129,7 +133,7 @@ abstract class JButton extends JToolbarButton
 	 *
 	 * @param   object  $parent  The parent
 	 *
-	 * @deprecated  13.3  Use JToolbarButton instead.
+	 * @deprecated  4.0  Use JToolbarButton instead.
 	 */
 	public function __construct($parent = null)
 	{
