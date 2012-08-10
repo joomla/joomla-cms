@@ -39,8 +39,13 @@ class BannersModelBanner extends JModelLegacy
 
 		$db->setQuery((string) $query);
 
-		if (!$db->execute()) {
-			JError::raiseError(500, $db->getErrorMsg());
+		try
+		{
+			$db->execute();
+		}
+		catch (RuntimeException $e)
+		{
+			JError::raiseError(500, $e->getMessage());
 		}
 
 		// track clicks
@@ -70,8 +75,13 @@ class BannersModelBanner extends JModelLegacy
 
 			$db->setQuery((string) $query);
 
-			if (!$db->execute()) {
-				JError::raiseError(500, $db->getErrorMsg());
+			try
+			{
+				$db->execute();
+			}
+			catch (RuntimeException $e)
+			{
+				JError::raiseError(500, $e->getMessage());
 			}
 
 			$count = $db->loadResult();
@@ -99,8 +109,13 @@ class BannersModelBanner extends JModelLegacy
 
 			$db->setQuery((string) $query);
 
-			if (!$db->execute()) {
-				JError::raiseError(500, $db->getErrorMsg());
+			try
+			{
+				$db->execute();
+			}
+			catch (RuntimeException $e)
+			{
+				JError::raiseError(500, $e->getMessage());
 			}
 		}
 	}
@@ -137,8 +152,13 @@ class BannersModelBanner extends JModelLegacy
 
 				$db->setQuery((string) $query);
 
-				if (!$db->execute()) {
-					JError::raiseError(500, $db->getErrorMsg());
+				try
+				{
+					$db->execute();
+				}
+				catch (RuntimeException $e)
+				{
+					JError::raiseError(500, $e->getMessage());
 				}
 
 				$this->_item = $db->loadObject();

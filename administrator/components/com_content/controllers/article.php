@@ -25,6 +25,8 @@ class ContentControllerArticle extends JControllerForm
 	 */
 	function __construct($config = array())
 	{
+		parent::__construct($config);
+
 		// An article edit form can come from the articles or featured view.
 		// Adjust the redirect view on the value of 'return' in the request.
 		if (JRequest::getCmd('return') == 'featured')
@@ -32,8 +34,6 @@ class ContentControllerArticle extends JControllerForm
 			$this->view_list = 'featured';
 			$this->view_item = 'article&return=featured';
 		}
-
-		parent::__construct($config);
 	}
 
 	/**

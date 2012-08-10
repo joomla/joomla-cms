@@ -218,14 +218,16 @@ class BannersModelTracks extends JModelList
 
 			$db->setQuery((string) $query);
 			$this->setError((string) $query);
-			$db->execute();
 
-			// Check for a database error.
-			if ($db->getErrorNum()) {
-				$this->setError($db->getErrorMsg());
+			try
+			{
+				$db->execute();
+			}
+			catch (RuntimeException $e)
+			{
+				$this->setError($e->getMessage());
 				return false;
 			}
-
 		} else {
 			JError::raiseWarning(403, JText::_('JERROR_CORE_DELETE_NOT_PERMITTED'));
 		}
@@ -326,10 +328,14 @@ class BannersModelTracks extends JModelList
 			$query->from($db->quoteName('#__categories'));
 			$query->where($db->quoteName('id').'='.$db->quote($categoryId));
 			$db->setQuery((string) $query);
-			$name = $db->loadResult();
 
-			if ($db->getErrorNum()) {
-				$this->setError($db->getErrorMsg());
+			try
+			{
+				$name = $db->loadResult();
+			}
+			catch (RuntimeException $e)
+			{
+				$this->setError($e->getMessage());
 				return false;
 			}
 		} else {
@@ -356,9 +362,14 @@ class BannersModelTracks extends JModelList
 			$query->from($db->quoteName('#__banner_clients'));
 			$query->where($db->quoteName('id').'='.$db->quote($clientId));
 			$db->setQuery((string) $query);
-			$name = $db->loadResult();
-			if ($db->getErrorNum()) {
-				$this->setError($db->getErrorMsg());
+
+			try
+			{
+				$name = $db->loadResult();
+			}
+			catch (RuntimeException $e)
+			{
+				$this->setError($e->getMessage());
 				return false;
 			}
 		} else {

@@ -207,8 +207,13 @@ class BannersModelBanners extends JModelList
 			$query->where('id = ' . (int) $id);
 			$db->setQuery((string) $query);
 
-			if (!$db->execute()) {
-				JError::raiseError(500, $db->getErrorMsg());
+			try
+			{
+				$db->execute();
+			}
+			catch (RuntimeException $e)
+			{
+				JError::raiseError(500, $e->getMessage());
 			}
 
 			// track impressions
@@ -233,8 +238,13 @@ class BannersModelBanners extends JModelList
 
 				$db->setQuery((string) $query);
 
-				if (!$db->execute()) {
-					JError::raiseError(500, $db->getErrorMsg());
+				try
+				{
+					$db->execute();
+				}
+				catch (RuntimeException $e)
+				{
+					JError::raiseError(500, $e->getMessage());
 				}
 
 				$count = $db->loadResult();
@@ -262,8 +272,13 @@ class BannersModelBanners extends JModelList
 
 				$db->setQuery((string) $query);
 
-				if (!$db->execute()) {
-					JError::raiseError(500, $db->getErrorMsg());
+				try
+				{
+					$db->execute();
+				}
+				catch (RuntimeException $e)
+				{
+					JError::raiseError(500, $e->getMessage());
 				}
 			}
 		}

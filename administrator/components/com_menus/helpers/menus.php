@@ -173,11 +173,13 @@ class MenusHelper
 		// Get the options.
 		$db->setQuery($query);
 
-		$links = $db->loadObjectList();
-
-		// Check for a database error.
-		if ($error = $db->getErrorMsg()) {
-			JError::raiseWarning(500, $error);
+		try
+		{
+			$links = $db->loadObjectList();
+		}
+		catch (RuntimeException $e)
+		{
+			JError::raiseWarning(500, $e->getMessage());
 			return false;
 		}
 
@@ -195,11 +197,13 @@ class MenusHelper
 			$query->order('title, menutype');
 			$db->setQuery($query);
 
-			$menuTypes = $db->loadObjectList();
-
-			// Check for a database error.
-			if ($error = $db->getErrorMsg()) {
-				JError::raiseWarning(500, $error);
+			try
+			{
+				$menuTypes = $db->loadObjectList();
+			}
+			catch (RuntimeException $e)
+			{
+				JError::raiseWarning(500, $e->getMessage());
 				return false;
 			}
 
@@ -237,10 +241,14 @@ class MenusHelper
 		$query->where('m.id=' . (int) $pk);
 		$query->select('m2.language, m2.id');
 		$db->setQuery($query);
-		$menuitems = $db->loadObjectList('language');
-		// Check for a database error.
-		if ($error = $db->getErrorMsg()) {
-			JError::raiseWarning(500, $error);
+
+		try
+		{
+			$menuitems = $db->loadObjectList('language');
+		}
+		catch (RuntimeException $e)
+		{
+			JError::raiseWarning(500, $e->getMessage());
 			return false;
 		}
 		foreach ($menuitems as $tag => $item)

@@ -37,11 +37,14 @@ abstract class MenusHtmlMenus
 		$query->select('l.image');
 		$query->select('l.title as language_title');
 		$db->setQuery($query);
-		$items = $db->loadObjectList('id');
 
-		// Check for a database error.
-		if ($error = $db->getErrorMsg()) {
-			JError::raiseWarning(500, $error);
+		try
+		{
+			$items = $db->loadObjectList('id');
+		}
+		catch (RuntimeException $e)
+		{
+			JError::raiseWarning(500, $e->getMessage());
 			return false;
 		}
 

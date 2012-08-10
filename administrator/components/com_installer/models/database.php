@@ -77,6 +77,7 @@ class InstallerModelDatabase extends InstallerModel
 	 * Get version from #__schemas table
 	 *
 	 * @return  mixed  the return value from the query, or null if the query fails
+	 *
 	 * @throws Exception
 	 */
 	public function getSchemaVersion()
@@ -84,12 +85,10 @@ class InstallerModelDatabase extends InstallerModel
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 		$query->select('version_id')->from($db->qn('#__schemas'))
-		->where('extension_id = 700');
+			->where('extension_id = 700');
 		$db->setQuery($query);
 		$result = $db->loadResult();
-		if ($db->getErrorNum()) {
-			throw new Exception('Database error - getSchemaVersion');
-		}
+
 		return $result;
 	}
 

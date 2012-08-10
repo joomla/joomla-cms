@@ -237,11 +237,14 @@ class MenusModelItem extends JModelAdmin
 		$query->select('COUNT(id)');
 		$query->from($db->quoteName('#__menu'));
 		$db->setQuery($query);
-		$count = $db->loadResult();
 
-		if ($error = $db->getErrorMsg())
+		try
 		{
-			$this->setError($error);
+			$count = $db->loadResult();
+		}
+		catch (RuntimeException $e)
+		{
+			$this->setError($e->getMessage());
 			return false;
 		}
 
@@ -493,12 +496,14 @@ class MenusModelItem extends JModelAdmin
 			$query->set($db->quoteName('menutype') . ' = ' . $db->quote($menuType));
 			$query->where($db->quoteName('id') . ' IN (' . implode(',', $children) . ')');
 			$db->setQuery($query);
-			$db->execute();
 
-			// Check for a database error.
-			if ($db->getErrorNum())
+			try
 			{
-				$this->setError($db->getErrorMsg());
+				$db->execute();
+			}
+			catch (RuntimeException $e)
+			{
+				$this->setError($e->getMessage());
 				return false;
 			}
 		}
@@ -764,10 +769,14 @@ class MenusModelItem extends JModelAdmin
 		$query->order('a.position, a.ordering');
 
 		$db->setQuery($query);
-		$result = $db->loadObjectList();
 
-		if ($db->getErrorNum()) {
-			$this->setError($db->getErrorMsg());
+		try
+		{
+			$result = $db->loadObjectList();
+		}
+		catch (RuntimeException $e)
+		{
+			$this->setError($e->getMessage());
 			return false;
 		}
 
@@ -1052,9 +1061,13 @@ class MenusModelItem extends JModelAdmin
 			'  AND params <> '.$db->quote('')
 		);
 
-		$items = $db->loadObjectList();
-		if ($error = $db->getErrorMsg()) {
-			$this->setError($error);
+		try
+		{
+			$items = $db->loadObjectList();
+		}
+		catch (RuntimeException $e)
+		{
+			$this->setError($e->getMessage());
 			return false;
 		}
 
@@ -1214,9 +1227,14 @@ class MenusModelItem extends JModelAdmin
 			$query->where('context='.$db->quote('com_menus.item'));
 			$query->where('id IN ('.implode(',', $associations).')');
 			$db->setQuery($query);
-			$db->execute();
-			if ($error = $db->getErrorMsg()) {
-				$this->setError($error);
+
+			try
+			{
+				$db->execute();
+			}
+			catch (RuntimeException $e)
+			{
+				$this->setError($e->getMessage());
 				return false;
 			}
 
@@ -1231,9 +1249,14 @@ class MenusModelItem extends JModelAdmin
 					$query->values($id.','.$db->quote('com_menus.item').','.$db->quote($key));
 				}
 				$db->setQuery($query);
-				$db->execute();
-				if ($error = $db->getErrorMsg()) {
-					$this->setError($error);
+
+				try
+				{
+					$db->execute();
+				}
+				catch (RuntimeException $e)
+				{
+					$this->setError($e->getMessage());
 					return false;
 				}
 			}

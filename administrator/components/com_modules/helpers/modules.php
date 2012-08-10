@@ -87,11 +87,15 @@ abstract class ModulesHelper
 		$query->order('position');
 
 		$db->setQuery($query);
-		$positions = $db->loadColumn();
-		$positions = (is_array($positions)) ? $positions : array();
 
-		if ($error = $db->getErrorMsg()) {
-			JError::raiseWarning(500, $error);
+		try
+		{
+			$positions = $db->loadColumn();
+			$positions = is_array($positions) ? $positions : array();
+		}
+		catch (RuntimeException $e)
+		{
+			JError::raiseWarning(500, $e->getMessage());
 			return;
 		}
 

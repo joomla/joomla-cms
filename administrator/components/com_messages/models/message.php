@@ -83,11 +83,14 @@ class MessagesModelMessage extends JModelAdmin
 						$query->select('subject, user_id_from');
 						$query->from('#__messages');
 						$query->where('message_id = '.(int) $replyId);
-						$message = $db->setQuery($query)->loadObject();
 
-						if ($error = $db->getErrorMsg())
+						try
 						{
-							$this->setError($error);
+							$message = $db->setQuery($query)->loadObject();
+						}
+						catch (RuntimeException $e)
+						{
+							$this->setError($e->getMessage());
 							return false;
 						}
 

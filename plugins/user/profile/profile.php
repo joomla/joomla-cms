@@ -62,12 +62,14 @@ class plgUserProfile extends JPlugin
 					' WHERE user_id = '.(int) $userId." AND profile_key LIKE 'profile.%'" .
 					' ORDER BY ordering'
 				);
-				$results = $db->loadRowList();
 
-				// Check for a database error.
-				if ($db->getErrorNum())
+				try
 				{
-					$this->_subject->setError($db->getErrorMsg());
+					$results = $db->loadRowList();
+				}
+				catch (RuntimeException $e)
+				{
+					$this->_subject->setError($e->getMessage());
 					return false;
 				}
 
@@ -264,11 +266,7 @@ class plgUserProfile extends JPlugin
 					'DELETE FROM #__user_profiles WHERE user_id = '.$userId .
 					" AND profile_key LIKE 'profile.%'"
 				);
-
-				if (!$db->execute())
-				{
-					throw new Exception($db->getErrorMsg());
-				}
+				$db->execute();
 
 				$tuples = array();
 				$order	= 1;
@@ -279,14 +277,9 @@ class plgUserProfile extends JPlugin
 				}
 
 				$db->setQuery('INSERT INTO #__user_profiles VALUES '.implode(', ', $tuples));
-
-				if (!$db->execute())
-				{
-					throw new Exception($db->getErrorMsg());
-				}
-
+				$db->execute();
 			}
-			catch (JException $e)
+			catch (RuntimeException $e)
 			{
 				$this->_subject->setError($e->getMessage());
 				return false;
@@ -324,12 +317,9 @@ class plgUserProfile extends JPlugin
 					" AND profile_key LIKE 'profile.%'"
 				);
 
-				if (!$db->execute())
-				{
-					throw new Exception($db->getErrorMsg());
-				}
+				$db->execute();
 			}
-			catch (JException $e)
+			catch (Exception $e)
 			{
 				$this->_subject->setError($e->getMessage());
 				return false;

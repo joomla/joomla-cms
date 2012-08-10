@@ -107,10 +107,14 @@ class ModulesModelPositions extends JModelList
 				}
 
 				$this->_db->setQuery($query);
-				$positions = $this->_db->loadObjectList('value');
-				// Check for a database error.
-				if ($error = $this->_db->getErrorMsg()) {
-					$this->setError($error);
+
+				try
+				{
+					$positions = $this->_db->loadObjectList('value');
+				}
+				catch (RuntimeException $e)
+				{
+					$this->setError($e->getMessage());
 					return false;
 				}
 				foreach ($positions as $value => $position)

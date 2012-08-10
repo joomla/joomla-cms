@@ -203,11 +203,14 @@ class WeblinksTableWeblink extends JTable
 			' WHERE ('.$where.')' .
 			$checkin
 		);
-		$this->_db->execute();
 
-		// Check for a database error.
-		if ($this->_db->getErrorNum()) {
-			$this->setError($this->_db->getErrorMsg());
+		try
+		{
+			$this->_db->execute();
+		}
+		catch (RuntimeException $e)
+		{
+			$this->setError($e->getMessage());
 			return false;
 		}
 

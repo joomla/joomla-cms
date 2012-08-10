@@ -58,10 +58,14 @@ class JFormFieldModal_Article extends JFormField
 			' FROM #__content' .
 			' WHERE id = '.(int) $this->value
 		);
-		$title = $db->loadResult();
 
-		if ($error = $db->getErrorMsg()) {
-			JError::raiseWarning(500, $error);
+		try
+		{
+			$title = $db->loadResult();
+		}
+		catch (RuntimeException $e)
+		{
+			JError::raiseWarning(500, $e->getMessage());
 		}
 
 		if (empty($title)) {

@@ -105,11 +105,14 @@ class BannersHelper
 		$query->where($db->quoteName('reset').' != '.$db->quote($nullDate).' AND '.$db->quoteName('reset').'!=NULL');
 		$query->where('('.$db->quoteName('checked_out').' = 0 OR '.$db->quoteName('checked_out').' = '.(int) $db->Quote($user->id).')');
 		$db->setQuery((string) $query);
-		$rows = $db->loadObjectList();
 
-		// Check for a database error.
-		if ($db->getErrorNum()) {
-			JError::raiseWarning(500, $db->getErrorMsg());
+		try
+		{
+			$rows = $db->loadObjectList();
+		}
+		catch (RuntimeException $e)
+		{
+			JError::raiseWarning(500, $e->getMessage());
 			return false;
 		}
 
@@ -159,11 +162,14 @@ class BannersHelper
 			$query->set($db->quoteName('clicks').' = '.$db->quote(0));
 			$query->where($db->quoteName('id').' = '.$db->quote($row->id));
 			$db->setQuery((string) $query);
-			$db->execute();
 
-			// Check for a database error.
-			if ($db->getErrorNum()) {
-				JError::raiseWarning(500, $db->getErrorMsg());
+			try
+			{
+				$db->execute();
+			}
+			catch (RuntimeException $e)
+			{
+				JError::raiseWarning(500, $db->getMessage());
 				return false;
 			}
 		}
@@ -186,11 +192,13 @@ class BannersHelper
 		// Get the options.
 		$db->setQuery($query);
 
-		$options = $db->loadObjectList();
-
-		// Check for a database error.
-		if ($db->getErrorNum()) {
-			JError::raiseWarning(500, $db->getErrorMsg());
+		try
+		{
+			$options = $db->loadObjectList();
+		}
+		catch (RuntimeException $e)
+		{
+			JError::raiseWarning(500, $e->getMessage());
 		}
 
 		// Merge any additional options in the XML definition.
