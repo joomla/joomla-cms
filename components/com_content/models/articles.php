@@ -121,22 +121,22 @@ class ContentModelArticles extends JModelList
 	protected function getStoreId($id = '')
 	{
 		// Compile the store id.
-		$id .= ':'.$this->getState('filter.published');
-		$id .= ':'.$this->getState('filter.access');
-		$id .= ':'.$this->getState('filter.featured');
-		$id .= ':'.$this->getState('filter.article_id');
-		$id .= ':'.$this->getState('filter.article_id.include');
-		$id .= ':'.$this->getState('filter.category_id');
-		$id .= ':'.$this->getState('filter.category_id.include');
-		$id .= ':'.$this->getState('filter.author_id');
-		$id .= ':'.$this->getState('filter.author_id.include');
-		$id .= ':'.$this->getState('filter.author_alias');
-		$id .= ':'.$this->getState('filter.author_alias.include');
-		$id .= ':'.$this->getState('filter.date_filtering');
-		$id .= ':'.$this->getState('filter.date_field');
-		$id .= ':'.$this->getState('filter.start_date_range');
-		$id .= ':'.$this->getState('filter.end_date_range');
-		$id .= ':'.$this->getState('filter.relative_date');
+		$id .= ':' . serialize($this->getState('filter.published'));
+		$id .= ':' . $this->getState('filter.access');
+		$id .= ':' . $this->getState('filter.featured');
+		$id .= ':' . $this->getState('filter.article_id');
+		$id .= ':' . $this->getState('filter.article_id.include');
+		$id	.= ':' . serialize($this->getState('filter.category_id'));
+		$id .= ':' . $this->getState('filter.category_id.include');
+		$id	.= ':' . serialize($this->getState('filter.author_id'));
+		$id .= ':' . $this->getState('filter.author_id.include');
+		$id	.= ':' . serialize($this->getState('filter.author_alias'));
+		$id .= ':' . $this->getState('filter.author_alias.include');
+		$id .= ':' . $this->getState('filter.date_filtering');
+		$id .= ':' . $this->getState('filter.date_field');
+		$id .= ':' . $this->getState('filter.start_date_range');
+		$id .= ':' . $this->getState('filter.end_date_range');
+		$id .= ':' . $this->getState('filter.relative_date');
 
 		return parent::getStoreId($id);
 	}

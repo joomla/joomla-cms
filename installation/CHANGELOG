@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+10-Aug-2012 Jean-Marie Simonet
+ # [#28855] Fix Array to string conversion notices (PHP 5.4 only).Thanks Rouven
+ 
 09-Aug-2012 Mark Dexter
  # [#25663] "Can't build admin menu item" error while (re)installing component. Thanks Nicholas.
 
