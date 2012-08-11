@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  com_installer
  * @since       2.5.7
  */
-class InstallerControllerLanguages extends JController
+class InstallerControllerLanguages extends JControllerLegacy
 {
 
 	/**

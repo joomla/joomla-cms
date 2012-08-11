@@ -15,12 +15,12 @@ defined('_JEXEC') or die;
  */
 class ContentViewCategory extends JViewLegacy
 {
-	function display()
+	function display($tpl = null)
 	{
 		$app		= JFactory::getApplication();
 		$doc		= JFactory::getDocument();
 		$params 	= $app->getParams();
-		$feedEmail	= (@$app->getCfg('feed_email')) ? $app->getCfg('feed_email') : 'author';
+		$feedEmail	= $app->getCfg('feed_email', 'author');
 		$siteEmail	= $app->getCfg('mailfrom');
 
 		// Get some data from the model
@@ -60,7 +60,14 @@ class ContentViewCategory extends JViewLegacy
 			$item->date			= $date;
 			$item->category		= $row->category_title;
 			$item->author		= $author;
-			$item->authorEmail	= (($feedEmail == 'site') ? $siteEmail : $row->author_email);
+			if ($feedEmail == 'site')
+			{
+ 				$item->authorEmail = $siteEmail;
+			}
+			elseif($feedEmail === 'author')
+			{
+				$item->authorEmail = $row->author_email;
+			}
 
 			// Add readmore link to description if introtext is shown, show_readmore is true and fulltext exists
 			if (!$params->get('feed_summary', 0) && $params->get('feed_show_readmore', 0) && $row->fulltext)

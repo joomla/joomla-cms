@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+11-Aug-2012 Jean-Marie Simonet
+ #+ [#25295] Email exposed through RSS and Atom feeds. Thanks Elin and Peter
+
 10-Aug-2012 Jean-Marie Simonet
  # [#28855] Fix Array to string conversion notices (PHP 5.4 only).Thanks Rouven
  
