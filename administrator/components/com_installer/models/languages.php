@@ -160,7 +160,7 @@ class InstallerModelLanguages extends JModelList
 			{
 				// Could not find the url, the information in the update server may be corrupt
 				$message 	= JText::sprintf('COM_INSTALLER_MSG_LANGUAGES_CANT_FIND_REMOTE_MANIFEST', $language->name);
-				$message 	.= ' ' . JText::_(COM_INSTALLER_MSG_LANGUAGES_TRY_LATER);
+				$message 	.= ' ' . JText::_('COM_INSTALLER_MSG_LANGUAGES_TRY_LATER');
 				$app->enqueueMessage($message);
 				continue;
 			}
@@ -171,7 +171,7 @@ class InstallerModelLanguages extends JModelList
 			{
 				// Could not find the url , maybe the url is wrong in the update server, or there is not internet access
 				$message 	= JText::sprintf('COM_INSTALLER_MSG_LANGUAGES_CANT_FIND_REMOTE_PACKAGE', $language->name);
-				$message 	.= ' ' . JText::_(COM_INSTALLER_MSG_LANGUAGES_TRY_LATER);
+				$message 	.= ' ' . JText::_('COM_INSTALLER_MSG_LANGUAGES_TRY_LATER');
 				$app->enqueueMessage($message);
 				continue;
 			}
@@ -184,7 +184,7 @@ class InstallerModelLanguages extends JModelList
 			{
 				// There was an error installing the package
 				$message 	= JText::sprintf('COM_INSTALLER_INSTALL_ERROR', $language->name);
-				$message 	.= ' ' . JText::_(COM_INSTALLER_MSG_LANGUAGES_TRY_LATER);
+				$message 	.= ' ' . JText::_('COM_INSTALLER_MSG_LANGUAGES_TRY_LATER');
 				$app->enqueueMessage($message);
 				continue;
 			}
@@ -238,9 +238,9 @@ class InstallerModelLanguages extends JModelList
 	}
 
 	/**
-	 * Download a language package from a URL and unpack it in the tmp folder.
+	 * Download a language package from an URL and unpack it in the tmp folder.
 	 *
-	 * @param   string  $url  hola
+	 * @param   string  $url  url of the package
 	 *
 	 * @return array|bool Package details or false on failure
 	 */
