@@ -25,7 +25,7 @@ $dispatcher->trigger('onContentBeforeDisplay', array('com_media.file', &$this->_
 
 			</td>
 			<td class="filesize">
-				<?php echo MediaHelper::parseSize($this->_tmp_doc->size); ?>
+				<?php echo JHtml::_('number.bytes', $this->_tmp_doc->size); ?>
 			</td>
 		<?php if ($user->authorise('core.delete', 'com_media')):?>
 			<td>
