@@ -24,7 +24,7 @@ class ContentViewFeatured extends JViewLegacy
 		$app       = JFactory::getApplication();
 		$doc       = JFactory::getDocument();
 		$params    = $app->getParams();
-		$feedEmail	= $app->getCfg('feed_email', 'author');
+		$feedEmail = $app->getCfg('feed_email', 'author');
 		$siteEmail = $app->getCfg('mailfrom');
 
 		$doc->link	= JRoute::_('index.php?option=com_content&view=featured');
@@ -71,7 +71,7 @@ class ContentViewFeatured extends JViewLegacy
 			$item->author 		= $author;
 			if ($feedEmail == 'site')
 			{
- 				$item->authorEmail = $siteEmail;
+				$item->authorEmail = $siteEmail;
 			}
 			elseif($feedEmail === 'author')
 			{

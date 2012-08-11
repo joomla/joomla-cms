@@ -30,14 +30,14 @@ class ContactViewCategory extends JViewLegacy
 
 		$doc	= JFactory::getDocument();
 		$params = $app->getParams();
-		$feedEmail	= $app->getCfg('feed_email', 'author');
-		$siteEmail	= $app->getCfg('mailfrom');
-		$fromName = $app->getCfg('fromname');
+		$feedEmail = $app->getCfg('feed_email', 'author');
+		$siteEmail = $app->getCfg('mailfrom');
+		$fromName  = $app->getCfg('fromname');
 
 		JRequest::setVar('limit', $app->getCfg('feed_limit'));
 		// Get some data from the models
-		$category	= $this->get('Category');
-		$rows		= $this->get('Items');
+		$category = $this->get('Category');
+		$rows     = $this->get('Items');
 
 		$doc->link = JRoute::_(ContactHelperRoute::getCategoryRoute($category->id));
 
@@ -59,19 +59,19 @@ class ContactViewCategory extends JViewLegacy
 
 			// load individual item creator class
 			$item = new JFeedItem;
-			$item->title		= $title;
-			$item->link			= $link;
-			$item->description	= $description;
-			$item->date			= $date;
-			$item->category		= $category->title;
-			$item->author		= $author;
+			$item->title       = $title;
+			$item->link        = $link;
+			$item->description = $description;
+			$item->date        = $date;
+			$item->category    = $category->title;
+			$item->author      = $author;
 
 			// We don't have the author email so we have to use site in both cases.
 			if ($feedEmail == 'site')
 			{
 				$item->authorEmail = $siteEmail;
 			}
-			elseif($feedEmail == 'author')
+			elseif ($feedEmail == 'author')
 			{
 				$item->authorEmail = $row->author_email;
 			}

@@ -23,7 +23,7 @@ class ContentViewCategory extends JViewLegacy
 		$app       = JFactory::getApplication();
 		$doc       = JFactory::getDocument();
 		$params    = $app->getParams();
-		$feedEmail	= $app->getCfg('feed_email', 'author');
+		$feedEmail = $app->getCfg('feed_email', 'author');
 		$siteEmail = $app->getCfg('mailfrom');
 
 		// Get some data from the model
@@ -57,17 +57,18 @@ class ContentViewCategory extends JViewLegacy
 			@$date = ($row->created ? date('r', strtotime($row->created)) : '');
 
 			// Load individual item creator class
-			$item 				= new JFeedItem;
-			$item->title		= $title;
-			$item->link			= $link;
-			$item->date			= $date;
-			$item->category		= $row->category_title;
-			$item->author		= $author;
+			$item           = new JFeedItem;
+			$item->title    = $title;
+			$item->link     = $link;
+			$item->date     = $date;
+			$item->category = $row->category_title;
+			$item->author   = $author;
+
 			if ($feedEmail == 'site')
 			{
- 				$item->authorEmail = $siteEmail;
+				$item->authorEmail = $siteEmail;
 			}
-			elseif($feedEmail === 'author')
+			elseif ($feedEmail === 'author')
 			{
 				$item->authorEmail = $row->author_email;
 			}
