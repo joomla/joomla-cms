@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     CMS.Library
+ * @package     Joomla.Libraries
  * @subpackage  Schema
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Checks the database schema against one MySQL DDL query to see if it has been run.
  *
- * @package     CMS.Library
+ * @package     Joomla.Libraries
  * @subpackage  Schema
  * @since       2.5
  */
@@ -65,8 +65,7 @@ class JSchemaChangeitemmysql extends JSchemaChangeitem
 			$alterCommand = strtoupper($wordArray[3] . ' ' . $wordArray[4]);
 			if ($alterCommand == 'ADD COLUMN')
 			{
-				$result = 'SHOW COLUMNS IN ' . $wordArray[2] .
-					' WHERE field = ' . $this->fixQuote($wordArray[5]);
+				$result = 'SHOW COLUMNS IN ' . $wordArray[2] . ' WHERE field = ' . $this->fixQuote($wordArray[5]);
 				$this->queryType = 'ADD_COLUMN';
 				$this->msgElements = array($this->fixQuote($wordArray[2]), $this->fixQuote($wordArray[5]));
 			}
@@ -108,8 +107,7 @@ class JSchemaChangeitemmysql extends JSchemaChangeitem
 				{
 					$type = $this->fixQuote($this->fixInteger($wordArray[5], $wordArray[6]));
 				}
-				$result = 'SHOW COLUMNS IN ' . $wordArray[2] . ' WHERE field = '
-					. $this->fixQuote($wordArray[4]) . ' AND type = ' . $type;
+				$result = 'SHOW COLUMNS IN ' . $wordArray[2] . ' WHERE field = ' . $this->fixQuote($wordArray[4]) . ' AND type = ' . $type;
 				$this->queryType = 'CHANGE_COLUMN_TYPE';
 				$this->msgElements = array($this->fixQuote($wordArray[2]), $this->fixQuote($wordArray[4]), $type);
 			}
@@ -117,8 +115,7 @@ class JSchemaChangeitemmysql extends JSchemaChangeitem
 			{
 				// Kludge to fix problem with "integer unsigned"
 				$type = $this->fixQuote($this->fixInteger($wordArray[6], $wordArray[7]));
-				$result = 'SHOW COLUMNS IN ' . $wordArray[2] . ' WHERE field = ' .
-				$this->fixQuote($wordArray[4]) . ' AND type = ' . $type;
+				$result = 'SHOW COLUMNS IN ' . $wordArray[2] . ' WHERE field = ' . $this->fixQuote($wordArray[4]) . ' AND type = ' . $type;
 				$this->queryType = 'CHANGE_COLUMN_TYPE';
 				$this->msgElements = array($this->fixQuote($wordArray[2]), $this->fixQuote($wordArray[4]), $type);
 			}

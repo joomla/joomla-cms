@@ -1,18 +1,18 @@
 <?php
 /**
- * @package     CMS.Library
+ * @package     Joomla.Libraries
  * @subpackage  Schema
  *
-* @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
 /**
- * Checks the database schema against one MySQL DDL query to see if it has been run.
+ * Checks the database schema against one SQL Server DDL query to see if it has been run.
  *
- * @package     CMS.Library
+ * @package     Joomla.Libraries
  * @subpackage  Schema
  * @since       2.5
  */
@@ -45,7 +45,7 @@ class JSchemaChangeitemsqlsrv extends JSchemaChangeitem
 		$this->updateQuery = str_replace("\n", '', $this->updateQuery);
 
 		// Fix up extra spaces around () and in general
-		$find = array('#((\s*)\(\s*([^)\s]+)\s*)(\))#','#(\s)(\s*)#');
+		$find = array('#((\s*)\(\s*([^)\s]+)\s*)(\))#', '#(\s)(\s*)#');
 		$replace = array('($3)', '$1');
 		$updateQuery = preg_replace($find, $replace, $this->updateQuery);
 		$wordArray = explode(' ', $updateQuery);
@@ -65,11 +65,9 @@ class JSchemaChangeitemsqlsrv extends JSchemaChangeitem
 			$alterCommand = strtoupper($wordArray[3] . ' ' . $wordArray[4]);
 			if ($alterCommand == 'ADD')
 			{
-				$result = 'SELECT * FROM INFORMATION_SCHEMA.Columns ' . $wordArray[2] .
-				' WHERE COLUMN_NAME = ' . $this->fixQuote($wordArray[5]);
+				$result = 'SELECT * FROM INFORMATION_SCHEMA.Columns ' . $wordArray[2] . ' WHERE COLUMN_NAME = ' . $this->fixQuote($wordArray[5]);
 				$this->queryType = 'ADD';
 				$this->msgElements = array($this->fixQuote($wordArray[2]), $this->fixQuote($wordArray[5]));
-
 			}
 			elseif ($alterCommand == 'CREATE INDEX')
 			{
@@ -136,7 +134,7 @@ class JSchemaChangeitemsqlsrv extends JSchemaChangeitem
 	private function fixInteger($type1, $type2)
 	{
 		$result = $type1;
-		if (strtolower($type1) == "integer" && strtolower(substr($type2, 0, 8)) == 'unsigned')
+		if (strtolower($type1) == 'integer' && strtolower(substr($type2, 0, 8)) == 'unsigned')
 		{
 			$result = 'int';
 		}

@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     CMS.Library
+ * @package     Joomla.Libraries
  * @subpackage  Schema
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
@@ -18,31 +18,33 @@ jimport('joomla.filesystem.folder');
  * the database when this database was created or updated. This enables the
  * Installation Manager to check that the current database schema is up to date.
  *
- * @package     CMS.Library
+ * @package     Joomla.Libraries
  * @subpackage  Schema
  * @since       2.5
  */
 class JSchemaChangeset extends JObject
 {
 	/**
-	 * Array of JSchemaChangeItem objects
+	 * Array of JSchemaChangeitem objects
 	 *
-	 * @var    string
+	 * @var    array
+	 * @since  2.5
 	 */
 	protected $changeItems = array();
 
 	/**
-	* JDatabaseDriver object
-	*
-	* @var    JDatabaseDriver
-	*/
+	 * JDatabaseDriver object
+	 *
+	 * @var    JDatabaseDriver
+	 * @since  2.5
+	 */
 	protected $db = null;
 
 	/**
-	* Folder where SQL update files will be found
-	*
-	* @var    string
-	*/
+	 * Folder where SQL update files will be found
+	 *
+	 * @var    string
+	 */
 	protected $folder = null;
 
 	/**
@@ -67,13 +69,12 @@ class JSchemaChangeset extends JObject
 	}
 
 	/**
-	 * Returns the existing JSchemaChangeset object if it exists.
-	 * Otherwise, it creates a new one.
+	 * Returns a reference to the JSchemaChangeset object, only creating it if it doesn't already exist.
 	 *
 	 * @param   JDatabaseDriver  $db      The current database object
 	 * @param   string           $folder  The full path to the folder containing the update queries
 	 *
-	 * @return  JSchemaChangeSet    The (possibly chached) instance of JSchemaChangeSet
+	 * @return  JSchemaChangeset
 	 *
 	 * @since   2.5
 	 */
@@ -82,7 +83,7 @@ class JSchemaChangeset extends JObject
 		static $instance;
 		if (!is_object($instance))
 		{
-			$instance = new JSchemaChangeSet($db, $folder);
+			$instance = new JSchemaChangeset($db, $folder);
 		}
 		return $instance;
 	}
@@ -232,5 +233,4 @@ class JSchemaChangeset extends JObject
 		}
 		return $result;
 	}
-
 }
