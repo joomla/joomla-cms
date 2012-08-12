@@ -445,7 +445,7 @@ class PlgFinderContacts extends FinderIndexerAdapter
 		$case_when_category_alias .= $c_id.' END as catslug';
 		$sql->select($case_when_category_alias);
 
-		$sql->select('u.name AS user');
+		$sql->select('u.name');
 		$sql->from('#__contact_details AS a');
 		$sql->join('LEFT', '#__categories AS c ON c.id = a.catid');
 		$sql->join('LEFT', '#__users AS u ON u.id = a.user_id');
