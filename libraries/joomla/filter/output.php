@@ -223,7 +223,7 @@ class JFilterOutput
 	 *
 	 * @since   11.1
 	 */
-	public static function stripIframe($string)
+	public static function stripIframes($string)
 	{
 		return preg_replace('#(<[/]?iframe.*>)#U', '', $string);
 	}
