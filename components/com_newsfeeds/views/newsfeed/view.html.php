@@ -154,35 +154,26 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 		$temp->loadString($item->params);
 		$params->merge($temp);
 
-		$rssDoc = JSimplepieFactory::getFeedParser($newsfeed->link, $newsfeed->cache_time);
-
-		if ($rssDoc == false) {
-			$msg = JText::_('COM_NEWSFEEDS_ERRORS_FEED_NOT_RETRIEVED');
-			$app->redirect(NewsFeedsHelperRoute::getCategoryRoute($newsfeed->catslug), $msg);
-			return;
+		try
+		{
+			$feed = new JFeedFactory;
+			$this->rssDoc = $feed->getFeed($newsfeed->link );
 		}
+		catch (InvalidArgumentException $e)
+		{
+			$msg = JText::_('COM_NEWSFEEDS_ERRORS_FEED_NOT_RETRIEVED');
+		}
+		catch (RunTimeException $e)
+		{
+			$msg = JText::_('COM_NEWSFEEDS_ERRORS_FEED_NOT_RETRIEVED');
+		}
+		if (empty($this->rssDoc))
+		{
+			$msg = JText::_('COM_NEWSFEEDS_ERRORS_FEED_NOT_RETRIEVED');
+		}
+
 		$lists = array();
 
-		// channel header and link
-		$newsfeed->channel['title']			= $rssDoc->get_title();
-		$newsfeed->channel['link']			= $rssDoc->get_link();
-		$newsfeed->channel['description']	= $rssDoc->get_description();
-		$newsfeed->channel['language']		= $rssDoc->get_language();
-
-		// channel image if exists
-		$newsfeed->image['url']		= $rssDoc->get_image_url();
-		$newsfeed->image['title']	= $rssDoc->get_image_title();
-		$newsfeed->image['link']	= $rssDoc->get_image_link();
-		$newsfeed->image['height']	= $rssDoc->get_image_height();
-		$newsfeed->image['width']	= $rssDoc->get_image_width();
-
-		// items
-		$newsfeed->items = $rssDoc->get_items();
-
-		// feed elements
-		$newsfeed->items = array_slice($newsfeed->items, 0, $newsfeed->numarticles);
-
-		// feed display order
 		$feed_display_order = $params->get('feed_display_order', 'des');
 		if ($feed_display_order == 'asc') {
 			$newsfeed->items = array_reverse($newsfeed->items);
@@ -191,12 +182,16 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 		//Escape strings for HTML output
 		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
 
-		$this->params    = &$params;
-		$this->newsfeed = &$newsfeed;
-		$this->state    = &$state;
-		$this->item     = &$item;
-		$this->user     = &$user;
-		$this->print    = $print;
+		$this->assignRef('params', $params  );
+		$this->assignRef('newsfeed', $newsfeed);
+		$this->assignRef('state', $state);
+		$this->assignRef('item', $item);
+		$this->assignRef('user', $user);
+		if (!empty($msg))
+		{
+			$this->assignRef('msg', $msg);
+		}
+		$this->print = $print;
 
 		$this->_prepareDocument();
 

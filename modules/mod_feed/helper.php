@@ -25,34 +25,34 @@ class modFeedHelper
 
 		// get RSS parsed object
 		$cache_time = 0;
-		if ($params->get('cache')) {
+		if ($params->get('cache'))
+		{
 			$cache_time  = $params->get('cache_time', 15) * 60;
 		}
 
-		$rssDoc = JSimplepieFactory::getFeedParser($rssurl, $cache_time);
-
-		$feed = new stdclass;
-
-		if ($rssDoc != false)
+		try
 		{
-			// channel header and link
-			$feed->title = $rssDoc->get_title();
-			$feed->link = $rssDoc->get_link();
-			$feed->description = $rssDoc->get_description();
-
-			// channel image if exists
-			$feed->image->url = $rssDoc->get_image_url();
-			$feed->image->title = $rssDoc->get_image_title();
-
-			// items
-			$items = $rssDoc->get_items();
-
-			// feed elements
-			$feed->items = array_slice($items, 0, $params->get('rssitems', 5));
-		} else {
-			$feed = false;
+			$feed = new JFeedFactory;
+			$rssDoc = $feed->getFeed($rssurl);
+		}
+		catch (InvalidArgumentException $e)
+		{
+			$msg = JText::_('MOD_NEWSFEEDS_ERRORS_FEED_NOT_RETRIEVED');
+		}
+		catch (RunTimeException $e)
+		{
+			$msg = JText::_('MOD_FEED_ERR_FEED_NOT_RETRIEVED');
 		}
 
-		return $feed;
+		if (empty($rssDoc))
+		{
+			$msg = JText::_('MOD_FEED_ERR_FEED_NOT_RETRIEVED');
+			return $msg;
+		}
+		$lists = array();
+		if ($rssDoc)
+		{
+			return $rssDoc;
+		}
 	}
 }
