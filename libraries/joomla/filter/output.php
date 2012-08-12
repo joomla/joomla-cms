@@ -213,4 +213,18 @@ class JFilterOutput
 	{
 		return preg_replace('#(<[/]?img.*>)#U', '', $string);
 	}
+
+	/**
+	 * Strip iframe-tags from string
+	 *
+	 * @param   string  $string  Sting to be cleaned.
+	 *
+	 * @return  string  Cleaned string
+	 *
+	 * @since   11.1
+	 */
+	public static function stripIframe($string)
+	{
+		return preg_replace('#(<[/]?iframe.*>)#U', '', $string);
+	}
 }
