@@ -168,62 +168,102 @@ class AdminModelSysInfo extends JModelLegacy
 			$this->directories = array();
 
 			$registry = JFactory::getConfig();
-			jimport('joomla.filesystem.folder');
 			$cparams = JComponentHelper::getParams('com_media');
 
-			$this->_addDirectory('administrator/components', JPATH_ADMINISTRATOR.'/components');
-			$this->_addDirectory('administrator/language', JPATH_ADMINISTRATOR.'/language');
+			$this->_addDirectory('administrator/components', JPATH_ADMINISTRATOR . '/components');
+			$this->_addDirectory('administrator/language', JPATH_ADMINISTRATOR . '/language');
 
 			// List all admin languages
-			$admin_langs = JFolder::folders(JPATH_ADMINISTRATOR.'/language');
-			foreach($admin_langs as $alang) {
-				$this->_addDirectory('administrator/language/' . $alang, JPATH_ADMINISTRATOR.'/language/'.$alang);
+			$admin_langs = new DirectoryIterator(JPATH_ADMINISTRATOR . '/language');
+			foreach ($admin_langs as $alang)
+			{
+				if (!$alang->isDir() || $alang->isDot())
+				{
+					continue;
+				}
+
+				$name = $alang->getFilename();
+
+				$this->_addDirectory('administrator/language/' . $name, JPATH_ADMINISTRATOR . '/language/' . $name);
 			}
 
 			// List all manifests folders
-			$manifests = JFolder::folders(JPATH_ADMINISTRATOR.'/manifests');
-			foreach($manifests as $_manifest) {
-				$this->_addDirectory('administrator/manifests/' . $_manifest, JPATH_ADMINISTRATOR.'/manifests/'.$_manifest);
+			$manifests = new DirectoryIterator(JPATH_ADMINISTRATOR . '/manifests');
+			foreach ($manifests as $manifest)
+			{
+				if (!$manifest->isDir() || $manifest->isDot())
+				{
+					continue;
+				}
+
+				$name = $manifest->getFilename();
+
+				$this->_addDirectory('administrator/manifests/' . $name, JPATH_ADMINISTRATOR . '/manifests/' . $name);
 			}
 
-			$this->_addDirectory('administrator/modules', JPATH_ADMINISTRATOR.'/modules');
+			$this->_addDirectory('administrator/modules', JPATH_ADMINISTRATOR . '/modules');
 			$this->_addDirectory('administrator/templates', JPATH_THEMES);
 
-			$this->_addDirectory('components', JPATH_SITE.'/components');
+			$this->_addDirectory('components', JPATH_SITE . '/components');
 
-			$this->_addDirectory($cparams->get('image_path'), JPATH_SITE.'/'.$cparams->get('image_path'));
+			$this->_addDirectory($cparams->get('image_path'), JPATH_SITE . '/' . $cparams->get('image_path'));
 
-			$image_folders = JFolder::folders(JPATH_SITE.'/'.$cparams->get('image_path'));
 			// List all images folders
-			foreach ($image_folders as $folder) {
-				$this->_addDirectory('images/' . $folder, JPATH_SITE.'/'.$cparams->get('image_path').'/'.$folder);
+			$image_folders = new DirectoryIterator(JPATH_SITE . '/' . $cparams->get('image_path'));
+			foreach ($image_folders as $folder)
+			{
+				if (!$folder->isDir() || $folder->isDot())
+				{
+					continue;
+				}
+
+				$name = $manifest->getFilename();
+
+				$this->_addDirectory('images/' . $name, JPATH_SITE . '/' . $cparams->get('image_path') . '/' . $name);
 			}
 
-			$this->_addDirectory('language', JPATH_SITE.'/language');
+			$this->_addDirectory('language', JPATH_SITE . '/language');
+
 			// List all site languages
-			$site_langs = JFolder::folders(JPATH_SITE . '/language');
-			foreach ($site_langs as $slang) {
-				$this->_addDirectory('language/' . $slang, JPATH_SITE.'/language/'.$slang);
+			$site_langs = new DirectoryIterator(JPATH_SITE . '/language');
+			foreach ($site_langs as $alang)
+			{
+				if (!$alang->isDir() || $alang->isDot())
+				{
+					continue;
+				}
+
+				$name = $alang->getFilename();
+
+				$this->_addDirectory('language/' . $name, JPATH_SITE . '/language/' . $name);
 			}
 
 			$this->_addDirectory('libraries', JPATH_LIBRARIES);
 
-			$this->_addDirectory('media', JPATH_SITE.'/media');
-			$this->_addDirectory('modules', JPATH_SITE.'/modules');
+			$this->_addDirectory('media', JPATH_SITE . '/media');
+			$this->_addDirectory('modules', JPATH_SITE . '/modules');
 			$this->_addDirectory('plugins', JPATH_PLUGINS);
 
-			$plugin_groups = JFolder::folders(JPATH_PLUGINS);
-			foreach ($plugin_groups as $folder) {
-				$this->_addDirectory('plugins/' . $folder, JPATH_PLUGINS.'/'.$folder);
+			$plugin_groups = new DirectoryIterator(JPATH_SITE . '/language');
+			foreach ($plugin_groups as $folder)
+			{
+				if (!$alang->isDir() || $alang->isDot())
+				{
+					continue;
+				}
+
+				$name = $alang->getFilename();
+
+				$this->_addDirectory('plugins/' . $name, JPATH_PLUGINS . '/' . $name);
 			}
 
-			$this->_addDirectory('templates', JPATH_SITE.'/templates');
-			$this->_addDirectory('configuration.php', JPATH_CONFIGURATION.'/configuration.php');
+			$this->_addDirectory('templates', JPATH_SITE . '/templates');
+			$this->_addDirectory('configuration.php', JPATH_CONFIGURATION . '/configuration.php');
 			$this->_addDirectory('cache', JPATH_SITE.'/cache', 'COM_ADMIN_CACHE_DIRECTORY');
 			$this->_addDirectory('administrator/cache', JPATH_CACHE, 'COM_ADMIN_CACHE_DIRECTORY');
 
-			$this->_addDirectory($registry->get('log_path', JPATH_ROOT . '/log'), $registry->get('log_path', JPATH_ROOT.'/log'), 'COM_ADMIN_LOG_DIRECTORY');
-			$this->_addDirectory($registry->get('tmp_path', JPATH_ROOT . '/tmp'), $registry->get('tmp_path', JPATH_ROOT.'/tmp'), 'COM_ADMIN_TEMP_DIRECTORY');
+			$this->_addDirectory($registry->get('log_path', JPATH_ROOT . '/log'), $registry->get('log_path', JPATH_ROOT . '/log'), 'COM_ADMIN_LOG_DIRECTORY');
+			$this->_addDirectory($registry->get('tmp_path', JPATH_ROOT . '/tmp'), $registry->get('tmp_path', JPATH_ROOT . '/tmp'), 'COM_ADMIN_TEMP_DIRECTORY');
 		}
 		return $this->directories;
 	}
