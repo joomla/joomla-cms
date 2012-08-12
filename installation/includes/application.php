@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
  * Provide many supporting API functions
  *
  * @package  Joomla.Installation
+ * @since    1.5
  */
 class JInstallation extends JApplication
 {
@@ -42,8 +43,8 @@ class JInstallation extends JApplication
 	public function render()
 	{
 		$document = JFactory::getDocument();
-		$config = JFactory::getConfig();
-		$user = JFactory::getUser();
+		$config   = JFactory::getConfig();
+		$user     = JFactory::getUser();
 
 		switch ($document->getType())
 		{

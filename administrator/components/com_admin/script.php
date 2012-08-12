@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     Joomla.Administrator
  * @subpackage  com_admin
+ * @since       1.6.4
  */
 class joomlaInstallerScript
 {

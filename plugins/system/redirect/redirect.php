@@ -14,6 +14,7 @@ defined('JPATH_BASE') or die;
  *
  * @package     Joomla.Plugin
  * @subpackage  System.redirect
+ * @since       1.6
  */
 class plgSystemRedirect extends JPlugin
 {
@@ -24,7 +25,7 @@ class plgSystemRedirect extends JPlugin
 	 * @param	object	The object to observe -- event dispatcher.
 	 * @param	object	The configuration object for the plugin.
 	 * @return	void
-	 * @since	1.0
+	 * @since	1.6
 	 */
 	function __construct(&$subject, $config)
 	{

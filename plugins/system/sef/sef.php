@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
  *
  * @package     Joomla.Plugin
  * @subpackage  System.sef
+ * @since       1.5
  */
 class plgSystemSef extends JPlugin
 {

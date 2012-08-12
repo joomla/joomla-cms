@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     Joomla.Plugin
  * @subpackage  Content.emailcloak
+ * @since       1.5
  */
 class plgContentEmailcloak extends JPlugin
 {

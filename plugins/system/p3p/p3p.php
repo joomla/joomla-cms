@@ -14,9 +14,13 @@ defined('_JEXEC') or die;
  *
  * @package     Joomla.Plugin
  * @subpackage  System.p3p
+ * @since       1.6
  */
 class plgSystemP3p extends JPlugin
 {
+	/*
+	 * @since   1.6
+	 */
 	function onAfterInitialise()
 	{
 		// Get the header

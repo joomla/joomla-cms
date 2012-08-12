@@ -10,10 +10,11 @@
 defined('_JEXEC') or die;
 
 /**
- * View for the user profile
+ * View class to allow users edit their own profile.
  *
  * @package     Joomla.Administrator
  * @subpackage  com_admin
+ * @since       1.6
  */
 class AdminViewProfile extends JViewLegacy
 {

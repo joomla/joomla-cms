@@ -15,6 +15,7 @@ defined('_JEXEC') or die;
  *
  * @package     Joomla.Site
  * @subpackage  Application
+ * @since       1.5
  */
 final class JSite extends JApplication
 {

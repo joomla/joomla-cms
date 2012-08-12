@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 /**
- * Model for the system information
+ * Model for the display of system information.
  *
  * @package     Joomla.Administrator
  * @subpackage  com_admin

@@ -15,6 +15,7 @@ defined('_JEXEC') or die;
  *
  * @package     Joomla.Plugin
  * @subpackage  Content.loadmodule
+ * @since       1.5
  */
 class plgContentLoadmodule extends JPlugin
 {

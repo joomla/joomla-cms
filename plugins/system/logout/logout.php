@@ -14,6 +14,7 @@ defined('JPATH_BASE') or die;
  *
  * @package     Joomla.Plugin
  * @subpackage  System.logout
+ * @since       1-6
  */
 class plgSystemLogout extends JPlugin
 {
@@ -24,7 +25,7 @@ class plgSystemLogout extends JPlugin
 	 * @param	object	The object to observe -- event dispatcher.
 	 * @param	object	The configuration object for the plugin.
 	 * @return	void
-	 * @since	1.5
+	 * @since	1.6
 	 */
 	function __construct(&$subject, $config)
 	{
@@ -51,8 +52,8 @@ class plgSystemLogout extends JPlugin
 	 * @param	array	$user		Holds the user data.
 	 * @param	array	$options	Array holding options (client, ...).
 	 *
-	 * @return	object	True on success
-	 * @since	1.5
+	 * @return	boolean Always returns true
+	 * @since	1.6
 	 */
 	public function onUserLogout($user, $options = array())
 	{
