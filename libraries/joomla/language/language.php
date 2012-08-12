@@ -809,7 +809,6 @@ class JLanguage
 		}
 
 		$contents = file_get_contents($filename);
-		$contents = str_replace('\"', '"\""', $contents);
 		$contents = str_replace('_QQ_', '"\""', $contents);
 		$strings = @parse_ini_string($contents);
 
@@ -842,6 +841,9 @@ class JLanguage
 
 				// Check that the key is not in the blacklist and that the line format passes the regex.
 				$key = strtoupper(trim(substr($line, 0, strpos($line, '='))));
+
+				// Workaround to reduce regex complexity when matching escaped quotes
+				$line = str_replace('\"', '_QQ_', $line);
 
 				if (!preg_match($regex, $line) || in_array($key, $blacklist))
 				{
