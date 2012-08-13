@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Joomla.Legacy
+ * @package     Joomla.Libraries
  * @subpackage  Toolbar
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Renders a button separator
  *
- * @package     Joomla.Legacy
+ * @package     Joomla.Libraries
  * @subpackage  Toolbar
  * @since       3.0
  */
