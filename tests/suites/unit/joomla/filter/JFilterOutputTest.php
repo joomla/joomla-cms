@@ -222,7 +222,7 @@ class JFilterOutputTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   12.2
 	 */
 	public function testStripIframes()
 	{

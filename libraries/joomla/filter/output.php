@@ -221,7 +221,7 @@ class JFilterOutput
 	 *
 	 * @return  string  Cleaned string
 	 *
-	 * @since   11.1
+	 * @since   12.2
 	 */
 	public static function stripIframes($string)
 	{
