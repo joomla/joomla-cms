@@ -7,8 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM . '/joomla/input/input.php';
-
 /**
  * Test class for JInput.
  *
@@ -76,6 +74,32 @@ class JInputTest extends PHPUnit_Framework_TestCase
 		);
 
 		$this->markTestIncomplete();
+	}
+
+	/**
+	 * Test the JInput::count method.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.2
+	 * @covers  JInput::count
+	 */
+	public function testCount()
+	{
+		$this->assertEquals(
+			count($_REQUEST),
+			count($this->class)
+		);
+
+		$this->assertEquals(
+			count($_POST),
+			count($this->class->post)
+		);
+
+		$this->assertEquals(
+			count($_GET),
+			count($this->class->get)
+		);
 	}
 
 	/**
