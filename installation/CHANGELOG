@@ -27,6 +27,9 @@ $ -> Language fix or change
 ! -> Note
 
 11-Aug-2012 Jean-Marie Simonet
+ $+ Adding Vietnamese vi-VN to installation languages
+
+11-Aug-2012 Jean-Marie Simonet
  #+ [#25295] Email exposed through RSS and Atom feeds. Thanks Elin and Peter
  # [#28795] mod_articles_category "read more" truncation not functioning properly. Thanks Elin.
  ^ [#28374] Deprecate MediaHelper::parseSize() and use JHtmlNumber::bytes() to process file size in Media Manager. Thanks Michael.
