@@ -137,15 +137,15 @@ abstract class JFeedParser
 	/**
 	 * Method to parse a specific feed element.
 	 *
-	 * @param   JFeed        $feed        The JFeed object being built from the parsed feed.
-	 * @param   JXMLElement  $el          The current XML element object to handle.
-	 * @param   array        $namespaces  The array of relevant namespace objects to process for the element.
+	 * @param   JFeed             $feed        The JFeed object being built from the parsed feed.
+	 * @param   SimpleXMLElement  $el          The current XML element object to handle.
+	 * @param   array             $namespaces  The array of relevant namespace objects to process for the element.
 	 *
 	 * @return  void
 	 *
 	 * @since   3.0
 	 */
-	protected function processElement(JFeed $feed, JXMLElement $el, array $namespaces)
+	protected function processElement(JFeed $feed, SimpleXMLElement $el, array $namespaces)
 	{
 		// Build the internal method name.
 		$method = 'handle' . ucfirst($el->name());
@@ -193,18 +193,18 @@ abstract class JFeedParser
 	 * Method to expand the current reader node into a SimpleXML node for more detailed reading
 	 * and manipulation.
 	 *
-	 * @return  JXMLElement
+	 * @return  SimpleXMLElement
 	 *
 	 * @since   3.0
 	 * @throws  RuntimeException
 	 */
 	protected function expandToSimpleXml()
 	{
-		// Whizbang!  And now we have a JXMLElement element from the current stream node. **MAGIC** :-)
-		$el = simplexml_import_dom($this->_node->importNode($this->stream->expand(), true), 'JXMLElement');
+		// Whizbang!  And now we have a SimpleXMLElement element from the current stream node. **MAGIC** :-)
+		$el = simplexml_import_dom($this->_node->importNode($this->stream->expand(), true), 'SimpleXMLElement');
 
 		// Let's take care of some sanity checking.
-		if (!($el instanceof JXMLElement))
+		if (!($el instanceof SimpleXMLElement))
 		{
 			// @codeCoverageIgnoreStart
 			throw new RuntimeException('Unable to expand node to SimpleXML element.');
