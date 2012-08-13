@@ -1,46 +1,44 @@
 <?php
 /**
- * @package     Joomla.Platform
+ * @package     Joomla.Libraries
  * @subpackage  Feed
  *
  * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die;
-
-jimport('joomla.utilities.xmlelement');
+defined('JPATH_BASE') or die;
 
 /**
  * Feed Parser class.
  *
- * @package     Joomla.Platform
+ * @package     Joomla.Libraries
  * @subpackage  Feed
- * @since       12.1
+ * @since       3.0
  */
 abstract class JFeedParser
 {
 	/**
 	 * @var    string  The feed element name for the entry elements.
-	 * @since  12.1
+	 * @since  3.0
 	 */
 	protected $entryElementName = 'entry';
 
 	/**
 	 * @var    array
-	 * @since  12.1
+	 * @since  3.0
 	 */
 	protected $namespaces = array();
 
 	/**
 	 * @var    XMLReader
-	 * @since  12.1
+	 * @since  3.0
 	 */
 	protected $stream;
 
 	/**
 	 * @var    DOMDocument
-	 * @since  12.1
+	 * @since  3.0
 	 */
 	private $_node;
 
@@ -49,7 +47,7 @@ abstract class JFeedParser
 	 *
 	 * @param   XMLReader  $stream  The XMLReader stream object for the feed.
 	 *
-	 * @since   12.1
+	 * @since   3.0
 	 */
 	public function __construct(XMLReader $stream)
 	{
@@ -62,7 +60,7 @@ abstract class JFeedParser
 	 *
 	 * @return  JFeed
 	 *
-	 * @since   12.1
+	 * @since   3.0
 	 */
 	public function parse()
 	{
@@ -117,7 +115,7 @@ abstract class JFeedParser
 	 *
 	 * @return  JFeed
 	 *
-	 * @since   12.1
+	 * @since   3.0
 	 */
 	public function registerNamespace($prefix, JFeedParserNamespace $namespace)
 	{
@@ -132,7 +130,7 @@ abstract class JFeedParser
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0
 	 */
 	abstract protected function initialise();
 
@@ -145,7 +143,7 @@ abstract class JFeedParser
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0
 	 */
 	protected function processElement(JFeed $feed, JXMLElement $el, array $namespaces)
 	{
@@ -197,7 +195,7 @@ abstract class JFeedParser
 	 *
 	 * @return  JXMLElement
 	 *
-	 * @since   12.1
+	 * @since   3.0
 	 * @throws  RuntimeException
 	 */
 	protected function expandToSimpleXml()
@@ -223,7 +221,7 @@ abstract class JFeedParser
 	 *
 	 * @return  mixed  JFeedParserNamespace or false if none exists.
 	 *
-	 * @since   12.1
+	 * @since   3.0
 	 */
 	protected function fetchNamespace($prefix)
 	{
@@ -250,7 +248,7 @@ abstract class JFeedParser
 	 *
 	 * @return  boolean  True if the stream parser is on an XML element node.
 	 *
-	 * @since   12.1
+	 * @since   3.0
 	 */
 	protected function moveToNextElement($name = null)
 	{
@@ -278,7 +276,7 @@ abstract class JFeedParser
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0
 	 * @throws  RuntimeException  If the closing tag cannot be found.
 	 */
 	protected function moveToClosingElement()

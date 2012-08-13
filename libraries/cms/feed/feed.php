@@ -1,16 +1,16 @@
 <?php
 /**
- * @package     Joomla.Platform
+ * @package     Joomla.Libraries
  * @subpackage  Feed
  *
  * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_BASE') or die();
 
 /**
- * Class to encapsulate a feed for the Joomla Platform.
+ * Class to encapsulate a feed for the Joomla CMS.
  *
  * @property  JFeedPerson  $author         Person responsible for feed content.
  * @property  array        $categories     Categories to which the feed belongs.
@@ -24,15 +24,15 @@ defined('JPATH_PLATFORM') or die();
  * @property  JDate        $updatedDate    The last time the content of the feed changed.
  * @property  string       $uri            Universal, permanent identifier for the feed.
  *
- * @package     Joomla.Platform
+ * @package     Joomla.Libraries
  * @subpackage  Feed
- * @since       12.1
+ * @since       3.0
  */
 class JFeed implements ArrayAccess
 {
 	/**
 	 * @var    array  The entry properties.
-	 * @since  12.1
+	 * @since  3.0
 	 */
 	protected $properties = array(
 		'uri' => '',
@@ -45,7 +45,7 @@ class JFeed implements ArrayAccess
 
 	/**
 	 * @var    array  The list of feed entry objects.
-	 * @since  12.1
+	 * @since  3.0
 	 */
 	protected $entries = array();
 
@@ -54,9 +54,9 @@ class JFeed implements ArrayAccess
 	 *
 	 * @param   string  $name  The name of the property.
 	 *
-	 * @return  mixed
+	 * @return  string  Name if it is set otherwise null
 	 *
-	 * @since   12.1
+	 * @since   3.0
 	 */
 	public function __get($name)
 	{
@@ -71,7 +71,7 @@ class JFeed implements ArrayAccess
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0
 	 */
 	public function __set($name, $value)
 	{
@@ -104,7 +104,7 @@ class JFeed implements ArrayAccess
 	 *
 	 * @return  JFeed
 	 *
-	 * @since   12.1
+	 * @since   3.0
 	 */
 	public function addCategory($name, $uri = '')
 	{
@@ -123,7 +123,7 @@ class JFeed implements ArrayAccess
 	 *
 	 * @return  JFeed
 	 *
-	 * @since   12.1
+	 * @since   3.0
 	 */
 	public function addContributor($name, $email, $uri = null, $type = null)
 	{
@@ -151,7 +151,7 @@ class JFeed implements ArrayAccess
 	 *
 	 * @return  JFeed
 	 *
-	 * @since   12.1
+	 * @since   3.0
 	 */
 	public function addEntry(JFeedEntry $entry)
 	{
@@ -179,7 +179,7 @@ class JFeed implements ArrayAccess
 	 * @return  boolean
 	 *
 	 * @see     ArrayAccess::offsetExists()
-	 * @since   12.1
+	 * @since   3.0
 	 */
 	public function offsetExists($offset)
 	{
@@ -191,10 +191,10 @@ class JFeed implements ArrayAccess
 	 *
 	 * @param   mixed  $offset  The offset to retrieve.
 	 *
-	 * @return  mixed  The value at the offset.
+	 * @return  mixed  The value at the offset or 0 if it is empty.
 	 *
 	 * @see     ArrayAccess::offsetGet()
-	 * @since   12.1
+	 * @since   3.0
 	 */
 	public function offsetGet($offset)
 	{
@@ -216,7 +216,7 @@ class JFeed implements ArrayAccess
 	 * @return  boolean
 	 *
 	 * @see    ArrayAccess::offsetSet()
-	 * @since  12.1
+	 * @since  3.0
 	 */
 	public function offsetSet($offset, $value)
 	{
@@ -238,7 +238,7 @@ class JFeed implements ArrayAccess
 	 * @return  void
 	 *
 	 * @see     ArrayAccess::offsetUnset()
-	 * @since   12.1
+	 * @since   3.0
 	 */
 	public function offsetUnset($offset)
 	{
@@ -252,7 +252,7 @@ class JFeed implements ArrayAccess
 	 *
 	 * @return  JFeed
 	 *
-	 * @since   12.1
+	 * @since   3.0
 	 */
 	public function removeCategory($name)
 	{
@@ -268,7 +268,7 @@ class JFeed implements ArrayAccess
 	 *
 	 * @return  JFeed
 	 *
-	 * @since   12.1
+	 * @since   3.0
 	 */
 	public function removeContributor(JFeedPerson $contributor)
 	{
@@ -294,7 +294,7 @@ class JFeed implements ArrayAccess
 	 *
 	 * @return  JFeed
 	 *
-	 * @since   12.1
+	 * @since   3.0
 	 */
 	public function removeEntry(JFeedEntry $entry)
 	{
@@ -323,7 +323,7 @@ class JFeed implements ArrayAccess
 	 *
 	 * @return  JFeed
 	 *
-	 * @since   12.1
+	 * @since   3.0
 	 */
 	public function setAuthor($name, $email, $uri = null, $type = null)
 	{

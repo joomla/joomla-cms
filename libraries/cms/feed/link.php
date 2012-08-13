@@ -1,56 +1,56 @@
 <?php
 /**
- * @package     Joomla.Platform
+ * @package     Joomla.Libraries
  * @subpackage  Feed
  *
  * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die;
+defined('JPATH_BASE') or die;
 
 /**
  * Feed Link class.
  *
- * @package     Joomla.Platform
+ * @package     Joomla.Libraries
  * @subpackage  Feed
- * @since       12.1
+ * @since       3.0
  */
 class JFeedLink
 {
 	/**
 	 * @var    string
-	 * @since  12.1
+	 * @since  3.0
 	 */
 	public $uri;
 
 	/**
 	 * @var    string
-	 * @since  12.1
+	 * @since  3.0
 	 */
 	public $relation;
 
 	/**
 	 * @var    string
-	 * @since  12.1
+	 * @since  3.0
 	 */
 	public $type;
 
 	/**
 	 * @var    string
-	 * @since  12.1
+	 * @since  3.0
 	 */
 	public $language;
 
 	/**
 	 * @var    string
-	 * @since  12.1
+	 * @since  3.0
 	 */
 	public $title;
 
 	/**
 	 * @var    integer
-	 * @since  12.1
+	 * @since  3.0
 	 */
 	public $length;
 
@@ -64,7 +64,7 @@ class JFeedLink
 	 * @param   string   $title     The title of the resource.
 	 * @param   integer  $length    The length of the resource in bytes.
 	 *
-	 * @since   12.1
+	 * @since   3.0
 	 */
 	public function __construct($uri = null, $relation = null, $type = null, $language = null, $title = null, $length = null)
 	{

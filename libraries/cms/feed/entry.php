@@ -1,13 +1,13 @@
 <?php
 /**
- * @package     Joomla.Platform
+ * @package     Joomla.Libraries
  * @subpackage  Feed
  *
  * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die;
+defined('JPATH_BASE') or die;
 
 /**
  * Class to encapsulate a feed entry for the Joomla Platform.
@@ -24,15 +24,15 @@ defined('JPATH_PLATFORM') or die;
  * @property  JDate        $updatedDate    The last time the content of the feed entry changed.
  * @property  string       $uri            Universal, permanent identifier for the feed entry.
  *
- * @package     Joomla.Platform
+ * @package     Joomla.Libraries
  * @subpackage  Feed
- * @since       12.1
+ * @since       3.0
  */
 class JFeedEntry
 {
 	/**
 	 * @var    array  The entry properties.
-	 * @since  12.1
+	 * @since  3.0
 	 */
 	protected $properties = array(
 		'uri'  => '',
@@ -49,9 +49,9 @@ class JFeedEntry
 	 *
 	 * @param   string  $name  The name of the property.
 	 *
-	 * @return  mixed
+	 * @return  string  The name or null if it is not set.
 	 *
-	 * @since   12.1
+	 * @since   3.0
 	 */
 	public function __get($name)
 	{
@@ -66,7 +66,9 @@ class JFeedEntry
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0
+	 * @throw   InvalidArgumentException if author is not of the type JFeedPerson
+	 * @throw   InvalidArgumentException if source is not of the type JFeed
 	 */
 	public function __set($name, $value)
 	{
@@ -105,7 +107,7 @@ class JFeedEntry
 	 *
 	 * @return  JFeedEntry
 	 *
-	 * @since   12.1
+	 * @since   3.0
 	 */
 	public function addCategory($name, $uri = '')
 	{
@@ -124,7 +126,7 @@ class JFeedEntry
 	 *
 	 * @return  JFeedEntry
 	 *
-	 * @since   12.1
+	 * @since   3.0
 	 */
 	public function addContributor($name, $email, $uri = null, $type = null)
 	{
@@ -152,7 +154,7 @@ class JFeedEntry
 	 *
 	 * @return  JFeedEntry
 	 *
-	 * @since   12.1
+	 * @since   3.0
 	 */
 	public function addLink(JFeedLink $link)
 	{
@@ -178,7 +180,7 @@ class JFeedEntry
 	 *
 	 * @return  JFeedEntry
 	 *
-	 * @since   12.1
+	 * @since   3.0
 	 */
 	public function removeCategory($name)
 	{
@@ -194,7 +196,7 @@ class JFeedEntry
 	 *
 	 * @return  JFeedEntry
 	 *
-	 * @since   12.1
+	 * @since   3.0
 	 */
 	public function removeContributor(JFeedPerson $contributor)
 	{
@@ -220,7 +222,7 @@ class JFeedEntry
 	 *
 	 * @return  JFeedEntry
 	 *
-	 * @since   12.1
+	 * @since   3.0
 	 */
 	public function removeLink(JFeedLink $link)
 	{
@@ -249,7 +251,7 @@ class JFeedEntry
 	 *
 	 * @return  JFeedEntry
 	 *
-	 * @since   12.1
+	 * @since   3.0
 	 */
 	public function setAuthor($name, $email, $uri = null, $type = null)
 	{

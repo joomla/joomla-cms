@@ -1,32 +1,32 @@
 <?php
 /**
- * @package     Joomla.Platform
+ * @package     Joomla.Libraries
  * @subpackage  Feed
  *
  * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die;
+defined('JPATH_BASE') or die;
 
 /**
  * Feed factory class.
  *
- * @package     Joomla.Platform
+ * @package     Joomla.Libraries
  * @subpackage  Feed
- * @since       12.1
+ * @since       3.0
  */
 class JFeedFactory
 {
 	/**
 	 * @var    JHttp  The HTTP client object for requesting feeds as necessary.
-	 * @since  12.1
+	 * @since  3.0
 	 */
 	protected $http;
 
 	/**
 	 * @var    array  The list of registered parser classes for feeds.
-	 * @since  12.1
+	 * @since  3.0
 	 */
 	protected $parsers = array('rss' => 'JFeedParserRss', 'feed' => 'JFeedParserAtom');
 
@@ -35,7 +35,7 @@ class JFeedFactory
 	 *
 	 * @param   JHttp  $http  The HTTP client object.
 	 *
-	 * @since   12.1
+	 * @since   3.0
 	 */
 	public function __construct(JHttp $http = null)
 	{
@@ -49,7 +49,7 @@ class JFeedFactory
 	 *
 	 * @return  JFeedReader
 	 *
-	 * @since   12.1
+	 * @since   3.0
 	 * @throws  InvalidArgumentException
 	 * @throws  RuntimeException
 	 */
@@ -101,7 +101,7 @@ class JFeedFactory
 	 *
 	 * @return  JFeedFactory
 	 *
-	 * @since   12.1
+	 * @since   3.0
 	 * @throws  InvalidArgumentException
 	 */
 	public function registerParser($tagName, $className, $overwrite = false)
@@ -135,7 +135,7 @@ class JFeedFactory
 	 *
 	 * @return  JFeedParser
 	 *
-	 * @since   12.1
+	 * @since   3.0
 	 * @throws  LogicException
 	 */
 	private function _fetchFeedParser($type, XMLReader $reader)

@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Joomla.Platform
+ * @package     Joomla.Libraries
  * @subpackage  Feed
  *
  * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
@@ -12,9 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Feed Namespace interface.
  *
- * @package     Joomla.Platform
+ * @package     Joomla.Libraries
  * @subpackage  Feed
- * @since       12.1
+ * @since       3.0
  */
 interface JFeedParserNamespace
 {
@@ -26,7 +26,7 @@ interface JFeedParserNamespace
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0
 	 */
 	public function processElementForFeed(JFeed $feed, JXMLElement $el);
 
@@ -38,7 +38,7 @@ interface JFeedParserNamespace
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0
 	 */
 	public function processElementForFeedEntry(JFeedEntry $entry, JXMLElement $el);
 }
