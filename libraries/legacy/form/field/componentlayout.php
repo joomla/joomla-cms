@@ -39,8 +39,6 @@ class JFormFieldComponentlayout extends JFormField
 	 */
 	protected function getInput()
 	{
-		// Initialize variables.
-
 		// Get the client id.
 		$clientId = $this->element['client_id'];
 

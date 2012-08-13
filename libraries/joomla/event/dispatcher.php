@@ -129,7 +129,6 @@ class JEventDispatcher extends JObject
 	 */
 	public function trigger($event, $args = array())
 	{
-		// Initialise variables.
 		$result = array();
 
 		/*
@@ -254,7 +253,6 @@ class JEventDispatcher extends JObject
 	 */
 	public function detach($observer)
 	{
-		// Initialise variables.
 		$retval = false;
 
 		$key = array_search($observer, $this->_observers);

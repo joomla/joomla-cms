@@ -103,7 +103,6 @@ class JFormHelper
 		// Reference to an array with current entity's type instances
 		$types = &self::$entities[$entity];
 
-		// Initialize variables.
 		$key = md5($type);
 
 		// Return an entity object if it already exists and we don't need a new one.

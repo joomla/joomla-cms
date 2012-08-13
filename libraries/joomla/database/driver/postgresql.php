@@ -790,7 +790,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 * @param   array   $columns      Array of table's column returned by ::getTableColumns.
 	 * @param   string  $field_name   The table field's name.
 	 * @param   string  $field_value  The variable value to quote and return.
-	 * 
+	 *
 	 * @return  string  The quoted string.
 	 *
 	 * @since   11.3
@@ -961,7 +961,6 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 */
 	public function insertObject($table, &$object, $key = null)
 	{
-		// Initialise variables.
 		$columns = $this->getTableColumns($table);
 
 		$fields = array();
@@ -1265,7 +1264,6 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 */
 	public function updateObject($table, &$object, $key, $nulls = false)
 	{
-		// Initialise variables.
 		$columns = $this->getTableColumns($table);
 		$fields = array();
 		$where = '';

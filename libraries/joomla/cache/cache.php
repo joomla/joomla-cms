@@ -463,7 +463,6 @@ class JCache
 	 */
 	public static function getWorkarounds($data, $options = array())
 	{
-		// Initialise variables.
 		$app = JFactory::getApplication();
 		$document = JFactory::getDocument();
 		$body = null;
@@ -550,7 +549,6 @@ class JCache
 			$loptions['modulemode'] = $options['modulemode'];
 		}
 
-		// Initialise variables.
 		$app = JFactory::getApplication();
 		$document = JFactory::getDocument();
 

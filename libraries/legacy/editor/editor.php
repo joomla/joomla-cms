@@ -199,7 +199,6 @@ class JEditor extends JObject
 	 */
 	public function detach($observer)
 	{
-		// Initialise variables.
 		$retval = false;
 
 		$key = array_search($observer, $this->_observers);
@@ -292,7 +291,6 @@ class JEditor extends JObject
 		$width = str_replace(';', '', $width);
 		$height = str_replace(';', '', $height);
 
-		// Initialise variables.
 		$return = null;
 
 		$args['name'] = $name;

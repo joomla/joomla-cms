@@ -108,7 +108,6 @@ class JFile
 		}
 		else
 		{
-			// Initialise variables.
 			$FTPOptions = JClientHelper::getCredentials('ftp');
 
 			if ($FTPOptions['enabled'] == 1)
@@ -158,7 +157,6 @@ class JFile
 	 */
 	public static function delete($file)
 	{
-		// Initialise variables.
 		$FTPOptions = JClientHelper::getCredentials('ftp');
 
 		if (is_array($file))
@@ -253,7 +251,6 @@ class JFile
 		}
 		else
 		{
-			// Initialise variables.
 			$FTPOptions = JClientHelper::getCredentials('ftp');
 
 			if ($FTPOptions['enabled'] == 1)
@@ -300,7 +297,6 @@ class JFile
 	 */
 	public static function read($filename, $incpath = false, $amount = 0, $chunksize = 8192, $offset = 0)
 	{
-		// Initialise variables.
 		$data = null;
 		if ($amount && $chunksize > $amount)
 		{
@@ -390,7 +386,6 @@ class JFile
 		}
 		else
 		{
-			// Initialise variables.
 			$FTPOptions = JClientHelper::getCredentials('ftp');
 
 			if ($FTPOptions['enabled'] == 1)
@@ -451,7 +446,6 @@ class JFile
 		}
 		else
 		{
-			// Initialise variables.
 			$FTPOptions = JClientHelper::getCredentials('ftp');
 			$ret = false;
 

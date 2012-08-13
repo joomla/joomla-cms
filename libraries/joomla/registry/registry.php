@@ -163,7 +163,6 @@ class JRegistry implements JsonSerializable
 	 */
 	public function get($path, $default = null)
 	{
-		// Initialise variables.
 		$result = $default;
 
 		if (!strpos($path, '.'))

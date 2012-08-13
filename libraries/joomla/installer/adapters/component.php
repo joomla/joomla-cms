@@ -955,7 +955,6 @@ class JInstallerComponent extends JAdapterInstance
 	 */
 	public function uninstall($id)
 	{
-		// Initialise variables.
 		$db = $this->parent->getDbo();
 		$row = null;
 		$retval = true;
@@ -1188,7 +1187,6 @@ class JInstallerComponent extends JAdapterInstance
 	 */
 	protected function _buildAdminMenus()
 	{
-		// Initialise variables.
 		$db = $this->parent->getDbo();
 		$table = JTable::getInstance('menu');
 		$option = $this->get('element');
@@ -1425,7 +1423,6 @@ class JInstallerComponent extends JAdapterInstance
 	 */
 	protected function _removeAdminMenus(&$row)
 	{
-		// Initialise Variables
 		$db = $this->parent->getDbo();
 		$table = JTable::getInstance('menu');
 		$id = $row->extension_id;

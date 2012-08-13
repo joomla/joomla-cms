@@ -38,7 +38,6 @@ class JClientHelper
 
 		if (!isset($credentials[$client]) || $force)
 		{
-			// Initialise variables.
 			$config = JFactory::getConfig();
 
 			// Fetch the client layer configuration options for the specific client

@@ -42,7 +42,6 @@ class JArchiveBzip2 implements JArchiveExtractable
 	 */
 	public function extract($archive, $destination, array $options = array ())
 	{
-		// Initialise variables.
 		$this->_data = null;
 
 		if (!extension_loaded('bz2'))

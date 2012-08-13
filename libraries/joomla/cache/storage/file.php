@@ -535,7 +535,6 @@ class JCacheStorageFile extends JCacheStorage
 	protected function _filesInFolder($path, $filter = '.', $recurse = false, $fullpath = false
 		, $exclude = array('.svn', 'CVS', '.DS_Store', '__MACOSX'), $excludefilter = array('^\..*', '.*~'))
 	{
-		// Initialise variables.
 		$arr = array();
 
 		// Check to make sure the path valid and clean
@@ -622,7 +621,6 @@ class JCacheStorageFile extends JCacheStorage
 	protected function _folders($path, $filter = '.', $recurse = false, $fullpath = false
 		, $exclude = array('.svn', 'CVS', '.DS_Store', '__MACOSX'), $excludefilter = array('^\..*'))
 	{
-		// Initialise variables.
 		$arr = array();
 
 		// Check to make sure the path valid and clean

@@ -164,7 +164,6 @@ class JLogLoggerFormattedTextTest extends TestCase
 	 */
 	protected function getLastLine($path)
 	{
-		// Initialise variables.
 		$cursor = -1;
 		$line   = '';
 
