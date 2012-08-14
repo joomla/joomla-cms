@@ -299,7 +299,7 @@ class JOauthV2client
 	 */
 	public function setToken($value)
 	{
-		if (!array_key_exists('expires_in', $value) && array_key_exists('expires', $value))
+		if (is_array($value) && !array_key_exists('expires_in', $value) && array_key_exists('expires', $value))
 		{
 			$value['expires_in'] = $value['expires'];
 			unset($value['expires']);
