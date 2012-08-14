@@ -26,6 +26,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+16-Aug-2012 Rouven Weßling
+ ^ Reduce use of JFolder and deprecated JRequest methods.
+ ^ Merge latest platform (c77f323d339b7dcfb305325c48a38813322dd69d)
+
 15-Aug-2012 Jean-Marie Simonet
  + Porting to master Installing Language packs from Extension Manager. Thanks Javier and Rouven
  #^ [#28918] Abstract FinderIndexer class for improved database support. Thanks Michael
