@@ -14,6 +14,7 @@ JHtml::_('behavior.multiselect');
 
 $listOrder	= $this->escape($this->state->get('list.ordering'));
 $listDirn	= $this->escape($this->state->get('list.direction'));
+$ver = new JVersion;
 
 ?>
 <form
@@ -56,26 +57,29 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 				<tbody>
 					<?php foreach ($this->items as $i => $language) :
 					?>
-					<tr class="row<?php echo $i%2; ?>">
-						<td>
-							<?php echo JHtml::_('grid.id', $i, $language->update_id, false, 'cid'); ?>
-						</td>
-						<td>
-							<?php echo $language->name; ?>
-						</td>
-						<td class="center">
-							<?php echo $language->version; ?>
-						</td>
-						<td class="center">
-							<?php echo $language->type; ?>
-						</td>
-						<td>
-							<?php echo $language->detailsurl; ?>
-						</td>
-						<td>
-							<?php echo $language->update_id; ?>
-						</td>
-					</tr>
+					<?php if (substr($language->version, 0, 3) == $ver->RELEASE) :
+					?>
+						<tr class="row<?php echo $i%2; ?>">
+							<td>
+								<?php echo JHtml::_('grid.id', $i, $language->update_id, false, 'cid'); ?>
+							</td>
+							<td>
+								<?php echo $language->name; ?>
+							</td>
+							<td class="center">
+								<?php echo $language->version; ?>
+							</td>
+							<td class="center">
+								<?php echo $language->type; ?>
+							</td>
+							<td>
+								<?php echo $language->detailsurl; ?>
+							</td>
+							<td>
+								<?php echo $language->update_id; ?>
+							</td>
+						</tr>
+					<?php endif; ?>
 					<?php endforeach; ?>
 				</tbody>
 			</table>

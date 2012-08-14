@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+14-Aug-2012 Jean-Marie Simonet
+# Prevents non installable packs to display in Install Languages manager
+
 11-Aug-2012 Jean-Marie Simonet
  $+ Adding Vietnamese vi-VN to installation languages
 
