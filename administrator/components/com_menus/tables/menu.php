@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JLoader::register('JTableMenu', JPATH_PLATFORM . '/joomla/database/table/menu.php');
-
 /**
  * Menu table
  *
