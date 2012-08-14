@@ -139,11 +139,11 @@ class JArchiveZip implements JArchiveExtractable
 
 		if ($this->hasNativeSupport())
 		{
-			$this->_extractNative($archive, $destination, $options);
+			return $this->_extractNative($archive, $destination, $options);
 		}
 		else
 		{
-			$this->_extract($archive, $destination, $options);
+			return $this->_extract($archive, $destination, $options);
 		}
 	}
 
