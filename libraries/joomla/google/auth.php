@@ -14,13 +14,13 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package     Joomla.Platform
  * @subpackage  Google
- * @since       1234
+ * @since       12.2
  */
 abstract class JGoogleAuth
 {
 	/**
 	 * @var    JRegistry  Options for the Google authentication object.
-	 * @since  1234
+	 * @since  12.2
 	 */
 	protected $options;
 
@@ -29,7 +29,7 @@ abstract class JGoogleAuth
 	 *
 	 * @return  bool  True on success.
 	 *
-	 * @since   1234
+	 * @since   12.2
 	 */
 	abstract public function auth();
 
@@ -38,7 +38,7 @@ abstract class JGoogleAuth
 	 *
 	 * @return  bool  Is authenticated
 	 *
-	 * @since   1234
+	 * @since   12.2
 	 */
 	abstract public function isAuth();
 
@@ -52,9 +52,9 @@ abstract class JGoogleAuth
 	 *
 	 * @return  mixed  Data from Google.
 	 *
-	 * @since   1234
+	 * @since   12.2
 	 */
-	abstract public function query($url, $data = null, $headers = null, $method = 'post');
+	abstract public function query($url, $data = null, $headers = null, $method = 'get');
 
 	/**
 	 * Get an option from the JGoogleAuth object.
@@ -63,7 +63,7 @@ abstract class JGoogleAuth
 	 *
 	 * @return  mixed  The option value.
 	 *
-	 * @since   1234
+	 * @since   12.2
 	 */
 	public function getOption($key)
 	{
@@ -78,7 +78,7 @@ abstract class JGoogleAuth
 	 *
 	 * @return  JGoogleAuth  This object for method chaining.
 	 *
-	 * @since   1234
+	 * @since   12.2
 	 */
 	public function setOption($key, $value)
 	{

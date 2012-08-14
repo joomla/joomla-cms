@@ -14,13 +14,13 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package     Joomla.Platform
  * @subpackage  Google
- * @since       1234
+ * @since       12.2
  */
 class JGoogleDataPicasaPhoto extends JGoogleData
 {
 	/**
 	 * @var    SimpleXMLElement  The photo's XML
-	 * @since  1234
+	 * @since  12.2
 	 */
 	protected $xml;
 
@@ -31,7 +31,7 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 	 * @param   JRegistry         $options  Google options object
 	 * @param   JGoogleAuth       $auth     Google data http client object
 	 *
-	 * @since   1234
+	 * @since   12.2
 	 */
 	public function __construct(SimpleXMLElement $xml, JRegistry $options = null, JGoogleAuth $auth = null)
 	{
@@ -52,7 +52,7 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 	 *
 	 * @return  bool  Success or failure.
 	 *
-	 * @since   1234
+	 * @since   12.2
 	 * @throws UnexpectedValueException
 	 */
 	public function delete($match = '*')
@@ -68,11 +68,11 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 
 			try
 			{
-				$jdata = $this->auth->query($url, null, array('GData-Version' => 2, 'If-Match' => $match), 'delete');
+				$jdata = $this->query($url, null, array('GData-Version' => 2, 'If-Match' => $match), 'delete');
 			}
 			catch (Exception $e)
 			{
-				if ($jdata->code == 412)
+				if (strpos($e->getMessage(), 'Error code 412 received requesting data: Mismatch: etags') === 0)
 				{
 					throw new RuntimeException("Etag match failed: `$match`.");
 				}
@@ -99,7 +99,7 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 	 *
 	 * @return  string  Link or false on failure
 	 *
-	 * @since   1234
+	 * @since   12.2
 	 */
 	public function getLink($type = 'edit')
 	{
@@ -119,7 +119,7 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 	 *
 	 * @return  string  Link
 	 *
-	 * @since   1234
+	 * @since   12.2
 	 */
 	public function getURL()
 	{
@@ -131,7 +131,7 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 	 *
 	 * @return  array  An array of thumbnails
 	 *
-	 * @since   1234
+	 * @since   12.2
 	 */
 	public function getThumbnails()
 	{
@@ -151,7 +151,7 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 	 *
 	 * @return  string  Photo title
 	 *
-	 * @since   1234
+	 * @since   12.2
 	 */
 	public function getTitle()
 	{
@@ -163,7 +163,7 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 	 *
 	 * @return  string  Photo description
 	 *
-	 * @since   1234
+	 * @since   12.2
 	 */
 	public function getSummary()
 	{
@@ -175,7 +175,7 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 	 *
 	 * @return  string  Photo access level
 	 *
-	 * @since   1234
+	 * @since   12.2
 	 */
 	public function getAccess()
 	{
@@ -187,7 +187,7 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 	 *
 	 * @return  int  Photo time
 	 *
-	 * @since   1234
+	 * @since   12.2
 	 */
 	public function getTime()
 	{
@@ -199,7 +199,7 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 	 *
 	 * @return  int  Photo size
 	 *
-	 * @since   1234
+	 * @since   12.2
 	 */
 	public function getSize()
 	{
@@ -211,7 +211,7 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 	 *
 	 * @return  int  Photo height
 	 *
-	 * @since   1234
+	 * @since   12.2
 	 */
 	public function getHeight()
 	{
@@ -223,7 +223,7 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 	 *
 	 * @return  int  Photo width
 	 *
-	 * @since   1234
+	 * @since   12.2
 	 */
 	public function getWidth()
 	{
@@ -237,7 +237,7 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 	 *
 	 * @return  JGoogleDataPicasaPhoto  The object for method chaining
 	 *
-	 * @since   1234
+	 * @since   12.2
 	 */
 	public function setTitle($title)
 	{
@@ -252,7 +252,7 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 	 *
 	 * @return  JGoogleDataPicasaPhoto  The object for method chaining
 	 *
-	 * @since   1234
+	 * @since   12.2
 	 */
 	public function setSummary($summary)
 	{
@@ -267,7 +267,7 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 	 *
 	 * @return  JGoogleDataPicasaPhoto  The object for method chaining
 	 *
-	 * @since   1234
+	 * @since   12.2
 	 */
 	public function setAccess($access)
 	{
@@ -282,7 +282,7 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 	 *
 	 * @return  JGoogleDataPicasaPhoto  The object for method chaining
 	 *
-	 * @since   1234
+	 * @since   12.2
 	 */
 	public function setTime($time)
 	{
@@ -297,7 +297,7 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 	 *
 	 * @return  mixed  Data from Google.
 	 *
-	 * @since   1234
+	 * @since   12.2
 	 */
 	public function save($match = '*')
 	{
@@ -313,7 +313,7 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 			try
 			{
 				$headers = array('GData-Version' => 2, 'Content-type' => 'application/atom+xml', 'If-Match' => $match);
-				$jdata = $this->auth->query($url, $this->xml->asXML(), $headers, 'put');
+				$jdata = $this->query($url, $this->xml->asXML(), $headers, 'put');
 			}
 			catch (Exception $e)
 			{
@@ -338,14 +338,14 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 	 *
 	 * @return  mixed  Data from Google
 	 *
-	 * @since   1234
+	 * @since   12.2
 	 */
 	public function refresh()
 	{
 		if ($this->authenticated())
 		{
 			$url = $this->getLink();
-			$jdata = $this->auth->query($url, null, array('GData-Version' => 2));
+			$jdata = $this->query($url, null, array('GData-Version' => 2));
 			$this->xml = $this->safeXML($jdata->body);
 			return $this;
 		}

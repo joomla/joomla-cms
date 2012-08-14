@@ -15,19 +15,19 @@ jimport('joomla.environment.uri');
  *
  * @package     Joomla.Platform
  * @subpackage  Google
- * @since       1234
+ * @since       12.2
  */
 abstract class JGoogleEmbed
 {
 	/**
 	 * @var    JRegistry  Options for the Google data object.
-	 * @since  1234
+	 * @since  12.2
 	 */
 	protected $options;
 
 	/**
 	 * @var    JURI  URI of the page being rendered.
-	 * @since  1234
+	 * @since  12.2
 	 */
 	protected $uri;
 
@@ -37,7 +37,7 @@ abstract class JGoogleEmbed
 	 * @param   JRegistry  $options  Google options object
 	 * @param   JURI       $uri      URL of the page being rendered
 	 *
-	 * @since   1234
+	 * @since   12.2
 	 */
 	public function __construct(JRegistry $options = null, JURI $uri = null)
 	{
@@ -50,7 +50,7 @@ abstract class JGoogleEmbed
 	 *
 	 * @return  string  The header
 	 *
-	 * @since   1234
+	 * @since   12.2
 	 */
 	public function isSecure()
 	{
@@ -62,7 +62,7 @@ abstract class JGoogleEmbed
 	 *
 	 * @return  string  The header
 	 *
-	 * @since   1234
+	 * @since   12.2
 	 */
 	abstract public function getHeader();
 
@@ -71,7 +71,7 @@ abstract class JGoogleEmbed
 	 *
 	 * @return  string  The body
 	 *
-	 * @since   1234
+	 * @since   12.2
 	 */
 	abstract public function getBody();
 
@@ -80,7 +80,7 @@ abstract class JGoogleEmbed
 	 *
 	 * @return  null
 	 *
-	 * @since   1234
+	 * @since   12.2
 	 */
 	public function echoHeader()
 	{
@@ -92,7 +92,7 @@ abstract class JGoogleEmbed
 	 *
 	 * @return  null
 	 *
-	 * @since   1234
+	 * @since   12.2
 	 */
 	public function echoBody()
 	{
@@ -106,7 +106,7 @@ abstract class JGoogleEmbed
 	 *
 	 * @return  mixed  The option value.
 	 *
-	 * @since   1234
+	 * @since   12.2
 	 */
 	public function getOption($key)
 	{
@@ -121,7 +121,7 @@ abstract class JGoogleEmbed
 	 *
 	 * @return  JGoogleEmbed  This object for method chaining.
 	 *
-	 * @since   1234
+	 * @since   12.2
 	 */
 	public function setOption($key, $value)
 	{
@@ -138,7 +138,7 @@ abstract class JGoogleEmbed
 	 *
 	 * @return  string  The javscript code
 	 *
-	 * @since   1234
+	 * @since   12.2
 	 */
 	static protected function arrayToJavascript($array, $escape = true)
 	{

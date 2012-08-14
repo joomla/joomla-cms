@@ -25,7 +25,7 @@ class JGoogleDataPicasaAlbumTest extends PHPUnit_Framework_TestCase
 	/**
 	 * @var    JHttp  Mock client object.
 	 */
-	protected $client;
+	protected $http;
 
 	/**
 	 * @var    JInput  The input object to use in retrieving GET/POST data.

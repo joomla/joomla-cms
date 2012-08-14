@@ -15,13 +15,13 @@ jimport('joomla.oauth.v2client');
  *
  * @package     Joomla.Platform
  * @subpackage  Google
- * @since       1234
+ * @since       12.2
  */
 class JGoogleAuthOauth2 extends JGoogleAuth
 {
 	/**
 	 * @var    JOauthV2client  OAuth client for the Google authentication object.
-	 * @since  1234
+	 * @since  12.2
 	 */
 	protected $client;
 
@@ -31,7 +31,7 @@ class JGoogleAuthOauth2 extends JGoogleAuth
 	 * @param   JRegistry       $options  JGoogleAuth options object.
 	 * @param   JOauthV2client  $client   OAuth client for Google authentication.
 	 *
-	 * @since   1234
+	 * @since   12.2
 	 */
 	public function __construct(JRegistry $options = null, JOauthV2client $client = null)
 	{
@@ -44,7 +44,7 @@ class JGoogleAuthOauth2 extends JGoogleAuth
 	 *
 	 * @return  bool  True on success.
 	 *
-	 * @since   1234
+	 * @since   12.2
 	 */
 	public function auth()
 	{
@@ -57,7 +57,7 @@ class JGoogleAuthOauth2 extends JGoogleAuth
 	 *
 	 * @return  bool  Is authenticated
 	 *
-	 * @since   1234
+	 * @since   12.2
 	 */
 	public function isAuth()
 	{
@@ -74,7 +74,7 @@ class JGoogleAuthOauth2 extends JGoogleAuth
 	 *
 	 * @return  mixed  Data from Google.
 	 *
-	 * @since   1234
+	 * @since   12.2
 	 */
 	public function query($url, $data = null, $headers = null, $method = 'get')
 	{
@@ -87,7 +87,7 @@ class JGoogleAuthOauth2 extends JGoogleAuth
 	 *
 	 * @return  JOauthV2client  Google-configured Oauth2 client.
 	 *
-	 * @since   1234
+	 * @since   12.2
 	 */
 	protected function googlize()
 	{

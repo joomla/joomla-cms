@@ -97,7 +97,7 @@ class JGoogleAuthOauth2Test extends PHPUnit_Framework_TestCase
 
 		$this->object->setOption('clientsecret', 'jeDs8rKw_jDJW8MMf-ff8ejs');
 		$this->input->set('code', '4/wEr_dK8SDkjfpwmc98KejfiwJP-f4wm.kdowmnr82jvmeisjw94mKFIJE48mcEM');
-		$this->http->expects($this->once())->method('post')->will($this->returnCallback('postOauthCallback'));
+		$this->http->expects($this->once())->method('post')->will($this->returnCallback('jsonGrantOauthCallback'));
 		$result = $this->object->auth();
 		$this->assertEquals('accessvalue', $result['access_token']);
 		$this->assertEquals('refreshvalue', $result['refresh_token']);
@@ -149,7 +149,7 @@ class JGoogleAuthOauth2Test extends PHPUnit_Framework_TestCase
 		$this->assertEquals($result->body, 'Lorem ipsum dolor sit amet.');
 		$this->assertEquals(200, $result->code);
 
-		$this->http->expects($this->once())->method('post')->will($this->returnCallback('postOauthCallback'));
+		$this->http->expects($this->once())->method('post')->will($this->returnCallback('queryOauthCallback'));
 		$result = $this->object->query('https://www.googleapis.com/auth/calendar', array('param' => 'value'), array(), 'post');
 		$this->assertEquals($result->body, 'Lorem ipsum dolor sit amet.');
 		$this->assertEquals(200, $result->code);
