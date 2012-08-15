@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 ?>
 
 <?php
-if (is_string($feed))
+if (!empty($feed) && is_string($feed))
 {
 		echo $feed;
 }
@@ -120,4 +120,4 @@ else
 			</ul>
 	<?php }
 	}
-}  ?>
+}
