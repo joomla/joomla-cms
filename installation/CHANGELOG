@@ -28,6 +28,7 @@ $ -> Language fix or change
 
 15-Aug-2012 Jean-Marie Simonet
  + Porting to master Installing Language packs from Extension Manager. Thanks Javier and Rouven
+ #^ [#28918] Abstract FinderIndexer class for improved database support. Thanks Michael
 
 15-Aug-2012 Rouven Weßling
  #+ [#28032] Split mod_login into two layouts
