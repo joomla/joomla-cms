@@ -422,6 +422,11 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
 		$this->connect();
 
 		$this->setQuery("ALTER SESSION SET NLS_DATE_FORMAT = '$dateFormat'");
+		if (!$this->execute())
+		{
+			return false;
+		}
+
 		$this->setQuery("ALTER SESSION SET NLS_TIMESTAMP_FORMAT = '$dateFormat'");
 
 		if (!$this->execute())
