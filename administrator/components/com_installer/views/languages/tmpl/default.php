@@ -55,7 +55,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					?>
 					<?php if (substr($language->version, 0, 3) == $ver->RELEASE) :
 					?>
-						<tr class="row<?php echo $i%2; ?>">
+						<tr class="row<?php echo $i % 2; ?>">
 							<td>
 								<?php echo JHtml::_('grid.id', $i, $language->update_id, false, 'cid'); ?>
 							</td>
