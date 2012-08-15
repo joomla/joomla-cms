@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+15-Aug-2012 Jean-Marie Simonet
+ + Porting to master Installing Language packs from Extension Manager. Thanks Javier and Rouven
+
 11-Aug-2012 Jean-Marie Simonet
  $+ Adding Vietnamese vi-VN to installation languages
 
