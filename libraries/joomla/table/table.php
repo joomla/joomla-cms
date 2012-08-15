@@ -578,6 +578,11 @@ abstract class JTable extends JObject
 			$currentAssetId = $this->asset_id;
 		}
 
+		if(0 == $this->$k)
+		{
+			$this->$k = null;
+		}
+
 		// The asset id field is managed privately by this class.
 		if ($this->_trackAssets)
 		{

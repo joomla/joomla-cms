@@ -139,7 +139,7 @@ class InstallationModelDatabase extends JModelLegacy
 			// Get a database object.
 			try
 			{
-				$db = InstallationHelperDatabase::getDbo($options->db_type, $options->db_host, $options->db_user, $options->db_pass, null, $options->db_prefix, false);
+				$db = InstallationHelperDatabase::getDbo($options->db_type, $options->db_host, $options->db_user, $options->db_pass, $options->db_name, $options->db_prefix, false);
 
 				// Check database version.
 				$db_version = $db->getVersion();
@@ -181,6 +181,13 @@ class InstallationModelDatabase extends JModelLegacy
 				return false;
 			}
 
+			// PostgreSQL database older than version 9.0.0 needs to run 'CREATE LANGUAGE' to create function.
+			if (($options->db_type == 'postgresql') && (version_compare($db_version, '9.0.0', '<')))
+			{
+				$db->setQuery("CREATE LANGUAGE plpgsql");
+				$db->execute();
+			}
+
 			// Try to select the database
 			try
 			{
@@ -189,7 +196,7 @@ class InstallationModelDatabase extends JModelLegacy
 			catch (RuntimeException $e)
 			{
 				// If the database could not be selected, attempt to create it and then select it.
-				if ($this->createDatabase($db, $options->db_name))
+				if ($this->createDatabase($db, $options, $utfSupport))
 				{
 					$db->select($options->db_name);
 				}
@@ -252,7 +259,7 @@ class InstallationModelDatabase extends JModelLegacy
 			}
 
 			// Attempt to update the table #__schema.
-			$files = JFolder::files(JPATH_ADMINISTRATOR . '/components/com_admin/sql/updates/mysql/', '\.sql$');
+			$files = JFolder::files(JPATH_ADMINISTRATOR . '/components/com_admin/sql/updates/'.(($type == 'mysqli') ? 'mysql' : $type).'/', '\.sql$');
 			if (empty($files))
 			{
 				$this->setError(JText::_('INSTL_ERROR_INITIALISE_SCHEMA'));
@@ -527,20 +534,22 @@ class InstallationModelDatabase extends JModelLegacy
 	/**
 	 * Method to create a new database.
 	 *
-	 * @param   JDatabaseDriver  $db    JDatabaseDriver object.
-	 * @param   string           $name  Name of the database to create.
+	 * @param   JDatabaseDriver  $db       JDatabase object.
+	 * @param   JObject          $options  JObject coming from "initialise" function to pass user 
+	 * 										and database name to database driver.
+	 * @param   boolean          $utf      True if the database supports the UTF-8 character set.
 	 *
 	 * @return	boolean	True on success.
 	 *
 	 * @since   3.0
 	 */
-	public function createDatabase($db, $name)
+	public function createDatabase($db, $options, $utf)
 	{
 		// Build the create database query.
-		$query = 'CREATE DATABASE ' . $db->quoteName($name) . ' CHARACTER SET `utf8`';
+		//$query = 'CREATE DATABASE ' . $db->quoteName($name) . ' CHARACTER SET `utf8`';
 
 		// Run the create database query.
-		$db->setQuery($query);
+		$db->setQuery($db->getCreateDbQuery($options, $utf));
 
 		try
 		{
@@ -626,8 +635,8 @@ class InstallationModelDatabase extends JModelLegacy
 			// Trim any whitespace.
 			$query = trim($query);
 
-			// If the query isn't empty and is not a comment, execute it.
-			if (!empty($query) && ($query{0} != '#'))
+			// If the query isn't empty and is not a MySQL or PostgreSQL comment, execute it.
+			if (!empty($query) && ($query{0} != '#') && ($query{0} != '-'))
 			{
 				// Execute the query.
 				$db->setQuery($query);
@@ -660,10 +669,10 @@ class InstallationModelDatabase extends JModelLegacy
 	public function setDatabaseCharset($db, $name)
 	{
 		// Run the create database query.
-		$db->setQuery(
-			'ALTER DATABASE ' . $db->quoteName($name) . ' CHARACTER' .
+		$db->setQuery($db->getAlterDbCharacterSet($name));
+			/*'ALTER DATABASE '.$db->quoteName($name).' CHARACTER' .
 			' SET `utf8`'
-		);
+		);*/
 
 		try
 		{
@@ -698,6 +707,14 @@ class InstallationModelDatabase extends JModelLegacy
 		// Remove comment lines.
 		$sql = preg_replace("/\n\#[^\n]*/", '', "\n" . $sql);
 
+		// Remove PostgreSQL comment lines.
+		$sql = preg_replace("/\n\--[^\n]*/", '', "\n" . $sql);
+
+		// find function
+		$funct = explode('CREATE OR REPLACE FUNCTION', $sql);
+		// save sql before function and parse it
+		$sql = $funct[0];
+
 		// Parse the schema file to break up queries.
 		for ($i = 0; $i < strlen($sql) - 1; $i++)
 		{
@@ -727,6 +744,12 @@ class InstallationModelDatabase extends JModelLegacy
 		if (!empty($sql))
 		{
 			$queries[] = $sql;
+		}
+
+		// add function part as is
+		for ($f = 1; $f < count($funct); $f++)
+		{
+			$queries[] = 'CREATE OR REPLACE FUNCTION ' . $funct[$f];
 		}
 
 		return $queries;

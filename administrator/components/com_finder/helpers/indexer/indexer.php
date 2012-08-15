@@ -498,99 +498,23 @@ class FinderIndexer
 		 * table have a term of 0, then no term record exists for that
 		 * term so we need to add it to the terms table.
 		 */
-		//@TODO: PostgreSQL doesn't support SOUNDEX out of the box
-
-		/* This edit is causing the indexer to fail.
-		$queryInsIgn = 'INSERT INTO ' . $db->quoteName('#__finder_terms') .
-						' (' . $db->quoteName('term') .
-						', ' . $db->quoteName('stem') .
-						', ' . $db->quoteName('common') .
-						', ' . $db->quoteName('phrase') .
-						', ' . $db->quoteName('weight') .
-						', ' . $db->quoteName('soundex') . ')' .
-						' SELECT ta.term, ta.stem, ta.common, ta.phrase, ta.term_weight, SOUNDEX(ta.term)' .
-						' FROM ' . $db->quoteName('#__finder_tokens_aggregate') . ' AS ta' .
-						' WHERE 1 NOT IN ' .
-								'( SELECT 1 FROM ' . $db->quoteName('#__finder_terms') .
-								' WHERE ta.term_id = 0 )' .
-						' AND ta.term_id = 0' .
-						' GROUP BY ta.term';
-
-		$db->setQuery($queryInsIgn);
-		$db->execute();
-
-		// Check for a database error.
-		if ($db->getErrorNum())
-		{
-			//@TODO: PostgreSQL doesn't support SOUNDEX out of the box
-			$query->clear();
-			$query->select('ta.term, ta.stem, ta.common, ta.phrase, ta.term_weight, SOUNDEX(ta.term)')
-					->from($db->quoteName('#__finder_tokens_aggregate') . ' AS ta')
-					->where('ta.term_id = 0');
-			$db->setQuery($query);
-			$subQuVal = $db->loadObject();
-
-			$quRepl_p1 = 'UPDATE ' . $db->quoteName('#__finder_terms') . ' AS ta' .
-							' SET ' .
-								' (' . $db->quoteName('term') .
-								', ' . $db->quoteName('stem') .
-								', ' . $db->quoteName('common') .
-								', ' . $db->quoteName('phrase') .
-								', ' . $db->quoteName('weight') .
-								', ' . $db->quoteName('soundex') . ')' .
-							' = ' .
-								' (' . $db->quote($subQuVal->term) .
-								', ' . $db->quote($subQuVal->stem) .
-								', ' . $db->quote($subQuVal->common) .
-								', ' . $db->quote($subQuVal->phrase) .
-								', ' . $db->quote($subQuVal->weight) .
-								', ' . $db->quote($subQuVal->soundex) . ')' .
-							' WHERE ' .
-									$db->quoteName('term') . ' = ' . $db->quote($subQuVal->term) . ' AND ' .
-									$db->quoteName('stem') . ' = ' . $db->quote($subQuVal->stem) . ' AND ' .
-									$db->quoteName('common') . ' = ' . $db->quote($subQuVal->common) . ' AND ' .
-									$db->quoteName('phrase') . ' = ' . $db->quote($subQuVal->phrase) . ' AND ' .
-									$db->quoteName('weight') . ' = ' . $db->quote($subQuVal->weight) . ' AND ' .
-									$db->quoteName('soundex') . ' = ' . $db->quote($subQuVal->soundex);
-
-			$db->setQuery($quRepl_p1);
-			$db->execute();
-
-			$quRepl_p2 = 'INSERT INTO ' . $db->quoteName('#__finder_terms') .
-						' (' . $db->quoteName('term') .
-								', ' . $db->quoteName('stem') .
-								', ' . $db->quoteName('common') .
-								', ' . $db->quoteName('phrase') .
-								', ' . $db->quoteName('weight') .
-								', ' . $db->quoteName('soundex') . ')' .
-						' SELECT ta.term, ta.stem, ta.common, ta.phrase, ta.term_weight, SOUNDEX(ta.term)' .
-						' FROM ' . $db->quoteName('#__finder_tokens_aggregate') . ' AS ta' .
-						' WHERE 1 NOT IN ' .
-								'( SELECT 1 FROM ' . $db->quoteName('#__finder_terms') .
-								' WHERE ta.term_id = 0 )' .
-						' AND ta.term_id = 0' .
-						' GROUP BY ta.term';
-
-			$db->setQuery($quRepl_p2);
-			$db->execute();
-
-		}
-		End of failing edit */
 
 		//@TODO: PostgreSQL doesn't support INSERT IGNORE INTO
 		//@TODO: PostgreSQL doesn't support SOUNDEX out of the box
 		$db->setQuery(
-			'INSERT IGNORE INTO ' . $db->quoteName('#__finder_terms') .
+			'INSERT INTO ' . $db->quoteName('#__finder_terms') .
 			' (' . $db->quoteName('term') .
 			', ' . $db->quoteName('stem') .
 			', ' . $db->quoteName('common') .
 			', ' . $db->quoteName('phrase') .
 			', ' . $db->quoteName('weight') .
 			', ' . $db->quoteName('soundex') . ')' .
-			' SELECT ta.term, ta.stem, ta.common, ta.phrase, ta.term_weight, SOUNDEX(ta.term)' .
-			' FROM ' . $db->quoteName('#__finder_tokens_aggregate') . ' AS ta' .
-			' WHERE ta.term_id = 0' .
-			' GROUP BY ta.term'
+			' SELECT tag.term, tag.stem, tag.common, tag.phrase, tag.term_weight, SOUNDEX(tag.term) ' . 
+			' FROM ' . implode(',', $db->quoteName(array('#__finder_tokens_aggregate', '#__finder_terms'), array('tag', 'terms'))) .
+			' WHERE tag.term_id = 0 AND terms.term=tag.term AND terms.stem=tag.stem ' .
+				' AND terms.common=tag.common AND terms.phrase=tag.phrase ' .
+				' AND terms.weight=tag.term_weight AND terms.soundex=SOUNDEX(tag.term)' .
+			' GROUP BY tag.term, tag.stem, tag.common, tag.phrase, tag.term_weight'
 		);
 		$db->execute();
 

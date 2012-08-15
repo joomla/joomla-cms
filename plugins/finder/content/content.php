@@ -352,7 +352,7 @@ class plgFinderContent extends FinderIndexerAdapter
 
 		// Handle the alias CASE WHEN portion of the query
 		$case_when_item_alias = ' CASE WHEN ';
-		$case_when_item_alias .= $sql->charLength('a.alias');
+		$case_when_item_alias .= $sql->charLength('a.alias', '!=', '0');
 		$case_when_item_alias .= ' THEN ';
 		$a_id = $sql->castAsChar('a.id');
 		$case_when_item_alias .= $sql->concatenate(array($a_id, 'a.alias'), ':');
@@ -361,7 +361,7 @@ class plgFinderContent extends FinderIndexerAdapter
 		$sql->select($case_when_item_alias);
 
 		$case_when_category_alias = ' CASE WHEN ';
-		$case_when_category_alias .= $sql->charLength('c.alias');
+		$case_when_category_alias .= $sql->charLength('c.alias', '!=', '0');
 		$case_when_category_alias .= ' THEN ';
 		$c_id = $sql->castAsChar('c.id');
 		$case_when_category_alias .= $sql->concatenate(array($c_id, 'c.alias'), ':');

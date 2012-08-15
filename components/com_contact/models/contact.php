@@ -115,7 +115,7 @@ class ContactModelContact extends JModelForm
 
 				//sqlsrv changes
 				$case_when = ' CASE WHEN ';
-				$case_when .= $query->charLength('a.alias');
+				$case_when .= $query->charLength('a.alias', '!=', '0');
 				$case_when .= ' THEN ';
 				$a_id = $query->castAsChar('a.id');
 				$case_when .= $query->concatenate(array($a_id, 'a.alias'), ':');
@@ -123,7 +123,7 @@ class ContactModelContact extends JModelForm
 				$case_when .= $a_id.' END as slug';
 
 				$case_when1 = ' CASE WHEN ';
-				$case_when1 .= $query->charLength('c.alias');
+				$case_when1 .= $query->charLength('c.alias', '!=', '0');
 				$case_when1 .= ' THEN ';
 				$c_id = $query->castAsChar('c.id');
 				$case_when1 .= $query->concatenate(array($c_id, 'c.alias'), ':');
@@ -229,7 +229,7 @@ class ContactModelContact extends JModelForm
 		if ($pk) {
 			//sqlsrv changes
 			$case_when = ' CASE WHEN ';
-			$case_when .= $query->charLength('a.alias');
+			$case_when .= $query->charLength('a.alias', '!=', '0');
 			$case_when .= ' THEN ';
 			$a_id = $query->castAsChar('a.id');
 			$case_when .= $query->concatenate(array($a_id, 'a.alias'), ':');
@@ -237,7 +237,7 @@ class ContactModelContact extends JModelForm
 			$case_when .= $a_id.' END as slug';
 
 			$case_when1 = ' CASE WHEN ';
-			$case_when1 .= $query->charLength('cc.alias');
+			$case_when1 .= $query->charLength('cc.alias', '!=', '0');
 			$case_when1 .= ' THEN ';
 			$c_id = $query->castAsChar('cc.id');
 			$case_when1 .= $query->concatenate(array($c_id, 'cc.alias'), ':');
@@ -299,14 +299,14 @@ class ContactModelContact extends JModelForm
 
 				// SQL Server changes
 				$case_when = ' CASE WHEN ';
-				$case_when .= $query->charLength('a.alias');
+				$case_when .= $query->charLength('a.alias', '!=', '0');
 				$case_when .= ' THEN ';
 				$a_id = $query->castAsChar('a.id');
 				$case_when .= $query->concatenate(array($a_id, 'a.alias'), ':');
 				$case_when .= ' ELSE ';
 				$case_when .= $a_id.' END as slug';
 				$case_when1 = ' CASE WHEN ';
-				$case_when1 .= $query->charLength('c.alias');
+				$case_when1 .= $query->charLength('c.alias', '!=', '0');
 				$case_when1 .= ' THEN ';
 				$c_id = $query->castAsChar('c.id');
 				$case_when1 .= $query->concatenate(array($c_id, 'c.alias'), ':');

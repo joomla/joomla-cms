@@ -131,7 +131,7 @@ class plgSearchCategories extends JPlugin
 		if (!empty($state)) {
 			//sqlsrv changes
 			$case_when = ' CASE WHEN ';
-			$case_when .= $query->charLength('a.alias');
+			$case_when .= $query->charLength('a.alias', '!=', '0');
 			$case_when .= ' THEN ';
 			$a_id = $query->castAsChar('a.id');
 			$case_when .= $query->concatenate(array($a_id, 'a.alias'), ':');

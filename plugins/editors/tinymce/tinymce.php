@@ -98,7 +98,7 @@ class plgEditorTinymce extends JPlugin
 
 		$query->select('template');
 		$query->from('#__template_styles');
-		$query->where('client_id=0 AND home=1');
+		$query->where('client_id=0 AND home=' . $db->quote('1'));
 
 		$db->setQuery($query);
 		$template = $db->loadResult();
