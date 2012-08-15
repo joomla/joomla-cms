@@ -18,4 +18,11 @@ $type	= modLoginHelper::getType();
 $return	= modLoginHelper::getReturnURL($params, $type);
 $user	= JFactory::getUser();
 
-require JModuleHelper::getLayoutPath('mod_login', $params->get('layout', 'default'));
+if ($type == 'logout')
+{
+	require JModuleHelper::getLayoutPath('mod_login', $params->get('layout', 'logout'));
+}
+else
+{
+	require JModuleHelper::getLayoutPath('mod_login', $params->get('layout', 'default'));
+}
