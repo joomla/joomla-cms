@@ -68,7 +68,9 @@ class AdminViewSysinfo extends JViewLegacy
 	/**
 	 * Setup the SubMenu
 	 *
-	 * @since	1.6
+	 * @return  void
+	 *
+	 * @since   1.6
 	 */
 	protected function _setSubMenu()
 	{

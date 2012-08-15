@@ -163,19 +163,19 @@
 			</field>
 
 			<field name="show_subcat_desc_cat" type="radio"
-			default="1"
-			description="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_DESC"
-			label="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_LABEL"
-		>
+				default="1"
+				description="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_DESC"
+				label="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_LABEL"
+			>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
 
 			<field name="show_cat_num_links_cat" type="radio"
-			default="1"
-			description="COM_WEBLINKS_FIELD_CONFIG_CAT_SHOWNUMBERS_DESC"
-			label="COM_WEBLINKS_FIELD_CONFIG_CAT_SHOWNUMBERS_LABEL"
-		>
+				default="1"
+				description="COM_WEBLINKS_FIELD_CONFIG_CAT_SHOWNUMBERS_DESC"
+				label="COM_WEBLINKS_FIELD_CONFIG_CAT_SHOWNUMBERS_LABEL"
+			>
 
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>

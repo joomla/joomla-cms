@@ -294,7 +294,7 @@
 		</field>
 	</fieldset>
 	<fieldset name="editinglayout" label="COM_CONTENT_EDITING_LAYOUT"
-				description="COM_CONTENT_CONFIG_EDITOR_LAYOUT">	
+				description="COM_CONTENT_CONFIG_EDITOR_LAYOUT">
 		<field
 			name="show_publishing_options"
 			type="radio"
@@ -306,7 +306,7 @@
 				value="0">JNO</option>
 			<option
 				value="1">JYES</option>
-		</field>	
+		</field>
 		<field
 			name="show_article_options"
 			type="radio"
@@ -318,7 +318,7 @@
 				value="0">JNO</option>
 			<option
 				value="1">JYES</option>
-		</field>		
+		</field>
 		<field
 			name="show_urls_images_frontend"
 			type="radio"
@@ -330,7 +330,7 @@
 				value="0">JNO</option>
 			<option
 				value="1">JYES</option>
-		</field>		
+		</field>
 		<field
 			name="show_urls_images_backend"
 			type="radio"
@@ -342,7 +342,7 @@
 				value="0">JNO</option>
 			<option
 				value="1">JYES</option>
-		</field>	
+		</field>
 		<field
 			name="spacer3"
 			type="spacer"
@@ -392,7 +392,7 @@
 			type="spacer"
 			hr="true"
 			/>
-			
+
 		<field
 			name="float_intro"
 			type="list"
@@ -400,7 +400,7 @@
 			description="COM_CONTENT_FLOAT_DESC">
 				<option value="right">COM_CONTENT_RIGHT</option>
 				<option value="left">COM_CONTENT_LEFT</option>
-				<option value="none">COM_CONTENT_NONE</option>	
+				<option value="none">COM_CONTENT_NONE</option>
 		</field>
 		<field
 			name="float_fulltext"
@@ -428,10 +428,11 @@
 			view="category"
 		/>
 
-		<field name="show_category_title" type="radio"
-				label="JGLOBAL_SHOW_CATEGORY_TITLE"
-				description="JGLOBAL_SHOW_CATEGORY_TITLE_DESC"
-				default="1"
+		<field name="show_category_title"
+			type="radio"
+			label="JGLOBAL_SHOW_CATEGORY_TITLE"
+			description="JGLOBAL_SHOW_CATEGORY_TITLE_DESC"
+			default="1"
 			>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -469,26 +470,28 @@
 				<option value="5">J5</option>
 		</field>
 
-		<field name="show_empty_categories" type="radio"
-				label="JGLOBAL_SHOW_EMPTY_CATEGORIES_LABEL"
-				description="COM_CONTENT_SHOW_EMPTY_CATEGORIES_DESC"
-				default="0"
+		<field name="show_empty_categories"
+			type="radio"
+			label="JGLOBAL_SHOW_EMPTY_CATEGORIES_LABEL"
+			description="COM_CONTENT_SHOW_EMPTY_CATEGORIES_DESC"
+			default="0"
 			>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 		</field>
 
-		<field name="show_no_articles" type="radio"
-				label="COM_CONTENT_NO_ARTICLES_LABEL"
-				description="COM_CONTENT_NO_ARTICLES_DESC"
-				default="1"
+		<field name="show_no_articles"
+			type="radio"
+			label="COM_CONTENT_NO_ARTICLES_LABEL"
+			description="COM_CONTENT_NO_ARTICLES_DESC"
+			default="1"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 		</field>
 
-		<field name="show_subcat_desc" type="radio"
-
+		<field name="show_subcat_desc"
+			type="radio"
 			label="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_LABEL"
 			description="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_DESC"
 			default="1"
@@ -497,10 +500,11 @@
 				<option value="1">JSHOW</option>
 		</field>
 
-		<field name="show_cat_num_articles" type="radio"
-				label="COM_CONTENT_NUMBER_CATEGORY_ITEMS_LABEL"
-				description="COM_CONTENT_NUMBER_CATEGORY_ITEMS_DESC"
-				default="1"
+		<field name="show_cat_num_articles"
+			type="radio"
+			label="COM_CONTENT_NUMBER_CATEGORY_ITEMS_LABEL"
+			description="COM_CONTENT_NUMBER_CATEGORY_ITEMS_DESC"
+			default="1"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -511,10 +515,11 @@
 		label="JCATEGORIES"
 		description="COM_CONTENT_CONFIG_CATEGORIES_SETTINGS_DESC"
 		>
-		<field name="show_base_description" type="radio"
-				default="1"
-				label="JGLOBAL_FIELD_SHOW_BASE_DESCRIPTION_LABEL"
-				description="JGLOBAL_FIELD_SHOW_BASE_DESCRIPTION_DESC"
+		<field name="show_base_description"
+			type="radio"
+			default="1"
+			label="JGLOBAL_FIELD_SHOW_BASE_DESCRIPTION_LABEL"
+			description="JGLOBAL_FIELD_SHOW_BASE_DESCRIPTION_DESC"
 			>
 
 				<option value="0">JHIDE</option>
@@ -636,7 +641,8 @@
 		>
 
 		<field name="show_pagination_limit"
-			type="radio" default="1"
+			type="radio"
+			default="1"
 			label="JGLOBAL_DISPLAY_SELECT_LABEL"
 			description="JGLOBAL_DISPLAY_SELECT_DESC">
 				<option value="0">JHIDE</option>
@@ -693,7 +699,8 @@
 		</field>
 
 		<field name="list_show_author"
-			type="radio" default="1"
+			type="radio"
+			default="1"
 			label="JGLOBAL_LIST_AUTHOR_LABEL"
 			description="JGLOBAL_LIST_AUTHOR_DESC">
 				<option value="0">JHIDE</option>

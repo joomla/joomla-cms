@@ -18,7 +18,6 @@ JHtml::_('behavior.tooltip');
 JHtml::_('behavior.framework');
 
 ?>
-
 <?php if ($this->item->state == 0) : ?>
 <div class="system-unpublished">
 <?php endif; ?>

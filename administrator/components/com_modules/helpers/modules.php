@@ -21,7 +21,7 @@ abstract class ModulesHelper
 	/**
 	 * Configure the Linkbar.
 	 *
-	 * @param	string	The name of the active view.
+	 * @param   string  The name of the active view.
 	 */
 	public static function addSubmenu($vName)
 	{
@@ -40,7 +40,8 @@ abstract class ModulesHelper
 
 		$actions = JAccess::getActions('com_modules');
 
-		foreach ($actions as $action) {
+		foreach ($actions as $action)
+		{
 			$result->set($action->name, $user->authorise($action->name, 'com_modules'));
 		}
 
@@ -76,6 +77,13 @@ abstract class ModulesHelper
 		return $options;
 	}
 
+	/**
+	 * Get a list of modules positions
+	 *
+	 * @param   integer  $clientId  Client ID
+	 *
+	 * @return  array  A list of positions
+	 */
 	public static function getPositions($clientId)
 	{
 		$db		= JFactory::getDbo();
@@ -83,7 +91,7 @@ abstract class ModulesHelper
 
 		$query->select('DISTINCT(position)');
 		$query->from('#__modules');
-		$query->where($db->quoteName('client_id').' = '.(int) $clientId);
+		$query->where($db->quoteName('client_id') . ' = ' . (int) $clientId);
 		$query->order('position');
 
 		$db->setQuery($query);
@@ -105,7 +113,7 @@ abstract class ModulesHelper
 		{
 			if (!$position)
 			{
-				$options[]	= JHtml::_('select.option', 'none', ':: '.JText::_('JNONE').' ::');
+				$options[]	= JHtml::_('select.option', 'none', ':: ' . JText::_('JNONE') . ' ::');
 
 			}
 			else
@@ -116,24 +124,34 @@ abstract class ModulesHelper
 		return $options;
 	}
 
+	/**
+	 * Return a list of templates
+	 *
+	 * @param   integer  $clientId  Client ID
+	 * @param   string   $state     State
+	 * @param   string   $template  Template name
+	 *
+	 * @return  array  List of templates
+	 */
 	public static function getTemplates($clientId = 0, $state = '', $template='')
 	{
 		$db = JFactory::getDbo();
+
 		// Get the database object and a new query object.
 		$query	= $db->getQuery(true);
 
 		// Build the query.
 		$query->select('element, name, enabled');
 		$query->from('#__extensions');
-		$query->where('client_id = '.(int) $clientId);
-		$query->where('type = '.$db->quote('template'));
+		$query->where('client_id = ' . (int) $clientId);
+		$query->where('type = ' . $db->quote('template'));
 		if ($state != '')
 		{
-			$query->where('enabled = '.$db->quote($state));
+			$query->where('enabled = ' . $db->quote($state));
 		}
 		if ($template != '')
 		{
-			$query->where('element = '.$db->quote($template));
+			$query->where('element = ' . $db->quote($template));
 		}
 
 		// Set the query and load the templates.
@@ -145,9 +163,9 @@ abstract class ModulesHelper
 	/**
 	 * Get a list of the unique modules installed in the client application.
 	 *
-	 * @param	int		The client id.
+	 * @param   int  $clientId  The client id.
 	 *
-	 * @return	array
+	 * @return  array
 	 */
 	public static function getModules($clientId)
 	{
@@ -157,7 +175,7 @@ abstract class ModulesHelper
 		$query->select('element AS value, name AS text');
 		$query->from('#__extensions as e');
 		$query->where('e.client_id = ' . (int) $clientId);
-		$query->where('type = '.$db->quote('module'));
+		$query->where('type = ' . $db->quote('module'));
 		$query->leftJoin('#__modules as m ON m.module=e.element AND m.client_id=e.client_id');
 		$query->where('m.module IS NOT NULL');
 		$query->group('element,name');
@@ -165,6 +183,7 @@ abstract class ModulesHelper
 		$db->setQuery($query);
 		$modules = $db->loadObjectList();
 		$lang = JFactory::getLanguage();
+
 		foreach ($modules as $i => $module)
 		{
 			$extension = $module->value;
@@ -183,9 +202,9 @@ abstract class ModulesHelper
 	/**
 	 * Get a list of the assignment options for modules to menus.
 	 *
-	 * @param	int		The client id.
+	 * @param   int  $clientId  The client id.
 	 *
-	 * @return	array
+	 * @return  array
 	 */
 	public static function getAssignmentOptions($clientId)
 	{
@@ -193,7 +212,8 @@ abstract class ModulesHelper
 		$options[] = JHtml::_('select.option', '0', 'COM_MODULES_OPTION_MENU_ALL');
 		$options[] = JHtml::_('select.option', '-', 'COM_MODULES_OPTION_MENU_NONE');
 
-		if ($clientId == 0) {
+		if ($clientId == 0)
+		{
 			$options[] = JHtml::_('select.option', '1', 'COM_MODULES_OPTION_MENU_INCLUDE');
 			$options[] = JHtml::_('select.option', '-1', 'COM_MODULES_OPTION_MENU_EXCLUDE');
 		}

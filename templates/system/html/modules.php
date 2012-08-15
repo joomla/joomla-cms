@@ -131,4 +131,3 @@ function modChrome_outline($module, &$params, &$attribs)
 	</div>
 	<?php
 }
-?>

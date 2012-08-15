@@ -1,11 +1,11 @@
 @charset "UTF-8";
 
 /**
- * @package		Joomla.Administrator
- * @subpackage	templates.hathor
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  templates.hathor
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @since       1.6
  *
  * Main CSS file for the template
  */
@@ -29,12 +29,15 @@ table, caption, tbody, tfoot, thead, tr, th, td {
 	background: transparent;
 }
 
-blockquote, q {
+blockquote,
+q {
 	quotes: none;
 }
 
-blockquote:before, blockquote:after,
-q:before, q:after {
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
 	content: '';
 	content: none;
 }
@@ -59,15 +62,21 @@ body {
 	height: 100%;
 }
 
-body,td,th,span,a {
+body,
+td,
+th,
+span,
+a {
 	font-family: Arial, Helvetica, sans-serif;
 }
 
-html,body {
+html,
+body {
 	height: 100%;
 }
 
-a,img {
+a,
+img {
 	padding: 0;
 	margin: 0;
 }
@@ -127,21 +136,66 @@ iframe {
 
 /* new styles */
 
-.enabled 	{ color: #005800; font-weight: bold; }
-.disabled 	{ color: #a20000; font-weight: bold; }
-p.error 	{ color: #a20000; font-weight: bold; }
-.warning 	{ color: #a20000; font-weight: bold; }
-.nowarning 	{ color: #2c2c2c; font-weight: bold; }
-.success 	{ color: #005800; font-weight: bold;}
-.allow 		{ color: #005800;}
-span.writable 		{ color: #005800;}
-.deny 		{ color: #a20000;}
-span.unwritable		{ color: #a20000;}
-.none 		{ color: #aaaaaa;}
-.pointer	{ cursor: pointer;}
-.nowrap { white-space: nowrap; }
+.enabled {
+	color: #005800;
+	font-weight: bold;
+}
 
-p.nowarning, p.warning {
+.disabled {
+	color: #a20000;
+	font-weight: bold;
+}
+
+p.error {
+	color: #a20000;
+	font-weight: bold;
+}
+
+.warning {
+	color: #a20000;
+	font-weight: bold;
+}
+
+.nowarning {
+	color: #2c2c2c;
+	font-weight: bold;
+}
+
+.success {
+	color: #005800;
+	font-weight: bold;
+}
+
+.allow {
+	color: #005800;
+}
+
+span.writable {
+	color: #005800;
+}
+
+.deny {
+	color: #a20000;
+}
+
+span.unwritable {
+	color: #a20000;
+}
+
+.none {
+	color: #aaaaaa;
+}
+
+.pointer {
+	cursor: pointer;
+}
+
+.nowrap {
+	white-space: nowrap;
+}
+
+p.nowarning,
+p.warning {
 	margin: 10px;
 }
 
@@ -150,7 +204,8 @@ p.nowarning, p.warning {
 /**
  * Overall Styles
  */
-#minwidth, #minwidth-body {
+#minwidth,
+#minwidth-body {
 	min-width: 980px;
 }
 
@@ -201,7 +256,7 @@ p.nowarning, p.warning {
 #module-status {
 	float: right;
 	position: relative;
-	top:-48px;
+	top: -48px;
 }
 
 #module-status span {
@@ -345,7 +400,8 @@ div.toolbar-list a {
 	font-weight: bold;
 }
 
-div.toolbar-list a:hover, div.toolbar-list a:focus {
+div.toolbar-list a:hover,
+div.toolbar-list a:focus {
 	text-decoration: none;
 }
 
@@ -449,7 +505,8 @@ dl#content-pane.tabs {
 	margin: 1px 0 0 0;
 }
 
-div.current label, div.current span.faux-label {
+div.current label,
+div.current span.faux-label {
 	display: block;
 	min-width: 150px;
 	float: left;
@@ -458,7 +515,7 @@ div.current label, div.current span.faux-label {
 }
 
 div.current fieldset.radio {
-	float:left;
+	float: left;
 }
 
 div.current fieldset.radio input {
@@ -520,24 +577,27 @@ div.current table#filter-config select {
 
 /* -------- Menu Assigments ---------- */
 div#menu-assignment {
-	clear:left;
+	clear: left;
 }
+
 div#menu-assignment ul.menu-links {
-	float:left;
-	width:49%;
+	float: left;
+	width: 49%;
 }
+
 div#menu-assignment ul.menu-links label {
-	clear:none;
+	clear: none;
 	float: left;
 	margin: 3px 0 0 2px;
 }
+
 div#menu-assignment ul.menu-links input {
 	clear: left;
 	float: left;
 }
 
 button.jform-rightbtn {
-	float:right;
+	float: right;
 	margin-right: 0;
 }
 
@@ -556,7 +616,9 @@ p.tab-description {
 	margin-left: 5px;
 	margin-bottom: 15px;
 }
-#login-page input, #login-page select {
+
+#login-page input,
+#login-page select {
 	float: right;
 	clear: none;
 }
@@ -665,14 +727,16 @@ p.tab-description {
 /**
  * Cpanel Settings
  */
-#cpanel div.icon, .cpanel div.icon {
+#cpanel div.icon,
+.cpanel div.icon {
 	text-align: center;
 	margin-right: 5px;
 	float: left;
 	margin-bottom: 5px;
 }
 
-#cpanel div.icon a, .cpanel div.icon a {
+#cpanel div.icon a,
+.cpanel div.icon a {
 	display: block;
 	float: left;
 	height: 97px;
@@ -683,12 +747,14 @@ p.tab-description {
 	font-weight: bold;
 }
 
-#cpanel img, .cpanel img {
+#cpanel img,
+.cpanel img {
 	padding: 10px 0;
 	margin: 0 auto;
 }
 
-#cpanel span, .cpanel span {
+#cpanel span,
+.cpanel span {
 	display: block;
 	text-align: center;
 }
@@ -728,29 +794,90 @@ div.col2 {
 
 	/* Avoid using the width divs. They are here for 3PD Extensions if needed
 	 * Use the specific layout divs listed after. See also the th.width entries */
-div.width-1 { width: 1%;}
-div.width-3 { width: 3%;}
-div.width-5 { width: 5%;}
-div.width-10 { width: 10%;}
-div.width-20 { width: 20%;}
-div.width-30 { width: 30%;}
-div.width-35 { width: 35%; }
-div.width-40 { width: 40%;}
-div.width-45 { width: 45%;}
-div.width-50 { width: 50%;}
-div.width-55 { width: 55%;}
-div.width-60 { width: 60%; }
-div.width-65 { width: 65%;}
-div.width-70 { width: 70%;}
-div.width-80 { width: 80%;}
-div.width-100 { width: 100%;}
+div.width-1 {
+	width: 1%;
+}
 
-.clrlft { clear: left; }
-.clrrt { clear: right; }
-.fltlft { float: left; }
-.fltrt { float: right; }
-.fltnone { float: none; }
+div.width-3 {
+	width: 3%;
+}
 
+div.width-5 {
+	width: 5%;
+}
+
+div.width-10 {
+	width: 10%;
+}
+
+div.width-20 {
+	width: 20%;
+}
+
+div.width-30 {
+	width: 30%;
+}
+
+div.width-35 {
+	width: 35%;
+}
+
+div.width-40 {
+	width: 40%;
+}
+
+
+div.width-45 {
+	width: 45%;
+}
+
+div.width-50 {
+	width: 50%;
+}
+
+div.width-55 {
+	width: 55%;
+}
+
+div.width-60 {
+	width: 60%;
+}
+
+div.width-65 {
+	width: 65%;
+}
+
+div.width-70 {
+	width: 70%;
+}
+
+div.width-80 {
+	width: 80%;
+}
+
+div.width-100 {
+	width: 100%;
+}
+
+.clrlft {
+	clear: left;
+}
+
+.clrrt {
+	clear: right;
+}
+
+.fltlft {
+	float: left;
+}
+
+.fltrt {
+	float: right;
+}
+
+.fltnone {
+	float: none;
+}
 
 	/* Layout Divs */
 div.main-section {
@@ -793,12 +920,17 @@ fieldset p {
 	font-size: 1.2em;
 }
 
-fieldset ol, ol#property-values, fieldset ul, ul#property-values {
+fieldset ol,
+ol#property-values,
+fieldset ul,
+ul#property-values {
 	margin: 0;
 	padding: 0;
 }
 
-fieldset li, ol#property-values li, ul#property-values li {
+fieldset li,
+ol#property-values li,
+ul#property-values li {
 	list-style: none;
 	margin: 0;
 	padding: 5px;
@@ -806,33 +938,33 @@ fieldset li, ol#property-values li, ul#property-values li {
 
 fieldset.adminform fieldset.radio,
 fieldset.panelform fieldset.radio,
-fieldset.adminform-legacy fieldset.radio  {
+fieldset.adminform-legacy fieldset.radio {
 	border: 0;
 	float: left;
 	padding: 0;
 	margin: 0 0 5px 0;
 	clear: right;
 }
+
 fieldset.adminform fieldset.radio label,
 fieldset.panelform fieldset.radio label,
 fieldset.adminform fieldset.radio span.faux-label,
 fieldset.panelform fieldset.radio span.faux-label {
 	min-width: 40px;
-	float:left;
-	clear:none;
+	float: left;
+	clear: none;
 }
 
 /* checkboxes */
 fieldset.adminform fieldset.checkboxes,
 fieldset.panelform fieldset.checkboxes,
-fieldset.adminform-legacy fieldset.checkboxes  {
+fieldset.adminform-legacy fieldset.checkboxes {
 	border: 0;
-	float:left;
+	float: left;
 	padding: 0;
 	margin: 0 0 5px 0;
-	clear:right;
+	clear: right;
 }
-
 
 fieldset.adminform fieldset.checkboxes input[type="checkbox"],
 fieldset.panelform fieldset.checkboxes input[type="checkbox"] {
@@ -867,7 +999,7 @@ fieldset.adminform-legacy label,
 fieldset.panelform-legacy span.faux-label,
 fieldset.adminform-legacy span.faux-label {
 	min-width: 150px;
-	float:left;
+	float: left;
 
 }
 /* JParameter classes on radio button labels  */
@@ -878,18 +1010,19 @@ fieldset.panelform-legacy label.radiobtn-hide,
 fieldset.panelform-legacy label.radiobtn-off,
 fieldset.panelform-legacy label.radiobtn-on {
 	min-width: 40px !important;
-	clear:none !important;
+	clear: none !important;
 }
 
 
 #jform_plugdesc-lbl,
 #jform_description-lbl {
-	font-weight:bold;
-	clear:both;
+	font-weight: bold;
+	clear: both;
 	margin-top: 15px;
 }
+
 p.jform_desc {
-	clear:left;
+	clear: left;
 }
 
 div#jform_ordering {
@@ -915,18 +1048,21 @@ fieldset#filter-bar {
 	padding: 5px 10px 5px 10px;
 }
 
-fieldset#filter-bar ol, fieldset#filter-bar ul {
+fieldset#filter-bar ol,
+fieldset#filter-bar ul {
 	list-style: none;
 	margin: 0;
 	padding: 5px 0 0;
 }
 
-fieldset#filter-bar ol li, fieldset#filter-bar ul li {
+fieldset#filter-bar ol li,
+fieldset#filter-bar ul li {
 	float: left;
 	padding: 0 5px 0 0;
 }
 
-fieldset#filter-bar ol li fieldset, fieldset#filter-bar ul li fieldset {
+fieldset#filter-bar ol li fieldset,
+fieldset#filter-bar ul li fieldset {
 	margin: 0;
 	padding: 0;
 }
@@ -951,15 +1087,19 @@ fieldset#filter-bar input#search {
 
 
 	/* augmented by aria in template javascript */
-input.readonly, span.faux-input {
+input.readonly,
+span.faux-input {
 	border: 0;
 }
 
 .star {
-	color:#cc0000;
-	font-size:1.2em;
+	color: #cc0000;
+	font-size: 1.2em;
 }
-input,select, span.faux-input {
+
+input,
+select,
+span.faux-input {
 	font-size: 1.2em;
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
@@ -1030,7 +1170,7 @@ span.gi {
 }
 
 span.gtr {
-	visibility:hidden;
+	visibility: hidden;
 	margin-right: 5px;
 }
 
@@ -1042,14 +1182,16 @@ table.admintable td {
 	font-size: 1em;
 }
 
-table.admintable td.key,table.admintable td.paramlist_key {
+table.admintable td.key,
+table.admintable td.paramlist_key {
 	text-align: right;
 	width: 140px;
 	font-weight: bold;
 	font-size: 1em;
 }
 
-table.admintable td.key label, table.admintable td.paramlist_key label {
+table.admintable td.key label,
+table.admintable td.paramlist_key label {
 	font-size: 1em;
 }
 
@@ -1057,7 +1199,9 @@ table.admintable td.paramlist_value label {
 	font-size: 1em;
 }
 
-table.admintable input, table.admintable span.faux-input, table.admintable select {
+table.admintable input,
+table.admintable span.faux-input,
+table.admintable select {
 	font-size: 1em;
 }
 
@@ -1089,10 +1233,11 @@ dl.adminformlist li {
 }
 
 ul.adminformlist pre {
-	font-size:1.3em;
+	font-size: 1.3em;
 }
 
-ul.adminformlist .button2-left, ul.adminformlist .button2-left {
+ul.adminformlist .button2-left,
+ul.adminformlist .button2-left {
 	margin-top: 5px;
 }
 
@@ -1136,7 +1281,8 @@ table.adminform tr {
 /**
  * Table formating styles
  */
-td.center,th.center {
+td.center,
+th.center {
 	text-align: center;
 }
 
@@ -1201,7 +1347,7 @@ th.ordering-col {
 
 th.ordering-col a {
 	display: block;
-	float:left;
+	float: left;
 	margin-left: 3px;
 }
 
@@ -1210,7 +1356,8 @@ th.ordering-col a img {
 	margin-right: 4px;
 }
 
-.categories th.ordering-col input, .categories td.order input {
+.categories th.ordering-col input,
+.categories td.order input {
 	font-size: 1em;
 }
 
@@ -1261,7 +1408,8 @@ table.adminlist {
 	width: 100%;
 }
 
-table.adminlist td, table.adminlist th {
+table.adminlist td,
+table.adminlist th {
 	padding: 4px;
 	font-size: 1.2em;
 }
@@ -1302,7 +1450,8 @@ table.adminlist tfoot tr {
 }
 
 	/* Table td/th styles */
-table.adminlist tfoot td,table.adminlist tfoot th {
+table.adminlist tfoot td,
+table.adminlist tfoot th {
 	text-align: center;
 }
 
@@ -1322,19 +1471,49 @@ table.adminlist td.order input {
 	width: 3em;
 	font-size: 100%;
 }
+
 /**
  * Tree indentation & nesting - Up to 10 levels deep so don't go crazy :
  */
-table.adminlist td.indent-4 	{ padding-left:4px; }
-table.adminlist td.indent-19 	{ padding-left:19px; }
-table.adminlist td.indent-34 	{ padding-left:34px; }
-table.adminlist td.indent-49 	{ padding-left:49px; }
-table.adminlist td.indent-64 	{ padding-left:64px; }
-table.adminlist td.indent-79 	{ padding-left:79px; }
-table.adminlist td.indent-94 	{ padding-left:94px; }
-table.adminlist td.indent-109 	{ padding-left:109px; }
-table.adminlist td.indent-124 	{ padding-left:124px; }
-table.adminlist td.indent-139 	{ padding-left:139px; }
+table.adminlist td.indent-4 {
+	padding-left: 4px;
+}
+
+table.adminlist td.indent-19 {
+	padding-left: 19px;
+}
+
+table.adminlist td.indent-34 {
+	padding-left: 34px;
+}
+
+table.adminlist td.indent-49 {
+	padding-left: 49px;
+}
+
+table.adminlist td.indent-64 {
+	padding-left: 64px;
+}
+
+table.adminlist td.indent-79 {
+	padding-left: 79px;
+}
+
+table.adminlist td.indent-94 {
+	padding-left: 94px;
+}
+
+table.adminlist td.indent-109 {
+	padding-left: 109px;
+}
+
+table.adminlist td.indent-124 {
+	padding-left: 124px;
+}
+
+table.adminlist td.indent-139 {
+	padding-left: 139px;
+}
 
 /**
  * Adminlist buttons
@@ -1346,7 +1525,9 @@ table.adminlist tr td.btns a {
 	padding: 3px 20px;
 }
 
-table.adminlist tr td.btns a:hover, table.adminlist tr td.btns a:active, table.adminlist tr td.btns a:focus {
+table.adminlist tr td.btns a:hover,
+table.adminlist tr td.btns a:active,
+table.adminlist tr td.btns a:focus {
 	text-decoration: none;
 }
 
@@ -1380,7 +1561,7 @@ ul#new-modules-list {
 	content: ".";
 	display: block;
 	height: 0;
-	clear:both;
+	clear: both;
 	visibility: hidden;
 }
 
@@ -1422,9 +1603,9 @@ table.noshow fieldset {
 a.saveorder {
 	width: 16px;
 	height: 16px;
-	display:block;
+	display: block;
 	overflow: hidden;
-	float:right;
+	float: right;
 	margin-right: 8px;
 }
 
@@ -1450,7 +1631,8 @@ button {
 }
 
 /* Button 1 Type */
-.button1,.button1 div {
+.button1,
+.button1 div {
 	height: 1%;
 	float: right;
 }
@@ -1475,12 +1657,14 @@ button {
 	/* padding: 0 30px 0 6px; */
 }
 
-.button1 a:hover,.button1 a:focus {
+.button1 a:hover,
+.button1 a:focus {
 	text-decoration: none;
 }
 
 	/* Button 2 Type */
-.button2-left,.button2-right {
+.button2-left,
+.button2-right {
 	float: left;
 	line-height: 1.5em;
 	font-size: 1.2em;
@@ -1489,30 +1673,40 @@ button {
 	border-radius: 3px;
 }
 
-.button2-left.smallsub,.button2-right.smallsub {
+.button2-left.smallsub,
+.button2-right.smallsub {
 	line-height: 1.2em;
 	font-size: .9em;
 }
 
-.button2-left a,.button2-right a,.button2-left span,.button2-right span {
+.button2-left a,
+.button2-right a,
+.button2-left span,
+.button2-right span {
 	display: block;
 	float: left;
 	cursor: default;
 }
 
 	/* these are inactive buttons */
-.button2-left span,.button2-right span {
+.button2-left span,
+.button2-right span {
 	cursor: default;
 }
 
-.button2-left .page a,.button2-right .page a,
-.button2-left .page span,.button2-right .page span,
-.button2-left .blank a,.button2-right .blank a,
-.button2-left .blank span,.button2-right .blank span {
+.button2-left .page a,
+.button2-right .page a,
+.button2-left .page span,
+.button2-right .page span,
+.button2-left .blank a,
+.button2-right .blank a,
+.button2-left .blank span,
+.button2-right .blank span {
 	padding: 0 6px;
 }
 
-.page span,.blank span {
+.page span,
+.blank span {
 	font-weight: bold;
 }
 
@@ -1523,11 +1717,13 @@ button {
 	text-decoration: none;
 }
 
-.button2-left a,.button2-left span {
+.button2-left a,
+.button2-left span {
 	padding: 0 24px 0 6px;
 }
 
-.button2-right a,.button2-right span {
+.button2-right a,
+.button2-right span {
 	padding: 0 6px 0 24px;
 }
 
@@ -1586,7 +1782,8 @@ div.pagination {
 	margin-right: 20px;
 }
 
-div.pagination .button2-right, div.pagination .button2-left {
+div.pagination .button2-right,
+div.pagination .button2-left {
 	font-size: 1.2em;
 	height: 1.6em;
 	line-height: 1.6em;
@@ -1727,7 +1924,7 @@ div.message {
 
 h2.modal-title {
 	margin-left: 15px;
-	margin-bottom:0;
+	margin-bottom: 0;
 	margin-top: 5px;
 	font-size: 1.8em;
 	padding-bottom: .5em;
@@ -1761,13 +1958,13 @@ dl.menu_type {
 dl.menu_type dt {
 	font-weight: bold;
 	font-size: 1.5em;
-	float:left;
+	float: left;
 	margin: 13px 0 5px 0;
 	width: 240px;
 }
 
 dl.menu_type dd {
-	clear:left;
+	clear: left;
 	margin: 0;
 }
 
@@ -1781,17 +1978,18 @@ dl.menu_type dd ul li {
 
 ul#new-modules-list {
 	padding: 5px 0 0 15px;
-	width:95%;
+	width: 95%;
 	margin: 0;
 	list-style: none;
 }
 ul#new-modules-list li {
 	list-style: none;
 	display: block;
-	float:left;
+	float: left;
 	margin: 0 20px 0 0;
 	width: 47%;
 }
+
 ul#new-modules-list li a {
 	font-size: 1em;
 	line-height: 1.5em;
@@ -1800,11 +1998,15 @@ ul#new-modules-list li a {
 body.contentpane #filter-bar {
 	font-size: 80%;
 }
-body.contentpane input, body.contentpane select {
+
+body.contentpane input,
+body.contentpane select {
 	font-size: 120%;
 }
 
-#filter-bar input, #filter-bar select, #filter-bar button {
+#filter-bar input,
+#filter-bar select,
+#filter-bar button {
 	font-size: 110%;
 }
 
@@ -1813,7 +2015,9 @@ body.contentpane input, body.contentpane select {
  */
 
 	/* Skip to Content Structural Styling */
-#skiplinkholder a,#skiplinkholder a:link,#skiplinkholder a:visited {
+#skiplinkholder a,
+#skiplinkholder a:link,
+#skiplinkholder a:visited {
 	display: block;
 	width: 99%;
 	position: absolute;
@@ -1822,7 +2026,8 @@ body.contentpane input, body.contentpane select {
 	z-index: 2;
 }
 
-#skiplinkholder a:focus, #skiplinkholder a:active {
+#skiplinkholder a:focus,
+#skiplinkholder a:active {
 	left: 0;
 	top: 0;
 	z-index: 100;
@@ -1838,7 +2043,9 @@ body.contentpane input, body.contentpane select {
 }
 
 	/* Skip to Content Visual Styling */
-#skiplinkholder a, #skiplinkholder a:link, #skiplinkholder a:visited {
+#skiplinkholder a,
+#skiplinkholder a:link,
+#skiplinkholder a:visited {
 	text-decoration: underline;
 	padding: 5px;
 	font-size: 1.3em;
@@ -1866,7 +2073,8 @@ body.contentpane input, body.contentpane select {
 
 	/* For elements that aren't to be seen by users unless the user does something
 	 * like clicking on a header to see the collapsed section. */
-.element-hidden, .hide {
+.element-hidden,
+.hide {
 	display: none;
 }
 
@@ -1880,12 +2088,13 @@ body.contentpane input, body.contentpane select {
 
 	/* For elements that aren't to be seen by visual users but do need to be read by screenreaders.
 	 * Cannot be used for elements that can get focus such as links and form elements */
-.element-invisible, .hidelabeltxt {
+.element-invisible,
+.hidelabeltxt {
 	height: 0;
 	overflow: hidden;
 	position: absolute;
-	padding:0;
-	margin:0;
+	padding: 0;
+	margin: 0;
 }
 
 	/* Firefox has issues styling legend so this is a universal fix
@@ -1895,14 +2104,14 @@ legend.element-invisible {
 	position: absolute !important;
 	margin: 0;
 	padding: 0;
-	border:0;
+	border: 0;
 	margin-left: -10000px;
 	font-size: 1px;
 	height: 0;
 }
 
 fieldset.panelform {
-	overflow:hidden;
+	overflow: hidden;
 	clear: both;
 }
 
@@ -1911,9 +2120,9 @@ fieldset.panelform label,
 fieldset.adminform span.faux-label,
 fieldset.panelform span.faux-label {
 	line-height: 2em;
-	clear:left;
+	clear: left;
 	min-width: 12em;
-	float:left;
+	float: left;
 	margin-left: 10px;
 	margin-right: 5px;
 }
@@ -1933,11 +2142,21 @@ fieldset.panelform fieldset.radio span.faux-label {
 }
 
 
-fieldset.adminform input, fieldset.adminform span.faux-input, fieldset.adminform textarea, fieldset.adminform select, fieldset.adminform img, fieldset.adminform button,
-fieldset.panelform input, fieldset.panelform span.faux-input, fieldset.panelform textarea, fieldset.panelform select, fieldset.panelform img, fieldset.panelform button {
-	float:left;
-	margin:5px 5px 5px 0;
-	width:auto;
+fieldset.adminform input,
+fieldset.adminform span.faux-input,
+fieldset.adminform textarea,
+fieldset.adminform select,
+fieldset.adminform img,
+fieldset.adminform button,
+fieldset.panelform input,
+fieldset.panelform span.faux-input,
+fieldset.panelform textarea,
+fieldset.panelform select,
+fieldset.panelform img,
+fieldset.panelform button {
+	float: left;
+	margin: 5px 5px 5px 0;
+	width: auto;
 }
 
 /* -------- Batch Section ---------- */
@@ -1945,41 +2164,53 @@ fieldset.batch {
 	margin: 20px 10px 10px 10px;
 	padding: 10px;
 }
+
 fieldset.batch label {
 	margin: 5px;
 	min-width: 40px;
 }
+
 fieldset.batch button {
 	margin: 3px;
 }
+
 fieldset#batch-choose-action {
 	clear: left;
 	border: 0 none;
 }
+
 fieldset.batch label {
 	float: left;
 	clear: none;
 }
+
 fieldset label#batch-choose-action-lbl {
 	clear: left;
 	margin-top: 15px;
 }
+
 label#batch-language-lbl,
 label#batch-user-lbl {
 	clear: left;
 	margin-right: 10px;
 	margin-top: 15px;
 }
+
 select#batch-language-id,
 select#batch-user-id {
 	margin-top: 15px;
 }
+
 select#batch-category-id,
 select#batch-position-id,
 select#batch-menu-id {
 	margin-right: 30px;
 }
-fieldset.batch select, fieldset.batch input, fieldset.batch img, fieldset.batch button {
+
+fieldset.batch select,
+fieldset.batch input,
+fieldset.batch img,
+fieldset.batch button {
 	float: left;
 }
 
@@ -1994,12 +2225,13 @@ div#jform_ordering {
 }
 
 /* Banner edit */
-#jform_impmade, #jform_clicks {
-	width:30px;
+#jform_impmade,
+#jform_clicks {
+	width: 30px;
 }
 
 fieldset.panelform label#jform-imp {
-	min-width:3em;
+	min-width: 3em;
 	font-size: 1.091em;
 }
 
@@ -2017,17 +2249,20 @@ a.move_up {
 	text-indent: -1000em;
 	width: 16px;
 }
+
 span.move_up {
 	display: inline-block;
 	height: 16px;
 	width: 16px;
 }
+
 a.move_down {
 	display: inline-block;
 	height: 16px;
 	text-indent: -1000em;
 	width: 16px;
 }
+
 span.move_down {
 	display: inline-block;
 	height: 16px;
@@ -2072,27 +2307,27 @@ table.aclmodify-table {
 
 td.col1 {
 	font-size: 1.091em;
-	text-align:left;
+	text-align: left;
 	padding: 4px;
 }
 
 table.aclsummary-table caption,
-table.aclmodify-table caption{
-	display:none;
+table.aclmodify-table caption {
+	display: none;
 }
 
 /* Summary Tab */
 table.aclsummary-table th.col1 {
-	width:25%;
+	width: 25%;
 }
 table.aclsummary-table th.col2,
 table.aclsummary-table th.col3,
 table.aclsummary-table th.col4,
 table.aclsummary-table th.col5,
 table.aclsummary-table th.col6 {
-	width:15%;
+	width: 15%;
 	vertical-align: bottom;
-	text-align:center;
+	text-align: center;
 }
 
 /* Icons (background images moved to color css files */
@@ -2109,19 +2344,21 @@ a.icon-16-allow,
 a.icon-16-deny,
 a.icon-16-allowinactive,
 a.icon-16-denyinactive {
-	display:block;
+	display: block;
 	height: 16px;
 	width: 16px;
 	margin: 0 auto;
 }
+
 label.icon-16-allow {
-	text-indent:-9999em;
-	position:relative;
+	text-indent: -9999em;
+	position: relative;
 	left: 40%;
 }
+
 label.icon-16-deny {
-	text-indent:-9999em;
-	position:relative;
+	text-indent: -9999em;
+	position: relative;
 	left: 40%;
 }
 
@@ -2129,12 +2366,13 @@ label.icon-16-deny {
 table.aclmodify-table th.col2,
 table.aclmodify-table th.col3,
 table.aclmodify-table th.col4 {
-	width:20%;
+	width: 20%;
 	vertical-align: bottom;
-	text-align:center;
+	text-align: center;
 }
+
 table.aclmodify-table select {
-	margin:1px;
+	margin: 1px;
 }
 
 table.aclsummary-table td label,
@@ -2148,31 +2386,36 @@ ul.acllegend {
 	font-size: 1.091em;
 	padding-bottom: 10px;
 }
+
 ul.acllegend li {
 	display: block;
 	float: left;
 	padding-right: 20px;
 	margin: 15px 0 15px 10px;
 }
+
 ul.acllegend li.acl-allowed {
 	padding-left: 20px;
 	padding-right: 10px;
 }
+
 ul.acllegend li.acl-denied {
 	padding-left: 20px;
 	padding-right: 20px;
 }
+
 ul.acllegend li.acl-editgroups {
 	padding-right: 10px;
 }
+
 ul.acllegend li.acl-resetbtn {
 	padding-right: 0;
 }
 
 li.acl-editgroups,
 li.acl-resetbtn {
-	display:block;
-	float:left;
+	display: block;
+	float: left;
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
@@ -2188,7 +2431,7 @@ li.acl-editgroups a:hover,
 li.acl-resetbtn a:hover,
 li.acl-editgroups a:focus,
 li.acl-resetbtn a:focus {
-	text-decoration:none;
+	text-decoration: none;
 	cursor: default;
 }
 
@@ -2196,7 +2439,7 @@ li.acl-editgroups:hover,
 li.acl-resetbtn:hover,
 li.acl-editgroups:focus,
 li.acl-resetbtn:focus {
-	text-decoration:none;
+	text-decoration: none;
 	cursor: default;
 }
 
@@ -2228,7 +2471,7 @@ table#acl-config td {
 }
 
 table#acl-config td select {
-	float:none;
+	float: none;
 }
 
 .acl-action {
@@ -2244,15 +2487,15 @@ table#acl-config td select {
 label#jform_rules-lbl {
 	float: none;
 	white-space: nowrap;
-	display:none;
-	visibility:hidden;
+	display: none;
+	visibility: hidden;
 }
 
 label#jform_filters-lbl {
 	float: none;
 	white-space: nowrap;
 	display: none;
-	visibility:hidden;
+	visibility: hidden;
 }
 
 /**
@@ -2264,6 +2507,7 @@ ul.config-option-list li {
 	padding: 0;
 	list-style: none;
 }
+
 ul.config-option-list fieldset {
 	margin: 0;
 	padding-left: 0;
@@ -2275,9 +2519,9 @@ ul.config-option-list fieldset {
 */
 #permissions-sliders ul#rules,
 #permissions-sliders ul#rules ul {
-    margin: 0 !important;
-    padding: 0 !important;
-    list-style-type: none;
+	margin: 0 !important;
+	padding: 0 !important;
+	list-style-type: none;
 }
 
 #permissions-sliders ul#rules li {
@@ -2286,28 +2530,28 @@ ul.config-option-list fieldset {
 }
 
 #permissions-sliders ul#rules table.group-rules {
-    border-collapse: collapse;
-   	margin: 5px;
-    width: 100%;
+	border-collapse: collapse;
+	margin: 5px;
+	width: 100%;
 }
 
 #permissions-sliders ul#rules table.group-rules td {
-    padding: 4px;
-    vertical-align: middle;
-    text-align: left;
-    overflow: hidden;
+	padding: 4px;
+	vertical-align: middle;
+	text-align: left;
+	overflow: hidden;
 }
 
 #permissions-sliders ul#rules table.group-rules th {
-    font-size: 1.2em;
-    overflow: hidden;
-    font-weight: bold;
+	font-size: 1.2em;
+	overflow: hidden;
+	font-weight: bold;
 }
 
 #permissions-sliders .panel {
-    margin-bottom: 3px;
-    margin-left: 0;
-    border: 0;
+	margin-bottom: 3px;
+	margin-left: 0;
+	border: 0;
 }
 
 #permissions-sliders p.rule-desc {
@@ -2319,7 +2563,7 @@ ul.config-option-list fieldset {
 }
 
 ul#rules table.group-rules td label {
-	margin:0 !important;
+	margin: 0 !important;
 	line-height: 1.1em;
 }
 
@@ -2350,8 +2594,8 @@ table.group-rules td select {
 }
 
 #permissions-sliders  ul#rules  table.group-rules th {
-    text-align: left;
-    padding: 4px;
+	text-align: left;
+	padding: 4px;
 }
 
 #permissions-sliders ul#rules table.group-rules td label {
@@ -2383,7 +2627,7 @@ table.group-rules td select {
 /* Tab changes for accessibility */
 dl.tabs dt h3 {
 	padding: 0;
-	font-size:100%;
+	font-size: 100%;
 }
 
 /**
@@ -2409,7 +2653,8 @@ ul.helpmenu li {
 /**
  * Menu Styling
  */
-#menu { /* this is on the main ul */
+#menu {
+	/* this is on the main ul */
 	position: relative;
 	z-index: 100;
 	padding: 0;
@@ -2420,7 +2665,8 @@ ul.helpmenu li {
 	font-weight: bold;
 }
 
-#menu ul { /* all lists */
+#menu ul {
+	/* all lists */
 	padding: 0;
 	margin: 0;
 	list-style: none;
@@ -2440,7 +2686,8 @@ ul.helpmenu li {
 	font-size: 100%;
 }
 
-#menu li { /* all list items */
+#menu li {
+	/* all list items */
 	float: left;
 	/* width: 12em;  width needed or else Opera goes nuts */
 	font-size: 100%;
@@ -2462,33 +2709,39 @@ ul.helpmenu li {
 	cursor: default;
 }
 
-#menu li ul { /* second-level lists */
+#menu li ul {
+	/* second-level lists */
 	position: absolute;
 	width: 16em;
 	margin-left: -1000em;
 	/* using left instead of display to hide menus because display: none isn't read by screen readers */
 }
 
-#menu li li { /* second-level row */
+#menu li li {
+	/* second-level row */
 	border: none;
 	width: 16em;
 }
 
-#menu li ul ul { /* third-and-above-level lists */
+#menu li ul ul {
+	/* third-and-above-level lists */
 	margin: -2.3em 0 0 -1000em;
 	/* top margin is equal to parent line height+bottom padding */
 }
 
-#menu li:hover ul ul,#menu li.sfhover ul ul {
+#menu li:hover ul ul,
+#menu li.sfhover ul ul {
 	margin-left: -1000em;
 }
 
-#menu li:hover ul,#menu li.sfhover ul {
+#menu li:hover ul,
+#menu li.sfhover ul {
 	/* lists nested under hovered list items */
 	margin-left: 0;
 }
 
-#menu li li:hover ul,#menu li li.sfhover ul {
+#menu li li:hover ul,
+#menu li li.sfhover ul {
 	margin-left: 16em;
 }
 
@@ -2518,11 +2771,13 @@ ul.helpmenu li {
 	width: 10em;
 }
 
-#menu li:hover a:focus,#menu li.sfhover a.sffocus {
+#menu li:hover a:focus,
+#menu li.sfhover a.sffocus {
 	margin-left: 0;
 }
 
-#menu li li:hover a:focus+ul,#menu li li.sfhover a.sffocus+ul {
+#menu li li:hover a:focus+ul,
+#menu li li.sfhover a.sffocus+ul {
 	margin-left: 16em;
 }
 
@@ -2538,14 +2793,16 @@ ul.helpmenu li {
 	line-height: 2em;
 }
 
-#submenu ul,#submenu li {
+#submenu ul,
+#submenu li {
 	display: inline;
 	list-style-type: none;
 	margin: 0;
 	padding: 0;
 }
 
-#submenu a, #submenu span.nolink {
+#submenu a,
+#submenu span.nolink {
 	float: left;
 	font-weight: bold;
 	margin-right: 8px;
@@ -2564,7 +2821,8 @@ ul.helpmenu li {
 	color: #999;
 }
 
-#submenu a.active, #submenu span.nolink.active {
+#submenu a.active,
+#submenu span.nolink.active {
 	cursor: default;
 	text-decoration: none;
 }
@@ -2584,30 +2842,30 @@ ul.helpmenu li {
 
 /* -- Update check badges -- */
 span.update-badge {
-    background-image: -moz-linear-gradient(center bottom , #FF0000 41%, #FC7E7E 79%);
+	background-image: -moz-linear-gradient(center bottom, #FF0000 41%, #FC7E7E 79%);
 	background-image: -webkit-gradient(linear,left bottom,left top,color-stop(0.41, rgb(255,0,0)),color-stop(0.79, rgb(252,126,126)));
-    border: 2px solid white;
-    border-radius: 1.5em 1.5em 1.5em 1.5em;
-    color: white;
-    display: block;
-    float: left;
-    font-size: 1.2em;
-    font-weight: bold;
-    height: 1.2em;
-    left: 60px;
-    min-width: 1em;
-    padding: 0 0.1em 0;
-    position: relative;
-    top: -88px;
+	border: 2px solid white;
+	border-radius: 1.5em 1.5em 1.5em 1.5em;
+	color: white;
+	display: block;
+	float: left;
+	font-size: 1.2em;
+	font-weight: bold;
+	height: 1.2em;
+	left: 60px;
+	min-width: 1em;
+	padding: 0 0.1em 0;
+	position: relative;
+	top: -88px;
 }
 
 /* User Notes */
-.unotes ul, .unotes ol {
+.unotes ul,
+.unotes ol {
 	list-style: none;
 	list-style-position: inside;
 	padding-left: 0;
 	padding-right: 0;
-
 }
 
 .unotes div.utitle {
@@ -2619,7 +2877,7 @@ span.update-badge {
 
 .unotes h4 {
 	margin-top: 0;
-	margin-bottom:0;
+	margin-bottom: 0;
 	font-size: 1.3em;
 }
 
@@ -2645,7 +2903,10 @@ fieldset.uploadform {
 }
 
 /* Installer Database */
-#installer-database, #installer-discover, #installer-update, #installer-warnings {
+#installer-database,
+#installer-discover,
+#installer-update,
+#installer-warnings {
 	margin-top: 10px;
 }
 

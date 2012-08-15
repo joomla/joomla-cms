@@ -41,6 +41,8 @@ class JFormFieldSample extends JFormFieldRadio
 		$lang = JFactory::getLanguage();
 		$options = array();
 		$type = $this->form instanceof JForm ? $this->form->getValue('db_type') : 'mysql' || 'sqlazure';
+
+		// Some database drivers share DDLs; point these drivers to the correct parent
 		if ($type == 'mysqli')
 		{
 			$type = 'mysql';
@@ -49,6 +51,7 @@ class JFormFieldSample extends JFormFieldRadio
 		{
 			$type = 'sqlazure';
 		}
+
 		// Get a list of files in the search path with the given filter.
 		$files = JFolder::files(JPATH_INSTALLATION . '/sql/' . $type, '^sample.*\.sql$');
 
@@ -57,7 +60,7 @@ class JFormFieldSample extends JFormFieldRadio
 		{
 			foreach ($files as $file)
 			{
-				$options[] = JHtml::_('select.option', $file, $lang->hasKey($key = 'INSTL_' . ($file = JFile::stripExt($file)) . '_SET')?JText::_($key):$file);
+				$options[] = JHtml::_('select.option', $file, $lang->hasKey($key = 'INSTL_' . ($file = JFile::stripExt($file)) . '_SET') ? JText::_($key) : $file);
 			}
 		}
 

@@ -157,9 +157,9 @@ class ModulesModelModule extends JModelAdmin
 	/**
 	 * Batch copy modules to a new position or current.
 	 *
-	 * @param   integer  $value      The new value matching a module position.
-	 * @param   array    $pks        An array of row IDs.
-	 * @param   array    $contexts   An array of item contexts.
+	 * @param   integer  $value     The new value matching a module position.
+	 * @param   array    $pks       An array of row IDs.
+	 * @param   array    $contexts  An array of item contexts.
 	 *
 	 * @return  boolean  True if successful, false otherwise and internal error is set.
 	 *
@@ -253,9 +253,9 @@ class ModulesModelModule extends JModelAdmin
 	/**
 	 * Batch move modules to a new position or current.
 	 *
-	 * @param   integer  $value      The new value matching a module position.
-	 * @param   array    $pks        An array of row IDs.
-	 * @param   array    $contexts   An array of item contexts.
+	 * @param   integer  $value     The new value matching a module position.
+	 * @param   array    $pks       An array of row IDs.
+	 * @param   array    $contexts  An array of item contexts.
 	 *
 	 * @return  boolean  True if successful, false otherwise and internal error is set.
 	 *
@@ -341,7 +341,6 @@ class ModulesModelModule extends JModelAdmin
 				if (!$user->authorise('core.delete', 'com_modules') || $table->published != -2)
 				{
 					JError::raiseWarning(403, JText::_('JERROR_CORE_DELETE_NOT_PERMITTED'));
-					//	throw new Exception(JText::_('JERROR_CORE_DELETE_NOT_PERMITTED'));
 					return;
 				}
 
@@ -352,8 +351,8 @@ class ModulesModelModule extends JModelAdmin
 				else
 				{
 					// Delete the menu assignments
-					$db		= $this->getDbo();
-					$query	= $db->getQuery(true);
+					$db    = $this->getDbo();
+					$query = $db->getQuery(true);
 					$query->delete();
 					$query->from('#__modules_menu');
 					$query->where('moduleid=' . (int) $pk);
@@ -411,7 +410,7 @@ class ModulesModelModule extends JModelAdmin
 				$m = null;
 				if (preg_match('#\((\d+)\)$#', $table->title, $m))
 				{
-					$table->title = preg_replace('#\(\d+\)$#', '('.($m[1] + 1).')', $table->title);
+					$table->title = preg_replace('#\(\d+\)$#', '(' . ($m[1] + 1) . ')', $table->title);
 				}
 				else
 				{
@@ -427,7 +426,7 @@ class ModulesModelModule extends JModelAdmin
 
 				// $query = 'SELECT menuid'
 				//	. ' FROM #__modules_menu'
-				//	. ' WHERE moduleid = '.(int) $pk
+				//	. ' WHERE moduleid = ' . (int) $pk
 				//	;
 
 				$query	= $db->getQuery(true);
@@ -452,7 +451,7 @@ class ModulesModelModule extends JModelAdmin
 		if (!empty($tuples))
 		{
 			// Module-Menu Mapping: Do it in one query
-			$query = 'INSERT INTO #__modules_menu (moduleid,menuid) VALUES '.implode(',', $tuples);
+			$query = 'INSERT INTO #__modules_menu (moduleid,menuid) VALUES ' . implode(',', $tuples);
 			$this->_db->setQuery($query);
 
 			try
@@ -474,13 +473,13 @@ class ModulesModelModule extends JModelAdmin
 	/**
 	 * Method to change the title.
 	 *
-     * @param   integer $category_id  The id of the category. Not used here.
-	 * @param   string  $title     The title.
-	 * @param   string  $position  The position.
+	 * @param   integer  $category_id  The id of the category. Not used here.
+	 * @param   string   $title        The title.
+	 * @param   string   $position     The position.
 	 *
-	 * @return	array  Contains the modified title.
+	 * @return  array  Contains the modified title.
 	 *
-	 * @since	2.5
+	 * @since   2.5
 	 */
 	protected function generateNewTitle($category_id, $title, $position)
 	{
@@ -501,7 +500,7 @@ class ModulesModelModule extends JModelAdmin
 	 *
 	 * @since   1.6
 	 */
-	function &getClient()
+	public function &getClient()
 	{
 		return $this->_client;
 	}
@@ -633,8 +632,8 @@ class ModulesModelModule extends JModelAdmin
 					$query	= $db->getQuery(true);
 					$query->select('element, client_id');
 					$query->from('#__extensions');
-					$query->where('extension_id = '.$extensionId);
-					$query->where('type = '.$db->quote('module'));
+					$query->where('extension_id = ' . $extensionId);
+					$query->where('type = ' . $db->quote('module'));
 					$db->setQuery($query);
 
 					try
@@ -654,8 +653,8 @@ class ModulesModelModule extends JModelAdmin
 					}
 
 					// Extension found, prime some module values.
-					$table->module		= $extension->element;
-					$table->client_id	= $extension->client_id;
+					$table->module    = $extension->element;
+					$table->client_id = $extension->client_id;
 				}
 				else
 				{
@@ -678,7 +677,7 @@ class ModulesModelModule extends JModelAdmin
 			$db->setQuery(
 				'SELECT menuid' .
 				' FROM #__modules_menu' .
-				' WHERE moduleid = '.$pk
+				' WHERE moduleid = ' . $pk
 			);
 			$assigned = $db->loadColumn();
 
@@ -713,7 +712,7 @@ class ModulesModelModule extends JModelAdmin
 
 			// Get the module XML.
 			$client	= JApplicationHelper::getClientInfo($table->client_id);
-			$path	= JPath::clean($client->path.'/modules/'.$table->module.'/'.$table->module.'.xml');
+			$path	= JPath::clean($client->path . '/modules/' . $table->module . '/' . $table->module . '.xml');
 
 			if (file_exists($path))
 			{
@@ -759,7 +758,7 @@ class ModulesModelModule extends JModelAdmin
 	/**
 	 * Prepare and sanitise the table prior to saving.
 	 *
-	 * @param   JTable  &$table  The database object
+	 * @param   JTable  $table  The database object
 	 *
 	 * @return  void
 	 *
@@ -775,13 +774,13 @@ class ModulesModelModule extends JModelAdmin
 		if (empty($table->id))
 		{
 			// Set the values
-			//$table->created	= $date->toSql();
+			// $table->created = $date->toSql();
 		}
 		else
 		{
 			// Set the values
-			//$table->modified	= $date->toSql();
-			//$table->modified_by	= $user->get('id');
+			// $table->modified    = $date->toSql();
+			// $table->modified_by = $user->get('id');
 		}
 	}
 
@@ -802,18 +801,18 @@ class ModulesModelModule extends JModelAdmin
 		jimport('joomla.filesystem.path');
 
 		// Initialise variables.
-		$lang		= JFactory::getLanguage();
-		$clientId	= $this->getState('item.client_id');
-		$module		= $this->getState('item.module');
+		$lang     = JFactory::getLanguage();
+		$clientId = $this->getState('item.client_id');
+		$module   = $this->getState('item.module');
 
-		$client		= JApplicationHelper::getClientInfo($clientId);
-		$formFile	= JPath::clean($client->path.'/modules/'.$module.'/'.$module.'.xml');
+		$client   = JApplicationHelper::getClientInfo($clientId);
+		$formFile = JPath::clean($client->path.'/modules/'.$module.'/'.$module.'.xml');
 
 		// Load the core and/or local language file(s).
-			$lang->load($module, $client->path, null, false, false)
-		||	$lang->load($module, $client->path.'/modules/'.$module, null, false, false)
-		||	$lang->load($module, $client->path, $lang->getDefault(), false, false)
-		||	$lang->load($module, $client->path.'/modules/'.$module, $lang->getDefault(), false, false);
+		$lang->load($module, $client->path, null, false, false)
+			||	$lang->load($module, $client->path.'/modules/'.$module, null, false, false)
+			||	$lang->load($module, $client->path, $lang->getDefault(), false, false)
+			||	$lang->load($module, $client->path.'/modules/'.$module, $lang->getDefault(), false, false);
 
 		if (file_exists($formFile))
 		{
@@ -856,9 +855,9 @@ class ModulesModelModule extends JModelAdmin
 	 *
 	 * @since   1.1
 	 */
-	function validate($form, $data, $group = null)
+	public function validate($form, $data, $group = null)
 	{
-		require_once JPATH_ADMINISTRATOR.'/components/com_content/helpers/content.php';
+		require_once JPATH_ADMINISTRATOR . '/components/com_content/helpers/content.php';
 
 		return parent::validate($form, $data, $group);
 	}
@@ -893,13 +892,13 @@ class ModulesModelModule extends JModelAdmin
 		// Alter the title and published state for Save as Copy
 		if ($input->get('task') == 'save2copy')
 		{
-			$orig_data	= JRequest::getVar('jform', array(), 'post', 'array');
+			$orig_data  = JRequest::getVar('jform', array(), 'post', 'array');
 			$orig_table = clone($this->getTable());
 			$orig_table->load((int) $orig_data['id']);
 
 			if ($data['title'] == $orig_table->title)
 			{
-				$data['title'] .= ' '.JText::_('JGLOBAL_COPY');
+				$data['title'] .= ' ' . JText::_('JGLOBAL_COPY');
 				$data['published'] = 0;
 			}
 		}
@@ -936,9 +935,7 @@ class ModulesModelModule extends JModelAdmin
 			return false;
 		}
 
-		//
 		// Process the menu link mappings.
-		//
 
 		$assignment = isset($data['assignment']) ? $data['assignment'] : 0;
 
@@ -948,8 +945,8 @@ class ModulesModelModule extends JModelAdmin
 		//	' WHERE moduleid = '.(int) $table->id
 		// );
 
-		$db		= $this->getDbo();
-		$query	= $db->getQuery(true);
+		$db    = $this->getDbo();
+		$query = $db->getQuery(true);
 		$query->delete();
 		$query->from('#__modules_menu');
 		$query->where('moduleid = ' . (int) $table->id);
@@ -981,10 +978,10 @@ class ModulesModelModule extends JModelAdmin
 			// and other menu items resulting in a module being displayed twice.
 			if ($assignment === 0)
 			{
-				// assign new module to `all` menu item associations
+				// Assign new module to `all` menu item associations
 				// $this->_db->setQuery(
 				//	'INSERT INTO #__modules_menu'.
-				//	' SET moduleid = '.(int) $table->id.', menuid = 0'
+				//	' SET moduleid = ' . (int) $table->id . ', menuid = 0'
 				// );
 
 				$query->clear();
@@ -1012,11 +1009,11 @@ class ModulesModelModule extends JModelAdmin
 				$tuples = array();
 				foreach ($data['assigned'] as &$pk)
 				{
-					$tuples[] = '('.(int) $table->id.','.(int) $pk * $sign.')';
+					$tuples[] = '(' . (int) $table->id . ',' . (int) $pk * $sign . ')';
 				}
 
 				$this->_db->setQuery(
-					'INSERT INTO #__modules_menu (moduleid, menuid) VALUES '.
+					'INSERT INTO #__modules_menu (moduleid, menuid) VALUES ' .
 					implode(',', $tuples)
 				);
 
@@ -1040,7 +1037,7 @@ class ModulesModelModule extends JModelAdmin
 		$query->select('extension_id');
 		$query->from('#__extensions AS e');
 		$query->leftJoin('#__modules AS m ON e.element = m.module');
-		$query->where('m.id = '.(int) $table->id);
+		$query->where('m.id = ' . (int) $table->id);
 		$db->setQuery($query);
 
 		try
@@ -1077,14 +1074,17 @@ class ModulesModelModule extends JModelAdmin
 	protected function getReorderConditions($table)
 	{
 		$condition = array();
-		$condition[] = 'client_id = '.(int) $table->client_id;
-		$condition[] = 'position = '. $this->_db->Quote($table->position);
+		$condition[] = 'client_id = ' . (int) $table->client_id;
+		$condition[] = 'position = ' . $this->_db->Quote($table->position);
 
 		return $condition;
 	}
 
 	/**
 	 * Custom clean cache method for different clients
+	 *
+	 * @param   string   $group      The name of the plugin group to import (defaults to null).
+	 * @param   integer  $client_id  The client ID. [optional]
 	 *
 	 * @return  void
 	 *

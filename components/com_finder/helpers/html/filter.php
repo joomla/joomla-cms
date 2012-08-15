@@ -137,7 +137,8 @@ abstract class JHtmlFilter
 		foreach ($branches as $bk => $bv)
 		{
 			// If the multi-lang plug-in is enabled then drop the language branch.
-			if ($bv->title == 'Language' && JLanguageMultilang::isEnabled()) {
+			if ($bv->title == 'Language' && JLanguageMultilang::isEnabled())
+			{
 				continue;
 			}
 
@@ -156,7 +157,8 @@ abstract class JHtmlFilter
 		foreach ($branches as $bk => $bv)
 		{
 			// If the multi-lang plug-in is enabled then drop the language branch.
-			if ($bv->title == 'Language' && JLanguageMultilang::isEnabled()) {
+			if ($bv->title == 'Language' && JLanguageMultilang::isEnabled())
+			{
 				continue;
 			}
 
@@ -326,7 +328,8 @@ abstract class JHtmlFilter
 			foreach ($branches as $bk => $bv)
 			{
 				// If the multi-lang plug-in is enabled then drop the language branch.
-				if ($bv->title == 'Language' && JLanguageMultilang::isEnabled()) {
+				if ($bv->title == 'Language' && JLanguageMultilang::isEnabled())
+				{
 					continue;
 				}
 
@@ -359,9 +362,11 @@ abstract class JHtmlFilter
 
 				// Translate branch nodes if possible.
 				$language = JFactory::getLanguage();
-				foreach($branches[$bk]->nodes as $node_id => $node) {
+				foreach ($branches[$bk]->nodes as $node_id => $node)
+				{
 					$key = FinderHelperLanguage::branchPlural($node->title);
-					if ($language->hasKey($key)) {
+					if ($language->hasKey($key))
+					{
 						$branches[$bk]->nodes[$node_id]->title = JText::_($key);
 					}
 				}
@@ -388,7 +393,8 @@ abstract class JHtmlFilter
 		foreach ($branches as $bk => $bv)
 		{
 			// If the multi-lang plug-in is enabled then drop the language branch.
-			if ($bv->title == 'Language' && JLanguageMultilang::isEnabled()) {
+			if ($bv->title == 'Language' && JLanguageMultilang::isEnabled())
+			{
 				continue;
 			}
 

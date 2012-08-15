@@ -1,11 +1,11 @@
 @charset "UTF-8";
 
 /**
- * @package		Joomla.Administrator
- * @subpackage	templates.hathor
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  templates.hathor
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @since       1.6
  *
  * Color CSS file for the template - standard
  */
@@ -39,6 +39,7 @@ body {
 	background-color: #ffffff;
 	color: #2c2c2c;
 }
+
 h1 {
 	color: #2c2c2c;
 }
@@ -335,7 +336,8 @@ div.current fieldset.adminform {
 /**
  * Cpanel Settings
  */
-#cpanel div.icon a, .cpanel div.icon a {
+#cpanel div.icon a,
+.cpanel div.icon a {
 	color: #2c2c2c;
 	border-left: 1px solid #e3e4ca;
 	border-top: 1px solid #e3e4ca;
@@ -378,11 +380,13 @@ fieldset#filter-bar {
 	border-left: 0 solid #c7c8b2;
 }
 
-fieldset#filter-bar ol, fieldset#filter-bar ul {
+fieldset#filter-bar ol,
+fieldset#filter-bar ul {
 	border: 0;
 }
 
-fieldset#filter-bar ol li fieldset, fieldset#filter-bar ul li fieldset {
+fieldset#filter-bar ol li fieldset,
+fieldset#filter-bar ul li fieldset {
 	border: 0;
 }
 
@@ -398,7 +402,8 @@ input.invalid {
 }
 
 /* augmented by aria in template javascript */
-input.readonly, span.faux-input {
+input.readonly,
+span.faux-input {
 	border: 0;
 }
 
@@ -410,19 +415,26 @@ input.disabled {
 	background-color: #eeeeee;
 }
 
-input,select, span.faux-input {
+input,
+select,
+span.faux-input {
 	background-color: #ffffff;
 	border: 1px solid #c7c8b2;
 }
 
 /* Inputs used as buttons */
-input[type="button"], input[type="submit"], input[type="reset"] {
+input[type="button"],
+input[type="submit"],
+input[type="reset"] {
 	background-color: #f9fade;
 }
 
-input[type="button"]:hover, input[type="button"]:focus,
-input[type="submit"]:hover, input[type="submit"]:focus,
-input[type="reset"]:hover, input[type="reset"]:focus {
+input[type="button"]:hover,
+input[type="button"]:focus,
+input[type="submit"]:hover,
+input[type="submit"]:focus,
+input[type="reset"]:hover,
+input[type="reset"]:focus {
 	background-color: #e3e4ca;
 	color: #2c2c2c;
 }
@@ -432,8 +444,14 @@ textarea {
 	border: 1px solid #c7c8b2;
 }
 
-input:focus, select:focus, textarea:focus, option:focus,
-input:hover, select:hover, textarea:hover, option:hover {
+input:focus,
+select:focus,
+textarea:focus,
+option:focus,
+input:hover,
+select:hover,
+textarea:hover,
+option:hover {
 	background-color: #e3e4ca;
 	color: #2c2c2c;
 }
@@ -453,7 +471,8 @@ span.gi {
 /**
  * Admintable Styles
  */
-table.admintable td.key,table.admintable td.paramlist_key {
+table.admintable td.key,
+table.admintable td.paramlist_key {
 	background-color: #f9fade;
 	color: #2c2c2c;
 	border-bottom: 1px solid #c7c8b2;
@@ -518,10 +537,10 @@ table.adminlist a {
 table.adminlist thead th {
 	background: #ffffff;
 	color: #2c2c2c;
-	border-bottom:1px solid #C7C8B2;
+	border-bottom: 1px solid #C7C8B2;
 }
 
-	/* Table row styles */
+/* Table row styles */
 table.adminlist tbody tr {
 	background: #ffffff;
 }
@@ -573,8 +592,9 @@ table.adminlist tfoot tr {
 	color: #2c2c2c;
 }
 
-	/* Table td/th styles */
-table.adminlist tfoot td,table.adminlist tfoot th {
+/* Table td/th styles */
+table.adminlist tfoot td,
+table.adminlist tfoot th {
 	background-color: #ffffff;
 	border-top: 1px solid #c7c8b2;
 }
@@ -609,7 +629,7 @@ a.saveorder.inactive {
  * Saving order icon styling in admin tables
  */
 fieldset.batch {
-	background: #fff;
+	background: #ffffff;
 }
 
 /**
@@ -647,7 +667,7 @@ button:focus {
 	background-color: #e3e4ca;
 }
 
-	/* Button 2 Type */
+/* Button 2 Type */
 .button2-left,
 .button2-right {
 	border: 1px solid #c7c8b2;
@@ -661,12 +681,14 @@ button:focus {
 	color: #2c2c2c;
 }
 
-	/* these are inactive buttons */
-.button2-left span,.button2-right span {
+/* these are inactive buttons */
+.button2-left span,
+.button2-right span {
 	color: #cccccc;
 }
 
-.page span,.blank span {
+.page span,
+.blank span {
 	color: #2c2c2c;
 }
 
@@ -681,7 +703,7 @@ button:focus {
  * Pagination styles
  */
 
-	/* Grey out the current page number */
+/* Grey out the current page number */
 .pagination .page span {
 	color: #cccccc;
 }
@@ -763,11 +785,11 @@ a img.calendar {
 	background-image: url(../images/admin/publish_r.png);
 }
 
-.jgrid span.pending	{
+.jgrid span.pending {
 	background-image: url(../images/admin/publish_y.png);
 }
 
-.jgrid span.warning	{
+.jgrid span.warning {
 	background-image: url(../images/admin/publish_y.png);
 }
 
@@ -1090,7 +1112,7 @@ a img.calendar {
 	background-image: url(../images/toolbar/icon-32-checkin.png);
 }
 
-.icon-32-options{
+.icon-32-options {
 	background-image: url(../images/toolbar/icon-32-config.png);
 }
 
@@ -1227,7 +1249,7 @@ a img.calendar {
 }
 
 .icon-32-print {
-    background-image: url(../images/toolbar/icon-32-print.png);
+	background-image: url(../images/toolbar/icon-32-print.png);
 }
 
 /**
@@ -1472,11 +1494,11 @@ a img.calendar {
 	background-image: url(../images/header/icon-48-redirect.png);
 }
 
-.icon-48-search	{
+.icon-48-search {
 	background-image: url(../images/header/icon-48-search.png);
 }
 
-.icon-48-finder	{
+.icon-48-finder {
 	background-image: url(../images/header/icon-48-search.png);
 }
 
@@ -1528,8 +1550,8 @@ div.message {
 }
 
 .outline {
-  border: 1px solid #c7c8b2;
-  background: #ffffff;
+	border: 1px solid #c7c8b2;
+	background: #ffffff;
 }
 
 /**
@@ -1547,8 +1569,10 @@ ul#new-modules-list {
  * User Accessibility
  */
 
-	/* Skip to Content Visual Styling */
-#skiplinkholder a, #skiplinkholder a:link, #skiplinkholder a:visited {
+/* Skip to Content Visual Styling */
+#skiplinkholder a,
+#skiplinkholder a:link,
+#skiplinkholder a:visited {
 	color: #ffffff;
 	background: #054993;
 	border-bottom: solid #336 2px;
@@ -1565,31 +1589,31 @@ fieldset.panelform {
  * ACL STYLES relocated from com_users/media/grid.css
  */
 a.move_up {
-	background-image:url('../images/admin/uparrow.png');
+	background-image: url('../images/admin/uparrow.png');
 }
 
 span.move_up {
-	background-image:url('../images/admin/uparrow0.png');
+	background-image: url('../images/admin/uparrow0.png');
 }
 
 a.move_down {
-	background-image:url('../images/admin/downarrow.png');
+	background-image: url('../images/admin/downarrow.png');
 }
 
 span.move_down {
-	background-image:url('../images/admin/downarrow0.png');
+	background-image: url('../images/admin/downarrow0.png');
 }
 
 a.grid_false {
-	background-image:url('../images/admin/publish_x.png');
+	background-image: url('../images/admin/publish_x.png');
 }
 
 a.grid_true {
-	background-image:url('../images/admin/tick.png');
+	background-image: url('../images/admin/tick.png');
 }
 
 a.grid_trash {
-	background-image:url('../images/admin/icon-16-trash.png');
+	background-image: url('../images/admin/icon-16-trash.png');
 }
 
 /**
@@ -1637,33 +1661,37 @@ span.icon-16-locked {
 }
 
 label.icon-16-allow {
-	background:url(../images/admin/icon-16-allow.png) no-repeat;
+	background: url(../images/admin/icon-16-allow.png) no-repeat;
 }
 
 label.icon-16-deny {
-	background:url(../images/admin/icon-16-deny.png) no-repeat;
+	background: url(../images/admin/icon-16-deny.png) no-repeat;
 }
+
 a.icon-16-allow {
-	background:url(../images/admin/icon-16-allow.png) no-repeat ;
+	background: url(../images/admin/icon-16-allow.png) no-repeat;
 }
+
 a.icon-16-deny {
-	background:url(../images/admin/icon-16-deny.png) no-repeat ;
+	background: url(../images/admin/icon-16-deny.png) no-repeat;
 }
+
 a.icon-16-allowinactive {
-	background:url(../images/admin/icon-16-allowinactive.png) no-repeat ;
+	background: url(../images/admin/icon-16-allowinactive.png) no-repeat;
 }
+
 a.icon-16-denyinactive {
-	background:url(../images/admin/icon-16-denyinactive.png) no-repeat ;
+	background: url(../images/admin/icon-16-denyinactive.png) no-repeat;
 }
 
 /* ACL footer/legend */
 
 ul.acllegend li.acl-allowed {
-	background:url(../images/admin/icon-16-allow.png) no-repeat left;
+	background: url(../images/admin/icon-16-allow.png) no-repeat left;
 }
 
 ul.acllegend li.acl-denied {
-	background:url(../images/admin/icon-16-deny.png) no-repeat left;
+	background: url(../images/admin/icon-16-deny.png) no-repeat left;
 }
 
 li.acl-editgroups,
@@ -1681,11 +1709,11 @@ li.acl-editgroups:hover,
 li.acl-resetbtn:hover,
 li.acl-editgroups:focus,
 li.acl-resetbtn:focus {
-	background-color:#e3e4ca;
+	background-color: #e3e4ca;
 }
 
 /* ACL Config --------- */
-table#acl-config{
+table#acl-config {
 	border: 1px solid #c7c8b2;
 }
 
@@ -1717,8 +1745,8 @@ table#acl-config th.acl-groups {
 
 #permissions-sliders ul#rules,
 #permissions-sliders ul#rules ul {
-    border: solid 0 #c7c8b2;
-    background:#ffffff;
+	border: solid 0 #c7c8b2;
+	background: #ffffff;
 }
 
 ul#rules li .pane-sliders .panel h3.title {
@@ -1731,7 +1759,7 @@ ul#rules li .pane-sliders .panel h3.title {
 
 #permissions-sliders ul#rules li h3 {
 	background: #f9fade;
-	border: 1px solid #c7c8b2;
+	border: solid 1px #c7c8b2;
 }
 
 #permissions-sliders ul#rules li h3.pane-toggler-down a {
@@ -1743,40 +1771,40 @@ ul#rules li .pane-sliders .panel h3.title {
 }
 
 #permissions-sliders ul#rules table.group-rules {
-	border: 1px solid #c7c8b2;
+	border: solid 1px #c7c8b2;
 }
 
 #permissions-sliders ul#rules table.group-rules td {
-    border-right:solid 1px #c7c8b2;
-    border-bottom:solid 1px #c7c8b2;
+	border-right: solid 1px #c7c8b2;
+	border-bottom: solid 1px #c7c8b2;
 }
 
 #permissions-sliders ul#rules table.group-rules th {
-    background:#e3e4ca;
-    border-right:solid 1px #c7c8b2;
-    border-bottom:solid 1px #c7c8b2;
-    color:#2c2c2c;
+	background: #e3e4ca;
+	border-right: solid 1px #c7c8b2;
+	border-bottom: solid 1px #c7c8b2;
+	color: #2c2c2c;
 }
 
 ul#rules table.aclmodify-table {
-	border:solid 1px #c7c8b2;
+	border: solid 1px #c7c8b2;
 }
 
 ul#rules table.group-rules td label {
-	border:solid 0 #c7c8b2;
+	border: solid 0 #c7c8b2;
 }
 
 #permissions-sliders ul#rules .mypanel {
-	border:solid 0 #c7c8b2;
+	border: solid 0 #c7c8b2;
 }
 
 #permissions-sliders  ul#rules  table.group-rules td {
-   background: #ffffff;
+	background: #ffffff;
 }
 
 #permissions-sliders span.level {
-	color:#c7c8b2;
-	background-image:none;
+	color: #c7c8b2;
+	background-image: none;
 }
 
 /*
@@ -1784,17 +1812,17 @@ ul#rules table.group-rules td label {
  */
 .check-0,
 table.adminlist tbody td.check-0 {
-	background-color: #FFFFCF;
+	background-color: #ffffcf;
 }
 
 .check-a,
 table.adminlist tbody td.check-a {
-	background-color: #CFFFDA;
+	background-color: #cfffda;
 }
 
 .check-d,
 table.adminlist tbody td.check-d {
-	background-color: #FFCFCF;
+	background-color: #ffcfcf;
 }
 
 /**
@@ -1822,18 +1850,20 @@ table.adminlist tbody td.check-d {
  * with javascript by Bill Tomczak
  */
 
-	/* Note: set up the font-size on the id and used 100% on the elements.
+/* Note: set up the font-size on the id and used 100% on the elements.
 	If ul/li/a are different ems, then the shifting back via non-js keyboard
 	doesn't work properly */
 
 /**
  * Menu Styling
  */
-#menu { /* this is on the main ul */
+#menu {
+	/* this is on the main ul */
 	color: #2c2c2c;
 }
 
-#menu ul { /* all lists */
+#menu ul {
+	/* all lists */
 	background: #f9fade;
 	color: #2c2c2c;
 }
@@ -1853,26 +1883,31 @@ table.adminlist tbody td.check-d {
 	background-position: left 50%;
 }
 
-#menu li { /* all list items */
+#menu li {
+	/* all list items */
 	background: #f9fade;
 	border-right: 1px solid #c7c8b2;
 }
 
-#menu li a:hover, #menu li a:focus {
+#menu li a:hover,
+#menu li a:focus {
 	background-color: #e3e4ca;
 }
 
-#menu li.disabled a:hover, #menu li.disabled a:focus, #menu li.disabled a
-	{
+#menu li.disabled a:hover,
+#menu li.disabled a:focus,
+#menu li.disabled a {
 	color: #cccccc;
-	background-color: #f9fade;
+	background: #f9fade;
 }
 
-#menu li ul { /* second-level lists */
+#menu li ul {
+	/* second-level lists */
 	border: 1px solid #c7c8b2;
 }
 
-#menu li li { /* second-level row */
+#menu li li {
+	/* second-level row */
 	background: #f9fade;
 }
 
@@ -1880,33 +1915,36 @@ table.adminlist tbody td.check-d {
  * Styling parents
  */
 
- 	/* 1 level - sfhover */
+/* 1 level - sfhover */
 #menu li.sfhover a {
 	background-color: #e3e4ca;
 }
 
-	/* 2 level - normal */
+/* 2 level - normal */
 #menu li.sfhover li a {
 	background-color: #f9fade;
 }
 
-	/* 2 level - hover */
-#menu li.sfhover li.sfhover a,#menu li li a:focus {
+/* 2 level - hover */
+#menu li.sfhover li.sfhover a,
+#menu li li a:focus {
 	background-color: #e3e4ca;
 }
 
-	/* 3 level - normal */
+/* 3 level - normal */
 #menu li.sfhover li.sfhover li a {
 	background-color: #f9fade;
 }
 
-	/* 3 level - hover */
-#menu li.sfhover li.sfhover li.sfhover a,#menu li li li a:focus {
+/* 3 level - hover */
+#menu li.sfhover li.sfhover li.sfhover a,
+#menu li li li a:focus {
 	background-color: #e3e4ca;
 }
 
 /* bring back the focus elements into view */
-#menu li li a:focus, #menu li li li a:focus {
+#menu li li a:focus,
+#menu li li li a:focus {
 	background-color: #e3e4ca;
 }
 
@@ -1924,17 +1962,20 @@ table.adminlist tbody td.check-d {
 	background: #ffffff;
 }
 
-#submenu a, #submenu span.nolink {
+#submenu a,
+#submenu span.nolink {
 	background: #f9fade;
 	border: 1px solid #c7c8b2;
 	color: #054993;
 }
 
-#submenu a:hover, #submenu a:focus {
+#submenu a:hover,
+#submenu a:focus {
 	background-color: #e3e4ca;
 }
 
-#submenu a.active, #submenu span.nolink.active {
+#submenu a.active,
+#submenu span.nolink.active {
 	background: #fff;
 	border-bottom: 1px solid #fff;
 	color: #000;
@@ -1946,10 +1987,21 @@ div.CodeMirror-wrapping {
 }
 
 /* User Notes */
-ul.alternating > li:nth-child(odd) { background-color: #f9fade; }
-ul.alternating > li:nth-child(even) { background-color: #ffffff; }
-ol.alternating > li:nth-child(odd) { background-color: #f9fade; }
-ol.alternating > li:nth-child(even) { background-color: #ffffff; }
+ul.alternating > li:nth-child(odd) {
+	background-color: #f9fade;
+}
+
+ul.alternating > li:nth-child(even) {
+	background-color: #ffffff;
+}
+
+ol.alternating > li:nth-child(odd) {
+	background-color: #f9fade;
+}
+
+ol.alternating > li:nth-child(even) {
+	background-color: #ffffff;
+}
 
 /* Installer Database */
 #installer-database {
