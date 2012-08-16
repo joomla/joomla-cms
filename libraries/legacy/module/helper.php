@@ -153,6 +153,9 @@ abstract class JModuleHelper
 		$params = new JRegistry;
 		$params->loadString($module->params);
 
+		// Get the template
+		$template = $app->getTemplate();
+
 		// Get module path
 		$module->module = preg_replace('/[^A-Z0-9_\.-]/i', '', $module->module);
 		$path = JPATH_BASE . '/modules/' . $module->module . '/' . $module->module . '.php';
@@ -182,7 +185,7 @@ abstract class JModuleHelper
 		}
 
 		include_once JPATH_THEMES . '/system/html/modules.php';
-		$chromePath = JPATH_THEMES . '/' . $app->getTemplate() . '/html/modules.php';
+		$chromePath = JPATH_THEMES . '/' . $template . '/html/modules.php';
 
 		if (!isset($chrome[$chromePath]))
 		{
@@ -192,6 +195,13 @@ abstract class JModuleHelper
 			}
 
 			$chrome[$chromePath] = true;
+		}
+
+		// Check if the current module has a style param to override template module style
+		$paramsChromeStyle = $params->get('style');
+		if ($paramsChromeStyle)
+		{
+			$attribs['style'] = preg_replace('/^(system|' . $template . ')\-/i', '', $paramsChromeStyle);
 		}
 
 		// Make sure a style is set

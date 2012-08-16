@@ -74,8 +74,8 @@ abstract class JHtmlGrid
 	public static function sort($title, $order, $direction = 'asc', $selected = 0, $task = null, $new_direction = 'asc')
 	{
 		$direction = strtolower($direction);
-		$images = array('sort_asc.png', 'sort_desc.png');
-		$index = (int) ($direction == 'desc');
+		$icon = array('arrow-down', 'arrow-up');
+		$index = (int) $direction == 'desc';
 
 		if ($order != $selected)
 		{
@@ -92,7 +92,7 @@ abstract class JHtmlGrid
 
 		if ($order == $selected)
 		{
-			$html .= JHtml::_('image', 'system/' . $images[$index], '', null, true);
+			$html .= ' <i class="icon-'.$icon[$index].'"></i>';
 		}
 
 		$html .= '</a>';
@@ -253,8 +253,8 @@ abstract class JHtmlGrid
 	public static function order($rows, $image = 'filesave.png', $task = 'saveorder')
 	{
 		// $image = JHtml::_('image','admin/'.$image, JText::_('JLIB_HTML_SAVE_ORDER'), NULL, true);
-		$href = '<a href="javascript:saveorder(' . (count($rows) - 1) . ', \'' . $task . '\')" class="saveorder" title="'
-			. JText::_('JLIB_HTML_SAVE_ORDER') . '"></a>';
+		$href = '<a href="javascript:saveorder(' . (count($rows) - 1) . ', \'' . $task . '\')" rel="tooltip" class="saveorder btn btn-micro pull-right" title="'
+			. JText::_('JLIB_HTML_SAVE_ORDER') . '"><i class="icon-menu-2"></i></a>';
 
 		return $href;
 	}

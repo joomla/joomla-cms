@@ -56,23 +56,22 @@ class JDocumentRendererMessage extends JDocumentRenderer
 		// If messages exist render them
 		if (is_array($lists))
 		{
-			$buffer .= "\n<dl id=\"system-message\">";
+			$buffer .= "\n<div id=\"system-message\" class=\"alert alert-" . $msg['type'] . "\">";
+			$buffer .= "<a class=\"close\" data-dismiss=\"alert\">×</a>";
 			foreach ($lists as $type => $msgs)
 			{
 				if (count($msgs))
 				{
-					$buffer .= "\n<dt class=\"" . strtolower($type) . "\">" . JText::_($type) . "</dt>";
-					$buffer .= "\n<dd class=\"" . strtolower($type) . " message\">";
-					$buffer .= "\n\t<ul>";
+					$buffer .= "\n<h4 class=\"alert-heading\">" . JText::_($type) . "</h4>";
+					$buffer .= "\n<div>";
 					foreach ($msgs as $msg)
 					{
-						$buffer .= "\n\t\t<li>" . $msg . "</li>";
+						$buffer .= "\n\t\t<p>" . $msg . "</p>";
 					}
-					$buffer .= "\n\t</ul>";
-					$buffer .= "\n</dd>";
+					$buffer .= "\n</div>";
 				}
 			}
-			$buffer .= "\n</dl>";
+			$buffer .= "\n</div>";
 		}
 
 		$buffer .= "\n</div>";
