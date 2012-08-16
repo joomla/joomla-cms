@@ -21,7 +21,7 @@ abstract class ModulesHelper
 	/**
 	 * Configure the Linkbar.
 	 *
-	 * @param   string  The name of the active view.
+	 * @param   string  $vName  The name of the active view.
 	 */
 	public static function addSubmenu($vName)
 	{
@@ -133,7 +133,7 @@ abstract class ModulesHelper
 	 *
 	 * @return  array  List of templates
 	 */
-	public static function getTemplates($clientId = 0, $state = '', $template='')
+	public static function getTemplates($clientId = 0, $state = '', $template = '')
 	{
 		$db = JFactory::getDbo();
 
@@ -149,6 +149,7 @@ abstract class ModulesHelper
 		{
 			$query->where('enabled = ' . $db->quote($state));
 		}
+
 		if ($template != '')
 		{
 			$query->where('element = ' . $db->quote($template));
@@ -165,7 +166,7 @@ abstract class ModulesHelper
 	 *
 	 * @param   int  $clientId  The client id.
 	 *
-	 * @return  array
+	 * @return  array  Array of unique modules
 	 */
 	public static function getModules($clientId)
 	{

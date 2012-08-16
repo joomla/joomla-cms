@@ -806,13 +806,13 @@ class ModulesModelModule extends JModelAdmin
 		$module   = $this->getState('item.module');
 
 		$client   = JApplicationHelper::getClientInfo($clientId);
-		$formFile = JPath::clean($client->path.'/modules/'.$module.'/'.$module.'.xml');
+		$formFile = JPath::clean($client->path . '/modules/' . $module . '/' . $module . '.xml');
 
 		// Load the core and/or local language file(s).
 		$lang->load($module, $client->path, null, false, false)
-			||	$lang->load($module, $client->path.'/modules/'.$module, null, false, false)
+			||	$lang->load($module, $client->path . '/modules/' . $module, null, false, false)
 			||	$lang->load($module, $client->path, $lang->getDefault(), false, false)
-			||	$lang->load($module, $client->path.'/modules/'.$module, $lang->getDefault(), false, false);
+			||	$lang->load($module, $client->path . '/modules/' . $module, $lang->getDefault(), false, false);
 
 		if (file_exists($formFile))
 		{
@@ -936,7 +936,6 @@ class ModulesModelModule extends JModelAdmin
 		}
 
 		// Process the menu link mappings.
-
 		$assignment = isset($data['assignment']) ? $data['assignment'] : 0;
 
 		// Delete old module to menu item associations
@@ -978,10 +977,10 @@ class ModulesModelModule extends JModelAdmin
 			// and other menu items resulting in a module being displayed twice.
 			if ($assignment === 0)
 			{
-				// Assign new module to `all` menu item associations
+				// Assign new module to `all` menu item associations.
 				// $this->_db->setQuery(
-				//	'INSERT INTO #__modules_menu'.
-				//	' SET moduleid = ' . (int) $table->id . ', menuid = 0'
+				//  'INSERT INTO #__modules_menu'.
+				//  ' SET moduleid = ' . (int) $table->id . ', menuid = 0'
 				// );
 
 				$query->clear();
