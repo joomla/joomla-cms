@@ -9,8 +9,7 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.filesystem.file');
-jimport('joomla.filesystem.folder');
+jimport('joomla.filesystem.path');
 require_once JPATH_COMPONENT.'/helpers/menus.php';
 
 /**
@@ -238,11 +237,14 @@ class MenusModelItem extends JModelAdmin
 		$query->select('COUNT(id)');
 		$query->from($db->quoteName('#__menu'));
 		$db->setQuery($query);
-		$count = $db->loadResult();
 
-		if ($error = $db->getErrorMsg())
+		try
 		{
-			$this->setError($error);
+			$count = $db->loadResult();
+		}
+		catch (RuntimeException $e)
+		{
+			$this->setError($e->getMessage());
 			return false;
 		}
 
@@ -494,12 +496,14 @@ class MenusModelItem extends JModelAdmin
 			$query->set($db->quoteName('menutype') . ' = ' . $db->quote($menuType));
 			$query->where($db->quoteName('id') . ' IN (' . implode(',', $children) . ')');
 			$db->setQuery($query);
-			$db->execute();
 
-			// Check for a database error.
-			if ($db->getErrorNum())
+			try
 			{
-				$this->setError($db->getErrorMsg());
+				$db->execute();
+			}
+			catch (RuntimeException $e)
+			{
+				$this->setError($e->getMessage());
 				return false;
 			}
 		}
@@ -765,10 +769,14 @@ class MenusModelItem extends JModelAdmin
 		$query->order('a.position, a.ordering');
 
 		$db->setQuery($query);
-		$result = $db->loadObjectList();
 
-		if ($db->getErrorNum()) {
-			$this->setError($db->getErrorMsg());
+		try
+		{
+			$result = $db->loadObjectList();
+		}
+		catch (RuntimeException $e)
+		{
+			$this->setError($e->getMessage());
 			return false;
 		}
 
@@ -817,22 +825,24 @@ class MenusModelItem extends JModelAdmin
 		$app = JFactory::getApplication('administrator');
 
 		// Load the User state.
-		$pk = (int) JRequest::getInt('id');
+		$pk = $app->input->getInt('id');
 		$this->setState('item.id', $pk);
 
 		if (!($parentId = $app->getUserState('com_menus.edit.item.parent_id'))) {
-			$parentId = JRequest::getInt('parent_id');
+			$parentId = $app->input->getInt('parent_id');
 		}
 		$this->setState('item.parent_id', $parentId);
 
 		$menuType = $app->getUserState('com_menus.edit.item.menutype');
-		if (JRequest::getCmd('menutype', false)) {
-			$menuType = JRequest::getCmd('menutype', 'mainmenu');
+		if ($app->input->get('menutype', false))
+		{
+			$menuType = $app->input->get('menutype', 'mainmenu');
 		}
 		$this->setState('item.menutype', $menuType);
 
-		if (!($type = $app->getUserState('com_menus.edit.item.type'))){
-			$type = JRequest::getCmd('type');
+		if (!($type = $app->getUserState('com_menus.edit.item.type')))
+		{
+			$type = $app->input->get('type');
 			// Note a new menu item will have no field type.
 			// The field is required so the user has to change it.
 		}
@@ -898,7 +908,8 @@ class MenusModelItem extends JModelAdmin
 
 				// Check for the layout XML file. Use standard xml file if it exists.
 				$path = JPath::clean($base.'/views/'.$view.'/tmpl/'.$layout.'.xml');
-				if (JFile::exists($path)) {
+				if (is_file($path))
+				{
 					$formFile = $path;
 				}
 
@@ -908,7 +919,7 @@ class MenusModelItem extends JModelAdmin
 				{
 					$temp = explode(':', $layout);
 					$templatePath = JPATH::clean(JPATH_SITE.'/templates/'.$temp[0].'/html/'.$option.'/'.$view.'/'.$temp[1].'.xml');
-					if (JFile::exists($templatePath))
+					if (is_file($templatePath))
 					{
 						$formFile = $templatePath;
 					}
@@ -918,7 +929,7 @@ class MenusModelItem extends JModelAdmin
 			//Now check for a view manifest file
 			if (!$formFile)
 			{
-				if (isset($view) && JFile::exists($path = JPath::clean($base.'/views/'.$view.'/metadata.xml')))
+				if (isset($view) && is_file($path = JPath::clean($base.'/views/'.$view.'/metadata.xml')))
 				{
 					$formFile = $path;
 				}
@@ -926,7 +937,7 @@ class MenusModelItem extends JModelAdmin
 				{
 					//Now check for a component manifest file
 					$path = JPath::clean($base.'/metadata.xml');
-					if (JFile::exists($path))
+					if (is_file($path))
 					{
 						$formFile = $path;
 					}
@@ -967,10 +978,11 @@ class MenusModelItem extends JModelAdmin
 			$path = JPath::clean(JPATH_ADMINISTRATOR.'/components/'.$option.'/config.xml');
 		}
 		else {
-			$path='null';
+			$path = 'null';
 		}
 
-		if (JFile::exists($path)) {
+		if (is_file($path))
+		{
 			// Add the component params last of all to the existing form.
 			if (!$form->load($path, true, '/config')) {
 				throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
@@ -1051,9 +1063,13 @@ class MenusModelItem extends JModelAdmin
 			'  AND params <> '.$db->quote('')
 		);
 
-		$items = $db->loadObjectList();
-		if ($error = $db->getErrorMsg()) {
-			$this->setError($error);
+		try
+		{
+			$items = $db->loadObjectList();
+		}
+		catch (RuntimeException $e)
+		{
+			$this->setError($e->getMessage());
 			return false;
 		}
 
@@ -1121,7 +1137,7 @@ class MenusModelItem extends JModelAdmin
 					$table->setLocation($data['menuordering'], 'after');
 				}
 				// Just leave it where it is if no change is made.
-				elseif ( $data['menuordering'] && $table->id ==  $data['menuordering'])
+				elseif ($data['menuordering'] && $table->id == $data['menuordering'])
 				{
 					unset( $data['menuordering']);
 				}
@@ -1191,7 +1207,8 @@ class MenusModelItem extends JModelAdmin
 		if ($assoc) {
 			// Adding self to the association
 			$associations = $data['associations'];
-			foreach ($associations as $tag=>$id) {
+			foreach ($associations as $tag => $id)
+			{
 				if (empty($id)) {
 					unset($associations[$tag]);
 				}
@@ -1203,7 +1220,7 @@ class MenusModelItem extends JModelAdmin
 				JError::raiseNotice(403, JText::_('COM_MENUS_ERROR_ALL_LANGUAGE_ASSOCIATED'));
 			}
 
-			$associations[$table->language]=$table->id;
+			$associations[$table->language] = $table->id;
 
 			// Deleting old association for these items
 			$db = JFactory::getDbo();
@@ -1212,24 +1229,36 @@ class MenusModelItem extends JModelAdmin
 			$query->where('context='.$db->quote('com_menus.item'));
 			$query->where('id IN ('.implode(',', $associations).')');
 			$db->setQuery($query);
-			$db->execute();
-			if ($error = $db->getErrorMsg()) {
-				$this->setError($error);
+
+			try
+			{
+				$db->execute();
+			}
+			catch (RuntimeException $e)
+			{
+				$this->setError($e->getMessage());
 				return false;
 			}
 
-			if (!$all_language && count($associations)>1) {
+			if (!$all_language && count($associations) > 1)
+			{
 				// Adding new association for these items
 				$key = md5(json_encode($associations));
 				$query->clear();
 				$query->insert('#__associations');
-				foreach ($associations as $tag=>$id) {
+				foreach ($associations as $tag => $id)
+				{
 					$query->values($id.','.$db->quote('com_menus.item').','.$db->quote($key));
 				}
 				$db->setQuery($query);
-				$db->execute();
-				if ($error = $db->getErrorMsg()) {
-					$this->setError($error);
+
+				try
+				{
+					$db->execute();
+				}
+				catch (RuntimeException $e)
+				{
+					$this->setError($e->getMessage());
 					return false;
 				}
 			}
@@ -1286,7 +1315,7 @@ class MenusModelItem extends JModelAdmin
 	 * @return	boolean	True on success.
 	 * @since	1.6
 	 */
-	function setHome(&$pks, $value = 1)
+	public function setHome(&$pks, $value = 1)
 	{
 		// Initialise variables.
 		$table		= $this->getTable();
@@ -1356,7 +1385,7 @@ class MenusModelItem extends JModelAdmin
 	 * @return	boolean	True on success.
 	 * @since	1.6
 	 */
-	function publish(&$pks, $value = 1)
+	public function publish(&$pks, $value = 1)
 	{
 		// Initialise variables.
 		$table		= $this->getTable();

@@ -203,8 +203,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 			}
 
 			// Sweet!  Our class exists, so now we just need to know if it passes its test method.
-			// @deprecated 12.3 Stop checking with test()
-			if ($class::isSupported() || $class::test())
+			if ($class::isSupported())
 			{
 				// Connector names should not have file extensions.
 				$connectors[] = str_ireplace('.php', '', $fileName);
@@ -217,7 +216,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	/**
 	 * Method to return a JDatabaseDriver instance based on the given options.  There are three global options and then
 	 * the rest are specific to the database driver.  The 'driver' option defines which JDatabaseDriver class is
-	 * used for the connection -- the default is 'mysql'.  The 'database' option determines which database is to
+	 * used for the connection -- the default is 'mysqli'.  The 'database' option determines which database is to
 	 * be used for the connection.  The 'select' option determines whether the connector should automatically select
 	 * the chosen database.
 	 *
@@ -233,9 +232,9 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	public static function getInstance($options = array())
 	{
 		// Sanitize the database connector options.
-		$options['driver'] = (isset($options['driver'])) ? preg_replace('/[^A-Z0-9_\.-]/i', '', $options['driver']) : 'mysql';
+		$options['driver']   = (isset($options['driver'])) ? preg_replace('/[^A-Z0-9_\.-]/i', '', $options['driver']) : 'mysqli';
 		$options['database'] = (isset($options['database'])) ? $options['database'] : null;
-		$options['select'] = (isset($options['select'])) ? $options['select'] : true;
+		$options['select']   = (isset($options['select'])) ? $options['select'] : true;
 
 		// Get the options signature for the database connector.
 		$signature = md5(serialize($options));
@@ -1598,7 +1597,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @param   string   $table    The name of the database table to update.
 	 * @param   object   &$object  A reference to an object whose public properties match the table fields.
-	 * @param   string   $key      The name of the primary key.
+	 * @param   array    $key      The name of the primary key.
 	 * @param   boolean  $nulls    True to update null fields or false to ignore them.
 	 *
 	 * @return  boolean  True on success.
@@ -1610,7 +1609,17 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	{
 		// Initialise variables.
 		$fields = array();
-		$where = '';
+		$where = array();
+
+		if (is_string($key))
+		{
+			$key = array($key);
+		}
+
+		if (is_object($key))
+		{
+			$key = (array) $key;
+		}
 
 		// Create the base update statement.
 		$statement = 'UPDATE ' . $this->quoteName($table) . ' SET %s WHERE %s';
@@ -1625,9 +1634,9 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 			}
 
 			// Set the primary key to the WHERE clause instead of a field to update.
-			if ($k == $key)
+			if (in_array($k, $key))
 			{
-				$where = $this->quoteName($k) . '=' . $this->quote($v);
+				$where[] = $this->quoteName($k) . '=' . $this->quote($v);
 				continue;
 			}
 
@@ -1662,7 +1671,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 		}
 
 		// Set the query and execute the update.
-		$this->setQuery(sprintf($statement, implode(",", $fields), $where));
+		$this->setQuery(sprintf($statement, implode(",", $fields), implode(' AND ', $where)));
 		return $this->execute();
 	}
 

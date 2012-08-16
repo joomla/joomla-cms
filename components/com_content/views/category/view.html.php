@@ -19,17 +19,24 @@ defined('_JEXEC') or die;
 class ContentViewCategory extends JViewLegacy
 {
 	protected $state;
+
 	protected $items;
+
 	protected $category;
+
 	protected $children;
+
 	protected $pagination;
 
 	protected $lead_items = array();
+
 	protected $intro_items = array();
+
 	protected $link_items = array();
+
 	protected $columns = 1;
 
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		$app	= JFactory::getApplication();
 		$user	= JFactory::getUser();
@@ -157,14 +164,14 @@ class ContentViewCategory extends JViewLegacy
 		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
 
 		$this->maxLevel = $params->get('maxLevel', -1);
-		$this->assignRef('state', $state);
-		$this->assignRef('items', $items);
-		$this->assignRef('category', $category);
-		$this->assignRef('children', $children);
-		$this->assignRef('params', $params);
-		$this->assignRef('parent', $parent);
-		$this->assignRef('pagination', $pagination);
-		$this->assignRef('user', $user);
+		$this->state      = &$state;
+		$this->items      = &$items;
+		$this->category   = &$category;
+		$this->children   = &$children;
+		$this->params     = &$params;
+		$this->parent     = &$parent;
+		$this->pagination = &$pagination;
+		$this->user       = &$user;
 
 		$this->_prepareDocument();
 

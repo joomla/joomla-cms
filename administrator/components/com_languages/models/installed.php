@@ -72,7 +72,7 @@ class LanguagesModelInstalled extends JModelList
 		$app = JFactory::getApplication('administrator');
 
 		// Load the filter state.
-		$clientId = JRequest::getInt('client');
+		$clientId = $app->input->getInt('client');
 		$this->setState('filter.client_id', $clientId);
 
 		// Load the parameters.
@@ -247,7 +247,7 @@ class LanguagesModelInstalled extends JModelList
 		$query->where('state = 0');
 		$query->where('enabled = 1');
 
-		$query->where('client_id=' . intval($client));
+		$query->where('client_id=' . (int) $client);
 
 		// for client_id = 1 do we need to check language table also ?
 		$db->setQuery($query);

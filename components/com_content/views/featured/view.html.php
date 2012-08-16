@@ -19,13 +19,19 @@ defined('_JEXEC') or die;
 class ContentViewFeatured extends JViewLegacy
 {
 	protected $state = null;
+
 	protected $item = null;
+
 	protected $items = null;
+
 	protected $pagination = null;
 
 	protected $lead_items = array();
+
 	protected $intro_items = array();
+
 	protected $link_items = array();
+
 	protected $columns = 1;
 
 	/**
@@ -33,7 +39,7 @@ class ContentViewFeatured extends JViewLegacy
 	 *
 	 * @return	mixed	False on error, null otherwise.
 	 */
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		// Initialise variables.
 		$user = JFactory::getUser();
@@ -122,10 +128,10 @@ class ContentViewFeatured extends JViewLegacy
 		//Escape strings for HTML output
 		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
 
-		$this->assignRef('params', $params);
-		$this->assignRef('items', $items);
-		$this->assignRef('pagination', $pagination);
-		$this->assignRef('user', $user);
+		$this->params     = &$params;
+		$this->items      = &$items;
+		$this->pagination = &$pagination;
+		$this->user       = &$user;
 
 		$this->_prepareDocument();
 

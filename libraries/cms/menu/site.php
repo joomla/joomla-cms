@@ -41,9 +41,14 @@ class JMenuSite extends JMenu
 
 		// Set the query
 		$db->setQuery($query);
-		if (!($this->_items = $db->loadObjectList('id')))
+
+		try
 		{
-			JError::raiseWarning(500, JText::sprintf('JERROR_LOADING_MENUS', $db->getErrorMsg()));
+			$this->_items = $db->loadObjectList('id');
+		}
+		catch (RuntimeException $e)
+		{
+			JError::raiseWarning(500, JText::sprintf('JERROR_LOADING_MENUS', $e->getMessage()));
 			return false;
 		}
 

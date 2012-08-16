@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_media
+ * @since       1.5
  */
 abstract class MediaHelper
 {
@@ -118,7 +119,7 @@ abstract class MediaHelper
 			}
 		}
 
-		$xss_check =  JFile::read($file['tmp_name'], false, 256);
+		$xss_check = JFile::read($file['tmp_name'], false, 256);
 		$html_tags = array('abbr', 'acronym', 'address', 'applet', 'area', 'audioscope', 'base', 'basefont', 'bdo', 'bgsound', 'big', 'blackface', 'blink', 'blockquote', 'body', 'bq', 'br', 'button', 'caption', 'center', 'cite', 'code', 'col', 'colgroup', 'comment', 'custom', 'dd', 'del', 'dfn', 'dir', 'div', 'dl', 'dt', 'em', 'embed', 'fieldset', 'fn', 'font', 'form', 'frame', 'frameset', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'head', 'hr', 'html', 'iframe', 'ilayer', 'img', 'input', 'ins', 'isindex', 'keygen', 'kbd', 'label', 'layer', 'legend', 'li', 'limittext', 'link', 'listing', 'map', 'marquee', 'menu', 'meta', 'multicol', 'nobr', 'noembed', 'noframes', 'noscript', 'nosmartquotes', 'object', 'ol', 'optgroup', 'option', 'param', 'plaintext', 'pre', 'rt', 'ruby', 's', 'samp', 'script', 'select', 'server', 'shadow', 'sidebar', 'small', 'spacer', 'span', 'strike', 'strong', 'style', 'sub', 'sup', 'table', 'tbody', 'td', 'textarea', 'tfoot', 'th', 'thead', 'title', 'tr', 'tt', 'ul', 'var', 'wbr', 'xml', 'xmp', '!DOCTYPE', '!--');
 		foreach($html_tags as $tag) {
 			// A tag is '<tagname ', so we need to add < and a space or '<tagname>'
@@ -130,17 +131,20 @@ abstract class MediaHelper
 		return true;
 	}
 
+	/**
+	 * Method to parse a file size
+	 *
+	 * @param   integer  $size  The file size in bytes
+	 *
+	 * @return  string  The converted file size
+	 *
+	 * @since   1.6
+	 * @deprecated  4.0  Use JHtmlNumber::bytes() instead
+	 */
 	public static function parseSize($size)
 	{
-		if ($size < 1024) {
-			return JText::sprintf('COM_MEDIA_FILESIZE_BYTES', $size);
-		}
-		elseif ($size < 1024 * 1024) {
-			return JText::sprintf('COM_MEDIA_FILESIZE_KILOBYTES', sprintf('%01.2f', $size / 1024.0));
-		}
-		else {
-			return JText::sprintf('COM_MEDIA_FILESIZE_MEGABYTES', sprintf('%01.2f', $size / (1024.0 * 1024)));
-		}
+		JLog::add('MediaHelper::parseSize() is deprecated. Use JHtmlNumber::bytes() instead.', JLog::WARNING, 'deprecated');
+		return JHtml::_('number.bytes', $size);
 	}
 
 	public static function imageResize($width, $height, $target)

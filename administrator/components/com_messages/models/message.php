@@ -34,13 +34,15 @@ class MessagesModelMessage extends JModelAdmin
 	{
 		parent::populateState();
 
+		$input = JFactory::getApplication()->input;
+
 		$user = JFactory::getUser();
 		$this->setState('user.id', $user->get('id'));
 
-		$messageId = (int) JRequest::getInt('message_id');
+		$messageId = (int) $input->getInt('message_id');
 		$this->setState('message.id', $messageId);
 
-		$replyId = (int) JRequest::getInt('reply_id');
+		$replyId = (int) $input->getInt('reply_id');
 		$this->setState('reply.id', $replyId);
 	}
 
@@ -83,11 +85,14 @@ class MessagesModelMessage extends JModelAdmin
 						$query->select('subject, user_id_from');
 						$query->from('#__messages');
 						$query->where('message_id = '.(int) $replyId);
-						$message = $db->setQuery($query)->loadObject();
 
-						if ($error = $db->getErrorMsg())
+						try
 						{
-							$this->setError($error);
+							$message = $db->setQuery($query)->loadObject();
+						}
+						catch (RuntimeException $e)
+						{
+							$this->setError($e->getMessage());
 							return false;
 						}
 
@@ -180,7 +185,7 @@ class MessagesModelMessage extends JModelAdmin
 		if (empty($table->user_id_from)) {
 			$table->user_id_from = JFactory::getUser()->get('id');
 		}
-		if (intval($table->date_time) == 0) {
+		if ((int) $table->date_time == 0) {
 			$table->date_time = JFactory::getDate()->toSql();
 		}
 
@@ -219,11 +224,11 @@ class MessagesModelMessage extends JModelAdmin
 			$lang = JLanguage::getInstance($toUser->getParam('admin_language', $default_language), $debug);
 			$lang->load('com_messages', JPATH_ADMINISTRATOR);
 
-			$siteURL	= JURI::root() . 'administrator/index.php?option=com_messages&view=message&message_id='.$table->message_id;
-			$sitename	= JFactory::getApplication()->getCfg('sitename');
+			$siteURL  = JURI::root() . 'administrator/index.php?option=com_messages&view=message&message_id='.$table->message_id;
+			$sitename = JFactory::getApplication()->getCfg('sitename');
 
-			$subject	= sprintf ($lang->_('COM_MESSAGES_NEW_MESSAGE_ARRIVED'), $sitename);
-			$msg		= sprintf ($lang->_('COM_MESSAGES_PLEASE_LOGIN'), $siteURL);
+			$subject = sprintf($lang->_('COM_MESSAGES_NEW_MESSAGE_ARRIVED'), $sitename);
+			$msg     = sprintf($lang->_('COM_MESSAGES_PLEASE_LOGIN'), $siteURL);
 			JFactory::getMailer()->sendMail($fromUser->email, $fromUser->name, $toUser->email, $subject, $msg);
 		}
 

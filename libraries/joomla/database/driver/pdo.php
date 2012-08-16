@@ -296,7 +296,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 		}
 		catch (PDOException $e)
 		{
-			throw new RuntimeException('Could not connect to PDO' . ': ' . $e->getMessage(), 2);
+			throw new RuntimeException('Could not connect to PDO' . ': ' . $e->getMessage(), 2, $e);
 		}
 	}
 
@@ -534,7 +534,6 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 			// Reset this flag and throw an exception.
 			$checkingConnected = true;
 			die('Recursion trying to check if connected.');
-			throw new RuntimeException('Not connected to database.');
 		}
 
 		// Backup the query state.

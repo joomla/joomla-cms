@@ -31,7 +31,7 @@ defined('JPATH_PLATFORM') or die;
  * @method      string   getPath()      getPath($name, $default = null)
  * @method      string   getUsername()  getUsername($name, $default = null)
  */
-class JInput implements Serializable
+class JInput implements Serializable, Countable
 {
 	/**
 	 * Options array for the JInput instance.
@@ -128,6 +128,19 @@ class JInput implements Serializable
 		}
 
 		// TODO throw an exception
+	}
+
+	/**
+	 * Get the number of variables.
+	 *
+	 * @return  integer  The number of variables in the input.
+	 *
+	 * @since   12.2
+	 * @see     Countable::count()
+	 */
+	public function count()
+	{
+		return count($this->data);
 	}
 
 	/**

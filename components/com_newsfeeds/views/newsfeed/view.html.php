@@ -39,7 +39,7 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 	/**
 	 * @since	1.6
 	 */
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		// Initialise variables.
 		$app		= JFactory::getApplication();
@@ -47,19 +47,20 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 		$dispatcher	= JEventDispatcher::getInstance();
 
 		// Get view related request variables.
-		$print = JRequest::getBool('print');
+		$print = $app->input->getBool('print');
 
 		// Get model data.
 		$state = $this->get('State');
 		$item = $this->get('Item');
 
-		if ($item) {
-		// Get Category Model data
-		$categoryModel = JModelLegacy::getInstance('Category', 'NewsfeedsModel', array('ignore_request' => true));
-		$categoryModel->setState('category.id', $item->catid);
-		$categoryModel->setState('list.ordering', 'a.name');
-		$categoryModel->setState('list.direction', 'asc');
-		$items = $categoryModel->getItems();
+		if ($item)
+		{
+			// Get Category Model data
+			$categoryModel = JModelLegacy::getInstance('Category', 'NewsfeedsModel', array('ignore_request' => true));
+			$categoryModel->setState('category.id', $item->catid);
+			$categoryModel->setState('list.ordering', 'a.name');
+			$categoryModel->setState('list.direction', 'asc');
+			$items = $categoryModel->getItems();
 		}
 
 		// Check for errors.
@@ -191,12 +192,12 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 		//Escape strings for HTML output
 		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
 
-		$this->assignRef('params'  , $params  );
-		$this->assignRef('newsfeed', $newsfeed);
-		$this->assignRef('state', $state);
-		$this->assignRef('item', $item);
-		$this->assignRef('user', $user);
-		$this->print = $print;
+		$this->params    = &$params;
+		$this->newsfeed = &$newsfeed;
+		$this->state    = &$state;
+		$this->item     = &$item;
+		$this->user     = &$user;
+		$this->print    = $print;
 
 		$this->_prepareDocument();
 

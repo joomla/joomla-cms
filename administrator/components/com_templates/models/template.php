@@ -104,7 +104,7 @@ class TemplatesModelTemplate extends JModelLegacy
 		$app = JFactory::getApplication('administrator');
 
 		// Load the User state.
-		$pk = (int) JRequest::getInt('id');
+		$pk = $app->input->getInt('id');
 		$this->setState('extension.id', $pk);
 
 		// Load the parameters.
@@ -134,13 +134,19 @@ class TemplatesModelTemplate extends JModelLegacy
 				'  AND type = '.$db->quote('template')
 			);
 
-			$result = $db->loadObject();
+			try
+			{
+				$result = $db->loadObject();
+			}
+			catch (RuntimeException $e)
+			{
+				$this->setError($e->getMessage());
+				$this->template = false;
+				return false;
+			}
+
 			if (empty($result)) {
-				if ($error = $db->getErrorMsg()) {
-					$this->setError($error);
-				} else {
-					$this->setError(JText::_('COM_TEMPLATES_ERROR_EXTENSION_RECORD_NOT_FOUND'));
-				}
+				$this->setError(JText::_('COM_TEMPLATES_ERROR_EXTENSION_RECORD_NOT_FOUND'));
 				$this->template = false;
 			} else {
 				$this->template = $result;

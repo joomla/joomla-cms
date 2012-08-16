@@ -39,8 +39,9 @@ class ContactHelper
 			$vName == 'categories'
 		);
 
-		if ($vName=='categories') {
-			JToolBarHelper::title(
+		if ($vName == 'categories')
+		{
+			JToolbarHelper::title(
 				JText::sprintf('COM_CATEGORIES_CATEGORIES_TITLE', JText::_('com_contact')),
 				'contact-categories');
 		}

@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-include_once dirname(__FILE__).'/../default/view.php';
+include_once __DIR__ . '/../default/view.php';
 
 /**
  * Extension Manager Manage View
@@ -21,14 +21,17 @@ include_once dirname(__FILE__).'/../default/view.php';
 class InstallerViewManage extends InstallerViewDefault
 {
 	protected $items;
+
 	protected $pagination;
+
 	protected $form;
+
 	protected $state;
 
 	/**
 	 * @since	1.6
 	 */
-	function display($tpl=null)
+	public function display($tpl = null)
 	{
 		// Get data from the model
 		$this->state		= $this->get('State');
@@ -45,8 +48,8 @@ class InstallerViewManage extends InstallerViewDefault
 		//Check if there are no matching items
 		if(!count($this->items)){
 			JFactory::getApplication()->enqueueMessage(
-				JText::_('COM_INSTALLER_MSG_MANAGE_NOEXTENSION')
-				, 'warning'
+				JText::_('COM_INSTALLER_MSG_MANAGE_NOEXTENSION'),
+				'warning'
 			);
 		}
 
@@ -66,17 +69,17 @@ class InstallerViewManage extends InstallerViewDefault
 	{
 		$canDo	= InstallerHelper::getActions();
 		if ($canDo->get('core.edit.state')) {
-			JToolBarHelper::publish('manage.publish', 'JTOOLBAR_ENABLE', true);
-			JToolBarHelper::unpublish('manage.unpublish', 'JTOOLBAR_DISABLE', true);
-			JToolBarHelper::divider();
+			JToolbarHelper::publish('manage.publish', 'JTOOLBAR_ENABLE', true);
+			JToolbarHelper::unpublish('manage.unpublish', 'JTOOLBAR_DISABLE', true);
+			JToolbarHelper::divider();
 		}
-		JToolBarHelper::custom('manage.refresh', 'refresh', 'refresh', 'JTOOLBAR_REFRESH_CACHE', true);
-		JToolBarHelper::divider();
+		JToolbarHelper::custom('manage.refresh', 'refresh', 'refresh', 'JTOOLBAR_REFRESH_CACHE', true);
+		JToolbarHelper::divider();
 		if ($canDo->get('core.delete')) {
-			JToolBarHelper::deleteList('', 'manage.remove', 'JTOOLBAR_UNINSTALL');
-			JToolBarHelper::divider();
+			JToolbarHelper::deleteList('', 'manage.remove', 'JTOOLBAR_UNINSTALL');
+			JToolbarHelper::divider();
 		}
 		parent::addToolbar();
-		JToolBarHelper::help('JHELP_EXTENSIONS_EXTENSION_MANAGER_MANAGE');
+		JToolbarHelper::help('JHELP_EXTENSIONS_EXTENSION_MANAGER_MANAGE');
 	}
 }

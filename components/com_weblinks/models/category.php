@@ -124,8 +124,10 @@ class WeblinksModelCategory extends JModelList
 				$query->where('c.published = '.(int) $cpublished);
 			}
 		}
+
 		// Join over the users for the author and modified_by names.
 		$query->select("CASE WHEN a.created_by_alias > ' ' THEN a.created_by_alias ELSE ua.name END AS author");
+		$query->select("ua.email AS author_email");
 
 		$query->join('LEFT', '#__users AS ua ON ua.id = a.created_by');
 		$query->join('LEFT', '#__users AS uam ON uam.id = a.modified_by');
@@ -169,29 +171,29 @@ class WeblinksModelCategory extends JModelList
 	protected function populateState($ordering = null, $direction = null)
 	{
 		// Initialise variables.
-		$app	= JFactory::getApplication();
-		$params	= JComponentHelper::getParams('com_weblinks');
+		$app    = JFactory::getApplication();
+		$params = JComponentHelper::getParams('com_weblinks');
 
 		// List state information
 		$limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'), 'uint');
 		$this->setState('list.limit', $limit);
 
-		$limitstart = JRequest::getUInt('limitstart', 0);
+		$limitstart = $app->input->get('limitstart', 0, 'uint');
 		$this->setState('list.start', $limitstart);
 
-		$orderCol	= JRequest::getCmd('filter_order', 'ordering');
+		$orderCol = $app->input->get('filter_order', 'ordering');
 		if (!in_array($orderCol, $this->filter_fields)) {
 			$orderCol = 'ordering';
 		}
 		$this->setState('list.ordering', $orderCol);
 
-		$listOrder	=  JRequest::getCmd('filter_order_Dir', 'ASC');
+		$listOrder = $app->input->get('filter_order_Dir', 'ASC');
 		if (!in_array(strtoupper($listOrder), array('ASC', 'DESC', ''))) {
 			$listOrder = 'ASC';
 		}
 		$this->setState('list.direction', $listOrder);
 
-		$id = JRequest::getVar('id', 0, '', 'int');
+		$id = $app->input->get('id', 0, 'int');
 		$this->setState('category.id', $id);
 
 		$user = JFactory::getUser();
@@ -255,7 +257,7 @@ class WeblinksModelCategory extends JModelList
 	}
 
 	/**
-	 * Get the parent categorie.
+	 * Get the parent category
 	 *
 	 * @param	int		An optional category id. If not supplied, the model state 'category.id' will be used.
 	 *

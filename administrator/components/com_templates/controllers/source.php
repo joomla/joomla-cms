@@ -29,7 +29,7 @@ class TemplatesControllerSource extends JControllerLegacy
 		parent::__construct($config);
 
 		// Apply, Save & New, and Save As copy should be standard on forms.
-		$this->registerTask('apply',		'save');
+		$this->registerTask('apply', 'save');
 	}
 
 	/**
@@ -137,8 +137,8 @@ class TemplatesControllerSource extends JControllerLegacy
 		$returnId	= (int) $model->getState('extension.id');
 
 		// Clean the session data and redirect.
-		$app->setUserState($context.'.id',		null);
-		$app->setUserState($context.'.data',	null);
+		$app->setUserState($context . '.id', null);
+		$app->setUserState($context . '.data', null);
 		$this->setRedirect(JRoute::_('index.php?option=com_templates&view=template&id='.$returnId, false));
 	}
 

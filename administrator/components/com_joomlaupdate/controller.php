@@ -33,14 +33,14 @@ class JoomlaupdateController extends JControllerLegacy
 		$document = JFactory::getDocument();
 
 		// Set the default view name and format from the Request.
-		$vName		= JRequest::getCmd('view', 'default');
-		$vFormat	= $document->getType();
-		$lName		= JRequest::getCmd('layout', 'default');
+		$vName   = $this->input->get('view', 'default');
+		$vFormat = $document->getType();
+		$lName   = $this->input->get('layout', 'default');
 
 		// Get and render the view.
 		if ($view = $this->getView($vName, $vFormat)) {
-			$ftp	= JClientHelper::setCredentialsFromRequest('ftp');
-			$view->assignRef('ftp', $ftp);
+			$ftp = JClientHelper::setCredentialsFromRequest('ftp');
+			$view->ftp = &$ftp;
 
 			// Get the model for the view.
 			$model = $this->getModel($vName);
@@ -54,7 +54,7 @@ class JoomlaupdateController extends JControllerLegacy
 			$view->setLayout($lName);
 
 			// Push document object into the view.
-			$view->assignRef('document', $document);
+			$view->document = $document;
 			$view->display();
 		}
 

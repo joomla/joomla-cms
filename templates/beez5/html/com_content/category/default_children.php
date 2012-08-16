@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 $app = JFactory::getApplication();
-$templateparams =$app->getTemplate(true)->params;
+$templateparams = $app->getTemplate(true)->params;
 
 if ($templateparams->get('html5') != 1) :
 	require JPATH_BASE.'/components/com_content/views/category/tmpl/default_children.php';
@@ -37,13 +37,13 @@ $class = ' class="first"';
 					<?php echo $this->escape($child->title); ?></a>
 				</span>
 				<?php if ($this->params->get('show_subcat_desc') == 1) :?>
-				<?php if ($child->description and $this->params->get('show_description')!=0 ) : ?>
+				<?php if ($child->description and $this->params->get('show_description') != 0 ) : ?>
 					<div class="category-desc">
 						<?php echo JHtml::_('content.prepare', $child->description, '', 'com_content.category'); ?>
 					</div>
 				<?php endif; ?>
 				<?php endif; ?>
-				<?php if ($child->getNumItems()==true) : ?>
+				<?php if ($child->getNumItems() == true) : ?>
 				<dl>
 					<dt>
 						<?php echo JText::_('COM_CONTENT_NUM_ITEMS'); ?>

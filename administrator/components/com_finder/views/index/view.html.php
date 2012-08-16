@@ -67,36 +67,36 @@ class FinderViewIndex extends JViewLegacy
 	{
 		$canDo	= FinderHelper::getActions();
 
-		JToolBarHelper::title(JText::_('COM_FINDER_INDEX_TOOLBAR_TITLE'), 'finder');
-		$toolbar = JToolBar::getInstance('toolbar');
+		JToolbarHelper::title(JText::_('COM_FINDER_INDEX_TOOLBAR_TITLE'), 'finder');
+		$toolbar = JToolbar::getInstance('toolbar');
 
 		$toolbar->appendButton('Popup', 'archive', 'COM_FINDER_INDEX', 'index.php?option=com_finder&view=indexer&tmpl=component', 500, 210);
-		JToolBarHelper::divider();
+		JToolbarHelper::divider();
 
 		if ($canDo->get('core.edit.state'))
 		{
-			JToolBarHelper::publishList('index.publish');
-			JToolBarHelper::unpublishList('index.unpublish');
-			JToolBarHelper::divider();
+			JToolbarHelper::publishList('index.publish');
+			JToolbarHelper::unpublishList('index.unpublish');
+			JToolbarHelper::divider();
 		}
 		if ($canDo->get('core.delete'))
 		{
-			JToolBarHelper::deleteList('', 'index.delete');
-			JToolBarHelper::divider();
+			JToolbarHelper::deleteList('', 'index.delete');
+			JToolbarHelper::divider();
 		}
 		if ($canDo->get('core.edit.state'))
 		{
-			JToolBarHelper::trash('index.purge', 'COM_FINDER_INDEX_TOOLBAR_PURGE', false);
-			JToolBarHelper::divider();
+			JToolbarHelper::trash('index.purge', 'COM_FINDER_INDEX_TOOLBAR_PURGE', false);
+			JToolbarHelper::divider();
 		}
 
 		if ($canDo->get('core.admin'))
 		{
-			JToolBarHelper::preferences('com_finder');
+			JToolbarHelper::preferences('com_finder');
 		}
-		JToolBarHelper::divider();
-		$toolbar->appendButton('Popup', 'stats', 'COM_FINDER_STATISTICS', 'index.php?option=com_finder&view=statistics&tmpl=component', 550, 500);
-		JToolBarHelper::divider();
-		JToolBarHelper::help('JHELP_COMPONENTS_FINDER_MANAGE_INDEXED_CONTENT');
+		JToolbarHelper::divider();
+		$toolbar->appendButton('Popup', 'stats', 'COM_FINDER_STATISTICS', 'index.php?option=com_finder&view=statistics&tmpl=component', 550, 350);
+		JToolbarHelper::divider();
+		JToolbarHelper::help('JHELP_COMPONENTS_FINDER_MANAGE_INDEXED_CONTENT');
 	}
 }

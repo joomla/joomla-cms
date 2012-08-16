@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 $params = JFactory::getApplication()->getTemplate(true)->params;
-$logo =  $params->get('logo');
+$logo = $params->get('logo');
 $showRightColumn = 0;
 $showleft = 0;
 $showbottom = 0;
@@ -34,7 +34,7 @@ $this->direction = $doc->direction;
 <meta name="language" content="<?php echo $this->language; ?>" />
 
 	<title><?php echo $this->error->getCode(); ?> - <?php echo $this->title; ?></title>
-<?php if ($this->error->getCode()>=400 && $this->error->getCode() < 500) { 	?>
+<?php if ($this->error->getCode() >= 400 && $this->error->getCode() < 500) { 	?>
 
 
 		<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/system/css/system.css" type="text/css" />
@@ -96,7 +96,7 @@ $this->direction = $doc->direction;
 					<div class="logoheader">
 						<?php
 								$params = JFactory::getApplication()->getTemplate(true)->params;
-								$logo =  $params->get('logo');
+								$logo = $params->get('logo');
 							?>
 
 						 <h1 id="logo">
@@ -129,8 +129,8 @@ $this->direction = $doc->direction;
 							<div class="left1" id="nav">
 
 				<h2 class="unseen"><?php echo JText::_('TPL_BEEZ2_NAVIGATION'); ?></h2>
-											<?php $module = JModuleHelper::getModule( 'menu' );
-											echo JModuleHelper::renderModule( $module);	?>
+											<?php $module = JModuleHelper::getModule('menu');
+											echo JModuleHelper::renderModule($module);	?>
 
 							</div>
 
@@ -139,12 +139,12 @@ $this->direction = $doc->direction;
 			<div id="errorboxbody">
 						<h2><?php echo JText::_('JERROR_AN_ERROR_HAS_OCCURRED'); ?><br />
 								<?php echo JText::_('JERROR_LAYOUT_PAGE_NOT_FOUND'); ?></h2>
-								<?php if (JModuleHelper::getModule( 'search' )) : ?>
+								<?php if (JModuleHelper::getModule('search')) : ?>
 									<div id="searchbox">
 									<h3 class="unseen"><?php echo JText::_('TPL_BEEZ2_SEARCH'); ?></h3>
 									<p><?php echo JText::_('JERROR_LAYOUT_SEARCH'); ?></p>
-									<?php $module = JModuleHelper::getModule( 'search' );
-									echo JModuleHelper::renderModule( $module);	?>
+									<?php $module = JModuleHelper::getModule('search');
+									echo JModuleHelper::renderModule($module);	?>
 									</div>
 								<?php endif; ?>
 								<div>

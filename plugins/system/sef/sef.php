@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
  *
  * @package     Joomla.Plugin
  * @subpackage  System.sef
+ * @since       1.5
  */
 class plgSystemSef extends JPlugin
 {
@@ -23,7 +24,7 @@ class plgSystemSef extends JPlugin
 	{
 		$app = JFactory::getApplication();
 
-		if ($app->getName() != 'site' || $app->getCfg('sef')=='0') {
+		if ($app->getName() != 'site' || $app->getCfg('sef') == '0') {
 			return true;
 		}
 

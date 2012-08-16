@@ -9,9 +9,6 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.filesystem.file');
-jimport('joomla.filesystem.folder');
-
 /**
  * The HTML Menus Menu Items View.
  *
@@ -22,8 +19,11 @@ jimport('joomla.filesystem.folder');
 class MenusViewItems extends JViewLegacy
 {
 	protected $f_levels;
+
 	protected $items;
+
 	protected $pagination;
+
 	protected $state;
 
 	/**
@@ -78,7 +78,7 @@ class MenusViewItems extends JViewLegacy
 						if (isset($vars['view'])) {
 							// Attempt to load the view xml file.
 							$file = JPATH_SITE.'/components/'.$item->componentname.'/views/'.$vars['view'].'/metadata.xml';
-							if (JFile::exists($file) && $xml = simplexml_load_file($file)) {
+							if (is_file($file) && $xml = simplexml_load_file($file)) {
 								// Look for the first view node off of the root node.
 								if ($view = $xml->xpath('view[1]')) {
 									if (!empty($view[0]['title'])) {
@@ -103,7 +103,7 @@ class MenusViewItems extends JViewLegacy
 											// Get XML file from component folder for standard layouts
 											$file = JPATH_SITE.'/components/'.$item->componentname.'/views/'.$vars['view'].'/tmpl/'.$vars['layout'].'.xml';
 										}
-										if (JFile::exists($file) && $xml = simplexml_load_file($file)) {
+										if (is_file($file) && $xml = simplexml_load_file($file)) {
 											// Look for the first view node off of the root node.
 											if ($layout = $xml->xpath('layout[1]')) {
 												if (!empty($layout[0]['title'])) {
@@ -167,39 +167,71 @@ class MenusViewItems extends JViewLegacy
 
 		$canDo	= MenusHelper::getActions($this->state->get('filter.parent_id'));
 
-		JToolBarHelper::title(JText::_('COM_MENUS_VIEW_ITEMS_TITLE'), 'menumgr.png');
+		// Get the toolbar object instance
+		$bar = JToolBar::getInstance('toolbar');
+
+		JToolbarHelper::title(JText::_('COM_MENUS_VIEW_ITEMS_TITLE'), 'menumgr.png');
 
 		if ($canDo->get('core.create')) {
-			JToolBarHelper::addNew('item.add');
+			JToolbarHelper::addNew('item.add');
 		}
+
 		if ($canDo->get('core.edit')) {
-			JToolBarHelper::editList('item.edit');
+			JToolbarHelper::editList('item.edit');
 		}
 		if ($canDo->get('core.edit.state')) {
-			JToolBarHelper::divider();
-			JToolBarHelper::publish('items.publish', 'JTOOLBAR_PUBLISH', true);
-			JToolBarHelper::unpublish('items.unpublish', 'JTOOLBAR_UNPUBLISH', true);
+			JToolbarHelper::publish('items.publish', 'JTOOLBAR_PUBLISH', true);
+			JToolbarHelper::unpublish('items.unpublish', 'JTOOLBAR_UNPUBLISH', true);
 		}
 		if (JFactory::getUser()->authorise('core.admin')) {
-			JToolBarHelper::divider();
-			JToolBarHelper::checkin('items.checkin', 'JTOOLBAR_CHECKIN', true);
+			JToolbarHelper::checkin('items.checkin', 'JTOOLBAR_CHECKIN', true);
 		}
 
 		if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete')) {
-			JToolBarHelper::deleteList('', 'items.delete', 'JTOOLBAR_EMPTY_TRASH');
+			JToolbarHelper::deleteList('', 'items.delete', 'JTOOLBAR_EMPTY_TRASH');
 		}
 		elseif ($canDo->get('core.edit.state')) {
-			JToolBarHelper::trash('items.trash');
+			JToolbarHelper::trash('items.trash');
 		}
 
 		if ($canDo->get('core.edit.state')) {
-			JToolBarHelper::makeDefault('items.setDefault', 'COM_MENUS_TOOLBAR_SET_HOME');
-			JToolBarHelper::divider();
+			JToolbarHelper::makeDefault('items.setDefault', 'COM_MENUS_TOOLBAR_SET_HOME');
 		}
 		if (JFactory::getUser()->authorise('core.admin')) {
-			JToolBarHelper::custom('items.rebuild', 'refresh.png', 'refresh_f2.png', 'JToolbar_Rebuild', false);
-			JToolBarHelper::divider();
+			JToolbarHelper::custom('items.rebuild', 'refresh.png', 'refresh_f2.png', 'JToolbar_Rebuild', false);
 		}
-		JToolBarHelper::help('JHELP_MENUS_MENU_ITEM_MANAGER');
+
+		// Add a batch button
+		if ($canDo->get('core.edit'))
+		{
+			$title = JText::_('JTOOLBAR_BATCH');
+			$dhtml = "<button data-toggle=\"modal\" data-target=\"#collapseModal\" class=\"btn\">
+						<i class=\"icon-checkbox-partial\" title=\"$title\"></i>
+						$title</button>";
+			$bar->appendButton('Custom', $dhtml, 'batch');
+		}
+
+		JToolbarHelper::help('JHELP_MENUS_MENU_ITEM_MANAGER');
+	}
+
+	/**
+	 * Returns an array of fields the table can be sorted by
+	 *
+	 * @return  array  Array containing the field name to sort by as the key and display text as value
+	 *
+	 * @since   3.0
+	 */
+	protected function getSortFields()
+	{
+		return array(
+			'a.lft' => JText::_('JGRID_HEADING_ORDERING'),
+			'a.published' => JText::_('JSTATUS'),
+			'a.title' => JText::_('JGLOBAL_TITLE'),
+			'a.home' => JText::_('COM_MENUS_HEADING_HOME'),
+			'a.access' => JText::_('JGRID_HEADING_ACCESS'),
+			'association' => JText::_('COM_MENUS_HEADING_ASSOCIATION'),
+			'language' => JText::_('JGRID_HEADING_LANGUAGE'),
+			'a.id' => JText::_('JGRID_HEADING_ID')
+		);
 	}
 }

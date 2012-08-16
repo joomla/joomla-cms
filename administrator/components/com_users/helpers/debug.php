@@ -24,7 +24,7 @@ class UsersHelperDebug
 	 * @return	array
 	 * @since	1.6
 	 */
-	static function getComponents()
+	public static function getComponents()
 	{
 		// Initialise variable.
 		$db		= JFactory::getDbo();
@@ -133,7 +133,7 @@ class UsersHelperDebug
 	 *
 	 * @return	array	An array of JHtmlOption elements.
 	 */
-	static function getLevelsOptions()
+	public static function getLevelsOptions()
 	{
 		// Build the filter options.
 		$options	= array();

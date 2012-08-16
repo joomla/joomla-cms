@@ -21,7 +21,7 @@ class ConfigViewClose extends JViewLegacy
 	/**
 	 * Display the view
 	 */
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		// close a modal window
 		JFactory::getDocument()->addScriptDeclaration('

@@ -406,7 +406,7 @@ class ContactModelContact extends JModelAdmin
 			// Prime some default values.
 			if ($this->getState('contact.id') == 0) {
 				$app = JFactory::getApplication();
-				$data->set('catid', JRequest::getInt('catid', $app->getUserState('com_contact.contacts.filter.category_id')));
+				$data->set('catid', $app->input->get('catid', $app->getUserState('com_contact.contacts.filter.category_id'), 'int'));
 			}
 		}
 
@@ -443,7 +443,7 @@ class ContactModelContact extends JModelAdmin
 				$db->setQuery('SELECT MAX(ordering) FROM #__contact_details');
 				$max = $db->loadResult();
 
-				$table->ordering = $max+1;
+				$table->ordering = $max + 1;
 			}
 		}
 		else {
@@ -500,10 +500,7 @@ class ContactModelContact extends JModelAdmin
 				' SET featured = '.(int) $value.
 				' WHERE id IN ('.implode(',', $pks).')'
 			);
-			if (!$db->execute()) {
-				throw new Exception($db->getErrorMsg());
-			}
-
+			$db->execute();
 		}
 		catch (Exception $e)
 		{

@@ -51,7 +51,7 @@ class LanguagesViewOverrides extends JViewLegacy
 	 *
 	 * @since		2.5
 	 */
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		// Get data from the model
 		$this->state			= $this->get('State');
@@ -63,8 +63,6 @@ class LanguagesViewOverrides extends JViewLegacy
 		if (count($errors = $this->get('Errors')))
 		{
 			throw new Exception(implode("\n", $errors));
-
-			return;
 		}
 
 		$this->addToolbar();
@@ -83,7 +81,7 @@ class LanguagesViewOverrides extends JViewLegacy
 		// Get the results for each action
 		$canDo = LanguagesHelper::getActions();
 
-		JToolBarHelper::title(JText::_('COM_LANGUAGES_VIEW_OVERRIDES_TITLE'), 'langmanager');
+		JToolbarHelper::title(JText::_('COM_LANGUAGES_VIEW_OVERRIDES_TITLE'), 'langmanager');
 
 		if ($canDo->get('core.create'))
 		{
@@ -102,9 +100,9 @@ class LanguagesViewOverrides extends JViewLegacy
 
 		if ($canDo->get('core.admin'))
 		{
-			JToolBarHelper::preferences('com_languages');
+			JToolbarHelper::preferences('com_languages');
 		}
-		JToolBarHelper::divider();
-		JToolBarHelper::help('JHELP_EXTENSIONS_LANGUAGE_MANAGER_OVERRIDES');
+		JToolbarHelper::divider();
+		JToolbarHelper::help('JHELP_EXTENSIONS_LANGUAGE_MANAGER_OVERRIDES');
 	}
 }

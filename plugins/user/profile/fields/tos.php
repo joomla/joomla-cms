@@ -61,7 +61,7 @@ class JFormFieldTos extends JFormFieldRadio
 
 		// Build the class for the label.
 		$class = !empty($this->description) ? 'hasTip' : '';
-		$class =$class . ' required';
+		$class = $class . ' required';
 		$class = !empty($this->labelClass) ? $class . ' ' . $this->labelClass : $class;
 
 		// Add the opening label tag and main attributes attributes.

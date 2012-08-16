@@ -11,17 +11,9 @@ defined('_JEXEC') or die;
 $app	= JFactory::getApplication();
 $style = $app->getUserStateFromRequest('media.list.layout', 'layout', 'thumbs', 'word');
 ?>
-<div id="submenu-box">
-	<div class="submenu-box">
-		<div class="submenu-pad">
-			<ul id="submenu" class="media">
-				<li><a href="#" id="thumbs" onclick="MediaManager.setViewType('thumbs')" class="<?php echo ($style == "thumbs") ? 'active' : '';?>">
-				<?php echo JText::_('COM_MEDIA_THUMBNAIL_VIEW'); ?></a></li>
-				<li><a href="#" id="details" onclick="MediaManager.setViewType('details')" class="<?php echo ($style == "details") ? 'active' : '';?>">
-				<?php echo JText::_('COM_MEDIA_DETAIL_VIEW'); ?></a></li>
-			</ul>
-			<div class="clr"></div>
-		</div>
-	</div>
-	<div class="clr"></div>
+<div class="media btn-group">
+	<a href="#" id="thumbs" onclick="MediaManager.setViewType('thumbs')" class="btn <?php echo ($style == "thumbs") ? 'active' : '';?>">
+	<i class="icon-grid-view-2"></i> <?php echo JText::_('COM_MEDIA_THUMBNAIL_VIEW'); ?></a>
+	<a href="#" id="details" onclick="MediaManager.setViewType('details')" class="btn <?php echo ($style == "details") ? 'active' : '';?>">
+	<i class="icon-list-view"></i> <?php echo JText::_('COM_MEDIA_DETAIL_VIEW'); ?></a>
 </div>

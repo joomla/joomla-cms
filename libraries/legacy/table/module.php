@@ -50,7 +50,7 @@ class JTableModule extends JTable
 		}
 
 		// Check the publish down date is not earlier than publish up.
-		if (intval($this->publish_down) > 0 && $this->publish_down < $this->publish_up)
+		if ((int) $this->publish_down > 0 && $this->publish_down < $this->publish_up)
 		{
 			// Swap the dates.
 			$temp = $this->publish_up;

@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 $app = JFactory::getApplication();
-$templateparams =$app->getTemplate(true)->params;
+$templateparams = $app->getTemplate(true)->params;
 
 if (!$templateparams->get('html5', 0))
 {
@@ -59,7 +59,7 @@ $pageClass = $this->params->get('pageclass_sfx');
 <?php endif; ?>
 
 
-<?php if (is_array($this->children[$this->category->id]) && count($this->children[$this->category->id]) > 0 && $this->params->get('maxLevel') !=0) : ?>
+<?php if (is_array($this->children[$this->category->id]) && count($this->children[$this->category->id]) > 0 && $this->params->get('maxLevel') != 0) : ?>
 		<div class="cat-children">
 
 	<?php if ($this->params->get('show_category_title') or $this->params->get('page_subheading'))

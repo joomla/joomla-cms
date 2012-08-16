@@ -587,15 +587,17 @@ class JDatabaseImporterMysql extends JDatabaseImporter
 					foreach ($queries as $query)
 					{
 						$this->db->setQuery((string) $query);
-						if (!$this->db->execute())
+
+						try
+						{
+							$this->db->execute();
+						}
+						catch (RuntimeException $e)
 						{
 							$this->addLog('Fail: ' . $this->db->getQuery());
-							throw new Exception($this->db->getErrorMsg());
+							throw $e;
 						}
-						else
-						{
-							$this->addLog('Pass: ' . $this->db->getQuery());
-						}
+						$this->addLog('Pass: ' . $this->db->getQuery());
 					}
 
 				}
@@ -606,15 +608,17 @@ class JDatabaseImporterMysql extends JDatabaseImporter
 				$sql = $this->xmlToCreate($table);
 
 				$this->db->setQuery((string) $sql);
-				if (!$this->db->execute())
+
+				try
+				{
+					$this->db->execute();
+				}
+				catch (RuntimeException $e)
 				{
 					$this->addLog('Fail: ' . $this->db->getQuery());
-					throw new Exception($this->db->getErrorMsg());
+					throw $e;
 				}
-				else
-				{
-					$this->addLog('Pass: ' . $this->db->getQuery());
-				}
+				$this->addLog('Pass: ' . $this->db->getQuery());
 			}
 		}
 	}

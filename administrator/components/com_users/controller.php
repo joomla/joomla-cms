@@ -58,11 +58,11 @@ class UsersController extends JControllerLegacy
 	public function display($cachable = false, $urlparams = false)
 	{
 		// Load the submenu.
-		UsersHelper::addSubmenu(JRequest::getCmd('view', 'users'));
+		UsersHelper::addSubmenu($this->input->get('view', 'users'));
 
-		$view		= JRequest::getCmd('view', 'users');
-		$layout 	= JRequest::getCmd('layout', 'default');
-		$id			= JRequest::getInt('id');
+		$view   = $this->input->get('view', 'users');
+		$layout = $this->input->get('layout', 'default');
+		$id     = $this->input->getInt('id');
 
 		if (!$this->canView($view)) {
 			JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));

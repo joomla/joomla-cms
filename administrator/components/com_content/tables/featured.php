@@ -18,7 +18,7 @@ class ContentTableFeatured extends JTable
 	/**
 	 * @param   JDatabaseDriver  A database connector object
 	 */
-	function __construct(&$db)
+	public function __construct(&$db)
 	{
 		parent::__construct('#__content_frontpage', 'content_id', $db);
 	}

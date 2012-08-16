@@ -10,6 +10,8 @@
 defined('_JEXEC') or die;
 
 /**
+ * Helper for mod_submenu
+ *
  * @package     Joomla.Administrator
  * @subpackage  mod_submenu
  * @since       1.6
@@ -24,7 +26,7 @@ abstract class modSubmenuHelper
 	public static function getItems()
 	{
 		// Initialise variables.
-		$menu = JToolBar::getInstance('submenu');
+		$menu = JToolbar::getInstance('submenu');
 
 		$list = $menu->getItems();
 

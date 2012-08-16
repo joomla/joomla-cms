@@ -64,7 +64,8 @@ class InstallerModel extends JModelList
 			$lang = JFactory::getLanguage();
 			$this->translate($result);
 			if (!empty($search)) {
-				foreach($result as $i=>$item) {
+				foreach ($result as $i => $item)
+				{
 					if (!preg_match("/$search/i", $item->name)) {
 						unset($result[$i]);
 					}

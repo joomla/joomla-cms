@@ -9,8 +9,7 @@
 
 defined('_JEXEC') or die;
 
-// Import library dependencies
-require_once dirname(__FILE__) . '/extension.php';
+require_once __DIR__ . '/extension.php';
 
 /**
  * Installer Manage Model
@@ -61,7 +60,7 @@ class InstallerModelManage extends InstallerModel
 			$filters = $data['filters'];
 		}
 		else {
-			$app->setUserState($this->context.'.data', array('filters'=>$filters));
+			$app->setUserState($this->context . '.data', array('filters' => $filters));
 		}
 
 		$this->setState('message', $app->getUserState('com_installer.message'));
@@ -69,7 +68,8 @@ class InstallerModelManage extends InstallerModel
 		$app->setUserState('com_installer.message', '');
 		$app->setUserState('com_installer.extension_message', '');
 
-		$this->setState('filter.search', isset($filters['search']) ? $filters['search'] : '');
+		$search = $this->getUserStateFromRequest($this->context.'.filter.search', 'filter_search');
+		$this->setState('filter.search', $search);
 		$this->setState('filter.status', isset($filters['status']) ? $filters['status'] : '');
 		$this->setState('filter.type', isset($filters['type']) ? $filters['type'] : '');
 		$this->setState('filter.group', isset($filters['group']) ? $filters['group'] : '');
@@ -83,7 +83,7 @@ class InstallerModelManage extends InstallerModel
 	 * @return	boolean True on success
 	 * @since	1.5
 	 */
-	function publish(&$eid = array(), $value = 1)
+	public function publish(&$eid = array(), $value = 1)
 	{
 		// Initialise variables.
 		$user = JFactory::getUser();
@@ -105,11 +105,13 @@ class InstallerModelManage extends InstallerModel
 			$table = JTable::getInstance('Extension');
 			JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_templates/tables');
 			// Enable the extension in the table and store it in the database
-			foreach($eid as $i=>$id) {
+			foreach($eid as $i => $id)
+			{
 				$table->load($id);
 				if ($table->type == 'template') {
 					$style = JTable::getInstance('Style', 'TemplatesTable');
-					if ($style->load(array('template' => $table->element, 'client_id' => $table->client_id, 'home'=>1))) {
+					if ($style->load(array('template' => $table->element, 'client_id' => $table->client_id, 'home' => 1)))
+					{
 						JError::raiseNotice(403, JText::_('COM_INSTALLER_ERROR_DISABLE_DEFAULT_TEMPLATE_NOT_PERMITTED'));
 						unset($eid[$i]);
 						continue;
@@ -140,7 +142,7 @@ class InstallerModelManage extends InstallerModel
 	 * @return	boolean	result of refresh
 	 * @since	1.6
 	 */
-	function refresh($eid)
+	public function refresh($eid)
 	{
 		if (!is_array($eid)) {
 			$eid = array($eid => 0);
@@ -168,7 +170,7 @@ class InstallerModelManage extends InstallerModel
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	function remove($eid = array())
+	public function remove($eid = array())
 	{
 		// Initialise variables.
 		$user = JFactory::getUser();
@@ -264,14 +266,14 @@ class InstallerModelManage extends InstallerModel
 			else
 			{
 				$query->where('protected = 0');
-				$query->where('enabled=' . intval($status));
+				$query->where('enabled=' . (int) $status);
 			}
 		}
 		if ($type) {
 			$query->where('type=' . $this->_db->Quote($type));
 		}
 		if ($client != '') {
-			$query->where('client_id=' . intval($client));
+			$query->where('client_id=' . (int) $client);
 		}
 		if ($group != '' && in_array($type, array('plugin', 'library', ''))) {
 

@@ -9,8 +9,8 @@
 
 defined('_JEXEC') or die;
 
-// Include the syndicate functions only once
-require_once dirname(__FILE__).'/helper.php';
+// Include the login functions only once
+require_once __DIR__ . '/helper.php';
 
 $params->def('greeting', 1);
 
@@ -18,4 +18,11 @@ $type	= modLoginHelper::getType();
 $return	= modLoginHelper::getReturnURL($params, $type);
 $user	= JFactory::getUser();
 
-require JModuleHelper::getLayoutPath('mod_login', $params->get('layout', 'default'));
+if ($type == 'logout')
+{
+	require JModuleHelper::getLayoutPath('mod_login', $params->get('layout', 'logout'));
+}
+else
+{
+	require JModuleHelper::getLayoutPath('mod_login', $params->get('layout', 'default'));
+}

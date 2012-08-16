@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-JLoader::register('FinderIndexer', dirname(__FILE__) . '/indexer.php');
+JLoader::register('FinderIndexer', __DIR__ . '/indexer.php');
 
 /**
  * Result class for the Finder indexer package.

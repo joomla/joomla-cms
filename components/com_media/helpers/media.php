@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 /**
  * @package     Joomla.Site
  * @subpackage  com_media
+ * @since       1.5
  */
 class MediaHelper
 {
@@ -19,8 +20,10 @@ class MediaHelper
 	 * Checks if the file is an image
 	 * @param string The filename
 	 * @return boolean
+	 *
+	 * @since  1.5
 	 */
-	function isImage($fileName)
+	public function isImage($fileName)
 	{
 		static $imageTypes = 'xcf|odg|gif|jpg|png|bmp';
 
@@ -31,8 +34,10 @@ class MediaHelper
 	 * Checks if the file is an image
 	 * @param string The filename
 	 * @return boolean
+	 *
+	 * @since  1.5
 	 */
-	function getTypeIcon($fileName)
+	public function getTypeIcon($fileName)
 	{
 		// Get file extension
 		return strtolower(substr($fileName, strrpos($fileName, '.') + 1));
@@ -43,8 +48,10 @@ class MediaHelper
 	 * @param array File information
 	 * @param string An error message to be returned
 	 * @return boolean
+	 *
+	 * @since  1.5
 	 */
-	function canUpload($file, &$err)
+	public function canUpload($file, &$err)
 	{
 		$params = JComponentHelper::getParams('com_media');
 
@@ -69,20 +76,26 @@ class MediaHelper
 		return true;
 	}
 
+	/**
+	 * Method to parse a file size
+	 *
+	 * @param   integer  $size  The file size in bytes
+	 *
+	 * @return  string  The converted file size
+	 *
+	 * @since   1.5
+	 * @deprecated  4.0  Use JHtmlNumber::bytes() instead
+	 */
 	public static function parseSize($size)
 	{
-		if ($size < 1024) {
-			return JText::sprintf('COM_MEDIA_FILESIZE_BYTES', $size);
-		}
-		elseif ($size < 1024 * 1024) {
-			return JText::sprintf('COM_MEDIA_FILESIZE_KILOBYTES', sprintf('%01.2f', $size / 1024.0));
-		}
-		else {
-			return JText::sprintf('COM_MEDIA_FILESIZE_MEGABYTES', sprintf('%01.2f', $size / (1024.0 * 1024)));
-		}
+		JLog::add('MediaHelper::parseSize() is deprecated. Use JHtmlNumber::bytes() instead.', JLog::WARNING, 'deprecated');
+		return JHtml::_('number.bytes', $size);
 	}
 
-	function imageResize($width, $height, $target)
+	/**
+	 * @since  1.5
+	 */
+	public function imageResize($width, $height, $target)
 	{
 		//takes the larger size of the width and height and applies the
 		//formula accordingly...this is so this script will work
@@ -103,7 +116,10 @@ class MediaHelper
 		return "width=\"$width\" height=\"$height\"";
 	}
 
-	function countFiles($dir)
+	/**
+	 * @since  1.5
+	 */
+	public function countFiles($dir)
 	{
 		$total_file = 0;
 		$total_dir = 0;

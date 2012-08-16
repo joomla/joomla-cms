@@ -210,10 +210,14 @@ class ContentHelper
 			elseif ($blackList) {
 				// Remove the white-listed attributes from the black-list.
 				$filter = JFilterInput::getInstance(
-					array_diff($blackListTags, $whiteListTags), 			// blacklisted tags
-					array_diff($blackListAttributes, $whiteListAttributes), // blacklisted attributes
-					1,														// blacklist tags
-					1														// blacklist attributes
+					// Blacklisted tags
+					array_diff($blackListTags, $whiteListTags),
+					// Blacklisted attributes
+					array_diff($blackListAttributes, $whiteListAttributes),
+					// Blacklist tags
+					1,
+					// Blacklist attributes
+					1
 				);
 				// Remove white listed tags from filter's default blacklist
 				if ($whiteListTags) {

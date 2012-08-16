@@ -280,7 +280,7 @@ class UsersModelUser extends JModelAdmin
 	 *
 	 * @since   1.6
 	 */
-	function block(&$pks, $value = 1)
+	public function block(&$pks, $value = 1)
 	{
 		// Initialise variables.
 		$app		= JFactory::getApplication();
@@ -391,7 +391,7 @@ class UsersModelUser extends JModelAdmin
 	 *
 	 * @since   1.6
 	 */
-	function activate(&$pks)
+	public function activate(&$pks)
 	{
 		// Initialise variables.
 		$dispatcher	= JEventDispatcher::getInstance();
@@ -585,10 +585,13 @@ class UsersModelUser extends JModelAdmin
 
 			$db->setQuery($query);
 
-			// Check for database errors.
-			if (!$db->execute())
+			try
 			{
-				$this->setError($db->getErrorMsg());
+				$db->execute();
+			}
+			catch (RuntimeException $e)
+			{
+				$this->setError($e->getMessage());
 				return false;
 			}
 		}
@@ -628,10 +631,13 @@ class UsersModelUser extends JModelAdmin
 			$query->columns(array($db->quoteName('user_id'), $db->quoteName('group_id')));
 			$db->setQuery($query);
 
-			// Check for database errors.
-			if (!$db->execute())
+			try
 			{
-				$this->setError($db->getErrorMsg());
+				$db->execute();
+			}
+			catch (RuntimeException $e)
+			{
+				$this->setError($e->getMessage());
 				return false;
 			}
 		}

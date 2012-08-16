@@ -23,7 +23,7 @@ class MessagesTableMessage extends JTable
 	 *
 	 * @param database A database connector object
 	 */
-	function __construct(& $db)
+	public function __construct(& $db)
 	{
 		parent::__construct('#__messages', 'message_id', $db);
 	}
@@ -33,7 +33,7 @@ class MessagesTableMessage extends JTable
 	 *
 	 * @return boolean
 	 */
-	function check()
+	public function check()
 	{
 		// Check the to and from users.
 		$user = new JUser($this->user_id_from);
@@ -105,11 +105,14 @@ class MessagesTableMessage extends JTable
 			' SET '.$this->_db->quoteName('state').' = '.(int) $state .
 			' WHERE ('.$where.')'
 		);
-		$this->_db->execute();
 
-		// Check for a database error.
-		if ($this->_db->getErrorNum()) {
-			$this->setError($this->_db->getErrorMsg());
+		try
+		{
+			$this->_db->execute();
+		}
+		catch (RuntimeException $e)
+		{
+			$this->setError($e->getMessage());
 			return false;
 		}
 

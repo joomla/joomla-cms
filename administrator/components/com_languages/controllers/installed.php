@@ -21,11 +21,12 @@ class LanguagesControllerInstalled extends JControllerLegacy
 	/**
 	 * task to set the default language
 	 */
-	function setDefault()
+	public function setDefault()
 	{
 		// Check for request forgeries
 		JSession::checkToken() or jexit(JText::_('JInvalid_Token'));
-		$cid = JRequest::getCmd('cid', '');
+
+		$cid = $this->input->get('cid', '');
 		$model = $this->getModel('installed');
 		if ($model->publish($cid))
 		{

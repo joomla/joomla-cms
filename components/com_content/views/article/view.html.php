@@ -19,12 +19,16 @@ defined('_JEXEC') or die;
 class ContentViewArticle extends JViewLegacy
 {
 	protected $item;
+
 	protected $params;
+
 	protected $print;
+
 	protected $state;
+
 	protected $user;
 
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		// Initialise variables.
 		$app		= JFactory::getApplication();
@@ -32,10 +36,10 @@ class ContentViewArticle extends JViewLegacy
 		$userId		= $user->get('id');
 		$dispatcher	= JEventDispatcher::getInstance();
 
-		$this->item		= $this->get('Item');
-		$this->print	= JRequest::getBool('print');
-		$this->state	= $this->get('State');
-		$this->user		= $user;
+		$this->item  = $this->get('Item');
+		$this->print = $app->input->getBool('print');
+		$this->state = $this->get('State');
+		$this->user  = $user;
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
@@ -109,7 +113,8 @@ class ContentViewArticle extends JViewLegacy
 
 		}
 
-		if ($item->params->get('show_intro', '1')=='1') {
+		if ($item->params->get('show_intro', '1') == '1')
+		{
 			$item->text = $item->introtext.' '.$item->fulltext;
 		}
 		elseif ($item->fulltext) {

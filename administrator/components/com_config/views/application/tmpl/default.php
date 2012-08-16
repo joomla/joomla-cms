@@ -11,12 +11,7 @@ defined('_JEXEC') or die;
 
 // Load tooltips behavior
 JHtml::_('behavior.formvalidation');
-JHtml::_('behavior.switcher');
 JHtml::_('behavior.tooltip');
-
-// Load submenu template, using element id 'submenu' as needed by behavior.switcher
-$this->document->setBuffer($this->loadTemplate('navigation'), 'modules', 'submenu');
-
 ?>
 <script type="text/javascript">
 	Joomla.submitbutton = function(task)
@@ -28,59 +23,91 @@ $this->document->setBuffer($this->loadTemplate('navigation'), 'modules', 'submen
 </script>
 
 <form action="<?php echo JRoute::_('index.php?option=com_config');?>" id="application-form" method="post" name="adminForm" class="form-validate">
-	<?php if ($this->ftp) : ?>
-		<?php echo $this->loadTemplate('ftplogin'); ?>
-	<?php endif; ?>
-	<div id="config-document">
-		<div id="page-site" class="tab">
-			<div class="noshow">
-				<div class="width-60 fltlft">
-					<?php echo $this->loadTemplate('site'); ?>
-					<?php echo $this->loadTemplate('metadata'); ?>
-				</div>
-				<div class="width-40 fltrt">
-					<?php echo $this->loadTemplate('seo'); ?>
-					<?php echo $this->loadTemplate('cookie'); ?>
-				</div>
+	<div class="row-fluid">
+		<!-- Begin Sidebar -->
+		<div id="sidebar" class="span2">
+			<div class="sidebar-nav">
+				<?php echo $this->loadTemplate('navigation'); ?>
+				<?php
+					// Display the submenu position modules
+					$this->modules = JModuleHelper::getModules('submenu');
+					foreach ($this->modules as $module) {
+						$output = JModuleHelper::renderModule($module);
+						$params = new JRegistry;
+						$params->loadString($module->params);
+						echo $output;
+					}
+				?>
 			</div>
 		</div>
-		<div id="page-system" class="tab">
-			<div class="noshow">
-				<div class="width-60 fltlft">
-					<?php echo $this->loadTemplate('system'); ?>
+		<!-- End Sidebar -->
+		<!-- Begin Content -->
+		<div class="span10">
+			<ul class="nav nav-tabs">
+				<li class="active"><a href="#page-site" data-toggle="tab"><?php echo JText::_('JSITE');?></a></li>
+				<li><a href="#page-system" data-toggle="tab"><?php echo JText::_('COM_CONFIG_SYSTEM');?></a></li>
+				<li><a href="#page-server" data-toggle="tab"><?php echo JText::_('COM_CONFIG_SERVER');?></a></li>
+				<li><a href="#page-permissions" data-toggle="tab"><?php echo JText::_('COM_CONFIG_PERMISSIONS');?></a></li>
+				<li><a href="#page-filters" data-toggle="tab"><?php echo JText::_('COM_CONFIG_TEXT_FILTERS');?></a></li>
+				<?php if ($this->ftp) : ?>
+					<li><a href="#page-ftp" data-toggle="tab"><?php echo JText::_('COM_CONFIG_FTP_SETTINGS');?></a></li>
+				<?php endif; ?>
+			</ul>
+			<div id="config-document" class="tab-content">
+				<div id="page-site" class="tab-pane active">
+					<div class="row-fluid">
+						<div class="span6">
+							<?php echo $this->loadTemplate('site'); ?>
+							<?php echo $this->loadTemplate('metadata'); ?>
+						</div>
+						<div class="span6">
+							<?php echo $this->loadTemplate('seo'); ?>
+							<?php echo $this->loadTemplate('cookie'); ?>
+						</div>
+					</div>
 				</div>
-				<div class="width-40 fltrt">
-					<?php echo $this->loadTemplate('debug'); ?>
-					<?php echo $this->loadTemplate('cache'); ?>
-					<?php echo $this->loadTemplate('session'); ?>
+				<div id="page-system" class="tab-pane">
+					<div class="row-fluid">
+						<div class="span12">
+							<?php echo $this->loadTemplate('system'); ?>
+							<?php echo $this->loadTemplate('debug'); ?>
+							<?php echo $this->loadTemplate('cache'); ?>
+							<?php echo $this->loadTemplate('session'); ?>
+						</div>
+					</div>
 				</div>
-			</div>
-		</div>
-		<div id="page-server" class="tab">
-			<div class="noshow">
-				<div class="width-60 fltlft">
-					<?php echo $this->loadTemplate('server'); ?>
-					<?php echo $this->loadTemplate('locale'); ?>
-					<?php echo $this->loadTemplate('ftp'); ?>
+				<div id="page-server" class="tab-pane">
+					<div class="row-fluid">
+						<div class="span6">
+							<?php echo $this->loadTemplate('server'); ?>
+							<?php echo $this->loadTemplate('locale'); ?>
+							<?php echo $this->loadTemplate('ftp'); ?>
+						</div>
+						<div class="span6">
+							<?php echo $this->loadTemplate('database'); ?>
+							<?php echo $this->loadTemplate('mail'); ?>
+						</div>
+					</div>
 				</div>
-				<div class="width-40 fltrt">
-					<?php echo $this->loadTemplate('database'); ?>
-					<?php echo $this->loadTemplate('mail'); ?>
+				<div id="page-permissions" class="tab-pane">
+					<div class="row-fluid">
+						<?php echo $this->loadTemplate('permissions'); ?>
+					</div>
 				</div>
+				<div id="page-filters" class="tab-pane">
+					<div class="row-fluid">
+						<?php echo $this->loadTemplate('filters'); ?>
+					</div>
+				</div>
+				<?php if ($this->ftp) : ?>
+					<div id="page-ftp" class="tab-pane">
+						<?php echo $this->loadTemplate('ftplogin'); ?>
+					</div>
+				<?php endif; ?>
+				<input type="hidden" name="task" value="" />
+				<?php echo JHtml::_('form.token'); ?>
 			</div>
-		</div>
-		<div id="page-permissions" class="tab">
-			<div class="noshow">
-				<?php echo $this->loadTemplate('permissions'); ?>
 			</div>
-		</div>
-		<div id="page-filters" class="tab">
-			<div class="noshow">
-				<?php echo $this->loadTemplate('filters'); ?>
-			</div>
-		</div>
-		<input type="hidden" name="task" value="" />
-		<?php echo JHtml::_('form.token'); ?>
+		<!-- End Content -->
 	</div>
-	<div class="clr"></div>
 </form>

@@ -19,12 +19,12 @@ defined('_JEXEC') or die;
  */
 class JHtmlIcon
 {
-	static function email($contact, $params, $attribs = array())
+	public static function email($contact, $params, $attribs = array())
 	{
 		require_once JPATH_SITE . '/components/com_mailto/helpers/mailto.php';
 		$uri	= JURI::getInstance();
 		$base	= $uri->toString(array('scheme', 'host', 'port'));
-		$link	= $base.JRoute::_(ContentHelperRoute::getArticleRoute($article->slug, $article->catid) , false);
+		$link	= $base . JRoute::_(ContentHelperRoute::getArticleRoute($article->slug, $article->catid), false);
 		$url	= 'index.php?option=com_mailto&tmpl=component&link='.MailToHelper::addLink($link);
 
 		$status = 'width=400,height=350,menubar=yes,resizable=yes';
@@ -42,7 +42,7 @@ class JHtmlIcon
 		return $output;
 	}
 
-	static function print_popup($article, $params, $attribs = array())
+	public static function print_popup($article, $params, $attribs = array())
 	{
 		$url  = ContentHelperRoute::getContactRoute($contact->slug, $contact->catid);
 		$url .= '&tmpl=component&print=1&layout=default&page='.@ $request->limitstart;
@@ -63,7 +63,7 @@ class JHtmlIcon
 		return JHtml::_('link', JRoute::_($url), $text, $attribs);
 	}
 
-	static function print_screen($contact, $params, $attribs = array())
+	public static function print_screen($contact, $params, $attribs = array())
 	{
 		// checks template image directory for image, if non found default are loaded
 		if ($params->get('show_icons')) {

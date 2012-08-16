@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 ?>
 <fieldset class="adminform">
 	<legend><?php echo JText::_('COM_ADMIN_DIRECTORY_PERMISSIONS'); ?></legend>
-		<table class="adminlist">
+		<table class="table table-striped">
 			<thead>
 				<tr>
 					<th width="650">
@@ -28,7 +28,7 @@ defined('_JEXEC') or die;
 				</tr>
 			</tfoot>
 			<tbody>
-				<?php foreach($this->directory as $dir=>$info):?>
+				<?php foreach($this->directory as $dir => $info):?>
 					<tr>
 						<td>
 							<?php echo JHtml::_('directory.message', $dir, $info['message']);?>

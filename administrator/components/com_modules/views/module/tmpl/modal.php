@@ -9,13 +9,17 @@
 
 defined('_JEXEC') or die;
 ?>
-<div class="fltrt">
-	<button type="button" onclick="Joomla.submitbutton('module.save');">
+<div class="btn-toolbar">
+	<div class="btn-group">
+		<button type="button" class="btn btn-primary" onclick="Joomla.submitbutton('module.save');">
 		<?php echo JText::_('JSAVE');?></button>
-	<button type="button" onclick="window.parent.SqueezeBox.close();">
+	</div>
+	<div class="btn-group">
+		<button type="button" class="btn" onclick="window.parent.SqueezeBox.close();">
 		<?php echo JText::_('JCANCEL');?></button>
+	</div>
+	<div class="clearfix"></div>
 </div>
-<div class="clr"></div>
 
 <?php
 $this->setLayout('edit');

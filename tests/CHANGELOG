@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+30-Jul-2012 Mark Dexter
+ ^ Add ability to capture screenshots on failure for system tests
+
 09-Jul-2012 Mark Dexter
  ^ Detect notices in modals and popups
 

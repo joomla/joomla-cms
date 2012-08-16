@@ -10,6 +10,8 @@
 defined('_JEXEC') or die;
 
 /**
+ * Helper for mod_logged
+ *
  * @package     Joomla.Administrator
  * @subpackage  mod_logged
  */
@@ -33,13 +35,16 @@ abstract class modLoggedHelper
 		$query->leftJoin('#__users AS u ON s.userid = u.id');
 		$query->where('s.guest = 0');
 		$db->setQuery($query, 0, $params->get('count', 5));
-		$results = $db->loadObjectList();
 
-		// Check for database errors
-		if ($error = $db->getErrorMsg()) {
-			JError::raiseError(500, $error);
+		try
+		{
+			$results = $db->loadObjectList();
+		}
+		catch (RuntimeException $e)
+		{
+			JError::raiseError(500, $e->getMessage());
 			return false;
-		};
+		}
 
 		foreach($results as $k => $result)
 		{

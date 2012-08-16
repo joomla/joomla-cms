@@ -86,17 +86,18 @@ class LanguagesModelOverride extends JModelAdmin
 	{
 		require_once JPATH_COMPONENT.'/helpers/languages.php';
 
-		$pk	= (!empty($pk)) ? $pk : JRequest::getCmd('id');
+		$input = JFactory::getApplication()->input;
+		$pk	= (!empty($pk)) ? $pk : $input->get('id');
 		$filename = constant('JPATH_'.strtoupper($this->getState('filter.client'))) . '/language/overrides/' . $this->getState('filter.language', 'en-GB').'.override.ini';
 		$strings = LanguagesHelper::parseFile($filename);
 
 		$result = new stdClass;
-		$result->key			= '';
-		$result->override	= '';
+		$result->key      = '';
+		$result->override = '';
 		if (isset($strings[$pk]))
 		{
-			$result->key			= $pk;
-			$result->override	= $strings[$pk];
+			$result->key      = $pk;
+			$result->override = $strings[$pk];
 		}
 
 		return $result;

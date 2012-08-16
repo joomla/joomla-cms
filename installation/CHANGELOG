@@ -26,14 +26,59 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
-25-July-2012 Jean-Marie Simonet
+16-Aug-2012 Rouven Weßling
+ ^ Reduce use of JFolder and deprecated JRequest methods.
+ ^ Merge latest platform (c77f323d339b7dcfb305325c48a38813322dd69d)
+
+15-Aug-2012 Jean-Marie Simonet
+ + Porting to master Installing Language packs from Extension Manager. Thanks Javier and Rouven
+ #^ [#28918] Abstract FinderIndexer class for improved database support. Thanks Michael
+
+15-Aug-2012 Rouven Weßling
+ #+ [#28032] Split mod_login into two layouts
+
+11-Aug-2012 Jean-Marie Simonet
+ $+ Adding Vietnamese vi-VN to installation languages
+
+11-Aug-2012 Jean-Marie Simonet
+ #+ [#25295] Email exposed through RSS and Atom feeds. Thanks Elin and Peter
+ # [#28795] mod_articles_category "read more" truncation not functioning properly. Thanks Elin.
+ ^ [#28374] Deprecate MediaHelper::parseSize() and use JHtmlNumber::bytes() to process file size in Media Manager. Thanks Michael.
+ + [#28902] Add CLI to remove files that weren't removed at update. Thanks Michael
+
+10-Aug-2012 Rouven Weßling
+ ^ Reduce use of deprecated JDatabase and JRequest methods.
+ ^ Merge latest platform (2f2d084af274840e7103fe6ad826926be8b3eb06)
+ ^ Move JToolbar and JHelp to the CMS libraries
+
+05-Aug-2012 Mark Dexter
+ # [#28904] Typo in recent commit broke single newsfeed
+
+05-Aug-2012 Rouven Weßling
+ ^ Add additional sinffs to the code style checker
+
+02-Aug-2012 Mark Dexter
+ # [#28855] Fix Array to string conversion notices (PHP 5.4 only)
+ # [#28825] Blank article can't be saved
+ # [#28827] INSTL_ADMIN_EMAIL_LABEL translation is missing
+ # [#28817] Cache not being cleared automatically when changes are made in back end
+
+02-Aug-2012 Rouven Weßling
+ ^ Merge latest platform (fc189e3e0cc964cef238aeb0799c7c72c1c988da)
+ ^ Reduce use of deprecated platform APIs
+ ^ Don't always load JArrayHelper
+
+31-Jul-2012 Mark Dexter
+ ^ [#28854] Update Core and Sample SQL filies in installation and related changes
+
+25-Jul-2012 Jean-Marie Simonet
  [#28846] *When URL Language Code is removed, language switcher module redirects to URL without .html suffix. Thanks Dennis
- 
-18-July-2012 Jean-Marie Simonet
+
+18-Jul-2012 Jean-Marie Simonet
  # [#28837] Can't get past step 4 "Database Configuration". Thanks Shaun.
  # [#28511] Move the caption behavior from the controller to the layouts in com_content. Thanks Rouven and Peter.
 
 ========== VERSION 3.0 APLHA 1 RELEASED ==========
 
-13-July-2012 Jean-Marie Simonet
+13-Jul-2012 Jean-Marie Simonet
  ^ Merge of latest platform from 12.1+ Thanks Rouven

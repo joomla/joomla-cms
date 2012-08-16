@@ -32,7 +32,7 @@ JHtml::_('stylesheet', 'mod_languages/template.css', array(), true);
 			<li class="<?php echo $language->active ? 'lang-active' : '';?>" dir="<?php echo JLanguage::getInstance($language->lang_code)->isRTL() ? 'rtl' : 'ltr' ?>">
 			<a href="<?php echo $language->link;?>">
 			<?php if ($params->get('image', 1)):?>
-				<?php echo JHtml::_('image', 'mod_languages/'.$language->image.'.gif', $language->title_native, array('title'=>$language->title_native), true);?>
+				<?php echo JHtml::_('image', 'mod_languages/' . $language->image . '.gif', $language->title_native, array('title' => $language->title_native), true);?>
 			<?php else : ?>
 				<?php echo $params->get('full_name', 1) ? $language->title_native : strtoupper($language->sef);?>
 			<?php endif; ?>

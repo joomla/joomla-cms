@@ -23,7 +23,7 @@ class CacheHelper
 	 *
 	 * @return	array	An array of JHtmlOption elements.
 	 */
-	static function getClientOptions()
+	public static function getClientOptions()
 	{
 		// Build the filter options.
 		$options	= array();

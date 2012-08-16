@@ -122,8 +122,8 @@ class ContentHelperQuery
 	 * @return	string	The SQL field(s) to order by.
 	 * @since	1.6
 	 */
-	public static function getQueryDate($orderDate) {
-
+	public static function getQueryDate($orderDate)
+	{
 		switch ($orderDate)
 		{
 			case 'modified' :

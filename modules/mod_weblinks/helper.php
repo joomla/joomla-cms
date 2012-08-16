@@ -13,12 +13,14 @@ require_once JPATH_SITE . '/components/com_weblinks/helpers/route.php';
 JModelLegacy::addIncludePath(JPATH_SITE . '/components/com_weblinks/models', 'WeblinksModel');
 
 /**
+ * Helper for mod_weblinks
+ *
  * @package     Joomla.Site
  * @subpackage  mod_weblinks
  */
 class modWeblinksHelper
 {
-	static function getList($params)
+	public static function getList($params)
 	{
 
 		// Get an instance of the generic articles model
@@ -34,8 +36,6 @@ class modWeblinksHelper
 		$model->setState('list.limit', (int) $params->get('count', 5));
 
 		$model->setState('filter.state', 1);
-		$model->setState('filter.archived', 0);
-		$model->setState('filter.approved', 1);
 
 		// Access filter
 		$access = !JComponentHelper::getParams('com_weblinks')->get('show_noauth');
@@ -70,7 +70,7 @@ class modWeblinksHelper
 		$case_when2 .= $c_id.' END as catslug';
 
 		$model->setState('list.select', 'a.*, c.published AS c_published,'.$case_when1.','.$case_when2.','.
-		'DATE_FORMAT(a.date, "%Y-%m-%d") AS created');
+		'DATE_FORMAT(a.created, "%Y-%m-%d") AS created');
 
 		$model->setState('filter.c.published', 1);
 
@@ -88,7 +88,8 @@ class modWeblinksHelper
 		/*
 		 $query->where('(a.checked_out = 0 OR a.checked_out = '.$user->id.')');
 		 */
-		for ($i =0, $count = count($items); $i < $count; $i++) {
+		for ($i = 0, $count = count($items); $i < $count; $i++)
+		{
 			$item = &$items[$i];
 			if ($item->params->get('count_clicks', $params->get('count_clicks')) == 1) {
 				$item->link	= JRoute::_('index.php?option=com_weblinks&task=weblink.go&catid='.$item->catslug.'&id='. $item->slug);

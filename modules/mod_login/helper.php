@@ -10,17 +10,20 @@
 defined('_JEXEC') or die;
 
 /**
+ * Helper for mod_login
+ *
  * @package     Joomla.Site
  * @subpackage  mod_login
+ * @since       1.5
  */
 class modLoginHelper
 {
-	static function getReturnURL($params, $type)
+	public static function getReturnURL($params, $type)
 	{
 		$app	= JFactory::getApplication();
 		$router = $app->getRouter();
 		$url = null;
-		if ($itemid =  $params->get($type))
+		if ($itemid = $params->get($type))
 		{
 			$db		= JFactory::getDbo();
 			$query	= $db->getQuery(true);
@@ -42,8 +45,7 @@ class modLoginHelper
 		}
 		if (!$url)
 		{
-			// stay on the same page
-			jimport('joomla.environment.uri');
+			// Stay on the same page
 			$uri = clone JURI::getInstance();
 			$vars = $router->parse($uri);
 			unset($vars['lang']);
@@ -76,7 +78,7 @@ class modLoginHelper
 		return base64_encode($url);
 	}
 
-	static function getType()
+	public static function getType()
 	{
 		$user = JFactory::getUser();
 		return (!$user->get('guest')) ? 'logout' : 'login';

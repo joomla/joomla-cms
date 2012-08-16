@@ -47,7 +47,7 @@ class AdminModelHelp extends JModelLegacy
 	 * Method to get the help search string
 	 * @return string Help search string
 	 */
-	function &getHelpSearch()
+	public function &getHelpSearch()
 	{
 		if (is_null($this->help_search)) {
 			$this->help_search = JFactory::getApplication()->input->getString('helpsearch');
@@ -59,7 +59,7 @@ class AdminModelHelp extends JModelLegacy
 	 * Method to get the page
 	 * @return string page
 	 */
-	function &getPage()
+	public function &getPage()
 	{
 		if (is_null($this->page))
 		{
@@ -71,17 +71,20 @@ class AdminModelHelp extends JModelLegacy
 
 	/**
 	 * Method to get the lang tag
-	 * @return string lang iso tag
+	 *
+	 * @return  string  lang iso tag
 	 */
-	function &getLangTag()
+	public function getLangTag()
 	{
 		if (is_null($this->lang_tag))
 		{
 			$lang = JFactory::getLanguage();
 			$this->lang_tag = $lang->getTag();
-			jimport('joomla.filesystem.folder');
-			if (!JFolder::exists(JPATH_BASE . '/help/' . $this->lang_tag)) {
-				$this->lang_tag = 'en-GB'; // use english as fallback
+
+			if (!is_dir(JPATH_BASE . '/help/' . $this->lang_tag))
+			{
+				// Use english as fallback
+				$this->lang_tag = 'en-GB';
 			}
 
 		}
@@ -92,7 +95,7 @@ class AdminModelHelp extends JModelLegacy
 	 * Method to get the toc
 	 * @return array Table of contents
 	 */
-	function &getToc()
+	public function &getToc()
 	{
 		if (is_null($this->toc))
 		{
@@ -139,7 +142,7 @@ class AdminModelHelp extends JModelLegacy
 	 * Method to get the latest version check;
 	 * @return string Latest Version Check URL
 	 */
-	function &getLatestVersionCheck()
+	public function &getLatestVersionCheck()
 	{
 		if (!$this->latest_version_check) {
 			$override = 'http://help.joomla.org/proxy/index.php?option=com_help&keyref=Help{major}{minor}:Joomla_Version_{major}_{minor}_{maintenance}';

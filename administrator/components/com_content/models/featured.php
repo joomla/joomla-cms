@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-require_once dirname(__FILE__) . '/articles.php';
+require_once __DIR__ . '/articles.php';
 
 /**
  * About Page Model
@@ -58,7 +58,7 @@ class ContentModelFeatured extends ContentModelArticles
 	 *
 	 * @return	string
 	 */
-	function getListQuery($resolveFKs = true)
+	protected function getListQuery($resolveFKs = true)
 	{
 		// Create a new query object.
 		$db = $this->getDbo();

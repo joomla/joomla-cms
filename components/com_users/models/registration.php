@@ -94,7 +94,7 @@ class UsersModelRegistration extends JModelForm
 						' FROM #__users' .
 						' WHERE sendEmail=1';
 
-			$db->setQuery( $query );
+			$db->setQuery($query);
 			$rows = $db->loadObjectList();
 
 			// Send mail to all users with users creating permissions and receiving system emails
@@ -459,7 +459,7 @@ class UsersModelRegistration extends JModelForm
 					' FROM #__users' .
 					' WHERE sendEmail=1';
 
-			$db->setQuery( $query );
+			$db->setQuery($query);
 			$rows = $db->loadObjectList();
 
 			// Send mail to all superadministrators id

@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.filesystem.file');
-
 $app = JFactory::getApplication();
 JHtml::_('behavior.noframes');
 $lang = JFactory::getLanguage();
@@ -44,7 +42,7 @@ $file = 'language/'.$lang->getTag().'/'.$lang->getTag().'.css';
 <?php endif; ?>
 
 <!-- Load specific language related css -->
-<?php if (JFile::exists($file)) : ?>
+<?php if (is_file($file)) : ?>
 	<link href="<?php echo $file ?>" rel="stylesheet" type="text/css" />
 <?php  endif; ?>
 
@@ -104,7 +102,7 @@ $file = 'language/'.$lang->getTag().'/'.$lang->getTag().'.css';
 	<!-- Footer -->
 	<div id="footer">
 		<p class="copyright">
-			<?php $joomla= '<a href="http://www.joomla.org">Joomla!&#174;</a>';
+			<?php $joomla = '<a href="http://www.joomla.org">Joomla!&#174;</a>';
 			echo JText::sprintf('JGLOBAL_ISFREESOFTWARE', $joomla) ?>
 		</p>
 	</div>

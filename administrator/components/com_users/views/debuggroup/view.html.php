@@ -19,8 +19,11 @@ defined('_JEXEC') or die;
 class UsersViewDebugGroup extends JViewLegacy
 {
 	protected $actions;
+
 	protected $items;
+
 	protected $pagination;
+
 	protected $state;
 
 	/**
@@ -53,8 +56,8 @@ class UsersViewDebugGroup extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		JToolBarHelper::title(JText::sprintf('COM_USERS_VIEW_DEBUG_GROUP_TITLE', $this->group->id, $this->group->title), 'groups');
+		JToolbarHelper::title(JText::sprintf('COM_USERS_VIEW_DEBUG_GROUP_TITLE', $this->group->id, $this->group->title), 'groups');
 
-		JToolBarHelper::help('JHELP_USERS_DEBUG_GROUPS');
+		JToolbarHelper::help('JHELP_USERS_DEBUG_GROUPS');
 	}
 }

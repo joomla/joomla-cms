@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.environment.uri');
-
 /**
  * Weblink Component HTML Helper
  *
@@ -21,7 +19,7 @@ jimport('joomla.environment.uri');
  */
 class JHtmlIcon
 {
-	static function create($weblink, $params)
+	public static function create($weblink, $params)
 	{
 		$uri = JURI::getInstance();
 
@@ -32,7 +30,7 @@ class JHtmlIcon
 		return $output;
 	}
 
-	static function edit($weblink, $params, $attribs = array())
+	public static function edit($weblink, $params, $attribs = array())
 	{
 		$user = JFactory::getUser();
 		$uri = JURI::getInstance();

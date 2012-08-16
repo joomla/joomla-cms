@@ -217,31 +217,3 @@ class JAccessRules
 		return json_encode($temp);
 	}
 }
-
-/**
- * Deprecated class placeholder.  You should use JAccessRules instead.
- *
- * @package     Joomla.Platform
- * @subpackage  Access
- * @since       11.1
- * @deprecated  12.3
- */
-class JRules extends JAccessRules
-{
-	/**
-	 * Constructor.
-	 *
-	 * The input array must be in the form: array('action' => array(-42 => true, 3 => true, 4 => false))
-	 * or an equivalent JSON encoded string, or an object where properties are arrays.
-	 *
-	 * @param   mixed  $input  A JSON format string (probably from the database) or a nested array.
-	 *
-	 * @since   11.1
-	 * @deprecated  12.3
-	 */
-	public function __construct($input = '')
-	{
-		JLog::add('JRules is deprecated. Use JAccessRules instead.', JLog::WARNING, 'deprecated');
-		parent::__construct($input);
-	}
-}

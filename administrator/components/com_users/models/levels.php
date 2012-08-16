@@ -168,7 +168,7 @@ class UsersModelLevels extends JModelList
 	 * @param	array	An array of primary key ids.
 	 * @param	int		+/-1
 	 */
-	function saveorder($pks, $order)
+	public function saveorder($pks, $order)
 	{
 		// Initialise variables.
 		$table		= JTable::getInstance('viewlevel');

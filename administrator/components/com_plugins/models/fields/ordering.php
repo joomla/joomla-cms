@@ -47,8 +47,8 @@ class JFormFieldOrdering extends JFormField
 		$attr .= $this->element['onchange'] ? ' onchange="'.(string) $this->element['onchange'].'"' : '';
 
 		// Get some field values from the form.
-		$pluginId	= (int) $this->form->getValue('extension_id');
-		$folder	=  $this->form->getValue('folder');
+		$pluginId = (int) $this->form->getValue('extension_id');
+		$folder	= $this->form->getValue('folder');
 		$db = JFactory::getDbo();
 
 		// Build the query for the ordering list.

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension
+	type="module"
+	version="2.5"
+	client="admin"
+	method="upgrade">
+	<name>mod_stats_admin</name>
+	<author>Joomla! Project</author>
+	<creationDate>July 2004</creationDate>
+	<copyright>Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>2.5.0</version>
+	<description>MOD_STATS_XML_DESCRIPTION</description>
+	<files>
+		<filename module="mod_stats_admin">mod_stats_admin.php</filename>
+		<folder>tmpl</folder>
+		<filename>helper.php</filename>
+		<filename>index.html</filename>
+		<filename>mod_stats_admin.xml</filename>
+	</files>
+	<languages>
+		<language tag="en-GB">en-GB.mod_stats.ini</language>
+		<language tag="en-GB">en-GB.mod_stats.sys.ini</language>
+	</languages>
+	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_STATISTICS" />
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field
+					name="serverinfo"
+					type="radio"
+					default="0"
+					label="MOD_STATS_FIELD_SERVERINFO_LABEL"
+					description="MOD_STATS_FIELD_SERVERINFO_DESC">
+					<option
+						value="1">JYES</option>
+					<option
+						value="0">JNO</option>
+				</field>
+				<field
+					name="siteinfo"
+					type="radio"
+					default="0"
+					label="MOD_STATS_FIELD_SITEINFO_LABEL"
+					description="MOD_STATS_FIELD_SITEINFO_DESC">
+					<option
+						value="1">JYES</option>
+					<option
+						value="0">JNO</option>
+				</field>
+				<field
+					name="counter"
+					type="radio"
+					default="0"
+					label="MOD_STATS_FIELD_COUNTER_LABEL"
+					description="MOD_STATS_FIELD_COUNTER_DESC">
+					<option
+						value="1">JYES</option>
+					<option
+						value="0">JNO</option>
+				</field>
+				<field
+					name="increase"
+					type="text"
+					default="0"
+					label="MOD_STATS_FIELD_INCREASECOUNTER_LABEL"
+					description="MOD_STATS_FIELD_INCREASECOUNTER_DESC" />
+			</fieldset>
+			<fieldset
+				name="advanced">
+				<field
+					name="layout"
+					type="modulelayout"
+					label="JFIELD_ALT_LAYOUT_LABEL"
+					description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
+				<field
+					name="moduleclass_sfx"
+					type="text"
+					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
+					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
+				<field
+					name="cache"
+					type="list"
+					default="1"
+					label="COM_MODULES_FIELD_CACHING_LABEL"
+					description="COM_MODULES_FIELD_CACHING_DESC">
+					<option
+						value="1">JGLOBAL_USE_GLOBAL</option>
+					<option
+						value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
+				</field>
+				<field
+					name="cache_time"
+					type="text"
+					default="900"
+					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
+					description="COM_MODULES_FIELD_CACHE_TIME_DESC" />
+				<field
+					name="cachemode"
+					type="hidden"
+					default="static">
+					<option
+						value="static"></option>
+				</field>
+			</fieldset>
+		</fields>
+	</config>
+</extension>

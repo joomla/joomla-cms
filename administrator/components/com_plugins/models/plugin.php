@@ -185,7 +185,7 @@ class PluginsModelPlugin extends JModelAdmin
 		$app = JFactory::getApplication('administrator');
 
 		// Load the User state.
-		$pk = (int) JRequest::getInt('extension_id');
+		$pk = $app->input->getInt('extension_id');
 		$this->setState('plugin.id', $pk);
 	}
 
@@ -198,8 +198,7 @@ class PluginsModelPlugin extends JModelAdmin
 	 */
 	protected function preprocessForm(JForm $form, $data, $group = 'content')
 	{
-		jimport('joomla.filesystem.file');
-		jimport('joomla.filesystem.folder');
+		jimport('joomla.filesystem.path');
 
 		// Initialise variables.
 		$folder		= $this->getState('item.folder');
@@ -207,7 +206,7 @@ class PluginsModelPlugin extends JModelAdmin
 		$lang		= JFactory::getLanguage();
 		$client		= JApplicationHelper::getClientInfo(0);
 
-	// Load the core and/or local language sys file(s) for the ordering field.
+		// Load the core and/or local language sys file(s) for the ordering field.
 		$db = JFactory::getDbo();
 		$query = 'SELECT element' .
 				' FROM #__extensions' .
@@ -227,15 +226,11 @@ class PluginsModelPlugin extends JModelAdmin
 			$app = JFactory::getApplication();
 			$app->redirect(JRoute::_('index.php?option=com_plugins&view=plugins', false));
 		}
-		// Try 1.6 format: /plugins/folder/element/element.xml
-		$formFile = JPath::clean(JPATH_PLUGINS.'/'.$folder.'/'.$element.'/'.$element.'.xml');
-		if (!file_exists($formFile)) {
-			// Try 1.5 format: /plugins/folder/element/element.xml
-			$formFile = JPath::clean(JPATH_PLUGINS.'/'.$folder.'/'.$element.'.xml');
-			if (!file_exists($formFile)) {
-				throw new Exception(JText::sprintf('COM_PLUGINS_ERROR_FILE_NOT_FOUND', $element.'.xml'));
-				return false;
-			}
+
+		$formFile = JPath::clean(JPATH_PLUGINS . '/' . $folder . '/' . $element . '/' . $element . '.xml');
+		if (!file_exists($formFile))
+		{
+			throw new Exception(JText::sprintf('COM_PLUGINS_ERROR_FILE_NOT_FOUND', $element . '.xml'));
 		}
 
 		// Load the core and/or local language file(s).
@@ -319,7 +314,8 @@ class PluginsModelPlugin extends JModelAdmin
 	 *
 	 * @since	1.6
 	 */
-	protected function cleanCache($group = null, $client_id = 0) {
+	protected function cleanCache($group = null, $client_id = 0)
+	{
 		parent::cleanCache('com_plugins');
 	}
 }

@@ -70,17 +70,15 @@ class LanguagesHelper
 	/**
 	 * Method for parsing ini files
 	 *
-	 * @param		string	$filename Path and name of the ini file to parse
+	 * @param   string  $filename Path and name of the ini file to parse
 	 *
-	 * @return	array		Array of strings found in the file, the array indices will be the keys. On failure an empty array will be returned
+	 * @return  array   Array of strings found in the file, the array indices will be the keys. On failure an empty array will be returned
 	 *
-	 * @since		2.5
+	 * @since   2.5
 	 */
 	public static function parseFile($filename)
 	{
-		jimport('joomla.filesystem.file');
-
-		if (!JFile::exists($filename))
+		if (!is_file($filename))
 		{
 			return array();
 		}

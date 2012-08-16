@@ -12,26 +12,26 @@ jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.path');
 
 /**
- * Filesystem configuration model for the Joomla Core Installer.
+ * FTP configuration model for the Joomla Core Installer.
  *
  * @package  Joomla.Installation
  * @since    3.0
  */
-class InstallationModelFilesystem extends JModelLegacy
+class InstallationModelFtp extends JModelLegacy
 {
 	/**
 	 * Find the ftp filesystem root for a given user/pass pair.
 	 *
 	 * @param   array  $options  Configuration options.
 	 *
-	 * @return  mixed  Filesystem root for given FTP user, or boolean false if not found.
+	 * @return  mixed  FTP root for given FTP user, or boolean false if not found.
 	 *
 	 * @since   3.0
 	 */
 	public function detectFtpRoot($options)
 	{
-		// Get the options as a JObject for easier handling.
-		$options = JArrayHelper::toObject($options, 'JObject');
+		// Get the options as a object for easier handling.
+		$options = JArrayHelper::toObject($options);
 
 		// Connect and login to the FTP server.
 		// Use binary transfer mode to be able to compare files.
@@ -125,14 +125,14 @@ class InstallationModelFilesystem extends JModelLegacy
 	 *
 	 * @param   array  $options  Configuration options.
 	 *
-	 * @return  mixed  Filesystem root for given FTP user, or boolean false if not found.
+	 * @return  mixed  FTP root for given FTP user, or boolean false if not found.
 	 *
 	 * @since   3.0
 	 */
 	public function verifyFtpSettings($options)
 	{
-		// Get the options as a JObject for easier handling.
-		$options = JArrayHelper::toObject($options, 'JObject');
+		// Get the options as a object for easier handling.
+		$options = JArrayHelper::toObject($options);
 
 		// Connect and login to the FTP server.
 		@$ftp = JClientFtp::getInstance($options->get('ftp_host'), $options->get('ftp_port'));
@@ -443,8 +443,8 @@ class InstallationModelFilesystem extends JModelLegacy
 	 */
 	public function setFolderPermissions($folder, $options)
 	{
-		// Get the options as a JObject for easier handling.
-		$options = JArrayHelper::toObject($options, 'JObject');
+		// Get the options as a object for easier handling.
+		$options = JArrayHelper::toObject($options);
 
 		// Initialise variables.
 		$ftpFlag = false;
@@ -471,9 +471,7 @@ class InstallationModelFilesystem extends JModelLegacy
 			// Translate path for the FTP account
 			$path = JPath::clean($ftpRoot . "/" . $folder);
 
-			/*
-			 * chmod using ftp
-			 */
+			// Chmod using ftp
 			if (!$client->chmod($path, '0755'))
 			{
 				$ret = false;
@@ -486,7 +484,7 @@ class InstallationModelFilesystem extends JModelLegacy
 		{
 			$path = JPath::clean(JPATH_SITE . '/' . $folder);
 
-			if (!@ chmod($path, octdec('0755')))
+			if (!@chmod($path, octdec('0755')))
 			{
 				$ret = false;
 			}
@@ -561,7 +559,7 @@ class InstallationModelFilesystem extends JModelLegacy
 		}
 		else
 		{
-			$ret = @ chmod($path, $mode);
+			$ret = @chmod($path, $mode);
 		}
 
 		return $ret;

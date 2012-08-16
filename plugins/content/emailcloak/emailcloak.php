@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     Joomla.Plugin
  * @subpackage  Content.emailcloak
+ * @since       1.5
  */
 class plgContentEmailcloak extends JPlugin
 {
@@ -46,7 +47,8 @@ class plgContentEmailcloak extends JPlugin
 	 * @param	string	The text enclosed by the link.
 	 * @return	string	A regular expression that matches a link containing the parameters.
 	 */
-	protected function _getPattern ($link, $text) {
+	protected function _getPattern ($link, $text)
+	{
 		$pattern = '~(?:<a [\w "\'=\@\.\-]*href\s*=\s*"mailto:'
 			. $link . '"[\w "\'=\@\.\-]*)>' . $text . '</a>~i';
 		return $pattern;

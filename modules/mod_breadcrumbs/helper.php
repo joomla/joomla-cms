@@ -10,8 +10,11 @@
 defined('_JEXEC') or die;
 
 /**
+ * Helper for mod_breadcrumbs
+ *
  * @package     Joomla.Site
  * @subpackage  mod_breadcrumbs
+ * @since       1.5
  */
 class modBreadCrumbsHelper
 {

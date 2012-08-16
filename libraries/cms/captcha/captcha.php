@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.filesystem.file');
-
 /**
  * Joomla! Captcha base object
  *
@@ -212,7 +210,7 @@ class JCaptcha extends JObject
 		$name = JFilterInput::getInstance()->clean($this->_name, 'cmd');
 		$path = JPATH_PLUGINS . '/captcha/' . $name . '/' . $name . '.php';
 
-		if (!JFile::exists($path))
+		if (!is_file($path))
 		{
 			throw new RuntimeException(JText::sprintf('JLIB_CAPTCHA_ERROR_PLUGIN_NOT_FOUND', $name));
 		}

@@ -19,7 +19,9 @@ defined('_JEXEC') or die;
 class TemplatesViewTemplate extends JViewLegacy
 {
 	protected $files;
+
 	protected $state;
+
 	protected $template;
 
 	/**
@@ -48,14 +50,14 @@ class TemplatesViewTemplate extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		JRequest::setVar('hidemainmenu', true);
-		$user		= JFactory::getUser();
-		$canDo		= TemplatesHelper::getActions();
+		JFactory::getApplication()->input->set('hidemainmenu', true);
+		$user  = JFactory::getUser();
+		$canDo = TemplatesHelper::getActions();
 
-		JToolBarHelper::title(JText::_('COM_TEMPLATES_MANAGER_VIEW_TEMPLATE'), 'thememanager');
+		JToolbarHelper::title(JText::_('COM_TEMPLATES_MANAGER_VIEW_TEMPLATE'), 'thememanager');
 
-		JToolBarHelper::cancel('template.cancel', 'JTOOLBAR_CLOSE');
-		JToolBarHelper::divider();
-		JToolBarHelper::help('JHELP_EXTENSIONS_TEMPLATE_MANAGER_TEMPLATES_EDIT');
+		JToolbarHelper::cancel('template.cancel', 'JTOOLBAR_CLOSE');
+		JToolbarHelper::divider();
+		JToolbarHelper::help('JHELP_EXTENSIONS_TEMPLATE_MANAGER_TEMPLATES_EDIT');
 	}
 }

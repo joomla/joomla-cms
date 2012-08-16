@@ -9,9 +9,9 @@
 
 defined('_JEXEC') or die;
 
-// Include dependancies.
-require_once dirname(__FILE__).'/helper.php';
+require_once __DIR__ . '/helper.php';
 
-if ($list = modSubmenuHelper::getItems()) {
+if ($list = modSubmenuHelper::getItems())
+{
 	require JModuleHelper::getLayoutPath('mod_submenu', $params->get('layout', 'default'));
 }

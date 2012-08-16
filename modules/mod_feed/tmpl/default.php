@@ -94,7 +94,7 @@ if ($feed != false)
 					// item description
 					$text = $currItem->get_description();
 					$text = str_replace('&apos;', "'", $text);
-					$text=strip_tags($text);
+					$text = strip_tags($text);
 					// word limit check
 					if ($words)
 					{

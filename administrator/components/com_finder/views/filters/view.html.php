@@ -61,33 +61,33 @@ class FinderViewFilters extends JViewLegacy
 	{
 		$canDo = FinderHelper::getActions();
 
-		JToolBarHelper::title(JText::_('COM_FINDER_FILTERS_TOOLBAR_TITLE'), 'finder');
-		$toolbar = JToolBar::getInstance('toolbar');
+		JToolbarHelper::title(JText::_('COM_FINDER_FILTERS_TOOLBAR_TITLE'), 'finder');
+		$toolbar = JToolbar::getInstance('toolbar');
 
 		if ($canDo->get('core.create'))
 		{
-			JToolBarHelper::addNew('filter.add');
-			JToolBarHelper::editList('filter.edit');
-			JToolBarHelper::divider();
+			JToolbarHelper::addNew('filter.add');
+			JToolbarHelper::editList('filter.edit');
+			JToolbarHelper::divider();
 		}
 		if ($canDo->get('core.edit.state'))
 		{
-			JToolBarHelper::publishList('filters.publish');
-			JToolBarHelper::unpublishList('filters.unpublish');
-			JToolBarHelper::divider();
+			JToolbarHelper::publishList('filters.publish');
+			JToolbarHelper::unpublishList('filters.unpublish');
+			JToolbarHelper::divider();
 		}
 		if ($canDo->get('core.delete'))
 		{
-			JToolBarHelper::deleteList('', 'filters.delete');
-			JToolBarHelper::divider();
+			JToolbarHelper::deleteList('', 'filters.delete');
+			JToolbarHelper::divider();
 		}
 		if ($canDo->get('core.admin'))
 		{
-			JToolBarHelper::preferences('com_finder');
+			JToolbarHelper::preferences('com_finder');
 		}
-		JToolBarHelper::divider();
-		$toolbar->appendButton('Popup', 'stats', 'COM_FINDER_STATISTICS', 'index.php?option=com_finder&view=statistics&tmpl=component', 550, 500);
-		JToolBarHelper::divider();
-		JToolBarHelper::help('JHELP_COMPONENTS_FINDER_MANAGE_SEARCH_FILTERS');
+		JToolbarHelper::divider();
+		$toolbar->appendButton('Popup', 'stats', 'COM_FINDER_STATISTICS', 'index.php?option=com_finder&view=statistics&tmpl=component', 550, 350);
+		JToolbarHelper::divider();
+		JToolbarHelper::help('JHELP_COMPONENTS_FINDER_MANAGE_SEARCH_FILTERS');
 	}
 }

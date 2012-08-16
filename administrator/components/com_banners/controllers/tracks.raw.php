@@ -97,7 +97,7 @@ class BannersControllerTracks extends JControllerLegacy
 			$view->setModel($model, true);
 
 			// Push document object into the view.
-			$view->assignRef('document', $document);
+			$view->document = $document;
 
 			$view->display();
 		}

@@ -78,7 +78,7 @@ abstract class JString
 	 *
 	 * @return  array   The splitted string.
 	 *
-	 * @deprecated  12.3
+	 * @deprecated  12.3 Use JStringNormalise::fromCamelCase()
 	 * @since   11.3
 	 */
 	public static function splitCamelCase($string)
@@ -349,7 +349,7 @@ abstract class JString
 			{
 				$encoding = 'CP' . $m[1];
 			}
-			elseif (stristr($locale, 'UTF-8'))
+			elseif (stristr($locale, 'UTF-8') || stristr($locale, 'utf8'))
 			{
 				$encoding = 'UTF-8';
 			}
@@ -408,7 +408,7 @@ abstract class JString
 			{
 				$encoding = 'CP' . $m[1];
 			}
-			elseif (stristr($locale, 'UTF-8'))
+			elseif (stristr($locale, 'UTF-8') || stristr($locale, 'utf8'))
 			{
 				$encoding = 'UTF-8';
 			}

@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 ?>
 
-
 <form action="<?php echo JRoute::_('index.php'); ?>" method="post" name="adminForm" id="adminForm">
 <div class="width-100">
 	<h3 class="title fltlft">
@@ -21,7 +20,7 @@ defined('_JEXEC') or die;
 	</h3>
 	<div class="clr"></div>
 	<div class="width-100 temprev">
-		<?php echo JHtml::_('iframe', $this->url.'index.php?tp='.$this->tp.'&amp;template='.$this->id, 'previewframe',  array('class' => 'previewframe')) ?>
+		<?php echo JHtml::_('iframe', $this->url . 'index.php?tp=' . $this->tp . '&amp;template=' . $this->id, 'previewframe', array('class' => 'previewframe')) ?>
 	</div>
 </div>
 

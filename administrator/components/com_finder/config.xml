@@ -7,6 +7,7 @@
 		<field
 			name="show_description"
 			type="radio"
+			class="btn-group"
 			default="1"
 			label="COM_FINDER_CONFIG_SHOW_DESCRIPTION_LABEL"
 			description="COM_FINDER_CONFIG_SHOW_DESCRIPTION_DESCRIPTION">
@@ -23,6 +24,7 @@
 			description="COM_FINDER_CONFIG_DESCRIPTION_LENGTH_DESCRIPTION" />
 		<field name="allow_empty_query"
 			type="radio"
+			class="btn-group"
 			default="0"
 			label="COM_FINDER_CONFIG_ALLOW_EMPTY_QUERY_LABEL"
 			description="COM_FINDER_CONFIG_ALLOW_EMPTY_QUERY_DESCRIPTION">
@@ -32,6 +34,7 @@
 		<field
 			name="show_url"
 			type="radio"
+			class="btn-group"
 			default="1"
 			label="COM_FINDER_CONFIG_SHOW_URL_LABEL"
 			description="COM_FINDER_CONFIG_SHOW_URL_DESCRIPTION">
@@ -41,6 +44,7 @@
 		<field
 			name="show_autosuggest"
 			type="radio"
+			class="btn-group"
 			default="1"
 			label="COM_FINDER_CONFIG_SHOW_AUTOSUGGEST_LABEL"
 			description="COM_FINDER_CONFIG_SHOW_AUTOSUGGEST_DESCRIPTION">
@@ -50,6 +54,7 @@
 		<field
 			name="show_advanced"
 			type="radio"
+			class="btn-group"
 			default="1"
 			label="COM_FINDER_CONFIG_SHOW_ADVANCED_LABEL"
 			description="COM_FINDER_CONFIG_SHOW_ADVANCED_DESCRIPTION">
@@ -59,6 +64,7 @@
 		<field
 			name="expand_advanced"
 			type="radio"
+			class="btn-group"
 			default="0"
 			label="COM_FINDER_CONFIG_EXPAND_ADVANCED_LABEL"
 			description="COM_FINDER_CONFIG_EXPAND_ADVANCED_DESCRIPTION">
@@ -68,6 +74,7 @@
 		<field
 			name="show_date_filters"
 			type="radio"
+			class="btn-group"
 			default="0"
 			label="COM_FINDER_CONFIG_SHOW_DATE_FILTERS_LABEL"
 			description="COM_FINDER_CONFIG_SHOW_DATE_FILTERS_DESCRIPTION">
@@ -96,6 +103,7 @@
 		<field
 			name="highlight_terms"
 			type="radio"
+			class="btn-group"
 			default="1"
 			label="COM_FINDER_CONFIG_HILIGHT_CONTENT_SEARCH_TERMS_LABEL"
 			description="COM_FINDER_CONFIG_HILIGHT_CONTENT_SEARCH_TERMS_DESCRIPTION">
@@ -184,6 +192,7 @@
 		<field
 			name="stem"
 			type="radio"
+			class="btn-group"
 			default="1"
 			label="COM_FINDER_CONFIG_STEMMER_ENABLE_LABEL"
 			description="COM_FINDER_CONFIG_STEMMER_ENABLE_DESCRIPTION" >
@@ -202,6 +211,7 @@
 		<field
 			name="enable_logging"
 			type="radio"
+			class="btn-group"
 			default="0"
 			label="COM_FINDER_CONFIG_ENABLE_LOGGING_LABEL"
 			description="COM_FINDER_CONFIG_ENABLE_LOGGING_DESCRIPTION">

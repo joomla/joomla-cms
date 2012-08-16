@@ -32,16 +32,17 @@ class NewsfeedsController extends JControllerLegacy
 		$cachable = true;
 
 		// Set the default view name and format from the Request.
-		$vName	= JRequest::getCmd('view', 'categories');
-		JRequest::setVar('view', $vName);
+		$vName = $this->input->get('view', 'categories');
+		$this->input->set('view', $vName);
 
 		$user = JFactory::getUser();
 
-		if ($user->get('id') || ($_SERVER['REQUEST_METHOD'] == 'POST' && $vName = 'category' )) {
+		if ($user->get('id') || ($_SERVER['REQUEST_METHOD'] == 'POST' && $vName = 'category' ))
+		{
 			$cachable = false;
 		}
 
-		$safeurlparams = array('id'=>'INT', 'limit'=>'UINT', 'limitstart'=>'UINT', 'filter_order'=>'CMD', 'filter_order_Dir'=>'CMD', 'lang'=>'CMD');
+		$safeurlparams = array('id' => 'INT', 'limit' => 'UINT', 'limitstart' => 'UINT', 'filter_order' => 'CMD', 'filter_order_Dir' => 'CMD', 'lang' => 'CMD');
 
 		parent::display($cachable, $safeurlparams);
 	}

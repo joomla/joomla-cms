@@ -56,10 +56,14 @@ class MessagesModelConfig extends JModelForm
 		$query->where('user_id = '.(int) $this->getState('user.id'));
 
 		$db->setQuery($query);
-		$rows = $db->loadObjectList();
 
-		if ($error = $db->getErrorMsg()) {
-			$this->setError($error);
+		try
+		{
+			$rows = $db->loadObjectList();
+		}
+		catch (RuntimeException $e)
+		{
+			$this->setError($e->getMessage());
 			return false;
 		}
 
@@ -104,15 +108,20 @@ class MessagesModelConfig extends JModelForm
 				'DELETE FROM #__messages_cfg'.
 				' WHERE user_id = '. $userId
 			);
-			$db->execute();
-			if ($error = $db->getErrorMsg()) {
-				$this->setError($error);
+
+			try
+			{
+				$db->execute();
+			}
+			catch (RuntimeException $e)
+			{
+				$this->setError($e->getMessage());
 				return false;
 			}
 
 			$tuples = array();
 			foreach ($data as $k => $v) {
-				$tuples[] =  '('.$userId.', '.$db->Quote($k).', '.$db->Quote($v).')';
+				$tuples[] = '(' . $userId.', ' . $db->Quote($k) . ', ' . $db->Quote($v) . ')';
 			}
 
 			if ($tuples) {
@@ -121,9 +130,14 @@ class MessagesModelConfig extends JModelForm
 					' (user_id, cfg_name, cfg_value)'.
 					' VALUES '.implode(',', $tuples)
 				);
+
+				try
+				{
 				$db->execute();
-				if ($error = $db->getErrorMsg()) {
-					$this->setError($error);
+				}
+				catch (RuntimeException $e)
+				{
+					$this->setError($e->getMessage());
 					return false;
 				}
 			}

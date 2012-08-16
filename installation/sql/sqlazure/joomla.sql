@@ -419,7 +419,7 @@ CREATE TABLE [#__users](
 	[activation] [nvarchar](100) NOT NULL,
 	[params] [nvarchar](max) NOT NULL,
 	[lastResetTime] [datetime] NOT NULL,
-	[resetCount] [int] NOT NULL,	
+	[resetCount] [int] NOT NULL,
  CONSTRAINT [PK_#__users_id] PRIMARY KEY CLUSTERED
 (
 	[id] ASC
@@ -815,7 +815,9 @@ End;
 INSERT INTO #__update_sites_extensions (update_site_id, extension_id)
 SELECT 1, 700
 UNION ALL
-SELECT 2, 700;
+SELECT 2, 700
+UNION ALL
+SELECT 3, 600;
 
 
 /****** Object:  Table [#__update_sites]    Script Date: 11/08/2010 18:41:22 ******/
@@ -853,8 +855,9 @@ SET IDENTITY_INSERT #__update_sites ON;
 
 INSERT INTO #__update_sites (update_site_id,name ,type,location,enabled,last_check_timestamp) VALUES (1, 'Joomla Core', 'collection', 'http://update.joomla.org/core/list.xml', 1, 0);
 
-
 INSERT INTO #__update_sites (update_site_id ,name ,type,location,enabled,last_check_timestamp) VALUES (2, 'Joomla Extension Directory', 'collection', 'http://update.joomla.org/jed/list.xml', 1, 0);
+
+INSERT INTO #__update_sites (update_site_id,name,type,location,enabled,last_check_timestamp) VALUES (3, 'Accredited Joomla! Translations', 'collection', 'http://update.joomla.org/language/translationlist_3.xml', 1, 0);
 
 SET IDENTITY_INSERT #__update_sites OFF;
 

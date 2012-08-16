@@ -43,11 +43,11 @@ class MenusControllerMenu extends JControllerForm
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Initialise variables.
-		$app		= JFactory::getApplication();
-		$data		= JRequest::getVar('jform', array(), 'post', 'array');
-		$context	= 'com_menus.edit.menu';
-		$task		= $this->getTask();
-		$recordId	= JRequest::getInt('id');
+		$app      = JFactory::getApplication();
+		$data     = JRequest::getVar('jform', array(), 'post', 'array');
+		$context  = 'com_menus.edit.menu';
+		$task     = $this->getTask();
+		$recordId = $this->input->getInt('id');
 
 		if (!$this->checkEditId($context, $recordId)) {
 			// Somehow the person just went to the form and saved it - we don't allow that.

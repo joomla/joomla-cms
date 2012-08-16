@@ -28,7 +28,7 @@ class MenusControllerItems extends JControllerAdmin
 	 * Proxy for getModel
 	 * @since	1.6
 	 */
-	function getModel($name = 'Item', $prefix = 'MenusModel', $config = array())
+	public function getModel($name = 'Item', $prefix = 'MenusModel', $config = array())
 	{
 		return parent::getModel($name, $prefix, array('ignore_request' => true));
 	}
@@ -64,8 +64,8 @@ class MenusControllerItems extends JControllerAdmin
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Get the arrays from the Request
-		$order	= JRequest::getVar('order',	null,	'post',	'array');
-		$originalOrder = explode(',', JRequest::getString('original_order_values'));
+		$order = JRequest::getVar('order',	null,	'post',	'array');
+		$originalOrder = explode(',', $this->input->getString('original_order_values'));
 
 		// Make sure something has changed
 		if (!($order === $originalOrder))
@@ -85,7 +85,7 @@ class MenusControllerItems extends JControllerAdmin
 	 *
 	 * @since	1.6
 	 */
-	function setDefault()
+	public function setDefault()
 	{
 		// Check for request forgeries
 		JSession::checkToken('request') or die(JText::_('JINVALID_TOKEN'));
@@ -120,5 +120,36 @@ class MenusControllerItems extends JControllerAdmin
 		}
 
 		$this->setRedirect(JRoute::_('index.php?option='.$this->option.'&view='.$this->view_list, false));
+	}
+
+	/**
+	 * Method to save the submitted ordering values for records via AJAX.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.0
+	 */
+	public function saveOrderAjax()
+	{
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+
+		// Get the arrays from the Request
+		$pks	= JRequest::getVar('cid',	null, 'post', 'array');
+		$order	= JRequest::getVar('order',	null, 'post', 'array');
+		$originalOrder = explode(',', JRequest::getString('original_order_values'));
+
+		// Make sure something has changed
+		if (!($order === $originalOrder)) {
+			// Get the model
+			$model = $this->getModel();
+			// Save the ordering
+			$return = $model->saveorder($pks, $order);
+			if ($return)
+			{
+				echo "1";
+			}
+		}
+		// Close the application
+		JFactory::getApplication()->close();
 	}
 }

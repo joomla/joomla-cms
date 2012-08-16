@@ -907,7 +907,7 @@ class JInstaller extends JAdapter
 				}
 
 				// Create an array of queries from the sql file
-				$queries = JInstallerHelper::splitSql($buffer);
+				$queries = JDatabaseDriver::splitSql($buffer);
 
 				if (count($queries) == 0)
 				{
@@ -1082,7 +1082,7 @@ class JInstaller extends JAdapter
 								}
 
 								// Create an array of queries from the sql file
-								$queries = JInstallerHelper::splitSql($buffer);
+								$queries = JDatabaseDriver::splitSql($buffer);
 
 								if (count($queries) == 0)
 								{
@@ -1944,7 +1944,7 @@ class JInstaller extends JAdapter
 		$query->where('type = ' . $dbo->Quote($type));
 		$query->where('element = ' . $dbo->Quote($element));
 		$query->where('folder = ' . $dbo->Quote($folder));
-		$query->where('client_id = ' . intval($client));
+		$query->where('client_id = ' . (int) $client);
 		$query->where('state = -1');
 
 		return $dbo->execute();
@@ -2120,8 +2120,6 @@ class JInstaller extends JAdapter
 		}
 
 		$data = array();
-
-		$data['legacy'] = ($xml->getName() == 'install');
 
 		$data['name'] = (string) $xml->name;
 

@@ -17,8 +17,11 @@ defined('_JEXEC') or die;
 <div id="update-progress">
 	<div id="extprogress">
 		<div class="extprogrow">
-			<?php echo JHtml::_('image', 'media/bar.gif', JText::_('COM_JOOMLAUPDATE_VIEW_PROGRESS'),
-					array('class' => 'progress', 'id' => 'progress'), true); ?>
+			<?php
+			echo JHtml::_(
+				'image', 'media/bar.gif', JText::_('COM_JOOMLAUPDATE_VIEW_PROGRESS'),
+				array('class' => 'progress', 'id' => 'progress'), true
+			); ?>
 		</div>
 		<div class="extprogrow">
 			<span class="extlabel"><?php echo JText::_('COM_JOOMLAUPDATE_VIEW_UPDATE_PERCENT'); ?></span>

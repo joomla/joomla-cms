@@ -9,11 +9,11 @@
 
 defined('_JEXEC') or die;
 ?>
-		<div class="imgOutline">
+		<li class="imgOutline thumbnail height-80">
 			<div class="imgTotal">
 				<div align="center" class="imgBorder">
-					<a href="index.php?option=com_media&amp;view=mediaList&amp;tmpl=component&amp;folder=<?php echo $this->state->parent; ?>" target="folderframe">
-						<?php echo JHtml::_('image', 'media/folderup_32.png', '..', array('width' => 32, 'height' => 32), true); ?></a>
+					<a class="btn" href="index.php?option=com_media&amp;view=mediaList&amp;tmpl=component&amp;folder=<?php echo $this->state->parent; ?>" target="folderframe">
+						<i class="icon-arrow-up"></i></a>
 				</div>
 			</div>
 			<div class="controls">
@@ -22,4 +22,4 @@ defined('_JEXEC') or die;
 			<div class="imginfoBorder">
 				<a href="index.php?option=com_media&amp;view=mediaList&amp;tmpl=component&amp;folder=<?php echo $this->state->parent; ?>" target="folderframe">..</a>
 			</div>
-		</div>
+		</li>

@@ -32,11 +32,11 @@ class WeblinksController extends JControllerLegacy
 		require_once JPATH_COMPONENT.'/helpers/weblinks.php';
 
 		// Load the submenu.
-		WeblinksHelper::addSubmenu(JRequest::getCmd('view', 'weblinks'));
+		WeblinksHelper::addSubmenu($this->input->get('view', 'weblinks'));
 
-		$view		= JRequest::getCmd('view', 'weblinks');
-		$layout 	= JRequest::getCmd('layout', 'default');
-		$id			= JRequest::getInt('id');
+		$view   = $this->input->get('view', 'weblinks');
+		$layout = $this->input->get('layout', 'default');
+		$id     = $this->input->getInt('id');
 
 		// Check for edit form.
 		if ($view == 'weblink' && $layout == 'edit' && !$this->checkEditId('com_weblinks.edit.weblink', $id)) {

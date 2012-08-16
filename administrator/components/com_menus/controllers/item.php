@@ -136,12 +136,12 @@ class MenusControllerItem extends JControllerForm
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Initialise variables.
-		$app = JFactory::getApplication();
-		$model = $this->getModel('Item', '', array());
-		$data = JRequest::getVar('jform', array(), 'post', 'array');
-		$task = $this->getTask();
-		$context = 'com_menus.edit.item';
-		$recordId = JRequest::getInt('id');
+		$app      = JFactory::getApplication();
+		$model    = $this->getModel('Item', '', array());
+		$data     = JRequest::getVar('jform', array(), 'post', 'array');
+		$task     = $this->getTask();
+		$context  = 'com_menus.edit.item';
+		$recordId = $this->input->getInt('id');
 
 		if (!$this->checkEditId($context, $recordId))
 		{
@@ -297,14 +297,14 @@ class MenusControllerItem extends JControllerForm
 	 *
 	 * @since   1.6
 	 */
-	function setType()
+	public function setType()
 	{
 		// Initialise variables.
 		$app = JFactory::getApplication();
 
 		// Get the posted values from the request.
 		$data = JRequest::getVar('jform', array(), 'post', 'array');
-		$recordId = JRequest::getInt('id');
+		$recordId = $this->input->getInt('id');
 
 		// Get the type.
 		$type = $data['type'];
@@ -337,7 +337,7 @@ class MenusControllerItem extends JControllerForm
 
 		unset($data['request']);
 		$data['type'] = $title;
-		if (JRequest::getCmd('fieldtype') == 'type')
+		if ($this->input->get('fieldtype') == 'type')
 		{
 			$data['link'] = $app->getUserState('com_menus.edit.item.link');
 		}

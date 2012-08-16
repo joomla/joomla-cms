@@ -19,7 +19,9 @@ defined('_JEXEC') or die;
 class BannersViewTracks extends JViewLegacy
 {
 	protected $items;
+
 	protected $pagination;
+
 	protected $state;
 
 	/**
@@ -53,7 +55,7 @@ class BannersViewTracks extends JViewLegacy
 
 		$canDo	= BannersHelper::getActions($this->state->get('filter.category_id'));
 
-		JToolBarHelper::title(JText::_('COM_BANNERS_MANAGER_TRACKS'), 'banners-tracks.png');
+		JToolbarHelper::title(JText::_('COM_BANNERS_MANAGER_TRACKS'), 'banners-tracks.png');
 
 		$bar = JToolBar::getInstance('toolbar');
 			$bar->appendButton('Popup', 'export', 'JTOOLBAR_EXPORT', 'index.php?option=com_banners&amp;view=download&amp;tmpl=component', 600, 300);
@@ -61,12 +63,30 @@ class BannersViewTracks extends JViewLegacy
 		$app = JFactory::getApplication();
 		if ($canDo->get('core.delete')) {
 			$bar->appendButton('Confirm', 'COM_BANNERS_DELETE_MSG', 'delete', 'COM_BANNERS_TRACKS_DELETE', 'tracks.delete', false);
-			JToolBarHelper::divider();
+			JToolbarHelper::divider();
 		}
 		if ($canDo->get('core.admin')) {
-			JToolBarHelper::preferences('com_banners');
-			JToolBarHelper::divider();
+			JToolbarHelper::preferences('com_banners');
+			JToolbarHelper::divider();
 		}
-		JToolBarHelper::help('JHELP_COMPONENTS_BANNERS_TRACKS');
+		JToolbarHelper::help('JHELP_COMPONENTS_BANNERS_TRACKS');
+	}
+
+	/**
+	 * Returns an array of fields the table can be sorted by
+	 *
+	 * @return  array  Array containing the field name to sort by as the key and display text as value
+	 *
+	 * @since   3.0
+	 */
+	protected function getSortFields()
+	{
+		return array(
+			'b.name' => JText::_('COM_BANNERS_HEADING_NAME'),
+			'cl.name' => JText::_('COM_BANNERS_HEADING_CLIENT'),
+			'track_type' => JText::_('COM_BANNERS_HEADING_TYPE'),
+			'count' => JText::_('COM_BANNERS_HEADING_COUNT'),
+			'track_date' => JText::_('JDATE')
+		);
 	}
 }

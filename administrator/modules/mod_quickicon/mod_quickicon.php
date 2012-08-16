@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-require_once dirname(__FILE__).'/helper.php';
+require_once __DIR__ . '/helper.php';
 
 $buttons = modQuickIconHelper::getButtons($params);
 

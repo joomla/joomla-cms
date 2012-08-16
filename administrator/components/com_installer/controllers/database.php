@@ -22,7 +22,7 @@ class InstallerControllerDatabase extends JControllerLegacy
 	 *
 	 * @since   2.5
 	 */
-	function fix()
+	public function fix()
 	{
 		$model = $this->getModel('database');
 		$model->fix();

@@ -39,11 +39,11 @@ class LanguagesModelLanguage extends JModelAdmin
 	 */
 	protected function populateState()
 	{
-		$app		= JFactory::getApplication('administrator');
-		$params		= JComponentHelper::getParams('com_languages');
+		$app    = JFactory::getApplication('administrator');
+		$params = JComponentHelper::getParams('com_languages');
 
 		// Load the User state.
-		$langId = (int) JRequest::getInt('lang_id');
+		$langId = $app->input->getInt('lang_id');
 		$this->setState('language.id', $langId);
 
 		// Load the parameters.

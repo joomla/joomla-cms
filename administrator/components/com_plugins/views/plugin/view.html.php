@@ -19,7 +19,9 @@ defined('_JEXEC') or die;
 class PluginsViewPlugin extends JViewLegacy
 {
 	protected $item;
+
 	protected $form;
+
 	protected $state;
 
 	/**
@@ -48,20 +50,20 @@ class PluginsViewPlugin extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		JRequest::setVar('hidemainmenu', true);
+		JFactory::getApplication()->input->set('hidemainmenu', true);
 
-		$user		= JFactory::getUser();
-		$canDo		= PluginsHelper::getActions();
+		$user  = JFactory::getUser();
+		$canDo = PluginsHelper::getActions();
 
-		JToolBarHelper::title(JText::sprintf('COM_PLUGINS_MANAGER_PLUGIN', JText::_($this->item->name)), 'plugin');
+		JToolbarHelper::title(JText::sprintf('COM_PLUGINS_MANAGER_PLUGIN', JText::_($this->item->name)), 'plugin');
 
 		// If not checked out, can save the item.
 		if ($canDo->get('core.edit')) {
-			JToolBarHelper::apply('plugin.apply');
-			JToolBarHelper::save('plugin.save');
+			JToolbarHelper::apply('plugin.apply');
+			JToolbarHelper::save('plugin.save');
 		}
-		JToolBarHelper::cancel('plugin.cancel', 'JTOOLBAR_CLOSE');
-		JToolBarHelper::divider();
+		JToolbarHelper::cancel('plugin.cancel', 'JTOOLBAR_CLOSE');
+		JToolbarHelper::divider();
 		// Get the help information for the plugin item.
 
 		$lang = JFactory::getLanguage();
@@ -75,6 +77,6 @@ class PluginsViewPlugin extends JViewLegacy
 		else {
 			$url = null;
 		}
-		JToolBarHelper::help($help->key, false, $url);
+		JToolbarHelper::help($help->key, false, $url);
 	}
 }

@@ -121,12 +121,14 @@ class UsersTableNote extends JTable
 
 		// Update the publishing state for rows with the given primary keys.
 		$this->_db->setQuery($query);
-		$this->_db->execute();
 
-		// Check for a database error.
-		if ($this->_db->getErrorNum())
+		try
 		{
-			$this->setError($this->_db->getErrorMsg());
+			$this->_db->execute();
+		}
+		catch (RuntimeException $e)
+		{
+			$this->setError($this->_db->getMessage());
 			return false;
 		}
 

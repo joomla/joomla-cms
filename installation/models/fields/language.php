@@ -8,7 +8,7 @@
 
 defined('JPATH_BASE') or die;
 
-JLoader::register('JFormFieldList', JPATH_LIBRARIES . '/joomla/form/fields/list.php');
+JFormHelper::loadFieldClass('list');
 
 /**
  * Language Form Field class.

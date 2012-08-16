@@ -9,9 +9,8 @@
 
 defined('_JEXEC') or die;
 
-// Register dependent classes.
-JLoader::register('FinderIndexerHelper', dirname(__FILE__) . '/helper.php');
-JLoader::register('FinderIndexerTaxonomy', dirname(__FILE__) . '/taxonomy.php');
+JLoader::register('FinderIndexerHelper', __DIR__ . '/helper.php');
+JLoader::register('FinderIndexerTaxonomy', __DIR__ . '/taxonomy.php');
 JLoader::register('FinderHelperRoute', JPATH_SITE . '/components/com_finder/helpers/route.php');
 JLoader::register('FinderHelperLanguage', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/language.php');
 
@@ -496,13 +495,6 @@ class FinderIndexerQuery
 		$db->setQuery($query);
 		$return = $db->loadObject();
 
-		// Check for a database error.
-		if ($db->getErrorNum())
-		{
-			// Throw database error exception.
-			throw new Exception($db->getErrorMsg(), 500);
-		}
-
 		// Check the returned filter.
 		if (empty($return))
 		{
@@ -558,13 +550,6 @@ class FinderIndexerQuery
 		// Load the filters.
 		$db->setQuery($query);
 		$results = $db->loadObjectList();
-
-		// Check for a database error.
-		if ($db->getErrorNum())
-		{
-			// Throw database error exception.
-			throw new Exception($db->getErrorMsg(), 500);
-		}
 
 		// Sort the filter ids by branch.
 		foreach ($results as $result)
@@ -632,13 +617,6 @@ class FinderIndexerQuery
 		// Load the filters.
 		$db->setQuery($query);
 		$results = $db->loadObjectList();
-
-		// Check for a database error.
-		if ($db->getErrorNum())
-		{
-			// Throw database error exception.
-			throw new Exception($db->getErrorMsg(), 500);
-		}
 
 		// Cleared filter branches.
 		$cleared = array();
@@ -1322,13 +1300,6 @@ class FinderIndexerQuery
 		$db->setQuery($query);
 		$matches = $db->loadObjectList();
 
-		// Check for a database error.
-		if ($db->getErrorNum())
-		{
-			// Throw database error exception.
-			throw new Exception($db->getErrorMsg(), 500);
-		}
-
 		// Setup the container.
 		$token->matches = array();
 
@@ -1357,13 +1328,6 @@ class FinderIndexerQuery
 			// Get the terms.
 			$db->setQuery($query);
 			$results = $db->loadObjectList();
-
-			// Check for a database error.
-			if ($db->getErrorNum())
-			{
-				// Throw database error exception.
-				throw new Exception($db->getErrorMsg(), 500);
-			}
 
 			// Check if any similar terms were found.
 			if (empty($results))

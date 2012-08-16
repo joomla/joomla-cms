@@ -37,11 +37,11 @@ class ContactController extends JControllerLegacy
 		require_once JPATH_COMPONENT.'/helpers/contact.php';
 
 		// Load the submenu.
-		ContactHelper::addSubmenu(JRequest::getCmd('view', 'contacts'));
+		ContactHelper::addSubmenu($this->input->get('view', 'contacts'));
 
-		$view	= JRequest::getCmd('view', 'contacts');
-		$layout = JRequest::getCmd('layout', 'default');
-		$id		= JRequest::getInt('id');
+		$view   = $this->input->get('view', 'contacts');
+		$layout = $this->input->get('layout', 'default');
+		$id     = $this->input->getInt('id');
 
 		// Check for edit form.
 		if ($view == 'contact' && $layout == 'edit' && !$this->checkEditId('com_contact.edit.contact', $id)) {

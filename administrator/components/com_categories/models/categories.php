@@ -123,7 +123,7 @@ class CategoriesModelCategories extends JModelList
 	 * @return	string
 	 * @since	1.6
 	 */
-	function getListQuery()
+	protected function getListQuery()
 	{
 		// Create a new query object.
 		$db		= $this->getDbo();

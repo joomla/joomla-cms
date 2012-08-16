@@ -12,21 +12,28 @@ defined('_JEXEC') or die;
 /**
  * @package     Joomla.Site
  * @subpackage  com_mailto
+ * @since       1.5
  */
 class MailtoViewMailto extends JViewLegacy
 {
-	function display($tpl = null)
+	/**
+	 * @since  1.5
+	 */
+	public function display($tpl = null)
 	{
 		$data = $this->getData();
 		if ($data === false) {
 			return false;
 		}
 
-		$this->set('data'  , $data);
+		$this->set('data', $data);
 
 		parent::display($tpl);
 	}
 
+	/**
+	 * @since  1.5
+	 */
 	function &getData()
 	{
 		$user = JFactory::getUser();
@@ -41,23 +48,23 @@ class MailtoViewMailto extends JViewLegacy
 		}
 
 		// Load with previous data, if it exists
-		$mailto		= JRequest::getString('mailto', '', 'post');
-		$sender		= JRequest::getString('sender', '', 'post');
-		$from		= JRequest::getString('from', '', 'post');
-		$subject	= JRequest::getString('subject', '', 'post');
+		$mailto  = $this->input->post->getString('mailto', '');
+		$sender  = $this->input->post->getString('sender', '');
+		$from    = $this->input->post->getString('from', '');
+		$subject = $this->input->post->getString('subject', '');
 
 		if ($user->get('id') > 0) {
-			$data->sender	= $user->get('name');
-			$data->from		= $user->get('email');
+			$data->sender = $user->get('name');
+			$data->from   = $user->get('email');
 		}
 		else
 		{
-			$data->sender	= $sender;
-			$data->from		= $from;
+			$data->sender = $sender;
+			$data->from   = $from;
 		}
 
-		$data->subject	= $subject;
-		$data->mailto	= $mailto;
+		$data->subject = $subject;
+		$data->mailto  = $mailto;
 
 		return $data;
 	}

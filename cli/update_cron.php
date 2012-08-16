@@ -13,28 +13,25 @@
  */
 
 // Set flag that this is a parent file.
-define('_JEXEC', 1);
+const _JEXEC = 1;
 
 error_reporting(E_ALL | E_NOTICE);
 ini_set('display_errors', 1);
 
 // Load system defines
-if (file_exists(dirname(dirname(__FILE__)) . '/defines.php'))
+if (file_exists(dirname(__DIR__) . '/defines.php'))
 {
-	require_once dirname(dirname(__FILE__)) . '/defines.php';
+	require_once dirname(__DIR__) . '/defines.php';
 }
 
 if (!defined('_JDEFINES'))
 {
-	define('JPATH_BASE', dirname(dirname(__FILE__)));
+	define('JPATH_BASE', dirname(__DIR__));
 	require_once JPATH_BASE . '/includes/defines.php';
 }
 
 require_once JPATH_LIBRARIES . '/import.legacy.php';
 require_once JPATH_LIBRARIES . '/cms.php';
-
-// Force library to be in JError legacy mode
-JError::$legacy = true;
 
 // Load the configuration
 require_once JPATH_CONFIGURATION . '/configuration.php';
@@ -57,9 +54,6 @@ class Updatecron extends JApplicationCli
 	 */
 	public function doExecute()
 	{
-		// Purge all old records
-		$db = JFactory::getDBO();
-
 		// Get the update cache time
 		$component = JComponentHelper::getComponent('com_installer');
 
@@ -70,7 +64,7 @@ class Updatecron extends JApplicationCli
 		// Find all updates
 		$this->out('Fetching updates...');
 		$updater = JUpdater::getInstance();
-		$results = $updater->findUpdates(0, $cache_timeout);
+		$updater->findUpdates(0, $cache_timeout);
 		$this->out('Finished fetching updates');
 	}
 }

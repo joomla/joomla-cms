@@ -9,8 +9,6 @@
 
 defined('JPATH_BASE') or die;
 
-jimport('joomla.filesystem.file');
-
 require_once JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/adapter.php';
 
 /**
@@ -240,9 +238,10 @@ class plgFinderCategories extends FinderIndexerAdapter
 		}
 
 		// Need to import component route helpers dynamically, hence the reason it's handled here
-		if (JFile::exists(JPATH_SITE . '/components/' . $item->extension . '/helpers/route.php'))
+		$path = JPATH_SITE . '/components/' . $item->extension . '/helpers/route.php';
+		if (is_file($path))
 		{
-			include_once JPATH_SITE . '/components/' . $item->extension . '/helpers/route.php';
+			include_once $path;
 		}
 
 		$extension = ucfirst(substr($item->extension, 4));
@@ -309,7 +308,7 @@ class plgFinderCategories extends FinderIndexerAdapter
 		FinderIndexerHelper::getContentExtras($item);
 
 		// Index the item.
-		FinderIndexer::index($item);
+		$this->indexer->index($item);
 	}
 
 	/**

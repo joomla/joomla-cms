@@ -67,27 +67,27 @@ class FinderViewMaps extends JViewLegacy
 		include_once JPATH_COMPONENT . '/helpers/finder.php';
 		$canDo	= FinderHelper::getActions();
 
-		JToolBarHelper::title(JText::_('COM_FINDER_MAPS_TOOLBAR_TITLE'), 'finder');
-		$toolbar = JToolBar::getInstance('toolbar');
+		JToolbarHelper::title(JText::_('COM_FINDER_MAPS_TOOLBAR_TITLE'), 'finder');
+		$toolbar = JToolbar::getInstance('toolbar');
 
 		if ($canDo->get('core.edit.state'))
 		{
-			JToolBarHelper::publishList('maps.publish');
-			JToolBarHelper::unpublishList('maps.unpublish');
-			JToolBarHelper::divider();
+			JToolbarHelper::publishList('maps.publish');
+			JToolbarHelper::unpublishList('maps.unpublish');
+			JToolbarHelper::divider();
 		}
 		if ($canDo->get('core.delete'))
 		{
-			JToolBarHelper::deleteList('', 'maps.delete');
-			JToolBarHelper::divider();
+			JToolbarHelper::deleteList('', 'maps.delete');
+			JToolbarHelper::divider();
 		}
 		if ($canDo->get('core.admin'))
 		{
-			JToolBarHelper::preferences('com_finder');
+			JToolbarHelper::preferences('com_finder');
 		}
-		JToolBarHelper::divider();
-		$toolbar->appendButton('Popup', 'stats', 'COM_FINDER_STATISTICS', 'index.php?option=com_finder&view=statistics&tmpl=component', 550, 500);
-		JToolBarHelper::divider();
-		JToolBarHelper::help('JHELP_COMPONENTS_FINDER_MANAGE_CONTENT_MAPS');
+		JToolbarHelper::divider();
+		$toolbar->appendButton('Popup', 'stats', 'COM_FINDER_STATISTICS', 'index.php?option=com_finder&view=statistics&tmpl=component', 550, 350);
+		JToolbarHelper::divider();
+		JToolbarHelper::help('JHELP_COMPONENTS_FINDER_MANAGE_CONTENT_MAPS');
 	}
 }

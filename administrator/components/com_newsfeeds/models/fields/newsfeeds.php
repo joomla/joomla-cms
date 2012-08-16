@@ -49,11 +49,13 @@ class JFormFieldNewsfeeds extends JFormFieldList
 		// Get the options.
 		$db->setQuery($query);
 
-		$options = $db->loadObjectList();
-
-		// Check for a database error.
-		if ($db->getErrorNum()) {
-			JError::raiseWarning(500, $db->getErrorMsg());
+		try
+		{
+			$options = $db->loadObjectList();
+		}
+		catch (RuntimeException $e)
+		{
+			JError::raiseWarning(500, $db->getMessage());
 		}
 
 		// Merge any additional options in the XML definition.

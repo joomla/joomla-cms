@@ -10,12 +10,18 @@
 defined('_JEXEC') or die;
 
 /**
+ * Helper for mod_articles_archive
+ *
  * @package     Joomla.Site
  * @subpackage  mod_articles_archive
+ * @since       1.5
  */
 class modArchiveHelper
 {
-	static function getList(&$params)
+	/*
+	 * @since  1.5
+	 */
+	public static function getList(&$params)
 	{
 		//get database
 		$db		= JFactory::getDbo();
@@ -30,7 +36,7 @@ class modArchiveHelper
 			$query->where('language in ('.$db->quote(JFactory::getLanguage()->getTag()).','.$db->quote('*').')');
 		}
 
-		$db->setQuery($query, 0, intval($params->get('count')));
+		$db->setQuery($query, 0, (int) $params->get('count'));
 		$rows = (array) $db->loadObjectList();
 
 		$app	= JFactory::getApplication();
