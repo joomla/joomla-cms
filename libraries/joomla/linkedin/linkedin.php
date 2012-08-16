@@ -25,7 +25,7 @@ class JLinkedin
 	protected $options;
 
 	/**
-	 * @var    JLinkedinHttp  The HTTP client object to use in sending HTTP requests.
+	 * @var    JHttp  The HTTP client object to use in sending HTTP requests.
 	 * @since  12.3
 	 */
 	protected $client;
@@ -74,10 +74,10 @@ class JLinkedin
 	 *
 	 * @since   12.3
 	 */
-	public function __construct(JRegistry $options = null, JLinkedinHttp $client = null)
+	public function __construct(JRegistry $options = null, JHttp $client = null)
 	{
 		$this->options = isset($options) ? $options : new JRegistry;
-		$this->client  = isset($client) ? $client : new JLinkedinHttp($this->options);
+		$this->client  = isset($client) ? $client : new JHttp($this->options);
 
 		// Setup the default API url if not already set.
 		$this->options->def('api.url', 'https://api.linkedin.com');

@@ -25,7 +25,7 @@ class JLinkedinPeopleTest extends TestCase
 	protected $options;
 
 	/**
-	 * @var    JLinkedinHttp  Mock http object.
+	 * @var    JHttp  Mock http object.
 	 * @since  12.3
 	 */
 	protected $client;
@@ -81,7 +81,7 @@ class JLinkedinPeopleTest extends TestCase
 
 		$this->options = new JRegistry;
 		$this->input = new JInput;
-		$this->client = $this->getMock('JLinkedinHttp', array('get', 'post', 'delete', 'put'));
+		$this->client = $this->getMock('JHttp', array('get', 'post', 'delete', 'put'));
 
 		$this->object = new JLinkedinPeople($this->options, $this->client);
 

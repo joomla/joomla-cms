@@ -25,7 +25,7 @@ class JLinkedinOAuthTest extends TestCase
 	protected $options;
 
 	/**
-	 * @var    JLinkedinHttp  Mock http object.
+	 * @var    JHttp  Mock http object.
 	 * @since  12.3
 	 */
 	protected $client;
@@ -68,7 +68,7 @@ class JLinkedinOAuthTest extends TestCase
 
 		$this->options = new JRegistry;
 		$this->input = new JInput;
-		$this->client = $this->getMock('JLinkedinHttp', array('get', 'post', 'delete', 'put'));
+		$this->client = $this->getMock('JHttp', array('get', 'post', 'delete', 'put'));
 
 		$this->options->set('consumer_key', $key);
 		$this->options->set('consumer_secret', $secret);

@@ -8,7 +8,6 @@
  */
 
 require_once JPATH_PLATFORM . '/joomla/linkedin/object.php';
-require_once JPATH_PLATFORM . '/joomla/linkedin/http.php';
 require_once __DIR__ . '/stubs/JLinkedinObjectMock.php';
 
 /**
@@ -28,7 +27,7 @@ class JLinkedinObjectTest extends TestCase
 	protected $options;
 
 	/**
-	 * @var    JLinkedinHttp  Mock client object.
+	 * @var    JHttp  Mock client object.
 	 * @since  12.3
 	 */
 	protected $client;
@@ -62,7 +61,7 @@ class JLinkedinObjectTest extends TestCase
 	protected function setUp()
 	{
 		$this->options = new JRegistry;
-		$this->client = $this->getMock('JLinkedinHttp', array('get', 'post', 'delete', 'put'));
+		$this->client = $this->getMock('JHttp', array('get', 'post', 'delete', 'put'));
 
 		$this->object = new JLinkedinObjectMock($this->options, $this->client);
 	}

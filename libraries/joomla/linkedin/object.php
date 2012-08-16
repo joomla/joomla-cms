@@ -25,7 +25,7 @@ abstract class JLinkedinObject
 	protected $options;
 
 	/**
-	 * @var    JLinkedinHttp  The HTTP client object to use in sending HTTP requests.
+	 * @var    JHttp  The HTTP client object to use in sending HTTP requests.
 	 * @since  12.3
 	 */
 	protected $client;
@@ -33,15 +33,15 @@ abstract class JLinkedinObject
 	/**
 	 * Constructor.
 	 *
-	 * @param   JRegistry      &$options  Linkedin options object.
-	 * @param   JLinkedinHttp  $client    The HTTP client object.
+	 * @param   JRegistry  &$options  Linkedin options object.
+	 * @param   JHttp      $client    The HTTP client object.
 	 *
 	 * @since   12.3
 	 */
-	public function __construct(JRegistry &$options = null, JLinkedinHttp $client = null)
+	public function __construct(JRegistry &$options = null, JHttp $client = null)
 	{
 		$this->options = isset($options) ? $options : new JRegistry;
-		$this->client = isset($client) ? $client : new JLinkedinHttp($this->options);
+		$this->client = isset($client) ? $client : new JHttp($this->options);
 	}
 
 	/**

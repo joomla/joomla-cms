@@ -8,7 +8,6 @@
  */
 
 defined('JPATH_PLATFORM') or die();
-jimport('joomla.oauth.oauth1aclient');
 
 /**
  * Joomla Platform class for generating Linkedin API access token.
@@ -18,7 +17,7 @@ jimport('joomla.oauth.oauth1aclient');
  *
  * @since       12.3
  */
-class JLinkedinOauth extends JOauthOauth1aclient
+class JLinkedinOauth extends JOauthV1aclient
 {
 	/**
 	* @var    JRegistry  Options for the JLinkedinOauth object.
@@ -29,21 +28,21 @@ class JLinkedinOauth extends JOauthOauth1aclient
 	/**
 	 * Constructor.
 	 *
-	 * @param   JRegistry      $options  JLinkedinOauth options object.
-	 * @param   JLinkedinHttp  $client   The HTTP client object.
+	 * @param   JRegistry  $options  JLinkedinOauth options object.
+	 * @param   JHttp      $client   The HTTP client object.
 	 *
 	 * @since 12.3
 	 */
-	public function __construct(JRegistry $options = null, JLinkedinHttp $client = null, JInput $input = null)
+	public function __construct(JRegistry $options = null, JHttp $client = null, JInput $input = null)
 	{
 		$this->options = isset($options) ? $options : new JRegistry;
 
-		$this->setOption('accessTokenURL', 'https://www.linkedin.com/uas/oauth/accessToken');
-		$this->setOption('authenticateURL', 'https://www.linkedin.com/uas/oauth/authenticate');
-		$this->setOption('authoriseURL', 'https://www.linkedin.com/uas/oauth/authorize');
-		$this->setOption('requestTokenURL', 'https://www.linkedin.com/uas/oauth/requestToken');
+		$this->options->def('accessTokenURL', 'https://www.linkedin.com/uas/oauth/accessToken');
+		$this->options->def('authenticateURL', 'https://www.linkedin.com/uas/oauth/authenticate');
+		$this->options->def('authoriseURL', 'https://www.linkedin.com/uas/oauth/authorize');
+		$this->options->def('requestTokenURL', 'https://www.linkedin.com/uas/oauth/requestToken');
 
-		// Call the JOauth1aClient constructor to setup the object.
+		// Call the JOauthV1aclient constructor to setup the object.
 		parent::__construct($this->options, $client, $input);
 	}
 
