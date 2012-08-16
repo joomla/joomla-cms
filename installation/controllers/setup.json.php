@@ -707,6 +707,19 @@ class InstallationJsonResponse
 		$lang = JFactory::getLanguage();
 		$this->lang = $lang->getTag();
 
+		// Use language active in session as active
+		$session = JFactory::getSession();
+		$options = $session->get('setup.options', array());
+		if (isset($options['language']))
+		{
+			// Ensure that es-es language tags are returned as es-ES
+			$parts = explode('-', $options['language']);
+			if (count($parts) == 2)
+			{
+				$this->lang = $parts[0] . '-' . strtoupper($parts[1]);
+			}
+		}
+
 		// Get the message queue
 		$messages = JFactory::getApplication()->getMessageQueue();
 

@@ -29,6 +29,7 @@ $ -> Language fix or change
 16-Aug-2012 Jean-Marie Simonet
  # [#28925] Change the variable name on the submenu rendering to avoid conflicts. Thanks Andrea.
  # [#28926] Add Isis and Protostar to mysql/joomla.sql. Thanks Elin.
+ # Fix installation languages issue. Thanks Roberto
 
 16-Aug-2012 Rouven Weßling
  ^ Reduce use of JFolder and deprecated JRequest methods.
