@@ -824,7 +824,7 @@ class JLanguage
 
 			// Initialise variables for manually parsing the file for common errors.
 			$blacklist = array('YES', 'NO', 'NULL', 'FALSE', 'ON', 'OFF', 'NONE', 'TRUE');
-			$regex = '/^(|(\[[^\]]*\])|([A-Z][A-Z0-9_\-\.]*\s*=(\s*(("([^"]|\\\")*")|(_QQ_)))+))\s*(;.*)?$/';
+			$regex = '/^(|(\[[^\]]*\])|([A-Z][A-Z0-9_\-\.]*\s*=(\s*(("[^"]*")|(_QQ_)))+))\s*(;.*)?$/';
 			$this->debug = false;
 			$errors = array();
 
@@ -841,6 +841,9 @@ class JLanguage
 
 				// Check that the key is not in the blacklist and that the line format passes the regex.
 				$key = strtoupper(trim(substr($line, 0, strpos($line, '='))));
+
+				// Workaround to reduce regex complexity when matching escaped quotes
+				$line = str_replace('\"', '_QQ_', $line);
 
 				if (!preg_match($regex, $line) || in_array($key, $blacklist))
 				{
