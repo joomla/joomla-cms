@@ -9,12 +9,12 @@
 defined('_JEXEC') or die;
 
 /**
- * The HTML Joomla Core Language View
+ * The HTML Joomla Core FTP Configuration View
  *
  * @package  Joomla.Installation
  * @since    3.0
  */
-class InstallationViewLanguage extends JViewLegacy
+class InstallationViewFTP extends JViewLegacy
 {
 	/**
 	 * Display the view

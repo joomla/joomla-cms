@@ -40,7 +40,7 @@ class JFormFieldSample extends JFormFieldRadio
 		// Initialize variables.
 		$lang = JFactory::getLanguage();
 		$options = array();
-		$type = $this->form instanceof JForm ? $this->form->getValue('db_type') : 'mysql' || 'sqlazure';
+		$type = $this->form->getValue('db_type');
 
 		// Some database drivers share DDLs; point these drivers to the correct parent
 		if ($type == 'mysqli')

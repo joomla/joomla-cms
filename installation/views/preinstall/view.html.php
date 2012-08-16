@@ -27,11 +27,11 @@ class InstallationViewPreinstall extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$this->state		= $this->get('State');
-		$this->settings		= $this->get('PhpSettings');
-		$this->options		= $this->get('PhpOptions');
-		$this->sufficient	= $this->get('PhpOptionsSufficient');
-		$this->version		= new JVersion;
+		$this->form     = $this->get('Form');
+		$this->state    = $this->get('State');
+		$this->settings = $this->get('PhpSettings');
+		$this->options  = $this->get('PhpOptions');
+		$this->version  = new JVersion;
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))

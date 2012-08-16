@@ -9,12 +9,12 @@
 defined('_JEXEC') or die;
 
 /**
- * The HTML Joomla Core License View
+ * The HTML Joomla Core Install Summary View
  *
  * @package  Joomla.Installation
  * @since    3.0
  */
-class InstallationViewLicense extends JViewLegacy
+class InstallationViewSummary extends JViewLegacy
 {
 	/**
 	 * Display the view
@@ -27,7 +27,13 @@ class InstallationViewLicense extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$state = $this->get('State');
+		$this->state = $this->get('State');
+		$this->form = $this->get('Form');
+		$this->options = $this->get('Options');
+
+		// Get the config string from the session.
+		$session = JFactory::getSession();
+		$this->config = $session->get('setup.config', null);
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -36,7 +42,8 @@ class InstallationViewLicense extends JViewLegacy
 			return false;
 		}
 
-		$this->state = $state;
+		$this->phpsettings = $this->get('PhpSettings');
+		$this->phpoptions  = $this->get('PhpOptions');
 
 		parent::display($tpl);
 	}

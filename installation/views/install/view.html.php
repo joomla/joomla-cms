@@ -9,12 +9,12 @@
 defined('_JEXEC') or die;
 
 /**
- * The HTML Joomla Core Filesystem Configuration View
+ * The HTML Joomla Core Install View
  *
  * @package  Joomla.Installation
  * @since    3.0
  */
-class InstallationViewFilesystem extends JViewLegacy
+class InstallationViewInstall extends JViewLegacy
 {
 	/**
 	 * Display the view
@@ -28,7 +28,11 @@ class InstallationViewFilesystem extends JViewLegacy
 	public function display($tpl = null)
 	{
 		$state = $this->get('State');
-		$form  = $this->get('Form');
+		$options = $this->get('Options');
+
+		// Get the config string from the session.
+		$session = JFactory::getSession();
+		$config = $session->get('setup.config', null);
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -37,8 +41,9 @@ class InstallationViewFilesystem extends JViewLegacy
 			return false;
 		}
 
-		$this->state = $state;
-		$this->form  = $form;
+		$this->state   = $state;
+		$this->options = $options;
+		$this->config  = $config;
 
 		parent::display($tpl);
 	}

@@ -43,7 +43,7 @@ class InstallationModelDatabase extends JModelLegacy
 	}
 
 	/**
-	 * @since	3.0
+	 * @since   3.0
 	 */
 	public static function resetRandUserId()
 	{
@@ -133,146 +133,325 @@ class InstallationModelDatabase extends JModelLegacy
 			return false;
 		}
 
-		// If the database is not yet created, create it.
-		if (empty($options->db_created))
+		// Get a database object.
+		try
 		{
-			// Get a database object.
-			try
-			{
-				$db = InstallationHelperDatabase::getDbo($options->db_type, $options->db_host, $options->db_user, $options->db_pass, null, $options->db_prefix, false);
+			return InstallationHelperDatabase::getDbo($options->db_type, $options->db_host, $options->db_user, $options->db_pass, $options->db_name, $options->db_prefix, $options->db_select);
+		}
+		catch (RuntimeException $e)
+		{
+			$this->setError(JText::sprintf('INSTL_DATABASE_COULD_NOT_CONNECT', $e->getMessage()));
+			return false;
+		}
+	}
 
-				// Check database version.
-				$db_version = $db->getVersion();
-				$type = $options->db_type;
-			}
-			catch (RuntimeException $e)
+	/**
+	 * @since   3.0
+	 */
+	public function createDatabase($options)
+	{
+		// Disable autoselect database before it's created
+		$tmpSelect = true;
+		if (isset($options['db_select']))
+		{
+			$tmpSelect = $options['db_select'];
+		}
+		$options['db_select'] = false;
+
+		if (!$db = $this->initialise($options))
+		{
+			return false;
+		}
+
+		// Get the options as a object for easier handling.
+		$options = JArrayHelper::toObject($options);
+
+		// Check database version.
+		$type = $options->db_type;
+		try
+		{
+			$db_version = $db->getVersion();
+		}
+		catch (RuntimeException $e)
+		{
+			$this->setError(JText::sprintf('INSTL_DATABASE_COULD_NOT_CONNECT', $e->getMessage()));
+			return false;
+		}
+
+		if (!$db->isMinimumVersion())
+		{
+			$this->setError(JText::sprintf('INSTL_DATABASE_INVALID_' . strtoupper($type) . '_VERSION', $db_version));
+			return false;
+		}
+
+		if ($type == ('mysql' || 'mysqli'))
+		{
+			// @internal MySQL versions pre 5.1.6 forbid . / or \ or NULL
+			if ((preg_match('#[\\\/\.\0]#', $options->db_name)) && (!version_compare($db_version, '5.1.6', '>=')))
 			{
-				$this->setError(JText::sprintf('INSTL_DATABASE_COULD_NOT_CONNECT', $e->getMessage()));
+				$this->setError(JText::sprintf('INSTL_DATABASE_INVALID_NAME', $db_version));
 				return false;
 			}
+		}
 
-			if (!$db->isMinimumVersion())
-			{
-				$this->setError(JText::sprintf('INSTL_DATABASE_INVALID_' . strtoupper($type) . '_VERSION', $db_version));
-				return false;
-			}
+		// @internal Check for spaces in beginning or end of name
+		if (strlen(trim($options->db_name)) <> strlen($options->db_name))
+		{
+			$this->setError(JText::_('INSTL_DATABASE_NAME_INVALID_SPACES'));
+			return false;
+		}
 
-			if ($type == ('mysql' || 'mysqli'))
-			{
-				// @internal MySQL versions pre 5.1.6 forbid . / or \ or NULL
-				if ((preg_match('#[\\\/\.\0]#', $options->db_name)) && (!version_compare($db_version, '5.1.6', '>=')))
-				{
-					$this->setError(JText::sprintf('INSTL_DATABASE_INVALID_NAME', $db_version));
-					return false;
-				}
-			}
+		// @internal Check for asc(00) Null in name
+		if (strpos($options->db_name, chr(00)) !== false)
+		{
+			$this->setError(JText::_('INSTL_DATABASE_NAME_INVALID_CHAR'));
+			return false;
+		}
 
-			// @internal Check for spaces in beginning or end of name
-			if (strlen(trim($options->db_name)) <> strlen($options->db_name))
-			{
-				$this->setError(JText::_('INSTL_DATABASE_NAME_INVALID_SPACES'));
-				return false;
-			}
-
-			// @internal Check for asc(00) Null in name
-			if (strpos($options->db_name, chr(00)) !== false)
-			{
-				$this->setError(JText::_('INSTL_DATABASE_NAME_INVALID_CHAR'));
-				return false;
-			}
-
-			// Try to select the database
-			try
+		// Try to select the database
+		try
+		{
+			$db->select($options->db_name);
+		}
+		catch (RuntimeException $e)
+		{
+			// If the database could not be selected, attempt to create it and then select it.
+			if ($this->createDB($db, $options->db_name))
 			{
 				$db->select($options->db_name);
 			}
-			catch (RuntimeException $e)
-			{
-				// If the database could not be selected, attempt to create it and then select it.
-				if ($this->createDatabase($db, $options->db_name))
-				{
-					$db->select($options->db_name);
-				}
-				else
-				{
-					$this->setError(JText::sprintf('INSTL_DATABASE_ERROR_CREATE', $options->db_name));
-					return false;
-				}
-			}
-
-			// Set the character set to UTF-8 for pre-existing databases.
-			$this->setDatabaseCharset($db, $options->db_name);
-
-			// Should any old database tables be removed or backed up?
-			if ($options->db_old == 'remove')
-			{
-				// Attempt to delete the old database tables.
-				if (!$this->deleteDatabase($db, $options->db_name, $options->db_prefix))
-				{
-					$this->setError(JText::_('INSTL_DATABASE_ERROR_DELETE'));
-					return false;
-				}
-			}
 			else
 			{
-				// If the database isn't being deleted, back it up.
-				if (!$this->backupDatabase($db, $options->db_name, $options->db_prefix))
-				{
-					$this->setError(JText::_('INSTL_DATABASE_ERROR_BACKINGUP'));
-					return false;
-				}
-			}
-
-			// Set the appropriate schema script based on UTF-8 support.
-			if ($type == 'mysqli' || $type == 'mysql')
-			{
-				$schema = 'sql/mysql/joomla.sql';
-			}
-			elseif ($type == 'sqlsrv' || $type == 'sqlazure')
-			{
-				$schema = 'sql/sqlazure/joomla.sql';
-			}
-			else
-			{
-				$schema = 'sql/' . $type . '/joomla.sql';
-			}
-
-			// Check if the schema is a valid file
-			if (!is_file($schema))
-			{
-				$this->setError(JText::sprintf('INSTL_ERROR_DB', JText::_('INSTL_DATABASE_NO_SCHEMA')));
+				$this->setError(JText::sprintf('INSTL_DATABASE_ERROR_CREATE', $options->db_name));
 				return false;
 			}
+		}
 
-			// Attempt to import the database schema.
-			if (!$this->populateDatabase($db, $schema))
+		$options = (array) $options;
+		// remove *_errors value
+		foreach($options as $i => $option) {
+			if (isset($i['1']) && $i['1'] == '*') {
+				unset($options[$i]);
+				break;
+			}
+		}
+		$options = array_merge(array('db_created' => 1), $options);
+
+		// Restore autoselect value after database creation
+		$options['db_select'] = $tmpSelect;
+
+		$session = JFactory::getSession();
+		$session->set('setup.options', $options);
+
+		return true;
+	}
+
+	/**
+	 * @since   3.0
+	 */
+	public function handleOldDatabase($options)
+	{
+		if (!isset($options['db_created']) || !$options['db_created']) {
+			return $this->createDatabase($options);
+		}
+
+		if (!$db = $this->initialise($options))
+		{
+			return false;
+		}
+
+		// Get the options as a object for easier handling.
+		$options = JArrayHelper::toObject($options);
+
+		// Set the character set to UTF-8 for pre-existing databases.
+		$this->setDatabaseCharset($db, $options->db_name);
+
+		// Should any old database tables be removed or backed up?
+		if ($options->db_old == 'remove')
+		{
+			// Attempt to delete the old database tables.
+			if (!$this->deleteDatabase($db, $options->db_name, $options->db_prefix))
+			{
+				$this->setError(JText::_('INSTL_DATABASE_ERROR_DELETE'));
+				return false;
+			}
+		}
+		else
+		{
+			// If the database isn't being deleted, back it up.
+			if (!$this->backupDatabase($db, $options->db_name, $options->db_prefix))
+			{
+				$this->setError(JText::_('INSTL_DATABASE_ERROR_BACKINGUP'));
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * @since   3.0
+	 */
+	public function createTables($options)
+	{
+		if (!isset($options['db_created']) || !$options['db_created']) {
+			return $this->createDatabase($options);
+		}
+
+		if (!$db = $this->initialise($options))
+		{
+			return false;
+		}
+
+		// Get the options as a object for easier handling.
+		$options = JArrayHelper::toObject($options);
+
+		// Check database type.
+		$type = $options->db_type;
+
+		// Set the character set to UTF-8 for pre-existing databases.
+		$this->setDatabaseCharset($db, $options->db_name);
+
+		// Set the appropriate schema script based on UTF-8 support.
+		if ($type == 'mysqli' || $type == 'mysql')
+		{
+			$schema = 'sql/mysql/joomla.sql';
+		}
+		elseif ($type == 'sqlsrv' || $type == 'sqlazure')
+		{
+			$schema = 'sql/sqlazure/joomla.sql';
+		}
+		else
+		{
+			$schema = 'sql/' . $type . '/joomla.sql';
+		}
+		// Check if the schema is a valid file
+		if (!JFile::exists($schema))
+		{
+			$this->setError(JText::sprintf('INSTL_ERROR_DB', JText::_('INSTL_DATABASE_NO_SCHEMA')));
+			return false;
+		}
+
+		// Attempt to import the database schema.
+		if (!$this->populateDatabase($db, $schema))
+		{
+			$this->setError(JText::sprintf('INSTL_ERROR_DB', $this->getError()));
+			return false;
+		}
+
+		// Attempt to update the table #__schema.
+		$files = JFolder::files(JPATH_ADMINISTRATOR . '/components/com_admin/sql/updates/mysql/', '\.sql$');
+		if (empty($files))
+		{
+			$this->setError(JText::_('INSTL_ERROR_INITIALISE_SCHEMA'));
+			return false;
+		}
+		$version = '';
+		foreach ($files as $file)
+		{
+			if (version_compare($version, JFile::stripExt($file)) < 0)
+			{
+				$version = JFile::stripExt($file);
+			}
+		}
+		$query = $db->getQuery(true);
+		$query->insert('#__schemas');
+		$query->columns(
+			array(
+				$db->quoteName('extension_id'),
+				$db->quoteName('version_id'))
+		);
+		$query->values('700, ' . $db->quote($version));
+		$db->setQuery($query);
+
+		try
+		{
+			$db->execute();
+		}
+		catch (RuntimeException $e)
+		{
+			$this->setError($e->getMessage());
+			return false;
+		}
+
+		// Attempt to refresh manifest caches
+		$query = $db->getQuery(true);
+		$query->select('*');
+		$query->from('#__extensions');
+		$db->setQuery($query);
+
+		$return = true;
+		try
+		{
+			$extensions = $db->loadObjectList();
+		}
+		catch (RuntimeException $e)
+		{
+			$this->setError($e->getMessage());
+			$return = false;
+		}
+
+		JFactory::$database = $db;
+		$installer = JInstaller::getInstance();
+		foreach ($extensions as $extension)
+		{
+			if (!$installer->refreshManifestCache($extension->extension_id))
+			{
+				$this->setError(JText::sprintf('INSTL_DATABASE_COULD_NOT_REFRESH_MANIFEST_CACHE', $extension->name));
+				return false;
+			}
+		}
+
+		// Load the localise.sql for translating the data in joomla.sql
+		if ($type == 'mysqli' || $type == 'mysql')
+		{
+			$dblocalise = 'sql/mysql/localise.sql';
+		}
+		elseif ($type == 'sqlsrv' || $type == 'sqlazure')
+		{
+			$dblocalise = 'sql/sqlazure/localise.sql';
+		}
+		else
+		{
+			$dblocalise = 'sql/' . $type . '/localise.sql';
+		}
+		if (JFile::exists($dblocalise))
+		{
+			if (!$this->populateDatabase($db, $dblocalise))
 			{
 				$this->setError(JText::sprintf('INSTL_ERROR_DB', $this->getError()));
 				return false;
 			}
+		}
 
-			// Attempt to update the table #__schema.
-			$files = JFolder::files(JPATH_ADMINISTRATOR . '/components/com_admin/sql/updates/mysql/', '\.sql$');
-			if (empty($files))
+		// Handle default backend language setting. This feature is available for localized versions of Joomla.
+		$app = JFactory::getApplication();
+		$languages = $app->getLocaliseAdmin($db);
+		if (in_array($options->language, $languages['admin']) || in_array($options->language, $languages['site']))
+		{
+			// Build the language parameters for the language manager.
+			$params = array();
+
+			// Set default administrator/site language to sample data values:
+			$params['administrator'] = 'en-GB';
+			$params['site'] = 'en-GB';
+
+			if (in_array($options->language, $languages['admin']))
 			{
-				$this->setError(JText::_('INSTL_ERROR_INITIALISE_SCHEMA'));
-				return false;
+				$params['administrator'] = $options->language;
 			}
-			$version = '';
-			foreach ($files as $file)
+			if (in_array($options->language, $languages['site']))
 			{
-				if (version_compare($version, JFile::stripExt($file)) < 0)
-				{
-					$version = JFile::stripExt($file);
-				}
+				$params['site'] = $options->language;
 			}
-			$query = $db->getQuery(true);
-			$query->insert($db->quoteName('#__schemas'));
-			$query->columns(
-				array($db->quoteName('extension_id'), $db->quoteName('version_id'))
+			$params = json_encode($params);
+
+			// Update the language settings in the language manager.
+			$db->setQuery(
+				'UPDATE ' . $db->quoteName('#__extensions') .
+				' SET ' . $db->quoteName('params') . ' = ' . $db->Quote($params) .
+				' WHERE ' . $db->quoteName('element') . '=\'com_languages\''
 			);
-			$query->values('700, ' . $db->quote($version));
-			$db->setQuery($query);
 
 			try
 			{
@@ -281,100 +460,11 @@ class InstallationModelDatabase extends JModelLegacy
 			catch (RuntimeException $e)
 			{
 				$this->setError($e->getMessage());
-				return false;
-			}
-
-			// Attempt to refresh manifest caches
-			$query = $db->getQuery(true);
-			$query->select('*');
-			$query->from('#__extensions');
-			$db->setQuery($query);
-
-			try
-			{
-				$extensions = $db->loadObjectList();
-			}
-			catch (RuntimeException $e)
-			{
-				$this->setError($e->getMessage());
 				$return = false;
-			}
-
-			JFactory::$database = $db;
-			$installer = JInstaller::getInstance();
-			foreach ($extensions as $extension)
-			{
-				if (!$installer->refreshManifestCache($extension->extension_id))
-				{
-					$this->setError(JText::sprintf('INSTL_DATABASE_COULD_NOT_REFRESH_MANIFEST_CACHE', $extension->name));
-					return false;
-				}
-			}
-
-			// Load the localise.sql for translating the data in joomla.sql
-			if ($type == 'mysqli' || $type == 'mysql')
-			{
-				$dblocalise = 'sql/mysql/localise.sql';
-			}
-			elseif ($type == 'sqlsrv' || $type == 'sqlazure')
-			{
-				$dblocalise = 'sql/sqlazure/localise.sql';
-			}
-			else
-			{
-				$dblocalise = 'sql/' . $type . '/localise.sql';
-			}
-			if (is_file($dblocalise))
-			{
-				if (!$this->populateDatabase($db, $dblocalise))
-				{
-					$this->setError(JText::sprintf('INSTL_ERROR_DB', $this->getError()));
-					return false;
-				}
-			}
-
-			// Handle default backend language setting. This feature is available for localized versions of Joomla.
-			$app = JFactory::getApplication();
-			$languages = $app->getLocaliseAdmin($db);
-			if (in_array($options->language, $languages['admin']) || in_array($options->language, $languages['site']))
-			{
-				// Build the language parameters for the language manager.
-				$params = array();
-
-				// Set default administrator/site language to sample data values:
-				$params['administrator'] = 'en-GB';
-				$params['site'] = 'en-GB';
-
-				if (in_array($options->language, $languages['admin']))
-				{
-					$params['administrator'] = $options->language;
-				}
-				if (in_array($options->language, $languages['site']))
-				{
-					$params['site'] = $options->language;
-				}
-				$params = json_encode($params);
-
-				// Update the language settings in the language manager.
-				$query = $db->getQuery(true);
-				$query->update($db->quoteName('#__extensions'));
-				$query->set($db->quoteName('params') . ' = ' . $db->quote($params));
-				$query->where($db->quoteName('element') . ' = ' . $db->quote('com_languages'));
-				$db->setQuery($query);
-
-				try
-				{
-					$db->execute();
-				}
-				catch (RuntimeException $e)
-				{
-					$this->setError($e->getMessage());
-					$return = false;
-				}
 			}
 		}
 
-		return true;
+		return $return;
 	}
 
 	/**
@@ -388,19 +478,17 @@ class InstallationModelDatabase extends JModelLegacy
 	 */
 	public function installSampleData($options)
 	{
-		// Get the options as a object for easier handling.
-		$options = JArrayHelper::toObject($options);
-
-		// Get a database object.
-		try
-		{
-			$db = InstallationHelperDatabase::getDBO($options->db_type, $options->db_host, $options->db_user, $options->db_pass, $options->db_name, $options->db_prefix);
+		if (!isset($options['db_created']) || !$options['db_created']) {
+			return $this->createDatabase($options);
 		}
-		catch (RuntimeException $e)
+
+		if (!$db = $this->initialise($options))
 		{
-			$this->setError(JText::sprintf('INSTL_DATABASE_COULD_NOT_CONNECT', $e->getMessage()));
 			return false;
 		}
+
+		// Get the options as a object for easier handling.
+		$options = JArrayHelper::toObject($options);
 
 		// Build the path to the sample data file.
 		$type = $options->db_type;
@@ -474,7 +562,7 @@ class InstallationModelDatabase extends JModelLegacy
 	 * @param   string           $name    Name of the database to process.
 	 * @param   string           $prefix  Database table prefix.
 	 *
-	 * @return	boolean	True on success.
+	 * @return  boolean  True on success.
 	 *
 	 * @since	3.0
 	 */
@@ -530,11 +618,11 @@ class InstallationModelDatabase extends JModelLegacy
 	 * @param   JDatabaseDriver  $db    JDatabaseDriver object.
 	 * @param   string           $name  Name of the database to create.
 	 *
-	 * @return	boolean	True on success.
+	 * @return  boolean  True on success.
 	 *
 	 * @since   3.0
 	 */
-	public function createDatabase($db, $name)
+	public function createDB($db, $name)
 	{
 		// Build the create database query.
 		$query = 'CREATE DATABASE ' . $db->quoteName($name) . ' CHARACTER SET `utf8`';
@@ -562,9 +650,9 @@ class InstallationModelDatabase extends JModelLegacy
 	 * @param   string           $name    Name of the database to process.
 	 * @param   string           $prefix  Database table prefix.
 	 *
-	 * @return	boolean	True on success.
+	 * @return  boolean  True on success.
 	 *
-	 * @since	3.0
+	 * @since   3.0
 	 */
 	public function deleteDatabase($db, $name, $prefix)
 	{
@@ -603,9 +691,9 @@ class InstallationModelDatabase extends JModelLegacy
 	 * @param   JDatabaseDriver  $db      JDatabase object.
 	 * @param   string           $schema  Path to the schema file.
 	 *
-	 * @return	boolean	True on success.
+	 * @return  boolean  True on success.
 	 *
-	 * @since	3.0
+	 * @since   3.0
 	 */
 	public function populateDatabase($db, $schema)
 	{
@@ -653,7 +741,7 @@ class InstallationModelDatabase extends JModelLegacy
 	 * @param   JDatabaseDriver  $db    JDatabaseDriver object.
 	 * @param   string           $name  Name of the database to process.
 	 *
-	 * @return	boolean	True on success.
+	 * @return  boolean  True on success.
 	 *
 	 * @since   3.0
 	 */
@@ -682,7 +770,7 @@ class InstallationModelDatabase extends JModelLegacy
 	 *
 	 * @param   string  $sql  SQL schema.
 	 *
-	 * @return  array   Queries to perform.
+	 * @return  array  Queries to perform.
 	 *
 	 * @since   3.0
 	 */
