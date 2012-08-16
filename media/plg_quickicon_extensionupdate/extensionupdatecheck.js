@@ -3,35 +3,33 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-window.addEvent('domready', function(){
+jQuery(document).ready(function() {
 	var ajax_structure = {
-		onSuccess: function(msg, responseXML)
-		{
+		success: function(data, textStatus, jqXHR) {
 			try {
-				var updateInfoList = JSON.decode(msg, true);
+				var updateInfoList = jQuery.parseJSON(data);
 			} catch(e) {
 				// An error occured
-				document.id('plg_quickicon_extensionupdate').getElements('span').set('html', plg_quickicon_extensionupdate_text.ERROR);
+				jQuery('#plg_quickicon_extensionupdate').find('span').html(plg_quickicon_extensionupdate_text.ERROR);
 			}
 			if (updateInfoList instanceof Array) {
 				if (updateInfoList.length < 1) {
 					// No updates
-					document.id('plg_quickicon_extensionupdate').getElements('span').set('html', plg_quickicon_extensionupdate_text.UPTODATE);
+					jQuery('#plg_quickicon_extensionupdate').find('span').html(plg_quickicon_extensionupdate_text.UPTODATE);
 				} else {
 					var updateString = plg_quickicon_extensionupdate_text.UPDATEFOUND.replace("%s", updateInfoList.length);
-					document.id('plg_quickicon_extensionupdate').getElements('span').set('html', updateString);
+					jQuery('#plg_quickicon_extensionupdate').find('span').html(updateString);
 				}
 			} else {
 				// An error occured
-				document.id('plg_quickicon_extensionupdate').getElements('span').set('html', plg_quickicon_extensionupdate_text.ERROR);
+				jQuery('#plg_quickicon_extensionupdate').find('span').html(plg_quickicon_extensionupdate_text.ERROR);
 			}
 		},
-		onFailure: function(req) {
+		error: function(jqXHR, textStatus, errorThrown) {
 			// An error occured
-			document.id('plg_quickicon_extensionupdate').getElements('span').set('html', plg_quickicon_extensionupdate_text.ERROR);
+			jQuery('#plg_quickicon_extensionupdate').find('span').html(plg_quickicon_extensionupdate_text.ERROR);
 		},
-		url: plg_quickicon_extensionupdate_ajax_url
+		url: plg_quickicon_extensionupdate_ajax_url + '&eid=0&skip=700'
 	};
-	ajax_object = new Request(ajax_structure);
-	ajax_object.send('eid=0&skip=700');
+	ajax_object = new jQuery.ajax(ajax_structure);
 });
