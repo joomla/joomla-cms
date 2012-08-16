@@ -68,7 +68,7 @@ class FinderViewMaps extends JViewLegacy
 		$canDo	= FinderHelper::getActions();
 
 		JToolbarHelper::title(JText::_('COM_FINDER_MAPS_TOOLBAR_TITLE'), 'finder');
-		$toolbar = JToolBar::getInstance('toolbar');
+		$toolbar = JToolbar::getInstance('toolbar');
 
 		if ($canDo->get('core.edit.state'))
 		{
@@ -86,7 +86,7 @@ class FinderViewMaps extends JViewLegacy
 			JToolbarHelper::preferences('com_finder');
 		}
 		JToolbarHelper::divider();
-		$toolbar->appendButton('Popup', 'stats', 'COM_FINDER_STATISTICS', 'index.php?option=com_finder&view=statistics&tmpl=component', 550, 500);
+		$toolbar->appendButton('Popup', 'stats', 'COM_FINDER_STATISTICS', 'index.php?option=com_finder&view=statistics&tmpl=component', 550, 350);
 		JToolbarHelper::divider();
 		JToolbarHelper::help('JHELP_COMPONENTS_FINDER_MANAGE_CONTENT_MAPS');
 	}

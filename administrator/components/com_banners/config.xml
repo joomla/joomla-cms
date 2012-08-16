@@ -26,6 +26,7 @@
 		<field
 			name="track_impressions"
 			type="radio"
+			class="btn-group"
 			default="0"
 			label="COM_BANNERS_FIELD_TRACKIMPRESSION_LABEL"
 			description="COM_BANNERS_FIELD_TRACKIMPRESSION_DESC">
@@ -38,6 +39,7 @@
 		<field
 			name="track_clicks"
 			type="radio"
+			class="btn-group"
 			default="0"
 			label="COM_BANNERS_FIELD_TRACKCLICK_LABEL"
 			description="COM_BANNERS_FIELD_TRACKCLICK_DESC">

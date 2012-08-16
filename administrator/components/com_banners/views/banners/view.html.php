@@ -71,6 +71,9 @@ class BannersViewBanners extends JViewLegacy
 
 		$canDo = BannersHelper::getActions($this->state->get('filter.category_id'));
 		$user = JFactory::getUser();
+		// Get the toolbar object instance
+		$bar = JToolBar::getInstance('toolbar');
+
 		JToolbarHelper::title(JText::_('COM_BANNERS_MANAGER_BANNERS'), 'banners.png');
 		if (count($user->getAuthorisedCategories('com_banners', 'core.create')) > 0)
 		{
@@ -86,14 +89,12 @@ class BannersViewBanners extends JViewLegacy
 		{
 			if ($this->state->get('filter.state') != 2)
 			{
-				JToolbarHelper::divider();
 				JToolbarHelper::publish('banners.publish', 'JTOOLBAR_PUBLISH', true);
 				JToolbarHelper::unpublish('banners.unpublish', 'JTOOLBAR_UNPUBLISH', true);
 			}
 
 			if ($this->state->get('filter.state') != -1)
 			{
-				JToolbarHelper::divider();
 				if ($this->state->get('filter.state') != 2)
 				{
 					JToolbarHelper::archiveList('banners.archive');
@@ -113,19 +114,48 @@ class BannersViewBanners extends JViewLegacy
 		if ($this->state->get('filter.state') == -2 && $canDo->get('core.delete'))
 		{
 			JToolbarHelper::deleteList('', 'banners.delete', 'JTOOLBAR_EMPTY_TRASH');
-			JToolbarHelper::divider();
 		}
 		elseif ($canDo->get('core.edit.state'))
 		{
 			JToolbarHelper::trash('banners.trash');
-			JToolbarHelper::divider();
+		}
+
+		// Add a batch button
+		if ($user->authorise('core.edit'))
+		{
+			$title = JText::_('JTOOLBAR_BATCH');
+			$dhtml = "<button data-toggle=\"modal\" data-target=\"#collapseModal\" class=\"btn\">
+						<i class=\"icon-checkbox-partial\" title=\"$title\"></i>
+						$title</button>";
+			$bar->appendButton('Custom', $dhtml, 'batch');
 		}
 
 		if ($canDo->get('core.admin'))
 		{
 			JToolbarHelper::preferences('com_banners');
-			JToolbarHelper::divider();
 		}
 		JToolbarHelper::help('JHELP_COMPONENTS_BANNERS_BANNERS');
+	}
+
+	/**
+	 * Returns an array of fields the table can be sorted by
+	 *
+	 * @return  array  Array containing the field name to sort by as the key and display text as value
+	 *
+	 * @since   3.0
+	 */
+	protected function getSortFields()
+	{
+		return array(
+			'ordering' => JText::_('JGRID_HEADING_ORDERING'),
+			'a.name' => JText::_('COM_BANNERS_HEADING_NAME'),
+			'a.sticky' => JText::_('COM_BANNERS_HEADING_STICKY'),
+			'client_name' => JText::_('COM_BANNERS_HEADING_CLIENT'),
+			'impmade' => JText::_('COM_BANNERS_HEADING_IMPRESSIONS'),
+			'clicks' => JText::_('COM_BANNERS_HEADING_CLICKS'),
+			'a.language' => JText::_('JGRID_HEADING_LANGUAGE'),
+			'a.status' => JText::_('JSTATUS'),
+			'a.id' => JText::_('JGRID_HEADING_ID')
+		);
 	}
 }

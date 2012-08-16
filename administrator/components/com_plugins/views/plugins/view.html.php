@@ -68,18 +68,33 @@ class PluginsViewPlugins extends JViewLegacy
 		}
 
 		if ($canDo->get('core.edit.state')) {
-			JToolbarHelper::divider();
 			JToolbarHelper::publish('plugins.publish', 'JTOOLBAR_ENABLE', true);
 			JToolbarHelper::unpublish('plugins.unpublish', 'JTOOLBAR_DISABLE', true);
-			JToolbarHelper::divider();
 			JToolbarHelper::checkin('plugins.checkin');
 		}
 
 		if ($canDo->get('core.admin')) {
-			JToolbarHelper::divider();
 			JToolbarHelper::preferences('com_plugins');
 		}
-		JToolbarHelper::divider();
 		JToolbarHelper::help('JHELP_EXTENSIONS_PLUGIN_MANAGER');
+	}
+	/**
+	 * Returns an array of fields the table can be sorted by
+	 *
+	 * @return  array  Array containing the field name to sort by as the key and display text as value
+	 *
+	 * @since   3.0
+	 */
+	protected function getSortFields()
+	{
+		return array(
+			'ordering' => JText::_('JGRID_HEADING_ORDERING'),
+			'a.state' => JText::_('JSTATUS'),
+			'name' => JText::_('JGLOBAL_TITLE'),
+			'folder' => JText::_('COM_PLUGINS_FOLDER_HEADING'),
+			'element' => JText::_('COM_PLUGINS_ELEMENT_HEADING'),
+			'access' => JText::_('JGRID_HEADING_ACCESS'),
+			'extension_id' => JText::_('JGRID_HEADING_ID')
+		);
 	}
 }

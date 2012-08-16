@@ -55,6 +55,8 @@ class WeblinksViewWeblinks extends JViewLegacy
 		$state	= $this->get('State');
 		$canDo	= WeblinksHelper::getActions($state->get('filter.category_id'));
 		$user	= JFactory::getUser();
+		// Get the toolbar object instance
+		$bar = JToolBar::getInstance('toolbar');
 
 		JToolbarHelper::title(JText::_('COM_WEBLINKS_MANAGER_WEBLINKS'), 'weblinks.png');
 		if (count($user->getAuthorisedCategories('com_weblinks', 'core.create')) > 0) {
@@ -65,26 +67,50 @@ class WeblinksViewWeblinks extends JViewLegacy
 		}
 		if ($canDo->get('core.edit.state')) {
 
-			JToolbarHelper::divider();
 			JToolbarHelper::publish('weblinks.publish', 'JTOOLBAR_PUBLISH', true);
 			JToolbarHelper::unpublish('weblinks.unpublish', 'JTOOLBAR_UNPUBLISH', true);
 
-			JToolbarHelper::divider();
 			JToolbarHelper::archiveList('weblinks.archive');
 			JToolbarHelper::checkin('weblinks.checkin');
 		}
 		if ($state->get('filter.state') == -2 && $canDo->get('core.delete')) {
 			JToolbarHelper::deleteList('', 'weblinks.delete', 'JTOOLBAR_EMPTY_TRASH');
-			JToolbarHelper::divider();
 		} elseif ($canDo->get('core.edit.state')) {
 			JToolbarHelper::trash('weblinks.trash');
-			JToolbarHelper::divider();
+		}
+		// Add a batch button
+		if ($canDo->get('core.edit'))
+		{
+			$title = JText::_('JTOOLBAR_BATCH');
+			$dhtml = "<button data-toggle=\"modal\" data-target=\"#collapseModal\" class=\"btn\">
+						<i class=\"icon-checkbox-partial\" title=\"$title\"></i>
+						$title</button>";
+			$bar->appendButton('Custom', $dhtml, 'batch');
 		}
 		if ($canDo->get('core.admin')) {
 			JToolbarHelper::preferences('com_weblinks');
-			JToolbarHelper::divider();
 		}
 
 		JToolbarHelper::help('JHELP_COMPONENTS_WEBLINKS_LINKS');
+	}
+
+	/**
+	 * Returns an array of fields the table can be sorted by
+	 *
+	 * @return  array  Array containing the field name to sort by as the key and display text as value
+	 *
+	 * @since   3.0
+	 */
+	protected function getSortFields()
+	{
+		return array(
+			'a.ordering' => JText::_('JGRID_HEADING_ORDERING'),
+			'a.state' => JText::_('JSTATUS'),
+			'a.title' => JText::_('JGLOBAL_TITLE'),
+			'a.access' => JText::_('JGRID_HEADING_ACCESS'),
+			'a.hits' => JText::_('JGLOBAL_HITS'),
+			'a.language' => JText::_('JGRID_HEADING_LANGUAGE'),
+			'a.id' => JText::_('JGRID_HEADING_ID')
+		);
 	}
 }

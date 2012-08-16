@@ -221,4 +221,101 @@ abstract class ModulesHelper
 
 		return $options;
 	}
+
+	/**
+	 * Return a translated module position name
+	 *
+	 * @param   string  $template  Template name
+	 * @param   string  $position  Position name
+	 *
+	 * @return  string  Return a translated position name
+	 *
+	 * @since   3.0
+	 */
+	public static function getTranslatedModulePosition($template, $position)
+	{
+		// Template translation
+		$lang = JFactory::getLanguage();
+		$lang->load('tpl_' . $template . '.sys', JPATH_SITE . '/templates/' . $template, $lang->getDefault(), false, false);
+
+		$langKey = strtoupper('TPL_' . $template . '_POSITION_' . $position);
+		$text = JText::_($langKey);
+
+		// Avoid untranslated strings
+		if (!self::isTranslatedText($langKey, $text))
+		{
+			// Modules component translation
+			$langKey = strtoupper('COM_MODULES_POSITION_' . $position);
+			$text = JText::_($langKey);
+
+			// Avoid untranslated strings
+			if (!self::isTranslatedText($langKey, $text))
+			{
+				// Try to humanize the position name
+				$text = ucfirst(preg_replace('/^' . $template . '\-/', '', $position));
+				$text = ucwords(str_replace(array('-', '_'), ' ', $text));
+			}
+		}
+
+		return $text;
+	}
+
+	/**
+	 * Check if the string was translated
+	 *
+	 * @param   string  $langKey  Language file text key
+	 * @param   string  $text     The "translated" text to be checked
+	 *
+	 * @return  boolean  Return true for translated text
+	 *
+	 * @since   3.0
+	 */
+	public static function isTranslatedText($langKey, $text)
+	{
+		return $text !== $langKey;
+	}
+
+	/**
+	 * Create and return a new Option
+	 *
+	 * @param   string  $value  The option value [optional]
+	 * @param   string  $text   The option text [optional]
+	 *
+	 * @return  object  The option as an object (stdClass instance)
+	 *
+	 * @since   3.0
+	 */
+	public static function createOption($value = '', $text = '')
+	{
+		if (empty($text))
+		{
+			$text = $value;
+		}
+
+		$option = new stdClass;
+		$option->value = $value;
+		$option->text  = $text;
+
+		return $option;
+	}
+
+	/**
+	 * Create and return a new Option Group
+	 *
+	 * @param   string  $label    Value and label for group [optional]
+	 * @param   array   $options  Array of options to insert into group [optional]
+	 *
+	 * @return  array  Return the new group as an array
+	 *
+	 * @since   3.0
+	 */
+	public static function createOptionGroup($label = '', $options = array())
+	{
+		$group = array();
+		$group['value'] = $label;
+		$group['text']  = $label;
+		$group['items'] = $options;
+
+		return $group;
+	}
 }

@@ -33,18 +33,19 @@ class MediaViewMedia extends JViewLegacy
 		JHtml::_('behavior.framework', true);
 
 		JHtml::_('script', 'media/mediamanager.js', true, true);
+		/*
 		JHtml::_('stylesheet', 'media/mediamanager.css', array(), true);
 		if ($lang->isRTL()) :
 			JHtml::_('stylesheet', 'media/mediamanager_rtl.css', array(), true);
 		endif;
-
+		*/
 		JHtml::_('behavior.modal');
 		$document->addScriptDeclaration("
 		window.addEvent('domready', function() {
 			document.preview = SqueezeBox;
 		});");
 
-		JHtml::_('script', 'system/mootree.js', true, true, false, false);
+		// JHtml::_('script', 'system/mootree.js', true, true, false, false);
 		JHtml::_('stylesheet', 'system/mootree.css', array(), true);
 		if ($lang->isRTL()) :
 			JHtml::_('stylesheet', 'media/mootree_rtl.css', array(), true);
@@ -128,20 +129,42 @@ class MediaViewMedia extends JViewLegacy
 		// Set the titlebar text
 		JToolbarHelper::title(JText::_('COM_MEDIA'), 'mediamanager.png');
 
+		// Add a upload button
+		if ($user->authorise('core.create', 'com_media'))
+		{
+			$title = JText::_('JTOOLBAR_UPLOAD');
+			$dhtml = "<button data-toggle=\"collapse\" data-target=\"#collapseUpload\" class=\"btn btn-primary\">
+						<i class=\"icon-plus icon-white\" title=\"$title\"></i>
+						$title</button>";
+			$bar->appendButton('Custom', $dhtml, 'upload');
+			JToolbarHelper::divider();
+		}
+
+		// Add a create folder button
+		if ($user->authorise('core.create', 'com_media'))
+		{
+			$title = JText::_('COM_MEDIA_CREATE_FOLDER');
+			$dhtml = "<button data-toggle=\"collapse\" data-target=\"#collapseFolder\" class=\"btn\">
+						<i class=\"icon-folder\" title=\"$title\"></i>
+						$title</button>";
+			$bar->appendButton('Custom', $dhtml, 'folder');
+			JToolbarHelper::divider();
+		}
+
 		// Add a delete button
 		if ($user->authorise('core.delete', 'com_media'))
 		{
 			$title = JText::_('JTOOLBAR_DELETE');
-			$dhtml = "<a href=\"#\" onclick=\"MediaManager.submit('folder.delete')\" class=\"toolbar\">
-						<span class=\"icon-32-delete\" title=\"$title\"></span>
-						$title</a>";
+			$dhtml = "<button href=\"#\" onclick=\"MediaManager.submit('folder.delete')\" class=\"btn\">
+						<i class=\"icon-remove\" title=\"$title\"></i>
+						$title</button>";
 			$bar->appendButton('Custom', $dhtml, 'delete');
 			JToolbarHelper::divider();
 		}
 		// Add a delete button
 		if ($user->authorise('core.admin', 'com_media'))
 		{
-			JToolbarHelper::preferences('com_media', 450, 800, 'JToolbar_Options', '', 'window.location.reload()');
+			JToolbarHelper::preferences('com_media');
 			JToolbarHelper::divider();
 		}
 		JToolbarHelper::help('JHELP_CONTENT_MEDIA_MANAGER');

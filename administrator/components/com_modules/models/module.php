@@ -841,6 +841,10 @@ class ModulesModelModule extends JModelAdmin
 
 		}
 
+		// Load the default advanced params
+		JForm::addFormPath(JPATH_ADMINISTRATOR . '/components/com_modules/models/forms');
+		$form->loadFile('advanced', false);
+
 		// Trigger the default form events.
 		parent::preprocessForm($form, $data, $group);
 	}
@@ -848,8 +852,9 @@ class ModulesModelModule extends JModelAdmin
 	/**
 	 * Loads ContentHelper for filters before validating data.
 	 *
-	 * @param   object  $form  The form to validate against.
-	 * @param   array   $data  The data to validate.
+	 * @param   object  $form   The form to validate against.
+	 * @param   array   $data   The data to validate.
+	 * @param   string  $group  The name of the group(defaults to null).
 	 *
 	 * @return  mixed  Array of filtered data if valid, false otherwise.
 	 *

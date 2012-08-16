@@ -105,7 +105,7 @@ echo $params->get('image_path', 'images');?>/';
 			<ul class="upload-queue" id="upload-queue">
 				<li style="display: none"></li>
 			</ul>
-			<input type="hidden" name="return-url" value="<?php echo base64_encode('index.php?option=com_media&view=images&tmpl=component&fieldid=' . $input->getCmd('fieldid', '') . '&e_name=' . $input->getCmd('e_name') . '&asset=' . JRequest::getCmd('asset') . '&author=' . $input->getCmd('author')); ?>" />
+			<input type="hidden" name="return-url" value="<?php echo base64_encode('index.php?option=com_media&view=images&tmpl=component&fieldid=' . $input->getCmd('fieldid', '') . '&e_name=' . $input->getCmd('e_name') . '&asset=' . $input->getCmd('asset') . '&author=' . $input->getCmd('author')); ?>" />
 		</fieldset>
 	</form>
 <?php  endif; ?>

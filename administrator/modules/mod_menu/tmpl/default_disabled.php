@@ -13,7 +13,7 @@ $showhelp 	= $params->get('showhelp', 1);
 //
 // Site SubMenu
 //
-$menu->addChild(new JMenuNode(JText::_('JSITE'), null, 'disabled'));
+$menu->addChild(new JMenuNode(JText::_('MOD_MENU_CONTROL_PANEL'), null, 'disabled'));
 
 //
 // Users Submenu

@@ -37,7 +37,7 @@ class JHtmlTemplates
 			if (file_exists($preview))
 			{
 				$preview	= $baseUrl.'/templates/'.$template.'/template_preview.png';
-				$html		= '<a href="'.$preview.'" class="modal" title="'.JText::_('COM_TEMPLATES_CLICK_TO_ENLARGE').'">'.$html.'</a>';
+				$html		= '<a href="'.$preview.'" class="thumbnail modal" title="'.JText::_('COM_TEMPLATES_CLICK_TO_ENLARGE').'">'.$html.'</a>';
 			}
 		}
 

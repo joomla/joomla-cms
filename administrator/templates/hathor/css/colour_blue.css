@@ -1,41 +1,3 @@
-@charset "UTF-8";
-
-/**
- * @package     Joomla.Administrator
- * @subpackage  templates.hathor
- *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
- * @since       1.6
- *
- * Color CSS file for the template - standard
- */
-
-/**
- * #2c2c2c	Text
- * #054993	Links
- * #ffffff	Background, border, text
- * #c3d2e5	Background alternate, button/icon/menu background
- * #a5bbd4-c3d2e5 Gradient Background
- * #e5f0fa	Background (input required)
- * #e5d9c3	Background Hover, Top/Left icon borders
- * #738498	Main borders
- * #868778	Top/Left hover borders
- * #f6f7db	Right/Bottom hover borders
- *
- * Special Use Colors:
- * #a20000	Text Error, border invalid
- * #cccccc	Text (faded)
- * #005800	Text (success)
- * #eeeeee	Background (input disabled)
- * #ffffcf	Background permissions debug
- * #cfffda	Background permissions debug
- * #ffcfcf	Background permissions debug
- */
-
-/**
- * General styles
- */
 body {
 	background-color: #ffffff;
 	color: #2c2c2c;
@@ -53,9 +15,6 @@ a:visited {
 	color: #054993;
 }
 
-/**
- * Overall Styles
- */
 #header {
 	background: #ffffff url(../images/j_logo.png) no-repeat;
 }
@@ -94,40 +53,6 @@ a:visited {
 	border-top: 1px solid #738498;
 }
 
-/**
- * Status layout
- */
-#module-status .preview {
-	background: url(../images/menu/icon-16-media.png) 3px 3px no-repeat;
-}
-
-#module-status .viewsite {
-	background: url(../images/menu/icon-16-viewsite.png) 3px 3px no-repeat;
-}
-
-#module-status .unread-messages,#module-status .no-unread-messages {
-	background: url(../images/menu/icon-16-messages.png) 3px 3px no-repeat;
-}
-
-#module-status .loggedin-users {
-	background: url(../images/menu/icon-16-user.png) 3px 3px no-repeat;
-}
-
-#module-status .backloggedin-users {
-	background: url(../images/menu/icon-16-back-user.png) 3px 3px no-repeat;
-}
-
-#module-status .multilanguage {
-	background: url(../images/menu/icon-16-language.png) 3px 3px no-repeat;
-}
-
-#module-status .logout {
-	background: url(../images/menu/icon-16-logout.png) 3px 3px no-repeat;
-}
-
-/**
- * Various Styles
- */
 .enabled,
 .success,
 .allow,
@@ -161,9 +86,6 @@ div.checkin-tick {
 	background: url(../images/admin/tick.png) 20px 50% no-repeat;
 }
 
-/**
- * Overlib
- */
 .ol-foreground {
 	background-color: #c3d2e5;
 }
@@ -184,9 +106,6 @@ div.checkin-tick {
 	color: #054993;
 }
 
-/**
- * Subheader, toolbar, page title
- */
 div.subheader .padding {
 	background: #ffffff;
 }
@@ -208,15 +127,16 @@ div.toolbar-box {
 	background: #ffffff;
 }
 
-div.toolbar-list li {
-	color: #2c2c2c;
+div.btn-toolbar {
+	margin-left: 5px;
+	padding-top: 3px;
 }
 
-div.toolbar-list li.divider {
-	border-right:1px dotted #e5d9c3;
+div.btn-toolbar li.divider {
+	border-right: 1px dotted #e5d9c3;
 }
 
-div.toolbar-list a {
+div.btn-toolbar div.btn-group button {
 	border-left: 1px solid #e5d9c3;
 	border-top: 1px solid #e5d9c3;
 	border-right: 1px solid #738498;
@@ -228,24 +148,23 @@ div.toolbar-list a {
 	background-image: -webkit-linear-gradient(center top,#a5bbd4,#c3d2e5 70%);
 	background-image: -o-linear-gradient(center top,#a5bbd4,#c3d2e5 70%);
 	background-image: linear-gradient(center top,#a5bbd4,#c3d2e5 70%);
+	padding: 5px 4px 5px 4px;
 }
 
-div.toolbar-list a:hover {
+div.btn-toolbar div.btn-group button:hover {
 	border-left: 1px solid #868778;
 	border-top: 1px solid #868778;
 	border-right: 1px solid #f6f7db;
 	border-bottom: 1px solid #f6f7db;
 	background: #e5d9c3;
 	color: #054993;
+	cursor: pointer;
 }
 
-div.toolbar-list li.button a.inactive {
+div.btn-toolbar div.btn-group button.inactive {
 	background: #c3d2e5;
 }
 
-/**
- * Pane Slider pane Toggler styles
- */
 .pane-sliders .title {
 	color: #2c2c2c;
 }
@@ -293,9 +212,6 @@ div.toolbar-list li.button a.inactive {
 	border-bottom: 1px solid #738498;
 }
 
-/**
- * Tabs
- */
 dl.tabs dt {
 	border: 1px solid #738498;
 	background: #c3d2e5;
@@ -335,9 +251,6 @@ div.current {
 	background: #ffffff;
 }
 
-/**
- * New parameter styles
- */
 div.current fieldset {
 	border: none 0;
 }
@@ -346,9 +259,6 @@ div.current fieldset.adminform {
 	border: 1px solid #738498;
 }
 
-/**
- * Login Settings
- */
 #login-page .pagetitle h2 {
 	background: transparent;
 }
@@ -384,9 +294,6 @@ div.current fieldset.adminform {
 	color: #054993;
 }
 
-/**
- * Cpanel Settings
- */
 #cpanel div.icon a,
 .cpanel div.icon a {
 	color: #054993;
@@ -415,9 +322,6 @@ div.current fieldset.adminform {
 	background: #e5d9c3;
 }
 
-/**
- * Form Styles
- */
 fieldset {
 	border: 1px #738498 solid;
 }
@@ -447,18 +351,14 @@ fieldset#filter-bar ul li fieldset {
 	border: 0;
 }
 
-/* Note: these visual cues should be augmented by aria */
 .invalid {
 	color: #a20000;
 }
 
-/* must be augmented by aria at the same time if changed dynamically by js
-aria-invalid=true or aria-invalid=false */
 input.invalid {
 	border: 1px solid #a20000;
 }
 
-/* augmented by aria in template javascript */
 input.readonly,
 span.faux-input {
 	border: 0;
@@ -479,7 +379,6 @@ span.faux-input {
 	border: 1px solid #738498;
 }
 
-/* Inputs used as buttons */
 input[type="button"],
 input[type="submit"],
 input[type="reset"] {
@@ -519,9 +418,6 @@ option:hover {
 	color: #054993;
 }
 
-/**
- * Option or Parameter styles
- */
 .paramrules {
 	background: #c3d2e5;
 }
@@ -530,9 +426,6 @@ span.gi {
 	color: #738498;
 }
 
-/**
- * Admintable Styles
- */
 table.admintable td.key,
 table.admintable td.paramlist_key {
 	background-color: #c3d2e5;
@@ -548,16 +441,10 @@ table.paramlist td.paramlist_description {
 	border-right: 1px solid #738498;
 }
 
-/**
- * Admin Form Styles
- */
 fieldset.adminform {
 	border: 1px solid #738498;
 }
 
-/**
- * Table styles are for use with tabular data
- */
 table.adminform {
 	background-color: #ffffff;
 }
@@ -580,9 +467,6 @@ table.adminform tr {
 	border-right: 1px solid #738498;
 }
 
-/**
- * Adminlist Table layout
- */
 table.adminlist {
 	border-spacing: 1px;
 	background-color: #ffffff;
@@ -604,9 +488,6 @@ table.adminlist thead th {
 	border-bottom: 1px solid #738498;
 }
 
-/**
- * Table row styles
- */
 table.adminlist tbody tr {
 	background: #ffffff;
 }
@@ -664,18 +545,12 @@ table.adminlist tfoot tr {
 	color: #2c2c2c;
 }
 
-/**
- * Table td/th styles
- */
 table.adminlist tfoot td,
 table.adminlist tfoot th {
 	background-color: #ffffff;
 	border-top: 1px solid #738498;
 }
 
-/**
- * Adminlist buttons
- */
 table.adminlist tr td.btns a {
 	border: 1px solid #738498;
 	background: #c3d2e5;
@@ -694,9 +569,6 @@ table.adminlist tr td.btns a:focus {
 	background-color: #ffffff;
 }
 
-/**
- * Saving order icon styling in admin tables
- */
 a.saveorder {
 	background: url(../images/admin/filesave.png) no-repeat;
 }
@@ -705,16 +577,10 @@ a.saveorder.inactive {
 	background-position: 0 -16px;
 }
 
-/**
- * Saving order icon styling in admin tables
- */
 fieldset.batch {
 	background: #ffffff;
 }
 
-/**
- * Button styling
- */
 button {
 	color: #054993;
 	border: 1px solid #738498;
@@ -736,7 +602,6 @@ button:focus {
 	color: #ff0000;
 }
 
-/* Button 1 Type */
 .button1 {
 	border: 1px solid #738498;
 	color: #054993;
@@ -749,11 +614,8 @@ button:focus {
 	background-image: linear-gradient(center top,#a5bbd4,#c3d2e5 70%);
 }
 
-/* Use this if you add images to the buttons such as directional arrows */
 .button1 a {
 	color: #054993;
-	/* add padding if you are using the directional images */
-	/* padding: 0 30px 0 6px; */
 }
 
 .button1 a:hover,
@@ -761,7 +623,6 @@ button:focus {
 	background: #e5d9c3;
 }
 
-/* Button 2 Type */
 .button2-left,
 .button2-right {
 	border: 1px solid #738498;
@@ -781,7 +642,6 @@ button:focus {
 	color: #054993;
 }
 
-/* these are inactive buttons */
 .button2-left span,
 .button2-right span {
 	color: #999999;
@@ -799,21 +659,10 @@ button:focus {
 	background: #e5d9c3;
 }
 
-/**
- * Pagination styles
- */
-/* Grey out the current page number */
 .pagination .page span {
 	color: #999999;
 }
 
-.icon-32-extension {
-    background-image: url(../images/toolbar/icon-32-extension.png);
-}
-
-/**
- * Tooltips
- */
 .tip {
 	background: #ffffff;
 	border: 1px solid #738498;
@@ -823,16 +672,10 @@ button:focus {
 	background: url(../images/selector-arrow-std.png) no-repeat;
 }
 
-/**
- * Calendar
- */
 a img.calendar {
 	background: url(../images/calendar.png) no-repeat;
 }
 
-/**
- * JGrid styles
- */
 .jgrid span.publish {
 	background-image: url(../images/admin/tick.png);
 }
@@ -893,11 +736,6 @@ a img.calendar {
 	background-image: url(../images/admin/publish_y.png);
 }
 
-/**
- * Menu Icons
- * These icons are used on the Administrator menu
- * The classes are constructed dynamically when the menu is generated
- */
 .icon-16-archive {
 	background-image: url(../images/menu/icon-16-archive.png);
 }
@@ -1070,7 +908,6 @@ a img.calendar {
 	background-image: url(../images/menu/icon-16-module.png);
 }
 
-/* .icon-16-new 		{ background-image: url(../images/menu/icon-16-new.png); } */
 .icon-16-newarticle {
 	background-image: url(../images/menu/icon-16-newarticle.png);
 }
@@ -1171,11 +1008,6 @@ a img.calendar {
 	background-image: url(../images/menu/icon-16-links-cat.png);
 }
 
-/**
- * Toolbar icons
- * These icons are used for the toolbar buttons
- * The classes are constructed dynamically when the toolbar is created
- */
 .icon-32-send {
 	background-image: url(../images/toolbar/icon-32-send.png);
 }
@@ -1336,12 +1168,6 @@ a img.calendar {
 	background-image: url(../images/toolbar/icon-32-print.png);
 }
 
-/**
- * Quick Icons
- * Also knows as Header Icons
- * These are used for the Quick Icons on the Control Panel
- * The same classes are also assigned the Component Title
- */
 .icon-48-categories {
 	background-image: url(../images/header/icon-48-category.png);
 }
@@ -1618,9 +1444,6 @@ a img.calendar {
 	background-image: url(../images/header/icon-48-category-add.png);
 }
 
-/**
- * General styles
- */
 div.message {
 	border: 1px solid #738498;
 	color: #2c2c2c;
@@ -1638,9 +1461,6 @@ div.message {
 	background: #ffffff;
 }
 
-/**
- * Modal Styles
- */
 dl.menu_type dt {
 	border-bottom: 1px solid #738498;
 }
@@ -1649,11 +1469,6 @@ ul#new-modules-list {
 	border-top: 1px solid #738498;
 }
 
-/**
- * User Accessibility
- */
-
-/* Skip to Content Visual Styling */
 #skiplinkholder a,
 #skiplinkholder a:link,
 #skiplinkholder a:visited {
@@ -1662,16 +1477,10 @@ ul#new-modules-list {
 	border-bottom: solid #336 2px;
 }
 
-/**
- * Admin Form Styles
- */
 fieldset.panelform {
 	border: none 0;
 }
 
-/**
- * ACL STYLES relocated from com_users/media/grid.css
- */
 a.move_up {
 	background-image: url('../images/admin/uparrow.png');
 }
@@ -1700,17 +1509,10 @@ a.grid_trash {
 	background-image: url('../images/admin/icon-16-trash.png');
 }
 
-/**
- * ACL PANEL STYLES
- */
-
-/* All Tabs */
-
 tr.row1 {
 	background-color: #c3d2e5;
 }
 
-/* Summary Tab */
 table.aclsummary-table td.col2,
 table.aclsummary-table th.col2,
 table.aclsummary-table td.col3,
@@ -1726,7 +1528,6 @@ table.aclmodify-table th.col2 {
 	border-left: 1px solid #738498;
 }
 
-/* Icons */
 span.icon-16-unset {
 	background: url(../images/admin/icon-16-denyinactive.png) no-repeat;
 }
@@ -1767,7 +1568,6 @@ a.icon-16-denyinactive {
 	background: url(../images/admin/icon-16-denyinactive.png) no-repeat;
 }
 
-/* ACL footer/legend */
 ul.acllegend li.acl-allowed {
 	background: url(../images/admin/icon-16-allow.png) no-repeat left;
 }
@@ -1794,7 +1594,6 @@ li.acl-resetbtn:focus {
 	background-color: #e5d9c3;
 }
 
-/* ACL Config --------- */
 table#acl-config {
 	border: 1px solid #738498;
 }
@@ -1809,16 +1608,10 @@ table#acl-config th.acl-groups {
 	border-right: 1px solid #738498;
 }
 
-/**
-* Mod_rewrite Warning
-*/
 #jform_sef_rewrite-lbl {
 	background: url(../images/admin/icon-16-notice-note.png) right top no-repeat;
 }
 
-/**
-* Permission Rules
-*/
 #permissions-sliders ul#rules,
 #permissions-sliders ul#rules ul {
 	border: solid 0 #738498;
@@ -1873,7 +1666,7 @@ ul#rules table.group-rules td label {
 	border: solid 0 #738498;
 }
 
-#permissions-sliders ul#rules table.group-rules td {
+#permissions-sliders  ul#rules  table.group-rules td {
 	background: #ffffff;
 }
 
@@ -1882,9 +1675,6 @@ ul#rules table.group-rules td label {
 	background-image: none;
 }
 
-/*
- * Debug styles
- */
 .check-0,
 table.adminlist tbody td.check-0 {
 	background-color: #ffffcf;
@@ -1899,10 +1689,6 @@ table.adminlist tbody td.check-a {
 table.adminlist tbody td.check-d {
 	background-color: #ffcfcf;
 }
-
-/**
- * System Messages
- */
 
 #system-message dd ul {
 	color: #2c2c2c;
@@ -1920,25 +1706,11 @@ table.adminlist tbody td.check-d {
 	color: #2c2c2c;
 }
 
-/** CSS file for Accessible Admin Menu
- * based on Matt Carrolls' son of suckerfish
- * with javascript by Bill Tomczak
- */
-
-/* Note: set up the font-size on the id and used 100% on the elements.
-	If ul/li/a are different ems, then the shifting back via non-js keyboard
-	doesn't work properly */
-
-/**
- * Menu Styling
- */
 #menu {
-	/* this is on the main ul */
 	color: #2c2c2c;
 }
 
-#menu ul {
-	/* all lists */
+#menu ul.dropdown-menu {
 	background: #c3d2e5;
 	background-image: -moz-linear-gradient(center top,#a5bbd4,#c3d2e5 70%);
 	background-image: -ms-linear-gradient(center top,#a5bbd4,#c3d2e5 70%);
@@ -1949,11 +1721,11 @@ table.adminlist tbody td.check-d {
 	color: #2c2c2c;
 }
 
-#menu ul li.node {
+#menu ul.dropdown-menu li.dropdown {
 	background: url(../images/j_arrow.png) no-repeat right 50%;
 }
 
-#menu ul li.separator {
+#menu ul.dropdown-menu li.divider {
 	margin-bottom: 0;
 	border-bottom: 1px dotted #738498;
 }
@@ -1965,7 +1737,6 @@ table.adminlist tbody td.check-d {
 }
 
 #menu li {
-	/* all list items */
 	border-right: 1px solid #738498;
 	background-color: transparent;
 }
@@ -1989,47 +1760,35 @@ table.adminlist tbody td.check-d {
 }
 
 #menu li ul {
-	/* second-level lists */
 	border: 1px solid #738498;
 }
 
 #menu li li {
-	/* second-level row */
 	background-color: transparent;
 }
 
-/**
- * Styling parents
- */
-
-/* 1 level - sfhover */
 #menu li.sfhover a {
 	background-color: #e5d9c3;
 }
 
-/* 2 level - normal */
 #menu li.sfhover li a {
 	background-color: transparent;
 }
 
-/* 2 level - hover */
 #menu li.sfhover li.sfhover a,
 #menu li li a:focus {
 	background-color: #e5d9c3;
 }
 
-/* 3 level - normal */
 #menu li.sfhover li.sfhover li a {
 	background-color: transparent;
 }
 
-/* 3 level - hover */
 #menu li.sfhover li.sfhover li.sfhover a,
 #menu li li li a:focus {
 	background-color: #e5d9c3;
 }
 
-/* bring back the focus elements into view */
 #menu li li a:focus,
 #menu li li li a:focus {
 	background-color: #e5d9c3;
@@ -2039,17 +1798,11 @@ table.adminlist tbody td.check-d {
 	background-color: #e5d9c3;
 }
 
-/**
- * Submenu styling
- */
 #submenu {
 	border-bottom: 1px solid #738498;
-	/* border-bottom plus padding-bottom is the technique */
-	/* This is the background befind the tabs */
-	/*background: #ffffff;*/
 }
 
-#submenu a,
+#submenu li,
 #submenu span.nolink {
 	background: #c3d2e5;
 	background-image: -moz-linear-gradient(center top,#a5bbd4,#c3d2e5 70%);
@@ -2062,15 +1815,19 @@ table.adminlist tbody td.check-d {
 	color: #054993;
 }
 
-#submenu a:hover,
-#submenu a:focus {
+#submenu li:hover,
+#submenu li:focus {
 	background: #e5d9c3;
 }
 
-#submenu a.active,
+#submenu li.active,
 #submenu span.nolink.active {
-	background: #fff;
-	border-bottom: 1px solid #fff;
+	background: #ffffff;
+	border-bottom: 1px solid #ffffff;
+}
+
+#submenu li.active a,
+#submenu span.nolink.active {
 	color: #000;
 }
 
@@ -2079,12 +1836,10 @@ table.adminlist tbody td.check-d {
 	padding: 0;
 }
 
-/* -- Codemirror Editor  ----------- */
 div.CodeMirror-wrapping {
 	border: 1px solid #738498;
 }
 
-/* User Notes */
 table.adminform tr.row0 {
 	background-color: #ffffff;
 }
@@ -2105,7 +1860,6 @@ ol.alternating > li:nth-child(even) {
 	background-color: #c3d2e5;
 }
 
-/* Installer Database */
 #installer-database,
 #installer-discover,
 #installer-update,
@@ -2120,3 +1874,4 @@ ol.alternating > li:nth-child(even) {
 #installer-database p.nowarning {
 	background: transparent url(../images/admin/icon-16-allow.png) center left no-repeat;
 }
+

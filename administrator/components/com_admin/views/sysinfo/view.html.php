@@ -71,12 +71,19 @@ class AdminViewSysinfo extends JViewLegacy
 	 * @return  void
 	 *
 	 * @since   1.6
+	 * @note    Necessary for Hathor compatibility
 	 */
 	protected function _setSubMenu()
 	{
-		$contents = $this->loadTemplate('navigation');
-		$document = JFactory::getDocument();
-		$document->setBuffer($contents, 'modules', 'submenu');
+		try
+		{
+			$contents = $this->loadTemplate('navigation');
+			$document = JFactory::getDocument();
+			$document->setBuffer($contents, 'modules', 'submenu');
+		}
+		catch (Exception $e)
+		{
+		}
 	}
 
 	/**

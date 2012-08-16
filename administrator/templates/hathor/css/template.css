@@ -1,27 +1,655 @@
-@charset "UTF-8";
+@font-face {
+	font-family: 'IcoMoon';
+	src: url('../../../../media/jui/fonts/IcoMoon.eot');
+	src: url('../../../../media/jui/fonts/IcoMoon.eot?#iefix') format('embedded-opentype'), url('../../../../media/jui/fonts/IcoMoon.svg#IcoMoon') format('svg'), url('../../../../media/jui/fonts/IcoMoon.woff') format('woff'), url('../../../../media/jui/fonts/IcoMoon.ttf') format('truetype');
+	font-weight: normal;
+	font-style: normal;
+}
 
-/**
- * @package     Joomla.Administrator
- * @subpackage  templates.hathor
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
- * @since       1.6
- *
- * Main CSS file for the template
- */
+[data-icon]:before {
+	font-family: 'IcoMoon';
+	content: attr(data-icon);
+	speak: none;
+}
 
-/**
- * CSS Reset
- */
-html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-a, abbr, acronym, address, big, cite, code,
-del, dfn, em, font, img, ins, kbd, q, s, samp,
-small, strike, strong, sub, sup, tt, var,
-b, u, i, center,
-dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td {
+[class^="icon-"],
+[class*=" icon-"] {
+	display: inline-block;
+	width: 14px;
+	height: 14px;
+	*margin-right: .3em;
+	line-height: 14px;
+}
+
+[class^="icon-"]:before,
+[class*=" icon-"]:before {
+	font-family: 'IcoMoon';
+	font-style: normal;
+	speak: none;
+}
+
+.icon-home:before {
+	content: "\21";
+}
+
+.icon-user:before {
+	content: "\22";
+}
+
+.icon-checkedout:before,
+.icon-lock:before,
+.icon-locked:before {
+	content: "\23";
+}
+
+.icon-comment:before,
+.icon-comments:before {
+	content: "\24";
+}
+
+.icon-comments-2:before {
+	content: "\25";
+}
+
+.icon-share-alt:before,
+.icon-out:before {
+	content: "\26";
+}
+
+.icon-share:before,
+.icon-redo:before {
+	content: "\27";
+}
+
+.icon-undo:before {
+	content: "\28";
+}
+
+.icon-file-add:before {
+	content: "\29";
+}
+
+.icon-new:before,
+.icon-plus:before {
+	content: "\2a";
+}
+
+.icon-apply:before,
+.icon-edit:before,
+.icon-pencil:before {
+	content: "\2b";
+}
+
+.icon-pencil-2:before {
+	content: "\2c";
+}
+
+.icon-folder:before {
+	content: "\2d";
+}
+
+.icon-folder-2:before {
+	content: "\2e";
+}
+
+.icon-picture:before {
+	content: "\2f";
+}
+
+.icon-pictures:before {
+	content: "\30";
+}
+
+.icon-list:before,
+.icon-list-view:before {
+	content: "\31";
+}
+
+.icon-power-cord:before {
+	content: "\32";
+}
+
+.icon-cube:before {
+	content: "\33";
+}
+
+.icon-puzzle:before {
+	content: "\34";
+}
+
+.icon-flag:before {
+	content: "\35";
+}
+
+.icon-tools:before {
+	content: "\36";
+}
+
+.icon-cogs:before {
+	content: "\37";
+}
+
+.icon-options:before,
+.icon-cog:before {
+	content: "\38";
+}
+
+.icon-equalizer:before {
+	content: "\39";
+}
+
+.icon-wrench:before {
+	content: "\3a";
+}
+
+.icon-brush:before {
+	content: "\3b";
+}
+
+.icon-eye-open:before,
+.icon-eye:before {
+	content: "\3c";
+}
+
+.icon-checkbox-unchecked:before {
+	content: "\3d";
+}
+
+.icon-checkin:before,
+.icon-checkbox:before {
+	content: "\3e";
+}
+
+.icon-checkbox-partial:before {
+	content: "\3f";
+}
+
+.icon-asterisk:before,
+.icon-star-empty:before {
+	content: "\40";
+}
+
+.icon-star-2:before {
+	content: "\41";
+}
+
+.icon-featured:before,
+.icon-star:before {
+	content: "\42";
+}
+
+.icon-calendar:before {
+	content: "\43";
+}
+
+.icon-calendar-2:before {
+	content: "\44";
+}
+
+.icon-question-sign:before,
+.icon-help:before {
+	content: "\45";
+}
+
+.icon-support:before {
+	content: "\46";
+}
+
+.icon-warning:before {
+	content: "\48";
+}
+
+.icon-publish:before,
+.icon-save:before,
+.icon-ok:before,
+.icon-checkmark:before {
+	content: "\47";
+}
+
+.icon-unpublish:before,
+.icon-trash:before,
+.icon-cancel:before {
+	content: "\4a";
+}
+
+.icon-eye-close:before,
+.icon-minus:before {
+	content: "\4b";
+}
+
+.icon-purge:before,
+.icon-trash:before {
+	content: "\4c";
+}
+
+.icon-envelope:before,
+.icon-mail:before {
+	content: "\4d";
+}
+
+.icon-mail-2:before {
+	content: "\4e";
+}
+
+.icon-unarchive:before,
+.icon-drawer:before {
+	content: "\4f";
+}
+
+.icon-archive:before,
+.icon-drawer-2:before {
+	content: "\50";
+}
+
+.icon-box-add:before {
+	content: "\51";
+}
+
+.icon-box-remove:before {
+	content: "\52";
+}
+
+.icon-search:before {
+	content: "\53";
+}
+
+.icon-filter:before {
+	content: "\54";
+}
+
+.icon-camera:before {
+	content: "\55";
+}
+
+.icon-play:before {
+	content: "\56";
+}
+
+.icon-music:before {
+	content: "\57";
+}
+
+.icon-grid-view:before {
+	content: "\58";
+}
+
+.icon-grid-view-2:before {
+	content: "\59";
+}
+
+.icon-menu:before {
+	content: "\5a";
+}
+
+.icon-thumbs-up:before {
+	content: "\5b";
+}
+
+.icon-thumbs-down:before {
+	content: "\5c";
+}
+
+.icon-delete:before,
+.icon-remove:before,
+.icon-cancel-2:before {
+	content: "\49";
+}
+
+.icon-save-new:before,
+.icon-plus-2:before {
+	content: "\5d";
+}
+
+.icon-ban-circle:before,
+.icon-minus-sign:before,
+.icon-minus-2:before {
+	content: "\5e";
+}
+
+.icon-key:before {
+	content: "\5f";
+}
+
+.icon-quote:before {
+	content: "\60";
+}
+
+.icon-quote-2:before {
+	content: "\61";
+}
+
+.icon-database:before {
+	content: "\62";
+}
+
+.icon-location:before {
+	content: "\63";
+}
+
+.icon-zoom-in:before {
+	content: "\64";
+}
+
+.icon-zoom-out:before {
+	content: "\65";
+}
+
+.icon-expand:before {
+	content: "\66";
+}
+
+.icon-contract:before {
+	content: "\67";
+}
+
+.icon-expand-2:before {
+	content: "\68";
+}
+
+.icon-contract-2:before {
+	content: "\69";
+}
+
+.icon-health:before {
+	content: "\6a";
+}
+
+.icon-wand:before {
+	content: "\6b";
+}
+
+.icon-unblock:before,
+.icon-refresh:before {
+	content: "\6c";
+}
+
+.icon-vcard:before {
+	content: "\6d";
+}
+
+.icon-clock:before {
+	content: "\6e";
+}
+
+.icon-compass:before {
+	content: "\6f";
+}
+
+.icon-address:before {
+	content: "\70";
+}
+
+.icon-feed:before {
+	content: "\71";
+}
+
+.icon-flag-2:before {
+	content: "\72";
+}
+
+.icon-pin:before {
+	content: "\73";
+}
+
+.icon-lamp:before {
+	content: "\74";
+}
+
+.icon-chart:before {
+	content: "\75";
+}
+
+.icon-bars:before {
+	content: "\76";
+}
+
+.icon-pie:before {
+	content: "\77";
+}
+
+.icon-dashboard:before {
+	content: "\78";
+}
+
+.icon-lightning:before {
+	content: "\79";
+}
+
+.icon-move:before {
+	content: "\7a";
+}
+
+.icon-next:before {
+	content: "\7b";
+}
+
+.icon-previous:before {
+	content: "\7c";
+}
+
+.icon-first:before {
+	content: "\7d";
+}
+
+.icon-last:before {
+	content: "\e000";
+}
+
+.icon-loop:before {
+	content: "\e001";
+}
+
+.icon-shuffle:before {
+	content: "\e002";
+}
+
+.icon-arrow-first:before {
+	content: "\e003";
+}
+
+.icon-arrow-last:before {
+	content: "\e004";
+}
+
+.icon-chevron-up:before,
+.icon-uparrow:before,
+.icon-arrow-up:before {
+	content: "\e005";
+}
+
+.icon-chevron-right:before,
+.icon-arrow-right:before {
+	content: "\e006";
+}
+
+.icon-chevron-down:before,
+.icon-downarrow:before,
+.icon-arrow-down:before {
+	content: "\e007";
+}
+
+.icon-chevron-left:before,
+.icon-arrow-left:before {
+	content: "\e008";
+}
+
+.icon-arrow-up-2:before {
+	content: "\e009";
+}
+
+.icon-arrow-right-2:before {
+	content: "\e00a";
+}
+
+.icon-download:before,
+.icon-arrow-down-2:before {
+	content: "\e00b";
+}
+
+.icon-arrow-left-2:before {
+	content: "\e00c";
+}
+
+.icon-play-2:before {
+	content: "\e00d";
+}
+
+.icon-menu-2:before {
+	content: "\e00e";
+}
+
+.icon-arrow-up-3:before {
+	content: "\e00f";
+}
+
+.icon-arrow-right-3:before {
+	content: "\e010";
+}
+
+.icon-arrow-down-3:before {
+	content: "\e011";
+}
+
+.icon-arrow-left-3:before {
+	content: "\e012";
+}
+
+.icon-print:before,
+.icon-printer:before {
+	content: "\e013";
+}
+
+.icon-color-palette:before {
+	content: "\e014";
+}
+
+.icon-camera-2:before {
+	content: "\e015";
+}
+
+.icon-file:before {
+	content: "\e016";
+}
+
+.icon-file-remove:before {
+	content: "\e017";
+}
+
+.icon-save-copy:before,
+.icon-copy:before {
+	content: "\e018";
+}
+
+.icon-cart:before {
+	content: "\e019";
+}
+
+.icon-basket:before {
+	content: "\e01a";
+}
+
+.icon-broadcast:before {
+	content: "\e01b";
+}
+
+.icon-screen:before {
+	content: "\e01c";
+}
+
+.icon-tablet:before {
+	content: "\e01d";
+}
+
+.icon-mobile:before {
+	content: "\e01e";
+}
+
+.icon-users:before {
+	content: "\e01f";
+}
+
+.icon-briefcase:before {
+	content: "\e020";
+}
+
+.icon-download:before {
+	content: "\e021";
+}
+
+.icon-upload:before {
+	content: "\e022";
+}
+
+.icon-bookmark:before {
+	content: "\e023";
+}
+
+.icon-out-2:before {
+	content: "\e024";
+}
+
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+font,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td {
 	margin: 0;
 	padding: 0;
 	border: 0;
@@ -46,9 +674,6 @@ del {
 	text-decoration: line-through;
 }
 
-/**
- * General styles
- */
 html {
 	overflow-y: scroll;
 	height: 100%;
@@ -134,8 +759,6 @@ iframe {
 	border: 0;
 }
 
-/* new styles */
-
 .enabled {
 	color: #005800;
 	font-weight: bold;
@@ -199,11 +822,6 @@ p.warning {
 	margin: 10px;
 }
 
-/* end new styles */
-
-/**
- * Overall Styles
- */
 #minwidth,
 #minwidth-body {
 	min-width: 980px;
@@ -212,7 +830,6 @@ p.warning {
 #containerwrap {
 	position: relative;
 }
-
 
 #header {
 	position: relative;
@@ -238,6 +855,7 @@ p.warning {
 #footer p {
 	font-size: 1.2em;
 }
+
 #nav .no-nav {
 	line-height: 2em;
 }
@@ -250,20 +868,21 @@ p.warning {
 	padding: 15px;
 }
 
-/**
- * Status layout
- */
 #module-status {
 	float: right;
 	position: relative;
 	top: -48px;
 }
 
-#module-status span {
+#module-status div.btn-group {
 	display: block;
 	float: left;
-	padding: 4px 20px 0 22px;
+	padding: 4px 10px 0 10px;
 	font-size: 1.2em;
+}
+
+#module-status div.divider {
+	display: none;
 }
 
 #module-status .unread-messages a {
@@ -275,9 +894,6 @@ p.warning {
 	width: 60%;
 }
 
-/**
- * Various Styles
- */
 .enabled,
 .disabled,
 p.error,
@@ -290,6 +906,7 @@ p.error,
 .pointer {
 	cursor: pointer;
 }
+
 .nowrap {
 	white-space: nowrap;
 }
@@ -303,9 +920,6 @@ div.checkin-tick {
 	text-indent: -9999px;
 }
 
-/**
- * Overlib
- */
 .ol-textfont {
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 1.2em;
@@ -321,19 +935,72 @@ div.checkin-tick {
 	text-decoration: none;
 }
 
-/**
- * Subheader, toolbar, page title
- */
 div.subheader .padding {
 	padding: 0;
 }
 
 div.pagetitle {
-	padding: 0 0 5px 0;
+	padding: 0 0 5px 5px;
 	margin: 0;
 	background-repeat: no-repeat;
 	background-position: left 50%;
 	line-height: 54px;
+	width: 100%;
+	margin-top: -20px;
+	height: 60px;
+}
+
+.tabs-left > .nav-tabs {
+	float: left;
+	margin-right: 19px;
+	border-right: 1px solid #DDD;
+}
+
+tabs-below > .nav-tabs,
+.tabs-right > .nav-tabs,
+.tabs-left > .nav-tabs {
+	border-bottom: 0;
+}
+
+.tab-content {
+	overflow: visible;
+}
+
+.tabs-left .tab-content {
+	overflow: auto;
+}
+
+.nav-tabs > li > span {
+	display: block;
+	margin-right: 2px;
+	padding-right: 12px;
+	padding-left: 12px;
+	padding-top: 8px;
+	padding-bottom: 8px;
+	line-height: 18px;
+	border: 1px solid transparent;
+	-webkit-border-radius: 4px 4px 0 0;
+	-moz-border-radius: 4px 4px 0 0;
+	border-radius: 4px 4px 0 0;
+}
+
+.btn-micro {
+	padding: 1px 4px;
+	font-size: 10px;
+	line-height: 8px;
+}
+
+.tip-wrap {
+	max-width: 200px;
+	padding: 3px 8px;
+	color: #ffffff;
+	text-align: center;
+	text-decoration: none;
+	background-color: #000000;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+	z-index: 100;
 }
 
 .pagetitle h2 {
@@ -360,18 +1027,10 @@ div.toolbar-box h3 {
 	margin: 0;
 }
 
-div.toolbar-list {
+div.btn-toolbar {
 	float: left;
 	text-align: right;
 	padding: 0;
-}
-
-div.toolbar-list li {
-	padding: 5px 1px 5px 4px;
-	text-align: center;
-	height: 52px;
-	list-style: none;
-	float: left;
 }
 
 div.toolbar-list li.spacer {
@@ -391,23 +1050,21 @@ div.toolbar-list span {
 	display: block;
 }
 
-div.toolbar-list a {
+div.btn-toolbar div.btn-group button {
 	display: block;
 	float: left;
 	white-space: nowrap;
 	padding: 1px 5px;
 	cursor: pointer;
 	font-weight: bold;
+	text-align: center;
 }
 
-div.toolbar-list a:hover,
-div.toolbar-list a:focus {
+div.btn-toolbar button:hover,
+div.btn-toolbar button:focus {
 	text-decoration: none;
 }
 
-/**
- * Massmail component
- */
 td#mm_pane {
 	width: 90%;
 }
@@ -420,9 +1077,6 @@ textarea#mm_message {
 	width: 100%;
 }
 
-/**
- * Pane Slider pane Toggler styles
- */
 .pane-sliders {
 	margin: 0;
 	position: relative;
@@ -455,8 +1109,6 @@ h3.pane-toggler a:focus {
 	padding-left: 20px;
 }
 
-/* The following line hides the unseen panel (prevents the mouse from activating in IE, so overridden in the ie css files) */
-/*.pane-toggler + div.pane-slider {display: none;}*/
 .pane-slider.pane-hide {
 	display: none;
 }
@@ -470,9 +1122,6 @@ div#position-icon.pane-sliders div.pane-down .icon-wrapper .icon {
 	margin: 0;
 }
 
-/**
- * Tabs
- */
 dl.tabs {
 	float: left;
 	margin: 10px 0 -1px 0;
@@ -498,8 +1147,6 @@ div.current dd {
 	padding: 0;
 	margin: 0;
 }
-
-/* New parameter styles  */
 
 dl#content-pane.tabs {
 	margin: 1px 0 0 0;
@@ -575,7 +1222,6 @@ div.current table#filter-config select {
 	margin-bottom: 0;
 }
 
-/* -------- Menu Assigments ---------- */
 div#menu-assignment {
 	clear: left;
 }
@@ -606,11 +1252,7 @@ p.tab-description {
 	margin-left: 0;
 	margin-top: 5px;
 }
-/* end new parameter styles */
 
-/**
- * Login Settings
- */
 #login-page form .inputbox {
 	width: 120px;
 	margin-left: 5px;
@@ -724,9 +1366,6 @@ p.tab-description {
 	height: 0;
 }
 
-/**
- * Cpanel Settings
- */
 #cpanel div.icon,
 .cpanel div.icon {
 	text-align: center;
@@ -760,7 +1399,6 @@ p.tab-description {
 }
 
 div.cpanel-icons {
-	width: 54%;
 	float: left;
 }
 
@@ -768,11 +1406,6 @@ div.cpanel-component {
 	width: 45%;
 	float: right;
 }
-
-/**
- * Standard Layout Styles
- */
-
 
 div.col {
 	float: left;
@@ -792,8 +1425,6 @@ div.col2 {
 	width: 45%;
 }
 
-	/* Avoid using the width divs. They are here for 3PD Extensions if needed
-	 * Use the specific layout divs listed after. See also the th.width entries */
 div.width-1 {
 	width: 1%;
 }
@@ -825,7 +1456,6 @@ div.width-35 {
 div.width-40 {
 	width: 40%;
 }
-
 
 div.width-45 {
 	width: 45%;
@@ -879,7 +1509,6 @@ div.width-100 {
 	float: none;
 }
 
-	/* Layout Divs */
 div.main-section {
 	width: 60%;
 }
@@ -889,7 +1518,6 @@ div.options-section {
 	margin: 10px 10px 10px 0;
 }
 
-/* for bluestork style html */
 div.width-40.fltrt {
 	width: 38%;
 	margin: 10px 10px 10px 0;
@@ -899,9 +1527,6 @@ div.rules-section {
 	width: 98%;
 	margin: 10px;
 }
-/**
- * Form Styles
- */
 
 fieldset {
 	margin: 2px 10px 2px 10px;
@@ -955,7 +1580,6 @@ fieldset.panelform fieldset.radio span.faux-label {
 	clear: none;
 }
 
-/* checkboxes */
 fieldset.adminform fieldset.checkboxes,
 fieldset.panelform fieldset.checkboxes,
 fieldset.adminform-legacy fieldset.checkboxes {
@@ -979,9 +1603,6 @@ fieldset.panelform fieldset.checkboxes span.faux-label {
 	clear: right;
 }
 
-/* end checkboxes */
-
-/* spacer */
 div.current span.spacer > span.before,
 fieldset.adminform span.spacer > span.before,
 fieldset.panelform span.spacer > span.before {
@@ -991,18 +1612,14 @@ fieldset.panelform span.spacer > span.before {
 	display: block;
 }
 
-/* end spacer */
-
-
 fieldset.panelform-legacy label,
 fieldset.adminform-legacy label,
 fieldset.panelform-legacy span.faux-label,
 fieldset.adminform-legacy span.faux-label {
 	min-width: 150px;
 	float: left;
-
 }
-/* JParameter classes on radio button labels  */
+
 fieldset.panelform-legacy label.radiobtn-jno,
 fieldset.panelform-legacy label.radiobtn-jyes,
 fieldset.panelform-legacy label.radiobtn-show,
@@ -1012,7 +1629,6 @@ fieldset.panelform-legacy label.radiobtn-on {
 	min-width: 40px !important;
 	clear: none !important;
 }
-
 
 #jform_plugdesc-lbl,
 #jform_description-lbl {
@@ -1080,13 +1696,10 @@ fieldset#filter-bar input#search {
 	width: 10em;
 }
 
-	/* Note: these visual cues should be augmented by aria */
 .invalid {
 	font-weight: bold;
 }
 
-
-	/* augmented by aria in template javascript */
 input.readonly,
 span.faux-input {
 	border: 0;
@@ -1156,10 +1769,6 @@ label.selectlabel {
 	left: -1000em;
 }
 
-/**
- * Option or Parameter styles
- */
-
 .paramrules {
 	padding: 10px;
 }
@@ -1174,9 +1783,6 @@ span.gtr {
 	margin-right: 5px;
 }
 
-/**
- * Admintable Styles
- */
 table.admintable td {
 	padding: 3px;
 	font-size: 1em;
@@ -1215,9 +1821,6 @@ table.admintable td.key.vtop {
 	vertical-align: top;
 }
 
-/**
- * Admin Form Styles
- */
 fieldset.adminform {
 	margin: 0 10px 10px 10px;
 	overflow: hidden;
@@ -1241,7 +1844,6 @@ ul.adminformlist .button2-left {
 	margin-top: 5px;
 }
 
-	/* Table styles are for use with tabular data */
 table.adminform {
 	width: 100%;
 	border-collapse: collapse;
@@ -1278,16 +1880,11 @@ table.adminform tr {
 	padding-right: 10px;
 }
 
-/**
- * Table formating styles
- */
 td.center,
 th.center {
 	text-align: center;
 }
 
-	/* Avoid using the width classes. They are here for 3PD Extensions if needed
-	 * Use the specific layout table headers listed after. See also the div.width entries */
 th.width-1 {
 	width: 1%;
 }
@@ -1328,7 +1925,6 @@ th.width-40 {
 	width: 40%;
 }
 
-	/* Table header layout classes */
 th.row-number-col {
 	width: 3%;
 }
@@ -1401,9 +1997,6 @@ th.home-col {
 	width: 5%;
 }
 
-/**
- * Adminlist Table layout
- */
 table.adminlist {
 	width: 100%;
 }
@@ -1430,7 +2023,6 @@ table.adminlist tbody th {
 	font-weight: bold;
 }
 
-	/* Table row styles */
 table.adminlist tr {
 	padding-left: 30px;
 	padding-right: 30px;
@@ -1449,7 +2041,6 @@ table.adminlist tfoot tr {
 	text-align: center;
 }
 
-	/* Table td/th styles */
 table.adminlist tfoot td,
 table.adminlist tfoot th {
 	text-align: center;
@@ -1472,9 +2063,6 @@ table.adminlist td.order input {
 	font-size: 100%;
 }
 
-/**
- * Tree indentation & nesting - Up to 10 levels deep so don't go crazy :
- */
 table.adminlist td.indent-4 {
 	padding-left: 4px;
 }
@@ -1515,9 +2103,6 @@ table.adminlist td.indent-139 {
 	padding-left: 139px;
 }
 
-/**
- * Adminlist buttons
- */
 table.adminlist tr td.btns a {
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
@@ -1531,26 +2116,16 @@ table.adminlist tr td.btns a:focus {
 	text-decoration: none;
 }
 
-/**
- * Adminlist lists
- */
 table.adminlist td li {
 	list-style: inside;
 }
 
-/**
- * Modal Modules styles
- */
 ul#new-modules-list {
 	margin-left: 50px;
 	font-size: 1.4em;
 	line-height: 1.5em;
 }
 
-/**
- * Utility styles
- */
-	/* General Clearing Class */
 .clr {
 	clear: both;
 	overflow: hidden;
@@ -1571,7 +2146,6 @@ ul#new-modules-list {
 	margin-left: 5px;
 }
 
-	/* stu nicholls solution for centering divs */
 .container {
 	clear: both;
 	text-decoration: none;
@@ -1581,7 +2155,6 @@ ul#new-modules-list {
 	display: inline-block;
 }
 
-	/* table solution for global config */
 table.noshow {
 	width: 100%;
 	border-collapse: collapse;
@@ -1597,9 +2170,6 @@ table.noshow fieldset {
 	margin: 15px 7px 7px 7px;
 }
 
-/**
- * Saving order icon styling in admin tables
- */
 a.saveorder {
 	width: 16px;
 	height: 16px;
@@ -1609,9 +2179,6 @@ a.saveorder {
 	margin-right: 8px;
 }
 
-/**
- * Button styling
- */
 #editor-xtd-buttons {
 	padding: 5px;
 }
@@ -1630,7 +2197,6 @@ button {
 	font-weight: bold;
 }
 
-/* Button 1 Type */
 .button1,
 .button1 div {
 	height: 1%;
@@ -1653,8 +2219,6 @@ button {
 	font-weight: bold;
 	cursor: default;
 	padding: 0 6px 0 6px;
-	/* add padding if you are using the directional images */
-	/* padding: 0 30px 0 6px; */
 }
 
 .button1 a:hover,
@@ -1662,7 +2226,6 @@ button {
 	text-decoration: none;
 }
 
-	/* Button 2 Type */
 .button2-left,
 .button2-right {
 	float: left;
@@ -1688,7 +2251,6 @@ button {
 	cursor: default;
 }
 
-	/* these are inactive buttons */
 .button2-left span,
 .button2-right span {
 	cursor: default;
@@ -1737,11 +2299,6 @@ button {
 	margin-left: 5px;
 }
 
-/**
- * Pagination styles
- */
-
-	/* Normal pagination styles */
 div.containerpg {
 	position: relative;
 	left: 50%;
@@ -1774,7 +2331,6 @@ div.pagination {
 	font-size: 100%;
 }
 
-	/* The Go submittal button */
 .pagination button {
 	font-size: 100%;
 	height: 1.8em;
@@ -1789,7 +2345,6 @@ div.pagination .button2-left {
 	line-height: 1.6em;
 }
 
-	/* Style if pagination is part of the table (old style) */
 table.adminlist .pagination {
 	display: table;
 	padding: 0;
@@ -1804,16 +2359,10 @@ table.adminlist .pagination button {
 	margin-right: 20px;
 }
 
-/**
- * MCE Editor
- */
 div.toggle-editor {
 	margin: -15px;
 }
 
-/**
- * Tooltips
- */
 .tip {
 	float: left;
 	padding: 5px;
@@ -1836,9 +2385,6 @@ div.toggle-editor {
 	margin: 0;
 }
 
-/**
- * Calendar
- */
 a img.calendar {
 	width: 16px;
 	height: 16px;
@@ -1847,9 +2393,6 @@ a img.calendar {
 	vertical-align: middle;
 }
 
-/**
- * JGrid styles
- */
 a.jgrid:hover {
 	text-decoration: none;
 }
@@ -1864,15 +2407,6 @@ a.jgrid:hover {
 	display: none;
 }
 
-/**
- * Icons
- * The Background Icons for Menus, Toolbars, Quick Icons
- * are now in the color css files
- */
-
-/**
- * General styles
- */
 div.message {
 	text-align: center;
 	font-family: Arial, Helvetica, sans-serif;
@@ -1917,10 +2451,6 @@ div.message {
 .outline {
 	padding: 2px;
 }
-
-/**
- * Modal Styles
- */
 
 h2.modal-title {
 	margin-left: 15px;
@@ -1982,6 +2512,7 @@ ul#new-modules-list {
 	margin: 0;
 	list-style: none;
 }
+
 ul#new-modules-list li {
 	list-style: none;
 	display: block;
@@ -2010,11 +2541,6 @@ body.contentpane select {
 	font-size: 110%;
 }
 
-/**
- * User Accessibility
- */
-
-	/* Skip to Content Structural Styling */
 #skiplinkholder a,
 #skiplinkholder a:link,
 #skiplinkholder a:visited {
@@ -2042,7 +2568,6 @@ body.contentpane select {
 	left: -200%;
 }
 
-	/* Skip to Content Visual Styling */
 #skiplinkholder a,
 #skiplinkholder a:link,
 #skiplinkholder a:visited {
@@ -2054,7 +2579,6 @@ body.contentpane select {
 	padding-right: 20px;
 }
 
-	/* Hide overlayed controls so that keyboarders can get to the modal */
 .body-overlayed a,
 .body-overlayed input,
 .body-overlayed button {
@@ -2067,12 +2591,6 @@ body.contentpane select {
 	visibility: visible;
 }
 
-/**
- * Admin Form Styles
- */
-
-	/* For elements that aren't to be seen by users unless the user does something
-	 * like clicking on a header to see the collapsed section. */
 .element-hidden,
 .hide {
 	display: none;
@@ -2086,8 +2604,6 @@ body.contentpane select {
 	height: 0;
 }
 
-	/* For elements that aren't to be seen by visual users but do need to be read by screenreaders.
-	 * Cannot be used for elements that can get focus such as links and form elements */
 .element-invisible,
 .hidelabeltxt {
 	height: 0;
@@ -2096,9 +2612,6 @@ body.contentpane select {
 	padding: 0;
 	margin: 0;
 }
-
-	/* Firefox has issues styling legend so this is a universal fix
-	for making the legend invisible (i.e. visually it's not there, but screen readers see it */
 
 legend.element-invisible {
 	position: absolute !important;
@@ -2141,7 +2654,6 @@ fieldset.panelform fieldset.radio span.faux-label {
 	margin-left: 0;
 }
 
-
 fieldset.adminform input,
 fieldset.adminform span.faux-input,
 fieldset.adminform textarea,
@@ -2159,7 +2671,6 @@ fieldset.panelform button {
 	width: auto;
 }
 
-/* -------- Batch Section ---------- */
 fieldset.batch {
 	margin: 20px 10px 10px 10px;
 	padding: 10px;
@@ -2224,7 +2735,6 @@ div#jform_ordering {
 	margin-top: 3px;
 }
 
-/* Banner edit */
 #jform_impmade,
 #jform_clicks {
 	width: 30px;
@@ -2238,10 +2748,6 @@ fieldset.panelform label#jform-imp {
 fieldset.adminform input#jform_clickurl {
 	width: 20em;
 }
-
-/**
- * ACL STYLES relocated from com_users/media/grid.css
- */
 
 a.move_up {
 	display: inline-block;
@@ -2290,14 +2796,10 @@ a.grid_trash {
 	width: 16px;
 }
 
-/**
- * ACL PANEL STYLES
- */
 div.acl-options {
 	width: 100%;
 }
 
-/* All Tabs */
 table.aclsummary-table,
 table.aclmodify-table {
 	border-collapse: collapse;
@@ -2316,10 +2818,10 @@ table.aclmodify-table caption {
 	display: none;
 }
 
-/* Summary Tab */
 table.aclsummary-table th.col1 {
 	width: 25%;
 }
+
 table.aclsummary-table th.col2,
 table.aclsummary-table th.col3,
 table.aclsummary-table th.col4,
@@ -2330,7 +2832,6 @@ table.aclsummary-table th.col6 {
 	text-align: center;
 }
 
-/* Icons (background images moved to color css files */
 span.icon-16-unset,
 span.icon-16-allowed,
 span.icon-16-denied,
@@ -2362,7 +2863,6 @@ label.icon-16-deny {
 	left: 40%;
 }
 
-/* Create, Edit, Edit State & Delete Tabs */
 table.aclmodify-table th.col2,
 table.aclmodify-table th.col3,
 table.aclmodify-table th.col4 {
@@ -2380,7 +2880,6 @@ table.aclmodify-table td label {
 	min-width: 20px;
 }
 
-/* ACL footer/legend */
 ul.acllegend {
 	list-style: none;
 	font-size: 1.091em;
@@ -2498,9 +2997,6 @@ label#jform_filters-lbl {
 	visibility: hidden;
 }
 
-/**
-* Options modal- config
-*/
 ul.config-option-list,
 ul.config-option-list li {
 	margin: 0;
@@ -2514,9 +3010,6 @@ ul.config-option-list fieldset {
 	padding-right: 0;
 }
 
-/* *
-* Permission Rules
-*/
 #permissions-sliders ul#rules,
 #permissions-sliders ul#rules ul {
 	margin: 0 !important;
@@ -2615,24 +3108,16 @@ table.group-rules td select {
 	padding: 0;
 }
 
-/*
- * Debug styles
- */
-
 .swatch {
 	text-align: center;
 	padding: 0 15px 0 15px;
 }
 
-/* Tab changes for accessibility */
 dl.tabs dt h3 {
 	padding: 0;
 	font-size: 100%;
 }
 
-/**
- * Helpmenus
- */
 ul.helpmenu li {
 	float: right;
 	margin: 10px;
@@ -2641,20 +3126,7 @@ ul.helpmenu li {
 	font-weight: bold;
 }
 
- /* CSS file for Accessible Admin Menu
- * based on Matt Carrolls' son of suckerfish
- * with javascript by Bill Tomczak
- */
-
-	/* Note: set up the font-size on the id and used 100% on the elements.
-	If ul/li/a are different ems, then the shifting back via non-js keyboard
-	doesn't work properly */
-
-/**
- * Menu Styling
- */
 #menu {
-	/* this is on the main ul */
 	position: relative;
 	z-index: 100;
 	padding: 0;
@@ -2666,7 +3138,6 @@ ul.helpmenu li {
 }
 
 #menu ul {
-	/* all lists */
 	padding: 0;
 	margin: 0;
 	list-style: none;
@@ -2681,15 +3152,12 @@ ul.helpmenu li {
 	padding: 0.35em 2.5em 0.35em 2em;
 	vertical-align: middle;
 	display: block;
-	/* width: 10em; */
 	text-decoration: none;
 	font-size: 100%;
 }
 
 #menu li {
-	/* all list items */
 	float: left;
-	/* width: 12em;  width needed or else Opera goes nuts */
 	font-size: 100%;
 }
 
@@ -2710,23 +3178,18 @@ ul.helpmenu li {
 }
 
 #menu li ul {
-	/* second-level lists */
 	position: absolute;
 	width: 16em;
 	margin-left: -1000em;
-	/* using left instead of display to hide menus because display: none isn't read by screen readers */
 }
 
 #menu li li {
-	/* second-level row */
 	border: none;
 	width: 16em;
 }
 
 #menu li ul ul {
-	/* third-and-above-level lists */
 	margin: -2.3em 0 0 -1000em;
-	/* top margin is equal to parent line height+bottom padding */
 }
 
 #menu li:hover ul ul,
@@ -2736,7 +3199,6 @@ ul.helpmenu li {
 
 #menu li:hover ul,
 #menu li.sfhover ul {
-	/* lists nested under hovered list items */
 	margin-left: 0;
 }
 
@@ -2745,13 +3207,6 @@ ul.helpmenu li {
 	margin-left: 16em;
 }
 
-/**
- * Extra positioning rules for limited noscript keyboard accessibility
- * need the backgrounds here to keep the background as the nav background
- * since it is overlaying other content.
- * Using margin-left instead of left so that can move back without javascript
- * display downlevel ul
- */
 #menu li a:focus+ul {
 	margin-left: 0;
 }
@@ -2760,7 +3215,6 @@ ul.helpmenu li {
 	margin-left: 1016em;
 }
 
-/* bring back the focus elements into view */
 #menu li li a:focus {
 	margin-left: 1000em;
 	width: 10em;
@@ -2781,14 +3235,10 @@ ul.helpmenu li {
 	margin-left: 16em;
 }
 
-/**
- * Submenu styling
- */
 #submenu {
 	list-style: none;
 	padding: 0;
 	margin: 0;
-	/* border-bottom plus padding-bottom is the technique */
 	padding-bottom: 2.5em;
 	line-height: 2em;
 }
@@ -2801,7 +3251,7 @@ ul.helpmenu li {
 	padding: 0;
 }
 
-#submenu a,
+#submenu li,
 #submenu span.nolink {
 	float: left;
 	font-weight: bold;
@@ -2821,29 +3271,30 @@ ul.helpmenu li {
 	color: #999;
 }
 
-#submenu a.active,
+#submenu li.active,
 #submenu span.nolink.active {
 	cursor: default;
-	text-decoration: none;
 }
 
-/* -- CUSTOM LANG STRINGS STYLES  ----------- */
+#submenu li.active a,
+#submenu span.nolink.active,
+#submenu li a:hover,
+#submenu li a:focus {
+	text-decoration: none;
+}
 
 .red {
 	font-weight: bold;
 	color: #c00;
 }
 
-/* -- OTHER STYLES  ----------- */
-
 .pre_message {
 	font-size: 1.3em;
 }
 
-/* -- Update check badges -- */
 span.update-badge {
-	background-image: -moz-linear-gradient(center bottom, #FF0000 41%, #FC7E7E 79%);
-	background-image: -webkit-gradient(linear,left bottom,left top,color-stop(0.41, rgb(255,0,0)),color-stop(0.79, rgb(252,126,126)));
+	background-image: -moz-linear-gradient(center bottom,#FF0000 41%,#FC7E7E 79%);
+	background-image: -webkit-gradient(linear,left bottom,left top,color-stop(0.41,#ff0000),color-stop(0.79,#fc7e7e));
 	border: 2px solid white;
 	border-radius: 1.5em 1.5em 1.5em 1.5em;
 	color: white;
@@ -2859,7 +3310,6 @@ span.update-badge {
 	top: -88px;
 }
 
-/* User Notes */
 .unotes ul,
 .unotes ol {
 	list-style: none;
@@ -2892,7 +3342,6 @@ span.update-badge {
 	padding-bottom: 10px;
 }
 
-/* com-install styling */
 div#database-sliders {
 	margin: 10px;
 }
@@ -2902,7 +3351,6 @@ fieldset.uploadform {
 	margin-bottom: 10px;
 }
 
-/* Installer Database */
 #installer-database,
 #installer-discover,
 #installer-update,
@@ -2918,8 +3366,301 @@ fieldset.uploadform {
 	padding-left: 20px;
 }
 
-/* Spinner */
 .joomlaupdate_spinner {
 	float: left;
 	margin-right: 15px;
 }
+
+.btn-group {
+	position: relative;
+	display: inline-block;
+}
+
+.btn-group + .btn-group {
+	margin-left: 5px;
+}
+
+.btn-group > .btn {
+	position: relative;
+	float: left;
+	margin-left: -1px;
+}
+
+.icon-48-cpanel {
+	height: 50px;
+	width: 50%;
+}
+
+.well {
+	min-height: 20px;
+	padding: 19px;
+	margin-bottom: 20px;
+	background-color: #f5f5f5;
+	border: 1px solid #eee;
+	border: 1px solid rgba(0,0,0,0.05);
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+	-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.05);
+	-moz-box-shadow: inset 0 1px 1px rgba(0,0,0,0.05);
+	box-shadow: inset 0 1px 1px rgba(0,0,0,0.05);
+}
+
+.well blockquote {
+	border-color: #ddd;
+	border-color: rgba(0,0,0,0.15);
+}
+
+.well-large {
+	padding: 24px;
+	-webkit-border-radius: 6px;
+	-moz-border-radius: 6px;
+	border-radius: 6px;
+}
+
+.well-small {
+	padding: 9px;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+}
+
+.list-striped,
+.row-striped {
+	list-style: none;
+	line-height: 18px;
+	text-align: left;
+	vertical-align: middle;
+	border-top: 1px solid #dddddd;
+	margin-left: 0;
+}
+
+.list-striped li,
+.list-striped dd,
+.row-striped .row,
+.row-striped .row-fluid {
+	border-bottom: 1px solid #dddddd;
+	padding: 8px;
+}
+
+.list-striped li:nth-child(odd),
+.list-striped dd:nth-child(odd),
+.row-striped .row:nth-child(odd),
+.row-striped .row-fluid:nth-child(odd) {
+	background-color: #f9f9f9;
+}
+
+.list-striped li:hover,
+.list-striped dd:hover,
+.row-striped .row:hover,
+.row-striped .row-fluid:hover {
+	background-color: #f5f5f5;
+}
+
+.row-striped .row-fluid {
+	width: 97%;
+}
+
+.row-striped .row-fluid [class*="span"] {
+	min-height: 10px;
+}
+
+.alert {
+	padding: 8px 35px 8px 14px;
+	margin-bottom: 18px;
+	text-shadow: 0 1px 0 rgba(255,255,255,0.5);
+	background-color: #fcf8e3;
+	border: 1px solid #fbeed5;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+	color: #c09853;
+}
+
+.alert-heading {
+	color: inherit;
+}
+
+.alert .close {
+	position: relative;
+	top: -2px;
+	right: -21px;
+	line-height: 18px;
+}
+
+.alert-success {
+	background-color: #dff0d8;
+	border-color: #d6e9c6;
+	color: #468847;
+}
+
+.alert-danger,
+.alert-error {
+	background-color: #f2dede;
+	border-color: #eed3d7;
+	color: #b94a48;
+}
+
+.alert-info {
+	background-color: #d9edf7;
+	border-color: #bce8f1;
+	color: #3a87ad;
+}
+
+.alert-block {
+	padding-top: 14px;
+	padding-bottom: 14px;
+}
+
+.alert-block > p,
+.alert-block > ul {
+	margin-bottom: 0;
+}
+
+.alert-block p + p {
+	margin-top: 5px;
+}
+
+.btn-group > .btn:hover,
+.btn-group > .btn:focus,
+.btn-group > .btn:active,
+.btn-group > .btn.active {
+	z-index: 2;
+}
+
+.btn-group > .btn {
+	position: relative;
+	float: left;
+	margin-left: -1px;
+	-webkit-border-radius: 0;
+	-moz-border-radius: 0;
+	border-radius: 0;
+}
+
+[class^="icon-"],
+[class*=" icon-"] {
+	display: inline-block;
+	width: 14px;
+	height: 14px;
+	line-height: 14px;
+}
+
+table {
+	max-width: 100%;
+	background-color: transparent;
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+.table {
+	width: 100%;
+	margin-bottom: 18px;
+}
+
+.tab-content > .tab-pane,
+.pill-content > .pill-pane {
+	display: none;
+}
+
+.tab-content > .active,
+.pill-content > .active {
+	display: block;
+}
+
+.tabs-below > .nav-tabs {
+	border-top: 1px solid #ddd;
+}
+
+#status .btn-toolbar,
+#status p {
+	margin: 0px;
+}
+
+.navbar .btn-group {
+	margin: 0;
+	padding: 5px 5px 6px;
+}
+
+.label,
+.badge {
+	font-size: 10.998px;
+	font-weight: bold;
+	line-height: 14px;
+	color: #ffffff;
+	vertical-align: baseline;
+	white-space: nowrap;
+	text-shadow: 0 -1px 0 rgba(0,0,0,0.25);
+	background-color: #999999;
+}
+
+.label {
+	padding: 1px 4px 2px;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+}
+
+.badge {
+	padding: 1px 9px 2px;
+	-webkit-border-radius: 9px;
+	-moz-border-radius: 9px;
+	border-radius: 9px;
+}
+
+a.label:hover,
+a.badge:hover {
+	color: #ffffff;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+.label-important,
+.badge-important {
+	background-color: #b94a48;
+}
+
+.label-important[href],
+.badge-important[href] {
+	background-color: #953b39;
+}
+
+.label-warning,
+.badge-warning {
+	background-color: #f89406;
+}
+
+.label-warning[href],
+.badge-warning[href] {
+	background-color: #c67605;
+}
+
+.label-success,
+.badge-success {
+	background-color: #468847;
+}
+
+.label-success[href],
+.badge-success[href] {
+	background-color: #356635;
+}
+
+.label-info,
+.badge-info {
+	background-color: #3a87ad;
+}
+
+.label-info[href],
+.badge-info[href] {
+	background-color: #2d6987;
+}
+
+.label-inverse,
+.badge-inverse {
+	background-color: #333333;
+}
+
+.label-inverse[href],
+.badge-inverse[href] {
+	background-color: #1a1a1a;
+}
+

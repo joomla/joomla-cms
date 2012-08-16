@@ -1,40 +1,3 @@
-@charset "UTF-8";
-
-/**
- * @package     Joomla.Administrator
- * @subpackage  templates.hathor
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
- * @since       1.6
- *
- * Color CSS file for the template - standard
- */
-
-/**
- * Main colors:
- * #2c2c2c	Text
- * #054993	Links
- * #ffffff	Background, border, text
- * #f9fade	Background alternate, button/icon/menu background
- * #e5f0fa	Background (input required)
- * #e3e4ca	Background Hover, Right/Bottom icon borders
- * #c7c8b2	Main borders
- * #868778	Top/Left icon hover borders
- * #f6f7db	Right/Bottom icon hover borders
- *
- * Special Use Colors:
- * #a20000	Text Error, border invalid
- * #cccccc	Text (faded)
- * #005800	Text (success)
- * #eeeeee	Background (input disabled)
- * #ffffcf	Background‚ permissions debug
- * #cfffda	Background‚ permissions debug
- * #ffcfcf	Background‚ permissions debug
- */
-
-/**
- * General styles
- */
 body {
 	background-color: #ffffff;
 	color: #2c2c2c;
@@ -52,9 +15,6 @@ a:visited {
 	color: #054993;
 }
 
-/**
- * Overall Styles
- */
 #header {
 	background: #ffffff url(../images/j_logo.png) no-repeat;
 }
@@ -64,8 +24,14 @@ a:visited {
 }
 
 #nav {
-	background: #f9fade;
 	border: 1px solid #c7c8b2;
+	background: #f9fade;
+	background-image: -moz-linear-gradient(center top,#f9fade,#f9fade 70%);
+	background-image: -ms-linear-gradient(center top,#f9fade,#f9fade 70%);
+	background-image: -webkit-gradient(linear,left top,left bottom,from(#f9fade),to(#f9fade));
+	background-image: -webkit-linear-gradient(center top,#f9fade,#f9fade 70%);
+	background-image: -o-linear-gradient(center top,#f9fade,#f9fade 70%);
+	background-image: linear-gradient(center top,#f9fade,#f9fade 70%);
 }
 
 #content {
@@ -87,41 +53,6 @@ a:visited {
 	border-top: 1px solid #c7c8b2;
 }
 
-/**
- * Status layout
- */
-#module-status .preview {
-	background: url(../images/menu/icon-16-media.png) 3px 3px no-repeat;
-}
-
-#module-status .viewsite {
-	background: url(../images/menu/icon-16-viewsite.png) 3px 3px no-repeat;
-}
-
-#module-status .unread-messages,
-#module-status .no-unread-messages {
-	background: url(../images/menu/icon-16-messages.png) 3px 3px no-repeat;
-}
-
-#module-status .loggedin-users {
-	background: url(../images/menu/icon-16-user.png) 3px 3px no-repeat;
-}
-
-#module-status .backloggedin-users {
-	background: url(../images/menu/icon-16-back-user.png) 3px 3px no-repeat;
-}
-
-#module-status .multilanguage {
-	background: url(../images/menu/icon-16-language.png) 3px 3px no-repeat;
-}
-
-#module-status .logout {
-	background: url(../images/menu/icon-16-logout.png) 3px 3px no-repeat;
-}
-
-/**
- * Various Styles
- */
 .enabled,
 .success,
 .allow,
@@ -141,12 +72,9 @@ span.unwritable {
 	color: #2c2c2c;
 }
 
-.none {
-	color: #cccccc;
-}
-
+.none,
 .protected {
-	color: #999999;
+	color: #c7c8b2;
 }
 
 span.note {
@@ -158,9 +86,6 @@ div.checkin-tick {
 	background: url(../images/admin/tick.png) 20px 50% no-repeat;
 }
 
-/**
- * Overlib
- */
 .ol-foreground {
 	background-color: #f9fade;
 }
@@ -181,9 +106,6 @@ div.checkin-tick {
 	color: #054993;
 }
 
-/**
- * Subheader, toolbar, page title
- */
 div.subheader .padding {
 	background: #ffffff;
 }
@@ -205,34 +127,44 @@ div.toolbar-box {
 	background: #ffffff;
 }
 
-div.toolbar-list li {
-	color: #2c2c2c;
+div.btn-toolbar {
+	margin-left: 5px;
+	padding-top: 3px;
 }
 
-div.toolbar-list li.divider {
-	border-right:1px dotted #e3e4ca;
+div.btn-toolbar li.divider {
+	border-right: 1px dotted #e5d9c3;
 }
 
-div.toolbar-list a {
-	border-left: 1px solid #e3e4ca;
-	border-top: 1px solid #e3e4ca;
+div.btn-toolbar div.btn-group button {
+	border-left: 1px solid #e5d9c3;
+	border-top: 1px solid #e5d9c3;
 	border-right: 1px solid #c7c8b2;
 	border-bottom: 1px solid #c7c8b2;
 	background: #f9fade;
+	background-image: -moz-linear-gradient(center top,#f9fade,#f9fade 70%);
+	background-image: -ms-linear-gradient(center top,#f9fade,#f9fade 70%);
+	background-image: -webkit-gradient(linear,left top,left bottom,from(#f9fade),to(#f9fade));
+	background-image: -webkit-linear-gradient(center top,#f9fade,#f9fade 70%);
+	background-image: -o-linear-gradient(center top,#f9fade,#f9fade 70%);
+	background-image: linear-gradient(center top,#f9fade,#f9fade 70%);
+	padding: 5px 4px 5px 4px;
 }
 
-div.toolbar-list a:hover {
+div.btn-toolbar div.btn-group button:hover {
 	border-left: 1px solid #868778;
 	border-top: 1px solid #868778;
 	border-right: 1px solid #f6f7db;
 	border-bottom: 1px solid #f6f7db;
-	background: #e3e4ca;
+	background: #e5d9c3;
 	color: #054993;
+	cursor: pointer;
 }
 
-/**
- * Pane Slider pane Toggler styles
- */
+div.btn-toolbar div.btn-group button.inactive {
+	background: #f9fade;
+}
+
 .pane-sliders .title {
 	color: #2c2c2c;
 }
@@ -243,7 +175,21 @@ div.toolbar-list a:hover {
 
 .pane-sliders .panel h3 {
 	background: #f9fade;
-	color: #2c2c2c;
+	background-image: -moz-linear-gradient(center top,#f9fade,#f9fade 70%);
+	background-image: -ms-linear-gradient(center top,#f9fade,#f9fade 70%);
+	background-image: -webkit-gradient(linear,left top,left bottom,from(#f9fade),to(#f9fade));
+	background-image: -webkit-linear-gradient(center top,#f9fade,#f9fade 70%);
+	background-image: -o-linear-gradient(center top,#f9fade,#f9fade 70%);
+	background-image: linear-gradient(center top,#f9fade,#f9fade 70%);
+	color: #054993;
+}
+
+.pane-sliders .panel h3:hover {
+	background: #e5d9c3;
+}
+
+.pane-sliders .panel h3:hover a {
+	text-decoration: none;
 }
 
 .pane-sliders .adminlist {
@@ -254,7 +200,7 @@ div.toolbar-list a:hover {
 	border: 0 none;
 }
 
-.pane-toggler  span {
+.pane-toggler span {
 	background: transparent url(../images/j_arrow.png) 5px 50% no-repeat;
 }
 
@@ -266,13 +212,20 @@ div.toolbar-list a:hover {
 	border-bottom: 1px solid #c7c8b2;
 }
 
-/**
- * Tabs
- */
 dl.tabs dt {
 	border: 1px solid #c7c8b2;
 	background: #f9fade;
-	color: #2c2c2c;
+	background-image: -moz-linear-gradient(center top,#f9fade,#f9fade 70%);
+	background-image: -ms-linear-gradient(center top,#f9fade,#f9fade 70%);
+	background-image: -webkit-gradient(linear,left top,left bottom,from(#f9fade),to(#f9fade));
+	background-image: -webkit-linear-gradient(center top,#f9fade,#f9fade 70%);
+	background-image: -o-linear-gradient(center top,#f9fade,#f9fade 70%);
+	background-image: linear-gradient(center top,#f9fade,#f9fade 70%);
+	color: #054993;
+}
+
+dl.tabs dt:hover {
+	background: #e5d9c3;
 }
 
 dl.tabs dt.open {
@@ -285,24 +238,27 @@ dl.tabs dt.open a:visited {
 	color: #2c2c2c;
 }
 
+dl.tabs dt a:hover {
+	text-decoration: none;
+}
+
+dl.tabs dt a:focus {
+	text-decoration: underline;
+}
+
 div.current {
 	border: 1px solid #c7c8b2;
 	background: #ffffff;
 }
-
-/* New parameter styles */
 
 div.current fieldset {
 	border: none 0;
 }
 
 div.current fieldset.adminform {
-	border: 1px #c7c8b2 solid;
+	border: 1px solid #c7c8b2;
 }
 
-/**
- * Login Settings
- */
 #login-page .pagetitle h2 {
 	background: transparent;
 }
@@ -317,6 +273,12 @@ div.current fieldset.adminform {
 
 #login-page #element-box.login {
 	background: #f9fade;
+	background-image: -moz-linear-gradient(center top,#f9fade,#f9fade 70%);
+	background-image: -ms-linear-gradient(center top,#f9fade,#f9fade 70%);
+	background-image: -webkit-gradient(linear,left top,left bottom,from(#f9fade),to(#f9fade));
+	background-image: -webkit-linear-gradient(center top,#f9fade,#f9fade 70%);
+	background-image: -o-linear-gradient(center top,#f9fade,#f9fade 70%);
+	background-image: linear-gradient(center top,#f9fade,#f9fade 70%);
 }
 
 #form-login {
@@ -329,21 +291,23 @@ div.current fieldset.adminform {
 }
 
 #form-login div.button1 a {
-	color: #2c2c2c;
-	/* padding: 0 30px 0 6px; use this if you use images */
+	color: #054993;
 }
 
-/**
- * Cpanel Settings
- */
 #cpanel div.icon a,
 .cpanel div.icon a {
-	color: #2c2c2c;
-	border-left: 1px solid #e3e4ca;
-	border-top: 1px solid #e3e4ca;
+	color: #054993;
+	border-left: 1px solid #e5d9c3;
+	border-top: 1px solid #e5d9c3;
 	border-right: 1px solid #c7c8b2;
 	border-bottom: 1px solid #c7c8b2;
 	background: #f9fade;
+	background-image: -moz-linear-gradient(center top,#f9fade,#f9fade 70%);
+	background-image: -ms-linear-gradient(center top,#f9fade,#f9fade 70%);
+	background-image: -webkit-gradient(linear,left top,left bottom,from(#f9fade),to(#f9fade));
+	background-image: -webkit-linear-gradient(center top,#f9fade,#f9fade 70%);
+	background-image: -o-linear-gradient(center top,#f9fade,#f9fade 70%);
+	background-image: linear-gradient(center top,#f9fade,#f9fade 70%);
 }
 
 #cpanel div.icon a:hover,
@@ -354,13 +318,10 @@ div.current fieldset.adminform {
 	border-top: 1px solid #868778;
 	border-right: 1px solid #f6f7db;
 	border-bottom: 1px solid #f6f7db;
-	background: #e3e4ca;
 	color: #054993;
+	background: #e5d9c3;
 }
 
-/**
- * Form Styles
- */
 fieldset {
 	border: 1px #c7c8b2 solid;
 }
@@ -390,18 +351,14 @@ fieldset#filter-bar ul li fieldset {
 	border: 0;
 }
 
-/* Note: these visual cues should be augmented by aria */
 .invalid {
 	color: #a20000;
 }
 
-/* must be augmented by aria at the same time if changed dynamically by js
-	aria-invalid=true or aria-invalid=false */
 input.invalid {
 	border: 1px solid #a20000;
 }
 
-/* augmented by aria in template javascript */
 input.readonly,
 span.faux-input {
 	border: 0;
@@ -422,11 +379,17 @@ span.faux-input {
 	border: 1px solid #c7c8b2;
 }
 
-/* Inputs used as buttons */
 input[type="button"],
 input[type="submit"],
 input[type="reset"] {
-	background-color: #f9fade;
+	color: #054993;
+	background: #f9fade;
+	background-image: -moz-linear-gradient(center top,#f9fade,#f9fade 70%);
+	background-image: -ms-linear-gradient(center top,#f9fade,#f9fade 70%);
+	background-image: -webkit-gradient(linear,left top,left bottom,from(#f9fade),to(#f9fade));
+	background-image: -webkit-linear-gradient(center top,#f9fade,#f9fade 70%);
+	background-image: -o-linear-gradient(center top,#f9fade,#f9fade 70%);
+	background-image: linear-gradient(center top,#f9fade,#f9fade 70%);
 }
 
 input[type="button"]:hover,
@@ -435,8 +398,7 @@ input[type="submit"]:hover,
 input[type="submit"]:focus,
 input[type="reset"]:hover,
 input[type="reset"]:focus {
-	background-color: #e3e4ca;
-	color: #2c2c2c;
+	background: #e5d9c3;
 }
 
 textarea {
@@ -452,13 +414,9 @@ input:hover,
 select:hover,
 textarea:hover,
 option:hover {
-	background-color: #e3e4ca;
-	color: #2c2c2c;
+	background-color: #e5d9c3;
+	color: #054993;
 }
-
-/**
- * Option or Parameter styles
- */
 
 .paramrules {
 	background: #f9fade;
@@ -468,9 +426,6 @@ span.gi {
 	color: #c7c8b2;
 }
 
-/**
- * Admintable Styles
- */
 table.admintable td.key,
 table.admintable td.paramlist_key {
 	background-color: #f9fade;
@@ -486,14 +441,10 @@ table.paramlist td.paramlist_description {
 	border-right: 1px solid #c7c8b2;
 }
 
-/**
- * Admin Form Styles
- */
 fieldset.adminform {
 	border: 1px solid #c7c8b2;
 }
 
-	/* Table styles are for use with tabular data */
 table.adminform {
 	background-color: #ffffff;
 }
@@ -503,7 +454,7 @@ table.adminform tr.row0 {
 }
 
 table.adminform tr.row1 {
-	background-color: #e3e4ca;
+	background-color: #e5d9c3;
 }
 
 table.adminform th {
@@ -516,9 +467,6 @@ table.adminform tr {
 	border-right: 1px solid #c7c8b2;
 }
 
-/**
- * Adminlist Table layout
- */
 table.adminlist {
 	border-spacing: 1px;
 	background-color: #ffffff;
@@ -537,10 +485,9 @@ table.adminlist a {
 table.adminlist thead th {
 	background: #ffffff;
 	color: #2c2c2c;
-	border-bottom: 1px solid #C7C8B2;
+	border-bottom: 1px solid #c7c8b2;
 }
 
-/* Table row styles */
 table.adminlist tbody tr {
 	background: #ffffff;
 }
@@ -549,8 +496,8 @@ table.adminlist tbody tr.row1 {
 	background: #ffffff;
 }
 
-table.adminlist tbody tr.row1 td,
-table.adminlist tbody tr.row1 th {
+table.adminlist tbody tr.row1:last-child td,
+table.adminlist tbody tr.row1:last-child th {
 	border-bottom: 1px solid #c7c8b2;
 }
 
@@ -561,8 +508,8 @@ table.adminlist tbody tr.row1:hover th,
 table.adminlist tbody tr.row0:focus td,
 table.adminlist tbody tr.row1:focus td,
 table.adminlist tbody tr.row0:focus th,
-table.adminlist tbody tr.row1:focus th  {
-	background-color: #e3e4ca;
+table.adminlist tbody tr.row1:focus th {
+	background-color: #e5d9c3;
 }
 
 table.adminlist tbody tr td,
@@ -582,6 +529,12 @@ table.adminlist tbody tr.row0:last-child th {
 table.adminlist tbody tr.row0 td,
 table.adminlist tbody tr.row0 th {
 	background: #f9fade;
+	background-image: -moz-linear-gradient(center top,#f9fade,#f9fade 70%);
+	background-image: -ms-linear-gradient(center top,#f9fade,#f9fade 70%);
+	background-image: -webkit-gradient(linear,left top,left bottom,from(#f9fade),to(#f9fade));
+	background-image: -webkit-linear-gradient(center top,#f9fade,#f9fade 70%);
+	background-image: -o-linear-gradient(center top,#f9fade,#f9fade 70%);
+	background-image: linear-gradient(center top,#f9fade,#f9fade 70%);
 }
 
 table.adminlist {
@@ -592,31 +545,30 @@ table.adminlist tfoot tr {
 	color: #2c2c2c;
 }
 
-/* Table td/th styles */
 table.adminlist tfoot td,
 table.adminlist tfoot th {
 	background-color: #ffffff;
 	border-top: 1px solid #c7c8b2;
 }
 
-/**
- * Adminlist buttons
- */
 table.adminlist tr td.btns a {
 	border: 1px solid #c7c8b2;
-	background-color: #ffffff;
-	color: #2c2c2c;
+	background: #f9fade;
+	background-image: -moz-linear-gradient(center top,#f9fade,#f9fade 70%);
+	background-image: -ms-linear-gradient(center top,#f9fade,#f9fade 70%);
+	background-image: -webkit-gradient(linear,left top,left bottom,from(#f9fade),to(#f9fade));
+	background-image: -webkit-linear-gradient(center top,#f9fade,#f9fade 70%);
+	background-image: -o-linear-gradient(center top,#f9fade,#f9fade 70%);
+	background-image: linear-gradient(center top,#f9fade,#f9fade 70%);
+	color: #054993;
 }
 
 table.adminlist tr td.btns a:hover,
 table.adminlist tr td.btns a:active,
 table.adminlist tr td.btns a:focus {
-	background-color: #f9fade;
+	background-color: #ffffff;
 }
 
-/**
- * Saving order icon styling in admin tables
- */
 a.saveorder {
 	background: url(../images/admin/filesave.png) no-repeat;
 }
@@ -625,95 +577,92 @@ a.saveorder.inactive {
 	background-position: 0 -16px;
 }
 
-/**
- * Saving order icon styling in admin tables
- */
 fieldset.batch {
 	background: #ffffff;
 }
 
-/**
- * Button styling
- */
 button {
-	background-color: #f9fade;
+	color: #054993;
 	border: 1px solid #c7c8b2;
+	background: #f9fade;
+	background-image: -moz-linear-gradient(center top,#f9fade,#f9fade 70%);
+	background-image: -ms-linear-gradient(center top,#f9fade,#f9fade 70%);
+	background-image: -webkit-gradient(linear,left top,left bottom,from(#f9fade),to(#f9fade));
+	background-image: -webkit-linear-gradient(center top,#f9fade,#f9fade 70%);
+	background-image: -o-linear-gradient(center top,#f9fade,#f9fade 70%);
+	background-image: linear-gradient(center top,#f9fade,#f9fade 70%);
 }
 
 button:hover,
 button:focus {
-	background-color: #e3e4ca;
+	background: #e5d9c3;
 }
 
 .invalid {
 	color: #ff0000;
 }
 
-/* Button 1 Type */
 .button1 {
 	border: 1px solid #c7c8b2;
+	color: #054993;
 	background: #f9fade;
+	background-image: -moz-linear-gradient(center top,#f9fade,#f9fade 70%);
+	background-image: -ms-linear-gradient(center top,#f9fade,#f9fade 70%);
+	background-image: -webkit-gradient(linear,left top,left bottom,from(#f9fade),to(#f9fade));
+	background-image: -webkit-linear-gradient(center top,#f9fade,#f9fade 70%);
+	background-image: -o-linear-gradient(center top,#f9fade,#f9fade 70%);
+	background-image: linear-gradient(center top,#f9fade,#f9fade 70%);
 }
 
-	/* Use this if you add images to the buttons such as directional arrows */
 .button1 a {
-	color: #2c2c2c;
-	/* add padding if you are using the directional images */
-	/* padding: 0 30px 0 6px; */
+	color: #054993;
 }
 
 .button1 a:hover,
 .button1 a:focus {
-	background-color: #e3e4ca;
+	background: #e5d9c3;
 }
 
-/* Button 2 Type */
 .button2-left,
 .button2-right {
 	border: 1px solid #c7c8b2;
-	background-color: #f9fade;
+	background: #f9fade;
+	background-image: -moz-linear-gradient(center top,#f9fade,#f9fade 70%);
+	background-image: -ms-linear-gradient(center top,#f9fade,#f9fade 70%);
+	background-image: -webkit-gradient(linear,left top,left bottom,from(#f9fade),to(#f9fade));
+	background-image: -webkit-linear-gradient(center top,#f9fade,#f9fade 70%);
+	background-image: -o-linear-gradient(center top,#f9fade,#f9fade 70%);
+	background-image: linear-gradient(center top,#f9fade,#f9fade 70%);
 }
 
 .button2-left a,
 .button2-right a,
 .button2-left span,
 .button2-right span {
-	color: #2c2c2c;
+	color: #054993;
 }
 
-/* these are inactive buttons */
 .button2-left span,
 .button2-right span {
-	color: #cccccc;
+	color: #999999;
 }
 
 .page span,
 .blank span {
-	color: #2c2c2c;
+	color: #054993;
 }
 
 .button2-left a:hover,
 .button2-right a:hover,
 .button2-left a:focus,
 .button2-right a:focus {
-	background-color: #e3e4ca;
+	background: #e5d9c3;
 }
 
-/**
- * Pagination styles
- */
-
-/* Grey out the current page number */
 .pagination .page span {
-	color: #cccccc;
+	color: #999999;
 }
 
-.icon-32-extension {
-    background-image: url(../images/toolbar/icon-32-extension.png);
-}
-/**
- * Tooltips
- */
 .tip {
 	background: #ffffff;
 	border: 1px solid #c7c8b2;
@@ -723,16 +672,10 @@ button:focus {
 	background: url(../images/selector-arrow-std.png) no-repeat;
 }
 
-/**
- * Calendar
- */
 a img.calendar {
 	background: url(../images/calendar.png) no-repeat;
 }
 
-/**
- * JGrid styles
- */
 .jgrid span.publish {
 	background-image: url(../images/admin/tick.png);
 }
@@ -791,19 +734,6 @@ a img.calendar {
 
 .jgrid span.warning {
 	background-image: url(../images/admin/publish_y.png);
-}
-
-.jgrid span.protected	{
-	background-image: url(../images/admin/icon-16-protected.png);
-}
-
-/**
- * Menu Icons
- * These icons are used on the Administrator menu
- * The classes are constructed dynamically when the menu is generated
- */
-.icon-16-alert {
-	background-image: url(../images/menu/icon-16-alert.png);
 }
 
 .icon-16-archive {
@@ -978,7 +908,6 @@ a img.calendar {
 	background-image: url(../images/menu/icon-16-module.png);
 }
 
-/* .icon-16-new 		{ background-image: url(../images/menu/icon-16-new.png); } */
 .icon-16-newarticle {
 	background-image: url(../images/menu/icon-16-newarticle.png);
 }
@@ -999,16 +928,8 @@ a img.calendar {
 	background-image: url(../images/menu/icon-16-newuser.png);
 }
 
-.icon-16-nopreview {
-	background-image: url(../images/menu/icon-16-nopreview.png);
-}
-
 .icon-16-plugin {
 	background-image: url(../images/menu/icon-16-plugin.png);
-}
-
-.icon-16-preview {
-	background-image: url(../images/menu/icon-16-preview.png);
 }
 
 .icon-16-profile {
@@ -1087,11 +1008,6 @@ a img.calendar {
 	background-image: url(../images/menu/icon-16-links-cat.png);
 }
 
-/**
- * Toolbar icons
- * These icons are used for the toolbar buttons
- * The classes are constructed dynamically when the toolbar is created
- */
 .icon-32-send {
 	background-image: url(../images/toolbar/icon-32-send.png);
 }
@@ -1252,12 +1168,6 @@ a img.calendar {
 	background-image: url(../images/toolbar/icon-32-print.png);
 }
 
-/**
- * Quick Icons
- * Also knows as Header Icons
- * These are used for the Quick Icons on the Control Panel
- * The same classes are also assigned the Component Title
- */
 .icon-48-categories {
 	background-image: url(../images/header/icon-48-category.png);
 }
@@ -1534,9 +1444,6 @@ a img.calendar {
 	background-image: url(../images/header/icon-48-category-add.png);
 }
 
-/**
- * General styles
- */
 div.message {
 	border: 1px solid #c7c8b2;
 	color: #2c2c2c;
@@ -1554,9 +1461,6 @@ div.message {
 	background: #ffffff;
 }
 
-/**
- * Modal Styles
- */
 dl.menu_type dt {
 	border-bottom: 1px solid #c7c8b2;
 }
@@ -1565,11 +1469,6 @@ ul#new-modules-list {
 	border-top: 1px solid #c7c8b2;
 }
 
-/**
- * User Accessibility
- */
-
-/* Skip to Content Visual Styling */
 #skiplinkholder a,
 #skiplinkholder a:link,
 #skiplinkholder a:visited {
@@ -1578,16 +1477,10 @@ ul#new-modules-list {
 	border-bottom: solid #336 2px;
 }
 
-/**
- * Admin Form Styles
- */
 fieldset.panelform {
 	border: none 0;
 }
 
-/**
- * ACL STYLES relocated from com_users/media/grid.css
- */
 a.move_up {
 	background-image: url('../images/admin/uparrow.png');
 }
@@ -1616,17 +1509,10 @@ a.grid_trash {
 	background-image: url('../images/admin/icon-16-trash.png');
 }
 
-/**
- * ACL PANEL STYLES
- */
-
-/* All Tabs */
-
 tr.row1 {
 	background-color: #f9fade;
 }
 
-/* Summary Tab */
 table.aclsummary-table td.col2,
 table.aclsummary-table th.col2,
 table.aclsummary-table td.col3,
@@ -1641,8 +1527,6 @@ table.aclmodify-table td.col2,
 table.aclmodify-table th.col2 {
 	border-left: 1px solid #c7c8b2;
 }
-
-/* Icons */
 
 span.icon-16-unset {
 	background: url(../images/admin/icon-16-denyinactive.png) no-repeat;
@@ -1684,8 +1568,6 @@ a.icon-16-denyinactive {
 	background: url(../images/admin/icon-16-denyinactive.png) no-repeat;
 }
 
-/* ACL footer/legend */
-
 ul.acllegend li.acl-allowed {
 	background: url(../images/admin/icon-16-allow.png) no-repeat left;
 }
@@ -1702,17 +1584,16 @@ li.acl-resetbtn {
 
 li.acl-editgroups a,
 li.acl-resetbtn a {
-	color: #2c2c2c;
+	color: #054993;
 }
 
 li.acl-editgroups:hover,
 li.acl-resetbtn:hover,
 li.acl-editgroups:focus,
 li.acl-resetbtn:focus {
-	background-color: #e3e4ca;
+	background-color: #e5d9c3;
 }
 
-/* ACL Config --------- */
 table#acl-config {
 	border: 1px solid #c7c8b2;
 }
@@ -1727,21 +1608,9 @@ table#acl-config th.acl-groups {
 	border-right: 1px solid #c7c8b2;
 }
 
-/**
-* Mod_rewrite Warning
-*/
 #jform_sef_rewrite-lbl {
 	background: url(../images/admin/icon-16-notice-note.png) right top no-repeat;
 }
-
-/**
-* Options modal- config
-*/
-
-
-/**
-* Permission Rules
-*/
 
 #permissions-sliders ul#rules,
 #permissions-sliders ul#rules ul {
@@ -1758,7 +1627,6 @@ ul#rules li .pane-sliders .panel h3.title {
 }
 
 #permissions-sliders ul#rules li h3 {
-	background: #f9fade;
 	border: solid 1px #c7c8b2;
 }
 
@@ -1780,7 +1648,7 @@ ul#rules li .pane-sliders .panel h3.title {
 }
 
 #permissions-sliders ul#rules table.group-rules th {
-	background: #e3e4ca;
+	background: #e5d9c3;
 	border-right: solid 1px #c7c8b2;
 	border-bottom: solid 1px #c7c8b2;
 	color: #2c2c2c;
@@ -1807,9 +1675,6 @@ ul#rules table.group-rules td label {
 	background-image: none;
 }
 
-/*
- * Debug styles
- */
 .check-0,
 table.adminlist tbody td.check-0 {
 	background-color: #ffffcf;
@@ -1824,10 +1689,6 @@ table.adminlist tbody td.check-a {
 table.adminlist tbody td.check-d {
 	background-color: #ffcfcf;
 }
-
-/**
- * System Messages
- */
 
 #system-message dd ul {
 	color: #2c2c2c;
@@ -1845,36 +1706,28 @@ table.adminlist tbody td.check-d {
 	color: #2c2c2c;
 }
 
-/** CSS file for Accessible Admin Menu
- * based on Matt Carrolls' son of suckerfish
- * with javascript by Bill Tomczak
- */
-
-/* Note: set up the font-size on the id and used 100% on the elements.
-	If ul/li/a are different ems, then the shifting back via non-js keyboard
-	doesn't work properly */
-
-/**
- * Menu Styling
- */
 #menu {
-	/* this is on the main ul */
 	color: #2c2c2c;
 }
 
-#menu ul {
-	/* all lists */
+#menu ul.dropdown-menu {
 	background: #f9fade;
+	background-image: -moz-linear-gradient(center top,#f9fade,#f9fade 70%);
+	background-image: -ms-linear-gradient(center top,#f9fade,#f9fade 70%);
+	background-image: -webkit-gradient(linear,left top,left bottom,from(#f9fade),to(#f9fade));
+	background-image: -webkit-linear-gradient(center top,#f9fade,#f9fade 70%);
+	background-image: -o-linear-gradient(center top,#f9fade,#f9fade 70%);
+	background-image: linear-gradient(center top,#f9fade,#f9fade 70%);
 	color: #2c2c2c;
 }
 
-#menu ul li.node {
+#menu ul.dropdown-menu li.dropdown {
 	background: url(../images/j_arrow.png) no-repeat right 50%;
 }
 
-#menu ul li.separator {
+#menu ul.dropdown-menu li.divider {
 	margin-bottom: 0;
-	border-bottom: 1px dotted #e3e4ca;
+	border-bottom: 1px dotted #c7c8b2;
 }
 
 #menu a {
@@ -1884,127 +1737,133 @@ table.adminlist tbody td.check-d {
 }
 
 #menu li {
-	/* all list items */
-	background: #f9fade;
 	border-right: 1px solid #c7c8b2;
+	background-color: transparent;
 }
 
 #menu li a:hover,
 #menu li a:focus {
-	background-color: #e3e4ca;
+	background-color: #e5d9c3;
 }
 
 #menu li.disabled a:hover,
 #menu li.disabled a:focus,
 #menu li.disabled a {
-	color: #cccccc;
+	color: #c7c8b2;
 	background: #f9fade;
+	background-image: -moz-linear-gradient(center top,#f9fade,#f9fade 70%);
+	background-image: -ms-linear-gradient(center top,#f9fade,#f9fade 70%);
+	background-image: -webkit-gradient(linear,left top,left bottom,from(#f9fade),to(#f9fade));
+	background-image: -webkit-linear-gradient(center top,#f9fade,#f9fade 70%);
+	background-image: -o-linear-gradient(center top,#f9fade,#f9fade 70%);
+	background-image: linear-gradient(center top,#f9fade,#f9fade 70%);
 }
 
 #menu li ul {
-	/* second-level lists */
 	border: 1px solid #c7c8b2;
 }
 
 #menu li li {
-	/* second-level row */
-	background: #f9fade;
+	background-color: transparent;
 }
 
-/**
- * Styling parents
- */
-
-/* 1 level - sfhover */
 #menu li.sfhover a {
-	background-color: #e3e4ca;
+	background-color: #e5d9c3;
 }
 
-/* 2 level - normal */
 #menu li.sfhover li a {
-	background-color: #f9fade;
+	background-color: transparent;
 }
 
-/* 2 level - hover */
 #menu li.sfhover li.sfhover a,
 #menu li li a:focus {
-	background-color: #e3e4ca;
+	background-color: #e5d9c3;
 }
 
-/* 3 level - normal */
 #menu li.sfhover li.sfhover li a {
-	background-color: #f9fade;
+	background-color: transparent;
 }
 
-/* 3 level - hover */
 #menu li.sfhover li.sfhover li.sfhover a,
 #menu li li li a:focus {
-	background-color: #e3e4ca;
+	background-color: #e5d9c3;
 }
 
-/* bring back the focus elements into view */
 #menu li li a:focus,
 #menu li li li a:focus {
-	background-color: #e3e4ca;
+	background-color: #e5d9c3;
 }
 
 #menu li li li a:focus {
-	background-color: #e3e4ca;
+	background-color: #e5d9c3;
 }
 
-/**
- * Submenu styling
- */
 #submenu {
 	border-bottom: 1px solid #c7c8b2;
-	/* border-bottom plus padding-bottom is the technique */
-	/* This is the background befind the tabs */
-	background: #ffffff;
 }
 
-#submenu a,
+#submenu li,
 #submenu span.nolink {
 	background: #f9fade;
+	background-image: -moz-linear-gradient(center top,#f9fade,#f9fade 70%);
+	background-image: -ms-linear-gradient(center top,#f9fade,#f9fade 70%);
+	background-image: -webkit-gradient(linear,left top,left bottom,from(#f9fade),to(#f9fade));
+	background-image: -webkit-linear-gradient(center top,#f9fade,#f9fade 70%);
+	background-image: -o-linear-gradient(center top,#f9fade,#f9fade 70%);
+	background-image: linear-gradient(center top,#f9fade,#f9fade 70%);
 	border: 1px solid #c7c8b2;
 	color: #054993;
 }
 
-#submenu a:hover,
-#submenu a:focus {
-	background-color: #e3e4ca;
+#submenu li:hover,
+#submenu li:focus {
+	background: #e5d9c3;
 }
 
-#submenu a.active,
+#submenu li.active,
 #submenu span.nolink.active {
-	background: #fff;
-	border-bottom: 1px solid #fff;
+	background: #ffffff;
+	border-bottom: 1px solid #ffffff;
+}
+
+#submenu li.active a,
+#submenu span.nolink.active {
 	color: #000;
 }
 
-/* -- Codemirror Editor  ----------- */
+.element-invisible {
+	margin: 0;
+	padding: 0;
+}
+
 div.CodeMirror-wrapping {
 	border: 1px solid #c7c8b2;
 }
 
-/* User Notes */
+table.adminform tr.row0 {
+	background-color: #ffffff;
+}
+
 ul.alternating > li:nth-child(odd) {
-	background-color: #f9fade;
+	background-color: #ffffff;
 }
 
 ul.alternating > li:nth-child(even) {
-	background-color: #ffffff;
-}
-
-ol.alternating > li:nth-child(odd) {
 	background-color: #f9fade;
 }
 
-ol.alternating > li:nth-child(even) {
+ol.alternating > li:nth-child(odd) {
 	background-color: #ffffff;
 }
 
-/* Installer Database */
-#installer-database {
+ol.alternating > li:nth-child(even) {
+	background-color: #f9fade;
+}
+
+#installer-database,
+#installer-discover,
+#installer-update,
+#installer-warnings {
 	border-top: 1px solid #c7c8b2;
 }
 
@@ -2015,3 +1874,4 @@ ol.alternating > li:nth-child(even) {
 #installer-database p.nowarning {
 	background: transparent url(../images/admin/icon-16-allow.png) center left no-repeat;
 }
+

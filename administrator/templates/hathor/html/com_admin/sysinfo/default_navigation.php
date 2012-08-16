@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Administrator
- * @subpackage  com_admin
+ * @subpackage  Template.hathor
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 <div id="submenu-box">
 	<div class="submenu-box">
 		<div class="submenu-pad">
-			<ul id="submenu" class="information">
+			<ul id="submenu" class="information nav nav-list">
 				<li>
 					<a href="#" onclick="return false;" id="site" class="active">
 						<?php echo JText::_('COM_ADMIN_SYSTEM_INFORMATION'); ?></a>
