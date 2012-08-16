@@ -395,6 +395,10 @@ h3.js_heading a:focus
 	background:#669933;
 }
 
+ul.nav-child.small {
+	font-size: 100%;
+}
+
 /* ++++++++++++++  first level  ++++++++++++++ */
 #nav .moduletable-example ul.menu
 {
@@ -525,7 +529,7 @@ ul.menu li.active  ul li.active  ul li.active  ul li a:visited
 {
 	font-weight:normal;
 	padding: 3px 2px 3px 40px;
-	font-size:0.9em;
+	/*font-size:0.9em;*/
 	background:#fff url(../images/arrow_small.png) no-repeat  30px 5px;
 	color:#444
 }
@@ -560,7 +564,6 @@ ul.menu li.active  ul li.active  ul li.active  ul li.active	ul li a:visited
 	margin:0 10px  0 35px;
 	border-bottom:solid 1px #ddd
 }
-
 
 ul.menu li.active  ul li.active  ul li.active  ul li.active  ul li.active  a:link,
 ul.menu li.active  ul li.active  ul li.active  ul li.active  ul li.active a:visited

@@ -24,7 +24,7 @@ foreach ($fieldsets as $group => $fieldset): // Iterate through the form fieldse
 	<?php if (isset($fieldset->label)):// If the fieldset has a label set, display it as the legend.?>
 	<legend><?php echo JText::_($fieldset->label); ?></legend>
 	<?php endif;?>
-	<dl>
+	<dl class="dl-horizontal">
 	<?php foreach ($fields as $field):
 		if (!$field->hidden) :?>
 		<dt><?php echo $field->title; ?></dt>

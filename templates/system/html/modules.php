@@ -18,12 +18,40 @@ function modChrome_none($module, &$params, &$attribs)
 }
 
 /*
+ * html5 (chosen html5 tag and font headder tags)
+ */
+function modChrome_html5($module, &$params, &$attribs)
+{
+	$moduleTag      = $params->get('module_tag');
+	$headerTag      = htmlspecialchars($params->get('header_tag'));
+	$headerClass    = $params->get('header_class');
+	$bootstrapSize  = $params->get('bootstrap_size');
+	$moduleClass    = !empty($bootstrapSize) ? ' span' . (int) $bootstrapSize . '' : '';
+	$moduleClassSfx = htmlspecialchars($params->get('moduleclass_sfx'));
+
+	if (!empty ($module->content))
+	{
+		$html  = "<{$moduleTag} class=\"moduletable{$moduleClassSfx} {$moduleClass}\">";
+
+		if ((bool) $module->showtitle)
+		{
+			$html .= "<{$headerTag} class=\"{$headerClass}\">{$module->title}</{$headerTag}>";
+		}
+
+		$html .= $module->content;
+		$html .= "</{$moduleTag}>";
+
+		echo $html;
+	}
+}
+
+/*
  * Module chrome that wraps the module in a table
  */
 function modChrome_table($module, &$params, &$attribs)
 { ?>
 	<table cellpadding="0" cellspacing="0" class="moduletable<?php echo htmlspecialchars($params->get('moduleclass_sfx')); ?>">
-	<?php if ($module->showtitle != 0) : ?>
+	<?php if ((bool) $module->showtitle) : ?>
 		<tr>
 			<th>
 				<?php echo $module->title; ?>
@@ -61,7 +89,7 @@ function modChrome_xhtml($module, &$params, &$attribs)
 {
 	if (!empty ($module->content)) : ?>
 		<div class="moduletable<?php echo htmlspecialchars($params->get('moduleclass_sfx')); ?>">
-		<?php if ($module->showtitle != 0) : ?>
+		<?php if ((bool) $module->showtitle) : ?>
 			<h3><?php echo $module->title; ?></h3>
 		<?php endif; ?>
 			<?php echo $module->content; ?>
@@ -78,7 +106,7 @@ function modChrome_rounded($module, &$params, &$attribs)
 			<div>
 				<div>
 					<div>
-						<?php if ($module->showtitle != 0) : ?>
+						<?php if ((bool) $module->showtitle) : ?>
 							<h3><?php echo $module->title; ?></h3>
 						<?php endif; ?>
 					<?php echo $module->content; ?>

@@ -127,11 +127,12 @@ abstract class JHtmlFilter
 		$html .= '<div id="finder-filter-container">';
 		$html .= '<dl id="branch-selectors">';
 		$html .= '<dt>';
-		$html .= '<label for="tax-select-all">';
+		$html .= '<label for="tax-select-all" class="checkbox">';
 		$html .= '<input type="checkbox" id="tax-select-all" />';
 		$html .= JText::_('COM_FINDER_FILTER_SELECT_ALL_LABEL');
 		$html .= '</label>';
 		$html .= '</dt>';
+		$html .= '<div class="control-group">';
 
 		// Iterate through the branches to build the branch selector.
 		foreach ($branches as $bk => $bv)
@@ -142,14 +143,13 @@ abstract class JHtmlFilter
 				continue;
 			}
 
-			$html .= '<dd>';
-			$html .= '<label for="tax-' . $bk . '">';
+			$html .= '<label for="tax-' . $bk . '" class="checkbox">';
 			$html .= '<input type="checkbox" class="toggler" id="tax-' . $bk . '"/>';
 			$html .= JText::sprintf('COM_FINDER_FILTER_BRANCH_LABEL', JText::_(FinderHelperLanguage::branchSingular($bv->title)));
 			$html .= '</label>';
-			$html .= '</dd>';
 		}
 
+		$html .= '</div>';
 		$html .= '</dl>';
 		$html .= '<div id="finder-filter-container">';
 
@@ -185,9 +185,11 @@ abstract class JHtmlFilter
 
 			// Translate node titles if possible.
 			$lang = JFactory::getLanguage();
-			foreach ($nodes as $nk => $nv) {
+			foreach ($nodes as $nk => $nv)
+			{
 				$key = FinderHelperLanguage::branchPlural($nv->title);
-				if ($lang->hasKey($key)) {
+				if ($lang->hasKey($key))
+				{
 					$nodes[$nk]->title = JText::_($key);
 				}
 			}
@@ -195,11 +197,12 @@ abstract class JHtmlFilter
 			// Start the group.
 			$html .= '<dl class="checklist" rel="tax-' . $bk . '">';
 			$html .= '<dt>';
-			$html .= '<label for="tax-' . JFilterOutput::stringUrlSafe($bv->title) . '">';
+			$html .= '<label for="tax-' . JFilterOutput::stringUrlSafe($bv->title) . '" class="checkbox">';
 			$html .= '<input type="checkbox" class="branch-selector filter-branch' . $classSuffix . '" id="tax-' . JFilterOutput::stringUrlSafe($bv->title) . '" />';
 			$html .= JText::sprintf('COM_FINDER_FILTER_BRANCH_LABEL', JText::_(FinderHelperLanguage::branchSingular($bv->title)));
 			$html .= '</label>';
 			$html .= '</dt>';
+			$html .= '<div class="control-group">';
 
 			// Populate the group with nodes.
 			foreach ($nodes as $nk => $nv)
@@ -208,15 +211,14 @@ abstract class JHtmlFilter
 				$checked = in_array($nk, $activeNodes) ? ' checked="checked"' : '';
 
 				// Build a node.
-				$html .= '<dd>';
-				$html .= '<label for="tax-' . $nk . '">';
+				$html .= '<label for="tax-' . $nk . '" class="checkbox">';
 				$html .= '<input class="selector filter-node' . $classSuffix . '" type="checkbox" value="' . $nk . '" name="t[]" id="tax-' . $nk . '"' . $checked . ' />';
 				$html .= $nv->title;
 				$html .= '</label>';
-				$html .= '</dd>';
 			}
 
 			// Close the group.
+			$html .= '</div>';
 			$html .= '</dl>';
 		}
 
@@ -387,7 +389,7 @@ abstract class JHtmlFilter
 			$html .= JHtml::_('filter.dates', $query, $options);
 		}
 
-		$html .= '<ul id="finder-filter-select-list">';
+		$html .= '<div id="finder-filter-select-list" class="form-horizontal">';
 
 		// Iterate through all branches and build code.
 		foreach ($branches as $bk => $bv)
@@ -411,16 +413,18 @@ abstract class JHtmlFilter
 				$active = count($active) === 1 ? array_shift($active) : null;
 			}
 
-			$html .= '<li class="filter-branch' . $classSuffix . '">';
-			$html .= '<label for="tax-' . JFilterOutput::stringUrlSafe($bv->title) . '">';
+			$html .= '<div class="filter-branch' . $classSuffix . ' control-group">';
+			$html .= '<label for="tax-' . JFilterOutput::stringUrlSafe($bv->title) . '" class="control-label">';
 			$html .= JText::sprintf('COM_FINDER_FILTER_BRANCH_LABEL', JText::_(FinderHelperLanguage::branchSingular($bv->title)));
 			$html .= '</label>';
+			$html .= '<div class="controls">';
 			$html .= JHtml::_('select.genericlist', $branches[$bk]->nodes, 't[]', 'class="inputbox"', 'id', 'title', $active, 'tax-' . JFilterOutput::stringUrlSafe($bv->title));
-			$html .= '</li>';
+			$html .= '</div>';
+			$html .= '</div>';
 		}
 
 		// Close the widget.
-		$html .= '</ul>';
+		$html .= '</div>';
 
 		// Load the CSS/JS resources.
 		if ($loadMedia)

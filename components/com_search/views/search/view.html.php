@@ -88,11 +88,11 @@ class SearchViewSearch extends JViewLegacy
 		$lists = array();
 		$lists['ordering'] = JHtml::_('select.genericlist', $orders, 'ordering', 'class="inputbox"', 'value', 'text', $state->get('ordering'));
 
-		$searchphrases   = array();
-		$searchphrases[] = JHtml::_('select.option', 'all', JText::_('COM_SEARCH_ALL_WORDS'));
-		$searchphrases[] = JHtml::_('select.option', 'any', JText::_('COM_SEARCH_ANY_WORDS'));
-		$searchphrases[] = JHtml::_('select.option', 'exact', JText::_('COM_SEARCH_EXACT_PHRASE'));
-		$lists['searchphrase'] = JHtml::_('select.radiolist', $searchphrases, 'searchphrase', '', 'value', 'text', $state->get('match'));
+		$searchphrases         = array();
+		$searchphrases[]       = JHtml::_('select.option',  'all', JText::_('COM_SEARCH_ALL_WORDS'));
+		$searchphrases[]       = JHtml::_('select.option',  'any', JText::_('COM_SEARCH_ANY_WORDS'));
+		$searchphrases[]       = JHtml::_('select.option',  'exact', JText::_('COM_SEARCH_EXACT_PHRASE'));
+		$lists['searchphrase'] = JHtml::_('select.radiolist',  $searchphrases, 'searchphrase', '', 'value', 'text', $state->get('match'));
 
 		// log the search
 		SearchHelper::logSearch($searchword);

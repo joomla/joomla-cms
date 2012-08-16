@@ -15,7 +15,7 @@ defined('_JEXEC') or die;
 	<legend>
 		<?php echo JText::_('COM_USERS_PROFILE_CORE_LEGEND'); ?>
 	</legend>
-	<dl>
+	<dl class="dl-horizontal">
 		<dt>
 			<?php echo JText::_('COM_USERS_PROFILE_NAME_LABEL'); ?>
 		</dt>
