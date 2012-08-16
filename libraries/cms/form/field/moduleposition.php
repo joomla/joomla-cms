@@ -32,6 +32,7 @@ class JFormFieldModulePosition extends JFormFieldText
 	 * Method to get the field input markup.
 	 *
 	 * @return	string	The field input markup.
+	 *
 	 * @since	1.6
 	 */
 	protected function getInput()
@@ -47,9 +48,12 @@ class JFormFieldModulePosition extends JFormFieldText
 				$clientId = $client->id;
 			}
 		}
-		if (!isset($clientId) && $this->form instanceof JForm) {
+
+		if (!isset($clientId) && $this->form instanceof JForm)
+		{
 			$clientId = $this->form->getValue('client_id');
 		}
+
 		$clientId = (int) $clientId;
 
 		// Load the modal behavior script.
@@ -57,8 +61,8 @@ class JFormFieldModulePosition extends JFormFieldText
 
 		// Build the script.
 		$script = array();
-		$script[] = '	function jSelectPosition_'.$this->id.'(name) {';
-		$script[] = '		document.id("'.$this->id.'").value = name;';
+		$script[] = '	function jSelectPosition_' . $this->id . '(name) {';
+		$script[] = '		document.id("' . $this->id . '").value = name;';
 		$script[] = '		SqueezeBox.close();';
 		$script[] = '	}';
 
@@ -66,19 +70,15 @@ class JFormFieldModulePosition extends JFormFieldText
 		JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 
 		// Setup variables for display.
-		$html	= array();
-		$link	= 'index.php?option=com_modules&amp;view=positions&amp;layout=modal&amp;tmpl=component&amp;function=jSelectPosition_'.$this->id.'&amp;client_id='.$clientId;
+		$html = array();
+		$link = 'index.php?option=com_modules&view=positions&layout=modal&tmpl=component&function=jSelectPosition_' . $this->id . '&amp;client_id=' . $clientId;
 
 		// The current user display field.
-		$html[] = '<div class="fltlft">';
-		$html[] = parent::getInput();
-		$html[] = '</div>';
-
-		// The user select button.
-		$html[] = '<div class="button2-left">';
-		$html[] = '  <div class="blank">';
-		$html[] = '	<a class="modal" title="'.JText::_('COM_MODULES_CHANGE_POSITION_TITLE').'"  href="'.$link.'" rel="{handler: \'iframe\', size: {x: 800, y: 450}}">'.JText::_('COM_MODULES_CHANGE_POSITION_BUTTON').'</a>';
-		$html[] = '  </div>';
+		$html[] = '<div class="input-append">';
+		$html[] = parent::getInput()
+			. '<a class="btn modal" title="' . JText::_('COM_MODULES_CHANGE_POSITION_TITLE') . '"  href="' . $link . '" rel="{handler: \'iframe\', size: {x: 800, y: 450}}">'
+			. '<i class="icon-screenshot"></i> '
+			. JText::_('COM_MODULES_CHANGE_POSITION_BUTTON') . '</a>';
 		$html[] = '</div>';
 
 		return implode("\n", $html);
