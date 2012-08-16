@@ -69,7 +69,6 @@ class JTableContent extends JTable
 	 */
 	protected function _getAssetParentId($table = null, $id = null)
 	{
-		// Initialise variables.
 		$assetId = null;
 
 		// This is a article under a category.
@@ -288,7 +287,6 @@ class JTableContent extends JTable
 	 */
 	public function publish($pks = null, $state = 1, $userId = 0)
 	{
-		// Initialise variables.
 		$k = $this->_tbl_key;
 
 		// Sanitize input.

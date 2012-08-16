@@ -313,7 +313,6 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	{
 		$this->connect();
 
-		// Initialise variables.
 		$result = array();
 
 		// Sanitize input to an array and iterate over the list.

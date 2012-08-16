@@ -31,8 +31,6 @@ class JFormRuleEqualsTest extends TestCase
 	 */
 	public function testEquals()
 	{
-		// Initialise variables.
-
 		$rule = new JFormRuleEquals;
 		$xml = simplexml_load_string('<form><field name="foo" /></form>');
 

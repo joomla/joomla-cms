@@ -963,7 +963,6 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 */
 	public function insertObject($table, &$object, $key = null)
 	{
-		// Initialise variables.
 		$columns = $this->getTableColumns($table);
 
 		$fields = array();
@@ -1267,7 +1266,6 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 */
 	public function updateObject($table, &$object, $key, $nulls = false)
 	{
-		// Initialise variables.
 		$columns = $this->getTableColumns($table);
 		$fields = array();
 		$where = '';

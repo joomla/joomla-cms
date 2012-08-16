@@ -209,7 +209,6 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
 	{
 		$this->connect();
 
-		// Initialise variables.
 		$result = array();
 		$query = $this->getQuery(true);
 
@@ -532,7 +531,6 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
 	 */
 	public function replacePrefix($sql, $prefix = '#__')
 	{
-		// Initialize variables.
 		$escaped = false;
 		$startPos = 0;
 		$quoteChar = "'";

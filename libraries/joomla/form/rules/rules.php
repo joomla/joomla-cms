@@ -62,7 +62,6 @@ class JFormRuleRules extends JFormRule
 	 */
 	protected function getValueActions($value)
 	{
-		// Initialise variables.
 		$actions = array();
 
 		// Iterate over the asset actions and add to the actions.
@@ -86,7 +85,6 @@ class JFormRuleRules extends JFormRule
 	 */
 	protected function getFieldActions(SimpleXMLElement $element)
 	{
-		// Initialise variables.
 		$actions = array();
 
 		// Initialise some field attributes.

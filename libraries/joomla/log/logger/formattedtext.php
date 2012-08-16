@@ -180,7 +180,6 @@ class JLogLoggerFormattedtext extends JLogLogger
 	 */
 	protected function generateFileHeader()
 	{
-		// Initialize variables.
 		$head = array();
 
 		// Build the log file header.
@@ -252,7 +251,6 @@ class JLogLoggerFormattedtext extends JLogLogger
 	 */
 	protected function parseFields()
 	{
-		// Initialise variables.
 		$this->fields = array();
 		$matches = array();
 

@@ -335,7 +335,6 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	 */
 	public function getTableColumns($table, $typeOnly = true)
 	{
-		// Initialise variables.
 		$result = array();
 
 		$table_temp = $this->replacePrefix((string) $table);
@@ -517,7 +516,6 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	 */
 	public function loadResult()
 	{
-		// Initialise variables.
 		$ret = null;
 
 		// Execute the query and get the result set cursor.
@@ -655,7 +653,6 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	{
 		$tablePrefix = 'jos_';
 
-		// Initialize variables.
 		$escaped = false;
 		$startPos = 0;
 		$quoteChar = '';

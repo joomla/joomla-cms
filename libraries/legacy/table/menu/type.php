@@ -163,7 +163,6 @@ class JTableMenuType extends JTable
 	 */
 	public function delete($pk = null)
 	{
-		// Initialise variables.
 		$k = $this->_tbl_key;
 		$pk = (is_null($pk)) ? $this->$k : $pk;
 

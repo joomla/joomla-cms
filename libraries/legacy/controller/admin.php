@@ -228,7 +228,6 @@ class JControllerAdmin extends JControllerLegacy
 		// Check for request forgeries.
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		// Initialise variables.
 		$ids = JFactory::getApplication()->input->post->get('cid', array(), 'array');
 		$inc = ($this->getTask() == 'orderup') ? -1 : +1;
 
@@ -304,7 +303,6 @@ class JControllerAdmin extends JControllerLegacy
 		// Check for request forgeries.
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		// Initialise variables.
 		$ids = JFactory::getApplication()->input->post->get('cid', array(), 'array');
 
 		$model = $this->getModel();

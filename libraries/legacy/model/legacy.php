@@ -490,7 +490,6 @@ abstract class JModelLegacy extends JObject
 	 */
 	protected function cleanCache($group = null, $client_id = 0)
 	{
-		// Initialise variables;
 		$conf = JFactory::getConfig();
 		$dispatcher = JEventDispatcher::getInstance();
 
