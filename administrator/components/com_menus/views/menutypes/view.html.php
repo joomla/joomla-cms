@@ -24,7 +24,7 @@ class MenusViewMenutypes extends JViewLegacy
 	public function display($tpl = null)
 	{
 		$input = JFactory::getApplication()->input;
-		$this->recordId = $input->getInt;
+		$this->recordId = $input->getInt('recordId');
 		$this->types    = $this->get('TypeOptions');
 
 		$this->addToolbar();
