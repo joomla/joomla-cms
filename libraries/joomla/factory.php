@@ -61,6 +61,7 @@ abstract class JFactory
 	/**
 	 * @var    JAccess
 	 * @since  11.1
+	 * @deprecated  13.3
 	 */
 	public static $acl = null;
 
@@ -422,6 +423,8 @@ abstract class JFactory
 	 */
 	public static function getEditor($editor = null)
 	{
+		JLog::add(__METHOD__ . ' is deprecated. Use JEditor directly.', JLog::WARNING, 'deprecated');
+
 		if (!class_exists('JEditor'))
 		{
 			throw new BadMethodCallException('JEditor not found');
@@ -695,10 +698,13 @@ abstract class JFactory
 	{
 		$lang = self::getLanguage();
 
+		$input = self::getApplication()->input;
+		$type = $input->get('format', 'html', 'word');
+
 		$attributes = array('charset' => 'utf-8', 'lineend' => 'unix', 'tab' => '  ', 'language' => $lang->getTag(),
 			'direction' => $lang->isRTL() ? 'rtl' : 'ltr');
 
-		return JDocument::getInstance('html', $attributes);
+		return JDocument::getInstance($type, $attributes);
 	}
 
 	/**

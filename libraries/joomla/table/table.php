@@ -278,7 +278,8 @@ abstract class JTable extends JObject
 
 	/**
 	 * Method to get the parent asset under which to register this one.
-	 * By default, all assets are registered to the ROOT node with ID 1.
+	 * By default, all assets are registered to the ROOT node with ID,
+	 * which will default to 1 if none exists.
 	 * The extended class can define a table and id to lookup.  If the
 	 * asset does not exist it will be created.
 	 *
@@ -292,9 +293,11 @@ abstract class JTable extends JObject
 	protected function _getAssetParentId($table = null, $id = null)
 	{
 		// For simple cases, parent to the asset root.
-		if (empty($table) || empty($id))
+		$assets = self::getInstance('Asset', 'JTable', array('dbo' => $this->getDbo()));
+		$rootId = $assets->getRootId();
+		if (!empty($rootId))
 		{
-			return 1;
+			return $rootId;
 		}
 
 		return 1;
@@ -568,8 +571,11 @@ abstract class JTable extends JObject
 	 */
 	public function store($updateNulls = false)
 	{
-		// Initialise variables.
 		$k = $this->_tbl_key;
+		if (!empty($this->asset_id))
+		{
+			$currentAssetId = $this->asset_id;
+		}
 
 		// The asset id field is managed privately by this class.
 		if ($this->_trackAssets)
@@ -642,7 +648,8 @@ abstract class JTable extends JObject
 			return false;
 		}
 
-		if (empty($this->asset_id))
+		// Create an asset_id or heal one that is corrupted.
+		if (empty($this->asset_id) || ($currentAssetId != $this->asset_id && !empty($this->asset_id)))
 		{
 			// Update the asset_id field in this table.
 			$this->asset_id = (int) $asset->id;
@@ -729,7 +736,6 @@ abstract class JTable extends JObject
 	 */
 	public function delete($pk = null)
 	{
-		// Initialise variables.
 		$k = $this->_tbl_key;
 		$pk = (is_null($pk)) ? $this->$k : $pk;
 
@@ -800,7 +806,6 @@ abstract class JTable extends JObject
 			return true;
 		}
 
-		// Initialise variables.
 		$k = $this->_tbl_key;
 		$pk = (is_null($pk)) ? $this->$k : $pk;
 
@@ -848,7 +853,6 @@ abstract class JTable extends JObject
 			return true;
 		}
 
-		// Initialise variables.
 		$k = $this->_tbl_key;
 		$pk = (is_null($pk)) ? $this->$k : $pk;
 
@@ -894,7 +898,6 @@ abstract class JTable extends JObject
 			return true;
 		}
 
-		// Initialise variables.
 		$k = $this->_tbl_key;
 		$pk = (is_null($pk)) ? $this->$k : $pk;
 
@@ -1010,7 +1013,6 @@ abstract class JTable extends JObject
 			throw new UnexpectedValueException(sprintf('%s does not support ordering.', get_class($this)));
 		}
 
-		// Initialise variables.
 		$k = $this->_tbl_key;
 
 		// Get the primary keys and ordering values for the selection.
@@ -1080,7 +1082,6 @@ abstract class JTable extends JObject
 			return true;
 		}
 
-		// Initialise variables.
 		$k = $this->_tbl_key;
 		$row = null;
 		$query = $this->_db->getQuery(true);
@@ -1165,7 +1166,6 @@ abstract class JTable extends JObject
 	 */
 	public function publish($pks = null, $state = 1, $userId = 0)
 	{
-		// Initialise variables.
 		$k = $this->_tbl_key;
 
 		// Sanitize input.

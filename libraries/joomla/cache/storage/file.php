@@ -535,7 +535,6 @@ class JCacheStorageFile extends JCacheStorage
 	protected function _filesInFolder($path, $filter = '.', $recurse = false, $fullpath = false
 		, $exclude = array('.svn', 'CVS', '.DS_Store', '__MACOSX'), $excludefilter = array('^\..*', '.*~'))
 	{
-		// Initialise variables.
 		$arr = array();
 
 		// Check to make sure the path valid and clean
@@ -572,7 +571,7 @@ class JCacheStorageFile extends JCacheStorage
 				{
 					if ($recurse)
 					{
-						if (is_integer($recurse))
+						if (is_int($recurse))
 						{
 							$arr2 = $this->_filesInFolder($dir, $filter, $recurse - 1, $fullpath);
 						}
@@ -622,7 +621,6 @@ class JCacheStorageFile extends JCacheStorage
 	protected function _folders($path, $filter = '.', $recurse = false, $fullpath = false
 		, $exclude = array('.svn', 'CVS', '.DS_Store', '__MACOSX'), $excludefilter = array('^\..*'))
 	{
-		// Initialise variables.
 		$arr = array();
 
 		// Check to make sure the path valid and clean
@@ -673,7 +671,7 @@ class JCacheStorageFile extends JCacheStorage
 					}
 					if ($recurse)
 					{
-						if (is_integer($recurse))
+						if (is_int($recurse))
 						{
 							$arr2 = $this->_folders($dir, $filter, $recurse - 1, $fullpath, $exclude, $excludefilter);
 						}

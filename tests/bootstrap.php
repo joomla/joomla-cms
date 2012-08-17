@@ -67,3 +67,6 @@ require_once JPATH_PLATFORM . '/import.php';
 
 // Register the core Joomla test classes.
 JLoader::registerPrefix('Test', __DIR__ . '/core');
+
+// We need this to test JSession
+ob_start();

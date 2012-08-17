@@ -203,8 +203,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 			}
 
 			// Sweet!  Our class exists, so now we just need to know if it passes its test method.
-			// @deprecated 12.3 Stop checking with test()
-			if ($class::isSupported() || $class::test())
+			if ($class::isSupported())
 			{
 				// Connector names should not have file extensions.
 				$connectors[] = str_ireplace('.php', '', $fileName);
@@ -217,7 +216,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	/**
 	 * Method to return a JDatabaseDriver instance based on the given options.  There are three global options and then
 	 * the rest are specific to the database driver.  The 'driver' option defines which JDatabaseDriver class is
-	 * used for the connection -- the default is 'mysql'.  The 'database' option determines which database is to
+	 * used for the connection -- the default is 'mysqli'.  The 'database' option determines which database is to
 	 * be used for the connection.  The 'select' option determines whether the connector should automatically select
 	 * the chosen database.
 	 *
@@ -233,9 +232,9 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	public static function getInstance($options = array())
 	{
 		// Sanitize the database connector options.
-		$options['driver'] = (isset($options['driver'])) ? preg_replace('/[^A-Z0-9_\.-]/i', '', $options['driver']) : 'mysql';
+		$options['driver']   = (isset($options['driver'])) ? preg_replace('/[^A-Z0-9_\.-]/i', '', $options['driver']) : 'mysqli';
 		$options['database'] = (isset($options['database'])) ? $options['database'] : null;
-		$options['select'] = (isset($options['select'])) ? $options['select'] : true;
+		$options['select']   = (isset($options['select'])) ? $options['select'] : true;
 
 		// Get the options signature for the database connector.
 		$signature = md5(serialize($options));
@@ -816,7 +815,6 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 */
 	public function insertObject($table, &$object, $key = null)
 	{
-		// Initialise variables.
 		$fields = array();
 		$values = array();
 
@@ -888,7 +886,6 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	{
 		$this->connect();
 
-		// Initialise variables.
 		$ret = null;
 
 		// Execute the query and get the result set cursor.
@@ -930,7 +927,6 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	{
 		$this->connect();
 
-		// Initialise variables.
 		$array = array();
 
 		// Execute the query and get the result set cursor.
@@ -974,7 +970,6 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	{
 		$this->connect();
 
-		// Initialise variables.
 		$array = array();
 
 		// Execute the query and get the result set cursor.
@@ -1085,7 +1080,6 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	{
 		$this->connect();
 
-		// Initialise variables.
 		$ret = null;
 
 		// Execute the query and get the result set cursor.
@@ -1125,7 +1119,6 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	{
 		$this->connect();
 
-		// Initialise variables.
 		$array = array();
 
 		// Execute the query and get the result set cursor.
@@ -1165,7 +1158,6 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	{
 		$this->connect();
 
-		// Initialise variables.
 		$ret = null;
 
 		// Execute the query and get the result set cursor.
@@ -1199,7 +1191,6 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	{
 		$this->connect();
 
-		// Initialise variables.
 		$ret = null;
 
 		// Execute the query and get the result set cursor.
@@ -1238,7 +1229,6 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	{
 		$this->connect();
 
-		// Initialise variables.
 		$array = array();
 
 		// Execute the query and get the result set cursor.
@@ -1392,7 +1382,6 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 */
 	public function replacePrefix($sql, $prefix = '#__')
 	{
-		// Initialize variables.
 		$escaped = false;
 		$startPos = 0;
 		$quoteChar = '';
@@ -1608,7 +1597,6 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 */
 	public function updateObject($table, &$object, $key, $nulls = false)
 	{
-		// Initialise variables.
 		$fields = array();
 		$where = array();
 

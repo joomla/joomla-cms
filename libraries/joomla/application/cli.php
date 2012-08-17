@@ -65,7 +65,7 @@ class JApplicationCli extends JApplicationBase
 		// Create the input based on the application logic.
 		else
 		{
-			if (class_exists('Jinput'))
+			if (class_exists('JInput'))
 			{
 				$this->input = new JInputCLI;
 			}

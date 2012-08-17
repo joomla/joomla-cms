@@ -69,7 +69,6 @@ class JTableContent extends JTable
 	 */
 	protected function _getAssetParentId($table = null, $id = null)
 	{
-		// Initialise variables.
 		$assetId = null;
 
 		// This is a article under a category.
@@ -288,7 +287,6 @@ class JTableContent extends JTable
 	 */
 	public function publish($pks = null, $state = 1, $userId = 0)
 	{
-		// Initialise variables.
 		$k = $this->_tbl_key;
 
 		// Sanitize input.
@@ -332,12 +330,14 @@ class JTableContent extends JTable
 		$query->set($this->_db->quoteName('state') . ' = ' . (int) $state);
 		$query->where('(' . $where . ')' . $checkin);
 		$this->_db->setQuery($query);
-		$this->_db->execute();
 
-		// Check for a database error.
-		if ($this->_db->getErrorNum())
+		try
 		{
-			$this->setError($this->_db->getErrorMsg());
+			$this->_db->execute();
+		}
+		catch (RuntimeException $e)
+		{
+			$this->setError($e->getMessage());
 			return false;
 		}
 

@@ -143,7 +143,6 @@ class JControllerForm extends JControllerLegacy
 	 */
 	public function add()
 	{
-		// Initialise variables.
 		$app = JFactory::getApplication();
 		$context = "$this->option.edit.$this->context";
 
@@ -226,7 +225,6 @@ class JControllerForm extends JControllerLegacy
 	 */
 	protected function allowSave($data, $key = 'id')
 	{
-		// Initialise variables.
 		$recordId = isset($data[$key]) ? $data[$key] : '0';
 
 		if ($recordId)
@@ -250,10 +248,8 @@ class JControllerForm extends JControllerLegacy
 	 */
 	public function batch($model)
 	{
-		// Initialise variables.
-		$input	= JFactory::getApplication()->input;
-		$vars	= $input->post->get('batch', array(), 'array');
-		$cid	= $input->post->get('cid', array(), 'array');
+		$vars = $this->input->post->get('batch', array(), 'array');
+		$cid  = $this->input->post->get('cid', array(), 'array');
 
 		// Build an array of item contexts to check
 		$contexts = array();
@@ -298,7 +294,6 @@ class JControllerForm extends JControllerLegacy
 	{
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		// Initialise variables.
 		$app = JFactory::getApplication();
 		$model = $this->getModel();
 		$table = $model->getTable();
@@ -379,12 +374,10 @@ class JControllerForm extends JControllerLegacy
 	 */
 	public function edit($key = null, $urlVar = null)
 	{
-		// Initialise variables.
 		$app   = JFactory::getApplication();
-		$input = $app->input;
 		$model = $this->getModel();
 		$table = $model->getTable();
-		$cid = $input->post->get('cid', array(), 'array');
+		$cid   = $this->input->post->get('cid', array(), 'array');
 		$context = "$this->option.edit.$this->context";
 
 		// Determine the name of the primary key for the data.
@@ -400,7 +393,7 @@ class JControllerForm extends JControllerLegacy
 		}
 
 		// Get the previous record id (if any) and the current record id.
-		$recordId = (int) (count($cid) ? $cid[0] : $input->getInt($urlVar));
+		$recordId = (int) (count($cid) ? $cid[0] : $this->input->getInt($urlVar));
 		$checkin = property_exists($table, 'checked_out');
 
 		// Access check.
@@ -485,9 +478,8 @@ class JControllerForm extends JControllerLegacy
 	 */
 	protected function getRedirectToItemAppend($recordId = null, $urlVar = 'id')
 	{
-		$input  = JFactory::getApplication()->input;
-		$tmpl   = $input->get('tmpl');
-		$layout = $input->get('layout', 'edit');
+		$tmpl   = $this->input->get('tmpl');
+		$layout = $this->input->get('layout', 'edit');
 		$append = '';
 
 		// Setup redirect info.
@@ -560,13 +552,11 @@ class JControllerForm extends JControllerLegacy
 		// Check for request forgeries.
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		// Initialise variables.
 		$app   = JFactory::getApplication();
-		$input = $app->input;
 		$lang  = JFactory::getLanguage();
 		$model = $this->getModel();
 		$table = $model->getTable();
-		$data  = $input->post->get('jform', array(), 'array');
+		$data  = $this->input->post->get('jform', array(), 'array');
 		$checkin = property_exists($table, 'checked_out');
 		$context = "$this->option.edit.$this->context";
 		$task = $this->getTask();
@@ -583,7 +573,7 @@ class JControllerForm extends JControllerLegacy
 			$urlVar = $key;
 		}
 
-		$recordId = $input->getInt($urlVar);
+		$recordId = $this->input->getInt($urlVar);
 
 		if (!$this->checkEditId($context, $recordId))
 		{

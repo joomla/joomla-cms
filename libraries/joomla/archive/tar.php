@@ -71,7 +71,6 @@ class JArchiveTar implements JArchiveExtractable
 	 */
 	public function extract($archive, $destination, array $options = array())
 	{
-		// Initialise variables.
 		$this->_data = null;
 		$this->_metadata = null;
 

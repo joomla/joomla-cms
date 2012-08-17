@@ -42,8 +42,6 @@ class JFormRuleEmailTest extends TestCase
 	 */
 	public function testEmail()
 	{
-		// Initialise variables.
-
 		$rule = new JFormRuleEmail;
 		$xml = simplexml_load_string('<form><field name="email1" /><field name="email2" unique="true" /></form>');
 

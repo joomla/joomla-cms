@@ -42,7 +42,6 @@ class JFormRuleColorTest extends TestCase
 	 */
 	public function testColor()
 	{
-		// Initialise variables.
 		$rule = new JFormRuleColor;
 		$xml = simplexml_load_string('<form><field name="color" /></form>');
 

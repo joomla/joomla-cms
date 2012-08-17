@@ -68,7 +68,6 @@ class JLogLoggerW3CTest extends PHPUnit_Framework_TestCase
 	 */
 	protected function getLastLine($path)
 	{
-		// Initialise variables.
 		$cursor = -1;
 		$line   = '';
 

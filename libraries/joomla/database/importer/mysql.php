@@ -180,7 +180,6 @@ class JDatabaseImporterMysql extends JDatabaseImporter
 	 */
 	protected function getAlterTableSQL(SimpleXMLElement $structure)
 	{
-		// Initialise variables.
 		$table = $this->getRealTableName($structure['name']);
 		$oldFields = $this->db->getTableColumns($table);
 		$oldKeys = $this->db->getTableKeys($table);
@@ -348,7 +347,6 @@ class JDatabaseImporterMysql extends JDatabaseImporter
 	 */
 	protected function getColumnSQL(SimpleXMLElement $field)
 	{
-		// Initialise variables.
 		// TODO Incorporate into parent class and use $this.
 		$blobs = array('text', 'smalltext', 'mediumtext', 'largetext');
 
@@ -556,7 +554,6 @@ class JDatabaseImporterMysql extends JDatabaseImporter
 	 */
 	protected function mergeStructure()
 	{
-		// Initialise variables.
 		$prefix = $this->db->getPrefix();
 		$tables = $this->db->getTableList();
 
@@ -587,15 +584,17 @@ class JDatabaseImporterMysql extends JDatabaseImporter
 					foreach ($queries as $query)
 					{
 						$this->db->setQuery((string) $query);
-						if (!$this->db->execute())
+
+						try
+						{
+							$this->db->execute();
+						}
+						catch (RuntimeException $e)
 						{
 							$this->addLog('Fail: ' . $this->db->getQuery());
-							throw new Exception($this->db->getErrorMsg());
+							throw $e;
 						}
-						else
-						{
-							$this->addLog('Pass: ' . $this->db->getQuery());
-						}
+						$this->addLog('Pass: ' . $this->db->getQuery());
 					}
 
 				}
@@ -606,15 +605,17 @@ class JDatabaseImporterMysql extends JDatabaseImporter
 				$sql = $this->xmlToCreate($table);
 
 				$this->db->setQuery((string) $sql);
-				if (!$this->db->execute())
+
+				try
+				{
+					$this->db->execute();
+				}
+				catch (RuntimeException $e)
 				{
 					$this->addLog('Fail: ' . $this->db->getQuery());
-					throw new Exception($this->db->getErrorMsg());
+					throw $e;
 				}
-				else
-				{
-					$this->addLog('Pass: ' . $this->db->getQuery());
-				}
+				$this->addLog('Pass: ' . $this->db->getQuery());
 			}
 		}
 	}

@@ -5,6 +5,7 @@
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 require_once JPATH_PLATFORM . '/joomla/factory.php';
 
 /**
@@ -111,7 +112,7 @@ class JFactoryTest extends TestCase
 				'This test has not been implemented completely yet.'
 		);
 	}
-	
+
 	/**
 	 * Tests the JFactory::getDocument method.
 	 *
@@ -124,11 +125,15 @@ class JFactoryTest extends TestCase
 	 */
 	function testGetDocument()
 	{
+		JFactory::$application = TestMockApplication::create($this);
+
 		$this->assertInstanceOf(
 			'JDocument',
 			JFactory::getDocument(),
 			'Line: '.__LINE__
 		);
+
+		JFactory::$application = null;
 
 		$this->markTestIncomplete(
 				'This test has not been implemented completely yet.'
@@ -199,6 +204,25 @@ class JFactoryTest extends TestCase
 		$this->assertInstanceOf(
 			'JUri',
 			JFactory::getURI('http://www.joomla.org'),
+			'Line: '.__LINE__
+		);
+	}
+
+	/**
+	 * Tests the JFactory::getXML method.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.2
+	 * @covers  JFactory::getXML
+	 */
+	function testGetXml()
+	{
+		$xml = JFactory::getXML('<foo />', false);
+
+		$this->assertInstanceOf(
+			'SimpleXMLElement',
+			$xml,
 			'Line: '.__LINE__
 		);
 	}

@@ -50,7 +50,6 @@ class JFormRuleOptionsTest extends TestCase
 	 */
 	public function testEmail()
 	{
-		// Initialise variables.
 		$rule = new JFormRuleOptions;
 		$xml = simplexml_load_string(
 			'<form><field name="field1"><option value="value1">Value1</option><option value="value2">Value2</option></field></form>'

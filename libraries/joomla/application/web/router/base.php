@@ -128,8 +128,10 @@ class JApplicationWebRouterBase extends JApplicationWebRouter
 	 */
 	protected function parseRoute($route)
 	{
-		// Initialize variables.
 		$controller = false;
+
+		// Trim the query string off.
+		$route = preg_replace('/([^?]*).*/u', '\1', $route);
 
 		// Sanitize and explode the route.
 		$route = trim(parse_url($route, PHP_URL_PATH), ' /');
@@ -157,6 +159,8 @@ class JApplicationWebRouterBase extends JApplicationWebRouter
 					// Don't forget to do an explicit set on the GET superglobal.
 					$this->input->get->def($var, $matches[$i + 1]);
 				}
+
+				$this->input->def('_rawRoute', $route);
 
 				break;
 			}
