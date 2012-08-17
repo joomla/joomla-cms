@@ -374,6 +374,10 @@ class JStringTest extends PHPUnit_Framework_TestCase
 		{
 			$this->markTestSkipped('Darwin bug prevents foreign conversion from working properly');
 		}
+		elseif ($locale != false && !setlocale(LC_COLLATE, $locale))
+		{
+			$this->markTestSkipped("Locale {$locale} is not available.");
+		}
 		else
 		{
 			$actual = JString::strcasecmp($string1, $string2, $locale);
@@ -396,6 +400,10 @@ class JStringTest extends PHPUnit_Framework_TestCase
 		if (substr(php_uname(), 0, 6) == 'Darwin' && $locale != false)
 		{
 			$this->markTestSkipped('Darwin bug prevents foreign conversion from working properly');
+		}
+		elseif ($locale != false && !setlocale(LC_COLLATE, $locale))
+		{
+			$this->markTestSkipped("Locale {$locale} is not available.");
 		}
 		else
 		{

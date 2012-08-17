@@ -1486,6 +1486,11 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 			$this->markTestSkipped('Skip for MAC until PHP sort bug is fixed');
 			return;
 		}
+		elseif ($locale != false && !setlocale(LC_COLLATE, $locale))
+		{
+			$this->markTestSkipped("Locale {$locale} is not available.");
+			return;
+		}
 
 		if ($defaults)
 		{
