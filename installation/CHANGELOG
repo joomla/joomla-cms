@@ -27,15 +27,15 @@ $ -> Language fix or change
 ! -> Note
 
 14-Aug-2012 Jean-Marie Simonet
-# Prevents non installable packs to display in Install Languages manager
-# [#28039] Using Chrome for Android generates an error in browser.php (line 562)
+ # Prevents non installable packs to display in Install Languages manager
+ # [#28039] Using Chrome for Android generates an error in browser.php (line 562)
 
 11-Aug-2012 Jean-Marie Simonet
  $+ Adding Vietnamese vi-VN to installation languages
 
 11-Aug-2012 Jean-Marie Simonet
  #+ [#25295] Email exposed through RSS and Atom feeds. Thanks Elin and Peter
-  # [#28795] mod_articles_category "read more" truncation not functioning properly. Thanks Elin.
+ # [#28795] mod_articles_category "read more" truncation not functioning properly. Thanks Elin.
 
 10-Aug-2012 Jean-Marie Simonet
  # [#28855] Fix Array to string conversion notices (PHP 5.4 only).Thanks Rouven
