@@ -313,7 +313,14 @@ abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 	 */
 	protected function getConnection()
 	{
-		return $this->createDefaultDBConnection(self::$driver->getConnection(), ':memory:');
+		if (self::$driver)
+		{
+			return $this->createDefaultDBConnection(self::$driver->getConnection(), ':memory:');
+		}
+		else
+		{
+			return null;
+		}
 	}
 
 	/**

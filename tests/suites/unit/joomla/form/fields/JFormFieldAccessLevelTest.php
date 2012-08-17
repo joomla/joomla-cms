@@ -66,10 +66,17 @@ class JFormFieldAccessLevelTest extends TestCaseDatabase
 			'Line:'.__LINE__.' The setup method should return true.'
 		);
 
-		$this->assertThat(
-			strlen($field->input),
-			$this->greaterThan(0),
-			'Line:'.__LINE__.' The getInput method should return something without error.'
-		);
+		if (self::$driver)
+		{
+			$this->assertThat(
+				strlen($field->input),
+				$this->greaterThan(0),
+				'Line:'.__LINE__.' The getInput method should return something without error.'
+			);
+		}
+		else
+		{
+			$this->markTestSkipped();
+		}
 	}
 }
