@@ -160,10 +160,12 @@ INSERT IGNORE INTO `#__modules_menu` (`moduleid`, `menuid`) VALUES
 (86, 0);
 
 INSERT IGNORE INTO `#__template_styles` (`id`, `template`, `client_id`, `home`, `title`, `params`) VALUES
-(2, 'bluestork', 1, '1', 'Bluestork - Default', '{"useRoundedCorners":"1","showSiteName":"0"}'),
+(2, 'bluestork', 1, '0', 'Bluestork - Default', '{"useRoundedCorners":"1","showSiteName":"0"}'),
 (3, 'atomic', 0, '0', 'Atomic - Default', '{}'),
 (4, 'beez_20', 0, '0', 'Beez2 - Default', '{"wrapperSmall":"53","wrapperLarge":"72","logo":"images\\/joomla_black.gif","sitetitle":"Joomla!","sitedescription":"Open Source Content Management","navposition":"left","templatecolor":"personal","html5":"0"}'),
 (5, 'hathor', 1, '0', 'Hathor - Default', '{"showSiteName":"0","colourChoice":"","boldText":"0"}'),
-(6, 'beez5', 0, '1', 'Simple Information Site', '{"wrapperSmall":53,"wrapperLarge":72,"logo":"","sitetitle":"Site Title","sitedescription":"Site Description -- Edit these in the Template Manager:  Simple Information Site style","navposition":"left","html5":1}');
+(6, 'beez5', 0, '1', 'Simple Information Site', '{"wrapperSmall":53,"wrapperLarge":72,"logo":"","sitetitle":"Site Title","sitedescription":"Site Description -- Edit these in the Template Manager:  Simple Information Site style","navposition":"left","html5":1}'),
+(7, 'protostar', 0, '0', 'protostar - Default', '{"templateColor":"","logoFile":"","googleFont":"1","googleFontName":"Open+Sans","fluidContainer":"0"}'),
+(8, 'isis', 1, '1', 'isis - Default', '{"templateColor":"","logoFile":""}');
 
 SET FOREIGN_KEY_CHECKS=1;
