@@ -70,7 +70,8 @@ class JArchiveGzip implements JArchiveExtractable
 
 		if (!isset($options['use_streams']) || $options['use_streams'] == false)
 		{
-			if (!$this->_data = JFile::read($archive))
+			$this->_data = file_get_contents($archive);
+			if (!$this->_data)
 			{
 				if (class_exists('JError'))
 				{

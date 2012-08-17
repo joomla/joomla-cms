@@ -266,9 +266,7 @@ class JRegistry implements JsonSerializable
 	 */
 	public function loadFile($file, $format = 'JSON', $options = array())
 	{
-		// Get the contents of the file
-		jimport('joomla.filesystem.file');
-		$data = JFile::read($file);
+		$data = file_get_contents($file);
 
 		return $this->loadString($data, $format, $options);
 	}

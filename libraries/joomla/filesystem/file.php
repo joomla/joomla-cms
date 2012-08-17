@@ -294,9 +294,12 @@ class JFile
 	 * @return  mixed  Returns file contents or boolean False if failed
 	 *
 	 * @since   11.1
+	 * @deprecated  13.3  Use the native file_get_contents() instead.
 	 */
 	public static function read($filename, $incpath = false, $amount = 0, $chunksize = 8192, $offset = 0)
 	{
+		JLog::add(__METHOD__ . ' is deprecated. Use native file_get_contents() syntax.', JLog::WARNING, 'deprecated');
+
 		$data = null;
 		if ($amount && $chunksize > $amount)
 		{
@@ -514,9 +517,12 @@ class JFile
 	 * @return  string  filename
 	 *
 	 * @since   11.1
+	 * @deprecated  13.3 Use basename() instead.
 	 */
 	public static function getName($file)
 	{
+		JLog::add(__METHOD__ . ' is deprecated. Use native basename() syntax.', JLog::WARNING, 'deprecated');
+
 		// Convert back slashes to forward slashes
 		$file = str_replace('\\', '/', $file);
 		$slash = strrpos($file, '/');
