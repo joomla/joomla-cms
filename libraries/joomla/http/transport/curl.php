@@ -135,9 +135,6 @@ class JHttpTransportCurl implements JHttpTransport
 		// Link: http://the-stickman.com/web-development/php-and-curl-disabling-100-continue-header/
 		$options[CURLOPT_HTTPHEADER][] = 'Expect:';
 
-		// Follow redirects.
-		$options[CURLOPT_FOLLOWLOCATION] = true;
-
 		// Set the cURL options.
 		curl_setopt_array($ch, $options);
 
