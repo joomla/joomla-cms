@@ -32,6 +32,7 @@ class JLinkedinJobs extends JLinkedinObject
 	public function getJob($oauth, $id, $fields = null)
 	{
 		$token = $oauth->getToken();
+
 		// Set parameters.
 		$parameters = array(
 			'oauth_token' => $token['key']
@@ -70,6 +71,7 @@ class JLinkedinJobs extends JLinkedinObject
 	public function getBookmarked($oauth, $fields = null)
 	{
 		$token = $oauth->getToken();
+
 		// Set parameters.
 		$parameters = array(
 			'oauth_token' => $token['key']
@@ -108,6 +110,7 @@ class JLinkedinJobs extends JLinkedinObject
 	public function bookmark($oauth, $id)
 	{
 		$token = $oauth->getToken();
+
 		// Set parameters.
 		$parameters = array(
 			'oauth_token' => $token['key']
@@ -145,6 +148,7 @@ class JLinkedinJobs extends JLinkedinObject
 	public function deleteBookmark($oauth, $id)
 	{
 		$token = $oauth->getToken();
+
 		// Set parameters.
 		$parameters = array(
 			'oauth_token' => $token['key']
@@ -179,6 +183,7 @@ class JLinkedinJobs extends JLinkedinObject
 	public function getSuggested($oauth, $fields = null, $start = 0, $count = 0)
 	{
 		$token = $oauth->getToken();
+
 		// Set parameters.
 		$parameters = array(
 			'oauth_token' => $token['key']
@@ -244,6 +249,7 @@ class JLinkedinJobs extends JLinkedinObject
 		$distance = null, $facets = null, $facet = null, $start = 0, $count = 0, $sort = null)
 	{
 		$token = $oauth->getToken();
+
 		// Set parameters.
 		$parameters = array(
 			'oauth_token' => $token['key']

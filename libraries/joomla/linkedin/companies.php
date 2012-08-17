@@ -42,6 +42,7 @@ class JLinkedinCompanies extends JLinkedinObject
 		}
 
 		$token = $oauth->getToken();
+
 		// Set parameters.
 		$parameters = array(
 			'oauth_token' => $token['key']
@@ -101,6 +102,7 @@ class JLinkedinCompanies extends JLinkedinObject
 	public function getUpdates($oauth, $id, $type = null, $count = 0, $start = 0)
 	{
 		$token = $oauth->getToken();
+
 		// Set parameters.
 		$parameters = array(
 			'oauth_token' => $token['key']
@@ -161,6 +163,7 @@ class JLinkedinCompanies extends JLinkedinObject
 	public function search($oauth, $fields = null, $keywords = null, $hq = false, $facets = null, $facet = null, $start = 0, $count = 0, $sort = null)
 	{
 		$token = $oauth->getToken();
+
 		// Set parameters.
 		$parameters = array(
 			'oauth_token' => $token['key']
@@ -270,6 +273,7 @@ class JLinkedinCompanies extends JLinkedinObject
 	public function getFollowed($oauth, $fields = null)
 	{
 		$token = $oauth->getToken();
+
 		// Set parameters.
 		$parameters = array(
 			'oauth_token' => $token['key']
@@ -307,6 +311,7 @@ class JLinkedinCompanies extends JLinkedinObject
 	public function follow($oauth, $id)
 	{
 		$token = $oauth->getToken();
+
 		// Set parameters.
 		$parameters = array(
 			'oauth_token' => $token['key']
@@ -345,6 +350,7 @@ class JLinkedinCompanies extends JLinkedinObject
 	public function unfollow($oauth, $id)
 	{
 		$token = $oauth->getToken();
+
 		// Set parameters.
 		$parameters = array(
 			'oauth_token' => $token['key']
@@ -380,6 +386,7 @@ class JLinkedinCompanies extends JLinkedinObject
 	public function getSuggested($oauth, $fields = null, $start = 0, $count = 0)
 	{
 		$token = $oauth->getToken();
+
 		// Set parameters.
 		$parameters = array(
 			'oauth_token' => $token['key']
@@ -432,6 +439,7 @@ class JLinkedinCompanies extends JLinkedinObject
 	public function getProducts($oauth, $id, $fields = null, $start = 0, $count = 0)
 	{
 		$token = $oauth->getToken();
+
 		// Set parameters.
 		$parameters = array(
 			'oauth_token' => $token['key']

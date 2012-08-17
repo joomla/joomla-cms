@@ -38,6 +38,7 @@ class JLinkedinStream extends JLinkedinObject
 	public function share($oauth, $visibility, $comment = null, $title = null, $url = null, $image = null, $description = null, $twitter = false)
 	{
 		$token = $oauth->getToken();
+
 		// Set parameters.
 		$parameters = array(
 			'oauth_token' => $token['key']
@@ -122,6 +123,7 @@ class JLinkedinStream extends JLinkedinObject
 	public function reshare($oauth, $visibility, $id, $comment = null, $twitter = false)
 	{
 		$token = $oauth->getToken();
+
 		// Set parameters.
 		$parameters = array(
 			'oauth_token' => $token['key']
@@ -182,6 +184,7 @@ class JLinkedinStream extends JLinkedinObject
 	public function getCurrentShare($oauth, $id = null, $url = null)
 	{
 		$token = $oauth->getToken();
+
 		// Set parameters.
 		$parameters = array(
 			'oauth_token' => $token['key']
@@ -234,6 +237,7 @@ class JLinkedinStream extends JLinkedinObject
 	public function getShareStream($oauth, $id = null, $url = null, $self = true)
 	{
 		$token = $oauth->getToken();
+
 		// Set parameters.
 		$parameters = array(
 			'oauth_token' => $token['key']
@@ -300,6 +304,7 @@ class JLinkedinStream extends JLinkedinObject
 		$hidden = false)
 	{
 		$token = $oauth->getToken();
+
 		// Set parameters.
 		$parameters = array(
 			'oauth_token' => $token['key']
@@ -385,6 +390,7 @@ class JLinkedinStream extends JLinkedinObject
 	public function getNetworkStats($oauth)
 	{
 		$token = $oauth->getToken();
+
 		// Set parameters.
 		$parameters = array(
 			'oauth_token' => $token['key']
@@ -418,6 +424,7 @@ class JLinkedinStream extends JLinkedinObject
 	public function postNetworkUpdate($oauth, $body)
 	{
 		$token = $oauth->getToken();
+
 		// Set parameters.
 		$parameters = array(
 			'oauth_token' => $token['key']
@@ -458,6 +465,7 @@ class JLinkedinStream extends JLinkedinObject
 	public function getComments($oauth, $key)
 	{
 		$token = $oauth->getToken();
+
 		// Set parameters.
 		$parameters = array(
 			'oauth_token' => $token['key']
@@ -491,6 +499,7 @@ class JLinkedinStream extends JLinkedinObject
 	public function postComment($oauth, $key, $comment)
 	{
 		$token = $oauth->getToken();
+
 		// Set parameters.
 		$parameters = array(
 			'oauth_token' => $token['key']
@@ -530,6 +539,7 @@ class JLinkedinStream extends JLinkedinObject
 	public function getLikes($oauth, $key)
 	{
 		$token = $oauth->getToken();
+
 		// Set parameters.
 		$parameters = array(
 			'oauth_token' => $token['key']
@@ -563,6 +573,7 @@ class JLinkedinStream extends JLinkedinObject
 	private function _likeUnlike($oauth, $key, $like)
 	{
 		$token = $oauth->getToken();
+
 		// Set parameters.
 		$parameters = array(
 			'oauth_token' => $token['key']

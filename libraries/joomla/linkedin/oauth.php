@@ -30,6 +30,7 @@ class JLinkedinOauth extends JOauthV1aclient
 	 *
 	 * @param   JRegistry  $options  JLinkedinOauth options object.
 	 * @param   JHttp      $client   The HTTP client object.
+	 * @param   JInput     $input    The input object
 	 *
 	 * @since 12.3
 	 */
@@ -56,6 +57,7 @@ class JLinkedinOauth extends JOauthV1aclient
 	public function verifyCredentials()
 	{
 		$token = $this->getToken();
+
 		// Set parameters.
 		$parameters = array(
 			'oauth_token' => $token['key']

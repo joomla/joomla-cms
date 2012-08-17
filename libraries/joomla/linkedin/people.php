@@ -35,6 +35,7 @@ class JLinkedinPeople extends JLinkedinObject
 	public function getProfile($oauth, $id = null, $url = null, $fields = null, $type = 'standard', $language = null)
 	{
 		$token = $oauth->getToken();
+
 		// Set parameters.
 		$parameters = array(
 			'oauth_token' => $token['key']
@@ -105,6 +106,7 @@ class JLinkedinPeople extends JLinkedinObject
 	public function getConnections($oauth, $fields = null, $start = 0, $count = 500, $modified = null, $modified_since = null)
 	{
 		$token = $oauth->getToken();
+
 		// Set parameters.
 		$parameters = array(
 			'oauth_token' => $token['key']
@@ -191,6 +193,7 @@ class JLinkedinPeople extends JLinkedinObject
 		$postal_code = null, $distance = null, $facets = null, $facet = null, $start = 0, $count = 10, $sort = null)
 	{
 		$token = $oauth->getToken();
+
 		// Set parameters.
 		$parameters = array(
 			'oauth_token' => $token['key']
