@@ -374,6 +374,10 @@ h3.js_heading a:focus
 	background:#044b63;
 }
 
+ul.nav-child.small {
+	font-size: 100%;
+}
+
 /* ++++++++++++++  first level  ++++++++++++++ */
 #nav .moduletable-example ul.menu
 {

@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Joomla.Legacy
+ * @package     Joomla.Libraries
  * @subpackage  Toolbar
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * ToolBar handler
  *
- * @package     Joomla.Legacy
+ * @package     Joomla.Libraries
  * @subpackage  Toolbar
  * @since       1.5
  */
@@ -156,8 +156,7 @@ class JToolbar
 		$html = array();
 
 		// Start toolbar div.
-		$html[] = '<div class="toolbar-list" id="' . $this->_name . '">';
-		$html[] = '<ul>';
+		$html[] = '<div class="btn-toolbar" id="' . $this->_name . '">';
 
 		// Render each button in the toolbar.
 		foreach ($this->_bar as $button)
@@ -166,8 +165,6 @@ class JToolbar
 		}
 
 		// End toolbar div.
-		$html[] = '</ul>';
-		$html[] = '<div class="clr"></div>';
 		$html[] = '</div>';
 
 		return implode("\n", $html);

@@ -9,6 +9,9 @@
 
 defined('_JEXEC') or die;
 
+jimport('joomla.filesystem.folder');
+jimport('joomla.filesystem.file');
+
 /**
  * Joomla! update overview Model
  *
@@ -207,7 +210,6 @@ class JoomlaupdateModelDefault extends JModelLegacy
 		$target = $tempdir . '/' . $basename;
 
 		// Do we have a cached file?
-		jimport('joomla.filesystem.file');
 		$exists = JFile::exists($target);
 
 		if (!$exists)
@@ -324,8 +326,6 @@ ENDDATA;
 
 			// If the tempdir is not writable, create a new writable subdirectory
 			if(!$writable) {
-				jimport('joomla.filesystem.folder');
-
 				$FTPOptions = JClientHelper::getCredentials('ftp');
 				$ftp = JClientFtp::getInstance($FTPOptions['host'], $FTPOptions['port'], null, $FTPOptions['user'], $FTPOptions['pass']);
 				$dest = JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $tempdir.'/admintools'), '/');
@@ -342,16 +342,13 @@ ENDDATA;
 
 				// Does the JPATH_ROOT/tmp directory exist?
 				if(!is_dir($tempdir)) {
-					jimport('joomla.filesystem.folder');
-					jimport('joomla.filesystem.file');
+
 					JFolder::create($tempdir, 511);
 					JFile::write($tempdir . '/.htaccess', "order deny, allow\ndeny from all\nallow from none\n");
 				}
 
 				// If it exists and it is unwritable, try creating a writable admintools subdirectory
 				if(!is_writable($tempdir)) {
-					jimport('joomla.filesystem.folder');
-
 					$FTPOptions = JClientHelper::getCredentials('ftp');
 					$ftp = JClientFtp::getInstance($FTPOptions['host'], $FTPOptions['port'], null, $FTPOptions['user'], $FTPOptions['pass']);
 					$dest = JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $tempdir.'/admintools'), '/');
@@ -396,7 +393,6 @@ ENDDATA;
 		$data .= ');';
 
 		// Remove the old file, if it's there...
-		jimport('joomla.filesystem.file');
 		$configpath = JPATH_COMPONENT_ADMINISTRATOR . '/restoration.php';
 		if( JFile::exists($configpath) )
 		{
@@ -651,8 +647,6 @@ ENDDATA;
 	 */
 	public function cleanUp()
 	{
-		jimport('joomla.filesystem.file');
-
 		// Remove the update package
 		$jreg = JFactory::getConfig();
 		$tempdir = $jreg->getValue('config.tmp_path');
@@ -660,7 +654,6 @@ ENDDATA;
 		$target = $tempdir.'/'.$file;
 		if (!@unlink($target))
 		{
-			jimport('joomla.filesystem.file');
 			JFile::delete($target);
 		}
 

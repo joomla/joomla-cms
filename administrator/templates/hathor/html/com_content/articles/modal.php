@@ -9,7 +9,10 @@
 
 defined('_JEXEC') or die;
 
-if (JFactory::getApplication()->isSite()) {
+$app = JFactory::getApplication();
+
+if ($app->isSite())
+{
 	JSession::checkToken('get') or die(JText::_('JINVALID_TOKEN'));
 }
 
@@ -18,9 +21,9 @@ require_once JPATH_ROOT . '/components/com_content/helpers/route.php';
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 JHtml::_('behavior.tooltip');
 
-$function	= JRequest::getCmd('function', 'jSelectArticle');
-$listOrder	= $this->escape($this->state->get('list.ordering'));
-$listDirn	= $this->escape($this->state->get('list.direction'));
+$function  = $app->input->getCmd('function', 'jSelectArticle');
+$listOrder = $this->escape($this->state->get('list.ordering'));
+$listDirn  = $this->escape($this->state->get('list.direction'));
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_content&view=articles&layout=modal&tmpl=component&function='.$function.'&'.JSession::getFormToken().'=1');?>" method="post" name="adminForm" id="adminForm">
 	<fieldset id="filter-bar">

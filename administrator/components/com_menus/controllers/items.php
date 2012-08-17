@@ -121,4 +121,35 @@ class MenusControllerItems extends JControllerAdmin
 
 		$this->setRedirect(JRoute::_('index.php?option='.$this->option.'&view='.$this->view_list, false));
 	}
+
+	/**
+	 * Method to save the submitted ordering values for records via AJAX.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.0
+	 */
+	public function saveOrderAjax()
+	{
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+
+		// Get the arrays from the Request
+		$pks	= JRequest::getVar('cid',	null, 'post', 'array');
+		$order	= JRequest::getVar('order',	null, 'post', 'array');
+		$originalOrder = explode(',', JRequest::getString('original_order_values'));
+
+		// Make sure something has changed
+		if (!($order === $originalOrder)) {
+			// Get the model
+			$model = $this->getModel();
+			// Save the ordering
+			$return = $model->saveorder($pks, $order);
+			if ($return)
+			{
+				echo "1";
+			}
+		}
+		// Close the application
+		JFactory::getApplication()->close();
+	}
 }

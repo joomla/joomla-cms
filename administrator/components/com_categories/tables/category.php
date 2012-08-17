@@ -9,9 +9,6 @@
 
 defined('_JEXEC') or die;
 
-// Import JTableCategory
-JLoader::register('JTableCategory', JPATH_PLATFORM . '/joomla/database/table/category.php');
-
 /**
  * Category table
  *

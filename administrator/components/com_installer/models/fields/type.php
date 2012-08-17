@@ -33,7 +33,10 @@ class JFormFieldType extends JFormField
 	 */
 	protected function getInput()
 	{
-		$onchange	= $this->element['onchange'] ? ' onchange="'.(string) $this->element['onchange'].'"' : '';
+		// Initialise field variables
+		$attr = '';
+		$attr .= $this->element['class'] ? ' class="' . (string) $this->element['class'] . '"' : '';
+		$attr .= $this->element['onchange'] ? ' onchange="' . (string) $this->element['onchange'] . '"' : '';
 		$options = array();
 		foreach ($this->element->children() as $option) {
 			$options[] = JHtml::_('select.option', $option->attributes('value'), JText::_(trim((string) $option)));
@@ -49,7 +52,7 @@ class JFormFieldType extends JFormField
 			$options[] = JHtml::_('select.option', $type, JText::_('COM_INSTALLER_TYPE_'. strtoupper($type)));
 		}
 
-		$return = JHtml::_('select.genericlist', $options, $this->name, $onchange, 'value', 'text', $this->value, $this->id);
+		$return = JHtml::_('select.genericlist', $options, $this->name, $attr, 'value', 'text', $this->value, $this->id);
 
 		return $return;
 	}

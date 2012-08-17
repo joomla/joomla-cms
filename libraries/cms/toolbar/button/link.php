@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Joomla.Legacy
+ * @package     Joomla.Libraries
  * @subpackage  Toolbar
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Renders a link button
  *
- * @package     Joomla.Legacy
+ * @package     Joomla.Libraries
  * @subpackage  Toolbar
  * @since       3.0
  */
@@ -42,11 +42,11 @@ class JToolbarButtonLink extends JToolbarButton
 		$class = $this->fetchIconClass($name);
 		$doTask = $this->_getCommand($url);
 
-		$html = "<a href=\"$doTask\">\n";
+		$html = "<button class=\"btn\" onclick=\"location.href='$doTask';\">\n";
 		$html .= "<span class=\"$class\">\n";
 		$html .= "</span>\n";
 		$html .= "$text\n";
-		$html .= "</a>\n";
+		$html .= "</button>\n";
 
 		return $html;
 	}

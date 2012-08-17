@@ -419,7 +419,7 @@ CREATE TABLE [#__users](
 	[activation] [nvarchar](100) NOT NULL,
 	[params] [nvarchar](max) NOT NULL,
 	[lastResetTime] [datetime] NOT NULL,
-	[resetCount] [int] NOT NULL,	
+	[resetCount] [int] NOT NULL,
  CONSTRAINT [PK_#__users_id] PRIMARY KEY CLUSTERED
 (
 	[id] ASC
@@ -815,7 +815,9 @@ End;
 INSERT INTO #__update_sites_extensions (update_site_id, extension_id)
 SELECT 1, 700
 UNION ALL
-SELECT 2, 700;
+SELECT 2, 700
+UNION ALL
+SELECT 3, 600;
 
 
 /****** Object:  Table [#__update_sites]    Script Date: 11/08/2010 18:41:22 ******/
@@ -853,8 +855,9 @@ SET IDENTITY_INSERT #__update_sites ON;
 
 INSERT INTO #__update_sites (update_site_id,name ,type,location,enabled,last_check_timestamp) VALUES (1, 'Joomla Core', 'collection', 'http://update.joomla.org/core/list.xml', 1, 0);
 
-
 INSERT INTO #__update_sites (update_site_id ,name ,type,location,enabled,last_check_timestamp) VALUES (2, 'Joomla Extension Directory', 'collection', 'http://update.joomla.org/jed/list.xml', 1, 0);
+
+INSERT INTO #__update_sites (update_site_id,name,type,location,enabled,last_check_timestamp) VALUES (3, 'Accredited Joomla! Translations', 'collection', 'http://update.joomla.org/language/translationlist_3.xml', 1, 0);
 
 SET IDENTITY_INSERT #__update_sites OFF;
 
@@ -2876,7 +2879,7 @@ SELECT 601, 'English (United Kingdom)', 'language', 'en-GB', '', 1, 1, 1, 1, '',
 
 
 INSERT INTO #__extensions (extension_id, name, type, element, folder, client_id, enabled, access, protected, manifest_cache, params, custom_data, system_data, checked_out, checked_out_time, ordering, state)
-VALUES (700, 'Joomla! CMS', 'file', 'joomla', '', 0, 1, 1, 1, '{"legacy":false,"name":"files_joomla","type":"file","creationDate":"July 2012","author":"Joomla!","copyright":"(C) 2005 - 2011 Open Source Matters. All rights reserved","authorEmail":"admin@joomla.org","authorUrl":"www.joomla.org","version":"3.0.0_Alpha1","description":"FILES_JOOMLA_XML_DESCRIPTION","group":""}', '', '', '', 0, '1900-01-01 00:00:00', 0, 0);
+VALUES (700, 'Joomla! CMS', 'file', 'joomla', '', 0, 1, 1, 1, '{"legacy":false,"name":"files_joomla","type":"file","creationDate":"July 2012","author":"Joomla!","copyright":"(C) 2005 - 2011 Open Source Matters. All rights reserved","authorEmail":"admin@joomla.org","authorUrl":"www.joomla.org","version":"3.0.0_alpha2","description":"FILES_JOOMLA_XML_DESCRIPTION","group":""}', '', '', '', 0, '1900-01-01 00:00:00', 0, 0);
 
 INSERT INTO #__extensions (extension_id, name,type, element, folder, client_id, enabled, access, protected, manifest_cache, params, custom_data, system_data, checked_out, checked_out_time, ordering, state) VALUES
 (800, 'joomla', 'package', 'pkg_joomla', '', 0, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0);

@@ -21,18 +21,57 @@ var Installation = new Class({
     	this.addToggler();
 		// Attach the validator
 		$$('form.form-validate').each(function(form){ this.attachToForm(form); }, document.formvalidator);
-
-		if (this.view == 'site' && this.sampleDataLoaded) {
-			var select = document.id('jform_db_old');
-			var button = document.id('theDefault').children[0];
-			button.setAttribute('disabled', 'disabled');
-			select.setAttribute('disabled', 'disabled');
-			button.setAttribute('value', Joomla.JText._('INSTL_SITE_SAMPLE_LOADED', 'Sample Data Installed Successfully.'));
-		}
     },
 
-    submitform: function() {
+	submitform: function() {
 		var form = document.id('adminForm');
+
+		if (this.busy) {
+			alert(Joomla.JText._('INSTL_PROCESS_BUSY', 'Process is in progress. Please wait...'));
+			return false;
+		}
+
+		if (form.task.value == 'setup.site') {
+			$('setlanguage').value = $$('html').getProperty('lang')[0];
+		}
+
+		var req = new Request.JSON({
+			method: 'post',
+			url: this.baseUrl,
+			onRequest: function() {
+				this.spinner.show(true);
+				this.busy = true;
+				Joomla.removeMessages();
+			}.bind(this),
+			onSuccess: function(r) {
+				Joomla.replaceTokens(r.token);
+				if (r.messages) {
+					Joomla.renderMessages(r.messages);
+				}
+				var lang = $$('html').getProperty('lang')[0];
+				if (r.lang !== null && lang.toLowerCase() === r.lang.toLowerCase()) {
+					Install.goToPage(r.data.view, true);
+				} else {
+					window.location = this.baseUrl+'?view='+r.data.view;
+				}
+			}.bind(this),
+			onFailure: function(xhr) {
+				this.spinner.hide(true);
+				this.busy = false;
+				var r = JSON.decode(xhr.responseText);
+				if (r) {
+					Joomla.replaceTokens(r.token);
+					alert(r.message);
+				}
+			}.bind(this)
+		});
+		req.post(form.toQueryString()+'&task='+form.task.value+'&format=json');
+
+		return false;
+	},
+
+	setlanguage: function() {
+		var form = document.id('languageForm');
 
 		if (this.busy) {
 			alert(Joomla.JText._('INSTL_PROCESS_BUSY', 'Process is in progress. Please wait...'));
@@ -69,7 +108,7 @@ var Installation = new Class({
 				}
 			}.bind(this)
 		});
-		req.post(form.toQueryString()+'&task='+form.task.value+'&format=json');
+		req.post(form.toQueryString()+'&task=setup.setlanguage&format=json');
 
 		return false;
 	},
@@ -79,6 +118,7 @@ var Installation = new Class({
 		var req = new Request.HTML({
 			method: 'get',
 			url: url,
+			update: this.container,
 			onRequest: function() {
 				if (!fromSubmit) {
 					Joomla.removeMessages();
@@ -87,7 +127,6 @@ var Installation = new Class({
 			}.bind(this),
 			onSuccess: function (r) {
 				this.view = page;
-				document.id(this.container).empty().adopt(r);
 
 				// Attach JS behaviors to the newly loaded HTML
 				this.pageInit();
@@ -95,15 +134,65 @@ var Installation = new Class({
 				this.spinner.hide(true);
 				this.busy = false;
 
-				//Take care of the sidebar
-				var active = $$('.active');
-				active.removeClass('active');
-				var nextStep = document.id(page);
-				nextStep.addClass('active');
+				initElements();
 			}.bind(this)
 		}).send();
 
 		return false;
+	},
+
+
+	install: function(tasks, step_width) {
+		var progress = document.id('install_progress').getElement('div.bar');
+
+		if (!tasks.length) {
+			progress.setStyle('width',(progress.getStyle('width').toFloat()+(step_width*3))+'%');
+			this.goToPage('complete');
+		}
+
+		if (!step_width) {
+			var step_width = (100 / tasks.length) / 11;
+		}
+
+		var task = tasks.shift();
+		var form = document.id('adminForm');
+		var tr = document.id('install_'+task);
+		var spinner = tr.getElement('div.spinner');
+
+		var req = new Request.JSON({
+			method: 'post',
+			url: 'index.php?'+form.toQueryString(),
+			data: {'task':'setup.install_'+task, 'format':'json'},
+			onRequest: function() {
+				progress.setStyle('width',(progress.getStyle('width').toFloat()+step_width)+'%');
+				tr.addClass('active');
+				spinner.setStyle('visibility','visible');
+			},
+			onSuccess: function(r) {
+				Joomla.replaceTokens(r.token);
+				if (r.messages) {
+					Joomla.renderMessages(r.messages);
+					Install.goToPage(r.data.view, true);
+				} else {
+					progress.setStyle('width',(progress.getStyle('width').toFloat()+(step_width*10))+'%');
+					tr.removeClass('active');
+					spinner.setStyle('visibility','hidden');
+
+					this.install(tasks, step_width);
+				}
+			}.bind(this),
+			onError: function(text, error) {
+				Joomla.renderMessages([['',Joomla.JText._('JLIB_DATABASE_ERROR_DATABASE', 'A Database error occurred.')]]);
+				Install.goToPage('summary');
+			}.bind(this),
+			onFailure: function(xhr) {
+				var r = JSON.decode(xhr.responseText);
+				if (r) {
+					Joomla.replaceTokens(r.token);
+					alert(r.message);
+				}
+			}.bind(this)
+		}).send();
 	},
 
 	/**
@@ -111,7 +200,7 @@ var Installation = new Class({
 	 */
 	sampleData: function(el, filename) {
 		this.busy = true;
-		sample_data_spinner = new Spinner('sample-data-region');
+		sample_data_spinner = new Spinner('collapseSample');
 		sample_data_spinner.show(true);
 		el = document.id(el);
 		filename = document.id(filename);
@@ -129,11 +218,10 @@ var Installation = new Class({
 					Joomla.replaceTokens(r.token);
 					this.sampleDataLoaded = r.data.sampleDataLoaded;
 					if (r.error == false) {
-						el.set('value', Joomla.JText._('INSTL_SITE_SAMPLE_LOADED', 'Sample Data Installed Successfully.'));
+						el.set('text', Joomla.JText._('INSTL_SITE_SAMPLE_LOADED', 'Sample Data Installed Successfully.'));
 						el.set('onclick','');
 						el.set('disabled', 'disabled');
 						filename.set('disabled', 'disabled');
-						document.id('jform_sample_installed').set('value','1');
 					} else {
 						document.id('theDefaultError').setStyle('display','block');
 						document.id('theDefaultErrorMessage').set('html', r.message);
@@ -261,7 +349,7 @@ var Installation = new Class({
 					}
 				} else {
 					document.id('theDefaultError').setStyle('display','block');
-					document.id('theDefaultErrorMessage').set('html', response );
+					document.id('theDefaultErrorMessage').set('html', r);
 					el.set('disabled', 'disabled');
 				}
 			},
@@ -290,5 +378,14 @@ var Installation = new Class({
 			alwaysHide:true,
 			show: 1
 		});
+    },
+
+	toggle: function(id, el, value) {
+		var val = document.getElement('input[name=jform['+el+']]:checked').value;
+		if(val == value) {
+			document.id(id).setStyle('display', '');
+		} else {
+			document.id(id).setStyle('display', 'none');
+		}
     }
 });

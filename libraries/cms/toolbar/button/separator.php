@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Joomla.Legacy
+ * @package     Joomla.Libraries
  * @subpackage  Toolbar
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Renders a button separator
  *
- * @package     Joomla.Legacy
+ * @package     Joomla.Libraries
  * @subpackage  Toolbar
  * @since       3.0
  */
@@ -42,12 +42,12 @@ class JToolbarButtonSeparator extends JToolbarButton
 		$style = null;
 
 		// Separator class name
-		$class = (empty($definition[1])) ? 'spacer' : $definition[1];
+		$class = (empty($definition[1])) ? 'btn-group' : 'btn-group ' . $definition[1];
 
 		// Custom width
 		$style = (empty($definition[2])) ? null : ' style="width:' . (int) $definition[2] . 'px;"';
 
-		return '<li class="' . $class . '"' . $style . ">\n</li>\n";
+		return '<div class="' . $class . '"' . $style . ">\n</div>\n";
 	}
 
 	/**

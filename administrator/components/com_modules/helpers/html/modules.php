@@ -128,15 +128,16 @@ abstract class JHtmlModules
 			'<label id="batch-choose-action-lbl" for="batch-choose-action">',
 			JText::_('COM_MODULES_BATCH_POSITION_LABEL'),
 			'</label>',
-			'<fieldset id="batch-choose-action" class="combo">',
+			'<div id="batch-choose-action" class="control-group">',
 			'<select name="batch[position_id]" class="inputbox" id="batch-position-id">',
 			'<option value="">' . JText::_('JSELECT') . '</option>',
 			'<option value="nochange">' . JText::_('COM_MODULES_BATCH_POSITION_NOCHANGE') . '</option>',
 			'<option value="noposition">' . JText::_('COM_MODULES_BATCH_POSITION_NOPOSITION') . '</option>',
 			JHtml::_('select.options',	self::positionList($clientId)),
 			'</select>',
+			'</div>', '<div id="batch-move-copy" class="control-group radio">',
 			JHtml::_('select.radiolist', $options, 'batch[move_copy]', '', 'value', 'text', 'm'),
-			'</fieldset>'
+			'</div>'
 		);
 
 		return implode("\n", $lines);

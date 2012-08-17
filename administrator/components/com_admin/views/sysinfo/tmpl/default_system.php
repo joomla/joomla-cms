@@ -11,10 +11,10 @@ defined('_JEXEC') or die;
 ?>
 <fieldset class="adminform">
 	<legend><?php echo JText::_('COM_ADMIN_SYSTEM_INFORMATION'); ?></legend>
-	<table class="adminlist">
+	<table class="table table-striped">
 		<thead>
 			<tr>
-				<th width="250">
+				<th width="25%">
 					<?php echo JText::_('COM_ADMIN_SETTING'); ?>
 				</th>
 				<th>
@@ -24,8 +24,7 @@ defined('_JEXEC') or die;
 		</thead>
 		<tfoot>
 			<tr>
-				<td colspan="2">&#160;
-				</td>
+				<td colspan="2">&#160;</td>
 			</tr>
 		</tfoot>
 		<tbody>

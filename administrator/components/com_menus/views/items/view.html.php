@@ -167,21 +167,23 @@ class MenusViewItems extends JViewLegacy
 
 		$canDo	= MenusHelper::getActions($this->state->get('filter.parent_id'));
 
+		// Get the toolbar object instance
+		$bar = JToolBar::getInstance('toolbar');
+
 		JToolbarHelper::title(JText::_('COM_MENUS_VIEW_ITEMS_TITLE'), 'menumgr.png');
 
 		if ($canDo->get('core.create')) {
 			JToolbarHelper::addNew('item.add');
 		}
+
 		if ($canDo->get('core.edit')) {
 			JToolbarHelper::editList('item.edit');
 		}
 		if ($canDo->get('core.edit.state')) {
-			JToolbarHelper::divider();
 			JToolbarHelper::publish('items.publish', 'JTOOLBAR_PUBLISH', true);
 			JToolbarHelper::unpublish('items.unpublish', 'JTOOLBAR_UNPUBLISH', true);
 		}
 		if (JFactory::getUser()->authorise('core.admin')) {
-			JToolbarHelper::divider();
 			JToolbarHelper::checkin('items.checkin', 'JTOOLBAR_CHECKIN', true);
 		}
 
@@ -194,12 +196,42 @@ class MenusViewItems extends JViewLegacy
 
 		if ($canDo->get('core.edit.state')) {
 			JToolbarHelper::makeDefault('items.setDefault', 'COM_MENUS_TOOLBAR_SET_HOME');
-			JToolbarHelper::divider();
 		}
 		if (JFactory::getUser()->authorise('core.admin')) {
 			JToolbarHelper::custom('items.rebuild', 'refresh.png', 'refresh_f2.png', 'JToolbar_Rebuild', false);
-			JToolbarHelper::divider();
 		}
+
+		// Add a batch button
+		if ($canDo->get('core.edit'))
+		{
+			$title = JText::_('JTOOLBAR_BATCH');
+			$dhtml = "<button data-toggle=\"modal\" data-target=\"#collapseModal\" class=\"btn\">
+						<i class=\"icon-checkbox-partial\" title=\"$title\"></i>
+						$title</button>";
+			$bar->appendButton('Custom', $dhtml, 'batch');
+		}
+
 		JToolbarHelper::help('JHELP_MENUS_MENU_ITEM_MANAGER');
+	}
+
+	/**
+	 * Returns an array of fields the table can be sorted by
+	 *
+	 * @return  array  Array containing the field name to sort by as the key and display text as value
+	 *
+	 * @since   3.0
+	 */
+	protected function getSortFields()
+	{
+		return array(
+			'a.lft' => JText::_('JGRID_HEADING_ORDERING'),
+			'a.published' => JText::_('JSTATUS'),
+			'a.title' => JText::_('JGLOBAL_TITLE'),
+			'a.home' => JText::_('COM_MENUS_HEADING_HOME'),
+			'a.access' => JText::_('JGRID_HEADING_ACCESS'),
+			'association' => JText::_('COM_MENUS_HEADING_ASSOCIATION'),
+			'language' => JText::_('JGRID_HEADING_LANGUAGE'),
+			'a.id' => JText::_('JGRID_HEADING_ID')
+		);
 	}
 }

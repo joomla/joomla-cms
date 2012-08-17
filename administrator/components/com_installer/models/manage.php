@@ -68,7 +68,8 @@ class InstallerModelManage extends InstallerModel
 		$app->setUserState('com_installer.message', '');
 		$app->setUserState('com_installer.extension_message', '');
 
-		$this->setState('filter.search', isset($filters['search']) ? $filters['search'] : '');
+		$search = $this->getUserStateFromRequest($this->context.'.filter.search', 'filter_search');
+		$this->setState('filter.search', $search);
 		$this->setState('filter.status', isset($filters['status']) ? $filters['status'] : '');
 		$this->setState('filter.type', isset($filters['type']) ? $filters['type'] : '');
 		$this->setState('filter.group', isset($filters['group']) ? $filters['group'] : '');

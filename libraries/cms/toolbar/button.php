@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Joomla.Legacy
+ * @package     Joomla.Libraries
  * @subpackage  Toolbar
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * The JButton is the base class for all JButton types
  *
- * @package     Joomla.Legacy
+ * @package     Joomla.Libraries
  * @subpackage  Toolbar
  * @since       3.0
  */
@@ -83,9 +83,9 @@ abstract class JToolbarButton
 		}
 
 		// Build the HTML Button
-		$html .= "<li class=\"button\" $id>\n";
+		$html .= "<div class=\"btn-group\" $id>\n";
 		$html .= $action;
-		$html .= "</li>\n";
+		$html .= "</div>\n";
 
 		return $html;
 	}
@@ -103,7 +103,7 @@ abstract class JToolbarButton
 	 */
 	public function fetchIconClass($identifier)
 	{
-		return "icon-32-$identifier";
+		return "icon-$identifier";
 	}
 
 	/**

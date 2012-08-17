@@ -34,7 +34,7 @@ class ContactViewCategory extends JViewLegacy
 		$siteEmail = $app->getCfg('mailfrom');
 		$fromName  = $app->getCfg('fromname');
 
-		JRequest::setVar('limit', $app->getCfg('feed_limit'));
+		$app->input->set('limit', $app->getCfg('feed_limit'));
 		// Get some data from the models
 		$category = $this->get('Category');
 		$rows     = $this->get('Items');

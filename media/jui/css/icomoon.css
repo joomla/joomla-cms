@@ -1,0 +1,360 @@
+@font-face {
+	font-family: 'IcoMoon';
+	src: url('../fonts/IcoMoon.eot');
+	src: url('../fonts/IcoMoon.eot?#iefix') format('embedded-opentype'),
+		url('../fonts/IcoMoon.svg#IcoMoon') format('svg'),
+		url('../fonts/IcoMoon.woff') format('woff'),
+		url('../fonts/IcoMoon.ttf') format('truetype');
+	font-weight: normal;
+	font-style: normal;
+}
+
+/* Use the following CSS code if you want to use data attributes for inserting your icons */
+span[data-icon]:before {
+	font-family: 'IcoMoon';
+	content: attr(data-icon);
+	speak: none;
+}
+
+/* Use the following CSS code if you want to have a class per icon */
+span[class^="icon-"]:before, span[class*=" icon-"]:before {
+	font-family: 'IcoMoon';
+	font-style: normal;
+	speak: none;
+}
+span.icon-home:before {
+	content: "\21";
+}
+span.icon-user:before {
+	content: "\22";
+}
+span.icon-locked:before {
+	content: "\23";
+}
+span.icon-comments:before {
+	content: "\24";
+}
+span.icon-comments-2:before {
+	content: "\25";
+}
+span.icon-out:before {
+	content: "\26";
+}
+span.icon-redo:before {
+	content: "\27";
+}
+span.icon-undo:before {
+	content: "\28";
+}
+span.icon-file-add:before {
+	content: "\29";
+}
+span.icon-plus:before {
+	content: "\2a";
+}
+span.icon-pencil:before {
+	content: "\2b";
+}
+span.icon-pencil-2:before {
+	content: "\2c";
+}
+span.icon-folder:before {
+	content: "\2d";
+}
+span.icon-folder-2:before {
+	content: "\2e";
+}
+span.icon-picture:before {
+	content: "\2f";
+}
+span.icon-pictures:before {
+	content: "\30";
+}
+span.icon-list-view:before {
+	content: "\31";
+}
+span.icon-power-cord:before {
+	content: "\32";
+}
+span.icon-cube:before {
+	content: "\33";
+}
+span.icon-puzzle:before {
+	content: "\34";
+}
+span.icon-flag:before {
+	content: "\35";
+}
+span.icon-tools:before {
+	content: "\36";
+}
+span.icon-cogs:before {
+	content: "\37";
+}
+span.icon-cog:before {
+	content: "\38";
+}
+span.icon-equalizer:before {
+	content: "\39";
+}
+span.icon-wrench:before {
+	content: "\3a";
+}
+span.icon-brush:before {
+	content: "\3b";
+}
+span.icon-eye:before {
+	content: "\3c";
+}
+span.icon-checkbox-unchecked:before {
+	content: "\3d";
+}
+span.icon-checkbox:before {
+	content: "\3e";
+}
+span.icon-checkbox-partial:before {
+	content: "\3f";
+}
+span.icon-star:before {
+	content: "\40";
+}
+span.icon-star-2:before {
+	content: "\41";
+}
+span.icon-star-3:before {
+	content: "\42";
+}
+span.icon-calendar:before {
+	content: "\43";
+}
+span.icon-calendar-2:before {
+	content: "\44";
+}
+span.icon-help:before {
+	content: "\45";
+}
+span.icon-support:before {
+	content: "\46";
+}
+span.icon-warning:before {
+	content: "\48";
+}
+span.icon-checkmark:before {
+	content: "\47";
+}
+span.icon-cancel:before {
+	content: "\4a";
+}
+span.icon-minus:before {
+	content: "\4b";
+}
+span.icon-remove:before {
+	content: "\4c";
+}
+span.icon-mail:before {
+	content: "\4d";
+}
+span.icon-mail-2:before {
+	content: "\4e";
+}
+span.icon-drawer:before {
+	content: "\4f";
+}
+span.icon-drawer-2:before {
+	content: "\50";
+}
+span.icon-box-add:before {
+	content: "\51";
+}
+span.icon-box-remove:before {
+	content: "\52";
+}
+span.icon-search:before {
+	content: "\53";
+}
+span.icon-filter:before {
+	content: "\54";
+}
+span.icon-camera:before {
+	content: "\55";
+}
+span.icon-play:before {
+	content: "\56";
+}
+span.icon-music:before {
+	content: "\57";
+}
+span.icon-grid-view:before {
+	content: "\58";
+}
+span.icon-grid-view-2:before {
+	content: "\59";
+}
+span.icon-menu:before {
+	content: "\5a";
+}
+span.icon-thumbs-up:before {
+	content: "\5b";
+}
+span.icon-thumbs-down:before {
+	content: "\5c";
+}
+span.icon-cancel-2:before {
+	content: "\49";
+}
+span.icon-plus-2:before {
+	content: "\5d";
+}
+span.icon-minus-2:before {
+	content: "\5e";
+}
+span.icon-key:before {
+	content: "\5f";
+}
+span.icon-quote:before {
+	content: "\60";
+}
+span.icon-quote-2:before {
+	content: "\61";
+}
+span.icon-database:before {
+	content: "\62";
+}
+span.icon-location:before {
+	content: "\63";
+}
+span.icon-zoom-in:before {
+	content: "\64";
+}
+span.icon-zoom-out:before {
+	content: "\65";
+}
+span.icon-expand:before {
+	content: "\66";
+}
+span.icon-contract:before {
+	content: "\67";
+}
+span.icon-expand-2:before {
+	content: "\68";
+}
+span.icon-contract-2:before {
+	content: "\69";
+}
+span.icon-health:before {
+	content: "\6a";
+}
+span.icon-wand:before {
+	content: "\6b";
+}
+span.icon-refresh:before {
+	content: "\6c";
+}
+span.icon-vcard:before {
+	content: "\6d";
+}
+span.icon-clock:before {
+	content: "\6e";
+}
+span.icon-compass:before {
+	content: "\6f";
+}
+span.icon-address:before {
+	content: "\70";
+}
+span.icon-feed:before {
+	content: "\71";
+}
+span.icon-flag-2:before {
+	content: "\72";
+}
+span.icon-pin:before {
+	content: "\73";
+}
+span.icon-lamp:before {
+	content: "\74";
+}
+span.icon-chart:before {
+	content: "\75";
+}
+span.icon-bars:before {
+	content: "\76";
+}
+span.icon-pie:before {
+	content: "\77";
+}
+span.icon-dashboard:before {
+	content: "\78";
+}
+span.icon-lightning:before {
+	content: "\79";
+}
+span.icon-move:before {
+	content: "\7a";
+}
+span.icon-next:before {
+	content: "\7b";
+}
+span.icon-previous:before {
+	content: "\7c";
+}
+span.icon-first:before {
+	content: "\7d";
+}
+span.icon-last:before {
+	content: "\e000";
+}
+span.icon-loop:before {
+	content: "\e001";
+}
+span.icon-shuffle:before {
+	content: "\e002";
+}
+span.icon-arrow-first:before {
+	content: "\e003";
+}
+span.icon-arrow-last:before {
+	content: "\e004";
+}
+span.icon-arrow-up:before {
+	content: "\e005";
+}
+span.icon-arrow-right:before {
+	content: "\e006";
+}
+span.icon-arrow-down:before {
+	content: "\e007";
+}
+span.icon-arrow-left:before {
+	content: "\e008";
+}
+span.icon-arrow-up-2:before {
+	content: "\e009";
+}
+span.icon-arrow-right-2:before {
+	content: "\e00a";
+}
+span.icon-arrow-down-2:before {
+	content: "\e00b";
+}
+span.icon-arrow-left-2:before {
+	content: "\e00c";
+}
+span.icon-play-2:before {
+	content: "\e00d";
+}
+span.icon-menu-2:before {
+	content: "\e00e";
+}
+span.icon-arrow-up-3:before {
+	content: "\e00f";
+}
+span.icon-arrow-right-3:before {
+	content: "\e010";
+}
+span.icon-arrow-down-3:before {
+	content: "\e011";
+}
+span.icon-arrow-left-3:before {
+	content: "\e012";
+}

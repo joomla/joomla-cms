@@ -12,19 +12,19 @@ jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.path');
 
 /**
- * Filesystem configuration model for the Joomla Core Installer.
+ * FTP configuration model for the Joomla Core Installer.
  *
  * @package  Joomla.Installation
  * @since    3.0
  */
-class InstallationModelFilesystem extends JModelLegacy
+class InstallationModelFtp extends JModelLegacy
 {
 	/**
 	 * Find the ftp filesystem root for a given user/pass pair.
 	 *
 	 * @param   array  $options  Configuration options.
 	 *
-	 * @return  mixed  Filesystem root for given FTP user, or boolean false if not found.
+	 * @return  mixed  FTP root for given FTP user, or boolean false if not found.
 	 *
 	 * @since   3.0
 	 */
@@ -125,7 +125,7 @@ class InstallationModelFilesystem extends JModelLegacy
 	 *
 	 * @param   array  $options  Configuration options.
 	 *
-	 * @return  mixed  Filesystem root for given FTP user, or boolean false if not found.
+	 * @return  mixed  FTP root for given FTP user, or boolean false if not found.
 	 *
 	 * @since   3.0
 	 */

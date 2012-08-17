@@ -68,7 +68,7 @@ class FinderViewIndex extends JViewLegacy
 		$canDo	= FinderHelper::getActions();
 
 		JToolbarHelper::title(JText::_('COM_FINDER_INDEX_TOOLBAR_TITLE'), 'finder');
-		$toolbar = JToolBar::getInstance('toolbar');
+		$toolbar = JToolbar::getInstance('toolbar');
 
 		$toolbar->appendButton('Popup', 'archive', 'COM_FINDER_INDEX', 'index.php?option=com_finder&view=indexer&tmpl=component', 500, 210);
 		JToolbarHelper::divider();
@@ -95,7 +95,7 @@ class FinderViewIndex extends JViewLegacy
 			JToolbarHelper::preferences('com_finder');
 		}
 		JToolbarHelper::divider();
-		$toolbar->appendButton('Popup', 'stats', 'COM_FINDER_STATISTICS', 'index.php?option=com_finder&view=statistics&tmpl=component', 550, 500);
+		$toolbar->appendButton('Popup', 'stats', 'COM_FINDER_STATISTICS', 'index.php?option=com_finder&view=statistics&tmpl=component', 550, 350);
 		JToolbarHelper::divider();
 		JToolbarHelper::help('JHELP_COMPONENTS_FINDER_MANAGE_INDEXED_CONTENT');
 	}

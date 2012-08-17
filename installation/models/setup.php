@@ -28,6 +28,16 @@ class InstallationModelSetup extends JModelLegacy
 		$session = JFactory::getSession();
 		$options = $session->get('setup.options', array());
 
+		// Ensure a valid language string format
+		if (isset($options['language']))
+		{
+			$parts = explode('-', $options['language']);
+			if (count($parts) == 2)
+			{
+				$options['language'] = $parts[0] . '-' . strtoupper($parts[1]);
+			}
+		}
+
 		return $options;
 	}
 
@@ -75,7 +85,7 @@ class InstallationModelSetup extends JModelLegacy
 
 		if (!$view)
 		{
-			$view = $app->input->get('view', 'language', 'word');
+			$view = JFactory::getApplication()->input->get('view', 'site', 'word');
 		}
 
 		// Get the form.

@@ -32,7 +32,7 @@
 
 		<!-- Advanced Settings -->
 		<fieldset name="advanced">
-			<field name="db_old" type="radio" id="db_old" class="inputbox"
+			<field name="db_old" type="radio" id="db_old" class="btn-group"
 				label="INSTL_DATABASE_OLD_PROCESS_LABEL"
 				default="backup"
 				required="true"

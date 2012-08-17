@@ -107,6 +107,14 @@ abstract class FinderIndexerAdapter extends JPlugin
 	protected $table;
 
 	/**
+	 * The indexer object.
+	 *
+	 * @var    FinderIndexer
+	 * @since  3.0
+	 */
+	protected $indexer;
+
+	/**
 	 * The field the published state is stored in.
 	 *
 	 * @var    string
@@ -144,6 +152,9 @@ abstract class FinderIndexerAdapter extends JPlugin
 		{
 			$this->layout = $this->params->get('layout');
 		}
+
+		// Get the indexer object
+		$this->indexer = FinderIndexer::getInstance();
 	}
 
 	/**
@@ -360,7 +371,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 		// Remove the items.
 		foreach ($items as $item)
 		{
-			FinderIndexer::remove($item);
+			$this->indexer->remove($item);
 		}
 
 		return true;

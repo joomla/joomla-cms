@@ -41,9 +41,9 @@ class MailtoController extends JControllerLegacy
 		// Check for request forgeries
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		$app	= JFactory::getApplication();
+		$app     = JFactory::getApplication();
 		$session = JFactory::getSession();
-		$db	= JFactory::getDbo();
+		$db      = JFactory::getDbo();
 
 		$timeout = $session->get('com_mailto.formtime', 0);
 		if ($timeout == 0 || time() - $timeout < 20) {
@@ -51,11 +51,11 @@ class MailtoController extends JControllerLegacy
 			return $this->mailto();
 		}
 
-		$SiteName	= $app->getCfg('sitename');
-		$MailFrom	= $app->getCfg('mailfrom');
-		$FromName	= $app->getCfg('fromname');
+		$SiteName = $app->getCfg('sitename');
+		$MailFrom = $app->getCfg('mailfrom');
+		$FromName = $app->getCfg('fromname');
 
-		$link		= MailtoHelper::validateHash($this->input->get('link', '', 'post'));
+		$link     = MailtoHelper::validateHash($this->input->get('link', '', 'post'));
 
 		// Verify that this is a local link
 		if (!$link || !JURI::isInternal($link)) {
@@ -100,11 +100,11 @@ class MailtoController extends JControllerLegacy
 		 */
 		unset ($headers, $fields);
 
-		$email           = $this->input->getString('mailto', '', 'post');
-		$sender          = $this->input->getString('sender', '', 'post');
-		$from            = $this->input->getString('from', '', 'post');
+		$email           = $this->input->post->getString('mailto', '');
+		$sender          = $this->input->post->getString('sender', '');
+		$from            = $this->input->post->getString('from', '');
 		$subject_default = JText::sprintf('COM_MAILTO_SENT_BY', $sender);
-		$subject         = JRequest::getString('subject', $subject_default, 'post');
+		$subject         = $this->input->post->getString('subject', $subject_default);
 
 		// Check for a valid to address
 		$error	= false;

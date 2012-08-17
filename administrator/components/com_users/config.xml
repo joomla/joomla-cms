@@ -4,6 +4,7 @@
 		<field
 			name="allowUserRegistration"
 			type="radio"
+			class="btn-group"
 			default="1"
 			label="COM_USERS_CONFIG_FIELD_ALLOWREGISTRATION_LABEL"
 			description="COM_USERS_CONFIG_FIELD_ALLOWREGISTRATION_DESC">
@@ -32,6 +33,7 @@
 		<field
 			name="sendpassword"
 			type="radio"
+			class="btn-group"
 			default="1"
 			label="COM_USERS_CONFIG_FIELD_SENDPASSWORD_LABEL"
 			description="COM_USERS_CONFIG_FIELD_SENDPASSWORD_DESC">
@@ -58,6 +60,7 @@
 		<field
 			name="mail_to_admin"
 			type="radio"
+			class="btn-group"
 			default="0"
 			label="COM_USERS_CONFIG_FIELD_MAILTOADMIN_LABEL"
 			description="COM_USERS_CONFIG_FIELD_MAILTOADMIN_DESC">
@@ -84,6 +87,7 @@
 		<field
 			name="frontend_userparams"
 			type="radio"
+			class="btn-group"
 			default="1"
 			label="COM_USERS_CONFIG_FIELD_FRONTEND_USERPARAMS_LABEL"
 			description="COM_USERS_CONFIG_FIELD_FRONTEND_USERPARAMS_DESC">
@@ -95,6 +99,7 @@
 		<field
 			name="site_language"
 			type="radio"
+			class="btn-group"
 			default="0"
 			label="COM_USERS_CONFIG_FIELD_FRONTEND_LANG_LABEL"
 			description="COM_USERS_CONFIG_FIELD_FRONTEND_LANG_DESC">
@@ -106,6 +111,7 @@
 		<field
 			name="change_login_name"
 			type="radio"
+			class="btn-group"
 			default="0"
 			label="COM_USERS_CONFIG_FIELD_CHANGEUSERNAME_LABEL"
 			description="COM_USERS_CONFIG_FIELD_CHANGEUSERNAME_DESC">

@@ -29,7 +29,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 		</div>
 	</fieldset>
 <?php endif; ?>
-	<table class="category">
+	<table class="category table table-striped">
 		<?php if ($this->params->get('show_headings')) : ?>
 		<thead><tr>
 
@@ -85,7 +85,11 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 			</tr>
 		</thead>
 		<?php endif; ?>
-
+		<tfoot>
+			<tr>
+				<td colspan="9"></td>
+			</tr>
+		</tfoot>
 		<tbody>
 			<?php foreach($this->items as $i => $item) : ?>
 				<?php if ($this->items[$i]->published == 0) : ?>

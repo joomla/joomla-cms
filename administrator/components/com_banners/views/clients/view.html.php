@@ -63,26 +63,39 @@ class BannersViewClients extends JViewLegacy
 			JToolbarHelper::editList('client.edit');
 		}
 		if ($canDo->get('core.edit.state')) {
-			JToolbarHelper::divider();
 			JToolbarHelper::publish('clients.publish', 'JTOOLBAR_PUBLISH', true);
 			JToolbarHelper::unpublish('clients.unpublish', 'JTOOLBAR_UNPUBLISH', true);
-			JToolbarHelper::divider();
 			JToolbarHelper::archiveList('clients.archive');
 			JToolbarHelper::checkin('clients.checkin');
 		}
 		if ($this->state->get('filter.state') == -2 && $canDo->get('core.delete')) {
 			JToolbarHelper::deleteList('', 'clients.delete', 'JTOOLBAR_EMPTY_TRASH');
-			JToolbarHelper::divider();
 		} elseif ($canDo->get('core.edit.state')) {
 			JToolbarHelper::trash('clients.trash');
-			JToolbarHelper::divider();
 		}
 
 		if ($canDo->get('core.admin')) {
 			JToolbarHelper::preferences('com_banners');
-			JToolbarHelper::divider();
 		}
 
 		JToolbarHelper::help('JHELP_COMPONENTS_BANNERS_CLIENTS');
+	}
+	/**
+	 * Returns an array of fields the table can be sorted by
+	 *
+	 * @return  array  Array containing the field name to sort by as the key and display text as value
+	 *
+	 * @since   3.0
+	 */
+	protected function getSortFields()
+	{
+		return array(
+			'a.status' => JText::_('JSTATUS'),
+			'a.name' => JText::_('COM_BANNERS_HEADING_CLIENT'),
+			'contact' => JText::_('COM_BANNERS_HEADING_CONTACT'),
+			'client_name' => JText::_('COM_BANNERS_HEADING_CLIENT'),
+			'nbanners' => JText::_('COM_BANNERS_HEADING_ACTIVE'),
+			'a.id' => JText::_('JGRID_HEADING_ID')
+		);
 	}
 }

@@ -13,13 +13,16 @@ defined('_JEXEC') or die;
  * jicon-text, jicon-none, jicon-icon
  */
 ?>
+<dl class="contact-address dl-horizontal">
 <?php if (($this->params->get('address_check') > 0) &&  ($this->contact->address || $this->contact->suburb  || $this->contact->state || $this->contact->country || $this->contact->postcode)) : ?>
-	<div class="contact-address">
 	<?php if ($this->params->get('address_check') > 0) : ?>
+	<dt>
 		<span class="<?php echo $this->params->get('marker_class'); ?>" >
 			<?php echo $this->params->get('marker_address'); ?>
 		</span>
-		<address>
+	</dt>
+	<dd>
+	<address>
 	<?php endif; ?>
 	<?php if ($this->contact->address && $this->params->get('show_street_address')) : ?>
 		<span class="contact-street">
@@ -47,66 +50,70 @@ defined('_JEXEC') or die;
 		</span>
 	<?php endif; ?>
 <?php endif; ?>
-
 <?php if ($this->params->get('address_check') > 0) : ?>
 	</address>
-	</div>
+	</dd>
 <?php endif; ?>
 
-<?php if($this->params->get('show_email') || $this->params->get('show_telephone')||$this->params->get('show_fax')||$this->params->get('show_mobile')|| $this->params->get('show_webpage') ) : ?>
-	<div class="contact-contactinfo">
-<?php endif; ?>
 <?php if ($this->contact->email_to && $this->params->get('show_email')) : ?>
-	<p>
+	<dt>
 		<span class="<?php echo $this->params->get('marker_class'); ?>" >
 			<?php echo $this->params->get('marker_email'); ?>
 		</span>
+	</dt>
+	<dd>
 		<span class="contact-emailto">
 			<?php echo $this->contact->email_to; ?>
 		</span>
-	</p>
+	</dd>
 <?php endif; ?>
 
 <?php if ($this->contact->telephone && $this->params->get('show_telephone')) : ?>
-	<p>
+	<dt>
 		<span class="<?php echo $this->params->get('marker_class'); ?>" >
 			<?php echo $this->params->get('marker_telephone'); ?>
 		</span>
+	</dt>
+	<dd>
 		<span class="contact-telephone">
 			<?php echo nl2br($this->contact->telephone); ?>
 		</span>
-	</p>
+	</dd>
 <?php endif; ?>
 <?php if ($this->contact->fax && $this->params->get('show_fax')) : ?>
-	<p>
+	<dt>
 		<span class="<?php echo $this->params->get('marker_class'); ?>" >
 			<?php echo $this->params->get('marker_fax'); ?>
 		</span>
+	</dt>
+	<dd>
 		<span class="contact-fax">
 		<?php echo nl2br($this->contact->fax); ?>
 		</span>
-	</p>
+	</dd>
 <?php endif; ?>
 <?php if ($this->contact->mobile && $this->params->get('show_mobile')) :?>
-	<p>
+	<dt>
 		<span class="<?php echo $this->params->get('marker_class'); ?>" >
 			<?php echo $this->params->get('marker_mobile'); ?>
 		</span>
+	</dt>
+	<dd>
 		<span class="contact-mobile">
 			<?php echo nl2br($this->contact->mobile); ?>
 		</span>
-	</p>
+	</dd>
 <?php endif; ?>
 <?php if ($this->contact->webpage && $this->params->get('show_webpage')) : ?>
-	<p>
+	<dt>
 		<span class="<?php echo $this->params->get('marker_class'); ?>" >
 		</span>
+	</dt>
+	<dd>
 		<span class="contact-webpage">
 			<a href="<?php echo $this->contact->webpage; ?>" target="_blank">
 			<?php echo $this->contact->webpage; ?></a>
 		</span>
-	</p>
+	</dd>
 <?php endif; ?>
-<?php if($this->params->get('show_email') || $this->params->get('show_telephone')||$this->params->get('show_fax')||$this->params->get('show_mobile')|| $this->params->get('show_webpage') ) : ?>
-	</div>
-<?php endif; ?>
+</dl>

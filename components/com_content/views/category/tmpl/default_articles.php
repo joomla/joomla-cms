@@ -28,131 +28,87 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 
 <?php else : ?>
 
-<form action="<?php echo htmlspecialchars(JUri::getInstance()->toString()); ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo htmlspecialchars(JUri::getInstance()->toString()); ?>" method="post" name="adminForm" id="adminForm" class="form-inline">
 	<?php if ($this->params->get('show_headings') || $this->params->get('filter_field') != 'hide' || $this->params->get('show_pagination_limit')) :?>
-	<fieldset class="filters">
+	<div class="filters btn-toolbar">
 		<?php if ($this->params->get('filter_field') != 'hide') :?>
-		<legend class="hidelabeltxt">
-			<?php echo JText::_('JGLOBAL_FILTER_LABEL'); ?>
-		</legend>
-
-		<div class="filter-search">
-			<label class="filter-search-lbl" for="filter-search"><?php echo JText::_('COM_CONTENT_'.$this->params->get('filter_field').'_FILTER_LABEL').'&#160;'; ?></label>
-			<input type="text" name="filter-search" id="filter-search" value="<?php echo $this->escape($this->state->get('list.filter')); ?>" class="inputbox" onchange="document.adminForm.submit();" title="<?php echo JText::_('COM_CONTENT_FILTER_SEARCH_DESC'); ?>" />
-		</div>
+			<div class="btn-group">
+				<label class="filter-search-lbl element-invisible" for="filter-search"><?php echo JText::_('COM_CONTENT_'.$this->params->get('filter_field').'_FILTER_LABEL').'&#160;'; ?></label>
+				<input type="text" name="filter-search" id="filter-search" value="<?php echo $this->escape($this->state->get('list.filter')); ?>" class="inputbox" onchange="document.adminForm.submit();" title="<?php echo JText::_('COM_CONTENT_FILTER_SEARCH_DESC'); ?>" placeholder="<?php echo JText::_('COM_CONTENT_FILTER_SEARCH_DESC'); ?>" />
+			</div>
 		<?php endif; ?>
-
 		<?php if ($this->params->get('show_pagination_limit')) : ?>
-		<div class="display-limit">
-			<?php echo JText::_('JGLOBAL_DISPLAY_NUM'); ?>&#160;
-			<?php echo $this->pagination->getLimitBox(); ?>
-		</div>
+			<div class="btn-group pull-right">
+				<label class="element-invisible">
+					<?php echo JText::_('JGLOBAL_DISPLAY_NUM'); ?>
+				</label>
+				<?php echo $this->pagination->getLimitBox(); ?>
+			</div>
 		<?php endif; ?>
-
-	<!-- @TODO add hidden inputs -->
+		<!-- @TODO add hidden inputs -->
 		<input type="hidden" name="filter_order" value="" />
 		<input type="hidden" name="filter_order_Dir" value="" />
 		<input type="hidden" name="limitstart" value="" />
-	</fieldset>
+		<div class="clearfix"></div>
+	</div>
 	<?php endif; ?>
 
-	<table class="category">
-		<?php if ($this->params->get('show_headings')) :?>
-		<thead>
-			<tr>
-				<th class="list-title" id="tableOrdering">
-					<?php  echo JHtml::_('grid.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
-				</th>
-
-				<?php if ($date = $this->params->get('list_show_date')) : ?>
-				<th class="list-date" id="tableOrdering2">
-					<?php if ($date == "created") : ?>
-						<?php echo JHtml::_('grid.sort', 'COM_CONTENT_'.$date.'_DATE', 'a.created', $listDirn, $listOrder); ?>
-					<?php elseif ($date == "modified") : ?>
-						<?php echo JHtml::_('grid.sort', 'COM_CONTENT_'.$date.'_DATE', 'a.modified', $listDirn, $listOrder); ?>
-					<?php elseif ($date == "published") : ?>
-						<?php echo JHtml::_('grid.sort', 'COM_CONTENT_'.$date.'_DATE', 'a.publish_up', $listDirn, $listOrder); ?>
-					<?php endif; ?>
-				</th>
-				<?php endif; ?>
-
-				<?php if ($this->params->get('list_show_author', 1)) : ?>
-				<th class="list-author" id="tableOrdering3">
-					<?php echo JHtml::_('grid.sort', 'JAUTHOR', 'author', $listDirn, $listOrder); ?>
-				</th>
-				<?php endif; ?>
-
-				<?php if ($this->params->get('list_show_hits', 1)) : ?>
-				<th class="list-hits" id="tableOrdering4">
-					<?php echo JHtml::_('grid.sort', 'JGLOBAL_HITS', 'a.hits', $listDirn, $listOrder); ?>
-				</th>
-				<?php endif; ?>
-			</tr>
-		</thead>
-		<?php endif; ?>
-
-		<tbody>
+	<ul class="category list-striped list-condensed">
 
 		<?php foreach ($this->items as $i => $article) : ?>
 			<?php if ($this->items[$i]->state == 0) : ?>
-				<tr class="system-unpublished cat-list-row<?php echo $i % 2; ?>">
+				<li class="system-unpublished cat-list-row<?php echo $i % 2; ?>">
 			<?php else: ?>
-				<tr class="cat-list-row<?php echo $i % 2; ?>" >
+				<li class="cat-list-row<?php echo $i % 2; ?>" >
 			<?php endif; ?>
 				<?php if (in_array($article->access, $this->user->getAuthorisedViewLevels())) : ?>
-
-					<td class="list-title">
+					<?php if ($this->params->get('list_show_hits', 1)) : ?>
+					<span class="list-hits badge badge-info pull-right">
+						<?php echo $article->hits; ?>
+					</span>
+					<?php endif; ?>
+					<?php if ($article->params->get('access-edit')) : ?>
+						<span class="list-edit pull-right width-50">
+							<?php echo JHtml::_('icon.edit', $article, $params); ?>
+						</span>
+					<?php endif; ?>
+					<h4 class="list-title">
 						<a href="<?php echo JRoute::_(ContentHelperRoute::getArticleRoute($article->slug, $article->catid)); ?>">
 							<?php echo $this->escape($article->title); ?></a>
 
-						<?php if ($article->params->get('access-edit')) : ?>
-						<ul class="actions">
-							<li class="edit-icon">
-								<?php echo JHtml::_('icon.edit', $article, $params); ?>
-							</li>
-						</ul>
+						<?php if ($this->params->get('list_show_author', 1)) : ?>
+						<small class="list-author">
+							<?php if(!empty($article->author) || !empty($article->created_by_alias)) : ?>
+								<?php $author = $article->author ?>
+								<?php $author = ($article->created_by_alias ? $article->created_by_alias : $author);?>
+
+								<?php if (!empty($article->contactid ) &&  $this->params->get('link_author') == true):?>
+									<?php echo JHtml::_(
+											'link',
+											JRoute::_('index.php?option=com_contact&view=contact&id='.$article->contactid),
+											$author
+									); ?>
+
+								<?php else :?>
+									<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', $author); ?>
+								<?php endif; ?>
+							<?php endif; ?>
+						</small>
 						<?php endif; ?>
-					</td>
+					</h4>
 
 					<?php if ($this->params->get('list_show_date')) : ?>
-					<td class="list-date">
+					<span class="list-date small pull-right">
 						<?php
 						echo JHtml::_(
-							'date', $article->displayDate, $this->escape(
-								$this->params->get('date_format', JText::_('DATE_FORMAT_LC3'))
-							)
+							'date', $article->displayDate,
+							$this->escape($this->params->get('date_format', JText::_('DATE_FORMAT_LC3')))
 						); ?>
-					</td>
-					<?php endif; ?>
-
-					<?php if ($this->params->get('list_show_author', 1)) : ?>
-					<td class="list-author">
-						<?php if(!empty($article->author) || !empty($article->created_by_alias)) : ?>
-							<?php $author = $article->author ?>
-							<?php $author = ($article->created_by_alias ? $article->created_by_alias : $author);?>
-
-							<?php if (!empty($article->contactid ) &&  $this->params->get('link_author') == true):?>
-								<?php echo JHtml::_(
-										'link',
-										JRoute::_('index.php?option=com_contact&view=contact&id='.$article->contactid),
-										$author
-								); ?>
-
-							<?php else :?>
-								<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', $author); ?>
-							<?php endif; ?>
-						<?php endif; ?>
-					</td>
-					<?php endif; ?>
-
-					<?php if ($this->params->get('list_show_hits', 1)) : ?>
-					<td class="list-hits">
-						<?php echo $article->hits; ?>
-					</td>
+					</span>
 					<?php endif; ?>
 
 				<?php else : // Show unauth links. ?>
-					<td>
+					<span>
 						<?php
 							echo $this->escape($article->title).' : ';
 							$menu		= JFactory::getApplication()->getMenu();
@@ -165,12 +121,11 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 						?>
 						<a href="<?php echo $fullURL; ?>" class="register">
 							<?php echo JText::_('COM_CONTENT_REGISTER_TO_READ_MORE'); ?></a>
-					</td>
+					</span>
 				<?php endif; ?>
-				</tr>
+				</li>
 		<?php endforeach; ?>
-		</tbody>
-	</table>
+	</ul>
 <?php endif; ?>
 
 <?php // Code to add a link to submit an article. ?>
@@ -184,7 +139,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 	<div class="pagination">
 
 		<?php if ($this->params->def('show_pagination_results', 1)) : ?>
-		 	<p class="counter">
+			<p class="counter pull-right">
 				<?php echo $this->pagination->getPagesCounter(); ?>
 			</p>
 		<?php endif; ?>

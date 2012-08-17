@@ -18,12 +18,13 @@ JHtml::_('behavior.formvalidation');
 JHtml::_('behavior.keepalive');
 
 // Create shortcut to parameters.
-	$params = $this->state->get('params');
-
-	$params = $params->toArray();
+$params = $this->state->get('params');
+$params = $params->toArray();
 
 // This checks if the config options have ever been saved. If they haven't they will fall back to the original settings.
 $editoroptions = isset($params['show_publishing_options']);
+
+$input = JFactory::getApplication()->input;
 
 if (!$editoroptions):
 	$params['show_publishing_options'] = '1';
@@ -255,7 +256,7 @@ endif;
 	<?php endif; ?>
 	<div>
 		<input type="hidden" name="task" value="" />
-		<input type="hidden" name="return" value="<?php echo JRequest::getCmd('return');?>" />
+		<input type="hidden" name="return" value="<?php echo $input->getCmd('return');?>" />
 		<?php echo JHtml::_('form.token'); ?>
 	</div>
 </form>
