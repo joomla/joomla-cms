@@ -170,7 +170,7 @@ class JImage
 				$thumbsFolder = dirname($this->getPath()) . '/thumbs';
 			}
 
-			if (is_dir($thumbsFolder) || mkdir($thumbsFolder))
+			if (is_dir($thumbsFolder) || @mkdir($thumbsFolder))
 			{
 				$generated = array();
 
