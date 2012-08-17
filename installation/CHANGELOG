@@ -26,6 +26,8 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+-------------------- 3.0 Alpha 2 Release [16-Aug-2012] ------------------
+
 16-Aug-2012 Mark Dexter
  # [#28927] Update sample data files for protostar and isis. Thanks Elin.
 
@@ -86,7 +88,7 @@ $ -> Language fix or change
  # [#28837] Can't get past step 4 "Database Configuration". Thanks Shaun.
  # [#28511] Move the caption behavior from the controller to the layouts in com_content. Thanks Rouven and Peter.
 
-========== VERSION 3.0 APLHA 1 RELEASED ==========
+-------------------- 3.0 Alpha 1 Release [13-Jul-2012] ------------------
 
 13-Jul-2012 Jean-Marie Simonet
  ^ Merge of latest platform from 12.1+ Thanks Rouven
