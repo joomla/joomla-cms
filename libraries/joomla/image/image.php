@@ -144,13 +144,11 @@ class JImage
 	 * Method to create thumbnails for the current image. It allows creation by resizing
 	 * or croppping the original image.
 	 *
-	 * @param   mixed    $thumbSizes      string of array of string. Example: $thumbSizes = array('150x75','250x150');
+	 * @param   mixed    $thumbSizes      string or array of strings. Example: $thumbSizes = array('150x75','250x150');
 	 * @param   integer  $creationMethod  1-3 resize $scaleMethod | 4 create croppping
 	 * @param   string   $thumbsFolder    destination thumbs folder. null generates a thumbs folder in the image folder
 	 *
 	 * @return array of JImage || null for none
-	 *
-	 * @throws LogicException
 	 */
 	public function createThumbs($thumbSizes, $creationMethod = 2, $thumbsFolder = null)
 	{
@@ -169,10 +167,10 @@ class JImage
 			// No thumbFolder set -> we will create a thumbs folder in the image folder
 			if (is_null($thumbsFolder))
 			{
-				$thumbsFolder = dirname($this->getPath()) . DIRECTORY_SEPARATOR . 'thumbs';
+				$thumbsFolder = dirname($this->getPath()) . '/thumbs';
 			}
 
-			if (JFolder::exists($thumbsFolder) || JFolder::create($thumbsFolder))
+			if (is_dir($thumbsFolder) || mkdir($thumbsFolder))
 			{
 				$generated = array();
 
@@ -192,9 +190,9 @@ class JImage
 					$imgProperties = self::getImageFileProperties($this->getPath());
 
 					// Generate thumb name
-					$filename 		= JFile::getName($this->getPath());
-					$fileExtension 	= JFile::getExt($filename);
-					$thumbFileName 	= str_replace('.' . $fileExtension, '_' . $thumbWidth . 'x' . $thumbHeight . '.' . $fileExtension, $filename);
+					$filename 		= pathinfo($this->getPath(), PATHINFO_FILENAME);
+					$fileExtension 	= pathinfo($this->getPath(), PATHINFO_EXTENSION);
+					$thumbFileName 	= $filename . '_' . $thumbWidth . 'x' . $thumbHeight . '.' . $fileExtension;
 
 					// Generate thumb cropping image
 					if ($creationMethod == 4)
@@ -208,9 +206,11 @@ class JImage
 					}
 
 					// Save thumb
-					$thumbFileName = $thumbsFolder . DIRECTORY_SEPARATOR . $thumbFileName;
+					$thumbFileName = $thumbsFolder . '/' . $thumbFileName;
 					if ($thumb->toFile($thumbFileName, $imgProperties->type))
 					{
+						// Return JImage object with thumb path to ease further manipulation
+						$thumb->path = $thumbFileName;
 						$generated[] = $thumb;
 					}
 				}
