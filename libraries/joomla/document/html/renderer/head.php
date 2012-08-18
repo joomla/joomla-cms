@@ -128,10 +128,14 @@ class JDocumentRendererHead extends JDocumentRenderer
 		// Generate stylesheet links
 		foreach ($document->_styleSheets as $strSrc => $strAttr)
 		{
-			$buffer .= $tab . '<link rel="stylesheet" href="' . $strSrc . '" type="' . $strAttr['mime'] . '"';
+			$buffer .= $tab . '<link rel="stylesheet" href="' . $strSrc . '"';
+			if (!is_null($strAttr['mime']) && !$document->isHtml5())
+			{
+				$buffer .= ' type="' . $strAttr['mime'] . '"';
+			}
 			if (!is_null($strAttr['media']))
 			{
-				$buffer .= ' media="' . $strAttr['media'] . '" ';
+				$buffer .= ' media="' . $strAttr['media'] . '"';
 			}
 			if ($temp = JArrayHelper::toString($strAttr['attribs']))
 			{
@@ -165,7 +169,7 @@ class JDocumentRendererHead extends JDocumentRenderer
 		foreach ($document->_scripts as $strSrc => $strAttr)
 		{
 			$buffer .= $tab . '<script src="' . $strSrc . '"';
-			if (!is_null($strAttr['mime']))
+			if (!is_null($strAttr['mime']) && !$document->isHtml5())
 			{
 				$buffer .= ' type="' . $strAttr['mime'] . '"';
 			}
