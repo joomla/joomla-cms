@@ -726,8 +726,14 @@ abstract class JString
 	{
 		if (is_string($source))
 		{
-			$iconv = @iconv($from_encoding, $to_encoding . '//TRANSLIT,IGNORE', $source);
-			return $iconv;
+			switch (ICONV_IMPL)
+			{
+				case 'glibc':
+				return @iconv($from_encoding, $to_encoding . '//TRANSLIT,IGNORE', $source);
+				case 'libiconv':
+				default:
+				return iconv($from_encoding, $to_encoding . '//IGNORE//TRANSLIT', $source);
+			}
 		}
 
 		return null;
