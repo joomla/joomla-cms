@@ -89,7 +89,7 @@ endif;
 				</div>
 				<?php endif; ?>
 
-			<?php echo $this->form->getInput('articletext'); ?>
+				<?php echo $this->form->getInput('articletext'); ?>
 			</div>
 			<?php if ($params->get('show_urls_images_frontend')  ): ?>
 			<div class="tab-pane" id="images">
@@ -101,12 +101,12 @@ endif;
 				</div>
 				<div class="control-group">
 					<div class="control-label">
-							<?php echo $this->form->getLabel('image_intro_alt', 'images'); ?>
-						</div>
-						<div class="controls">
-							<?php echo $this->form->getInput('image_intro_alt', 'images'); ?>
-						</div>
+						<?php echo $this->form->getLabel('image_intro_alt', 'images'); ?>
 					</div>
+					<div class="controls">
+						<?php echo $this->form->getInput('image_intro_alt', 'images'); ?>
+					</div>
+				</div>
 				<div class="control-group">
 					<div class="control-label">
 						<?php echo $this->form->getLabel('image_intro_caption', 'images'); ?>
@@ -114,112 +114,112 @@ endif;
 					<div class="controls">
 						<?php echo $this->form->getInput('image_intro_caption', 'images'); ?>
 					</div>
+				</div>
+				<div class="control-group">
+					<div class="control-label">
+						<?php echo $this->form->getLabel('float_intro', 'images'); ?>
 					</div>
-					<div class="control-group">
-						<div class="control-label">
-							<?php echo $this->form->getLabel('float_intro', 'images'); ?>
-						</div>
-						<div class="controls">
-							<?php echo $this->form->getInput('float_intro', 'images'); ?>
-						</div>
+					<div class="controls">
+						<?php echo $this->form->getInput('float_intro', 'images'); ?>
 					</div>
-					<div class="control-group">
-						<div class="control-label">
-							<?php echo $this->form->getLabel('image_fulltext', 'images'); ?>
-						</div>
-						<div class="controls">
-							<?php echo $this->form->getInput('image_fulltext', 'images'); ?>
-						</div>
+				</div>
+				<div class="control-group">
+					<div class="control-label">
+						<?php echo $this->form->getLabel('image_fulltext', 'images'); ?>
 					</div>
-					<div class="control-group">
-						<div class="control-label">
-							<?php echo $this->form->getLabel('image_fulltext_alt', 'images'); ?>
-						</div>
-						<div class="controls">
-							<?php echo $this->form->getInput('image_fulltext_alt', 'images'); ?>
-						</div>
+					<div class="controls">
+						<?php echo $this->form->getInput('image_fulltext', 'images'); ?>
 					</div>
-					<div class="control-group">
-						<div class="control-label">
-							<?php echo $this->form->getLabel('image_fulltext_caption', 'images'); ?>
-						</div>
-						<div class="controls">
-							<?php echo $this->form->getInput('image_fulltext_caption', 'images'); ?>
-						</div>
+				</div>
+				<div class="control-group">
+					<div class="control-label">
+						<?php echo $this->form->getLabel('image_fulltext_alt', 'images'); ?>
 					</div>
-					<div class="control-group">
-						<div class="control-label">
-							<?php echo $this->form->getLabel('float_fulltext', 'images'); ?>
-						</div>
-						<div class="controls">
-							<?php echo $this->form->getInput('float_fulltext', 'images'); ?>
-						</div>
+					<div class="controls">
+						<?php echo $this->form->getInput('image_fulltext_alt', 'images'); ?>
 					</div>
-					<div class="control-group">
-						<div class="control-label">
-							<?php echo $this->form->getLabel('urla', 'urls'); ?>
-						</div>
-						<div class="controls">
-							<?php echo $this->form->getInput('urla', 'urls'); ?>
-						</div>
+				</div>
+				<div class="control-group">
+					<div class="control-label">
+						<?php echo $this->form->getLabel('image_fulltext_caption', 'images'); ?>
 					</div>
-					<div class="control-group">
-						<div class="control-label">
-							<?php echo $this->form->getLabel('urlatext', 'urls'); ?>
-						</div>
-						<div class="controls">
-							<?php echo $this->form->getInput('urlatext', 'urls'); ?>
-						</div>
+					<div class="controls">
+						<?php echo $this->form->getInput('image_fulltext_caption', 'images'); ?>
 					</div>
-					<div class="control-group">
-						<div class="controls">
-							<?php echo $this->form->getInput('targeta', 'urls'); ?>
-						</div>
+				</div>
+				<div class="control-group">
+					<div class="control-label">
+						<?php echo $this->form->getLabel('float_fulltext', 'images'); ?>
 					</div>
-					<div class="control-group">
-						<div class="control-label">
-							<?php echo $this->form->getLabel('urlb', 'urls'); ?>
-						</div>
-						<div class="controls">
-							<?php echo $this->form->getInput('urlb', 'urls'); ?>
-						</div>
+					<div class="controls">
+						<?php echo $this->form->getInput('float_fulltext', 'images'); ?>
 					</div>
-					<div class="control-group">
-						<div class="control-label">
-							<?php echo $this->form->getLabel('urlbtext', 'urls'); ?>
-						</div>
-						<div class="controls">
-							<?php echo $this->form->getInput('urlbtext', 'urls'); ?>
-						</div>
+				</div>
+				<div class="control-group">
+					<div class="control-label">
+						<?php echo $this->form->getLabel('urla', 'urls'); ?>
 					</div>
-					<div class="control-group">
-						<div class="controls">
-							<?php echo $this->form->getInput('targetb', 'urls'); ?>
-						</div>
+					<div class="controls">
+						<?php echo $this->form->getInput('urla', 'urls'); ?>
 					</div>
-					<div class="control-group">
-						<div class="control-label">
-							<?php echo $this->form->getLabel('urlc', 'urls'); ?>
-						</div>
-						<div class="controls">
-							<?php echo $this->form->getInput('urlc', 'urls'); ?>
-						</div>
+				</div>
+				<div class="control-group">
+					<div class="control-label">
+						<?php echo $this->form->getLabel('urlatext', 'urls'); ?>
 					</div>
-					<div class="control-group">
-						<div class="control-label">
-							<?php echo $this->form->getLabel('urlctext', 'urls'); ?>
-						</div>
-						<div class="controls">
-							<?php echo $this->form->getInput('urlctext', 'urls'); ?>
-						</div>
+					<div class="controls">
+						<?php echo $this->form->getInput('urlatext', 'urls'); ?>
 					</div>
-					<div class="control-group">
-						<div class="controls">
-							<?php echo $this->form->getInput('targetc', 'urls'); ?>
-						</div>
+				</div>
+				<div class="control-group">
+					<div class="controls">
+						<?php echo $this->form->getInput('targeta', 'urls'); ?>
 					</div>
-			<?php endif; ?>
+				</div>
+				<div class="control-group">
+					<div class="control-label">
+						<?php echo $this->form->getLabel('urlb', 'urls'); ?>
+					</div>
+					<div class="controls">
+						<?php echo $this->form->getInput('urlb', 'urls'); ?>
+					</div>
+				</div>
+				<div class="control-group">
+					<div class="control-label">
+						<?php echo $this->form->getLabel('urlbtext', 'urls'); ?>
+					</div>
+					<div class="controls">
+						<?php echo $this->form->getInput('urlbtext', 'urls'); ?>
+					</div>
+				</div>
+				<div class="control-group">
+					<div class="controls">
+						<?php echo $this->form->getInput('targetb', 'urls'); ?>
+					</div>
+				</div>
+				<div class="control-group">
+					<div class="control-label">
+						<?php echo $this->form->getLabel('urlc', 'urls'); ?>
+					</div>
+					<div class="controls">
+						<?php echo $this->form->getInput('urlc', 'urls'); ?>
+					</div>
+				</div>
+				<div class="control-group">
+					<div class="control-label">
+						<?php echo $this->form->getLabel('urlctext', 'urls'); ?>
+					</div>
+					<div class="controls">
+						<?php echo $this->form->getInput('urlctext', 'urls'); ?>
+					</div>
+				</div>
+				<div class="control-group">
+					<div class="controls">
+						<?php echo $this->form->getInput('targetc', 'urls'); ?>
+					</div>
+				</div>
 			</div>
+			<?php endif; ?>
 			<div class="tab-pane" id="publishing">
 				<div class="control-group">
 					<div class="control-label">
