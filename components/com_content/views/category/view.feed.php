@@ -51,7 +51,7 @@ class ContentViewCategory extends JViewLegacy
 			// Get description, author and date
 			$description = ($params->get('feed_summary', 0) ? $row->introtext.$row->fulltext : $row->introtext);
 			$author = $row->created_by_alias ? $row->created_by_alias : $row->author;
-			@$date = ($row->created ? date('r', strtotime($row->created)) : '');
+			@$date = ($row->publish_up ? date('r', strtotime($row->publish_up)) : '');
 
 			// Load individual item creator class
 			$item 				= new JFeedItem();
