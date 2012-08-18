@@ -35,7 +35,6 @@ class JFormFieldUser extends JFormField
 	 */
 	protected function getInput()
 	{
-		// Initialize variables.
 		$html = array();
 		$groups = $this->getGroups();
 		$excluded = $this->getExcluded();

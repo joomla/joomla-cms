@@ -46,7 +46,6 @@ class CategoriesControllerCategories extends JControllerAdmin
 		$extension = $this->input->get('extension');
 		$this->setRedirect(JRoute::_('index.php?option=com_categories&view=categories&extension='.$extension, false));
 
-		// Initialise variables.
 		$model = $this->getModel();
 
 		if ($model->rebuild()) {

@@ -70,7 +70,6 @@ class UsersControllerUsers extends JControllerAdmin
 		// Check for request forgeries.
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		// Initialise variables.
 		$ids	= JRequest::getVar('cid', array(), '', 'array');
 		$values	= array('block' => 1, 'unblock' => 0);
 		$task	= $this->getTask();
@@ -118,7 +117,6 @@ class UsersControllerUsers extends JControllerAdmin
 		// Check for request forgeries.
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		// Initialise variables.
 		$ids	= JRequest::getVar('cid', array(), '', 'array');
 
 		if (empty($ids))

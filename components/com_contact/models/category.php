@@ -190,7 +190,6 @@ class ContactModelCategory extends JModelList
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
-		// Initialise variables.
 		$app	= JFactory::getApplication();
 		$params	= JComponentHelper::getParams('com_contact');
 		$db		= $this->getDbo();

@@ -166,7 +166,6 @@ class ContactModelFeatured extends JModelList
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
-		// Initialise variables.
 		$app	= JFactory::getApplication();
 		$params	= JComponentHelper::getParams('com_contact');
 

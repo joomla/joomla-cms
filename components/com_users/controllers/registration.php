@@ -106,7 +106,6 @@ class UsersControllerRegistration extends UsersController
 			return false;
 		}
 
-		// Initialise variables.
 		$app	= JFactory::getApplication();
 		$model	= $this->getModel('Registration', 'UsersModel');
 

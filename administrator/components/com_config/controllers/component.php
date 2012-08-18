@@ -60,7 +60,6 @@ class ConfigControllerComponent extends JControllerLegacy
 		// Set FTP credentials, if given.
 		JClientHelper::setCredentialsFromRequest('ftp');
 
-		// Initialise variables.
 		$app    = JFactory::getApplication();
 		$model  = $this->getModel('Component');
 		$form   = $model->getForm();

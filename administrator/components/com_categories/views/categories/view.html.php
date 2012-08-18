@@ -70,12 +70,12 @@ class CategoriesViewCategories extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		// Initialise variables.
 		$categoryId	= $this->state->get('filter.category_id');
 		$component	= $this->state->get('filter.component');
 		$section	= $this->state->get('filter.section');
 		$canDo		= null;
 		$user		= JFactory::getUser();
+
 		// Get the toolbar object instance
 		$bar = JToolBar::getInstance('toolbar');
 

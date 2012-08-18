@@ -228,7 +228,6 @@ class MediaControllerFile extends JControllerLegacy
 		JPluginHelper::importPlugin('content');
 		$dispatcher	= JEventDispatcher::getInstance();
 
-		// Initialise variables.
 		$ret = true;
 		foreach ($paths as $path)
 		{

@@ -603,7 +603,6 @@ class MenusModelItem extends JModelAdmin
 	 */
 	public function getItem($pk = null)
 	{
-		// Initialise variables.
 		$pk = (!empty($pk)) ? $pk : (int) $this->getState('item.id');
 
 		// Get a level row instance.
@@ -867,8 +866,6 @@ class MenusModelItem extends JModelAdmin
 	 */
 	protected function preprocessForm(JForm $form, $data, $group = 'content')
 	{
-
-		// Initialise variables.
 		$link = $this->getState('item.link');
 		$type = $this->getState('item.type');
 		$formFile = false;
@@ -1108,7 +1105,6 @@ class MenusModelItem extends JModelAdmin
 	 */
 	public function save($data)
 	{
-		// Initialise variables.
 		$pk    = (!empty($data['id'])) ? $data['id'] : (int) $this->getState('item.id');
 		$isNew = true;
 		$db    = $this->getDbo();
@@ -1317,7 +1313,6 @@ class MenusModelItem extends JModelAdmin
 	 */
 	public function setHome(&$pks, $value = 1)
 	{
-		// Initialise variables.
 		$table		= $this->getTable();
 		$pks		= (array) $pks;
 		$user		= JFactory::getUser();
@@ -1387,7 +1382,6 @@ class MenusModelItem extends JModelAdmin
 	 */
 	public function publish(&$pks, $value = 1)
 	{
-		// Initialise variables.
 		$table		= $this->getTable();
 		$pks		= (array) $pks;
 

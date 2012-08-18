@@ -37,7 +37,6 @@ class JToolbarButtonSeparator extends JToolbarButton
 	 */
 	public function render(&$definition)
 	{
-		// Initialise variables.
 		$class = null;
 		$style = null;
 

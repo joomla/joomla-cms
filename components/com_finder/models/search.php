@@ -1091,7 +1091,6 @@ class FinderModelSearch extends JModelList
 			FinderIndexerHelper::$stemmer = FinderIndexerStemmer::getInstance($params->get('stemmer', 'porter_en'));
 		}
 
-		// Initialize variables.
 		$request = $input->request;
 		$options = array();
 

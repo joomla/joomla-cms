@@ -36,7 +36,6 @@ class JFormFieldMenuParent extends JFormFieldList
 	 */
 	protected function getOptions()
 	{
-		// Initialize variables.
 		$options = array();
 
 		$db = JFactory::getDbo();

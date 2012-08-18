@@ -37,7 +37,6 @@ class JFormFieldTos extends JFormFieldRadio
 	 */
 	protected function getLabel()
 	{
-		// Initialise variables.
 		$label = '';
 
 		if ($this->hidden)

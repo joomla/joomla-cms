@@ -76,7 +76,6 @@ class JHtmlIcon
 	 */
 	public static function edit($article, $params, $attribs = array())
 	{
-		// Initialise variables.
 		$user	= JFactory::getUser();
 		$userId	= $user->get('id');
 		$uri	= JURI::getInstance();

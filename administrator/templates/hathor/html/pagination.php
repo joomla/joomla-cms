@@ -64,7 +64,6 @@ defined('_JEXEC') or die;
 
 function pagination_list_footer($list)
 {
-	// Initialize variables
 	$lang = JFactory::getLanguage();
 
 	/**
@@ -92,7 +91,6 @@ function pagination_list_footer($list)
 
 function pagination_list_render($list)
 {
-	// Initialize variables
 	$lang = JFactory::getLanguage();
 	$html = null;
 

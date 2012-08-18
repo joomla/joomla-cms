@@ -24,7 +24,6 @@ class BannersViewDownload extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		// Initialise variables.
 		$this->form	= $this->get('Form');
 
 		// Check for errors.

@@ -37,7 +37,6 @@ class JFormFieldSample extends JFormFieldRadio
 	 */
 	protected function getOptions()
 	{
-		// Initialize variables.
 		$lang = JFactory::getLanguage();
 		$options = array();
 		$type = $this->form->getValue('db_type');

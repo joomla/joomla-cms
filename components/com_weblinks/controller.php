@@ -29,7 +29,6 @@ class WeblinksController extends JControllerLegacy
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{
-		// Initialise variables.
 		$cachable	= true;	// Huh? Why not just put that in the constructor?
 		$user		= JFactory::getUser();
 

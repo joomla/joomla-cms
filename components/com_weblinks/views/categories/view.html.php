@@ -31,7 +31,6 @@ class WeblinksViewCategories extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		// Initialise variables
 		$state		= $this->get('State');
 		$items		= $this->get('Items');
 		$parent		= $this->get('Parent');

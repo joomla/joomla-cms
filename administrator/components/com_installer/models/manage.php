@@ -52,7 +52,6 @@ class InstallerModelManage extends InstallerModel
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
-		// Initialise variables.
 		$app = JFactory::getApplication();
 		$filters = JRequest::getVar('filters');
 		if (empty($filters)) {
@@ -85,7 +84,6 @@ class InstallerModelManage extends InstallerModel
 	 */
 	public function publish(&$eid = array(), $value = 1)
 	{
-		// Initialise variables.
 		$user = JFactory::getUser();
 		if ($user->authorise('core.edit.state', 'com_installer')) {
 			$result = true;
@@ -172,11 +170,9 @@ class InstallerModelManage extends InstallerModel
 	 */
 	public function remove($eid = array())
 	{
-		// Initialise variables.
 		$user = JFactory::getUser();
 		if ($user->authorise('core.delete', 'com_installer')) {
 
-			// Initialise variables.
 			$failed = array();
 
 			/*

@@ -34,7 +34,6 @@ class FinderViewIndex extends JViewLegacy
 		// Load plug-in language files.
 		FinderHelperLanguage::loadPluginLanguage();
 
-		// Initialise variables
 		$this->items		= $this->get('Items');
 		$this->total		= $this->get('Total');
 		$this->pagination	= $this->get('Pagination');

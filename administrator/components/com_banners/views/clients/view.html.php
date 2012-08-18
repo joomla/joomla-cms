@@ -29,7 +29,6 @@ class BannersViewClients extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		// Initialise variables.
 		$this->items		= $this->get('Items');
 		$this->pagination	= $this->get('Pagination');
 		$this->state		= $this->get('State');

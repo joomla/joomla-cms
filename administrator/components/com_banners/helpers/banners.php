@@ -179,7 +179,6 @@ class BannersHelper
 
 	public static function getClientOptions()
 	{
-		// Initialize variables.
 		$options = array();
 
 		$db		= JFactory::getDbo();

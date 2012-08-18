@@ -41,7 +41,6 @@ class modMenuHelper
 		$cache = JFactory::getCache('mod_menu', '');
 		if (!($items = $cache->get($key)))
 		{
-			// Initialise variables.
 			$list		= array();
 			$db			= JFactory::getDbo();
 

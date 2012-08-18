@@ -60,9 +60,8 @@ class LanguagesModelLanguage extends JModelAdmin
 	 */
 	public function getItem($langId = null)
 	{
-		// Initialise variables.
 		$langId	= (!empty($langId)) ? $langId : (int) $this->getState('language.id');
-		$false		= false;
+		$false  = false;
 
 		// Get a member row instance.
 		$table = $this->getTable();

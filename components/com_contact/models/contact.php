@@ -100,7 +100,6 @@ class ContactModelContact extends JModelForm
 	 */
 	public function &getItem($pk = null)
 	{
-		// Initialise variables.
 		$pk = (!empty($pk)) ? $pk : (int) $this->getState('contact.id');
 
 		if ($this->_item === null) {

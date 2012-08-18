@@ -66,7 +66,6 @@ class NewsfeedsModelNewsfeed extends JModelItem
 	 */
 	public function &getItem($pk = null)
 	{
-		// Initialise variables.
 		$pk = (!empty($pk)) ? $pk : (int) $this->getState('newsfeed.id');
 
 		if ($this->_item === null) {

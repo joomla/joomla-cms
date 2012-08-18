@@ -26,7 +26,6 @@ class TemplatesControllerStyles extends JControllerAdmin
 		// Check for request forgeries
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		// Initialise variables.
 		$pks = JRequest::getVar('cid', array(), 'post', 'array');
 
 		try
@@ -70,7 +69,6 @@ class TemplatesControllerStyles extends JControllerAdmin
 		// Check for request forgeries
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		// Initialise variables.
 		$pks = JRequest::getVar('cid', array(), 'post', 'array');
 
 		try
@@ -105,7 +103,6 @@ class TemplatesControllerStyles extends JControllerAdmin
 		// Check for request forgeries
 		JSession::checkToken('request') or jexit(JText::_('JINVALID_TOKEN'));
 
-		// Initialise variables.
 		$pks = JRequest::getVar('cid', array(), 'get', 'array');
 		JArrayHelper::toInteger($pks);
 

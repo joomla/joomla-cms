@@ -284,7 +284,6 @@ abstract class JHtmlBootstrap
 	 */
 	protected static function _getJSObject($array = array())
 	{
-		// Initialise variables.
 		$object = '{';
 
 		// Iterate over array to build objects

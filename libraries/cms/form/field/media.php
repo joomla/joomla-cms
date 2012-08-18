@@ -106,7 +106,6 @@ class JFormFieldMedia extends JFormField
 			self::$initialised = true;
 		}
 
-		// Initialize variables.
 		$html = array();
 		$attr = '';
 

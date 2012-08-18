@@ -568,7 +568,6 @@ class InstallationModelDatabase extends JModelLegacy
 	 */
 	public function backupDatabase($db, $name, $prefix)
 	{
-		// Initialise variables.
 		$return = true;
 		$backup = 'bak_' . $prefix;
 
@@ -656,7 +655,6 @@ class InstallationModelDatabase extends JModelLegacy
 	 */
 	public function deleteDatabase($db, $name, $prefix)
 	{
-		// Initialise variables.
 		$return = true;
 
 		// Get the tables in the database.
@@ -697,7 +695,6 @@ class InstallationModelDatabase extends JModelLegacy
 	 */
 	public function populateDatabase($db, $schema)
 	{
-		// Initialise variables.
 		$return = true;
 
 		// Get the contents of the schema file.
