@@ -73,25 +73,23 @@ endif;
 		<div class="tab-content">
 			<div class="tab-pane active" id="editor">
 				<div class="control-group">
-							<div class="controls">
-								<?php echo $this->form->getInput('title'); ?>
-							</div>
-						</div>
+					<div class="controls">
+						<?php echo $this->form->getInput('title'); ?>
+					</div>
+				</div>
 
-						<?php if (is_null($this->item->id)):?>
-							<div class="control-group">
-								<div class="control-label">
-									<?php echo $this->form->getLabel('alias'); ?>
-								</div>
-								<div class="controls">
-									<?php echo $this->form->getInput('alias'); ?>
-								</div>
-							</div>
-						<?php endif; ?>
+				<?php if (is_null($this->item->id)): ?>
+				<div class="control-group">
+					<div class="control-label">
+						<?php echo $this->form->getLabel('alias'); ?>
+					</div>
+					<div class="controls">
+						<?php echo $this->form->getInput('alias'); ?>
+					</div>
+				</div>
+				<?php endif; ?>
 
-
-
-							<?php echo $this->form->getInput('articletext'); ?>
+			<?php echo $this->form->getInput('articletext'); ?>
 			</div>
 			<?php if ($params->get('show_urls_images_frontend')  ): ?>
 			<div class="tab-pane" id="images">
@@ -109,13 +107,13 @@ endif;
 							<?php echo $this->form->getInput('image_intro_alt', 'images'); ?>
 						</div>
 					</div>
-					<div class="control-group">
-						<div class="control-label">
-							<?php echo $this->form->getLabel('image_intro_caption', 'images'); ?>
-						</div>
-						<div class="controls">
-							<?php echo $this->form->getInput('image_intro_caption', 'images'); ?>
-						</div>
+				<div class="control-group">
+					<div class="control-label">
+						<?php echo $this->form->getLabel('image_intro_caption', 'images'); ?>
+					</div>
+					<div class="controls">
+						<?php echo $this->form->getInput('image_intro_caption', 'images'); ?>
+					</div>
 					</div>
 					<div class="control-group">
 						<div class="control-label">
@@ -221,6 +219,7 @@ endif;
 						</div>
 					</div>
 			<?php endif; ?>
+			</div>
 			<div class="tab-pane" id="publishing">
 				<div class="control-group">
 					<div class="control-label">
