@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+18-Aug-2012 Jean-Marie Simonet
+ # [#28929] *Frontend editing tabs does not work. Thanks Peter.
+
 -------------------- 3.0 Alpha 2 Release [16-Aug-2012] ------------------
 
 16-Aug-2012 Mark Dexter
