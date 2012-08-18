@@ -503,19 +503,22 @@ class InstallationModelDatabase extends JModelLegacy
 
 		$data = JPATH_INSTALLATION . '/sql/' . $type . '/' . $options->sample_file;
 
-		// Attempt to import the database schema.
-		if (!file_exists($data))
+		// Attempt to import the database schema if one is chosen.
+		if ($options->sample_file != '')
 		{
-			$this->setError(JText::sprintf('INSTL_DATABASE_FILE_DOES_NOT_EXIST', $data));
-			return false;
-		}
-		elseif (!$this->populateDatabase($db, $data))
-		{
-			$this->setError(JText::sprintf('INSTL_ERROR_DB', $this->getError()));
-			return false;
-		}
+			if (!file_exists($data))
+			{
+				$this->setError(JText::sprintf('INSTL_DATABASE_FILE_DOES_NOT_EXIST', $data));
+				return false;
+			}
+			elseif (!$this->populateDatabase($db, $data))
+			{
+				$this->setError(JText::sprintf('INSTL_ERROR_DB', $this->getError()));
+				return false;
+			}
 
 		$this->postInstallSampleData($db);
+		}
 
 		return true;
 	}

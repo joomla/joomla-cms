@@ -27,10 +27,9 @@ $prev = $useftp ? 'ftp' : 'database';
 
 	<div class="control-group">
 		<div class="control-label">
-			<?php echo $this->form->getLabel('site_sampledata'); ?>
+			<?php echo $this->form->getLabel('sample_file'); ?>
 		</div>
 		<div class="controls">
-			<?php echo $this->form->getInput('site_sampledata'); ?>
 			<div class="help-block">
 				<?php echo $this->form->getInput('sample_file'); ?>
 			</div>
