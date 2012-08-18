@@ -84,7 +84,7 @@ class JDocumentRendererMessage extends JDocumentRenderer
 	/**
 	 * Render the system message if no message template file found
 	 *
-	 * @param   array   $msgList  An array contains system message
+	 * @param   array  $msgList  An array contains system message
 	 *
 	 * @return  string  System message markup
 	 *
