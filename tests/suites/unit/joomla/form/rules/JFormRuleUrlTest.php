@@ -33,8 +33,6 @@ class JFormRuleUrlTest extends TestCase
      */
 	public function testUrl($xmlfield, $url, $expected)
 	{
-		// Initialise variables.
-
 		$rule = new JFormRuleUrl;
 
 		// The field allows you to optionally limit the accepted schemes to a specific list.

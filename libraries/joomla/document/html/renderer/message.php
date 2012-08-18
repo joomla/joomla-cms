@@ -31,9 +31,9 @@ class JDocumentRendererMessage extends JDocumentRenderer
 	 */
 	public function render($name, $params = array (), $content = null)
 	{
-		$msgList 	= $this->getData();
-		$buffer 	= null;
-		$app 		= JFactory::getApplication();
+		$msgList = $this->getData();
+		$buffer = null;
+		$app = JFactory::getApplication();
 		$chromePath = JPATH_THEMES . '/' . $app->getTemplate() . '/html/message.php';
 		$itemOverride = false;
 
@@ -55,6 +55,8 @@ class JDocumentRendererMessage extends JDocumentRenderer
 	 * Get and prepare system message data for output
 	 *
 	 * @return  array  An array contains system message
+	 *
+	 * @since   12.2
 	 */
 	private function getData()
 	{
@@ -82,15 +84,17 @@ class JDocumentRendererMessage extends JDocumentRenderer
 	/**
 	 * Render the system message if no message template file found
 	 *
-	 * @param   array   An array contains system message
+	 * @param   array   $msgList  An array contains system message
 	 *
 	 * @return  string  System message markup
+	 *
+	 * @since   12.2
 	 */
 	private function renderDefaultMessage($msgList)
 	{
 		// Build the return string
-		$buffer 	= '';
-		$buffer    .= "\n<div id=\"system-message-container\">";
+		$buffer = '';
+		$buffer .= "\n<div id=\"system-message-container\">";
 
 		// If messages exist render them
 		if (is_array($msgList))

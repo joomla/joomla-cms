@@ -45,7 +45,6 @@ class JFormRuleRulesTest extends TestCase
 	public function testItemSectionRules()
 	{
 		$this->markTestSkipped('Skipped until coupling with application is fixed.');
-		// Initialise variables.
 		$rule = new JFormRuleRules;
 
 		// Get a field with the 'item' permission action group.
@@ -99,7 +98,6 @@ class JFormRuleRulesTest extends TestCase
 	{
 		$this->markTestSkipped('Skipped until coupling with application is fixed.');
 
-		// Initialise variables.
 		$rule = new JFormRuleRules;
 
 		// Get a field with the 'container' permission action group.
@@ -153,7 +151,6 @@ class JFormRuleRulesTest extends TestCase
 	{
 		$this->markTestSkipped('Skipped until coupling with application is fixed.');
 
-		// Initialise variables.
 		$rule = new JFormRuleRules;
 
 		// Get a field with the 'component' permission action group.
@@ -207,7 +204,6 @@ class JFormRuleRulesTest extends TestCase
 	{
 		$this->markTestSkipped('Skipped until coupling with application is fixed.');
 
-		// Initialise variables.
 		$rule = new JFormRuleRules;
 
 		// Get a field with the 'global' permission action group.
@@ -272,7 +268,6 @@ class JFormRuleRulesTest extends TestCase
 	 */
 	public function getFieldElement($type = 'item')
 	{
-		// Initialise variables.
 		$form = array();
 
 		switch ($type)

@@ -561,7 +561,6 @@ class JInstallerPlugin extends JAdapterInstance
 	{
 		$this->route = 'uninstall';
 
-		// Initialise variables.
 		$row = null;
 		$retval = true;
 		$db = $this->parent->getDbo();

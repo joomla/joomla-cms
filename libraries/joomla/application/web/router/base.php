@@ -128,7 +128,6 @@ class JApplicationWebRouterBase extends JApplicationWebRouter
 	 */
 	protected function parseRoute($route)
 	{
-		// Initialize variables.
 		$controller = false;
 
 		// Trim the query string off.
