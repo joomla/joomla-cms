@@ -3497,6 +3497,20 @@ separator=
 		<column>activation</column>
 		<column>params</column>
 		<row>
+			<value>0</value>
+			<value>Guest</value>
+			<value>guest</value>
+			<value>guest@example.com</value>
+			<value>7017fe127670faddb25f3a893a36229c:eCU2KtKahxQIMH5i3nwc05zVTBtZXbVV</value>
+			<value>deprecated</value>
+			<value>0</value>
+			<value>1</value>
+			<value>0000-00-00 00:00:00</value>
+			<value>0000-00-00 00:00:00</value>
+			<value></value>
+			<value></value>
+		</row>
+		<row>
 			<value>42</value>
 			<value>Super User</value>
 			<value>admin</value>

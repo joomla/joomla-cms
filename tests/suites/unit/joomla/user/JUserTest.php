@@ -437,6 +437,11 @@ class JUserTest extends TestCaseDatabase
 				42,
 				true,
 				false
+			),
+			'existing-but-guest' => array(
+				0,
+				true,
+				true
 			)
 		);
 	}

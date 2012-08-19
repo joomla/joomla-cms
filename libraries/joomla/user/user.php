@@ -814,9 +814,6 @@ class JUser extends JObject
 		if (!$table->load($id))
 		{
 			// Reset to guest user
-			$this->id = 0;
-			$this->sendEmail = 0;
-			$this->aid = 0;
 			$this->guest = 1;
 
 			JLog::add(JText::sprintf('JLIB_USER_ERROR_UNABLE_TO_LOAD_USER', $id), JLog::WARNING, 'jerror');
@@ -835,7 +832,14 @@ class JUser extends JObject
 		$this->setProperties($table->getProperties());
 
 		// The user is no longer a guest
-		$this->guest = 0;
+		if ($this->id != 0)
+		{
+			$this->guest = 0;
+		}
+		else
+		{
+			$this->guest = 1;
+		}
 
 		return true;
 	}
