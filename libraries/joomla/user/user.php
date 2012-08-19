@@ -828,7 +828,7 @@ class JUser extends JObject
 
 		$this->_params->loadString($table->params);
 
-		// Assuming all is well at this point lets bind the data
+		// Assuming all is well at this point let's bind the data
 		$this->setProperties($table->getProperties());
 
 		// The user is no longer a guest
