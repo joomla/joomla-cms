@@ -3,15 +3,8 @@
 }
 
 #finder-progress-container {
-	margin: 0 auto;
-	text-align: center;
 	width: 350px;
-}
-
-#finder-progress-status {
-	font-size: 14px;
-	font-weight: bold;
-	padding: 3px 0 0 10px;
+	margin: 0 auto;
 }
 
 h1.finder-error {
