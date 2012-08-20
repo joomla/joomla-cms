@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+20-Aug-2012 Rouven Weßling
+ + Add setup for unit testing. Thanks Michael.
+
 20-Aug-2012 Jean-Marie Simonet
  # [#28943] *Allowing to disable admin menu bar collapse (Isis)
 
