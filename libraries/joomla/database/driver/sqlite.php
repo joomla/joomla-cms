@@ -39,19 +39,6 @@ class JDatabaseDriverSqlite extends JDatabaseDriverPdo
 	protected $nameQuote = '`';
 
 	/**
-	 * Constructor.
-	 *
-	 * @param   array  $options  List of options used to configure the connection
-	 *
-	 * @since   12.1
-	 */
-	public function __construct($options)
-	{
-		// Finalize initialisation
-		parent::__construct($options);
-	}
-
-	/**
 	 * Destructor.
 	 *
 	 * @since   12.1
@@ -391,6 +378,6 @@ class JDatabaseDriverSqlite extends JDatabaseDriverPdo
 	 */
 	public static function isSupported()
 	{
-		return in_array('sqlite', PDO::getAvailableDrivers());
+		return class_exists('PDO') && in_array('sqlite', PDO::getAvailableDrivers());
 	}
 }
