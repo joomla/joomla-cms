@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM.'/joomla/html/html/grid.php';
+require_once JPATH_PLATFORM.'/joomla/html/grid.php';
 
 /**
  * Test class for JHtmlGrid.
