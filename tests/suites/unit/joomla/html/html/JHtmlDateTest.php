@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM.'/joomla/html/html/date.php';
+require_once JPATH_PLATFORM.'/joomla/html/date.php';
 
 /**
  * Test class for JHtmlDate.

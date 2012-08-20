@@ -180,7 +180,6 @@ class JDatabaseImporterMysql extends JDatabaseImporter
 	 */
 	protected function getAlterTableSQL(SimpleXMLElement $structure)
 	{
-		// Initialise variables.
 		$table = $this->getRealTableName($structure['name']);
 		$oldFields = $this->db->getTableColumns($table);
 		$oldKeys = $this->db->getTableKeys($table);
@@ -348,7 +347,6 @@ class JDatabaseImporterMysql extends JDatabaseImporter
 	 */
 	protected function getColumnSQL(SimpleXMLElement $field)
 	{
-		// Initialise variables.
 		// TODO Incorporate into parent class and use $this.
 		$blobs = array('text', 'smalltext', 'mediumtext', 'largetext');
 
@@ -556,7 +554,6 @@ class JDatabaseImporterMysql extends JDatabaseImporter
 	 */
 	protected function mergeStructure()
 	{
-		// Initialise variables.
 		$prefix = $this->db->getPrefix();
 		$tables = $this->db->getTableList();
 

@@ -35,7 +35,6 @@ class JRegistryFormatINI extends JRegistryFormat
 	 */
 	public function objectToString($object, $options = array())
 	{
-		// Initialize variables.
 		$local = array();
 		$global = array();
 
@@ -92,7 +91,6 @@ class JRegistryFormatINI extends JRegistryFormat
 			return new stdClass;
 		}
 
-		// Initialize variables.
 		$obj = new stdClass;
 		$section = false;
 		$lines = explode("\n", $data);
@@ -208,7 +206,6 @@ class JRegistryFormatINI extends JRegistryFormat
 	 */
 	protected function getValueAsINI($value)
 	{
-		// Initialize variables.
 		$string = '';
 
 		switch (gettype($value))

@@ -39,7 +39,6 @@ class JFormRuleEquals extends JFormRule
 	 */
 	public function test(SimpleXMLElement $element, $value, $group = null, JRegistry $input = null, JForm $form = null)
 	{
-		// Initialize variables.
 		$field = (string) $element['field'];
 
 		// Check that a validation field is set.

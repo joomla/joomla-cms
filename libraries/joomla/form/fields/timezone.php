@@ -47,7 +47,6 @@ class JFormFieldTimezone extends JFormFieldGroupedList
 	 */
 	protected function getGroups()
 	{
-		// Initialize variables.
 		$groups = array();
 
 		$keyField = $this->element['key_field'] ? (string) $this->element['key_field'] : 'id';

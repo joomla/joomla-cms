@@ -27,10 +27,9 @@ class JDatabaseFactory
 	private static $_instance = null;
 
 	/**
-	 * Method to return a JDatabaseDriver instance based on the given options.  There are three global options and then
-	 * the rest are specific to the database driver.  The 'driver' option defines which JDatabaseDriver class is
-	 * used for the connection -- the default is 'mysql'.  The 'database' option determines which database is to
-	 * be used for the connection.  The 'select' option determines whether the connector should automatically select
+	 * Method to return a JDatabaseDriver instance based on the given options. There are three global options and then
+	 * the rest are specific to the database driver. The 'database' option determines which database is to
+	 * be used for the connection. The 'select' option determines whether the connector should automatically select
 	 * the chosen database.
 	 *
 	 * Instances are unique to the given options and new objects are only created when a unique options array is
@@ -43,12 +42,12 @@ class JDatabaseFactory
 	 *
 	 * @since   12.1
 	 */
-	public function getDriver($name = 'mysql', $options = array())
+	public function getDriver($name = 'mysqli', $options = array())
 	{
 		// Sanitize the database connector options.
-		$options['driver'] = preg_replace('/[^A-Z0-9_\.-]/i', '', $name);
+		$options['driver']   = preg_replace('/[^A-Z0-9_\.-]/i', '', $name);
 		$options['database'] = (isset($options['database'])) ? $options['database'] : null;
-		$options['select'] = (isset($options['select'])) ? $options['select'] : true;
+		$options['select']   = (isset($options['select'])) ? $options['select'] : true;
 
 		// Derive the class name from the driver.
 		$class = 'JDatabaseDriver' . ucfirst(strtolower($options['driver']));

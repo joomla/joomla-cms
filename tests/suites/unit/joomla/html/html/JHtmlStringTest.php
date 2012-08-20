@@ -6,7 +6,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-require_once JPATH_PLATFORM . '/joomla/html/html/string.php';
+require_once JPATH_PLATFORM . '/joomla/html/string.php';
 
 /**
  * Tests for JDate class.

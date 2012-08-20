@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM.'/joomla/html/html/access.php';
+require_once JPATH_PLATFORM.'/joomla/html/access.php';
 
 /**
  * Test class for JHtmlAccess.

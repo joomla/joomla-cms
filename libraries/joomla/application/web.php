@@ -840,7 +840,6 @@ class JApplicationWeb extends JApplicationBase
 	 */
 	protected function detectRequestUri()
 	{
-		// Initialise variables.
 		$uri = '';
 
 		// First we need to detect the URI scheme.

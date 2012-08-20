@@ -310,7 +310,6 @@ class JInstaller extends JAdapter
 	 */
 	public function abort($msg = null, $type = null)
 	{
-		// Initialise variables.
 		$retval = true;
 		$step = array_pop($this->stepStack);
 
@@ -864,7 +863,6 @@ class JInstaller extends JAdapter
 			return 0;
 		}
 
-		// Initialise variables.
 		$queries = array();
 		$db = & $this->_db;
 		$dbDriver = strtolower($db->name);
@@ -1157,7 +1155,6 @@ class JInstaller extends JAdapter
 			return 0;
 		}
 
-		// Initialise variables.
 		$copyfiles = array();
 
 		// Get the client info
@@ -1283,7 +1280,6 @@ class JInstaller extends JAdapter
 			return 0;
 		}
 
-		// Initialise variables.
 		$copyfiles = array();
 
 		// Get the client info
@@ -1399,7 +1395,6 @@ class JInstaller extends JAdapter
 			return 0;
 		}
 
-		// Initialise variables.
 		$copyfiles = array();
 
 		// Get the client info
@@ -1646,7 +1641,6 @@ class JInstaller extends JAdapter
 			return true;
 		}
 
-		// Initialise variables.
 		$removefiles = array();
 		$retval = true;
 

@@ -28,7 +28,7 @@ defined('JPATH_PLATFORM') or die;
  * @see         http://php.net/manual/en/transports.php Socket Transports (used by some options, particularly HTTP proxy)
  * @since       11.1
  */
-class JStream extends JObject
+class JStream
 {
 	// Publicly settable vars (protected to let our parent read them)
 	/**

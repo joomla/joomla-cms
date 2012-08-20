@@ -143,7 +143,6 @@ class JControllerForm extends JControllerLegacy
 	 */
 	public function add()
 	{
-		// Initialise variables.
 		$app = JFactory::getApplication();
 		$context = "$this->option.edit.$this->context";
 
@@ -226,7 +225,6 @@ class JControllerForm extends JControllerLegacy
 	 */
 	protected function allowSave($data, $key = 'id')
 	{
-		// Initialise variables.
 		$recordId = isset($data[$key]) ? $data[$key] : '0';
 
 		if ($recordId)
@@ -250,9 +248,8 @@ class JControllerForm extends JControllerLegacy
 	 */
 	public function batch($model)
 	{
-		// Initialise variables.
-		$vars	= $this->input->post->get('batch', array(), 'array');
-		$cid	= $this->input->post->get('cid', array(), 'array');
+		$vars = $this->input->post->get('batch', array(), 'array');
+		$cid  = $this->input->post->get('cid', array(), 'array');
 
 		// Build an array of item contexts to check
 		$contexts = array();
@@ -297,7 +294,6 @@ class JControllerForm extends JControllerLegacy
 	{
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		// Initialise variables.
 		$app = JFactory::getApplication();
 		$model = $this->getModel();
 		$table = $model->getTable();
@@ -378,11 +374,10 @@ class JControllerForm extends JControllerLegacy
 	 */
 	public function edit($key = null, $urlVar = null)
 	{
-		// Initialise variables.
 		$app   = JFactory::getApplication();
 		$model = $this->getModel();
 		$table = $model->getTable();
-		$cid = $this->input->post->get('cid', array(), 'array');
+		$cid   = $this->input->post->get('cid', array(), 'array');
 		$context = "$this->option.edit.$this->context";
 
 		// Determine the name of the primary key for the data.
@@ -557,7 +552,6 @@ class JControllerForm extends JControllerLegacy
 		// Check for request forgeries.
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		// Initialise variables.
 		$app   = JFactory::getApplication();
 		$lang  = JFactory::getLanguage();
 		$model = $this->getModel();

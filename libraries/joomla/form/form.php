@@ -201,7 +201,6 @@ class JForm
 			return false;
 		}
 
-		// Initialise variables.
 		$input = new JRegistry($data);
 		$output = new JRegistry;
 
@@ -216,7 +215,6 @@ class JForm
 		// Filter the fields.
 		foreach ($fields as $field)
 		{
-			// Initialise variables.
 			$name = (string) $field['name'];
 
 			// Get the field groups for the element.
@@ -338,7 +336,6 @@ class JForm
 	 */
 	public function getFieldset($set = null)
 	{
-		// Initialise variables.
 		$fields = array();
 
 		// Get all of the field elements in the fieldset.
@@ -387,7 +384,6 @@ class JForm
 	 */
 	public function getFieldsets($group = null)
 	{
-		// Initialise variables.
 		$fieldsets = array();
 		$sets = array();
 
@@ -510,7 +506,6 @@ class JForm
 	 */
 	public function getGroup($group, $nested = false)
 	{
-		// Initialise variables.
 		$fields = array();
 
 		// Get all of the field elements in the field group.
@@ -1072,7 +1067,6 @@ class JForm
 			return false;
 		}
 
-		// Initialise variables.
 		$return = true;
 
 		// Create an input registry object from the data to validate.
@@ -1089,7 +1083,6 @@ class JForm
 		// Validate the fields.
 		foreach ($fields as $field)
 		{
-			// Initialise variables.
 			$value = null;
 			$name = (string) $field['name'];
 
@@ -1382,7 +1375,6 @@ class JForm
 	 */
 	protected function findField($name, $group = null)
 	{
-		// Initialise variables.
 		$element = false;
 		$fields = array();
 
@@ -1474,7 +1466,6 @@ class JForm
 	 */
 	protected function &findFieldsByFieldset($name)
 	{
-		// Initialise variables.
 		$false = false;
 
 		// Make sure there is a valid JForm XML document.
@@ -1508,7 +1499,6 @@ class JForm
 	 */
 	protected function &findFieldsByGroup($group = null, $nested = false)
 	{
-		// Initialise variables.
 		$false = false;
 		$fields = array();
 
@@ -1583,7 +1573,6 @@ class JForm
 	 */
 	protected function &findGroup($group)
 	{
-		// Initialise variables.
 		$false = false;
 		$groups = array();
 		$tmp = array();
@@ -1825,7 +1814,6 @@ class JForm
 	 */
 	protected function validateField(SimpleXMLElement $element, $group = null, $value = null, JRegistry $input = null)
 	{
-		// Initialise variables.
 		$valid = true;
 
 		// Check if the field is required.

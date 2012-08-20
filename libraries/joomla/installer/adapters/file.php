@@ -427,7 +427,6 @@ class JInstallerFile extends JAdapterInstance
 	 */
 	public function uninstall($id)
 	{
-		// Initialise variables.
 		$row = JTable::getInstance('extension');
 		if (!$row->load($id))
 		{

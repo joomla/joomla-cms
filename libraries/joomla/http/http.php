@@ -302,4 +302,36 @@ class JHttp
 		return $this->transport->request('TRACE', new JUri($url), null, $headers, $timeout, $this->options->get('userAgent', null));
 	}
 
+	/**
+	 * Method to send the PATCH command to the server.
+	 *
+	 * @param   string   $url      Path to the resource.
+	 * @param   mixed    $data     Either an associative array or a string to be sent with the request.
+	 * @param   array    $headers  An array of name-value pairs to include in the header of the request.
+	 * @param   integer  $timeout  Read timeout in seconds.
+	 *
+	 * @return  JHttpResponse
+	 *
+	 * @since   12.2
+	 */
+	public function patch($url, $data, array $headers = null, $timeout = null)
+	{
+		// Look for headers set in the options.
+		$temp = (array) $this->options->get('headers');
+		foreach ($temp as $key => $val)
+		{
+			if (!isset($headers[$key]))
+			{
+				$headers[$key] = $val;
+			}
+		}
+
+		// Look for timeout set in the options.
+		if ($timeout === null && $this->options->exists('timeout'))
+		{
+			$timeout = $this->options->get('timeout');
+		}
+
+		return $this->transport->request('PATCH', new JUri($url), $data, $headers, $timeout, $this->options->get('userAgent', null));
+	}
 }

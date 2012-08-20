@@ -131,7 +131,7 @@ class JHttpTransportCurl implements JHttpTransport
 		// Return it... echoing it would be tacky.
 		$options[CURLOPT_RETURNTRANSFER] = true;
 
-		// Override the Expect header to prevent cURL from confusing itself in it's own stupidity.
+		// Override the Expect header to prevent cURL from confusing itself in its own stupidity.
 		// Link: http://the-stickman.com/web-development/php-and-curl-disabling-100-continue-header/
 		$options[CURLOPT_HTTPHEADER][] = 'Expect:';
 
@@ -169,6 +169,12 @@ class JHttpTransportCurl implements JHttpTransport
 		// Create the response object.
 		$return = new JHttpResponse;
 
+		// Check if the content is actually a string.
+		if (!is_string($content))
+		{
+			throw new UnexpectedValueException('No HTTP response received.');
+		}
+
 		// Get the number of redirects that occurred.
 		$redirects = isset($info['redirect_count']) ? $info['redirect_count'] : 0;
 
@@ -187,7 +193,8 @@ class JHttpTransportCurl implements JHttpTransport
 
 		// Get the response code from the first offset of the response headers.
 		preg_match('/[0-9]{3}/', array_shift($headers), $matches);
-		$code = $matches[0];
+
+		$code = count($matches) ? $matches[0] : null;
 		if (is_numeric($code))
 		{
 			$return->code = (int) $code;

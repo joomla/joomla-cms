@@ -37,7 +37,6 @@ class JFormFieldGroupedList extends JFormField
 	 */
 	protected function getGroups()
 	{
-		// Initialize variables.
 		$groups = array();
 		$label = 0;
 
@@ -136,7 +135,6 @@ class JFormFieldGroupedList extends JFormField
 	 */
 	protected function getInput()
 	{
-		// Initialize variables.
 		$html = array();
 		$attr = '';
 

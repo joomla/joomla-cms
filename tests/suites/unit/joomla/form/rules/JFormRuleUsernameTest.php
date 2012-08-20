@@ -31,8 +31,6 @@ class JFormRuleUsernameTest extends TestCase
 	 */
 	public function testUsername()
 	{
-		// Initialise variables.
-
 		$rule = new JFormRuleUsername;
 		$xml = simplexml_load_string('<form><field name="foo" /></form>');
 
