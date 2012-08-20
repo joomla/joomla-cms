@@ -222,7 +222,7 @@ class JImage
 	 *
 	 * @since 12.2
 	 */
-	public function createThumbs($thumbSizes, $creationMethod = 2, $thumbsFolder = null)
+	public function createThumbs($thumbSizes, $creationMethod = self::SCALE_INSIDE, $thumbsFolder = null)
 	{
 		// Make sure the resource handle is valid.
 		if (!$this->isLoaded())
