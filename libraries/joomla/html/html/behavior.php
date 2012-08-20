@@ -24,6 +24,137 @@ abstract class JHtmlBehavior
 	protected static $loaded = array();
 
 	/**
+	 * @var   array   Array contains a list of all scripts and all the files that relate to it
+	 */
+	protected static $scripts = array();
+
+	/**
+	 * Method that initializes all known behaviors
+	 *
+	 * @return  void
+	 *
+	 * @since   11.4
+	 */
+	protected static function init()
+	{
+		// Only load once
+		if (!empty(self::$loaded[__METHOD__]))
+		{
+			return;
+		}
+
+		self::register('modal', array(
+			'script' => array('system/modal.js' => array()),
+			'stylesheet' => array('system/modal.css' => array(array(), true, false, true))
+			)
+		);
+
+		self::$loaded[__METHOD__] = true;
+
+		return;
+	}
+
+	/**
+	 * Registers new behaviors
+	 *
+	 * @param   string  $name      The name of the behavior
+	 * @param   array   $files     A multidimensional array where the key tells the types of files in the child array so that they can get added correctly via JHtml::script
+	 * @param   string  $override  Override paths to behavior if they exists
+	 *
+	 * @return  void
+	 *
+	 * @since   11.4
+	 */
+	public static function register($name, $files, $override = false)
+	{
+		if (isset(self::$scripts[$name]) && false === $override)
+		{
+			return;
+		}
+
+		self::$scripts[$name] = $files;
+
+		return self::$scripts;
+	}
+
+	/**
+	 * Method to load any javascript file into the document head
+	 *
+	 * If debugging mode is on an uncompressed version of the script is included
+	 *
+	 * @param   string   $script        JavaScript file to load
+	 * @param   mixed    $dependencies  An array of JavaScript files that the script depends on [optional]
+	 * @param   boolean  $debug         Is debugging mode on? [optional]
+	 *
+	 * @return  void
+	 *
+	 * @since   11.4
+	 */
+	public static function load($script, $dependencies = array(), $debug = null)
+	{
+		// Only load once
+		if (!empty(self::$loaded[__METHOD__][$script]))
+		{
+			return;
+		}
+
+		self::init();
+
+		// Make sure that script is registered
+		if (!isset(self::$scripts[$script]))
+		{
+			return;
+		}
+
+		// If no debugging value is set, use the configuration setting
+		if ($debug === null)
+		{
+			$debug = JFactory::getConfig()->get('debug');
+		}
+
+		// Add dependencies
+		foreach ((array) $dependencies as $_script)
+		{
+			self::load($_script, array(), $debug);
+		}
+
+		foreach (self::$scripts[$script] as $type => $_scripts)
+		{
+			foreach ($_scripts as $_file => $_args)
+			{
+				switch ($type)
+				{
+					case 'script':
+						// Merge $_args with default arguments
+						$args = array_merge(array(false, true, false, false, $debug), (array) $_args);
+						array_unshift($args, $type, $_file);
+						call_user_func_array('JHtml::_', $args);
+						break;
+
+					case 'stylesheet':
+						// Merge $_args with default arguments
+						$args = array_merge(array(array(), true, false, false, $debug), (array) $_args);
+						array_unshift($args, $type, $_file);
+						call_user_func_array('JHtml::_', $args);
+						break;
+
+					default:
+						break;
+				}
+			}
+		}
+
+		if ('jquery' == $script)
+		{
+			JFactory::getDocument()->addScriptDeclaration('jQuery.noConflict();');
+		}
+
+		self::$loaded[__METHOD__][$script] = true;
+
+		return;
+	}
+
+	/**
 	 * Method to load the MooTools framework into the document head
 	 *
 	 * If debugging mode is on an uncompressed version of MooTools is included for easier debugging.
@@ -287,8 +418,7 @@ abstract class JHtmlBehavior
 			self::framework(true);
 
 			// Load the javascript and css
-			JHtml::_('script', 'system/modal.js', true, true);
-			JHtml::_('stylesheet', 'system/modal.css', array(), true);
+			self::load('modal');
 		}
 
 		$sig = md5(serialize(array($selector, $params)));
