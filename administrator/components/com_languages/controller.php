@@ -37,9 +37,6 @@ class LanguagesController extends JControllerLegacy
 	{
 		require_once JPATH_COMPONENT.'/helpers/languages.php';
 
-		// Load the submenu.
-		LanguagesHelper::addSubmenu($this->input->get('view', 'installed'));
-
 		$view   = $this->input->get('view', 'languages');
 		$layout = $this->input->get('layout', 'default');
 		$client = $this->input->getInt('client');

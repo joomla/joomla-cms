@@ -53,26 +53,28 @@ class InstallerModelManage extends InstallerModel
 	protected function populateState($ordering = null, $direction = null)
 	{
 		$app = JFactory::getApplication();
-		$filters = JRequest::getVar('filters');
-		if (empty($filters)) {
-			$data = $app->getUserState($this->context.'.data');
-			$filters = $data['filters'];
-		}
-		else {
-			$app->setUserState($this->context . '.data', array('filters' => $filters));
-		}
+
+		// Load the filter state.
+		$search = $this->getUserStateFromRequest($this->context.'.filter.search', 'filter_search');
+		$this->setState('filter.search', $search);
+
+		$clientId = $this->getUserStateFromRequest($this->context.'.filter.client_id', 'filter_client_id', '');
+		$this->setState('filter.client_id', $clientId);
+
+		$status = $this->getUserStateFromRequest($this->context.'.filter.status', 'filter_status', '');
+		$this->setState('filter.status', $status);
+
+		$categoryId = $this->getUserStateFromRequest($this->context.'.filter.type', 'filter_type', '');
+		$this->setState('filter.type', $categoryId);
+
+		$group = $this->getUserStateFromRequest($this->context.'.filter.group', 'filter_group', '');
+		$this->setState('filter.group', $group);
 
 		$this->setState('message', $app->getUserState('com_installer.message'));
 		$this->setState('extension_message', $app->getUserState('com_installer.extension_message'));
 		$app->setUserState('com_installer.message', '');
 		$app->setUserState('com_installer.extension_message', '');
 
-		$search = $this->getUserStateFromRequest($this->context.'.filter.search', 'filter_search');
-		$this->setState('filter.search', $search);
-		$this->setState('filter.status', isset($filters['status']) ? $filters['status'] : '');
-		$this->setState('filter.type', isset($filters['type']) ? $filters['type'] : '');
-		$this->setState('filter.group', isset($filters['group']) ? $filters['group'] : '');
-		$this->setState('filter.client_id', isset($filters['client_id']) ? $filters['client_id'] : '');
 		parent::populateState('name', 'asc');
 	}
 
@@ -246,7 +248,7 @@ class InstallerModelManage extends InstallerModel
 	protected function getListQuery()
 	{
 		$status = $this->getState('filter.status');
-		$type = $this->getState('filter.type');
+		$type   = $this->getState('filter.type');
 		$client = $this->getState('filter.client_id');
 		$group = $this->getState('filter.group');
 		$query = JFactory::getDBO()->getQuery(true);
@@ -283,51 +285,5 @@ class InstallerModelManage extends InstallerModel
 		}
 
 		return $query;
-	}
-
-	/**
-	 * Method to get the row form.
-	 *
-	 * @param	array	$data		Data for the form.
-	 * @param	boolean	$loadData	True if the form is to load its own data (default case), false if not.
-	 * @return	mixed	A JForm object on success, false on failure
-	 * @since	1.6
-	 */
-	public function getForm($data = array(), $loadData = true)
-	{
-		// Get the form.
-		$app = JFactory::getApplication();
-		JForm::addFormPath(JPATH_COMPONENT . '/models/forms');
-		JForm::addFieldPath(JPATH_COMPONENT . '/models/fields');
-		$form = JForm::getInstance('com_installer.manage', 'manage', array('load_data' => $loadData));
-
-		// Check for an error.
-		if ($form == false) {
-			$this->setError($form->getMessage());
-			return false;
-		}
-		// Check the session for previously entered form data.
-		$data = $this->loadFormData();
-
-		// Bind the form data if present.
-		if (!empty($data)) {
-			$form->bind($data);
-		}
-
-		return $form;
-	}
-
-	/**
-	 * Method to get the data that should be injected in the form.
-	 *
-	 * @return	mixed	The data for the form.
-	 * @since	1.6
-	 */
-	protected function loadFormData()
-	{
-		// Check the session for previously entered form data.
-		$data = JFactory::getApplication()->getUserState('com_installer.manage.data', array());
-
-		return $data;
 	}
 }

@@ -175,6 +175,32 @@ class CategoriesViewCategories extends JViewLegacy
 			$url = null;
 		}
 		JToolbarHelper::help($ref_key, JComponentHelper::getParams($component)->exists('helpURL'), $url);
+
+		JSubMenuHelper::setAction('index.php?option=com_categories&view=categories');
+
+		JSubMenuHelper::addFilter(
+			JText::_('JOPTION_SELECT_MAX_LEVELS'),
+			'filter_level',
+			JHtml::_('select.options', $this->f_levels, 'value', 'text', $this->state->get('filter.level'))
+		);
+
+		JSubMenuHelper::addFilter(
+			JText::_('JOPTION_SELECT_PUBLISHED'),
+			'filter_published',
+			JHtml::_('select.options', JHtml::_('jgrid.publishedOptions'), 'value', 'text', $this->state->get('filter.published'), true)
+		);
+
+		JSubMenuHelper::addFilter(
+			JText::_('JOPTION_SELECT_ACCESS'),
+			'filter_access',
+			JHtml::_('select.options', JHtml::_('access.assetgroups'), 'value', 'text', $this->state->get('filter.access'))
+		);
+
+		JSubMenuHelper::addFilter(
+			JText::_('JOPTION_SELECT_LANGUAGE'),
+			'filter_language',
+			JHtml::_('select.options', JHtml::_('contentlanguage.existing', true, true), 'value', 'text', $this->state->get('filter.language'))
+		);
 	}
 
 	/**

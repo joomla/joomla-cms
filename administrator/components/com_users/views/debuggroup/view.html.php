@@ -59,5 +59,31 @@ class UsersViewDebugGroup extends JViewLegacy
 		JToolbarHelper::title(JText::sprintf('COM_USERS_VIEW_DEBUG_GROUP_TITLE', $this->group->id, $this->group->title), 'groups');
 
 		JToolbarHelper::help('JHELP_USERS_DEBUG_GROUPS');
+
+		JSubMenuHelper::setAction('index.php?option=com_users&view=debuggroup&user_id=' . (int) $this->state->get('filter.user_id'));
+
+		$option = '';
+		if (!empty($this->components))
+		{
+			$option = JHtml::_('select.options', $this->components, 'value', 'text', $this->state->get('filter.component'));
+		}
+
+		JSubMenuHelper::addFilter(
+			JText::_('COM_USERS_OPTION_SELECT_COMPONENT'),
+			'filter_component',
+			$option
+		);
+
+		JSubMenuHelper::addFilter(
+			JText::_('COM_USERS_OPTION_SELECT_LEVEL_START'),
+			'filter_level_start',
+			JHtml::_('select.options', $this->levels, 'value', 'text', $this->state->get('filter.level_start'))
+		);
+
+		JSubMenuHelper::addFilter(
+			JText::_('COM_USERS_OPTION_SELECT_LEVEL_END'),
+			'filter_level_end',
+			JHtml::_('select.options', $this->levels, 'value', 'text', $this->state->get('filter.level_end'))
+		);
 	}
 }

@@ -76,6 +76,18 @@ else
 	$span = "span12";
 }
 
+$showSubmenu = false;
+$this->submenumodules = JModuleHelper::getModules('submenu');
+foreach ($this->submenumodules as $submenumodule)
+{
+	$output = JModuleHelper::renderModule($submenumodule);
+	if (strlen($output))
+	{
+		$showSubmenu = true;
+		break;
+	}
+}
+
 // Logo file
 if ($this->params->get('logoFile'))
 {
@@ -215,8 +227,20 @@ else
 			<div id="content" class="<?php echo $span;?>">
 				<!-- Begin Content -->
 				<jdoc:include type="modules" name="top" style="xhtml" />
-				<jdoc:include type="message" />
-				<jdoc:include type="component" />
+				<div class="row-fluid">
+					<?php if ($showSubmenu) : ?>
+						<div class="span2">
+							<jdoc:include type="modules" name="submenu" style="none" />
+						</div>
+						<div class="span10">
+					<?php else : ?>
+						<div class="span12">
+					<?php endif; ?>
+							<jdoc:include type="message" />
+							<jdoc:include type="component" />
+						</div>
+					</span>
+				</div>
 				<jdoc:include type="modules" name="bottom" style="xhtml" />
 				<!-- End Content -->
 			</div>

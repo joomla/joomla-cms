@@ -53,19 +53,19 @@ class LanguagesViewInstalled extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		// Get data from the model
 		$this->ftp        = $this->get('Ftp');
 		$this->option     = $this->get('Option');
 		$this->pagination = $this->get('Pagination');
 		$this->rows       = $this->get('Data');
 		$this->state      = $this->get('State');
 
-		$document = JFactory::getDocument();
-		$document->setBuffer($this->loadTemplate('navigation'), 'modules', 'submenu');
+		$client = (int) $this->state->get('filter.client_id', 0);
+		LanguagesHelper::addSubmenu('installed', $client);
 
 		$this->addToolbar();
 		parent::display($tpl);
 	}
+
 	/**
 	 * Add the page title and toolbar.
 	 *

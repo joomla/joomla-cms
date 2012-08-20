@@ -36,6 +36,8 @@ class MenusViewItems extends JViewLegacy
 		$this->pagination	= $this->get('Pagination');
 		$this->state		= $this->get('State');
 
+		MenusHelper::addSubmenu('items');
+
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
 			JError::raiseError(500, implode("\n", $errors));
@@ -212,6 +214,40 @@ class MenusViewItems extends JViewLegacy
 		}
 
 		JToolbarHelper::help('JHELP_MENUS_MENU_ITEM_MANAGER');
+
+		JSubMenuHelper::setAction('index.php?option=com_menus&view=items');
+
+		JSubMenuHelper::addFilter(
+			// @todo we need a label here
+			'',
+			'menutype',
+			JHtml::_('select.options', JHtml::_('menu.menus'), 'value', 'text', $this->state->get('filter.menutype')),
+			false
+		);
+
+		JSubMenuHelper::addFilter(
+			JText::_('COM_MENUS_OPTION_SELECT_LEVEL'),
+			'filter_level',
+			JHtml::_('select.options', $this->f_levels, 'value', 'text', $this->state->get('filter.level'))
+		);
+
+		JSubMenuHelper::addFilter(
+			JText::_('JOPTION_SELECT_PUBLISHED'),
+			'filter_published',
+			JHtml::_('select.options', JHtml::_('jgrid.publishedOptions', array('archived' => false)), 'value', 'text', $this->state->get('filter.published'), true)
+		);
+
+		JSubMenuHelper::addFilter(
+			JText::_('JOPTION_SELECT_ACCESS'),
+			'filter_access',
+			JHtml::_('select.options', JHtml::_('access.assetgroups'), 'value', 'text', $this->state->get('filter.access'))
+		);
+
+		JSubMenuHelper::addFilter(
+			JText::_('JOPTION_SELECT_LANGUAGE'),
+			'filter_language',
+			JHtml::_('select.options', JHtml::_('contentlanguage.existing', true, true), 'value', 'text', $this->state->get('filter.language'))
+		);
 	}
 
 	/**

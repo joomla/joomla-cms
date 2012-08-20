@@ -34,6 +34,8 @@ class TemplatesViewStyles extends JViewLegacy
 		$this->state		= $this->get('State');
 		$this->preview		= JComponentHelper::getParams('com_templates')->get('template_positions_display');
 
+		TemplatesHelper::addSubmenu('styles');
+
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
 			JError::raiseError(500, implode("\n", $errors));
@@ -88,5 +90,19 @@ class TemplatesViewStyles extends JViewLegacy
 			JToolbarHelper::divider();
 		}
 		JToolbarHelper::help('JHELP_EXTENSIONS_TEMPLATE_MANAGER_STYLES');
+
+		JSubMenuHelper::setAction('index.php?option=com_templates&view=styles');
+
+		JSubMenuHelper::addFilter(
+			JText::_('COM_TEMPLATES_FILTER_TEMPLATE'),
+			'filter_template',
+			JHtml::_('select.options', TemplatesHelper::getTemplateOptions($this->state->get('filter.client_id')), 'value', 'text', $this->state->get('filter.template'))
+		);
+
+		JSubMenuHelper::addFilter(
+			JText::_('JGLOBAL_FILTER_CLIENT'),
+			'filter_client_id',
+			JHtml::_('select.options', TemplatesHelper::getClientOptions(), 'value', 'text', $this->state->get('filter.client_id'))
+		);
 	}
 }

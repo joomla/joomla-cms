@@ -49,8 +49,11 @@ class BannersViewBanners extends JViewLegacy
 			return false;
 		}
 
+		BannersHelper::addSubmenu('banners');
+
 		$this->addToolbar();
 		require_once JPATH_COMPONENT . '/models/fields/bannerclient.php';
+
 		// Include the component HTML helpers.
 		JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
@@ -134,6 +137,32 @@ class BannersViewBanners extends JViewLegacy
 			JToolbarHelper::preferences('com_banners');
 		}
 		JToolbarHelper::help('JHELP_COMPONENTS_BANNERS_BANNERS');
+
+		JSubMenuHelper::setAction('index.php?option=com_banners&view=banners');
+
+		JSubMenuHelper::addFilter(
+			JText::_('JOPTION_SELECT_PUBLISHED'),
+			'filter_state',
+			JHtml::_('select.options', JHtml::_('jgrid.publishedOptions'), 'value', 'text', $this->state->get('filter.published'), true)
+		);
+
+		JSubMenuHelper::addFilter(
+			JText::_('COM_BANNERS_SELECT_CLIENT'),
+			'filter_client_id',
+			JHtml::_('select.options', BannersHelper::getClientOptions(), 'value', 'text', $this->state->get('filter.client_id'))
+		);
+
+		JSubMenuHelper::addFilter(
+			JText::_('JOPTION_SELECT_CATEGORY'),
+			'filter_category_id',
+			JHtml::_('select.options', JHtml::_('category.options', 'com_banners'), 'value', 'text', $this->state->get('filter.category_id'))
+		);
+
+		JSubMenuHelper::addFilter(
+			JText::_('JOPTION_SELECT_LANGUAGE'),
+			'filter_language',
+			JHtml::_('select.options', JHtml::_('contentlanguage.existing', true, true), 'value', 'text', $this->state->get('filter.language'))
+		);
 	}
 
 	/**

@@ -31,13 +31,11 @@ class ContentController extends JControllerLegacy
 	 * @param	array			An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
 	 * @return	JController		This object to support chaining.
+	 *
 	 * @since	1.5
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{
-		// Load the submenu.
-		ContentHelper::addSubmenu($this->input->get('view', 'articles'));
-
 		$view   = $this->input->get('view', 'articles');
 		$layout = $this->input->get('layout', 'articles');
 		$id     = $this->input->getInt('id');

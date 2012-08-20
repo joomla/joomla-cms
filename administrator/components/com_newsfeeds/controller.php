@@ -31,9 +31,6 @@ class NewsfeedsController extends JControllerLegacy
 	{
 		require_once JPATH_COMPONENT.'/helpers/newsfeeds.php';
 
-		// Load the submenu.
-		NewsfeedsHelper::addSubmenu($this->input->get('view', 'newsfeeds'));
-
 		$view   = $this->input->get('view', 'newsfeeds');
 		$layout = $this->input->get('layout', 'default');
 		$id     = $this->input->getInt('id');

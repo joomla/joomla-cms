@@ -21,19 +21,22 @@ class LanguagesHelper
 	/**
 	 * Configure the Linkbar.
 	 *
-	 * @param	string	The name of the active view.
+	 * @param   string  $vName   The name of the active view.
+	 * @param   int     $client  The client id of the active view. Maybe be 0 or 1
+	 *
+	 * @return  void
 	 */
-	public static function addSubmenu($vName)
+	public static function addSubmenu($vName, $client = 0)
 	{
 		JSubMenuHelper::addEntry(
 			JText::_('COM_LANGUAGES_SUBMENU_INSTALLED_SITE'),
 			'index.php?option=com_languages&view=installed&client=0',
-			$vName == 'installed'
+			$vName == 'installed' && $client === 0
 		);
 		JSubMenuHelper::addEntry(
 			JText::_('COM_LANGUAGES_SUBMENU_INSTALLED_ADMINISTRATOR'),
 			'index.php?option=com_languages&view=installed&client=1',
-			$vName == 'installed'
+			$vName == 'installed' && $client === 1
 		);
 		JSubMenuHelper::addEntry(
 			JText::_('COM_LANGUAGES_SUBMENU_CONTENT'),
