@@ -220,7 +220,8 @@ class JArchiveZip implements JArchiveExtractable
 			}
 		}
 
-		if (!$this->_data = JFile::read($archive))
+		$this->_data = file_get_contents($archive);
+		if (!$this->_data)
 		{
 			if (class_exists('JError'))
 			{

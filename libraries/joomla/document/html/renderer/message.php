@@ -31,8 +31,37 @@ class JDocumentRendererMessage extends JDocumentRenderer
 	 */
 	public function render($name, $params = array (), $content = null)
 	{
+		$msgList = $this->getData();
 		$buffer = null;
-		$lists = null;
+		$app = JFactory::getApplication();
+		$chromePath = JPATH_THEMES . '/' . $app->getTemplate() . '/html/message.php';
+		$itemOverride = false;
+
+		if (file_exists($chromePath))
+		{
+			include_once $chromePath;
+			if (function_exists('renderMessage'))
+			{
+				$itemOverride = true;
+			}
+		}
+
+		$buffer = ($itemOverride) ? renderMessage($msgList) : $this->renderDefaultMessage($msgList);
+
+		return $buffer;
+	}
+
+	/**
+	 * Get and prepare system message data for output
+	 *
+	 * @return  array  An array contains system message
+	 *
+	 * @since   12.2
+	 */
+	private function getData()
+	{
+		// Initialise variables.
+		$lists = array();
 
 		// Get the message queue
 		$messages = JFactory::getApplication()->getMessageQueue();
@@ -49,14 +78,29 @@ class JDocumentRendererMessage extends JDocumentRenderer
 			}
 		}
 
+		return $lists;
+	}
+
+	/**
+	 * Render the system message if no message template file found
+	 *
+	 * @param   array  $msgList  An array contains system message
+	 *
+	 * @return  string  System message markup
+	 *
+	 * @since   12.2
+	 */
+	private function renderDefaultMessage($msgList)
+	{
 		// Build the return string
+		$buffer = '';
 		$buffer .= "\n<div id=\"system-message-container\">";
 
 		// If messages exist render them
-		if (is_array($lists))
+		if (is_array($msgList))
 		{
 			$buffer .= "\n<dl id=\"system-message\">";
-			foreach ($lists as $type => $msgs)
+			foreach ($msgList as $type => $msgs)
 			{
 				if (count($msgs))
 				{
@@ -75,6 +119,7 @@ class JDocumentRendererMessage extends JDocumentRenderer
 		}
 
 		$buffer .= "\n</div>";
+
 		return $buffer;
 	}
 }
