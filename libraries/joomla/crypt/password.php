@@ -41,8 +41,8 @@ interface JCryptPassword
 	/**
 	 * Verifies a password hash
 	 *
-	 * @param   string   $password  The password to verify.
-	 * @param   string   $hash      The password hash to check.
+	 * @param   string  $password  The password to verify.
+	 * @param   string  $hash      The password hash to check.
 	 *
 	 * @return  boolean  True if the password is valid, false otherwise.
 	 *

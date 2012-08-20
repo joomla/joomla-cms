@@ -28,7 +28,7 @@ class JCryptPasswordSimple implements JCryptPassword
 	 * Creates a password hash
 	 *
 	 * @param   string  $password  The password to hash.
-	 * @param   string  $prefix    The prefix of the hashing function.
+	 * @param   string  $type      The hash type.
 	 *
 	 * @return  string  The hashed password.
 	 *
@@ -52,22 +52,19 @@ class JCryptPasswordSimple implements JCryptPassword
 
 				$salt = $prefix . str_pad($this->cost, 2, '0', STR_PAD_LEFT) . '$' . $this->getSalt(22);
 
-				return crypt($password, $salt);
-				break;
+			return crypt($password, $salt);
 
 			case JCryptPassword::MD5:
 				$salt = $this->getSalt(12);
 
 				$salt = '$1$' . $salt;
 
-				return crypt($password, $salt);
-				break;
-	
+			return crypt($password, $salt);
+
 			case JCryptPassword::JOOMLA:
 				$salt = $this->getSalt(32);
 
-				return md5($password . $salt) . ':' . $salt;
-				break;
+			return md5($password . $salt) . ':' . $salt;
 
 			default:
 				throw new InvalidArgumentException(sprintf('Hash type %s is not supported', $type));
@@ -94,7 +91,7 @@ class JCryptPasswordSimple implements JCryptPassword
 	 *
 	 * @param   integer  $length  The number of characters to return.
 	 *
-	 * @return  string   The string of random characters.
+	 * @return  string  The string of random characters.
 	 *
 	 * @since   12.2
 	 */
@@ -110,8 +107,8 @@ class JCryptPasswordSimple implements JCryptPassword
 	/**
 	 * Verifies a password hash
 	 *
-	 * @param   string   $password  The password to verify.
-	 * @param   string   $hash      The password hash to check.
+	 * @param   string  $password  The password to verify.
+	 * @param   string  $hash      The password hash to check.
 	 *
 	 * @return  boolean  True if the password is valid, false otherwise.
 	 *
