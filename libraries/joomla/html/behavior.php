@@ -221,18 +221,18 @@ abstract class JHtmlBehavior
 		self::framework(true);
 
 		// Setup options object
-		$opt['maxTitleChars']	= (isset($params['maxTitleChars']) && ($params['maxTitleChars'])) ? (int) $params['maxTitleChars'] : 50;
+		$opt['maxTitleChars'] = (isset($params['maxTitleChars']) && ($params['maxTitleChars'])) ? (int) $params['maxTitleChars'] : 50;
 
 		// Offsets needs an array in the format: array('x'=>20, 'y'=>30)
-		$opt['offset']			= (isset($params['offset']) && (is_array($params['offset']))) ? $params['offset'] : null;
-		$opt['showDelay']		= (isset($params['showDelay'])) ? (int) $params['showDelay'] : null;
-		$opt['hideDelay']		= (isset($params['hideDelay'])) ? (int) $params['hideDelay'] : null;
-		$opt['className']		= (isset($params['className'])) ? $params['className'] : null;
-		$opt['fixed']			= (isset($params['fixed']) && ($params['fixed'])) ? true : false;
-		$opt['onShow']			= (isset($params['onShow'])) ? '\\' . $params['onShow'] : null;
-		$opt['onHide']			= (isset($params['onHide'])) ? '\\' . $params['onHide'] : null;
+		$opt['offset']    = (isset($params['offset']) && (is_array($params['offset']))) ? $params['offset'] : null;
+		$opt['showDelay'] = (isset($params['showDelay'])) ? (int) $params['showDelay'] : null;
+		$opt['hideDelay'] = (isset($params['hideDelay'])) ? (int) $params['hideDelay'] : null;
+		$opt['className'] = (isset($params['className'])) ? $params['className'] : null;
+		$opt['fixed']     = (isset($params['fixed']) && ($params['fixed'])) ? true : false;
+		$opt['onShow']    = (isset($params['onShow'])) ? '\\' . $params['onShow'] : null;
+		$opt['onHide']    = (isset($params['onHide'])) ? '\\' . $params['onHide'] : null;
 
-		$options = self::_getJSObject($opt);
+		$options = JHtml::getJSObject($opt);
 
 		// Attach tooltips to document
 		JFactory::getDocument()->addScriptDeclaration(
@@ -298,26 +298,30 @@ abstract class JHtmlBehavior
 		}
 
 		// Setup options object
-		$opt['ajaxOptions']		= (isset($params['ajaxOptions']) && (is_array($params['ajaxOptions']))) ? $params['ajaxOptions'] : null;
-		$opt['handler']			= (isset($params['handler'])) ? $params['handler'] : null;
-		$opt['fullScreen']		= (isset($params['fullScreen'])) ? (bool) $params['fullScreen'] : null;
-		$opt['parseSecure']		= (isset($params['parseSecure'])) ? (bool) $params['parseSecure'] : null;
-		$opt['closable']		= (isset($params['closable'])) ? (bool) $params['closable'] : null;
-		$opt['closeBtn']		= (isset($params['closeBtn'])) ? (bool) $params['closeBtn'] : null;
-		$opt['iframePreload']	= (isset($params['iframePreload'])) ? (bool) $params['iframePreload'] : null;
-		$opt['iframeOptions']	= (isset($params['iframeOptions']) && (is_array($params['iframeOptions']))) ? $params['iframeOptions'] : null;
-		$opt['size']			= (isset($params['size']) && (is_array($params['size']))) ? $params['size'] : null;
-		$opt['shadow']			= (isset($params['shadow'])) ? $params['shadow'] : null;
-		$opt['overlay']			= (isset($params['overlay'])) ? $params['overlay'] : null;
-		$opt['onOpen']			= (isset($params['onOpen'])) ? $params['onOpen'] : null;
-		$opt['onClose']			= (isset($params['onClose'])) ? $params['onClose'] : null;
-		$opt['onUpdate']		= (isset($params['onUpdate'])) ? $params['onUpdate'] : null;
-		$opt['onResize']		= (isset($params['onResize'])) ? $params['onResize'] : null;
-		$opt['onMove']			= (isset($params['onMove'])) ? $params['onMove'] : null;
-		$opt['onShow']			= (isset($params['onShow'])) ? $params['onShow'] : null;
-		$opt['onHide']			= (isset($params['onHide'])) ? $params['onHide'] : null;
+		$opt['ajaxOptions']   = (isset($params['ajaxOptions']) && (is_array($params['ajaxOptions']))) ? $params['ajaxOptions'] : null;
+		$opt['handler']       = (isset($params['handler'])) ? $params['handler'] : null;
+		$opt['parseSecure']   = (isset($params['parseSecure'])) ? (bool) $params['parseSecure'] : null;
+		$opt['closable']      = (isset($params['closable'])) ? (bool) $params['closable'] : null;
+		$opt['closeBtn']      = (isset($params['closeBtn'])) ? (bool) $params['closeBtn'] : null;
+		$opt['iframePreload'] = (isset($params['iframePreload'])) ? (bool) $params['iframePreload'] : null;
+		$opt['iframeOptions'] = (isset($params['iframeOptions']) && (is_array($params['iframeOptions']))) ? $params['iframeOptions'] : null;
+		$opt['size']          = (isset($params['size']) && (is_array($params['size']))) ? $params['size'] : null;
+		$opt['shadow']        = (isset($params['shadow'])) ? $params['shadow'] : null;
+		$opt['overlay']       = (isset($params['overlay'])) ? $params['overlay'] : null;
+		$opt['onOpen']        = (isset($params['onOpen'])) ? $params['onOpen'] : null;
+		$opt['onClose']       = (isset($params['onClose'])) ? $params['onClose'] : null;
+		$opt['onUpdate']      = (isset($params['onUpdate'])) ? $params['onUpdate'] : null;
+		$opt['onResize']      = (isset($params['onResize'])) ? $params['onResize'] : null;
+		$opt['onMove']        = (isset($params['onMove'])) ? $params['onMove'] : null;
+		$opt['onShow']        = (isset($params['onShow'])) ? $params['onShow'] : null;
+		$opt['onHide']        = (isset($params['onHide'])) ? $params['onHide'] : null;
 
-		$options = self::_getJSObject($opt);
+		if (isset($params['fullScreen']) && (bool) $params['fullScreen'])
+		{
+			$opt['size']      = array('x' => '\\window.getSize().x-80', 'y' => '\\window.getSize().y-80');
+		}
+
+		$options = JHtml::getJSObject($opt);
 
 		// Attach modal behavior to document
 		$document
@@ -439,43 +443,43 @@ abstract class JHtmlBehavior
 		}';
 
 		// Setup options object
-		$opt['verbose']			= true;
-		$opt['url']				= (isset($params['targetURL'])) ? $params['targetURL'] : null;
-		$opt['path']			= (isset($params['swf'])) ? $params['swf'] : JURI::root(true) . '/media/system/swf/uploader.swf';
-		$opt['height']			= (isset($params['height'])) && $params['height'] ? (int) $params['height'] : null;
-		$opt['width']			= (isset($params['width'])) && $params['width'] ? (int) $params['width'] : null;
-		$opt['multiple']		= (isset($params['multiple']) && !($params['multiple'])) ? false : true;
-		$opt['queued']			= (isset($params['queued']) && !($params['queued'])) ? (int) $params['queued'] : null;
-		$opt['target']			= (isset($params['target'])) ? $params['target'] : '\\document.id(\'upload-browse\')';
-		$opt['instantStart']	= (isset($params['instantStart']) && ($params['instantStart'])) ? true : false;
-		$opt['allowDuplicates']	= (isset($params['allowDuplicates']) && !($params['allowDuplicates'])) ? false : true;
+		$opt['verbose']         = true;
+		$opt['url']             = (isset($params['targetURL'])) ? $params['targetURL'] : null;
+		$opt['path']            = (isset($params['swf'])) ? $params['swf'] : JURI::root(true) . '/media/system/swf/uploader.swf';
+		$opt['height']          = (isset($params['height'])) && $params['height'] ? (int) $params['height'] : null;
+		$opt['width']           = (isset($params['width'])) && $params['width'] ? (int) $params['width'] : null;
+		$opt['multiple']        = (isset($params['multiple']) && !($params['multiple'])) ? false : true;
+		$opt['queued']          = (isset($params['queued']) && !($params['queued'])) ? (int) $params['queued'] : null;
+		$opt['target']          = (isset($params['target'])) ? $params['target'] : '\\document.id(\'upload-browse\')';
+		$opt['instantStart']    = (isset($params['instantStart']) && ($params['instantStart'])) ? true : false;
+		$opt['allowDuplicates'] = (isset($params['allowDuplicates']) && !($params['allowDuplicates'])) ? false : true;
 
 		// "limitSize" is the old parameter name.  Remove in 1.7
-		$opt['fileSizeMax']		= (isset($params['limitSize']) && ($params['limitSize'])) ? (int) $params['limitSize'] : null;
+		$opt['fileSizeMax']     = (isset($params['limitSize']) && ($params['limitSize'])) ? (int) $params['limitSize'] : null;
 
 		// "fileSizeMax" is the new name.  If supplied, it will override the old value specified for limitSize
-		$opt['fileSizeMax']		= (isset($params['fileSizeMax']) && ($params['fileSizeMax'])) ? (int) $params['fileSizeMax'] : $opt['fileSizeMax'];
-		$opt['fileSizeMin']		= (isset($params['fileSizeMin']) && ($params['fileSizeMin'])) ? (int) $params['fileSizeMin'] : null;
+		$opt['fileSizeMax']     = (isset($params['fileSizeMax']) && ($params['fileSizeMax'])) ? (int) $params['fileSizeMax'] : $opt['fileSizeMax'];
+		$opt['fileSizeMin']     = (isset($params['fileSizeMin']) && ($params['fileSizeMin'])) ? (int) $params['fileSizeMin'] : null;
 
 		// "limitFiles" is the old parameter name.  Remove in 1.7
-		$opt['fileListMax']		= (isset($params['limitFiles']) && ($params['limitFiles'])) ? (int) $params['limitFiles'] : null;
+		$opt['fileListMax']     = (isset($params['limitFiles']) && ($params['limitFiles'])) ? (int) $params['limitFiles'] : null;
 
 		// "fileListMax" is the new name.  If supplied, it will override the old value specified for limitFiles
-		$opt['fileListMax']		= (isset($params['fileListMax']) && ($params['fileListMax'])) ? (int) $params['fileListMax'] : $opt['fileListMax'];
+		$opt['fileListMax']     = (isset($params['fileListMax']) && ($params['fileListMax'])) ? (int) $params['fileListMax'] : $opt['fileListMax'];
 		$opt['fileListSizeMax'] = (isset($params['fileListSizeMax']) && ($params['fileListSizeMax'])) ? (int) $params['fileListSizeMax'] : null;
 
 		// "types" is the old parameter name.  Remove in 1.7
-		$opt['typeFilter']		= (isset($params['types'])) ? '\\' . $params['types']
+		$opt['typeFilter']      = (isset($params['types'])) ? '\\' . $params['types']
 		: '\\{Joomla.JText._(\'JLIB_HTML_BEHAVIOR_UPLOADER_ALL_FILES\'): \'*.*\'}';
-		$opt['typeFilter']		= (isset($params['typeFilter'])) ? '\\' . $params['typeFilter'] : $opt['typeFilter'];
+		$opt['typeFilter']      = (isset($params['typeFilter'])) ? '\\' . $params['typeFilter'] : $opt['typeFilter'];
 
 		// Optional functions
-		$opt['createReplacement']	= (isset($params['createReplacement'])) ? '\\' . $params['createReplacement'] : null;
-		$opt['onFileComplete']		= (isset($params['onFileComplete'])) ? '\\' . $params['onFileComplete'] : null;
-		$opt['onBeforeStart']		= (isset($params['onBeforeStart'])) ? '\\' . $params['onBeforeStart'] : null;
-		$opt['onStart']				= (isset($params['onStart'])) ? '\\' . $params['onStart'] : null;
-		$opt['onComplete']			= (isset($params['onComplete'])) ? '\\' . $params['onComplete'] : null;
-		$opt['onFileSuccess']		= (isset($params['onFileSuccess'])) ? '\\' . $params['onFileSuccess'] : $onFileSuccess;
+		$opt['createReplacement']   = (isset($params['createReplacement'])) ? '\\' . $params['createReplacement'] : null;
+		$opt['onFileComplete']      = (isset($params['onFileComplete'])) ? '\\' . $params['onFileComplete'] : null;
+		$opt['onBeforeStart']       = (isset($params['onBeforeStart'])) ? '\\' . $params['onBeforeStart'] : null;
+		$opt['onStart']             = (isset($params['onStart'])) ? '\\' . $params['onStart'] : null;
+		$opt['onComplete']          = (isset($params['onComplete'])) ? '\\' . $params['onComplete'] : null;
+		$opt['onFileSuccess']       = (isset($params['onFileSuccess'])) ? '\\' . $params['onFileSuccess'] : $onFileSuccess;
 
 		if (!isset($params['startButton']))
 		{
@@ -524,7 +528,7 @@ abstract class JHtmlBehavior
 				});
 			}';
 
-		$options = self::_getJSObject($opt);
+		$options = JHtml::getJSObject($opt);
 
 		// Attach tooltips to document
 		$uploaderInit = 'window.addEvent(\'domready\', function(){
@@ -563,28 +567,28 @@ abstract class JHtmlBehavior
 		}
 
 		// Setup options object
-		$opt['div']		= (array_key_exists('div', $params)) ? $params['div'] : $id . '_tree';
-		$opt['mode']	= (array_key_exists('mode', $params)) ? $params['mode'] : 'folders';
-		$opt['grid']	= (array_key_exists('grid', $params)) ? '\\' . $params['grid'] : true;
-		$opt['theme']	= (array_key_exists('theme', $params)) ? $params['theme'] : JHtml::_('image', 'system/mootree.gif', '', array(), true, true);
+		$opt['div']   = (array_key_exists('div', $params)) ? $params['div'] : $id . '_tree';
+		$opt['mode']  = (array_key_exists('mode', $params)) ? $params['mode'] : 'folders';
+		$opt['grid']  = (array_key_exists('grid', $params)) ? '\\' . $params['grid'] : true;
+		$opt['theme'] = (array_key_exists('theme', $params)) ? $params['theme'] : JHtml::_('image', 'system/mootree.gif', '', array(), true, true);
 
 		// Event handlers
-		$opt['onExpand']	= (array_key_exists('onExpand', $params)) ? '\\' . $params['onExpand'] : null;
-		$opt['onSelect']	= (array_key_exists('onSelect', $params)) ? '\\' . $params['onSelect'] : null;
-		$opt['onClick']		= (array_key_exists('onClick', $params)) ? '\\' . $params['onClick']
+		$opt['onExpand'] = (array_key_exists('onExpand', $params)) ? '\\' . $params['onExpand'] : null;
+		$opt['onSelect'] = (array_key_exists('onSelect', $params)) ? '\\' . $params['onSelect'] : null;
+		$opt['onClick']  = (array_key_exists('onClick', $params)) ? '\\' . $params['onClick']
 		: '\\function(node){  window.open(node.data.url, node.data.target != null ? node.data.target : \'_self\'); }';
 
-		$options = self::_getJSObject($opt);
+		$options = JHtml::getJSObject($opt);
 
 		// Setup root node
-		$rt['text']		= (array_key_exists('text', $root)) ? $root['text'] : 'Root';
-		$rt['id']		= (array_key_exists('id', $root)) ? $root['id'] : null;
-		$rt['color']	= (array_key_exists('color', $root)) ? $root['color'] : null;
-		$rt['open']		= (array_key_exists('open', $root)) ? '\\' . $root['open'] : true;
-		$rt['icon']		= (array_key_exists('icon', $root)) ? $root['icon'] : null;
-		$rt['openicon']	= (array_key_exists('openicon', $root)) ? $root['openicon'] : null;
-		$rt['data']		= (array_key_exists('data', $root)) ? $root['data'] : null;
-		$rootNode = self::_getJSObject($rt);
+		$rt['text']     = (array_key_exists('text', $root)) ? $root['text'] : 'Root';
+		$rt['id']       = (array_key_exists('id', $root)) ? $root['id'] : null;
+		$rt['color']    = (array_key_exists('color', $root)) ? $root['color'] : null;
+		$rt['open']     = (array_key_exists('open', $root)) ? '\\' . $root['open'] : true;
+		$rt['icon']     = (array_key_exists('icon', $root)) ? $root['icon'] : null;
+		$rt['openicon'] = (array_key_exists('openicon', $root)) ? $root['openicon'] : null;
+		$rt['data']     = (array_key_exists('data', $root)) ? $root['data'] : null;
+		$rootNode = JHtml::getJSObject($rt);
 
 		$treeName = (array_key_exists('treeName', $params)) ? $params['treeName'] : '';
 
@@ -814,59 +818,13 @@ abstract class JHtmlBehavior
 	 * @return  string  JavaScript object notation representation of the array
 	 *
 	 * @since   11.1
+	 * @dprecated  13.3 Use JHtml::getJSObject() instead.
 	 */
 	protected static function _getJSObject($array = array())
 	{
-		$object = '{';
+		JLog::add('JHtmlBehavior::_getJSObject() is deprecated. JHtml::getJSObject() instead..', JLog::WARNING, 'deprecated');
 
-		// Iterate over array to build objects
-		foreach ((array) $array as $k => $v)
-		{
-			if (is_null($v))
-			{
-				continue;
-			}
-
-			if (is_bool($v))
-			{
-				if ($k === 'fullScreen')
-				{
-					$object .= 'size: { ';
-					$object .= 'x: ';
-					$object .= 'window.getSize().x-80';
-					$object .= ',';
-					$object .= 'y: ';
-					$object .= 'window.getSize().y-80';
-					$object .= ' }';
-					$object .= ',';
-				}
-				else
-				{
-					$object .= ' ' . $k . ': ';
-					$object .= ($v) ? 'true' : 'false';
-					$object .= ',';
-				}
-			}
-			elseif (!is_array($v) && !is_object($v))
-			{
-				$object .= ' ' . $k . ': ';
-				$object .= (is_numeric($v) || strpos($v, '\\') === 0) ? (is_numeric($v)) ? $v : substr($v, 1) : "'" . $v . "'";
-				$object .= ',';
-			}
-			else
-			{
-				$object .= ' ' . $k . ': ' . self::_getJSObject($v) . ',';
-			}
-		}
-
-		if (substr($object, -1) == ',')
-		{
-			$object = substr($object, 0, -1);
-		}
-
-		$object .= '}';
-
-		return $object;
+		JHtml::getJSObject($array);
 	}
 
 	/**
