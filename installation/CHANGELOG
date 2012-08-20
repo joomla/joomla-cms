@@ -33,6 +33,7 @@ $ -> Language fix or change
  # [#28943] *Allowing to disable admin menu bar collapse (Isis)
  # [#28947] Handle submenu rendering as a module again. Thanks Rouven
  # [#28942] Use bootstrap markup in Fx.Progressbar; Use Fx.Progressbar in Finder. Thansk Rouven.
+ # [#28955] Commit of issue 28932 broke sample data installation, Thanks Mark.
 
 18-Aug-2012 Jean-Marie Simonet
  # [#28929] *Frontend editing tabs does not work. Thanks Peter.
