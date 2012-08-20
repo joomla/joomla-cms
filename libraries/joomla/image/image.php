@@ -37,6 +37,12 @@ class JImage
 	const SCALE_OUTSIDE = 3;
 
 	/**
+	 * @const  integer
+	 * @since  12.2
+	 */
+	const CROP = 4;
+
+	/**
 	 * @var    resource  The image resource handle.
 	 * @since  11.3
 	 */
@@ -154,7 +160,7 @@ class JImage
 	 *
 	 * @since 12.2
 	 */
-	public function generateThumbs($thumbSizes, $creationMethod = 2)
+	public function generateThumbs($thumbSizes, $creationMethod = self::SCALE_INSIDE)
 	{
 		// Make sure the resource handle is valid.
 		if (!$this->isLoaded())
