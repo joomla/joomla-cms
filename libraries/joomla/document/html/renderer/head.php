@@ -129,7 +129,7 @@ class JDocumentRendererHead extends JDocumentRenderer
 		foreach ($document->_styleSheets as $strSrc => $strAttr)
 		{
 			$buffer .= $tab . '<link rel="stylesheet" href="' . $strSrc . '"';
-			if (!is_null($strAttr['mime']) && !$document->isHtml5())
+			if (!is_null($strAttr['mime']) && (!$document->isHtml5() || $strAttr['mime'] != 'text/css'))
 			{
 				$buffer .= ' type="' . $strAttr['mime'] . '"';
 			}
@@ -169,7 +169,10 @@ class JDocumentRendererHead extends JDocumentRenderer
 		foreach ($document->_scripts as $strSrc => $strAttr)
 		{
 			$buffer .= $tab . '<script src="' . $strSrc . '"';
-			if (!is_null($strAttr['mime']) && !$document->isHtml5())
+			$defaultMimes = array(
+					'text/javascript', 'application/javascript', 'text/x-javascript', 'application/x-javascript'
+			);
+			if (!is_null($strAttr['mime']) && (!$document->isHtml5() || !in_array($strAttr['mime'], $defaultMimes)))
 			{
 				$buffer .= ' type="' . $strAttr['mime'] . '"';
 			}
