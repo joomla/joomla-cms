@@ -204,7 +204,6 @@ class JHttpTransportSocket implements JHttpTransport
 	 */
 	protected function connect(JUri $uri, $timeout = null)
 	{
-		// Initialize variables.
 		$errno = null;
 		$err = null;
 
@@ -269,9 +268,9 @@ class JHttpTransportSocket implements JHttpTransport
 
 	/**
 	 * method to check if http transport socket available for using
-	 * 
+	 *
 	 * @return bool true if available else false
-	 * 
+	 *
 	 * @since   12.1
 	 */
 	static public function isSupported()

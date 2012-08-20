@@ -9,7 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.folder');
 
 /**
@@ -129,7 +128,7 @@ class JFormFieldModulelayout extends JFormField
 				foreach ($module_layouts as $file)
 				{
 					// Add an option to the module group
-					$value = JFile::stripExt($file);
+					$value = basename($file, '.php');
 					$text = $lang->hasKey($key = strtoupper($module . '_LAYOUT_' . $value)) ? JText::_($key) : $value;
 					$groups['_']['items'][] = JHtml::_('select.option', '_:' . $value, $text);
 				}
@@ -174,7 +173,7 @@ class JFormFieldModulelayout extends JFormField
 							foreach ($files as $file)
 							{
 								// Add an option to the template group
-								$value = JFile::stripExt($file);
+								$value = basename($file, '.php');
 								$text = $lang->hasKey($key = strtoupper('TPL_' . $template->element . '_' . $module . '_LAYOUT_' . $value))
 									? JText::_($key) : $value;
 								$groups[$template->element]['items'][] = JHtml::_('select.option', $template->element . ':' . $value, $text);

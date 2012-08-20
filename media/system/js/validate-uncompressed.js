@@ -23,9 +23,8 @@ Object.append(Browser.Features, {
 var JFormValidator = new Class({
 	initialize: function()
 	{
-		// Initialize variables
-		this.handlers	= Object();
-		this.custom		= Object();
+		this.handlers = Object();
+		this.custom   = Object();
 
 		// Default handlers
 		this.setHandler('username',

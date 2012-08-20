@@ -99,7 +99,6 @@ class JArchiveZip implements JArchiveExtractable
 	 */
 	public function create($archive, $files, array $options = array())
 	{
-		// Initialise variables.
 		$contents = array();
 		$ctrldir = array();
 
@@ -206,7 +205,6 @@ class JArchiveZip implements JArchiveExtractable
 	 */
 	private function _extract($archive, $destination, array $options)
 	{
-		// Initialise variables.
 		$this->_data = null;
 		$this->_metadata = null;
 
@@ -222,6 +220,7 @@ class JArchiveZip implements JArchiveExtractable
 			}
 		}
 
+		$this->_data = file_get_contents($archive);
 		if (!$this->_data = JFile::read($archive))
 		{
 			if (class_exists('JError'))
@@ -393,7 +392,6 @@ class JArchiveZip implements JArchiveExtractable
 	 */
 	private function _readZipInfo(&$data)
 	{
-		// Initialise variables.
 		$entries = array();
 
 		// Find the last central directory header entry

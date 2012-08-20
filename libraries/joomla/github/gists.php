@@ -567,7 +567,6 @@ class JGithubGists extends JGithubObject
 	 */
 	protected function buildFileData(array $files)
 	{
-		// Initialize variables.
 		$data = array();
 
 		foreach ($files as $key => $file)

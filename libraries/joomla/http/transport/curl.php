@@ -131,7 +131,7 @@ class JHttpTransportCurl implements JHttpTransport
 		// Return it... echoing it would be tacky.
 		$options[CURLOPT_RETURNTRANSFER] = true;
 
-		// Override the Expect header to prevent cURL from confusing itself in it's own stupidity.
+		// Override the Expect header to prevent cURL from confusing itself in its own stupidity.
 		// Link: http://the-stickman.com/web-development/php-and-curl-disabling-100-continue-header/
 		$options[CURLOPT_HTTPHEADER][] = 'Expect:';
 

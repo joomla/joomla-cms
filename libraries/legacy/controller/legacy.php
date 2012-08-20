@@ -318,7 +318,6 @@ class JControllerLegacy extends JObject
 	 */
 	public function __construct($config = array())
 	{
-		// Initialise variables.
 		$this->methods = array();
 		$this->message = null;
 		$this->messageType = 'message';
@@ -878,7 +877,6 @@ class JControllerLegacy extends JObject
 	 */
 	protected function holdEditId($context, $id)
 	{
-		// Initialise variables.
 		$app = JFactory::getApplication();
 		$values = (array) $app->getUserState($context . '.id');
 

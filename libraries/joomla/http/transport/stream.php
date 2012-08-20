@@ -123,7 +123,13 @@ class JHttpTransportStream implements JHttpTransport
 		$context = stream_context_create(array('http' => $options));
 
 		// Open the stream for reading.
-		$stream = fopen((string) $uri, 'r', false, $context);
+		$stream = @fopen((string) $uri, 'r', false, $context);
+
+		// Check if the stream is open.
+		if (!$stream)
+		{
+			throw new RuntimeException(sprintf('Could not connect to resource: %s', $uri));
+		}
 
 		// Get the metadata for the stream, including response headers.
 		$metadata = stream_get_meta_data($stream);
@@ -181,9 +187,9 @@ class JHttpTransportStream implements JHttpTransport
 
 	/**
 	 * method to check if http transport stream available for using
-	 * 
+	 *
 	 * @return bool true if available else false
-	 * 
+	 *
 	 * @since   12.1
 	 */
 	static public function isSupported()

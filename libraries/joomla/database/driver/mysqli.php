@@ -313,7 +313,6 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	{
 		$this->connect();
 
-		// Initialise variables.
 		$result = array();
 
 		// Sanitize input to an array and iterate over the list.
@@ -482,11 +481,13 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 			$sql .= ' LIMIT ' . $this->offset . ', ' . $this->limit;
 		}
 
+		// Increment the query counter.
+		$this->count++;
+
 		// If debugging is enabled then let's log the query.
 		if ($this->debug)
 		{
-			// Increment the query counter and add the query to the object queue.
-			$this->count++;
+			// Add the query to the object queue.
 			$this->log[] = $sql;
 
 			JLog::add($sql, JLog::DEBUG, 'databasequery');

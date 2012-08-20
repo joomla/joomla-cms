@@ -840,7 +840,6 @@ class JApplicationWeb extends JApplicationBase
 	 */
 	protected function detectRequestUri()
 	{
-		// Initialise variables.
 		$uri = '';
 
 		// First we need to detect the URI scheme.
@@ -1039,25 +1038,41 @@ class JApplicationWeb extends JApplicationBase
 			'force_ssl' => $this->get('force_ssl')
 		);
 
+		$this->registerEvent('onAfterSessionStart', array($this, 'afterSessionStart'));
+
 		// Instantiate the session object.
 		$session = JSession::getInstance($handler, $options);
-		$session->initialise($this->input);
+		$session->initialise($this->input, $this->dispatcher);
 		if ($session->getState() == 'expired')
 		{
 			$session->restart();
 		}
-
-		// If the session is new, load the user and registry objects.
-		if ($session->isNew())
+		else
 		{
-			$session->set('registry', new JRegistry);
-			$session->set('user', new JUser);
+			$session->start();
 		}
 
 		// Set the session object.
 		$this->session = $session;
 
 		return $this;
+	}
+
+	/**
+	 * After the session has been started we need to populate it with some default values.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.2
+	 */
+	public function afterSessionStart()
+	{
+		$session = JFactory::getSession();
+		if ($session->isNew())
+		{
+			$session->set('registry', new JRegistry('session'));
+			$session->set('user', new JUser);
+		}
 	}
 
 	/**
