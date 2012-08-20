@@ -515,7 +515,7 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
 	 */
 	public static function isSupported()
 	{
-		return in_array('oci', PDO::getAvailableDrivers());
+		return class_exists('PDO') && in_array('oci', PDO::getAvailableDrivers());
 	}
 
 	/**
