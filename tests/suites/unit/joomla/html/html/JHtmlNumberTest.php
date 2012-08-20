@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-require_once JPATH_PLATFORM.'/joomla/html/html/number.php';
+require_once JPATH_PLATFORM.'/joomla/html/number.php';
 
 /**
  * Test class for JHtmlNumberTest.
