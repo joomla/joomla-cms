@@ -25,7 +25,7 @@ class JTableModule extends JTable
 	 *
 	 * @since   11.1
 	 */
-	public function __construct($db)
+	public function __construct(JDatabaseDriver $db)
 	{
 		parent::__construct('#__modules', 'id', $db);
 

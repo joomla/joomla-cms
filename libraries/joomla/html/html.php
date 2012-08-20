@@ -199,8 +199,8 @@ abstract class JHtml
 	/**
 	 * Function caller method
 	 *
-	 * @param   string  $function  Function or method to call
-	 * @param   array   $args      Arguments to be passed to function
+	 * @param   callable  $function  Function or method to call
+	 * @param   array     $args      Arguments to be passed to function
 	 *
 	 * @return  mixed   Function result or false on error.
 	 *
@@ -210,20 +210,18 @@ abstract class JHtml
 	 */
 	protected static function call($function, $args)
 	{
-		if (is_callable($function))
-		{
-			// PHP 5.3 workaround
-			$temp = array();
-			foreach ($args as &$arg)
-			{
-				$temp[] = &$arg;
-			}
-			return call_user_func_array($function, $temp);
-		}
-		else
+		if (!is_callable($function))
 		{
 			throw new InvalidArgumentException('Function not supported', 500);
 		}
+
+		// PHP 5.3 workaround
+		$temp = array();
+		foreach ($args as &$arg)
+		{
+			$temp[] = &$arg;
+		}
+		return call_user_func_array($function, $temp);
 	}
 
 	/**
