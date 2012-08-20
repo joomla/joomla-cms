@@ -34,6 +34,8 @@ abstract class JPluginHelper
 	 * @param   string  $layout  Layout name
 	 *
 	 * @return  string  Layout path
+	 *
+	 * @since   12.2
 	 */
 	public static function getLayoutPath($type, $name, $layout = 'default')
 	{
