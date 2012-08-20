@@ -99,10 +99,14 @@ class JDocumentRendererMessage extends JDocumentRenderer
 		// If messages exist render them
 		if (is_array($msgList))
 		{
-			$buffer .= "\n<div id=\"system-message\" class=\"alert alert-" . $msg['type'] . "\">";
-			$buffer .= "<a class=\"close\" data-dismiss=\"alert\">×</a>";
+			$buffer .= "\n<div id=\"system-message\">";
 			foreach ($msgList as $type => $msgs)
 			{
+				$buffer .= "\n<div class=\"alert alert-" . $type . "\">";
+
+				// This requires JS so we should add it trough JS. Progressive enhancement and stuff.
+				$buffer .= "<a class=\"close\" data-dismiss=\"alert\">×</a>";
+
 				if (count($msgs))
 				{
 					$buffer .= "\n<h4 class=\"alert-heading\">" . JText::_($type) . "</h4>";
@@ -113,6 +117,7 @@ class JDocumentRendererMessage extends JDocumentRenderer
 					}
 					$buffer .= "\n</div>";
 				}
+				$buffer .= "\n</div>";
 			}
 			$buffer .= "\n</div>";
 		}
