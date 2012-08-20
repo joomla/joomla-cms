@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+20-Aug-2012 Jean-Marie Simonet
+ # [#28943] *Allowing to disable admin menu bar collapse (Isis)
+
 18-Aug-2012 Jean-Marie Simonet
  # [#28929] *Frontend editing tabs does not work. Thanks Peter.
  # [#28932] *Simplifying sample data install on 3.0 alpha2
