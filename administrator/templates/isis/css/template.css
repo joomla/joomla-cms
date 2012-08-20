@@ -4779,8 +4779,9 @@ fieldset.radio.btn-group {
 }
 /* Extended Joomla Button Classes */
 .btn-micro {
-  padding: 3px 6px;
-  line-height: 13px;
+  padding: 1px 4px;
+  font-size: 10px;
+  line-height: 8px;
 }
 /* Joomla => Bootstrap Tooltip */
 .tip-wrap {
@@ -4924,7 +4925,7 @@ fieldset.radio.btn-group {
 }
 .icon-edit:before,
 .icon-pencil:before {
-  color: #3A87AD;
+  color: #2f96b4;
 }
 .icon-pencil-2:before {
   content: "\2c";
@@ -5000,7 +5001,7 @@ fieldset.radio.btn-group {
 .icon-featured:before,
 .icon-star:before {
   content: "\42";
-  color: #F89406;
+  color: #f89406;
 }
 .icon-calendar:before {
   content: "\43";
@@ -5023,12 +5024,12 @@ fieldset.radio.btn-group {
 .icon-ok:before,
 .icon-checkmark:before {
   content: "\47";
-  color: #468847;
+  color: #51a351;
 }
 .icon-unpublish:before,
 .icon-cancel:before {
   content: "\4a";
-  color: #B94A48;
+  color: #bd362f;
 }
 .icon-eye-close:before,
 .icon-minus:before {
@@ -5097,7 +5098,7 @@ fieldset.radio.btn-group {
 .icon-save-new:before,
 .icon-plus-2:before {
   content: "\5d";
-  color: #468847;
+  color: #51a351;
 }
 .icon-ban-circle:before,
 .icon-minus-sign:before,
@@ -5281,7 +5282,7 @@ fieldset.radio.btn-group {
 .icon-save-copy:before,
 .icon-copy:before {
   content: "\e018";
-  color: #468847;
+  color: #51a351;
 }
 .icon-cart:before {
   content: "\e019";
