@@ -6,7 +6,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-include_once JPATH_PLATFORM . '/joomla/archive/tar.php';
 
 /**
  * Test class for JArchiveTar.
@@ -25,7 +24,8 @@ class JArchiveTarTest extends PHPUnit_Framework_TestCase
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
 	 */
-	protected function setUp() {
+	protected function setUp()
+	{
 		self::$outputPath = __DIR__ . '/output';
 
 		if (!is_dir(self::$outputPath)) {
@@ -39,8 +39,8 @@ class JArchiveTarTest extends PHPUnit_Framework_TestCase
 	 * Tears down the fixture, for example, closes a network connection.
 	 * This method is called after a test is executed.
 	 */
-	protected function tearDown() {
-
+	protected function tearDown()
+	{
 	}
 
 	/**
@@ -48,6 +48,7 @@ class JArchiveTarTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @group   JArchive
 	 * @return  void
+	 * @covers  JArchiveTar::extract
 	 */
 	public function testExtract() {
 		if (!JArchiveTar::isSupported())
@@ -64,7 +65,4 @@ class JArchiveTarTest extends PHPUnit_Framework_TestCase
 			unlink(self::$outputPath . '/logo-tar.png');
 		}
 	}
-
 }
-
-?>

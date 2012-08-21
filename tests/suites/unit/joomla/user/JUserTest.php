@@ -450,6 +450,7 @@ class JUserTest extends TestCaseDatabase
 	 * @since   12.1
 	 *
 	 * @dataProvider casesLoad
+	 * @covers  JUser::load
 	 */
 	public function testLoad($id, $expected)
 	{

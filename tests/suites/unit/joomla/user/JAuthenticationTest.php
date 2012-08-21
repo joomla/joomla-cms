@@ -254,6 +254,7 @@ class JAuthenticationTest extends TestCase
 	 *
 	 * @dataProvider casesAuthorise
 	 * @since   11.1
+	 * @covers  JAuthentication::authorise
 	 */
 	public function testAuthorise($input, $expect, $message)
 	{
