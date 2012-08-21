@@ -25,10 +25,11 @@ class JHttpTransportCurl implements JHttpTransport
 	protected $options;
 
 	/**
-	 * Constructor.
+	 * Constructor. CURLOPT_FOLLOWLOCATION must be disabled when open_basedir or safe_mode are enabled.
 	 *
 	 * @param   JRegistry  $options  Client options object.
 	 *
+	 * @see     http://www.php.net/manual/en/function.curl-setopt.php
 	 * @since   11.3
 	 * @throws  RuntimeException
 	 */
@@ -134,6 +135,9 @@ class JHttpTransportCurl implements JHttpTransport
 		// Override the Expect header to prevent cURL from confusing itself in it's own stupidity.
 		// Link: http://the-stickman.com/web-development/php-and-curl-disabling-100-continue-header/
 		$options[CURLOPT_HTTPHEADER][] = 'Expect:';
+
+		// Follow redirects.
+		$options[CURLOPT_FOLLOWLOCATION] = (bool) $this->options->get('curl.followLocation', true);
 
 		// Set the cURL options.
 		curl_setopt_array($ch, $options);
