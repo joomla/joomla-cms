@@ -158,24 +158,6 @@ abstract class JOauthV1aclient
 	}
 
 	/**
-	 * Method used to authenticate the user.
-	 *
-	 * @return void
-	 *
-	 * @since  12.2
-	 */
-	private function _authenticate()
-	{
-		$url = $this->getOption('authenticateURL') . '?oauth_token=' . $this->token['key'];
-
-		if ($this->getOption('sendheaders'))
-		{
-			JResponse::setHeader('Location', $url, true);
-			JResponse::sendHeaders();
-		}
-	}
-
-	/**
 	 * Method used to authorise the application.
 	 *
 	 * @return void
@@ -185,6 +167,12 @@ abstract class JOauthV1aclient
 	private function _authorise()
 	{
 		$url = $this->getOption('authoriseURL') . '?oauth_token=' . $this->token['key'];
+
+		if ($this->getOption('scope'))
+		{
+			$scope = is_array($this->getOption('scope')) ? implode(' ', $this->getOption('scope')) : $this->getOption('scope');
+			$url .= '&scope=' . urlencode($scope);
+		}
 
 		if ($this->getOption('sendheaders'))
 		{
