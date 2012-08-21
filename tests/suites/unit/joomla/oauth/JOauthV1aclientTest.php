@@ -203,4 +203,88 @@ class JOauthV1aclientTest extends TestCase
 			$this->assertEquals($result['secret'], 'token_secret');
 		}
 	}
+
+	/**
+	 * Tests the _generateRequestToken method - failure
+	 *
+	 * @return  void
+	 *
+	 * @since   12.2
+	 * @expectedException DomainException
+	 */
+	public function testGenerateRequestTokenFailure()
+	{
+		$this->object->setOption('requestTokenURL', 'https://example.com/request_token');
+
+		$returnData = new stdClass;
+		$returnData->code = 200;
+		$returnData->body = 'oauth_token=token&oauth_token_secret=secret&oauth_callback_confirmed=false';
+
+		$this->client->expects($this->at(0))
+			->method('post')
+			->with($this->object->getOption('requestTokenURL'))
+			->will($this->returnValue($returnData));
+
+		TestReflection::invoke($this->object, '_generateRequestToken');
+	}
+
+
+	/**
+	* Provides test data.
+	*
+	* @return array
+	*
+	* @since 12.2
+	*/
+	public function seedOauthRequest()
+	{
+		// Method
+		return array(
+			array('GET'),
+			array('PUT'),
+			array('DELETE')
+			);
+	}
+
+	/**
+	 * Tests the oauthRequest method
+	 *
+	 * @param   string  $method  The request method.
+	 *
+	 * @dataProvider seedOauthRequest
+	 * @return  void
+	 *
+	 * @since   12.2
+	 */
+	public function testOauthRequest($method)
+	{
+		$returnData = new stdClass;
+		$returnData->code = 200;
+		$returnData->body = $this->sampleString;
+
+		$this->client->expects($this->at(0))
+			->method($method)
+			->with('www.example.com')
+			->will($this->returnValue($returnData));
+
+			$this->assertThat(
+				$this->object->oauthRequest('www.example.com', $method, array('oauth_token' => '1235'), array(), array('Content-Type' => 'multipart/form-data')),
+				$this->equalTo($returnData)
+				);
+	}
+
+	/**
+	 * Tests the safeEncode
+	 *
+	 * @return  void
+	 *
+	 * @since   12.2
+	 */
+	public function testSafeEncodeEmpty()
+	{
+		$this->assertThat(
+			$this->object->safeEncode(null),
+			$this->equalTo('')
+			);
+	}
 }
