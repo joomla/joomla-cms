@@ -32,7 +32,8 @@ $ -> Language fix or change
  - Removed the beez5 template.
  ^ Handle removed templates in the sample data. Thanks Elin.
  ^ Normalise all CSS files based on our own lessphp based compiler.
- # [#29026] Update Hathor Less files to use Bootstrap variable names and mixins
+ # [#29026] Update Hathor Less files to use Bootstrap variable names and mixins. Thanks Michael.
+ # [#28964] Update jQuery to 1.8.1 and jQuery UI to 1.8.23
 
 01-Sept-2012 Jean-Marie Simonet
  # [#29034] img border is deprecated in html4, obsolete in html5.Thanks Chris

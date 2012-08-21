@@ -33,9 +33,9 @@ endif;
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" >
 <head>
-	<script src="../media/jui/js/jquery.js"></script>
-	<script src="../media/jui/js/bootstrap.min.js"></script>
-	<script src="../media/jui/js/chosen.jquery.min.js"></script>
+	<script src="<?php echo JUri::root(); ?>media/jui/js/jquery.min.js"></script>
+	<script src="<?php echo JUri::root(); ?>media/jui/js/bootstrap.min.js"></script>
+	<script src="<?php echo JUri::root(); ?>media/jui/js/chosen.jquery.min.js"></script>
 	<script type="text/javascript">
 	  jQuery.noConflict();
 	</script>
