@@ -141,7 +141,7 @@ abstract class JOauthV1aclient
 		$response = $this->oauthRequest($this->getOption('requestTokenURL'), 'POST', $parameters);
 
 		parse_str($response->body, $params);
-		if ($params['oauth_callback_confirmed'] == true)
+		if (!strcmp($params['oauth_callback_confirmed'], 'true'))
 		{
 			// Save the request token.
 			$this->token = array('key' => $params['oauth_token'], 'secret' => $params['oauth_token_secret']);
