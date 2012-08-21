@@ -1488,6 +1488,7 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 		}
 		elseif ($locale != false && !setlocale(LC_COLLATE, $locale))
 		{
+			// If the locale is not available, we can't have to transcode the string and can't reliably compare it.
 			$this->markTestSkipped("Locale {$locale} is not available.");
 			return;
 		}
