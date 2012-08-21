@@ -112,4 +112,32 @@ class JLinkedinOauth extends JOauthV1aclient
 			}
 		}
 	}
+
+	/**
+	 * Method used to set permissions.
+	 *
+	 * @param   mixed  $scope  String or an array of string containing permissions.
+	 *
+	 * @return  JLinkedinOauth  This object for method chaining
+	 *
+	 * @see     https://developer.linkedin.com/documents/authentication
+	 * @since   12.3
+	 */
+	public function setScope($scope)
+	{
+		$this->setOption('scope', $scope);
+		return $this;
+	}
+
+	/**
+	 * Method to get the current scope
+	 *
+	 * @return  string String or an array of string containing permissions.
+	 *
+	 * @since   12.3
+	 */
+	public function getScope()
+	{
+		return $this->getOption('scope');
+	}
 }
