@@ -7,8 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM . '/joomla/oauth/oauth1aclient.php';
-include_once __DIR__ . '/stubs/JOauth1aClientInspector.php';
+require_once JPATH_PLATFORM . '/joomla/oauth/v1aclient.php';
+include_once __DIR__ . '/stubs/JOauthV1aclientInspector.php';
 
 /**
  * Test class for JOauth1aClient.
@@ -17,7 +17,7 @@ include_once __DIR__ . '/stubs/JOauth1aClientInspector.php';
  * @subpackage  OAuth
  * @since       12.2
  */
-class JOauth1aClientTest extends TestCase
+class JOauthV1aclientTest extends TestCase
 {
 	/**
 	 * @var    Input  input for the Oauth object.
@@ -76,7 +76,7 @@ class JOauth1aClientTest extends TestCase
 		$this->options->set('consumer_key', $key);
 		$this->options->set('consumer_secret', $secret);
 		$this->options->set('callback', $my_url);
-		$this->object = new JOauth1aClientInspector($this->options, $this->client, $this->input);
+		$this->object = new JOauthV1aclientInspector($this->options, $this->client, $this->input);
 	}
 
 	/**
