@@ -28,6 +28,7 @@ $ -> Language fix or change
 
 12-Aug-2012 Rouven Weßling
  ^ Merge latest platform (bf746b2389fbea9c0fa48ea015320c18beb8d0f3)
+ ^ Remove use of the deprecated JProfiler::getMemory().
 
 20-Aug-2012 Rouven Weßling
  + Add setup for unit testing. Thanks Michael.
