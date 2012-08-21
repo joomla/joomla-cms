@@ -407,6 +407,13 @@ body .navbar-fixed-top{
 	display: none;
 }
 
+@media (min-width: 481px) {
+	#filter-bar {
+		// Fix for Firefox
+		height: 29px;
+	}
+}
+
 /* Extended Responsive Styles */
 @media (max-width: 480px) {
 	.table th:nth-of-type(n+5),
