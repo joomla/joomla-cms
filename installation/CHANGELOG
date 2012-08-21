@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+21-Aug-2012 Jean-Marie Simonet
+ # [#28951] Increase stability in language installer. Thanks Javier
+
 14-Aug-2012 Jean-Marie Simonet
  # Prevents non installable packs to display in Install Languages manager
  # [#28039] Using Chrome for Android generates an error in browser.php (line 562)

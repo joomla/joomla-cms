@@ -190,7 +190,7 @@ class InstallerModelUpdate extends JModelList
 	{
 		$app = JFactory::getApplication();
 		if (isset($update->get('downloadurl')->_data)) {
-			$url = $update->downloadurl->_data;
+			$url = trim($update->downloadurl->_data);
 		} else {
 			JError::raiseWarning('', JText::_('COM_INSTALLER_INVALID_EXTENSION_UPDATE'));
 			return false;

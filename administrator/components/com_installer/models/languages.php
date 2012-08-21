@@ -217,8 +217,8 @@ class InstallerModelLanguages extends JModelList
 	{
 		$instance = JTable::getInstance('update');
 		$instance->load($uid);
-
-		return $instance->detailsurl;
+		$detailurl = trim($instance->detailsurl);
+		return $detailurl;
 	}
 
 	/**
@@ -232,7 +232,7 @@ class InstallerModelLanguages extends JModelList
 	{
 		$update = new JUpdate;
 		$update->loadFromXML($remote_manifest);
-		$package_url = $update->get('downloadurl', false)->_data;
+		$package_url = trim($update->get('downloadurl', false)->_data);
 
 		return $package_url;
 	}
