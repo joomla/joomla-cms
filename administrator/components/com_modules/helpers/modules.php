@@ -232,11 +232,16 @@ abstract class ModulesHelper
 	 *
 	 * @since   3.0
 	 */
-	public static function getTranslatedModulePosition($template, $position)
+	public static function getTranslatedModulePosition($clientId, $template, $position)
 	{
 		// Template translation
 		$lang = JFactory::getLanguage();
-		$lang->load('tpl_' . $template . '.sys', JPATH_SITE . '/templates/' . $template, $lang->getDefault(), false, false);
+		$path = $clientId ? JPATH_ADMINISTRATOR : JPATH_SITE;
+
+		$lang->load('tpl_'.$template.'.sys', $path, null, false, false)
+		||	$lang->load('tpl_'.$template.'.sys', $path.'/templates/'.$template, null, false, false)
+		||	$lang->load('tpl_'.$template.'.sys', $path, $lang->getDefault(), false, false)
+		||	$lang->load('tpl_'.$template.'.sys', $path.'/templates/'.$template, $lang->getDefault(), false, false);
 
 		$langKey = strtoupper('TPL_' . $template . '_POSITION_' . $position);
 		$text = JText::_($langKey);

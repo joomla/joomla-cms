@@ -26,7 +26,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
-12-Aug-2012 Rouven Weßling
+21-Aug-2012 Jean-Marie Simonet
+ # [#28954] *Administrator templates positions untranslated when editing Module position
+
+21-Aug-2012 Rouven Weßling
  ^ Merge latest platform (bf746b2389fbea9c0fa48ea015320c18beb8d0f3)
  ^ Remove use of the deprecated JProfiler::getMemory().
 
