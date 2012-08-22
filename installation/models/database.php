@@ -184,7 +184,7 @@ class InstallationModelDatabase extends JModelLegacy
 			return false;
 		}
 
-		if ($type == ('mysql' || 'mysqli'))
+		if (($type == 'mysql') || ($type == 'mysqli'))
 		{
 			// @internal MySQL versions pre 5.1.6 forbid . / or \ or NULL
 			if ((preg_match('#[\\\/\.\0]#', $options->db_name)) && (!version_compare($db_version, '5.1.6', '>=')))
@@ -208,6 +208,16 @@ class InstallationModelDatabase extends JModelLegacy
 			return false;
 		}
 
+		// PostgreSQL database older than version 9.0.0 needs to run 'CREATE LANGUAGE' to create function.
+		if (($options->db_type == 'postgresql') && (version_compare($db_version, '9.0.0', '<')))
+		{
+			$db->setQuery("CREATE LANGUAGE plpgsql");
+			$db->query();
+		}
+
+		// Get database's UTF support
+		$utfSupport = $db->hasUTFSupport();
+
 		// Try to select the database
 		try
 		{
@@ -216,7 +226,7 @@ class InstallationModelDatabase extends JModelLegacy
 		catch (RuntimeException $e)
 		{
 			// If the database could not be selected, attempt to create it and then select it.
-			if ($this->createDB($db, $options->db_name))
+			if ($this->createDB($db, $options, $utfSupport))
 			{
 				$db->select($options->db_name);
 			}
@@ -339,28 +349,31 @@ class InstallationModelDatabase extends JModelLegacy
 			return false;
 		}
 
-			// Attempt to update the table #__schema.
-			$files = JFolder::files(JPATH_ADMINISTRATOR . '/components/com_admin/sql/updates/'.(($type == 'mysqli') ? 'mysql' : $type).'/', '\.sql$');
-			if (empty($files))
+		// Attempt to update the table #__schema.
+		$files = JFolder::files(JPATH_ADMINISTRATOR . '/components/com_admin/sql/updates/'.(($type == 'mysqli') ? 'mysql' : $type).'/', '\.sql$');
+		if (empty($files))
+		{
+			$this->setError(JText::_('INSTL_ERROR_INITIALISE_SCHEMA'));
+			return false;
+		}
+		$version = '';
+		foreach ($files as $file)
+		{
+			if (version_compare($version, JFile::stripExt($file)) < 0)
 			{
-				$this->setError(JText::_('INSTL_ERROR_INITIALISE_SCHEMA'));
-				return false;
+				$version = JFile::stripExt($file);
 			}
-			$version = '';
-			foreach ($files as $file)
-			{
-				if (version_compare($version, JFile::stripExt($file)) < 0)
-				{
-					$version = JFile::stripExt($file);
-				}
-			}
-			$query = $db->getQuery(true);
-			$query->insert($db->quoteName('#__schemas'));
-			$query->columns(
-				array($db->quoteName('extension_id'), $db->quoteName('version_id'))
-			);
-			$query->values('700, ' . $db->quote($version));
-			$db->setQuery($query);
+		}
+		$query = $db->getQuery(true);
+		$query->insert($db->quoteName('#__schemas'));
+		$query->columns(
+			array(
+				$db->quoteName('extension_id'),
+				$db->quoteName('version_id')
+			)
+		);
+		$query->values('700, ' . $db->quote($version));
+		$db->setQuery($query);
 
 		try
 		{
@@ -622,7 +635,7 @@ class InstallationModelDatabase extends JModelLegacy
 	 *
 	 * @since   3.0
 	 */
-	public function createDatabase($db, $options, $utf)
+	public function createDB($db, $options, $utf)
 	{
 		// Build the create database query.
 		//$query = 'CREATE DATABASE ' . $db->quoteName($name) . ' CHARACTER SET `utf8`';
