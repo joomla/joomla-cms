@@ -121,7 +121,7 @@ class plgSystemDebug extends JPlugin
 		$html = '';
 
 		// Some "mousewheel protecting" JS
-		$html .= "<script>function toggleContainer(name) {
+		$html .= "<script type='text/javascript'>function toggleContainer(name) {
 			var e = document.getElementById(name);// MooTools might not be available ;)
 			e.style.display = (e.style.display == 'none') ? 'block' : 'none';
 		}</script>";
