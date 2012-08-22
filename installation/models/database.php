@@ -9,6 +9,7 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.filesystem.file');
+jimport('joomla.filesystem.folder');
 require_once JPATH_INSTALLATION . '/helpers/database.php';
 
 /**
@@ -503,19 +504,22 @@ class InstallationModelDatabase extends JModelLegacy
 
 		$data = JPATH_INSTALLATION . '/sql/' . $type . '/' . $options->sample_file;
 
-		// Attempt to import the database schema.
-		if (!file_exists($data))
+		// Attempt to import the database schema if one is chosen.
+		if ($options->sample_file != '')
 		{
-			$this->setError(JText::sprintf('INSTL_DATABASE_FILE_DOES_NOT_EXIST', $data));
-			return false;
-		}
-		elseif (!$this->populateDatabase($db, $data))
-		{
-			$this->setError(JText::sprintf('INSTL_ERROR_DB', $this->getError()));
-			return false;
-		}
+			if (!file_exists($data))
+			{
+				$this->setError(JText::sprintf('INSTL_DATABASE_FILE_DOES_NOT_EXIST', $data));
+				return false;
+			}
+			elseif (!$this->populateDatabase($db, $data))
+			{
+				$this->setError(JText::sprintf('INSTL_ERROR_DB', $this->getError()));
+				return false;
+			}
 
 		$this->postInstallSampleData($db);
+		}
 
 		return true;
 	}
@@ -568,7 +572,6 @@ class InstallationModelDatabase extends JModelLegacy
 	 */
 	public function backupDatabase($db, $name, $prefix)
 	{
-		// Initialise variables.
 		$return = true;
 		$backup = 'bak_' . $prefix;
 
@@ -656,7 +659,6 @@ class InstallationModelDatabase extends JModelLegacy
 	 */
 	public function deleteDatabase($db, $name, $prefix)
 	{
-		// Initialise variables.
 		$return = true;
 
 		// Get the tables in the database.
@@ -697,7 +699,6 @@ class InstallationModelDatabase extends JModelLegacy
 	 */
 	public function populateDatabase($db, $schema)
 	{
-		// Initialise variables.
 		$return = true;
 
 		// Get the contents of the schema file.

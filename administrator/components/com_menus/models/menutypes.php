@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+jimport('joomla.filesystem.folder');
+
 /**
  * Menu Item Types Model for Menus.
  *
@@ -49,7 +51,6 @@ class MenusModelMenutypes extends JModelLegacy
 	{
 		jimport('joomla.filesystem.file');
 
-		// Initialise variables.
 		$lang = JFactory::getLanguage();
 		$list = array();
 
@@ -91,7 +92,6 @@ class MenusModelMenutypes extends JModelLegacy
 
 	protected function getTypeOptionsByComponent($component)
 	{
-		// Initialise variables.
 		$options = array();
 
 		$mainXML = JPATH_SITE.'/components/'.$component.'/metadata.xml';
@@ -109,7 +109,6 @@ class MenusModelMenutypes extends JModelLegacy
 
 	protected function getTypeOptionsFromXML($file, $component)
 	{
-		// Initialise variables.
 		$options = array();
 
 		// Attempt to load the xml file.
@@ -181,7 +180,6 @@ class MenusModelMenutypes extends JModelLegacy
 
 	protected function getTypeOptionsFromMVC($component)
 	{
-		// Initialise variables.
 		$options = array();
 
 		// Get the views for this component.
@@ -264,7 +262,6 @@ class MenusModelMenutypes extends JModelLegacy
 
 	protected function getTypeOptionsFromLayouts($component, $view)
 	{
-		// Initialise variables.
 		$options = array();
 		$layouts = array();
 		$layoutNames = array();

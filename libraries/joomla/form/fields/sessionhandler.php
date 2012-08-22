@@ -39,7 +39,6 @@ class JFormFieldSessionHandler extends JFormFieldList
 	 */
 	protected function getOptions()
 	{
-		// Initialize variables.
 		$options = array();
 
 		// Get the options from JSession.

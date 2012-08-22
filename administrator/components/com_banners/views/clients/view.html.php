@@ -29,7 +29,6 @@ class BannersViewClients extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		// Initialise variables.
 		$this->items		= $this->get('Items');
 		$this->pagination	= $this->get('Pagination');
 		$this->state		= $this->get('State');
@@ -39,6 +38,8 @@ class BannersViewClients extends JViewLegacy
 			JError::raiseError(500, implode("\n", $errors));
 			return false;
 		}
+
+		BannersHelper::addSubmenu('clients');
 
 		$this->addToolbar();
 		parent::display($tpl);
@@ -79,6 +80,14 @@ class BannersViewClients extends JViewLegacy
 		}
 
 		JToolbarHelper::help('JHELP_COMPONENTS_BANNERS_CLIENTS');
+
+		JSubMenuHelper::setAction('index.php?option=com_banners&view=clients');
+
+		JSubMenuHelper::addFilter(
+			JText::_('JOPTION_SELECT_PUBLISHED'),
+			'filter_state',
+			JHtml::_('select.options', JHtml::_('jgrid.publishedOptions'), 'value', 'text', $this->state->get('filter.published'), true)
+		);
 	}
 	/**
 	 * Returns an array of fields the table can be sorted by

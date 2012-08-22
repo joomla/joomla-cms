@@ -26,7 +26,6 @@ class MessagesControllerConfig extends JControllerLegacy
 		// Check for request forgeries.
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		// Initialise variables.
 		$app		= JFactory::getApplication();
 		$model		= $this->getModel('Config', 'MessagesModel');
 		$data		= JRequest::getVar('jform', array(), 'post', 'array');

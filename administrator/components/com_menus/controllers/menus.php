@@ -91,7 +91,6 @@ class MenusControllerMenus extends JControllerLegacy
 
 		$this->setRedirect('index.php?option=com_menus&view=menus');
 
-		// Initialise variables.
 		$model = $this->getModel('Item');
 
 		if ($model->rebuild()) {
@@ -110,7 +109,6 @@ class MenusControllerMenus extends JControllerLegacy
 	 */
 	public function resync()
 	{
-		// Initialise variables.
 		$db = JFactory::getDbo();
 		$parts = null;
 

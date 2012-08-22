@@ -21,6 +21,12 @@ $input = JFactory::getApplication()->input;
 			</div>
 		</div>
 	</div>
+	<style>
+		.overall-progress,
+		.current-progress {
+			width: 150px;
+		}
+	</style>
 	<!-- End Sidebar -->
 	<!-- Begin Content -->
 	<div class="span10">
@@ -64,10 +70,10 @@ $input = JFactory::getApplication()->input;
 						</ul>
 						<div class="clr"> </div>
 						<p class="overall-title"></p>
-						<?php echo JHtml::_('image', 'media/bar.gif', JText::_('COM_MEDIA_OVERALL_PROGRESS'), array('class' => 'progress overall-progress'), true); ?>
+						<div class="overall-progress"></div>
 						<div class="clr"> </div>
 						<p class="current-title"></p>
-						<?php echo JHtml::_('image', 'media/bar.gif', JText::_('COM_MEDIA_CURRENT_PROGRESS'), array('class' => 'progress current-progress'), true); ?>
+						<div class="current-progress"></div>
 						<p class="current-text"></p>
 					</div>
 					<ul class="upload-queue" id="upload-queue">

@@ -31,9 +31,6 @@ class MenusController extends JControllerLegacy
 	{
 		require_once JPATH_COMPONENT.'/helpers/menus.php';
 
-		// Load the submenu.
-		MenusHelper::addSubmenu($this->input->get('view'));
-
 		$view   = $this->input->get('view', 'menus');
 		$layout = $this->input->get('layout', 'default');
 		$id     = $this->input->getInt('id');

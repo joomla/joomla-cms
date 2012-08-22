@@ -288,7 +288,6 @@ class JComponentHelper
 	 */
 	public static function renderComponent($option, $params = array())
 	{
-		// Initialise variables.
 		$app = JFactory::getApplication();
 
 		// Load template language files.

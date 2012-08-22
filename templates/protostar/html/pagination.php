@@ -112,7 +112,6 @@ function pagination_list_render($list)
 		}
 	}
 
-	// Initialize variables
 	$html = '<ul class="pagination-list">';
 	$html .= $list['start']['data'];
 	$html .= $list['previous']['data'];

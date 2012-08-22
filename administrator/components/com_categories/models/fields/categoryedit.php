@@ -38,7 +38,6 @@ class JFormFieldCategoryEdit extends JFormFieldList
 	 */
 	protected function getOptions()
 	{
-		// Initialise variables.
 		$options = array();
 		$published = $this->element['published']? $this->element['published'] : array(0,1);
 		$name = (string) $this->element['name'];

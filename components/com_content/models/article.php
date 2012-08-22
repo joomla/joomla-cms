@@ -64,7 +64,6 @@ class ContentModelArticle extends JModelItem
 	 */
 	public function &getItem($pk = null)
 	{
-		// Initialise variables.
 		$pk = (!empty($pk)) ? $pk : (int) $this->getState('article.id');
 
 		if ($this->_item === null) {

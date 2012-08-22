@@ -61,7 +61,6 @@ class MediaControllerFolder extends JControllerLegacy
 		// Set FTP credentials, if given
 		JClientHelper::setCredentialsFromRequest('ftp');
 
-		// Initialise variables.
 		$ret = true;
 
 		JPluginHelper::importPlugin('content');

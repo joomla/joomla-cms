@@ -53,11 +53,12 @@ class LanguagesViewOverrides extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		// Get data from the model
-		$this->state			= $this->get('State');
-		$this->items			= $this->get('Overrides');
-		$this->languages	= $this->get('Languages');
-		$this->pagination	= $this->get('Pagination');
+		$this->state      = $this->get('State');
+		$this->items      = $this->get('Overrides');
+		$this->languages  = $this->get('Languages');
+		$this->pagination = $this->get('Pagination');
+
+		LanguagesHelper::addSubmenu('overrides');
 
 		// Check for errors
 		if (count($errors = $this->get('Errors')))
@@ -104,5 +105,15 @@ class LanguagesViewOverrides extends JViewLegacy
 		}
 		JToolbarHelper::divider();
 		JToolbarHelper::help('JHELP_EXTENSIONS_LANGUAGE_MANAGER_OVERRIDES');
+
+		JSubMenuHelper::setAction('index.php?option=com_languages&view=overrides');
+
+		JSubMenuHelper::addFilter(
+			// @todo need a label here
+			'',
+			'filter_language_client',
+			JHtml::_('select.options', $this->languages, null, 'text', $this->state->get('filter.language_client')),
+			true
+		);
 	}
 }

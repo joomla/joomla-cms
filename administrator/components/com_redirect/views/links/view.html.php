@@ -93,5 +93,13 @@ class RedirectViewLinks extends JViewLegacy
 			JToolbarHelper::divider();
 		}
 		JToolbarHelper::help('JHELP_COMPONENTS_REDIRECT_MANAGER');
+
+		JSubMenuHelper::setAction('index.php?option=com_redirect&view=links');
+
+		JSubMenuHelper::addFilter(
+			JText::_('JOPTION_SELECT_PUBLISHED'),
+			'filter_state',
+			JHtml::_('select.options', RedirectHelper::publishedOptions(), 'value', 'text', $this->state->get('filter.state'), true)
+		);
 	}
 }

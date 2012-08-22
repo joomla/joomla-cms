@@ -44,64 +44,6 @@ $sortFields = $this->getSortFields();
 </script>
 
 <form action="<?php echo JRoute::_('index.php?option=com_content&view=featured');?>" method="post" name="adminForm" id="adminForm">
-	<div class="row-fluid">
-		<!-- Begin Sidebar -->
-		<div id="sidebar" class="span2">
-			<div class="sidebar-nav">
-				<?php
-					// Display the submenu position modules
-					$this->submenumodules = JModuleHelper::getModules('submenu');
-					foreach ($this->submenumodules as $submenumodule) {
-						$output = JModuleHelper::renderModule($submenumodule);
-						$params = new JRegistry;
-						$params->loadString($submenumodule->params);
-						echo $output;
-					}
-				?>
-				<hr />
-				<div class="filter-select hidden-phone">
-					<h4 class="page-header"><?php echo JText::_('JSEARCH_FILTER_LABEL');?></h4>
-					<label for="filter_published" class="element-invisible"><?php echo JText::_('JOPTION_SELECT_PUBLISHED');?></label>
-					<select name="filter_published" id="filter_published" class="span12 small" onchange="this.form.submit()">
-						<option value=""><?php echo JText::_('JOPTION_SELECT_PUBLISHED');?></option>
-						<?php echo JHtml::_('select.options', JHtml::_('jgrid.publishedOptions'), 'value', 'text', $this->state->get('filter.published'), true);?>
-					</select>
-					<hr class="hr-condensed" />
-					<label for="filter_category_id" class="element-invisible"><?php echo JText::_('JOPTION_SELECT_CATEGORY');?></label>
-					<select name="filter_category_id" id="filter_category_id" class="span12 small" onchange="this.form.submit()">
-						<option value=""><?php echo JText::_('JOPTION_SELECT_CATEGORY');?></option>
-						<?php echo JHtml::_('select.options', JHtml::_('category.options', 'com_content'), 'value', 'text', $this->state->get('filter.category_id'));?>
-					</select>
-					<hr class="hr-condensed" />
-					<label for="filter_level" class="element-invisible"><?php echo JText::_('JOPTION_SELECT_MAX_LEVELS');?></label>
-					<select name="filter_level" id="filter_level" class="span12 small" onchange="this.form.submit()">
-						<option value=""><?php echo JText::_('JOPTION_SELECT_MAX_LEVELS');?></option>
-						<?php echo JHtml::_('select.options', $this->f_levels, 'value', 'text', $this->state->get('filter.level'));?>
-					</select>
-					<hr class="hr-condensed" />
-					<label for="filter_access" class="element-invisible"><?php echo JText::_('JOPTION_SELECT_ACCESS');?></label>
-					<select name="filter_access" id="filter_access" class="span12 small" onchange="this.form.submit()">
-						<option value=""><?php echo JText::_('JOPTION_SELECT_ACCESS');?></option>
-						<?php echo JHtml::_('select.options', JHtml::_('access.assetgroups'), 'value', 'text', $this->state->get('filter.access'));?>
-					</select>
-					<hr class="hr-condensed" />
-					<label for="filter_author_id" class="element-invisible"><?php echo JText::_('JOPTION_SELECT_AUTHOR');?></label>
-					<select name="filter_author_id" id="filter_author_id" class="span12 small" onchange="this.form.submit()">
-						<option value=""><?php echo JText::_('JOPTION_SELECT_AUTHOR');?></option>
-						<?php echo JHtml::_('select.options', $this->authors, 'value', 'text', $this->state->get('filter.author_id'));?>
-					</select>
-					<hr class="hr-condensed" />
-					<label for="filter_language" class="element-invisible"><?php echo JText::_('JOPTION_SELECT_LANGUAGE');?></label>
-					<select name="filter_language" id="filter_language" class="span12 small" onchange="this.form.submit()">
-						<option value=""><?php echo JText::_('JOPTION_SELECT_LANGUAGE');?></option>
-						<?php echo JHtml::_('select.options', JHtml::_('contentlanguage.existing', true, true), 'value', 'text', $this->state->get('filter.language'));?>
-					</select>
-				</div>
-			</div>
-		</div>
-		<!-- End Sidebar -->
-		<!-- Begin Content -->
-		<div class="span10">
 			<div id="filter-bar" class="btn-toolbar">
 				<div class="filter-search btn-group pull-left">
 					<label for="filter_search" class="element-invisible"><?php echo JText::_('COM_CONTENT_FILTER_SEARCH_DESC');?></label>
@@ -224,78 +166,72 @@ $sortFields = $this->getSortFields();
 								<?php else : ?>
 									<span title="<?php echo JText::sprintf('JFIELD_ALIAS_LABEL', $this->escape($item->alias));?>"><?php echo $this->escape($item->title); ?></span>
 								<?php endif; ?>
-								<div class="small">
-									<?php echo JText::_('JCATEGORY') . ": " . $this->escape($item->category_title); ?>
-								</div>
-							</div>
-							<div class="pull-left">
-								<?php
-									// Create dropdown items
-									JHtml::_('dropdown.edit', $item->id, 'article.', 'index.php?option=com_content&return=featured');
-									JHtml::_('dropdown.divider');
-									if ($item->state) :
-										JHtml::_('dropdown.unpublish', 'cb' . $i, 'articles.');
-									else :
-										JHtml::_('dropdown.publish', 'cb' . $i, 'articles.');
-									endif;
+						<div class="small">
+							<?php echo JText::_('JCATEGORY') . ": " . $this->escape($item->category_title); ?>
+						</div>
+					</div>
+					<div class="pull-left">
+						<?php
+							// Create dropdown items
+							JHtml::_('dropdown.edit', $item->id, 'article.', 'index.php?option=com_content&return=featured');
+							JHtml::_('dropdown.divider');
+							if ($item->state) :
+								JHtml::_('dropdown.unpublish', 'cb' . $i, 'articles.');
+							else :
+								JHtml::_('dropdown.publish', 'cb' . $i, 'articles.');
+							endif;
 
-									JHtml::_('dropdown.divider');
+							JHtml::_('dropdown.divider');
 
-									if ($archived) :
-										JHtml::_('dropdown.unarchive', 'cb' . $i, 'articles.');
-									else :
-										JHtml::_('dropdown.archive', 'cb' . $i, 'articles.');
-									endif;
+							if ($archived) :
+								JHtml::_('dropdown.unarchive', 'cb' . $i, 'articles.');
+							else :
+								JHtml::_('dropdown.archive', 'cb' . $i, 'articles.');
+							endif;
 
-									if ($item->checked_out) :
-										JHtml::_('dropdown.checkin', 'cb' . $i, 'articles.');
-									endif;
+							if ($item->checked_out) :
+								JHtml::_('dropdown.checkin', 'cb' . $i, 'articles.');
+							endif;
 
-									if ($trashed) :
-										JHtml::_('dropdown.untrash', 'cb' . $i, 'articles.');
-									else :
-										JHtml::_('dropdown.trash', 'cb' . $i, 'articles.');
-									endif;
+							if ($trashed) :
+								JHtml::_('dropdown.untrash', 'cb' . $i, 'articles.');
+							else :
+								JHtml::_('dropdown.trash', 'cb' . $i, 'articles.');
+							endif;
 
-									// render dropdown list
-									echo JHtml::_('dropdown.render');
-								?>
-							</div>
+							// Render dropdown list
+							echo JHtml::_('dropdown.render');
+						?>
+					</div>
+				</td>
+				<td class="small hidden-phone">
+					<?php echo $this->escape($item->access_level); ?>
+				</td>
+				<td class="small hidden-phone">
+					<?php echo $this->escape($item->author_name); ?>
+				</td>
+				<td class="small hidden-phone">
+					<?php if ($item->language == '*'):?>
+						<?php echo JText::alt('JALL', 'language'); ?>
+					<?php else:?>
+						<?php echo $item->language_title ? $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
+					<?php endif;?>
+				</td>
+				<td class="nowrap small hidden-phone">
+					<?php echo JHtml::_('date', $item->created, JText::_('DATE_FORMAT_LC4')); ?>
+				</td>
+				<td class="center hidden-phone">
+					<?php echo (int) $item->id; ?>
+				</td>
+			</tr>
+			<?php endforeach; ?>
+		</tbody>
+	</table>
 
-						</td>
-						<td class="small hidden-phone">
-							<?php echo $this->escape($item->access_level); ?>
-						</td>
-						<td class="small hidden-phone">
-							<?php echo $this->escape($item->author_name); ?>
-						</td>
-						<td class="small hidden-phone">
-							<?php if ($item->language == '*'):?>
-								<?php echo JText::alt('JALL', 'language'); ?>
-							<?php else:?>
-								<?php echo $item->language_title ? $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
-							<?php endif;?>
-						</td>
-						<td class="nowrap small hidden-phone">
-							<?php echo JHtml::_('date', $item->created, JText::_('DATE_FORMAT_LC4')); ?>
-						</td>
-						<td class="center hidden-phone">
-							<?php echo (int) $item->id; ?>
-						</td>
-					</tr>
-					<?php endforeach; ?>
-				</tbody>
-			</table>
-
-			<div>
-				<input type="hidden" name="task" value="" />
-				<input type="hidden" name="featured" value="1" />
-				<input type="hidden" name="boxchecked" value="0" />
-				<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>" />
-				<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>" />
-				<?php echo JHtml::_('form.token'); ?>
-			</div>
-		</div>
-		<!-- End Content -->
-	</div>
+	<input type="hidden" name="task" value="" />
+	<input type="hidden" name="featured" value="1" />
+	<input type="hidden" name="boxchecked" value="0" />
+	<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>" />
+	<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>" />
+	<?php echo JHtml::_('form.token'); ?>
 </form>

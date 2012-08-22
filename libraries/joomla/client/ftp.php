@@ -250,7 +250,6 @@ class JClientFtp
 	 */
 	public function connect($host = '127.0.0.1', $port = 21)
 	{
-		// Initialise variables.
 		$errno = null;
 		$err = null;
 
@@ -396,7 +395,6 @@ class JClientFtp
 			return $ret;
 		}
 
-		// Initialise variables.
 		$match = array(null);
 
 		// Send print working directory command and verify success
@@ -1141,7 +1139,6 @@ class JClientFtp
 	 */
 	public function listNames($path = null)
 	{
-		// Initialise variables.
 		$data = null;
 
 		// If native FTP support is enabled let's use it...
@@ -1241,7 +1238,6 @@ class JClientFtp
 	 */
 	public function listDetails($path = null, $type = 'all')
 	{
-		// Initialise variables.
 		$dir_list = array();
 		$data = null;
 		$regs = null;
@@ -1477,7 +1473,6 @@ class JClientFtp
 	 */
 	protected function _verifyResponse($expected)
 	{
-		// Initialise variables.
 		$parts = null;
 
 		// Wait for a response from the server, but timeout after the set time limit
@@ -1535,7 +1530,6 @@ class JClientFtp
 	 */
 	protected function _passive()
 	{
-		// Initialize variables.
 		$match = array();
 		$parts = array();
 		$errno = null;

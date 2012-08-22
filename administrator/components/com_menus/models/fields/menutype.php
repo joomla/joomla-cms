@@ -36,7 +36,6 @@ class JFormFieldMenutype extends JFormFieldList
 	 */
 	protected function getInput()
 	{
-		// Initialise variables.
 		$html 		= array();
 		$recordId	= (int) $this->form->getValue('id');
 		$size		= ($v = $this->element['size']) ? ' size="'.$v.'"' : '';

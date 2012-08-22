@@ -25,7 +25,6 @@ abstract class modLoggedHelper
 	 */
 	public static function getList($params)
 	{
-		// Initialise variables
 		$db = JFactory::getDbo();
 		$user = JFactory::getUser();
 		$query = $db->getQuery(true);

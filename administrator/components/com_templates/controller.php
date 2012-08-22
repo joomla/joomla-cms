@@ -35,9 +35,6 @@ class TemplatesController extends JControllerLegacy
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{
-		// Load the submenu.
-		TemplatesHelper::addSubmenu($this->input->get('view', 'styles'));
-
 		$view   = $this->input->get('view', 'styles');
 		$layout = $this->input->get('layout', 'default');
 		$id     = $this->input->getInt('id');

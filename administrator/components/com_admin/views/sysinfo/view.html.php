@@ -53,7 +53,6 @@ class AdminViewSysinfo extends JViewLegacy
 			return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
 		}
 
-		// Initialise variables.
 		$this->php_settings	= $this->get('PhpSettings');
 		$this->config		= $this->get('config');
 		$this->info			= $this->get('info');

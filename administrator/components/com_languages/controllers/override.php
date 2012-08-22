@@ -66,7 +66,6 @@ class LanguagesControllerOverride extends JControllerForm
 		// Check for request forgeries
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		// Initialize variables
 		$app     = JFactory::getApplication();
 		$model   = $this->getModel();
 		$data    = JRequest::getVar('jform', array(), 'post', 'array');
@@ -189,9 +188,8 @@ class LanguagesControllerOverride extends JControllerForm
 	{
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		// Initialize variables
-		$app			= JFactory::getApplication();
-		$context	= "$this->option.edit.$this->context";
+		$app     = JFactory::getApplication();
+		$context = "$this->option.edit.$this->context";
 
 		$app->setUserState($context.'.data',	null);
 		$this->setRedirect(JRoute::_('index.php?option='.$this->option.'&view='.$this->view_list.$this->getRedirectToListAppend(), false));

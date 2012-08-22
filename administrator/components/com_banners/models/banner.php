@@ -436,7 +436,6 @@ class BannersModelBanner extends JModelAdmin
 	 */
 	public function stick(&$pks, $value = 1)
 	{
-		// Initialise variables.
 		$user = JFactory::getUser();
 		$table = $this->getTable();
 		$pks = (array) $pks;

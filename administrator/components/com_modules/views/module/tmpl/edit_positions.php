@@ -30,7 +30,7 @@ foreach ($templates as $template)
 	$positions = TemplatesHelper::getPositions($clientId, $template);
 	foreach ($positions as $position)
 	{
-		$text = ModulesHelper::getTranslatedModulePosition($template, $position) . ' [' . $position . ']';
+		$text = ModulesHelper::getTranslatedModulePosition($clientId, $template, $position) . ' [' . $position . ']';
 		$options[] = ModulesHelper::createOption($position, $text);
 
 		if (!$isTemplatePosition && $this->item->position === $position)

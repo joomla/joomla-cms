@@ -76,6 +76,18 @@ else
 	$span = "span12";
 }
 
+$showSubmenu = false;
+$this->submenumodules = JModuleHelper::getModules('submenu');
+foreach ($this->submenumodules as $submenumodule)
+{
+	$output = JModuleHelper::renderModule($submenumodule);
+	if (strlen($output))
+	{
+		$showSubmenu = true;
+		break;
+	}
+}
+
 // Logo file
 if ($this->params->get('logoFile'))
 {
@@ -124,13 +136,19 @@ else
 	<div class="navbar navbar-fixed-top">
 		<div class="navbar-inner">
 			<div class="container-fluid">
-				<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-				</a>
+				<?php if ($this->params->get('admin_menus') != '0') : ?>
+					<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</a>
+				<?php endif; ?>
 				<a class="brand" href="<?php echo JURI::root(); ?>" title="<?php echo JText::_('JGLOBAL_PREVIEW');?> <?php echo $sitename; ?>" target="_blank"><?php echo JHtml::_('string.truncate', $sitename, 14, false, false);?> <i class="icon-out-2 small"></i></a>
+				<?php if ($this->params->get('admin_menus') != '0') : ?>
 				<div class="nav-collapse">
+				<?php else : ?>
+				<div>
+				<?php endif; ?>
 					<jdoc:include type="modules" name="menu" style="none" />
 					<ul class="<?php if ($this->direction == 'rtl') : ?>nav<?php else : ?>nav pull-right<?php endif; ?>">
 						<li class="dropdown"> <a class="dropdown-toggle" data-toggle="dropdown" href="#"><?php echo JText::_('TPL_ISIS_SETTINGS');?> <b class="caret"></b></a>
@@ -209,8 +227,20 @@ else
 			<div id="content" class="<?php echo $span;?>">
 				<!-- Begin Content -->
 				<jdoc:include type="modules" name="top" style="xhtml" />
-				<jdoc:include type="message" />
-				<jdoc:include type="component" />
+				<div class="row-fluid">
+					<?php if ($showSubmenu) : ?>
+						<div class="span2">
+							<jdoc:include type="modules" name="submenu" style="none" />
+						</div>
+						<div class="span10">
+					<?php else : ?>
+						<div class="span12">
+					<?php endif; ?>
+							<jdoc:include type="message" />
+							<jdoc:include type="component" />
+						</div>
+					</span>
+				</div>
 				<jdoc:include type="modules" name="bottom" style="xhtml" />
 				<!-- End Content -->
 			</div>

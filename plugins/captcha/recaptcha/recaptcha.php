@@ -212,7 +212,6 @@ class plgCaptchaRecaptcha extends JPlugin
 	 */
 	private function _getLanguage()
 	{
-		// Initialise variables
 		$language = JFactory::getLanguage();
 
 		$tag = explode('-', $language->getTag());

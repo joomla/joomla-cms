@@ -208,7 +208,6 @@ class BannersTableBanner extends JTable
 	 */
 	public function publish($pks = null, $state = 1, $userId = 0)
 	{
-		// Initialise variables.
 		$k = $this->_tbl_key;
 
 		// Sanitize input.
@@ -276,7 +275,6 @@ class BannersTableBanner extends JTable
 	 */
 	public function stick($pks = null, $state = 1, $userId = 0)
 	{
-		// Initialise variables.
 		$k = $this->_tbl_key;
 
 		// Sanitize input.

@@ -106,7 +106,6 @@ class InstallerModelLanguages extends JModelList
 	 */
 	protected function populateState($ordering = 'name', $direction = 'asc')
 	{
-		// Initialise variables.
 		$app = JFactory::getApplication();
 
 		$value = $app->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');

@@ -10,25 +10,7 @@
 defined('_JEXEC') or die;
 ?>
 <div id="installer-warnings">
-<form action="<?php echo JRoute::_('index.php?option=com_installer&view=warnings');?>" method="post" name="adminForm" id="adminForm">
-	<!-- Begin Sidebar -->
-	<div id="sidebar" class="span2">
-		<div class="sidebar-nav">
-			<?php
-				// Display the submenu position modules
-				$this->submenumodules = JModuleHelper::getModules('submenu');
-				foreach ($this->submenumodules as $submenumodule) {
-					$output = JModuleHelper::renderModule($submenumodule);
-					$params = new JRegistry;
-					$params->loadString($submenumodule->params);
-					echo $output;
-				}
-			?>
-		</div>
-	</div>
-	<!-- End Sidebar -->
-	<!-- Begin Content -->
-	<div class="span10">
+	<form action="<?php echo JRoute::_('index.php?option=com_installer&view=warnings');?>" method="post" name="adminForm" id="adminForm">
 	<?php
 
 	if (!count($this->messages)) {
@@ -49,7 +31,5 @@ defined('_JEXEC') or die;
 			<input type="hidden" name="boxchecked" value="0" />
 			<?php echo JHtml::_('form.token'); ?>
 		</div>
-	</div>
-	<!-- End Content -->
-</form>
+	</form>
 </div>

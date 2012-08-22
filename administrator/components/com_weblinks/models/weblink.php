@@ -90,7 +90,6 @@ class WeblinksModelWeblink extends JModelAdmin
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
-		// Initialise variables.
 		$app = JFactory::getApplication();
 
 		// Get the form.

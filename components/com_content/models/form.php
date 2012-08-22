@@ -57,7 +57,6 @@ class ContentModelForm extends ContentModelArticle
 	 */
 	public function getItem($itemId = null)
 	{
-		// Initialise variables.
 		$itemId = (int) (!empty($itemId)) ? $itemId : $this->getState('article.id');
 
 		// Get a row instance.

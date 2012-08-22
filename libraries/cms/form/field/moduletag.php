@@ -35,7 +35,6 @@ class JFormFieldModuleTag extends JFormFieldList
 	 */
 	protected function getOptions()
 	{
-		// Initialize variables.
 		$options = array();
 		$tags = array('div', 'section', 'aside', 'nav', 'address', 'article');
 

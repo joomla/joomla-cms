@@ -28,7 +28,6 @@ class ContentViewForm extends JViewLegacy
 
 	public function display($tpl = null)
 	{
-		// Initialise variables.
 		$app		= JFactory::getApplication();
 		$user		= JFactory::getUser();
 

@@ -110,6 +110,58 @@ class ModulesViewModules extends JViewLegacy
 			JToolbarHelper::preferences('com_modules');
 		}
 		JToolbarHelper::help('JHELP_EXTENSIONS_MODULE_MANAGER');
+
+		JSubMenuHelper::addEntry(
+			JText::_('JSITE'),
+			'index.php?option=com_modules&filter_client_id=0',
+			$this->state->get('filter.client_id') == 0
+		);
+
+		JSubMenuHelper::addEntry(
+			JText::_('JADMINISTRATOR'),
+			'index.php?option=com_modules&filter_client_id=1',
+			$this->state->get('filter.client_id') == 1
+		);
+
+		JSubMenuHelper::setAction('index.php?option=com_modules');
+
+		JSubMenuHelper::addFilter(
+			// @todo we need a label for this
+			'',
+			'filter_client_id',
+			JHtml::_('select.options', ModulesHelper::getClientOptions(), 'value', 'text', $this->state->get('filter.client_id')),
+			false
+		);
+
+		JSubMenuHelper::addFilter(
+			JText::_('JOPTION_SELECT_PUBLISHED'),
+			'filter_state',
+			JHtml::_('select.options', ModulesHelper::getStateOptions(), 'value', 'text', $this->state->get('filter.state'))
+		);
+
+		JSubMenuHelper::addFilter(
+			JText::_('COM_MODULES_OPTION_SELECT_POSITION'),
+			'filter_position',
+			JHtml::_('select.options', ModulesHelper::getPositions($this->state->get('filter.client_id')), 'value', 'text', $this->state->get('filter.position'))
+		);
+
+		JSubMenuHelper::addFilter(
+			JText::_('COM_MODULES_OPTION_SELECT_MODULE'),
+			'filter_module',
+			JHtml::_('select.options', ModulesHelper::getModules($this->state->get('filter.client_id')), 'value', 'text', $this->state->get('filter.module'))
+		);
+
+		JSubMenuHelper::addFilter(
+			JText::_('JOPTION_SELECT_ACCESS'),
+			'filter_access',
+			JHtml::_('select.options', JHtml::_('access.assetgroups'), 'value', 'text', $this->state->get('filter.access'))
+		);
+
+		JSubMenuHelper::addFilter(
+			JText::_('JOPTION_SELECT_LANGUAGE'),
+			'filter_language',
+			JHtml::_('select.options', JHtml::_('contentlanguage.existing', true, true), 'value', 'text', $this->state->get('filter.language'))
+		);
 	}
 
 	/**

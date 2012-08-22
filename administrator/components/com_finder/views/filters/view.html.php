@@ -35,6 +35,8 @@ class FinderViewFilters extends JViewLegacy
 		$this->total = $this->get('Total');
 		$this->state = $this->get('State');
 
+		FinderHelper::addSubmenu('filters');
+
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
@@ -89,5 +91,13 @@ class FinderViewFilters extends JViewLegacy
 		$toolbar->appendButton('Popup', 'stats', 'COM_FINDER_STATISTICS', 'index.php?option=com_finder&view=statistics&tmpl=component', 550, 350);
 		JToolbarHelper::divider();
 		JToolbarHelper::help('JHELP_COMPONENTS_FINDER_MANAGE_SEARCH_FILTERS');
+
+		JSubMenuHelper::setAction('index.php?option=com_finder&view=filters');
+
+		JSubMenuHelper::addFilter(
+			JText::_('COM_FINDER_INDEX_FILTER_BY_STATE'),
+			'filter_state',
+			JHtml::_('select.options', JHtml::_('finder.statelist'), 'value', 'text', $this->state->get('filter.state'))
+		);
 	}
 }

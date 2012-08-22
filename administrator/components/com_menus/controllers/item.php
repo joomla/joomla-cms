@@ -27,7 +27,6 @@ class MenusControllerItem extends JControllerForm
 	 */
 	public function add()
 	{
-		// Initialise variables.
 		$app = JFactory::getApplication();
 		$context = 'com_menus.edit.item';
 
@@ -58,7 +57,6 @@ class MenusControllerItem extends JControllerForm
 	{
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		// Initialise variables.
 		$model = $this->getModel('Item', '', array());
 
 		// Preset the redirect
@@ -80,7 +78,6 @@ class MenusControllerItem extends JControllerForm
 	{
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		// Initialise variables.
 		$app = JFactory::getApplication();
 		$context = 'com_menus.edit.item';
 		$result = parent::cancel();
@@ -106,7 +103,6 @@ class MenusControllerItem extends JControllerForm
 	 */
 	public function edit($key = null, $urlVar = null)
 	{
-		// Initialise variables.
 		$app = JFactory::getApplication();
 		$result = parent::edit();
 
@@ -135,7 +131,6 @@ class MenusControllerItem extends JControllerForm
 		// Check for request forgeries.
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		// Initialise variables.
 		$app      = JFactory::getApplication();
 		$model    = $this->getModel('Item', '', array());
 		$data     = JRequest::getVar('jform', array(), 'post', 'array');
@@ -299,7 +294,6 @@ class MenusControllerItem extends JControllerForm
 	 */
 	public function setType()
 	{
-		// Initialise variables.
 		$app = JFactory::getApplication();
 
 		// Get the posted values from the request.

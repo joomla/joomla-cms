@@ -46,7 +46,6 @@ class TemplatesModelTemplate extends JModelLegacy
 	 */
 	public function getFiles()
 	{
-		// Initialise variables.
 		$result	= array();
 
 		if ($template = $this->getTemplate()) {
@@ -121,7 +120,6 @@ class TemplatesModelTemplate extends JModelLegacy
 	public function &getTemplate()
 	{
 		if (empty($this->template)) {
-			// Initialise variables.
 			$pk		= $this->getState('extension.id');
 			$db		= $this->getDbo();
 			$result	= false;

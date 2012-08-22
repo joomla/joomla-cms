@@ -372,11 +372,9 @@ class plgSystemDebug extends JPlugin
 	 */
 	protected function displayMemoryUsage()
 	{
-		$html = '';
+		$bytes = memory_get_usage();
 
-		$bytes = JProfiler::getInstance('Application')->getMemory();
-
-		$html .= '<code>';
+		$html  = '<code>';
 		$html .= JHtml::_('number.bytes', $bytes);
 		$html .= ' (' . number_format($bytes) . ' Bytes)';
 		$html .= '</code>';

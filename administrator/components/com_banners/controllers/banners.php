@@ -56,7 +56,6 @@ class BannersControllerBanners extends JControllerAdmin
 		// Check for request forgeries.
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		// Initialise variables.
 		$user	= JFactory::getUser();
 		$ids	= JRequest::getVar('cid', array(), '', 'array');
 		$values	= array('sticky_publish' => 1, 'sticky_unpublish' => 0);

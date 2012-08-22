@@ -244,7 +244,6 @@ class JPagination
 	 */
 	public function getPagesCounter()
 	{
-		// Initialise variables.
 		$html = null;
 		if ($this->pagesTotal > 1)
 		{
@@ -262,7 +261,6 @@ class JPagination
 	 */
 	public function getResultsCounter()
 	{
-		// Initialise variables.
 		$html = null;
 		$fromResult = $this->limitstart + 1;
 
@@ -447,8 +445,6 @@ class JPagination
 	public function getLimitBox()
 	{
 		$app = JFactory::getApplication();
-
-		// Initialise variables.
 		$limits = array();
 
 		// Make the option list.
@@ -654,7 +650,6 @@ class JPagination
 	 */
 	protected function _buildDataObject()
 	{
-		// Initialise variables.
 		$data = new stdClass;
 
 		// Build the additional URL parameters string.

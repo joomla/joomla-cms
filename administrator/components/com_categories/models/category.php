@@ -195,7 +195,6 @@ class CategoriesModelCategory extends JModelAdmin
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
-		// Initialise variables.
 		$extension = $this->getState('category.extension');
 		$jinput = JFactory::getApplication()->input;
 
@@ -290,7 +289,6 @@ class CategoriesModelCategory extends JModelAdmin
 	{
 		jimport('joomla.filesystem.path');
 
-		// Initialise variables.
 		$lang = JFactory::getLanguage();
 		$extension = $this->getState('category.extension');
 		$component = $this->getState('category.component');
@@ -363,7 +361,6 @@ class CategoriesModelCategory extends JModelAdmin
 	 */
 	public function save($data)
 	{
-		// Initialise variables;
 		$dispatcher = JEventDispatcher::getInstance();
 		$table = $this->getTable();
 		$input = JFactory::getApplication()->input;
@@ -468,7 +465,6 @@ class CategoriesModelCategory extends JModelAdmin
 	public function publish(&$pks, $value = 1)
 	{
 		if (parent::publish($pks, $value)) {
-			// Initialise variables.
 			$dispatcher	= JEventDispatcher::getInstance();
 			$extension	= JFactory::getApplication()->input->get('extension');
 

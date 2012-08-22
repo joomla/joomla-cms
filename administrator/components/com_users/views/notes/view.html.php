@@ -67,6 +67,8 @@ class UsersViewNotes extends JViewLegacy
 		$this->state = $this->get('State');
 		$this->user = $this->get('User');
 
+		UsersHelper::addSubmenu('notes');
+
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
@@ -137,5 +139,19 @@ class UsersViewNotes extends JViewLegacy
 			JToolbarHelper::divider();
 		}
 		JToolbarHelper::help('JHELP_USERS_USER_NOTES');
+
+		JSubMenuHelper::setAction('index.php?option=com_users&view=notes');
+
+		JSubMenuHelper::addFilter(
+			JText::_('JOPTION_SELECT_PUBLISHED'),
+			'filter_published',
+			JHtml::_('select.options', JHtml::_('jgrid.publishedOptions'), 'value', 'text', $this->state->get('filter.state'), true)
+		);
+
+		JSubMenuHelper::addFilter(
+			JText::_('JOPTION_SELECT_CATEGORY'),
+			'filter_category_id',
+			JHtml::_('select.options', JHtml::_('category.options', 'com_users.notes'), 'value', 'text', $this->state->get('filter.category_id'))
+		);
 	}
 }

@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-JHtml::addIncludePath(JPATH_PLATFORM . '/joomla/html/html');
-
 jimport('joomla.environment.browser');
 jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.path');

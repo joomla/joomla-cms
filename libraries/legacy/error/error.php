@@ -758,7 +758,6 @@ abstract class JError
 	{
 		JLog::add('JError::customErrorPage() is deprecated.', JLog::WARNING, 'deprecated');
 
-		// Initialise variables.
 		$app = JFactory::getApplication();
 		$document = JDocument::getInstance('error');
 		if ($document)

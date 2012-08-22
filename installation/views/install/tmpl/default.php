@@ -10,7 +10,7 @@ defined('_JEXEC') or die;
 $tasks = array();
 $tasks[] = ($this->options['db_old'] == 'remove') ? "database_remove" : "database_backup";
 $tasks[] = "database";
-if ($this->options['site_sampledata']) {
+if ($this->options['sample_file']) {
 	$tasks[] = "sample";
 }
 $tasks[] = "config";

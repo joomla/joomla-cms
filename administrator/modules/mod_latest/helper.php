@@ -28,7 +28,6 @@ abstract class modLatestHelper
 	 */
 	public static function getList($params)
 	{
-		// Initialise variables
 		$user = JFactory::getuser();
 
 		// Get an instance of the generic articles model

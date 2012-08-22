@@ -9,7 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.filesystem.file');
 jimport('joomla.installer.extension');
 
 /**
@@ -102,7 +101,7 @@ class JPackageManifest extends JObject
 	 */
 	public function loadManifestFromXML($xmlfile)
 	{
-		$this->manifest_file = JFile::stripExt(basename($xmlfile));
+		$this->manifest_file = basename($xmlfile, '.xml');
 
 		$xml = simplexml_load_file($xmlfile);
 
@@ -114,17 +113,17 @@ class JPackageManifest extends JObject
 		}
 		else
 		{
-			$this->name = (string) $xml->name;
+			$this->name        = (string) $xml->name;
 			$this->packagename = (string) $xml->packagename;
-			$this->update = (string) $xml->update;
-			$this->authorurl = (string) $xml->authorUrl;
-			$this->author = (string) $xml->author;
+			$this->update      = (string) $xml->update;
+			$this->authorurl   = (string) $xml->authorUrl;
+			$this->author      = (string) $xml->author;
 			$this->authoremail = (string) $xml->authorEmail;
 			$this->description = (string) $xml->description;
-			$this->packager = (string) $xml->packager;
+			$this->packager    = (string) $xml->packager;
 			$this->packagerurl = (string) $xml->packagerurl;
-			$this->scriptfile = (string) $xml->scriptfile;
-			$this->version = (string) $xml->version;
+			$this->scriptfile  = (string) $xml->scriptfile;
+			$this->version     = (string) $xml->version;
 
 			if (isset($xml->files->file) && count($xml->files->file))
 			{

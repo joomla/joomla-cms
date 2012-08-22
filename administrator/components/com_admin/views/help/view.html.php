@@ -53,7 +53,6 @@ class AdminViewHelp extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		// Initialise variables.
 		$this->help_search			= $this->get('HelpSearch');
 		$this->page					= $this->get('Page');
 		$this->toc					= $this->get('Toc');

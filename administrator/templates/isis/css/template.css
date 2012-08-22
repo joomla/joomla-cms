@@ -5658,6 +5658,11 @@ body .navbar-fixed-top {
 .btn-subhead {
   display: none;
 }
+@media (min-width: 481px) {
+	#filter-bar {
+		height: 29px;
+	}
+}
 /* Extended Responsive Styles */
 @media (max-width: 480px) {
   .table th:nth-of-type(n+5),

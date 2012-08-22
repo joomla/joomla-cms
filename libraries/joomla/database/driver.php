@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.filesystem.folder');
-
 /**
  * Joomla Platform Database Interface
  *
@@ -815,7 +813,6 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 */
 	public function insertObject($table, &$object, $key = null)
 	{
-		// Initialise variables.
 		$fields = array();
 		$values = array();
 
@@ -887,7 +884,6 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	{
 		$this->connect();
 
-		// Initialise variables.
 		$ret = null;
 
 		// Execute the query and get the result set cursor.
@@ -929,7 +925,6 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	{
 		$this->connect();
 
-		// Initialise variables.
 		$array = array();
 
 		// Execute the query and get the result set cursor.
@@ -973,7 +968,6 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	{
 		$this->connect();
 
-		// Initialise variables.
 		$array = array();
 
 		// Execute the query and get the result set cursor.
@@ -1084,7 +1078,6 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	{
 		$this->connect();
 
-		// Initialise variables.
 		$ret = null;
 
 		// Execute the query and get the result set cursor.
@@ -1124,7 +1117,6 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	{
 		$this->connect();
 
-		// Initialise variables.
 		$array = array();
 
 		// Execute the query and get the result set cursor.
@@ -1164,7 +1156,6 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	{
 		$this->connect();
 
-		// Initialise variables.
 		$ret = null;
 
 		// Execute the query and get the result set cursor.
@@ -1198,7 +1189,6 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	{
 		$this->connect();
 
-		// Initialise variables.
 		$ret = null;
 
 		// Execute the query and get the result set cursor.
@@ -1237,7 +1227,6 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	{
 		$this->connect();
 
-		// Initialise variables.
 		$array = array();
 
 		// Execute the query and get the result set cursor.
@@ -1391,7 +1380,6 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 */
 	public function replacePrefix($sql, $prefix = '#__')
 	{
-		// Initialize variables.
 		$escaped = false;
 		$startPos = 0;
 		$quoteChar = '';
@@ -1607,7 +1595,6 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 */
 	public function updateObject($table, &$object, $key, $nulls = false)
 	{
-		// Initialise variables.
 		$fields = array();
 		$where = array();
 

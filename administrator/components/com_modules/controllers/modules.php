@@ -27,7 +27,6 @@ class ModulesControllerModules extends JControllerAdmin
 		// Check for request forgeries
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		// Initialise variables.
 		$pks = JRequest::getVar('cid', array(), 'post', 'array');
 		JArrayHelper::toInteger($pks);
 

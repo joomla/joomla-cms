@@ -586,17 +586,107 @@ abstract class JToolbarHelper
 abstract class JSubMenuHelper
 {
 	/**
+	 * Menu entries
+	 *
+	 * @var    array
+	 * @since  3.0
+	 */
+	protected static $entries = array();
+
+	/**
+	 * Filters
+	 *
+	 * @var    array
+	 * @since  3.0
+	 */
+	protected static $filters = array();
+
+	/**
+	 * Value for the action attribute of the form.
+	 *
+	 * @var    string
+	 * @since  3.0
+	 */
+	protected static $action = '';
+
+	/**
 	 * Method to add a menu item to submenu.
 	 *
-	 * @param	string	$name	Name of the menu item.
-	 * @param	string	$link	URL of the menu item.
-	 * @param	bool	True if the item is active, false otherwise.
+	 * @param	string	$name	 Name of the menu item.
+	 * @param	string	$link	 URL of the menu item.
+	 * @param	bool	$active  True if the item is active, false otherwise.
 	 *
-	 * @since    1.5
+	 * @return  void
+	 *
+	 * @since   1.5
 	 */
 	public static function addEntry($name, $link = '', $active = false)
 	{
-		$menu = JToolbar::getInstance('submenu');
-		$menu->appendButton($name, $link, $active);
+		array_push(self::$entries, array($name, $link, $active));
+	}
+
+	/**
+	 * Returns an array of all submenu entries
+	 *
+	 * @return  array
+	 *
+	 * @since   3.0
+	 */
+	public static function getEntries()
+	{
+		return self::$entries;
+	}
+
+	/**
+	 * Method to add a filter to the submenu
+	 *
+	 * @param	string	$label      Label for the menu item.
+	 * @param	string	$name       name for the filter. Also used as id.
+	 * @param	string	$options    options for the select field.
+	 * @param	bool	$noDefault  Don't the label as the empty option
+	 *
+	 * @return  void
+	 *
+	 * @since   3.0
+	 */
+	public static function addFilter($label, $name, $options, $noDefault = false)
+	{
+		array_push(self::$filters, array('label' => $label, 'name' => $name, 'options' => $options, 'noDefault' => $noDefault));
+	}
+
+	/**
+	 * Returns an array of all filters
+	 *
+	 * @return  array
+	 *
+	 * @since   3.0
+	 */
+	public static function getFilters()
+	{
+		return self::$filters;
+	}
+
+	/**
+	 * Set value for the action attribute of the filter form
+	 *
+	 * @return  void
+	 *
+	 * @since   3.0
+	 */
+	public static function setAction($action)
+	{
+		self::$action = $action;
+	}
+
+	/**
+	 * Get value for the action attribute of the filter form
+	 *
+	 * @return  string
+	 *
+	 * @since   3.0
+	 */
+	public static function getAction()
+	{
+		return self::$action;
 	}
 }

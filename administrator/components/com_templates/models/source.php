@@ -64,7 +64,6 @@ class TemplatesModelSource extends JModelForm
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
-		// Initialise variables.
 		$app = JFactory::getApplication();
 
 		// Codemirror or Editor None should be enabled
@@ -147,7 +146,6 @@ class TemplatesModelSource extends JModelForm
 	 */
 	public function &getTemplate()
 	{
-		// Initialise variables.
 		$pk		= $this->getState('extension.id');
 		$db		= $this->getDbo();
 		$result	= false;

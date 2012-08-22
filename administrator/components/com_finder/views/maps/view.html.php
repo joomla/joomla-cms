@@ -40,6 +40,8 @@ class FinderViewMaps extends JViewLegacy
 		$this->pagination	= $this->get('Pagination');
 		$this->state		= $this->get('State');
 
+		FinderHelper::addSubmenu('maps');
+
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
@@ -47,10 +49,11 @@ class FinderViewMaps extends JViewLegacy
 			return false;
 		}
 
+		JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+
 		// Prepare the view.
 		$this->addToolbar();
 
-		JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 		parent::display($tpl);
 	}
 
@@ -89,5 +92,20 @@ class FinderViewMaps extends JViewLegacy
 		$toolbar->appendButton('Popup', 'stats', 'COM_FINDER_STATISTICS', 'index.php?option=com_finder&view=statistics&tmpl=component', 550, 350);
 		JToolbarHelper::divider();
 		JToolbarHelper::help('JHELP_COMPONENTS_FINDER_MANAGE_CONTENT_MAPS');
+
+		JSubMenuHelper::setAction('index.php?option=com_finder&view=maps');
+
+		JSubMenuHelper::addFilter(
+			'',
+			'filter_branch',
+			JHtml::_('select.options', JHtml::_('finder.mapslist'), 'value', 'text', $this->state->get('filter.branch')),
+			true
+		);
+
+		JSubMenuHelper::addFilter(
+			JText::_('COM_FINDER_INDEX_FILTER_BY_STATE'),
+			'filter_state',
+			JHtml::_('select.options', JHtml::_('finder.statelist'), 'value', 'text', $this->state->get('filter.state'))
+		);
 	}
 }

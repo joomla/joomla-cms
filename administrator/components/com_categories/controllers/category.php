@@ -72,7 +72,6 @@ class CategoriesControllerCategory extends JControllerForm
 	 */
 	protected function allowEdit($data = array(), $key = 'parent_id')
 	{
-		// Initialise variables.
 		$recordId = (int) isset($data[$key]) ? $data[$key] : 0;
 		$user = JFactory::getUser();
 		$userId = $user->get('id');

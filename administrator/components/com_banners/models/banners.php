@@ -80,7 +80,6 @@ class BannersModelBanners extends JModelList
 	 */
 	protected function getListQuery()
 	{
-		// Initialise variables.
 		$db		= $this->getDbo();
 		$query	= $db->getQuery(true);
 
@@ -212,7 +211,6 @@ class BannersModelBanners extends JModelList
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
-		// Initialise variables.
 		$app = JFactory::getApplication('administrator');
 
 		// Load the filter state.

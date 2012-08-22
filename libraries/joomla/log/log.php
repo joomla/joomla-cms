@@ -274,7 +274,6 @@ class JLog
 	 */
 	protected function findLoggers($priority, $category)
 	{
-		// Initialize variables.
 		$loggers = array();
 
 		// Sanitize inputs.

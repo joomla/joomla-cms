@@ -77,6 +77,26 @@ class PluginsViewPlugins extends JViewLegacy
 			JToolbarHelper::preferences('com_plugins');
 		}
 		JToolbarHelper::help('JHELP_EXTENSIONS_PLUGIN_MANAGER');
+
+		JSubMenuHelper::setAction('index.php?option=com_plugins&view=plugins');
+
+		JSubMenuHelper::addFilter(
+			JText::_('JOPTION_SELECT_PUBLISHED'),
+			'filter_published',
+			JHtml::_('select.options', JHtml::_('jgrid.publishedOptions'), 'value', 'text', $this->state->get('filter.published'), true)
+		);
+
+		JSubMenuHelper::addFilter(
+			JText::_('COM_PLUGINS_OPTION_FOLDER'),
+			'filter_folder',
+			JHtml::_('select.options', PluginsHelper::folderOptions(), 'value', 'text', $this->state->get('filter.folder'))
+		);
+
+		JSubMenuHelper::addFilter(
+			JText::_('JOPTION_SELECT_ACCESS'),
+			'filter_access',
+			JHtml::_('select.options', JHtml::_('access.assetgroups'), 'value', 'text', $this->state->get('filter.access'))
+		);
 	}
 	/**
 	 * Returns an array of fields the table can be sorted by

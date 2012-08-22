@@ -26,6 +26,31 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+21-Aug-2012 Jean-Marie Simonet
+ # [#28954] *Administrator templates positions untranslated when editing Module position
+
+21-Aug-2012 Rouven Weßling
+ ^ Merge latest platform (bf746b2389fbea9c0fa48ea015320c18beb8d0f3)
+ ^ Remove use of the deprecated JProfiler::getMemory().
+
+20-Aug-2012 Rouven Weßling
+ + Add setup for unit testing. Thanks Michael.
+
+20-Aug-2012 Jean-Marie Simonet
+ # [#28943] *Allowing to disable admin menu bar collapse (Isis)
+ # [#28947] Handle submenu rendering as a module again. Thanks Rouven
+ # [#28942] Use bootstrap markup in Fx.Progressbar; Use Fx.Progressbar in Finder. Thansk Rouven.
+ # [#28955] Commit of issue 28932 broke sample data installation, Thanks Mark.
+
+18-Aug-2012 Jean-Marie Simonet
+ # [#28929] *Frontend editing tabs does not work. Thanks Peter.
+ # [#28932] *Simplifying sample data install on 3.0 alpha2
+
+-------------------- 3.0 Alpha 2 Release [16-Aug-2012] ------------------
+
+16-Aug-2012 Mark Dexter
+ # [#28927] Update sample data files for protostar and isis. Thanks Elin.
+
 16-Aug-2012 Jean-Marie Simonet
  # [#28925] Change the variable name on the submenu rendering to avoid conflicts. Thanks Andrea.
  # [#28926] Add Isis and Protostar to mysql/joomla.sql. Thanks Elin.
@@ -83,7 +108,7 @@ $ -> Language fix or change
  # [#28837] Can't get past step 4 "Database Configuration". Thanks Shaun.
  # [#28511] Move the caption behavior from the controller to the layouts in com_content. Thanks Rouven and Peter.
 
-========== VERSION 3.0 APLHA 1 RELEASED ==========
+-------------------- 3.0 Alpha 1 Release [13-Jul-2012] ------------------
 
 13-Jul-2012 Jean-Marie Simonet
  ^ Merge of latest platform from 12.1+ Thanks Rouven

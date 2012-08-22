@@ -23,41 +23,6 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 	<?php if ($this->ftp) : ?>
 		<?php echo $this->loadTemplate('ftp'); ?>
 	<?php endif; ?>
-
-	<!-- Begin Sidebar -->
-	<div id="sidebar" class="span2">
-		<div class="sidebar-nav">
-			<?php
-				// Display the submenu position modules
-				$this->submenumodules = JModuleHelper::getModules('submenu');
-				foreach ($this->submenumodules as $submenumodule) {
-					$output = JModuleHelper::renderModule($submenumodule);
-					$params = new JRegistry;
-					$params->loadString($submenumodule->params);
-					echo $output;
-				}
-			?>
-		</div>
-		<hr />
-		<div class="filter-select">
-			<h4 class="page-header"><?php echo JText::_('JSEARCH_FILTER_LABEL');?></h4>
-		</div>
-		<?php $fields = count($this->form->getFieldSet('select'));
-		$i = 1;?>
-		<?php foreach($this->form->getFieldSet('select') as $field): ?>
-			<?php if (!$field->hidden): ?>
-				<?php echo $field->label; ?>
-			<?php endif; ?>
-			<?php echo $field->input; ?>
-		<?php if ($i != $fields) : ?>
-		<hr class="hr-condensed" />
-		<?php endif; ?>
-		<?php $i++; ?>
-		<?php endforeach; ?>
-	</div>
-	<!-- End Sidebar -->
-	<!-- Begin Content -->
-	<div class="span10">
 		<div id="filter-bar" class="btn-toolbar">
 			<div class="filter-search btn-group pull-left">
 				<input type="text" name="filter_search" placeholder="<?php echo JText::_('JSEARCH_FILTER_LABEL'); ?>" id="filter_search" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" title="<?php echo JText::_('JSEARCH_FILTER'); ?>" />
@@ -164,7 +129,6 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 		<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>" />
 		<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>" />
 		<?php echo JHtml::_('form.token'); ?>
-	</div>
 	<!-- End Content -->
 </form>
 </div>

@@ -34,7 +34,6 @@ class ContactViewContact extends JViewLegacy
 		$doc = JFactory::getDocument();
 		$doc->setMetaData('Content-Type', 'text/directory', true);
 
-		// Initialise variables.
 		$app		= JFactory::getApplication();
 		$params 	= $app->getParams();
 		$user		= JFactory::getUser();

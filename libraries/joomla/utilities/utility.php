@@ -29,7 +29,6 @@ class JUtility
 	 */
 	public static function parseAttributes($string)
 	{
-		// Initialise variables.
 		$attr = array();
 		$retarray = array();
 

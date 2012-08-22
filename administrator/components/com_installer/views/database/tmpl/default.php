@@ -10,27 +10,9 @@
 defined('_JEXEC') or die;
 
 ?>
-<div id="installer-database">
-<form action="<?php echo JRoute::_('index.php?option=com_installer&view=warnings');?>" method="post" name="adminForm" id="adminForm">
-	<!-- Begin Sidebar -->
-	<div id="sidebar" class="span2">
-		<div class="sidebar-nav">
-			<?php
-				// Display the submenu position modules
-				$this->submenumodules = JModuleHelper::getModules('submenu');
-				foreach ($this->submenumodules as $submenumodule) {
-					$output = JModuleHelper::renderModule($submenumodule);
-					$params = new JRegistry;
-					$params->loadString($submenumodule->params);
-					echo $output;
-				}
-			?>
-		</div>
-	</div>
-	<!-- End Sidebar -->
-	<!-- Begin Content -->
-	<div class="span10">
 
+<div id="installer-database">
+	<form action="<?php echo JRoute::_('index.php?option=com_installer&view=warnings');?>" method="post" name="adminForm" id="adminForm">
 	<?php if ($this->errorCount === 0) : ?>
 		<div class="alert alert-info">
 			<a class="close" data-dismiss="alert" href="#">&times;</a>
@@ -42,8 +24,6 @@ defined('_JEXEC') or die;
 		</ul>
 
 		<div class="tab-content">
-			<div class="tab-pane active" id="other">
-
 	<?php else : ?>
 		<div class="alert alert-error">
 			<a class="close" data-dismiss="alert" href="#">&times;</a>
@@ -84,8 +64,8 @@ defined('_JEXEC') or die;
 					</ul>
 				</fieldset>
 			</div>
-			<div class="tab-pane" id="other">
 	<?php endif; ?>
+			<div class="tab-pane" id="other">
 				<fieldset class="panelform">
 					<ul>
 						<li><?php echo JText::sprintf('COM_INSTALLER_MSG_DATABASE_SCHEMA_VERSION', $this->schemaVersion); ?></li>
@@ -101,7 +81,5 @@ defined('_JEXEC') or die;
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />
 		<?php echo JHtml::_('form.token'); ?>
-	</div>
-	<!-- End Content -->
-</form>
+	</form>
 </div>

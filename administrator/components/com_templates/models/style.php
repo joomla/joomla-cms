@@ -64,7 +64,6 @@ class TemplatesModelStyle extends JModelAdmin
 	 */
 	public function delete(&$pks)
 	{
-		// Initialise variables.
 		$pks	= (array) $pks;
 		$user	= JFactory::getUser();
 		$table	= $this->getTable();
@@ -110,7 +109,6 @@ class TemplatesModelStyle extends JModelAdmin
 	 */
 	public function duplicate(&$pks)
 	{
-		// Initialise variables.
 		$user	= JFactory::getUser();
 		$db		= $this->getDbo();
 
@@ -181,7 +179,6 @@ class TemplatesModelStyle extends JModelAdmin
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
-		// Initialise variables.
 		$app = JFactory::getApplication();
 
 		// The folder and element vars are passed when saving the form.
@@ -245,7 +242,6 @@ class TemplatesModelStyle extends JModelAdmin
 	 */
 	public function getItem($pk = null)
 	{
-		// Initialise variables.
 		$pk = (!empty($pk)) ? $pk : (int) $this->getState('style.id');
 
 		if (!isset($this->_cache[$pk])) {
@@ -308,7 +304,6 @@ class TemplatesModelStyle extends JModelAdmin
 	 */
 	protected function preprocessForm(JForm $form, $data, $group = 'content')
 	{
-		// Initialise variables.
 		$clientId	= $this->getState('item.client_id');
 		$template	= $this->getState('item.template');
 		$lang		= JFactory::getLanguage();
@@ -488,7 +483,6 @@ class TemplatesModelStyle extends JModelAdmin
 	 */
 	public function setHome($id = 0)
 	{
-		// Initialise variables.
 		$user	= JFactory::getUser();
 		$db		= $this->getDbo();
 
@@ -541,7 +535,6 @@ class TemplatesModelStyle extends JModelAdmin
 	 */
 	public function unsetHome($id = 0)
 	{
-		// Initialise variables.
 		$user	= JFactory::getUser();
 		$db		= $this->getDbo();
 

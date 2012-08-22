@@ -123,7 +123,6 @@ class InstallationModelSetup extends JModelLegacy
 	 */
 	public function getDboptions()
 	{
-		// Initialise variables.
 		$options = array();
 
 		// Create an array of known database connect functions.
@@ -170,7 +169,6 @@ class InstallationModelSetup extends JModelLegacy
 	 */
 	public function getLanguages()
 	{
-		// Initialise variables.
 		$app = JFactory::getApplication();
 
 		// Detect the native language.
@@ -240,7 +238,6 @@ class InstallationModelSetup extends JModelLegacy
 	 */
 	public function getPhpOptions()
 	{
-		// Initialise variables.
 		$options = array();
 
 		// Check the PHP Version.
@@ -362,7 +359,6 @@ class InstallationModelSetup extends JModelLegacy
 	 */
 	public function getPhpSettings()
 	{
-		// Initialise variables.
 		$settings = array();
 
 		// Check for safe mode.

@@ -327,7 +327,6 @@ class ModulesModelModule extends JModelAdmin
 	 */
 	public function delete(&$pks)
 	{
-		// Initialise variables.
 		$pks	= (array) $pks;
 		$user	= JFactory::getUser();
 		$table	= $this->getTable();
@@ -387,7 +386,6 @@ class ModulesModelModule extends JModelAdmin
 	 */
 	public function duplicate(&$pks)
 	{
-		// Initialise variables.
 		$user	= JFactory::getUser();
 		$db		= $this->getDbo();
 
@@ -603,7 +601,6 @@ class ModulesModelModule extends JModelAdmin
 	 */
 	public function getItem($pk = null)
 	{
-		// Initialise variables.
 		$pk	= (!empty($pk)) ? (int) $pk : (int) $this->getState('module.id');
 		$db	= $this->getDbo();
 
@@ -800,7 +797,6 @@ class ModulesModelModule extends JModelAdmin
 	{
 		jimport('joomla.filesystem.path');
 
-		// Initialise variables.
 		$lang     = JFactory::getLanguage();
 		$clientId = $this->getState('item.client_id');
 		$module   = $this->getState('item.module');

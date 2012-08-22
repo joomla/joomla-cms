@@ -61,7 +61,6 @@ class plgUserJoomla extends JPlugin
 	 */
 	public function onUserAfterSave($user, $isnew, $success, $msg)
 	{
-		// Initialise variables.
 		$app	= JFactory::getApplication();
 		$config	= JFactory::getConfig();
 		$mail_to_user = $this->params->get('mail_to_user', 1);
