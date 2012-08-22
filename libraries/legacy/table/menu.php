@@ -111,7 +111,7 @@ class JTableMenu extends JTableNested
 		}
 
 		// Verify that a first level menu item alias is not the name of a folder.
-		jimport('joomla.filesystem.folders');
+		jimport('joomla.filesystem.folder');
 		if ($this->parent_id == 1 && in_array($this->alias, JFolder::folders(JPATH_ROOT)))
 		{
 			$this->setError(JText::sprintf('JLIB_DATABASE_ERROR_MENU_ROOT_ALIAS_FOLDER', $this->alias, $this->alias));

@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+jimport('joomla.filesystem.folder');
+
 /**
  * ZIP format adapter for the JArchive class
  *
