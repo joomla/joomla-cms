@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     CMS.Library
+ * @package     Joomla.Libraries
  * @subpackage  Schema
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
@@ -12,9 +12,9 @@ defined('_JEXEC') or die;
 /**
  * Checks the database schema against one PostgreSQL DDL query to see if it has been run.
  *
- * @package     CMS.Library
+ * @package     Joomla.Libraries
  * @subpackage  Schema
- * @since       2.5
+ * @since       3.0
  */
 class JSchemaChangeitempostgresql extends JSchemaChangeitem
 {
@@ -34,7 +34,7 @@ class JSchemaChangeitempostgresql extends JSchemaChangeitem
 	 *
 	 * @return void
 	 *
-	 * @since  2.5
+	 * @since  3.0
 	 */
 	protected function buildCheckQuery()
 	{
@@ -206,7 +206,7 @@ class JSchemaChangeitempostgresql extends JSchemaChangeitem
 	 *
 	 * @return string  The original or changed column type.
 	 *
-	 * @since  2.5
+	 * @since  3.0
 	 */
 	private function fixInteger($type1, $type2)
 	{
@@ -227,7 +227,7 @@ class JSchemaChangeitempostgresql extends JSchemaChangeitem
 	 * @param   string  $string  The input string to be cleaned up.
 	 * @return  string  The modified string.
 	 *
-	 * @since   2.5
+	 * @since   3.0
 	 */
 	private function fixQuote($string)
 	{
