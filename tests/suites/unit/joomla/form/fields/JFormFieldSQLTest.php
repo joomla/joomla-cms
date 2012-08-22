@@ -66,7 +66,7 @@ class JFormFieldSQLTest extends TestCaseDatabase
 		'Line:'.__LINE__.' The setup method should return true.'
 		);
 
-		if (self::$driver)
+		if (!is_null(self::$driver))
 		{
 			$this->assertThat(
 				strlen($field->input),
