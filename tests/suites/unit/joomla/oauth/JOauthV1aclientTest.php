@@ -97,7 +97,7 @@ class JOauthV1aclientTest extends TestCase
 	*
 	* @since 12.2
 	*/
-	public function seedAuth()
+	public function seedAuthenticate()
 	{
 		// Token and fail
 		return array(
@@ -108,20 +108,20 @@ class JOauthV1aclientTest extends TestCase
 	}
 
 	/**
-	 * Tests the auth method
+	 * Tests the authenticate method
 	 *
 	 * @return  void
 	 *
-	 * @dataProvider seedAuth
+	 * @dataProvider seedAuthenticate
 	 * @since   12.2
 	 */
-	public function testAuth($token, $fail)
+	public function testAuthenticate($token, $fail)
 	{
 		// Already got some credentials stored?
 		if (!is_null($token))
 		{
 			$this->object->setToken($token);
-			$result = $this->object->auth();
+			$result = $this->object->authenticate();
 			$this->assertEquals($result, $token);
 		}
 		else
@@ -144,7 +144,7 @@ class JOauthV1aclientTest extends TestCase
 			$input->set('oauth_verifier', null);
 			TestReflection::setValue($this->object, 'input', $input);
 
-			$this->object->auth();
+			$this->object->authenticate();
 
 			$token = $this->object->getToken();
 			$this->assertEquals($token['key'], 'token');
@@ -173,7 +173,7 @@ class JOauthV1aclientTest extends TestCase
 	    		JFactory::$session = $mockSession;
 
 				$this->setExpectedException('DomainException');
-				$result = $this->object->auth();
+				$result = $this->object->authenticate();
 			}
 
     		$mockSession->expects($this->at(0))
@@ -197,7 +197,7 @@ class JOauthV1aclientTest extends TestCase
 				->with($this->object->getOption('accessTokenURL'))
 				->will($this->returnValue($returnData));
 
-			$result = $this->object->auth();
+			$result = $this->object->authenticate();
 
 			$this->assertEquals($result['key'], 'token_key');
 			$this->assertEquals($result['secret'], 'token_secret');
