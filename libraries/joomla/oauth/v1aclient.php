@@ -69,7 +69,7 @@ abstract class JOauthV1aclient
 	 *
 	 * @throws DomainException
 	 */
-	public function auth()
+	public function authenticate()
 	{
 		// Already got some credentials stored?
 		if ($this->token)
