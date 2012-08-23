@@ -1,13 +1,11 @@
 <?php
 /**
  * @package     Joomla.UnitTest
- * @subpackage  Filesystem
+ * @subpackage  Archive
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-
-include_once JPATH_PLATFORM . '/joomla/archive/archive.php';
 
 /**
  * Test class for JArchive.
@@ -45,7 +43,7 @@ class JArchiveTest extends TestCase
 	 *
 	 * @group	JArchive
 	 * @covers	JArchive::extract
-	 * @return void
+	 * @return  void
 	 */
 	public function testExtractZip()
 	{
@@ -74,7 +72,7 @@ class JArchiveTest extends TestCase
 	 *
 	 * @group	JArchive
 	 * @covers	JArchive::extract
-	 * @return void
+	 * @return  void
 	 */
 	public function testExtractTar()
 	{
@@ -104,7 +102,7 @@ class JArchiveTest extends TestCase
 	 *
 	 * @group	JArchive
 	 * @covers	JArchive::extract
-	 * @return void
+	 * @return  void
 	 */
 	public function testExtractGzip()
 	{
@@ -140,7 +138,7 @@ class JArchiveTest extends TestCase
 	 *
 	 * @group	JArchive
 	 * @covers	JArchive::extract
-	 * @return void
+	 * @return  void
 	 */
 	public function testExtractBzip2()
 	{
@@ -177,15 +175,12 @@ class JArchiveTest extends TestCase
 	public function testGetAdapter()
 	{
 		$zip = JArchive::getAdapter('zip');
-		$this->assertEquals('JArchiveZip', get_class($zip));
+		$this->assertInstanceOf('JArchiveZip', $zip);
 		$bzip2 = JArchive::getAdapter('bzip2');
-		$this->assertEquals('JArchiveBzip2', get_class($bzip2));
+		$this->assertInstanceOf('JArchiveBzip2', $bzip2);
 		$gzip = JArchive::getAdapter('gzip');
-		$this->assertEquals('JArchiveGzip', get_class($gzip));
+		$this->assertInstanceOf('JArchiveGzip', $gzip);
 		$tar = JArchive::getAdapter('tar');
-		$this->assertEquals('JArchiveTar', get_class($tar));
+		$this->assertInstanceOf('JArchiveTar', $tar);
 	}
-
 }
-
-?>

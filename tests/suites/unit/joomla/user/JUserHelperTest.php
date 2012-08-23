@@ -86,8 +86,9 @@ class JUserHelperTest extends TestCaseDatabase
 	 * @param	mixed	User object or empty array if unknown
 	 * @param	array	Expected error info
 	 *
-	 * @return void
+	 * @return  void
 	 * @dataProvider casesGetUserGroups
+	 * @covers  JUserHelper::getUserGroups
 	 */
 	public function testGetUserGroups( $userid, $expected, $error )
 	{
@@ -125,8 +126,9 @@ class JUserHelperTest extends TestCaseDatabase
 	 * @param	int 	Expected user id
 	 * @param	array	Expected error info
 	 *
-	 * @return void
+	 * @return  void
 	 * @dataProvider casesGetUserId
+	 * @covers  JUserHelper::getUserId
 	 */
 	public function testGetUserId( $username, $expected, $error )
 	{

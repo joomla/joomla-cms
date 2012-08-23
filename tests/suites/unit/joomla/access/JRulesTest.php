@@ -45,6 +45,11 @@ class JAccessRulesTest extends PHPUnit_Framework_TestCase
 			'Checks input as an string.'
 		);
 	}
+
+	/**
+	 * @covers  JAccessRules::__construct
+	 * @covers  JAccessRules::__toString
+	 */
 	public function test__constructArray()
 		{
 			$array = array(
@@ -64,6 +69,11 @@ class JAccessRulesTest extends PHPUnit_Framework_TestCase
 				'Checks input as an array.'
 			);
 	}
+
+	/**
+	 * @covers  JAccessRules::__construct
+	 * @covers  JAccessRules::__toString
+	 */
 	public function test__constructObject()
 	{
 		$array = array(
@@ -196,6 +206,9 @@ class JAccessRulesTest extends PHPUnit_Framework_TestCase
 		);
 	}
 
+	/**
+	 * @covers  JAccessRules::merge
+	 */
 	public function testMergeArray()
 	{
 		$array1 = array(
@@ -216,6 +229,10 @@ class JAccessRulesTest extends PHPUnit_Framework_TestCase
 			'Input as a array'
 		);
 	}
+
+	/**
+	 * @covers  JAccessRules::merge
+	 */
 	public function testMergeRulesNull()
 	{
 		$array1 = array(
@@ -238,6 +255,10 @@ class JAccessRulesTest extends PHPUnit_Framework_TestCase
 			'Merge by JRules where second rules are empty'
 		);
 	}
+
+	/**
+	 * @covers  JAccessRules::merge
+	 */
 	public function testMergeRules()
 	{
 		$array1 = array(
