@@ -533,28 +533,31 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 		$db->setQuery($query);
 		$db->execute();
 
-		/*
 		// Optimize the links table.
-		$db->setQuery('OPTIMIZE TABLE ' . $db->quoteName('#__finder_links'));
+		$db->setQuery('VACUUM ' . $db->quoteName('#__finder_links'));
+		$db->execute();
+		$db->setQuery('REINDEX TABLE ' . $db->quoteName('#__finder_links'));
 		$db->execute();
 
 		for ($i = 0; $i <= 15; $i++)
 		{
 			// Optimize the terms mapping table.
-			$db->setQuery('OPTIMIZE TABLE ' . $db->quoteName('#__finder_links_terms' . dechex($i)));
+			$db->setQuery('VACUUM ' . $db->quoteName('#__finder_links_terms' . dechex($i)));
+			$db->execute();
+			$db->setQuery('REINDEX TABLE ' . $db->quoteName('#__finder_links_terms' . dechex($i)));
 			$db->execute();
 		}
 
 		// Optimize the terms mapping table.
-		$db->setQuery('OPTIMIZE TABLE ' . $db->quoteName('#__finder_links_terms'));
-		$db->execute();*/
+		$db->setQuery('REINDEX TABLE ' . $db->quoteName('#__finder_links_terms'));
+		$db->execute();
 
 		// Remove the orphaned taxonomy nodes.
 		FinderIndexerTaxonomy::removeOrphanNodes();
 
 		// Optimize the taxonomy mapping table.
-		//$db->setQuery('OPTIMIZE TABLE ' . $db->quoteName('#__finder_taxonomy_map'));
-		//$db->execute();
+		$db->setQuery('REINDEX TABLE ' . $db->quoteName('#__finder_taxonomy_map'));
+		$db->execute();
 
 		return true;
 	}
@@ -627,40 +630,6 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 	 */
 	protected function toggleTables($memory)
 	{
-/*		static $state;
-
-		// Get the database adapter.
-		$db = JFactory::getDBO();
-
-		// Check if we are setting the tables to the Memory engine.
-		if ($memory === true && $state !== true)
-		{
-			// Set the tokens table to Memory.
-			$db->setQuery('ALTER TABLE ' . $db->quoteName('#__finder_tokens') . ' ENGINE = MEMORY');
-			$db->execute();
-
-			// Set the tokens aggregate table to Memory.
-			$db->setQuery('ALTER TABLE ' . $db->quoteName('#__finder_tokens_aggregate') . ' ENGINE = MEMORY');
-			$db->execute();
-
-			// Set the internal state.
-			$state = $memory;
-		}
-		// We must be setting the tables to the MyISAM engine.
-		elseif ($memory === false && $state !== false)
-		{
-			// Set the tokens table to MyISAM.
-			$db->setQuery('ALTER TABLE ' . $db->quoteName('#__finder_tokens') . ' ENGINE = MYISAM');
-			$db->execute();
-
-			// Set the tokens aggregate table to MyISAM.
-			$db->setQuery('ALTER TABLE ' . $db->quoteName('#__finder_tokens_aggregate') . ' ENGINE = MYISAM');
-			$db->execute();
-
-			// Set the internal state.
-			$state = $memory;
-		}
-*/
 		return true;
 	}
 }
