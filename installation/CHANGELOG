@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+22-Aug-2012 Mark Dexter
+ # [#28967] Save & Close of Menu Item results in Fatal Error
+
 21-Aug-2012 Jean-Marie Simonet
  # [#28954] *Administrator templates positions untranslated when editing Module position
 
