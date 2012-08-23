@@ -266,7 +266,7 @@ class JAdministrator extends JApplication
 			{
 				$query->where('s.client_id = 1 AND id = ' . (int) $admin_style . ' AND e.enabled = 1', 'OR');
 			}
-			$query->where('s.client_id = 1 AND home = 1', 'OR');
+			$query->where('s.client_id = 1 AND home = '.$db->quote('1'),'OR');
 			$query->order('home');
 			$db->setQuery($query);
 			$template = $db->loadObject();

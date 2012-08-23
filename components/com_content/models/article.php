@@ -84,7 +84,7 @@ class ContentModelArticle extends JModelItem
 						'CASE WHEN badcats.id is null THEN a.state ELSE 0 END AS state, ' .
 						'a.catid, a.created, a.created_by, a.created_by_alias, ' .
 						// use created if modified is 0
-						'CASE WHEN a.modified = 0 THEN a.created ELSE a.modified END as modified, ' .
+						'CASE WHEN a.modified = ' . $db->q($db->getNullDate()) . ' THEN a.created ELSE a.modified END as modified, ' .
 						'a.modified_by, a.checked_out, a.checked_out_time, a.publish_up, a.publish_down, ' .
 						'a.images, a.urls, a.attribs, a.version, a.ordering, ' .
 						'a.metakey, a.metadesc, a.access, a.hits, a.metadata, a.featured, a.language, a.xreference'
