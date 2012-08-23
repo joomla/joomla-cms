@@ -350,7 +350,21 @@ class InstallationModelDatabase extends JModelLegacy
 		}
 
 		// Attempt to update the table #__schema.
-		$files = JFolder::files(JPATH_ADMINISTRATOR . '/components/com_admin/sql/updates/'.(($type == 'mysqli') ? 'mysql' : $type).'/', '\.sql$');
+		$pathPart = JPATH_ADMINISTRATOR . '/components/com_admin/sql/updates/';
+		if ($type == 'mysqli' || $type == 'mysql')
+		{
+			$pathPart .= 'mysql/';
+		}
+		elseif ($type == 'sqlsrv' || $type == 'sqlazure')
+		{
+			$pathPart .= 'sqlazure/';
+		}
+		else
+		{
+			$pathPart .= $type . '/';
+		}
+		$files = JFolder::files($pathPart, '\.sql$');
+
 		if (empty($files))
 		{
 			$this->setError(JText::_('INSTL_ERROR_INITIALISE_SCHEMA'));
