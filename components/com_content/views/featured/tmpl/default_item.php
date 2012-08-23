@@ -15,7 +15,7 @@ $images = json_decode($this->item->images);
 $canEdit	= $this->item->params->get('access-edit');
 ?>
 <?php if ($this->item->state == 0) : ?>
-<div class="system-unpublished">
+<section class="system-unpublished">
 	<?php endif; ?>
 	<?php if ($params->get('show_print_icon') || $params->get('show_email_icon') || $canEdit) : ?>
 	<div class="btn-group pull-right"> <a class="btn dropdown-toggle" data-toggle="dropdown" href="#"> <i class="icon-cog"></i><span class="caret"></span> </a>
@@ -142,6 +142,6 @@ $canEdit	= $this->item->params->get('access-edit');
 	</a>
 	<?php endif; ?>
 	<?php if ($this->item->state == 0) : ?>
-</div>
+</section>
 <?php endif; ?>
 <?php echo $this->item->event->afterDisplayContent; ?>
