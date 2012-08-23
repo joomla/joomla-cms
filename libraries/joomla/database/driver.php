@@ -851,7 +851,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 
 		// Update the primary key if it exists.
 		$id = $this->insertid();
-		if ($key && $id)
+		if ($key && $id && is_string($key))
 		{
 			$object->$key = $id;
 		}
