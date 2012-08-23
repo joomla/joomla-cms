@@ -250,6 +250,7 @@ class TemplatesModelTemplate extends JModelLegacy
 		$newName = strtolower($this->getState('new_name'));
 		$oldName = $this->getTemplate()->element;
 
+		jimport('joomla.filesystem.file');
 		foreach ($files as $file)
 		{
 			$newFile = str_replace($oldName, $newName, $file);
