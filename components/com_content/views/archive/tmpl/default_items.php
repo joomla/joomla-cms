@@ -84,7 +84,6 @@ $params = $this->params;
 			<?php endif; ?>
 		</div>
 		<?php endif; ?>
-		<hr class="divider-vertical" />
 	</div>
 	<?php endforeach; ?>
 </div>
