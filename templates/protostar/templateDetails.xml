@@ -48,10 +48,10 @@
   <config>
 	  <fields name="params">
 	  	<fieldset name="layout" label="Layout">
-  			<field name="templateColor" class="" type="color" default=""
+  			<field name="templateColor" class="" type="color" default="#08C"
   				label="TPL_PROTOSTAR_COLOR_LABEL"
   				description="TPL_PROTOSTAR_COLOR_DESC" />
-  			<field name="templateBackgroundColor" class="" type="color" default=""
+  			<field name="templateBackgroundColor" class="" type="color" default="#F4F6F7"
   				label="TPL_PROTOSTAR_BACKGROUND_COLOR_LABEL"
   				description="TPL_PROTOSTAR_BACKGROUND_COLOR_DESC" />
   			<field name="logoFile" class="" type="media" default=""
