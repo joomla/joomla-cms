@@ -59,6 +59,7 @@ if (!empty($this->item->pagination) AND $this->item->pagination && !$this->item-
 			<?php else : ?>
 			<?php echo $this->escape($this->item->title); ?>
 			<?php endif; ?>
+		</h2>
 			<?php if ($params->get('show_author') && !empty($this->item->author )) : ?>
 				<small class="createdby">
 				<?php $author = $this->item->created_by_alias ? $this->item->created_by_alias : $this->item->author; ?>
@@ -75,7 +76,6 @@ if (!empty($this->item->pagination) AND $this->item->pagination && !$this->item-
 				<?php endif; ?>
 				</small>
 				<?php endif; ?>
-		</h2>
 	</div>
 	<?php endif; ?>
 

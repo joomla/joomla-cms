@@ -23,6 +23,7 @@ $params = $this->params;
 				<?php else: ?>
 				<?php echo $this->escape($item->title); ?>
 				<?php endif; ?>
+			</h2>
 				<?php if ($params->get('show_author') && !empty($item->author )) : ?>
 				<small class="createdby">
 				<?php $author = $item->author; ?>
@@ -37,7 +38,6 @@ $params = $this->params;
 				<?php endif; ?>
 				</small>
 				<?php endif; ?>
-			</h2>
 		</div>
 		<?php if (($params->get('show_parent_category')) or ($params->get('show_category')) or ($params->get('show_create_date'))) : ?>
 		<div class="btn-toolbar">
