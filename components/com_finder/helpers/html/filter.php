@@ -37,23 +37,20 @@ abstract class JHtmlFilter
 		$user = JFactory::getUser();
 		$groups = implode(',', $user->getAuthorisedViewLevels());
 		$html = '';
-		$in = '';
 		$filter = null;
 
 		// Get the configuration options.
 		$filterId = array_key_exists('filter_id', $options) ? $options['filter_id'] : null;
 		$activeNodes = array_key_exists('selected_nodes', $options) ? $options['selected_nodes'] : array();
-		$activeDates = array_key_exists('selected_dates', $options) ? $options['selected_dates'] : array();
 		$classSuffix = array_key_exists('class_suffix', $options) ? $options['class_suffix'] : '';
 		$loadMedia = array_key_exists('load_media', $options) ? $options['load_media'] : true;
-		$showDates = array_key_exists('show_date_filters', $options) ? $options['show_date_filters'] : false;
 
 		// Load the predefined filter if specified.
 		if (!empty($filterId))
 		{
-			$query->select('f.' . $db->quoteName('data') . ', f.' . $db->quoteName('params'));
+			$query->select($db->quoteName('f.data') . ', ' . $db->quoteName('f.params'));
 			$query->from($db->quoteName('#__finder_filters') . ' AS f');
-			$query->where($db->quoteName('f').'.' . $db->quoteName('filter_id') . ' = ' . (int) $filterId);
+			$query->where($db->quoteName('f.filter_id') . ' = ' . (int) $filterId);
 
 			// Load the filter data.
 			$db->setQuery($query);
@@ -264,9 +261,9 @@ abstract class JHtmlFilter
 			// Load the predefined filter if specified.
 			if (!empty($query->filter))
 			{
-				$sql->select($db->quoteName('f') . '.' . $db->quoteName('data') . ', '. $db->quoteName('f') . '.' . $db->quoteName('params'));
+				$sql->select($db->quoteName('f.data') . ', '. $db->quoteName('f.params'));
 				$sql->from($db->quoteName('#__finder_filters') . ' AS f');
-				$sql->where($db->quoteName('f') . '.' . $db->quoteName('filter_id') . ' = ' . (int) $query->filter);
+				$sql->where($db->quoteName('f.filter_id') . ' = ' . (int) $query->filter);
 
 				// Load the filter data.
 				$db->setQuery($sql);
@@ -294,12 +291,12 @@ abstract class JHtmlFilter
 			$sql->select('t.*, count(c.id) AS children');
 			$sql->from($db->quoteName('#__finder_taxonomy') . ' AS t');
 			$sql->join('INNER', $db->quoteName('#__finder_taxonomy') . ' AS c ON c.parent_id = t.id');
-			$sql->where($db->quoteName('t') . '.' . $db->quoteName('parent_id') . ' = 1');
-			$sql->where($db->quoteName('t') . '.' . $db->quoteName('state') . ' = 1');
-			$sql->where($db->quoteName('t') . '.' . $db->quoteName('access') . ' IN (' . $groups . ')');
-			$sql->where($db->quoteName('c') . '.' . $db->quoteName('state') . ' = 1');
-			$sql->where($db->quoteName('t') . '.' . $db->quoteName('access') . ' IN (' . $groups . ')');
-			$sql->group($db->quoteName('t') . '.' . $db->quoteName('id'));
+			$sql->where($db->quoteName('t.parent_id') . ' = 1');
+			$sql->where($db->quoteName('t.state') . ' = 1');
+			$sql->where($db->quoteName('t.access') . ' IN (' . $groups . ')');
+			$sql->where($db->quoteName('c.state') . ' = 1');
+			$sql->where($db->quoteName('c.access') . ' IN (' . $groups . ')');
+			$sql->group($db->quoteName('t.id'));
 			$sql->order('t.ordering, t.title');
 
 			// Limit the branch children to a predefined filter.
@@ -339,9 +336,9 @@ abstract class JHtmlFilter
 				$sql->clear();
 				$sql->select('t.*');
 				$sql->from($db->quoteName('#__finder_taxonomy') . ' AS t');
-				$sql->where($db->quoteName('t') . '.' . $db->quoteName('parent_id') . ' = ' . (int) $bk);
-				$sql->where($db->quoteName('t') . '.' . $db->quoteName('state') . ' = 1');
-				$sql->where($db->quoteName('t') . '.' . $db->quoteName('access') . ' IN (' . $groups . ')');
+				$sql->where($db->quoteName('t.parent_id') . ' = ' . (int) $bk);
+				$sql->where($db->quoteName('t.state') . ' = 1');
+				$sql->where($db->quoteName('t.access') . ' IN (' . $groups . ')');
 				$sql->order('t.ordering, t.title');
 
 				// Limit the nodes to a predefined filter.

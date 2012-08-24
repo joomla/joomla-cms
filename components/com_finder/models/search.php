@@ -194,9 +194,6 @@ class FinderModelSearch extends JModelList
 	 */
 	public function getQuery()
 	{
-		// Get the state in case it isn't loaded.
-		$state = $this->getState();
-
 		// Return the query object.
 		return $this->query;
 	}
@@ -302,8 +299,9 @@ class FinderModelSearch extends JModelList
 			}
 		}
 		// Filter by language
-		if ($this->getState('filter.language')) {
-			$query->where('l.language in ('.$db->quote(JFactory::getLanguage()->getTag()).','.$db->quote('*').')');
+		if ($this->getState('filter.language'))
+		{
+			$query->where('l.language IN (' . $db->quote(JFactory::getLanguage()->getTag()) . ', ' . $db->quote('*') . ')');
 		}
 		// Push the data into cache.
 		$this->store($store, $query, false);
@@ -365,7 +363,6 @@ class FinderModelSearch extends JModelList
 		 * process of getting the result total is more complicated.
 		 */
 		$start = 0;
-		$total = 0;
 		$more = false;
 		$items = array();
 		$sorted = array();
@@ -646,7 +643,6 @@ class FinderModelSearch extends JModelList
 		 */
 		$start = 0;
 		$limit = (int) $this->getState('match.limit');
-		$more = false;
 		$items = array();
 		$sorted = array();
 		$maps = array();
@@ -791,13 +787,9 @@ class FinderModelSearch extends JModelList
 			}
 
 			// Sort the results.
-			if ($direction === 'ASC')
+			natcasesort($items);
+			if ($direction === 'DESC')
 			{
-				natcasesort($items);
-			}
-			else
-			{
-				natcasesort($items);
 				$items = array_reverse($items, true);
 			}
 
@@ -1158,7 +1150,8 @@ class FinderModelSearch extends JModelList
 
 		// Load the sort direction.
 		$dirn = $params->get('sort_direction', 'desc');
-		switch ($dirn) {
+		switch ($dirn)
+		{
 			case 'asc':
 				$this->setState('list.direction', 'ASC');
 				break;

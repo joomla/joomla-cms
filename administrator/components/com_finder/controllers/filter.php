@@ -57,9 +57,6 @@ class FinderControllerFilter extends JControllerForm
 
 		$recordId = $input->get($urlVar, '', 'int');
 
-		$session = JFactory::getSession();
-		$registry = $session->get('registry');
-
 		if (!$this->checkEditId($context, $recordId))
 		{
 			// Somehow the person just went to the form and tried to save it. We don't allow that.

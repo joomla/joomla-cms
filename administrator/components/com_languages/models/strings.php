@@ -59,6 +59,7 @@ class LanguagesModelStrings extends JModelLegacy
 		$files = array();
 
 		// Parse common language directory
+		jimport('joomla.filesystem.folder');
 		if(JFolder::exists($path))
 		{
 			$files = JFolder::files($path, $language.'.*ini$', false, true);

@@ -40,7 +40,6 @@ class FinderController extends JControllerLegacy
 
 		$view   = $this->input->get('view', 'index', 'word');
 		$layout = $this->input->get('layout', 'index', 'word');
-		$id     = $this->input->get('id', null, 'int');
 		$f_id   = $this->input->get('filter_id', null, 'int');
 
 		// Check for edit form.

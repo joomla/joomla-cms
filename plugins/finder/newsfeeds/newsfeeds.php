@@ -316,7 +316,6 @@ class plgFinderNewsfeeds extends FinderIndexerAdapter
 	protected function setup()
 	{
 		// Load dependent classes.
-		require_once JPATH_SITE . '/includes/application.php';
 		require_once JPATH_SITE . '/components/com_newsfeeds/helpers/route.php';
 
 		return true;

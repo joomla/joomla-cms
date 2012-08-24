@@ -403,6 +403,7 @@ class joomlaInstallerScript
 			}
 		}
 
+		jimport('joomla.filesystem.folder');
 		foreach ($folders as $folder) {
 			if (JFolder::exists(JPATH_ROOT . $folder) && !JFolder::delete(JPATH_ROOT . $folder)) {
 				echo JText::sprintf('FILES_JOOMLA_ERROR_FILE_FOLDER', $folder).'<br />';

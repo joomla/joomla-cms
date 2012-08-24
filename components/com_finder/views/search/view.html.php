@@ -180,7 +180,6 @@ class FinderViewSearch extends JViewLegacy
 	{
 		$app = JFactory::getApplication();
 		$menus = $app->getMenu();
-		$pathway = $app->getPathway();
 		$title = null;
 
 		// Because the application sets a default page title,
@@ -195,8 +194,6 @@ class FinderViewSearch extends JViewLegacy
 		{
 			$this->params->def('page_heading', JText::_('COM_FINDER_DEFAULT_PAGE_TITLE'));
 		}
-
-		$id = (int) @$menu->query['id'];
 
 		$title = $this->params->get('page_title', '');
 

@@ -104,6 +104,7 @@ class AdminModelHelp extends JModelLegacy
 			$help_search = $this->getHelpSearch();
 
 			// Get Help files
+			jimport('joomla.filesystem.folder');
 			$files = JFolder::files(JPATH_BASE . '/help/' . $lang_tag, '\.xml$|\.html$');
 			$this->toc = array();
 			foreach($files as $file)

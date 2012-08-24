@@ -34,7 +34,7 @@ class plgContentFinder extends JPlugin
 		JPluginHelper::importPlugin('finder');
 
 		// Trigger the onFinderAfterSave event.
-		$results = $dispatcher->trigger('onFinderAfterSave', array($context, $article, $isNew));
+		$dispatcher->trigger('onFinderAfterSave', array($context, $article, $isNew));
 
 	}
 	/**
@@ -53,7 +53,7 @@ class plgContentFinder extends JPlugin
 		JPluginHelper::importPlugin('finder');
 
 		// Trigger the onFinderBeforeSave event.
-		$results = $dispatcher->trigger('onFinderBeforeSave', array($context, $article, $isNew));
+		$dispatcher->trigger('onFinderBeforeSave', array($context, $article, $isNew));
 
 	}
 	/**
@@ -71,7 +71,7 @@ class plgContentFinder extends JPlugin
 		JPluginHelper::importPlugin('finder');
 
 		// Trigger the onFinderAfterDelete event.
-		$results = $dispatcher->trigger('onFinderAfterDelete', array($context, $article));
+		$dispatcher->trigger('onFinderAfterDelete', array($context, $article));
 
 	}
 	/**
@@ -91,7 +91,7 @@ class plgContentFinder extends JPlugin
 		JPluginHelper::importPlugin('finder');
 
 		// Trigger the onFinderChangeState event.
-		$results = $dispatcher->trigger('onFinderChangeState', array($context, $pks, $value));
+		$dispatcher->trigger('onFinderChangeState', array($context, $pks, $value));
 	}
 
 	/**

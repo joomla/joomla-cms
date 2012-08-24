@@ -81,7 +81,6 @@ class FinderModelMaps extends JModelList
 	public function delete(&$pks)
 	{
 		$dispatcher = JEventDispatcher::getInstance();
-		$user = JFactory::getUser();
 		$pks = (array) $pks;
 		$table = $this->getTable();
 
