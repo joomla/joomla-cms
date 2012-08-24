@@ -30,7 +30,8 @@ $ -> Language fix or change
  # [#28968] Missing JFolder class imports in CMS. Thanks Mark
  # [#28797] Code Cleanup - Smart Search. Thanks Michael
  # [#28449] captcha cause fatal error when the "captcha" field is not present in "configuration.php" after an upgrade. Thansk Elin.
- 
+ # [#28987] JToolbarButtonHelp doesn't work. Thanks Rouven
+
 23-Aug-2012 Mark Dexter
  # [#28948] Improvements for com_media Bootstrapped layouts. Thanks Michael.
  # [#28965] Wrong default menu for new menu items
