@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+24-Aug-2012 Jean-Marie Simonet
+ # [#28449] captcha cause fatal error when the "captcha" field is not present in "configuration.php" after an upgrade. Thansk Elin.
+
 21-Aug-2012 Jean-Marie Simonet
  # [#28951] Increase stability in language installer. Thanks Javier
 
