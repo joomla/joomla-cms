@@ -255,5 +255,6 @@ $sortFields = $this->getSortFields();
 	<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>" />
 	<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>" />
 	<input type="hidden" name="original_order_values" value="<?php echo implode($originalOrders, ','); ?>" />
+	<input type="hidden" name="menutype" value="<?php echo $this->state->get('filter.menutype'); ?>" />
 	<?php echo JHtml::_('form.token'); ?>
 </form>
