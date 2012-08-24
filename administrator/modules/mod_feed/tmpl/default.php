@@ -93,7 +93,7 @@ else
 				$uri = substr($uri, 0, 4) != 'http' ? $params->get('rsslink') : $uri;
 				$text = !empty($feed[$i]->content) ||  !is_null($feed[$i]->content) ? $feed[$i]->content : $feed[$i]->description;
 
-			 ?>
+			?>
 				<li>
 					<?php if (!empty($uri)) : ?>
 						<h5 class="feed-link">

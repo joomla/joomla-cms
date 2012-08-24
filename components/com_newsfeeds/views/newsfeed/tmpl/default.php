@@ -75,13 +75,13 @@ else
 	<!-- Show items -->
 	<?php if (!empty($this->rssDoc[0])){ ?>
 	<ol>
-		<?php for  ($i = 0; $i < $this->item->numarticles  ;$i++) {  ?>
+		<?php for ($i = 0; $i < $this->item->numarticles; $i++) {  ?>
 
 	<?php
 		$uri = !empty($this->rssDoc[$i]->guid) || !is_null($this->rssDoc[$i]->guid) ? $this->rssDoc[$i]->guid : $this->rssDoc[$i]->uri;
 		$uri = substr($uri, 0, 4) != 'http' ? $this->item->link : $uri;
 		$text = !empty($this->rssDoc[$i]->content) ||  !is_null($this->rssDoc[$i]->content) ? $this->rssDoc[$i]->content : $this->rssDoc[$i]->description;
-	 ?>
+	?>
 			<li>
 				<?php if (!empty($uri)) : ?>
 					<a href="<?php echo $uri; ?>" target="_blank">
