@@ -31,7 +31,10 @@ class ContentViewArticles extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		ContentHelper::addSubmenu('articles');
+		if ($this->getLayout() !== 'modal')
+		{
+			ContentHelper::addSubmenu('articles');
+		}
 
 		$this->items		= $this->get('Items');
 		$this->pagination	= $this->get('Pagination');
