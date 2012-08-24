@@ -26,13 +26,13 @@ class Featured0002Test extends SeleniumJoomlaTestCase
 		echo "Open Home menu item and change to 0 leading, 7 intro, alpha sort.\n";
 		$this->click("//td/a['Home']");
 		$this->waitForPageToLoad("30000");
-		$this->click("//h3[@id='advanced-options']/a/span");
+		$this->click("//h3[@id='advanced-options']/button");
 		$this->type("jform_params_num_leading_articles", "0");
 		$this->type("jform_params_num_intro_articles", "7");
 		$this->select("jform_params_multi_column_order", "label=Down");
 		$this->select("jform_params_orderby_pri", "label=No Order");
 		$this->select("jform_params_orderby_sec", "label=Title Alphabetical");
-		$this->click("//li[@id='toolbar-save']/a/span");
+		$this->click("//div[@id='toolbar-save']/button");
 		$this->waitForPageToLoad("30000");
 
 		echo "Select featured articles in article manager.\n";
@@ -58,9 +58,9 @@ class Featured0002Test extends SeleniumJoomlaTestCase
 		$this->waitForPageToLoad("30000");
 		$this->click("//td/a['Home']");
 		$this->waitForPageToLoad("30000");
-		$this->click("//h3[@id='advanced-options']/a/span");
+		$this->click("//h3[@id='advanced-options']/button");
 		$this->select("jform_params_orderby_sec", "label=Title Reverse Alphabetical");
-		$this->click("//li[@id='toolbar-save']/a/span");
+		$this->click("//div[@id='toolbar-save']/button");
 		$this->waitForPageToLoad("30000");
 		echo "Go to front page and check article order.\n";
 		$this->gotoSite();
@@ -84,13 +84,13 @@ class Featured0002Test extends SeleniumJoomlaTestCase
 		$this->waitForPageToLoad("30000");
 		$this->click("//td/a['Home']");
 		$this->waitForPageToLoad("30000");
-		$this->click("//h3[@id='advanced-options']/a/span");
+		$this->click("//h3[@id='advanced-options']/button");
 		$this->type("jform_params_num_leading_articles", "1");
 		$this->type("jform_params_num_intro_articles", "3");
 		$this->select("jform_params_multi_column_order", "label=Across");
 		$this->select("jform_params_orderby_pri", "label=Use Global");
 		$this->select("jform_params_orderby_sec", "label=Featured Articles Order");
-		$this->click("//li[@id='toolbar-save']/a/span");
+		$this->click("//div[@id='toolbar-save']/button");
 		$this->waitForPageToLoad("30000");
 		echo "Go back to site and make sure original articles are in right positions.\n";
 		$this->gotoSite();

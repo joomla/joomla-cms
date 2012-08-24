@@ -34,7 +34,7 @@ class Group0001Test extends SeleniumJoomlaTestCase
     $this->click("//button[@type='submit']");
     $this->waitForPageToLoad("30000");
     $this->click("checkall-toggle");
-    $this->click("//li[@id='toolbar-delete']/a/span");
+    $this->click("//div[@id='toolbar-delete']/button");
     $this->waitForPageToLoad("30000");
     try {
     	$this->assertTrue($this->isTextPresent("success"), 'Deleted message not shown');

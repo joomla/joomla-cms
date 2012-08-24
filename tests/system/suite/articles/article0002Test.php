@@ -21,7 +21,7 @@ class Article0002 extends SeleniumJoomlaTestCase
 		$this->gotoSite();
 		$this->doFrontEndLogin();
 		echo "Edit article in front end\n";
-	    $this->click("//img[@alt='Edit']");
+	    $this->click("//i[contains(@class, 'icon-edit')]");
 	    $this->waitForPageToLoad("30000");
 	    $salt = mt_rand();
 	    $testText="Test text $salt";
@@ -34,7 +34,7 @@ class Article0002 extends SeleniumJoomlaTestCase
 	    $this->click("//button[@type='button']");
 	    $this->waitForPageToLoad("30000");
 		try {
-	        $this->assertEquals("Article successfully saved", $this->getText("//dl[@id='system-message']/dd/ul/li"));
+	        $this->assertTrue($this->isElementPresent("//div[@id='system-message']//p[contains(text(), 'success')]"));
 	    } catch (PHPUnit_Framework_AssertionFailedError $e) {
 			array_push($this->verificationErrors, $this->getTraceFiles($e));
 	    }
@@ -48,7 +48,7 @@ class Article0002 extends SeleniumJoomlaTestCase
 	    $this->assertEquals($testText, $this->getText("//div[@class='items-leading']/div[@class='leading-0']//p"));
 
 	    echo "Open again for editing in front end\n";
-	    $this->click("//img[@alt='Edit']");
+	    $this->click("//i[contains(@class, 'icon-edit')]");
 	    $this->waitForPageToLoad("30000");
 	    $text="<p>Congratulations! You have a Joomla! site! Joomla! makes your site easy to build a website " .
 	    		"just the way you want it and keep it simple to update and maintain.</p> " .
@@ -64,7 +64,7 @@ class Article0002 extends SeleniumJoomlaTestCase
 	    $this->waitForPageToLoad("30000");
 	    echo "Check for success message\n";
 	    try {
-	        $this->assertEquals("Article successfully saved", $this->getText("//dl[@id='system-message']/dd/ul/li"));
+	    	$this->assertTrue($this->isElementPresent("//div[@id='system-message']//p[contains(text(), 'success')]"));
 	    } catch (PHPUnit_Framework_AssertionFailedError $e) {
 			array_push($this->verificationErrors, $this->getTraceFiles($e));
 	    }
@@ -91,14 +91,14 @@ class Article0002 extends SeleniumJoomlaTestCase
 		$this->gotoSite();
 		$this->doFrontEndLogin();
 		echo "Edit Upgraders article in front end\n";
-		$this->click("//h2/a[contains(text(),'Upgraders')]/../../ul/li/span/a");
+		$this->click("//h2/a[contains(text(), 'Upgraders')]/../../div/ul/li[@class='edit-icon']/a");
 		$this->waitForPageToLoad("30000");
 
 		echo "Insert an article link and check that link is added to article.\n";
 		$this->click("link=Article");
 		$this->waitforElement("//iframe[contains(@src, '&view=articles&layout=modal')]");
 		$this->click("link=Archive Module");
-		$this->waitforElement("//fieldset/legend[contains(text(),'Metadata')]");
+		$this->waitforElement("//div[@id='metadata']");
 
 		$this->assertTrue($this->isElementPresent("//a[contains(text(),'Archive Module')]"));
 
@@ -107,17 +107,17 @@ class Article0002 extends SeleniumJoomlaTestCase
 		$this->waitforElement("//iframe[contains(@src, '&view=articles&layout=modal')]");
 		$this->click("id=sbox-btn-close");
 		sleep(3);
-		$this->waitforElement("//fieldset/legend[contains(text(),'Metadata')]");
+		$this->waitforElement("//div[@id='metadata']");
 		echo "Check that we are still editing the article.\n";
-		$this->assertTrue($this->isElementPresent("//fieldset/legend[contains(text(),'Metadata')]"));
+		$this->assertTrue($this->isElementPresent("//div[@id='metadata']"));
 
 		echo "Click Image button and close modal\n";
 		$this->click("link=Image");
-		$this->waitforElement("//td/label[contains(text(),'Image URL')]");
+		$this->waitforElement("//div/label[contains(text(),'Image URL')]");
 		$this->click("//button[@type='button' and @type='button' and @type='button' and @onclick='window.parent.SqueezeBox.close();']");
-		$this->waitforElement("//fieldset/legend[contains(text(),'Metadata')]");
+		$this->waitforElement("//div[@id='metadata']");
 		echo "Check that we are still editing the article.\n";
-		$this->assertTrue($this->isElementPresent("//fieldset/legend[contains(text(),'Metadata')]"));
+		$this->assertTrue($this->isElementPresent("//div[@id='metadata']"));
 
 		echo "Cancel article edit\n";
 		$this->click("//button[contains(@onclick,'article.cancel')]");

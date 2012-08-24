@@ -23,14 +23,14 @@ class Redirect0001Test extends SeleniumJoomlaTestCase
 		echo "Navigate to redirect and create new redirect.\n";
 		$this->click("link=Redirect");
 		$this->waitForPageToLoad("30000");
-		$this->click("//li[@id='toolbar-new']/a/span");
+		$this->click("//div[@id='toolbar-new']/button");
 		$this->waitForPageToLoad("30000");
 		echo "Set redirect from bad url to Getting Started\n";
 		$badLink = $this->cfg->host . $this->cfg->path . 'index.php/using-joomla/extensions/components/content-component/single-articlexxx';
 		$goodLink = $this->cfg->host . $this->cfg->path . 'index.php/getting-started';
 		$this->type("jform_old_url", $badLink);
 		$this->type("jform_new_url", $goodLink);
-		$this->click("//li[@id='toolbar-save']/a/span");
+		$this->click("//div[@id='toolbar-save']/button");
 		$this->waitForPageToLoad("30000");
 		$this->doAdminLogout();
 
@@ -47,12 +47,12 @@ class Redirect0001Test extends SeleniumJoomlaTestCase
 		$this->click("link=Redirect");
 		$this->waitForPageToLoad("30000");
 		$this->click("checkall-toggle");
-		$this->click("//li[@id='toolbar-trash']/a/span");
+		$this->click("//div[@id='toolbar-trash']/button");
 		$this->waitForPageToLoad("30000");
 		$this->select("filter_state", "label=Trashed");
 		$this->waitForPageToLoad("30000");
 		$this->click("checkall-toggle");
-		$this->click("//li[@id='toolbar-delete']/a/span");
+		$this->click("//div[@id='toolbar-delete']/button");
 		$this->waitForPageToLoad("30000");
 		$this->select("filter_state", "label=- Select Status -");
 		$this->waitForPageToLoad("30000");
@@ -73,12 +73,12 @@ class Redirect0001Test extends SeleniumJoomlaTestCase
 
 		echo "Delete redirect item and log out\n";
 		$this->click("checkall-toggle");
-		$this->click("//li[@id='toolbar-trash']/a/span");
+		$this->click("//div[@id='toolbar-trash']/button");
 		$this->waitForPageToLoad("30000");
 		$this->select("filter_state", "label=Trashed");
 		$this->waitForPageToLoad("30000");
 		$this->click("checkall-toggle");
-		$this->click("//li[@id='toolbar-delete']/a/span");
+		$this->click("//div[@id='toolbar-delete']/button");
 		$this->waitForPageToLoad("30000");
 		$this->select("filter_state", "label=- Select Status -");
 		$this->waitForPageToLoad("30000");

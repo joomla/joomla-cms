@@ -87,9 +87,9 @@ class Featured0001Test extends SeleniumJoomlaTestCase
 		$this->waitForPageToLoad("30000");
 		$this->click("//td/a[contains(.,  'Home')]");
 		$this->waitForPageToLoad("30000");
-		$this->click("//h3[@id='advanced-options']/a/span");
+		$this->click("//h3[@id='advanced-options']/button");
 		$this->select("jform_params_orderby_sec", "label=Title Alphabetical");
-		$this->click("//li[@id='toolbar-save']/a/span");
+		$this->click("//div[@id='toolbar-save']/button");
 		$this->waitForPageToLoad("30000");
 
 		echo "Goto front page and check alpha article order \n";
@@ -108,9 +108,9 @@ class Featured0001Test extends SeleniumJoomlaTestCase
 		echo "Edit the Home Menu Item to change sorting back\n";
 		$this->click("//td/a[contains(.,  'Home')]");
 		$this->waitForPageToLoad("30000");
-		$this->click("//h3[@id='advanced-options']/a/span");
+		$this->click("//h3[@id='advanced-options']/button");
 		$this->select("jform_params_orderby_sec", "label=Featured Articles Order");
-		$this->click("//li[@id='toolbar-save']/a/span");
+		$this->click("//div[@id='toolbar-save']/button");
 		$this->waitForPageToLoad("30000");
 		$this->click("link=Article Manager");
 		$this->waitForPageToLoad("30000");
