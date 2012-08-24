@@ -231,7 +231,6 @@ class plgFinderWeblinks extends FinderIndexerAdapter
 		{
 			$this->pluginDisable($pks);
 		}
-
 	}
 
 	/**
@@ -308,7 +307,6 @@ class plgFinderWeblinks extends FinderIndexerAdapter
 	protected function setup()
 	{
 		// Load dependent classes.
-		require_once JPATH_SITE . '/includes/application.php';
 		require_once JPATH_SITE . '/components/com_weblinks/helpers/route.php';
 
 		return true;

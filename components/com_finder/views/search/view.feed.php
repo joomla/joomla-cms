@@ -42,7 +42,6 @@ class FinderViewSearch extends JViewLegacy
 
 		// Push out the query data.
 		JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
-		$suggested = JHtml::_('query.suggested', $query);
 		$explained = JHtml::_('query.explained', $query);
 
 		// Set the document title.

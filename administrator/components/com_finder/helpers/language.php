@@ -71,7 +71,8 @@ class FinderHelperLanguage
 		static $loaded = false;
 
 		// If already loaded, don't load again.
-		if ($loaded) {
+		if ($loaded)
+		{
 			return;
 		}
 		$loaded = true;
@@ -88,7 +89,8 @@ class FinderHelperLanguage
 		$db->setQuery($query);
 		$plugins = $db->loadObjectList();
 
-		if (empty($plugins)) {
+		if (empty($plugins))
+		{
 			return;
 		}
 
@@ -97,9 +99,9 @@ class FinderHelperLanguage
 		$lang->load('plg_content_finder', JPATH_ADMINISTRATOR);
 
 		// Load language file for each plug-in.
-		foreach ($plugins as $plugin) {
+		foreach ($plugins as $plugin)
+		{
 			$lang->load($plugin->name, JPATH_ADMINISTRATOR);
 		}
 	}
-
 }
