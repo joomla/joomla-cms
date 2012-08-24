@@ -157,7 +157,7 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 		try
 		{
 			$feed = new JFeedFactory;
-			$this->rssDoc = $feed->getFeed($newsfeed->link );
+			$this->rssDoc = $feed->getFeed($newsfeed->link);
 		}
 		catch (InvalidArgumentException $e)
 		{
@@ -182,7 +182,7 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 		//Escape strings for HTML output
 		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
 
-		$this->assignRef('params', $params  );
+		$this->assignRef('params', $params);
 		$this->assignRef('newsfeed', $newsfeed);
 		$this->assignRef('state', $state);
 		$this->assignRef('item', $item);

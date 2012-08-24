@@ -202,9 +202,8 @@ class JFeed implements ArrayAccess
 		{
 			return $this->entries[$offset];
 		}
-		
-		return 0;
 
+		return 0;
 	}
 
 	/**
