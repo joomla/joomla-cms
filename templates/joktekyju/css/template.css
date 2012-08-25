@@ -1,0 +1,46 @@
+/* Jokte Styles */
+
+/* Titulos de articulos */
+div.items-leading h2 {
+	background: #333;
+}
+div.items-leading h2 a{
+    color: #FFF;	
+}
+
+div.items-leading h2 a:hover{
+    text-decoration:underline;	
+}
+
+/* Texto articulos */
+div.items-leading p{
+	font-size:0.85em;
+}
+
+/* Module Top1 a Top4 */
+div.moduletable img{
+    -moz-border-radius: 19px;
+    -webkit-border-radius: 19px;
+    border-radius: 19px;
+    /*IE 7 AND 8 DO NOT SUPPORT BORDER RADIUS*/
+    -moz-box-shadow: 0px 0px 7px #000000;
+    -webkit-box-shadow: 0px 0px 7px #000000;
+    box-shadow: 0px 0px 7px #000000;
+    /*IE 7 AND 8 DO NOT SUPPORT BLUR PROPERTY OF SHADOWS*/ 
+}
+
+div.moduletable h3{
+	font-size:1.1em;
+	padding: 0 0 0 1%;
+	margin: 0.5em 0 0.5em 0;
+	font-variant:small-caps;
+	text-align:left;
+	background: #FAFAFA;
+	border:1px dotted #CCC;
+	color: #000;
+    text-shadow:1px 1px #ccc;
+	}
+	
+div.moduletable p{
+	font-size: 0.75em;
+	}

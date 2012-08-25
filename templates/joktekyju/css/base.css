@@ -1,0 +1,205 @@
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	color: #444;
+	font-family: Trebuchet MS, serif;
+	line-height: 1.5em;
+}
+ol, ul {
+	list-style: square;
+	margin: 0 0 0.5em;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+code {
+	background-color: #f4f4f4;
+	font-family: monospace;
+	font-size: 0.875em;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+strong {
+	font-weight: bold;
+}
+p {
+	margin: 0 0 0.5em;
+	max-width: 634px;	
+}
+h1, h2, h3, h4, h5, h6 {
+	font-family: Trebuchet MS, serif;
+	font-weight: normal;
+	line-height: 1.2em;
+	padding: 0.5em 0 0.25em;
+}
+
+h1 {
+	font-size: 3em;
+}
+
+h2 {
+	font-size: 2em;
+}
+
+h3 {
+	font-size: 1.5em;
+}
+
+h4 {
+	font-size: 1.25em;
+}
+
+h5, h6 {
+	font-size: 1em;
+}
+
+a, a:link, a:visited {
+	color: #000;
+	text-shadow:1px 1px #808080;
+	text-decoration: none;	
+}
+
+a:hover, a:active {	
+	color: #fff;
+}
+
+img {
+	max-width: 100%;
+}
+
+.sep-user,.sep-top {
+	border: none;	
+	height: 10px;
+}
+
+#logo {
+	padding-bottom: 0;
+}
+
+.logo {
+	color: #11bad3;
+	font-family: Trebuchet MS, serif;
+	font-weight: normal;
+	font-size: 1.2em;
+}
+.logo b {
+	font-weight: bold;
+}
+
+.intro {
+	font-size: 0.90em;
+	font-family: Trebuchet MS, serif;
+	line-height: 1.1em;
+	max-width: none;
+}
+
+.topright{
+	float:right;
+	margin: 1.2em;
+}
+
+.socialnet .moduletable img{
+	border:none;
+	 -moz-border-radius: 0;
+    -webkit-border-radius: 0;
+    border-radius: 0;
+    /*IE 7 AND 8 DO NOT SUPPORT BORDER RADIUS*/
+    -moz-box-shadow: 0px 0px 0px #000000;
+    -webkit-box-shadow: 0px 0px 0px #000000;
+    box-shadow: 0px 0px 0px #000000;
+    /*IE 7 AND 8 DO NOT SUPPORT BLUR PROPERTY OF SHADOWS*/ 	
+}
+
+.grid {
+	padding: 0 20px;
+}
+
+.row {
+	margin-bottom: 1em;
+}
+
+.mod-download {
+	background: url(../images/bg_download.png) 0 0.75em no-repeat;
+	background-size: 100%;
+}
+
+.mod-download h2 {
+	color: #11bad3;
+	font-weight: bold;
+}
+
+.mod-download .logo {
+	color: #fff;
+	font-size: 1em;
+}
+
+a.bttn {
+	border-right: 1px solid #0087a0;
+	border-bottom: 1px solid #0087a0;
+	background: #11bad3;
+	color: #fff;
+	display: inline-block;
+	font-family: sommet-slab-1, sommet-slab-2, Trebuchet MS, serif;
+	font-size: 1.2em;
+	font-weight: bold;
+	margin: 0.5em 0;
+	padding: 0.5em 0.75em;
+}
+
+.mod-download .bttn:hover {
+	background: #0087a0;
+	cursor: pointer;
+}
+
+.maincontainer {
+	margin-bottom: 4em;
+}
+
+.maincontainer .row { margin-bottom: 0; }
+
+.maincontainer .row p {	
+	font-family: Trebuchet MS, sans-serif;
+	padding: 1em;
+	margin: 0 0 1em;
+}
+
+.modsbottom{
+	padding-top:0.5em;
+	border-top:1px dotted #CCC;	
+}
+
+.footer p {
+	color: #666;
+	text-align: center;
+	max-width: none;
+}
