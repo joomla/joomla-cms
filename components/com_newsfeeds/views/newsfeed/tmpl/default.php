@@ -45,6 +45,7 @@ else
 		{
 			$direction = " redirect-rtl";
 		}
+$images  = json_decode($this->item->images);
 	?>
 	<div class="newsfeed<?php echo $this->pageclass_sfx?><?php echo $direction; ?>">
 	<?php if ($this->params->get('display_num')) :  ?>
@@ -56,8 +57,27 @@ else
 		<a href="<?php echo $this->item->link; ?>" target="_blank">
 		<?php echo str_replace('&apos;', "'", $this->item->name); ?></a>
 	</h2>
+	<!-- Show Images from Component -->
+	<?php  if (isset($images->image_intro) and !empty($images->image_intro)) : ?>
+	<?php $imgfloat = (empty($images->float_intro)) ? $this->params->get('float_intro') : $images->float_intro; ?>
+	<div class="img-intro-<?php echo htmlspecialchars($imgfloat); ?>"> <img
+		<?php if ($images->image_intro_caption):
+			echo 'class="caption"'.' title="' .htmlspecialchars($images->image_intro_caption) .'"';
+		endif; ?>
+		src="<?php echo htmlspecialchars($images->image_intro); ?>" alt="<?php echo htmlspecialchars($images->image_intro_alt); ?>"/> </div>
+	<?php endif; ?>
 
-	<!-- Show Description -->
+	<?php  if (isset($images->image_fulltext) and !empty($images->image_fulltext)) : ?>
+	<?php $imgfloat = (empty($images->float_fulltext)) ? $this->params->get('float_fulltext') : $images->float_fulltext; ?>
+	<div class="pull-<?php echo htmlspecialchars($imgfloat); ?> item-image"> <img
+	<?php if ($images->image_fulltext_caption):
+		echo 'class="caption"'.' title="' .htmlspecialchars($images->image_fulltext_caption) .'"';
+	endif; ?>
+	src="<?php echo htmlspecialchars($images->image_fulltext); ?>" alt="<?php echo htmlspecialchars($images->image_fulltext_alt); ?>"/> </div>
+	<?php endif; ?>
+	<!-- Show Description from Component -->
+<?php echo $this->item->description; ?>
+	<!-- Show Feed's Description -->
 
 	<?php if ($this->params->get('show_feed_description')) : ?>
 		<div class="feed-description">
