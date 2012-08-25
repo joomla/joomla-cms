@@ -75,7 +75,7 @@ JHtml::_('behavior.formvalidation');
 						<?php echo $this->form->getInput('catid'); ?>
 					</div>
 				</div>
-	
+
 				<div class="control-group">
 					<div class="control-label">
 						<?php echo $this->form->getLabel('type'); ?>
@@ -192,6 +192,5 @@ JHtml::_('behavior.formvalidation');
 			</div>
 		</fieldset>
 	</div>
-	
 	<!-- End Sidebar -->
 </form>

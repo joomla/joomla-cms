@@ -505,6 +505,5 @@ class BannersModelBanner extends JModelAdmin
 		}
 		// Increment the content version number.
 		$table->version++;
-		
 	}
 }

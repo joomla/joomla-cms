@@ -225,8 +225,7 @@ JHtml::_('behavior.keepalive');
 					</div>
 				</div>
 			</fieldset>
-		</div>
-		
+		</div>	
 		<!-- End Sidebar -->
 	</div>
 </form>

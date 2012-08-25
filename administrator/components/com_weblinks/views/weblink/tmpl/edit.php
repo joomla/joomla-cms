@@ -144,13 +144,11 @@ JHtml::_('behavior.formvalidation');
 
 			<?php echo $this->loadTemplate('params'); ?>
 			<?php echo $this->loadTemplate('metadata'); ?>
-	
+
 			<input type="hidden" name="task" value="" />
 			<?php echo JHtml::_('form.token'); ?>
 		</div>
-
 		</div>
-	
 		<!-- End Weblinks -->		
 		<!-- Begin Sidebar -->
 		<div class="span2">
@@ -185,5 +183,4 @@ JHtml::_('behavior.formvalidation');
 			</fieldset>
 		</div>
 		<!-- End Sidebar -->
-	
 </form>

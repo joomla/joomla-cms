@@ -51,7 +51,7 @@ class NewsfeedsTableNewsfeed extends JTable
 			$registry = new JRegistry();
 			$registry->loadArray($array['images']);
 			$array['images'] = (string)$registry;
-		}		
+		}	
 
 		return parent::bind($array, $ignore);
 	}

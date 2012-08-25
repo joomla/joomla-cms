@@ -265,6 +265,5 @@ JHtml::_('behavior.formvalidation');
 			</div>
 		</fieldset>
 	</div>
-	
 	<!-- End Sidebar -->
 </form>
