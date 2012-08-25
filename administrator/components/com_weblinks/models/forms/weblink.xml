@@ -161,12 +161,12 @@
 	</fields>
 	<fields name="images">
 			<field
-				name="image_intro"
+				name="image_first"
 				type="media"
 				label="COM_WEBLINKS_FIELD_FIRST_LABEL"
 				description="COM_WEBLINKS_FIELD_FIRST_DESC" />
 			<field
-				name="float_intro"
+				name="float_first"
 				type="list"
 				label="COM_WEBLINKS_FLOAT_LABEL"
 				description="COM_WEBLINKS_FLOAT_DESC">
@@ -175,30 +175,26 @@
 					<option value="left">COM_WEBLINKS_LEFT</option>
 					<option value="none">COM_WEBLINKS_NONE</option>
 			</field>
-			<field name="image_intro_alt"
+			<field name="image_first_alt"
 				type="text"
 				label="COM_WEBLINKS_FIELD_IMAGE_ALT_LABEL"
 				description="COM_WEBLINKS_FIELD_IMAGE_ALT_DESC"
 				class="inputbox"
 				size="20" />
-			<field name="image_intro_caption"
+			<field name="image_first_caption"
 				type="text"
 				label="COM_WEBLINKS_FIELD_IMAGE_CAPTION_LABEL"
 				description="COM_WEBLINKS_FIELD_IMAGE_CAPTION_DESC"
 				class="inputbox"
 				size="20" />
+
 			<field
-				name="spacer1"
-				type="spacer"
-				hr="true"
-				/>
-			<field
-				name="image_fulltext"
+				name="image_second"
 				type="media"
 				label="COM_WEBLINKS_FIELD_SECOND_LABEL"
 				description="COM_WEBLINKS_FIELD_SECOND_DESC" />
 			<field
-				name="float_fulltext"
+				name="float_second"
 				type="list"
 				label="COM_WEBLINKS_FLOAT_LABEL"
 				description="COM_WEBLINKS_FLOAT_DESC">
