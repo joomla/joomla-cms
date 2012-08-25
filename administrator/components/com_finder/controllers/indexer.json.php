@@ -234,8 +234,8 @@ class FinderControllerIndexer extends JControllerLegacy
 
 		try
 		{
-			// Optimize the index.
-			FinderIndexer::optimize();
+			// Optimize the index
+			FinderIndexer::getInstance()->optimize();
 
 			// Get the indexer state.
 			$state = FinderIndexer::getState();

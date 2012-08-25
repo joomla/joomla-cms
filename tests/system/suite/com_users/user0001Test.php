@@ -24,7 +24,7 @@ class User0001Test extends SeleniumJoomlaTestCase
 		$this->type("jform_password2", "password1");
 		$this->type("jform_email", "email@example.com");
 		$this->click("1group_1");
-		$this->click("//li[@id='toolbar-save']/a/span");
+		$this->click("//div[@id='toolbar-save']/button");
 		$this->waitForPageToLoad("60000");
 		print("Save and check that it exists"."\n");
 		$this->type("filter_search", "username1");
@@ -39,12 +39,12 @@ class User0001Test extends SeleniumJoomlaTestCase
 		$this->assertEquals("email@example.com", $this->getValue("jform_email"));
 		$this->assertEquals("on", $this->getValue("1group_1"));
 		echo "Close new user\n";
-		$this->click("//li[@id='toolbar-cancel']/a/span");
+		$this->click("//div[@id='toolbar-cancel']/button");
 		$this->waitForPageToLoad("30000");
 
 		print("Delete the user"."\n");
 		$this->click("cb0");
-		$this->click("//li[@id='toolbar-delete']/a/span");
+		$this->click("//div[@id='toolbar-delete']/button");
 		$this->waitForPageToLoad("30000");
 		print("Check that user does not exist"."\n");
 		$this->assertFalse($this->isElementPresent("link=username1"));

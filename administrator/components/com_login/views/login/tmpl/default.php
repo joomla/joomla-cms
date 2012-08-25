@@ -13,8 +13,8 @@ defined('_JEXEC') or die;
 // If you want to use a completely different login module change the value of name
 // in your layout override.
 
-$loginmodule =LoginModelLogin::getLoginModule('mod_login');
-	echo JModuleHelper::renderModule($loginmodule, array('style' => 'rounded', 'id' => 'section-box'));
+$loginmodule = LoginModelLogin::getLoginModule('mod_login');
+echo JModuleHelper::renderModule($loginmodule, array('style' => 'rounded', 'id' => 'section-box'));
 
 
 //Get any other modules in the login position.

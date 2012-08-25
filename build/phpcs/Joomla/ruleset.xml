@@ -3,8 +3,8 @@
  <description>The Joomla coding standard.</description>
 
  <!-- Exclude all JavaScript and CSS files. There are bugs and we don't have any rules anyways. -->
- <exclude-pattern>*.js</exclude-pattern>
- <exclude-pattern>*.css</exclude-pattern>
+ <exclude-pattern>*\.js</exclude-pattern>
+ <exclude-pattern>*\.css</exclude-pattern>
 
  <!-- Exclude the index.html files. -->
  <exclude-pattern>*/index.html</exclude-pattern>
@@ -37,6 +37,8 @@
  <rule ref="PEAR.Classes.ClassDeclaration"/>
  <rule ref="Squiz.Classes.SelfMemberReference"/>
 
+ <rule ref="PEAR.Commenting.InlineComment"/>
+
  <rule ref="Generic.Files.LineEndings"/>
  <rule ref="Zend.Files.ClosingTag">
   <exclude-pattern>*/tmpl/*</exclude-pattern>
@@ -48,15 +50,17 @@
   <exclude-pattern>/templates/*</exclude-pattern>
   <exclude-pattern>/installation/template/index.php</exclude-pattern>
  </rule>
+ <rule ref="PEAR.Formatting.MultiLineAssignment"/>
+
+ <rule ref="Generic.Functions.FunctionCallArgumentSpacing"/>
 
  <rule ref="PEAR.NamingConventions.ValidClassName">
-  <!-- We only want this for libraries for now -->
+  <!-- We only want this for libraries and cli for now -->
   <exclude-pattern>/administrator/*</exclude-pattern>
   <exclude-pattern>/components/*</exclude-pattern>
   <exclude-pattern>/plugins/*</exclude-pattern>
   <exclude-pattern>/modules/*</exclude-pattern>
   <exclude-pattern>/installation/*</exclude-pattern>
-  <exclude-pattern>/cli/*</exclude-pattern>
   <exclude-pattern>/templates/*</exclude-pattern>
   <exclude-pattern>/language/*</exclude-pattern>
  </rule>
@@ -73,6 +77,11 @@
   <properties>
    <property name="eolChar" value="\n"/>
   </properties>
+ </rule>
+
+ <!-- This message is not required as spaces are allowed for alignment -->
+ <rule ref="Generic.Functions.FunctionCallArgumentSpacing.TooMuchSpaceAfterComma">
+  <severity>0</severity>
  </rule>
 
 </ruleset>

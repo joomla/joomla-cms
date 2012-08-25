@@ -233,7 +233,6 @@ abstract class JFormField
 	{
 		switch ($name)
 		{
-			case 'class':
 			case 'description':
 			case 'formControl':
 			case 'hidden':
@@ -248,7 +247,6 @@ abstract class JFormField
 			case 'fieldname':
 			case 'group':
 				return $this->$name;
-				break;
 
 			case 'input':
 				// If the input hasn't yet been generated, generate it.
@@ -258,7 +256,6 @@ abstract class JFormField
 				}
 
 				return $this->input;
-				break;
 
 			case 'label':
 				// If the label hasn't yet been generated, generate it.
@@ -268,10 +265,9 @@ abstract class JFormField
 				}
 
 				return $this->label;
-				break;
+
 			case 'title':
 				return $this->getTitle();
-				break;
 		}
 
 		return null;
@@ -398,7 +394,6 @@ abstract class JFormField
 	 */
 	protected function getId($fieldId, $fieldName)
 	{
-		// Initialise variables.
 		$id = '';
 
 		// If there is a form control set for the attached form add it first.
@@ -455,7 +450,6 @@ abstract class JFormField
 	 */
 	protected function getTitle()
 	{
-		// Initialise variables.
 		$title = '';
 
 		if ($this->hidden)
@@ -480,7 +474,6 @@ abstract class JFormField
 	 */
 	protected function getLabel()
 	{
-		// Initialise variables.
 		$label = '';
 
 		if ($this->hidden)
@@ -534,7 +527,6 @@ abstract class JFormField
 	 */
 	protected function getName($fieldName)
 	{
-		// Initialise variables.
 		$name = '';
 
 		// If there is a form control set for the attached form add it first.

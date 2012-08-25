@@ -21,13 +21,15 @@ require_once JPATH_COMPONENT.'/models/category.php';
 class ContactViewContact extends JViewLegacy
 {
 	protected $state;
+
 	protected $form;
+
 	protected $item;
+
 	protected $return_page;
 
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
-		// Initialise variables.
 		$app		= JFactory::getApplication();
 		$user		= JFactory::getUser();
 		$dispatcher = JEventDispatcher::getInstance();
@@ -90,24 +92,24 @@ class ContactViewContact extends JViewLegacy
 		{
 			case 1 :
 				// text
-				$params->set('marker_address',	JText::_('COM_CONTACT_ADDRESS').": ");
-				$params->set('marker_email',		JText::_('JGLOBAL_EMAIL').": ");
-				$params->set('marker_telephone',	JText::_('COM_CONTACT_TELEPHONE').": ");
-				$params->set('marker_fax',		JText::_('COM_CONTACT_FAX').": ");
-				$params->set('marker_mobile',		JText::_('COM_CONTACT_MOBILE').": ");
-				$params->set('marker_misc',		JText::_('COM_CONTACT_OTHER_INFORMATION').": ");
-				$params->set('marker_class',		'jicons-text');
+				$params->set('marker_address',   JText::_('COM_CONTACT_ADDRESS') . ": ");
+				$params->set('marker_email',     JText::_('JGLOBAL_EMAIL') . ": ");
+				$params->set('marker_telephone', JText::_('COM_CONTACT_TELEPHONE') . ": ");
+				$params->set('marker_fax',       JText::_('COM_CONTACT_FAX') . ": ");
+				$params->set('marker_mobile',    JText::_('COM_CONTACT_MOBILE') . ": ");
+				$params->set('marker_misc',      JText::_('COM_CONTACT_OTHER_INFORMATION') . ": ");
+				$params->set('marker_class',     'jicons-text');
 				break;
 
 			case 2 :
 				// none
-				$params->set('marker_address',	'');
-				$params->set('marker_email',		'');
-				$params->set('marker_telephone',	'');
-				$params->set('marker_mobile',	'');
-				$params->set('marker_fax',		'');
-				$params->set('marker_misc',		'');
-				$params->set('marker_class',		'jicons-none');
+				$params->set('marker_address',   '');
+				$params->set('marker_email',     '');
+				$params->set('marker_telephone', '');
+				$params->set('marker_mobile',    '');
+				$params->set('marker_fax',       '');
+				$params->set('marker_misc',      '');
+				$params->set('marker_class',     'jicons-none');
 				break;
 
 			default :
@@ -119,13 +121,13 @@ class ContactViewContact extends JViewLegacy
 				$image5 = JHtml::_('image', 'contacts/'.$params->get('icon_misc', 'con_info.png'), JText::_('COM_CONTACT_OTHER_INFORMATION').": ", null, true);
 				$image6 = JHtml::_('image', 'contacts/'.$params->get('icon_mobile', 'con_mobile.png'), JText::_('COM_CONTACT_MOBILE').": ", null, true);
 
-				$params->set('marker_address',	$image1);
-				$params->set('marker_email',		$image2);
-				$params->set('marker_telephone',	$image3);
-				$params->set('marker_fax',		$image4);
-				$params->set('marker_misc',		$image5);
-				$params->set('marker_mobile',		$image6);
-				$params->set('marker_class',		'jicons-icons');
+				$params->set('marker_address',   $image1);
+				$params->set('marker_email',     $image2);
+				$params->set('marker_telephone', $image3);
+				$params->set('marker_fax',       $image4);
+				$params->set('marker_misc',      $image5);
+				$params->set('marker_mobile',    $image6);
+				$params->set('marker_class',     'jicons-icons');
 				break;
 		}
 
@@ -143,13 +145,13 @@ class ContactViewContact extends JViewLegacy
 		//Escape strings for HTML output
 		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
 
-		$this->assignRef('contact',		$item);
-		$this->assignRef('params',		$params);
-		$this->assignRef('return',		$return);
-		$this->assignRef('state', 		$state);
-		$this->assignRef('item', 		$item);
-		$this->assignRef('user', 		$user);
-		$this->assignRef('contacts', 	$contacts);
+		$this->contact  = &$item;
+		$this->params   = &$params;
+		$this->return   = &$return;
+		$this->state    = &$state;
+		$this->item     = &$item;
+		$this->user     = &$user;
+		$this->contacts = &$contacts;
 
 		// Override the layout only if this is not the active menu item
 		// If it is the active menu item, then the view and item id will match

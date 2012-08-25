@@ -13,7 +13,7 @@ JLoader::register('FinderHelperRoute', JPATH_SITE . '/components/com_finder/help
 JLoader::register('FinderHelperLanguage', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/language.php');
 
 // Include the helper.
-require_once dirname(__FILE__) . '/helper.php';
+require_once __DIR__ . '/helper.php';
 
 if (!defined('FINDER_PATH_INDEXER'))
 {

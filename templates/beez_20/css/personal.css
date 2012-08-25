@@ -435,6 +435,10 @@ h3.js_heading a:focus
 	text-decoration:none
 }
 
+ul.nav-child.small {
+	font-size: 100%;
+}
+
 /* ++++++++++++++  first level  ++++++++++++++ */
 #nav .moduletable-example ul.menu
 {

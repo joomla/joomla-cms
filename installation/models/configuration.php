@@ -26,8 +26,8 @@ class InstallationModelConfiguration extends JModelLegacy
 	 */
 	public function setup($options)
 	{
-		// Get the options as a JObject for easier handling.
-		$options = JArrayHelper::toObject($options, 'JObject');
+		// Get the options as an object for easier handling.
+		$options = JArrayHelper::toObject($options);
 
 		// Attempt to create the root user.
 		if (!$this->_createConfiguration($options))
@@ -45,7 +45,11 @@ class InstallationModelConfiguration extends JModelLegacy
 	}
 
 	/**
-	 * @return  boolean
+	 * Method to create the configuration file
+	 *
+	 * @param   array  $options
+	 *
+	 * @return  boolean  True on success
 	 *
 	 * @since   3.0
 	 */
@@ -83,12 +87,12 @@ class InstallationModelConfiguration extends JModelLegacy
 		$registry->set('gzip', 0);
 		$registry->set('error_reporting', 'default');
 		$registry->set('helpurl', 'http://help.joomla.org/proxy/index.php?option=com_help&amp;keyref=Help{major}{minor}:{keyref}');
-		$registry->set('ftp_host', $options->ftp_host);
-		$registry->set('ftp_port', $options->ftp_port);
-		$registry->set('ftp_user', $options->ftp_save ? $options->ftp_user : '');
-		$registry->set('ftp_pass', $options->ftp_save ? $options->ftp_pass : '');
-		$registry->set('ftp_root', $options->ftp_save ? $options->ftp_root : '');
-		$registry->set('ftp_enable', $options->ftp_enable);
+		$registry->set('ftp_host', isset($options->ftp_host) ? $options->ftp_host : '');
+		$registry->set('ftp_port', isset($options->ftp_host) ? $options->ftp_port : '');
+		$registry->set('ftp_user', (isset($options->ftp_save) && $options->ftp_save && isset($options->ftp_user)) ? $options->ftp_user : '');
+		$registry->set('ftp_pass', (isset($options->ftp_save) && $options->ftp_save && isset($options->ftp_pass)) ? $options->ftp_pass : '');
+		$registry->set('ftp_root', (isset($options->ftp_save) && $options->ftp_save && isset($options->ftp_root)) ? $options->ftp_root : '');
+		$registry->set('ftp_enable', isset($options->ftp_host) ? $options->ftp_enable : '');
 
 		/* Locale Settings */
 		$registry->set('offset', 'UTC');
@@ -112,7 +116,7 @@ class InstallationModelConfiguration extends JModelLegacy
 
 		/* Meta Settings */
 		$registry->set('MetaDesc', $options->site_metadesc);
-		$registry->set('MetaKeys', $options->site_metakeys);
+		$registry->set('MetaKeys', '');
 		$registry->set('MetaTitle', 1);
 		$registry->set('MetaAuthor', 1);
 		$registry->set('MetaVersion', 0);
@@ -176,7 +180,7 @@ class InstallationModelConfiguration extends JModelLegacy
 			// Connect the FTP client
 			jimport('joomla.filesystem.path');
 
-			$ftp = installation/models/configuration.php::getInstance($options->ftp_host, $options->ftp_port);
+			$ftp = JClientFtp::getInstance($options->ftp_host, $options->ftp_port);
 			$ftp->login($options->ftp_user, $options->ftp_pass);
 
 			// Translate path for the FTP account
@@ -212,11 +216,15 @@ class InstallationModelConfiguration extends JModelLegacy
 	}
 
 	/**
-	 * @return  boolean
+	 * Method to create the root user for the site
+	 *
+	 * @param   array  $options  The session options
+	 *
+	 * @return  boolean  True on success
 	 *
 	 * @since   3.0
 	 */
-	function _createRootUser($options)
+	private function _createRootUser($options)
 	{
 		// Get a database object.
 		try
@@ -237,7 +245,7 @@ class InstallationModelConfiguration extends JModelLegacy
 		JLoader::register('InstallationModelDatabase', JPATH_INSTALLATION . '/models/database.php');
 		$userId = InstallationModelDatabase::getUserId();
 
-		// We don't need anymore the randUserId in the session, let's remove it
+		// We don't need the randUserId in the session any longer, let's remove it
 		InstallationModelDatabase::resetRandUserId();
 
 		// Create the admin user
@@ -247,28 +255,28 @@ class InstallationModelConfiguration extends JModelLegacy
 
 		// Sqlsrv change
 		$query = $db->getQuery(true);
-		$query->select('id');
-		$query->from('#__users');
-		$query->where('id = ' . $db->quote($userId));
+		$query->select($db->quoteName('id'));
+		$query->from($db->quoteName('#__users'));
+		$query->where($db->quoteName('id') . ' = ' . $db->quote($userId));
 
 		$db->setQuery($query);
 
 		if ($db->loadResult())
 		{
 			$query = $db->getQuery(true);
-			$query->update('#__users');
-			$query->set('name = ' . $db->quote('Super User'));
-			$query->set('username = ' . $db->quote($options->admin_user));
-			$query->set('email = ' . $db->quote($options->admin_email));
-			$query->set('password = ' . $db->quote($cryptpass));
-			$query->set('usertype = ' . $db->quote('deprecated'));
-			$query->set('block = 0');
-			$query->set('sendEmail = 1');
-			$query->set('registerDate = ' . $db->quote($installdate));
-			$query->set('lastvisitDate = ' . $db->quote($nullDate));
-			$query->set('activation = ' . $db->quote('0'));
-			$query->set('params = ' . $db->quote(''));
-			$query->where('id = ' . $db->quote($userId));
+			$query->update($db->quoteName('#__users'));
+			$query->set($db->quoteName('name') . ' = ' . $db->quote('Super User'));
+			$query->set($db->quoteName('username') . ' = ' . $db->quote($options->admin_user));
+			$query->set($db->quoteName('email') . ' = ' . $db->quote($options->admin_email));
+			$query->set($db->quoteName('password') . ' = ' . $db->quote($cryptpass));
+			$query->set($db->quoteName('usertype') . ' = ' . $db->quote('deprecated'));
+			$query->set($db->quoteName('block') . ' = 0');
+			$query->set($db->quoteName('sendEmail') . ' = 1');
+			$query->set($db->quoteName('registerDate') . ' = ' . $db->quote($installdate));
+			$query->set($db->quoteName('lastvisitDate') . ' = ' . $db->quote($nullDate));
+			$query->set($db->quoteName('activation') . ' = ' . $db->quote('0'));
+			$query->set($db->quoteName('params') . ' = ' . $db->quote(''));
+			$query->where($db->quoteName('id') . ' = ' . $db->quote($userId));
 		}
 		else
 		{
@@ -303,25 +311,25 @@ class InstallationModelConfiguration extends JModelLegacy
 
 		// Map the super admin to the Super Admin Group
 		$query = $db->getQuery(true);
-		$query->select('user_id');
-		$query->from('#__user_usergroup_map');
-		$query->where('user_id = ' . $db->quote($userId));
+		$query->select($db->quoteName('user_id'));
+		$query->from($db->quoteName('#__user_usergroup_map'));
+		$query->where($db->quoteName('user_id') . ' = ' . $db->quote($userId));
 
 		$db->setQuery($query);
 
 		if ($db->loadResult())
 		{
 			$query = $db->getQuery(true);
-			$query->update('#__user_usergroup_map');
-			$query->set('user_id = ' . $db->quote($userId));
-			$query->set('group_id = 8');
+			$query->update($db->quoteName('#__user_usergroup_map'));
+			$query->set($db->quoteName('user_id') . ' = ' . $db->quote($userId));
+			$query->set($db->quoteName('group_id') . ' = 8');
 		}
 		else
 		{
 			$query = $db->getQuery(true);
-			$query->insert('#__user_usergroup_map', false);
+			$query->insert($db->quoteName('#__user_usergroup_map'), false);
 			$query->columns(array($db->quoteName('user_id'), $db->quoteName('group_id')));
-			$query->values($userId . ', ' . '8');
+			$query->values($db->quote($userId) . ', ' . '8');
 		}
 
 		$db->setQuery($query);

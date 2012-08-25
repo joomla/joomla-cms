@@ -48,7 +48,6 @@ class UsersControllerLevel extends JControllerForm
 		// Check for request forgeries.
 		JSession::checkToken() or jexit(JText::_('JInvalid_Token'));
 
-		// Initialise variables.
 		$user	= JFactory::getUser();
 		$ids	= JRequest::getVar('cid', array(), '', 'array');
 

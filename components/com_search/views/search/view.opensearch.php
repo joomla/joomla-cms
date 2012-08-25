@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.environment.uri');
-
 /**
  * OpenSearch View class for the Search component
  *
@@ -20,7 +18,7 @@ jimport('joomla.environment.uri');
  */
 class SearchViewSearch extends JViewLegacy
 {
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		$doc = JFactory::getDocument();
 		$app = JFactory::getApplication();

@@ -18,7 +18,7 @@ defined('_JEXEC') or die; ?>
 			<li><?php echo $this->form->getLabel('created_user_id'); ?>
 			<?php echo $this->form->getInput('created_user_id'); ?></li>
 
-			<?php if (intval($this->item->created_time)) : ?>
+			<?php if ((int) $this->item->created_time) : ?>
 				<li><?php echo $this->form->getLabel('created_time'); ?>
 				<?php echo $this->form->getInput('created_time'); ?></li>
 			<?php endif; ?>
@@ -51,7 +51,7 @@ foreach ($fieldSets as $name => $fieldSet) :
 			<?php echo $field->input; ?></li>
 		<?php endforeach; ?>
 
-		<?php if ($name=='basic'):?>
+		<?php if ($name == 'basic'):?>
 			<li><?php echo $this->form->getLabel('note'); ?>
 			<?php echo $this->form->getInput('note'); ?></li>
 		<?php endif;?>

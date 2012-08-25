@@ -49,7 +49,7 @@ class plgContentGeshi extends JPlugin
 	{
 		jimport('joomla.utilities.utility');
 
-		require_once dirname(__FILE__).'/geshi/geshi.php';
+		require_once __DIR__ . '/geshi/geshi.php';
 
 		$args = JUtility::parseAttributes($matches[1]);
 		$text = $matches[2];

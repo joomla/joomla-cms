@@ -407,7 +407,8 @@ class BannersModelBanner extends JModelAdmin
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		$data = JFactory::getApplication()->getUserState('com_banners.edit.banner.data', array());
+		$app  = JFactory::getApplication();
+		$data = $app->getUserState('com_banners.edit.banner.data', array());
 
 		if (empty($data))
 		{
@@ -416,8 +417,7 @@ class BannersModelBanner extends JModelAdmin
 			// Prime some default values.
 			if ($this->getState('banner.id') == 0)
 			{
-				$app = JFactory::getApplication();
-				$data->set('catid', JRequest::getInt('catid', $app->getUserState('com_banners.banners.filter.category_id')));
+				$data->set('catid', $app->input->getInt('catid', $app->getUserState('com_banners.banners.filter.category_id')));
 			}
 		}
 
@@ -434,9 +434,8 @@ class BannersModelBanner extends JModelAdmin
 	 *
 	 * @since   1.6
 	 */
-	function stick(&$pks, $value = 1)
+	public function stick(&$pks, $value = 1)
 	{
-		// Initialise variables.
 		$user = JFactory::getUser();
 		$table = $this->getTable();
 		$pks = (array) $pks;

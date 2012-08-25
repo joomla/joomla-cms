@@ -72,7 +72,6 @@ class UsersControllerProfile extends UsersController
 		// Check for request forgeries.
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		// Initialise variables.
 		$app	= JFactory::getApplication();
 		$model	= $this->getModel('Profile', 'UsersModel');
 		$user	= JFactory::getUser();

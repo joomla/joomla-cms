@@ -26,11 +26,104 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
-18-July-2012 Jean-Marie Simonet
+24-Aug-2012 Jean-Marie Simonet
+ # [#28968] Missing JFolder class imports in CMS. Thanks Mark
+ # [#28797] Code Cleanup - Smart Search. Thanks Michael
+ # [#28449] captcha cause fatal error when the "captcha" field is not present in "configuration.php" after an upgrade. Thansk Elin.
+ # [#28987] JToolbarButtonHelp doesn't work. Thanks Rouven
+
+23-Aug-2012 Mark Dexter
+ # [#28948] Improvements for com_media Bootstrapped layouts. Thanks Michael.
+ # [#28965] Wrong default menu for new menu items
+ # [#28974] Refactor newsfeeds to use JFeed. Thanks Elin.
+ # [#28976] Fatal Error when click Article button during front-end editing
+
+22-Aug-2012 Mark Dexter
+ # [#28967] Save & Close of Menu Item results in Fatal Error
+
+21-Aug-2012 Jean-Marie Simonet
+ # [#28954] *Administrator templates positions untranslated when editing Module position
+
+21-Aug-2012 Rouven Weßling
+ ^ Merge latest platform (bf746b2389fbea9c0fa48ea015320c18beb8d0f3)
+ ^ Remove use of the deprecated JProfiler::getMemory().
+
+20-Aug-2012 Rouven Weßling
+ + Add setup for unit testing. Thanks Michael.
+
+20-Aug-2012 Jean-Marie Simonet
+ # [#28943] *Allowing to disable admin menu bar collapse (Isis)
+ # [#28947] Handle submenu rendering as a module again. Thanks Rouven
+ # [#28942] Use bootstrap markup in Fx.Progressbar; Use Fx.Progressbar in Finder. Thansk Rouven.
+ # [#28955] Commit of issue 28932 broke sample data installation, Thanks Mark.
+
+18-Aug-2012 Jean-Marie Simonet
+ # [#28929] *Frontend editing tabs does not work. Thanks Peter.
+ # [#28932] *Simplifying sample data install on 3.0 alpha2
+
+-------------------- 3.0 Alpha 2 Release [16-Aug-2012] ------------------
+
+16-Aug-2012 Mark Dexter
+ # [#28927] Update sample data files for protostar and isis. Thanks Elin.
+
+16-Aug-2012 Jean-Marie Simonet
+ # [#28925] Change the variable name on the submenu rendering to avoid conflicts. Thanks Andrea.
+ # [#28926] Add Isis and Protostar to mysql/joomla.sql. Thanks Elin.
+ # Fix installation languages issue. Thanks Roberto
+
+16-Aug-2012 Rouven Weßling
+ ^ Reduce use of JFolder and deprecated JRequest methods.
+ ^ Merge latest platform (c77f323d339b7dcfb305325c48a38813322dd69d)
+
+15-Aug-2012 Jean-Marie Simonet
+ + Porting to master Installing Language packs from Extension Manager. Thanks Javier and Rouven
+ #^ [#28918] Abstract FinderIndexer class for improved database support. Thanks Michael
+
+15-Aug-2012 Rouven Weßling
+ #+ [#28032] Split mod_login into two layouts
+
+11-Aug-2012 Jean-Marie Simonet
+ $+ Adding Vietnamese vi-VN to installation languages
+
+11-Aug-2012 Jean-Marie Simonet
+ #+ [#25295] Email exposed through RSS and Atom feeds. Thanks Elin and Peter
+ # [#28795] mod_articles_category "read more" truncation not functioning properly. Thanks Elin.
+ ^ [#28374] Deprecate MediaHelper::parseSize() and use JHtmlNumber::bytes() to process file size in Media Manager. Thanks Michael.
+ + [#28902] Add CLI to remove files that weren't removed at update. Thanks Michael
+
+10-Aug-2012 Rouven Weßling
+ ^ Reduce use of deprecated JDatabase and JRequest methods.
+ ^ Merge latest platform (2f2d084af274840e7103fe6ad826926be8b3eb06)
+ ^ Move JToolbar and JHelp to the CMS libraries
+
+05-Aug-2012 Mark Dexter
+ # [#28904] Typo in recent commit broke single newsfeed
+
+05-Aug-2012 Rouven Weßling
+ ^ Add additional sinffs to the code style checker
+
+02-Aug-2012 Mark Dexter
+ # [#28855] Fix Array to string conversion notices (PHP 5.4 only)
+ # [#28825] Blank article can't be saved
+ # [#28827] INSTL_ADMIN_EMAIL_LABEL translation is missing
+ # [#28817] Cache not being cleared automatically when changes are made in back end
+
+02-Aug-2012 Rouven Weßling
+ ^ Merge latest platform (fc189e3e0cc964cef238aeb0799c7c72c1c988da)
+ ^ Reduce use of deprecated platform APIs
+ ^ Don't always load JArrayHelper
+
+31-Jul-2012 Mark Dexter
+ ^ [#28854] Update Core and Sample SQL filies in installation and related changes
+
+25-Jul-2012 Jean-Marie Simonet
+ [#28846] *When URL Language Code is removed, language switcher module redirects to URL without .html suffix. Thanks Dennis
+
+18-Jul-2012 Jean-Marie Simonet
  # [#28837] Can't get past step 4 "Database Configuration". Thanks Shaun.
  # [#28511] Move the caption behavior from the controller to the layouts in com_content. Thanks Rouven and Peter.
 
-========== VERSION 3.0 APLHA 1 RELEASED ==========
+-------------------- 3.0 Alpha 1 Release [13-Jul-2012] ------------------
 
-13-July-2012 Jean-Marie Simonet
+13-Jul-2012 Jean-Marie Simonet
  ^ Merge of latest platform from 12.1+ Thanks Rouven

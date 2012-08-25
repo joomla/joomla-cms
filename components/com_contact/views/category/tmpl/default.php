@@ -12,9 +12,11 @@ defined('_JEXEC') or die;
 ?>
 <div class="contact-category<?php echo $this->pageclass_sfx;?>">
 <?php if ($this->params->get('show_page_heading')) : ?>
-<h1>
-	<?php echo $this->escape($this->params->get('page_heading')); ?>
-</h1>
+	<div class="page-header">
+		<h1>
+			<?php echo $this->escape($this->params->get('page_heading')); ?>
+		</h1>
+	</div>
 <?php endif; ?>
 <?php if($this->params->get('show_category_title', 1)) : ?>
 <h2>

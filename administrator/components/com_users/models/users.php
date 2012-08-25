@@ -57,7 +57,6 @@ class UsersModelUsers extends JModelList
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
-		// Initialise variables.
 		$app = JFactory::getApplication('administrator');
 
 		// Adjust the context to support modal layouts.
@@ -191,13 +190,13 @@ class UsersModelUsers extends JModelList
 			$db->setQuery($query);
 
 			// Load the counts into an array indexed on the user id field.
-			$userGroups = $db->loadObjectList('user_id');
-
-			$error = $db->getErrorMsg();
-			if ($error)
+			try
 			{
-				$this->setError($error);
-
+				$userGroups = $db->loadObjectList('user_id');
+			}
+			catch (RuntimeException $e)
+			{
+				$this->setError($e->getMessage());
 				return false;
 			}
 
@@ -211,13 +210,13 @@ class UsersModelUsers extends JModelList
 			$db->setQuery((string) $query);
 
 			// Load the counts into an array indexed on the aro.value field (the user id).
-			$userNotes = $db->loadObjectList('user_id');
-
-			$error = $db->getErrorMsg();
-			if ($error)
+			try
 			{
-				$this->setError($error);
-
+				$userNotes = $db->loadObjectList('user_id');
+			}
+			catch (RuntimeException $e)
+			{
+				$this->setError($e->getMessage());
 				return false;
 			}
 

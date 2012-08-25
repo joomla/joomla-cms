@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.filesystem.file');
-
 $app = JFactory::getApplication();
 $doc = JFactory::getDocument();
 
@@ -23,7 +21,8 @@ if ($this->direction == 'rtl') {
 /** Load specific language related css */
 $lang = JFactory::getLanguage();
 $file = 'language/'.$lang->getTag().'/'.$lang->getTag().'.css';
-if (JFile::exists($file)) {
+if (is_file($file))
+{
 	$doc->addStyleSheet($file);
 }
 
@@ -61,13 +60,13 @@ if ($this->params->get('highContrast')) {
 			<jdoc:include type="modules" name="status" />
 			<?php
 				//Display an harcoded logout
-				$task = JRequest::getCmd('task');
-				if ($task == 'edit' || $task == 'editA' || JRequest::getInt('hidemainmenu')) {
+				$task = $app->input->get('task');
+				if ($task == 'edit' || $task == 'editA' || $app->input->getInt('hidemainmenu')) {
 					$logoutLink = '';
 				} else {
 					$logoutLink = JRoute::_('index.php?option=com_login&task=logout&'. JSession::getFormToken() .'=1');
 				}
-				$hideLinks	= JRequest::getBool('hidemainmenu');
+				$hideLinks = $app->input->getBool('hidemainmenu');
 				$output = array();
 				// Print the Preview link to Main site.
 				$output[] = '<span class="viewsite"><a href="'.JURI::root().'" target="_blank">'.JText::_('JGLOBAL_VIEW_SITE').'</a></span>';
@@ -89,7 +88,7 @@ if ($this->params->get('highContrast')) {
 				<jdoc:include type="modules" name="title" />
 			</div>
 		</div>
-		<?php if (!JRequest::getInt('hidemainmenu')): ?>
+		<?php if (!$app->input->getInt('hidemainmenu')): ?>
 		<jdoc:include type="modules" name="submenu" style="rounded" id="submenu-box" />
 		<?php endif; ?>
 		<jdoc:include type="message" />
@@ -107,7 +106,7 @@ if ($this->params->get('highContrast')) {
 	<jdoc:include type="modules" name="footer" style="none"  />
 	<div id="footer">
 		<p class="copyright">
-			<?php $joomla= '<a href="http://www.joomla.org">Joomla!&#174;</a>';
+			<?php $joomla = '<a href="http://www.joomla.org">Joomla!&#174;</a>';
 				echo JText::sprintf('JGLOBAL_ISFREESOFTWARE', $joomla) ?>
 		</p>
 	</div>

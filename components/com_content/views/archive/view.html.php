@@ -19,11 +19,14 @@ defined('_JEXEC') or die;
 class ContentViewArchive extends JViewLegacy
 {
 	protected $state = null;
+
 	protected $item = null;
+
 	protected $items = null;
+
 	protected $pagination = null;
 
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		$app = JFactory::getApplication();
 		$user		= JFactory::getUser();
@@ -88,12 +91,12 @@ class ContentViewArchive extends JViewLegacy
 		//Escape strings for HTML output
 		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
 
-		$this->filter = $state->get('list.filter');
-		$this->assignRef('form', $form);
-		$this->assignRef('items', $items);
-		$this->assignRef('params', $params);
-		$this->assignRef('user', $user);
-		$this->assignRef('pagination', $pagination);
+		$this->filter     = $state->get('list.filter');
+		$this->form       = &$form;
+		$this->items      = &$items;
+		$this->params     = &$params;
+		$this->user       = &$user;
+		$this->pagination = &$pagination;
 
 		$this->_prepareDocument();
 

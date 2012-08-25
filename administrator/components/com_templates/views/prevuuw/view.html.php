@@ -19,10 +19,15 @@ defined('_JEXEC') or die;
 class TemplatesViewPrevuuw extends JViewLegacy
 {
 	protected $client;
+
 	protected $id;
+
 	protected $option;
+
 	protected $template;
+
 	protected $tp;
+
 	protected $url;
 
 	/**
@@ -30,16 +35,17 @@ class TemplatesViewPrevuuw extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-
 		require_once JPATH_COMPONENT.'/helpers/templates.php';
 
+		$input = JFactory::getApplication()->input;
+
 		// Initialise some variables
-		$this->client	= JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
-		$this->id		= JRequest::getVar('id', '', 'method', 'int');
-		$this->option	= JRequest::getCmd('option');
-		$this->template	= TemplatesHelper::getTemplateName($this->id);
-		$this->tp		= true;
-		$this->url		= $client->id ? JURI::base() : JURI::root();
+		$this->client   = JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
+		$this->id       = JRequest::getVar('id', '', 'method', 'int');
+		$this->option   = $input->getCmd('option');
+		$this->template = TemplatesHelper::getTemplateName($this->id);
+		$this->tp       = true;
+		$this->url      = $client->id ? JURI::base() : JURI::root();
 
 		if (!$this->template) {
 			return JError::raiseWarning(500, JText::_('COM_TEMPLATES_TEMPLATE_NOT_SPECIFIED'));
@@ -60,7 +66,7 @@ class TemplatesViewPrevuuw extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		JToolBarHelper::title(JText::_('COM_TEMPLATES_MANAGER'), 'thememanager');
-		JToolBarHelper::custom('edit', 'back.png', 'back_f2.png', 'Back', false, false);
+		JToolbarHelper::title(JText::_('COM_TEMPLATES_MANAGER'), 'thememanager');
+		JToolbarHelper::custom('edit', 'back.png', 'back_f2.png', 'Back', false, false);
 	}
 }

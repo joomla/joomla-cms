@@ -9,14 +9,21 @@
 
 defined('_JEXEC') or die;
 
+require_once dirname(dirname(__DIR__)) . '/helper/component.php';
+
 /**
+ * View for the global configuration
+ *
  * @package     Joomla.Administrator
  * @subpackage  com_config
+ * @since       1.5
  */
 class ConfigViewApplication extends JViewLegacy
 {
 	public $state;
+
 	public $form;
+
 	public $data;
 
 	/**
@@ -26,6 +33,7 @@ class ConfigViewApplication extends JViewLegacy
 	{
 		$form	= $this->get('Form');
 		$data	= $this->get('Data');
+		$user = JFactory::getUser();
 
 		// Check for model errors.
 		if ($errors = $this->get('Errors')) {
@@ -47,11 +55,16 @@ class ConfigViewApplication extends JViewLegacy
 		// Load settings for the FTP layer.
 		$ftp = JClientHelper::setCredentialsFromRequest('ftp');
 
-		$this->assignRef('form',	$form);
-		$this->assignRef('data',	$data);
-		$this->assignRef('ftp',		$ftp);
-		$this->assignRef('usersParams', $usersParams);
-		$this->assignRef('mediaParams', $mediaParams);
+		$this->form = &$form;
+		$this->data = &$data;
+		$this->ftp = &$ftp;
+		$this->usersParams = &$usersParams;
+		$this->mediaParams = &$mediaParams;
+
+		$this->components = ConfigHelperComponent::getComponentsWithConfig();
+		ConfigHelperComponent::loadLanguageForComponents($this->components);
+
+		$this->userIsSuperAdmin = $user->authorise('core.admin');
 
 		$this->addToolbar();
 		parent::display($tpl);
@@ -64,12 +77,12 @@ class ConfigViewApplication extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		JToolBarHelper::title(JText::_('COM_CONFIG_GLOBAL_CONFIGURATION'), 'config.png');
-		JToolBarHelper::apply('application.apply');
-		JToolBarHelper::save('application.save');
-		JToolBarHelper::divider();
-		JToolBarHelper::cancel('application.cancel');
-		JToolBarHelper::divider();
-		JToolBarHelper::help('JHELP_SITE_GLOBAL_CONFIGURATION');
+		JToolbarHelper::title(JText::_('COM_CONFIG_GLOBAL_CONFIGURATION'), 'config.png');
+		JToolbarHelper::apply('application.apply');
+		JToolbarHelper::save('application.save');
+		JToolbarHelper::divider();
+		JToolbarHelper::cancel('application.cancel');
+		JToolbarHelper::divider();
+		JToolbarHelper::help('JHELP_SITE_GLOBAL_CONFIGURATION');
 	}
 }

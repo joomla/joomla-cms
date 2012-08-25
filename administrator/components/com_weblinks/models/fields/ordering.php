@@ -34,7 +34,6 @@ class JFormFieldOrdering extends JFormField
 	 */
 	protected function getInput()
 	{
-		// Initialize variables.
 		$html = array();
 		$attr = '';
 

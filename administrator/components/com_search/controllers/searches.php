@@ -28,7 +28,6 @@ class SearchControllerSearches extends JControllerLegacy
 		// Check for request forgeries.
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		// Initialise variables.
 		$model = $this->getModel('Searches');
 
 		if (!$model->reset()) {

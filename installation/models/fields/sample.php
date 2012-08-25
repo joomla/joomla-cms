@@ -10,7 +10,7 @@ defined('JPATH_BASE') or die;
 
 jimport('joomla.filesystem.folder');
 jimport('joomla.filesystem.file');
-JLoader::register('JFormFieldRadio', JPATH_LIBRARIES.'/joomla/form/fields/radio.php');
+JFormHelper::loadFieldClass('radio');
 
 /**
  * Sample data Form Field class.
@@ -37,10 +37,11 @@ class JFormFieldSample extends JFormFieldRadio
 	 */
 	protected function getOptions()
 	{
-		// Initialize variables.
 		$lang = JFactory::getLanguage();
 		$options = array();
-		$type = $this->form instanceof JForm ? $this->form->getValue('db_type') : 'mysql' || 'sqlazure';
+		$type = $this->form->getValue('db_type');
+
+		// Some database drivers share DDLs; point these drivers to the correct parent
 		if ($type == 'mysqli')
 		{
 			$type = 'mysql';
@@ -49,15 +50,19 @@ class JFormFieldSample extends JFormFieldRadio
 		{
 			$type = 'sqlazure';
 		}
+
 		// Get a list of files in the search path with the given filter.
 		$files = JFolder::files(JPATH_INSTALLATION . '/sql/' . $type, '^sample.*\.sql$');
+
+		// Add option to not install sampledata.
+		$options[] = JHtml::_('select.option', '', 'INSTL_SITE_INSTALL_SAMPLE_NONE');
 
 		// Build the options list from the list of files.
 		if (is_array($files))
 		{
 			foreach ($files as $file)
 			{
-				$options[] = JHtml::_('select.option', $file, $lang->hasKey($key = 'INSTL_' . ($file = JFile::stripExt($file)) . '_SET')?JText::_($key):$file);
+				$options[] = JHtml::_('select.option', $file, $lang->hasKey($key = 'INSTL_' . ($file = JFile::stripExt($file)) . '_SET') ? JText::_($key) : $file);
 			}
 		}
 
@@ -85,7 +90,7 @@ class JFormFieldSample extends JFormFieldRadio
 			}
 			else
 			{
-				$this->value = 'sample_data.sql';
+				$this->value = '';
 			}
 		}
 

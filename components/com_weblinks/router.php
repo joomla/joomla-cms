@@ -52,7 +52,7 @@ function WeblinksBuildRoute(&$query)
 	}
 
 	// are we dealing with an weblink that is attached to a menu item?
-	if (isset($query['view']) && ($mView == $query['view']) and (isset($query['id'])) and ($mId == intval($query['id']))) {
+	if (isset($query['view']) && ($mView == $query['view']) and (isset($query['id'])) and ($mId == (int) $query['id'])) {
 		unset($query['view']);
 		unset($query['catid']);
 		unset($query['id']);
@@ -61,7 +61,7 @@ function WeblinksBuildRoute(&$query)
 	}
 
 	if (isset($view) and ($view == 'category' or $view == 'weblink' )) {
-		if ($mId != intval($query['id']) || $mView != $view) {
+		if ($mId != (int) $query['id'] || $mView != $view) {
 			if ($view == 'weblink' && isset($query['catid'])) {
 				$catid = $query['catid'];
 			}

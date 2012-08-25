@@ -28,7 +28,7 @@ class plgAuthenticationJoomla extends JPlugin
 	 * @return	boolean
 	 * @since 1.5
 	 */
-	function onUserAuthenticate($credentials, $options, &$response)
+	public function onUserAuthenticate($credentials, $options, &$response)
 	{
 		$response->type = 'Joomla';
 		// Joomla does not like blank passwords
@@ -38,7 +38,6 @@ class plgAuthenticationJoomla extends JPlugin
 			return false;
 		}
 
-		// Initialise variables.
 		$conditions = '';
 
 		// Get a database object

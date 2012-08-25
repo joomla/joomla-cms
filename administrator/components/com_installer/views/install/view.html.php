@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-include_once dirname(__FILE__).'/../default/view.php';
+include_once __DIR__ . '/../default/view.php';
 
 /**
  * Extension Manager Install View
@@ -23,14 +23,14 @@ class InstallerViewInstall extends InstallerViewDefault
 	/**
 	 * @since	1.5
 	 */
-	function display($tpl=null)
+	public function display($tpl = null)
 	{
 		$paths = new stdClass;
 		$paths->first = '';
 		$state = $this->get('state');
 
-		$this->assignRef('paths', $paths);
-		$this->assignRef('state', $state);
+		$this->paths = &$paths;
+		$this->state = &$state;
 
 		parent::display($tpl);
 	}
@@ -43,6 +43,6 @@ class InstallerViewInstall extends InstallerViewDefault
 	protected function addToolbar()
 	{
 		parent::addToolbar();
-		JToolBarHelper::help('JHELP_EXTENSIONS_EXTENSION_MANAGER_INSTALL');
+		JToolbarHelper::help('JHELP_EXTENSIONS_EXTENSION_MANAGER_INSTALL');
 	}
 }

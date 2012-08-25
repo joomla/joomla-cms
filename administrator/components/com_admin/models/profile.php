@@ -30,7 +30,6 @@ class AdminModelProfile extends UsersModelUser
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
-		// Initialise variables.
 		$app = JFactory::getApplication();
 
 		// Get the form.
@@ -102,7 +101,6 @@ class AdminModelProfile extends UsersModelUser
 	 */
 	public function save($data)
 	{
-		// Initialise variables;
 		$user = JFactory::getUser();
 
 		unset($data['id']);

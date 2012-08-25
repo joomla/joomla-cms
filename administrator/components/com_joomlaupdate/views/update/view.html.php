@@ -33,10 +33,10 @@ class JoomlaupdateViewUpdate extends JViewLegacy
 		$returnUrl = 'index.php?option=com_joomlaupdate&task=update.finalise';
 
 		// Set the toolbar information
-		JToolBarHelper::title(JText::_('COM_JOOMLAUPDATE_OVERVIEW'), 'install');
+		JToolbarHelper::title(JText::_('COM_JOOMLAUPDATE_OVERVIEW'), 'install');
 
 		// Add toolbar buttons
-		JToolBarHelper::preferences('com_joomlaupdate');
+		JToolbarHelper::preferences('com_joomlaupdate');
 
 		// Load mooTools
 		JHtml::_('behavior.framework', true);

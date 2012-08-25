@@ -22,7 +22,7 @@ const JROUTER_MODE_SEF = 1;
  * @subpackage  Application
  * @since       11.1
  */
-class JRouter extends JObject
+class JRouter
 {
 	/**
 	 * The rewrite mode

@@ -621,11 +621,13 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 			$sql .= ' LIMIT ' . $this->limit . ' OFFSET ' . $this->offset;
 		}
 
+		// Increment the query counter.
+		$this->count++;
+
 		// If debugging is enabled then let's log the query.
 		if ($this->debug)
 		{
-			// Increment the query counter and add the query to the object queue.
-			$this->count++;
+			// Add the query to the object queue.
 			$this->log[] = $sql;
 
 			JLog::add($sql, JLog::DEBUG, 'databasequery');
@@ -790,7 +792,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 * @param   array   $columns      Array of table's column returned by ::getTableColumns.
 	 * @param   string  $field_name   The table field's name.
 	 * @param   string  $field_value  The variable value to quote and return.
-	 * 
+	 *
 	 * @return  string  The quoted string.
 	 *
 	 * @since   11.3
@@ -961,7 +963,6 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 */
 	public function insertObject($table, &$object, $key = null)
 	{
-		// Initialise variables.
 		$columns = $this->getTableColumns($table);
 
 		$fields = array();
@@ -1265,7 +1266,6 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 */
 	public function updateObject($table, &$object, $key, $nulls = false)
 	{
-		// Initialise variables.
 		$columns = $this->getTableColumns($table);
 		$fields = array();
 		$where = '';

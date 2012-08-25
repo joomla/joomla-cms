@@ -62,7 +62,7 @@ class UsersHelper
 				$vName == 'notes'
 			);
 
-			$extension = JRequest::getString('extension');
+			$extension = JFactory::getApplication()->input->getString('extension');
 			JSubMenuHelper::addEntry(
 				JText::_('COM_USERS_SUBMENU_NOTE_CATEGORIES'),
 				'index.php?option=com_categories&extension=com_users.notes',
@@ -104,7 +104,7 @@ class UsersHelper
 	 *
 	 * @since   1.6
 	 */
-	static function getStateOptions()
+	public static function getStateOptions()
 	{
 		// Build the filter options.
 		$options = array();
@@ -121,7 +121,7 @@ class UsersHelper
 	 *
 	 * @since   1.6
 	 */
-	static function getActiveOptions()
+	public static function getActiveOptions()
 	{
 		// Build the filter options.
 		$options = array();
@@ -138,7 +138,7 @@ class UsersHelper
 	 *
 	 * @since   1.6
 	 */
-	static function getGroups()
+	public static function getGroups()
 	{
 		$db = JFactory::getDbo();
 		$db->setQuery(
@@ -148,12 +148,14 @@ class UsersHelper
 			' GROUP BY a.id, a.title, a.lft, a.rgt' .
 			' ORDER BY a.lft ASC'
 		);
-		$options = $db->loadObjectList();
 
-		// Check for a database error.
-		if ($db->getErrorNum())
+		try
 		{
-			JError::raiseNotice(500, $db->getErrorMsg());
+			$options = $db->loadObjectList();
+		}
+		catch (RuntimeException $e)
+		{
+			JError::raiseNotice(500, $e->getMessage());
 			return null;
 		}
 

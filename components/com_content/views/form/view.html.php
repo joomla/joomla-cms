@@ -19,13 +19,15 @@ defined('_JEXEC') or die;
 class ContentViewForm extends JViewLegacy
 {
 	protected $form;
+
 	protected $item;
+
 	protected $return_page;
+
 	protected $state;
 
 	public function display($tpl = null)
 	{
-		// Initialise variables.
 		$app		= JFactory::getApplication();
 		$user		= JFactory::getUser();
 
@@ -70,11 +72,11 @@ class ContentViewForm extends JViewLegacy
 		//Escape strings for HTML output
 		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
 
-		$this->params	= $params;
-		$this->user		= $user;
+		$this->params = $params;
+		$this->user   = $user;
 
 		if ($this->params->get('enable_category') == 1) {
-			$this->form->setFieldAttribute('catid', 'default',  $params->get('catid', 1));
+			$this->form->setFieldAttribute('catid', 'default', $params->get('catid', 1));
 		}
 		$this->_prepareDocument();
 		parent::display($tpl);

@@ -9,19 +9,25 @@
 
 defined('_JEXEC') or die;
 
+require_once dirname(dirname(__DIR__)) . '/helper/component.php';
+
 /**
+ * View for the component configuration
+ *
  * @package     Joomla.Administrator
  * @subpackage  com_config
+ * @since       1.5
  */
 class ConfigViewComponent extends JViewLegacy
 {
 	/**
 	 * Display the view
 	 */
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		$form		= $this->get('Form');
 		$component	= $this->get('Component');
+		$user = JFactory::getUser();
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
@@ -34,12 +40,33 @@ class ConfigViewComponent extends JViewLegacy
 			$form->bind($component->params);
 		}
 
-		$this->assignRef('form',		$form);
-		$this->assignRef('component',	$component);
+		$this->form = &$form;
+		$this->component = &$component;
 
-		$this->document->setTitle(JText::_('JGLOBAL_EDIT_PREFERENCES'));
+		$this->components = ConfigHelperComponent::getComponentsWithConfig();
+		ConfigHelperComponent::loadLanguageForComponents($this->components);
 
+		$this->userIsSuperAdmin = $user->authorise('core.admin');
+		$this->currentComponent = JFactory::getApplication()->input->get('component');
+
+		$this->addToolbar();
 		parent::display($tpl);
-		JRequest::setVar('hidemainmenu', true);
+		JFactory::getApplication()->input->set('hidemainmenu', true);
+	}
+
+	/**
+	 * Add the page title and toolbar.
+	 *
+	 * @since   3.0
+	 */
+	protected function addToolbar()
+	{
+		JToolbarHelper::title(JText::_('COM_CONFIG_GLOBAL_CONFIGURATION'), 'config.png');
+		JToolbarHelper::apply('component.apply');
+		JToolbarHelper::save('component.save');
+		JToolbarHelper::divider();
+		JToolbarHelper::cancel('component.cancel');
+		JToolbarHelper::divider();
+		JToolbarHelper::help('JHELP_SITE_GLOBAL_CONFIGURATION');
 	}
 }

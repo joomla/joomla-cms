@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     Joomla.Administrator
  * @subpackage  com_content
+ * @since       1.5
  */
 class ContentController extends JControllerLegacy
 {
@@ -30,16 +31,14 @@ class ContentController extends JControllerLegacy
 	 * @param	array			An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
 	 * @return	JController		This object to support chaining.
+	 *
 	 * @since	1.5
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{
-		// Load the submenu.
-		ContentHelper::addSubmenu(JRequest::getCmd('view', 'articles'));
-
-		$view		= JRequest::getCmd('view', 'articles');
-		$layout 	= JRequest::getCmd('layout', 'articles');
-		$id			= JRequest::getInt('id');
+		$view   = $this->input->get('view', 'articles');
+		$layout = $this->input->get('layout', 'articles');
+		$id     = $this->input->getInt('id');
 
 		// Check for edit form.
 		if ($view == 'article' && $layout == 'edit' && !$this->checkEditId('com_content.edit.article', $id)) {

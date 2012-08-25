@@ -36,8 +36,9 @@ class WeblinksHelper
 			'index.php?option=com_categories&extension=com_weblinks',
 			$vName == 'categories'
 		);
-		if ($vName=='categories') {
-			JToolBarHelper::title(
+		if ($vName == 'categories')
+		{
+			JToolbarHelper::title(
 				JText::sprintf('COM_CATEGORIES_CATEGORIES_TITLE', JText::_('com_weblinks')),
 				'weblinks-categories');
 		}

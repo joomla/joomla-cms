@@ -10,13 +10,15 @@
 defined('_JEXEC') or die;
 
 /**
+ * Helper for mod_users_latest
+ *
  * @package     Joomla.Site
  * @subpackage  mod_users_latest
  */
 class modUsersLatestHelper
 {
 	// get users sorted by activation date
-	static function getUsers($params)
+	public static function getUsers($params)
 	{
 		$db		= JFactory::getDbo();
 		$query	= $db->getQuery(true);

@@ -55,7 +55,6 @@ class BannersModelTracks extends JModelList
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
-		// Initialise variables.
 		$app = JFactory::getApplication('administrator');
 
 		// Load the filter state.
@@ -166,7 +165,6 @@ class BannersModelTracks extends JModelList
 	 */
 	public function delete()
 	{
-		// Initialise variables
 		$user		= JFactory::getUser();
 		$categoryId	= $this->getState('category_id');
 
@@ -206,26 +204,28 @@ class BannersModelTracks extends JModelList
 			// Filter by client
 			$clientId = $this->getState('filter.client_id');
 			if (!empty($clientId)) {
-				$where.=' AND cid = '.(int) $clientId;
+				$where .= ' AND cid = '.(int) $clientId;
 			}
 
 			// Filter by category
 			if (!empty($categoryId)) {
-				$where.=' AND catid = '.(int) $categoryId;
+				$where .= ' AND catid = '.(int) $categoryId;
 			}
 
 			$query->where('banner_id IN (SELECT id FROM '.$db->quoteName('#__banners').' WHERE '.$where.')');
 
 			$db->setQuery((string) $query);
 			$this->setError((string) $query);
-			$db->execute();
 
-			// Check for a database error.
-			if ($db->getErrorNum()) {
-				$this->setError($db->getErrorMsg());
+			try
+			{
+				$db->execute();
+			}
+			catch (RuntimeException $e)
+			{
+				$this->setError($e->getMessage());
 				return false;
 			}
-
 		} else {
 			JError::raiseWarning(403, JText::_('JERROR_CORE_DELETE_NOT_PERMITTED'));
 		}
@@ -326,10 +326,14 @@ class BannersModelTracks extends JModelList
 			$query->from($db->quoteName('#__categories'));
 			$query->where($db->quoteName('id').'='.$db->quote($categoryId));
 			$db->setQuery((string) $query);
-			$name = $db->loadResult();
 
-			if ($db->getErrorNum()) {
-				$this->setError($db->getErrorMsg());
+			try
+			{
+				$name = $db->loadResult();
+			}
+			catch (RuntimeException $e)
+			{
+				$this->setError($e->getMessage());
 				return false;
 			}
 		} else {
@@ -356,9 +360,14 @@ class BannersModelTracks extends JModelList
 			$query->from($db->quoteName('#__banner_clients'));
 			$query->where($db->quoteName('id').'='.$db->quote($clientId));
 			$db->setQuery((string) $query);
-			$name = $db->loadResult();
-			if ($db->getErrorNum()) {
-				$this->setError($db->getErrorMsg());
+
+			try
+			{
+				$name = $db->loadResult();
+			}
+			catch (RuntimeException $e)
+			{
+				$this->setError($e->getMessage());
 				return false;
 			}
 		} else {
@@ -401,7 +410,7 @@ class BannersModelTracks extends JModelList
 		if (!isset($this->content)) {
 
 			$this->content = '';
-			$this->content.=
+			$this->content .=
 			'"'.str_replace('"', '""', JText::_('COM_BANNERS_HEADING_NAME')).'","'.
 				str_replace('"', '""', JText::_('COM_BANNERS_HEADING_CLIENT')).'","'.
 				str_replace('"', '""', JText::_('JCATEGORY')).'","'.
@@ -411,11 +420,11 @@ class BannersModelTracks extends JModelList
 
 			foreach($this->getItems() as $item) {
 
-				$this->content.=
+				$this->content .=
 				'"'.str_replace('"', '""', $item->name).'","'.
 					str_replace('"', '""', $item->client_name).'","'.
 					str_replace('"', '""', $item->category_title).'","'.
-					str_replace('"', '""', ($item->track_type==1 ? JText::_('COM_BANNERS_IMPRESSION'): JText::_('COM_BANNERS_CLICK'))).'","'.
+					str_replace('"', '""', ($item->track_type == 1 ? JText::_('COM_BANNERS_IMPRESSION'): JText::_('COM_BANNERS_CLICK'))) . '","' .
 					str_replace('"', '""', $item->count).'","'.
 					str_replace('"', '""', $item->track_date).'"'."\n";
 			}
@@ -424,7 +433,7 @@ class BannersModelTracks extends JModelList
 				$app = JFactory::getApplication('administrator');
 
 				$files = array();
-				$files['track']=array();
+				$files['track'] = array();
 				$files['track']['name'] = $this->getBasename() . '.csv';
 				$files['track']['data'] = $this->content;
 				$files['track']['time'] = time();
@@ -433,7 +442,6 @@ class BannersModelTracks extends JModelList
 				// run the packager
 				jimport('joomla.filesystem.folder');
 				jimport('joomla.filesystem.file');
-				jimport('joomla.filesystem.archive');
 				$delete = JFolder::files($app->getCfg('tmp_path').'/', uniqid('banners_tracks_'), false, true);
 
 				if (!empty($delete)) {

@@ -27,7 +27,7 @@ class CategoriesControllerCategories extends JControllerAdmin
 	 * @return	object	The model.
 	 * @since	1.6
 	 */
-	function getModel($name = 'Category', $prefix = 'CategoriesModel', $config = array('ignore_request' => true))
+	public function getModel($name = 'Category', $prefix = 'CategoriesModel', $config = array('ignore_request' => true))
 	{
 		$model = parent::getModel($name, $prefix, $config);
 		return $model;
@@ -43,10 +43,9 @@ class CategoriesControllerCategories extends JControllerAdmin
 	{
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		$extension = JRequest::getCmd('extension');
+		$extension = $this->input->get('extension');
 		$this->setRedirect(JRoute::_('index.php?option=com_categories&view=categories&extension='.$extension, false));
 
-		// Initialise variables.
 		$model = $this->getModel();
 
 		if ($model->rebuild()) {
@@ -71,8 +70,8 @@ class CategoriesControllerCategories extends JControllerAdmin
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Get the arrays from the Request
-		$order	= JRequest::getVar('order',	null, 'post', 'array');
-		$originalOrder = explode(',', JRequest::getString('original_order_values'));
+		$order = JRequest::getVar('order',	null, 'post', 'array');
+		$originalOrder = explode(',', $this->input->getString('original_order_values'));
 
 		// Make sure something has changed
 		if (!($order === $originalOrder)) {
@@ -82,5 +81,37 @@ class CategoriesControllerCategories extends JControllerAdmin
 			$this->setRedirect(JRoute::_('index.php?option='.$this->option.'&view='.$this->view_list, false));
 			return true;
 		}
+	}
+
+	/**
+	 * Method to save the submitted ordering values for records via AJAX.
+	 *
+	 * @return	void
+	 *
+	 * @since   3.0
+	 */
+	public function saveOrderAjax()
+	{
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+
+		// Get the arrays from the Request
+		$pks	= JRequest::getVar('cid',	null, 'post', 'array');
+		$order	= JRequest::getVar('order',	null, 'post', 'array');
+		$originalOrder = explode(',', JRequest::getString('original_order_values'));
+
+		// Make sure something has changed
+		if (!($order === $originalOrder)) {
+			// Get the model
+			$model = $this->getModel();
+			// Save the ordering
+			$return = $model->saveorder($pks, $order);
+			if ($return)
+			{
+				echo "1";
+			}
+		}
+		// Close the application
+		JFactory::getApplication()->close();
+
 	}
 }

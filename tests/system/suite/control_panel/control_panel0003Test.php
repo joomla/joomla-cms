@@ -29,7 +29,7 @@ class ControlPanel0003 extends SeleniumJoomlaTestCase
 		$this->click("link=Article Manager");
 		$this->waitForPageToLoad("30000");
 
-		$this->click("//li[@id='toolbar-new']/a/span");
+		$this->click("//div[@id='toolbar-new']/button");
 		$this->waitForPageToLoad("30000");
 
 		print("Enter article title" . "\n");
@@ -40,7 +40,7 @@ class ControlPanel0003 extends SeleniumJoomlaTestCase
 // 		$this->typeKeys("tinymce", "This is test text for an article");
 
 		print("Save the article" . "\n");
-		$this->click("//li[@id='toolbar-save']/a/span");
+		$this->click("//div[@id='toolbar-save']/button");
 		$this->waitForPageToLoad("30000");
 		print("Filter on new article" . "\n");
 		$this->type("filter_search", "Com_Content001");
@@ -57,14 +57,14 @@ class ControlPanel0003 extends SeleniumJoomlaTestCase
 		$this->assertTrue($this->isElementPresent("//textarea[contains(., 'This is test text')]"));
 		$this->assertEquals("Com_Content001 Test Article", $this->getValue("jform_title"));
 		print("Cancel edit" . "\n");
-		$this->click("//li[@id='toolbar-cancel']/a/span");
+		$this->click("//div[@id='toolbar-cancel']/button");
 		$this->waitForPageToLoad("30000");
 		print("Send article to trash" . "\n");
 		$this->click("link=Com_Content001 Test Article");
 		$this->waitForPageToLoad("30000");
 		$this->select("jform_state", "label=Trashed");
 		$this->click("//option[@value='-2']");
-		$this->click("//li[@id='toolbar-save']/a/span");
+		$this->click("//div[@id='toolbar-save']/button");
 		$this->waitForPageToLoad("30000");
 		print("Check that article is no longer shown in article manager" . "\n");
 		$this->assertFalse($this->isTextPresent("Com_Content001 Test Article"));
@@ -74,7 +74,7 @@ class ControlPanel0003 extends SeleniumJoomlaTestCase
 		$this->clickGo();
 		$this->waitForPageToLoad("30000");
 		$this->click("checkall-toggle");
-		$this->click("//li[@id='toolbar-delete']/a/span");
+		$this->click("//div[@id='toolbar-delete']/button");
 		$this->waitForPageToLoad("30000");
 		$this->select("filter_published", "label=- Select Status -");
 		$this->clickGo();

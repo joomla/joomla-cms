@@ -10,6 +10,8 @@
 defined('_JEXEC') or die;
 
 /**
+ * Model for the global configuration
+ *
  * @package     Joomla.Administrator
  * @subpackage  com_config
  */
@@ -214,7 +216,7 @@ class ConfigModelApplication extends JModelForm
 	 *
 	 * @since	1.6
 	 */
-	function removeroot()
+	public function removeroot()
 	{
 		// Get the previous configuration.
 		$prev = new JConfig;
@@ -227,8 +229,6 @@ class ConfigModelApplication extends JModelForm
 
 		// Write the configuration file.
 		return $this->writeConfigFile($config);
-
-		return true;
 	}
 
 	/**

@@ -40,11 +40,13 @@ class ModFinderHelper
 		foreach ($uri->getQuery(true) as $n => $v)
 		{
 			$fields .= '<input type="hidden" name="' . $n . '" value="' . $v . '" />';
-			if ($n == 'Itemid') {
+			if ($n == 'Itemid')
+			{
 				$needId = false;
 			}
 		}
-		if ($needId) {
+		if ($needId)
+		{
 			$fields .= '<input type="hidden" name="Itemid" value="' . JFactory::getApplication()->input->get('Itemid', '0', 'int') . '" />';
 		}
 		return $fields;

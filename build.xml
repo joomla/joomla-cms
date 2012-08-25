@@ -4,9 +4,15 @@
 	<property name="source" value="." />
 
 	<target name="clean" description="Clean up and create artifact directories">
+		<delete dir="${basedir}/build/coverage" />
 		<delete dir="${basedir}/build/logs" />
 
+		<mkdir dir="${basedir}/build/coverage" />
 		<mkdir dir="${basedir}/build/logs" />
+	</target>
+
+	<target name="phpunit" description="Run unit tests using PHPUnit and generates junit.xml and clover.xml">
+		<exec executable="phpunit" />
 	</target>
 
 	<target name="phpcs" description="Generate checkstyle.xml using PHP_CodeSniffer">
@@ -18,6 +24,6 @@
 			<arg path="${source}" />
 		</exec>
 	</target>
-	
-	<target name="build" depends="clean,phpcs" />
+
+	<target name="build" depends="clean,phpunit,phpcs" />
 </project>

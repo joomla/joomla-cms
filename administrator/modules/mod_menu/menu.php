@@ -10,8 +10,11 @@
 defined('_JEXEC') or die;
 
 /**
+ * Tree based class to render the admin menu
+ *
  * @package     Joomla.Administrator
  * @subpackage  mod_menu
+ * @since       1.5
  */
 class JAdminCssMenu extends JObject
 {
@@ -81,21 +84,21 @@ class JAdminCssMenu extends JObject
 		$this->_current = &$this->_root;
 	}
 
-	function addSeparator()
+	public function addSeparator()
 	{
 		$this->addChild(new JMenuNode(null, null, 'separator', false));
 	}
 
-	function renderMenu($id = 'menu', $class = '')
+	public function renderMenu($id = 'menu', $class = '')
 	{
 		$depth = 1;
 
 		if (!empty($id)) {
-			$id='id="'.$id.'"';
+			$id = 'id="' . $id . '"';
 		}
 
 		if (!empty($class)) {
-			$class='class="'.$class.'"';
+			$class = 'class="' . $class . '"';
 		}
 
 		/*
@@ -119,18 +122,18 @@ class JAdminCssMenu extends JObject
 		}
 	}
 
-	function renderLevel($depth)
+	public function renderLevel($depth)
 	{
 		/*
 		 * Build the CSS class suffix
 		 */
 		$class = '';
 		if ($this->_current->hasChildren()) {
-			$class = ' class="node"';
+			$class = ' class="dropdown"';
 		}
 
 		if ($this->_current->class == 'separator') {
-			$class = ' class="separator"';
+			$class = ' class="divider"';
 		}
 
 		if ($this->_current->class == 'disabled') {
@@ -147,20 +150,21 @@ class JAdminCssMenu extends JObject
 		 */
 
 		$linkClass = '';
+		$dataToggle = '';
+		$dropdownCaret = '';
 
-		if ($this->_current->link != null) {
-			$linkClass = $this->getIconClass($this->_current->class);
-			if (!empty($linkClass)) {
-				$linkClass = ' class="'.$linkClass.'"';
-			}
+		if ($this->_current->hasChildren()) {
+				$linkClass = ' class="dropdown-toggle"';
+				$dataToggle = ' data-toggle="dropdown"';
+				$dropdownCaret = ' <span class="caret"></span>';
 		}
 
 		if ($this->_current->link != null && $this->_current->target != null) {
-			echo "<a".$linkClass." href=\"".$this->_current->link."\" target=\"".$this->_current->target."\" >".$this->_current->title."</a>";
+			echo "<a".$linkClass." ".$dataToggle." href=\"".$this->_current->link."\" target=\"".$this->_current->target."\" >".$this->_current->title.$dropdownCaret."</a>";
 		} elseif ($this->_current->link != null && $this->_current->target == null) {
-			echo "<a".$linkClass." href=\"".$this->_current->link."\">".$this->_current->title."</a>";
+			echo "<a".$linkClass." ".$dataToggle." href=\"".$this->_current->link."\">".$this->_current->title.$dropdownCaret."</a>";
 		} elseif ($this->_current->title != null) {
-			echo "<a>".$this->_current->title."</a>\n";
+			echo "<a".$linkClass." ".$dataToggle.">".$this->_current->title.$dropdownCaret."</a>";
 		} else {
 			echo "<span></span>";
 		}
@@ -175,9 +179,9 @@ class JAdminCssMenu extends JObject
 				if (!empty($this->_current->id)) {
 					$id = ' id="menu-'.strtolower($this->_current->id).'"';
 				}
-				echo '<ul'.$id.' class="menu-component">'."\n";
+				echo '<ul'.$id.' class="dropdown-menu menu-component">'."\n";
 			} else {
-				echo '<ul>'."\n";
+				echo '<ul class="dropdown-menu">'."\n";
 			}
 			foreach ($this->_current->getChildren() as $child)
 			{
@@ -198,7 +202,7 @@ class JAdminCssMenu extends JObject
 	 * @return	string	CSS class name
 	 * @since	1.5
 	 */
-	function getIconClass($identifier)
+	public function getIconClass($identifier)
 	{
 		static $classes;
 
@@ -236,8 +240,12 @@ class JAdminCssMenu extends JObject
 }
 
 /**
+ * A Node for JAdminCssMenu
+ *
  * @package     Joomla.Administrator
  * @subpackage  mod_menu
+ * @since       1.5
+ * @see         JAdminCssMenu
  */
 class JMenuNode extends JObject
 {

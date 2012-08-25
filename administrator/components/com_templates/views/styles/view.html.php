@@ -19,7 +19,9 @@ defined('_JEXEC') or die;
 class TemplatesViewStyles extends JViewLegacy
 {
 	protected $items;
+
 	protected $pagination;
+
 	protected $state;
 
 	/**
@@ -32,6 +34,8 @@ class TemplatesViewStyles extends JViewLegacy
 		$this->state		= $this->get('State');
 		$this->preview		= JComponentHelper::getParams('com_templates')->get('template_positions_display');
 
+		TemplatesHelper::addSubmenu('styles');
+
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
 			JError::raiseError(500, implode("\n", $errors));
@@ -41,8 +45,8 @@ class TemplatesViewStyles extends JViewLegacy
 			// Check if there are no matching items
 		if(!count($this->items)) {
 			JFactory::getApplication()->enqueueMessage(
-				JText::_('COM_TEMPLATES_MSG_MANAGE_NO_STYLES')
-				, 'warning'
+				JText::_('COM_TEMPLATES_MSG_MANAGE_NO_STYLES'),
+				'warning'
 			);
 		}
 
@@ -61,30 +65,44 @@ class TemplatesViewStyles extends JViewLegacy
 		$canDo	= TemplatesHelper::getActions();
 		$isSite	= ($state->get('filter.client_id') == 0);
 
-		JToolBarHelper::title(JText::_('COM_TEMPLATES_MANAGER_STYLES'), 'thememanager');
+		JToolbarHelper::title(JText::_('COM_TEMPLATES_MANAGER_STYLES'), 'thememanager');
 
 		if ($canDo->get('core.edit.state')) {
-			JToolBarHelper::makeDefault('styles.setDefault', 'COM_TEMPLATES_TOOLBAR_SET_HOME');
-			JToolBarHelper::divider();
+			JToolbarHelper::makeDefault('styles.setDefault', 'COM_TEMPLATES_TOOLBAR_SET_HOME');
+			JToolbarHelper::divider();
 		}
 
 		if ($canDo->get('core.edit')) {
-			JToolBarHelper::editList('style.edit');
+			JToolbarHelper::editList('style.edit');
 		}
 		if ($canDo->get('core.create')) {
-			JToolBarHelper::custom('styles.duplicate', 'copy.png', 'copy_f2.png', 'JTOOLBAR_DUPLICATE', true);
-			JToolBarHelper::divider();
+			JToolbarHelper::custom('styles.duplicate', 'copy.png', 'copy_f2.png', 'JTOOLBAR_DUPLICATE', true);
+			JToolbarHelper::divider();
 		}
 
 		if ($canDo->get('core.delete')) {
-			JToolBarHelper::deleteList('', 'styles.delete');
-			JToolBarHelper::divider();
+			JToolbarHelper::deleteList('', 'styles.delete');
+			JToolbarHelper::divider();
 		}
 
 		if ($canDo->get('core.admin')) {
-			JToolBarHelper::preferences('com_templates');
-			JToolBarHelper::divider();
+			JToolbarHelper::preferences('com_templates');
+			JToolbarHelper::divider();
 		}
-		JToolBarHelper::help('JHELP_EXTENSIONS_TEMPLATE_MANAGER_STYLES');
+		JToolbarHelper::help('JHELP_EXTENSIONS_TEMPLATE_MANAGER_STYLES');
+
+		JSubMenuHelper::setAction('index.php?option=com_templates&view=styles');
+
+		JSubMenuHelper::addFilter(
+			JText::_('COM_TEMPLATES_FILTER_TEMPLATE'),
+			'filter_template',
+			JHtml::_('select.options', TemplatesHelper::getTemplateOptions($this->state->get('filter.client_id')), 'value', 'text', $this->state->get('filter.template'))
+		);
+
+		JSubMenuHelper::addFilter(
+			JText::_('JGLOBAL_FILTER_CLIENT'),
+			'filter_client_id',
+			JHtml::_('select.options', TemplatesHelper::getClientOptions(), 'value', 'text', $this->state->get('filter.client_id'))
+		);
 	}
 }

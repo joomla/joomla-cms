@@ -42,7 +42,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 
 		<tbody>
 		<?php foreach ($this->items as $i => $item): ?>
-			<tr class="row<?php echo $i%2;?>">
+			<tr class="row<?php echo $i % 2;?>">
 				<td><?php echo JHtml::_('grid.id', $i, $item->extension_id); ?></td>
 				<td><span class="bold hasTip" title="<?php echo htmlspecialchars($item->name.'::'.$item->description); ?>"><?php echo $item->name; ?></span></td>
 				<td class="center"><?php echo JText::_('COM_INSTALLER_TYPE_' . $item->type); ?></td>

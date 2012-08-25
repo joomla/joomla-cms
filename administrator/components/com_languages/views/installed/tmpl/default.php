@@ -17,12 +17,11 @@ $client		= $this->state->get('filter.client_id', 0) ? JText::_('JADMINISTRATOR')
 $clientId	= $this->state->get('filter.client_id', 0);
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_languages&view=installed&client='.$clientId); ?>" method="post" id="adminForm" name="adminForm">
-
 	<?php if ($this->ftp): ?>
 		<?php echo $this->loadTemplate('ftp');?>
 	<?php endif; ?>
 
-	<table class="adminlist">
+	<table class="table table-striped">
 		<thead>
 			<tr>
 				<th width="20">
@@ -66,9 +65,9 @@ $clientId	= $this->state->get('filter.client_id', 0);
 		</tfoot>
 		<tbody>
 		<?php foreach ($this->rows as $i => $row) :
-			$canCreate	= $user->authorise('core.create',		'com_languages');
-			$canEdit	= $user->authorise('core.edit',			'com_languages');
-			$canChange	= $user->authorise('core.edit.state',	'com_languages');
+			$canCreate = $user->authorise('core.create',     'com_languages');
+			$canEdit   = $user->authorise('core.edit',       'com_languages');
+			$canChange = $user->authorise('core.edit.state', 'com_languages');
 		?>
 			<tr class="row<?php echo $i % 2; ?>">
 				<td width="20">
@@ -106,9 +105,7 @@ $clientId	= $this->state->get('filter.client_id', 0);
 		</tbody>
 	</table>
 
-	<div>
-		<input type="hidden" name="task" value="" />
-		<input type="hidden" name="boxchecked" value="0" />
-		<?php echo JHtml::_('form.token'); ?>
-	</div>
+	<input type="hidden" name="task" value="" />
+	<input type="hidden" name="boxchecked" value="0" />
+	<?php echo JHtml::_('form.token'); ?>
 </form>

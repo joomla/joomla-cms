@@ -55,7 +55,6 @@ class PluginsModelPlugins extends JModelList
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
-		// Initialise variables.
 		$app = JFactory::getApplication('administrator');
 
 		// Load the filter state.
@@ -122,7 +121,8 @@ class PluginsModelPlugins extends JModelList
 			$result = $this->_db->loadObjectList();
 			$this->translate($result);
 			if (!empty($search)) {
-				foreach($result as $i=>$item) {
+				foreach ($result as $i => $item)
+				{
 					if (!preg_match("/$search/i", $item->name)) {
 						unset($result[$i]);
 					}

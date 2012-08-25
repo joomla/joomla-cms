@@ -69,7 +69,6 @@ class JTableContent extends JTable
 	 */
 	protected function _getAssetParentId($table = null, $id = null)
 	{
-		// Initialise variables.
 		$assetId = null;
 
 		// This is a article under a category.
@@ -115,7 +114,7 @@ class JTableContent extends JTable
 	public function bind($array, $ignore = '')
 	{
 		// Search for the {readmore} tag and split the text up accordingly.
-		if (!empty($array['articletext']))
+		if (isset($array['articletext']))
 		{
 			$pattern = '#<hr\s+id=("|\')system-readmore("|\')\s*\/*>#i';
 			$tagPos = preg_match($pattern, $array['articletext']);
@@ -188,12 +187,6 @@ class JTableContent extends JTable
 			$this->fulltext = '';
 		}
 
-		if (trim($this->introtext) == '' && trim($this->fulltext) == '')
-		{
-			$this->setError(JText::_('JGLOBAL_ARTICLE_MUST_HAVE_TEXT'));
-			return false;
-		}
-
 		// Check the publish down date is not earlier than publish up.
 		if ($this->publish_down > $this->_db->getNullDate() && $this->publish_down < $this->publish_up)
 		{
@@ -259,7 +252,7 @@ class JTableContent extends JTable
 		{
 			// New article. An article created and created_by field can be set by the user,
 			// so we don't touch either of these if they are set.
-			if (!intval($this->created))
+			if (!(int) $this->created)
 			{
 				$this->created = $date->toSql();
 			}
@@ -294,7 +287,6 @@ class JTableContent extends JTable
 	 */
 	public function publish($pks = null, $state = 1, $userId = 0)
 	{
-		// Initialise variables.
 		$k = $this->_tbl_key;
 
 		// Sanitize input.
@@ -338,12 +330,14 @@ class JTableContent extends JTable
 		$query->set($this->_db->quoteName('state') . ' = ' . (int) $state);
 		$query->where('(' . $where . ')' . $checkin);
 		$this->_db->setQuery($query);
-		$this->_db->execute();
 
-		// Check for a database error.
-		if ($this->_db->getErrorNum())
+		try
 		{
-			$this->setError($this->_db->getErrorMsg());
+			$this->_db->execute();
+		}
+		catch (RuntimeException $e)
+		{
+			$this->setError($e->getMessage());
 			return false;
 		}
 

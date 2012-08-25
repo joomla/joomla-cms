@@ -54,13 +54,6 @@
 	margin-left: -15px;
 }
 
-#upload-flash .progress, img.progress {
-	background: url(../images/progress.gif) no-repeat;
-	background-position: +100% 0;
-	margin-right: 0.5em;
-	vertical-align: middle;
-}
-
 #upload-queue {
 	list-style: none;
 	clear:both;

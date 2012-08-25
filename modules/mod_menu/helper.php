@@ -10,6 +10,8 @@
 defined('_JEXEC') or die;
 
 /**
+ * Helper for mod_menu
+ *
  * @package     Joomla.Site
  * @subpackage  mod_menu
  * @since       1.5
@@ -24,7 +26,7 @@ class modMenuHelper
 	 * @return	array
 	 * @since	1.5
 	 */
-	static function getList(&$params)
+	public static function getList(&$params)
 	{
 		$app = JFactory::getApplication();
 		$menu = $app->getMenu();
@@ -39,7 +41,6 @@ class modMenuHelper
 		$cache = JFactory::getCache('mod_menu', '');
 		if (!($items = $cache->get($key)))
 		{
-			// Initialise variables.
 			$list		= array();
 			$db			= JFactory::getDbo();
 
@@ -57,7 +58,7 @@ class modMenuHelper
 					if (($start && $start > $item->level)
 						|| ($end && $item->level > $end)
 						|| (!$showAll && $item->level > 1 && !in_array($item->parent_id, $path))
-						|| ($start > 1 && !in_array($item->tree[$start-2], $path))
+						|| ($start > 1 && !in_array($item->tree[$start - 2], $path))
 					) {
 						unset($items[$i]);
 						continue;

@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     Joomla.Administrator
  * @subpackage  Application
+ * @since       1.5
  */
 class JAdministratorHelper
 {

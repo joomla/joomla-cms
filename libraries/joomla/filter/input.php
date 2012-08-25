@@ -542,7 +542,6 @@ class JFilterInput
 	 */
 	protected function _cleanAttributes($attrSet)
 	{
-		// Initialise variables.
 		$newSet = array();
 
 		$count = count($attrSet);

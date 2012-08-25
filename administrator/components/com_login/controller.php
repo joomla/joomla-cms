@@ -31,12 +31,12 @@ class LoginController extends JControllerLegacy
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{
-		// Special treatment is required for this plugin, as this view may be called
+		// Special treatment is required for this component, as this view may be called
 		// after a session timeout. We must reset the view and layout prior to display
 		// otherwise an error will occur.
 
-		JRequest::setVar('view', 'login');
-		JRequest::setVar('layout', 'default');
+		$this->input->set('view', 'login');
+		$this->input->set('layout', 'default');
 
 		parent::display();
 	}
@@ -77,7 +77,7 @@ class LoginController extends JControllerLegacy
 
 		$app = JFactory::getApplication();
 
-		$userid = JRequest::getInt('uid', null);
+		$userid = $this->input->getInt('uid', null);
 
 		$options = array(
 			'clientid' => ($userid) ? 0 : 1

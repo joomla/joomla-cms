@@ -9,8 +9,7 @@
 
 defined('_JEXEC') or die;
 
-// Import library dependencies
-JLoader::register('InstallerModel', dirname(__FILE__) . '/extension.php');
+JLoader::register('InstallerModel', __DIR__ . '/extension.php');
 JLoader::register('joomlaInstallerScript', JPATH_ADMINISTRATOR . '/components/com_admin/script.php');
 
 /**
@@ -78,19 +77,18 @@ class InstallerModelDatabase extends InstallerModel
 	 * Get version from #__schemas table
 	 *
 	 * @return  mixed  the return value from the query, or null if the query fails
+	 *
 	 * @throws Exception
 	 */
-
-	public function getSchemaVersion() {
+	public function getSchemaVersion()
+	{
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 		$query->select('version_id')->from($db->qn('#__schemas'))
-		->where('extension_id = 700');
+			->where('extension_id = 700');
 		$db->setQuery($query);
 		$result = $db->loadResult();
-		if ($db->getErrorNum()) {
-			throw new Exception('Database error - getSchemaVersion');
-		}
+
 		return $result;
 	}
 
@@ -160,7 +158,7 @@ class InstallerModelDatabase extends InstallerModel
 		$table = JTable::getInstance('Extension');
 		$table->load('700');
 		$cache = new JRegistry($table->manifest_cache);
-		$updateVersion =  $cache->get('version');
+		$updateVersion = $cache->get('version');
 		$cmsVersion = new JVersion;
 		if ($updateVersion == $cmsVersion->getShortVersion())
 		{

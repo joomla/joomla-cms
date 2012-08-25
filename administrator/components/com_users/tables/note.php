@@ -41,7 +41,6 @@ class UsersTableNote extends JTable
 	 */
 	public function store($updateNulls = false)
 	{
-		// Initialise variables.
 		$date = JFactory::getDate()->toSql();
 		$userId = JFactory::getUser()->get('id');
 
@@ -78,7 +77,6 @@ class UsersTableNote extends JTable
 	 */
 	public function publish($pks = null, $state = 1, $userId = 0)
 	{
-		// Initialise variables.
 		$k = $this->_tbl_key;
 
 		// Sanitize input.
@@ -121,12 +119,14 @@ class UsersTableNote extends JTable
 
 		// Update the publishing state for rows with the given primary keys.
 		$this->_db->setQuery($query);
-		$this->_db->execute();
 
-		// Check for a database error.
-		if ($this->_db->getErrorNum())
+		try
 		{
-			$this->setError($this->_db->getErrorMsg());
+			$this->_db->execute();
+		}
+		catch (RuntimeException $e)
+		{
+			$this->setError($this->_db->getMessage());
 			return false;
 		}
 

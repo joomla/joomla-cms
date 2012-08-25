@@ -45,7 +45,7 @@ abstract class JHtmlUsers
 		else
 		{
 			$version = new JVersion;
-			$jver = explode( '.', $version->getShortVersion() );
+			$jver = explode('.', $version->getShortVersion());
 
 			$pathToXml = JPATH_ADMINISTRATOR.'/help/helpsites.xml';
 
@@ -63,7 +63,8 @@ abstract class JHtmlUsers
 			}
 
 			$value = htmlspecialchars($value);
-			if (substr ($value, 0, 4) == "http") {
+			if (substr($value, 0, 4) == "http")
+			{
 				return '<a href="'.$value.'">'.$text.'</a>';
 			}
 			else {

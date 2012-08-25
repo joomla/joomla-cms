@@ -8,7 +8,7 @@
 
 defined('JPATH_BASE') or die;
 
-JLoader::register('JFormFieldList', JPATH_LIBRARIES . '/joomla/form/fields/list.php');
+JFormHelper::loadFieldClass('list');
 
 /**
  * Language Form Field class.
@@ -35,7 +35,6 @@ class JFormFieldLanguage extends JFormFieldList
 	 */
 	protected function getOptions()
 	{
-		// Initialise variables.
 		$app = JFactory::getApplication();
 
 		// Detect the native language.
@@ -53,10 +52,11 @@ class JFormFieldLanguage extends JFormFieldList
 		}
 
 		// If a language is already set in the session, use this instead
-		$session = JFactory::getSession()->get('setup.options', array());
-		if (!empty($session['language']))
+		$model = JModelLegacy::getInstance('Setup', 'InstallationModel', array('dbo' => null));
+		$options = $model->getOptions();
+		if (isset($options['language']))
 		{
-			$native = $session['language'];
+			$native = $options['language'];
 		}
 
 		// Get the list of available languages.

@@ -14,6 +14,7 @@ defined('JPATH_BASE') or die;
  *
  * @package     Joomla.Plugin
  * @subpackage  System.logout
+ * @since       1-6
  */
 class plgSystemLogout extends JPlugin
 {
@@ -24,15 +25,15 @@ class plgSystemLogout extends JPlugin
 	 * @param	object	The object to observe -- event dispatcher.
 	 * @param	object	The configuration object for the plugin.
 	 * @return	void
-	 * @since	1.5
+	 * @since	1.6
 	 */
-	function __construct(&$subject, $config)
+	public function __construct(&$subject, $config)
 	{
 		parent::__construct($subject, $config);
 		$this->loadLanguage();
 
 		$hash = JApplication::getHash('plgSystemLogout');
-		if (JFactory::getApplication()->isSite() and JRequest::getString($hash, null , 'cookie'))
+		if (JFactory::getApplication()->isSite() and JRequest::getString($hash, null, 'cookie'))
 		{
 			// Destroy the cookie
 			$conf = JFactory::getConfig();
@@ -51,8 +52,8 @@ class plgSystemLogout extends JPlugin
 	 * @param	array	$user		Holds the user data.
 	 * @param	array	$options	Array holding options (client, ...).
 	 *
-	 * @return	object	True on success
-	 * @since	1.5
+	 * @return	boolean Always returns true
+	 * @since	1.6
 	 */
 	public function onUserLogout($user, $options = array())
 	{
@@ -68,7 +69,7 @@ class plgSystemLogout extends JPlugin
 		return true;
 	}
 
-	static function handleError(&$error)
+	public static function handleError(&$error)
 	{
 		// Get the application object.
 		$app = JFactory::getApplication();

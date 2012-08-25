@@ -42,7 +42,7 @@ class JFormFieldFilters extends JFormField
 		$html = array();
 
 		// Open the table.
-		$html[] = '<table id="filter-config">';
+		$html[] = '<table id="filter-config" class="table table-striped">';
 
 		// The table heading.
 		$html[] = '	<thead>';

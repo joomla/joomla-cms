@@ -67,6 +67,8 @@ class UsersViewNotes extends JViewLegacy
 		$this->state = $this->get('State');
 		$this->user = $this->get('User');
 
+		UsersHelper::addSubmenu('notes');
+
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
@@ -97,45 +99,59 @@ class UsersViewNotes extends JViewLegacy
 	{
 		$canDo = UsersHelper::getActions();
 
-		JToolBarHelper::title(JText::_('COM_USERS_VIEW_NOTES_TITLE'), 'user');
+		JToolbarHelper::title(JText::_('COM_USERS_VIEW_NOTES_TITLE'), 'user');
 
 		if ($canDo->get('core.create'))
 		{
-			JToolBarHelper::addNew('note.add');
+			JToolbarHelper::addNew('note.add');
 		}
 
 		if ($canDo->get('core.edit'))
 		{
-			JToolBarHelper::editList('note.edit');
+			JToolbarHelper::editList('note.edit');
 		}
 
 		if ($canDo->get('core.edit.state'))
 		{
-			JToolBarHelper::divider();
-			JToolBarHelper::publish('notes.publish', 'JTOOLBAR_PUBLISH', true);
-			JToolBarHelper::unpublish('notes.unpublish', 'JTOOLBAR_UNPUBLISH', true);
+			JToolbarHelper::divider();
+			JToolbarHelper::publish('notes.publish', 'JTOOLBAR_PUBLISH', true);
+			JToolbarHelper::unpublish('notes.unpublish', 'JTOOLBAR_UNPUBLISH', true);
 
-			JToolBarHelper::divider();
-			JToolBarHelper::archiveList('notes.archive');
-			JToolBarHelper::checkin('notes.checkin');
+			JToolbarHelper::divider();
+			JToolbarHelper::archiveList('notes.archive');
+			JToolbarHelper::checkin('notes.checkin');
 		}
 
 		if ($this->state->get('filter.state') == -2 && $canDo->get('core.delete'))
 		{
-			JToolBarHelper::deleteList('', 'notes.delete', 'JTOOLBAR_EMPTY_TRASH');
-			JToolBarHelper::divider();
+			JToolbarHelper::deleteList('', 'notes.delete', 'JTOOLBAR_EMPTY_TRASH');
+			JToolbarHelper::divider();
 		}
 		elseif ($canDo->get('core.edit.state'))
 		{
-			JToolBarHelper::trash('notes.trash');
-			JToolBarHelper::divider();
+			JToolbarHelper::trash('notes.trash');
+			JToolbarHelper::divider();
 		}
 
 		if ($canDo->get('core.admin'))
 		{
-			JToolBarHelper::preferences('com_users');
-			JToolBarHelper::divider();
+			JToolbarHelper::preferences('com_users');
+			JToolbarHelper::divider();
 		}
-		JToolBarHelper::help('JHELP_USERS_USER_NOTES');
+		JToolbarHelper::help('JHELP_USERS_USER_NOTES');
+
+		JSubMenuHelper::setAction('index.php?option=com_users&view=notes');
+
+		JSubMenuHelper::addFilter(
+			JText::_('JOPTION_SELECT_PUBLISHED'),
+			'filter_published',
+			JHtml::_('select.options', JHtml::_('jgrid.publishedOptions'), 'value', 'text', $this->state->get('filter.state'), true)
+		);
+
+		JSubMenuHelper::addFilter(
+			JText::_('JOPTION_SELECT_CATEGORY'),
+			'filter_category_id',
+			JHtml::_('select.options', JHtml::_('category.options', 'com_users.notes'), 'value', 'text', $this->state->get('filter.category_id'))
+		);
 	}
 }

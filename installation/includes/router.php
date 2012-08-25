@@ -37,7 +37,7 @@ class JRouterInstallation extends JObject
 	 *
 	 * @return  string  The absolute search engine friendly URL
 	 *
-	 * @since	1.5
+	 * @since   1.5
 	 */
 	public function build($url)
 	{

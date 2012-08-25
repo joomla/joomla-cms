@@ -18,15 +18,18 @@ defined('_JEXEC') or die;
  */
 class MediaModelManager extends JModelLegacy
 {
-	function getState($property = null, $default = null)
+	public function getState($property = null, $default = null)
 	{
 		static $set;
 
-		if (!$set) {
+		if (!$set)
+		{
+			$input = JFactory::getApplication()->input;
+
 			$folder = JRequest::getVar('folder', '', '', 'path');
 			$this->setState('folder', $folder);
 
-			$fieldid = JRequest::getCmd('fieldid', '');
+			$fieldid = $input->get('fieldid', '');
 			$this->setState('field.id', $fieldid);
 
 			$parent = str_replace("\\", "/", dirname($folder));
@@ -83,7 +86,7 @@ class MediaModelManager extends JModelLegacy
 		$author = $input->get('author', 0, 'integer');
 
 		// Create the drop-down folder select list
-		$list = JHtml::_('select.genericlist',  $options, 'folderlist', 'class="inputbox" size="1" onchange="ImageManager.setFolder(this.options[this.selectedIndex].value, '.$asset.', '.$author.')" ', 'value', 'text', $base);
+		$list = JHtml::_('select.genericlist', $options, 'folderlist', 'class="inputbox" size="1" onchange="ImageManager.setFolder(this.options[this.selectedIndex].value, '.$asset.', '.$author.')" ', 'value', 'text', $base);
 
 		return $list;
 	}
@@ -113,19 +116,21 @@ class MediaModelManager extends JModelLegacy
 			$node		= (object) array('name' => $name, 'relative' => $relative, 'absolute' => $absolute);
 
 			$tmp = &$tree;
-			for ($i=0, $n=count($path); $i<$n; $i++)
+			for ($i = 0, $n = count($path); $i < $n; $i++)
 			{
 				if (!isset($tmp['children'])) {
 					$tmp['children'] = array();
 				}
 
-				if ($i == $n-1) {
+				if ($i == $n - 1)
+				{
 					// We need to place the node
-					$tmp['children'][$relative] = array('data' =>$node, 'children' => array());
+					$tmp['children'][$relative] = array('data' => $node, 'children' => array());
 					break;
 				}
 
-				if (array_key_exists($key = implode('/', array_slice($path, 0, $i+1)), $tmp['children'])) {
+				if (array_key_exists($key = implode('/', array_slice($path, 0, $i + 1)), $tmp['children']))
+				{
 					$tmp = &$tmp['children'][$key];
 				}
 			}

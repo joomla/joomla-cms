@@ -23,14 +23,16 @@ class CpanelViewCpanel extends JViewLegacy
 	public function display($tpl = null)
 	{
 		// Set toolbar items for the page
-		JToolBarHelper::title(JText::_('COM_CPANEL'), 'cpanel.png');
-		JToolBarHelper::help('screen.cpanel');
+		JToolbarHelper::title(JText::_('COM_CPANEL'), 'cpanel.png');
+		JToolbarHelper::help('screen.cpanel');
+
+		$input = JFactory::getApplication()->input;
 
 		/*
 		 * Set the template - this will display cpanel.php
 		 * from the selected admin template.
 		 */
-		JRequest::setVar('tmpl', 'cpanel');
+		$input->set('tmpl', 'cpanel');
 
 		// Display the cpanel modules
 		$this->modules = JModuleHelper::getModules('cpanel');

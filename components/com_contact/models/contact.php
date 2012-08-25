@@ -42,7 +42,7 @@ class ContactModelContact extends JModelForm
 		$app = JFactory::getApplication('site');
 
 		// Load state from the request.
-		$pk = JRequest::getInt('id');
+		$pk = $app->input->getInt('id');
 		$this->setState('contact.id', $pk);
 
 		// Load the parameters.
@@ -100,7 +100,6 @@ class ContactModelContact extends JModelForm
 	 */
 	public function &getItem($pk = null)
 	{
-		// Initialise variables.
 		$pk = (!empty($pk)) ? $pk : (int) $this->getState('contact.id');
 
 		if ($this->_item === null) {
@@ -160,12 +159,8 @@ class ContactModelContact extends JModelForm
 
 				$data = $db->loadObject();
 
-				if ($error = $db->getErrorMsg()) {
-					throw new JException($error);
-				}
-
 				if (empty($data)) {
-					throw new JException(JText::_('COM_CONTACT_ERROR_CONTACT_NOT_FOUND'), 404);
+					throw new Exception(JText::_('COM_CONTACT_ERROR_CONTACT_NOT_FOUND'), 404);
 				}
 
 				// Check for published state if filter set.
@@ -204,7 +199,7 @@ class ContactModelContact extends JModelForm
 
 				$this->_item[$pk] = $data;
 			}
-			catch (JException $e)
+			catch (Exception $e)
 			{
 				$this->setError($e);
 				$this->_item[$pk] = false;
@@ -247,8 +242,10 @@ class ContactModelContact extends JModelForm
 			$case_when1 .= $query->concatenate(array($c_id, 'cc.alias'), ':');
 			$case_when1 .= ' ELSE ';
 			$case_when1 .= $c_id.' END as catslug';
-			$query->select('a.*, cc.access as category_access, cc.title as category_name, '
-			.$case_when.','.$case_when1);
+			$query->select(
+				'a.*, cc.access as category_access, cc.title as category_name, '
+				. $case_when . ',' . $case_when1
+			);
 
 			$query->from('#__contact_details AS a');
 
@@ -264,16 +261,13 @@ class ContactModelContact extends JModelForm
 			$groups = implode(',', $user->getAuthorisedViewLevels());
 			$query->where('a.access IN ('.$groups.')');
 
-			try {
+			try
+			{
 				$db->setQuery($query);
 				$result = $db->loadObject();
 
-				if ($error = $db->getErrorMsg()) {
-					throw new Exception($error);
-				}
-
 				if (empty($result)) {
-						throw new JException(JText::_('COM_CONTACT_ERROR_CONTACT_NOT_FOUND'), 404);
+					throw new Exception(JText::_('COM_CONTACT_ERROR_CONTACT_NOT_FOUND'), 404);
 				}
 
 			// If we are showing a contact list, then the contact parameters take priority
@@ -283,7 +277,9 @@ class ContactModelContact extends JModelForm
 					$registry->loadString($result->params);
 					$this->getState('params')->merge($registry);
 				}
-			} catch (Exception $e) {
+			}
+			catch (Exception $e)
+			{
 				$this->setError($e);
 				return false;
 			}

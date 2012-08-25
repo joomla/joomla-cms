@@ -10,6 +10,8 @@
 defined('_JEXEC') or die;
 
 /**
+ * Controller for a single contact
+ *
  * @package     Joomla.Administrator
  * @subpackage  com_contact
  * @since       1.6
@@ -27,9 +29,8 @@ class ContactControllerContact extends JControllerForm
 	 */
 	protected function allowAdd($data = array())
 	{
-		// Initialise variables.
 		$user = JFactory::getUser();
-		$categoryId = JArrayHelper::getValue($data, 'catid', JRequest::getInt('filter_category_id'), 'int');
+		$categoryId = JArrayHelper::getValue($data, 'catid', $this->input->getInt('filter_category_id'), 'int');
 		$allow = null;
 
 		if ($categoryId)
@@ -61,7 +62,6 @@ class ContactControllerContact extends JControllerForm
 	 */
 	protected function allowEdit($data = array(), $key = 'id')
 	{
-		// Initialise variables.
 		$recordId = (int) isset($data[$key]) ? $data[$key] : 0;
 		$categoryId = 0;
 

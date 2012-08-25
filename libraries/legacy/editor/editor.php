@@ -199,7 +199,6 @@ class JEditor extends JObject
 	 */
 	public function detach($observer)
 	{
-		// Initialise variables.
 		$retval = false;
 
 		$key = array_search($observer, $this->_observers);
@@ -292,7 +291,6 @@ class JEditor extends JObject
 		$width = str_replace(';', '', $width);
 		$height = str_replace(';', '', $height);
 
-		// Initialise variables.
 		$return = null;
 
 		$args['name'] = $name;
@@ -480,16 +478,14 @@ class JEditor extends JObject
 			return;
 		}
 
-		jimport('joomla.filesystem.file');
-
 		// Build the path to the needed editor plugin
 		$name = JFilterInput::getInstance()->clean($this->_name, 'cmd');
 		$path = JPATH_PLUGINS . '/editors/' . $name . '.php';
 
-		if (!JFile::exists($path))
+		if (!is_file($path))
 		{
 			$path = JPATH_PLUGINS . '/editors/' . $name . '/' . $name . '.php';
-			if (!JFile::exists($path))
+			if (!is_file($path))
 			{
 				JLog::add(JText::_('JLIB_HTML_EDITOR_CANNOT_LOAD'), JLog::WARNING, 'jerror');
 				return false;

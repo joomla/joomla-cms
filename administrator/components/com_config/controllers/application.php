@@ -10,8 +10,11 @@
 defined('_JEXEC') or die;
 
 /**
+ * Controller for global configuration
+ *
  * @package     Joomla.Administrator
  * @subpackage  com_config
+ * @since       1.5
  */
 class ConfigControllerApplication extends JControllerLegacy
 {
@@ -22,7 +25,7 @@ class ConfigControllerApplication extends JControllerLegacy
 	 * @return	void
 	 * @since	1.5
 	 */
-	function __construct($config = array())
+	public function __construct($config = array())
 	{
 		parent::__construct($config);
 
@@ -51,7 +54,6 @@ class ConfigControllerApplication extends JControllerLegacy
 		// Set FTP credentials, if given.
 		JClientHelper::setCredentialsFromRequest('ftp');
 
-		// Initialise variables.
 		$app	= JFactory::getApplication();
 		$model	= $this->getModel('Application');
 		$form	= $model->getForm();
@@ -121,7 +123,7 @@ class ConfigControllerApplication extends JControllerLegacy
 	/**
 	 * Cancel operation
 	 */
-	function cancel()
+	public function cancel()
 	{
 		// Check if the user is authorized to do this.
 		if (!JFactory::getUser()->authorise('core.admin', 'com_config'))
@@ -140,7 +142,7 @@ class ConfigControllerApplication extends JControllerLegacy
 		$this->setRedirect('index.php');
 	}
 
-	function refreshHelp()
+	public function refreshHelp()
 	{
 		jimport('joomla.filesystem.file');
 

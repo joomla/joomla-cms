@@ -53,6 +53,10 @@
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>
+				<field name="logoFile" class="" type="media" default=""
+					label="TPL_ISIS_LOGO_LABEL"
+					description="TPL_ISIS_LOGO_DESC" />
+
 				<field name="colourChoice" type="list" default="0" label="TPL_HATHOR_COLOUR_CHOICE_LABEL" description="TPL_HATHOR_COLOUR_CHOICE_DESC"  filter="word">
 					<option value="">TPL_HATHOR_COLOUR_CHOICE_STANDARD</option>
 					<option value="highcontrast">TPL_HATHOR_COLOUR_CHOICE_HIGH_CONTRAST</option>

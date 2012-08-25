@@ -37,7 +37,7 @@ class plgButtonImage extends JPlugin
 	 *
 	 * @return array A two element array of (imageName, textToInsert)
 	 */
-	function onDisplay($name, $asset, $author)
+	public function onDisplay($name, $asset, $author)
 	{
 		$app = JFactory::getApplication();
 		$params = JComponentHelper::getParams('com_media');
@@ -58,14 +58,14 @@ class plgButtonImage extends JPlugin
 			$link = 'index.php?option=com_media&amp;view=images&amp;tmpl=component&amp;e_name=' . $name . '&amp;asset=' . $asset . '&amp;author=' . $author;
 			JHtml::_('behavior.modal');
 			$button = new JObject;
-			$button->set('modal', true);
-			$button->set('link', $link);
-			$button->set('text', JText::_('PLG_IMAGE_BUTTON_IMAGE'));
-			$button->set('name', 'image');
-			$button->set('options', "{handler: 'iframe', size: {x: 800, y: 500}}");
+			$button->modal = true;
+			$button->link = $link;
+			$button->text = JText::_('PLG_IMAGE_BUTTON_IMAGE');
+			$button->name = 'picture';
+			$button->options = "{handler: 'iframe', size: {x: 800, y: 500}}";
 			return $button;
 		}
-				else
+		else
 		{
 			return false;
 		}
