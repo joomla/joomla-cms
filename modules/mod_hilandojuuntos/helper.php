@@ -106,7 +106,7 @@ abstract class modHilandojuuntosHelper
 							
 			// Descripción
 			if ($rssdesc) {
-				$html 	.='<div class="jh-desc">'.$canal['description'].'</div';			
+				$html 	.='<div class="jh-desc">'.$canal['description'].'</div>';			
 			}
 			// Imagen
 			if ($rssimage && $iUrl) {
