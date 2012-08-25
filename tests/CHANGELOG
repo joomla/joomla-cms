@@ -28,6 +28,7 @@ $ -> Language fix or change
 
 24-Aug-2012 Mark Dexter
  # Fix first batch of system tests for 3.0 with Bootstrap templates
+ # Fix two more system tests
 
 30-Jul-2012 Mark Dexter
  ^ Add ability to capture screenshots on failure for system tests

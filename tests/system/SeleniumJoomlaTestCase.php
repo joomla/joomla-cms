@@ -453,18 +453,17 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 			break;
 		case 'Options':
 			echo "Opening options modal.\n";
-			$this->click("//li[@id='toolbar-popup-options']/a/span");
+			$this->click("//div[@id='toolbar-options']/button");
 			for ($second = 0; ; $second++) {
 				if ($second >= 15) $this->fail("timeout");
 				try {
-					if ($this->isElementPresent("//dl[contains(@id, 'configuration')]")) break;
+					if ($this->isElementPresent("//li[@class='active']/a[contains(@href, 'com_content')]")) break;
 				}
 				catch (PHPUnit_Framework_AssertionFailedError $e) {
 					array_push($this->verificationErrors, $this->getTraceFiles($e));
 				}
 				sleep(1);
 			}
-			$this->assertTrue($this->isTextPresent("Options"));
 			break;
 		case 'Redirect Manager':
 			$screen="Redirect Manager: Links";

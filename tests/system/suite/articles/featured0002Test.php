@@ -26,12 +26,12 @@ class Featured0002Test extends SeleniumJoomlaTestCase
 		echo "Open Home menu item and change to 0 leading, 7 intro, alpha sort.\n";
 		$this->click("//td/a['Home']");
 		$this->waitForPageToLoad("30000");
-		$this->click("//h3[@id='advanced-options']/button");
+		$this->click("//li/a[contains(text(), 'Advanced Options')]");
 		$this->type("jform_params_num_leading_articles", "0");
 		$this->type("jform_params_num_intro_articles", "7");
-		$this->select("jform_params_multi_column_order", "label=Down");
-		$this->select("jform_params_orderby_pri", "label=No Order");
-		$this->select("jform_params_orderby_sec", "label=Title Alphabetical");
+		$this->select("jform_params_multi_column_order", "value=0"); // multi-column down
+		$this->select("jform_params_orderby_pri", "value=none");
+		$this->select("jform_params_orderby_sec", "value=alpha");
 		$this->click("//div[@id='toolbar-save']/button");
 		$this->waitForPageToLoad("30000");
 
@@ -58,7 +58,7 @@ class Featured0002Test extends SeleniumJoomlaTestCase
 		$this->waitForPageToLoad("30000");
 		$this->click("//td/a['Home']");
 		$this->waitForPageToLoad("30000");
-		$this->click("//h3[@id='advanced-options']/button");
+		$this->click("//li/a[contains(text(), 'Advanced Options')]");
 		$this->select("jform_params_orderby_sec", "label=Title Reverse Alphabetical");
 		$this->click("//div[@id='toolbar-save']/button");
 		$this->waitForPageToLoad("30000");
@@ -84,7 +84,7 @@ class Featured0002Test extends SeleniumJoomlaTestCase
 		$this->waitForPageToLoad("30000");
 		$this->click("//td/a['Home']");
 		$this->waitForPageToLoad("30000");
-		$this->click("//h3[@id='advanced-options']/button");
+		$this->click("//li/a[contains(text(), 'Advanced Options')]");
 		$this->type("jform_params_num_leading_articles", "1");
 		$this->type("jform_params_num_intro_articles", "3");
 		$this->select("jform_params_multi_column_order", "label=Across");

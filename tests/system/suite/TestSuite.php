@@ -67,8 +67,8 @@ class TestSuite
 		$suite->addTestSuite('Article0001');
 		$suite->addTestSuite('Article0002');
 		$suite->addTestSuite('Article0003');
-// 		$suite->addTestSuite('Article0004');
-// 		$suite->addTestSuite('Featured0001Test');
+		$suite->addTestSuite('Article0004');
+		$suite->addTestSuite('Featured0001Test');
 // 		$suite->addTestSuite('Featured0002Test');
 // 		$suite->addTestSuite('User0001Test');
 // 		$suite->addTestSuite('User0002Test');
