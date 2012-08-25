@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+25-Aug-2012 Mark Dexter
+ + Unit test framework for CMS. Thanks Michael. 
+
 24-Aug-2012 Mark Dexter
  # Fix first batch of system tests for 3.0 with Bootstrap templates
  # Fix two more system tests
