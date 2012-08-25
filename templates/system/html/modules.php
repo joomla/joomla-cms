@@ -1,14 +1,14 @@
 <?php
 /**
  * /**
- *Chromes defecto jokte! jxhtml,_menu
+ *Chromes predeterminados jokte! jxhtml,_menu
  * @package     Jokte.Site
  * @subpackage	jokteantu
  * @author 	juuntos.org
  * @copyright   Copyleft.
  * @license     GNU General Public License version 3 or later; see LICENSE.txt
  * ******************************************************************************
- *Chromes defecto joomla (xhtml,none,rounded,horz,table,outline)
+ *Chromes predeterminados joomla (xhtml,none,rounded,horz,table,outline)
  * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -35,7 +35,7 @@ function modChrome_jxhtml($module, &$params, &$attribs)
 }
 
 /*
- * jxmenu (Variación de xhtml que nos permite mayor asignar la extensión _menu , generando por defecto la clase .moduletable_menu )
+ * jxmenu (Variación de xhtml que nos permite mayor asignar la extensión _menu , generando predeterminada la clase .moduletable_menu )
  */
 function modChrome_jxmenu($module, &$params, &$attribs)
 {
