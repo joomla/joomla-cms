@@ -48,7 +48,7 @@ JHtml::_('behavior.caption');
 			?>
 		</div>
 		<div class="clearfix"></div>
-		<hr class="divider-vertical" />
+
 		<?php
 			$leadingcount++;
 		?>
@@ -80,7 +80,7 @@ JHtml::_('behavior.caption');
 		<?php if (($rowcount == $this->columns) or ($counter == $introcount)): ?>
 
 	</div>
-	<hr class="divider-vertical" />
+
 	<?php endif; ?>
 	<?php endforeach; ?>
 	<?php endif; ?>
@@ -88,7 +88,6 @@ JHtml::_('behavior.caption');
 	<div class="items-more">
 	<?php echo $this->loadTemplate('links'); ?>
 	</div>
-	<hr class="divider-vertical" />
 	<?php endif; ?>
 	<?php if (!empty($this->children[$this->category->id])&& $this->maxLevel != 0) : ?>
 	<div class="cat-children">
