@@ -164,7 +164,7 @@ abstract class modHilandojuuntosHelper
 			$html 	.='	</ul></div>';
 						
 			// Cierres del cuerpo
-			$html .= '	</div>';			
+			$html .= '	</div></div>';			
 			
 			return $html;
 		}
