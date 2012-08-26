@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+26-Aug-2012 Jean-Marie Simonet
+ [#28950] Code quality for mod_stats_admin, translated DB drivers. Thanks Michael
+
 24-Aug-2012 Jean-Marie Simonet
  # [#28968] Missing JFolder class imports in CMS. Thanks Mark
  # [#28797] Code Cleanup - Smart Search. Thanks Michael
