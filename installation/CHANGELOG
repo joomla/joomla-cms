@@ -27,7 +27,8 @@ $ -> Language fix or change
 ! -> Note
 
 26-Aug-2012 Jean-Marie Simonet
- [#28950] Code quality for mod_stats_admin, translated DB drivers. Thanks Michael
+ # [#28950] Code quality for mod_stats_admin, translated DB drivers. Thanks Michael
+ # [#28962] Added colors to main icons in admin isis. Thanks Peter.
 
 24-Aug-2012 Jean-Marie Simonet
  # [#28968] Missing JFolder class imports in CMS. Thanks Mark

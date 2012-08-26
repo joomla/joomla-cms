@@ -4921,7 +4921,11 @@ fieldset.radio.btn-group {
 .icon-apply:before,
 .icon-edit:before,
 .icon-pencil:before {
-  content: "\2b";
+	content: "\2b";
+}
+.icon-edit:before,
+.icon-pencil:before {
+  color: #2f96b4;
 }
 .icon-pencil-2:before {
   content: "\2c";
@@ -4997,6 +5001,7 @@ fieldset.radio.btn-group {
 .icon-featured:before,
 .icon-star:before {
   content: "\42";
+  color: #f89406;
 }
 .icon-calendar:before {
   content: "\43";
@@ -5019,11 +5024,12 @@ fieldset.radio.btn-group {
 .icon-ok:before,
 .icon-checkmark:before {
   content: "\47";
+  color: #51a351;
 }
 .icon-unpublish:before,
-.icon-trash:before,
 .icon-cancel:before {
   content: "\4a";
+  color: #bd362f;
 }
 .icon-eye-close:before,
 .icon-minus:before {
@@ -5092,6 +5098,7 @@ fieldset.radio.btn-group {
 .icon-save-new:before,
 .icon-plus-2:before {
   content: "\5d";
+  color: #51a351;
 }
 .icon-ban-circle:before,
 .icon-minus-sign:before,
@@ -5275,6 +5282,7 @@ fieldset.radio.btn-group {
 .icon-save-copy:before,
 .icon-copy:before {
   content: "\e018";
+  color: #51a351;
 }
 .icon-cart:before {
   content: "\e019";
