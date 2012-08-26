@@ -129,7 +129,7 @@ JHtml::_('behavior.formvalidation');
 					</div>
 				</div>
 			</div>
-			<div class="tab-pane active" id="publishing">
+			<div class="tab-pane" id="publishing">
 				<?php foreach($this->form->getFieldset('publish') as $field): ?>
 					<div class="control-group">
 						<div class="control-label">
@@ -141,7 +141,7 @@ JHtml::_('behavior.formvalidation');
 					</div>
 				<?php endforeach; ?>
 			</div>
-			<div class="tab-pane active" id="metadata">
+			<div class="tab-pane" id="metadata">
 
 				<?php foreach($this->form->getFieldset('metadata') as $field): ?>
 					<div class="control-group">
@@ -166,6 +166,12 @@ JHtml::_('behavior.formvalidation');
 		<h4><?php echo JText::_('JDETAILS');?></h4>
 		<hr />
 		<fieldset class="form-vertical">
+				<div class="control-group">
+					<div class="controls">
+						<?php echo $this->form->getValue('name'); ?>
+					</div>
+				</div>
+
 			<div class="control-group">
 				<div class="control-label">
 					<?php echo $this->form->getLabel('state'); ?>
