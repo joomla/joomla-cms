@@ -36,7 +36,6 @@ JHtml::_('behavior.caption');
 			?>
 		</div>
 		<div class="clearfix"></div>
-		<hr class="divider-vertical" />
 		<?php
 			$leadingcount++;
 		?>
@@ -71,7 +70,6 @@ JHtml::_('behavior.caption');
 			<?php if (($rowcount == $this->columns) or ($counter == $introcount)): ?>
 
 		</div>
-		<hr class="divider-vertical" />
 		<?php endif; ?>
 
 	<?php endforeach; ?>
@@ -81,7 +79,6 @@ JHtml::_('behavior.caption');
 	<div class="items-more">
 	<?php echo $this->loadTemplate('links'); ?>
 	</div>
-	<hr class="divider-vertical" />
 <?php endif; ?>
 
 <?php if ($this->params->def('show_pagination', 2) == 1  || ($this->params->get('show_pagination') == 2 && $this->pagination->pagesTotal > 1)) : ?>

@@ -153,7 +153,6 @@ endif;
 	<?php endif; ?>
 	<?php
 if (!empty($this->item->pagination) AND $this->item->pagination AND $this->item->paginationposition AND!$this->item->paginationrelative):
-	echo '<hr />';
 	echo $this->item->pagination;
 ?>
 	<?php endif; ?>
