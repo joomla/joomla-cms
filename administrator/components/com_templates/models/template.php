@@ -266,8 +266,8 @@ class TemplatesModelTemplate extends JModelLegacy
 		if (JFile::exists($xmlFile))
 		{
 			$contents = JFile::read($xmlFile);
-			$pattern[] = '#<name>\s*' . $oldName . '\s*</name>#';
-			$replace[] = '<name>'. ucfirst($newName) . '</name>';
+			$pattern[] = '#<name>\s*' . $oldName . '\s*</name>#i';
+			$replace[] = '<name>'. $newName . '</name>';
 			$pattern[] = '#<language(.*)' . $oldName . '(.*)</language>#';
 			$replace[] = '<language${1}' . $newName . '${2}</language>';
 			$contents = preg_replace($pattern, $replace, $contents);
