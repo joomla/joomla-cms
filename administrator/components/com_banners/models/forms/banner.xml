@@ -24,7 +24,7 @@
 		</field>
 		<field name="state" type="list"
 			label="JSTATUS" description="COM_BANNERS_FIELD_STATE_DESC"
-			class="inputbox" size="1" default="1" >
+			class="inputbox span12 small" size="1" default="1" >
 			<option value="1">JPUBLISHED</option>
 			<option value="0">JUNPUBLISHED</option>
 			<option value="2">JARCHIVED</option>
@@ -35,7 +35,7 @@
 			label="JFIELD_ORDERING_LABEL" description="JFIELD_ORDERING_DESC" />
 
 		<field name="language" type="contentlanguage" label="JFIELD_LANGUAGE_LABEL"
-			description="COM_BANNERS_FIELD_LANGUAGE_DESC" class="inputbox"
+			description="COM_BANNERS_FIELD_LANGUAGE_DESC" class="inputbox span12 small"
 		>
 			<option value="*">JALL</option>
 		</field>
@@ -111,6 +111,7 @@
 			<field name="sticky" type="list" default="0"
 			label="COM_BANNERS_FIELD_STICKY_LABEL"
 			description="COM_BANNERS_FIELD_STICKY_DESC"
+			class="span12 small"
 		>
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>

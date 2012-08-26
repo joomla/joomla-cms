@@ -15,7 +15,7 @@
 
 		<field name="published" type="list"
 			label="JSTATUS" description="JFIELD_PUBLISHED_DESC"
-			class="inputbox" size="1" default="1"
+			class="inputbox span12 small" size="1" default="1"
 		>
 			<option value="1">
 				JPUBLISHED</option>
@@ -34,7 +34,7 @@
 		</field>
 
 		<field name="language" type="contentlanguage" label="JFIELD_LANGUAGE_LABEL"
-			description="COM_NEWSFEEDS_FIELD_LANGUAGE_DESC" class="inputbox"
+			description="COM_NEWSFEEDS_FIELD_LANGUAGE_DESC" class="inputbox span12 small"
 		>
 			<option value="*">JALL</option>
 		</field>
@@ -117,7 +117,7 @@
 			filter="user_utc" />
 
 		<field name="access" type="accesslevel" label="JFIELD_ACCESS_LABEL"
-			description="JFIELD_ACCESS_DESC" class="inputbox" size="1" />
+			description="JFIELD_ACCESS_DESC" class="inputbox span12 small" size="1" />
 
 		<field name="metakey" type="textarea"
 			label="JFIELD_META_KEYWORDS_LABEL" description="JFIELD_META_KEYWORDS_DESC"
