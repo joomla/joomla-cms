@@ -32,6 +32,7 @@ $ -> Language fix or change
  # [#28984] HRs in default layouts will change people's sites and are not semantic. Thanks Elin
  # [#28853] Template fails to copy. Thanks Mark
  # [#28672] Fix PHP Strict errors with Smart Search auto-completion. Thanks Michael.
+ # [#28985] JFile class not loaded when use cache handler != file. Thanks Julio.
 
 24-Aug-2012 Jean-Marie Simonet
  # [#28968] Missing JFolder class imports in CMS. Thanks Mark
