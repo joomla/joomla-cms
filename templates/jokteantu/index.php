@@ -64,7 +64,6 @@ require_once (JPATH_BASE . DS . 'templates' . DS . $this->template . '/asset/ski
              * - Evitaríamos la línea siguiente
              * - ie9.css (404)
              */
-            var_dump($baseurlskin);
         ?>
 		<!--[if lte IE 9]>
 			<link href="<?php echo $baseurlskin; ?>/ie9.css" rel="stylesheet" type="text/css" />
