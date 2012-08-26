@@ -1,3 +1,30 @@
+.clearfix {
+	*zoom: 1;
+}
+.clearfix:before,
+.clearfix:after {
+	display: table;
+	content: "";
+}
+.clearfix:after {
+	clear: both;
+}
+.hide-text {
+	font: 0/0 a;
+	color: transparent;
+	text-shadow: none;
+	background-color: transparent;
+	border: 0;
+}
+.input-block-level {
+	display: block;
+	width: 100%;
+	min-height: 28px;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	box-sizing: border-box;
+}
 @font-face {
 	font-family: 'IcoMoon';
 	src: url('../../../../media/jui/fonts/IcoMoon.eot');
@@ -17,6 +44,10 @@
 	height: 14px;
 	*margin-right: .3em;
 	line-height: 14px;
+}
+[class^="icon-"]:last-child,
+[class*=" icon-"]:last-child {
+	*margin-left: 0;
 }
 [class^="icon-"]:before,
 [class*=" icon-"]:before {
@@ -884,7 +915,7 @@ h3.pane-toggler-down a:focus,
 h3.pane-toggler a:focus {
 	outline: none;
 }
-.pane-toggler  span {
+.pane-toggler span {
 	padding-left: 20px;
 }
 .pane-toggler-down span {
@@ -2518,7 +2549,7 @@ table.group-rules td select {
 #permissions-sliders ul#rules {
 	padding: 5px;
 }
-#permissions-sliders  ul#rules  table.group-rules th {
+#permissions-sliders ul#rules table.group-rules th {
 	text-align: left;
 	padding: 4px;
 }
