@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+09-Sep-2012 Rouven Weßling
+ - Test the Feed package. Thanks Michael.
+
 05-Sep-2012 Mark Dexter
  # Fix some failing system tests for changes in master
  # Select old sample data in doInstall
