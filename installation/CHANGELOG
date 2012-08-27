@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+27-Aug-2012 Jean-Marie Simonet
+ # [#28376] Remove unnecessary files from com_media frontend. Thanks Michael
+
 26-Aug-2012 Jean-Marie Simonet
  # [#28950] Code quality for mod_stats_admin, translated DB drivers. Thanks Michael
  # [#28962] Added colors to main icons in admin isis. Thanks Peter.
