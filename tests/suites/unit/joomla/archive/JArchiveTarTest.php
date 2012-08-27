@@ -50,7 +50,8 @@ class JArchiveTarTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 * @covers  JArchiveTar::extract
 	 */
-	public function testExtract() {
+	public function testExtract()
+	{
 		if (!JArchiveTar::isSupported())
 		{
 			$this->markTestSkipped('Tar files can not be extracted.');
@@ -64,5 +65,19 @@ class JArchiveTarTest extends PHPUnit_Framework_TestCase
 		{
 			unlink(self::$outputPath . '/logo-tar.png');
 		}
+	}
+
+	/**
+	 * Tests the isSupported Method.
+	 *
+	 * @group   JArchive
+	 * @return  void
+	 * @covers  JArchiveTar::isSupported
+	 */
+	public function testIsSupported()
+	{
+		$this->assertTrue(
+			JArchiveTar::isSupported()
+		);
 	}
 }

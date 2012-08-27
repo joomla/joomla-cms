@@ -140,11 +140,11 @@ class JArchiveZip implements JArchiveExtractable
 
 		if ($this->hasNativeSupport())
 		{
-			return $this->_extractNative($archive, $destination, $options);
+			return $this->extractNative($archive, $destination, $options);
 		}
 		else
 		{
-			return $this->_extract($archive, $destination, $options);
+			return $this->extractCustom($archive, $destination, $options);
 		}
 	}
 
@@ -205,7 +205,7 @@ class JArchiveZip implements JArchiveExtractable
 	 * @since   11.1
 	 * @throws  RuntimeException
 	 */
-	private function _extract($archive, $destination, array $options)
+	protected function extractCustom($archive, $destination, array $options)
 	{
 		$this->_data = null;
 		$this->_metadata = null;
@@ -298,7 +298,7 @@ class JArchiveZip implements JArchiveExtractable
 	 * @since   11.1
 	 * @throws  RuntimeException
 	 */
-	private function _extractNative($archive, $destination, array $options)
+	protected function extractNative($archive, $destination, array $options)
 	{
 		$zip = zip_open($archive);
 		if (is_resource($zip))

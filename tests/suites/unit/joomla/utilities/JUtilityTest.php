@@ -68,9 +68,10 @@ class JUtilityTest extends TestCase
 	 * @param   string	tag to be parsed
 	 * @param   array	resulting array of attribute values
 	 *
-	 * @return void
+	 * @return  void
 	 *
 	 * @dataProvider casesParseAttributes
+	 * @covers  JUtility::parseAttributes
 	 */
 	public function testParseAttributes( $tag, $expected )
 	{

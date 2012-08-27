@@ -354,6 +354,11 @@ class JAccessRulesTest extends PHPUnit_Framework_TestCase
 		$this->assertFalse(
 			$rules->allow('delete', array(-42, 2))
 		);
+
+		// This should be null, the action doesn't exist.
+		$this->assertNull(
+			$rules->allow('unknown', array(-42, 2))
+		);
 	}
 
 	/**

@@ -23,7 +23,8 @@ class JArchiveGzipTest extends PHPUnit_Framework_TestCase
      * Sets up the fixture, for example, opens a network connection.
      * This method is called before a test is executed.
      */
-	protected function setUp() {
+	protected function setUp()
+	{
 		self::$outputPath = __DIR__ . '/output';
 
 		if (!is_dir(self::$outputPath))
@@ -38,7 +39,8 @@ class JArchiveGzipTest extends PHPUnit_Framework_TestCase
 	 * Tears down the fixture, for example, closes a network connection.
 	 * This method is called after a test is executed.
 	 */
-	protected function tearDown() {
+	protected function tearDown()
+	{
 
 	}
 
@@ -49,7 +51,8 @@ class JArchiveGzipTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 * @covers  JArchiveGzip::extract
 	 */
-	public function testExtract() {
+	public function testExtract()
+	{
 		if (!JArchiveGzip::isSupported())
 		{
 			$this->markTestSkipped('Gzip files can not be extracted.');
@@ -72,7 +75,8 @@ class JArchiveGzipTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 * @covers  JArchiveGzip::extract
 	 */
-	public function testExtractWithStreams() {
+	public function testExtractWithStreams()
+	{
 		if (!JArchiveGzip::isSupported())
 		{
 			$this->markTestSkipped('Gzip files can not be extracted.');
@@ -89,13 +93,28 @@ class JArchiveGzipTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Tests the isSupported Method.
+	 *
+	 * @group   JArchive
+	 * @return  void
+	 * @covers  JArchiveGzip::isSupported
+	 */
+	public function testIsSupported()
+	{
+		$this->assertEquals(
+			extension_loaded('zlib'),
+			JArchiveGzip::isSupported()
+		);
+	}
+
+	/**
      * @todo Implement test_getFilePosition().
      */
-	public function test_getFilePosition() {
+	public function test_getFilePosition()
+	{
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete(
 				'This test has not been implemented yet.'
 		);
 	}
-
 }

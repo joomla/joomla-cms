@@ -50,6 +50,13 @@ class JLanguageStemmerTest extends PHPUnit_Framework_TestCase
 			'JLanguageStemmerPorteren',
 			$instance
 		);
+
+		$instance2 = JLanguageStemmer::getInstance('porteren');
+
+		$this->assertSame(
+			$instance,
+			$instance2
+		);
 	}
 
 	/**
