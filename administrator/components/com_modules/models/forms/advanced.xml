@@ -15,7 +15,7 @@
 			<field
 				name="bootstrap_size"
 				type="integer"
-				first="0"
+				first="1"
 				last="12"
 				step="1"
 				label="COM_MODULES_FIELD_BOOTSTRAP_SIZE_LABEL"
