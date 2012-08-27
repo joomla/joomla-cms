@@ -56,24 +56,12 @@ JHtml::_('behavior.keepalive');
 				<div class="controls"><?php echo $this->form->getInput('name'); ?></div>
 			</div>
 			<div class="control-group">
-				<div class="control-label"><?php echo $this->form->getLabel('alias'); ?></div>
-				<div class="controls"><?php echo $this->form->getInput('alias'); ?></div>
-			</div>
-			<div class="control-group">
 				<div class="control-label"><?php echo $this->form->getLabel('link'); ?></div>
 				<div class="controls"><?php echo $this->form->getInput('link'); ?></div>
 			</div>
 			<div class="control-group">
 				<div class="control-label"><?php echo $this->form->getLabel('catid'); ?></div>
 				<div class="controls"><?php echo $this->form->getInput('catid'); ?></div>
-			</div>
-			<div class="control-group">
-				<div class="control-label"><?php echo $this->form->getLabel('ordering'); ?></div>
-				<div class="controls"><?php echo $this->form->getInput('ordering'); ?></div>
-			</div>
-			<div class="control-group">
-				<div class="control-label"><?php echo $this->form->getLabel('id'); ?></div>
-				<div class="controls"><?php echo $this->form->getInput('id'); ?></div>
 			</div>
 			<div class="control-group">
 				<div class="control-label"><?php echo $this->form->getLabel('description'); ?></div>
@@ -105,75 +93,86 @@ JHtml::_('behavior.keepalive');
 
 		</div>
 		<div class="tab-pane" id="publishing">
+			<div class="control-group">
+				<div class="control-label"><?php echo $this->form->getLabel('alias'); ?></div>
+				<div class="controls"><?php echo $this->form->getInput('alias'); ?></div>
+			</div>
+			<div class="control-group">
+				<div class="control-label"><?php echo $this->form->getLabel('id'); ?></div>
+				<div class="controls"><?php echo $this->form->getInput('id'); ?></div>
+			</div>
+			<div class="control-group">
+				<div class="control-label"><?php echo $this->form->getLabel('created_by'); ?></div>
+				<div class="controls"><?php echo $this->form->getInput('created_by'); ?></div>
+			</div>
+			<div class="control-group">
+				<div class="control-label"><?php echo $this->form->getLabel('created_by_alias'); ?></div>
+				<div class="controls"><?php echo $this->form->getInput('created_by_alias'); ?></div>
+			</div>
+			<div class="control-group">
+				<div class="control-label"><?php echo $this->form->getLabel('created'); ?></div>
+				<div class="controls"><?php echo $this->form->getInput('created'); ?></div>
+			</div>
+			<div class="control-group">
+				<div class="control-label"><?php echo $this->form->getLabel('publish_up'); ?></div>
+				<div class="controls"><?php echo $this->form->getInput('publish_up'); ?></div>
+			</div>
+			<div class="control-group">
+				<div class="control-label"><?php echo $this->form->getLabel('publish_down'); ?></div>
+				<div class="controls"><?php echo $this->form->getInput('publish_down'); ?></div>
+			</div>
+			<?php if ($this->item->modified_by) : ?>
 				<div class="control-group">
-					<div class="control-label"><?php echo $this->form->getLabel('created_by'); ?></div>
-					<div class="controls"><?php echo $this->form->getInput('created_by'); ?></div>
+					<div class="control-label"><?php echo $this->form->getLabel('modified_by'); ?></div>
+					<div class="controls"><?php echo $this->form->getInput('modified_by'); ?></div>
 				</div>
 				<div class="control-group">
-					<div class="control-label"><?php echo $this->form->getLabel('created_by_alias'); ?></div>
-					<div class="controls"><?php echo $this->form->getInput('created_by_alias'); ?></div>
+					<div class="control-label"><?php echo $this->form->getLabel('modified'); ?></div>
+					<div class="controls"><?php echo $this->form->getInput('modified'); ?></div>
 				</div>
+			<?php endif; ?>
+			<?php if ($this->item->version) : ?>
 				<div class="control-group">
-					<div class="control-label"><?php echo $this->form->getLabel('created'); ?></div>
-					<div class="controls"><?php echo $this->form->getInput('created'); ?></div>
-				</div>
-				<div class="control-group">
-					<div class="control-label"><?php echo $this->form->getLabel('publish_up'); ?></div>
-					<div class="controls"><?php echo $this->form->getInput('publish_up'); ?></div>
-				</div>
-				<div class="control-group">
-					<div class="control-label"><?php echo $this->form->getLabel('publish_down'); ?></div>
-					<div class="controls"><?php echo $this->form->getInput('publish_down'); ?></div>
-				</div>
-				<?php if ($this->item->modified_by) : ?>
-					<div class="control-group">
-						<div class="control-label"><?php echo $this->form->getLabel('modified_by'); ?></div>
-						<div class="controls"><?php echo $this->form->getInput('modified_by'); ?></div>
+					<div class="control-label">
+						<?php echo $this->form->getLabel('version'); ?>
 					</div>
-					<div class="control-group">
-						<div class="control-label"><?php echo $this->form->getLabel('modified'); ?></div>
-						<div class="controls"><?php echo $this->form->getInput('modified'); ?></div>
+					<div class="controls">
+						<?php echo $this->form->getInput('version'); ?>
 					</div>
-				<?php endif; ?>
-				<?php if ($this->item->version) : ?>
-					<div class="control-group">
-						<div class="control-label">
-							<?php echo $this->form->getLabel('version'); ?>
-						</div>
-						<div class="controls">
-							<?php echo $this->form->getInput('version'); ?>
-						</div>
-					</div>
-				<?php endif; ?>
+				</div>
+			<?php endif; ?>
 
-				<?php if ($this->item->hits) : ?>
-					<div class="control-group">
-						<div class="control-label">
-							<?php echo $this->form->getLabel('hits'); ?>
-						</div>
-						<div class="controls">
-							<?php echo $this->form->getInput('hits'); ?>
-						</div>
+			<?php if ($this->item->hits) : ?>
+				<div class="control-group">
+					<div class="control-label">
+						<?php echo $this->form->getLabel('hits'); ?>
 					</div>
-				<?php endif; ?>
+					<div class="controls">
+						<?php echo $this->form->getInput('hits'); ?>
+					</div>
+				</div>
+			<?php endif; ?>
+			<div class="control-group">
+				<div class="control-label"><?php echo $this->form->getLabel('ordering'); ?></div>
+				<div class="controls"><?php echo $this->form->getInput('ordering'); ?></div>
+			</div>
 
-
-				<div class="control-group">
-					<div class="control-label"><?php echo $this->form->getLabel('numarticles'); ?></div>
-					<div class="controls"><?php echo $this->form->getInput('numarticles'); ?></div>
-				</div>
-				<div class="control-group">
-					<div class="control-label"><?php echo $this->form->getLabel('cache_time'); ?></div>
-					<div class="controls"><?php echo $this->form->getInput('cache_time'); ?></div>
-				</div>
-				<div class="control-group">
-					<div class="control-label"><?php echo $this->form->getLabel('rtl'); ?></div>
-					<div class="controls"><?php echo $this->form->getInput('rtl'); ?></div>
-				</div>
-				<div class="control-group">
-					<div class="control-label"><?php echo $this->form->getLabel('xreference'); ?></div>
-					<div class="controls"><?php echo $this->form->getInput('xreference'); ?></div>
-				</div>
+			<div class="control-group">
+				<div class="control-label"><?php echo $this->form->getLabel('numarticles'); ?></div>
+				<div class="controls"><?php echo $this->form->getInput('numarticles'); ?></div>
+			</div>
+			<div class="control-group">
+				<div class="control-label"><?php echo $this->form->getLabel('cache_time'); ?></div>
+				<div class="controls"><?php echo $this->form->getInput('cache_time'); ?></div>
+			</div>
+			<div class="control-group">
+				<div class="control-label"><?php echo $this->form->getLabel('rtl'); ?></div>
+				<div class="controls"><?php echo $this->form->getInput('rtl'); ?></div>
+			</div>
+			<div class="control-group">
+				<div class="control-label"><?php echo $this->form->getLabel('xreference'); ?></div>
+				<div class="controls"><?php echo $this->form->getInput('xreference'); ?></div>
+			</div>
 
 		</div>
 		<?php echo $this->loadTemplate('params'); ?>

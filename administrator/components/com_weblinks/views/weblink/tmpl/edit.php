@@ -55,10 +55,6 @@ JHtml::_('behavior.formvalidation');
 					<div class="controls"><?php echo $this->form->getInput('title'); ?></div>
 				</div>
 				<div class="control-group">
-					<div class="control-label"><?php echo $this->form->getLabel('alias'); ?></div>
-					<div class="controls"><?php echo $this->form->getInput('alias'); ?></div>
-				</div>
-				<div class="control-group">
 					<div class="control-label"><?php echo $this->form->getLabel('url'); ?></div>
 					<div class="controls"><?php echo $this->form->getInput('url'); ?></div>
 				</div>
@@ -69,10 +65,6 @@ JHtml::_('behavior.formvalidation');
 				<div class="control-group">
 					<div class="control-label"><?php echo $this->form->getLabel('ordering'); ?></div>
 					<div class="controls"><?php echo $this->form->getInput('ordering'); ?></div>
-				</div>
-				<div class="control-group">
-					<div class="control-label"><?php echo $this->form->getLabel('id'); ?></div>
-					<div class="controls"><?php echo $this->form->getInput('id'); ?></div>
 				</div>
 				<div class="control-group">
 					<div class="control-label"><?php echo $this->form->getLabel('description'); ?></div>
@@ -102,6 +94,14 @@ JHtml::_('behavior.formvalidation');
 			</div>
 
 			<div class="tab-pane" id="publishing">
+				<div class="control-group">
+					<div class="control-label"><?php echo $this->form->getLabel('alias'); ?></div>
+					<div class="controls"><?php echo $this->form->getInput('alias'); ?></div>
+				</div>
+				<div class="control-group">
+					<div class="control-label"><?php echo $this->form->getLabel('id'); ?></div>
+					<div class="controls"><?php echo $this->form->getInput('id'); ?></div>
+				</div>
 				<div class="control-group">
 					<div class="control-label"><?php echo $this->form->getLabel('created_by'); ?></div>
 					<div class="controls"><?php echo $this->form->getInput('created_by'); ?></div>
