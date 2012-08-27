@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+27-Aug-2012 Jean-Marie Simonet
+ # [#28858] Com_finder missing show_advanced_tips parameter => can't hide advanced tips. Thanks Michael
+
 26-Aug-2012 Jean-Marie Simonet
  # [#28853] Template fails to copy. Thanks Mark
  # [#28985] JFile class not loaded when use cache handler != file. Thanks Julio.
