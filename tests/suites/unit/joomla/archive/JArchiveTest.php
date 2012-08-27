@@ -170,7 +170,7 @@ class JArchiveTest extends TestCase
 	}
 
 	/**
-	 * @todo Implement testGetAdapter().
+	 * @covers  JArchive::getAdapter
 	 */
 	public function testGetAdapter()
 	{
@@ -182,5 +182,14 @@ class JArchiveTest extends TestCase
 		$this->assertInstanceOf('JArchiveGzip', $gzip);
 		$tar = JArchive::getAdapter('tar');
 		$this->assertInstanceOf('JArchiveTar', $tar);
+	}
+
+	/**
+	 * @covers  JArchive::getAdapter
+	 * @expectedException  UnexpectedValueException
+	 */
+	public function testGetAdapterException()
+	{
+		$zip = JArchive::getAdapter('unknown');
 	}
 }

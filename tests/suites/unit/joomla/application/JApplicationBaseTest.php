@@ -84,22 +84,29 @@ class JApplicationBaseTest extends TestCase
 	}
 
 	/**
-	 * Tests the JApplicationBase::loadIdentity method.
+	 * Tests the JApplicationBase::loadIdentity and JApplicationBase::getIdentity methods.
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 * @covers  JApplicationBase::loadIdentity
+	 * @covers  JApplicationBase::getIdentity
 	 */
-	public function testLoadIdentity()
+	public function testLoadGetIdentity()
 	{
-		$this->class->loadIdentity($this->getMock('JUser', array(), array(), '', false));
+		$mock = $this->getMock('JUser', array(), array(), '', false);
+		$this->class->loadIdentity($mock);
 
 		$this->assertAttributeInstanceOf(
 			'JUser',
 			'identity',
 			$this->class,
 			'Tests that the identity object is the correct class.'
+		);
+
+		$this->assertInstanceOf(
+			'JUser',
+			$this->class->getIdentity()
 		);
 
 		// Mock the session.

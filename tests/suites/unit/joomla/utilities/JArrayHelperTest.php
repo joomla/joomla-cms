@@ -1319,6 +1319,7 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @dataProvider  getTestArrayUniqueData
+	 * @covers  JArrayHelper::arrayUnique
 	 * @since   11.3
 	 */
 	public function testArrayUnique($input, $expected)
@@ -1340,6 +1341,7 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @dataProvider  getTestFromObjectData
+	 * @covers  JArrayHelper::fromObject
 	 * @since   11.1
 	 */
 	public function testFromObject($input, $recurse, $regex, $expect, $defaults)
@@ -1367,6 +1369,7 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @dataProvider getTestGetColumnData
+	 * @covers  JArrayHelper::getColumn
 	 * @since   11.1
 	 */
 	public function testGetColumn($input, $index, $expect, $message)
@@ -1388,6 +1391,7 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @dataProvider getTestGetValueData
+	 * @covers  JArrayHelper::getValue
 	 * @since   11.1
 	 */
 	public function testGetValue($input, $index, $default, $type, $expect, $message, $defaults)
@@ -1410,6 +1414,7 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   11.1
+	 * @sovers  JArrayHelper::isAssociative
 	 */
 	public function testIsAssociative()
 	{
@@ -1454,6 +1459,7 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @dataProvider getTestPivotData
+	 * @covers  JArrayHelper::pivot
 	 * @since   11.3
 	 */
 	public function testPivot($source, $key, $expected)
@@ -1477,6 +1483,7 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @dataProvider getTestSortObjectData
+	 * @covers  JArrayHelper::sortObjects
 	 * @since   11.1
 	 */
 	public function testSortObjects($input, $key, $direction, $casesensitive, $locale, $expect, $message, $defaults)
@@ -1516,6 +1523,7 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @dataProvider getTestToIntegerData
+	 * @covers  JArrayHelper::toInteger
 	 * @since   11.1
 	 */
 	public function testToInteger($input, $default, $expect, $message)
@@ -1539,6 +1547,7 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @dataProvider getTestToObjectData
+	 * @covers  JArrayHelper::toObject
 	 * @since   11.1
 	 */
 	public function testToObject($input, $className, $expect, $message)
@@ -1564,6 +1573,7 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @dataProvider getTestToStringData
+	 * @covers  JArrayHelper::toString
 	 * @since   11.1
 	 */
 	public function testToString($input, $inner, $outer, $keepKey, $expect, $message, $defaults)

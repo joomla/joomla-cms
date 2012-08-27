@@ -785,6 +785,17 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * @covers  JDocument::loadRenderer
+	 * @expectedException RuntimeException
+	 */
+	public function testLoadRendererException()
+	{
+		$this->object = new JDocument;
+		$this->object->setType('html');
+		$renderer = $this->object->loadRenderer('unknown');
+	}
+
+	/**
 	 * @covers  JDocument::parse
 	 */
 	public function testParse()
