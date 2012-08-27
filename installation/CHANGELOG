@@ -28,6 +28,7 @@ $ -> Language fix or change
 
 27-Aug-2012 Jean-Marie Simonet
  # [#28376] Remove unnecessary files from com_media frontend. Thanks Michael
+ # [#28858] Com_finder missing show_advanced_tips parameter => can't hide advanced tips. Thanks Michael
 
 26-Aug-2012 Jean-Marie Simonet
  # [#28950] Code quality for mod_stats_admin, translated DB drivers. Thanks Michael
