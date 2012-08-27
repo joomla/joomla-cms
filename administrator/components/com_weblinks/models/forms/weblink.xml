@@ -203,13 +203,13 @@
 					<option value="left">COM_WEBLINKS_LEFT</option>
 					<option value="none">COM_WEBLINKS_NONE</option>
 			</field>
-			<field name="image_fulltext_alt"
+			<field name="image_second_alt"
 				type="text"
 				label="COM_WEBLINKS_FIELD_IMAGE_ALT_LABEL"
 				description="COM_WEBLINKS_FIELD_IMAGE_ALT_DESC"
 				class="inputbox"
 				size="20" />
-			<field name="image_fulltext_caption"
+			<field name="image_second_caption"
 				type="text"
 				label="COM_WEBLINKS_FIELD_IMAGE_CAPTION_LABEL"
 				description="COM_WEBLINKS_FIELD_IMAGE_CAPTION_DESC"
