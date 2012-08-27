@@ -33,7 +33,7 @@ class Article0001 extends SeleniumJoomlaTestCase
 		$this->waitForPageToLoad("30000");
 
     	$this->click("cb0");
-    	$this->click("//li[@id='toolbar-unpublish']/a/span");
+    	$this->click("//div[@id='toolbar-unpublish']/button");
     	$this->waitForPageToLoad("30000");
 
 		echo "Go to front end and check that Professionals is not shown" . "\n";
@@ -50,7 +50,7 @@ class Article0001 extends SeleniumJoomlaTestCase
 		$this->waitForPageToLoad("30000");
 
     	$this->click("cb0");
-    	$this->click("//li[@id='toolbar-publish']/a/span");
+    	$this->click("//div[@id='toolbar-publish']/button");
     	$this->waitForPageToLoad("30000");
 
 		$this->gotoAdmin();
@@ -76,7 +76,7 @@ class Article0001 extends SeleniumJoomlaTestCase
 
 
     	$this->click("cb0");
-    	$this->click("//li[@id='toolbar-unpublish']/a/span");
+    	$this->click("//div[@id='toolbar-unpublish']/button");
     	$this->waitForPageToLoad("30000");
 
 		echo "Go to front end and check that Professionals is not shown" . "\n";
@@ -93,7 +93,7 @@ class Article0001 extends SeleniumJoomlaTestCase
 		$this->waitForPageToLoad("30000");
 
     	$this->click("cb0");
-    	$this->click("//li[@id='toolbar-publish']/a/span");
+    	$this->click("//div[@id='toolbar-publish']/button");
     	$this->waitForPageToLoad("30000");
 
 		echo "Go to front end and check that Professionals is shown" . "\n";
@@ -113,7 +113,7 @@ class Article0001 extends SeleniumJoomlaTestCase
 		echo "Go to Home and check that edit icon is visible" . "\n";
 		$this->click("link=Home");
 		$this->waitForPageToLoad("30000");
-		$this->assertTrue($this->isElementPresent("//img[@alt='Edit']"));
+		$this->assertTrue($this->isElementPresent("//i[contains(@class, 'icon-edit')]"));
 		echo "Drill to Sample Data article and check that edit icon is visible" . "\n";
 		$this->click("link=Home");
 		$this->waitForPageToLoad("30000");
@@ -121,7 +121,7 @@ class Article0001 extends SeleniumJoomlaTestCase
 		$this->waitForPageToLoad("30000");
 		$this->click("link=Park Blog");
 		$this->waitForPageToLoad("30000");
-		$this->assertTrue($this->isElementPresent("//img[@alt='Edit']"));
+		$this->assertTrue($this->isElementPresent("//i[contains(@class, 'icon-edit')]"));
 		$this->click("link=Home");
 		$this->waitForPageToLoad("30000");
 		echo "Logout of front end." . "\n";
@@ -129,11 +129,11 @@ class Article0001 extends SeleniumJoomlaTestCase
 		echo "Go to home and check that edit icon is not visible." . "\n";
 		$this->click("link=Home");
 		$this->waitForPageToLoad("30000");
-		$this->assertFalse($this->isElementPresent("//img[@alt='Edit']"));
+		$this->assertFalse($this->isElementPresent("//i[contains(@class, 'icon-edit')]"));
 		echo "Drill to Sample Data article and check that edit icon is not visible." . "\n";
 		$this->click("link=Sample Sites");
 		$this->waitForPageToLoad("30000");
-		$this->assertFalse($this->isElementPresent("//img[@alt='Edit']"));
+		$this->assertFalse($this->isElementPresent("//i[contains(@class, 'icon-edit')]"));
 		$this->click("link=Home");
 		$this->waitForPageToLoad("30000");
 		$this->deleteAllVisibleCookies();

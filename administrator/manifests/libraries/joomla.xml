@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<extension type="library" version="2.5">
+<extension type="library" version="3.0">
 	<name>Joomla! Platform</name>
 	<libraryname>joomla</libraryname>
 	<version>11.4</version>

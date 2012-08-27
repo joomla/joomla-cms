@@ -384,6 +384,9 @@ class joomlaInstallerScript
 			'/media/com_finder/images/calendar.png',
 			'/media/com_finder/images/mime/index.html',
 			'/media/com_finder/images/mime/pdf.png',
+			'/components/com_media/controller.php',
+			'/components/com_media/helpers/index.html',
+			'/components/com_media/helpers/media.php'
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode
@@ -395,6 +398,7 @@ class joomlaInstallerScript
 			'/administrator/components/com_admin/sql/updates/sqlsrv',
 			'/media/com_finder/images/mime',
 			'/media/com_finder/images',
+			'/components/com_media/helpers'
 		);
 
 		foreach ($files as $file) {

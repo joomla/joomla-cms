@@ -48,7 +48,7 @@ class Article0003 extends SeleniumJoomlaTestCase
 		echo "Go to back end and change Beginners article to Archived state\n";
 		$this->gotoAdmin();
 		$this->doAdminLogin();
-		$this->changeState('Beginners', 'Article Manager', '', 'archive');
+		$this->changeState('Beginners', 'Article Manager', 'Article', 'archive');
 		$this->doAdminLogout();
 		echo "Go to Archived layout and check that Beginners article now shows\n";
 		$this->gotoSite();
@@ -58,7 +58,7 @@ class Article0003 extends SeleniumJoomlaTestCase
 		echo "Go to back end and set Beginners back to Published\n";
 		$this->gotoAdmin();
 		$this->doAdminLogin();
-		$this->changeState('Beginners', 'Article Manager', '', 'publish');
+		$this->changeState('Beginners', 'Article Manager', 'Article', 'publish');
 		$this->doAdminLogout();
 		echo "Go to front end and make sure Beginners no longer shows on Archived layout\n";
 		$this->gotoSite();
@@ -91,7 +91,7 @@ class Article0003 extends SeleniumJoomlaTestCase
 		$this->gotoSite();
 		$this->open($link);
 		$this->assertTrue($this->isElementPresent("link=Content"));
-		$this->assertTrue($this->isElementPresent("//img[@alt='Edit']"));
+		$this->assertTrue($this->isElementPresent("//li[@class='edit-icon']"));
 		echo "Log out of site and into back end\n";
 		echo "Go to Category Manager and set Extensions back to published\n";
 		$this->gotoSite();
@@ -100,7 +100,7 @@ class Article0003 extends SeleniumJoomlaTestCase
 		$this->doAdminLogin();
 		$this->changeState('Extensions', 'Article Manager', 'Category', 'publish');
 		echo "Change Getting Started article to Unpublished\n";
-		$this->changeState('Getting Started', 'Article Manager', '', 'unpublish');
+		$this->changeState('Getting Started', 'Article Manager', 'Article', 'unpublish');
 		$this->doAdminLogout();
 		echo "Go back to site and check that you get notice on Getting Started page\n";
 		$this->gotoSite();
@@ -113,14 +113,14 @@ class Article0003 extends SeleniumJoomlaTestCase
 		$this->click("link=Getting Started");
 		$this->waitForPageToLoad("30000");
 		$this->assertTrue($this->isTextPresent("Getting Started"));
-		$this->assertTrue($this->isElementPresent("//img[@alt='Edit']"));
+		$this->assertTrue($this->isElementPresent("//li[@class='edit-icon']"));
 		echo "Log out of Site\n";
 		$this->gotoSite();
 		$this->doFrontEndLogout();
 		echo "Go to back end and change state of Getting Started to Published\n";
 		$this->gotoAdmin();
 		$this->doAdminLogin();
-		$this->changeState('Getting Started', 'Article Manager', '', 'publish');
+		$this->changeState('Getting Started', 'Article Manager', 'Article', 'publish');
 		echo "Check that Getting Started is again visible\n";
 		$this->doAdminLogout();
 		$this->gotoSite();
@@ -131,7 +131,7 @@ class Article0003 extends SeleniumJoomlaTestCase
 		echo "Goto back end and change article to Archived state\n";
 		$this->gotoAdmin();
 		$this->doAdminLogin();
-		$this->changeState('Getting Started', 'Article Manager', '', 'archive');
+		$this->changeState('Getting Started', 'Article Manager', 'Article', 'archive');
 		$this->doAdminLogout();
 		echo "Check that article is still visible\n";
 		$this->gotoSite();
@@ -151,7 +151,7 @@ class Article0003 extends SeleniumJoomlaTestCase
 		$this->gotoAdmin();
 		$this->doAdminLogin();
 		$this->changeState('Sample Data-Articles', 'Article Manager', 'Category', 'publish');
-		$this->changeState('Getting Started', 'Article Manager', '', 'publish');
+		$this->changeState('Getting Started', 'Article Manager', 'Article', 'publish');
 		$this->doAdminLogout();
 		echo "finished testSingleArticleState\n";
 		$this->deleteAllVisibleCookies();
@@ -165,10 +165,11 @@ class Article0003 extends SeleniumJoomlaTestCase
 		$this->doAdminLogin();
 		$this->click("link=Category Manager");
 		$this->waitForPageToLoad("30000");
-		$this->togglePublished('Sample Data-Articles');
+		$this->togglePublished('Sample Data-Articles', 'Category');
 		$this->doAdminLogout();
 		echo "Check that no articles show on Home page\n";
 		$this->gotoSite();
+		$this->doFrontEndLogout();
 		$this->assertFalse($this->isElementPresent("link=Beginners"));
 		echo "Log in to Site and check that articles now show as unpublished and editable\n";
 		$this->gotoSite();
@@ -176,7 +177,7 @@ class Article0003 extends SeleniumJoomlaTestCase
 		$this->assertTrue($this->isElementPresent("link=Joomla!"));
 		$this->assertTrue($this->isElementPresent("link=Professionals"));
 		$this->assertTrue($this->isElementPresent("//div[@class='system-unpublished']/h2[contains(., 'Joomla!')]"));
-		$this->assertTrue($this->isElementPresent("//img[@alt='Edit']"));
+		$this->assertTrue($this->isElementPresent("//li[@class='edit-icon']"));
 		$this->doFrontEndLogout();
 		$this->gotoAdmin();
 		$this->doAdminLogin();
@@ -193,14 +194,14 @@ class Article0003 extends SeleniumJoomlaTestCase
 		$this->assertTrue($this->isElementPresent("link=Joomla!"));
 		$this->assertTrue($this->isElementPresent("link=Professionals"));
 		$this->assertTrue($this->isElementPresent("//div[@class='system-unpublished']/h2[contains(., 'Joomla!')]"));
-		$this->assertTrue($this->isElementPresent("//img[@alt='Edit']"));
+		$this->assertTrue($this->isElementPresent("//li[@class='edit-icon']"));
 		$this->doFrontEndLogout();
 		$this->gotoAdmin();
 		$this->doAdminLogin();
 
 		echo "Publish Sample Data-Articles Category and Unpublish Beginners article\n";
 		$this->changeState('Sample Data-Articles', 'Article Manager', 'Category', 'publish');
-		$this->changeState('Beginners', 'Article Manager', '', 'unpublish');
+		$this->changeState('Beginners', 'Article Manager', 'Article', 'unpublish');
 		$this->doAdminLogout();
 		echo "Check that Beginners is not shown but that other articles are shown\n";
 		$this->gotoSite();
@@ -209,13 +210,13 @@ class Article0003 extends SeleniumJoomlaTestCase
 		echo "Log into Site and Check that Beginners is shown as unpublished\n";
 		$this->doFrontEndLogin();
 		$this->assertTrue($this->isElementPresent("//div[@class='system-unpublished']/h2[contains(., 'Beginners')]"));
-		$this->assertTrue($this->isElementPresent("//div[@class='system-unpublished']//a/img[contains(@src,'edit_unpublished.png')]"));
+		$this->assertTrue($this->isElementPresent("//div[@class='system-unpublished']//a[contains(text(),'Edit')]"));
 		$this->doFrontEndLogout();
 
 		echo "Set Beginners article to Archived state\n";
 		$this->gotoAdmin();
 		$this->doAdminLogin();
-		$this->changeState('Beginners', 'Article Manager', '', 'archive');
+		$this->changeState('Beginners', 'Article Manager', 'Article', 'archive');
 		$this->doAdminLogout();
 		echo "Check that Beginners is not shown but that other articles are shown\n";
 		$this->gotoSite();
@@ -223,13 +224,13 @@ class Article0003 extends SeleniumJoomlaTestCase
 		$this->assertFalse($this->isElementPresent("link=Beginners"));
 		echo "Log into Site and Check that Beginners is shown as published\n";
 		$this->doFrontEndLogin();
-		$this->assertTrue($this->isElementPresent("//div[@class='blog-featured']//a/img[contains(@src,'edit.png')]"));
+		$this->assertTrue($this->isElementPresent("//div[@class='blog-featured']//a[contains(text(),'Edit')]"));
 		$this->doFrontEndLogout();
 
 		echo "Set Beginners article to Trashed state\n";
 		$this->gotoAdmin();
 		$this->doAdminLogin();
-		$this->changeState('Beginners', 'Article Manager', '', 'trash');
+		$this->changeState('Beginners', 'Article Manager', 'Article', 'trash');
 		$this->doAdminLogout();
 		echo "Check that Beginners is not shown but that other articles are shown\n";
 		$this->gotoSite();
@@ -237,16 +238,17 @@ class Article0003 extends SeleniumJoomlaTestCase
 		$this->assertFalse($this->isElementPresent("link=Beginners"));
 		echo "Log into Site and Check that Beginners is shown as published\n";
 		$this->doFrontEndLogin();
-		$this->assertTrue($this->isElementPresent("//div[@class='blog-featured']//a/img[contains(@src,'edit.png')]"));
+		$this->assertTrue($this->isElementPresent("//div[@class='blog-featured']//a[contains(text(),'Edit')]"));
 		$this->doFrontEndLogout();
 
 		echo "Set Beginners back to Published state\n";
 		$this->gotoAdmin();
 		$this->doAdminLogin();
-		$this->changeState('Beginners', 'Article Manager', '', 'publish');
+		$this->changeState('Beginners', 'Article Manager', 'Article', 'publish');
 		$this->doAdminLogout();
 		echo "Check that Beginners is shown\n";
 		$this->gotoSite();
+		$this->doFrontEndLogout();
 		$this->assertTrue($this->isElementPresent("link=Joomla!"));
 		$this->assertTrue($this->isElementPresent("link=Beginners"));
 		echo "Finished testFeaturedState\n";
@@ -360,7 +362,7 @@ class Article0003 extends SeleniumJoomlaTestCase
 		$this->changeState('Park Site', 'Article Manager', 'Category', 'publish');
 
 		echo "Change First Blog Post to Unpublished and check that it doesn't show\n";
-		$this->changeState('First Blog', 'Article Manager', '', 'unpublish');
+		$this->changeState('First Blog', 'Article Manager', 'Article', 'unpublish');
 		$this->doAdminLogout();
 		$this->gotoSite();
 		$this->open($link);
@@ -375,12 +377,12 @@ class Article0003 extends SeleniumJoomlaTestCase
 		$this->waitForPageToLoad("30000");
 		$this->assertTrue($this->isElementPresent("link=Second Blog Post"));
 		$this->assertTrue($this->isElementPresent("link=First Blog Post"));
-		$this->assertTrue($this->isElementPresent("//div[@class='system-unpublished']/h2[contains(., 'First Blog')]"));
+		$this->assertTrue($this->isElementPresent("//div[@class='system-unpublished']//h2[contains(., 'First Blog')]"));
 
 		echo "Change First Blog state to Archived\n";
 		$this->gotoAdmin();
 		$this->doAdminLogin();
-		$this->changeState('First Blog', 'Article Manager', '', 'archive');
+		$this->changeState('First Blog', 'Article Manager', 'Article', 'archive');
 
 		echo "Check that First Blog Post now shows as published when logged in\n";
 		$this->doAdminLogout();
@@ -390,7 +392,7 @@ class Article0003 extends SeleniumJoomlaTestCase
 		$this->waitForPageToLoad("30000");
 		$this->assertTrue($this->isElementPresent("link=Second Blog Post"));
 		$this->assertTrue($this->isElementPresent("link=First Blog Post"));
-		$this->assertFalse($this->isElementPresent("//div[@class='system-unpublished']/h2[contains(., 'First Blog')]"));
+		$this->assertFalse($this->isElementPresent("//div[@class='system-unpublished']//h2[contains(., 'First Blog')]"));
 
 		echo "Log out of Front End\n";
 		$this->gotoSite();
@@ -399,7 +401,7 @@ class Article0003 extends SeleniumJoomlaTestCase
 		echo "Log into back end and change First Blog Post back to published\n";
 		$this->gotoAdmin();
 		$this->doAdminLogin();
-		$this->changeState('First Blog', 'Article Manager', '', 'publish');
+		$this->changeState('First Blog', 'Article Manager', 'Article', 'publish');
 
 		echo "Finished testCategoryBlogState\n";
 
@@ -414,8 +416,8 @@ class Article0003 extends SeleniumJoomlaTestCase
 		$this->open($link);
 		$this->waitForPageToLoad("30000");
 		echo "Check initial conditions for list\n";
-		$this->assertEquals("Beginners", $this->getTable("//table[@class='category'].1.0"));
-		$this->assertEquals("Getting Help", $this->getTable("//table[@class='category'].2.0"));
+		$this->assertEquals("Beginners", $this->getText("//ul[contains(@class, 'category')]/li[1]/h4/a"));
+		$this->assertEquals("Getting Help", $this->getText("//ul[contains(@class, 'category')]/li[2]/h4/a"));
 
 		echo "Unpublish Joomla! category\n";
 		$this->gotoAdmin();
@@ -452,27 +454,27 @@ class Article0003 extends SeleniumJoomlaTestCase
 		$this->changeState('Joomla!', 'Article Manager', 'Category', 'publish');
 
 		echo "Change Getting Help article to Unpublished and check that it doesn't show\n";
-		$this->changeState('Getting Help', 'Article Manager', '', 'unpublish');
+		$this->changeState('Getting Help', 'Article Manager', 'Article', 'unpublish');
 		$this->doAdminLogout();
 		$this->gotoSite();
 		$this->open($link);
 		$this->waitForPageToLoad("30000");
-		$this->assertEquals("Beginners", $this->getTable("//table[@class='category'].1.0"));
-		$this->assertEquals("Getting Started", $this->getTable("//table[@class='category'].2.0"));
+		$this->assertEquals("Beginners", $this->getText("//ul[contains(@class, 'category')]/li[1]/h4/a"));
+		$this->assertEquals("Getting Started", $this->getText("//ul[contains(@class, 'category')]/li[2]/h4/a"));
 
 		echo "Log into site and check that Getting Help shows as Unpublished\n";
 		$this->gotoSite();
 		$this->doFrontEndLogin();
 		$this->open($link);
 		$this->waitForPageToLoad("30000");
-		$this->assertEquals("Beginners", $this->getTable("//table[@class='category'].1.0"));
-		$this->assertEquals("Getting Help", $this->getTable("//table[@class='category'].2.0"));
-		$this->assertTrue($this->isElementPresent("//table[@class='category']//a[contains(text(), 'Getting Help')]/../../td//img[contains(@src, 'edit_unpublished')]"));
+		$this->assertEquals("Beginners", $this->getText("//ul[contains(@class, 'category')]/li[1]/h4/a"));
+		$this->assertEquals("Getting Help", $this->getText("//ul[contains(@class, 'category')]/li[2]/h4/a"));
+		$this->assertTrue($this->isElementPresent("//div[@class='category-list']//a[contains(text(), 'Getting Help')]/../../../li[contains(@class, 'system-unpublished')]"));
 
 		echo "Change Getting Help state to Archived\n";
 		$this->gotoAdmin();
 		$this->doAdminLogin();
-		$this->changeState('Getting Help', 'Article Manager', '', 'archive');
+		$this->changeState('Getting Help', 'Article Manager', 'Article', 'archive');
 
 		echo "Check that Getting Help now shows as published when logged in\n";
 		$this->doAdminLogout();
@@ -480,9 +482,8 @@ class Article0003 extends SeleniumJoomlaTestCase
 		$this->doFrontEndLogin();
 		$this->open($link);
 		$this->waitForPageToLoad("30000");
-		$this->assertEquals("Beginners", $this->getTable("//table[@class='category'].1.0"));
-		$this->assertEquals("Getting Help", $this->getTable("//table[@class='category'].2.0"));
-		$this->assertTrue($this->isElementPresent("//table[@class='category']//a[contains(text(), 'Upgraders')]/../../td//img[contains(@src, 'edit.png')]"));
+		$this->assertEquals("Beginners", $this->getText("//ul[contains(@class, 'category')]/li[1]/h4/a"));
+		$this->assertEquals("Getting Help", $this->getText("//ul[contains(@class, 'category')]/li[2]/h4/a"));
 
 		echo "Log out of Front End\n";
 		$this->gotoSite();
@@ -491,7 +492,7 @@ class Article0003 extends SeleniumJoomlaTestCase
 		echo "Log into back end and change Getting Help back to published\n";
 		$this->gotoAdmin();
 		$this->doAdminLogin();
-		$this->changeState('Getting Help', 'Article Manager', '', 'publish');
+		$this->changeState('Getting Help', 'Article Manager', 'Article', 'publish');
 		$this->doAdminLogout();
 
 		echo "Finished testCategoryListState\n";

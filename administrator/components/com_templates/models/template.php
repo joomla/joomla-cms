@@ -255,6 +255,7 @@ class TemplatesModelTemplate extends JModelLegacy
 		$newName = strtolower($this->getState('new_name'));
 		$oldName = $this->getTemplate()->element;
 
+		jimport('joomla.filesystem.file');
 		foreach ($files as $file)
 		{
 			$newFile = str_replace($oldName, $newName, $file);
@@ -266,8 +267,8 @@ class TemplatesModelTemplate extends JModelLegacy
 		if (JFile::exists($xmlFile))
 		{
 			$contents = JFile::read($xmlFile);
-			$pattern[] = '#<name>\s*' . $oldName . '\s*</name>#';
-			$replace[] = '<name>'. ucfirst($newName) . '</name>';
+			$pattern[] = '#<name>\s*' . $oldName . '\s*</name>#i';
+			$replace[] = '<name>'. $newName . '</name>';
 			$pattern[] = '#<language(.*)' . $oldName . '(.*)</language>#';
 			$replace[] = '<language${1}' . $newName . '${2}</language>';
 			$contents = preg_replace($pattern, $replace, $contents);

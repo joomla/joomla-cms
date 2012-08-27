@@ -218,7 +218,7 @@ class JSchemaChangeset extends JObject
 			$buffer = file_get_contents($file);
 
 			// Create an array of queries from the sql file
-			$queries = $this->db->splitSql($buffer);
+			$queries = JDatabaseDriver::splitSql($buffer);
 			foreach ($queries as $query)
 			{
 				if (trim($query))

@@ -60,7 +60,6 @@ if (!$editoroptions)
 				</button>
 			</div>
 		</div>
-		<hr class="hr-condensed" />
 		<fieldset>
 			<ul class="nav nav-tabs">
 				<li class="active"><a href="#editor" data-toggle="tab"><?php echo JText::_('JEDITOR') ?></a></li>
