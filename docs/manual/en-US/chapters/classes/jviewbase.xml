@@ -10,11 +10,9 @@
   <section>
     <title>Construction</title>
 
-    <para>The contructor for <classname>JViewBase</classname> takes a <classname>JModel</classname> object and a
-    <classname>JController</classname> object. Both are mandatory.</para>
+    <para>The contructor for <classname>JViewBase</classname> takes a mandatory <classname>JModel</classname> parameter.</para>
 
-    <para>Note that these are interfaces so the objects do no necessarily have to extend from <classname>JModelBase</classname> or
-    <classname>JControllerBase</classname> classes. Given that, the view should only rely on the API that is exposed by the
+    <para>Note that JModel is an interface so the actual object passed does necessarily have to extend from <classname>JModelBase</classname> class. Given that, the view should only rely on the API that is exposed by the
     interface and not concrete classes unless the contructor is changed in a derived class to take more explicit classes or
     interaces as required by the developer.</para>
   </section>
@@ -62,7 +60,7 @@ class MyView extends JViewBase
 
 try
 {
-	$view = new MyView(new MyDatabaseModel, new MyController);
+	$view = new MyView(new MyDatabaseModel);
 	echo $view-&gt;render();
 }
 catch (RuntimeException $e)
