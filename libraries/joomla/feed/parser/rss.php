@@ -34,14 +34,14 @@ class JFeedParserRss extends JFeedParser
 	/**
 	 * Method to handle the <category> element for the feed.
 	 *
-	 * @param   JFeed        $feed  The JFeed object being built from the parsed feed.
-	 * @param   JXMLElement  $el    The current XML element object to handle.
+	 * @param   JFeed             $feed  The JFeed object being built from the parsed feed.
+	 * @param   SimpleXMLElement  $el    The current XML element object to handle.
 	 *
 	 * @return  void
 	 *
 	 * @since   12.1
 	 */
-	protected function handleCategory(JFeed $feed, JXMLElement $el)
+	protected function handleCategory(JFeed $feed, SimpleXMLElement $el)
 	{
 		// Get the data from the element.
 		$domain    = (string) $el['domain'];
@@ -53,14 +53,14 @@ class JFeedParserRss extends JFeedParser
 	/**
 	 * Method to handle the <cloud> element for the feed.
 	 *
-	 * @param   JFeed        $feed  The JFeed object being built from the parsed feed.
-	 * @param   JXMLElement  $el    The current XML element object to handle.
+	 * @param   JFeed             $feed  The JFeed object being built from the parsed feed.
+	 * @param   SimpleXMLElement  $el    The current XML element object to handle.
 	 *
 	 * @return  void
 	 *
 	 * @since   12.1
 	 */
-	protected function handleCloud(JFeed $feed, JXMLElement $el)
+	protected function handleCloud(JFeed $feed, SimpleXMLElement $el)
 	{
 		$cloud = new stdClass;
 		$cloud->domain            = (string) $el['domain'];
@@ -75,14 +75,14 @@ class JFeedParserRss extends JFeedParser
 	/**
 	 * Method to handle the <copyright> element for the feed.
 	 *
-	 * @param   JFeed        $feed  The JFeed object being built from the parsed feed.
-	 * @param   JXMLElement  $el    The current XML element object to handle.
+	 * @param   JFeed             $feed  The JFeed object being built from the parsed feed.
+	 * @param   SimpleXMLElement  $el    The current XML element object to handle.
 	 *
 	 * @return  void
 	 *
 	 * @since   12.1
 	 */
-	protected function handleCopyright(JFeed $feed, JXMLElement $el)
+	protected function handleCopyright(JFeed $feed, SimpleXMLElement $el)
 	{
 		$feed->copyright = (string) $el;
 	}
@@ -90,14 +90,14 @@ class JFeedParserRss extends JFeedParser
 	/**
 	 * Method to handle the <description> element for the feed.
 	 *
-	 * @param   JFeed        $feed  The JFeed object being built from the parsed feed.
-	 * @param   JXMLElement  $el    The current XML element object to handle.
+	 * @param   JFeed             $feed  The JFeed object being built from the parsed feed.
+	 * @param   SimpleXMLElement  $el    The current XML element object to handle.
 	 *
 	 * @return  void
 	 *
 	 * @since   12.1
 	 */
-	protected function handleDescription(JFeed $feed, JXMLElement $el)
+	protected function handleDescription(JFeed $feed, SimpleXMLElement $el)
 	{
 		$feed->description = (string) $el;
 	}
@@ -105,14 +105,14 @@ class JFeedParserRss extends JFeedParser
 	/**
 	 * Method to handle the <generator> element for the feed.
 	 *
-	 * @param   JFeed        $feed  The JFeed object being built from the parsed feed.
-	 * @param   JXMLElement  $el    The current XML element object to handle.
+	 * @param   JFeed             $feed  The JFeed object being built from the parsed feed.
+	 * @param   SimpleXMLElement  $el    The current XML element object to handle.
 	 *
 	 * @return  void
 	 *
 	 * @since   12.1
 	 */
-	protected function handleGenerator(JFeed $feed, JXMLElement $el)
+	protected function handleGenerator(JFeed $feed, SimpleXMLElement $el)
 	{
 		$feed->generator = (string) $el;
 	}
@@ -120,14 +120,14 @@ class JFeedParserRss extends JFeedParser
 	/**
 	 * Method to handle the <image> element for the feed.
 	 *
-	 * @param   JFeed        $feed  The JFeed object being built from the parsed feed.
-	 * @param   JXMLElement  $el    The current XML element object to handle.
+	 * @param   JFeed             $feed  The JFeed object being built from the parsed feed.
+	 * @param   SimpleXMLElement  $el    The current XML element object to handle.
 	 *
 	 * @return  void
 	 *
 	 * @since   12.1
 	 */
-	protected function handleImage(JFeed $feed, JXMLElement $el)
+	protected function handleImage(JFeed $feed, SimpleXMLElement $el)
 	{
 		// Create a feed link object for the image.
 		$image = new JFeedLink(
@@ -150,14 +150,14 @@ class JFeedParserRss extends JFeedParser
 	/**
 	 * Method to handle the <language> element for the feed.
 	 *
-	 * @param   JFeed        $feed  The JFeed object being built from the parsed feed.
-	 * @param   JXMLElement  $el    The current XML element object to handle.
+	 * @param   JFeed             $feed  The JFeed object being built from the parsed feed.
+	 * @param   SimpleXMLElement  $el    The current XML element object to handle.
 	 *
 	 * @return  void
 	 *
 	 * @since   12.1
 	 */
-	protected function handleLanguage(JFeed $feed, JXMLElement $el)
+	protected function handleLanguage(JFeed $feed, SimpleXMLElement $el)
 	{
 		$feed->language = (string) $el;
 	}
@@ -165,14 +165,14 @@ class JFeedParserRss extends JFeedParser
 	/**
 	 * Method to handle the <lastBuildDate> element for the feed.
 	 *
-	 * @param   JFeed        $feed  The JFeed object being built from the parsed feed.
-	 * @param   JXMLElement  $el    The current XML element object to handle.
+	 * @param   JFeed             $feed  The JFeed object being built from the parsed feed.
+	 * @param   SimpleXMLElement  $el    The current XML element object to handle.
 	 *
 	 * @return  void
 	 *
 	 * @since   12.1
 	 */
-	protected function handleLastBuildDate(JFeed $feed, JXMLElement $el)
+	protected function handleLastBuildDate(JFeed $feed, SimpleXMLElement $el)
 	{
 		$feed->updatedDate = (string) $el;
 	}
@@ -180,14 +180,14 @@ class JFeedParserRss extends JFeedParser
 	/**
 	 * Method to handle the <link> element for the feed.
 	 *
-	 * @param   JFeed        $feed  The JFeed object being built from the parsed feed.
-	 * @param   JXMLElement  $el    The current XML element object to handle.
+	 * @param   JFeed             $feed  The JFeed object being built from the parsed feed.
+	 * @param   SimpleXMLElement  $el    The current XML element object to handle.
 	 *
 	 * @return  void
 	 *
 	 * @since   12.1
 	 */
-	protected function handleLink(JFeed $feed, JXMLElement $el)
+	protected function handleLink(JFeed $feed, SimpleXMLElement $el)
 	{
 		$feed->uri = (string) $el;
 	}
@@ -195,14 +195,14 @@ class JFeedParserRss extends JFeedParser
 	/**
 	 * Method to handle the <managingEditor> element for the feed.
 	 *
-	 * @param   JFeed        $feed  The JFeed object being built from the parsed feed.
-	 * @param   JXMLElement  $el    The current XML element object to handle.
+	 * @param   JFeed             $feed  The JFeed object being built from the parsed feed.
+	 * @param   SimpleXMLElement  $el    The current XML element object to handle.
 	 *
 	 * @return  void
 	 *
 	 * @since   12.1
 	 */
-	protected function handleManagingEditor(JFeed $feed, JXMLElement $el)
+	protected function handleManagingEditor(JFeed $feed, SimpleXMLElement $el)
 	{
 		$feed->author = $this->processPerson((string) $el);
 	}
@@ -210,14 +210,14 @@ class JFeedParserRss extends JFeedParser
 	/**
 	 * Method to handle the <skipDays> element for the feed.
 	 *
-	 * @param   JFeed        $feed  The JFeed object being built from the parsed feed.
-	 * @param   JXMLElement  $el    The current XML element object to handle.
+	 * @param   JFeed             $feed  The JFeed object being built from the parsed feed.
+	 * @param   SimpleXMLElement  $el    The current XML element object to handle.
 	 *
 	 * @return  void
 	 *
 	 * @since   12.1
 	 */
-	protected function handleSkipDays(JFeed $feed, JXMLElement $el)
+	protected function handleSkipDays(JFeed $feed, SimpleXMLElement $el)
 	{
 		// Initialise the array.
 		$days = array();
@@ -234,14 +234,14 @@ class JFeedParserRss extends JFeedParser
 	/**
 	 * Method to handle the <skipHours> element for the feed.
 	 *
-	 * @param   JFeed        $feed  The JFeed object being built from the parsed feed.
-	 * @param   JXMLElement  $el    The current XML element object to handle.
+	 * @param   JFeed             $feed  The JFeed object being built from the parsed feed.
+	 * @param   SimpleXMLElement  $el    The current XML element object to handle.
 	 *
 	 * @return  void
 	 *
 	 * @since   12.1
 	 */
-	protected function handleSkipHours(JFeed $feed, JXMLElement $el)
+	protected function handleSkipHours(JFeed $feed, SimpleXMLElement $el)
 	{
 		// Initialise the array.
 		$hours = array();
@@ -258,14 +258,14 @@ class JFeedParserRss extends JFeedParser
 	/**
 	 * Method to handle the <pubDate> element for the feed.
 	 *
-	 * @param   JFeed        $feed  The JFeed object being built from the parsed feed.
-	 * @param   JXMLElement  $el    The current XML element object to handle.
+	 * @param   JFeed             $feed  The JFeed object being built from the parsed feed.
+	 * @param   SimpleXMLElement  $el    The current XML element object to handle.
 	 *
 	 * @return  void
 	 *
 	 * @since   12.1
 	 */
-	protected function handlePubDate(JFeed $feed, JXMLElement $el)
+	protected function handlePubDate(JFeed $feed, SimpleXMLElement $el)
 	{
 		$feed->publishedDate = (string) $el;
 	}
@@ -273,14 +273,14 @@ class JFeedParserRss extends JFeedParser
 	/**
 	 * Method to handle the <title> element for the feed.
 	 *
-	 * @param   JFeed        $feed  The JFeed object being built from the parsed feed.
-	 * @param   JXMLElement  $el    The current XML element object to handle.
+	 * @param   JFeed             $feed  The JFeed object being built from the parsed feed.
+	 * @param   SimpleXMLElement  $el    The current XML element object to handle.
 	 *
 	 * @return  void
 	 *
 	 * @since   12.1
 	 */
-	protected function handleTitle(JFeed $feed, JXMLElement $el)
+	protected function handleTitle(JFeed $feed, SimpleXMLElement $el)
 	{
 		$feed->title = (string) $el;
 	}
@@ -288,14 +288,14 @@ class JFeedParserRss extends JFeedParser
 	/**
 	 * Method to handle the <ttl> element for the feed.
 	 *
-	 * @param   JFeed        $feed  The JFeed object being built from the parsed feed.
-	 * @param   JXMLElement  $el    The current XML element object to handle.
+	 * @param   JFeed             $feed  The JFeed object being built from the parsed feed.
+	 * @param   SimpleXMLElement  $el    The current XML element object to handle.
 	 *
 	 * @return  void
 	 *
 	 * @since   12.1
 	 */
-	protected function handleTtl(JFeed $feed, JXMLElement $el)
+	protected function handleTtl(JFeed $feed, SimpleXMLElement $el)
 	{
 		$feed->ttl = (integer) $el;
 	}
@@ -303,14 +303,14 @@ class JFeedParserRss extends JFeedParser
 	/**
 	 * Method to handle the <webmaster> element for the feed.
 	 *
-	 * @param   JFeed        $feed  The JFeed object being built from the parsed feed.
-	 * @param   JXMLElement  $el    The current XML element object to handle.
+	 * @param   JFeed             $feed  The JFeed object being built from the parsed feed.
+	 * @param   SimpleXMLElement  $el    The current XML element object to handle.
 	 *
 	 * @return  void
 	 *
 	 * @since   12.1
 	 */
-	protected function handleWebmaster(JFeed $feed, JXMLElement $el)
+	protected function handleWebmaster(JFeed $feed, SimpleXMLElement $el)
 	{
 		// Get the tag contents and split it over the first space.
 		$tmp = (string) $el;
@@ -348,14 +348,14 @@ class JFeedParserRss extends JFeedParser
 	/**
 	 * Method to handle the feed entry element for the feed: <item>.
 	 *
-	 * @param   JFeedEntry   $entry  The JFeedEntry object being built from the parsed feed entry.
-	 * @param   JXMLElement  $el     The current XML element object to handle.
+	 * @param   JFeedEntry        $entry  The JFeedEntry object being built from the parsed feed entry.
+	 * @param   SimpleXMLElement  $el     The current XML element object to handle.
 	 *
 	 * @return  void
 	 *
 	 * @since   12.1
 	 */
-	protected function processFeedEntry(JFeedEntry $entry, JXMLElement $el)
+	protected function processFeedEntry(JFeedEntry $entry, SimpleXMLElement $el)
 	{
 		$entry->uri           = (string) $el->link;
 		$entry->title         = (string) $el->title;

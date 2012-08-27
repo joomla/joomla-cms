@@ -55,12 +55,6 @@ class JFeedFactory
 	 */
 	public function getFeed($uri)
 	{
-		// Make sure the file exists.
-		if (!file_exists($uri))
-		{
-			throw new InvalidArgumentException('The file ' . $uri . ' does not exist.');
-		}
-
 		// Create the XMLReader object.
 		$reader = new XMLReader;
 
