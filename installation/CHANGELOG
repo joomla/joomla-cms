@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+28-Aug-2012 Jean-Marie Simonet
+ +$ Adding Indonesian language Installation files
+
 27-Aug-2012 Jean-Marie Simonet
  # [#28858] Com_finder missing show_advanced_tips parameter => can't hide advanced tips. Thanks Michael
 
