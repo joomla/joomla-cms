@@ -88,6 +88,8 @@ class JArchiveZipTest extends PHPUnit_Framework_TestCase
 	 * @group   JArchive
 	 * @return  void
 	 * @covers  JArchiveZip::extractCustom
+	 * @covers  JArchiveZip::_readZipInfo
+	 * @covers  JArchiveZip::_getFileData
 	 */
 	public function testExtractCustom()
 	{

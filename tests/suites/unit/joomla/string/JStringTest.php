@@ -7,7 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM . '/joomla/string/string.php';
 require_once 'TestHelpers/JString-helper-dataset.php';
 
 /**
@@ -257,6 +256,7 @@ class JStringTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @dataProvider  getIncrementData
 	 * @since   11.2
+	 * @covers  JString::increment
 	 */
 	public function testIncrement($string, $style, $number, $expected)
 	{
@@ -271,6 +271,7 @@ class JStringTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @dataProvider  getStrposData
 	 * @since   11.2
+	 * @covers  JString::strpos
 	 */
 	public function testStrpos($haystack, $needle, $offset = 0, $expect)
 	{
@@ -283,6 +284,7 @@ class JStringTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @dataProvider  getStrrposData
 	 * @since   11.2
+	 * @covers  JString::strrpos
 	 */
 	public function testStrrpos($haystack, $needle, $offset = 0, $expect)
 	{
@@ -295,6 +297,7 @@ class JStringTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @dataProvider  getSubstrData
 	 * @since   11.2
+	 * @covers  JString::substr
 	 */
 	public function testSubstr($string, $start, $length = false, $expect)
 	{
@@ -307,6 +310,7 @@ class JStringTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @dataProvider  getStrtolowerData
 	 * @since   11.2
+	 * @covers  JString::strtolower
 	 */
 	public function testStrtolower($string, $expect)
 	{
@@ -319,6 +323,7 @@ class JStringTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @dataProvider  getStrtoupperData
 	 * @since   11.2
+	 * @covers  JString::strtoupper
 	 */
 	public function testStrtoupper($string, $expect)
 	{
@@ -331,6 +336,7 @@ class JStringTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @dataProvider  getStrlenData
 	 * @since   11.2
+	 * @covers  JString::strlen
 	 */
 	public function testStrlen($string, $expect)
 	{
@@ -343,6 +349,7 @@ class JStringTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @dataProvider  getStr_ireplaceData
 	 * @since   11.2
+	 * @covers  JString::str_ireplace
 	 */
 	public function testStr_ireplace($search, $replace, $subject, $count, $expect)
 	{
@@ -355,6 +362,7 @@ class JStringTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @dataProvider  getStr_splitData
 	 * @since   11.2
+	 * @covers  JString::str_split
 	 */
 	public function testStr_split($string, $split_length, $expect)
 	{
@@ -367,6 +375,7 @@ class JStringTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @dataProvider  getStrcasecmpData
 	 * @since   11.2
+	 * @covers  JString::strcasecmp
 	 */
 	public function testStrcasecmp($string1, $string2, $locale, $expect)
 	{
@@ -394,6 +403,7 @@ class JStringTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @dataProvider  getStrcmpData
 	 * @since   11.2
+	 * @covers  JString::strcmp
 	 */
 	public function testStrcmp($string1, $string2, $locale, $expect)
 	{
@@ -422,6 +432,7 @@ class JStringTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @dataProvider  getStrcspnData
 	 * @since   11.2
+	 * @covers  JString::strcspn
 	 */
 	public function testStrcspn($haystack, $needles, $start, $len, $expect)
 	{
@@ -434,6 +445,7 @@ class JStringTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @dataProvider  getStristrData
 	 * @since   11.2
+	 * @covers  JString::stristr
 	 */
 	public function testStristr($haystack, $needle, $expect)
 	{
@@ -446,6 +458,7 @@ class JStringTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @dataProvider  getStrrevData
 	 * @since   11.2
+	 * @covers  JString::strrev
 	 */
 	public function testStrrev($string, $expect)
 	{
@@ -458,6 +471,7 @@ class JStringTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @dataProvider  getStrspnData
 	 * @since   11.2
+	 * @covers  JString::strspn
 	 */
 	public function testStrspn($subject, $mask, $start, $length, $expect)
 	{
@@ -470,6 +484,7 @@ class JStringTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @dataProvider  getSubstr_replaceData
 	 * @since   11.2
+	 * @covers  JString::substr_replace
 	 */
 	public function testSubstr_replace($string, $replacement, $start, $length, $expect)
 	{
@@ -482,6 +497,7 @@ class JStringTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @dataProvider  getLtrimData
 	 * @since   11.2
+	 * @covers  JString::ltrim
 	 */
 	public function testLtrim($string, $charlist, $expect)
 	{
@@ -501,6 +517,7 @@ class JStringTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @dataProvider  getRtrimData
 	 * @since   11.2
+	 * @covers  JString::rtrim
 	 */
 	public function testRtrim($string, $charlist, $expect)
 	{
@@ -520,6 +537,7 @@ class JStringTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @dataProvider  getTrimData
 	 * @since   11.2
+	 * @covers  JString::trim
 	 */
 	public function testTrim($string, $charlist, $expect)
 	{
@@ -539,6 +557,7 @@ class JStringTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @dataProvider  getUcfirstData
 	 * @since   11.2
+	 * @covers  JString::ucfirst
 	 */
 	public function testUcfirst($string, $delimiter, $newDelimiter, $expect)
 	{
@@ -551,6 +570,7 @@ class JStringTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @dataProvider  getUcwordsData
 	 * @since   11.2
+	 * @covers  JString::ucwords
 	 */
 	public function testUcwords($string, $expect)
 	{
@@ -563,6 +583,7 @@ class JStringTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @dataProvider  getTranscodeData
 	 * @since   11.2
+	 * @covers  JString::transcode
 	 */
 	public function testTranscode($source, $from_encoding, $to_encoding, $expect)
 	{
@@ -575,6 +596,7 @@ class JStringTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @dataProvider  getValidData
 	 * @since   11.2
+	 * @covers  JString::valid
 	 */
 	public function testValid($string, $expect)
 	{
@@ -587,6 +609,7 @@ class JStringTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @dataProvider  getValidData
 	 * @since   11.2
+	 * @covers  JString::compliant
 	 */
 	public function testCompliant($string, $expect)
 	{
@@ -598,6 +621,7 @@ class JStringTest extends PHPUnit_Framework_TestCase
 	 * @return  array
 	 *
 	 * @since   11.2
+	 * @covers  JString::parse_url
 	 */
 	public function testParse_Url()
 	{

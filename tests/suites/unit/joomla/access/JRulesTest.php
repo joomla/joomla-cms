@@ -47,6 +47,39 @@ class JAccessRulesTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Tests the JAccessRules::getData method.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.2
+	 * @covers  JAccessRules::getData
+	 */
+	public function testGetData()
+	{
+		$array = array(
+			'edit' => array(
+				-42	=> 1,
+				2	=> 1,
+				3	=> 0
+			)
+		);
+
+		$rule = new JAccessRules($array);
+
+		$data = $rule->getData();
+
+		$this->assertArrayHasKey(
+			'edit',
+			$data
+		);
+
+		$this->assertInstanceOf(
+			'JAccessRule',
+			$data['edit']
+		);
+	}
+
+	/**
 	 * @covers  JAccessRules::__construct
 	 * @covers  JAccessRules::__toString
 	 */

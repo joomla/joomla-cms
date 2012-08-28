@@ -74,6 +74,7 @@ class JArchiveGzipTest extends PHPUnit_Framework_TestCase
 	 * @group   JArchive
 	 * @return  void
 	 * @covers  JArchiveGzip::extract
+	 * @covers  JArchiveGzip::_getFilePosition
 	 */
 	public function testExtractWithStreams()
 	{
