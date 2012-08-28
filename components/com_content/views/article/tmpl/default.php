@@ -23,9 +23,9 @@ JHtml::_('behavior.caption');
 ?>
 <div class="item-page<?php echo $this->pageclass_sfx?>">
 	<?php if ($this->params->get('show_page_heading', 1)) : ?>
-	<div class="page-header">
+	<header class="page-header">
 		<h1> <?php echo $this->escape($this->params->get('page_heading')); ?> </h1>
-	</div>
+	</header>
 	<?php endif;
 if (!empty($this->item->pagination) AND $this->item->pagination && !$this->item->paginationposition && $this->item->paginationrelative)
 {
@@ -52,7 +52,7 @@ if (!empty($this->item->pagination) AND $this->item->pagination && !$this->item-
 	</div>
 	<?php endif; ?>
 	<?php if (($params->get('show_title')) || ($params->get('show_author'))) : ?>
-	<div class="page-header">
+	<header class="page-header">
 		<h2>
 			<?php if ($params->get('link_titles') && !empty($this->item->readmore_link)) : ?>
 			<a href="<?php echo $this->item->readmore_link; ?>"> <?php echo $this->escape($this->item->title); ?></a>
@@ -76,7 +76,7 @@ if (!empty($this->item->pagination) AND $this->item->pagination && !$this->item-
 				</small>
 				<?php endif; ?>
 		</h2>
-	</div>
+	</header>
 	<?php endif; ?>
 
 	<?php if (isset ($this->item->toc)) :

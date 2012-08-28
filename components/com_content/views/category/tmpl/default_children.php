@@ -22,6 +22,7 @@ $class = ' class="first"';
 
 		<div<?php echo $class; ?>>
 			<?php $class = ''; ?>
+            <header>
 			<h3 class="page-header item-title"><a href="<?php echo JRoute::_(ContentHelperRoute::getCategoryRoute($child->id));?>">
 				<?php echo $this->escape($child->title); ?></a>
 				<?php if ( $this->params->get('show_cat_num_articles', 1)) : ?>
@@ -35,6 +36,7 @@ $class = ' class="first"';
 			<?php endif;?>
 
 			</h3>
+            </header>
 			<?php if ($this->params->get('show_subcat_desc') == 1) :?>
 			<?php if ($child->description) : ?>
 				<div class="category-desc">

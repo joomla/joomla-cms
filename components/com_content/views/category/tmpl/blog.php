@@ -15,16 +15,18 @@ JHtml::_('behavior.caption');
 ?>
 <div class="blog<?php echo $this->pageclass_sfx;?>">
 	<?php if ($this->params->get('show_page_heading', 1)) : ?>
-	<div class="page-header">
+	<header class="page-header">
 		<h1> <?php echo $this->escape($this->params->get('page_heading')); ?> </h1>
-	</div>
+	</header>
 	<?php endif; ?>
 	<?php if ($this->params->get('show_category_title', 1) or $this->params->get('page_subheading')) : ?>
-	<h2> <?php echo $this->escape($this->params->get('page_subheading')); ?>
-		<?php if ($this->params->get('show_category_title')) : ?>
-		<span class="subheading-category"><?php echo $this->category->title;?></span>
-		<?php endif; ?>
-	</h2>
+	<header>
+        <h2> <?php echo $this->escape($this->params->get('page_subheading')); ?>
+            <?php if ($this->params->get('show_category_title')) : ?>
+            <span class="subheading-category"><?php echo $this->category->title;?></span>
+            <?php endif; ?>
+        </h2>
+    </header>
 	<?php endif; ?>
 	<?php if ($this->params->get('show_description', 1) || $this->params->def('show_description_image', 1)) : ?>
 	<div class="category-desc">

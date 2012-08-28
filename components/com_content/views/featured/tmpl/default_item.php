@@ -33,27 +33,29 @@ $canEdit	= $this->item->params->get('access-edit');
 	</div>
 	<?php endif; ?>
 	<?php if ($params->get('show_title')) : ?>
-	<h2 class="item-title">
-		<?php if ($params->get('link_titles') && $params->get('access-view')) : ?>
-		<a href="<?php echo JRoute::_(ContentHelperRoute::getArticleRoute($this->item->slug, $this->item->catid)); ?>"> <?php echo $this->escape($this->item->title); ?></a>
-		<?php else : ?>
-		<?php echo $this->escape($this->item->title); ?>
-		<?php endif; ?>
-		<?php if ($params->get('show_author') && !empty($this->item->author )) : ?>
-		<small class="createdby">
-		<?php $author = $this->item->author; ?>
-		<?php $author = ($this->item->created_by_alias ? $this->item->created_by_alias : $author);?>
-		<?php if (!empty($this->item->contactid ) &&  $params->get('link_author') == true):?>
-		<?php
-		echo JText::sprintf('COM_CONTENT_WRITTEN_BY',
-			JHtml::_('link', JRoute::_('index.php?option=com_contact&view=contact&id='.$this->item->contactid), $author)
-		); ?>
-		<?php else :?>
-		<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', $author); ?>
-		<?php endif; ?>
-		</small>
-		<?php endif; ?>
-	</h2>
+    <header>
+        <h2 class="item-title">
+            <?php if ($params->get('link_titles') && $params->get('access-view')) : ?>
+            <a href="<?php echo JRoute::_(ContentHelperRoute::getArticleRoute($this->item->slug, $this->item->catid)); ?>"> <?php echo $this->escape($this->item->title); ?></a>
+            <?php else : ?>
+            <?php echo $this->escape($this->item->title); ?>
+            <?php endif; ?>
+            <?php if ($params->get('show_author') && !empty($this->item->author )) : ?>
+            <small class="createdby">
+            <?php $author = $this->item->author; ?>
+            <?php $author = ($this->item->created_by_alias ? $this->item->created_by_alias : $author);?>
+            <?php if (!empty($this->item->contactid ) &&  $params->get('link_author') == true):?>
+            <?php
+            echo JText::sprintf('COM_CONTENT_WRITTEN_BY',
+                JHtml::_('link', JRoute::_('index.php?option=com_contact&view=contact&id='.$this->item->contactid), $author)
+            ); ?>
+            <?php else :?>
+            <?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', $author); ?>
+            <?php endif; ?>
+            </small>
+            <?php endif; ?>
+        </h2>
+    </header>
 	<?php endif; ?>
 	<?php // to do not that elegant would be nice to group the params ?>
 	<?php if (($params->get('show_category')) or ($params->get('show_create_date')) or ($params->get('show_parent_category'))) : ?>

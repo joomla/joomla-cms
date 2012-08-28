@@ -18,11 +18,11 @@ JHtml::_('behavior.caption');
 ?>
 <div class="blog-featured<?php echo $this->pageclass_sfx;?>">
 <?php if ($this->params->get('show_page_heading') != 0) : ?>
-<div class="page-header">
+<header class="page-header">
 	<h1>
 	<?php echo $this->escape($this->params->get('page_heading')); ?>
 	</h1>
-</div>
+</header>
 <?php endif; ?>
 
 <?php $leadingcount = 0; ?>
