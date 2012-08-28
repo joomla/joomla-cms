@@ -120,16 +120,15 @@ class TemplatesModelSource extends JModelForm
 		}
 
 		if ($this->_template) {
-			$fileName	= $this->getState('filename');
-			$client		= JApplicationHelper::getClientInfo($this->_template->client_id);
-			$filePath	= JPath::clean($client->path.'/templates/'.$this->_template->element.'/'.$fileName);
+			$fileName = $this->getState('filename');
+			$client   = JApplicationHelper::getClientInfo($this->_template->client_id);
+			$filePath = JPath::clean($client->path.'/templates/'.$this->_template->element.'/'.$fileName);
 
-			if (file_exists($filePath)) {
-				jimport('joomla.filesystem.file');
-
-				$item->extension_id	= $this->getState('extension.id');
-				$item->filename		= $this->getState('filename');
-				$item->source		= JFile::read($filePath);
+			if (file_exists($filePath))
+			{
+				$item->extension_id = $this->getState('extension.id');
+				$item->filename     = $this->getState('filename');
+				$item->source       = file_get_contents($filePath);
 			} else {
 				$this->setError(JText::_('COM_TEMPLATES_ERROR_SOURCE_FILE_NOT_FOUND'));
 			}

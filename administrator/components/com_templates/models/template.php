@@ -266,7 +266,7 @@ class TemplatesModelTemplate extends JModelLegacy
 		$xmlFile = $this->getState('to_path') . '/templateDetails.xml';
 		if (JFile::exists($xmlFile))
 		{
-			$contents = JFile::read($xmlFile);
+			$contents = file_get_contents($xmlFile);
 			$pattern[] = '#<name>\s*' . $oldName . '\s*</name>#i';
 			$replace[] = '<name>'. $newName . '</name>';
 			$pattern[] = '#<language(.*)' . $oldName . '(.*)</language>#';
