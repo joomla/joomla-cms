@@ -46,12 +46,12 @@ class JToolbarButtonStandard extends JToolbarButton
 
 		if ($name == "apply" || $name == "new")
 		{
-			$btnClass = "btn btn-primary";
+			$btnClass = "btn btn-small btn-success";
 			$iconWhite = "icon-white";
 		}
 		else
 		{
-			$btnClass = "btn";
+			$btnClass = "btn btn-small";
 			$iconWhite = "";
 		}
 

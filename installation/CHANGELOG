@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+04-Sep-2012 Rouven Weßling
+ ^ [#29048] Update Joomla 3.0 to Bootstrap 2.1 LESS, CSS & JS
+
 03-Sep-2012 Rouven Weßling
  ^ Merge latest platform (c15b8db512c26b6e5308b157c518702d617e47a4)
 

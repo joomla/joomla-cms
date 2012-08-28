@@ -607,8 +607,7 @@
 				description="COM_CONTENT_FIELD_FULL_DESC" />
 			<field
 				name="float_fulltext"
-				type="radio"
-				class="btn-group"
+				type="list"
 				label="COM_CONTENT_FLOAT_LABEL"
 				description="COM_CONTENT_FLOAT_DESC">
 					<option value="">JGLOBAL_USE_GLOBAL</option>

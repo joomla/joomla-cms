@@ -36,7 +36,7 @@
 @import "../../../media/jui/less/pager.less";
 
 // Components: Popovers
-@import "modals.less";
+@import "../../../media/jui/less/modals.less";
 @import "../../../media/jui/less/tooltip.less";
 @import "../../../media/jui/less/popovers.less";
 
@@ -151,37 +151,17 @@ h1,h2,h3,h4,h5,h6{
 .well .page-header{
 	margin: 0px 0px 5px 0px;
 }
-/* Page Edit */
-.page-edit {
-	background:#555 url(../img/noise.png);
-	-moz-box-shadow: 0px 0px 40px #111 inset;
-	-webkit-box-shadow: 0px 0px 40px #111 inset;
-	box-shadow: 0px 0px 40px #111 inset;
+/* Headings */
+
+h1, h2, h3, h4, h5, h6 {
+  margin: (@baseLineHeight / 1.5) 0;
 }
-.page-edit-inner {
-	padding:20px 0;
-}
-.page-edit h1,
-.page-edit h2,
-.page-edit h3,
-.page-edit h4,
-.page-edit h5,
-.page-edit h6,
-.page-edit legend,
-.page-edit label,
-.page-edit p{
-	color: #F8F8F8;
-	text-shadow: 1px 1px 1px #000;
-}
-.page-edit legend,
-.page-edit hr{
-	border: 0;
-	border-bottom: 1px solid #333;
-}
-.page-edit .form-actions{
-	background-color: transparent;
-	border-top: 1px solid #333;
-}
+h1 { font-size: 26px; line-height: 28px; }
+h2 { font-size: 22px; line-height: 24px; }
+h3 { font-size: 18px; line-height: 20px; }
+h4 { font-size: 14px; line-height: 16px; }
+h5 { font-size: 13px; line-height: 15px; }
+h6 { font-size: 12px; line-height: 14px; }
 /* Module */
 .module-header {
 	padding-bottom: 17px;

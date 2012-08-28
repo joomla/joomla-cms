@@ -41,39 +41,6 @@ $task     = $input->get('task', '');
 $itemid   = $input->get('Itemid', '');
 $sitename = $app->getCfg('sitename');
 
-if ($task === "edit" || $layout === "form" )
-{
-	$fullWidth = 1;
-}
-else
-{
-	$fullWidth = 0;
-}
-
-$cpanel = $option === "com_cpanel";
-
-// Adjusting content width
-if ($cpanel)
-{
-	$span = "span8";
-}
-elseif ($this->countModules('left') && $this->countModules('right'))
-{
-	$span = "span6";
-}
-elseif ($this->countModules('left') && !$this->countModules('right'))
-{
-	$span = "span10";
-}
-elseif (!$this->countModules('left') && $this->countModules('right'))
-{
-	$span = "span8";
-}
-else
-{
-	$span = "span12";
-}
-
 $showSubmenu = false;
 $this->submenumodules = JModuleHelper::getModules('submenu');
 foreach ($this->submenumodules as $submenumodule)
@@ -115,11 +82,11 @@ else
 	{
 	?>
 	<style type="text/css">
-		.header, .navbar-inner, .nav-list > .active > a, .nav-list > .active > a:hover, .dropdown-menu li > a:hover, .dropdown-menu .active > a, .dropdown-menu .active > a:hover
+		.header, .navbar-inner, .navbar-inverse .navbar-inner, .nav-list > .active > a, .nav-list > .active > a:hover, .dropdown-menu li > a:hover, .dropdown-menu .active > a, .dropdown-menu .active > a:hover, .navbar-inverse .nav li.dropdown.open > .dropdown-toggle, .navbar-inverse .nav li.dropdown.active > .dropdown-toggle, .navbar-inverse .nav li.dropdown.open.active > .dropdown-toggle
 		{
 			background: <?php echo $this->params->get('templateColor');?>;
 		}
-		.navbar-inner{
+		.navbar-inner, .navbar-inverse .nav li.dropdown.open > .dropdown-toggle, .navbar-inverse .nav li.dropdown.active > .dropdown-toggle, .navbar-inverse .nav li.dropdown.open.active > .dropdown-toggle{
 			-moz-box-shadow: 0 1px 3px rgba(0, 0, 0, .25), inset 0 -1px 0 rgba(0, 0, 0, .1), inset 0 30px 10px rgba(0, 0, 0, .2);
 			-webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, .25), inset 0 -1px 0 rgba(0, 0, 0, .1), inset 0 30px 10px rgba(0, 0, 0, .2);
 			box-shadow: 0 1px 3px rgba(0, 0, 0, .25), inset 0 -1px 0 rgba(0, 0, 0, .1), inset 0 30px 10px rgba(0, 0, 0, .2);
@@ -130,9 +97,9 @@ else
 	?>
 </head>
 
-<body class="site <?php echo $option . " view-" . $view . " layout-" . $layout . " task-" . $task . " itemid-" . $itemid . " ";?>" data-spy="scroll" data-target=".subhead" data-offset="87">
+<body class="admin <?php echo $option . " view-" . $view . " layout-" . $layout . " task-" . $task . " itemid-" . $itemid . " ";?>" data-spy="scroll" data-target=".subhead" data-offset="87">
 	<!-- Top Navigation -->
-	<div class="navbar navbar-fixed-top">
+	<nav class="navbar navbar-inverse navbar-fixed-top">
 		<div class="navbar-inner">
 			<div class="container-fluid">
 				<?php if ($this->params->get('admin_menus') != '0') : ?>
@@ -180,23 +147,20 @@ else
 				<!--/.nav-collapse -->
 			</div>
 		</div>
-	</div>
+	</nav>
 	<!-- Header -->
-	<div class="header">
+	<header class="header">
 		<div class="container-fluid">
 			<div class="row-fluid">
 				<div class="span2 container-logo">
 					<a class="logo" href="<?php echo $this->baseurl; ?>"><img src="<?php echo $logo;?>" alt="<?php echo $sitename; ?>" /></a>
 				</div>
-				<div class="span7">
+				<div class="span10">
 					<h1 class="page-title"><?php echo JHtml::_('string.truncate', $app->JComponentTitle, 40, false, false);?></h1>
-				</div>
-				<div class="span3">
-					<jdoc:include type="modules" name="searchload" style="none" />
 				</div>
 			</div>
 		</div>
-	</div>
+	</header>
 	<!-- Subheader -->
 	<a class="btn btn-subhead" data-toggle="collapse" data-target=".subhead-collapse"><?php echo JText::_('TPL_ISIS_TOOLBAR');?> <i class="icon-wrench"></i></a>
 	<div class="subhead-collapse">
@@ -213,54 +177,30 @@ else
 	</div>
 	<!-- container-fluid -->
 	<div class="container-fluid container-main">
-		<div class="row-fluid">
-			<?php if (($this->countModules('left')) && $cpanel): ?>
-			<!-- Begin Sidebar -->
-			<div id="sidebar" class="span2">
-				<div class="sidebar-nav">
-					<jdoc:include type="modules" name="left" style="no" />
-				</div>
+		<section id="content">
+			<!-- Begin Content -->
+			<jdoc:include type="modules" name="top" style="xhtml" />
+			<div class="row-fluid">
+				<?php if ($showSubmenu) : ?>
+					<div class="span2">
+						<jdoc:include type="modules" name="submenu" style="none" />
+					</div>
+					<div class="span10">
+				<?php else : ?>
+					<div class="span12">
+				<?php endif; ?>
+						<jdoc:include type="message" />
+						<jdoc:include type="component" />
+					</div>
 			</div>
-			<!-- End Sidebar -->
-			<?php endif; ?>
-			<div id="content" class="<?php echo $span;?>">
-				<!-- Begin Content -->
-				<jdoc:include type="modules" name="top" style="xhtml" />
-				<div class="row-fluid">
-					<?php if ($showSubmenu) : ?>
-						<div class="span2">
-							<jdoc:include type="modules" name="submenu" style="none" />
-						</div>
-						<div class="span10">
-					<?php else : ?>
-						<div class="span12">
-					<?php endif; ?>
-							<jdoc:include type="message" />
-							<jdoc:include type="component" />
-						</div>
-					</span>
-				</div>
-				<jdoc:include type="modules" name="bottom" style="xhtml" />
-				<!-- End Content -->
-			</div>
-			<?php if (($this->countModules('right')) || $cpanel) : ?>
-			<div id="aside" class="span4">
-				<!-- Begin Right Sidebar -->
-				<?php
-				/* Load cpanel modules */
-				if ($cpanel):?>
-					<jdoc:include type="modules" name="icon" style="well" />
-				<?php endif;?>
-				<jdoc:include type="modules" name="right" style="xhtml" />
-				<!-- End Right Sidebar -->
-			</div>
-			<?php endif; ?>
-		</div>
+			<jdoc:include type="modules" name="bottom" style="xhtml" />
+			<!-- End Content -->
+		</section>
 		<hr />
 		<?php if (!$this->countModules('status')): ?>
-			<div class="footer">
+			<footer class="footer">
 				<p>&copy; <?php echo $sitename; ?> <?php echo date('Y');?></p>
-			</div>
+			</footer>
 		<?php endif; ?>
 	</div>
 	<?php if ($this->countModules('status')): ?>
@@ -279,7 +219,9 @@ else
 	<script>
 		(function($){
 			$('*[rel=tooltip]').tooltip()
-			$('*[rel=popover]').popover()
+			$('*[rel=popover]').popover({
+				trigger: 'hover'
+			})
 
 			// fix sub nav on scroll
 			var $win = $(window)
@@ -314,20 +256,32 @@ else
 			});
 
 			// Turn radios into btn-group
-			$('.radio.btn-group label').addClass('btn')
-			$(".btn-group label:not(.active)").click(function(){
-				var label = $(this);
-				var input = $('#' + label.attr('for'));
+		    $('.radio.btn-group label').addClass('btn');
+		    $(".btn-group label:not(.active)").click(function() {
+		        var label = $(this);
+		        var input = $('#' + label.attr('for'));
 
-				if (!input.prop('checked')){
-					label.closest('.btn-group').find("label").removeClass('active btn-primary');
-					label.addClass('active btn-primary');
-					input.prop('checked', true);
-				}
-			});
-			$(".btn-group input[checked=checked]").each(function(){
-				$("label[for=" + $(this).attr('id') + "]").addClass('active btn-primary');
-			});
+		        if (!input.prop('checked')) {
+		            label.closest('.btn-group').find("label").removeClass('active btn-success btn-danger btn-primary');
+		            if(input.val()== '') {
+		                    label.addClass('active btn-primary');
+		             } else if(input.val()==0) {
+		                    label.addClass('active btn-danger');
+		             } else {
+		            label.addClass('active btn-success');
+		             }
+		            input.prop('checked', true);
+		        }
+		    });
+		    $(".btn-group input[checked=checked]").each(function() {
+				if($(this).val()== '') {
+		           $("label[for=" + $(this).attr('id') + "]").addClass('active btn-primary');
+		        } else if($(this).val()==0) {
+		           $("label[for=" + $(this).attr('id') + "]").addClass('active btn-danger');
+		        } else {
+		            $("label[for=" + $(this).attr('id') + "]").addClass('active btn-success');
+		        }
+		    });
 		})(jQuery);
 	</script>
 </body>

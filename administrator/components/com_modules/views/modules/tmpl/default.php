@@ -92,7 +92,7 @@ $sortFields = $this->getSortFields();
 				<th width="10%" class="left hidden-phone" >
 					<?php echo JText::_('COM_MODULES_HEADING_MODULE'); ?>
 				</th>
-				<th width="10%" class="visible-desktop">
+				<th width="10%" class="hidden-phone">
 					<?php echo JText::_('COM_MODULES_HEADING_PAGES'); ?>
 				</th>
 				<th width="10%" class="hidden-phone">
@@ -101,7 +101,7 @@ $sortFields = $this->getSortFields();
 				<th width="5%" class="hidden-phone">
 					<?php echo JText::_('JGRID_HEADING_LANGUAGE'); ?>
 				</th>
-				<th width="1%" class="nowrap visible-desktop">
+				<th width="1%" class="nowrap hidden-phone">
 					<?php echo JText::_('JGRID_HEADING_ID'); ?>
 				</th>
 			</tr>
@@ -206,7 +206,7 @@ $sortFields = $this->getSortFields();
 				<td class="small hidden-phone">
 					<?php echo $item->name;?>
 				</td>
-				<td class="small visible-desktop">
+				<td class="small hidden-phone">
 					<?php echo $item->pages; ?>
 				</td>
 
@@ -222,7 +222,7 @@ $sortFields = $this->getSortFields();
 						<?php echo $item->language_title ? $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
 					<?php endif;?>
 				</td>
-				<td class="center visible-desktop">
+				<td class="center hidden-phone">
 					<?php echo (int) $item->id; ?>
 				</td>
 			</tr>

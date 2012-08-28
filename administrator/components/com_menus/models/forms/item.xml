@@ -63,7 +63,7 @@
 			type="menutype"
 			label="COM_MENUS_ITEM_FIELD_TYPE_LABEL"
 			description="COM_MENUS_ITEM_FIELD_TYPE_DESC"
-			class="inputbox"
+			class="inputbox input-medium"
 			required="true"
 			size="40" />
 

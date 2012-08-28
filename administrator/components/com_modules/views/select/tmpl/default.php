@@ -14,7 +14,7 @@ JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 JHtml::_('behavior.tooltip');
 ?>
 
-<h4 class="modal-title"><?php echo JText::_('COM_MODULES_TYPE_CHOOSE')?></h4>
+<h2><?php echo JText::_('COM_MODULES_TYPE_CHOOSE')?></h2>
 <ul id="new-modules-list" class="list list-striped">
 <?php foreach ($this->items as &$item) : ?>
 	<?php
@@ -25,10 +25,11 @@ JHtml::_('behavior.tooltip');
 		$desc	= JHTML::_('string.truncate', ($this->escape($item->desc)), 200);
 		$short_desc	= JHTML::_('string.truncate', ($this->escape($item->desc)), 90);
 	?>
-	<li rel="popover" data-placement="top" title="<?php echo $name; ?>" data-content="<?php echo $desc; ?>">
+	<li>
 		<a href="<?php echo JRoute::_($link);?>">
-			<h4><?php echo $name; ?> <small><?php echo $short_desc; ?></small></h4>
+			<strong><?php echo $name; ?></strong>
 		</a>
+		<small rel="popover" data-placement="right" title="<?php echo $name; ?>" data-content="<?php echo $desc; ?>"><?php echo $short_desc; ?></small>
 	</li>
 <?php endforeach; ?>
 </ul>
