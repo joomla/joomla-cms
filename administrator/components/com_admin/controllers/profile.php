@@ -42,7 +42,7 @@ class AdminControllerProfile extends JControllerForm
 	 */
 	public function save($key = null, $urlVar = null)
 	{
-		$data = JRequest::getVar('jform', array(), 'post', 'array');
+		$data = $this->input->post->get('jform', array(), 'array');
 
 		// TODO: JForm should really have a validation handler for this.
 		if (isset($data['password']) && isset($data['password2'])) {

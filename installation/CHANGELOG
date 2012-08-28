@@ -28,6 +28,7 @@ $ -> Language fix or change
 
 28-Aug-2012 Rouven Weßling
  ^ Reduce use of the deprecated JFile methods.
+ ^ Reduce use of the deprecated JRequest class.
 
 27-Aug-2012 Jean-Marie Simonet
  # [#28376] Remove unnecessary files from com_media frontend. Thanks Michael

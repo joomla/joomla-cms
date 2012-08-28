@@ -25,8 +25,8 @@ class InstallerControllerUpdate extends JControllerLegacy
 		// Check for request forgeries
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		$model	= $this->getModel('update');
-		$uid	= JRequest::getVar('cid', array(), '', 'array');
+		$model = $this->getModel('update');
+		$uid   = $this->input->get('cid', array(), 'array');
 
 		JArrayHelper::toInteger($uid, array());
 		if ($model->update($uid)) {
@@ -101,7 +101,7 @@ class InstallerControllerUpdate extends JControllerLegacy
 		// change, making it impossible for AJAX to work.
 
 		$eid  = $this->input->getInt('eid', 0);
-		$skip = JRequest::getVar('skip', array(), 'default', 'array');
+		$skip = $this->input->get('skip', array(), 'array');
 
 		$cache_timeout = $this->input->getInt('cache_timeout', 0);
 		if($cache_timeout == 0) {

@@ -26,7 +26,7 @@ class MediaModelManager extends JModelLegacy
 		{
 			$input = JFactory::getApplication()->input;
 
-			$folder = JRequest::getVar('folder', '', '', 'path');
+			$folder = $input->get('folder', '', 'path');
 			$this->setState('folder', $folder);
 
 			$fieldid = $input->get('fieldid', '');

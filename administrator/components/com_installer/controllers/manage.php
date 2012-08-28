@@ -40,11 +40,11 @@ class InstallerControllerManage extends JControllerLegacy
 		// Check for request forgeries.
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		$user	= JFactory::getUser();
-		$ids	= JRequest::getVar('cid', array(), '', 'array');
-		$values	= array('publish' => 1, 'unpublish' => 0);
-		$task	= $this->getTask();
-		$value	= JArrayHelper::getValue($values, $task, 0, 'int');
+		$user   = JFactory::getUser();
+		$ids    = $this->input->get('cid', array(), 'array');
+		$values = array('publish' => 1, 'unpublish' => 0);
+		$task   = $this->getTask();
+		$value  = JArrayHelper::getValue($values, $task, 0, 'int');
 
 		if (empty($ids)) {
 			JError::raiseWarning(500, JText::_('COM_INSTALLER_ERROR_NO_EXTENSIONS_SELECTED'));
@@ -79,8 +79,8 @@ class InstallerControllerManage extends JControllerLegacy
 		// Check for request forgeries
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		$eid	= JRequest::getVar('cid', array(), '', 'array');
-		$model	= $this->getModel('manage');
+		$eid   = $this->input->get('cid', array(), 'array');
+		$model = $this->getModel('manage');
 
 		JArrayHelper::toInteger($eid, array());
 		$result = $model->remove($eid);
@@ -99,8 +99,8 @@ class InstallerControllerManage extends JControllerLegacy
 		// Check for request forgeries
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		$uid	= JRequest::getVar('cid', array(), '', 'array');
-		$model	= $this->getModel('manage');
+		$uid   = $this->input->get('cid', array(), 'array');
+		$model = $this->getModel('manage');
 
 		JArrayHelper::toInteger($uid, array());
 		$result = $model->refresh($uid);

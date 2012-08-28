@@ -63,7 +63,7 @@ class MenusControllerItems extends JControllerAdmin
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Get the arrays from the Request
-		$order = JRequest::getVar('order',	null,	'post',	'array');
+		$order = $this->input->post->get('order', null, 'array');
 		$originalOrder = explode(',', $this->input->getString('original_order_values'));
 
 		// Make sure something has changed
@@ -90,10 +90,10 @@ class MenusControllerItems extends JControllerAdmin
 		JSession::checkToken('request') or die(JText::_('JINVALID_TOKEN'));
 
 		// Get items to publish from the request.
-		$cid	= JRequest::getVar('cid', array(), '', 'array');
-		$data	= array('setDefault' => 1, 'unsetDefault' => 0);
-		$task 	= $this->getTask();
-		$value	= JArrayHelper::getValue($data, $task, 0, 'int');
+		$cid   = $this->input->get('cid', array(), 'array');
+		$data  = array('setDefault' => 1, 'unsetDefault' => 0);
+		$task  = $this->getTask();
+		$value = JArrayHelper::getValue($data, $task, 0, 'int');
 
 		if (empty($cid)) {
 			JError::raiseWarning(500, JText::_($this->text_prefix.'_NO_ITEM_SELECTED'));
@@ -133,9 +133,9 @@ class MenusControllerItems extends JControllerAdmin
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Get the arrays from the Request
-		$pks	= JRequest::getVar('cid',	null, 'post', 'array');
-		$order	= JRequest::getVar('order',	null, 'post', 'array');
-		$originalOrder = explode(',', JRequest::getString('original_order_values'));
+		$pks   = $this->input->post->get('cid', null, 'array');
+		$order = $this->input->post->get('order', null, 'array');
+		$originalOrder = explode(',', $this->input->getString('original_order_values'));
 
 		// Make sure something has changed
 		if (!($order === $originalOrder)) {

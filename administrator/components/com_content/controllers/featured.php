@@ -25,8 +25,8 @@ class ContentControllerFeatured extends ContentControllerArticles
 		// Check for request forgeries
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		$user	= JFactory::getUser();
-		$ids	= JRequest::getVar('cid', array(), '', 'array');
+		$user = JFactory::getUser();
+		$ids  = $this->input->get('cid', array(), 'array');
 
 		// Access checks.
 		foreach ($ids as $i => $id)

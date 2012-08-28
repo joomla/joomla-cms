@@ -148,11 +148,11 @@ class TemplatesControllerSource extends JControllerLegacy
 		// Check for request forgeries.
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		$app		= JFactory::getApplication();
-		$data		= JRequest::getVar('jform', array(), 'post', 'array');
-		$context	= 'com_templates.edit.source';
-		$task		= $this->getTask();
-		$model		= $this->getModel();
+		$app     = JFactory::getApplication();
+		$data    = $this->input->post->get('jform', array(), 'array');
+		$context = 'com_templates.edit.source';
+		$task    = $this->getTask();
+		$model   = $this->getModel();
 
 		// Access check.
 		if (!$this->allowSave()) {

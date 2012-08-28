@@ -63,7 +63,7 @@ class ConfigControllerComponent extends JControllerLegacy
 		$app    = JFactory::getApplication();
 		$model  = $this->getModel('Component');
 		$form   = $model->getForm();
-		$data   = JRequest::getVar('jform', array(), 'post', 'array');
+		$data   = $this->input->get('jform', array(), 'array');
 		$id     = $this->input->getInt('id');
 		$option = $this->input->get('component');
 

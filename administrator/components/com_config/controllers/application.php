@@ -54,10 +54,10 @@ class ConfigControllerApplication extends JControllerLegacy
 		// Set FTP credentials, if given.
 		JClientHelper::setCredentialsFromRequest('ftp');
 
-		$app	= JFactory::getApplication();
-		$model	= $this->getModel('Application');
-		$form	= $model->getForm();
-		$data	= JRequest::getVar('jform', array(), 'post', 'array');
+		$app   = JFactory::getApplication();
+		$model = $this->getModel('Application');
+		$form  = $model->getForm();
+		$data  = $this->input->post->get('jform', array(), 'array');
 
 		// Validate the posted data.
 		$return = $model->validate($form, $data);

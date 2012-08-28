@@ -70,10 +70,10 @@ class UsersControllerUsers extends JControllerAdmin
 		// Check for request forgeries.
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		$ids	= JRequest::getVar('cid', array(), '', 'array');
-		$values	= array('block' => 1, 'unblock' => 0);
-		$task	= $this->getTask();
-		$value	= JArrayHelper::getValue($values, $task, 0, 'int');
+		$ids    = $this->input->get('cid', array(), 'array');
+		$values = array('block' => 1, 'unblock' => 0);
+		$task   = $this->getTask();
+		$value  = JArrayHelper::getValue($values, $task, 0, 'int');
 
 		if (empty($ids))
 		{
@@ -117,7 +117,7 @@ class UsersControllerUsers extends JControllerAdmin
 		// Check for request forgeries.
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		$ids	= JRequest::getVar('cid', array(), '', 'array');
+		$ids = $this->input->get('cid', array(), 'array');
 
 		if (empty($ids))
 		{

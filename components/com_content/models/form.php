@@ -38,7 +38,7 @@ class ContentModelForm extends ContentModelArticle
 
 		$this->setState('article.catid', $app->input->getInt('catid'));
 
-		$return = JRequest::getVar('return', null, 'default', 'base64');
+		$return = $app->input->get('return', null, 'base64');
 		$this->setState('return_page', base64_decode($return));
 
 		// Load the parameters.

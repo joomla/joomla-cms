@@ -27,7 +27,7 @@ class RedirectControllerLinks extends JControllerAdmin
 		// Check for request forgeries.
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		$ids     = JRequest::getVar('cid', array(), '', 'array');
+		$ids     = $this->input->get('cid', array(), 'array');
 		$newUrl  = $this->input->getString('new_url');
 		$comment = $this->input->getString('comment');
 

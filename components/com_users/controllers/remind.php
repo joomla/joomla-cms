@@ -30,9 +30,9 @@ class UsersControllerRemind extends UsersController
 		// Check the request token.
 		JSession::checkToken('post') or jexit(JText::_('JINVALID_TOKEN'));
 
-		$app	= JFactory::getApplication();
-		$model	= $this->getModel('Remind', 'UsersModel');
-		$data	= JRequest::getVar('jform', array(), 'post', 'array');
+		$app   = JFactory::getApplication();
+		$model = $this->getModel('Remind', 'UsersModel');
+		$data  = $this->input->post->get('jform', array(), 'array');
 
 		// Submit the password reset request.
 		$return	= $model->processRemindRequest($data);

@@ -110,7 +110,7 @@ class SearchViewSearch extends JViewLegacy
 			$error = JText::_('COM_SEARCH_ERROR_IGNOREKEYWORD');
 		}
 
-		if (!$searchword && count(JRequest::get('post'))) {
+		if (!$searchword && count($this->input->post)) {
 			//$error = JText::_('COM_SEARCH_ERROR_ENTERKEYWORD');
 		}
 

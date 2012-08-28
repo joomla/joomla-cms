@@ -56,7 +56,7 @@ class SearchController extends JControllerLegacy
 			unset($post['limit']);
 		}
 
-		$areas = JRequest::getVar('areas', null, 'post', 'array');
+		$areas = $this->input->post->get('areas', null, 'array');
 		if ($areas) {
 			foreach($areas as $area)
 			{
