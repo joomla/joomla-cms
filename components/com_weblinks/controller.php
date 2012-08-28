@@ -39,7 +39,7 @@ class WeblinksController extends JControllerLegacy
 		$vName = $this->input->get('view', 'categories');
 		$this->input->set('view', $vName);
 
-		if ($user->get('id') ||($_SERVER['REQUEST_METHOD'] == 'POST' && $vName = 'categories')) {
+		if ($user->get('id') ||($this->input->getMethod() == 'POST' && $vName = 'categories')) {
 			$cachable = false;
 		}
 

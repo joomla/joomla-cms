@@ -50,8 +50,8 @@ class plgSystemCache extends JPlugin
 	function onAfterInitialise()
 	{
 		global $_PROFILER;
-		$app	= JFactory::getApplication();
-		$user	= JFactory::getUser();
+		$app  = JFactory::getApplication();
+		$user = JFactory::getUser();
 
 		if ($app->isAdmin() || JDEBUG) {
 			return;
@@ -61,7 +61,7 @@ class plgSystemCache extends JPlugin
 			return;
 		}
 
-		if ($user->get('guest') && $_SERVER['REQUEST_METHOD'] == 'GET') {
+		if ($user->get('guest') && $app->input->getMethod() == 'GET') {
 			$this->_cache->setCaching(true);
 		}
 
