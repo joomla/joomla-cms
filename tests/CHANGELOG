@@ -26,8 +26,14 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+29-Aug-2012 Rouven Weßling
+ + Import unit tests for JHtmlBatch from the platform.
+
 25-Aug-2012 Mark Dexter
- + Unit test framework for CMS. Thanks Michael. 
+ + Unit test framework for CMS. Thanks Michael.
+
+20-Aug-2012 Rouven Weßling
+ + Add setup for unit testing. Thanks Michael.
 
 24-Aug-2012 Mark Dexter
  # Fix first batch of system tests for 3.0 with Bootstrap templates
@@ -55,7 +61,7 @@ $ -> Language fix or change
  ^ Update phpunit.php for PHPUnit version 3.5
 
 04-May-2012 Mark Dexter
- # Fix PHP strict error 
+ # Fix PHP strict error
 
 02-May-2012 Mark Dexter
  ^ Change system test suite to work with PHPUnit version 3.6
@@ -106,7 +112,7 @@ $ -> Language fix or change
  # Fix system test for changed message
 
 06-Jul-2011 Mark Dexter
- ^ Force test db prefix to jos_ 
+ ^ Force test db prefix to jos_
 
 04-Jul-2011 Mark Dexter
  # Fix failing system test
@@ -195,7 +201,7 @@ $ -> Language fix or change
  # [#22648] function isCompatible incorrectly checks current version (Mark Dexter)
 
 08-Dec-2010 Mark Dexter
-# Fix failing sample_data0001Test.php 
+# Fix failing sample_data0001Test.php
 ^ Add option to doInstall.php to set hathor as default admin template
 
 06-Dec-2010 Christophe Demko
@@ -376,13 +382,13 @@ $ -> Language fix or change
 
 07-Jun-2010 Mark Dexter
 + New system test for featured blog ordering
-# Clean up doc blocks for system tests 
+# Clean up doc blocks for system tests
 
 04-Jun-2010 Mark Dexter
 ^ Improvements to SeleniumJoomlaTestCase. (Matt Thomas)
 
 30-May-2010 Mark Dexter
-# JLanguageTest fixes and improvements. Thanks Tudor Mazilu!  
+# JLanguageTest fixes and improvements. Thanks Tudor Mazilu!
 
 28-May-2010 Mark Dexter
 # Fix broken acl0001Test.php system test

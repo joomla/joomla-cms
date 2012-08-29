@@ -72,9 +72,6 @@ $ -> Language fix or change
  ^ Merge latest platform (bf746b2389fbea9c0fa48ea015320c18beb8d0f3)
  ^ Remove use of the deprecated JProfiler::getMemory().
 
-20-Aug-2012 Rouven Weßling
- + Add setup for unit testing. Thanks Michael.
-
 20-Aug-2012 Jean-Marie Simonet
  # [#28943] *Allowing to disable admin menu bar collapse (Isis)
  # [#28947] Handle submenu rendering as a module again. Thanks Rouven
