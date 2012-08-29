@@ -39,23 +39,24 @@ $canEdit	= $this->item->params->get('access-edit');
 		<?php else : ?>
 		<?php echo $this->escape($this->item->title); ?>
 		<?php endif; ?>
-		<?php if ($params->get('show_author') && !empty($this->item->author )) : ?>
-		<small class="createdby">
-		<?php $author = $this->item->author; ?>
-		<?php $author = ($this->item->created_by_alias ? $this->item->created_by_alias : $author);?>
-		<?php if (!empty($this->item->contactid ) &&  $params->get('link_author') == true):?>
-		<?php
-		echo JText::sprintf('COM_CONTENT_WRITTEN_BY',
-			JHtml::_('link', JRoute::_('index.php?option=com_contact&view=contact&id='.$this->item->contactid), $author)
-		); ?>
-		<?php else :?>
-		<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', $author); ?>
-		<?php endif; ?>
-		</small>
-		<?php endif; ?>
 	</h2>
 	<?php endif; ?>
-	<?php // to do not that elegant would be nice to group the params ?>
+	<?php if ($params->get('show_author') && !empty($this->item->author )) : ?>
+	<small class="createdby">
+	<?php $author = $this->item->author; ?>
+	<?php $author = ($this->item->created_by_alias ? $this->item->created_by_alias : $author); ?>
+	<?php if (!empty($this->item->contactid ) &&  $params->get('link_author') == true) : ?>
+	<?php
+	echo JText::sprintf('COM_CONTENT_WRITTEN_BY',
+		JHtml::_('link', JRoute::_('index.php?option=com_contact&view=contact&id='.$this->item->contactid), $author)
+	); ?>
+	<?php else :?>
+	<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', $author); ?>
+	<?php endif; ?>
+	</small>
+	<?php endif; ?>
+
+	<?php // Todo Not that elegant would be nice to group the params ?>
 	<?php if (($params->get('show_category')) or ($params->get('show_create_date')) or ($params->get('show_parent_category'))) : ?>
 	<div class="btn-toolbar">
 		<?php if ($params->get('show_create_date')) : ?>
