@@ -28,6 +28,7 @@ $ -> Language fix or change
 
 29-Aug-2012 Jean-Marie Simonet
  $ Updating installation language lt-LT, ca-ES
+ # [#28863] Custom sample data install issue with driver mysql. Thanks Mihaly and Michael
 
 28-Aug-2012 Jean-Marie Simonet
  +$ Adding Indonesian id-ID language Installation files
