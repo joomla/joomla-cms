@@ -2,7 +2,7 @@
 
 <project name="joomla-platform" default="build" basedir=".">
 	<property name="source" value="libraries" />
-	<property name="joomlasource" value="libraries/joomla,libraries/platform.php,libraries/loader.php,libraries/import.php" />
+	<property name="joomlasource" value="libraries/joomla,libraries/legacy,libraries/compat,libraries/platform.php,libraries/loader.php,libraries/import.php" />
 
 	<target name="clean" description="Clean up and create artifact directories">
 		<delete dir="${basedir}/build/api" />
