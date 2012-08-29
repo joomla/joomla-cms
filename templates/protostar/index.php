@@ -97,6 +97,7 @@ else
 		body.site
 		{
 			border-top: 3px solid <?php echo $this->params->get('templateColor');?>;
+			background-color: <?php echo $this->params->get('templateBackgroundColor');?>
 		}
 		a
 		{

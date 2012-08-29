@@ -28,6 +28,7 @@ $ -> Language fix or change
 
 29-Aug-2012 Jean-Marie Simonet
  # [#28980] Publication information should not have h2 styling. Thanks Elin
+ + [#28975] Add background color selector to protostar. Thanks Elin
 
 28-Aug-2012 Rouven Weßling
  ^ Reduce use of the deprecated JFile methods.
