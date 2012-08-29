@@ -308,7 +308,7 @@ class plgContentPagebreak extends JPlugin
 			// Next >>
 			$next = '<a href="'. $link_next .'">' . JText::_('JNEXT') . $pnSpace . JText::_('JGLOBAL_GT') . JText::_('JGLOBAL_GT') .'</a>';
 		} else {
-			$next = JText::_('JNEXT');
+			$next = "<span>" . JText::_('JNEXT') . "</span>";
 		}
 
 		if ($page > 0) {
@@ -318,7 +318,7 @@ class plgContentPagebreak extends JPlugin
 			// << Prev
 			$prev = '<a href="'. $link_prev .'">'. JText::_('JGLOBAL_LT') . JText::_('JGLOBAL_LT') . $pnSpace . JText::_('JPREV') .'</a>';
 		} else {
-			$prev = JText::_('JPREV');
+			$prev = "<span>" . JText::_('JPREV') . "</span>";
 		}
 
 		$row->text .= '<ul><li>' . $prev . ' </li><li>' . $next .'</li></ul>';
