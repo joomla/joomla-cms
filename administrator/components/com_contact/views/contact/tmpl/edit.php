@@ -227,7 +227,6 @@ JHtml::_('behavior.formvalidation');
 					<?php echo $this->form->getInput('published'); ?>
 				</div>
 			</div>
-
 			<div class="control-group">
 				<div class="control-label">
 					<?php echo $this->form->getLabel('access'); ?>

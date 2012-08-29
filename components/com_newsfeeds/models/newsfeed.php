@@ -165,28 +165,26 @@ class NewsfeedsModelNewsfeed extends JModelItem
 	 */
 	public function hit($pk = 0)
 	{
-            $hitcount = JRequest::getInt('hitcount', 1);
+		$hitcount = JRequest::getInt('hitcount', 1);
 
-            if ($hitcount)
-            {
-                // Initialise variables.
-                $pk = (!empty($pk)) ? $pk : (int) $this->getState('newsfeed.id');
-                $db = $this->getDbo();
+		if ($hitcount)
+		{
+			$pk = (!empty($pk)) ? $pk : (int) $this->getState('newsfeed.id');
+			$db = $this->getDbo();
 
-                $db->setQuery(
-                        'UPDATE #__newsfeeds' .
-                        ' SET hits = hits + 1' .
-                        ' WHERE id = '.(int) $pk
-                );
+			$db->setQuery(
+				'UPDATE #__newsfeeds' .
+				' SET hits = hits + 1' .
+				' WHERE id = '.(int) $pk
+			);
 
-                if (!$db->query()) {
-                        $this->setError($db->getErrorMsg());
-                        return false;
-                }
-            }
+			if (!$db->query())
+			{
+				$this->setError($db->getErrorMsg());
+				return false;
+			}
+		}
 
-            return true;
+		return true;
 	}
-
-
 }
