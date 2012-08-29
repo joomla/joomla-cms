@@ -100,9 +100,9 @@ class ControlPanel0004 extends SeleniumJoomlaTestCase
 		print("Move Modules category down one (below Templates)." . "\n");
 
 		$this->mouseDownAt("//tr/td/a[contains(text(), 'Modules')]/../../td[1]/span", "");
-		$this->mouseMoveAt("//tr/td/a[contains(text(), 'Templates')]/../../td[1]/span", "0,10");
-		$this->mouseMoveAt("//tr/td/a[contains(text(), 'Templates')]/../../td[1]/span", "0,10");
+		$this->mouseMoveAt("//tr/td/a[contains(text(), 'Templates')]/../../td[1]/span", "0,30");
 		$this->mouseUpAt("//tr/td/a[contains(text(), 'Templates')]/../../td[1]/span", "");
+
 
 		$this->select("filter_level", "value=");
 		$this->waitForPageToLoad("30000");
@@ -123,9 +123,9 @@ class ControlPanel0004 extends SeleniumJoomlaTestCase
 		$this->select("filter_level", "value=4");
 		$this->waitForPageToLoad("30000");
 		$this->mouseDownAt("//tr/td/a[contains(text(), 'Modules')]/../../td[1]/span", "");
-		$this->mouseMoveAt("//tr/td/a[contains(text(), 'Components')]/../../td[1]/span", "0,-10");
-		$this->mouseMoveAt("//tr/td/a[contains(text(), 'Components')]/../../td[1]/span", "0,10");
-		$this->mouseUpAt("//tr/td/a[contains(text(), 'Components')]/../../td[1]/span", "");
+		$this->mouseMoveAt("//tr/td/a[contains(text(), 'Templates')]/../../td[1]/span", "0,10");
+		$this->mouseUpAt("//tr/td/a[contains(text(), 'Templates')]/../../td[1]/span", "");
+
 
 		$this->select("filter_level", "value=");
 		$this->waitForPageToLoad("30000");

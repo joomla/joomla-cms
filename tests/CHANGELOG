@@ -28,6 +28,7 @@ $ -> Language fix or change
 
 29-Aug-2012 Rouven Weßling
  + Import unit tests for JHtmlBatch from the platform.
+ # Fix controlPanel0004Test system test
 
 25-Aug-2012 Mark Dexter
  + Unit test framework for CMS. Thanks Michael.
