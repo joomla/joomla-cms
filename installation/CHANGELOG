@@ -26,8 +26,11 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+29-Aug-2012 Jean-Marie Simonet
+ $ Updating installation language lt-LT, ca-ES
+
 28-Aug-2012 Jean-Marie Simonet
- +$ Adding Indonesian language Installation files
+ +$ Adding Indonesian id-ID language Installation files
 
 27-Aug-2012 Jean-Marie Simonet
  # [#28858] Com_finder missing show_advanced_tips parameter => can't hide advanced tips. Thanks Michael
