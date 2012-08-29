@@ -49,6 +49,7 @@ class JArchiveTarTest extends PHPUnit_Framework_TestCase
 	 * @group   JArchive
 	 * @return  void
 	 * @covers  JArchiveTar::extract
+	 * @covers  JArchiveTar::_getTarInfo
 	 */
 	public function testExtract()
 	{
