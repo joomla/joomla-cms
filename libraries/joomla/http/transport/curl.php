@@ -137,7 +137,7 @@ class JHttpTransportCurl implements JHttpTransport
 		$options[CURLOPT_HTTPHEADER][] = 'Expect:';
 
 		// Follow redirects.
-		$options[CURLOPT_FOLLOWLOCATION] = (bool) $this->options->get('curl.followLocation', true);
+		$options[CURLOPT_FOLLOWLOCATION] = (bool) $this->options->get('follow_location', true);
 
 		// Set the cURL options.
 		curl_setopt_array($ch, $options);
