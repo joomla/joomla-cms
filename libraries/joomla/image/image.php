@@ -236,8 +236,7 @@ class JImage
 			$thumbsFolder = dirname($this->getPath()) . '/thumbs';
 		}
 
-		// Check destination & parent folder
-		$parentFolder = dirname($thumbsFolder);
+		// Check destination
 		if (!is_dir($thumbsFolder) && (!is_dir(dirname($thumbsFolder)) || !@mkdir($thumbsFolder)))
 		{
 			throw new InvalidArgumentException('Folder does not exist and cannot be created: ' . $thumbsFolder);
