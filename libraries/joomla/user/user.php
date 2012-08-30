@@ -468,6 +468,7 @@ class JUser extends JObject
 		JLog::add('JUser::getParameters() is deprecated. JUser::getParam().', JLog::WARNING, 'deprecated');
 
 		return $this->_params;
+
 		// @codeCoverageIgnoreEnd
 	}
 

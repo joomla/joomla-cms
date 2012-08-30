@@ -147,26 +147,26 @@ class JApplicationWebRouterRestTest extends TestCase
 	}
 
 	/**
-	 * Tests the setMethodInPostRequest and getMethodInPostRequest.
+	 * Tests the setMethodInPostRequest and isMethodInPostRequest.
 	 *
 	 * @return  void
 	 *
 	 * @covers  JApplicationWebRouterRest::setMethodInPostRequest
-	 * @covers  JApplicationWebRouterRest::getMethodInPostRequest
+	 * @covers  JApplicationWebRouterRest::isMethodInPostRequest
 	 * @since   12.3
 	 */
 	public function testMethodInPostRequest()
 	{
 		// Check the defaults
-		$this->assertEquals(false, TestReflection::invoke($this->_instance, 'getMethodInPostRequest'));
+		$this->assertEquals(false, TestReflection::invoke($this->_instance, 'isMethodInPostRequest'));
 
 		// Check setting true
 		TestReflection::invoke($this->_instance, 'setMethodInPostRequest', true);
-		$this->assertEquals(true, TestReflection::invoke($this->_instance, 'getMethodInPostRequest'));
+		$this->assertEquals(true, TestReflection::invoke($this->_instance, 'isMethodInPostRequest'));
 
 		// Check setting false
 		TestReflection::invoke($this->_instance, 'setMethodInPostRequest', false);
-		$this->assertEquals(false, TestReflection::invoke($this->_instance, 'getMethodInPostRequest'));
+		$this->assertEquals(false, TestReflection::invoke($this->_instance, 'isMethodInPostRequest'));
 	}
 
 	/**
