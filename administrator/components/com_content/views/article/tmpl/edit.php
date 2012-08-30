@@ -61,6 +61,9 @@ endif;
 	<div class="row-fluid">
 		<!-- Begin Content -->
 		<div class="span10 form-horizontal">
+			<div class="control-group form-inline">
+				<h2><?php echo $this->form->getLabel('title'); ?> <?php echo $this->form->getInput('title'); ?></h2>
+			</div>
 			<ul class="nav nav-tabs">
 				<li class="active"><a href="#general" data-toggle="tab"><?php echo JText::_('COM_CONTENT_ARTICLE_DETAILS');?></a></li>
 				<li><a href="#publishing" data-toggle="tab"><?php echo JText::_('COM_CONTENT_FIELDSET_PUBLISHING');?></a></li>
@@ -81,12 +84,14 @@ endif;
 				<?php endif ?>
 			</ul>
 
+
+
 			<div class="tab-content">
 				<!-- Begin Tabs -->
 				<div class="tab-pane active" id="general">
 					<fieldset class="adminform">
 						<div class="control-group form-inline">
-							<?php echo $this->form->getLabel('title'); ?> <?php echo $this->form->getInput('title'); ?> <?php echo $this->form->getLabel('catid'); ?> <?php echo $this->form->getInput('catid'); ?>
+							<?php echo $this->form->getLabel('catid'); ?> <?php echo $this->form->getInput('catid'); ?>
 						</div>
 						<?php echo $this->form->getInput('articletext'); ?>
 					</fieldset>
@@ -96,7 +101,7 @@ endif;
 					<?php if ($params['show_urls_images_backend']): ?>
 						<div class="row-fluid">
 							<div class="span6">
-								<h4><?php echo JText::_('COM_CONTENT_FIELDSET_URLS_AND_IMAGES');?></h4>
+								<h3><?php echo JText::_('COM_CONTENT_FIELDSET_URLS_AND_IMAGES');?></h3>
 								<div class="control-group">
 									<div class="control-label">
 										<?php echo $this->form->getLabel('images'); ?>
@@ -318,7 +323,7 @@ endif;
 		<!-- End Content -->
 		<!-- Begin Sidebar -->
 		<div class="span2">
-			<h4><?php echo JText::_('JDETAILS');?></h4>
+			<h3><?php echo JText::_('JDETAILS');?></h3>
 			<hr />
 			<fieldset class="form-vertical">
 				<div class="control-group">
