@@ -13,8 +13,12 @@
 
 
 
-#right ul.menu ul
-{zoom:1;}
+div.current , fieldset {zoom:1}
+dl.tabs ,.tabs dt,.tabs dd ,
+{display:inline}
+.contact-links , .js_heading{zoom:1}
+
+legend {margin-left:-7px}
 
 #users-profile-core legend,
 #users-profile-custom legend,

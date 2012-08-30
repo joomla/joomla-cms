@@ -2,31 +2,36 @@
  * @author ( Angie Radtke )
 */
 
-/* not ready */
 
 /* ##########################  general  ########################### */
 
 
-@font-face {
-	font-family: 'Titillium Maps';
-	src: url("../fonts/TitilliumMaps29L002.eot");
-	src: local('Titillium Maps'), local('TitilliumMaps'),
-		url("../fonts/TitilliumMaps29L002.otf") format("opentype"),
-		url("../fonts/TitilliumMaps29L002.woff") format("woff");
-}
 
 body
 {
-	background: #fff url(../images/nature/header_outer.gif) repeat-x left 0;
-	color: #333;
 	font-family: arial, helvetica, sans-serif;
+	background:#fff; 
+	color:#444
 }
 
-#all
-{
-	color: #333;
-	border:solid 0px #ddd  !important ;
+h3 {
+	color: #555
 }
+
+h2 a {
+	text-decoration: none
+}
+
+h2, .moduletable h3 {
+	border-bottom: solid 1px #ddd;
+
+}
+
+
+.items-row h2 
+{border-top: solid 1px #ddd;
+}
+
 
 a:link,
 a:visited
@@ -42,85 +47,88 @@ a:focus
 	color:#FFF;
 }
 
-ul li a.u2:focus,
-p a.u2:active
-{
-	background-color:#000;
-	color:#FFF;
-}
-
-input:focus
-{
-	border:solid 2px;
-}
-
-fieldset
-{
-	border:solid 0px #ccc
-}
-
-.article-info
-{
-	color:#444;
-}
-
-.article-info dd span
-{
-	color:#444;
-	border-right:solid 0px;
-
-}
-
 
 
 /* ##########################  logo  ########################### */
 
-#logo span
-{
-	color:#fff !important;
-	margin-top:6px
-}
 
 .logoheader
 {
 	border-top:solid 1px transparent;
 	color:#fff;
-	background:url(../images/nature/bar.jpg) repeat-x top left;
+	max-width: 1050px;
+	margin:37px auto;
+	min-height:20px;
+	margin-bottom:0;
+	
+	
 
 }
-
-h1#logo
-{
-	font-family:  'Titillium Maps', Arial;
-	text-shadow:#333  0.1em 0.1em 0.2em;
-}
-
-
-#logo span.header1
-{
-	color:#fff;
-}
+.logoheader h1#logo 
+{padding:20px 10px 0px 10px; }
+.logoheader h1#logo  span.header1 {padding:0}
 
 /* ##########################  header  ########################### */
 
-#line {
-}
-
+#all {padding-top:13em}
+#line { position:relative; max-width:1050px; margin:0 auto; text-align:right; right:0;  top:0em}
 #header
-{
-	background:#185359 url(../images/nature/header.jpg) bottom left repeat-x ;
-	position:relative
+{  	
+	background: #004746; /* Old browsers */
+	background-repeat: repeat-x;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#185359", endColorstr="#007774");
+	background: -moz-linear-gradient(top,  #004746 0%, #0a5e69 25%, #185359 18%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#004746), color-stop(25%,#0a5e69), color-stop(18%,#185359)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top,  #004746 0%,#0a5e69 25%,#185359 18%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top,  #004746 0%,#0a5e69 25%,#185359 18%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top,  #004746 0%,#0a5e69 25%,#185359 18%); /* IE10+ */
+	background: linear-gradient(top,  #004746 0%,#0a5e69 25%,#185359 18%); /* W3C */
+	position:absolute;
+	left:0; 
+	top:0;
+	width:99.9%;
+	padding:0;
+}
+/* green background */
+.button:hover, button:hover, p.readmore a:hover,
+.pagenav a:hover, .pagenav a:active,  .pagenav a:focus,  #advanced-search-toggle:hover,  #advanced-search-toggle:active,  #advanced-search-toggle:focus,
+.profile-edit a:hover, .profile-edit a:active, .profile-edit a:focus,
+#fontsize a:hover,  #fontsize a:active,  #fontsize a:focus,#mobile_select h2 a 
+	{
+
+	color: #fff;
+	background: #008885; /* Old browsers */
+	
+
+	background-color: hsl(165, 27%, 27%) ;
+	 background-repeat: repeat-x;
+	  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#008885", endColorstr="#004746");
+	   background-image: -khtml-gradient(linear, left top, left bottom, from(#008885), to(#004746)); 
+	   background-image: -moz-linear-gradient(top, #008885, #004746);
+background-image: -ms-linear-gradient(top, #008885, #004746);
+background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #008885), color-stop(100%, #004746));
+background-image: -webkit-linear-gradient(top, #008885, #004746);
+background-image: -o-linear-gradient(top, #008885, #004746);
+background-image: linear-gradient(#008885, #004746);
+border-color: #004746 #004746 hsl(165, 27%, 22.5%);
+text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.29);
+-webkit-font-smoothing: antialiased;
 }
 
-/* ++++++++++++++  lists, skiplinks  ++++++++++++++ */
+/* ++++++++++++++ header  menu ++++++++++++++ */
+
 #header ul.menu
 {
-	background: url(../images/nature/navhoriz.png);
+	
 	border:0;
-	border-bottom:solid 1px #237D85;
 	list-style-type:none;
-
-
+	border-radius:0;	
+	overflow:hidden;
+	margin:0 auto ;
+	text-align:right;
+	position:absolute;
+	top:0; 
+	right:10px;
 }
 
 #header ul.menu li
@@ -128,17 +136,22 @@ h1#logo
 	border:0;
 
 }
-
+#header ul.menu a {
+	box-shadow:none; 
+	border-bottom:0
+	}
 #header ul.menu li a:link,
 #header ul.menu li a:visited
 {
 	color:#fff;
 	border:0;
 	border-right:solid 1px #237D85;
+	box-shadow: none;
 	background:transparent;
 	padding:10px ;
+	display:inline-block
 }
-
+#header ul.menu li:first-child a {border-radius:0}
 #header ul.menu li a:hover,
 #header ul.menu li a:active,
 #header ul.menu li a:focus
@@ -153,784 +166,170 @@ h1#logo
 {
 	color:#333;
 	border-right:solid 1px #237D85;
-	background:#bddfb3 !important;
+	background:#bddfb3;
 	padding: 10px  ;
 
 }
 
-.skiplinks,
-.skiplinks li
-{
-	border:solid 0px #000;
-}
-#header ul.skiplinks
-{
-	width:100%;
-	text-align:left;
-	background:none;
-	z-index:20000;
-	top:0;
-	display:inline;
-	padding:0
-}
-
-#header ul.skiplinks li a.u2:active,
-#header ul.skiplinks li a.u2:focus
-
-{
-	background:#333 !important;
-	color:#fff !important;
-	border:solid 1px;
-	top:0px !important;
-	z-index:1000000 !important;
-	left:10px !important;
-	display:block;
-	width:14em;
-	display:block
-}
-/* ++++++++++++++  fontsize  ++++++++++++++ */
-
-#fontsize
-{
-	color:#00710e;
-}
-
-#fontsize p a:link,
-#fontsize p a:visited
-{
-	color:#fff
-}
-
-#fontsize p a:hover,
-#fontsize p a:active,
-#fontsize p a:focus
-{
-	background:#000;
-	color:#fff
-}
-
-#fontsize h3
-{
-	color:#fff;
-}
-
-
-/* ++++++++++++++  search  ++++++++++++++ */
-
-#header form .inputbox
-{
-	background:#E1E9E9 !important;
-}
-
-#header form .inputbox:focus
-{
-	border:solid 2px #000;
-}
-
-#header form .button
-{
-	border:solid 1px #999;
-	background:#664335 url(../images/nature/searchbutton.png) ;
-	color:#fff;
-}
-
-/* ##########################  contentarea  ########################### */
-
-#contentarea,
-#contentarea2
-{
-	background:#fff url(../images/nature/box1.png) repeat-x;
-}
-
-
-/* ##########################  breadcrumbs  ########################### */
-
-#breadcrumbs
-{
-	color:#555;
-}
-
-#breadcrumbs span
-{
-	color:#555;
-}
-
-#breadcrumbs span a:link,
-#breadcrumbs span a:visited
-{
-	background:#fff;
-	color:#19545a;
-}
-
-#breadcrumbs span a:hover,
-#breadcrumbs span a:active,
-#breadcrumbs span a:focus
-{
-	background:#19545a;
-	color:#fff;
-}
-
-
-/* ##########################  navigation column  ########################### */
-
-.module_content
-{
-	border:solid 1px #ddd;
-	background:#fff
-}
-.moduletable_js
-{
-	border:solid 0px #ddd;
-}
-
-#right .moduletable_js
-{
-	border:0
-}
-
-#nav h3
-{
-	border-bottom:solid 1px #ddd;
-	color:#0A5E69;
-}
-
-h3.js_heading
-{
-	border-bottom:solid 1px #fff !important;
-	background:/*#ddf0f2  #E1E9E9*/ #095469 url(../images/nature/h3_js_bg.gif) bottom left repeat-x;
-	font-family: 'Titillium Maps', Arial;
-}
-
-h3.js_heading span.backh
-{
-	border:solid 0px #000
-}
-
-h3.js_heading span.backh1
-{
-	color:#fff
-}
-
-#right h3
-{
-	color:#0a5e69;
-	border-bottom:solid 1px #ddd;
-}
-
-#right h3 span.backh
-{
-
-}
-
-#right h3 span.backh2
-{
-
-}
-
-#right h3 span.backh3
-{
-	color:#664335
-}
-
-h3.js_heading a
-{
-	border:0
-}
-
-h3.js_heading a img
-{
-	border:0
-}
-
-h3.js_heading a:link,
-h3.js_heading a:visited,
-h3.js_heading a:hover,
-h3.js_heading a:active,
-h3.js_heading a:focus
-{
-
-}
-
-#nav h3
-{
-	font-family: 'Titillium Maps', Arial;
-}
-
-#nav h3.js_heading a:focus
-{
-
-}
-
-#nav form
-{
-	color:#000;
-}
-
-#nav form a:hover,
-#nav form a:active,
-#nav form a:focus
-{
-	color:#fff;
-	background:#044b63;
-}
-
-ul.nav-child.small {
-	font-size: 100%;
-}
-
-/* ++++++++++++++  first level  ++++++++++++++ */
-#nav .moduletable-example ul.menu
-{
-	background:#fff;
-	border:0;
-}
-
-ul.menu
-{
-	border:0;
-	background:#fff /* url(../images/nature/nav_level_1.gif) repeat-x */;
-	border:solid 0px #eee;
-}
-
-.module_content ul.menu
-{
-	border:0;
-}
-
-ul.menu li
-{
-	border-bottom:solid 1px #ddd;
-}
-
-
-ul.menu li a:link,
-ul.menu li a:visited
-{
-	color:#444;
-	background:url(../images/nature/karo.gif) 5px 12px no-repeat
-}
-
-ul.menu li.active a:link,
-ul.menu li.active a:visited
-{
-	color:#333;
-}
-
-ul.menu li a:hover,
-ul.menu li a:active,
-ul.menu li a:focus,
-ul.menu li.active a:hover,
-ul.menu li.active a:active,
-ul.menu li.active a:focus
-{
-	background: #fff url(../images/nav_level_1.gif) repeat-x ;
-	color:#0A5E69;
-}
-
-
-/* ++++++++++++++  second level  ++++++++++++++ */
-
-ul.menu li ul
-{
-	border:solid 0px #eee;
-}
-
- ul.menu li ul li
-{
-	border:solid 0px #000;
-	background:#fff;
-}
-
- ul.menu li.active ul li a:link,
- ul.menu li.active ul li a:visited
-{
-	color:#444;
-	border:0;
-	border-bottom:solid 1px #fff;
-	background: #e8e8e8
-}
-
- ul.menu li.active ul li.active a:link,
- ul.menu li.active ul li.active a:visited
-{
-	border:0;
-	color:#333;
-	border-bottom:solid 1px #fff;
-}
-
- ul.menu li.active ul li a:hover,
- ul.menu li.active ul li a:active,
- ul.menu li.active ul li a:focus
-{
-	background:#666 !important;
-	color:#fff !important;
-}
-
-
-/* ++++++++++++++  third level  ++++++++++++++ */
-
-ul.menu li ul li ul
-{
-	border:0 !important;
-	background:#f5f5f5 !important;
-	padding-bottom:0
-}
-
-ul.menu li.active ul li.active ul li a:link,
-ul.menu li.active ul li.active ul li a:visited
-{
-	background:#f5f5f5 ;
-	border-bottom:solid 1px #fff;
-	color:#444
-}
-
-ul.menu li.active ul li.active ul li.active a:link,
-ul.menu li.active ul li.active ul li.active a:visited
-{
-	color:#333;
-}
-
-
-
-/* ++++++++++++++  fourth level  ++++++++++++++ */
-
-ul.menu li ul li ul li ul
-{
-	border:solid 1px #eee !important;
-	padding-top:10px !important;
-	padding-bottom:10px !important;
-	background:#fff url(../images/nature/level4.png) repeat-x !important;
-}
-
-
-ul.menu li.active  ul li.active  ul li.active  ul li  a:link,
-ul.menu li.active  ul li.active  ul li.active  ul li a:visited
-{
-	font-weight:normal;
-	padding: 3px 2px 3px 40px;
-	font-size:0.9em;
-	background:#fff url(../images/nature/arrow_small.png) no-repeat  30px 5px;
-	color:#444
-}
-
-
-ul.menu li.active  ul li.active  ul li.active  ul li.active  a:link,
-ul.menu li.active  ul li.active  ul li.active  ul li.active a:visited
-{font-weight:bold;
-color:#333 }
-
-
-
-/* ++++++++++++++  fifth level  ++++++++++++++ */
-
-ul.menu li ul li ul li ul li ul
-{
-	border:solid 0px #eee !important;
-	padding-top:5px !important;
-	padding-bottom:10px !important;
-	background:#fff url(../images/nature/level4.png) repeat-x !important;
-}
-
-
-ul.menu li.active  ul li.active  ul li.active  ul li.active	ul li  a:link,
-ul.menu li.active  ul li.active  ul li.active  ul li.active	ul li a:visited
-{
-	font-weight:normal;
-	padding: 3px 2px 3px 5px;
-	font-size:0.9em;
-	background:#fff ;
-	color:#444;
-	margin:0 10px  0 35px;
-	border-bottom:solid 1px #ddd
-}
-
-
-ul.menu li.active  ul li.active  ul li.active  ul li.active  ul li.active  a:link,
-ul.menu li.active  ul li.active  ul li.active  ul li.active  ul li.active a:visited
-{font-weight:bold; color:#333}
-
-/* ##########################  content - main   ########################### */
-
-
-#main
-{
-
-}
-
-#main a:link,
-#main a:visited
-{
-
-}
-
-#main a:hover,
-#main a:active,
-#main a:focus
-{
-	background:#0A5E69;
-	color:#fff;
-}
-
-#main th a:hover,
-#main th a:active,
-#main th a:focus
-{
-	background:#333;
-	color:#fff;
-}
-
-.items-row
-{
-
-}
-
-.column-1,
-.column-2
-{
-	border: solid 0px;
-}
-
-.item-separator
-{
-	border: solid 0px #333333;
-}
-
-#main ul li
-{
-
-}
-
-.small
-{
-	border:solid 0;
-}
-
-ul#archive-items li.row0,
-ul#archive-items li.row1
-{
-	border-bottom:solid 1px #ddd
-}
-
-.archive #adminForm fieldset
-{
-	border:0;
-	padding:0;
-	margin:20px 0
-}
-
-/* ++++++++++++++  images  ++++++++++++++ */
-
-.image-left
-{
-
-		padding:2px
-}
-
-.image-right
-{
-
-		padding:2px
-}
-
-
-/* ++++++++++++++  leading  ++++++++++++++ */
-
-.items-row
-{
-
-}
-
-
-/* ++++++++++++++++++++ headings +++++++++++++ */
-
-#main h1
-{
-	color:#333;
-	border-top:solid 0px #ddd;
-	border-bottom:solid 1px #ddd;
-	font-family: 'Titillium Maps', Arial;
-}
-
-/* h1 on frontpage */
-/*
-#main .blog-featured h1
-{
-	border-top:solid 0px #ddd;
-	border-bottom:solid 0px #ddd;
-}
-*/
-.items-row h2
-{
-	color:#0A5E69;
-	border-top:solid 1px #ddd;
-	border-bottom:solid 1px #ddd;
-}
-
-.items-leading h2
-{
-	color:#0A5E69;
-}
-
-#main h2
-{
-	color:#0A5E69;
-	font-family: 'Titillium Maps', Arial;
-}
-
-#main h2 a
-{
-	color:#333
-}
-
-
-/* ++++++++++++++  readmore  ++++++++++++++ */
-
-.readmore a:link,
-.readmore a:visited,
-a.readmore:link,
-a.readmore:visited
-{
-	color:#444;
-	background:#eee url(../images/nature/arrow1.gif) no-repeat left top;
-	border:solid 1px #ddd;
-}
-
-.readmore a:hover,
-.readmore a:active,
-.readmore a:focus,
-a.readmore a:hover,
-a.readmore a:active,
-a.readmore a:focus
-{
-	background:#555 url(../images/nature/arrow2.gif) no-repeat left 6px !important;
-	color:#fff;
-}
-
-a.readmore:hover,
-a.readmore:active,
-a.readmore:focus
-{
-	background:#555;
-	color:#fff;
-}
-
-/* ++++++++++++++  icons  ++++++++++++++ */
-
-.actions img
-{
-	border:0;
-}
-
-/* ++++++++++++++  items-more  ++++++++++++++ */
-
-#main .items-more h3
-{
-	border-bottom:solid 1px #ddd;
-	border-top:solid 1px #ddd;
-	color:#444;
-}
-
-#main .items-more ol
-{
-	color:#000;
-}
-
-#main .items-more ol li a
-{
-	background:#FFF url(../images/nature/blog_more.gif) no-repeat  !important;
-	color:#0A5E69
-}
-
-#main .items-more ol li a:hover,
-#main .items-more ol li a:active,
-#main .items-more ol li a:focus
-{
-	background: #555 url(../images/nature/arrow2.gif) no-repeat 0px center;
-	color:#0A5E69;
-}
-
-/* ++++++++++++++  pagination  ++++++++++++++ */
-
-#main .pagination
-{
-	border-top:solid 1px #ddd;
-}
-
-
-/* ++++++++++++++  article index  ++++++++++++++ */
-
-table.contenttoc
-{
+#fontsize a , #fontsize h3 {color:#fff}
+/*  grey background */
+.button, button , p.readmore a , 
+ .pagenav a:link, .pagenav a:visited, #advanced-search-toggle , .profile-edit a:link,.profile-edit a:visited,  h3.js_heading
+ {
+	background-color: #F5F5F5;
+	background-image: -moz-linear-gradient(center top, #FFFFFF, #E6E6E6);
+	background-repeat: repeat-x;
 	border:solid 1px #ccc;
+	box-shadow: 0 1px 0 rgba(255, 255, 255, 0.2) inset, 0 1px 2px
+		rgba(0, 0, 0, 0.05);
+	color: #004746;
+	
+	
+	
 }
 
 
-/* ##########################  right column   ########################### */
+/* ++++++++++++++++++++++  navigation  ++++++++++++++++++++++++++  */
 
-#right
+.moduletable_menu {
+	border: solid 1px #ddd;
+	background: #f9f9f9;
+	
+}
+#header ul.menu {
+	border-color: #D5D5D5;
+}
+
+ul.menu a:hover,
+ul.menu a:active,
+ul.menu a:focus {
+	background-color: #F5F5F5;
+	background-image: -moz-linear-gradient(center top, #FFFFFF, #E6E6E6);
+	background-repeat: repeat-x;
+	background:url(../images/3.0/arrow.png) no-repeat right center;
+	color: color: #004746;
+	
+	
+}
+
+
+/* ++++++++++++++++   highlightning active menuitem  +++++++++++++++++++ */
+
+ul.menu li.active a,ul.menu  li.active ul li.active a,
+ul.menu  li.active ul li.active  ul li.active a,
+ul.menu  li.active ul li.active  ul li.active ul li.active  a ,
+ul.menu  li.active ul li.active  ul li.active ul li.active ul li.active a 
+{font-weight:bold; }
+ul.menu  li.active ul li a,
+ul.menu  li.active ul li.active  ul li a,
+ul.menu  li.active ul li.active  ul li.active ul li  a,
+ul.menu  li.active ul li.active  ul li.active ul li.active ul li a 
+{font-weight:normal}
+
+ul.menu a 
 {
+	box-shadow:0 1px 0 #fff; 
+	border-bottom:solid 1px #ddd;
+	
+}
+
+ul.menu ul a {
+	background: #e5e5e5;
+	margin-bottom:1px
+	
+	
+}
+
+ul.menu ul ul ul a {
+	background: #f5f5f5 url(../images/3.0/arrow.png) no-repeat  24px  center ;
+
 
 }
 
-#right .moduletable
-{
-	color:#000;
-	border:solid 0px #eee;
-	border-top:0
+ul.menu ul ul ul ul a {
+	background: #fff;
+	
 }
 
-#right h3
+/* +++++++++++++++++  content  +++++++++++++++ */
+
+
+.article-info {
+	background-color: #fbfbfb;
+	background-image: -moz-linear-gradient(top, #ffffff, #f5f5f5);
+	background-image: -ms-linear-gradient(top, #ffffff, #f5f5f5);
+	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ffffff),
+		to(#f5f5f5) );
+	background-image: -webkit-linear-gradient(top, #ffffff, #f5f5f5);
+	background-image: -o-linear-gradient(top, #ffffff, #f5f5f5);
+	background-image: linear-gradient(top, #ffffff, #f5f5f5);
+	background-repeat: repeat-x;
+	filter: progid : DXImageTransform.Microsoft.gradient ( startColorstr =
+		'#ffffff', endColorstr = '#f5f5f5', GradientType = 0 );
+	border: 1px solid #ddd;
+	-webkit-box-shadow: inset 0 1px 0 #ffffff;
+	-moz-box-shadow: inset 0 1px 0 #ffffff;
+	box-shadow: inset 0 1px 0 #ffffff;
+}
+
+ul.menu a:link,ul.menu a:visited {
+	color: #444;
+
+}
+
+
+#footer-inner, #footer , #footer-outer {
+	background: #f5f5f5; 
+
+}
+#footer-sub {background:#555;}
+#footer {background:#555; max-width:1025px; margin:0 auto; }
+#footer a {color:#fff}
+
+.box1
+{border-right:solid 1px #ccc}
+.box3
+{border-left:solid 1px #ccc}
+#bottom  ul li a
+{background-image:none;
+padding-left:0}
+
+/* +++++++++++++++++++++++  SLIDER  ++++++++++++++++++++  */
+
+.panel h3.pane-toggler a
 {
+	background: url(../images/slider_plus.png) right  top no-repeat;
 	color:#333
 }
-
-#right h4
+.panel h3.pane-toggler-down a
 {
-	color:#000;
-	border:solid 0;
-}
-
-#right ul
-{
-	border:solid 0 #ccc;
-	color:#000;
-}
-
-
-/* ++++++++++++++  button for closing right column  ++++++++++++++ */
-#close span
-{
-	color:#000;
-}
-
-/* ##########################  modules  ########################### */
-
-/* ++++++++++++++  mostread, latest news ++++++++++++++ */
-
-.mostread li a:link,
-.mostread li a:visited,
-.latestnews li a:link,
-.latestnews li a:visited
-{
-	background: url(../images/personal/arrow2_grey.png) 2px 7px  no-repeat ;
-}
-
-.mostread li a:hover,
-.latestnews li a:hover,
-.mostread li a:active,
-.latestnews li a:active,
-.mostread li a:focus,
-.latestnews li a:focus
-{
-	background:#555 url(../images/arrow_white_grey.png) 2px 6px  no-repeat !important;
-}
-
-/* ++++++++++++++  newsfeed  ++++++++++++++ */
-
-ul.newsfeed
-{
-	border:solid 0px #000;
-}
-
-.newsfeed-item
-{
+	background: url(../images/slider_minus.png) right  top no-repeat;
 	border-bottom:solid 1px #ddd;
-}
-
-.newsfeed-item h5 a
-{
-
-}
-
-/* ++++++++++++++  newsflash  ++++++++++++++ */
-/* newsflash horizontal */
-
-ul.newsflash-horiz
-{
-	border:solid 1px #eee;
-	background:#f5f5f5 url(../images/nature/box.png) repeat-x;
-}
-
-.newsflash-horiz li
-{
-	border:solid 0px #eee;
-	background:#f5f5f5;
-}
-
-ul.newsflash-horiz li h4
-{
-	border-bottom:solid 1px #fff;
-	font-family: 'Titillium Maps', Arial;
-}
-
-/* newsflash vertical */
-
-.newsflash-vert
-{
-
-}
-
-/* ++++++++++++++  banner  ++++++++++++++ */
-
-.banneritem
-{
-	border:0
-}
-
-.banneritem a
-{
-	background:none
-}
-
-.banneritem a img
-{
-	background:none;
-	border:0
-}
-
-/* ++++++++++++++  login  ++++++++++++++ */
-
-#login-form .inputbox
-{
-	border:solid 1px #ddd;
-	background:url(../images/content_bg.gif) repeat-x;
-
-}
-
-fieldset.input
-{
-	border:0;
-}
-
-input.button,
-button.button,
-button.validate
-{
-	background:#FFFFFF url(../images/nature/arrow1.gif) no-repeat left top;
-	border:1px solid #DDDDDD;
-	color:#444444;
+	color:#333
+	
 }
 
 
-/* ++++++++++++++  tabs/ slide  ++++++++++++++ */
 
-ul.tabs
-{
-	border:solid 1px #ddd;
-	border-bottom:0;
-	background:#f5f5f5 url(../images/nature/box.png) repeat-x;
-}
 
-ul.tabs li
+
+
+/*  +++++++++++++++++   Tabs ++++++++++++++++++++++  */
+
+
+ul.tabs li,
+dl.tabs dt h3 a:link,
+dl.tabs dt h3 a:visited
 {
 	background:#f5f5f5 url(../images/nature/box.png) repeat-x;
-	border-right:solid 1px #ddd
+	
 }
-
 ul.tabs li a:link,
-ul.tabs li a:visited
+ul.tabs li a:visited,
+dl.tabs dt a
 {
 	color:#333;
+	border:solid 1px #ddd; border-bottom:0
 }
 
 ul.tabs li a:hover,
@@ -940,24 +339,30 @@ ul.tabs li a:focus
 	color:#000
 }
 
-.tabcontent
+.tabcontent, div.current 
 {
-	border:solid 1px #ddd;
+
 	background:#fff;
 	color:#000;
+	border:solid 1px #ddd;
 }
 
 .tabcontent .linkclosed
 {
 	color:#000;
 	border-bottom:solid 1px #e5e5e5;
+	
 }
 
-ul.tabs li a.linkopen
+ul.tabs li a.linkopen,
+dl.tabs dt.open  h3 a:link,
+dl.tabs dt.open  h3 a:visited
 {
 	background:#fff;
 	color:#333;
-	border:0
+	border-radius: 5px 5px 0px 0px;
+	
+	
 }
 
 ul.tabs li a.linkclosed:hover,
@@ -972,461 +377,134 @@ ul.tabs li a.linkopen:focus
 }
 
 
-/* ++++++++++++++  category-module  ++++++++++++++ */
+/* +++++++++++++++++  Pagination +++++++++++++++ */
 
-.category-module li
-{
-	border-bottom:solid 1px #ddd;
+.pagination span,
+.pagination span  a:hover {
+	color: #999999;
+	background-color: #f5f5f5;
 }
 
-.category-module li li
+/* active item */
+span.pagenav 
 {
-	border:0
+background:#0A5E69; 
+color:#fff
 }
 
-/* ##########################  search   ########################### */
+.pagination-start span.pagenav,
+.pagination-prev  span.pagenav,
+.pagination-end span.pagenav,
+.pagination-next span.pagenav
 
-.searchintro img
 {
-	border:0px
+background-color:#f5f5f5;
+color:#444
 }
 
-.inputbox:focus
-{
-	border:solid 2px #000;
+/* +++++++++++++  table display  Catgegories table, contact etc, ++++++++++++++++++++* */
+
+table {border:solid 1px #ddd}
+table th
+ {
+	background-color: #0A5E69;;
+	color: #fff;
+	
+	
+	
+	
 }
-
-.word
-{
-	background:#fff;
-	border:solid 0px #ccc ;
-}
-
-.word input
-{
-	background:#fff;
-	border:solid 1px #999;
-	color:#044b63;
-}
-
-.only
-{
-	border:solid 1px #ccc;
-}
-
-.phrases
-{
-	border:solid 1px #ccc;
-}
-
-/* ++++++++++++++  selects  ++++++++++++++ */
-.phrases .inputbox
-{
-	background:#fff;
-	color:#000;
-}
-
-.phrases .inputbox option
-{
-	background:#f5f5f5;
-	border-bottom:solid 1px #ccc;
-}
-
-.phrases .inputbox option a:hover
-{
-	background:#C00;
-	border-color:#CFD0D6;
-	color:#fff;
-}
-
-/* ++++++++++++++  search results	++++++++++++++++++ */
-
-dl.search-results
-{
-	background:#f5f5f5;
-}
-
-dl.search-results dt.result-title
-{
-	border-top:dotted 1px #ddd
-}
-
-dl.search-results dd.result-url
-{
-	border-bottom:solid 5px #fff;
-	color:#115599;
-}
-
-dl.search-results dd.result-created
-{
-	border-bottom:solid 5px #fff;
-}
-
-/* ##########################  forms   ########################### */
-
-/* ++++++++++++++  form validation  ++++++++++++++ */
-
-.invalid
-{
-	border-color:red !important;
-}
-
-label.invalid
-{
-	color:red;
-}
-
-/* ##########################  user profile  ########################### */
-
-#users-profile-core,
-#users-profile-custom
-{
-	border:solid 1px #ccc;
-}
-
-#member-profile fieldset
-{
-	border:solid 1px #ccc;
-}
-
-
-/* ##########################  tables   ########################### */
-table
-{
-	border:solid 1px #ddd !important
-}
-
-tbody
-{
-
-}
-
-tr.odd,
-.cat-list-row1
-{
-	background:url(../images/news.gif)  repeat-x;
-}
-
-table.newsfeeds td,
-table.weblinks td
-{
-
-}
-
-table.weblinks th,
-table.newsfeeds th,
-table.category th,
-table.jlist-table th
-{
-	background:#444;
-	color:#fff
-}
-
-table.weblinks th a,
-table.newsfeeds th a,
-table.category th a,
-table.jlist-table th a
-{
-	color:#fff !important
-}
-
-td.table_footer
-{
-	background:#ddd url(../images/table_footer.gif) bottom left repeat-x;
-}
-
-td.counter
-{
-
-}
-
-td.num,
-td.hits
-{
-
-}
-
-td p
-{
-
-}
-
-table.category th a img
-{
-	border:solid 0px ;
-}
-
-/* for opera */
-tr, td
-{
-	border:solid 1px #ddd
-}
-
-fieldset.filters
-{
-	border:0;
-}
-
-
-/* ##########################  contacts   ########################### */
-
-.contact form
-{
-	background:#fff;
-	color:#000;
-}
-
-.contact input
-{
-	background:#fff;
-	color:#000;
-}
-
-.contact input.invalid,
-.contact textarea.invalid
-{
-	border:solid 2px red;
-}
-
-.contact label.invalid
-{
-	color:red;
-}
-
-
-/* ++++++++++++++  Error Message contact form  ++++++++++++++ */
-
-p.error
-{
-	color:#044b63;
-	background:#eee;
-	border-top:3px solid #044b63;
-	border-bottom:3px solid #044b63;
-}
-
-body.contentpane
-{
-	background:#fff;
-}
-
-
-/* ##########################  footer   ########################### */
-
-
-#footer-sub
-{background: url(../images/footer_bg.png) repeat-x;
-color:#fff}
-
-#footer-sub a:link,
-#footer-sub a:visited
+table th a:link,
+table th a:visited
 {color:#fff}
-
-#footer-outer
-{
-	background:#fff url(../images/nature/headingback.png) repeat-x;
-	border-top:solid 1px #ccc
-}
-
-.box1
-{
-	border-right:solid 1px #ddd
-}
-
-.box3
-{
-	border-left:solid 1px #ddd;
-}
-
-.box h3
-{
-	font-family: 'Titillium Maps', Arial;
-}
-
-#bottom a img
-{
-	border:0 none;
+tr.odd, tr.cat-list-row1 {background:#f8f8f8}
+table  tr:hover td,
+table tr:hover th {
+  background-color: #FEFDE2;
 }
 
 
 
-/* ##########################  editor  ########################### */
-
-.contentpaneopen_edit img
-{
-	border:0
-}
-
-form.editor fieldset
-{
-	border:solid 1px #ccc;
-}
 
 
-/* ++++++++++++++  edit  ++++++++++++++ */
 
-form#adminForm
-{
-	border:solid 0px #000
-}
-
-.edit form#adminForm fieldset
-{
-	border:solid 1px #ddd
-}
-.edit form#adminForm  legend
-{
-	font-weight:bold
-}
-/* ++++++++++++++  tooltip  ++++++++++++++ */
-.tip
-{
-	border:solid 1px #333;
-	background:#ffffcc;
+/* responsive */
+#mobile_select h2 {border:0; margin:-17px 0 0 0; padding:0; background:#004746;text-align:right}
+#mobile_select h2 a {
+display:inline-block;
+font-size:0.8em;
+border-radius:4px 4px 0 0;
+padding:6px;
+font-size:0.75em;
+margin-right:5px;
 }
 
 
-/*-------------------------------*/
-.australia
-{
-	background:#f5f5f5 url(../images/nature/koala.png) top right no-repeat;
-	border:solid 1px #ddd
+
+@media only screen and (max-width: 480px) {
+	
+	  img {
+  max-width: 100%;
+  height: auto;
+  border: 0;
+  -ms-interpolation-mode: bicubic;
+}
+	
+	#fontsize{display:none}
+	#nav,#wrapper2,#wrapper,.cols-3 .column-1,.cols-3 .column-2,.cols-3 .column-3,#right,.box,#header form
+		{
+		float: none;
+		width: 100%
+	}
+	#header {padding-top:3em; position:relative; margin:0; max-height:auto !important; }
+	#header form  {margin:0}
+	#all {padding-top:0}
+	.logoheader {background:#004746 ; min-height:100px;margin:0 }
+	.box {
+		border-left: 0 !important;
+		border-bottom: solid 1px #ddd;
+	}
+	#line {
+		text-align: center;
+		top: 0;
+		right: auto;
+		max-width: 100% ;
+		min-width:100%;
+		margin: 0 0px; 
+		background:#0A5E69;
+		position:absolute
+	}
+	#header form input {
+		float: none; margin-bottom:4px
+	}
+	#menuwrapper { margin-top:10px; background:#fff; padding:10px; width:97%}
+	#header ul.menu {position:relative; top:0;left:20px; right:20px; margin:0; width:90%; border-radius:4px; text-align:left; border:0}
+	#header ul.menu li:first-child a {border-radius: 4px 4px 0 0}
+	#header ul.menu li:last-child a {border-radius:0 0 4px 4px }
+	#header ul.menu li a:link,
+	#header ul.menu li a:visited {
+		display: block;
+		padding: 6px 10px;
+		border-right:0;
+		border-bottom: solid 1px #ccc;
+		background:#eee;
+		color:#444
+	}
 }
 
-.australia h3
-{
-	font-family: 'Titillium Maps', Arial;
-	color:#444
+@media only screen and (min-width: 600px) {
 }
 
-.australia a
-{
-
+@media only screen and (min-width: 768px) {
 }
 
-.australia p
-{
-
+@media only screen and (min-width: 992px) {
 }
 
-table.pagenav,
-table.pagenav tr,
-table.pagenav td
-{border:0 !important}
-
-#main .categories-list ul
-{list-style-type:none}
-
-
-
-
-/* contact  plain */
-#main .contact h3
-{
-	border-bottom:solid 1px #ddd;
-	margin: 20px 0
+@media only screen and (min-width: 1382px) { /* Styles */
 }
 
-.form-required
-{
-	font-weight:bold;
-	margin:10px 0;
-	background:#fff url(../images/req.png) no-repeat;
-	padding:10px 40px
-
-}
-
-.contact .inputbox,
-.registration input,
-.profile-edit input,
-.login-fields input
-{
-	background:#fff url(../images/content_bg.gif) repeat-x ;
-	border:solid 1px #ccc;
-	padding:3px
-}
-
-.profile-edit select
-{
-	padding:0px;
-	border:solid 1px #ccc;
-	background:#f5f5f5
-}
-.profile-edit select option
-{
-padding:3px
-}
-/* contact  slider */
-
-.panel
-{
-	border:solid 1px #ddd;
-	margin-top:-1px
-
-}
-#main .contact .panel h3
-{
-	margin:0px 0 0px 0;
-	padding: 0;
-	background:#eee;
-	border:0
-}
-.panel h3 a
-{
-	display:block;
-	padding:6px;
-	text-decoration:none;
-	color:#444;
-	padding:6px;
-}
-
-
-.panel h3.pane-toggler a
-{
-	background:#f5f5f5 url(../images/slider_plus.png) right  top no-repeat;
-}
-.panel h3.pane-toggler-down a
-{
-	background:#f5f5f5  url(../images/slider_minus.png) right  top no-repeat;
-	border-bottom:solid 1px #ddd;
-}
-
-.pane-slider
-{
-	border:solid 0px;
-	padding:0px 10px !important;
-	margin:0;
-	background: url(../images/nav_level_1.gif) repeat-x ;
-}
-
-.panel .contact-form,
-.panel  .contact-miscinfo
-{
-	padding:10px
-}
-
-.contact .panel .contact-form form,
-.contact .panel .contact-address
-{
-	margin:20px 0 0 0
-}
-
-.categories-list .category-desc ul li
-{list-style-type:square
-}
-/* tabs */
-
-div.current
-{
-
-	background: url(../images/nav_level_1.gif) repeat-x ;
-}
-#close a
-{text-decoration:none}
-
-/* ########################## sample module styling  ########################### */
-
-div.sample-module {
-    border: 2px dashed #ddd;
-    padding: 10px;
-    background-color: #f5f5f5;
+@media only screen and (-webkit-min-device-pixel-ratio: 1.5) , only screen and
+		(min--moz-device-pixel-ratio: 1.5) , only screen and
+	(min-device-pixel-ratio: 1.5) { /* Styles */
 }

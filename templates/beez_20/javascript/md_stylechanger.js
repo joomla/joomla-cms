@@ -2,13 +2,8 @@
 var prefsLoaded = false;
 var defaultFontSize = 100;
 var currentFontSize = defaultFontSize;
-var fontSizeTitle;
-var bigger;
-var smaller;
-var reset;
-var biggerTitle;
-var smallerTitle;
-var resetTitle;
+
+
 
 Object.append(Browser.Features, {
 	localstorage: (function() {
@@ -70,6 +65,18 @@ function saveSettings() {
 	writeFontSize(currentFontSize);
 }
 
+
+window.addEvent('domready', function () {
+
+    smaller = Joomla.JText._('TPL_BEEZ2_SMALLER');
+    fontSizeTitle = Joomla.JText._('TPL_BEEZ2_FONTSIZE');
+    bigger = Joomla.JText._('TPL_BEEZ2_BIGGER');
+    reset = Joomla.JText._('TPL_BEEZ2_RESET');
+    biggerTitle = Joomla.JText._('TPL_BEEZ2_INCREASE_SIZE');
+    smallerTitle = Joomla.JText._('TPL_BEEZ2_DECREASE_SIZE');
+    resetTitle = Joomla.JText._('TPL_BEEZ2_REVERT_STYLES_TO_DEFAULT');
+
+});
 window.addEvent('domready', setUserOptions);
 window.addEvent('domready', addControls);
 window.addEvent('unload', saveSettings);
