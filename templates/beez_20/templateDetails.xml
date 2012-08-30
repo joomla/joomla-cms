@@ -98,9 +98,7 @@
 					<option value="nature">TPL_BEEZ2_OPTION_NATURE</option>
 					<option value="personal">TPL_BEEZ2_OPTION_PERSONAL</option>
 					<option value="red">TPL_BEEZ2_OPTION_RED</option>
-						<option value="turq">TPL_BEEZ2_OPTION_TURQ</option>
-								<option value="black">TPL_BEEZ2_OPTION_BLACK</option>
-
+					<option value="turq">TPL_BEEZ2_OPTION_TURQ</option>
 				</field>
 
 
