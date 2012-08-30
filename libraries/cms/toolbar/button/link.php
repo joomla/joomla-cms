@@ -43,8 +43,7 @@ class JToolbarButtonLink extends JToolbarButton
 		$doTask = $this->_getCommand($url);
 
 		$html = "<button class=\"btn\" onclick=\"location.href='$doTask';\">\n";
-		$html .= "<span class=\"$class\">\n";
-		$html .= "</span>\n";
+		$html .= "<span class=\"$class\"></span>\n";
 		$html .= "$text\n";
 		$html .= "</button>\n";
 

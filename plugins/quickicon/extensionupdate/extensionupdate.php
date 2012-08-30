@@ -58,7 +58,7 @@ class plgQuickiconExtensionupdate extends JPlugin
 			JText::_('PLG_QUICKICON_EXTENSIONUPDATE_ERROR', true)."\"};\n";
 		$document = JFactory::getDocument();
 		$document->addScriptDeclaration($script);
-		$document->addScript(JURI::base().'../media/plg_quickicon_extensionupdate/extensionupdatecheck.js');
+		$document->addScript(JURI::root() . 'media/plg_quickicon_extensionupdate/extensionupdatecheck.js');
 
 		return array(array(
 			'link' => 'index.php?option=com_installer&view=update',

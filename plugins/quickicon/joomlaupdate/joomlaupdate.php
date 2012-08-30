@@ -64,7 +64,7 @@ class plgQuickiconJoomlaupdate extends JPlugin
 			JURI::base(true) .'/templates/'. $cur_template .'/images/header/icon-48-jupdate-updatefound.png'."\"};\n";
 		$document = JFactory::getDocument();
 		$document->addScriptDeclaration($script);
-		$document->addScript(JURI::base().'../media/plg_quickicon_joomlaupdate/jupdatecheck.js');
+		$document->addScript(JURI::root() . 'media/plg_quickicon_joomlaupdate/jupdatecheck.js');
 
 		return array(array(
 			'link' => 'index.php?option=com_installer&view=update',

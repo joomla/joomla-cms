@@ -31,11 +31,11 @@ endif;
 
 ?>
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" >
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 <head>
-	<script src="../media/jui/js/jquery.js"></script>
-	<script src="../media/jui/js/bootstrap.min.js"></script>
-	<script src="../media/jui/js/chosen.jquery.min.js"></script>
+	<script src="<?php echo JURI::root(); ?>media/jui/js/jquery.js"></script>
+	<script src="<?php echo JURI::root(); ?>media/jui/js/bootstrap.min.js"></script>
+	<script src="<?php echo JURI::root(); ?>media/jui/js/chosen.jquery.min.js"></script>
 	<script type="text/javascript">
 	  jQuery.noConflict();
 	</script>

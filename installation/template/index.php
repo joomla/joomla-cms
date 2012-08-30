@@ -11,16 +11,16 @@ defined('_JEXEC') or die;
 $doc = JFactory::getDocument();
 
 // Add Stylesheets
-$doc->addStyleSheet('../media/jui/css/bootstrap.css');
-$doc->addStyleSheet('../media/jui/css/bootstrap-extended.css');
-$doc->addStyleSheet('../media/jui/css/bootstrap-responsive.css');
+$doc->addStyleSheet(JUri::root() . 'media/jui/css/bootstrap.css');
+$doc->addStyleSheet(JUri::root() . 'media/jui/css/bootstrap-extended.css');
+$doc->addStyleSheet(JUri::root() . 'media/jui/css/bootstrap-responsive.css');
 $doc->addStyleSheet('template/css/template.css');
 
-$doc->addStyleSheet('../media/jui/css/chosen.css');
+$doc->addStyleSheet(JUri::root() . 'media/jui/css/chosen.css');
 
 if ($this->direction === 'rtl')
 {
-	$doc->addStyleSheet('../media/jui/css/bootstrap-rtl.css');
+	$doc->addStyleSheet(JUri::root() . 'media/jui/css/bootstrap-rtl.css');
 }
 
 // Load the JavaScript behaviors
@@ -46,9 +46,6 @@ JText::script('INSTL_FTP_SETTINGS_CORRECT');
 		</script>
 		<jdoc:include type="head" />
 
-		<!--[if IE 7]>
-			<link href="template/css/ie7.css" rel="stylesheet" type="text/css" />
-		<![endif]-->
 		<script type="text/javascript">
 			window.addEvent('domready', function() {
 				window.Install = new Installation('container-installation', '<?php echo JURI::current(); ?>');

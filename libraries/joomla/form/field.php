@@ -319,10 +319,10 @@ abstract class JFormField
 		$this->element = $element;
 
 		// Get some important attributes from the form field element.
-		$class = (string) $element['class'];
-		$id = (string) $element['id'];
+		$class    = (string) $element['class'];
+		$id       = (string) $element['id'];
 		$multiple = (string) $element['multiple'];
-		$name = (string) $element['name'];
+		$name     = (string) $element['name'];
 		$required = (string) $element['required'];
 
 		// Set the required and validation options.
