@@ -14,10 +14,12 @@ $user = JFactory::getUser();
 <div class="row-fluid">
 	<div class="span3">
 		<div class="sidebar-nav">
+			<h2 class="h-extrasmall"><?php echo JText::_('COM_CPANEL_HEADER_SUBMENU'); ?></h2>
 			<ul class="nav nav-list">
-				<li class="nav-header"><?php echo JText::_('COM_CPANEL_HEADER_SUBMENU'); ?></li>
 				<li class="active"><a href="<?php echo $this->baseurl; ?>"><?php echo JText::_('COM_CPANEL_LINK_DASHBOARD'); ?></a></li>
-				<li class="nav-header"><?php echo JText::_('COM_CPANEL_HEADER_SYSTEM'); ?></li>
+			</ul>
+			<h3 class="h-extrasmall"><?php echo JText::_('COM_CPANEL_HEADER_SYSTEM'); ?></h3>
+			<ul class="nav nav-list">
 			<?php if($user->authorise('core.admin')):?>
 				<li><a href="<?php echo $this->baseurl; ?>/index.php?option=com_config"><?php echo JText::_('COM_CPANEL_LINK_GLOBAL_CONFIG'); ?></a></li>
 				<li><a href="<?php echo $this->baseurl; ?>/index.php?option=com_admin&view=sysinfo"><?php echo JText::_('COM_CPANEL_LINK_SYSINFO'); ?></a></li>

@@ -109,7 +109,7 @@ class JDocumentRendererMessage extends JDocumentRenderer
 
 				if (count($msgs))
 				{
-					$buffer .= "\n<h4 class=\"alert-heading\">" . JText::_($type) . "</h4>";
+					$buffer .= "\n<h2 class=\"alert-heading h-small\">" . JText::_($type) . "</h2>";
 					$buffer .= "\n<div>";
 					foreach ($msgs as $msg)
 					{

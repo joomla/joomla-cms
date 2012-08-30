@@ -52,10 +52,8 @@ class JToolbarButtonPopup extends JToolbarButton
 
 		$html = "<button class=\"btn\" data-toggle=\"collapse\" data-target=\"#modal-" . $name . "\" rel=\"{onClose: function() {" . $onClose
 			. "}}\" onClick=\"setcollapse('$url', '$name', '$height');\">\n";
-		$html .= "<i class=\"icon-$class\">\n";
-		$html .= "</i>\n";
+		$html .= "<i class=\"icon-$class\"></i>\n";
 		$html .= "$text\n";
-
 		$html .= "</button>\n";
 
 		return $html;

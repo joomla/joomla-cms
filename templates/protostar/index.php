@@ -70,9 +70,9 @@ else
 }
 ?>
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" >
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 <head>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<?php
 	// Use of Google Font
 	if ($this->params->get('googleFont'))
@@ -82,8 +82,8 @@ else
 	<?php
 	}
 	?>
-	<script src="<?php echo $this->baseurl; ?>/media/jui/js/jquery.js"></script>
-	<script src="<?php echo $this->baseurl; ?>/media/jui/js/bootstrap.min.js"></script>
+	<script src="<?php echo JURI::root(); ?>media/jui/js/jquery.js"></script>
+	<script src="<?php echo JURI::root(); ?>media/jui/js/bootstrap.min.js"></script>
 	<script type="text/javascript">
 	  jQuery.noConflict();
 	</script>

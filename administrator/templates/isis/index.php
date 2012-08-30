@@ -21,7 +21,7 @@ $doc->addStyleSheet('templates/' . $this->template . '/css/template.css');
 // If Right-to-Left
 if ($this->direction === 'rtl')
 {
-	$doc->addStyleSheet('../media/jui/css/bootstrap-rtl.css');
+	$doc->addStyleSheet(JUri::root() . 'media/jui/css/bootstrap-rtl.css');
 }
 
 // Load specific language related CSS
@@ -97,13 +97,13 @@ else
 }
 ?>
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" >
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 <head>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<script src="../media/jui/js/jquery.js"></script>
-	<script src="../media/jui/js/bootstrap.min.js"></script>
-	<script src="../media/jui/js/chosen.jquery.min.js"></script>
-	<script src="../media/jui/js/jquery-ui.js"></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<script src="<?php echo JURI::root(); ?>media/jui/js/jquery.js"></script>
+	<script src="<?php echo JURI::root(); ?>media/jui/js/bootstrap.min.js"></script>
+	<script src="<?php echo JURI::root(); ?>media/jui/js/chosen.jquery.min.js"></script>
+	<script src="<?php echo JURI::root(); ?>media/jui/js/jquery-ui.js"></script>
 	<script type="text/javascript">
 		jQuery.noConflict();
 	</script>

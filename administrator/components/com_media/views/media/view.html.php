@@ -33,23 +33,17 @@ class MediaViewMedia extends JViewLegacy
 		JHtml::_('behavior.framework', true);
 
 		JHtml::_('script', 'media/mediamanager.js', true, true);
-		/*
-		JHtml::_('stylesheet', 'media/mediamanager.css', array(), true);
-		if ($lang->isRTL()) :
-			JHtml::_('stylesheet', 'media/mediamanager_rtl.css', array(), true);
-		endif;
-		*/
 		JHtml::_('behavior.modal');
 		$document->addScriptDeclaration("
 		window.addEvent('domready', function() {
 			document.preview = SqueezeBox;
 		});");
 
-		// JHtml::_('script', 'system/mootree.js', true, true, false, false);
 		JHtml::_('stylesheet', 'system/mootree.css', array(), true);
-		if ($lang->isRTL()) :
+		if ($lang->isRTL())
+		{
 			JHtml::_('stylesheet', 'media/mootree_rtl.css', array(), true);
-		endif;
+		}
 
 		if ($config->get('enable_flash', 1)) {
 			$fileTypes = $config->get('upload_extensions', 'bmp,gif,jpg,png,jpeg');
