@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+30-Aug-2012 Rouven Weßling
+ ^ Move JEditor to the CMS libraries.
+
 29-Aug-2012 Jean-Marie Simonet
  # [#28980] Publication information should not have h2 styling. Thanks Elin
  + [#28975] Add background color selector to protostar. Thanks Elin

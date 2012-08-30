@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Joomla.Legacy
+ * @package     Joomla.Libraries
  * @subpackage  Editor
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
@@ -12,9 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * JEditor class to handle WYSIWYG editors
  *
- * @package     Joomla.Legacy
+ * @package     Joomla.Libraries
  * @subpackage  Editor
- * @since       11.1
+ * @since       1.5
  */
 class JEditor extends JObject
 {
@@ -22,7 +22,7 @@ class JEditor extends JObject
 	 * An array of Observer objects to notify
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.5
 	 */
 	protected $_observers = array();
 
@@ -30,7 +30,7 @@ class JEditor extends JObject
 	 * The state of the observable object
 	 *
 	 * @var    mixed
-	 * @since  11.1
+	 * @since  1.5
 	 */
 	protected $_state = null;
 
@@ -38,41 +38,45 @@ class JEditor extends JObject
 	 * A multi dimensional array of [function][] = key for observers
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.5
 	 */
 	protected $_methods = array();
 
 	/**
 	 * Editor Plugin object
 	 *
-	 * @var  object
+	 * @var    object
+	 * @since  1.5
 	 */
 	protected $_editor = null;
 
 	/**
 	 * Editor Plugin name
 	 *
-	 * @var  string
+	 * @var    string
+	 * @since  1.5
 	 */
 	protected $_name = null;
 
 	/**
 	 * Object asset
 	 *
-	 * @var  string
+	 * @var    string
+	 * @since  1.6
 	 */
 	protected $asset = null;
 
 	/**
 	 * Object author
 	 *
-	 * @var  string
+	 * @var    string
+	 * @since  1.6
 	 */
 	protected $author = null;
 
 	/**
 	 * @var    array  JEditor instances container.
-	 * @since  11.3
+	 * @since  2.5
 	 */
 	protected static $instances = array();
 
@@ -94,7 +98,7 @@ class JEditor extends JObject
 	 *
 	 * @return  JEditor The Editor object.
 	 *
-	 * @since   11.1
+	 * @since   1.5
 	 */
 	public static function getInstance($editor = 'none')
 	{
@@ -113,7 +117,7 @@ class JEditor extends JObject
 	 *
 	 * @return  mixed    The state of the object.
 	 *
-	 * @since   11.1
+	 * @since   1.5
 	 */
 	public function getState()
 	{
@@ -127,7 +131,7 @@ class JEditor extends JObject
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.5
 	 */
 	public function attach($observer)
 	{
@@ -195,7 +199,7 @@ class JEditor extends JObject
 	 *
 	 * @return  boolean  True if the observer object was detached.
 	 *
-	 * @since   11.1
+	 * @since   1.5
 	 */
 	public function detach($observer)
 	{
@@ -227,7 +231,7 @@ class JEditor extends JObject
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.5
 	 */
 	public function initialise()
 	{
@@ -272,7 +276,7 @@ class JEditor extends JObject
 	 *
 	 * @return  string
 	 *
-	 * @since   11.1
+	 * @since   1.5
 	 */
 	public function display($name, $html, $width, $height, $col, $row, $buttons = true, $id = null, $asset = null, $author = null, $params = array())
 	{
@@ -322,7 +326,7 @@ class JEditor extends JObject
 	 *
 	 * @return  string
 	 *
-	 * @since   11.1
+	 * @since   1.5
 	 */
 	public function save($editor)
 	{
@@ -358,7 +362,7 @@ class JEditor extends JObject
 	 *
 	 * @return  string
 	 *
-	 * @since   11.1
+	 * @since   1.5
 	 */
 	public function getContent($editor)
 	{
@@ -389,7 +393,7 @@ class JEditor extends JObject
 	 *
 	 * @return  string
 	 *
-	 * @since   11.1
+	 * @since   1.5
 	 */
 	public function setContent($editor, $html)
 	{
@@ -422,7 +426,7 @@ class JEditor extends JObject
 	 *
 	 * @return  array
 	 *
-	 * @since   11.1
+	 * @since   1.5
 	 */
 	public function getButtons($editor, $buttons = true)
 	{
@@ -468,7 +472,7 @@ class JEditor extends JObject
 	 *
 	 * @return  mixed
 	 *
-	 * @since   11.1
+	 * @since   1.5
 	 */
 	protected function _loadEditor($config = array())
 	{
