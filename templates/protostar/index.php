@@ -82,8 +82,8 @@ else
 	<?php
 	}
 	?>
-	<script src="<?php echo JURI::root; ?>/media/jui/js/jquery.js"></script>
-	<script src="<?php echo JURI::root; ?>/media/jui/js/bootstrap.min.js"></script>
+	<script src="<?php echo JURI::root(); ?>media/jui/js/jquery.js"></script>
+	<script src="<?php echo JURI::root(); ?>media/jui/js/bootstrap.min.js"></script>
 	<script type="text/javascript">
 	  jQuery.noConflict();
 	</script>
