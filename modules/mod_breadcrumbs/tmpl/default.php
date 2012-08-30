@@ -23,9 +23,9 @@ defined('_JEXEC') or die;
 		continue;
 	}
 	// If not the last item in the breadcrumbs add the separator
-	echo '<li>';
 	if ($i < $count - 1)
 	{
+		echo '<li>';
 		if (!empty($list[$i]->link)) {
 			echo '<a href="'.$list[$i]->link.'" class="pathway">'.$list[$i]->name.'</a>';
 		} else {
@@ -37,14 +37,21 @@ defined('_JEXEC') or die;
 		{
 			echo '<span class="divider">/</span>';
 		}
-	}  elseif ($params->get('showLast', 1)) { // when $i == $count -1 and 'showLast' is true
-		if($i > 0){
+		echo '</li>';
+	}
+	elseif ($params->get('showLast', 1))
+	{
+		echo '<li>';
+		// When $i == $count -1 and 'showLast' is true
+		if ($i > 0)
+		{
 			echo '<span class="divider">/</span>';
 		}
 		echo '<span>';
 		echo $list[$i]->name;
 		echo '</span>';
+		echo '</li>';
 	}
-	echo '<li>';
+
 endfor; ?>
 </ul>
