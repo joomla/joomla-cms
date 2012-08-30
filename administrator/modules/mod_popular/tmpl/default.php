@@ -22,24 +22,25 @@ defined('_JEXEC') or die;
 			if($hits < 10)   $hits_class = '';
 		?>
 			<div class="row-fluid">
-				<div class="span9">
-					<h5>
-						<span class="badge badge-<?php echo $hits_class;?>" rel="tooltip" title="<?php echo JText::_('JGLOBAL_HITS');?>"><?php echo $item->hits;?></span>
-						<?php if ($item->checked_out) : ?>
-								<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time); ?>
-						<?php endif; ?>
-
+				<dl>
+					<dt class="span8">
 						<?php if ($item->link) :?>
 							<a href="<?php echo $item->link; ?>">
 								<?php echo htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8');?></a>
 						<?php else :
 							echo htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8');
 						endif; ?>
-					</h5>
-				</div>
-				<div class="span3">
-					<span class="small"><i class="icon-calendar"></i> <?php echo JHtml::_('date', $item->created, 'Y-m-d'); ?></span>
-				</div>
+					</dt>
+					<dd class="span1">
+						<span class="badge badge-<?php echo $hits_class;?>" rel="tooltip" title="<?php echo JText::_('JGLOBAL_HITS');?>"><?php echo $item->hits;?></span>
+						<?php if ($item->checked_out) : ?>
+								<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time); ?>
+						<?php endif; ?>
+					</dd>
+					<dd class="span3">
+						<span class="small"><i class="icon-calendar"></i> <?php echo JHtml::_('date', $item->created, 'Y-m-d'); ?></span>
+					</dd>
+				</dl>
 			</div>
 		<?php endforeach; ?>
 	<?php else : ?>
