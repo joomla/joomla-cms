@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+31-Aug-2012 Jean-Marie Simonet
+ +$ Adding Welsh cy-GB language Installation files
+
 29-Aug-2012 Jean-Marie Simonet
  $ Updating installation language lt-LT, ca-ES
  # [#28863] Custom sample data install issue with driver mysql. Thanks Mihaly and Michael
