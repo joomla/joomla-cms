@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+01-Sept-2012 Jean-Marie Simonet
+ # [#29034] img border is deprecated in html4, obsolete in html5.Thanks Chris
+
 30-Aug-2012 Rouven Weßling
  ^ Move JEditor to the CMS libraries.
  # [#29010] Fix E_NOTICE in JFormFieldMedia
