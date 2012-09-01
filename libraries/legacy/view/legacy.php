@@ -456,16 +456,15 @@ class JViewLegacy extends JObject
 	{
 		if (empty($this->_name))
 		{
-			$r = null;
-			if (!preg_match('/View((view)*(.*(view)?.*))$/i', get_class($this), $r))
+			$classname = get_class($this);
+			$viewpos = strpos($classname, 'View');
+			
+			if ($viewpos === false)
 			{
 				throw new Exception(JText::_('JLIB_APPLICATION_ERROR_VIEW_GET_NAME'), 500);
 			}
-			if (strpos($r[3], "view"))
-			{
-				JLog::add(JText::_('JLIB_APPLICATION_ERROR_VIEW_GET_NAME_SUBSTRING'), JLog::WARNING, 'jerror');
-			}
-			$this->_name = strtolower($r[3]);
+			
+			$this->_name = strtolower(substr($classname, $viewpos+4));
 		}
 
 		return $this->_name;
