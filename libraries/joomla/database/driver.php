@@ -793,7 +793,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	/**
 	 * Method to get the auto-incremented value from the last INSERT statement.
 	 *
-	 * @return  integer  The value of the auto-increment field from the last inserted row.
+	 * @return  mixed  The value of the auto-increment field from the last inserted row.
 	 *
 	 * @since   11.1
 	 */
