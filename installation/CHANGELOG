@@ -29,6 +29,7 @@ $ -> Language fix or change
 30-Aug-2012 Rouven Weßling
  - Removed the bluestork admin template.
  - Removed the atomic template.
+ - Removed the beez5 template.
 
 01-Sept-2012 Jean-Marie Simonet
  # [#29034] img border is deprecated in html4, obsolete in html5.Thanks Chris
