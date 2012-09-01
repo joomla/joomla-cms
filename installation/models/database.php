@@ -327,7 +327,7 @@ class InstallationModelDatabase extends JModelLegacy
 			$schema = 'sql/' . $type . '/joomla.sql';
 		}
 		// Check if the schema is a valid file
-		if (!JFile::exists($schema))
+		if (!is_file($schema))
 		{
 			$this->setError(JText::sprintf('INSTL_ERROR_DB', JText::_('INSTL_DATABASE_NO_SCHEMA')));
 			return false;
@@ -416,7 +416,7 @@ class InstallationModelDatabase extends JModelLegacy
 		{
 			$dblocalise = 'sql/' . $type . '/localise.sql';
 		}
-		if (JFile::exists($dblocalise))
+		if (is_file($dblocalise))
 		{
 			if (!$this->populateDatabase($db, $dblocalise))
 			{

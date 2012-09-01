@@ -163,12 +163,12 @@ class JFormFieldMedia extends JFormField
 			$style .= ($width > 0) ? 'max-width:' . $width . 'px;' : '';
 			$style .= ($height > 0) ? 'max-height:' . $height . 'px;' : '';
 
-			$attr = array(
+			$imgattr = array(
 				'id' => $this->id . '_preview',
 				'class' => 'media-preview',
 				'style' => $style,
 			);
-			$img = JHtml::image($src, JText::_('JLIB_FORM_MEDIA_PREVIEW_ALT'), $attr);
+			$img = JHtml::image($src, JText::_('JLIB_FORM_MEDIA_PREVIEW_ALT'), $imgattr);
 			$previewImg = '<div id="' . $this->id . '_preview_img"' . ($src ? '' : ' style="display:none"') . '>' . $img . '</div>';
 			$previewImgEmpty = '<div id="' . $this->id . '_preview_empty"' . ($src ? ' style="display:none"' : '') . '>'
 				. JText::_('JLIB_FORM_MEDIA_PREVIEW_EMPTY') . '</div>';

@@ -37,7 +37,7 @@ class NewsfeedsController extends JControllerLegacy
 
 		$user = JFactory::getUser();
 
-		if ($user->get('id') || ($_SERVER['REQUEST_METHOD'] == 'POST' && $vName = 'category' ))
+		if ($user->get('id') || ($this->input->getMethod() == 'POST' && $vName = 'category' ))
 		{
 			$cachable = false;
 		}

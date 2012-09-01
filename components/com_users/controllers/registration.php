@@ -28,8 +28,9 @@ class UsersControllerRegistration extends UsersController
 	 */
 	public function activate()
 	{
-		$user		= JFactory::getUser();
-		$uParams	= JComponentHelper::getParams('com_users');
+		$user  = JFactory::getUser();
+		$input = JFactory::getApplication()->input;
+		$uParams = JComponentHelper::getParams('com_users');
 
 		// If the user is logged in, return them back to the homepage.
 		if ($user->get('id')) {
@@ -44,7 +45,7 @@ class UsersControllerRegistration extends UsersController
 		}
 
 		$model = $this->getModel('Registration', 'UsersModel');
-		$token = JRequest::getVar('token', null, 'request', 'alnum');
+		$token = $input->getAlnum('token');
 
 		// Check that the token is in a valid format.
 		if ($token === null || strlen($token) !== 32) {
@@ -110,7 +111,7 @@ class UsersControllerRegistration extends UsersController
 		$model	= $this->getModel('Registration', 'UsersModel');
 
 		// Get the user data.
-		$requestData = JRequest::getVar('jform', array(), 'post', 'array');
+		$requestData = $this->input->post->get('jform', array(), 'array');
 
 		// Validate the posted data.
 		$form	= $model->getForm();

@@ -893,7 +893,7 @@ class ModulesModelModule extends JModelAdmin
 		// Alter the title and published state for Save as Copy
 		if ($input->get('task') == 'save2copy')
 		{
-			$orig_data  = JRequest::getVar('jform', array(), 'post', 'array');
+			$orig_data  = $this->input->post->get('jform', array(), 'array');
 			$orig_table = clone($this->getTable());
 			$orig_table->load((int) $orig_data['id']);
 

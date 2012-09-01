@@ -40,7 +40,7 @@ class TemplatesViewPrevuuw extends JViewLegacy
 		$input = JFactory::getApplication()->input;
 
 		// Initialise some variables
-		$this->client   = JApplicationHelper::getClientInfo(JRequest::getVar('client', '0', '', 'int'));
+		$this->client   = JApplicationHelper::getClientInfo($input->get('client', '0', 'int'));
 		$this->id       = JRequest::getVar('id', '', 'method', 'int');
 		$this->option   = $input->getCmd('option');
 		$this->template = TemplatesHelper::getTemplateName($this->id);

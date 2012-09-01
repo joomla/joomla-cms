@@ -43,7 +43,7 @@ class MenusControllerMenu extends JControllerForm
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$app      = JFactory::getApplication();
-		$data     = JRequest::getVar('jform', array(), 'post', 'array');
+		$data     = $this->input->post->get('jform', array(), 'array');
 		$context  = 'com_menus.edit.menu';
 		$task     = $this->getTask();
 		$recordId = $this->input->getInt('id');

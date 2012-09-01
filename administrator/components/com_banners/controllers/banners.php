@@ -56,11 +56,11 @@ class BannersControllerBanners extends JControllerAdmin
 		// Check for request forgeries.
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		$user	= JFactory::getUser();
-		$ids	= JRequest::getVar('cid', array(), '', 'array');
-		$values	= array('sticky_publish' => 1, 'sticky_unpublish' => 0);
-		$task	= $this->getTask();
-		$value	= JArrayHelper::getValue($values, $task, 0, 'int');
+		$user   = JFactory::getUser();
+		$ids    = $this->input->get('cid', array(), 'array');
+		$values = array('sticky_publish' => 1, 'sticky_unpublish' => 0);
+		$task   = $this->getTask();
+		$value  = JArrayHelper::getValue($values, $task, 0, 'int');
 
 		if (empty($ids)) {
 			JError::raiseWarning(500, JText::_('COM_BANNERS_NO_BANNERS_SELECTED'));

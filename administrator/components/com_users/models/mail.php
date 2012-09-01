@@ -68,8 +68,8 @@ class UsersModelMail extends JModelAdmin
 
 	public function send()
 	{
-		$data   = JRequest::getVar('jform', array(), 'post', 'array');
 		$app    = JFactory::getApplication();
+		$data   = $app->input->post->get('jform', array(), 'array');
 		$user   = JFactory::getUser();
 		$access = new JAccess;
 		$db     = $this->getDbo();

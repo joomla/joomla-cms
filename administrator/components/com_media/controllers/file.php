@@ -36,10 +36,11 @@ class MediaControllerFile extends JControllerLegacy
 		// Check for request forgeries
 		JSession::checkToken('request') or jexit(JText::_('JINVALID_TOKEN'));
 		$params = JComponentHelper::getParams('com_media');
+
 		// Get some data from the request
-		$files			= JRequest::getVar('Filedata', '', 'files', 'array');
-		$return			= JRequest::getVar('return-url', null, 'post', 'base64');
-		$this->folder	= JRequest::getVar('folder', '', '', 'path');
+		$files        = JRequest::getVar('Filedata', '', 'files', 'array');
+		$return       = $this->input->post->get('return-url', null, 'base64');
+		$this->folder = $this->input->get('folder', '', 'path');
 
 		// Set the redirect
 		if ($return)
@@ -199,8 +200,8 @@ class MediaControllerFile extends JControllerLegacy
 
 		// Get some data from the request
 		$tmpl	= $this->input->get('tmpl');
-		$paths	= JRequest::getVar('rm', array(), '', 'array');
-		$folder = JRequest::getVar('folder', '', '', 'path');
+		$paths	= $this->input->get('rm', array(), 'array');
+		$folder = $this->input->get('folder', '', 'path');
 
 		$redirect = 'index.php?option=com_media&folder=' . $folder;
 		if ($tmpl == 'component')

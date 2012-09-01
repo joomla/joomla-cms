@@ -52,7 +52,7 @@
 		<maintainer>Sam Moffatt</maintainer>
 		<maintainerurl>http://sammoffatt.com.au</maintainerurl>
 		<section>Testing</section>
-		<targetplatform name="joomla" version="2.5" />
+		<targetplatform name="joomla" version="3.0" />
 	</update>
 </updates>
 			

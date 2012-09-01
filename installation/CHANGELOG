@@ -26,10 +26,38 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+30-Aug-2012 Rouven Weßling
+ ^ Move JEditor to the CMS libraries.
+ # [#29010] Fix E_NOTICE in JFormFieldMedia
+
+29-Aug-2012 Jean-Marie Simonet
+ # [#28980] Publication information should not have h2 styling. Thanks Elin
+ + [#28975] Add background color selector to protostar. Thanks Elin
+ # [#29014] *Firefox 14.0.1: Insert Image, Article or Pagebreak always inserts on top
+ # [#29004] *regression: protostar does not include the necessary css when inserting image in article
+
+28-Aug-2012 Rouven Weßling
+ ^ Reduce use of the deprecated JFile methods.
+ ^ Reduce use of the deprecated JRequest class.
+ ^ Reduce the amount of access to $_SERVER.
+
+27-Aug-2012 Jean-Marie Simonet
+ # [#28376] Remove unnecessary files from com_media frontend. Thanks Michael
+ # [#28858] Com_finder missing show_advanced_tips parameter => can't hide advanced tips. Thanks Michael
+
+26-Aug-2012 Jean-Marie Simonet
+ # [#28950] Code quality for mod_stats_admin, translated DB drivers. Thanks Michael
+ # [#28962] Added colors to main icons in admin isis. Thanks Peter.
+ # [#28984] HRs in default layouts will change people's sites and are not semantic. Thanks Elin
+ # [#28853] Template fails to copy. Thanks Mark
+ # [#28672] Fix PHP Strict errors with Smart Search auto-completion. Thanks Michael.
+ # [#28985] JFile class not loaded when use cache handler != file. Thanks Julio.
+ ^ xml version changes to 3.0
+
 24-Aug-2012 Jean-Marie Simonet
  # [#28968] Missing JFolder class imports in CMS. Thanks Mark
  # [#28797] Code Cleanup - Smart Search. Thanks Michael
- # [#28449] captcha cause fatal error when the "captcha" field is not present in "configuration.php" after an upgrade. Thansk Elin.
+ # [#28449] captcha cause fatal error when the "captcha" field is not present in "configuration.php" after an upgrade. Thanks Elin.
  # [#28987] JToolbarButtonHelp doesn't work. Thanks Rouven
 
 23-Aug-2012 Mark Dexter
@@ -47,9 +75,6 @@ $ -> Language fix or change
 21-Aug-2012 Rouven Weßling
  ^ Merge latest platform (bf746b2389fbea9c0fa48ea015320c18beb8d0f3)
  ^ Remove use of the deprecated JProfiler::getMemory().
-
-20-Aug-2012 Rouven Weßling
- + Add setup for unit testing. Thanks Michael.
 
 20-Aug-2012 Jean-Marie Simonet
  # [#28943] *Allowing to disable admin menu bar collapse (Isis)

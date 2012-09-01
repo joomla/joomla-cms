@@ -31,7 +31,7 @@ class LanguagesControllerOverride extends JControllerForm
 	public function edit($key = null, $urlVar = null)
 	{
 		$app     = JFactory::getApplication();
-		$cid     = JRequest::getVar('cid', array(), 'post', 'array');
+		$cid     = $this->input->post->get('cid', array(), 'array');
 		$context = "$this->option.edit.$this->context";
 
 		// Get the constant name
@@ -68,7 +68,7 @@ class LanguagesControllerOverride extends JControllerForm
 
 		$app     = JFactory::getApplication();
 		$model   = $this->getModel();
-		$data    = JRequest::getVar('jform', array(), 'post', 'array');
+		$data    = $this->input->post->get('jform', array(), 'array');
 		$context = "$this->option.edit.$this->context";
 		$task    = $this->getTask();
 

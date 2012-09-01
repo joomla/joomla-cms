@@ -133,7 +133,7 @@ class MenusControllerItem extends JControllerForm
 
 		$app      = JFactory::getApplication();
 		$model    = $this->getModel('Item', '', array());
-		$data     = JRequest::getVar('jform', array(), 'post', 'array');
+		$data     = $this->input->post->get('jform', array(), 'array');
 		$task     = $this->getTask();
 		$context  = 'com_menus.edit.item';
 		$recordId = $this->input->getInt('id');
@@ -297,7 +297,7 @@ class MenusControllerItem extends JControllerForm
 		$app = JFactory::getApplication();
 
 		// Get the posted values from the request.
-		$data = JRequest::getVar('jform', array(), 'post', 'array');
+		$data = $this->input->post->get('jform', array(), 'array');
 		$recordId = $this->input->getInt('id');
 
 		// Get the type.

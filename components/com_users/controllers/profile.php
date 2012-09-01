@@ -33,7 +33,7 @@ class UsersControllerProfile extends UsersController
 
 		// Get the previous user id (if any) and the current user id.
 		$previousId = (int) $app->getUserState('com_users.edit.profile.id');
-		$userId	= (int) JRequest::getInt('user_id', null, '', 'array');
+		$userId	= (int) $this->input->get('user_id', null, 'array');
 
 		// Check if the user is trying to edit another users profile.
 		if ($userId != $loginUserId) {
@@ -78,7 +78,7 @@ class UsersControllerProfile extends UsersController
 		$userId	= (int) $user->get('id');
 
 		// Get the user data.
-		$data = JRequest::getVar('jform', array(), 'post', 'array');
+		$data = $app->input->post->get('jform', array(), 'array');
 
 		// Force the ID to this user.
 		$data['id'] = $userId;

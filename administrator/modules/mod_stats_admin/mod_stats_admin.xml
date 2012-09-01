@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension
 	type="module"
-	version="2.5"
+	version="3.0"
 	client="admin"
 	method="upgrade">
 	<name>mod_stats_admin</name>
@@ -31,6 +31,7 @@
 				<field
 					name="serverinfo"
 					type="radio"
+					class="btn-group"
 					default="0"
 					label="MOD_STATS_FIELD_SERVERINFO_LABEL"
 					description="MOD_STATS_FIELD_SERVERINFO_DESC">
@@ -42,6 +43,7 @@
 				<field
 					name="siteinfo"
 					type="radio"
+					class="btn-group"
 					default="0"
 					label="MOD_STATS_FIELD_SITEINFO_LABEL"
 					description="MOD_STATS_FIELD_SITEINFO_DESC">
@@ -53,6 +55,7 @@
 				<field
 					name="counter"
 					type="radio"
+					class="btn-group"
 					default="0"
 					label="MOD_STATS_FIELD_COUNTER_LABEL"
 					description="MOD_STATS_FIELD_COUNTER_DESC">

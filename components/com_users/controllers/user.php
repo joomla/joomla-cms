@@ -33,7 +33,7 @@ class UsersControllerUser extends UsersController
 
 		// Populate the data array:
 		$data = array();
-		$data['return'] = base64_decode(JRequest::getVar('return', '', 'POST', 'BASE64'));
+		$data['return'] = base64_decode($app->input->post->get('return', '', 'BASE64'));
 		$data['username'] = JRequest::getVar('username', '', 'method', 'username');
 		$data['password'] = JRequest::getString('password', '', 'post', JREQUEST_ALLOWRAW);
 
@@ -108,10 +108,10 @@ class UsersControllerUser extends UsersController
 		JSession::checkToken('post') or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Get the form data.
-		$data	= JRequest::getVar('user', array(), 'post', 'array');
+		$data  = $this->input->post->get('user', array(), 'array');
 
 		// Get the model and validate the data.
-		$model	= $this->getModel('Registration', 'UsersModel');
+		$model  = $this->getModel('Registration', 'UsersModel');
 		$return	= $model->validate($data);
 
 		// Check for errors.
@@ -167,9 +167,9 @@ class UsersControllerUser extends UsersController
 		// Check the request token.
 		JSession::checkToken('post') or jexit(JText::_('JINVALID_TOKEN'));
 
-		$app	= JFactory::getApplication();
-		$model	= $this->getModel('User', 'UsersModel');
-		$data	= JRequest::getVar('jform', array(), 'post', 'array');
+		$app   = JFactory::getApplication();
+		$model = $this->getModel('User', 'UsersModel');
+		$data  = $this->input->post->get('jform', array(), 'array');
 
 		// Submit the username remind request.
 		$return	= $model->processRemindRequest($data);

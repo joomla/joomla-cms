@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.filesystem.file');
-
 $app   = JFactory::getApplication();
 $doc   = JFactory::getDocument();
 $lang  = JFactory::getLanguage();
@@ -28,7 +26,7 @@ if ($this->direction === 'rtl')
 
 // Load specific language related CSS
 $file = 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css';
-if (JFile::exists($file))
+if (is_file($file))
 {
 	$doc->addStyleSheet($file);
 }

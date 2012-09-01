@@ -2,17 +2,30 @@
 
 <project name="joomla" default="build" basedir=".">
 	<property name="source" value="." />
+	<property name="joomlasource" value="administrator,cli,components,includes,installation,libraries/cms,modules,plugins,templates" />
 
 	<target name="clean" description="Clean up and create artifact directories">
 		<delete dir="${basedir}/build/coverage" />
 		<delete dir="${basedir}/build/logs" />
+		<delete dir="${basedir}/build/jdepend" />
 
 		<mkdir dir="${basedir}/build/coverage" />
 		<mkdir dir="${basedir}/build/logs" />
+		<mkdir dir="${basedir}/build/jdepend" />
 	</target>
 
 	<target name="phpunit" description="Run unit tests using PHPUnit and generates junit.xml and clover.xml">
 		<exec executable="phpunit" />
+	</target>
+
+	<target name="parallelTasks" description="Run the pdepend, phpmd and phpcs tasks in parallel using a maximum of 2 threads.">
+		<parallel threadCount="2">
+			<sequential>
+				<antcall target="pdepend" />
+				<antcall target="phpmd" />
+			</sequential>
+			<antcall target="phpcs" />
+		</parallel>
 	</target>
 
 	<target name="phpcs" description="Generate checkstyle.xml using PHP_CodeSniffer">
@@ -25,5 +38,25 @@
 		</exec>
 	</target>
 
-	<target name="build" depends="clean,phpunit,phpcs" />
+	<target name="pdepend" description="Generate jdepend.xml and software metrics charts using PHP_Depend">
+		<exec executable="pdepend">
+			<arg value="--jdepend-xml=${basedir}/build/logs/jdepend.xml" />
+			<arg value="--jdepend-chart=${basedir}/build/pdepend/dependencies.svg" />
+			<arg value="--overview-pyramid=${basedir}/build/pdepend/overview-pyramid.svg" />
+			<arg value="--ignore=build,tests" />
+			<arg path="${source}" />
+		</exec>
+	</target>
+
+	<target name="phpmd" description="Generate pmd.xml using PHPMD">
+		<exec executable="phpmd">
+			<arg path="${joomlasource}" />
+			<arg value="xml" />
+			<arg value="${basedir}/build/phpmd.xml" />
+			<arg value="--reportfile" />
+			<arg value="${basedir}/build/logs/pmd.xml" />
+		</exec>
+	</target>
+
+	<target name="build" depends="clean,phpunit,parallelTasks" />
 </project>
