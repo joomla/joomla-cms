@@ -277,7 +277,7 @@ class JAdministrator extends JApplication
 			if (!file_exists(JPATH_THEMES . '/' . $template->template . '/index.php'))
 			{
 				$template->params = new JRegistry;
-				$template->template = 'bluestork';
+				$template->template = 'isis';
 			}
 		}
 		if ($params) {
