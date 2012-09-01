@@ -48,9 +48,9 @@ DELETE FROM `#__extensions`
 DELETE FROM `#__template_styles`
 	WHERE template = 'bluestork';
 
-UPDATE `rdy72_template_styles`
+UPDATE `#__template_styles`
 SET home = (CASE WHEN (SELECT count FROM (SELECT count(`id`) AS count
-			FROM `rdy72_template_styles`
+			FROM `#__template_styles`
 			WHERE home = '1'
 			AND client_id = 1) as c) = 0
 			THEN '1'
