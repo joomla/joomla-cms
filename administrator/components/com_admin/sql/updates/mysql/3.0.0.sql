@@ -40,3 +40,21 @@ INSERT INTO `#__extensions`
 INSERT INTO `#__template_styles` (`template`, `client_id`, `home`, `title`, `params`) VALUES
 	('protostar', 0, '0', 'protostar - Default', '{"templateColor":"","logoFile":"","googleFont":"1","googleFontName":"Open+Sans","fluidContainer":"0"}'),
 	('isis', 1, '1', 'isis - Default', '{"templateColor":"","logoFile":""}');
+
+# Deal with removed templates
+DELETE FROM `#__extensions`
+	WHERE type = 'template' AND name = 'bluestork';
+
+DELETE FROM `#__template_styles`
+	WHERE template = 'bluestork';
+
+UPDATE `rdy72_template_styles`
+SET home = (CASE WHEN (SELECT count FROM (SELECT count(`id`) AS count
+			FROM `rdy72_template_styles`
+			WHERE home = '1'
+			AND client_id = 1) as c) = 0
+			THEN '1'
+			ELSE '0'
+			END)
+WHERE template = 'isis'
+AND home != '1';
