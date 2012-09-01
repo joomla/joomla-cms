@@ -29,6 +29,7 @@ $ -> Language fix or change
 01-Sept-2012 Jean-Marie Simonet
  # [#29034] img border is deprecated in html4, obsolete in html5.Thanks Chris
  # [#29027] Add language data to Smart Search indexing's tokenize process. Thanks Michael.
+ # [#28756] Enable Search Term Logging in Smart Search. Thanks Michael.
 
 30-Aug-2012 Rouven Weßling
  ^ Move JEditor to the CMS libraries.
