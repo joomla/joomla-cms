@@ -275,7 +275,6 @@ class joomlaInstallerScript
 
 		// Templates
 
-		$extensions[] = array('template', 'atomic', '', 0);
 		$extensions[] = array('template', 'beez_20', '', 0);
 		$extensions[] = array('template', 'hathor', '', 1);
 		$extensions[] = array('template', 'beez5', '', 0);
