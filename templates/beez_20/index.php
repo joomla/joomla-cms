@@ -1,21 +1,22 @@
 <?php
 /**
- * @package     Joomla.Site
- * @subpackage  Template.beez_20
- *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @package                Joomla.Site
+ * @subpackage	Templates.beez_20
+ * @copyright        Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license                GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+// No direct access.
 defined('_JEXEC') or die;
+
+jimport('joomla.filesystem.file');
 
 // check modules
 $showRightColumn	= ($this->countModules('position-3') or $this->countModules('position-6') or $this->countModules('position-8'));
 $showbottom			= ($this->countModules('position-9') or $this->countModules('position-10') or $this->countModules('position-11'));
 $showleft			= ($this->countModules('position-4') or $this->countModules('position-7') or $this->countModules('position-5'));
 
-if ($showRightColumn == 0 and $showleft == 0)
-{
+if ($showRightColumn==0 and $showleft==0) {
 	$showno = 0;
 }
 
@@ -29,22 +30,13 @@ $app				= JFactory::getApplication();
 $doc				= JFactory::getDocument();
 $templateparams		= $app->getTemplate(true)->params;
 
-$doc->addStyleSheet($this->baseurl.'/templates/system/css/system.css');
-$doc->addStyleSheet($this->baseurl.'/templates/'.$this->template.'/css/position.css', $type = 'text/css', $media = 'screen,projection');
-$doc->addStyleSheet($this->baseurl.'/templates/'.$this->template.'/css/layout.css', $type = 'text/css', $media = 'screen,projection');
-$doc->addStyleSheet($this->baseurl.'/templates/'.$this->template.'/css/print.css', $type = 'text/css', $media = 'print');
+$doc->addStyleSheet( JURI::base().'/templates/system/css/system.css');
+$doc->addStyleSheet( JURI::base().'/templates/'.$this->template.'/css/position.css', $type = 'text/css', $media = 'screen,projection');
+$doc->addStyleSheet( JURI::base().'/templates/'.$this->template.'/css/layout.css', $type = 'text/css', $media = 'screen,projection');
+$doc->addStyleSheet( JURI::base().'/templates/'.$this->template.'/css/print.css', $type = 'text/css', $media = 'print');
+$doc->addStyleSheet( JURI::base().'/templates/'.$this->template.'/css/general.css', $type = 'text/css', $media = 'screen,projection');
 
-$files = JHtml::_('stylesheet', 'templates/'.$this->template.'/css/general.css', null, false, true);
-if ($files):
-	if (!is_array($files)):
-		$files = array($files);
-	endif;
-	foreach($files as $file):
-		$doc->addStyleSheet($file);
-	endforeach;
-endif;
-
-$doc->addStyleSheet('templates/'.$this->template.'/css/'.htmlspecialchars($color).'.css');
+ $doc->addStyleSheet(  JURI::base().'templates/'.$this->template.'/css/'.htmlspecialchars($color).'.css', $type = 'text/css', $media = 'screen,projection');
 if ($this->direction == 'rtl') {
 	$doc->addStyleSheet($this->baseurl.'/templates/'.$this->template.'/css/template_rtl.css');
 	if (file_exists(JPATH_SITE . '/templates/' . $this->template . '/css/' . $color . '_rtl.css')) {
@@ -54,42 +46,34 @@ if ($this->direction == 'rtl') {
 
 $doc->addScript($this->baseurl.'/templates/'.$this->template.'/javascript/md_stylechanger.js', 'text/javascript');
 $doc->addScript($this->baseurl.'/templates/'.$this->template.'/javascript/hide.js', 'text/javascript');
+$doc->addScript($this->baseurl.'/templates/'.$this->template.'/javascript/respond.src.js', 'text/javascript');
 
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>" >
-<head>
+<head><?php require(__DIR__  . '/jsstrings.php');?>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=3.0, user-scalable=yes"/>
+<meta name="HandheldFriendly" content="true" />
+<meta name="apple-touch-fullscreen" content="YES" />
+
 <jdoc:include type="head" />
+
+
 
 <!--[if IE 7]>
 <link href="<?php echo $this->baseurl ?>/templates/<?php echo $this->template; ?>/css/ie7only.css" rel="stylesheet" type="text/css" />
 <![endif]-->
 
-<script type="text/javascript">
-	var big ='<?php echo (int) $this->params->get('wrapperLarge');?>%';
-	var small='<?php echo (int) $this->params->get('wrapperSmall'); ?>%';
-	var altopen='<?php echo JText::_('TPL_BEEZ2_ALTOPEN', true); ?>';
-	var altclose='<?php echo JText::_('TPL_BEEZ2_ALTCLOSE', true); ?>';
-	var bildauf='<?php echo $this->baseurl ?>/templates/<?php echo $this->template; ?>/images/plus.png';
-	var bildzu='<?php echo $this->baseurl ?>/templates/<?php echo $this->template; ?>/images/minus.png';
-	var rightopen='<?php echo JText::_('TPL_BEEZ2_TEXTRIGHTOPEN', true); ?>';
-	var rightclose='<?php echo JText::_('TPL_BEEZ2_TEXTRIGHTCLOSE', true); ?>';
-	var fontSizeTitle='<?php echo JText::_('TPL_BEEZ2_FONTSIZE', true); ?>';
-	var bigger='<?php echo JText::_('TPL_BEEZ2_BIGGER', true); ?>';
-	var reset='<?php echo JText::_('TPL_BEEZ2_RESET', true); ?>';
-	var smaller='<?php echo JText::_('TPL_BEEZ2_SMALLER', true); ?>';
-	var biggerTitle='<?php echo JText::_('TPL_BEEZ2_INCREASE_SIZE', true); ?>';
-	var resetTitle='<?php echo JText::_('TPL_BEEZ2_REVERT_STYLES_TO_DEFAULT', true); ?>';
-	var smallerTitle='<?php echo JText::_('TPL_BEEZ2_DECREASE_SIZE', true); ?>';
-</script>
+
 
 </head>
 
-<body>
+<body id="shadow">
 
 <div id="all">
         <div id="back">
-                <div id="header">
+                <header id="header">
                                 <div class="logoheader">
                                         <h1 id="logo">
 
@@ -120,7 +104,7 @@ $doc->addScript($this->baseurl.'/templates/'.$this->template.'/javascript/hide.j
                                         </div> <!-- end line -->
 
 
-                        </div><!-- end header -->
+                        </header><!-- end header -->
                         <div id="<?php echo $showRightColumn ? 'contentarea2' : 'contentarea'; ?>">
                                         <div id="breadcrumbs">
 
@@ -128,16 +112,16 @@ $doc->addScript($this->baseurl.'/templates/'.$this->template.'/javascript/hide.j
 
                                         </div>
 
-                                        <?php if ($navposition == 'left' and $showleft) : ?>
+                                        <?php if ($navposition=='left' and $showleft) : ?>
 
 
-                                                        <div class="left1 <?php if ($showRightColumn == null){ echo 'leftbigger';} ?>" id="nav">
+                                                        <nav class="left1 <?php if ($showRightColumn==NULL){ echo 'leftbigger';} ?>" id="nav">
                                                    <jdoc:include type="modules" name="position-7" style="beezDivision" headerLevel="3" />
                                                                 <jdoc:include type="modules" name="position-4" style="beezHide" headerLevel="3" state="0 " />
                                                                 <jdoc:include type="modules" name="position-5" style="beezTabs" headerLevel="2"  id="3" />
 
 
-                                                        </div><!-- end navi -->
+                                                        </nav><!-- end navi -->
                <?php endif; ?>
 
                                         <div id="<?php echo $showRightColumn ? 'wrapper' : 'wrapper2'; ?>" <?php if (isset($showno)){echo 'class="shownocolumns"';}?>>
@@ -167,24 +151,24 @@ $doc->addScript($this->baseurl.'/templates/'.$this->template.'/javascript/hide.j
                                         </div>
 
 
-                                        <div id="right">
+                                        <aside id="right">
                                                 <a id="additional"></a>
                                                 <jdoc:include type="modules" name="position-6" style="beezDivision" headerLevel="3"/>
                                                 <jdoc:include type="modules" name="position-8" style="beezDivision" headerLevel="3"  />
                                                 <jdoc:include type="modules" name="position-3" style="beezDivision" headerLevel="3"  />
-                                        </div><!-- end right -->
+                                        </aside><!-- end right -->
                                         <?php endif; ?>
 
-                        <?php if ($navposition == 'center' and $showleft) : ?>
+                        <?php if ($navposition=='center' and $showleft) : ?>
 
-                                        <div class="left <?php if ($showRightColumn == null){ echo 'leftbigger';} ?>" id="nav" >
+                                        <nav class="left <?php if ($showRightColumn==NULL){ echo 'leftbigger';} ?>" id="nav" >
 
                                                 <jdoc:include type="modules" name="position-7"  style="beezDivision" headerLevel="3" />
                                                 <jdoc:include type="modules" name="position-4" style="beezHide" headerLevel="3" state="0 " />
                                                 <jdoc:include type="modules" name="position-5" style="beezTabs" headerLevel="2"  id="3" />
 
 
-                                        </div><!-- end navi -->
+                                        </nav><!-- end navi -->
                    <?php endif; ?>
 
                                 <div class="wrap"></div>
@@ -197,7 +181,7 @@ $doc->addScript($this->baseurl.'/templates/'.$this->template.'/javascript/hide.j
 
                 <div id="footer-outer">
                         <?php if ($showbottom) : ?>
-                        <div id="footer-inner">
+                        <div id="footer-inner" >
 
                                 <div id="bottom">
                                         <div class="box box1"> <jdoc:include type="modules" name="position-9" style="beezDivision" headerlevel="3" /></div>
@@ -207,12 +191,12 @@ $doc->addScript($this->baseurl.'/templates/'.$this->template.'/javascript/hide.j
 
 
                         </div>
-                                <?php endif; ?>
+                                <?php endif ; ?>
 
                         <div id="footer-sub">
 
 
-                                <div id="footer">
+                                <footer id="footer">
 
                                         <jdoc:include type="modules" name="position-14" />
                                         <p>
@@ -220,7 +204,7 @@ $doc->addScript($this->baseurl.'/templates/'.$this->template.'/javascript/hide.j
                                         </p>
 
 
-                                </div><!-- end footer -->
+                                </footer><!-- end footer -->
 
                         </div>
 

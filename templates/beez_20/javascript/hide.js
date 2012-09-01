@@ -1,4 +1,4 @@
-// Angie Radtke 2009 //
+// Angie Radtke 2009 - 2012  thanks to daniel //
 
 /*global window, localStorage, Cookie, altopen, altclose, big, small, rightopen, rightclose, bildauf, bildzu */
 
@@ -15,12 +15,7 @@ function saveIt(name) {
 		alert('No cookie available');
 	} else {
 		if (Browser.Features.localstorage) {
-			try {
-				localStorage[name] = x;
-			}
-			catch (e) {
-				// Most likely the storage is full or deactivated
-			}
+			localStorage[name] = x;
 		} else {
 			Cookie.write(name, x, {duration: 7});
 		}
@@ -118,15 +113,6 @@ window.addEvent('domready', function() {
 				if (cookieset == 'block') {
 					el.setStyle('display', 'block');
 					el.setProperty('aria-expanded', 'true');
-					el.slide('show');//.slide('hide').slide('in');
-					el.getParent().setProperty('class', 'slide');
-					var eltern = el.getParent().getParent();
-					var elternh = eltern.getElement('h3');
-					var elternbild = eltern.getElement('img');
-					elternbild.setProperties( {
-					alt : altopen,
-					src : bildzu
-					});
 				}
 
 			}
@@ -307,3 +293,110 @@ function nexttab(el) {
 		}
 	}
 }
+
+
+
+// mobilemenuheader
+var mobileMenu = new Class({
+
+    displayed:false,
+    initialize:function () {
+        var self = this;
+        // create the elements once
+        self.createElements();
+
+        // show the elements if the browser size is smaller
+        if (self.getX() <= 461 && !self.displayed) {
+            self.display();
+        }
+
+        // react on resize events
+        window.addEvent('resize', function () {
+            if (self.getX() >= 461) {
+                if (self.displayed) {
+                    self.mobile.setStyle('display', 'none');
+                    document.id('menuwrapper').setStyle('display', 'block');
+                    self.displayed = false;
+                }
+            }
+            if (self.getX() < 461) {
+                if(!self.displayed) {
+                    self.display();
+                }
+
+            }
+        });
+    },
+
+    getX: function() {
+        return document.body.getSize().x;
+    },
+
+    createElements:function () {
+        var self = this;
+        var Openmenu=Joomla.JText._('TPL_BEEZ2_OPENMENU');
+        var Closemenu=Joomla.JText._('TPL_BEEZ2_CLOSEMENU');
+        this.menu = document.id("header").getElement('ul.menu');
+        this.menuWrapper = new Element('div#menuwrapper', {
+            'role':'menubar'
+        });
+
+        // create the menu opener and assign events
+        this.mobile = new Element('div', {
+            'id':'mobile_select',
+            html:'<h2><a href=#" id="menuopener" onclick="return false;"><span>Openmenu</span></a></h2>',
+            styles:{
+                display:'block'
+            },
+            events:{
+                click:function () {
+                    var state = self.menuWrapper.getStyle('display');
+                    self.wrapper.toggle();
+
+                    if (state == 'none') {
+                        document.id('menuopener').set('html', Closemenu);
+                        document.id('menuwrapper').setProperties({
+                            'aria-expanded':'true',
+                            'aria-hidden':'false'
+                        });
+                    } else {
+                        document.id('menuopener').set('html',  Openmenu);
+                        document.id('menuwrapper').setProperties({
+                            'aria-expanded':'false',
+                            'aria-hidden':'true'
+                        });
+                    }
+                }
+            }
+
+        });
+
+        // add the menu to the dom
+        this.menuWrapper.wraps(this.menu);
+        // create the effect
+        this.wrapper = new Fx.Reveal(document.id('menuwrapper'), {
+            duration:'long',
+            transition:'bounce:out',
+            link:'chain'
+        });
+        // add the menuopener to the dom and hide it
+        this.mobile.setStyle('display', 'none')
+            .inject(document.id("header").getElement('#menuwrapper'), 'before');
+
+    },
+    display:function () {
+        this.menuWrapper.setStyle('display', 'none');
+        this.mobile.setStyle('display', 'block');
+        this.displayed = true;
+    }
+});
+
+window.addEvent('domready', function () {
+    new mobileMenu();
+});
+
+
+
+//For discussion and comments, see: http://remysharp.com/2009/01/07/html5-enabling-script/
+(function(){if(!/*@cc_on!@*/0)return;var e = "abbr,article,aside,audio,canvas,datalist,details,eventsource,figure,footer,header,hgroup,mark,menu,meter,nav,output,progress,section,time,video".split(','),i=e.length;while(i--){document.createElement(e[i])}})()
+
