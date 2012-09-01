@@ -40,6 +40,7 @@ $ -> Language fix or change
  # [#28756] Enable Search Term Logging in Smart Search. Thanks Michael.
  # [#27933] Smart Search module does not read static filter setting from module parameters. Thanks Chris
  # [#29028] Finder log messages showing on save. Thanks Elin
+ ^ [#28833] Unprotect a number of extensions. Thanks Rouven.
 
 30-Aug-2012 Rouven Weßling
  ^ Move JEditor to the CMS libraries.
