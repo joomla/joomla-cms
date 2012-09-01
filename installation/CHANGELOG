@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+01-Sept-2012 Jean-Marie Simonet
+ # [#27933] Smart Search module does not read static filter setting from module parameters. Thanks Chris
+
 31-Aug-2012 Jean-Marie Simonet
  +$ Adding Welsh cy-GB language Installation files
 
