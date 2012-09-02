@@ -111,5 +111,16 @@
 		</exec>
 	</target>
 
+	<target name="lint" description="Perform syntax check of sourcecode files">
+		<apply executable="php" failonerror="true">
+			<arg value="-l" />
+
+			<fileset dir="${source}">
+				<include name="**/*.php" />
+				<modified />
+			</fileset>
+		</apply>
+	</target>
+
 	<target name="build" depends="clean,phpunit,phpunit-legacy,parallelTasks,phpcb" />
 </project>
