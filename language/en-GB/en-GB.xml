@@ -81,6 +81,8 @@
 		<filename>en-GB.pkg_joomla.sys.ini</filename>
 		<filename>en-GB.tpl_beez_20.ini</filename>
 		<filename>en-GB.tpl_beez_20.sys.ini</filename>
+		<filename>en-GB.tpl_protostar.ini</filename>
+		<filename>en-GB.tpl_protostar.sys.ini</filename>
 	</files>
 	<metadata>
 		<name>English (United Kingdom)</name>

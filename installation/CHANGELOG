@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+02-Sept-2012 Jean-Marie Simonet
+ # Correcting en-GB.xml to reflect adding protostar and isis + mod_stats_admin ini files
+
 01-Sep-2012 Rouven Weßling
  - Removed the bluestork admin template.
  - Removed the atomic template.
