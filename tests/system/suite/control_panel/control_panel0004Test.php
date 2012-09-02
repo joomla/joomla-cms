@@ -102,6 +102,7 @@ class ControlPanel0004 extends SeleniumJoomlaTestCase
 		$this->mouseDownAt("//tr/td/a[contains(text(), 'Modules')]/../../td[1]/span", "");
 		$this->mouseMoveAt("//tr/td/a[contains(text(), 'Templates')]/../../td[1]/span", "0,30");
 		$this->mouseUpAt("//tr/td/a[contains(text(), 'Templates')]/../../td[1]/span", "");
+		sleep(2);
 
 
 		$this->select("filter_level", "value=");
@@ -125,6 +126,7 @@ class ControlPanel0004 extends SeleniumJoomlaTestCase
 		$this->mouseDownAt("//tr/td/a[contains(text(), 'Modules')]/../../td[1]/span", "");
 		$this->mouseMoveAt("//tr/td/a[contains(text(), 'Templates')]/../../td[1]/span", "0,5");
 		$this->mouseUpAt("//tr/td/a[contains(text(), 'Templates')]/../../td[1]/span", "");
+		sleep(2);
 
 
 		$this->select("filter_level", "value=");
