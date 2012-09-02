@@ -302,7 +302,10 @@ body {
     text-align: left;
     font-weight: normal;
     line-height: 1.5em;
-
+}
+.header1 {
+	font-size: 1.5em;
+	margin-left: 10px;
 }
 
 #line {
@@ -339,7 +342,7 @@ body {
     font-weight: bold;
     text-align: right;
     line-height: 1.5em;
-    padding: 5px 2px 5px 5px
+    padding: 25px 2px 5px 5px
 }
 
 /* ###################### main ###################### */
