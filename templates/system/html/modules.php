@@ -135,24 +135,24 @@ function modChrome_outline($module, &$params, &$attribs)
 		{
 			if (version_compare($client->browserVersion, '7.0', '<='))
 			{
-				$doc->addStyleDeclaration(".mod-preview-info {filter: alpha(opacity=80);}");
-				$doc->addStyleDeclaration(".mod-preview-wrapper {filter: alpha(opacity=50);}");
+				$doc->addStyleDeclaration(".mod-preview-info {filter: alpha(opacity=100);}");
+				$doc->addStyleDeclaration(".mod-preview-wrapper {filter: alpha(opacity=100);}");
 			}
 			else
 			{
-				$doc->addStyleDeclaration(".mod-preview-info {-ms-filter: alpha(opacity=80);}");
-				$doc->addStyleDeclaration(".mod-preview-wrapper {-ms-filter: alpha(opacity=50);}");
+				$doc->addStyleDeclaration(".mod-preview-info {-ms-filter: alpha(opacity=100);}");
+				$doc->addStyleDeclaration(".mod-preview-wrapper {-ms-filter: alpha(opacity=100);}");
 			}
 		}
 		else
 		{
-			$doc->addStyleDeclaration(".mod-preview-info {opacity: 0.8;}");
-			$doc->addStyleDeclaration(".mod-preview-wrapper {opacity: 0.5;}");
+			$doc->addStyleDeclaration(".mod-preview-info {opacity: 1;}");
+			$doc->addStyleDeclaration(".mod-preview-wrapper {opacity: 1;}");
 		}
 	}
 	?>
 	<div class="mod-preview">
-		<div class="mod-preview-info"><?php echo $module->position . "[" . $module->style . "]"; ?></div>
+		<div class="mod-preview-info"><?php echo 'Position: ' . $module->position . ' [ Style: ' . $module->style . ']'; ?></div>
 		<div class="mod-preview-wrapper">
 			<?php echo $module->content; ?>
 		</div>
