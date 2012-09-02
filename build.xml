@@ -2,7 +2,7 @@
 
 <project name="joomla" default="build" basedir=".">
 	<property name="source" value="." />
-	<property name="joomlasource" value="administrator,cli,components,includes,installation,libraries/cms,modules,plugins,templates" />
+	<property name="joomlasource" value="administrator,cli,components,includes,installation,language/en-GB,libraries/cms,modules,plugins,templates" />
 
 	<target name="clean" description="Clean up and create artifact directories">
 		<delete dir="${basedir}/build/coverage" />
@@ -57,6 +57,58 @@
 			<arg value="${basedir}/build/logs/pmd.xml" />
 		</exec>
 	</target>
+
+	<target name="lint" description="Perform syntax check of sourcecode files">
+		<apply executable="php" failonerror="true">
+			<arg value="-l" />
+
+			<fileset dir="${basedir}/administrator">
+				<include name="**/*.php" />
+				<modified />
+			</fileset>
+
+			<fileset dir="${basedir}/cli">
+				<include name="**/*.php" />
+				<modified />
+			</fileset>
+
+			<fileset dir="${basedir}/components">
+				<include name="**/*.php" />
+				<modified />
+			</fileset>
+
+			<fileset dir="${basedir}/installation">
+				<include name="**/*.php" />
+				<modified />
+			</fileset>
+
+			<fileset dir="${basedir}/includes">
+				<include name="**/*.php" />
+				<modified />
+			</fileset>
+
+			<fileset dir="${basedir}/language/en-GB">
+				<include name="**/*.php" />
+				<modified />
+			</fileset>
+
+			<fileset dir="${basedir}/libraries">
+				<include name="**/*.php" />
+				<modified />
+			</fileset>
+
+			<fileset dir="${basedir}/modules">
+				<include name="**/*.php" />
+				<modified />
+			</fileset>
+
+			<fileset dir="${basedir}/templates">
+				<include name="**/*.php" />
+				<modified />
+			</fileset>
+		</apply>
+	</target>
+
 
 	<target name="build" depends="clean,phpunit,parallelTasks" />
 </project>
