@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.filesystem.file');
 
+
 // check modules
 $showRightColumn	= ($this->countModules('position-3') or $this->countModules('position-6') or $this->countModules('position-8'));
 $showbottom			= ($this->countModules('position-9') or $this->countModules('position-10') or $this->countModules('position-11'));
@@ -26,9 +27,20 @@ JHtml::_('behavior.framework', true);
 $color				= $this->params->get('templatecolor');
 $logo				= $this->params->get('logo');
 $navposition		= $this->params->get('navposition');
+$headerImage		= $this->params->get('headerImage');
 $app				= JFactory::getApplication();
 $doc				= JFactory::getDocument();
 $templateparams		= $app->getTemplate(true)->params;
+$config = JFactory::getConfig();
+
+// Pull in the Bootstrap styles from jui
+$doc->addStyleSheet('media/jui/css/bootstrap.css');
+// If Right-to-Left
+if ($this->direction == 'rtl')
+{
+	$doc->addStyleSheet('media/jui/css/bootstrap-rtl.css');
+}
+
 
 $doc->addStyleSheet( JURI::base().'/templates/system/css/system.css');
 $doc->addStyleSheet( JURI::base().'/templates/'.$this->template.'/css/position.css', $type = 'text/css', $media = 'screen,projection');
@@ -36,7 +48,7 @@ $doc->addStyleSheet( JURI::base().'/templates/'.$this->template.'/css/layout.css
 $doc->addStyleSheet( JURI::base().'/templates/'.$this->template.'/css/print.css', $type = 'text/css', $media = 'print');
 $doc->addStyleSheet( JURI::base().'/templates/'.$this->template.'/css/general.css', $type = 'text/css', $media = 'screen,projection');
 
- $doc->addStyleSheet(  JURI::base().'templates/'.$this->template.'/css/'.htmlspecialchars($color).'.css', $type = 'text/css', $media = 'screen,projection');
+$doc->addStyleSheet(  JURI::base().'templates/'.$this->template.'/css/'.htmlspecialchars($color).'.css', $type = 'text/css', $media = 'screen,projection');
 if ($this->direction == 'rtl') {
 	$doc->addStyleSheet($this->baseurl.'/templates/'.$this->template.'/css/template_rtl.css');
 	if (file_exists(JPATH_SITE . '/templates/' . $this->template . '/css/' . $color . '_rtl.css')) {
@@ -53,23 +65,37 @@ $doc->addScript($this->baseurl.'/templates/'.$this->template.'/javascript/respon
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>" >
 <head><?php require(__DIR__  . '/jsstrings.php');?>
+	<script src="<?php echo $this->baseurl; ?>/media/jui/js/jquery.js"></script>
+	<script src="<?php echo $this->baseurl; ?>/media/jui/js/bootstrap.min.js"></script>
+	<script type="text/javascript">
+	  jQuery.noConflict();
+	</script>
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=3.0, user-scalable=yes"/>
 <meta name="HandheldFriendly" content="true" />
 <meta name="apple-touch-fullscreen" content="YES" />
 
 <jdoc:include type="head" />
 
-
-
 <!--[if IE 7]>
 <link href="<?php echo $this->baseurl ?>/templates/<?php echo $this->template; ?>/css/ie7only.css" rel="stylesheet" type="text/css" />
 <![endif]-->
-
-
-
 </head>
 
 <body id="shadow">
+<?php if ($color == 'image'):?>
+	<style type="text/css">
+			.logoheader
+			{
+				background:url('<?php echo $this->baseurl . '/' . htmlspecialchars($headerImage); ?>') no-repeat right;
+			}
+			body 
+			{
+				background: <?php echo $templateparams->get('backgroundcolor'); ?>;
+			}
+
+	</style>
+<?php endif; ?>
 
 <div id="all">
         <div id="back">
@@ -80,8 +106,10 @@ $doc->addScript($this->baseurl.'/templates/'.$this->template.'/javascript/respon
                                         <?php if ($logo): ?>
                                         <img src="<?php echo $this->baseurl ?>/<?php echo htmlspecialchars($logo); ?>"  alt="<?php echo htmlspecialchars($templateparams->get('sitetitle'));?>" />
                                         <?php endif;?>
-                                        <?php if (!$logo ): ?>
-                                        <?php echo htmlspecialchars($templateparams->get('sitetitle'));?>
+                                        <?php if (!$logo AND $templateparams->get('sitetitle')): ?>
+											<?php echo htmlspecialchars($templateparams->get('sitetitle'));?>
+										<?php elseif (!$logo AND $config->get('sitename')): ?>
+											<?php echo htmlspecialchars($config->get('sitename'));?>
                                         <?php endif; ?>
                                         <span class="header1">
                                         <?php echo htmlspecialchars($templateparams->get('sitedescription'));?>
