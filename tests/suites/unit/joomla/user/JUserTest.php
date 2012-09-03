@@ -431,9 +431,16 @@ class JUserTest extends TestCaseDatabase
 			'non-existant' => array(
 				1120,
 				false,
+				true
 			),
 			'existing' => array(
 				42,
+				true,
+				false
+			),
+			'existing-but-guest' => array(
+				0,
+				true,
 				true
 			)
 		);
@@ -444,6 +451,7 @@ class JUserTest extends TestCaseDatabase
 	 *
 	 * @param   integer  $id        User ID to load
 	 * @param   boolean  $expected  Expected result of load operation
+	 * @param   boolean  $isGuest   Boolean marking an user as guest
 	 *
 	 * @return  void
 	 *
@@ -452,7 +460,7 @@ class JUserTest extends TestCaseDatabase
 	 * @dataProvider casesLoad
 	 * @covers  JUser::load
 	 */
-	public function testLoad($id, $expected)
+	public function testLoad($id, $expected, $isGuest)
 	{
 		$testUser = new JUser($id);
 
@@ -460,5 +468,10 @@ class JUserTest extends TestCaseDatabase
 			$testUser->load($id),
 			$this->equalTo($expected)
 		);
+
+		$this->assertThat(
+				$isGuest,
+				$this->equalTo(TestReflection::getValue($testUser, 'guest'))
+				);
 	}
 }
