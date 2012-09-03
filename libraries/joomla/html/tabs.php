@@ -81,28 +81,14 @@ abstract class JHtmlTabs
 			// Include MooTools framework
 			JHtml::_('behavior.framework', true);
 
-			$options = '{';
-			$opt['onActive'] = (isset($params['onActive'])) ? $params['onActive'] : null;
-			$opt['onBackground'] = (isset($params['onBackground'])) ? $params['onBackground'] : null;
-			$opt['display'] = (isset($params['startOffset'])) ? (int) $params['startOffset'] : null;
-			$opt['useStorage'] = (isset($params['useCookie']) && $params['useCookie']) ? 'true' : 'false';
-			$opt['titleSelector'] = "'dt.tabs'";
+			$opt['onActive']            = (isset($params['onActive'])) ? '\\' . $params['onActive'] : null;
+			$opt['onBackground']        = (isset($params['onBackground'])) ? '\\' . $params['onBackground'] : null;
+			$opt['display']             = (isset($params['startOffset'])) ? (int) $params['startOffset'] : null;
+			$opt['useStorage']          = (isset($params['useCookie']) && $params['useCookie']) ? 'true' : 'false';
+			$opt['titleSelector']       = "'dt.tabs'";
 			$opt['descriptionSelector'] = "'dd.tabs'";
 
-			foreach ($opt as $k => $v)
-			{
-				if ($v)
-				{
-					$options .= $k . ': ' . $v . ',';
-				}
-			}
-
-			if (substr($options, -1) == ',')
-			{
-				$options = substr($options, 0, -1);
-			}
-
-			$options .= '}';
+			$options = self::getJSObject($opt);
 
 			$js = '	window.addEvent(\'domready\', function(){
 						$$(\'dl#' . $group . '.tabs\').each(function(tabs){

@@ -81,7 +81,6 @@ class JHttpFactory
 	 * @return  array  An array of available transport handlers
 	 *
 	 * @since   12.1
-	 * @todo    Make this function more generic cause the behaviour taken from cache (getStores)
 	 */
 	public static function getHttpTransports()
 	{

@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+03-Sep-2012 Rouven Weßling
+ ^ Merge latest platform (c15b8db512c26b6e5308b157c518702d617e47a4)
+
 02-Sept-2012 Jean-Marie Simonet
  # Correcting en-GB.xml to reflect adding protostar and isis + mod_stats_admin ini files
 

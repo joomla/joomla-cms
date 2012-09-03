@@ -116,7 +116,7 @@ class JUser extends JObject
 	/**
 	 * User parameters
 	 *
-	 * @var    string
+	 * @var    JRegistry
 	 * @since  11.1
 	 */
 	public $params = null;
@@ -155,7 +155,7 @@ class JUser extends JObject
 
 	/**
 	 * User parameters
-	 * @var    object
+	 * @var    JRegistry
 	 * @since  11.1
 	 */
 	protected $_params = null;
@@ -455,22 +455,17 @@ class JUser extends JObject
 	/**
 	 * Method to get the user parameters
 	 *
-	 * This function tries to load an XML file based on the user's usertype. The filename of the xml
-	 * file is the same as the usertype. The functionals has a static variable to store the parameters
-	 * setup file base path. You can call this function statically to set the base path if needed.
-	 *
-	 * @param   boolean  $loadsetupfile  If true, loads the parameters setup file. Default is false.
-	 * @param   path     $path           Set the parameters setup file base path to be used to load the user parameters.
+	 * This method used to load the user parameters from a file.
 	 *
 	 * @return  object   The user parameters object.
 	 *
 	 * @since   11.1
-	 * @deprecated  12.3
+	 * @deprecated  12.3  Instead use JUser::getParam()
 	 */
-	public function getParameters($loadsetupfile = false, $path = null)
+	public function getParameters()
 	{
 		// @codeCoverageIgnoreStart
-		JLog::add('JUser::getParameters() is deprecated.', JLog::WARNING, 'deprecated');
+		JLog::add('JUser::getParameters() is deprecated. JUser::getParam().', JLog::WARNING, 'deprecated');
 
 		return $this->_params;
 

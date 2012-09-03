@@ -952,9 +952,6 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 		// Get properties of the current class
 		$properties = $reflect->getProperties();
 
-		// Static properties of the current class
-		$staticProperties = $reflect->getStaticProperties();
-
 		foreach ($properties as $key => $property)
 		{
 			// Do not serialize properties that are PDO

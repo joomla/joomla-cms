@@ -332,7 +332,20 @@ abstract class JHtml
 					// Detect debug mode
 					if ($detect_debug && JFactory::getConfig()->get('debug'))
 					{
-						$files[] = $strip . '-uncompressed.' . $ext;
+						/*
+						 * Detect if we received a file in the format name.min.ext
+						 * If so, strip the .min part out, otherwise append -uncompressed
+						 */
+						if (strrpos($strip, '.min', '-4'))
+						{
+							$position = strrpos($strip, '.min', '-4');
+							$filename = str_replace('.min', '.', $strip, $position);
+							$files[]  = $filename . $ext;
+						}
+						else
+						{
+							$files[] = $strip . '-uncompressed.' . $ext;
+						}
 					}
 					$files[] = $strip . '.' . $ext;
 
@@ -906,5 +919,54 @@ abstract class JHtml
 		}
 
 		return self::$includePaths;
+	}
+
+	/**
+	 * Internal method to get a JavaScript object notation string from an array
+	 *
+	 * @param   array  $array  The array to convert to JavaScript object notation
+	 *
+	 * @return  string  JavaScript object notation representation of the array
+	 *
+	 * @since   12.2
+	 */
+	public static function getJSObject(array $array = array())
+	{
+		$object = '{';
+
+		// Iterate over array to build objects
+		foreach ((array) $array as $k => $v)
+		{
+			if (is_null($v))
+			{
+				continue;
+			}
+
+			if (is_bool($v))
+			{
+				$object .= ' ' . $k . ': ';
+				$object .= ($v) ? 'true' : 'false';
+				$object .= ',';
+			}
+			elseif (!is_array($v) && !is_object($v))
+			{
+				$object .= ' ' . $k . ': ';
+				$object .= (is_numeric($v) || strpos($v, '\\') === 0) ? (is_numeric($v)) ? $v : substr($v, 1) : "'" . $v . "'";
+				$object .= ',';
+			}
+			else
+			{
+				$object .= ' ' . $k . ': ' . self::getJSObject($v) . ',';
+			}
+		}
+
+		if (substr($object, -1) == ',')
+		{
+			$object = substr($object, 0, -1);
+		}
+
+		$object .= '}';
+
+		return $object;
 	}
 }
