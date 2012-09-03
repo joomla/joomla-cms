@@ -42,7 +42,7 @@ class JRouterSite extends JRouter
 		}
 
 		// Get the path
-		$path = $uri->getPath();
+		$path = urldecode($uri->getPath());
 
 		// Remove the base URI path.
 		$path = substr_replace($path, '', 0, strlen(JURI::base(true)));
