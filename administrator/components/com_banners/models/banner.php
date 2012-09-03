@@ -492,7 +492,7 @@ class BannersModelBanner extends JModelAdmin
 			// Set ordering to the last item if not set
 			if (empty($table->ordering)) {
 				$db = JFactory::getDbo();
-				$db->setQuery('SELECT MAX(ordering) FROM #__contact_details');
+				$db->setQuery('SELECT MAX(ordering) FROM #__banners');
 				$max = $db->loadResult();
 
 				$table->ordering = $max+1;
