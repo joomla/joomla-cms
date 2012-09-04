@@ -29,6 +29,7 @@ $ -> Language fix or change
 04-Sept-2012 Jean-Marie Simonet
  # [#24628] htmlspecialchars() and multiple menu modules of the same menu. Thanks Rouven
  # [#27806] *User with spaces as password can not log in. Thanks Rouven
+ $ Updating th-TH installation ini file
 
 01-Sept-2012 Jean-Marie Simonet
  # [#27933] Smart Search module does not read static filter setting from module parameters. Thanks Chris
