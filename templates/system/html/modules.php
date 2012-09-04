@@ -127,32 +127,13 @@ function modChrome_outline($module, &$params, &$attribs)
 	{
 		$css = true;
 		$doc = JFactory::getDocument();
-		$client = JFactory::getApplication()->client;
 
 		$doc->addStyleDeclaration(".mod-preview-info { padding: 2px 4px 2px 4px; border: 1px solid black; position: absolute; background-color: white; color: red;}");
 		$doc->addStyleDeclaration(".mod-preview-wrapper { background-color:#eee; border: 1px dotted black; color:#700;}");
-		if ($client->browser === JApplicationWebClient::IE && version_compare($client->browserVersion, '9.0', '<'))
-		{
-			if (version_compare($client->browserVersion, '7.0', '<='))
-			{
-				$doc->addStyleDeclaration(".mod-preview-info {filter: alpha(opacity=80);}");
-				$doc->addStyleDeclaration(".mod-preview-wrapper {filter: alpha(opacity=50);}");
-			}
-			else
-			{
-				$doc->addStyleDeclaration(".mod-preview-info {-ms-filter: alpha(opacity=80);}");
-				$doc->addStyleDeclaration(".mod-preview-wrapper {-ms-filter: alpha(opacity=50);}");
-			}
-		}
-		else
-		{
-			$doc->addStyleDeclaration(".mod-preview-info {opacity: 0.8;}");
-			$doc->addStyleDeclaration(".mod-preview-wrapper {opacity: 0.5;}");
-		}
 	}
 	?>
 	<div class="mod-preview">
-		<div class="mod-preview-info"><?php echo $module->position . "[" . $module->style . "]"; ?></div>
+		<div class="mod-preview-info"><?php echo 'Position: ' . $module->position . ' [ Style: ' . $module->style . ']'; ?></div>
 		<div class="mod-preview-wrapper">
 			<?php echo $module->content; ?>
 		</div>
