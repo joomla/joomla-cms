@@ -27,6 +27,10 @@ JHtml::_('behavior.formvalidation');
 </script>
 
 <form action="<?php echo JRoute::_('index.php?option=com_weblinks&layout=edit&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="weblink-form" class="form-validate">
+	<div class="row-fluid">
+		<!-- Begin Weblinks -->
+		<div class="span10 form-horizontal">
+
 	<fieldset>
 		<ul class="nav nav-tabs">
 			<li class="active"><a href="#details" data-toggle="tab"><?php echo empty($this->item->id) ? JText::_('COM_WEBLINKS_NEW_WEBLINK') : JText::sprintf('COM_WEBLINKS_EDIT_WEBLINK', $this->item->id); ?></a></li>
@@ -51,10 +55,6 @@ JHtml::_('behavior.formvalidation');
 					<div class="controls"><?php echo $this->form->getInput('title'); ?></div>
 				</div>
 				<div class="control-group">
-					<div class="control-label"><?php echo $this->form->getLabel('alias'); ?></div>
-					<div class="controls"><?php echo $this->form->getInput('alias'); ?></div>
-				</div>
-				<div class="control-group">
 					<div class="control-label"><?php echo $this->form->getLabel('url'); ?></div>
 					<div class="controls"><?php echo $this->form->getInput('url'); ?></div>
 				</div>
@@ -63,28 +63,45 @@ JHtml::_('behavior.formvalidation');
 					<div class="controls"><?php echo $this->form->getInput('catid'); ?></div>
 				</div>
 				<div class="control-group">
-					<div class="control-label"><?php echo $this->form->getLabel('state'); ?></div>
-					<div class="controls"><?php echo $this->form->getInput('state'); ?></div>
-				</div>
-				<div class="control-group">
-					<div class="control-label"><?php echo $this->form->getLabel('access'); ?></div>
-					<div class="controls"><?php echo $this->form->getInput('access'); ?></div>
-				</div>
-				<div class="control-group">
 					<div class="control-label"><?php echo $this->form->getLabel('ordering'); ?></div>
 					<div class="controls"><?php echo $this->form->getInput('ordering'); ?></div>
-				</div>
-				<div class="control-group">
-					<div class="control-label"><?php echo $this->form->getLabel('id'); ?></div>
-					<div class="controls"><?php echo $this->form->getInput('id'); ?></div>
 				</div>
 				<div class="control-group">
 					<div class="control-label"><?php echo $this->form->getLabel('description'); ?></div>
 					<div class="controls"><?php echo $this->form->getInput('description'); ?></div>
 				</div>
+				<h4><?php echo JText::_('COM_WEBLINKS_FIELDSET_IMAGES');?></h4>
+				<div class="control-group">
+					<div class="control-label">
+						<?php echo $this->form->getLabel('images'); ?>
+					</div>
+					<div class="controls">
+						<?php echo $this->form->getInput('images'); ?>
+					</div>
+				</div>
+				<?php foreach($this->form->getGroup('images') as $field): ?>
+					<div class="control-group">
+						<?php if (!$field->hidden): ?>
+							<div class="control-label">
+								<?php echo $field->label; ?>
+							</div>
+						<?php endif; ?>
+						<div class="controls">
+							<?php echo $field->input; ?>
+						</div>
+					</div>
+				<?php endforeach; ?>
 			</div>
 
 			<div class="tab-pane" id="publishing">
+				<div class="control-group">
+					<div class="control-label"><?php echo $this->form->getLabel('alias'); ?></div>
+					<div class="controls"><?php echo $this->form->getInput('alias'); ?></div>
+				</div>
+				<div class="control-group">
+					<div class="control-label"><?php echo $this->form->getLabel('id'); ?></div>
+					<div class="controls"><?php echo $this->form->getInput('id'); ?></div>
+				</div>
 				<div class="control-group">
 					<div class="control-label"><?php echo $this->form->getLabel('created_by'); ?></div>
 					<div class="controls"><?php echo $this->form->getInput('created_by'); ?></div>
@@ -106,6 +123,10 @@ JHtml::_('behavior.formvalidation');
 					<div class="controls"><?php echo $this->form->getInput('publish_down'); ?></div>
 				</div>
 				<div class="control-group">
+					<div class="control-label"><?php echo $this->form->getLabel('version'); ?></div>
+					<div class="controls"><?php echo $this->form->getInput('version'); ?></div>
+				</div>
+				<div class="control-group">
 					<div class="control-label"><?php echo $this->form->getLabel('modified_by'); ?></div>
 					<div class="controls"><?php echo $this->form->getInput('modified_by'); ?></div>
 				</div>
@@ -122,11 +143,49 @@ JHtml::_('behavior.formvalidation');
 			</div>
 
 			<?php echo $this->loadTemplate('params'); ?>
-
 			<?php echo $this->loadTemplate('metadata'); ?>
 
 			<input type="hidden" name="task" value="" />
 			<?php echo JHtml::_('form.token'); ?>
 		</div>
-	</fieldset>
+		</div>
+		<!-- End Weblinks -->		
+		<!-- Begin Sidebar -->
+		<div class="span2">
+			<h4><?php echo JText::_('JDETAILS');?></h4>
+			<hr />
+			<fieldset class="form-vertical">
+				<div class="control-group">
+					<div class="controls">
+						<?php echo $this->form->getValue('title'); ?>
+					</div>
+				</div>
+				<div class="control-group">
+					<div class="control-label">
+						<?php echo $this->form->getLabel('state'); ?>
+					</div>
+					<div class="controls">
+						<?php echo $this->form->getInput('state'); ?>
+					</div>
+				</div>
+
+				<div class="control-group">
+					<div class="control-label">
+						<?php echo $this->form->getLabel('access'); ?>
+					</div>
+					<div class="controls">
+						<?php echo $this->form->getInput('access'); ?>
+					</div>
+				</div>
+				<div class="control-group">
+					<div class="control-label">
+						<?php echo $this->form->getLabel('language'); ?>
+					</div>
+					<div class="controls">
+						<?php echo $this->form->getInput('language'); ?>
+					</div>
+				</div>
+			</fieldset>
+		</div>
+		<!-- End Sidebar -->
 </form>

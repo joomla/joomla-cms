@@ -39,7 +39,7 @@
 			type="list"
 			label="JSTATUS"
 			description="JFIELD_PUBLISHED_DESC"
-			class="inputbox"
+			class="inputbox span12 small"
 			size="1"
 			default="1"
 		>
@@ -67,7 +67,7 @@
 			type="accesslevel"
 			label="JFIELD_ACCESS_LABEL"
 			description="JFIELD_ACCESS_DESC"
-			class="inputbox"
+			class="inputbox span12 small"
 			size="1"
 		/>
 
@@ -256,7 +256,7 @@
 		/>
 
 		<field name="language" type="contentlanguage" label="JFIELD_LANGUAGE_LABEL"
-			description="COM_CONTACT_FIELD_LANGUAGE_DESC" class="inputbox"
+			description="COM_CONTACT_FIELD_LANGUAGE_DESC" class="inputbox span12 small"
 		>
 			<option value="*">JALL</option>
 		</field>
@@ -265,6 +265,7 @@
 			label="JFEATURED"
 			description="COM_CONTACT_FIELD_FEATURED_DESC"
 			default="0"
+			class="span12 small"
 		>
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
@@ -700,4 +701,15 @@
 				size="20" />
 		</fieldset>
 	</fields>
+		<field name="hits"
+			type="text"
+			class="readonly"
+			size="6" label="JGLOBAL_HITS"
+			description="COM_CONTACT_HITS_DESC"
+			readonly="true"
+			filter="unset" />
+		<field name="version" type="text" class="readonly"
+			label="COM_CONTACT_FIELD_VERSION_LABEL" size="6" description="COM_CONTACT_FIELD_VERSION_DESC"
+			readonly="true" filter="unset" />
+
 </form>

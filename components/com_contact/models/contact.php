@@ -181,6 +181,7 @@ class ContactModelContact extends JModelForm
 
 				// Compute access permissions.
 				if ($access = $this->getState('filter.access')) {
+
 					// If the access filter has been set, we already know this user can view.
 					$data->params->set('access-view', true);
 				}
@@ -196,7 +197,6 @@ class ContactModelContact extends JModelForm
 						$data->params->set('access-view', in_array($data->access, $groups) && in_array($data->category_access, $groups));
 					}
 				}
-
 				$this->_item[$pk] = $data;
 			}
 			catch (Exception $e)
@@ -204,7 +204,6 @@ class ContactModelContact extends JModelForm
 				$this->setError($e);
 				$this->_item[$pk] = false;
 			}
-
 		}
 
 		if ($this->_item[$pk])
@@ -352,5 +351,37 @@ class ContactModelContact extends JModelForm
 				return $result;
 			}
 		}
+	}
+	/**
+	 * Increment the hit counter for the contact.
+	 *
+	 * @param	int		Optional primary key of the article to increment.
+	 *
+	 * @return	boolean	True if successful; false otherwise and internal error set.
+	 */
+	public function hit($pk = 0)
+	{
+			$hitcount = JRequest::getInt('hitcount', 1);
+
+			if ($hitcount)
+			{
+				// Initialise variables.
+				$pk = (!empty($pk)) ? $pk : (int) $this->getState('contact.id');
+				$db = $this->getDbo();
+
+                $db->setQuery(
+					'UPDATE #__contact_details' .
+					' SET hits = hits + 1' .
+					' WHERE id = '.(int) $pk
+				);
+
+				if (!$db->query())
+				{
+					$this->setError($db->getErrorMsg());
+					return false;
+				}
+			}
+
+			return true;
 	}
 }
