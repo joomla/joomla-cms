@@ -32,6 +32,7 @@ $ -> Language fix or change
  # [#29024] Remove the prevuuw view from com_templates. Thanks Rouven.
  # [#28941] Improvements for Bootstrap and jQuery HTML Helpers. Thanks Michael
  # [#27806] *User with spaces as password can not log in. Thanks Rouven
+ # [#28997] Make backend content editing layouts consistent and add new fields. Thanks Elin
 
 04-Sep-2012 Rouven Weßling
  ^ [#29048] Update Joomla 3.0 to Bootstrap 2.1 LESS, CSS & JS. Thanks Kyle.
