@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+04-Sept-2012 Jean-Marie Simonet
+ # [#24628] htmlspecialchars() and multiple menu modules of the same menu. Thanks Rouven
+
 01-Sept-2012 Jean-Marie Simonet
  # [#27933] Smart Search module does not read static filter setting from module parameters. Thanks Chris
  # [#28405] Smart Search - CLI Indexer doesn't catch exceptions. Thanks Michael
