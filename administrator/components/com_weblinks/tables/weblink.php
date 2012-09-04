@@ -51,9 +51,9 @@ class WeblinksTableWeblink extends JTable
 		}
 
 		if (isset($array['images']) && is_array($array['images'])) {
-			$registry = new JRegistry();
+			$registry = new JRegistry;
 			$registry->loadArray($array['images']);
-			$array['images'] = (string)$registry;
+			$array['images'] = (string) $registry;
 		}
 
 		return parent::bind($array, $ignore);
