@@ -26,10 +26,12 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+04-Sept-2012 Jean-Marie Simonet
+ # [#24628] htmlspecialchars() and multiple menu modules of the same menu. Thanks Rouven
+
 04-Sep-2012 Rouven Weßling
  ^ [#29048] Update Joomla 3.0 to Bootstrap 2.1 LESS, CSS & JS. Thanks Kyle.
  # [#29049] In template preview it is very hard to read the position name and style name. Thanks Elin.
-
 
 03-Sep-2012 Rouven Weßling
  ^ Merge latest platform (c15b8db512c26b6e5308b157c518702d617e47a4)
