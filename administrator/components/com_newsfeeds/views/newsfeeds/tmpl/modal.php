@@ -63,16 +63,16 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				<th class="title">
 					<?php echo JHtml::_('grid.sort', 'JGLOBAL_TITLE', 'a.name', $listDirn, $listOrder); ?>
 				</th>
-				<th width="15%">
+				<th width="15%" class="nowrap center">
 					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ACCESS', 'access_level', $listDirn, $listOrder); ?>
 				</th>
-				<th width="15%">
+				<th width="15%" class="nowrap center">
 					<?php echo JHtml::_('grid.sort', 'JCATEGORY', 'a.catid', $listDirn, $listOrder); ?>
 				</th>
-				<th width="5%">
+				<th width="5%" class="nowrap center">
 					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
 				</th>
-				<th width="1%" class="nowrap">
+				<th width="1%" class="nowrap center">
 					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 				</th>
 			</tr>

@@ -39,19 +39,19 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 				<th>
 					<?php echo JHtml::_('grid.sort', 'COM_TEMPLATES_HEADING_STYLE', 'a.title', $listDirn, $listOrder); ?>
 				</th>
-				<th width="10%">
+				<th width="10%" class="nowrap">
 					<?php echo JHtml::_('grid.sort', 'JCLIENT', 'a.client_id', $listDirn, $listOrder); ?>
 				</th>
 				<th>
 					<?php echo JHtml::_('grid.sort', 'COM_TEMPLATES_HEADING_TEMPLATE', 'a.template', $listDirn, $listOrder); ?>
 				</th>
-				<th width="5%">
+				<th width="5%" class="nowrap center">
 					<?php echo JHtml::_('grid.sort', 'COM_TEMPLATES_HEADING_DEFAULT', 'a.home', $listDirn, $listOrder); ?>
 				</th>
-				<th width="5%">
+				<th width="5%" class="nowrap center">
 					<?php echo JText::_('COM_TEMPLATES_HEADING_ASSIGNED'); ?>
 				</th>
-				<th width="1%" class="nowrap">
+				<th width="1%" class="nowrap center">
 					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 				</th>
 			</tr>
