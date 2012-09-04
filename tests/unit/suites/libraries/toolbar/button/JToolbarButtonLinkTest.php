@@ -54,7 +54,7 @@ class JToolbarButtonLinkTest extends PHPUnit_Framework_TestCase
 	{
 		$this->assertThat(
 			$this->object->fetchButton('Link', 'jdotorg', 'Joomla.org', 'http://www.joomla.org'),
-			$this->equalTo("<button class=\"btn\" onclick=\"location.href='http://www.joomla.org';\">\n<span class=\"icon-jdotorg\">\n</span>\nJoomla.org\n</button>\n")
+			$this->equalTo("<button class=\"btn btn-small\" onclick=\"location.href='http://www.joomla.org';\">\n<span class=\"icon-jdotorg\">\n</span>\nJoomla.org\n</button>\n")
 		);
 	}
 

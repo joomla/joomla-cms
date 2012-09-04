@@ -93,7 +93,7 @@ class JHtmlBootstrapTest extends PHPUnit_Framework_TestCase
 	{
 		$this->assertThat(
 			JHtml::_('bootstrap.endSlide'),
-			$this->equalTo('</div></div>')
+			$this->equalTo('</div></div></div>')
 		);
 	}
 
