@@ -15,6 +15,8 @@ JHtml::_('behavior.formvalidation');
 JHtml::_('behavior.keepalive');
 $user = JFactory::getUser();
 $canDo = TemplatesHelper::getActions();
+$fieldsets = $this->form->getFieldsets('params');
+
 ?>
 <script type="text/javascript">
 	Joomla.submitbutton = function(task)
@@ -29,7 +31,14 @@ $canDo = TemplatesHelper::getActions();
 	<fieldset>
 		<ul class="nav nav-tabs">
 			<li class="active"><a href="#details" data-toggle="tab"><?php echo JText::_('JDETAILS');?></a></li>
-			<li><a href="#options" data-toggle="tab"><?php echo JText::_('JOPTIONS');?></a></li>
+			
+			<?php if (count($fieldsets)) : ?>
+				<?php foreach ($fieldsets as $fieldset) : ?>
+					<?php $label = !empty($fieldset->label) ? JText::_($fieldset->label) : JText::_('COM_TEMPLATES_'.$fieldset->name.'_FIELDSET_LABEL');?>
+					<li><a href="#options-<?php echo $fieldset->name; ?>" data-toggle="tab"><?php echo $label ?></a></li>
+				<?php endforeach; ?>
+			<?php endif; ?>
+			
 			<?php if ($user->authorise('core.edit', 'com_menu') && $this->item->client_id == 0):?>
 				<?php if ($canDo->get('core.edit.state')) : ?>
 						<li><a href="#assignment" data-toggle="tab"><?php echo JText::_('COM_TEMPLATES_MENUS_ASSIGNMENT');?></a></li>
@@ -97,10 +106,10 @@ $canDo = TemplatesHelper::getActions();
 					<div class="alert alert-error"><?php echo JText::_('COM_TEMPLATES_ERR_XML'); ?></div>
 				<?php endif; ?>
 			</div>
-			<div class="tab-pane" id="options">
+			
 				<?php //get the menu parameters that are automatically set but may be modified.
 					echo $this->loadTemplate('options'); ?>
-			</div>
+					
 			<?php if ($user->authorise('core.edit', 'com_menu') && $this->item->client_id == 0):?>
 				<?php if ($canDo->get('core.edit.state')) : ?>
 					<div class="tab-pane" id="assignment">
