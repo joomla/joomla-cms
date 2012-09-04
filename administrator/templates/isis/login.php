@@ -12,6 +12,10 @@ defined('_JEXEC') or die;
 $app = JFactory::getApplication();
 $doc = JFactory::getDocument();
 
+// Add JavaScript Frameworks
+JHtml::_('bootstrap.framework');
+JHtml::_('jquery.chosen');
+
 // Add Stylesheets
 $doc->addStyleSheet('templates/' .$this->template. '/css/template.css');
 
@@ -19,8 +23,6 @@ $doc->addStyleSheet('templates/' .$this->template. '/css/template.css');
 if ($this->direction == 'rtl') :
 	$doc->addStyleSheet('../media/jui/css/bootstrap-rtl.css');
 endif;
-// Chosen Selects
-$doc->addStyleSheet('../media/jui/css/chosen.css');
 
 // Detecting Active Variables
 $option   = $app->input->getCmd('option', '');
@@ -35,12 +37,6 @@ $sitename = $app->getCfg('sitename');
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-	<script src="<?php echo JUri::root(); ?>media/jui/js/jquery.min.js"></script>
-	<script src="<?php echo JUri::root(); ?>media/jui/js/bootstrap.min.js"></script>
-	<script src="<?php echo JUri::root(); ?>media/jui/js/chosen.jquery.min.js"></script>
-	<script type="text/javascript">
-	  jQuery.noConflict();
-	</script>
 	<jdoc:include type="head" />
 	<script type="text/javascript">
 		window.addEvent('domready', function () {

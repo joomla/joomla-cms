@@ -14,9 +14,12 @@ $app = JFactory::getApplication();
 $doc = JFactory::getDocument();
 $lang = JFactory::getLanguage();
 
+// Add JavaScript Frameworks
+JHtml::_('bootstrap.framework');
+JHtml::_('jquery.chosen');
+
 // Add Stylesheets
 $doc->addStyleSheet('templates/' .$this->template. '/css/template.css');
-$doc->addStyleSheet('../media/jui/css/chosen.css');
 
 // If Right-to-Left
 if ($this->direction == 'rtl') :
@@ -33,14 +36,7 @@ endif;
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" >
 <head>
-	<script src="<?php echo JUri::root(); ?>media/jui/js/jquery.min.js"></script>
-	<script src="<?php echo JUri::root(); ?>media/jui/js/bootstrap.min.js"></script>
-	<script src="<?php echo JUri::root(); ?>media/jui/js/chosen.jquery.min.js"></script>
-	<script type="text/javascript">
-	  jQuery.noConflict();
-	</script>
 	<jdoc:include type="head" />
-	<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/<?php echo $this->template ?>/css/template.css" type="text/css" />
 </head>
 <body class="contentpane component">
 	<jdoc:include type="message" />

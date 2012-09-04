@@ -24,6 +24,8 @@ if ($this->direction === 'rtl')
 }
 
 // Load the JavaScript behaviors
+JHtml::_('bootstrap.framework');
+JHtml::_('jquery.chosen');
 JHtml::_('behavior.framework', true);
 JHtml::_('behavior.keepalive');
 JHtml::_('behavior.tooltip');
@@ -38,12 +40,6 @@ JText::script('INSTL_FTP_SETTINGS_CORRECT');
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 	<head>
-		<script src="<?php echo JURI::root();?>media/jui/js/jquery.js"></script>
-		<script src="<?php echo JURI::root();?>media/jui/js/bootstrap.min.js"></script>
-		<script src="<?php echo JURI::root();?>media/jui/js/chosen.jquery.min.js"></script>
-		<script type="text/javascript">
-			jQuery.noConflict();
-		</script>
 		<jdoc:include type="head" />
 
 		<!--[if IE 7]>

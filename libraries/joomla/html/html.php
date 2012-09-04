@@ -478,7 +478,20 @@ abstract class JHtml
 					// Detect debug mode
 					if ($detect_debug && JFactory::getConfig()->get('debug'))
 					{
-						$files[] = $strip . '-uncompressed.' . $ext;
+						/*
+						 * Detect if we received a file in the format name.min.ext
+						 * If so, strip the .min part out, otherwise append -uncompressed
+						 */
+						if (strrpos($strip, '.min', '-4'))
+						{
+							$position = strrpos($strip, '.min', '-4');
+							$filename = str_replace('.min', '.', $strip, $position);
+							$files[]  = $filename . $ext;
+						}
+						else
+						{
+							$files[] = $strip . '-uncompressed.' . $ext;
+						}
 					}
 					$files[] = $strip . '.' . $ext;
 

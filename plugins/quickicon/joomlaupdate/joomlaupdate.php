@@ -50,6 +50,8 @@ class plgQuickiconJoomlaupdate extends JPlugin
 			return;
 		}
 
+		JHtml::_('jquery.framework');
+
 		$cur_template = JFactory::getApplication()->getTemplate();
 		$ajax_url = JURI::base().'index.php?option=com_installer&view=update&task=update.ajax';
 		$script = "var plg_quickicon_joomlaupdate_ajax_url = '$ajax_url';\n";
@@ -64,7 +66,7 @@ class plgQuickiconJoomlaupdate extends JPlugin
 			JURI::base(true) .'/templates/'. $cur_template .'/images/header/icon-48-jupdate-updatefound.png'."\"};\n";
 		$document = JFactory::getDocument();
 		$document->addScriptDeclaration($script);
-		$document->addScript(JURI::base().'../media/plg_quickicon_joomlaupdate/jupdatecheck.js');
+		JHtml::script('plg_quickicon_joomlaupdate/jupdatecheck.js', false, true);
 
 		return array(array(
 			'link' => 'index.php?option=com_installer&view=update',

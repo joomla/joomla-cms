@@ -29,6 +29,9 @@ else
 	$fullWidth = 0;
 }
 
+// Add JavaScript Frameworks
+JHtml::_('bootstrap.framework');
+
 // Add Stylesheets
 $doc->addStyleSheet('templates/'.$this->template.'/css/template.css');
 
@@ -82,11 +85,6 @@ else
 	<?php
 	}
 	?>
-	<script src="<?php echo $this->baseurl; ?>/media/jui/js/jquery.min.js"></script>
-	<script src="<?php echo $this->baseurl; ?>/media/jui/js/bootstrap.min.js"></script>
-	<script type="text/javascript">
-	  jQuery.noConflict();
-	</script>
 	<jdoc:include type="head" />
 	<?php
 	// Template color

@@ -15,6 +15,11 @@ $lang  = JFactory::getLanguage();
 $input = $app->input;
 $user  = JFactory::getUser();
 
+// Add JavaScript Frameworks
+JHtml::_('bootstrap.framework');
+JHtml::_('jquery.chosen');
+JHtml::_('jquery.ui');
+
 // Add Stylesheets
 $doc->addStyleSheet('templates/' . $this->template . '/css/template.css');
 
@@ -30,8 +35,6 @@ if (is_file($file))
 {
 	$doc->addStyleSheet($file);
 }
-
-$doc->addStyleSheet('../media/jui/css/chosen.css');
 
 // Detecting Active Variables
 $option   = $input->get('option', '');
@@ -67,14 +70,6 @@ else
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" >
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<script src="<?php echo JUri::root(); ?>media/jui/js/jquery.min.js"></script>
-	<script src="<?php echo JUri::root(); ?>media/jui/js/bootstrap.min.js"></script>
-	<script src="<?php echo JUri::root(); ?>media/jui/js/chosen.jquery.min.js"></script>
-	<script src="<?php echo JUri::root(); ?>media/jui/js/jquery.ui.core.min.js"></script>
-	<script src="<?php echo JUri::root(); ?>media/jui/js/jquery.ui.sortable.min.js"></script>
-	<script type="text/javascript">
-		jQuery.noConflict();
-	</script>
 	<jdoc:include type="head" />
 	<?php
 	// Template color
