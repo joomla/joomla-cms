@@ -28,6 +28,7 @@ $ -> Language fix or change
 
 04-Sept-2012 Jean-Marie Simonet
  # [#24628] htmlspecialchars() and multiple menu modules of the same menu. Thanks Rouven
+ # [#28898] Update update script for Joomla 3.0. Thanks Michael
 
 04-Sep-2012 Rouven Weßling
  ^ [#29048] Update Joomla 3.0 to Bootstrap 2.1 LESS, CSS & JS. Thanks Kyle.
