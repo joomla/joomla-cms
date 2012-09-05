@@ -67,14 +67,6 @@
 					description="TPL_BEEZ2_FIELD_WRAPPERLARGE_DESC"
 					filter="integer" />
 
-				<field name="headerImage" type="media"
-					label="TPL_BEEZ2_FIELD_HEADER_IMAGE_LABEL" description="TPL_BEEZ2_FIELD_HEADER_IMAGE_DESC" />
-
-				<field name="backgroundcolor" type="color" default="#eee"
-					label="TPL_BEEZ2_FIELD_HEADER_BACKGROUND_COLOR_LABEL" 
-					description="TPL_BEEZ2_FIELD_HEADER_BACKGROUND_COLOR_DESC" />
-
-
 				<field name="logo" type="media"
 					label="TPL_BEEZ2_FIELD_LOGO_LABEL" description="TPL_BEEZ2_FIELD_LOGO_DESC" />
 
@@ -109,8 +101,13 @@
 					<option value="turq">TPL_BEEZ2_OPTION_TURQ</option>
 					<option value="image">TPL_BEEZ2_OPTION_IMAGE</option>
 				</field>
-				
 
+				<field name="headerImage" type="media"
+					label="TPL_BEEZ2_FIELD_HEADER_IMAGE_LABEL" description="TPL_BEEZ2_FIELD_HEADER_IMAGE_DESC" />
+
+				<field name="backgroundcolor" type="color" default="#eee"
+					label="TPL_BEEZ2_FIELD_HEADER_BACKGROUND_COLOR_LABEL" 
+					description="TPL_BEEZ2_FIELD_HEADER_BACKGROUND_COLOR_DESC" />
 
 			</fieldset>
 		</fields>
