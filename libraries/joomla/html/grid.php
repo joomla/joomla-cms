@@ -66,13 +66,13 @@ abstract class JHtmlGrid
 	 * @param   string  $selected       The selected ordering
 	 * @param   string  $task           An optional task override
 	 * @param   string  $new_direction  An optional direction for the new column
-	 * @param   string  $text           An optional text shown as text instead of $title
+	 * @param   string  $tip            An optional text shown as tooltip title instead of $title
 	 *
 	 * @return  string
 	 *
 	 * @since   11.1
 	 */
-	public static function sort($title, $order, $direction = 'asc', $selected = 0, $task = null, $new_direction = 'asc', $text = '')
+	public static function sort($title, $order, $direction = 'asc', $selected = 0, $task = null, $new_direction = 'asc', $tip = '')
 	{
 		JHtml::_('behavior.tooltip');
 
@@ -90,8 +90,8 @@ abstract class JHtmlGrid
 		}
 
 		$html = '<a href="#" onclick="Joomla.tableOrdering(\'' . $order . '\',\'' . $direction . '\',\'' . $task . '\');"'
-			. ' class="hasTip" title="' . JText::_($title) . '::' .  JText::_('JGLOBAL_CLICK_TO_SORT_THIS_COLUMN') . '">';
-		$html .= $text ? $text : JText::_($title);
+			. ' class="hasTip" title="' . JText::_($tip ? $tip : $title) . '::' .  JText::_('JGLOBAL_CLICK_TO_SORT_THIS_COLUMN') . '">';
+		$html .= JText::_($title);
 
 		if ($order == $selected)
 		{
