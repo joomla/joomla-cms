@@ -1,7 +1,6 @@
 <?php
 
 /**
- * @version     default_items.php 18829 2010-09-10 12:17:05Z infograf768 $
  * @package     Joomla.Site
  * @subpackage  com_content
  * @copyright   Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.

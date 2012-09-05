@@ -183,7 +183,7 @@ $doc->addScript($this->baseurl.'/templates/'.$this->template.'/javascript/respon
                                         </aside><!-- end right -->
                                         <?php endif; ?>
 
-                        <?php if ($navposition=='center' and $showleft) : ?>
+                        <?php if ($navposition == 'center' and $showleft) : ?>
 
                                         <nav class="left <?php if ($showRightColumn == null){ echo 'leftbigger';} ?>" id="nav" >
 
