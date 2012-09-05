@@ -197,7 +197,7 @@ class WeblinksModelWeblink extends JModelAdmin
 			$table->alias = JApplication::stringURLSafe($table->title);
 		}
 
-		if (empty($table->id)) 
+		if (empty($table->id))
 		{
 			// Set the values
 

@@ -352,36 +352,43 @@ class ContactModelContact extends JModelForm
 			}
 		}
 	}
+
 	/**
 	 * Increment the hit counter for the contact.
 	 *
-	 * @param	int		Optional primary key of the article to increment.
+	 * @param   int  $pk  Optional primary key of the article to increment.
 	 *
-	 * @return	boolean	True if successful; false otherwise and internal error set.
+	 * @return  boolean  True if successful; false otherwise and internal error set.
+	 *
+	 * @since   3.0
 	 */
 	public function hit($pk = 0)
 	{
-			$hitcount = JRequest::getInt('hitcount', 1);
+		$input = JFactory::getApplication()->input;
+		$hitcount = $input->getInt('hitcount', 1);
 
-			if ($hitcount)
+		if ($hitcount)
+		{
+			$pk = (!empty($pk)) ? $pk : (int) $this->getState('contact.id');
+			$db = $this->getDbo();
+
+			$db->setQuery(
+				'UPDATE #__contact_details' .
+				' SET hits = hits + 1' .
+				' WHERE id = '.(int) $pk
+			);
+
+			try
 			{
-				// Initialise variables.
-				$pk = (!empty($pk)) ? $pk : (int) $this->getState('contact.id');
-				$db = $this->getDbo();
-
-                $db->setQuery(
-					'UPDATE #__contact_details' .
-					' SET hits = hits + 1' .
-					' WHERE id = '.(int) $pk
-				);
-
-				if (!$db->query())
-				{
-					$this->setError($db->getErrorMsg());
-					return false;
-				}
+				$db->execute();
 			}
+			catch (RuntimeException $e)
+			{
+				$this->setError($e->getMessage());
+				return false;
+			}
+		}
 
-			return true;
+		return true;
 	}
 }

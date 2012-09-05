@@ -292,7 +292,6 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 			$item->images = $registry->toArray();
 		}
 
-
 		return $item;
 	}
 

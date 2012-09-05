@@ -269,7 +269,6 @@ class InstallationModelConfiguration extends JModelLegacy
 			$query->set($db->quoteName('username') . ' = ' . $db->quote($options->admin_user));
 			$query->set($db->quoteName('email') . ' = ' . $db->quote($options->admin_email));
 			$query->set($db->quoteName('password') . ' = ' . $db->quote($cryptpass));
-			$query->set($db->quoteName('usertype') . ' = ' . $db->quote('deprecated'));
 			$query->set($db->quoteName('block') . ' = 0');
 			$query->set($db->quoteName('sendEmail') . ' = 1');
 			$query->set($db->quoteName('registerDate') . ' = ' . $db->quote($installdate));
@@ -283,7 +282,6 @@ class InstallationModelConfiguration extends JModelLegacy
 			$query = $db->getQuery(true);
 			$columns = array($db->quoteName('id'), $db->quoteName('name'), $db->quoteName('username'),
 							$db->quoteName('email'), $db->quoteName('password'),
-							$db->quoteName('usertype'),
 							$db->quoteName('block'),
 							$db->quoteName('sendEmail'), $db->quoteName('registerDate'),
 							$db->quoteName('lastvisitDate'), $db->quoteName('activation'), $db->quoteName('params'));
@@ -292,7 +290,7 @@ class InstallationModelConfiguration extends JModelLegacy
 
 			$query->values(
 				$db->quote($userId) . ', ' . $db->quote('Super User') . ', ' . $db->quote($options->admin_user) . ', ' .
-				$db->quote($options->admin_email) . ', ' . $db->quote($cryptpass) . ', ' . $db->quote('deprecated') . ', ' .
+				$db->quote($options->admin_email) . ', ' . $db->quote($cryptpass) . ', ' .
 				$db->quote('0') . ', ' . $db->quote('1') . ', ' . $db->quote($installdate) . ', ' . $db->quote($nullDate) . ', ' .
 				$db->quote('0') . ', ' . $db->quote('')
 			);

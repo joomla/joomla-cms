@@ -42,7 +42,8 @@ class JRouterSite extends JRouter
 		}
 
 		// Get the path
-		$path = $uri->getPath();
+		// Decode URL to convert punycode to unicode so that strings match when routing.
+		$path = urldecode($uri->getPath());
 
 		// Remove the base URI path.
 		$path = substr_replace($path, '', 0, strlen(JURI::base(true)));
