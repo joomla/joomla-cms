@@ -608,9 +608,9 @@ class JInstallerTemplate extends JAdapterInstance
 	{
 		// Need to find to find where the XML file is since we don't store this normally.
 		$client = JApplicationHelper::getClientInfo($this->parent->extension->client_id);
-		$manifestPath = $client->path . '/templates/' . $this->parent->extension->element . '/templateDetails.xml';
-		$this->parent->manifest = $this->parent->isManifest($manifestPath);
-		$this->parent->setPath('manifest', $manifestPath);
+		$manifestPath = $client->path . '/templates/' . $this->parent->extension->element;
+		$this->parent->setPath('source', $manifestPath);
+		$this->parent->manifest = $this->parent->getManifest();
 
 		$manifest_details = JInstaller::parseXMLInstallFile($this->parent->getPath('manifest'));
 		$this->parent->extension->manifest_cache = json_encode($manifest_details);

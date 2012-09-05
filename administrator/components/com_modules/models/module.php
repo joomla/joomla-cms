@@ -707,18 +707,13 @@ class ModulesModelModule extends JModelAdmin
 			$this->_cache[$pk]->assigned = $assigned;
 			$this->_cache[$pk]->assignment = $assignment;
 
-			// Get the module XML.
+			// Get the module XML
 			$client	= JApplicationHelper::getClientInfo($table->client_id);
-			$path	= JPath::clean($client->path . '/modules/' . $table->module . '/' . $table->module . '.xml');
+			$path	= JPath::clean($client->path . '/modules/' . $table->module);
+			$installer = JInstaller::getInstance();
+			$installer->setPath('source', $path);
 
-			if (file_exists($path))
-			{
-				$this->_cache[$pk]->xml = simplexml_load_file($path);
-			}
-			else
-			{
-				$this->_cache[$pk]->xml = null;
-			}
+			$this->_cache[$pk]->xml = $installer->getManifest();
 		}
 
 		return $this->_cache[$pk];
