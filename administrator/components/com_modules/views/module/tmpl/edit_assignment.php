@@ -217,7 +217,7 @@ $menuTypes = MenusHelper::getMenuLinks();
 			<div style="display:none;" id="treeselectmenu">
 				<div class="pull-left nav-hover treeselect-menu">
 					<div class="btn-group" style="margin-left: 6px; display:none;">
-						<a href="javascript://" data-toggle="dropdown" class="dropdown-toggle btn btn-mini">
+						<a href="#" data-toggle="dropdown" class="dropdown-toggle btn btn-mini">
 							<span class="caret"></span>
 						</a>
 						<ul class="dropdown-menu">
