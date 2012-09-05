@@ -55,7 +55,7 @@ if ($this->direction == 'rtl') {
 		$doc->addStyleSheet($this->baseurl.'/templates/'.$this->template.'/css/'.htmlspecialchars($color).'_rtl.css');
 	}
 }
-
+JHtml::_('bootstrap.framework');
 $doc->addScript($this->baseurl.'/templates/'.$this->template.'/javascript/md_stylechanger.js', 'text/javascript');
 $doc->addScript($this->baseurl.'/templates/'.$this->template.'/javascript/hide.js', 'text/javascript');
 $doc->addScript($this->baseurl.'/templates/'.$this->template.'/javascript/respond.src.js', 'text/javascript');
@@ -65,11 +65,6 @@ $doc->addScript($this->baseurl.'/templates/'.$this->template.'/javascript/respon
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>" >
 <head><?php require(__DIR__  . '/jsstrings.php');?>
-	<script src="<?php echo $this->baseurl; ?>/media/jui/js/jquery.js"></script>
-	<script src="<?php echo $this->baseurl; ?>/media/jui/js/bootstrap.min.js"></script>
-	<script type="text/javascript">
-	  jQuery.noConflict();
-	</script>
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=3.0, user-scalable=yes"/>
 <meta name="HandheldFriendly" content="true" />
