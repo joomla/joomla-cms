@@ -1,3 +1,7 @@
+# Remove unnecessary keys
+ALTER TABLE `#__users` DROP KEY `usertype`;
+ALTER TABLE `#__session` DROP KEY `whosonline`;
+
 # Remove unused columns
 ALTER TABLE `#__contact_details` DROP `imagepos`;
 ALTER TABLE `#__content` DROP COLUMN `title_alias`;
@@ -10,6 +14,8 @@ ALTER TABLE `#__weblinks` DROP COLUMN `date`;
 ALTER TABLE `#__weblinks` DROP COLUMN `archived`;
 ALTER TABLE `#__weblinks` DROP COLUMN `approved`;
 ALTER TABLE `#__menu` DROP COLUMN `ordering`;
+ALTER TABLE `#__session` DROP COLUMN `usertype`;
+ALTER TABLE `#__user` DROP COLUMN `usertype`;
 
 # Unprotect a number of extensions
 UPDATE `#__extensions` SET protected = 0 WHERE
@@ -45,6 +51,8 @@ ALTER TABLE `#__banners` ADD COLUMN `modified` datetime NOT NULL DEFAULT '0000-0
 ALTER TABLE `#__banners` ADD COLUMN `modified_by` int(10) unsigned NOT NULL DEFAULT '0';
 ALTER TABLE `#__banners` ADD COLUMN `version` int(10) unsigned NOT NULL DEFAULT '1';
 ALTER TABLE `#__categories` ADD COLUMN `version` int(10) unsigned NOT NULL DEFAULT '1';
+
+# Add columns for improved language support in finder.
 ALTER TABLE `#__finder_terms` ADD COLUMN `language` char(3) NOT NULL DEFAULT '';
 ALTER TABLE `#__finder_tokens` ADD COLUMN `language` char(3) NOT NULL DEFAULT '';
 ALTER TABLE `#__finder_tokens_aggregate` ADD COLUMN `language` char(3) NOT NULL DEFAULT '';

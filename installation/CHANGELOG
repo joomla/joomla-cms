@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+05-Sept-2012 Jean-Marie Simonet
+# [#29009] Drop the unused usertype column from #__users and #__sessions. Thanks Michael
+
 04-Sept-2012 Jean-Marie Simonet
  # [#24628] htmlspecialchars() and multiple menu modules of the same menu. Thanks Rouven
  # [#28898] Update update script for Joomla 3.0. Thanks Michael

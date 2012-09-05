@@ -27,7 +27,7 @@ class modWhosonlineHelper
 		$user_array  = 0;
 		$guest_array = 0;
 		$query	= $db->getQuery(true);
-		$query->select('guest, usertype, client_id');
+		$query->select('guest, client_id');
 		$query->from('#__session');
 		$query->where('client_id = 0');
 		$db->setQuery($query);
@@ -36,7 +36,8 @@ class modWhosonlineHelper
 		if (count($sessions)) {
 			foreach ($sessions as $session) {
 				// if guest increase guest count by 1
-				if ($session->guest == 1 && !$session->usertype) {
+				if ($session->guest == 1)
+				{
 					$guest_array ++;
 				}
 				// if member increase member count by 1
@@ -57,7 +58,7 @@ class modWhosonlineHelper
 	{
 		$db		= JFactory::getDbo();
 		$query	= $db->getQuery(true);
-		$query->select('a.username, a.time, a.userid, a.usertype, a.client_id');
+		$query->select('a.username, a.time, a.userid, a.client_id');
 		$query->from('#__session AS a');
 		$query->where('a.userid != 0');
 		$query->where('a.client_id = 0');
