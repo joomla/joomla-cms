@@ -6438,15 +6438,6 @@ ul.manager .height-50 .icon-folder-2 {
 .admin .chzn-container .chzn-drop {
 	z-index: 1200;
 }
-
-.btn-group > a.btn.noradiuslft {
-	-webkit-border-bottom-left-radius: 0;
-	border-bottom-left-radius: 0;
-	-webkit-border-top-left-radius: 0;
-	border-top-left-radius: 0;
-	-moz-border-radius-bottomleft: 0;
-	-moz-border-radius-topleft: 0;
-}
 ul.treeselect,
 ul.treeselect li {
 	margin: 0;
