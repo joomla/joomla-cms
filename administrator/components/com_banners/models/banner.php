@@ -480,6 +480,10 @@ class BannersModelBanner extends JModelAdmin
 		$condition[] = 'state >= 0';
 		return $condition;
 	}
+
+	/**
+	 * @since  3.0
+	 */
 	protected function prepareTable($table)
 	{
 		$date = JFactory::getDate();
@@ -495,7 +499,7 @@ class BannersModelBanner extends JModelAdmin
 				$db->setQuery('SELECT MAX(ordering) FROM #__banners');
 				$max = $db->loadResult();
 
-				$table->ordering = $max+1;
+				$table->ordering = $max + 1;
 			}
 		}
 		else {

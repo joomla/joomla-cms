@@ -1,3 +1,7 @@
+# Remove unnecessary keys
+ALTER TABLE `#__users` DROP KEY `usertype`;
+ALTER TABLE `#__session` DROP KEY `whosonline`;
+
 # Remove unused columns
 ALTER TABLE `#__contact_details` DROP `imagepos`;
 ALTER TABLE `#__content` DROP COLUMN `title_alias`;
@@ -10,6 +14,8 @@ ALTER TABLE `#__weblinks` DROP COLUMN `date`;
 ALTER TABLE `#__weblinks` DROP COLUMN `archived`;
 ALTER TABLE `#__weblinks` DROP COLUMN `approved`;
 ALTER TABLE `#__menu` DROP COLUMN `ordering`;
+ALTER TABLE `#__session` DROP COLUMN `usertype`;
+ALTER TABLE `#__user` DROP COLUMN `usertype`;
 
 # Unprotect a number of extensions
 UPDATE `#__extensions` SET protected = 0 WHERE
@@ -30,6 +36,67 @@ UPDATE `#__extensions` SET protected = 0 WHERE
 `name` = 'plg_user_contactcreator' OR
 `name` = 'plg_user_profile';
 
+# Change most tables to InnoDB
+ALTER TABLE `#__assets` ENGINE=InnoDB;
+ALTER TABLE `#__associations` ENGINE=InnoDB;
+ALTER TABLE `#__banners` ENGINE=InnoDB;
+ALTER TABLE `#__banner_clients` ENGINE=InnoDB;
+ALTER TABLE `#__banner_tracks` ENGINE=InnoDB;
+ALTER TABLE `#__categories` ENGINE=InnoDB;
+ALTER TABLE `#__contact_details` ENGINE=InnoDB;
+ALTER TABLE `#__content` ENGINE=InnoDB;
+ALTER TABLE `#__content_frontpage` ENGINE=InnoDB;
+ALTER TABLE `#__content_rating` ENGINE=InnoDB;
+ALTER TABLE `#__core_log_searches` ENGINE=InnoDB;
+ALTER TABLE `#__extensions` ENGINE=InnoDB;
+ALTER TABLE `#__finder_filters` ENGINE=InnoDB;
+ALTER TABLE `#__finder_links` ENGINE=InnoDB;
+ALTER TABLE `#__finder_links_terms0` ENGINE=InnoDB;
+ALTER TABLE `#__finder_links_terms1` ENGINE=InnoDB;
+ALTER TABLE `#__finder_links_terms2` ENGINE=InnoDB;
+ALTER TABLE `#__finder_links_terms3` ENGINE=InnoDB;
+ALTER TABLE `#__finder_links_terms4` ENGINE=InnoDB;
+ALTER TABLE `#__finder_links_terms5` ENGINE=InnoDB;
+ALTER TABLE `#__finder_links_terms6` ENGINE=InnoDB;
+ALTER TABLE `#__finder_links_terms7` ENGINE=InnoDB;
+ALTER TABLE `#__finder_links_terms8` ENGINE=InnoDB;
+ALTER TABLE `#__finder_links_terms9` ENGINE=InnoDB;
+ALTER TABLE `#__finder_links_termsa` ENGINE=InnoDB;
+ALTER TABLE `#__finder_links_termsb` ENGINE=InnoDB;
+ALTER TABLE `#__finder_links_termsc` ENGINE=InnoDB;
+ALTER TABLE `#__finder_links_termsd` ENGINE=InnoDB;
+ALTER TABLE `#__finder_links_termse` ENGINE=InnoDB;
+ALTER TABLE `#__finder_links_termsf` ENGINE=InnoDB;
+ALTER TABLE `#__finder_taxonomy` ENGINE=InnoDB;
+ALTER TABLE `#__finder_taxonomy_map` ENGINE=InnoDB;
+ALTER TABLE `#__finder_terms` ENGINE=InnoDB;
+ALTER TABLE `#__finder_terms_common` ENGINE=InnoDB;
+ALTER TABLE `#__finder_types` ENGINE=InnoDB;
+ALTER TABLE `#__languages` ENGINE=InnoDB;
+ALTER TABLE `#__menu` ENGINE=InnoDB;
+ALTER TABLE `#__menu_types` ENGINE=InnoDB;
+ALTER TABLE `#__messages` ENGINE=InnoDB;
+ALTER TABLE `#__messages_cfg` ENGINE=InnoDB;
+ALTER TABLE `#__modules` ENGINE=InnoDB;
+ALTER TABLE `#__modules_menu` ENGINE=InnoDB;
+ALTER TABLE `#__newsfeeds` ENGINE=InnoDB;
+ALTER TABLE `#__overrider` ENGINE=InnoDB;
+ALTER TABLE `#__redirect_links` ENGINE=InnoDB;
+ALTER TABLE `#__schemas` ENGINE=InnoDB;
+ALTER TABLE `#__session` ENGINE=InnoDB;
+ALTER TABLE `#__template_styles` ENGINE=InnoDB;
+ALTER TABLE `#__updates` ENGINE=InnoDB;
+ALTER TABLE `#__update_categories` ENGINE=InnoDB;
+ALTER TABLE `#__update_sites` ENGINE=InnoDB;
+ALTER TABLE `#__update_sites_extensions` ENGINE=InnoDB;
+ALTER TABLE `#__users` ENGINE=InnoDB;
+ALTER TABLE `#__usergroups` ENGINE=InnoDB;
+ALTER TABLE `#__user_notes` ENGINE=InnoDB;
+ALTER TABLE `#__user_profiles` ENGINE=InnoDB;
+ALTER TABLE `#__user_usergroup_map` ENGINE=InnoDB;
+ALTER TABLE `#__viewlevels` ENGINE=InnoDB;
+ALTER TABLE `#__weblinks` ENGINE=InnoDB;
+
 # Add new columns to normalise our content tables
 ALTER TABLE `#__weblinks` ADD COLUMN `version` int(10) unsigned NOT NULL DEFAULT '1';
 ALTER TABLE `#__weblinks` ADD COLUMN `images` text NOT NULL;
@@ -45,6 +112,8 @@ ALTER TABLE `#__banners` ADD COLUMN `modified` datetime NOT NULL DEFAULT '0000-0
 ALTER TABLE `#__banners` ADD COLUMN `modified_by` int(10) unsigned NOT NULL DEFAULT '0';
 ALTER TABLE `#__banners` ADD COLUMN `version` int(10) unsigned NOT NULL DEFAULT '1';
 ALTER TABLE `#__categories` ADD COLUMN `version` int(10) unsigned NOT NULL DEFAULT '1';
+
+# Add columns for improved language support in finder.
 ALTER TABLE `#__finder_terms` ADD COLUMN `language` char(3) NOT NULL DEFAULT '';
 ALTER TABLE `#__finder_tokens` ADD COLUMN `language` char(3) NOT NULL DEFAULT '';
 ALTER TABLE `#__finder_tokens_aggregate` ADD COLUMN `language` char(3) NOT NULL DEFAULT '';

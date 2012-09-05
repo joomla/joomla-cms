@@ -156,16 +156,20 @@ class NewsfeedsModelNewsfeed extends JModelItem
 
 		return $this->_item[$pk];
 	}
+
 	/**
 	 * Increment the hit counter for the newsfeed.
 	 *
-	 * @param	int		Optional primary key of the item to increment.
+	 * @param   int  $pk  Optional primary key of the item to increment.
 	 *
-	 * @return	boolean	True if successful; false otherwise and internal error set.
+	 * @return  boolean  True if successful; false otherwise and internal error set.
+	 *
+	 * @since   3.0
 	 */
 	public function hit($pk = 0)
 	{
-		$hitcount = JRequest::getInt('hitcount', 1);
+		$input = JFactory::getApplication()->input;
+		$hitcount = $input->getInt('hitcount', 1);
 
 		if ($hitcount)
 		{
@@ -178,9 +182,13 @@ class NewsfeedsModelNewsfeed extends JModelItem
 				' WHERE id = '.(int) $pk
 			);
 
-			if (!$db->query())
+			try
 			{
-				$this->setError($db->getErrorMsg());
+				$db->execute();
+			}
+			catch (RuntimeException $e)
+			{
+				$this->setError($e->getMessage());
 				return false;
 			}
 		}
