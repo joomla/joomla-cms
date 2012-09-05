@@ -66,6 +66,7 @@ abstract class JHtmlGrid
 	 * @param   string  $selected       The selected ordering
 	 * @param   string  $task           An optional task override
 	 * @param   string  $new_direction  An optional direction for the new column
+	 * @param   string  $text           An optional text shown as text instead of $title
 	 *
 	 * @return  string
 	 *
