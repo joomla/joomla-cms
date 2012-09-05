@@ -28,6 +28,7 @@ $ -> Language fix or change
 
 05-Sep-2012 Rouven Weßling
  # [#29082] using unicode slugs broken in master
+ ^ Merge latest platform (c4940fab81c79d618c52f915dc71c66f0db3b25f)
 
 05-Sept-2012 Jean-Marie Simonet
  # [#29009] Drop the unused usertype column from #__users and #__sessions. Thanks Michael
