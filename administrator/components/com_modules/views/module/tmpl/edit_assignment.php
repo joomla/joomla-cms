@@ -41,11 +41,11 @@ $menuTypes = MenusHelper::getMenuLinks();
 				$div
 					.mouseenter(function()
 					{
-						$(this).find('.btn-group').removeClass('open').show();
+						$(this).find('.btn-group').removeClass('open').css('visibility', 'visible');
 					})
 					.mouseleave(function()
 					{
-						$(this).find('.btn-group').removeClass('open').hide();
+						$(this).find('.btn-group').removeClass('open').css('visibility', 'hidden');
 					});
 			}
 		});
@@ -216,8 +216,8 @@ $menuTypes = MenusHelper::getMenuLinks();
 			</ul>
 			<div style="display:none;" id="treeselectmenu">
 				<div class="pull-left nav-hover treeselect-menu">
-					<div class="btn-group" style="margin-left: 6px; display:none;">
-						<a href="#" data-toggle="dropdown" class="dropdown-toggle btn btn-mini">
+					<div class="btn-group" style="visibility: hidden;">
+						<a href="#" data-toggle="dropdown" class="dropdown-toggle btn btn-micro">
 							<span class="caret"></span>
 						</a>
 						<ul class="dropdown-menu">
