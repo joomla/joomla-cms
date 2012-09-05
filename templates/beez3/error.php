@@ -115,8 +115,8 @@ $this->direction = $doc->direction;
 					</div><!-- end logoheader -->
 
 						<ul class="skiplinks">
-							<li><a href="#wrapper2" class="u2"><?php echo JText::_('TPL_BEEZ2_SKIP_TO_ERROR_CONTENT'); ?></a></li>
-							<li><a href="#nav" class="u2"><?php echo JText::_('TPL_BEEZ2_ERROR_JUMP_TO_NAV'); ?></a></li>
+							<li><a href="#wrapper2" class="u2"><?php echo JText::_('TPL_BEEZ3_SKIP_TO_ERROR_CONTENT'); ?></a></li>
+							<li><a href="#nav" class="u2"><?php echo JText::_('TPL_BEEZ3_ERROR_JUMP_TO_NAV'); ?></a></li>
 
 						</ul>
 						<div id="line"></div>
@@ -130,7 +130,7 @@ $this->direction = $doc->direction;
 
 							<div class="left1" id="nav">
 
-				<h2 class="unseen"><?php echo JText::_('TPL_BEEZ2_NAVIGATION'); ?></h2>
+				<h2 class="unseen"><?php echo JText::_('TPL_BEEZ3_NAVIGATION'); ?></h2>
 											<?php $module = JModuleHelper::getModule( 'menu' );
 											echo JModuleHelper::renderModule( $module);	?>
 
@@ -143,7 +143,7 @@ $this->direction = $doc->direction;
 								<?php echo JText::_('JERROR_LAYOUT_PAGE_NOT_FOUND'); ?></h2>
 								<?php if (JModuleHelper::getModule( 'search' )) : ?>
 									<div id="searchbox">
-									<h3 class="unseen"><?php echo JText::_('TPL_BEEZ2_SEARCH'); ?></h3>
+									<h3 class="unseen"><?php echo JText::_('TPL_BEEZ3_SEARCH'); ?></h3>
 									<p><?php echo JText::_('JERROR_LAYOUT_SEARCH'); ?></p>
 									<?php $module = JModuleHelper::getModule( 'search' );
 									echo JModuleHelper::renderModule( $module);	?>
@@ -177,7 +177,7 @@ $this->direction = $doc->direction;
 
                                 <div id="footer">
                                         <p>
-                                                <?php echo JText::_('TPL_BEEZ2_POWERED_BY');?> <a href="http://www.joomla.org/">Joomla!&#174;</a>
+                                                <?php echo JText::_('TPL_BEEZ3_POWERED_BY');?> <a href="http://www.joomla.org/">Joomla!&#174;</a>
                                         </p>
 
                                 </div><!-- end footer -->

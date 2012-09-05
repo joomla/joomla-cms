@@ -1,7 +1,7 @@
 <?php
 /**
  * @package                Joomla.Site
- * @subpackage	Templates.beez_20
+ * @subpackage	Templates.beez3
  * @copyright        Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license                GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -117,18 +117,18 @@ $doc->addScript($this->baseurl.'/templates/'.$this->template.'/javascript/respon
 
                                 </div><!-- end logoheader -->
                                         <ul class="skiplinks">
-                                                <li><a href="#main" class="u2"><?php echo JText::_('TPL_BEEZ2_SKIP_TO_CONTENT'); ?></a></li>
-                                                <li><a href="#nav" class="u2"><?php echo JText::_('TPL_BEEZ2_JUMP_TO_NAV'); ?></a></li>
+                                                <li><a href="#main" class="u2"><?php echo JText::_('TPL_BEEZ3_SKIP_TO_CONTENT'); ?></a></li>
+                                                <li><a href="#nav" class="u2"><?php echo JText::_('TPL_BEEZ3_JUMP_TO_NAV'); ?></a></li>
                                             <?php if($showRightColumn ):?>
-                                            <li><a href="#additional" class="u2"><?php echo JText::_('TPL_BEEZ2_JUMP_TO_INFO'); ?></a></li>
+                                            <li><a href="#additional" class="u2"><?php echo JText::_('TPL_BEEZ3_JUMP_TO_INFO'); ?></a></li>
                                            <?php endif; ?>
                                         </ul>
-                                        <h2 class="unseen"><?php echo JText::_('TPL_BEEZ2_NAV_VIEW_SEARCH'); ?></h2>
-                                        <h3 class="unseen"><?php echo JText::_('TPL_BEEZ2_NAVIGATION'); ?></h3>
+                                        <h2 class="unseen"><?php echo JText::_('TPL_BEEZ3_NAV_VIEW_SEARCH'); ?></h2>
+                                        <h3 class="unseen"><?php echo JText::_('TPL_BEEZ3_NAVIGATION'); ?></h3>
                                         <jdoc:include type="modules" name="position-1" />
                                         <div id="line">
                                         <div id="fontsize"></div>
-                                        <h3 class="unseen"><?php echo JText::_('TPL_BEEZ2_SEARCH'); ?></h3>
+                                        <h3 class="unseen"><?php echo JText::_('TPL_BEEZ3_SEARCH'); ?></h3>
                                         <jdoc:include type="modules" name="position-0" />
                                         </div> <!-- end line -->
 
@@ -171,12 +171,12 @@ $doc->addScript($this->baseurl.'/templates/'.$this->template.'/javascript/respon
 
                                 <?php if ($showRightColumn) : ?>
                                         <h2 class="unseen">
-                                                <?php echo JText::_('TPL_BEEZ2_ADDITIONAL_INFORMATION'); ?>
+                                                <?php echo JText::_('TPL_BEEZ3_ADDITIONAL_INFORMATION'); ?>
                                         </h2>
                                         <div id="close">
                                                 <a href="#" onclick="auf('right')">
                                                         <span id="bild">
-                                                                <?php echo JText::_('TPL_BEEZ2_TEXTRIGHTCLOSE'); ?></span></a>
+                                                                <?php echo JText::_('TPL_BEEZ3_TEXTRIGHTCLOSE'); ?></span></a>
                                         </div>
 
 
