@@ -27,7 +27,8 @@ $ -> Language fix or change
 ! -> Note
 
 05-Sept-2012 Jean-Marie Simonet
-# [#29009] Drop the unused usertype column from #__users and #__sessions. Thanks Michael
+ # [#29009] Drop the unused usertype column from #__users and #__sessions. Thanks Michael
+ # [#29059] Smart Search - Filter Edit does not check the checked_out status to set the toolbar buttons. Thanks Michael
 
 04-Sept-2012 Jean-Marie Simonet
  # [#24628] htmlspecialchars() and multiple menu modules of the same menu. Thanks Rouven
