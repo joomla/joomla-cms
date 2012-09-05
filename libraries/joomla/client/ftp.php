@@ -121,7 +121,7 @@ class JClientFtp
 	 * @var    array
 	 * @since  12.1
 	 */
-	private $_lineEndings = array('UNIX' => "\n", 'MAC' => "\r", 'WIN' => "\r\n");
+	private $_lineEndings = array('UNIX' => "\n", 'WIN' => "\r\n");
 
 	/**
 	 * @var    array  JClientFtp instances container.
@@ -846,10 +846,6 @@ class JClientFtp
 			if (IS_WIN)
 			{
 				$os = 'WIN';
-			}
-			elseif (IS_MAC)
-			{
-				$os = 'MAC';
 			}
 
 			$buffer = preg_replace("/" . CRLF . "/", $this->_lineEndings[$os], $buffer);

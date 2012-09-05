@@ -40,6 +40,25 @@
 			description="COM_WEBLINKS_FIELD_CONFIG_ICON_DESC"
 			label="COM_WEBLINKS_FIELD_CONFIG_ICON_LABEL"
 		/>
+		
+		<field
+			name="float_first"
+			type="list"
+			label="COM_WEBLINKS_FLOAT_LABEL"
+			description="COM_WEBLINKS_FLOAT_DESC">
+				<option value="right">COM_WEBLINKS_RIGHT</option>
+				<option value="left">COM_WEBLINKS_LEFT</option>
+				<option value="none">COM_WEBLINKS_NONE</option>
+		</field>
+		<field
+			name="float_second"
+			type="list"
+			label="COM_WEBLINKS_FLOAT_LABEL"
+			description="COM_WEBLINKS_FLOAT_DESC">
+				<option value="right">COM_WEBLINKS_RIGHT</option>
+				<option value="left">COM_WEBLINKS_LEFT</option>
+				<option value="none">COM_WEBLINKS_NONE</option>
+		</field>
 
 	</fieldset>
 

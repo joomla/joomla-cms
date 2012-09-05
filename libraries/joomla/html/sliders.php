@@ -92,11 +92,11 @@ abstract class JHtmlSliders
 				? (int) $params['startOffset'] : null;
 			$show = (isset($params['startOffset']) && !(isset($params['startTransition']) && $params['startTransition']))
 				? (int) $params['startOffset'] : null;
-			$options = '{';
-			$opt['onActive'] = "function(toggler, i) {toggler.addClass('pane-toggler-down');" .
+
+			$opt['onActive'] = "\\function(toggler, i) {toggler.addClass('pane-toggler-down');" .
 				"toggler.removeClass('pane-toggler');i.addClass('pane-down');i.removeClass('pane-hide');Cookie.write('jpanesliders_"
 				. $group . "',$$('div#" . $group . ".pane-sliders > .panel > h3').indexOf(toggler));}";
-			$opt['onBackground'] = "function(toggler, i) {toggler.addClass('pane-toggler');" .
+			$opt['onBackground'] = "\\function(toggler, i) {toggler.addClass('pane-toggler');" .
 				"toggler.removeClass('pane-toggler-down');i.addClass('pane-hide');i.removeClass('pane-down');if($$('div#"
 				. $group . ".pane-sliders > .panel > h3').length==$$('div#" . $group
 				. ".pane-sliders > .panel > h3.pane-toggler').length) Cookie.write('jpanesliders_" . $group . "',-1);}";
@@ -106,18 +106,8 @@ abstract class JHtmlSliders
 			$opt['show'] = (isset($params['useCookie']) && $params['useCookie']) ? $input->cookie->get('jpanesliders_' . $group, $show, 'integer') : $show;
 			$opt['opacity'] = (isset($params['opacityTransition']) && ($params['opacityTransition'])) ? 'true' : 'false';
 			$opt['alwaysHide'] = (isset($params['allowAllClose']) && (!$params['allowAllClose'])) ? 'false' : 'true';
-			foreach ($opt as $k => $v)
-			{
-				if ($v)
-				{
-					$options .= $k . ': ' . $v . ',';
-				}
-			}
-			if (substr($options, -1) == ',')
-			{
-				$options = substr($options, 0, -1);
-			}
-			$options .= '}';
+
+			$options = self::getJSObject($opt);
 
 			$js = "window.addEvent('domready', function(){ new Fx.Accordion($$('div#" . $group
 				. ".pane-sliders > .panel > h3.pane-toggler'), $$('div#" . $group . ".pane-sliders > .panel > div.pane-slider'), " . $options

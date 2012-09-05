@@ -26,10 +26,32 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
-30-Aug-2012 Rouven Weßling
+04-Sept-2012 Jean-Marie Simonet
+ # [#24628] htmlspecialchars() and multiple menu modules of the same menu. Thanks Rouven
+ # [#28898] Update update script for Joomla 3.0. Thanks Michael
+ # [#29024] Remove the prevuuw view from com_templates. Thanks Rouven.
+ # [#28941] Improvements for Bootstrap and jQuery HTML Helpers. Thanks Michael
+ # [#27806] *User with spaces as password can not log in. Thanks Rouven
+ # [#28997] Make backend content editing layouts consistent and add new fields. Thanks Elin
+
+04-Sep-2012 Rouven Weßling
+ ^ [#29048] Update Joomla 3.0 to Bootstrap 2.1 LESS, CSS & JS. Thanks Kyle.
+ # [#29049] In template preview it is very hard to read the position name and style name. Thanks Elin.
+
+03-Sep-2012 Rouven Weßling
+ ^ Merge latest platform (c15b8db512c26b6e5308b157c518702d617e47a4)
+
+02-Sept-2012 Jean-Marie Simonet
+ # Correcting en-GB.xml to reflect adding protostar and isis + mod_stats_admin ini files
+
+01-Sep-2012 Rouven Weßling
  - Removed the bluestork admin template.
  - Removed the atomic template.
  - Removed the beez5 template.
+ ^ Handle removed templates in the sample data. Thanks Elin.
+ ^ Normalise all CSS files based on our own lessphp based compiler.
+ # [#29026] Update Hathor Less files to use Bootstrap variable names and mixins. Thanks Michael.
+ # [#28964] Update jQuery to 1.8.1 and jQuery UI to 1.8.23
 
 01-Sept-2012 Jean-Marie Simonet
  # [#29034] img border is deprecated in html4, obsolete in html5.Thanks Chris
@@ -37,6 +59,7 @@ $ -> Language fix or change
  # [#28756] Enable Search Term Logging in Smart Search. Thanks Michael.
  # [#27933] Smart Search module does not read static filter setting from module parameters. Thanks Chris
  # [#29028] Finder log messages showing on save. Thanks Elin
+ ^ [#28833] Unprotect a number of extensions. Thanks Rouven.
 
 30-Aug-2012 Rouven Weßling
  ^ Move JEditor to the CMS libraries.

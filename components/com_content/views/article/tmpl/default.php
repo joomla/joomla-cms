@@ -83,12 +83,12 @@ if (!empty($this->item->pagination) AND $this->item->pagination && !$this->item-
 		echo $this->item->toc;
 	endif; ?>
 	<?php if (($params->get('show_category')) or ($params->get('show_create_date')) or ($params->get('show_parent_category'))) : ?>
-	<div class="btn-toolbar">
+	<div class="article-info muted">
 		<?php if ($params->get('show_create_date')) : ?>
-			<div class="btn-group create"> <?php echo JText::sprintf('COM_CONTENT_CREATED_DATE_ON', JHtml::_('date', $this->item->created, JText::_('DATE_FORMAT_LC3'))); ?> </div>
+			<div class="create"> <?php echo JText::sprintf('COM_CONTENT_CREATED_DATE_ON', JHtml::_('date', $this->item->created, JText::_('DATE_FORMAT_LC3'))); ?> </div>
 		<?php endif; ?>
 		<?php if ($params->get('show_parent_category') && $this->item->parent_slug != '1:root') : ?>
-			<div class="btn-group parent-category-name">
+			<div class="parent-category-name">
 				<?php	$title = $this->escape($this->item->parent_title);
 			$url = '<a href="'.JRoute::_(ContentHelperRoute::getCategoryRoute($this->item->parent_slug)).'">'.$title.'</a>';?>
 				<?php if ($params->get('link_parent_category') and $this->item->parent_slug) : ?>
@@ -99,7 +99,7 @@ if (!empty($this->item->pagination) AND $this->item->pagination && !$this->item-
 			</div>
 		<?php endif; ?>
 		<?php if ($params->get('show_category')) : ?>
-			<div class="btn-group category-name">
+			<div class="category-name">
 				<?php 	$title = $this->escape($this->item->category_title);
 			$url = '<a href="'.JRoute::_(ContentHelperRoute::getCategoryRoute($this->item->catslug)).'">'.$title.'</a>';?>
 				<?php if ($params->get('link_category') and $this->item->catslug) : ?>
@@ -136,17 +136,17 @@ endif;
 	<?php $useDefList = (($params->get('show_modify_date')) or ($params->get('show_publish_date'))
 	or ($params->get('show_hits'))); ?>
 	<?php if ($useDefList) : ?>
-	<div class="btn-toolbar article-info">
+	<div class="article-info muted">
 		<?php endif; ?>
 
 		<?php if ($params->get('show_modify_date')) : ?>
-		<div class="btn-group modified"> <i class="icon-calendar"></i> <?php echo JText::sprintf('COM_CONTENT_LAST_UPDATED', JHtml::_('date', $this->item->modified, JText::_('DATE_FORMAT_LC3'))); ?> </div>
+		<div class="modified"> <i class="icon-calendar"></i> <?php echo JText::sprintf('COM_CONTENT_LAST_UPDATED', JHtml::_('date', $this->item->modified, JText::_('DATE_FORMAT_LC3'))); ?> </div>
 		<?php endif; ?>
 		<?php if ($params->get('show_publish_date')) : ?>
-		<div class="btn-group published"> <i class="icon-calendar"></i> <?php echo JText::sprintf('COM_CONTENT_PUBLISHED_DATE_ON', JHtml::_('date', $this->item->publish_up, JText::_('DATE_FORMAT_LC3'))); ?> </div>
+		<div class="published"> <i class="icon-calendar"></i> <?php echo JText::sprintf('COM_CONTENT_PUBLISHED_DATE_ON', JHtml::_('date', $this->item->publish_up, JText::_('DATE_FORMAT_LC3'))); ?> </div>
 		<?php endif; ?>
 		<?php if ($params->get('show_hits')) : ?>
-		<div class="btn-group hits"> <i class="icon-eye-open"></i> <?php echo JText::sprintf('COM_CONTENT_ARTICLE_HITS', $this->item->hits); ?> </div>
+		<div class="hits"> <i class="icon-eye-open"></i> <?php echo JText::sprintf('COM_CONTENT_ARTICLE_HITS', $this->item->hits); ?> </div>
 		<?php endif; ?>
 		<?php if ($useDefList) : ?>
 	</div>

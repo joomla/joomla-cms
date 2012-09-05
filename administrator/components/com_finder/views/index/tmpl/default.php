@@ -60,17 +60,20 @@ Joomla.submitbutton = function(pressbutton) {
 	<table class="table table-striped">
 		<thead>
 			<tr>
-				<th width="1%">
+				<th width="1%" class="hidden-phone">
 					<input type="checkbox" name="checkall-toggle" value="" title="<?php echo JText::_('JGLOBAL_CHECK_ALL'); ?>" onclick="Joomla.checkAll(this)" />
+				</th>
+				<th width="5%">
+					<?php echo JHtml::_('grid.sort', 'JSTATUS', 'l.published', $listDirn, $listOrder); ?>
 				</th>
 				<th>
 					<?php echo JHtml::_('grid.sort', 'JGLOBAL_TITLE', 'l.title', $listDirn, $listOrder); ?>
 				</th>
-				<th></th>
-				<th width="5%">
+				<th class="hidden-phone"></th>
+				<th width="5%" class="hidden-phone">
 					<?php echo JHtml::_('grid.sort', 'COM_FINDER_INDEX_HEADING_INDEX_TYPE', 'l.type_id', $listDirn, $listOrder); ?>
 				</th>
-				<th width="15%">
+				<th width="15%" class="hidden-phone">
 					<?php echo JHtml::_('grid.sort', 'COM_FINDER_INDEX_HEADING_INDEX_DATE', 'l.indexdate', $listDirn, $listOrder); ?>
 				</th>
 			</tr>
@@ -78,7 +81,7 @@ Joomla.submitbutton = function(pressbutton) {
 		<tbody>
 			<?php if (count($this->items) == 0): ?>
 			<tr class="row0">
-				<td align="center" colspan="7">
+				<td align="center" colspan="6">
 					<?php
 					if ($this->total == 0) {
 						echo JText::_('COM_FINDER_INDEX_NO_DATA') . '  ' . JText::_('COM_FINDER_INDEX_TIP');
@@ -93,36 +96,38 @@ Joomla.submitbutton = function(pressbutton) {
 			<?php $canChange = JFactory::getUser()->authorise('core.manage', 'com_finder'); ?>
 			<?php foreach ($this->items as $i => $item): ?>
 			<tr class="row<?php echo $i % 2; ?>">
-				<td class="center">
+				<td class="center hidden-phone">
 					<?php echo JHtml::_('grid.id', $i, $item->link_id); ?>
 				</td>
 				<td>
-					<h4>
-						<?php echo JHtml::_('jgrid.published', $item->published, $i, 'index.', $canChange, 'cb'); ?>
+					<?php echo JHtml::_('jgrid.published', $item->published, $i, 'index.', $canChange, 'cb'); ?>
+				</td>
+				<td>
+					<strong>
 						<?php echo $this->escape($item->title); ?>
-						<?php
-						echo '<small>';
+					</strong>
+					<small class="muted">
+					<?php
 						if (strlen($item->url) > 80) {
 							echo substr($item->url, 0, 70) . '...';
 						} else {
 							echo $item->url;
 						}
-						echo '</small>';
-						?>
-					</h4>
+					?>
+					</small>
 				</td>
-				<td>
+				<td class="hidden-phone">
 					<?php if (intval($item->publish_start_date) or intval($item->publish_end_date) or intval($item->start_date) or intval($item->end_date)) : ?>
 						<i class="icon-calendar pull-right pop" rel="popover" data-placement="left" title="<?php echo JText::_('JDETAILS');?>" data-content="<?php echo JText::sprintf('COM_FINDER_INDEX_DATE_INFO', $item->publish_start_date, $item->publish_end_date, $item->start_date, $item->end_date);?>"></i>
 					<?php endif; ?>
 				</td>
-				<td class="small nowrap">
+				<td class="small nowrap hidden-phone">
 					<?php
 					$key = FinderHelperLanguage::branchSingular($item->t_title);
 					echo $lang->hasKey($key) ? JText::_($key) : $item->t_title;
 					?>
 				</td>
-				<td class="small nowrap">
+				<td class="small nowrap hidden-phone">
 					<?php echo JHtml::_('date', $item->indexdate, JText::_('DATE_FORMAT_LC4')); ?>
 				</td>
 			</tr>
@@ -131,7 +136,7 @@ Joomla.submitbutton = function(pressbutton) {
 		</tbody>
 		<tfoot>
 			<tr>
-				<td colspan="7" class="nowrap">
+				<td colspan="6" class="nowrap">
 					<?php echo $this->pagination->getListFooter(); ?>
 				</td>
 			</tr>

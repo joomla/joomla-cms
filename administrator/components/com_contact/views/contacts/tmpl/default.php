@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
-JHtml::_('jquerybehavior.tooltip');
+JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
 JHtml::_('dropdown.init');
 
@@ -157,7 +157,7 @@ $sortFields = $this->getSortFields();
 								<?php endif; ?>
 								<span class="small">
 									<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias));?>
-								</small>
+								</span>
 								<div class="small">
 									<?php echo $item->category_title; ?>
 								</div>

@@ -51,13 +51,4 @@ class TemplatesController extends JControllerLegacy
 
 		parent::display();
 	}
-
-	/**
-	 * Preview Template
-	 */
-	public function preview()
-	{
-		$this->input->set('view', 'prevuuw');
-		parent::display();
-	}
 }

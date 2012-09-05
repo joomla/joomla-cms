@@ -192,7 +192,7 @@ class JFormFieldMedia extends JFormField
 			$html[] = '</div>';
 		}
 
-		$html[] = '	<input type="text" class="input-medium" name="' . $this->name . '" id="' . $this->id . '"' . ' value="'
+		$html[] = '	<input type="text" class="input-small" name="' . $this->name . '" id="' . $this->id . '"' . ' value="'
 			. htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '"' . ' readonly="readonly"' . $attr . ' />';
 
 		$directory = (string) $this->element['directory'];
@@ -221,7 +221,6 @@ class JFormFieldMedia extends JFormField
 					: 'index.php?option=com_media&amp;view=images&amp;tmpl=component&amp;asset=' . $asset . '&amp;author='
 					. $this->form->getValue($authorField)) . '&amp;fieldid=' . $this->id . '&amp;folder=' . $folder) . '"'
 				. ' rel="{handler: \'iframe\', size: {x: 800, y: 500}}">';
-			$html[] = '<i class="icon-picture"></i> ';
 			$html[] = JText::_('JLIB_FORM_BUTTON_SELECT') . '</a><a class="btn" rel="tooltip" title="' . JText::_('JLIB_FORM_BUTTON_CLEAR') . '"' . ' href="#" onclick="';
 			$html[] = 'jInsertFieldValue(\'\', \'' . $this->id . '\');';
 			$html[] = 'return false;';

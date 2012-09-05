@@ -133,7 +133,7 @@ class MediaViewMedia extends JViewLegacy
 		if ($user->authorise('core.create', 'com_media'))
 		{
 			$title = JText::_('JTOOLBAR_UPLOAD');
-			$dhtml = "<button data-toggle=\"collapse\" data-target=\"#collapseUpload\" class=\"btn btn-primary\">
+			$dhtml = "<button data-toggle=\"collapse\" data-target=\"#collapseUpload\" class=\"btn btn-small btn-success\">
 						<i class=\"icon-plus icon-white\" title=\"$title\"></i>
 						$title</button>";
 			$bar->appendButton('Custom', $dhtml, 'upload');
@@ -144,7 +144,7 @@ class MediaViewMedia extends JViewLegacy
 		if ($user->authorise('core.create', 'com_media'))
 		{
 			$title = JText::_('COM_MEDIA_CREATE_FOLDER');
-			$dhtml = "<button data-toggle=\"collapse\" data-target=\"#collapseFolder\" class=\"btn\">
+			$dhtml = "<button data-toggle=\"collapse\" data-target=\"#collapseFolder\" class=\"btn btn-small\">
 						<i class=\"icon-folder\" title=\"$title\"></i>
 						$title</button>";
 			$bar->appendButton('Custom', $dhtml, 'folder');
@@ -155,7 +155,7 @@ class MediaViewMedia extends JViewLegacy
 		if ($user->authorise('core.delete', 'com_media'))
 		{
 			$title = JText::_('JTOOLBAR_DELETE');
-			$dhtml = "<button href=\"#\" onclick=\"MediaManager.submit('folder.delete')\" class=\"btn\">
+			$dhtml = "<button href=\"#\" onclick=\"MediaManager.submit('folder.delete')\" class=\"btn btn-small\">
 						<i class=\"icon-remove\" title=\"$title\"></i>
 						$title</button>";
 			$bar->appendButton('Custom', $dhtml, 'delete');

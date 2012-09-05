@@ -24,6 +24,8 @@ if ($this->direction === 'rtl')
 }
 
 // Load the JavaScript behaviors
+JHtml::_('bootstrap.framework');
+JHtml::_('jquery.chosen');
 JHtml::_('behavior.framework', true);
 JHtml::_('behavior.keepalive');
 JHtml::_('behavior.tooltip');
@@ -38,12 +40,6 @@ JText::script('INSTL_FTP_SETTINGS_CORRECT');
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 	<head>
-		<script src="<?php echo JURI::root();?>media/jui/js/jquery.js"></script>
-		<script src="<?php echo JURI::root();?>media/jui/js/bootstrap.min.js"></script>
-		<script src="<?php echo JURI::root();?>media/jui/js/chosen.jquery.min.js"></script>
-		<script type="text/javascript">
-			jQuery.noConflict();
-		</script>
 		<jdoc:include type="head" />
 
 		<!--[if IE 7]>
@@ -98,29 +94,32 @@ JText::script('INSTL_FTP_SETTINGS_CORRECT');
 					});
 
 					// Turn radios into btn-group
-					$('.radio.btn-group label').addClass('btn')
-					$(".btn-group label:not(.active)").click(function() {
-						var label = $(this);
-						var input = $('#' + label.attr('for'));
+				    $('.radio.btn-group label').addClass('btn');
+				    $(".btn-group label:not(.active)").click(function() {
+				        var label = $(this);
+				        var input = $('#' + label.attr('for'));
 
-						if (!input.prop('checked')){
-							label.closest('.btn-group').find("label").removeClass('active btn-success btn-danger');
-							if (input.val() === 0) {
-								label.addClass('active btn-danger');
-							} else {
-								label.addClass('active btn-success');
-							}
-							input.prop('checked', true);
-						}
-					});
-					$(".btn-group input[checked=checked]").each(function() {
-						var label = $("label[for=" + $(this).attr('id') + "]");
-						if ($(this).val() === 0) {
-							label.addClass('active btn-danger');
-						} else {
-							label.addClass('active btn-success');
-						}
-					});
+				        if (!input.prop('checked')) {
+				            label.closest('.btn-group').find("label").removeClass('active btn-success btn-danger btn-primary');
+				            if(input.val()== '') {
+				                    label.addClass('active btn-primary');
+				             } else if(input.val()==0) {
+				                    label.addClass('active btn-danger');
+				             } else {
+				            label.addClass('active btn-success');
+				             }
+				            input.prop('checked', true);
+				        }
+				    });
+				    $(".btn-group input[checked=checked]").each(function() {
+						if($(this).val()== '') {
+				           $("label[for=" + $(this).attr('id') + "]").addClass('active btn-primary');
+				        } else if($(this).val()==0) {
+				           $("label[for=" + $(this).attr('id') + "]").addClass('active btn-danger');
+				        } else {
+				            $("label[for=" + $(this).attr('id') + "]").addClass('active btn-success');
+				        }
+				    });
 				})(jQuery);
 			}
 			initElements();

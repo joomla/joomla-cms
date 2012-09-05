@@ -28,6 +28,9 @@ JHtml::_('behavior.formvalidation');
 </script>
 
 <form action="<?php echo JRoute::_('index.php?option=com_contact&layout=edit&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="contact-form" class="form-validate form-horizontal">
+	<div class="row-fluid">
+		<!-- Begin Newsfeed -->
+		<div class="span10 form-horizontal">
 		<fieldset>
 		<ul class="nav nav-tabs">
 			<li class="active"><a href="#details" data-toggle="tab"><?php echo empty($this->item->id) ? JText::_('COM_CONTACT_NEW_CONTACT') : JText::sprintf('COM_CONTACT_EDIT_CONTACT', $this->item->id); ?></a></li>
@@ -65,24 +68,8 @@ JHtml::_('behavior.formvalidation');
 					<div class="controls"><?php echo $this->form->getInput('catid'); ?></div>
 				</div>
 				<div class="control-group">
-					<div class="control-label"><?php echo $this->form->getLabel('published'); ?></div>
-					<div class="controls"><?php echo $this->form->getInput('published'); ?></div>
-				</div>
-				<div class="control-group">
-					<div class="control-label"><?php echo $this->form->getLabel('access'); ?></div>
-					<div class="controls"><?php echo $this->form->getInput('access'); ?></div>
-				</div>
-				<div class="control-group">
 					<div class="control-label"><?php echo $this->form->getLabel('ordering'); ?></div>
 					<div class="controls"><?php echo $this->form->getInput('ordering'); ?></div>
-				</div>
-				<div class="control-group">
-					<div class="control-label"><?php echo $this->form->getLabel('featured'); ?></div>
-					<div class="controls"><?php echo $this->form->getInput('featured'); ?></div>
-				</div>
-				<div class="control-group">
-					<div class="control-label"><?php echo $this->form->getLabel('language'); ?></div>
-					<div class="controls"><?php echo $this->form->getInput('language'); ?></div>
 				</div>
 				<div class="control-group">
 					<div class="control-label"><?php echo $this->form->getLabel('id'); ?></div>
@@ -124,8 +111,30 @@ JHtml::_('behavior.formvalidation');
 							<div class="controls"><?php echo $this->form->getInput('modified'); ?></div>
 						</div>
 					<?php endif; ?>
+				<?php if ($this->item->version) : ?>
+					<div class="control-group">
+						<div class="control-label">
+							<?php echo $this->form->getLabel('version'); ?>
+						</div>
+						<div class="controls">
+							<?php echo $this->form->getInput('version'); ?>
+						</div>
+					</div>
+				<?php endif; ?>
+
+				<?php if ($this->item->hits) : ?>
+					<div class="control-group">
+						<div class="control-label">
+							<?php echo $this->form->getLabel('hits'); ?>
+						</div>
+						<div class="controls">
+							<?php echo $this->form->getInput('hits'); ?>
+						</div>
+					</div>
+				<?php endif; ?>
 			</div>
 			<div class="tab-pane" id="basic">
+
 				<p><?php echo empty($this->item->id) ? JText::_('COM_CONTACT_DETAILS') : JText::sprintf('COM_CONTACT_EDIT_DETAILS', $this->item->id); ?></p>
 
 				<div class="control-group">
@@ -199,4 +208,50 @@ JHtml::_('behavior.formvalidation');
 		<input type="hidden" name="task" value="" />
 		<?php echo JHtml::_('form.token'); ?>
 	</div>
+	<!-- End Newsfeed -->
+	<!-- Begin Sidebar -->
+	<div class="span2">
+		<h4><?php echo JText::_('JDETAILS');?></h4>
+		<hr />
+		<fieldset class="form-vertical">
+			<div class="control-group">
+				<div class="control-group">
+					<div class="controls">
+						<?php echo $this->form->getValue('name'); ?>
+					</div>
+				</div>
+				<div class="control-label">
+					<?php echo $this->form->getLabel('published'); ?>
+				</div>
+				<div class="controls">
+					<?php echo $this->form->getInput('published'); ?>
+				</div>
+			</div>
+			<div class="control-group">
+				<div class="control-label">
+					<?php echo $this->form->getLabel('access'); ?>
+				</div>
+				<div class="controls">
+					<?php echo $this->form->getInput('access'); ?>
+				</div>
+			</div>
+			<div class="control-group">
+				<div class="control-label">
+					<?php echo $this->form->getLabel('featured'); ?>
+				</div>
+				<div class="controls">
+					<?php echo $this->form->getInput('featured'); ?>
+				</div>
+			</div>
+			<div class="control-group">
+				<div class="control-label">
+					<?php echo $this->form->getLabel('language'); ?>
+				</div>
+				<div class="controls">
+					<?php echo $this->form->getInput('language'); ?>
+				</div>
+			</div>
+		</fieldset>
+	</div>
+	<!-- End Sidebar -->
 </form>

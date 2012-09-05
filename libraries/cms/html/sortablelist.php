@@ -29,9 +29,10 @@ abstract class JHtmlSortablelist
 	 *
 	 * @param   string   $tableId                 DOM id of the table
 	 * @param   string   $formId                  DOM id of the form
-	 * @param   string   $saveOrderingUrl         Save ordering url, ajax-load after an item dropped
 	 * @param   string   $sortDir                 Sort direction
+	 * @param   string   $saveOrderingUrl         Save ordering url, ajax-load after an item dropped
 	 * @param   boolean  $proceedSaveOrderButton  Set whether a save order button is displayed
+	 * @param   boolean  $nestedList              Set whether the list is a nested list
 	 *
 	 * @return  void
 	 *
@@ -44,6 +45,9 @@ abstract class JHtmlSortablelist
 		{
 			return;
 		}
+
+		// Depends on jQuery UI
+		JHtml::_('jquery.ui');
 
 		JHtml::script('jui/sortablelist.js', false, true);
 		JHtml::stylesheet('jui/sortablelist.css', false, true, false);

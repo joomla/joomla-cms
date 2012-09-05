@@ -190,6 +190,8 @@
 		<filename>en-GB.plg_user_profile.sys.ini</filename>
 		<filename>en-GB.tpl_hathor.ini</filename>
 		<filename>en-GB.tpl_hathor.sys.ini</filename>
+		<filename>en-GB.tpl_isis.ini</filename>
+		<filename>en-GB.tpl_isis.sys.ini</filename>
 	</files>
 	<metadata>
 		<name>English (United Kingdom)</name>

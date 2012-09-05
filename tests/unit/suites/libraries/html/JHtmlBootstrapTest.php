@@ -14,10 +14,10 @@
 class JHtmlBootstrapTest extends PHPUnit_Framework_TestCase
 {
 	/**
-	 * @covers JHtmlBootstrap::loadtooltip
-	 * @todo   Implement testLoadtooltip().
+	 * @covers JHtmlBootstrap::alert
+	 * @todo   Implement testAlert().
 	 */
-	public function testLoadtooltip()
+	public function testAlert()
 	{
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete('This test has not been implemented yet.'
@@ -25,19 +25,79 @@ class JHtmlBootstrapTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Tests the tooltip method
-	 *
-	 * @return  void
-	 *
-	 * @since   3.0
-	 *
-	 * @covers  JHtmlBootstrap::tooltip
+	 * @covers JHtmlBootstrap::carousel
+	 * @todo   Implement testCarousel().
+	 */
+	public function testCarousel()
+	{
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete('This test has not been implemented yet.'
+		);
+	}
+
+	/**
+	 * @covers JHtmlBootstrap::dropdown
+	 * @todo   Implement testDropdown().
+	 */
+	public function testDropdown()
+	{
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete('This test has not been implemented yet.'
+		);
+	}
+
+	/**
+	 * @covers JHtmlBootstrap::framework
+	 * @todo   Implement testFramework().
+	 */
+	public function testFramework()
+	{
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete('This test has not been implemented yet.'
+		);
+	}
+
+	/**
+	 * @covers JHtmlBootstrap::modal
+	 * @todo   Implement testModal().
+	 */
+	public function testModal()
+	{
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete('This test has not been implemented yet.'
+		);
+	}
+
+	/**
+	 * @covers JHtmlBootstrap::popover
+	 * @todo   Implement testPopover().
+	 */
+	public function testPopover()
+	{
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete('This test has not been implemented yet.'
+		);
+	}
+
+	/**
+	 * @covers JHtmlBootstrap::scrollspy
+	 * @todo   Implement testScrollspy().
+	 */
+	public function testScrollspy()
+	{
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete('This test has not been implemented yet.'
+		);
+	}
+
+	/**
+	 * @covers JHtmlBootstrap::tooltip
+	 * @todo   Implement testTooltip().
 	 */
 	public function testTooltip()
 	{
-		$this->assertThat(
-			JHtml::_('bootstrap.tooltip', 'Hey, a tooltip!', 'Title', '#', 'test-class'),
-			$this->equalTo('<a href="#" rel="tooltip" title="Title" class="test-class">Hey, a tooltip!</a>')
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete('This test has not been implemented yet.'
 		);
 	}
 
@@ -65,7 +125,7 @@ class JHtmlBootstrapTest extends PHPUnit_Framework_TestCase
 	{
 		$this->assertThat(
 			JHtml::_('bootstrap.endAccordion'),
-			$this->equalTo('</div></div>')
+			$this->equalTo('</div></div></div>')
 		);
 	}
 
@@ -93,7 +153,7 @@ class JHtmlBootstrapTest extends PHPUnit_Framework_TestCase
 	{
 		$this->assertThat(
 			JHtml::_('bootstrap.endSlide'),
-			$this->equalTo('</div></div>')
+			$this->equalTo('</div></div></div>')
 		);
 	}
 

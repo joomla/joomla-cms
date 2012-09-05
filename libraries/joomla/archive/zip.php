@@ -140,11 +140,11 @@ class JArchiveZip implements JArchiveExtractable
 
 		if ($this->hasNativeSupport())
 		{
-			return $this->_extractNative($archive, $destination, $options);
+			return $this->extractNative($archive, $destination, $options);
 		}
 		else
 		{
-			return $this->_extract($archive, $destination, $options);
+			return $this->extractCustom($archive, $destination, $options);
 		}
 	}
 
@@ -205,7 +205,7 @@ class JArchiveZip implements JArchiveExtractable
 	 * @since   11.1
 	 * @throws  RuntimeException
 	 */
-	private function _extract($archive, $destination, array $options)
+	protected function extractCustom($archive, $destination, array $options)
 	{
 		$this->_data = null;
 		$this->_metadata = null;
@@ -298,7 +298,7 @@ class JArchiveZip implements JArchiveExtractable
 	 * @since   11.1
 	 * @throws  RuntimeException
 	 */
-	private function _extractNative($archive, $destination, array $options)
+	protected function extractNative($archive, $destination, array $options)
 	{
 		$zip = zip_open($archive);
 		if (is_resource($zip))
@@ -539,35 +539,6 @@ class JArchiveZip implements JArchiveExtractable
 		}
 
 		return '';
-	}
-
-	/**
-	 * Converts a UNIX timestamp to a 4-byte DOS date and time format
-	 * (date in high 2-bytes, time in low 2-bytes allowing magnitude
-	 * comparison).
-	 *
-	 * @param   integer  $unixtime  The current UNIX timestamp.
-	 *
-	 * @return  integer  The current date in a 4-byte DOS format.
-	 *
-	 * @since   11.1
-	 */
-	private function _unix2DOSTime($unixtime = null)
-	{
-		$timearray = (is_null($unixtime)) ? getdate() : getdate($unixtime);
-
-		if ($timearray['year'] < 1980)
-		{
-			$timearray['year'] = 1980;
-			$timearray['mon'] = 1;
-			$timearray['mday'] = 1;
-			$timearray['hours'] = 0;
-			$timearray['minutes'] = 0;
-			$timearray['seconds'] = 0;
-		}
-
-		return (($timearray['year'] - 1980) << 25) | ($timearray['mon'] << 21) | ($timearray['mday'] << 16) | ($timearray['hours'] << 11) |
-			($timearray['minutes'] << 5) | ($timearray['seconds'] >> 1);
 	}
 
 	/**

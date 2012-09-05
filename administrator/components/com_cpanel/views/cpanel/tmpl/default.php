@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 $user = JFactory::getUser();
 ?>
 <div class="row-fluid">
-	<div class="span3">
+	<div class="span2">
 		<div class="sidebar-nav">
 			<ul class="nav nav-list">
 				<li class="nav-header"><?php echo JText::_('COM_CPANEL_HEADER_SUBMENU'); ?></li>
@@ -34,15 +34,27 @@ $user = JFactory::getUser();
 			</ul>
 		</div>
 	</div>
-	<div class="span9">
-	<?php
-	foreach ($this->modules as $module)
-	{
-		$output = JModuleHelper::renderModule($module, array('style' => 'well'));
-		$params = new JRegistry;
-		$params->loadString($module->params);
-		echo $output;
-	}
-	?>
+	<div class="span6">
+		<?php
+		foreach ($this->modules as $module)
+		{
+			$output = JModuleHelper::renderModule($module, array('style' => 'well'));
+			$params = new JRegistry;
+			$params->loadString($module->params);
+			echo $output;
+		}
+		?>
+	</div>
+	<div class="span4">
+		<?php
+		// Display the submenu position modules
+		$this->iconmodules = JModuleHelper::getModules('icon');
+		foreach ($this->iconmodules as $iconmodule) {
+			$output = JModuleHelper::renderModule($iconmodule, array('style' => 'well'));
+			$params = new JRegistry;
+			$params->loadString($iconmodule->params);
+			echo $output;
+		}
+		?>
 	</div>
 </div>

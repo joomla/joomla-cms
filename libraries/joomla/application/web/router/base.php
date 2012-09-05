@@ -14,14 +14,14 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package     Joomla.Platform
  * @subpackage  Application
- * @since       12.3
+ * @since       12.2
  */
 class JApplicationWebRouterBase extends JApplicationWebRouter
 {
 	/**
 	 * @var    array  An array of rules, each rule being an associative array('regex'=> $regex, 'vars' => $vars, 'controller' => $controller)
 	 *                for routing the request.
-	 * @since  12.3
+	 * @since  12.2
 	 */
 	protected $maps = array();
 
@@ -33,7 +33,7 @@ class JApplicationWebRouterBase extends JApplicationWebRouter
 	 *
 	 * @return  JApplicationWebRouter  This object for method chaining.
 	 *
-	 * @since   12.3
+	 * @since   12.2
 	 */
 	public function addMap($pattern, $controller)
 	{
@@ -104,7 +104,7 @@ class JApplicationWebRouterBase extends JApplicationWebRouter
 	 *
 	 * @return  JApplicationWebRouter  This object for method chaining.
 	 *
-	 * @since   12.3
+	 * @since   12.2
 	 */
 	public function addMaps($maps)
 	{
@@ -123,7 +123,7 @@ class JApplicationWebRouterBase extends JApplicationWebRouter
 	 *
 	 * @return  string  The controller name for the given route excluding prefix.
 	 *
-	 * @since   12.3
+	 * @since   12.2
 	 * @throws  InvalidArgumentException
 	 */
 	protected function parseRoute($route)
