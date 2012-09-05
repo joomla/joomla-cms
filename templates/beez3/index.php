@@ -1,9 +1,9 @@
 <?php
 /**
- * @package                Joomla.Site
- * @subpackage	Templates.beez3
- * @copyright        Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license                GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  Templates.beez3
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 // No direct access.
@@ -17,7 +17,7 @@ $showRightColumn	= ($this->countModules('position-3') or $this->countModules('po
 $showbottom			= ($this->countModules('position-9') or $this->countModules('position-10') or $this->countModules('position-11'));
 $showleft			= ($this->countModules('position-4') or $this->countModules('position-7') or $this->countModules('position-5'));
 
-if ($showRightColumn==0 and $showleft==0) {
+if ($showRightColumn == 0 and $showleft == 0) {
 	$showno = 0;
 }
 
@@ -42,13 +42,13 @@ if ($this->direction == 'rtl')
 }
 
 
-$doc->addStyleSheet( JURI::base().'/templates/system/css/system.css');
-$doc->addStyleSheet( JURI::base().'/templates/'.$this->template.'/css/position.css', $type = 'text/css', $media = 'screen,projection');
-$doc->addStyleSheet( JURI::base().'/templates/'.$this->template.'/css/layout.css', $type = 'text/css', $media = 'screen,projection');
-$doc->addStyleSheet( JURI::base().'/templates/'.$this->template.'/css/print.css', $type = 'text/css', $media = 'print');
-$doc->addStyleSheet( JURI::base().'/templates/'.$this->template.'/css/general.css', $type = 'text/css', $media = 'screen,projection');
+$doc->addStyleSheet(JURI::base().'/templates/system/css/system.css');
+$doc->addStyleSheet(JURI::base().'/templates/'.$this->template.'/css/position.css', $type = 'text/css', $media = 'screen,projection');
+$doc->addStyleSheet(JURI::base().'/templates/'.$this->template.'/css/layout.css', $type = 'text/css', $media = 'screen,projection');
+$doc->addStyleSheet(JURI::base().'/templates/'.$this->template.'/css/print.css', $type = 'text/css', $media = 'print');
+$doc->addStyleSheet(JURI::base().'/templates/'.$this->template.'/css/general.css', $type = 'text/css', $media = 'screen,projection');
 
-$doc->addStyleSheet(  JURI::base().'templates/'.$this->template.'/css/'.htmlspecialchars($color).'.css', $type = 'text/css', $media = 'screen,projection');
+$doc->addStyleSheet(JURI::base().'templates/'.$this->template.'/css/'.htmlspecialchars($color).'.css', $type = 'text/css', $media = 'screen,projection');
 if ($this->direction == 'rtl') {
 	$doc->addStyleSheet($this->baseurl.'/templates/'.$this->template.'/css/template_rtl.css');
 	if (file_exists(JPATH_SITE . '/templates/' . $this->template . '/css/' . $color . '_rtl.css')) {
@@ -141,10 +141,10 @@ $doc->addScript($this->baseurl.'/templates/'.$this->template.'/javascript/respon
 
                                         </div>
 
-                                        <?php if ($navposition=='left' and $showleft) : ?>
+                                        <?php if ($navposition == 'left' and $showleft) : ?>
 
 
-                                                        <nav class="left1 <?php if ($showRightColumn==NULL){ echo 'leftbigger';} ?>" id="nav">
+                                                        <nav class="left1 <?php if ($showRightColumn == null){ echo 'leftbigger';} ?>" id="nav">
                                                    <jdoc:include type="modules" name="position-7" style="beezDivision" headerLevel="3" />
                                                                 <jdoc:include type="modules" name="position-4" style="beezHide" headerLevel="3" state="0 " />
                                                                 <jdoc:include type="modules" name="position-5" style="beezTabs" headerLevel="2"  id="3" />
@@ -190,7 +190,7 @@ $doc->addScript($this->baseurl.'/templates/'.$this->template.'/javascript/respon
 
                         <?php if ($navposition=='center' and $showleft) : ?>
 
-                                        <nav class="left <?php if ($showRightColumn==NULL){ echo 'leftbigger';} ?>" id="nav" >
+                                        <nav class="left <?php if ($showRightColumn == null){ echo 'leftbigger';} ?>" id="nav" >
 
                                                 <jdoc:include type="modules" name="position-7"  style="beezDivision" headerLevel="3" />
                                                 <jdoc:include type="modules" name="position-4" style="beezHide" headerLevel="3" state="0 " />
@@ -220,7 +220,7 @@ $doc->addScript($this->baseurl.'/templates/'.$this->template.'/javascript/respon
 
 
                         </div>
-                        <?php endif ; ?>
+                        <?php endif; ?>
 
                         <div id="footer-sub">
                                 <footer id="footer">

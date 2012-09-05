@@ -172,4 +172,3 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 
 <div class="item-separator"></div>
 <?php echo $this->item->event->afterDisplayContent; ?>
-

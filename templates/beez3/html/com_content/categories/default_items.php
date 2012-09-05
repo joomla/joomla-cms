@@ -1,11 +1,11 @@
 <?php
 
 /**
- * @version		$Id: default_items.php 18829 2010-09-10 12:17:05Z infograf768 $
- * @package		Joomla.Site
- * @subpackage	com_content
- * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @version     default_items.php 18829 2010-09-10 12:17:05Z infograf768 $
+ * @package     Joomla.Site
+ * @subpackage  com_content
+ * @copyright   Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 // no direct access

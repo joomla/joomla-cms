@@ -178,5 +178,3 @@ $templateparams = $app->getTemplate(true)->params;
 
 <div class="item-separator"></div>
 <?php echo $this->item->event->afterDisplayContent; ?>
-
-
