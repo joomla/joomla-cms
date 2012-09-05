@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+05-Sep-2012 Rouven Weßling
+ # [#29082] using unicode slugs broken in master
+
 05-Sept-2012 Jean-Marie Simonet
  # [#29009] Drop the unused usertype column from #__users and #__sessions. Thanks Michael
  # [#29059] Smart Search - Filter Edit does not check the checked_out status to set the toolbar buttons. Thanks Michael
