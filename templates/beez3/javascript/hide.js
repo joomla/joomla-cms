@@ -334,8 +334,8 @@ var mobileMenu = new Class({
 
     createElements:function () {
         var self = this;
-        var Openmenu=Joomla.JText._('TPL_BEEZ2_OPENMENU');
-        var Closemenu=Joomla.JText._('TPL_BEEZ2_CLOSEMENU');
+        var Openmenu=Joomla.JText._('TPL_BEEZ3_OPENMENU');
+        var Closemenu=Joomla.JText._('TPL_BEEZ3_CLOSEMENU');
         this.menu = document.id("header").getElement('ul.menu');
         this.menuWrapper = new Element('div#menuwrapper', {
             'role':'menubar'
