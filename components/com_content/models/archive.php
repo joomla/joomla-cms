@@ -83,7 +83,7 @@ class ContentModelArchive extends ContentModelArticles
 			// Add routing for archive
 			//sqlsrv changes
 		$case_when = ' CASE WHEN ';
-		$case_when .= $query->charLength('a.alias');
+		$case_when .= $query->charLength('a.alias', '!=', '0');
 		$case_when .= ' THEN ';
 		$a_id = $query->castAsChar('a.id');
 		$case_when .= $query->concatenate(array($a_id, 'a.alias'), ':');
@@ -93,7 +93,7 @@ class ContentModelArchive extends ContentModelArticles
 		$query->select($case_when);
 
 		$case_when = ' CASE WHEN ';
-		$case_when .= $query->charLength('c.alias');
+		$case_when .= $query->charLength('c.alias', '!=', '0');
 		$case_when .= ' THEN ';
 		$c_id = $query->castAsChar('c.id');
 		$case_when .= $query->concatenate(array($c_id, 'c.alias'), ':');

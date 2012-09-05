@@ -43,7 +43,11 @@ class JSessionStorageDatabase extends JSessionStorage
 
 			$db->setQuery($query);
 
-			return (string) $db->loadResult();
+			$result = (string) $db->loadResult();
+
+			$result = str_replace('\0\0\0', chr(0).'*'.chr(0), $result);
+
+			return $result;
 		}
 		catch (Exception $e)
 		{
@@ -65,6 +69,8 @@ class JSessionStorageDatabase extends JSessionStorage
 	{
 		// Get the database connection object and verify its connected.
 		$db = JFactory::getDbo();
+
+		$data = str_replace(chr(0).'*'.chr(0), '\0\0\0', $data);
 
 		try
 		{
