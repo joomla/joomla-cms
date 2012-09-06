@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+06-Sept-2012 Jean-Marie Simonet
+ ^ Updating Joomla logo to display ® instead of TM
+
 04-Sept-2012 Jean-Marie Simonet
  # [#24628] htmlspecialchars() and multiple menu modules of the same menu. Thanks Rouven
  # [#27806] *User with spaces as password can not log in. Thanks Rouven
