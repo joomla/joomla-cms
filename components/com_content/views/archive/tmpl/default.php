@@ -13,13 +13,13 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 
 JHtml::_('behavior.caption');
 ?>
-<section class="archive<?php echo $this->pageclass_sfx;?>">
+<div class="archive<?php echo $this->pageclass_sfx;?>">
 <?php if ($this->params->get('show_page_heading', 1)) : ?>
-<header class="page-header">
+<div class="page-header">
 <h1>
 	<?php echo $this->escape($this->params->get('page_heading')); ?>
 </h1>
-</header>
+</div>
 <?php endif; ?>
 <form id="adminForm" action="<?php echo JRoute::_('index.php')?>" method="post" class="form-inline">
 	<fieldset class="filters">
@@ -42,4 +42,4 @@ JHtml::_('behavior.caption');
 
 	<?php echo $this->loadTemplate('items'); ?>
 </form>
-</section>
+</div>

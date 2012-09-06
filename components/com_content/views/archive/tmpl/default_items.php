@@ -13,11 +13,11 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 $params = $this->params;
 ?>
 
-<section id="archive-items">
+<div id="archive-items">
 	<?php foreach ($this->items as $i => $item) : ?>
 	<div class="row<?php echo $i % 2; ?>">
-		<header class="page-header">
-			<h1>
+		<div class="page-header">
+			<h2>
 				<?php if ($params->get('link_titles')): ?>
 				<a href="<?php echo JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catslug)); ?>"> <?php echo $this->escape($item->title); ?></a>
 				<?php else: ?>
@@ -37,8 +37,8 @@ $params = $this->params;
 				<?php endif; ?>
 				</small>
 				<?php endif; ?>
-			</h1>
-		</header>
+			</h2>
+		</div>
 		<?php if (($params->get('show_parent_category')) or ($params->get('show_category')) or ($params->get('show_create_date'))) : ?>
 		<div class="btn-toolbar">
 			<?php if ($params->get('show_create_date')) : ?>
@@ -87,7 +87,7 @@ $params = $this->params;
 		<hr class="divider-vertical" />
 	</div>
 	<?php endforeach; ?>
-</section>
-<nav class="pagination">
-	<div class="counter"> <?php echo $this->pagination->getPagesCounter(); ?> </div>
-	<?php echo $this->pagination->getPagesLinks(); ?> </nav>
+</div>
+<div class="pagination">
+	<p class="counter"> <?php echo $this->pagination->getPagesCounter(); ?> </p>
+	<?php echo $this->pagination->getPagesLinks(); ?> </div>
