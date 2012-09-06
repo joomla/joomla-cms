@@ -85,6 +85,18 @@ class WeblinksTableWeblink extends JTable
 			}
 		}
 
+		// Set publish_up to null date if not set
+		if (!$this->publish_up)
+		{
+			$this->publish_up = $this->_db->getNullDate();
+		}
+
+		// Set publish_down to null date if not set
+		if (!$this->publish_down)
+		{
+			$this->publish_down = $this->_db->getNullDate();
+		}
+
 		// Verify that the alias is unique
 		$table = JTable::getInstance('Weblink', 'WeblinksTable');
 		if ($table->load(array('alias' => $this->alias, 'catid' => $this->catid)) && ($table->id != $this->id || $this->id == 0))

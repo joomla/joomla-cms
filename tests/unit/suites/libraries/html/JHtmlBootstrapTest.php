@@ -125,7 +125,7 @@ class JHtmlBootstrapTest extends PHPUnit_Framework_TestCase
 	{
 		$this->assertThat(
 			JHtml::_('bootstrap.endAccordion'),
-			$this->equalTo('</div></div></div>')
+			$this->equalTo('</div></div>')
 		);
 	}
 

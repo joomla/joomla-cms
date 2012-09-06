@@ -54,7 +54,7 @@ $modMenuId = (int) $this->get('ModMenuId');
 				<th width="20%">
 					<?php echo JText::_('COM_MENUS_HEADING_LINKED_MODULES'); ?>
 				</th>
-				<th width="1%">
+				<th width="1%" class="center nowrap">
 					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 				</th>
 			</tr>

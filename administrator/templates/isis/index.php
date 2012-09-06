@@ -44,6 +44,8 @@ $task     = $input->get('task', '');
 $itemid   = $input->get('Itemid', '');
 $sitename = $app->getCfg('sitename');
 
+$cpanel = ($option === 'com_cpanel');
+
 $showSubmenu = false;
 $this->submenumodules = JModuleHelper::getModules('submenu');
 foreach ($this->submenumodules as $submenumodule)
@@ -112,24 +114,6 @@ else
 				<?php endif; ?>
 					<jdoc:include type="modules" name="menu" style="none" />
 					<ul class="<?php if ($this->direction == 'rtl') : ?>nav<?php else : ?>nav pull-right<?php endif; ?>">
-						<li class="dropdown"> <a class="dropdown-toggle" data-toggle="dropdown" href="#"><?php echo JText::_('TPL_ISIS_SETTINGS');?> <b class="caret"></b></a>
-							<ul class="dropdown-menu">
-								<?php if($user->authorise('core.admin')):?>
-									<li><a href="<?php echo $this->baseurl; ?>/index.php?option=com_config"><?php echo JText::_('TPL_ISIS_GLOBAL_CONFIGURATION');?></a></li>
-									<li class="divider"></li>
-									<li><a href="<?php echo $this->baseurl; ?>/index.php?option=com_admin&view=sysinfo"><?php echo JText::_('TPL_ISIS_SYSTEM_INFORMATION');?></a></li>
-								<?php endif;?>
-								<?php if($user->authorise('core.manage', 'com_cache')):?>
-									 <li><a href="<?php echo $this->baseurl; ?>/index.php?option=com_cache"><?php echo JText::_('TPL_ISIS_CLEAR_CACHE');?></a></li>
-									 <li>
-									 <li><a href="<?php echo $this->baseurl; ?>/index.php?option=com_cache&view=purge"><?php echo JText::_('TPL_ISIS_PURGE_EXPIRED_CACHE');?></a></li>
-									 <li>
-								<?php endif;?>
-								<?php if($user->authorise('core.admin', 'com_checkin')):?>
-									<li><a href="<?php echo $this->baseurl; ?>/index.php?option=com_checkin"><?php echo JText::_('TPL_ISIS_GLOBAL_CHECK_IN');?></a></li>
-								<?php endif;?>
-							</ul>
-						</li>
 						<li class="dropdown"> <a class="dropdown-toggle" data-toggle="dropdown" href="#"><?php echo $user->username; ?> <b class="caret"></b></a>
 							<ul class="dropdown-menu">
 								<li class=""><a href="index.php?option=com_admin&task=profile.edit&id=<?php echo $user->id;?>"><?php echo JText::_('TPL_ISIS_EDIT_ACCOUNT');?></a></li>
@@ -156,6 +140,9 @@ else
 			</div>
 		</div>
 	</header>
+	<?php
+	if (!$cpanel):
+	?>
 	<!-- Subheader -->
 	<a class="btn btn-subhead" data-toggle="collapse" data-target=".subhead-collapse"><?php echo JText::_('TPL_ISIS_TOOLBAR');?> <i class="icon-wrench"></i></a>
 	<div class="subhead-collapse">
@@ -170,6 +157,13 @@ else
 			</div>
 		</div>
 	</div>
+	<?php
+	else:
+	?>
+	<div style="margin-bottom: 20px"></div>
+	<?php
+	endif;
+	?>
 	<!-- container-fluid -->
 	<div class="container-fluid container-main">
 		<section id="content">

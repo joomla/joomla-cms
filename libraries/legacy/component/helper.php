@@ -62,18 +62,17 @@ class JComponentHelper
 	/**
 	 * Checks if the component is enabled
 	 *
-	 * @param   string   $option  The component option.
-	 * @param   boolean  $strict  If set and the component does not exist, false will be returned.
+	 * @param   string  $option  The component option.
 	 *
 	 * @return  boolean
 	 *
 	 * @since   11.1
 	 */
-	public static function isEnabled($option, $strict = false)
+	public static function isEnabled($option)
 	{
-		$result = self::getComponent($option, $strict);
+		$result = self::getComponent($option, true);
 
-		return ($result->enabled | JFactory::getApplication()->isAdmin());
+		return $result->enabled;
 	}
 
 	/**

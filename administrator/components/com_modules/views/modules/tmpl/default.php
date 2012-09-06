@@ -56,7 +56,7 @@ $sortFields = $this->getSortFields();
 		</div>
 		<div class="btn-group pull-right hidden-phone">
 			<label for="directionTable" class="element-invisible"><?php echo JText::_('JFIELD_ORDERING_DESC');?></label>
-			<select name="directionTable" id="directionTable" class="input-small" onchange="Joomla.orderTable()">
+			<select name="directionTable" id="directionTable" class="input-medium" onchange="Joomla.orderTable()">
 				<option value=""><?php echo JText::_('JFIELD_ORDERING_DESC');?></option>
 				<option value="asc" <?php if ($listDirn == 'asc') echo 'selected="selected"'; ?>><?php echo JText::_('JGLOBAL_ORDER_ASCENDING');?></option>
 				<option value="desc" <?php if ($listDirn == 'desc') echo 'selected="selected"'; ?>><?php echo JText::_('JGLOBAL_ORDER_DESCENDING');?></option>
@@ -74,35 +74,35 @@ $sortFields = $this->getSortFields();
 	<table class="table table-striped" id="articleList">
 		<thead>
 			<tr>
-				<th width="1%" class="center hidden-phone" nowrap="nowrap">
-					<i class="icon-menu-2 hasTip" title="<?php echo JText::_('JGRID_HEADING_ORDERING'); ?>"></i>
+				<th width="1%" class="nowrap center hidden-phone">
+					<?php echo JHtml::_('grid.sort', '<i class="icon-menu-2"></i>', 'ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING'); ?>
 				</th>
 				<th width="1%" class="hidden-phone">
 					<input type="checkbox" name="checkall-toggle" value="" title="<?php echo JText::_('JGLOBAL_CHECK_ALL'); ?>" onclick="Joomla.checkAll(this)" />
 				</th>
-				<th width="5%" class="center">
-					<?php echo JText::_('JSTATUS'); ?>
+				<th width="1%" class="nowrap center">
+					<?php echo JHtml::_('grid.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
 				</th>
 				<th class="title">
-					<?php echo JText::_('JGLOBAL_TITLE'); ?>
+					<?php echo JHtml::_('grid.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 				</th>
-				<th width="15%" class="left hidden-phone">
-					<?php echo JText::_('COM_MODULES_HEADING_POSITION'); ?>
+				<th width="15%" class="nowrap hidden-phone">
+					<?php echo JHtml::_('grid.sort', 'COM_MODULES_HEADING_POSITION', 'position', $listDirn, $listOrder); ?>
 				</th>
-				<th width="10%" class="left hidden-phone" >
-					<?php echo JText::_('COM_MODULES_HEADING_MODULE'); ?>
+				<th width="10%" class="nowrap hidden-phone" >
+					<?php echo JHtml::_('grid.sort', 'COM_MODULES_HEADING_MODULE', 'name', $listDirn, $listOrder); ?>
 				</th>
-				<th width="10%" class="hidden-phone">
-					<?php echo JText::_('COM_MODULES_HEADING_PAGES'); ?>
+				<th width="10%" class="nowrap hidden-phone">
+					<?php echo JHtml::_('grid.sort', 'COM_MODULES_HEADING_PAGES', 'pages', $listDirn, $listOrder); ?>
 				</th>
-				<th width="10%" class="hidden-phone">
-					<?php echo JText::_('JGRID_HEADING_ACCESS'); ?>
+				<th width="10%" class="nowrap hidden-phone">
+					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 				</th>
-				<th width="5%" class="hidden-phone">
-					<?php echo JText::_('JGRID_HEADING_LANGUAGE'); ?>
+				<th width="5%" class="nowrap hidden-phone">
+					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_LANGUAGE', 'language_title', $listDirn, $listOrder); ?>
 				</th>
-				<th width="1%" class="nowrap hidden-phone">
-					<?php echo JText::_('JGRID_HEADING_ID'); ?>
+				<th width="1%" class="nowrap center hidden-phone">
+					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 				</th>
 			</tr>
 		</thead>
@@ -120,7 +120,7 @@ $sortFields = $this->getSortFields();
 			$canEdit    = $user->authorise('core.edit',       'com_modules');
 			$canCheckin = $user->authorise('core.manage',     'com_checkin') || $item->checked_out == $user->get('id')|| $item->checked_out == 0;
 			$canChange  = $user->authorise('core.edit.state', 'com_modules') && $canCheckin;
-				?>
+		?>
 			<tr class="row<?php echo $i % 2; ?>" sortable-group-id="<?php echo $item->position?>">
 				<td class="order nowrap center hidden-phone">
 				<?php if ($canChange) :

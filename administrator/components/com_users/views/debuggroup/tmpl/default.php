@@ -40,14 +40,14 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<?php echo JHtml::_('grid.sort', 'COM_USERS_HEADING_ASSET_NAME', 'a.name', $listDirn, $listOrder); ?>
 				</th>
 				<?php foreach ($this->actions as $key => $action) : ?>
-				<th width="5%">
+				<th width="5%" class="nowrap center">
 					<span class="hasTip" title="<?php echo htmlspecialchars(JText::_($key) . '::' . JText::_($action[1]), ENT_COMPAT, 'UTF-8'); ?>"><?php echo JText::_($key); ?></span>
 				</th>
 				<?php endforeach; ?>
-				<th width="5%">
+				<th width="5%" class="nowrap center">
 					<?php echo JHtml::_('grid.sort', 'COM_USERS_HEADING_LFT', 'a.lft', $listDirn, $listOrder); ?>
 				</th>
-				<th class="nowrap" width="3%">
+				<th width="1%" class="nowrap center">
 					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 				</th>
 			</tr>

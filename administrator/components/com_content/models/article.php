@@ -221,6 +221,11 @@ class ContentModelArticle extends JModelAdmin
 			$table->publish_up = JFactory::getDate()->toSql();
 		}
 
+		if($table->state == 1 && intval($table->publish_down) == 0)
+		{
+			$table->publish_down = $db->getNullDate();
+		}
+
 		// Increment the content version number.
 		$table->version++;
 

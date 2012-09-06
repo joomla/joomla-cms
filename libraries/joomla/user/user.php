@@ -808,6 +808,9 @@ class JUser extends JObject
 		// Load the JUserModel object based on the user id or throw a warning.
 		if (!$table->load($id))
 		{
+			// Reset to guest user
+			$this->guest = 1;
+
 			JLog::add(JText::sprintf('JLIB_USER_ERROR_UNABLE_TO_LOAD_USER', $id), JLog::WARNING, 'jerror');
 			return false;
 		}
@@ -820,8 +823,18 @@ class JUser extends JObject
 
 		$this->_params->loadString($table->params);
 
-		// Assuming all is well at this point lets bind the data
+		// Assuming all is well at this point let's bind the data
 		$this->setProperties($table->getProperties());
+
+		// The user is no longer a guest
+		if ($this->id != 0)
+		{
+			$this->guest = 0;
+		}
+		else
+		{
+			$this->guest = 1;
+		}
 
 		return true;
 	}
