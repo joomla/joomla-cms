@@ -29,6 +29,7 @@ $ -> Language fix or change
 05-Sep-2012 Mark Dexter
  + [#29088] PostgreSQL driver for Joomla! CMS 3.0
  # [#28963] Add ordering to column titles where it was missing
+ # [#29064] Improve the isis header
 
 05-Sep-2012 Rouven Weßling
  # [#29082] using unicode slugs broken in master
