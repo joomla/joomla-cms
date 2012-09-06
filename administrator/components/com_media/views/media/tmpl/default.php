@@ -63,20 +63,19 @@ $input = JFactory::getApplication()->input;
 
 					</fieldset>
 					<div id="upload-flash" class="hide">
-						<ul>
-							<li><a href="#" id="upload-browse"><?php echo JText::_('COM_MEDIA_BROWSE_FILES'); ?></a></li>
-							<li><a href="#" id="upload-clear"><?php echo JText::_('COM_MEDIA_CLEAR_LIST'); ?></a></li>
-							<li><a href="#" id="upload-start"><?php echo JText::_('COM_MEDIA_START_UPLOAD'); ?></a></li>
-						</ul>
-						<div class="clr"> </div>
+						<div class="btn-toolbar">
+							<div class="btn-group"><a class="btn" href="#" id="upload-browse"><i class="icon-folder"></i> <?php echo JText::_('COM_MEDIA_BROWSE_FILES'); ?></a><a class="btn" href="#" id="upload-clear"><i class="icon-remove"></i> <?php echo JText::_('COM_MEDIA_CLEAR_LIST'); ?></a></div>
+							<div class="btn-group"><a class="btn btn-primary" href="#" id="upload-start"><i class="icon-upload icon-white"></i> <?php echo JText::_('COM_MEDIA_START_UPLOAD'); ?></a></div>
+						</div>
+						<div class="clearfix"></div>
 						<p class="overall-title"></p>
 						<div class="overall-progress"></div>
-						<div class="clr"> </div>
+						<div class="clearfix"></div>
 						<p class="current-title"></p>
 						<div class="current-progress"></div>
 						<p class="current-text"></p>
 					</div>
-					<ul class="upload-queue" id="upload-queue">
+					<ul class="upload-queue list-striped list-condensed" id="upload-queue">
 						<li style="display:none;"></li>
 					</ul>
 					<input type="hidden" name="return-url" value="<?php echo base64_encode('index.php?option=com_media'); ?>" />

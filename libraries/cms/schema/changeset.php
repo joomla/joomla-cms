@@ -189,6 +189,10 @@ class JSchemaChangeset extends JObject
 		{
 			$sqlFolder = 'mysql';
 		}
+		elseif (substr($sqlFolder, 0, 10) == 'postgresql')
+		{
+			$sqlFolder = 'postgresql';
+		}
 
 		// Default folder to core com_admin
 		if (!$this->folder)

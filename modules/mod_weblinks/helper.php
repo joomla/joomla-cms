@@ -54,7 +54,7 @@ class modWeblinksHelper
 		$query = $db->getQuery(true);
 
 		$case_when1 = ' CASE WHEN ';
-		$case_when1 .= $query->charLength('a.alias');
+		$case_when1 .= $query->charLength('a.alias', '!=', '0');
 		$case_when1 .= ' THEN ';
 		$a_id = $query->castAsChar('a.id');
 		$case_when1 .= $query->concatenate(array($a_id, 'a.alias'), ':');
@@ -62,12 +62,12 @@ class modWeblinksHelper
 		$case_when1 .= $a_id.' END as slug';
 
 		$case_when2 = ' CASE WHEN ';
-		$case_when2 .= $query->charLength('c.alias');
+		$case_when2 .= $query->charLength('c.alias', '!=', '0');
 		$case_when2 .= ' THEN ';
 		$c_id = $query->castAsChar('c.id');
 		$case_when2 .= $query->concatenate(array($c_id, 'c.alias'), ':');
 		$case_when2 .= ' ELSE ';
-		$case_when2 .= $c_id.' END as catslug';
+		$case_when2 .= $c_id.' END as slug';
 
 		$model->setState('list.select', 'a.*, c.published AS c_published,'.$case_when1.','.$case_when2.','.
 		'DATE_FORMAT(a.created, "%Y-%m-%d") AS created');

@@ -9,11 +9,11 @@
 
 defined('_JEXEC') or die;
 
-$showhelp 	= $params->get('showhelp', 1);
+$showhelp = $params->get('showhelp', 1);
 //
 // Site SubMenu
 //
-$menu->addChild(new JMenuNode(JText::_('MOD_MENU_CONTROL_PANEL'), null, 'disabled'));
+$menu->addChild(new JMenuNode(JText::_('MOD_MENU_SYSTEM'), null, 'disabled'));
 
 //
 // Users Submenu
