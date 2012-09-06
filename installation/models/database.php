@@ -655,14 +655,10 @@ class InstallationModelDatabase extends JModelLegacy
 	public function createDB($db, $options, $utf)
 	{
 		// Build the create database query.
-		//$query = 'CREATE DATABASE ' . $db->quoteName($name) . ' CHARACTER SET `utf8`';
-
-		// Run the create database query.
-		$db->setQuery($db->getCreateDbQuery($options, $utf));
-
 		try
 		{
-			$db->execute();
+			// Run the create database query.
+			$db->createDatabase($options, $utf);
 		}
 		catch (RuntimeException $e)
 		{
