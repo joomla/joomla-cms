@@ -76,7 +76,7 @@ class JSchemaChangeitempostgresql extends JSchemaChangeitem
 				if (strtoupper($wordArray[6]) == 'TYPE')
 				{
 					$type = '';
-					for($i=7; $i < count($wordArray); $i++)
+					for($i = 7; $i < count($wordArray); $i++)
 					{
 						$type .= $wordArray[$i] . ' ';
 					}
@@ -164,7 +164,7 @@ class JSchemaChangeitempostgresql extends JSchemaChangeitem
 				$idx = $this->fixQuote($wordArray[2]);
 				$table = $this->fixQuote($wordArray[4]);
 			}
-			
+
 			$result = 'SELECT * FROM pg_indexes WHERE indexname=' . $idx . ' AND tablename=' . $table;
 			$this->queryType = 'ADD_INDEX';
 			$this->checkQueryExpected = 1;
