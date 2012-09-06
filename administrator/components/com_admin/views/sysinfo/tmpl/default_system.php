@@ -98,7 +98,7 @@ defined('_JEXEC') or die;
 					<strong><?php echo JText::_('COM_ADMIN_USER_AGENT'); ?></strong>
 				</td>
 				<td>
-					<?php echo $this->info['useragent'];?>
+					<?php echo htmlspecialchars($this->info['useragent']);?>
 				</td>
 			</tr>
 		</tbody>
