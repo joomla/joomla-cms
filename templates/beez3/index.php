@@ -17,10 +17,11 @@ $showRightColumn	= ($this->countModules('position-3') or $this->countModules('po
 $showbottom			= ($this->countModules('position-9') or $this->countModules('position-10') or $this->countModules('position-11'));
 $showleft			= ($this->countModules('position-4') or $this->countModules('position-7') or $this->countModules('position-5'));
 
-if ($showRightColumn == 0 and $showleft == 0) {
+if ($showRightColumn == 0 and $showleft == 0)
+{
 	$showno = 0;
 }
-
+JHtml::_('bootstrap.framework');
 JHtml::_('behavior.framework', true);
 
 // get params
@@ -49,16 +50,14 @@ $doc->addStyleSheet(JURI::base().'/templates/'.$this->template.'/css/print.css',
 $doc->addStyleSheet(JURI::base().'/templates/'.$this->template.'/css/general.css', $type = 'text/css', $media = 'screen,projection');
 
 $doc->addStyleSheet(JURI::base().'templates/'.$this->template.'/css/'.htmlspecialchars($color).'.css', $type = 'text/css', $media = 'screen,projection');
-if ($this->direction == 'rtl') {
+if ($this->direction == 'rtl')
+{
 	$doc->addStyleSheet($this->baseurl.'/templates/'.$this->template.'/css/template_rtl.css');
-	if (file_exists(JPATH_SITE . '/templates/' . $this->template . '/css/' . $color . '_rtl.css')) {
+	if (file_exists(JPATH_SITE . '/templates/' . $this->template . '/css/' . $color . '_rtl.css'))
+	{
 		$doc->addStyleSheet($this->baseurl.'/templates/'.$this->template.'/css/'.htmlspecialchars($color).'_rtl.css');
 	}
 }
-JHtml::_('bootstrap.framework');
-$doc->addScript($this->baseurl.'/templates/'.$this->template.'/javascript/md_stylechanger.js', 'text/javascript');
-$doc->addScript($this->baseurl.'/templates/'.$this->template.'/javascript/hide.js', 'text/javascript');
-$doc->addScript($this->baseurl.'/templates/'.$this->template.'/javascript/respond.src.js', 'text/javascript');
 
 ?>
 
@@ -139,7 +138,7 @@ $doc->addScript($this->baseurl.'/templates/'.$this->template.'/javascript/respon
                                         <?php if ($navposition == 'left' and $showleft) : ?>
 
 
-                                                        <nav class="left1 <?php if ($showRightColumn == null){ echo 'leftbigger';} ?>" id="nav">
+                                                   <?php if ($navposition == 'left' and $showleft) : ?>
                                                    <jdoc:include type="modules" name="position-7" style="beezDivision" headerLevel="3" />
                                                                 <jdoc:include type="modules" name="position-4" style="beezHide" headerLevel="3" state="0 " />
                                                                 <jdoc:include type="modules" name="position-5" style="beezTabs" headerLevel="2"  id="3" />

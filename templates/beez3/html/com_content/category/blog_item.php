@@ -169,6 +169,5 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 <?php if ($this->item->state == 0) : ?>
 </div>
 <?php endif; ?>
-
 <div class="item-separator"></div>
 <?php echo $this->item->event->afterDisplayContent; ?>
