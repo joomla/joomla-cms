@@ -17,4 +17,16 @@
 		<language tag="en-GB">en-GB.plg_system_sef.ini</language>
 		<language tag="en-GB">en-GB.plg_system_sef.sys.ini</language>
 	</languages>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field name="domain" type="url"
+					description="PLG_SEF_DOMAIN_DESCRIPTION"
+					label="PLG_SEF_DOMAIN_LABEL"
+					filter="string"
+					validate="url"
+				/>
+			</fieldset>
+		</fields>
+	</config>
 </extension>

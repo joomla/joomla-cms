@@ -55,7 +55,7 @@ $sortFields = $this->getSortFields();
 		</div>
 		<div class="btn-group pull-right hidden-phone">
 			<label for="directionTable" class="element-invisible"><?php echo JText::_('JFIELD_ORDERING_DESC');?></label>
-			<select name="directionTable" id="directionTable" class="input-small" onchange="Joomla.orderTable()">
+			<select name="directionTable" id="directionTable" class="input-medium" onchange="Joomla.orderTable()">
 				<option value=""><?php echo JText::_('JFIELD_ORDERING_DESC');?></option>
 				<option value="asc" <?php if ($listDirn == 'asc') echo 'selected="selected"'; ?>><?php echo JText::_('JGLOBAL_ORDER_ASCENDING');?></option>
 				<option value="desc" <?php if ($listDirn == 'desc') echo 'selected="selected"'; ?>><?php echo JText::_('JGLOBAL_ORDER_DESCENDING');?></option>
@@ -73,29 +73,29 @@ $sortFields = $this->getSortFields();
 	<table class="table table-striped" id="weblinkList">
 		<thead>
 			<tr>
-				<th width="1%" class="hidden-phone">
-					<i class="icon-menu-2 hasTip" title="<?php echo JText::_('JGRID_HEADING_ORDERING'); ?>"></i>
+				<th width="1%" class="nowrap center hidden-phone">
+					<?php echo JHtml::_('grid.sort', '<i class="icon-menu-2"></i>', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING'); ?>
 				</th>
 				<th width="1%" class="hidden-phone">
 					<input type="checkbox" name="checkall-toggle" value="" title="<?php echo JText::_('JGLOBAL_CHECK_ALL'); ?>" onclick="Joomla.checkAll(this)" />
 				</th>
-				<th width="5%">
-					<?php echo JText::_('JSTATUS');?>
+				<th width="1%" class="nowrap center">
+					<?php echo JHtml::_('grid.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
 				</th>
 				<th class="title">
-					<?php echo JText::_('JGLOBAL_TITLE');?>
+					<?php echo JHtml::_('grid.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 				</th>
-				<th width="5%" class="hidden-phone">
-					<?php echo JText::_('JGRID_HEADING_ACCESS');?>
+				<th width="5%" class="nowrap hidden-phone">
+					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 				</th>
-				<th width="5%" class="hidden-phone">
-					<?php echo JText::_('JGLOBAL_HITS');?>
+				<th width="5%" class="nowrap center hidden-phone">
+					<?php echo JHtml::_('grid.sort', 'JGLOBAL_HITS', 'a.hits', $listDirn, $listOrder); ?>
 				</th>
-				<th width="5%" class="hidden-phone">
-					<?php echo JText::_('JGRID_HEADING_LANGUAGE');?>
+				<th width="5%" class="nowrap hidden-phone">
+					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_LANGUAGE', 'a.language', $listDirn, $listOrder); ?>
 				</th>
-				<th width="1%" class="nowrap hidden-phone">
-					<?php echo JText::_('JGRID_HEADING_ID');?>
+				<th width="1%" class="nowrap center hidden-phone">
+					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 				</th>
 			</tr>
 		</thead>
@@ -152,7 +152,7 @@ $sortFields = $this->getSortFields();
 					<?php endif; ?>
 					<span class="small">
 						<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias));?>
-					</small>
+					</span>
 					<div class="small">
 						<?php echo $this->escape($item->category_title); ?>
 					</div>

@@ -56,7 +56,7 @@ $sortFields = $this->getSortFields();
 		</div>
 		<div class="btn-group pull-right hidden-phone">
 			<label for="directionTable" class="element-invisible"><?php echo JText::_('JFIELD_ORDERING_DESC');?></label>
-			<select name="directionTable" id="directionTable" class="input-small" onchange="Joomla.orderTable()">
+			<select name="directionTable" id="directionTable" class="input-medium" onchange="Joomla.orderTable()">
 				<option value=""><?php echo JText::_('JFIELD_ORDERING_DESC');?></option>
 				<option value="asc" <?php if ($listDirn == 'asc') echo 'selected="selected"'; ?>><?php echo JText::_('JGLOBAL_ORDER_ASCENDING');?></option>
 				<option value="desc" <?php if ($listDirn == 'desc') echo 'selected="selected"'; ?>><?php echo JText::_('JGLOBAL_ORDER_DESCENDING');?></option>
@@ -74,28 +74,28 @@ $sortFields = $this->getSortFields();
 	<table class="table table-striped" id="articleList">
 		<thead>
 			<tr>
-				<th width="1%" class="center hidden-phone" nowrap="nowrap">
-						<i class="icon-menu-2 hasTip" title="<?php echo JText::_('JGRID_HEADING_ORDERING'); ?>"></i>
+				<th width="1%" class="nowrap center hidden-phone">
+					<?php echo JHtml::_('grid.sort', '<i class="icon-menu-2"></i>', 'ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING'); ?>
 				</th>
 				<th width="1%" class="hidden-phone">
 					<input type="checkbox" name="checkall-toggle" value="" title="<?php echo JText::_('JGLOBAL_CHECK_ALL'); ?>" onclick="Joomla.checkAll(this)" />
 				</th>
-				<th width="5%" class="center">
-					<?php echo JText::_('JSTATUS'); ?>
+				<th width="1%" class="nowrap center">
+					<?php echo JHtml::_('grid.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
 				</th>
 				<th class="title">
 					<?php echo JHtml::_('grid.sort', 'COM_PLUGINS_NAME_HEADING', 'name', $listDirn, $listOrder); ?>
 				</th>
-				<th class="nowrap hidden-phone" width="10%">
+				<th width="10%" class="nowrap hidden-phone">
 					<?php echo JHtml::_('grid.sort', 'COM_PLUGINS_FOLDER_HEADING', 'folder', $listDirn, $listOrder); ?>
 				</th>
-				<th class="nowrap hidden-phone" width="10%">
+				<th width="10%" class="nowrap hidden-phone">
 					<?php echo JHtml::_('grid.sort', 'COM_PLUGINS_ELEMENT_HEADING', 'element', $listDirn, $listOrder); ?>
 				</th>
 				<th width="5%" class="hidden-phone">
 					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ACCESS', 'access', $listDirn, $listOrder); ?>
 				</th>
-				<th class="nowrap hidden-phone" width="1%">
+				<th width="1%" class="nowrap center hidden-phone">
 					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ID', 'extension_id', $listDirn, $listOrder); ?>
 				</th>
 			</tr>

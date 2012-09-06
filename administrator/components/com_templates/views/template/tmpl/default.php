@@ -16,6 +16,7 @@ JHtml::_('behavior.modal');
 $canDo = TemplatesHelper::getActions();
 $input = JFactory::getApplication()->input;
 ?>
+
 <form action="<?php echo JRoute::_('index.php?option=com_templates&view=template'); ?>" method="post" name="adminForm" id="adminForm" class="form-horizontal">
 		<fieldset id="template-manager">
 			<div class="pull-left">
@@ -118,13 +119,27 @@ $input = JFactory::getApplication()->input;
 		<input type="hidden" name="task" value="" />
 </form>
 <form action="<?php echo JRoute::_('index.php?option=com_templates&task=template.copy&id=' . $input->getInt('id')); ?>"
-		method="post" name="adminForm" id="adminForm">
-	<fieldset class="adminform" id="template-manager-css">
-		<legend><?php echo JText::_('COM_TEMPLATES_TEMPLATE_COPY');?></legend>
-		<label id="new_name" class="hasTip"  title="<?php echo JText::_('COM_TEMPLATES_TEMPLATE_NEW_NAME_DESC'); ?>"><?php echo JText::_('COM_TEMPLATES_TEMPLATE_NEW_NAME_LABEL')?></label>
-		<input class="inputbox" type="text" id="new_name" name="new_name"  />
-		<button type="submit"><?php echo JText::_('COM_TEMPLATES_TEMPLATE_COPY'); ?></button>
-	</fieldset>
+			method="post" name="adminForm" id="adminForm">
+	<div  id="collapseModal" class="modal hide fade">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			<h3><?php echo JText::_('COM_TEMPLATES_TEMPLATE_COPY');?></h3>
+		</div>
+		<div class="modal-body">
+			<div id="template-manager-css" class="form-horizontal">
+				<div class="control-group">
+					<label for="new_name" class="control-label hasTip" title="<?php echo JText::_('COM_TEMPLATES_TEMPLATE_NEW_NAME_DESC'); ?>"><?php echo JText::_('COM_TEMPLATES_TEMPLATE_NEW_NAME_LABEL')?></label>
+					<div class="controls">
+						<input class="input-xlarge" type="text" id="new_name" name="new_name"  />
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<a href="#" class="btn" data-dismiss="modal">Close</a>
+			<button class="btn btn-primary" type="submit"><?php echo JText::_('COM_TEMPLATES_TEMPLATE_COPY'); ?></button>
+		</div>
+	</div>
 	<?php echo JHtml::_('form.token'); ?>
 </form>
-</div>
+	

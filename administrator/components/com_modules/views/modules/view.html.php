@@ -179,8 +179,8 @@ class ModulesViewModules extends JViewLegacy
 			'a.title' => JText::_('JGLOBAL_TITLE'),
 			'position' => JText::_('COM_MODULES_HEADING_POSITION'),
 			'name' => JText::_('COM_MODULES_HEADING_MODULE'),
+			'pages' => JText::_('COM_MODULES_HEADING_PAGES'),
 			'a.access' => JText::_('JGRID_HEADING_ACCESS'),
-			'a.created_by' => JText::_('JAUTHOR'),
 			'language_title' => JText::_('JGRID_HEADING_LANGUAGE'),
 			'a.id' => JText::_('JGRID_HEADING_ID')
 		);

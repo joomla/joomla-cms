@@ -43,7 +43,7 @@ class Menu0001 extends SeleniumJoomlaTestCase
 
 		echo "Select Single Article\n";
 		$this->click("link=Articles");
-		$this->click("link=Single Article");
+		$this->click("//a[contains(., 'Single Article')]");
 		$this->waitForPageToLoad("60000");
 		echo "Enter menu item info\n";
 		$this->type("jform_title", "Functional Test Menu Item");
@@ -76,7 +76,7 @@ class Menu0001 extends SeleniumJoomlaTestCase
 		$this->waitforElement("//ul[@id='new-modules-list']");
 
 		echo "Select Menu module\n";
-		$this->click("//li[@data-original-title='Menu']/a");
+		$this->click("//li/a/strong[ text() = 'Menu']");
 		$this->waitForPageToLoad("30000");
 
 		echo "Fill in menu name and info\n";
@@ -163,7 +163,7 @@ class Menu0001 extends SeleniumJoomlaTestCase
 		$this->waitforElement("//div[contains(@id, 'sbox-window')]");
 
 		$this->click("link=Articles");
-		$this->click("link=Category List");
+		$this->click("//a[contains(., 'Category List')]");
 		$this->waitForPageToLoad("30000");
 		$this->type("jform_title", "Category List Test");
 		$this->click("//label[@for='jform_published0']");
