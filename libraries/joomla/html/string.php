@@ -216,7 +216,7 @@ abstract class JHtmlString
 
 		// Now deal with more complex truncation.
 		$diffLength = 0;
-		for (; $maxLength <= $baseLength;)
+		while ($maxLength <= $baseLength)
 		{
 			// Get the truncated string assuming HTML is allowed.
 			$htmlString = JHtml::_('string.truncate', $html, $maxLength, $noSplit, $allowHtml = true);
