@@ -28,6 +28,7 @@ $ -> Language fix or change
 
 05-Sep-2012 Mark Dexter
  # Fix some failing system tests for changes in master
+ # Select old sample data in doInstall
 
 02-Sep-2012 Mark Dexter
  # Yet another fix for reorder mouse movement in controlpanel0004Test
