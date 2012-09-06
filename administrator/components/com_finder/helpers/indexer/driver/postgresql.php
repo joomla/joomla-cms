@@ -135,8 +135,8 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 				. $db->quote($item->publish_end_date) . ', '
 				. $db->quote($item->start_date) . ', '
 				. $db->quote($item->end_date) . ', '
-				. $db->quote($item->list_price) . ', '
-				. $db->quote($item->sale_price)
+				. $db->quote(($item->list_price ? $item->list_price : 0)) . ', '
+				. $db->quote(($item->sale_price ? $item->sale_price : 0))
 			);
 			$db->setQuery($query);
 			$db->execute();
@@ -286,19 +286,20 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 				', ' . $db->quoteName('phrase') .
 				', ' . $db->quoteName('term_weight') .
 				', ' . $db->quoteName('context') .
-				', ' . $db->quoteName('context_weight') . ')' .
+				', ' . $db->quoteName('context_weight') .
+				', ' . $db->quoteName('language') . ')' .
 				' SELECT' .
 				' t.term_id, t1.term, t1.stem, t1.common, t1.phrase, t1.weight, t1.context,' .
-				' ROUND( t1.weight * COUNT( t2.term ) * %F, 8 ) AS context_weight' .
+				' ROUND( t1.weight * COUNT( t2.term ) * %F, 8 ) AS context_weight, t1.language' .
 				' FROM (' .
-				'   SELECT DISTINCT t1.term, t1.stem, t1.common, t1.phrase, t1.weight, t1.context' .
+				'   SELECT DISTINCT t1.term, t1.stem, t1.common, t1.phrase, t1.weight, t1.context, t1.language' .
 				'   FROM ' . $db->quoteName('#__finder_tokens') . ' AS t1' .
 				'   WHERE t1.context = %d' .
 				' ) AS t1' .
 				' JOIN ' . $db->quoteName('#__finder_tokens') . ' AS t2 ON t2.term = t1.term' .
 				' LEFT JOIN ' . $db->quoteName('#__finder_terms') . ' AS t ON t.term = t1.term' .
 				' WHERE t2.context = %d' .
-				' GROUP BY t1.term' .
+				' GROUP BY t1.term, t.term_id, t1.term, t1.stem, t1.common, t1.phrase, t1.weight, t1.context, t1.language' .
 				' ORDER BY t1.term DESC';
 
 		// Iterate through the contexts and aggregate the tokens per context.
@@ -334,11 +335,12 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 				', ' . $db->quoteName('common') .
 				', ' . $db->quoteName('phrase') .
 				', ' . $db->quoteName('weight') .
-				', ' . $db->quoteName('soundex') . ')' .
-				' SELECT ta.term, ta.stem, ta.common, ta.phrase, ta.term_weight, SOUNDEX(ta.term)' .
+				', ' . $db->quoteName('soundex') .
+				', ' . $db->quoteName('language') . ')' .
+				' SELECT ta.term, ta.stem, ta.common, ta.phrase, ta.term_weight, SOUNDEX(ta.term), ta.language' .
 				' FROM ' . $db->quoteName('#__finder_tokens_aggregate') . ' AS ta' .
 				' WHERE ta.term_id = 0' .
-				' GROUP BY ta.term, ta.stem, ta.common, ta.phrase, ta.term_weight, SOUNDEX(ta.term)'
+				' GROUP BY ta.term, ta.stem, ta.common, ta.phrase, ta.term_weight, SOUNDEX(ta.term), ta.language'
 			);
 			$db->execute();
 		}
@@ -594,7 +596,8 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 				. (int) $token->common . ', '
 				. (int) $token->phrase . ', '
 				. (float) $token->weight . ', '
-				. (int) $context
+				. (int) $context . ', '
+				. $db->quote($token->language)
 			);
 			$values++;
 		}
@@ -608,7 +611,8 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 						$db->quoteName('common'),
 						$db->quoteName('phrase'),
 						$db->quoteName('weight'),
-						$db->quoteName('context')
+						$db->quoteName('context'),
+						$db->quoteName('language')
 					)
 		);
 		$db->setQuery($query);

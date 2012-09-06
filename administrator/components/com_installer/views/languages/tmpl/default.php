@@ -19,7 +19,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 		<table class="table table-striped">
 			<thead>
 				<tr>
-					<th width="20" class="hidden-phone">
+					<th width="20" class="nowrap hidden-phone">
 						<input type="checkbox" name="checkall-toggle" value="" title="<?php echo JText::_('JGLOBAL_CHECK_ALL'); ?>" onclick="Joomla.checkAll(this)" />
 					</th>
 					<th class="nowrap">
@@ -28,13 +28,13 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<th width="10%" class="center">
 						<?php echo JText::_('JVERSION'); ?>
 					</th>
-					<th class="hidden-phone">
+					<th class="center nowrap hidden-phone">
 						<?php echo JText::_('COM_INSTALLER_HEADING_TYPE'); ?>
 					</th>
-					<th width="35%" class="hidden-phone">
+					<th width="35%" class="nowrap hidden-phone">
 						<?php echo JText::_('COM_INSTALLER_HEADING_DETAILS_URL'); ?>
 					</th>
-					<th width="30" class="hidden-phone">
+					<th width="30" class="nowrap hidden-phone">
 						<?php echo JHtml::_('grid.sort', 'COM_INSTALLER_HEADING_ID', 'update_id', $listDirn, $listOrder); ?>
 					</th>
 				</tr>

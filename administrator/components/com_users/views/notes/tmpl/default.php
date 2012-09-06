@@ -33,25 +33,25 @@ $canEdit = $user->authorise('core.edit', 'com_users');
 	<table class="table table-striped">
 		<thead>
 			<tr>
-				<th width="1%">
+				<th width="1%" class="nowrap center">
 					<input type="checkbox" name="toggle" value="" class="checklist-toggle" title="<?php echo JText::_('JGLOBAL_CHECK_ALL'); ?>" onclick="Joomla.checkAll(this)" />
 				</th>
-				<th class="left">
+				<th class="left" class="nowrap">
 					<?php echo JHtml::_('grid.sort', 'COM_USERS_USER_HEADING', 'u.name', $listDirn, $listOrder); ?>
 				</th>
-				<th  class="left">
+				<th class="left" class="nowrap">
 					<?php echo JHtml::_('grid.sort', 'COM_USERS_SUBJECT_HEADING', 'a.subject', $listDirn, $listOrder); ?>
 				</th>
-				<th width="20%">
+				<th width="20%" class="nowrap center">
 					<?php echo JHtml::_('grid.sort', 'COM_USERS_CATEGORY_HEADING', 'c.title', $listDirn, $listOrder); ?>
 				</th>
-				<th width="5%">
+				<th width="5%" class="nowrap center">
 					<?php echo JHtml::_('grid.sort',  'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
 				</th>
-				<th width="10%">
+				<th width="10%" class="nowrap center">
 					<?php echo JHtml::_('grid.sort', 'COM_USERS_REVIEW_HEADING', 'a.review_time', $listDirn, $listOrder); ?>
 				</th>
-				<th width="1%" class="nowrap">
+				<th width="1%" class="nowrap center">
 					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 				</th>
 			</tr>

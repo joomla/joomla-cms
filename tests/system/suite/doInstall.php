@@ -59,7 +59,7 @@ class DoInstall extends SeleniumJoomlaTestCase
 		if ($cfg->sample_data !== false)
 		{
 			echo "Install sample data and wait for success message\n";
-			$this->click("//input[@id='jform_sample_file3']");
+			$this->click("//input[@id='jform_sample_file4']");
 		}
 		else {
 			echo "Install without sample data\n";
