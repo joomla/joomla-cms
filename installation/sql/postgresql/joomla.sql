@@ -858,11 +858,11 @@ CREATE INDEX "#__finder_taxonomy_idx_parent_published" on "#__finder_taxonomy" (
 --
 -- Dumping data for table #__finder_taxonomy
 --
-UPDATE "#__finder_taxonomy" SET ("id", "parent_id", "title", "state", "access", "ordering") = (1, 0, 'ROOT', 0, 0, 0) 
+UPDATE "#__finder_taxonomy" SET ("id", "parent_id", "title", "state", "access", "ordering") = (1, 0, 'ROOT', 0, 0, 0)
 WHERE "id"=1;
 
-INSERT INTO "#__finder_taxonomy" ("id", "parent_id", "title", "state", "access", "ordering") 
-SELECT 1, 0, 'ROOT', 0, 0, 0 WHERE 1 NOT IN 
+INSERT INTO "#__finder_taxonomy" ("id", "parent_id", "title", "state", "access", "ordering")
+SELECT 1, 0, 'ROOT', 0, 0, 0 WHERE 1 NOT IN
 (SELECT 1 FROM "#__finder_taxonomy" WHERE "id"=1);
 
 SELECT nextval('#__finder_taxonomy_id_seq');
@@ -892,6 +892,7 @@ CREATE TABLE "#__finder_terms" (
   "weight" numeric(8,2) DEFAULT 0 NOT NULL,
   "soundex" character varying(75) NOT NULL,
   "links" integer DEFAULT 0 NOT NULL,
+  "language" character varying(3) NOT NULL,
   PRIMARY KEY ("term_id"),
   CONSTRAINT "#__finder_terms_idx_term" UNIQUE ("term")
 );
@@ -920,7 +921,7 @@ CREATE INDEX "#__finder_terms_common_idx_lang" on "#__finder_terms_common" ("lan
 --
 UPDATE "#__finder_terms_common" SET ("term", "language") = ('a', 'en') WHERE "term"='a';
 
-INSERT INTO "#__finder_terms_common" ("term", "language") 
+INSERT INTO "#__finder_terms_common" ("term", "language")
 SELECT 'a', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='a');
 
 --
@@ -1022,7 +1023,7 @@ SELECT 'by', 'en' WHERE 1 NOT IN (SELECT 1 FROM "#__finder_terms_common" WHERE "
 --
 UPDATE "#__finder_terms_common" SET ("term", "language") = ('for', 'en') WHERE "term"='for';
 
-INSERT INTO "#__finder_terms_common" ("term", "language") SELECT 'for', 'en' WHERE 1 NOT IN 
+INSERT INTO "#__finder_terms_common" ("term", "language") SELECT 'for', 'en' WHERE 1 NOT IN
 (SELECT 1 FROM "#__finder_terms_common" WHERE "term"='for');
 
 --
@@ -1617,7 +1618,8 @@ CREATE TABLE "#__finder_tokens" (
   "common" smallint DEFAULT 0 NOT NULL,
   "phrase" smallint DEFAULT 0 NOT NULL,
   "weight" numeric(8,2) DEFAULT 1 NOT NULL,
-  "context" smallint DEFAULT 2 NOT NULL
+  "context" smallint DEFAULT 2 NOT NULL,
+  "language" character varying(3) NOT NULL
 );
 CREATE INDEX "#__finder_tokens_idx_word" on "#__finder_tokens" ("term");
 CREATE INDEX "#__finder_tokens_idx_context" on "#__finder_tokens" ("context");
@@ -1635,7 +1637,8 @@ CREATE TABLE "#__finder_tokens_aggregate" (
   "term_weight" numeric(8,2) NOT NULL,
   "context" smallint DEFAULT 2 NOT NULL,
   "context_weight" numeric(8,2) NOT NULL,
-  "total_weight" numeric(8,2) NOT NULL
+  "total_weight" numeric(8,2) NOT NULL,
+  "language" character varying(3) NOT NULL
 );
 CREATE INDEX "#__finder_tokens_aggregate_token" on "#__finder_tokens_aggregate" ("term");
 CREATE INDEX "_#__finder_tokens_aggregate_keyword_id" on "#__finder_tokens_aggregate" ("term_id");
@@ -2070,11 +2073,11 @@ CREATE INDEX "#__template_styles_idx_home" ON "#__template_styles" ("home");
 --
 
 INSERT INTO "#__template_styles" ("id", "template", "client_id", "home", "title", "params") VALUES
-(2, 'bluestork', 1, '1', 'Bluestork - Default', '{"useRoundedCorners":"1","showSiteName":"0"}'),
-(3, 'atomic', 0, '0', 'Atomic - Default', '{}'),
 (4, 'beez_20', 0, '1', 'Beez2 - Default', '{"wrapperSmall":"53","wrapperLarge":"72","logo":"images\\/joomla_black.gif","sitetitle":"Joomla!","sitedescription":"Open Source Content Management","navposition":"left","templatecolor":"personal","html5":"0"}'),
 (5, 'hathor', 1, '0', 'Hathor - Default', '{"showSiteName":"0","colourChoice":"","boldText":"0"}'),
-(6, 'beez5', 0, '0', 'Beez5 - Default', '{"wrapperSmall":"53","wrapperLarge":"72","logo":"images\\/sampledata\\/fruitshop\\/fruits.gif","sitetitle":"Joomla!","sitedescription":"Open Source Content Management","navposition":"left","html5":"0"}');
+(6, 'beez5', 0, '0', 'Beez5 - Default', '{"wrapperSmall":"53","wrapperLarge":"72","logo":"images\\/sampledata\\/fruitshop\\/fruits.gif","sitetitle":"Joomla!","sitedescription":"Open Source Content Management","navposition":"left","html5":"0"}'),
+(7, 'protostar', 0, '0', 'protostar - Default', '{"templateColor":"","logoFile":"","googleFont":"1","googleFontName":"Open+Sans","fluidContainer":"0"}'),
+(8, 'isis', 1, '1', 'isis - Default', '{"templateColor":"","logoFile":""}');
 
 SELECT nextval('#__template_styles_id_seq');
 SELECT setval('#__template_styles_id_seq', 7, false);
@@ -2380,7 +2383,7 @@ COMMENT ON COLUMN "#__weblinks"."xreference" IS 'A reference to enable linkages 
 
 
 
--- 
+--
 -- Here is SOUNDEX replacement for those who can't enable fuzzystrmatch module
 --   from contrib folder.
 -- This function comes from https://wiki.postgresql.org/wiki/Soundex
@@ -2424,7 +2427,7 @@ BEGIN
       -- Not a consonant; no output, but next similar consonant will be re-recorded
       symbol = '';
     END CASE;
- 
+
     IF soundex = '' THEN
       -- First character; only accept strictly English ASCII characters
       IF char ~>=~ 'A' AND char ~<=~ 'Z' THEN
@@ -2436,7 +2439,7 @@ BEGIN
       last_symbol = symbol;
     END IF;
   END LOOP;
- 
+
   RETURN soundex;
 END;
 $$;
