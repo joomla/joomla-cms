@@ -37,7 +37,7 @@ JHtml::_('behavior.framework');
 	</div>
 	<?php endif; ?>
 	<?php if ($params->get('show_title')) : ?>
-	<header class="page-header">
+	<div class="page-header">
 		<h2>
 			<?php if ($params->get('link_titles') && $params->get('access-view')) : ?>
 			<a href="<?php echo JRoute::_(ContentHelperRoute::getArticleRoute($this->item->slug, $this->item->catid)); ?>"> <?php echo $this->escape($this->item->title); ?></a>
@@ -60,7 +60,7 @@ JHtml::_('behavior.framework');
 			</small>
 			<?php endif; ?>
 		</h2>
-	</header>
+	</div>
 	<?php endif; ?>
 	<?php // to do not that elegant would be nice to group the params ?>
 	<?php if (($params->get('show_category')) or ($params->get('show_create_date')) or ($params->get('show_parent_category'))) : ?>

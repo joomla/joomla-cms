@@ -15,11 +15,9 @@ JHtml::_('behavior.caption');
 ?>
 <div class="categories-list<?php echo $this->pageclass_sfx;?>">
 <?php if ($this->params->get('show_page_heading')) : ?>
-<header>
-    <h1>
-        <?php echo $this->escape($this->params->get('page_heading')); ?>
-    </h1>
-</header>
+<h1>
+	<?php echo $this->escape($this->params->get('page_heading')); ?>
+</h1>
 <?php endif; ?>
 <?php if ($this->params->get('show_base_description')) : ?>
 	<?php 	//If there is a description in the menu parameters use that; ?>
