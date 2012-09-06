@@ -33,6 +33,7 @@ $ -> Language fix or change
  # [#29054] Update TinyMCE to 3.5.6. Thanks Rouven. 
  # [#29087] Update Beez for Joomla 3. Thanks Elin.
  + [#29089] new minimal sample data set. Thanks Elin.
+ + [#29025] Let the SEF plug-in add the canonical url to the head. Thanks Rouven.
 
 05-Sep-2012 Rouven Weßling
  # [#29082] using unicode slugs broken in master
