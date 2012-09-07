@@ -1,3 +1,25 @@
+Before you begin, please note the following strategy:
+
+The master branch is not to be changed, with only upstream changes from the Joomal CMS being merged to it.
+
+To do your part please follow: 
+
+$ git checkout master
+$ git fetch upstream
+$ git merge upstream/master
+$ git push
+$ git branch new-feature-branch
+$ git checkout new-feature-branch
+make edits
+pull request from new-feature-branch
+
+Thanks!
+
+#############################################
+
+#############################################
+
+
 1- What is this?
     * This is a Joomla! installation/upgrade package to version 2.5.x
     * Joomla! Official site: http://www.joomla.org
