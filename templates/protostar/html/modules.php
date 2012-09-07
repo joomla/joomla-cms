@@ -36,10 +36,10 @@ function modChrome_no($module, &$params, &$attribs)
 function modChrome_well($module, &$params, &$attribs)
 {
 	if ($module->content) {
-		echo "<div class=\"well ". htmlspecialchars($params->get('moduleclass_sfx')) ."\">";
-		echo "<div class=\"page-header\">".$module->title."</div>";
+		echo "<article class=\"well ". htmlspecialchars($params->get('moduleclass_sfx')) ."\">";
+		echo "<header class=\"page-header\">".$module->title."</header>";
 		echo $module->content;
-		echo "</div>";
+		echo "</article>";
 	}
 }
 ?>
