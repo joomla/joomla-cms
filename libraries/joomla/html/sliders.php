@@ -107,7 +107,7 @@ abstract class JHtmlSliders
 			$opt['opacity'] = (isset($params['opacityTransition']) && ($params['opacityTransition'])) ? 'true' : 'false';
 			$opt['alwaysHide'] = (isset($params['allowAllClose']) && (!$params['allowAllClose'])) ? 'false' : 'true';
 
-			$options = self::getJSObject($opt);
+			$options = JHtml::getJSObject($opt);
 
 			$js = "window.addEvent('domready', function(){ new Fx.Accordion($$('div#" . $group
 				. ".pane-sliders > .panel > h3.pane-toggler'), $$('div#" . $group . ".pane-sliders > .panel > div.pane-slider'), " . $options
