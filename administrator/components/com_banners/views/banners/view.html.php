@@ -77,7 +77,7 @@ class BannersViewBanners extends JViewLegacy
 		$bar = JToolBar::getInstance('toolbar');
 
 		JToolbarHelper::title(JText::_('COM_BANNERS_MANAGER_BANNERS'), 'banners.png');
-		if (count($user->getAuthorisedCategories('com_banners', 'core.create')) > 0)
+		if ($canDo->get('core.create') || (count($user->getAuthorisedCategories('com_banners', 'core.create'))) > 0 )
 		{
 			JToolbarHelper::addNew('banner.add');
 		}
