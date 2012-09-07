@@ -24,7 +24,6 @@ class JFormRuleEmailTest extends TestCase
 	public function setUp()
 	{
 		$this->saveFactoryState();
-		require_once JPATH_PLATFORM.'/joomla/form/rules/email.php';
 	}
 
 	/**
