@@ -58,7 +58,7 @@ class NewsfeedsViewNewsfeeds extends JViewLegacy
 		// Get the toolbar object instance
 		$bar = JToolBar::getInstance('toolbar');
 		JToolbarHelper::title(JText::_('COM_NEWSFEEDS_MANAGER_NEWSFEEDS'), 'newsfeeds.png');
-		if (count($canDo->get('core.create') || $user->getAuthorisedCategories('com_newsfeeds', 'core.create')) > 0) {
+		if ($canDo->get('core.create') || count($user->getAuthorisedCategories('com_newsfeeds', 'core.create')) > 0) {
 			JToolbarHelper::addNew('newsfeed.add');
 		}
 		if ($canDo->get('core.edit')) {
