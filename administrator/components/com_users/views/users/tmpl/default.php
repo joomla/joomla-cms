@@ -34,34 +34,34 @@ $loggeduser = JFactory::getUser();
 	<table class="table table-striped">
 		<thead>
 			<tr>
-				<th width="1%">
+				<th width="1%" class="nowrap center">
 					<input type="checkbox" name="checkall-toggle" value="" title="<?php echo JText::_('JGLOBAL_CHECK_ALL'); ?>" onclick="Joomla.checkAll(this)" />
 				</th>
 				<th class="left">
 					<?php echo JHtml::_('grid.sort', 'COM_USERS_HEADING_NAME', 'a.name', $listDirn, $listOrder); ?>
 				</th>
-				<th class="nowrap" width="10%">
+				<th width="10%" class="nowrap center">
 					<?php echo JHtml::_('grid.sort', 'JGLOBAL_USERNAME', 'a.username', $listDirn, $listOrder); ?>
 				</th>
-				<th class="nowrap" width="5%">
+				<th width="5%" class="nowrap center">
 					<?php echo JHtml::_('grid.sort', 'COM_USERS_HEADING_ENABLED', 'a.block', $listDirn, $listOrder); ?>
 				</th>
-				<th class="nowrap" width="5%">
+				<th width="5%" class="nowrap center">
 					<?php echo JHtml::_('grid.sort', 'COM_USERS_HEADING_ACTIVATED', 'a.activation', $listDirn, $listOrder); ?>
 				</th>
-				<th class="nowrap" width="10%">
+				<th width="10%" class="nowrap center">
 					<?php echo JText::_('COM_USERS_HEADING_GROUPS'); ?>
 				</th>
-				<th class="nowrap" width="15%">
+				<th width="15%" class="nowrap center">
 					<?php echo JHtml::_('grid.sort', 'JGLOBAL_EMAIL', 'a.email', $listDirn, $listOrder); ?>
 				</th>
-				<th class="nowrap" width="10%">
+				<th width="10%" class="nowrap center">
 					<?php echo JHtml::_('grid.sort', 'COM_USERS_HEADING_LAST_VISIT_DATE', 'a.lastvisitDate', $listDirn, $listOrder); ?>
 				</th>
-				<th class="nowrap" width="10%">
+				<th width="10%" class="nowrap center">
 					<?php echo JHtml::_('grid.sort', 'COM_USERS_HEADING_REGISTRATION_DATE', 'a.registerDate', $listDirn, $listOrder); ?>
 				</th>
-				<th class="nowrap" width="3%">
+				<th width="1%" class="nowrap center">
 					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 				</th>
 			</tr>

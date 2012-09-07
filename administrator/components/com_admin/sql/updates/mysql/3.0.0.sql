@@ -15,7 +15,7 @@ ALTER TABLE `#__weblinks` DROP COLUMN `archived`;
 ALTER TABLE `#__weblinks` DROP COLUMN `approved`;
 ALTER TABLE `#__menu` DROP COLUMN `ordering`;
 ALTER TABLE `#__session` DROP COLUMN `usertype`;
-ALTER TABLE `#__user` DROP COLUMN `usertype`;
+ALTER TABLE `#__users` DROP COLUMN `usertype`;
 
 # Unprotect a number of extensions
 UPDATE `#__extensions` SET protected = 0 WHERE

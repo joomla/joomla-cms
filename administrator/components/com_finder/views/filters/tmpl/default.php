@@ -61,7 +61,7 @@ Joomla.submitbutton = function(pressbutton) {
 				<th width="5%" class="center nowrap">
 					<?php echo JHtml::_('grid.sort', 'COM_FINDER_FILTER_MAP_COUNT', 'a.map_count', $listDirn, $listOrder); ?>
 				</th>
-				<th width="1%" class="nowrap">
+				<th width="1%" class="center nowrap">
 					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ID', 'a.filter_id', $listDirn, $listOrder); ?>
 				</th>
 			</tr>

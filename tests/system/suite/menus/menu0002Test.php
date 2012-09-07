@@ -34,7 +34,7 @@ class Menu0002 extends SeleniumJoomlaTestCase
 
 		echo "Select External URL\n";
 		$this->click("Link=System Links");
-		$this->click("Link=External URL");
+		$this->click("//a[contains(., 'External URL')]");
 		$this->waitForPageToLoad("60000");
 
 		echo "Check that name is still there\n";
@@ -50,7 +50,7 @@ class Menu0002 extends SeleniumJoomlaTestCase
 		$this->waitforElement("//div[contains(@id, 'sbox-window')]");
 
 		$this->click("Link=System Links");
-		$this->click("Link=Menu Item Alias");
+		$this->click("//a[contains(., 'Menu Item Alias')]");
 		$this->waitForPageToLoad("60000");
 		echo "Check that new name is still there\n";
 		$this->assertEquals("Test Menu Item - Edit", $this->getValue("jform_title"));
@@ -60,7 +60,7 @@ class Menu0002 extends SeleniumJoomlaTestCase
 		$this->click("//a[contains(text(), 'Select')]");
 		$this->waitforElement("//div[contains(@id, 'sbox-window')]");
 		$this->click("Link=System Links");
-		$this->click("Link=Text Separator");
+		$this->click("//a[contains(., 'Text Separator')]");
 		$this->waitForPageToLoad("30000");
 		$this->assertEquals("Test Menu Item - Edit Again", $this->getValue("jform_title"));
 
@@ -109,7 +109,7 @@ class Menu0002 extends SeleniumJoomlaTestCase
 
 		echo "Select a menu item type\n";
 		$this->click("link=Newsfeeds");
-		$this->click("link=List All News Feed Categories");
+		$this->click("//a[contains(., 'List All News Feed Categories')]");
 		$this->waitForPageToLoad("60000");
 
 		echo "Make sure our changes were kept\n";
@@ -123,14 +123,14 @@ class Menu0002 extends SeleniumJoomlaTestCase
 		$this->waitforElement("//div[contains(@id, 'sbox-window')]");
 
 		$this->click("Link=Contacts");
-		$this->click("Link=Single Contact");
+		$this->click("//a[contains(., 'Single Contact')]");
 		$this->waitForPageToLoad("30000");
 		$this->assertEquals("Test Menu Item - Edit", $this->getValue("jform_title"), 'Our title edits were not retained.');
 
 		$this->type("jform_title", "Test Menu Item - Edit Again");
 		$this->click("//a[contains(text(), 'Select')]");
 		$this->waitforElement("//div[contains(@id, 'sbox-window')]");
-		$this->click("link=External URL");
+		$this->click("//a[contains(., 'External URL')]");
 		$this->waitForPageToLoad("30000");
 
 		$this->assertEquals("Test Menu Item - Edit Again", $this->getValue("jform_title"), 'Our title edits were not retained.');

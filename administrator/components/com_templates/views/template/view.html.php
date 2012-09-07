@@ -51,12 +51,26 @@ class TemplatesViewTemplate extends JViewLegacy
 	protected function addToolbar()
 	{
 		JFactory::getApplication()->input->set('hidemainmenu', true);
+
+		// Get the toolbar object instance
+		$bar = JToolBar::getInstance('toolbar');
 		$user  = JFactory::getUser();
 		$canDo = TemplatesHelper::getActions();
 
 		JToolbarHelper::title(JText::_('COM_TEMPLATES_MANAGER_VIEW_TEMPLATE'), 'thememanager');
 
 		JToolbarHelper::cancel('template.cancel', 'JTOOLBAR_CLOSE');
+
+		// Add a copy button
+		if ($user->authorise('core.create', 'com_templates'))
+		{
+			$title = JText::_('JLIB_HTML_BATCH_COPY');
+			$dhtml = "<button data-toggle=\"modal\" data-target=\"#collapseModal\" class=\"btn btn-small\">
+						<i class=\"icon-copy\" title=\"$title\"></i>
+						$title</button>";
+			$bar->appendButton('Custom', $dhtml, 'upload');
+		}
+
 		JToolbarHelper::divider();
 		JToolbarHelper::help('JHELP_EXTENSIONS_TEMPLATE_MANAGER_TEMPLATES_EDIT');
 	}
