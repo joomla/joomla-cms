@@ -29,6 +29,7 @@ $ -> Language fix or change
 08-Sept-2012 Jean-Marie Simonet
  # [#29052] *Protostar Print article bug. Thanks Kyle.
  # [#29067] *Ordering dropdown display issue. Thanks Kyle.
+ # [#29101] Fix Protostar Responsive Grid and Menus. Thanks Kyle.
 
 07-Sept-2012 Jean-Marie Simonet
  # [#29104] Typo in 3.0.0 update script
