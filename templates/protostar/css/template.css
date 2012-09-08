@@ -5541,6 +5541,9 @@ fieldset.radio.btn-group {
 .width-auto {
 	width: auto;
 }
+.btn-group .chzn-results {
+	white-space: normal;
+}
 @font-face {
 	font-family: 'IcoMoon';
 	src: url('../../../media/jui/fonts/IcoMoon.eot');
