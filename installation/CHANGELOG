@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+09-Sep-2012 Rouven Weßling
+ # [#29127] Module save2copy dont work. Thanks Reinhard.
+
 08-Sept-2012 Jean-Marie Simonet
  # [#29052] *Protostar Print article bug. Thanks Kyle.
  # [#29067] *Ordering dropdown display issue. Thanks Kyle.
@@ -42,9 +45,9 @@ $ -> Language fix or change
 
 05-Sep-2012 Mark Dexter
  + [#29088] PostgreSQL driver for Joomla! CMS 3.0. Thanks Michael.
- # [#28963] Add ordering to column titles where it was missing. Thanks Peter van Westen. 
+ # [#28963] Add ordering to column titles where it was missing. Thanks Peter van Westen.
  # [#29064] Improve the isis header. Thanks Rouven.
- # [#29054] Update TinyMCE to 3.5.6. Thanks Rouven. 
+ # [#29054] Update TinyMCE to 3.5.6. Thanks Rouven.
  # [#29087] Update Beez for Joomla 3. Thanks Elin.
  + [#29089] new minimal sample data set. Thanks Elin.
  + [#29025] Let the SEF plug-in add the canonical url to the head. Thanks Rouven.
