@@ -61,7 +61,7 @@ $class = ' class="first"';
 							$this->maxLevel++;
 						endif; ?>
                 </li>
-                <?php endif; ?>
+               <?php endif; ?>
         <?php endforeach; ?>
         </ul>
 <?php endif; ?>

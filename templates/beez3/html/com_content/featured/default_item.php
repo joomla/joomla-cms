@@ -15,7 +15,6 @@ $params = &$this->item->params;
 $images = json_decode($this->item->images);
 $app = JFactory::getApplication();
 $templateparams = $app->getTemplate(true)->params;
-
 ?>
 
 <?php if ($this->item->state == 0) : ?>

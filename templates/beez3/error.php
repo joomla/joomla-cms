@@ -1,8 +1,8 @@
 <?php
 /**
- * @package    Joomla.Site
- * @copyright  Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license	    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -31,7 +31,7 @@ $this->direction = $doc->direction;
 <meta name="language" content="<?php echo $this->language; ?>" />
 
 	<title><?php echo $this->error->getCode(); ?> - <?php echo $this->title; ?></title>
-<?php if ($this->error->getCode() >= 400 && $this->error->getCode() < 500) { 	?>
+	<?php if ($this->error->getCo<?php if ($this->error->getCode() >= 400 && $this->error->getCode() < 500) { 	?>
 
 
 		<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/system/css/system.css" type="text/css" />
@@ -156,7 +156,6 @@ $this->direction = $doc->direction;
 						<h3><?php echo JText::_('JERROR_LAYOUT_PLEASE_CONTACT_THE_SYSTEM_ADMINISTRATOR'); ?></h3>
 
 						<h2>#<?php echo $this->error->getCode(); ?>&nbsp;<?php echo $this->error->getMessage();?></h2> <br />
-
 
 			</div><!-- end wrapper -->
 		</div><!-- end contentarea -->
