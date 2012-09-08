@@ -67,6 +67,11 @@ class TemplatesViewStyles extends JViewLegacy
 
 		JToolbarHelper::title(JText::_('COM_TEMPLATES_MANAGER_STYLES'), 'thememanager');
 
+		if ($canDo->get('core.create')) {
+			JToolbarHelper::addNew('style.add');
+			JToolbarHelper::divider();
+		}
+
 		if ($canDo->get('core.edit.state')) {
 			JToolbarHelper::makeDefault('styles.setDefault', 'COM_TEMPLATES_TOOLBAR_SET_HOME');
 			JToolbarHelper::divider();
@@ -74,10 +79,6 @@ class TemplatesViewStyles extends JViewLegacy
 
 		if ($canDo->get('core.edit')) {
 			JToolbarHelper::editList('style.edit');
-		}
-		if ($canDo->get('core.create')) {
-			JToolbarHelper::custom('styles.duplicate', 'copy.png', 'copy_f2.png', 'JTOOLBAR_DUPLICATE', true);
-			JToolbarHelper::divider();
 		}
 
 		if ($canDo->get('core.delete')) {
@@ -106,3 +107,4 @@ class TemplatesViewStyles extends JViewLegacy
 		);
 	}
 }
+                                                                                                                                                                                                                   
