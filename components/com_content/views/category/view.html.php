@@ -92,7 +92,7 @@ class ContentViewCategory extends JViewLegacy
 			if ($item->parent_alias == 'root') {
 				$item->parent_slug = null;
 			}
-
+			$item->catslug		= $item->category_alias ? ($item->catid.':'.$item->category_alias) : $item->catid;
 			$item->event = new stdClass;
 
 			$dispatcher = JEventDispatcher::getInstance();

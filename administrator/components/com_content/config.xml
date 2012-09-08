@@ -54,6 +54,17 @@
 		</field>
 
 		<field
+			name="info_block_position"
+			type="radio"
+			default="0"
+		    label="COM_CONTENT_FIELD_INFOBLOCK_POSITION_LABEL"
+			description="COM_CONTENT_FIELD_INFOBLOCK_POSITION_DESC">
+			<option value="0">COM_CONTENT_FIELD_OPTION_ABOVE</option>
+			<option value="1">COM_CONTENT_FIELD_OPTION_BELOW</option>
+			<option value="2">COM_CONTENT_FIELD_OPTION_SPLIT</option>
+		</field>
+
+		<field
 			name="show_category"
 			type="radio"
 			class="btn-group"
