@@ -454,7 +454,7 @@ abstract class JHtmlBootstrap
 	 */
 	public static function endAccordion()
 	{
-		return '</div></div>';
+		return '</div>';
 	}
 
 	/**
