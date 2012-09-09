@@ -419,11 +419,12 @@ abstract class JFactory
 	 * @return  JEditor instance of JEditor
 	 *
 	 * @since   11.1
-	 * @deprecated 12.3 Use JEditor directly
+	 * @deprecated 12.2 CMS developers should use JEditor directly.
+	 * @note There is no direct replacement in the Joomla Platform.
 	 */
 	public static function getEditor($editor = null)
 	{
-		JLog::add(__METHOD__ . ' is deprecated. Use JEditor directly.', JLog::WARNING, 'deprecated');
+		JLog::add(__METHOD__ . ' is deprecated. CMS developers should use JEditor directly.', JLog::WARNING, 'deprecated');
 
 		if (!class_exists('JEditor'))
 		{
