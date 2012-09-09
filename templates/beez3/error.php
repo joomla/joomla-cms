@@ -1,11 +1,14 @@
 <?php
 /**
- * @package    Joomla.Site
- * @copyright  Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  Templates.beez3
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
 $params = JFactory::getApplication()->getTemplate(true)->params;
 $logo = $params->get('logo');
 $showRightColumn = 0;
@@ -98,8 +101,6 @@ $this->direction = $doc->direction;
 								$params = JFactory::getApplication()->getTemplate(true)->params;
 								$logo = $params->get('logo');
 							?>
-
-							<?php jimport('joomla.application.module.helper'); ?>
 
 						 <h1 id="logo">
 
