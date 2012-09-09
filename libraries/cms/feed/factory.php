@@ -73,6 +73,7 @@ class JFeedFactory
 		{
 			// @codeCoverageIgnoreStart
 			throw new RuntimeException('Unable to open the feed.');
+
 			// @codeCoverageIgnoreEnd
 		}
 

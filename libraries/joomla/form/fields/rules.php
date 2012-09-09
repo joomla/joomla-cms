@@ -119,7 +119,7 @@ class JFormFieldRules extends JFormField
 			}
 
 			$html[] = '<li class="' . $active . '">';
-				$html[] = '<a href="#permission-'. $group->value .'" data-toggle="tab">';
+				$html[] = '<a href="#permission-' . $group->value . '" data-toggle="tab">';
 				$html[] = str_repeat('<span class="level">&ndash;</i> ', $curLevel = $group->level) . $group->text;
 				$html[] = '</a>';
 			$html[] = '</li>';
@@ -140,7 +140,7 @@ class JFormFieldRules extends JFormField
 
 			$difLevel = $group->level - $curLevel;
 
-			$html[] = '<div class="tab-pane' . $active . '" id="permission-' . $group->value .'">';
+			$html[] = '<div class="tab-pane' . $active . '" id="permission-' . $group->value . '">';
 			$html[] = '<table class="table table-striped">';
 			$html[] = '<thead>';
 			$html[] = '<tr>';

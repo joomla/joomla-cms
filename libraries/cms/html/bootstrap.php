@@ -28,7 +28,7 @@ abstract class JHtmlBootstrap
 	 * Add javascript support for Bootstrap alerts
 	 *
 	 * @param   string  $selector  Common class for the alerts
-
+	 *
 	 * @return  void
 	 *
 	 * @since   3.0
@@ -103,7 +103,7 @@ abstract class JHtmlBootstrap
 	 * Add javascript support for Bootstrap dropdowns
 	 *
 	 * @param   string  $selector  Common class for the dropdowns
-
+	 *
 	 * @return  void
 	 *
 	 * @since   3.0

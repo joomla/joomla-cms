@@ -77,7 +77,7 @@ class JToolbarButtonSlider extends JToolbarButton
 	/**
 	 * Get the JavaScript command for the button
 	 *
-	 * @param   string   $url  URL for popup
+	 * @param   string  $url  URL for popup
 	 *
 	 * @return  string  JavaScript command string
 	 *

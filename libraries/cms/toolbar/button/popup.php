@@ -104,9 +104,9 @@ class JToolbarButtonPopup extends JToolbarButton
 	/**
 	 * Get the JavaScript command for the button
 	 *
-	 * @param   string   $url     URL for popup
+	 * @param   string  $url  URL for popup
 	 *
-	 * @return  string   JavaScript command string
+	 * @return  string  JavaScript command string
 	 *
 	 * @since   3.0
 	 */

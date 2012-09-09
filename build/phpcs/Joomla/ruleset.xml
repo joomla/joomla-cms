@@ -40,6 +40,18 @@
  <rule ref="PEAR.Commenting.InlineComment"/>
 
  <rule ref="Generic.Files.LineEndings"/>
+ <rule ref="Generic.Files.LineLength">
+  <!-- We only want this for cli for now -->
+  <exclude-pattern>/administrator/*</exclude-pattern>
+  <exclude-pattern>/components/*</exclude-pattern>
+  <exclude-pattern>/plugins/*</exclude-pattern>
+  <exclude-pattern>/modules/*</exclude-pattern>
+  <exclude-pattern>/libraries/*</exclude-pattern>
+  <exclude-pattern>/installation/*</exclude-pattern>
+  <exclude-pattern>/templates/*</exclude-pattern>
+  <exclude-pattern>/language/*</exclude-pattern>
+  <exclude-pattern>/includes/*</exclude-pattern>
+ </rule>
  <rule ref="Zend.Files.ClosingTag">
   <exclude-pattern>*/tmpl/*</exclude-pattern>
   <exclude-pattern>/templates/*</exclude-pattern>
@@ -53,9 +65,20 @@
  <rule ref="PEAR.Formatting.MultiLineAssignment"/>
 
  <rule ref="Generic.Functions.FunctionCallArgumentSpacing"/>
+ <rule ref="PEAR.Functions.ValidDefaultValue">
+  <!-- We only want this for cli, includes and joomla-platform for now -->
+  <exclude-pattern>/administrator/*</exclude-pattern>
+  <exclude-pattern>/components/*</exclude-pattern>
+  <exclude-pattern>/plugins/*</exclude-pattern>
+  <exclude-pattern>/modules/*</exclude-pattern>
+  <exclude-pattern>/installation/*</exclude-pattern>
+  <exclude-pattern>/libraries/cms/*</exclude-pattern>
+  <exclude-pattern>/templates/*</exclude-pattern>
+  <exclude-pattern>/language/*</exclude-pattern>
+ </rule>
 
  <rule ref="PEAR.NamingConventions.ValidClassName">
-  <!-- We only want this for libraries and cli for now -->
+  <!-- We only want this for libraries, cli and includes for now -->
   <exclude-pattern>/administrator/*</exclude-pattern>
   <exclude-pattern>/components/*</exclude-pattern>
   <exclude-pattern>/plugins/*</exclude-pattern>
@@ -70,7 +93,26 @@
  <rule ref="Generic.PHP.DeprecatedFunctions"/>
  <rule ref="Generic.PHP.ForbiddenFunctions"/>
 
+ <rule ref="Squiz.Operators.IncrementDecrementUsage">
+  <!-- We only want this for libraries, cli and includes for now -->
+  <exclude-pattern>/administrator/*</exclude-pattern>
+  <exclude-pattern>/components/*</exclude-pattern>
+  <exclude-pattern>/plugins/*</exclude-pattern>
+  <exclude-pattern>/modules/*</exclude-pattern>
+  <exclude-pattern>/installation/*</exclude-pattern>
+  <exclude-pattern>/templates/*</exclude-pattern>
+  <exclude-pattern>/language/*</exclude-pattern>
+ </rule>
+
  <rule ref="Squiz.Scope.StaticThisUsage"/>
+
+ <!-- Lines can be 85 chars long, but never show errors -->
+ <rule ref="Generic.Files.LineLength">
+  <properties>
+   <property name="lineLimit" value="150"/>
+   <property name="absoluteLineLimit" value="0"/>
+  </properties>
+ </rule>
 
  <!-- Use Unix newlines -->
  <rule ref="Generic.Files.LineEndings">
@@ -82,6 +124,99 @@
  <!-- This message is not required as spaces are allowed for alignment -->
  <rule ref="Generic.Functions.FunctionCallArgumentSpacing.TooMuchSpaceAfterComma">
   <severity>0</severity>
+ </rule>
+
+ <!-- Remove the following when the folder limitations are dropped -->
+
+ <rule ref="Joomla.Classes.MethodScope">
+  <!-- We only want this for libraries and cli for now -->
+  <exclude-pattern>/administrator/*</exclude-pattern>
+  <exclude-pattern>/components/*</exclude-pattern>
+  <exclude-pattern>/plugins/*</exclude-pattern>
+  <exclude-pattern>/modules/*</exclude-pattern>
+  <exclude-pattern>/installation/*</exclude-pattern>
+  <exclude-pattern>/templates/*</exclude-pattern>
+  <exclude-pattern>/language/*</exclude-pattern>
+  <exclude-pattern>/includes/*</exclude-pattern>
+ </rule>
+
+ <rule ref="Joomla.Commenting.FunctionComment">
+  <!-- We only want this for libraries and cli for now -->
+  <exclude-pattern>/administrator/*</exclude-pattern>
+  <exclude-pattern>/components/*</exclude-pattern>
+  <exclude-pattern>/plugins/*</exclude-pattern>
+  <exclude-pattern>/modules/*</exclude-pattern>
+  <exclude-pattern>/installation/*</exclude-pattern>
+  <exclude-pattern>/templates/*</exclude-pattern>
+  <exclude-pattern>/language/*</exclude-pattern>
+  <exclude-pattern>/includes/*</exclude-pattern>
+ </rule>
+
+ <rule ref="Joomla.Commenting.SingleComment">
+  <!-- We only want this for libraries and cli for now -->
+  <exclude-pattern>/administrator/*</exclude-pattern>
+  <exclude-pattern>/components/*</exclude-pattern>
+  <exclude-pattern>/plugins/*</exclude-pattern>
+  <exclude-pattern>/modules/*</exclude-pattern>
+  <exclude-pattern>/installation/*</exclude-pattern>
+  <exclude-pattern>/templates/*</exclude-pattern>
+  <exclude-pattern>/language/*</exclude-pattern>
+  <exclude-pattern>/includes/*</exclude-pattern>
+ </rule>
+
+ <rule ref="Joomla.Commenting.ClassComment">
+  <!-- We exclude components and modules for now -->
+  <exclude-pattern>/administrator/components/*</exclude-pattern>
+  <exclude-pattern>/administrator/modules/*</exclude-pattern>
+  <exclude-pattern>/components/*</exclude-pattern>
+  <exclude-pattern>/modules/*</exclude-pattern>
+ </rule>
+
+ <rule ref="Joomla.WhiteSpace.ConcatenationSpacing">
+  <!-- We only want this for libraries and cli for now -->
+  <exclude-pattern>/administrator/*</exclude-pattern>
+  <exclude-pattern>/components/*</exclude-pattern>
+  <exclude-pattern>/plugins/*</exclude-pattern>
+  <exclude-pattern>/modules/*</exclude-pattern>
+  <exclude-pattern>/installation/*</exclude-pattern>
+  <exclude-pattern>/templates/*</exclude-pattern>
+  <exclude-pattern>/language/*</exclude-pattern>
+  <exclude-pattern>/includes/*</exclude-pattern>
+ </rule>
+
+ <rule ref="Joomla.ControlStructures.ControlSignature">
+  <!-- We only want this for libraries and cli for now -->
+  <exclude-pattern>/administrator/*</exclude-pattern>
+  <exclude-pattern>/components/*</exclude-pattern>
+  <exclude-pattern>/plugins/*</exclude-pattern>
+  <exclude-pattern>/modules/*</exclude-pattern>
+  <exclude-pattern>/installation/*</exclude-pattern>
+  <exclude-pattern>/templates/*</exclude-pattern>
+  <exclude-pattern>/language/*</exclude-pattern>
+  <exclude-pattern>/includes/*</exclude-pattern>
+ </rule>
+
+ <rule ref="Joomla.ControlStructures.InlineControlStructure">
+  <!-- We only want this for cli and libraries for now -->
+  <exclude-pattern>/administrator/*</exclude-pattern>
+  <exclude-pattern>/components/*</exclude-pattern>
+  <exclude-pattern>/plugins/*</exclude-pattern>
+  <exclude-pattern>/modules/*</exclude-pattern>
+  <exclude-pattern>/installation/*</exclude-pattern>
+  <exclude-pattern>/templates/*</exclude-pattern>
+  <exclude-pattern>/language/*</exclude-pattern>
+ </rule>
+
+ <rule ref="Joomla.ControlStructures.MultiLineCondition">
+  <!-- We only want this for libraries and cli for now -->
+  <exclude-pattern>/administrator/*</exclude-pattern>
+  <exclude-pattern>/components/*</exclude-pattern>
+  <exclude-pattern>/plugins/*</exclude-pattern>
+  <exclude-pattern>/modules/*</exclude-pattern>
+  <exclude-pattern>/installation/*</exclude-pattern>
+  <exclude-pattern>/templates/*</exclude-pattern>
+  <exclude-pattern>/language/*</exclude-pattern>
+  <exclude-pattern>/includes/*</exclude-pattern>
  </rule>
 
 </ruleset>
