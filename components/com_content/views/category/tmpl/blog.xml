@@ -320,7 +320,7 @@
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">COM_CONTENT_FIELD_OPTION_ABOVE</option>
 				<option value="1">COM_CONTENT_FIELD_OPTION_BELOW</option>
-				<option value="1">COM_CONTENT_FIELD_OPTION_SPLIT</option>
+				<option value="2">COM_CONTENT_FIELD_OPTION_SPLIT</option>
 			</field>
 
 			<field name="show_author" type="list"
