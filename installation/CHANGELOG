@@ -28,6 +28,7 @@ $ -> Language fix or change
 
 09-Sept-2012 Jean-Marie Simonet
  # [#29093] Restore admin submenu items. Thanks Michael
+ # [#29121] *The filter Select Status in Plugin Manager won't work
 
 09-Sep-2012 Rouven Weßling
  # [#29127] Module save2copy dont work. Thanks Reinhard.
