@@ -36,6 +36,7 @@ $ -> Language fix or change
  # [#29062] Remove unnecessary table creations from testing sampledata. Thanks Rouven
  # [#29099] Drop the unused #__update_categories table. Thanks Rouven
  # [#29126] Admin Template: Accordion fieldsets for template and category options like com_menus. Thanks Reinhard
+ # [#29072] Contact view to use plain, tabbed, and slider outputs from Bootstrap JHTML library. Thanks Dave
 
 09-Sep-2012 Rouven Weßling
  # [#29127] Module save2copy dont work. Thanks Reinhard.
