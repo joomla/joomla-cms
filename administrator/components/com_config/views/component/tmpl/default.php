@@ -15,6 +15,7 @@ $template = $app->getTemplate();
 // Load the tooltip behavior.
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
+JHtml::_('jquery.chosen');
 ?>
 <script type="text/javascript">
 	Joomla.submitbutton = function(task)

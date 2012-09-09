@@ -15,6 +15,8 @@ JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 // Load the tooltip behavior.
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
+JHtml::_('jquery.chosen');
+
 $canDo = UsersHelper::getActions();
 
 // Get the form fieldsets.
