@@ -15,6 +15,7 @@
  <exclude-pattern>tests/*</exclude-pattern>
  <exclude-pattern>cache/*</exclude-pattern>
  <exclude-pattern>tmp/*</exclude-pattern>
+ <exclude-pattern>logs/*</exclude-pattern>
 
  <!-- Exclude 3rd party libraries. -->
  <exclude-pattern>libraries/phputf8/*</exclude-pattern>
@@ -49,7 +50,6 @@
   <exclude-pattern>/libraries/*</exclude-pattern>
   <exclude-pattern>/installation/*</exclude-pattern>
   <exclude-pattern>/templates/*</exclude-pattern>
-  <exclude-pattern>/language/*</exclude-pattern>
   <exclude-pattern>/includes/*</exclude-pattern>
  </rule>
  <rule ref="Zend.Files.ClosingTag">
@@ -66,7 +66,7 @@
 
  <rule ref="Generic.Functions.FunctionCallArgumentSpacing"/>
  <rule ref="PEAR.Functions.ValidDefaultValue">
-  <!-- We only want this for cli, includes and joomla-platform for now -->
+  <!-- We only want this for cli, language, includes and joomla-platform for now -->
   <exclude-pattern>/administrator/*</exclude-pattern>
   <exclude-pattern>/components/*</exclude-pattern>
   <exclude-pattern>/plugins/*</exclude-pattern>
@@ -74,7 +74,6 @@
   <exclude-pattern>/installation/*</exclude-pattern>
   <exclude-pattern>/libraries/cms/*</exclude-pattern>
   <exclude-pattern>/templates/*</exclude-pattern>
-  <exclude-pattern>/language/*</exclude-pattern>
  </rule>
 
  <rule ref="PEAR.NamingConventions.ValidClassName">
@@ -94,14 +93,12 @@
  <rule ref="Generic.PHP.ForbiddenFunctions"/>
 
  <rule ref="Squiz.Operators.IncrementDecrementUsage">
-  <!-- We only want this for libraries, cli and includes for now -->
+  <!-- We only want this for libraries, language, cli and includes for now -->
   <exclude-pattern>/administrator/*</exclude-pattern>
   <exclude-pattern>/components/*</exclude-pattern>
   <exclude-pattern>/plugins/*</exclude-pattern>
   <exclude-pattern>/modules/*</exclude-pattern>
   <exclude-pattern>/installation/*</exclude-pattern>
-  <exclude-pattern>/templates/*</exclude-pattern>
-  <exclude-pattern>/language/*</exclude-pattern>
  </rule>
 
  <rule ref="Squiz.Scope.StaticThisUsage"/>
@@ -129,38 +126,32 @@
  <!-- Remove the following when the folder limitations are dropped -->
 
  <rule ref="Joomla.Classes.MethodScope">
-  <!-- We only want this for libraries and cli for now -->
+  <!-- We only want this for libraries, language and cli for now -->
   <exclude-pattern>/administrator/*</exclude-pattern>
   <exclude-pattern>/components/*</exclude-pattern>
   <exclude-pattern>/plugins/*</exclude-pattern>
-  <exclude-pattern>/modules/*</exclude-pattern>
   <exclude-pattern>/installation/*</exclude-pattern>
-  <exclude-pattern>/templates/*</exclude-pattern>
-  <exclude-pattern>/language/*</exclude-pattern>
-  <exclude-pattern>/includes/*</exclude-pattern>
  </rule>
 
  <rule ref="Joomla.Commenting.FunctionComment">
-  <!-- We only want this for libraries and cli for now -->
+  <!-- We only want this for libraries, language and cli for now -->
   <exclude-pattern>/administrator/*</exclude-pattern>
   <exclude-pattern>/components/*</exclude-pattern>
   <exclude-pattern>/plugins/*</exclude-pattern>
   <exclude-pattern>/modules/*</exclude-pattern>
   <exclude-pattern>/installation/*</exclude-pattern>
   <exclude-pattern>/templates/*</exclude-pattern>
-  <exclude-pattern>/language/*</exclude-pattern>
   <exclude-pattern>/includes/*</exclude-pattern>
  </rule>
 
  <rule ref="Joomla.Commenting.SingleComment">
-  <!-- We only want this for libraries and cli for now -->
+  <!-- We only want this for libraries, language and cli for now -->
   <exclude-pattern>/administrator/*</exclude-pattern>
   <exclude-pattern>/components/*</exclude-pattern>
   <exclude-pattern>/plugins/*</exclude-pattern>
   <exclude-pattern>/modules/*</exclude-pattern>
   <exclude-pattern>/installation/*</exclude-pattern>
   <exclude-pattern>/templates/*</exclude-pattern>
-  <exclude-pattern>/language/*</exclude-pattern>
   <exclude-pattern>/includes/*</exclude-pattern>
  </rule>
 
@@ -173,50 +164,44 @@
  </rule>
 
  <rule ref="Joomla.WhiteSpace.ConcatenationSpacing">
-  <!-- We only want this for libraries and cli for now -->
+  <!-- We only want this for libraries, language and cli for now -->
   <exclude-pattern>/administrator/*</exclude-pattern>
   <exclude-pattern>/components/*</exclude-pattern>
   <exclude-pattern>/plugins/*</exclude-pattern>
   <exclude-pattern>/modules/*</exclude-pattern>
   <exclude-pattern>/installation/*</exclude-pattern>
   <exclude-pattern>/templates/*</exclude-pattern>
-  <exclude-pattern>/language/*</exclude-pattern>
   <exclude-pattern>/includes/*</exclude-pattern>
  </rule>
 
  <rule ref="Joomla.ControlStructures.ControlSignature">
-  <!-- We only want this for libraries and cli for now -->
+  <!-- We only want this for librarie, languages and cli for now -->
   <exclude-pattern>/administrator/*</exclude-pattern>
   <exclude-pattern>/components/*</exclude-pattern>
   <exclude-pattern>/plugins/*</exclude-pattern>
   <exclude-pattern>/modules/*</exclude-pattern>
   <exclude-pattern>/installation/*</exclude-pattern>
   <exclude-pattern>/templates/*</exclude-pattern>
-  <exclude-pattern>/language/*</exclude-pattern>
   <exclude-pattern>/includes/*</exclude-pattern>
  </rule>
 
  <rule ref="Joomla.ControlStructures.InlineControlStructure">
-  <!-- We only want this for cli and libraries for now -->
+  <!-- We only want this for cli, language and libraries for now -->
   <exclude-pattern>/administrator/*</exclude-pattern>
   <exclude-pattern>/components/*</exclude-pattern>
   <exclude-pattern>/plugins/*</exclude-pattern>
   <exclude-pattern>/modules/*</exclude-pattern>
   <exclude-pattern>/installation/*</exclude-pattern>
   <exclude-pattern>/templates/*</exclude-pattern>
-  <exclude-pattern>/language/*</exclude-pattern>
  </rule>
 
  <rule ref="Joomla.ControlStructures.MultiLineCondition">
-  <!-- We only want this for libraries and cli for now -->
+  <!-- We only want this for libraries, language and cli for now -->
   <exclude-pattern>/administrator/*</exclude-pattern>
   <exclude-pattern>/components/*</exclude-pattern>
   <exclude-pattern>/plugins/*</exclude-pattern>
   <exclude-pattern>/modules/*</exclude-pattern>
   <exclude-pattern>/installation/*</exclude-pattern>
   <exclude-pattern>/templates/*</exclude-pattern>
-  <exclude-pattern>/language/*</exclude-pattern>
-  <exclude-pattern>/includes/*</exclude-pattern>
  </rule>
-
 </ruleset>
