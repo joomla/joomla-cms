@@ -41,6 +41,7 @@ $ -> Language fix or change
 
 09-Sep-2012 Rouven Weßling
  # [#29127] Module save2copy dont work. Thanks Reinhard.
+ # Fix an E_STRICT warning in com_banners. Thanks Elin.
 
 08-Sept-2012 Jean-Marie Simonet
  # [#29052] *Protostar Print article bug. Thanks Kyle.
