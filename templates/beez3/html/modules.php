@@ -2,17 +2,17 @@
 /**
  * @package     Joomla.Site
  * @subpackage  Templates.beez3
+ *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
 
 /**
  * beezDivision chrome.
  *
- * @since	1.6
+ * @since   3.0
  */
 function modChrome_beezDivision($module, &$params, &$attribs)
 {
@@ -27,7 +27,7 @@ function modChrome_beezDivision($module, &$params, &$attribs)
 /**
  * beezHide chrome.
  *
- * @since	1.6
+ * @since   3.0
  */
 function modChrome_beezHide($module, &$params, &$attribs)
 {
@@ -54,7 +54,7 @@ function modChrome_beezHide($module, &$params, &$attribs)
 /**
  * beezTabs chrome.
  *
- * @since	1.6
+ * @since   3.0
  */
 function modChrome_beezTabs($module, $params, $attribs)
 {

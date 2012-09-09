@@ -69,6 +69,17 @@ class JHtmlBootstrapTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * @covers JHtmlBootstrap::renderModal
+	 * @todo   Implement testRenderModal().
+	 */
+	public function testRenderModal()
+	{
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete('This test has not been implemented yet.'
+		);
+	}
+
+	/**
 	 * @covers JHtmlBootstrap::popover
 	 * @todo   Implement testPopover().
 	 */
@@ -125,7 +136,7 @@ class JHtmlBootstrapTest extends PHPUnit_Framework_TestCase
 	{
 		$this->assertThat(
 			JHtml::_('bootstrap.endAccordion'),
-			$this->equalTo('</div></div>')
+			$this->equalTo('</div>')
 		);
 	}
 

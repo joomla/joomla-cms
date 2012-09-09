@@ -39,7 +39,6 @@ class LanguagesController extends JControllerLegacy
 
 		$view   = $this->input->get('view', 'languages');
 		$layout = $this->input->get('layout', 'default');
-		$client = $this->input->getInt('client');
 		$id     = $this->input->getInt('id');
 
 		// Check for edit form.

@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.multiselect');
 JHtml::_('behavior.modal');
+JHtml::_('jquery.chosen');
 
 $canDo = UsersHelper::getActions();
 $listOrder = $this->escape($this->state->get('list.ordering'));

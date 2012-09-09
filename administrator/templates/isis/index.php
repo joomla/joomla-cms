@@ -17,7 +17,6 @@ $user  = JFactory::getUser();
 
 // Add JavaScript Frameworks
 JHtml::_('bootstrap.framework');
-JHtml::_('jquery.chosen');
 JHtml::_('jquery.ui');
 
 // Add Stylesheets
@@ -237,12 +236,6 @@ else
 					$nav.removeClass('subhead-fixed')
 				}
 			}
-
-			// Chosen select boxes
-			$("select").chosen({
-				disable_search_threshold : 10,
-				allow_single_deselect : true
-			});
 
 			// Turn radios into btn-group
 		    $('.radio.btn-group label').addClass('btn');

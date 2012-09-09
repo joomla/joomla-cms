@@ -38,14 +38,9 @@ class plgButtonPagebreak extends JPlugin
 	 */
 	public function onDisplay($name)
 	{
-		$app = JFactory::getApplication();
-
-		$doc = JFactory::getDocument();
-		$template = $app->getTemplate();
+		JHtml::_('behavior.modal');
 
 		$link = 'index.php?option=com_content&amp;view=article&amp;layout=pagebreak&amp;tmpl=component&amp;e_name='.$name;
-
-		JHtml::_('behavior.modal');
 
 		$button = new JObject;
 		$button->modal = true;

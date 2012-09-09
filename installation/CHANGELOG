@@ -26,6 +26,28 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+09-Sept-2012 Jean-Marie Simonet
+ # [#29093] Restore admin submenu items. Thanks Michael
+ # [#29121] *The filter Select Status in Plugin Manager won't work
+ # [#29119] Update the markup for the multilang status module. Thanks Michael
+ # [#29096] Apply bootstrap for view override of com language. Thanks Viet Vu
+ # [#29111] Component Options don't redirect back to the component after save. Thanks Rouven
+ # [#29077] Restore popup button behavior, add button for new slider behavior, implement it. Thanks Michael
+ # [#29062] Remove unnecessary table creations from testing sampledata. Thanks Rouven
+ # [#29099] Drop the unused #__update_categories table. Thanks Rouven
+ # [#29126] Admin Template: Accordion fieldsets for template and category options like com_menus. Thanks Reinhard
+ # [#29072] Contact view to use plain, tabbed, and slider outputs from Bootstrap JHTML library. Thanks Dave
+ # [#29079] Move jquery chosen call from template to components. Thanks Viet Vu
+
+09-Sep-2012 Rouven Weßling
+ # [#29127] Module save2copy dont work. Thanks Reinhard.
+ # Fix an E_STRICT warning in com_banners. Thanks Elin.
+
+08-Sept-2012 Jean-Marie Simonet
+ # [#29052] *Protostar Print article bug. Thanks Kyle.
+ # [#29067] *Ordering dropdown display issue. Thanks Kyle.
+ # [#29101] Fix Protostar Responsive Grid and Menus. Thanks Kyle.
+
 07-Sept-2012 Jean-Marie Simonet
  # [#29104] Typo in 3.0.0 update script
  # Incomplete query in multilanguage status (synced with 2.5.x correction)
@@ -37,9 +59,9 @@ $ -> Language fix or change
 
 05-Sep-2012 Mark Dexter
  + [#29088] PostgreSQL driver for Joomla! CMS 3.0. Thanks Michael.
- # [#28963] Add ordering to column titles where it was missing. Thanks Peter van Westen. 
+ # [#28963] Add ordering to column titles where it was missing. Thanks Peter van Westen.
  # [#29064] Improve the isis header. Thanks Rouven.
- # [#29054] Update TinyMCE to 3.5.6. Thanks Rouven. 
+ # [#29054] Update TinyMCE to 3.5.6. Thanks Rouven.
  # [#29087] Update Beez for Joomla 3. Thanks Elin.
  + [#29089] new minimal sample data set. Thanks Elin.
  + [#29025] Let the SEF plug-in add the canonical url to the head. Thanks Rouven.

@@ -12,6 +12,8 @@ defined('_JEXEC') or die;
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
+JHtml::_('jquery.chosen');
+
 $canDo = LanguagesHelper::getActions();
 ?>
 <script type="text/javascript">

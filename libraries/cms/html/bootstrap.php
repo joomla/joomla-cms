@@ -28,7 +28,7 @@ abstract class JHtmlBootstrap
 	 * Add javascript support for Bootstrap alerts
 	 *
 	 * @param   string  $selector  Common class for the alerts
-
+	 *
 	 * @return  void
 	 *
 	 * @since   3.0
@@ -103,7 +103,7 @@ abstract class JHtmlBootstrap
 	 * Add javascript support for Bootstrap dropdowns
 	 *
 	 * @param   string  $selector  Common class for the dropdowns
-
+	 *
 	 * @return  void
 	 *
 	 * @since   3.0
@@ -209,6 +209,40 @@ abstract class JHtmlBootstrap
 		}
 
 		return;
+	}
+
+	/**
+	 * Method to render a Bootstrap modal
+	 *
+	 * @param   string  $selector  The ID selector for the modal.
+	 * @param   array   $params    An array of options for the modal.
+	 * @param   string  $footer    Optional markup for the modal footer
+	 *
+	 * @return  string  HTML markup for a modal
+	 *
+	 * @since   3.0
+	 */
+	public static function renderModal($selector = 'modal', $params = array(), $footer = '')
+	{
+		// Ensure the behavior is loaded
+		self::modal($selector, $params);
+
+		$html = "<div class=\"modal hide fade\" id=\"" . $selector . "\">\n";
+		$html .= "<div class=\"modal-header\">\n";
+		$html .= "<button type=\"button\" class=\"close\" data-dismiss=\"modal\">×</button>\n";
+		$html .= "<h3>" . $params['title'] . "</h3>\n";
+		$html .= "</div>\n";
+		$html .= "<div id=\"" . $selector . "-container\">\n";
+		$html .= "</div>\n";
+		$html .= "</div>\n";
+
+		$html .= "<script>";
+		$html .= "jQuery('#" . $selector . "').on('show', function () {\n";
+		$html .= "document.getElementById('" . $selector . "-container').innerHTML = '<div class=\"modal-body\"><iframe class=\"iframe\" src=\"" . $params['url'] . "\" height=\"" . $params['height'] . "\" width=\"" . $params['width'] . "\"></iframe></div>" . $footer . "';\n";
+		$html .= "});\n";
+		$html .= "</script>";
+
+		return $html;
 	}
 
 	/**
@@ -420,7 +454,7 @@ abstract class JHtmlBootstrap
 	 */
 	public static function endAccordion()
 	{
-		return '</div></div>';
+		return '</div>';
 	}
 
 	/**
