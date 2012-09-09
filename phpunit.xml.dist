@@ -18,7 +18,7 @@
 	<filter>
 		<whitelist addUncoveredFilesFromWhitelist="true">
 			<directory suffix=".php">libraries/cms</directory>
-			<directory suffix=".php">administrator/includes</directory>
+			<file>administrator/includes/helper.php</file>
 		</whitelist>
 	</filter>
 </phpunit>
