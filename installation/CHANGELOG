@@ -34,6 +34,7 @@ $ -> Language fix or change
  # [#29111] Component Options don't redirect back to the component after save. Thanks Rouven
  # [#29077] Restore popup button behavior, add button for new slider behavior, implement it. Thanks Michael
  # [#29062] Remove unnecessary table creations from testing sampledata. Thanks Rouven
+ # [#29099] Drop the unused #__update_categories table. Thanks Rouven
 
 09-Sep-2012 Rouven Weßling
  # [#29127] Module save2copy dont work. Thanks Reinhard.

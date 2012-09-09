@@ -2,6 +2,9 @@
 ALTER TABLE `#__users` DROP KEY `usertype`;
 ALTER TABLE `#__session` DROP KEY `whosonline`;
 
+# Remove unused table
+DROP TABLE IF EXISTS `#__update_categories`;
+
 # Remove unused columns
 ALTER TABLE `#__contact_details` DROP `imagepos`;
 ALTER TABLE `#__content` DROP COLUMN `title_alias`;
@@ -16,6 +19,7 @@ ALTER TABLE `#__weblinks` DROP COLUMN `approved`;
 ALTER TABLE `#__menu` DROP COLUMN `ordering`;
 ALTER TABLE `#__session` DROP COLUMN `usertype`;
 ALTER TABLE `#__users` DROP COLUMN `usertype`;
+ALTER TABLE `#__updates` DROP COLUMN `categoryid`;
 
 # Unprotect a number of extensions
 UPDATE `#__extensions` SET protected = 0 WHERE
