@@ -9,12 +9,14 @@
 
 defined('_JEXEC') or die;
 
-$fieldSets = $this->form->getFieldsets('params');
+$fieldsets = $this->form->getFieldsets('params');
 
-foreach ($fieldSets as $name => $fieldSet) :
-	$label = !empty($fieldSet->label) ? $fieldSet->label : 'COM_TEMPLATES_'.$name.'_FIELDSET_LABEL';
-		if (isset($fieldSet->description) && trim($fieldSet->description)) :
-			echo '<p class="tip">'.$this->escape(JText::_($fieldSet->description)).'</p>';
+foreach ($fieldsets as $name => $fieldset) :
+	echo '<div class="tab-pane" id="options-'.$name.'">';
+	
+	$label = !empty($fieldset->label) ? $fieldset->label : 'COM_TEMPLATES_'.$name.'_FIELDSET_LABEL';
+		if (isset($fieldset->description) && trim($fieldset->description)) :
+			echo '<p class="tip">'.$this->escape(JText::_($fieldset->description)).'</p>';
 		endif;
 		?>
 		<?php foreach ($this->form->getFieldset($name) as $field) : ?>
@@ -29,4 +31,9 @@ foreach ($fieldSets as $name => $fieldSet) :
 				</div>
 			</div>
 		<?php endforeach; ?>
+		
+	<?php 
+		// closing the .tab-pane div 
+		echo '</div>'; 
+	?>
 <?php endforeach;  ?>

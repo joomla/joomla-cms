@@ -34,6 +34,9 @@ defined('_JEXEC') or die;
 			<?php endif; ?>
 		<?php endforeach; ?>
 		<?php echo $hidden_fields; ?>
-
-		<?php echo '</div>'; // .tab-pane div ?>
+		
+		<?php 
+			// Closing the .tab-pane div
+			echo '</div>'; 
+		?>
 	<?php endforeach; ?>
