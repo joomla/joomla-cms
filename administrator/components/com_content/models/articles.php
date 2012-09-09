@@ -61,7 +61,6 @@ class ContentModelArticles extends JModelList
 	protected function populateState($ordering = null, $direction = null)
 	{
 		$app = JFactory::getApplication();
-		$session = JFactory::getSession();
 
 		// Adjust the context to support modal layouts.
 		if ($layout = $app->input->get('layout'))

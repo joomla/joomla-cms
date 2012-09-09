@@ -98,9 +98,6 @@ class InstallerModelManage extends InstallerModel
 				$eid = array($eid);
 			}
 
-			// Get a database connector
-			$db = JFactory::getDBO();
-
 			// Get a table object for the extension type
 			$table = JTable::getInstance('Extension');
 			JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_templates/tables');
@@ -148,12 +145,8 @@ class InstallerModelManage extends InstallerModel
 			$eid = array($eid => 0);
 		}
 
-		// Get a database connector
-		$db = JFactory::getDBO();
-
 		// Get an installer object for the extension type
 		$installer = JInstaller::getInstance();
-		$row = JTable::getInstance('extension');
 		$result = 0;
 
 		// Uninstall the chosen extensions
@@ -184,9 +177,6 @@ class InstallerModelManage extends InstallerModel
 			if (!is_array($eid)) {
 				$eid = array($eid => 0);
 			}
-
-			// Get a database connector
-			$db = JFactory::getDBO();
 
 			// Get an installer object for the extension type
 			$installer = JInstaller::getInstance();

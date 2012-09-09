@@ -266,7 +266,6 @@ class ModulesModelModule extends JModelAdmin
 		// Set the variables
 		$user = JFactory::getUser();
 		$table = $this->getTable();
-		$i = 0;
 
 		foreach ($pks as $pk)
 		{
@@ -332,7 +331,7 @@ class ModulesModelModule extends JModelAdmin
 		$table	= $this->getTable();
 
 		// Iterate the items to delete each one.
-		foreach ($pks as $i => $pk)
+		foreach ($pks as $pk)
 		{
 			if ($table->load($pk))
 			{
