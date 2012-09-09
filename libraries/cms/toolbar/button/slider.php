@@ -40,7 +40,7 @@ class JToolbarButtonSlider extends JToolbarButton
 	 *
 	 * @since   3.0
 	 */
-	public function fetchButton($type = 'Popup', $name = '', $text = '', $url = '', $width = 640, $height = 480, $onClose = '')
+	public function fetchButton($type = 'Slider', $name = '', $text = '', $url = '', $width = 640, $height = 480, $onClose = '')
 	{
 		JHtml::script('jui/cms.js', false, true);
 
@@ -71,7 +71,7 @@ class JToolbarButtonSlider extends JToolbarButton
 	 */
 	public function fetchId($type, $name)
 	{
-		return $this->_parent->getName() . '-' . "popup-$name";
+		return $this->_parent->getName() . '-' . 'slider-' . $name;
 	}
 
 	/**
