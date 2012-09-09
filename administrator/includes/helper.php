@@ -30,6 +30,7 @@ class JAdministratorHelper
 		$app = JFactory::getApplication();
 		$option = strtolower($app->input->get('option'));
 
+		$app->loadIdentity();
 		$user = $app->getIdentity();
 		if ($user->get('guest') || !$user->authorise('core.login.admin'))
 		{
