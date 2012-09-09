@@ -134,8 +134,8 @@ JHtml::_('behavior.framework');
 		src="<?php echo htmlspecialchars($images->image_intro); ?>" alt="<?php echo htmlspecialchars($images->image_intro_alt); ?>"/> </div>
 	<?php endif; ?>
 	<?php echo $this->item->introtext; ?>
-	<?php if ($useDefList AND ($info == 1 OR $info == 2)) : ?>
 
+	<?php if ($useDefList AND ($info == 1 OR $info == 2)) : ?>
 		<div class="article-info muted">
 			<dl class="article-info">
 			<dt class="article-info-term"><?php  echo JText::_('COM_CONTENT_ARTICLE_INFO'); ?></dt>

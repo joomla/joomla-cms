@@ -157,16 +157,14 @@ if (!empty($this->item->pagination) AND $this->item->pagination && !$this->item-
 	src="<?php echo htmlspecialchars($images->image_fulltext); ?>" alt="<?php echo htmlspecialchars($images->image_fulltext_alt); ?>"/> </div>
 	<?php endif; ?>
 	<?php
-if (!empty($this->item->pagination) AND $this->item->pagination AND !$this->item->paginationposition AND !$this->item->paginationrelative):
-	echo $this->item->pagination;
-endif;
-?>
+	if (!empty($this->item->pagination) AND $this->item->pagination AND !$this->item->paginationposition AND !$this->item->paginationrelative):
+		echo $this->item->pagination;
+	endif;
+	?>
 	<?php if (isset ($this->item->toc)) :
 		echo $this->item->toc;
 	endif; ?>
 	<?php echo $this->item->text; ?>
-	<?php $useDefList = (($params->get('show_modify_date')) OR ($params->get('show_publish_date'))
-		OR ($params->get('show_hits'))); ?>
 	<?php if ($useDefList AND ($info == 1 OR $info == 2)) : ?>
 
 		<div class="article-info muted">
