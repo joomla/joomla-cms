@@ -30,6 +30,7 @@ $ -> Language fix or change
  # [#29093] Restore admin submenu items. Thanks Michael
  # [#29121] *The filter Select Status in Plugin Manager won't work
  # [#29119] Update the markup for the multilang status module. Thanks Michael
+ # [#29096] Apply bootstrap for view override of com language. Thanks Viet Vu
 
 09-Sep-2012 Rouven Weßling
  # [#29127] Module save2copy dont work. Thanks Reinhard.
