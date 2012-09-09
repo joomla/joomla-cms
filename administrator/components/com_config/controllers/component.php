@@ -46,7 +46,14 @@ class ConfigControllerComponent extends JControllerLegacy
 		$app = JFactory::getApplication();
 		$app->setUserState('com_config.config.global.data', null);
 
-		$this->setRedirect('index.php');
+		$return = $this->input->post->get('return', null, 'base64');
+		$redirect = 'index.php';
+		if (!empty($return))
+		{
+			$redirect = base64_decode($return);
+		}
+
+		$this->setRedirect($redirect);
 	}
 
 	/**
@@ -74,6 +81,12 @@ class ConfigControllerComponent extends JControllerLegacy
 			return;
 		}
 
+		$returnUri = $this->input->post->get('return', null, 'base64');
+		if (!empty($returnUri))
+		{
+			$redirect = '&return=' . urlencode($returnUri);
+		}
+
 		// Validate the posted data.
 		$return = $model->validate($form, $data);
 
@@ -95,7 +108,7 @@ class ConfigControllerComponent extends JControllerLegacy
 			$app->setUserState('com_config.config.global.data', $data);
 
 			// Redirect back to the edit screen.
-			$this->setRedirect(JRoute::_('index.php?option=com_config&view=component&component=' . $option, false));
+			$this->setRedirect(JRoute::_('index.php?option=com_config&view=component&component=' . $option . $redirect, false));
 			return false;
 		}
 
@@ -115,7 +128,7 @@ class ConfigControllerComponent extends JControllerLegacy
 
 			// Save failed, go back to the screen and display a notice.
 			$message = JText::sprintf('JERROR_SAVE_FAILED', $model->getError());
-			$this->setRedirect('index.php?option=com_config&view=component&component='  . $option, $message, 'error');
+			$this->setRedirect('index.php?option=com_config&view=component&component='  . $option . $redirect, $message, 'error');
 			return false;
 		}
 
@@ -124,12 +137,19 @@ class ConfigControllerComponent extends JControllerLegacy
 		{
 			case 'apply':
 				$message = JText::_('COM_CONFIG_SAVE_SUCCESS');
-				$this->setRedirect('index.php?option=com_config&view=component&component=' . $option, $message);
+
+				$this->setRedirect('index.php?option=com_config&view=component&component=' . $option . $redirect, $message);
 				break;
 
 			case 'save':
 			default:
-				$this->setRedirect('index.php');
+				$redirect = 'index.php';
+				if (!empty($returnUri))
+				{
+					$redirect = base64_decode($returnUri);
+				}
+
+				$this->setRedirect($redirect);
 				break;
 		}
 
