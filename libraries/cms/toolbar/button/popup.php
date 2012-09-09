@@ -10,7 +10,7 @@
 defined('JPATH_PLATFORM') or die;
 
 /**
- * Renders a popup window button
+ * Renders a modal window button
  *
  * @package     Joomla.Libraries
  * @subpackage  Toolbar
@@ -29,42 +29,65 @@ class JToolbarButtonPopup extends JToolbarButton
 	 * Fetch the HTML for the button
 	 *
 	 * @param   string   $type     Unused string, formerly button type.
-	 * @param   string   $name     Button name
+	 * @param   string   $name     Modal name, used to generate element ID
 	 * @param   string   $text     The link text
 	 * @param   string   $url      URL for popup
 	 * @param   integer  $width    Width of popup
 	 * @param   integer  $height   Height of popup
-	 * @param   integer  $top      Top attribute.
-	 * @param   integer  $left     Left attribute
+	 * @param   integer  $top      Top attribute.  [@deprecated  Unused, will be removed in 4.0]
+	 * @param   integer  $left     Left attribute. [@deprecated  Unused, will be removed in 4.0]
 	 * @param   string   $onClose  JavaScript for the onClose event.
+	 * @param   string   $title    The title text
 	 *
 	 * @return  string  HTML string for the button
 	 *
 	 * @since   3.0
 	 */
-	public function fetchButton($type = 'Popup', $name = '', $text = '', $url = '', $width = 640, $height = 480, $top = 0, $left = 0, $onClose = '')
+	public function fetchButton($type = 'Modal', $name = '', $text = '', $url = '', $width = 640, $height = 480, $top = 0, $left = 0,
+		$onClose = '', $title = '')
 	{
-		JHtml::script('jui/cms.js', false, true);
+		// If no $title is set, use the $text element
+		if (strlen($title) == 0)
+		{
+			$title = $text;
+		}
 
 		$text = JText::_($text);
-		$class = 'cog';
-		$doTask = $this->_getCommand($name, $url, $width, $height, $top, $left);
+		$title = JText::_($title);
+		$class = 'out-2';
+		$doTask = $this->_getCommand($url);
 
-		$html = "<button class=\"btn btn-small\" data-toggle=\"collapse\" data-target=\"#modal-" . $name . "\" rel=\"{onClose: function() {" . $onClose
-			. "}}\" onClick=\"Joomla.setcollapse('$url', '$name', '$height');\">\n";
-		$html .= "<i class=\"icon-$class\">\n";
+		$html = "<button class=\"btn btn-small modal\" data-toggle=\"modal\" data-target=\"#modal-" . $name . "\">\n";
+		$html .= "<i class=\"icon-" . $class . "\">\n";
 		$html .= "</i>\n";
 		$html .= "$text\n";
 
 		$html .= "</button>\n";
+
+		// Build the options array for the modal
+		$params = array();
+		$params['title']  = $title;
+		$params['url']    = $doTask;
+		$params['height'] = $height;
+		$params['width']  = $width;
+		$html .= JHtml::_('bootstrap.renderModal', 'modal-' . $name, $params);
+
+		// If an $onClose event is passed, add it to the modal JS object
+		if (strlen($onClose) >= 1)
+		{
+			$html .= "<script>\n";
+			$html .= "jQuery('#modal-" . $name . "').on('hide', function () {\n";
+			$html .= $onClose . ";\n";
+			$html .= "}";
+			$html .= ");";
+			$html .= "</script>\n";
+		}
 
 		return $html;
 	}
 
 	/**
 	 * Get the button id
-	 *
-	 * Redefined from JButton class
 	 *
 	 * @param   string  $type  Button type
 	 * @param   string  $name  Button name
@@ -81,18 +104,13 @@ class JToolbarButtonPopup extends JToolbarButton
 	/**
 	 * Get the JavaScript command for the button
 	 *
-	 * @param   string   $name    Button name
 	 * @param   string   $url     URL for popup
-	 * @param   integer  $width   Unused formerly width.
-	 * @param   integer  $height  Unused formerly height.
-	 * @param   integer  $top     Unused formerly top attribute.
-	 * @param   integer  $left    Unused formerly left attribure.
 	 *
 	 * @return  string   JavaScript command string
 	 *
 	 * @since   3.0
 	 */
-	protected function _getCommand($name, $url, $width, $height, $top, $left)
+	private function _getCommand($url)
 	{
 		if (substr($url, 0, 4) !== 'http')
 		{

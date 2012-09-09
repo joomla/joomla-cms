@@ -12,7 +12,7 @@ if (typeof(Joomla) === 'undefined') {
  * Sets the HTML of the container-collapse element
  */
 Joomla.setcollapse = function(url, name, height) {
-    if (!document.getElementById('modal-' + name)) {
-        document.getElementById('container-collapse').innerHTML = '<div class="collapse fade" id="modal-' + name + '"><iframe class="iframe" src="' + url + '" height="'+ height + '" width="100%"></iframe></div>';
+    if (!document.getElementById('collapse-' + name)) {
+        document.getElementById('container-collapse').innerHTML = '<div class="collapse fade" id="collapse-' + name + '"><iframe class="iframe" src="' + url + '" height="'+ height + '" width="100%"></iframe></div>';
     }
 }

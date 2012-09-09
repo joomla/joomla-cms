@@ -32,6 +32,7 @@ $ -> Language fix or change
  # [#29119] Update the markup for the multilang status module. Thanks Michael
  # [#29096] Apply bootstrap for view override of com language. Thanks Viet Vu
  # [#29111] Component Options don't redirect back to the component after save. Thanks Rouven
+ # [#29077] Restore popup button behavior, add button for new slider behavior, implement it. Thanks Michael
 
 09-Sep-2012 Rouven Weßling
  # [#29127] Module save2copy dont work. Thanks Reinhard.
