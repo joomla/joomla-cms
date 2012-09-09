@@ -17,7 +17,7 @@ $images  = json_decode($this->item->images);
 $urls    = json_decode($this->item->urls);
 $canEdit = $this->item->params->get('access-edit');
 $user    = JFactory::getUser();
-$info    = $this->item->params->get('info_block_position');
+$info    = $this->item->params->get('info_block_position',0);
 JHtml::_('behavior.caption');
 
 ?>

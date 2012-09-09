@@ -14,7 +14,7 @@ $params = &$this->item->params;
 $images = json_decode($this->item->images);
 $canEdit	= $this->item->params->get('access-edit');
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
-$info    = $this->item->params->get('info_block_position');
+$info    = $this->item->params->get('info_block_position',0);
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.framework');
 ?>
@@ -107,7 +107,7 @@ JHtml::_('behavior.framework');
 				</dd>
 			<?php endif; ?>
 
-			<?php if ($info == 1): ?>
+			<?php if ($info == 0): ?>
 				<?php if ($params->get('show_modify_date')) : ?>
 					<dd>
 						<div class="modified">
@@ -156,7 +156,7 @@ JHtml::_('behavior.framework');
 			<dt class="article-info-term"><?php  echo JText::_('COM_CONTENT_ARTICLE_INFO'); ?></dt>
 
 			<?php if ($info == 1): ?>
-				<?php if ($params->get('show_parent_category') && $this->item->parent_slug != '1:root') : ?>
+				<?php if ($params->get('show_parent_category') AND !empty($this->item->parent_slug)) : ?>
 					<dd>
 						<div class="parent-category-name">
 							<?php	$title = $this->escape($this->item->parent_title);
