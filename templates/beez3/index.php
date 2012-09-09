@@ -84,7 +84,7 @@ $doc->addScript($this->baseurl.'/templates/'.$this->template.'/javascript/respon
 			{
 				background:url('<?php echo $this->baseurl . '/' . htmlspecialchars($headerImage); ?>') no-repeat right;
 			}
-			body 
+			body
 			{
 				background: <?php echo $templateparams->get('backgroundcolor'); ?>;
 			}
@@ -221,7 +221,7 @@ $doc->addScript($this->baseurl.'/templates/'.$this->template.'/javascript/respon
                                 <footer id="footer">
 
                                         <jdoc:include type="modules" name="position-14" />
-                                        
+
 
                                 </footer><!-- end footer -->
 
