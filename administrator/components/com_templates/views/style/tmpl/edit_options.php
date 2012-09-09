@@ -32,5 +32,8 @@ foreach ($fieldsets as $name => $fieldset) :
 			</div>
 		<?php endforeach; ?>
 		
-	<?php echo '</div>'; // .tab-pane div ?>
+	<?php 
+		// closing the .tab-pane div 
+		echo '</div>'; 
+	?>
 <?php endforeach;  ?>
