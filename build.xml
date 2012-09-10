@@ -80,9 +80,10 @@
 	<target name="phpcs" description="Generate checkstyle.xml using PHP_CodeSniffer">
 		<exec executable="phpcs">
 			<arg value="--report=checkstyle" />
+			<arg value="--extensions=php,css" />
 			<arg value="--report-file=${basedir}/build/logs/checkstyle.xml" />
 			<arg value="--standard=${basedir}/build/phpcs/Joomla" />
-			<arg value="--ignore=${source}/phpmailer,${source}/phputf8,${source}/simplepie/,${source}/config.example.php" />
+			<arg value="--ignore=config.example.php" />
 			<arg path="${source}" />
 		</exec>
 	</target>
