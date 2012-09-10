@@ -13,7 +13,7 @@
 class JInstallerTest extends TestCase
 {
 	/**
-     * @var JSession
+     * @var JInstaller
      */
     protected $object;
 
