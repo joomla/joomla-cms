@@ -57,8 +57,8 @@ class plgContentGeshi extends JPlugin
 		$lang = JArrayHelper::getValue($args, 'lang', 'php');
 		$lines = JArrayHelper::getValue($args, 'lines', 'false');
 
-		$html_entities_match = array("|\<br \/\>|", "#<#", "#>#", "|&#39;|", '#&quot;#', '#&nbsp;#');
-		$html_entities_replace = array("\n", '&lt;', '&gt;', "'", '"', ' ');
+		$html_entities_match = array("|\<br \/\>|", "#<#", "#>#", "|&#39;|", "#&quot;#", "#&nbsp;#", "#&amp;#");
+		$html_entities_replace = array("\n", "&lt;", "&gt;", "'", '"', " ", "&");
 
 		$text = preg_replace($html_entities_match, $html_entities_replace, $text);
 
