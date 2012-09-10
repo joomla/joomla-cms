@@ -23,7 +23,6 @@ class JFormRuleBooleanTest extends TestCase
 	 */
 	public function setUp()
 	{
-		require_once JPATH_PLATFORM.'/joomla/form/rules/boolean.php';
 	}
 
 	/**

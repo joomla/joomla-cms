@@ -21,7 +21,6 @@ class JFormRuleTelTest extends TestCase
 	 */
 	public function setUp()
 	{
-		require_once JPATH_PLATFORM.'/joomla/form/rules/tel.php';
 	}
 
 	/**
