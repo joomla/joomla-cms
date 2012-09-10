@@ -231,7 +231,7 @@ class JTableNested extends JTable
 	 *
 	 * @param   integer  $delta  The direction and magnitude to move the row in the ordering sequence.
 	 * @param   string   $where  WHERE clause to use for limiting the selection of rows to compact the
-	 * ordering values.
+	 *                           ordering values.
 	 *
 	 * @return  mixed    Boolean true on success.
 	 *
@@ -1448,7 +1448,7 @@ class JTableNested extends JTable
 	 *                                   which to make room in the tree around for a new node.
 	 * @param   integer  $nodeWidth      The width of the node for which to make room in the tree.
 	 * @param   string   $position       The position relative to the reference node where the room
-	 * should be made.
+	 *                                   should be made.
 	 *
 	 * @return  mixed    Boolean false on failure or data object on success.
 	 *

@@ -88,7 +88,7 @@ class JApplication extends JApplicationBase
 	 * Class constructor.
 	 *
 	 * @param   array  $config  A configuration array including optional elements such as session
-	 * session_name, clientId and others. This is not exhaustive.
+	 *                          session_name, clientId and others. This is not exhaustive.
 	 *
 	 * @since   11.1
 	 */

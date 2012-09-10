@@ -811,7 +811,7 @@ abstract class JModelAdmin extends JModelForm
 	 *
 	 * @since   12.2
 	 */
-	protected function prepareTable($table)
+	protected function prepareTable(JTable $table)
 	{
 		// Derived class will provide its own implementation if required.
 	}

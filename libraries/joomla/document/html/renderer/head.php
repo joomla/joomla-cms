@@ -50,7 +50,7 @@ class JDocumentRendererHead extends JDocumentRenderer
 	 *
 	 * @since   11.1
 	 */
-	public function fetchHead($document)
+	public function fetchHead(JDocument $document)
 	{
 		// Trigger the onBeforeCompileHead event (skip for installation, since it causes an error)
 		$app = JFactory::getApplication();
