@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+10-Sept-2012 Jean-Marie Simonet
+ # [#29115] Wrong default frontend template. Thanks Peter.
+
 09-Sept-2012 Jean-Marie Simonet
  # [#29093] Restore admin submenu items. Thanks Michael
  # [#29121] *The filter Select Status in Plugin Manager won't work
