@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+11-Sept-2012 Jean-Marie Simonet
+ # Installation languages alpha ordering broken on hosts. Adding method. Thanks Dennis
+
 10-Sept-2012 Jean-Marie Simonet
  # [#29115] Wrong default frontend template. Thanks Peter.
 
