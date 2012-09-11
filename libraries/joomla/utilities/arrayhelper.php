@@ -242,7 +242,7 @@ abstract class JArrayHelper
 
 		if (is_array($array))
 		{
-			foreach ($array as $key => &$item)
+			foreach ($array as &$item)
 			{
 				if (is_array($item) && isset($item[$index]))
 				{

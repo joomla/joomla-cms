@@ -531,10 +531,6 @@ class JInstallerFile extends JAdapterInstance
 			$db->setQuery($query);
 			$db->execute();
 
-			// Set root folder names
-			$packagePath = $this->parent->getPath('source');
-			$jRootPath = JPath::clean(JPATH_ROOT);
-
 			// Loop through all elements and get list of files and folders
 			foreach ($xml->fileset->files as $eFiles)
 			{
@@ -662,9 +658,6 @@ class JInstallerFile extends JAdapterInstance
 		// Initialise variable
 		$this->folderList = array();
 		$this->fileList = array();
-
-		// Get fileset
-		$eFileset = $this->manifest->fileset->files;
 
 		// Set root folder names
 		$packagePath = $this->parent->getPath('source');

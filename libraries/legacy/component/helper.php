@@ -278,14 +278,13 @@ class JComponentHelper
 	 * Render the component.
 	 *
 	 * @param   string  $option  The component option.
-	 * @param   array   $params  The component parameters
 	 *
 	 * @return  object
 	 *
 	 * @since   11.1
 	 * @throws  Exception
 	 */
-	public static function renderComponent($option, $params = array())
+	public static function renderComponent($option)
 	{
 		$app = JFactory::getApplication();
 
@@ -324,8 +323,6 @@ class JComponentHelper
 		{
 			throw new Exception(JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'), 404);
 		}
-
-		$task = $app->input->getString('task');
 
 		// Load common and local language files.
 		$lang->load($option, JPATH_BASE, null, false, false) || $lang->load($option, JPATH_COMPONENT, null, false, false)

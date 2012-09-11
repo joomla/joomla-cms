@@ -125,12 +125,12 @@ class JExtension extends JObject
 				default:
 					// Catch all
 					// Get and set client and group if we don't recognise the extension
-					if ($client = (string) $element->attributes()->client)
+					if ($element->attributes()->client)
 					{
 						$this->client_id = JApplicationHelper::getClientInfo($this->client, 1);
 						$this->client_id = $this->client_id->id;
 					}
-					if ($group = (string) $element->attributes()->group)
+					if ($element->attributes()->group)
 					{
 						$this->group = (string) $element->attributes()->group;
 					}
