@@ -79,7 +79,7 @@ class JFormFieldLanguage extends JFormFieldList
 
 		return $options;
 	}
-	
+
 	/**
 	 * Method to sort languages by name.
 	 *
