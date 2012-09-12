@@ -1397,9 +1397,6 @@ class JInstaller extends JAdapter
 
 		$copyfiles = array();
 
-		// Get the client info
-		$client = JApplicationHelper::getClientInfo($cid);
-
 		// Here we set the folder we are going to copy the files to.
 		// Default 'media' Files are copied to the JPATH_BASE/media folder
 
@@ -1641,7 +1638,6 @@ class JInstaller extends JAdapter
 			return true;
 		}
 
-		$removefiles = array();
 		$retval = true;
 
 		$debug = false;
