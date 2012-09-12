@@ -145,7 +145,7 @@ class plgUserJoomla extends JPlugin
 			$options['group'] = 'USERS';
 		}
 
-		// Chek the user can login.
+		// Check the user can login.
 		$result	= $instance->authorise($options['action']);
 		if (!$result) {
 
