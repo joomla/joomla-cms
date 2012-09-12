@@ -358,7 +358,7 @@ if ($showhelp == 1)
 		new JMenuNode(JText::_('MOD_MENU_AYUDA_FORO_JUUNTOS'), 'http://juuntos.org/foro.html', 'class:help-forum', false, '_blank')
 	);
 	$menu->addChild(
-		new JMenuNode(JText::_('MOD_MENU_AYUDA_DOCUMENTACION'), 'http://jdocs.juuntos.net', 'class:help-docs', false, '_blank')
+		new JMenuNode(JText::_('MOD_MENU_AYUDA_DOCUMENTACION'), 'http://jdoc.juuntos.net', 'class:help-docs', false, '_blank')
 	);
 	$menu->addSeparator();
 	
