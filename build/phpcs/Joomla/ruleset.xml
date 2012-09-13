@@ -103,6 +103,15 @@
 
  <rule ref="Squiz.Scope.StaticThisUsage"/>
 
+ <rule ref="Squiz.WhiteSpace.ScopeClosingBrace">
+ <!-- These exceptions are temporary -->
+  <exclude-pattern>/administrator/components/*</exclude-pattern>
+  <exclude-pattern>/components/*</exclude-pattern>
+  <exclude-pattern>/plugins/*</exclude-pattern>
+  <exclude-pattern>/modules/*</exclude-pattern>
+  <exclude-pattern>/templates/*</exclude-pattern>
+ </rule>
+
  <!-- Lines can be 85 chars long, but never show errors -->
  <rule ref="Generic.Files.LineLength">
   <properties>
