@@ -85,7 +85,6 @@ JText::script('INSTL_FTP_SETTINGS_CORRECT');
 			function initElements() {
 				(function($){
 					$('*[rel=tooltip]').tooltip()
-					$('*[rel=popover]').popover()
 
 					// Chosen select boxes
 					$("select").chosen({

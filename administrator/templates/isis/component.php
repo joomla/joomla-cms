@@ -47,7 +47,6 @@ endif;
 		(function($){
 			$('*[rel=tooltip]').tooltip()
 			$('.tip-bottom').tooltip({placement: "bottom"})
-			$('*[rel=popover]').popover()
 
 		    // Chosen select boxes
 		    $("select").chosen({disable_search_threshold : 10 });

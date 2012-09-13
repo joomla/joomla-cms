@@ -269,11 +269,10 @@ abstract class JHtmlBootstrap
 	 *
 	 * @since   3.0
 	 */
-	public static function popover($selector = '[rel=popover]', $params = array())
+	public static function popover($selector = '.hasPopover', $params = array())
 	{
 		// Only load once
-		$sig = md5(serialize(array($selector, $params)));
-		if (isset(self::$loaded[__METHOD__][$sig]))
+		if (isset(self::$loaded[__METHOD__][$selector]))
 		{
 			return;
 		}
@@ -281,25 +280,25 @@ abstract class JHtmlBootstrap
 		// Include Bootstrap framework
 		self::framework();
 
-		$opt['animation'] = isset($params['animation']) ? $params['animation'] : true;
-		$opt['html']      = isset($params['html']) ? $params['html'] : true;
-		$opt['placement'] = isset($params['placement']) ? $params['placement'] : 'top';
-		$opt['selector']  = isset($params['selector']) ? $params['selector'] : false;
-		$opt['title']     = isset($params['title']) ? $params['title'] : '';
+		$opt['animation'] = isset($params['animation']) ? $params['animation'] : null;
+		$opt['html']      = isset($params['html']) ? $params['html'] : null;
+		$opt['placement'] = isset($params['placement']) ? $params['placement'] : null;
+		$opt['selector']  = isset($params['selector']) ? $params['selector'] : null;
+		$opt['title']     = isset($params['title']) ? $params['title'] : null;
 		$opt['trigger']   = isset($params['trigger']) ? $params['trigger'] : 'hover';
-		$opt['content']   = isset($params['content']) ? $params['content'] : '';
-		$opt['delay']     = isset($params['delay']) ? $params['delay'] : 0;
+		$opt['content']   = isset($params['content']) ? $params['content'] : null;
+		$opt['delay']     = isset($params['delay']) ? $params['delay'] : null;
 
 		$options = JHtml::getJSObject($opt);
 
 		// Attach the popover to the document
 		JFactory::getDocument()->addScriptDeclaration(
-			"(function($){
-				$('#$selector').popover($options);
-				})(jQuery);"
+			"jQuery(document).ready(function() {
+				jQuery('" . $selector . "').popover(" . $options . ");
+			});"
 		);
 
-		self::$loaded[__METHOD__][$sig] = true;
+		self::$loaded[__METHOD__][$selector] = true;
 
 		return;
 	}

@@ -30,6 +30,7 @@ $ -> Language fix or change
  # [#29144] error.php for Isis and Protostar Templates. Thanks Kyle
  # [#29139] *RTL incorrect display in new module creation window
  # [#29140] *RTL incorrect display when selecting a menu item type
+ # [#29135] Improve popover loading. Thanks Rouven
 
 11-Sept-2012 Jean-Marie Simonet
  # Installation languages alpha ordering broken on hosts. Adding method. Thanks Dennis
