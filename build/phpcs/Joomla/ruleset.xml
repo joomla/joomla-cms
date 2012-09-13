@@ -66,24 +66,20 @@
 
  <rule ref="Generic.Functions.FunctionCallArgumentSpacing"/>
  <rule ref="PEAR.Functions.ValidDefaultValue">
-  <!-- We only want this for cli, language, includes and joomla-platform for now -->
-  <exclude-pattern>/administrator/*</exclude-pattern>
+  <!-- These exceptions are temporary for now -->
+  <exclude-pattern>/administrator/components/*</exclude-pattern>
   <exclude-pattern>/components/*</exclude-pattern>
-  <exclude-pattern>/plugins/*</exclude-pattern>
   <exclude-pattern>/modules/*</exclude-pattern>
-  <exclude-pattern>/installation/*</exclude-pattern>
   <exclude-pattern>/libraries/cms/*</exclude-pattern>
-  <exclude-pattern>/templates/*</exclude-pattern>
  </rule>
 
  <rule ref="PEAR.NamingConventions.ValidClassName">
-  <!-- We only want this for libraries, cli and includes for now -->
-  <exclude-pattern>/administrator/*</exclude-pattern>
+  <!-- These exceptions are temporary -->
+  <exclude-pattern>/administrator/components/*</exclude-pattern>
+  <exclude-pattern>/administrator/modules/*</exclude-pattern>
   <exclude-pattern>/components/*</exclude-pattern>
   <exclude-pattern>/plugins/*</exclude-pattern>
   <exclude-pattern>/modules/*</exclude-pattern>
-  <exclude-pattern>/installation/*</exclude-pattern>
-  <exclude-pattern>/templates/*</exclude-pattern>
   <exclude-pattern>/language/*</exclude-pattern>
  </rule>
  <rule ref="Generic.NamingConventions.UpperCaseConstantName"/>
@@ -93,12 +89,9 @@
  <rule ref="Generic.PHP.ForbiddenFunctions"/>
 
  <rule ref="Squiz.Operators.IncrementDecrementUsage">
-  <!-- We only want this for libraries, language, cli and includes for now -->
-  <exclude-pattern>/administrator/*</exclude-pattern>
-  <exclude-pattern>/components/*</exclude-pattern>
+  <!-- These exceptions are temporary -->
+  <exclude-pattern>/administrator/components/*</exclude-pattern>
   <exclude-pattern>/plugins/*</exclude-pattern>
-  <exclude-pattern>/modules/*</exclude-pattern>
-  <exclude-pattern>/installation/*</exclude-pattern>
  </rule>
 
  <rule ref="Squiz.Scope.StaticThisUsage"/>
@@ -190,18 +183,22 @@
   <exclude-pattern>/plugins/*</exclude-pattern>
   <exclude-pattern>/modules/*</exclude-pattern>
   <exclude-pattern>/installation/*</exclude-pattern>
-  <exclude-pattern>/templates/*</exclude-pattern>
   <exclude-pattern>/includes/*</exclude-pattern>
+  <!-- These exceptions are permanent -->
+  <exclude-pattern>*/tmpl/*</exclude-pattern>
+  <exclude-pattern>/templates/*</exclude-pattern>
+  <exclude-pattern>/installation/template/index.php</exclude-pattern>
  </rule>
 
  <rule ref="Joomla.ControlStructures.InlineControlStructure">
-  <!-- We only want this for cli, language and libraries for now -->
-  <exclude-pattern>/administrator/*</exclude-pattern>
+  <!-- These exceptions are temporary -->
+  <exclude-pattern>/administrator/components/*</exclude-pattern>
   <exclude-pattern>/components/*</exclude-pattern>
-  <exclude-pattern>/plugins/*</exclude-pattern>
-  <exclude-pattern>/modules/*</exclude-pattern>
   <exclude-pattern>/installation/*</exclude-pattern>
+  <!-- These exceptions are permanent -->
+  <exclude-pattern>*/tmpl/*</exclude-pattern>
   <exclude-pattern>/templates/*</exclude-pattern>
+  <exclude-pattern>/installation/template/index.php</exclude-pattern>
  </rule>
 
  <rule ref="Joomla.ControlStructures.MultiLineCondition">
@@ -211,6 +208,9 @@
   <exclude-pattern>/plugins/*</exclude-pattern>
   <exclude-pattern>/modules/*</exclude-pattern>
   <exclude-pattern>/installation/*</exclude-pattern>
+  <!-- These exceptions are permanent -->
+  <exclude-pattern>*/tmpl/*</exclude-pattern>
   <exclude-pattern>/templates/*</exclude-pattern>
+  <exclude-pattern>/installation/template/index.php</exclude-pattern>
  </rule>
 </ruleset>
