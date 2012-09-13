@@ -65,7 +65,7 @@ else
 	{
 	?>
 		<link rel="stylesheet" href="<?php echo $this->baseurl ?>/media/jui/css/bootstrap-rtl.css" type="text/css" />
-	<?php	
+	<?php
 	}
 	// Use of Google Font
 	if ($params->get('googleFont'))
@@ -168,9 +168,9 @@ else
 							<div class="span6">
 								<p><strong><?php echo JText::_('JERROR_LAYOUT_SEARCH'); ?></strong></p>
 								<p><?php echo JText::_('JERROR_LAYOUT_SEARCH_PAGE'); ?></p>
-								<?php 
+								<?php
 									$module = JModuleHelper::getModule('search');
-									echo JModuleHelper::renderModule($module);	
+									echo JModuleHelper::renderModule($module);
 								?>
 								<p><?php echo JText::_('JERROR_LAYOUT_GO_TO_THE_HOME_PAGE'); ?></p>
 								<p><a href="<?php echo $this->baseurl; ?>" class="btn"><i class="icon-home"></i> <?php echo JText::_('JERROR_LAYOUT_HOME_PAGE'); ?></a></p>

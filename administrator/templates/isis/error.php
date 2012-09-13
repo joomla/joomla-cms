@@ -2,9 +2,9 @@
 /**
  * @package     Joomla.Administrator
  * @subpackage  Templates.isis
+ *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
- * @since       3.0
  */
 
 defined('_JEXEC') or die;
@@ -71,7 +71,7 @@ else
 	{
 	?>
 		<link rel="stylesheet" href="<?php echo JURI::root() ?>/media/jui/css/bootstrap-rtl.css" type="text/css" />
-	<?php	
+	<?php
 	}
 	// Load specific language related CSS
 	$file = 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css';
@@ -89,7 +89,7 @@ else
 	<?php
 	}
 	?>
-	
+
 	<link href="<?php echo $this->baseurl ?>/templates/<?php echo $this->template; ?>/favicon.ico" rel="shortcut icon" type="image/vnd.microsoft.icon" />
 	<?php
 	// Template color
