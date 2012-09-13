@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+13-Sept-2012 Rouven Weßling
+ # [#29149] html5 validation is failing. Thanks Jean-Marie.
+
 13-Sept-2012 Jean-Marie Simonet
  # [#29144] error.php for Isis and Protostar Templates. Thanks Kyle
  # [#29139] *RTL incorrect display in new module creation window
