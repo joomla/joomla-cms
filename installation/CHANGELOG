@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+13-Sept-2012 Jean-Marie Simonet
+ # [#29144] error.php for Isis and Protostar Templates. Thanks Kyle
+
 11-Sept-2012 Jean-Marie Simonet
  # Installation languages alpha ordering broken on hosts. Adding method. Thanks Dennis
 

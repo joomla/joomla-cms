@@ -9,6 +9,9 @@
 
 defined('_JEXEC') or die;
 
+// Getting params from template
+$params = JFactory::getApplication()->getTemplate(true)->params;
+
 $app   = JFactory::getApplication();
 $doc   = JFactory::getDocument();
 $lang  = JFactory::getLanguage();
@@ -20,22 +23,6 @@ $user  = JFactory::getUser();
 // Add JavaScript Frameworks
 JHtml::_('bootstrap.framework');
 JHtml::_('jquery.ui');
-
-// Add Stylesheets
-$doc->addStyleSheet('templates/' . $this->template . '/css/template.css');
-
-// If Right-to-Left
-if ($this->direction === 'rtl')
-{
-	$doc->addStyleSheet('../media/jui/css/bootstrap-rtl.css');
-}
-
-// Load specific language related CSS
-$file = 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css';
-if (is_file($file))
-{
-	$doc->addStyleSheet($file);
-}
 
 // Detecting Active Variables
 $option   = $input->get('option', '');
@@ -60,9 +47,9 @@ foreach ($this->submenumodules as $submenumodule)
 }
 
 // Logo file
-if ($this->params->get('logoFile'))
+if ($params->get('logoFile'))
 {
-	$logo = JURI::root() . $this->params->get('logoFile');
+	$logo = JURI::root() . $params->get('logoFile');
 }
 else
 {
@@ -73,16 +60,46 @@ else
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<jdoc:include type="head" />
+	<title><?php echo $this->title; ?> <?php echo $this->error->getMessage();?></title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta name="language" content="<?php echo $this->language; ?>" />
+	<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/<?php echo $this->template; ?>/css/template.css" type="text/css" />
+	<?php
+	// If Right-to-Left
+	if ($this->direction == 'rtl')
+	{
+	?>
+		<link rel="stylesheet" href="<?php echo JURI::root() ?>/media/jui/css/bootstrap-rtl.css" type="text/css" />
+	<?php	
+	}
+	// Load specific language related CSS
+	$file = 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css';
+	if (is_file($file))
+	{
+	?>
+		<link rel="stylesheet" href="<?php echo $file;?>" type="text/css" />
+	<?php
+	}
+	// Use of Google Font
+	if ($params->get('googleFont'))
+	{
+	?>
+		<link href='http://fonts.googleapis.com/css?family=<?php echo $params->get('googleFontName');?>' rel='stylesheet' type='text/css'>
+	<?php
+	}
+	?>
+	
+	<link href="<?php echo $this->baseurl ?>/templates/<?php echo $this->template; ?>/favicon.ico" rel="shortcut icon" type="image/vnd.microsoft.icon" />
 	<?php
 	// Template color
-	if ($this->params->get('templateColor'))
+	if ($params->get('templateColor'))
 	{
 	?>
 	<style type="text/css">
 		.header, .navbar-inner, .navbar-inverse .navbar-inner, .nav-list > .active > a, .nav-list > .active > a:hover, .dropdown-menu li > a:hover, .dropdown-menu .active > a, .dropdown-menu .active > a:hover, .navbar-inverse .nav li.dropdown.open > .dropdown-toggle, .navbar-inverse .nav li.dropdown.active > .dropdown-toggle, .navbar-inverse .nav li.dropdown.open.active > .dropdown-toggle
 		{
-			background: <?php echo $this->params->get('templateColor');?>;
+			background: <?php echo $params->get('templateColor');?>;
 		}
 		.navbar-inner, .navbar-inverse .nav li.dropdown.open > .dropdown-toggle, .navbar-inverse .nav li.dropdown.active > .dropdown-toggle, .navbar-inverse .nav li.dropdown.open.active > .dropdown-toggle{
 			-moz-box-shadow: 0 1px 3px rgba(0, 0, 0, .25), inset 0 -1px 0 rgba(0, 0, 0, .1), inset 0 30px 10px rgba(0, 0, 0, .2);
@@ -93,14 +110,17 @@ else
 	<?php
 	}
 	?>
+	<script src="<?php echo JURI::root() ?>/media/jui/js/jquery.min.js" type="text/javascript"></script>
+	<script src="<?php echo JURI::root() ?>/media/jui/js/jquery-noconflict.js" type="text/javascript"></script>
+	<script src="<?php echo JURI::root() ?>/media/jui/js/bootstrap.min.js" type="text/javascript"></script>
 </head>
 
-<body class="admin <?php echo $option . " view-" . $view . " layout-" . $layout . " task-" . $task . " itemid-" . $itemid . " ";?>" data-spy="scroll" data-target=".subhead" data-offset="87">
+<body class="admin <?php echo $option . " view-" . $view . " layout-" . $layout . " task-" . $task . " ";?>" data-spy="scroll" data-target=".subhead" data-offset="87">
 	<!-- Top Navigation -->
 	<nav class="navbar navbar-inverse navbar-fixed-top">
 		<div class="navbar-inner">
 			<div class="container-fluid">
-				<?php if ($this->params->get('admin_menus') != '0') : ?>
+				<?php if ($params->get('admin_menus') != '0') : ?>
 					<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
@@ -108,12 +128,21 @@ else
 					</a>
 				<?php endif; ?>
 				<a class="brand" href="<?php echo JURI::root(); ?>" title="<?php echo JText::_('JGLOBAL_PREVIEW');?> <?php echo $sitename; ?>" target="_blank"><?php echo JHtml::_('string.truncate', $sitename, 14, false, false);?> <i class="icon-out-2 small"></i></a>
-				<?php if ($this->params->get('admin_menus') != '0') : ?>
+				<?php if ($params->get('admin_menus') != '0') : ?>
 				<div class="nav-collapse">
 				<?php else : ?>
 				<div>
 				<?php endif; ?>
-					<jdoc:include type="modules" name="menu" style="none" />
+					<?php
+					// Display menu modules
+					$this->menumodules = JModuleHelper::getModules('menu');
+					foreach ($this->menumodules as $menumodule) {
+						$output = JModuleHelper::renderModule($menumodule, array('style' => 'none'));
+						$params = new JRegistry;
+						$params->loadString($menumodule->params);
+						echo $output;
+					}
+					?>
 					<ul class="<?php if ($this->direction == 'rtl') : ?>nav<?php else : ?>nav pull-right<?php endif; ?>">
 						<li class="dropdown"> <a class="dropdown-toggle" data-toggle="dropdown" href="#"><?php echo $user->username; ?> <b class="caret"></b></a>
 							<ul class="dropdown-menu">
@@ -136,76 +165,50 @@ else
 					<a class="logo" href="<?php echo $this->baseurl; ?>"><img src="<?php echo $logo;?>" alt="<?php echo $sitename; ?>" /></a>
 				</div>
 				<div class="span10">
-					<h1 class="page-title"><?php echo JHtml::_('string.truncate', $app->JComponentTitle, 40, false, false);?></h1>
+					<h1 class="page-title"><?php echo JText::_('ERROR'); ?></h1>
 				</div>
 			</div>
 		</div>
 	</header>
-	<?php
-	if (!$cpanel):
-	?>
-	<!-- Subheader -->
-	<a class="btn btn-subhead" data-toggle="collapse" data-target=".subhead-collapse"><?php echo JText::_('TPL_ISIS_TOOLBAR');?> <i class="icon-wrench"></i></a>
-	<div class="subhead-collapse">
-		<div class="subhead">
-			<div class="container-fluid">
-				<div id="container-collapse" class="container-collapse"></div>
-				<div class="row-fluid">
-					<div class="span12">
-						<jdoc:include type="modules" name="toolbar" style="no" />
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<?php
-	else:
-	?>
-	<div style="margin-bottom: 20px"></div>
-	<?php
-	endif;
-	?>
+	<div class="subhead-spacer" style="margin-bottom: 20px"></div>
 	<!-- container-fluid -->
 	<div class="container-fluid container-main">
 		<section id="content">
 			<!-- Begin Content -->
-			<jdoc:include type="modules" name="top" style="xhtml" />
 			<div class="row-fluid">
-				<?php if ($showSubmenu) : ?>
-					<div class="span2">
-						<jdoc:include type="modules" name="submenu" style="none" />
-					</div>
-					<div class="span10">
-				<?php else : ?>
 					<div class="span12">
-				<?php endif; ?>
-						<jdoc:include type="message" />
-						<jdoc:include type="component" />
+						<!-- Begin Content -->
+						<h1 class="page-header"><?php echo JText::_('JERROR_AN_ERROR_HAS_OCCURRED'); ?></h1>
+						<blockquote>
+							<span class="label label-inverse"><?php echo $this->error->getCode(); ?></span> <?php echo $this->error->getMessage();?>
+						</blockquote>
+						<p><a href="<?php echo $this->baseurl; ?>" class="btn"><i class="icon-dashboard"></i> <?php echo JText::_('JGLOBAL_TPL_CPANEL_LINK_TEXT'); ?></a></p>
+						<!-- End Content -->
 					</div>
 			</div>
-			<jdoc:include type="modules" name="bottom" style="xhtml" />
 			<!-- End Content -->
 		</section>
 		<hr />
-		<?php if (!$this->countModules('status')): ?>
-			<footer class="footer">
-				<p>&copy; <?php echo $sitename; ?> <?php echo date('Y');?></p>
-			</footer>
-		<?php endif; ?>
 	</div>
-	<?php if ($this->countModules('status')): ?>
 	<!-- Begin Status Module -->
 	<div id="status" class="navbar navbar-fixed-bottom hidden-phone">
 		<div class="btn-toolbar">
 			<div class="btn-group pull-right">
 				<p>&copy; <?php echo $sitename; ?> <?php echo date('Y');?></p>
 			</div>
-			<jdoc:include type="modules" name="status" style="no" />
+			<?php
+			// Display status modules
+			$this->statusmodules = JModuleHelper::getModules('status');
+			foreach ($this->statusmodules as $statusmodule) {
+				$output = JModuleHelper::renderModule($statusmodule, array('style' => 'no'));
+				$params = new JRegistry;
+				$params->loadString($statusmodule->params);
+				echo $output;
+			}
+			?>
 		</div>
 	</div>
 	<!-- End Status Module -->
-	<?php endif; ?>
-	<jdoc:include type="modules" name="debug" style="none" />
 	<script>
 		(function($){
 			$('*[rel=tooltip]').tooltip()
