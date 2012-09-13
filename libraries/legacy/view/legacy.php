@@ -484,7 +484,7 @@ class JViewLegacy extends JObject
 	 *
 	 * @since   12.2
 	 */
-	public function setModel(JModelLegacy $model, $default = false)
+	public function setModel($model, $default = false)
 	{
 		$name = strtolower($model->getName());
 		$this->_models[$name] = $model;
