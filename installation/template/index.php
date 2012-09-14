@@ -41,9 +41,8 @@ JText::script('INSTL_FTP_SETTINGS_CORRECT');
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 	<head>
 		<jdoc:include type="head" />
-
-		<!--[if IE 7]>
-			<link href="template/css/ie7.css" rel="stylesheet" type="text/css" />
+		<!--[if lt IE 9]>
+			<script src="../media/jui/js/html5.js"></script>
 		<![endif]-->
 		<script type="text/javascript">
 			window.addEvent('domready', function() {

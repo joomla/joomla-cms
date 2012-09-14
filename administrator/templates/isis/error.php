@@ -113,6 +113,9 @@ else
 	<script src="<?php echo JURI::root() ?>/media/jui/js/jquery.min.js" type="text/javascript"></script>
 	<script src="<?php echo JURI::root() ?>/media/jui/js/jquery-noconflict.js" type="text/javascript"></script>
 	<script src="<?php echo JURI::root() ?>/media/jui/js/bootstrap.min.js" type="text/javascript"></script>
+	<!--[if lt IE 9]>
+		<script src="../media/jui/js/html5.js"></script>
+	<![endif]-->
 </head>
 
 <body class="admin <?php echo $option . " view-" . $view . " layout-" . $layout . " task-" . $task . " ";?>" data-spy="scroll" data-target=".subhead" data-offset="87">

@@ -29,6 +29,7 @@ $ -> Language fix or change
 16-Sept-2012 Rouven Weßling
  # [#29196] Plugin quickicon Joomlaupdate links to com_installer. Thanks Janich.
  # [#29202] Plugins manager Status filter does not work. Thanks Yannick.
+ # [#29174] HTML5 Shim Added To All Templates. Thanks Kyle.
 
 15-Sep-2012 Mark Dexter
  # [#28485] Joomla search module html needs looking at. Thanks Jason Williams.

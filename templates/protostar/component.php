@@ -19,6 +19,9 @@ $this->direction = $doc->direction;
 <head>
 <jdoc:include type="head" />
 <link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/<?php echo $this->template ?>/css/template.css" type="text/css" />
+<!--[if lt IE 9]>
+	<script src="<?php echo $this->baseurl ?>/media/jui/js/html5.js"></script>
+<![endif]-->
 </head>
 <body class="contentpane modal">
 	<jdoc:include type="message" />
