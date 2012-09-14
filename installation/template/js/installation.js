@@ -7,6 +7,7 @@
 
 var Installation = new Class({
     initialize: function(container, base) {
+        this.sampleDataLoaded = false;
         this.busy = false;
         this.container = container;
         this.spinner = new Spinner(this.container);
@@ -30,9 +31,13 @@ var Installation = new Class({
 			return false;
 		}
 
+		if (form.task.value == 'setup.site') {
+			$('setlanguage').value = $$('html').getProperty('lang')[0];
+		}
+
 		var req = new Request.JSON({
-			url: this.baseUrl + '?format=json',
-			data: form,
+			method: 'post',
+			url: this.baseUrl,
 			onRequest: function() {
 				this.spinner.show(true);
 				this.busy = true;
@@ -59,7 +64,8 @@ var Installation = new Class({
 					alert(r.message);
 				}
 			}.bind(this)
-		}).send();
+		});
+		req.post(form.toQueryString()+'&task='+form.task.value+'&format=json');
 
 		return false;
 	},
@@ -73,8 +79,8 @@ var Installation = new Class({
 		}
 
 		var req = new Request.JSON({
-			url: this.baseUrl + '?format=json',
-			data: form,
+			method: 'post',
+			url: this.baseUrl,
 			onRequest: function() {
 				this.spinner.show(true);
 				this.busy = true;
@@ -101,15 +107,17 @@ var Installation = new Class({
 					alert(r.message);
 				}
 			}.bind(this)
-		}).send();
+		});
+		req.post(form.toQueryString()+'&task=setup.setlanguage&format=json');
 
 		return false;
 	},
 
 	goToPage: function(page, fromSubmit) {
+		var url = this.baseUrl+'?tmpl=body&view='+page;
 		var req = new Request.HTML({
 			method: 'get',
-			url: this.baseUrl + '?tmpl=body&view=' + page,
+			url: url,
 			update: this.container,
 			onRequest: function() {
 				if (!fromSubmit) {
@@ -140,7 +148,6 @@ var Installation = new Class({
 		if (!tasks.length) {
 			progress.setStyle('width',(progress.getStyle('width').toFloat()+(step_width*3))+'%');
 			this.goToPage('complete');
-			return;
 		}
 
 		if (!step_width) {
@@ -150,15 +157,17 @@ var Installation = new Class({
 		var task = tasks.shift();
 		var form = document.id('adminForm');
 		var tr = document.id('install_'+task);
+		var spinner = tr.getElement('div.spinner');
 
 		var req = new Request.JSON({
-			url: this.baseUrl + '?task=setup.install_' + task + '&format=json',
-			data: form,
+			method: 'post',
+			url: 'index.php?'+form.toQueryString(),
+			data: {'task':'setup.install_'+task, 'format':'json'},
 			onRequest: function() {
 				progress.setStyle('width',(progress.getStyle('width').toFloat()+step_width)+'%');
 				tr.addClass('active');
-				this.spinner.show(true);
-			}.bind(this),
+				spinner.setStyle('visibility','visible');
+			},
 			onSuccess: function(r) {
 				Joomla.replaceTokens(r.token);
 				if (r.messages) {
@@ -167,13 +176,13 @@ var Installation = new Class({
 				} else {
 					progress.setStyle('width',(progress.getStyle('width').toFloat()+(step_width*10))+'%');
 					tr.removeClass('active');
-					this.spinner.hide(true);
+					spinner.setStyle('visibility','hidden');
 
 					this.install(tasks, step_width);
 				}
 			}.bind(this),
 			onError: function(text, error) {
-				Joomla.renderMessages([['',Joomla.JText._('JLIB_DATABASE_ERROR_DATABASE_CONNECT', 'A Database error occurred.')]]);
+				Joomla.renderMessages([['',Joomla.JText._('JLIB_DATABASE_ERROR_DATABASE', 'A Database error occurred.')]]);
 				Install.goToPage('summary');
 			}.bind(this),
 			onFailure: function(xhr) {
@@ -187,13 +196,71 @@ var Installation = new Class({
 	},
 
 	/**
+ 	 * Method to install sample data via AJAX request.
+	 */
+	sampleData: function(el, filename) {
+		this.busy = true;
+		sample_data_spinner = new Spinner('collapseSample');
+		sample_data_spinner.show(true);
+		el = document.id(el);
+		filename = document.id(filename);
+		var req = new Request.JSON({
+			method: 'get',
+			url: 'index.php?'+document.id(el.form).toQueryString(),
+			data: {'task':'setup.loadSampleData', 'format':'json'},
+			onRequest: function() {
+				el.set('disabled', 'disabled');
+				filename.set('disabled', 'disabled');
+				document.id('theDefaultError').setStyle('display','none');
+			},
+			onSuccess: function(r) {
+				if (r) {
+					Joomla.replaceTokens(r.token);
+					this.sampleDataLoaded = r.data.sampleDataLoaded;
+					if (r.error == false) {
+						el.set('text', Joomla.JText._('INSTL_SITE_SAMPLE_LOADED', 'Sample Data Installed Successfully.'));
+						el.set('onclick','');
+						el.set('disabled', 'disabled');
+						filename.set('disabled', 'disabled');
+					} else {
+						document.id('theDefaultError').setStyle('display','block');
+						document.id('theDefaultErrorMessage').set('html', r.message);
+						el.set('disabled', '');
+						filename.set('disabled', '');
+					}
+				} else {
+					document.id('theDefaultError').setStyle('display','block');
+					document.id('theDefaultErrorMessage').set('html', response );
+					el.set('disabled', 'disabled');
+					filename.set('disabled', 'disabled');
+				}
+				this.busy = false;
+				sample_data_spinner.hide(true);
+			}.bind(this),
+			onFailure: function(xhr) {
+				var r = JSON.decode(xhr.responseText);
+				if (r) {
+					Joomla.replaceTokens(r.token);
+					document.id('theDefaultError').setStyle('display','block');
+					document.id('theDefaultErrorMessage').set('html', r.message);
+				}
+				el.set('disabled', '');
+				filename.set('disabled', '');
+				this.busy = false;
+				sample_data_spinner.hide(true);
+			}
+		}).send();
+	},
+
+	/**
  	 * Method to detect the FTP root via AJAX request.
  	 */
 	detectFtpRoot: function(el) {
 		el = document.id(el);
 		var req = new Request.JSON({
-			url: this.baseUrl + '?task=setup.detectFtpRoot&format=json',
-			data: document.id(el.form),
+			method: 'get',
+			url: 'index.php?'+document.id(el.form).toQueryString(),
+			data: {'task':'setup.detectFtpRoot', 'format':'json'},
 			onRequest: function() {
 				el.set('disabled', 'disabled');
 			},
@@ -224,8 +291,9 @@ var Installation = new Class({
 		// make the ajax call
 		el = document.id(el);
 		var req = new Request.JSON({
-			url: this.baseUrl + '?task=setup.verifyFtpSettings&format=json',
-			data: document.id(el.form),
+			method: 'get',
+			url: 'index.php?'+document.id(el.form).toQueryString(),
+			data: {'task':'setup.verifyFtpSettings', 'format':'json'},
 			onRequest: function() {
 				el.set('disabled', 'disabled'); },
 				onFailure: function(xhr) {
@@ -260,8 +328,9 @@ var Installation = new Class({
 	removeFolder: function(el) {
 		el = document.id(el);
 		var req = new Request.JSON({
-			url: this.baseUrl + '?task=setup.removeFolder&format=json',
-			data: document.id(el.form),
+			method: 'get',
+			url: 'index.php?'+document.id(el.form).toQueryString(),
+			data: {'task':'setup.removeFolder', 'format':'json'},
 			onRequest: function() {
 				el.set('disabled', 'disabled');
 				document.id('theDefaultError').setStyle('display','none');
@@ -273,8 +342,6 @@ var Installation = new Class({
 						el.set('value', r.data.text);
 						el.set('onclick','');
 						el.set('disabled', 'disabled');
-						// Stop keep alive requests
-						window.keepAlive = function(){};
 					} else {
 						document.id('theDefaultError').setStyle('display','block');
 						document.id('theDefaultErrorMessage').set('html', r.message);

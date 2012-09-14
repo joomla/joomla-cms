@@ -27,8 +27,9 @@ $ -> Language fix or change
 ! -> Note
 
 14-Sept-2012 Jean-Marie Simonet
- # *Language issues during installation: E-Mail always in English, etc. Thanks Dennis
+ # [#29091] *Language issues during installation: E-Mail always in English, thanks Dennis
  - Deleting obsolete installation languages. 
+ # Reverting 29091
 
 13-Sept-2012 Rouven Weßling
  # [#29149] html5 validation is failing. Thanks Jean-Marie.
