@@ -121,10 +121,12 @@ class JInstallation extends JApplication
 		// Check the session for the language.
 		if (empty($options['language']))
 		{
-			$sessionLang = JFactory::getSession()->get('setup.language');
-			if (!is_null($sessionLang))
+			$session = JFactory::getSession();
+
+			$setupOptions = $session->get('setup.options', array());
+			if (isset($setupOptions['language']) && $setupOptions['language'])
 			{
-				$options['language'] = $sessionLang;
+				$options['language'] = $setupOptions['language'];
 			}
 		}
 
@@ -212,7 +214,6 @@ class JInstallation extends JApplication
 				$guesses[] = $key . '="' . $guess . '"';
 			}
 
-			echo "\n\n# " . $file . "\n\n";
 			echo implode("\n", $guesses);
 		}
 		else
@@ -377,4 +378,19 @@ class JInstallation extends JApplication
 
 		return $langfiles;
 	}
+	
+	/**
+	 * Overload parent method because we don't have menu
+	 *
+	 * @param   string  $name     The name of the application/client.
+	 * @param   array   $options  An optional associative array of configuration settings.
+	 *
+	 * @return  JMenu  JMenu object.
+	 *
+	 * @since   11.1
+	 */
+	public function getMenu($name = null, $options = array())
+	{
+	}
+	
 }
