@@ -20,9 +20,9 @@ $user	= JFactory::getUser();
 
 if ($type == 'logout')
 {
-	require JModuleHelper::getLayoutPath('mod_login', $params->get('layout', 'logout'));
+	require JModuleHelper::getLayoutPath('mod_login', $params->get('tmpl', 'logout'));
 }
 else
 {
-	require JModuleHelper::getLayoutPath('mod_login', $params->get('layout', 'default'));
+	require JModuleHelper::getLayoutPath('mod_login', $params->get('tmpl', 'default'));
 }

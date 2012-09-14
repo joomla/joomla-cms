@@ -81,6 +81,7 @@ class modLoginHelper
 	public static function getType()
 	{
 		$user = JFactory::getUser();
-		return (!$user->get('guest')) ? 'logout' : 'login';
+
+		return $user->get('guest') == 0 ? 'logout' : 'login';
 	}
 }
