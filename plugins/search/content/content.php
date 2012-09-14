@@ -188,8 +188,6 @@ class plgSearchContent extends JPlugin
 		// search archived content
 		if ($sArchived && $limit > 0)
 		{
-			$searchArchived = JText::_('JARCHIVED');
-
 			$query->clear();
 			//sqlsrv changes
 			$case_when = ' CASE WHEN ';

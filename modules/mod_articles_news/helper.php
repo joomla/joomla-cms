@@ -23,8 +23,7 @@ abstract class modArticlesNewsHelper
 {
 	public static function getList(&$params)
 	{
-		$app	= JFactory::getApplication();
-		$db		= JFactory::getDbo();
+		$app = JFactory::getApplication();
 
 		// Get an instance of the generic articles model
 		$model = JModelLegacy::getInstance('Articles', 'ContentModel', array('ignore_request' => true));

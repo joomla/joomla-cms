@@ -8,19 +8,16 @@
  */
 
 defined('_JEXEC') or die;
+?>
 
-if ($this->params->get('presentation_style') == 'sliders'):?>
-<div class="accordion-group">
-	<div class="accordion-heading">
-		<a class="accordion-toggle" data-toggle="collapse" data-parent="accordionContact" href="#display-links">
-		<?php echo JText::_('COM_CONTACT_LINKS');?>
-		</a>
-	</div>
-	<div id="display-links" class="accordion-body collapse">
-		<div class="accordion-inner">
+<?php if ($this->params->get('presentation_style') == 'sliders'): ?>
+        <?php echo JHtml::_('bootstrap.addSlide', 'slide-contact', JText::_('COM_CONTACT_LINKS'), 'display-links'); ?>
 <?php endif; ?>
-<?php if  ($this->params->get('presentation_style') == 'plain'):?>
-<?php echo '<h3>'. JText::_('JGLOBAL_ARTICLES').'</h3>'; ?>
+<?php if ($this->params->get('presentation_style') == 'tabs'): ?>
+        <?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'display-links'); ?>
+<?php endif; ?>
+<?php if ($this->params->get('presentation_style') == 'plain'):?>
+        <?php echo '<h3>'. JText::_('COM_CONTACT_LINKS').'</h3>';  ?>
 <?php endif; ?>
 
 			<div class="contact-links">
@@ -49,8 +46,9 @@ if ($this->params->get('presentation_style') == 'sliders'):?>
 				</ul>
 			</div>
 
-<?php if ($this->params->get('presentation_style') == 'sliders'):?>
-		</div>
-	</div>
-</div>
+<?php if ($this->params->get('presentation_style') == 'sliders'): ?>
+        <?php echo JHtml::_('bootstrap.endSlide'); ?>
+<?php endif; ?>
+<?php if ($this->params->get('presentation_style') == 'tabs'): ?>
+        <?php echo JHtml::_('bootstrap.endPanel'); ?>
 <?php endif; ?>

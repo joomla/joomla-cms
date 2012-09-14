@@ -105,7 +105,6 @@ defined('_JEXEC') or die;
 		</div>
 	</div>
 
-	<input type="hidden" name="jform[language]" value="" id="setlanguage" />
 	<input type="hidden" name="task" value="setup.site" />
 	<?php echo JHtml::_('form.token'); ?>
 </form>

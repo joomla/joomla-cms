@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+JHtml::_('jquery.chosen');
+
 $user		= JFactory::getUser();
 $userId		= $user->get('id');
 $listOrder	= $this->escape($this->state->get('list.ordering'));

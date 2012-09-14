@@ -572,8 +572,11 @@ abstract class JToolbarHelper
 		$path = urlencode($path);
 		$bar = JToolBar::getInstance('toolbar');
 
+		$uri = (string) JUri::getInstance();
+		$return = urlencode(base64_encode($uri));
+
 		// Add a button linking to config for component.
-		$bar->appendButton('Link', 'options', $alt, 'index.php?option=com_config&amp;view=component&amp;component=' . $component . '&amp;path=' . $path);
+		$bar->appendButton('Link', 'options', $alt, 'index.php?option=com_config&amp;view=component&amp;component=' . $component . '&amp;path=' . $path . '&amp;return=' . $return);
 	}
 }
 

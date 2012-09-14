@@ -65,6 +65,11 @@ class JFormFieldLanguage extends JFormFieldList
 		{
 			$options = array();
 		}
+		// Sort languages by name
+		else
+		{
+			usort($options, array($this, '_sortLanguages'));
+		}
 
 		// Set the default value from the native language.
 		$this->value = $native;
@@ -74,4 +79,15 @@ class JFormFieldLanguage extends JFormFieldList
 
 		return $options;
 	}
+
+	/**
+	 * Method to sort languages by name.
+	 *
+	 * @since	3.0
+	 */
+	protected function _sortLanguages($a, $b)
+	{
+		return strcmp($a['text'], $b['text']);
+	}
+
 }

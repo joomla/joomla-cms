@@ -92,7 +92,6 @@ $sitename = $app->getCfg('sitename');
 	<script>
 		(function($){
 			$('*[rel=tooltip]').tooltip()
-			$('*[rel=popover]').popover()
 		    // Chosen select boxes
 		    $("select").chosen({disable_search_threshold : 10 });
 	    })(jQuery);
