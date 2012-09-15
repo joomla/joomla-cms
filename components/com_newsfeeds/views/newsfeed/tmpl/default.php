@@ -26,7 +26,6 @@ else
 		}
 		elseif ($lang->isRTL() && $myrtl == 1)
 		{
-
 				$direction = " redirect-ltr";
 		}
 		elseif ($lang->isRTL() && $myrtl == 2)
@@ -45,7 +44,7 @@ else
 		{
 			$direction = " redirect-rtl";
 		}
-$images  = json_decode($this->item->images);
+		$images  = json_decode($this->item->images);
 	?>
 	<div class="newsfeed<?php echo $this->pageclass_sfx?><?php echo $direction; ?>">
 	<?php if ($this->params->get('display_num')) :  ?>
@@ -54,6 +53,9 @@ $images  = json_decode($this->item->images);
 	</h1>
 	<?php endif; ?>
 	<h2 class="<?php echo $direction; ?>">
+		<?php if ($this->item->published == 0): ?>
+			<span class="label label-warning">Unpublished</span>
+		<?php endif; ?>
 		<a href="<?php echo $this->item->link; ?>" target="_blank">
 		<?php echo str_replace('&apos;', "'", $this->item->name); ?></a>
 	</h2>
