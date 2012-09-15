@@ -92,7 +92,6 @@
 				<field name="bootstrap" type="list" default="center"
 					label="TPL_BEEZ3_FIELD_BOOTSTRAP_LABEL"
 					description="TPL_BEEZ3_FIELD_BOOTSTRAP_DESC"
-					filter="word"
 				>
 					<option value="">JNO</option>
 					<option value="1">JYES</option>
