@@ -313,10 +313,25 @@ abstract class JModelLegacy extends JObject
 	 */
 	protected function _getListCount($query)
 	{
-		$this->_db->setQuery($query);
-		$this->_db->execute();
+		if ($query instanceof JDatabaseQuery)
+		{
+			// Create COUNT(*) query to allow database engine to optimize the query.
+			$query = clone $query;
+			$query->clear('select')->clear('order')->select('COUNT(*)');
+			$this->_db->setQuery($query);
+			
+			return (int) $this->_db->loadResult();
+		}
+		else 
+		{
+			// Performance of this query is very bad as it forces database engine to go
+			// through all items in the database. If you don't use JDatabaseQuery object,
+			// you should override this function in your model.
+			$this->_db->setQuery($query);
+			$this->_db->execute();
 
-		return $this->_db->getNumRows();
+			return $this->_db->getNumRows();
+		}
 	}
 
 	/**
