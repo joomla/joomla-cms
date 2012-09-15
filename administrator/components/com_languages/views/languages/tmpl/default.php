@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.multiselect');
+JHtml::_('jquery.chosen');
 
 $user		= JFactory::getUser();
 $userId		= $user->get('id');

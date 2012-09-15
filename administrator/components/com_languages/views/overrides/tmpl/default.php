@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+JHtml::_('jquery.chosen');
+
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 $client			= $this->state->get('filter.client') == 'site' ? JText::_('JSITE') : JText::_('JADMINISTRATOR');
 $language		= $this->state->get('filter.language');

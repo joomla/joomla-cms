@@ -11,6 +11,8 @@ defined('_JEXEC') or die;
 
 $app = JFactory::getApplication();
 $doc = JFactory::getDocument();
+$this->language = $doc->language;
+$this->direction = $doc->direction;
 
 // Detecting Active Variables
 $option   = $app->input->getCmd('option', '');
@@ -73,7 +75,7 @@ else
 }
 ?>
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" >
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<?php
@@ -183,7 +185,6 @@ else
 	<jdoc:include type="modules" name="debug" style="none" />
 	<script>
 		jQuery('*[rel=tooltip]').tooltip()
-		jQuery('*[rel=popover]').popover()
 		jQuery('.tip-bottom').tooltip({placement: "bottom"})
 	</script>
 </body>

@@ -31,6 +31,10 @@ $layout   = $app->input->getCmd('layout', '');
 $task     = $app->input->getCmd('task', '');
 $itemid   = $app->input->getCmd('Itemid', '');
 $sitename = $app->getCfg('sitename');
+
+// Check if debug is on
+$config = JFactory::getConfig();
+$debug  = (boolean) $config->get('debug');
 ?>
 <!DOCTYPE html>
 <html>
@@ -55,6 +59,17 @@ $sitename = $app->getCfg('sitename');
 				padding: 4px 10px 4px;
 			}
 		}
+		<?php if ($debug) : ?>
+			.view-login .container {
+				position: static;
+				margin-top: 20px;
+				margin-left: auto;
+				margin-right: auto;
+			}
+			.view-login .navbar-fixed-bottom {
+				display: none;
+			}
+		<?php endif; ?>
 	</style>
 </head>
 
@@ -92,7 +107,6 @@ $sitename = $app->getCfg('sitename');
 	<script>
 		(function($){
 			$('*[rel=tooltip]').tooltip()
-			$('*[rel=popover]').popover()
 		    // Chosen select boxes
 		    $("select").chosen({disable_search_threshold : 10 });
 	    })(jQuery);

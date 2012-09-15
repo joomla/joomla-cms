@@ -87,7 +87,7 @@
 					<option
 						value="follow">MOD_WEBLINKS_FIELD_VALUE_FOLLOW</option>
 					<option
-						value="no follow">MOD_WEBLINKS_FIELD_VALUE_NOFOLLOW</option>
+						value="nofollow">MOD_WEBLINKS_FIELD_VALUE_NOFOLLOW</option>
 				</field>
 				<field
 					name="description"

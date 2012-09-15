@@ -227,7 +227,6 @@ class InstallerModelInstall extends JModelLegacy
 	 */
 	protected function _getPackageFromUrl()
 	{
-		$db    = JFactory::getDbo();
 		$input = JFactory::getApplication()->input;
 
 		// Get the URL of the package to install

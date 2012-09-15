@@ -32,7 +32,6 @@ class JHtmlIcon
 
 	public static function edit($weblink, $params, $attribs = array())
 	{
-		$user = JFactory::getUser();
 		$uri = JURI::getInstance();
 
 		if ($params && $params->get('popup')) {

@@ -21,24 +21,28 @@ class JAdministratorHelper
 	/**
 	 * Return the application option string [main component].
 	 *
-	 * @return	string		Option.
-	 * @since	1.5
+	 * @return  string  The component to access.
+	 *
+	 * @since   1.5
 	 */
 	public static function findOption()
 	{
-		$input = JFactory::getApplication()->input;
-		$option = strtolower($input->get('option'));
+		$app = JFactory::getApplication();
+		$option = strtolower($app->input->get('option'));
 
-		$user = JFactory::getUser();
-		if (($user->get('guest')) || !$user->authorise('core.login.admin')) {
+		$app->loadIdentity();
+		$user = $app->getIdentity();
+		if ($user->get('guest') || !$user->authorise('core.login.admin'))
+		{
 			$option = 'com_login';
 		}
 
-		if (empty($option)) {
+		if (empty($option))
+		{
 			$option = 'com_cpanel';
 		}
 
-		$input->set('option', $option);
+		$app->input->set('option', $option);
 		return $option;
 	}
 }

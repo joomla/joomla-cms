@@ -48,7 +48,6 @@ class plgContentLoadmodule extends JPlugin
 		$style		= $this->params->def('style', 'none');
 		// expression to search for(modules)
 		$regexmod	= '/{loadmodule\s+(.*?)}/i';
-		$title		= null;
 		$stylemod	= $this->params->def('style', 'none');
 
 		// Find all instances of plugin and put in $matches for loadposition

@@ -577,7 +577,7 @@ abstract class JTable extends JObject
 			$currentAssetId = $this->asset_id;
 		}
 
-		if(0 == $this->$k)
+		if (0 == $this->$k)
 		{
 			$this->$k = null;
 		}

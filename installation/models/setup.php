@@ -79,10 +79,6 @@ class InstallationModelSetup extends JModelLegacy
 	 */
 	public function getForm($view = null)
 	{
-		$app = JFactory::getApplication();
-
-		$false = false;
-
 		if (!$view)
 		{
 			$view = JFactory::getApplication()->input->get('view', 'site', 'word');
