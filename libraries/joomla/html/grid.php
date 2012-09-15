@@ -90,12 +90,12 @@ abstract class JHtmlGrid
 		}
 
 		$html = '<a href="#" onclick="Joomla.tableOrdering(\'' . $order . '\',\'' . $direction . '\',\'' . $task . '\');"'
-			. ' class="hasTip" title="' . JText::_($tip ? $tip : $title) . '::' .  JText::_('JGLOBAL_CLICK_TO_SORT_THIS_COLUMN') . '">';
+			. ' class="hasTip" title="' . JText::_($tip ? $tip : $title) . '::' . JText::_('JGLOBAL_CLICK_TO_SORT_THIS_COLUMN') . '">';
 		$html .= JText::_($title);
 
 		if ($order == $selected)
 		{
-			$html .= ' <i class="icon-'.$icon[$index].'"></i>';
+			$html .= ' <i class="icon-' . $icon[$index] . '"></i>';
 		}
 
 		$html .= '</a>';

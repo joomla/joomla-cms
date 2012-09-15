@@ -26,7 +26,6 @@ class JMenuSite extends JMenu
 	public function load()
 	{
 		$db    = JFactory::getDbo();
-		$app   = JApplication::getInstance('site');
 		$query = $db->getQuery(true);
 
 		$query->select('m.id, m.menutype, m.title, m.alias, m.note, m.path AS route, m.link, m.type, m.level, m.language');

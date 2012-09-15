@@ -41,9 +41,6 @@ class modMenuHelper
 		$cache = JFactory::getCache('mod_menu', '');
 		if (!($items = $cache->get($key)))
 		{
-			$list    = array();
-			$db      = JFactory::getDbo();
-
 			$path    = $active->tree;
 			$start   = (int) $params->get('startLevel');
 			$end     = (int) $params->get('endLevel');

@@ -46,8 +46,7 @@ class plgEditorTinymce extends JPlugin
 	 */
 	public function onInit()
 	{
-		$app		= JFactory::getApplication();
-		$language	= JFactory::getLanguage();
+		$language = JFactory::getLanguage();
 
 		$mode	= (int) $this->params->get('mode', 1);
 		$theme	= array('simple', 'advanced', 'advanced');

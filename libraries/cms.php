@@ -9,7 +9,8 @@
 defined('_JEXEC') or die;
 
 // Set the platform root path as a constant if necessary.
-if (!defined('JPATH_PLATFORM')) {
+if (!defined('JPATH_PLATFORM'))
+{
 	define('JPATH_PLATFORM', __DIR__);
 }
 
@@ -28,7 +29,8 @@ JLoader::registerPrefix('J', JPATH_PLATFORM . '/cms');
 set_exception_handler(array('JErrorPage', 'render'));
 
 // Define the Joomla version if not already defined.
-if (!defined('JVERSION')) {
+if (!defined('JVERSION'))
+{
 	$jversion = new JVersion;
 	define('JVERSION', $jversion->getShortVersion());
 }

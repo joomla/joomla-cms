@@ -67,7 +67,7 @@ label.invalid , label.required  span{ color: #B94A48; background:none
 .button2-left .blank a:link,
 .button2-left .blank a:visited
 { background-color: #D9EDF7;
-    
+
     color:#095197;border:solid 1px #BCE8F1; border-top:0; border-radius:0 0 3px 3px;  text-decoration:none; padding:3px}
 .button2-left a:hover,
 .button2-left .blank a:hover,
@@ -200,7 +200,7 @@ a img.calendar {
  	padding: 10px 10px 10px 40px;
     border: 2px solid #990000;
 	border-radius:10px
- 
+
 }
 
 

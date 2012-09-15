@@ -42,7 +42,6 @@ class plgContentVote extends JPlugin
 		if ($params->get('show_vote'))
 		{
 			$rating = (int) @$row->rating;
-			$rating_count = (int) @$row->rating_count;
 
 			$view = JFactory::getApplication()->input->getString('view', '');
 			$img = '';
@@ -61,6 +60,7 @@ class plgContentVote extends JPlugin
 			}
 			$html .= '<span class="content_rating">';
 			$html .= JText::sprintf($img);
+			$html .= '</span>';
 
 			if ($view == 'article' && $row->state == 1)
 			{

@@ -84,7 +84,7 @@ class Article0003 extends SeleniumJoomlaTestCase
 		$this->gotoSite();
 		// Need 'true' in second argument if you will get a 404 error. Otherwise, test fails.
 		$this->open($link, 'true');
-		$this->assertTrue($this->isElementPresent("//div[@id='errorboxbody'][contains(., 'requested page cannot be found')]"));
+		$this->assertTrue($this->isElementPresent("//div[@id='content'][contains(., 'requested page cannot be found')]"));
 		echo "Log in to Site and check that you now can see Content Component article\n";
 		$this->gotoSite();
 		$this->doFrontEndLogin();
@@ -106,7 +106,7 @@ class Article0003 extends SeleniumJoomlaTestCase
 		$this->gotoSite();
 		$this->click("link=Getting Started");
 		$this->waitForPageToLoad("30000");
-		$this->assertTrue($this->isElementPresent("//div[@id='errorboxbody'][contains(., 'requested page cannot be found')]"));
+		$this->assertTrue($this->isElementPresent("//div[@id='content'][contains(., 'requested page cannot be found')]"));
 		echo "Log in to Site and check that Getting Started is now shown and editable\n";
 		$this->gotoSite();
 		$this->doFrontEndLogin();

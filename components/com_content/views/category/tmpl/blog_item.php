@@ -19,10 +19,11 @@ JHtml::_('behavior.tooltip');
 JHtml::_('behavior.framework');
 ?>
 <?php if ($this->item->state == 0) : ?>
-<div class="system-unpublished">
+	<div class="system-unpublished">
 <?php endif; ?>
 	<?php if ($params->get('show_print_icon') || $params->get('show_email_icon') || $canEdit) : ?>
-		<div class="btn-group pull-right"> <a class="btn dropdown-toggle" data-toggle="dropdown" href="#"> <i class="icon-cog"></i> <span class="caret"></span> </a>
+		<div class="btn-group pull-right">
+			<a class="btn dropdown-toggle" data-toggle="dropdown" href="#"> <i class="icon-cog"></i> <span class="caret"></span> </a>
 			<ul class="dropdown-menu">
 				<?php if ($params->get('show_print_icon')) : ?>
 				<li class="print-icon"> <?php echo JHtml::_('icon.print_popup', $this->item, $params); ?> </li>
@@ -62,6 +63,7 @@ JHtml::_('behavior.framework');
 		</small>
 	
 		</div>
+
 	<?php endif; ?>
 
 	<?php // to do not that elegant would be nice to group the params ?>
@@ -246,6 +248,6 @@ JHtml::_('behavior.framework');
 	</a>
 	<?php endif; ?>
 <?php if ($this->item->state == 0) : ?>
-</div>
+	</div>
 <?php endif; ?>
 <?php echo $this->item->event->afterDisplayContent; ?>
