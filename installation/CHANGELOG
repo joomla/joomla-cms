@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+15-Sept-2012 Jean-Marie Simonet
+ +$ Adding installation da-DK, he-IL, it-IT, sk-SK
+
 14-Sept-2012 Jean-Marie Simonet
  # [#29091] *Language issues during installation: E-Mail always in English, thanks Dennis
  - Deleting obsolete installation languages. 
