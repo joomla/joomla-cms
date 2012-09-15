@@ -24,7 +24,7 @@ class Featured0002Test extends SeleniumJoomlaTestCase
 		$this->waitForPageToLoad("30000");
 
 		echo "Open Home menu item and change to 0 leading, 7 intro, alpha sort.\n";
-		$this->click("//td/a['Home']");
+		$this->click("//td/a[contains(.,  'Home')]");
 		$this->waitForPageToLoad("30000");
 		$this->click("//li/a[contains(text(), 'Advanced Options')]");
 		$this->type("jform_params_num_leading_articles", "0");
@@ -45,18 +45,18 @@ class Featured0002Test extends SeleniumJoomlaTestCase
 
 		echo "Go to front page and check that articles are in desired order.\n";
 		$this->gotoSite();
-		$this->assertEquals("Administrator Components", $this->getText("//div[@class='items-row cols-3 row-0']/div[@class='item column-1']/h2"), "Admin Comp should be r0c1");
-		$this->assertEquals("Archive Module", $this->getText("//div[@class='items-row cols-3 row-1']/div[@class='item column-1']/h2"), "Archive should be r1c1");
-		$this->assertEquals("Article Categories Module", $this->getText("//div[@class='items-row cols-3 row-2']/div[@class='item column-1']/h2"), "Article Categories should be r2c1");
-		$this->assertEquals("Articles Category Module", $this->getText("//div[@class='items-row cols-3 row-0']/div[@class='item column-2']/h2"), "Articles Modules should be r0c2");
-		$this->assertEquals("Beginners", $this->getText("//div[@class='items-row cols-3 row-1']/div[@class='item column-2']/h2"), "Joomla! should be r1c2");
-		$this->assertEquals("Joomla!", $this->getText("//div[@class='items-row cols-3 row-0']/div[@class='item column-3']/h2"), "Beginners should be r0c3");
-		$this->assertEquals("Professionals", $this->getText("//div[@class='items-row cols-3 row-1']/div[@class='item column-3']/h2"), "Professionals should be r1c3");
+		$this->assertEquals("Administrator Components", $this->getText("//div[contains(@class, 'items-row cols-3 row-0')]/div[contains(@class, 'item column-1')]/h2"), "Admin Comp should be r0c1");
+		$this->assertEquals("Archive Module", $this->getText("//div[contains(@class, 'items-row cols-3 row-1')]/div[contains(@class, 'item column-1')]/h2"), "Archive should be r1c1");
+		$this->assertEquals("Article Categories Module", $this->getText("//div[contains(@class, 'items-row cols-3 row-2')]/div[contains(@class, 'item column-1')]/h2"), "Article Categories should be r2c1");
+		$this->assertEquals("Articles Category Module", $this->getText("//div[contains(@class, 'items-row cols-3 row-0')]/div[contains(@class, 'item column-2')]/h2"), "Articles Modules should be r0c2");
+		$this->assertEquals("Beginners", $this->getText("//div[contains(@class, 'items-row cols-3 row-1')]/div[contains(@class, 'item column-2')]/h2"), "Joomla! should be r1c2");
+		$this->assertEquals("Joomla!", $this->getText("//div[contains(@class, 'items-row cols-3 row-0')]/div[contains(@class, 'item column-3')]/h2"), "Beginners should be r0c3");
+		$this->assertEquals("Professionals", $this->getText("//div[contains(@class, 'items-row cols-3 row-1')]/div[contains(@class, 'item column-3')]/h2"), "Professionals should be r1c3");
 		echo "Go to admin and change sort to reverse alpha.\n";
 		$this->gotoAdmin();
 		$this->click("link=Main Menu");
 		$this->waitForPageToLoad("30000");
-		$this->click("//td/a['Home']");
+		$this->click("//td/a[contains(.,  'Home')]");
 		$this->waitForPageToLoad("30000");
 		$this->click("//li/a[contains(text(), 'Advanced Options')]");
 		$this->select("jform_params_orderby_sec", "label=Title Reverse Alphabetical");
@@ -64,13 +64,13 @@ class Featured0002Test extends SeleniumJoomlaTestCase
 		$this->waitForPageToLoad("30000");
 		echo "Go to front page and check article order.\n";
 		$this->gotoSite();
-		$this->assertEquals("Upgraders", $this->getText("//div[@class='items-row cols-3 row-0']/div[@class='item column-1']/h2"));
-		$this->assertEquals("Professionals", $this->getText("//div[@class='items-row cols-3 row-1']/div[@class='item column-1']/h2"));
-		$this->assertEquals("Joomla!", $this->getText("//div[@class='items-row cols-3 row-2']/div[@class='item column-1']/h2"));
-		$this->assertEquals("Beginners", $this->getText("//div[@class='items-row cols-3 row-0']/div[@class='item column-2']/h2"));
-		$this->assertEquals("Articles Category Module", $this->getText("//div[@class='items-row cols-3 row-1']/div[@class='item column-2']/h2"));
-		$this->assertEquals("Article Categories Module", $this->getText("//div[@class='items-row cols-3 row-0']/div[@class='item column-3']/h2"));
-		$this->assertEquals("Archive Module", $this->getText("//div[@class='items-row cols-3 row-1']/div[@class='item column-3']/h2"));
+		$this->assertEquals("Upgraders", $this->getText("//div[contains(@class, 'items-row cols-3 row-0')]/div[contains(@class, 'item column-1')]/h2"));
+		$this->assertEquals("Professionals", $this->getText("//div[contains(@class, 'items-row cols-3 row-1')]/div[contains(@class, 'item column-1')]/h2"));
+		$this->assertEquals("Joomla!", $this->getText("//div[contains(@class, 'items-row cols-3 row-2')]/div[contains(@class, 'item column-1')]/h2"));
+		$this->assertEquals("Beginners", $this->getText("//div[contains(@class, 'items-row cols-3 row-0')]/div[contains(@class, 'item column-2')]/h2"));
+		$this->assertEquals("Articles Category Module", $this->getText("//div[contains(@class, 'items-row cols-3 row-1')]/div[contains(@class, 'item column-2')]/h2"));
+		$this->assertEquals("Article Categories Module", $this->getText("//div[contains(@class, 'items-row cols-3 row-0')]/div[contains(@class, 'item column-3')]/h2"));
+		$this->assertEquals("Archive Module", $this->getText("//div[contains(@class, 'items-row cols-3 row-1')]/div[contains(@class, 'item column-3')]/h2"));
 		$this->gotoAdmin();
 		echo "Go back to article manager and unselect featured articles.\n";
 		$this->click("link=Article Manager");
@@ -82,7 +82,7 @@ class Featured0002Test extends SeleniumJoomlaTestCase
 		echo "Change Home menu item params back to original values.\n";
 		$this->click("link=Main Menu");
 		$this->waitForPageToLoad("30000");
-		$this->click("//td/a['Home']");
+		$this->click("//td/a[contains(.,  'Home')]");
 		$this->waitForPageToLoad("30000");
 		$this->click("//li/a[contains(text(), 'Advanced Options')]");
 		$this->type("jform_params_num_leading_articles", "1");
@@ -94,9 +94,9 @@ class Featured0002Test extends SeleniumJoomlaTestCase
 		$this->waitForPageToLoad("30000");
 		echo "Go back to site and make sure original articles are in right positions.\n";
 		$this->gotoSite();
-		$this->assertEquals("Beginners", $this->getText("//div[@class='items-row cols-3 row-0']/div[@class='item column-1']/h2"));
-		$this->assertEquals("Upgraders", $this->getText("//div[@class='items-row cols-3 row-0']/div[@class='item column-2']/h2"));
-		$this->assertEquals("Professionals", $this->getText("//div[@class='items-row cols-3 row-0']/div[@class='item column-3']/h2"));
+		$this->assertEquals("Beginners", $this->getText("//div[contains(@class, 'items-row cols-3 row-0')]/div[contains(@class, 'item column-1')]/h2"));
+		$this->assertEquals("Upgraders", $this->getText("//div[contains(@class, 'items-row cols-3 row-0')]/div[contains(@class, 'item column-2')]/h2"));
+		$this->assertEquals("Professionals", $this->getText("//div[contains(@class, 'items-row cols-3 row-0')]/div[contains(@class, 'item column-3')]/h2"));
 		echo "Go back to back end and log out.\n";
 		$this->gotoAdmin();
 		$this->doAdminLogout();
