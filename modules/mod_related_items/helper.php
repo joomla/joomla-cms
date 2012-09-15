@@ -25,8 +25,6 @@ abstract class modRelatedItemsHelper
 		$db			= JFactory::getDbo();
 		$app		= JFactory::getApplication();
 		$user		= JFactory::getUser();
-		$userId		= (int) $user->get('id');
-		$count		= (int) $params->get('count', 5);
 		$groups		= implode(',', $user->getAuthorisedViewLevels());
 		$date		= JFactory::getDate();
 
@@ -37,7 +35,6 @@ abstract class modRelatedItemsHelper
 		$temp		= explode(':', $temp);
 		$id			= $temp[0];
 
-		$showDate	= $params->get('showDate', 0);
 		$nullDate	= $db->getNullDate();
 		$now		= $date->toSql();
 		$related	= array();
@@ -113,7 +110,6 @@ abstract class modRelatedItemsHelper
 					}
 
 					$db->setQuery($query);
-					$qstring = $db->getQuery();
 					$temp = $db->loadObjectList();
 
 					if (count($temp))

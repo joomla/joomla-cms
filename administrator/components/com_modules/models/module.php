@@ -266,7 +266,6 @@ class ModulesModelModule extends JModelAdmin
 		// Set the variables
 		$user = JFactory::getUser();
 		$table = $this->getTable();
-		$i = 0;
 
 		foreach ($pks as $pk)
 		{
@@ -332,7 +331,7 @@ class ModulesModelModule extends JModelAdmin
 		$table	= $this->getTable();
 
 		// Iterate the items to delete each one.
-		foreach ($pks as $i => $pk)
+		foreach ($pks as $pk)
 		{
 			if ($table->load($pk))
 			{
@@ -893,7 +892,7 @@ class ModulesModelModule extends JModelAdmin
 		// Alter the title and published state for Save as Copy
 		if ($input->get('task') == 'save2copy')
 		{
-			$orig_data  = $this->input->post->get('jform', array(), 'array');
+			$orig_data  = $input->post->get('jform', array(), 'array');
 			$orig_table = clone($this->getTable());
 			$orig_table->load((int) $orig_data['id']);
 

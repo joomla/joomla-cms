@@ -28,7 +28,7 @@ abstract class JHtmlBootstrap
 	 * Add javascript support for Bootstrap alerts
 	 *
 	 * @param   string  $selector  Common class for the alerts
-
+	 *
 	 * @return  void
 	 *
 	 * @since   3.0
@@ -103,7 +103,7 @@ abstract class JHtmlBootstrap
 	 * Add javascript support for Bootstrap dropdowns
 	 *
 	 * @param   string  $selector  Common class for the dropdowns
-
+	 *
 	 * @return  void
 	 *
 	 * @since   3.0
@@ -212,6 +212,40 @@ abstract class JHtmlBootstrap
 	}
 
 	/**
+	 * Method to render a Bootstrap modal
+	 *
+	 * @param   string  $selector  The ID selector for the modal.
+	 * @param   array   $params    An array of options for the modal.
+	 * @param   string  $footer    Optional markup for the modal footer
+	 *
+	 * @return  string  HTML markup for a modal
+	 *
+	 * @since   3.0
+	 */
+	public static function renderModal($selector = 'modal', $params = array(), $footer = '')
+	{
+		// Ensure the behavior is loaded
+		self::modal($selector, $params);
+
+		$html = "<div class=\"modal hide fade\" id=\"" . $selector . "\">\n";
+		$html .= "<div class=\"modal-header\">\n";
+		$html .= "<button type=\"button\" class=\"close\" data-dismiss=\"modal\">×</button>\n";
+		$html .= "<h3>" . $params['title'] . "</h3>\n";
+		$html .= "</div>\n";
+		$html .= "<div id=\"" . $selector . "-container\">\n";
+		$html .= "</div>\n";
+		$html .= "</div>\n";
+
+		$html .= "<script>";
+		$html .= "jQuery('#" . $selector . "').on('show', function () {\n";
+		$html .= "document.getElementById('" . $selector . "-container').innerHTML = '<div class=\"modal-body\"><iframe class=\"iframe\" src=\"" . $params['url'] . "\" height=\"" . $params['height'] . "\" width=\"" . $params['width'] . "\"></iframe></div>" . $footer . "';\n";
+		$html .= "});\n";
+		$html .= "</script>";
+
+		return $html;
+	}
+
+	/**
 	 * Add javascript support for Bootstrap popovers
 	 *
 	 * Use element's Title as popover content
@@ -235,11 +269,10 @@ abstract class JHtmlBootstrap
 	 *
 	 * @since   3.0
 	 */
-	public static function popover($selector = '[rel=popover]', $params = array())
+	public static function popover($selector = '.hasPopover', $params = array())
 	{
 		// Only load once
-		$sig = md5(serialize(array($selector, $params)));
-		if (isset(self::$loaded[__METHOD__][$sig]))
+		if (isset(self::$loaded[__METHOD__][$selector]))
 		{
 			return;
 		}
@@ -247,25 +280,25 @@ abstract class JHtmlBootstrap
 		// Include Bootstrap framework
 		self::framework();
 
-		$opt['animation'] = isset($params['animation']) ? $params['animation'] : true;
-		$opt['html']      = isset($params['html']) ? $params['html'] : true;
-		$opt['placement'] = isset($params['placement']) ? $params['placement'] : 'top';
-		$opt['selector']  = isset($params['selector']) ? $params['selector'] : false;
-		$opt['title']     = isset($params['title']) ? $params['title'] : '';
+		$opt['animation'] = isset($params['animation']) ? $params['animation'] : null;
+		$opt['html']      = isset($params['html']) ? $params['html'] : null;
+		$opt['placement'] = isset($params['placement']) ? $params['placement'] : null;
+		$opt['selector']  = isset($params['selector']) ? $params['selector'] : null;
+		$opt['title']     = isset($params['title']) ? $params['title'] : null;
 		$opt['trigger']   = isset($params['trigger']) ? $params['trigger'] : 'hover';
-		$opt['content']   = isset($params['content']) ? $params['content'] : '';
-		$opt['delay']     = isset($params['delay']) ? $params['delay'] : 0;
+		$opt['content']   = isset($params['content']) ? $params['content'] : null;
+		$opt['delay']     = isset($params['delay']) ? $params['delay'] : null;
 
 		$options = JHtml::getJSObject($opt);
 
 		// Attach the popover to the document
 		JFactory::getDocument()->addScriptDeclaration(
-			"(function($){
-				$('#$selector').popover($options);
-				})(jQuery);"
+			"jQuery(document).ready(function() {
+				jQuery('" . $selector . "').popover(" . $options . ");
+			});"
 		);
 
-		self::$loaded[__METHOD__][$sig] = true;
+		self::$loaded[__METHOD__][$selector] = true;
 
 		return;
 	}
@@ -420,7 +453,7 @@ abstract class JHtmlBootstrap
 	 */
 	public static function endAccordion()
 	{
-		return '</div></div>';
+		return '</div>';
 	}
 
 	/**

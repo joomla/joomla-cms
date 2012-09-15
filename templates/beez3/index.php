@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?php
 /**
  * @package     Joomla.Site

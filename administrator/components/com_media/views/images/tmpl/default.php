@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+JHtml::_('jquery.chosen');
+
 $user  = JFactory::getUser();
 $input = JFactory::getApplication()->input;
 ?>

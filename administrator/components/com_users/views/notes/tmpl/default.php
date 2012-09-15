@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 /* @var $this UsersViewNotes */
 
 JHtml::_('behavior.tooltip');
+JHtml::_('jquery.chosen');
 
 $user = JFactory::getUser();
 $listOrder = $this->escape($this->state->get('list.ordering'));

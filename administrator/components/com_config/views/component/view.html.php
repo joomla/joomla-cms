@@ -28,6 +28,7 @@ class ConfigViewComponent extends JViewLegacy
 		$form		= $this->get('Form');
 		$component	= $this->get('Component');
 		$user = JFactory::getUser();
+		$app  = JFactory::getApplication();
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
@@ -48,10 +49,11 @@ class ConfigViewComponent extends JViewLegacy
 
 		$this->userIsSuperAdmin = $user->authorise('core.admin');
 		$this->currentComponent = JFactory::getApplication()->input->get('component');
+		$this->return = $app->input->get('return', '', 'base64');
 
 		$this->addToolbar();
 		parent::display($tpl);
-		JFactory::getApplication()->input->set('hidemainmenu', true);
+		$app->input->set('hidemainmenu', true);
 	}
 
 	/**

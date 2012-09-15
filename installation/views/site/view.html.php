@@ -33,6 +33,7 @@ class InstallationViewSite extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
+			$app = JFactory::getApplication();
 			$app->enqueueMessage(implode("\n", $errors), 'error');
 			return false;
 		}

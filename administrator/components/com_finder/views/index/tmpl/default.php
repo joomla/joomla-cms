@@ -10,6 +10,8 @@
 defined('_JEXEC') or die;
 
 JHtml::_('behavior.tooltip');
+JHtml::_('jquery.chosen');
+JHtml::_('bootstrap.popover');
 
 $listOrder	= $this->escape($this->state->get('list.ordering'));
 $listDirn	= $this->escape($this->state->get('list.direction'));
@@ -118,7 +120,7 @@ Joomla.submitbutton = function(pressbutton) {
 				</td>
 				<td class="hidden-phone">
 					<?php if (intval($item->publish_start_date) or intval($item->publish_end_date) or intval($item->start_date) or intval($item->end_date)) : ?>
-						<i class="icon-calendar pull-right pop" rel="popover" data-placement="left" title="<?php echo JText::_('JDETAILS');?>" data-content="<?php echo JText::sprintf('COM_FINDER_INDEX_DATE_INFO', $item->publish_start_date, $item->publish_end_date, $item->start_date, $item->end_date);?>"></i>
+						<i class="icon-calendar pull-right pop hasPopover" data-placement="left" title="<?php echo JText::_('JDETAILS');?>" data-content="<?php echo JText::sprintf('COM_FINDER_INDEX_DATE_INFO', $item->publish_start_date, $item->publish_end_date, $item->start_date, $item->end_date);?>"></i>
 					<?php endif; ?>
 				</td>
 				<td class="small nowrap hidden-phone">

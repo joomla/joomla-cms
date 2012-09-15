@@ -95,6 +95,15 @@ abstract class JHtmlJquery
 
 		JHtml::_('script', 'jui/chosen.jquery.min.js', false, true, false, false, $debug);
 		JHtml::_('stylesheet', 'jui/chosen.css', false, true);
+		JFactory::getDocument()->addScriptDeclaration("
+				jQuery(document).ready(function ($){
+					$('select').chosen({
+						disable_search_threshold : 10,
+						allow_single_deselect : true
+					});
+				});
+			"
+		);
 
 		self::$loaded[__METHOD__] = true;
 

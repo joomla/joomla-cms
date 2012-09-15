@@ -208,6 +208,7 @@ abstract class JFeedParser
 		{
 			// @codeCoverageIgnoreStart
 			throw new RuntimeException('Unable to expand node to SimpleXML element.');
+
 			// @codeCoverageIgnoreEnd
 		}
 
@@ -303,6 +304,7 @@ abstract class JFeedParser
 
 		// @codeCoverageIgnoreStart
 		throw new RuntimeException('Unable to find the closing XML node.');
+
 		// @codeCoverageIgnoreEnd
 	}
 }

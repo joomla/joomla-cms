@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.multiselect');
 JHtml::_('dropdown.init');
+JHtml::_('jquery.chosen');
 
 $client		= $this->state->get('filter.client_id') ? 'administrator' : 'site';
 $user		= JFactory::getUser();

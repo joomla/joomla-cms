@@ -39,7 +39,6 @@ class modWeblinksHelper
 
 		// Access filter
 		$access = !JComponentHelper::getParams('com_weblinks')->get('show_noauth');
-		$authorised = JAccess::getAuthorisedViewLevels(JFactory::getUser()->get('id'));
 		$model->setState('filter.access', $access);
 
 		$ordering = $params->get('ordering', 'ordering');
