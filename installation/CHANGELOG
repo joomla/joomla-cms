@@ -31,6 +31,7 @@ $ -> Language fix or change
  # [#29163] Icon appearing in wrong place in administrator/mod_menu. Thanks Javier
  # [#29178] Content - Vote plugin missing closing </span> tag. Thanks Andrea
  # [#29055] Debug module floats to top on admin login screen. Thanks Kyle
+ # [#29186] Cleaning out old JRegistry->getValue(). Thanks Janich
 
 14-Sept-2012 Jean-Marie Simonet
  # [#29091] *Language issues during installation: E-Mail always in English, thanks Dennis
