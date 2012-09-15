@@ -33,7 +33,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 	<div class="filters btn-toolbar">
 		<?php if ($this->params->get('filter_field') != 'hide') :?>
 			<div class="btn-group">
-				<label class="filter-search-lbl element-invisible" for="filter-search"><?php echo JText::_('COM_CONTENT_'.$this->params->get('filter_field').'_FILTER_LABEL').'&#160;'; ?></label>
+				<label class="filter-search-lbl element-invisible" for="filter-search"><span class="label label-warning">unpublished</span><?php echo JText::_('COM_CONTENT_'.$this->params->get('filter_field').'_FILTER_LABEL').'&#160;'; ?></label>
 				<input type="text" name="filter-search" id="filter-search" value="<?php echo $this->escape($this->state->get('list.filter')); ?>" class="inputbox" onchange="document.adminForm.submit();" title="<?php echo JText::_('COM_CONTENT_FILTER_SEARCH_DESC'); ?>" placeholder="<?php echo JText::_('COM_CONTENT_FILTER_SEARCH_DESC'); ?>" />
 			</div>
 		<?php endif; ?>
@@ -45,7 +45,6 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 				<?php echo $this->pagination->getLimitBox(); ?>
 			</div>
 		<?php endif; ?>
-		<!-- @TODO add hidden inputs -->
 		<input type="hidden" name="filter_order" value="" />
 		<input type="hidden" name="filter_order_Dir" value="" />
 		<input type="hidden" name="limitstart" value="" />
@@ -72,7 +71,10 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 							<?php echo JHtml::_('icon.edit', $article, $params); ?>
 						</span>
 					<?php endif; ?>
-					<h4 class="list-title">
+					<strong class="list-title">
+					<?php if ($this->items[$i]->state == 0): ?>
+						<span class="label label-warning">Unpublished</span>
+					<?php endif; ?>
 						<a href="<?php echo JRoute::_(ContentHelperRoute::getArticleRoute($article->slug, $article->catid)); ?>">
 							<?php echo $this->escape($article->title); ?></a>
 
@@ -95,7 +97,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 							<?php endif; ?>
 						</small>
 						<?php endif; ?>
-					</h4>
+					</strong>
 
 					<?php if ($this->params->get('list_show_date')) : ?>
 					<span class="list-date small pull-right">

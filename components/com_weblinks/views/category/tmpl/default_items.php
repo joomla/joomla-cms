@@ -90,8 +90,11 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 						$width	= 600;
 						$height	= 500;
 					}
+					 if ($this->items[$i]->state == 0): ?>
+						<span class="label label-warning">Unpublished</span>
+					<?php endif; ?>
 
-					switch ($item->params->get('target', $this->params->get('target')))
+					<?php switch ($item->params->get('target', $this->params->get('target')))
 					{
 						case 1:
 							// open in a new window
@@ -121,15 +124,16 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 				?>
 				<?php // Code to add the edit link for the weblink. ?>
 
-						<?php if ($canEdit) : ?>
-							<ul class="actions">
-								<li class="edit-icon">
-									<?php echo JHtml::_('icon.edit', $item, $params); ?>
-								</li>
-							</ul>
-						<?php endif; ?>
-			</p>
-
+					<?php if ($canEdit) : ?>
+						<span class="list-edit pull-right width-50">
+							<?php echo JHtml::_('icon.edit', $item, $params); ?>
+						</span>
+					<?php endif; ?>
+					<?php if ($this->params->get('list_show_hits', 1)) : ?>
+						<span class="list-hits badge badge-info pull-right">
+							<?php echo $item->hits; ?>
+						</span>
+					<?php endif; ?>
 			<?php if (($this->params->get('show_link_description')) and ($item->description != '')): ?>
 			<?php $images = json_decode($item->images); ?>
 			<?php  if (isset($images->image_first) and !empty($images->image_first)) : ?>
@@ -152,11 +156,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 				<?php echo $item->description; ?>
 			<?php endif; ?>
 		</td>
-		<?php if ($this->params->get('show_link_hits')) : ?>
-		<td class="hits">
-			<?php echo $item->hits; ?>
-		</td>
-		<?php endif; ?>
+
 	</tr>
 	<?php endforeach; ?>
 </tbody>

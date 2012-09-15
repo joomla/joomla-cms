@@ -22,6 +22,9 @@ jimport('joomla.html.html.bootstrap');
 	<?php if ($this->contact->name && $this->params->get('show_name')) : ?>
 		<div class="page-header">
 			<h2>
+				<?php if ($this->item->published == 0): ?>
+					<span class="label label-warning">Unpublished</span>
+				<?php endif; ?>
 				<span class="contact-name"><?php echo $this->contact->name; ?></span>
 			</h2>
 		</div>
