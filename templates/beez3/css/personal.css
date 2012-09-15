@@ -29,7 +29,7 @@ a:hover,a:active,a:focus {
 }
 
 .logoheader {
-	background: url("../images/personal/personal2.png") no-repeat right
+	background: url(../images/personal/personal2.png) no-repeat right
 		bottom #0C1A3E;
 	color: #FFFFFF;
 	min-height: 250px;
