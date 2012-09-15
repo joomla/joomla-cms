@@ -60,7 +60,7 @@ if (!empty($this->item->pagination) AND $this->item->pagination && !$this->item-
 	<div class="page-header">
 		<h2>
 			<?php if ($this->item->state == 0): ?>
-				<span class="label label-warning">Unpublished</span>
+				<span class="label label-warning"><?php echo JText::_('JUNPUBLISHED'); ?></span>
 			<?php endif; ?>
 			<?php if ($params->get('link_titles') && !empty($this->item->readmore_link)) : ?>
 			<a href="<?php echo $this->item->readmore_link; ?>"> <?php echo $this->escape($this->item->title); ?></a>
