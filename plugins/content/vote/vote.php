@@ -60,6 +60,7 @@ class plgContentVote extends JPlugin
 			}
 			$html .= '<span class="content_rating">';
 			$html .= JText::sprintf($img);
+			$html .= '</span>';
 
 			if ($view == 'article' && $row->state == 1)
 			{
