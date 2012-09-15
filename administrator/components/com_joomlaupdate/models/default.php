@@ -205,8 +205,8 @@ class JoomlaupdateModelDefault extends JModelLegacy
 		$basename = basename($packageURL);
 
 		// Find the path to the temp directory and the local package
-		$jreg = JFactory::getConfig();
-		$tempdir = $jreg->getValue('config.tmp_path');
+		$config = JFactory::getConfig();
+		$tempdir = $config->get('tmp_path');
 		$target = $tempdir . '/' . $basename;
 
 		// Do we have a cached file?
@@ -278,7 +278,8 @@ class JoomlaupdateModelDefault extends JModelLegacy
 		}
 
 		// Get the package name
-		$tempdir = JFactory::getConfig()->getValue('config.tmp_path');
+		$config = JFactory::getConfig();
+		$tempdir = $config->get('tmp_path');
 		$file  = $tempdir . '/' . $basename;
 
 		$filesize = @filesize($file);
@@ -648,8 +649,9 @@ ENDDATA;
 	public function cleanUp()
 	{
 		// Remove the update package
-		$jreg = JFactory::getConfig();
-		$tempdir = $jreg->getValue('config.tmp_path');
+		$config = JFactory::getConfig();
+		$tempdir = $config->get('tmp_path');
+
 		$file = JFactory::getApplication()->getUserState('com_joomlaupdate.file', null);
 		$target = $tempdir.'/'.$file;
 		if (!@unlink($target))
