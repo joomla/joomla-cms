@@ -192,6 +192,38 @@ class JoomlaupdateModelDefault extends JModelLegacy
 	}
 
 	/**
+	 * Removes all of the updates from the table and enable all update streams.
+	 *
+	 * @return	boolean result of operation
+	 * @since	3.0
+	 */
+	public function purge()
+	{
+		$db = JFactory::getDBO();
+		
+		// Modify the database record
+		$update_site = new stdClass();
+		$update_site->last_check_timestamp = 0;
+		$update_site->enabled = 1;
+		$update_site->update_site_id = 1;
+		$db->updateObject('#__update_sites', $update_site, 'update_site_id');
+		
+		$query = $db->getQuery(true)
+				->delete($db->qn('#__updates'))
+				->where($db->qn('update_site_id').' = '.$db->q('1'));
+		$db->setQuery($query);
+
+		if ($db->execute()) {
+			$this->_message = JText::_('JLIB_INSTALLER_PURGED_UPDATES');
+			return true;
+		} else {
+			$this->_message = JText::_('JLIB_INSTALLER_FAILED_TO_PURGE_UPDATES');
+			return false;
+		}
+	}
+	
+	
+	/**
 	 * Downloads the update package to the site
 	 *
 	 * @return bool|string False on failure, basename of the file in any other case
