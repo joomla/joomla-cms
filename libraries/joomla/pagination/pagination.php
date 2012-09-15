@@ -716,7 +716,7 @@ class JPagination
 				$data->pages[$i]->base = $offset;
 				$data->pages[$i]->link = JRoute::_($params . '&' . $this->prefix . 'limitstart=' . $offset);
 			}
-			elseif ($i = $this->pagesCurrent)
+			else
 			{
 				$data->pages[$i]->active = true;
 			}
