@@ -28,6 +28,7 @@ $ -> Language fix or change
 
 15-Sept-2012 Jean-Marie Simonet
  +$ Adding installation da-DK, he-IL, it-IT, sk-SK
+ # [#29163] Icon appearing in wrong place in administrator/mod_menu. Thanks Javier
 
 14-Sept-2012 Jean-Marie Simonet
  # [#29091] *Language issues during installation: E-Mail always in English, thanks Dennis
