@@ -216,8 +216,6 @@ JHtml::_('behavior.framework');
 		</div>
 	<?php endif; ?>
 
-	<!-- </div>  -->
-
 	<?php if ($params->get('show_readmore') && $this->item->readmore) :
 	if ($params->get('access-view')) :
 		$link = JRoute::_(ContentHelperRoute::getArticleRoute($this->item->slug, $this->item->catid));

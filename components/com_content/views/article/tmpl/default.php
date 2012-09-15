@@ -92,52 +92,66 @@ if (!empty($this->item->pagination) AND $this->item->pagination && !$this->item-
 			<dt class="article-info-term"><?php  echo JText::_('COM_CONTENT_ARTICLE_INFO'); ?></dt>
 
 			<?php if ($params->get('show_parent_category') && $this->item->parent_slug != '1:root') : ?>
-				<div class="parent-category-name">
-					<?php	$title = $this->escape($this->item->parent_title);
-				$url = '<a href="'.JRoute::_(ContentHelperRoute::getCategoryRoute($this->item->parent_slug)).'">'.$title.'</a>';?>
-					<?php if ($params->get('link_parent_category') and $this->item->parent_slug) : ?>
-					<dd><?php echo JText::sprintf('COM_CONTENT_PARENT', $url); ?></dd>
-					<?php else : ?>
-					<dd><?php echo JText::sprintf('COM_CONTENT_PARENT', $title); ?></dd>
-					<?php endif; ?>
-				</div>
+				<dd>
+					<div class="parent-category-name">
+						<?php	$title = $this->escape($this->item->parent_title);
+						$url = '<a href="'.JRoute::_(ContentHelperRoute::getCategoryRoute($this->item->parent_slug)).'">'.$title.'</a>';?>
+						<?php if ($params->get('link_parent_category') and !empty($this->item->parent_slug)) : ?>
+							<?php echo JText::sprintf('COM_CONTENT_PARENT', $url); ?>
+						<?php else : ?>
+							<?php echo JText::sprintf('COM_CONTENT_PARENT', $title); ?>
+						<?php endif; ?>
+					</div>
+				</dd>
 			<?php endif; ?>
 			<?php if ($params->get('show_category')) : ?>
-				<div class="category-name">
-					<?php 	$title = $this->escape($this->item->category_title);
-				$url = '<a href="'.JRoute::_(ContentHelperRoute::getCategoryRoute($this->item->catslug)).'">'.$title.'</a>';?>
-					<?php if ($params->get('link_category') and $this->item->catslug) : ?>
-					<dd><?php echo JText::sprintf('COM_CONTENT_CATEGORY', $url); ?></dd>
-					<?php else : ?>
-					<dd><?php echo JText::sprintf('COM_CONTENT_CATEGORY', $title); ?></dd>
-					<?php endif; ?>
-				</div>
+				<dd>
+					<div class="category-name">
+						<?php 	$title = $this->escape($this->item->category_title);
+						$url = '<a href="'.JRoute::_(ContentHelperRoute::getCategoryRoute($this->item->catslug)).'">'.$title.'</a>';?>
+						<?php if ($params->get('link_category') and $this->item->catslug) : ?>
+							<?php echo JText::sprintf('COM_CONTENT_CATEGORY', $url); ?>
+						<?php else : ?>
+							<?php echo JText::sprintf('COM_CONTENT_CATEGORY', $title); ?>
+						<?php endif; ?>
+					</div>
+				</dd>
 			<?php endif; ?>
-				<?php if ($params->get('show_publish_date')) : ?>
-					<div class="published"> <dd> <i class="icon-calendar"></i> <?php echo JText::sprintf('COM_CONTENT_PUBLISHED_DATE_ON', JHtml::_('date', $this->item->publish_up, JText::_('DATE_FORMAT_LC3'))); ?> </dd> </div>
-				<?php endif; ?>
 
-			<?php if ($info == 1): ?>
+			<?php if ($params->get('show_publish_date')) : ?>
+				<dd>
+					<div class="published">
+						<i class="icon-calendar"></i> <?php echo JText::sprintf('COM_CONTENT_PUBLISHED_DATE_ON', JHtml::_('date', $this->item->publish_up, JText::_('DATE_FORMAT_LC3'))); ?>
+					</div>
+				</dd>
+			<?php endif; ?>
+
+			<?php if ($info == 0): ?>
 				<?php if ($params->get('show_modify_date')) : ?>
-					<div class="modified"><dd><i class="icon-calendar"></i> <?php echo JText::sprintf('COM_CONTENT_LAST_UPDATED', JHtml::_('date', $this->item->modified, JText::_('DATE_FORMAT_LC3'))); ?></dd></div>
+					<dd>
+						<div class="modified">
+							<i class="icon-calendar"></i> <?php echo JText::sprintf('COM_CONTENT_LAST_UPDATED', JHtml::_('date', $this->item->modified, JText::_('DATE_FORMAT_LC3'))); ?>
+						</div>
+					</dd>
 				<?php endif; ?>
 				<?php if ($params->get('show_create_date')) : ?>
-					<div class="create"><dd><i class="icon-calendar"></i> <?php echo JText::sprintf('COM_CONTENT_LAST_UPDATED', JHtml::_('date', $this->item->modified, JText::_('DATE_FORMAT_LC3'))); ?></dd></div>
+					<dd>
+						<div class="create">
+							<i class="icon-calendar"></i> <?php echo JText::sprintf('COM_CONTENT_LAST_UPDATED', JHtml::_('date', $this->item->modified, JText::_('DATE_FORMAT_LC3'))); ?>
+						</div>
+					</dd>
 				<?php endif; ?>
 
 				<?php if ($params->get('show_hits')) : ?>
-				<div class="hits">
-					  <i class="icon-eye-open"></i> <?php echo JText::sprintf('COM_CONTENT_ARTICLE_HITS', $this->item->hits); ?> 
-				</div>
+					<dd>
+						<div class="hits">
+							  <i class="icon-eye-open"></i> <?php echo JText::sprintf('COM_CONTENT_ARTICLE_HITS', $this->item->hits); ?> 
+						</div>
+					</dd>
+				<?php endif; ?>
 			<?php endif; ?>
-		<?php endif; ?>
-
-		<?php if ($useDefList) : ?>
-			</div>
 			</dl>
-		<?php endif; ?>
-
-	</div>
+		</div>
 	<?php endif; ?>
 
 	<?php  if (!$params->get('show_intro')) : echo $this->item->event->afterDisplayTitle; endif; ?>
@@ -165,58 +179,72 @@ if (!empty($this->item->pagination) AND $this->item->pagination && !$this->item-
 		echo $this->item->toc;
 	endif; ?>
 	<?php echo $this->item->text; ?>
-	<?php if ($useDefList AND ($info == 1 OR $info == 2)) : ?>
 
+	<?php if ($useDefList AND ($info == 1 OR $info == 2)) : ?>
 		<div class="article-info muted">
 			<dl class="article-info">
 			<dt class="article-info-term"><?php  echo JText::_('COM_CONTENT_ARTICLE_INFO'); ?></dt>
 
-		<?php if ($info == 1): ?>
-			<?php if ($params->get('show_parent_category') && $this->item->parent != '1') : ?>
-				<div class="parent-category-name">
-					<?php	$title = $this->escape($this->item->parent_title);
-				$url = '<a href="'.JRoute::_(ContentHelperRoute::getCategoryRoute($this->item->parent_slug)).'">'.$title.'</a>';?>
-					<?php if ($params->get('link_parent_category') and $this->item->parent_slug) : ?>
-					<dd><?php echo JText::sprintf('COM_CONTENT_PARENT', $url); ?></dd>
-					<?php else : ?>
-					<dd><?php echo JText::sprintf('COM_CONTENT_PARENT', $title); ?></dd>
-					<?php endif; ?>
-				</div>
+			<?php if ($info == 1): ?>
+				<?php if ($params->get('show_parent_category') AND !empty($this->item->parent_slug)) : ?>
+					<dd>
+						<div class="parent-category-name">
+							<?php	$title = $this->escape($this->item->parent_title);
+							$url = '<a href="'.JRoute::_(ContentHelperRoute::getCategoryRoute($this->item->parent_slug)).'">'.$title.'</a>';?>
+							<?php if ($params->get('link_parent_category') and $this->item->parent_slug) : ?>
+								<?php echo JText::sprintf('COM_CONTENT_PARENT', $url); ?>
+							<?php else : ?>
+								<?php echo JText::sprintf('COM_CONTENT_PARENT', $title); ?>
+							<?php endif; ?>
+						</div>
+					</dd>
+				<?php endif; ?>
+				<?php if ($params->get('show_category')) : ?>
+					<dd>
+						<div class="category-name">
+							<?php 	$title = $this->escape($this->item->category_title);
+							$url = '<a href="'.JRoute::_(ContentHelperRoute::getCategoryRoute($this->item->catslug)).'">'.$title.'</a>';?>
+							<?php if ($params->get('link_category') and $this->item->catslug) : ?>
+								<?php echo JText::sprintf('COM_CONTENT_CATEGORY', $url); ?>
+							<?php else : ?>
+								<?php echo JText::sprintf('COM_CONTENT_CATEGORY', $title); ?>
+							<?php endif; ?>
+						</div>
+					</dd>
+				<?php endif; ?>
+				<?php if ($params->get('show_publish_date')) : ?>
+					<dd>
+						<div class="published">
+							<i class="icon-calendar"></i> <?php echo JText::sprintf('COM_CONTENT_PUBLISHED_DATE_ON', JHtml::_('date', $this->item->publish_up, JText::_('DATE_FORMAT_LC3'))); ?>
+						</div>
+					</dd>
+				<?php endif; ?>	
 			<?php endif; ?>
-			<?php if ($params->get('show_category')) : ?>
-				<div class="category-name">
-					<?php 	$title = $this->escape($this->item->category_title);
-				$url = '<a href="'.JRoute::_(ContentHelperRoute::getCategoryRoute($this->item->catslug)).'">'.$title.'</a>';?>
-					<?php if ($params->get('link_category') and $this->item->catslug) : ?>
-					<dd><?php echo JText::sprintf('COM_CONTENT_CATEGORY', $url); ?></dd>
-					<?php else : ?>
-					<dd><?php echo JText::sprintf('COM_CONTENT_CATEGORY', $title); ?></dd>
-					<?php endif; ?>
-				</div>
+			
+			<?php if ($params->get('show_create_date')) : ?>
+				<dd>
+					<div class="create"><i class="icon-calendar">
+						</i> <?php echo JText::sprintf('COM_CONTENT_CREATED_DATE_ON', JHtml::_('date', $this->item->modified, JText::_('DATE_FORMAT_LC3'))); ?>
+					</div>
+				</dd>
 			<?php endif; ?>
-		<?php if ($params->get('show_publish_date')) : ?>
-			<div class="published"> <dd> <i class="icon-calendar"></i> <?php echo JText::sprintf('COM_CONTENT_PUBLISHED_DATE_ON', JHtml::_('date', $this->item->publish_up, JText::_('DATE_FORMAT_LC3'))); ?> </dd> </div>
-		<?php endif; ?>
-
-		<?php endif; ?>
-		<?php if ($params->get('show_create_date')) : ?>
-			<div class="create"><dd><i class="icon-calendar"></i> <?php echo JText::sprintf('COM_CONTENT_CREATED_DATE_ON', JHtml::_('date', $this->item->modified, JText::_('DATE_FORMAT_LC3'))); ?></dd></div>
-		<?php endif; ?>
-		<?php if ($params->get('show_modify_date')) : ?>
-			<div class="modified"><dd><i class="icon-calendar"></i> <?php echo JText::sprintf('COM_CONTENT_LAST_UPDATED', JHtml::_('date', $this->item->modified, JText::_('DATE_FORMAT_LC3'))); ?></dd></div>
-		<?php endif; ?>
-		<?php if ($params->get('show_hits')) : ?>
-		<div class="hits">
-			  <i class="icon-eye-open"></i> <?php echo JText::sprintf('COM_CONTENT_ARTICLE_HITS', $this->item->hits); ?> 
+			<?php if ($params->get('show_modify_date')) : ?>
+				<dd>
+					<div class="modified"><i class="icon-calendar">
+						</i> <?php echo JText::sprintf('COM_CONTENT_LAST_UPDATED', JHtml::_('date', $this->item->modified, JText::_('DATE_FORMAT_LC3'))); ?>
+					</div>
+				</dd>
+			<?php endif; ?>
+			<?php if ($params->get('show_hits')) : ?>
+				<dd>
+					<div class="hits">
+				  		<i class="icon-eye-open"></i> <?php echo JText::sprintf('COM_CONTENT_ARTICLE_HITS', $this->item->hits); ?> 
+					</div>
+				</dd>
+			<?php endif; ?>
+			</dl>
 		</div>
 	<?php endif; ?>
-
-	<?php if ($useDefList) : ?>
-		</div>
-		</dl>
-	<?php endif; ?>
-	</div>
-<?php endif; ?>
 
 	<?php
 if (!empty($this->item->pagination) AND $this->item->pagination AND $this->item->paginationposition AND!$this->item->paginationrelative):

@@ -136,7 +136,7 @@
 				<option value="1">JSHOW</option>
 			</field>
 			<field
-				name="info_bloc_position"
+				name="info_block_position"
 				type="radio"
 				default="0"
 				label="COM_CONTENT_FIELD_INFOBLOCK_POSITION_LABEL"
