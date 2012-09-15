@@ -10,7 +10,20 @@
 defined('_JEXEC') or die;
 
 JHtml::_('behavior.framework', true);
-?>
+?>  
+
+
+    <script type="text/javascript">
+    // Hide/show all rows which are not assigned.
+    window.addEvent('domready', function() {
+        document.id('showmods').addEvent('click', function(e) {
+            jQuery('.table tr.no').toggle();
+        });
+    });
+    </script>
+
+    <label class="checkbox" style="display: inline-block;padding-left: 0;" for="showmods"><?php echo JText::_('COM_MENUS_ITEM_FIELD_HIDE_UNASSIGNED');?></label>
+    <input type="checkbox" id="showmods" />
 	<table class="table table-striped">
 		<thead>
 		<tr>
