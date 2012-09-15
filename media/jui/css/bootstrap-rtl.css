@@ -405,4 +405,7 @@ float: right;
 .profile> ul {
 margin: 9px 25px 0 0;
 }
-
+.chzn-container-single-nosearch .chzn-search input {
+  left: 0;
+  top: -9000px;
+}
