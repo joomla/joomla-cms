@@ -29,6 +29,7 @@ $ -> Language fix or change
 15-Sept-2012 Jean-Marie Simonet
  +$ Adding installation da-DK, he-IL, it-IT, sk-SK
  # [#29163] Icon appearing in wrong place in administrator/mod_menu. Thanks Javier
+ # [#29178] Content - Vote plugin missing closing </span> tag. Thanks Andrea
 
 14-Sept-2012 Jean-Marie Simonet
  # [#29091] *Language issues during installation: E-Mail always in English, thanks Dennis
