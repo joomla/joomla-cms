@@ -33,14 +33,17 @@ $doc				= JFactory::getDocument();
 $templateparams		= $app->getTemplate(true)->params;
 $config = JFactory::getConfig();
 
-// Pull in the Bootstrap styles from jui
-$doc->addStyleSheet('media/jui/css/bootstrap.css');
-// If Right-to-Left
-if ($this->direction == 'rtl')
-{
-	$doc->addStyleSheet('media/jui/css/bootstrap-rtl.css');
-}
+if ($templateparams->get('bootstrap') == 1):
 
+	// Pull in the Bootstrap styles from jui
+	$doc->addStyleSheet('media/jui/css/bootstrap.css');
+
+	// If Right-to-Left
+	if ($this->direction == 'rtl')
+	{
+		$doc->addStyleSheet('media/jui/css/bootstrap-rtl.css');
+	}
+endif;
 
 $doc->addStyleSheet(JURI::base().'/templates/system/css/system.css');
 $doc->addStyleSheet(JURI::base().'/templates/'.$this->template.'/css/position.css', $type = 'text/css', $media = 'screen,projection');
