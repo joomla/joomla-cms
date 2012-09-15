@@ -26,6 +26,11 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+15-Sep-2012 Mark Dexter
+ # [#28485] Joomla search module html needs looking at. Thanks Jason Williams.
+ # [#29182] Fix notice in search view. Thanks Elin.
+ # [#29172] Unpublished state is not indicated. Thanks Elin.
+ 
 15-Sept-2012 Jean-Marie Simonet
  +$ Adding installation da-DK, he-IL, it-IT, sk-SK
  # [#29163] Icon appearing in wrong place in administrator/mod_menu. Thanks Javier
