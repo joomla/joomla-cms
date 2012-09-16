@@ -9,21 +9,22 @@
 // No direct access.
 defined('_JEXEC') or die;
 
-jimport('joomla.filesystem.file');
+JLoader::import('joomla.filesystem.file');
 
 
-// check modules
+// Check modules
 $showRightColumn	= ($this->countModules('position-3') or $this->countModules('position-6') or $this->countModules('position-8'));
 $showbottom			= ($this->countModules('position-9') or $this->countModules('position-10') or $this->countModules('position-11'));
 $showleft			= ($this->countModules('position-4') or $this->countModules('position-7') or $this->countModules('position-5'));
 
-if ($showRightColumn == 0 and $showleft == 0) {
+if ($showRightColumn == 0 and $showleft == 0)
+{
 	$showno = 0;
 }
 
 JHtml::_('behavior.framework', true);
 
-// get params
+// Get params
 $color				= $this->params->get('templatecolor');
 $logo				= $this->params->get('logo');
 $navposition		= $this->params->get('navposition');
@@ -33,8 +34,8 @@ $doc				= JFactory::getDocument();
 $templateparams		= $app->getTemplate(true)->params;
 $config = JFactory::getConfig();
 
-if ($templateparams->get('bootstrap') == 1):
-
+if ($templateparams->get('bootstrap') == 1)
+{
 	// Pull in the Bootstrap styles from jui
 	$doc->addStyleSheet('media/jui/css/bootstrap.css');
 
@@ -43,32 +44,35 @@ if ($templateparams->get('bootstrap') == 1):
 	{
 		$doc->addStyleSheet('media/jui/css/bootstrap-rtl.css');
 	}
-endif;
+}
 
-$doc->addStyleSheet(JURI::base().'/templates/system/css/system.css');
-$doc->addStyleSheet(JURI::base().'/templates/'.$this->template.'/css/position.css', $type = 'text/css', $media = 'screen,projection');
-$doc->addStyleSheet(JURI::base().'/templates/'.$this->template.'/css/layout.css', $type = 'text/css', $media = 'screen,projection');
-$doc->addStyleSheet(JURI::base().'/templates/'.$this->template.'/css/print.css', $type = 'text/css', $media = 'print');
-$doc->addStyleSheet(JURI::base().'/templates/'.$this->template.'/css/general.css', $type = 'text/css', $media = 'screen,projection');
+$doc->addStyleSheet(JURI::base() . '/templates/system/css/system.css');
+$doc->addStyleSheet(JURI::base() . '/templates/' . $this->template . '/css/position.css', $type = 'text/css', $media = 'screen,projection');
+$doc->addStyleSheet(JURI::base() . '/templates/' . $this->template . '/css/layout.css', $type = 'text/css', $media = 'screen,projection');
+$doc->addStyleSheet(JURI::base() . '/templates/' . $this->template . '/css/print.css', $type = 'text/css', $media = 'print');
+$doc->addStyleSheet(JURI::base() . '/templates/' . $this->template . '/css/general.css', $type = 'text/css', $media = 'screen,projection');
+$doc->addStyleSheet(JURI::base() . '/templates/' . $this->template . '/css/' . htmlspecialchars($color) . '.css', $type = 'text/css', $media = 'screen,projection');
 
-$doc->addStyleSheet(JURI::base().'templates/'.$this->template.'/css/'.htmlspecialchars($color).'.css', $type = 'text/css', $media = 'screen,projection');
-if ($this->direction == 'rtl') {
-	$doc->addStyleSheet($this->baseurl.'/templates/'.$this->template.'/css/template_rtl.css');
-	if (file_exists(JPATH_SITE . '/templates/' . $this->template . '/css/' . $color . '_rtl.css')) {
-		$doc->addStyleSheet($this->baseurl.'/templates/'.$this->template.'/css/'.htmlspecialchars($color).'_rtl.css');
+if ($this->direction == 'rtl')
+{
+	$doc->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/template_rtl.css');
+	if (file_exists(JPATH_SITE . '/templates/' . $this->template . '/css/' . $color . '_rtl.css'))
+	{
+		$doc->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/' . htmlspecialchars($color) . '_rtl.css');
 	}
 }
+
 JHtml::_('bootstrap.framework');
-$doc->addScript($this->baseurl.'/templates/'.$this->template.'/javascript/md_stylechanger.js', 'text/javascript');
-$doc->addScript($this->baseurl.'/templates/'.$this->template.'/javascript/hide.js', 'text/javascript');
-$doc->addScript($this->baseurl.'/templates/'.$this->template.'/javascript/respond.src.js', 'text/javascript');
+$doc->addScript($this->baseurl . '/templates/' . $this->template . '/javascript/md_stylechanger.js', 'text/javascript');
+$doc->addScript($this->baseurl . '/templates/' . $this->template . '/javascript/hide.js', 'text/javascript');
+$doc->addScript($this->baseurl . '/templates/' . $this->template . '/javascript/respond.src.js', 'text/javascript');
 
 ?>
 
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>" >
 	<head>
-		<?php require(__DIR__  . '/jsstrings.php');?>
+		<?php require __DIR__ . '/jsstrings.php';?>
 
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=3.0, user-scalable=yes"/>
 		<meta name="HandheldFriendly" content="true" />
