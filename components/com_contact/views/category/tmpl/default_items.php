@@ -33,10 +33,6 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 			</div>
 		<?php endif; ?>
 
-		<?php if ($this->params->get('filter_field') != 'hide') :?>
-			</fieldset>
-		<?php endif; ?>
-
 		<ul class="category list-striped">
 			<?php foreach ($this->items as $i => $item) : ?>
 
@@ -60,14 +56,13 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 								<?php echo JTEXT::sprintf('COM_CONTACT_FAX_NUMBER',$item->fax); ?><br/>
 							<?php endif; ?>
 					</span>
-						
 
 					<p>
 						<strong class="list-title">
 							<a href="<?php echo JRoute::_(ContactHelperRoute::getContactRoute($item->slug, $item->catid)); ?>">
 								<?php echo $item->name; ?></a>
 							<?php if ($this->items[$i]->published == 0): ?>
-								<span class="label label-warning">Unpublished</span>
+								<span class="label label-warning"><?php echo JText::_('JUNPUBLISHED'); ?></span>
 							<?php endif; ?>
 
 						</strong><br/>
@@ -93,7 +88,6 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 				<?php endif; ?>
 			<?php endforeach; ?>
 		</ul>
-
 
 		<?php if ($this->params->get('show_pagination')) : ?>
 		<div class="pagination">
