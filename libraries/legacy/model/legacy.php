@@ -319,10 +319,10 @@ abstract class JModelLegacy extends JObject
 			$query = clone $query;
 			$query->clear('select')->clear('order')->select('COUNT(*)');
 			$this->_db->setQuery($query);
-			
+
 			return (int) $this->_db->loadResult();
 		}
-		else 
+		else
 		{
 			// Performance of this query is very bad as it forces database engine to go
 			// through all items in the database. If you don't use JDatabaseQuery object,
