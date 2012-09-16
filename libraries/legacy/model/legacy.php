@@ -324,9 +324,10 @@ abstract class JModelLegacy extends JObject
 		}
 		else
 		{
-			// Performance of this query is very bad as it forces database engine to go
-			// through all items in the database. If you don't use JDatabaseQuery object,
-			// you should override this function in your model.
+			/* Performance of this query is very bad as it forces database engine to go
+			 * through all items in the database. If you don't use JDatabaseQuery object,
+			 * you should override this function in your model.
+			 */
 			$this->_db->setQuery($query);
 			$this->_db->execute();
 
