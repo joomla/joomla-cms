@@ -155,6 +155,7 @@ else
 
 		<!-- Beginning of Actual Content -->
 		<div id="element-box">
+			<div id="container-collapse" class="container-collapse"></div>
 			<p id="skiptargetholder"><a id="skiptarget" class="skip" tabindex="-1"></a></p>
 
 			<!-- The main component -->
