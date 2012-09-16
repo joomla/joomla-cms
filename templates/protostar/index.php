@@ -185,9 +185,5 @@ else
 		</div>
 	</div>
 	<jdoc:include type="modules" name="debug" style="none" />
-	<script>
-		jQuery('*[rel=tooltip]').tooltip()
-		jQuery('.tip-bottom').tooltip({placement: "bottom"})
-	</script>
 </body>
 </html>

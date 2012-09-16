@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.modal');
-JHtml::_('jquery.chosen');
+JHtml::_('formbehavior.chosen', 'select');
 
 $canDo = TemplatesHelper::getActions();
 $input = JFactory::getApplication()->input;

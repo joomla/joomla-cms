@@ -18,7 +18,6 @@ $this->direction = $doc->direction;
 
 // Add JavaScript Frameworks
 JHtml::_('bootstrap.framework');
-JHtml::_('jquery.chosen');
 
 // Add Stylesheets
 $doc->addStyleSheet('templates/' .$this->template. '/css/template.css');
@@ -48,12 +47,6 @@ endif;
 	<jdoc:include type="component" />
 	<script>
 		(function($){
-			$('*[rel=tooltip]').tooltip()
-			$('.tip-bottom').tooltip({placement: "bottom"})
-
-		    // Chosen select boxes
-		    $("select").chosen({disable_search_threshold : 10 });
-
 		    // Turn radios into btn-group
 		    $('.radio.btn-group label').addClass('btn')
 		    $(".btn-group label:not(.active)").click(function(){

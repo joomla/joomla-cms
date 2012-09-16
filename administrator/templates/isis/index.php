@@ -19,7 +19,6 @@ $user  = JFactory::getUser();
 
 // Add JavaScript Frameworks
 JHtml::_('bootstrap.framework');
-JHtml::_('jquery.ui');
 
 // Add Stylesheets
 $doc->addStyleSheet('templates/' . $this->template . '/css/template.css');
@@ -211,8 +210,6 @@ else
 	<jdoc:include type="modules" name="debug" style="none" />
 	<script>
 		(function($){
-			$('*[rel=tooltip]').tooltip()
-
 			// fix sub nav on scroll
 			var $win = $(window)
 			  , $nav = $('.subhead')

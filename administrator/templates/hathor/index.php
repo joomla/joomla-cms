@@ -26,7 +26,6 @@ if (is_file($file)) :
 	$doc->addStyleSheet($file);
 endif;
 
-$doc->addStyleSheet('../media/jui/css/chosen.css');
 // Logo file
 if ($this->params->get('logoFile'))
 {

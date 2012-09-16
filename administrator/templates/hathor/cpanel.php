@@ -37,8 +37,6 @@ $file = 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css';
 if (is_file($file)) :
 	$doc->addStyleSheet($file);
 endif;
-
-$doc->addStyleSheet('../media/jui/css/chosen.css');
 ?>
 <!-- Load Template CSS -->
 <link href="templates/<?php echo  $this->template ?>/css/template.css" rel="stylesheet" type="text/css" />

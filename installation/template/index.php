@@ -16,8 +16,6 @@ $doc->addStyleSheet('../media/jui/css/bootstrap-extended.css');
 $doc->addStyleSheet('../media/jui/css/bootstrap-responsive.css');
 $doc->addStyleSheet('template/css/template.css');
 
-$doc->addStyleSheet('../media/jui/css/chosen.css');
-
 if ($this->direction === 'rtl')
 {
 	$doc->addStyleSheet('../media/jui/css/bootstrap-rtl.css');
@@ -25,10 +23,9 @@ if ($this->direction === 'rtl')
 
 // Load the JavaScript behaviors
 JHtml::_('bootstrap.framework');
-JHtml::_('jquery.chosen');
+JHtml::_('formbehavior.chosen', 'select');
 JHtml::_('behavior.framework', true);
 JHtml::_('behavior.keepalive');
-JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
 JHtml::_('script', 'installation/template/js/installation.js', true, false, false, false);
 
@@ -83,7 +80,7 @@ JText::script('INSTL_FTP_SETTINGS_CORRECT');
 		<script>
 			function initElements() {
 				(function($){
-					$('*[rel=tooltip]').tooltip()
+					$('.hasTooltip').tooltip()
 
 					// Chosen select boxes
 					$("select").chosen({

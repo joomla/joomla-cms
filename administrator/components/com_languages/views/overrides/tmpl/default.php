@@ -9,21 +9,22 @@
 
 defined('_JEXEC') or die;
 
-JHtml::_('jquery.chosen');
+JHtml::_('formbehavior.chosen', 'select');
+JHtml::_('bootstrap.tooltip');
 
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
-$client			= $this->state->get('filter.client') == 'site' ? JText::_('JSITE') : JText::_('JADMINISTRATOR');
-$language		= $this->state->get('filter.language');
-$listOrder	= $this->escape($this->state->get('list.ordering'));
-$listDirn		= $this->escape($this->state->get('list.direction')); ?>
+$client    = $this->state->get('filter.client') == 'site' ? JText::_('JSITE') : JText::_('JADMINISTRATOR');
+$language  = $this->state->get('filter.language');
+$listOrder = $this->escape($this->state->get('list.ordering'));
+$listDirn  = $this->escape($this->state->get('list.direction')); ?>
 <form action="<?php echo JRoute::_('index.php?option=com_languages&view=overrides'); ?>" method="post" name="adminForm" id="adminForm">
 	<div id="filter-bar" class="btn-toolbar">
 		<div class="filter-search btn-group pull-left">
 			<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('COM_LANGUAGES_VIEW_OVERRIDES_FILTER_SEARCH_DESC'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" title="<?php echo JText::_('COM_LANGUAGES_VIEW_OVERRIDES_FILTER_SEARCH_DESC'); ?>" />
 		</div>
 		<div class="btn-group pull-left">
-			<button class="btn" rel="tooltip" type="submit" title="<?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?>"><i class="icon-search"></i></button>
-			<button class="btn" rel="tooltip" type="button" title="<?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?>" onclick="document.id('filter_search').value='';this.form.submit();"><i class="icon-remove"></i></button>
+			<button class="btn hasTooltip" type="submit" title="<?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?>"><i class="icon-search"></i></button>
+			<button class="btn hasTooltip" type="button" title="<?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?>" onclick="document.id('filter_search').value='';this.form.submit();"><i class="icon-remove"></i></button>
 		</div>
 	</div>
 	<div class="clearfix"></div>
