@@ -42,7 +42,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 			</fieldset>
 		<?php endif; ?>
 
-		<ul class="category list-striped list-condensed">
+		<ul class="category list-striped">
 			<?php foreach ($this->items as $i => $item) : ?>
 
 				<?php if (in_array($item->access, $this->user->getAuthorisedViewLevels())) : ?>
@@ -52,7 +52,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 						<li class="cat-list-row<?php echo $i % 2; ?>" >
 					<?php endif; ?>
 
-						<span class="pull-right span2">
+						<p class="pull-right">
 							<small>
 							<?php if ($this->params->get('show_telephone_headings') AND !empty($item->telephone)) : ?>
 								<?php echo $item->telephone; ?><br/>
@@ -66,9 +66,9 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 								<?php echo $item->fax; ?><br/>
 							<?php endif; ?>
 							</small>
-						</span>
+						</p>
 						
-						<span class="pull-right span2">
+						<p class="pull-right">
 							<small>
 							<?php if ($this->params->get('show_suburb_headings') AND !empty($item->suburb)) : ?>
 								<?php echo $item->suburb; ?></br>
@@ -82,8 +82,8 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 								<?php echo $item->country; ?><br/>
 							<?php endif; ?>
 							</small>
-						</span>
-						<p class="span2">
+						</p>
+						<p >
 						<strong class="list-title">
 							<a href="<?php echo JRoute::_(ContactHelperRoute::getContactRoute($item->slug, $item->catid)); ?>">
 								<?php echo $item->name; ?></a>
