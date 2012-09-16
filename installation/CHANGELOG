@@ -36,6 +36,7 @@ $ -> Language fix or change
  # [#29207] Unpublished badge not using jtext. Thanks Elin
  # Reverting #29141 as it creates unwanted pbs with dropbox while not solving fully the original issue
  # [#29201] Make it so submit button uses link color in protostar. Thanks Elin
+ +$ Adding installation languages: pl-PL, ta-IN, uk-UA
 
 16-Sept-2012 Rouven Weßling
  # [#29196] Plugin quickicon Joomlaupdate links to com_installer. Thanks Janich.
