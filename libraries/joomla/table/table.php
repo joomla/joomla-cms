@@ -91,7 +91,7 @@ abstract class JTable extends JObject
 	 *
 	 * @since   11.1
 	 */
-	public function __construct($table, $key, $db)
+	public function __construct($table, $key, JDatabaseDriver $db)
 	{
 		// Set internal variables.
 		$this->_tbl = $table;

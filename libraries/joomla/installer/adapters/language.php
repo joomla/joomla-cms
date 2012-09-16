@@ -52,7 +52,6 @@ class JInstallerLanguage extends JAdapterInstance
 			);
 		}
 		$this->manifest = $this->parent->getManifest();
-		$root = $this->manifest->document;
 
 		// Get the client application target
 		if ($cname = (string) $this->manifest->attributes()->client)

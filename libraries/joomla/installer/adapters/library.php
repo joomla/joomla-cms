@@ -9,7 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.installer.librarymanifest');
 jimport('joomla.base.adapterinstance');
 jimport('joomla.filesystem.folder');
 
@@ -285,7 +284,7 @@ class JInstallerLibrary extends JAdapterInstance
 		// Because libraries may not have their own folders we cannot use the standard method of finding an installation manifest
 		if (file_exists($manifestFile))
 		{
-			$manifest = new JLibraryManifest($manifestFile);
+			$manifest = new JInstallerManifestLibrary($manifestFile);
 
 			// Set the library root path
 			$this->parent->setPath('extension_root', JPATH_PLATFORM . '/' . $manifest->libraryname);

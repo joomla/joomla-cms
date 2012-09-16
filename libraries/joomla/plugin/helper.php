@@ -141,11 +141,11 @@ abstract class JPluginHelper
 	/**
 	 * Loads the plugin file.
 	 *
-	 * @param   JPlugin           $plugin      The plugin.
+	 * @param   object            $plugin      The plugin.
 	 * @param   boolean           $autocreate  True to autocreate.
 	 * @param   JEventDispatcher  $dispatcher  Optionally allows the plugin to use a different dispatcher.
 	 *
-	 * @return  boolean  True on success.
+	 * @return  void
 	 *
 	 * @since   11.1
 	 */

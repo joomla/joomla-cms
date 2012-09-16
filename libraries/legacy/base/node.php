@@ -59,14 +59,11 @@ class JNode extends JObject
 	 *
 	 * @since   11.1
 	 */
-	public function addChild(&$child)
+	public function addChild(JNode &$child)
 	{
 		JLog::add('JNode::addChild() is deprecated.', JLog::WARNING, 'deprecated');
 
-		if ($child instanceof Jnode)
-		{
-			$child->setParent($this);
-		}
+		$child->setParent($this);
 	}
 
 	/**

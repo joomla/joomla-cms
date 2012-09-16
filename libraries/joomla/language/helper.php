@@ -24,7 +24,7 @@ class JLanguageHelper
 	 * @param   string   $actualLanguage  Client key for the area
 	 * @param   string   $basePath        Base path to use
 	 * @param   boolean  $caching         True if caching is used
-	 * @param   array    $installed       An array of arrays (text, value, selected)
+	 * @param   boolean  $installed       Get only installed languages
 	 *
 	 * @return  array  List of system languages
 	 *

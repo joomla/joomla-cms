@@ -512,6 +512,8 @@ class JInstallerFile extends JAdapterInstance
 				$this->parent->set('extension_message', $msg);
 			}
 
+			$db = JFactory::getDbo();
+
 			// Let's run the uninstall queries for the extension
 			$result = $this->parent->parseSQLFiles($this->manifest->uninstall->sql);
 
@@ -523,17 +525,12 @@ class JInstallerFile extends JAdapterInstance
 			}
 
 			// Remove the schema version
-			$db = JFactory::getDbo();
 			$query = $db->getQuery(true);
 			$query->delete()
 				->from('#__schemas')
 				->where('extension_id = ' . $row->extension_id);
 			$db->setQuery($query);
 			$db->execute();
-
-			// Set root folder names
-			$packagePath = $this->parent->getPath('source');
-			$jRootPath = JPath::clean(JPATH_ROOT);
 
 			// Loop through all elements and get list of files and folders
 			foreach ($xml->fileset->files as $eFiles)
@@ -662,9 +659,6 @@ class JInstallerFile extends JAdapterInstance
 		// Initialise variable
 		$this->folderList = array();
 		$this->fileList = array();
-
-		// Get fileset
-		$eFileset = $this->manifest->fileset->files;
 
 		// Set root folder names
 		$packagePath = $this->parent->getPath('source');

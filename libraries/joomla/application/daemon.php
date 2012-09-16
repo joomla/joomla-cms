@@ -858,7 +858,7 @@ class JApplicationDaemon extends JApplicationCli
 	 * Method to install a signal handler.
 	 *
 	 * @param   integer   $signal   The signal number.
-	 * @param   callback  $handler  The signal handler which may be the name of a user created function,
+	 * @param   callable  $handler  The signal handler which may be the name of a user created function,
 	 *                              or method, or either of the two global constants SIG_IGN or SIG_DFL.
 	 * @param   boolean   $restart  Specifies whether system call restarting should be used when this
 	 *                              signal arrives.

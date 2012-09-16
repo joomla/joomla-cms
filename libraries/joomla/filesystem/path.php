@@ -151,14 +151,13 @@ class JPath
 	 * Checks for snooping outside of the file system root.
 	 *
 	 * @param   string  $path  A file system path to check.
-	 * @param   string  $ds    Directory separator (optional).
 	 *
 	 * @return  string  A cleaned version of the path or exit on error.
 	 *
 	 * @since   11.1
 	 * @throws  Exception
 	 */
-	public static function check($path, $ds = DIRECTORY_SEPARATOR)
+	public static function check($path)
 	{
 		if (strpos($path, '..') !== false)
 		{

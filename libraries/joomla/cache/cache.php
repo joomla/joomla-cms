@@ -96,7 +96,6 @@ class JCache
 		// Get an iterator and loop trough the driver classes.
 		$iterator = new DirectoryIterator(__DIR__ . '/storage');
 
-		$names = array();
 		foreach ($iterator as $file)
 		{
 			$fileName = $file->getFilename();
