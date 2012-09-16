@@ -133,5 +133,5 @@ $ftpFieldsDisplay = $this->ftp['enabled'] ? '' : 'style = "display: none"';
 <div class="download_message" style="display: none">
 	<p></p>
 	<p class="nowarning"> <?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_DOWNLOAD_IN_PROGRESS'); ?></p>
-	<div class="joomlaupdate_spinner" />
+	<div class="joomlaupdate_spinner"></div>
 </div>
