@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 JHtml::_('behavior.framework');
+JHtml::_('bootstrap.tooltip');
 JHtml::addIncludePath(JPATH_SITE . '/components/com_finder/helpers/html');
 
 // Load the smart search component language file.
@@ -49,7 +50,7 @@ if ($params->get('show_label', 1))
 
 if ($params->get('show_button', 1))
 {
-	$button = '<button class="btn btn-primary ' . $suffix . ' finder' . $suffix . '" type="submit" rel="tooltip" title="' . JText::_('MOD_FINDER_SEARCH_BUTTON') . '"><i class="icon-search icon-white"></i></button>';
+	$button = '<button class="btn btn-primary hasTooltip ' . $suffix . ' finder' . $suffix . '" type="submit" title="' . JText::_('MOD_FINDER_SEARCH_BUTTON') . '"><i class="icon-search icon-white"></i></button>';
 
 	switch ($params->get('button_pos', 'right')):
 		case 'top' :

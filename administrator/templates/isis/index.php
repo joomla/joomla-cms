@@ -19,7 +19,6 @@ $user  = JFactory::getUser();
 
 // Add JavaScript Frameworks
 JHtml::_('bootstrap.framework');
-JHtml::_('jquery.ui');
 
 // Add Stylesheets
 $doc->addStyleSheet('templates/' . $this->template . '/css/template.css');
@@ -93,6 +92,9 @@ else
 	<?php
 	}
 	?>
+	<!--[if lt IE 9]>
+		<script src="../media/jui/js/html5.js"></script>
+	<![endif]-->
 </head>
 
 <body class="admin <?php echo $option . " view-" . $view . " layout-" . $layout . " task-" . $task . " itemid-" . $itemid . " ";?>" data-spy="scroll" data-target=".subhead" data-offset="87">
@@ -208,8 +210,6 @@ else
 	<jdoc:include type="modules" name="debug" style="none" />
 	<script>
 		(function($){
-			$('*[rel=tooltip]').tooltip()
-
 			// fix sub nav on scroll
 			var $win = $(window)
 			  , $nav = $('.subhead')

@@ -45,7 +45,7 @@ JHtml::_('behavior.framework');
 		</h2>
 		<?php endif; ?>
 		<?php if ($this->item->state == 0): ?>
-			<span class="label label-warning">Unpublished</span>
+			<span class="label label-warning"><?php echo JText::_('JUNPUBLISHED'); ?></span>
 		<?php endif; ?>
 
 		<?php if ($params->get('show_author') && !empty($this->item->author )) : ?>

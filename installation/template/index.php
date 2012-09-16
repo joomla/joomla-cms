@@ -16,8 +16,6 @@ $doc->addStyleSheet('../media/jui/css/bootstrap-extended.css');
 $doc->addStyleSheet('../media/jui/css/bootstrap-responsive.css');
 $doc->addStyleSheet('template/css/template.css');
 
-$doc->addStyleSheet('../media/jui/css/chosen.css');
-
 if ($this->direction === 'rtl')
 {
 	$doc->addStyleSheet('../media/jui/css/bootstrap-rtl.css');
@@ -25,10 +23,9 @@ if ($this->direction === 'rtl')
 
 // Load the JavaScript behaviors
 JHtml::_('bootstrap.framework');
-JHtml::_('jquery.chosen');
+JHtml::_('formbehavior.chosen', 'select');
 JHtml::_('behavior.framework', true);
 JHtml::_('behavior.keepalive');
-JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
 JHtml::_('script', 'installation/template/js/installation.js', true, false, false, false);
 
@@ -41,9 +38,8 @@ JText::script('INSTL_FTP_SETTINGS_CORRECT');
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 	<head>
 		<jdoc:include type="head" />
-
-		<!--[if IE 7]>
-			<link href="template/css/ie7.css" rel="stylesheet" type="text/css" />
+		<!--[if lt IE 9]>
+			<script src="../media/jui/js/html5.js"></script>
 		<![endif]-->
 		<script type="text/javascript">
 			window.addEvent('domready', function() {
@@ -84,7 +80,7 @@ JText::script('INSTL_FTP_SETTINGS_CORRECT');
 		<script>
 			function initElements() {
 				(function($){
-					$('*[rel=tooltip]').tooltip()
+					$('.hasTooltip').tooltip()
 
 					// Chosen select boxes
 					$("select").chosen({

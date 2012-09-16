@@ -14,7 +14,7 @@ JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
 JHtml::_('dropdown.init');
-JHtml::_('jquery.chosen');
+JHtml::_('formbehavior.chosen', 'select');
 
 $user		= JFactory::getUser();
 $listOrder	= $this->escape($this->state->get('list.ordering'));
@@ -124,7 +124,7 @@ $sortFields = $this->getSortFields();
 							$disabledLabel    = JText::_('JORDERINGDISABLED');
 							$disableClassName = 'inactive tip-top';
 						endif; ?>
-						<span class="sortable-handler <?php echo $disableClassName?>" title="<?php echo $disabledLabel?>" rel="tooltip">
+						<span class="sortable-handler hasTooltip <?php echo $disableClassName?>" title="<?php echo $disabledLabel?>">
 							<i class="icon-menu" title="<?php echo $item->ordering;?>"></i>
 						</span>
 						<input type="text" style="display:none"  name="order[]" size="5" value="<?php echo $item->ordering;?>" class="width-20 text-area-order " />

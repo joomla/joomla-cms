@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-JHtml::_('jquery.chosen');
+JHtml::_('formbehavior.chosen', 'select');
 
 $options = array(
 	JHtml::_('select.option', 'c', JText::_('JLIB_HTML_BATCH_COPY')),

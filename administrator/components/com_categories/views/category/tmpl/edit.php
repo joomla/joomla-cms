@@ -18,7 +18,7 @@ $input = JFactory::getApplication()->input;
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
 JHtml::_('behavior.keepalive');
-JHtml::_('jquery.chosen');
+JHtml::_('formbehavior.chosen', 'select');
 
 ?>
 

@@ -366,34 +366,33 @@ abstract class JHtmlBootstrap
 	 *
 	 * @since   3.0
 	 */
-	public static function tooltip($selector = 'content', $params = array())
+	public static function tooltip($selector = '.hasTooltip', $params = array())
 	{
-		$sig = md5(serialize(array($selector, $params)));
-		if (!isset(self::$loaded[__METHOD__][$sig]))
+		if (!isset(self::$loaded[__METHOD__][$selector]))
 		{
 			// Include Bootstrap framework
 			self::framework();
 
 			// Setup options object
-			$opt['animation'] = (isset($params['animation']) && ($params['animation'])) ? (boolean) $params['animation'] : true;
-			$opt['html']      = (isset($params['html']) && ($params['html'])) ? (boolean) $params['html'] : true;
-			$opt['placement'] = (isset($params['placement']) && ($params['placement'])) ? (string) $params['placement'] : 'top';
-			$opt['selector']  = (isset($params['selector']) && ($params['selector'])) ? (string) $params['selector'] : false;
-			$opt['title']     = (isset($params['title']) && ($params['title'])) ? (string) $params['title'] : '';
-			$opt['trigger']   = (isset($params['trigger']) && ($params['trigger'])) ? (string) $params['trigger'] : 'hover';
-			$opt['delay']     = (isset($params['delay']) && ($params['delay'])) ? (int) $params['delay'] : 0;
+			$opt['animation'] = (isset($params['animation']) && ($params['animation'])) ? (boolean) $params['animation'] : null;
+			$opt['html']      = (isset($params['html']) && ($params['html'])) ? (boolean) $params['html'] : null;
+			$opt['placement'] = (isset($params['placement']) && ($params['placement'])) ? (string) $params['placement'] : null;
+			$opt['selector']  = (isset($params['selector']) && ($params['selector'])) ? (string) $params['selector'] : null;
+			$opt['title']     = (isset($params['title']) && ($params['title'])) ? (string) $params['title'] : null;
+			$opt['trigger']   = (isset($params['trigger']) && ($params['trigger'])) ? (string) $params['trigger'] : null;
+			$opt['delay']     = (isset($params['delay']) && ($params['delay'])) ? (int) $params['delay'] : null;
 
 			$options = JHtml::getJSObject($opt);
 
 			// Attach tooltips to document
 			JFactory::getDocument()->addScriptDeclaration(
-				"(function($){
-					$('#$selector').tooltip($options);
-					})(jQuery);"
+				"jQuery(document).ready(function() {
+					jQuery('" . $selector . "').tooltip(" . $options . ");
+				});"
 			);
 
 			// Set static array
-			self::$loaded[__METHOD__][$sig] = true;
+			self::$loaded[__METHOD__][$selector] = true;
 		}
 
 		return;

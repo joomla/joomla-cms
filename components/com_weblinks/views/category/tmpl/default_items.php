@@ -90,8 +90,8 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 						$width	= 600;
 						$height	= 500;
 					}
-					 if ($this->items[$i]->state == 0): ?>
-						<span class="label label-warning">Unpublished</span>
+					if ($this->items[$i]->state == 0): ?>
+						<span class="label label-warning"><?php echo JText::_('JUNPUBLISHED'); ?></span>
 					<?php endif; ?>
 
 					<?php switch ($item->params->get('target', $this->params->get('target')))
