@@ -26,11 +26,26 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+16-Sept-2012 Jean-Marie Simonet
+ # [#29141] *RTL filtering broken. Thansk Andrea
+ #$ Correcting some installation lang strings + adding a sprintf
+ # [#29177] Re-added module filter. Thanks Jason
+ # [#29189] Hathor: Batch without function. Thanks Michael
+ # [#29179] SQL error in related items module. Thanks Mark
+ #^ [#29160] Optimise JavaScript loading. Thanks Rouven
+ # [#29207] Unpublished badge not using jtext. Thanks Elin
+ # Reverting #29141 as it creates unwanted pbs with dropbox while not solving fully the original issue
+
+16-Sept-2012 Rouven Weßling
+ # [#29196] Plugin quickicon Joomlaupdate links to com_installer. Thanks Janich.
+ # [#29202] Plugins manager Status filter does not work. Thanks Yannick.
+ # [#29174] HTML5 Shim Added To All Templates. Thanks Kyle.
+
 15-Sep-2012 Mark Dexter
  # [#28485] Joomla search module html needs looking at. Thanks Jason Williams.
  # [#29182] Fix notice in search view. Thanks Elin.
  # [#29172] Unpublished state is not indicated. Thanks Elin.
- 
+
 15-Sept-2012 Jean-Marie Simonet
  +$ Adding installation da-DK, he-IL, it-IT, sk-SK
  # [#29163] Icon appearing in wrong place in administrator/mod_menu. Thanks Javier
@@ -40,7 +55,7 @@ $ -> Language fix or change
 
 14-Sept-2012 Jean-Marie Simonet
  # [#29091] *Language issues during installation: E-Mail always in English, thanks Dennis
- - Deleting obsolete installation languages. 
+ - Deleting obsolete installation languages.
  # Reverting 29091
 
 13-Sept-2012 Rouven Weßling

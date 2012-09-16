@@ -21,18 +21,12 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 <?php else : ?>
 
 <form action="<?php echo htmlspecialchars(JUri::getInstance()->toString()); ?>" method="post" name="adminForm" id="adminForm">
-	<?php if ($this->params->get('filter_field') != 'hide') : ?>
-	<fieldset class="filters">
-		<legend class="element-invisible">
-			<?php echo JText::_('JGLOBAL_FILTER_LABEL'); ?>
-		</legend>
-
-		<div class="filter-search">
-			<label class="filter-search-lbl" for="filter-search"><?php echo JText::_('COM_NEWSFEEDS_'.$this->params->get('filter_field').'_FILTER_LABEL').'&#160;'; ?></label>
-			<input type="text" name="filter-search" id="filter-search" value="<?php echo $this->escape($this->state->get('list.filter')); ?>" class="inputbox" onchange="document.adminForm.submit();" title="<?php echo JText::_('COM_NEWSFEEDS_FILTER_SEARCH_DESC'); ?>" />
+	<?php if ($this->params->get('filter_field') != 'hide') :?>
+		<div class="btn-group">
+			<label class="filter-search-lbl element-invisible" for="filter-search"><span class="label label-warning"><?php echo JText::_('JUNPUBLISHED'); ?></span><?php echo JText::_('COM_NEWSFEEDS_'.$this->params->get('filter_field').'_FILTER_LABEL').'&#160;'; ?></label>
+			<input type="text" name="filter-search" id="filter-search" value="<?php echo $this->escape($this->state->get('list.filter')); ?>" class="inputbox" onchange="document.adminForm.submit();" title="<?php echo JText::_('COM_NEWSFEEDS_FILTER_SEARCH_DESC'); ?>" placeholder="<?php echo JText::_('COM_NEWSFEEDS_FILTER_SEARCH_DESC'); ?>" />
 		</div>
 	<?php endif; ?>
-
 	<?php if ($this->params->get('show_pagination_limit')) : ?>
 		<div class="display-limit">
 			<?php echo JText::_('JGLOBAL_DISPLAY_NUM'); ?>&#160;
@@ -44,8 +38,8 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 		</fieldset>
 	<?php endif; ?>
 
-	<ul class="category list-striped list-condensed">
 
+	<ul class="category list-striped list-condensed">
 		<?php foreach ($this->items as $i => $item) : ?>
 			<?php if ($this->items[$i]->published == 0) : ?>
 				<li class="system-unpublished cat-list-row<?php echo $i % 2; ?>">

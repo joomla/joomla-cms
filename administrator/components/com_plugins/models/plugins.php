@@ -64,8 +64,8 @@ class PluginsModelPlugins extends JModelList
 		$accessId = $this->getUserStateFromRequest($this->context.'.filter.access', 'filter_access', null, 'int');
 		$this->setState('filter.access', $accessId);
 
-		$state = $this->getUserStateFromRequest($this->context.'.filter.state', 'filter_state', '', 'string');
-		$this->setState('filter.state', $state);
+		$state = $this->getUserStateFromRequest($this->context . '.filter.enabled', 'filter_enabled', '', 'string');
+		$this->setState('filter.enabled', $state);
 
 		$folder = $this->getUserStateFromRequest($this->context.'.filter.folder', 'filter_folder', null, 'cmd');
 		$this->setState('filter.folder', $folder);
@@ -209,7 +209,7 @@ class PluginsModelPlugins extends JModelList
 		}
 
 		// Filter by published state
-		$published = $this->getState('filter.state');
+		$published = $this->getState('filter.enabled');
 		if (is_numeric($published)) {
 			$query->where('a.enabled = '.(int) $published);
 		} elseif ($published === '') {

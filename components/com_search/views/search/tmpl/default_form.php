@@ -11,8 +11,9 @@ defined('_JEXEC') or die;
 
 $lang = JFactory::getLanguage();
 $upper_limit = $lang->getUpperLimitSearchWord();
-?>
 
+JHtml::_('bootstrap.tooltip');
+?>
 <form id="searchForm" action="<?php echo JRoute::_('index.php?option=com_search');?>" method="post">
 
 	<div class="btn-toolbar">
@@ -20,7 +21,7 @@ $upper_limit = $lang->getUpperLimitSearchWord();
 			<input type="text" name="searchword" placeholder="<?php echo JText::_('COM_SEARCH_SEARCH_KEYWORD'); ?>" id="search-searchword" size="30" maxlength="<?php echo $upper_limit; ?>" value="<?php echo $this->escape($this->origkeyword); ?>" class="inputbox" />
 		</div>
 		<div class="btn-group pull-left">
-			<button name="Search" onclick="this.form.submit()" class="btn" rel="tooltip" title="<?php echo JText::_('COM_SEARCH_SEARCH');?>"><i class="icon-search"></i></button>
+			<button name="Search" onclick="this.form.submit()" class="btn hasTooltip" title="<?php echo JText::_('COM_SEARCH_SEARCH');?>"><i class="icon-search"></i></button>
 		</div>
 		<input type="hidden" name="task" value="search" />
 		<div class="clearfix"></div>

@@ -47,7 +47,7 @@ abstract class JHtmlSortablelist
 		}
 
 		// Depends on jQuery UI
-		JHtml::_('jquery.ui');
+		JHtml::_('jquery.ui', array('core', 'sortable'));
 
 		JHtml::script('jui/sortablelist.js', false, true);
 		JHtml::stylesheet('jui/sortablelist.css', false, true, false);

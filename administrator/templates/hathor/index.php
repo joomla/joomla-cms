@@ -26,7 +26,6 @@ if (is_file($file)) :
 	$doc->addStyleSheet($file);
 endif;
 
-$doc->addStyleSheet('../media/jui/css/chosen.css');
 // Logo file
 if ($this->params->get('logoFile'))
 {
@@ -71,6 +70,9 @@ else
 <![endif]-->
 <!--[if IE 7]>
 	<link href="templates/<?php echo  $this->template ?>/css/ie7.css" rel="stylesheet" type="text/css" />
+<![endif]-->
+<!--[if lt IE 9]>
+	<script src="../media/jui/js/html5.js"></script>
 <![endif]-->
 <!-- Load Template JavaScript -->
 <script type="text/javascript" src="templates/<?php  echo  $this->template  ?>/js/template.js"></script>
@@ -152,6 +154,7 @@ else
 
 		<!-- Beginning of Actual Content -->
 		<div id="element-box">
+			<div id="container-collapse" class="container-collapse"></div>
 			<p id="skiptargetholder"><a id="skiptarget" class="skip" tabindex="-1"></a></p>
 
 			<!-- The main component -->

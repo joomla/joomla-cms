@@ -9,12 +9,13 @@
 
 defined('_JEXEC') or die;
 
-JHtml::_('jquery.chosen');
+JHtml::_('formbehavior.chosen', 'select');
+JHtml::_('bootstrap.tooltip');
 
-$user		= JFactory::getUser();
-$userId		= $user->get('id');
-$listOrder	= $this->escape($this->state->get('list.ordering'));
-$listDirn	= $this->escape($this->state->get('list.direction'));
+$user      = JFactory::getUser();
+$userId    = $user->get('id');
+$listOrder = $this->escape($this->state->get('list.ordering'));
+$listDirn  = $this->escape($this->state->get('list.direction'));
 
 JText::script('COM_FINDER_INDEX_CONFIRM_DELETE_PROMPT');
 ?>
@@ -37,8 +38,8 @@ Joomla.submitbutton = function(pressbutton) {
 			<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('COM_FINDER_FILTER_SEARCH_DESCRIPTION'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" title="<?php echo JText::_('COM_FINDER_FILTER_SEARCH_DESCRIPTION'); ?>" />
 		</div>
 		<div class="btn-group pull-left">
-			<button class="btn" rel="tooltip" type="submit" title="<?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?>"><i class="icon-search"></i></button>
-			<button class="btn" rel="tooltip" type="button" title="<?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?>" onclick="document.id('filter_search').value='';this.form.submit();"><i class="icon-remove"></i></button>
+			<button class="btn hasTooltip" type="submit" title="<?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?>"><i class="icon-search"></i></button>
+			<button class="btn hasTooltip" type="button" title="<?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?>" onclick="document.id('filter_search').value='';this.form.submit();"><i class="icon-remove"></i></button>
 		</div>
 	</div>
 	<div class="clearfix"> </div>

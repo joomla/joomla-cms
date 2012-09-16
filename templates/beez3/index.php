@@ -72,6 +72,9 @@ $doc->addScript($this->baseurl.'/templates/'.$this->template.'/javascript/respon
 <!--[if IE 7]>
 <link href="<?php echo $this->baseurl ?>/templates/<?php echo $this->template; ?>/css/ie7only.css" rel="stylesheet" type="text/css" />
 <![endif]-->
+<!--[if lt IE 9]>
+<script src="<?php echo $this->baseurl ?>/media/jui/js/html5.js"></script>
+<![endif]-->
 </head>
 
 <body id="shadow">

@@ -117,10 +117,12 @@ else
 	<?php
 	}
 	?>
+	<!--[if lt IE 9]>
+		<script src="<?php echo $this->baseurl ?>/media/jui/js/html5.js"></script>
+	<![endif]-->
 </head>
 
 <body class="site <?php echo $option . " view-" . $view . " layout-" . $layout . " task-" . $task . " itemid-" . $itemid . " ";?> <?php if ($this->params->get('fluidContainer')) { echo "fluid"; } ?>">
-
 	<!-- Body -->
 	<div class="body">
 		<div class="container<?php if ($this->params->get('fluidContainer')) { echo "-fluid"; } ?>">
@@ -183,9 +185,5 @@ else
 		</div>
 	</div>
 	<jdoc:include type="modules" name="debug" style="none" />
-	<script>
-		jQuery('*[rel=tooltip]').tooltip()
-		jQuery('.tip-bottom').tooltip({placement: "bottom"})
-	</script>
 </body>
 </html>

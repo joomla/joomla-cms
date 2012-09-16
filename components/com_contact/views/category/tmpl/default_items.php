@@ -19,16 +19,11 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 <?php else : ?>
 
 	<form action="<?php echo htmlspecialchars(JUri::getInstance()->toString()); ?>" method="post" name="adminForm" id="adminForm">
-		<?php if ($this->params->get('filter_field') != 'hide') : ?>
-			<fieldset class="filters">
-				<legend class="element-invisible">
-					<?php echo JText::_('JGLOBAL_FILTER_LABEL'); ?>
-				</legend>
-
-				<div class="filter-search">
-					<label class="filter-search-lbl" for="filter-search"><?php echo JText::_('COM_CONTACT_'.$this->params->get('filter_field').'_FILTER_LABEL').'&#160;'; ?></label>
-					<input type="text" name="filter-search" id="filter-search" value="<?php echo $this->escape($this->state->get('list.filter')); ?>" class="inputbox" onchange="document.adminForm.submit();" title="<?php echo JText::_('COM_CONTACT_FILTER_SEARCH_DESC'); ?>" />
-				</div>
+		<?php if ($this->params->get('filter_field') != 'hide') :?>
+			<div class="btn-group">
+				<label class="filter-search-lbl element-invisible" for="filter-search"><span class="label label-warning"><?php echo JText::_('JUNPUBLISHED'); ?></span><?php echo JText::_('COM_CONTACT_'.$this->params->get('filter_field').'_FILTER_LABEL').'&#160;'; ?></label>
+				<input type="text" name="filter-search" id="filter-search" value="<?php echo $this->escape($this->state->get('list.filter')); ?>" class="inputbox" onchange="document.adminForm.submit();" title="<?php echo JText::_('COM_CONTACT_FILTER_SEARCH_DESC'); ?>" placeholder="<?php echo JText::_('COM_CONTACT_FILTER_SEARCH_DESC'); ?>" />
+			</div>
 		<?php endif; ?>
 
 		<?php if ($this->params->get('show_pagination_limit')) : ?>
@@ -52,38 +47,22 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 						<li class="cat-list-row<?php echo $i % 2; ?>" >
 					<?php endif; ?>
 
-						<p class="pull-right">
-							<small>
+						<span class="pull-right">
 							<?php if ($this->params->get('show_telephone_headings') AND !empty($item->telephone)) : ?>
-								<?php echo $item->telephone; ?><br/>
+								<?php echo JTEXT::sprintf('COM_CONTACT_TELEPHONE_NUMBER',$item->telephone); ?><br/>
 							<?php endif; ?>
 
 							<?php if ($this->params->get('show_mobile_headings') AND !empty ($item->mobile)) : ?>
-									<?php echo $item->mobile; ?><br/>
+									<?php echo JTEXT::sprintf('COM_CONTACT_MOBILE_NUMBER',$item->mobile); ?><br/>
 							<?php endif; ?>
 
 							<?php if ($this->params->get('show_fax_headings') AND !empty($item->fax) ) : ?>
-								<?php echo $item->fax; ?><br/>
+								<?php echo JTEXT::sprintf('COM_CONTACT_FAX_NUMBER',$item->fax); ?><br/>
 							<?php endif; ?>
-							</small>
-						</p>
+					</span>
 						
-						<p class="pull-right">
-							<small>
-							<?php if ($this->params->get('show_suburb_headings') AND !empty($item->suburb)) : ?>
-								<?php echo $item->suburb; ?></br>
-							<?php endif; ?>
 
-							<?php if ($this->params->get('show_state_headings') AND !empty($item->state)) : ?>
-								<?php echo $item->state; ?><br/>
-							<?php endif; ?>
-
-							<?php if ($this->params->get('show_country_headings') AND !empty($item->country)) : ?>
-								<?php echo $item->country; ?><br/>
-							<?php endif; ?>
-							</small>
-						</p>
-						<p >
+					<p>
 						<strong class="list-title">
 							<a href="<?php echo JRoute::_(ContactHelperRoute::getContactRoute($item->slug, $item->catid)); ?>">
 								<?php echo $item->name; ?></a>
@@ -95,10 +74,21 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 						<?php if ($this->params->get('show_position_headings')) : ?>
 								<?php echo $item->con_position; ?><br/>
 						<?php endif; ?>
-
 						<?php if ($this->params->get('show_email_headings')) : ?>
 								<?php echo $item->email_to; ?>
-						<?php endif; ?></div>
+						<?php endif; ?>
+						<?php if ($this->params->get('show_suburb_headings') AND !empty($item->suburb)) : ?>
+							<?php echo $item->suburb . ', '; ?>
+						<?php endif; ?>
+
+						<?php if ($this->params->get('show_state_headings') AND !empty($item->state)) : ?>
+							<?php echo $item->state . ', '; ?>
+						<?php endif; ?>
+
+						<?php if ($this->params->get('show_country_headings') AND !empty($item->country)) : ?>
+							<?php echo $item->country; ?><br/>
+						<?php endif; ?>
+					</p>
 					</li>
 				<?php endif; ?>
 			<?php endforeach; ?>

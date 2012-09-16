@@ -17,7 +17,7 @@ JHtml::_('behavior.framework');
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
 JHtml::_('behavior.modal');
-JHtml::_('jquery.chosen');
+JHtml::_('formbehavior.chosen', 'select');
 
 ?>
 

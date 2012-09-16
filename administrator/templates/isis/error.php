@@ -22,7 +22,6 @@ $user  = JFactory::getUser();
 
 // Add JavaScript Frameworks
 JHtml::_('bootstrap.framework');
-JHtml::_('jquery.ui');
 
 // Detecting Active Variables
 $option   = $input->get('option', '');
@@ -110,9 +109,9 @@ else
 	<?php
 	}
 	?>
-	<script src="<?php echo JURI::root() ?>/media/jui/js/jquery.min.js" type="text/javascript"></script>
-	<script src="<?php echo JURI::root() ?>/media/jui/js/jquery-noconflict.js" type="text/javascript"></script>
-	<script src="<?php echo JURI::root() ?>/media/jui/js/bootstrap.min.js" type="text/javascript"></script>
+	<!--[if lt IE 9]>
+		<script src="../media/jui/js/html5.js"></script>
+	<![endif]-->
 </head>
 
 <body class="admin <?php echo $option . " view-" . $view . " layout-" . $layout . " task-" . $task . " ";?>" data-spy="scroll" data-target=".subhead" data-offset="87">
@@ -211,11 +210,6 @@ else
 	<!-- End Status Module -->
 	<script>
 		(function($){
-			$('*[rel=tooltip]').tooltip()
-			$('*[rel=popover]').popover({
-				trigger: 'hover'
-			})
-
 			// fix sub nav on scroll
 			var $win = $(window)
 			  , $nav = $('.subhead')
