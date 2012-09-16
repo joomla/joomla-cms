@@ -37,6 +37,7 @@ $ -> Language fix or change
  # Reverting #29141 as it creates unwanted pbs with dropbox while not solving fully the original issue
  # [#29201] Make it so submit button uses link color in protostar. Thanks Elin
  +$ Adding installation languages: pl-PL, ta-IN, uk-UA
+ +# [#29180] Improvements/ clean up for beez 3. Thanks Elin
 
 16-Sept-2012 Rouven Weßling
  # [#29196] Plugin quickicon Joomlaupdate links to com_installer. Thanks Janich.
