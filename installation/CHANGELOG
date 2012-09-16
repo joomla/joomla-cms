@@ -29,6 +29,7 @@ $ -> Language fix or change
 16-Sept-2012 Jean-Marie Simonet
  # [#29141] *RTL filtering broken. Thansk Andrea
  #$ Correcting some installation lang strings + adding a sprintf
+ # [#29177] Re-added module filter. Thanks Jason
 
 16-Sept-2012 Rouven Weßling
  # [#29196] Plugin quickicon Joomlaupdate links to com_installer. Thanks Janich.
