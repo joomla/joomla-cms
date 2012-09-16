@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+16-Sept-2012 Rouven Weßling
+ # [#29196] Plugin quickicon Joomlaupdate links to com_installer. Thanks Janich.
+
 15-Sep-2012 Mark Dexter
  # [#28485] Joomla search module html needs looking at. Thanks Jason Williams.
  # [#29182] Fix notice in search view. Thanks Elin.
@@ -40,7 +43,7 @@ $ -> Language fix or change
 
 14-Sept-2012 Jean-Marie Simonet
  # [#29091] *Language issues during installation: E-Mail always in English, thanks Dennis
- - Deleting obsolete installation languages. 
+ - Deleting obsolete installation languages.
  # Reverting 29091
 
 13-Sept-2012 Rouven Weßling
