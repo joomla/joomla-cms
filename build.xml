@@ -3,6 +3,15 @@
 <project name="joomla-platform" default="build" basedir=".">
 	<property name="source" value="libraries" />
 	<property name="joomlasource" value="libraries/joomla,libraries/legacy,libraries/compat,libraries/platform.php,libraries/loader.php,libraries/import.php" />
+	
+	<target name="init">
+		<condition property="script-suffix" value=".bat" else="">
+		  <os family="windows" />
+		</condition>
+		<condition property="script-null" value="NUL" else="/dev/null">
+		  <os family="windows" />
+		</condition>
+	</target>
 
 	<target name="clean" description="Clean up and create artifact directories">
 		<delete dir="${basedir}/build/api" />
@@ -19,11 +28,11 @@
 	</target>
 
 	<target name="phpunit" description="Run unit tests using PHPUnit and generates junit.xml and clover.xml">
-		<exec executable="phpunit" />
+		<exec executable="phpunit${script-suffix}" />
 	</target>
 
 	<target name="phpunit-legacy" description="Run legacy tests using PHPUnit and generates junit.legacy.xml and clover.legacy.xml">
-		<exec executable="phpunit">
+		<exec executable="phpunit${script-suffix}">
 			<arg value="-c" />
 			<arg value="legacy.xml.dist" />
 		</exec>
@@ -43,7 +52,7 @@
 	</target>
 
 	<target name="pdepend" description="Generate jdepend.xml and software metrics charts using PHP_Depend">
-		<exec executable="pdepend">
+		<exec executable="pdepend${script-suffix}">
 			<arg value="--jdepend-xml=${basedir}/build/logs/jdepend.xml" />
 			<arg value="--jdepend-chart=${basedir}/build/pdepend/dependencies.svg" />
 			<arg value="--overview-pyramid=${basedir}/build/pdepend/overview-pyramid.svg" />
@@ -52,7 +61,7 @@
 	</target>
 
 	<target name="phpmd" description="Generate pmd.xml using PHPMD">
-		<exec executable="phpmd">
+		<exec executable="phpmd${script-suffix}">
 			<arg path="${joomlasource}" />
 			<arg value="xml" />
 			<arg value="${basedir}/build/phpmd.xml" />
@@ -62,7 +71,7 @@
 	</target>
 
 	<target name="phpcpd" description="Generate pmd-cpd.xml using PHPCPD">
-		<exec executable="phpcpd">
+		<exec executable="phpcpd${script-suffix}">
 			<arg value="--log-pmd" />
 			<arg value="${basedir}/build/logs/pmd-cpd.xml" />
 			<arg path="${source}/joomla" />
@@ -70,7 +79,7 @@
 	</target>
 
 	<target name="phploc" description="Generate phploc.csv">
-		<exec executable="phploc">
+		<exec executable="phploc${script-suffix}">
 			<arg value="--log-csv" />
 			<arg value="${basedir}/build/logs/phploc.csv" />
 			<arg path="${source}/joomla" />
@@ -78,7 +87,7 @@
 	</target>
 
 	<target name="phpcs" description="Generate checkstyle.xml using PHP_CodeSniffer">
-		<exec executable="phpcs">
+		<exec executable="phpcs${script-suffix}">
 			<arg value="--report=checkstyle" />
 			<arg value="--extensions=php,css" />
 			<arg value="--report-file=${basedir}/build/logs/checkstyle.xml" />
@@ -89,7 +98,7 @@
 	</target>
 
 	<target name="phpdoc" description="Generate API documentation using PHPDocumentor">
-		<exec executable="phpdox">
+		<exec executable="phpdox${script-suffix}">
 			<arg value="-c" />
 			<arg path="${source}" />
 			<arg value="-d" />
@@ -102,7 +111,7 @@
 	</target>
 
 	<target name="phpcb" description="Aggregate tool output with PHP_CodeBrowser">
-		<exec executable="phpcb">
+		<exec executable="phpcb${script-suffix}">
 			<arg value="--log" />
 			<arg path="${basedir}/build/logs" />
 			<arg value="--source" />
@@ -123,5 +132,5 @@
 		</apply>
 	</target>
 
-	<target name="build" depends="clean,phpunit,phpunit-legacy,parallelTasks,phpcb" />
+	<target name="build" depends="init,clean,phpunit,phpunit-legacy,parallelTasks,phpcb" />
 </project>
