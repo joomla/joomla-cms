@@ -64,7 +64,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 				<?php if (in_array($article->access, $this->user->getAuthorisedViewLevels())) : ?>
 					<?php if ($this->params->get('list_show_hits', 1)) : ?>
 					<span class="list-hits badge badge-info pull-right">
-						<?php echo JText::sprintf('JGLOBAL_HITS', $article->hits); ?>
+						<?php echo JText::sprintf('JGLOBAL_HITS_COUNT', $article->hits); ?>
 					</span>
 					<?php endif; ?>
 					<?php if ($article->params->get('access-edit')) : ?>
@@ -75,6 +75,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 					<strong class="list-title">
 						<a href="<?php echo JRoute::_(ContentHelperRoute::getArticleRoute($article->slug, $article->catid)); ?>">
 							<?php echo $this->escape($article->title); ?></a>
+					</strong>
 					<?php if ($this->items[$i]->state == 0): ?>
 						<span class="label label-warning">Unpublished</span>
 					<?php endif; ?>
@@ -99,7 +100,6 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 							<?php endif; ?>
 						</small>
 						<?php endif; ?>
-					</strong>
 
 					<?php if ($this->params->get('list_show_date')) : ?>
 					<span class="list-date small pull-right">

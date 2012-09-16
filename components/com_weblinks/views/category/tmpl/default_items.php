@@ -55,108 +55,90 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 	<?php if ($this->params->get('filter_field') != 'hide') :?>
 		</fieldset>
 	<?php endif; ?>
+	<ul class="category list-striped list-condensed">
 
-	<table class="category">
-	<tbody>
-	<?php foreach ($this->items as $i => $item) : ?>
-		<?php if ($this->items[$i]->state == 0) : ?>
-			<tr class="system-unpublished cat-list-row<?php echo $i % 2; ?>">
-		<?php else: ?>
-			<tr class="cat-list-row<?php echo $i % 2; ?>" >
-		<?php endif; ?>
+		<?php foreach ($this->items as $i => $item) : ?>
 
-			<td class="title">
-			<p>
-				<?php if ($this->params->get('icons') == 0) : ?>
-					 <?php echo JText::_('COM_WEBLINKS_LINK'); ?>
-				<?php elseif ($this->params->get('icons') == 1) : ?>
-					<?php if (!$this->params->get('link_icons')) : ?>
-						<?php echo JHtml::_('image', 'system/'.$this->params->get('link_icons', 'weblink.png'), JText::_('COM_WEBLINKS_LINK'), null, true); ?>
-					<?php else: ?>
-						<?php echo '<img src="'.$this->params->get('link_icons').'" alt="'.JText::_('COM_WEBLINKS_LINK').'" />'; ?>
-					<?php endif; ?>
+			<?php if (in_array($item->access, $this->user->getAuthorisedViewLevels())) : ?>
+				<?php if ($this->items[$i]->state == 0) : ?>
+					<li class="system-unpublished cat-list-row<?php echo $i % 2; ?>">
+				<?php else: ?>
+					<li class="cat-list-row<?php echo $i % 2; ?>" >
 				<?php endif; ?>
-				<?php
-					// Compute the correct link
-					$menuclass = 'category'.$this->pageclass_sfx;
-					$link = $item->link;
-					$width	= $item->params->get('width');
-					$height	= $item->params->get('height');
-					if ($width == null || $height == null) {
-						$width	= 600;
-						$height	= 500;
-					}
-					 if ($this->items[$i]->state == 0): ?>
-						<span class="label label-warning">Unpublished</span>
+				<?php if ($this->params->get('list_show_hits', 1)) : ?>
+					<span class="list-hits badge badge-info pull-right">
+						<?php echo JText::sprintf('JGLOBAL_HITS_COUNT', $item->hits); ?>
+					</span>
+				<?php endif; ?>
+
+				<?php if ($canEdit) : ?>
+					<span class="list-edit pull-left width-50">
+						<?php echo JHtml::_('icon.edit', $item, $params); ?>
+					</span>
+				<?php endif; ?>
+
+				<strong class="list-title">
+					<?php if ($this->params->get('icons') == 0) : ?>
+						 <?php echo JText::_('COM_WEBLINKS_LINK'); ?>
+					<?php elseif ($this->params->get('icons') == 1) : ?>
+						<?php if (!$this->params->get('link_icons')) : ?>
+							<?php echo JHtml::_('image', 'system/'.$this->params->get('link_icons', 'weblink.png'), JText::_('COM_WEBLINKS_LINK'), null, true); ?>
+						<?php else: ?>
+							<?php echo '<img src="'.$this->params->get('link_icons').'" alt="'.JText::_('COM_WEBLINKS_LINK').'" />'; ?>
+						<?php endif; ?>
+					<?php endif; ?>
+					<?php
+						// Compute the correct link
+						$menuclass = 'category'.$this->pageclass_sfx;
+						$link = $item->link;
+						$width	= $item->params->get('width');
+						$height	= $item->params->get('height');
+						if ($width == null || $height == null) {
+							$width	= 600;
+							$height	= 500;
+						}
+						 if ($this->items[$i]->state == 0): ?>
+							<span class="label label-warning">Unpublished</span>
+						<?php endif; ?>
+
+						<?php switch ($item->params->get('target', $this->params->get('target')))
+						{
+							case 1:
+								// open in a new window
+								echo '<a href="'. $link .'" target="_blank" class="'. $menuclass .'" rel="nofollow">'.
+									$this->escape($item->title) .'</a>';
+								break;
+
+							case 2:
+								// open in a popup window
+								$attribs = 'toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width='.$this->escape($width).',height='.$this->escape($height).'';
+								echo "<a href=\"$link\" onclick=\"window.open(this.href, 'targetWindow', '".$attribs."'); return false;\">".
+									$this->escape($item->title).'</a>';
+								break;
+							case 3:
+								// open in a modal window
+								JHtml::_('behavior.modal', 'a.modal'); ?>
+								<a class="modal" href="<?php echo $link;?>"  rel="{handler: 'iframe', size: {x:<?php echo $this->escape($width);?>, y:<?php echo $this->escape($height);?>}}">
+									<?php echo $this->escape($item->title). ' </a>';
+								break;
+
+							default:
+								// open in parent window
+								echo '<a href="'.  $link . '" class="'. $menuclass .'" rel="nofollow">'.
+									$this->escape($item->title) . ' </a>';
+								break;
+						}
+					?>
+					</strong>
+					<?php if (($this->params->get('show_link_description')) and ($item->description !='')): ?>
+						<?php echo $item->description; ?>
 					<?php endif; ?>
 
-					<?php switch ($item->params->get('target', $this->params->get('target')))
-					{
-						case 1:
-							// open in a new window
-							echo '<a href="'. $link .'" target="_blank" class="'. $menuclass .'" rel="nofollow">'.
-								$this->escape($item->title) .'</a>';
-							break;
+					</li>
+				<?php endif;?>
+			<?php endforeach; ?>
+	</ul>
 
-						case 2:
-							// open in a popup window
-							$attribs = 'toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width='.$this->escape($width).',height='.$this->escape($height).'';
-							echo "<a href=\"$link\" onclick=\"window.open(this.href, 'targetWindow', '".$attribs."'); return false;\">".
-								$this->escape($item->title).'</a>';
-							break;
-						case 3:
-							// open in a modal window
-							JHtml::_('behavior.modal', 'a.modal'); ?>
-							<a class="modal" href="<?php echo $link;?>"  rel="{handler: 'iframe', size: {x:<?php echo $this->escape($width);?>, y:<?php echo $this->escape($height);?>}}">
-								<?php echo $this->escape($item->title). ' </a>';
-							break;
-
-						default:
-							// open in parent window
-							echo '<a href="'.  $link . '" class="'. $menuclass .'" rel="nofollow">'.
-								$this->escape($item->title) . ' </a>';
-							break;
-					}
-				?>
-				<?php // Code to add the edit link for the weblink. ?>
-
-					<?php if ($canEdit) : ?>
-						<span class="list-edit pull-right width-50">
-							<?php echo JHtml::_('icon.edit', $item, $params); ?>
-						</span>
-					<?php endif; ?>
-					<?php if ($this->params->get('list_show_hits', 1)) : ?>
-						<span class="list-hits badge badge-info pull-right">
-							<?php echo $item->hits; ?>
-						</span>
-					<?php endif; ?>
-			<?php if (($this->params->get('show_link_description')) and ($item->description != '')): ?>
-			<?php $images = json_decode($item->images); ?>
-			<?php  if (isset($images->image_first) and !empty($images->image_first)) : ?>
-			<?php $imgfloat = (empty($images->float_first)) ? $this->params->get('float_first') : $images->float_first; ?>
-			<div class="img-intro-<?php echo htmlspecialchars($imgfloat); ?>"> <img
-				<?php if ($images->image_first_caption):
-					echo 'class="caption"'.' title="' .htmlspecialchars($images->image_first_caption) .'"';
-				endif; ?>
-				src="<?php echo htmlspecialchars($images->image_first); ?>" alt="<?php echo htmlspecialchars($images->image_first_alt); ?>"/> </div>
-			<?php endif; ?>
-			<?php  if (isset($images->image_second) and !empty($images->image_second)) : ?>
-			<?php $imgfloat = (empty($images->float_second)) ? $this->params->get('float_second') : $images->float_second; ?>
-			<div class="pull-<?php echo htmlspecialchars($imgfloat); ?> item-image"> <img
-			<?php if ($images->image_second_caption):
-				echo 'class="caption"'.' title="' .htmlspecialchars($images->image_second_caption) .'"';
-			endif; ?>
-			src="<?php echo htmlspecialchars($images->image_second); ?>" alt="<?php echo htmlspecialchars($images->image_second_alt); ?>"/> </div>
-			<?php endif; ?>
-
-				<?php echo $item->description; ?>
-			<?php endif; ?>
-		</td>
-
-	</tr>
-	<?php endforeach; ?>
-</tbody>
-</table>
 
 	<?php // Code to add a link to submit a weblink. ?>
 	<?php /* if ($canCreate) : // TODO This is not working due to some problem in the router, I think. Ref issue #23685 ?>
