@@ -22,7 +22,7 @@ defined('JPATH_PLATFORM') or die;
 class JLoggerCallback extends JLogLogger
 {
 	/**
-	 * @var    callback  The function to call when an entry is added - should return True on success
+	 * @var    callable  The function to call when an entry is added - should return True on success
 	 * @since  12.2
 	 */
 	protected $callback;

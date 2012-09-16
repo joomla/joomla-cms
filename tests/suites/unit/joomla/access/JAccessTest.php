@@ -110,6 +110,7 @@ class JAccessTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   11.1
+	 * @covers  JAccess::getAuthorisedViewLevels
 	 */
 	public function testGetAuthorisedViewLevels()
 	{
@@ -229,6 +230,7 @@ class JAccessTest extends TestCaseDatabase
 	 *
 	 * @since   11.1
 	 * @dataProvider casesCheck()
+	 * @covers  JAccess::check
 	 */
 	public function testCheck($userId, $action, $assetId, $result, $message)
 	{
@@ -310,7 +312,7 @@ class JAccessTest extends TestCaseDatabase
 	}
 
 	/**
-	 * Tests the JAccess::checkGroups method.
+	 * Tests the JAccess::checkGroup method.
 	 *
 	 * @param	integer		group id
 	 * @param	string		action to test
@@ -322,6 +324,7 @@ class JAccessTest extends TestCaseDatabase
 	 *
 	 * @since   11.1
 	 * @dataProvider casesCheckGroup()
+	 * @covers  JAccess::checkGroup
 	 */
 	public function testCheckGroup($groupId, $action, $assetId, $result, $message)
 	{
@@ -338,6 +341,7 @@ class JAccessTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   11.1
+	 * @covers  JAccess::getAssetRules
 	 */
 	public function testGetAssetRulesValidTrue()
 	{
@@ -350,6 +354,10 @@ class JAccessTest extends TestCaseDatabase
 			'Recursive rules from a valid asset. Line: ' . __LINE__
 		);
 	}
+
+	/**
+	 * @covers  JAccess::getAssetRules
+	 */
 	public function testGetAssetRulesValidFalse()
 	{
 		$access = new JAccess();
@@ -361,6 +369,10 @@ class JAccessTest extends TestCaseDatabase
 			'Non recursive rules from a valid asset. Line: ' . __LINE__
 		);
 	}
+
+	/**
+	 * @covers  JAccess::getAssetRules
+	 */
 	public function testGetAssetRulesInvalidFalse()
 	{
 		$access = new JAccess();
@@ -372,6 +384,10 @@ class JAccessTest extends TestCaseDatabase
 			'Invalid asset uses rule from root. Line: ' . __LINE__
 		);
 	}
+
+	/**
+	 * @covers  JAccess::getAssetRules
+	 */
 	public function testGetAssetRulesTextFalse()
 	{
 		$access = new JAccess();
@@ -383,6 +399,10 @@ class JAccessTest extends TestCaseDatabase
 			'Invalid asset uses rule from root. Line: ' . __LINE__
 		);
 	}
+
+	/**
+	 * @covers  JAccess::getAssetRules
+	 */
 	public function testGetAssetRulesTextTrue()
 	{
 		$access = new JAccess();
@@ -401,6 +421,7 @@ class JAccessTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   11.1
+	 * @covers  JAccess::getUsersByGroup
 	 */
 	public function testGetUsersByGroupSimple()
 	{
@@ -414,6 +435,10 @@ class JAccessTest extends TestCaseDatabase
 			'Get one user. Line: ' . __LINE__
 		);
 	}
+
+	/**
+	 * @covers  JAccess::getUsersByGroup
+	 */
 	public function testGetUsersByGroupTwoUsers()
 	{
 		$access = new JAccess();
@@ -429,6 +454,10 @@ class JAccessTest extends TestCaseDatabase
 			'Get multiple users. Line: ' . __LINE__
 		);
 	}
+
+	/**
+	 * @covers  JAccess::getUsersByGroup
+	 */
 	public function testGetUsersByGroupInvalidGroup()
 	{
 		$access = new JAccess();
@@ -447,6 +476,7 @@ class JAccessTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   11.1
+	 * @covers  JAccess::getGroupsByUser
 	 */
 	public function testGetGroupsByUser()
 	{
@@ -562,6 +592,7 @@ class JAccessTest extends TestCaseDatabase
 	 * @since   12.1
 	 *
 	 * @dataProvider casesGetActionsFromData
+	 * @covers  JAccess::getActionsFromData
 	 */
 	public function testGetActionsFromData($data, $xpath, $expected, $msg)
 	{
@@ -578,6 +609,7 @@ class JAccessTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   12.1
+	 * @covers  JAccess::getActionsFromFile
 	 */
 	public function testGetActionsFromFile()
 	{

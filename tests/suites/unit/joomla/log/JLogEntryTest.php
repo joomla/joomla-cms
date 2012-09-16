@@ -7,9 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM.'/joomla/log/log.php';
-require_once JPATH_PLATFORM.'/joomla/log/entry.php';
-
 /**
  * Test class for JLogEntry.
  */
@@ -19,6 +16,7 @@ class JLogEntryTest extends PHPUnit_Framework_TestCase
 	 * Verify the default values for the log entry object.
 	 *
 	 * Test the JLogEntry::__construct method.
+	 * @covers  JLogEntry::__construct
 	 */
 	public function testDefaultValues()
 	{
@@ -58,6 +56,7 @@ class JLogEntryTest extends PHPUnit_Framework_TestCase
 	 * Verify the priority for the entry object cannot be something not in the approved list.
 	 *
 	 * Test the JLogEntry::__construct method.
+	 * @covers  JLogEntry::__construct
 	 */
 	public function testBadPriorityValues()
 	{
@@ -87,6 +86,7 @@ class JLogEntryTest extends PHPUnit_Framework_TestCase
 	 * Test that non-standard category values are sanitized.
 	 *
 	 * Test the JLogEntry::__construct method.
+	 * @covers  JLogEntry::__construct
 	 */
 	public function testCategorySanitization()
 	{

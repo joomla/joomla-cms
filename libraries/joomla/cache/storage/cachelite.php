@@ -111,21 +111,34 @@ class JCacheStorageCachelite extends JCacheStorage
 		parent::getAll();
 
 		$path = $this->_root;
-		jimport('joomla.filesystem.folder');
-		$folders = JFolder::folders($path);
+		$folders = new DirectoryIterator($path);
 		$data = array();
 
 		foreach ($folders as $folder)
 		{
-			$files = JFolder::files($path . '/' . $folder);
-			$item = new JCacheStorageHelper($folder);
+			if (!$folder->isDir() || $folder->isDot())
+			{
+				continue;
+			}
+
+			$foldername = $folder->getFilename();
+
+			$files = new DirectoryIterator($path . '/' . $foldername);
+			$item  = new JCacheStorageHelper($foldername);
 
 			foreach ($files as $file)
 			{
-				$item->updateSize(filesize($path . '/' . $folder . '/' . $file) / 1024);
+				if (!$file->isFile())
+				{
+					continue;
+				}
+
+				$filename = $file->getFilename();
+
+				$item->updateSize(filesize($path . '/' . $foldername . '/' . $filename) / 1024);
 			}
 
-			$data[$folder] = $item;
+			$data[$foldername] = $item;
 		}
 
 		return $data;

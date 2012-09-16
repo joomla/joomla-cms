@@ -52,14 +52,14 @@ class JTree extends JObject
 	/**
 	 * Method to add a child
 	 *
-	 * @param   array    &$node       The node to process
+	 * @param   JNode    &$node       The node to process
 	 * @param   boolean  $setCurrent  True to set as current working node
 	 *
 	 * @return  mixed
 	 *
 	 * @since   11.1
 	 */
-	public function addChild(&$node, $setCurrent = false)
+	public function addChild(JNode &$node, $setCurrent = false)
 	{
 		JLog::add('JTree::addChild() is deprecated.', JLog::WARNING, 'deprecated');
 

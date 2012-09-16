@@ -196,7 +196,7 @@ abstract class JFormField
 	 *
 	 * @since   11.1
 	 */
-	public function __construct($form = null)
+	public function __construct(JForm $form = null)
 	{
 		// If there is a form passed into the constructor set the form and form control properties.
 		if ($form instanceof JForm)

@@ -810,7 +810,7 @@ class JInstaller extends JAdapter
 	 *
 	 * @since   11.1
 	 */
-	public function parseQueries($element)
+	public function parseQueries(SimpleXMLElement $element)
 	{
 		// Get the database connector object
 		$db = & $this->_db;
@@ -946,7 +946,7 @@ class JInstaller extends JAdapter
 	 *
 	 * @since   11.1
 	 */
-	public function setSchemaVersion($schema, $eid)
+	public function setSchemaVersion(SimpleXMLElement $schema, $eid)
 	{
 		if ($eid && $schema)
 		{
@@ -1014,7 +1014,7 @@ class JInstaller extends JAdapter
 	 *
 	 * @since   11.1
 	 */
-	public function parseSchemaUpdates($schema, $eid)
+	public function parseSchemaUpdates(SimpleXMLElement $schema, $eid)
 	{
 		$files = array();
 		$update_count = 0;
@@ -1146,7 +1146,7 @@ class JInstaller extends JAdapter
 	 *
 	 * @since   11.1
 	 */
-	public function parseFiles($element, $cid = 0, $oldFiles = null, $oldMD5 = null)
+	public function parseFiles(SimpleXMLElement $element, $cid = 0, $oldFiles = null, $oldMD5 = null)
 	{
 		// Get the array of file nodes to process; we checked whether this had children above.
 		if (!$element || !count($element->children()))
@@ -1271,7 +1271,7 @@ class JInstaller extends JAdapter
 	 *
 	 * @since   11.1
 	 */
-	public function parseLanguages($element, $cid = 0)
+	public function parseLanguages(SimpleXMLElement $element, $cid = 0)
 	{
 		// TODO: work out why the below line triggers 'node no longer exists' errors with files
 		if (!$element || !count($element->children()))
@@ -1387,7 +1387,7 @@ class JInstaller extends JAdapter
 	 *
 	 * @since   11.1
 	 */
-	public function parseMedia($element, $cid = 0)
+	public function parseMedia(SimpleXMLElement $element, $cid = 0)
 	{
 		if (!$element || !count($element->children()))
 		{
@@ -1396,9 +1396,6 @@ class JInstaller extends JAdapter
 		}
 
 		$copyfiles = array();
-
-		// Get the client info
-		$client = JApplicationHelper::getClientInfo($cid);
 
 		// Here we set the folder we are going to copy the files to.
 		// Default 'media' Files are copied to the JPATH_BASE/media folder
@@ -1641,7 +1638,6 @@ class JInstaller extends JAdapter
 			return true;
 		}
 
-		$removefiles = array();
 		$retval = true;
 
 		$debug = false;

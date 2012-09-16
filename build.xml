@@ -2,7 +2,7 @@
 
 <project name="joomla-platform" default="build" basedir=".">
 	<property name="source" value="libraries" />
-	<property name="joomlasource" value="libraries/joomla,libraries/platform.php,libraries/loader.php,libraries/import.php" />
+	<property name="joomlasource" value="libraries/joomla,libraries/legacy,libraries/compat,libraries/platform.php,libraries/loader.php,libraries/import.php" />
 
 	<target name="clean" description="Clean up and create artifact directories">
 		<delete dir="${basedir}/build/api" />
@@ -80,9 +80,10 @@
 	<target name="phpcs" description="Generate checkstyle.xml using PHP_CodeSniffer">
 		<exec executable="phpcs">
 			<arg value="--report=checkstyle" />
+			<arg value="--extensions=php,css" />
 			<arg value="--report-file=${basedir}/build/logs/checkstyle.xml" />
 			<arg value="--standard=${basedir}/build/phpcs/Joomla" />
-			<arg value="--ignore=${source}/phpmailer,${source}/phputf8,${source}/simplepie/,${source}/config.example.php" />
+			<arg value="--ignore=config.example.php" />
 			<arg path="${source}" />
 		</exec>
 	</target>
@@ -109,6 +110,17 @@
 			<arg value="--output" />
 			<arg path="${basedir}/build/code-browser" />
 		</exec>
+	</target>
+
+	<target name="lint" description="Perform syntax check of sourcecode files">
+		<apply executable="php" failonerror="true">
+			<arg value="-l" />
+
+			<fileset dir="${source}">
+				<include name="**/*.php" />
+				<modified />
+			</fileset>
+		</apply>
 	</target>
 
 	<target name="build" depends="clean,phpunit,phpunit-legacy,parallelTasks,phpcb" />

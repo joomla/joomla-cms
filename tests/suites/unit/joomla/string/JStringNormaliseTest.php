@@ -7,7 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM . '/joomla/string/normalise.php';
 
 /**
  * JStringNormaliseTest
@@ -47,6 +46,7 @@ class JStringNormaliseTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @dataProvider  seedFromCamelCase
 	 * @since   11.3
+	 * @covers  JStringNormalise::fromCamelcase
 	 */
 	public function testFromCamelCase_nongrouped($expected, $input)
 	{
@@ -63,6 +63,7 @@ class JStringNormaliseTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @dataProvider  getFromCamelCaseData
 	 * @since   11.3
+	 * @covers  JStringNormalise::fromCamelcase
 	 */
 	public function testFromCamelCase_grouped($input, $expected)
 	{
@@ -79,6 +80,7 @@ class JStringNormaliseTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @dataProvider  seedToCamelCase
 	 * @since   11.3
+	 * @covers  JStringNormalise::toCamelcase
 	 */
 	public function testToCamelCase($expected, $input)
 	{
@@ -95,6 +97,7 @@ class JStringNormaliseTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @dataProvider  seedToDashSeparated
 	 * @since   11.3
+	 * @covers  JStringNormalise::toDashSeparated
 	 */
 	public function testToDashSeparated($expected, $input)
 	{
@@ -111,6 +114,7 @@ class JStringNormaliseTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @dataProvider  seedToSpaceSeparated
 	 * @since   11.3
+	 * @covers  JStringNormalise::toSpaceSeparated
 	 */
 	public function testToSpaceSeparated($expected, $input)
 	{
@@ -127,6 +131,7 @@ class JStringNormaliseTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @dataProvider  seedToUnderscoreSeparated
 	 * @since   11.3
+	 * @covers  JStringNormalise::toUnderscoreSeparated
 	 */
 	public function testToUnderscoreSeparated($expected, $input)
 	{
@@ -143,6 +148,7 @@ class JStringNormaliseTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @dataProvider  seedToVariable
 	 * @since   11.3
+	 * @covers  JStringNormalise::toVariable
 	 */
 	public function testToVariable($expected, $input)
 	{
@@ -159,6 +165,7 @@ class JStringNormaliseTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @dataProvider  seedToKey
 	 * @since   11.3
+	 * @covers  JStringNormalise::toKey
 	 */
 	public function testToKey($expected, $input)
 	{

@@ -7,7 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM.'/joomla/document/document.php';
 require_once JPATH_PLATFORM.'/joomla/environment/response.php';
 
 /**
@@ -38,7 +37,6 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 	 */
 	protected function tearDown()
 	{
-
 	}
 
 	public function constructData()
@@ -87,6 +85,7 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * @dataProvider constructData
+	 * @covers  JDocument::__construct
 	 */
 	public function testConstruct($options, $expects)
 	{
@@ -128,7 +127,11 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 		);
 	}
 
-	public function testGetInstance() {
+	/**
+	 * @covers  JDocument::getInstance
+	 */
+	public function testGetInstance()
+	{
 		$this->object = JDocument::getInstance();
 
 		$this->assertThat(
@@ -149,6 +152,9 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 		);
 	}
 
+	/**
+	 * @covers  JDocument::setType
+	 */
 	public function testSetType()
 	{
 		$this->object = new JDocument;
@@ -160,6 +166,9 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 		);
 	}
 
+	/**
+	 * @covers  JDocument::getType
+	 */
 	public function testGetType()
 	{
 		$this->object = new JDocument;
@@ -173,8 +182,10 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Test getBuffer
+	 * @covers  JDocument::getBuffer
+	 * @covers  JDocument::setBuffer
 	 */
-	public function testGetBuffer()
+	public function testGetSetBuffer()
 	{
 		$this->object = new JDocument;
 		$this->object->setBuffer('This is the content of my document');
@@ -184,25 +195,13 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 			$this->equalTo('This is the content of my document'),
 			'getBuffer did not properly return document contents'
 		);
-
 	}
 
 	/**
-	 * Test setBuffer
+	 * @covers  JDocument::getMetaData
+	 * @covers  JDocument::setMetaData
 	 */
-	public function testSetBuffer()
-	{
-		$this->object = new JDocument;
-		$this->object->setBuffer('This is the content of my document');
-
-		$this->assertThat(
-			$this->object->getBuffer(),
-			$this->equalTo('This is the content of my document'),
-			'setBuffer did not properly set document contents'
-		);
-	}
-
-	public function testGetMetaData()
+	public function testGetSetMetaData()
 	{
 		$this->object = new JDocument;
 		$this->assertThat(
@@ -262,6 +261,9 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 		);
 	}
 
+	/**
+	 * @covers  JDocument::addScript
+	 */
 	public function testAddScript()
 	{
 		$this->object = new JDocument;
@@ -301,6 +303,9 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 		);
 	}
 
+	/**
+	 * @covers  JDocument::addScriptDeclaration
+	 */
 	public function testAddScriptDeclaration()
 	{
 		$this->object = new JDocument;
@@ -327,6 +332,9 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 		);
 	}
 
+	/**
+	 * @covers  JDocument::addStyleSheet
+	 */
 	public function testAddStyleSheet()
 	{
 		$this->object = new JDocument;
@@ -351,6 +359,9 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 		);
 	}
 
+	/**
+	 * @covers  JDocument::addStyleDeclaration
+	 */
 	public function testAddStyleDeclaration()
 	{
 		$this->object = new JDocument;
@@ -377,7 +388,11 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 		);
 	}
 
-	public function testSetCharset()
+	/**
+	 * @covers  JDocument::setCharset
+	 * @covers  JDocument::getCharset
+	 */
+	public function testGetSetCharset()
 	{
 		$this->object = new JDocument;
 
@@ -389,6 +404,9 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 		);
 	}
 
+	/**
+	 * @covers  JDocument::getCharset
+	 */
 	public function testGetCharset()
 	{
 		$this->object = new JDocument;
@@ -401,6 +419,9 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 		);
 	}
 
+	/**
+	 * @covers  JDocument::setLanguage
+	 */
 	public function testSetLanguage()
 	{
 		$this->object = new JDocument;
@@ -413,6 +434,9 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 		);
 	}
 
+	/**
+	 * @covers  JDocument::getLanguage
+	 */
 	public function testGetLanguage()
 	{
 		$this->object = new JDocument;
@@ -425,6 +449,9 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 		);
 	}
 
+	/**
+	 * @covers  JDocument::setDirection
+	 */
 	public function testSetDirection()
 	{
 		$this->object = new JDocument;
@@ -437,6 +464,9 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 		);
 	}
 
+	/**
+	 * @covers  JDocument::getDirection
+	 */
 	public function testGetDirection()
 	{
 		$this->object = new JDocument;
@@ -449,6 +479,9 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 		);
 	}
 
+	/**
+	 * @covers  JDocument::setTitle
+	 */
 	public function testSetTitle()
 	{
 		$this->object = new JDocument;
@@ -461,6 +494,9 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 		);
 	}
 
+	/**
+	 * @covers  JDocument::getTitle
+	 */
 	public function testGetTitle()
 	{
 		$this->object = new JDocument;
@@ -473,6 +509,9 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 		);
 	}
 
+	/**
+	 * @covers  JDocument::setBase
+	 */
 	public function testSetBase()
 	{
 		$this->object = new JDocument;
@@ -485,6 +524,9 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 		);
 	}
 
+	/**
+	 * @covers  JDocument::getBase
+	 */
 	public function testGetBase()
 	{
 		$this->object = new JDocument;
@@ -497,6 +539,9 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 		);
 	}
 
+	/**
+	 * @covers  JDocument::setDescription
+	 */
 	public function testSetDescription()
 	{
 		$this->object = new JDocument;
@@ -509,6 +554,9 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 		);
 	}
 
+	/**
+	 * @covers  JDocument::getDescription
+	 */
 	public function testGetDescription()
 	{
 		$this->object = new JDocument;
@@ -521,6 +569,9 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 		);
 	}
 
+	/**
+	 * @covers  JDocument::setLink
+	 */
 	public function testSetLink()
 	{
 		$this->object = new JDocument;
@@ -533,6 +584,9 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 		);
 	}
 
+	/**
+	 * @covers  JDocument::getLink
+	 */
 	public function testGetLink()
 	{
 		$this->object = new JDocument;
@@ -545,6 +599,9 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 		);
 	}
 
+	/**
+	 * @covers  JDocument::setGenerator
+	 */
 	public function testSetGenerator()
 	{
 		$this->object = new JDocument;
@@ -557,6 +614,9 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 		);
 	}
 
+	/**
+	 * @covers  JDocument::getGenerator
+	 */
 	public function testGetGenerator()
 	{
 		$this->object = new JDocument;
@@ -569,6 +629,9 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 		);
 	}
 
+	/**
+	 * @covers  JDocument::setModifiedDate
+	 */
 	public function testSetModifiedDate()
 	{
 		$this->object = new JDocument;
@@ -581,6 +644,9 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 		);
 	}
 
+	/**
+	 * @covers  JDocument::getModifiedDate
+	 */
 	public function testGetModifiedDate()
 	{
 		$this->object = new JDocument;
@@ -593,6 +659,9 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 		);
 	}
 
+	/**
+	 * @covers  JDocument::setMimeEncoding
+	 */
 	public function testSetMimeEncoding()
 	{
 		$this->object = new JDocument;
@@ -618,6 +687,9 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals('zip', $document->getMimeEncoding(), 'getMimeEncoding should be zip');
  	}
 
+	/**
+	 * @covers  JDocument::setLineEnd
+	 */
 	public function testSetLineEnd()
 	{
 		$this->object = new JDocument;
@@ -652,6 +724,9 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 
 	}
 
+	/**
+	 * @covers  JDocument::_getLineEnd
+	 */
 	public function test_getLineEnd()
 	{
 		$this->object = new JDocument;
@@ -664,6 +739,9 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 		);
 	}
 
+	/**
+	 * @covers  JDocument::setTab
+	 */
 	public function testSetTab()
 	{
 		$this->object = new JDocument;
@@ -677,6 +755,9 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 
 	}
 
+	/**
+	 * @covers  JDocument::_getTab
+	 */
 	public function test_getTab()
 	{
 		$this->object = new JDocument;
@@ -689,6 +770,9 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 		);
 	}
 
+	/**
+	 * @covers  JDocument::loadRenderer
+	 */
 	public function testLoadRenderer()
 	{
 		$this->object = new JDocument;
@@ -700,6 +784,20 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 		);
 	}
 
+	/**
+	 * @covers  JDocument::loadRenderer
+	 * @expectedException RuntimeException
+	 */
+	public function testLoadRendererException()
+	{
+		$this->object = new JDocument;
+		$this->object->setType('html');
+		$renderer = $this->object->loadRenderer('unknown');
+	}
+
+	/**
+	 * @covers  JDocument::parse
+	 */
 	public function testParse()
 	{
 		$this->object = new JDocument;
@@ -710,6 +808,9 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 		);
 	}
 
+	/**
+	 * @covers  JDocument::render
+	 */
 	public function testRender()
 	{
 		$this->object = new JDocument;

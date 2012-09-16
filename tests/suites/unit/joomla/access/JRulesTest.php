@@ -45,6 +45,44 @@ class JAccessRulesTest extends PHPUnit_Framework_TestCase
 			'Checks input as an string.'
 		);
 	}
+
+	/**
+	 * Tests the JAccessRules::getData method.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.2
+	 * @covers  JAccessRules::getData
+	 */
+	public function testGetData()
+	{
+		$array = array(
+			'edit' => array(
+				-42	=> 1,
+				2	=> 1,
+				3	=> 0
+			)
+		);
+
+		$rule = new JAccessRules($array);
+
+		$data = $rule->getData();
+
+		$this->assertArrayHasKey(
+			'edit',
+			$data
+		);
+
+		$this->assertInstanceOf(
+			'JAccessRule',
+			$data['edit']
+		);
+	}
+
+	/**
+	 * @covers  JAccessRules::__construct
+	 * @covers  JAccessRules::__toString
+	 */
 	public function test__constructArray()
 		{
 			$array = array(
@@ -64,6 +102,11 @@ class JAccessRulesTest extends PHPUnit_Framework_TestCase
 				'Checks input as an array.'
 			);
 	}
+
+	/**
+	 * @covers  JAccessRules::__construct
+	 * @covers  JAccessRules::__toString
+	 */
 	public function test__constructObject()
 	{
 		$array = array(
@@ -196,6 +239,9 @@ class JAccessRulesTest extends PHPUnit_Framework_TestCase
 		);
 	}
 
+	/**
+	 * @covers  JAccessRules::merge
+	 */
 	public function testMergeArray()
 	{
 		$array1 = array(
@@ -216,6 +262,10 @@ class JAccessRulesTest extends PHPUnit_Framework_TestCase
 			'Input as a array'
 		);
 	}
+
+	/**
+	 * @covers  JAccessRules::merge
+	 */
 	public function testMergeRulesNull()
 	{
 		$array1 = array(
@@ -238,6 +288,10 @@ class JAccessRulesTest extends PHPUnit_Framework_TestCase
 			'Merge by JRules where second rules are empty'
 		);
 	}
+
+	/**
+	 * @covers  JAccessRules::merge
+	 */
 	public function testMergeRules()
 	{
 		$array1 = array(
@@ -332,6 +386,11 @@ class JAccessRulesTest extends PHPUnit_Framework_TestCase
 		// This should be false, explicit deny wins.
 		$this->assertFalse(
 			$rules->allow('delete', array(-42, 2))
+		);
+
+		// This should be null, the action doesn't exist.
+		$this->assertNull(
+			$rules->allow('unknown', array(-42, 2))
 		);
 	}
 

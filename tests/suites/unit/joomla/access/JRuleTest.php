@@ -13,12 +13,13 @@
 class JAccessRuleTest extends PHPUnit_Framework_TestCase
 {
 	/**
-	 * Tests the JAccessRule::__construct method.
+	 * Tests the JAccessRule::__construct and JAccessRule::__toString methods.
 	 *
 	 * @return  void
 	 *
 	 * @since   11.1
 	 * @covers  JAccessRule::__construct
+	 * @covers  JAccessRule::__toString
 	 */
 	public function test__construct()
 	{
@@ -58,6 +59,30 @@ class JAccessRuleTest extends PHPUnit_Framework_TestCase
 		$this->assertNotEquals(
 			$string,
 			(string) $rule_A
+		);
+	}
+
+	/**
+	 * Tests the JAccessRule::getData method.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.2
+	 * @covers  JAccessRule::getData
+	 */
+	public function testGetData()
+	{
+		$array = array(
+			-42	=> 1,
+			2	=> 1,
+			3	=> 0
+		);
+
+		$rule = new JAccessRule($array);
+
+		$this->assertEquals(
+			$array,
+			$rule->getData()
 		);
 	}
 

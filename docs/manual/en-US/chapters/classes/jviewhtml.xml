@@ -11,7 +11,7 @@
     <title>Construction</title>
 
     <para><classname>JViewHtml</classname> is extended from <classname>JViewBase</classname>. The constructor, in addition to the
-    model and controller arguments, take an optional <classname>SplPriorityQueue</classname> object that serves as a lookup for
+    required model argument, take an optional <classname>SplPriorityQueue</classname> object that serves as a lookup for
     layouts. If omitted, the view defers to the protected <methodname>loadPaths</methodname> method.</para>
   </section>
 
@@ -69,7 +69,7 @@ try
 	$paths = new SplPriorityQueue;
 	$paths-&gt;insert(__DIR__ . '/layouts');
 
-	$view = new MyView(new MyDatabaseModel, new MyController, $paths);
+	$view = new MyView(new MyDatabaseModel, $paths);
 	$view-&gt;setLayout('count');
 	echo $view-&gt;render();
 

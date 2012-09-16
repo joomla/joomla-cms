@@ -43,6 +43,7 @@ class JLogLoggerMessageQueueTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Test the JLogLoggerMessageQueue::addEntry method.
+	 * @covers  JLogLoggerMessageQueue::addEntry
 	 */
 	public function testAddEntry01()
 	{

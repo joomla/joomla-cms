@@ -1936,7 +1936,7 @@ class JForm
 	 *                            already exists with the same group/name.
 	 * @param   string  $xpath    An optional xpath to search for the fields.
 	 *
-	 * @return  object  JForm instance.
+	 * @return  JForm   Instance of this class.
 	 *
 	 * @since   11.1
 	 * @throws  InvalidArgumentException if no data provided.

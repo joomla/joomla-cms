@@ -24,9 +24,6 @@ class JFormRuleRulesTest extends TestCase
 	public function setUp()
 	{
 		$this->saveFactoryState();
-		jimport('joomla.utilities.xmlelement');
-		jimport('joomla.access.access');
-		require_once JPATH_PLATFORM.'/joomla/form/rules/rules.php';
 	}
 
 	/**
