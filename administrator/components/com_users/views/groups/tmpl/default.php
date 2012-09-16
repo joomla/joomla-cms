@@ -29,7 +29,7 @@ JText::script('COM_USERS_GROUPS_CONFIRM_DELETE');
 		{
 			var f = document.adminForm;
 			var cb='';
-<?php foreach ($this->items as $i=>$item):?>
+<?php foreach ($this->items as $i => $item):?>
 <?php if ($item->user_count > 0):?>
 			cb = f['cb'+<?php echo $i;?>];
 			if (cb && cb.checked) {
@@ -45,17 +45,18 @@ JText::script('COM_USERS_GROUPS_CONFIRM_DELETE');
 	}
 </script>
 <form action="<?php echo JRoute::_('index.php?option=com_users&view=groups');?>" method="post" name="adminForm" id="adminForm">
-	<fieldset id="filter-bar">
-		<div class="filter-search fltlft">
-			<label class="filter-search-lbl" for="filter_search"><?php echo JText::_('COM_USERS_SEARCH_GROUPS_LABEL'); ?></label>
-			<input type="text" name="filter_search" id="filter_search" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" title="<?php echo JText::_('COM_USERS_SEARCH_IN_GROUPS'); ?>" />
-			<button type="submit"><?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?></button>
-			<button type="button" onclick="document.id('filter_search').value='';this.form.submit();"><?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?></button>
+	<div id="filter-bar" class="btn-toolbar">
+		<div class="filter-search btn-group pull-left">
+			<input type="text" name="filter_search" placeholder="<?php echo JText::_('COM_USERS_SEARCH_GROUPS_LABEL'); ?>" id="filter_search" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" title="<?php echo JText::_('COM_USERS_SEARCH_IN_GROUPS'); ?>" />
 		</div>
-	</fieldset>
-	<div class="clr"> </div>
+		<div class="btn-group pull-left">
+			<button class="btn tip" type="submit" title="<?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?>"><i class="icon-search"></i></button>
+			<button class="btn tip" type="button" title="<?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?>" onclick="document.id('filter_search').value='';this.form.submit();"><i class="icon-remove"></i></button>
+		</div>
+	</div>
+	<div class="clearfix"> </div>
 
-	<table class="adminlist">
+	<table class="table table-striped">
 		<thead>
 			<tr>
 				<th width="1%">
@@ -64,7 +65,7 @@ JText::script('COM_USERS_GROUPS_CONFIRM_DELETE');
 				<th class="left">
 					<?php echo JText::_('COM_USERS_HEADING_GROUP_TITLE'); ?>
 				</th>
-				<th width="10%">
+				<th width="20%">
 					<?php echo JText::_('COM_USERS_HEADING_USERS_IN_GROUP'); ?>
 				</th>
 				<th width="5%">
@@ -81,10 +82,12 @@ JText::script('COM_USERS_GROUPS_CONFIRM_DELETE');
 		</tfoot>
 		<tbody>
 		<?php foreach ($this->items as $i => $item) :
-			$canCreate	= $user->authorise('core.create',		'com_users');
-			$canEdit	= $user->authorise('core.edit',			'com_users');
+			$canCreate = $user->authorise('core.create', 'com_users');
+			$canEdit   = $user->authorise('core.edit',    'com_users');
+
 			// If this group is super admin and this user is not super admin, $canEdit is false
-			if (!$user->authorise('core.admin') && (JAccess::checkGroup($item->id, 'core.admin'))) {
+			if (!$user->authorise('core.admin') && (JAccess::checkGroup($item->id, 'core.admin')))
+			{
 				$canEdit = false;
 			}
 			$canChange	= $user->authorise('core.edit.state',	'com_users');
@@ -104,8 +107,8 @@ JText::script('COM_USERS_GROUPS_CONFIRM_DELETE');
 						<?php echo $this->escape($item->title); ?>
 					<?php endif; ?>
 					<?php if (JDEBUG) : ?>
-						<div class="fltrt"><div class="button2-left smallsub"><div class="blank"><a href="<?php echo JRoute::_('index.php?option=com_users&view=debuggroup&group_id='.(int) $item->id);?>">
-						<?php echo JText::_('COM_USERS_DEBUG_GROUP');?></a></div></div></div>
+						<div class="small"><a href="<?php echo JRoute::_('index.php?option=com_users&view=debuggroup&group_id='.(int) $item->id);?>">
+						<?php echo JText::_('COM_USERS_DEBUG_GROUP');?></a></div>
 					<?php endif; ?>
 				</td>
 				<td class="center">
@@ -119,11 +122,9 @@ JText::script('COM_USERS_GROUPS_CONFIRM_DELETE');
 		</tbody>
 	</table>
 
-	<div>
-		<input type="hidden" name="task" value="" />
-		<input type="hidden" name="boxchecked" value="0" />
-		<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>" />
-		<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>" />
-		<?php echo JHtml::_('form.token'); ?>
-	</div>
+	<input type="hidden" name="task" value="" />
+	<input type="hidden" name="boxchecked" value="0" />
+	<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>" />
+	<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>" />
+	<?php echo JHtml::_('form.token'); ?>
 </form>

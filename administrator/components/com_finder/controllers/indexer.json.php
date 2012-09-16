@@ -234,8 +234,8 @@ class FinderControllerIndexer extends JControllerLegacy
 
 		try
 		{
-			// Optimize the index.
-			FinderIndexer::optimize();
+			// Optimize the index
+			FinderIndexer::getInstance()->optimize();
 
 			// Get the indexer state.
 			$state = FinderIndexer::getState();
@@ -278,8 +278,6 @@ class FinderControllerIndexer extends JControllerLegacy
 				$log = JLog::addLogger($options);
 			}
 		}
-
-		$backtrace = null;
 
 		// Send the assigned error code if we are catching an exception.
 		if ($data instanceof Exception)

@@ -12,6 +12,8 @@ defined('_JEXEC') or die;
 JLoader::register('MenusHelper', JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus.php');
 
 /**
+ * Helper for mod_languages
+ *
  * @package     Joomla.Site
  * @subpackage  mod_languages
  */
@@ -66,7 +68,8 @@ abstract class modLanguagesHelper
 				if ($app->getLanguageFilter()) {
 					if (isset($associations[$language->lang_code]) && $menu->getItem($associations[$language->lang_code])) {
 						$itemid = $associations[$language->lang_code];
-						if ($app->getCfg('sef')=='1') {
+						if ($app->getCfg('sef') == '1')
+						{
 							$language->link = JRoute::_('index.php?lang='.$language->sef.'&Itemid='.$itemid);
 						}
 						else {
@@ -74,7 +77,8 @@ abstract class modLanguagesHelper
 						}
 					}
 					else {
-						if ($app->getCfg('sef')=='1') {
+						if ($app->getCfg('sef') == '1')
+						{
 							$itemid = isset($homes[$language->lang_code]) ? $homes[$language->lang_code]->id : $homes['*']->id;
 							$language->link = JRoute::_('index.php?lang='.$language->sef.'&Itemid='.$itemid);
 						}

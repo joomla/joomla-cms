@@ -29,10 +29,6 @@
 			filter="JComponentHelper::filterText"
 			label="JGLOBAL_DESCRIPTION" description="COM_WEBLINKS_FIELD_DESCRIPTION_DESC" />
 
-		<field name="date" type="Date" class="inputbox"
-			label="WEBLINKS_DATE_LABEL" description="WEBLINKS_DATE_DESC"
-			filter="safehtml" />
-
 		<field name="hits"
 			type="text"
 			class="readonly"
@@ -47,7 +43,7 @@
 			type="list"
 			label="JSTATUS"
 			description="COM_WEBLINKS_FIELD_STATE_DESC"
-			class="inputbox"
+			class="inputbox span12 small"
 			size="1"
 			default="1">
 			<option
@@ -67,24 +63,17 @@
 			description="JFIELD_ORDERING_DESC" />
 
 		<field name="access" type="accesslevel" label="JFIELD_ACCESS_LABEL"
-			description="JFIELD_ACCESS_DESC" class="inputbox" size="1" />
+			description="JFIELD_ACCESS_DESC" class="inputbox span12 small" size="1" />
 
 		<field
 			name="language"
 			type="contentlanguage"
 			label="JFIELD_LANGUAGE_LABEL"
 			description="COM_WEBLINKS_FIELD_LANGUAGE_DESC"
-			class="inputbox">
+			class="inputbox span12 small">
 			<option value="*">JALL</option>
 		</field>
 
-		<field id="approved" name="approved" type="radio"
-			class="inputbox" label="WEBLINKS_APPROVED_LABEL"
-			description="WEBLINKS_APPROVED_DESC"
-		>
-			<option value="0">JNO</option>
-			<option value="1">JYES</option>
-		</field>
 		<field name="created" type="calendar"
 			label="JGLOBAL_FIELD_CREATED_LABEL" description="JGLOBAL_FIELD_CREATED_DESC"
 			class="inputbox" size="22" format="%Y-%m-%d %H:%M:%S"
@@ -121,6 +110,11 @@
 			label="JGLOBAL_FIELD_PUBLISH_DOWN_LABEL" description="JGLOBAL_FIELD_PUBLISH_DOWN_DESC"
 			class="inputbox" format="%Y-%m-%d %H:%M:%S" size="22"
 			filter="user_utc" />
+
+		<field name="version" type="text" class="readonly"
+			label="COM_WEBLINKS_FIELD_VERSION_LABEL" size="6" description="COM_WEBLINKS_FIELD_VERSION_DESC"
+			readonly="true" filter="unset" />
+
 
 		<field name="metakey" type="textarea"
 			label="JFIELD_META_KEYWORDS_LABEL" description="JFIELD_META_KEYWORDS_DESC"
@@ -164,6 +158,63 @@
 				<option value="1">JYES</option>
 			</field>
 		</fieldset>
+	</fields>
+	<fields name="images">
+			<field
+				name="image_first"
+				type="media"
+				label="COM_WEBLINKS_FIELD_FIRST_LABEL"
+				description="COM_WEBLINKS_FIELD_FIRST_DESC" />
+			<field
+				name="float_first"
+				type="list"
+				label="COM_WEBLINKS_FLOAT_LABEL"
+				description="COM_WEBLINKS_FLOAT_DESC">
+					<option value="">JGLOBAL_USE_GLOBAL</option>
+					<option value="right">COM_WEBLINKS_RIGHT</option>
+					<option value="left">COM_WEBLINKS_LEFT</option>
+					<option value="none">COM_WEBLINKS_NONE</option>
+			</field>
+			<field name="image_first_alt"
+				type="text"
+				label="COM_WEBLINKS_FIELD_IMAGE_ALT_LABEL"
+				description="COM_WEBLINKS_FIELD_IMAGE_ALT_DESC"
+				class="inputbox"
+				size="20" />
+			<field name="image_first_caption"
+				type="text"
+				label="COM_WEBLINKS_FIELD_IMAGE_CAPTION_LABEL"
+				description="COM_WEBLINKS_FIELD_IMAGE_CAPTION_DESC"
+				class="inputbox"
+				size="20" />
+
+			<field
+				name="image_second"
+				type="media"
+				label="COM_WEBLINKS_FIELD_SECOND_LABEL"
+				description="COM_WEBLINKS_FIELD_SECOND_DESC" />
+			<field
+				name="float_second"
+				type="list"
+				label="COM_WEBLINKS_FLOAT_LABEL"
+				description="COM_WEBLINKS_FLOAT_DESC">
+					<option value="">JGLOBAL_USE_GLOBAL</option>
+					<option value="right">COM_WEBLINKS_RIGHT</option>
+					<option value="left">COM_WEBLINKS_LEFT</option>
+					<option value="none">COM_WEBLINKS_NONE</option>
+			</field>
+			<field name="image_second_alt"
+				type="text"
+				label="COM_WEBLINKS_FIELD_IMAGE_ALT_LABEL"
+				description="COM_WEBLINKS_FIELD_IMAGE_ALT_DESC"
+				class="inputbox"
+				size="20" />
+			<field name="image_second_caption"
+				type="text"
+				label="COM_WEBLINKS_FIELD_IMAGE_CAPTION_LABEL"
+				description="COM_WEBLINKS_FIELD_IMAGE_CAPTION_DESC"
+				class="inputbox"
+				size="20" />
 	</fields>
 	<fields name="metadata">
 		<fieldset name="jmetadata" label="JGLOBAL_FIELDSET_METADATA_OPTIONS">

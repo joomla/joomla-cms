@@ -26,7 +26,253 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
-========== VERSION 3.0 APLHA 1 RELEASED ==========
+16-Sept-2012 Rouven Weßling
+ # [#29196] Plugin quickicon Joomlaupdate links to com_installer. Thanks Janich.
+ # [#29202] Plugins manager Status filter does not work. Thanks Yannick.
+ # [#29174] HTML5 Shim Added To All Templates. Thanks Kyle.
 
-13-July-2012 Jean-Marie Simonet
+15-Sep-2012 Mark Dexter
+ # [#28485] Joomla search module html needs looking at. Thanks Jason Williams.
+ # [#29182] Fix notice in search view. Thanks Elin.
+ # [#29172] Unpublished state is not indicated. Thanks Elin.
+
+15-Sept-2012 Jean-Marie Simonet
+ +$ Adding installation da-DK, he-IL, it-IT, sk-SK
+ # [#29163] Icon appearing in wrong place in administrator/mod_menu. Thanks Javier
+ # [#29178] Content - Vote plugin missing closing </span> tag. Thanks Andrea
+ # [#29055] Debug module floats to top on admin login screen. Thanks Kyle
+ # [#29186] Cleaning out old JRegistry->getValue(). Thanks Janich
+
+14-Sept-2012 Jean-Marie Simonet
+ # [#29091] *Language issues during installation: E-Mail always in English, thanks Dennis
+ - Deleting obsolete installation languages.
+ # Reverting 29091
+
+13-Sept-2012 Rouven Weßling
+ # [#29149] html5 validation is failing. Thanks Jean-Marie.
+
+13-Sept-2012 Jean-Marie Simonet
+ # [#29144] error.php for Isis and Protostar Templates. Thanks Kyle
+ # [#29139] *RTL incorrect display in new module creation window
+ # [#29140] *RTL incorrect display when selecting a menu item type
+ # [#29135] Improve popover loading. Thanks Rouven
+ # [#29146] Fix open div in com_content blog view.Thanks Kyle
+
+11-Sept-2012 Jean-Marie Simonet
+ # Installation languages alpha ordering broken on hosts. Adding method. Thanks Dennis
+
+10-Sept-2012 Jean-Marie Simonet
+ # [#29115] Wrong default frontend template. Thanks Peter.
+
+09-Sept-2012 Jean-Marie Simonet
+ # [#29093] Restore admin submenu items. Thanks Michael
+ # [#29121] *The filter Select Status in Plugin Manager won't work
+ # [#29119] Update the markup for the multilang status module. Thanks Michael
+ # [#29096] Apply bootstrap for view override of com language. Thanks Viet Vu
+ # [#29111] Component Options don't redirect back to the component after save. Thanks Rouven
+ # [#29077] Restore popup button behavior, add button for new slider behavior, implement it. Thanks Michael
+ # [#29062] Remove unnecessary table creations from testing sampledata. Thanks Rouven
+ # [#29099] Drop the unused #__update_categories table. Thanks Rouven
+ # [#29126] Admin Template: Accordion fieldsets for template and category options like com_menus. Thanks Reinhard
+ # [#29072] Contact view to use plain, tabbed, and slider outputs from Bootstrap JHTML library. Thanks Dave
+ # [#29079] Move jquery chosen call from template to components. Thanks Viet Vu
+
+09-Sep-2012 Rouven Weßling
+ # [#29127] Module save2copy dont work. Thanks Reinhard.
+ # Fix an E_STRICT warning in com_banners. Thanks Elin.
+
+08-Sept-2012 Jean-Marie Simonet
+ # [#29052] *Protostar Print article bug. Thanks Kyle.
+ # [#29067] *Ordering dropdown display issue. Thanks Kyle.
+ # [#29101] Fix Protostar Responsive Grid and Menus. Thanks Kyle.
+
+07-Sept-2012 Jean-Marie Simonet
+ # [#29104] Typo in 3.0.0 update script
+ # Incomplete query in multilanguage status (synced with 2.5.x correction)
+
+-------------------- 3.0 Beta 1 Release [06-Sep-2012] ------------------
+
+06-Sep-2012 Mark Dexter
+ # [#29102] Cannot create a new database during installation
+
+05-Sep-2012 Mark Dexter
+ + [#29088] PostgreSQL driver for Joomla! CMS 3.0. Thanks Michael.
+ # [#28963] Add ordering to column titles where it was missing. Thanks Peter van Westen.
+ # [#29064] Improve the isis header. Thanks Rouven.
+ # [#29054] Update TinyMCE to 3.5.6. Thanks Rouven.
+ # [#29087] Update Beez for Joomla 3. Thanks Elin.
+ + [#29089] new minimal sample data set. Thanks Elin.
+ + [#29025] Let the SEF plug-in add the canonical url to the head. Thanks Rouven.
+
+05-Sep-2012 Rouven Weßling
+ # [#29082] using unicode slugs broken in master
+ ^ Merge latest platform (c4940fab81c79d618c52f915dc71c66f0db3b25f)
+ # [#29070] Bootstrapping Flash Uploader and Copy Template. Thanks Kyle.
+ + [#27979] PHP Memcached driver. Thanks Ofer.
+
+05-Sept-2012 Jean-Marie Simonet
+ # [#29009] Drop the unused usertype column from #__users and #__sessions. Thanks Michael
+ # [#29059] Smart Search - Filter Edit does not check the checked_out status to set the toolbar buttons. Thanks Michael
+ # [#29084] Add missing SQL modifications to 3.0.0.sql. Thanks Rouven
+
+04-Sept-2012 Jean-Marie Simonet
+ # [#24628] htmlspecialchars() and multiple menu modules of the same menu. Thanks Rouven
+ # [#28898] Update update script for Joomla 3.0. Thanks Michael
+ # [#29024] Remove the prevuuw view from com_templates. Thanks Rouven.
+ # [#28941] Improvements for Bootstrap and jQuery HTML Helpers. Thanks Michael
+ # [#27806] *User with spaces as password can not log in. Thanks Rouven
+ # [#28997] Make backend content editing layouts consistent and add new fields. Thanks Elin
+
+04-Sep-2012 Rouven Weßling
+ ^ [#29048] Update Joomla 3.0 to Bootstrap 2.1 LESS, CSS & JS. Thanks Kyle.
+ # [#29049] In template preview it is very hard to read the position name and style name. Thanks Elin.
+
+03-Sep-2012 Rouven Weßling
+ ^ Merge latest platform (c15b8db512c26b6e5308b157c518702d617e47a4)
+
+02-Sept-2012 Jean-Marie Simonet
+ # Correcting en-GB.xml to reflect adding protostar and isis + mod_stats_admin ini files
+
+01-Sep-2012 Rouven Weßling
+ - Removed the bluestork admin template.
+ - Removed the atomic template.
+ - Removed the beez5 template.
+ ^ Handle removed templates in the sample data. Thanks Elin.
+ ^ Normalise all CSS files based on our own lessphp based compiler.
+ # [#29026] Update Hathor Less files to use Bootstrap variable names and mixins. Thanks Michael.
+ # [#28964] Update jQuery to 1.8.1 and jQuery UI to 1.8.23
+
+01-Sept-2012 Jean-Marie Simonet
+ # [#29034] img border is deprecated in html4, obsolete in html5.Thanks Chris
+ # [#29027] Add language data to Smart Search indexing's tokenize process. Thanks Michael.
+ # [#28756] Enable Search Term Logging in Smart Search. Thanks Michael.
+ # [#27933] Smart Search module does not read static filter setting from module parameters. Thanks Chris
+ # [#29028] Finder log messages showing on save. Thanks Elin
+ ^ [#28833] Unprotect a number of extensions. Thanks Rouven.
+
+30-Aug-2012 Rouven Weßling
+ ^ Move JEditor to the CMS libraries.
+ # [#29010] Fix E_NOTICE in JFormFieldMedia
+
+29-Aug-2012 Jean-Marie Simonet
+ # [#28980] Publication information should not have h2 styling. Thanks Elin
+ + [#28975] Add background color selector to protostar. Thanks Elin
+ # [#29014] *Firefox 14.0.1: Insert Image, Article or Pagebreak always inserts on top
+ # [#29004] *regression: protostar does not include the necessary css when inserting image in article
+
+28-Aug-2012 Rouven Weßling
+ ^ Reduce use of the deprecated JFile methods.
+ ^ Reduce use of the deprecated JRequest class.
+ ^ Reduce the amount of access to $_SERVER.
+
+27-Aug-2012 Jean-Marie Simonet
+ # [#28376] Remove unnecessary files from com_media frontend. Thanks Michael
+ # [#28858] Com_finder missing show_advanced_tips parameter => can't hide advanced tips. Thanks Michael
+
+26-Aug-2012 Jean-Marie Simonet
+ # [#28950] Code quality for mod_stats_admin, translated DB drivers. Thanks Michael
+ # [#28962] Added colors to main icons in admin isis. Thanks Peter.
+ # [#28984] HRs in default layouts will change people's sites and are not semantic. Thanks Elin
+ # [#28853] Template fails to copy. Thanks Mark
+ # [#28672] Fix PHP Strict errors with Smart Search auto-completion. Thanks Michael.
+ # [#28985] JFile class not loaded when use cache handler != file. Thanks Julio.
+ ^ xml version changes to 3.0
+
+24-Aug-2012 Jean-Marie Simonet
+ # [#28968] Missing JFolder class imports in CMS. Thanks Mark
+ # [#28797] Code Cleanup - Smart Search. Thanks Michael
+ # [#28449] captcha cause fatal error when the "captcha" field is not present in "configuration.php" after an upgrade. Thanks Elin.
+ # [#28987] JToolbarButtonHelp doesn't work. Thanks Rouven
+
+23-Aug-2012 Mark Dexter
+ # [#28948] Improvements for com_media Bootstrapped layouts. Thanks Michael.
+ # [#28965] Wrong default menu for new menu items
+ # [#28974] Refactor newsfeeds to use JFeed. Thanks Elin.
+ # [#28976] Fatal Error when click Article button during front-end editing
+
+22-Aug-2012 Mark Dexter
+ # [#28967] Save & Close of Menu Item results in Fatal Error
+
+21-Aug-2012 Jean-Marie Simonet
+ # [#28954] *Administrator templates positions untranslated when editing Module position
+
+21-Aug-2012 Rouven Weßling
+ ^ Merge latest platform (bf746b2389fbea9c0fa48ea015320c18beb8d0f3)
+ ^ Remove use of the deprecated JProfiler::getMemory().
+
+20-Aug-2012 Jean-Marie Simonet
+ # [#28943] *Allowing to disable admin menu bar collapse (Isis)
+ # [#28947] Handle submenu rendering as a module again. Thanks Rouven
+ # [#28942] Use bootstrap markup in Fx.Progressbar; Use Fx.Progressbar in Finder. Thansk Rouven.
+ # [#28955] Commit of issue 28932 broke sample data installation, Thanks Mark.
+
+18-Aug-2012 Jean-Marie Simonet
+ # [#28929] *Frontend editing tabs does not work. Thanks Peter.
+ # [#28932] *Simplifying sample data install on 3.0 alpha2
+
+-------------------- 3.0 Alpha 2 Release [16-Aug-2012] ------------------
+
+16-Aug-2012 Mark Dexter
+ # [#28927] Update sample data files for protostar and isis. Thanks Elin.
+
+16-Aug-2012 Jean-Marie Simonet
+ # [#28925] Change the variable name on the submenu rendering to avoid conflicts. Thanks Andrea.
+ # [#28926] Add Isis and Protostar to mysql/joomla.sql. Thanks Elin.
+ # Fix installation languages issue. Thanks Roberto
+
+16-Aug-2012 Rouven Weßling
+ ^ Reduce use of JFolder and deprecated JRequest methods.
+ ^ Merge latest platform (c77f323d339b7dcfb305325c48a38813322dd69d)
+
+15-Aug-2012 Jean-Marie Simonet
+ + Porting to master Installing Language packs from Extension Manager. Thanks Javier and Rouven
+ #^ [#28918] Abstract FinderIndexer class for improved database support. Thanks Michael
+
+15-Aug-2012 Rouven Weßling
+ #+ [#28032] Split mod_login into two layouts
+
+11-Aug-2012 Jean-Marie Simonet
+ $+ Adding Vietnamese vi-VN to installation languages
+
+11-Aug-2012 Jean-Marie Simonet
+ #+ [#25295] Email exposed through RSS and Atom feeds. Thanks Elin and Peter
+ # [#28795] mod_articles_category "read more" truncation not functioning properly. Thanks Elin.
+ ^ [#28374] Deprecate MediaHelper::parseSize() and use JHtmlNumber::bytes() to process file size in Media Manager. Thanks Michael.
+ + [#28902] Add CLI to remove files that weren't removed at update. Thanks Michael
+
+10-Aug-2012 Rouven Weßling
+ ^ Reduce use of deprecated JDatabase and JRequest methods.
+ ^ Merge latest platform (2f2d084af274840e7103fe6ad826926be8b3eb06)
+ ^ Move JToolbar and JHelp to the CMS libraries
+
+05-Aug-2012 Mark Dexter
+ # [#28904] Typo in recent commit broke single newsfeed
+
+05-Aug-2012 Rouven Weßling
+ ^ Add additional sinffs to the code style checker
+
+02-Aug-2012 Mark Dexter
+ # [#28855] Fix Array to string conversion notices (PHP 5.4 only)
+ # [#28825] Blank article can't be saved
+ # [#28827] INSTL_ADMIN_EMAIL_LABEL translation is missing
+ # [#28817] Cache not being cleared automatically when changes are made in back end
+
+02-Aug-2012 Rouven Weßling
+ ^ Merge latest platform (fc189e3e0cc964cef238aeb0799c7c72c1c988da)
+ ^ Reduce use of deprecated platform APIs
+ ^ Don't always load JArrayHelper
+
+31-Jul-2012 Mark Dexter
+ ^ [#28854] Update Core and Sample SQL filies in installation and related changes
+
+25-Jul-2012 Jean-Marie Simonet
+ [#28846] *When URL Language Code is removed, language switcher module redirects to URL without .html suffix. Thanks Dennis
+
+18-Jul-2012 Jean-Marie Simonet
+ # [#28837] Can't get past step 4 "Database Configuration". Thanks Shaun.
+ # [#28511] Move the caption behavior from the controller to the layouts in com_content. Thanks Rouven and Peter.
+
+-------------------- 3.0 Alpha 1 Release [13-Jul-2012] ------------------
+
+13-Jul-2012 Jean-Marie Simonet
  ^ Merge of latest platform from 12.1+ Thanks Rouven

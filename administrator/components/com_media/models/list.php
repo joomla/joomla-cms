@@ -21,12 +21,14 @@ jimport('joomla.filesystem.file');
  */
 class MediaModelList extends JModelLegacy
 {
-	function getState($property = null, $default = null)
+	public function getState($property = null, $default = null)
 	{
 		static $set;
 
-		if (!$set) {
-			$folder = JRequest::getVar('folder', '', '', 'path');
+		if (!$set)
+		{
+			$input  = JFactory::getApplication()->input;
+			$folder = $input->get('folder', '', 'path');
 			$this->setState('folder', $folder);
 
 			$parent = str_replace("\\", "/", dirname($folder));
@@ -38,21 +40,21 @@ class MediaModelList extends JModelLegacy
 		return parent::getState($property, $default);
 	}
 
-	function getImages()
+	public function getImages()
 	{
 		$list = $this->getList();
 
 		return $list['images'];
 	}
 
-	function getFolders()
+	public function getFolders()
 	{
 		$list = $this->getList();
 
 		return $list['folders'];
 	}
 
-	function getDocuments()
+	public function getDocuments()
 	{
 		$list = $this->getList();
 
@@ -65,7 +67,7 @@ class MediaModelList extends JModelLegacy
 	 * @param string $listFolder The image directory to display
 	 * @since 1.5
 	 */
-	function getList()
+	public function getList()
 	{
 		static $list;
 
@@ -82,7 +84,6 @@ class MediaModelList extends JModelLegacy
 			$current = '';
 		}
 
-		// Initialise variables.
 		if (strlen($current) > 0) {
 			$basePath = COM_MEDIA_BASE.'/'.$current;
 		}

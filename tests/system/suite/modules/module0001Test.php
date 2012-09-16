@@ -31,7 +31,7 @@ class Module0001 extends SeleniumJoomlaTestCase
 		$this->click("//button[@type='submit']");
 		$this->waitForPageToLoad("30000");
     	$this->click("cb0");
-    	$this->click("//li[@id='toolbar-unpublish']/a/span");
+    	$this->click("//div[@id='toolbar-unpublish']/button");
 		$this->waitForPageToLoad("30000");
 
 		echo ("Go back to front end and check that login is not shown"."\n");
@@ -47,7 +47,7 @@ class Module0001 extends SeleniumJoomlaTestCase
 		$this->click("//button[@type='submit']");
 		$this->waitForPageToLoad("30000");
     	$this->click("cb0");
-    	$this->click("//li[@id='toolbar-publish']/a/span");
+    	$this->click("//div[@id='toolbar-publish']/button");
 		$this->waitForPageToLoad("30000");
 		$this->doAdminLogout();
 
@@ -68,7 +68,7 @@ class Module0001 extends SeleniumJoomlaTestCase
 		$this->click("//button[@type='submit']");
 		$this->waitForPageToLoad("30000");
     	$this->click("cb0");
-    	$this->click("//li[@id='toolbar-unpublish']/a/span");
+    	$this->click("//div[@id='toolbar-unpublish']/button");
 		$this->waitForPageToLoad("30000");
 
 		$this->gotoSite();
@@ -84,7 +84,7 @@ class Module0001 extends SeleniumJoomlaTestCase
 		$this->click("//button[@type='submit']");
 		$this->waitForPageToLoad("30000");
 		$this->click("cb0");
-    	$this->click("//li[@id='toolbar-publish']/a/span");
+    	$this->click("//div[@id='toolbar-publish']/button");
 		$this->waitForPageToLoad("30000");
 
 		echo ("Go to front end and check that login form is present"."\n");

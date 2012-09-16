@@ -44,9 +44,6 @@ abstract class JHtmlUsers
 		}
 		else
 		{
-			$version = new JVersion;
-			$jver = explode( '.', $version->getShortVersion() );
-
 			$pathToXml = JPATH_ADMINISTRATOR.'/help/helpsites.xml';
 
 			$text = $value;
@@ -54,16 +51,17 @@ abstract class JHtmlUsers
 			{
 				foreach ($xml->sites->site as $site)
 				{
-					if ((string)$site->attributes()->url == $value)
+					if ((string) $site->attributes()->url == $value)
 					{
-						$text = (string)$site;
+						$text = (string) $site;
 						break;
 					}
 				}
 			}
 
 			$value = htmlspecialchars($value);
-			if (substr ($value, 0, 4) == "http") {
+			if (substr($value, 0, 4) == "http")
+			{
 				return '<a href="'.$value.'">'.$text.'</a>';
 			}
 			else {

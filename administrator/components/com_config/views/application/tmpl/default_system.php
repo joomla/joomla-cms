@@ -9,18 +9,16 @@
 
 defined('_JEXEC') or die;
 ?>
-<div class="width-100">
-	<fieldset class="adminform">
-		<legend><?php echo JText::_('COM_CONFIG_SYSTEM_SETTINGS'); ?></legend>
-		<ul class="adminformlist">
-			<?php
-			foreach ($this->form->getFieldset('system') as $field):
-			?>
-				<li><?php echo $field->label; ?>
-				<?php echo $field->input; ?></li>
-			<?php
-			endforeach;
-			?>
-			</ul>
-	</fieldset>
-</div>
+<fieldset class="form-horizontal">
+	<legend><?php echo JText::_('COM_CONFIG_SYSTEM_SETTINGS'); ?></legend>
+	<?php
+	foreach ($this->form->getFieldset('system') as $field):
+	?>
+		<div class="control-group">
+			<div class="control-label"><?php echo $field->label; ?></div>
+			<div class="controls"><?php echo $field->input; ?></div>
+		</div>
+	<?php
+	endforeach;
+	?>
+</fieldset>

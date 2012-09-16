@@ -21,7 +21,7 @@ class CheckinController extends JControllerLegacy
 	public function display($cachable = false, $urlparams = false)
 	{
 		// Load the submenu.
-		$this->addSubmenu(JRequest::getWord('option', 'com_checkin'));
+		$this->addSubmenu($this->input->getWord('option', 'com_checkin'));
 
 		parent::display();
 
@@ -33,8 +33,7 @@ class CheckinController extends JControllerLegacy
 		// Check for request forgeries
 		JSession::checkToken() or jexit(JText::_('JInvalid_Token'));
 
-		// Initialise variables.
-		$ids	= JRequest::getVar('cid', array(), '', 'array');
+		$ids = $this->input->get('cid', array(), 'array');
 
 		if (empty($ids)) {
 			JError::raiseWarning(500, JText::_('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST'));

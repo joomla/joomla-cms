@@ -32,12 +32,9 @@ class BannersController extends JControllerLegacy
 		require_once JPATH_COMPONENT.'/helpers/banners.php';
 		BannersHelper::updateReset();
 
-		// Load the submenu.
-		BannersHelper::addSubmenu(JRequest::getCmd('view', 'banners'));
-
-		$view	= JRequest::getCmd('view', 'banners');
-		$layout = JRequest::getCmd('layout', 'default');
-		$id		= JRequest::getInt('id');
+		$view   = $this->input->get('view', 'banners');
+		$layout = $this->input->get('layout', 'default');
+		$id     = $this->input->getInt('id');
 
 		// Check for edit form.
 		if ($view == 'banner' && $layout == 'edit' && !$this->checkEditId('com_banners.edit.banner', $id)) {

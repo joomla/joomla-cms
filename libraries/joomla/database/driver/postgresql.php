@@ -621,11 +621,13 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 			$sql .= ' LIMIT ' . $this->limit . ' OFFSET ' . $this->offset;
 		}
 
+		// Increment the query counter.
+		$this->count++;
+
 		// If debugging is enabled then let's log the query.
 		if ($this->debug)
 		{
-			// Increment the query counter and add the query to the object queue.
-			$this->count++;
+			// Add the query to the object queue.
 			$this->log[] = $sql;
 
 			JLog::add($sql, JLog::DEBUG, 'databasequery');
@@ -790,12 +792,12 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 * @param   array   $columns      Array of table's column returned by ::getTableColumns.
 	 * @param   string  $field_name   The table field's name.
 	 * @param   string  $field_value  The variable value to quote and return.
-	 * 
+	 *
 	 * @return  string  The quoted string.
 	 *
 	 * @since   11.3
 	 */
-	public function sqlValue($columns, $field_name, $field_value)
+	protected function sqlValue($columns, $field_name, $field_value)
 	{
 		switch ($columns[$field_name])
 		{
@@ -961,7 +963,6 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 */
 	public function insertObject($table, &$object, $key = null)
 	{
-		// Initialise variables.
 		$columns = $this->getTableColumns($table);
 
 		$fields = array();
@@ -1093,15 +1094,15 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	}
 
 	/**
-	 * Get the query string to alter the database character set.
+	 * Return the query string to alter the database character set.
 	 *
 	 * @param   string  $dbName  The database name
 	 *
 	 * @return  string  The query that alter the database query string
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
-	public function getAlterDbCharacterSet( $dbName )
+	protected function getAlterDbCharacterSet($dbName)
 	{
 		$query = 'ALTER DATABASE ' . $this->quoteName($dbName) . ' SET CLIENT_ENCODING TO ' . $this->quote('UTF8');
 
@@ -1109,18 +1110,17 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	}
 
 	/**
-	 * Get the query string to create new Database in correct PostgreSQL syntax.
+	 * Return the query string to create new Database using PostgreSQL's syntax
 	 *
-	 * @param   object   $options  object coming from "initialise" function to pass user
-	 * 									and database name to database driver.
-	 * @param   boolean  $utf      True if the database supports the UTF-8 character set,
-	 * 									not used in PostgreSQL "CREATE DATABASE" query.
+	 * @param   stdClass  $options  Object used to pass user and database name to database driver.
+	 * 									This object must have "db_name" and "db_user" set.
+	 * @param   boolean   $utf      True if the database supports the UTF-8 character set.
 	 *
-	 * @return  string	The query that creates database, owned by $options['user']
+	 * @return  string  The query that creates database, owned by $options['user']
 	 *
-	 * @since   12.1
+	 * @since   12.2
 	 */
-	public function getCreateDbQuery($options, $utf)
+	protected function getCreateDatabaseQuery($options, $utf)
 	{
 		$query = 'CREATE DATABASE ' . $this->quoteName($options->db_name) . ' OWNER ' . $this->quoteName($options->db_user);
 
@@ -1265,7 +1265,6 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 */
 	public function updateObject($table, &$object, $key, $nulls = false)
 	{
-		// Initialise variables.
 		$columns = $this->getTableColumns($table);
 		$fields = array();
 		$where = '';

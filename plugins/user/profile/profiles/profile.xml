@@ -11,7 +11,6 @@
 				description="PLG_USER_PROFILE_FIELD_ADDRESS1_DESC"
 				filter="string"
 				label="PLG_USER_PROFILE_FIELD_ADDRESS1_LABEL"
-				message="PLG_USER_PROFILE_FIELD_ADDRESS1_MESSAGE"
 				size="30"
 			/>
 
@@ -22,7 +21,6 @@
 				description="PLG_USER_PROFILE_FIELD_ADDRESS2_DESC"
 				filter="string"
 				label="PLG_USER_PROFILE_FIELD_ADDRESS2_LABEL"
-				message="PLG_USER_PROFILE_FIELD_ADDRESS1_MESSAGE"
 				size="30"
 			/>
 
@@ -33,7 +31,6 @@
 				description="PLG_USER_PROFILE_FIELD_CITY_DESC"
 				filter="string"
 				label="PLG_USER_PROFILE_FIELD_CITY_LABEL"
-				message="PLG_USER_PROFILE_FIELD_CITY_MESSAGE"
 				size="30"
 			/>
 
@@ -44,7 +41,6 @@
 				description="PLG_USER_PROFILE_FIELD_REGION_DESC"
 				filter="string"
 				label="PLG_USER_PROFILE_FIELD_REGION_LABEL"
-				message="PLG_USER_PROFILE_FIELD_REGION_MESSAGE"
 				size="30"
 			/>
 
@@ -55,7 +51,6 @@
 				description="PLG_USER_PROFILE_FIELD_COUNTRY_DESC"
 				filter="string"
 				label="PLG_USER_PROFILE_FIELD_COUNTRY_LABEL"
-				message="PLG_USER_PROFILE_FIELD_COUNTRY_MESSAGE"
 				size="30"
 			/>
 
@@ -66,7 +61,6 @@
 				description="PLG_USER_PROFILE_FIELD_POSTAL_CODE_DESC"
 				filter="string"
 				label="PLG_USER_PROFILE_FIELD_POSTAL_CODE_LABEL"
-				message="PLG_USER_PROFILE_FIELD_POSTAL_CODE_MESSAGE"
 				size="30"
 			/>
 
@@ -77,7 +71,6 @@
 				description="PLG_USER_PROFILE_FIELD_PHONE_DESC"
 				filter="string"
 				label="PLG_USER_PROFILE_FIELD_PHONE_LABEL"
-				message="PLG_USER_PROFILE_FIELD_PHONE_MESSAGE"
 				size="30"
 			/>
 
@@ -88,7 +81,6 @@
 				description="PLG_USER_PROFILE_FIELD_WEB_SITE_DESC"
 				filter="string"
 				label="PLG_USER_PROFILE_FIELD_WEB_SITE_LABEL"
-				message="PLG_USER_PROFILE_FIELD_WEB_SITE_MESSAGE"
 				size="30"
 			/>
 			<field
@@ -97,7 +89,6 @@
 				description="PLG_USER_PROFILE_FIELD_FAVORITE_BOOK_DESC"
 				filter="string"
 				label="PLG_USER_PROFILE_FIELD_FAVORITE_BOOK_LABEL"
-				message="PLG_USER_PROFILE_FIELD_FAVORITE_BOOK_MESSAGE"
 				size="30"
 			/>
 			<field
@@ -105,7 +96,6 @@
 				type="textarea"
 				description="PLG_USER_PROFILE_FIELD_ABOUT_ME_DESC"
 				label="PLG_USER_PROFILE_FIELD_ABOUT_ME_LABEL"
-				message="PLG_USER_PROFILE_FIELD_ABOUT_ME_MESSAGE"
 				cols="30"
 				rows="5"
 				filter="safehtml"

@@ -296,7 +296,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 		}
 		catch (PDOException $e)
 		{
-			throw new RuntimeException('Could not connect to PDO' . ': ' . $e->getMessage(), 2);
+			throw new RuntimeException('Could not connect to PDO' . ': ' . $e->getMessage(), 2, $e);
 		}
 	}
 
@@ -373,11 +373,13 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 			$sql .= ' LIMIT ' . $this->offset . ', ' . $this->limit;
 		}
 
+		// Increment the query counter.
+		$this->count++;
+
 		// If debugging is enabled then let's log the query.
 		if ($this->debug)
 		{
-			// Increment the query counter and add the query to the object queue.
-			$this->count++;
+			// Add the query to the object queue.
 			$this->log[] = $sql;
 
 			JLog::add($sql, JLog::DEBUG, 'databasequery');
@@ -534,7 +536,6 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 			// Reset this flag and throw an exception.
 			$checkingConnected = true;
 			die('Recursion trying to check if connected.');
-			throw new RuntimeException('Not connected to database.');
 		}
 
 		// Backup the query state.
@@ -950,9 +951,6 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 
 		// Get properties of the current class
 		$properties = $reflect->getProperties();
-
-		// Static properties of the current class
-		$staticProperties = $reflect->getStaticProperties();
 
 		foreach ($properties as $key => $property)
 		{

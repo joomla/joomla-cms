@@ -19,7 +19,9 @@ defined('_JEXEC') or die;
 class UsersViewGroup extends JViewLegacy
 {
 	protected $form;
+
 	protected $item;
+
 	protected $state;
 
 	/**
@@ -48,33 +50,33 @@ class UsersViewGroup extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		JRequest::setVar('hidemainmenu', 1);
+		JFactory::getApplication()->input->set('hidemainmenu', true);
 
-		$user		= JFactory::getUser();
-		$isNew		= ($this->item->id == 0);
-		$canDo		= UsersHelper::getActions();
+		$user  = JFactory::getUser();
+		$isNew = ($this->item->id == 0);
+		$canDo = UsersHelper::getActions();
 
-		JToolBarHelper::title(JText::_($isNew ? 'COM_USERS_VIEW_NEW_GROUP_TITLE' : 'COM_USERS_VIEW_EDIT_GROUP_TITLE'), 'groups-add');
+		JToolbarHelper::title(JText::_($isNew ? 'COM_USERS_VIEW_NEW_GROUP_TITLE' : 'COM_USERS_VIEW_EDIT_GROUP_TITLE'), 'groups-add');
 
 		if ($canDo->get('core.edit')||$canDo->get('core.create')) {
-			JToolBarHelper::apply('group.apply');
-			JToolBarHelper::save('group.save');
+			JToolbarHelper::apply('group.apply');
+			JToolbarHelper::save('group.save');
 		}
 		if ($canDo->get('core.create')) {
-			JToolBarHelper::save2new('group.save2new');
+			JToolbarHelper::save2new('group.save2new');
 		}
 		// If an existing item, can save to a copy.
 		if (!$isNew && $canDo->get('core.create')) {
-			JToolBarHelper::save2copy('group.save2copy');
+			JToolbarHelper::save2copy('group.save2copy');
 		}
 
 		if (empty($this->item->id))  {
-			JToolBarHelper::cancel('group.cancel');
+			JToolbarHelper::cancel('group.cancel');
 		} else {
-			JToolBarHelper::cancel('group.cancel', 'JTOOLBAR_CLOSE');
+			JToolbarHelper::cancel('group.cancel', 'JTOOLBAR_CLOSE');
 		}
 
-		JToolBarHelper::divider();
-		JToolBarHelper::help('JHELP_USERS_GROUPS_EDIT');
+		JToolbarHelper::divider();
+		JToolbarHelper::help('JHELP_USERS_GROUPS_EDIT');
 	}
 }

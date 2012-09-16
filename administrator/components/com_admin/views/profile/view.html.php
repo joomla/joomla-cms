@@ -10,13 +10,18 @@
 defined('_JEXEC') or die;
 
 /**
+ * View class to allow users edit their own profile.
+ *
  * @package     Joomla.Administrator
  * @subpackage  com_admin
+ * @since       1.6
  */
 class AdminViewProfile extends JViewLegacy
 {
 	protected $form;
+
 	protected $item;
+
 	protected $state;
 
 	/**
@@ -50,11 +55,11 @@ class AdminViewProfile extends JViewLegacy
 	{
 		JFactory::getApplication()->input->set('hidemainmenu', 1);
 
-		JToolBarHelper::title(JText::_('COM_ADMIN_VIEW_PROFILE_TITLE'), 'user-profile');
-		JToolBarHelper::apply('profile.apply');
-		JToolBarHelper::save('profile.save');
-		JToolBarHelper::cancel('profile.cancel', 'JTOOLBAR_CLOSE');
-		JToolBarHelper::divider();
-		JToolBarHelper::help('JHELP_ADMIN_USER_PROFILE_EDIT');
+		JToolbarHelper::title(JText::_('COM_ADMIN_VIEW_PROFILE_TITLE'), 'user-profile');
+		JToolbarHelper::apply('profile.apply');
+		JToolbarHelper::save('profile.save');
+		JToolbarHelper::cancel('profile.cancel', 'JTOOLBAR_CLOSE');
+		JToolbarHelper::divider();
+		JToolbarHelper::help('JHELP_ADMIN_USER_PROFILE_EDIT');
 	}
 }

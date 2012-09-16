@@ -56,10 +56,14 @@ class JFormFieldModal_Contacts extends JFormField
 			' FROM #__contact_details' .
 			' WHERE id = '.(int) $this->value
 		);
-		$title = $db->loadResult();
 
-		if ($error = $db->getErrorMsg()) {
-			JError::raiseWarning(500, $error);
+		try
+		{
+			$title = $db->loadResult();
+		}
+		catch (RuntimeException $e)
+		{
+			JError::raiseWarning(500, $e->getMessage);
 		}
 
 		if (empty($title)) {
@@ -68,13 +72,15 @@ class JFormFieldModal_Contacts extends JFormField
 
 		$link = 'index.php?option=com_contact&amp;view=contacts&amp;layout=modal&amp;tmpl=component&amp;function=jSelectChart_'.$this->id;
 
-		$html = "\n".'<div class="fltlft"><input type="text" id="'.$this->id.'_name" value="'.htmlspecialchars($title, ENT_QUOTES, 'UTF-8').'" disabled="disabled" /></div>';
-		$html .= '<div class="button2-left"><div class="blank"><a class="modal" title="'.JText::_('COM_CONTACT_CHANGE_CONTACT_BUTTON').'"  href="'.$link.'" rel="{handler: \'iframe\', size: {x: 800, y: 450}}">'.JText::_('COM_CONTACT_CHANGE_CONTACT_BUTTON').'</a></div></div>'."\n";
+		$html = "\n".'<div class="input-append"><input type="text" class="input-medium" id="'.$this->id.'_name" value="'.htmlspecialchars($title, ENT_QUOTES, 'UTF-8').'" disabled="disabled" /><a class="modal btn" title="'.JText::_('COM_CONTACT_CHANGE_CONTACT_BUTTON').'"  href="'.$link.'" rel="{handler: \'iframe\', size: {x: 800, y: 450}}"><i class="icon-address" rel="tooltip" title="'.JText::_('COM_CONTACT_CHANGE_CONTACT_BUTTON').'"></i> '.JText::_('JSELECT').'</a></div>'."\n";
 		// The active contact id field.
-		if (0 == (int)$this->value) {
+		if (0 == (int) $this->value)
+		{
 			$value = '';
-		} else {
-			$value = (int)$this->value;
+		}
+		else
+		{
+			$value = (int) $this->value;
 		}
 
 		// class='required' for client side validation

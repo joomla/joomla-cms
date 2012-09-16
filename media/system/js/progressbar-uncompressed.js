@@ -15,58 +15,43 @@ provides: Fx.ProgressBar
 */
 
 Fx.ProgressBar = new Class({
-
 	Extends: Fx,
 
 	options: {
+		//onComplete: function () {},
 		text: null,
-		url: null,
-		transition: Fx.Transitions.Circ.easeOut,
-		fit: true,
-		link: 'cancel',
 		html5: true
 	},
 
 	initialize: function(element, options) {
-		this.element = document.id(element);
+		element = document.id(element);
 		this.parent(options);
 		var url = this.options.url;
 		this.useHtml5 = this.options.html5 && this.supportsHtml5();
 
+		var classes = element.className;
+		var id = element.id;
 		if (this.useHtml5) {
-			this.progressElement = new Element('progress').replaces(this.element);
-			this.progressElement.max = 100;
-			this.progressElement.value = 0;
+			var classes = element.className;
+			this.element = new Element('progress').replaces(element);
+			this.element.max = 100;
+			this.element.value = 0;
 		} else {
-			//WAI-ARIA
+			this.element = new Element('div', {'class': 'progress progress-striped'}).replaces(element);
+			this.barElement = new Element('div', {
+				'class': 'bar'
+			}).inject(this.element);
+
+			// WAI-ARIA
 			this.element.set('role', 'progressbar');
 			this.element.set('aria-valuenow', '0');
 			this.element.set('aria-valuemin', '0');
 			this.element.set('aria-valuemax', '100');
-
-			if (url) {
-				this.element.setStyles({
-					'background-image': 'url(' + url + ')',
-					'background-repeat': 'no-repeat'
-				});
-			}
 		}
+		this.element.id = id;
+		this.element.addClass(classes);
 
-		if (this.options.fit && !this.useHtml5) {
-			url = url || this.element.getStyle('background-image').replace(/^url\(["']?|["']?\)$/g, '');
-			if (url) {
-				var fill = new Image();
-				fill.onload = function() {
-					this.fill = fill.width;
-					fill = fill.onload = null;
-					this.set(this.now || 0);
-				}.bind(this);
-				fill.src = url;
-				if (!this.fill && fill.width) fill.onload();
-			}
-		} else {
-			this.set(0);
-		}
+		this.set(0);
 	},
 
 	supportsHtml5: function () {
@@ -77,22 +62,37 @@ Fx.ProgressBar = new Class({
 		return this.parent(this.now, (arguments.length == 1) ? to.limit(0, 100) : to / total * 100);
 	},
 
+	setIndeterminate: function() {
+		this.indeterminate = true;
+
+		if (this.useHtml5) {
+			this.element.removeProperty('value');
+		} else {
+			this.barElement.setStyle('width', '100%');
+			this.barElement.addClass('active');
+			this.element.removeProperty('aria-valuenow').title = '';
+		}
+	},
+
 	set: function(to) {
+		if (to >= 100) {
+			to = 100;
+		}
 		this.now = to;
 
 		if (this.useHtml5) {
-			this.progressElement.value = to;
+			this.element.value = to;
 		} else {
-			var css = (this.fill)
-			? (((this.fill / -2) + (to / 100) * (this.element.width || 1) || 0).round() + 'px')
-			: ((100 - to) + '%');
-		
-			this.element.setStyle('backgroundPosition', css + ' 0px').title = Math.round(to) + '%';
-			this.element.set('aria-valuenow', to);
+			this.barElement.setStyle('width', to + '%');
+			this.element.set('aria-valuenow', to).title = Math.round(to) + '%';
 		}
 
 		var text = document.id(this.options.text);
 		if (text) text.set('text', Math.round(to) + '%');
+
+		if (to >= 100) {
+			self.fireEvent('complete');
+		}
 
 		return this;
 	}

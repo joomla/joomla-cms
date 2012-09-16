@@ -170,7 +170,7 @@ class JApplication extends JApplicationBase
 			{
 				include_once $path;
 
-				// Create a JRouter object.
+				// Create a JApplication object.
 				$classname = $prefix . ucfirst($client);
 				$instance = new $classname($config);
 			}
@@ -271,9 +271,6 @@ class JApplication extends JApplicationBase
 	public function dispatch($component = null)
 	{
 		$document = JFactory::getDocument();
-
-		$document->setTitle($this->getCfg('sitename') . ' - ' . JText::_('JADMINISTRATION'));
-		$document->setDescription($this->getCfg('MetaDesc'));
 
 		$contents = JComponentHelper::renderComponent($component);
 		$document->setBuffer($contents, 'component');
@@ -964,8 +961,10 @@ class JApplication extends JApplicationBase
 				break;
 		}
 
+		$this->registerEvent('onAfterSessionStart', array($this, 'afterSessionStart'));
+
 		$session = JFactory::getSession($options);
-		$session->initialise($this->input);
+		$session->initialise($this->input, $this->dispatcher);
 		$session->start();
 
 		// TODO: At some point we need to get away from having session data always in the db.
@@ -1056,13 +1055,23 @@ class JApplication extends JApplicationBase
 			{
 				jexit($e->getMessage());
 			}
+		}
+	}
 
-			// Session doesn't exist yet, so create session variables
-			if ($session->isNew())
-			{
-				$session->set('registry', new JRegistry('session'));
-				$session->set('user', new JUser);
-			}
+	/**
+	 * After the session has been started we need to populate it with some default values.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.2
+	 */
+	public function afterSessionStart()
+	{
+		$session = JFactory::getSession();
+		if ($session->isNew())
+		{
+			$session->set('registry', new JRegistry('session'));
+			$session->set('user', new JUser);
 		}
 	}
 

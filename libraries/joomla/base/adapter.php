@@ -9,9 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.filesystem.file');
-jimport('joomla.filesystem.folder');
-
 /**
  * Adapter Class
  * Retains common adapter pattern functions
@@ -165,27 +162,34 @@ class JAdapter extends JObject
 	 */
 	public function loadAllAdapters($options = array())
 	{
-		$list = JFolder::files($this->_basepath . '/' . $this->_adapterfolder);
+		$files = new DirectoryIterator($this->_basepath . '/' . $this->_adapterfolder);
 
-		foreach ($list as $filename)
+		foreach ($files as $file)
 		{
-			if (JFile::getExt($filename) == 'php')
+			$fileName = $file->getFilename();
+
+			// Only load for php files.
+			// Note: DirectoryIterator::getExtension only available PHP >= 5.3.6
+			if (!$file->isFile() || substr($fileName, strrpos($fileName, '.') + 1) != 'php')
 			{
-				// Try to load the adapter object
-				require_once $this->_basepath . '/' . $this->_adapterfolder . '/' . $filename;
-
-				$name = JFile::stripExt($filename);
-				$class = $this->_classprefix . ucfirst($name);
-
-				if (!class_exists($class))
-				{
-					// Skip to next one
-					continue;
-				}
-
-				$adapter = new $class($this, $this->_db, $options);
-				$this->_adapters[$name] = clone $adapter;
+				continue;
 			}
+
+			// Try to load the adapter object
+			require_once $this->_basepath . '/' . $this->_adapterfolder . '/' . $fileName;
+
+			// Derive the class name from the filename.
+			$name = str_ireplace('.php', '', ucfirst(trim($fileName)));
+			$class = $this->_classprefix . ucfirst($name);
+
+			if (!class_exists($class))
+			{
+				// Skip to next one
+				continue;
+			}
+
+			$adapter = new $class($this, $this->_db, $options);
+			$this->_adapters[$name] = clone $adapter;
 		}
 	}
 }

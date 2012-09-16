@@ -96,7 +96,7 @@ class JAdministrator extends JApplication
 		if ($this->getCfg('force_ssl') >= 1 && strtolower($uri->getScheme()) != 'https') {
 			//forward to https
 			$uri->setScheme('https');
-			$this->redirect((string)$uri);
+			$this->redirect((string) $uri);
 		}
 
 		// Trigger the onAfterRoute event.
@@ -235,7 +235,7 @@ class JAdministrator extends JApplication
 		{
 			$lang = $this->input->get('lang');
 			$lang = preg_replace('/[^A-Z-]/i', '', $lang);
-			$this->setUserState('application.lang', $lang );
+			$this->setUserState('application.lang', $lang);
 
 			self::purgeMessages();
 		}
@@ -264,9 +264,9 @@ class JAdministrator extends JApplication
 			$query->leftJoin('#__extensions as e ON e.type='.$db->quote('template').' AND e.element=s.template AND e.client_id=s.client_id');
 			if ($admin_style)
 			{
-				$query->where('s.client_id = 1 AND id = '.(int)$admin_style. ' AND e.enabled = 1', 'OR');
+				$query->where('s.client_id = 1 AND id = ' . (int) $admin_style . ' AND e.enabled = 1', 'OR');
 			}
-			$query->where('s.client_id = 1 AND home = 1', 'OR');
+			$query->where('s.client_id = 1 AND home = ' . $db->quote('1'), 'OR');
 			$query->order('home');
 			$db->setQuery($query);
 			$template = $db->loadObject();
@@ -277,7 +277,7 @@ class JAdministrator extends JApplication
 			if (!file_exists(JPATH_THEMES . '/' . $template->template . '/index.php'))
 			{
 				$template->params = new JRegistry;
-				$template->template = 'bluestork';
+				$template->template = 'isis';
 			}
 		}
 		if ($params) {

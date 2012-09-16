@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-require_once dirname(__FILE__).'/article.php';
+require_once __DIR__ . '/article.php';
 
 /**
  * Feature model.

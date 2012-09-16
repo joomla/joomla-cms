@@ -39,7 +39,7 @@ class WeblinksModelWeblink extends JModelItem
 		$params	= $app->getParams();
 
 		// Load the object state.
-		$id	= JRequest::getInt('id');
+		$id	= $app->input->getInt('id');
 		$this->setState('weblink.id', $id);
 
 		// Load the parameters.
@@ -47,7 +47,7 @@ class WeblinksModelWeblink extends JModelItem
 	}
 
 	/**
-	 * Method to get an ojbect.
+	 * Method to get an object.
 	 *
 	 * @param	integer	The id of the object to get.
 	 *

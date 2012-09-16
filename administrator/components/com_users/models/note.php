@@ -144,7 +144,6 @@ class UsersModelNote extends JModelAdmin
 	 */
 	/*public function save($data)
 	{
-		// Initialise variables.
 		$pk		= (!empty($data['id'])) ? $data['id'] : (int) $this->getState('note.id');
 		$table	= $this->getTable();
 		$isNew	= empty($pk);

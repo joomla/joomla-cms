@@ -86,7 +86,7 @@ class MenusModelMenu extends JModelForm
 		$app = JFactory::getApplication('administrator');
 
 		// Load the User state.
-		$id = (int) JRequest::getInt('id');
+		$id = $app->input->getInt('id');
 		$this->setState('menu.id', $id);
 
 		// Load the parameters.
@@ -103,8 +103,7 @@ class MenusModelMenu extends JModelForm
 	 */
 	public function &getItem($itemId = null)
 	{
-		// Initialise variables.
-		$itemId = (!empty($itemId)) ? $itemId : (int)$this->getState('menu.id');
+		$itemId = (!empty($itemId)) ? $itemId : (int) $this->getState('menu.id');
 		$false	= false;
 
 		// Get a menu item row instance.
@@ -169,8 +168,8 @@ class MenusModelMenu extends JModelForm
 	 */
 	public function save($data)
 	{
-		$id	= (!empty($data['id'])) ? $data['id'] : (int)$this->getState('menu.id');
-		$isNew	= true;
+		$id	= (!empty($data['id'])) ? $data['id'] : (int) $this->getState('menu.id');
+		$isNew = true;
 
 		// Get a row instance.
 		$table = $this->getTable();
@@ -279,7 +278,8 @@ class MenusModelMenu extends JModelForm
 	 *
 	 * @since	1.6
 	 */
-	protected function cleanCache($group = null, $client_id = 0) {
+	protected function cleanCache($group = null, $client_id = 0)
+	{
 		parent::cleanCache('com_modules');
 		parent::cleanCache('mod_menu');
 	}

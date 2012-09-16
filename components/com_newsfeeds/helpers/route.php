@@ -32,9 +32,10 @@ abstract class NewsfeedsHelperRoute
 		//Create the link
 		$link = 'index.php?option=com_newsfeeds&view=newsfeed&id='. $id;
 
-		if ((int)$catid > 1) {
+		if ((int) $catid > 1)
+		{
 			$categories = JCategories::getInstance('Newsfeeds');
-			$category = $categories->get((int)$catid);
+			$category = $categories->get((int) $catid);
 
 			if ($category) {
 				//TODO Throw error that the category either not exists or is unpublished
@@ -140,8 +141,8 @@ abstract class NewsfeedsHelperRoute
 				{
 					foreach($ids as $id)
 					{
-						if (isset(self::$lookup[$view][(int)$id])) {
-							return self::$lookup[$view][(int)$id];
+						if (isset(self::$lookup[$view][(int) $id])) {
+							return self::$lookup[$view][(int) $id];
 						}
 					}
 				}

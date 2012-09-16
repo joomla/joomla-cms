@@ -32,11 +32,11 @@ class PluginsController extends JControllerLegacy
 		require_once JPATH_COMPONENT.'/helpers/plugins.php';
 
 		// Load the submenu.
-		PluginsHelper::addSubmenu(JRequest::getCmd('view', 'plugins'));
+		PluginsHelper::addSubmenu($this->input->get('view', 'plugins'));
 
-		$view		= JRequest::getCmd('view', 'plugins');
-		$layout 	= JRequest::getCmd('layout', 'default');
-		$id			= JRequest::getInt('extension_id');
+		$view   = $this->input->get('view', 'plugins');
+		$layout = $this->input->get('layout', 'default');
+		$id     = $this->input->getInt('extension_id');
 
 		// Check for edit form.
 		if ($view == 'plugin' && $layout == 'edit' && !$this->checkEditId('com_plugins.edit.plugin', $id)) {

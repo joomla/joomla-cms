@@ -58,6 +58,7 @@ class JFormFieldDirectories extends JFormFieldList
 		);
 
 		// Get the base directories.
+		jimport('joomla.filesystem.folder');
 		$dirs = JFolder::folders(JPATH_SITE, '.', false, true);
 
 		// Iterate through the base directories and find the subdirectories.
@@ -83,7 +84,7 @@ class JFormFieldDirectories extends JFormFieldList
 		// Convert the values to options.
 		for ($i = 0, $c = count($values); $i < $c; $i++)
 		{
-			$options[] = JHtml::_('select.option', str_replace(JPATH_SITE . '/', '', $values[$i]), str_replace(JPATH_SITE . DS, '', $values[$i]));
+			$options[] = JHtml::_('select.option', str_replace(JPATH_SITE . '/', '', $values[$i]), str_replace(JPATH_SITE . '/', '', $values[$i]));
 		}
 
 		// Add a null option.

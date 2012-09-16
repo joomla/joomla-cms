@@ -30,7 +30,7 @@ class plgUserProfile extends JPlugin
 	{
 		parent::__construct($subject, $config);
 		$this->loadLanguage();
-		JFormHelper::addFieldPath(dirname(__FILE__) . '/fields');
+		JFormHelper::addFieldPath(__DIR__ . '/fields');
 	}
 
 	/**
@@ -41,7 +41,7 @@ class plgUserProfile extends JPlugin
 	 * @return	boolean
 	 * @since	1.6
 	 */
-	function onContentPrepareData($context, $data)
+	public function onContentPrepareData($context, $data)
 	{
 		// Check we are manipulating a valid form.
 		if (!in_array($context, array('com_users.profile', 'com_users.user', 'com_users.registration', 'com_admin.profile')))
@@ -62,12 +62,14 @@ class plgUserProfile extends JPlugin
 					' WHERE user_id = '.(int) $userId." AND profile_key LIKE 'profile.%'" .
 					' ORDER BY ordering'
 				);
-				$results = $db->loadRowList();
 
-				// Check for a database error.
-				if ($db->getErrorNum())
+				try
 				{
-					$this->_subject->setError($db->getErrorMsg());
+					$results = $db->loadRowList();
+				}
+				catch (RuntimeException $e)
+				{
+					$this->_subject->setError($e->getMessage());
 					return false;
 				}
 
@@ -111,7 +113,7 @@ class plgUserProfile extends JPlugin
 		else
 		{
 			$value = htmlspecialchars($value);
-			if (substr ($value, 0, 4) == "http")
+			if (substr($value, 0, 4) == "http")
 			{
 				return '<a href="'.$value.'">'.$value.'</a>';
 			}
@@ -153,7 +155,7 @@ class plgUserProfile extends JPlugin
 	 * @return	boolean
 	 * @since	1.6
 	 */
-	function onContentPrepareForm($form, $data)
+	public function onContentPrepareForm($form, $data)
 	{
 		if (!($form instanceof JForm))
 		{
@@ -169,7 +171,7 @@ class plgUserProfile extends JPlugin
 		}
 
 		// Add the registration fields to the form.
-		JForm::addFormPath(dirname(__FILE__) . '/profiles');
+		JForm::addFormPath(__DIR__ . '/profiles');
 		$form->loadFile('profile', false);
 
 		$fields = array(
@@ -244,7 +246,7 @@ class plgUserProfile extends JPlugin
 		return true;
 	}
 
-	function onUserAfterSave($data, $isNew, $result, $error)
+	public function onUserAfterSave($data, $isNew, $result, $error)
 	{
 		$userId	= JArrayHelper::getValue($data, 'id', 0, 'int');
 
@@ -264,11 +266,7 @@ class plgUserProfile extends JPlugin
 					'DELETE FROM #__user_profiles WHERE user_id = '.$userId .
 					" AND profile_key LIKE 'profile.%'"
 				);
-
-				if (!$db->execute())
-				{
-					throw new Exception($db->getErrorMsg());
-				}
+				$db->execute();
 
 				$tuples = array();
 				$order	= 1;
@@ -279,14 +277,9 @@ class plgUserProfile extends JPlugin
 				}
 
 				$db->setQuery('INSERT INTO #__user_profiles VALUES '.implode(', ', $tuples));
-
-				if (!$db->execute())
-				{
-					throw new Exception($db->getErrorMsg());
-				}
-
+				$db->execute();
 			}
-			catch (JException $e)
+			catch (RuntimeException $e)
 			{
 				$this->_subject->setError($e->getMessage());
 				return false;
@@ -305,7 +298,7 @@ class plgUserProfile extends JPlugin
 	 * @param	boolean		$success	True if user was succesfully stored in the database
 	 * @param	string		$msg		Message
 	 */
-	function onUserAfterDelete($user, $success, $msg)
+	public function onUserAfterDelete($user, $success, $msg)
 	{
 		if (!$success)
 		{
@@ -324,12 +317,9 @@ class plgUserProfile extends JPlugin
 					" AND profile_key LIKE 'profile.%'"
 				);
 
-				if (!$db->execute())
-				{
-					throw new Exception($db->getErrorMsg());
-				}
+				$db->execute();
 			}
-			catch (JException $e)
+			catch (Exception $e)
 			{
 				$this->_subject->setError($e->getMessage());
 				return false;

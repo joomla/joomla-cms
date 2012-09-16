@@ -20,7 +20,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 	<p> <?php echo JText::_('COM_NEWSFEEDS_NO_ARTICLES'); ?>	 </p>
 <?php else : ?>
 
-<form action="<?php echo htmlspecialchars(JFactory::getURI()->toString()); ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo htmlspecialchars(JUri::getInstance()->toString()); ?>" method="post" name="adminForm" id="adminForm">
 	<fieldset class="filters">
 	<legend class="hidelabeltxt"><?php echo JText::_('JGLOBAL_FILTER_LABEL'); ?></legend>
 	<?php if ($this->params->get('show_pagination_limit')) : ?>
@@ -33,7 +33,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 	<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>" />
 	</fieldset>
 	<table class="category">
-		<?php if ($this->params->get('show_headings')==1) : ?>
+		<?php if ($this->params->get('show_headings') == 1) : ?>
 		<thead><tr>
 
 				<th class="item-title" id="tableOrdering">
@@ -66,6 +66,9 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 		<?php endif; ?>
 
 					<td class="item-title">
+						<?php if ($this->items[$i]->published == 0): ?>
+							<span class="label label-warning">Unpublished</span>
+						<?php endif; ?>
 						<a href="<?php echo JRoute::_(NewsFeedsHelperRoute::getNewsfeedRoute($item->slug, $item->catid)); ?>">
 							<?php echo $item->name; ?></a>
 					</td>

@@ -12,6 +12,8 @@ defined('_JEXEC') or die;
 JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR.'/components/com_content/models', 'ContentModel');
 
 /**
+ * Helper for mod_popular
+ *
  * @package     Joomla.Administrator
  * @subpackage  mod_popular
  * @since       1.6
@@ -27,7 +29,6 @@ abstract class modPopularHelper
 	 */
 	public static function getList($params)
 	{
-		// Initialise variables
 		$user = JFactory::getuser();
 
 		// Get an instance of the generic articles model
@@ -92,7 +93,7 @@ abstract class modPopularHelper
 	public static function getTitle($params)
 	{
 		$who = $params->get('user_id');
-		$catid = (int)$params->get('catid');
+		$catid = (int) $params->get('catid');
 		if ($catid)
 		{
 			$category = JCategories::getInstance('Content')->get($catid);
@@ -107,6 +108,6 @@ abstract class modPopularHelper
 		{
 			$title = '';
 		}
-		return JText::plural('MOD_POPULAR_TITLE'.($catid ? "_CATEGORY" : '').($who!='0' ? "_$who" : ''), (int)$params->get('count'), $title);
+		return JText::plural('MOD_POPULAR_TITLE' . ($catid ? "_CATEGORY" : '') . ($who != '0' ? "_$who" : ''), (int) $params->get('count'), $title);
 	}
 }

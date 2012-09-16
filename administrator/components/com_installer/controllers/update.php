@@ -20,13 +20,13 @@ class InstallerControllerUpdate extends JControllerLegacy
 	 *
 	 * @since	1.6
 	 */
-	function update()
+	public function update()
 	{
 		// Check for request forgeries
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		$model	= $this->getModel('update');
-		$uid	= JRequest::getVar('cid', array(), '', 'array');
+		$model = $this->getModel('update');
+		$uid   = $this->input->get('cid', array(), 'array');
 
 		JArrayHelper::toInteger($uid, array());
 		if ($model->update($uid)) {
@@ -53,7 +53,7 @@ class InstallerControllerUpdate extends JControllerLegacy
 	 *
 	 * @since	1.6
 	 */
-	function find()
+	public function find()
 	{
 		// Check for request forgeries
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
@@ -76,7 +76,7 @@ class InstallerControllerUpdate extends JControllerLegacy
 	 *
 	 * @since	1.6
 	 */
-	function purge()
+	public function purge()
 	{
 		// Purge updates
 		// Check for request forgeries
@@ -94,16 +94,16 @@ class InstallerControllerUpdate extends JControllerLegacy
 	 *
 	 * @since 2.5
 	 */
-	function ajax()
+	public function ajax()
 	{
 		// Note: we don't do a token check as we're fetching information
 		// asynchronously. This means that between requests the token might
 		// change, making it impossible for AJAX to work.
 
-		$eid = JRequest::getInt('eid', 0);
-		$skip = JRequest::getVar('skip', array(), 'default', 'array');
+		$eid  = $this->input->getInt('eid', 0);
+		$skip = $this->input->get('skip', array(), 'array');
 
-		$cache_timeout = JRequest::getInt('cache_timeout', 0);
+		$cache_timeout = $this->input->getInt('cache_timeout', 0);
 		if($cache_timeout == 0) {
 			$component = JComponentHelper::getComponent('com_installer');
 			$params = $component->params;

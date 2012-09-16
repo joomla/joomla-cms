@@ -19,7 +19,9 @@ defined('_JEXEC') or die;
 class UsersViewRemind extends JViewLegacy
 {
 	protected $form;
+
 	protected $params;
+
 	protected $state;
 
 	/**

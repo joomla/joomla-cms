@@ -310,7 +310,6 @@ class JInstaller extends JAdapter
 	 */
 	public function abort($msg = null, $type = null)
 	{
-		// Initialise variables.
 		$retval = true;
 		$step = array_pop($this->stepStack);
 
@@ -864,7 +863,6 @@ class JInstaller extends JAdapter
 			return 0;
 		}
 
-		// Initialise variables.
 		$queries = array();
 		$db = & $this->_db;
 		$dbDriver = strtolower($db->name);
@@ -907,7 +905,7 @@ class JInstaller extends JAdapter
 				}
 
 				// Create an array of queries from the sql file
-				$queries = JInstallerHelper::splitSql($buffer);
+				$queries = JDatabaseDriver::splitSql($buffer);
 
 				if (count($queries) == 0)
 				{
@@ -1082,7 +1080,7 @@ class JInstaller extends JAdapter
 								}
 
 								// Create an array of queries from the sql file
-								$queries = JInstallerHelper::splitSql($buffer);
+								$queries = JDatabaseDriver::splitSql($buffer);
 
 								if (count($queries) == 0)
 								{
@@ -1157,7 +1155,6 @@ class JInstaller extends JAdapter
 			return 0;
 		}
 
-		// Initialise variables.
 		$copyfiles = array();
 
 		// Get the client info
@@ -1283,7 +1280,6 @@ class JInstaller extends JAdapter
 			return 0;
 		}
 
-		// Initialise variables.
 		$copyfiles = array();
 
 		// Get the client info
@@ -1399,7 +1395,6 @@ class JInstaller extends JAdapter
 			return 0;
 		}
 
-		// Initialise variables.
 		$copyfiles = array();
 
 		// Get the client info
@@ -1646,7 +1641,6 @@ class JInstaller extends JAdapter
 			return true;
 		}
 
-		// Initialise variables.
 		$removefiles = array();
 		$retval = true;
 
@@ -1944,7 +1938,7 @@ class JInstaller extends JAdapter
 		$query->where('type = ' . $dbo->Quote($type));
 		$query->where('element = ' . $dbo->Quote($element));
 		$query->where('folder = ' . $dbo->Quote($folder));
-		$query->where('client_id = ' . intval($client));
+		$query->where('client_id = ' . (int) $client);
 		$query->where('state = -1');
 
 		return $dbo->execute();
@@ -2120,8 +2114,6 @@ class JInstaller extends JAdapter
 		}
 
 		$data = array();
-
-		$data['legacy'] = ($xml->getName() == 'install');
 
 		$data['name'] = (string) $xml->name;
 

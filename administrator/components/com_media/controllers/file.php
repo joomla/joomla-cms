@@ -36,10 +36,11 @@ class MediaControllerFile extends JControllerLegacy
 		// Check for request forgeries
 		JSession::checkToken('request') or jexit(JText::_('JINVALID_TOKEN'));
 		$params = JComponentHelper::getParams('com_media');
+
 		// Get some data from the request
-		$files			= JRequest::getVar('Filedata', '', 'files', 'array');
-		$return			= JRequest::getVar('return-url', null, 'post', 'base64');
-		$this->folder	= JRequest::getVar('folder', '', '', 'path');
+		$files        = JRequest::getVar('Filedata', '', 'files', 'array');
+		$return       = $this->input->post->get('return-url', null, 'base64');
+		$this->folder = $this->input->get('folder', '', 'path');
 
 		// Set the redirect
 		if ($return)
@@ -53,10 +54,10 @@ class MediaControllerFile extends JControllerLegacy
 			return false;
 		}
 		if (
-			$_SERVER['CONTENT_LENGTH']>($params->get('upload_maxsize', 0) * 1024 * 1024) ||
-			$_SERVER['CONTENT_LENGTH']>(int)(ini_get('upload_max_filesize'))* 1024 * 1024 ||
-			$_SERVER['CONTENT_LENGTH']>(int)(ini_get('post_max_size'))* 1024 * 1024 ||
-			$_SERVER['CONTENT_LENGTH']>(int)(ini_get('memory_limit'))* 1024 * 1024
+			$_SERVER['CONTENT_LENGTH'] > ($params->get('upload_maxsize', 0) * 1024 * 1024) ||
+			$_SERVER['CONTENT_LENGTH'] > (int) (ini_get('upload_max_filesize')) * 1024 * 1024 ||
+			$_SERVER['CONTENT_LENGTH'] > (int) (ini_get('post_max_size')) * 1024 * 1024 ||
+			$_SERVER['CONTENT_LENGTH'] > (int) (ini_get('memory_limit')) * 1024 * 1024
 		)
 		{
 			JError::raiseWarning(100, JText::_('COM_MEDIA_ERROR_WARNFILETOOLARGE'));
@@ -65,19 +66,20 @@ class MediaControllerFile extends JControllerLegacy
 		// Input is in the form of an associative array containing numerically indexed arrays
 		// We want a numerically indexed array containing associative arrays
 		// Cast each item as array in case the Filedata parameter was not sent as such
-		$files = array_map( array($this, 'reformatFilesArray'),
+		$files = array_map(
+			array($this, 'reformatFilesArray'),
 			(array) $files['name'], (array) $files['type'], (array) $files['tmp_name'], (array) $files['error'], (array) $files['size']
 		);
 
 		// Perform basic checks on file info before attempting anything
 		foreach ($files as &$file)
 		{
-			if ($file['error']==1)
+			if ($file['error'] == 1)
 			{
 				JError::raiseWarning(100, JText::_('COM_MEDIA_ERROR_WARNFILETOOLARGE'));
 				return false;
 			}
-			if ($file['size']>($params->get('upload_maxsize', 0) * 1024 * 1024))
+			if ($file['size'] > ($params->get('upload_maxsize', 0) * 1024 * 1024))
 			{
 				JError::raiseNotice(100, JText::_('COM_MEDIA_ERROR_WARNFILETOOLARGE'));
 				return false;
@@ -197,9 +199,9 @@ class MediaControllerFile extends JControllerLegacy
 		JSession::checkToken('request') or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Get some data from the request
-		$tmpl	= JRequest::getCmd('tmpl');
-		$paths	= JRequest::getVar('rm', array(), '', 'array');
-		$folder = JRequest::getVar('folder', '', '', 'path');
+		$tmpl	= $this->input->get('tmpl');
+		$paths	= $this->input->get('rm', array(), 'array');
+		$folder = $this->input->get('folder', '', 'path');
 
 		$redirect = 'index.php?option=com_media&folder=' . $folder;
 		if ($tmpl == 'component')
@@ -227,7 +229,6 @@ class MediaControllerFile extends JControllerLegacy
 		JPluginHelper::importPlugin('content');
 		$dispatcher	= JEventDispatcher::getInstance();
 
-		// Initialise variables.
 		$ret = true;
 		foreach ($paths as $path)
 		{

@@ -449,7 +449,6 @@ class JFilesystemPatcher
 					{
 						$dst_lines = & $this->getDestination($dst, $src);
 						$src_bottom = $src_line + count($source);
-						$dst_bottom = $dst_line + count($destin);
 						for ($l = $src_line;$l < $src_bottom;$l++)
 						{
 							if ($src_lines[$l] != $source[$l - $src_line])

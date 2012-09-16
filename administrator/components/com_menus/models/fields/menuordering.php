@@ -37,7 +37,6 @@ class JFormFieldMenuOrdering extends JFormFieldList
 	 */
 	protected function getOptions()
 	{
-		// Initialize variables.
 		$options = array();
 
 		// Get the parent
@@ -66,17 +65,19 @@ class JFormFieldMenuOrdering extends JFormFieldList
 		// Get the options.
 		$db->setQuery($query);
 
-		$options = $db->loadObjectList();
-
-		// Check for a database error.
-		if ($db->getErrorNum()) {
-			JError::raiseWarning(500, $db->getErrorMsg());
+		try
+		{
+			$options = $db->loadObjectList();
+		}
+		catch (RuntimeException $e)
+		{
+			JError::raiseWarning(500, $e->getMessage());
 		}
 
 		$options = array_merge(
-		array(array ('value' =>'-1', 'text'=>JText::_('COM_MENUS_ITEM_FIELD_ORDERING_VALUE_FIRST'))),
-		$options,
-		array(array( 'value' =>'-2', 'text'=>JText::_('COM_MENUS_ITEM_FIELD_ORDERING_VALUE_LAST')))
+			array(array('value' => '-1', 'text' => JText::_('COM_MENUS_ITEM_FIELD_ORDERING_VALUE_FIRST'))),
+			$options,
+			array(array('value' => '-2', 'text' => JText::_('COM_MENUS_ITEM_FIELD_ORDERING_VALUE_LAST')))
 		);
 
 		// Merge any additional options in the XML definition.

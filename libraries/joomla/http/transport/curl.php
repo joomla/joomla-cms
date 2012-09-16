@@ -25,10 +25,11 @@ class JHttpTransportCurl implements JHttpTransport
 	protected $options;
 
 	/**
-	 * Constructor.
+	 * Constructor. CURLOPT_FOLLOWLOCATION must be disabled when open_basedir or safe_mode are enabled.
 	 *
 	 * @param   JRegistry  $options  Client options object.
 	 *
+	 * @see     http://www.php.net/manual/en/function.curl-setopt.php
 	 * @since   11.3
 	 * @throws  RuntimeException
 	 */
@@ -68,7 +69,7 @@ class JHttpTransportCurl implements JHttpTransport
 		$options[CURLOPT_NOBODY] = ($method === 'HEAD');
 
 		// Initialize the certificate store
-		$options[CURLOPT_CAINFO] = __DIR__ . '/cacert.pem';
+		$options[CURLOPT_CAINFO] = $this->options->get('curl.certpath', __DIR__ . '/cacert.pem');
 
 		// If data exists let's encode it and make sure our Content-type header is set.
 		if (isset($data))
@@ -131,12 +132,12 @@ class JHttpTransportCurl implements JHttpTransport
 		// Return it... echoing it would be tacky.
 		$options[CURLOPT_RETURNTRANSFER] = true;
 
-		// Override the Expect header to prevent cURL from confusing itself in it's own stupidity.
+		// Override the Expect header to prevent cURL from confusing itself in its own stupidity.
 		// Link: http://the-stickman.com/web-development/php-and-curl-disabling-100-continue-header/
 		$options[CURLOPT_HTTPHEADER][] = 'Expect:';
 
 		// Follow redirects.
-		$options[CURLOPT_FOLLOWLOCATION] = true;
+		$options[CURLOPT_FOLLOWLOCATION] = (bool) $this->options->get('follow_location', true);
 
 		// Set the cURL options.
 		curl_setopt_array($ch, $options);
@@ -169,6 +170,12 @@ class JHttpTransportCurl implements JHttpTransport
 		// Create the response object.
 		$return = new JHttpResponse;
 
+		// Check if the content is actually a string.
+		if (!is_string($content))
+		{
+			throw new UnexpectedValueException('No HTTP response received.');
+		}
+
 		// Get the number of redirects that occurred.
 		$redirects = isset($info['redirect_count']) ? $info['redirect_count'] : 0;
 
@@ -187,7 +194,8 @@ class JHttpTransportCurl implements JHttpTransport
 
 		// Get the response code from the first offset of the response headers.
 		preg_match('/[0-9]{3}/', array_shift($headers), $matches);
-		$code = $matches[0];
+
+		$code = count($matches) ? $matches[0] : null;
 		if (is_numeric($code))
 		{
 			$return->code = (int) $code;

@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.filesystem.file');
-
 // Get additional language strings prefixed with TPL_HATHOR
 $lang = JFactory::getLanguage();
 $lang->load('tpl_hathor', JPATH_ADMINISTRATOR)
@@ -43,7 +41,7 @@ $file = 'language/'.$lang->getTag().'/'.$lang->getTag().'.css';
 <?php endif; ?>
 
 <!-- Load specific language related css -->
-<?php if (JFile::exists($file)) : ?>
+<?php if (is_file($file)) : ?>
 	<link href="<?php echo $file ?>" rel="stylesheet" type="text/css" />
 <?php  endif; ?>
 
@@ -52,7 +50,9 @@ $file = 'language/'.$lang->getTag().'/'.$lang->getTag().'.css';
 	<link href="templates/<?php echo $this->template ?>/css/boldtext.css" rel="stylesheet" type="text/css" />
 <?php  endif; ?>
 
-
+<!--[if lt IE 9]>
+	<script src="../media/jui/js/html5.js"></script>
+<![endif]-->
 </head>
 <body class="contentpane">
 	<jdoc:include type="message" />

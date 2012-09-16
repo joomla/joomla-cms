@@ -17,7 +17,9 @@ defined('_JEXEC') or die;
 class ModulesViewPositions extends JViewLegacy
 {
 	protected $items;
+
 	protected $pagination;
+
 	protected $state;
 
 	/**

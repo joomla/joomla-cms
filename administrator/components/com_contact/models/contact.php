@@ -406,7 +406,7 @@ class ContactModelContact extends JModelAdmin
 			// Prime some default values.
 			if ($this->getState('contact.id') == 0) {
 				$app = JFactory::getApplication();
-				$data->set('catid', JRequest::getInt('catid', $app->getUserState('com_contact.contacts.filter.category_id')));
+				$data->set('catid', $app->input->get('catid', $app->getUserState('com_contact.contacts.filter.category_id'), 'int'));
 			}
 		}
 
@@ -435,7 +435,7 @@ class ContactModelContact extends JModelAdmin
 
 		if (empty($table->id)) {
 			// Set the values
-			//$table->created	= $date->toSql();
+			$table->created	= $date->toSql();
 
 			// Set ordering to the last item if not set
 			if (empty($table->ordering)) {
@@ -443,14 +443,17 @@ class ContactModelContact extends JModelAdmin
 				$db->setQuery('SELECT MAX(ordering) FROM #__contact_details');
 				$max = $db->loadResult();
 
-				$table->ordering = $max+1;
+				$table->ordering = $max + 1;
 			}
 		}
 		else {
 			// Set the values
-			//$table->modified	= $date->toSql();
-			//$table->modified_by	= $user->get('id');
+			$table->modified	= $date->toSql();
+			$table->modified_by	= $user->get('id');
 		}
+		// Increment the content version number.
+		$table->version++;
+
 	}
 
 	/**
@@ -500,10 +503,7 @@ class ContactModelContact extends JModelAdmin
 				' SET featured = '.(int) $value.
 				' WHERE id IN ('.implode(',', $pks).')'
 			);
-			if (!$db->execute()) {
-				throw new Exception($db->getErrorMsg());
-			}
-
+			$db->execute();
 		}
 		catch (Exception $e)
 		{

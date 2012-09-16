@@ -29,7 +29,7 @@ JText::script('COM_USERS_GROUPS_CONFIRM_DELETE');
 		{
 			var f = document.adminForm;
 			var cb='';
-<?php foreach ($this->items as $i=>$item):?>
+<?php foreach ($this->items as $i => $item):?>
 <?php if ($item->user_count > 0):?>
 			cb = f['cb'+<?php echo $i;?>];
 			if (cb && cb.checked) {
@@ -76,8 +76,8 @@ JText::script('COM_USERS_GROUPS_CONFIRM_DELETE');
 
 		<tbody>
 		<?php foreach ($this->items as $i => $item) :
-			$canCreate	= $user->authorise('core.create',		'com_users');
-			$canEdit	= $user->authorise('core.edit',			'com_users');
+			$canCreate = $user->authorise('core.create', 'com_users');
+			$canEdit   = $user->authorise('core.edit',   'com_users');
 			// If this group is super admin and this user is not super admin, $canEdit is false
 			if (!$user->authorise('core.admin') && (JAccess::checkGroup($item->id, 'core.admin'))) {
 				$canEdit = false;

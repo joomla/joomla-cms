@@ -30,12 +30,12 @@ class CacheController extends JControllerLegacy
 		require_once JPATH_COMPONENT.'/helpers/cache.php';
 
 		// Get the document object.
-		$document	= JFactory::getDocument();
+		$document = JFactory::getDocument();
 
 		// Set the default view name and format from the Request.
-		$vName		= JRequest::getCmd('view', 'cache');
-		$vFormat	= $document->getType();
-		$lName		= JRequest::getCmd('layout', 'default');
+		$vName   = $this->input->get('view', 'cache');
+		$vFormat = $document->getType();
+		$lName   = $this->input->get('layout', 'default');
 
 		// Get and render the view.
 		if ($view = $this->getView($vName, $vFormat))
@@ -54,10 +54,10 @@ class CacheController extends JControllerLegacy
 			$view->setLayout($lName);
 
 			// Push document object into the view.
-			$view->assignRef('document', $document);
+			$view->document = $document;
 
 			// Load the submenu.
-			CacheHelper::addSubmenu(JRequest::getCmd('view', 'cache'));
+			CacheHelper::addSubmenu($this->input->get('view', 'cache'));
 
 			$view->display();
 		}
@@ -68,7 +68,7 @@ class CacheController extends JControllerLegacy
 		// Check for request forgeries
 		JSession::checkToken() or jexit(JText::_('JInvalid_Token'));
 
-		$cid = JRequest::getVar('cid', array(), 'post', 'array');
+		$cid = $this->input->post->get('cid', array(), 'array');
 
 		$model = $this->getModel('cache');
 

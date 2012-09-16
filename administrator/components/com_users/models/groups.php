@@ -49,7 +49,6 @@ class UsersModelGroups extends JModelList
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
-		// Initialise variables.
 		$app = JFactory::getApplication('administrator');
 
 		// Load the filter state.
@@ -126,12 +125,13 @@ class UsersModelGroups extends JModelList
 			$db->setQuery($query);
 
 			// Load the counts into an array indexed on the user id field.
-			$users = $db->loadObjectList('group_id');
-
-			$error = $db->getErrorMsg();
-			if ($error) {
-				$this->setError($error);
-
+			try
+			{
+				$users = $db->loadObjectList('group_id');
+			}
+			catch (RuntimeException $e)
+			{
+				$this->setError($e->getMessage);
 				return false;
 			}
 

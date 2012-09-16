@@ -11,7 +11,7 @@ defined('JPATH_BASE') or die;
 
 JFormHelper::loadFieldClass('list');
 
-require_once dirname(__FILE__) . '/../../helpers/banners.php';
+require_once __DIR__ . '/../../helpers/banners.php';
 
 /**
  * Bannerclient Field class for the Joomla Framework.

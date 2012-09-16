@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+JHtml::_('jquery.chosen');
+
 $listOrder	= $this->escape($this->state->get('list.ordering'));
 $listDirn	= $this->escape($this->state->get('list.direction'));
 
@@ -29,26 +31,17 @@ Joomla.submitbutton = function(pressbutton) {
 }
 </script>
 <form action="<?php echo JRoute::_('index.php?option=com_finder&view=maps');?>" method="post" name="adminForm" id="adminForm">
-	<fieldset id="filter-bar">
-		<div class="filter-search fltlft">
-			<label class="filter-search-lbl" for="filter_search"><?php echo JText::sprintf('COM_FINDER_SEARCH_LABEL', JText::_('COM_FINDER_MAPS')); ?></label>
-			<input type="text" name="filter_search" id="filter_search" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" title="<?php echo JText::_('COM_FINDER_FILTER_SEARCH_DESCRIPTION'); ?>" />
-			<button type="submit" class="btn"><?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?></button>
-			<button type="button" onclick="document.id('filter_search').value='';this.form.submit();"><?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?></button>
+	<div id="filter-bar" class="btn-toolbar">
+		<div class="filter-search btn-group pull-left">
+			<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('COM_FINDER_FILTER_SEARCH_DESCRIPTION'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" title="<?php echo JText::_('COM_FINDER_FILTER_SEARCH_DESCRIPTION'); ?>" />
 		</div>
-		<div class="filter-select fltrt">
-			<select name="filter_branch" class="inputbox" onchange="this.form.submit()" id="filter_branch">
-				<?php echo JHtml::_('select.options', JHtml::_('finder.mapslist'), 'value', 'text', $this->state->get('filter.branch'));?>
-			</select>
-			<select name="filter_state" class="inputbox" onchange="this.form.submit()">
-				<option value=""><?php echo JText::_('COM_FINDER_INDEX_FILTER_BY_STATE');?></option>
-				<?php echo JHtml::_('select.options', JHtml::_('finder.statelist'), 'value', 'text', $this->state->get('filter.state'));?>
-			</select>
+		<div class="btn-group pull-left">
+			<button class="btn" rel="tooltip" type="submit" title="<?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?>"><i class="icon-search"></i></button>
+			<button class="btn" rel="tooltip" type="button" title="<?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?>" onclick="document.id('filter_search').value='';this.form.submit();"><i class="icon-remove"></i></button>
 		</div>
-	</fieldset>
-	<div class="clr"> </div>
-
-	<table class="adminlist" style="clear: both;">
+	</div>
+	<div class="clearfix"> </div>
+	<table class="table table-striped">
 		<thead>
 			<tr>
 				<th width="1%">
@@ -79,7 +72,7 @@ Joomla.submitbutton = function(pressbutton) {
 			</tr>
 			<?php endif; ?>
 
-			<?php $canChange	= JFactory::getUser()->authorise('core.manage',	'com_finder'); ?>
+			<?php $canChange = JFactory::getUser()->authorise('core.manage',	'com_finder'); ?>
 			<?php foreach ($this->items as $i => $item): ?>
 
 			<tr class="row<?php echo $i % 2; ?>">

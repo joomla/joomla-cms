@@ -46,6 +46,13 @@ class NewsfeedsTableNewsfeed extends JTable
 			$registry->loadArray($array['metadata']);
 			$array['metadata'] = (string) $registry;
 		}
+
+		if (isset($array['images']) && is_array($array['images'])) {
+			$registry = new JRegistry;
+			$registry->loadArray($array['images']);
+			$array['images'] = (string) $registry;
+		}
+
 		return parent::bind($array, $ignore);
 	}
 
@@ -54,7 +61,7 @@ class NewsfeedsTableNewsfeed extends JTable
 	 *
 	 * @return	boolean	True on success.
 	 */
-	function check()
+	public function check()
 	{
 		// Check for valid name.
 		if (trim($this->name) == '') {
@@ -71,7 +78,7 @@ class NewsfeedsTableNewsfeed extends JTable
 		}
 
 		// Check the publish down date is not earlier than publish up.
-		if (intval($this->publish_down) > 0 && $this->publish_down < $this->publish_up) {
+		if ((int) $this->publish_down > 0 && $this->publish_down < $this->publish_up) {
 			$this->setError(JText::_('JGLOBAL_START_PUBLISH_AFTER_FINISH'));
 			return false;
 		}
@@ -119,7 +126,7 @@ class NewsfeedsTableNewsfeed extends JTable
 		} else {
 			// New newsfeed. A feed created and created_by field can be set by the user,
 			// so we don't touch either of these if they are set.
-			if (!intval($this->created)) {
+			if (!(int) $this->created) {
 				$this->created = $date->toSql();
 			}
 			if (empty($this->created_by)) {
@@ -128,7 +135,8 @@ class NewsfeedsTableNewsfeed extends JTable
 		}
 	// Verify that the alias is unique
 		$table = JTable::getInstance('Newsfeed', 'NewsfeedsTable');
-		if ($table->load(array('alias'=>$this->alias, 'catid'=>$this->catid)) && ($table->id != $this->id || $this->id==0)) {
+		if ($table->load(array('alias' => $this->alias, 'catid' => $this->catid)) && ($table->id != $this->id || $this->id == 0))
+		{
 			$this->setError(JText::_('COM_NEWSFEEDS_ERROR_UNIQUE_ALIAS'));
 			return false;
 		}

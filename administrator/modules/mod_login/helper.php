@@ -10,6 +10,8 @@
 defined('_JEXEC') or die;
 
 /**
+ * Helper for mod_login
+ *
  * @package     Joomla.Administrator
  * @subpackage  mod_login
  * @since       1.6
@@ -25,7 +27,7 @@ abstract class modLoginHelper
 	{
 		$languages = array();
 		$languages = JLanguageHelper::createLanguageList(null, JPATH_ADMINISTRATOR, false, true);
-		array_unshift($languages, JHtml::_('select.option', '', JText::_('JDEFAULT')));
+		array_unshift($languages, JHtml::_('select.option', '', JText::_('JDEFAULTLANGUAGE')));
 		return JHtml::_('select.genericlist', $languages, 'lang', ' class="inputbox"', 'value', 'text', null);
 	}
 
@@ -36,7 +38,6 @@ abstract class modLoginHelper
 	 */
 	public static function getReturnURI()
 	{
-		jimport('joomla.environment.uri');
 		$uri = JURI::getInstance();
 		$return = 'index.php'.$uri->toString(array('query'));
 		if($return != 'index.php?option=com_login'){

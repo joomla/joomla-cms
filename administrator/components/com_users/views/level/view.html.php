@@ -19,7 +19,9 @@ defined('_JEXEC') or die;
 class UsersViewLevel extends JViewLegacy
 {
 	protected $form;
+
 	protected $item;
+
 	protected $state;
 
 	/**
@@ -48,32 +50,32 @@ class UsersViewLevel extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		JRequest::setVar('hidemainmenu', 1);
+		JFactory::getApplication()->input->set('hidemainmenu', true);
 
-		$user		= JFactory::getUser();
+		$user   = JFactory::getUser();
 		$isNew	= ($this->item->id == 0);
-		$canDo		= UsersHelper::getActions();
+		$canDo  = UsersHelper::getActions();
 
-		JToolBarHelper::title(JText::_($isNew ? 'COM_USERS_VIEW_NEW_LEVEL_TITLE' : 'COM_USERS_VIEW_EDIT_LEVEL_TITLE'), 'levels-add');
+		JToolbarHelper::title(JText::_($isNew ? 'COM_USERS_VIEW_NEW_LEVEL_TITLE' : 'COM_USERS_VIEW_EDIT_LEVEL_TITLE'), 'levels-add');
 
 		if ($canDo->get('core.edit')||$canDo->get('core.create')) {
-			JToolBarHelper::apply('level.apply');
-			JToolBarHelper::save('level.save');
+			JToolbarHelper::apply('level.apply');
+			JToolbarHelper::save('level.save');
 		}
 		if ($canDo->get('core.create')) {
-			JToolBarHelper::save2new('level.save2new');
+			JToolbarHelper::save2new('level.save2new');
 		}
 		// If an existing item, can save to a copy.
 		if (!$isNew && $canDo->get('core.create')){
-				JToolBarHelper::save2copy('level.save2copy');
+				JToolbarHelper::save2copy('level.save2copy');
 			}
 		if (empty($this->item->id)){
-				JToolBarHelper::cancel('level.cancel');
+				JToolbarHelper::cancel('level.cancel');
 		} else {
-				JToolBarHelper::cancel('level.cancel', 'JTOOLBAR_CLOSE');
+				JToolbarHelper::cancel('level.cancel', 'JTOOLBAR_CLOSE');
 		}
 
-			JToolBarHelper::divider();
-			JToolBarHelper::help('JHELP_USERS_ACCESS_LEVELS_EDIT');
+			JToolbarHelper::divider();
+			JToolbarHelper::help('JHELP_USERS_ACCESS_LEVELS_EDIT');
 	}
 }

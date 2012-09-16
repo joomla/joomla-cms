@@ -94,13 +94,13 @@ class UsersModelRegistration extends JModelForm
 						' FROM #__users' .
 						' WHERE sendEmail=1';
 
-			$db->setQuery( $query );
+			$db->setQuery($query);
 			$rows = $db->loadObjectList();
 
 			// Send mail to all users with users creating permissions and receiving system emails
 			foreach( $rows as $row )
 			{
-				$usercreator = JFactory::getUser($id = $row->id);
+				$usercreator = JFactory::getUser($row->id);
 				if ($usercreator->authorise('core.create', 'com_users'))
 				{
 					$return = JFactory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $row->email, $emailSubject, $emailBody);
@@ -183,7 +183,7 @@ class UsersModelRegistration extends JModelForm
 			$params	= JComponentHelper::getParams('com_users');
 
 			// Override the base user data with any data in the session.
-			$temp = (array)$app->getUserState('com_users.registration.data', array());
+			$temp = (array) $app->getUserState('com_users.registration.data', array());
 			foreach ($temp as $k => $v) {
 				$this->data->$k = $v;
 			}
@@ -303,7 +303,7 @@ class UsersModelRegistration extends JModelForm
 
 		// Initialise the table with JUser.
 		$user = new JUser;
-		$data = (array)$this->getData();
+		$data = (array) $this->getData();
 
 		// Merge in the registration data.
 		foreach ($temp as $k => $v) {
@@ -459,7 +459,7 @@ class UsersModelRegistration extends JModelForm
 					' FROM #__users' .
 					' WHERE sendEmail=1';
 
-			$db->setQuery( $query );
+			$db->setQuery($query);
 			$rows = $db->loadObjectList();
 
 			// Send mail to all superadministrators id

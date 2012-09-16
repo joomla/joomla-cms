@@ -21,7 +21,7 @@ class LanguagesViewMultilangstatus extends JViewLegacy
 	/**
 	 * Display the view
 	 */
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		require_once JPATH_COMPONENT . '/helpers/multilangstatus.php';
 

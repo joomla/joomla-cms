@@ -64,7 +64,6 @@ class TemplatesModelSource extends JModelForm
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
-		// Initialise variables.
 		$app = JFactory::getApplication();
 
 		// Codemirror or Editor None should be enabled
@@ -75,7 +74,8 @@ class TemplatesModelSource extends JModelForm
 		$query->where('(a.name ='.$db->quote('plg_editors_codemirror').' AND a.enabled = 1) OR (a.name ='.$db->quote('plg_editors_none').' AND a.enabled = 1)');
 		$db->setQuery($query);
 		$state = $db->loadResult();
-		if ((int)$state < 1 ) {
+		if ((int) $state < 1 )
+		{
 			$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_EDITOR_DISABLED'), 'warning');
 		}
 
@@ -120,16 +120,15 @@ class TemplatesModelSource extends JModelForm
 		}
 
 		if ($this->_template) {
-			$fileName	= $this->getState('filename');
-			$client		= JApplicationHelper::getClientInfo($this->_template->client_id);
-			$filePath	= JPath::clean($client->path.'/templates/'.$this->_template->element.'/'.$fileName);
+			$fileName = $this->getState('filename');
+			$client   = JApplicationHelper::getClientInfo($this->_template->client_id);
+			$filePath = JPath::clean($client->path.'/templates/'.$this->_template->element.'/'.$fileName);
 
-			if (file_exists($filePath)) {
-				jimport('joomla.filesystem.file');
-
-				$item->extension_id	= $this->getState('extension.id');
-				$item->filename		= $this->getState('filename');
-				$item->source		= JFile::read($filePath);
+			if (file_exists($filePath))
+			{
+				$item->extension_id = $this->getState('extension.id');
+				$item->filename     = $this->getState('filename');
+				$item->source       = file_get_contents($filePath);
 			} else {
 				$this->setError(JText::_('COM_TEMPLATES_ERROR_SOURCE_FILE_NOT_FOUND'));
 			}
@@ -146,7 +145,6 @@ class TemplatesModelSource extends JModelForm
 	 */
 	public function &getTemplate()
 	{
-		// Initialise variables.
 		$pk		= $this->getState('extension.id');
 		$db		= $this->getDbo();
 		$result	= false;
@@ -159,14 +157,19 @@ class TemplatesModelSource extends JModelForm
 			'  AND type = '.$db->quote('template')
 		);
 
-		$result = $db->loadObject();
+		try
+		{
+			$result = $db->loadObject();
+		}
+		catch (RuntimeException $e)
+		{
+			$this->setError($e->getMessage());
+			$this->_template = false;
+			return false;
+		}
+
 		if (empty($result)) {
-			if ($error = $db->getErrorMsg()) {
-				$this->setError($error);
-			}
-			else {
-				$this->setError(JText::_('COM_TEMPLATES_ERROR_EXTENSION_RECORD_NOT_FOUND'));
-			}
+			$this->setError(JText::_('COM_TEMPLATES_ERROR_EXTENSION_RECORD_NOT_FOUND'));
 			$this->_template = false;
 		} else {
 			$this->_template = $result;

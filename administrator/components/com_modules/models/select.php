@@ -27,7 +27,6 @@ class ModulesModelSelect extends JModelList
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
-		// Initialise variables.
 		$app = JFactory::getApplication('administrator');
 
 		// Load the filter state.
@@ -111,7 +110,6 @@ class ModulesModelSelect extends JModelList
 		// Get the list of items from the database.
 		$items = parent::getItems();
 
-		// Initialise variables.
 		$client = JApplicationHelper::getClientInfo($this->getState('filter.client_id', 0));
 		$lang	= JFactory::getLanguage();
 

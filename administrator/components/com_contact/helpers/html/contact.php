@@ -23,7 +23,7 @@ abstract class JHtmlContact
 	 * @return	string	The anchor tag to toggle featured/unfeatured contacts.
 	 * @since	1.6
 	 */
-	static function featured($value = 0, $i, $canChange = true)
+	public static function featured($value = 0, $i, $canChange = true)
 	{
 		// Array of image, task, title, action
 		$states	= array(

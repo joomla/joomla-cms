@@ -35,11 +35,11 @@ class BannersModelBanners extends JModelList
 	protected function getStoreId($id = '')
 	{
 		// Compile the store id.
-		$id	.= ':'.$this->getState('filter.search');
-		$id	.= ':'.$this->getState('filter.tag_search');
-		$id	.= ':'.$this->getState('filter.client_id');
-		$id	.= ':'.$this->getState('filter.category_id');
-		$id	.= ':'.$this->getState('filter.keywords');
+		$id	.= ':' . $this->getState('filter.search');
+		$id	.= ':' . $this->getState('filter.tag_search');
+		$id	.= ':' . $this->getState('filter.client_id');
+		$id	.= ':' . serialize($this->getState('filter.category_id'));
+		$id	.= ':' . serialize($this->getState('filter.keywords'));
 
 		return parent::getStoreId($id);
 	}
@@ -134,20 +134,20 @@ class BannersModelBanners extends JModelList
 
 				foreach ($keywords as $keyword)
 				{
-					$keyword=trim($keyword);
-					$condition1 = "a.own_prefix=1 AND  a.metakey_prefix=SUBSTRING(".$db->quote($keyword).",1,LENGTH( a.metakey_prefix)) OR a.own_prefix=0 AND cl.own_prefix=1 AND cl.metakey_prefix=SUBSTRING(".$db->quote($keyword).",1,LENGTH(cl.metakey_prefix)) OR a.own_prefix=0 AND cl.own_prefix=0 AND ".($prefix==substr($keyword, 0, strlen($prefix))?'1':'0');
+					$keyword = trim($keyword);
+					$condition1 = "a.own_prefix=1 AND a.metakey_prefix=SUBSTRING(" . $db->quote($keyword) . ",1,LENGTH( a.metakey_prefix)) OR a.own_prefix=0 AND cl.own_prefix=1 AND cl.metakey_prefix=SUBSTRING(" . $db->quote($keyword) . ",1,LENGTH(cl.metakey_prefix)) OR a.own_prefix=0 AND cl.own_prefix=0 AND " . ($prefix == substr($keyword, 0, strlen($prefix)) ? '1' : '0');
 
-					$condition2="a.metakey REGEXP '[[:<:]]".$db->escape($keyword) . "[[:>:]]'";
+					$condition2 = "a.metakey REGEXP '[[:<:]]" . $db->escape($keyword) . "[[:>:]]'";
 
 					if ($cid) {
-						$condition2.=" OR cl.metakey REGEXP '[[:<:]]".$db->escape($keyword) . "[[:>:]]'";
+						$condition2 .= " OR cl.metakey REGEXP '[[:<:]]" . $db->escape($keyword) . "[[:>:]]'";
 					}
 
 					if ($catid) {
-						$condition2.=" OR cat.metakey REGEXP '[[:<:]]".$db->escape($keyword) . "[[:>:]]'";
+						$condition2 .= " OR cat.metakey REGEXP '[[:<:]]" . $db->escape($keyword) . "[[:>:]]'";
 					}
 
-					$temp[]="($condition1) AND ($condition2)";
+					$temp[] = "($condition1) AND ($condition2)";
 				}
 
 				$query->where('(' . implode(' OR ', $temp). ')');
@@ -204,11 +204,16 @@ class BannersModelBanners extends JModelList
 			$query->clear();
 			$query->update('#__banners');
 			$query->set('impmade = (impmade + 1)');
-			$query->where('id = '.(int)$id);
-			$db->setQuery((string)$query);
+			$query->where('id = ' . (int) $id);
+			$db->setQuery((string) $query);
 
-			if (!$db->execute()) {
-				JError::raiseError(500, $db->getErrorMsg());
+			try
+			{
+				$db->execute();
+			}
+			catch (RuntimeException $e)
+			{
+				JError::raiseError(500, $e->getMessage());
 			}
 
 			// track impressions
@@ -231,10 +236,15 @@ class BannersModelBanners extends JModelList
 				$query->where('banner_id=' . (int) $id);
 				$query->where('track_date=' . $db->Quote($trackDate));
 
-				$db->setQuery((string)$query);
+				$db->setQuery((string) $query);
 
-				if (!$db->execute()) {
-					JError::raiseError(500, $db->getErrorMsg());
+				try
+				{
+					$db->execute();
+				}
+				catch (RuntimeException $e)
+				{
+					JError::raiseError(500, $e->getMessage());
 				}
 
 				$count = $db->loadResult();
@@ -246,22 +256,29 @@ class BannersModelBanners extends JModelList
 					$query->update('#__banner_tracks');
 					$query->set($db->quoteName('count').' = ('.$db->quoteName('count').' + 1)');
 					$query->where('track_type=1');
-					$query->where('banner_id='.(int)$id);
+					$query->where('banner_id=' . (int) $id);
 					$query->where('track_date='.$db->Quote($trackDate));
 				}
 				else {
 					// insert new count
 					//sqlsrv change
 					$query->insert('#__banner_tracks');
-					$query->columns(array($db->quoteName('count'), $db->quoteName('track_type'),
-								$db->quoteName('banner_id'), $db->quoteName('track_date')));
-					$query->values( '1, 1, ' . (int) $id . ', ' . $db->Quote($trackDate));
+					$query->columns(
+						array($db->quoteName('count'), $db->quoteName('track_type'),
+							$db->quoteName('banner_id'), $db->quoteName('track_date'))
+					);
+					$query->values('1, 1, ' . (int) $id . ', ' . $db->Quote($trackDate));
 				}
 
-				$db->setQuery((string)$query);
+				$db->setQuery((string) $query);
 
-				if (!$db->execute()) {
-					JError::raiseError(500, $db->getErrorMsg());
+				try
+				{
+					$db->execute();
+				}
+				catch (RuntimeException $e)
+				{
+					JError::raiseError(500, $e->getMessage());
 				}
 			}
 		}

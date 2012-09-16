@@ -113,12 +113,12 @@ class LoginModelLogin extends JModelLegacy
 			return $clean;
 		}
 
-		$app		= JFactory::getApplication();
-		$lang 		= JFactory::getLanguage()->getTag();
-		$clientId 	= (int) $app->getClientId();
+		$app      = JFactory::getApplication();
+		$lang     = JFactory::getLanguage()->getTag();
+		$clientId = (int) $app->getClientId();
 
-		$cache 		= JFactory::getCache ('com_modules', '');
-		$cacheid 	= md5(serialize(array( $clientId, $lang)));
+		$cache       = JFactory::getCache('com_modules', '');
+		$cacheid     = md5(serialize(array($clientId, $lang)));
 		$loginmodule = array();
 
 		if (!($clean = $cache->get($cacheid))) {
@@ -141,10 +141,14 @@ class LoginModelLogin extends JModelLegacy
 
 			// Set the query
 			$db->setQuery($query);
-			$modules = $db->loadObjectList();
 
-			if ($db->getErrorNum()){
-				JError::raiseWarning(500, JText::sprintf('JLIB_APPLICATION_ERROR_MODULE_LOAD', $db->getErrorMsg()));
+			try
+			{
+				$modules = $db->loadObjectList();
+			}
+			catch (RuntimeException $e)
+			{
+				JError::raiseWarning(500, JText::sprintf('JLIB_APPLICATION_ERROR_MODULE_LOAD', $e->getMessage()));
 				return $loginmodule;
 			}
 

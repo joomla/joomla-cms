@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-require_once dirname(__FILE__) . '/extension.php';
+require_once __DIR__ . '/extension.php';
 
 /**
  * Installer Manage Model
@@ -62,7 +62,7 @@ class InstallerModelDiscover extends InstallerModel
 	 *
 	 * @since	1.6
 	 */
-	function discover()
+	public function discover()
 	{
 		$installer	= JInstaller::getInstance();
 		$results	= $installer->discover();
@@ -96,7 +96,7 @@ class InstallerModelDiscover extends InstallerModel
 	 *
 	 * @since	1.6
 	 */
-	function discover_install()
+	public function discover_install()
 	{
 		$app = JFactory::getApplication();
 		$installer = JInstaller::getInstance();
@@ -132,14 +132,14 @@ class InstallerModelDiscover extends InstallerModel
 	 *
 	 * @since	1.6
 	 */
-	function purge()
+	public function purge()
 	{
 		$db		= JFactory::getDBO();
 		$query	= $db->getQuery(true);
 		$query->delete();
 		$query->from('#__extensions');
 		$query->where('state = -1');
-		$db->setQuery((string)$query);
+		$db->setQuery((string) $query);
 		if ($db->execute()) {
 			$this->_message = JText::_('COM_INSTALLER_MSG_DISCOVER_PURGEDDISCOVEREDEXTENSIONS');
 			return true;

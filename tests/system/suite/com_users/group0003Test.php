@@ -28,7 +28,7 @@ class Group0003Test extends SeleniumJoomlaTestCase
 
 		echo "Delete all groups in view.\n";
 		$this->click("checkall-toggle");
-		$this->click("//li[@id='toolbar-delete']/a");
+		$this->click("//div[@id='toolbar-delete']/a");
 		try
 		{
 			$this->assertEquals("Please first make a selection from the list", $this->getAlert());

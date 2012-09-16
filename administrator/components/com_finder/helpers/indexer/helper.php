@@ -9,8 +9,8 @@
 
 defined('_JEXEC') or die;
 
-JLoader::register('FinderIndexerStemmer', dirname(__FILE__) . '/stemmer.php');
-JLoader::register('FinderIndexerToken', dirname(__FILE__) . '/token.php');
+JLoader::register('FinderIndexerStemmer', __DIR__ . '/stemmer.php');
+JLoader::register('FinderIndexerToken', __DIR__ . '/token.php');
 
 /**
  * Helper class for the Finder indexer package.
@@ -70,7 +70,6 @@ class FinderIndexerHelper
 		}
 
 		$tokens = array();
-		$terms = array();
 		$quotes = html_entity_decode('&#8216;&#8217;&#39;', ENT_QUOTES, 'UTF-8');
 
 		// Get the simple language key.
@@ -260,13 +259,6 @@ class FinderIndexerHelper
 			// Get the types.
 			$db->setQuery($query);
 			$types = $db->loadObjectList('title');
-
-			// Check for a database error.
-			if ($db->getErrorNum())
-			{
-				// Throw database error exception.
-				throw new Exception($db->getErrorMsg(), 500);
-			}
 		}
 
 		// Check if the type already exists.
@@ -282,13 +274,6 @@ class FinderIndexerHelper
 		$query->values($db->quote($title) . ', ' . $db->quote($mime));
 		$db->setQuery($query);
 		$db->execute();
-
-		// Check for a database error.
-		if ($db->getErrorNum())
-		{
-			// Throw database error exception.
-			throw new Exception($db->getErrorMsg(), 500);
-		}
 
 		// Return the new id.
 		return (int) $db->insertid();
@@ -348,13 +333,6 @@ class FinderIndexerHelper
 		// Load all of the common terms for the language.
 		$db->setQuery($query);
 		$results = $db->loadColumn();
-
-		// Check for a database error.
-		if ($db->getErrorNum())
-		{
-			// Throw database error exception.
-			throw new Exception($db->getErrorMsg(), 500);
-		}
 
 		return $results;
 	}

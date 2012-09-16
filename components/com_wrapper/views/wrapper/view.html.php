@@ -12,9 +12,13 @@ defined('_JEXEC') or die;
 /**
  * @package     Joomla.Site
  * @subpackage  com_wrapper
+ * @since       1.5
  */
 class WrapperViewWrapper extends JViewLegacy
 {
+	/**
+	 * @since  1.5
+	 */
 	public function display($tpl = null)
 	{
 		$app		= JFactory::getApplication();
@@ -85,8 +89,8 @@ class WrapperViewWrapper extends JViewLegacy
 		//Escape strings for HTML output
 		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
 
-		$this->assignRef('params',	$params);
-		$this->assignRef('wrapper', $wrapper);
+		$this->params = &$params;
+		$this->wrapper = &$wrapper;
 
 		parent::display($tpl);
 	}

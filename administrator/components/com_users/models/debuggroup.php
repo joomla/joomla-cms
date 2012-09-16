@@ -82,11 +82,12 @@ class UsersModelDebugGroup extends JModelList
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
-		// Initialise variables.
 		$app = JFactory::getApplication('administrator');
 
 		// Adjust the context to support modal layouts.
-		if ($layout = JRequest::getVar('layout', 'default')) {
+		$layout = $app->input->get('layout', 'default');
+		if ($layout)
+		{
 			$this->context .= '.'.$layout;
 		}
 
@@ -110,7 +111,7 @@ class UsersModelDebugGroup extends JModelList
 		$this->setState('filter.component', $component);
 
 		// Load the parameters.
-		$params		= JComponentHelper::getParams('com_users');
+		$params = JComponentHelper::getParams('com_users');
 		$this->setState('params', $params);
 
 		// List state information.
@@ -157,13 +158,14 @@ class UsersModelDebugGroup extends JModelList
 			->where('id = '.$groupId);
 
 		$db->setQuery($query);
-		$group = $db->loadObject();
 
-		// Check for DB error.
-		$error	= $db->getErrorMsg();
-		if ($error) {
-			$this->setError($error);
-
+		try
+		{
+			$group = $db->loadObject();
+		}
+		catch (RuntimeException $e)
+		{
+			$this->setError($e->getMessage());
 			return false;
 		}
 

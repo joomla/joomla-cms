@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.filesystem.file');
-
 $app = JFactory::getApplication();
 JHtml::_('behavior.noframes');
 $lang = JFactory::getLanguage();
@@ -44,7 +42,7 @@ $file = 'language/'.$lang->getTag().'/'.$lang->getTag().'.css';
 <?php endif; ?>
 
 <!-- Load specific language related css -->
-<?php if (JFile::exists($file)) : ?>
+<?php if (is_file($file)) : ?>
 	<link href="<?php echo $file ?>" rel="stylesheet" type="text/css" />
 <?php  endif; ?>
 
@@ -57,10 +55,9 @@ $file = 'language/'.$lang->getTag().'/'.$lang->getTag().'.css';
 <!--[if IE 7]>
 	<link href="templates/<?php echo  $this->template ?>/css/ie7.css" rel="stylesheet" type="text/css" />
 <![endif]-->
-<!--[if lte IE 6]>
-	<link href="templates/<?php echo  $this->template ?>/css/ie6.css" rel="stylesheet" type="text/css" />
+<!--[if lt IE 9]>
+	<script src="../media/jui/js/html5.js"></script>
 <![endif]-->
-
 <!-- Load Template JavaScript -->
 <script type="text/javascript" src="templates/<?php  echo  $this->template  ?>/js/template.js"></script>
 
@@ -107,7 +104,7 @@ $file = 'language/'.$lang->getTag().'/'.$lang->getTag().'.css';
 	<!-- Footer -->
 	<div id="footer">
 		<p class="copyright">
-			<?php $joomla= '<a href="http://www.joomla.org">Joomla!&#174;</a>';
+			<?php $joomla = '<a href="http://www.joomla.org">Joomla!&#174;</a>';
 			echo JText::sprintf('JGLOBAL_ISFREESOFTWARE', $joomla) ?>
 		</p>
 	</div>

@@ -39,11 +39,12 @@ class TemplatesTableStyle extends JTable
 		{
 			$registry = new JRegistry;
 			$registry->loadArray($array['params']);
-			$array['params'] = (string)$registry;
+			$array['params'] = (string) $registry;
 		}
 
 		// Verify that the default style is not unset
-		if ($array['home']=='0' && $this->home=='1') {
+		if ($array['home'] == '0' && $this->home == '1')
+		{
 			$this->setError(JText::_('COM_TEMPLATES_ERROR_CANNOT_UNSET_DEFAULT_STYLE'));
 			return false;
 		}
@@ -56,7 +57,7 @@ class TemplatesTableStyle extends JTable
 	 *
 	 * @return	boolean	True on success.
 	 */
-	function check()
+	public function check()
 	{
 		if (empty($this->title))
 		{
@@ -76,11 +77,12 @@ class TemplatesTableStyle extends JTable
 	 */
 	public function store($updateNulls = false)
 	{
-		if ($this->home!='0') {
+		if ($this->home != '0')
+		{
 			$query = $this->_db->getQuery(true);
 			$query->update('#__template_styles');
 			$query->set('home=\'0\'');
-			$query->where('client_id='.(int)$this->client_id);
+			$query->where('client_id=' . (int) $this->client_id);
 			$query->where('home='.$this->_db->quote($this->home));
 			$this->_db->setQuery($query);
 			$this->_db->execute();
@@ -105,11 +107,12 @@ class TemplatesTableStyle extends JTable
 			$query = $this->_db->getQuery(true);
 			$query->from('#__template_styles');
 			$query->select('id');
-			$query->where('client_id='.(int)$this->client_id);
+			$query->where('client_id=' . (int) $this->client_id);
 			$query->where('template='.$this->_db->quote($this->template));
 			$this->_db->setQuery($query);
 			$results = $this->_db->loadColumn();
-			if (count($results)==1 && $results[0]==$pk) {
+			if (count($results) == 1 && $results[0] == $pk)
+			{
 				$this->setError(JText::_('COM_TEMPLATES_ERROR_CANNOT_DELETE_LAST_STYLE'));
 				return false;
 			}

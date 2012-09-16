@@ -32,7 +32,6 @@ class JRegistryFormatXML extends JRegistryFormat
 	 */
 	public function objectToString($object, $options = array())
 	{
-		// Initialise variables.
 		$rootName = (isset($options['name'])) ? $options['name'] : 'registry';
 		$nodeName = (isset($options['nodeName'])) ? $options['nodeName'] : 'node';
 
@@ -57,7 +56,6 @@ class JRegistryFormatXML extends JRegistryFormat
 	 */
 	public function stringToObject($data, array $options = array())
 	{
-		// Initialize variables.
 		$obj = new stdClass;
 
 		// Parse the XML string.

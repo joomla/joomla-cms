@@ -10,6 +10,7 @@
 defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.base.adapterinstance');
+jimport('joomla.filesystem.folder');
 
 /**
  * Component installer
@@ -955,7 +956,6 @@ class JInstallerComponent extends JAdapterInstance
 	 */
 	public function uninstall($id)
 	{
-		// Initialise variables.
 		$db = $this->parent->getDbo();
 		$row = null;
 		$retval = true;
@@ -1188,7 +1188,6 @@ class JInstallerComponent extends JAdapterInstance
 	 */
 	protected function _buildAdminMenus()
 	{
-		// Initialise variables.
 		$db = $this->parent->getDbo();
 		$table = JTable::getInstance('menu');
 		$option = $this->get('element');
@@ -1218,7 +1217,7 @@ class JInstallerComponent extends JAdapterInstance
 			// Remove existing menu items if overwrite has been enabled
 			if ($option)
 			{
-				// If something goes wrong, theres no way to rollback TODO: Search for better solution
+				// If something goes wrong, there's no way to rollback TODO: Search for better solution
 				$this->_removeAdminMenus($componentrow);
 			}
 
@@ -1425,7 +1424,6 @@ class JInstallerComponent extends JAdapterInstance
 	 */
 	protected function _removeAdminMenus(&$row)
 	{
-		// Initialise Variables
 		$db = $this->parent->getDbo();
 		$table = JTable::getInstance('menu');
 		$id = $row->extension_id;

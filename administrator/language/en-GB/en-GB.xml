@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<metafile version="2.5" client="administrator">
+<metafile version="3.0" client="administrator">
 	<name>English (United Kingdom)</name>
-	<version>2.5.5</version>
+	<version>3.0.0</version>
 	<creationDate>2008-03-15</creationDate>
 	<author>Joomla! Project</author>
 	<authorEmail>admin@joomla.org</authorEmail>
@@ -84,6 +84,8 @@
 		<filename>en-GB.mod_popular.sys.ini</filename>
 		<filename>en-GB.mod_quickicon.ini</filename>
 		<filename>en-GB.mod_quickicon.sys.ini</filename>
+		<filename>en-GB.en-GB.mod_stats_admin.ini</filename>
+		<filename>en-GB.en-GB.mod_stats_admin.sys.ini</filename>
 		<filename>en-GB.mod_status.ini</filename>
 		<filename>en-GB.mod_status.sys.ini</filename>
 		<filename>en-GB.mod_submenu.ini</filename>
@@ -186,10 +188,10 @@
 		<filename>en-GB.plg_user_joomla.sys.ini</filename>
 		<filename>en-GB.plg_user_profile.ini</filename>
 		<filename>en-GB.plg_user_profile.sys.ini</filename>
-		<filename>en-GB.tpl_bluestork.ini</filename>
-		<filename>en-GB.tpl_bluestork.sys.ini</filename>
 		<filename>en-GB.tpl_hathor.ini</filename>
 		<filename>en-GB.tpl_hathor.sys.ini</filename>
+		<filename>en-GB.tpl_isis.ini</filename>
+		<filename>en-GB.tpl_isis.sys.ini</filename>
 	</files>
 	<metadata>
 		<name>English (United Kingdom)</name>

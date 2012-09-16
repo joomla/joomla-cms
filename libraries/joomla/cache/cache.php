@@ -96,7 +96,6 @@ class JCache
 		// Get an iterator and loop trough the driver classes.
 		$iterator = new DirectoryIterator(__DIR__ . '/storage');
 
-		$names = array();
 		foreach ($iterator as $file)
 		{
 			$fileName = $file->getFilename();
@@ -120,8 +119,7 @@ class JCache
 			}
 
 			// Sweet!  Our class exists, so now we just need to know if it passes its test method.
-			// @deprecated 12.3 Stop checking with test()
-			if ($class::isSupported() || $class::test())
+			if ($class::isSupported())
 			{
 				// Connector names should not have file extensions.
 				$handlers[] = str_ireplace('.php', '', $fileName);
@@ -464,7 +462,6 @@ class JCache
 	 */
 	public static function getWorkarounds($data, $options = array())
 	{
-		// Initialise variables.
 		$app = JFactory::getApplication();
 		$document = JFactory::getDocument();
 		$body = null;
@@ -551,7 +548,6 @@ class JCache
 			$loptions['modulemode'] = $options['modulemode'];
 		}
 
-		// Initialise variables.
 		$app = JFactory::getApplication();
 		$document = JFactory::getDocument();
 

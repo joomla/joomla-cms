@@ -28,7 +28,6 @@ function UsersBuildRoute(&$query)
 	static $resend;
 	static $reset;
 
-	// Initialise variables.
 	$segments = array();
 
 	// Get the relevant menu items if not loaded.
@@ -158,7 +157,6 @@ function UsersBuildRoute(&$query)
  */
 function UsersParseRoute($segments)
 {
-	// Initialise variables.
 	$vars = array();
 
 	// Only run routine if there are segments to parse.
@@ -188,7 +186,7 @@ function UsersParseRoute($segments)
 	// Set the package id if present.
 	if ($userId) {
 		// Set the package id.
-		$vars['user_id'] = (int)$userId;
+		$vars['user_id'] = (int) $userId;
 
 		// Set the view to package if not already set.
 		if (empty($vars['view'])) {

@@ -47,7 +47,6 @@ class UsersModelLevels extends JModelList
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
-		// Initialise variables.
 		$app = JFactory::getApplication('administrator');
 
 		// Load the filter state.
@@ -168,9 +167,8 @@ class UsersModelLevels extends JModelList
 	 * @param	array	An array of primary key ids.
 	 * @param	int		+/-1
 	 */
-	function saveorder($pks, $order)
+	public function saveorder($pks, $order)
 	{
-		// Initialise variables.
 		$table		= JTable::getInstance('viewlevel');
 		$user 		= JFactory::getUser();
 		$conditions	= array();

@@ -19,7 +19,9 @@ defined('_JEXEC') or die;
 class CheckinModelCheckin extends JModelList
 {
 	protected $total;
+
 	protected $tables;
+
 	/**
 	 * Method to auto-populate the model state.
 	 *
@@ -29,13 +31,13 @@ class CheckinModelCheckin extends JModelList
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
-		$app = JFactory::getApplication();
 		$search = $this->getUserStateFromRequest($this->context.'.filter.search', 'filter_search');
 		$this->setState('filter.search', $search);
 
 		// List state information.
 		parent::populateState('table', 'asc');
 	}
+
 	/**
 	 * Checks in requested tables
 	 *
@@ -109,10 +111,9 @@ class CheckinModelCheckin extends JModelList
 	{
 		if (!isset($this->items))
 		{
-			$app		= JFactory::getApplication();
-			$db			= $this->_db;
-			$nullDate	= $db->getNullDate();
-			$tables 	= $db->getTableList();
+			$app    = JFactory::getApplication();
+			$db     = $this->_db;
+			$tables = $db->getTableList();
 
 			// this array will hold table name as key and checked in item count as value
 			$results = array();
@@ -142,7 +143,7 @@ class CheckinModelCheckin extends JModelList
 			}
 			foreach ($tables as $tn)
 			{
-				$query=$db->getQuery(true)
+				$query = $db->getQuery(true)
 					->select('COUNT(*)')
 					->from($db->quoteName($tn))
 					->where('checked_out > 0');
@@ -155,9 +156,10 @@ class CheckinModelCheckin extends JModelList
 				}
 			}
 			$this->total = count($results);
-			if ($this->getState('list.ordering')=='table')
+			if ($this->getState('list.ordering') == 'table')
 			{
-				if ($this->getState('list.direction')=='asc') {
+				if ($this->getState('list.direction') == 'asc')
+				{
 					ksort($results);
 				}
 				else {
@@ -166,7 +168,8 @@ class CheckinModelCheckin extends JModelList
 			}
 			else
 			{
-				if ($this->getState('list.direction')=='asc') {
+				if ($this->getState('list.direction') == 'asc')
+				{
 					asort($results);
 				}
 				else {

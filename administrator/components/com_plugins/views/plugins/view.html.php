@@ -19,7 +19,9 @@ defined('_JEXEC') or die;
 class PluginsViewPlugins extends JViewLegacy
 {
 	protected $items;
+
 	protected $pagination;
+
 	protected $state;
 
 	/**
@@ -40,8 +42,8 @@ class PluginsViewPlugins extends JViewLegacy
 			// Check if there are no matching items
 		if(!count($this->items)){
 			JFactory::getApplication()->enqueueMessage(
-				JText::_('COM_PLUGINS_MSG_MANAGE_NO_PLUGINS')
-				, 'warning'
+				JText::_('COM_PLUGINS_MSG_MANAGE_NO_PLUGINS'),
+				'warning'
 			);
 		}
 
@@ -59,25 +61,60 @@ class PluginsViewPlugins extends JViewLegacy
 		$state	= $this->get('State');
 		$canDo	= PluginsHelper::getActions();
 
-		JToolBarHelper::title(JText::_('COM_PLUGINS_MANAGER_PLUGINS'), 'plugin');
+		JToolbarHelper::title(JText::_('COM_PLUGINS_MANAGER_PLUGINS'), 'plugin');
 
 		if ($canDo->get('core.edit')) {
-			JToolBarHelper::editList('plugin.edit');
+			JToolbarHelper::editList('plugin.edit');
 		}
 
 		if ($canDo->get('core.edit.state')) {
-			JToolBarHelper::divider();
-			JToolBarHelper::publish('plugins.publish', 'JTOOLBAR_ENABLE', true);
-			JToolBarHelper::unpublish('plugins.unpublish', 'JTOOLBAR_DISABLE', true);
-			JToolBarHelper::divider();
-			JToolBarHelper::checkin('plugins.checkin');
+			JToolbarHelper::publish('plugins.publish', 'JTOOLBAR_ENABLE', true);
+			JToolbarHelper::unpublish('plugins.unpublish', 'JTOOLBAR_DISABLE', true);
+			JToolbarHelper::checkin('plugins.checkin');
 		}
 
 		if ($canDo->get('core.admin')) {
-			JToolBarHelper::divider();
-			JToolBarHelper::preferences('com_plugins');
+			JToolbarHelper::preferences('com_plugins');
 		}
-		JToolBarHelper::divider();
-		JToolBarHelper::help('JHELP_EXTENSIONS_PLUGIN_MANAGER');
+		JToolbarHelper::help('JHELP_EXTENSIONS_PLUGIN_MANAGER');
+
+		JSubMenuHelper::setAction('index.php?option=com_plugins&view=plugins');
+
+		JSubMenuHelper::addFilter(
+			JText::_('JOPTION_SELECT_PUBLISHED'),
+			'filter_enabled',
+			JHtml::_('select.options', JHtml::_('jgrid.publishedOptions'), 'value', 'text', $this->state->get('filter.enabled'), true)
+		);
+
+		JSubMenuHelper::addFilter(
+			JText::_('COM_PLUGINS_OPTION_FOLDER'),
+			'filter_folder',
+			JHtml::_('select.options', PluginsHelper::folderOptions(), 'value', 'text', $this->state->get('filter.folder'))
+		);
+
+		JSubMenuHelper::addFilter(
+			JText::_('JOPTION_SELECT_ACCESS'),
+			'filter_access',
+			JHtml::_('select.options', JHtml::_('access.assetgroups'), 'value', 'text', $this->state->get('filter.access'))
+		);
+	}
+	/**
+	 * Returns an array of fields the table can be sorted by
+	 *
+	 * @return  array  Array containing the field name to sort by as the key and display text as value
+	 *
+	 * @since   3.0
+	 */
+	protected function getSortFields()
+	{
+		return array(
+			'ordering' => JText::_('JGRID_HEADING_ORDERING'),
+			'a.state' => JText::_('JSTATUS'),
+			'name' => JText::_('JGLOBAL_TITLE'),
+			'folder' => JText::_('COM_PLUGINS_FOLDER_HEADING'),
+			'element' => JText::_('COM_PLUGINS_ELEMENT_HEADING'),
+			'access' => JText::_('JGRID_HEADING_ACCESS'),
+			'extension_id' => JText::_('JGRID_HEADING_ID')
+		);
 	}
 }

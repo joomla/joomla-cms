@@ -32,11 +32,11 @@ class ModulesController extends JControllerLegacy
 		require_once JPATH_COMPONENT.'/helpers/modules.php';
 
 		// Load the submenu.
-		ModulesHelper::addSubmenu(JRequest::getCmd('view', 'modules'));
+		ModulesHelper::addSubmenu($this->input->get('view', 'modules'));
 
-		$view		= JRequest::getCmd('view', 'modules');
-		$layout 	= JRequest::getCmd('layout', 'default');
-		$id			= JRequest::getInt('id');
+		$view   = $this->input->get('view', 'modules');
+		$layout = $this->input->get('layout', 'default');
+		$id     = $this->input->getInt('id');
 
 		// Check for edit form.
 		if ($view == 'module' && $layout == 'edit' && !$this->checkEditId('com_modules.edit.module', $id)) {

@@ -10,7 +10,8 @@
 defined('_JEXEC') or die;
 
 // Include the latest functions only once
-require_once dirname(__FILE__).'/helper.php';
+require_once __DIR__ . '/helper.php';
+
 $shownumber = $params->get('shownumber', 5);
 $names	= moduserslatestHelper::getUsers($params);
 $linknames = $params->get('linknames', 0);

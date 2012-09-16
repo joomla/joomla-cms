@@ -14,6 +14,7 @@ defined('JPATH_BASE') or die;
  *
  * @package     Joomla.Plugin
  * @subpackage  System.redirect
+ * @since       1.6
  */
 class plgSystemRedirect extends JPlugin
 {
@@ -24,9 +25,9 @@ class plgSystemRedirect extends JPlugin
 	 * @param	object	The object to observe -- event dispatcher.
 	 * @param	object	The configuration object for the plugin.
 	 * @return	void
-	 * @since	1.0
+	 * @since	1.6
 	 */
-	function __construct(&$subject, $config)
+	public function __construct(&$subject, $config)
 	{
 		parent::__construct($subject, $config);
 
@@ -34,7 +35,7 @@ class plgSystemRedirect extends JPlugin
 		JError::setErrorHandling(E_ERROR, 'callback', array('plgSystemRedirect', 'handleError'));
 	}
 
-	static function handleError(&$error)
+	public static function handleError(&$error)
 	{
 		// Get the application object.
 		$app = JFactory::getApplication();
@@ -86,7 +87,8 @@ class plgSystemRedirect extends JPlugin
 									$db->quoteName('created_date')
 								);
 					$query->columns($columns);
-					$query->values($db->Quote($current). ', '. $db->Quote('').
+					$query->values(
+						$db->Quote($current) . ', '. $db->Quote('') .
 						' ,'.$db->Quote($referer).', '.$db->Quote('').',1,0, '.
 						$db->Quote(JFactory::getDate()->toSql())
 					);
@@ -99,8 +101,8 @@ class plgSystemRedirect extends JPlugin
 					$query = $db->getQuery(true);
 					$query->update($db->quoteName('#__redirect_links'));
 					$query->set($db->quoteName('hits').' = '.$db->quoteName('hits').' + 1');
-					$query->where('id = '.(int)$res);
-					$db->setQuery((string)$query);
+					$query->where('id = ' . (int) $res);
+					$db->setQuery((string) $query);
 					$db->execute();
 				}
 				// Render the error page.

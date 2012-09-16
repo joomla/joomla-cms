@@ -18,7 +18,7 @@ defined('_JEXEC') or die;
  */
 class ModulesViewPreview extends JViewLegacy
 {
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		$editor = JFactory::getConfig()->get('editor');
 

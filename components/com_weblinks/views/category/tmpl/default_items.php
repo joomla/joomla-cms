@@ -32,7 +32,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 	<p> <?php echo JText::_('COM_WEBLINKS_NO_WEBLINKS'); ?></p>
 <?php else : ?>
 
-<form action="<?php echo htmlspecialchars(JFactory::getURI()->toString()); ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo htmlspecialchars(JUri::getInstance()->toString()); ?>" method="post" name="adminForm" id="adminForm">
 	<?php if ($this->params->get('show_pagination_limit')) : ?>
 		<fieldset class="filters">
 		<legend class="hidelabeltxt"><?php echo JText::_('JGLOBAL_FILTER_LABEL'); ?></legend>
@@ -46,16 +46,16 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 	<?php endif; ?>
 
 	<table class="category">
-		<?php if ($this->params->get('show_headings')==1) : ?>
+		<?php if ($this->params->get('show_headings') == 1) : ?>
 
 		<thead><tr>
 
 			<th class="title">
-					<?php echo JHtml::_('grid.sort',  'COM_WEBLINKS_GRID_TITLE', 'title', $listDirn, $listOrder); ?>
+					<?php echo JHtml::_('grid.sort', 'COM_WEBLINKS_GRID_TITLE', 'title', $listDirn, $listOrder); ?>
 			</th>
 			<?php if ($this->params->get('show_link_hits')) : ?>
 			<th class="hits">
-					<?php echo JHtml::_('grid.sort',  'JGLOBAL_HITS', 'hits', $listDirn, $listOrder); ?>
+					<?php echo JHtml::_('grid.sort', 'JGLOBAL_HITS', 'hits', $listDirn, $listOrder); ?>
 			</th>
 			<?php endif; ?>
 		</tr>
@@ -90,8 +90,11 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 						$width	= 600;
 						$height	= 500;
 					}
+					if ($this->items[$i]->state == 0): ?>
+						<span class="label label-warning">Unpublished</span>
+					<?php endif; ?>
 
-					switch ($item->params->get('target', $this->params->get('target')))
+					<?php switch ($item->params->get('target', $this->params->get('target')))
 					{
 						case 1:
 							// open in a new window
@@ -121,24 +124,39 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 				?>
 				<?php // Code to add the edit link for the weblink. ?>
 
-						<?php if ($canEdit) : ?>
-							<ul class="actions">
-								<li class="edit-icon">
-									<?php echo JHtml::_('icon.edit', $item, $params); ?>
-								</li>
-							</ul>
-						<?php endif; ?>
-			</p>
+					<?php if ($canEdit) : ?>
+						<span class="list-edit pull-right width-50">
+							<?php echo JHtml::_('icon.edit', $item, $params); ?>
+						</span>
+					<?php endif; ?>
+					<?php if ($this->params->get('list_show_hits', 1)) : ?>
+						<span class="list-hits badge badge-info pull-right">
+							<?php echo $item->hits; ?>
+						</span>
+					<?php endif; ?>
+			<?php if (($this->params->get('show_link_description')) and ($item->description != '')): ?>
+			<?php $images = json_decode($item->images); ?>
+			<?php  if (isset($images->image_first) and !empty($images->image_first)) : ?>
+			<?php $imgfloat = (empty($images->float_first)) ? $this->params->get('float_first') : $images->float_first; ?>
+			<div class="img-intro-<?php echo htmlspecialchars($imgfloat); ?>"> <img
+				<?php if ($images->image_first_caption):
+					echo 'class="caption"'.' title="' .htmlspecialchars($images->image_first_caption) .'"';
+				endif; ?>
+				src="<?php echo htmlspecialchars($images->image_first); ?>" alt="<?php echo htmlspecialchars($images->image_first_alt); ?>"/> </div>
+			<?php endif; ?>
+			<?php  if (isset($images->image_second) and !empty($images->image_second)) : ?>
+			<?php $imgfloat = (empty($images->float_second)) ? $this->params->get('float_second') : $images->float_second; ?>
+			<div class="pull-<?php echo htmlspecialchars($imgfloat); ?> item-image"> <img
+			<?php if ($images->image_second_caption):
+				echo 'class="caption"'.' title="' .htmlspecialchars($images->image_second_caption) .'"';
+			endif; ?>
+			src="<?php echo htmlspecialchars($images->image_second); ?>" alt="<?php echo htmlspecialchars($images->image_second_alt); ?>"/> </div>
+			<?php endif; ?>
 
-			<?php if (($this->params->get('show_link_description')) and ($item->description !='')): ?>
 				<?php echo $item->description; ?>
 			<?php endif; ?>
 		</td>
-		<?php if ($this->params->get('show_link_hits')) : ?>
-		<td class="hits">
-			<?php echo $item->hits; ?>
-		</td>
-		<?php endif; ?>
+
 	</tr>
 	<?php endforeach; ?>
 </tbody>

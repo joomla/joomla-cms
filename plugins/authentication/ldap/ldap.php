@@ -28,9 +28,8 @@ class plgAuthenticationLdap extends JPlugin
 	 * @return	object	boolean
 	 * @since 1.5
 	 */
-	function onUserAuthenticate($credentials, $options, &$response)
+	public function onUserAuthenticate($credentials, $options, &$response)
 	{
-		// Initialise variables.
 		$userdetails = null;
 		$success = 0;
 		$userdetails = array();
@@ -112,7 +111,10 @@ class plgAuthenticationLdap extends JPlugin
 		if (!$success)
 		{
 			$response->status = JAuthentication::STATUS_FAILURE;
-			if (!strlen($response->error_message)) $response->error_message = JText::_('JGLOBAL_AUTH_INCORRECT');
+			if (!strlen($response->error_message))
+			{
+				$response->error_message = JText::_('JGLOBAL_AUTH_INCORRECT');
+			}
 		}
 		else
 		{

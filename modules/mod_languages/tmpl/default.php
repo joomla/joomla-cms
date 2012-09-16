@@ -17,7 +17,7 @@ JHtml::_('stylesheet', 'mod_languages/template.css', array(), true);
 <?php endif; ?>
 
 <?php if ($params->get('dropdown', 1)) : ?>
-	<form name="lang" method="post" action="<?php echo JURI::current(); ?>">
+	<form name="lang" method="post" action="<?php echo htmlspecialchars(JURI::current()); ?>">
 	<select class="inputbox" onchange="document.location.replace(this.value);" >
 	<?php foreach($list as $language):?>
 		<option dir=<?php echo JLanguage::getInstance($language->lang_code)->isRTL() ? '"rtl"' : '"ltr"'?> value="<?php echo $language->link;?>" <?php echo $language->active ? 'selected="selected"' : ''?>>
@@ -32,7 +32,7 @@ JHtml::_('stylesheet', 'mod_languages/template.css', array(), true);
 			<li class="<?php echo $language->active ? 'lang-active' : '';?>" dir="<?php echo JLanguage::getInstance($language->lang_code)->isRTL() ? 'rtl' : 'ltr' ?>">
 			<a href="<?php echo $language->link;?>">
 			<?php if ($params->get('image', 1)):?>
-				<?php echo JHtml::_('image', 'mod_languages/'.$language->image.'.gif', $language->title_native, array('title'=>$language->title_native), true);?>
+				<?php echo JHtml::_('image', 'mod_languages/' . $language->image . '.gif', $language->title_native, array('title' => $language->title_native), true);?>
 			<?php else : ?>
 				<?php echo $params->get('full_name', 1) ? $language->title_native : strtoupper($language->sef);?>
 			<?php endif; ?>

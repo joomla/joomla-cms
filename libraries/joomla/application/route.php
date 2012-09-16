@@ -19,6 +19,14 @@ defined('JPATH_PLATFORM') or die;
 class JRoute
 {
 	/**
+	 * The route object so we don't have to keep fetching it.
+	 *
+	 * @var    JRouter
+	 * @since  12.2
+	 */
+	private static $_router = null;
+
+	/**
 	 * Translates an internal Joomla URL to a humanly readible URL.
 	 *
 	 * @param   string   $url    Absolute or Relative URI to Joomla resource.
@@ -34,14 +42,16 @@ class JRoute
 	 */
 	public static function _($url, $xhtml = true, $ssl = null)
 	{
-		// Get the router.
-		$app = JFactory::getApplication();
-		$router = $app->getRouter();
-
-		// Make sure that we have our router
-		if (!$router)
+		if (!self::$_router)
 		{
-			return null;
+			// Get the router.
+			self::$_router = JFactory::getApplication()->getRouter();
+
+			// Make sure that we have our router
+			if (!self::$_router)
+			{
+				return null;
+			}
 		}
 
 		if ((strpos($url, '&') !== 0) && (strpos($url, 'index.php') !== 0))
@@ -50,7 +60,7 @@ class JRoute
 		}
 
 		// Build route.
-		$uri = $router->build($url);
+		$uri = self::$_router->build($url);
 		$url = $uri->toString(array('path', 'query', 'fragment'));
 
 		// Replace spaces.

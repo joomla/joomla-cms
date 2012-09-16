@@ -9,6 +9,8 @@
 
 defined('JPATH_BASE') or die;
 
+jimport('joomla.application.router');
+
 /**
  * Class to create and parse routes for the site application
  *
@@ -40,7 +42,8 @@ class JRouterSite extends JRouter
 		}
 
 		// Get the path
-		$path = $uri->getPath();
+		// Decode URL to convert punycode to unicode so that strings match when routing.
+		$path = urldecode($uri->getPath());
 
 		// Remove the base URI path.
 		$path = substr_replace($path, '', 0, strlen(JURI::base(true)));
@@ -62,14 +65,13 @@ class JRouterSite extends JRouter
 			}
 		}
 
-		// Remove the suffix
+		// Identify format
 		if ($this->_mode == JROUTER_MODE_SEF)
 		{
 			if ($app->getCfg('sef_suffix') && !(substr($path, -9) == 'index.php' || substr($path, -1) == '/'))
 			{
 				if ($suffix = pathinfo($path, PATHINFO_EXTENSION))
 				{
-					$path = str_replace('.' . $suffix, '', $path);
 					$vars['format'] = $suffix;
 				}
 			}
@@ -140,9 +142,9 @@ class JRouterSite extends JRouter
 	 */
 	protected function _parseRawRoute($uri)
 	{
-		$vars	= array();
-		$app	= JApplication::getInstance('site');
-		$menu	= $app->getMenu(true);
+		$vars = array();
+		$app  = JApplication::getInstance('site');
+		$menu = $app->getMenu(true);
 
 		// Handle an empty URL (special case)
 		if (!$uri->getVar('Itemid') && !$uri->getVar('option'))
@@ -197,10 +199,22 @@ class JRouterSite extends JRouter
 	 */
 	protected function _parseSefRoute($uri)
 	{
-		$vars	= array();
-		$app	= JApplication::getInstance('site');
-		$menu	= $app->getMenu(true);
-		$route	= $uri->getPath();
+		$vars  = array();
+		$app   = JApplication::getInstance('site');
+		$menu  = $app->getMenu(true);
+		$route = $uri->getPath();
+
+		// Remove the suffix
+		if ($this->_mode == JROUTER_MODE_SEF)
+		{
+			if ($app->getCfg('sef_suffix'))
+			{
+				if ($suffix = pathinfo($route, PATHINFO_EXTENSION))
+				{
+					$route = str_replace('.' . $suffix, '', $route);
+				}
+			}
+		}
 
 		// Get the variables from the uri
 		$vars = $uri->getQuery(true);
@@ -490,8 +504,6 @@ class JRouterSite extends JRouter
 		// Process the pagination support
 		if ($this->_mode == JROUTER_MODE_SEF)
 		{
-			$app = JApplication::getInstance('site');
-
 			if ($start = $uri->getVar('start'))
 			{
 				$uri->delVar('start');

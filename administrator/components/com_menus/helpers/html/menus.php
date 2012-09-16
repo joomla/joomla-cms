@@ -20,7 +20,7 @@ abstract class MenusHtmlMenus
 	/**
 	 * @param	int $itemid	The menu item id
 	 */
-	static function association($itemid)
+	public static function association($itemid)
 	{
 		// Get the associations
 		$associations = MenusHelper::getAssociations($itemid);
@@ -37,22 +37,27 @@ abstract class MenusHtmlMenus
 		$query->select('l.image');
 		$query->select('l.title as language_title');
 		$db->setQuery($query);
-		$items = $db->loadObjectList('id');
 
-		// Check for a database error.
-		if ($error = $db->getErrorMsg()) {
-			JError::raiseWarning(500, $error);
+		try
+		{
+			$items = $db->loadObjectList('id');
+		}
+		catch (RuntimeException $e)
+		{
+			JError::raiseWarning(500, $e->getMessage());
 			return false;
 		}
 
 		// Construct html
 		$text = array();
-		foreach ($associations as $tag=>$associated) {
-			if ($associated != $itemid) {
-				$text[] = JText::sprintf('COM_MENUS_TIP_ASSOCIATED_LANGUAGE', JHtml::_('image', 'mod_languages/'.$items[$associated]->image.'.gif', $items[$associated]->language_title, array('title'=>$items[$associated]->language_title), true), $items[$associated]->title, $items[$associated]->menu_title);
+		foreach ($associations as $tag => $associated)
+		{
+			if ($associated != $itemid)
+			{
+				$text[] = JText::sprintf('COM_MENUS_TIP_ASSOCIATED_LANGUAGE', JHtml::_('image', 'mod_languages/' . $items[$associated]->image . '.gif', $items[$associated]->language_title, array('title' => $items[$associated]->language_title), true), $items[$associated]->title, $items[$associated]->menu_title);
 			}
 		}
-		return JHtml::_('tooltip', implode('<br />', $text), JText::_('COM_MENUS_TIP_ASSOCIATION'), 'menu/icon-16-links.png');
+		return JHtml::_('tooltip', implode('<br />', $text), JText::_('COM_MENUS_TIP_ASSOCIATION'), 'admin/icon-16-links.png');
 	}
 
 	/**

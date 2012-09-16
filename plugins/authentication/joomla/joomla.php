@@ -28,7 +28,7 @@ class plgAuthenticationJoomla extends JPlugin
 	 * @return	boolean
 	 * @since 1.5
 	 */
-	function onUserAuthenticate($credentials, $options, &$response)
+	public function onUserAuthenticate($credentials, $options, &$response)
 	{
 		$response->type = 'Joomla';
 		// Joomla does not like blank passwords
@@ -37,9 +37,6 @@ class plgAuthenticationJoomla extends JPlugin
 			$response->error_message = JText::_('JGLOBAL_AUTH_EMPTY_PASS_NOT_ALLOWED');
 			return false;
 		}
-
-		// Initialise variables.
-		$conditions = '';
 
 		// Get a database object
 		$db		= JFactory::getDbo();
