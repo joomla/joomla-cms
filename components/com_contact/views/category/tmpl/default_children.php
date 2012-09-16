@@ -24,6 +24,12 @@ if (count($this->children[$this->category->id]) > 0 && $this->maxLevel != 0) :
 		<?php $class = ''; ?>
 			<h4 class="item-title"><a href="<?php echo JRoute::_(ContactHelperRoute::getCategoryRoute($child->id));?>">
 				<?php echo $this->escape($child->title); ?></a>
+
+                <?php if ($this->params->get('show_cat_items') == 1) :?>
+                    <span class="badge badge-info pull-right" title="<?php echo JText::_('COM_CONTACT_CAT_NUM'); ?>"><?php echo $child->numitems; ?></span>
+                    <?php endif; ?>
+            </h4>
+
 				<?php if ($this->params->get('show_subcat_desc') == 1) :?>
 					<?php if ($child->description) : ?>
 						<small class="category-desc">
@@ -31,10 +37,7 @@ if (count($this->children[$this->category->id]) > 0 && $this->maxLevel != 0) :
 						</small>
 					<?php endif; ?>
 	            <?php endif; ?>
-	            <?php if ($this->params->get('show_cat_items') == 1) :?>
-					<span class="badge badge-info pull-right" title="<?php echo JText::_('COM_CONTACT_CAT_NUM'); ?>"><?php echo $child->numitems; ?></span>
-				<?php endif; ?>
-			</h4>
+
             <?php if(count($child->getChildren()) > 0 ) :
 				$this->children[$child->id] = $child->getChildren();
 				$this->category = $child;
