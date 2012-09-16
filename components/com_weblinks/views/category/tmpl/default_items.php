@@ -90,7 +90,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 						$width	= 600;
 						$height	= 500;
 					}
-					 if ($this->items[$i]->state == 0): ?>
+					if ($this->items[$i]->state == 0): ?>
 						<span class="label label-warning">Unpublished</span>
 					<?php endif; ?>
 
