@@ -164,7 +164,10 @@ class JAdminCssMenu extends JObject
 		if ($this->_current->hasChildren()) {
 				$linkClass = ' class="dropdown-toggle"';
 				$dataToggle = ' data-toggle="dropdown"';
-				$dropdownCaret = ' <span class="caret"></span>';
+				if(!$this->_current->getParent()->hasParent())
+				{
+					$dropdownCaret = ' <span class="caret"></span>';
+				}
 		}
 
 		if ($this->_current->link != null && $this->_current->target != null) {

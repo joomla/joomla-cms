@@ -41,6 +41,9 @@ $canEdit	= $this->item->params->get('access-edit');
 		<?php endif; ?>
 	</h2>
 	<?php endif; ?>
+	<?php if ($this->item->state == 0): ?>
+		<span class="label label-warning">Unpublished</span>
+	<?php endif; ?>
 	<?php if ($params->get('show_author') && !empty($this->item->author )) : ?>
 	<small class="createdby">
 	<?php $author = $this->item->author; ?>

@@ -59,10 +59,13 @@ if (!empty($this->item->pagination) AND $this->item->pagination && !$this->item-
 	<?php if (($params->get('show_title')) || ($params->get('show_author'))) : ?>
 	<div class="page-header">
 		<h2>
+			<?php if ($this->item->state == 0): ?>
+				<span class="label label-warning">Unpublished</span>
+			<?php endif; ?>
 			<?php if ($params->get('link_titles') && !empty($this->item->readmore_link)) : ?>
 			<a href="<?php echo $this->item->readmore_link; ?>"> <?php echo $this->escape($this->item->title); ?></a>
 			<?php else : ?>
-			<?php echo $this->escape($this->item->title); ?>
+				<?php echo $this->escape($this->item->title); ?>
 			<?php endif; ?>
 		</h2>
 			<?php if ($params->get('show_author') && !empty($this->item->author )) : ?>

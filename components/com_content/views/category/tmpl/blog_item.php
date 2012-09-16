@@ -18,48 +18,52 @@ JHtml::_('behavior.tooltip');
 JHtml::_('behavior.framework');
 
 ?>
-<?php if ($this->item->state == 0) : ?>
-	<div class="system-unpublished">
-<?php endif; ?>
+
 	<?php if ($params->get('show_print_icon') || $params->get('show_email_icon') || $canEdit) : ?>
-		<div class="btn-group pull-right">
-			<a class="btn dropdown-toggle" data-toggle="dropdown" href="#"> <i class="icon-cog"></i> <span class="caret"></span> </a>
-			<ul class="dropdown-menu">
-				<?php if ($params->get('show_print_icon')) : ?>
-				<li class="print-icon"> <?php echo JHtml::_('icon.print_popup', $this->item, $params); ?> </li>
-				<?php endif; ?>
-				<?php if ($params->get('show_email_icon')) : ?>
-				<li class="email-icon"> <?php echo JHtml::_('icon.email', $this->item, $params); ?> </li>
-				<?php endif; ?>
-				<?php if ($canEdit) : ?>
-				<li class="edit-icon"> <?php echo JHtml::_('icon.edit', $this->item, $params); ?> </li>
-				<?php endif; ?>
-			</ul>
-		</div>
+	<div class="btn-group pull-right"> <a class="btn dropdown-toggle" data-toggle="dropdown" href="#"> <i class="icon-cog"></i> <span class="caret"></span> </a>
+		<ul class="dropdown-menu">
+			<?php if ($params->get('show_print_icon')) : ?>
+			<li class="print-icon"> <?php echo JHtml::_('icon.print_popup', $this->item, $params); ?> </li>
+			<?php endif; ?>
+			<?php if ($params->get('show_email_icon')) : ?>
+			<li class="email-icon"> <?php echo JHtml::_('icon.email', $this->item, $params); ?> </li>
+			<?php endif; ?>
+			<?php if ($canEdit) : ?>
+			<li class="edit-icon"> <?php echo JHtml::_('icon.edit', $this->item, $params); ?> </li>
+			<?php endif; ?>
+		</ul>
+	</div>
 	<?php endif; ?>
 	<?php if ($params->get('show_title')) : ?>
-		<h2 class="page-header">
+	<div class="page-header">
+		<h2>
 			<?php if ($params->get('link_titles') && $params->get('access-view')) : ?>
-				<a href="<?php echo JRoute::_(ContentHelperRoute::getArticleRoute($this->item->slug, $this->item->catid)); ?>"> <?php echo $this->escape($this->item->title); ?></a>
+			<a href="<?php echo JRoute::_(ContentHelperRoute::getArticleRoute($this->item->slug, $this->item->catid)); ?>"> <?php echo $this->escape($this->item->title); ?></a>
 			<?php else : ?>
-				<?php echo $this->escape($this->item->title); ?>
+			<?php echo $this->escape($this->item->title); ?>
 			<?php endif; ?>
 		</h2>
-	<?php endif; ?>
-	<?php if ($params->get('show_author') && !empty($this->item->author )) : ?>
+		<?php endif; ?>
+		<?php if ($this->item->state == 0): ?>
+			<span class="label label-warning">Unpublished</span>
+		<?php endif; ?>
+
+		<?php if ($params->get('show_author') && !empty($this->item->author )) : ?>
 		<small class="createdby">
-			<?php $author = $this->item->author; ?>
-			<?php $author = ($this->item->created_by_alias ? $this->item->created_by_alias : $author); ?>
-			<?php if (!empty($this->item->contactid ) && $params->get('link_author') == true) : ?>
-				<?php
-				echo JText::sprintf(
-						'COM_CONTENT_WRITTEN_BY',
-						JHtml::_('link', JRoute::_('index.php?option=com_contact&view=contact&id='.$this->item->contactid), $author)
-				); ?>
-			<?php else :?>
-				<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', $author); ?>
-			<?php endif; ?>
+		<?php $author = $this->item->author; ?>
+		<?php $author = ($this->item->created_by_alias ? $this->item->created_by_alias : $author); ?>
+		<?php if (!empty($this->item->contactid ) && $params->get('link_author') == true) : ?>
+		<?php
+		echo JText::sprintf(
+				'COM_CONTENT_WRITTEN_BY',
+				JHtml::_('link', JRoute::_('index.php?option=com_contact&view=contact&id='.$this->item->contactid), $author)
+		); ?>
+		<?php else :?>
+		<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', $author); ?>
+		<?php endif; ?>
 		</small>
+
+	</div>
 	<?php endif; ?>
 	<?php // to do not that elegant would be nice to group the params ?>
 	<?php if (($params->get('show_category')) or ($params->get('show_create_date')) or ($params->get('show_parent_category'))) : ?>
@@ -146,7 +150,5 @@ JHtml::_('behavior.framework');
 		endif; ?>
 	</a>
 	<?php endif; ?>
-<?php if ($this->item->state == 0) : ?>
-	</div>
-<?php endif; ?>
+
 <?php echo $this->item->event->afterDisplayContent; ?>
