@@ -34,6 +34,7 @@ $ -> Language fix or change
  # [#29179] SQL error in related items module. Thanks Mark
  #^ [#29160] Optimise JavaScript loading. Thanks Rouven
  # [#29207] Unpublished badge not using jtext. Thanks Elin
+ # [#29208] com_contact categories list items count badge alignment. Thanks Jon
  # Reverting #29141 as it creates unwanted pbs with dropbox while not solving fully the original issue
  # [#29201] Make it so submit button uses link color in protostar. Thanks Elin
  +$ Adding installation languages: pl-PL, ta-IN, uk-UA
