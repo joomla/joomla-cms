@@ -127,7 +127,8 @@
 
 .chzn-container-single-nosearch .chzn-search input {
   position: absolute;
-  left: -9000px;
+  /* left: -9000px; JUI change: switch to top for rtl */
+  top: -9000px;
 }
 
 /* @group Multi Chosen */
