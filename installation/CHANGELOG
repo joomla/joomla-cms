@@ -33,6 +33,7 @@ $ -> Language fix or change
 
 17-Sep-2012 Jean-Marie Simonet
  # [#28403] Validation error on com_finder. Thanks Emerson and Jason
+ # +$ Adding installation languages: sr-RS, sr-YU, zh-TW
 
 16-Sep-2012 Jean-Marie Simonet
  # [#29141] *RTL filtering broken. Thanks Andrea
