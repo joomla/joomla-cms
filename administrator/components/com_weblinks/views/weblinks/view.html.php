@@ -61,7 +61,7 @@ class WeblinksViewWeblinks extends JViewLegacy
 		$bar = JToolBar::getInstance('toolbar');
 
 		JToolbarHelper::title(JText::_('COM_WEBLINKS_MANAGER_WEBLINKS'), 'weblinks.png');
-		if (count($user->getAuthorisedCategories('com_weblinks', 'core.create')) > 0) {
+		if ($canDo->get('core.create') || count($user->getAuthorisedCategories('com_weblinks', 'core.create')) > 0) {
 			JToolbarHelper::addNew('weblink.add');
 		}
 		if ($canDo->get('core.edit')) {
