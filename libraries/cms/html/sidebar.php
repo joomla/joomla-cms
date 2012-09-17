@@ -67,7 +67,7 @@ abstract class JHtmlSidebar
     $data->hide = JFactory::getApplication()->input->getBool('hidemainmenu');
 
     // create a layout object and ask it to render the sidebar
-    $layout = new JLayoutSidebar;
+    $layout = new JLayoutFile( 'joomla.sidebars.submenu');
     $sidebarHtml = $layout->render( $data);
      
     return $sidebarHtml;
@@ -153,122 +153,5 @@ abstract class JHtmlSidebar
   {
     return self::$action;
   }
-
-}
-
-/**
- *
- * @author yannick
- *
- */
-interface JLayout {
-
-  public function render( $displayData);
-  
-}
-
-/**
- *
- * @author yannick
- *
- */
-class JLayoutFile implements JLayout {
-
-  protected $path = '';
-
-  public function __construct( $path) {
-    $this->path = $path;
-  }
-
-  public function render( $displayData) {
-
-    $layoutOutput = '';
-    if(!empty($this->path) && file_exists( $this->path)) {
-      ob_start();
-      include $this->path;
-      $layoutOutput = ob_get_contents();
-      ob_end_clean();
-    }
-
-    return $layoutOutput;
-  }
-}
-
-/**
- *
- * @author yannick
- *
- */
-class JLayoutSidebar implements JLayout
-{
-  /**
-   * Render a layout
-   *
-   * @return  string  The necessary HTML to display the sidebar
-   *
-   * @since   1.7
-   */
-  public function render( $displayData)
-  {
-
-    ob_start();
-
-    ?>
-      <div id="sidebar">
-      	<div class="sidebar-nav">
-      		<?php if ($displayData->displayMenu) : ?>
-      		<ul id="submenu" class="nav nav-list">
-      			<?php foreach ($displayData->list as $item) : ?>
-      			<?php if (isset ($item[2]) && $item[2] == 1) :
-      				?><li class="active"><?php
-      			else :
-      				?><li><?php
-      			endif;
-      			?>
-      			<?php
-      			if ($displayData->hide) :
-      					?><a class="nolink"><?php echo $item[0]; ?><?php
-      			else :
-      				if(strlen($item[1])) :
-      					?><a href="<?php echo JFilterOutput::ampReplace($item[1]); ?>"><?php echo $item[0]; ?></a><?php
-      				else :
-      					?><?php echo $item[0]; ?><?php
-      				endif;
-      			endif;
-      			?>
-      			</li>
-      			<?php endforeach; ?>
-      		</ul>
-      		<?php endif; ?>
-      		<?php if ($displayData->displayMenu && $displayData->displayFilters) : ?>
-      		<hr />
-      		<?php endif; ?>
-      		<?php if ($displayData->displayFilters) : ?>
-      		<div class="filter-select hidden-phone">
-      			<h4 class="page-header"><?php echo JText::_('JSEARCH_FILTER_LABEL');?></h4>
-      				<?php foreach ($displayData->filters as $filter) : ?>
-      					<label for="<?php echo $filter['name']; ?>" class="element-invisible"><?php echo $filter['label']; ?></label>
-      					<select name="<?php echo $filter['name']; ?>" id="<?php echo $filter['name']; ?>" class="span12 small" onchange="this.form.submit()">
-      						<?php if (!$filter['noDefault']) : ?>
-      							<option value=""><?php echo $filter['label']; ?></option>
-      						<?php endif; ?>
-      						<?php echo $filter['options']; ?>
-      					</select>
-      					<hr class="hr-condensed" />
-      				<?php endforeach; ?>
-      		</div>
-      		<?php endif; ?>
-      	</div>
-      </div>
-      
-    <?php     
-      
-    $sidebarHtml = ob_get_contents();
-    ob_end_clean();
-     
-    return $sidebarHtml;
-
-  }
-
 
 }
