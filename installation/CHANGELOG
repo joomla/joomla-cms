@@ -30,6 +30,7 @@ $ -> Language fix or change
  # [#29194] Add some alternatives to the Joomla Logo. Thanks Dianne Henning & Elin.
  # [#29181] Make article info block semantic. Thanks Elin.
  # [#28213] Page titles of categories and subcategories are unsuitable. Thanks Skunk Anan.
+ # [#29216] Clean up category lists. Thanks Elin.
 
 17-Sep-2012 Jean-Marie Simonet
  # [#28403] Validation error on com_finder. Thanks Emerson and Jason
