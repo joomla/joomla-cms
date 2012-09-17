@@ -31,7 +31,7 @@ class JLayoutBase implements JLayout
   public function render( $displayData)
   {
 
-    $sidebarHtml = '';
+    $layoutOutput = '';
     
     /*
      * 
@@ -49,7 +49,7 @@ class JLayoutBase implements JLayout
      ob_end_clean();
      * 
      */
-    return $sidebarHtml;
+    return $layoutOutput;
 
   }
 
