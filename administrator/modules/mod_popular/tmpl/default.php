@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+JHtml::_('bootstrap.tooltip');
 ?>
 <div class="row-striped">
 	<?php if (count($list)) : ?>
@@ -23,7 +24,7 @@ defined('_JEXEC') or die;
 		?>
 			<div class="row-fluid">
 				<div class="span9">
-					<span class="badge badge-<?php echo $hits_class;?>" rel="tooltip" title="<?php echo JText::_('JGLOBAL_HITS');?>"><?php echo $item->hits;?></span>
+					<span class="badge badge-<?php echo $hits_class;?> hasTooltip" title="<?php echo JText::_('JGLOBAL_HITS');?>"><?php echo $item->hits;?></span>
 					<?php if ($item->checked_out) : ?>
 							<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time); ?>
 					<?php endif; ?>

@@ -25,8 +25,6 @@ abstract class modRelatedItemsHelper
 		$db			= JFactory::getDbo();
 		$app		= JFactory::getApplication();
 		$user		= JFactory::getUser();
-		$userId		= (int) $user->get('id');
-		$count		= (int) $params->get('count', 5);
 		$groups		= implode(',', $user->getAuthorisedViewLevels());
 		$date		= JFactory::getDate();
 
@@ -37,7 +35,6 @@ abstract class modRelatedItemsHelper
 		$temp		= explode(':', $temp);
 		$id			= $temp[0];
 
-		$showDate	= $params->get('showDate', 0);
 		$nullDate	= $db->getNullDate();
 		$now		= $date->toSql();
 		$related	= array();
@@ -102,7 +99,7 @@ abstract class modRelatedItemsHelper
 					$query->where('a.id != ' . (int) $id);
 					$query->where('a.state = 1');
 					$query->where('a.access IN (' . $groups . ')');
-					$concat_string = $query->concatenate(array(',', 'REPLACE(a.metakey, ", ", ",")', ','));
+          			$concat_string = $query->concatenate(array('","', ' REPLACE(a.metakey, ", ", ",")', ' ","'));
 					$query->where('('.$concat_string.' LIKE "%'.implode('%" OR '.$concat_string.' LIKE "%', $likes).'%")'); //remove single space after commas in keywords)
 					$query->where('(a.publish_up = '.$db->Quote($nullDate).' OR a.publish_up <= '.$db->Quote($now).')');
 					$query->where('(a.publish_down = '.$db->Quote($nullDate).' OR a.publish_down >= '.$db->Quote($now).')');
@@ -113,7 +110,6 @@ abstract class modRelatedItemsHelper
 					}
 
 					$db->setQuery($query);
-					$qstring = $db->getQuery();
 					$temp = $db->loadObjectList();
 
 					if (count($temp))

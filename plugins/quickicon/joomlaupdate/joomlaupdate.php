@@ -69,7 +69,7 @@ class plgQuickiconJoomlaupdate extends JPlugin
 		JHtml::script('plg_quickicon_joomlaupdate/jupdatecheck.js', false, true);
 
 		return array(array(
-			'link' => 'index.php?option=com_installer&view=update',
+			'link' => 'index.php?option=com_joomlaupdate',
 			'image' => 'download',
 			'text' => JText::_('PLG_QUICKICON_JOOMLAUPDATE_CHECKING'),
 			'id' => 'plg_quickicon_joomlaupdate'

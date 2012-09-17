@@ -83,6 +83,7 @@ class WeblinksViewWeblinks extends JViewLegacy
 		// Add a batch button
 		if ($canDo->get('core.edit'))
 		{
+			JHtml::_('bootstrap.modal', 'collapseModal');
 			$title = JText::_('JTOOLBAR_BATCH');
 			$dhtml = "<button data-toggle=\"modal\" data-target=\"#collapseModal\" class=\"btn btn-small\">
 						<i class=\"icon-checkbox-partial\" title=\"$title\"></i>

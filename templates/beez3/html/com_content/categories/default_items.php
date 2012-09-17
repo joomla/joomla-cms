@@ -26,7 +26,7 @@ if (count($this->items[$this->parent->id]) > 0 && $this->maxLevelcat != 0) :
 		<h3 class="item-title"><a href="<?php echo JRoute::_(ContentHelperRoute::getCategoryRoute($item->id));?>">
 			<?php echo $this->escape($item->title); ?></a>
 		</h3>
- 
+
 		<?php if ($this->params->get('show_subcat_desc_cat') == 1) :?>
 		<?php if ($item->description) : ?>
 			<div class="category-desc">

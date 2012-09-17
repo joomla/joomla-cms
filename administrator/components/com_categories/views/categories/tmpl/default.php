@@ -11,8 +11,9 @@ defined('_JEXEC') or die;
 
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
-JHtml::_('behavior.tooltip');
+JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
+JHtml::_('formbehavior.chosen', 'select');
 
 $user		= JFactory::getUser();
 $userId		= $user->get('id');
@@ -151,12 +152,12 @@ $sortFields = $this->getSortFields();
 						$disabledLabel    = JText::_('JORDERINGDISABLED');
 						$disableClassName = 'inactive tip-top';
 					endif; ?>
-					<span class="sortable-handler <?php echo $disableClassName?>" title="<?php echo $disabledLabel?>" rel="tooltip">
+					<span class="sortable-handler hasTooltip <?php echo $disableClassName?>" title="<?php echo $disabledLabel?>">
 						<i class="icon-menu"></i>
 					</span>
 
 				<?php else : ?>
-					<span class="sortable-handler inactive" >
+					<span class="sortable-handler inactive">
 						<i class="icon-menu"></i>
 					</span>
 				<?php endif; ?>

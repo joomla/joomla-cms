@@ -13,10 +13,11 @@ defined('_JEXEC') or die;
 $app = JFactory::getApplication();
 $doc = JFactory::getDocument();
 $lang = JFactory::getLanguage();
+$this->language = $doc->language;
+$this->direction = $doc->direction;
 
 // Add JavaScript Frameworks
 JHtml::_('bootstrap.framework');
-JHtml::_('jquery.chosen');
 
 // Add Stylesheets
 $doc->addStyleSheet('templates/' .$this->template. '/css/template.css');
@@ -34,22 +35,18 @@ endif;
 
 ?>
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" >
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 <head>
 	<jdoc:include type="head" />
+	<!--[if lt IE 9]>
+		<script src="../media/jui/js/html5.js"></script>
+	<![endif]-->
 </head>
 <body class="contentpane component">
 	<jdoc:include type="message" />
 	<jdoc:include type="component" />
 	<script>
 		(function($){
-			$('*[rel=tooltip]').tooltip()
-			$('.tip-bottom').tooltip({placement: "bottom"})
-			$('*[rel=popover]').popover()
-
-		    // Chosen select boxes
-		    $("select").chosen({disable_search_threshold : 10 });
-
 		    // Turn radios into btn-group
 		    $('.radio.btn-group label').addClass('btn')
 		    $(".btn-group label:not(.active)").click(function(){

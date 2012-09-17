@@ -43,7 +43,6 @@ class MailtoController extends JControllerLegacy
 
 		$app     = JFactory::getApplication();
 		$session = JFactory::getSession();
-		$db      = JFactory::getDbo();
 
 		$timeout = $session->get('com_mailto.formtime', 0);
 		if ($timeout == 0 || time() - $timeout < 20) {
@@ -52,8 +51,6 @@ class MailtoController extends JControllerLegacy
 		}
 
 		$SiteName = $app->getCfg('sitename');
-		$MailFrom = $app->getCfg('mailfrom');
-		$FromName = $app->getCfg('fromname');
 
 		$link     = MailtoHelper::validateHash($this->input->get('link', '', 'post'));
 

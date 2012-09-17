@@ -12,13 +12,13 @@ defined('_JEXEC') or die;
 $app   = JFactory::getApplication();
 $doc   = JFactory::getDocument();
 $lang  = JFactory::getLanguage();
+$this->language = $doc->language;
+$this->direction = $doc->direction;
 $input = $app->input;
 $user  = JFactory::getUser();
 
 // Add JavaScript Frameworks
 JHtml::_('bootstrap.framework');
-JHtml::_('jquery.chosen');
-JHtml::_('jquery.ui');
 
 // Add Stylesheets
 $doc->addStyleSheet('templates/' . $this->template . '/css/template.css');
@@ -69,7 +69,7 @@ else
 }
 ?>
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" >
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<jdoc:include type="head" />
@@ -92,6 +92,9 @@ else
 	<?php
 	}
 	?>
+	<!--[if lt IE 9]>
+		<script src="../media/jui/js/html5.js"></script>
+	<![endif]-->
 </head>
 
 <body class="admin <?php echo $option . " view-" . $view . " layout-" . $layout . " task-" . $task . " itemid-" . $itemid . " ";?>" data-spy="scroll" data-target=".subhead" data-offset="87">
@@ -207,11 +210,6 @@ else
 	<jdoc:include type="modules" name="debug" style="none" />
 	<script>
 		(function($){
-			$('*[rel=tooltip]').tooltip()
-			$('*[rel=popover]').popover({
-				trigger: 'hover'
-			})
-
 			// fix sub nav on scroll
 			var $win = $(window)
 			  , $nav = $('.subhead')
@@ -237,12 +235,6 @@ else
 					$nav.removeClass('subhead-fixed')
 				}
 			}
-
-			// Chosen select boxes
-			$("select").chosen({
-				disable_search_threshold : 10,
-				allow_single_deselect : true
-			});
 
 			// Turn radios into btn-group
 		    $('.radio.btn-group label').addClass('btn');

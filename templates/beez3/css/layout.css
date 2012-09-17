@@ -402,7 +402,7 @@ input[type="radio"]:checked + label:before {
 	color: #000;
 	zoom:1;
 	border: 1px solid #aaa;
-	
+
 
 }
 
@@ -855,7 +855,7 @@ ul.menu ul ul ul ul a {
 }
 
 /* ++++++++++++++++++++++  Footer +++++++++++++++++++++++++ */
-#footer-outer 
+#footer-outer
 {font-size:0.8em}
 .box {
 	text-align: left

@@ -208,6 +208,130 @@ h6 { font-size: 12px; line-height: 14px; }
 .content-links {
 	padding: 15px 0;
 }
+/* Caption fixes */
+.img_caption .left {
+	float: left;
+	margin-right: 1em;
+}
+
+.img_caption .right {
+	float: right;
+	margin-left: 1em;
+}
+
+.img_caption .left p {
+	clear: left;
+	text-align: center;
+}
+
+.img_caption .right p {
+	clear: right;
+	text-align: center;
+}
+
+.img_caption  {
+	text-align: center!important;
+}
+
+.img_caption.none {
+	margin-left:auto;
+	margin-right:auto;
+}
+/* Aside Subnavs */
+#aside .nav .nav-child {
+	border-left: 2px solid @tableBorder;
+	padding-left: 5px;
+}
+/* Navigation Submenus */
+// The dropdown menu (ul)
+// ----------------------
+.navigation {
+	.nav-child {
+		position: absolute;
+		top: 95%;
+		left: 0;
+		z-index: @zindexDropdown;
+		display: none; // none by default, but block on "open" of the menu
+		float: left;
+		min-width: 160px;
+		padding: 5px 0;
+		margin: 2px 0 0; // override default ul
+		list-style: none;
+		background-color: @dropdownBackground;
+		border: 1px solid #ccc; // Fallback for IE7-8
+		border: 1px solid @dropdownBorder;
+		*border-right-width: 2px;
+		*border-bottom-width: 2px;
+		.border-radius(6px);
+		.box-shadow(0 5px 10px rgba(0,0,0,.2));
+		-webkit-background-clip: padding-box;
+		 -moz-background-clip: padding;
+		      background-clip: padding-box;
+		
+		// Aligns the dropdown menu to right
+		&.pull-right {
+			right: 0;
+			left: auto;
+		}
+		
+		// Dividers (basically an hr) within the dropdown
+		.divider {
+			.nav-divider(@dropdownDividerTop, @dropdownDividerBottom);
+		}
+		
+		// Links within the dropdown menu
+		a {
+			display: block;
+			padding: 3px 20px;
+			clear: both;
+			font-size: @baseFontSize;
+			font-weight: normal;
+			line-height: @baseLineHeight;
+			color: @dropdownLinkColor;
+			white-space: nowrap;
+		}
+	}
+	.nav > li {
+		position: relative;
+	}
+	.nav > li:hover > .nav-child,
+	.nav > li > a:focus + .nav-child, {
+		display: block;
+	}
+	.nav-child:before {
+	  position: absolute;
+	  top: -7px;
+	  left: 9px;
+	  display: inline-block;
+	  border-right: 7px solid transparent;
+	  border-bottom: 7px solid #ccc;
+	  border-left: 7px solid transparent;
+	  border-bottom-color: rgba(0, 0, 0, 0.2);
+	  content: '';
+	}
+	.nav-child:after {
+	  position: absolute;
+	  top: -6px;
+	  left: 10px;
+	  display: inline-block;
+	  border-right: 6px solid transparent;
+	  border-bottom: 6px solid #ffffff;
+	  border-left: 6px solid transparent;
+	  content: '';
+	}
+}
+
+// Hover state
+// -----------
+.navigation .nav-child li > a:hover,
+.navigation .nav-child li > a:focus,
+.navigation .nav-child:hover > a {
+  text-decoration: none;
+  color: @dropdownLinkColorHover;
+  background-color: @dropdownLinkBackgroundHover;
+  #gradient > .vertical(@dropdownLinkBackgroundHover, darken(@dropdownLinkBackgroundHover, 5%));
+}
+
 @media (max-width: 480px) {
 	.item-info > span {
 		display:block;
@@ -322,34 +446,4 @@ h6 { font-size: 12px; line-height: 14px; }
 	.item-comment .item-image{
 		display:none;
 	}
-}
-
-/* Caption fixes */
-.img_caption .left {
-	float: left;
-	margin-right: 1em;
-}
-
-.img_caption .right {
-	float: right;
-	margin-left: 1em;
-}
-
-.img_caption .left p {
-	clear: left;
-	text-align: center;
-}
-
-.img_caption .right p {
-	clear: right;
-	text-align: center;
-}
-
-.img_caption  {
-	text-align: center!important;
-}
-
-.img_caption.none {
-	margin-left:auto;
-	margin-right:auto;
 }

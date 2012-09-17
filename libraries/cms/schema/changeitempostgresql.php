@@ -19,7 +19,6 @@ defined('_JEXEC') or die;
 class JSchemaChangeitempostgresql extends JSchemaChangeitem
 {
 	/**
-	 *
 	 * Checks a DDL query to see if it is a known type
 	 * If yes, build a check query to see if the DDL has been run on the database.
 	 * If successful, the $msgElements, $queryType, $checkStatus and $checkQuery fields are populated.
@@ -42,23 +41,24 @@ class JSchemaChangeitempostgresql extends JSchemaChangeitem
 		$this->checkStatus = -1; // change status to skipped
 		$result = null;
 
-		// remove any newlines
+		// Remove any newlines
 		$this->updateQuery = str_replace("\n", '', $this->updateQuery);
 
-		// fix up extra spaces around () and in general
+		// Fix up extra spaces around () and in general
 		$find = array('#((\s*)\(\s*([^)\s]+)\s*)(\))#', '#(\s)(\s*)#');
 		$replace = array('($3)', '$1');
 		$updateQuery = preg_replace($find, $replace, $this->updateQuery);
 		$wordArray = explode(' ', $updateQuery);
 
-		// first, make sure we have an array of at least 6 elements
+		// First, make sure we have an array of at least 6 elements
 		// if not, we can't make a check query for this one
 		if (count($wordArray) < 6)
 		{
-			return; // done with method
+			// Done with method
+			return;
 		}
 
-		// we can only make check queries for alter table and create table queries
+		// We can only make check queries for alter table and create table queries
 		$command = strtoupper($wordArray[0] . ' ' . $wordArray[1]);
 		if ($command === 'ALTER TABLE')
 		{
@@ -76,17 +76,17 @@ class JSchemaChangeitempostgresql extends JSchemaChangeitem
 				if (strtoupper($wordArray[6]) == 'TYPE')
 				{
 					$type = '';
-					for($i = 7; $i < count($wordArray); $i++)
+					for ($i = 7; $i < count($wordArray); $i++)
 					{
 						$type .= $wordArray[$i] . ' ';
 					}
 
-					if($pos = strpos($type, '('))
+					if ($pos = strpos($type, '('))
 					{
 						$type = substr($type, 0, $pos);
 					}
 
-					if($pos = strpos($type, ';'))
+					if ($pos = strpos($type, ';'))
 					{
 						$type = substr($type, 0, $pos);
 					}
@@ -100,12 +100,14 @@ class JSchemaChangeitempostgresql extends JSchemaChangeitem
 				}
 				elseif(strtoupper($wordArray[7] . ' ' . $wordArray[8]) == 'NOT NULL')
 				{
-					if ( strtoupper($wordArray[6]) == 'SET' ) //SET NOT NULL
+					if ( strtoupper($wordArray[6]) == 'SET' )
 					{
+						// SET NOT NULL
 						$isNullable = $this->fixQuote('NO');
 					}
-					else //DROP NOT NULL
+					else
 					{
+						// DROP NOT NULL
 						$isNullable = $this->fixQuote('YES');
 					}
 					$result = 'SELECT column_name, data_type, is_nullable FROM information_schema.columns WHERE table_name=' .
@@ -122,8 +124,9 @@ class JSchemaChangeitempostgresql extends JSchemaChangeitem
 					{
 						$isNullDef = 'IS NOT NULL';
 					}
-					else //DROP DEFAULT
+					else
 					{
+						// DROP DEFAULT
 						$isNullDef = 'IS NULL';
 					}
 					$result = 'SELECT column_name, data_type, column_default FROM information_schema.columns WHERE table_name=' .
@@ -138,7 +141,7 @@ class JSchemaChangeitempostgresql extends JSchemaChangeitem
 		}
 		elseif ($command === 'DROP INDEX')
 		{
-			if (strtoupper($wordArray[2].$wordArray[3]) == 'IFEXISTS')
+			if (strtoupper($wordArray[2] . $wordArray[3]) == 'IFEXISTS')
 			{
 				$idx = $this->fixQuote($wordArray[4]);
 			}
@@ -173,7 +176,7 @@ class JSchemaChangeitempostgresql extends JSchemaChangeitem
 
 		if ($command == 'CREATE TABLE')
 		{
-			if (strtoupper($wordArray[2].$wordArray[3].$wordArray[4]) == 'IFNOTEXISTS')
+			if (strtoupper($wordArray[2] . $wordArray[3] . $wordArray[4]) == 'IFNOTEXISTS')
 			{
 				$table = $this->fixQuote($wordArray[5]);
 			}
@@ -187,12 +190,16 @@ class JSchemaChangeitempostgresql extends JSchemaChangeitem
 			$this->msgElements = array($table);
 		}
 
-		// set fields based on results
-		if ($this->checkQuery = $result) {
-			$this->checkStatus = 0; // unchecked status
+		// Set fields based on results
+		if ($this->checkQuery = $result)
+		{
+			// Unchecked status
+			$this->checkStatus = 0;
 		}
-		else {
-			$this->checkStatus = -1; // skipped
+		else
+		{
+			// Skipped
+			$this->checkStatus = -1;
 		}
 	}
 
@@ -201,12 +208,12 @@ class JSchemaChangeitempostgresql extends JSchemaChangeitem
 	 * If you change a column to "integer unsigned" it shows
 	 * as "int(10) unsigned" in the check query.
 	 *
-	 * @param  string  $type1  the column type
-	 * @param  string  $type2  the column attributes
+	 * @param   string  $type1  the column type
+	 * @param   string  $type2  the column attributes
 	 *
-	 * @return string  The original or changed column type.
+	 * @return  string  The original or changed column type.
 	 *
-	 * @since  3.0
+	 * @since   3.0
 	 */
 	private function fixInteger($type1, $type2)
 	{
@@ -219,12 +226,12 @@ class JSchemaChangeitempostgresql extends JSchemaChangeitem
 	}
 
 	/**
-	 *
 	 * Fixes up a string for inclusion in a query.
 	 * Replaces name quote character with normal quote for literal.
 	 * Drops trailing semi-colon. Injects the database prefix.
 	 *
 	 * @param   string  $string  The input string to be cleaned up.
+	 *
 	 * @return  string  The modified string.
 	 *
 	 * @since   3.0
@@ -236,5 +243,4 @@ class JSchemaChangeitempostgresql extends JSchemaChangeitem
 		$string = str_replace('#__', $this->db->getPrefix(), $string);
 		return $this->db->quote($string);
 	}
-
 }

@@ -49,7 +49,7 @@ class modFeedHelper
 			$msg = JText::_('MOD_FEED_ERR_FEED_NOT_RETRIEVED');
 			return $msg;
 		}
-		$lists = array();
+
 		if ($rssDoc)
 		{
 			return $rssDoc;
