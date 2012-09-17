@@ -504,8 +504,6 @@ class JRouterSite extends JRouter
 		// Process the pagination support
 		if ($this->_mode == JROUTER_MODE_SEF)
 		{
-			$app = JApplication::getInstance('site');
-
 			if ($start = $uri->getVar('start'))
 			{
 				$uri->delVar('start');

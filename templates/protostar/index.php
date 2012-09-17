@@ -11,6 +11,8 @@ defined('_JEXEC') or die;
 
 $app = JFactory::getApplication();
 $doc = JFactory::getDocument();
+$this->language = $doc->language;
+$this->direction = $doc->direction;
 
 // Detecting Active Variables
 $option   = $app->input->getCmd('option', '');
@@ -73,7 +75,7 @@ else
 }
 ?>
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" >
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<?php
@@ -101,7 +103,8 @@ else
 		{
 			color: <?php echo $this->params->get('templateColor');?>;
 		}
-		.navbar-inner, .nav-list > .active > a, .nav-list > .active > a:hover, .dropdown-menu li > a:hover, .dropdown-menu .active > a, .dropdown-menu .active > a:hover, .nav-pills > .active > a, .nav-pills > .active > a:hover
+		.navbar-inner, .nav-list > .active > a, .nav-list > .active > a:hover, .dropdown-menu li > a:hover, .dropdown-menu .active > a, .dropdown-menu .active > a:hover, .nav-pills > .active > a, .nav-pills > .active > a:hover,
+		.btn-primary
 		{
 			background: <?php echo $this->params->get('templateColor');?>;
 		}
@@ -115,10 +118,12 @@ else
 	<?php
 	}
 	?>
+	<!--[if lt IE 9]>
+		<script src="<?php echo $this->baseurl ?>/media/jui/js/html5.js"></script>
+	<![endif]-->
 </head>
 
 <body class="site <?php echo $option . " view-" . $view . " layout-" . $layout . " task-" . $task . " itemid-" . $itemid . " ";?> <?php if ($this->params->get('fluidContainer')) { echo "fluid"; } ?>">
-
 	<!-- Body -->
 	<div class="body">
 		<div class="container<?php if ($this->params->get('fluidContainer')) { echo "-fluid"; } ?>">
@@ -181,10 +186,5 @@ else
 		</div>
 	</div>
 	<jdoc:include type="modules" name="debug" style="none" />
-	<script>
-		jQuery('*[rel=tooltip]').tooltip()
-		jQuery('*[rel=popover]').popover()
-		jQuery('.tip-bottom').tooltip({placement: "bottom"})
-	</script>
 </body>
 </html>

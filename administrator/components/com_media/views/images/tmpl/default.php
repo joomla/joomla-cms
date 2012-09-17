@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+JHtml::_('formbehavior.chosen', 'select');
+
 $user  = JFactory::getUser();
 $input = JFactory::getApplication()->input;
 ?>

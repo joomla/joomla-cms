@@ -2,11 +2,11 @@
 /**
  * @package     Joomla.Site
  * @subpackage  Templates.beez3
+ *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
 
 $doc = JFactory::getDocument();
@@ -43,6 +43,9 @@ if ($this->direction == 'rtl') {
 
 <!--[if lte IE 6]>
 	<link href="<?php echo $this->baseurl ?>/templates/<?php echo $this->template; ?>/css/ieonly.css" rel="stylesheet" type="text/css" />
+<![endif]-->
+<!--[if lt IE 9]>
+	<script src="<?php echo $this->baseurl ?>/media/jui/js/html5.js"></script>
 <![endif]-->
 </head>
 <body class="contentpane">

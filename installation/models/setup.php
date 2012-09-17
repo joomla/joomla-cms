@@ -79,10 +79,6 @@ class InstallationModelSetup extends JModelLegacy
 	 */
 	public function getForm($view = null)
 	{
-		$app = JFactory::getApplication();
-
-		$false = false;
-
 		if (!$view)
 		{
 			$view = JFactory::getApplication()->input->get('view', 'site', 'word');
@@ -319,7 +315,7 @@ class InstallationModelSetup extends JModelLegacy
 
 		// Check for configuration file writeable.
 		$option = new stdClass;
-		$option->label  = 'configuration.php ' . JText::_('INSTL_WRITABLE');
+		$option->label  = JText::sprintf('INSTL_WRITABLE', 'configuration.php');
 		$option->state  = (is_writable('../configuration.php') || (!file_exists('../configuration.php') && is_writable('../')));
 		$option->notice = ($option->state) ? null : JText::_('INSTL_NOTICEYOUCANSTILLINSTALL');
 		$options[] = $option;

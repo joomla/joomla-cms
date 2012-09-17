@@ -18,9 +18,7 @@ JHtml::_('behavior.tooltip');
 JHtml::_('behavior.framework');
 
 ?>
-<?php if ($this->item->state == 0) : ?>
-<div class="system-unpublished">
-	<?php endif; ?>
+
 	<?php if ($params->get('show_print_icon') || $params->get('show_email_icon') || $canEdit) : ?>
 	<div class="btn-group pull-right"> <a class="btn dropdown-toggle" data-toggle="dropdown" href="#"> <i class="icon-cog"></i> <span class="caret"></span> </a>
 		<ul class="dropdown-menu">
@@ -46,6 +44,10 @@ JHtml::_('behavior.framework');
 			<?php endif; ?>
 		</h2>
 		<?php endif; ?>
+		<?php if ($this->item->state == 0): ?>
+			<span class="label label-warning"><?php echo JText::_('JUNPUBLISHED'); ?></span>
+		<?php endif; ?>
+
 		<?php if ($params->get('show_author') && !empty($this->item->author )) : ?>
 		<small class="createdby">
 		<?php $author = $this->item->author; ?>
@@ -148,7 +150,5 @@ JHtml::_('behavior.framework');
 		endif; ?>
 	</a>
 	<?php endif; ?>
-	<?php if ($this->item->state == 0) : ?>
-</div>
-<?php endif; ?>
+
 <?php echo $this->item->event->afterDisplayContent; ?>

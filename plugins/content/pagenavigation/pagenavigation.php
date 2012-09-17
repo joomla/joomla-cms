@@ -40,7 +40,6 @@ class plgContentPagenavigation extends JPlugin
 			$nullDate = $db->getNullDate();
 
 			$date	= JFactory::getDate();
-			$config	= JFactory::getConfig();
 			$now = $date->toSql();
 
 			$uid	= $row->id;

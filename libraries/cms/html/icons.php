@@ -79,7 +79,7 @@ abstract class JHtmlIcons
 		$html[] = (empty($button['onclick']) ? '' : (' onclick="' . $button['onclick'] . '"'));
 		$html[] = (empty($button['title']) ? '' : (' title="' . htmlspecialchars($button['title']) . '"'));
 		$html[] = '>';
-		$html[] = '<i class="icon-'.$button['image'].'"></i> ';
+		$html[] = '<i class="icon-' . $button['image'] . '"></i> ';
 		$html[] = (empty($button['text'])) ? '' : ('<span>' . $button['text'] . '</span>');
 		$html[] = '</a>';
 		$html[] = '</div>';

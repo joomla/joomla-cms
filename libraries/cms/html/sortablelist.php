@@ -47,7 +47,7 @@ abstract class JHtmlSortablelist
 		}
 
 		// Depends on jQuery UI
-		JHtml::_('jquery.ui');
+		JHtml::_('jquery.ui', array('core', 'sortable'));
 
 		JHtml::script('jui/sortablelist.js', false, true);
 		JHtml::stylesheet('jui/sortablelist.css', false, true, false);
@@ -56,7 +56,7 @@ abstract class JHtmlSortablelist
 		JFactory::getDocument()->addScriptDeclaration("
 			(function ($){
 				$(document).ready(function (){
-					var sortableList = new $.JSortableList('#" . $tableId . " tbody','" . $formId . "','" . $sortDir . "' , '" . $saveOrderingUrl . "','','".$nestedList."');
+					var sortableList = new $.JSortableList('#" . $tableId . " tbody','" . $formId . "','" . $sortDir . "' , '" . $saveOrderingUrl . "','','" . $nestedList . "');
 				});
 			})(jQuery);
 			"
