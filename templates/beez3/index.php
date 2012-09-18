@@ -36,14 +36,8 @@ $config = JFactory::getConfig();
 
 if ($templateparams->get('bootstrap') == 1)
 {
-	// Pull in the Bootstrap styles from jui
-	$doc->addStyleSheet('media/jui/css/bootstrap.css');
-
-	// If Right-to-Left
-	if ($this->direction == 'rtl')
-	{
-		$doc->addStyleSheet('media/jui/css/bootstrap-rtl.css');
-	}
+  // load optional rtl bootstrap css and bootstrap bugfixes
+  JHtmlBootstrap::loadCss( $includeMaincss = true, $this->direction);
 }
 
 $doc->addStyleSheet(JURI::base() . '/templates/system/css/system.css');

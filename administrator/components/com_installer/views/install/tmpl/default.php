@@ -53,6 +53,15 @@ defined('_JEXEC') or die;
 	<?php echo $this->loadTemplate('message'); ?>
 	<?php endif; ?>
 
+	<?php if(!empty( $this->sidebar)): ?>
+    <div id="sidebar-container" class="span2">
+      <?php echo $this->sidebar; ?>
+    </div>  
+    <div id="main-container" class="span10">
+  <?php else : ?>
+    <div id="main-container">
+  <?php endif;?>
+	
 	<ul class="nav nav-tabs">
 		<li class="active"><a href="#upload" data-toggle="tab"><?php echo JText::_('COM_INSTALLER_UPLOAD_PACKAGE_FILE'); ?></a></li>
 		<li><a href="#directory" data-toggle="tab"><?php echo JText::_('COM_INSTALLER_INSTALL_FROM_DIRECTORY'); ?></a></li>
@@ -113,4 +122,6 @@ defined('_JEXEC') or die;
 	<input type="hidden" name="installtype" value="upload" />
 	<input type="hidden" name="task" value="install.install" />
 	<?php echo JHtml::_('form.token'); ?>
+	
+	</div>
 </form>
