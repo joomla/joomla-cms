@@ -10,7 +10,6 @@
 defined('JPATH_BASE') or die;
 
 ?>
-We're in an override!!
 
 <div id="sidebar">
 	<div class="sidebar-nav">
@@ -58,3 +57,5 @@ We're in an override!!
 		<?php endif; ?>
 	</div>
 </div>
+
+We're in an override!!
