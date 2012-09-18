@@ -52,7 +52,7 @@ abstract class JHtmlSidebar
    *
    * @return  string  The necessary HTML to display the sidebar
    *
-   * @since   1.7
+   * @since   3.0
    */
   public static function render()
   {
@@ -82,7 +82,7 @@ abstract class JHtmlSidebar
    *
    * @return  void
    *
-   * @since   1.5
+   * @since   3.0
    */
   public static function addEntry($name, $link = '', $active = false)
   {
