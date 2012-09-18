@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Libraries
- * @subpackage  Error
+ * @subpackage  Layout
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -10,23 +10,36 @@
 defined('JPATH_BASE') or die;
 
 /**
+ * Base class for rendering a display layout
  *
- * @author yannick
- *
+ * @package     Joomla.Libraries
+ * @subpackage  Layout
+ * @since       3.0
  */
 class JLayoutBase implements JLayout
 {
   
-  public function escape( $output) {
+  /**
+   * Method to escape output.
+   *
+   * @param   string  $output  The output to escape.
+   *
+   * @return  string  The escaped output.
+   *
+   * @since   3.0
+   */
+  public function escape( $output)
+  {
     return htmlspecialchars($output, ENT_COMPAT, 'UTF-8');
   }
   
   /**
-   * Render a layout
+   * Method to render the layout.
    *
    * @return  string  The necessary HTML to display the layout
    *
-   * @since   1.7
+   * @since   3.0
+   * @throws  RuntimeException
    */
   public function render( $displayData)
   {
@@ -52,6 +65,5 @@ class JLayoutBase implements JLayout
     return $layoutOutput;
 
   }
-
 
 }

@@ -10,25 +10,60 @@
 defined('JPATH_BASE') or die;
 
 /**
+ * Base class for rendering a display layout
+ * loaded from from a layout file
  *
- * @author yannick
- *
+ * @package     Joomla.Libraries
+ * @subpackage  Layout
+ * @since       3.0
  */
 class JLayoutFile extends JLayoutBase {
 
+  /**
+   * @var    String  Dot separated path to the layout file, relative to base path
+   * @since  3.0
+   */
   protected $layoutId = '';
+
+  /**
+   * @var    String  Base path to use when loading layout files
+   * @since  3.0
+   */
   protected $basePath = null;
 
-  public function __construct( $layoutId, $basePath = null) {
+  /**
+   * Method to instantiate the file-based layout.
+   *
+   * @param   String  $layoutId  Dot separated path to the layout file, relative to base path
+   * @param   String  $basePath  Base path to use when loading layout files
+   *
+   * @since   3.0
+   */
+  public function __construct( $layoutId, $basePath = null)
+  {
     $this->layoutId = $layoutId;
     $this->basePath = is_null( $basePath) ? JPATH_ROOT . '/layouts' : rtrim( $basePath, DIRECTORY_SEPARATOR);
   }
 
-  public function render( $displayData) {
-
+  /**
+   * Method to render the layout.
+   *
+   * @param Object  Object which properties are used inside the layout file to build displayed output
+   *
+   * @return  string  The necessary HTML to display the layout
+   *
+   * @since   3.0
+   * @throws  RuntimeException
+   */
+  public function render( $displayData)
+  {
     $layoutOutput = '';
-    $path = $this->_getPath();
-    if(!empty($path) && file_exists( $path)) {
+
+    // check possible overrides, and build the full path to layout file
+    $path = $this->getPath();
+
+    // if there exists such a layout file, include it and collect its output
+    if(!empty($path)) {
       ob_start();
       include $path;
       $layoutOutput = ob_get_contents();
@@ -39,9 +74,14 @@ class JLayoutFile extends JLayoutBase {
   }
 
   /**
-   * Finds real file path, and check overrides
+   * Method to finds the full real file path, checking possible overrides
+   *
+   * @return  String  The full path to the layout file
+   *
+   * @since   3.0
    */
-  protected function _getPath() {
+  protected function getPath()
+  {
 
     static $fullPath = null;
 
@@ -53,6 +93,7 @@ class JLayoutFile extends JLayoutBase {
       if(file_exists( $overrideFile)) {
         $fullPath = $overrideFile;
       } else {
+        // if no overrides, use basePath
         $fullPath = $this->basePath . '/' . $path;
         if(!file_exists( $fullPath)) {
           // file does not exists, store empty string to avoid new lookups
