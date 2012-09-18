@@ -17,9 +17,11 @@ defined('JPATH_BASE') or die;
 class JLayoutFile extends JLayoutBase {
 
   protected $layoutId = '';
+  protected $basePath = null;
 
-  public function __construct( $layoutId) {
+  public function __construct( $layoutId, $basePath = null) {
     $this->layoutId = $layoutId;
+    $this->basePath = is_null( $basePath) ? JPATH_ROOT . '/layouts' : rtrim( $basePath, DIRECTORY_SEPARATOR);
   }
 
   public function render( $displayData) {
@@ -51,7 +53,7 @@ class JLayoutFile extends JLayoutBase {
       if(file_exists( $overrideFile)) {
         $fullPath = $overrideFile;
       } else {
-        $fullPath = JPATH_ROOT . '/layouts/' . $path;
+        $fullPath = $this->basePath . '/' . $path;
         if(!file_exists( $fullPath)) {
           // file does not exists, store empty string to avoid new lookups
           $fullPath = '';
