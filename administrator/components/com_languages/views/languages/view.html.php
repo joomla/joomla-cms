@@ -42,6 +42,7 @@ class LanguagesViewLanguages extends JViewLegacy
 		}
 
 		$this->addToolbar();
+		$this->sidebar = JHtmlSidebar::render();
 		parent::display($tpl);
 		
 	}
@@ -107,7 +108,5 @@ class LanguagesViewLanguages extends JViewLegacy
 			'filter_access',
 			JHtml::_('select.options', JHtml::_('access.assetgroups'), 'value', 'text', $this->state->get('filter.access'))
 		);
-		
-		$this->sidebar = JHtmlSidebar::render();
 	}
 }
