@@ -59,6 +59,7 @@ class LanguagesViewOverrides extends JViewLegacy
 		$this->pagination = $this->get('Pagination');
 
 		LanguagesHelper::addSubmenu('overrides');
+		$this->sidebar = JHtmlSidebar::render();
 
 		// Check for errors
 		if (count($errors = $this->get('Errors')))

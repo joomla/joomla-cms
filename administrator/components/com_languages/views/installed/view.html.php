@@ -61,6 +61,7 @@ class LanguagesViewInstalled extends JViewLegacy
 
 		$client = (int) $this->state->get('filter.client_id', 0);
 		LanguagesHelper::addSubmenu('installed', $client);
+		$this->sidebar = JHtmlSidebar::render();
 
 		$this->addToolbar();
 		parent::display($tpl);
