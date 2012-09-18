@@ -46,6 +46,7 @@ class UsersViewDebugGroup extends JViewLegacy
 		}
 
 		$this->addToolbar();
+		$this->sidebar = JHtmlSidebar::render();
 		parent::display($tpl);
 	}
 
@@ -60,7 +61,7 @@ class UsersViewDebugGroup extends JViewLegacy
 
 		JToolbarHelper::help('JHELP_USERS_DEBUG_GROUPS');
 
-		JSubMenuHelper::setAction('index.php?option=com_users&view=debuggroup&user_id=' . (int) $this->state->get('filter.user_id'));
+		JHtmlSidebar::setAction('index.php?option=com_users&view=debuggroup&user_id=' . (int) $this->state->get('filter.user_id'));
 
 		$option = '';
 		if (!empty($this->components))
@@ -68,22 +69,23 @@ class UsersViewDebugGroup extends JViewLegacy
 			$option = JHtml::_('select.options', $this->components, 'value', 'text', $this->state->get('filter.component'));
 		}
 
-		JSubMenuHelper::addFilter(
+		JHtmlSidebar::addFilter(
 			JText::_('COM_USERS_OPTION_SELECT_COMPONENT'),
 			'filter_component',
 			$option
 		);
 
-		JSubMenuHelper::addFilter(
+		JHtmlSidebar::addFilter(
 			JText::_('COM_USERS_OPTION_SELECT_LEVEL_START'),
 			'filter_level_start',
 			JHtml::_('select.options', $this->levels, 'value', 'text', $this->state->get('filter.level_start'))
 		);
 
-		JSubMenuHelper::addFilter(
+		JHtmlSidebar::addFilter(
 			JText::_('COM_USERS_OPTION_SELECT_LEVEL_END'),
 			'filter_level_end',
 			JHtml::_('select.options', $this->levels, 'value', 'text', $this->state->get('filter.level_end'))
 		);
+		
 	}
 }
