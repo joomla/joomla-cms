@@ -44,7 +44,5 @@ class InstallerViewInstall extends InstallerViewDefault
 	{
 		parent::addToolbar();
 		JToolbarHelper::help('JHELP_EXTENSIONS_EXTENSION_MANAGER_INSTALL');
-		
-		$this->sidebar = JHtmlSidebar::render();
 	}
 }
