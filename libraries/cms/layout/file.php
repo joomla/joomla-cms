@@ -49,7 +49,7 @@ class JLayoutFile extends JLayoutBase {
       $path = str_replace( '.', '/', $this->layoutId) . '.php';
 
       // 1rst look for overrides
-      $overrideFile = JPATH_THEMES . '/' . JFactory::getApplication()->getTemplate() . '/html/' . $path;
+      $overrideFile = JPATH_THEMES . '/' . JFactory::getApplication()->getTemplate() . '/html/layouts/' . $path;
       if(file_exists( $overrideFile)) {
         $fullPath = $overrideFile;
       } else {
