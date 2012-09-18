@@ -112,21 +112,21 @@ class ModulesViewModules extends JViewLegacy
 		}
 		JToolbarHelper::help('JHELP_EXTENSIONS_MODULE_MANAGER');
 
-		JSubMenuHelper::addEntry(
+		JHtmlSidebar::addEntry(
 			JText::_('JSITE'),
 			'index.php?option=com_modules&filter_client_id=0',
 			$this->state->get('filter.client_id') == 0
 		);
 
-		JSubMenuHelper::addEntry(
+		JHtmlSidebar::addEntry(
 			JText::_('JADMINISTRATOR'),
 			'index.php?option=com_modules&filter_client_id=1',
 			$this->state->get('filter.client_id') == 1
 		);
 
-		JSubMenuHelper::setAction('index.php?option=com_modules');
+		JHtmlSidebar::setAction('index.php?option=com_modules');
 
-		JSubMenuHelper::addFilter(
+		JHtmlSidebar::addFilter(
 			// @todo we need a label for this
 			'',
 			'filter_client_id',
@@ -134,35 +134,37 @@ class ModulesViewModules extends JViewLegacy
 			false
 		);
 
-		JSubMenuHelper::addFilter(
+		JHtmlSidebar::addFilter(
 			JText::_('JOPTION_SELECT_PUBLISHED'),
 			'filter_state',
 			JHtml::_('select.options', ModulesHelper::getStateOptions(), 'value', 'text', $this->state->get('filter.state'))
 		);
 
-		JSubMenuHelper::addFilter(
+		JHtmlSidebar::addFilter(
 			JText::_('COM_MODULES_OPTION_SELECT_POSITION'),
 			'filter_position',
 			JHtml::_('select.options', ModulesHelper::getPositions($this->state->get('filter.client_id')), 'value', 'text', $this->state->get('filter.position'))
 		);
 
-		JSubMenuHelper::addFilter(
+		JHtmlSidebar::addFilter(
 			JText::_('COM_MODULES_OPTION_SELECT_MODULE'),
 			'filter_module',
 			JHtml::_('select.options', ModulesHelper::getModules($this->state->get('filter.client_id')), 'value', 'text', $this->state->get('filter.module'))
 		);
 
-		JSubMenuHelper::addFilter(
+		JHtmlSidebar::addFilter(
 			JText::_('JOPTION_SELECT_ACCESS'),
 			'filter_access',
 			JHtml::_('select.options', JHtml::_('access.assetgroups'), 'value', 'text', $this->state->get('filter.access'))
 		);
 
-		JSubMenuHelper::addFilter(
+		JHtmlSidebar::addFilter(
 			JText::_('JOPTION_SELECT_LANGUAGE'),
 			'filter_language',
 			JHtml::_('select.options', JHtml::_('contentlanguage.existing', true, true), 'value', 'text', $this->state->get('filter.language'))
 		);
+		
+		$this->sidebar = JHtmlSidebar::render();
 	}
 
 	/**
