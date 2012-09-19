@@ -35,13 +35,7 @@ JHtml::_('formbehavior.chosen', 'select');
 		} else if (task == 'item.cancel' || document.formvalidator.isValid(document.id('item-form'))) {
 			Joomla.submitform(task, document.id('item-form'));
 		} else {
-			// special case for modal popups validation response
-			$$('#item-form .modal-value.invalid').each(function(field){
-				var idReversed = field.id.split("").reverse().join("");
-				var separatorLocation = idReversed.indexOf('_');
-				var name = idReversed.substr(separatorLocation).split("").reverse().join("")+'name';
-				document.id(name).addClass('invalid');
-			});
+		  alert('<?php echo $this->escape(JText::_('JGLOBAL_VALIDATION_FORM_FAILED'));?>');
 		}
 	}
 </script>
