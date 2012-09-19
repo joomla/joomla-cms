@@ -106,9 +106,9 @@ class LanguagesViewOverrides extends JViewLegacy
 		JToolbarHelper::divider();
 		JToolbarHelper::help('JHELP_EXTENSIONS_LANGUAGE_MANAGER_OVERRIDES');
 
-		JSubMenuHelper::setAction('index.php?option=com_languages&view=overrides');
+		JHtmlSidebar::setAction('index.php?option=com_languages&view=overrides');
 
-		JSubMenuHelper::addFilter(
+		JHtmlSidebar::addFilter(
 			// @todo need a label here
 			'',
 			'filter_language_client',
