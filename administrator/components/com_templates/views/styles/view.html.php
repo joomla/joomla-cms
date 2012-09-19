@@ -51,6 +51,7 @@ class TemplatesViewStyles extends JViewLegacy
 		}
 
 		$this->addToolbar();
+		$this->sidebar = JHtmlSidebar::render();
 		parent::display($tpl);
 	}
 
@@ -104,7 +105,5 @@ class TemplatesViewStyles extends JViewLegacy
 			'filter_client_id',
 			JHtml::_('select.options', TemplatesHelper::getClientOptions(), 'value', 'text', $this->state->get('filter.client_id'))
 		);
-		
-		$this->sidebar = JHtmlSidebar::render();
 	}
 }
