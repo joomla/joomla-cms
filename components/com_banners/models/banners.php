@@ -199,12 +199,13 @@ class BannersModelBanners extends JModelList
 		
 		// Increment impression made
 		$ids = JArrayHelper::getColumn($items, 'id');
+		JArrayHelper::toInteger($ids);
 		if(!empty($ids))
 		{
 			$query->clear();
 			$query->update('#__banners');
 			$query->set('impmade = (impmade + 1)');
-			$query->where('id IN ('. implode(',', JArrayHelper::toInteger($ids)) .')');
+			$query->where('id IN ('. implode(',', $ids) .')');
 			$db->setQuery((string)$query);
 	
 			try
