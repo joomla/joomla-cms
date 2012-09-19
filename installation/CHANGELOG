@@ -31,6 +31,7 @@ $ -> Language fix or change
  # [#28990] Unpublish default menu item gives a PHP exception. Thanks Roberto
  +$ Adding installation languages: bs-BA, hr-HR, lv-LV, mk-MK
  # [#29223] *Sliders implementation prevents display of some Options in dropdowns (bootstrap). Thanks Yannick
+ # [#29232] Com_weblinks and com_newsfeeds loose "Status" filter state. Thanks Yannick
 
 18-Sep-2012 Jean-Marie Simonet
  # [#29091] *Language issues during installation: E-Mail always in English. Thanks Dennis
