@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+19-Sep-2012 Jean-Marie Simonet
+ # [#29176] Call to undefined method JHtmlTabs::getJSObject() (Sync with platform). Thanks Elin
+ 
 18-Sep-2012 Jean-Marie Simonet
  # [#29091] *Language issues during installation: E-Mail always in English. Thanks Dennis
 
