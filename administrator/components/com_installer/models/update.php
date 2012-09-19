@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.updater.update');
+jimport('cms.updater.update');
 
 /**
  * @package     Joomla.Administrator

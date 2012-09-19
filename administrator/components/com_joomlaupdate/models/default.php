@@ -157,7 +157,7 @@ class JoomlaupdateModelDefault extends JModelLegacy
 		}
 
 		// Fetch the full udpate details from the update details URL
-		jimport('joomla.updater.update');
+		jimport('cms.updater.update');
 		$update = new JUpdate;
 		$update->loadFromXML($updateObject->detailsurl);
 
