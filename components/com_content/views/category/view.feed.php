@@ -85,5 +85,9 @@ class ContentViewCategory extends JViewLegacy
 			// Loads item info into rss array
 			$doc->addItem($item);
 		}
+	
+		// Increment the hit counter of the category.
+			$model = $this->getModel();
+			$model->hit();		
 	}
 }
