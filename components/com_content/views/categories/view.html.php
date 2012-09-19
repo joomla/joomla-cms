@@ -64,7 +64,11 @@ class ContentViewCategories extends JViewLegacy
 		$this->params = &$params;
 		$this->parent = &$parent;
 		$this->items  = &$items;
-
+		
+		// Increment the hit counter of the category.
+		$model = $this->getModel();
+		$model->hit();
+		
 		$this->_prepareDocument();
 
 		parent::display($tpl);
