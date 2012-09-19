@@ -9,7 +9,7 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.updater.updateadapter');
+jimport('cms.updater.updateadapter');
 /**
  * Extension class for updater
  *
