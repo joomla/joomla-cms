@@ -299,7 +299,7 @@ $prev = $useftp ? 'ftp' : 'database';
 						<span class="label label-<?php echo ($option->state) ? 'success' : 'important'; ?>">
 							<?php echo JText::_(($option->state) ? 'JYES' : 'JNO'); ?>
 							<?php if ($option->notice):?>
-							<i class="icon-info-sign icon-white" rel="tooltip" title="<?php echo $option->notice; ?>"></i>
+							<i class="icon-info-sign icon-white hasTooltip" title="<?php echo $option->notice; ?>"></i>
 							<?php endif;?>
 						</span>
 					</td>

@@ -62,7 +62,7 @@ class JFormFieldSample extends JFormFieldRadio
 		{
 			foreach ($files as $file)
 			{
-				$options[] = JHtml::_('select.option', $file, $lang->hasKey($key = 'INSTL_' . ($file = JFile::stripExt($file)) . '_SET') ? JText::_($key) : $file);
+				$options[] = JHtml::_('select.option', $file, $lang->hasKey($key = 'INSTL_' . ($file = JFile::stripExt($file)) . '_SET') ? $key : $file);
 			}
 		}
 

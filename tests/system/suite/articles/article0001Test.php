@@ -119,8 +119,6 @@ class Article0001 extends SeleniumJoomlaTestCase
 		$this->waitForPageToLoad("30000");
 		$this->click("link=Sample Sites");
 		$this->waitForPageToLoad("30000");
-		$this->click("link=Park Blog");
-		$this->waitForPageToLoad("30000");
 		$this->assertTrue($this->isElementPresent("//i[contains(@class, 'icon-edit')]"));
 		$this->click("link=Home");
 		$this->waitForPageToLoad("30000");

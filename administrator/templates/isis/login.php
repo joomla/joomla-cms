@@ -14,7 +14,7 @@ $doc = JFactory::getDocument();
 
 // Add JavaScript Frameworks
 JHtml::_('bootstrap.framework');
-JHtml::_('jquery.chosen');
+JHtml::_('bootstrap.tooltip');
 
 // Add Stylesheets
 $doc->addStyleSheet('templates/' .$this->template. '/css/template.css');
@@ -31,6 +31,10 @@ $layout   = $app->input->getCmd('layout', '');
 $task     = $app->input->getCmd('task', '');
 $itemid   = $app->input->getCmd('Itemid', '');
 $sitename = $app->getCfg('sitename');
+
+// Check if debug is on
+$config = JFactory::getConfig();
+$debug  = (boolean) $config->get('debug');
 ?>
 <!DOCTYPE html>
 <html>
@@ -55,7 +59,21 @@ $sitename = $app->getCfg('sitename');
 				padding: 4px 10px 4px;
 			}
 		}
+		<?php if ($debug) : ?>
+			.view-login .container {
+				position: static;
+				margin-top: 20px;
+				margin-left: auto;
+				margin-right: auto;
+			}
+			.view-login .navbar-fixed-bottom {
+				display: none;
+			}
+		<?php endif; ?>
 	</style>
+	<!--[if lt IE 9]>
+		<script src="../media/jui/js/html5.js"></script>
+	<![endif]-->
 </head>
 
 <body class="site <?php echo $option . " view-" . $view . " layout-" . $layout . " task-" . $task . " itemid-" . $itemid . " ";?>">
@@ -81,7 +99,7 @@ $sitename = $app->getCfg('sitename');
 				<p>&copy; <?php echo $sitename; ?> <?php echo date('Y');?></p>
 			</div>
 			<div class="btn-group">
-				<a class="login-joomla" href="http://www.joomla.org" rel="tooltip" title="<?php echo JText::_('TPL_ISIS_ISFREESOFTWARE');?>">Joomla!&#174;</a>
+				<a class="login-joomla" href="http://www.joomla.org" class="hasTooltip" title="<?php echo JText::_('TPL_ISIS_ISFREESOFTWARE');?>">Joomla!&#174;</a>
 			</div>
 			<div class="btn-group pull-left">
 				<a href="<?php echo JURI::root(); ?>"><i class="icon-share icon-white"></i> <?php echo JText::_('COM_LOGIN_RETURN_TO_SITE_HOME_PAGE') ?></a>
@@ -89,13 +107,5 @@ $sitename = $app->getCfg('sitename');
 		</div>
 	</div>
 	<jdoc:include type="modules" name="debug" style="none" />
-	<script>
-		(function($){
-			$('*[rel=tooltip]').tooltip()
-			$('*[rel=popover]').popover()
-		    // Chosen select boxes
-		    $("select").chosen({disable_search_threshold : 10 });
-	    })(jQuery);
-	</script>
 </body>
 </html>

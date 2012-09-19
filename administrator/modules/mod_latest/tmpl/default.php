@@ -8,8 +8,9 @@
  */
 
 defined('_JEXEC') or die;
-?>
 
+JHtml::_('bootstrap.tooltip');
+?>
 <div class="row-striped">
 	<?php if (count($list)) : ?>
 		<?php foreach ($list as $i => $item) : ?>
@@ -29,7 +30,7 @@ defined('_JEXEC') or die;
 						endif; ?>
 					</strong>
 
-					<small class="small" rel="tooltip" title="<?php echo JText::_('MOD_LATEST_CREATED_BY');?>">
+					<small class="small" class="hasTooltip" title="<?php echo JText::_('MOD_LATEST_CREATED_BY');?>">
 						<?php echo $item->author_name;?>
 					</small>
 				</div>

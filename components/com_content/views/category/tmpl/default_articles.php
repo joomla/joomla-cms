@@ -33,7 +33,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 	<div class="filters btn-toolbar">
 		<?php if ($this->params->get('filter_field') != 'hide') :?>
 			<div class="btn-group">
-				<label class="filter-search-lbl element-invisible" for="filter-search"><?php echo JText::_('COM_CONTENT_'.$this->params->get('filter_field').'_FILTER_LABEL').'&#160;'; ?></label>
+				<label class="filter-search-lbl element-invisible" for="filter-search"><span class="label label-warning"><?php echo JText::_('JUNPUBLISHED'); ?></span><?php echo JText::_('COM_CONTENT_'.$this->params->get('filter_field').'_FILTER_LABEL').'&#160;'; ?></label>
 				<input type="text" name="filter-search" id="filter-search" value="<?php echo $this->escape($this->state->get('list.filter')); ?>" class="inputbox" onchange="document.adminForm.submit();" title="<?php echo JText::_('COM_CONTENT_FILTER_SEARCH_DESC'); ?>" placeholder="<?php echo JText::_('COM_CONTENT_FILTER_SEARCH_DESC'); ?>" />
 			</div>
 		<?php endif; ?>
@@ -45,7 +45,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 				<?php echo $this->pagination->getLimitBox(); ?>
 			</div>
 		<?php endif; ?>
-		<!-- @TODO add hidden inputs -->
+
 		<input type="hidden" name="filter_order" value="" />
 		<input type="hidden" name="filter_order_Dir" value="" />
 		<input type="hidden" name="limitstart" value="" />
@@ -64,17 +64,22 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 				<?php if (in_array($article->access, $this->user->getAuthorisedViewLevels())) : ?>
 					<?php if ($this->params->get('list_show_hits', 1)) : ?>
 					<span class="list-hits badge badge-info pull-right">
-						<?php echo $article->hits; ?>
+						<?php echo JText::sprintf('JGLOBAL_HITS_COUNT', $article->hits); ?>
 					</span>
 					<?php endif; ?>
 					<?php if ($article->params->get('access-edit')) : ?>
-						<span class="list-edit pull-right width-50">
+						<span class="list-edit pull-left width-50">
 							<?php echo JHtml::_('icon.edit', $article, $params); ?>
 						</span>
 					<?php endif; ?>
-					<h4 class="list-title">
+					<strong class="list-title">
 						<a href="<?php echo JRoute::_(ContentHelperRoute::getArticleRoute($article->slug, $article->catid)); ?>">
 							<?php echo $this->escape($article->title); ?></a>
+					</strong>
+					<?php if ($this->items[$i]->state == 0): ?>
+						<span class="label label-warning">Unpublished</span>
+					<?php endif; ?>
+					<br />
 
 						<?php if ($this->params->get('list_show_author', 1)) : ?>
 						<small class="list-author">
@@ -95,7 +100,6 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 							<?php endif; ?>
 						</small>
 						<?php endif; ?>
-					</h4>
 
 					<?php if ($this->params->get('list_show_date')) : ?>
 					<span class="list-date small pull-right">

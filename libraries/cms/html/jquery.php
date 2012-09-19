@@ -65,52 +65,6 @@ abstract class JHtmlJquery
 	}
 
 	/**
-	 * Method to load the Chosen JavaScript framework and supporting CSS into the document head
-	 *
-	 * If debugging mode is on an uncompressed version of Chosen is included for easier debugging.
-	 *
-	 * @param   mixed  $debug  Is debugging mode on? [optional]
-	 *
-	 * @return  void
-	 *
-	 * @since   3.0
-	 */
-	public static function chosen($debug = null)
-	{
-		// Only load once
-		if (!empty(self::$loaded[__METHOD__]))
-		{
-			return;
-		}
-
-		// Include jQuery
-		self::framework();
-
-		// If no debugging value is set, use the configuration setting
-		if ($debug === null)
-		{
-			$config = JFactory::getConfig();
-			$debug  = (boolean) $config->get('debug');
-		}
-
-		JHtml::_('script', 'jui/chosen.jquery.min.js', false, true, false, false, $debug);
-		JHtml::_('stylesheet', 'jui/chosen.css', false, true);
-		JFactory::getDocument()->addScriptDeclaration("
-				jQuery(document).ready(function ($){
-					$('select').chosen({
-						disable_search_threshold : 10,
-						allow_single_deselect : true
-					});
-				});
-			"
-		);
-
-		self::$loaded[__METHOD__] = true;
-
-		return;
-	}
-
-	/**
 	 * Method to load the jQuery UI JavaScript framework into the document head
 	 *
 	 * If debugging mode is on an uncompressed version of jQuery UI is included for easier debugging.
@@ -122,7 +76,7 @@ abstract class JHtmlJquery
 	 *
 	 * @since   3.0
 	 */
-	public static function ui(array $components = array('core', 'sortable'), $debug = null)
+	public static function ui(array $components = array('core'), $debug = null)
 	{
 		// Set an array containing the supported jQuery UI components handled by this method
 		$supported = array('core', 'sortable');

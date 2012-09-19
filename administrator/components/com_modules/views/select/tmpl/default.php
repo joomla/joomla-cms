@@ -9,9 +9,10 @@
 
 defined('_JEXEC') or die;
 
-// Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 JHtml::_('behavior.tooltip');
+JHtml::_('bootstrap.popover');
+$document = JFactory::getDocument();
 ?>
 
 <h2><?php echo JText::_('COM_MODULES_TYPE_CHOOSE')?></h2>
@@ -25,12 +26,21 @@ JHtml::_('behavior.tooltip');
 		$desc	= JHTML::_('string.truncate', ($this->escape($item->desc)), 200);
 		$short_desc	= JHTML::_('string.truncate', ($this->escape($item->desc)), 90);
 	?>
+	<?php if ($document->direction != "rtl") : ?>
 	<li>
 		<a href="<?php echo JRoute::_($link);?>">
 			<strong><?php echo $name; ?></strong>
 		</a>
-		<small rel="popover" data-placement="right" title="<?php echo $name; ?>" data-content="<?php echo $desc; ?>"><?php echo $short_desc; ?></small>
+		<small class="hasPopover" data-placement="right" title="<?php echo $name; ?>" data-content="<?php echo $desc; ?>"><?php echo $short_desc; ?></small>
 	</li>
+	<?php else : ?>
+	<li>
+		<small rel="popover" data-placement="left" title="<?php echo $name; ?>" data-content="<?php echo $desc; ?>"><?php echo $short_desc; ?></small>
+		<a href="<?php echo JRoute::_($link);?>">
+			<strong><?php echo $name; ?></strong>
+		</a>
+	</li>
+	<?php endif?>
 <?php endforeach; ?>
 </ul>
 <div class="clr"></div>

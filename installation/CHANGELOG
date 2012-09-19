@@ -26,7 +26,77 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
-09-Sept-2012 Jean-Marie Simonet
+19-Sep-2012 Jean-Marie Simonet
+ # [#29176] Call to undefined method JHtmlTabs::getJSObject() (Sync with platform). Thanks Elin
+ # [#28990] Unpublish default menu item gives a PHP exception. Thanks Roberto
+ +$ Adding installation languages: bs-BA, hr-HR, lv-LV, mk-MK
+ 
+18-Sep-2012 Jean-Marie Simonet
+ # [#29091] *Language issues during installation: E-Mail always in English. Thanks Dennis
+
+17-Sep-2012 Mark Dexter
+ # [#29194] Add some alternatives to the Joomla Logo. Thanks Dianne Henning & Elin.
+ # [#29181] Make article info block semantic. Thanks Elin.
+ # [#28213] Page titles of categories and subcategories are unsuitable. Thanks Skunk Anan.
+ # [#29216] Clean up category lists. Thanks Elin.
+
+17-Sep-2012 Jean-Marie Simonet
+ # [#28403] Validation error on com_finder. Thanks Emerson and Jason
+ +$ Adding installation languages: sr-RS, sr-YU, zh-TW
+
+16-Sep-2012 Jean-Marie Simonet
+ # [#29141] *RTL filtering broken. Thanks Andrea
+ #$ Correcting some installation lang strings + adding a sprintf
+ # [#29177] Re-added module filter. Thanks Jason
+ # [#29189] Hathor: Batch without function. Thanks Michael
+ # [#29179] SQL error in related items module. Thanks Mark
+ #^ [#29160] Optimise JavaScript loading. Thanks Rouven
+ # [#29207] Unpublished badge not using jtext. Thanks Elin
+ # [#29208] com_contact categories list items count badge alignment. Thanks Jon
+ # Reverting #29141 as it creates unwanted pbs with dropbox while not solving fully the original issue
+ # [#29201] Make it so submit button uses link color in protostar. Thanks Elin
+ +$ Adding installation languages: pl-PL, ta-IN, uk-UA
+ +# [#29180] Improvements/ clean up for beez 3. Thanks Elin
+
+16-Sep-2012 Rouven Weßling
+ # [#29196] Plugin quickicon Joomlaupdate links to com_installer. Thanks Janich.
+ # [#29202] Plugins manager Status filter does not work. Thanks Yannick.
+ # [#29174] HTML5 Shim Added To All Templates. Thanks Kyle.
+
+15-Sep-2012 Mark Dexter
+ # [#28485] Joomla search module html needs looking at. Thanks Jason Williams.
+ # [#29182] Fix notice in search view. Thanks Elin.
+ # [#29172] Unpublished state is not indicated. Thanks Elin.
+
+15-Sep-2012 Jean-Marie Simonet
+ +$ Adding installation da-DK, he-IL, it-IT, sk-SK
+ # [#29163] Icon appearing in wrong place in administrator/mod_menu. Thanks Javier
+ # [#29178] Content - Vote plugin missing closing </span> tag. Thanks Andrea
+ # [#29055] Debug module floats to top on admin login screen. Thanks Kyle
+ # [#29186] Cleaning out old JRegistry->getValue(). Thanks Janich
+
+14-Sep-2012 Jean-Marie Simonet
+ # [#29091] *Language issues during installation: E-Mail always in English, thanks Dennis
+ - Deleting obsolete installation languages.
+ # Reverting 29091
+
+13-Sep-2012 Rouven Weßling
+ # [#29149] html5 validation is failing. Thanks Jean-Marie.
+
+13-Sep-2012 Jean-Marie Simonet
+ # [#29144] error.php for Isis and Protostar Templates. Thanks Kyle
+ # [#29139] *RTL incorrect display in new module creation window
+ # [#29140] *RTL incorrect display when selecting a menu item type
+ # [#29135] Improve popover loading. Thanks Rouven
+ # [#29146] Fix open div in com_content blog view.Thanks Kyle
+
+11-Sep-2012 Jean-Marie Simonet
+ # Installation languages alpha ordering broken on hosts. Adding method. Thanks Dennis
+
+10-Sep-2012 Jean-Marie Simonet
+ # [#29115] Wrong default frontend template. Thanks Peter.
+
+09-Sep-2012 Jean-Marie Simonet
  # [#29093] Restore admin submenu items. Thanks Michael
  # [#29121] *The filter Select Status in Plugin Manager won't work
  # [#29119] Update the markup for the multilang status module. Thanks Michael
@@ -43,12 +113,12 @@ $ -> Language fix or change
  # [#29127] Module save2copy dont work. Thanks Reinhard.
  # Fix an E_STRICT warning in com_banners. Thanks Elin.
 
-08-Sept-2012 Jean-Marie Simonet
+08-Sep-2012 Jean-Marie Simonet
  # [#29052] *Protostar Print article bug. Thanks Kyle.
  # [#29067] *Ordering dropdown display issue. Thanks Kyle.
  # [#29101] Fix Protostar Responsive Grid and Menus. Thanks Kyle.
 
-07-Sept-2012 Jean-Marie Simonet
+07-Sep-2012 Jean-Marie Simonet
  # [#29104] Typo in 3.0.0 update script
  # Incomplete query in multilanguage status (synced with 2.5.x correction)
 
@@ -72,12 +142,12 @@ $ -> Language fix or change
  # [#29070] Bootstrapping Flash Uploader and Copy Template. Thanks Kyle.
  + [#27979] PHP Memcached driver. Thanks Ofer.
 
-05-Sept-2012 Jean-Marie Simonet
+05-Sep-2012 Jean-Marie Simonet
  # [#29009] Drop the unused usertype column from #__users and #__sessions. Thanks Michael
  # [#29059] Smart Search - Filter Edit does not check the checked_out status to set the toolbar buttons. Thanks Michael
  # [#29084] Add missing SQL modifications to 3.0.0.sql. Thanks Rouven
 
-04-Sept-2012 Jean-Marie Simonet
+04-Sep-2012 Jean-Marie Simonet
  # [#24628] htmlspecialchars() and multiple menu modules of the same menu. Thanks Rouven
  # [#28898] Update update script for Joomla 3.0. Thanks Michael
  # [#29024] Remove the prevuuw view from com_templates. Thanks Rouven.
@@ -92,7 +162,7 @@ $ -> Language fix or change
 03-Sep-2012 Rouven Weßling
  ^ Merge latest platform (c15b8db512c26b6e5308b157c518702d617e47a4)
 
-02-Sept-2012 Jean-Marie Simonet
+02-Sep-2012 Jean-Marie Simonet
  # Correcting en-GB.xml to reflect adding protostar and isis + mod_stats_admin ini files
 
 01-Sep-2012 Rouven Weßling
@@ -104,7 +174,7 @@ $ -> Language fix or change
  # [#29026] Update Hathor Less files to use Bootstrap variable names and mixins. Thanks Michael.
  # [#28964] Update jQuery to 1.8.1 and jQuery UI to 1.8.23
 
-01-Sept-2012 Jean-Marie Simonet
+01-Sep-2012 Jean-Marie Simonet
  # [#29034] img border is deprecated in html4, obsolete in html5.Thanks Chris
  # [#29027] Add language data to Smart Search indexing's tokenize process. Thanks Michael.
  # [#28756] Enable Search Term Logging in Smart Search. Thanks Michael.
