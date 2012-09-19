@@ -15,10 +15,8 @@ $lang  = JFactory::getLanguage();
 $input = $app->input;
 $user  = JFactory::getUser();
 
-// If Right-to-Left
-if ($this->direction == 'rtl') :
-	$doc->addStyleSheet('../media/jui/css/bootstrap-rtl.css');
-endif;
+// load optional rtl bootstrap css and bootstrap bugfixes
+JHtmlBootstrap::loadCss( $includeMaincss = false, $this->direction);
 
 // Load specific language related CSS
 $file = 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css';
