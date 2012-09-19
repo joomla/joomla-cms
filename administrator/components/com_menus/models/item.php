@@ -1374,10 +1374,11 @@ class MenusModelItem extends JModelAdmin
 	/**
 	 * Method to change the published state of one or more records.
 	 *
-	 * @param	array	$pks	A list of the primary keys to change.
-	 * @param	int		$value	The value of the published state.
+	 * @param   array  &$pks   A list of the primary keys to change.
+	 * @param   int	   $value  The value of the published state.
 	 *
 	 * @return	boolean	True on success.
+	 *
 	 * @since	1.6
 	 */
 	public function publish(&$pks, $value = 1)
@@ -1386,10 +1387,12 @@ class MenusModelItem extends JModelAdmin
 		$pks		= (array) $pks;
 
 		// Default menu item existence checks.
-		if ($value != 1) {
+		if ($value != 1)
+		{
 			foreach ($pks as $i => $pk)
 			{
-				if ($table->load($pk) && $table->home && $table->language == '*') {
+				if ($table->load($pk) && $table->home && $table->language == '*')
+				{
 					// Prune items that you can't change.
 					JError::raiseWarning(403, JText::_('JLIB_DATABASE_ERROR_MENU_UNPUBLISH_DEFAULT_HOME'));
 					unset($pks[$i]);
@@ -1400,6 +1403,12 @@ class MenusModelItem extends JModelAdmin
 
 		// Clean the cache
 		$this->cleanCache();
+
+		// Ensure that previous checks doesn't empty the array
+		if (empty($pks))
+		{
+			return true;
+		}
 
 		return parent::publish($pks, $value);
 	}
