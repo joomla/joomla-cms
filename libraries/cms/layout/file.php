@@ -86,21 +86,16 @@ class JLayoutFile extends JLayoutBase {
     static $fullPath = null;
 
     if(is_null( $fullPath) && !empty($this->layoutId)) {
-      $path = str_replace( '.', '/', $this->layoutId) . '.php';
+      $rawPath = str_replace( '.', '/', $this->layoutId) . '.php';
+      $fileName = basename( $rawPath);
+      $filePath = dirname( $rawPath);
 
-      // 1rst look for overrides
-      $overrideFile = JPATH_THEMES . '/' . JFactory::getApplication()->getTemplate() . '/html/layouts/' . $path;
-      if(file_exists( $overrideFile)) {
-        $fullPath = $overrideFile;
-      } else {
-        // if no overrides, use basePath
-        $fullPath = $this->basePath . '/' . $path;
-        if(!file_exists( $fullPath)) {
-          // file does not exists, store empty string to avoid new lookups
-          $fullPath = '';
-        }
-      }
+      $possiblePaths = array(
+          JPATH_THEMES . '/' . JFactory::getApplication()->getTemplate() . '/html/layouts/' . $filePath,
+          $this->basePath . '/' . $filePath
+      );
 
+      $fullPath = JPath::find( $possiblePaths, $fileName);
     }
 
     return $fullPath;

@@ -58,4 +58,4 @@ defined('JPATH_BASE') or die;
 	</div>
 </div>
 
-We're in an override!!
+<strong>We're in an override!! Do not merge into master</strong>
