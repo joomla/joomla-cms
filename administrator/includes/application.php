@@ -148,7 +148,7 @@ class JAdministrator extends JApplication
 
 			$document->setTitle($this->getCfg('sitename'). ' - ' .JText::_('JADMINISTRATION'));
 			$document->setDescription($this->getCfg('MetaDesc'));
-			$document->setGenerator('Jokte! - Open Source Content Management');
+			$document->setGenerator('Jokte! - CMS Lationamericano Cien por Ciento Libre');
 
 			$contents = JComponentHelper::renderComponent($component);
 			$document->setBuffer($contents, 'component');
