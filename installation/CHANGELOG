@@ -30,6 +30,7 @@ $ -> Language fix or change
  # [#29206] Isis Template Parameters for Status, Header and Toolbar. Thanks Kyle and Peter
  # [#29214] Module's menu assignment always shown. Thanks Stephane Deluce
  # [#29137] Address in single contact rendering incorrectly. Thanks Elin
+ #$ Correcting various spelling issues in en-GB. Thanks Brian.
 
 19-Sep-2012 Jean-Marie Simonet
  # [#29176] Call to undefined method JHtmlTabs::getJSObject() (Sync with platform). Thanks Elin
