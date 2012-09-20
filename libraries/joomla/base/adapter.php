@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Adapter Class
  * Retains common adapter pattern functions
- * Class harvested from joomla.installer.installer
+ * Class harvested from cms.installer.installer
  *
  * @package     Joomla.Platform
  * @subpackage  Base
