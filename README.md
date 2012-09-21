@@ -1,4 +1,4 @@
-# Jokte! - CMS desarrollado por latinomaericanos
+# Jokte! - CMS desarrollado por Latinoamericanos
 
 * Jokte! es un sistema de Administración de contenidos creado por la comunidad latinoamericana juuntos.org, basado en Joomla!(R).
 
