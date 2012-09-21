@@ -33,6 +33,7 @@ $ -> Language fix or change
  # [#29141] *RTL filtering broken. Thanks Andrea
  #+ [#29227] Custom active menu item for menu module. Thanks Dennis
  $ Correcting some lang strings
+ ^ Updating versions to 3.0.0
 
 20-Sep-2012 Jean-Marie Simonet
  # [#29206] Isis Template Parameters for Status, Header and Toolbar. Thanks Kyle and Peter
