@@ -76,9 +76,9 @@ class TestSuite
 		$suite->addTestSuite('Group0002Test');
 		$suite->addTestSuite('Group0003Test');
 		$suite->addTestSuite('Module0001');
-// 		$suite->addTestSuite('Module0002');
-// 		$suite->addTestSuite('Redirect0001Test');
-// 		$suite->addTestSuite('SampleData0001');
+		$suite->addTestSuite('Module0002');
+		$suite->addTestSuite('Redirect0001Test');
+		$suite->addTestSuite('SampleData0001');
 // 		$suite->addTestSuite('Acl0001Test');
 // 		$suite->addTestSuite('Acl0002Test');
 // 		$suite->addTestSuite('DoInstall');
