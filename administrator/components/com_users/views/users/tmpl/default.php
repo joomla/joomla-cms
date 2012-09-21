@@ -114,11 +114,10 @@ $loggeduser = JFactory::getUser();
 				</td>
 				<td class="center">
 					<?php if ($canChange) : ?>
-						<?php if ($loggeduser->id != $item->id) : ?>
-							<?php echo JHtml::_('grid.boolean', $i, !$item->block, 'users.unblock', 'users.block'); ?>
-						<?php else : ?>
-							<?php echo JHtml::_('grid.boolean', $i, !$item->block, 'users.block', null); ?>
-						<?php endif; ?>
+							<?php 
+							  $self = $loggeduser->id == $item->id;
+							  echo JHtml::_('jgrid.state', JHtmlUsers::blockStates( $self), $item->block, $i, 'users.', !$self); 
+							  ?>
 					<?php else : ?>
 						<?php echo JText::_($item->block ? 'JNO' : 'JYES'); ?>
 					<?php endif; ?>
