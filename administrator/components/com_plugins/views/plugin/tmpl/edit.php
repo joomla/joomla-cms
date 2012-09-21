@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
+JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
 JHtml::_('formbehavior.chosen', 'select');
@@ -23,96 +23,114 @@ JHtml::_('formbehavior.chosen', 'select');
 	}
 </script>
 
-<form action="<?php echo JRoute::_('index.php?option=com_plugins&layout=edit&extension_id='.(int) $this->item->extension_id); ?>" method="post" name="adminForm" id="style-form" class="form-validate form-horizontal">
+<form action="<?php echo JRoute::_('index.php?option=com_plugins&layout=edit&extension_id=' . (int) $this->item->extension_id); ?>" method="post" name="adminForm" id="style-form" class="form-validate form-horizontal">
 	<fieldset class="adminform">
 		<ul class="nav nav-tabs">
-		  <li class="active"><a href="#details" data-toggle="tab"><?php echo JText::_('JDETAILS');?></a></li>
-		  <li><a href="#options" data-toggle="tab"><?php echo JText::_('COM_PLUGINS_BASIC_FIELDSET_LABEL');?></a></li>
+			<li class="active"><a href="#basic" data-toggle="tab"><?php echo JText::_('COM_PLUGINS_BASIC_FIELDSET_LABEL');?></a></li>
+			<?php $fieldsets = $this->form->getFieldsets('params'); ?>
+			<?php foreach ($fieldsets as $fieldset) : ?>
+			<?php if (!in_array($fieldset->name, array('description', 'basic'))) : ?>
+				<?php $label = !empty($fieldset->label) ? JText::_($fieldset->label) : JText::_('COM_MODULES_' . $fieldset->name . '_FIELDSET_LABEL'); ?>
+				<li><a href="#options-<?php echo $fieldset->name; ?>" data-toggle="tab"><?php echo $label ?></a>
+				</li>
+				<?php endif; ?>
+			<?php endforeach; ?>
 		</ul>
 
 		<div class="tab-content">
-			<div class="tab-pane active" id="details">
-				<div class="control-group">
-					<div class="control-label">
-						<?php echo $this->form->getLabel('name'); ?>
-					</div>
-					<div class="controls">
-						<?php echo $this->form->getInput('name'); ?>
-						<span class="readonly plg-name"><?php echo JText::_($this->item->name);?></span>
-					</div>
-				</div>
-				<div class="control-group">
-					<div class="control-label">
-						<?php echo $this->form->getLabel('enabled'); ?>
-					</div>
-					<div class="controls">
-						<?php echo $this->form->getInput('enabled'); ?>
-					</div>
-				</div>
-				<div class="control-group">
-					<div class="control-label">
-						<?php echo $this->form->getLabel('access'); ?>
-					</div>
-					<div class="controls">
-						<?php echo $this->form->getInput('access'); ?>
-					</div>
-				</div>
-				<div class="control-group">
-					<div class="control-label">
-						<?php echo $this->form->getLabel('ordering'); ?>
-					</div>
-					<div class="controls">
-						<?php echo $this->form->getInput('ordering'); ?>
-					</div>
-				</div>
-				<div class="control-group">
-					<div class="control-label">
-						<?php echo $this->form->getLabel('folder'); ?>
-					</div>
-					<div class="controls">
-						<?php echo $this->form->getInput('folder'); ?>
-					</div>
-				</div>
-				<div class="control-group">
-					<div class="control-label">
-						<?php echo $this->form->getLabel('element'); ?>
-					</div>
-					<div class="controls">
-						<?php echo $this->form->getInput('element'); ?>
-					</div>
-				</div>
-				<?php if ($this->item->extension_id) : ?>
-					<div class="control-group">
-						<div class="control-label">
-							<?php echo $this->form->getLabel('extension_id'); ?>
-						</div>
-						<div class="controls">
-							<?php echo $this->form->getInput('extension_id'); ?>
-						</div>
-					</div>
-				<?php endif; ?>
-				<!-- Plugin metadata -->
-				<?php if ($this->item->xml) : ?>
-					<?php if ($text = trim($this->item->xml->description)) : ?>
+			<div class="tab-pane active" id="basic">
+				<div class="row-fluid">
+					<div class="span6">
 						<div class="control-group">
-							<label id="jform_extdescription-lbl" class="control-label">
-								<?php echo JText::_('JGLOBAL_DESCRIPTION'); ?>
-							</label>
-							<div class="controls disabled">
-								<?php echo JText::_($text); ?>
+							<div class="control-label">
+								<?php echo $this->form->getLabel('enabled'); ?>
+							</div>
+							<div class="controls">
+								<?php echo $this->form->getInput('enabled'); ?>
 							</div>
 						</div>
-					<?php endif; ?>
-				<?php else : ?>
-					<div class="alert alert-error">
-						<?php echo JText::_('COM_PLUGINS_XML_ERR'); ?>
+						<div class="control-group">
+							<div class="control-label">
+								<?php echo $this->form->getLabel('access'); ?>
+							</div>
+							<div class="controls">
+								<?php echo $this->form->getInput('access'); ?>
+							</div>
+						</div>
+						<div class="control-group">
+							<div class="control-label">
+								<?php echo $this->form->getLabel('ordering'); ?>
+							</div>
+							<div class="controls">
+								<?php echo $this->form->getInput('ordering'); ?>
+							</div>
+						</div>
 					</div>
-				<?php endif; ?>
-			</div>
-			<div class="tab-pane" id="options">
+					<div class="span6">
+						<?php if ($this->item->xml) : ?>
+						<h4>
+							<?php echo ($text = (string) $this->item->xml->name) ? JText::_($text) : $this->item->module; ?>
+							<?php if ($this->item->folder) : ?>
+							<span class="label"><?php echo $this->item->folder; ?></span>
+							<?php endif; ?>
+							<?php if ($this->item->element) : ?>
+							/ <span class="label"><?php echo $this->item->element; ?></span>
+							<?php endif; ?>
+							<?php if ($this->item->extension_id) : ?>
+							<span class="label label-info"><?php echo JText::_('JGRID_HEADING_ID');?>
+								: <?php echo $this->item->extension_id; ?></span>
+							<?php endif; ?>
+						</h4>
+						<hr />
+						<div>
+							<?php if (isset($this->fieldsets['description'])) : ?>
+							<?php $hidden_fields = ''; ?>
+							<?php foreach ($this->form->getFieldset('description') as $field) : ?>
+								<?php if (!$field->hidden) : ?>
+									<div class="control-group">
+										<div class="control-label">
+											<?php echo $field->label; ?>
+										</div>
+										<div class="controls">
+											<?php echo $field->input; ?>
+										</div>
+									</div>
+									<?php else : ?>
+									<?php $hidden_fields .= $field->input; ?>
+									<?php endif; ?>
+								<?php endforeach; ?>
+							<?php echo $hidden_fields; ?>
+							<?php else : ?>
+							<?php echo JText::_(trim($this->item->xml->description)); ?>
+							<?php endif; ?>
+						</div>
+						<?php if (isset($fieldsets['basic'])) : ?>
+							<hr />
+							<?php $hidden_fields = ''; ?>
+							<?php foreach ($this->form->getFieldset('basic') as $field) : ?>
+								<?php if (!$field->hidden) : ?>
+									<div class="control-group">
+										<div class="control-label">
+											<?php echo $field->label; ?>
+										</div>
+										<div class="controls">
+											<?php echo $field->input; ?>
+										</div>
+									</div>
+									<?php else : ?>
+									<?php $hidden_fields .= $field->input; ?>
+									<?php endif; ?>
+								<?php endforeach; ?>
+							<?php echo $hidden_fields; ?>
+							<?php endif; ?>
+						<?php else : ?>
+						<div class="alert alert-error"><?php echo JText::_('COM_PLUGINS_XML_ERR'); ?></div>
+						<?php endif; ?>
+					</div>
+				</div>
+				</div>
 				<?php echo $this->loadTemplate('options'); ?>
 			</div>
-		</div>
 	</fieldset>
 	<input type="hidden" name="task" value="" />
 	<?php echo JHtml::_('form.token'); ?>

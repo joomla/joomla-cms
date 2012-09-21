@@ -9,27 +9,31 @@
 
 defined('_JEXEC') or die;
 
-$fieldSets = $this->form->getFieldsets('params');
-
-foreach ($fieldSets as $name => $fieldSet) :
-	$label = !empty($fieldSet->label) ? $fieldSet->label : 'COM_PLUGINS_'.$name.'_FIELDSET_LABEL';
-	if (isset($fieldSet->description) && trim($fieldSet->description)) :
-		echo '<p class="tip">'.$this->escape(JText::_($fieldSet->description)).'</p>';
-	endif;
-	?>
-	<?php $hidden_fields = ''; ?>
-	<?php foreach ($this->form->getFieldset($name) as $field) : ?>
-		<?php if (!$field->hidden) : ?>
-		<div class="control-group">
-			<div class="control-label">
-				<?php echo $field->label; ?>
-			</div>
-			<div class="controls">
-				<?php echo $field->input; ?>
-			</div>
+$fieldsets = $this->form->getFieldsets('params');
+?>
+<?php foreach ($fieldsets as $name => $fieldset) : ?>
+	<?php if (!in_array($fieldset->name, array('description', 'basic'))) : ?>
+		<div class="tab-pane" id="options-<?php echo $name; ?>">
+			<?php $label = !empty($fieldset->label) ? $fieldset->label : 'COM_PLUGINS_' . $name . '_FIELDSET_LABEL'; ?>
+			<?php if (isset($fieldset->description) && trim($fieldset->description)) : ?>
+				<p class="tip"><?php echo $this->escape(JText::_($fieldset->description)); ?></p>
+			<?php endif; ?>
+			<?php $hidden_fields = ''; ?>
+			<?php foreach ($this->form->getFieldset($name) as $field) : ?>
+				<?php if (!$field->hidden) : ?>
+					<div class="control-group">
+						<div class="control-label">
+							<?php echo $field->label; ?>
+						</div>
+						<div class="controls">
+							<?php echo $field->input; ?>
+						</div>
+					</div>
+				<?php else : ?>
+					<?php $hidden_fields .= $field->input; ?>
+				<?php endif; ?>
+			<?php endforeach; ?>
+			<?php echo $hidden_fields; ?>
 		</div>
-		<?php else : $hidden_fields .= $field->input; ?>
-		<?php endif; ?>
-	<?php endforeach; ?>
-	<?php echo $hidden_fields; ?>
+	<?php endif; ?>
 <?php endforeach; ?>

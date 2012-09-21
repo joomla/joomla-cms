@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
+JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
 JHtml::_('behavior.combobox');
@@ -19,7 +19,6 @@ $hasContent = empty($this->item->module) || $this->item->module == 'custom' || $
 
 // Get Params Fieldsets
 $this->fieldsets = $this->form->getFieldsets('params');
-
 
 $script = "Joomla.submitbutton = function(task)
 	{
@@ -32,45 +31,46 @@ $script .= "	Joomla.submitform(task, document.getElementById('module-form'));
 					window.top.setTimeout('window.parent.SqueezeBox.close()', 1000);
 				}
 			} else {
-				alert('".$this->escape(JText::_('JGLOBAL_VALIDATION_FORM_FAILED'))."');
+				alert('" . $this->escape(JText::_('JGLOBAL_VALIDATION_FORM_FAILED')) . "');
 			}
 	}";
 
 JFactory::getDocument()->addScriptDeclaration($script);
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_modules&layout=edit&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="module-form" class="form-validate form-horizontal">
+<form action="<?php echo JRoute::_('index.php?option=com_modules&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="module-form" class="form-validate form-horizontal">
 	<fieldset>
 		<ul class="nav nav-tabs">
-			<li class="active"><a href="#details" data-toggle="tab"><?php echo JText::_('JDETAILS');?></a></li>
-
-			<?php if (count($this->fieldsets)) : ?>
-				<?php foreach ($this->fieldsets as $fieldset) : ?>
-					<?php $label = !empty($fieldset->label) ? JText::_($fieldset->label) : JText::_('COM_MODULES_'.$fieldset->name.'_FIELDSET_LABEL');?>
-					<li><a href="#options-<?php echo $fieldset->name; ?>" data-toggle="tab"><?php echo $label ?></a></li>
-				<?php endforeach; ?>
-			<?php endif; ?>
+			<li class="active">
+				<a href="#basic" data-toggle="tab"><?php echo JText::_('COM_MODULES_BASIC_FIELDSET_LABEL');?></a></li>
+			<?php foreach ($this->fieldsets as $fieldset) : ?>
+			<?php if (!in_array($fieldset->name, array('description', 'basic'))) : ?>
+				<?php $label = !empty($fieldset->label) ? JText::_($fieldset->label) : JText::_('COM_MODULES_' . $fieldset->name . '_FIELDSET_LABEL'); ?>
+				<li><a href="#options-<?php echo $fieldset->name; ?>" data-toggle="tab"><?php echo $label ?></a>
+				</li>
+				<?php endif; ?>
+			<?php endforeach; ?>
 
 			<?php if ($hasContent) : ?>
-				<li><a href="#custom" data-toggle="tab"><?php echo JText::_('COM_MODULES_CUSTOM_OUTPUT');?></a></li>
+			<li><a href="#custom" data-toggle="tab"><?php echo JText::_('COM_MODULES_CUSTOM_OUTPUT');?></a></li>
 			<?php endif; ?>
-			<?php if ($this->item->client_id == 0) :?>
-				<li><a href="#assignment" data-toggle="tab"><?php echo JText::_('COM_MODULES_MENU_ASSIGNMENT');?></a></li>
+			<?php if ($this->item->client_id == 0) : ?>
+			<li><a href="#assignment" data-toggle="tab"><?php echo JText::_('COM_MODULES_MENU_ASSIGNMENT');?></a></li>
 			<?php endif; ?>
 		</ul>
 
 		<div class="tab-content">
-			<div class="tab-pane active" id="details">
+			<div class="tab-pane active" id="basic">
 				<div class="row-fluid">
 					<div class="span6">
 						<?php if ((string) $this->item->xml->name != 'Login Form'): ?>
-							<div class="control-group">
-								<div class="control-label">
-									<?php echo $this->form->getLabel('published'); ?>
-								</div>
-								<div class="controls">
-									<?php echo $this->form->getInput('published'); ?>
-								</div>
+						<div class="control-group">
+							<div class="control-label">
+								<?php echo $this->form->getLabel('published'); ?>
 							</div>
+							<div class="controls">
+								<?php echo $this->form->getInput('published'); ?>
+							</div>
+						</div>
 						<?php endif; ?>
 						<div class="control-group">
 							<div class="control-label">
@@ -100,7 +100,7 @@ JFactory::getDocument()->addScriptDeclaration($script);
 							<div class="control-label">
 								<?php echo $this->form->getLabel('access'); ?>
 							</div>
-						<div class="controls">
+							<div class="controls">
 								<?php echo $this->form->getInput('access'); ?>
 							</div>
 						</div>
@@ -113,22 +113,22 @@ JFactory::getDocument()->addScriptDeclaration($script);
 							</div>
 						</div>
 						<?php if ((string) $this->item->xml->name != 'Login Form'): ?>
-							<div class="control-group">
-								<div class="control-label">
-									<?php echo $this->form->getLabel('publish_up'); ?>
-								</div>
-								<div class="controls">
-									<?php echo $this->form->getInput('publish_up'); ?>
-								</div>
+						<div class="control-group">
+							<div class="control-label">
+								<?php echo $this->form->getLabel('publish_up'); ?>
 							</div>
-							<div class="control-group">
-								<div class="control-label">
-									<?php echo $this->form->getLabel('publish_down'); ?>
-								</div>
-								<div class="controls">
-									<?php echo $this->form->getInput('publish_down'); ?>
-								</div>
+							<div class="controls">
+								<?php echo $this->form->getInput('publish_up'); ?>
 							</div>
+						</div>
+						<div class="control-group">
+							<div class="control-label">
+								<?php echo $this->form->getLabel('publish_down'); ?>
+							</div>
+							<div class="controls">
+								<?php echo $this->form->getInput('publish_down'); ?>
+							</div>
+						</div>
 						<?php endif; ?>
 
 						<div class="control-group">
@@ -150,26 +150,58 @@ JFactory::getDocument()->addScriptDeclaration($script);
 					</div>
 					<div class="span6">
 						<?php if ($this->item->xml) : ?>
-							<?php if ($text = trim($this->item->xml->description)) : ?>
-								<blockquote>
-									<h4>
-										<?php echo JText::_('COM_MODULES_MODULE_DESCRIPTION'); ?>
-										<?php if ($this->item->id) : ?>
-											<span class="label label-info"><?php echo JText::_('JGRID_HEADING_ID');?> : <?php echo $this->item->id; ?></span>
-										<?php endif; ?>
-									</h4>
-									<hr />
-									<div>
-										<?php echo JText::_($text); ?>
+						<h4>
+							<?php echo ($text = (string) $this->item->xml->name) ? JText::_($text) : $this->item->module; ?>
+							<span class="label"><?php echo $this->item->client_id == 0 ? JText::_('JSITE') : JText::_('JADMINISTRATOR'); ?></span>
+							<?php if ($this->item->id) : ?>
+							<span class="label label-info"><?php echo JText::_('JGRID_HEADING_ID');?>
+								: <?php echo $this->item->id; ?></span>
+							<?php endif; ?>
+						</h4>
+						<hr />
+						<div>
+							<?php if (isset($this->fieldsets['description'])) : ?>
+							<?php $hidden_fields = ''; ?>
+							<?php foreach ($this->form->getFieldset('description') as $field) : ?>
+								<?php if (!$field->hidden) : ?>
+									<div class="control-group">
+										<div class="control-label">
+											<?php echo $field->label; ?>
+										</div>
+										<div class="controls">
+											<?php echo $field->input; ?>
+										</div>
 									</div>
-									<hr />
-									<div>
-										<span class="label"><?php echo $this->item->client_id == 0 ? JText::_('JSITE') : JText::_('JADMINISTRATOR'); ?></span> / <span class="label"><?php if ($this->item->xml) echo ($text = (string) $this->item->xml->name) ? JText::_($text) : $this->item->module;else echo JText::_('COM_MODULES_ERR_XML');?></span>
+									<?php else : ?>
+									<?php $hidden_fields .= $field->input; ?>
+									<?php endif; ?>
+								<?php endforeach; ?>
+							<?php echo $hidden_fields; ?>
+							<?php else : ?>
+							<?php echo JText::_(trim($this->item->xml->description)); ?>
+							<?php endif; ?>
+						</div>
+						<?php if (isset($this->fieldsets['basic'])) : ?>
+							<hr />
+							<?php $hidden_fields = ''; ?>
+							<?php foreach ($this->form->getFieldset('basic') as $field) : ?>
+								<?php if (!$field->hidden) : ?>
+									<div class="control-group">
+										<div class="control-label">
+											<?php echo $field->label; ?>
+										</div>
+										<div class="controls">
+											<?php echo $field->input; ?>
+										</div>
 									</div>
-								</blockquote>
+									<?php else : ?>
+									<?php $hidden_fields .= $field->input; ?>
+									<?php endif; ?>
+								<?php endforeach; ?>
+							<?php echo $hidden_fields; ?>
 							<?php endif; ?>
 						<?php else : ?>
-							<div class="alert alert-error"><?php echo JText::_('COM_MODULES_ERR_XML'); ?></div>
+						<div class="alert alert-error"><?php echo JText::_('COM_MODULES_ERR_XML'); ?></div>
 						<?php endif; ?>
 					</div>
 				</div>
@@ -182,10 +214,10 @@ JFactory::getDocument()->addScriptDeclaration($script);
 				<?php echo $this->form->getInput('content'); ?>
 			</div>
 			<?php endif; ?>
-			<?php if ($this->item->client_id == 0) :?>
-				<div class="tab-pane" id="assignment">
-					<?php echo $this->loadTemplate('assignment'); ?>
-				</div>
+			<?php if ($this->item->client_id == 0) : ?>
+			<div class="tab-pane" id="assignment">
+				<?php echo $this->loadTemplate('assignment'); ?>
+			</div>
 			<?php endif; ?>
 		</div>
 
