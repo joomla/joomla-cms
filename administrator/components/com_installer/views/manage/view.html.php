@@ -78,7 +78,7 @@ class InstallerViewManage extends InstallerViewDefault
 			JToolbarHelper::deleteList('', 'manage.remove', 'JTOOLBAR_UNINSTALL');
 			JToolbarHelper::divider();
 		}
-		parent::addToolbar();
+		
 		JToolbarHelper::help('JHELP_EXTENSIONS_EXTENSION_MANAGER_MANAGE');
 
 		JHtmlSidebar::setAction('index.php?option=com_installer&view=manage');
@@ -106,5 +106,7 @@ class InstallerViewManage extends InstallerViewDefault
 			'filter_group',
 			JHtml::_('select.options', array_merge(InstallerHelper::getExtensionGroupes(), array('*' => JText::_('COM_INSTALLER_VALUE_FOLDER_NONAPPLICABLE'))), 'value', 'text', $this->state->get('filter.group'), true)
 		);
+		
+		parent::addToolbar();
 	}
 }
