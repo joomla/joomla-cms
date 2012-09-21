@@ -31,6 +31,7 @@ $ -> Language fix or change
  + [#29246] Improve Beez3 optional handling of Boot strap. Thanks Elin
  # [#29247] *Front-end profile edit broken
  # [#29141] *RTL filtering broken. Thanks Andrea
+ #+ [#29227] Custom active menu item for menu module. Thanks Dennis
 
 20-Sep-2012 Jean-Marie Simonet
  # [#29206] Isis Template Parameters for Status, Header and Toolbar. Thanks Kyle and Peter
