@@ -8,7 +8,7 @@
 	<authorUrl>http://www.der-auftritt.de</authorUrl>
 	<copyright>Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
-	<version>2.5.0</version>
+	<version>3.0.0</version>
 	<description>TPL_BEEZ3_XML_DESCRIPTION</description>
 
 	<files>
@@ -89,14 +89,12 @@
 					<option value="left">TPL_BEEZ3_OPTION_BEFORE_CONTENT</option>
 				</field>
 
-				<field name="bootstrap" type="list" default="center"
+				<field name="bootstrap" type="textarea"
 					label="TPL_BEEZ3_FIELD_BOOTSTRAP_LABEL"
 					description="TPL_BEEZ3_FIELD_BOOTSTRAP_DESC"
-				>
-					<option value="">JNO</option>
-					<option value="1">JYES</option>
-				</field>
-
+					rows="4" columns="30"
+				/>
+				
 				<field name="templatecolor" type="list" default="nature"
 					label="TPL_BEEZ3_FIELD_TEMPLATECOLOR_LABEL"
 					description="TPL_BEEZ3_FIELD_TEMPLATECOLOR_DESC"

@@ -67,6 +67,41 @@
 					value="0">JNO</option>
 				</field>
 
+				<field name="displayHeader" type="radio"
+				class="btn-group"
+				default="1"
+				label="TPL_ISIS_HEADER_LABEL"
+				description="TPL_ISIS_HEADER_DESC"
+				filter="integer">
+				<option
+					value="1">JYES</option>
+				<option
+					value="0">JNO</option>
+				</field>
+
+				<field name="statusFixed" type="list"
+				default="1"
+				label="TPL_ISIS_STATUS_LABEL"
+				description="TPL_ISIS_STATUS_DESC"
+				filter="integer">
+				<option
+					value="1">TPL_ISIS_STATUS_BOTTOM</option>
+				<option
+					value="0">TPL_ISIS_STATUS_TOP</option>
+				</field>
+
+				<field name="stickyToolbar" type="radio"
+				class="btn-group"
+				default="1"
+				label="TPL_ISIS_STICKY_LABEL"
+				description="TPL_ISIS_STICKY_DESC"
+				filter="integer">
+				<option
+					value="1">JYES</option>
+				<option
+					value="0">JNO</option>
+				</field>
+
 			</fieldset>
 		</fields>
 	</config>

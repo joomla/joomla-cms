@@ -72,7 +72,7 @@ class NewsfeedsViewNewsfeeds extends JViewLegacy
 		if ($canDo->get('core.admin')) {
 			JToolbarHelper::checkin('newsfeeds.checkin');
 			}
-		if ($state->get('filter.state') == -2 && $canDo->get('core.delete')) {
+		if ($state->get('filter.published') == -2 && $canDo->get('core.delete')) {
 			JToolbarHelper::deleteList('', 'newsfeeds.delete', 'JTOOLBAR_EMPTY_TRASH');
 		} elseif ($canDo->get('core.edit.state')) {
 			JToolbarHelper::trash('newsfeeds.trash');

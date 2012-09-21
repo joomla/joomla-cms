@@ -233,6 +233,13 @@ body .navbar-fixed-top{
 	line-height: 36px;
 	margin: 0;
 }
+/* Page Title in Content */
+.content-title {
+	font-size: 24px;
+	font-weight: normal;
+	line-height: 26px;
+	margin-top: 0;
+}
 /* Subhead */
 .subhead{
 	background: #ffffff; /* Old browsers */
@@ -321,9 +328,7 @@ h6 { font-size: 12px; line-height: 14px; }
 	background: #EDEDED;
 	border-top: 1px solid #DDDDDD;
 	padding: 2px 10px 4px 10px;
-	-moz-box-shadow: 0px 1px 0px rgba(255, 255, 255, 0.8) inset, 0px -15px 15px rgba(255, 255, 255, 0.6);
-	-webkit-box-shadow: 0px 1px 0px rgba(255, 255, 255, 0.8) inset, 0px -15px 15px rgba(255, 255, 255, 0.6);
-	box-shadow: 0px 1px 0px rgba(255, 255, 255, 0.8) inset, 0px -15px 15px rgba(255, 255, 255, 0.6);
+	.box-shadow(~"0px 1px 0px rgba(255, 255, 255, 0.8) inset, 0px -15px 15px rgba(255, 255, 255, 0.6)");
 	color: #999999;
 
 	.btn-toolbar,p{
@@ -334,6 +339,19 @@ h6 { font-size: 12px; line-height: 14px; }
 	}
 	a{
 		color: #999999;
+	}
+}
+
+/* Status Module in top position */
+#status.status-top {
+	background: @headerBackground;
+	.box-shadow(~"0px 1px 0px rgba(255, 255, 255, 0.2) inset, 0px -1px 0px rgba(0, 0, 0, 0.3) inset, 0px -1px 0px rgba(0, 0, 0, 0.3)");
+	border-top: 0;
+	color: @navbarInverseText;
+	padding: 2px 20px 6px 20px;
+
+	a{
+		color: @navbarInverseLinkColor;
 	}
 }
 

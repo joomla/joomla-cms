@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+20-Sep-2012 Mark Dexter
+ # Fix some more system tests
+
 17-Sep-2012 Mark Dexter
  # Fix up system tests output changes
 
