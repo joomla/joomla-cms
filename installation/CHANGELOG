@@ -27,7 +27,7 @@ $ -> Language fix or change
 ! -> Note
 
 21-Sep-2012 Jean-Marie Simonet
- +$ Adding installation languages: km-KH, sv-SE
+ + [#29246] Improve Beez3 optional handling of Boot strap. Thanks Elin
 
 20-Sep-2012 Jean-Marie Simonet
  # [#29206] Isis Template Parameters for Status, Header and Toolbar. Thanks Kyle and Peter
