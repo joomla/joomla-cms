@@ -18,140 +18,143 @@ defined('_JEXEC') or die;
  */
 class UsersViewNotes extends JViewLegacy
 {
-	/**
-	 * A list of user note objects.
-	 *
-	 * @var    array
-	 * @since  2.5
-	 */
-	protected $items;
+  /**
+   * A list of user note objects.
+   *
+   * @var    array
+   * @since  2.5
+   */
+  protected $items;
 
-	/**
-	 * The pagination object.
-	 *
-	 * @var    JPagination
-	 * @since  2.5
-	 */
-	protected $pagination;
+  /**
+   * The pagination object.
+   *
+   * @var    JPagination
+   * @since  2.5
+   */
+  protected $pagination;
 
-	/**
-	 * The model state.
-	 *
-	 * @var    JObject
-	 * @since  2.5
-	 */
-	protected $state;
+  /**
+   * The model state.
+   *
+   * @var    JObject
+   * @since  2.5
+   */
+  protected $state;
 
-	/**
-	 * The model state.
-	 *
-	 * @var    JUser
-	 * @since  2.5
-	 */
-	protected $user;
+  /**
+   * The model state.
+   *
+   * @var    JUser
+   * @since  2.5
+   */
+  protected $user;
 
-	/**
-	 * Override the display method for the view.
-	 *
-	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
-	 *
-	 * @return  mixed  A string if successful, otherwise a JError object.
-	 *
-	 * @since   2.5
-	 */
-	public function display($tpl = null)
-	{
-		// Initialise view variables.
-		$this->items = $this->get('Items');
-		$this->pagination = $this->get('Pagination');
-		$this->state = $this->get('State');
-		$this->user = $this->get('User');
+  /**
+   * Override the display method for the view.
+   *
+   * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+   *
+   * @return  mixed  A string if successful, otherwise a JError object.
+   *
+   * @since   2.5
+   */
+  public function display($tpl = null)
+  {
+    // Initialise view variables.
+    $this->items = $this->get('Items');
+    $this->pagination = $this->get('Pagination');
+    $this->state = $this->get('State');
+    $this->user = $this->get('User');
 
-		UsersHelper::addSubmenu('notes');
+    UsersHelper::addSubmenu('notes');
 
-		// Check for errors.
-		if (count($errors = $this->get('Errors')))
-		{
-			throw new Exception(implode("\n", $errors), 500);
-		}
+    // Check for errors.
+    if (count($errors = $this->get('Errors')))
+    {
+      throw new Exception(implode("\n", $errors), 500);
+    }
 
-		// Get the component HTML helpers
-		JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+    // Get the component HTML helpers
+    JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
-		// turn parameters into registry objects
-		foreach ($this->items as $item) {
-			$item->cparams = new JRegistry;
-			$item->cparams->loadString($item->category_params);
-		}
+    // turn parameters into registry objects
+    foreach ($this->items as $item) {
+      $item->cparams = new JRegistry;
+      $item->cparams->loadString($item->category_params);
+    }
 
-		parent::display($tpl);
-		$this->addToolbar();
-	}
+    $this->addToolbar();
+    $this->sidebar = JHtmlSidebar::render();
+    parent::display($tpl);
 
-	/**
-	 * Display the toolbar.
-	 *
-	 * @return  void
-	 *
-	 * @since   2.5
-	 */
-	protected function addToolbar()
-	{
-		$canDo = UsersHelper::getActions();
+  }
 
-		JToolbarHelper::title(JText::_('COM_USERS_VIEW_NOTES_TITLE'), 'user');
+  /**
+   * Display the toolbar.
+   *
+   * @return  void
+   *
+   * @since   2.5
+   */
+  protected function addToolbar()
+  {
+    $canDo = UsersHelper::getActions();
 
-		if ($canDo->get('core.create'))
-		{
-			JToolbarHelper::addNew('note.add');
-		}
+    JToolbarHelper::title(JText::_('COM_USERS_VIEW_NOTES_TITLE'), 'user');
 
-		if ($canDo->get('core.edit'))
-		{
-			JToolbarHelper::editList('note.edit');
-		}
+    if ($canDo->get('core.create'))
+    {
+      JToolbarHelper::addNew('note.add');
+    }
 
-		if ($canDo->get('core.edit.state'))
-		{
-			JToolbarHelper::divider();
-			JToolbarHelper::publish('notes.publish', 'JTOOLBAR_PUBLISH', true);
-			JToolbarHelper::unpublish('notes.unpublish', 'JTOOLBAR_UNPUBLISH', true);
+    if ($canDo->get('core.edit'))
+    {
+      JToolbarHelper::editList('note.edit');
+    }
 
-			JToolbarHelper::divider();
-			JToolbarHelper::archiveList('notes.archive');
-			JToolbarHelper::checkin('notes.checkin');
-		}
+    if ($canDo->get('core.edit.state'))
+    {
+      JToolbarHelper::divider();
+      JToolbarHelper::publish('notes.publish', 'JTOOLBAR_PUBLISH', true);
+      JToolbarHelper::unpublish('notes.unpublish', 'JTOOLBAR_UNPUBLISH', true);
 
-		if ($this->state->get('filter.state') == -2 && $canDo->get('core.delete'))
-		{
-			JToolbarHelper::deleteList('', 'notes.delete', 'JTOOLBAR_EMPTY_TRASH');
-			JToolbarHelper::divider();
-		}
-		elseif ($canDo->get('core.edit.state'))
-		{
-			JToolbarHelper::trash('notes.trash');
-			JToolbarHelper::divider();
-		}
+      JToolbarHelper::divider();
+      JToolbarHelper::archiveList('notes.archive');
+      JToolbarHelper::checkin('notes.checkin');
+    }
 
-		if ($canDo->get('core.admin'))
-		{
-			JToolbarHelper::preferences('com_users');
-			JToolbarHelper::divider();
-		}
-		JToolbarHelper::help('JHELP_USERS_USER_NOTES');
+    if ($this->state->get('filter.state') == -2 && $canDo->get('core.delete'))
+    {
+      JToolbarHelper::deleteList('', 'notes.delete', 'JTOOLBAR_EMPTY_TRASH');
+      JToolbarHelper::divider();
+    }
+    elseif ($canDo->get('core.edit.state'))
+    {
+      JToolbarHelper::trash('notes.trash');
+      JToolbarHelper::divider();
+    }
 
-		JSubMenuHelper::setAction('index.php?option=com_users&view=notes');
+    if ($canDo->get('core.admin'))
+    {
+      JToolbarHelper::preferences('com_users');
+      JToolbarHelper::divider();
+    }
+    JToolbarHelper::help('JHELP_USERS_USER_NOTES');
 
-		JSubMenuHelper::addFilter(
-			JText::_('JOPTION_SELECT_PUBLISHED'),
-			'filter_published',
-			JHtml::_('select.options', JHtml::_('jgrid.publishedOptions'), 'value', 'text', $this->state->get('filter.state'), true)
-		);
+    JHtmlSidebar::setAction('index.php?option=com_users&view=notes');
 
-		JSubMenuHelper::addFilter(
-			JText::_('JOPTION_SELECT_CATEGORY'),
-			'filter_category_id',
-			JHtml::_('select.options', JHtml::_('category.options', 'com_users.notes'), 'value', 'text', $this->state->get('filter.category_id'))
-		);
-	}
+    JHtmlSidebar::addFilter(
+        JText::_('JOPTION_SELECT_PUBLISHED'),
+        'filter_published',
+        JHtml::_('select.options', JHtml::_('jgrid.publishedOptions'), 'value', 'text', $this->state->get('filter.state'), true)
+    );
+
+    JHtmlSidebar::addFilter(
+        JText::_('JOPTION_SELECT_CATEGORY'),
+        'filter_category_id',
+        JHtml::_('select.options', JHtml::_('category.options', 'com_users.notes'), 'value', 'text', $this->state->get('filter.category_id'))
+    );
+
+  }
 }
