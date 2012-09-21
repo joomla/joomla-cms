@@ -28,22 +28,22 @@ class LanguagesHelper
 	 */
 	public static function addSubmenu($vName, $client = 0)
 	{
-		JSubMenuHelper::addEntry(
+		JHtmlSidebar::addEntry(
 			JText::_('COM_LANGUAGES_SUBMENU_INSTALLED_SITE'),
 			'index.php?option=com_languages&view=installed&client=0',
 			$vName == 'installed' && $client === 0
 		);
-		JSubMenuHelper::addEntry(
+		JHtmlSidebar::addEntry(
 			JText::_('COM_LANGUAGES_SUBMENU_INSTALLED_ADMINISTRATOR'),
 			'index.php?option=com_languages&view=installed&client=1',
 			$vName == 'installed' && $client === 1
 		);
-		JSubMenuHelper::addEntry(
+		JHtmlSidebar::addEntry(
 			JText::_('COM_LANGUAGES_SUBMENU_CONTENT'),
 			'index.php?option=com_languages&view=languages',
 			$vName == 'languages'
 		);
-		JSubMenuHelper::addEntry(
+		JHtmlSidebar::addEntry(
 			JText::_('COM_LANGUAGES_SUBMENU_OVERRIDES'),
 			'index.php?option=com_languages&view=overrides',
 			$vName == 'overrides'

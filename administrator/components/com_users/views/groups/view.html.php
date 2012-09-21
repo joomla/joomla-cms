@@ -42,6 +42,7 @@ class UsersViewGroups extends JViewLegacy
 		}
 
 		$this->addToolbar();
+		$this->sidebar = JHtmlSidebar::render();
 		parent::display($tpl);
 	}
 
@@ -73,5 +74,6 @@ class UsersViewGroups extends JViewLegacy
 			JToolbarHelper::divider();
 		}
 		JToolbarHelper::help('JHELP_USERS_GROUPS');
+		
 	}
 }

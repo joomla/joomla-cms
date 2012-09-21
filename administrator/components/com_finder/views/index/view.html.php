@@ -53,7 +53,7 @@ class FinderViewIndex extends JViewLegacy
 
 		// Configure the toolbar.
 		$this->addToolbar();
-
+		$this->sidebar = JHtmlSidebar::render();
 		parent::display($tpl);
 	}
 
@@ -100,15 +100,15 @@ class FinderViewIndex extends JViewLegacy
 		JToolbarHelper::divider();
 		JToolbarHelper::help('JHELP_COMPONENTS_FINDER_MANAGE_INDEXED_CONTENT');
 
-		JSubMenuHelper::setAction('index.php?option=com_finder&view=index');
+		JHtmlSidebar::setAction('index.php?option=com_finder&view=index');
 
-		JSubMenuHelper::addFilter(
+		JHtmlSidebar::addFilter(
 			JText::_('COM_FINDER_INDEX_FILTER_BY_STATE'),
 			'filter_state',
 			JHtml::_('select.options', JHtml::_('finder.statelist'), 'value', 'text', $this->state->get('filter.state'))
 		);
 
-		JSubMenuHelper::addFilter(
+		JHtmlSidebar::addFilter(
 			JText::_('COM_FINDER_INDEX_TYPE_FILTER'),
 			'filter_type',
 			JHtml::_('select.options', JHtml::_('finder.typeslist'), 'value', 'text', $this->state->get('filter.type'))

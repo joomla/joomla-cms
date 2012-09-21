@@ -42,9 +42,9 @@ class CategoriesViewCategory extends JViewLegacy
 			return false;
 		}
 
-		parent::display($tpl);
 		$input->set('hidemainmenu', true);
 		$this->addToolbar();
+		parent::display($tpl);
 	}
 
 	/**
