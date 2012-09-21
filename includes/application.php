@@ -191,7 +191,7 @@ final class JSite extends JApplication
 			}
 			else
 			{
-				$document->setGenerator('Joomla! - Open Source Content Management');
+				$document->setGenerator('Jokte! - CMS Lationamericano Cien por Ciento Libre');
 			}
 
 			$contents = JComponentHelper::renderComponent($component);
