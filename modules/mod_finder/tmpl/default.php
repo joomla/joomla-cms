@@ -157,6 +157,6 @@ JHtml::stylesheet('com_finder/finder.css', false, true, false);
 				</div>
 			<?php endif; ?>
 		<?php endif; ?>
-		<?php echo modFinderHelper::getGetFields($route); ?>
+		<?php echo modFinderHelper::getGetFields($route, (int) $params->get('set_itemid')); ?>
 	</div>
 </form>

@@ -31,6 +31,7 @@ $ -> Language fix or change
  #$ [#30994] Untranslated String.  Thanks Jean-Marie Simonet
  # [#30974] Fix offline overflow image.  Thanks Angelika Reisiger
  #$ [#31001] *Missing lang string for Protostar.  Thanks Jean-Marie Simonet
+ #$ [#28081] Smart Search Results Page Displays Wrong Modules
 
 24-May-2013 Jean-Marie Simonet
  # [#30689] jQuery not loaded in Isis error page. Thanks Dennis Hermatski
