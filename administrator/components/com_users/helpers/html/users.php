@@ -109,14 +109,14 @@ class JHtmlUsers
   }
 
   /**
-   * Build an array of states to be used by jgrid.state,
+   * Build an array of block/unblock user states to be used by jgrid.state,
    * State options will be different for any user
    * and for currently logged in user
-   * 
+   *
    * @param boolean  $self  True if state array is for currently logged in user
-   * 
+   *
    * @return  array  a list of possible states to display
-   * 
+   *
    * @since  3.0
    */
   public static function blockStates( $self = false) {
@@ -168,6 +168,39 @@ class JHtmlUsers
       );
        
     }
+     
+    return $states;
+  }
+
+  /**
+   * Build an array of activate states to be used by jgrid.state,
+   *
+   * @return  array  a list of possible states to display
+   *
+   * @since  3.0
+   */
+  public static function activateStates() {
+     
+    $states = array(
+        1 => array(
+            'activate',
+            '',
+            JText::_('COM_USERS_TOOLBAR_ACTIVATE'),
+            '',
+            $tip = true,
+            'unpublish',
+            'unpublish'
+        ),
+        0 => array(
+            '',
+            '',
+            '',
+            JText::_( 'COM_USERS_ACTIVATED'),
+            $tip = true,
+            'publish',
+            'publish'
+        )
+    );
      
     return $states;
   }

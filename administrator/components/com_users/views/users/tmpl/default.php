@@ -123,7 +123,9 @@ $loggeduser = JFactory::getUser();
 					<?php endif; ?>
 				</td>
 				<td class="center">
-					<?php echo JHtml::_('grid.boolean', $i, !$item->activation, 'users.activate', null); ?>
+					<?php 
+					echo JHtml::_('jgrid.state', JHtmlUsers::activateStates(), $item->activation, $i, 'users.', (boolean) $item->activation);
+					?>
 				</td>
 				<td class="center">
 					<?php if (substr_count($item->group_names, "\n") > 1) : ?>
