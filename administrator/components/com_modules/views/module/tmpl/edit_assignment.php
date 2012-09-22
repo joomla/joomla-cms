@@ -112,7 +112,7 @@ JFactory::getDocument()->addScriptDeclaration($script);
 			</ul>
 			<div style="display:none;" id="treeselectmenu">
 				<div class="pull-left nav-hover treeselect-menu">
-					<div class="btn-group" style="visibility: hidden;">
+					<div class="btn-group">
 						<a href="#" data-toggle="dropdown" class="dropdown-toggle btn btn-micro">
 							<span class="caret"></span>
 						</a>

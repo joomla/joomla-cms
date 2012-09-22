@@ -23,17 +23,6 @@ jQuery(function($)
 
 			// Append drop down menu in nodes
 			$div.find('label:first').after(treeselectmenu);
-
-			// Add mouse actions for showing drop down menu
-			$div
-				.mouseenter(function()
-				{
-					$(this).find('.btn-group').removeClass('open').css('visibility', 'visible');
-				})
-				.mouseleave(function()
-				{
-					$(this).find('.btn-group').removeClass('open').css('visibility', 'hidden');
-				});
 		}
 	});
 
