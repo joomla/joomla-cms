@@ -42,6 +42,7 @@ class BannersViewClients extends JViewLegacy
 		BannersHelper::addSubmenu('clients');
 
 		$this->addToolbar();
+		$this->sidebar = JHtmlSidebar::render();
 		parent::display($tpl);
 	}
 
@@ -81,9 +82,9 @@ class BannersViewClients extends JViewLegacy
 
 		JToolbarHelper::help('JHELP_COMPONENTS_BANNERS_CLIENTS');
 
-		JSubMenuHelper::setAction('index.php?option=com_banners&view=clients');
+		JHtmlSidebar::setAction('index.php?option=com_banners&view=clients');
 
-		JSubMenuHelper::addFilter(
+		JHtmlSidebar::addFilter(
 			JText::_('JOPTION_SELECT_PUBLISHED'),
 			'filter_state',
 			JHtml::_('select.options', JHtml::_('jgrid.publishedOptions'), 'value', 'text', $this->state->get('filter.published'), true)

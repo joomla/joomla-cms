@@ -78,33 +78,35 @@ class InstallerViewManage extends InstallerViewDefault
 			JToolbarHelper::deleteList('', 'manage.remove', 'JTOOLBAR_UNINSTALL');
 			JToolbarHelper::divider();
 		}
-		parent::addToolbar();
+		
 		JToolbarHelper::help('JHELP_EXTENSIONS_EXTENSION_MANAGER_MANAGE');
 
-		JSubMenuHelper::setAction('index.php?option=com_installer&view=manage');
+		JHtmlSidebar::setAction('index.php?option=com_installer&view=manage');
 
-		JSubMenuHelper::addFilter(
+		JHtmlSidebar::addFilter(
 			JText::_('COM_INSTALLER_VALUE_CLIENT_SELECT'),
 			'filter_client_id',
 			JHtml::_('select.options', array('0' => JText::_('JSITE'), '1' => JText::_('JADMINISTRATOR')), 'value', 'text', $this->state->get('filter.client_id'), true)
 		);
 
-		JSubMenuHelper::addFilter(
+		JHtmlSidebar::addFilter(
 			JText::_('COM_INSTALLER_VALUE_STATE_SELECT'),
 			'filter_status',
 			JHtml::_('select.options', array('0' => JText::_('JDISABLED'), '1' => JText::_('JENABLED'), '2' => JText::_('JPROTECTED')), 'value', 'text', $this->state->get('filter.status'), true)
 		);
 
-		JSubMenuHelper::addFilter(
+		JHtmlSidebar::addFilter(
 			JText::_('COM_INSTALLER_VALUE_TYPE_SELECT'),
 			'filter_type',
 			JHtml::_('select.options', InstallerHelper::getExtensionTypes(), 'value', 'text', $this->state->get('filter.type'), true)
 		);
 
-		JSubMenuHelper::addFilter(
+		JHtmlSidebar::addFilter(
 			JText::_('COM_INSTALLER_VALUE_FOLDER_SELECT'),
 			'filter_group',
 			JHtml::_('select.options', array_merge(InstallerHelper::getExtensionGroupes(), array('*' => JText::_('COM_INSTALLER_VALUE_FOLDER_NONAPPLICABLE'))), 'value', 'text', $this->state->get('filter.group'), true)
 		);
+		
+		parent::addToolbar();
 	}
 }

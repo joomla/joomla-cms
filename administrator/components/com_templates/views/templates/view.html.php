@@ -89,12 +89,14 @@ class TemplatesViewTemplates extends JViewLegacy
 		}
 		JToolbarHelper::help('JHELP_EXTENSIONS_TEMPLATE_MANAGER_TEMPLATES');
 
-		JSubMenuHelper::setAction('index.php?option=com_templates&view=templates');
+		JHtmlSidebar::setAction('index.php?option=com_templates&view=templates');
 
-		JSubMenuHelper::addFilter(
+		JHtmlSidebar::addFilter(
 			JText::_('JGLOBAL_FILTER_CLIENT'),
 			'filter_client_id',
 			JHtml::_('select.options', TemplatesHelper::getClientOptions(), 'value', 'text', $this->state->get('filter.client_id'))
 		);
+		
+		$this->sidebar = JHtmlSidebar::render();
 	}
 }

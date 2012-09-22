@@ -95,5 +95,7 @@ class LanguagesViewInstalled extends JViewLegacy
 		}
 
 		JToolbarHelper::help('JHELP_EXTENSIONS_LANGUAGE_MANAGER_INSTALLED');
+		
+		$this->sidebar = JHtmlSidebar::render();
 	}
 }

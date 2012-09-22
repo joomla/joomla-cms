@@ -37,6 +37,7 @@ class CacheViewCache extends JViewLegacy
 		}
 
 		$this->addToolbar();
+		$this->sidebar = JHtmlSidebar::render();
 		parent::display($tpl);
 	}
 
@@ -59,9 +60,9 @@ class CacheViewCache extends JViewLegacy
 		JToolbarHelper::divider();
 		JToolbarHelper::help('JHELP_SITE_MAINTENANCE_CLEAR_CACHE');
 
-		JSubMenuHelper::setAction('index.php?option=com_cache');
+		JHtmlSidebar::setAction('index.php?option=com_cache');
 
-		JSubMenuHelper::addFilter(
+		JHtmlSidebar::addFilter(
 			// @todo We need an actual label here
 			'',
 			'filter_client_id',
