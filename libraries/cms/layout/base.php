@@ -18,52 +18,31 @@ defined('JPATH_BASE') or die;
  */
 class JLayoutBase implements JLayout
 {
-  
-  /**
-   * Method to escape output.
-   *
-   * @param   string  $output  The output to escape.
-   *
-   * @return  string  The escaped output.
-   *
-   * @since   3.0
-   */
-  public function escape( $output)
-  {
-    return htmlspecialchars($output, ENT_COMPAT, 'UTF-8');
-  }
-  
-  /**
-   * Method to render the layout.
-   *
-   * @return  string  The necessary HTML to display the layout
-   *
-   * @since   3.0
-   * @throws  RuntimeException
-   */
-  public function render( $displayData)
-  {
+	/**
+	 * Method to escape output.
+	 *
+	 * @param   string  $output  The output to escape.
+	 *
+	 * @return  string  The escaped output.
+	 *
+	 * @since   3.0
+	 */
+	public function escape($output)
+	{
+		return htmlspecialchars($output, ENT_COMPAT, 'UTF-8');
+	}
 
-    $layoutOutput = '';
-    
-    /*
-     * 
-     ob_start();
-     
-     ?>
-     
-     <div class="something">
-       <?php echo $this->escape( $displayData->someText); ?>
-     </div>
-     
-     <?php
-     
-     $layoutOutput = ob_get_contents();
-     ob_end_clean();
-     * 
-     */
-    return $layoutOutput;
-
-  }
-
+	/**
+	 * Method to render the layout.
+	 *
+	 * @param   object  $displayData  Object which properties are used inside the layout file to build displayed output
+	 *
+	 * @return  string  The necessary HTML to display the layout
+	 *
+	 * @since   3.0
+	 */
+	public function render($displayData)
+	{
+		return '';
+	}
 }

@@ -37,7 +37,8 @@ $ -> Language fix or change
  +$ Adding installation languages: ar-AA, az-AZ, ckb-IQ, fi-FI
  # Correcting double translation
  # Correcting lang string typo
- # [#29050] Page Navigation in Extension Manager not working. Thanks yannick
+ # [#29050] Page Navigation in Extension Manager not working. Thanks Yannick
+ #[#29274] Fix code style and unclear doc blocks from 29050. Thanks Michael
 
 21-Sep-2012 Jean-Marie Simonet
  +$ Adding installation languages: km-KH, sv-SE
