@@ -102,10 +102,10 @@ class JHtmlUsers
 
 		$title = JText::plural('COM_USERS_N_USER_NOTES', $count);
 
-		return '<a class="modal"' .
-				' href="' . JRoute::_('index.php?option=com_users&view=notes&tmpl=component&layout=modal&u_id=' . (int) $userId) . '"' .
-				' rel="{handler: \'iframe\', size: {x: 800, y: 450}}">' .
-				'<span class="label label-info"><i class="icon-drawer-2"></i>' . $title . '</span></a>';
+		return '<a class="modal"'
+			. ' href="' . JRoute::_('index.php?option=com_users&view=notes&tmpl=component&layout=modal&u_id=' . (int) $userId) . '"'
+			. ' rel="{handler: \'iframe\', size: {x: 800, y: 450}}">'
+			. '<span class="label label-info"><i class="icon-drawer-2"></i>' . $title . '</span></a>';
 	}
 
 	/**
@@ -124,47 +124,47 @@ class JHtmlUsers
 		if ($self)
 		{
 			$states = array(
-					1 => array(
-							'task' 				    => 'unblock',
-							'text' 				    => '',
-							'active_title' 		=> JText::_('COM_USERS_USER_FIELD_BLOCK_DESC'),
-							'inactive_title' 	=> '',
-							'tip' 				    => true,
-							'active_class' 		=> 'unpublish',
-							'inactive_class' 	=> 'unpublish'
-					),
-					0 => array(
-							'task' 				    => 'block',
-							'text' 				    => '',
-							'active_title' 		=> '',
-							'inactive_title' 	=> JText::_('COM_USERS_USERS_ERROR_CANNOT_BLOCK_SELF'),
-							'tip' 				    => true,
-							'active_class' 		=> 'publish',
-							'inactive_class' 	=> 'publish'
-					)
+				1 => array(
+					'task'				=> 'unblock',
+					'text'				=> '',
+					'active_title' 		=> JText::_('COM_USERS_USER_FIELD_BLOCK_DESC'),
+					'inactive_title' 	=> '',
+					'tip' 				=> true,
+					'active_class' 		=> 'unpublish',
+					'inactive_class' 	=> 'unpublish'
+				),
+				0 => array(
+					'task'				=> 'block',
+					'text'				=> '',
+					'active_title' 		=> '',
+					'inactive_title' 	=> JText::_('COM_USERS_USERS_ERROR_CANNOT_BLOCK_SELF'),
+					'tip'				=> true,
+					'active_class' 		=> 'publish',
+					'inactive_class' 	=> 'publish'
+				)
 			);
 		}
 		else
 		{
 			$states = array(
-					1 => array(
-							'task' 				    => 'unblock',
-							'text' 				    => '',
-							'active_title' 		=> JText::_('COM_USERS_TOOLBAR_UNBLOCK'),
-							'inactive_title' 	=> '',
-							'tip' 				    => true,
-							'active_class' 		=> 'unpublish',
-							'inactive_class' 	=> 'unpublish'
-					),
-					0 => array(
-							'task' 				    => 'block',
-							'text' 				    => '',
-							'active_title' 		=> JText::_('COM_USERS_USER_FIELD_BLOCK_DESC'),
-							'inactive_title' 	=> '',
-							'tip' 				    => true,
-							'active_class' 		=> 'publish',
-							'inactive_class' 	=> 'publish'
-					)
+				1 => array(
+					'task'				=> 'unblock',
+					'text'				=> '',
+					'active_title'		=> JText::_('COM_USERS_TOOLBAR_UNBLOCK'),
+					'inactive_title'	=> '',
+					'tip'				=> true,
+					'active_class' 		=> 'unpublish',
+					'inactive_class' 	=> 'unpublish'
+				),
+				0 => array(
+					'task'				=> 'block',
+					'text'				=> '',
+					'active_title' 		=> JText::_('COM_USERS_USER_FIELD_BLOCK_DESC'),
+					'inactive_title' 	=> '',
+					'tip'				=> true,
+					'active_class' 		=> 'publish',
+					'inactive_class' 	=> 'publish'
+				)
 			);
 		}
 
@@ -181,24 +181,24 @@ class JHtmlUsers
 	public static function activateStates()
 	{
 		$states = array(
-				1	=> array(
-						'task' 				    => 'activate',
-						'text' 				    => '',
-						'active_title' 		=> JText::_('COM_USERS_TOOLBAR_ACTIVATE'),
-						'inactive_title' 	=> '',
-						'tip' 				    => true,
-						'active_class' 		=> 'unpublish',
-						'inactive_class' 	=> 'unpublish'
-				),
-				0	=> array(
-						'task' 				    => '',
-						'text' 				    => '',
-						'active_title' 		=> '',
-						'inactive_title' 	=> JText::_('COM_USERS_ACTIVATED'),
-						'tip' 				    => true,
-						'active_class' 		=> 'publish',
-						'inactive_class' 	=> 'publish'
-				)
+			1	=> array(
+				'task'				=> 'activate',
+				'text'				=> '',
+				'active_title' 		=> JText::_('COM_USERS_TOOLBAR_ACTIVATE'),
+				'inactive_title' 	=> '',
+				'tip'				=> true,
+				'active_class' 		=> 'unpublish',
+				'inactive_class' 	=> 'unpublish'
+			),
+			0	=> array(
+				'task'				=> '',
+				'text'				=> '',
+				'active_title' 		=> '',
+				'inactive_title' 	=> JText::_('COM_USERS_ACTIVATED'),
+				'tip'				=> true,
+				'active_class' 		=> 'publish',
+				'inactive_class' 	=> 'publish'
+			)
 		);
 		return $states;
 	}
