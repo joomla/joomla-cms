@@ -106,6 +106,23 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 		$url = 'index.php?option=com_joomlaupdate&layout=complete';
 		$this->setRedirect($url);
 	}
+	
+	/**
+	 * Purges updates.
+	 *
+	 * @since	3.0
+	 */
+	public function purge()
+	{
+		// Purge updates
+		// Check for request forgeries
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		$model = $this->getModel('Default');
+		$model->purge();
+
+		$url = 'index.php?option=com_joomlaupdate';
+		$this->setRedirect($url, $model->_message);
+	}
 
 	/**
 	 * Method to display a view.

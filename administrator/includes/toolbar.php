@@ -585,6 +585,7 @@ abstract class JToolbarHelper
  *
  * @package  Joomla.Administrator
  * @since    1.5
+ * @deprecated  4.0  Use JHtmlSidebar instead.
  */
 abstract class JSubMenuHelper
 {
@@ -593,6 +594,7 @@ abstract class JSubMenuHelper
 	 *
 	 * @var    array
 	 * @since  3.0
+	 * @deprecated  4.0
 	 */
 	protected static $entries = array();
 
@@ -601,6 +603,7 @@ abstract class JSubMenuHelper
 	 *
 	 * @var    array
 	 * @since  3.0
+	 * @deprecated  4.0
 	 */
 	protected static $filters = array();
 
@@ -609,6 +612,7 @@ abstract class JSubMenuHelper
 	 *
 	 * @var    string
 	 * @since  3.0
+	 * @deprecated  4.0
 	 */
 	protected static $action = '';
 
@@ -622,9 +626,11 @@ abstract class JSubMenuHelper
 	 * @return  void
 	 *
 	 * @since   1.5
+	 * @deprecated  4.0  Use JHtmlSidebar::addEntry() instead.
 	 */
 	public static function addEntry($name, $link = '', $active = false)
 	{
+		JLog::add('JSubMenuHelper::addEntry() is deprecated. Use JHtmlSidebar::addEntry() instead.', JLog::WARNING, 'deprecated');
 		array_push(self::$entries, array($name, $link, $active));
 	}
 
@@ -634,9 +640,11 @@ abstract class JSubMenuHelper
 	 * @return  array
 	 *
 	 * @since   3.0
+	 * @deprecated  4.0  Use JHtmlSidebar::getEntries() instead.
 	 */
 	public static function getEntries()
 	{
+		JLog::add('JSubMenuHelper::getEntries() is deprecated. Use JHtmlSidebar::getEntries() instead.', JLog::WARNING, 'deprecated');
 		return self::$entries;
 	}
 
@@ -651,9 +659,11 @@ abstract class JSubMenuHelper
 	 * @return  void
 	 *
 	 * @since   3.0
+	 * @deprecated  4.0  Use JHtmlSidebar::addFilter() instead.
 	 */
 	public static function addFilter($label, $name, $options, $noDefault = false)
 	{
+		JLog::add('JSubMenuHelper::addFilter() is deprecated. Use JHtmlSidebar::addFilter() instead.', JLog::WARNING, 'deprecated');
 		array_push(self::$filters, array('label' => $label, 'name' => $name, 'options' => $options, 'noDefault' => $noDefault));
 	}
 
@@ -663,33 +673,41 @@ abstract class JSubMenuHelper
 	 * @return  array
 	 *
 	 * @since   3.0
+	 * @deprecated  4.0  Use JHtmlSidebar::getFilters() instead.
 	 */
 	public static function getFilters()
 	{
+		JLog::add('JSubMenuHelper::getFilters() is deprecated. Use JHtmlSidebar::getFilters() instead.', JLog::WARNING, 'deprecated');
 		return self::$filters;
 	}
 
 	/**
 	 * Set value for the action attribute of the filter form
 	 *
+	 * @param   string  $action  Value for the action attribute of the form
+	 *
 	 * @return  void
 	 *
 	 * @since   3.0
+	 * @deprecated  4.0  Use JHtmlSidebar::setAction() instead.
 	 */
 	public static function setAction($action)
 	{
+		JLog::add('JSubMenuHelper::setAction() is deprecated. Use JHtmlSidebar::setAction() instead.', JLog::WARNING, 'deprecated');
 		self::$action = $action;
 	}
 
 	/**
 	 * Get value for the action attribute of the filter form
 	 *
-	 * @return  string
+	 * @return  string  Value for the action attribute of the form
 	 *
 	 * @since   3.0
+	 * @deprecated  4.0  Use JHtmlSidebar::getAction() instead.
 	 */
 	public static function getAction()
 	{
+		JLog::add('JSubMenuHelper::getAction() is deprecated. Use JHtmlSidebar::getAction() instead.', JLog::WARNING, 'deprecated');
 		return self::$action;
 	}
 }
