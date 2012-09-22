@@ -78,7 +78,7 @@ JFactory::getDocument()->addScriptDeclaration($script);
 					<?php foreach ($type->links as $i => $link) : ?>
 						<?php
 						if ($prevlevel < $link->level) {
-							echo '<ul>';
+							echo '<ul class="treeselect-sub">';
 						} else if ($prevlevel > $link->level) {
 							echo str_repeat('</li></ul>', $prevlevel - $link->level);
 						} else {

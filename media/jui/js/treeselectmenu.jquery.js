@@ -17,7 +17,7 @@ jQuery(function($)
 		// Append clearfix
 		$div.after('<div class="clearfix"></div>');
 
-		if ($li.find('ul').length > 1 || $li.find('ul:first').children('li').length > 1) {
+		if ($li.find('ul.treeselect-sub').length > 1 || $li.find('ul.treeselect-sub:first').children('li').length > 1) {
 			// Add classes to Expand/Collapse icons
 			$li.find('i').addClass('treeselect-toggle icon-minus');
 
@@ -30,22 +30,22 @@ jQuery(function($)
 	$('i.treeselect-toggle').click(function()
 	{
 		$i = $(this);
-		$ulvisible = $i.parent().find('ul').is(':visible');
+		$ulvisible = $i.parent().find('ul.treeselect-sub').is(':visible');
 
 		// Take care of parent UL
-		$i.removeClass('icon-plus icon-minus').addClass($ulvisible ? 'icon-plus' : 'icon-minus').parent().find('ul').toggle();
+		$i.removeClass('icon-plus icon-minus').addClass($ulvisible ? 'icon-plus' : 'icon-minus').parent().find('ul.treeselect-sub').toggle();
 
 		// Take care of children image folders
-		$i.parent().find('ul i.treeselect-toggle').removeClass('icon-plus icon-minus').addClass($ulvisible ? 'icon-plus' : 'icon-minus');
+		$i.parent().find('ul.treeselect-sub i.treeselect-toggle').removeClass('icon-plus icon-minus').addClass($ulvisible ? 'icon-plus' : 'icon-minus');
 
 		// Take care of children ULs
 		if ($ulvisible) {
 			$i.parent()
-				.find('ul')
+				.find('ul.treeselect-sub')
 				.hide();
 		} else {
 			$i.parent()
-				.find('ul')
+				.find('ul.treeselect-sub')
 				.show();
 		}
 	});
@@ -80,34 +80,34 @@ jQuery(function($)
 	// Checks all checkboxes the tree
 	$('#treeExpandAll').click(function()
 	{
-		$('ul.treeselect ul').show();
+		$('ul.treeselect ul.treeselect-sub').show();
 		$('ul.treeselect i.treeselect-toggle').removeClass('icon-plus').addClass('icon-minus');
 	});
 
 	// Unchecks all checkboxes the tree
 	$('#treeCollapseAll').click(function()
 	{
-		$('ul.treeselect ul').hide();
+		$('ul.treeselect ul.treeselect-sub').hide();
 		$('ul.treeselect i.treeselect-toggle').removeClass('icon-minus').addClass('icon-plus');
 	});
 
 	// Take care of children check/uncheck all
 	$('a.checkall').click(function()
 	{
-		$(this).parent().parent().parent().parent().parent().parent().find('ul input').attr('checked', 'checked');
+		$(this).parent().parent().parent().parent().parent().parent().find('ul.treeselect-sub input').attr('checked', 'checked');
 	});
 	$('a.uncheckall').click(function()
 	{
-		$(this).parent().parent().parent().parent().parent().parent().find('ul input').attr('checked', false);
+		$(this).parent().parent().parent().parent().parent().parent().find('ul.treeselect-sub input').attr('checked', false);
 	});
 
 	// Take care of children toggle all
 	$('a.expandall').click(function()
 	{
-		$(this).parent().parent().parent().parent().parent().parent().find('li > ul').show();
+		$(this).parent().parent().parent().parent().parent().parent().find('li > ul.treeselect-sub').show();
 	});
 	$('a.collapseall').click(function()
 	{
-		$(this).parent().parent().parent().parent().parent().parent().find('li > ul').hide();
+		$(this).parent().parent().parent().parent().parent().parent().find('li > ul.treeselect-sub').hide();
 	});
 });
