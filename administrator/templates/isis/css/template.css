@@ -6072,7 +6072,6 @@ body {
 .login .chzn-container,
 .login .chzn-drop {
 	width: 238px !important;
-	max-width: none;
 }
 .small {
 	font-size: 11px;
