@@ -19,26 +19,29 @@ $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn = $this->escape($this->state->get('list.direction'));
 $canEdit = $user->authorise('core.edit', 'com_users');
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_users&view=notes');?>" method="post" name="adminForm" id="adminForm">
-  <?php if(!empty( $this->sidebar)): ?>
+<form action="<?php echo JRoute::_('index.php?option=com_users&view=notes'); ?>" method="post" name="adminForm" id="adminForm">
+  <?php if (!empty($this->sidebar)) : ?>
     <div id="j-sidebar-container" class="span2">
       <?php echo $this->sidebar; ?>
-    </div>  
+    </div>
     <div id="j-main-container" class="span10">
-  <?php else : ?>
+  <?php
+else : ?>
     <div id="j-main-container">
-  <?php endif;?>
+  <?php endif; ?>
   	<div id="filter-bar" class="btn-toolbar">
   		<div class="filter-search btn-group pull-left">
-  			<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('COM_USERS_SEARCH_IN_NOTE_TITLE'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" title="<?php echo JText::_('COM_USERS_SEARCH_IN_NOTE_TITLE'); ?>" />
+  			<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('COM_USERS_SEARCH_IN_NOTE_TITLE'); ?>" value="<?php echo $this
+	->escape($this->state->get('filter.search')); ?>" title="<?php echo JText::_('COM_USERS_SEARCH_IN_NOTE_TITLE'); ?>" />
   		</div>
   		<div class="btn-group">
   			<button class="btn tip" type="submit" title="<?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?>"><i class="icon-search"></i></button>
-  			<button class="btn tip" type="button" onclick="document.id('filter_search').value='';this.form.submit();" title="<?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?>"><i class="icon-remove"></i></button>
+  			<button class="btn tip" type="button" onclick="document.id('filter_search').value='';this.form.submit();" title="<?php echo JText::_(
+	'JSEARCH_FILTER_CLEAR'); ?>"><i class="icon-remove"></i></button>
   		</div>
   		<div class="clearfix"> </div>
   	</div>
-  
+
   	<table class="table table-striped">
   		<thead>
   			<tr>
@@ -55,7 +58,7 @@ $canEdit = $user->authorise('core.edit', 'com_users');
   					<?php echo JHtml::_('grid.sort', 'COM_USERS_CATEGORY_HEADING', 'c.title', $listDirn, $listOrder); ?>
   				</th>
   				<th width="5%" class="nowrap center">
-  					<?php echo JHtml::_('grid.sort',  'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
+  					<?php echo JHtml::_('grid.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
   				</th>
   				<th width="10%" class="nowrap center">
   					<?php echo JHtml::_('grid.sort', 'COM_USERS_REVIEW_HEADING', 'a.review_time', $listDirn, $listOrder); ?>
@@ -84,16 +87,18 @@ $canEdit = $user->authorise('core.edit', 'com_users');
   						<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time); ?>
   					<?php endif; ?>
   					<?php if ($canEdit) : ?>
-  						<a href="<?php echo JRoute::_('index.php?option=com_users&task=note.edit&id='.$item->id);?>">
+  						<a href="<?php echo JRoute::_('index.php?option=com_users&task=note.edit&id=' . $item->id); ?>">
   							<?php echo $this->escape($item->user_name); ?></a>
-  					<?php else : ?>
+  					<?php
+	else : ?>
   						<?php echo $this->escape($item->user_name); ?>
   					<?php endif; ?>
   				</td>
   				<td>
   					<?php if ($item->subject) : ?>
   						<?php echo $this->escape($item->subject); ?>
-  					<?php else : ?>
+  					<?php
+	else : ?>
   						<?php echo JText::_('COM_USERS_EMPTY_SUBJECT'); ?>
   					<?php endif; ?>
   				</td>
@@ -109,7 +114,8 @@ $canEdit = $user->authorise('core.edit', 'com_users');
   				<td class="center">
   					<?php if (intval($item->review_time)) : ?>
   						<?php echo $this->escape($item->review_time); ?>
-  					<?php else : ?>
+  					<?php
+	else : ?>
   						<?php echo JText::_('COM_USERS_EMPTY_REVIEW'); ?>
   					<?php endif; ?>
   				</td>
@@ -120,7 +126,7 @@ $canEdit = $user->authorise('core.edit', 'com_users');
   			<?php endforeach; ?>
   		</tbody>
   	</table>
-  
+
   	<input type="hidden" name="task" value="" />
   	<input type="hidden" name="boxchecked" value="0" />
   	<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>" />

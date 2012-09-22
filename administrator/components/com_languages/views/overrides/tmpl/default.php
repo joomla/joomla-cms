@@ -12,23 +12,27 @@ defined('_JEXEC') or die;
 JHtml::_('formbehavior.chosen', 'select');
 JHtml::_('bootstrap.tooltip');
 
-JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
-$client    = $this->state->get('filter.client') == 'site' ? JText::_('JSITE') : JText::_('JADMINISTRATOR');
-$language  = $this->state->get('filter.language');
+JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+$client = $this->state->get('filter.client') == 'site' ? JText::_('JSITE') : JText::_('JADMINISTRATOR');
+$language = $this->state->get('filter.language');
 $listOrder = $this->escape($this->state->get('list.ordering'));
-$listDirn  = $this->escape($this->state->get('list.direction')); ?>
+$listDirn = $this->escape($this->state->get('list.direction'));
+?>
 <form action="<?php echo JRoute::_('index.php?option=com_languages&view=overrides'); ?>" method="post" name="adminForm" id="adminForm">
-  <?php if(!empty( $this->sidebar)): ?>
+  <?php if (!empty($this->sidebar)) : ?>
     <div id="j-sidebar-container" class="span2">
       <?php echo $this->sidebar; ?>
-    </div>  
+    </div>
     <div id="j-main-container" class="span10">
-  <?php else : ?>
+  <?php
+else : ?>
     <div id="j-main-container">
-  <?php endif;?>
+  <?php endif; ?>
   	<div id="filter-bar" class="btn-toolbar">
   		<div class="filter-search btn-group pull-left">
-  			<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('COM_LANGUAGES_VIEW_OVERRIDES_FILTER_SEARCH_DESC'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" title="<?php echo JText::_('COM_LANGUAGES_VIEW_OVERRIDES_FILTER_SEARCH_DESC'); ?>" />
+  			<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_(
+	'COM_LANGUAGES_VIEW_OVERRIDES_FILTER_SEARCH_DESC'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" title="<?php echo JText::_(
+	'COM_LANGUAGES_VIEW_OVERRIDES_FILTER_SEARCH_DESC'); ?>" />
   		</div>
   		<div class="btn-group pull-left">
   			<button class="btn hasTooltip" type="submit" title="<?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?>"><i class="icon-search"></i></button>
@@ -36,7 +40,7 @@ $listDirn  = $this->escape($this->state->get('list.direction')); ?>
   		</div>
   	</div>
   	<div class="clearfix"></div>
-  
+
   	<table class="adminlist">
   		<thead>
   			<tr>
@@ -69,21 +73,24 @@ $listDirn  = $this->escape($this->state->get('list.direction')); ?>
   		</tfoot>
   		<tbody>
   		<?php $canEdit = JFactory::getUser()->authorise('core.edit', 'com_languages');
-  		$i = 0;
-  		foreach($this->items as $key => $text): ?>
+$i = 0;
+foreach ($this->items as $key => $text) :
+		  ?>
   			<tr class="row<?php echo $i % 2; ?>" id="overriderrow<?php echo $i; ?>">
   				<td class="center">
   					<?php echo JHtml::_('grid.id', $i, $key); ?>
   				</td>
   				<td>
-  					<?php if ($canEdit): ?>
-  						<a id="key[<?php	echo $this->escape($key); ?>]" href="<?php echo JRoute::_('index.php?option=com_languages&task=override.edit&id='.$key); ?>"><?php echo $this->escape($key); ?></a>
-  					<?php else: ?>
+  					<?php if ($canEdit) : ?>
+  						<a id="key[<?php echo $this->escape($key); ?>]" href="<?php echo JRoute::_(
+			'index.php?option=com_languages&task=override.edit&id=' . $key); ?>"><?php echo $this->escape($key); ?></a>
+  					<?php
+	else : ?>
   						<?php echo $this->escape($key); ?>
   					<?php endif; ?>
   				</td>
   				<td>
-  					<span id="string[<?php	echo $this->escape($key); ?>]"><?php echo $this->escape($text); ?></span>
+  					<span id="string[<?php echo $this->escape($key); ?>]"><?php echo $this->escape($text); ?></span>
   				</td>
   				<td class="center">
   					<?php echo $language; ?>
@@ -96,10 +103,11 @@ $listDirn  = $this->escape($this->state->get('list.direction')); ?>
   				</td>
   			</tr>
   		<?php $i++;
-  		endforeach; ?>
+endforeach;
+		  ?>
   		</tbody>
   	</table>
-  
+
   	<input type="hidden" name="task" value="" />
   	<input type="hidden" name="boxchecked" value="0" />
   	<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>" />

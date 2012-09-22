@@ -53,11 +53,11 @@ class LanguagesViewInstalled extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$this->ftp        = $this->get('Ftp');
-		$this->option     = $this->get('Option');
+		$this->ftp = $this->get('Ftp');
+		$this->option = $this->get('Option');
 		$this->pagination = $this->get('Pagination');
-		$this->rows       = $this->get('Data');
-		$this->state      = $this->get('State');
+		$this->rows = $this->get('Data');
+		$this->state = $this->get('State');
 
 		$client = (int) $this->state->get('filter.client_id', 0);
 		LanguagesHelper::addSubmenu('installed', $client);
@@ -73,18 +73,20 @@ class LanguagesViewInstalled extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		require_once JPATH_COMPONENT.'/helpers/languages.php';
+		require_once JPATH_COMPONENT . '/helpers/languages.php';
 
-		$canDo	= LanguagesHelper::getActions();
+		$canDo = LanguagesHelper::getActions();
 
 		JToolbarHelper::title(JText::_('COM_LANGUAGES_VIEW_INSTALLED_TITLE'), 'langmanager.png');
 
-		if ($canDo->get('core.edit.state')) {
+		if ($canDo->get('core.edit.state'))
+		{
 			JToolbarHelper::makeDefault('installed.setDefault');
 			JToolbarHelper::divider();
 		}
 
-		if ($canDo->get('core.admin')) {
+		if ($canDo->get('core.admin'))
+		{
 			// Add install languages link to the lang installer component
 			$bar = JToolbar::getInstance('toolbar');
 			$bar->appendButton('Link', 'upload', 'COM_LANGUAGES_INSTALL', 'index.php?option=com_installer&view=languages');
@@ -95,7 +97,7 @@ class LanguagesViewInstalled extends JViewLegacy
 		}
 
 		JToolbarHelper::help('JHELP_EXTENSIONS_LANGUAGE_MANAGER_INSTALLED');
-		
+
 		$this->sidebar = JHtmlSidebar::render();
 	}
 }

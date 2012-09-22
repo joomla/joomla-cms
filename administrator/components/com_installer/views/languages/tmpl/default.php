@@ -11,20 +11,21 @@ defined('_JEXEC') or die;
 JHtml::_('behavior.multiselect');
 
 $listOrder = $this->escape($this->state->get('list.ordering'));
-$listDirn  = $this->escape($this->state->get('list.direction'));
+$listDirn = $this->escape($this->state->get('list.direction'));
 ?>
 
 <div id="installer-languages">
-  <form action="<?php echo JRoute::_('index.php?option=com_installer&view=languages');?>" method="post" name="adminForm" id="adminForm">
-  <?php if(!empty( $this->sidebar)): ?>
+  <form action="<?php echo JRoute::_('index.php?option=com_installer&view=languages'); ?>" method="post" name="adminForm" id="adminForm">
+  <?php if (!empty($this->sidebar)) : ?>
       <div id="j-sidebar-container" class="span2">
         <?php echo $this->sidebar; ?>
-      </div>  
+      </div>
       <div id="j-main-container" class="span10">
-    <?php else : ?>
+    <?php
+else : ?>
       <div id="j-main-container">
-    <?php endif;?>
-    
+    <?php endif; ?>
+
     	<?php if (count($this->items) || $this->escape($this->state->get('filter.search'))) : ?>
     		<?php echo $this->loadTemplate('filter'); ?>
     		<table class="table table-striped">
@@ -59,7 +60,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
     			</tfoot>
     			<tbody>
     				<?php foreach ($this->items as $i => $language) :
-    				?>
+					?>
     				<tr class="row<?php echo $i % 2; ?>">
     					<td class="hidden-phone">
     						<?php echo JHtml::_('grid.id', $i, $language->update_id, false, 'cid'); ?>
@@ -83,10 +84,11 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
     				<?php endforeach; ?>
     			</tbody>
     		</table>
-    	<?php else : ?>
+    	<?php
+else : ?>
     		<div class="alert"><?php echo JText::_('COM_INSTALLER_MSG_LANGUAGES_NOLANGUAGES'); ?></div>
     	<?php endif; ?>
-    
+
     	<input type="hidden" name="task" value="" />
     	<input type="hidden" name="boxchecked" value="0" />
     	<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>" />

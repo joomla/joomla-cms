@@ -11,31 +11,32 @@ defined('_JEXEC') or die;
 
 JHtml::_('behavior.multiselect');
 
-$listOrder	= $this->escape($this->state->get('list.ordering'));
-$listDirn	= $this->escape($this->state->get('list.direction'));
+$listOrder = $this->escape($this->state->get('list.ordering'));
+$listDirn = $this->escape($this->state->get('list.direction'));
 ?>
 <div id="installer-update">
-	<form action="<?php echo JRoute::_('index.php?option=com_installer&view=update');?>" method="post" name="adminForm" id="adminForm">
-	<?php if(!empty( $this->sidebar)): ?>
+	<form action="<?php echo JRoute::_('index.php?option=com_installer&view=update'); ?>" method="post" name="adminForm" id="adminForm">
+	<?php if (!empty($this->sidebar)) : ?>
     <div id="j-sidebar-container" class="span2">
       <?php echo $this->sidebar; ?>
-    </div>  
+    </div>
     <div id="j-main-container" class="span10">
-  <?php else : ?>
+  <?php
+else : ?>
     <div id="j-main-container">
-  <?php endif;?>
-  
+  <?php endif; ?>
+
   	<?php if ($this->showMessage) : ?>
   		<div class="alert alert-info">
   			<a class="close" data-dismiss="alert" href="#">&times;</a>
   			<?php echo $this->loadTemplate('message'); ?>
   		</div>
   	<?php endif; ?>
-  
+
   	<?php if ($this->ftp) : ?>
   		<?php echo $this->loadTemplate('ftp'); ?>
   	<?php endif; ?>
-  
+
   	<!-- Begin Content -->
   		<?php if (count($this->items)) : ?>
   		<table class="table table-striped" cellspacing="1">
@@ -57,13 +58,14 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
   				</tr>
   			</tfoot>
   			<tbody>
-  			<?php foreach($this->items as $i => $item):
-  				$client	= $item->client_id ? JText::_('JADMINISTRATOR') : JText::_('JSITE');
-  			?>
+  			<?php foreach ($this->items as $i => $item) :
+		$client = $item->client_id ? JText::_('JADMINISTRATOR') : JText::_('JSITE');
+			  ?>
   				<tr class="row<?php echo $i % 2; ?>">
   					<td><?php echo JHtml::_('grid.id', $i, $item->update_id); ?></td>
   					<td>
-  						<span class="editlinktip hasTip" title="<?php echo JText::_('JGLOBAL_DESCRIPTION');?>::<?php echo $item->description ? $this->escape($item->description) : JText::_('COM_INSTALLER_MSG_UPDATE_NODESC'); ?>">
+  						<span class="editlinktip hasTip" title="<?php echo JText::_('JGLOBAL_DESCRIPTION'); ?>::<?php echo $item->description
+			? $this->escape($item->description) : JText::_('COM_INSTALLER_MSG_UPDATE_NODESC'); ?>">
   						<?php echo $this->escape($item->name); ?>
   						</span>
   					</td>
@@ -76,20 +78,21 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
   					<td class="center"><?php echo $client; ?></td>
   					<td><?php echo $item->detailsurl ?>
   						<?php if (isset($item->infourl)) : ?>
-  						<br /><a href="<?php echo $item->infourl;?>"><?php echo $this->escape($item->infourl);?></a>
+  						<br /><a href="<?php echo $item->infourl; ?>"><?php echo $this->escape($item->infourl); ?></a>
   						<?php endif; ?>
   					</td>
   				</tr>
-  			<?php endforeach;?>
+  			<?php endforeach; ?>
   			</tbody>
   		</table>
-  		<?php else : ?>
+  		<?php
+else : ?>
   			<div class="alert alert-info">
   				<a class="close" data-dismiss="alert" href="#">&times;</a>
   				<?php echo JText::_('COM_INSTALLER_MSG_UPDATE_NOUPDATES'); ?>
   			</div>
   		<?php endif; ?>
-  
+
   		<input type="hidden" name="task" value="" />
   		<input type="hidden" name="boxchecked" value="0" />
   		<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>" />

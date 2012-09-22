@@ -29,14 +29,15 @@ class WeblinksViewWeblinks extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$this->state		= $this->get('State');
-		$this->items		= $this->get('Items');
-		$this->pagination	= $this->get('Pagination');
+		$this->state = $this->get('State');
+		$this->items = $this->get('Items');
+		$this->pagination = $this->get('Pagination');
 
 		WeblinksHelper::addSubmenu('weblinks');
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors'))) {
+		if (count($errors = $this->get('Errors')))
+		{
 			JError::raiseError(500, implode("\n", $errors));
 			return false;
 		}
@@ -53,22 +54,25 @@ class WeblinksViewWeblinks extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		require_once JPATH_COMPONENT.'/helpers/weblinks.php';
+		require_once JPATH_COMPONENT . '/helpers/weblinks.php';
 
-		$state	= $this->get('State');
-		$canDo	= WeblinksHelper::getActions($state->get('filter.category_id'));
-		$user	= JFactory::getUser();
+		$state = $this->get('State');
+		$canDo = WeblinksHelper::getActions($state->get('filter.category_id'));
+		$user = JFactory::getUser();
 		// Get the toolbar object instance
 		$bar = JToolBar::getInstance('toolbar');
 
 		JToolbarHelper::title(JText::_('COM_WEBLINKS_MANAGER_WEBLINKS'), 'weblinks.png');
-		if (count($user->getAuthorisedCategories('com_weblinks', 'core.create')) > 0) {
+		if (count($user->getAuthorisedCategories('com_weblinks', 'core.create')) > 0)
+		{
 			JToolbarHelper::addNew('weblink.add');
 		}
-		if ($canDo->get('core.edit')) {
+		if ($canDo->get('core.edit'))
+		{
 			JToolbarHelper::editList('weblink.edit');
 		}
-		if ($canDo->get('core.edit.state')) {
+		if ($canDo->get('core.edit.state'))
+		{
 
 			JToolbarHelper::publish('weblinks.publish', 'JTOOLBAR_PUBLISH', true);
 			JToolbarHelper::unpublish('weblinks.unpublish', 'JTOOLBAR_UNPUBLISH', true);
@@ -76,9 +80,12 @@ class WeblinksViewWeblinks extends JViewLegacy
 			JToolbarHelper::archiveList('weblinks.archive');
 			JToolbarHelper::checkin('weblinks.checkin');
 		}
-		if ($state->get('filter.state') == -2 && $canDo->get('core.delete')) {
+		if ($state->get('filter.state') == -2 && $canDo->get('core.delete'))
+		{
 			JToolbarHelper::deleteList('', 'weblinks.delete', 'JTOOLBAR_EMPTY_TRASH');
-		} elseif ($canDo->get('core.edit.state')) {
+		}
+		elseif ($canDo->get('core.edit.state'))
+		{
 			JToolbarHelper::trash('weblinks.trash');
 		}
 		// Add a batch button
@@ -91,7 +98,8 @@ class WeblinksViewWeblinks extends JViewLegacy
 						$title</button>";
 			$bar->appendButton('Custom', $dhtml, 'batch');
 		}
-		if ($canDo->get('core.admin')) {
+		if ($canDo->get('core.admin'))
+		{
 			JToolbarHelper::preferences('com_weblinks');
 		}
 
@@ -99,29 +107,17 @@ class WeblinksViewWeblinks extends JViewLegacy
 
 		JHtmlSidebar::setAction('index.php?option=com_weblinks&view=weblinks');
 
-		JHtmlSidebar::addFilter(
-			JText::_('JOPTION_SELECT_PUBLISHED'),
-			'filter_state',
-			JHtml::_('select.options', JHtml::_('jgrid.publishedOptions'), 'value', 'text', $this->state->get('filter.state'), true)
-		);
+		JHtmlSidebar::addFilter(JText::_('JOPTION_SELECT_PUBLISHED'), 'filter_state',
+			JHtml::_('select.options', JHtml::_('jgrid.publishedOptions'), 'value', 'text', $this->state->get('filter.state'), true));
 
-		JHtmlSidebar::addFilter(
-			JText::_('JOPTION_SELECT_CATEGORY'),
-			'filter_category_id',
-			JHtml::_('select.options', JHtml::_('category.options', 'com_weblinks'), 'value', 'text', $this->state->get('filter.category_id'))
-		);
+		JHtmlSidebar::addFilter(JText::_('JOPTION_SELECT_CATEGORY'), 'filter_category_id',
+			JHtml::_('select.options', JHtml::_('category.options', 'com_weblinks'), 'value', 'text', $this->state->get('filter.category_id')));
 
-		JHtmlSidebar::addFilter(
-			JText::_('JOPTION_SELECT_ACCESS'),
-			'filter_access',
-			JHtml::_('select.options', JHtml::_('access.assetgroups'), 'value', 'text', $this->state->get('filter.access'))
-		);
+		JHtmlSidebar::addFilter(JText::_('JOPTION_SELECT_ACCESS'), 'filter_access',
+			JHtml::_('select.options', JHtml::_('access.assetgroups'), 'value', 'text', $this->state->get('filter.access')));
 
-		JHtmlSidebar::addFilter(
-			JText::_('JOPTION_SELECT_LANGUAGE'),
-			'filter_language',
-			JHtml::_('select.options', JHtml::_('contentlanguage.existing', true, true), 'value', 'text', $this->state->get('filter.language'))
-		);
+		JHtmlSidebar::addFilter(JText::_('JOPTION_SELECT_LANGUAGE'), 'filter_language',
+			JHtml::_('select.options', JHtml::_('contentlanguage.existing', true, true), 'value', 'text', $this->state->get('filter.language')));
 	}
 
 	/**
@@ -133,14 +129,8 @@ class WeblinksViewWeblinks extends JViewLegacy
 	 */
 	protected function getSortFields()
 	{
-		return array(
-			'a.ordering' => JText::_('JGRID_HEADING_ORDERING'),
-			'a.state' => JText::_('JSTATUS'),
-			'a.title' => JText::_('JGLOBAL_TITLE'),
-			'a.access' => JText::_('JGRID_HEADING_ACCESS'),
-			'a.hits' => JText::_('JGLOBAL_HITS'),
-			'a.language' => JText::_('JGRID_HEADING_LANGUAGE'),
-			'a.id' => JText::_('JGRID_HEADING_ID')
-		);
+		return array('a.ordering' => JText::_('JGRID_HEADING_ORDERING'), 'a.state' => JText::_('JSTATUS'), 'a.title' => JText::_('JGLOBAL_TITLE'),
+			'a.access' => JText::_('JGRID_HEADING_ACCESS'), 'a.hits' => JText::_('JGLOBAL_HITS'), 'a.language' => JText::_('JGRID_HEADING_LANGUAGE'),
+			'a.id' => JText::_('JGRID_HEADING_ID'));
 	}
 }

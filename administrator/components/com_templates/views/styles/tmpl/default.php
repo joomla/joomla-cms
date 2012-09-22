@@ -10,28 +10,30 @@
 defined('_JEXEC') or die;
 
 // Include the component HTML helpers.
-JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
+JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
 JHtml::_('formbehavior.chosen', 'select');
 
-$user		= JFactory::getUser();
-$listOrder	= $this->escape($this->state->get('list.ordering'));
-$listDirn	= $this->escape($this->state->get('list.direction'));
+$user = JFactory::getUser();
+$listOrder = $this->escape($this->state->get('list.ordering'));
+$listDirn = $this->escape($this->state->get('list.direction'));
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_templates&view=styles'); ?>" method="post" name="adminForm" id="adminForm">
-  <?php if(!empty( $this->sidebar)): ?>
+  <?php if (!empty($this->sidebar)) : ?>
     <div id="j-sidebar-container" class="span2">
       <?php echo $this->sidebar; ?>
-    </div>  
+    </div>
     <div id="j-main-container" class="span10">
-  <?php else : ?>
+  <?php
+else : ?>
     <div id="j-main-container">
-  <?php endif;?>
-  
+  <?php endif; ?>
+
   	<div id="filter-bar" class="btn-toolbar">
   		<div class="filter-search btn-group pull-left">
-  			<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('JSEARCH_FILTER_LABEL'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" title="<?php echo JText::_('COM_TEMPLATES_STYLES_FILTER_SEARCH_DESC'); ?>" />
+  			<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('JSEARCH_FILTER_LABEL'); ?>" value="<?php echo $this
+	->escape($this->state->get('filter.search')); ?>" title="<?php echo JText::_('COM_TEMPLATES_STYLES_FILTER_SEARCH_DESC'); ?>" />
   		</div>
   		<div class="btn-group pull-left">
   			<button class="btn hasTooltip" type="submit" title="<?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?>"><i class="icon-search"></i></button>
@@ -39,7 +41,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
   		</div>
   	</div>
   	<div class="clear"> </div>
-  
+
   	<table class="table table-striped">
   		<thead>
   			<tr>
@@ -75,55 +77,68 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
   		</tfoot>
   		<tbody>
   			<?php foreach ($this->items as $i => $item) :
-  				$canCreate = $user->authorise('core.create',     'com_templates');
-  				$canEdit   = $user->authorise('core.edit',       'com_templates');
-  				$canChange = $user->authorise('core.edit.state', 'com_templates');
-  			?>
+	$canCreate = $user->authorise('core.create', 'com_templates');
+	$canEdit = $user->authorise('core.edit', 'com_templates');
+	$canChange = $user->authorise('core.edit.state', 'com_templates');
+			  ?>
   			<tr class="row<?php echo $i % 2; ?>">
   				<td width="1%" class="center">
   					<?php echo JHtml::_('grid.id', $i, $item->id); ?>
   				</td>
   				<td>
-  					<?php if ($this->preview && $item->client_id == '0'): ?>
-  						<a target="_blank"href="<?php echo JURI::root().'index.php?tp=1&templateStyle='.(int) $item->id ?>"  class="jgrid" title="<?php echo  htmlspecialchars(JText::_('COM_TEMPLATES_TEMPLATE_PREVIEW')); ?>::<?php echo htmlspecialchars($item->title);?>" >
-  						<i class="icon-eye-open tip hasTooltip" data-original-title="<?php echo  htmlspecialchars(JText::_('COM_TEMPLATES_TEMPLATE_PREVIEW')); ?>" ></i></a>
-  					<?php elseif ($item->client_id == '1'): ?>
-  						<span class="disabled"><i class="icon-eye-close tip hasTooltip" data-original-title="<?php echo  htmlspecialchars(JText::_('COM_TEMPLATES_TEMPLATE_NO_PREVIEW_ADMIN')); ?>" ></i></span>
-  					<?php else: ?>
-  						<span class="disabled"><i class="icon-eye-close tip hasTooltip" data-original-title="<?php echo  htmlspecialchars(JText::_('COM_TEMPLATES_TEMPLATE_NO_PREVIEW')); ?>" ></i></span>
+  					<?php if ($this->preview && $item->client_id == '0') : ?>
+  						<a target="_blank"href="<?php echo JURI::root() . 'index.php?tp=1&templateStyle=' . (int) $item->id ?>"  class="jgrid" title="<?php echo htmlspecialchars(
+			JText::_('COM_TEMPLATES_TEMPLATE_PREVIEW')); ?>::<?php echo htmlspecialchars($item->title); ?>" >
+  						<i class="icon-eye-open tip hasTooltip" data-original-title="<?php echo htmlspecialchars(
+			JText::_('COM_TEMPLATES_TEMPLATE_PREVIEW')); ?>" ></i></a>
+  					<?php
+	elseif ($item->client_id == '1') : ?>
+  						<span class="disabled"><i class="icon-eye-close tip hasTooltip" data-original-title="<?php echo htmlspecialchars(
+			JText::_('COM_TEMPLATES_TEMPLATE_NO_PREVIEW_ADMIN')); ?>" ></i></span>
+  					<?php
+	else : ?>
+  						<span class="disabled"><i class="icon-eye-close tip hasTooltip" data-original-title="<?php echo htmlspecialchars(
+			JText::_('COM_TEMPLATES_TEMPLATE_NO_PREVIEW')); ?>" ></i></span>
   					<?php endif; ?>
   					<?php if ($canEdit) : ?>
-  					<a href="<?php echo JRoute::_('index.php?option=com_templates&task=style.edit&id='.(int) $item->id); ?>">
-  						<?php echo $this->escape($item->title);?></a>
-  					<?php else : ?>
-  						<?php echo $this->escape($item->title);?>
+  					<a href="<?php echo JRoute::_('index.php?option=com_templates&task=style.edit&id=' . (int) $item->id); ?>">
+  						<?php echo $this->escape($item->title); ?></a>
+  					<?php
+	else : ?>
+  						<?php echo $this->escape($item->title); ?>
   					<?php endif; ?>
   				</td>
   				<td class="small">
   					<?php echo $item->client_id == 0 ? JText::_('JSITE') : JText::_('JADMINISTRATOR'); ?>
   				</td>
   				<td>
-  					<label for="cb<?php echo $i;?>" class="small">
-  						<a href="<?php echo JRoute::_('index.php?option=com_templates&view=template&id='.(int) $item->e_id); ?>  ">
-  							<?php echo ucfirst($this->escape($item->template));?>
+  					<label for="cb<?php echo $i; ?>" class="small">
+  						<a href="<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . (int) $item->e_id); ?>  ">
+  							<?php echo ucfirst($this->escape($item->template)); ?>
   						</a>
   					</label>
   				</td>
   				<td class="center">
-  					<?php if ($item->home == '0' || $item->home == '1'):?>
-  						<?php echo JHtml::_('jgrid.isdefault', $item->home != '0', $i, 'styles.', $canChange && $item->home != '1');?>
-  					<?php elseif ($canChange):?>
-  						<a href="<?php echo JRoute::_('index.php?option=com_templates&task=styles.unsetDefault&cid[]='.$item->id.'&'.JSession::getFormToken().'=1');?>">
-  							<?php echo JHtml::_('image', 'mod_languages/'.$item->image.'.gif', $item->language_title, array('title' => JText::sprintf('COM_TEMPLATES_GRID_UNSET_LANGUAGE', $item->language_title)), true);?>
+  					<?php if ($item->home == '0' || $item->home == '1') : ?>
+  						<?php echo JHtml::_('jgrid.isdefault', $item->home != '0', $i, 'styles.', $canChange && $item->home != '1'); ?>
+  					<?php
+	elseif ($canChange) : ?>
+  						<a href="<?php echo JRoute::_(
+			'index.php?option=com_templates&task=styles.unsetDefault&cid[]=' . $item->id . '&' . JSession::getFormToken() . '=1'); ?>">
+  							<?php echo JHtml::_('image', 'mod_languages/' . $item->image . '.gif', $item->language_title,
+			array('title' => JText::sprintf('COM_TEMPLATES_GRID_UNSET_LANGUAGE', $item->language_title)), true); ?>
   						</a>
-  					<?php else:?>
-  						<?php echo JHtml::_('image', 'mod_languages/'.$item->image.'.gif', $item->language_title, array('title' => $item->language_title), true);?>
-  					<?php endif;?>
+  					<?php
+	else : ?>
+  						<?php echo JHtml::_('image', 'mod_languages/' . $item->image . '.gif', $item->language_title,
+			array('title' => $item->language_title), true); ?>
+  					<?php endif; ?>
   				</td>
   				<td class="center">
   					<?php if ($item->assigned > 0) : ?>
-  						<i class="icon-ok tip hasTooltip" title="<?php echo JText::plural('COM_TEMPLATES_ASSIGNED', $item->assigned)?>"></i>
-  					<?php else : ?>
+  						<i class="icon-ok tip hasTooltip" title="<?php echo JText::plural('COM_TEMPLATES_ASSIGNED', $item->assigned) ?>"></i>
+  					<?php
+	else : ?>
   						&#160;
   					<?php endif; ?>
   				</td>
@@ -134,7 +149,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
   			<?php endforeach; ?>
   		</tbody>
   	</table>
-  
+
   	<input type="hidden" name="task" value="" />
   	<input type="hidden" name="boxchecked" value="0" />
   	<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>" />

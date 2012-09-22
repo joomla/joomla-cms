@@ -27,21 +27,12 @@ class NewsfeedsHelper
 	 */
 	public static function addSubmenu($vName)
 	{
-		JHtmlSidebar::addEntry(
-			JText::_('COM_NEWSFEEDS_SUBMENU_NEWSFEEDS'),
-			'index.php?option=com_newsfeeds&view=newsfeeds',
-			$vName == 'newsfeeds'
-		);
-		JHtmlSidebar::addEntry(
-			JText::_('COM_NEWSFEEDS_SUBMENU_CATEGORIES'),
-			'index.php?option=com_categories&extension=com_newsfeeds',
-			$vName == 'categories'
-		);
+		JHtmlSidebar::addEntry(JText::_('COM_NEWSFEEDS_SUBMENU_NEWSFEEDS'), 'index.php?option=com_newsfeeds&view=newsfeeds', $vName == 'newsfeeds');
+		JHtmlSidebar::addEntry(JText::_('COM_NEWSFEEDS_SUBMENU_CATEGORIES'), 'index.php?option=com_categories&extension=com_newsfeeds',
+			$vName == 'categories');
 		if ($vName == 'categories')
 		{
-			JToolbarHelper::title(
-				JText::sprintf('COM_CATEGORIES_CATEGORIES_TITLE', JText::_('com_newsfeeds')),
-				'newsfeeds-categories');
+			JToolbarHelper::title(JText::sprintf('COM_CATEGORIES_CATEGORIES_TITLE', JText::_('com_newsfeeds')), 'newsfeeds-categories');
 		}
 	}
 
@@ -54,22 +45,25 @@ class NewsfeedsHelper
 	 */
 	public static function getActions($categoryId = 0, $newsfeedId = 0)
 	{
-		$user	= JFactory::getUser();
-		$result	= new JObject;
+		$user = JFactory::getUser();
+		$result = new JObject;
 
-		if (empty($categoryId)) {
+		if (empty($categoryId))
+		{
 			$assetName = 'com_newsfeeds';
 			$level = 'component';
 		}
-		else {
-			$assetName = 'com_newsfeeds.category.'.(int) $categoryId;
+		else
+		{
+			$assetName = 'com_newsfeeds.category.' . (int) $categoryId;
 			$level = 'category';
 		}
 
 		$actions = JAccess::getActions('com_newsfeeds', $level);
 
-		foreach ($actions as $action) {
-			$result->set($action->name,	$user->authorise($action->name, $assetName));
+		foreach ($actions as $action)
+		{
+			$result->set($action->name, $user->authorise($action->name, $assetName));
 		}
 
 		return $result;

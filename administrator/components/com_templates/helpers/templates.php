@@ -25,16 +25,8 @@ class TemplatesHelper
 	 */
 	public static function addSubmenu($vName)
 	{
-		JHtmlSidebar::addEntry(
-			JText::_('COM_TEMPLATES_SUBMENU_STYLES'),
-			'index.php?option=com_templates&view=styles',
-			$vName == 'styles'
-		);
-		JHtmlSidebar::addEntry(
-			JText::_('COM_TEMPLATES_SUBMENU_TEMPLATES'),
-			'index.php?option=com_templates&view=templates',
-			$vName == 'templates'
-		);
+		JHtmlSidebar::addEntry(JText::_('COM_TEMPLATES_SUBMENU_STYLES'), 'index.php?option=com_templates&view=styles', $vName == 'styles');
+		JHtmlSidebar::addEntry(JText::_('COM_TEMPLATES_SUBMENU_TEMPLATES'), 'index.php?option=com_templates&view=templates', $vName == 'templates');
 	}
 
 	/**
@@ -44,12 +36,13 @@ class TemplatesHelper
 	 */
 	public static function getActions()
 	{
-		$user	= JFactory::getUser();
-		$result	= new JObject;
+		$user = JFactory::getUser();
+		$result = new JObject;
 
 		$actions = JAccess::getActions('com_templates');
 
-		foreach ($actions as $action) {
+		foreach ($actions as $action)
+		{
 			$result->set($action->name, $user->authorise($action->name, 'com_templates'));
 		}
 
@@ -64,9 +57,9 @@ class TemplatesHelper
 	public static function getClientOptions()
 	{
 		// Build the filter options.
-		$options	= array();
-		$options[]	= JHtml::_('select.option', '0', JText::_('JSITE'));
-		$options[]	= JHtml::_('select.option', '1', JText::_('JADMINISTRATOR'));
+		$options = array();
+		$options[] = JHtml::_('select.option', '0', JText::_('JSITE'));
+		$options[] = JHtml::_('select.option', '1', JText::_('JADMINISTRATOR'));
 
 		return $options;
 	}
@@ -82,13 +75,14 @@ class TemplatesHelper
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
-		if ($clientId != '*') {
-			$query->where('client_id='.(int) $clientId);
+		if ($clientId != '*')
+		{
+			$query->where('client_id=' . (int) $clientId);
 		}
 
 		$query->select('element as value, name as text, extension_id as e_id');
 		$query->from('#__extensions');
-		$query->where('type='.$db->quote('template'));
+		$query->where('type=' . $db->quote('template'));
 		$query->where('enabled=1');
 		$query->order('client_id');
 		$query->order('name');
@@ -102,16 +96,18 @@ class TemplatesHelper
 		$data = new JObject;
 
 		// Check of the xml file exists
-		$filePath = JPath::clean($templateBaseDir.'/templates/'.$templateDir.'/templateDetails.xml');
+		$filePath = JPath::clean($templateBaseDir . '/templates/' . $templateDir . '/templateDetails.xml');
 		if (is_file($filePath))
 		{
 			$xml = JInstaller::parseXMLInstallFile($filePath);
 
-			if ($xml['type'] != 'template') {
+			if ($xml['type'] != 'template')
+			{
 				return false;
 			}
 
-			foreach ($xml as $key => $value) {
+			foreach ($xml as $key => $value)
+			{
 				$data->set($key, $value);
 			}
 		}

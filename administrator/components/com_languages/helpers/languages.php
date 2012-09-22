@@ -28,26 +28,12 @@ class LanguagesHelper
 	 */
 	public static function addSubmenu($vName, $client = 0)
 	{
-		JHtmlSidebar::addEntry(
-			JText::_('COM_LANGUAGES_SUBMENU_INSTALLED_SITE'),
-			'index.php?option=com_languages&view=installed&client=0',
-			$vName == 'installed' && $client === 0
-		);
-		JHtmlSidebar::addEntry(
-			JText::_('COM_LANGUAGES_SUBMENU_INSTALLED_ADMINISTRATOR'),
-			'index.php?option=com_languages&view=installed&client=1',
-			$vName == 'installed' && $client === 1
-		);
-		JHtmlSidebar::addEntry(
-			JText::_('COM_LANGUAGES_SUBMENU_CONTENT'),
-			'index.php?option=com_languages&view=languages',
-			$vName == 'languages'
-		);
-		JHtmlSidebar::addEntry(
-			JText::_('COM_LANGUAGES_SUBMENU_OVERRIDES'),
-			'index.php?option=com_languages&view=overrides',
-			$vName == 'overrides'
-		);
+		JHtmlSidebar::addEntry(JText::_('COM_LANGUAGES_SUBMENU_INSTALLED_SITE'), 'index.php?option=com_languages&view=installed&client=0',
+			$vName == 'installed' && $client === 0);
+		JHtmlSidebar::addEntry(JText::_('COM_LANGUAGES_SUBMENU_INSTALLED_ADMINISTRATOR'), 'index.php?option=com_languages&view=installed&client=1',
+			$vName == 'installed' && $client === 1);
+		JHtmlSidebar::addEntry(JText::_('COM_LANGUAGES_SUBMENU_CONTENT'), 'index.php?option=com_languages&view=languages', $vName == 'languages');
+		JHtmlSidebar::addEntry(JText::_('COM_LANGUAGES_SUBMENU_OVERRIDES'), 'index.php?option=com_languages&view=overrides', $vName == 'overrides');
 	}
 
 	/**
@@ -57,14 +43,15 @@ class LanguagesHelper
 	 */
 	public static function getActions()
 	{
-		$user		= JFactory::getUser();
-		$result		= new JObject;
-		$assetName	= 'com_languages';
+		$user = JFactory::getUser();
+		$result = new JObject;
+		$assetName = 'com_languages';
 
 		$actions = JAccess::getActions($assetName);
 
-		foreach ($actions as $action) {
-			$result->set($action->name,	$user->authorise($action->name, $assetName));
+		foreach ($actions as $action)
+		{
+			$result->set($action->name, $user->authorise($action->name, $assetName));
 		}
 
 		return $result;
@@ -88,7 +75,7 @@ class LanguagesHelper
 
 		$contents = file_get_contents($filename);
 		$contents = str_replace('_QQ_', '"\""', $contents);
-		$strings  = @parse_ini_string($contents);
+		$strings = @parse_ini_string($contents);
 
 		if ($strings === false)
 		{

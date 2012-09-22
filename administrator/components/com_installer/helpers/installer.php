@@ -25,41 +25,13 @@ class InstallerHelper
 	 */
 	public static function addSubmenu($vName = 'install')
 	{
-		JHtmlSidebar::addEntry(
-			JText::_('COM_INSTALLER_SUBMENU_INSTALL'),
-			'index.php?option=com_installer',
-			$vName == 'install'
-		);
-		JHtmlSidebar::addEntry(
-			JText::_('COM_INSTALLER_SUBMENU_UPDATE'),
-			'index.php?option=com_installer&view=update',
-			$vName == 'update'
-		);
-		JHtmlSidebar::addEntry(
-			JText::_('COM_INSTALLER_SUBMENU_MANAGE'),
-			'index.php?option=com_installer&view=manage',
-			$vName == 'manage'
-		);
-		JHtmlSidebar::addEntry(
-			JText::_('COM_INSTALLER_SUBMENU_DISCOVER'),
-			'index.php?option=com_installer&view=discover',
-			$vName == 'discover'
-		);
-		JHtmlSidebar::addEntry(
-			JText::_('COM_INSTALLER_SUBMENU_DATABASE'),
-			'index.php?option=com_installer&view=database',
-			$vName == 'database'
-		);
-		JHtmlSidebar::addEntry(
-		JText::_('COM_INSTALLER_SUBMENU_WARNINGS'),
-					'index.php?option=com_installer&view=warnings',
-		$vName == 'warnings'
-		);
-		JHtmlSidebar::addEntry(
-			JText::_('COM_INSTALLER_SUBMENU_LANGUAGES'),
-			'index.php?option=com_installer&view=languages',
-			$vName == 'languages'
-		);
+		JHtmlSidebar::addEntry(JText::_('COM_INSTALLER_SUBMENU_INSTALL'), 'index.php?option=com_installer', $vName == 'install');
+		JHtmlSidebar::addEntry(JText::_('COM_INSTALLER_SUBMENU_UPDATE'), 'index.php?option=com_installer&view=update', $vName == 'update');
+		JHtmlSidebar::addEntry(JText::_('COM_INSTALLER_SUBMENU_MANAGE'), 'index.php?option=com_installer&view=manage', $vName == 'manage');
+		JHtmlSidebar::addEntry(JText::_('COM_INSTALLER_SUBMENU_DISCOVER'), 'index.php?option=com_installer&view=discover', $vName == 'discover');
+		JHtmlSidebar::addEntry(JText::_('COM_INSTALLER_SUBMENU_DATABASE'), 'index.php?option=com_installer&view=database', $vName == 'database');
+		JHtmlSidebar::addEntry(JText::_('COM_INSTALLER_SUBMENU_WARNINGS'), 'index.php?option=com_installer&view=warnings', $vName == 'warnings');
+		JHtmlSidebar::addEntry(JText::_('COM_INSTALLER_SUBMENU_LANGUAGES'), 'index.php?option=com_installer&view=languages', $vName == 'languages');
 	}
 
 	/**
@@ -71,14 +43,14 @@ class InstallerHelper
 	 */
 	public static function getExtensionTypes()
 	{
-		$db    = JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$query = $db->getQuery(true);
 		$query->select('DISTINCT type')->from('#__extensions');
 		$db->setQuery($query);
 		$types = $db->loadColumn();
 
 		$options = array();
-		foreach($types as $type)
+		foreach ($types as $type)
 		{
 			$options[] = JHtml::_('select.option', $type, JText::_('COM_INSTALLER_TYPE_' . strtoupper($type)));
 		}
@@ -105,7 +77,7 @@ class InstallerHelper
 		$folders = $db->loadColumn();
 
 		$options = array();
-		foreach($folders as $folder)
+		foreach ($folders as $folder)
 		{
 			$options[] = JHtml::_('select.option', $folder, $folder);
 		}
@@ -121,15 +93,16 @@ class InstallerHelper
 	 */
 	public static function getActions()
 	{
-		$user	= JFactory::getUser();
-		$result	= new JObject;
+		$user = JFactory::getUser();
+		$result = new JObject;
 
 		$assetName = 'com_installer';
 
 		$actions = JAccess::getActions($assetName);
 
-		foreach ($actions as $action) {
-			$result->set($action->name,	$user->authorise($action->name, $assetName));
+		foreach ($actions as $action)
+		{
+			$result->set($action->name, $user->authorise($action->name, $assetName));
 		}
 
 		return $result;

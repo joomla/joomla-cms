@@ -35,39 +35,20 @@ class UsersHelper
 	 */
 	public static function addSubmenu($vName)
 	{
-		JHtmlSidebar::addEntry(
-			JText::_('COM_USERS_SUBMENU_USERS'),
-			'index.php?option=com_users&view=users',
-			$vName == 'users'
-		);
+		JHtmlSidebar::addEntry(JText::_('COM_USERS_SUBMENU_USERS'), 'index.php?option=com_users&view=users', $vName == 'users');
 
 		// Groups and Levels are restricted to core.admin
 		$canDo = self::getActions();
 
 		if ($canDo->get('core.admin'))
 		{
-			JHtmlSidebar::addEntry(
-				JText::_('COM_USERS_SUBMENU_GROUPS'),
-				'index.php?option=com_users&view=groups',
-				$vName == 'groups'
-			);
-			JHtmlSidebar::addEntry(
-				JText::_('COM_USERS_SUBMENU_LEVELS'),
-				'index.php?option=com_users&view=levels',
-				$vName == 'levels'
-			);
-			JHtmlSidebar::addEntry(
-				JText::_('COM_USERS_SUBMENU_NOTES'),
-				'index.php?option=com_users&view=notes',
-				$vName == 'notes'
-			);
+			JHtmlSidebar::addEntry(JText::_('COM_USERS_SUBMENU_GROUPS'), 'index.php?option=com_users&view=groups', $vName == 'groups');
+			JHtmlSidebar::addEntry(JText::_('COM_USERS_SUBMENU_LEVELS'), 'index.php?option=com_users&view=levels', $vName == 'levels');
+			JHtmlSidebar::addEntry(JText::_('COM_USERS_SUBMENU_NOTES'), 'index.php?option=com_users&view=notes', $vName == 'notes');
 
 			$extension = JFactory::getApplication()->input->getString('extension');
-			JHtmlSidebar::addEntry(
-				JText::_('COM_USERS_SUBMENU_NOTE_CATEGORIES'),
-				'index.php?option=com_categories&extension=com_users.notes',
-				$vName == 'categories' || $extension == 'com_users.notes'
-			);
+			JHtmlSidebar::addEntry(JText::_('COM_USERS_SUBMENU_NOTE_CATEGORIES'), 'index.php?option=com_categories&extension=com_users.notes',
+				$vName == 'categories' || $extension == 'com_users.notes');
 		}
 	}
 
@@ -141,13 +122,11 @@ class UsersHelper
 	public static function getGroups()
 	{
 		$db = JFactory::getDbo();
-		$db->setQuery(
-			'SELECT a.id AS value, a.title AS text, COUNT(DISTINCT b.id) AS level' .
-			' FROM #__usergroups AS a' .
-			' LEFT JOIN '.$db->quoteName('#__usergroups').' AS b ON a.lft > b.lft AND a.rgt < b.rgt' .
-			' GROUP BY a.id, a.title, a.lft, a.rgt' .
-			' ORDER BY a.lft ASC'
-		);
+		$db
+			->setQuery(
+				'SELECT a.id AS value, a.title AS text, COUNT(DISTINCT b.id) AS level' . ' FROM #__usergroups AS a' . ' LEFT JOIN '
+					. $db->quoteName('#__usergroups') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt' . ' GROUP BY a.id, a.title, a.lft, a.rgt'
+					. ' ORDER BY a.lft ASC');
 
 		try
 		{
@@ -161,7 +140,7 @@ class UsersHelper
 
 		foreach ($options as &$option)
 		{
-			$option->text = str_repeat('- ', $option->level).$option->text;
+			$option->text = str_repeat('- ', $option->level) . $option->text;
 		}
 
 		return $options;
@@ -177,15 +156,13 @@ class UsersHelper
 	 */
 	public static function getRangeOptions()
 	{
-		$options = array(
-			JHtml::_('select.option', 'today', JText::_('COM_USERS_OPTION_RANGE_TODAY')),
+		$options = array(JHtml::_('select.option', 'today', JText::_('COM_USERS_OPTION_RANGE_TODAY')),
 			JHtml::_('select.option', 'past_week', JText::_('COM_USERS_OPTION_RANGE_PAST_WEEK')),
 			JHtml::_('select.option', 'past_1month', JText::_('COM_USERS_OPTION_RANGE_PAST_1MONTH')),
 			JHtml::_('select.option', 'past_3month', JText::_('COM_USERS_OPTION_RANGE_PAST_3MONTH')),
 			JHtml::_('select.option', 'past_6month', JText::_('COM_USERS_OPTION_RANGE_PAST_6MONTH')),
 			JHtml::_('select.option', 'past_year', JText::_('COM_USERS_OPTION_RANGE_PAST_YEAR')),
-			JHtml::_('select.option', 'post_year', JText::_('COM_USERS_OPTION_RANGE_POST_YEAR')),
-		);
+			JHtml::_('select.option', 'post_year', JText::_('COM_USERS_OPTION_RANGE_POST_YEAR')),);
 		return $options;
 	}
 }

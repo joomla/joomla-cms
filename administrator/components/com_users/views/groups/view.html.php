@@ -29,14 +29,15 @@ class UsersViewGroups extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$this->items		= $this->get('Items');
-		$this->pagination	= $this->get('Pagination');
-		$this->state		= $this->get('State');
+		$this->items = $this->get('Items');
+		$this->pagination = $this->get('Pagination');
+		$this->state = $this->get('State');
 
 		UsersHelper::addSubmenu('groups');
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors'))) {
+		if (count($errors = $this->get('Errors')))
+		{
 			JError::raiseError(500, implode("\n", $errors));
 			return false;
 		}
@@ -53,27 +54,31 @@ class UsersViewGroups extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		$canDo	= UsersHelper::getActions();
+		$canDo = UsersHelper::getActions();
 
 		JToolbarHelper::title(JText::_('COM_USERS_VIEW_GROUPS_TITLE'), 'groups');
 
-		if ($canDo->get('core.create')) {
+		if ($canDo->get('core.create'))
+		{
 			JToolbarHelper::addNew('group.add');
 		}
-		if ($canDo->get('core.edit')) {
+		if ($canDo->get('core.edit'))
+		{
 			JToolbarHelper::editList('group.edit');
 			JToolbarHelper::divider();
 		}
-		if ($canDo->get('core.delete')) {
+		if ($canDo->get('core.delete'))
+		{
 			JToolbarHelper::deleteList('', 'groups.delete');
 			JToolbarHelper::divider();
 		}
 
-		if ($canDo->get('core.admin')) {
+		if ($canDo->get('core.admin'))
+		{
 			JToolbarHelper::preferences('com_users');
 			JToolbarHelper::divider();
 		}
 		JToolbarHelper::help('JHELP_USERS_GROUPS');
-		
+
 	}
 }

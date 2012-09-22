@@ -20,10 +20,10 @@ class MediaViewMedia extends JViewLegacy
 {
 	public function display($tpl = null)
 	{
-		$app	= JFactory::getApplication();
+		$app = JFactory::getApplication();
 		$config = JComponentHelper::getParams('com_media');
 
-		$lang	= JFactory::getLanguage();
+		$lang = JFactory::getLanguage();
 
 		$style = $app->getUserStateFromRequest('media.list.layout', 'layout', 'thumbs', 'word');
 
@@ -35,9 +35,9 @@ class MediaViewMedia extends JViewLegacy
 		/*
 		JHtml::_('stylesheet', 'media/mediamanager.css', array(), true);
 		if ($lang->isRTL()) :
-			JHtml::_('stylesheet', 'media/mediamanager_rtl.css', array(), true);
+		    JHtml::_('stylesheet', 'media/mediamanager_rtl.css', array(), true);
 		endif;
-		*/
+		 */
 		JHtml::_('behavior.modal');
 		$document->addScriptDeclaration("
 		window.addEvent('domready', function() {
@@ -50,45 +50,48 @@ class MediaViewMedia extends JViewLegacy
 			JHtml::_('stylesheet', 'media/mootree_rtl.css', array(), true);
 		endif;
 
-		if ($config->get('enable_flash', 1)) {
+		if ($config->get('enable_flash', 1))
+		{
 			$fileTypes = $config->get('upload_extensions', 'bmp,gif,jpg,png,jpeg');
 			$types = explode(',', $fileTypes);
-			$displayTypes = '';		// this is what the user sees
-			$filterTypes = '';		// this is what controls the logic
+			$displayTypes = ''; // this is what the user sees
+			$filterTypes = ''; // this is what controls the logic
 			$firstType = true;
-			foreach($types as $type) {
-				if(!$firstType) {
+			foreach ($types as $type)
+			{
+				if (!$firstType)
+				{
 					$displayTypes .= ', ';
 					$filterTypes .= '; ';
-				} else {
+				}
+				else
+				{
 					$firstType = false;
 				}
-				$displayTypes .= '*.'.$type;
-				$filterTypes .= '*.'.$type;
+				$displayTypes .= '*.' . $type;
+				$filterTypes .= '*.' . $type;
 			}
-			$typeString = '{ \''.JText::_('COM_MEDIA_FILES', 'true').' ('.$displayTypes.')\': \''.$filterTypes.'\' }';
+			$typeString = '{ \'' . JText::_('COM_MEDIA_FILES', 'true') . ' (' . $displayTypes . ')\': \'' . $filterTypes . '\' }';
 
 			JHtml::_('behavior.uploader', 'upload-flash',
 				array(
 					'onBeforeStart' => 'function(){ Uploader.setOptions({url: document.id(\'uploadForm\').action + \'&folder=\' + document.id(\'mediamanager-form\').folder.value}); }',
-					'onComplete' 	=> 'function(){ MediaManager.refreshFrame(); }',
-					'targetURL' 	=> '\\document.id(\'uploadForm\').action',
-					'typeFilter' 	=> $typeString,
-					'fileSizeMax'	=> (int) ($config->get('upload_maxsize', 0) * 1024 * 1024),
-				)
-			);
+					'onComplete' => 'function(){ MediaManager.refreshFrame(); }', 'targetURL' => '\\document.id(\'uploadForm\').action',
+					'typeFilter' => $typeString, 'fileSizeMax' => (int) ($config->get('upload_maxsize', 0) * 1024 * 1024),));
 		}
 
 		if (DIRECTORY_SEPARATOR == '\\')
 		{
 			$base = str_replace(DIRECTORY_SEPARATOR, "\\\\", COM_MEDIA_BASE);
-		} else {
+		}
+		else
+		{
 			$base = COM_MEDIA_BASE;
 		}
 
 		$js = "
-			var basepath = '".$base."';
-			var viewstyle = '".$style."';
+			var basepath = '" . $base . "';
+			var viewstyle = '" . $style . "';
 		";
 		$document->addScriptDeclaration($js);
 
@@ -98,8 +101,8 @@ class MediaViewMedia extends JViewLegacy
 		 */
 		$ftp = !JClientHelper::hasCredentials('ftp');
 
-		$session	= JFactory::getSession();
-		$state		= $this->get('state');
+		$session = JFactory::getSession();
+		$state = $this->get('state');
 		$this->session = $session;
 		$this->config = &$config;
 		$this->state = &$state;
@@ -173,7 +176,8 @@ class MediaViewMedia extends JViewLegacy
 	{
 		$this->folders_id = null;
 		$txt = null;
-		if (isset($folder['children']) && count($folder['children'])) {
+		if (isset($folder['children']) && count($folder['children']))
+		{
 			$tmp = $this->folders;
 			$this->folders = $folder;
 			$txt = $this->loadTemplate('folders');

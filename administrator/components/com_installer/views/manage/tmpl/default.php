@@ -13,38 +13,41 @@ JHtml::_('behavior.multiselect');
 JHtml::_('formbehavior.chosen', 'select');
 JHtml::_('bootstrap.tooltip');
 
-$listOrder	= $this->escape($this->state->get('list.ordering'));
-$listDirn	= $this->escape($this->state->get('list.direction'));
+$listOrder = $this->escape($this->state->get('list.ordering'));
+$listDirn = $this->escape($this->state->get('list.direction'));
 ?>
 <div id="installer-manage">
-<form action="<?php echo JRoute::_('index.php?option=com_installer&view=manage');?>" method="post" name="adminForm" id="adminForm">
-  <?php if(!empty( $this->sidebar)): ?>
+<form action="<?php echo JRoute::_('index.php?option=com_installer&view=manage'); ?>" method="post" name="adminForm" id="adminForm">
+  <?php if (!empty($this->sidebar)) : ?>
     <div id="j-sidebar-container" class="span2">
       <?php echo $this->sidebar; ?>
-    </div>  
+    </div>
     <div id="j-main-container" class="span10">
-  <?php else : ?>
+  <?php
+else : ?>
     <div id="j-main-container">
-  <?php endif;?>
-  
+  <?php endif; ?>
+
   	<?php if ($this->showMessage) : ?>
   		<?php echo $this->loadTemplate('message'); ?>
   	<?php endif; ?>
-  
+
   	<?php if ($this->ftp) : ?>
   		<?php echo $this->loadTemplate('ftp'); ?>
   	<?php endif; ?>
   		<div id="filter-bar" class="btn-toolbar">
   			<div class="filter-search btn-group pull-left">
-  				<input type="text" name="filter_search" placeholder="<?php echo JText::_('JSEARCH_FILTER_LABEL'); ?>" id="filter_search" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" title="<?php echo JText::_('JSEARCH_FILTER'); ?>" />
+  				<input type="text" name="filter_search" placeholder="<?php echo JText::_('JSEARCH_FILTER_LABEL'); ?>" id="filter_search" value="<?php echo $this
+	->escape($this->state->get('filter.search')); ?>" title="<?php echo JText::_('JSEARCH_FILTER'); ?>" />
   			</div>
   			<div class="btn-group pull-left">
   				<button class="btn tip hasTooltip" type="submit" title="<?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?>"><i class="icon-search"></i></button>
-  				<button class="btn tip hasTooltip" type="button" onclick="document.id('filter_search').value='';this.form.submit();" title="<?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?>"><i class="icon-remove"></i></button>
+  				<button class="btn tip hasTooltip" type="button" onclick="document.id('filter_search').value='';this.form.submit();" title="<?php echo JText::_(
+	'JSEARCH_FILTER_CLEAR'); ?>"><i class="icon-remove"></i></button>
   			</div>
   		</div>
   		<div class="clearfix"> </div>
-  
+
   		<?php if (count($this->items)) : ?>
   		<table class="table table-striped">
   			<thead>
@@ -89,13 +92,15 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
   				</tr>
   			</tfoot>
   			<tbody>
-  			<?php foreach ($this->items as $i => $item): ?>
-  				<tr class="row<?php echo $i % 2; if ($item->status == 2) echo ' protected';?>">
+  			<?php foreach ($this->items as $i => $item) : ?>
+  				<tr class="row<?php echo $i % 2;
+		if ($item->status == 2)
+			echo ' protected'; ?>">
   					<td>
   						<?php echo JHtml::_('grid.id', $i, $item->extension_id); ?>
   					</td>
   					<td>
-  						<span class="bold hasTip" title="<?php echo htmlspecialchars($item->name.'::'.$item->description); ?>">
+  						<span class="bold hasTip" title="<?php echo htmlspecialchars($item->name . '::' . $item->description); ?>">
   							<?php echo $item->name; ?>
   						</span>
   					</td>
@@ -105,7 +110,8 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
   					<td class="center">
   						<?php if (!$item->element) : ?>
   						<strong>X</strong>
-  						<?php else : ?>
+  						<?php
+		else : ?>
   							<?php echo JHtml::_('InstallerHtml.Manage.state', $item->status, $i, $item->status < 2, 'cb'); ?>
   						<?php endif; ?>
   					</td>
@@ -119,7 +125,8 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
   						<?php echo @$item->creationDate != '' ? $item->creationDate : '&#160;'; ?>
   					</td>
   					<td class="center">
-  						<span class="editlinktip hasTip" title="<?php echo addslashes(htmlspecialchars(JText::_('COM_INSTALLER_AUTHOR_INFORMATION').'::'.$item->author_info)); ?>">
+  						<span class="editlinktip hasTip" title="<?php echo addslashes(
+			htmlspecialchars(JText::_('COM_INSTALLER_AUTHOR_INFORMATION') . '::' . $item->author_info)); ?>">
   							<?php echo @$item->author != '' ? $item->author : '&#160;'; ?>
   						</span>
   					</td>
@@ -134,7 +141,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
   			</tbody>
   		</table>
   		<?php endif; ?>
-  
+
   		<input type="hidden" name="task" value="" />
   		<input type="hidden" name="boxchecked" value="0" />
   		<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>" />

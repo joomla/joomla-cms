@@ -48,21 +48,22 @@ defined('_JEXEC') or die;
 </script>
 
 <div id="installer-install">
-  <form enctype="multipart/form-data" action="<?php echo JRoute::_('index.php?option=com_installer&view=install');?>" method="post" name="adminForm" id="adminForm" class="form-horizontal">
-  	<?php if(!empty( $this->sidebar)): ?>
+  <form enctype="multipart/form-data" action="<?php echo JRoute::_('index.php?option=com_installer&view=install'); ?>" method="post" name="adminForm" id="adminForm" class="form-horizontal">
+  	<?php if (!empty($this->sidebar)) : ?>
       <div id="j-sidebar-container" class="span2">
         <?php echo $this->sidebar; ?>
-      </div>  
+      </div>
       <div id="j-main-container" class="span10">
-    <?php else : ?>
+    <?php
+else : ?>
       <div id="j-main-container">
-    <?php endif;?>
-  	
+    <?php endif; ?>
+
   	<!-- Render messages set by extension install scripts here -->
   	<?php if ($this->showMessage) : ?>
   	<?php echo $this->loadTemplate('message'); ?>
   	<?php endif; ?>
-  	
+
   	<ul class="nav nav-tabs">
   		<li class="active"><a href="#upload" data-toggle="tab"><?php echo JText::_('COM_INSTALLER_UPLOAD_PACKAGE_FILE'); ?></a></li>
   		<li><a href="#directory" data-toggle="tab"><?php echo JText::_('COM_INSTALLER_INSTALL_FROM_DIRECTORY'); ?></a></li>
@@ -92,7 +93,8 @@ defined('_JEXEC') or die;
   				<div class="control-group">
   					<label for="install_directory" class="control-label"><?php echo JText::_('COM_INSTALLER_INSTALL_DIRECTORY'); ?></label>
   					<div class="controls">
-  						<input type="text" id="install_directory" name="install_directory" class="span5 input_box" size="70" value="<?php echo $this->state->get('install.directory'); ?>" />
+  						<input type="text" id="install_directory" name="install_directory" class="span5 input_box" size="70" value="<?php echo $this
+	->state->get('install.directory'); ?>" />
   					</div>
   				</div>
   				<div class="form-actions">
@@ -123,7 +125,7 @@ defined('_JEXEC') or die;
   	<input type="hidden" name="installtype" value="upload" />
   	<input type="hidden" name="task" value="install.install" />
   	<?php echo JHtml::_('form.token'); ?>
-  	
+
   	</div>
   </form>
 </div>

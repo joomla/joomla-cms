@@ -31,16 +31,17 @@ class UsersViewDebugGroup extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$this->actions		= $this->get('DebugActions');
-		$this->items		= $this->get('Items');
-		$this->pagination	= $this->get('Pagination');
-		$this->state		= $this->get('State');
-		$this->group		= $this->get('Group');
-		$this->levels		= UsersHelperDebug::getLevelsOptions();
-		$this->components	= UsersHelperDebug::getComponents();
+		$this->actions = $this->get('DebugActions');
+		$this->items = $this->get('Items');
+		$this->pagination = $this->get('Pagination');
+		$this->state = $this->get('State');
+		$this->group = $this->get('Group');
+		$this->levels = UsersHelperDebug::getLevelsOptions();
+		$this->components = UsersHelperDebug::getComponents();
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors'))) {
+		if (count($errors = $this->get('Errors')))
+		{
 			JError::raiseError(500, implode("\n", $errors));
 			return false;
 		}
@@ -69,23 +70,13 @@ class UsersViewDebugGroup extends JViewLegacy
 			$option = JHtml::_('select.options', $this->components, 'value', 'text', $this->state->get('filter.component'));
 		}
 
-		JHtmlSidebar::addFilter(
-			JText::_('COM_USERS_OPTION_SELECT_COMPONENT'),
-			'filter_component',
-			$option
-		);
+		JHtmlSidebar::addFilter(JText::_('COM_USERS_OPTION_SELECT_COMPONENT'), 'filter_component', $option);
 
-		JHtmlSidebar::addFilter(
-			JText::_('COM_USERS_OPTION_SELECT_LEVEL_START'),
-			'filter_level_start',
-			JHtml::_('select.options', $this->levels, 'value', 'text', $this->state->get('filter.level_start'))
-		);
+		JHtmlSidebar::addFilter(JText::_('COM_USERS_OPTION_SELECT_LEVEL_START'), 'filter_level_start',
+			JHtml::_('select.options', $this->levels, 'value', 'text', $this->state->get('filter.level_start')));
 
-		JHtmlSidebar::addFilter(
-			JText::_('COM_USERS_OPTION_SELECT_LEVEL_END'),
-			'filter_level_end',
-			JHtml::_('select.options', $this->levels, 'value', 'text', $this->state->get('filter.level_end'))
-		);
-		
+		JHtmlSidebar::addFilter(JText::_('COM_USERS_OPTION_SELECT_LEVEL_END'), 'filter_level_end',
+			JHtml::_('select.options', $this->levels, 'value', 'text', $this->state->get('filter.level_end')));
+
 	}
 }

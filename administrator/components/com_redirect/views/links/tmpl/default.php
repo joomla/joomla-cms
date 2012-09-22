@@ -10,28 +10,30 @@
 defined('_JEXEC') or die;
 
 // Include the component HTML helpers.
-JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
+JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
 JHtml::_('formbehavior.chosen', 'select');
 
-$user		= JFactory::getUser();
-$listOrder	= $this->escape($this->state->get('list.ordering'));
-$listDirn	= $this->escape($this->state->get('list.direction'));
+$user = JFactory::getUser();
+$listOrder = $this->escape($this->state->get('list.ordering'));
+$listDirn = $this->escape($this->state->get('list.direction'));
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_redirect&view=links'); ?>" method="post" name="adminForm" id="adminForm">
-  <?php if(!empty( $this->sidebar)): ?>
+  <?php if (!empty($this->sidebar)) : ?>
     <div id="j-sidebar-container" class="span2">
       <?php echo $this->sidebar; ?>
-    </div>  
+    </div>
     <div id="j-main-container" class="span10">
-  <?php else : ?>
+  <?php
+else : ?>
     <div id="j-main-container">
-  <?php endif;?>
+  <?php endif; ?>
   	<div id="filter-bar" class="btn-toolbar">
   		<div class="filter-search btn-group pull-left">
-  			<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('COM_REDIRECT_SEARCH_LINKS'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" title="<?php echo JText::_('COM_REDIRECT_SEARCH_LINKS'); ?>" />
+  			<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('COM_REDIRECT_SEARCH_LINKS'); ?>" value="<?php echo $this
+	->escape($this->state->get('filter.search')); ?>" title="<?php echo JText::_('COM_REDIRECT_SEARCH_LINKS'); ?>" />
   		</div>
   		<div class="btn-group pull-left">
   			<button class="btn hasTooltip" type="submit" title="<?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?>"><i class="icon-search"></i></button>
@@ -69,7 +71,8 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
   					<p class="footer-tip">
   						<?php if ($this->enabled) : ?>
   							<span class="enabled"><?php echo JText::_('COM_REDIRECT_PLUGIN_ENABLED'); ?></span>
-  						<?php else : ?>
+  						<?php
+else : ?>
   							<span class="disabled"><?php echo JText::_('COM_REDIRECT_PLUGIN_DISABLED'); ?></span>
   						<?php endif; ?>
   					</p>
@@ -78,10 +81,10 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
   		</tfoot>
   		<tbody>
   		<?php foreach ($this->items as $i => $item) :
-  			$canCreate = $user->authorise('core.create',     'com_redirect');
-  			$canEdit   = $user->authorise('core.edit',       'com_redirect');
-  			$canChange = $user->authorise('core.edit.state', 'com_redirect');
-  			?>
+	$canCreate = $user->authorise('core.create', 'com_redirect');
+	$canEdit = $user->authorise('core.edit', 'com_redirect');
+	$canChange = $user->authorise('core.edit.state', 'com_redirect');
+		  ?>
   			<tr class="row<?php echo $i % 2; ?>">
   				<td class="center">
   					<?php echo JHtml::_('grid.id', $i, $item->id); ?>
@@ -89,9 +92,11 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
   				<td>
   					<?php echo JHtml::_('redirect.published', $item->published, $i); ?>
   					<?php if ($canEdit) : ?>
-  						<a href="<?php echo JRoute::_('index.php?option=com_redirect&task=link.edit&id='.$item->id);?>" title="<?php echo $this->escape($item->old_url); ?>">
+  						<a href="<?php echo JRoute::_('index.php?option=com_redirect&task=link.edit&id=' . $item->id); ?>" title="<?php echo $this
+			->escape($item->old_url); ?>">
   							<?php echo $this->escape(str_replace(JURI::root(), '', $item->old_url)); ?></a>
-  					<?php else : ?>
+  					<?php
+	else : ?>
   							<?php echo $this->escape(str_replace(JURI::root(), '', $item->old_url)); ?>
   					<?php endif; ?>
   				</td>
@@ -111,11 +116,11 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
   			<?php endforeach; ?>
   		</tbody>
   	</table>
-  
+
   	<?php if (!empty($this->items)) : ?>
   		<?php echo $this->loadTemplate('addform'); ?>
   	<?php endif; ?>
-  
+
   	<input type="hidden" name="task" value="" />
   	<input type="hidden" name="boxchecked" value="0" />
   	<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>" />

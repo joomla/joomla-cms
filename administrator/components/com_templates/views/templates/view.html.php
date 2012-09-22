@@ -46,25 +46,24 @@ class TemplatesViewTemplates extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$this->items		= $this->get('Items');
-		$this->pagination	= $this->get('Pagination');
-		$this->state		= $this->get('State');
-		$this->preview		= JComponentHelper::getParams('com_templates')->get('template_positions_display');
+		$this->items = $this->get('Items');
+		$this->pagination = $this->get('Pagination');
+		$this->state = $this->get('State');
+		$this->preview = JComponentHelper::getParams('com_templates')->get('template_positions_display');
 
 		TemplatesHelper::addSubmenu('templates');
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors'))) {
+		if (count($errors = $this->get('Errors')))
+		{
 			JError::raiseError(500, implode("\n", $errors));
 			return false;
 		}
 
 		// Check if there are no matching items
-		if(!count($this->items)) {
-			JFactory::getApplication()->enqueueMessage(
-				JText::_('COM_TEMPLATES_MSG_MANAGE_NO_TEMPLATES'),
-				'warning'
-			);
+		if (!count($this->items))
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_TEMPLATES_MSG_MANAGE_NO_TEMPLATES'), 'warning');
 		}
 
 		$this->addToolbar();
@@ -79,11 +78,12 @@ class TemplatesViewTemplates extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		$state	= $this->get('State');
-		$canDo	= TemplatesHelper::getActions();
+		$state = $this->get('State');
+		$canDo = TemplatesHelper::getActions();
 
 		JToolbarHelper::title(JText::_('COM_TEMPLATES_MANAGER_TEMPLATES'), 'thememanager');
-		if ($canDo->get('core.admin')) {
+		if ($canDo->get('core.admin'))
+		{
 			JToolbarHelper::preferences('com_templates');
 			JToolbarHelper::divider();
 		}
@@ -91,12 +91,9 @@ class TemplatesViewTemplates extends JViewLegacy
 
 		JHtmlSidebar::setAction('index.php?option=com_templates&view=templates');
 
-		JHtmlSidebar::addFilter(
-			JText::_('JGLOBAL_FILTER_CLIENT'),
-			'filter_client_id',
-			JHtml::_('select.options', TemplatesHelper::getClientOptions(), 'value', 'text', $this->state->get('filter.client_id'))
-		);
-		
+		JHtmlSidebar::addFilter(JText::_('JGLOBAL_FILTER_CLIENT'), 'filter_client_id',
+			JHtml::_('select.options', TemplatesHelper::getClientOptions(), 'value', 'text', $this->state->get('filter.client_id')));
+
 		$this->sidebar = JHtmlSidebar::render();
 	}
 }

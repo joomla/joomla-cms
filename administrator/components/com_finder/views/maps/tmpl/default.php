@@ -13,7 +13,7 @@ JHtml::_('formbehavior.chosen', 'select');
 JHtml::_('bootstrap.tooltip');
 
 $listOrder = $this->escape($this->state->get('list.ordering'));
-$listDirn  = $this->escape($this->state->get('list.direction'));
+$listDirn = $this->escape($this->state->get('list.direction'));
 
 $lang = JFactory::getLanguage();
 JText::script('COM_FINDER_MAPS_CONFIRM_DELETE_PROMPT');
@@ -31,18 +31,20 @@ Joomla.submitbutton = function(pressbutton) {
 	Joomla.submitform(pressbutton);
 }
 </script>
-<form action="<?php echo JRoute::_('index.php?option=com_finder&view=maps');?>" method="post" name="adminForm" id="adminForm">
-  <?php if(!empty( $this->sidebar)): ?>
+<form action="<?php echo JRoute::_('index.php?option=com_finder&view=maps'); ?>" method="post" name="adminForm" id="adminForm">
+  <?php if (!empty($this->sidebar)) : ?>
     <div id="j-sidebar-container" class="span2">
       <?php echo $this->sidebar; ?>
-    </div>  
+    </div>
     <div id="j-main-container" class="span10">
-  <?php else : ?>
+  <?php
+else : ?>
     <div id="j-main-container">
-  <?php endif;?>
+  <?php endif; ?>
   	<div id="filter-bar" class="btn-toolbar">
   		<div class="filter-search btn-group pull-left">
-  			<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('COM_FINDER_FILTER_SEARCH_DESCRIPTION'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" title="<?php echo JText::_('COM_FINDER_FILTER_SEARCH_DESCRIPTION'); ?>" />
+  			<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('COM_FINDER_FILTER_SEARCH_DESCRIPTION'); ?>" value="<?php echo $this
+	->escape($this->state->get('filter.search')); ?>" title="<?php echo JText::_('COM_FINDER_FILTER_SEARCH_DESCRIPTION'); ?>" />
   		</div>
   		<div class="btn-group pull-left">
   			<button class="btn hasTooltip" type="submit" title="<?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?>"><i class="icon-search"></i></button>
@@ -65,7 +67,7 @@ Joomla.submitbutton = function(pressbutton) {
   			</tr>
   		</thead>
   		<tbody>
-  			<?php if (count($this->items) == 0): ?>
+  			<?php if (count($this->items) == 0) : ?>
   			<tr class="row0">
   				<td class="center" colspan="5">
   					<?php echo JText::_('COM_FINDER_MAPS_NO_CONTENT'); ?>
@@ -80,28 +82,31 @@ Joomla.submitbutton = function(pressbutton) {
   				</td>
   			</tr>
   			<?php endif; ?>
-  
-  			<?php $canChange = JFactory::getUser()->authorise('core.manage',	'com_finder'); ?>
-  			<?php foreach ($this->items as $i => $item): ?>
-  
+
+  			<?php $canChange = JFactory::getUser()->authorise('core.manage', 'com_finder'); ?>
+  			<?php foreach ($this->items as $i => $item) : ?>
+
   			<tr class="row<?php echo $i % 2; ?>">
   				<td class="center">
   					<?php echo JHtml::_('grid.id', $i, $item->id); ?>
   				</td>
   				<td>
   					<?php
-  						$key = FinderHelperLanguage::branchSingular($item->title);
-  						$title = $lang->hasKey($key) ? JText::_($key) : $item->title;
-  					?>
+	$key = FinderHelperLanguage::branchSingular($item->title);
+	$title = $lang->hasKey($key) ? JText::_($key) : $item->title;
+					  ?>
   					<?php if ($this->state->get('filter.branch') == 1 && $item->num_children) : ?>
-  						<a href="#" onclick="document.id('filter_branch').value='<?php echo (int) $item->id;?>';document.adminForm.submit();" title="<?php echo JText::_('COM_FINDER_MAPS_BRANCH_LINK'); ?>">
+  						<a href="#" onclick="document.id('filter_branch').value='<?php echo (int) $item->id; ?>';document.adminForm.submit();" title="<?php echo JText::_(
+			'COM_FINDER_MAPS_BRANCH_LINK'); ?>">
   							<?php echo $this->escape($title); ?></a>
-  					<?php else: ?>
+  					<?php
+	else : ?>
   						<?php echo $this->escape(($title == '*') ? JText::_('JALL_LANGUAGE') : $title); ?>
   					<?php endif; ?>
   					<?php if ($item->num_children > 0) : ?>
   						<small>(<?php echo $item->num_children; ?>)</small>
-  					<?php elseif ($item->num_nodes > 0) : ?>
+  					<?php
+	elseif ($item->num_nodes > 0) : ?>
   						<small>(<?php echo $item->num_nodes; ?>)</small>
   					<?php endif; ?>
   					<?php if ($this->escape(trim($title, '**')) == 'Language' && JLanguageMultilang::isEnabled()) : ?>
@@ -122,7 +127,7 @@ Joomla.submitbutton = function(pressbutton) {
   			</tr>
   		</tfoot>
   	</table>
-  
+
   	<input type="hidden" name="task" value="display" />
   	<input type="hidden" name="boxchecked" value="0" />
   	<input type="hidden" name="filter_order" value="<?php echo $listOrder ?>" />

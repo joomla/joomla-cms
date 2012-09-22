@@ -12,10 +12,10 @@ defined('_JEXEC') or die;
 JHtml::_('formbehavior.chosen', 'select');
 JHtml::_('bootstrap.tooltip');
 
-$user      = JFactory::getUser();
-$userId    = $user->get('id');
+$user = JFactory::getUser();
+$userId = $user->get('id');
 $listOrder = $this->escape($this->state->get('list.ordering'));
-$listDirn  = $this->escape($this->state->get('list.direction'));
+$listDirn = $this->escape($this->state->get('list.direction'));
 
 JText::script('COM_FINDER_INDEX_CONFIRM_DELETE_PROMPT');
 ?>
@@ -32,18 +32,20 @@ Joomla.submitbutton = function(pressbutton) {
 	Joomla.submitform(pressbutton);
 }
 </script>
-<form action="<?php echo JRoute::_('index.php?option=com_finder&view=filters');?>" method="post" name="adminForm" id="adminForm">
-  <?php if(!empty( $this->sidebar)): ?>
+<form action="<?php echo JRoute::_('index.php?option=com_finder&view=filters'); ?>" method="post" name="adminForm" id="adminForm">
+  <?php if (!empty($this->sidebar)) : ?>
     <div id="j-sidebar-container" class="span2">
       <?php echo $this->sidebar; ?>
-    </div>  
+    </div>
     <div id="j-main-container" class="span10">
-  <?php else : ?>
+  <?php
+else : ?>
     <div id="j-main-container">
-  <?php endif;?>
+  <?php endif; ?>
   	<div id="filter-bar" class="btn-toolbar">
   		<div class="filter-search btn-group pull-left">
-  			<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('COM_FINDER_FILTER_SEARCH_DESCRIPTION'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" title="<?php echo JText::_('COM_FINDER_FILTER_SEARCH_DESCRIPTION'); ?>" />
+  			<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('COM_FINDER_FILTER_SEARCH_DESCRIPTION'); ?>" value="<?php echo $this
+	->escape($this->state->get('filter.search')); ?>" title="<?php echo JText::_('COM_FINDER_FILTER_SEARCH_DESCRIPTION'); ?>" />
   		</div>
   		<div class="btn-group pull-left">
   			<button class="btn hasTooltip" type="submit" title="<?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?>"><i class="icon-search"></i></button>
@@ -78,46 +80,53 @@ Joomla.submitbutton = function(pressbutton) {
   			</tr>
   		</thead>
   		<tbody>
-  			<?php if (count($this->items) == 0): ?>
+  			<?php if (count($this->items) == 0) : ?>
   			<tr class="row0">
   				<td class="center" colspan="7">
   					<?php
-  					if ($this->total == 0):
-  						echo JText::_('COM_FINDER_NO_FILTERS');
-  						?>
-  						<a href="<?php echo JRoute::_('index.php?option=com_finder&task=filter.add'); ?>" title="<?php echo JText::_('COM_FINDER_CREATE_FILTER'); ?>">
+	if ($this->total == 0) :
+		echo JText::_('COM_FINDER_NO_FILTERS');
+					  ?>
+  						<a href="<?php echo JRoute::_('index.php?option=com_finder&task=filter.add'); ?>" title="<?php echo JText::_(
+			'COM_FINDER_CREATE_FILTER'); ?>">
   							<?php echo JText::_('COM_FINDER_CREATE_FILTER'); ?>
   						</a>
   					<?php
-  					else:
-  						echo JText::_('COM_FINDER_NO_RESULTS');
-  					endif;
-  					?>
+	else :
+		echo JText::_('COM_FINDER_NO_RESULTS');
+	endif;
+					  ?>
   				</td>
   			</tr>
   			<?php endif; ?>
-  
-  			<?php foreach ($this->items as $i => $item):
-  			$canCreate  = $user->authorise('core.create',     'com_finder');
-  			$canEdit    = $user->authorise('core.edit',       'com_finder');
-  			$canCheckin = $user->authorise('core.manage',     'com_checkin') || $item->checked_out == $user->get('id') || $item->checked_out == 0;
-  			$canChange  = $user->authorise('core.edit.state', 'com_finder') && $canCheckin;
-  			?>
-  
+
+  			<?php foreach ($this->items as $i => $item) :
+	$canCreate = $user->authorise('core.create', 'com_finder');
+	$canEdit = $user->authorise('core.edit', 'com_finder');
+	$canCheckin = $user->authorise('core.manage', 'com_checkin') || $item->checked_out == $user->get('id') || $item->checked_out == 0;
+	$canChange = $user->authorise('core.edit.state', 'com_finder') && $canCheckin;
+			  ?>
+
   			<tr class="row<?php echo $i % 2; ?>">
   				<td class="center">
   					<?php echo JHtml::_('grid.id', $i, $item->filter_id); ?>
   				</td>
   				<td>
-  					<?php if ($item->checked_out) {
-  						echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'filters.', $canCheckin);
-  					} ?>
-  					<?php if ($canEdit) { ?>
+  					<?php if ($item->checked_out)
+	{
+		echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'filters.', $canCheckin);
+	}
+					  ?>
+  					<?php if ($canEdit)
+	{ ?>
   						<a href="<?php echo JRoute::_('index.php?option=com_finder&task=filter.edit&filter_id=' . (int) $item->filter_id); ?>">
   							<?php echo $this->escape($item->title); ?></a>
-  					<?php } else {
-  							echo $this->escape($item->title);
-  					} ?>
+  					<?php }
+	else
+	{
+		echo $this->escape($item->title);
+	}
+					  ?>
   				</td>
   				<td class="center nowrap">
   					<?php echo JHtml::_('jgrid.published', $item->state, $i, 'filters.', $canChange); ?>
@@ -145,7 +154,7 @@ Joomla.submitbutton = function(pressbutton) {
   			</tr>
   		</tfoot>
   	</table>
-  
+
   	<input type="hidden" name="task" value="" />
   	<input type="hidden" name="boxchecked" value="0" />
   	<input type="hidden" name="filter_order" value="<?php echo $this->state->get('list.ordering'); ?>" />

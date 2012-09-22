@@ -29,14 +29,15 @@ class MessagesController extends JControllerLegacy
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{
-		require_once JPATH_COMPONENT.'/helpers/messages.php';
+		require_once JPATH_COMPONENT . '/helpers/messages.php';
 
-		$view   = $this->input->get('view', 'messages');
+		$view = $this->input->get('view', 'messages');
 		$layout = $this->input->get('layout', 'default');
-		$id     = $this->input->getInt('id');
+		$id = $this->input->getInt('id');
 
 		// Check for edit form.
-		if ($view == 'message' && $layout == 'edit' && !$this->checkEditId('com_messages.edit.message', $id)) {
+		if ($view == 'message' && $layout == 'edit' && !$this->checkEditId('com_messages.edit.message', $id))
+		{
 			// Somehow the person just went to the form - we don't allow that.
 			$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id));
 			$this->setMessage($this->getError(), 'error');

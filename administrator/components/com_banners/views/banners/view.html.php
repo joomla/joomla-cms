@@ -37,10 +37,10 @@ class BannersViewBanners extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$this->categories	= $this->get('CategoryOrders');
-		$this->items		= $this->get('Items');
-		$this->pagination	= $this->get('Pagination');
-		$this->state		= $this->get('State');
+		$this->categories = $this->get('CategoryOrders');
+		$this->items = $this->get('Items');
+		$this->pagination = $this->get('Pagination');
+		$this->state = $this->get('State');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -142,29 +142,17 @@ class BannersViewBanners extends JViewLegacy
 
 		JHtmlSidebar::setAction('index.php?option=com_banners&view=banners');
 
-		JHtmlSidebar::addFilter(
-			JText::_('JOPTION_SELECT_PUBLISHED'),
-			'filter_state',
-			JHtml::_('select.options', JHtml::_('jgrid.publishedOptions'), 'value', 'text', $this->state->get('filter.published'), true)
-		);
+		JHtmlSidebar::addFilter(JText::_('JOPTION_SELECT_PUBLISHED'), 'filter_state',
+			JHtml::_('select.options', JHtml::_('jgrid.publishedOptions'), 'value', 'text', $this->state->get('filter.published'), true));
 
-		JHtmlSidebar::addFilter(
-			JText::_('COM_BANNERS_SELECT_CLIENT'),
-			'filter_client_id',
-			JHtml::_('select.options', BannersHelper::getClientOptions(), 'value', 'text', $this->state->get('filter.client_id'))
-		);
+		JHtmlSidebar::addFilter(JText::_('COM_BANNERS_SELECT_CLIENT'), 'filter_client_id',
+			JHtml::_('select.options', BannersHelper::getClientOptions(), 'value', 'text', $this->state->get('filter.client_id')));
 
-		JHtmlSidebar::addFilter(
-			JText::_('JOPTION_SELECT_CATEGORY'),
-			'filter_category_id',
-			JHtml::_('select.options', JHtml::_('category.options', 'com_banners'), 'value', 'text', $this->state->get('filter.category_id'))
-		);
+		JHtmlSidebar::addFilter(JText::_('JOPTION_SELECT_CATEGORY'), 'filter_category_id',
+			JHtml::_('select.options', JHtml::_('category.options', 'com_banners'), 'value', 'text', $this->state->get('filter.category_id')));
 
-		JHtmlSidebar::addFilter(
-			JText::_('JOPTION_SELECT_LANGUAGE'),
-			'filter_language',
-			JHtml::_('select.options', JHtml::_('contentlanguage.existing', true, true), 'value', 'text', $this->state->get('filter.language'))
-		);
+		JHtmlSidebar::addFilter(JText::_('JOPTION_SELECT_LANGUAGE'), 'filter_language',
+			JHtml::_('select.options', JHtml::_('contentlanguage.existing', true, true), 'value', 'text', $this->state->get('filter.language')));
 	}
 
 	/**
@@ -176,16 +164,10 @@ class BannersViewBanners extends JViewLegacy
 	 */
 	protected function getSortFields()
 	{
-		return array(
-			'ordering' => JText::_('JGRID_HEADING_ORDERING'),
-			'a.state' => JText::_('JSTATUS'),
-			'a.name' => JText::_('COM_BANNERS_HEADING_NAME'),
-			'a.sticky' => JText::_('COM_BANNERS_HEADING_STICKY'),
-			'client_name' => JText::_('COM_BANNERS_HEADING_CLIENT'),
-			'impmade' => JText::_('COM_BANNERS_HEADING_IMPRESSIONS'),
-			'clicks' => JText::_('COM_BANNERS_HEADING_CLICKS'),
-			'a.language' => JText::_('JGRID_HEADING_LANGUAGE'),
-			'a.id' => JText::_('JGRID_HEADING_ID')
-		);
+		return array('ordering' => JText::_('JGRID_HEADING_ORDERING'), 'a.state' => JText::_('JSTATUS'),
+			'a.name' => JText::_('COM_BANNERS_HEADING_NAME'), 'a.sticky' => JText::_('COM_BANNERS_HEADING_STICKY'),
+			'client_name' => JText::_('COM_BANNERS_HEADING_CLIENT'), 'impmade' => JText::_('COM_BANNERS_HEADING_IMPRESSIONS'),
+			'clicks' => JText::_('COM_BANNERS_HEADING_CLICKS'), 'a.language' => JText::_('JGRID_HEADING_LANGUAGE'),
+			'a.id' => JText::_('JGRID_HEADING_ID'));
 	}
 }

@@ -29,25 +29,24 @@ class TemplatesViewStyles extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$this->items		= $this->get('Items');
-		$this->pagination	= $this->get('Pagination');
-		$this->state		= $this->get('State');
-		$this->preview		= JComponentHelper::getParams('com_templates')->get('template_positions_display');
+		$this->items = $this->get('Items');
+		$this->pagination = $this->get('Pagination');
+		$this->state = $this->get('State');
+		$this->preview = JComponentHelper::getParams('com_templates')->get('template_positions_display');
 
 		TemplatesHelper::addSubmenu('styles');
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors'))) {
+		if (count($errors = $this->get('Errors')))
+		{
 			JError::raiseError(500, implode("\n", $errors));
 			return false;
 		}
 
-			// Check if there are no matching items
-		if(!count($this->items)) {
-			JFactory::getApplication()->enqueueMessage(
-				JText::_('COM_TEMPLATES_MSG_MANAGE_NO_STYLES'),
-				'warning'
-			);
+		// Check if there are no matching items
+		if (!count($this->items))
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_TEMPLATES_MSG_MANAGE_NO_STYLES'), 'warning');
 		}
 
 		$this->addToolbar();
@@ -62,31 +61,36 @@ class TemplatesViewStyles extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		$state	= $this->get('State');
-		$canDo	= TemplatesHelper::getActions();
-		$isSite	= ($state->get('filter.client_id') == 0);
+		$state = $this->get('State');
+		$canDo = TemplatesHelper::getActions();
+		$isSite = ($state->get('filter.client_id') == 0);
 
 		JToolbarHelper::title(JText::_('COM_TEMPLATES_MANAGER_STYLES'), 'thememanager');
 
-		if ($canDo->get('core.edit.state')) {
+		if ($canDo->get('core.edit.state'))
+		{
 			JToolbarHelper::makeDefault('styles.setDefault', 'COM_TEMPLATES_TOOLBAR_SET_HOME');
 			JToolbarHelper::divider();
 		}
 
-		if ($canDo->get('core.edit')) {
+		if ($canDo->get('core.edit'))
+		{
 			JToolbarHelper::editList('style.edit');
 		}
-		if ($canDo->get('core.create')) {
+		if ($canDo->get('core.create'))
+		{
 			JToolbarHelper::custom('styles.duplicate', 'copy.png', 'copy_f2.png', 'JTOOLBAR_DUPLICATE', true);
 			JToolbarHelper::divider();
 		}
 
-		if ($canDo->get('core.delete')) {
+		if ($canDo->get('core.delete'))
+		{
 			JToolbarHelper::deleteList('', 'styles.delete');
 			JToolbarHelper::divider();
 		}
 
-		if ($canDo->get('core.admin')) {
+		if ($canDo->get('core.admin'))
+		{
 			JToolbarHelper::preferences('com_templates');
 			JToolbarHelper::divider();
 		}
@@ -94,16 +98,11 @@ class TemplatesViewStyles extends JViewLegacy
 
 		JHtmlSidebar::setAction('index.php?option=com_templates&view=styles');
 
-		JHtmlSidebar::addFilter(
-			JText::_('COM_TEMPLATES_FILTER_TEMPLATE'),
-			'filter_template',
-			JHtml::_('select.options', TemplatesHelper::getTemplateOptions($this->state->get('filter.client_id')), 'value', 'text', $this->state->get('filter.template'))
-		);
+		JHtmlSidebar::addFilter(JText::_('COM_TEMPLATES_FILTER_TEMPLATE'), 'filter_template',
+			JHtml::_('select.options', TemplatesHelper::getTemplateOptions($this->state->get('filter.client_id')), 'value', 'text',
+				$this->state->get('filter.template')));
 
-		JHtmlSidebar::addFilter(
-			JText::_('JGLOBAL_FILTER_CLIENT'),
-			'filter_client_id',
-			JHtml::_('select.options', TemplatesHelper::getClientOptions(), 'value', 'text', $this->state->get('filter.client_id'))
-		);
+		JHtmlSidebar::addFilter(JText::_('JGLOBAL_FILTER_CLIENT'), 'filter_client_id',
+			JHtml::_('select.options', TemplatesHelper::getClientOptions(), 'value', 'text', $this->state->get('filter.client_id')));
 	}
 }

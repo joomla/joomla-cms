@@ -35,10 +35,12 @@ class CheckinController extends JControllerLegacy
 
 		$ids = $this->input->get('cid', array(), 'array');
 
-		if (empty($ids)) {
+		if (empty($ids))
+		{
 			JError::raiseWarning(500, JText::_('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST'));
 		}
-		else {
+		else
+		{
 			// Get the model.
 			$model = $this->getModel();
 
@@ -59,22 +61,10 @@ class CheckinController extends JControllerLegacy
 	 */
 	protected function addSubmenu($vName)
 	{
-		JHtmlSidebar::addEntry(
-			JText::_('JGLOBAL_SUBMENU_CHECKIN'),
-			'index.php?option=com_checkin',
-			$vName == 'com_checkin'
-		);
+		JHtmlSidebar::addEntry(JText::_('JGLOBAL_SUBMENU_CHECKIN'), 'index.php?option=com_checkin', $vName == 'com_checkin');
 
-		JHtmlSidebar::addEntry(
-			JText::_('JGLOBAL_SUBMENU_CLEAR_CACHE'),
-			'index.php?option=com_cache',
-			$vName == 'cache'
-		);
-		JHtmlSidebar::addEntry(
-			JText::_('JGLOBAL_SUBMENU_PURGE_EXPIRED_CACHE'),
-			'index.php?option=com_cache&view=purge',
-			$vName == 'purge'
-		);
+		JHtmlSidebar::addEntry(JText::_('JGLOBAL_SUBMENU_CLEAR_CACHE'), 'index.php?option=com_cache', $vName == 'cache');
+		JHtmlSidebar::addEntry(JText::_('JGLOBAL_SUBMENU_PURGE_EXPIRED_CACHE'), 'index.php?option=com_cache&view=purge', $vName == 'purge');
 
 	}
 

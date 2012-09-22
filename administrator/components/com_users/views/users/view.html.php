@@ -29,14 +29,15 @@ class UsersViewUsers extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$this->items		= $this->get('Items');
-		$this->pagination	= $this->get('Pagination');
-		$this->state		= $this->get('State');
+		$this->items = $this->get('Items');
+		$this->pagination = $this->get('Pagination');
+		$this->state = $this->get('State');
 
 		UsersHelper::addSubmenu('users');
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors'))) {
+		if (count($errors = $this->get('Errors')))
+		{
 			JError::raiseError(500, implode("\n", $errors));
 			return false;
 		}
@@ -56,18 +57,21 @@ class UsersViewUsers extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		$canDo	= UsersHelper::getActions();
+		$canDo = UsersHelper::getActions();
 
 		JToolbarHelper::title(JText::_('COM_USERS_VIEW_USERS_TITLE'), 'user');
 
-		if ($canDo->get('core.create')) {
+		if ($canDo->get('core.create'))
+		{
 			JToolbarHelper::addNew('user.add');
 		}
-		if ($canDo->get('core.edit')) {
+		if ($canDo->get('core.edit'))
+		{
 			JToolbarHelper::editList('user.edit');
 		}
 
-		if ($canDo->get('core.edit.state')) {
+		if ($canDo->get('core.edit.state'))
+		{
 			JToolbarHelper::divider();
 			JToolbarHelper::publish('users.activate', 'COM_USERS_TOOLBAR_ACTIVATE', true);
 			JToolbarHelper::unpublish('users.block', 'COM_USERS_TOOLBAR_BLOCK', true);
@@ -75,12 +79,14 @@ class UsersViewUsers extends JViewLegacy
 			JToolbarHelper::divider();
 		}
 
-		if ($canDo->get('core.delete')) {
+		if ($canDo->get('core.delete'))
+		{
 			JToolbarHelper::deleteList('', 'users.delete');
 			JToolbarHelper::divider();
 		}
 
-		if ($canDo->get('core.admin')) {
+		if ($canDo->get('core.admin'))
+		{
 			JToolbarHelper::preferences('com_users');
 			JToolbarHelper::divider();
 		}
@@ -89,28 +95,16 @@ class UsersViewUsers extends JViewLegacy
 
 		JHtmlSidebar::setAction('index.php?option=com_users&view=users');
 
-		JHtmlSidebar::addFilter(
-			JText::_('COM_USERS_FILTER_STATE'),
-			'filter_state',
-			JHtml::_('select.options', UsersHelper::getStateOptions(), 'value', 'text', $this->state->get('filter.state'))
-		);
+		JHtmlSidebar::addFilter(JText::_('COM_USERS_FILTER_STATE'), 'filter_state',
+			JHtml::_('select.options', UsersHelper::getStateOptions(), 'value', 'text', $this->state->get('filter.state')));
 
-		JHtmlSidebar::addFilter(
-			JText::_('COM_USERS_FILTER_ACTIVE'),
-			'filter_active',
-			JHtml::_('select.options', UsersHelper::getActiveOptions(), 'value', 'text', $this->state->get('filter.active'))
-		);
+		JHtmlSidebar::addFilter(JText::_('COM_USERS_FILTER_ACTIVE'), 'filter_active',
+			JHtml::_('select.options', UsersHelper::getActiveOptions(), 'value', 'text', $this->state->get('filter.active')));
 
-		JHtmlSidebar::addFilter(
-			JText::_('COM_USERS_FILTER_USERGROUP'),
-			'filter_group_id',
-			JHtml::_('select.options', UsersHelper::getGroups(), 'value', 'text', $this->state->get('filter.group_id'))
-		);
+		JHtmlSidebar::addFilter(JText::_('COM_USERS_FILTER_USERGROUP'), 'filter_group_id',
+			JHtml::_('select.options', UsersHelper::getGroups(), 'value', 'text', $this->state->get('filter.group_id')));
 
-		JHtmlSidebar::addFilter(
-			JText::_('COM_USERS_OPTION_FILTER_DATE'),
-			'filter_range',
-			JHtml::_('select.options', Usershelper::getRangeOptions(), 'value', 'text', $this->state->get('filter.range'))
-		);
+		JHtmlSidebar::addFilter(JText::_('COM_USERS_OPTION_FILTER_DATE'), 'filter_range',
+			JHtml::_('select.options', Usershelper::getRangeOptions(), 'value', 'text', $this->state->get('filter.range')));
 	}
 }

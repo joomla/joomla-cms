@@ -10,30 +10,33 @@
 defined('_JEXEC') or die;
 
 // Include the component HTML helpers.
-JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
+JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.modal');
 JHtml::_('behavior.multiselect');
 JHtml::_('formbehavior.chosen', 'select');
 
-$user		= JFactory::getUser();
-$listOrder	= $this->escape($this->state->get('list.ordering'));
-$listDirn	= $this->escape($this->state->get('list.direction'));
+$user = JFactory::getUser();
+$listOrder = $this->escape($this->state->get('list.ordering'));
+$listDirn = $this->escape($this->state->get('list.direction'));
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_templates&view=templates'); ?>" method="post" name="adminForm" id="adminForm">
-  <?php if(!empty( $this->sidebar)): ?>
+  <?php if (!empty($this->sidebar)) : ?>
     <div id="j-sidebar-container" class="span2">
       <?php echo $this->sidebar; ?>
-    </div>  
+    </div>
     <div id="j-main-container" class="span10">
-  <?php else : ?>
+  <?php
+else : ?>
     <div id="j-main-container">
-  <?php endif;?>
-  
+  <?php endif; ?>
+
   	<div id="filter-bar" class="btn-toolbar">
   		<div class="filter-search btn-group pull-left">
-  			<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('COM_TEMPLATES_TEMPLATES_FILTER_SEARCH_DESC'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" title="<?php echo JText::_('COM_TEMPLATES_TEMPLATES_FILTER_SEARCH_DESC'); ?>" />
+  			<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_(
+	'COM_TEMPLATES_TEMPLATES_FILTER_SEARCH_DESC'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" title="<?php echo JText::_(
+	'COM_TEMPLATES_TEMPLATES_FILTER_SEARCH_DESC'); ?>" />
   		</div>
   		<div class="btn-group pull-left">
   			<button class="btn tip" type="submit" title="<?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?>"><i class="icon-search"></i></button>
@@ -78,17 +81,20 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
   					<?php echo JHtml::_('templates.thumb', $item->element, $item->client_id); ?>
   				</td>
   				<td class="template-name">
-  					<a href="<?php echo JRoute::_('index.php?option=com_templates&view=template&id='.(int) $item->extension_id); ?>">
+  					<a href="<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . (int) $item->extension_id); ?>">
   						<?php echo JText::sprintf('COM_TEMPLATES_TEMPLATE_DETAILS', ucfirst($item->name)); ?></a>
   					<p>
-  					<?php if($this->preview && $item->client_id == '0'): ?>
-  						<a href="<?php echo JURI::root().'index.php?tp=1&template='.$item->element; ?>" target="_blank">
-  							<?php echo  JText::sprintf('COM_TEMPLATES_TEMPLATE_PREVIEW'); ?></a>
-  					<?php elseif ($item->client_id == '1'): ?>
-  						<?php echo  JText::sprintf('COM_TEMPLATES_TEMPLATE_NO_PREVIEW_ADMIN'); ?>
-  					<?php else: ?>
-  						<span class="hasTip" title="<?php echo JText::sprintf('COM_TEMPLATES_TEMPLATE_NO_PREVIEW'); ?>::<?php echo JText::sprintf('COM_TEMPLATES_TEMPLATE_NO_PREVIEW_DESC'); ?>">
-  							<?php echo  JText::sprintf('COM_TEMPLATES_TEMPLATE_NO_PREVIEW'); ?></span>
+  					<?php if ($this->preview && $item->client_id == '0') : ?>
+  						<a href="<?php echo JURI::root() . 'index.php?tp=1&template=' . $item->element; ?>" target="_blank">
+  							<?php echo JText::sprintf('COM_TEMPLATES_TEMPLATE_PREVIEW'); ?></a>
+  					<?php
+	elseif ($item->client_id == '1') : ?>
+  						<?php echo JText::sprintf('COM_TEMPLATES_TEMPLATE_NO_PREVIEW_ADMIN'); ?>
+  					<?php
+	else : ?>
+  						<span class="hasTip" title="<?php echo JText::sprintf('COM_TEMPLATES_TEMPLATE_NO_PREVIEW'); ?>::<?php echo JText::sprintf(
+			'COM_TEMPLATES_TEMPLATE_NO_PREVIEW_DESC'); ?>">
+  							<?php echo JText::sprintf('COM_TEMPLATES_TEMPLATE_NO_PREVIEW'); ?></span>
   					<?php endif; ?>
   					</p>
   				</td>
@@ -104,7 +110,8 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
   				<td>
   					<?php if ($author = $item->xmldata->get('author')) : ?>
   						<p><?php echo $this->escape($author); ?></p>
-  					<?php else : ?>
+  					<?php
+	else : ?>
   						&mdash;
   					<?php endif; ?>
   					<?php if ($email = $item->xmldata->get('authorEmail')) : ?>
@@ -119,7 +126,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
   			<?php endforeach; ?>
   		</tbody>
   	</table>
-  
+
   	<input type="hidden" name="task" value="" />
   	<input type="hidden" name="boxchecked" value="0" />
   	<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>" />

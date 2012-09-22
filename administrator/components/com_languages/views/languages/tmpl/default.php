@@ -9,33 +9,35 @@
 
 defined('_JEXEC') or die;
 
-JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
+JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.multiselect');
 JHtml::_('formbehavior.chosen', 'select');
 JHtml::_('bootstrap.tooltip');
 
-$user		= JFactory::getUser();
-$userId		= $user->get('id');
-$n			= count($this->items);
-$listOrder	= $this->escape($this->state->get('list.ordering'));
-$listDirn	= $this->escape($this->state->get('list.direction'));
-$canOrder	= $user->authorise('core.edit.state', 'com_languages');
-$saveOrder	= $listOrder == 'a.ordering';
+$user = JFactory::getUser();
+$userId = $user->get('id');
+$n = count($this->items);
+$listOrder = $this->escape($this->state->get('list.ordering'));
+$listDirn = $this->escape($this->state->get('list.direction'));
+$canOrder = $user->authorise('core.edit.state', 'com_languages');
+$saveOrder = $listOrder == 'a.ordering';
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_languages&view=languages'); ?>" method="post" name="adminForm" id="adminForm">
-  <?php if(!empty( $this->sidebar)): ?>
+  <?php if (!empty($this->sidebar)) : ?>
     <div id="j-sidebar-container" class="span2">
       <?php echo $this->sidebar; ?>
-    </div>  
+    </div>
     <div id="j-main-container" class="span10">
-  <?php else : ?>
+  <?php
+else : ?>
     <div id="j-main-container">
-  <?php endif;?>
+  <?php endif; ?>
   	<div id="filter-bar" class="btn-toolbar">
   		<div class="filter-search btn-group pull-left">
-  			<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('COM_LANGUAGES_SEARCH_IN_TITLE'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" title="<?php echo JText::_('COM_LANGUAGES_SEARCH_IN_TITLE'); ?>" />
+  			<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('COM_LANGUAGES_SEARCH_IN_TITLE'); ?>" value="<?php echo $this
+	->escape($this->state->get('filter.search')); ?>" title="<?php echo JText::_('COM_LANGUAGES_SEARCH_IN_TITLE'); ?>" />
   		</div>
   		<div class="btn-group pull-left">
   			<button class="btn hasTooltip" type="submit" title="<?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?>"><i class="icon-search"></i></button>
@@ -69,8 +71,8 @@ $saveOrder	= $listOrder == 'a.ordering';
   				</th>
   				<th width="10%" class="nowrap">
   					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ORDERING', 'a.ordering', $listDirn, $listOrder); ?>
-  					<?php if ($canOrder && $saveOrder) :?>
-  						<?php echo JHtml::_('grid.order',  $this->items, 'filesave.png', 'languages.saveorder'); ?>
+  					<?php if ($canOrder && $saveOrder) : ?>
+  						<?php echo JHtml::_('grid.order', $this->items, 'filesave.png', 'languages.saveorder'); ?>
   					<?php endif; ?>
   				</th>
   				<th width="5%" class="center nowrap">
@@ -93,12 +95,12 @@ $saveOrder	= $listOrder == 'a.ordering';
   		</tfoot>
   		<tbody>
   		<?php
-  		foreach ($this->items as $i => $item) :
-  			$ordering  = ($listOrder == 'a.ordering');
-  			$canCreate = $user->authorise('core.create',     'com_languages');
-  			$canEdit   = $user->authorise('core.edit',       'com_languages');
-  			$canChange = $user->authorise('core.edit.state', 'com_languages');
-  		?>
+foreach ($this->items as $i => $item) :
+	$ordering = ($listOrder == 'a.ordering');
+	$canCreate = $user->authorise('core.create', 'com_languages');
+	$canEdit = $user->authorise('core.edit', 'com_languages');
+	$canChange = $user->authorise('core.edit.state', 'com_languages');
+		  ?>
   			<tr class="row<?php echo $i % 2; ?>">
   				<td>
   					<?php echo $this->pagination->getRowOffset($i); ?>
@@ -107,12 +109,13 @@ $saveOrder	= $listOrder == 'a.ordering';
   					<?php echo JHtml::_('grid.id', $i, $item->lang_id); ?>
   				</td>
   				<td>
-  					<?php echo JHtml::_('jgrid.published', $item->published, $i, 'languages.', $canChange);?>
-  					<span class="editlinktip hasTip" title="<?php echo JText::_('JGLOBAL_EDIT_ITEM');?>::<?php echo $this->escape($item->title); ?>">
+  					<?php echo JHtml::_('jgrid.published', $item->published, $i, 'languages.', $canChange); ?>
+  					<span class="editlinktip hasTip" title="<?php echo JText::_('JGLOBAL_EDIT_ITEM'); ?>::<?php echo $this->escape($item->title); ?>">
   					<?php if ($canEdit) : ?>
-  						<a href="<?php echo JRoute::_('index.php?option=com_languages&task=language.edit&lang_id='.(int) $item->lang_id); ?>">
+  						<a href="<?php echo JRoute::_('index.php?option=com_languages&task=language.edit&lang_id=' . (int) $item->lang_id); ?>">
   							<?php echo $this->escape($item->title); ?></a>
-  					<?php else : ?>
+  					<?php
+	else : ?>
   							<?php echo $this->escape($item->title); ?>
   					<?php endif; ?>
   					</span>
@@ -132,17 +135,25 @@ $saveOrder	= $listOrder == 'a.ordering';
   				<td class="order">
   					<?php if ($canChange) : ?>
   						<div class="input-prepend">
-  							<?php if ($saveOrder) :?>
+  							<?php if ($saveOrder) : ?>
   								<?php if ($listDirn == 'asc') : ?>
-  									<span class="add-on"><?php echo $this->pagination->orderUpIcon($i, true, 'languages.orderup', 'JLIB_HTML_MOVE_UP', $ordering); ?></span><span class="add-on"><?php echo $this->pagination->orderDownIcon($i, $this->pagination->total, true, 'languages.orderdown', 'JLIB_HTML_MOVE_DOWN', $ordering); ?></span>
-  								<?php elseif ($listDirn == 'desc') : ?>
-  									<span class="add-on"><?php echo $this->pagination->orderUpIcon($i, true, 'languages.orderdown', 'JLIB_HTML_MOVE_UP', $ordering); ?></span><span class="add-on"><?php echo $this->pagination->orderDownIcon($i, $this->pagination->total, true, 'languages.orderup', 'JLIB_HTML_MOVE_DOWN', $ordering); ?></span>
+  									<span class="add-on"><?php echo $this->pagination
+					->orderUpIcon($i, true, 'languages.orderup', 'JLIB_HTML_MOVE_UP', $ordering); ?></span><span class="add-on"><?php echo $this
+					->pagination->orderDownIcon($i, $this->pagination->total, true, 'languages.orderdown', 'JLIB_HTML_MOVE_DOWN', $ordering); ?></span>
+  								<?php
+			elseif ($listDirn == 'desc') : ?>
+  									<span class="add-on"><?php echo $this->pagination
+					->orderUpIcon($i, true, 'languages.orderdown', 'JLIB_HTML_MOVE_UP', $ordering); ?></span><span class="add-on"><?php echo $this
+					->pagination->orderDownIcon($i, $this->pagination->total, true, 'languages.orderup', 'JLIB_HTML_MOVE_DOWN', $ordering); ?></span>
   								<?php endif; ?>
   							<?php endif; ?>
-  							<?php $disabled = $saveOrder ?  '' : 'disabled="disabled"'; ?>
-  							<?php if(!$disabled = $saveOrder) : echo "<span class=\"add-on tip\" title=\"".JText::_('JDISABLED')."\"><i class=\"icon-ban-circle\"></i></span>"; endif;?><input type="text" name="order[]" size="5" value="<?php echo $item->ordering;?>" <?php echo $disabled ?> class="width-20 text-area-order" />
+  							<?php $disabled = $saveOrder ? '' : 'disabled="disabled"'; ?>
+  							<?php if (!$disabled = $saveOrder) :
+			echo "<span class=\"add-on tip\" title=\"" . JText::_('JDISABLED') . "\"><i class=\"icon-ban-circle\"></i></span>";
+		endif; ?><input type="text" name="order[]" size="5" value="<?php echo $item->ordering; ?>" <?php echo $disabled ?> class="width-20 text-area-order" />
   						</div>
-  					<?php else : ?>
+  					<?php
+	else : ?>
   						<?php echo $item->ordering; ?>
   					<?php endif; ?>
   				</td>
@@ -151,10 +162,11 @@ $saveOrder	= $listOrder == 'a.ordering';
   				</td>
   				<td>
   					<?php if ($item->home == '1') : ?>
-  						<?php echo JText::_('JYES');?>
-  					<?php else:?>
-  						<?php echo JText::_('JNO');?>
-  					<?php endif;?>
+  						<?php echo JText::_('JYES'); ?>
+  					<?php
+	else : ?>
+  						<?php echo JText::_('JNO'); ?>
+  					<?php endif; ?>
   				</td>
   				<td class="center">
   					<?php echo $this->escape($item->lang_id); ?>
@@ -163,7 +175,7 @@ $saveOrder	= $listOrder == 'a.ordering';
   			<?php endforeach; ?>
   		</tbody>
   	</table>
-  
+
   	<input type="hidden" name="task" value="" />
   	<input type="hidden" name="boxchecked" value="0" />
   	<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>" />

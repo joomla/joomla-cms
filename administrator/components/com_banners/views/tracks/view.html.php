@@ -29,12 +29,13 @@ class BannersViewTracks extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$this->items		= $this->get('Items');
-		$this->pagination	= $this->get('Pagination');
-		$this->state		= $this->get('State');
+		$this->items = $this->get('Items');
+		$this->pagination = $this->get('Pagination');
+		$this->state = $this->get('State');
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors'))) {
+		if (count($errors = $this->get('Errors')))
+		{
 			JError::raiseError(500, implode("\n", $errors));
 			return false;
 		}
@@ -42,7 +43,7 @@ class BannersViewTracks extends JViewLegacy
 		BannersHelper::addSubmenu('tracks');
 
 		$this->addToolbar();
-		require_once JPATH_COMPONENT .'/models/fields/bannerclient.php';
+		require_once JPATH_COMPONENT . '/models/fields/bannerclient.php';
 		$this->sidebar = JHtmlSidebar::render();
 		parent::display($tpl);
 	}
@@ -54,21 +55,23 @@ class BannersViewTracks extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		require_once JPATH_COMPONENT.'/helpers/banners.php';
+		require_once JPATH_COMPONENT . '/helpers/banners.php';
 
-		$canDo	= BannersHelper::getActions($this->state->get('filter.category_id'));
+		$canDo = BannersHelper::getActions($this->state->get('filter.category_id'));
 
 		JToolbarHelper::title(JText::_('COM_BANNERS_MANAGER_TRACKS'), 'banners-tracks.png');
 
 		$bar = JToolBar::getInstance('toolbar');
-			$bar->appendButton('Slider', 'export', 'JTOOLBAR_EXPORT', 'index.php?option=com_banners&amp;view=download&amp;tmpl=component', 600, 300);
+		$bar->appendButton('Slider', 'export', 'JTOOLBAR_EXPORT', 'index.php?option=com_banners&amp;view=download&amp;tmpl=component', 600, 300);
 		$document = JFactory::getDocument();
 		$app = JFactory::getApplication();
-		if ($canDo->get('core.delete')) {
+		if ($canDo->get('core.delete'))
+		{
 			$bar->appendButton('Confirm', 'COM_BANNERS_DELETE_MSG', 'delete', 'COM_BANNERS_TRACKS_DELETE', 'tracks.delete', false);
 			JToolbarHelper::divider();
 		}
-		if ($canDo->get('core.admin')) {
+		if ($canDo->get('core.admin'))
+		{
 			JToolbarHelper::preferences('com_banners');
 			JToolbarHelper::divider();
 		}
@@ -76,23 +79,16 @@ class BannersViewTracks extends JViewLegacy
 
 		JHtmlSidebar::setAction('index.php?option=com_banners&view=tracks');
 
-		JHtmlSidebar::addFilter(
-			JText::_('COM_BANNERS_SELECT_CLIENT'),
-			'filter_client_id',
-			JHtml::_('select.options', BannersHelper::getClientOptions(), 'value', 'text', $this->state->get('filter.client_id'))
-		);
+		JHtmlSidebar::addFilter(JText::_('COM_BANNERS_SELECT_CLIENT'), 'filter_client_id',
+			JHtml::_('select.options', BannersHelper::getClientOptions(), 'value', 'text', $this->state->get('filter.client_id')));
 
-		JHtmlSidebar::addFilter(
-			JText::_('JOPTION_SELECT_CATEGORY'),
-			'filter_category_id',
-			JHtml::_('select.options', JHtml::_('category.options', 'com_banners'), 'value', 'text', $this->state->get('filter.category_id'))
-		);
+		JHtmlSidebar::addFilter(JText::_('JOPTION_SELECT_CATEGORY'), 'filter_category_id',
+			JHtml::_('select.options', JHtml::_('category.options', 'com_banners'), 'value', 'text', $this->state->get('filter.category_id')));
 
-		JHtmlSidebar::addFilter(
-			JText::_('COM_BANNERS_SELECT_TYPE'),
-			'filter_type',
-			JHtml::_('select.options', array(JHtml::_('select.option', 1, JText::_('COM_BANNERS_IMPRESSION')), JHtml::_('select.option', 2, JText::_('COM_BANNERS_CLICK'))), 'value', 'text', $this->state->get('filter.type'))
-		);
+		JHtmlSidebar::addFilter(JText::_('COM_BANNERS_SELECT_TYPE'), 'filter_type',
+			JHtml::_('select.options',
+				array(JHtml::_('select.option', 1, JText::_('COM_BANNERS_IMPRESSION')), JHtml::_('select.option', 2, JText::_('COM_BANNERS_CLICK'))),
+				'value', 'text', $this->state->get('filter.type')));
 	}
 
 	/**
@@ -104,12 +100,8 @@ class BannersViewTracks extends JViewLegacy
 	 */
 	protected function getSortFields()
 	{
-		return array(
-			'b.name' => JText::_('COM_BANNERS_HEADING_NAME'),
-			'cl.name' => JText::_('COM_BANNERS_HEADING_CLIENT'),
-			'track_type' => JText::_('COM_BANNERS_HEADING_TYPE'),
-			'count' => JText::_('COM_BANNERS_HEADING_COUNT'),
-			'track_date' => JText::_('JDATE')
-		);
+		return array('b.name' => JText::_('COM_BANNERS_HEADING_NAME'), 'cl.name' => JText::_('COM_BANNERS_HEADING_CLIENT'),
+			'track_type' => JText::_('COM_BANNERS_HEADING_TYPE'), 'count' => JText::_('COM_BANNERS_HEADING_COUNT'),
+			'track_date' => JText::_('JDATE'));
 	}
 }

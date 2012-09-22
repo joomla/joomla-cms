@@ -10,28 +10,30 @@
 defined('_JEXEC') or die;
 
 // Include the component HTML helpers.
-JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
+JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.multiselect');
 JHtml::_('formbehavior.chosen', 'select');
 
-$user		= JFactory::getUser();
-$listOrder	= $this->escape($this->state->get('list.ordering'));
-$listDirn	= $this->escape($this->state->get('list.direction'));
+$user = JFactory::getUser();
+$listOrder = $this->escape($this->state->get('list.ordering'));
+$listDirn = $this->escape($this->state->get('list.direction'));
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_messages&view=messages'); ?>" method="post" name="adminForm" id="adminForm">
-  <?php if(!empty( $this->sidebar)): ?>
+  <?php if (!empty($this->sidebar)) : ?>
     <div id="j-sidebar-container" class="span2">
       <?php echo $this->sidebar; ?>
-    </div>  
+    </div>
     <div id="j-main-container" class="span10">
-  <?php else : ?>
+  <?php
+else : ?>
     <div id="j-main-container">
-  <?php endif;?>
+  <?php endif; ?>
   	<div id="filter-bar" class="btn-toolbar">
   		<div class="filter-search btn-group pull-left">
-  			<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('COM_MESSAGES_SEARCH_IN_SUBJECT'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" title="<?php echo JText::_('COM_MESSAGES_SEARCH_IN_SUBJECT'); ?>" />
+  			<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('COM_MESSAGES_SEARCH_IN_SUBJECT'); ?>" value="<?php echo $this
+	->escape($this->state->get('filter.search')); ?>" title="<?php echo JText::_('COM_MESSAGES_SEARCH_IN_SUBJECT'); ?>" />
   		</div>
   		<div class="btn-group pull-left">
   			<button class="btn tip" type="submit" title="<?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?>"><i class="icon-search"></i></button>
@@ -39,8 +41,8 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
   		</div>
   		<div class="btn-group pull-left">
   			<select name="filter_state" class="inputbox" onchange="this.form.submit()">
-  				<option value=""><?php echo JText::_('JOPTION_SELECT_PUBLISHED');?></option>
-  				<?php echo JHtml::_('select.options', MessagesHelper::getStateOptions(), 'value', 'text', $this->state->get('filter.state'));?>
+  				<option value=""><?php echo JText::_('JOPTION_SELECT_PUBLISHED'); ?></option>
+  				<?php echo JHtml::_('select.options', MessagesHelper::getStateOptions(), 'value', 'text', $this->state->get('filter.state')); ?>
   			</select>
   		</div>
   	</div>
@@ -74,14 +76,14 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
   		</tfoot>
   		<tbody>
   		<?php foreach ($this->items as $i => $item) :
-  			$canChange	= $user->authorise('core.edit.state', 'com_messages');
-  			?>
+	$canChange = $user->authorise('core.edit.state', 'com_messages');
+		  ?>
   			<tr class="row<?php echo $i % 2; ?>">
   				<td>
   					<?php echo JHtml::_('grid.id', $i, $item->message_id); ?>
   				</td>
   				<td>
-  					<a href="<?php echo JRoute::_('index.php?option=com_messages&view=message&message_id='.(int) $item->message_id); ?>">
+  					<a href="<?php echo JRoute::_('index.php?option=com_messages&view=message&message_id=' . (int) $item->message_id); ?>">
   						<?php echo $this->escape($item->subject); ?></a>
   				</td>
   				<td class="center">
@@ -97,7 +99,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
   			<?php endforeach; ?>
   		</tbody>
   	</table>
-  
+
   	<div>
   		<input type="hidden" name="task" value="" />
   		<input type="hidden" name="boxchecked" value="0" />

@@ -94,10 +94,7 @@ class FinderViewFilters extends JViewLegacy
 
 		JHtmlSidebar::setAction('index.php?option=com_finder&view=filters');
 
-		JHtmlSidebar::addFilter(
-			JText::_('COM_FINDER_INDEX_FILTER_BY_STATE'),
-			'filter_state',
-			JHtml::_('select.options', JHtml::_('finder.statelist'), 'value', 'text', $this->state->get('filter.state'))
-		);
+		JHtmlSidebar::addFilter(JText::_('COM_FINDER_INDEX_FILTER_BY_STATE'), 'filter_state',
+			JHtml::_('select.options', JHtml::_('finder.statelist'), 'value', 'text', $this->state->get('filter.state')));
 	}
 }

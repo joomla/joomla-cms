@@ -10,27 +10,28 @@
 defined('_JEXEC') or die;
 
 // Add specific helper files for html generation
-JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
-$user		= JFactory::getUser();
-$userId		= $user->get('id');
-$client		= $this->state->get('filter.client_id', 0) ? JText::_('JADMINISTRATOR') : JText::_('JSITE');
-$clientId	= $this->state->get('filter.client_id', 0);
+JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+$user = JFactory::getUser();
+$userId = $user->get('id');
+$client = $this->state->get('filter.client_id', 0) ? JText::_('JADMINISTRATOR') : JText::_('JSITE');
+$clientId = $this->state->get('filter.client_id', 0);
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_languages&view=installed&client='.$clientId); ?>" method="post" id="adminForm" name="adminForm">
+<form action="<?php echo JRoute::_('index.php?option=com_languages&view=installed&client=' . $clientId); ?>" method="post" id="adminForm" name="adminForm">
 
-  <?php if(!empty( $this->sidebar)): ?>
+  <?php if (!empty($this->sidebar)) : ?>
     <div id="j-sidebar-container" class="span2">
       <?php echo $this->sidebar; ?>
-    </div>  
+    </div>
     <div id="j-main-container" class="span10">
-  <?php else : ?>
+  <?php
+else : ?>
     <div id="j-main-container">
-  <?php endif;?>
-  
-  	<?php if ($this->ftp): ?>
-  		<?php echo $this->loadTemplate('ftp');?>
+  <?php endif; ?>
+
+  	<?php if ($this->ftp) : ?>
+  		<?php echo $this->loadTemplate('ftp'); ?>
   	<?php endif; ?>
-  
+
   	<table class="table table-striped">
   		<thead>
   			<tr>
@@ -75,16 +76,16 @@ $clientId	= $this->state->get('filter.client_id', 0);
   		</tfoot>
   		<tbody>
   		<?php foreach ($this->rows as $i => $row) :
-  			$canCreate = $user->authorise('core.create',     'com_languages');
-  			$canEdit   = $user->authorise('core.edit',       'com_languages');
-  			$canChange = $user->authorise('core.edit.state', 'com_languages');
-  		?>
+	$canCreate = $user->authorise('core.create', 'com_languages');
+	$canEdit = $user->authorise('core.edit', 'com_languages');
+	$canChange = $user->authorise('core.edit.state', 'com_languages');
+		  ?>
   			<tr class="row<?php echo $i % 2; ?>">
   				<td width="20">
   					<?php echo $this->pagination->getRowOffset($i); ?>
   				</td>
   				<td width="20">
-  					<?php echo JHtml::_('languages.id', $i, $row->language);?>
+  					<?php echo JHtml::_('languages.id', $i, $row->language); ?>
   				</td>
   				<td width="25%">
   					<?php echo $this->escape($row->name); ?>
@@ -93,10 +94,10 @@ $clientId	= $this->state->get('filter.client_id', 0);
   					<?php echo $this->escape($row->language); ?>
   				</td>
   				<td align="center">
-  					<?php echo $client;?>
+  					<?php echo $client; ?>
   				</td>
   				<td align="center">
-  					<?php echo JHtml::_('jgrid.isdefault', $row->published, $i, 'installed.',  !$row->published && $canChange);?>
+  					<?php echo JHtml::_('jgrid.isdefault', $row->published, $i, 'installed.', !$row->published && $canChange); ?>
   				</td>
   				<td align="center">
   					<?php echo $this->escape($row->version); ?>
@@ -111,10 +112,10 @@ $clientId	= $this->state->get('filter.client_id', 0);
   					<?php echo $this->escape($row->authorEmail); ?>
   				</td>
   			</tr>
-  		<?php endforeach;?>
+  		<?php endforeach; ?>
   		</tbody>
   	</table>
-  
+
   	<input type="hidden" name="task" value="" />
   	<input type="hidden" name="boxchecked" value="0" />
   	<?php echo JHtml::_('form.token'); ?>

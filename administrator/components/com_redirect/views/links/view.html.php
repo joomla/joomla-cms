@@ -33,13 +33,14 @@ class RedirectViewLinks extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$this->enabled		= RedirectHelper::isEnabled();
-		$this->items		= $this->get('Items');
-		$this->pagination	= $this->get('Pagination');
-		$this->state		= $this->get('State');
+		$this->enabled = RedirectHelper::isEnabled();
+		$this->items = $this->get('Items');
+		$this->pagination = $this->get('Pagination');
+		$this->state = $this->get('State');
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors'))) {
+		if (count($errors = $this->get('Errors')))
+		{
 			JError::raiseError(500, implode("\n", $errors));
 			return false;
 		}
@@ -56,40 +57,51 @@ class RedirectViewLinks extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		$state	= $this->get('State');
-		$canDo	= RedirectHelper::getActions();
+		$state = $this->get('State');
+		$canDo = RedirectHelper::getActions();
 
 		JToolbarHelper::title(JText::_('COM_REDIRECT_MANAGER_LINKS'), 'redirect');
-		if ($canDo->get('core.create')) {
+		if ($canDo->get('core.create'))
+		{
 			JToolbarHelper::addNew('link.add');
 		}
-		if ($canDo->get('core.edit')) {
+		if ($canDo->get('core.edit'))
+		{
 			JToolbarHelper::editList('link.edit');
 		}
-		if ($canDo->get('core.edit.state')) {
-			if ($state->get('filter.state') != 2){
+		if ($canDo->get('core.edit.state'))
+		{
+			if ($state->get('filter.state') != 2)
+			{
 				JToolbarHelper::divider();
 				JToolbarHelper::publish('links.publish', 'JTOOLBAR_ENABLE', true);
 				JToolbarHelper::unpublish('links.unpublish', 'JTOOLBAR_DISABLE', true);
 			}
-			if ($state->get('filter.state') != -1 ) {
+			if ($state->get('filter.state') != -1)
+			{
 				JToolbarHelper::divider();
-				if ($state->get('filter.state') != 2) {
+				if ($state->get('filter.state') != 2)
+				{
 					JToolbarHelper::archiveList('links.archive');
 				}
-				elseif ($state->get('filter.state') == 2) {
+				elseif ($state->get('filter.state') == 2)
+				{
 					JToolbarHelper::unarchiveList('links.publish', 'JTOOLBAR_UNARCHIVE');
 				}
 			}
 		}
-		if ($state->get('filter.state') == -2 && $canDo->get('core.delete')) {
+		if ($state->get('filter.state') == -2 && $canDo->get('core.delete'))
+		{
 			JToolbarHelper::deleteList('', 'links.delete', 'JTOOLBAR_EMPTY_TRASH');
 			JToolbarHelper::divider();
-		} elseif ($canDo->get('core.edit.state')) {
+		}
+		elseif ($canDo->get('core.edit.state'))
+		{
 			JToolbarHelper::trash('links.trash');
 			JToolbarHelper::divider();
 		}
-		if ($canDo->get('core.admin')) {
+		if ($canDo->get('core.admin'))
+		{
 			JToolbarHelper::preferences('com_redirect');
 			JToolbarHelper::divider();
 		}
@@ -97,10 +109,7 @@ class RedirectViewLinks extends JViewLegacy
 
 		JHtmlSidebar::setAction('index.php?option=com_redirect&view=links');
 
-		JHtmlSidebar::addFilter(
-			JText::_('JOPTION_SELECT_PUBLISHED'),
-			'filter_state',
-			JHtml::_('select.options', RedirectHelper::publishedOptions(), 'value', 'text', $this->state->get('filter.state'), true)
-		);
+		JHtmlSidebar::addFilter(JText::_('JOPTION_SELECT_PUBLISHED'), 'filter_state',
+			JHtml::_('select.options', RedirectHelper::publishedOptions(), 'value', 'text', $this->state->get('filter.state'), true));
 	}
 }

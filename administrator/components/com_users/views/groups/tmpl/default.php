@@ -10,15 +10,15 @@
 defined('_JEXEC') or die;
 
 // Include the component HTML helpers.
-JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
+JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 // Load the tooltip behavior.
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.multiselect');
 
-$user		= JFactory::getUser();
-$listOrder	= $this->escape($this->state->get('list.ordering'));
-$listDirn	= $this->escape($this->state->get('list.direction'));
+$user = JFactory::getUser();
+$listOrder = $this->escape($this->state->get('list.ordering'));
+$listDirn = $this->escape($this->state->get('list.direction'));
 
 JText::script('COM_USERS_GROUPS_CONFIRM_DELETE');
 ?>
@@ -29,33 +29,35 @@ JText::script('COM_USERS_GROUPS_CONFIRM_DELETE');
 		{
 			var f = document.adminForm;
 			var cb='';
-<?php foreach ($this->items as $i => $item):?>
-<?php if ($item->user_count > 0):?>
-			cb = f['cb'+<?php echo $i;?>];
+<?php foreach ($this->items as $i => $item) : ?>
+<?php if ($item->user_count > 0) : ?>
+			cb = f['cb'+<?php echo $i; ?>];
 			if (cb && cb.checked) {
 				if (confirm(Joomla.JText._('COM_USERS_GROUPS_CONFIRM_DELETE'))) {
 					Joomla.submitform(task);
 				}
 				return;
 			}
-<?php endif;?>
-<?php endforeach;?>
+<?php endif; ?>
+<?php endforeach; ?>
 		}
 		Joomla.submitform(task);
 	}
 </script>
-<form action="<?php echo JRoute::_('index.php?option=com_users&view=groups');?>" method="post" name="adminForm" id="adminForm">
-  <?php if(!empty( $this->sidebar)): ?>
+<form action="<?php echo JRoute::_('index.php?option=com_users&view=groups'); ?>" method="post" name="adminForm" id="adminForm">
+  <?php if (!empty($this->sidebar)) : ?>
     <div id="j-sidebar-container" class="span2">
       <?php echo $this->sidebar; ?>
-    </div>  
+    </div>
     <div id="j-main-container" class="span10">
-  <?php else : ?>
+  <?php
+else : ?>
     <div id="j-main-container">
-  <?php endif;?>
+  <?php endif; ?>
   	<div id="filter-bar" class="btn-toolbar">
   		<div class="filter-search btn-group pull-left">
-  			<input type="text" name="filter_search" placeholder="<?php echo JText::_('COM_USERS_SEARCH_GROUPS_LABEL'); ?>" id="filter_search" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" title="<?php echo JText::_('COM_USERS_SEARCH_IN_GROUPS'); ?>" />
+  			<input type="text" name="filter_search" placeholder="<?php echo JText::_('COM_USERS_SEARCH_GROUPS_LABEL'); ?>" id="filter_search" value="<?php echo $this
+	->escape($this->state->get('filter.search')); ?>" title="<?php echo JText::_('COM_USERS_SEARCH_IN_GROUPS'); ?>" />
   		</div>
   		<div class="btn-group pull-left">
   			<button class="btn tip" type="submit" title="<?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?>"><i class="icon-search"></i></button>
@@ -63,7 +65,7 @@ JText::script('COM_USERS_GROUPS_CONFIRM_DELETE');
   		</div>
   	</div>
   	<div class="clearfix"> </div>
-  
+
   	<table class="table table-striped">
   		<thead>
   			<tr>
@@ -90,16 +92,16 @@ JText::script('COM_USERS_GROUPS_CONFIRM_DELETE');
   		</tfoot>
   		<tbody>
   		<?php foreach ($this->items as $i => $item) :
-  			$canCreate = $user->authorise('core.create', 'com_users');
-  			$canEdit   = $user->authorise('core.edit',    'com_users');
-  
-  			// If this group is super admin and this user is not super admin, $canEdit is false
-  			if (!$user->authorise('core.admin') && (JAccess::checkGroup($item->id, 'core.admin')))
-  			{
-  				$canEdit = false;
-  			}
-  			$canChange	= $user->authorise('core.edit.state',	'com_users');
-  		?>
+	$canCreate = $user->authorise('core.create', 'com_users');
+	$canEdit = $user->authorise('core.edit', 'com_users');
+
+	// If this group is super admin and this user is not super admin, $canEdit is false
+	if (!$user->authorise('core.admin') && (JAccess::checkGroup($item->id, 'core.admin')))
+	{
+		$canEdit = false;
+	}
+	$canChange = $user->authorise('core.edit.state', 'com_users');
+		  ?>
   			<tr class="row<?php echo $i % 2; ?>">
   				<td class="center">
   					<?php if ($canEdit) : ?>
@@ -109,14 +111,15 @@ JText::script('COM_USERS_GROUPS_CONFIRM_DELETE');
   				<td>
   					<?php echo str_repeat('<span class="gi">|&mdash;</span>', $item->level) ?>
   					<?php if ($canEdit) : ?>
-  					<a href="<?php echo JRoute::_('index.php?option=com_users&task=group.edit&id='.$item->id);?>">
+  					<a href="<?php echo JRoute::_('index.php?option=com_users&task=group.edit&id=' . $item->id); ?>">
   						<?php echo $this->escape($item->title); ?></a>
-  					<?php else : ?>
+  					<?php
+	else : ?>
   						<?php echo $this->escape($item->title); ?>
   					<?php endif; ?>
   					<?php if (JDEBUG) : ?>
-  						<div class="small"><a href="<?php echo JRoute::_('index.php?option=com_users&view=debuggroup&group_id='.(int) $item->id);?>">
-  						<?php echo JText::_('COM_USERS_DEBUG_GROUP');?></a></div>
+  						<div class="small"><a href="<?php echo JRoute::_('index.php?option=com_users&view=debuggroup&group_id=' . (int) $item->id); ?>">
+  						<?php echo JText::_('COM_USERS_DEBUG_GROUP'); ?></a></div>
   					<?php endif; ?>
   				</td>
   				<td class="center">
@@ -129,7 +132,7 @@ JText::script('COM_USERS_GROUPS_CONFIRM_DELETE');
   			<?php endforeach; ?>
   		</tbody>
   	</table>
-  
+
   	<input type="hidden" name="task" value="" />
   	<input type="hidden" name="boxchecked" value="0" />
   	<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>" />
