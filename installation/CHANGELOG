@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+22-Sep-2012 Mark Dexter
+ # [#28764] user notes category is not properly nested in the assets table. Thanks Elin.
+
 22-Sep-2012 Jean-Marie Simonet
  +$ Adding installation languages: ar-AA, az-AZ, ckb-IQ, fi-FI
  # Correcting double translation
