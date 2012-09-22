@@ -124,7 +124,8 @@ $loggeduser = JFactory::getUser();
 				</td>
 				<td class="center">
 					<?php 
-					echo JHtml::_('jgrid.state', JHtmlUsers::activateStates(), $item->activation, $i, 'users.', (boolean) $item->activation);
+					  $activated = empty( $item->activation) ? 0 : 1;
+					  echo JHtml::_('jgrid.state', JHtmlUsers::activateStates(), $activated, $i, 'users.', (boolean) $activated);
 					?>
 				</td>
 				<td class="center">
