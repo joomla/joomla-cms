@@ -17,6 +17,12 @@ $params->def('greeting', 1);
 $type	= modLoginHelper::getType();
 $return	= modLoginHelper::getReturnURL($params, $type);
 $user	= JFactory::getUser();
-$user->guest ? $layout = $params->get('layout', 'default') : $layout = $params->get('layout', 'default_logout');
+$layout = $params->get('layout', 'default');
+
+// Logged users must load the logout sublayout
+if (!$user->guest)
+{
+	$layout .= '_logout';
+}
 
 require JModuleHelper::getLayoutPath('mod_login', $layout);
