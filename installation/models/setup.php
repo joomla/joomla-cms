@@ -234,7 +234,7 @@ class InstallationModelSetup extends JModelLegacy
 		// Check for magic quotes gpc.
 		$option = new stdClass;
 		$option->label  = JText::_('INSTL_MAGIC_QUOTES_GPC');
-		$option->state  = (ini_get('magic_quotes_gpc') == false);
+		$option->state  = (ini_get('magic_quotes_gpc') == '' && ini_get('magic_quotes_gpc') == false) ? false : true;
 		$option->notice = null;
 		$options[] = $option;
 
