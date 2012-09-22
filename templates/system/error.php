@@ -13,7 +13,7 @@ if (!isset($this->error)) {
 	$this->debug = false;
 }
 //get language and direction
-$doc = JFactory::getDocument();
+$doc = JDocument::getInstance('error');
 $this->language = $doc->language;
 $this->direction = $doc->direction;
 ?>

@@ -31,31 +31,32 @@ class JErrorPage
 	{
 		try
 		{
-			$app      = JFactory::getApplication();
+			// Get the current template from the application.
+			// If the application is not available, fall back to the system template
+			$template = (is_null(JFactory::$application)) ? 'system' : JFactory::getApplication()->getTemplate();
+
 			$document = JDocument::getInstance('error');
 
 			if (!$document)
 			{
 				// We're probably in an CLI environment
 				exit($error->getMessage());
-				$app->close(0);
 			}
-
-			$config = JFactory::getConfig();
-
-			// Get the current template from the application
-			$template = $app->getTemplate();
 
 			// Push the error object into the document
 			$document->setError($error);
 
-			ob_end_clean();
+			if(ob_get_level())
+			{
+				ob_end_clean();
+			}
+
 			$document->setTitle(JText::_('Error') . ': ' . $error->getCode());
 			$data = $document->render(
 				false,
 				array('template' => $template,
 				'directory' => JPATH_THEMES,
-				'debug' => $config->get('debug'))
+				'debug' => JFactory::getConfig()->get('debug'))
 			);
 
 			// Failsafe to get the error displayed.
