@@ -37,6 +37,7 @@ $ -> Language fix or change
  +$ Adding installation languages: ar-AA, az-AZ, ckb-IQ, fi-FI
  # Correcting double translation
  # Correcting lang string typo
+ # [#29265] Turning on error reporting to Development throws errors on the front end. Thanks Mark Lee
 
 21-Sep-2012 Jean-Marie Simonet
  +$ Adding installation languages: km-KH, sv-SE
