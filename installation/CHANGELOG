@@ -31,6 +31,7 @@ $ -> Language fix or change
  # [#29116] Parse error on initializing installation if server does not meet PHP requirements . Thanks Jean-Marie.
  # [#28900] Improvements to Schema package. Thanks Michael.
  # [#29162] Need a Purge Cache Button in the Joomla! Update component. Thanks Janich Rasmussen.
+ # [#28992] Code cleanup for com_content. Thanks Viet Vu.
 
 22-Sep-2012 Jean-Marie Simonet
  +$ Adding installation languages: ar-AA, az-AZ, ckb-IQ, fi-FI
