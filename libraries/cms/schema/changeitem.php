@@ -10,7 +10,7 @@
 defined('JPATH_PLATFORM') or die;
 
 /**
- * Each object represents one query, which is one line from a DDS SQL query.
+ * Each object represents one query, which is one line from a DDL SQL query.
  * This class is used to check the site's database to see if the DDL query has been run.
  * If not, it provides the ability to fix the database by re-running the DDL query.
  * The queries are parsed from the update files in the folder
@@ -27,7 +27,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Schema
  * @since       2.5
  */
-abstract class JSchemaChangeitem extends JObject
+abstract class JSchemaChangeitem
 {
 	/**
 	 * Update file: full path file name where query was found
@@ -136,24 +136,51 @@ abstract class JSchemaChangeitem extends JObject
 	 * @return  JSchemaChangeitem instance based on the database driver
 	 *
 	 * @since   2.5
+	 * @throws  RuntimeException if class for database driver not found
 	 */
 	public static function getInstance($db, $file, $query)
 	{
-		$instance = null;
+		// Get the class name
+		$dbname = $db->name;
 
-		// Get the class name (mysql and mysqli both use mysql)
-		$dbname = (substr($db->name, 0, 5) == 'mysql') ? 'mysql' : $db->name;
-		$path = __DIR__ . '/' . 'changeitem' . $dbname . '.php';
-		$class = 'JSchemaChangeitem' . $dbname;
-
-		// If the file exists register the class with our class loader.
-		if (file_exists($path))
+		if ($dbname == 'mysqli')
 		{
-			JLoader::register($class, $path);
-			$instance = new $class($db, $file, $query);
+			$dbname = 'mysql';
 		}
-		return $instance;
+		elseif ($dbname == 'sqlazure')
+		{
+			$dbname = 'sqlsrv';
+		}
+
+		$class = 'JSchemaChangeitem' . ucfirst($dbname);
+
+		// If the class exists, return it.
+		if (class_exists($class))
+		{
+			return new $class($db, $file, $query);
+		}
+
+		throw new RuntimeException(sprintf('JSchemaChangeitem child class not found for the %s database driver', $dbname), 500);
 	}
+
+	/**
+	 * Checks a DDL query to see if it is a known type
+	 * If yes, build a check query to see if the DDL has been run on the database.
+	 * If successful, the $msgElements, $queryType, $checkStatus and $checkQuery fields are populated.
+	 * The $msgElements contains the text to create the user message.
+	 * The $checkQuery contains the SQL query to check whether the schema change has
+	 * been run against the current database. The $queryType contains the type of
+	 * DDL query that was run (for example, CREATE_TABLE, ADD_COLUMN, CHANGE_COLUMN_TYPE, ADD_INDEX).
+	 * The $checkStatus field is set to zero if the query is created
+	 *
+	 * If not successful, $checkQuery is empty and , and $checkStatus is -1.
+	 * For example, this will happen if the current line is a non-DDL statement.
+	 *
+	 * @return void
+	 *
+	 * @since  2.5
+	 */
+	abstract protected function buildCheckQuery();
 
 	/**
 	 * Runs the check query and checks that 1 row is returned

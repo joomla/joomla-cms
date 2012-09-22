@@ -29,6 +29,7 @@ $ -> Language fix or change
 22-Sep-2012 Mark Dexter
  # [#28764] user notes category is not properly nested in the assets table. Thanks Elin.
  # [#29116] Parse error on initializing installation if server does not meet PHP requirements . Thanks Jean-Marie.
+ # [#28900] Improvements to Schema package. Thanks Michael.
 
 22-Sep-2012 Jean-Marie Simonet
  +$ Adding installation languages: ar-AA, az-AZ, ckb-IQ, fi-FI
