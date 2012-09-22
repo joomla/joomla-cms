@@ -53,7 +53,7 @@ class FinderViewMaps extends JViewLegacy
 
 		// Prepare the view.
 		$this->addToolbar();
-
+		$this->sidebar = JHtmlSidebar::render();
 		parent::display($tpl);
 	}
 
@@ -93,16 +93,16 @@ class FinderViewMaps extends JViewLegacy
 		JToolbarHelper::divider();
 		JToolbarHelper::help('JHELP_COMPONENTS_FINDER_MANAGE_CONTENT_MAPS');
 
-		JSubMenuHelper::setAction('index.php?option=com_finder&view=maps');
+		JHtmlSidebar::setAction('index.php?option=com_finder&view=maps');
 
-		JSubMenuHelper::addFilter(
+		JHtmlSidebar::addFilter(
 			'',
 			'filter_branch',
 			JHtml::_('select.options', JHtml::_('finder.mapslist'), 'value', 'text', $this->state->get('filter.branch')),
 			true
 		);
 
-		JSubMenuHelper::addFilter(
+		JHtmlSidebar::addFilter(
 			JText::_('COM_FINDER_INDEX_FILTER_BY_STATE'),
 			'filter_state',
 			JHtml::_('select.options', JHtml::_('finder.statelist'), 'value', 'text', $this->state->get('filter.state'))

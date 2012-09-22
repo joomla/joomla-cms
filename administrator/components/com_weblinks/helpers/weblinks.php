@@ -26,12 +26,12 @@ class WeblinksHelper
 	 */
 	public static function addSubmenu($vName = 'weblinks')
 	{
-		JSubMenuHelper::addEntry(
+		JHtmlSidebar::addEntry(
 			JText::_('COM_WEBLINKS_SUBMENU_WEBLINKS'),
 			'index.php?option=com_weblinks&view=weblinks',
 			$vName == 'weblinks'
 		);
-		JSubMenuHelper::addEntry(
+		JHtmlSidebar::addEntry(
 			JText::_('COM_WEBLINKS_SUBMENU_CATEGORIES'),
 			'index.php?option=com_categories&extension=com_weblinks',
 			$vName == 'categories'
