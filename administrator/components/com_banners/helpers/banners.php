@@ -1,7 +1,10 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_banners
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -9,9 +12,9 @@ defined('_JEXEC') or die;
 /**
  * Banners component helper.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_banners
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_banners
+ * @since       1.6
  */
 class BannersHelper
 {
@@ -25,30 +28,30 @@ class BannersHelper
 	 */
 	public static function addSubmenu($vName)
 	{
-		JSubMenuHelper::addEntry(
+		JHtmlSidebar::addEntry(
 			JText::_('COM_BANNERS_SUBMENU_BANNERS'),
 			'index.php?option=com_banners&view=banners',
 			$vName == 'banners'
 		);
 
-		JSubMenuHelper::addEntry(
+		JHtmlSidebar::addEntry(
 			JText::_('COM_BANNERS_SUBMENU_CATEGORIES'),
 			'index.php?option=com_categories&extension=com_banners',
 			$vName == 'categories'
 		);
-		if ($vName=='categories') {
-			JToolBarHelper::title(
+		if ($vName == 'categories') {
+			JToolbarHelper::title(
 				JText::sprintf('COM_CATEGORIES_CATEGORIES_TITLE', JText::_('com_banners')),
 				'banners-categories');
 		}
 
-		JSubMenuHelper::addEntry(
+		JHtmlSidebar::addEntry(
 			JText::_('COM_BANNERS_SUBMENU_CLIENTS'),
 			'index.php?option=com_banners&view=clients',
 			$vName == 'clients'
 		);
 
-		JSubMenuHelper::addEntry(
+		JHtmlSidebar::addEntry(
 			JText::_('COM_BANNERS_SUBMENU_TRACKS'),
 			'index.php?option=com_banners&view=tracks',
 			$vName == 'tracks'
@@ -101,12 +104,15 @@ class BannersHelper
 		$query->where("'".$now."' >= ".$db->quoteName('reset'));
 		$query->where($db->quoteName('reset').' != '.$db->quote($nullDate).' AND '.$db->quoteName('reset').'!=NULL');
 		$query->where('('.$db->quoteName('checked_out').' = 0 OR '.$db->quoteName('checked_out').' = '.(int) $db->Quote($user->id).')');
-		$db->setQuery((string)$query);
-		$rows = $db->loadObjectList();
+		$db->setQuery((string) $query);
 
-		// Check for a database error.
-		if ($db->getErrorNum()) {
-			JError::raiseWarning(500, $db->getErrorMsg());
+		try
+		{
+			$rows = $db->loadObjectList();
+		}
+		catch (RuntimeException $e)
+		{
+			JError::raiseWarning(500, $e->getMessage());
 			return false;
 		}
 
@@ -155,12 +161,15 @@ class BannersHelper
 			$query->set($db->quoteName('impmade').' = '.$db->quote(0));
 			$query->set($db->quoteName('clicks').' = '.$db->quote(0));
 			$query->where($db->quoteName('id').' = '.$db->quote($row->id));
-			$db->setQuery((string)$query);
-			$db->query();
+			$db->setQuery((string) $query);
 
-			// Check for a database error.
-			if ($db->getErrorNum()) {
-				JError::raiseWarning(500, $db->getErrorMsg());
+			try
+			{
+				$db->execute();
+			}
+			catch (RuntimeException $e)
+			{
+				JError::raiseWarning(500, $db->getMessage());
 				return false;
 			}
 		}
@@ -170,7 +179,6 @@ class BannersHelper
 
 	public static function getClientOptions()
 	{
-		// Initialize variables.
 		$options = array();
 
 		$db		= JFactory::getDbo();
@@ -183,11 +191,13 @@ class BannersHelper
 		// Get the options.
 		$db->setQuery($query);
 
-		$options = $db->loadObjectList();
-
-		// Check for a database error.
-		if ($db->getErrorNum()) {
-			JError::raiseWarning(500, $db->getErrorMsg());
+		try
+		{
+			$options = $db->loadObjectList();
+		}
+		catch (RuntimeException $e)
+		{
+			JError::raiseWarning(500, $e->getMessage());
 		}
 
 		// Merge any additional options in the XML definition.

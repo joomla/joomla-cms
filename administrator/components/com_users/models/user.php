@@ -7,11 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.modeladmin');
-jimport('joomla.access.access');
 
 /**
  * User model.
@@ -54,7 +50,7 @@ class UsersModelUser extends JModelAdmin
 		$result = parent::getItem($pk);
 
 		// Get the dispatcher and load the users plugins.
-		$dispatcher	= JDispatcher::getInstance();
+		$dispatcher	= JEventDispatcher::getInstance();
 		JPluginHelper::importPlugin('user');
 
 		// Trigger the data preparation event.
@@ -75,7 +71,6 @@ class UsersModelUser extends JModelAdmin
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
-		// Initialise variables.
 		$app = JFactory::getApplication();
 
 		// Get the form.
@@ -107,7 +102,7 @@ class UsersModelUser extends JModelAdmin
 
 		// TODO: Maybe this can go into the parent model somehow?
 		// Get the dispatcher and load the users plugins.
-		$dispatcher	= JDispatcher::getInstance();
+		$dispatcher	= JEventDispatcher::getInstance();
 		JPluginHelper::importPlugin('user');
 
 		// Trigger the data preparation event.
@@ -150,7 +145,6 @@ class UsersModelUser extends JModelAdmin
 	 */
 	public function save($data)
 	{
-		// Initialise variables;
 		$pk			= (!empty($data['id'])) ? $data['id'] : (int) $this->getState('user.id');
 		$user		= JUser::getInstance($pk);
 
@@ -210,7 +204,6 @@ class UsersModelUser extends JModelAdmin
 	 */
 	public function delete(&$pks)
 	{
-		// Initialise variables.
 		$user	= JFactory::getUser();
 		$table	= $this->getTable();
 		$pks	= (array) $pks;
@@ -220,7 +213,7 @@ class UsersModelUser extends JModelAdmin
 
 		// Trigger the onUserBeforeSave event.
 		JPluginHelper::importPlugin('user');
-		$dispatcher = JDispatcher::getInstance();
+		$dispatcher = JEventDispatcher::getInstance();
 
 		if (in_array($user->id, $pks))
 		{
@@ -284,12 +277,12 @@ class UsersModelUser extends JModelAdmin
 	 *
 	 * @since   1.6
 	 */
-	function block(&$pks, $value = 1)
+	public function block(&$pks, $value = 1)
 	{
-		// Initialise variables.
 		$app		= JFactory::getApplication();
-		$dispatcher	= JDispatcher::getInstance();
+		$dispatcher	= JEventDispatcher::getInstance();
 		$user		= JFactory::getUser();
+
 		// Check if I am a Super Admin
 		$iAmSuperAdmin	= $user->authorise('core.admin');
 		$table		= $this->getTable();
@@ -395,11 +388,11 @@ class UsersModelUser extends JModelAdmin
 	 *
 	 * @since   1.6
 	 */
-	function activate(&$pks)
+	public function activate(&$pks)
 	{
-		// Initialise variables.
-		$dispatcher	= JDispatcher::getInstance();
+		$dispatcher	= JEventDispatcher::getInstance();
 		$user		= JFactory::getUser();
+
 		// Check if I am a Super Admin
 		$iAmSuperAdmin	= $user->authorise('core.admin');
 		$table		= $this->getTable();
@@ -589,10 +582,13 @@ class UsersModelUser extends JModelAdmin
 
 			$db->setQuery($query);
 
-			// Check for database errors.
-			if (!$db->query())
+			try
 			{
-				$this->setError($db->getErrorMsg());
+				$db->execute();
+			}
+			catch (RuntimeException $e)
+			{
+				$this->setError($e->getMessage());
 				return false;
 			}
 		}
@@ -632,10 +628,13 @@ class UsersModelUser extends JModelAdmin
 			$query->columns(array($db->quoteName('user_id'), $db->quoteName('group_id')));
 			$db->setQuery($query);
 
-			// Check for database errors.
-			if (!$db->query())
+			try
 			{
-				$this->setError($db->getErrorMsg());
+				$db->execute();
+			}
+			catch (RuntimeException $e)
+			{
+				$this->setError($e->getMessage());
 				return false;
 			}
 		}
@@ -655,7 +654,7 @@ class UsersModelUser extends JModelAdmin
 		$user = JFactory::getUser();
 		if ($user->authorise('core.edit', 'com_users') && $user->authorise('core.manage', 'com_users'))
 		{
-			$model = JModel::getInstance('Groups', 'UsersModel', array('ignore_request' => true));
+			$model = JModelLegacy::getInstance('Groups', 'UsersModel', array('ignore_request' => true));
 			return $model->getItems();
 		}
 		else
@@ -675,8 +674,7 @@ class UsersModelUser extends JModelAdmin
 	 */
 	public function getAssignedGroups($userId = null)
 	{
-		// Initialise variables.
-		$userId = (!empty($userId)) ? $userId : (int)$this->getState('user.id');
+		$userId = (!empty($userId)) ? $userId : (int) $this->getState('user.id');
 
 		if (empty($userId))
 		{

@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 /**
  * HTTP transport class for using cURL.
@@ -25,14 +25,15 @@ class JHttpTransportCurl implements JHttpTransport
 	protected $options;
 
 	/**
-	 * Constructor.
+	 * Constructor. CURLOPT_FOLLOWLOCATION must be disabled when open_basedir or safe_mode are enabled.
 	 *
-	 * @param   JRegistry  &$options  Client options object.
+	 * @param   JRegistry  $options  Client options object.
 	 *
+	 * @see     http://www.php.net/manual/en/function.curl-setopt.php
 	 * @since   11.3
 	 * @throws  RuntimeException
 	 */
-	public function __construct(JRegistry &$options)
+	public function __construct(JRegistry $options)
 	{
 		if (!function_exists('curl_init') || !is_callable('curl_init'))
 		{
@@ -64,14 +65,17 @@ class JHttpTransportCurl implements JHttpTransport
 		// Set the request method.
 		$options[CURLOPT_CUSTOMREQUEST] = strtoupper($method);
 
+		// Don't wait for body when $method is HEAD
+		$options[CURLOPT_NOBODY] = ($method === 'HEAD');
+
 		// Initialize the certificate store
-		$options[CURLOPT_CAINFO] = dirname(__FILE__) . '/cacert.pem';
+		$options[CURLOPT_CAINFO] = $this->options->get('curl.certpath', __DIR__ . '/cacert.pem');
 
 		// If data exists let's encode it and make sure our Content-type header is set.
 		if (isset($data))
 		{
 			// If the data is a scalar value simply add it to the cURL post fields.
-			if (is_scalar($data))
+			if (is_scalar($data) || (isset($headers['Content-Type']) && strpos($headers['Content-Type'], 'multipart/form-data') === 0))
 			{
 				$options[CURLOPT_POSTFIELDS] = $data;
 			}
@@ -81,12 +85,16 @@ class JHttpTransportCurl implements JHttpTransport
 				$options[CURLOPT_POSTFIELDS] = http_build_query($data);
 			}
 
-			if (!isset($headers['Content-type']))
+			if (!isset($headers['Content-Type']))
 			{
-				$headers['Content-type'] = 'application/x-www-form-urlencoded';
+				$headers['Content-Type'] = 'application/x-www-form-urlencoded; charset=utf-8';
 			}
 
-			$headers['Content-length'] = strlen($options[CURLOPT_POSTFIELDS]);
+			// Add the relevant headers.
+			if (is_scalar($options[CURLOPT_POSTFIELDS]))
+			{
+				$headers['Content-Length'] = strlen($options[CURLOPT_POSTFIELDS]);
+			}
 		}
 
 		// Build the headers string for the request.
@@ -124,43 +132,70 @@ class JHttpTransportCurl implements JHttpTransport
 		// Return it... echoing it would be tacky.
 		$options[CURLOPT_RETURNTRANSFER] = true;
 
+		// Override the Expect header to prevent cURL from confusing itself in its own stupidity.
+		// Link: http://the-stickman.com/web-development/php-and-curl-disabling-100-continue-header/
+		$options[CURLOPT_HTTPHEADER][] = 'Expect:';
+
+		// Follow redirects.
+		$options[CURLOPT_FOLLOWLOCATION] = (bool) $this->options->get('follow_location', true);
+
 		// Set the cURL options.
 		curl_setopt_array($ch, $options);
 
 		// Execute the request and close the connection.
 		$content = curl_exec($ch);
+
+		// Get the request information.
+		$info = curl_getinfo($ch);
+
+		// Close the connection.
 		curl_close($ch);
 
-		return $this->getResponse($content);
+		return $this->getResponse($content, $info);
 	}
 
 	/**
 	 * Method to get a response object from a server response.
 	 *
 	 * @param   string  $content  The complete server response, including headers.
+	 * @param   array   $info     The cURL request information.
 	 *
 	 * @return  JHttpResponse
 	 *
 	 * @since   11.3
 	 * @throws  UnexpectedValueException
 	 */
-	protected function getResponse($content)
+	protected function getResponse($content, $info)
 	{
 		// Create the response object.
 		$return = new JHttpResponse;
 
-		// Split the response into headers and body.
-		$response = explode("\r\n\r\n", $content, 2);
+		// Check if the content is actually a string.
+		if (!is_string($content))
+		{
+			throw new UnexpectedValueException('No HTTP response received.');
+		}
 
-		// Get the response headers as an array.
-		$headers = explode("\r\n", $response[0]);
+		// Get the number of redirects that occurred.
+		$redirects = isset($info['redirect_count']) ? $info['redirect_count'] : 0;
+
+		/*
+		 * Split the response into headers and body. If cURL encountered redirects, the headers for the redirected requests will
+		 * also be included. So we split the response into header + body + the number of redirects and only use the last two
+		 * sections which should be the last set of headers and the actual body.
+		 */
+		$response = explode("\r\n\r\n", $content, 2 + $redirects);
 
 		// Set the body for the response.
-		$return->body = $response[1];
+		$return->body = array_pop($response);
+
+		// Get the last set of response headers as an array.
+		$headers = explode("\r\n", array_pop($response));
 
 		// Get the response code from the first offset of the response headers.
 		preg_match('/[0-9]{3}/', array_shift($headers), $matches);
-		$code = $matches[0];
+
+		$code = count($matches) ? $matches[0] : null;
 		if (is_numeric($code))
 		{
 			$return->code = (int) $code;
@@ -179,5 +214,17 @@ class JHttpTransportCurl implements JHttpTransport
 		}
 
 		return $return;
+	}
+
+	/**
+	 * Method to check if HTTP transport cURL is available for use
+	 *
+	 * @return boolean true if available, else false
+	 *
+	 * @since   12.1
+	 */
+	static public function isSupported()
+	{
+		return function_exists('curl_version') && curl_version();
 	}
 }

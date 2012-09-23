@@ -1,13 +1,12 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	Templates.hathor
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  Template.hathor
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
 
 // Include the component HTML helpers.
@@ -45,9 +44,9 @@ $saveOrder	= $listOrder == 'a.ordering';
 					<?php echo JHtml::_('grid.sort', 'COM_USERS_HEADING_LEVEL_NAME', 'a.title', $listDirn, $listOrder); ?>
 				</th>
 				<th class="nowrap ordering-col">
-					<?php echo JHtml::_('grid.sort',  'JGRID_HEADING_ORDERING', 'a.ordering', $listDirn, $listOrder); ?>
+					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ORDERING', 'a.ordering', $listDirn, $listOrder); ?>
 					<?php if ($canOrder && $saveOrder) :?>
-						<?php echo JHtml::_('grid.order',  $this->items, 'filesave.png', 'levels.saveorder'); ?>
+						<?php echo JHtml::_('grid.order', $this->items, 'filesave.png', 'levels.saveorder'); ?>
 					<?php endif; ?>
 				</th>
 				<th class="nowrap id-col">
@@ -61,10 +60,10 @@ $saveOrder	= $listOrder == 'a.ordering';
 
 		<tbody>
 		<?php foreach ($this->items as $i => $item) :
-			$ordering	= ($listOrder == 'a.ordering');
-			$canCreate	= $user->authorise('core.create',		'com_users');
-			$canEdit	= $user->authorise('core.edit',			'com_users');
-			$canChange	= $user->authorise('core.edit.state',	'com_users');
+			$ordering  = ($listOrder == 'a.ordering');
+			$canCreate = $user->authorise('core.create',     'com_users');
+			$canEdit   = $user->authorise('core.edit',       'com_users');
+			$canChange = $user->authorise('core.edit.state', 'com_users');
 			?>
 			<tr class="row<?php echo $i % 2; ?>">
 				<td>

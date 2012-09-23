@@ -1,9 +1,10 @@
 <?php
 /**
- * @package		Joomla.Site
- * @subpackage	com_contact
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  com_contact
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -13,23 +14,25 @@ require_once JPATH_COMPONENT.'/models/category.php';
 /**
  * HTML Contact View class for the Contact component
  *
- * @package		Joomla.Site
- * @subpackage	com_contact
- * @since 		1.5
+ * @package     Joomla.Site
+ * @subpackage  com_contact
+ * @since       1.5
  */
 class ContactViewContact extends JViewLegacy
 {
 	protected $state;
+
 	protected $form;
+
 	protected $item;
+
 	protected $return_page;
 
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
-		// Initialise variables.
 		$app		= JFactory::getApplication();
 		$user		= JFactory::getUser();
-		$dispatcher = JDispatcher::getInstance();
+		$dispatcher = JEventDispatcher::getInstance();
 		$state		= $this->get('State');
 		$item		= $this->get('Item');
 		$this->form	= $this->get('Form');
@@ -64,16 +67,12 @@ class ContactViewContact extends JViewLegacy
 		$return = '';
 
 		if ((!in_array($item->access, $groups)) || (!in_array($item->category_access, $groups))) {
-			$uri		= JFactory::getURI();
-			$return		= (string)$uri;
-
 			JError::raiseWarning(403, JText::_('JERROR_ALERTNOAUTHOR'));
 			return;
 		}
 
 		$options['category_id']	= $item->catid;
 		$options['order by']	= 'a.default_con DESC, a.ordering ASC';
-
 
 		// Handle email cloaking
 		if ($item->email_to && $params->get('show_email')) {
@@ -88,48 +87,47 @@ class ContactViewContact extends JViewLegacy
 			$params->set('address_check', 0);
 		}
 
-
 		// Manage the display mode for contact detail groups
 		switch ($params->get('contact_icons'))
 		{
 			case 1 :
 				// text
-				$params->set('marker_address',	JText::_('COM_CONTACT_ADDRESS').": ");
-				$params->set('marker_email',		JText::_('JGLOBAL_EMAIL').": ");
-				$params->set('marker_telephone',	JText::_('COM_CONTACT_TELEPHONE').": ");
-				$params->set('marker_fax',		JText::_('COM_CONTACT_FAX').": ");
-				$params->set('marker_mobile',		JText::_('COM_CONTACT_MOBILE').": ");
-				$params->set('marker_misc',		JText::_('COM_CONTACT_OTHER_INFORMATION').": ");
-				$params->set('marker_class',		'jicons-text');
+				$params->set('marker_address',   JText::_('COM_CONTACT_ADDRESS') . ": ");
+				$params->set('marker_email',     JText::_('JGLOBAL_EMAIL') . ": ");
+				$params->set('marker_telephone', JText::_('COM_CONTACT_TELEPHONE') . ": ");
+				$params->set('marker_fax',       JText::_('COM_CONTACT_FAX') . ": ");
+				$params->set('marker_mobile',    JText::_('COM_CONTACT_MOBILE') . ": ");
+				$params->set('marker_misc',      JText::_('COM_CONTACT_OTHER_INFORMATION') . ": ");
+				$params->set('marker_class',     'jicons-text');
 				break;
 
 			case 2 :
 				// none
-				$params->set('marker_address',	'');
-				$params->set('marker_email',		'');
-				$params->set('marker_telephone',	'');
-				$params->set('marker_mobile',	'');
-				$params->set('marker_fax',		'');
-				$params->set('marker_misc',		'');
-				$params->set('marker_class',		'jicons-none');
+				$params->set('marker_address',   '');
+				$params->set('marker_email',     '');
+				$params->set('marker_telephone', '');
+				$params->set('marker_mobile',    '');
+				$params->set('marker_fax',       '');
+				$params->set('marker_misc',      '');
+				$params->set('marker_class',     'jicons-none');
 				break;
 
 			default :
 				// icons
-				$image1 = JHtml::_('image', 'contacts/'.$params->get('icon_address', 'con_address.png'), JText::_('COM_CONTACT_ADDRESS').": ", NULL, true);
-				$image2 = JHtml::_('image', 'contacts/'.$params->get('icon_email', 'emailButton.png'), JText::_('JGLOBAL_EMAIL').": ", NULL, true);
-				$image3 = JHtml::_('image', 'contacts/'.$params->get('icon_telephone', 'con_tel.png'), JText::_('COM_CONTACT_TELEPHONE').": ", NULL, true);
-				$image4 = JHtml::_('image', 'contacts/'.$params->get('icon_fax', 'con_fax.png'), JText::_('COM_CONTACT_FAX').": ", NULL, true);
-				$image5 = JHtml::_('image', 'contacts/'.$params->get('icon_misc', 'con_info.png'), JText::_('COM_CONTACT_OTHER_INFORMATION').": ", NULL, true);
-				$image6 = JHtml::_('image', 'contacts/'.$params->get('icon_mobile', 'con_mobile.png'), JText::_('COM_CONTACT_MOBILE').": ", NULL, true);
+				$image1 = JHtml::_('image', 'contacts/'.$params->get('icon_address', 'con_address.png'), JText::_('COM_CONTACT_ADDRESS').": ", null, true);
+				$image2 = JHtml::_('image', 'contacts/'.$params->get('icon_email', 'emailButton.png'), JText::_('JGLOBAL_EMAIL').": ", null, true);
+				$image3 = JHtml::_('image', 'contacts/'.$params->get('icon_telephone', 'con_tel.png'), JText::_('COM_CONTACT_TELEPHONE').": ", null, true);
+				$image4 = JHtml::_('image', 'contacts/'.$params->get('icon_fax', 'con_fax.png'), JText::_('COM_CONTACT_FAX').": ", null, true);
+				$image5 = JHtml::_('image', 'contacts/'.$params->get('icon_misc', 'con_info.png'), JText::_('COM_CONTACT_OTHER_INFORMATION').": ", null, true);
+				$image6 = JHtml::_('image', 'contacts/'.$params->get('icon_mobile', 'con_mobile.png'), JText::_('COM_CONTACT_MOBILE').": ", null, true);
 
-				$params->set('marker_address',	$image1);
-				$params->set('marker_email',		$image2);
-				$params->set('marker_telephone',	$image3);
-				$params->set('marker_fax',		$image4);
-				$params->set('marker_misc',		$image5);
-				$params->set('marker_mobile',		$image6);
-				$params->set('marker_class',		'jicons-icons');
+				$params->set('marker_address',   $image1);
+				$params->set('marker_email',     $image2);
+				$params->set('marker_telephone', $image3);
+				$params->set('marker_fax',       $image4);
+				$params->set('marker_misc',      $image5);
+				$params->set('marker_mobile',    $image6);
+				$params->set('marker_class',     'jicons-icons');
 				break;
 		}
 
@@ -147,13 +145,13 @@ class ContactViewContact extends JViewLegacy
 		//Escape strings for HTML output
 		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
 
-		$this->assignRef('contact',		$item);
-		$this->assignRef('params',		$params);
-		$this->assignRef('return',		$return);
-		$this->assignRef('state', 		$state);
-		$this->assignRef('item', 		$item);
-		$this->assignRef('user', 		$user);
-		$this->assignRef('contacts', 	$contacts);
+		$this->contact  = &$item;
+		$this->params   = &$params;
+		$this->return   = &$return;
+		$this->state    = &$state;
+		$this->item     = &$item;
+		$this->user     = &$user;
+		$this->contacts = &$contacts;
 
 		// Override the layout only if this is not the active menu item
 		// If it is the active menu item, then the view and item id will match

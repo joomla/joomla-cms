@@ -1,19 +1,20 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_users
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.modellist');
-
 /**
  * Methods supporting a list of user access level records.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_users
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_users
+ * @since       1.6
  */
 class UsersModelLevels extends JModelList
 {
@@ -46,7 +47,6 @@ class UsersModelLevels extends JModelList
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
-		// Initialise variables.
 		$app = JFactory::getApplication('administrator');
 
 		// Load the filter state.
@@ -167,9 +167,8 @@ class UsersModelLevels extends JModelList
 	 * @param	array	An array of primary key ids.
 	 * @param	int		+/-1
 	 */
-	function saveorder($pks, $order)
+	public function saveorder($pks, $order)
 	{
-		// Initialise variables.
 		$table		= JTable::getInstance('viewlevel');
 		$user 		= JFactory::getUser();
 		$conditions	= array();

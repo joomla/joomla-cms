@@ -1,9 +1,10 @@
 <?php
 /**
- * @package		Joomla.Site
- * @subpackage	com_search
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  com_search
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -11,9 +12,9 @@ defined('_JEXEC') or die;
 /**
  * Search Component Search Model
  *
- * @package		Joomla.Site
- * @subpackage	com_search
- * @since 1.5
+ * @package     Joomla.Site
+ * @subpackage  com_search
+ * @since       1.5
  */
 class SearchModelSearch extends JModelLegacy
 {
@@ -50,26 +51,26 @@ class SearchModelSearch extends JModelLegacy
 	 *
 	 * @since 1.5
 	 */
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 
 		//Get configuration
-		$app	= JFactory::getApplication();
+		$app    = JFactory::getApplication();
 		$config = JFactory::getConfig();
 
 		// Get the pagination request variables
 		$this->setState('limit', $app->getUserStateFromRequest('com_search.limit', 'limit', $config->get('list_limit'), 'uint'));
-		$this->setState('limitstart', JRequest::getUInt('limitstart', 0));
+		$this->setState('limitstart', $app->input->get('limitstart', 0, 'uint'));
 
 		// Set the search parameters
-		$keyword		= urldecode(JRequest::getString('searchword'));
-		$match			= JRequest::getWord('searchphrase', 'all');
-		$ordering		= JRequest::getWord('ordering', 'newest');
+		$keyword  = urldecode($app->input->getString('searchword'));
+		$match    = $app->input->get('searchphrase', 'all', 'word');
+		$ordering = $app->input->get('ordering', 'newest', 'word');
 		$this->setSearch($keyword, $match, $ordering);
 
 		//Set the search areas
-		$areas = JRequest::getVar('areas');
+		$areas = $app->input->get('areas');
 		$this->setAreas($areas);
 	}
 
@@ -81,12 +82,12 @@ class SearchModelSearch extends JModelLegacy
 	 * @param string mathcing option, exact|any|all
 	 * @param string ordering option, newest|oldest|popular|alpha|category
 	 */
-	function setSearch($keyword, $match = 'all', $ordering = 'newest')
+	public function setSearch($keyword, $match = 'all', $ordering = 'newest')
 	{
 		if (isset($keyword)) {
 			$this->setState('origkeyword', $keyword);
 			if($match !== 'exact') {
-				$keyword 		= preg_replace('#\xE3\x80\x80#s', ' ', $keyword);
+				$keyword = preg_replace('#\xE3\x80\x80#s', ' ', $keyword);
 			}
 			$this->setState('keyword', $keyword);
 		}
@@ -107,7 +108,7 @@ class SearchModelSearch extends JModelLegacy
 	 * @param	array	Active areas
 	 * @param	array	Search areas
 	 */
-	function setAreas($active = array(), $search = array())
+	public function setAreas($active = array(), $search = array())
 	{
 		$this->_areas['active'] = $active;
 		$this->_areas['search'] = $search;
@@ -119,7 +120,7 @@ class SearchModelSearch extends JModelLegacy
 	 * @access public
 	 * @return array
 	 */
-	function getData()
+	public function getData()
 	{
 		// Lets load the content if it doesn't already exist
 		if (empty($this->_data))
@@ -127,7 +128,7 @@ class SearchModelSearch extends JModelLegacy
 			$areas = $this->getAreas();
 
 			JPluginHelper::importPlugin('search');
-			$dispatcher = JDispatcher::getInstance();
+			$dispatcher = JEventDispatcher::getInstance();
 			$results = $dispatcher->trigger('onContentSearch', array(
 				$this->getState('keyword'),
 				$this->getState('match'),
@@ -157,7 +158,7 @@ class SearchModelSearch extends JModelLegacy
 	 * @access public
 	 * @return integer
 	 */
-	function getTotal()
+	public function getTotal()
 	{
 		return $this->_total;
 	}
@@ -168,12 +169,11 @@ class SearchModelSearch extends JModelLegacy
 	 * @access public
 	 * @return integer
 	 */
-	function getPagination()
+	public function getPagination()
 	{
 		// Lets load the content if it doesn't already exist
 		if (empty($this->_pagination))
 		{
-			jimport('joomla.html.pagination');
 			$this->_pagination = new JPagination($this->getTotal(), $this->getState('limitstart'), $this->getState('limit'));
 		}
 
@@ -185,7 +185,7 @@ class SearchModelSearch extends JModelLegacy
 	 *
 	 * @since 1.5
 	 */
-	function getAreas()
+	public function getAreas()
 	{
 		// Load the Category data
 		if (empty($this->_areas['search']))
@@ -193,7 +193,7 @@ class SearchModelSearch extends JModelLegacy
 			$areas = array();
 
 			JPluginHelper::importPlugin('search');
-			$dispatcher = JDispatcher::getInstance();
+			$dispatcher = JEventDispatcher::getInstance();
 			$searchareas = $dispatcher->trigger('onContentSearchAreas');
 
 			foreach ($searchareas as $area) {

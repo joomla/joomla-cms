@@ -9,9 +9,8 @@
 
 defined('_JEXEC') or die;
 
-// Register dependent classes.
-JLoader::register('FinderIndexerStemmer', dirname(__FILE__) . '/stemmer.php');
-JLoader::register('FinderIndexerToken', dirname(__FILE__) . '/token.php');
+JLoader::register('FinderIndexerStemmer', __DIR__ . '/stemmer.php');
+JLoader::register('FinderIndexerToken', __DIR__ . '/token.php');
 
 /**
  * Helper class for the Finder indexer package.
@@ -71,11 +70,10 @@ class FinderIndexerHelper
 		}
 
 		$tokens = array();
-		$terms = array();
 		$quotes = html_entity_decode('&#8216;&#8217;&#39;', ENT_QUOTES, 'UTF-8');
 
 		// Get the simple language key.
-		$lang = FinderIndexerHelper::getPrimaryLanguage($lang);
+		$lang = self::getPrimaryLanguage($lang);
 
 		/*
 		 * Parsing the string input into terms is a multi-step process.
@@ -261,13 +259,6 @@ class FinderIndexerHelper
 			// Get the types.
 			$db->setQuery($query);
 			$types = $db->loadObjectList('title');
-
-			// Check for a database error.
-			if ($db->getErrorNum())
-			{
-				// Throw database error exception.
-				throw new Exception($db->getErrorMsg(), 500);
-			}
 		}
 
 		// Check if the type already exists.
@@ -282,14 +273,7 @@ class FinderIndexerHelper
 		$query->columns(array($db->quoteName('title'), $db->quoteName('mime')));
 		$query->values($db->quote($title) . ', ' . $db->quote($mime));
 		$db->setQuery($query);
-		$db->query();
-
-		// Check for a database error.
-		if ($db->getErrorNum())
-		{
-			// Throw database error exception.
-			throw new Exception($db->getErrorMsg(), 500);
-		}
+		$db->execute();
 
 		// Return the new id.
 		return (int) $db->insertid();
@@ -312,7 +296,7 @@ class FinderIndexerHelper
 		// Load the common tokens for the language if necessary.
 		if (!isset($data[$lang]))
 		{
-			$data[$lang] = FinderIndexerHelper::getCommonWords($lang);
+			$data[$lang] = self::getCommonWords($lang);
 		}
 
 		// Check if the token is in the common array.
@@ -349,13 +333,6 @@ class FinderIndexerHelper
 		// Load all of the common terms for the language.
 		$db->setQuery($query);
 		$results = $db->loadColumn();
-
-		// Check for a database error.
-		if ($db->getErrorNum())
-		{
-			// Throw database error exception.
-			throw new Exception($db->getErrorMsg(), 500);
-		}
 
 		return $results;
 	}
@@ -458,7 +435,7 @@ class FinderIndexerHelper
 	public static function getContentExtras(FinderIndexerResult &$item)
 	{
 		// Get the event dispatcher.
-		$dispatcher = JDispatcher::getInstance();
+		$dispatcher = JEventDispatcher::getInstance();
 
 		// Load the finder plugin group.
 		JPluginHelper::importPlugin('finder');
@@ -499,7 +476,7 @@ class FinderIndexerHelper
 		static $loaded;
 
 		// Get the dispatcher.
-		$dispatcher = JDispatcher::getInstance();
+		$dispatcher = JEventDispatcher::getInstance();
 
 		// Load the content plugins if necessary.
 		if (empty($loaded))

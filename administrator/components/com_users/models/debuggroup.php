@@ -1,20 +1,22 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_users
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.modellist');
 require_once JPATH_COMPONENT.'/helpers/debug.php';
 
 /**
  * Methods supporting a list of user records.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_users
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_users
+ * @since       1.6
  */
 class UsersModelDebugGroup extends JModelList
 {
@@ -80,11 +82,12 @@ class UsersModelDebugGroup extends JModelList
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
-		// Initialise variables.
 		$app = JFactory::getApplication('administrator');
 
 		// Adjust the context to support modal layouts.
-		if ($layout = JRequest::getVar('layout', 'default')) {
+		$layout = $app->input->get('layout', 'default');
+		if ($layout)
+		{
 			$this->context .= '.'.$layout;
 		}
 
@@ -108,7 +111,7 @@ class UsersModelDebugGroup extends JModelList
 		$this->setState('filter.component', $component);
 
 		// Load the parameters.
-		$params		= JComponentHelper::getParams('com_users');
+		$params = JComponentHelper::getParams('com_users');
 		$this->setState('params', $params);
 
 		// List state information.
@@ -155,13 +158,14 @@ class UsersModelDebugGroup extends JModelList
 			->where('id = '.$groupId);
 
 		$db->setQuery($query);
-		$group = $db->loadObject();
 
-		// Check for DB error.
-		$error	= $db->getErrorMsg();
-		if ($error) {
-			$this->setError($error);
-
+		try
+		{
+			$group = $db->loadObject();
+		}
+		catch (RuntimeException $e)
+		{
+			$this->setError($e->getMessage());
 			return false;
 		}
 

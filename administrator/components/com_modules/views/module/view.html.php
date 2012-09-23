@@ -1,28 +1,27 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_modules
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_modules
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.view');
 
 /**
  * View to edit a module.
  *
- * @static
- * @package		Joomla.Administrator
- * @subpackage	com_modules
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_modules
+ * @since       1.6
  */
-class ModulesViewModule extends JView
+class ModulesViewModule extends JViewLegacy
 {
 	protected $form;
+
 	protected $item;
+
 	protected $state;
 
 	/**
@@ -51,7 +50,7 @@ class ModulesViewModule extends JView
 	 */
 	protected function addToolbar()
 	{
-		JRequest::setVar('hidemainmenu', true);
+		JFactory::getApplication()->input->set('hidemainmenu', true);
 
 		$user		= JFactory::getUser();
 		$isNew		= ($this->item->id == 0);
@@ -59,24 +58,24 @@ class ModulesViewModule extends JView
 		$canDo		= ModulesHelper::getActions($this->state->get('filter.category_id'), $this->item->id);
 		$item		= $this->get('Item');
 
-		JToolBarHelper::title( JText::sprintf('COM_MODULES_MANAGER_MODULE', JText::_($this->item->module)), 'module.png');
+		JToolbarHelper::title(JText::sprintf('COM_MODULES_MANAGER_MODULE', JText::_($this->item->module)), 'module.png');
 
 		// If not checked out, can save the item.
 		if (!$checkedOut && ($canDo->get('core.edit') || $canDo->get('core.create') )) {
-			JToolBarHelper::apply('module.apply');
-			JToolBarHelper::save('module.save');
+			JToolbarHelper::apply('module.apply');
+			JToolbarHelper::save('module.save');
 		}
 		if (!$checkedOut && $canDo->get('core.create')) {
-			JToolBarHelper::save2new('module.save2new');
+			JToolbarHelper::save2new('module.save2new');
 		}
 			// If an existing item, can save to a copy.
 		if (!$isNew && $canDo->get('core.create')) {
-			JToolBarHelper::save2copy('module.save2copy');
+			JToolbarHelper::save2copy('module.save2copy');
 		}
 		if (empty($this->item->id))  {
-			JToolBarHelper::cancel('module.cancel');
+			JToolbarHelper::cancel('module.cancel');
 		} else {
-			JToolBarHelper::cancel('module.cancel', 'JTOOLBAR_CLOSE');
+			JToolbarHelper::cancel('module.cancel', 'JTOOLBAR_CLOSE');
 		}
 
 		// Get the help information for the menu item.
@@ -91,6 +90,6 @@ class ModulesViewModule extends JView
 		else {
 			$url = null;
 		}
-		JToolBarHelper::help($help->key, false, $url);
+		JToolbarHelper::help($help->key, false, $url);
 	}
 }

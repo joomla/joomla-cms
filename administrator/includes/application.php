@@ -1,23 +1,21 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package    Joomla.Administrator
+ *
+ * @copyright  Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.helper');
 
 /**
  * Joomla! Application class
  *
  * Provide many supporting API functions
  *
- * @package		Joomla.Administrator
  * @final
- * @since		1.5
+ * @package  Joomla.Administrator
+ * @since    1.5
  */
 class JAdministrator extends JApplication
 {
@@ -49,13 +47,20 @@ class JAdministrator extends JApplication
 	public function initialise($options = array())
 	{
 		$config = JFactory::getConfig();
+		$user   = JFactory::getUser();
+
+		// If the user is a guest we populate it with the guest user group.
+		if ($user->guest)
+		{
+			$guestUsergroup = JComponentHelper::getParams('com_users')->get('guest_usergroup', 1);
+			$user->groups = array($guestUsergroup);
+		}
 
 		// if a language was specified it has priority
 		// otherwise use user or default language settings
 		if (empty($options['language']))
 		{
-			$user	= JFactory::getUser();
-			$lang	= $user->getParam('admin_language');
+			$lang = $user->getParam('admin_language');
 
 			// Make sure that the user's language exists
 			if ($lang && JLanguage::exists($lang)) {
@@ -98,7 +103,7 @@ class JAdministrator extends JApplication
 		if ($this->getCfg('force_ssl') >= 1 && strtolower($uri->getScheme()) != 'https') {
 			//forward to https
 			$uri->setScheme('https');
-			$this->redirect((string)$uri);
+			$this->redirect((string) $uri);
 		}
 
 		// Trigger the onAfterRoute event.
@@ -173,9 +178,9 @@ class JAdministrator extends JApplication
 	 */
 	public function render()
 	{
-		$component	= JRequest::getCmd('option', 'com_login');
+		$component	= $this->input->get('option', 'com_login');
 		$template	= $this->getTemplate(true);
-		$file		= JRequest::getCmd('tmpl', 'index');
+		$file		= $this->input->get('tmpl', 'index');
 
 		if ($component == 'com_login') {
 			$file = 'login';
@@ -235,11 +240,11 @@ class JAdministrator extends JApplication
 
 		if (!($result instanceof Exception))
 		{
-			$lang = JRequest::getCmd('lang');
+			$lang = $this->input->get('lang');
 			$lang = preg_replace('/[^A-Z-]/i', '', $lang);
-			$this->setUserState('application.lang', $lang );
+			$this->setUserState('application.lang', $lang);
 
-			JAdministrator::purgeMessages();
+			self::purgeMessages();
 		}
 
 		return $result;
@@ -266,9 +271,9 @@ class JAdministrator extends JApplication
 			$query->leftJoin('#__extensions as e ON e.type='.$db->quote('template').' AND e.element=s.template AND e.client_id=s.client_id');
 			if ($admin_style)
 			{
-				$query->where('s.client_id = 1 AND id = '.(int)$admin_style. ' AND e.enabled = 1', 'OR');
+				$query->where('s.client_id = 1 AND id = ' . (int) $admin_style . ' AND e.enabled = 1', 'OR');
 			}
-			$query->where('s.client_id = 1 AND home = 1', 'OR');
+			$query->where('s.client_id = 1 AND home = ' . $db->quote('1'), 'OR');
 			$query->order('home');
 			$db->setQuery($query);
 			$template = $db->loadObject();
@@ -278,8 +283,8 @@ class JAdministrator extends JApplication
 
 			if (!file_exists(JPATH_THEMES . '/' . $template->template . '/index.php'))
 			{
-				$template->params = new JRegistry();
-				$template->template = 'bluestork';
+				$template->params = new JRegistry;
+				$template->template = 'isis';
 			}
 		}
 		if ($params) {
@@ -305,8 +310,8 @@ class JAdministrator extends JApplication
 		$query = 'SELECT *'
 		. ' FROM #__messages_cfg'
 		. ' WHERE user_id = ' . (int) $userid
-		. ' AND cfg_name = ' . $db->quote('auto_purge')
-		;
+		. ' AND cfg_name = ' . $db->quote('auto_purge');
+
 		$db->setQuery($query);
 		$config = $db->loadObject();
 
@@ -327,8 +332,8 @@ class JAdministrator extends JApplication
 
 			$query = 'DELETE FROM #__messages'
 			. ' WHERE date_time < ' . $db->Quote($pastStamp)
-			. ' AND user_id_to = ' . (int) $userid
-			;
+			. ' AND user_id_to = ' . (int) $userid;
+
 			$db->setQuery($query);
 			$db->execute();
 		}

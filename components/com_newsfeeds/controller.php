@@ -1,9 +1,10 @@
 <?php
 /**
- * @package		Joomla.Site
- * @subpackage	com_newsfeeds
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  com_newsfeeds
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -11,9 +12,9 @@ defined('_JEXEC') or die;
 /**
  * Newsfeeds Component Controller
  *
- * @package		Joomla.Site
- * @subpackage	com_newsfeeds
- * @since		1.5
+ * @package     Joomla.Site
+ * @subpackage  com_newsfeeds
+ * @since       1.5
  */
 class NewsfeedsController extends JControllerLegacy
 {
@@ -31,16 +32,17 @@ class NewsfeedsController extends JControllerLegacy
 		$cachable = true;
 
 		// Set the default view name and format from the Request.
-		$vName	= JRequest::getCmd('view', 'categories');
-		JRequest::setVar('view', $vName);
+		$vName = $this->input->get('view', 'categories');
+		$this->input->set('view', $vName);
 
 		$user = JFactory::getUser();
 
-		if ($user->get('id') || ($_SERVER['REQUEST_METHOD'] == 'POST' && $vName = 'category' )) {
+		if ($user->get('id') || ($this->input->getMethod() == 'POST' && $vName = 'category' ))
+		{
 			$cachable = false;
 		}
 
-		$safeurlparams = array('id'=>'INT', 'limit'=>'UINT', 'limitstart'=>'UINT', 'filter_order'=>'CMD', 'filter_order_Dir'=>'CMD', 'lang'=>'CMD');
+		$safeurlparams = array('id' => 'INT', 'limit' => 'UINT', 'limitstart' => 'UINT', 'filter_order' => 'CMD', 'filter_order_Dir' => 'CMD', 'lang' => 'CMD');
 
 		parent::display($cachable, $safeurlparams);
 	}

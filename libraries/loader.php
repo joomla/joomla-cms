@@ -124,7 +124,7 @@ abstract class JLoader
 			$success = false;
 			$parts = explode('.', $key);
 			$class = array_pop($parts);
-			$base = (!empty($base)) ? $base : dirname(__FILE__);
+			$base = (!empty($base)) ? $base : __DIR__;
 			$path = str_replace('.', DIRECTORY_SEPARATOR, $key);
 
 			// Handle special case for helper classes.
@@ -296,7 +296,8 @@ abstract class JLoader
 	{
 		foreach (self::$prefixes as $prefix => $lookup)
 		{
-			if (strpos($class, $prefix) === 0)
+			$chr = strlen($prefix) < strlen($class) ? $class[strlen($prefix)] : 0;
+			if (strpos($class, $prefix) === 0 && ($chr === strtoupper($chr)))
 			{
 				return self::_load(substr($class, strlen($prefix)), $lookup);
 			}

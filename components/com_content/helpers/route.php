@@ -1,24 +1,21 @@
 <?php
 /**
- * @package		Joomla.Site
- * @subpackage	com_content
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  com_content
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.helper');
-jimport('joomla.application.categories');
 
 /**
  * Content Component Route Helper
  *
  * @static
- * @package		Joomla.Site
- * @subpackage	com_content
- * @since 1.5
+ * @package     Joomla.Site
+ * @subpackage  com_content
+ * @since       1.5
  */
 abstract class ContentHelperRoute
 {
@@ -34,10 +31,10 @@ abstract class ContentHelperRoute
 		);
 		//Create the link
 		$link = 'index.php?option=com_content&view=article&id='. $id;
-		if ((int)$catid > 1)
+		if ((int) $catid > 1)
 		{
 			$categories = JCategories::getInstance('Content');
-			$category = $categories->get((int)$catid);
+			$category = $categories->get((int) $catid);
 			if($category)
 			{
 				$needles['category'] = array_reverse($category->getPath());
@@ -170,8 +167,8 @@ abstract class ContentHelperRoute
 				{
 					foreach($ids as $id)
 					{
-						if (isset(self::$lookup[$view][(int)$id])) {
-							return self::$lookup[$view][(int)$id];
+						if (isset(self::$lookup[$view][(int) $id])) {
+							return self::$lookup[$view][(int) $id];
 						}
 					}
 				}

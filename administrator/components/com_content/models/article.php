@@ -1,25 +1,22 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_content
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_content
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.modeladmin');
-
 
 require_once JPATH_COMPONENT_ADMINISTRATOR.'/helpers/content.php';
 
 /**
  * Item Model for an Article.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_content
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_content
+ * @since       1.6
  */
 class ContentModelArticle extends JModelAdmin
 {
@@ -153,7 +150,7 @@ class ContentModelArticle extends JModelAdmin
 				$query->insert($db->quoteName('#__content_frontpage'));
 				$query->values($newId . ', 0');
 				$db->setQuery($query);
-				$db->query();
+				$db->execute();
 			}
 		}
 
@@ -175,7 +172,7 @@ class ContentModelArticle extends JModelAdmin
 	{
 		if (!empty($record->id)) {
 			if ($record->state != -2) {
-				return ;
+				return;
 			}
 			$user = JFactory::getUser();
 			return $user->authorise('core.delete', 'com_content.article.'.(int) $record->id);
@@ -216,12 +213,17 @@ class ContentModelArticle extends JModelAdmin
 	 * @return	void
 	 * @since	1.6
 	 */
-	protected function prepareTable(&$table)
+	protected function prepareTable($table)
 	{
 		// Set the publish date to now
 		$db = $this->getDbo();
-		if($table->state == 1 && intval($table->publish_up) == 0) {
+		if($table->state == 1 && (int) $table->publish_up == 0) {
 			$table->publish_up = JFactory::getDate()->toSql();
+		}
+
+		if($table->state == 1 && intval($table->publish_down) == 0)
+		{
+			$table->publish_down = $db->getNullDate();
 		}
 
 		// Increment the content version number.
@@ -277,8 +279,6 @@ class ContentModelArticle extends JModelAdmin
 			$registry->loadString($item->urls);
 			$item->urls = $registry->toArray();
 
-
-
 			$item->articletext = trim($item->fulltext) != '' ? $item->introtext . "<hr id=\"system-readmore\" />" . $item->fulltext : $item->introtext;
 		}
 
@@ -306,12 +306,12 @@ class ContentModelArticle extends JModelAdmin
 		// The front end calls this model and uses a_id to avoid id clashes so we need to check for that first.
 		if ($jinput->get('a_id'))
 		{
-			$id =  $jinput->get('a_id', 0);
+			$id = $jinput->get('a_id', 0);
 		}
 		// The back end uses id so we use that the rest of the time and set it to 0 by default.
 		else
 		{
-			$id =  $jinput->get('id', 0);
+			$id = $jinput->get('id', 0);
 		}
 		// Determine correct permissions to check.
 		if ($this->getState('article.id'))
@@ -365,15 +365,15 @@ class ContentModelArticle extends JModelAdmin
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		$data = JFactory::getApplication()->getUserState('com_content.edit.article.data', array());
+		$app  = JFactory::getApplication();
+		$data = $app->getUserState('com_content.edit.article.data', array());
 
 		if (empty($data)) {
 			$data = $this->getItem();
 
 			// Prime some default values.
 			if ($this->getState('article.id') == 0) {
-				$app = JFactory::getApplication();
-				$data->set('catid', JRequest::getInt('catid', $app->getUserState('com_content.articles.filter.category_id')));
+				$data->set('catid', $app->input->getInt('catid', $app->getUserState('com_content.articles.filter.category_id')));
 			}
 		}
 
@@ -390,21 +390,25 @@ class ContentModelArticle extends JModelAdmin
 	 */
 	public function save($data)
 	{
-			if (isset($data['images']) && is_array($data['images'])) {
-				$registry = new JRegistry;
-				$registry->loadArray($data['images']);
-				$data['images'] = (string)$registry;
+		$app = JFactory::getApplication();
 
-			}
+		if (isset($data['images']) && is_array($data['images']))
+		{
+			$registry = new JRegistry;
+			$registry->loadArray($data['images']);
+			$data['images'] = (string) $registry;
+		}
 
-			if (isset($data['urls']) && is_array($data['urls'])) {
-				$registry = new JRegistry;
-				$registry->loadArray($data['urls']);
-				$data['urls'] = (string)$registry;
+		if (isset($data['urls']) && is_array($data['urls']))
+		{
+			$registry = new JRegistry;
+			$registry->loadArray($data['urls']);
+			$data['urls'] = (string) $registry;
+		}
 
-			}
 		// Alter the title for save as copy
-		if (JRequest::getVar('task') == 'save2copy') {
+		if ($app->input->get('task') == 'save2copy')
+		{
 			list($title, $alias) = $this->generateNewTitle($data['catid'], $data['alias'], $data['title']);
 			$data['title']	= $title;
 			$data['alias']	= $alias;
@@ -416,10 +420,8 @@ class ContentModelArticle extends JModelAdmin
 				$this->featured($this->getState($this->getName().'.id'), $data['featured']);
 			}
 
-
 			return true;
 		}
-
 
 		return false;
 	}
@@ -453,20 +455,17 @@ class ContentModelArticle extends JModelAdmin
 				' SET featured = '.(int) $value.
 				' WHERE id IN ('.implode(',', $pks).')'
 			);
-			if (!$db->query()) {
-				throw new Exception($db->getErrorMsg());
-			}
+			$db->execute();
 
-			if ((int)$value == 0) {
+			if ((int) $value == 0)
+			{
 				// Adjust the mapping table.
 				// Clear the existing features settings.
 				$db->setQuery(
 					'DELETE FROM #__content_frontpage' .
 					' WHERE content_id IN ('.implode(',', $pks).')'
 				);
-				if (!$db->query()) {
-					throw new Exception($db->getErrorMsg());
-				}
+				$db->execute();
 			} else {
 				// first, we find out which of our new featured articles are already featured.
 				$query = $db->getQuery(true);
@@ -476,9 +475,7 @@ class ContentModelArticle extends JModelAdmin
 				//echo $query;
 				$db->setQuery($query);
 
-				if (!is_array($old_featured = $db->loadColumn())) {
-					throw new Exception($db->getErrorMsg());
-				}
+				$old_featured = $db->loadColumn();
 
 				// we diff the arrays to get a list of the articles that are newly featured
 				$new_featured = array_diff($pks, $old_featured);
@@ -493,10 +490,7 @@ class ContentModelArticle extends JModelAdmin
 						'INSERT INTO #__content_frontpage ('.$db->quoteName('content_id').', '.$db->quoteName('ordering').')' .
 						' VALUES '.implode(',', $tuples)
 					);
-					if (!$db->query()) {
-						$this->setError($db->getErrorMsg());
-						return false;
-					}
+					$db->execute();
 				}
 			}
 

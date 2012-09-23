@@ -1,20 +1,20 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_messages
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.modelform');
 
 /**
  * Message configuration model.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_messages
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_messages
+ * @since       1.6
  */
 class MessagesModelConfig extends JModelForm
 {
@@ -46,7 +46,6 @@ class MessagesModelConfig extends JModelForm
 	 */
 	public function &getItem()
 	{
-		// Initialise variables.
 		$item = new JObject;
 
 		$db = $this->getDbo();
@@ -56,10 +55,14 @@ class MessagesModelConfig extends JModelForm
 		$query->where('user_id = '.(int) $this->getState('user.id'));
 
 		$db->setQuery($query);
-		$rows = $db->loadObjectList();
 
-		if ($error = $db->getErrorMsg()) {
-			$this->setError($error);
+		try
+		{
+			$rows = $db->loadObjectList();
+		}
+		catch (RuntimeException $e)
+		{
+			$this->setError($e->getMessage());
 			return false;
 		}
 
@@ -104,15 +107,20 @@ class MessagesModelConfig extends JModelForm
 				'DELETE FROM #__messages_cfg'.
 				' WHERE user_id = '. $userId
 			);
-			$db->query();
-			if ($error = $db->getErrorMsg()) {
-				$this->setError($error);
+
+			try
+			{
+				$db->execute();
+			}
+			catch (RuntimeException $e)
+			{
+				$this->setError($e->getMessage());
 				return false;
 			}
 
 			$tuples = array();
 			foreach ($data as $k => $v) {
-				$tuples[] =  '('.$userId.', '.$db->Quote($k).', '.$db->Quote($v).')';
+				$tuples[] = '(' . $userId.', ' . $db->Quote($k) . ', ' . $db->Quote($v) . ')';
 			}
 
 			if ($tuples) {
@@ -121,9 +129,14 @@ class MessagesModelConfig extends JModelForm
 					' (user_id, cfg_name, cfg_value)'.
 					' VALUES '.implode(',', $tuples)
 				);
-				$db->query();
-				if ($error = $db->getErrorMsg()) {
-					$this->setError($error);
+
+				try
+				{
+				$db->execute();
+				}
+				catch (RuntimeException $e)
+				{
+					$this->setError($e->getMessage());
 					return false;
 				}
 			}

@@ -1,17 +1,19 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	mod_logged
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  mod_logged
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
 
 /**
- * @package		Joomla.Administrator
- * @subpackage	mod_logged
+ * Helper for mod_logged
+ *
+ * @package     Joomla.Administrator
+ * @subpackage  mod_logged
  */
 abstract class modLoggedHelper
 {
@@ -23,7 +25,6 @@ abstract class modLoggedHelper
 	 */
 	public static function getList($params)
 	{
-		// Initialise variables
 		$db = JFactory::getDbo();
 		$user = JFactory::getUser();
 		$query = $db->getQuery(true);
@@ -33,13 +34,16 @@ abstract class modLoggedHelper
 		$query->leftJoin('#__users AS u ON s.userid = u.id');
 		$query->where('s.guest = 0');
 		$db->setQuery($query, 0, $params->get('count', 5));
-		$results = $db->loadObjectList();
 
-		// Check for database errors
-		if ($error = $db->getErrorMsg()) {
-			JError::raiseError(500, $error);
+		try
+		{
+			$results = $db->loadObjectList();
+		}
+		catch (RuntimeException $e)
+		{
+			JError::raiseError(500, $e->getMessage());
 			return false;
-		};
+		}
 
 		foreach($results as $k => $result)
 		{

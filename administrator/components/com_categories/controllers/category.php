@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controllerform');
-
 /**
  * The Category Controller
  *
@@ -43,7 +41,7 @@ class CategoriesControllerCategory extends JControllerForm
 		// Guess the JText message prefix. Defaults to the option.
 		if (empty($this->extension))
 		{
-			$this->extension = JRequest::getCmd('extension', 'com_content');
+			$this->extension = $this->input->get('extension', 'com_content');
 		}
 	}
 
@@ -74,7 +72,6 @@ class CategoriesControllerCategory extends JControllerForm
 	 */
 	protected function allowEdit($data = array(), $key = 'parent_id')
 	{
-		// Initialise variables.
 		$recordId = (int) isset($data[$key]) ? $data[$key] : 0;
 		$user = JFactory::getUser();
 		$userId = $user->get('id');

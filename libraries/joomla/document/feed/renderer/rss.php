@@ -48,9 +48,9 @@ class JDocumentRendererRSS extends JDocumentRenderer
 		$now = JFactory::getDate();
 		$now->setTimeZone($tz);
 
-		$data = &$this->_doc;
+		$data = $this->_doc;
 
-		$uri = JFactory::getURI();
+		$uri = JURI::getInstance();
 		$url = $uri->toString(array('scheme', 'user', 'pass', 'host', 'port'));
 		$syndicationURL = JRoute::_('&format=feed&type=rss');
 
@@ -158,7 +158,7 @@ class JDocumentRendererRSS extends JDocumentRenderer
 
 		for ($i = 0, $count = count($data->items); $i < $count; $i++)
 		{
-			if ((strpos($data->items[$i]->link, 'http://') === false) and (strpos($data->items[$i]->link, 'https://') === false))
+			if ((strpos($data->items[$i]->link, 'http://') === false) && (strpos($data->items[$i]->link, 'https://') === false))
 			{
 				$data->items[$i]->link = str_replace(' ', '%20', $url . $data->items[$i]->link);
 			}
@@ -182,12 +182,14 @@ class JDocumentRendererRSS extends JDocumentRenderer
 				$feed .= "			<author>"
 					. htmlspecialchars($data->items[$i]->authorEmail . ' (' . $data->items[$i]->author . ')', ENT_COMPAT, 'UTF-8') . "</author>\n";
 			}
+
 			/*
-			// On hold
-			if ($data->items[$i]->source!="") {
-			    $data.= "			<source>".htmlspecialchars($data->items[$i]->source, ENT_COMPAT, 'UTF-8')."</source>\n";
-			}
+			 * @todo: On hold
+			 * if ($data->items[$i]->source!="") {
+			 *   $data.= "			<source>".htmlspecialchars($data->items[$i]->source, ENT_COMPAT, 'UTF-8')."</source>\n";
+			 * }
 			 */
+
 			if (empty($data->items[$i]->category) === false)
 			{
 				if (is_array($data->items[$i]->category))

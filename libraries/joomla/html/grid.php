@@ -1,7 +1,5 @@
 <?php
 /**
- * JGrid class to dynamically generate HTML tables
- *
  * @package     Joomla.Platform
  * @subpackage  HTML
  *
@@ -12,459 +10,335 @@
 defined('JPATH_PLATFORM') or die;
 
 /**
- * JGrid class to dynamically generate HTML tables
+ * Utility class for creating HTML Grids
  *
  * @package     Joomla.Platform
  * @subpackage  HTML
- * @since       11.3
+ * @since       11.1
  */
-class JGrid
+abstract class JHtmlGrid
 {
 	/**
-	 * Array of columns
-	 * @var array
-	 * @since 11.3
-	 */
-	protected $columns = array();
-
-	/**
-	 * Current active row
-	 * @var int
-	 * @since 11.3
-	 */
-	protected $activeRow = 0;
-
-	/**
-	 * Rows of the table (including header and footer rows)
-	 * @var array
-	 * @since 11.3
-	 */
-	protected $rows = array();
-
-	/**
-	 * Header and Footer row-IDs
-	 * @var array
-	 * @since 11.3
-	 */
-	protected $specialRows = array('header' => array(), 'footer' => array());
-
-	/**
-	 * Associative array of attributes for the table-tag
-	 * @var array
-	 * @since 11.3
-	 */
-	protected $options;
-
-	/**
-	 * Constructor for a JGrid object
+	 * Display a boolean setting widget.
 	 *
-	 * @param   array  $options  Associative array of attributes for the table-tag
+	 * @param   integer  $i        The row index.
+	 * @param   integer  $value    The value of the boolean field.
+	 * @param   string   $taskOn   Task to turn the boolean setting on.
+	 * @param   string   $taskOff  Task to turn the boolean setting off.
 	 *
-	 * @since 11.3
+	 * @return  string   The boolean setting widget.
+	 *
+	 * @since    11.1
 	 */
-	public function __construct($options = array())
+	public static function boolean($i, $value, $taskOn = null, $taskOff = null)
 	{
-		$this->setTableOptions($options, true);
+		// Load the behavior.
+		self::behavior();
+
+		// Build the title.
+		$title = ($value) ? JText::_('JYES') : JText::_('JNO');
+		$title .= '::' . JText::_('JGLOBAL_CLICK_TO_TOGGLE_STATE');
+
+		// Build the <a> tag.
+		$bool = ($value) ? 'true' : 'false';
+		$task = ($value) ? $taskOff : $taskOn;
+		$toggle = (!$task) ? false : true;
+
+		if ($toggle)
+		{
+			$html = '<a class="grid_' . $bool . ' hasTip" title="' . $title . '" rel="{id:\'cb' . $i . '\', task:\'' . $task
+				. '\'}" href="#toggle"></a>';
+		}
+		else
+		{
+			$html = '<a class="grid_' . $bool . '"></a>';
+		}
+
+		return $html;
 	}
 
 	/**
-	 * Magic function to render this object as a table.
+	 * Method to sort a column in a grid
+	 *
+	 * @param   string  $title          The link title
+	 * @param   string  $order          The order field for the column
+	 * @param   string  $direction      The current direction
+	 * @param   string  $selected       The selected ordering
+	 * @param   string  $task           An optional task override
+	 * @param   string  $new_direction  An optional direction for the new column
+	 * @param   string  $tip            An optional text shown as tooltip title instead of $title
 	 *
 	 * @return  string
 	 *
-	 * @since 11.3
+	 * @since   11.1
 	 */
-	public function __toString()
+	public static function sort($title, $order, $direction = 'asc', $selected = 0, $task = null, $new_direction = 'asc', $tip = '')
 	{
-		return $this->toString();
-	}
+		JHtml::_('behavior.tooltip');
 
-	/**
-	 * Method to set the attributes for a table-tag
-	 *
-	 * @param   array  $options  Associative array of attributes for the table-tag
-	 * @param   bool   $replace  Replace possibly existing attributes
-	 *
-	 * @return  JGrid This object for chaining
-	 *
-	 * @since 11.3
-	 */
-	public function setTableOptions($options = array(), $replace = false)
-	{
-		if ($replace)
+		$direction = strtolower($direction);
+		$icon = array('arrow-down', 'arrow-up');
+		$index = (int) ($direction == 'desc');
+
+		if ($order != $selected)
 		{
-			$this->options = $options;
+			$direction = $new_direction;
 		}
 		else
 		{
-			$this->options = array_merge($this->options, $options);
+			$direction = ($direction == 'desc') ? 'asc' : 'desc';
 		}
-		return $this;
-	}
 
-	/**
-	 * Get the Attributes of the current table
-	 *
-	 * @return  array Associative array of attributes
-	 *
-	 * @since 11.3
-	 */
-	public function getTableOptions()
-	{
-		return $this->options;
-	}
+		$html = '<a href="#" onclick="Joomla.tableOrdering(\'' . $order . '\',\'' . $direction . '\',\'' . $task . '\');"'
+			. ' class="hasTip" title="' . JText::_($tip ? $tip : $title) . '::' . JText::_('JGLOBAL_CLICK_TO_SORT_THIS_COLUMN') . '">';
+		$html .= JText::_($title);
 
-	/**
-	 * Add new column name to process
-	 *
-	 * @param   string  $name  Internal column name
-	 *
-	 * @return  JGrid This object for chaining
-	 *
-	 * @since 11.3
-	 */
-	public function addColumn($name)
-	{
-		$this->columns[] = $name;
-
-		return $this;
-	}
-
-	/**
-	 * Returns the list of internal columns
-	 *
-	 * @return  array List of internal columns
-	 *
-	 * @since 11.3
-	 */
-	public function getColumns()
-	{
-		return $this->columns;
-	}
-
-	/**
-	 * Delete column by name
-	 *
-	 * @param   string  $name  Name of the column to be deleted
-	 *
-	 * @return  JGrid This object for chaining
-	 *
-	 * @since 11.3
-	 */
-	public function deleteColumn($name)
-	{
-		$index = array_search($name, $this->columns);
-		if ($index !== false)
+		if ($order == $selected)
 		{
-			unset($this->columns[$index]);
-			$this->columns = array_values($this->columns);
+			$html .= ' <i class="icon-' . $icon[$index] . '"></i>';
 		}
 
-		return $this;
+		$html .= '</a>';
+
+		return $html;
 	}
 
 	/**
-	 * Method to set a whole range of columns at once
-	 * This can be used to re-order the columns, too
+	 * Method to create a checkbox for a grid row.
 	 *
-	 * @param   array  $columns  List of internal column names
+	 * @param   integer  $rowNum      The row index
+	 * @param   integer  $recId       The record id
+	 * @param   boolean  $checkedOut  True if item is checke out
+	 * @param   string   $name        The name of the form element
 	 *
-	 * @return  JGrid This object for chaining
-	 *
-	 * @since 11.3
+	 * @return  mixed    String of html with a checkbox if item is not checked out, null if checked out.
 	 */
-	public function setColumns($columns)
+	public static function id($rowNum, $recId, $checkedOut = false, $name = 'cid')
 	{
-		$this->columns = array_values($columns);
-
-		return $this;
-	}
-
-	/**
-	 * Adds a row to the table and sets the currently
-	 * active row to the new row
-	 *
-	 * @param   array  $options  Associative array of attributes for the row
-	 * @param   int    $special  1 for a new row in the header, 2 for a new row in the footer
-	 *
-	 * @return  JGrid This object for chaining
-	 *
-	 * @since 11.3
-	 */
-	public function addRow($options = array(), $special = false)
-	{
-		$this->rows[]['_row'] = $options;
-		$this->activeRow = count($this->rows) - 1;
-		if ($special)
-		{
-			if ($special === 1)
-			{
-				$this->specialRows['header'][] = $this->activeRow;
-			}
-			else
-			{
-				$this->specialRows['footer'][] = $this->activeRow;
-			}
-		}
-
-		return $this;
-	}
-
-	/**
-	 * Method to get the attributes of the currently active row
-	 *
-	 * @return array Associative array of attributes
-	 *
-	 * @since 11.3
-	 */
-	public function getRowOptions()
-	{
-		return $this->rows[$this->activeRow]['_row'];
-	}
-
-	/**
-	 * Method to set the attributes of the currently active row
-	 *
-	 * @param   array  $options  Associative array of attributes
-	 *
-	 * @return JGrid This object for chaining
-	 *
-	 * @since 11.3
-	 */
-	public function setRowOptions($options)
-	{
-		$this->rows[$this->activeRow]['_row'] = $options;
-
-		return $this;
-	}
-
-	/**
-	 * Get the currently active row ID
-	 *
-	 * @return  int ID of the currently active row
-	 *
-	 * @since 11.3
-	 */
-	public function getActiveRow()
-	{
-		return $this->activeRow;
-	}
-
-	/**
-	 * Set the currently active row
-	 *
-	 * @param   int  $id  ID of the row to be set to current
-	 *
-	 * @return  JGrid This object for chaining
-	 *
-	 * @since 11.3
-	 */
-	public function setActiveRow($id)
-	{
-		$this->activeRow = (int) $id;
-		return $this;
-	}
-
-	/**
-	 * Set cell content for a specific column for the
-	 * currently active row
-	 *
-	 * @param   string  $name     Name of the column
-	 * @param   string  $content  Content for the cell
-	 * @param   array   $option   Associative array of attributes for the td-element
-	 * @param   bool    $replace  If false, the content is appended to the current content of the cell
-	 *
-	 * @return  JGrid This object for chaining
-	 *
-	 * @since 11.3
-	 */
-	public function setRowCell($name, $content, $option = array(), $replace = true)
-	{
-		if ($replace || !isset($this->rows[$this->activeRow][$name]))
-		{
-			$cell = new stdClass;
-			$cell->options = $option;
-			$cell->content = $content;
-			$this->rows[$this->activeRow][$name] = $cell;
-		}
-		else
-		{
-			$this->rows[$this->activeRow][$name]->content .= $content;
-			$this->rows[$this->activeRow][$name]->options = $option;
-		}
-
-		return $this;
-	}
-
-	/**
-	 * Get all data for a row
-	 *
-	 * @param   int  $id  ID of the row to return
-	 *
-	 * @return  array Array of columns of a table row
-	 *
-	 * @since 11.3
-	 */
-	public function getRow($id = false)
-	{
-		if ($id === false)
-		{
-			$id = $this->activeRow;
-		}
-
-		if (isset($this->rows[(int) $id]))
-		{
-			return $this->rows[(int) $id];
-		}
-		else
-		{
-			return false;
-		}
-	}
-
-	/**
-	 * Get the IDs of all rows in the table
-	 *
-	 * @param   int  $special  false for the standard rows, 1 for the header rows, 2 for the footer rows
-	 *
-	 * @return  array Array of IDs
-	 *
-	 * @since 11.3
-	 */
-	public function getRows($special = false)
-	{
-		if ($special)
-		{
-			if ($special === 1)
-			{
-				return $this->specialRows['header'];
-			}
-			else
-			{
-				return $this->specialRows['footer'];
-			}
-		}
-		return array_diff(array_keys($this->rows), array_merge($this->specialRows['header'], $this->specialRows['footer']));
-	}
-
-	/**
-	 * Delete a row from the object
-	 *
-	 * @param   int  $id  ID of the row to be deleted
-	 *
-	 * @return  JGrid This object for chaining
-	 *
-	 * @since 11.3
-	 */
-	public function deleteRow($id)
-	{
-		unset($this->rows[$id]);
-
-		if (in_array($id, $this->specialRows['header']))
-		{
-			unset($this->specialRows['header'][array_search($id, $this->specialRows['header'])]);
-		}
-
-		if (in_array($id, $this->specialRows['footer']))
-		{
-			unset($this->specialRows['footer'][array_search($id, $this->specialRows['footer'])]);
-		}
-
-		if ($this->activeRow == $id)
-		{
-			end($this->rows);
-			$this->activeRow = key($this->rows);
-		}
-
-		return $this;
-	}
-
-	/**
-	 * Render the HTML table
-	 *
-	 * @return  string The rendered HTML table
-	 *
-	 * @since 11.3
-	 */
-	public function toString()
-	{
-		$output = array();
-		$output[] = '<table' . $this->renderAttributes($this->getTableOptions()) . '>';
-
-		if (count($this->specialRows['header']))
-		{
-			$output[] = $this->renderArea($this->specialRows['header'], 'thead', 'th');
-		}
-
-		if (count($this->specialRows['footer']))
-		{
-			$output[] = $this->renderArea($this->specialRows['footer'], 'tfoot');
-		}
-
-		$ids = array_diff(array_keys($this->rows), array_merge($this->specialRows['header'], $this->specialRows['footer']));
-		if (count($ids))
-		{
-			$output[] = $this->renderArea($ids);
-		}
-
-		$output[] = '</table>';
-		return implode('', $output);
-	}
-
-	/**
-	 * Render an area of the table
-	 *
-	 * @param   array   $ids   IDs of the rows to render
-	 * @param   string  $area  Name of the area to render. Valid: tbody, tfoot, thead
-	 * @param   string  $cell  Name of the cell to render. Valid: td, th
-	 *
-	 * @return string The rendered table area
-	 *
-	 * @since 11.3
-	 */
-	protected function renderArea($ids, $area = 'tbody', $cell = 'td')
-	{
-		$output = array();
-		$output[] = '<' . $area . ">\n";
-		foreach ($ids as $id)
-		{
-			$output[] = "\t<tr" . $this->renderAttributes($this->rows[$id]['_row']) . ">\n";
-			foreach ($this->getColumns() as $name)
-			{
-				if (isset($this->rows[$id][$name]))
-				{
-					$column = $this->rows[$id][$name];
-					$output[] = "\t\t<" . $cell . $this->renderAttributes($column->options) . '>' . $column->content . '</' . $cell . ">\n";
-				}
-			}
-
-			$output[] = "\t</tr>\n";
-		}
-		$output[] = '</' . $area . '>';
-
-		return implode('', $output);
-	}
-
-	/**
-	 * Renders an HTML attribute from an associative array
-	 *
-	 * @param   array  $attributes  Associative array of attributes
-	 *
-	 * @return  string The HTML attribute string
-	 *
-	 * @since 11.3
-	 */
-	protected function renderAttributes($attributes)
-	{
-		if (count((array) $attributes) == 0)
+		if ($checkedOut)
 		{
 			return '';
 		}
-		$return = array();
-		foreach ($attributes as $key => $option)
+		else
 		{
-			$return[] = $key . '="' . $option . '"';
+			return '<input type="checkbox" id="cb' . $rowNum . '" name="' . $name . '[]" value="' . $recId
+				. '" onclick="Joomla.isChecked(this.checked);" title="' . JText::sprintf('JGRID_CHECKBOX_ROW_N', ($rowNum + 1)) . '" />';
 		}
-		return ' ' . implode(' ', $return);
+	}
+
+	/**
+	 * Displays a checked out icon.
+	 *
+	 * @param   object   &$row        A data object (must contain checkedout as a property).
+	 * @param   integer  $i           The index of the row.
+	 * @param   string   $identifier  The property name of the primary key or index of the row.
+	 *
+	 * @return  string
+	 *
+	 * @since   11.1
+	 */
+	public static function checkedOut(&$row, $i, $identifier = 'id')
+	{
+		$user = JFactory::getUser();
+		$userid = $user->get('id');
+
+		$result = false;
+		if ($row instanceof JTable)
+		{
+			$result = $row->isCheckedOut($userid);
+		}
+		else
+		{
+			$result = false;
+		}
+
+		$checked = '';
+		if ($result)
+		{
+			$checked = self::_checkedOut($row);
+		}
+		else
+		{
+			if ($identifier == 'id')
+			{
+				$checked = JHtml::_('grid.id', $i, $row->$identifier);
+			}
+			else
+			{
+				$checked = JHtml::_('grid.id', $i, $row->$identifier, $result, $identifier);
+			}
+		}
+
+		return $checked;
+	}
+
+	/**
+	 * Method to create a clickable icon to change the state of an item
+	 *
+	 * @param   mixed    $value   Either the scalar value or an object (for backward compatibility, deprecated)
+	 * @param   integer  $i       The index
+	 * @param   string   $img1    Image for a positive or on value
+	 * @param   string   $img0    Image for the empty or off value
+	 * @param   string   $prefix  An optional prefix for the task
+	 *
+	 * @return  string
+	 *
+	 * @since   11.1
+	 */
+	public static function published($value, $i, $img1 = 'tick.png', $img0 = 'publish_x.png', $prefix = '')
+	{
+		if (is_object($value))
+		{
+			$value = $value->published;
+		}
+
+		$img = $value ? $img1 : $img0;
+		$task = $value ? 'unpublish' : 'publish';
+		$alt = $value ? JText::_('JPUBLISHED') : JText::_('JUNPUBLISHED');
+		$action = $value ? JText::_('JLIB_HTML_UNPUBLISH_ITEM') : JText::_('JLIB_HTML_PUBLISH_ITEM');
+
+		$href = '
+		<a href="#" onclick="return listItemTask(\'cb' . $i . '\',\'' . $prefix . $task . '\')" title="' . $action . '">'
+			. JHtml::_('image', 'admin/' . $img, $alt, null, true) . '</a>';
+
+		return $href;
+	}
+	/**
+	 * Method to create a select list of states for filtering
+	 * By default the filter shows only published and unpublished items
+	 *
+	 * @param   string  $filter_state  The initial filter state
+	 * @param   string  $published     The JText string for published
+	 * @param   string  $unpublished   The JText string for Unpublished
+	 * @param   string  $archived      The JText string for Archived
+	 * @param   string  $trashed       The JText string for Trashed
+	 *
+	 * @return  string
+	 *
+	 * @since   11.1
+	 */
+	public static function state($filter_state = '*', $published = 'Published', $unpublished = 'Unpublished', $archived = null, $trashed = null)
+	{
+		$state = array('' => '- ' . JText::_('JLIB_HTML_SELECT_STATE') . ' -', 'P' => JText::_($published), 'U' => JText::_($unpublished));
+
+		if ($archived)
+		{
+			$state['A'] = JText::_($archived);
+		}
+
+		if ($trashed)
+		{
+			$state['T'] = JText::_($trashed);
+		}
+
+		return JHtml::_(
+			'select.genericlist',
+			$state,
+			'filter_state',
+			array(
+				'list.attr' => 'class="inputbox" size="1" onchange="Joomla.submitform();"',
+				'list.select' => $filter_state,
+				'option.key' => null
+			)
+		);
+	}
+	/**
+	 * Method to create an icon for saving a new ordering in a grid
+	 *
+	 * @param   array   $rows   The array of rows of rows
+	 * @param   string  $image  The image
+	 * @param   string  $task   The task to use, defaults to save order
+	 *
+	 * @return  string
+	 *
+	 * @since   11.1
+	 */
+	public static function order($rows, $image = 'filesave.png', $task = 'saveorder')
+	{
+		// $image = JHtml::_('image','admin/'.$image, JText::_('JLIB_HTML_SAVE_ORDER'), NULL, true);
+		$href = '<a href="javascript:saveorder(' . (count($rows) - 1) . ', \'' . $task . '\')" rel="tooltip" class="saveorder btn btn-micro pull-right" title="'
+			. JText::_('JLIB_HTML_SAVE_ORDER') . '"><i class="icon-menu-2"></i></a>';
+
+		return $href;
+	}
+
+	/**
+	 * Method to create a checked out icon with optional overlib in a grid.
+	 *
+	 * @param   object   &$row     The row object
+	 * @param   boolean  $overlib  True if an overlib with checkout information should be created.
+	 *
+	 * @return  string   HTMl for the icon and overlib
+	 *
+	 * @since   11.1
+	 */
+	protected static function _checkedOut(&$row, $overlib = true)
+	{
+		$hover = '';
+
+		if ($overlib)
+		{
+			$text = addslashes(htmlspecialchars($row->editor, ENT_COMPAT, 'UTF-8'));
+
+			$date = JHtml::_('date', $row->checked_out_time, JText::_('DATE_FORMAT_LC1'));
+			$time = JHtml::_('date', $row->checked_out_time, 'H:i');
+
+			$hover = '<span class="editlinktip hasTip" title="' . JText::_('JLIB_HTML_CHECKED_OUT') . '::' . $text . '<br />' . $date . '<br />'
+				. $time . '">';
+		}
+
+		$checked = $hover . JHtml::_('image', 'admin/checked_out.png', null, null, true) . '</span>';
+
+		return $checked;
+	}
+	/**
+	 * Method to build the behavior script and add it to the document head.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
+	 */
+	public static function behavior()
+	{
+		static $loaded;
+
+		if (!$loaded)
+		{
+			// Build the behavior script.
+			$js = '
+		window.addEvent(\'domready\', function(){
+			actions = $$(\'a.move_up\');
+			actions.combine($$(\'a.move_down\'));
+			actions.combine($$(\'a.grid_true\'));
+			actions.combine($$(\'a.grid_false\'));
+			actions.combine($$(\'a.grid_trash\'));
+			actions.each(function(a){
+				a.addEvent(\'click\', function(){
+					args = JSON.decode(this.rel);
+					listItemTask(args.id, args.task);
+				});
+			});
+			$$(\'input.check-all-toggle\').each(function(el){
+				el.addEvent(\'click\', function(){
+					if (el.checked) {
+						document.id(this.form).getElements(\'input[type=checkbox]\').each(function(i){
+							i.checked = true;
+						})
+					}
+					else {
+						document.id(this.form).getElements(\'input[type=checkbox]\').each(function(i){
+							i.checked = false;
+						})
+					}
+				});
+			});
+		});';
+
+			// Add the behavior to the document head.
+			$document = JFactory::getDocument();
+			$document->addScriptDeclaration($js);
+
+			$loaded = true;
+		}
 	}
 }

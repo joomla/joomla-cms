@@ -1,20 +1,20 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_plugins
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.modellist');
 
 /**
  * Methods supporting a list of plugin records.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_plugins
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_plugins
+ * @since       1.6
  */
 class PluginsModelPlugins extends JModelList
 {
@@ -55,7 +55,6 @@ class PluginsModelPlugins extends JModelList
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
-		// Initialise variables.
 		$app = JFactory::getApplication('administrator');
 
 		// Load the filter state.
@@ -65,8 +64,8 @@ class PluginsModelPlugins extends JModelList
 		$accessId = $this->getUserStateFromRequest($this->context.'.filter.access', 'filter_access', null, 'int');
 		$this->setState('filter.access', $accessId);
 
-		$state = $this->getUserStateFromRequest($this->context.'.filter.state', 'filter_state', '', 'string');
-		$this->setState('filter.state', $state);
+		$state = $this->getUserStateFromRequest($this->context . '.filter.enabled', 'filter_enabled', '', 'string');
+		$this->setState('filter.enabled', $state);
 
 		$folder = $this->getUserStateFromRequest($this->context.'.filter.folder', 'filter_folder', null, 'cmd');
 		$this->setState('filter.folder', $folder);
@@ -122,7 +121,8 @@ class PluginsModelPlugins extends JModelList
 			$result = $this->_db->loadObjectList();
 			$this->translate($result);
 			if (!empty($search)) {
-				foreach($result as $i=>$item) {
+				foreach ($result as $i => $item)
+				{
 					if (!preg_match("/$search/i", $item->name)) {
 						unset($result[$i]);
 					}
@@ -209,7 +209,7 @@ class PluginsModelPlugins extends JModelList
 		}
 
 		// Filter by published state
-		$published = $this->getState('filter.state');
+		$published = $this->getState('filter.enabled');
 		if (is_numeric($published)) {
 			$query->where('a.enabled = '.(int) $published);
 		} elseif ($published === '') {

@@ -1,20 +1,20 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_users
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.controlleradmin');
 
 /**
  * User groups list controller class.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_users
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_users
+ * @since       1.6
  */
 class UsersControllerGroups extends JControllerAdmin
 {
@@ -41,7 +41,7 @@ class UsersControllerGroups extends JControllerAdmin
 	 *
 	 * @since	1.6
 	 */
-	function delete()
+	public function delete()
 	{
 		if (!JFactory::getUser()->authorise('core.admin', $this->option)) {
 			JError::raiseError(500, JText::_('JERROR_ALERTNOAUTHOR'));
@@ -58,7 +58,7 @@ class UsersControllerGroups extends JControllerAdmin
 	 *
 	 * @since	1.6
 	 */
-	function publish()
+	public function publish()
 	{
 		if (!JFactory::getUser()->authorise('core.admin', $this->option)) {
 			JError::raiseError(500, JText::_('JERROR_ALERTNOAUTHOR'));

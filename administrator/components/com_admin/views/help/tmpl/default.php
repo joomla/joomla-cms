@@ -1,42 +1,35 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_admin
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_admin
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
-jimport('joomla.language.help');
+JHtml::_('bootstrap.tooltip');
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_admin&amp;view=help'); ?>" method="post" name="adminForm" id="adminForm">
-<div class="width-40 fltlft">
-	<fieldset class="adminform">
-		<legend><?php echo JText::_('COM_ADMIN_SEARCH'); ?></legend>
-		<input class="textarea" type="hidden" name="option" value="com_admin" />
-		<input type="text" name="helpsearch" size="40"  value="<?php echo $this->escape($this->help_search);?>" class="inputbox" />
-		<input type="submit" value="<?php echo JText::_('COM_ADMIN_GO'); ?>" class="button" />
-		<input type="button" value="<?php echo JText::_('COM_ADMIN_CLEAR_RESULTS'); ?>" class="button" onclick="f=document.adminForm;f.helpsearch.value='';f.submit()" />
-	</fieldset>
-</div>
-<div class="width-50 fltrt helplinks">
-	<ul class="helpmenu">
-		<li><?php echo JHtml::_('link', JHelp::createUrl('JHELP_GLOSSARY'), JText::_('COM_ADMIN_GLOSSARY'), array('target' => 'helpFrame')) ?></li>
-		<li><?php echo JHtml::_('link', 'http://www.gnu.org/licenses/gpl-2.0.html', JText::_('COM_ADMIN_LICENSE'), array('target' => 'helpFrame')) ?></li>
-		<li><?php echo JHtml::_('link', $this->latest_version_check, JText::_('COM_ADMIN_LATEST_VERSION_CHECK'), array('target' => 'helpFrame')) ?></li>
-		<li><?php echo JHtml::_('link', JHelp::createUrl('JHELP_START_HERE'), JText::_('COM_ADMIN_START_HERE'), array('target' => 'helpFrame')) ?></li>
-	</ul>
-</div>
-<div class="clr"> </div>
-	<div id="treecellhelp" class="width-20 fltleft">
-		<fieldset class="adminform whitebg" title="<?php echo JText::_('COM_ADMIN_ALPHABETICAL_INDEX'); ?>">
-			<legend><?php echo JText::_('COM_ADMIN_ALPHABETICAL_INDEX'); ?></legend>
-
-			<div class="helpIndex">
-				<ul class="subext">
-					<?php foreach ($this->toc as $k=>$v):?>
+	<div class="row-fluid">
+		<div id="sidebar" class="span3">
+			<div id="filter-bar" class="btn-toolbar">
+				<div class="filter-search input-append">
+					<label for="helpsearch" class="element-invisible"><?php echo JText::_('COM_ADMIN_SEARCH');?></label>
+					<input type="text" name="helpsearch" class="input-small" placeholder="<?php echo JText::_('COM_ADMIN_SEARCH'); ?>" id="helpsearch" <?php echo $this->escape($this->help_search);?> title="<?php echo JText::_('COM_ADMIN_SEARCH'); ?>" /><button class="btn tip hasTooltip" type="submit" title="<?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?>"><i class="icon-search"></i></button><button class="btn tip" type="button" onclick="f=document.adminForm;f.helpsearch.value='';f.submit()" class="hasTooltip" title="<?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?>"><i class="icon-remove"></i></button>
+				</div>
+			</div>
+			<div class="clearfix"> </div>
+			<div class="sidebar-nav">
+				<ul class="nav nav-list">
+					<li><?php echo JHtml::_('link', JHelp::createUrl('JHELP_START_HERE'), JText::_('COM_ADMIN_START_HERE'), array('target' => 'helpFrame')) ?></li>
+					<li><?php echo JHtml::_('link', $this->latest_version_check, JText::_('COM_ADMIN_LATEST_VERSION_CHECK'), array('target' => 'helpFrame')) ?></li>
+					<li><?php echo JHtml::_('link', 'http://www.gnu.org/licenses/gpl-2.0.html', JText::_('COM_ADMIN_LICENSE'), array('target' => 'helpFrame')) ?></li>
+					<li><?php echo JHtml::_('link', JHelp::createUrl('JHELP_GLOSSARY'), JText::_('COM_ADMIN_GLOSSARY'), array('target' => 'helpFrame')) ?></li>
+					<hr class="hr-condensed" />
+					<li class="nav-header"><?php echo JText::_('COM_ADMIN_ALPHABETICAL_INDEX'); ?></li>
+					<?php foreach ($this->toc as $k => $v):?>
 						<li>
 						    <?php $url = JHelp::createUrl('JHELP_'.strtoupper($k)); ?>
 							<?php echo JHtml::_('link', $url, $v, array('target' => 'helpFrame'));?>
@@ -44,15 +37,10 @@ jimport('joomla.language.help');
 					<?php endforeach;?>
 				</ul>
 			</div>
-		</fieldset>
+		</div>
+		<div class="span9">
+			<iframe name="helpFrame" height="70%" src="<?php echo $this->page;?>" class="helpFrame table table-bordered"></iframe>
+		</div>
 	</div>
-
-	<div id="datacellhelp" class="width-80 fltrt">
-		<fieldset title="<?php echo JText::_('COM_ADMIN_VIEW'); ?>">
-			<legend>
-				<?php echo JText::_('COM_ADMIN_VIEW'); ?>
-			</legend>
-				<iframe name="helpFrame" src="<?php echo $this->page;?>" class="helpFrame"></iframe>
-		</fieldset>
-	</div>
+	<input class="textarea" type="hidden" name="option" value="com_admin" />
 </form>

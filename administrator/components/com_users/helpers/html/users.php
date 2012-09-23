@@ -4,7 +4,7 @@
  * @subpackage  com_users
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -57,7 +57,7 @@ class JHtmlUsers
 		$title = JText::_('COM_USERS_ADD_NOTE');
 
 		return '<a href="' . JRoute::_('index.php?option=com_users&task=note.add&u_id=' . (int) $userId) . '">'
-				. JHtml::_('image', 'admin/note_add_16.png', 'COM_USERS_NOTES', array('title' => $title), true) . '</a>';
+				. '<span class="label label-info"><i class="icon-vcard"></i>' . $title . '</span></a>';
 	}
 
 	/**
@@ -105,6 +105,6 @@ class JHtmlUsers
 		return '<a class="modal"' .
 			' href="' . JRoute::_('index.php?option=com_users&view=notes&tmpl=component&layout=modal&u_id=' . (int) $userId) . '"' .
 			' rel="{handler: \'iframe\', size: {x: 800, y: 450}}">' .
-			JHtml::_('image', 'menu/icon-16-user-note.png', 'COM_USERS_NOTES', array('title' => $title), true) . '</a>';
+			'<span class="label label-info"><i class="icon-drawer-2"></i>' . $title . '</span></a>';
 	}
 }

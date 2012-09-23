@@ -1,25 +1,27 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_newsfeeds
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.view');
 
 /**
  * View class for a list of newsfeeds.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_newsfeeds
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_newsfeeds
+ * @since       1.6
  */
-class NewsfeedsViewNewsfeeds extends JView
+class NewsfeedsViewNewsfeeds extends JViewLegacy
 {
 	protected $items;
+
 	protected $pagination;
+
 	protected $state;
 
 	/**
@@ -31,14 +33,17 @@ class NewsfeedsViewNewsfeeds extends JView
 		$this->pagination	= $this->get('Pagination');
 		$this->state		= $this->get('State');
 
+		NewsfeedsHelper::addSubmenu('newsfeeds');
+
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
 			JError::raiseError(500, implode("\n", $errors));
 			return false;
 		}
 
-		parent::display($tpl);
 		$this->addToolbar();
+		$this->sidebar = JHtmlSidebar::render();
+		parent::display($tpl);
 	}
 
 	/**
@@ -51,34 +56,89 @@ class NewsfeedsViewNewsfeeds extends JView
 		$state	= $this->get('State');
 		$canDo	= NewsfeedsHelper::getActions($state->get('filter.category_id'));
 		$user	= JFactory::getUser();
-		JToolBarHelper::title(JText::_('COM_NEWSFEEDS_MANAGER_NEWSFEEDS'), 'newsfeeds.png');
+		// Get the toolbar object instance
+		$bar = JToolBar::getInstance('toolbar');
+		JToolbarHelper::title(JText::_('COM_NEWSFEEDS_MANAGER_NEWSFEEDS'), 'newsfeeds.png');
 		if (count($user->getAuthorisedCategories('com_newsfeeds', 'core.create')) > 0) {
-			JToolBarHelper::addNew('newsfeed.add');
+			JToolbarHelper::addNew('newsfeed.add');
 		}
 		if ($canDo->get('core.edit')) {
-			JToolBarHelper::editList('newsfeed.edit');
+			JToolbarHelper::editList('newsfeed.edit');
 		}
 		if ($canDo->get('core.edit.state')) {
-			JToolBarHelper::divider();
-			JToolBarHelper::publish('newsfeeds.publish', 'JTOOLBAR_PUBLISH', true);
-			JToolBarHelper::unpublish('newsfeeds.unpublish', 'JTOOLBAR_UNPUBLISH', true);
-			JToolBarHelper::divider();
-			JToolBarHelper::archiveList('newsfeeds.archive');
+			JToolbarHelper::publish('newsfeeds.publish', 'JTOOLBAR_PUBLISH', true);
+			JToolbarHelper::unpublish('newsfeeds.unpublish', 'JTOOLBAR_UNPUBLISH', true);
+			JToolbarHelper::archiveList('newsfeeds.archive');
 		}
 		if ($canDo->get('core.admin')) {
-			JToolBarHelper::checkin('newsfeeds.checkin');
+			JToolbarHelper::checkin('newsfeeds.checkin');
 			}
-		if ($state->get('filter.state') == -2 && $canDo->get('core.delete')) {
-			JToolBarHelper::deleteList('', 'newsfeeds.delete', 'JTOOLBAR_EMPTY_TRASH');
-			JToolBarHelper::divider();
+		if ($state->get('filter.published') == -2 && $canDo->get('core.delete')) {
+			JToolbarHelper::deleteList('', 'newsfeeds.delete', 'JTOOLBAR_EMPTY_TRASH');
 		} elseif ($canDo->get('core.edit.state')) {
-			JToolBarHelper::trash('newsfeeds.trash');
-			JToolBarHelper::divider();
+			JToolbarHelper::trash('newsfeeds.trash');
+		}
+		// Add a batch button
+		if ($user->authorise('core.edit'))
+		{
+			JHtml::_('bootstrap.modal', 'collapseModal');
+			$title = JText::_('JTOOLBAR_BATCH');
+			$dhtml = "<button data-toggle=\"modal\" data-target=\"#collapseModal\" class=\"btn btn-small\">
+						<i class=\"icon-checkbox-partial\" title=\"$title\"></i>
+						$title</button>";
+			$bar->appendButton('Custom', $dhtml, 'batch');
 		}
 		if ($canDo->get('core.admin')) {
-			JToolBarHelper::preferences('com_newsfeeds');
-			JToolBarHelper::divider();
+			JToolbarHelper::preferences('com_newsfeeds');
 		}
-		JToolBarHelper::help('JHELP_COMPONENTS_NEWSFEEDS_FEEDS');
+		JToolbarHelper::help('JHELP_COMPONENTS_NEWSFEEDS_FEEDS');
+
+		JHtmlSidebar::setAction('index.php?option=com_newsfeeds&view=newsfeeds');
+
+		JHtmlSidebar::addFilter(
+			JText::_('JOPTION_SELECT_PUBLISHED'),
+			'filter_published',
+			JHtml::_('select.options', JHtml::_('jgrid.publishedOptions'), 'value', 'text', $this->state->get('filter.published'), true)
+		);
+
+		JHtmlSidebar::addFilter(
+			JText::_('JOPTION_SELECT_CATEGORY'),
+			'filter_category_id',
+			JHtml::_('select.options', JHtml::_('category.options', 'com_newsfeeds'), 'value', 'text', $this->state->get('filter.category_id'))
+		);
+
+		JHtmlSidebar::addFilter(
+			JText::_('JOPTION_SELECT_ACCESS'),
+			'filter_access',
+			JHtml::_('select.options', JHtml::_('access.assetgroups'), 'value', 'text', $this->state->get('filter.access'))
+		);
+
+		JHtmlSidebar::addFilter(
+			JText::_('JOPTION_SELECT_LANGUAGE'),
+			'filter_language',
+			JHtml::_('select.options', JHtml::_('contentlanguage.existing', true, true), 'value', 'text', $this->state->get('filter.language'))
+		);
+	}
+
+	/**
+	 * Returns an array of fields the table can be sorted by
+	 *
+	 * @return  array  Array containing the field name to sort by as the key and display text as value
+	 *
+	 * @since   3.0
+	 */
+	protected function getSortFields()
+	{
+		return array(
+			'a.ordering' => JText::_('JGRID_HEADING_ORDERING'),
+			'a.published' => JText::_('JSTATUS'),
+			'a.name' => JText::_('JGLOBAL_TITLE'),
+			'category_title' => JText::_('JCATEGORY'),
+			'a.access' => JText::_('JGRID_HEADING_ACCESS'),
+			'numarticles' => JText::_('COM_NEWSFEEDS_NUM_ARTICLES_HEADING'),
+			'a.cache_time' => JText::_('COM_NEWSFEEDS_CACHE_TIME_HEADING'),
+			'a.language' => JText::_('JGRID_HEADING_LANGUAGE'),
+			'a.id' => JText::_('JGRID_HEADING_ID')
+		);
 	}
 }

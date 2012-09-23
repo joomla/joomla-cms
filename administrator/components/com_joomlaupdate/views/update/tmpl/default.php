@@ -2,9 +2,9 @@
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
+ *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
- * @since       2.5.4
  */
 
 defined('_JEXEC') or die;
@@ -17,8 +17,11 @@ defined('_JEXEC') or die;
 <div id="update-progress">
 	<div id="extprogress">
 		<div class="extprogrow">
-			<?php echo JHtml::_('image', 'media/bar.gif', JText::_('COM_JOOMLAUPDATE_VIEW_PROGRESS'),
-					array('class' => 'progress', 'id' => 'progress'), true); ?>
+			<?php
+			echo JHtml::_(
+				'image', 'media/bar.gif', JText::_('COM_JOOMLAUPDATE_VIEW_PROGRESS'),
+				array('class' => 'progress', 'id' => 'progress'), true
+			); ?>
 		</div>
 		<div class="extprogrow">
 			<span class="extlabel"><?php echo JText::_('COM_JOOMLAUPDATE_VIEW_UPDATE_PERCENT'); ?></span>

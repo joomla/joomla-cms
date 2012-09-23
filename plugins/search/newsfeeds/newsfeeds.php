@@ -1,25 +1,26 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Plugin
+ * @subpackage  Search.newsfeeds
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
 /**
  * Newsfeeds Search plugin
  *
- * @package		Joomla.Plugin
- * @subpackage	Search.content
- * @since		1.6
+ * @package     Joomla.Plugin
+ * @subpackage  Search.newsfeeds
+ * @since       1.6
  */
 class plgSearchNewsfeeds extends JPlugin
 {
 	/**
 	 * Constructor
 	 *
-	 * @access      protected
 	 * @param       object  $subject The object to observe
 	 * @param       array   $config  An array that holds the plugin configuration
 	 * @since       1.5
@@ -33,7 +34,7 @@ class plgSearchNewsfeeds extends JPlugin
 	/**
 	 * @return array An array of search areas
 	 */
-	function onContentSearchAreas()
+	public function onContentSearchAreas()
 	{
 		static $areas = array(
 			'newsfeeds' => 'PLG_SEARCH_NEWSFEEDS_NEWSFEEDS'
@@ -51,7 +52,7 @@ class plgSearchNewsfeeds extends JPlugin
 	 * @param string ordering option, newest|oldest|popular|alpha|category
 	 * @param mixed An array if the search it to be restricted to areas, null if search all
 	 */
-	function onContentSearch($text, $phrase='', $ordering='', $areas=null)
+	public function onContentSearch($text, $phrase='', $ordering='', $areas=null)
 	{
 		$db		= JFactory::getDbo();
 		$app	= JFactory::getApplication();
@@ -64,15 +65,15 @@ class plgSearchNewsfeeds extends JPlugin
 			}
 		}
 
-		$sContent		= $this->params->get('search_content',		1);
-		$sArchived		= $this->params->get('search_archived',		1);
-		$limit			= $this->params->def('search_limit',		50);
+		$sContent  = $this->params->get('search_content', 1);
+		$sArchived = $this->params->get('search_archived', 1);
+		$limit     = $this->params->def('search_limit', 50);
 		$state = array();
 		if ($sContent) {
-			$state[]=1;
+			$state[] = 1;
 		}
 		if ($sArchived) {
-			$state[]=2;
+			$state[] = 2;
 		}
 
 		$text = trim($text);
@@ -129,7 +130,7 @@ class plgSearchNewsfeeds extends JPlugin
 			$query	= $db->getQuery(true);
 			//sqlsrv changes
 			$case_when = ' CASE WHEN ';
-			$case_when .= $query->charLength('a.alias');
+			$case_when .= $query->charLength('a.alias', '!=', '0');
 			$case_when .= ' THEN ';
 			$a_id = $query->castAsChar('a.id');
 			$case_when .= $query->concatenate(array($a_id, 'a.alias'), ':');
@@ -137,16 +138,16 @@ class plgSearchNewsfeeds extends JPlugin
 			$case_when .= $a_id.' END as slug';
 
 			$case_when1 = ' CASE WHEN ';
-			$case_when1 .= $query->charLength('c.alias');
+			$case_when1 .= $query->charLength('c.alias', '!=', '0');
 			$case_when1 .= ' THEN ';
 			$c_id = $query->castAsChar('c.id');
 			$case_when1 .= $query->concatenate(array($c_id, 'c.alias'), ':');
 			$case_when1 .= ' ELSE ';
 			$case_when1 .= $c_id.' END as catslug';
 
-			$query->select('a.name AS title, "" AS created, a.link AS text, ' . $case_when."," . $case_when1);
+			$query->select('a.name AS title, \'\' AS created, a.link AS text, ' . $case_when."," . $case_when1);
 			$query->select($query->concatenate(array($db->Quote($searchNewsfeeds), 'c.title'), " / ").' AS section');
-			$query->select('"1" AS browsernav');
+			$query->select('\'1\' AS browsernav');
 			$query->from('#__newsfeeds AS a');
 			$query->innerJoin('#__categories as c ON c.id = a.catid');
 			$query->where('('. $where .')' . 'AND a.published IN ('.implode(',', $state).') AND c.published = 1 AND c.access IN ('. $groups .')');

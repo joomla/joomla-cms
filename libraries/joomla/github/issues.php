@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 /**
  * GitHub API Issues class for the Joomla Platform.
@@ -370,7 +370,7 @@ class JGithubIssues extends JGithubObject
 		// Build the request path.
 		$path = '/issues';
 
-		//TODO Implement the filtering options.
+		// TODO Implement the filtering options.
 
 		// Send the request.
 		$response = $this->client->get($this->fetchUrl($path, $page, $limit));
@@ -412,10 +412,50 @@ class JGithubIssues extends JGithubObject
 		// Build the request path.
 		$path = '/repos/' . $user . '/' . $repo . '/issues';
 
-		//TODO Implement the filtering options.
+		$uri = new JUri($this->fetchUrl($path, $page, $limit));
+
+		if ($milestone)
+		{
+			$uri->setVar('milestone', $milestone);
+		}
+
+		if ($state)
+		{
+			$uri->setVar('state', $state);
+		}
+
+		if ($assignee)
+		{
+			$uri->setVar('assignee', $assignee);
+		}
+
+		if ($mentioned)
+		{
+			$uri->setVar('mentioned', $mentioned);
+		}
+
+		if ($labels)
+		{
+			$uri->setVar('labels', $labels);
+		}
+
+		if ($sort)
+		{
+			$uri->setVar('sort', $sort);
+		}
+
+		if ($direction)
+		{
+			$uri->setVar('direction', $direction);
+		}
+
+		if ($since)
+		{
+			$uri->setVar('since', $since->toISO8601());
+		}
 
 		// Send the request.
-		$response = $this->client->get($this->fetchUrl($path, $page, $limit));
+		$response = $this->client->get((string) $uri);
 
 		// Validate the response code.
 		if ($response->code != 200)

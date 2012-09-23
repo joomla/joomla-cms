@@ -1,20 +1,20 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  com_weblinks
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.modelitem');
 
 /**
  * Weblinks Component Model for a Weblink record
  *
- * @package		Joomla.Site
- * @subpackage	com_weblinks
- * @since		1.5
+ * @package     Joomla.Site
+ * @subpackage  com_weblinks
+ * @since       1.5
  */
 class WeblinksModelWeblink extends JModelItem
 {
@@ -39,7 +39,7 @@ class WeblinksModelWeblink extends JModelItem
 		$params	= $app->getParams();
 
 		// Load the object state.
-		$id	= JRequest::getInt('id');
+		$id	= $app->input->getInt('id');
 		$this->setState('weblink.id', $id);
 
 		// Load the parameters.
@@ -47,7 +47,7 @@ class WeblinksModelWeblink extends JModelItem
 	}
 
 	/**
-	 * Method to get an ojbect.
+	 * Method to get an object.
 	 *
 	 * @param	integer	The id of the object to get.
 	 *

@@ -18,15 +18,9 @@ Joomla.editors.instances = {};
 Joomla.submitform = function(task, form) {
 	if (typeof(form) === 'undefined') {
 		form = document.getElementById('adminForm');
-		/**
-		 * Added to ensure Joomla 1.5 compatibility
-		 */
-		if(!form){
-			form = document.adminForm;
-		}
 	}
 
-	if (typeof(task) !== 'undefined' && '' !== task) {
+	if (typeof(task) !== 'undefined') {
 		form.task.value = task;
 	}
 
@@ -133,32 +127,26 @@ Joomla.renderMessages = function(messages) {
 	Joomla.removeMessages();
 	var container = document.id('system-message-container');
 
-	var dl = new Element('dl', {
-		id: 'system-message',
-		role: 'alert'
-	});
 	Object.each(messages, function (item, type) {
-		var dt = new Element('dt', {
-			'class': type,
-			html: type
+		var div = new Element('div', {
+			id: 'system-message',
+			'class': 'alert alert-' + type
 		});
-		dt.inject(dl);
-		var dd = new Element('dd', {
-			'class': type
+		div.inject(container);
+		var h4 = new Element('h4', {
+			'class' : 'alert-heading',
+			html: Joomla.JText._(type)
 		});
-		dd.addClass('message');
-		var list = new Element('ul');
-
+		h4.inject(div);
+		var divList = new Element('div');
 		Array.each(item, function (item, index, object) {
-			var li = new Element('li', {
+			var p = new Element('p', {
 				html: item
 			});
-			li.inject(list);
+			p.inject(divList);
 		}, this);
-		list.inject(dd);
-		dd.inject(dl);
+		divList.inject(div);
 	}, this);
-	dl.inject(container);
 };
 
 
@@ -186,12 +174,6 @@ Joomla.removeMessages = function() {
 Joomla.isChecked = function(isitchecked, form) {
 	if (typeof(form) === 'undefined') {
 		form = document.getElementById('adminForm');
-		/**
-		 * Added to ensure Joomla 1.5 compatibility
-		 */
-		if(!form){
-			form = document.adminForm;
-		}
 	}
 
 	if (isitchecked == true) {
@@ -221,12 +203,6 @@ Joomla.popupWindow = function(mypage, myname, w, h, scroll) {
 Joomla.tableOrdering = function(order, dir, task, form) {
 	if (typeof(form) === 'undefined') {
 		form = document.getElementById('adminForm');
-		/**
-		 * Added to ensure Joomla 1.5 compatibility
-		 */
-		if(!form){
-			form = document.adminForm;
-		}
 	}
 
 	form.filter_order.value = order;
@@ -368,58 +344,6 @@ function getSelectedValue(frmName, srcListName) {
 }
 
 /**
- * USED IN: all list forms.
- *
- * Toggles the check state of a group of boxes
- *
- * Checkboxes must have an id attribute in the form cb0, cb1...
- *
- * @param	mixed	The number of box to 'check', for a checkbox element
- * @param	string	An alternative field name
- *
- * @deprecated	12.1 This function will be removed in a future version. Use Joomla.checkAll() instead.
- */
-function checkAll(checkbox, stub) {
-	if (!stub) {
-			stub = 'cb';
-	}
-	if (checkbox.form) {
-		var c = 0;
-		for (var i = 0, n = checkbox.form.elements.length; i < n; i++) {
-			var e = checkbox.form.elements[i];
-			if (e.type == checkbox.type) {
-				if ((stub && e.id.indexOf(stub) == 0) || !stub) {
-					e.checked = checkbox.checked;
-					c += (e.checked == true ? 1 : 0);
-				}
-			}
-		}
-		if (checkbox.form.boxchecked) {
-			checkbox.form.boxchecked.value = c;
-		}
-		return true;
-	} else {
-		// The old way of doing it
-		var f = document.adminForm;
-		var c = f.toggle.checked;
-		var n = checkbox;
-		var n2 = 0;
-		for (var i = 0; i < n; i++) {
-			var cb = f[stub+''+i];
-			if (cb) {
-				cb.checked = c;
-				n2++;
-			}
-		}
-		if (c) {
-			document.adminForm.boxchecked.value = n2;
-		} else {
-			document.adminForm.boxchecked.value = 0;
-		}
-	}
-}
-
-/**
  * USED IN: all over :)
  *
  * @param id
@@ -441,27 +365,6 @@ function listItemTask(id, task) {
 		submitbutton(task);
 	}
 	return false;
-}
-
-/**
- * USED IN: administrator/components/com_cache/views/cache/tmpl/default.php
- * administrator/components/com_installer/views/discover/tmpl/default_item.php
- * administrator/components/com_installer/views/update/tmpl/default_item.php
- * administrator/components/com_languages/helpers/html/languages.php
- * libraries/joomla/html/html/grid.php
- *
- * @deprecated	12.1 This function will be removed in a future version. Use Joomla.isChecked() instead.
- *
- * @param isitchecked
- * @return
- *
- */
-function isChecked(isitchecked) {
-	if (isitchecked == true) {
-		document.adminForm.boxchecked.value++;
-	} else {
-		document.adminForm.boxchecked.value--;
-	}
 }
 
 /**
@@ -491,38 +394,7 @@ function submitform(pressbutton) {
 	document.adminForm.submit();
 }
 
-/**
- * USED IN: libraries/joomla/html/toolbar/button/help.php
- *
- * Pops up a new window in the middle of the screen
- *
- * @deprecated	12.1 This function will be removed in a future version. Use Joomla.popupWindow() instead.
- */
-function popupWindow(mypage, myname, w, h, scroll) {
-	var winl = (screen.width - w) / 2;
-	var wint = (screen.height - h) / 2;
-	winprops = 'height=' + h + ',width=' + w + ',top=' + wint + ',left=' + winl
-			+ ',scrollbars=' + scroll + ',resizable'
-	win = window.open(mypage, myname, winprops)
-	if (parseInt(navigator.appVersion) >= 4) {
-		win.window.focus();
-	}
-}
-
 // needed for Table Column ordering
-/**
- * USED IN: libraries/joomla/html/html/grid.php
- *
- * @deprecated	12.1 This function will be removed in a future version. Use Joomla.tableOrdering() instead.
- */
-function tableOrdering(order, dir, task) {
-	var form = document.adminForm;
-
-	form.filter_order.value = order;
-	form.filter_order_Dir.value = dir;
-	submitform(task);
-}
-
 /**
  * USED IN: libraries/joomla/html/html/grid.php
  */

@@ -1,9 +1,10 @@
 <?php
 /**
- * @package		Joomla.Site
- * @subpackage	com_wrapper
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  com_wrapper
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -11,9 +12,9 @@ defined('_JEXEC') or die;
 /**
  * Content Component Controller
  *
- * @package		Joomla.Site
- * @subpackage	com_wrapper
- * @since		1.5
+ * @package     Joomla.Site
+ * @subpackage  com_wrapper
+ * @since       1.5
  */
 class WrapperController extends JControllerLegacy
 {
@@ -23,7 +24,7 @@ class WrapperController extends JControllerLegacy
 	 * @param	boolean			If true, the view output will be cached
 	 * @param	array			An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
-	 * @return	JController		This object to support chaining.
+	 * @return	JControllerLegacy  This object to support chaining.
 	 * @since	1.5
 	 */
 	public function display($cachable = false, $urlparams = false)
@@ -31,9 +32,9 @@ class WrapperController extends JControllerLegacy
 		$cachable = true;
 
 		// Set the default view name and format from the Request.
-		$vName		= JRequest::getCmd('view', 'wrapper');
-		JRequest::setVar('view', $vName);
+		$vName = $this->input->get('view', 'wrapper');
+		$this->input->set('view', $vName);
 
-		return parent::display($cachable, array('Itemid'=>'INT'));
+		return parent::display($cachable, array('Itemid' => 'INT'));
 	}
 }

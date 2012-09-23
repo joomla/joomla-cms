@@ -1,21 +1,21 @@
 <?php
 /**
- * @package		Joomla.Site
- * @subpackage	com_content
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  com_content
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
 /**
  * Content Component Query Helper
  *
  * @static
- * @package		Joomla.Site
- * @subpackage	com_content
- * @since		1.5
+ * @package     Joomla.Site
+ * @subpackage  com_content
+ * @since       1.5
  */
 class ContentHelperQuery
 {
@@ -122,17 +122,19 @@ class ContentHelperQuery
 	 * @return	string	The SQL field(s) to order by.
 	 * @since	1.6
 	 */
-	public static function getQueryDate($orderDate) {
+	public static function getQueryDate($orderDate)
+	{
+		$db = JFactory::getDbo();
 
 		switch ($orderDate)
 		{
 			case 'modified' :
-				$queryDate = ' CASE WHEN a.modified = 0 THEN a.created ELSE a.modified END';
+				$queryDate = ' CASE WHEN a.modified = ' . $db->q($db->getNullDate()) . ' THEN a.created ELSE a.modified END';
 				break;
 
 			// use created if publish_up is not set
 			case 'published' :
-				$queryDate = ' CASE WHEN a.publish_up = 0 THEN a.created ELSE a.publish_up END ';
+				$queryDate = ' CASE WHEN a.publish_up = ' . $db->q($db->getNullDate()) . ' THEN a.created ELSE a.publish_up END ';
 				break;
 
 			case 'created' :
@@ -208,7 +210,6 @@ class ContentHelperQuery
 			$index = array();
 
 			// calculate number of empty cells in the array
-
 
 			// fill in all cells of the array
 			// put -1 in empty cells so we can skip later

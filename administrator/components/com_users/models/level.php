@@ -1,20 +1,20 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_users
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.modeladmin');
 
 /**
  * User view level model.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_users
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_users
+ * @since       1.6
  */
 class UsersModelLevel extends JModelAdmin
 {
@@ -63,13 +63,13 @@ class UsersModelLevel extends JModelAdmin
 						->from($db->quoteName($table));
 					$db->setQuery($query);
 
-					$values = $db->loadColumn();
-					$error	= $db->getErrorMsg();
-
-					// Check for DB error.
-					if ($error) {
-						$this->setError($error);
-
+					try
+					{
+						$values = $db->loadColumn();
+					}
+					catch (RuntimeException $e)
+					{
+						$this->setError($e->getMessage());
 						return false;
 					}
 
@@ -138,7 +138,6 @@ class UsersModelLevel extends JModelAdmin
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
-		// Initialise variables.
 		$app = JFactory::getApplication();
 
 		// Get the form.
@@ -192,7 +191,7 @@ class UsersModelLevel extends JModelAdmin
 	public function save($data)
 	{
 		if (!isset($data['rules'])) {
-			$data['rules']=array();
+			$data['rules'] = array();
 		}
 
 		return parent::save($data);

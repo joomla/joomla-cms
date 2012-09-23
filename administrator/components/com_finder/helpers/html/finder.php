@@ -39,10 +39,12 @@ abstract class JHtmlFinder
 		$query->join('LEFT', $db->quoteName('#__finder_links') . ' AS l ON l.type_id = t.id');
 		$query->order('t.title ASC');
 		$db->setQuery($query);
-		$rows = $db->loadObjectList();
 
-		// Check for database errors.
-		if ($db->getErrorNum())
+		try
+		{
+			$rows = $db->loadObjectList();
+		}
+		catch (RuntimeException $e)
 		{
 			return;
 		}
@@ -80,10 +82,12 @@ abstract class JHtmlFinder
 		$query->where($db->quoteName('parent_id') . ' = 1');
 		$query->order('ordering, title ASC');
 		$db->setQuery($query);
-		$rows = $db->loadObjectList();
 
-		// Check for database errors.
-		if ($db->getErrorNum())
+		try
+		{
+			$rows = $db->loadObjectList();
+		}
+		catch (RuntimeException $e)
 		{
 			return;
 		}

@@ -1,25 +1,22 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_cache
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_cache
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.view');
 
 /**
  * HTML View class for the Cache component
  *
- * @static
- * @package		Joomla.Administrator
- * @subpackage	com_cache
- * @since 1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_cache
+ * @since       1.6
  */
-class CacheViewCache extends JView
+class CacheViewCache extends JViewLegacy
 {
 	protected $client;
 	protected $data;
@@ -40,6 +37,7 @@ class CacheViewCache extends JView
 		}
 
 		$this->addToolbar();
+		$this->sidebar = JHtmlSidebar::render();
 		parent::display($tpl);
 	}
 
@@ -53,13 +51,22 @@ class CacheViewCache extends JView
 		$user = JFactory::getUser();
 		$condition = ($this->client->name == 'site');
 
-		JToolBarHelper::title(JText::_('COM_CACHE_CLEAR_CACHE'), 'clear.png');
-		JToolBarHelper::custom('delete', 'delete.png', 'delete_f2.png', 'JTOOLBAR_DELETE', true);
-		JToolBarHelper::divider();
+		JToolbarHelper::title(JText::_('COM_CACHE_CLEAR_CACHE'), 'clear.png');
+		JToolbarHelper::custom('delete', 'delete.png', 'delete_f2.png', 'JTOOLBAR_DELETE', true);
+		JToolbarHelper::divider();
 		if (JFactory::getUser()->authorise('core.admin', 'com_cache')) {
-			JToolBarHelper::preferences('com_cache');
+			JToolbarHelper::preferences('com_cache');
 		}
-		JToolBarHelper::divider();
-		JToolBarHelper::help('JHELP_SITE_MAINTENANCE_CLEAR_CACHE');
+		JToolbarHelper::divider();
+		JToolbarHelper::help('JHELP_SITE_MAINTENANCE_CLEAR_CACHE');
+
+		JHtmlSidebar::setAction('index.php?option=com_cache');
+
+		JHtmlSidebar::addFilter(
+			// @todo We need an actual label here
+			'',
+			'filter_client_id',
+			JHtml::_('select.options', CacheHelper::getClientOptions(), 'value', 'text', $this->state->get('clientId'))
+		);
 	}
 }

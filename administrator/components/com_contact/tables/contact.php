@@ -1,18 +1,17 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_contact
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_contact
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
 
-
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_contact
+ * @package     Joomla.Administrator
+ * @subpackage  com_contact
  */
 class ContactTableContact extends JTable
 {
@@ -37,13 +36,13 @@ class ContactTableContact extends JTable
 	public function bind($array, $ignore = '')
 	{
 		if (isset($array['params']) && is_array($array['params'])) {
-			$registry = new JRegistry();
+			$registry = new JRegistry;
 			$registry->loadArray($array['params']);
 			$array['params'] = (string) $registry;
 		}
 
 		if (isset($array['metadata']) && is_array($array['metadata'])) {
-			$registry = new JRegistry();
+			$registry = new JRegistry;
 			$registry->loadArray($array['metadata']);
 			$array['metadata'] = (string) $registry;
 		}
@@ -62,9 +61,9 @@ class ContactTableContact extends JTable
 	{
 		// Transform the params field
 		if (is_array($this->params)) {
-			$registry = new JRegistry();
+			$registry = new JRegistry;
 			$registry->loadArray($this->params);
-			$this->params = (string)$registry;
+			$this->params = (string) $registry;
 		}
 
 		$date	= JFactory::getDate();
@@ -76,16 +75,36 @@ class ContactTableContact extends JTable
 		} else {
 			// New newsfeed. A feed created and created_by field can be set by the user,
 			// so we don't touch either of these if they are set.
-			if (!intval($this->created)) {
+			if (!(int) $this->created) {
 				$this->created = $date->toSql();
 			}
 			if (empty($this->created_by)) {
 				$this->created_by = $user->get('id');
 			}
 		}
+
+		// Set publish_up to null date if not set
+		if (!$this->publish_up)
+		{
+			$this->publish_up = $this->_db->getNullDate();
+		}
+
+		// Set publish_down to null date if not set
+		if (!$this->publish_down)
+		{
+			$this->publish_down = $this->_db->getNullDate();
+		}
+
+		// Set xreference to empty string if not set
+		if (!$this->xreference)
+		{
+			$this->xreference = '';
+		}
+
 		// Verify that the alias is unique
 		$table = JTable::getInstance('Contact', 'ContactTable');
-		if ($table->load(array('alias'=>$this->alias, 'catid'=>$this->catid)) && ($table->id != $this->id || $this->id==0)) {
+		if ($table->load(array('alias' => $this->alias, 'catid' => $this->catid)) && ($table->id != $this->id || $this->id == 0))
+		{
 			$this->setError(JText::_('COM_CONTACT_ERROR_UNIQUE_ALIAS'));
 			return false;
 		}
@@ -101,9 +120,9 @@ class ContactTableContact extends JTable
 	 * @see JTable::check
 	 * @since 1.5
 	 */
-	function check()
+	public function check()
 	{
-		$this->default_con = intval($this->default_con);
+		$this->default_con = (int) $this->default_con;
 
 		if (JFilterInput::checkAttribute(array ('href', $this->webpage))) {
 			$this->setError(JText::_('COM_CONTACT_WARNING_PROVIDE_VALID_URL'));
@@ -119,8 +138,8 @@ class ContactTableContact extends JTable
 		$query = 'SELECT id FROM #__contact_details WHERE name = '.$this->_db->Quote($this->name).' AND catid = '.(int) $this->catid;
 		$this->_db->setQuery($query);
 
-		$xid = intval($this->_db->loadResult());
-		if ($xid && $xid != intval($this->id)) {
+		$xid = (int) $this->_db->loadResult();
+		if ($xid && $xid != (int) $this->id) {
 			$this->setError(JText::_('COM_CONTACT_WARNING_SAME_NAME'));
 			return false;
 		}
@@ -139,7 +158,7 @@ class ContactTableContact extends JTable
 		}
 
 		// Check the publish down date is not earlier than publish up.
-		if (intval($this->publish_down) > 0 && $this->publish_down < $this->publish_up) {
+		if ((int) $this->publish_down > 0 && $this->publish_down < $this->publish_up) {
 			$this->setError(JText::_('JGLOBAL_START_PUBLISH_AFTER_FINISH'));
 			return false;
 		}

@@ -1,18 +1,20 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_languages
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_languages
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die;
 
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
 JHtml::_('behavior.keepalive');
+JHtml::_('formbehavior.chosen', 'select');
+
 ?>
 <script type="text/javascript">
 		window.addEvent('domready', function() {
@@ -35,58 +37,108 @@ JHtml::_('behavior.keepalive');
 	}
 </script>
 
-<form action="<?php echo JRoute::_('index.php?option=com_languages&id='.$this->item->key); ?>" method="post" name="adminForm" id="override-form" class="form-validate">
-	<div class="width-60 fltlft">
-		<fieldset class="adminform">
-			<legend><?php echo empty($this->item->key) ? JText::_('COM_LANGUAGES_VIEW_OVERRIDE_EDIT_NEW_OVERRIDE_LEGEND') : JText::_('COM_LANGUAGES_VIEW_OVERRIDE_EDIT_EDIT_OVERRIDE_LEGEND'); ?></legend>
-			<ul class="adminformlist">
+<form action="<?php echo JRoute::_('index.php?option=com_languages&id='.$this->item->key); ?>" method="post" name="adminForm" id="override-form" class="form-validate form-horizontal">
+	<div class="row-fluid">
+		<div class="span6">
+			<fieldset>
+				<legend><?php echo empty($this->item->key) ? JText::_('COM_LANGUAGES_VIEW_OVERRIDE_EDIT_NEW_OVERRIDE_LEGEND') : JText::_('COM_LANGUAGES_VIEW_OVERRIDE_EDIT_EDIT_OVERRIDE_LEGEND'); ?></legend>
+				<div class="control-group">
+					<div class="control-label">
+						<?php echo $this->form->getLabel('key'); ?>
+					</div>
+					<div class="controls">
+						<?php echo $this->form->getInput('key'); ?>
+					</div>
+				</div>
 
-				<li><?php echo $this->form->getLabel('key'); ?>
-				<?php echo $this->form->getInput('key'); ?></li>
-				<li><?php echo $this->form->getLabel('override'); ?>
-				<?php echo $this->form->getInput('override'); ?></li>
+				<div class="control-group">
+					<div class="control-label">
+						<?php echo $this->form->getLabel('override'); ?>
+					</div>
+					<div class="controls">
+						<?php echo $this->form->getInput('override'); ?>
+					</div>
+				</div>
+
 				<?php if($this->state->get('filter.client') == 'administrator'): ?>
-				<li><?php echo $this->form->getLabel('both'); ?>
-				<?php echo $this->form->getInput('both'); ?></li>
+				<div class="control-group">
+					<div class="control-label">
+						<?php echo $this->form->getLabel('both'); ?>
+					</div>
+					<div class="controls">
+						<?php echo $this->form->getInput('both'); ?>
+					</div>
+				</div>
 				<?php endif; ?>
-				<li><?php echo $this->form->getLabel('language'); ?>
-				<?php echo $this->form->getInput('language'); ?></li>
-				<li><?php echo $this->form->getLabel('client'); ?>
-				<?php echo $this->form->getInput('client'); ?></li>
-				<li><?php echo $this->form->getLabel('file'); ?>
-				<?php echo $this->form->getInput('file'); ?></li>
 
-			</ul>
-		</fieldset>
-	</div>
+				<div class="control-group">
+					<div class="control-label">
+						<?php echo $this->form->getLabel('language'); ?>
+					</div>
+					<div class="controls">
+						<?php echo $this->form->getInput('language'); ?>
+					</div>
+				</div>
 
-	<div class="width-40 fltrt">
-		<fieldset class="adminform">
-			<legend><?php echo JText::_('COM_LANGUAGES_VIEW_OVERRIDE_SEARCH_LEGEND'); ?></legend>
-			<span class="readonly"><?php echo JText::_('COM_LANGUAGES_VIEW_OVERRIDE_SEARCH_TIP'); ?></span>
-			<div class="clr"></div>
-			<ul class="adminformlist">
+				<div class="control-group">
+					<div class="control-label">
+						<?php echo $this->form->getLabel('client'); ?>
+					</div>
+					<div class="controls">
+						<?php echo $this->form->getInput('client'); ?>
+					</div>
+				</div>
 
-				<li id="refresh-status" class="overrider-spinner">
-				<?php echo JText::_('COM_LANGUAGES_VIEW_OVERRIDE_REFRESHING'); ?></li>
-				<li><?php echo $this->form->getInput('searchstring'); ?>
+				<div class="control-group">
+					<div class="control-label">
+						<?php echo $this->form->getLabel('file'); ?>
+					</div>
+					<div class="controls">
+						<?php echo $this->form->getInput('file'); ?>
+					</div>
+				</div>
+			</fieldset>
+
+		</div>
+
+		<div class="span6">
+			<fieldset>
+				<legend><?php echo JText::_('COM_LANGUAGES_VIEW_OVERRIDE_SEARCH_LEGEND'); ?></legend>
+
+				<div class="alert alert-info"><p><?php echo JText::_('COM_LANGUAGES_VIEW_OVERRIDE_SEARCH_TIP'); ?></p></div>
+
+				<div class="control-group">
+					<?php echo $this->form->getInput('searchstring'); ?>
 					<button type="submit" onclick="Joomla.overrider.searchStrings();return false;">
-						<?php echo JText::_('COM_LANGUAGES_VIEW_OVERRIDE_SEARCH_BUTTON'); ?></button></li>
-				<li><?php echo $this->form->getLabel('searchtype'); ?>
-				<?php echo $this->form->getInput('searchtype'); ?></li>
+						<?php echo JText::_('COM_LANGUAGES_VIEW_OVERRIDE_SEARCH_BUTTON'); ?>
+					</button>
+					<span id="refresh-status" class="overrider-spinner  help-block">
+						<?php echo JText::_('COM_LANGUAGES_VIEW_OVERRIDE_REFRESHING'); ?>
+					</span>
+				</div>
+				<div class="control-group">
+					<div class="control-label">
+						<?php echo $this->form->getLabel('searchtype'); ?>
+					</div>
+					<div class="controls">
+						<?php echo $this->form->getInput('searchtype'); ?>
+					</div>
+				</div>
 
-			</ul>
-		</fieldset>
-		<fieldset id="results-container" class="adminform">
-			<legend><?php echo JText::_('COM_LANGUAGES_VIEW_OVERRIDE_RESULTS_LEGEND'); ?></legend>
-			<span id="more-results">
-				<a href="javascript:Joomla.overrider.searchStrings(Joomla.overrider.states.more);">
-					<?php echo JText::_('COM_LANGUAGES_VIEW_OVERRIDE_MORE_RESULTS'); ?></a>
-			</span>
-		</fieldset>
-		<input type="hidden" name="task" value="" />
-		<input type="hidden" name="id" value="<?php echo $this->item->key; ?>" />
-		<?php echo JHtml::_('form.token'); ?>
+			</fieldset>
+
+			<fieldset id="results-container" class="adminform">
+				<legend><?php echo JText::_('COM_LANGUAGES_VIEW_OVERRIDE_RESULTS_LEGEND'); ?></legend>
+				<span id="more-results">
+					<a href="javascript:Joomla.overrider.searchStrings(Joomla.overrider.states.more);">
+						<?php echo JText::_('COM_LANGUAGES_VIEW_OVERRIDE_MORE_RESULTS'); ?></a>
+				</span>
+			</fieldset>
+
+			<input type="hidden" name="task" value="" />
+			<input type="hidden" name="id" value="<?php echo $this->item->key; ?>" />
+
+			<?php echo JHtml::_('form.token'); ?>
+		</div>
 	</div>
-	<div class="clr"></div>
 </form>

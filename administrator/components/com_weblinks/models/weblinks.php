@@ -1,23 +1,23 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_weblinks
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.modellist');
-
 /**
  * Methods supporting a list of weblink records.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_weblinks
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_weblinks
+ * @since       1.6
  */
 class WeblinksModelWeblinks extends JModelList
 {
-
 	/**
 	 * Constructor.
 	 *
@@ -52,7 +52,6 @@ class WeblinksModelWeblinks extends JModelList
 		parent::__construct($config);
 	}
 
-
 	/**
 	 * Method to auto-populate the model state.
 	 *
@@ -62,7 +61,6 @@ class WeblinksModelWeblinks extends JModelList
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
-		// Initialise variables.
 		$app = JFactory::getApplication('administrator');
 
 		// Load the filter state.
@@ -72,7 +70,7 @@ class WeblinksModelWeblinks extends JModelList
 		$accessId = $this->getUserStateFromRequest($this->context.'.filter.access', 'filter_access', null, 'int');
 		$this->setState('filter.access', $accessId);
 
-		$published = $this->getUserStateFromRequest($this->context.'.filter.state', 'filter_published', '', 'string');
+		$published = $this->getUserStateFromRequest($this->context.'.filter.state', 'filter_state', '', 'string');
 		$this->setState('filter.state', $published);
 
 		$categoryId = $this->getUserStateFromRequest($this->context.'.filter.category_id', 'filter_category_id', '');
@@ -103,11 +101,11 @@ class WeblinksModelWeblinks extends JModelList
 	protected function getStoreId($id = '')
 	{
 		// Compile the store id.
-		$id.= ':' . $this->getState('filter.search');
-		$id.= ':' . $this->getState('filter.access');
-		$id.= ':' . $this->getState('filter.state');
-		$id.= ':' . $this->getState('filter.category_id');
-		$id.= ':' . $this->getState('filter.language');
+		$id .= ':' . $this->getState('filter.search');
+		$id .= ':' . $this->getState('filter.access');
+		$id .= ':' . $this->getState('filter.state');
+		$id .= ':' . $this->getState('filter.category_id');
+		$id .= ':' . $this->getState('filter.language');
 
 		return parent::getStoreId($id);
 	}
@@ -161,7 +159,7 @@ class WeblinksModelWeblinks extends JModelList
 		// Implement View Level Access
 		if (!$user->authorise('core.admin'))
 		{
-		    $groups	= implode(',', $user->getAuthorisedViewLevels());
+			$groups	= implode(',', $user->getAuthorisedViewLevels());
 			$query->where('a.access IN ('.$groups.')');
 		}
 

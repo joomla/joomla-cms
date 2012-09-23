@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
-
 /**
  * Link table class for the Finder package.
  *
@@ -23,7 +21,7 @@ class FinderTableLink extends JTable
 	/**
 	 * Constructor
 	 *
-	 * @param   object  &$db  JDatabase connector object.
+	 * @param   JDatabaseDriver  &$db  JDatabaseDriver connector object.
 	 *
 	 * @since   2.5
 	 */

@@ -19,16 +19,18 @@
 
 		<field name="password" type="password"
 			autocomplete="off"
-			class="inputbox"
+			class="inputbox validate-password"
 			description="COM_ADMIN_USER_FIELD_PASSWORD_DESC"
 			filter="raw"
 			label="JGLOBAL_PASSWORD"
 			size="30"
+			validate="equals"
+			field="password2"
 		/>
 
 		<field name="password2" type="password"
 			autocomplete="off"
-			class="inputbox"
+			class="inputbox validate-password"
 			description="COM_ADMIN_USER_FIELD_PASSWORD2_DESC"
 			filter="raw"
 			label="COM_ADMIN_USER_FIELD_PASSWORD2_LABEL"

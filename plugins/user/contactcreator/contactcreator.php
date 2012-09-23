@@ -1,20 +1,22 @@
 <?php
 /**
+ * @package     Joomla.Plugin
+ * @subpackage  User.contactcreator
  *
- * Contact Creator
- * A tool to automatically create and synchronise contacts with a user
- * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
 
 /**
  * Class for Contact Creator
- * @package		Joomla.Plugin
- * @subpackage	User.contactcreator
- * @version		1.6
+ *
+ * A tool to automatically create and synchronise contacts with a user
+ *
+ * @package     Joomla.Plugin
+ * @subpackage  User.contactcreator
+ * @since       1.6
  */
 class plgUserContactCreator extends JPlugin
 {
@@ -32,7 +34,7 @@ class plgUserContactCreator extends JPlugin
 		$this->loadLanguage();
 	}
 
-	function onUserAfterSave($user, $isnew, $success, $msg)
+	public function onUserAfterSave($user, $isnew, $success, $msg)
 	{
 		if(!$success) {
 			return false; // if the user wasn't stored we don't resync
@@ -43,7 +45,7 @@ class plgUserContactCreator extends JPlugin
 		}
 
 		// ensure the user id is really an int
-		$user_id = (int)$user['id'];
+		$user_id = (int) $user['id'];
 
 		if (empty($user_id)) {
 			die('invalid userid');
@@ -58,7 +60,7 @@ class plgUserContactCreator extends JPlugin
 
 		$dbo = JFactory::getDBO();
 		// grab the contact ID for this user; note $user_id is cleaned above
-		$dbo->setQuery('SELECT id FROM #__contact_details WHERE user_id = '. $user_id );
+		$dbo->setQuery('SELECT id FROM #__contact_details WHERE user_id = '. $user_id);
 		$id = $dbo->loadResult();
 
 		JTable::addIncludePath(JPATH_ADMINISTRATOR.'/components/com_contact/tables');

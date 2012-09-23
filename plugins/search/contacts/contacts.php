@@ -1,18 +1,20 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Plugin
+ * @subpackage  Search.contacts
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
 /**
  * Contacts Search plugin
  *
- * @package		Joomla.Plugin
- * @subpackage	Search.contacts
- * @since		1.6
+ * @package     Joomla.Plugin
+ * @subpackage  Search.contacts
+ * @since       1.6
  */
 class plgSearchContacts extends JPlugin
 {
@@ -33,7 +35,7 @@ class plgSearchContacts extends JPlugin
 	/**
 	* @return array An array of search areas
 	*/
-	function onContentSearchAreas()
+	public function onContentSearchAreas()
 	{
 		static $areas = array(
 			'contacts' => 'PLG_SEARCH_CONTACTS_CONTACTS'
@@ -50,7 +52,7 @@ class plgSearchContacts extends JPlugin
 	* @param string matching option, exact|any|all
 	* @param string ordering option, newest|oldest|popular|alpha|category
 	 */
-	function onContentSearch($text, $phrase='', $ordering='', $areas=null)
+	public function onContentSearch($text, $phrase='', $ordering='', $areas=null)
 	{
 		$db		= JFactory::getDbo();
 		$app	= JFactory::getApplication();
@@ -63,15 +65,15 @@ class plgSearchContacts extends JPlugin
 			}
 		}
 
-		$sContent		= $this->params->get('search_content',		1);
-		$sArchived		= $this->params->get('search_archived',		1);
-		$limit			= $this->params->def('search_limit',		50);
+		$sContent  = $this->params->get('search_content', 1);
+		$sArchived = $this->params->get('search_archived', 1);
+		$limit     = $this->params->def('search_limit', 50);
 		$state = array();
 		if ($sContent) {
-			$state[]=1;
+			$state[] = 1;
 		}
 		if ($sArchived) {
-			$state[]=2;
+			$state[] = 2;
 		}
 
 		$text = trim($text);
@@ -104,7 +106,7 @@ class plgSearchContacts extends JPlugin
 			$query	= $db->getQuery(true);
 			//sqlsrv changes
 			$case_when = ' CASE WHEN ';
-			$case_when .= $query->charLength('a.alias');
+			$case_when .= $query->charLength('a.alias', '!=', '0');
 			$case_when .= ' THEN ';
 			$a_id = $query->castAsChar('a.id');
 			$case_when .= $query->concatenate(array($a_id, 'a.alias'), ':');
@@ -112,7 +114,7 @@ class plgSearchContacts extends JPlugin
 			$case_when .= $a_id.' END as slug';
 
 			$case_when1 = ' CASE WHEN ';
-			$case_when1 .= $query->charLength('c.alias');
+			$case_when1 .= $query->charLength('c.alias', '!=', '0');
 			$case_when1 .= ' THEN ';
 			$c_id = $query->castAsChar('c.id');
 			$case_when1 .= $query->concatenate(array($c_id, 'c.alias'), ':');
@@ -122,16 +124,16 @@ class plgSearchContacts extends JPlugin
 			$query->select('a.name AS title, \'\' AS created, a.con_position, a.misc, '
 					.$case_when.','.$case_when1.', '
 					. $query->concatenate(array("a.name", "a.con_position", "a.misc"), ",").' AS text,'
-                    . $query->concatenate(array($db->Quote($section), "c.title"), " / ").' AS section,'
+					. $query->concatenate(array($db->Quote($section), "c.title"), " / ").' AS section,'
 					. '\'2\' AS browsernav');
 			$query->from('#__contact_details AS a');
 			$query->innerJoin('#__categories AS c ON c.id = a.catid');
-			$query->where('(a.name LIKE '. $text .'OR a.misc LIKE '. $text .'OR a.con_position LIKE '. $text
-						.'OR a.address LIKE '. $text .'OR a.suburb LIKE '. $text .'OR a.state LIKE '. $text
-						.'OR a.country LIKE '. $text .'OR a.postcode LIKE '. $text .'OR a.telephone LIKE '. $text
-						.'OR a.fax LIKE '. $text .') AND a.published IN ('.implode(',', $state).') AND c.published=1 '
-						.'AND a.access IN ('. $groups. ') AND c.access IN ('. $groups. ')' );
-			$query->group('a.id, a.con_position, a.misc');
+			$query->where('(a.name LIKE '. $text .' OR a.misc LIKE '. $text .' OR a.con_position LIKE '. $text
+						.' OR a.address LIKE '. $text .' OR a.suburb LIKE '. $text .' OR a.state LIKE '. $text
+						.' OR a.country LIKE '. $text .' OR a.postcode LIKE '. $text .' OR a.telephone LIKE '. $text
+						.' OR a.fax LIKE '. $text .') AND a.published IN ('.implode(',', $state).') AND c.published=1 '
+						.' AND a.access IN ('. $groups. ') AND c.access IN ('. $groups. ')' );
+			$query->group('a.id, a.con_position, a.misc, c.alias, c.id');
 			$query->order($order);
 
 			// Filter by language

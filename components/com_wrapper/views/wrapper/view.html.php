@@ -1,19 +1,24 @@
 <?php
 /**
- * @package		Joomla.Site
- * @subpackage	com_wrapper
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  com_wrapper
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 /**
- * @package		Joomla.Site
- * @subpackage	com_wrapper
+ * @package     Joomla.Site
+ * @subpackage  com_wrapper
+ * @since       1.5
  */
 class WrapperViewWrapper extends JViewLegacy
 {
+	/**
+	 * @since  1.5
+	 */
 	public function display($tpl = null)
 	{
 		$app		= JFactory::getApplication();
@@ -53,7 +58,7 @@ class WrapperViewWrapper extends JViewLegacy
 			$this->document->setMetadata('robots', $params->get('robots'));
 		}
 
-		$wrapper = new stdClass();
+		$wrapper = new stdClass;
 		// auto height control
 		if ($params->def('height_auto')) {
 			$wrapper->load = 'onload="iFrameHeight()"';
@@ -84,8 +89,8 @@ class WrapperViewWrapper extends JViewLegacy
 		//Escape strings for HTML output
 		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
 
-		$this->assignRef('params',	$params);
-		$this->assignRef('wrapper', $wrapper);
+		$this->params = &$params;
+		$this->wrapper = &$wrapper;
 
 		parent::display($tpl);
 	}

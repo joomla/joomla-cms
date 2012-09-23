@@ -1,9 +1,10 @@
 <?php
 /**
- * @package		Joomla.Site
- * @subpackage	com_users
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  com_users
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -13,9 +14,9 @@ require_once JPATH_COMPONENT.'/controller.php';
 /**
  * Registration controller class for Users.
  *
- * @package		Joomla.Site
- * @subpackage	com_users
- * @since		1.6
+ * @package     Joomla.Site
+ * @subpackage  com_users
+ * @since       1.6
  */
 class UsersControllerRegistration extends UsersController
 {
@@ -27,8 +28,9 @@ class UsersControllerRegistration extends UsersController
 	 */
 	public function activate()
 	{
-		$user		= JFactory::getUser();
-		$uParams	= JComponentHelper::getParams('com_users');
+		$user  = JFactory::getUser();
+		$input = JFactory::getApplication()->input;
+		$uParams = JComponentHelper::getParams('com_users');
 
 		// If the user is logged in, return them back to the homepage.
 		if ($user->get('id')) {
@@ -43,7 +45,7 @@ class UsersControllerRegistration extends UsersController
 		}
 
 		$model = $this->getModel('Registration', 'UsersModel');
-		$token = JRequest::getVar('token', null, 'request', 'alnum');
+		$token = $input->getAlnum('token');
 
 		// Check that the token is in a valid format.
 		if ($token === null || strlen($token) !== 32) {
@@ -105,12 +107,11 @@ class UsersControllerRegistration extends UsersController
 			return false;
 		}
 
-		// Initialise variables.
 		$app	= JFactory::getApplication();
 		$model	= $this->getModel('Registration', 'UsersModel');
 
 		// Get the user data.
-		$requestData = JRequest::getVar('jform', array(), 'post', 'array');
+		$requestData = $this->input->post->get('jform', array(), 'array');
 
 		// Validate the posted data.
 		$form	= $model->getForm();
@@ -170,7 +171,6 @@ class UsersControllerRegistration extends UsersController
 			$this->setMessage(JText::_('COM_USERS_REGISTRATION_SAVE_SUCCESS'));
 			$this->setRedirect(JRoute::_('index.php?option=com_users&view=login', false));
 		}
-
 
 		return true;
 	}

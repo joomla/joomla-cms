@@ -1,20 +1,20 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_modules
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.modellist');
 
 /**
  * Modules Component Positions Model
  *
- * @package		Joomla.Administrator
- * @subpackage	com_modules
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_modules
+ * @since       1.6
  */
 class ModulesModelPositions extends JModelList
 {
@@ -46,7 +46,6 @@ class ModulesModelPositions extends JModelList
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
-		// Initialise variables.
 		$app = JFactory::getApplication('administrator');
 
 		// Load the filter state.
@@ -56,7 +55,7 @@ class ModulesModelPositions extends JModelList
 		$state = $this->getUserStateFromRequest($this->context.'.filter.state', 'filter_state', '', 'string');
 		$this->setState('filter.state', $state);
 
-		$clientId = JRequest::getInt('client_id', 0);
+		$clientId = $app->input->getInt('client_id', 0);
 		$this->setState('filter.client_id', $clientId);
 
 		$template = $this->getUserStateFromRequest($this->context.'.filter.template', 'filter_template', '', 'string');
@@ -83,19 +82,19 @@ class ModulesModelPositions extends JModelList
 	{
 		if (!isset($this->items))
 		{
-			$lang				= JFactory::getLanguage();
-			$search				= $this->getState('filter.search');
-			$state				= $this->getState('filter.state');
-			$clientId			= $this->getState('filter.client_id');
-			$filter_template	= $this->getState('filter.template');
-			$type				= $this->getState('filter.type');
-			$ordering			= $this->getState('list.ordering');
-			$direction			= $this->getState('list.direction');
-			$limitstart			= $this->getState('list.start');
-			$limit				= $this->getState('list.limit');
-			$client				= JApplicationHelper::getClientInfo($clientId);
+			$lang            = JFactory::getLanguage();
+			$search          = $this->getState('filter.search');
+			$state           = $this->getState('filter.state');
+			$clientId        = $this->getState('filter.client_id');
+			$filter_template = $this->getState('filter.template');
+			$type            = $this->getState('filter.type');
+			$ordering        = $this->getState('list.ordering');
+			$direction       = $this->getState('list.direction');
+			$limitstart      = $this->getState('list.start');
+			$limit           = $this->getState('list.limit');
+			$client          = JApplicationHelper::getClientInfo($clientId);
 
-			if ($type!='template')
+			if ($type != 'template')
 			{
 				// Get the database object and a new query object.
 				$query	= $this->_db->getQuery(true);
@@ -107,19 +106,24 @@ class ModulesModelPositions extends JModelList
 				}
 
 				$this->_db->setQuery($query);
-				$positions = $this->_db->loadObjectList('value');
-				// Check for a database error.
-				if ($error = $this->_db->getErrorMsg()) {
-					$this->setError($error);
+
+				try
+				{
+					$positions = $this->_db->loadObjectList('value');
+				}
+				catch (RuntimeException $e)
+				{
+					$this->setError($e->getMessage());
 					return false;
 				}
-				foreach ($positions as $value=>$position) {
+				foreach ($positions as $value => $position)
+				{
 					$positions[$value] = array();
 				}
 			}
 			else
 			{
-				$positions=array();
+				$positions = array();
 			}
 
 			// Load the positions from the installed templates.
@@ -138,8 +142,8 @@ class ModulesModelPositions extends JModelList
 					||	$lang->load('tpl_'.$template->element.'.sys', $client->path.'/templates/'.$template->element, $lang->getDefault(), false, false);
 						foreach ($xml->positions[0] as $position)
 						{
-							$value = (string)$position['value'];
-							$label = (string)$position;
+							$value = (string) $position['value'];
+							$label = (string) $position;
 							if (!$value) {
 								$value = $label;
 								$label = preg_replace('/[^a-zA-Z0-9_\-]/', '_', 'TPL_'.$template->element.'_POSITION_'.$value);
@@ -148,14 +152,16 @@ class ModulesModelPositions extends JModelList
 									$label = $altlabel;
 								}
 							}
-							if ($type=='user' || ($state!='' && $state!=$template->enabled)) {
+							if ($type == 'user' || ($state != '' && $state != $template->enabled))
+							{
 								unset($positions[$value]);
 							}
-							elseif (preg_match(chr(1).$search.chr(1).'i', $value) && ($filter_template=='' || $filter_template==$template->element)) {
+							elseif (preg_match(chr(1) . $search . chr(1) . 'i', $value) && ($filter_template == '' || $filter_template == $template->element))
+							{
 								if (!isset($positions[$value])) {
 									$positions[$value] = array();
 								}
-								$positions[$value][$template->name]=$label;
+								$positions[$value][$template->name] = $label;
 							}
 						}
 					}

@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.environment.browser');
-
 /**
  * Recaptcha Plugin.
  * Based on the oficial recaptcha library( http://recaptcha.net/plugins/php/ )
@@ -42,10 +40,12 @@ class plgCaptchaRecaptcha extends JPlugin
 	 */
 	public function onInit($id)
 	{
-		// Initialise variables
-		$lang		= $this->_getLanguage();
-		$pubkey		= $this->params->get('public_key', '');
-		$theme		= $this->params->get('theme', 'clean');
+		$document = JFactory::getDocument();
+		$app      = JFactory::getApplication();
+
+		$lang   = $this->_getLanguage();
+		$pubkey = $this->params->get('public_key', '');
+		$theme  = $this->params->get('theme', 'clean');
 
 		if ($pubkey == null || $pubkey == '')
 		{
@@ -53,13 +53,12 @@ class plgCaptchaRecaptcha extends JPlugin
 		}
 
 		$server = self::RECAPTCHA_API_SERVER;
-		if (JBrowser::getInstance()->isSSLConnection())
+		if ($app->isSSLConnection())
 		{
 			$server = self::RECAPTCHA_API_SECURE_SERVER;
 		}
 
 		JHtml::_('script', $server.'/js/recaptcha_ajax.js');
-		$document = JFactory::getDocument();
 		$document->addScriptDeclaration('window.addEvent(\'domready\', function() {
 			Recaptcha.create("'.$pubkey.'", "dynamic_recaptcha_1", {theme: "'.$theme.'",'.$lang.'tabindex: 0});});'
 		);
@@ -88,11 +87,11 @@ class plgCaptchaRecaptcha extends JPlugin
 	  */
 	public function onCheckAnswer($code)
 	{
-		// Initialise variables
-		$privatekey	= $this->params->get('private_key');
-		$remoteip	= JRequest::getVar('REMOTE_ADDR', '', 'SERVER');
-		$challenge	= JRequest::getString('recaptcha_challenge_field', '');
-		$response	= JRequest::getString('recaptcha_response_field', '');;
+		$input      = JFactory::getApplication()->input;
+		$privatekey = $this->params->get('private_key');
+		$remoteip   = $input->server->get('REMOTE_ADDR', '', 'string');
+		$challenge  = $input->get('recaptcha_challenge_field', '', 'string');
+		$response   = $input->get('recaptcha_response_field', '', 'string');
 
 		// Check for Private Key
 		if (empty($privatekey))
@@ -115,14 +114,15 @@ class plgCaptchaRecaptcha extends JPlugin
 			return false;
 		}
 
-		$response = $this->_recaptcha_http_post(self::RECAPTCHA_VERIFY_SERVER, "/verify",
-												array(
-													'privatekey'	=> $privatekey,
-													'remoteip'		=> $remoteip,
-													'challenge'		=> $challenge,
-													'response'		=> $response
-												)
-										  );
+		$response = $this->_recaptcha_http_post(
+			self::RECAPTCHA_VERIFY_SERVER, "/verify",
+			array(
+				'privatekey' => $privatekey,
+				'remoteip'   => $remoteip,
+				'challenge'  => $challenge,
+				'response'   => $response
+			)
+	);
 
 		$answers = explode("\n", $response[1]);
 
@@ -212,7 +212,6 @@ class plgCaptchaRecaptcha extends JPlugin
 	 */
 	private function _getLanguage()
 	{
-		// Initialise variables
 		$language = JFactory::getLanguage();
 
 		$tag = explode('-', $language->getTag());
@@ -223,22 +222,22 @@ class plgCaptchaRecaptcha extends JPlugin
 		{
 			return "lang : '" . $tag . "',";
 		}
-		
+
 		// If the default language is not available, let's search for a custom translation
 		if ($language->hasKey('PLG_RECAPTCHA_CUSTOM_LANG'))
 		{
-			$custom[] ='custom_translations : {';
-			$custom[] ="\t".'instructions_visual : "' . JText::_('PLG_RECAPTCHA_INSTRUCTIONS_VISUAL') . '",';
-			$custom[] ="\t".'instructions_audio : "' . JText::_('PLG_RECAPTCHA_INSTRUCTIONS_AUDIO') . '",';
-			$custom[] ="\t".'play_again : "' . JText::_('PLG_RECAPTCHA_PLAY_AGAIN') . '",';
-			$custom[] ="\t".'cant_hear_this : "' . JText::_('PLG_RECAPTCHA_CANT_HEAR_THIS') . '",';
-			$custom[] ="\t".'visual_challenge : "' . JText::_('PLG_RECAPTCHA_VISUAL_CHALLENGE') . '",';
-			$custom[] ="\t".'audio_challenge : "' . JText::_('PLG_RECAPTCHA_AUDIO_CHALLENGE') . '",';
-			$custom[] ="\t".'refresh_btn : "' . JText::_('PLG_RECAPTCHA_REFRESH_BTN') . '",';
-			$custom[] ="\t".'help_btn : "' . JText::_('PLG_RECAPTCHA_HELP_BTN') . '",';
-			$custom[] ="\t".'incorrect_try_again : "' . JText::_('PLG_RECAPTCHA_INCORRECT_TRY_AGAIN') . '",';
-			$custom[] ='},';
-			$custom[] ="lang : '" . $tag . "',";
+			$custom[] = 'custom_translations : {';
+			$custom[] = "\t".'instructions_visual : "' . JText::_('PLG_RECAPTCHA_INSTRUCTIONS_VISUAL') . '",';
+			$custom[] = "\t".'instructions_audio : "' . JText::_('PLG_RECAPTCHA_INSTRUCTIONS_AUDIO') . '",';
+			$custom[] = "\t".'play_again : "' . JText::_('PLG_RECAPTCHA_PLAY_AGAIN') . '",';
+			$custom[] = "\t".'cant_hear_this : "' . JText::_('PLG_RECAPTCHA_CANT_HEAR_THIS') . '",';
+			$custom[] = "\t".'visual_challenge : "' . JText::_('PLG_RECAPTCHA_VISUAL_CHALLENGE') . '",';
+			$custom[] = "\t".'audio_challenge : "' . JText::_('PLG_RECAPTCHA_AUDIO_CHALLENGE') . '",';
+			$custom[] = "\t".'refresh_btn : "' . JText::_('PLG_RECAPTCHA_REFRESH_BTN') . '",';
+			$custom[] = "\t".'help_btn : "' . JText::_('PLG_RECAPTCHA_HELP_BTN') . '",';
+			$custom[] = "\t".'incorrect_try_again : "' . JText::_('PLG_RECAPTCHA_INCORRECT_TRY_AGAIN') . '",';
+			$custom[] = '},';
+			$custom[] = "lang : '" . $tag . "',";
 
 			return implode("\n", $custom);
 		}

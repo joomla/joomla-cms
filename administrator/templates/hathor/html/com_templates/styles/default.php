@@ -1,13 +1,12 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	Templates.hathor
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  Template.hathor
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
 
 // Include the component HTML helpers.
@@ -77,9 +76,9 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 
 		<tbody>
 			<?php foreach ($this->items as $i => $item) :
-				$canCreate	= $user->authorise('core.create',		'com_templates');
-				$canEdit	= $user->authorise('core.edit',			'com_templates');
-				$canChange	= $user->authorise('core.edit.state',	'com_templates');
+				$canCreate = $user->authorise('core.create',     'com_templates');
+				$canEdit   = $user->authorise('core.edit',       'com_templates');
+				$canChange = $user->authorise('core.edit.state', 'com_templates');
 			?>
 			<tr class="row<?php echo $i % 2; ?>">
 				<td class="center">
@@ -109,21 +108,21 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 					</label>
 				</td>
 				<td class="center">
-					<?php if ($item->home=='0' || $item->home=='1'):?>
-						<?php echo JHtml::_('jgrid.isdefault', $item->home!='0', $i, 'styles.', $canChange && $item->home!='1');?>
+					<?php if ($item->home == '0' || $item->home == '1'):?>
+						<?php echo JHtml::_('jgrid.isdefault', $item->home != '0', $i, 'styles.', $canChange && $item->home != '1');?>
 					<?php elseif ($canChange):?>
 						<a href="<?php echo JRoute::_('index.php?option=com_templates&task=styles.unsetDefault&cid[]='.$item->id.'&'.JSession::getFormToken().'=1');?>">
-							<?php echo JHtml::_('image', 'mod_languages/'.$item->image.'.gif', $item->language_title, array('title'=>JText::sprintf('COM_TEMPLATES_GRID_UNSET_LANGUAGE', $item->language_title)), true);?>
+							<?php echo JHtml::_('image', 'mod_languages/' . $item->image . '.gif', $item->language_title, array('title' => JText::sprintf('COM_TEMPLATES_GRID_UNSET_LANGUAGE', $item->language_title)), true);?>
 						</a>
 					<?php else:?>
-						<?php echo JHtml::_('image', 'mod_languages/'.$item->image.'.gif', $item->language_title, array('title'=>$item->language_title), true);?>
+						<?php echo JHtml::_('image', 'mod_languages/' . $item->image . '.gif', $item->language_title, array('title' => $item->language_title), true);?>
 					<?php endif;?>
 				</td>
 				<td class="center">
 					<?php if ($item->assigned > 0) : ?>
-							<?php echo JHtml::_('image', 'admin/tick.png', JText::plural('COM_TEMPLATES_ASSIGNED', $item->assigned), array('title'=>JText::plural('COM_TEMPLATES_ASSIGNED', $item->assigned)), true); ?>
+						<?php echo JHtml::_('image', 'admin/tick.png', JText::plural('COM_TEMPLATES_ASSIGNED', $item->assigned), array('title' => JText::plural('COM_TEMPLATES_ASSIGNED', $item->assigned)), true); ?>
 					<?php else : ?>
-							&#160;
+						&#160;
 					<?php endif; ?>
 				</td>
 				<td class="center">

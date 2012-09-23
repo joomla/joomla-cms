@@ -1,25 +1,27 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_users
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.view');
 
 /**
  * View class for a list of users.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_users
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_users
+ * @since       1.6
  */
-class UsersViewUsers extends JView
+class UsersViewUsers extends JViewLegacy
 {
 	protected $items;
+
 	protected $pagination;
+
 	protected $state;
 
 	/**
@@ -31,6 +33,8 @@ class UsersViewUsers extends JView
 		$this->pagination	= $this->get('Pagination');
 		$this->state		= $this->get('State');
 
+		UsersHelper::addSubmenu('users');
+
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
 			JError::raiseError(500, implode("\n", $errors));
@@ -41,6 +45,7 @@ class UsersViewUsers extends JView
 		JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 		$this->addToolbar();
+		$this->sidebar = JHtmlSidebar::render();
 		parent::display($tpl);
 	}
 
@@ -53,33 +58,59 @@ class UsersViewUsers extends JView
 	{
 		$canDo	= UsersHelper::getActions();
 
-		JToolBarHelper::title(JText::_('COM_USERS_VIEW_USERS_TITLE'), 'user');
+		JToolbarHelper::title(JText::_('COM_USERS_VIEW_USERS_TITLE'), 'user');
 
 		if ($canDo->get('core.create')) {
-			JToolBarHelper::addNew('user.add');
+			JToolbarHelper::addNew('user.add');
 		}
 		if ($canDo->get('core.edit')) {
-			JToolBarHelper::editList('user.edit');
+			JToolbarHelper::editList('user.edit');
 		}
 
 		if ($canDo->get('core.edit.state')) {
-			JToolBarHelper::divider();
-			JToolBarHelper::publish('users.activate', 'COM_USERS_TOOLBAR_ACTIVATE', true);
-			JToolBarHelper::unpublish('users.block', 'COM_USERS_TOOLBAR_BLOCK', true);
-			JToolBarHelper::custom('users.unblock', 'unblock.png', 'unblock_f2.png', 'COM_USERS_TOOLBAR_UNBLOCK', true);
-			JToolBarHelper::divider();
+			JToolbarHelper::divider();
+			JToolbarHelper::publish('users.activate', 'COM_USERS_TOOLBAR_ACTIVATE', true);
+			JToolbarHelper::unpublish('users.block', 'COM_USERS_TOOLBAR_BLOCK', true);
+			JToolbarHelper::custom('users.unblock', 'unblock.png', 'unblock_f2.png', 'COM_USERS_TOOLBAR_UNBLOCK', true);
+			JToolbarHelper::divider();
 		}
 
 		if ($canDo->get('core.delete')) {
-			JToolBarHelper::deleteList('', 'users.delete');
-			JToolBarHelper::divider();
+			JToolbarHelper::deleteList('', 'users.delete');
+			JToolbarHelper::divider();
 		}
 
 		if ($canDo->get('core.admin')) {
-			JToolBarHelper::preferences('com_users');
-			JToolBarHelper::divider();
+			JToolbarHelper::preferences('com_users');
+			JToolbarHelper::divider();
 		}
 
-		JToolBarHelper::help('JHELP_USERS_USER_MANAGER');
+		JToolbarHelper::help('JHELP_USERS_USER_MANAGER');
+
+		JHtmlSidebar::setAction('index.php?option=com_users&view=users');
+
+		JHtmlSidebar::addFilter(
+			JText::_('COM_USERS_FILTER_STATE'),
+			'filter_state',
+			JHtml::_('select.options', UsersHelper::getStateOptions(), 'value', 'text', $this->state->get('filter.state'))
+		);
+
+		JHtmlSidebar::addFilter(
+			JText::_('COM_USERS_FILTER_ACTIVE'),
+			'filter_active',
+			JHtml::_('select.options', UsersHelper::getActiveOptions(), 'value', 'text', $this->state->get('filter.active'))
+		);
+
+		JHtmlSidebar::addFilter(
+			JText::_('COM_USERS_FILTER_USERGROUP'),
+			'filter_group_id',
+			JHtml::_('select.options', UsersHelper::getGroups(), 'value', 'text', $this->state->get('filter.group_id'))
+		);
+
+		JHtmlSidebar::addFilter(
+			JText::_('COM_USERS_OPTION_FILTER_DATE'),
+			'filter_range',
+			JHtml::_('select.options', Usershelper::getRangeOptions(), 'value', 'text', $this->state->get('filter.range'))
+		);
 	}
 }

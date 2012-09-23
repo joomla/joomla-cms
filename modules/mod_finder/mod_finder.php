@@ -4,17 +4,16 @@
  * @subpackage  mod_finder
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-// Register dependent classes.
 JLoader::register('FinderHelperRoute', JPATH_SITE . '/components/com_finder/helpers/route.php');
 JLoader::register('FinderHelperLanguage', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/language.php');
 
 // Include the helper.
-require_once dirname(__FILE__) . '/helper.php';
+require_once __DIR__ . '/helper.php';
 
 if (!defined('FINDER_PATH_INDEXER'))
 {

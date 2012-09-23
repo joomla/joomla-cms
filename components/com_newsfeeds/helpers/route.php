@@ -1,24 +1,20 @@
 <?php
 /**
- * @package		Joomla.Site
- * @subpackage	com_newsfeeds
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  com_newsfeeds
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
-
-// Component Helper
-jimport('joomla.application.component.helper');
-jimport('joomla.application.categories');
 
 /**
  * Newsfeeds Component Route Helper
  *
- * @package		Joomla.Site
- * @subpackage	com_newsfeeds
- * @since		1.5
+ * @package     Joomla.Site
+ * @subpackage  com_newsfeeds
+ * @since       1.5
  */
 abstract class NewsfeedsHelperRoute
 {
@@ -36,9 +32,10 @@ abstract class NewsfeedsHelperRoute
 		//Create the link
 		$link = 'index.php?option=com_newsfeeds&view=newsfeed&id='. $id;
 
-		if ((int)$catid > 1) {
+		if ((int) $catid > 1)
+		{
 			$categories = JCategories::getInstance('Newsfeeds');
-			$category = $categories->get((int)$catid);
+			$category = $categories->get((int) $catid);
 
 			if ($category) {
 				//TODO Throw error that the category either not exists or is unpublished
@@ -144,8 +141,8 @@ abstract class NewsfeedsHelperRoute
 				{
 					foreach($ids as $id)
 					{
-						if (isset(self::$lookup[$view][(int)$id])) {
-							return self::$lookup[$view][(int)$id];
+						if (isset(self::$lookup[$view][(int) $id])) {
+							return self::$lookup[$view][(int) $id];
 						}
 					}
 				}

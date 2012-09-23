@@ -1,26 +1,24 @@
 <?php
 /**
- * @package		Joomla.Site
- * @subpackage	Weblinks
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  com_search
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.environment.uri');
-
 /**
  * OpenSearch View class for the Search component
  *
- * @static
- * @package		Joomla.Site
- * @subpackage	Search
- * @since 1.7
+ * @package     Joomla.Site
+ * @subpackage  Search
+ * @since       1.7
  */
 class SearchViewSearch extends JViewLegacy
 {
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		$doc = JFactory::getDocument();
 		$app = JFactory::getApplication();
@@ -39,7 +37,7 @@ class SearchViewSearch extends JViewLegacy
 			$searchUri .= '&Itemid='.$items[0]->id;
 		}
 
-		$htmlSearch = new JOpenSearchUrl();
+		$htmlSearch = new JOpenSearchUrl;
 		$htmlSearch->template = JRoute::_($searchUri);
 		$doc->addUrl($htmlSearch);
 	}

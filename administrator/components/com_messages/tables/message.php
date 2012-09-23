@@ -1,21 +1,20 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_messages
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
-
-jimport('joomla.database.table');
 
 /**
  * Message Table class
  *
- * @package		Joomla.Administrator
- * @subpackage	com_messages
- * @since		1.5
+ * @package     Joomla.Administrator
+ * @subpackage  com_messages
+ * @since       1.5
  */
 class MessagesTableMessage extends JTable
 {
@@ -24,7 +23,7 @@ class MessagesTableMessage extends JTable
 	 *
 	 * @param database A database connector object
 	 */
-	function __construct(& $db)
+	public function __construct(& $db)
 	{
 		parent::__construct('#__messages', 'message_id', $db);
 	}
@@ -34,7 +33,7 @@ class MessagesTableMessage extends JTable
 	 *
 	 * @return boolean
 	 */
-	function check()
+	public function check()
 	{
 		// Check the to and from users.
 		$user = new JUser($this->user_id_from);
@@ -76,7 +75,6 @@ class MessagesTableMessage extends JTable
 	 */
 	public function publish($pks = null, $state = 1, $userId = 0)
 	{
-		// Initialise variables.
 		$k = $this->_tbl_key;
 
 		// Sanitize input.
@@ -106,11 +104,14 @@ class MessagesTableMessage extends JTable
 			' SET '.$this->_db->quoteName('state').' = '.(int) $state .
 			' WHERE ('.$where.')'
 		);
-		$this->_db->query();
 
-		// Check for a database error.
-		if ($this->_db->getErrorNum()) {
-			$this->setError($this->_db->getErrorMsg());
+		try
+		{
+			$this->_db->execute();
+		}
+		catch (RuntimeException $e)
+		{
+			$this->setError($e->getMessage());
 			return false;
 		}
 

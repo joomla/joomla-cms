@@ -1,13 +1,12 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	Templates.hathor
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  Template.hathor
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
 JHtml::_('behavior.multiselect');
@@ -41,10 +40,10 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 		</thead>
 
 		<tbody>
-		<?php foreach($this->items as $i=>$item):
+		<?php foreach($this->items as $i => $item):
 			$client	= $item->client_id ? JText::_('JADMINISTRATOR') : JText::_('JSITE');
 		?>
-			<tr class="row<?php echo $i%2; ?>">
+			<tr class="row<?php echo $i % 2; ?>">
 				<td><?php echo JHtml::_('grid.id', $i, $item->update_id); ?></td>
 				<td>
 					<span class="editlinktip hasTip" title="<?php echo JText::_('JGLOBAL_DESCRIPTION');?>::<?php echo $item->description ? $item->description : JText::_('COM_INSTALLER_MSG_UPDATE_NODESC'); ?>">

@@ -1,9 +1,10 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_messages
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_messages
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -12,6 +13,10 @@ JFormHelper::loadFieldClass('user');
 
 /**
  * Supports an modal select of user that have access to com_messages
+ *
+ * @package     Joomla.Administrator
+ * @subpackage  com_messages
+ * @since       1.6
  */
 class JFormFieldUserMessages extends JFormFieldUser
 {
@@ -37,15 +42,18 @@ class JFormFieldUserMessages extends JFormFieldUser
 		$query->select('id');
 		$query->from('#__usergroups');
 		$db->setQuery($query);
-		$groups = $db->loadColumn();
 
-		// Check for a database error.
-		if ($db->getErrorNum()) {
-			JError::raiseNotice(500, $db->getErrorMsg());
+		try
+		{
+			$groups = $db->loadColumn();
+		}
+		catch (RuntimeException $e)
+		{
+			JError::raiseNotice(500, $e->getMessage());
 			return null;
 		}
 
-		foreach ($groups as $i=>$group)
+		foreach ($groups as $i => $group)
 		{
 			if (JAccess::checkGroup($group, 'core.admin')) {
 				continue;

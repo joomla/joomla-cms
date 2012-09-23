@@ -18,24 +18,34 @@ final class JPlatform
 {
 	// Product name.
 	const PRODUCT = 'Joomla Platform';
+
 	// Release version.
-	const RELEASE = '11.4';
+	const RELEASE = '12.1';
+
 	// Maintenance version.
 	const MAINTENANCE = '0';
+
 	// Development STATUS.
 	const STATUS = 'Stable';
+
 	// Build number.
 	const BUILD = 0;
+
 	// Code name.
-	const CODE_NAME = 'Brian Kernighan';
+	const CODE_NAME = 'Louis Landry';
+
 	// Release date.
-	const RELEASE_DATE = '03-Jan-2012';
+	const RELEASE_DATE = '10-May-2012';
+
 	// Release time.
 	const RELEASE_TIME = '00:00';
+
 	// Release timezone.
 	const RELEASE_TIME_ZONE = 'GMT';
+
 	// Copyright Notice.
 	const COPYRIGHT = 'Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.';
+
 	// Link text.
 	const LINK_TEXT = '<a href="http://www.joomla.org">Joomla!</a> is Free Software released under the GNU General Public License.';
 

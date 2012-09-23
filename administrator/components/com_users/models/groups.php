@@ -1,19 +1,20 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_users
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.modellist');
-
 /**
  * Methods supporting a list of user group records.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_users
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_users
+ * @since       1.6
  */
 class UsersModelGroups extends JModelList
 {
@@ -48,7 +49,6 @@ class UsersModelGroups extends JModelList
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
-		// Initialise variables.
 		$app = JFactory::getApplication('administrator');
 
 		// Load the filter state.
@@ -98,7 +98,6 @@ class UsersModelGroups extends JModelList
 		if (empty($this->cache[$store])) {
 			$items = parent::getItems();
 
-
 			// Bail out on an error or empty list.
 			if (empty($items)) {
 				$this->cache[$store] = $items;
@@ -126,12 +125,13 @@ class UsersModelGroups extends JModelList
 			$db->setQuery($query);
 
 			// Load the counts into an array indexed on the user id field.
-			$users = $db->loadObjectList('group_id');
-
-			$error = $db->getErrorMsg();
-			if ($error) {
-				$this->setError($error);
-
+			try
+			{
+				$users = $db->loadObjectList('group_id');
+			}
+			catch (RuntimeException $e)
+			{
+				$this->setError($e->getMessage);
 				return false;
 			}
 

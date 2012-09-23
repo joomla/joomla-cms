@@ -11,7 +11,6 @@ defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.folder');
-jimport('joomla.filesystem.archive');
 jimport('joomla.filesystem.path');
 jimport('joomla.base.adapter');
 jimport('joomla.utilities.arrayhelper');
@@ -39,7 +38,7 @@ class JUpdater extends JAdapter
 	public function __construct()
 	{
 		// Adapter base path, class prefix
-		parent::__construct(dirname(__FILE__), 'JUpdater');
+		parent::__construct(__DIR__, 'JUpdater');
 	}
 
 	/**
@@ -50,7 +49,7 @@ class JUpdater extends JAdapter
 	 *
 	 * @since   11.1
 	 */
-	public static function &getInstance()
+	public static function getInstance()
 	{
 		if (!isset(self::$instance))
 		{
@@ -71,16 +70,10 @@ class JUpdater extends JAdapter
 	 */
 	public function findUpdates($eid = 0, $cacheTimeout = 0)
 	{
-		// Check if fopen is allowed
-		$result = ini_get('allow_url_fopen');
-		if (empty($result))
-		{
-			JError::raiseWarning('101', JText::_('JLIB_UPDATER_ERROR_COLLECTION_FOPEN'));
-			return false;
-		}
 
 		$dbo = $this->getDBO();
 		$retval = false;
+
 		// Push it into an array
 		if (!is_array($eid))
 		{
@@ -170,7 +163,8 @@ class JUpdater extends JAdapter
 						else
 						{
 							$update->load($uid);
-							// if there is an update, check that the version is newer then replaces
+
+							// If there is an update, check that the version is newer then replaces
 							if (version_compare($current_update->version, $update->version, '>') == 1)
 							{
 								$current_update->store();
@@ -197,26 +191,6 @@ class JUpdater extends JAdapter
 	}
 
 	/**
-	 * Multidimensional array safe unique test
-	 *
-	 * @param   array  $myArray  The source array.
-	 *
-	 * @return  array
-	 *
-	 * @deprecated    12.1
-	 * @note    Use JArrayHelper::arrayUnique() instead.
-	 * @note    Borrowed from PHP.net
-	 * @see     http://au2.php.net/manual/en/function.array-unique.php
-	 * @since   11.1
-	 *
-	 */
-	public function arrayUnique($myArray)
-	{
-		JLog::add('JUpdater::arrayUnique() is deprecated. See JArrayHelper::arrayUnique() . ', JLog::WARNING, 'deprecated');
-		return JArrayHelper::arrayUnique($myArray);
-	}
-
-	/**
 	 * Finds an update for an extension
 	 *
 	 * @param   integer  $id  Id of the extension
@@ -236,4 +210,5 @@ class JUpdater extends JAdapter
 		}
 		return false;
 	}
+
 }

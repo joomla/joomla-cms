@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controlleradmin');
-
 /**
  * Index controller class for Finder.
  *
@@ -51,7 +49,6 @@ class FinderControllerIndex extends JControllerAdmin
 		// Remove the script time limit.
 		@set_time_limit(0);
 
-		// Initialize variables.
 		$model = $this->getModel('Index', 'FinderModel');
 
 		// Attempt to purge the index.

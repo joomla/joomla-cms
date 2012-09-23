@@ -1,19 +1,20 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_banners
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.modellist');
-
 /**
  * Methods supporting a list of banner records.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_banners
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_banners
+ * @since       1.6
  */
 class BannersModelBanners extends JModelList
 {
@@ -56,7 +57,7 @@ class BannersModelBanners extends JModelList
 	 *
 	 * @since	1.6
 	 */
-	function &getCategoryOrders()
+	public function &getCategoryOrders()
 	{
 		if (!isset($this->cache['categoryorders'])) {
 			$db		= $this->getDbo();
@@ -79,7 +80,6 @@ class BannersModelBanners extends JModelList
 	 */
 	protected function getListQuery()
 	{
-		// Initialise variables.
 		$db		= $this->getDbo();
 		$query	= $db->getQuery(true);
 
@@ -211,7 +211,6 @@ class BannersModelBanners extends JModelList
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
-		// Initialise variables.
 		$app = JFactory::getApplication('administrator');
 
 		// Load the filter state.

@@ -10,6 +10,7 @@
 defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.base.adapterinstance');
+jimport('joomla.filesystem.folder');
 
 /**
  * Module installer
@@ -56,7 +57,7 @@ class JInstallerModule extends JAdapterInstance
 
 	/**
 	 * @var    string
-	 * @since 11.1
+	 * @since  11.1
 	 */
 	protected $scriptElement = null;
 
@@ -107,9 +108,9 @@ class JInstallerModule extends JAdapterInstance
 				$source = $path ? $path : ($this->parent->extension->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE) . '/modules/' . $extension;
 				$folder = (string) $element->attributes()->folder;
 
-				if ($folder && file_exists("$path/$folder"))
+				if ($folder && file_exists($path . '/' . $folder))
 				{
-					$source = "$path/$folder";
+					$source = $path . '/' . $folder;
 				}
 
 				$client = (string) $this->manifest->attributes()->client;
@@ -136,14 +137,18 @@ class JInstallerModule extends JAdapterInstance
 		// Get the extension manifest object
 		$this->manifest = $this->parent->getManifest();
 
-		// Manifest Document Setup Section
+		/*
+		 * ---------------------------------------------------------------------------------------------
+		 * Manifest Document Setup Section
+		 * ---------------------------------------------------------------------------------------------
+		 */
 
 		// Set the extensions name
 		$name = (string) $this->manifest->name;
 		$name = JFilterInput::getInstance()->clean($name, 'string');
 		$this->set('name', $name);
 
-		// Get the component description
+		// Get the module description
 		$description = (string) $this->manifest->description;
 		if ($description)
 		{
@@ -154,7 +159,12 @@ class JInstallerModule extends JAdapterInstance
 			$this->parent->set('message', '');
 		}
 
-		// Target Application Section
+		/*
+		 * ---------------------------------------------------------------------------------------------
+		 * Target Application Section
+		 * ---------------------------------------------------------------------------------------------
+		 */
+
 		// Get the target application
 		if ($cname = (string) $this->manifest->attributes()->client)
 		{
@@ -205,10 +215,12 @@ class JInstallerModule extends JAdapterInstance
 			return false;
 		}
 
-		// Check to see if a module by the same name is already installed
-		// If it is, then update the table because if the files aren't there
-		// we can assume that it was (badly) uninstalled
-		// If it isn't, add an entry to extensions
+		/*
+		 * Check to see if a module by the same name is already installed
+		 * If it is, then update the table because if the files aren't there
+		 * we can assume that it was (badly) uninstalled
+		 * If it isn't, add an entry to extensions
+		 */
 		$query = $db->getQuery(true);
 		$query->select($query->qn('extension_id'))->from($query->qn('#__extensions'));
 		$query->where($query->qn('element') . ' = ' . $query->q($element))->where($query->qn('client_id') . ' = ' . (int) $clientId);
@@ -218,7 +230,7 @@ class JInstallerModule extends JAdapterInstance
 		{
 			$db->execute();
 		}
-		catch (JException $e)
+		catch (RuntimeException $e)
 		{
 			// Install failed, roll back changes
 			$this->parent
@@ -229,19 +241,20 @@ class JInstallerModule extends JAdapterInstance
 
 		$id = $db->loadResult();
 
-		// If the module directory already exists, then we will assume that the
-		// module is already installed or another module is using that
-		// directory.
-		// Check that this is either an issue where its not overwriting or it is
-		// set to upgrade anyway
+		/*
+		 * If the module directory already exists, then we will assume that the
+		 * module is already installed or another module is using that
+		 * directory.
+		 * Check that this is either an issue where its not overwriting or it is
+		 * set to upgrade anyway
+		 */
 
 		if (file_exists($this->parent->getPath('extension_root')) && (!$this->parent->isOverwrite() || $this->parent->isUpgrade()))
 		{
 			// Look for an update function or update tag
 			$updateElement = $this->manifest->update;
-			// Upgrade manually set or
-			// Update function available or
-			// Update tag detected
+
+			// Upgrade manually set or update function available or update tag detected
 			if ($this->parent->isUpgrade() || ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'update'))
 				|| $updateElement)
 			{
@@ -271,7 +284,11 @@ class JInstallerModule extends JAdapterInstance
 			}
 		}
 
-		// Installer Trigger Loading
+		/*
+		 * ---------------------------------------------------------------------------------------------
+		 * Installer Trigger Loading
+		 * ---------------------------------------------------------------------------------------------
+		 */
 
 		// If there is an manifest class file, let's load it; we'll copy it later (don't have destination yet)
 		$this->scriptElement = $this->manifest->scriptfile;
@@ -294,10 +311,9 @@ class JInstallerModule extends JAdapterInstance
 			{
 				// Create a new instance.
 				$this->parent->manifestClass = new $classname($this);
+
 				// And set this so we can copy it later.
 				$this->set('manifest_script', $manifestScript);
-
-				// Note: if we don't find the class, don't bother to copy the file.
 			}
 		}
 
@@ -309,7 +325,7 @@ class JInstallerModule extends JAdapterInstance
 		{
 			if ($this->parent->manifestClass->preflight($this->route, $this) === false)
 			{
-				// Install failed, rollback changes
+				// Preflight failed, rollback changes
 				$this->parent->abort(JText::_('JLIB_INSTALLER_ABORT_MOD_INSTALL_CUSTOM_INSTALL_FAILURE'));
 
 				return false;
@@ -320,7 +336,11 @@ class JInstallerModule extends JAdapterInstance
 		$msg = ob_get_contents();
 		ob_end_clean();
 
-		// Filesystem Processing Section
+		/*
+		 * ---------------------------------------------------------------------------------------------
+		 * Filesystem Processing Section
+		 * ---------------------------------------------------------------------------------------------
+		 */
 
 		// If the module directory does not exist, lets create it
 		$created = false;
@@ -341,9 +361,11 @@ class JInstallerModule extends JAdapterInstance
 			}
 		}
 
-		// Since we created the module directory and will want to remove it if
-		// we have to roll back the installation, let's add it to the
-		// installation step stack
+		/*
+		 * Since we created the module directory and will want to remove it if
+		 * we have to roll back the installation, let's add it to the
+		 * installation step stack
+		 */
 
 		if ($created)
 		{
@@ -381,10 +403,11 @@ class JInstallerModule extends JAdapterInstance
 		$this->parent->parseMedia($this->manifest->media, $clientId);
 		$this->parent->parseLanguages($this->manifest->languages, $clientId);
 
-		// Parse deprecated tags
-		$this->parent->parseFiles($this->manifest->images, -1);
-
-		// Database Processing Section
+		/*
+		 * ---------------------------------------------------------------------------------------------
+		 * Database Processing Section
+		 * ---------------------------------------------------------------------------------------------
+		 */
 
 		$row = JTable::getInstance('extension');
 
@@ -393,8 +416,12 @@ class JInstallerModule extends JAdapterInstance
 		{
 			// Load the entry and update the manifest_cache
 			$row->load($id);
-			$row->name = $this->get('name'); // update name
-			$row->manifest_cache = $this->parent->generateManifestCache(); // update manifest
+
+			// Update name
+			$row->name = $this->get('name');
+
+			// Update manifest
+			$row->manifest_cache = $this->parent->generateManifestCache();
 
 			if (!$row->store())
 			{
@@ -410,13 +437,17 @@ class JInstallerModule extends JAdapterInstance
 			$row->set('name', $this->get('name'));
 			$row->set('type', 'module');
 			$row->set('element', $this->get('element'));
-			$row->set('folder', ''); // There is no folder for modules
+
+			// There is no folder for modules
+			$row->set('folder', '');
 			$row->set('enabled', 1);
 			$row->set('protected', 0);
 			$row->set('access', $clientId == 1 ? 2 : 0);
 			$row->set('client_id', $clientId);
 			$row->set('params', $this->parent->getParams());
-			$row->set('custom_data', ''); // custom data
+
+			// Custom data
+			$row->set('custom_data', '');
 			$row->set('manifest_cache', $this->parent->generateManifestCache());
 
 			if (!$row->store())
@@ -426,9 +457,6 @@ class JInstallerModule extends JAdapterInstance
 					->abort(JText::sprintf('JLIB_INSTALLER_ABORT_MOD_ROLLBACK', JText::_('JLIB_INSTALLER_' . $this->route), $db->stderr(true)));
 				return false;
 			}
-
-			// Set the insert id
-			$row->extension_id = $db->insertid();
 
 			// Since we have created a module item, we add it to the installation step stack
 			// so that if we have to rollback the changes we can undo it.
@@ -448,16 +476,11 @@ class JInstallerModule extends JAdapterInstance
 		}
 
 		// Let's run the queries for the module
-		// If Joomla 1.5 compatible, with discrete sql files, execute appropriate
-		// file for utf-8 support or non-utf-8 support
-
-		// Try for Joomla 1.5 type queries
-		// Second argument is the utf compatible version attribute
 		if (strtolower($this->route) == 'install')
 		{
-			$utfresult = $this->parent->parseSQLFiles($this->manifest->install->sql);
+			$result = $this->parent->parseSQLFiles($this->manifest->install->sql);
 
-			if ($utfresult === false)
+			if ($result === false)
 			{
 				// Install failed, rollback changes
 				$this->parent
@@ -488,7 +511,7 @@ class JInstallerModule extends JAdapterInstance
 			}
 		}
 
-		// Start Joomla! 1.6
+		// Run the custom method based on the route
 		ob_start();
 		ob_implicit_flush(false);
 
@@ -507,7 +530,11 @@ class JInstallerModule extends JAdapterInstance
 		$msg .= ob_get_contents();
 		ob_end_clean();
 
-		// Finalization and Cleanup Section
+		/**
+		 * ---------------------------------------------------------------------------------------------
+		 * Finalization and Cleanup Section
+		 * ---------------------------------------------------------------------------------------------
+		 */
 
 		// Lastly, we will copy the manifest file to its appropriate place.
 		if (!$this->parent->copyManifest(-1))
@@ -553,8 +580,9 @@ class JInstallerModule extends JAdapterInstance
 		// Set the overwrite setting
 		$this->parent->setOverwrite(true);
 		$this->parent->setUpgrade(true);
+
 		// Set the route for the install
-		$this->route = 'Update';
+		$this->route = 'update';
 
 		// Go to install which handles updates properly
 		return $this->install();
@@ -577,7 +605,7 @@ class JInstallerModule extends JAdapterInstance
 
 		foreach ($site_list as $module)
 		{
-			$manifest_details = JApplicationHelper::parseXMLInstallFile(JPATH_SITE . "/modules/$module/$module.xml");
+			$manifest_details = JInstaller::parseXMLInstallFile(JPATH_SITE . "/modules/$module/$module.xml");
 			$extension = JTable::getInstance('extension');
 			$extension->set('type', 'module');
 			$extension->set('client_id', $site_info->id);
@@ -590,7 +618,7 @@ class JInstallerModule extends JAdapterInstance
 
 		foreach ($admin_list as $module)
 		{
-			$manifest_details = JApplicationHelper::parseXMLInstallFile(JPATH_ADMINISTRATOR . "/modules/$module/$module.xml");
+			$manifest_details = JInstaller::parseXMLInstallFile(JPATH_ADMINISTRATOR . "/modules/$module/$module.xml");
 			$extension = JTable::getInstance('extension');
 			$extension->set('type', 'module');
 			$extension->set('client_id', $admin_info->id);
@@ -630,7 +658,8 @@ class JInstallerModule extends JAdapterInstance
 		}
 
 		$this->parent->setPath('manifest', $manifestPath);
-		$manifest_details = JApplicationHelper::parseXMLInstallFile($this->parent->getPath('manifest'));
+		$manifest_details = JInstaller::parseXMLInstallFile($this->parent->getPath('manifest'));
+
 		// TODO: Re-evaluate this; should we run installation triggers? postflight perhaps?
 		$this->parent->extension->manifest_cache = json_encode($manifest_details);
 		$this->parent->extension->state = 0;
@@ -643,8 +672,7 @@ class JInstallerModule extends JAdapterInstance
 		}
 		else
 		{
-			JError::raiseWarning(101, JText::_('JLIB_INSTALLER_ERROR_MOD_DISCOVER_STORE_DETAILS'));
-
+			JLog::add(JText::_('JLIB_INSTALLER_ERROR_MOD_DISCOVER_STORE_DETAILS'), JLog::WARNING, 'jerror');
 			return false;
 		}
 	}
@@ -662,7 +690,7 @@ class JInstallerModule extends JAdapterInstance
 		$manifestPath = $client->path . '/modules/' . $this->parent->extension->element . '/' . $this->parent->extension->element . '.xml';
 		$this->parent->manifest = $this->parent->isManifest($manifestPath);
 		$this->parent->setPath('manifest', $manifestPath);
-		$manifest_details = JApplicationHelper::parseXMLInstallFile($this->parent->getPath('manifest'));
+		$manifest_details = JInstaller::parseXMLInstallFile($this->parent->getPath('manifest'));
 		$this->parent->extension->manifest_cache = json_encode($manifest_details);
 		$this->parent->extension->name = $manifest_details['name'];
 
@@ -672,8 +700,7 @@ class JInstallerModule extends JAdapterInstance
 		}
 		else
 		{
-			JError::raiseWarning(101, JText::_('JLIB_INSTALLER_ERROR_MOD_REFRESH_MANIFEST_CACHE'));
-
+			JLog::add(JText::_('JLIB_INSTALLER_ERROR_MOD_REFRESH_MANIFEST_CACHE'), JLog::WARNING, 'jerror');
 			return false;
 		}
 	}
@@ -689,7 +716,6 @@ class JInstallerModule extends JAdapterInstance
 	 */
 	public function uninstall($id)
 	{
-		// Initialise variables.
 		$row = null;
 		$retval = true;
 		$db = $this->parent->getDbo();
@@ -700,7 +726,7 @@ class JInstallerModule extends JAdapterInstance
 
 		if (!$row->load((int) $id) || !strlen($row->element))
 		{
-			JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_MOD_UNINSTALL_ERRORUNKOWNEXTENSION'));
+			JLog::add(JText::_('JLIB_INSTALLER_ERROR_MOD_UNINSTALL_ERRORUNKOWNEXTENSION'), JLog::WARNING, 'jerror');
 			return false;
 		}
 
@@ -708,7 +734,7 @@ class JInstallerModule extends JAdapterInstance
 		// Because that is not a good idea...
 		if ($row->protected)
 		{
-			JError::raiseWarning(100, JText::sprintf('JLIB_INSTALLER_ERROR_MOD_UNINSTALL_WARNCOREMODULE', $row->name));
+			JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_MOD_UNINSTALL_WARNCOREMODULE', $row->name), JLog::WARNING, 'jerror');
 			return false;
 		}
 
@@ -725,7 +751,7 @@ class JInstallerModule extends JAdapterInstance
 
 		$this->parent->setPath('source', $this->parent->getPath('extension_root'));
 
-		// Get the package manifest objecct
+		// Get the module's manifest objecct
 		// We do findManifest to avoid problem when uninstalling a list of extensions: getManifest cache its manifest file.
 		$this->parent->findManifest();
 		$this->manifest = $this->parent->getManifest();
@@ -754,10 +780,9 @@ class JInstallerModule extends JAdapterInstance
 			{
 				// Create a new instance
 				$this->parent->manifestClass = new $classname($this);
+
 				// And set this so we can copy it later
 				$this->set('manifest_script', $manifestScript);
-
-				// Note: if we don't find the class, don't bother to copy the file
 			}
 		}
 
@@ -773,28 +798,26 @@ class JInstallerModule extends JAdapterInstance
 		$msg = ob_get_contents();
 		ob_end_clean();
 
+		if ($msg != '')
+		{
+			$this->parent->set('extension_message', $msg);
+		}
+
 		if (!($this->manifest instanceof SimpleXMLElement))
 		{
 			// Make sure we delete the folders
 			JFolder::delete($this->parent->getPath('extension_root'));
-			JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_MOD_UNINSTALL_INVALID_NOTFOUND_MANIFEST'));
-
+			JLog::add(JText::_('JLIB_INSTALLER_ERROR_MOD_UNINSTALL_INVALID_NOTFOUND_MANIFEST'), JLog::WARNING, 'jerror');
 			return false;
 		}
 
-		/*
-		 * Let's run the uninstall queries for the component
-		 *	If Joomla 1.5 compatible, with discreet sql files - execute appropriate
-		 *	file for utf-8 support or non-utf support
-		 */
-		// Try for Joomla 1.5 type queries
-		// Second argument is the utf compatible version attribute
-		$utfresult = $this->parent->parseSQLFiles($this->manifest->uninstall->sql);
+		// Let's run the uninstall queries for the module
+		$result = $this->parent->parseSQLFiles($this->manifest->uninstall->sql);
 
-		if ($utfresult === false)
+		if ($result === false)
 		{
 			// Install failed, rollback changes
-			JError::raiseWarning(100, JText::sprintf('JLIB_INSTALLER_ERROR_MOD_UNINSTALL_SQL_ERROR', $db->stderr(true)));
+			JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_MOD_UNINSTALL_SQL_ERROR', $db->stderr(true)), JLog::WARNING, 'jerror');
 			$retval = false;
 		}
 
@@ -819,7 +842,7 @@ class JInstallerModule extends JAdapterInstance
 		{
 			$modules = $db->loadColumn();
 		}
-		catch (JException $e)
+		catch (RuntimeException $e)
 		{
 			$modules = array();
 		}
@@ -838,9 +861,9 @@ class JInstallerModule extends JAdapterInstance
 			{
 				$db->execute();
 			}
-			catch (JException $e)
+			catch (RuntimeException $e)
 			{
-				JError::raiseWarning(100, JText::sprintf('JLIB_INSTALLER_ERROR_MOD_UNINSTALL_EXCEPTION', $db->stderr(true)));
+				JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_MOD_UNINSTALL_EXCEPTION', $db->stderr(true)), JLog::WARNING, 'jerror');
 				$retval = false;
 			}
 
@@ -852,9 +875,9 @@ class JInstallerModule extends JAdapterInstance
 			{
 				$db->execute();
 			}
-			catch (JException $e)
+			catch (RuntimeException $e)
 			{
-				JError::raiseWarning(100, JText::sprintf('JLIB_INSTALLER_ERROR_MOD_UNINSTALL_EXCEPTION', $db->stderr(true)));
+				JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_MOD_UNINSTALL_EXCEPTION', $db->stderr(true)), JLog::WARNING, 'jerror');
 				$retval = false;
 			}
 		}
@@ -869,7 +892,7 @@ class JInstallerModule extends JAdapterInstance
 			// Clean up any other ones that might exist as well
 			$db->execute();
 		}
-		catch (JException $e)
+		catch (RuntimeException $e)
 		{
 			// Ignore the error...
 		}
@@ -909,7 +932,7 @@ class JInstallerModule extends JAdapterInstance
 		{
 			return $db->execute();
 		}
-		catch (JException $e)
+		catch (RuntimeException $e)
 		{
 			return false;
 		}
@@ -937,7 +960,7 @@ class JInstallerModule extends JAdapterInstance
 		{
 			return $db->execute();
 		}
-		catch (JException $e)
+		catch (RuntimeException $e)
 		{
 			return false;
 		}

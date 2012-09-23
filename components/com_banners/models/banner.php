@@ -1,22 +1,22 @@
 <?php
 /**
- * @package		Joomla.Site
- * @subpackage	com_banners
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  com_banners
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.helper');
 
 JTable::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR . '/tables');
 
 /**
  * Banner model for the Joomla Banners component.
  *
- * @package		Joomla.Site
- * @subpackage	com_banners
+ * @package     Joomla.Site
+ * @subpackage  com_banners
+ * @since       1.5
  */
 class BannersModelBanner extends JModelLegacy
 {
@@ -26,8 +26,10 @@ class BannersModelBanner extends JModelLegacy
 	 * Clicks the URL, incrementing the counter
 	 *
 	 * @return	void
+	 *
+	 * @since   1.5
 	 */
-	function click()
+	public function click()
 	{
 		$id = $this->getState('banner.id');
 
@@ -40,13 +42,18 @@ class BannersModelBanner extends JModelLegacy
 
 		$db->setQuery((string) $query);
 
-		if (!$db->query()) {
-			JError::raiseError(500, $db->getErrorMsg());
+		try
+		{
+			$db->execute();
+		}
+		catch (RuntimeException $e)
+		{
+			JError::raiseError(500, $e->getMessage());
 		}
 
 		// track clicks
 
-		$item =  $this->getItem();
+		$item = $this->getItem();
 
 		$trackClicks = $item->track_clicks;
 
@@ -66,13 +73,18 @@ class BannersModelBanner extends JModelLegacy
 			$query->select($db->quoteName('count'));
 			$query->from('#__banner_tracks');
 			$query->where('track_type=2');
-			$query->where('banner_id='.(int)$id);
+			$query->where('banner_id=' . (int) $id);
 			$query->where('track_date='.$db->Quote($trackDate));
 
 			$db->setQuery((string) $query);
 
-			if (!$db->query()) {
-				JError::raiseError(500, $db->getErrorMsg());
+			try
+			{
+				$db->execute();
+			}
+			catch (RuntimeException $e)
+			{
+				JError::raiseError(500, $e->getMessage());
 			}
 
 			$count = $db->loadResult();
@@ -84,22 +96,29 @@ class BannersModelBanner extends JModelLegacy
 				$query->update('#__banner_tracks');
 				$query->set($db->quoteName('count').' = ('.$db->quoteName('count') . ' + 1)');
 				$query->where('track_type=2');
-				$query->where('banner_id='.(int)$id);
+				$query->where('banner_id=' . (int) $id);
 				$query->where('track_date='.$db->Quote($trackDate));
 			}
 			else {
 				// insert new count
 				//sqlsrv change
 				$query->insert('#__banner_tracks');
-				$query->columns(array($db->quoteName('count'), $db->quoteName('track_type'),
-								$db->quoteName('banner_id') , $db->quoteName('track_date')));
-				$query->values( '1, 2,' . (int)$id . ',' . $db->Quote($trackDate));
+				$query->columns(
+					array($db->quoteName('count'), $db->quoteName('track_type'),
+						$db->quoteName('banner_id') , $db->quoteName('track_date'))
+				);
+				$query->values('1, 2,' . (int) $id . ',' . $db->Quote($trackDate));
 			}
 
 			$db->setQuery((string) $query);
 
-			if (!$db->query()) {
-				JError::raiseError(500, $db->getErrorMsg());
+			try
+			{
+				$db->execute();
+			}
+			catch (RuntimeException $e)
+			{
+				JError::raiseError(500, $e->getMessage());
 			}
 		}
 	}
@@ -109,7 +128,7 @@ class BannersModelBanner extends JModelLegacy
 	 *
 	 * @return	object
 	 */
-	function &getItem()
+	public function &getItem()
 	{
 		if (!isset($this->_item))
 		{
@@ -117,7 +136,7 @@ class BannersModelBanner extends JModelLegacy
 
 			$id = $this->getState('banner.id');
 
-			$this->_item =  $cache->get($id);
+			$this->_item = $cache->get($id);
 
 			if ($this->_item === false) {
 				// redirect to banner url
@@ -136,8 +155,13 @@ class BannersModelBanner extends JModelLegacy
 
 				$db->setQuery((string) $query);
 
-				if (!$db->query()) {
-					JError::raiseError(500, $db->getErrorMsg());
+				try
+				{
+					$db->execute();
+				}
+				catch (RuntimeException $e)
+				{
+					JError::raiseError(500, $e->getMessage());
 				}
 
 				$this->_item = $db->loadObject();
@@ -152,8 +176,10 @@ class BannersModelBanner extends JModelLegacy
 	 * Get the URL for a banner
 	 *
 	 * @return	string
+	 *
+	 * @since   1.5
 	 */
-	function getUrl()
+	public function getUrl()
 	{
 		$item = $this->getItem();
 		$url = $item->clickurl;

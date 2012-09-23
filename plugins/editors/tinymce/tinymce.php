@@ -1,7 +1,10 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Plugin
+ * @subpackage  Editors.tinymce
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -9,9 +12,9 @@ defined('_JEXEC') or die;
 /**
  * TinyMCE Editor Plugin
  *
- * @package		Joomla.Plugin
- * @subpackage	Editors.tinymce
- * @since		1.5
+ * @package     Joomla.Plugin
+ * @subpackage  Editors.tinymce
+ * @since       1.5
  */
 class plgEditorTinymce extends JPlugin
 {
@@ -43,15 +46,14 @@ class plgEditorTinymce extends JPlugin
 	 */
 	public function onInit()
 	{
-		$app		= JFactory::getApplication();
-		$language	= JFactory::getLanguage();
+		$language = JFactory::getLanguage();
 
 		$mode	= (int) $this->params->get('mode', 1);
 		$theme	= array('simple', 'advanced', 'advanced');
 		$skin	= $this->params->get('skin', '0');
 
 		switch ($skin)
-  		{
+		{
 			case '3':
 				$skin = 'skin : "o2k7", skin_variant : "black",';
 				break;
@@ -95,9 +97,9 @@ class plgEditorTinymce extends JPlugin
 
 		$query->select('template');
 		$query->from('#__template_styles');
-		$query->where('client_id=0 AND home=1');
+		$query->where('client_id=0 AND home=' . $db->quote('1'));
 
-		$db->setQuery( $query );
+		$db->setQuery($query);
 		$template = $db->loadResult();
 
 		$content_css = '';
@@ -107,7 +109,7 @@ class plgEditorTinymce extends JPlugin
 		if ( $content_css_custom )
 		{
 			// If URL, just pass it to $content_css
-			if (strpos( $content_css_custom, 'http' ) !==false)
+			if (strpos($content_css_custom, 'http') !== false)
 			{
 				$content_css = 'content_css : "'. $content_css_custom .'",';
 			}
@@ -118,7 +120,7 @@ class plgEditorTinymce extends JPlugin
 
 				// Issue warning notice if the file is not found (but pass name to $content_css anyway to avoid TinyMCE error
 				if (!file_exists($templates_path . '/' . $template . '/css/' . $content_css_custom)) {
-					$msg = sprintf (JText::_('PLG_TINY_ERR_CUSTOMCSSFILENOTPRESENT'), $content_css_custom);
+					$msg = sprintf(JText::_('PLG_TINY_ERR_CUSTOMCSSFILENOTPRESENT'), $content_css_custom);
 					JError::raiseNotice('SOME_ERROR_CODE', $msg);
 				}
 			}
@@ -216,7 +218,7 @@ class plgEditorTinymce extends JPlugin
 		// Plugins
 
 		// fonts
-		$fonts =  $this->params->def( 'fonts', 1 );
+		$fonts = $this->params->def('fonts', 1);
 
 		if ($fonts)
 		{
@@ -224,7 +226,7 @@ class plgEditorTinymce extends JPlugin
 		}
 
 		// paste
-		$paste =  $this->params->def('paste', 1);
+		$paste = $this->params->def('paste', 1);
 
 		if ($paste)
 		{
@@ -235,7 +237,7 @@ class plgEditorTinymce extends JPlugin
 		}
 
 		// search & replace
-		$searchreplace		=  $this->params->def('searchreplace', 1);
+		$searchreplace = $this->params->def('searchreplace', 1);
 
 		if ($searchreplace)
 		{
@@ -264,7 +266,7 @@ class plgEditorTinymce extends JPlugin
 		}
 
 		// colors
-		$colors =  $this->params->def('colors', 1);
+		$colors = $this->params->def('colors', 1);
 
 		if ($colors)
 		{
@@ -345,7 +347,7 @@ class plgEditorTinymce extends JPlugin
 		// style
 		$style = $this->params->def('style', 1);
 
-		if ($style) 
+		if ($style)
 		{
 			$plugins[]	= 'style';
 			$buttons4[]	= 'styleprops';
@@ -388,7 +390,7 @@ class plgEditorTinymce extends JPlugin
 		}
 
 		// blockquote
-		$blockquote	= $this->params->def( 'blockquote', 1 );
+		$blockquote	= $this->params->def('blockquote', 1);
 
 		if ($blockquote)
 		{
@@ -396,7 +398,7 @@ class plgEditorTinymce extends JPlugin
 		}
 
 		// wordcount
-		$wordcount	= $this->params->def( 'wordcount', 1 );
+		$wordcount	= $this->params->def('wordcount', 1);
 
 		if ($wordcount)
 		{
@@ -418,7 +420,7 @@ class plgEditorTinymce extends JPlugin
 		if ($advimage)
 		{
 			$plugins[]	= 'advimage';
-			$elements[]	= 'img[class|src|border=0|alt|title|hspace|vspace|width|height|align|onmouseover|onmouseout|name|style]';
+			$elements[]	= 'img[class|src|alt|title|hspace|vspace|width|height|align|onmouseover|onmouseout|name|style]';
 		}
 
 		// advlink
@@ -668,7 +670,7 @@ class plgEditorTinymce extends JPlugin
 	{
 		$doc = JFactory::getDocument();
 
-		$js= "
+		$js = "
 			function isBrowserIE() {
 				return navigator.appName==\"Microsoft Internet Explorer\";
 			}
@@ -766,7 +768,8 @@ class plgEditorTinymce extends JPlugin
 			/*
 			 * This will allow plugins to attach buttons or change the behavior on the fly using AJAX
 			 */
-			$return .= "\n<div id=\"editor-xtd-buttons\">\n";
+			$return .= "\n<div id=\"editor-xtd-buttons\" class=\"btn-toolbar pull-left\">\n";
+			$return .= "\n<div class=\"btn-toolbar\">\n";
 
 			foreach ($results as $button)
 			{
@@ -774,16 +777,16 @@ class plgEditorTinymce extends JPlugin
 				 * Results should be an object
 				 */
 				if ( $button->get('name') ) {
-					$modal		= ($button->get('modal')) ? ' class="modal-button"' : null;
-					$href		= ($button->get('link')) ? ' href="'.JURI::base().$button->get('link').'"' : null;
+					$modal		= ($button->get('modal')) ? ' class="modal-button btn"' : null;
+					$href		= ($button->get('link')) ? ' class="btn" href="'.JURI::base().$button->get('link').'"' : null;
 					$onclick	= ($button->get('onclick')) ? ' onclick="'.$button->get('onclick').'"' : 'onclick="IeCursorFix(); return false;"';
 					$title      = ($button->get('title')) ? $button->get('title') : $button->get('text');
-					$return .= '<div class="button2-left"><div class="' . $button->get('name')
-						. '"><a' . $modal . ' title="' . $title . '"' . $href . $onclick . ' rel="' . $button->get('options')
-						. '">' . $button->get('text') . "</a></div></div>\n";
+					$return .= '<a' . $modal . ' title="' . $title . '"' . $href . $onclick . ' rel="' . $button->get('options')
+						. '"><i class="icon-' . $button->get('name'). '"></i> ' . $button->get('text') . "</a>\n";
 				}
 			}
 
+			$return .= "</div>\n";
 			$return .= "</div>\n";
 		}
 
@@ -797,9 +800,11 @@ class plgEditorTinymce extends JPlugin
 	private function _toogleButton($name)
 	{
 		$return  = '';
-		$return .= "\n<div class=\"toggle-editor\">\n";
-		$return .= "<div class=\"button2-left\"><div class=\"blank\"><a href=\"#\" onclick=\"tinyMCE.execCommand('mceToggleEditor', false, '" . $name . "');return false;\" title=\"".JText::_('PLG_TINY_BUTTON_TOGGLE_EDITOR').'">'.JText::_('PLG_TINY_BUTTON_TOGGLE_EDITOR')."</a></div></div>";
+		$return .= "\n<div class=\"toggle-editor btn-toolbar pull-right\">\n";
+		$return .= "<div class=\"btn-group\"><a class=\"btn\" href=\"#\" onclick=\"tinyMCE.execCommand('mceToggleEditor', false, '" . $name . "');return false;\" title=\"".JText::_('PLG_TINY_BUTTON_TOGGLE_EDITOR').'"><i class="icon-eye"></i> '.JText::_('PLG_TINY_BUTTON_TOGGLE_EDITOR')."</a></div>";
 		$return .= "</div>\n";
+
+		$return .= "<div class=\"clearfix\"></div>\n";
 
 		return $return;
 	}

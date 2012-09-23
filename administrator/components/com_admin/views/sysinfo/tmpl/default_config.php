@@ -1,17 +1,17 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_admin
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_admin
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 ?>
 <fieldset class="adminform">
 	<legend><?php echo JText::_('COM_ADMIN_CONFIGURATION_FILE'); ?></legend>
-		<table class="adminlist">
+		<table class="table table-striped">
 			<thead>
 				<tr>
 					<th width="300">
@@ -28,7 +28,7 @@ defined('_JEXEC') or die;
 				</tr>
 			</tfoot>
 			<tbody>
-				<?php foreach ($this->config as $key=>$value):?>
+				<?php foreach ($this->config as $key => $value):?>
 					<tr>
 						<td>
 							<?php echo $key;?>

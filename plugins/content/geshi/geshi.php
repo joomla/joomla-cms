@@ -1,14 +1,20 @@
 <?php
 /**
- * @package		Joomla.Plugin
- * @subpackage	Content.geshi
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Plugin
+ * @subpackage  Content.geshi
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
 
+/**
+ * GeSHi Content Plugin
+ *
+ * @package     Joomla.Plugin
+ * @subpackage  Content.geshi
+ */
 class plgContentGeshi extends JPlugin
 {
 	/**
@@ -43,7 +49,7 @@ class plgContentGeshi extends JPlugin
 	{
 		jimport('joomla.utilities.utility');
 
-		require_once dirname(__FILE__).'/geshi/geshi.php';
+		require_once __DIR__ . '/geshi/geshi.php';
 
 		$args = JUtility::parseAttributes($matches[1]);
 		$text = $matches[2];

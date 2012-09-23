@@ -1,10 +1,10 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	Templates.hathor
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  Template.hathor
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -60,7 +60,7 @@ $canDo = MenusHelper::getActions();
 				<li><?php echo $this->form->getLabel('title'); ?>
 				<?php echo $this->form->getInput('title'); ?></li>
 
-				<?php if ($this->item->type =='url'): ?>
+				<?php if ($this->item->type == 'url'): ?>
 					<?php $this->form->setFieldAttribute('link', 'readonly', 'false');?>
 					<li><?php echo $this->form->getLabel('link'); ?>
 					<?php echo $this->form->getInput('link'); ?></li>
@@ -70,7 +70,7 @@ $canDo = MenusHelper::getActions();
 					<li> <?php echo $this->form->getLabel('aliastip'); ?></li>
 				<?php endif; ?>
 
-				<?php if ($this->item->type !='url'): ?>
+				<?php if ($this->item->type != 'url'): ?>
 					<li><?php echo $this->form->getLabel('alias'); ?>
 					<?php echo $this->form->getInput('alias'); ?></li>
 				<?php endif; ?>
@@ -78,7 +78,7 @@ $canDo = MenusHelper::getActions();
 				<li><?php echo $this->form->getLabel('note'); ?>
 				<?php echo $this->form->getInput('note'); ?></li>
 
-				<?php if ($this->item->type !=='url'): ?>
+				<?php if ($this->item->type !== 'url'): ?>
 					<li><?php echo $this->form->getLabel('link'); ?>
 					<?php echo $this->form->getInput('link'); ?></li>
 				<?php endif ?>

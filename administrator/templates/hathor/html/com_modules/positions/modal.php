@@ -1,25 +1,25 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	Templates.hathor
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  Template.hathor
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 JHtml::_('behavior.tooltip');
 
-$function	= JRequest::getCmd('function', 'jSelectPosition');
-$lang		= JFactory::getLanguage();
-$ordering	= $this->escape($this->state->get('list.ordering'));
-$direction	= $this->escape($this->state->get('list.direction'));
-$clientId	= $this->state->get('filter.client_id');
-$state		= $this->state->get('filter.state');
-$template	= $this->state->get('filter.template');
-$type		= $this->state->get('filter.type');
+$function  = JFactory::getApplication()->input->getCmd('function', 'jSelectPosition');
+$lang      = JFactory::getLanguage();
+$ordering  = $this->escape($this->state->get('list.ordering'));
+$direction = $this->escape($this->state->get('list.direction'));
+$clientId  = $this->state->get('filter.client_id');
+$state     = $this->state->get('filter.state');
+$template  = $this->state->get('filter.template');
+$type      = $this->state->get('filter.type');
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_modules&view=positions&layout=modal&tmpl=component&function='.$function.'&client_id=' .$clientId);?>" method="post" name="adminForm" id="adminForm">
 	<fieldset id="filter-bar">
@@ -79,8 +79,8 @@ $type		= $this->state->get('filter.type');
 		</thead>
 
 		<tbody>
-		<?php $i=1; foreach ($this->items as $value=>$templates) : ?>
-			<tr class="row<?php echo $i=1-$i;?>">
+		<?php $i = 1; foreach ($this->items as $value => $templates) : ?>
+			<tr class="row<?php echo $i = 1 - $i;?>">
 				<td>
 					<a class="pointer" onclick="if (window.parent) window.parent.<?php echo $function;?>('<?php echo $value; ?>');"><?php echo $this->escape($value); ?></a>
 				</td>

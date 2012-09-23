@@ -1,22 +1,24 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_menus
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.modelform');
+jimport('joomla.filesystem.folder');
 
 /**
  * Menu Item Types Model for Menus.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_menus
- * @version		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_menus
+ * @since       1.6
  */
-class MenusModelMenutypes extends JModel
+class MenusModelMenutypes extends JModelLegacy
 {
 	/**
 	 * A reverse lookup of the base link URL to Title
@@ -49,7 +51,6 @@ class MenusModelMenutypes extends JModel
 	{
 		jimport('joomla.filesystem.file');
 
-		// Initialise variables.
 		$lang = JFactory::getLanguage();
 		$list = array();
 
@@ -91,7 +92,6 @@ class MenusModelMenutypes extends JModel
 
 	protected function getTypeOptionsByComponent($component)
 	{
-		// Initialise variables.
 		$options = array();
 
 		$mainXML = JPATH_SITE.'/components/'.$component.'/metadata.xml';
@@ -109,7 +109,6 @@ class MenusModelMenutypes extends JModel
 
 	protected function getTypeOptionsFromXML($file, $component)
 	{
-		// Initialise variables.
 		$options = array();
 
 		// Attempt to load the xml file.
@@ -181,13 +180,13 @@ class MenusModelMenutypes extends JModel
 
 	protected function getTypeOptionsFromMVC($component)
 	{
-		// Initialise variables.
 		$options = array();
 
 		// Get the views for this component.
-		$path = JPATH_SITE.'/components/'.$component.'/views';
+		$path = JPATH_SITE . '/components/' . $component . '/views';
 
-		if (JFolder::exists($path)) {
+		if (is_dir($path))
+		{
 			$views = JFolder::folders($path);
 		}
 		else {
@@ -264,7 +263,6 @@ class MenusModelMenutypes extends JModel
 
 	protected function getTypeOptionsFromLayouts($component, $view)
 	{
-		// Initialise variables.
 		$options = array();
 		$layouts = array();
 		$layoutNames = array();
@@ -272,8 +270,8 @@ class MenusModelMenutypes extends JModel
 		$lang = JFactory::getLanguage();
 
 		// Get the layouts from the view folder.
-		$path = JPATH_SITE.'/components/'.$component.'/views/'.$view.'/tmpl';
-		if (JFolder::exists($path)) {
+		$path = JPATH_SITE . '/components/' . $component . '/views/' . $view . '/tmpl';
+		if (is_dir($path)) {
 			$layouts = array_merge($layouts, JFolder::files($path, '.xml$', false, true));
 		}
 		else {
@@ -284,10 +282,11 @@ class MenusModelMenutypes extends JModel
 		foreach ($layouts as $layout)
 		{
 			// Ignore private layouts.
-			if (strpos(JFile::getName($layout), '_') === false) {
+			if (strpos(basename($layout), '_') === false)
+			{
 				$file = $layout;
 				// Get the layout name.
-				$layoutNames[] = JFile::stripext(JFile::getName($layout));
+				$layoutNames[] = basename($layout, '.xml');
 			}
 		}
 
@@ -298,9 +297,9 @@ class MenusModelMenutypes extends JModel
 		$templateName = array();
 		foreach($folders as $folder)
 		{
-			if (JFolder::exists($folder . '/html/' . $component . '/' . $view)) {
-				$template = JFile::getName($folder);
-					$lang->load('tpl_'.$template.'.sys', JPATH_SITE, null, false, false)
+			if (is_dir($folder . '/html/' . $component . '/' . $view)) {
+				$template = basename($folder);
+				$lang->load('tpl_'.$template.'.sys', JPATH_SITE, null, false, false)
 				||	$lang->load('tpl_'.$template.'.sys', JPATH_SITE.'/templates/'.$template, null, false, false)
 				||	$lang->load('tpl_'.$template.'.sys', JPATH_SITE, $lang->getDefault(), false, false)
 				||	$lang->load('tpl_'.$template.'.sys', JPATH_SITE.'/templates/'.$template, $lang->getDefault(), false, false);
@@ -311,13 +310,13 @@ class MenusModelMenutypes extends JModel
 				{
 					$file = $layout;
 					// Get the layout name.
-					$templateLayoutName = JFile::stripext(JFile::getName($layout));
+					$templateLayoutName = basename($layout, '.xml');
 
 					// add to the list only if it is not a standard layout
 					if (array_search($templateLayoutName, $layoutNames) === false) {
 						$layouts[] = $layout;
 						// Set template name array so we can get the right template for the layout
-						$templateName[$layout] = JFile::getName($folder);
+						$templateName[$layout] = basename($folder);
 					}
 				}
 			}
@@ -327,10 +326,10 @@ class MenusModelMenutypes extends JModel
 		foreach ($layouts as $layout)
 		{
 			// Ignore private layouts.
-			if (strpos(JFile::getName($layout), '_') === false) {
+			if (strpos(basename($layout), '_') === false) {
 				$file = $layout;
 				// Get the layout name.
-				$layout = JFile::stripext(JFile::getName($layout));
+				$layout = basename($layout, '.xml');
 
 				// Create the menu option for the layout.
 				$o = new JObject;

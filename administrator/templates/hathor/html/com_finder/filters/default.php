@@ -1,10 +1,10 @@
 <?php
 /**
  * @package     Joomla.Administrator
- * @subpackage  Templates.hathor
+ * @subpackage  Template.hathor
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -101,10 +101,10 @@ Joomla.submitbutton = function(pressbutton) {
 		<?php endif; ?>
 
 		<?php foreach ($this->items as $i => $item) :
-			$canCreate	= $user->authorise('core.create',		'com_finder');
-			$canEdit	= $user->authorise('core.edit',			'com_finder');
-			$canCheckin	= $user->authorise('core.manage',		'com_checkin') || $filter->checked_out == $user->get('id') || $filter->checked_out == 0;
-			$canChange	= $user->authorise('core.edit.state',	'com_finder') && $canCheckin;
+			$canCreate  = $user->authorise('core.create',     'com_finder');
+			$canEdit    = $user->authorise('core.edit',       'com_finder');
+			$canCheckin = $user->authorise('core.manage',     'com_checkin') || $filter->checked_out == $user->get('id') || $filter->checked_out == 0;
+			$canChange  = $user->authorise('core.edit.state', 'com_finder') && $canCheckin;
 			?>
 			<tr class="row<?php echo $i % 2; ?>">
 				<th class="center">

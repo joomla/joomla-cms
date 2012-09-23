@@ -1,22 +1,22 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_templates
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.controller');
 
 /**
  * Templates manager master display controller.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_templates
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_templates
+ * @since       1.6
  */
-class TemplatesController extends JController
+class TemplatesController extends JControllerLegacy
 {
 	/**
 	 * @var		string	The default view.
@@ -35,12 +35,9 @@ class TemplatesController extends JController
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{
-		// Load the submenu.
-		TemplatesHelper::addSubmenu(JRequest::getCmd('view', 'styles'));
-
-		$view		= JRequest::getCmd('view', 'styles');
-		$layout 	= JRequest::getCmd('layout', 'default');
-		$id			= JRequest::getInt('id');
+		$view   = $this->input->get('view', 'styles');
+		$layout = $this->input->get('layout', 'default');
+		$id     = $this->input->getInt('id');
 
 		// Check for edit form.
 		if ($view == 'style' && $layout == 'edit' && !$this->checkEditId('com_templates.edit.style', $id)) {
@@ -52,15 +49,6 @@ class TemplatesController extends JController
 			return false;
 		}
 
-		parent::display();
-	}
-
-	/**
-	* Preview Template
-	*/
-	function preview()
-	{
-		JRequest::setVar('view', 'prevuuw');
 		parent::display();
 	}
 }

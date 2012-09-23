@@ -71,11 +71,6 @@ class JFormFieldRules extends JFormField
 			$query->where($db->quoteName('name') . ' = ' . $db->quote($component));
 			$db->setQuery($query);
 			$assetId = (int) $db->loadResult();
-
-			if ($error = $db->getErrorMsg())
-			{
-				JError::raiseNotice(500, $error);
-			}
 		}
 		else
 		{
@@ -85,9 +80,12 @@ class JFormFieldRules extends JFormField
 		}
 
 		// Use the compact form for the content rules (deprecated).
-		//if (!empty($component) && $section != 'component') {
-		//	return JHtml::_('rules.assetFormWidget', $actions, $assetId, $assetId ? null : $component, $this->name, $this->id);
-		//}
+
+		/* @todo remove code:
+		if (!empty($component) && $section != 'component') {
+			return JHtml::_('rules.assetFormWidget', $actions, $assetId, $assetId ? null : $component, $this->name, $this->id);
+		}
+		 */
 
 		// Full width format.
 
@@ -102,33 +100,48 @@ class JFormFieldRules extends JFormField
 
 		// Prepare output
 		$html = array();
-		$html[] = '<div id="permissions-sliders" class="pane-sliders">';
+
+		// Description
 		$html[] = '<p class="rule-desc">' . JText::_('JLIB_RULES_SETTINGS_DESC') . '</p>';
-		$html[] = '<ul id="rules">';
+
+		// Begin tabs
+		$html[] = '<div id="permissions-sliders" class="tabbable tabs-left">';
+
+		// Building tab nav
+		$html[] = '<ul class="nav nav-tabs">';
+		foreach ($groups as $group)
+		{
+			// Initial Active Tab
+			$active = "";
+			if ($group->value == 1)
+			{
+				$active = "active";
+			}
+
+			$html[] = '<li class="' . $active . '">';
+				$html[] = '<a href="#permission-' . $group->value . '" data-toggle="tab">';
+				$html[] = str_repeat('<span class="level">&ndash;</i> ', $curLevel = $group->level) . $group->text;
+				$html[] = '</a>';
+			$html[] = '</li>';
+		}
+		$html[] = '</ul>';
+
+		$html[] = '<div class="tab-content">';
 
 		// Start a row for each user group.
 		foreach ($groups as $group)
 		{
+			// Initial Active Pane
+			$active = "";
+			if ($group->value == 1)
+			{
+				$active = " active";
+			}
+
 			$difLevel = $group->level - $curLevel;
 
-			if ($difLevel > 0)
-			{
-				$html[] = '<li><ul>';
-			}
-			elseif ($difLevel < 0)
-			{
-				$html[] = str_repeat('</ul></li>', -$difLevel);
-			}
-
-			$html[] = '<li>';
-
-			$html[] = '<div class="panel">';
-			$html[] = '<h3 class="pane-toggler title"><a href="javascript:void(0);"><span>';
-			$html[] = str_repeat('<span class="level">|&ndash;</span> ', $curLevel = $group->level) . $group->text;
-			$html[] = '</span></a></h3>';
-			$html[] = '<div class="pane-slider content pane-hide">';
-			$html[] = '<div class="mypanel">';
-			$html[] = '<table class="group-rules">';
+			$html[] = '<div class="tab-pane' . $active . '" id="permission-' . $group->value . '">';
+			$html[] = '<table class="table table-striped">';
 			$html[] = '<thead>';
 			$html[] = '<tr>';
 
@@ -157,15 +170,15 @@ class JFormFieldRules extends JFormField
 			{
 				$html[] = '<tr>';
 				$html[] = '<td headers="actions-th' . $group->value . '">';
-				$html[] = '<label class="hasTip" for="' . $this->id . '_' . $action->name . '_' . $group->value . '" title="'
-					. htmlspecialchars(JText::_($action->title) . '::' . JText::_($action->description), ENT_COMPAT, 'UTF-8') . '">';
+				$html[] = '<label class="tip" for="' . $this->id . '_' . $action->name . '_' . $group->value . '" title="'
+					. htmlspecialchars(JText::_($action->title) . ' ' . JText::_($action->description), ENT_COMPAT, 'UTF-8') . '">';
 				$html[] = JText::_($action->title);
 				$html[] = '</label>';
 				$html[] = '</td>';
 
 				$html[] = '<td headers="settings-th' . $group->value . '">';
 
-				$html[] = '<select name="' . $this->name . '[' . $action->name . '][' . $group->value . ']" id="' . $this->id . '_' . $action->name
+				$html[] = '<select class="input-small" name="' . $this->name . '[' . $action->name . '][' . $group->value . ']" id="' . $this->id . '_' . $action->name
 					. '_' . $group->value . '" title="'
 					. JText::sprintf('JLIB_RULES_SELECT_ALLOW_DENY_GROUP', JText::_($action->title), trim($group->text)) . '">';
 
@@ -207,29 +220,29 @@ class JFormFieldRules extends JFormField
 					{
 						if ($inheritedRule === null)
 						{
-							$html[] = '<span class="icon-16-unset">' . JText::_('JLIB_RULES_NOT_ALLOWED') . '</span>';
+							$html[] = '<span class="label label-important">' . JText::_('JLIB_RULES_NOT_ALLOWED') . '</span>';
 						}
 						elseif ($inheritedRule === true)
 						{
-							$html[] = '<span class="icon-16-allowed">' . JText::_('JLIB_RULES_ALLOWED') . '</span>';
+							$html[] = '<span class="label label-success">' . JText::_('JLIB_RULES_ALLOWED') . '</span>';
 						}
 						elseif ($inheritedRule === false)
 						{
 							if ($assetRule === false)
 							{
-								$html[] = '<span class="icon-16-denied">' . JText::_('JLIB_RULES_NOT_ALLOWED') . '</span>';
+								$html[] = '<span class="label label-important">' . JText::_('JLIB_RULES_NOT_ALLOWED') . '</span>';
 							}
 							else
 							{
-								$html[] = '<span class="icon-16-denied"><span class="icon-16-locked">' . JText::_('JLIB_RULES_NOT_ALLOWED_LOCKED')
-									. '</span></span>';
+								$html[] = '<span class="label"><i class="icon-lock icon-white"></i> ' . JText::_('JLIB_RULES_NOT_ALLOWED_LOCKED')
+									. '</span>';
 							}
 						}
 					}
 					elseif (!empty($component))
 					{
-						$html[] = '<span class="icon-16-allowed"><span class="icon-16-locked">' . JText::_('JLIB_RULES_ALLOWED_ADMIN')
-							. '</span></span>';
+						$html[] = '<span class="label label-success"><i class="icon-lock icon-white"></i> ' . JText::_('JLIB_RULES_ALLOWED_ADMIN')
+							. '</span>';
 					}
 					else
 					{
@@ -237,18 +250,18 @@ class JFormFieldRules extends JFormField
 						// The admin rights can be changed.
 						if ($action->name === 'core.admin')
 						{
-							$html[] = '<span class="icon-16-allowed">' . JText::_('JLIB_RULES_ALLOWED') . '</span>';
+							$html[] = '<span class="label label-success">' . JText::_('JLIB_RULES_ALLOWED') . '</span>';
 						}
 						elseif ($inheritedRule === false)
 						{
 							// Other actions cannot be changed.
-							$html[] = '<span class="icon-16-denied"><span class="icon-16-locked">'
-								. JText::_('JLIB_RULES_NOT_ALLOWED_ADMIN_CONFLICT') . '</span></span>';
+							$html[] = '<span class="label label-important"><i class="icon-lock icon-white"></i> '
+								. JText::_('JLIB_RULES_NOT_ALLOWED_ADMIN_CONFLICT') . '</span>';
 						}
 						else
 						{
-							$html[] = '<span class="icon-16-allowed"><span class="icon-16-locked">' . JText::_('JLIB_RULES_ALLOWED_ADMIN')
-								. '</span></span>';
+							$html[] = '<span class="label label-success"><i class="icon-lock icon-white"></i> ' . JText::_('JLIB_RULES_ALLOWED_ADMIN')
+								. '</span>';
 						}
 					}
 
@@ -261,13 +274,11 @@ class JFormFieldRules extends JFormField
 			$html[] = '</tbody>';
 			$html[] = '</table></div>';
 
-			$html[] = '</div></div>';
-			$html[] = '</li>';
-
 		}
 
-		$html[] = str_repeat('</ul></li>', $curLevel);
-		$html[] = '</ul><div class="rule-notes">';
+		$html[] = '</div></div>';
+
+		$html[] = '<div class="alert">';
 		if ($section == 'component' || $section == null)
 		{
 			$html[] = JText::_('JLIB_RULES_SETTING_NOTES');
@@ -276,7 +287,10 @@ class JFormFieldRules extends JFormField
 		{
 			$html[] = JText::_('JLIB_RULES_SETTING_NOTES_ITEM');
 		}
-		$html[] = '</div></div>';
+		$html[] = '</div>';
+
+		// Get the JInput object
+		$input = JFactory::getApplication()->input;
 
 		$js = "window.addEvent('domready', function(){ new Fx.Accordion($$('div#permissions-sliders.pane-sliders .panel h3.pane-toggler'),"
 			. "$$('div#permissions-sliders.pane-sliders .panel div.pane-slider'), {onActive: function(toggler, i) {toggler.addClass('pane-toggler-down');"
@@ -285,8 +299,8 @@ class JFormFieldRules extends JFormField
 			. "',$$('div#permissions-sliders.pane-sliders .panel h3').indexOf(toggler));},"
 			. "onBackground: function(toggler, i) {toggler.addClass('pane-toggler');toggler.removeClass('pane-toggler-down');i.addClass('pane-hide');"
 			. "i.removeClass('pane-down');}, duration: 300, display: "
-			. JRequest::getInt('jpanesliders_permissions-sliders' . $component, 0, 'cookie') . ", show: "
-			. JRequest::getInt('jpanesliders_permissions-sliders' . $component, 0, 'cookie') . ", alwaysHide:true, opacity: false}); });";
+			. $input->cookie->get('jpanesliders_permissions-sliders' . $component, 0, 'integer') . ", show: "
+			. $input->cookie->get('jpanesliders_permissions-sliders' . $component, 0, 'integer') . ", alwaysHide:true, opacity: false}); });";
 
 		JFactory::getDocument()->addScriptDeclaration($js);
 
@@ -302,7 +316,6 @@ class JFormFieldRules extends JFormField
 	 */
 	protected function getUserGroups()
 	{
-		// Initialise variables.
 		$db = JFactory::getDBO();
 		$query = $db->getQuery(true);
 		$query->select('a.id AS value, a.title AS text, COUNT(DISTINCT b.id) AS level, a.parent_id')
