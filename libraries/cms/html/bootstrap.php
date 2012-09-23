@@ -575,4 +575,30 @@ abstract class JHtmlBootstrap
 	{
 		return '</div>';
 	}
+	
+	/**
+	 * Loads css files needed by bootstrap, including a secondary file that may contains boostrap css bug fixes
+	 * 
+	 * @param boolean if true, main bootstrap.css file is loaded, if false, only optional rtl and bug fixes file
+	 * @param string rtl or ltr direction. If empty, ltr is assumed
+	 * @param array optional array of attributes to be passed to JHtml::_('stylesheet')
+	 */
+	public static function loadCss( $includeMaincss = true, $direction = 'ltr', $attribs = array())
+	{
+	   
+	  if($includeMaincss)
+	  {
+	    // load bootstrap main css
+	    JHtml::_('stylesheet', 'media/jui/css/bootstrap.css', array(), false);
+	  }
+	   
+	  if ($direction === 'rtl')
+	  {
+	    JHtml::_('stylesheet', 'media/jui/css/bootstrap-rtl.css', array(), false);
+	  }
+	
+	  // load bootstrap css fixes
+	  JHtml::_('stylesheet', 'media/cms/css/bootstrap.css', array(), false);
+	   
+	}
 }

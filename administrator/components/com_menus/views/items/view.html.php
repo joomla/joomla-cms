@@ -154,8 +154,9 @@ class MenusViewItems extends JViewLegacy
 
 		$this->f_levels = $options;
 
-		parent::display($tpl);
 		$this->addToolbar();
+		$this->sidebar = JHtmlSidebar::render();
+		parent::display($tpl);
 	}
 
 	/**
@@ -216,9 +217,9 @@ class MenusViewItems extends JViewLegacy
 
 		JToolbarHelper::help('JHELP_MENUS_MENU_ITEM_MANAGER');
 
-		JSubMenuHelper::setAction('index.php?option=com_menus&view=items');
+		JHtmlSidebar::setAction('index.php?option=com_menus&view=items');
 
-		JSubMenuHelper::addFilter(
+		JHtmlSidebar::addFilter(
 			// @todo we need a label here
 			'',
 			'menutype',
@@ -226,25 +227,25 @@ class MenusViewItems extends JViewLegacy
 			false
 		);
 
-		JSubMenuHelper::addFilter(
+		JHtmlSidebar::addFilter(
 			JText::_('COM_MENUS_OPTION_SELECT_LEVEL'),
 			'filter_level',
 			JHtml::_('select.options', $this->f_levels, 'value', 'text', $this->state->get('filter.level'))
 		);
 
-		JSubMenuHelper::addFilter(
+		JHtmlSidebar::addFilter(
 			JText::_('JOPTION_SELECT_PUBLISHED'),
 			'filter_published',
 			JHtml::_('select.options', JHtml::_('jgrid.publishedOptions', array('archived' => false)), 'value', 'text', $this->state->get('filter.published'), true)
 		);
 
-		JSubMenuHelper::addFilter(
+		JHtmlSidebar::addFilter(
 			JText::_('JOPTION_SELECT_ACCESS'),
 			'filter_access',
 			JHtml::_('select.options', JHtml::_('access.assetgroups'), 'value', 'text', $this->state->get('filter.access'))
 		);
 
-		JSubMenuHelper::addFilter(
+		JHtmlSidebar::addFilter(
 			JText::_('JOPTION_SELECT_LANGUAGE'),
 			'filter_language',
 			JHtml::_('select.options', JHtml::_('contentlanguage.existing', true, true), 'value', 'text', $this->state->get('filter.language'))

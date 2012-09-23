@@ -1,4 +1,4 @@
-<?php
+// <?php
 /**
  * @package		Joomla.SystemTest
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
@@ -69,16 +69,16 @@ class TestSuite
 		$suite->addTestSuite('Article0003');
 		$suite->addTestSuite('Article0004');
 		$suite->addTestSuite('Featured0001Test');
-// 		$suite->addTestSuite('Featured0002Test');
-// 		$suite->addTestSuite('User0001Test');
-// 		$suite->addTestSuite('User0002Test');
-// 		$suite->addTestSuite('Group0001Test');
-// 		$suite->addTestSuite('Group0002Test');
-// 		$suite->addTestSuite('Group0003Test');
-// 		$suite->addTestSuite('Module0001');
-// 		$suite->addTestSuite('Module0002');
-// 		$suite->addTestSuite('Redirect0001Test');
-// 		$suite->addTestSuite('SampleData0001');
+		$suite->addTestSuite('Featured0002Test');
+		$suite->addTestSuite('User0001Test');
+		$suite->addTestSuite('User0002Test');
+		$suite->addTestSuite('Group0001Test');
+		$suite->addTestSuite('Group0002Test');
+		$suite->addTestSuite('Group0003Test');
+		$suite->addTestSuite('Module0001');
+		$suite->addTestSuite('Module0002');
+		$suite->addTestSuite('Redirect0001Test');
+		$suite->addTestSuite('SampleData0001');
 // 		$suite->addTestSuite('Acl0001Test');
 // 		$suite->addTestSuite('Acl0002Test');
 // 		$suite->addTestSuite('DoInstall');

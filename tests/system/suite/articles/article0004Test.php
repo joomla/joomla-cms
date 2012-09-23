@@ -148,9 +148,9 @@ class Article0004 extends SeleniumJoomlaTestCase
 		$this->assertStringStartsWith('Archive Module', $this->getTable("//form[@id='adminForm']/table.2.3"));
 		$this->assertStringStartsWith('Article Categories Module', $this->getTable("//form[@id='adminForm']/table.3.3"));
 		$this->assertStringStartsWith('Articles Category Module', $this->getTable("//form[@id='adminForm']/table.4.3"));
-		$this->assertStringEndsWith('Category: Content Modules', $this->getTable("//form[@id='adminForm']/table.2.3"));
-		$this->assertStringEndsWith('Category: Content Modules', $this->getTable("//form[@id='adminForm']/table.3.3"));
-		$this->assertStringEndsWith('Category: Content Modules', $this->getTable("//form[@id='adminForm']/table.4.3"));
+		$this->assertTrue(strpos($this->getTable("//form[@id='adminForm']/table.2.3"), 'Category: Content Modules') > 0);
+		$this->assertTrue(strpos($this->getTable("//form[@id='adminForm']/table.3.3"), 'Category: Content Modules') > 0);
+		$this->assertTrue(strpos($this->getTable("//form[@id='adminForm']/table.4.3"), 'Category: Content Modules') > 0);
 		echo "Move Archive Module, Content Modules, Article Categories Module to Languages Category\n";
 		$this->click("cb1");
 		$this->click("cb2");
@@ -164,9 +164,9 @@ class Article0004 extends SeleniumJoomlaTestCase
 		$this->assertStringStartsWith('Archive Module', $this->getTable("//form[@id='adminForm']/table.2.3"));
 		$this->assertStringStartsWith('Article Categories Module', $this->getTable("//form[@id='adminForm']/table.3.3"));
 		$this->assertStringStartsWith('Articles Category Module', $this->getTable("//form[@id='adminForm']/table.4.3"));
-		$this->assertStringEndsWith('Category: Languages', $this->getTable("//form[@id='adminForm']/table.2.3"));
-		$this->assertStringEndsWith('Category: Languages', $this->getTable("//form[@id='adminForm']/table.3.3"));
-		$this->assertStringEndsWith('Category: Languages', $this->getTable("//form[@id='adminForm']/table.4.3"));
+		$this->assertTrue(strpos($this->getTable("//form[@id='adminForm']/table.2.3"), 'Category: Languages') > 0);
+		$this->assertTrue(strpos($this->getTable("//form[@id='adminForm']/table.3.3"), 'Category: Languages') > 0);
+		$this->assertTrue(strpos($this->getTable("//form[@id='adminForm']/table.4.3"), 'Category: Languages') > 0);
 		echo "Move articles back to original category\n";
 		$this->click("cb1");
 		$this->click("cb2");
@@ -180,9 +180,9 @@ class Article0004 extends SeleniumJoomlaTestCase
 		$this->assertStringStartsWith('Archive Module', $this->getTable("//form[@id='adminForm']/table.2.3"));
 		$this->assertStringStartsWith('Article Categories Module', $this->getTable("//form[@id='adminForm']/table.3.3"));
 		$this->assertStringStartsWith('Articles Category Module', $this->getTable("//form[@id='adminForm']/table.4.3"));
-		$this->assertStringEndsWith('Category: Content Modules', $this->getTable("//form[@id='adminForm']/table.2.3"));
-		$this->assertStringEndsWith('Category: Content Modules', $this->getTable("//form[@id='adminForm']/table.3.3"));
-		$this->assertStringEndsWith('Category: Content Modules', $this->getTable("//form[@id='adminForm']/table.4.3"));
+		$this->assertTrue(strpos($this->getTable("//form[@id='adminForm']/table.2.3"), 'Category: Content Modules') > 0);
+		$this->assertTrue(strpos($this->getTable("//form[@id='adminForm']/table.3.3"), 'Category: Content Modules') > 0);
+		$this->assertTrue(strpos($this->getTable("//form[@id='adminForm']/table.4.3"), 'Category: Content Modules') > 0);
 
 		echo "Finished testBatchMove\n";
 

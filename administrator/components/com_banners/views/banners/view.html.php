@@ -57,6 +57,7 @@ class BannersViewBanners extends JViewLegacy
 		// Include the component HTML helpers.
 		JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
+		$this->sidebar = JHtmlSidebar::render();
 		parent::display($tpl);
 	}
 
@@ -139,27 +140,27 @@ class BannersViewBanners extends JViewLegacy
 		}
 		JToolbarHelper::help('JHELP_COMPONENTS_BANNERS_BANNERS');
 
-		JSubMenuHelper::setAction('index.php?option=com_banners&view=banners');
+		JHtmlSidebar::setAction('index.php?option=com_banners&view=banners');
 
-		JSubMenuHelper::addFilter(
+		JHtmlSidebar::addFilter(
 			JText::_('JOPTION_SELECT_PUBLISHED'),
 			'filter_state',
 			JHtml::_('select.options', JHtml::_('jgrid.publishedOptions'), 'value', 'text', $this->state->get('filter.published'), true)
 		);
 
-		JSubMenuHelper::addFilter(
+		JHtmlSidebar::addFilter(
 			JText::_('COM_BANNERS_SELECT_CLIENT'),
 			'filter_client_id',
 			JHtml::_('select.options', BannersHelper::getClientOptions(), 'value', 'text', $this->state->get('filter.client_id'))
 		);
 
-		JSubMenuHelper::addFilter(
+		JHtmlSidebar::addFilter(
 			JText::_('JOPTION_SELECT_CATEGORY'),
 			'filter_category_id',
 			JHtml::_('select.options', JHtml::_('category.options', 'com_banners'), 'value', 'text', $this->state->get('filter.category_id'))
 		);
 
-		JSubMenuHelper::addFilter(
+		JHtmlSidebar::addFilter(
 			JText::_('JOPTION_SELECT_LANGUAGE'),
 			'filter_language',
 			JHtml::_('select.options', JHtml::_('contentlanguage.existing', true, true), 'value', 'text', $this->state->get('filter.language'))

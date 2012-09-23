@@ -31,9 +31,9 @@ class modMenuHelper
 		$app = JFactory::getApplication();
 		$menu = $app->getMenu();
 
-		// If no active menu, use default
-		$active = ($menu->getActive()) ? $menu->getActive() : $menu->getDefault();
 
+		// Get active menu item
+		$active = self::getActive($params);
 		$user = JFactory::getUser();
 		$levels = $user->getAuthorisedViewLevels();
 		asort($levels);
@@ -141,4 +141,32 @@ class modMenuHelper
 		}
 		return $items;
 	}
+
+	/**
+	 * Get active menu item.
+	 *
+	 * @param	JRegistry	$params	The module options.
+	 *
+	 * @return	object
+	 * @since	3.0
+	 */
+	public static function getActive(&$params)
+	{
+		$menu = JFactory::getApplication()->getMenu();
+
+		// Get active menu item from parameters
+		if ($params->get('active')) {
+			$active = $menu->getItem($params->get('active'));
+		} else {
+			$active = false;
+		}
+
+		// If no active menu, use current or default
+		if (!$active) {
+			$active = ($menu->getActive()) ? $menu->getActive() : $menu->getDefault();
+		}
+
+		return $active;
+	}
+
 }

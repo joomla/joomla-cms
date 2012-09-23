@@ -116,6 +116,8 @@ ALTER TABLE `#__banners` ADD COLUMN `modified` datetime NOT NULL DEFAULT '0000-0
 ALTER TABLE `#__banners` ADD COLUMN `modified_by` int(10) unsigned NOT NULL DEFAULT '0';
 ALTER TABLE `#__banners` ADD COLUMN `version` int(10) unsigned NOT NULL DEFAULT '1';
 ALTER TABLE `#__categories` ADD COLUMN `version` int(10) unsigned NOT NULL DEFAULT '1';
+UPDATE  `#__assets` SET name=REPLACE( name, 'com_user.notes.category','com_users.category'  );
+UPDATE  `#__categories` SET extension=REPLACE( extension, 'com_user.notes.category','com_users.category'  );
 
 # Add columns for improved language support in finder.
 ALTER TABLE `#__finder_terms` ADD COLUMN `language` char(3) NOT NULL DEFAULT '';

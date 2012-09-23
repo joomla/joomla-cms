@@ -1,0 +1,4 @@
+/* Fix for #29223: ref: http://stackoverflow.com/questions/10959068/twitter-bootstrap-accordion-and-button-dropdown-overflow-issue */
+.accordion-body.in:hover {
+	overflow:visible;
+}

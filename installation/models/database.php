@@ -84,13 +84,19 @@ class InstallationModelDatabase extends JModelLegacy
 		$options = JArrayHelper::toObject($options);
 
 		// Load the back-end language files so that the DB error messages work
-		$lang = JFactory::getLanguage();
-
-		// Pre-load en-GB in case the chosen language files do not exist
-		$lang->load('joomla', JPATH_ADMINISTRATOR, 'en-GB', true);
+		$lang 			= JFactory::getLanguage();
+		$currentLang 	= $lang->getTag();
 
 		// Load the selected language
-		$lang->load('joomla', JPATH_ADMINISTRATOR, $options->language, true);
+		if (JLanguage::exists($currentLang, JPATH_ADMINISTRATOR))
+		{
+			$lang->load('joomla', JPATH_ADMINISTRATOR, $currentLang, true);
+		}
+		// Pre-load en-GB in case the chosen language files do not exist
+		else
+		{
+			$lang->load('joomla', JPATH_ADMINISTRATOR, 'en-GB', true);
+		}
 
 		// Ensure a database type was selected.
 		if (empty($options->db_type))

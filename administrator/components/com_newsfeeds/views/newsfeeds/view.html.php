@@ -41,8 +41,9 @@ class NewsfeedsViewNewsfeeds extends JViewLegacy
 			return false;
 		}
 
-		parent::display($tpl);
 		$this->addToolbar();
+		$this->sidebar = JHtmlSidebar::render();
+		parent::display($tpl);
 	}
 
 	/**
@@ -72,7 +73,7 @@ class NewsfeedsViewNewsfeeds extends JViewLegacy
 		if ($canDo->get('core.admin')) {
 			JToolbarHelper::checkin('newsfeeds.checkin');
 			}
-		if ($state->get('filter.state') == -2 && $canDo->get('core.delete')) {
+		if ($state->get('filter.published') == -2 && $canDo->get('core.delete')) {
 			JToolbarHelper::deleteList('', 'newsfeeds.delete', 'JTOOLBAR_EMPTY_TRASH');
 		} elseif ($canDo->get('core.edit.state')) {
 			JToolbarHelper::trash('newsfeeds.trash');
@@ -92,27 +93,27 @@ class NewsfeedsViewNewsfeeds extends JViewLegacy
 		}
 		JToolbarHelper::help('JHELP_COMPONENTS_NEWSFEEDS_FEEDS');
 
-		JSubMenuHelper::setAction('index.php?option=com_newsfeeds&view=newsfeeds');
+		JHtmlSidebar::setAction('index.php?option=com_newsfeeds&view=newsfeeds');
 
-		JSubMenuHelper::addFilter(
+		JHtmlSidebar::addFilter(
 			JText::_('JOPTION_SELECT_PUBLISHED'),
 			'filter_published',
 			JHtml::_('select.options', JHtml::_('jgrid.publishedOptions'), 'value', 'text', $this->state->get('filter.published'), true)
 		);
 
-		JSubMenuHelper::addFilter(
+		JHtmlSidebar::addFilter(
 			JText::_('JOPTION_SELECT_CATEGORY'),
 			'filter_category_id',
 			JHtml::_('select.options', JHtml::_('category.options', 'com_newsfeeds'), 'value', 'text', $this->state->get('filter.category_id'))
 		);
 
-		JSubMenuHelper::addFilter(
+		JHtmlSidebar::addFilter(
 			JText::_('JOPTION_SELECT_ACCESS'),
 			'filter_access',
 			JHtml::_('select.options', JHtml::_('access.assetgroups'), 'value', 'text', $this->state->get('filter.access'))
 		);
 
-		JSubMenuHelper::addFilter(
+		JHtmlSidebar::addFilter(
 			JText::_('JOPTION_SELECT_LANGUAGE'),
 			'filter_language',
 			JHtml::_('select.options', JHtml::_('contentlanguage.existing', true, true), 'value', 'text', $this->state->get('filter.language'))
