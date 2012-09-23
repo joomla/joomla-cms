@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+23-Sep-2012 Jean-Marie Simonet
+ $ Improving ta-IN installation ini
+
 22-Sep-2012 Mark Dexter
  # [#28764] user notes category is not properly nested in the assets table. Thanks Elin.
  # [#29116] Parse error on initializing installation if server does not meet PHP requirements . Thanks Jean-Marie.
@@ -36,7 +39,7 @@ $ -> Language fix or change
 22-Sep-2012 Jean-Marie Simonet
  +$ Adding installation languages: ar-AA, az-AZ, ckb-IQ, fi-FI
  # Correcting double translation
- # Correcting lang string typo
+ $ Correcting lang string typo
  # [#29050] Page Navigation in Extension Manager not working. Thanks Yannick
  #[#29274] Fix code style and unclear doc blocks from 29050. Thanks Michael
 
