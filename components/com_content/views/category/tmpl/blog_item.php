@@ -34,8 +34,9 @@ JHtml::_('behavior.framework');
 		</ul>
 	</div>
 	<?php endif; ?>
-	<?php if ($params->get('show_title')) : ?>
+	<?php if ($params->get('show_title') || $this->item->state == 0 || ($params->get('show_author') && !empty($this->item->author ))) : ?>
 	<div class="page-header">
+		<?php if ($params->get('show_title')) : ?>
 		<h2>
 			<?php if ($params->get('link_titles') && $params->get('access-view')) : ?>
 			<a href="<?php echo JRoute::_(ContentHelperRoute::getArticleRoute($this->item->slug, $this->item->catid)); ?>"> <?php echo $this->escape($this->item->title); ?></a>
@@ -44,6 +45,7 @@ JHtml::_('behavior.framework');
 			<?php endif; ?>
 		</h2>
 		<?php endif; ?>
+		
 		<?php if ($this->item->state == 0): ?>
 			<span class="label label-warning"><?php echo JText::_('JUNPUBLISHED'); ?></span>
 		<?php endif; ?>
@@ -62,6 +64,7 @@ JHtml::_('behavior.framework');
 		<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', $author); ?>
 		<?php endif; ?>
 		</small>
+		<?php endif; ?>
 	</div>
 	<?php endif; ?>
 
