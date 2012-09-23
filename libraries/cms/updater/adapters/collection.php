@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('cms.updater.updateadapter');
-
 /**
  * Collection Update Adapter Class
  *

@@ -14,6 +14,10 @@ jimport('joomla.filesystem.folder');
 jimport('joomla.filesystem.path');
 jimport('joomla.base.adapter');
 
+JLoader::register('JLibraryManifest', __DIR__ . '/librarymanifest.php');
+JLoader::register('JPackageManifest', __DIR__ . '/packagemanifest.php');
+JLoader::register('JExtension', __DIR__ . '/extension.php');
+
 /**
  * Joomla base installer class
  *

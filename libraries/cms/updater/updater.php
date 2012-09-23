@@ -15,6 +15,8 @@ jimport('joomla.filesystem.path');
 jimport('joomla.base.adapter');
 jimport('joomla.utilities.arrayhelper');
 
+JLoader::register('JUpdateAdapter', __DIR__ . '/updateadapter.php');
+
 /**
  * Updater Class
  *

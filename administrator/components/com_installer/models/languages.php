@@ -8,8 +8,6 @@
 
 defined('_JEXEC') or die;
 
-jimport('cms.updater.update');
-
 /**
  * Languages Installer Model
  *

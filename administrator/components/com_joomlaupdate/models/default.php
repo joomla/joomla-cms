@@ -156,8 +156,7 @@ class JoomlaupdateModelDefault extends JModelLegacy
 			$ret['latest'] = $updateObject->version;
 		}
 
-		// Fetch the full udpate details from the update details URL
-		jimport('cms.updater.update');
+		// Fetch the full update details from the update details URL
 		$update = new JUpdate;
 		$update->loadFromXML($updateObject->detailsurl);
 
@@ -430,7 +429,6 @@ ENDDATA;
 	 */
 	public function finaliseUpgrade()
 	{
-		jimport('cms.installer.install');
 		$installer = JInstaller::getInstance();
 
 		$installer->setPath('source', JPATH_ROOT);

@@ -9,7 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('cms.installer.extension');
 jimport('joomla.base.adapterinstance');
 jimport('joomla.filesystem.folder');
 

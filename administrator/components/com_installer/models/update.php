@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-jimport('cms.updater.update');
-
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_installer

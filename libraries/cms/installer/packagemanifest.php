@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('cms.installer.extension');
-
 /**
  * Joomla! Package Manifest File
  *
