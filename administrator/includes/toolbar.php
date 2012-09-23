@@ -583,8 +583,8 @@ abstract class JToolbarHelper
 /**
  * Utility class for the submenu.
  *
- * @package  Joomla.Administrator
- * @since    1.5
+ * @package     Joomla.Administrator
+ * @since       1.5
  * @deprecated  4.0  Use JHtmlSidebar instead.
  */
 abstract class JSubMenuHelper

@@ -29,7 +29,8 @@ abstract class JHtmlFormbehavior
 	 *
 	 * If debugging mode is on an uncompressed version of Chosen is included for easier debugging.
 	 *
-	 * @param   mixed  $debug  Is debugging mode on? [optional]
+	 * @param   string  $selector  Class for Chosen elements.
+	 * @param   mixed   $debug     Is debugging mode on? [optional]
 	 *
 	 * @return  void
 	 *

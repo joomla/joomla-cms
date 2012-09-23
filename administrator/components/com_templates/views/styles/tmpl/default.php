@@ -98,41 +98,41 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 					<?php else : ?>
 						<?php echo $this->escape($item->title);?>
 					<?php endif; ?>
-					</td>
-					<td class="center">
-						<?php if ($item->home == '0' || $item->home == '1'):?>
-							<?php echo JHtml::_('jgrid.isdefault', $item->home != '0', $i, 'styles.', $canChange && $item->home != '1');?>
-						<?php elseif ($canChange):?>
-							<a href="<?php echo JRoute::_('index.php?option=com_templates&task=styles.unsetDefault&cid[]='.$item->id.'&'.JSession::getFormToken().'=1');?>">
-								<?php echo JHtml::_('image', 'mod_languages/'.$item->image.'.gif', $item->language_title, array('title' => JText::sprintf('COM_TEMPLATES_GRID_UNSET_LANGUAGE', $item->language_title)), true);?>
-							</a>
-						<?php else:?>
-							<?php echo JHtml::_('image', 'mod_languages/'.$item->image.'.gif', $item->language_title, array('title' => $item->language_title), true);?>
-						<?php endif;?>
-					</td>
-					<td class="center">
-						<?php if ($item->assigned > 0) : ?>
-							<i class="icon-ok tip hasTooltip" title="<?php echo JText::plural('COM_TEMPLATES_ASSIGNED', $item->assigned)?>"></i>
-						<?php else : ?>
-							&#160;
-						<?php endif; ?>
-					</td>
-					<td class="small">
-						<?php echo $item->client_id == 0 ? JText::_('JSITE') : JText::_('JADMINISTRATOR'); ?>
-					</td>
-					<td>
-						<label for="cb<?php echo $i;?>" class="small">
-							<a href="<?php echo JRoute::_('index.php?option=com_templates&view=template&id='.(int) $item->e_id); ?>  ">
-								<?php echo ucfirst($this->escape($item->template));?>
-							</a>
-						</label>
-					</td>
-					<td class="center">
-						<?php echo (int) $item->id; ?>
-					</td>
-				</tr>
-				<?php endforeach; ?>
-			</tbody>
+				</td>
+				<td class="center">
+					<?php if ($item->home == '0' || $item->home == '1'):?>
+						<?php echo JHtml::_('jgrid.isdefault', $item->home != '0', $i, 'styles.', $canChange && $item->home != '1');?>
+					<?php elseif ($canChange):?>
+						<a href="<?php echo JRoute::_('index.php?option=com_templates&task=styles.unsetDefault&cid[]='.$item->id.'&'.JSession::getFormToken().'=1');?>">
+							<?php echo JHtml::_('image', 'mod_languages/'.$item->image.'.gif', $item->language_title, array('title' => JText::sprintf('COM_TEMPLATES_GRID_UNSET_LANGUAGE', $item->language_title)), true);?>
+						</a>
+					<?php else:?>
+						<?php echo JHtml::_('image', 'mod_languages/'.$item->image.'.gif', $item->language_title, array('title' => $item->language_title), true);?>
+					<?php endif;?>
+				</td>
+				<td class="center">
+					<?php if ($item->assigned > 0) : ?>
+						<i class="icon-ok tip hasTooltip" title="<?php echo JText::plural('COM_TEMPLATES_ASSIGNED', $item->assigned)?>"></i>
+					<?php else : ?>
+						&#160;
+					<?php endif; ?>
+				</td>
+				<td class="small">
+					<?php echo $item->client_id == 0 ? JText::_('JSITE') : JText::_('JADMINISTRATOR'); ?>
+				</td>
+				<td>
+					<label for="cb<?php echo $i;?>" class="small">
+						<a href="<?php echo JRoute::_('index.php?option=com_templates&view=template&id='.(int) $item->e_id); ?>  ">
+							<?php echo ucfirst($this->escape($item->template));?>
+						</a>
+					</label>
+				</td>
+				<td class="center">
+					<?php echo (int) $item->id; ?>
+				</td>
+			</tr>
+			<?php endforeach; ?>
+		</tbody>
 	</table>
 
 	<input type="hidden" name="task" value="" />

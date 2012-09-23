@@ -65,8 +65,8 @@ class JSchemaChangeitemPostgresql extends JSchemaChangeitem
 			$alterCommand = strtoupper($wordArray[3] . ' ' . $wordArray[4]);
 			if ($alterCommand === 'ADD COLUMN')
 			{
-				$result = 'SELECT column_name FROM information_schema.columns WHERE table_name=' .
-					$this->fixQuote($wordArray[2]) . ' AND column_name=' . $this->fixQuote($wordArray[5]);
+				$result = 'SELECT column_name FROM information_schema.columns WHERE table_name='
+				. $this->fixQuote($wordArray[2]) . ' AND column_name=' . $this->fixQuote($wordArray[5]);
 
 				$this->queryType = 'ADD_COLUMN';
 				$this->msgElements = array($this->fixQuote($wordArray[2]), $this->fixQuote($wordArray[5]));
@@ -91,9 +91,9 @@ class JSchemaChangeitemPostgresql extends JSchemaChangeitem
 						$type = substr($type, 0, $pos);
 					}
 
-					$result = 'SELECT column_name, data_type FROM information_schema.columns WHERE table_name=' .
-						$this->fixQuote($wordArray[2]) . ' AND column_name=' . $this->fixQuote($wordArray[5]) .
-						' AND data_type=' . $this->fixQuote($type);
+					$result = 'SELECT column_name, data_type FROM information_schema.columns WHERE table_name='
+						. $this->fixQuote($wordArray[2]) . ' AND column_name=' . $this->fixQuote($wordArray[5])
+						. ' AND data_type=' . $this->fixQuote($type);
 
 					$this->queryType = 'CHANGE_COLUMN_TYPE';
 					$this->msgElements = array($this->fixQuote($wordArray[2]), $this->fixQuote($wordArray[5]), $type);
@@ -110,9 +110,9 @@ class JSchemaChangeitemPostgresql extends JSchemaChangeitem
 						// DROP NOT NULL
 						$isNullable = $this->fixQuote('YES');
 					}
-					$result = 'SELECT column_name, data_type, is_nullable FROM information_schema.columns WHERE table_name=' .
-						$this->fixQuote($wordArray[2]) . ' AND column_name=' . $this->fixQuote($wordArray[5]) .
-						' AND is_nullable=' . $isNullable;
+					$result = 'SELECT column_name, data_type, is_nullable FROM information_schema.columns WHERE table_name='
+						. $this->fixQuote($wordArray[2]) . ' AND column_name=' . $this->fixQuote($wordArray[5])
+						. ' AND is_nullable=' . $isNullable;
 
 					$this->queryType = 'CHANGE_COLUMN_TYPE';
 					$this->checkQueryExpected = 1;
@@ -129,9 +129,9 @@ class JSchemaChangeitemPostgresql extends JSchemaChangeitem
 						// DROP DEFAULT
 						$isNullDef = 'IS NULL';
 					}
-					$result = 'SELECT column_name, data_type, column_default FROM information_schema.columns WHERE table_name=' .
-						$this->fixQuote($wordArray[2]) . ' AND column_name=' . $this->fixQuote($wordArray[5]) .
-						' AND column_default ' . $isNullDef;
+					$result = 'SELECT column_name, data_type, column_default FROM information_schema.columns WHERE table_name='
+						. $this->fixQuote($wordArray[2]) . ' AND column_name=' . $this->fixQuote($wordArray[5])
+						. ' AND column_default ' . $isNullDef;
 
 					$this->queryType = 'CHANGE_COLUMN_TYPE';
 					$this->checkQueryExpected = 1;

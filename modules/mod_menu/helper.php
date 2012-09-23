@@ -31,7 +31,6 @@ class modMenuHelper
 		$app = JFactory::getApplication();
 		$menu = $app->getMenu();
 
-
 		// Get active menu item
 		$active = self::getActive($params);
 		$user = JFactory::getUser();

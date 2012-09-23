@@ -52,7 +52,7 @@ abstract class JHtmlSidebar
 	public static function render()
 	{
 		// Collect display data
-		$data                 = new stdClass();
+		$data                 = new stdClass;
 		$data->list           = self::getEntries();
 		$data->filters        = self::getFilters();
 		$data->action         = self::getAction();
