@@ -86,7 +86,7 @@ abstract class JHtmlGrid
 			$direction = ($direction == 'desc') ? 'asc' : 'desc';
 		}
 
-		$html = '<a href="#" onclick="Joomla.tableOrdering(\'' . $order . '\',\'' . $direction . '\',\'' . $task . '\');" title="'
+		$html = '<a href="#" onclick="Joomla.tableOrdering(\'' . $order . '\',\'' . $direction . '\',\'' . $task . '\'); return false;" title="'
 			. JText::_('JGLOBAL_CLICK_TO_SORT_THIS_COLUMN') . '">';
 		$html .= JText::_($title);
 
