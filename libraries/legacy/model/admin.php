@@ -833,6 +833,12 @@ abstract class JModelAdmin extends JModelForm
 		$table = $this->getTable();
 		$pks = (array) $pks;
 
+		// Ensure that we do not receive an empty array
+		if (empty($pks))
+		{
+			return true;
+		}
+
 		// Include the content plugins for the change of state event.
 		JPluginHelper::importPlugin('content');
 
