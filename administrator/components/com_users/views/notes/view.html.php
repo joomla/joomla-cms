@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
-
 /**
  * User notes list view
  *
@@ -18,126 +16,145 @@ jimport('joomla.application.component.view');
  * @subpackage  com_users
  * @since       2.5
  */
-class UsersViewNotes extends JView
+class UsersViewNotes extends JViewLegacy
 {
-	/**
-	 * A list of user note objects.
-	 *
-	 * @var    array
-	 * @since  2.5
-	 */
-	protected $items;
+  /**
+   * A list of user note objects.
+   *
+   * @var    array
+   * @since  2.5
+   */
+  protected $items;
 
-	/**
-	 * The pagination object.
-	 *
-	 * @var    JPagination
-	 * @since  2.5
-	 */
-	protected $pagination;
+  /**
+   * The pagination object.
+   *
+   * @var    JPagination
+   * @since  2.5
+   */
+  protected $pagination;
 
-	/**
-	 * The model state.
-	 *
-	 * @var    JObject
-	 * @since  2.5
-	 */
-	protected $state;
+  /**
+   * The model state.
+   *
+   * @var    JObject
+   * @since  2.5
+   */
+  protected $state;
 
-	/**
-	 * The model state.
-	 *
-	 * @var    JUser
-	 * @since  2.5
-	 */
-	protected $user;
+  /**
+   * The model state.
+   *
+   * @var    JUser
+   * @since  2.5
+   */
+  protected $user;
 
-	/**
-	 * Override the display method for the view.
-	 *
-	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
-	 *
-	 * @return  mixed  A string if successful, otherwise a JError object.
-	 *
-	 * @since   2.5
-	 */
-	public function display($tpl = null)
-	{
-		// Initialise view variables.
-		$this->items = $this->get('Items');
-		$this->pagination = $this->get('Pagination');
-		$this->state = $this->get('State');
-		$this->user = $this->get('User');
+  /**
+   * Override the display method for the view.
+   *
+   * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+   *
+   * @return  mixed  A string if successful, otherwise a JError object.
+   *
+   * @since   2.5
+   */
+  public function display($tpl = null)
+  {
+    // Initialise view variables.
+    $this->items = $this->get('Items');
+    $this->pagination = $this->get('Pagination');
+    $this->state = $this->get('State');
+    $this->user = $this->get('User');
 
-		// Check for errors.
-		if (count($errors = $this->get('Errors')))
-		{
-			throw new Exception(implode("\n", $errors), 500);
-		}
+    UsersHelper::addSubmenu('notes');
 
-		// Get the component HTML helpers
-		JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+    // Check for errors.
+    if (count($errors = $this->get('Errors')))
+    {
+      throw new Exception(implode("\n", $errors), 500);
+    }
 
-		// turn parameters into registry objects
-		foreach ($this->items as $item) {
-			$item->cparams = new JRegistry();
-			$item->cparams->loadString($item->category_params);
-		}
+    // Get the component HTML helpers
+    JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
-		parent::display($tpl);
-		$this->addToolbar();
-	}
+    // turn parameters into registry objects
+    foreach ($this->items as $item) {
+      $item->cparams = new JRegistry;
+      $item->cparams->loadString($item->category_params);
+    }
 
-	/**
-	 * Display the toolbar.
-	 *
-	 * @return  void
-	 *
-	 * @since   2.5
-	 */
-	protected function addToolbar()
-	{
-		$canDo = UsersHelper::getActions();
+    $this->addToolbar();
+    $this->sidebar = JHtmlSidebar::render();
+    parent::display($tpl);
 
-		JToolBarHelper::title(JText::_('COM_USERS_VIEW_NOTES_TITLE'), 'user');
+  }
 
-		if ($canDo->get('core.create'))
-		{
-			JToolBarHelper::addNew('note.add');
-		}
+  /**
+   * Display the toolbar.
+   *
+   * @return  void
+   *
+   * @since   2.5
+   */
+  protected function addToolbar()
+  {
+    $canDo = UsersHelper::getActions();
 
-		if ($canDo->get('core.edit'))
-		{
-			JToolBarHelper::editList('note.edit');
-		}
+    JToolbarHelper::title(JText::_('COM_USERS_VIEW_NOTES_TITLE'), 'user');
 
-		if ($canDo->get('core.edit.state'))
-		{
-			JToolBarHelper::divider();
-			JToolBarHelper::publish('notes.publish', 'JTOOLBAR_PUBLISH', true);
-			JToolBarHelper::unpublish('notes.unpublish', 'JTOOLBAR_UNPUBLISH', true);
+    if ($canDo->get('core.create'))
+    {
+      JToolbarHelper::addNew('note.add');
+    }
 
-			JToolBarHelper::divider();
-			JToolBarHelper::archiveList('notes.archive');
-			JToolBarHelper::checkin('notes.checkin');
-		}
+    if ($canDo->get('core.edit'))
+    {
+      JToolbarHelper::editList('note.edit');
+    }
 
-		if ($this->state->get('filter.state') == -2 && $canDo->get('core.delete'))
-		{
-			JToolBarHelper::deleteList('', 'notes.delete', 'JTOOLBAR_EMPTY_TRASH');
-			JToolBarHelper::divider();
-		}
-		elseif ($canDo->get('core.edit.state'))
-		{
-			JToolBarHelper::trash('notes.trash');
-			JToolBarHelper::divider();
-		}
+    if ($canDo->get('core.edit.state'))
+    {
+      JToolbarHelper::divider();
+      JToolbarHelper::publish('notes.publish', 'JTOOLBAR_PUBLISH', true);
+      JToolbarHelper::unpublish('notes.unpublish', 'JTOOLBAR_UNPUBLISH', true);
 
-		if ($canDo->get('core.admin'))
-		{
-			JToolBarHelper::preferences('com_users');
-			JToolBarHelper::divider();
-		}
-		JToolBarHelper::help('JHELP_USERS_USER_NOTES');
-	}
+      JToolbarHelper::divider();
+      JToolbarHelper::archiveList('notes.archive');
+      JToolbarHelper::checkin('notes.checkin');
+    }
+
+    if ($this->state->get('filter.state') == -2 && $canDo->get('core.delete'))
+    {
+      JToolbarHelper::deleteList('', 'notes.delete', 'JTOOLBAR_EMPTY_TRASH');
+      JToolbarHelper::divider();
+    }
+    elseif ($canDo->get('core.edit.state'))
+    {
+      JToolbarHelper::trash('notes.trash');
+      JToolbarHelper::divider();
+    }
+
+    if ($canDo->get('core.admin'))
+    {
+      JToolbarHelper::preferences('com_users');
+      JToolbarHelper::divider();
+    }
+    JToolbarHelper::help('JHELP_USERS_USER_NOTES');
+
+    JHtmlSidebar::setAction('index.php?option=com_users&view=notes');
+
+    JHtmlSidebar::addFilter(
+        JText::_('JOPTION_SELECT_PUBLISHED'),
+        'filter_published',
+        JHtml::_('select.options', JHtml::_('jgrid.publishedOptions'), 'value', 'text', $this->state->get('filter.state'), true)
+    );
+
+    JHtmlSidebar::addFilter(
+        JText::_('JOPTION_SELECT_CATEGORY'),
+        'filter_category_id',
+        JHtml::_('select.options', JHtml::_('category.options', 'com_users.notes'), 'value', 'text', $this->state->get('filter.category_id'))
+    );
+
+  }
 }

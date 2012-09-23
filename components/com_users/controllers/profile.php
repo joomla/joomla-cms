@@ -1,9 +1,10 @@
 <?php
 /**
- * @package		Joomla.Site
- * @subpackage	com_users
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  com_users
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -13,9 +14,9 @@ require_once JPATH_COMPONENT.'/controller.php';
 /**
  * Profile controller class for Users.
  *
- * @package		Joomla.Site
- * @subpackage	com_users
- * @since		1.6
+ * @package     Joomla.Site
+ * @subpackage  com_users
+ * @since       1.6
  */
 class UsersControllerProfile extends UsersController
 {
@@ -32,7 +33,7 @@ class UsersControllerProfile extends UsersController
 
 		// Get the previous user id (if any) and the current user id.
 		$previousId = (int) $app->getUserState('com_users.edit.profile.id');
-		$userId	= (int) JRequest::getInt('user_id', null, '', 'array');
+		$userId = $this->input->getInt('user_id', null, 'array');
 
 		// Check if the user is trying to edit another users profile.
 		if ($userId != $loginUserId) {
@@ -71,14 +72,13 @@ class UsersControllerProfile extends UsersController
 		// Check for request forgeries.
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		// Initialise variables.
 		$app	= JFactory::getApplication();
 		$model	= $this->getModel('Profile', 'UsersModel');
 		$user	= JFactory::getUser();
 		$userId	= (int) $user->get('id');
 
 		// Get the user data.
-		$data = JRequest::getVar('jform', array(), 'post', 'array');
+		$data = $app->input->post->get('jform', array(), 'array');
 
 		// Force the ID to this user.
 		$data['id'] = $userId;
@@ -125,7 +125,7 @@ class UsersControllerProfile extends UsersController
 			$app->setUserState('com_users.edit.profile.data', $data);
 
 			// Redirect back to the edit screen.
-			$userId = (int)$app->getUserState('com_users.edit.profile.id');
+			$userId = (int) $app->getUserState('com_users.edit.profile.id');
 			$this->setMessage(JText::sprintf('COM_USERS_PROFILE_SAVE_FAILED', $model->getError()), 'warning');
 			$this->setRedirect(JRoute::_('index.php?option=com_users&view=profile&layout=edit&user_id='.$userId, false));
 			return false;
@@ -145,7 +145,7 @@ class UsersControllerProfile extends UsersController
 
 			default:
 				// Check in the profile.
-				$userId = (int)$app->getUserState('com_users.edit.profile.id');
+				$userId = (int) $app->getUserState('com_users.edit.profile.id');
 				if ($userId) {
 					$model->checkin($userId);
 				}

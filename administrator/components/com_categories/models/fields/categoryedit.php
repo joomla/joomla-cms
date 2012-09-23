@@ -1,8 +1,10 @@
 <?php
 /**
- * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_categories
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_BASE') or die;
@@ -12,9 +14,9 @@ JFormHelper::loadFieldClass('list');
 /**
  * Form Field class for the Joomla Framework.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_categories
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_categories
+ * @since       1.6
  */
 class JFormFieldCategoryEdit extends JFormFieldList
 {
@@ -36,7 +38,6 @@ class JFormFieldCategoryEdit extends JFormFieldList
 	 */
 	protected function getOptions()
 	{
-		// Initialise variables.
 		$options = array();
 		$published = $this->element['published']? $this->element['published'] : array(0,1);
 		$name = (string) $this->element['name'];
@@ -50,14 +51,14 @@ class JFormFieldCategoryEdit extends JFormFieldList
 		{
 			$oldCat = $jinput->get('id', 0);
 			$oldParent = $this->form->getValue($name, 0);
-			$extension = $this->element['extension'] ? (string) $this->element['extension'] : (string) $jinput->get('extension','com_content');
+			$extension = $this->element['extension'] ? (string) $this->element['extension'] : (string) $jinput->get('extension', 'com_content');
 		}
 		else
 		// For items the old category is the category they are in when opened or 0 if new.
 		{
-			$thisItem = $jinput->get('id',0);
+			$thisItem = $jinput->get('id', 0);
 			$oldCat = $this->form->getValue($name, 0);
-			$extension = $this->element['extension'] ? (string) $this->element['extension'] : (string) $jinput->get('option','com_content');
+			$extension = $this->element['extension'] ? (string) $this->element['extension'] : (string) $jinput->get('option', 'com_content');
 		}
 
 		$db		= JFactory::getDbo();
@@ -79,8 +80,8 @@ class JFormFieldCategoryEdit extends JFormFieldList
 		// If parent isn't explicitly stated but we are in com_categories assume we want parents
 		if ($oldCat != 0 && ($this->element['parent'] == true || $jinput->get('option') == 'com_categories'))
 		{
-		// Prevent parenting to children of this item.
-		// To rearrange parents and children move the children up, not the parents down.
+			// Prevent parenting to children of this item.
+			// To rearrange parents and children move the children up, not the parents down.
 			$query->join('LEFT', $db->quoteName('#__categories').' AS p ON p.id = '.(int) $oldCat);
 			$query->where('NOT(a.lft >= p.lft AND a.rgt <= p.rgt)');
 
@@ -109,35 +110,35 @@ class JFormFieldCategoryEdit extends JFormFieldList
 		// Get the options.
 		$db->setQuery($query);
 
-		$options = $db->loadObjectList();
-
-		// Check for a database error.
-		if ($db->getErrorNum()) {
-			JError::raiseWarning(500, $db->getErrorMsg());
+		try
+		{
+			$options = $db->loadObjectList();
+		}
+		catch (RuntimeException $e)
+		{
+			JError::raiseWarning(500, $e->getMessage);
 		}
 
-
-			// Pad the option text with spaces using depth level as a multiplier.
-			for ($i = 0, $n = count($options); $i < $n; $i++)
+		// Pad the option text with spaces using depth level as a multiplier.
+		for ($i = 0, $n = count($options); $i < $n; $i++)
+		{
+			// Translate ROOT
+			if ($this->element['parent'] == true || $jinput->get('option') == 'com_categories')
 			{
-				// Translate ROOT
-				if ($this->element['parent'] == true || $jinput->get('option') == 'com_categories')
-				{
-						if ($options[$i]->level == 0)
-						{
-							$options[$i]->text = JText::_('JGLOBAL_ROOT_PARENT');
-						}
-				}
-				if ($options[$i]->published == 1)
-				{
-					$options[$i]->text = str_repeat('- ', $options[$i]->level). $options[$i]->text ;
-				}
-				else
-				{
-					$options[$i]->text = str_repeat('- ', $options[$i]->level). '[' .$options[$i]->text . ']';
-				}
+					if ($options[$i]->level == 0)
+					{
+						$options[$i]->text = JText::_('JGLOBAL_ROOT_PARENT');
+					}
 			}
-
+			if ($options[$i]->published == 1)
+			{
+				$options[$i]->text = str_repeat('- ', $options[$i]->level). $options[$i]->text;
+			}
+			else
+			{
+				$options[$i]->text = str_repeat('- ', $options[$i]->level). '[' .$options[$i]->text . ']';
+			}
+		}
 
 		// Get the current user object.
 		$user = JFactory::getUser();
@@ -199,14 +200,12 @@ class JFormFieldCategoryEdit extends JFormFieldList
 			&& (isset($row) && !isset($options[0])) && isset($this->element['show_root']))
 			{
 				if ($row->parent_id == '1') {
-					$parent = new stdClass();
+					$parent = new stdClass;
 					$parent->text = JText::_('JGLOBAL_ROOT_PARENT');
 					array_unshift($options, $parent);
 				}
 				array_unshift($options, JHtml::_('select.option', '0', JText::_('JGLOBAL_ROOT')));
 			}
-
-
 
 		// Merge any additional options in the XML definition.
 		$options = array_merge(parent::getOptions(), $options);

@@ -1,7 +1,10 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  com_content
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -9,20 +12,26 @@ defined('_JEXEC') or die;
 /**
  * Frontpage View class
  *
- * @package		Joomla.Site
- * @subpackage	com_content
- * @since		1.5
+ * @package     Joomla.Site
+ * @subpackage  com_content
+ * @since       1.5
  */
 class ContentViewFeatured extends JViewLegacy
 {
 	protected $state = null;
+
 	protected $item = null;
+
 	protected $items = null;
+
 	protected $pagination = null;
 
 	protected $lead_items = array();
+
 	protected $intro_items = array();
+
 	protected $link_items = array();
+
 	protected $columns = 1;
 
 	/**
@@ -30,9 +39,8 @@ class ContentViewFeatured extends JViewLegacy
 	 *
 	 * @return	mixed	False on error, null otherwise.
 	 */
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
-		// Initialise variables.
 		$user = JFactory::getUser();
 		$app = JFactory::getApplication();
 
@@ -66,9 +74,9 @@ class ContentViewFeatured extends JViewLegacy
 				$item->parent_slug = null;
 			}
 
-			$item->event = new stdClass();
+			$item->event = new stdClass;
 
-			$dispatcher = JDispatcher::getInstance();
+			$dispatcher = JEventDispatcher::getInstance();
 
 			$item->introtext = JHtml::_('content.prepare', $item->introtext, '', 'com_content.featured');
 
@@ -119,10 +127,10 @@ class ContentViewFeatured extends JViewLegacy
 		//Escape strings for HTML output
 		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
 
-		$this->assignRef('params', $params);
-		$this->assignRef('items', $items);
-		$this->assignRef('pagination', $pagination);
-		$this->assignRef('user', $user);
+		$this->params     = &$params;
+		$this->items      = &$items;
+		$this->pagination = &$pagination;
+		$this->user       = &$user;
 
 		$this->_prepareDocument();
 

@@ -1,17 +1,17 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_search
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_search
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
 
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
-JHtml::_('behavior.tooltip');
+JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
 
 $listOrder	= $this->escape($this->state->get('list.ordering'));
@@ -19,34 +19,39 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 $canDo		= SearchHelper::getActions();
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_search&view=searches'); ?>" method="post" name="adminForm" id="adminForm">
-	<fieldset id="filter-bar">
-		<div class="filter-search fltlft">
-			<label class="filter-search-lbl" for="filter_search"><?php echo JText::_('JSEARCH_FILTER_LABEL'); ?></label>
-			<input type="text" name="filter_search" id="filter_search" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" title="<?php echo JText::_('COM_SEARCH_SEARCH_IN_PHRASE'); ?>" />
-			<button type="submit"><?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?></button>
-			<button type="button" onclick="document.id('filter_search').value='';this.form.submit();"><?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?></button>
+	<div id="filter-bar" class="btn-toolbar">
+		<div class="filter-search btn-group pull-left">
+			<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('COM_SEARCH_SEARCH_IN_PHRASE'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" title="<?php echo JText::_('COM_SEARCH_SEARCH_IN_PHRASE'); ?>" />
 		</div>
-		<div class="filter-select fltrt">
-			<?php if ($this->enabled) : ?>
-			<span class="enabled"><?php echo JText::_('COM_SEARCH_LOGGING_ENABLED'); ?></span>
-			<?php else : ?>
-			<span class="disabled"><?php echo JText::_('COM_SEARCH_LOGGING_DISABLED'); ?></span>
-			<?php endif; ?>
-
+		<div class="filter-search btn-group pull-left">
+			<button class="btn hasTooltip" type="submit" title="<?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?>"><i class="icon-search"></i></button>
+			<button class="btn hasTooltip" type="button" title="<?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?>" onclick="document.id('filter_search').value='';this.form.submit();"><i class="icon-remove"></i></button>
+		</div>
+		<div class="filter-select btn-group pull-left">
 			<span class="adminlist-searchstatus">
 			<?php if ($this->state->get('filter.results')) : ?>
-				<a href="<?php echo JRoute::_('index.php?option=com_search&filter_results=0');?>">
-					<?php echo JText::_('COM_SEARCH_HIDE_SEARCH_RESULTS'); ?></a>
+				<a class="btn" href="<?php echo JRoute::_('index.php?option=com_search&filter_results=0');?>">
+					<i class="icon-zoom-out"></i> <?php echo JText::_('COM_SEARCH_HIDE_SEARCH_RESULTS'); ?></a>
 			<?php else : ?>
-				<a href="<?php echo JRoute::_('index.php?option=com_search&filter_results=1');?>">
-					<?php echo JText::_('COM_SEARCH_SHOW_SEARCH_RESULTS'); ?></a>
+				<a class="btn" href="<?php echo JRoute::_('index.php?option=com_search&filter_results=1');?>">
+					<i class="icon-zoom-in"></i> <?php echo JText::_('COM_SEARCH_SHOW_SEARCH_RESULTS'); ?></a>
 			<?php endif; ?>
 			</span>
 		</div>
-	</fieldset>
-	<div class="clr"> </div>
-
-	<table class="adminlist">
+	</div>
+	<div class="clearfix"> </div>
+	<?php if ($this->enabled) : ?>
+	<div class="alert alert-info">
+		<a class="close" data-dismiss="alert">×</a>
+		<span class="enabled"><?php echo JText::_('COM_SEARCH_LOGGING_ENABLED'); ?></span>
+	</div>
+	<?php else : ?>
+	<div class="alert alert-error">
+		<a class="close" data-dismiss="alert">×</a>
+		<span class="disabled"><?php echo JText::_('COM_SEARCH_LOGGING_DISABLED'); ?></span>
+	</div>
+	<?php endif; ?>
+	<table class="table table-striped">
 		<thead>
 			<tr>
 				<th width="20">
@@ -55,10 +60,10 @@ $canDo		= SearchHelper::getActions();
 				<th class="title">
 					<?php echo JHtml::_('grid.sort', 'COM_SEARCH_HEADING_PHRASE', 'a.search_term', $listDirn, $listOrder); ?>
 				</th>
-				<th width="15%">
+				<th width="15%" class="center">
 					<?php echo JHtml::_('grid.sort', 'JGLOBAL_HITS', 'a.hits', $listDirn, $listOrder); ?>
 				</th>
-				<th width="15%">
+				<th width="15%" class="center">
 					<?php echo JText::_('COM_SEARCH_HEADING_RESULTS'); ?>
 				</th>
 				<th width="30%">

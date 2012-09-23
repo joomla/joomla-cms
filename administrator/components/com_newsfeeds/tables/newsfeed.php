@@ -1,24 +1,24 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_newsfeeds
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_newsfeeds
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
 
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_newsfeeds
+ * @package     Joomla.Administrator
+ * @subpackage  com_newsfeeds
  */
 class NewsfeedsTableNewsfeed extends JTable
 {
 	/**
 	 * Constructor
 	 *
-	 * @param JDatabase A database connector object
+	 * @param JDatabaseDriver A database connector object
 	 */
 	public function __construct(&$db)
 	{
@@ -36,16 +36,23 @@ class NewsfeedsTableNewsfeed extends JTable
 	public function bind($array, $ignore = '')
 	{
 		if (isset($array['params']) && is_array($array['params'])) {
-			$registry = new JRegistry();
+			$registry = new JRegistry;
 			$registry->loadArray($array['params']);
 			$array['params'] = (string) $registry;
 		}
 
 		if (isset($array['metadata']) && is_array($array['metadata'])) {
-			$registry = new JRegistry();
+			$registry = new JRegistry;
 			$registry->loadArray($array['metadata']);
 			$array['metadata'] = (string) $registry;
 		}
+
+		if (isset($array['images']) && is_array($array['images'])) {
+			$registry = new JRegistry;
+			$registry->loadArray($array['images']);
+			$array['images'] = (string) $registry;
+		}
+
 		return parent::bind($array, $ignore);
 	}
 
@@ -54,7 +61,7 @@ class NewsfeedsTableNewsfeed extends JTable
 	 *
 	 * @return	boolean	True on success.
 	 */
-	function check()
+	public function check()
 	{
 		// Check for valid name.
 		if (trim($this->name) == '') {
@@ -71,7 +78,7 @@ class NewsfeedsTableNewsfeed extends JTable
 		}
 
 		// Check the publish down date is not earlier than publish up.
-		if (intval($this->publish_down) > 0 && $this->publish_down < $this->publish_up) {
+		if ((int) $this->publish_down > 0 && $this->publish_down < $this->publish_up) {
 			$this->setError(JText::_('JGLOBAL_START_PUBLISH_AFTER_FINISH'));
 			return false;
 		}
@@ -119,7 +126,7 @@ class NewsfeedsTableNewsfeed extends JTable
 		} else {
 			// New newsfeed. A feed created and created_by field can be set by the user,
 			// so we don't touch either of these if they are set.
-			if (!intval($this->created)) {
+			if (!(int) $this->created) {
 				$this->created = $date->toSql();
 			}
 			if (empty($this->created_by)) {
@@ -128,7 +135,8 @@ class NewsfeedsTableNewsfeed extends JTable
 		}
 	// Verify that the alias is unique
 		$table = JTable::getInstance('Newsfeed', 'NewsfeedsTable');
-		if ($table->load(array('alias'=>$this->alias, 'catid'=>$this->catid)) && ($table->id != $this->id || $this->id==0)) {
+		if ($table->load(array('alias' => $this->alias, 'catid' => $this->catid)) && ($table->id != $this->id || $this->id == 0))
+		{
 			$this->setError(JText::_('COM_NEWSFEEDS_ERROR_UNIQUE_ALIAS'));
 			return false;
 		}

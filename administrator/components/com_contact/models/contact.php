@@ -1,22 +1,20 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_contact
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_contact
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.modeladmin');
 
 /**
  * Item Model for a Contact.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_contact
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_contact
+ * @since       1.6
  */
 class ContactModelContact extends JModelAdmin
 {
@@ -291,7 +289,7 @@ class ContactModelContact extends JModelAdmin
 	{
 		if (!empty($record->id)) {
 			if ($record->published != -2) {
-				return ;
+				return;
 			}
 			$user = JFactory::getUser();
 			return $user->authorise('core.delete', 'com_contact.category.'.(int) $record->catid);
@@ -408,7 +406,7 @@ class ContactModelContact extends JModelAdmin
 			// Prime some default values.
 			if ($this->getState('contact.id') == 0) {
 				$app = JFactory::getApplication();
-				$data->set('catid', JRequest::getInt('catid', $app->getUserState('com_contact.contacts.filter.category_id')));
+				$data->set('catid', $app->input->get('catid', $app->getUserState('com_contact.contacts.filter.category_id'), 'int'));
 			}
 		}
 
@@ -423,7 +421,7 @@ class ContactModelContact extends JModelAdmin
 	 * @return	void
 	 * @since	1.6
 	 */
-	protected function prepareTable(&$table)
+	protected function prepareTable($table)
 	{
 		$date = JFactory::getDate();
 		$user = JFactory::getUser();
@@ -437,7 +435,7 @@ class ContactModelContact extends JModelAdmin
 
 		if (empty($table->id)) {
 			// Set the values
-			//$table->created	= $date->toSql();
+			$table->created	= $date->toSql();
 
 			// Set ordering to the last item if not set
 			if (empty($table->ordering)) {
@@ -445,14 +443,17 @@ class ContactModelContact extends JModelAdmin
 				$db->setQuery('SELECT MAX(ordering) FROM #__contact_details');
 				$max = $db->loadResult();
 
-				$table->ordering = $max+1;
+				$table->ordering = $max + 1;
 			}
 		}
 		else {
 			// Set the values
-			//$table->modified	= $date->toSql();
-			//$table->modified_by	= $user->get('id');
+			$table->modified	= $date->toSql();
+			$table->modified_by	= $user->get('id');
 		}
+		// Increment the content version number.
+		$table->version++;
+
 	}
 
 	/**
@@ -502,10 +503,7 @@ class ContactModelContact extends JModelAdmin
 				' SET featured = '.(int) $value.
 				' WHERE id IN ('.implode(',', $pks).')'
 			);
-			if (!$db->query()) {
-				throw new Exception($db->getErrorMsg());
-			}
-
+			$db->execute();
 		}
 		catch (Exception $e)
 		{

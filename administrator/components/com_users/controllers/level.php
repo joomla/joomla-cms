@@ -1,20 +1,20 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_users
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.controllerform');
 
 /**
  * User view level controller class.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_users
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_users
+ * @since       1.6
  */
 class UsersControllerLevel extends JControllerForm
 {
@@ -48,9 +48,8 @@ class UsersControllerLevel extends JControllerForm
 		// Check for request forgeries.
 		JSession::checkToken() or jexit(JText::_('JInvalid_Token'));
 
-		// Initialise variables.
-		$user	= JFactory::getUser();
-		$ids	= JRequest::getVar('cid', array(), '', 'array');
+		$user = JFactory::getUser();
+		$ids  = $this->input->get('cid', array(), 'array');
 
 		if (!JFactory::getUser()->authorise('core.admin', $this->option)) {
 			JError::raiseError(500, JText::_('JERROR_ALERTNOAUTHOR'));

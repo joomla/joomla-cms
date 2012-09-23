@@ -1,20 +1,20 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_languages
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.modellist');
 
 /**
  * Languages Model Class
  *
- * @package		Joomla.Administrator
- * @subpackage	com_languages
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_languages
+ * @since       1.6
  */
 class LanguagesModelLanguages extends JModelList
 {
@@ -55,7 +55,6 @@ class LanguagesModelLanguages extends JModelList
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
-		// Initialise variables.
 		$app = JFactory::getApplication('administrator');
 
 		// Load the filter state.
@@ -117,7 +116,7 @@ class LanguagesModelLanguages extends JModelList
 		// Join over the asset groups.
 		$query->select('ag.title AS access_level');
 		$query->join('LEFT', '#__viewlevels AS ag ON ag.id = a.access');
-		
+
 		// Select the language home pages
 		$query->select('l.home AS home');
 		$query->join('LEFT', $db->quoteName('#__menu') . ' AS l  ON  l.language = a.lang_code AND l.home=1  AND l.language <> ' . $db->quote('*'));

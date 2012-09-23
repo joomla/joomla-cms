@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.modellist');
-
 /**
  * Methods supporting a list of user records.
  *
@@ -59,11 +57,10 @@ class UsersModelUsers extends JModelList
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
-		// Initialise variables.
 		$app = JFactory::getApplication('administrator');
 
 		// Adjust the context to support modal layouts.
-		if ($layout = JRequest::getVar('layout', 'default'))
+		if ($layout = $app->input->get('layout', 'default', 'cmd'))
 		{
 			$this->context .= '.'.$layout;
 		}
@@ -84,14 +81,14 @@ class UsersModelUsers extends JModelList
 		$range = $this->getUserStateFromRequest($this->context.'.filter.range', 'filter_range');
 		$this->setState('filter.range', $range);
 
-		$groups = json_decode(base64_decode(JRequest::getVar('groups', '', 'default', 'BASE64')));
+		$groups = json_decode(base64_decode($app->input->get('groups', '', 'BASE64')));
 		if (isset($groups))
 		{
 			JArrayHelper::toInteger($groups);
 		}
 		$this->setState('filter.groups', $groups);
 
-		$excluded = json_decode(base64_decode(JRequest::getVar('excluded', '', 'default', 'BASE64')));
+		$excluded = json_decode(base64_decode($app->input->get('excluded', '', 'BASE64')));
 		if (isset($excluded))
 		{
 			JArrayHelper::toInteger($excluded);
@@ -193,13 +190,13 @@ class UsersModelUsers extends JModelList
 			$db->setQuery($query);
 
 			// Load the counts into an array indexed on the user id field.
-			$userGroups = $db->loadObjectList('user_id');
-
-			$error = $db->getErrorMsg();
-			if ($error)
+			try
 			{
-				$this->setError($error);
-
+				$userGroups = $db->loadObjectList('user_id');
+			}
+			catch (RuntimeException $e)
+			{
+				$this->setError($e->getMessage());
 				return false;
 			}
 
@@ -213,13 +210,13 @@ class UsersModelUsers extends JModelList
 			$db->setQuery((string) $query);
 
 			// Load the counts into an array indexed on the aro.value field (the user id).
-			$userNotes = $db->loadObjectList('user_id');
-
-			$error = $db->getErrorMsg();
-			if ($error)
+			try
 			{
-				$this->setError($error);
-
+				$userNotes = $db->loadObjectList('user_id');
+			}
+			catch (RuntimeException $e)
+			{
+				$this->setError($e->getMessage());
 				return false;
 			}
 
@@ -299,7 +296,7 @@ class UsersModelUsers extends JModelList
 		if ($groupId || isset($groups))
 		{
 			$query->join('LEFT', '#__user_usergroup_map AS map2 ON map2.user_id = a.id');
-			$query->group('a.id,a.name,a.username,a.password,a.usertype,a.block,a.sendEmail,a.registerDate,a.lastvisitDate,a.activation,a.params,a.email');
+			$query->group($db->quoteName(array('a.id', 'a.name', 'a.username', 'a.password', 'a.block', 'a.sendEmail', 'a.registerDate', 'a.lastvisitDate', 'a.activation', 'a.params', 'a.email')));
 
 			if ($groupId)
 			{
@@ -334,8 +331,6 @@ class UsersModelUsers extends JModelList
 		// Apply the range filter.
 		if ($range = $this->getState('filter.range'))
 		{
-			jimport('joomla.utilities.date');
-
 			// Get UTC for now.
 			$dNow = new JDate;
 			$dStart = clone $dNow;
@@ -381,14 +376,14 @@ class UsersModelUsers extends JModelList
 			if ($range == 'post_year')
 			{
 				$query->where(
-					'a.registerDate < '.$db->quote($dStart->format('Y-m-d H:i:s'))
+					$db->quoteName('a.registerDate') . ' < '.$db->quote($dStart->format('Y-m-d H:i:s'))
 				);
 			}
 			else
 			{
 				$query->where(
-					'a.registerDate >= '.$db->quote($dStart->format('Y-m-d H:i:s')).
-					' AND a.registerDate <='.$db->quote($dNow->format('Y-m-d H:i:s'))
+					$db->quoteName('a.registerDate') . ' >= '.$db->quote($dStart->format('Y-m-d H:i:s')).
+					' AND ' . $db->quoteName('a.registerDate') . ' <='.$db->quote($dNow->format('Y-m-d H:i:s'))
 				);
 			}
 		}

@@ -1,7 +1,10 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_templates
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -9,9 +12,9 @@ defined('_JEXEC') or die;
 /**
  * Templates component helper.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_templates
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_templates
+ * @since       1.6
  */
 class TemplatesHelper
 {
@@ -22,12 +25,12 @@ class TemplatesHelper
 	 */
 	public static function addSubmenu($vName)
 	{
-		JSubMenuHelper::addEntry(
+		JHtmlSidebar::addEntry(
 			JText::_('COM_TEMPLATES_SUBMENU_STYLES'),
 			'index.php?option=com_templates&view=styles',
 			$vName == 'styles'
 		);
-		JSubMenuHelper::addEntry(
+		JHtmlSidebar::addEntry(
 			JText::_('COM_TEMPLATES_SUBMENU_TEMPLATES'),
 			'index.php?option=com_templates&view=templates',
 			$vName == 'templates'
@@ -114,5 +117,49 @@ class TemplatesHelper
 		}
 
 		return $data;
+	}
+
+	/**
+	 * @since   3.0
+	 */
+	public static function getPositions($clientId, $templateDir)
+	{
+		$positions = array();
+
+		$templateBaseDir = $clientId ? JPATH_ADMINISTRATOR : JPATH_SITE;
+		$filePath = JPath::clean($templateBaseDir . '/templates/' . $templateDir . '/templateDetails.xml');
+
+		if (is_file($filePath))
+		{
+			// Read the file to see if it's a valid component XML file
+			$xml = simplexml_load_file($filePath);
+			if (!$xml)
+			{
+				return false;
+			}
+
+			// Check for a valid XML root tag.
+
+			// Extensions use 'extension' as the root tag.  Languages use 'metafile' instead
+
+			if ($xml->getName() != 'extension' && $xml->getName() != 'metafile')
+			{
+				unset($xml);
+				return false;
+			}
+
+			$positions = (array) $xml->positions;
+
+			if (isset($positions['position']))
+			{
+				$positions = $positions['position'];
+			}
+			else
+			{
+				$positions = array();
+			}
+		}
+
+		return $positions;
 	}
 }

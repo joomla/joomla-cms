@@ -37,30 +37,29 @@ abstract class JHtmlFilter
 		$user = JFactory::getUser();
 		$groups = implode(',', $user->getAuthorisedViewLevels());
 		$html = '';
-		$in = '';
 		$filter = null;
 
 		// Get the configuration options.
 		$filterId = array_key_exists('filter_id', $options) ? $options['filter_id'] : null;
 		$activeNodes = array_key_exists('selected_nodes', $options) ? $options['selected_nodes'] : array();
-		$activeDates = array_key_exists('selected_dates', $options) ? $options['selected_dates'] : array();
 		$classSuffix = array_key_exists('class_suffix', $options) ? $options['class_suffix'] : '';
 		$loadMedia = array_key_exists('load_media', $options) ? $options['load_media'] : true;
-		$showDates = array_key_exists('show_date_filters', $options) ? $options['show_date_filters'] : false;
 
 		// Load the predefined filter if specified.
 		if (!empty($filterId))
 		{
-			$query->select('f.' . $db->quoteName('data') . ', f.' . $db->quoteName('params'));
+			$query->select($db->quoteName('f.data') . ', ' . $db->quoteName('f.params'));
 			$query->from($db->quoteName('#__finder_filters') . ' AS f');
-			$query->where($db->quoteName('f').'.' . $db->quoteName('filter_id') . ' = ' . (int) $filterId);
+			$query->where($db->quoteName('f.filter_id') . ' = ' . (int) $filterId);
 
 			// Load the filter data.
 			$db->setQuery($query);
-			$filter = $db->loadObject();
 
-			// Check for an error.
-			if ($db->getErrorNum())
+			try
+			{
+				$filter = $db->loadObject();
+			}
+			catch (RuntimeException $e)
 			{
 				return null;
 			}
@@ -95,10 +94,12 @@ abstract class JHtmlFilter
 
 		// Load the branches.
 		$db->setQuery($query);
-		$branches = $db->loadObjectList('id');
 
-		// Check for an error.
-		if ($db->getErrorNum())
+		try
+		{
+			$branches = $db->loadObjectList('id');
+		}
+		catch (RuntimeException $e)
 		{
 			return null;
 		}
@@ -123,28 +124,29 @@ abstract class JHtmlFilter
 		$html .= '<div id="finder-filter-container">';
 		$html .= '<dl id="branch-selectors">';
 		$html .= '<dt>';
-		$html .= '<label for="tax-select-all">';
+		$html .= '<label for="tax-select-all" class="checkbox">';
 		$html .= '<input type="checkbox" id="tax-select-all" />';
 		$html .= JText::_('COM_FINDER_FILTER_SELECT_ALL_LABEL');
 		$html .= '</label>';
 		$html .= '</dt>';
+		$html .= '<div class="control-group">';
 
 		// Iterate through the branches to build the branch selector.
 		foreach ($branches as $bk => $bv)
 		{
 			// If the multi-lang plug-in is enabled then drop the language branch.
-			if ($bv->title == 'Language' && JLanguageMultilang::isEnabled()) {
+			if ($bv->title == 'Language' && JLanguageMultilang::isEnabled())
+			{
 				continue;
 			}
 
-			$html .= '<dd>';
-			$html .= '<label for="tax-' . $bk . '">';
+			$html .= '<label for="tax-' . $bk . '" class="checkbox">';
 			$html .= '<input type="checkbox" class="toggler" id="tax-' . $bk . '"/>';
 			$html .= JText::sprintf('COM_FINDER_FILTER_BRANCH_LABEL', JText::_(FinderHelperLanguage::branchSingular($bv->title)));
 			$html .= '</label>';
-			$html .= '</dd>';
 		}
 
+		$html .= '</div>';
 		$html .= '</dl>';
 		$html .= '<div id="finder-filter-container">';
 
@@ -152,7 +154,8 @@ abstract class JHtmlFilter
 		foreach ($branches as $bk => $bv)
 		{
 			// If the multi-lang plug-in is enabled then drop the language branch.
-			if ($bv->title == 'Language' && JLanguageMultilang::isEnabled()) {
+			if ($bv->title == 'Language' && JLanguageMultilang::isEnabled())
+			{
 				continue;
 			}
 
@@ -167,19 +170,23 @@ abstract class JHtmlFilter
 
 			// Load the branches.
 			$db->setQuery($query);
-			$nodes = $db->loadObjectList('id');
 
-			// Check for an error.
-			if ($db->getErrorNum())
+			try
+			{
+				$nodes = $db->loadObjectList('id');
+			}
+			catch (RuntimeException $e)
 			{
 				return null;
 			}
 
 			// Translate node titles if possible.
 			$lang = JFactory::getLanguage();
-			foreach ($nodes as $nk => $nv) {
+			foreach ($nodes as $nk => $nv)
+			{
 				$key = FinderHelperLanguage::branchPlural($nv->title);
-				if ($lang->hasKey($key)) {
+				if ($lang->hasKey($key))
+				{
 					$nodes[$nk]->title = JText::_($key);
 				}
 			}
@@ -187,11 +194,12 @@ abstract class JHtmlFilter
 			// Start the group.
 			$html .= '<dl class="checklist" rel="tax-' . $bk . '">';
 			$html .= '<dt>';
-			$html .= '<label for="tax-' . JFilterOutput::stringUrlSafe($bv->title) . '">';
+			$html .= '<label for="tax-' . JFilterOutput::stringUrlSafe($bv->title) . '" class="checkbox">';
 			$html .= '<input type="checkbox" class="branch-selector filter-branch' . $classSuffix . '" id="tax-' . JFilterOutput::stringUrlSafe($bv->title) . '" />';
 			$html .= JText::sprintf('COM_FINDER_FILTER_BRANCH_LABEL', JText::_(FinderHelperLanguage::branchSingular($bv->title)));
 			$html .= '</label>';
 			$html .= '</dt>';
+			$html .= '<div class="control-group">';
 
 			// Populate the group with nodes.
 			foreach ($nodes as $nk => $nv)
@@ -200,15 +208,14 @@ abstract class JHtmlFilter
 				$checked = in_array($nk, $activeNodes) ? ' checked="checked"' : '';
 
 				// Build a node.
-				$html .= '<dd>';
-				$html .= '<label for="tax-' . $nk . '">';
+				$html .= '<label for="tax-' . $nk . '" class="checkbox">';
 				$html .= '<input class="selector filter-node' . $classSuffix . '" type="checkbox" value="' . $nk . '" name="t[]" id="tax-' . $nk . '"' . $checked . ' />';
 				$html .= $nv->title;
 				$html .= '</label>';
-				$html .= '</dd>';
 			}
 
 			// Close the group.
+			$html .= '</div>';
 			$html .= '</dl>';
 		}
 
@@ -254,16 +261,18 @@ abstract class JHtmlFilter
 			// Load the predefined filter if specified.
 			if (!empty($query->filter))
 			{
-				$sql->select($db->quoteName('f') . '.' . $db->quoteName('data') . ', '. $db->quoteName('f') . '.' . $db->quoteName('params'));
+				$sql->select($db->quoteName('f.data') . ', '. $db->quoteName('f.params'));
 				$sql->from($db->quoteName('#__finder_filters') . ' AS f');
-				$sql->where($db->quoteName('f') . '.' . $db->quoteName('filter_id') . ' = ' . (int) $query->filter);
+				$sql->where($db->quoteName('f.filter_id') . ' = ' . (int) $query->filter);
 
 				// Load the filter data.
 				$db->setQuery($sql);
-				$filter = $db->loadObject();
 
-				// Check for an error.
-				if ($db->getErrorNum())
+				try
+				{
+					$filter = $db->loadObject();
+				}
+				catch (RuntimeException $e)
 				{
 					return null;
 				}
@@ -282,12 +291,12 @@ abstract class JHtmlFilter
 			$sql->select('t.*, count(c.id) AS children');
 			$sql->from($db->quoteName('#__finder_taxonomy') . ' AS t');
 			$sql->join('INNER', $db->quoteName('#__finder_taxonomy') . ' AS c ON c.parent_id = t.id');
-			$sql->where($db->quoteName('t') . '.' . $db->quoteName('parent_id') . ' = 1');
-			$sql->where($db->quoteName('t') . '.' . $db->quoteName('state') . ' = 1');
-			$sql->where($db->quoteName('t') . '.' . $db->quoteName('access') . ' IN (' . $groups . ')');
-			$sql->where($db->quoteName('c') . '.' . $db->quoteName('state') . ' = 1');
-			$sql->where($db->quoteName('t') . '.' . $db->quoteName('access') . ' IN (' . $groups . ')');
-			$sql->group($db->quoteName('t') . '.' . $db->quoteName('id'));
+			$sql->where($db->quoteName('t.parent_id') . ' = 1');
+			$sql->where($db->quoteName('t.state') . ' = 1');
+			$sql->where($db->quoteName('t.access') . ' IN (' . $groups . ')');
+			$sql->where($db->quoteName('c.state') . ' = 1');
+			$sql->where($db->quoteName('c.access') . ' IN (' . $groups . ')');
+			$sql->group($db->quoteName('t.id'));
 			$sql->order('t.ordering, t.title');
 
 			// Limit the branch children to a predefined filter.
@@ -298,10 +307,12 @@ abstract class JHtmlFilter
 
 			// Load the branches.
 			$db->setQuery($sql);
-			$branches = $db->loadObjectList('id');
 
-			// Check for an error.
-			if ($db->getErrorNum())
+			try
+			{
+				$branches = $db->loadObjectList('id');
+			}
+			catch (RuntimeException $e)
 			{
 				return null;
 			}
@@ -312,12 +323,12 @@ abstract class JHtmlFilter
 				return null;
 			}
 
-
 			// Iterate through the branches and build the branch groups.
 			foreach ($branches as $bk => $bv)
 			{
 				// If the multi-lang plug-in is enabled then drop the language branch.
-				if ($bv->title == 'Language' && JLanguageMultilang::isEnabled()) {
+				if ($bv->title == 'Language' && JLanguageMultilang::isEnabled())
+				{
 					continue;
 				}
 
@@ -325,9 +336,9 @@ abstract class JHtmlFilter
 				$sql->clear();
 				$sql->select('t.*');
 				$sql->from($db->quoteName('#__finder_taxonomy') . ' AS t');
-				$sql->where($db->quoteName('t') . '.' . $db->quoteName('parent_id') . ' = ' . (int) $bk);
-				$sql->where($db->quoteName('t') . '.' . $db->quoteName('state') . ' = 1');
-				$sql->where($db->quoteName('t') . '.' . $db->quoteName('access') . ' IN (' . $groups . ')');
+				$sql->where($db->quoteName('t.parent_id') . ' = ' . (int) $bk);
+				$sql->where($db->quoteName('t.state') . ' = 1');
+				$sql->where($db->quoteName('t.access') . ' IN (' . $groups . ')');
 				$sql->order('t.ordering, t.title');
 
 				// Limit the nodes to a predefined filter.
@@ -338,19 +349,23 @@ abstract class JHtmlFilter
 
 				// Load the branches.
 				$db->setQuery($sql);
-				$branches[$bk]->nodes = $db->loadObjectList('id');
 
-				// Check for an error.
-				if ($db->getErrorNum())
+				try
+				{
+					$branches[$bk]->nodes = $db->loadObjectList('id');
+				}
+				catch (RuntimeException $e)
 				{
 					return null;
 				}
 
 				// Translate branch nodes if possible.
 				$language = JFactory::getLanguage();
-				foreach($branches[$bk]->nodes as $node_id => $node) {
+				foreach ($branches[$bk]->nodes as $node_id => $node)
+				{
 					$key = FinderHelperLanguage::branchPlural($node->title);
-					if ($language->hasKey($key)) {
+					if ($language->hasKey($key))
+					{
 						$branches[$bk]->nodes[$node_id]->title = JText::_($key);
 					}
 				}
@@ -371,13 +386,14 @@ abstract class JHtmlFilter
 			$html .= JHtml::_('filter.dates', $query, $options);
 		}
 
-		$html .= '<ul id="finder-filter-select-list">';
+		$html .= '<div id="finder-filter-select-list" class="form-horizontal">';
 
 		// Iterate through all branches and build code.
 		foreach ($branches as $bk => $bv)
 		{
 			// If the multi-lang plug-in is enabled then drop the language branch.
-			if ($bv->title == 'Language' && JLanguageMultilang::isEnabled()) {
+			if ($bv->title == 'Language' && JLanguageMultilang::isEnabled())
+			{
 				continue;
 			}
 
@@ -394,16 +410,18 @@ abstract class JHtmlFilter
 				$active = count($active) === 1 ? array_shift($active) : null;
 			}
 
-			$html .= '<li class="filter-branch' . $classSuffix . '">';
-			$html .= '<label for="tax-' . JFilterOutput::stringUrlSafe($bv->title) . '">';
+			$html .= '<div class="filter-branch' . $classSuffix . ' control-group">';
+			$html .= '<label for="tax-' . JFilterOutput::stringUrlSafe($bv->title) . '" class="control-label">';
 			$html .= JText::sprintf('COM_FINDER_FILTER_BRANCH_LABEL', JText::_(FinderHelperLanguage::branchSingular($bv->title)));
 			$html .= '</label>';
+			$html .= '<div class="controls">';
 			$html .= JHtml::_('select.genericlist', $branches[$bk]->nodes, 't[]', 'class="inputbox"', 'id', 'title', $active, 'tax-' . JFilterOutput::stringUrlSafe($bv->title));
-			$html .= '</li>';
+			$html .= '</div>';
+			$html .= '</div>';
 		}
 
 		// Close the widget.
-		$html .= '</ul>';
+		$html .= '</div>';
 
 		// Load the CSS/JS resources.
 		if ($loadMedia)

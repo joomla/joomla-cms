@@ -1,19 +1,22 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  mod_menu
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
 
-jimport('joomla.base.tree');
-
 /**
- * @package		Joomla.Administrator
- * @subpackage	mod_menu
+ * Tree based class to render the admin menu
+ *
+ * @package     Joomla.Administrator
+ * @subpackage  mod_menu
+ * @since       1.5
  */
-class JAdminCssMenu extends JTree
+class JAdminCssMenu extends JObject
 {
 	/**
 	 * CSS string to add to document head
@@ -21,27 +24,81 @@ class JAdminCssMenu extends JTree
 	 */
 	protected $_css = null;
 
-	function __construct()
+	/**
+	 * Root node
+	 *
+	 * @var    object
+	 */
+	protected $_root = null;
+
+	/**
+	 * Current working node
+	 *
+	 * @var    object
+	 */
+	protected $_current = null;
+
+	/**
+	 * Constructor
+	 */
+	public function __construct()
 	{
 		$this->_root = new JMenuNode('ROOT');
 		$this->_current = & $this->_root;
 	}
 
-	function addSeparator()
+	/**
+	 * Method to add a child
+	 *
+	 * @param   JMenuNode  &$node       The node to process
+	 * @param   boolean    $setCurrent  True to set as current working node
+	 *
+	 * @return  void
+	 */
+	public function addChild(JMenuNode &$node, $setCurrent = false)
+	{
+		$this->_current->addChild($node);
+		if ($setCurrent)
+		{
+			$this->_current = &$node;
+		}
+	}
+
+	/**
+	 * Method to get the parent
+	 *
+	 * @return  void
+	 */
+	public function getParent()
+	{
+		$this->_current = &$this->_current->getParent();
+	}
+
+	/**
+	 * Method to get the parent
+	 *
+	 * @return  void
+	 */
+	public function reset()
+	{
+		$this->_current = &$this->_root;
+	}
+
+	public function addSeparator()
 	{
 		$this->addChild(new JMenuNode(null, null, 'separator', false));
 	}
 
-	function renderMenu($id = 'menu', $class = '')
+	public function renderMenu($id = 'menu', $class = '')
 	{
 		$depth = 1;
 
 		if (!empty($id)) {
-			$id='id="'.$id.'"';
+			$id = 'id="' . $id . '"';
 		}
 
 		if (!empty($class)) {
-			$class='class="'.$class.'"';
+			$class = 'class="' . $class . '"';
 		}
 
 		/*
@@ -65,21 +122,29 @@ class JAdminCssMenu extends JTree
 		}
 	}
 
-	function renderLevel($depth)
+	public function renderLevel($depth)
 	{
 		/*
 		 * Build the CSS class suffix
 		 */
 		$class = '';
-		if ($this->_current->hasChildren()) {
-			$class = ' class="node"';
+		if ($this->_current->hasChildren())
+		{
+			$class = ' class="dropdown"';
 		}
 
-		if ($this->_current->class == 'separator') {
-			$class = ' class="separator"';
+		if ($this->_current->class == 'separator')
+		{
+			$class = ' class="divider"';
 		}
 
-		if ($this->_current->class == 'disabled') {
+		if ($this->_current->hasChildren() && $this->_current->class)
+		{
+			$class = ' class="dropdown-submenu"';
+		}
+
+		if ($this->_current->class == 'disabled')
+		{
 			$class = ' class="disabled"';
 		}
 
@@ -93,20 +158,24 @@ class JAdminCssMenu extends JTree
 		 */
 
 		$linkClass = '';
+		$dataToggle = '';
+		$dropdownCaret = '';
 
-		if ($this->_current->link != null) {
-			$linkClass = $this->getIconClass($this->_current->class);
-			if (!empty($linkClass)) {
-				$linkClass = ' class="'.$linkClass.'"';
-			}
+		if ($this->_current->hasChildren()) {
+				$linkClass = ' class="dropdown-toggle"';
+				$dataToggle = ' data-toggle="dropdown"';
+				if(!$this->_current->getParent()->hasParent())
+				{
+					$dropdownCaret = ' <span class="caret"></span>';
+				}
 		}
 
 		if ($this->_current->link != null && $this->_current->target != null) {
-			echo "<a".$linkClass." href=\"".$this->_current->link."\" target=\"".$this->_current->target."\" >".$this->_current->title."</a>";
+			echo "<a".$linkClass." ".$dataToggle." href=\"".$this->_current->link."\" target=\"".$this->_current->target."\" >".$this->_current->title.$dropdownCaret."</a>";
 		} elseif ($this->_current->link != null && $this->_current->target == null) {
-			echo "<a".$linkClass." href=\"".$this->_current->link."\">".$this->_current->title."</a>";
+			echo "<a".$linkClass." ".$dataToggle." href=\"".$this->_current->link."\">".$this->_current->title.$dropdownCaret."</a>";
 		} elseif ($this->_current->title != null) {
-			echo "<a>".$this->_current->title."</a>\n";
+			echo "<a".$linkClass." ".$dataToggle.">".$this->_current->title.$dropdownCaret."</a>";
 		} else {
 			echo "<span></span>";
 		}
@@ -121,9 +190,9 @@ class JAdminCssMenu extends JTree
 				if (!empty($this->_current->id)) {
 					$id = ' id="menu-'.strtolower($this->_current->id).'"';
 				}
-				echo '<ul'.$id.' class="menu-component">'."\n";
+				echo '<ul'.$id.' class="dropdown-menu menu-component">'."\n";
 			} else {
-				echo '<ul>'."\n";
+				echo '<ul class="dropdown-menu">'."\n";
 			}
 			foreach ($this->_current->getChildren() as $child)
 			{
@@ -144,7 +213,7 @@ class JAdminCssMenu extends JTree
 	 * @return	string	CSS class name
 	 * @since	1.5
 	 */
-	function getIconClass($identifier)
+	public function getIconClass($identifier)
 	{
 		static $classes;
 
@@ -182,10 +251,14 @@ class JAdminCssMenu extends JTree
 }
 
 /**
- * @package		Joomla.Administrator
- * @subpackage	mod_menu
+ * A Node for JAdminCssMenu
+ *
+ * @package     Joomla.Administrator
+ * @subpackage  mod_menu
+ * @since       1.5
+ * @see         JAdminCssMenu
  */
-class JMenuNode extends JNode
+class JMenuNode extends JObject
 {
 	/**
 	 * Node Title
@@ -217,6 +290,19 @@ class JMenuNode extends JNode
 	 */
 	public $active = false;
 
+	/**
+	 * Parent node
+	 * @var    object
+	 */
+	protected $_parent = null;
+
+	/**
+	 * Array of Children
+	 *
+	 * @var    array
+	 */
+	protected $_children = array();
+
 	public function __construct($title, $link = null, $class = null, $active = false, $target = null, $titleicon = null)
 	{
 		$this->title	= $titleicon ? $title.$titleicon : $title;
@@ -230,13 +316,91 @@ class JMenuNode extends JNode
 			$params = $uri->getQuery(true);
 			$parts = array();
 
-			foreach ($params as $name => $value) {
+			foreach ($params as $name => $value)
+			{
 				$parts[] = str_replace(array('.', '_'), '-', $value);
- 			}
+			}
 
- 			$this->id = implode('-', $parts);
+			$this->id = implode('-', $parts);
 		}
 
 		$this->target	= $target;
+	}
+
+	/**
+	 * Add child to this node
+	 *
+	 * If the child already has a parent, the link is unset
+	 *
+	 * @param   JMenuNode  &$child  The child to be added
+	 *
+	 * @return  void
+	 */
+	public function addChild(JMenuNode &$child)
+	{
+		$child->setParent($this);
+	}
+
+	/**
+	 * Set the parent of a this node
+	 *
+	 * If the node already has a parent, the link is unset
+	 *
+	 * @param   JMenuNode   &$parent  The JMenuNode for parent to be set or null
+	 *
+	 * @return  void
+	 */
+	public function setParent(JMenuNode &$parent = null)
+	{
+		$hash = spl_object_hash($this);
+		if (!is_null($this->_parent))
+		{
+			unset($this->_parent->children[$hash]);
+		}
+		if (!is_null($parent))
+		{
+			$parent->_children[$hash] = & $this;
+		}
+		$this->_parent = & $parent;
+	}
+
+	/**
+	 * Get the children of this node
+	 *
+	 * @return  array    The children
+	 */
+	public function &getChildren()
+	{
+		return $this->_children;
+	}
+
+	/**
+	 * Get the parent of this node
+	 *
+	 * @return  mixed   JMenuNode object with the parent or null for no parent
+	 */
+	public function &getParent()
+	{
+		return $this->_parent;
+	}
+
+	/**
+	 * Test if this node has children
+	 *
+	 * @return   boolean  True if there are children
+	 */
+	public function hasChildren()
+	{
+		return (bool) count($this->_children);
+	}
+
+	/**
+	 * Test if this node has a parent
+	 *
+	 * @return  boolean  True if there is a parent
+	 */
+	public function hasParent()
+	{
+		return $this->getParent() != null;
 	}
 }

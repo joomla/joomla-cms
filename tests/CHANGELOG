@@ -26,14 +26,68 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
-18-June-2012 Mark Dexter
+20-Sep-2012 Mark Dexter
+ # Fix some more system tests
+
+17-Sep-2012 Mark Dexter
+ # Fix up system tests output changes
+
+09-Sep-2012 Rouven Weßling
+ - Test the Feed package. Thanks Michael.
+ - Add a test for JAdministratorHelper.
+
+05-Sep-2012 Mark Dexter
+ # Fix some failing system tests for changes in master
+ # Select old sample data in doInstall
+
+02-Sep-2012 Mark Dexter
+ # Yet another fix for reorder mouse movement in controlpanel0004Test
+
+01-Sep-2012 Mark Dexter
+ # Fix reorder mouse movement in controlpanel0004Test
+
+01-Sep-2012 Rouven Weßling
+ - Removed the xx-XX testing language.
+
+29-Aug-2012 Mark Dexter
+ # Fix controlPanel0004Test system test
+
+29-Aug-2012 Rouven Weßling
+ + Import unit tests for JHtmlBatch from the platform.
+
+25-Aug-2012 Mark Dexter
+ + Unit test framework for CMS. Thanks Michael.
+
+20-Aug-2012 Rouven Weßling
+ + Add setup for unit testing. Thanks Michael.
+
+24-Aug-2012 Mark Dexter
+ # Fix first batch of system tests for 3.0 with Bootstrap templates
+ # Fix two more system tests
+
+30-Jul-2012 Mark Dexter
+ ^ Add ability to capture screenshots on failure for system tests
+
+09-Jul-2012 Mark Dexter
+ ^ Detect notices in modals and popups
+
+05-Jul-2012 Mark Dexter
+ # Fix installation to chmod configuration before delete
+
+30-Jun-2012 Mark Dexter
+ # More fixes for Selenium RC2 -- don't use TinyMCE for tests
+
+26-Jun-2012 Mark Dexter
+ # Fixes for Selenium RC2 and Google Chrome browser
+
+18-Jun-2012 Mark Dexter
  ^ Update phpunit.php for debugging system tests
 
 05-May-2012 Mark Dexter
  ^ Update phpunit.php for PHPUnit version 3.5
 
 04-May-2012 Mark Dexter
- # Fix PHP strict error 
+ # Fix PHP strict error
 
 02-May-2012 Mark Dexter
  ^ Change system test suite to work with PHPUnit version 3.6
@@ -84,7 +138,7 @@ $ -> Language fix or change
  # Fix system test for changed message
 
 06-Jul-2011 Mark Dexter
- ^ Force test db prefix to jos_ 
+ ^ Force test db prefix to jos_
 
 04-Jul-2011 Mark Dexter
  # Fix failing system test
@@ -173,7 +227,7 @@ $ -> Language fix or change
  # [#22648] function isCompatible incorrectly checks current version (Mark Dexter)
 
 08-Dec-2010 Mark Dexter
-# Fix failing sample_data0001Test.php 
+# Fix failing sample_data0001Test.php
 ^ Add option to doInstall.php to set hathor as default admin template
 
 06-Dec-2010 Christophe Demko
@@ -354,13 +408,13 @@ $ -> Language fix or change
 
 07-Jun-2010 Mark Dexter
 + New system test for featured blog ordering
-# Clean up doc blocks for system tests 
+# Clean up doc blocks for system tests
 
 04-Jun-2010 Mark Dexter
 ^ Improvements to SeleniumJoomlaTestCase. (Matt Thomas)
 
 30-May-2010 Mark Dexter
-# JLanguageTest fixes and improvements. Thanks Tudor Mazilu!  
+# JLanguageTest fixes and improvements. Thanks Tudor Mazilu!
 
 28-May-2010 Mark Dexter
 # Fix broken acl0001Test.php system test

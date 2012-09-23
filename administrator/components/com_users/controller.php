@@ -1,22 +1,22 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_users
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.controller');
 
 /**
  * Users master display controller.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_users
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_users
+ * @since       1.6
  */
-class UsersController extends JController
+class UsersController extends JControllerLegacy
 {
 	/**
 	 * Checks whether a user can see this view.
@@ -57,12 +57,9 @@ class UsersController extends JController
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{
-		// Load the submenu.
-		UsersHelper::addSubmenu(JRequest::getCmd('view', 'users'));
-
-		$view		= JRequest::getCmd('view', 'users');
-		$layout 	= JRequest::getCmd('layout', 'default');
-		$id			= JRequest::getInt('id');
+		$view   = $this->input->get('view', 'users');
+		$layout = $this->input->get('layout', 'default');
+		$id     = $this->input->getInt('id');
 
 		if (!$this->canView($view)) {
 			JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
@@ -99,7 +96,7 @@ class UsersController extends JController
 			// Somehow the person just went to the form - we don't allow that.
 			$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id));
 			$this->setMessage($this->getError(), 'error');
-			$this->setRedirect(JRoute::_('index.php?option=com_users&view=groups', false));
+			$this->setRedirect(JRoute::_('index.php?option=com_users&view=notes', false));
 
 			return false;
 		}

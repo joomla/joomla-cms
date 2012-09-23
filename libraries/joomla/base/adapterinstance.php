@@ -29,7 +29,7 @@ class JAdapterInstance extends JObject
 	/**
 	 * Database
 	 *
-	 * @var    JDatabase
+	 * @var    JDatabaseDriver
 	 * @since  11.1
 	 */
 	protected $db = null;
@@ -37,19 +37,19 @@ class JAdapterInstance extends JObject
 	/**
 	 * Constructor
 	 *
-	 * @param   JAdapter   &$parent  Parent object
-	 * @param   JDatabase  &$db      Database object
-	 * @param   array      $options  Configuration Options
+	 * @param   JAdapter         $parent   Parent object
+	 * @param   JDatabaseDriver  $db       Database object
+	 * @param   array            $options  Configuration Options
 	 *
 	 * @since   11.1
 	 */
-	public function __construct(&$parent, &$db, $options = array())
+	public function __construct($parent, $db, $options = array())
 	{
 		// Set the properties from the options array that is passed in
 		$this->setProperties($options);
 
 		// Set the parent and db in case $options for some reason overrides it.
-		$this->parent = &$parent;
+		$this->parent = $parent;
 
 		// Pull in the global dbo in case something happened to it.
 		$this->db = $db ? $db : JFactory::getDBO();

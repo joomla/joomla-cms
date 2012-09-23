@@ -1,22 +1,22 @@
 <?php
 /**
- * @package		Joomla.Site
- * @subpackage	com_content
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  com_content
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
 
-require_once dirname(__FILE__) . '/articles.php';
+require_once __DIR__ . '/articles.php';
 
 /**
  * Frontpage Component Model
  *
- * @package		Joomla.Site
- * @subpackage	com_content
- * @since 1.5
+ * @package     Joomla.Site
+ * @subpackage  com_content
+ * @since       1.5
  */
 class ContentModelFeatured extends ContentModelArticles
 {
@@ -38,8 +38,11 @@ class ContentModelFeatured extends ContentModelArticles
 	{
 		parent::populateState($ordering, $direction);
 
+		$input = JFactory::getApplication()->input;
+		$user  = JFactory::getUser();
+
 		// List state information
-		$limitstart = JRequest::getUInt('limitstart', 0);
+		$limitstart = $input->getUInt('limitstart', 0);
 		$this->setState('list.start', $limitstart);
 
 		$params = $this->state->params;
@@ -49,7 +52,6 @@ class ContentModelFeatured extends ContentModelArticles
 
 		$this->setState('filter.frontpage', true);
 
-		$user		= JFactory::getUser();
 		if ((!$user->authorise('core.edit.state', 'com_content')) &&  (!$user->authorise('core.edit', 'com_content'))){
 			// filter on published for those who do not have edit or edit.state rights.
 			$this->setState('filter.published', 1);
@@ -59,10 +61,11 @@ class ContentModelFeatured extends ContentModelArticles
 		}
 
 		// check for category selection
-		if ($params->get('featured_categories') && implode(',', $params->get('featured_categories'))  == true) {
+		if ($params->get('featured_categories') && implode(',', $params->get('featured_categories')) == true)
+		{
 			$featuredCategories = $params->get('featured_categories');
- 			$this->setState('filter.frontpage.categories', $featuredCategories);
- 		}
+			$this->setState('filter.frontpage.categories', $featuredCategories);
+		}
 	}
 
 	/**
@@ -105,7 +108,7 @@ class ContentModelFeatured extends ContentModelArticles
 	/**
 	 * @return	JDatabaseQuery
 	 */
-	function getListQuery()
+	protected function getListQuery()
 	{
 		// Set the blog ordering
 		$params = $this->state->params;
@@ -131,7 +134,6 @@ class ContentModelFeatured extends ContentModelArticles
 		if (is_array($featuredCategories = $this->getState('filter.frontpage.categories'))) {
 			$query->where('a.catid IN (' . implode(',', $featuredCategories) . ')');
 		}
-
 
 		return $query;
 	}

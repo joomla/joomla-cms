@@ -1,18 +1,20 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Plugin
+ * @subpackage  Editors.codemirror
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
 /**
  * CodeMirror Editor Plugin.
  *
- * @package		Joomla.Plugin
- * @subpackage	Editors.codemirror
- * @since		1.6
+ * @package     Joomla.Plugin
+ * @subpackage  Editors.codemirror
+ * @since       1.6
  */
 class plgEditorCodemirror extends JPlugin
 {
@@ -28,7 +30,7 @@ class plgEditorCodemirror extends JPlugin
 	 */
 	public function onInit()
 	{
-		JHtml::_('core');
+		JHtml::_('behavior.framework');
 		$uncompressed	= JFactory::getApplication()->getCfg('debug') ? '-uncompressed' : '';
 		JHtml::_('script', $this->_basePath . 'js/codemirror'.$uncompressed.'.js', false, false, false, false);
 		JHtml::_('stylesheet', $this->_basePath . 'css/codemirror.css');
@@ -164,7 +166,6 @@ class plgEditorCodemirror extends JPlugin
 					break;
 
 				default:
-					;
 					break;
 			} //switch
 		}
@@ -237,21 +238,23 @@ class plgEditorCodemirror extends JPlugin
 
 			// This will allow plugins to attach buttons or change the behavior on the fly using AJAX
 			$html[] = '<div id="editor-xtd-buttons">';
+			$html[] = '<div class="btn-toolbar">';
 
 			foreach ($results as $button)
 			{
 				// Results should be an object
 				if ($button->get('name')) {
-					$modal		= ($button->get('modal')) ? 'class="modal-button"' : null;
-					$href		= ($button->get('link')) ? 'href="'.JURI::base().$button->get('link').'"' : null;
+					$modal		= ($button->get('modal')) ? 'class="modal-button btn"' : null;
+					$href		= ($button->get('link')) ? ' class="btn" href="'.JURI::base().$button->get('link').'"' : null;
 					$onclick	= ($button->get('onclick')) ? 'onclick="'.$button->get('onclick').'"' : null;
 					$title      = ($button->get('title')) ? $button->get('title') : $button->get('text');
-					$html[] = '<div class="button2-left"><div class="'.$button->get('name').'">';
 					$html[] = '<a '.$modal.' title="'.$title.'" '.$href.' '.$onclick.' rel="'.$button->get('options').'">';
-					$html[] = $button->get('text').'</a></div></div>';
+					$html[] = '<i class="icon-' . $button->get('name'). '"></i> ';
+					$html[] = $button->get('text').'</a>';
 				}
 			}
 
+			$html[] = '</div>';
 			$html[] = '</div>';
 		}
 

@@ -1,9 +1,10 @@
 <?php
 /**
- * @package		Joomla.Site
- * @subpackage	com_weblinks
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  com_weblinks
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -11,9 +12,9 @@ defined('_JEXEC') or die;
 /**
  * Weblinks Component Controller
  *
- * @package		Joomla.Site
- * @subpackage	com_weblinks
- * @since 1.5
+ * @package     Joomla.Site
+ * @subpackage  com_weblinks
+ * @since       1.5
  */
 class WeblinksController extends JControllerLegacy
 {
@@ -28,18 +29,17 @@ class WeblinksController extends JControllerLegacy
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{
-		// Initialise variables.
 		$cachable	= true;	// Huh? Why not just put that in the constructor?
 		$user		= JFactory::getUser();
 
 		// Set the default view name and format from the Request.
 		// Note we are using w_id to avoid collisions with the router and the return page.
 		// Frontend is a bit messier than the backend.
-		$id		= JRequest::getInt('w_id');
-		$vName	= JRequest::getCmd('view', 'categories');
-		JRequest::setVar('view', $vName);
+		$id    = $this->input->getInt('w_id');
+		$vName = $this->input->get('view', 'categories');
+		$this->input->set('view', $vName);
 
-		if ($user->get('id') ||($_SERVER['REQUEST_METHOD'] == 'POST' && $vName = 'categories')) {
+		if ($user->get('id') ||($this->input->getMethod() == 'POST' && $vName = 'categories')) {
 			$cachable = false;
 		}
 

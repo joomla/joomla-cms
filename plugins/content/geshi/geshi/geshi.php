@@ -1342,7 +1342,7 @@ class GeSHi {
      * @since 1.0.0
      */
     function set_tab_width($width) {
-        $this->tab_width = intval($width);
+        $this->tab_width = (int) $width;
 
         //Check if it fit's the constraints:
         if ($this->tab_width < 1) {
@@ -1813,7 +1813,7 @@ class GeSHi {
             }
         } else {
             //Mark the line as being highlighted specially
-            $lines = intval($lines);
+            $lines = (int) $lines;
             $this->highlight_extra_lines[$lines] = $lines;
 
             //Decide on which style to use
@@ -1864,7 +1864,7 @@ class GeSHi {
      * @since 1.0.2
      */
     function start_line_numbers_at($number) {
-        $this->line_numbers_start = abs(intval($number));
+        $this->line_numbers_start = abs((int) $number);
     }
 
     /**

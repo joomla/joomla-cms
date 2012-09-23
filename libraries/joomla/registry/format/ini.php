@@ -35,7 +35,6 @@ class JRegistryFormatINI extends JRegistryFormat
 	 */
 	public function objectToString($object, $options = array())
 	{
-		// Initialize variables.
 		$local = array();
 		$global = array();
 
@@ -75,19 +74,9 @@ class JRegistryFormatINI extends JRegistryFormat
 	 *
 	 * @since   11.1
 	 */
-	public function stringToObject($data, $options = array())
+	public function stringToObject($data, array $options = array())
 	{
-		// Initialise options.
-		if (is_array($options))
-		{
-			$sections = (isset($options['processSections'])) ? $options['processSections'] : false;
-		}
-		else
-		{
-			// Backward compatibility for 1.5 usage.
-			//@deprecated
-			$sections = (boolean) $options;
-		}
+		$sections = (isset($options['processSections'])) ? $options['processSections'] : false;
 
 		// Check the memory cache for already processed strings.
 		$hash = md5($data . ':' . (int) $sections);
@@ -102,7 +91,6 @@ class JRegistryFormatINI extends JRegistryFormat
 			return new stdClass;
 		}
 
-		// Initialize variables.
 		$obj = new stdClass;
 		$section = false;
 		$lines = explode("\n", $data);
@@ -218,7 +206,6 @@ class JRegistryFormatINI extends JRegistryFormat
 	 */
 	protected function getValueAsINI($value)
 	{
-		// Initialize variables.
 		$string = '';
 
 		switch (gettype($value))

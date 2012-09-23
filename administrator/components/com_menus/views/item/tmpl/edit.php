@@ -1,9 +1,10 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_menus
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_menus
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -16,6 +17,8 @@ JHtml::_('behavior.framework');
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
 JHtml::_('behavior.modal');
+JHtml::_('formbehavior.chosen', 'select');
+
 ?>
 
 <script type="text/javascript">
@@ -43,97 +46,219 @@ JHtml::_('behavior.modal');
 	}
 </script>
 
-<form action="<?php echo JRoute::_('index.php?option=com_menus&layout=edit&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
-
-<div class="width-60 fltlft">
-	<fieldset class="adminform">
-		<legend><?php echo JText::_('COM_MENUS_ITEM_DETAILS');?></legend>
-			<ul class="adminformlist">
-
-				<li><?php echo $this->form->getLabel('type'); ?>
-				<?php echo $this->form->getInput('type'); ?></li>
-
-				<li><?php echo $this->form->getLabel('title'); ?>
-				<?php echo $this->form->getInput('title'); ?></li>
-
-				<?php if ($this->item->type =='url'): ?>
-					<?php $this->form->setFieldAttribute('link', 'readonly', 'false');?>
-					<li><?php echo $this->form->getLabel('link'); ?>
-					<?php echo $this->form->getInput('link'); ?></li>
-				<?php endif; ?>
-
-				<?php if ($this->item->type == 'alias'): ?>
-					<li> <?php echo $this->form->getLabel('aliastip'); ?></li>
-				<?php endif; ?>
-
-				<?php if ($this->item->type !='url'): ?>
-					<li><?php echo $this->form->getLabel('alias'); ?>
-					<?php echo $this->form->getInput('alias'); ?></li>
-				<?php endif; ?>
-
-				<li><?php echo $this->form->getLabel('note'); ?>
-				<?php echo $this->form->getInput('note'); ?></li>
-
-				<?php if ($this->item->type !=='url'): ?>
-					<li><?php echo $this->form->getLabel('link'); ?>
-					<?php echo $this->form->getInput('link'); ?></li>
-				<?php endif ?>
-
-				<li><?php echo $this->form->getLabel('published'); ?>
-				<?php echo $this->form->getInput('published'); ?></li>
-
-				<li><?php echo $this->form->getLabel('access'); ?>
-				<?php echo $this->form->getInput('access'); ?></li>
-
-				<li><?php echo $this->form->getLabel('menutype'); ?>
-				<?php echo $this->form->getInput('menutype'); ?></li>
-
-				<li><?php echo $this->form->getLabel('parent_id'); ?>
-				<?php echo $this->form->getInput('parent_id'); ?></li>
-
-				<li><?php echo $this->form->getLabel('menuordering'); ?>
-				<?php echo $this->form->getInput('menuordering'); ?></li>
-
-				<li><?php echo $this->form->getLabel('browserNav'); ?>
-				<?php echo $this->form->getInput('browserNav'); ?></li>
-
-				<?php if ($this->item->type == 'component') : ?>
-					<li><?php echo $this->form->getLabel('home'); ?>
-					<?php echo $this->form->getInput('home'); ?></li>
-				<?php endif; ?>
-
-				<li><?php echo $this->form->getLabel('language'); ?>
-				<?php echo $this->form->getInput('language'); ?></li>
-
-				<li><?php echo $this->form->getLabel('template_style_id'); ?>
-				<?php echo $this->form->getInput('template_style_id'); ?></li>
-
-				<li><?php echo $this->form->getLabel('id'); ?>
-				<?php echo $this->form->getInput('id'); ?></li>
+<form action="<?php echo JRoute::_('index.php?option=com_menus&layout=edit&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate form-horizontal">
+	<fieldset>
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="#details" data-toggle="tab"><?php echo JText::_('COM_MENUS_ITEM_DETAILS');?></a></li>
+			<li><a href="#options" data-toggle="tab"><?php echo JText::_('COM_MENUS_ADVANCED_FIELDSET_LABEL');?></a></li>
+			<?php if (!empty($this->modules)) : ?>
+				<li><a href="#modules" data-toggle="tab"><?php echo JText::_('COM_MENUS_ITEM_MODULE_ASSIGNMENT');?></a></li>
+			<?php endif; ?>
 		</ul>
+		<div class="tab-content">
+			<div class="tab-pane active" id="details">
+				<div class="row-fluid">
+					<div class="span6">
+						<div class="control-group">
+							<div class="control-label">
+								<?php echo $this->form->getLabel('published'); ?>
+							</div>
+							<div class="controls">
+								<?php echo $this->form->getInput('published'); ?>
+							</div>
+						</div>
 
+						<div class="control-group">
+							<div class="control-label">
+								<?php echo $this->form->getLabel('type'); ?>
+							</div>
+							<div class="controls">
+								<?php echo $this->form->getInput('type'); ?>
+							</div>
+						</div>
+
+						<?php
+							$fieldSets = $this->form->getFieldsets('request');
+
+							if (!empty($fieldSets)) :
+								$fieldSet = array_shift($fieldSets);
+								$label = !empty($fieldSet->label) ? $fieldSet->label : 'COM_MENUS_'.$fieldSet->name.'_FIELDSET_LABEL';
+								if (isset($fieldSet->description) && trim($fieldSet->description)) :
+									echo '<p class="tip">'.$this->escape(JText::_($fieldSet->description)).'</p>';
+								endif;
+							?>
+									<?php $hidden_fields = ''; ?>
+										<?php foreach ($this->form->getFieldset('request') as $field) : ?>
+										<?php if (!$field->hidden) : ?>
+										<div class="control-group">
+											<div class="control-label">
+												<?php echo $field->label; ?>
+											</div>
+											<div class="controls">
+												<?php echo $field->input; ?>
+											</div>
+										</div>
+										<?php else : $hidden_fields .= $field->input; ?>
+										<?php endif; ?>
+										<?php endforeach; ?>
+									<?php echo $hidden_fields; ?>
+						<?php endif; ?>
+
+						<div class="control-group">
+							<div class="control-label">
+								<?php echo $this->form->getLabel('title'); ?>
+							</div>
+							<div class="controls">
+								<?php echo $this->form->getInput('title'); ?>
+							</div>
+						</div>
+						<?php if ($this->item->type == 'url'): ?>
+							<?php $this->form->setFieldAttribute('link', 'readonly', 'false');?>
+							<div class="control-group">
+								<div class="control-label">
+									<?php echo $this->form->getLabel('link'); ?>
+								</div>
+								<div class="controls">
+									<?php echo $this->form->getInput('link'); ?>
+								</div>
+							</div>
+						<?php endif; ?>
+
+						<?php if ($this->item->type == 'alias'): ?>
+							<div class="control-group">
+								<div class="control-label">
+									<?php echo $this->form->getLabel('aliastip'); ?>
+								</div>
+							</div>
+						<?php endif; ?>
+
+						<?php if ($this->item->type != 'url'): ?>
+							<div class="control-group">
+								<div class="control-label">
+									<?php echo $this->form->getLabel('alias'); ?>
+								</div>
+								<div class="controls">
+									<?php echo $this->form->getInput('alias'); ?>
+								</div>
+							</div>
+						<?php endif; ?>
+
+						<?php if ($this->item->type !== 'url'): ?>
+							<div class="control-group">
+								<div class="control-label">
+									<?php echo $this->form->getLabel('link'); ?>
+								</div>
+								<div class="controls">
+									<?php echo $this->form->getInput('link'); ?>
+								</div>
+							</div>
+						<?php endif ?>
+
+
+
+						<div class="control-group">
+							<div class="control-label">
+								<?php echo $this->form->getLabel('menutype'); ?>
+							</div>
+							<div class="controls">
+								<?php echo $this->form->getInput('menutype'); ?>
+							</div>
+						</div>
+
+						<div class="control-group">
+							<div class="control-label">
+								<?php echo $this->form->getLabel('parent_id'); ?>
+							</div>
+							<div class="controls">
+								<?php echo $this->form->getInput('parent_id'); ?>
+							</div>
+						</div>
+
+						<div class="control-group">
+							<div class="control-label">
+								<?php echo $this->form->getLabel('menuordering'); ?>
+							</div>
+							<div class="controls">
+								<?php echo $this->form->getInput('menuordering'); ?>
+							</div>
+						</div>
+
+					</div>
+					<div class="span6">
+						<div class="control-group">
+							<div class="control-label">
+								<?php echo $this->form->getLabel('access'); ?>
+							</div>
+							<div class="controls">
+								<?php echo $this->form->getInput('access'); ?>
+							</div>
+						</div>
+						<?php if ($this->item->type == 'component') : ?>
+							<div class="control-group">
+								<div class="control-label">
+									<?php echo $this->form->getLabel('home'); ?>
+								</div>
+								<div class="controls">
+									<?php echo $this->form->getInput('home'); ?>
+								</div>
+							</div>
+						<?php endif; ?>
+						<div class="control-group">
+							<div class="control-label">
+								<?php echo $this->form->getLabel('browserNav'); ?>
+							</div>
+							<div class="controls">
+								<?php echo $this->form->getInput('browserNav'); ?>
+							</div>
+						</div>
+						<div class="control-group">
+							<div class="control-label">
+								<?php echo $this->form->getLabel('template_style_id'); ?>
+							</div>
+							<div class="controls">
+								<?php echo $this->form->getInput('template_style_id'); ?>
+							</div>
+						</div>
+						<div class="control-group">
+							<div class="control-label">
+								<?php echo $this->form->getLabel('language'); ?>
+							</div>
+							<div class="controls">
+								<?php echo $this->form->getInput('language'); ?>
+							</div>
+						</div>
+						<div class="control-group">
+							<div class="control-label">
+								<?php echo $this->form->getLabel('note'); ?>
+							</div>
+							<div class="controls">
+								<?php echo $this->form->getInput('note'); ?>
+							</div>
+						</div>
+						<div class="control-group">
+							<div class="control-label">
+								<?php echo $this->form->getLabel('id'); ?>
+							</div>
+							<div class="controls">
+								<?php echo $this->form->getInput('id'); ?>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="tab-pane" id="options">
+				<?php echo $this->loadTemplate('options'); ?>
+			</div>
+			<?php if (!empty($this->modules)) : ?>
+				<div class="tab-pane" id="modules">
+					<?php echo $this->loadTemplate('modules'); ?>
+				</div>
+			<?php endif; ?>
+		</div>
 	</fieldset>
-</div>
-
-<div class="width-40 fltrt">
-	<?php echo JHtml::_('sliders.start', 'menu-sliders-'.$this->item->id); ?>
-	<?php //Load  parameters.
-		echo $this->loadTemplate('options'); ?>
-
-		<div class="clr"></div>
-
-		<?php if (!empty($this->modules)) : ?>
-			<?php echo JHtml::_('sliders.panel', JText::_('COM_MENUS_ITEM_MODULE_ASSIGNMENT'), 'module-options'); ?>
-			<fieldset>
-				<?php echo $this->loadTemplate('modules'); ?>
-			</fieldset>
-		<?php endif; ?>
-
-	<?php echo JHtml::_('sliders.end'); ?>
 
 	<input type="hidden" name="task" value="" />
 	<?php echo $this->form->getInput('component_id'); ?>
 	<?php echo JHtml::_('form.token'); ?>
 	<input type="hidden" id="fieldtype" name="fieldtype" value="" />
-</div>
 </form>

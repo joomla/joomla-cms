@@ -1,24 +1,22 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_joomlaupdate
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @package     Joomla.Administrator
+ * @subpackage  com_joomlaupdate
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.controller');
 
 /**
  * Joomla! Update Controller
  *
- * @package		Joomla.Administrator
- * @subpackage	com_joomlaupdate
- * @since		2.5.4
+ * @package     Joomla.Administrator
+ * @subpackage  com_joomlaupdate
+ * @since       2.5.4
  */
-class JoomlaupdateController extends JController
+class JoomlaupdateController extends JControllerLegacy
 {
 	/**
 	 * Method to display a view.
@@ -35,18 +33,18 @@ class JoomlaupdateController extends JController
 		$document = JFactory::getDocument();
 
 		// Set the default view name and format from the Request.
-		$vName		= JRequest::getCmd('view', 'default');
-		$vFormat	= $document->getType();
-		$lName		= JRequest::getCmd('layout', 'default');
+		$vName   = $this->input->get('view', 'default');
+		$vFormat = $document->getType();
+		$lName   = $this->input->get('layout', 'default');
 
 		// Get and render the view.
 		if ($view = $this->getView($vName, $vFormat)) {
-			$ftp	= JClientHelper::setCredentialsFromRequest('ftp');
-			$view->assignRef('ftp', $ftp);
+			$ftp = JClientHelper::setCredentialsFromRequest('ftp');
+			$view->ftp = &$ftp;
 
 			// Get the model for the view.
 			$model = $this->getModel($vName);
-			
+
 			// Perform update source preference check and refresh update information
 			$model->applyUpdateSite();
 			$model->refreshUpdates();
@@ -56,7 +54,7 @@ class JoomlaupdateController extends JController
 			$view->setLayout($lName);
 
 			// Push document object into the view.
-			$view->assignRef('document', $document);
+			$view->document = $document;
 			$view->display();
 		}
 

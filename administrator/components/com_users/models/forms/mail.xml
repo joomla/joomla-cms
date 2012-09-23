@@ -37,7 +37,7 @@
 		/>
 
 		<field name="subject" type="text"
-			class="inputbox"
+			class="inputbox span8"
 			description="COM_USERS_MAIL_FIELD_SUBJECT_DESC"
 			label="COM_USERS_MAIL_FIELD_SUBJECT_LABEL"
 			maxlength="150"
@@ -45,7 +45,7 @@
 		/>
 
 		<field name="message" type="textarea"
-			class="inputbox"
+			class="inputbox span11"
 			cols="70"
 			description="COM_USERS_MAIL_FIELD_MESSAGE_DESC"
 			label="COM_USERS_MAIL_FIELD_MESSAGE_LABEL"

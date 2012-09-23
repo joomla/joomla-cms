@@ -1,22 +1,20 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_templates
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_templates
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.modeladmin');
 
 /**
  * Template style model.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_templates
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_templates
+ * @since       1.6
  */
 class TemplatesModelStyle extends JModelAdmin
 {
@@ -49,7 +47,7 @@ class TemplatesModelStyle extends JModelAdmin
 		$app = JFactory::getApplication('administrator');
 
 		// Load the User state.
-		$pk = (int) JRequest::getInt('id');
+		$pk = $app->input->getInt('id');
 		$this->setState('style.id', $pk);
 
 		// Load the parameters.
@@ -66,7 +64,6 @@ class TemplatesModelStyle extends JModelAdmin
 	 */
 	public function delete(&$pks)
 	{
-		// Initialise variables.
 		$pks	= (array) $pks;
 		$user	= JFactory::getUser();
 		$table	= $this->getTable();
@@ -112,7 +109,6 @@ class TemplatesModelStyle extends JModelAdmin
 	 */
 	public function duplicate(&$pks)
 	{
-		// Initialise variables.
 		$user	= JFactory::getUser();
 		$db		= $this->getDbo();
 
@@ -165,7 +161,7 @@ class TemplatesModelStyle extends JModelAdmin
 	{
 		// Alter the title
 		$table = $this->getTable();
-		while ($table->load(array('title'=>$title)))
+		while ($table->load(array('title' => $title)))
 		{
 			$title = JString::increment($title);
 		}
@@ -183,7 +179,6 @@ class TemplatesModelStyle extends JModelAdmin
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
-		// Initialise variables.
 		$app = JFactory::getApplication();
 
 		// The folder and element vars are passed when saving the form.
@@ -247,7 +242,6 @@ class TemplatesModelStyle extends JModelAdmin
 	 */
 	public function getItem($pk = null)
 	{
-		// Initialise variables.
 		$pk = (!empty($pk)) ? $pk : (int) $this->getState('style.id');
 
 		if (!isset($this->_cache[$pk])) {
@@ -310,7 +304,6 @@ class TemplatesModelStyle extends JModelAdmin
 	 */
 	protected function preprocessForm(JForm $form, $data, $group = 'content')
 	{
-		// Initialise variables.
 		$clientId	= $this->getState('item.client_id');
 		$template	= $this->getState('item.template');
 		$lang		= JFactory::getLanguage();
@@ -319,8 +312,7 @@ class TemplatesModelStyle extends JModelAdmin
 			throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
 		}
 
-		jimport('joomla.filesystem.file');
-		jimport('joomla.filesystem.folder');
+		jimport('joomla.filesystem.path');
 
 		$formFile	= JPath::clean($client->path.'/templates/'.$template.'/templateDetails.xml');
 
@@ -339,8 +331,9 @@ class TemplatesModelStyle extends JModelAdmin
 
 		// Disable home field if it is default style
 
-		if ((is_array($data) && array_key_exists('home', $data) && $data['home']=='1')
-			|| ((is_object($data) && isset($data->home) && $data->home=='1'))){
+		if ((is_array($data) && array_key_exists('home', $data) && $data['home'] == '1')
+			|| ((is_object($data) && isset($data->home) && $data->home == '1')))
+		{
 			$form->setFieldAttribute('home', 'readonly', 'true');
 		}
 
@@ -378,11 +371,11 @@ class TemplatesModelStyle extends JModelAdmin
 			return false;
 		}
 
-		// Initialise variables;
-		$dispatcher = JDispatcher::getInstance();
-		$table		= $this->getTable();
-		$pk			= (!empty($data['id'])) ? $data['id'] : (int)$this->getState('style.id');
-		$isNew		= true;
+		$app        = JFactory::getApplication();
+		$dispatcher = JEventDispatcher::getInstance();
+		$table      = $this->getTable();
+		$pk         = (!empty($data['id'])) ? $data['id'] : (int) $this->getState('style.id');
+		$isNew      = true;
 
 		// Include the extension plugins for the save events.
 		JPluginHelper::importPlugin('extension');
@@ -392,10 +385,10 @@ class TemplatesModelStyle extends JModelAdmin
 			$table->load($pk);
 			$isNew = false;
 		}
-		if (JRequest::getVar('task') == 'save2copy') {
+		if ($app->input->get('task') == 'save2copy') {
 			$data['title'] = $this->generateNewTitle(null, null, $data['title']);
 			$data['home'] = 0;
-			$data['assigned'] ='';
+			$data['assigned'] = '';
 		}
 
 		// Bind the data.
@@ -427,10 +420,11 @@ class TemplatesModelStyle extends JModelAdmin
 		}
 
 		$user = JFactory::getUser();
-		if ($user->authorise('core.edit', 'com_menus') && $table->client_id==0) {
-			$n		= 0;
-			$db		= JFactory::getDbo();
-			$user	= JFactory::getUser();
+		if ($user->authorise('core.edit', 'com_menus') && $table->client_id == 0)
+		{
+			$n    = 0;
+			$db   = JFactory::getDbo();
+			$user = JFactory::getUser();
 
 			if (!empty($data['assigned']) && is_array($data['assigned'])) {
 				JArrayHelper::toInteger($data['assigned']);
@@ -438,12 +432,12 @@ class TemplatesModelStyle extends JModelAdmin
 				// Update the mapping for menu items that this style IS assigned to.
 				$query = $db->getQuery(true);
 				$query->update('#__menu');
-				$query->set('template_style_id='.(int)$table->id);
+				$query->set('template_style_id='.(int) $table->id);
 				$query->where('id IN ('.implode(',', $data['assigned']).')');
 				$query->where('template_style_id!='.(int) $table->id);
 				$query->where('checked_out in (0,'.(int) $user->id.')');
 				$db->setQuery($query);
-				$db->query();
+				$db->execute();
 				$n += $db->getAffectedRows();
 			}
 
@@ -459,11 +453,11 @@ class TemplatesModelStyle extends JModelAdmin
 			$query->where('template_style_id='.(int) $table->id);
 			$query->where('checked_out in (0,'.(int) $user->id.')');
 			$db->setQuery($query);
-			$db->query();
+			$db->execute();
 
 			$n += $db->getAffectedRows();
-			if ($n > 0) {
-				$app = JFactory::getApplication();
+			if ($n > 0)
+			{
 				$app->enQueueMessage(JText::plural('COM_TEMPLATES_MENU_CHANGED', $n));
 			}
 		}
@@ -489,7 +483,6 @@ class TemplatesModelStyle extends JModelAdmin
 	 */
 	public function setHome($id = 0)
 	{
-		// Initialise variables.
 		$user	= JFactory::getUser();
 		$db		= $this->getDbo();
 
@@ -499,7 +492,7 @@ class TemplatesModelStyle extends JModelAdmin
 		}
 
 		$style = JTable::getInstance('Style', 'TemplatesTable');
-		if (!$style->load((int)$id)) {
+		if (!$style->load((int) $id)) {
 			throw new Exception(JText::_('COM_TEMPLATES_ERROR_STYLE_NOT_FOUND'));
 		}
 
@@ -509,7 +502,6 @@ class TemplatesModelStyle extends JModelAdmin
 			throw new Exception(JText::_('COM_TEMPLATES_ERROR_SAVE_DISABLED_TEMPLATE'));
 		}
 
-
 		// Reset the home fields for the client_id.
 		$db->setQuery(
 			'UPDATE #__template_styles' .
@@ -517,10 +509,7 @@ class TemplatesModelStyle extends JModelAdmin
 			' WHERE client_id = '.(int) $style->client_id .
 			' AND home = \'1\''
 		);
-
-		if (!$db->query()) {
-			throw new Exception($db->getErrorMsg());
-		}
+		$db->execute();
 
 		// Set the new home style.
 		$db->setQuery(
@@ -528,10 +517,7 @@ class TemplatesModelStyle extends JModelAdmin
 			' SET home = \'1\'' .
 			' WHERE id = '.(int) $id
 		);
-
-		if (!$db->query()) {
-			throw new Exception($db->getErrorMsg());
-		}
+		$db->execute();
 
 		// Clean the cache.
 		$this->cleanCache();
@@ -549,7 +535,6 @@ class TemplatesModelStyle extends JModelAdmin
 	 */
 	public function unsetHome($id = 0)
 	{
-		// Initialise variables.
 		$user	= JFactory::getUser();
 		$db		= $this->getDbo();
 
@@ -566,13 +551,11 @@ class TemplatesModelStyle extends JModelAdmin
 		);
 		$style = $db->loadObject();
 
-		if ($error = $db->getErrorMsg()) {
-			throw new Exception($error);
-		}
-		elseif (!is_numeric($style->client_id)) {
+		if (!is_numeric($style->client_id)) {
 			throw new Exception(JText::_('COM_TEMPLATES_ERROR_STYLE_NOT_FOUND'));
 		}
-		elseif ($style->home=='1') {
+		elseif ($style->home == '1')
+		{
 			throw new Exception(JText::_('COM_TEMPLATES_ERROR_CANNOT_UNSET_DEFAULT_STYLE'));
 		}
 
@@ -582,10 +565,7 @@ class TemplatesModelStyle extends JModelAdmin
 			' SET home = \'0\'' .
 			' WHERE id = '.(int) $id
 		);
-
-		if (!$db->query()) {
-			throw new Exception($db->getErrorMsg());
-		}
+		$db->execute();
 
 		// Clean the cache.
 		$this->cleanCache();

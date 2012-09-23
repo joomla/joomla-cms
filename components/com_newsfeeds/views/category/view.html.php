@@ -1,9 +1,10 @@
 <?php
 /**
- * @package		Joomla.Site
- * @subpackage	com_newsfeeds
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  com_newsfeeds
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -11,19 +12,23 @@ defined('_JEXEC') or die;
 /**
  * HTML View class for the Newsfeeds component
  *
- * @package		Joomla.Site
- * @subpackage	com_newsfeeds
- * @since		1.0
+ * @package     Joomla.Site
+ * @subpackage  com_newsfeeds
+ * @since       1.0
  */
 class NewsfeedsViewCategory extends JViewLegacy
 {
 	protected $state;
+
 	protected $items;
+
 	protected $category;
+
 	protected $categories;
+
 	protected $pagination;
 
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		$app		= JFactory::getApplication();
 		$user		= JFactory::getUser();
@@ -63,7 +68,7 @@ class NewsfeedsViewCategory extends JViewLegacy
 		{
 			$item		= &$items[$i];
 			$item->slug	= $item->alias ? ($item->id.':'.$item->alias) : $item->id;
-			$temp		= new JRegistry();
+			$temp		= new JRegistry;
 			$temp->loadString($item->params);
 			$item->params = clone($params);
 			$item->params->merge($temp);
@@ -80,14 +85,15 @@ class NewsfeedsViewCategory extends JViewLegacy
 		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
 
 		$maxLevel = $params->get('maxLevel', -1);
-		$this->assignRef('maxLevel',	$maxLevel);
-		$this->assignRef('state',		$state);
-		$this->assignRef('items',		$items);
-		$this->assignRef('category',	$category);
-		$this->assignRef('children',	$children);
-		$this->assignRef('params',		$params);
-		$this->assignRef('parent',		$parent);
-		$this->assignRef('pagination',	$pagination);
+		$this->maxLevel   = &$maxLevel;
+		$this->state      = &$state;
+		$this->items      = &$items;
+		$this->category   = &$category;
+		$this->children   = &$children;
+		$this->params     = &$params;
+		$this->parent     = &$parent;
+		$this->pagination = &$pagination;
+		$this->user       = &$user;
 
 		// Check for layout override only if this is not the active menu item
 		// If it is the active menu item, then the view and category id will match

@@ -1,18 +1,18 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  com_weblinks
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controllerform');
-
 /**
- * @package		Joomla.Site
- * @subpackage	com_weblinks
- * @since		1.5
+ * @package     Joomla.Site
+ * @subpackage  com_weblinks
+ * @since       1.5
  */
 class WeblinksControllerWeblink extends JControllerForm
 {
@@ -49,9 +49,8 @@ class WeblinksControllerWeblink extends JControllerForm
 	 */
 	protected function allowAdd($data = array())
 	{
-		// Initialise variables.
 		$user		= JFactory::getUser();
-		$categoryId	= JArrayHelper::getValue($data, 'catid', JRequest::getInt('id'), 'int');
+		$categoryId	= JArrayHelper::getValue($data, 'catid', $this->input->getInt('id'), 'int');
 		$allow		= null;
 
 		if ($categoryId) {
@@ -78,7 +77,6 @@ class WeblinksControllerWeblink extends JControllerForm
 	 */
 	protected function allowEdit($data = array(), $key = 'id')
 	{
-		// Initialise variables.
 		$recordId	= (int) isset($data[$key]) ? $data[$key] : 0;
 		$categoryId = 0;
 
@@ -156,7 +154,7 @@ class WeblinksControllerWeblink extends JControllerForm
 	protected function getRedirectToItemAppend($recordId = null, $urlVar = null)
 	{
 		$append = parent::getRedirectToItemAppend($recordId, $urlVar);
-		$itemId	= JRequest::getInt('Itemid');
+		$itemId	= $this->input->getInt('Itemid');
 		$return	= $this->getReturnPage();
 
 		if ($itemId) {
@@ -180,7 +178,7 @@ class WeblinksControllerWeblink extends JControllerForm
 	 */
 	protected function getReturnPage()
 	{
-		$return = JRequest::getVar('return', null, 'default', 'base64');
+		$return = $this->input->get('return', null, 'base64');
 
 		if (empty($return) || !JUri::isInternal(base64_decode($return))) {
 			return JURI::base();
@@ -193,13 +191,13 @@ class WeblinksControllerWeblink extends JControllerForm
 	/**
 	 * Function that allows child controller access to model data after the data has been saved.
 	 *
-	 * @param	JModel	$model		The data model object.
-	 * @param	array	$validData	The validated data.
+	 * @param   JModelLegacy  $model      The data model object.
+	 * @param   array         $validData  The validated data.
 	 *
 	 * @return	void
 	 * @since	1.6
 	 */
-	protected function postSaveHook(JModel &$model, $validData = array())
+	protected function postSaveHook(JModelLegacy &$model, $validData = array())
 	{
 		$task = $this->getTask();
 
@@ -238,7 +236,7 @@ class WeblinksControllerWeblink extends JControllerForm
 	public function go()
 	{
 		// Get the ID from the request
-		$id = JRequest::getInt('id');
+		$id = $this->input->getInt('id');
 
 		// Get the model, requiring published items
 		$modelLink	= $this->getModel('Weblink', '', array('ignore_request' => true));

@@ -1,23 +1,23 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  com_content
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.modellist');
-
 /**
  * This models supports retrieving lists of articles.
  *
- * @package		Joomla.Site
- * @subpackage	com_content
- * @since		1.6
+ * @package     Joomla.Site
+ * @subpackage  com_content
+ * @since       1.6
  */
 class ContentModelArticles extends JModelList
 {
-
 	/**
 	 * Constructor.
 	 *
@@ -66,19 +66,19 @@ class ContentModelArticles extends JModelList
 		$app = JFactory::getApplication();
 
 		// List state information
-		$value = JRequest::getUInt('limit', $app->getCfg('list_limit', 0));
+		$value = $app->input->get('limit', $app->getCfg('list_limit', 0), 'uint');
 		$this->setState('list.limit', $value);
 
-		$value = JRequest::getUInt('limitstart', 0);
+		$value = $app->input->get('limitstart', 0, 'uint');
 		$this->setState('list.start', $value);
 
-		$orderCol	= JRequest::getCmd('filter_order', 'a.ordering');
+		$orderCol = $app->input->get('filter_order', 'a.ordering');
 		if (!in_array($orderCol, $this->filter_fields)) {
 			$orderCol = 'a.ordering';
 		}
 		$this->setState('list.ordering', $orderCol);
 
-		$listOrder	=  JRequest::getCmd('filter_order_Dir', 'ASC');
+		$listOrder = $app->input->get('filter_order_Dir', 'ASC');
 		if (!in_array(strtoupper($listOrder), array('ASC', 'DESC', ''))) {
 			$listOrder = 'ASC';
 		}
@@ -103,7 +103,7 @@ class ContentModelArticles extends JModelList
 			$this->setState('filter.access', false);
 		}
 
-		$this->setState('layout', JRequest::getCmd('layout'));
+		$this->setState('layout', $app->input->get('layout'));
 	}
 
 	/**
@@ -121,22 +121,22 @@ class ContentModelArticles extends JModelList
 	protected function getStoreId($id = '')
 	{
 		// Compile the store id.
-		$id .= ':'.$this->getState('filter.published');
-		$id .= ':'.$this->getState('filter.access');
-		$id .= ':'.$this->getState('filter.featured');
-		$id .= ':'.$this->getState('filter.article_id');
-		$id .= ':'.$this->getState('filter.article_id.include');
-		$id .= ':'.$this->getState('filter.category_id');
-		$id .= ':'.$this->getState('filter.category_id.include');
-		$id .= ':'.$this->getState('filter.author_id');
-		$id .= ':'.$this->getState('filter.author_id.include');
-		$id .= ':'.$this->getState('filter.author_alias');
-		$id .= ':'.$this->getState('filter.author_alias.include');
-		$id .= ':'.$this->getState('filter.date_filtering');
-		$id .= ':'.$this->getState('filter.date_field');
-		$id .= ':'.$this->getState('filter.start_date_range');
-		$id .= ':'.$this->getState('filter.end_date_range');
-		$id .= ':'.$this->getState('filter.relative_date');
+		$id .= ':' . serialize($this->getState('filter.published'));
+		$id .= ':' . $this->getState('filter.access');
+		$id .= ':' . $this->getState('filter.featured');
+		$id .= ':' . $this->getState('filter.article_id');
+		$id .= ':' . $this->getState('filter.article_id.include');
+		$id	.= ':' . serialize($this->getState('filter.category_id'));
+		$id .= ':' . $this->getState('filter.category_id.include');
+		$id	.= ':' . serialize($this->getState('filter.author_id'));
+		$id .= ':' . $this->getState('filter.author_id.include');
+		$id	.= ':' . serialize($this->getState('filter.author_alias'));
+		$id .= ':' . $this->getState('filter.author_alias.include');
+		$id .= ':' . $this->getState('filter.date_filtering');
+		$id .= ':' . $this->getState('filter.date_field');
+		$id .= ':' . $this->getState('filter.start_date_range');
+		$id .= ':' . $this->getState('filter.end_date_range');
+		$id .= ':' . $this->getState('filter.relative_date');
 
 		return parent::getStoreId($id);
 	}
@@ -147,7 +147,7 @@ class ContentModelArticles extends JModelList
 	 * @return	JDatabaseQuery
 	 * @since	1.6
 	 */
-	function getListQuery()
+	protected function getListQuery()
 	{
 		// Create a new query object.
 		$db = $this->getDbo();
@@ -157,14 +157,14 @@ class ContentModelArticles extends JModelList
 		$query->select(
 			$this->getState(
 				'list.select',
-				'a.id, a.title, a.alias, a.title_alias, a.introtext, ' .
+				'a.id, a.title, a.alias, a.introtext, ' .
 				'a.checked_out, a.checked_out_time, ' .
 				'a.catid, a.created, a.created_by, a.created_by_alias, ' .
 				// use created if modified is 0
-				'CASE WHEN a.modified = 0 THEN a.created ELSE a.modified END as modified, ' .
+				'CASE WHEN a.modified = ' . $db->q($db->getNullDate()) . ' THEN a.created ELSE a.modified END as modified, ' .
 					'a.modified_by, uam.name as modified_by_name,' .
 				// use created if publish_up is 0
-				'CASE WHEN a.publish_up = 0 THEN a.created ELSE a.publish_up END as publish_up,' .
+				'CASE WHEN a.publish_up = ' . $db->q($db->getNullDate()) . ' THEN a.created ELSE a.publish_up END as publish_up,' .
 					'a.publish_down, a.images, a.urls, a.attribs, a.metadata, a.metakey, a.metadesc, a.access, ' .
 					'a.hits, a.xreference, a.featured,'.' '.$query->length('a.fulltext').' AS readmore'
 			)
@@ -207,7 +207,7 @@ class ContentModelArticles extends JModelList
 		$subQuery->from('#__contact_details AS contact');
 		$subQuery->where('contact.published = 1');
 		$subQuery->group('contact.user_id, contact.language');
-		$query->select('contact.id as contactid' );
+		$query->select('contact.id as contactid');
 		$query->join('LEFT', '(' . $subQuery . ') AS contact ON contact.user_id = a.created_by');
 
 		// Join over the categories to get parent category titles
@@ -413,8 +413,10 @@ class ContentModelArticles extends JModelList
 
 			case 'relative':
 				$relativeDate = (int) $this->getState('filter.relative_date', 0);
-				$query->where($dateField.' >= DATE_SUB('.$nowDate.', INTERVAL ' .
-					$relativeDate.' DAY)');
+				$query->where(
+					$dateField.' >= DATE_SUB(' . $nowDate.', INTERVAL ' .
+					$relativeDate.' DAY)'
+				);
 				break;
 
 			case 'off':
@@ -428,7 +430,7 @@ class ContentModelArticles extends JModelList
 		if ((is_object($params)) && ($params->get('filter_field') != 'hide') && ($filter = $this->getState('list.filter'))) {
 			// clean filter variable
 			$filter = JString::strtolower($filter);
-			$hitsFilter = intval($filter);
+			$hitsFilter = (int) $filter;
 			$filter = $db->Quote('%'.$db->escape($filter, true).'%', false);
 
 			switch ($params->get('filter_field'))
@@ -459,7 +461,7 @@ class ContentModelArticles extends JModelList
 
 		// Add the list ordering clause.
 		$query->order($this->getState('list.ordering', 'a.ordering').' '.$this->getState('list.direction', 'ASC'));
-		$query->group('a.id, a.title, a.alias, a.title_alias, a.introtext, a.checked_out, a.checked_out_time, a.catid, a.created, a.created_by, a.created_by_alias, a.created, a.modified, a.modified_by, uam.name, a.publish_up, a.attribs, a.metadata, a.metakey, a.metadesc, a.access, a.hits, a.xreference, a.featured, a.fulltext, a.state, a.publish_down, badcats.id, c.title, c.path, c.access, c.alias, uam.id, ua.name, ua.email, contact.id, parent.title, parent.id, parent.path, parent.alias, v.rating_sum, v.rating_count, c.published, c.lft, a.ordering, parent.lft, fp.ordering, c.id, a.images, a.urls');
+		$query->group('a.id, a.title, a.alias, a.introtext, a.checked_out, a.checked_out_time, a.catid, a.created, a.created_by, a.created_by_alias, a.created, a.modified, a.modified_by, uam.name, a.publish_up, a.attribs, a.metadata, a.metakey, a.metadesc, a.access, a.hits, a.xreference, a.featured, a.fulltext, a.state, a.publish_down, badcats.id, c.title, c.path, c.access, c.alias, uam.id, ua.name, ua.email, contact.id, parent.title, parent.id, parent.path, parent.alias, v.rating_sum, v.rating_count, c.published, c.lft, a.ordering, parent.lft, fp.ordering, c.id, a.images, a.urls');
 		return $query;
 	}
 
@@ -478,6 +480,7 @@ class ContentModelArticles extends JModelList
 		$userId	= $user->get('id');
 		$guest	= $user->get('guest');
 		$groups	= $user->getAuthorisedViewLevels();
+		$input  = JFactory::getApplication()->input;
 
 		// Get the global params
 		$globalParams = JComponentHelper::getParams('com_content', true);
@@ -497,7 +500,7 @@ class ContentModelArticles extends JModelList
 			// For blogs, article params override menu item params only if menu param = 'use_article'
 			// Otherwise, menu item params control the layout
 			// If menu item is 'use_article' and there is no article param, use global
-			if ((JRequest::getString('layout') == 'blog') || (JRequest::getString('view') == 'featured')
+			if (($input->getString('layout') == 'blog') || ($input->getString('view') == 'featured')
 				|| ($this->getState('params')->get('layout_type') == 'blog')) {
 				// create an array of just the params set to 'use_article'
 				$menuParamsArray = $this->getState('params')->toArray();

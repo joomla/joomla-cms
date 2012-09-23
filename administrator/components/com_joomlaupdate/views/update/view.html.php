@@ -2,14 +2,12 @@
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
+ *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
- * @since       2.5.4
  */
 
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.view');
 
 /**
  * Joomla! Update's Update View
@@ -18,7 +16,7 @@ jimport('joomla.application.component.view');
  * @subpackage  com_installer
  * @since       2.5.4
  */
-class JoomlaupdateViewUpdate extends JView
+class JoomlaupdateViewUpdate extends JViewLegacy
 {
 	/**
 	 * Renders the view
@@ -35,10 +33,10 @@ class JoomlaupdateViewUpdate extends JView
 		$returnUrl = 'index.php?option=com_joomlaupdate&task=update.finalise';
 
 		// Set the toolbar information
-		JToolBarHelper::title(JText::_('COM_JOOMLAUPDATE_OVERVIEW'), 'install');
+		JToolbarHelper::title(JText::_('COM_JOOMLAUPDATE_OVERVIEW'), 'install');
 
 		// Add toolbar buttons
-		JToolBarHelper::preferences('com_joomlaupdate');
+		JToolbarHelper::preferences('com_joomlaupdate');
 
 		// Load mooTools
 		JHtml::_('behavior.framework', true);

@@ -1,17 +1,20 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_search
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
 
 /**
  * Search component helper.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_search
+ * @package     Joomla.Administrator
+ * @subpackage  com_search
+ * @since       1.5
  */
 class SearchHelper
 {
@@ -46,7 +49,7 @@ class SearchHelper
 		return $result;
 	}
 
-	static function santiseSearchWord(&$searchword, $searchphrase)
+	public static function santiseSearchWord(&$searchword, $searchphrase)
 	{
 		$ignored = false;
 
@@ -86,7 +89,10 @@ class SearchHelper
 		return $ignored;
 	}
 
-	static function limitSearchWord(&$searchword)
+	/**
+	 * @since  1.5
+	 */
+	public static function limitSearchWord(&$searchword)
 	{
 		$restriction = false;
 
@@ -108,37 +114,21 @@ class SearchHelper
 		return $restriction;
 	}
 
-	static function logSearch($search_term)
+	/**
+	 * Logs a search term
+	 *
+	 * @param   string  $search_term  The term being searched
+	 *
+	 * @return  void
+	 *
+	 * @since   1.5
+	 * @deprecated  4.0  Use JSearchHelper::logSearch() instead
+	 */
+	public static function logSearch($search_term)
 	{
-		$db = JFactory::getDbo();
+		JLog::add(__METHOD__ . '() is deprecated, use JSearchHelper::logSearch() instead.', JLog::WARNING, 'deprecated');
 
-		$params = JComponentHelper::getParams('com_search');
-		$enable_log_searches = $params->get('enabled');
-
-		$search_term = $db->escape(trim($search_term));
-
-		if (@$enable_log_searches)
-		{
-			$db = JFactory::getDbo();
-			$query = 'SELECT hits'
-			. ' FROM #__core_log_searches'
-			. ' WHERE LOWER(search_term) = "'.$search_term.'"'
-			;
-			$db->setQuery($query);
-			$hits = intval($db->loadResult());
-			if ($hits) {
-				$query = 'UPDATE #__core_log_searches'
-				. ' SET hits = (hits + 1)'
-				. ' WHERE LOWER(search_term) = "'.$search_term.'"'
-				;
-				$db->setQuery($query);
-				$db->query();
-			} else {
-				$query = 'INSERT INTO #__core_log_searches VALUES ("'.$search_term.'", 1)';
-				$db->setQuery($query);
-				$db->query();
-			}
-		}
+		JSearchHelper::logSearch($search_term, 'com_search');
 	}
 
 	/**
@@ -147,6 +137,8 @@ class SearchHelper
 	 * @param string The source string
 	 * @param string The searchword to select around
 	 * @return string
+	 *
+	 * @since  1.5
 	 */
 	public static function prepareSearchContent($text, $searchword)
 	{
@@ -177,9 +169,13 @@ class SearchHelper
 				'#<[^>]*>#i'
 				);
 		$terms = explode(' ', $searchTerm);
-		if (empty($fields)) return false;
+		if (empty($fields)) {
+			return false;
+		}
 		foreach($fields as $field) {
-			if (!isset($object->$field)) continue;
+			if (!isset($object->$field)) {
+				continue;
+			}
 			$text = $object->$field;
 			foreach($searchRegex as $regex) {
 				$text = preg_replace($regex, '', $text);
@@ -200,8 +196,10 @@ class SearchHelper
 	 * @param int Number of chars to return
 	 * @param string The searchword to select around
 	 * @return string
+	 *
+	 * @since  1.5
 	 */
-	static function _smartSubstr($text, $searchword)
+	public static function _smartSubstr($text, $searchword)
 	{
 		$lang = JFactory::getLanguage();
 		$length = $lang->getSearchDisplayedCharactersNumber();

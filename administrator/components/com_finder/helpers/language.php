@@ -47,21 +47,6 @@ class FinderHelperLanguage
 	}
 
 	/**
-	 * Method to determine if the language filter plugin is enabled.
-	 * This works for both site and administrator.
-	 *
-	 * @return  boolean  True if site is supporting multiple languages; false otherwise.
-	 *
-	 * @since   2.5
-	 * @deprecated  3.0 Use JLanguageMultilang::isEnabled() instead.
-	 */
-	public static function isMultiLanguage()
-	{
-		JLog::add('FinderHelperLanguage::isMultiLanguage() is deprecated. Use JLanguageMultilang::isEnabled() instead. ', JLog::WARNING, 'deprecated');
-		return JLanguageMultilang::isEnabled();
-	}
-
-	/**
 	 * Method to load Smart Search component language file.
 	 *
 	 * @return  void
@@ -86,7 +71,8 @@ class FinderHelperLanguage
 		static $loaded = false;
 
 		// If already loaded, don't load again.
-		if ($loaded) {
+		if ($loaded)
+		{
 			return;
 		}
 		$loaded = true;
@@ -103,7 +89,8 @@ class FinderHelperLanguage
 		$db->setQuery($query);
 		$plugins = $db->loadObjectList();
 
-		if (empty($plugins)) {
+		if (empty($plugins))
+		{
 			return;
 		}
 
@@ -112,9 +99,9 @@ class FinderHelperLanguage
 		$lang->load('plg_content_finder', JPATH_ADMINISTRATOR);
 
 		// Load language file for each plug-in.
-		foreach ($plugins as $plugin) {
+		foreach ($plugins as $plugin)
+		{
 			$lang->load($plugin->name, JPATH_ADMINISTRATOR);
 		}
 	}
-
 }

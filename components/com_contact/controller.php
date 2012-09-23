@@ -1,9 +1,10 @@
 <?php
 /**
- * @package		Joomla.Site
- * @subpackage	com_contact
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  com_contact
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -11,9 +12,9 @@ defined('_JEXEC') or die;
 /**
  * Contact Component Controller
  *
- * @package		Joomla.Site
- * @subpackage	com_contact
- * @since 1.5
+ * @package     Joomla.Site
+ * @subpackage  com_contact
+ * @since       1.5
  */
 class ContactController extends JControllerLegacy
 {
@@ -34,15 +35,13 @@ class ContactController extends JControllerLegacy
 		$document = JFactory::getDocument();
 
 		// Set the default view name and format from the Request.
-		$vName		= JRequest::getCmd('view', 'categories');
-		JRequest::setVar('view', $vName);
+		$vName = $this->input->get('view', 'categories');
+		$this->input->set('view', $vName);
 
 		$user = JFactory::getUser();
 
-
-
-		$safeurlparams = array('catid'=>'INT', 'id'=>'INT', 'cid'=>'ARRAY', 'year'=>'INT', 'month'=>'INT', 'limit'=>'UINT', 'limitstart'=>'UINT',
-			'showall'=>'INT', 'return'=>'BASE64', 'filter'=>'STRING', 'filter_order'=>'CMD', 'filter_order_Dir'=>'CMD', 'filter-search'=>'STRING', 'print'=>'BOOLEAN', 'lang'=>'CMD');
+		$safeurlparams = array('catid' => 'INT', 'id' => 'INT', 'cid' => 'ARRAY', 'year' => 'INT', 'month' => 'INT', 'limit' => 'UINT', 'limitstart' => 'UINT',
+			'showall' => 'INT', 'return' => 'BASE64', 'filter' => 'STRING', 'filter_order' => 'CMD', 'filter_order_Dir' => 'CMD', 'filter-search' => 'STRING', 'print' => 'BOOLEAN', 'lang' => 'CMD');
 
 		parent::display($cachable, $safeurlparams);
 

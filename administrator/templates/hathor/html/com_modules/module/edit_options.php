@@ -1,12 +1,12 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	Templates.hathor
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  Template.hathor
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
 
 	$fieldSets = $this->form->getFieldsets('params');
@@ -28,7 +28,7 @@ defined('_JEXEC') or die;
 				<?php echo $field->label; ?>
 				<?php echo $field->input; ?>
 			</li>
-			<?php else : $hidden_fields.= $field->input; ?>
+			<?php else : $hidden_fields .= $field->input; ?>
 			<?php endif; ?>
 			<?php endforeach; ?>
 		</ul>

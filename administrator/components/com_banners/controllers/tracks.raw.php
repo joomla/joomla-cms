@@ -1,22 +1,22 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_banners
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.controller');
 
 /**
  * Tracks list controller class.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_banners
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_banners
+ * @since       1.6
  */
-class BannersControllerTracks extends JController
+class BannersControllerTracks extends JControllerLegacy
 {
 	/**
 	 * @var		string	The context for persistent state.
@@ -33,7 +33,7 @@ class BannersControllerTracks extends JController
 	 * @return	JModel
 	 * @since	1.6
 	 */
-	public function getModel($name = 'Tracks', $prefix = 'BannersModel')
+	public function getModel($name = 'Tracks', $prefix = 'BannersModel', $config = array())
 	{
 		$model = parent::getModel($name, $prefix, array('ignore_request' => true));
 		return $model;
@@ -97,7 +97,7 @@ class BannersControllerTracks extends JController
 			$view->setModel($model, true);
 
 			// Push document object into the view.
-			$view->assignRef('document', $document);
+			$view->document = $document;
 
 			$view->display();
 		}

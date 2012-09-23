@@ -11,7 +11,6 @@ defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.folder');
-jimport('joomla.filesystem.archive');
 jimport('joomla.filesystem.path');
 
 /**
@@ -38,7 +37,6 @@ abstract class JInstallerHelper
 		$config = JFactory::getConfig();
 
 		// Capture PHP errors
-		$php_errormsg = 'Error Unknown';
 		$track_errors = ini_get('track_errors');
 		ini_set('track_errors', true);
 
@@ -46,23 +44,18 @@ abstract class JInstallerHelper
 		$version = new JVersion;
 		ini_set('user_agent', $version->getUserAgent('Installer'));
 
-		// Open the remote server socket for reading
-		$inputHandle = @ fopen($url, "r");
-		$error = strstr($php_errormsg, 'failed to open stream:');
-		if (!$inputHandle)
+		$http = JHttpFactory::getHttp();
+		$response = $http->get($url);
+		if (200 != $response->code)
 		{
-			JError::raiseWarning(42, JText::sprintf('JLIB_INSTALLER_ERROR_DOWNLOAD_SERVER_CONNECT', $error));
+			JLog::add(JText::_('JLIB_INSTALLER_ERROR_DOWNLOAD_SERVER_CONNECT'), JLog::WARNING, 'jerror');
 			return false;
 		}
 
-		$meta_data = stream_get_meta_data($inputHandle);
-		foreach ($meta_data['wrapper_data'] as $wrapper_data)
+		if ($response->headers['wrapper_data']['Content-Disposition'])
 		{
-			if (substr($wrapper_data, 0, strlen("Content-Disposition")) == "Content-Disposition")
-			{
-				$contentfilename = explode("\"", $wrapper_data);
-				$target = $contentfilename[1];
-			}
+			$contentfilename = explode("\"", $response->headers['wrapper_data']['Content-Disposition']);
+			$target = $contentfilename[1];
 		}
 
 		// Set the target path if not given
@@ -75,29 +68,13 @@ abstract class JInstallerHelper
 			$target = $config->get('tmp_path') . '/' . basename($target);
 		}
 
-		// Initialise contents buffer
-		$contents = null;
-
-		while (!feof($inputHandle))
-		{
-			$contents .= fread($inputHandle, 4096);
-			if ($contents === false)
-			{
-				JError::raiseWarning(44, JText::sprintf('JLIB_INSTALLER_ERROR_FAILED_READING_NETWORK_RESOURCES', $php_errormsg));
-				return false;
-			}
-		}
-
 		// Write buffer to file
-		JFile::write($target, $contents);
-
-		// Close file pointer resource
-		fclose($inputHandle);
+		JFile::write($target, $response->body);
 
 		// Restore error tracking to what it was before
 		ini_set('track_errors', $track_errors);
 
-		// bump the max execution time because not using built in php zip libs are slow
+		// Bump the max execution time because not using built in php zip libs are slow
 		@set_time_limit(ini_get('max_execution_time'));
 
 		// Return the name of the downloaded package
@@ -110,7 +87,7 @@ abstract class JInstallerHelper
 	 *
 	 * @param   string  $p_filename  The uploaded package filename or install directory
 	 *
-	 * @return  array  Two elements: extractdir and packagefile
+	 * @return  mixed  Array on success or boolean false on failure
 	 *
 	 * @since   11.1
 	 */
@@ -127,9 +104,11 @@ abstract class JInstallerHelper
 		$archivename = JPath::clean($archivename);
 
 		// Do the unpacking of the archive
-		$result = JArchive::extract($archivename, $extractdir);
-
-		if ($result === false)
+		try
+		{
+			JArchive::extract($archivename, $extractdir);
+		}
+		catch (Exception $e)
 		{
 			return false;
 		}
@@ -168,7 +147,8 @@ abstract class JInstallerHelper
 		 * Get the extension type and return the directory/type array on success or
 		 * false on fail.
 		 */
-		if ($retval['type'] = self::detectType($extractdir))
+		$retval['type'] = self::detectType($extractdir);
+		if ($retval['type'])
 		{
 			return $retval;
 		}
@@ -194,30 +174,33 @@ abstract class JInstallerHelper
 
 		if (!count($files))
 		{
-			JError::raiseWarning(1, JText::_('JLIB_INSTALLER_ERROR_NOTFINDXMLSETUPFILE'));
+			JLog::add(JText::_('JLIB_INSTALLER_ERROR_NOTFINDXMLSETUPFILE'), JLog::WARNING, 'jerror');
 			return false;
 		}
 
 		foreach ($files as $file)
 		{
-			if (!$xml = JFactory::getXML($file))
+			$xml = simplexml_load_file($file);
+			if (!$xml)
 			{
 				continue;
 			}
 
-			if ($xml->getName() != 'install' && $xml->getName() != 'extension')
+			if ($xml->getName() != 'extension')
 			{
 				unset($xml);
 				continue;
 			}
 
 			$type = (string) $xml->attributes()->type;
+
 			// Free up memory
 			unset($xml);
 			return $type;
 		}
 
-		JError::raiseWarning(1, JText::_('JLIB_INSTALLER_ERROR_NOTFINDJOOMLAXMLSETUPFILE'));
+		JLog::add(JText::_('JLIB_INSTALLER_ERROR_NOTFINDJOOMLAXMLSETUPFILE'), JLog::WARNING, 'jerror');
+
 		// Free up memory.
 		unset($xml);
 		return false;
@@ -283,9 +266,11 @@ abstract class JInstallerHelper
 	 * @return  array  Array of queries
 	 *
 	 * @since   11.1
+	 * @deprecated  13.3  Use JDatabaseDriver::splitSql() directly
 	 */
 	public static function splitSql($sql)
 	{
+		JLog::add('JInstallerHelper::splitSql() is deprecated. Use JDatabaseDriver::splitSql() instead.', JLog::WARNING, 'deprecated');
 		$db = JFactory::getDbo();
 		return $db->splitSql($sql);
 	}

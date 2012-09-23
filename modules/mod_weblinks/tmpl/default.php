@@ -1,9 +1,10 @@
 <?php
 /**
- * @package		Joomla.Site
- * @subpackage	mod_weblinks
- * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  mod_weblinks
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -17,7 +18,7 @@ defined('_JEXEC') or die;
 	{
 		case 1:
 			// open in a new window
-			echo '<a href="'. $link .'" target="_blank" rel="'.$params->get('follow', 'no follow').'">'.
+			echo '<a href="'. $link .'" target="_blank" rel="'.$params->get('follow', 'nofollow').'">'.
 			htmlspecialchars($item->title, ENT_COMPAT, 'UTF-8') .'</a>';
 			break;
 
@@ -29,7 +30,7 @@ defined('_JEXEC') or die;
 
 		default:
 			// open in parent window
-			echo '<a href="'. $link .'" rel="'.$params->get('follow', 'no follow').'">'.
+			echo '<a href="'. $link .'" rel="'.$params->get('follow', 'nofollow').'">'.
 				htmlspecialchars($item->title, ENT_COMPAT, 'UTF-8') .'</a>';
 			break;
 	}

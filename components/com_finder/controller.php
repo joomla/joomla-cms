@@ -27,13 +27,12 @@ class FinderController extends JControllerLegacy
 	 * @param   array    $urlparams  An array of safe url parameters and their variable types,
 	 *                               for valid values see {@link JFilterInput::clean()}. [optional]
 	 *
-	 * @return  JController  This object is to support chaining.
+	 * @return  JControllerLegacy  This object is to support chaining.
 	 *
-	 * @since   1.6
+	 * @since   2.5
 	 */
 	public function display($cachable = false, $urlparams = array())
 	{
-		// Initialise variables.
 		$input = JFactory::getApplication()->input;
 		$cachable = true;
 
@@ -45,9 +44,10 @@ class FinderController extends JControllerLegacy
 		$input->set('view', $viewName);
 
 		// Don't cache view for search queries
-		if ($input->get('q') || $input->get('f') || $input->get('t')) {
- 			$cachable = false;
- 		}
+		if ($input->get('q') || $input->get('f') || $input->get('t'))
+		{
+			$cachable = false;
+		}
 
 		$safeurlparams = array(
 			'f' 	=> 'INT',

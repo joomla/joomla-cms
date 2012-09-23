@@ -1,25 +1,27 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_templates
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.view');
 
 /**
  * View to edit a template style.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_templates
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_templates
+ * @since       1.6
  */
-class TemplatesViewStyle extends JView
+class TemplatesViewStyle extends JViewLegacy
 {
 	protected $item;
+
 	protected $form;
+
 	protected $state;
 
 	/**
@@ -48,34 +50,34 @@ class TemplatesViewStyle extends JView
 	 */
 	protected function addToolbar()
 	{
-		JRequest::setVar('hidemainmenu', true);
+		JFactory::getApplication()->input->set('hidemainmenu', true);
 
-		$user		= JFactory::getUser();
-		$isNew		= ($this->item->id == 0);
-		$canDo		= TemplatesHelper::getActions();
+		$user  = JFactory::getUser();
+		$isNew = ($this->item->id == 0);
+		$canDo = TemplatesHelper::getActions();
 
-		JToolBarHelper::title(
+		JToolbarHelper::title(
 			$isNew ? JText::_('COM_TEMPLATES_MANAGER_ADD_STYLE')
 			: JText::_('COM_TEMPLATES_MANAGER_EDIT_STYLE'), 'thememanager'
 		);
 
 		// If not checked out, can save the item.
 		if ($canDo->get('core.edit')) {
-			JToolBarHelper::apply('style.apply');
-			JToolBarHelper::save('style.save');
+			JToolbarHelper::apply('style.apply');
+			JToolbarHelper::save('style.save');
 		}
 
 		// If an existing item, can save to a copy.
 		if (!$isNew && $canDo->get('core.create')) {
-			JToolBarHelper::save2copy('style.save2copy');
+			JToolbarHelper::save2copy('style.save2copy');
 		}
 
 		if (empty($this->item->id))  {
-			JToolBarHelper::cancel('style.cancel');
+			JToolbarHelper::cancel('style.cancel');
 		} else {
-			JToolBarHelper::cancel('style.cancel', 'JTOOLBAR_CLOSE');
+			JToolbarHelper::cancel('style.cancel', 'JTOOLBAR_CLOSE');
 		}
-		JToolBarHelper::divider();
+		JToolbarHelper::divider();
 		// Get the help information for the template item.
 
 		$lang = JFactory::getLanguage();
@@ -89,6 +91,6 @@ class TemplatesViewStyle extends JView
 		else {
 			$url = null;
 		}
-		JToolBarHelper::help($help->key, false, $url);
+		JToolbarHelper::help($help->key, false, $url);
 	}
 }

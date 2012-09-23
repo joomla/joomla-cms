@@ -1,20 +1,20 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_users
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.modeladmin');
 
 /**
  * User group model.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_users
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_users
+ * @since       1.6
  */
 class UsersModelGroup extends JModelAdmin
 {
@@ -55,7 +55,6 @@ class UsersModelGroup extends JModelAdmin
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
-		// Initialise variables.
 		$app = JFactory::getApplication();
 
 		// Get the form.
@@ -199,7 +198,7 @@ class UsersModelGroup extends JModelAdmin
 
 		// Load plugins.
 		JPluginHelper::importPlugin('user');
-		$dispatcher = JDispatcher::getInstance();
+		$dispatcher = JEventDispatcher::getInstance();
 
 		// Check if I am a Super Admin
 		$iAmSuperAdmin	= $user->authorise('core.admin');
@@ -207,7 +206,7 @@ class UsersModelGroup extends JModelAdmin
 		// do not allow to delete groups to which the current user belongs
 		foreach ($pks as $i => $pk) {
 			if (in_array($pk, $groups)) {
-				JError::raiseWarning( 403, JText::_('COM_USERS_DELETE_ERROR_INVALID_GROUP'));
+				JError::raiseWarning(403, JText::_('COM_USERS_DELETE_ERROR_INVALID_GROUP'));
 				return false;
 			}
 		}

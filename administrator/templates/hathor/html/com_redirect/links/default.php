@@ -1,13 +1,12 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	Templates.hathor
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  Template.hathor
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
 
 // Include the component HTML helpers.
@@ -74,9 +73,9 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 
 		<tbody>
 		<?php foreach ($this->items as $i => $item) :
-			$canCreate	= $user->authorise('core.create',		'com_redirect');
-			$canEdit	= $user->authorise('core.edit',			'com_redirect');
-			$canChange	= $user->authorise('core.edit.state',	'com_redirect');
+			$canCreate = $user->authorise('core.create',     'com_redirect');
+			$canEdit   = $user->authorise('core.edit',       'com_redirect');
+			$canChange = $user->authorise('core.edit.state', 'com_redirect');
 			?>
 			<tr class="row<?php echo $i % 2; ?>">
 				<td class="center">

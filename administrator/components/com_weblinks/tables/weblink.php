@@ -1,25 +1,27 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_weblinks
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
 
 /**
  * Weblink Table class
  *
- * @package		Joomla.Administrator
- * @subpackage	com_weblinks
- * @since		1.5
+ * @package     Joomla.Administrator
+ * @subpackage  com_weblinks
+ * @since       1.5
  */
 class WeblinksTableWeblink extends JTable
 {
 	/**
 	 * Constructor
 	 *
-	 * @param JDatabase A database connector object
+	 * @param JDatabaseDriver A database connector object
 	 */
 	public function __construct(&$db)
 	{
@@ -37,19 +39,25 @@ class WeblinksTableWeblink extends JTable
 	public function bind($array, $ignore = '')
 	{
 		if (isset($array['params']) && is_array($array['params'])) {
-			$registry = new JRegistry();
+			$registry = new JRegistry;
 			$registry->loadArray($array['params']);
-			$array['params'] = (string)$registry;
+			$array['params'] = (string) $registry;
 		}
 
 		if (isset($array['metadata']) && is_array($array['metadata'])) {
-			$registry = new JRegistry();
+			$registry = new JRegistry;
 			$registry->loadArray($array['metadata']);
-			$array['metadata'] = (string)$registry;
+			$array['metadata'] = (string) $registry;
 		}
+
+		if (isset($array['images']) && is_array($array['images'])) {
+			$registry = new JRegistry;
+			$registry->loadArray($array['images']);
+			$array['images'] = (string) $registry;
+		}
+
 		return parent::bind($array, $ignore);
 	}
-
 
 	/**
 	 * Overload the store method for the Weblinks table.
@@ -69,7 +77,7 @@ class WeblinksTableWeblink extends JTable
 		} else {
 			// New weblink. A weblink created and created_by field can be set by the user,
 			// so we don't touch either of these if they are set.
-			if (!intval($this->created)) {
+			if (!(int) $this->created) {
 				$this->created = $date->toSql();
 			}
 			if (empty($this->created_by)) {
@@ -77,9 +85,22 @@ class WeblinksTableWeblink extends JTable
 			}
 		}
 
-	// Verify that the alias is unique
+		// Set publish_up to null date if not set
+		if (!$this->publish_up)
+		{
+			$this->publish_up = $this->_db->getNullDate();
+		}
+
+		// Set publish_down to null date if not set
+		if (!$this->publish_down)
+		{
+			$this->publish_down = $this->_db->getNullDate();
+		}
+
+		// Verify that the alias is unique
 		$table = JTable::getInstance('Weblink', 'WeblinksTable');
-		if ($table->load(array('alias'=>$this->alias, 'catid'=>$this->catid)) && ($table->id != $this->id || $this->id==0)) {
+		if ($table->load(array('alias' => $this->alias, 'catid' => $this->catid)) && ($table->id != $this->id || $this->id == 0))
+		{
 			$this->setError(JText::_('COM_WEBLINKS_ERROR_UNIQUE_ALIAS'));
 			return false;
 		}
@@ -109,8 +130,8 @@ class WeblinksTableWeblink extends JTable
 		$query = 'SELECT id FROM #__weblinks WHERE title = '.$this->_db->Quote($this->title).' AND catid = '.(int) $this->catid;
 		$this->_db->setQuery($query);
 
-		$xid = intval($this->_db->loadResult());
-		if ($xid && $xid != intval($this->id)) {
+		$xid = (int) $this->_db->loadResult();
+		if ($xid && $xid != (int) $this->id) {
 			$this->setError(JText::_('COM_WEBLINKS_ERR_TABLES_NAME'));
 			return false;
 		}
@@ -162,7 +183,6 @@ class WeblinksTableWeblink extends JTable
 	 */
 	public function publish($pks = null, $state = 1, $userId = 0)
 	{
-		// Initialise variables.
 		$k = $this->_tbl_key;
 
 		// Sanitize input.
@@ -201,11 +221,14 @@ class WeblinksTableWeblink extends JTable
 			' WHERE ('.$where.')' .
 			$checkin
 		);
-		$this->_db->query();
 
-		// Check for a database error.
-		if ($this->_db->getErrorNum()) {
-			$this->setError($this->_db->getErrorMsg());
+		try
+		{
+			$this->_db->execute();
+		}
+		catch (RuntimeException $e)
+		{
+			$this->setError($e->getMessage());
 			return false;
 		}
 

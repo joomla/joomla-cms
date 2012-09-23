@@ -40,7 +40,6 @@ class JFormFieldAccessLevel extends JFormFieldList
 	 */
 	protected function getInput()
 	{
-		// Initialize variables.
 		$attr = '';
 
 		// Initialize some field attributes.

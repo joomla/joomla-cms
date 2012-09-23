@@ -1,22 +1,22 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_newsfeeds
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.controller');
 
 /**
  * Newsfeeds master display controller.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_newsfeeds
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_newsfeeds
+ * @since       1.6
  */
-class NewsfeedsController extends JController
+class NewsfeedsController extends JControllerLegacy
 {
 	/**
 	 * Method to display a view.
@@ -31,12 +31,9 @@ class NewsfeedsController extends JController
 	{
 		require_once JPATH_COMPONENT.'/helpers/newsfeeds.php';
 
-		// Load the submenu.
-		NewsfeedsHelper::addSubmenu(JRequest::getCmd('view', 'newsfeeds'));
-
-		$view		= JRequest::getCmd('view', 'newsfeeds');
-		$layout 	= JRequest::getCmd('layout', 'default');
-		$id			= JRequest::getInt('id');
+		$view   = $this->input->get('view', 'newsfeeds');
+		$layout = $this->input->get('layout', 'default');
+		$id     = $this->input->getInt('id');
 
 		// Check for edit form.
 		if ($view == 'newsfeed' && $layout == 'edit' && !$this->checkEditId('com_newsfeeds.edit.newsfeed', $id)) {

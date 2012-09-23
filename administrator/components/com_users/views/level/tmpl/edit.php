@@ -1,9 +1,10 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_users
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_users
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -86,24 +87,23 @@ window.addEvent('domready', function(){
 </script>
 
 
-<form action="<?php echo JRoute::_('index.php?option=com_users&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="level-form" class="form-validate">
-	<div class="width-100">
-		<fieldset class="adminform">
-			<legend><?php echo JText::_('COM_USERS_LEVEL_DETAILS');?></legend>
-			<ul class="adminformlist">
-				<li><?php echo $this->form->getLabel('title'); ?></li>
-				<li><?php echo $this->form->getInput('title'); ?></li>
-			</ul>
-		</fieldset>
-	</div>
+<form action="<?php echo JRoute::_('index.php?option=com_users&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="level-form" class="form-validate form-horizontal">
+	<fieldset>
+		<legend><?php echo JText::_('COM_USERS_LEVEL_DETAILS');?></legend>
+		<div class="control-group">
+			<div class="control-label">
+				<?php echo $this->form->getLabel('title'); ?>
+			</div>
+			<div class="controls">
+				<?php echo $this->form->getInput('title'); ?>
+			</div>
+		</div>
+	</fieldset>
 
-	<div class="width-50">
-		<fieldset class="adminform">
-			<legend><?php echo JText::_('COM_USERS_USER_GROUPS_HAVING_ACCESS');?></legend>
-			<?php echo JHtml::_('access.usergroups', 'jform[rules]', $this->item->rules); ?>
-		</fieldset>
-		<input type="hidden" name="task" value="" />
-		<?php echo JHtml::_('form.token'); ?>
-	</div>
+	<fieldset>
+		<legend><?php echo JText::_('COM_USERS_USER_GROUPS_HAVING_ACCESS');?></legend>
+		<?php echo JHtml::_('access.usergroups', 'jform[rules]', $this->item->rules); ?>
+	</fieldset>
+	<input type="hidden" name="task" value="" />
+	<?php echo JHtml::_('form.token'); ?>
 </form>
-<div class="clr"></div>

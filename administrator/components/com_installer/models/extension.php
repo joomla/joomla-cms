@@ -1,24 +1,21 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_installer
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_installer
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
-
-// Import library dependencies
-jimport('joomla.application.component.modellist');
 
 /**
  * Extension Manager Abstract Extension Model
  *
  * @abstract
- * @package		Joomla.Administrator
- * @subpackage	com_installer
- * @since		1.5
+ * @package     Joomla.Administrator
+ * @subpackage  com_installer
+ * @since       1.5
  */
 class InstallerModel extends JModelList
 {
@@ -67,7 +64,8 @@ class InstallerModel extends JModelList
 			$lang = JFactory::getLanguage();
 			$this->translate($result);
 			if (!empty($search)) {
-				foreach($result as $i=>$item) {
+				foreach ($result as $i => $item)
+				{
 					if (!preg_match("/$search/i", $item->name)) {
 						unset($result[$i]);
 					}

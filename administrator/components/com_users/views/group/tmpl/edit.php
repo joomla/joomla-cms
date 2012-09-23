@@ -1,9 +1,10 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_users
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_users
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -26,21 +27,29 @@ $canDo = UsersHelper::getActions();
 	}
 </script>
 
-<form action="<?php echo JRoute::_('index.php?option=com_users&layout=edit&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="group-form" class="form-validate">
-	<div class="width-100">
-		<fieldset class="adminform">
-			<legend><?php echo JText::_('COM_USERS_USERGROUP_DETAILS');?></legend>
-			<ul class="adminformlist">
-				<li><?php echo $this->form->getLabel('title'); ?>
-				<?php echo $this->form->getInput('title'); ?></li>
-
-				<?php $parent_id = $this->form->getField('parent_id');?>
-				<li><?php if (!$parent_id->hidden) echo $parent_id->label; ?>
-				<?php echo $parent_id->input; ?></li>
-			</ul>
-		</fieldset>
-		<input type="hidden" name="task" value="" />
-		<?php echo JHtml::_('form.token'); ?>
-	</div>
+<form action="<?php echo JRoute::_('index.php?option=com_users&layout=edit&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="group-form" class="form-validate form-horizontal">
+	<fieldset>
+		<legend><?php echo JText::_('COM_USERS_USERGROUP_DETAILS');?></legend>
+		<div class="control-group">
+			<div class="control-label">
+				<?php echo $this->form->getLabel('title'); ?>
+			</div>
+			<div class="controls">
+				<?php echo $this->form->getInput('title'); ?>
+			</div>
+		</div>
+		<div class="control-group">
+			<?php $parent_id = $this->form->getField('parent_id');?>
+			<?php if (!$parent_id->hidden): ?>
+				<div class="control-label">
+					<?php echo $parent_id->label; ?>
+				</div>
+			<?php endif;?>
+			<div class="controls">
+				<?php echo $parent_id->input; ?>
+			</div>
+		</div>
+	</fieldset>
+	<input type="hidden" name="task" value="" />
+	<?php echo JHtml::_('form.token'); ?>
 </form>
-<div class="clr"></div>

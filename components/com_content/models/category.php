@@ -1,22 +1,21 @@
 <?php
 /**
- * @package		Joomla.Site
- * @subpackage	com_content
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  com_content
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.modellist');
 
 /**
  * This models supports retrieving a category, the articles associated with the category,
  * sibling, child and parent categories.
  *
- * @package		Joomla.Site
- * @subpackage	com_content
- * @since		1.5
+ * @package     Joomla.Site
+ * @subpackage  com_content
+ * @since       1.5
  */
 class ContentModelCategory extends JModelList
 {
@@ -103,9 +102,8 @@ class ContentModelCategory extends JModelList
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
-		// Initiliase variables.
-		$app	= JFactory::getApplication('site');
-		$pk		= JRequest::getInt('id');
+		$app = JFactory::getApplication('site');
+		$pk  = $app->input->getInt('id');
 
 		$this->setState('category.id', $pk);
 
@@ -150,10 +148,10 @@ class ContentModelCategory extends JModelList
 		}
 
 		// Optional filter text
-		$this->setState('list.filter', JRequest::getString('filter-search'));
+		$this->setState('list.filter', $app->input->getString('filter-search'));
 
 		// filter.order
-		$itemid = JRequest::getInt('id', 0) . ':' . JRequest::getInt('Itemid', 0);
+		$itemid = $app->input->get('id', 0, 'int') . ':' . $app->input->get('Itemid', 0, 'int');
 		$orderCol = $app->getUserStateFromRequest('com_content.category.list.' . $itemid . '.filter_order', 'filter_order', '', 'string');
 		if (!in_array($orderCol, $this->filter_fields)) {
 			$orderCol = 'a.ordering';
@@ -167,10 +165,11 @@ class ContentModelCategory extends JModelList
 		}
 		$this->setState('list.direction', $listOrder);
 
-		$this->setState('list.start', JRequest::getUInt('limitstart', 0));
+		$this->setState('list.start', $app->input->get('limitstart', 0, 'uint'));
 
 		// set limit for query. If list, use parameter. If blog, add blog parameters for limit.
-		if ((JRequest::getCmd('layout') == 'blog') || $params->get('layout_type') == 'blog') {
+		if (($app->input->get('layout') == 'blog') || $params->get('layout_type') == 'blog')
+		{
 			$limit = $params->get('num_leading_articles') + $params->get('num_intro_articles') + $params->get('num_links');
 			$this->setState('list.links', $params->get('num_links'));
 		}
@@ -188,11 +187,9 @@ class ContentModelCategory extends JModelList
 			$this->setState('filter.subcategories', true);
 		}
 
-
-
 		$this->setState('filter.language', $app->getLanguageFilter());
 
-		$this->setState('layout', JRequest::getCmd('layout'));
+		$this->setState('layout', $app->input->get('layout'));
 
 	}
 
@@ -232,7 +229,7 @@ class ContentModelCategory extends JModelList
 				}
 			}
 			else {
-				$this->_articles=array();
+				$this->_articles = array();
 			}
 
 			$this->_pagination = $model->getPagination();
@@ -252,7 +249,7 @@ class ContentModelCategory extends JModelList
 		$app		= JFactory::getApplication('site');
 		$db			= $this->getDbo();
 		$params		= $this->state->params;
-		$itemid		= JRequest::getInt('id', 0) . ':' . JRequest::getInt('Itemid', 0);
+		$itemid		= $app->input->get('id', 0, 'int') . ':' . $app->input->get('Itemid', 0, 'int');
 		$orderCol	= $app->getUserStateFromRequest('com_content.category.list.' . $itemid . '.filter_order', 'filter_order', '', 'string');
 		$orderDirn	= $app->getUserStateFromRequest('com_content.category.list.' . $itemid . '.filter_order_Dir', 'filter_order_Dir', '', 'cmd');
 		$orderby	= ' ';
@@ -275,7 +272,7 @@ class ContentModelCategory extends JModelList
 		$secondary			= ContentHelperQuery::orderbySecondary($articleOrderby, $articleOrderDate) . ', ';
 		$primary			= ContentHelperQuery::orderbyPrimary($categoryOrderby);
 
-		$orderby .= $db->escape($primary) . ' ' . $db->escape($secondary) . ' a.created ';
+		$orderby .= $primary . ' ' . $secondary . ' a.created ';
 
 		return $orderby;
 	}
@@ -404,7 +401,7 @@ class ContentModelCategory extends JModelList
 		}
 
 		// Order subcategories
-		if (sizeof($this->_children)) {
+		if (count($this->_children)) {
 			$params = $this->getState()->get('params');
 			if ($params->get('orderby_pri') == 'alpha' || $params->get('orderby_pri') == 'ralpha') {
 				jimport('joomla.utilities.arrayhelper');

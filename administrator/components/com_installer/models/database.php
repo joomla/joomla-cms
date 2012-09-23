@@ -1,24 +1,23 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_installer
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_installer
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
 
-// Import library dependencies
-JLoader::register('InstallerModel', dirname(__FILE__) . '/extension.php');
+JLoader::register('InstallerModel', __DIR__ . '/extension.php');
 JLoader::register('joomlaInstallerScript', JPATH_ADMINISTRATOR . '/components/com_admin/script.php');
 
 /**
  * Installer Manage Model
  *
- * @package		Joomla.Administrator
- * @subpackage	com_installer
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_installer
+ * @since       1.6
  */
 class InstallerModelDatabase extends InstallerModel
 {
@@ -47,11 +46,14 @@ class InstallerModelDatabase extends InstallerModel
 	 */
 	public function fix()
 	{
-		$changeSet = $this->getItems();
+		if (!$changeSet = $this->getItems())
+		{
+			return false;
+		}
 		$changeSet->fix();
 		$this->fixSchemaVersion($changeSet);
 		$this->fixUpdateVersion();
-		$installer = new joomlaInstallerScript();
+		$installer = new joomlaInstallerScript;
 		$installer->deleteUnexistingFiles();
 		$this->fixDefaultTextFilters();
 	}
@@ -65,7 +67,16 @@ class InstallerModelDatabase extends InstallerModel
 	public function getItems()
 	{
 		$folder = JPATH_ADMINISTRATOR . '/components/com_admin/sql/updates/';
-		$changeSet = JSchemaChangeset::getInstance(JFactory::getDbo(), $folder);
+
+		try
+		{
+			$changeSet = JSchemaChangeset::getInstance(JFactory::getDbo(), $folder);
+		}
+		catch (RuntimeException $e)
+		{
+			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'warning');
+			return false;
+		}
 		return $changeSet;
 	}
 
@@ -78,19 +89,18 @@ class InstallerModelDatabase extends InstallerModel
 	 * Get version from #__schemas table
 	 *
 	 * @return  mixed  the return value from the query, or null if the query fails
+	 *
 	 * @throws Exception
 	 */
-
-	public function getSchemaVersion() {
+	public function getSchemaVersion()
+	{
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 		$query->select('version_id')->from($db->qn('#__schemas'))
-		->where('extension_id = 700');
+			->where('extension_id = 700');
 		$db->setQuery($query);
 		$result = $db->loadResult();
-		if ($db->getErrorNum()) {
-			throw new Exception('Database error - getSchemaVersion');
-		}
+
 		return $result;
 	}
 
@@ -121,7 +131,7 @@ class InstallerModelDatabase extends InstallerModel
 			$query->delete($db->qn('#__schemas'));
 			$query->where($db->qn('extension_id') . ' = 700');
 			$db->setQuery($query);
-			$db->query();
+			$db->execute();
 
 			// Add new row
 			$query = $db->getQuery(true);
@@ -129,7 +139,7 @@ class InstallerModelDatabase extends InstallerModel
 			$query->set($db->qn('extension_id') . '= 700');
 			$query->set($db->qn('version_id') . '= ' . $db->q($schema));
 			$db->setQuery($query);
-			if ($db->query()) {
+			if ($db->execute()) {
 				$result = $schema;
 			}
 		}
@@ -160,8 +170,8 @@ class InstallerModelDatabase extends InstallerModel
 		$table = JTable::getInstance('Extension');
 		$table->load('700');
 		$cache = new JRegistry($table->manifest_cache);
-		$updateVersion =  $cache->get('version');
-		$cmsVersion = new JVersion();
+		$updateVersion = $cache->get('version');
+		$cmsVersion = new JVersion;
 		if ($updateVersion == $cmsVersion->getShortVersion())
 		{
 			return $updateVersion;
@@ -212,7 +222,7 @@ class InstallerModelDatabase extends InstallerModel
 			$contentParams = JComponentHelper::getParams('com_content');
 			if ($contentParams->get('filters'))
 			{
-				$newParams = new JRegistry();
+				$newParams = new JRegistry;
 				$newParams->set('filters', $contentParams->get('filters'));
 				$table->params = (string) $newParams;
 				$table->store();
@@ -221,4 +231,3 @@ class InstallerModelDatabase extends InstallerModel
 		}
 	}
 }
-

@@ -77,10 +77,11 @@ class JCacheController
 	 * @return  JCache  A JCache object
 	 *
 	 * @since   11.1
+	 * @throws  RuntimeException
 	 */
 	public static function getInstance($type = 'output', $options = array())
 	{
-		JCacheController::addIncludePath(JPATH_PLATFORM . '/joomla/cache/controller');
+		self::addIncludePath(JPATH_PLATFORM . '/joomla/cache/controller');
 
 		$type = strtolower(preg_replace('/[^A-Z0-9_\.-]/i', '', $type));
 
@@ -91,13 +92,13 @@ class JCacheController
 			// Search for the class file in the JCache include paths.
 			jimport('joomla.filesystem.path');
 
-			if ($path = JPath::find(JCacheController::addIncludePath(), strtolower($type) . '.php'))
+			if ($path = JPath::find(self::addIncludePath(), strtolower($type) . '.php'))
 			{
 				include_once $path;
 			}
 			else
 			{
-				JError::raiseError(500, 'Unable to load Cache Controller: ' . $type);
+				throw new RuntimeException('Unable to load Cache Controller: ' . $type, 500);
 			}
 		}
 
@@ -192,7 +193,8 @@ class JCacheController
 		// Check again because we might get it from second attempt
 		if ($data !== false)
 		{
-			$data = unserialize(trim($data)); // trim to fix unserialize errors
+			// Trim to fix unserialize errors
+			$data = unserialize(trim($data));
 		}
 		return $data;
 	}

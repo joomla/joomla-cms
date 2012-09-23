@@ -1,20 +1,20 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_languages
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.modellist');
 
 /**
  * Languages Component Languages Model
  *
- * @package		Joomla.Administrator
- * @subpackage	com_languages
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_languages
+ * @since       1.6
  */
 class LanguagesModelInstalled extends JModelList
 {
@@ -68,11 +68,10 @@ class LanguagesModelInstalled extends JModelList
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
-		// Initialise variables.
 		$app = JFactory::getApplication('administrator');
 
 		// Load the filter state.
-		$clientId = JRequest::getInt('client');
+		$clientId = $app->input->getInt('client');
 		$this->setState('filter.client_id', $clientId);
 
 		// Load the parameters.
@@ -167,7 +166,7 @@ class LanguagesModelInstalled extends JModelList
 			foreach($langlist as $lang){
 				$file = $path . '/' . $lang . '/' . $lang.'.xml';
 				$info = JApplicationHelper::parseXMLLangMetaFile($file);
-				$row = new JObject();
+				$row = new JObject;
 				$row->language = $lang;
 
 				if (!is_array($info)) {
@@ -247,7 +246,7 @@ class LanguagesModelInstalled extends JModelList
 		$query->where('state = 0');
 		$query->where('enabled = 1');
 
-		$query->where('client_id=' . intval($client));
+		$query->where('client_id=' . (int) $client);
 
 		// for client_id = 1 do we need to check language table also ?
 		$db->setQuery($query);
@@ -296,7 +295,7 @@ class LanguagesModelInstalled extends JModelList
 				return false;
 			}
 
-			$table->params = (string)$params;
+			$table->params = (string) $params;
 			// pre-save checks
 			if (!$table->check()) {
 				$this->setError($table->getError());

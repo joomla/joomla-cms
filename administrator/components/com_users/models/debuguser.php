@@ -1,20 +1,22 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_users
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.modellist');
 require_once JPATH_COMPONENT.'/helpers/debug.php';
 
 /**
  * Methods supporting a list of user records.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_users
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_users
+ * @since       1.6
  */
 class UsersModelDebugUser extends JModelList
 {
@@ -80,11 +82,12 @@ class UsersModelDebugUser extends JModelList
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
-		// Initialise variables.
 		$app = JFactory::getApplication('administrator');
 
 		// Adjust the context to support modal layouts.
-		if ($layout = JRequest::getVar('layout', 'default')) {
+		$layout = $app->input->get('layout', 'default');
+		if ($layout)
+		{
 			$this->context .= '.'.$layout;
 		}
 
@@ -108,7 +111,7 @@ class UsersModelDebugUser extends JModelList
 		$this->setState('filter.component', $component);
 
 		// Load the parameters.
-		$params		= JComponentHelper::getParams('com_users');
+		$params = JComponentHelper::getParams('com_users');
 		$this->setState('params', $params);
 
 		// List state information.

@@ -1,16 +1,18 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_modules
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_modules
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_modules
+ * @since       1.6
  */
 abstract class JHtmlModules
 {
@@ -126,15 +128,16 @@ abstract class JHtmlModules
 			'<label id="batch-choose-action-lbl" for="batch-choose-action">',
 			JText::_('COM_MODULES_BATCH_POSITION_LABEL'),
 			'</label>',
-			'<fieldset id="batch-choose-action" class="combo">',
+			'<div id="batch-choose-action" class="control-group">',
 			'<select name="batch[position_id]" class="inputbox" id="batch-position-id">',
 			'<option value="">' . JText::_('JSELECT') . '</option>',
 			'<option value="nochange">' . JText::_('COM_MODULES_BATCH_POSITION_NOCHANGE') . '</option>',
 			'<option value="noposition">' . JText::_('COM_MODULES_BATCH_POSITION_NOPOSITION') . '</option>',
 			JHtml::_('select.options',	self::positionList($clientId)),
 			'</select>',
+			'</div>', '<div id="batch-move-copy" class="control-group radio">',
 			JHtml::_('select.radiolist', $options, 'batch[move_copy]', '', 'value', 'text', 'm'),
-			'</fieldset>'
+			'</div>'
 		);
 
 		return implode("\n", $lines);
@@ -163,12 +166,13 @@ abstract class JHtmlModules
 		// Get the options.
 		$db->setQuery($query);
 
-		$options = $db->loadObjectList();
-
-		// Check for a database error.
-		if ($db->getErrorNum())
+		try
 		{
-			JError::raiseWarning(500, $db->getErrorMsg());
+			$options = $db->loadObjectList();
+		}
+		catch (RuntimeException $e)
+		{
+			JError::raiseWarning(500, $e->getMessage());
 		}
 
 		// Pop the first item off the array if it's blank

@@ -1,13 +1,12 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	Templates.hathor
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  Template.hathor
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
 
 // Include the component HTML helpers.
@@ -19,12 +18,13 @@ JHtml::_('behavior.formvalidation');
 JHtml::_('behavior.keepalive');
 
 // Create shortcut to parameters.
-	$params = $this->state->get('params');
-
-	$params = $params->toArray();
+$params = $this->state->get('params');
+$params = $params->toArray();
 
 // This checks if the config options have ever been saved. If they haven't they will fall back to the original settings.
 $editoroptions = isset($params['show_publishing_options']);
+
+$input = JFactory::getApplication()->input;
 
 if (!$editoroptions):
 	$params['show_publishing_options'] = '1';
@@ -107,7 +107,7 @@ endif;
 	</div>
 
 	<div class="col options-section">
-		<?php echo JHtml::_('sliders.start', 'content-sliders-'.$this->item->id, array('useCookie'=>1)); ?>
+		<?php echo JHtml::_('sliders.start', 'content-sliders-' . $this->item->id, array('useCookie' => 1)); ?>
 		<?php // Do not show the publishing options if the edit form is configured not to. ?>
 		<?php  if ($params['show_publishing_options'] || ( $params['show_publishing_options'] = '' && !empty($editoroptions)) ): ?>
 			<?php echo JHtml::_('sliders.panel', JText::_('COM_CONTENT_FIELDSET_PUBLISHING'), 'publishing-details'); ?>
@@ -150,14 +150,15 @@ endif;
 		<?php  endif; ?>
 		<?php  $fieldSets = $this->form->getFieldsets('attribs'); ?>
 			<?php foreach ($fieldSets as $name => $fieldSet) : ?>
-				<?php // If the parameter says to show the article options or if the parameters have never been set, we will
-					  // show the article options. ?>
+				<?php
+					// If the parameter says to show the article options or if the parameters have never been set, we will
+					// show the article options.
 
-				<?php if ($params['show_article_options'] || (( $params['show_article_options'] == '' && !empty($editoroptions) ))): ?>
-					<?php // Go through all the fieldsets except the configuration and basic-limited, which are
-						  // handled separately below. ?>
+					if ($params['show_article_options'] || (( $params['show_article_options'] == '' && !empty($editoroptions) ))):
 
-					<?php if ($name != 'editorConfig' && $name != 'basic-limited') : ?>
+					// Go through all the fieldsets except the configuration and basic-limited, which are
+					// handled separately below.
+					if ($name != 'editorConfig' && $name != 'basic-limited') : ?>
 						<?php echo JHtml::_('sliders.panel', JText::_($fieldSet->label), $name.'-options'); ?>
 						<?php if (isset($fieldSet->description) && trim($fieldSet->description)) : ?>
 							<p class="tip"><?php echo $this->escape(JText::_($fieldSet->description));?></p>
@@ -186,9 +187,10 @@ endif;
 						<?php echo $this->form->getInput('xreference'); ?></li>
 				</ul>
 				</fieldset>
-				<?php // We need to make a separate space for the configuration
-				      // so that those fields always show to those wih permissions ?>
-				<?php if ( $this->canDo->get('core.admin')   ):  ?>
+				<?php
+					// We need to make a separate space for the configuration
+					// so that those fields always show to those wih permissions
+					if ( $this->canDo->get('core.admin')   ):  ?>
 					<?php  echo JHtml::_('sliders.panel', JText::_('COM_CONTENT_SLIDER_EDITOR_CONFIG'), 'configure-sliders'); ?>
 						<fieldset  class="panelform" >
 							<ul class="adminformlist">
@@ -240,7 +242,7 @@ endif;
 	<div class="clr"></div>
 	<?php if ($this->canDo->get('core.admin')): ?>
 		<div  class="col rules-section">
-			<?php echo JHtml::_('sliders.start', 'permissions-sliders-'.$this->item->id, array('useCookie'=>1)); ?>
+			<?php echo JHtml::_('sliders.start', 'permissions-sliders-' . $this->item->id, array('useCookie' => 1)); ?>
 
 				<?php echo JHtml::_('sliders.panel', JText::_('COM_CONTENT_FIELDSET_RULES'), 'access-rules'); ?>
 				<fieldset class="panelform">
@@ -254,7 +256,7 @@ endif;
 	<?php endif; ?>
 	<div>
 		<input type="hidden" name="task" value="" />
-		<input type="hidden" name="return" value="<?php echo JRequest::getCmd('return');?>" />
+		<input type="hidden" name="return" value="<?php echo $input->getCmd('return');?>" />
 		<?php echo JHtml::_('form.token'); ?>
 	</div>
 </form>

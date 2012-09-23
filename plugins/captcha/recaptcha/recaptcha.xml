@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="2.5" type="plugin" group="captcha">
+<extension version="3.0" type="plugin" group="captcha">
 	<name>plg_captcha_recaptcha</name>
-	<version>2.5.0</version>
+	<version>3.0.0</version>
 	<creationDate>December 2011</creationDate>
 	<author>Joomla! Project</author>
 	<authorEmail>admin@joomla.org</authorEmail>

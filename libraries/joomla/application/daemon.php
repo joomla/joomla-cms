@@ -73,6 +73,12 @@ class JApplicationDaemon extends JApplicationCli
 	protected $exiting = false;
 
 	/**
+	 * @var    integer  The parent process id.
+	 * @since  12.1
+	 */
+	protected $parentId = 0;
+
+	/**
 	 * @var    integer  The process id of the daemon.
 	 * @since  11.1
 	 */
@@ -94,14 +100,14 @@ class JApplicationDaemon extends JApplicationCli
 	 *                              config object.  If the argument is a JRegistry object that object will become
 	 *                              the application's config object, otherwise a default config object is created.
 	 * @param   mixed  $dispatcher  An optional argument to provide dependency injection for the application's
-	 *                              event dispatcher.  If the argument is a JDispatcher object that object will become
+	 *                              event dispatcher.  If the argument is a JEventDispatcher object that object will become
 	 *                              the application's event dispatcher, if it is null then the default event dispatcher
 	 *                              will be created based on the application's loadDispatcher() method.
 	 *
 	 * @since   11.1
 	 * @throws  RuntimeException
 	 */
-	public function __construct(JInputCli $input = null, JRegistry $config = null, JDispatcher $dispatcher = null)
+	public function __construct(JInputCli $input = null, JRegistry $config = null, JEventDispatcher $dispatcher = null)
 	{
 		// Verify that the process control extension for PHP is available.
 		// @codeCoverageIgnoreStart
@@ -161,6 +167,7 @@ class JApplicationDaemon extends JApplicationCli
 
 		switch ($signal)
 		{
+			case SIGINT:
 			case SIGTERM:
 				// Handle shutdown tasks
 				if (static::$instance->running && static::$instance->isActive())
@@ -185,7 +192,7 @@ class JApplicationDaemon extends JApplicationCli
 				break;
 			case SIGCHLD:
 				// A child process has died
-				while (static::$instance->pcntlWait($signal, WNOHANG or WUNTRACED) > 0)
+				while (static::$instance->pcntlWait($signal, WNOHANG || WUNTRACED) > 0)
 				{
 					usleep(1000);
 				}
@@ -223,7 +230,7 @@ class JApplicationDaemon extends JApplicationCli
 		// Read the contents of the process id file as an integer.
 		$fp = fopen($pidFile, 'r');
 		$pid = fread($fp, filesize($pidFile));
-		$pid = intval($pid);
+		$pid = (int) $pid;
 		fclose($fp);
 
 		// Check to make sure that the process id exists as a positive integer.
@@ -344,33 +351,19 @@ class JApplicationDaemon extends JApplicationCli
 	}
 
 	/**
-	 * Restart daemon process.
+	 * Execute the daemon.
 	 *
 	 * @return  void
 	 *
-	 * @codeCoverageIgnore
 	 * @since   11.1
 	 */
-	public function restart()
+	public function execute()
 	{
-		JLog::add('Stopping ' . $this->name, JLog::INFO);
-		$this->shutdown(true);
-	}
+		// Trigger the onBeforeExecute event.
+		$this->triggerEvent('onBeforeExecute');
 
-	/**
-	 * Spawn daemon process.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.1
-	 */
-	public function start()
-	{
-		// Enable basic garbage collection.  Only available in PHP 5.3+
-		if (function_exists('gc_enable'))
-		{
-			gc_enable();
-		}
+		// Enable basic garbage collection.
+		gc_enable();
 
 		JLog::add('Starting ' . $this->name, JLog::INFO);
 
@@ -399,6 +392,23 @@ class JApplicationDaemon extends JApplicationCli
 		{
 			JLog::add('Starting ' . $this->name . ' failed', JLog::INFO);
 		}
+
+		// Trigger the onAfterExecute event.
+		$this->triggerEvent('onAfterExecute');
+	}
+
+	/**
+	 * Restart daemon process.
+	 *
+	 * @return  void
+	 *
+	 * @codeCoverageIgnore
+	 * @since   11.1
+	 */
+	public function restart()
+	{
+		JLog::add('Stopping ' . $this->name, JLog::INFO);
+		$this->shutdown(true);
 	}
 
 	/**
@@ -500,7 +510,22 @@ class JApplicationDaemon extends JApplicationCli
 		// Detach process!
 		try
 		{
-			$this->detach();
+			// Check if we should run in the foreground.
+			if (!$this->input->get('f'))
+			{
+				// Detach from the terminal.
+				$this->detach();
+			}
+			else
+			{
+				// Setup running values.
+				$this->exiting = false;
+				$this->running = true;
+
+				// Set the process id.
+				$this->processId = (int) posix_getpid();
+				$this->parentId = $this->processId;
+			}
 		}
 		catch (RuntimeException $e)
 		{
@@ -582,6 +607,9 @@ class JApplicationDaemon extends JApplicationCli
 			// Setup some protected values.
 			$this->exiting = false;
 			$this->running = true;
+
+			// Set the parent to self.
+			$this->parentId = $this->processId;
 		}
 	}
 
@@ -632,11 +660,8 @@ class JApplicationDaemon extends JApplicationCli
 	 */
 	protected function gc()
 	{
-		// Perform generic garbage collection.  Only available in PHP 5.3+
-		if (function_exists('gc_collect_cycles'))
-		{
-			gc_collect_cycles();
-		}
+		// Perform generic garbage collection.
+		gc_collect_cycles();
 
 		// Clear the stat cache so it doesn't blow up memory.
 		clearstatcache();
@@ -660,6 +685,11 @@ class JApplicationDaemon extends JApplicationCli
 			// Ignore signals that are not defined.
 			if (!defined($signal) || !is_int(constant($signal)) || (constant($signal) === 0))
 			{
+				// Define the signal to avoid notices.
+				JLog::add('Signal "' . $signal . '" not defined. Defining it as null.', JLog::DEBUG);
+				define($signal, null);
+
+				// Don't listen for signal.
 				continue;
 			}
 
@@ -703,25 +733,29 @@ class JApplicationDaemon extends JApplicationCli
 			$this->close();
 		}
 
-		// Read the contents of the process id file as an integer.
-		$fp = fopen($this->config->get('application_pid_file'), 'r');
-		$pid = fread($fp, filesize($this->config->get('application_pid_file')));
-		$pid = intval($pid);
-		fclose($fp);
-
-		// Remove the process id file.
-		@ unlink($this->config->get('application_pid_file'));
-
-		// If we are supposed to restart the daemon we need to execute the same command.
-		if ($restart)
+		// Only read the pid for the parent file.
+		if ($this->parentId == $this->processId)
 		{
-			$this->close(exec(implode(' ', $GLOBALS['argv']) . ' > /dev/null &'));
-		}
-		// If we are not supposed to restart the daemon let's just kill -9.
-		else
-		{
-			passthru('kill -9 ' . $pid);
-			$this->close();
+			// Read the contents of the process id file as an integer.
+			$fp = fopen($this->config->get('application_pid_file'), 'r');
+			$pid = fread($fp, filesize($this->config->get('application_pid_file')));
+			$pid = (int) $pid;
+			fclose($fp);
+
+			// Remove the process id file.
+			@ unlink($this->config->get('application_pid_file'));
+
+			// If we are supposed to restart the daemon we need to execute the same command.
+			if ($restart)
+			{
+				$this->close(exec(implode(' ', $GLOBALS['argv']) . ' > /dev/null &'));
+			}
+			// If we are not supposed to restart the daemon let's just kill -9.
+			else
+			{
+				passthru('kill -9 ' . $pid);
+				$this->close();
+			}
 		}
 	}
 

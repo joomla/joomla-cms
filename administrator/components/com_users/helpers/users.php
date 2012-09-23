@@ -7,7 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
 
 /**
@@ -36,7 +35,7 @@ class UsersHelper
 	 */
 	public static function addSubmenu($vName)
 	{
-		JSubMenuHelper::addEntry(
+		JHtmlSidebar::addEntry(
 			JText::_('COM_USERS_SUBMENU_USERS'),
 			'index.php?option=com_users&view=users',
 			$vName == 'users'
@@ -47,27 +46,27 @@ class UsersHelper
 
 		if ($canDo->get('core.admin'))
 		{
-			JSubMenuHelper::addEntry(
+			JHtmlSidebar::addEntry(
 				JText::_('COM_USERS_SUBMENU_GROUPS'),
 				'index.php?option=com_users&view=groups',
 				$vName == 'groups'
 			);
-			JSubMenuHelper::addEntry(
+			JHtmlSidebar::addEntry(
 				JText::_('COM_USERS_SUBMENU_LEVELS'),
 				'index.php?option=com_users&view=levels',
 				$vName == 'levels'
 			);
-			JSubMenuHelper::addEntry(
+			JHtmlSidebar::addEntry(
 				JText::_('COM_USERS_SUBMENU_NOTES'),
 				'index.php?option=com_users&view=notes',
 				$vName == 'notes'
 			);
 
-			$extension = JRequest::getString('extension');
-			JSubMenuHelper::addEntry(
+			$extension = JFactory::getApplication()->input->getString('extension');
+			JHtmlSidebar::addEntry(
 				JText::_('COM_USERS_SUBMENU_NOTE_CATEGORIES'),
-				'index.php?option=com_categories&extension=com_users.notes',
-				$vName == 'categories' || $extension == 'com_users.notes'
+				'index.php?option=com_categories&extension=com_users',
+				$vName == 'categories' || $extension == 'com_users'
 			);
 		}
 	}
@@ -105,7 +104,7 @@ class UsersHelper
 	 *
 	 * @since   1.6
 	 */
-	static function getStateOptions()
+	public static function getStateOptions()
 	{
 		// Build the filter options.
 		$options = array();
@@ -122,7 +121,7 @@ class UsersHelper
 	 *
 	 * @since   1.6
 	 */
-	static function getActiveOptions()
+	public static function getActiveOptions()
 	{
 		// Build the filter options.
 		$options = array();
@@ -139,7 +138,7 @@ class UsersHelper
 	 *
 	 * @since   1.6
 	 */
-	static function getGroups()
+	public static function getGroups()
 	{
 		$db = JFactory::getDbo();
 		$db->setQuery(
@@ -149,12 +148,14 @@ class UsersHelper
 			' GROUP BY a.id, a.title, a.lft, a.rgt' .
 			' ORDER BY a.lft ASC'
 		);
-		$options = $db->loadObjectList();
 
-		// Check for a database error.
-		if ($db->getErrorNum())
+		try
 		{
-			JError::raiseNotice(500, $db->getErrorMsg());
+			$options = $db->loadObjectList();
+		}
+		catch (RuntimeException $e)
+		{
+			JError::raiseNotice(500, $e->getMessage());
 			return null;
 		}
 

@@ -1,22 +1,20 @@
 <?php
 /**
- * @package		Joomla.Site
- * @subpackage	com_users
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  com_users
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.modelform');
-jimport('joomla.event.dispatcher');
-
 /**
  * Profile model class for Users.
  *
- * @package		Joomla.Site
- * @subpackage	com_users
- * @since		1.6
+ * @package     Joomla.Site
+ * @subpackage  com_users
+ * @since       1.6
  */
 class UsersModelProfile extends JModelForm
 {
@@ -36,7 +34,7 @@ class UsersModelProfile extends JModelForm
 	public function checkin($userId = null)
 	{
 		// Get the user id.
-		$userId = (!empty($userId)) ? $userId : (int)$this->getState('user.id');
+		$userId = (!empty($userId)) ? $userId : (int) $this->getState('user.id');
 
 		if ($userId) {
 			// Initialise the table with JUser.
@@ -62,7 +60,7 @@ class UsersModelProfile extends JModelForm
 	public function checkout($userId = null)
 	{
 		// Get the user id.
-		$userId = (!empty($userId)) ? $userId : (int)$this->getState('user.id');
+		$userId = (!empty($userId)) ? $userId : (int) $this->getState('user.id');
 
 		if ($userId) {
 			// Initialise the table with JUser.
@@ -104,7 +102,7 @@ class UsersModelProfile extends JModelForm
 			$this->data->email2 = $this->data->get('email');
 
 			// Override the base user data with any data in the session.
-			$temp = (array)JFactory::getApplication()->getUserState('com_users.edit.profile.data', array());
+			$temp = (array) JFactory::getApplication()->getUserState('com_users.edit.profile.data', array());
 			foreach ($temp as $k => $v) {
 				$this->data->$k = $v;
 			}
@@ -117,7 +115,7 @@ class UsersModelProfile extends JModelForm
 			$this->data->params = $registry->toArray();
 
 			// Get the dispatcher and load the users plugins.
-			$dispatcher	= JDispatcher::getInstance();
+			$dispatcher	= JEventDispatcher::getInstance();
 			JPluginHelper::importPlugin('user');
 
 			// Trigger the data preparation event.
@@ -210,7 +208,7 @@ class UsersModelProfile extends JModelForm
 
 		// Get the user id.
 		$userId = JFactory::getApplication()->getUserState('com_users.edit.profile.id');
-		$userId = !empty($userId) ? $userId : (int)JFactory::getUser()->get('id');
+		$userId = !empty($userId) ? $userId : (int) JFactory::getUser()->get('id');
 
 		// Set the user id.
 		$this->setState('user.id', $userId);
@@ -228,7 +226,7 @@ class UsersModelProfile extends JModelForm
 	 */
 	public function save($data)
 	{
-		$userId = (!empty($data['id'])) ? $data['id'] : (int)$this->getState('user.id');
+		$userId = (!empty($data['id'])) ? $data['id'] : (int) $this->getState('user.id');
 
 		$user = new JUser($userId);
 

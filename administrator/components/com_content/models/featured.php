@@ -1,19 +1,21 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_content
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
-require_once dirname(__FILE__) . '/articles.php';
+require_once __DIR__ . '/articles.php';
 
 /**
  * About Page Model
  *
- * @package		Joomla.Administrator
- * @subpackage	com_content
+ * @package     Joomla.Administrator
+ * @subpackage  com_content
  */
 class ContentModelFeatured extends ContentModelArticles
 {
@@ -56,7 +58,7 @@ class ContentModelFeatured extends ContentModelArticles
 	 *
 	 * @return	string
 	 */
-	function getListQuery($resolveFKs = true)
+	protected function getListQuery($resolveFKs = true)
 	{
 		// Create a new query object.
 		$db = $this->getDbo();

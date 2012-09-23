@@ -1,20 +1,21 @@
 <?php
 /**
- * @package		Joomla.Site
- * @subpackage	mod_menu
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  mod_menu
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
 
 // Note. It is important to remove spaces between elements.
 ?>
-
-<ul class="menu<?php echo $class_sfx;?>"<?php
+<?php // The menu class is deprecated. Use nav instead. ?>
+<ul class="nav menu <?php echo $class_sfx;?>"<?php
 	$tag = '';
-	if ($params->get('tag_id')!=NULL) {
+	if ($params->get('tag_id') != null)
+	{
 		$tag = $params->get('tag_id').'';
 		echo ' id="'.$tag.'"';
 	}
@@ -31,7 +32,7 @@ foreach ($list as $i => &$item) :
 	}
 	elseif ($item->type == 'alias') {
 		$aliasToId = $item->params->get('aliasoptions');
-		if (count($path) > 0 && $aliasToId == $path[count($path)-1]) {
+		if (count($path) > 0 && $aliasToId == $path[count($path) - 1]) {
 			$class .= ' active';
 		}
 		elseif (in_array($aliasToId, $path)) {
@@ -68,7 +69,7 @@ foreach ($list as $i => &$item) :
 
 	// The next item is deeper.
 	if ($item->deeper) {
-		echo '<ul>';
+		echo '<ul class="nav-child unstyled small">';
 	}
 	// The next item is shallower.
 	elseif ($item->shallower) {

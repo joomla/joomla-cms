@@ -1,13 +1,12 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	Templates.hathor
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  Template.hathor
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
 
 // Include the component HTML helpers.
@@ -77,7 +76,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 				</td>
 				<td class="template-name">
 					<a href="<?php echo JRoute::_('index.php?option=com_templates&view=template&id='.(int) $item->extension_id); ?>">
-						<?php echo  JText::sprintf( 'COM_TEMPLATES_TEMPLATE_DETAILS', $item->name) ;?></a>
+						<?php echo  JText::sprintf('COM_TEMPLATES_TEMPLATE_DETAILS', $item->name); ?></a>
 					<p>
 					<?php if($this->preview && $item->client_id == '0'): ?>
 						<a href="<?php echo JURI::root().'index.php?tp=1&template='.$item->element; ?>" target="_blank">

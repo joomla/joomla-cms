@@ -1,16 +1,17 @@
 <?php
 /**
- * @package		Joomla.Site
- * @subpackage	com_mailto
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  com_mailto
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 /**
- * @package		Joomla.Site
- * @subpackage	com_mailto
+ * @package     Joomla.Site
+ * @subpackage  com_mailto
  */
 abstract class MailtoHelper
 {
@@ -28,7 +29,7 @@ abstract class MailtoHelper
 		$mailto_links = $session->get('com_mailto.links', array());
 		if(!isset($mailto_links[$hash]))
 		{
-			$mailto_links[$hash] = new stdClass();
+			$mailto_links[$hash] = new stdClass;
 		}
 		$mailto_links[$hash]->link = $url;
 		$mailto_links[$hash]->expiry = time();
@@ -69,7 +70,7 @@ abstract class MailtoHelper
 			$past = time() - $lifetime;
 			$session = JFactory::getSession();
 			$mailto_links = $session->get('com_mailto.links', array());
-			foreach($mailto_links as $index=>$link)
+			foreach($mailto_links as $index => $link)
 			{
 				if($link->expiry < $past)
 				{
@@ -79,7 +80,5 @@ abstract class MailtoHelper
 			$session->set('com_mailto.links', $mailto_links);
 			$cleaned = true;
 		}
-
-
 	}
 }

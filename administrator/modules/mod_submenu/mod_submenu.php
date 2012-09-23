@@ -1,15 +1,24 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  mod_submenu
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
-// Include dependancies.
-require_once dirname(__FILE__).'/helper.php';
+$list    = JSubMenuHelper::getEntries();
+$filters = JSubMenuHelper::getFilters();
+$action  = JSubMenuHelper::getAction();
 
-if ($list = modSubmenuHelper::getItems()) {
+$displayMenu    = count($list);
+$displayFilters = count($filters);
+
+$hide = JFactory::getApplication()->input->getBool('hidemainmenu');
+
+if ($displayMenu || $displayFilters)
+{
 	require JModuleHelper::getLayoutPath('mod_submenu', $params->get('layout', 'default'));
 }

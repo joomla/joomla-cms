@@ -30,7 +30,7 @@ class JCacheControllerView extends JCacheController
 	 *
 	 * @since   11.1
 	 */
-	public function get(&$view, $method, $id = false, $wrkarounds = true)
+	public function get( $view, $method = 'display' , $id = false, $wrkarounds = true )
 	{
 		// If an id is not given generate it from the request
 		if ($id == false)
@@ -38,7 +38,6 @@ class JCacheControllerView extends JCacheController
 			$id = $this->_makeId($view, $method);
 		}
 
-		$data = false;
 		$data = $this->cache->get($id);
 
 		$locktest = new stdClass;
@@ -48,8 +47,9 @@ class JCacheControllerView extends JCacheController
 		if ($data === false)
 		{
 			$locktest = $this->cache->lock($id, null);
-			// If the loop is completed and returned true it means the lock has been set
-			// If looped is true try to get the cached data again; it could exist now
+
+			// If the loop is completed and returned true it means the lock has been set.
+			// If looped is true try to get the cached data again; it could exist now.
 			if ($locktest->locked == true && $locktest->locklooped == true)
 			{
 				$data = $this->cache->get($id);

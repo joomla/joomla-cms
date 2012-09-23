@@ -1,7 +1,10 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  com_weblinks
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -9,14 +12,16 @@ defined('_JEXEC') or die;
 /**
  * Content categories view.
  *
- * @package		Joomla.Site
- * @subpackage	com_weblinks
- * @since 1.5
+ * @package     Joomla.Site
+ * @subpackage  com_weblinks
+ * @since       1.5
  */
 class WeblinksViewCategories extends JViewLegacy
 {
 	protected $state = null;
+
 	protected $item = null;
+
 	protected $items = null;
 
 	/**
@@ -24,9 +29,8 @@ class WeblinksViewCategories extends JViewLegacy
 	 *
 	 * @return	mixed	False on error, null otherwise.
 	 */
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
-		// Initialise variables
 		$state		= $this->get('State');
 		$items		= $this->get('Items');
 		$parent		= $this->get('Parent');
@@ -51,13 +55,13 @@ class WeblinksViewCategories extends JViewLegacy
 
 		$items = array($parent->id => $items);
 
-        //Escape strings for HTML output
+		//Escape strings for HTML output
 		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
 
 		$this->maxLevelcat = $params->get('maxLevelcat', -1);
-		$this->assignRef('params',		$params);
-		$this->assignRef('parent',		$parent);
-		$this->assignRef('items',		$items);
+		$this->params = &$params;
+		$this->parent = &$parent;
+		$this->items  = &$items;
 
 		$this->_prepareDocument();
 

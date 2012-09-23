@@ -1,22 +1,22 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_media
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.controller');
 
 /**
  * Media Manager Component Controller
  *
- * @package		Joomla.Administrator
- * @subpackage	com_media
- * @version 1.5
+ * @package     Joomla.Administrator
+ * @subpackage  com_media
+ * @since       1.5
  */
-class MediaController extends JController
+class MediaController extends JControllerLegacy
 {
 	/**
 	 * Method to display a view.
@@ -30,18 +30,18 @@ class MediaController extends JController
 	public function display($cachable = false, $urlparams = false)
 	{
 		JPluginHelper::importPlugin('content');
-		$vName = JRequest::getCmd('view', 'media');
+		$vName = $this->input->get('view', 'media');
 		switch ($vName)
 		{
 			case 'images':
-				$vLayout = JRequest::getCmd('layout', 'default');
+				$vLayout = $this->input->get('layout', 'default');
 				$mName = 'manager';
 
 				break;
 
 			case 'imagesList':
 				$mName = 'list';
-				$vLayout = JRequest::getCmd('layout', 'default');
+				$vLayout = $this->input->get('layout', 'default');
 
 				break;
 
@@ -55,16 +55,17 @@ class MediaController extends JController
 			case 'media':
 			default:
 				$vName = 'media';
-				$vLayout = JRequest::getCmd('layout', 'default');
+				$vLayout = $this->input->get('layout', 'default');
 				$mName = 'manager';
 				break;
 		}
 
 		$document = JFactory::getDocument();
-		$vType		= $document->getType();
+		$vType    = $document->getType();
 
 		// Get/Create the view
 		$view = $this->getView($vName, $vType);
+		$view->addTemplatePath(JPATH_COMPONENT_ADMINISTRATOR.'/views/'.strtolower($vName).'/tmpl');
 
 		// Get/Create the model
 		if ($model = $this->getModel($mName)) {
@@ -81,7 +82,7 @@ class MediaController extends JController
 		return $this;
 	}
 
-	function ftpValidate()
+	public function ftpValidate()
 	{
 		// Set FTP credentials, if given
 		JClientHelper::setCredentialsFromRequest('ftp');

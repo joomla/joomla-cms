@@ -1,19 +1,21 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_newsfeeds
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
 
 /**
  * Utility class for creating HTML Grids
  *
  * @static
- * @package		Joomla.Administrator
- * @subpackage	com_newsfeeds
- * @since		1.5
+ * @package     Joomla.Administrator
+ * @subpackage  com_newsfeeds
+ * @since       1.5
  */
 class JHtmlNewsfeed
 {
@@ -30,7 +32,7 @@ class JHtmlNewsfeed
 		);
 		$state	= JArrayHelper::getValue($states, (int) $value, $states[0]);
 		$html	= '<a href="#" onclick="return listItemTask(\'cb'.$i.'\',\''.$state[1].'\')" title="'.JText::_($state[3]).'">'
-				. JHtml::_('image', 'admin/'.$state[0], JText::_($state[2]), NULL, true).'</a>';
+				. JHtml::_('image', 'admin/'.$state[0], JText::_($state[2]), null, true).'</a>';
 
 		return $html;
 	}
@@ -49,7 +51,6 @@ class JHtmlNewsfeed
 		$options[]	= JHtml::_('select.option', '*', JText::_('JOPTION_ANY'));
 		$options[]	= JHtml::_('select.option', '1', JText::_('JPUBLISHED'));
 		$options[]	= JHtml::_('select.option', '0', JText::_('JUNPUBLISHED'));
-
 
 		return JHtml::_('select.genericlist', $options, 'filter_published',
 			array(

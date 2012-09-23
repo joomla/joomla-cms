@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die();
 
-jimport('joomla.application.component.modellist');
-
 /**
  * Maps model for the Finder package.
  *
@@ -82,9 +80,7 @@ class FinderModelMaps extends JModelList
 	 */
 	public function delete(&$pks)
 	{
-		// Initialise variables.
-		$dispatcher = JDispatcher::getInstance();
-		$user = JFactory::getUser();
+		$dispatcher = JEventDispatcher::getInstance();
 		$pks = (array) $pks;
 		$table = $this->getTable();
 
@@ -283,8 +279,7 @@ class FinderModelMaps extends JModelList
 	 */
 	public function publish(&$pks, $value = 1)
 	{
-		// Initialise variables.
-		$dispatcher = JDispatcher::getInstance();
+		$dispatcher = JEventDispatcher::getInstance();
 		$user = JFactory::getUser();
 		$table = $this->getTable();
 		$pks = (array) $pks;
@@ -348,28 +343,14 @@ class FinderModelMaps extends JModelList
 		$query->from($db->quoteName('#__finder_taxonomy'));
 		$query->where($db->quoteName('parent_id') . ' > 1');
 		$db->setQuery($query);
-		$db->query();
-
-		// Check for a database error.
-		if ($db->getErrorNum())
-		{
-			$this->setError($db->getErrorMsg());
-			return false;
-		}
+		$db->execute();
 
 		$query->clear();
 		$query->delete();
 		$query->from($db->quoteName('#__finder_taxonomy_map'));
 		$query->where('1');
 		$db->setQuery($query);
-		$db->query();
-
-		// Check for a database error.
-		if ($db->getErrorNum())
-		{
-			$this->setError($db->getErrorMsg());
-			return false;
-		}
+		$db->execute();
 
 		return true;
 	}

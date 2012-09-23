@@ -1,7 +1,9 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package    Joomla.Language
+ *
+ * @copyright  Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -9,10 +11,11 @@ defined('_JEXEC') or die;
 /**
  * en-GB localise class
  *
- * @package		Joomla.Site
- * @since		1.6
+ * @package  Joomla.Language
+ * @since    1.6
  */
-abstract class en_GBLocalise {
+abstract class en_GBLocalise
+{
 	/**
 	 * Returns the potential suffixes for a specific number of items
 	 *
@@ -20,12 +23,13 @@ abstract class en_GBLocalise {
 	 * @return	array  An array of potential suffixes.
 	 * @since	1.6
 	 */
-	public static function getPluralSuffixes($count) {
+	public static function getPluralSuffixes($count)
+	{
 		if ($count == 0) {
-			$return =  array('0');
+			$return = array('0');
 		}
 		elseif($count == 1) {
-			$return =  array('1');
+			$return = array('1');
 		}
 		else {
 			$return = array('MORE');
@@ -38,7 +42,8 @@ abstract class en_GBLocalise {
 	 * @return	array  An array of ignored search words.
 	 * @since	1.6
 	 */
-	public static function getIgnoredSearchWords() {
+	public static function getIgnoredSearchWords()
+	{
 		$search_ignore = array();
 		$search_ignore[] = "and";
 		$search_ignore[] = "in";
@@ -51,7 +56,8 @@ abstract class en_GBLocalise {
 	 * @return	integer  The lower length limit of search words.
 	 * @since	1.6
 	 */
-	public static function getLowerLimitSearchWord() {
+	public static function getLowerLimitSearchWord()
+	{
 		return 3;
 	}
 	/**
@@ -60,7 +66,8 @@ abstract class en_GBLocalise {
 	 * @return	integer  The upper length limit of search words.
 	 * @since	1.6
 	 */
-	public static function getUpperLimitSearchWord() {
+	public static function getUpperLimitSearchWord()
+	{
 		return 20;
 	}
 	/**
@@ -69,7 +76,8 @@ abstract class en_GBLocalise {
 	 * @return	integer  The number of chars to display when searching.
 	 * @since	1.6
 	 */
-	public static function getSearchDisplayedCharactersNumber() {
+	public static function getSearchDisplayedCharactersNumber()
+	{
 		return 200;
 	}
 }

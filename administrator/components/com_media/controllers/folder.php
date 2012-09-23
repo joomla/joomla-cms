@@ -1,10 +1,12 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_media
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
 
 jimport('joomla.filesystem.file');
@@ -13,11 +15,11 @@ jimport('joomla.filesystem.folder');
 /**
  * Folder Media Controller
  *
- * @package		Joomla.Administrator
- * @subpackage	com_media
- * @since 1.5
+ * @package     Joomla.Administrator
+ * @subpackage  com_media
+ * @since       1.5
  */
-class MediaControllerFolder extends JController
+class MediaControllerFolder extends JControllerLegacy
 {
 
 	/**
@@ -32,9 +34,9 @@ class MediaControllerFolder extends JController
 		$user	= JFactory::getUser();
 
 		// Get some data from the request
-		$tmpl	= JRequest::getCmd('tmpl');
-		$paths	= JRequest::getVar('rm', array(), '', 'array');
-		$folder = JRequest::getVar('folder', '', '', 'path');
+		$tmpl   = $this->input->get('tmpl');
+		$paths  = $this->input->get('rm', array(), 'array');
+		$folder = $this->input->get('folder', '', 'path');
 
 		$redirect = 'index.php?option=com_media&folder=' . $folder;
 		if ($tmpl == 'component') {
@@ -59,11 +61,10 @@ class MediaControllerFolder extends JController
 		// Set FTP credentials, if given
 		JClientHelper::setCredentialsFromRequest('ftp');
 
-		// Initialise variables.
 		$ret = true;
 
 		JPluginHelper::importPlugin('content');
-		$dispatcher	= JDispatcher::getInstance();
+		$dispatcher	= JEventDispatcher::getInstance();
 		if (count($paths))
 		{
 			foreach ($paths as $path)
@@ -75,7 +76,7 @@ class MediaControllerFolder extends JController
 					continue;
 				}
 
-				$fullPath = JPath::clean(implode(DS, array(COM_MEDIA_BASE, $folder, $path)));
+				$fullPath = JPath::clean(implode(DIRECTORY_SEPARATOR, array(COM_MEDIA_BASE, $folder, $path)));
 				$object_file = new JObject(array('filepath' => $fullPath));
 				if (is_file($fullPath))
 				{
@@ -134,13 +135,13 @@ class MediaControllerFolder extends JController
 		// Check for request forgeries
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		$user = JFactory::getUser();
+		$user  = JFactory::getUser();
 
-		$folder			= JRequest::getCmd('foldername', '');
-		$folderCheck	= JRequest::getVar('foldername', null, '', 'string', JREQUEST_ALLOWRAW);
-		$parent			= JRequest::getVar('folderbase', '', '', 'path');
+		$folder      = $this->input->get('foldername', '');
+		$folderCheck = JRequest::getVar('foldername', null, '', 'string', JREQUEST_ALLOWRAW);
+		$parent      = $this->input->get('folderbase', '', 'path');
 
-		$this->setRedirect('index.php?option=com_media&folder='.$parent.'&tmpl='.JRequest::getCmd('tmpl', 'index'));
+		$this->setRedirect('index.php?option=com_media&folder=' . $parent . '&tmpl=' . $this->input->get('tmpl', 'index'));
 
 		if (strlen($folder) > 0)
 		{
@@ -154,7 +155,7 @@ class MediaControllerFolder extends JController
 			// Set FTP credentials, if given
 			JClientHelper::setCredentialsFromRequest('ftp');
 
-			JRequest::setVar('folder', $parent);
+			$this->input->set('folder', $parent);
 
 			if (($folderCheck !== null) && ($folder !== $folderCheck))
 			{
@@ -168,7 +169,7 @@ class MediaControllerFolder extends JController
 				// Trigger the onContentBeforeSave event.
 				$object_file = new JObject(array('filepath' => $path));
 				JPluginHelper::importPlugin('content');
-				$dispatcher	= JDispatcher::getInstance();
+				$dispatcher	= JEventDispatcher::getInstance();
 				$result = $dispatcher->trigger('onContentBeforeSave', array('com_media.folder', &$object_file));
 				if (in_array(false, $result, true))
 				{
@@ -185,7 +186,7 @@ class MediaControllerFolder extends JController
 				$dispatcher->trigger('onContentAfterSave', array('com_media.folder', &$object_file, true));
 				$this->setMessage(JText::sprintf('COM_MEDIA_CREATE_COMPLETE', substr($path, strlen(COM_MEDIA_BASE))));
 			}
-			JRequest::setVar('folder', ($parent) ? $parent.'/'.$folder : $folder);
+			$this->input->set('folder', ($parent) ? $parent.'/'.$folder : $folder);
 		}
 	}
 }

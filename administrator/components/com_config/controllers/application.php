@@ -1,18 +1,22 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_config
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_config
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_config
+ * Controller for global configuration
+ *
+ * @package     Joomla.Administrator
+ * @subpackage  com_config
+ * @since       1.5
  */
-class ConfigControllerApplication extends JController
+class ConfigControllerApplication extends JControllerLegacy
 {
 	/**
 	 * Class Constructor
@@ -21,7 +25,7 @@ class ConfigControllerApplication extends JController
 	 * @return	void
 	 * @since	1.5
 	 */
-	function __construct($config = array())
+	public function __construct($config = array())
 	{
 		parent::__construct($config);
 
@@ -50,11 +54,10 @@ class ConfigControllerApplication extends JController
 		// Set FTP credentials, if given.
 		JClientHelper::setCredentialsFromRequest('ftp');
 
-		// Initialise variables.
-		$app	= JFactory::getApplication();
-		$model	= $this->getModel('Application');
-		$form	= $model->getForm();
-		$data	= JRequest::getVar('jform', array(), 'post', 'array');
+		$app   = JFactory::getApplication();
+		$model = $this->getModel('Application');
+		$form  = $model->getForm();
+		$data  = $this->input->post->get('jform', array(), 'array');
 
 		// Validate the posted data.
 		$return = $model->validate($form, $data);
@@ -120,7 +123,7 @@ class ConfigControllerApplication extends JController
 	/**
 	 * Cancel operation
 	 */
-	function cancel()
+	public function cancel()
 	{
 		// Check if the user is authorized to do this.
 		if (!JFactory::getUser()->authorise('core.admin', 'com_config'))
@@ -139,7 +142,7 @@ class ConfigControllerApplication extends JController
 		$this->setRedirect('index.php');
 	}
 
-	function refreshHelp()
+	public function refreshHelp()
 	{
 		jimport('joomla.filesystem.file');
 

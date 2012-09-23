@@ -1,9 +1,10 @@
 <?php
 /**
- * @package		Joomla.Site
- * @subpackage	com_users
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  com_users
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -13,9 +14,9 @@ require_once JPATH_COMPONENT.'/controller.php';
 /**
  * Registration controller class for Users.
  *
- * @package		Joomla.Site
- * @subpackage	com_users
- * @since		1.6
+ * @package     Joomla.Site
+ * @subpackage  com_users
+ * @since       1.6
  */
 class UsersControllerUser extends UsersController
 {
@@ -32,7 +33,7 @@ class UsersControllerUser extends UsersController
 
 		// Populate the data array:
 		$data = array();
-		$data['return'] = base64_decode(JRequest::getVar('return', '', 'POST', 'BASE64'));
+		$data['return'] = base64_decode($app->input->post->get('return', '', 'BASE64'));
 		$data['username'] = JRequest::getVar('username', '', 'method', 'username');
 		$data['password'] = JRequest::getString('password', '', 'post', JREQUEST_ALLOWRAW);
 
@@ -46,7 +47,7 @@ class UsersControllerUser extends UsersController
 
 		// Get the log in options.
 		$options = array();
-		$options['remember'] = JRequest::getBool('remember', false);
+		$options['remember'] = $this->input->getBool('remember', false);
 		$options['return'] = $data['return'];
 
 		// Get the log in credentials.
@@ -61,7 +62,7 @@ class UsersControllerUser extends UsersController
 			$app->redirect(JRoute::_($app->getUserState('users.login.form.return'), false));
 		} else {
 			// Login failed !
-			$data['remember'] = (int)$options['remember'];
+			$data['remember'] = (int) $options['remember'];
 			$app->setUserState('users.login.form.data', $data);
 			$app->redirect(JRoute::_('index.php?option=com_users&view=login', false));
 		}
@@ -107,10 +108,10 @@ class UsersControllerUser extends UsersController
 		JSession::checkToken('post') or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Get the form data.
-		$data	= JRequest::getVar('user', array(), 'post', 'array');
+		$data  = $this->input->post->get('user', array(), 'array');
 
 		// Get the model and validate the data.
-		$model	= $this->getModel('Registration', 'UsersModel');
+		$model  = $this->getModel('Registration', 'UsersModel');
 		$return	= $model->validate($data);
 
 		// Check for errors.
@@ -166,9 +167,9 @@ class UsersControllerUser extends UsersController
 		// Check the request token.
 		JSession::checkToken('post') or jexit(JText::_('JINVALID_TOKEN'));
 
-		$app	= JFactory::getApplication();
-		$model	= $this->getModel('User', 'UsersModel');
-		$data	= JRequest::getVar('jform', array(), 'post', 'array');
+		$app   = JFactory::getApplication();
+		$model = $this->getModel('User', 'UsersModel');
+		$data  = $this->input->post->get('jform', array(), 'array');
 
 		// Submit the username remind request.
 		$return	= $model->processRemindRequest($data);

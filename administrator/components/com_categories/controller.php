@@ -1,22 +1,22 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_categories
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.controller');
 
 /**
  * Categories view class for the Category package.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_categories
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_categories
+ * @since       1.6
  */
-class CategoriesController extends JController
+class CategoriesController extends JControllerLegacy
 {
 	/**
 	 * @var		string	The extension for which the categories apply.
@@ -37,7 +37,7 @@ class CategoriesController extends JController
 
 		// Guess the JText message prefix. Defaults to the option.
 		if (empty($this->extension)) {
-			$this->extension = JRequest::getCmd('extension', 'com_content');
+			$this->extension = $this->input->get('extension', 'com_content');
 		}
 	}
 
@@ -56,10 +56,10 @@ class CategoriesController extends JController
 		$document = JFactory::getDocument();
 
 		// Set the default view name and format from the Request.
-		$vName		= JRequest::getCmd('view', 'categories');
-		$vFormat	= $document->getType();
-		$lName		= JRequest::getCmd('layout', 'default');
-		$id			= JRequest::getInt('id');
+		$vName   = $this->input->get('view', 'categories');
+		$vFormat = $document->getType();
+		$lName   = $this->input->get('layout', 'default');
+		$id      = $this->input->getInt('id');
 
 		// Check for edit form.
 		if ($vName == 'category' && $lName == 'edit' && !$this->checkEditId('com_categories.edit.category', $id)) {
@@ -81,7 +81,8 @@ class CategoriesController extends JController
 			$view->setLayout($lName);
 
 			// Push document object into the view.
-			$view->assignRef('document', $document);
+			$view->document = $document;
+
 			// Load the submenu.
 			require_once JPATH_COMPONENT.'/helpers/categories.php';
 

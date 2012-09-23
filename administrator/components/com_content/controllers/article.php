@@ -7,10 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.controllerform');
 
 /**
  * @package     Joomla.Administrator
@@ -26,17 +23,17 @@ class ContentControllerArticle extends JControllerForm
 	 *
 	 * @since	1.6
 	 */
-	function __construct($config = array())
+	public function __construct($config = array())
 	{
+		parent::__construct($config);
+
 		// An article edit form can come from the articles or featured view.
 		// Adjust the redirect view on the value of 'return' in the request.
-		if (JRequest::getCmd('return') == 'featured')
+		if ($this->input->get('return') == 'featured')
 		{
 			$this->view_list = 'featured';
 			$this->view_item = 'article&return=featured';
 		}
-
-		parent::__construct($config);
 	}
 
 	/**
@@ -50,9 +47,8 @@ class ContentControllerArticle extends JControllerForm
 	 */
 	protected function allowAdd($data = array())
 	{
-		// Initialise variables.
 		$user = JFactory::getUser();
-		$categoryId = JArrayHelper::getValue($data, 'catid', JRequest::getInt('filter_category_id'), 'int');
+		$categoryId = JArrayHelper::getValue($data, 'catid', $this->input->getInt('filter_category_id'), 'int');
 		$allow = null;
 
 		if ($categoryId)
@@ -84,7 +80,6 @@ class ContentControllerArticle extends JControllerForm
 	 */
 	protected function allowEdit($data = array(), $key = 'id')
 	{
-		// Initialise variables.
 		$recordId = (int) isset($data[$key]) ? $data[$key] : 0;
 		$user = JFactory::getUser();
 		$userId = $user->get('id');

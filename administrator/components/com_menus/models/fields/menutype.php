@@ -1,7 +1,10 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_menus
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_BASE') or die;
@@ -11,9 +14,9 @@ JFormHelper::loadFieldClass('list');
 /**
  * Form Field class for the Joomla Framework.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_menus
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_menus
+ * @since       1.6
  */
 class JFormFieldMenutype extends JFormFieldList
 {
@@ -33,14 +36,13 @@ class JFormFieldMenutype extends JFormFieldList
 	 */
 	protected function getInput()
 	{
-		// Initialise variables.
 		$html 		= array();
 		$recordId	= (int) $this->form->getValue('id');
 		$size		= ($v = $this->element['size']) ? ' size="'.$v.'"' : '';
 		$class		= ($v = $this->element['class']) ? ' class="'.$v.'"' : 'class="text_area"';
 
 		// Get a reverse lookup of the base link URL to Title
-		$model 	= JModel::getInstance('menutypes', 'menusModel');
+		$model 	= JModelLegacy::getInstance('menutypes', 'menusModel');
 		$rlu 	= $model->getReverseLookup();
 
 		switch ($this->value)
@@ -67,9 +69,8 @@ class JFormFieldMenutype extends JFormFieldList
 		JHtml::_('behavior.framework');
 		JHtml::_('behavior.modal');
 
-		$html[] = '<input type="text" readonly="readonly" disabled="disabled" value="'.$value.'"'.$size.$class.' />';
-		$html[] = '<input type="button" value="'.JText::_('JSELECT').'" onclick="SqueezeBox.fromElement(this, {handler:\'iframe\', size: {x: 600, y: 450}, url:\''.JRoute::_('index.php?option=com_menus&view=menutypes&tmpl=component&recordId='.$recordId).'\'})" />';
-		$html[] = '<input type="hidden" name="'.$this->name.'" value="'.htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8').'" />';
+		$html[] = '<span class="input-append"><input type="text" readonly="readonly" disabled="disabled" value="'.$value.'"'.$size.$class.' /><a class="btn btn-primary" onclick="SqueezeBox.fromElement(this, {handler:\'iframe\', size: {x: 600, y: 450}, url:\''.JRoute::_('index.php?option=com_menus&view=menutypes&tmpl=component&recordId='.$recordId).'\'})"><i class="icon-list icon-white"></i> '.JText::_('JSELECT').'</a></span>';
+		$html[] = '<input class="input-small" type="hidden" name="' . $this->name . '" value="'.htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '" />';
 
 		return implode("\n", $html);
 	}

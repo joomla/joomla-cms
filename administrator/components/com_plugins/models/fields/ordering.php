@@ -1,9 +1,10 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_plugins
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_plugins
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_BASE') or die;
@@ -11,9 +12,9 @@ defined('JPATH_BASE') or die;
 /**
  * Supports an HTML select list of plugins
  *
- * @package		Joomla.Administrator
- * @subpackage	com_plugins
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_plugins
+ * @since       1.6
  */
 class JFormFieldOrdering extends JFormField
 {
@@ -33,7 +34,6 @@ class JFormFieldOrdering extends JFormField
 	 */
 	protected function getInput()
 	{
-		// Initialize variables.
 		$html = array();
 		$attr = '';
 
@@ -46,8 +46,8 @@ class JFormFieldOrdering extends JFormField
 		$attr .= $this->element['onchange'] ? ' onchange="'.(string) $this->element['onchange'].'"' : '';
 
 		// Get some field values from the form.
-		$pluginId	= (int) $this->form->getValue('extension_id');
-		$folder	=  $this->form->getValue('folder');
+		$pluginId = (int) $this->form->getValue('extension_id');
+		$folder	= $this->form->getValue('folder');
 		$db = JFactory::getDbo();
 
 		// Build the query for the ordering list.

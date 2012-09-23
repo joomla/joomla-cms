@@ -1,14 +1,14 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	mod_multilanguagestatus
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  mod_multilangstatus
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
 
 JHtml::_('behavior.modal');
 ?>
-<span class="multilanguage"><a class="modal" href="<?php echo JRoute::_('index.php?option=com_languages&view=multilangstatus&tmpl=component');?>" rel="{handler:'iframe', size:{x:700,y:300}}"><?php echo JText::_('MOD_MULTILANGSTATUS');?></a></span>
+<div class="btn-group multilanguage"><a class="modal" href="<?php echo JRoute::_('index.php?option=com_languages&view=multilangstatus&tmpl=component');?>" rel="{handler:'iframe', size:{x:700,y:300}}"><i class="icon-comment"></i> <?php echo JText::_('MOD_MULTILANGSTATUS');?></a></div>

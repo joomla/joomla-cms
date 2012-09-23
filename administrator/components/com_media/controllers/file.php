@@ -1,10 +1,12 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_media
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
 
 jimport('joomla.filesystem.file');
@@ -13,11 +15,11 @@ jimport('joomla.filesystem.folder');
 /**
  * Media File Controller
  *
- * @package		Joomla.Administrator
- * @subpackage	com_media
- * @since		1.5
+ * @package     Joomla.Administrator
+ * @subpackage  com_media
+ * @since       1.5
  */
-class MediaControllerFile extends JController
+class MediaControllerFile extends JControllerLegacy
 {
 	/*
 	 * The folder we are uploading into
@@ -34,10 +36,11 @@ class MediaControllerFile extends JController
 		// Check for request forgeries
 		JSession::checkToken('request') or jexit(JText::_('JINVALID_TOKEN'));
 		$params = JComponentHelper::getParams('com_media');
+
 		// Get some data from the request
-		$files			= JRequest::getVar('Filedata', '', 'files', 'array');
-		$return			= JRequest::getVar('return-url', null, 'post', 'base64');
-		$this->folder	= JRequest::getVar('folder', '', '', 'path');
+		$files        = JRequest::getVar('Filedata', '', 'files', 'array');
+		$return       = $this->input->post->get('return-url', null, 'base64');
+		$this->folder = $this->input->get('folder', '', 'path');
 
 		// Set the redirect
 		if ($return)
@@ -51,36 +54,37 @@ class MediaControllerFile extends JController
 			return false;
 		}
 		if (
-			$_SERVER['CONTENT_LENGTH']>($params->get('upload_maxsize', 0) * 1024 * 1024) ||
-			$_SERVER['CONTENT_LENGTH']>(int)(ini_get('upload_max_filesize'))* 1024 * 1024 ||
-			$_SERVER['CONTENT_LENGTH']>(int)(ini_get('post_max_size'))* 1024 * 1024 ||
-			$_SERVER['CONTENT_LENGTH']>(int)(ini_get('memory_limit'))* 1024 * 1024
+			$_SERVER['CONTENT_LENGTH'] > ($params->get('upload_maxsize', 0) * 1024 * 1024) ||
+			$_SERVER['CONTENT_LENGTH'] > (int) (ini_get('upload_max_filesize')) * 1024 * 1024 ||
+			$_SERVER['CONTENT_LENGTH'] > (int) (ini_get('post_max_size')) * 1024 * 1024 ||
+			$_SERVER['CONTENT_LENGTH'] > (int) (ini_get('memory_limit')) * 1024 * 1024
 		)
 		{
-			$this->setRedirect('index.php?option=com_media&folder=' . $this->folder, JText::_('COM_MEDIA_ERROR_WARNFILETOOLARGE'), 'error');
+			JError::raiseWarning(100, JText::_('COM_MEDIA_ERROR_WARNFILETOOLARGE'));
 			return false;
 		}
 		// Input is in the form of an associative array containing numerically indexed arrays
 		// We want a numerically indexed array containing associative arrays
 		// Cast each item as array in case the Filedata parameter was not sent as such
-		$files = array_map( array($this, 'reformatFilesArray'),
+		$files = array_map(
+			array($this, 'reformatFilesArray'),
 			(array) $files['name'], (array) $files['type'], (array) $files['tmp_name'], (array) $files['error'], (array) $files['size']
 		);
 
 		// Perform basic checks on file info before attempting anything
 		foreach ($files as &$file)
 		{
-			if ($file['error']==1)
+			if ($file['error'] == 1)
 			{
 				JError::raiseWarning(100, JText::_('COM_MEDIA_ERROR_WARNFILETOOLARGE'));
 				return false;
 			}
-			if ($file['size']>($params->get('upload_maxsize', 0) * 1024 * 1024))
+			if ($file['size'] > ($params->get('upload_maxsize', 0) * 1024 * 1024))
 			{
 				JError::raiseNotice(100, JText::_('COM_MEDIA_ERROR_WARNFILETOOLARGE'));
 				return false;
 			}
-			
+
 			if (JFile::exists($file['filepath']))
 			{
 				// A file with this name already exists
@@ -99,7 +103,7 @@ class MediaControllerFile extends JController
 		// Set FTP credentials, if given
 		JClientHelper::setCredentialsFromRequest('ftp');
 		JPluginHelper::importPlugin('content');
-		$dispatcher	= JDispatcher::getInstance();
+		$dispatcher	= JEventDispatcher::getInstance();
 
 		foreach ($files as &$file)
 		{
@@ -161,7 +165,7 @@ class MediaControllerFile extends JController
 			'tmp_name'	=> $tmp_name,
 			'error'		=> $error,
 			'size'		=> $size,
-			'filepath'	=> JPath::clean(implode(DS, array(COM_MEDIA_BASE, $this->folder, $name)))
+			'filepath'	=> JPath::clean(implode(DIRECTORY_SEPARATOR, array(COM_MEDIA_BASE, $this->folder, $name)))
 		);
 	}
 
@@ -195,9 +199,9 @@ class MediaControllerFile extends JController
 		JSession::checkToken('request') or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Get some data from the request
-		$tmpl	= JRequest::getCmd('tmpl');
-		$paths	= JRequest::getVar('rm', array(), '', 'array');
-		$folder = JRequest::getVar('folder', '', '', 'path');
+		$tmpl	= $this->input->get('tmpl');
+		$paths	= $this->input->get('rm', array(), 'array');
+		$folder = $this->input->get('folder', '', 'path');
 
 		$redirect = 'index.php?option=com_media&folder=' . $folder;
 		if ($tmpl == 'component')
@@ -223,9 +227,8 @@ class MediaControllerFile extends JController
 		JClientHelper::setCredentialsFromRequest('ftp');
 
 		JPluginHelper::importPlugin('content');
-		$dispatcher	= JDispatcher::getInstance();
+		$dispatcher	= JEventDispatcher::getInstance();
 
-		// Initialise variables.
 		$ret = true;
 		foreach ($paths as $path)
 		{
@@ -237,7 +240,7 @@ class MediaControllerFile extends JController
 				continue;
 			}
 
-			$fullPath = JPath::clean(implode(DS, array(COM_MEDIA_BASE, $folder, $path)));
+			$fullPath = JPath::clean(implode(DIRECTORY_SEPARATOR, array(COM_MEDIA_BASE, $folder, $path)));
 			$object_file = new JObject(array('filepath' => $fullPath));
 			if (is_file($fullPath))
 			{

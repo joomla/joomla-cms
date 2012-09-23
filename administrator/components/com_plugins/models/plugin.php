@@ -1,20 +1,20 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_plugins
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.modeladmin');
 
 /**
  * Plugin model.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_plugins
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_plugins
+ * @since       1.6
  */
 class PluginsModelPlugin extends JModelAdmin
 {
@@ -116,7 +116,6 @@ class PluginsModelPlugin extends JModelAdmin
 	 */
 	public function getItem($pk = null)
 	{
-		// Initialise variables.
 		$pk = (!empty($pk)) ? $pk : (int) $this->getState('plugin.id');
 
 		if (!isset($this->_cache[$pk])) {
@@ -147,7 +146,7 @@ class PluginsModelPlugin extends JModelAdmin
 			$path = JPath::clean(JPATH_PLUGINS.'/'.$table->folder.'/'.$table->element.'/'.$table->element.'.xml');
 
 			if (file_exists($path)) {
-				$this->_cache[$pk]->xml = JFactory::getXML($path);
+				$this->_cache[$pk]->xml = simplexml_load_file($path);
 			} else {
 				$this->_cache[$pk]->xml = null;
 			}
@@ -185,7 +184,7 @@ class PluginsModelPlugin extends JModelAdmin
 		$app = JFactory::getApplication('administrator');
 
 		// Load the User state.
-		$pk = (int) JRequest::getInt('extension_id');
+		$pk = $app->input->getInt('extension_id');
 		$this->setState('plugin.id', $pk);
 	}
 
@@ -198,16 +197,14 @@ class PluginsModelPlugin extends JModelAdmin
 	 */
 	protected function preprocessForm(JForm $form, $data, $group = 'content')
 	{
-		jimport('joomla.filesystem.file');
-		jimport('joomla.filesystem.folder');
+		jimport('joomla.filesystem.path');
 
-		// Initialise variables.
 		$folder		= $this->getState('item.folder');
 		$element	= $this->getState('item.element');
 		$lang		= JFactory::getLanguage();
 		$client		= JApplicationHelper::getClientInfo(0);
 
-	// Load the core and/or local language sys file(s) for the ordering field.
+		// Load the core and/or local language sys file(s) for the ordering field.
 		$db = JFactory::getDbo();
 		$query = 'SELECT element' .
 				' FROM #__extensions' .
@@ -227,15 +224,11 @@ class PluginsModelPlugin extends JModelAdmin
 			$app = JFactory::getApplication();
 			$app->redirect(JRoute::_('index.php?option=com_plugins&view=plugins', false));
 		}
-		// Try 1.6 format: /plugins/folder/element/element.xml
-		$formFile = JPath::clean(JPATH_PLUGINS.'/'.$folder.'/'.$element.'/'.$element.'.xml');
-		if (!file_exists($formFile)) {
-			// Try 1.5 format: /plugins/folder/element/element.xml
-			$formFile = JPath::clean(JPATH_PLUGINS.'/'.$folder.'/'.$element.'.xml');
-			if (!file_exists($formFile)) {
-				throw new Exception(JText::sprintf('COM_PLUGINS_ERROR_FILE_NOT_FOUND', $element.'.xml'));
-				return false;
-			}
+
+		$formFile = JPath::clean(JPATH_PLUGINS . '/' . $folder . '/' . $element . '/' . $element . '.xml');
+		if (!file_exists($formFile))
+		{
+			throw new Exception(JText::sprintf('COM_PLUGINS_ERROR_FILE_NOT_FOUND', $element . '.xml'));
 		}
 
 		// Load the core and/or local language file(s).
@@ -243,7 +236,6 @@ class PluginsModelPlugin extends JModelAdmin
 		||	$lang->load('plg_'.$folder.'_'.$element, JPATH_PLUGINS.'/'.$folder.'/'.$element, null, false, false)
 		||	$lang->load('plg_'.$folder.'_'.$element, JPATH_ADMINISTRATOR, $lang->getDefault(), false, false)
 		||	$lang->load('plg_'.$folder.'_'.$element, JPATH_PLUGINS.'/'.$folder.'/'.$element, $lang->getDefault(), false, false);
-
 
 		if (file_exists($formFile)) {
 			// Get the plugin form.
@@ -320,7 +312,8 @@ class PluginsModelPlugin extends JModelAdmin
 	 *
 	 * @since	1.6
 	 */
-	protected function cleanCache($group = null, $client_id = 0) {
+	protected function cleanCache($group = null, $client_id = 0)
+	{
 		parent::cleanCache('com_plugins');
 	}
 }

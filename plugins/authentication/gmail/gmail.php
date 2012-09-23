@@ -1,21 +1,23 @@
 <?php
-
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Plugin
+ * @subpackage  Authentication.gmail
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
 
 /**
  * GMail Authentication Plugin
  *
- * @package		Joomla.Plugin
- * @subpackage	Authentication.gmail
- * @since 1.5
+ * @package     Joomla.Plugin
+ * @subpackage  Authentication.gmail
+ * @since       1.5
  */
-class plgAuthenticationGMail extends JPlugin {
+class plgAuthenticationGMail extends JPlugin
+{
 	/**
 	 * This method should handle any authentication and report back to the subject
 	 *
@@ -26,7 +28,8 @@ class plgAuthenticationGMail extends JPlugin {
 	 * @return	boolean
 	 * @since 1.5
 	 */
-	function onUserAuthenticate($credentials, $options, & $response) {
+	public function onUserAuthenticate($credentials, $options, &$response)
+	{
 		$message = '';
 		$success = 0;
 		// check if we have curl or not
@@ -55,7 +58,7 @@ class plgAuthenticationGMail extends JPlugin {
 				curl_setopt($curl, CURLOPT_FOLLOWLOCATION, 1);
 				curl_setopt($curl, CURLOPT_USERPWD, $credentials['username'].':'.$credentials['password']);
 				$result = curl_exec($curl);
-				$code = curl_getinfo ($curl, CURLINFO_HTTP_CODE);
+				$code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 
 					switch ($code) {
 					case 200:
@@ -83,7 +86,7 @@ class plgAuthenticationGMail extends JPlugin {
 		if ($success) {
 			$response->status		= JAuthentication::STATUS_SUCCESS;
 			$response->error_message = '';
-			if (strpos($credentials['username'], '@') === FALSE) {
+			if (strpos($credentials['username'], '@') === false) {
 				if ($suffix) { // if there is a suffix then we want to apply it
 					$response->email = $credentials['username'] . '@' . $suffix;
 				} else { // if there isn't a suffix just use the default gmail one

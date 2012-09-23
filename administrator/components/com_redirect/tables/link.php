@@ -1,9 +1,10 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_redirect
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_redirect
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -11,9 +12,9 @@ defined('_JEXEC') or die;
 /**
  * Link Table for Redirect.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_redirect
- * @version		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_redirect
+ * @since       1.6
  */
 class RedirectTableLink extends JTable
 {
@@ -65,9 +66,10 @@ class RedirectTableLink extends JTable
 		$query = 'SELECT id FROM #__redirect_links WHERE old_url ='.$db->Quote($this->old_url);
 		$db->setQuery($query);
 
-		$xid = intval($db->loadResult());
+		$xid = (int) $db->loadResult();
 
-		if ($xid && $xid != intval($this->id)) {
+		if ($xid && $xid != (int) $this->id)
+		{
 			$this->setError(JText::_('COM_REDIRECT_ERROR_DUPLICATE_OLD_URL'));
 			return false;
 		}
@@ -86,7 +88,6 @@ class RedirectTableLink extends JTable
 	 */
 	public function store($updateNulls = false)
 	{
-		// Initialise variables.
 		$date = JFactory::getDate()->toSql();
 
 		if ($this->id) {

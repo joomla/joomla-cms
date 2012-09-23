@@ -1,7 +1,10 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_users
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_BASE') or die;
@@ -11,9 +14,9 @@ JFormHelper::loadFieldClass('list');
 /**
  * Form Field class for the Joomla Framework.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_users
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_users
+ * @since       1.6
  */
 class JFormFieldGroupParent extends JFormFieldList
 {
@@ -33,7 +36,6 @@ class JFormFieldGroupParent extends JFormFieldList
 	 */
 	protected function getOptions()
 	{
-		// Initialize variables.
 		$options = array();
 
 		$db = JFactory::getDbo();
@@ -56,21 +58,25 @@ class JFormFieldGroupParent extends JFormFieldList
 		// Get the options.
 		$db->setQuery($query);
 
-		$options = $db->loadObjectList();
-
-		// Check for a database error.
-		if ($db->getErrorNum()) {
-			JError::raiseWarning(500, $db->getErrorMsg());
+		try
+		{
+			$options = $db->loadObjectList();
+		}
+		catch (RuntimeException $e)
+		{
+			JError::raiseWarning(500, $e->getMessage());
 		}
 
 		// Pad the option text with spaces using depth level as a multiplier.
 		for ($i = 0, $n = count($options); $i < $n; $i++) {
 			// Show groups only if user is super admin or group is not super admin
-			if ($user->authorise('core.admin') || (!JAccess::checkGroup($options[$i]->value, 'core.admin'))) {
+			if ($user->authorise('core.admin') || (!JAccess::checkGroup($options[$i]->value, 'core.admin')))
+			{
 				$options[$i]->text = str_repeat('- ', $options[$i]->level).$options[$i]->text;
 			}
-			else {
-			 unset ($options[$i]);
+			else
+			{
+				unset($options[$i]);
 			}
 		}
 

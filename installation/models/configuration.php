@@ -1,30 +1,33 @@
 <?php
 /**
- * @package		Joomla.Installation
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package    Joomla.Installation
+ *
+ * @copyright  Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 jimport('joomla.filesystem.file');
-require_once JPATH_INSTALLATION.'/helpers/database.php';
+require_once JPATH_INSTALLATION . '/helpers/database.php';
 
 /**
  * Install Configuration model for the Joomla Core Installer.
  *
- * @package		Joomla.Installation
- * @since		1.6
+ * @package  Joomla.Installation
+ * @since    3.0
  */
-class JInstallationModelConfiguration extends JModelLegacy
+class InstallationModelConfiguration extends JModelLegacy
 {
 	/**
-	 * @return boolean
+	 * @return  boolean
+	 *
+	 * @since   3.0
 	 */
 	public function setup($options)
 	{
-		// Get the options as a JObject for easier handling.
-		$options = JArrayHelper::toObject($options, 'JObject');
+		// Get the options as an object for easier handling.
+		$options = JArrayHelper::toObject($options);
 
 		// Attempt to create the root user.
 		if (!$this->_createConfiguration($options))
@@ -41,10 +44,19 @@ class JInstallationModelConfiguration extends JModelLegacy
 		return true;
 	}
 
+	/**
+	 * Method to create the configuration file
+	 *
+	 * @param   array  $options
+	 *
+	 * @return  boolean  True on success
+	 *
+	 * @since   3.0
+	 */
 	function _createConfiguration($options)
 	{
 		// Create a new registry to build the configuration options.
-		$registry = new JRegistry();
+		$registry = new JRegistry;
 
 		/* Site Settings */
 		$registry->set('offline', $options->site_offline);
@@ -75,12 +87,12 @@ class JInstallationModelConfiguration extends JModelLegacy
 		$registry->set('gzip', 0);
 		$registry->set('error_reporting', 'default');
 		$registry->set('helpurl', 'http://help.joomla.org/proxy/index.php?option=com_help&amp;keyref=Help{major}{minor}:{keyref}');
-		$registry->set('ftp_host', $options->ftp_host);
-		$registry->set('ftp_port', $options->ftp_port);
-		$registry->set('ftp_user', $options->ftp_save ? $options->ftp_user : '');
-		$registry->set('ftp_pass', $options->ftp_save ? $options->ftp_pass : '');
-		$registry->set('ftp_root', $options->ftp_save ? $options->ftp_root : '');
-		$registry->set('ftp_enable', $options->ftp_enable);
+		$registry->set('ftp_host', isset($options->ftp_host) ? $options->ftp_host : '');
+		$registry->set('ftp_port', isset($options->ftp_host) ? $options->ftp_port : '');
+		$registry->set('ftp_user', (isset($options->ftp_save) && $options->ftp_save && isset($options->ftp_user)) ? $options->ftp_user : '');
+		$registry->set('ftp_pass', (isset($options->ftp_save) && $options->ftp_save && isset($options->ftp_pass)) ? $options->ftp_pass : '');
+		$registry->set('ftp_root', (isset($options->ftp_save) && $options->ftp_save && isset($options->ftp_root)) ? $options->ftp_root : '');
+		$registry->set('ftp_enable', isset($options->ftp_host) ? $options->ftp_enable : '');
 
 		/* Locale Settings */
 		$registry->set('offset', 'UTC');
@@ -104,7 +116,7 @@ class JInstallationModelConfiguration extends JModelLegacy
 
 		/* Meta Settings */
 		$registry->set('MetaDesc', $options->site_metadesc);
-		$registry->set('MetaKeys', $options->site_metakeys);
+		$registry->set('MetaKeys', '');
 		$registry->set('MetaTitle', 1);
 		$registry->set('MetaAuthor', 1);
 		$registry->set('MetaVersion', 0);
@@ -126,7 +138,7 @@ class JInstallationModelConfiguration extends JModelLegacy
 		$registry->set('session_handler', 'database');
 
 		// Generate the configuration class string buffer.
-		$buffer = $registry->toString('PHP', array('class'=>'JConfig', 'closingtag' => false));
+		$buffer = $registry->toString('PHP', array('class' => 'JConfig', 'closingtag' => false));
 
 		// Build the configuration file path.
 		$path = JPATH_CONFIGURATION . '/configuration.php';
@@ -135,7 +147,9 @@ class JInstallationModelConfiguration extends JModelLegacy
 		if (file_exists($path))
 		{
 			$canWrite = is_writable($path);
-		} else {
+		}
+		else
+		{
 			$canWrite = is_writable(JPATH_CONFIGURATION . '/');
 		}
 
@@ -144,7 +158,7 @@ class JInstallationModelConfiguration extends JModelLegacy
 		 * is not writable we need to use FTP
 		 */
 		$useFTP = false;
-		if ((file_exists($path) && !is_writable($path)) || (!file_exists($path) && !is_writable(dirname($path).'/')))
+		if ((file_exists($path) && !is_writable($path)) || (!file_exists($path) && !is_writable(dirname($path) . '/')))
 		{
 			$useFTP = true;
 		}
@@ -164,10 +178,9 @@ class JInstallationModelConfiguration extends JModelLegacy
 		if ($useFTP == true)
 		{
 			// Connect the FTP client
-			jimport('joomla.client.ftp');
 			jimport('joomla.filesystem.path');
 
-			$ftp = JFTP::getInstance($options->ftp_host, $options->ftp_port);
+			$ftp = JClientFtp::getInstance($options->ftp_host, $options->ftp_port);
 			$ftp->login($options->ftp_user, $options->ftp_pass);
 
 			// Translate path for the FTP account
@@ -202,12 +215,21 @@ class JInstallationModelConfiguration extends JModelLegacy
 		return true;
 	}
 
-	function _createRootUser($options)
+	/**
+	 * Method to create the root user for the site
+	 *
+	 * @param   array  $options  The session options
+	 *
+	 * @return  boolean  True on success
+	 *
+	 * @since   3.0
+	 */
+	private function _createRootUser($options)
 	{
 		// Get a database object.
 		try
 		{
-			$db = JInstallationHelperDatabase::getDBO($options->db_type, $options->db_host, $options->db_user, $options->db_pass, $options->db_name, $options->db_prefix);
+			$db = InstallationHelperDatabase::getDBO($options->db_type, $options->db_host, $options->db_user, $options->db_pass, $options->db_name, $options->db_prefix);
 		}
 		catch (RuntimeException $e)
 		{
@@ -217,59 +239,61 @@ class JInstallationModelConfiguration extends JModelLegacy
 		// Create random salt/password for the admin user
 		$salt = JUserHelper::genRandomPassword(32);
 		$crypt = JUserHelper::getCryptedPassword($options->admin_password, $salt);
-		$cryptpass = $crypt.':'.$salt;
+		$cryptpass = $crypt . ':' . $salt;
 
-		// take the admin user id
-		JLoader::register('JInstallationModelDatabase', JPATH_INSTALLATION . '/models/database.php');
-		$userId = JInstallationModelDatabase::getUserId();
-		
-		//we don't need anymore the randUserId in the session, let's remove it
-		JInstallationModelDatabase::resetRandUserId();
+		// Take the admin user id
+		JLoader::register('InstallationModelDatabase', JPATH_INSTALLATION . '/models/database.php');
+		$userId = InstallationModelDatabase::getUserId();
 
-		// create the admin user
+		// We don't need the randUserId in the session any longer, let's remove it
+		InstallationModelDatabase::resetRandUserId();
+
+		// Create the admin user
 		date_default_timezone_set('UTC');
-		$installdate	= date('Y-m-d H:i:s');
-		$nullDate		= $db->getNullDate();
-		//sqlsrv change
+		$installdate = date('Y-m-d H:i:s');
+		$nullDate    = $db->getNullDate();
+
+		// Sqlsrv change
 		$query = $db->getQuery(true);
-		$query->select('id');
-		$query->from('#__users');
-		$query->where('id = ' . $db->quote($userId));
+		$query->select($db->quoteName('id'));
+		$query->from($db->quoteName('#__users'));
+		$query->where($db->quoteName('id') . ' = ' . $db->quote($userId));
 
 		$db->setQuery($query);
 
 		if ($db->loadResult())
 		{
 			$query = $db->getQuery(true);
-			$query->update('#__users');
-			$query->set('name = '.$db->quote('Super User'));
-			$query->set('username = '.$db->quote($options->admin_user));
-			$query->set('email = '.$db->quote($options->admin_email));
-			$query->set('password = '.$db->quote($cryptpass));
-			$query->set('usertype = '.$db->quote('deprecated'));
-			$query->set('block = 0');
-			$query->set('sendEmail = 1');
-			$query->set('registerDate = '.$db->quote($installdate));
-			$query->set('lastvisitDate = '.$db->quote($nullDate));
-			$query->set('activation = '.$db->quote('0'));
-			$query->set('params = '.$db->quote(''));
-			$query->where('id = ' . $db->quote($userId));
+			$query->update($db->quoteName('#__users'));
+			$query->set($db->quoteName('name') . ' = ' . $db->quote('Super User'));
+			$query->set($db->quoteName('username') . ' = ' . $db->quote($options->admin_user));
+			$query->set($db->quoteName('email') . ' = ' . $db->quote($options->admin_email));
+			$query->set($db->quoteName('password') . ' = ' . $db->quote($cryptpass));
+			$query->set($db->quoteName('block') . ' = 0');
+			$query->set($db->quoteName('sendEmail') . ' = 1');
+			$query->set($db->quoteName('registerDate') . ' = ' . $db->quote($installdate));
+			$query->set($db->quoteName('lastvisitDate') . ' = ' . $db->quote($nullDate));
+			$query->set($db->quoteName('activation') . ' = ' . $db->quote('0'));
+			$query->set($db->quoteName('params') . ' = ' . $db->quote(''));
+			$query->where($db->quoteName('id') . ' = ' . $db->quote($userId));
 		}
 		else
 		{
 			$query = $db->getQuery(true);
-			$columns =  array($db->quoteName('id'), $db->quoteName('name'), $db->quoteName('username'),
+			$columns = array($db->quoteName('id'), $db->quoteName('name'), $db->quoteName('username'),
 							$db->quoteName('email'), $db->quoteName('password'),
-							$db->quoteName('usertype'),
 							$db->quoteName('block'),
 							$db->quoteName('sendEmail'), $db->quoteName('registerDate'),
 							$db->quoteName('lastvisitDate'), $db->quoteName('activation'), $db->quoteName('params'));
 			$query->insert('#__users', true);
 			$query->columns($columns);
 
-			$query->values($db->quote($userId) . ', '. $db->quote('Super User') . ', ' . $db->quote($options->admin_user) . ', '.
-				$db->quote($options->admin_email). ', '. $db->quote($cryptpass). ', '. $db->quote('deprecated').', '.$db->quote('0').', '.$db->quote('1').', '.
-				$db->quote($installdate).', '.$db->quote($nullDate).', '.$db->quote('0').', '.$db->quote(''));
+			$query->values(
+				$db->quote($userId) . ', ' . $db->quote('Super User') . ', ' . $db->quote($options->admin_user) . ', ' .
+				$db->quote($options->admin_email) . ', ' . $db->quote($cryptpass) . ', ' .
+				$db->quote('0') . ', ' . $db->quote('1') . ', ' . $db->quote($installdate) . ', ' . $db->quote($nullDate) . ', ' .
+				$db->quote('0') . ', ' . $db->quote('')
+			);
 		}
 
 		$db->setQuery($query);
@@ -285,25 +309,25 @@ class JInstallationModelConfiguration extends JModelLegacy
 
 		// Map the super admin to the Super Admin Group
 		$query = $db->getQuery(true);
-		$query->select('user_id');
-		$query->from('#__user_usergroup_map');
-		$query->where('user_id = ' . $db->quote($userId));
+		$query->select($db->quoteName('user_id'));
+		$query->from($db->quoteName('#__user_usergroup_map'));
+		$query->where($db->quoteName('user_id') . ' = ' . $db->quote($userId));
 
 		$db->setQuery($query);
 
 		if ($db->loadResult())
 		{
 			$query = $db->getQuery(true);
-			$query->update('#__user_usergroup_map');
-			$query->set('user_id = ' . $db->quote($userId));
-			$query->set('group_id = 8');
+			$query->update($db->quoteName('#__user_usergroup_map'));
+			$query->set($db->quoteName('user_id') . ' = ' . $db->quote($userId));
+			$query->set($db->quoteName('group_id') . ' = 8');
 		}
 		else
 		{
 			$query = $db->getQuery(true);
-			$query->insert('#__user_usergroup_map', false);
+			$query->insert($db->quoteName('#__user_usergroup_map'), false);
 			$query->columns(array($db->quoteName('user_id'), $db->quoteName('group_id')));
-			$query->values($userId. ', '. '8');
+			$query->values($db->quote($userId) . ', ' . '8');
 		}
 
 		$db->setQuery($query);

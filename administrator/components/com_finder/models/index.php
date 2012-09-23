@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.modellist');
-
 /**
  * Index model class for Finder.
  *
@@ -101,15 +99,12 @@ class FinderModelIndex extends JModelList
 	 */
 	public function delete(&$pks)
 	{
-		// Initialise variables.
-		$dispatcher = JDispatcher::getInstance();
-		$user = JFactory::getUser();
+		$dispatcher = JEventDispatcher::getInstance();
 		$pks = (array) $pks;
 		$table = $this->getTable();
 
-		// Include the content and finder plugins for the on delete events.
+		// Include the content plugins for the on delete events.
 		JPluginHelper::importPlugin('content');
-		JPluginHelper::importPlugin('finder');
 
 		// Iterate the items to delete each one.
 		foreach ($pks as $i => $pk)
@@ -198,7 +193,7 @@ class FinderModelIndex extends JModelList
 		if ($this->getState('filter.search') != '')
 		{
 			$search = $db->escape($this->getState('filter.search'));
-			$query->where($db->quoteName('l.title') . ' LIKE "%' . $db->escape($search) . '%"' . ' OR ' . $db->quoteName('l.url') . ' LIKE "%' . $db->escape($search) . '%"' . ' OR ' . $db->quoteName('l.indexdate') . ' LIKE "%' . $db->escape($search) . '%"');
+			$query->where($db->quoteName('l.title') . ' LIKE ' . $db->quote('%' . $db->escape($search) . '%') . ' OR ' . $db->quoteName('l.url') . ' LIKE ' . $db->quote('%' . $db->escape($search) . '%') . ' OR ' . $db->quoteName('l.indexdate') . ' LIKE  ' . $db->quote('%' . $db->escape($search) . '%'));
 		}
 
 		// Handle the list ordering.
@@ -212,7 +207,7 @@ class FinderModelIndex extends JModelList
 		return $query;
 	}
 
- 	/**
+	/**
 	 * Method to get the state of the Smart Search plug-ins.
 	 *
 	 * @return  array   Array of relevant plug-ins and whether they are enabled or not.
@@ -230,7 +225,7 @@ class FinderModelIndex extends JModelList
 		$query->where($db->quoteName('folder') . ' IN(' .  $db->quote('system') . ',' . $db->quote('content') . ')');
 		$query->where($db->quoteName('element') . ' = ' .  $db->quote('finder'));
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 		$plugins = $db->loadObjectList('name');
 
 		return $plugins;
@@ -281,6 +276,7 @@ class FinderModelIndex extends JModelList
 	 * @return  boolean  True on success, false on failure.
 	 *
 	 * @since   2.5
+	 * @throws  Exception on database error
 	 */
 	public function purge()
 	{
@@ -289,13 +285,6 @@ class FinderModelIndex extends JModelList
 		// Truncate the links table.
 		$db->truncateTable('#__finder_links');
 
-		// Check for a database error.
-		if ($db->getErrorNum())
-		{
-			// Throw database error exception.
-			throw new Exception($db->getErrorMsg(), 500);
-		}
-
 		// Truncate the links terms tables.
 		for ($i = 0; $i <= 15; $i++)
 		{
@@ -303,34 +292,13 @@ class FinderModelIndex extends JModelList
 			$suffix = dechex($i);
 
 			$db->truncateTable('#__finder_links_terms' . $suffix);
-
-			// Check for a database error.
-			if ($db->getErrorNum())
-			{
-				// Throw database error exception.
-				throw new Exception($db->getErrorMsg(), 500);
-			}
 		}
 
 		// Truncate the terms table.
 		$db->truncateTable('#__finder_terms');
 
-		// Check for a database error.
-		if ($db->getErrorNum())
-		{
-			// Throw database error exception.
-			throw new Exception($db->getErrorMsg(), 500);
-		}
-
 		// Truncate the taxonomy map table.
 		$db->truncateTable('#__finder_taxonomy_map');
-
-		// Check for a database error.
-		if ($db->getErrorNum())
-		{
-			// Throw database error exception.
-			throw new Exception($db->getErrorMsg(), 500);
-		}
 
 		// Delete all the taxonomy nodes except the root.
 		$query = $db->getQuery(true);
@@ -338,34 +306,13 @@ class FinderModelIndex extends JModelList
 		$query->from($db->quoteName('#__finder_taxonomy'));
 		$query->where($db->quoteName('id') . ' > 1');
 		$db->setQuery($query);
-		$db->query();
-
-		// Check for a database error.
-		if ($db->getErrorNum())
-		{
-			// Throw database error exception.
-			throw new Exception($db->getErrorMsg(), 500);
-		}
+		$db->execute();
 
 		// Truncate the tokens tables.
 		$db->truncateTable('#__finder_tokens');
 
-		// Check for a database error.
-		if ($db->getErrorNum())
-		{
-			// Throw database error exception.
-			throw new Exception($db->getErrorMsg(), 500);
-		}
-
 		// Truncate the tokens aggregate table.
 		$db->truncateTable('#__finder_tokens_aggregate');
-
-		// Check for a database error.
-		if ($db->getErrorNum())
-		{
-			// Throw database error exception.
-			throw new Exception($db->getErrorMsg(), 500);
-		}
 
 		return true;
 	}
@@ -412,8 +359,7 @@ class FinderModelIndex extends JModelList
 	 */
 	public function publish(&$pks, $value = 1)
 	{
-		// Initialise variables.
-		$dispatcher = JDispatcher::getInstance();
+		$dispatcher = JEventDispatcher::getInstance();
 		$user = JFactory::getUser();
 		$table = $this->getTable();
 		$pks = (array) $pks;

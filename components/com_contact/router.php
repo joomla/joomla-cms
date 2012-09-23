@@ -1,13 +1,13 @@
 <?php
 /**
- * @package		Joomla.Site
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  com_contact
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
-
-jimport('joomla.application.categories');
 
 /**
  * Build the route for the com_contact component
@@ -16,7 +16,8 @@ jimport('joomla.application.categories');
  *
  * @return	array	The URL arguments to use to assemble the subsequent URL.
  */
-function ContactBuildRoute(&$query){
+function ContactBuildRoute(&$query)
+{
 	$segments = array();
 
 	// get a menu item based on Itemid or currently active
@@ -44,7 +45,7 @@ function ContactBuildRoute(&$query){
 	};
 
 	// are we dealing with a contact that is attached to a menu item?
-	if (isset($view) && ($mView == $view) and (isset($query['id'])) and ($mId == intval($query['id']))) {
+	if (isset($view) && ($mView == $view) and (isset($query['id'])) and ($mId == (int) $query['id'])) {
 		unset($query['view']);
 		unset($query['catid']);
 		unset($query['id']);
@@ -52,7 +53,7 @@ function ContactBuildRoute(&$query){
 	}
 
 	if (isset($view) and ($view == 'category' or $view == 'contact')) {
-		if ($mId != intval($query['id']) || $mView != $view) {
+		if ($mId != (int) $query['id'] || $mView != $view) {
 			if($view == 'contact' && isset($query['catid']))
 			{
 				$catid = $query['catid'];
@@ -70,7 +71,7 @@ function ContactBuildRoute(&$query){
 				$array = array();
 				foreach($path as $id)
 				{
-					if((int) $id == (int)$menuCatid)
+					if((int) $id == (int) $menuCatid)
 					{
 						break;
 					}
@@ -147,7 +148,10 @@ function ContactParseRoute($segments)
 
 	// From the categories view, we can only jump to a category.
 	$id = (isset($item->query['id']) && $item->query['id'] > 1) ? $item->query['id'] : 'root';
-	$categories = JCategories::getInstance('Contact')->get($id)->getChildren();
+
+	$contactCategory = JCategories::getInstance('Contact')->get($id);
+
+	$categories = ($contactCategory) ? $contactCategory->getChildren() : array();
 	$vars['catid'] = $id;
 	$vars['id'] = $id;
 	$found = 0;
