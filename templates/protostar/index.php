@@ -37,11 +37,8 @@ JHtml::_('bootstrap.framework');
 // Add Stylesheets
 $doc->addStyleSheet('templates/'.$this->template.'/css/template.css');
 
-// If Right-to-Left
-if ($this->direction == 'rtl')
-{
-	$doc->addStyleSheet('media/jui/css/bootstrap-rtl.css');
-}
+// Load optional rtl Bootstrap css and Bootstrap bugfixes
+JHtmlBootstrap::loadCss($includeMaincss = false, $this->direction);
 
 // Add current user information
 $user = JFactory::getUser();

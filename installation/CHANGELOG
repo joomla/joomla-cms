@@ -26,11 +26,50 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+23-Sep-2012 Jean-Marie Simonet
+ $ Improving ta-IN installation ini
+ # [#29285] String Last Updated appears twice in frontend. Thanks Stella.
+ # [#29244] *Blocked/unblocked activated/not activated not displaying in user manager. Thanks Yannick
+ # [#29281] Fix open div in com_content blog view (again). Thanks Kyle and Andy
+
+22-Sep-2012 Mark Dexter
+ # [#28764] user notes category is not properly nested in the assets table. Thanks Elin.
+ # [#29116] Parse error on initializing installation if server does not meet PHP requirements . Thanks Jean-Marie.
+ # [#28900] Improvements to Schema package. Thanks Michael.
+ # [#29162] Need a Purge Cache Button in the Joomla! Update component. Thanks Janich Rasmussen.
+ # [#28992] Code cleanup for com_content. Thanks Viet Vu.
+
+22-Sep-2012 Jean-Marie Simonet
+ +$ Adding installation languages: ar-AA, az-AZ, ckb-IQ, fi-FI
+ # Correcting double translation
+ $ Correcting lang string typo
+ # [#29050] Page Navigation in Extension Manager not working. Thanks Yannick
+ #[#29274] Fix code style and unclear doc blocks from 29050. Thanks Michael
+
+21-Sep-2012 Jean-Marie Simonet
+ +$ Adding installation languages: km-KH, sv-SE
+ + [#29246] Improve Beez3 optional handling of Boot strap. Thanks Elin
+ # [#29247] *Front-end profile edit broken
+ # [#29141] *RTL filtering broken. Thanks Andrea
+ #+ [#29227] Custom active menu item for menu module. Thanks Dennis
+ $ Correcting some lang strings
+ ^ Updating versions to 3.0.0
+
+20-Sep-2012 Jean-Marie Simonet
+ # [#29206] Isis Template Parameters for Status, Header and Toolbar. Thanks Kyle and Peter
+ # [#29214] Module's menu assignment always shown. Thanks Stephane Deluce
+ # [#29137] Address in single contact rendering incorrectly. Thanks Elin
+ #$ Correcting various spelling issues in en-GB. Thanks Brian.
+ # [#28826] System Debug plug-in doesn't show for non logged-in user. Thanks Shaun
+
 19-Sep-2012 Jean-Marie Simonet
  # [#29176] Call to undefined method JHtmlTabs::getJSObject() (Sync with platform). Thanks Elin
  # [#28990] Unpublish default menu item gives a PHP exception. Thanks Roberto
  +$ Adding installation languages: bs-BA, hr-HR, lv-LV, mk-MK
- 
+ # [#29223] *Sliders implementation prevents display of some Options in dropdowns (bootstrap). Thanks Yannick
+ # [#29232] Com_weblinks and com_newsfeeds loose "Status" filter state. Thanks Yannick
+ # [#29225] Code quality in installation script. Thanks Dennis
+
 18-Sep-2012 Jean-Marie Simonet
  # [#29091] *Language issues during installation: E-Mail always in English. Thanks Dennis
 

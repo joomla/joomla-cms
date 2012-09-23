@@ -28,13 +28,13 @@ class BannersHelper
 	 */
 	public static function addSubmenu($vName)
 	{
-		JSubMenuHelper::addEntry(
+		JHtmlSidebar::addEntry(
 			JText::_('COM_BANNERS_SUBMENU_BANNERS'),
 			'index.php?option=com_banners&view=banners',
 			$vName == 'banners'
 		);
 
-		JSubMenuHelper::addEntry(
+		JHtmlSidebar::addEntry(
 			JText::_('COM_BANNERS_SUBMENU_CATEGORIES'),
 			'index.php?option=com_categories&extension=com_banners',
 			$vName == 'categories'
@@ -45,13 +45,13 @@ class BannersHelper
 				'banners-categories');
 		}
 
-		JSubMenuHelper::addEntry(
+		JHtmlSidebar::addEntry(
 			JText::_('COM_BANNERS_SUBMENU_CLIENTS'),
 			'index.php?option=com_banners&view=clients',
 			$vName == 'clients'
 		);
 
-		JSubMenuHelper::addEntry(
+		JHtmlSidebar::addEntry(
 			JText::_('COM_BANNERS_SUBMENU_TRACKS'),
 			'index.php?option=com_banners&view=tracks',
 			$vName == 'tracks'

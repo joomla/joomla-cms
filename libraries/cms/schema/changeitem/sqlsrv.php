@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  Schema
  * @since       2.5
  */
-class JSchemaChangeitemsqlsrv extends JSchemaChangeitem
+class JSchemaChangeitemSqlsrv extends JSchemaChangeitem
 {
 	/**
 	 * Checks a DDL query to see if it is a known type

@@ -29,10 +29,11 @@ var Installation = new Class({
 			alert(Joomla.JText._('INSTL_PROCESS_BUSY', 'Process is in progress. Please wait...'));
 			return false;
 		}
-
+		
 		var req = new Request.JSON({
-			url: this.baseUrl + '?format=json',
+			url: this.baseUrl,
 			data: form,
+			format: 'json',
 			onRequest: function() {
 				this.spinner.show(true);
 				this.busy = true;
@@ -73,8 +74,9 @@ var Installation = new Class({
 		}
 
 		var req = new Request.JSON({
-			url: this.baseUrl + '?format=json',
+			url: this.baseUrl,
 			data: form,
+			format: 'json',
 			onRequest: function() {
 				this.spinner.show(true);
 				this.busy = true;
@@ -152,8 +154,9 @@ var Installation = new Class({
 		var tr = document.id('install_'+task);
 
 		var req = new Request.JSON({
-			url: this.baseUrl + '?task=setup.install_' + task + '&format=json',
+			url: this.baseUrl + '?task=setup.install_' + task,
 			data: form,
+			format: 'json',
 			onRequest: function() {
 				progress.setStyle('width',(progress.getStyle('width').toFloat()+step_width)+'%');
 				tr.addClass('active');
@@ -192,8 +195,9 @@ var Installation = new Class({
 	detectFtpRoot: function(el) {
 		el = document.id(el);
 		var req = new Request.JSON({
-			url: this.baseUrl + '?task=setup.detectFtpRoot&format=json',
+			url: this.baseUrl + '?task=setup.detectFtpRoot',
 			data: document.id(el.form),
+			format: 'json',
 			onRequest: function() {
 				el.set('disabled', 'disabled');
 			},
@@ -224,8 +228,9 @@ var Installation = new Class({
 		// make the ajax call
 		el = document.id(el);
 		var req = new Request.JSON({
-			url: this.baseUrl + '?task=setup.verifyFtpSettings&format=json',
+			url: this.baseUrl + '?task=setup.verifyFtpSettings',
 			data: document.id(el.form),
+			format: 'json',
 			onRequest: function() {
 				el.set('disabled', 'disabled'); },
 				onFailure: function(xhr) {
@@ -260,8 +265,9 @@ var Installation = new Class({
 	removeFolder: function(el) {
 		el = document.id(el);
 		var req = new Request.JSON({
-			url: this.baseUrl + '?task=setup.removeFolder&format=json',
+			url: this.baseUrl + '?task=setup.removeFolder',
 			data: document.id(el.form),
+			format: 'json',
 			onRequest: function() {
 				el.set('disabled', 'disabled');
 				document.id('theDefaultError').setStyle('display','none');

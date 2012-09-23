@@ -12,6 +12,29 @@ defined('_JEXEC') or die;
 // Initiasile related data.
 require_once JPATH_ADMINISTRATOR.'/components/com_menus/helpers/menus.php';
 $menuTypes = MenusHelper::getMenuLinks();
+
+$script = array();
+$script[] = "	jQuery(document).ready(function() {";
+$script[] = "		menuHide();";
+$script[] = "		jQuery('#jform_assignment').change(function() {";
+$script[] = "			menuHide();";
+$script[] = "		})";
+$script[] = "	});";
+$script[] = "	function menuHide() {";
+$script[] = "		var jformmenuselectlbl = jQuery('#jform_menuselect-lbl');";
+$script[] = "		var menuassignment = jQuery('#menu_assignment_chzn');";
+$script[] = "		var lstAssignMod = jQuery('#jform_assignment_chzn .chzn-results .result-selected').attr('id');";
+$script[] = "		if(lstAssignMod === 'jform_assignment_chzn_o_0' || lstAssignMod === 'jform_assignment_chzn_o_1') {";
+$script[] = "			jformmenuselectlbl.hide();";
+$script[] = "			menuassignment.hide();";
+$script[] = "		} else {";
+$script[] = "			jformmenuselectlbl.show();";
+$script[] = "			menuassignment.show();";
+$script[] = "		}";
+$script[] = "	}";
+
+// Add the script to the document head.
+JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 ?>
 
 		<div class="control-group">
