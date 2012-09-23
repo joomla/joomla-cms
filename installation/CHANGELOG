@@ -29,7 +29,7 @@ $ -> Language fix or change
 23-Sep-2012 Jean-Marie Simonet
  $ Improving ta-IN installation ini
  # [#29285] String Last Updated appears twice in frontend. Thanks Stella.
- # [#29286] *Template manager columns errors
+ # [#29244] *Blocked/unblocked activated/not activated not displaying in user manager. Thanks Yannick
 
 22-Sep-2012 Mark Dexter
  # [#28764] user notes category is not properly nested in the assets table. Thanks Elin.
