@@ -23,7 +23,7 @@ function setFocus() {
  * Opera
  */
 function setSkip() {
-	if (Browser.chrome || Browser.opera) {
+	if (Browser.chrome || Browser.safari || Browser.opera) {
 		var target = document.id('skiptarget');
 		target.href = "#skiptarget";
 		target.innerText = "Start of main content";
