@@ -22,6 +22,14 @@ $loggeduser = JFactory::getUser();
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_users&view=users');?>" method="post" name="adminForm" id="adminForm">
+	<?php if(!empty( $this->sidebar)): ?>
+		<div id="j-sidebar-container" class="span2">
+		<?php echo $this->sidebar; ?>
+		</div>
+		<div id="j-main-container" class="span10">
+	<?php else : ?>
+		<div id="j-main-container">
+	<?php endif;?>
 	<div id="filter-bar" class="btn-toolbar">
 		<div class="filter-search btn-group pull-left">
 			<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('COM_USERS_SEARCH_USERS'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" title="<?php echo JText::_('COM_USERS_SEARCH_USERS'); ?>" />
@@ -114,17 +122,19 @@ $loggeduser = JFactory::getUser();
 				</td>
 				<td class="center">
 					<?php if ($canChange) : ?>
-						<?php if ($loggeduser->id != $item->id) : ?>
-							<?php echo JHtml::_('grid.boolean', $i, !$item->block, 'users.unblock', 'users.block'); ?>
-						<?php else : ?>
-							<?php echo JHtml::_('grid.boolean', $i, !$item->block, 'users.block', null); ?>
-						<?php endif; ?>
+						<?php
+						$self = $loggeduser->id == $item->id;
+						echo JHtml::_('jgrid.state', JHtmlUsers::blockStates( $self), $item->block, $i, 'users.', !$self);
+						?>
 					<?php else : ?>
 						<?php echo JText::_($item->block ? 'JNO' : 'JYES'); ?>
 					<?php endif; ?>
 				</td>
 				<td class="center">
-					<?php echo JHtml::_('grid.boolean', $i, !$item->activation, 'users.activate', null); ?>
+					<?php
+					$activated = empty( $item->activation) ? 0 : 1;
+					echo JHtml::_('jgrid.state', JHtmlUsers::activateStates(), $activated, $i, 'users.', (boolean) $activated);
+					?>
 				</td>
 				<td class="center">
 					<?php if (substr_count($item->group_names, "\n") > 1) : ?>
@@ -162,4 +172,5 @@ $loggeduser = JFactory::getUser();
 	<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>" />
 	<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>" />
 	<?php echo JHtml::_('form.token'); ?>
+	</div>
 </form>

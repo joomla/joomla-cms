@@ -19,32 +19,32 @@ defined('_JEXEC') or die;
 class SearchModelSearch extends JModelLegacy
 {
 	/**
-	 * Sezrch data array
+	 * Search data array
 	 *
 	 * @var array
 	 */
-	var $_data = null;
+	protected $_data = null;
 
 	/**
 	 * Search total
 	 *
 	 * @var integer
 	 */
-	var $_total = null;
+	protected $_total = null;
 
 	/**
 	 * Search areas
 	 *
 	 * @var integer
 	 */
-	var $_areas = null;
+	protected  $_areas = null;
 
 	/**
 	 * Pagination object
 	 *
 	 * @var object
 	 */
-	var $_pagination = null;
+	protected $_pagination = null;
 
 	/**
 	 * Constructor

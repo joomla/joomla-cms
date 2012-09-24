@@ -16,6 +16,15 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 ?>
 <div id="installer-update">
 	<form action="<?php echo JRoute::_('index.php?option=com_installer&view=update');?>" method="post" name="adminForm" id="adminForm">
+	<?php if(!empty( $this->sidebar)): ?>
+		<div id="j-sidebar-container" class="span2">
+			<?php echo $this->sidebar; ?>
+		</div>
+		<div id="j-main-container" class="span10">
+	<?php else : ?>
+		<div id="j-main-container">
+	<?php endif;?>
+
 	<?php if ($this->showMessage) : ?>
 		<div class="alert alert-info">
 			<a class="close" data-dismiss="alert" href="#">&times;</a>
@@ -81,10 +90,11 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 			</div>
 		<?php endif; ?>
 
-		<input type="hidden" name="task" value="" />
-		<input type="hidden" name="boxchecked" value="0" />
-		<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>" />
-		<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>" />
-		<?php echo JHtml::_('form.token'); ?>
+			<input type="hidden" name="task" value="" />
+			<input type="hidden" name="boxchecked" value="0" />
+			<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>" />
+			<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>" />
+			<?php echo JHtml::_('form.token'); ?>
+		</div>
 	</form>
 </div>

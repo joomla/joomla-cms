@@ -17,7 +17,7 @@ $images  = json_decode($this->item->images);
 $urls    = json_decode($this->item->urls);
 $canEdit = $this->item->params->get('access-edit');
 $user    = JFactory::getUser();
-$info    = $this->item->params->get('info_block_position',0);
+$info    = $this->item->params->get('info_block_position', 0);
 JHtml::_('behavior.caption');
 
 ?>
@@ -55,7 +55,7 @@ if (!empty($this->item->pagination) AND $this->item->pagination && !$this->item-
 			<?php echo JHtml::_('icon.print_screen',  $this->item, $params); ?>
 		</div>
 	<?php endif; ?>
-	
+
 	<?php if (($params->get('show_title')) || ($params->get('show_author'))) : ?>
 	<div class="page-header">
 		<h2>
@@ -140,7 +140,7 @@ if (!empty($this->item->pagination) AND $this->item->pagination && !$this->item-
 				<?php if ($params->get('show_create_date')) : ?>
 					<dd>
 						<div class="create">
-							<i class="icon-calendar"></i> <?php echo JText::sprintf('COM_CONTENT_LAST_UPDATED', JHtml::_('date', $this->item->modified, JText::_('DATE_FORMAT_LC3'))); ?>
+							<i class="icon-calendar"></i> <?php echo JText::sprintf('COM_CONTENT_CREATED_DATE_ON', JHtml::_('date', $this->item->modified, JText::_('DATE_FORMAT_LC3'))); ?>
 						</div>
 					</dd>
 				<?php endif; ?>
@@ -148,7 +148,7 @@ if (!empty($this->item->pagination) AND $this->item->pagination && !$this->item-
 				<?php if ($params->get('show_hits')) : ?>
 					<dd>
 						<div class="hits">
-							  <i class="icon-eye-open"></i> <?php echo JText::sprintf('COM_CONTENT_ARTICLE_HITS', $this->item->hits); ?> 
+							  <i class="icon-eye-open"></i> <?php echo JText::sprintf('COM_CONTENT_ARTICLE_HITS', $this->item->hits); ?>
 						</div>
 					</dd>
 				<?php endif; ?>
@@ -221,9 +221,9 @@ if (!empty($this->item->pagination) AND $this->item->pagination && !$this->item-
 							<i class="icon-calendar"></i> <?php echo JText::sprintf('COM_CONTENT_PUBLISHED_DATE_ON', JHtml::_('date', $this->item->publish_up, JText::_('DATE_FORMAT_LC3'))); ?>
 						</div>
 					</dd>
-				<?php endif; ?>	
+				<?php endif; ?>
 			<?php endif; ?>
-			
+
 			<?php if ($params->get('show_create_date')) : ?>
 				<dd>
 					<div class="create"><i class="icon-calendar">
@@ -241,7 +241,7 @@ if (!empty($this->item->pagination) AND $this->item->pagination && !$this->item-
 			<?php if ($params->get('show_hits')) : ?>
 				<dd>
 					<div class="hits">
-				  		<i class="icon-eye-open"></i> <?php echo JText::sprintf('COM_CONTENT_ARTICLE_HITS', $this->item->hits); ?> 
+				  		<i class="icon-eye-open"></i> <?php echo JText::sprintf('COM_CONTENT_ARTICLE_HITS', $this->item->hits); ?>
 					</div>
 				</dd>
 			<?php endif; ?>

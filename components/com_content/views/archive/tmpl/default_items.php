@@ -15,7 +15,7 @@ $params = $this->params;
 
 <div id="archive-items">
 	<?php foreach ($this->items as $i => $item) : ?>
-	<?php $info = $item->params->get('info_block_position',0); ?>
+	<?php $info = $item->params->get('info_block_position', 0); ?>
 	<div class="row<?php echo $i % 2; ?>">
 		<div class="page-header">
 			<h2>
@@ -101,7 +101,7 @@ $params = $this->params;
 				<?php if ($params->get('show_hits')) : ?>
 					<dd>
 						<div class="hits">
-							  <i class="icon-eye-open"></i> <?php echo JText::sprintf('COM_CONTENT_ARTICLE_HITS', $item->hits); ?> 
+							  <i class="icon-eye-open"></i> <?php echo JText::sprintf('COM_CONTENT_ARTICLE_HITS', $item->hits); ?>
 						</div>
 					</dd>
 				<?php endif; ?>
@@ -151,9 +151,9 @@ $params = $this->params;
 							<i class="icon-calendar"></i> <?php echo JText::sprintf('COM_CONTENT_PUBLISHED_DATE_ON', JHtml::_('date', $item->publish_up, JText::_('DATE_FORMAT_LC3'))); ?>
 						</div>
 					</dd>
-				<?php endif; ?>	
+				<?php endif; ?>
 			<?php endif; ?>
-			
+
 			<?php if ($params->get('show_create_date')) : ?>
 				<dd>
 					<div class="create"><i class="icon-calendar">
@@ -171,7 +171,7 @@ $params = $this->params;
 			<?php if ($params->get('show_hits')) : ?>
 				<dd>
 					<div class="hits">
-				  		<i class="icon-eye-open"></i> <?php echo JText::sprintf('COM_CONTENT_ARTICLE_HITS', $item->hits); ?> 
+				  		<i class="icon-eye-open"></i> <?php echo JText::sprintf('COM_CONTENT_ARTICLE_HITS', $item->hits); ?>
 					</div>
 				</dd>
 			<?php endif; ?>

@@ -34,10 +34,14 @@ $doc				= JFactory::getDocument();
 $templateparams		= $app->getTemplate(true)->params;
 $config = JFactory::getConfig();
 
-if ($templateparams->get('bootstrap') == 1)
+$bootstrap = explode(',', $templateparams->get('bootstrap'));
+$jinput = JFactory::getApplication()->input;
+$option = $jinput->get('option', '', 'cmd');
+
+if (in_array($option, $bootstrap))
 {
-	  // load optional rtl bootstrap css and bootstrap bugfixes
-    JHtmlBootstrap::loadCss( $includeMaincss = true, $this->direction);
+	// Load optional rtl Bootstrap css and Bootstrap bugfixes
+	JHtmlBootstrap::loadCss($includeMaincss = true, $this->direction);
 }
 
 $doc->addStyleSheet(JURI::base() . '/templates/system/css/system.css');

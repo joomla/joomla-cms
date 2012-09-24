@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  Schema
  * @since       3.0
  */
-class JSchemaChangeitempostgresql extends JSchemaChangeitem
+class JSchemaChangeitemPostgresql extends JSchemaChangeitem
 {
 	/**
 	 * Checks a DDL query to see if it is a known type
@@ -65,8 +65,8 @@ class JSchemaChangeitempostgresql extends JSchemaChangeitem
 			$alterCommand = strtoupper($wordArray[3] . ' ' . $wordArray[4]);
 			if ($alterCommand === 'ADD COLUMN')
 			{
-				$result = 'SELECT column_name FROM information_schema.columns WHERE table_name=' .
-					$this->fixQuote($wordArray[2]) . ' AND column_name=' . $this->fixQuote($wordArray[5]);
+				$result = 'SELECT column_name FROM information_schema.columns WHERE table_name='
+				. $this->fixQuote($wordArray[2]) . ' AND column_name=' . $this->fixQuote($wordArray[5]);
 
 				$this->queryType = 'ADD_COLUMN';
 				$this->msgElements = array($this->fixQuote($wordArray[2]), $this->fixQuote($wordArray[5]));
@@ -91,16 +91,16 @@ class JSchemaChangeitempostgresql extends JSchemaChangeitem
 						$type = substr($type, 0, $pos);
 					}
 
-					$result = 'SELECT column_name, data_type FROM information_schema.columns WHERE table_name=' .
-						$this->fixQuote($wordArray[2]) . ' AND column_name=' . $this->fixQuote($wordArray[5]) .
-						' AND data_type=' . $this->fixQuote($type);
+					$result = 'SELECT column_name, data_type FROM information_schema.columns WHERE table_name='
+						. $this->fixQuote($wordArray[2]) . ' AND column_name=' . $this->fixQuote($wordArray[5])
+						. ' AND data_type=' . $this->fixQuote($type);
 
 					$this->queryType = 'CHANGE_COLUMN_TYPE';
 					$this->msgElements = array($this->fixQuote($wordArray[2]), $this->fixQuote($wordArray[5]), $type);
 				}
-				elseif(strtoupper($wordArray[7] . ' ' . $wordArray[8]) == 'NOT NULL')
+				elseif (strtoupper($wordArray[7] . ' ' . $wordArray[8]) == 'NOT NULL')
 				{
-					if ( strtoupper($wordArray[6]) == 'SET' )
+					if (strtoupper($wordArray[6]) == 'SET')
 					{
 						// SET NOT NULL
 						$isNullable = $this->fixQuote('NO');
@@ -110,17 +110,17 @@ class JSchemaChangeitempostgresql extends JSchemaChangeitem
 						// DROP NOT NULL
 						$isNullable = $this->fixQuote('YES');
 					}
-					$result = 'SELECT column_name, data_type, is_nullable FROM information_schema.columns WHERE table_name=' .
-						$this->fixQuote($wordArray[2]) . ' AND column_name=' . $this->fixQuote($wordArray[5]) .
-						' AND is_nullable=' . $isNullable;
+					$result = 'SELECT column_name, data_type, is_nullable FROM information_schema.columns WHERE table_name='
+						. $this->fixQuote($wordArray[2]) . ' AND column_name=' . $this->fixQuote($wordArray[5])
+						. ' AND is_nullable=' . $isNullable;
 
 					$this->queryType = 'CHANGE_COLUMN_TYPE';
 					$this->checkQueryExpected = 1;
 					$this->msgElements = array($this->fixQuote($wordArray[2]), $this->fixQuote($wordArray[5]), $isNullable);
 				}
-				elseif(strtoupper($wordArray[7]) === 'DEFAULT')
+				elseif (strtoupper($wordArray[7]) === 'DEFAULT')
 				{
-					if ( strtoupper($wordArray[6]) == 'SET' )
+					if (strtoupper($wordArray[6]) == 'SET')
 					{
 						$isNullDef = 'IS NOT NULL';
 					}
@@ -129,9 +129,9 @@ class JSchemaChangeitempostgresql extends JSchemaChangeitem
 						// DROP DEFAULT
 						$isNullDef = 'IS NULL';
 					}
-					$result = 'SELECT column_name, data_type, column_default FROM information_schema.columns WHERE table_name=' .
-						$this->fixQuote($wordArray[2]) . ' AND column_name=' . $this->fixQuote($wordArray[5]) .
-						' AND column_default ' . $isNullDef;
+					$result = 'SELECT column_name, data_type, column_default FROM information_schema.columns WHERE table_name='
+						. $this->fixQuote($wordArray[2]) . ' AND column_name=' . $this->fixQuote($wordArray[5])
+						. ' AND column_default ' . $isNullDef;
 
 					$this->queryType = 'CHANGE_COLUMN_TYPE';
 					$this->checkQueryExpected = 1;
@@ -157,7 +157,7 @@ class JSchemaChangeitempostgresql extends JSchemaChangeitem
 		}
 		elseif ($alterCommand == 'CREATE INDEX' || (strtoupper($alterCommand . $wordArray[2]) == 'CREATE UNIQUE INDEX'))
 		{
-			if ( $wordArray[1] === 'UNIQUE' )
+			if ($wordArray[1] === 'UNIQUE')
 			{
 				$idx = $this->fixQuote($wordArray[3]);
 				$table = $this->fixQuote($wordArray[5]);
@@ -218,7 +218,7 @@ class JSchemaChangeitempostgresql extends JSchemaChangeitem
 	private function fixInteger($type1, $type2)
 	{
 		$result = $type1;
-		if (strtolower($type1) == "integer" && strtolower(substr($type2, 0, 8)) == 'unsigned')
+		if (strtolower($type1) == 'integer' && strtolower(substr($type2, 0, 8)) == 'unsigned')
 		{
 			$result = 'unsigned int(10)';
 		}

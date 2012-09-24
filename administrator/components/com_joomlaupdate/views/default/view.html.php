@@ -43,6 +43,7 @@ class JoomlaupdateViewDefault extends JViewLegacy
 
 		// Set the toolbar information
 		JToolbarHelper::title(JText::_('COM_JOOMLAUPDATE_OVERVIEW'), 'install');
+		JToolbarHelper::custom('update.purge', 'purge', 'purge', 'JTOOLBAR_PURGE_CACHE', false, false);
 
 		// Add toolbar buttons
 		JToolbarHelper::preferences('com_joomlaupdate');

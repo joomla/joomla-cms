@@ -46,7 +46,10 @@ class InstallerModelDatabase extends InstallerModel
 	 */
 	public function fix()
 	{
-		$changeSet = $this->getItems();
+		if (!$changeSet = $this->getItems())
+		{
+			return false;
+		}
 		$changeSet->fix();
 		$this->fixSchemaVersion($changeSet);
 		$this->fixUpdateVersion();
@@ -64,7 +67,16 @@ class InstallerModelDatabase extends InstallerModel
 	public function getItems()
 	{
 		$folder = JPATH_ADMINISTRATOR . '/components/com_admin/sql/updates/';
-		$changeSet = JSchemaChangeset::getInstance(JFactory::getDbo(), $folder);
+
+		try
+		{
+			$changeSet = JSchemaChangeset::getInstance(JFactory::getDbo(), $folder);
+		}
+		catch (RuntimeException $e)
+		{
+			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'warning');
+			return false;
+		}
 		return $changeSet;
 	}
 
