@@ -8,7 +8,6 @@
  */
 
 defined('_JEXEC') or die;
-
 ?>
 <?php foreach ($this->fieldsets as $name => $fieldset) : ?>
 	<?php if (!in_array($fieldset->name, array('description', 'basic'))) : ?>
@@ -17,7 +16,6 @@ defined('_JEXEC') or die;
 			<?php if (isset($fieldset->description) && trim($fieldset->description)) : ?>
 				<p class="tip"><?php echo $this->escape(JText::_($fieldset->description)); ?></p>
 			<?php endif; ?>
-			<?php $hidden_fields = ''; ?>
 			<?php foreach ($this->form->getFieldset($name) as $field) : ?>
 				<?php if (!$field->hidden) : ?>
 					<div class="control-group">
@@ -29,10 +27,9 @@ defined('_JEXEC') or die;
 						</div>
 					</div>
 				<?php else : ?>
-					<?php $hidden_fields .= $field->input; ?>
+					<?php $this->hidden_fields .= $field->input; ?>
 				<?php endif; ?>
 			<?php endforeach; ?>
-			<?php echo $hidden_fields; ?>
 		</div>
 	<?php endif; ?>
 <?php endforeach; ?>

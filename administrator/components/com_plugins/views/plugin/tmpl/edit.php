@@ -13,6 +13,10 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
 JHtml::_('formbehavior.chosen', 'select');
+
+// Get Params Fieldsets
+$this->fieldsets = $this->form->getFieldsets('params');
+$this->hidden_fields = '';
 ?>
 <script type="text/javascript">
 	Joomla.submitbutton = function(task)
@@ -26,9 +30,9 @@ JHtml::_('formbehavior.chosen', 'select');
 <form action="<?php echo JRoute::_('index.php?option=com_plugins&layout=edit&extension_id=' . (int) $this->item->extension_id); ?>" method="post" name="adminForm" id="style-form" class="form-validate form-horizontal">
 	<fieldset class="adminform">
 		<ul class="nav nav-tabs">
-			<li class="active"><a href="#basic" data-toggle="tab"><?php echo JText::_('COM_PLUGINS_BASIC_FIELDSET_LABEL');?></a></li>
-			<?php $fieldsets = $this->form->getFieldsets('params'); ?>
-			<?php foreach ($fieldsets as $fieldset) : ?>
+			<li class="active">
+				<a href="#basic" data-toggle="tab"><?php echo JText::_('COM_PLUGINS_BASIC_FIELDSET_LABEL');?></a></li>
+			<?php foreach ($this->fieldsets as $fieldset) : ?>
 			<?php if (!in_array($fieldset->name, array('description', 'basic'))) : ?>
 				<?php $label = !empty($fieldset->label) ? JText::_($fieldset->label) : JText::_('COM_MODULES_' . $fieldset->name . '_FIELDSET_LABEL'); ?>
 				<li><a href="#options-<?php echo $fieldset->name; ?>" data-toggle="tab"><?php echo $label ?></a>
@@ -69,7 +73,7 @@ JHtml::_('formbehavior.chosen', 'select');
 					<div class="span6">
 						<?php if ($this->item->xml) : ?>
 						<h4>
-							<?php echo ($text = (string) $this->item->xml->name) ? JText::_($text) : $this->item->module; ?>
+							<?php echo ($text = (string) $this->item->xml->name) ? JText::_($text) : $this->item->element; ?>
 							<?php if ($this->item->folder) : ?>
 							<span class="label"><?php echo $this->item->folder; ?></span>
 							<?php endif; ?>
@@ -81,57 +85,62 @@ JHtml::_('formbehavior.chosen', 'select');
 								: <?php echo $this->item->extension_id; ?></span>
 							<?php endif; ?>
 						</h4>
-						<hr />
-						<div>
-							<?php if (isset($this->fieldsets['description'])) : ?>
-							<?php $hidden_fields = ''; ?>
-							<?php foreach ($this->form->getFieldset('description') as $field) : ?>
-								<?php if (!$field->hidden) : ?>
-									<div class="control-group">
-										<div class="control-label">
-											<?php echo $field->label; ?>
+						<?php if (isset($this->fieldsets['description'])) : ?>
+							<?php if ($fields = $this->form->getFieldset('description')) : ?>
+								<hr />
+								<div>
+									<?php foreach ($fields as $field) : ?>
+									<?php if (!$field->hidden) : ?>
+										<div class="control-group">
+											<div class="control-label">
+												<?php echo $field->label; ?>
+											</div>
+											<div class="controls">
+												<?php echo $field->input; ?>
+											</div>
 										</div>
-										<div class="controls">
-											<?php echo $field->input; ?>
-										</div>
-									</div>
-									<?php else : ?>
-									<?php $hidden_fields .= $field->input; ?>
-									<?php endif; ?>
-								<?php endforeach; ?>
-							<?php echo $hidden_fields; ?>
+										<?php else : ?>
+										<?php $this->hidden_fields .= $field->input; ?>
+										<?php endif; ?>
+									<?php endforeach; ?>
+								</div>
+								<?php endif; ?>
 							<?php else : ?>
-							<?php echo JText::_(trim($this->item->xml->description)); ?>
-							<?php endif; ?>
-						</div>
-						<?php if (isset($fieldsets['basic'])) : ?>
 							<hr />
-							<?php $hidden_fields = ''; ?>
-							<?php foreach ($this->form->getFieldset('basic') as $field) : ?>
-								<?php if (!$field->hidden) : ?>
-									<div class="control-group">
-										<div class="control-label">
-											<?php echo $field->label; ?>
+							<div>
+								<?php echo JText::_(trim($this->item->xml->description)); ?>
+							</div>
+							<?php endif; ?>
+						<?php if (isset($this->fieldsets['basic'])) : ?>
+							<?php if ($fields = $this->form->getFieldset('basic')) : ?>
+								<hr />
+								<?php foreach ($fields as $field) : ?>
+									<?php if (!$field->hidden) : ?>
+										<div class="control-group">
+											<div class="control-label">
+												<?php echo $field->label; ?>
+											</div>
+											<div class="controls">
+												<?php echo $field->input; ?>
+											</div>
 										</div>
-										<div class="controls">
-											<?php echo $field->input; ?>
-										</div>
-									</div>
-									<?php else : ?>
-									<?php $hidden_fields .= $field->input; ?>
-									<?php endif; ?>
-								<?php endforeach; ?>
-							<?php echo $hidden_fields; ?>
+										<?php else : ?>
+										<?php $this->hidden_fields .= $field->input; ?>
+										<?php endif; ?>
+									<?php endforeach; ?>
+								<?php endif; ?>
 							<?php endif; ?>
 						<?php else : ?>
 						<div class="alert alert-error"><?php echo JText::_('COM_PLUGINS_XML_ERR'); ?></div>
 						<?php endif; ?>
 					</div>
 				</div>
-				</div>
-				<?php echo $this->loadTemplate('options'); ?>
 			</div>
+
+			<?php echo $this->loadTemplate('options'); ?>
+		</div>
 	</fieldset>
+	<?php echo $this->hidden_fields; ?>
 	<input type="hidden" name="task" value="" />
 	<?php echo JHtml::_('form.token'); ?>
 </form>

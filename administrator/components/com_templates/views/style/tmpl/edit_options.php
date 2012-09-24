@@ -10,10 +10,9 @@
 defined('_JEXEC') or die;
 
 echo JHtml::_('bootstrap.startAccordion', 'templatestyleOptions', array('active' => 'collapse0'));
-$fieldsets = $this->form->getFieldsets('params');
 $i = 0;
 ?>
-<?php foreach ($fieldsets as $name => $fieldset) : ?>
+<?php foreach ($this->fieldsets as $name => $fieldset) : ?>
 <?php if (!in_array($fieldset->name, array('description', 'basic'))) : ?>
 	<?php
 		$label = !empty($fieldset->label) ? $fieldset->label : 'COM_TEMPLATES_' . $name . '_FIELDSET_LABEL';

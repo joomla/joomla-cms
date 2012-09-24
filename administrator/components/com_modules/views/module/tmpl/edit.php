@@ -19,6 +19,7 @@ $hasContent = empty($this->item->module) || $this->item->module == 'custom' || $
 
 // Get Params Fieldsets
 $this->fieldsets = $this->form->getFieldsets('params');
+$this->hidden_fields = '';
 
 $script = "Joomla.submitbutton = function(task)
 	{
@@ -158,47 +159,50 @@ JFactory::getDocument()->addScriptDeclaration($script);
 								: <?php echo $this->item->id; ?></span>
 							<?php endif; ?>
 						</h4>
-						<hr />
-						<div>
-							<?php if (isset($this->fieldsets['description'])) : ?>
-							<?php $hidden_fields = ''; ?>
-							<?php foreach ($this->form->getFieldset('description') as $field) : ?>
-								<?php if (!$field->hidden) : ?>
-									<div class="control-group">
-										<div class="control-label">
-											<?php echo $field->label; ?>
+						<?php if (isset($this->fieldsets['description'])) : ?>
+							<?php if ($fields = $this->form->getFieldset('description')) : ?>
+								<hr />
+								<div>
+									<?php foreach ($fields as $field) : ?>
+									<?php if (!$field->hidden) : ?>
+										<div class="control-group">
+											<div class="control-label">
+												<?php echo $field->label; ?>
+											</div>
+											<div class="controls">
+												<?php echo $field->input; ?>
+											</div>
 										</div>
-										<div class="controls">
-											<?php echo $field->input; ?>
-										</div>
-									</div>
-									<?php else : ?>
-									<?php $hidden_fields .= $field->input; ?>
-									<?php endif; ?>
-								<?php endforeach; ?>
-							<?php echo $hidden_fields; ?>
+										<?php else : ?>
+										<?php $this->hidden_fields .= $field->input; ?>
+										<?php endif; ?>
+									<?php endforeach; ?>
+								</div>
+								<?php endif; ?>
 							<?php else : ?>
-							<?php echo JText::_(trim($this->item->xml->description)); ?>
-							<?php endif; ?>
-						</div>
-						<?php if (isset($this->fieldsets['basic'])) : ?>
 							<hr />
-							<?php $hidden_fields = ''; ?>
-							<?php foreach ($this->form->getFieldset('basic') as $field) : ?>
-								<?php if (!$field->hidden) : ?>
-									<div class="control-group">
-										<div class="control-label">
-											<?php echo $field->label; ?>
+							<div>
+								<?php echo JText::_(trim($this->item->xml->description)); ?>
+							</div>
+							<?php endif; ?>
+						<?php if (isset($this->fieldsets['basic'])) : ?>
+							<?php if ($fields = $this->form->getFieldset('basic')) : ?>
+								<hr />
+								<?php foreach ($fields as $field) : ?>
+									<?php if (!$field->hidden) : ?>
+										<div class="control-group">
+											<div class="control-label">
+												<?php echo $field->label; ?>
+											</div>
+											<div class="controls">
+												<?php echo $field->input; ?>
+											</div>
 										</div>
-										<div class="controls">
-											<?php echo $field->input; ?>
-										</div>
-									</div>
-									<?php else : ?>
-									<?php $hidden_fields .= $field->input; ?>
-									<?php endif; ?>
-								<?php endforeach; ?>
-							<?php echo $hidden_fields; ?>
+										<?php else : ?>
+										<?php $this->hidden_fields .= $field->input; ?>
+										<?php endif; ?>
+									<?php endforeach; ?>
+								<?php endif; ?>
 							<?php endif; ?>
 						<?php else : ?>
 						<div class="alert alert-error"><?php echo JText::_('COM_MODULES_ERR_XML'); ?></div>
@@ -220,10 +224,10 @@ JFactory::getDocument()->addScriptDeclaration($script);
 			</div>
 			<?php endif; ?>
 		</div>
-
-		<input type="hidden" name="task" value="" />
-		<?php echo JHtml::_('form.token'); ?>
-		<?php echo $this->form->getInput('module'); ?>
-		<?php echo $this->form->getInput('client_id'); ?>
 	</fieldset>
+	<?php echo $this->hidden_fields; ?>
+	<input type="hidden" name="task" value="" />
+	<?php echo JHtml::_('form.token'); ?>
+	<?php echo $this->form->getInput('module'); ?>
+	<?php echo $this->form->getInput('client_id'); ?>
 </form>
