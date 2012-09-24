@@ -143,13 +143,11 @@ class PluginsModelPlugin extends JModelAdmin
 			$this->_cache[$pk]->params = $registry->toArray();
 
 			// Get the plugin XML.
-			$path = JPath::clean(JPATH_PLUGINS.'/'.$table->folder.'/'.$table->element.'/'.$table->element.'.xml');
+			$path = JPATH_PLUGINS.'/'.$table->folder.'/'.$table->element;
+			$installer = JInstaller::getInstance();
+			$installer->setPath('source', $path);
 
-			if (file_exists($path)) {
-				$this->_cache[$pk]->xml = simplexml_load_file($path);
-			} else {
-				$this->_cache[$pk]->xml = null;
-			}
+			$this->_cache[$pk]->xml = $installer->getManifest();
 		}
 
 		return $this->_cache[$pk];
@@ -225,11 +223,9 @@ class PluginsModelPlugin extends JModelAdmin
 			$app->redirect(JRoute::_('index.php?option=com_plugins&view=plugins', false));
 		}
 
-		$formFile = JPath::clean(JPATH_PLUGINS . '/' . $folder . '/' . $element . '/' . $element . '.xml');
-		if (!file_exists($formFile))
-		{
-			throw new Exception(JText::sprintf('COM_PLUGINS_ERROR_FILE_NOT_FOUND', $element . '.xml'));
-		}
+		$manifestPath = JPATH_PLUGINS . '/' . $folder . '/' . $element;
+		$installer    = JInstaller::getInstance();
+		$installer->setPath('source', $manifestPath);
 
 		// Load the core and/or local language file(s).
 			$lang->load('plg_'.$folder.'_'.$element, JPATH_ADMINISTRATOR, null, false, false)
@@ -237,15 +233,15 @@ class PluginsModelPlugin extends JModelAdmin
 		||	$lang->load('plg_'.$folder.'_'.$element, JPATH_ADMINISTRATOR, $lang->getDefault(), false, false)
 		||	$lang->load('plg_'.$folder.'_'.$element, JPATH_PLUGINS.'/'.$folder.'/'.$element, $lang->getDefault(), false, false);
 
-		if (file_exists($formFile)) {
+		if ($xml = $installer->getManifest())
+		{
 			// Get the plugin form.
-			if (!$form->loadFile($formFile, false, '//config')) {
+			if (!$form->load($xml, false, '//config')) {
 				throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
 			}
 		}
-
-		// Attempt to load the xml file.
-		if (!$xml = simplexml_load_file($formFile)) {
+		else
+		{
 			throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
 		}
 
