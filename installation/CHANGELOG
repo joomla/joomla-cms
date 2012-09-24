@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+24-Sep-2012 Jean-Marie Simonet
+ # [#29287] String Global Configuration appears as title of every component Options. Thanks Michael
+
 23-Sep-2012 Jean-Marie Simonet
  $ Improving ta-IN installation ini
  # [#29285] String Last Updated appears twice in frontend. Thanks Stella.
@@ -44,7 +47,7 @@ $ -> Language fix or change
  # Correcting double translation
  $ Correcting lang string typo
  # [#29050] Page Navigation in Extension Manager not working. Thanks Yannick
- #[#29274] Fix code style and unclear doc blocks from 29050. Thanks Michael
+ # [#29274] Fix code style and unclear doc blocks from 29050. Thanks Michael
 
 21-Sep-2012 Jean-Marie Simonet
  +$ Adding installation languages: km-KH, sv-SE

@@ -63,7 +63,7 @@ class ConfigViewComponent extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		JToolbarHelper::title(JText::_('COM_CONFIG_GLOBAL_CONFIGURATION'), 'config.png');
+		JToolbarHelper::title(JText::_($this->component->option . '_configuration'), 'config.png');
 		JToolbarHelper::apply('component.apply');
 		JToolbarHelper::save('component.save');
 		JToolbarHelper::divider();
