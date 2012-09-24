@@ -50,16 +50,19 @@
   <exclude-pattern>/libraries/*</exclude-pattern>
   <exclude-pattern>/installation/*</exclude-pattern>
   <exclude-pattern>/templates/*</exclude-pattern>
+  <exclude-pattern>/layouts/*</exclude-pattern>
   <exclude-pattern>/includes/*</exclude-pattern>
  </rule>
  <rule ref="Zend.Files.ClosingTag">
   <exclude-pattern>*/tmpl/*</exclude-pattern>
   <exclude-pattern>/templates/*</exclude-pattern>
+  <exclude-pattern>/layouts/*</exclude-pattern>
  </rule>
 
  <rule ref="Generic.Formatting.DisallowMultipleStatements">
   <exclude-pattern>*/tmpl/*</exclude-pattern>
   <exclude-pattern>/templates/*</exclude-pattern>
+  <exclude-pattern>/layouts/*</exclude-pattern>
   <exclude-pattern>/installation/template/index.php</exclude-pattern>
  </rule>
  <rule ref="PEAR.Formatting.MultiLineAssignment"/>
@@ -103,6 +106,7 @@
   <exclude-pattern>/plugins/*</exclude-pattern>
   <exclude-pattern>/modules/*</exclude-pattern>
   <exclude-pattern>/templates/*</exclude-pattern>
+  <exclude-pattern>/layouts/*</exclude-pattern>
  </rule>
 
  <!-- Lines can be 85 chars long, but never show errors -->
@@ -143,6 +147,7 @@
   <exclude-pattern>/modules/*</exclude-pattern>
   <exclude-pattern>/installation/*</exclude-pattern>
   <exclude-pattern>/templates/*</exclude-pattern>
+  <exclude-pattern>/layouts/*</exclude-pattern>
   <exclude-pattern>/includes/*</exclude-pattern>
  </rule>
 
@@ -154,6 +159,7 @@
   <exclude-pattern>/modules/*</exclude-pattern>
   <exclude-pattern>/installation/*</exclude-pattern>
   <exclude-pattern>/templates/*</exclude-pattern>
+  <exclude-pattern>/layouts/*</exclude-pattern>
   <exclude-pattern>/includes/*</exclude-pattern>
  </rule>
 
@@ -173,11 +179,12 @@
   <exclude-pattern>/modules/*</exclude-pattern>
   <exclude-pattern>/installation/*</exclude-pattern>
   <exclude-pattern>/templates/*</exclude-pattern>
+  <exclude-pattern>/layouts/*</exclude-pattern>
   <exclude-pattern>/includes/*</exclude-pattern>
  </rule>
 
  <rule ref="Joomla.ControlStructures.ControlSignature">
-  <!-- We only want this for librarie, languages and cli for now -->
+  <!-- We only want this for libraries, languages and cli for now -->
   <exclude-pattern>/administrator/*</exclude-pattern>
   <exclude-pattern>/components/*</exclude-pattern>
   <exclude-pattern>/plugins/*</exclude-pattern>
@@ -187,6 +194,7 @@
   <!-- These exceptions are permanent -->
   <exclude-pattern>*/tmpl/*</exclude-pattern>
   <exclude-pattern>/templates/*</exclude-pattern>
+  <exclude-pattern>/layouts/*</exclude-pattern>
   <exclude-pattern>/installation/template/index.php</exclude-pattern>
  </rule>
 
@@ -198,6 +206,7 @@
   <!-- These exceptions are permanent -->
   <exclude-pattern>*/tmpl/*</exclude-pattern>
   <exclude-pattern>/templates/*</exclude-pattern>
+  <exclude-pattern>/layouts/*</exclude-pattern>
   <exclude-pattern>/installation/template/index.php</exclude-pattern>
  </rule>
 
@@ -211,6 +220,7 @@
   <!-- These exceptions are permanent -->
   <exclude-pattern>*/tmpl/*</exclude-pattern>
   <exclude-pattern>/templates/*</exclude-pattern>
+  <exclude-pattern>/layouts/*</exclude-pattern>
   <exclude-pattern>/installation/template/index.php</exclude-pattern>
  </rule>
 </ruleset>

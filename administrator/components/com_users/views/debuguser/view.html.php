@@ -86,7 +86,7 @@ class UsersViewDebugUser extends JViewLegacy
 			'filter_level_end',
 			JHtml::_('select.options', $this->levels, 'value', 'text', $this->state->get('filter.level_end'))
 		);
-		
+
 		$this->sidebar = JHtmlSidebar::render();
 	}
 }

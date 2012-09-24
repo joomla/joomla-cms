@@ -37,8 +37,8 @@ JHtml::_('bootstrap.framework');
 // Add Stylesheets
 $doc->addStyleSheet('templates/'.$this->template.'/css/template.css');
 
-// load optional rtl bootstrap css and bootstrap bugfixes
-JHtmlBootstrap::loadCss( $includeMaincss = false, $this->direction);
+// Load optional rtl Bootstrap css and Bootstrap bugfixes
+JHtmlBootstrap::loadCss($includeMaincss = false, $this->direction);
 
 // Add current user information
 $user = JFactory::getUser();

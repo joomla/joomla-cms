@@ -575,30 +575,33 @@ abstract class JHtmlBootstrap
 	{
 		return '</div>';
 	}
-	
+
 	/**
-	 * Loads css files needed by bootstrap, including a secondary file that may contains boostrap css bug fixes
-	 * 
-	 * @param boolean if true, main bootstrap.css file is loaded, if false, only optional rtl and bug fixes file
-	 * @param string rtl or ltr direction. If empty, ltr is assumed
-	 * @param array optional array of attributes to be passed to JHtml::_('stylesheet')
+	 * Loads CSS files needed by Bootstrap, including a secondary file that may contain Bootstrap CSS bug fixes
+	 *
+	 * @param   boolean  $includeMainCss  If true, main bootstrap.css file is loaded
+	 * @param   string   $direction       rtl or ltr direction. If empty, ltr is assumed
+	 * @param   array    $attribs         Optional array of attributes to be passed to JHtml::_('stylesheet')
+	 *
+	 * @return  void
+	 *
+	 * @since   3.0
 	 */
-	public static function loadCss( $includeMaincss = true, $direction = 'ltr', $attribs = array())
+	public static function loadCss($includeMainCss = true, $direction = 'ltr', $attribs = array())
 	{
-	   
-	  if($includeMaincss)
-	  {
-	    // load bootstrap main css
-	    JHtml::_('stylesheet', 'media/jui/css/bootstrap.css', array(), false);
-	  }
-	   
-	  if ($direction === 'rtl')
-	  {
-	    JHtml::_('stylesheet', 'media/jui/css/bootstrap-rtl.css', array(), false);
-	  }
-	
-	  // load bootstrap css fixes
-	  JHtml::_('stylesheet', 'media/cms/css/bootstrap.css', array(), false);
-	   
+		// Load Bootstrap main CSS
+		if ($includeMainCss)
+		{
+			JHtml::_('stylesheet', 'media/jui/css/bootstrap.css', $attribs, false);
+		}
+
+		// Load Bootstrap RTL CSS
+		if ($direction === 'rtl')
+		{
+			JHtml::_('stylesheet', 'media/jui/css/bootstrap-rtl.css', $attribs, false);
+		}
+
+		// Load Bootstrap CSS fixes
+		JHtml::_('stylesheet', 'media/cms/css/bootstrap.css', $attribs, false);
 	}
 }

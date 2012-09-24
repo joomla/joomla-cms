@@ -115,7 +115,7 @@ class LanguagesViewOverrides extends JViewLegacy
 			JHtml::_('select.options', $this->languages, null, 'text', $this->state->get('filter.language_client')),
 			true
 		);
-		
+
 		$this->sidebar = JHtmlSidebar::render();
 	}
 }

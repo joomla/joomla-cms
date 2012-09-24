@@ -96,7 +96,7 @@ class TemplatesViewTemplates extends JViewLegacy
 			'filter_client_id',
 			JHtml::_('select.options', TemplatesHelper::getClientOptions(), 'value', 'text', $this->state->get('filter.client_id'))
 		);
-		
+
 		$this->sidebar = JHtmlSidebar::render();
 	}
 }
