@@ -28,6 +28,7 @@ $ -> Language fix or change
 
 24-Sep-2012 Mark Dexter
  # [#29275] Update README.txt file for Joomla 3. Thanks Nick Savov.
+ # [#29291] New version of sample_default.sql and sample_blog.sql. Thanks Elin.
 
 24-Sep-2012 Jean-Marie Simonet
  # [#29287] String Global Configuration appears as title of every component Options. Thanks Michael
