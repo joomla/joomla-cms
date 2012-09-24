@@ -30,6 +30,7 @@ $ -> Language fix or change
  # [#29287] String Global Configuration appears as title of every component Options. Thanks Michael
  # [#29288] Joomla update doesnt purge correctly. Thanks Janich
  #$ Wrong lang constant and missing strings in hathor
+ +$ Adding installation languages: ja-JP, ko-KR, nl-NL
 
 23-Sep-2012 Jean-Marie Simonet
  $ Improving ta-IN installation ini
