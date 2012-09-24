@@ -28,6 +28,7 @@ $ -> Language fix or change
 
 24-Sep-2012 Jean-Marie Simonet
  # [#29287] String Global Configuration appears as title of every component Options. Thanks Michael
+ # [#29288] Joomla update doesnt purge correctly. Thanks Janich
 
 23-Sep-2012 Jean-Marie Simonet
  $ Improving ta-IN installation ini
