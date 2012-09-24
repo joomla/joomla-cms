@@ -31,7 +31,7 @@ $ -> Language fix or change
  # [#29288] Joomla update doesnt purge correctly. Thanks Janich
  #$ Wrong lang constant and missing strings in hathor
  +$ Adding installation languages: ja-JP, ko-KR, nl-NL
- # Updating joomla logos for ®
+ # Updating joomla logos for ®. Thanks Pawel
 
 23-Sep-2012 Jean-Marie Simonet
  $ Improving ta-IN installation ini
