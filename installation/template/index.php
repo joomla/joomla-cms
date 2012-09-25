@@ -77,46 +77,70 @@ JText::script('INSTL_FTP_SETTINGS_CORRECT');
 			</div>
 		</div>
 		<script>
-			function initElements() {
-				(function($){
-					$('.hasTooltip').tooltip()
+            function initElements() {
+                (function($){
+                    $('.hasTooltip').tooltip()
 
-					// Chosen select boxes
-					$("select").chosen({
-						disable_search_threshold : 10,
-						allow_single_deselect : true
-					});
+                    // Chosen select boxes
+                    $("select").chosen({
+                        disable_search_threshold : 10,
+                        allow_single_deselect : true
+                    });
 
-					// Turn radios into btn-group
-				    $('.radio.btn-group label').addClass('btn');
-				    $(".btn-group label:not(.active)").click(function() {
-				        var label = $(this);
-				        var input = $('#' + label.attr('for'));
+                    // Turn radios into btn-group
+                    $('.radio.btn-group label').addClass('btn');
+                    $('.radio.btn-group label').attr("tabindex", 0);
 
-				        if (!input.prop('checked')) {
-				            label.closest('.btn-group').find("label").removeClass('active btn-success btn-danger btn-primary');
-				            if(input.val()== '') {
-				                    label.addClass('active btn-primary');
-				             } else if(input.val()==0 || input.val()=='remove') {
-				                    label.addClass('active btn-danger');
-				             } else {
-				            label.addClass('active btn-success');
-				             }
-				            input.prop('checked', true);
-				        }
-				    });
-				    $(".btn-group input[checked=checked]").each(function() {
-						if($(this).val()== '') {
-				           $("label[for=" + $(this).attr('id') + "]").addClass('active btn-primary');
-				        } else if($(this).val()==0 || $(this).val()=='remove') {
-				           $("label[for=" + $(this).attr('id') + "]").addClass('active btn-danger');
-				        } else {
-				            $("label[for=" + $(this).attr('id') + "]").addClass('active btn-success');
-				        }
-				    });
-				})(jQuery);
-			}
-			initElements();
-		</script>
+
+                    $(document).keyup(function(evt) {
+                        if(evt.keyCode == 32 && ($(':focus').attr('for')=='jform_site_offline1' || $(':focus').attr('for')=='jform_site_offline0')) {
+                            var label = $(':focus');
+                            var input = $('#'+label.attr('for'));
+
+                             if (!input.prop('checked')) {
+                            label.closest('.btn-group').find("label").removeClass('active btn-success btn-danger btn-primary');
+                            if(input.val()== '') {
+                                    label.addClass('active btn-primary');
+                             } else if(input.val()==0 || input.val()=='remove') {
+                                    label.addClass('active btn-danger');
+                             } else {
+                            label.addClass('active btn-success');
+                             }
+                            input.prop('checked', true);
+                        }
+                        }
+                    });
+
+                    $(".btn-group label:not(.active)").click(function() {
+                        var label = $(this);
+                        var input = $('#' + label.attr('for'));
+
+                        if (!input.prop('checked')) {
+                            label.closest('.btn-group').find("label").removeClass('active btn-success btn-danger btn-primary');
+                            if(input.val()== '') {
+                                    label.addClass('active btn-primary');
+                             } else if(input.val()==0 || input.val()=='remove') {
+                                    label.addClass('active btn-danger');
+                             } else {
+                            label.addClass('active btn-success');
+                             }
+                            input.prop('checked', true);
+                        }
+                    });
+
+                    $(".btn-group input[checked=checked]").each(function() {
+                        if($(this).val()== '') {
+                           $("label[for=" + $(this).attr('id') + "]").addClass('active btn-primary');
+                        } else if($(this).val()==0 || $(this).val()=='remove') {
+                           $("label[for=" + $(this).attr('id') + "]").addClass('active btn-danger');
+                        } else {
+                            $("label[for=" + $(this).attr('id') + "]").addClass('active btn-success');
+                        }
+                    });
+
+                })(jQuery);
+            }
+            initElements();
+        </script>
 	</body>
 </html>
