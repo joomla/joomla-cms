@@ -33,6 +33,7 @@ $ -> Language fix or change
  # Correcting double slashes in beez3 css loading
  -# [#29259] Remove unused pkg_joomla extension. Thanks Michael
  # [#29258] Update library and package manifests for 3.0. Thanks Michael
+ # [#29284] Halthor Browser.Engine deprecated in Mootools 1.4.5. Thanks Roberto
 
 24-Sep-2012 Mark Dexter
  # [#29275] Update README.txt file for Joomla 3. Thanks Nick Savov.
