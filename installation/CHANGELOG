@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+25-Sep-2012 Mark Dexter
+ # [#29237] Advanced module chrome settings Bootstrap Size should have default "none" option. Thanks Dragon Todorovic.
+
 25-Sep-2012 Jean-Marie Simonet
  +$ Adding installation languages: es-ES, fa-IR, hu-HU
  ^# [#29301] Protostar Site Title and Description Params. Thanks Kyle
