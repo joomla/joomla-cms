@@ -104,10 +104,10 @@ jQuery(function($)
 	// Take care of children toggle all
 	$('a.expandall').click(function()
 	{
-		$(this).parent().parent().parent().parent().parent().parent().find('li > ul.treeselect-sub').show();
+		$(this).parent().parent().parent().parent().parent().parent().parent().find('li > ul.treeselect-sub').show();
 	});
 	$('a.collapseall').click(function()
 	{
-		$(this).parent().parent().parent().parent().parent().parent().find('li > ul.treeselect-sub').hide();
+		$(this).parent().parent().parent().parent().parent().parent().parent().find('li > ul.treeselect-sub').hide();
 	});
 });
