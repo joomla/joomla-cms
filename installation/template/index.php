@@ -145,9 +145,6 @@ JText::script('INSTL_FTP_SETTINGS_CORRECT');
             }
             initElements();
         </script>
-[9/25/12 12:50:33 PM] David Hurley: sorry, removed my console logs....
-[9/25/12 12:50:35 PM] David Hurley: use this:
-[9/25/12 12:50:36 PM] David Hurley: <script>
             function initElements() {
                 (function($){
                     $('.hasTooltip').tooltip()
