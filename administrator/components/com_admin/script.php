@@ -198,7 +198,7 @@ class joomlaInstallerScript
 		$extensions[] = array('file', 'joomla', '', 0);
 
 		// Packages
-		$extensions[] = array('package', 'pkg_joomla', '', 0);
+		// None in core at this time
 
 		// Attempt to refresh manifest caches
 		$db = JFactory::getDbo();
@@ -311,11 +311,13 @@ class joomlaInstallerScript
 			'/administrator/components/com_templates/views/prevuuw/tmpl/index.html',
 			'/administrator/includes/menu.php',
 			'/administrator/includes/router.php',
+			'/administrator/manifests/packages/pkg_joomla.xml',
 			'/administrator/modules/mod_submenu/helper.php',
 			'/administrator/templates/hathor/css/ie6.css',
 			'/includes/menu.php',
 			'/includes/pathway.php',
 			'/includes/router.php',
+			'language/en-GB/en-GB.pkg_joomla.sys.ini',
 			'/libraries/cms/controller/index.html',
 			'/libraries/cms/controller/legacy.php',
 			'/libraries/cms/model/index.html',
