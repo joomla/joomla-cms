@@ -47,7 +47,7 @@
 	</languages>
 	<config>
 		<fields name="params">
-			<fieldset name="layout" label="Layout">
+			<fieldset name="advanced">
 				<field name="templateColor" class="" type="color" default="#08C"
 					label="TPL_PROTOSTAR_COLOR_LABEL"
 					description="TPL_PROTOSTAR_COLOR_DESC" />
@@ -59,6 +59,16 @@
 				<field name="logoFile" class="" type="media" default=""
 					label="TPL_PROTOSTAR_LOGO_LABEL"
 					description="TPL_PROTOSTAR_LOGO_DESC" />
+					
+				<field name="sitetitle"  type="text" default=""
+					label="JGLOBAL_TITLE"
+					description="JFIELD_ALT_PAGE_TITLE_LABEL"
+					filter="string" />
+
+				<field name="sitedescription"  type="text" default=""
+					label="JGLOBAL_DESCRIPTION"
+					description="JGLOBAL_SUBHEADING_DESC"
+					filter="string" />
 
 				<field name="googleFont"
 					type="radio"

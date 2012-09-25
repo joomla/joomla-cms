@@ -152,6 +152,7 @@ var Installation = new Class({
 		var task = tasks.shift();
 		var form = document.id('adminForm');
 		var tr = document.id('install_'+task);
+		var taskSpinner = tr.getElement('div.spinner');
 
 		var req = new Request.JSON({
 			url: this.baseUrl + '?task=setup.install_' + task,
@@ -160,7 +161,7 @@ var Installation = new Class({
 			onRequest: function() {
 				progress.setStyle('width',(progress.getStyle('width').toFloat()+step_width)+'%');
 				tr.addClass('active');
-				this.spinner.show(true);
+				taskSpinner.setStyle('visibility','visible');
 			}.bind(this),
 			onSuccess: function(r) {
 				Joomla.replaceTokens(r.token);
@@ -170,7 +171,7 @@ var Installation = new Class({
 				} else {
 					progress.setStyle('width',(progress.getStyle('width').toFloat()+(step_width*10))+'%');
 					tr.removeClass('active');
-					this.spinner.hide(true);
+					taskSpinner.setStyle('visibility','hidden');
 
 					this.install(tasks, step_width);
 				}
