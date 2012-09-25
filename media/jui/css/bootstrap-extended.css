@@ -434,3 +434,11 @@ fieldset.radio.btn-group {
 .width-auto {
   width: auto;
 }
+/* Chosen proper wrapping in Bootstrap btn-group */
+.btn-group .chzn-results {
+	white-space: normal;
+}
+/* Accordion overflow fix */
+.accordion-body.in:hover {
+	overflow:visible;
+}
