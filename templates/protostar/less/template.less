@@ -100,9 +100,19 @@ body.site.fluid{
 .select[multiple], select[size] {
 	height:28px;
 }
-/* Heading Fonts */
-h1,h2,h3,h4,h5,h6{
-	font-family: 'Open Sans', sans-serif;
+/* Site Title (if no logo) */
+.site-title {
+	font-size: 40px;
+	line-height: 48px;
+	font-weight: bold;
+}
+.brand {
+	color: darken(@linkColor, 20%);
+	.transition(color .5s linear);
+}
+.brand:hover {
+	color: @linkColor;
+	text-decoration: none;
 }
 /* Header */
 .header{
@@ -207,6 +217,10 @@ h6 { font-size: 12px; line-height: 14px; }
 .items-more,
 .content-links {
 	padding: 15px 0;
+}
+/* Breadcrumbs */
+.breadcrumb {
+	margin: 10px 0;
 }
 /* Caption fixes */
 .img_caption .left {
@@ -356,12 +370,19 @@ h6 { font-size: 12px; line-height: 14px; }
 		display:block;
 		text-align:center;
 	}
-	.header .nav.pull-right {
+	.header .nav.pull-right,
+	.header-search {
 		float:none;
 		display:block;
 	}
+	.header-search form {
+		margin: 0;
+	}
+	.header-search .search-query {
+		width: 90%;
+	}
 	.header .nav-pills > li > a {
-		border: 1px solid #ddd;
+		border: 1px solid @tableBorder;
 		border-bottom:0;
 		margin:0;
 		-webkit-border-radius: 0;
@@ -378,7 +399,7 @@ h6 { font-size: 12px; line-height: 14px; }
 		-webkit-border-radius: 0 0 4px 4px;
 		-moz-border-radius: 0 0 4px 4px;
 		border-radius: 0 0 4px 4px;
-		border-bottom:1px solid #ddd;
+		border-bottom:1px solid @tableBorder;
 	}
 	.modal.fade {
 		top:-100%;
@@ -390,7 +411,7 @@ h6 { font-size: 12px; line-height: 14px; }
 		float: none;
 	}
 	.nav-tabs > li > a {
-		border: 1px solid #ddd;
+		border: 1px solid @tableBorder;
 		-webkit-border-radius: 0;
 		-moz-border-radius: 0;
 		border-radius: 0;
@@ -405,20 +426,20 @@ h6 { font-size: 12px; line-height: 14px; }
 		-webkit-border-radius: 0 0 4px 4px;
 		-moz-border-radius: 0 0 4px 4px;
 		border-radius: 0 0 4px 4px;
-		border-bottom:1px solid #ddd;
+		border-bottom:1px solid @tableBorder;
 	}
 	.nav-tabs > li > a:hover {
-		border-color: #ddd;
+		border-color: @tableBorder;
 		z-index: 2;
 	}
 	.nav-tabs.nav-dark > li > a {
-		border: 1px solid #333;
+		border: 1px solid @grayDark;
 	}
 	.nav-tabs > li:last-child > a, .nav-tabs > .active:last-child > a {
-		border-bottom:1px solid #333;
+		border-bottom:1px solid @grayDark;
 	}
 	.nav-tabs.nav-dark > li > a:hover {
-		border-color: #333;
+		border-color: @grayDark;
 	}
 	.nav-pills > li {
 		float: none;
@@ -445,5 +466,13 @@ h6 { font-size: 12px; line-height: 14px; }
 	}
 	.item-comment .item-image{
 		display:none;
+	}
+	.well {
+		padding: 10px;
+	}
+}
+@media (min-width: 768px) and (max-width: 979px) {
+	#login-form .input-small {
+		width: 62px;
 	}
 }

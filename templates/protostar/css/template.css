@@ -6018,13 +6018,21 @@ body.site.fluid {
 select[size] {
 	height: 28px;
 }
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-	font-family: 'Open Sans', sans-serif;
+.site-title {
+	font-size: 40px;
+	line-height: 48px;
+	font-weight: bold;
+}
+.brand {
+	color: #004466;
+	-webkit-transition: color .5s linear;
+	-moz-transition: color .5s linear;
+	-o-transition: color .5s linear;
+	transition: color .5s linear;
+}
+.brand:hover {
+	color: #08c;
+	text-decoration: none;
 }
 .header {
 	margin-bottom: 10px;
@@ -6141,6 +6149,9 @@ h6 {
 .items-more,
 .content-links {
 	padding: 15px 0;
+}
+.breadcrumb {
+	margin: 10px 0;
 }
 .img_caption .left {
 	float: left;
@@ -6285,9 +6296,16 @@ h6 {
 		display: block;
 		text-align: center;
 	}
-	.header .nav.pull-right {
+	.header .nav.pull-right,
+	.header-search {
 		float: none;
 		display: block;
+	}
+	.header-search form {
+		margin: 0;
+	}
+	.header-search .search-query {
+		width: 90%;
 	}
 	.header .nav-pills > li > a {
 		border: 1px solid #ddd;
@@ -6376,5 +6394,13 @@ h6 {
 	}
 	.item-comment .item-image {
 		display: none;
+	}
+	.well {
+		padding: 10px;
+	}
+}
+@media (min-width: 768px) and (max-width: 979px) {
+	#login-form .input-small {
+		width: 62px;
 	}
 }

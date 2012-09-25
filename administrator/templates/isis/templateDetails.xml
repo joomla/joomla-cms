@@ -44,7 +44,7 @@
 	</languages>
 	<config>
 		<fields name="params">
-			<fieldset name="layout" label="Layout">
+			<fieldset name="advanced">
 
 				<field name="templateColor" class="" type="color" default=""
 				validate="color"
