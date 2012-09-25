@@ -40,6 +40,9 @@ UPDATE `#__extensions` SET protected = 0 WHERE
 `name` = 'plg_user_contactcreator' OR
 `name` = 'plg_user_profile';
 
+# Remove deleted extensions
+DELETE FROM `#__extensions` WHERE `extension_id` = 800;
+
 # Change most tables to InnoDB
 ALTER TABLE `#__assets` ENGINE=InnoDB;
 ALTER TABLE `#__associations` ENGINE=InnoDB;

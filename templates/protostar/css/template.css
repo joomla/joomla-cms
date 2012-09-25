@@ -5544,6 +5544,9 @@ fieldset.radio.btn-group {
 .btn-group .chzn-results {
 	white-space: normal;
 }
+.accordion-body.in:hover {
+	overflow: visible;
+}
 @font-face {
 	font-family: 'IcoMoon';
 	src: url('../../../media/jui/fonts/IcoMoon.eot');
