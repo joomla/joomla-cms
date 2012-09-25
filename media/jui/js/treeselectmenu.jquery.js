@@ -23,6 +23,10 @@ jQuery(function($)
 
 			// Append drop down menu in nodes
 			$div.find('label:first').after(treeselectmenu);
+
+			if (!$li.find('ul.treeselect-sub ul.treeselect-sub').length) {
+				$li.find('div.treeselect-menu-expand').remove();
+			}
 		}
 	});
 
@@ -104,10 +108,10 @@ jQuery(function($)
 	// Take care of children toggle all
 	$('a.expandall').click(function()
 	{
-		$(this).parent().parent().parent().parent().parent().parent().find('ul.treeselect-sub').show();
+		$(this).parent().parent().parent().parent().parent().parent().parent().find('ul.treeselect-sub').show();
 	});
 	$('a.collapseall').click(function()
 	{
-		$(this).parent().parent().parent().parent().parent().parent().find('li ul.treeselect-sub').hide();
+		$(this).parent().parent().parent().parent().parent().parent().parent().find('li ul.treeselect-sub').hide();
 	});
 });
