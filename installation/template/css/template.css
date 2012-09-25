@@ -120,3 +120,8 @@
 .list-item-subtitle {
 	margin-bottom:9px;
 }
+/* Radio Buttons in button format */
+.btn.active:focus {
+    outline: thin dotted #333333;
+    outline-offset: -2px;
+}
