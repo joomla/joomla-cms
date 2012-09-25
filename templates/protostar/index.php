@@ -61,14 +61,18 @@ else
 	$span = "span12";
 }
 
-// Logo file
+// Logo file or site title param
 if ($this->params->get('logoFile'))
 {
-	$logo = JURI::root() . $this->params->get('logoFile');
+	$logo = '<img src="'. JURI::root() . $this->params->get('logoFile') .'" alt="'. $sitename .'" />';
+}
+else if ($this->params->get('sitetitle'))
+{
+	$logo = '<span class="site-title" title="'. $sitename .'">'. htmlspecialchars($this->params->get('sitetitle')) .'</span>';
 }
 else
 {
-	$logo = $this->baseurl . "/templates/" . $this->template . "/images/logo.png";
+	$logo = '<span class="site-title" title="'. $sitename .'">'. $sitename .'</span>';
 }
 ?>
 <!DOCTYPE html>
@@ -128,7 +132,7 @@ else
 			<div class="header">
 				<div class="header-inner">
 					<a class="brand pull-left" href="<?php echo $this->baseurl; ?>">
-						<img src="<?php echo $logo;?>" alt="<?php echo $sitename; ?>" />
+						<?php echo $logo;?> <?php if ($this->params->get('sitedescription')) { echo '<div class="site-description">'. htmlspecialchars($this->params->get('sitedescription')) .'</div>'; } ?>
 					</a>
 					<div class="header-search pull-right">
 						<jdoc:include type="modules" name="position-0" style="none" />
@@ -141,10 +145,7 @@ else
 				<jdoc:include type="modules" name="position-1" style="none" />
 			</div>
 			<?php endif; ?>
-			<!-- Banner -->
-			<div class="banner">
-				<jdoc:include type="modules" name="banner" style="xhtml" />
-			</div>
+			<jdoc:include type="modules" name="banner" style="xhtml" />
 			<div class="row-fluid">
 				<?php if ($this->countModules('position-8')): ?>
 				<!-- Begin Sidebar -->
