@@ -183,11 +183,6 @@ class MenusHelper
 			return false;
 		}
 
-		// Pad the option text with spaces using depth level as a multiplier.
-		foreach ($links as &$link) {
-			$link->text = str_repeat('- ', $link->level).$link->text;
-		}
-
 		if (empty($menuType)) {
 			// If the menutype is empty, group the items by menutype.
 			$query->clear();

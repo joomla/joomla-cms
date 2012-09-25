@@ -5544,6 +5544,9 @@ fieldset.radio.btn-group {
 .btn-group .chzn-results {
 	white-space: normal;
 }
+.accordion-body.in:hover {
+	overflow: visible;
+}
 @font-face {
 	font-family: 'IcoMoon';
 	src: url('../../../../media/jui/fonts/IcoMoon.eot');
@@ -5794,6 +5797,7 @@ fieldset.radio.btn-group {
 .icon-minus-sign:before,
 .icon-minus-2:before {
 	content: "\5e";
+	color: #bd362f;
 }
 .icon-key:before {
 	content: "\5f";
@@ -6464,4 +6468,39 @@ ul.manager .height-50 .icon-folder-2 {
 }
 .admin .chzn-container .chzn-drop {
 	z-index: 1200;
+}
+ul.treeselect,
+ul.treeselect li {
+	margin: 0;
+	padding: 0;
+}
+ul.treeselect {
+	margin-top: 8px;
+}
+ul.treeselect li {
+	padding: 2px 10px 2px;
+	list-style: none;
+}
+ul.treeselect i.treeselect-toggle {
+	line-height: 18px;
+}
+ul.treeselect label {
+	font-size: 1em;
+	margin-left: 8px;
+}
+ul.treeselect label.nav-header {
+	padding: 0;
+}
+ul.treeselect input {
+	margin: 2px 0 0 8px;
+}
+ul.treeselect .treeselect-menu {
+	margin: 0 6px;
+}
+ul.treeselect ul.dropdown-menu {
+	margin: 0;
+}
+ul.treeselect ul.dropdown-menu li {
+	padding: 0 5px;
+	border: none;
 }
