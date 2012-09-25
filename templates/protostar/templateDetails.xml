@@ -43,6 +43,7 @@
 	</positions>
 	<languages folder="language">
 		<language tag="en-GB">en-GB/en-GB.tpl_protostar.ini</language>
+		<language tag="en-GB">en-GB/en-GB.tpl_beez3.ini</language>
 		<language tag="en-GB">en-GB/en-GB.tpl_protostar.sys.ini</language>
 	</languages>
 	<config>
