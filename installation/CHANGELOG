@@ -29,6 +29,7 @@ $ -> Language fix or change
 25-Sep-2012 Jean-Marie Simonet
  +$ Adding installation languages: es-ES, fa-IR
  ^# [#29301] Protostar Site Title and Description Params. Thanks Kyle
+ +$ Adding installation languages: hu-HU + correcting some EOL
 
 24-Sep-2012 Mark Dexter
  # [#29275] Update README.txt file for Joomla 3. Thanks Nick Savov.
