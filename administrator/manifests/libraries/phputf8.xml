@@ -12,7 +12,6 @@
 	<authorUrl>http://sourceforge.net/projects/phputf8</authorUrl>
 	<packager>Joomla!</packager>
 	<packagerurl>http://www.joomla.org</packagerurl>
-	<update>http://update.joomla.org/libraries/phputf8</update>
 	<files folder="libraries">
 		<folder>phputf8</folder>
 	</files>

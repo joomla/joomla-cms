@@ -12,7 +12,6 @@
 	<authorUrl>http://simplepie.org/</authorUrl>
 	<packager>Joomla!</packager>
 	<packagerurl>http://www.joomla.org</packagerurl>
-	<update>http://update.joomla.org/libraries/simplepie</update>
 	<files folder="libraries">
 		<folder>simplepie</folder>
 	</files>
