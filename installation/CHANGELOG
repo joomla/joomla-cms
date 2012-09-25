@@ -27,7 +27,7 @@ $ -> Language fix or change
 ! -> Note
 
 25-Sep-2012 Jean-Marie Simonet
- +$ Adding installation languages: es-ES, fa-IR
+ +$ Adding installation languages: es-ES, fa-IR, hu-HU
  ^# [#29301] Protostar Site Title and Description Params. Thanks Kyle
  # [#29302] Moving Accordion fix to bootstrap-extended. Thanks Kyle.
  # Correcting double slashes in beez3 css loading
