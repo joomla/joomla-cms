@@ -6018,15 +6018,6 @@ body.site.fluid {
 select[size] {
 	height: 28px;
 }
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-.site-title {
-	font-family: 'Open Sans', sans-serif;
-}
 .site-title {
 	font-size: 40px;
 	line-height: 48px;
