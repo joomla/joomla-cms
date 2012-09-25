@@ -17,7 +17,7 @@ jQuery(function($)
 		// Append clearfix
 		$div.after('<div class="clearfix"></div>');
 
-		if ($li.find('ul.treeselect-sub').length > 1 || $li.find('ul.treeselect-sub:first').children('li').length > 1) {
+		if ($li.find('ul.treeselect-sub').length) {
 			// Add classes to Expand/Collapse icons
 			$li.find('i').addClass('treeselect-toggle icon-minus');
 
