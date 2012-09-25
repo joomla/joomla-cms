@@ -26,6 +26,8 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+-------------------- 3.0.0 Stable Release [27-Sep-2012] ------------------
+
 25-Sep-2012 Mark Dexter
  # [#29237] Advanced module chrome settings Bootstrap Size should have default "none" option. Thanks Dragon Todorovic.
  # [#29269] Navigate to the iPhone for Joomla! Thanks Kyle.
