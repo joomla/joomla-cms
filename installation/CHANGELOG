@@ -33,6 +33,7 @@ $ -> Language fix or change
  # [#29348] Restore DS definition. Thanks Elin.
  # [#29349] Don't delete bluestork from the database.
  # [#29351] New layouts folder not created during update.
+ # [#29352] Add beez3 during update, add mod_stats_admin during new install.
 
 26-Sep-2012 Jean-Marie Simonet
  +$ Adding installation languages: pt-BR, vi-VN
