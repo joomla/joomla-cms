@@ -34,7 +34,7 @@ $this->hidden_fields = '';
 				<a href="#basic" data-toggle="tab"><?php echo JText::_('COM_PLUGINS_BASIC_FIELDSET_LABEL');?></a></li>
 			<?php foreach ($this->fieldsets as $fieldset) : ?>
 			<?php if (!in_array($fieldset->name, array('description', 'basic'))) : ?>
-				<?php $label = !empty($fieldset->label) ? JText::_($fieldset->label) : JText::_('COM_MODULES_' . $fieldset->name . '_FIELDSET_LABEL'); ?>
+				<?php $label = !empty($fieldset->label) ? JText::_($fieldset->label) : JText::_('COM_PLUGINS_' . $fieldset->name . '_FIELDSET_LABEL'); ?>
 				<li><a href="#options-<?php echo $fieldset->name; ?>" data-toggle="tab"><?php echo $label ?></a>
 				</li>
 				<?php endif; ?>
