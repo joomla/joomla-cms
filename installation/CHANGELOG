@@ -33,6 +33,7 @@ $ -> Language fix or change
  # [#29269] Navigate to the iPhone for Joomla! Thanks Kyle.
  # [#29304] Sample data. Thanks Elin.
  # [#29322] Fixed collapse/expand on subitems (menu treeselect in modules). Thanks Peter van Westen.
+ # [#29323] Problems in update from 2.5 to 3.0
 
 25-Sep-2012 Jean-Marie Simonet
  +$ Adding installation languages: es-ES, fa-IR, hu-HU

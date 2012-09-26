@@ -155,3 +155,9 @@ SET home = (CASE WHEN (SELECT count FROM (SELECT count(`id`) AS count
 			END)
 WHERE template = 'isis'
 AND home != '1';
+
+# Change language packages update URL
+UPDATE `#__update_sites`
+SET location = 'http://update.joomla.org/language/translationlist_3.xml'
+WHERE location = 'http://update.joomla.org/language/translationlist.xml' 
+	AND name = 'Accredited Joomla! Translations'
