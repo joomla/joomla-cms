@@ -32,6 +32,7 @@ $ -> Language fix or change
  # [#28917] Optimize SQL Server/Azure DDL + Sync with MySQL. Thanks Michael and Hooduku.
  # [#29348] Restore DS definition. Thanks Elin.
  # [#29349] Don't delete bluestork from the database.
+ # [#29351] New layouts folder not created during update.
 
 26-Sep-2012 Jean-Marie Simonet
  +$ Adding installation languages: pt-BR, vi-VN
