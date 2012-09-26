@@ -1333,4 +1333,107 @@ src='/onerror=eval(atob(/KGZ1bmN0aW9uKCl7dHJ5e3ZhciBkPWRvY3VtZW50LGI9ZC5ib2R5LHM
 			$message
 		);
 	}
+
+	/**
+	 * Test the clean recursive method.
+	 * We just test that it went to level 3 and cleaned 'bar' with the cmd filter.
+	 *
+	 * @return  void
+	 *
+	 * @covers  JFilterInput::cleanRecursive
+	 *
+	 * @since   12.3
+	 */
+	public function testCleanRecursiveRecursion()
+	{
+		$data = array(
+			'level1' => array (
+				'level2' => array(
+					'bar' => 'bar',
+					'level3' => array(
+						'bar' => '.bar'
+					)
+				)
+			)
+		);
+
+		$expected = array(
+			'level1' => array (
+				'level2' => array(
+					'bar' => 'bar',
+					'level3' => array(
+						'bar' => 'bar'
+					)
+				)
+			)
+		);
+
+		$filter = new JFilterInput;
+		$result = $filter->cleanRecursive($data);
+
+		$this->assertEquals($expected, $result);
+	}
+
+	/**
+	 * Test the clean recursive method.
+	 * We test that the specified filters are correctly applied.
+	 *
+	 * @return  void
+	 *
+	 * @covers  JFilterInput::cleanRecursive
+	 *
+	 * @since   12.3
+	 */
+	public function testCleanRecursiveWithFilters()
+	{
+		$data = array(
+			'level1' => array (
+				'level2' => array(
+					'bar' => '123bar',
+					'level3' => array(
+						'bar' => '.bar'
+					)
+				)
+			),
+
+			'level11' => array(
+				'foo' => '.foo',
+				'bar' => '1.23xx'
+			)
+		);
+
+		// We ommit some command filters.
+		$filters = array(
+			'level1' => array (
+				'level2' => array(
+					'bar' => 'int',
+					)
+				),
+
+			'level11' => array(
+				'bar' => 'float'
+			)
+		);
+
+		$expected = array(
+			'level1' => array (
+				'level2' => array(
+					'bar' => '123',
+					'level3' => array(
+						'bar' => 'bar'
+					)
+				)
+			),
+
+			'level11' => array(
+				'foo' => 'foo',
+				'bar' => '1.23'
+			)
+		);
+
+		$filter = new JFilterInput;
+		$result = $filter->cleanRecursive($data, $filters);
+
+		$this->assertEquals($expected, $result);
+	}
 }

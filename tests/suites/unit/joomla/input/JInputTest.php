@@ -139,6 +139,36 @@ class JInputTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Test the JInput::getAll.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.3
+	 */
+	public function testGetAll()
+	{
+		$filters = array('foo');
+		$data = array(
+			'foo' => array('bar'),
+			'bar' => 'bar'
+		);
+
+		$input = new JInput;
+		$input->set('foo', array('bar'));
+		$input->set('bar', 'bar');
+
+		$mock = $this->getMock('JFilterInput', array('cleanRecursive'));
+		$mock->expects($this->once())
+			->method('cleanRecursive')
+			->with($data, $filters);
+
+		// Inject the mock.
+		TestReflection::setValue($input, 'filter', $mock);
+
+		$input->getAll($filters);
+	}
+
+	/**
 	 * Test the JInput::def method.
 	 *
 	 * @return  void

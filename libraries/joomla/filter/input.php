@@ -263,6 +263,40 @@ class JFilterInput
 	}
 
 	/**
+	 * Clean an array of data in a recursive manner.
+	 *
+	 * @param   array  $data     An n-dimensional array of data to clean.
+	 * @param   array  $filters  An associative n-dimensional array of filters having keys matching the data keys
+	 *                           and value corresponding to the filter names to apply.
+	 *                           If it is empty or missing values, the 'cmd' filter will be applied.
+	 *
+	 * @return  array  The filtered data.
+	 *
+	 * @since   12.3
+	 */
+	public function cleanRecursive(array $data, array $filters = array())
+	{
+		$result = array();
+
+		foreach ($data as $key => $value)
+		{
+			if (is_array($value))
+			{
+				$filter = isset($filters[$key]) ? $filters[$key] : array();
+				$result[$key] = $this->cleanRecursive($value, $filter);
+			}
+
+			else
+			{
+				$filter = isset($filters[$key]) ? $filters[$key] : 'cmd';
+				$result[$key] = $this->clean($value, $filter);
+			}
+		}
+
+		return $result;
+	}
+
+	/**
 	 * Function to determine if contents of an attribute are safe
 	 *
 	 * @param   array  $attrSubSet  A 2 element array for attribute's name, value

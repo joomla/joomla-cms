@@ -18,6 +18,12 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Input
  * @since       11.1
  *
+ * @property    JInput        $get
+ * @property    JInput        $post
+ * @property    JInput        $server
+ * @property    JInputFiles   $files
+ * @property    JInputCookie  $cookie
+ *
  * @method      integer  getInt()       getInt($name, $default = null)    Get a signed integer.
  * @method      integer  getUint()      getUint($name, $default = null)   Get an unsigned integer.
  * @method      float    getFloat()     getFloat($name, $default = null)  Get a floating-point number.
@@ -162,6 +168,22 @@ class JInput implements Serializable, Countable
 		}
 
 		return $default;
+	}
+
+	/**
+	 * Get all values filtered from the input data.
+	 *
+	 * @param   array  $filters  An n-dimensional associative array of input key names as keys
+	 *                           and filter names as value.
+	 *                           If it is empty or missing values, the 'cmd' filter will be applied.
+	 *
+	 * @return  array  The input data.
+	 *
+	 * @since   12.3
+	 */
+	public function getAll(array $filters = array())
+	{
+		return $this->filter->cleanRecursive($this->data, $filters);
 	}
 
 	/**
