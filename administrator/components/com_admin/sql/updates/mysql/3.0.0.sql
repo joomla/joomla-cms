@@ -128,12 +128,6 @@ INSERT INTO `#__template_styles` (`template`, `client_id`, `home`, `title`, `par
 	('protostar', 0, '0', 'protostar - Default', '{"templateColor":"","logoFile":"","googleFont":"1","googleFontName":"Open+Sans","fluidContainer":"0"}'),
 	('isis', 1, '1', 'isis - Default', '{"templateColor":"","logoFile":""}');
 
-DELETE FROM `#__extensions`
-	WHERE type = 'template' AND name = 'bluestork';
-
-DELETE FROM `#__template_styles`
-	WHERE template = 'bluestork';
-
 UPDATE `#__template_styles`
 SET home = (CASE WHEN (SELECT count FROM (SELECT count(`id`) AS count
 			FROM `#__template_styles`

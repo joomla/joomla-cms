@@ -31,6 +31,7 @@ $ -> Language fix or change
 26-Sep-2012 Mark Dexter
  # [#28917] Optimize SQL Server/Azure DDL + Sync with MySQL. Thanks Michael and Hooduku.
  # [#29348] Restore DS definition. Thanks Elin.
+ # [#29349] Don't delete bluestork from the database.
 
 26-Sep-2012 Jean-Marie Simonet
  +$ Adding installation languages: pt-BR, vi-VN
