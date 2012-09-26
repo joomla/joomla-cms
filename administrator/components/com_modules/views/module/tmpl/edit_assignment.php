@@ -123,9 +123,11 @@ JFactory::getDocument()->addScriptDeclaration($script);
 							</li>
 							<li><a class="uncheckall" href="javascript://"><i class="icon-checkbox-unchecked"></i> <?php echo JText::_('COM_MODULES_DESELECT'); ?></a>
 							</li>
+							<div class="treeselect-menu-expand">
 							<li class="divider"></li>
 							<li><a class="expandall" href="javascript://"><i class="icon-plus"></i> <?php echo JText::_('COM_MODULES_EXPAND'); ?></a></li>
 							<li><a class="collapseall" href="javascript://"><i class="icon-minus"></i> <?php echo JText::_('COM_MODULES_COLLAPSE'); ?></a></li>
+							</div>
 						</ul>
 					</div>
 				</div>

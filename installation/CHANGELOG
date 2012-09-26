@@ -26,10 +26,18 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+26-Sep-2012 Jean-Marie Simonet
+ +$ Adding installation languages: pt-BR, vi-VN
+ # Correcting 3.0.0.sql
+
+-------------------- 3.0.0 Stable Release [27-Sep-2012] ------------------
+
 25-Sep-2012 Mark Dexter
  # [#29237] Advanced module chrome settings Bootstrap Size should have default "none" option. Thanks Dragon Todorovic.
  # [#29269] Navigate to the iPhone for Joomla! Thanks Kyle.
  # [#29304] Sample data. Thanks Elin.
+ # [#29322] Fixed collapse/expand on subitems (menu treeselect in modules). Thanks Peter van Westen.
+ # [#29323] Problems in update from 2.5 to 3.0
 
 25-Sep-2012 Jean-Marie Simonet
  +$ Adding installation languages: es-ES, fa-IR, hu-HU
