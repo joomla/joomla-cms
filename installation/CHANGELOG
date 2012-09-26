@@ -32,6 +32,7 @@ $ -> Language fix or change
  # [#29237] Advanced module chrome settings Bootstrap Size should have default "none" option. Thanks Dragon Todorovic.
  # [#29269] Navigate to the iPhone for Joomla! Thanks Kyle.
  # [#29304] Sample data. Thanks Elin.
+ # [#29322] Fixed collapse/expand on subitems (menu treeselect in modules). Thanks Peter van Westen.
 
 25-Sep-2012 Jean-Marie Simonet
  +$ Adding installation languages: es-ES, fa-IR, hu-HU
