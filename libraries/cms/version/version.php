@@ -20,7 +20,7 @@ final class JVersion
 	public $PRODUCT = 'Jokte!';
 
 	/** @var  string  Release version. */
-	public $RELEASE = '2.5';
+	public $RELEASE = '1.1.1';
 
 	/** @var  string  Maintenance version. */
 	public $DEV_LEVEL = '6';
@@ -35,7 +35,7 @@ final class JVersion
 	public $CODENAME = 'Ember';
 
 	/** @var  string  Release date. */
-	public $RELDATE = '19-June-2012';
+	public $RELDATE = '26-Sep-2012';
 
 	/** @var  string  Release time. */
 	public $RELTIME = '14:00';
