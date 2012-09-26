@@ -28,7 +28,7 @@ $ -> Language fix or change
 
 26-Sep-2012 Jean-Marie Simonet
  +$ Adding installation languages: pt-BR, vi-VN
- # Correcting script.php
+ # Correcting 3.0.0.sql
 
 -------------------- 3.0.0 Stable Release [27-Sep-2012] ------------------
 
