@@ -1550,9 +1550,7 @@ CREATE TABLE IF NOT EXISTS `#__update_sites` (
 --
 
 INSERT INTO `#__update_sites` (`update_site_id`, `name`, `type`, `location`, `enabled`, `last_check_timestamp`) VALUES
-(1, 'Jokte! Extensiones', 'collection', 'https://update.jokte.org/list.xml', 1, 1343425429),
-(2, 'Joomla Core', 'collection', 'http://update.joomla.org/core/list.xml', 0, 1343425431),
-(3, 'Joomla Extension Directory', 'collection', 'http://update.joomla.org/jed/list.xml', 1, 1343425431);
+(1, 'Jokte! Extensiones', 'collection', 'https://update.jokte.org/list.xml', 1, 1343425429);
 
 -- --------------------------------------------------------
 
@@ -1571,9 +1569,7 @@ CREATE TABLE IF NOT EXISTS `#__update_sites_extensions` (
 --
 
 INSERT INTO `#__update_sites_extensions` (`update_site_id`, `extension_id`) VALUES
-(1, 700),
-(2, 700),
-(3, 700);
+(1, 700);
 
 -- --------------------------------------------------------
 
