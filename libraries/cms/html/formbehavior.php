@@ -36,7 +36,7 @@ abstract class JHtmlFormbehavior
 	 *
 	 * @since   3.0
 	 */
-	public static function chosen($selector = '.advandedSelect', $debug = null)
+	public static function chosen($selector = '.advancedSelect', $debug = null)
 	{
 		if (isset(self::$loaded[__METHOD__][$selector]))
 		{
