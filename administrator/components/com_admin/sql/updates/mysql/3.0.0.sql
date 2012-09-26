@@ -1,11 +1,8 @@
-# Remove unnecessary keys
 ALTER TABLE `#__users` DROP KEY `usertype`;
 ALTER TABLE `#__session` DROP KEY `whosonline`;
 
-# Remove unused table
 DROP TABLE IF EXISTS `#__update_categories`;
 
-# Remove unused columns
 ALTER TABLE `#__contact_details` DROP `imagepos`;
 ALTER TABLE `#__content` DROP COLUMN `title_alias`;
 ALTER TABLE `#__content` DROP COLUMN `sectionid`;
@@ -21,7 +18,6 @@ ALTER TABLE `#__session` DROP COLUMN `usertype`;
 ALTER TABLE `#__users` DROP COLUMN `usertype`;
 ALTER TABLE `#__updates` DROP COLUMN `categoryid`;
 
-# Unprotect a number of extensions
 UPDATE `#__extensions` SET protected = 0 WHERE
 `name` = 'com_search' OR
 `name` = 'mod_articles_archive' OR
@@ -40,10 +36,8 @@ UPDATE `#__extensions` SET protected = 0 WHERE
 `name` = 'plg_user_contactcreator' OR
 `name` = 'plg_user_profile';
 
-# Remove deleted extensions
 DELETE FROM `#__extensions` WHERE `extension_id` = 800;
 
-# Change most tables to InnoDB
 ALTER TABLE `#__assets` ENGINE=InnoDB;
 ALTER TABLE `#__associations` ENGINE=InnoDB;
 ALTER TABLE `#__banners` ENGINE=InnoDB;
@@ -93,7 +87,6 @@ ALTER TABLE `#__schemas` ENGINE=InnoDB;
 ALTER TABLE `#__session` ENGINE=InnoDB;
 ALTER TABLE `#__template_styles` ENGINE=InnoDB;
 ALTER TABLE `#__updates` ENGINE=InnoDB;
-ALTER TABLE `#__update_categories` ENGINE=InnoDB;
 ALTER TABLE `#__update_sites` ENGINE=InnoDB;
 ALTER TABLE `#__update_sites_extensions` ENGINE=InnoDB;
 ALTER TABLE `#__users` ENGINE=InnoDB;
@@ -104,7 +97,6 @@ ALTER TABLE `#__user_usergroup_map` ENGINE=InnoDB;
 ALTER TABLE `#__viewlevels` ENGINE=InnoDB;
 ALTER TABLE `#__weblinks` ENGINE=InnoDB;
 
-# Add new columns to normalise our content tables
 ALTER TABLE `#__weblinks` ADD COLUMN `version` int(10) unsigned NOT NULL DEFAULT '1';
 ALTER TABLE `#__weblinks` ADD COLUMN `images` text NOT NULL;
 ALTER TABLE `#__newsfeeds` ADD COLUMN `description` text NOT NULL;
@@ -122,12 +114,10 @@ ALTER TABLE `#__categories` ADD COLUMN `version` int(10) unsigned NOT NULL DEFAU
 UPDATE  `#__assets` SET name=REPLACE( name, 'com_user.notes.category','com_users.category'  );
 UPDATE  `#__categories` SET extension=REPLACE( extension, 'com_user.notes.category','com_users.category'  );
 
-# Add columns for improved language support in finder.
 ALTER TABLE `#__finder_terms` ADD COLUMN `language` char(3) NOT NULL DEFAULT '';
 ALTER TABLE `#__finder_tokens` ADD COLUMN `language` char(3) NOT NULL DEFAULT '';
 ALTER TABLE `#__finder_tokens_aggregate` ADD COLUMN `language` char(3) NOT NULL DEFAULT '';
 
-# Add new templates
 INSERT INTO `#__extensions`
 	(`name`, `type`, `element`, `folder`, `client_id`, `enabled`, `access`, `protected`, `manifest_cache`, `params`, `custom_data`, `system_data`, `checked_out`, `checked_out_time`, `ordering`, `state`)
 	VALUES
@@ -138,7 +128,6 @@ INSERT INTO `#__template_styles` (`template`, `client_id`, `home`, `title`, `par
 	('protostar', 0, '0', 'protostar - Default', '{"templateColor":"","logoFile":"","googleFont":"1","googleFontName":"Open+Sans","fluidContainer":"0"}'),
 	('isis', 1, '1', 'isis - Default', '{"templateColor":"","logoFile":""}');
 
-# Deal with removed templates
 DELETE FROM `#__extensions`
 	WHERE type = 'template' AND name = 'bluestork';
 
@@ -156,8 +145,7 @@ SET home = (CASE WHEN (SELECT count FROM (SELECT count(`id`) AS count
 WHERE template = 'isis'
 AND home != '1';
 
-# Change language packages update URL
 UPDATE `#__update_sites`
 SET location = 'http://update.joomla.org/language/translationlist_3.xml'
-WHERE location = 'http://update.joomla.org/language/translationlist.xml' 
-	AND name = 'Accredited Joomla! Translations'
+WHERE location = 'http://update.joomla.org/language/translationlist.xml'
+AND name = 'Accredited Joomla! Translations';
