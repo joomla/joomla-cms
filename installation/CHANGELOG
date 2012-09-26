@@ -26,11 +26,14 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+-------------------- 3.0.0 Stable Release [27-Sep-2012] ------------------
+
+26-Sep-2012 Mark Dexter
+ # [#28917] Optimize SQL Server/Azure DDL + Sync with MySQL. Thanks Michael and Hooduku.
+
 26-Sep-2012 Jean-Marie Simonet
  +$ Adding installation languages: pt-BR, vi-VN
  # Correcting 3.0.0.sql
-
--------------------- 3.0.0 Stable Release [27-Sep-2012] ------------------
 
 25-Sep-2012 Mark Dexter
  # [#29237] Advanced module chrome settings Bootstrap Size should have default "none" option. Thanks Dragon Todorovic.
