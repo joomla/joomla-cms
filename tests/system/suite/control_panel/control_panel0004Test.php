@@ -14,7 +14,7 @@ require_once 'SeleniumJoomlaTestCase.php';
 class ControlPanel0004 extends SeleniumJoomlaTestCase
 {
 
-	function testCreateRemoveCategory()
+	function xtestCreateRemoveCategory()
 	{
 		echo "Starting testCreateRemoveCategory\n";
 		$this->setUp();
@@ -85,9 +85,8 @@ class ControlPanel0004 extends SeleniumJoomlaTestCase
 		print("Check that reordering still works." . "\n");
 		print("Check that Templates and Modules categories are in original order." . "\n");
 		$this->assertContains("Templates", $this->getTable("//table[@class='table table-striped'].11.3"));
-		$this->assertContains("Beez 20", $this->getTable("//table[@class='table table-striped'].12.3"));
-		$this->assertContains("Beez 5", $this->getTable("//table[@class='table table-striped'].13.3"));
-		$this->assertContains("Atomic", $this->getTable("//table[@class='table table-striped'].14.3"));
+		$this->assertContains("Beez3", $this->getTable("//table[@class='table table-striped'].12.3"));
+		$this->assertContains("Protostar", $this->getTable("//table[@class='table table-striped'].13.3"));
 		$this->assertContains("Modules", $this->getTable("//table[@class='table table-striped'].5.3"));
 		$this->assertContains("Content Modules", $this->getTable("//table[@class='table table-striped'].6.3"));
 		$this->assertContains("User Modules", $this->getTable("//table[@class='table table-striped'].7.3"));
@@ -109,15 +108,14 @@ class ControlPanel0004 extends SeleniumJoomlaTestCase
 		$this->waitForPageToLoad("30000");
 		print("Check that Templates and Modules categories are in new order." . "\n");
 		$this->assertContains("Templates", $this->getTable("//table[@class='table table-striped'].5.3"));
-		$this->assertContains("Beez 20", $this->getTable("//table[@class='table table-striped'].6.3"));
-		$this->assertContains("Beez 5", $this->getTable("//table[@class='table table-striped'].7.3"));
-		$this->assertContains("Atomic", $this->getTable("//table[@class='table table-striped'].8.3"));
-		$this->assertContains("Modules", $this->getTable("//table[@class='table table-striped'].9.3"));
-		$this->assertContains("Content Modules", $this->getTable("//table[@class='table table-striped'].10.3"));
-		$this->assertContains("User Modules", $this->getTable("//table[@class='table table-striped'].11.3"));
-		$this->assertContains("Display Modules", $this->getTable("//table[@class='table table-striped'].12.3"));
-		$this->assertContains("Utility Modules", $this->getTable("//table[@class='table table-striped'].13.3"));
-		$this->assertContains("Navigation Module", $this->getTable("//table[@class='table table-striped'].14.3"));
+		$this->assertContains("Beez3", $this->getTable("//table[@class='table table-striped'].6.3"));
+		$this->assertContains("Protostar", $this->getTable("//table[@class='table table-striped'].7.3"));
+		$this->assertContains("Modules", $this->getTable("//table[@class='table table-striped'].8.3"));
+		$this->assertContains("Content Modules", $this->getTable("//table[@class='table table-striped'].9.3"));
+		$this->assertContains("User Modules", $this->getTable("//table[@class='table table-striped'].10.3"));
+		$this->assertContains("Display Modules", $this->getTable("//table[@class='table table-striped'].11.3"));
+		$this->assertContains("Utility Modules", $this->getTable("//table[@class='table table-striped'].12.3"));
+		$this->assertContains("Navigation Module", $this->getTable("//table[@class='table table-striped'].13.3"));
 
 
 		print("Move Modules category back up (above Templates, below Components)." . "\n");
@@ -133,9 +131,8 @@ class ControlPanel0004 extends SeleniumJoomlaTestCase
 		$this->waitForPageToLoad("30000");
 		print("Check that Templates and Modules categories are in original order." . "\n");
 		$this->assertContains("Templates", $this->getTable("//table[@class='table table-striped'].11.3"));
-		$this->assertContains("Beez 20", $this->getTable("//table[@class='table table-striped'].12.3"));
-		$this->assertContains("Beez 5", $this->getTable("//table[@class='table table-striped'].13.3"));
-		$this->assertContains("Atomic", $this->getTable("//table[@class='table table-striped'].14.3"));
+		$this->assertContains("Beez3", $this->getTable("//table[@class='table table-striped'].12.3"));
+		$this->assertContains("Protostar", $this->getTable("//table[@class='table table-striped'].13.3"));
 		$this->assertContains("Modules", $this->getTable("//table[@class='table table-striped'].5.3"));
 		$this->assertContains("Content Modules", $this->getTable("//table[@class='table table-striped'].6.3"));
 		$this->assertContains("User Modules", $this->getTable("//table[@class='table table-striped'].7.3"));
@@ -190,15 +187,15 @@ class ControlPanel0004 extends SeleniumJoomlaTestCase
 		$this->assertContains("Components", $this->getTable("//table[@class='adminlist'].4.1"));
 		$this->assertContains("Modules", $this->getTable("//table[@class='adminlist'].5.1"));
 		$this->assertContains("Templates", $this->getTable("//table[@class='adminlist'].11.1"));
-		$this->assertContains("Languages", $this->getTable("//table[@class='adminlist'].15.1"));
-		$this->assertContains("Plugins", $this->getTable("//table[@class='adminlist'].16.1"));
+		$this->assertContains("Languages", $this->getTable("//table[@class='adminlist'].14.1"));
+		$this->assertContains("Plugins", $this->getTable("//table[@class='adminlist'].15.1"));
 
 		echo "change the order of categories and click Save Order\n";
 		$this->type("xpath=(//input[@name='order[]'])[4]", "5");
 		$this->type("xpath=(//input[@name='order[]'])[5]", "4");
 		$this->type("xpath=(//input[@name='order[]'])[11]", "3");
-		$this->type("xpath=(//input[@name='order[]'])[15]", "2");
-		$this->type("xpath=(//input[@name='order[]'])[16]", "1");
+		$this->type("xpath=(//input[@name='order[]'])[14]", "2");
+		$this->type("xpath=(//input[@name='order[]'])[15]", "1");
 
 		$this->click("//a[contains(@href, 'saveorder')][contains(@class, 'saveorder')]");
 		$this->waitForPageToLoad("30000");
@@ -207,16 +204,16 @@ class ControlPanel0004 extends SeleniumJoomlaTestCase
 		$this->assertContains("Plugins", $this->getTable("//table[@class='adminlist'].4.1"));
 		$this->assertContains("Languages", $this->getTable("//table[@class='adminlist'].5.1"));
 		$this->assertContains("Templates", $this->getTable("//table[@class='adminlist'].6.1"));
-		$this->assertContains("Modules", $this->getTable("//table[@class='adminlist'].10.1"));
-		$this->assertContains("Components", $this->getTable("//table[@class='adminlist'].16.1"));
+		$this->assertContains("Modules", $this->getTable("//table[@class='adminlist'].9.1"));
+		$this->assertContains("Components", $this->getTable("//table[@class='adminlist'].15.1"));
 		$this->assertTrue($this->isElementPresent("//div[@id='system-message'][contains(., 'success')]"));
 
 		echo "put the categories back in the original order and click Save Order\n";
 		$this->type("xpath=(//input[@name='order[]'])[4]", "5");
 		$this->type("xpath=(//input[@name='order[]'])[5]", "4");
 		$this->type("xpath=(//input[@name='order[]'])[6]", "3");
-		$this->type("xpath=(//input[@name='order[]'])[10]", "2");
-		$this->type("xpath=(//input[@name='order[]'])[16]", "1");
+		$this->type("xpath=(//input[@name='order[]'])[9]", "2");
+		$this->type("xpath=(//input[@name='order[]'])[15]", "1");
 		$this->click("//a[contains(@href, 'saveorder')][contains(@class, 'saveorder')]");
 		$this->waitForPageToLoad("30000");
 
@@ -225,8 +222,8 @@ class ControlPanel0004 extends SeleniumJoomlaTestCase
 		$this->assertContains("Components", $this->getTable("//table[@class='adminlist'].4.1"));
 		$this->assertContains("Modules", $this->getTable("//table[@class='adminlist'].5.1"));
 		$this->assertContains("Templates", $this->getTable("//table[@class='adminlist'].11.1"));
-		$this->assertContains("Languages", $this->getTable("//table[@class='adminlist'].15.1"));
-		$this->assertContains("Plugins", $this->getTable("//table[@class='adminlist'].16.1"));
+		$this->assertContains("Languages", $this->getTable("//table[@class='adminlist'].14.1"));
+		$this->assertContains("Plugins", $this->getTable("//table[@class='adminlist'].15.1"));
 
 		echo "Try pressing save order with no form changes\n";
 		$this->click("//a[contains(@href, 'saveorder')][contains(@class, 'saveorder')]");
@@ -236,8 +233,8 @@ class ControlPanel0004 extends SeleniumJoomlaTestCase
 		$this->assertContains("Components", $this->getTable("//table[@class='adminlist'].4.1"));
 		$this->assertContains("Modules", $this->getTable("//table[@class='adminlist'].5.1"));
 		$this->assertContains("Templates", $this->getTable("//table[@class='adminlist'].11.1"));
-		$this->assertContains("Languages", $this->getTable("//table[@class='adminlist'].15.1"));
-		$this->assertContains("Plugins", $this->getTable("//table[@class='adminlist'].16.1"));
+		$this->assertContains("Languages", $this->getTable("//table[@class='adminlist'].14.1"));
+		$this->assertContains("Plugins", $this->getTable("//table[@class='adminlist'].15.1"));
 		$this->doAdminLogout();
 		$this->setDefaultTemplate('isis');
 		print("Finished control_panel0004Test.php/testCategorySaveOrder." . "\n");
