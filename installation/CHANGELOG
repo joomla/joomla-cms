@@ -28,6 +28,7 @@ $ -> Language fix or change
 
 27-Sep-2012 Jean-Marie Simonet
  +$ Adding installation languages: bg-BG, de-DE, ru-RU. Updated pt-BR
+ # [#29367] *Filtering by category does not work for Featured articles
 
 -------------------- 3.0.0 Stable Release [27-Sep-2012] ------------------
 
