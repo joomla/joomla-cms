@@ -1,0 +1,16 @@
+/**
+ * @package     Jokte.Site
+ * @subpackage	jokteantu
+ * @author 	    Equipo de desarrollo juuntos.
+ * @copyleft    (comparte igual)  Jokte!
+ * @license     GNU General Public License version 3 o superior.
+ */
+
+/* Inicialización de los nuevos elementos HTML5 */
+article, aside, details, figcaption, figure, 
+header, hgroup, nav, section {
+  display: block;
+}
+audio, canvas, video {
+  display: inline-block;
+}
