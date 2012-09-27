@@ -31,6 +31,7 @@ $ -> Language fix or change
  # [#29367] *Filtering by category does not work for Featured articles
  # [#29336] *Protostar page navigation does not work
  # [#29358] A single contact does not send email and return 500 system error. Thanks Andrea
+ # [#29344] Javascript Error with JHTML tabs. Thanks Jérôme GLATIGNY $ Peter
 
 -------------------- 3.0.0 Stable Release [27-Sep-2012] ------------------
 
