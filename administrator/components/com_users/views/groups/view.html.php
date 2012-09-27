@@ -74,6 +74,5 @@ class UsersViewGroups extends JViewLegacy
 			JToolbarHelper::divider();
 		}
 		JToolbarHelper::help('JHELP_USERS_GROUPS');
-		
 	}
 }

@@ -163,7 +163,7 @@ class ModulesViewModules extends JViewLegacy
 			'filter_language',
 			JHtml::_('select.options', JHtml::_('contentlanguage.existing', true, true), 'value', 'text', $this->state->get('filter.language'))
 		);
-		
+
 		$this->sidebar = JHtmlSidebar::render();
 	}
 

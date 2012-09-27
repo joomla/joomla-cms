@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 $params = &$this->item->params;
 $images = json_decode($this->item->images);
 $canEdit	= $this->item->params->get('access-edit');
-$info    = $this->item->params->get('info_block_position',0);
+$info    = $this->item->params->get('info_block_position', 0);
 ?>
 <?php if ($this->item->state == 0) : ?>
 <div class="system-unpublished">
@@ -122,7 +122,7 @@ $info    = $this->item->params->get('info_block_position',0);
 				<?php if ($params->get('show_hits')) : ?>
 					<dd>
 						<div class="hits">
-							  <i class="icon-eye-open"></i> <?php echo JText::sprintf('COM_CONTENT_ARTICLE_HITS', $this->item->hits); ?> 
+							  <i class="icon-eye-open"></i> <?php echo JText::sprintf('COM_CONTENT_ARTICLE_HITS', $this->item->hits); ?>
 						</div>
 					</dd>
 				<?php endif; ?>
@@ -180,9 +180,9 @@ $info    = $this->item->params->get('info_block_position',0);
 							<i class="icon-calendar"></i> <?php echo JText::sprintf('COM_CONTENT_PUBLISHED_DATE_ON', JHtml::_('date', $this->item->publish_up, JText::_('DATE_FORMAT_LC3'))); ?>
 						</div>
 					</dd>
-				<?php endif; ?>	
+				<?php endif; ?>
 			<?php endif; ?>
-			
+
 			<?php if ($params->get('show_create_date')) : ?>
 				<dd>
 					<div class="create"><i class="icon-calendar">
@@ -200,7 +200,7 @@ $info    = $this->item->params->get('info_block_position',0);
 			<?php if ($params->get('show_hits')) : ?>
 				<dd>
 					<div class="hits">
-				  		<i class="icon-eye-open"></i> <?php echo JText::sprintf('COM_CONTENT_ARTICLE_HITS', $this->item->hits); ?> 
+				  		<i class="icon-eye-open"></i> <?php echo JText::sprintf('COM_CONTENT_ARTICLE_HITS', $this->item->hits); ?>
 					</div>
 				</dd>
 			<?php endif; ?>

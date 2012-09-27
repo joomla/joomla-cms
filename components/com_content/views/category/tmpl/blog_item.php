@@ -12,9 +12,9 @@ defined('_JEXEC') or die;
 // Create a shortcut for params.
 $params = &$this->item->params;
 $images = json_decode($this->item->images);
-$canEdit	= $this->item->params->get('access-edit');
+$canEdit = $this->item->params->get('access-edit');
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
-$info    = $this->item->params->get('info_block_position',0);
+$info = $this->item->params->get('info_block_position', 0);
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.framework');
 ?>
@@ -34,8 +34,9 @@ JHtml::_('behavior.framework');
 		</ul>
 	</div>
 	<?php endif; ?>
-	<?php if ($params->get('show_title')) : ?>
+	<?php if ($params->get('show_title') || $this->item->state == 0 || ($params->get('show_author') && !empty($this->item->author ))) : ?>
 	<div class="page-header">
+		<?php if ($params->get('show_title')) : ?>
 		<h2>
 			<?php if ($params->get('link_titles') && $params->get('access-view')) : ?>
 			<a href="<?php echo JRoute::_(ContentHelperRoute::getArticleRoute($this->item->slug, $this->item->catid)); ?>"> <?php echo $this->escape($this->item->title); ?></a>
@@ -44,6 +45,7 @@ JHtml::_('behavior.framework');
 			<?php endif; ?>
 		</h2>
 		<?php endif; ?>
+		
 		<?php if ($this->item->state == 0): ?>
 			<span class="label label-warning"><?php echo JText::_('JUNPUBLISHED'); ?></span>
 		<?php endif; ?>
@@ -62,6 +64,7 @@ JHtml::_('behavior.framework');
 		<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', $author); ?>
 		<?php endif; ?>
 		</small>
+		<?php endif; ?>
 	</div>
 	<?php endif; ?>
 
@@ -127,7 +130,7 @@ JHtml::_('behavior.framework');
 				<?php if ($params->get('show_hits')) : ?>
 					<dd>
 						<div class="hits">
-							  <i class="icon-eye-open"></i> <?php echo JText::sprintf('COM_CONTENT_ARTICLE_HITS', $this->item->hits); ?> 
+							  <i class="icon-eye-open"></i> <?php echo JText::sprintf('COM_CONTENT_ARTICLE_HITS', $this->item->hits); ?>
 						</div>
 					</dd>
 				<?php endif; ?>
@@ -135,7 +138,7 @@ JHtml::_('behavior.framework');
 			</dl>
 		</div>
 	<?php endif; ?>
-	
+
 	<?php if (!$params->get('show_intro')) : ?>
 		<?php echo $this->item->event->afterDisplayTitle; ?>
 	<?php endif; ?>
@@ -189,9 +192,9 @@ JHtml::_('behavior.framework');
 							<i class="icon-calendar"></i> <?php echo JText::sprintf('COM_CONTENT_PUBLISHED_DATE_ON', JHtml::_('date', $this->item->publish_up, JText::_('DATE_FORMAT_LC3'))); ?>
 						</div>
 					</dd>
-				<?php endif; ?>	
+				<?php endif; ?>
 			<?php endif; ?>
-			
+
 			<?php if ($params->get('show_create_date')) : ?>
 				<dd>
 					<div class="create"><i class="icon-calendar">
@@ -209,7 +212,7 @@ JHtml::_('behavior.framework');
 			<?php if ($params->get('show_hits')) : ?>
 				<dd>
 					<div class="hits">
-				  		<i class="icon-eye-open"></i> <?php echo JText::sprintf('COM_CONTENT_ARTICLE_HITS', $this->item->hits); ?> 
+				  		<i class="icon-eye-open"></i> <?php echo JText::sprintf('COM_CONTENT_ARTICLE_HITS', $this->item->hits); ?>
 					</div>
 				</dd>
 			<?php endif; ?>
