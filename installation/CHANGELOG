@@ -26,10 +26,37 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+-------------------- 3.0.0 Stable Release [27-Sep-2012] ------------------
+
+27-Sep-2012 Jean-Marie Simonet
+ +$ Adding installation languages: bg-BG, de-DE, ru-RU. Updated pt-BR
+ # [#29367] *Filtering by category does not work for Featured articles
+ # [#29336] *Protostar page navigation does not work
+ # [#29358] A single contact does not send email and return 500 system error. Thanks Andrea
+ # [#29344] Javascript Error with JHTML tabs. Thanks Jérôme GLATIGNY $ Peter
+
+27-Sep-2012 Mark Dexter
+ # [#29369] Updated sample data for SQL Azure database. Thanks Hooduku.
+ # [#29211] Isis: Jumping table rows on mouseover. Thanks Constantin Romankiewicz.
+
+26-Sep-2012 Mark Dexter
+ # Revert [#29348] Restore DS definition.
+ # [#28917] Optimize SQL Server/Azure DDL + Sync with MySQL. Thanks Michael and Hooduku.
+ # [#29348] Restore DS definition. Thanks Elin.
+ # [#29349] Don't delete bluestork from the database.
+ # [#29351] New layouts folder not created during update.
+ # [#29352] Add beez3 during update, add mod_stats_admin during new install.
+
+26-Sep-2012 Jean-Marie Simonet
+ +$ Adding installation languages: pt-BR, vi-VN
+ # Correcting 3.0.0.sql
+
 25-Sep-2012 Mark Dexter
  # [#29237] Advanced module chrome settings Bootstrap Size should have default "none" option. Thanks Dragon Todorovic.
  # [#29269] Navigate to the iPhone for Joomla! Thanks Kyle.
  # [#29304] Sample data. Thanks Elin.
+ # [#29322] Fixed collapse/expand on subitems (menu treeselect in modules). Thanks Peter van Westen.
+ # [#29323] Problems in update from 2.5 to 3.0
 
 25-Sep-2012 Jean-Marie Simonet
  +$ Adding installation languages: es-ES, fa-IR, hu-HU

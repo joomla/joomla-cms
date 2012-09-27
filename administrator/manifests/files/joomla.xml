@@ -6,7 +6,7 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<copyright>(C) 2005 - 2012 Open Source Matters. All rights reserved</copyright>
 	<license>GNU General Public License version 2 or later; see     LICENSE.txt</license>
-	<version>3.0.0_beta1</version>
+	<version>3.0.0</version>
 	<creationDate>September 2012</creationDate>
 	<description>FILES_JOOMLA_XML_DESCRIPTION</description>
 
@@ -29,6 +29,7 @@
 			<folder>images</folder>
 			<folder>includes</folder>
 			<folder>language</folder>
+			<folder>layouts</folder>
 			<folder>libraries</folder>
 			<folder>logs</folder>
 			<folder>media</folder>
