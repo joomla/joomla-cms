@@ -29,6 +29,7 @@ $ -> Language fix or change
 28-Sep-2012 Jean-Marie Simonet
  +$ Adding installation languages: tr-TR
  $ updating sy-IQ
+ #$ Correcting hard coded text in Protostar
 
 -------------------- 3.0.0 Stable Release [27-Sep-2012] ------------------
 
