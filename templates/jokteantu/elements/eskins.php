@@ -22,10 +22,15 @@ class JFormFieldEskins extends JFormField
 	protected $type 	= 'Eskins';	
 	
 	protected function getInput() {
+		$doc 	 = JFactory::getDocument();
+		$preview = "function doPreviewE(skin){								
+    					document.getElementById('previewe').src = \"".JURI::root()."templates/jokteantu/css/skins/\"+skin+\"/previewSkin.png\";
+					}";
+		$doc->addScriptDeclaration($preview);
 		$options = (array) $this->getOptions();		
 		$selected = $this->value;				
-		$html  = JHtml::_('select.genericlist', $options, 'jform[params][errorskin]','onchange=doPreview(this.value)', 'value', 'text', $selected);
-		$html .= '<div><img id="preview" src="/templates/jokteantu/css/skins/'.$selected.'/previewSkin.png" /></div>';		
+		$html  = JHtml::_('select.genericlist', $options, 'jform[params][errorskin]','onchange=doPreviewE(this.value)', 'value', 'text', $selected);
+		$html .= '<div><img id="previewe" src="/templates/jokteantu/css/skins/'.$selected.'/previewSkin.png" /></div>';		
 		return $html;
 	}
 
