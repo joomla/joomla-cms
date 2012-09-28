@@ -30,6 +30,7 @@ $ -> Language fix or change
  +$ Adding installation languages: tr-TR
  $ updating sy-IQ
  #$ Correcting hard coded text in Protostar
+ $ [#29383] Language String TPL_HATHOR_COLOUR_CHOICE_BLUE Missing. Thanks Mig
 
 -------------------- 3.0.0 Stable Release [27-Sep-2012] ------------------
 
