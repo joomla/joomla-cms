@@ -241,7 +241,8 @@ class LanguagesModelOverrides extends JModelList
 			}
 		}
 
-		foreach ($strings as $key => $string) {
+		foreach ($strings as $key => $string)
+    {
 			$strings[$key] = str_replace('"', '"_QQ_"', $string);
 		}
 
@@ -249,9 +250,10 @@ class LanguagesModelOverrides extends JModelList
 		$registry = new JRegistry;
 		$registry->loadObject($strings);
 
-		$filename = constant('JPATH_' . strtoupper($this->getState('filter.client'))) . 'language/overrides/' . $this->getState('filter.language') . '.override.ini';
+		$filename = constant('JPATH_' . strtoupper($this->getState('filter.client'))) . '/language/overrides/' . $this->getState('filter.language') . '.override.ini';
 
-		if (!JFile::write($filename, $registry->toString('INI')))
+    $contents = $registry->toString('INI');
+		if (!JFile::write($filename, $contents))
 		{
 			return false;
 		}
