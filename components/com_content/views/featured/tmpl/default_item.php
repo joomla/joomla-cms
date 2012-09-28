@@ -46,7 +46,7 @@ $info    = $this->item->params->get('info_block_position', 0);
 		<span class="label label-warning"><?php echo JText::_('JUNPUBLISHED'); ?></span>
 	<?php endif; ?>
 	<?php if ($params->get('show_author') && !empty($this->item->author )) : ?>
-	<small class="createdby">
+	<div class="createdby">
 	<?php $author = $this->item->author; ?>
 	<?php $author = ($this->item->created_by_alias ? $this->item->created_by_alias : $author); ?>
 	<?php if (!empty($this->item->contactid ) &&  $params->get('link_author') == true) : ?>
@@ -57,7 +57,7 @@ $info    = $this->item->params->get('info_block_position', 0);
 	<?php else :?>
 	<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', $author); ?>
 	<?php endif; ?>
-	</small>
+	</div>
 	<?php endif; ?>
 
 	<?php // Todo Not that elegant would be nice to group the params ?>
