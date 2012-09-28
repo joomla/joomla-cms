@@ -1,19 +1,20 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_config
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_config
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.modelform');
-
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_config
+ * Model for component configuration
+ *
+ * @package     Joomla.Administrator
+ * @subpackage  com_config
+ * @since       1.5
  */
 class ConfigModelComponent extends JModelForm
 {
@@ -27,12 +28,15 @@ class ConfigModelComponent extends JModelForm
 	 */
 	protected function populateState()
 	{
+		$input = JFactory::getApplication()->input;
+
 		// Set the component (option) we are dealing with.
-		$component = JRequest::getCmd('component');
+		$component = $input->get('component');
 		$this->setState('component.option', $component);
 
 		// Set an alternative path for the configuration file.
-		if ($path = JRequest::getString('path')) {
+		if ($path = $input->getString('path'))
+		{
 			$path = JPath::clean(JPATH_SITE . '/' . $path);
 			JPath::check($path);
 			$this->setState('component.path', $path);
@@ -83,7 +87,6 @@ class ConfigModelComponent extends JModelForm
 	 */
 	function getComponent()
 	{
-		// Initialise variables.
 		$option = $this->getState('component.option');
 
 		// Load common and local language files.

@@ -1,31 +1,33 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  com_content
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.view');
 
 /**
  * HTML Article View class for the Content component
  *
- * @package		Joomla.Site
- * @subpackage	com_content
- * @since		1.5
+ * @package     Joomla.Site
+ * @subpackage  com_content
+ * @since       1.5
  */
-class ContentViewForm extends JView
+class ContentViewForm extends JViewLegacy
 {
 	protected $form;
+
 	protected $item;
+
 	protected $return_page;
+
 	protected $state;
 
 	public function display($tpl = null)
 	{
-		// Initialise variables.
 		$app		= JFactory::getApplication();
 		$user		= JFactory::getUser();
 
@@ -51,9 +53,10 @@ class ContentViewForm extends JView
 			$this->item->images = json_decode($this->item->images);
 			$this->item->urls = json_decode($this->item->urls);
 
-			$this->form->bind($this->item);
-			$this->form->bind($this->item->urls);
-			$this->form->bind($this->item->images);
+			$tmp = new stdClass;
+			$tmp->images = $this->item->images;
+			$tmp->urls = $this->item->urls;
+			$this->form->bind($tmp);
 
 		}
 
@@ -69,11 +72,11 @@ class ContentViewForm extends JView
 		//Escape strings for HTML output
 		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
 
-		$this->params	= $params;
-		$this->user		= $user;
+		$this->params = $params;
+		$this->user   = $user;
 
 		if ($this->params->get('enable_category') == 1) {
-			$this->form->setFieldAttribute('catid', 'default',  $params->get('catid', 1));
+			$this->form->setFieldAttribute('catid', 'default', $params->get('catid', 1));
 		}
 		$this->_prepareDocument();
 		parent::display($tpl);

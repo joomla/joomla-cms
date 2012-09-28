@@ -1,12 +1,12 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	Templates.hathor
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  Template.hathor
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
@@ -94,7 +94,7 @@ JHtml::_('behavior.formvalidation');
 	</div>
 
 <div class="col options-section">
-	<?php echo JHtml::_('sliders.start', 'banner-sliders-'.$this->item->id, array('useCookie'=>1)); ?>
+	<?php echo JHtml::_('sliders.start', 'banner-sliders-' . $this->item->id, array('useCookie' => 1)); ?>
 
 	<?php echo JHtml::_('sliders.panel', JText::_('COM_BANNERS_GROUP_LABEL_PUBLISHING_DETAILS'), 'publishing-details'); ?>
 		<fieldset class="panelform">

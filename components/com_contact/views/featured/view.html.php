@@ -1,29 +1,31 @@
 <?php
 /**
- * @package		Joomla.Site
- * @subpackage	com_contact
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  com_contact
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.view');
 
 /**
  * Frontpage View class
  *
- * @package		Joomla.Site
- * @subpackage	com_contact
- * @since		1.6
+ * @package     Joomla.Site
+ * @subpackage  com_contact
+ * @since       1.6
  */
-class ContactViewFeatured extends JView
+class ContactViewFeatured extends JViewLegacy
 {
 	protected $state;
+
 	protected $items;
+
 	protected $category;
+
 	protected $categories;
+
 	protected $pagination;
 
 	/**
@@ -31,7 +33,7 @@ class ContactViewFeatured extends JView
 	 *
 	 * @return	mixed	False on error, null otherwise.
 	 */
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		$app		= JFactory::getApplication();
 		$params		= $app->getParams();
@@ -60,7 +62,7 @@ class ContactViewFeatured extends JView
 		{
 			$item		= &$items[$i];
 			$item->slug	= $item->alias ? ($item->id.':'.$item->alias) : $item->id;
-			$temp		= new JRegistry();
+			$temp		= new JRegistry;
 			$temp->loadString($item->params);
 			$item->params = clone($params);
 			$item->params->merge($temp);
@@ -74,17 +76,18 @@ class ContactViewFeatured extends JView
 			}
 		}
 
-		//Escape strings for HTML output
+		// Escape strings for HTML output
 		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
-		$maxLevel = $params->get('maxLevel', -1);
-		$this->assignRef('maxLevel',	$maxLevel);
-		$this->assignRef('state',		$state);
-		$this->assignRef('items',		$items);
-		$this->assignRef('category',	$category);
-		$this->assignRef('children',	$children);
-		$this->assignRef('params',		$params);
-		$this->assignRef('parent',		$parent);
-		$this->assignRef('pagination',	$pagination);
+
+		$maxLevel         = $params->get('maxLevel', -1);
+		$this->maxLevel   = &$maxLevel;
+		$this->state      = &$state;
+		$this->items      = &$items;
+		$this->category   = &$category;
+		$this->children   = &$children;
+		$this->params     = &$params;
+		$this->parent     = &$parent;
+		$this->pagination = &$pagination;
 
 		$this->_prepareDocument();
 

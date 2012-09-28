@@ -1,18 +1,20 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_languages
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
 
 /**
  * Multilang status helper.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_languages
- * @since		1.7.1
+ * @package     Joomla.Administrator
+ * @subpackage  com_languages
+ * @since       1.7.1
  */
 abstract class multilangstatusHelper
 {
@@ -28,16 +30,6 @@ abstract class multilangstatusHelper
 		$query->where('client_id = 0');
 		$db->setQuery($query);
 		return $db->loadResult();
-	}
-
-	/**
-	 * @since  1.7.1
-	 * @deprecated  3.0
-	 */
-	public static function getLangfilter()
-	{
-		JLog::add('multilangstatusHelper::getLangfilter() is deprecated. Use JLanguageMultilang::isEnabled() instead. ', JLog::WARNING, 'deprecated');
-		return JLanguageMultilang::isEnabled();
 	}
 
 	public static function getLangswitchers()
@@ -108,7 +100,7 @@ abstract class multilangstatusHelper
 		// Select the language home pages
 		$query->select('l.home AS home');
 		$query->select('l.language AS home_language');
-		$query->join('LEFT', '#__menu  AS l  ON  l.language = a.lang_code AND l.home=1  AND l.language <> \'*\'' );
+		$query->join('LEFT', '#__menu  AS l  ON  l.language = a.lang_code AND l.home=1 AND l.published=1 AND l.language <> \'*\'');
 		$query->select('e.enabled AS enabled');
 		$query->select('e.element AS element');
 		$query->join('LEFT', '#__extensions  AS e ON e.element = a.lang_code');

@@ -1,17 +1,17 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  com_content
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controllerform');
-
 /**
- * @package		Joomla.Site
- * @subpackage	com_content
+ * @package     Joomla.Site
+ * @subpackage  com_content
  */
 class ContentControllerArticle extends JControllerForm
 {
@@ -49,9 +49,8 @@ class ContentControllerArticle extends JControllerForm
 	 */
 	protected function allowAdd($data = array())
 	{
-		// Initialise variables.
 		$user		= JFactory::getUser();
-		$categoryId	= JArrayHelper::getValue($data, 'catid', JRequest::getInt('catid'), 'int');
+		$categoryId	= JArrayHelper::getValue($data, 'catid', $this->input->getInt('catid'), 'int');
 		$allow		= null;
 
 		if ($categoryId) {
@@ -79,7 +78,6 @@ class ContentControllerArticle extends JControllerForm
 	 */
 	protected function allowEdit($data = array(), $key = 'id')
 	{
-		// Initialise variables.
 		$recordId	= (int) isset($data[$key]) ? $data[$key] : 0;
 		$user		= JFactory::getUser();
 		$userId		= $user->get('id');
@@ -178,9 +176,9 @@ class ContentControllerArticle extends JControllerForm
 	protected function getRedirectToItemAppend($recordId = null, $urlVar = 'a_id')
 	{
 		// Need to override the parent method completely.
-		$tmpl		= JRequest::getCmd('tmpl');
-		$layout		= JRequest::getCmd('layout', 'edit');
-		$append		= '';
+		$tmpl   = $this->input->get('tmpl');
+		$layout = $this->input->get('layout', 'edit');
+		$append = '';
 
 		// Setup redirect info.
 		if ($tmpl) {
@@ -197,9 +195,9 @@ class ContentControllerArticle extends JControllerForm
 			$append .= '&'.$urlVar.'='.$recordId;
 		}
 
-		$itemId	= JRequest::getInt('Itemid');
+		$itemId	= $this->input->getInt('Itemid');
 		$return	= $this->getReturnPage();
-		$catId = JRequest::getInt('catid', null, 'get');
+		$catId  = $this->input->getInt('catid', null, 'get');
 
 		if ($itemId) {
 			$append .= '&Itemid='.$itemId;
@@ -226,7 +224,7 @@ class ContentControllerArticle extends JControllerForm
 	 */
 	protected function getReturnPage()
 	{
-		$return = JRequest::getVar('return', null, 'default', 'base64');
+		$return = $this->input->get('return', null, 'base64');
 
 		if (empty($return) || !JUri::isInternal(base64_decode($return))) {
 			return JURI::base();
@@ -239,13 +237,13 @@ class ContentControllerArticle extends JControllerForm
 	/**
 	 * Function that allows child controller access to model data after the data has been saved.
 	 *
-	 * @param	JModel	$model		The data model object.
-	 * @param	array	$validData	The validated data.
+	 * @param   JModelLegacy  $model      The data model object.
+	 * @param   array         $validData  The validated data.
 	 *
 	 * @return	void
 	 * @since	1.6
 	 */
-	protected function postSaveHook(JModel &$model, $validData)
+	protected function postSaveHook(JModelLegacy &$model, $validData)
 	{
 		$task = $this->getTask();
 
@@ -284,17 +282,17 @@ class ContentControllerArticle extends JControllerForm
 	 * @return	void
 	 * @since	1.6.1
 	 */
-	function vote()
+	public function vote()
 	{
 		// Check for request forgeries.
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		$user_rating = JRequest::getInt('user_rating', -1);
+		$user_rating = $this->input->getInt('user_rating', -1);
 
 		if ( $user_rating > -1 ) {
-			$url = JRequest::getString('url', '');
-			$id = JRequest::getInt('id', 0);
-			$viewName = JRequest::getString('view', $this->default_view);
+			$url = $this->input->getString('url', '');
+			$id = $this->input->getInt('id', 0);
+			$viewName = $this->input->getString('view', $this->default_view);
 			$model = $this->getModel($viewName);
 
 			if ($model->storeVote($id, $user_rating)) {

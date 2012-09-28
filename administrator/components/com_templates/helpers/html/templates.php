@@ -1,15 +1,17 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_templates
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_templates
+ * @package     Joomla.Administrator
+ * @subpackage  com_templates
  */
 class JHtmlTemplates
 {
@@ -35,7 +37,7 @@ class JHtmlTemplates
 			if (file_exists($preview))
 			{
 				$preview	= $baseUrl.'/templates/'.$template.'/template_preview.png';
-				$html		= '<a href="'.$preview.'" class="modal" title="'.JText::_('COM_TEMPLATES_CLICK_TO_ENLARGE').'">'.$html.'</a>';
+				$html		= '<a href="'.$preview.'" class="thumbnail pull-left modal" title="'.JText::_('COM_TEMPLATES_CLICK_TO_ENLARGE').'">'.$html.'</a>';
 			}
 		}
 

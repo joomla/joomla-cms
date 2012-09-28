@@ -1,12 +1,12 @@
 <?php
 /**
- * @package		Joomla.Site
- * @subpackage	com_wrapper
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  com_wrapper
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 ?>
 <script type="text/javascript">
@@ -22,7 +22,7 @@ function iFrameHeight() {
 }
 </script>
 <div class="contentpane<?php echo $this->pageclass_sfx; ?>">
-<?php if ($this->params->get('show_page_heading', 1)) : ?>
+<?php if ($this->params->get('show_page_heading')) : ?>
 	<h1>
 		<?php if ($this->escape($this->params->get('page_heading'))) :?>
 			<?php echo $this->escape($this->params->get('page_heading')); ?>

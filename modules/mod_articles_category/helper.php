@@ -1,30 +1,32 @@
 <?php
 /**
- * @package		Joomla.Site
- * @subpackage	mod_articles_category
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  mod_articles_category
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.model');
 
 $com_path = JPATH_SITE.'/components/com_content/';
 require_once $com_path.'router.php';
 require_once $com_path.'helpers/route.php';
 
-jimport('joomla.application.component.model');
+JModelLegacy::addIncludePath($com_path . '/models', 'ContentModel');
 
-JModel::addIncludePath($com_path . '/models', 'ContentModel');
-
+/**
+ * Helper for mod_articles_category
+ *
+ * @package     Joomla.Site
+ * @subpackage  mod_articles_category
+ */
 abstract class modArticlesCategoryHelper
 {
 	public static function getList(&$params)
 	{
 		// Get an instance of the generic articles model
-		$articles = JModel::getInstance('Articles', 'ContentModel', array('ignore_request' => true));
+		$articles = JModelLegacy::getInstance('Articles', 'ContentModel', array('ignore_request' => true));
 
 		// Set application parameters in model
 		$app = JFactory::getApplication();
@@ -46,25 +48,25 @@ abstract class modArticlesCategoryHelper
 		switch ($mode)
 		{
 			case 'dynamic':
-				$option = JRequest::getCmd('option');
-				$view = JRequest::getCmd('view');
+				$option = $app->input->get('option');
+				$view = $app->input->get('view');
 				if ($option === 'com_content') {
 					switch($view)
 					{
 						case 'category':
-							$catids = array(JRequest::getInt('id'));
+							$catids = array($app->input->getInt('id'));
 							break;
 						case 'categories':
-							$catids = array(JRequest::getInt('id'));
+							$catids = array($app->input->getInt('id'));
 							break;
 						case 'article':
 							if ($params->get('show_on_article_page', 1)) {
-								$article_id = JRequest::getInt('id');
-								$catid = JRequest::getInt('catid');
+								$article_id = $app->input->getInt('id');
+								$catid = $app->input->getInt('catid');
 
 								if (!$catid) {
 									// Get an instance of the generic article model
-									$article = JModel::getInstance('Article', 'ContentModel', array('ignore_request' => true));
+									$article = JModelLegacy::getInstance('Article', 'ContentModel', array('ignore_request' => true));
 
 									$article->setState('params', $appParams);
 									$article->setState('filter.published', 1);
@@ -107,7 +109,7 @@ abstract class modArticlesCategoryHelper
 		if ($catids) {
 			if ($params->get('show_child_category_articles', 0) && (int) $params->get('levels', 0) > 0) {
 				// Get an instance of the generic categories model
-				$categories = JModel::getInstance('Categories', 'ContentModel', array('ignore_request' => true));
+				$categories = JModelLegacy::getInstance('Categories', 'ContentModel', array('ignore_request' => true));
 				$categories->setState('params', $appParams);
 				$levels = $params->get('levels', 1) ? $params->get('levels', 1) : 9999;
 				$categories->setState('filter.get_children', $levels);
@@ -183,11 +185,11 @@ abstract class modArticlesCategoryHelper
 		$introtext_limit = $params->get('introtext_limit', 100);
 
 		// Find current Article ID if on an article page
-		$option = JRequest::getCmd('option');
-		$view = JRequest::getCmd('view');
+		$option = $app->input->get('option');
+		$view = $app->input->get('view');
 
 		if ($option === 'com_content' && $view === 'article') {
-			$active_article_id = JRequest::getInt('id');
+			$active_article_id = $app->input->getInt('id');
 		}
 		else {
 			$active_article_id = 0;
@@ -199,23 +201,28 @@ abstract class modArticlesCategoryHelper
 			$item->slug = $item->id.':'.$item->alias;
 			$item->catslug = $item->catid ? $item->catid .':'.$item->category_alias : $item->catid;
 
-			if ($access || in_array($item->access, $authorised)) {
+			if ($access || in_array($item->access, $authorised))
+			{
 				// We know that user has the privilege to view the article
 				$item->link = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catslug));
 			}
-			 else {
-				// Angie Fixed Routing
-				$app	= JFactory::getApplication();
-				$menu	= $app->getMenu();
-				$menuitems	= $menu->getItems('link', 'index.php?option=com_users&view=login');
-			if(isset($menuitems[0])) {
+			else
+			{
+				$app  = JFactory::getApplication();
+				$menu = $app->getMenu();
+				$menuitems = $menu->getItems('link', 'index.php?option=com_users&view=login');
+				if (isset($menuitems[0]))
+				{
 					$Itemid = $menuitems[0]->id;
-				} elseif (JRequest::getInt('Itemid') > 0) { //use Itemid from requesting page only if there is no existing menu
-					$Itemid = JRequest::getInt('Itemid');
+				}
+				elseif ($app->input->getInt('Itemid') > 0)
+				{
+					// Use Itemid from requesting page only if there is no existing menu
+					$Itemid = $app->input->getInt('Itemid');
 				}
 
 				$item->link = JRoute::_('index.php?option=com_users&view=login&Itemid='.$Itemid);
-				}
+			}
 
 			// Used for styling the active article
 			$item->active = $item->id == $active_article_id ? 'active' : '';
@@ -240,7 +247,6 @@ abstract class modArticlesCategoryHelper
 				$item->introtext = self::_cleanIntrotext($item->introtext);
 			}
 			$item->displayIntrotext = $show_introtext ? self::truncate($item->introtext, $introtext_limit) : '';
-			// added Angie show_unauthorizid
 			$item->displayReadmore = $item->alternative_readmore;
 
 		}
@@ -260,110 +266,48 @@ abstract class modArticlesCategoryHelper
 	}
 
 	/**
-	* This is a better truncate implementation than what we
-	* currently have available in the library. In particular,
-	* on index.php/Banners/Banners/site-map.html JHtml's truncate
-	* method would only return "Article...". This implementation
-	* was taken directly from the Stack Overflow thread referenced
-	* below. It was then modified to return a string rather than
-	* print out the output and made to use the relevant JString
-	* methods.
+	* Method to truncate introtext
 	*
-	* @link http://stackoverflow.com/questions/1193500/php-truncate-html-ignoring-tags
-	* @param mixed $html
-	* @param mixed $maxLength
+	* The goal is to get the proper length plain text string with as much of
+	* the html intact as possible with all tags properly closed.
+	*
+	* @param string   $html       The content of the introtext to be truncated
+	* @param integer  $maxLength  The maximum number of charactes to render
+	*
+	* @return  string  The truncated string
 	*/
 	public static function truncate($html, $maxLength = 0)
 	{
-		$printedLength = 0;
-		$position = 0;
-		$tags = array();
+		$baseLength = strlen($html);
+		$diffLength = 0;
 
-		$output = '';
+		// First get the plain text string. This is the rendered text we want to end up with.
+		$ptString = JHtml::_('string.truncate', $html, $maxLength, $noSplit = true, $allowHtml = false);
 
-		if (empty($html)) {
-			return $output;
-		}
-
-		while ($printedLength < $maxLength && preg_match('{</?([a-z]+)[^>]*>|&#?[a-zA-Z0-9]+;}', $html, $match, PREG_OFFSET_CAPTURE, $position))
+		for ($maxLength; $maxLength < $baseLength;)
 		{
-			list($tag, $tagPosition) = $match[0];
+			// Now get the string if we allow html.
+			$htmlString = JHtml::_('string.truncate', $html, $maxLength, $noSplit = true, $allowHtml = true);
 
-			// Print text leading up to the tag.
-			$str = JString::substr($html, $position, $tagPosition - $position);
-			if ($printedLength + JString::strlen($str) > $maxLength) {
-				$output .= JString::substr($str, 0, $maxLength - $printedLength);
-				$printedLength = $maxLength;
-				break;
+			// Now get the plain text from the html string.
+			$htmlStringToPtString = JHtml::_('string.truncate', $htmlString, $maxLength, $noSplit = true, $allowHtml = false);
+
+			// If the new plain text string matches the original plain text string we are done.
+			if ($ptString == $htmlStringToPtString)
+			{
+				return $htmlString;
 			}
+			// Get the number of html tag characters in the first $maxlength characters
+			$diffLength = strlen($ptString) - strlen($htmlStringToPtString);
 
-			$output .= $str;
-			$lastCharacterIsOpenBracket = (JString::substr($output, -1, 1) === '<');
-
-			if ($lastCharacterIsOpenBracket) {
-				$output = JString::substr($output, 0, JString::strlen($output) - 1);
+			// Set new $maxlength that adjusts for the html tags
+			$maxLength += $diffLength;
+			if ($baseLength <= $maxLength || $diffLength <= 0)
+			{
+				return $htmlString;
 			}
-
-			$printedLength += JString::strlen($str);
-
-			if ($tag[0] == '&') {
-				// Handle the entity.
-				$output .= $tag;
-				$printedLength++;
-			}
-			else {
-				// Handle the tag.
-				$tagName = $match[1][0];
-
-				if ($tag[1] == '/') {
-					// This is a closing tag.
-					$openingTag = array_pop($tags);
-
-					$output .= $tag;
-				}
-				elseif ($tag[JString::strlen($tag) - 2] == '/') {
-					// Self-closing tag.
-					$output .= $tag;
-				}
-				else {
-					// Opening tag.
-					$output .= $tag;
-					$tags[] = $tagName;
-				}
-			}
-
-			// Continue after the tag.
-			if ($lastCharacterIsOpenBracket) {
-				$position = ($tagPosition - 1) + JString::strlen($tag);
-			}
-			else {
-				$position = $tagPosition + JString::strlen($tag);
-			}
-
 		}
-
-		// Print any remaining text.
-		if ($printedLength < $maxLength && $position < JString::strlen($html)) {
-			$output .= JString::substr($html, $position, $maxLength - $printedLength);
-		}
-
-		// Close any open tags.
-		while (!empty($tags))
-		{
-			$output .= sprintf('</%s>', array_pop($tags));
-		}
-
-		$length = JString::strlen($output);
-		$lastChar = JString::substr($output, ($length - 1), 1);
-		$characterNumber = ord($lastChar);
-
-		if ($characterNumber === 194) {
-			$output = JString::substr($output, 0, JString::strlen($output) - 1);
-		}
-
-		$output = JString::rtrim($output);
-
-		return $output.'&hellip;';
+		return $html;
 	}
 
 	public static function groupBy($list, $fieldName, $article_grouping_direction, $fieldNameToKeep = null)

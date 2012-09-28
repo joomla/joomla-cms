@@ -1,20 +1,22 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_messages
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-defined( '_JEXEC' ) or die;
 
-jimport('joomla.application.component.controller');
+defined('_JEXEC') or die;
 
 /**
  * Messages Component Message Model
  *
- * @package		Joomla.Administrator
- * @subpackage	com_messages
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_messages
+ * @since       1.6
  */
-class MessagesControllerConfig extends JController
+class MessagesControllerConfig extends JControllerLegacy
 {
 	/**
 	 * Method to save a record.
@@ -24,10 +26,9 @@ class MessagesControllerConfig extends JController
 		// Check for request forgeries.
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		// Initialise variables.
-		$app		= JFactory::getApplication();
-		$model		= $this->getModel('Config', 'MessagesModel');
-		$data		= JRequest::getVar('jform', array(), 'post', 'array');
+		$app   = JFactory::getApplication();
+		$model = $this->getModel('Config', 'MessagesModel');
+		$data  = $this->input->post->get('jform', array(), 'array');
 
 		// Validate the posted data.
 		$form	= $model->getForm();

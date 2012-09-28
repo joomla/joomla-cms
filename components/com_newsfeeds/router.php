@@ -1,20 +1,13 @@
 <?php
 /**
- * @package		Joomla.Site
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
- */
-
- /* Newsfeeds Component Route Helper
+ * @package     Joomla.Site
+ * @subpackage  com_newsfeeds
  *
- * @package		Joomla.Site
- * @subpackage	com_newsfeeds
- * @since 1.6
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
-
-jimport('joomla.application.categories');
 
 /**
  * Build the route for the com_newsfeeds component
@@ -39,9 +32,8 @@ function NewsfeedsBuildRoute(&$query)
 	else {
 		$menuItem = $menu->getItem($query['Itemid']);
 	}
-	$mView	= (empty($menuItem->query['view'])) ? null : $menuItem->query['view'];
-	$mCatid	= (empty($menuItem->query['catid'])) ? null : $menuItem->query['catid'];
-	$mId	= (empty($menuItem->query['id'])) ? null : $menuItem->query['id'];
+	$mView = (empty($menuItem->query['view'])) ? null : $menuItem->query['view'];
+	$mId   = (empty($menuItem->query['id'])) ? null : $menuItem->query['id'];
 
 	if (isset($query['view']))
 	{
@@ -53,7 +45,7 @@ function NewsfeedsBuildRoute(&$query)
 	};
 
 	// are we dealing with an newsfeed that is attached to a menu item?
-	if (isset($query['view']) && ($mView == $query['view']) and (isset($query['id'])) and ($mId == intval($query['id']))) {
+	if (isset($query['view']) && ($mView == $query['view']) and (isset($query['id'])) and ($mId == (int) $query['id'])) {
 		unset($query['view']);
 		unset($query['catid']);
 		unset($query['id']);
@@ -61,7 +53,8 @@ function NewsfeedsBuildRoute(&$query)
 	}
 
 	if (isset($view) and ($view == 'category' or $view == 'newsfeed')) {
-		if ($mId != intval($query['id']) || $mView != $view) {
+		if ($mId != (int) $query['id'] || $mView != $view)
+		{
 			if($view == 'newsfeed' && isset($query['catid']))
 			{
 				$catid = $query['catid'];
@@ -78,11 +71,11 @@ function NewsfeedsBuildRoute(&$query)
 				$array = array();
 				foreach($path as $id)
 				{
-					if((int) $id == (int)$menuCatid)
+					if ((int) $id == (int) $menuCatid)
 					{
 						break;
 					}
-					if($advanced)
+					if ($advanced)
 					{
 						list($tmp, $id) = explode(':', $id, 2);
 					}
@@ -90,9 +83,9 @@ function NewsfeedsBuildRoute(&$query)
 				}
 				$segments = array_merge($segments, array_reverse($array));
 			}
-			if($view == 'newsfeed')
+			if ($view == 'newsfeed')
 			{
-				if($advanced)
+				if ($advanced)
 				{
 					list($tmp, $id) = explode(':', $query['id'], 2);
 				} else {

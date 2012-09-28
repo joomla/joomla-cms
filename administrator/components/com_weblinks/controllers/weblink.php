@@ -7,17 +7,14 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.controllerform');
 
 /**
  * Weblink controller class.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_weblinks
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_weblinks
+ * @since       1.6
  */
 class WeblinksControllerWeblink extends JControllerForm
 {
@@ -32,9 +29,8 @@ class WeblinksControllerWeblink extends JControllerForm
 	 */
 	protected function allowAdd($data = array())
 	{
-		// Initialise variables.
 		$user = JFactory::getUser();
-		$categoryId = JArrayHelper::getValue($data, 'catid', JRequest::getInt('filter_category_id'), 'int');
+		$categoryId = JArrayHelper::getValue($data, 'catid', $this->input->getInt('filter_category_id'), 'int');
 		$allow = null;
 
 		if ($categoryId)
@@ -65,7 +61,6 @@ class WeblinksControllerWeblink extends JControllerForm
 	 */
 	protected function allowEdit($data = array(), $key = 'id')
 	{
-		// Initialise variables.
 		$recordId = (int) isset($data[$key]) ? $data[$key] : 0;
 		$categoryId = 0;
 

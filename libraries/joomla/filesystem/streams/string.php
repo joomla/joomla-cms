@@ -27,72 +27,72 @@ class JStreamString
 	 * The current string
 	 *
 	 * @var   string
-	 * @since  11.1
+	 * @since  12.1
 	 */
-	protected $_currentstring;
+	protected $currentString;
 
 	/**
 	 *
 	 * The path
 	 *
 	 * @var   string
-	 * @since  11.1
+	 * @since  12.1
 	 */
-	protected $_path;
+	protected $path;
 
 	/**
 	 *
 	 * The mode
 	 *
 	 * @var   string
-	 * @since  11.1
+	 * @since  12.1
 	 */
-	protected $_mode;
+	protected $mode;
 
 	/**
 	 *
 	 * Enter description here ...
 	 * @var   string
 	 *
-	 * @since  11.1
+	 * @since  12.1
 	 */
-	protected $_options;
+	protected $options;
 
 	/**
 	 *
 	 * Enter description here ...
 	 * @var   string
 	 *
-	 * @since  11.1
+	 * @since  12.1
 	 */
-	protected $_opened_path;
+	protected $openedPath;
 
 	/**
 	 * Current position
 	 *
 	 * @var   integer
-	 * @since  11.1
+	 * @since  12.1
 	 */
-	protected $_pos;
+	protected $pos;
 
 	/**
 	 * Length of the string
 	 *
 	 * @var   string
 	 *
-	 * @since  11.1
+	 * @since  12.1
 	 */
-	protected $_len;
+	protected $len;
 
 	/**
 	 * Statistics for a file
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  12.1
 	 *
 	 * @see    http://us.php.net/manual/en/function.stat.php
 	 */
-	protected $_stat;
+	protected $stat;
 
 	/**
 	 * Method to open a file or URL.
@@ -108,13 +108,13 @@ class JStreamString
 	 */
 	public function stream_open($path, $mode, $options, &$opened_path)
 	{
-		$this->_currentstring = &JStringController::getRef(str_replace('string://', '', $path));
+		$this->currentString = &JStringController::getRef(str_replace('string://', '', $path));
 
-		if ($this->_currentstring)
+		if ($this->currentString)
 		{
-			$this->_len = strlen($this->_currentstring);
-			$this->_pos = 0;
-			$this->_stat = $this->url_stat($path, 0);
+			$this->len = strlen($this->currentString);
+			$this->pos = 0;
+			$this->stat = $this->url_stat($path, 0);
 
 			return true;
 		}
@@ -134,7 +134,7 @@ class JStreamString
 	 */
 	public function stream_stat()
 	{
-		return $this->_stat;
+		return $this->stat;
 	}
 
 	/**
@@ -185,8 +185,8 @@ class JStreamString
 	 */
 	public function stream_read($count)
 	{
-		$result = substr($this->_currentstring, $this->_pos, $count);
-		$this->_pos += $count;
+		$result = substr($this->currentString, $this->pos, $count);
+		$this->pos += $count;
 
 		return $result;
 	}
@@ -216,7 +216,7 @@ class JStreamString
 	 */
 	public function stream_tell()
 	{
-		return $this->_pos;
+		return $this->pos;
 	}
 
 	/**
@@ -228,7 +228,7 @@ class JStreamString
 	 */
 	public function stream_eof()
 	{
-		if ($this->_pos > $this->_len)
+		if ($this->pos > $this->len)
 		{
 			return true;
 		}
@@ -249,7 +249,7 @@ class JStreamString
 	public function stream_seek($offset, $whence)
 	{
 		// $whence: SEEK_SET, SEEK_CUR, SEEK_END
-		if ($offset > $this->_len)
+		if ($offset > $this->len)
 		{
 			// We can't seek beyond our len.
 			return false;
@@ -258,13 +258,13 @@ class JStreamString
 		switch ($whence)
 		{
 			case SEEK_SET:
-				$this->_pos = $offset;
+				$this->pos = $offset;
 				break;
 
 			case SEEK_CUR:
-				if (($this->_pos + $offset) < $this->_len)
+				if (($this->pos + $offset) < $this->len)
 				{
-					$this->_pos += $offset;
+					$this->pos += $offset;
 				}
 				else
 				{
@@ -273,7 +273,7 @@ class JStreamString
 				break;
 
 			case SEEK_END:
-				$this->_pos = $this->_len - $offset;
+				$this->pos = $this->len - $offset;
 				break;
 		}
 
@@ -295,4 +295,4 @@ class JStreamString
 	}
 }
 
-stream_wrapper_register('string', 'JStreamString') or die(JText::_('JLIB_FILESYSTEM_STREAM_FAILED'));
+stream_wrapper_register('string', 'JStreamString') or die('JStreamString Wrapper Registration Failed');

@@ -1,26 +1,32 @@
 <?php
 /**
- * @package		Joomla.Site
- * @subpackage	mod_random_image
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  mod_random_image
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
+/**
+ * Helper for mod_random_image
+ *
+ * @package     Joomla.Site
+ * @subpackage  mod_random_image
+ * @since       1.5
+ */
 class modRandomImageHelper
 {
-	static function getRandomImage(&$params, $images)
+	public static function getRandomImage(&$params, $images)
 	{
 		$width	= $params->get('width');
 		$height	= $params->get('height');
 
-		$i			= count($images);
-		$random		= mt_rand(0, $i - 1);
-		$image		= $images[$random];
-		$size		= getimagesize (JPATH_BASE . '/' . $image->folder . '/' . $image->name);
-
+		$i      = count($images);
+		$random = mt_rand(0, $i - 1);
+		$image  = $images[$random];
+		$size   = getimagesize(JPATH_BASE . '/' . $image->folder . '/' . $image->name);
 
 		if ($width == '') {
 			$width = 100;
@@ -30,11 +36,11 @@ class modRandomImageHelper
 			$width = $size[0];
 		}
 
-		$coeff = $size[0]/$size[1];
+		$coeff = $size[0] / $size[1];
 		if ($height == '') {
-			$height = (int) ($width/$coeff);
+			$height = (int) ($width / $coeff);
 		} else {
-			$newheight = min ($height, (int) ($width/$coeff));
+			$newheight = min($height, (int) ($width / $coeff));
 			if ($newheight < $height) {
 				$height = $newheight;
 			} else {
@@ -49,7 +55,7 @@ class modRandomImageHelper
 		return $image;
 	}
 
-	static function getImages(&$params, $folder)
+	public static function getImages(&$params, $folder)
 	{
 		$type		= $params->get('type', 'jpg');
 
@@ -89,7 +95,7 @@ class modRandomImageHelper
 		return $images;
 	}
 
-	static function getFolder(&$params)
+	public static function getFolder(&$params)
 	{
 		$folder	= $params->get('folder');
 
@@ -101,7 +107,7 @@ class modRandomImageHelper
 		}
 		// if folder includes absolute path, remove
 		if (JString::strpos($folder, JPATH_SITE) === 0) {
-			$folder= str_replace(JPATH_BASE, '', $folder);
+			$folder = str_replace(JPATH_BASE, '', $folder);
 		}
 		$folder = str_replace('\\', DIRECTORY_SEPARATOR, $folder);
 		$folder = str_replace('/', DIRECTORY_SEPARATOR, $folder);

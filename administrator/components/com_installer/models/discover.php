@@ -1,23 +1,22 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_installer
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_installer
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
 
-// Import library dependencies
-require_once dirname(__FILE__) . '/extension.php';
+require_once __DIR__ . '/extension.php';
 
 /**
  * Installer Manage Model
  *
- * @package		Joomla.Administrator
- * @subpackage	com_installer
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_installer
+ * @since       1.6
  */
 class InstallerModelDiscover extends InstallerModel
 {
@@ -63,7 +62,7 @@ class InstallerModelDiscover extends InstallerModel
 	 *
 	 * @since	1.6
 	 */
-	function discover()
+	public function discover()
 	{
 		$installer	= JInstaller::getInstance();
 		$results	= $installer->discover();
@@ -82,7 +81,6 @@ class InstallerModelDiscover extends InstallerModel
 		}
 		unset($installedtmp);
 
-
 		foreach($results as $result) {
 			// check if we have a match on the element
 			$key = implode(':', array($result->type, $result->element, $result->folder, $result->client_id));
@@ -98,7 +96,7 @@ class InstallerModelDiscover extends InstallerModel
 	 *
 	 * @since	1.6
 	 */
-	function discover_install()
+	public function discover_install()
 	{
 		$app = JFactory::getApplication();
 		$installer = JInstaller::getInstance();
@@ -134,15 +132,15 @@ class InstallerModelDiscover extends InstallerModel
 	 *
 	 * @since	1.6
 	 */
-	function purge()
+	public function purge()
 	{
 		$db		= JFactory::getDBO();
 		$query	= $db->getQuery(true);
 		$query->delete();
 		$query->from('#__extensions');
 		$query->where('state = -1');
-		$db->setQuery((string)$query);
-		if ($db->Query()) {
+		$db->setQuery((string) $query);
+		if ($db->execute()) {
 			$this->_message = JText::_('COM_INSTALLER_MSG_DISCOVER_PURGEDDISCOVEREDEXTENSIONS');
 			return true;
 		} else {

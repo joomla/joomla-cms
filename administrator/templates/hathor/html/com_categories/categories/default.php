@@ -1,13 +1,12 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	Templates.hathor
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  Template.hathor
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
 // Include the component HTML helpers.
@@ -82,17 +81,17 @@ $saveOrder 	= ($listOrder == 'a.lft' && $listDirn == 'asc');
 				<th class="nowrap ordering-col">
 					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ORDERING', 'a.lft', $listDirn, $listOrder); ?>
 					<?php if ($saveOrder) :?>
-						<?php echo JHtml::_('grid.order',  $this->items, 'filesave.png', 'categories.saveorder'); ?>
+						<?php echo JHtml::_('grid.order', $this->items, 'filesave.png', 'categories.saveorder'); ?>
 					<?php endif; ?>
 				</th>
 				<th class="access-col">
-					<?php echo JHtml::_('grid.sort',  'JGRID_HEADING_ACCESS', 'access_level', $listDirn, $listOrder); ?>
+					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ACCESS', 'access_level', $listDirn, $listOrder); ?>
 				</th>
 				<th class="language-col">
 					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_LANGUAGE', 'language', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 				<th class="nowrap id-col">
-					<?php echo JHtml::_('grid.sort',  'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
+					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 				</th>
 			</tr>
 		</thead>
@@ -101,18 +100,18 @@ $saveOrder 	= ($listOrder == 'a.lft' && $listDirn == 'asc');
 			<?php
 			$originalOrders = array();
 			foreach ($this->items as $i => $item) :
-				$orderkey	= array_search($item->id, $this->ordering[$item->parent_id]);
-				$canEdit	= $user->authorise('core.edit',			$extension.'.category.'.$item->id);
-				$canCheckin	= $user->authorise('core.admin', 'com_checkin') || $item->checked_out == $userId || $item->checked_out == 0;
-				$canEditOwn	= $user->authorise('core.edit.own',		$extension.'.category.'.$item->id) && $item->created_user_id == $userId;
-				$canChange	= $user->authorise('core.edit.state',	$extension.'.category.'.$item->id) && $canCheckin;
+				$orderkey   = array_search($item->id, $this->ordering[$item->parent_id]);
+				$canEdit    = $user->authorise('core.edit',       $extension . '.category.' . $item->id);
+				$canCheckin = $user->authorise('core.admin',      'com_checkin') || $item->checked_out == $userId || $item->checked_out == 0;
+				$canEditOwn = $user->authorise('core.edit.own',   $extension . '.category.' . $item->id) && $item->created_user_id == $userId;
+				$canChange  = $user->authorise('core.edit.state', $extension . '.category.' . $item->id) && $canCheckin;
 			?>
 				<tr class="row<?php echo $i % 2; ?>">
 					<th class="center">
 						<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 					</th>
 					<td>
-						<?php echo str_repeat('<span class="gi">|&mdash;</span>', $item->level-1) ?>
+						<?php echo str_repeat('<span class="gi">|&mdash;</span>', $item->level - 1) ?>
 						<?php if ($item->checked_out) : ?>
 							<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'categories.', $canCheckin); ?>
 						<?php endif; ?>
@@ -123,7 +122,7 @@ $saveOrder 	= ($listOrder == 'a.lft' && $listDirn == 'asc');
 							<?php echo $this->escape($item->title); ?>
 						<?php endif; ?>
 						<p class="smallsub" title="<?php echo $this->escape($item->path);?>">
-							<?php echo str_repeat('<span class="gtr">|&mdash;</span>', $item->level-1) ?>
+							<?php echo str_repeat('<span class="gtr">|&mdash;</span>', $item->level - 1) ?>
 							<?php if (empty($item->note)) : ?>
 								<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias));?>
 							<?php else : ?>
@@ -150,7 +149,7 @@ $saveOrder 	= ($listOrder == 'a.lft' && $listDirn == 'asc');
 						<?php echo $this->escape($item->access_level); ?>
 					</td>
 					<td class="center nowrap">
-					<?php if ($item->language=='*'):?>
+					<?php if ($item->language == '*'):?>
 						<?php echo JText::alt('JALL', 'language'); ?>
 					<?php else:?>
 						<?php echo $item->language_title ? $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>

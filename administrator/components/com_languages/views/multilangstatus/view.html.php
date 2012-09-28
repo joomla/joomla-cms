@@ -1,27 +1,27 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_languages
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.view');
 
 /**
  * Displays the multilang status.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_languages
- * @since		1.7.1
+ * @package     Joomla.Administrator
+ * @subpackage  com_languages
+ * @since       1.7.1
  */
-class LanguagesViewMultilangstatus extends JView
+class LanguagesViewMultilangstatus extends JViewLegacy
 {
 	/**
 	 * Display the view
 	 */
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		require_once JPATH_COMPONENT . '/helpers/multilangstatus.php';
 

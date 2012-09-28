@@ -1,20 +1,23 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_languages
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
 /**
  * Utility class working with languages
  *
- * @package		Joomla.Administrator
- * @subpackage	com_languages
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_languages
+ * @since       1.6
  */
-abstract class JHtmlLanguages {
+abstract class JHtmlLanguages
+{
 	/**
 	 * method to generate an information about the default language
 	 *
@@ -25,7 +28,7 @@ abstract class JHtmlLanguages {
 	public static function published($published)
 	{
 		if ($published) {
-			return JHtml::_('image', 'menu/icon-16-default.png', JText::_('COM_LANGUAGES_HEADING_DEFAULT'), NULL, true);
+			return JHtml::_('image', 'menu/icon-16-default.png', JText::_('COM_LANGUAGES_HEADING_DEFAULT'), null, true);
 		}
 		else {
 			return '&#160;';
@@ -42,7 +45,7 @@ abstract class JHtmlLanguages {
 	 */
 	public static function id($rowNum, $language)
 	{
-		return '<input type="radio" id="cb'.$rowNum.'" name="cid" value="'.htmlspecialchars($language).'" onclick="Joomla.isChecked(this.checked);" title="'.($rowNum+1).'"/>';
+		return '<input type="radio" id="cb' . $rowNum . '" name="cid" value="' . htmlspecialchars($language) . '" onclick="Joomla.isChecked(this.checked);" title="' . ($rowNum + 1) . '"/>';
 	}
 
 	public static function clients()

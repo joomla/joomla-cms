@@ -1,20 +1,23 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	Templates.hathor
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  Template.hathor
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
-jimport('joomla.filesystem.file');
-
-$app	= JFactory::getApplication();
+$app  = JFactory::getApplication();
 $lang = JFactory::getLanguage();
 $file = 'language/'.$lang->getTag().'/'.$lang->getTag().'.css';
+$doc   = JFactory::getDocument();
+$input = $app->input;
+$user  = JFactory::getUser();
+
+// Add Stylesheets
+$doc->addStyleSheet('templates/' .$this->template. '/css/template.css');
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo  $this->language; ?>" lang="<?php echo  $this->language; ?>" dir="<?php echo  $this->direction; ?>">
@@ -23,7 +26,18 @@ $file = 'language/'.$lang->getTag().'/'.$lang->getTag().'.css';
 
 <!-- Load system style CSS -->
 <link rel="stylesheet" href="templates/system/css/system.css" type="text/css" />
+<?php
+// If Right-to-Left
+if ($this->direction == 'rtl') :
+	$doc->addStyleSheet('../media/jui/css/bootstrap-rtl.css');
+endif;
 
+// Load specific language related CSS
+$file = 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css';
+if (is_file($file)) :
+	$doc->addStyleSheet($file);
+endif;
+?>
 <!-- Load Template CSS -->
 <link href="templates/<?php echo  $this->template ?>/css/template.css" rel="stylesheet" type="text/css" />
 
@@ -37,17 +51,6 @@ $file = 'language/'.$lang->getTag().'/'.$lang->getTag().'.css';
 ?>
 <link href="templates/<?php echo $this->template ?>/css/colour_<?php echo $colour; ?>.css" rel="stylesheet" type="text/css" />
 
-<!-- Load additional CSS styles for rtl sites -->
-<?php if ($this->direction == 'rtl') : ?>
-	<link href="templates/<?php echo  $this->template ?>/css/template_rtl.css" rel="stylesheet" type="text/css" />
-	<link href="templates/<?php echo $this->template ?>/css/colour_<?php echo $colour; ?>_rtl.css" rel="stylesheet" type="text/css" />
-<?php endif; ?>
-
-<!-- Load specific language related css -->
-<?php if (JFile::exists($file)) : ?>
-	<link href="<?php echo $file ?>" rel="stylesheet" type="text/css" />
-<?php  endif; ?>
-
 <!-- Load additional CSS styles for bold Text -->
 <?php if ($this->params->get('boldText')) : ?>
 	<link href="templates/<?php echo $this->template ?>/css/boldtext.css" rel="stylesheet" type="text/css" />
@@ -60,10 +63,9 @@ $file = 'language/'.$lang->getTag().'/'.$lang->getTag().'.css';
 <!--[if IE 7]>
 	<link href="templates/<?php echo  $this->template ?>/css/ie7.css" rel="stylesheet" type="text/css" />
 <![endif]-->
-<!--[if lte IE 6]>
-	<link href="templates/<?php echo  $this->template ?>/css/ie6.css" rel="stylesheet" type="text/css" />
+<!--[if lt IE 9]>
+	<script src="../media/jui/js/html5.js"></script>
 <![endif]-->
-
 <!-- Load Template JavaScript -->
 <script type="text/javascript" src="templates/<?php  echo  $this->template  ?>/js/template.js"></script>
 
@@ -96,18 +98,18 @@ $file = 'language/'.$lang->getTag().'/'.$lang->getTag().'.css';
 		<jdoc:include type="modules" name="status"/>
 			<?php
 			//Display an harcoded logout
-			$task = JRequest::getCmd('task');
-			if ($task == 'edit' || $task == 'editA' || JRequest::getInt('hidemainmenu')) {
+			$task = $app->input->get('task');
+			if ($task == 'edit' || $task == 'editA' || $app->input->getInt('hidemainmenu')) {
 				$logoutLink = '';
 			} else {
 				$logoutLink = JRoute::_('index.php?option=com_login&task=logout&'. JSession::getFormToken() .'=1');
 			}
-			$hideLinks	= JRequest::getBool('hidemainmenu');
+			$hideLinks = $app->input->getBool('hidemainmenu');
 			$output = array();
 			// Print the Preview link to Main site.
-			$output[] = '<span class="viewsite"><a href="'.JURI::root().'" target="_blank">'.JText::_('JGLOBAL_VIEW_SITE').'</a></span>';
+			//$output[] = '<span class="viewsite"><a href="'.JURI::root().'" target="_blank">'.JText::_('JGLOBAL_VIEW_SITE').'</a></span>';
 			// Print the logout link.
-			$output[] = '<span class="logout">' .($hideLinks ? '' : '<a href="'.$logoutLink.'">').JText::_('JLOGOUT').($hideLinks ? '' : '</a>').'</span>';
+			//$output[] = '<span class="logout">' .($hideLinks ? '' : '<a href="'.$logoutLink.'">').JText::_('JLOGOUT').($hideLinks ? '' : '</a>').'</span>';
 			// Output the items.
 			foreach ($output as $item) :
 			echo $item;
@@ -134,10 +136,10 @@ $file = 'language/'.$lang->getTag().'/'.$lang->getTag().'.css';
 				<div class="adminform">
 
 					<!-- Display the Quick Icon Shortcuts -->
-					<div class="cpanel-icons">
-						<?php if ($this->countModules('icon')>1):?>
+					<div class="cpanel-icons well">
+						<?php if ($this->countModules('icon') > 1):?>
 							<?php echo JHtml::_('sliders.start', 'position-icon', array('useCookie' => 1));?>
-							<jdoc:include type="modules" name="icon" style="sliders" />
+							<jdoc:include type="modules" name="icon" />
 							<?php echo JHtml::_('sliders.end');?>
 						<?php else:?>
 							<jdoc:include type="modules" name="icon" />
@@ -145,7 +147,7 @@ $file = 'language/'.$lang->getTag().'/'.$lang->getTag().'.css';
 					</div>
 
 					<!-- Display Admin Information Panels -->
-					<div class="cpanel-component">
+					<div class="cpanel-component well">
 						<jdoc:include type="component" />
 					</div>
 
@@ -167,7 +169,7 @@ $file = 'language/'.$lang->getTag().'/'.$lang->getTag().'.css';
 	<div id="footer">
 		<jdoc:include type="modules" name="footer" style="none"  />
 		<p class="copyright">
-			<?php $joomla= '<a href="http://www.joomla.org">Joomla!&#174;</a>';
+			<?php $joomla = '<a href="http://www.joomla.org">Joomla!&#174;</a>';
 			echo JText::sprintf('JGLOBAL_ISFREESOFTWARE', $joomla) ?>
 		</p>
 	</div>

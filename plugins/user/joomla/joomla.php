@@ -1,18 +1,20 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Plugin
+ * @subpackage  User.joomla
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
 
 /**
  * Joomla User plugin
  *
- * @package		Joomla.Plugin
- * @subpackage	User.joomla
- * @since		1.5
+ * @package     Joomla.Plugin
+ * @subpackage  User.joomla
+ * @since       1.5
  */
 class plgUserJoomla extends JPlugin
 {
@@ -39,7 +41,7 @@ class plgUserJoomla extends JPlugin
 			'DELETE FROM '.$db->quoteName('#__session') .
 			' WHERE '.$db->quoteName('userid').' = '.(int) $user['id']
 		);
-		$db->Query();
+		$db->execute();
 
 		return true;
 	}
@@ -59,7 +61,6 @@ class plgUserJoomla extends JPlugin
 	 */
 	public function onUserAfterSave($user, $isnew, $success, $msg)
 	{
-		// Initialise variables.
 		$app	= JFactory::getApplication();
 		$config	= JFactory::getConfig();
 		$mail_to_user = $this->params->get('mail_to_user', 1);
@@ -144,7 +145,7 @@ class plgUserJoomla extends JPlugin
 			$options['group'] = 'USERS';
 		}
 
-		// Chek the user can login.
+		// Check the user can login.
 		$result	= $instance->authorise($options['action']);
 		if (!$result) {
 
@@ -173,7 +174,7 @@ class plgUserJoomla extends JPlugin
 			'	'.$db->quoteName('userid').' = '.(int) $instance->get('id') .
 			' WHERE '.$db->quoteName('session_id').' = '.$db->quote($session->getId())
 		);
-		$db->query();
+		$db->execute();
 
 		// Hit the user last visit field
 		$instance->setLastVisit();
@@ -217,7 +218,7 @@ class plgUserJoomla extends JPlugin
 			' WHERE '.$db->quoteName('userid').' = '.(int) $user['id'] .
 			' AND '.$db->quoteName('client_id').' = '.(int) $options['clientid']
 		);
-		$db->query();
+		$db->execute();
 
 		return true;
 	}
@@ -236,26 +237,25 @@ class plgUserJoomla extends JPlugin
 	protected function _getUser($user, $options = array())
 	{
 		$instance = JUser::getInstance();
-		if ($id = intval(JUserHelper::getUserId($user['username'])))  {
+		$id = (int) JUserHelper::getUserId($user['username']);
+		if ($id)
+		{
 			$instance->load($id);
 			return $instance;
 		}
 
 		//TODO : move this out of the plugin
-		jimport('joomla.application.component.helper');
 		$config	= JComponentHelper::getParams('com_users');
 		// Default to Registered.
 		$defaultUserGroup = $config->get('new_usertype', 2);
 
-		$acl = JFactory::getACL();
-
-		$instance->set('id'			, 0);
-		$instance->set('name'			, $user['fullname']);
-		$instance->set('username'		, $user['username']);
-		$instance->set('password_clear'	, $user['password_clear']);
-		$instance->set('email'			, $user['email']);	// Result should contain an email (check)
-		$instance->set('usertype'		, 'deprecated');
-		$instance->set('groups'		, array($defaultUserGroup));
+		$instance->set('id',             0);
+		$instance->set('name',           $user['fullname']);
+		$instance->set('username',       $user['username']);
+		$instance->set('password_clear', $user['password_clear']);
+		// Result should contain an email (check)
+		$instance->set('email',          $user['email']);
+		$instance->set('groups',         array($defaultUserGroup));
 
 		//If autoregister is set let's register the user
 		$autoregister = isset($options['autoregister']) ? $options['autoregister'] :  $this->params->get('autoregister', 1);

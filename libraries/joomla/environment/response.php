@@ -233,6 +233,7 @@ class JResponse
 		if (self::allowCache() === false)
 		{
 			self::setHeader('Cache-Control', 'no-cache', false);
+
 			// HTTP 1.0
 			self::setHeader('Pragma', 'no-cache');
 		}
@@ -296,7 +297,7 @@ class JResponse
 		$gzdata = gzencode($data, $level);
 
 		self::setHeader('Content-Encoding', $encoding);
-		self::setHeader('X-Content-Encoded-By', 'Joomla! 2.5');
+		self::setHeader('X-Content-Encoded-By', 'Joomla! 1.6');
 
 		return $gzdata;
 	}

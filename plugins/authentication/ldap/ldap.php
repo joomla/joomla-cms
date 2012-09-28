@@ -1,20 +1,21 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Plugin
+ * @subpackage  Authentication.ldap
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
 
 /**
  * LDAP Authentication Plugin
  *
- * @package		Joomla.Plugin
- * @subpackage	Authentication.ldap
- * @since 1.5
+ * @package     Joomla.Plugin
+ * @subpackage  Authentication.ldap
+ * @since       1.5
  */
-
 class plgAuthenticationLdap extends JPlugin
 {
 	/**
@@ -27,9 +28,8 @@ class plgAuthenticationLdap extends JPlugin
 	 * @return	object	boolean
 	 * @since 1.5
 	 */
-	function onUserAuthenticate($credentials, $options, &$response)
+	public function onUserAuthenticate($credentials, $options, &$response)
 	{
-		// Initialise variables.
 		$userdetails = null;
 		$success = 0;
 		$userdetails = array();
@@ -50,8 +50,7 @@ class plgAuthenticationLdap extends JPlugin
 		$ldap_uid		= $this->params->get('ldap_uid');
 		$auth_method	= $this->params->get('auth_method');
 
-		jimport('joomla.client.ldap');
-		$ldap = new JLDAP($this->params);
+		$ldap = new JClientLdap($this->params);
 
 		if (!$ldap->connect())
 		{
@@ -112,7 +111,10 @@ class plgAuthenticationLdap extends JPlugin
 		if (!$success)
 		{
 			$response->status = JAuthentication::STATUS_FAILURE;
-			if (!strlen($response->error_message)) $response->error_message = JText::_('JGLOBAL_AUTH_INCORRECT');
+			if (!strlen($response->error_message))
+			{
+				$response->error_message = JText::_('JGLOBAL_AUTH_INCORRECT');
+			}
 		}
 		else
 		{

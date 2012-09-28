@@ -58,14 +58,14 @@ if ($this->total == 0):
 <?php
 else:
 	// Prepare the pagination string.  Results X - Y of Z
-	$start	= (int) $this->pagination->get('limitstart')+1;
+	$start	= (int) $this->pagination->get('limitstart') + 1;
 	$total	= (int) $this->pagination->get('total');
-	$limit	= (int) $this->pagination->get('limit') * $this->pagination->get('pages.current');
+	$limit	= (int) $this->pagination->get('limit') * $this->pagination->pagesTotal;
 	$limit	= (int) ($limit > $total ? $total : $limit);
 	$pages	= JText::sprintf('COM_FINDER_SEARCH_RESULTS_OF', $start, $limit, $total);
 ?>
 	<br id="highlighter-start" />
-	<dl class="search-results<?php echo $this->pageclass_sfx; ?>">
+	<ul class="search-results<?php echo $this->pageclass_sfx; ?> list-striped">
 		<?php
 		for ($i = 0, $n = count($this->results); $i < $n; $i++):
 			$this->result	= &$this->results[$i];
@@ -75,7 +75,7 @@ else:
 		<?php
 		endfor;
 		?>
-	</dl>
+	</ul>
 	<br id="highlighter-end" />
 
 	<div class="search-pagination">

@@ -1,18 +1,20 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_redirect
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
 
 /**
  * Redirect component helper.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_redirect
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_redirect
+ * @since       1.6
  */
 class RedirectHelper
 {
@@ -80,10 +82,16 @@ class RedirectHelper
 			' WHERE folder = '.$db->quote('system').
 			'  AND element = '.$db->quote('redirect')
 		);
-		$result = (boolean) $db->loadResult();
-		if ($error = $db->getErrorMsg()) {
-			JError::raiseWarning(500, $error);
+
+		try
+		{
+			$result = (boolean) $db->loadResult();
 		}
+		catch (RuntimeException $e)
+		{
+			JError::raiseWarning(500, $e->getMessage());
+		}
+
 		return $result;
 	}
 }

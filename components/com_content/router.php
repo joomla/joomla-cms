@@ -1,13 +1,13 @@
 <?php
 /**
- * @package		Joomla.Site
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  com_content
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
-
-jimport('joomla.application.categories');
 
 /**
  * Build the route for the com_content component
@@ -45,13 +45,14 @@ function ContentBuildRoute(&$query)
 	}
 
 	// are we dealing with an article or category that is attached to a menu item?
-	if (($menuItem instanceof stdClass) && $menuItem->query['view'] == $query['view'] && isset($query['id']) && $menuItem->query['id'] == intval($query['id'])) {
+	if (($menuItem instanceof stdClass) && $menuItem->query['view'] == $query['view'] && isset($query['id']) && $menuItem->query['id'] == (int) $query['id'])
+	{
 		unset($query['view']);
 
 		if (isset($query['catid'])) {
 			unset($query['catid']);
 		}
-		
+
 		if (isset($query['layout'])) {
 			unset($query['layout']);
 		}
@@ -75,10 +76,11 @@ function ContentBuildRoute(&$query)
 				// Make sure we have the id and the alias
 				if (strpos($query['id'], ':') === false) {
 					$db = JFactory::getDbo();
-					$aquery = $db->setQuery($db->getQuery(true)
+					$aquery = $db->setQuery(
+						$db->getQuery(true)
 						->select('alias')
 						->from('#__content')
-						->where('id='.(int)$query['id'])
+						->where('id=' . (int) $query['id'])
 					);
 					$alias = $db->loadResult();
 					$query['id'] = $query['id'].':'.$alias;
@@ -116,7 +118,7 @@ function ContentBuildRoute(&$query)
 		$array = array();
 
 		foreach($path as $id) {
-			if ((int)$id == (int)$mCatid) {
+			if ((int) $id == (int) $mCatid) {
 				break;
 			}
 
@@ -128,7 +130,7 @@ function ContentBuildRoute(&$query)
 		$array = array_reverse($array);
 
 		if (!$advanced && count($array)) {
-			$array[0] = (int)$catid.':'.$array[0];
+			$array[0] = (int) $catid . ':' . $array[0];
 		}
 
 		$segments = array_merge($segments, $array);
@@ -227,7 +229,7 @@ function ContentParseRoute($segments)
 		// we check to see if an alias is given.  If not, we assume it is an article
 		if (strpos($segments[0], ':') === false) {
 			$vars['view'] = 'article';
-			$vars['id'] = (int)$segments[0];
+			$vars['id'] = (int) $segments[0];
 			return $vars;
 		}
 
@@ -242,15 +244,15 @@ function ContentParseRoute($segments)
 
 			return $vars;
 		} else {
-			$query = 'SELECT alias, catid FROM #__content WHERE id = '.(int)$id;
+			$query = 'SELECT alias, catid FROM #__content WHERE id = ' . (int) $id;
 			$db->setQuery($query);
 			$article = $db->loadObject();
 
 			if ($article) {
 				if ($article->alias == $alias) {
 					$vars['view'] = 'article';
-					$vars['catid'] = (int)$article->catid;
-					$vars['id'] = (int)$id;
+					$vars['catid'] = (int) $article->catid;
+					$vars['id'] = (int) $id;
 
 					return $vars;
 				}
@@ -262,9 +264,9 @@ function ContentParseRoute($segments)
 	// because the first segment will have the target category id prepended to it.  If the
 	// last segment has a number prepended, it is an article, otherwise, it is a category.
 	if (!$advanced) {
-		$cat_id = (int)$segments[0];
+		$cat_id = (int) $segments[0];
 
-		$article_id = (int)$segments[$count - 1];
+		$article_id = (int) $segments[$count - 1];
 
 		if ($article_id > 0) {
 			$vars['view'] = 'article';
@@ -321,9 +323,9 @@ function ContentParseRoute($segments)
 			$vars['id'] = $cid;
 
 			if ($item->query['view'] == 'archive' && $count != 1){
-				$vars['year']	= $count >= 2 ? $segments[$count-2] : null;
-				$vars['month'] = $segments[$count-1];
-				$vars['view']	= 'archive';
+				$vars['year']  = $count >= 2 ? $segments[$count - 2] : null;
+				$vars['month'] = $segments[$count - 1];
+				$vars['view']  = 'archive';
 			}
 			else {
 				$vars['view'] = 'article';

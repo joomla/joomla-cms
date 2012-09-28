@@ -1,22 +1,20 @@
 <?php
 /**
- * @package		Joomla.Site
- * @subpackage	com_users
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  com_users
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.modelform');
-jimport('joomla.event.dispatcher');
-
 /**
  * Rest model class for Users.
  *
- * @package		Joomla.Site
- * @subpackage	com_users
- * @since		1.5
+ * @package     Joomla.Site
+ * @subpackage  com_users
+ * @since       1.5
  */
 class UsersModelReset extends JModelForm
 {
@@ -226,11 +224,14 @@ class UsersModelReset extends JModelForm
 
 		// Get the user id.
 		$db->setQuery((string) $query);
-		$user = $db->loadObject();
 
-		// Check for an error.
-		if ($db->getErrorNum()) {
-			return new JException(JText::sprintf('COM_USERS_DATABASE_ERROR', $db->getErrorMsg()), 500);
+		try
+		{
+			$user = $db->loadObject();
+		}
+		catch (RuntimeException $e)
+		{
+			return new JException(JText::sprintf('COM_USERS_DATABASE_ERROR', $e->getMessage()), 500);
 		}
 
 		// Check for a user.
@@ -239,7 +240,7 @@ class UsersModelReset extends JModelForm
 			return false;
 		}
 
-		$parts	= explode( ':', $user->activation );
+		$parts	= explode(':', $user->activation);
 		$crypt	= $parts[0];
 		if (!isset($parts[1])) {
 			$this->setError(JText::_('COM_USERS_USER_NOT_FOUND'));
@@ -313,11 +314,14 @@ class UsersModelReset extends JModelForm
 
 		// Get the user object.
 		$db->setQuery((string) $query);
-		$userId = $db->loadResult();
 
-		// Check for an error.
-		if ($db->getErrorNum()) {
-			$this->setError(JText::sprintf('COM_USERS_DATABASE_ERROR', $db->getErrorMsg()), 500);
+		try
+		{
+			$userId = $db->loadResult();
+		}
+		catch (RuntimeException $e)
+		{
+			$this->setError(JText::sprintf('COM_USERS_DATABASE_ERROR', $e->getMessage()), 500);
 			return false;
 		}
 
@@ -342,6 +346,12 @@ class UsersModelReset extends JModelForm
 			return false;
 		}
 
+		// Make sure the user has not exceeded the reset limit
+		if (!$this->checkResetLimit($user)) {
+			$resetLimit = (int) JFactory::getApplication()->getParams()->get('reset_time');
+			$this->setError(JText::plural('COM_USERS_REMIND_LIMIT_ERROR_N_HOURS', $resetLimit));
+			return false;
+		}
 		// Set the confirmation token.
 		$token = JApplication::getHash(JUserHelper::genRandomPassword());
 		$salt = JUserHelper::getSalt('crypt-md5');
@@ -389,5 +399,44 @@ class UsersModelReset extends JModelForm
 		}
 
 		return true;
+	}
+	/**
+	 * Method to check if user reset limit has been exceeded within the allowed time period.
+	 *
+	 * @param   JUser  the user doing the password reset
+	 *
+	 * @return  boolean true if user can do the reset, false if limit exceeded
+	 *
+	 * @since	2.5
+	 */
+	public function checkResetLimit($user)
+	{
+		$params = JFactory::getApplication()->getParams();
+		$maxCount = (int) $params->get('reset_count');
+		$resetHours = (int) $params->get('reset_time');
+		$result = true;
+
+		$lastResetTime = strtotime($user->lastResetTime) ? strtotime($user->lastResetTime) : 0;
+		$hoursSinceLastReset = (strtotime(JFactory::getDate()->toSql()) - $lastResetTime) / 3600;
+
+		// If it's been long enough, start a new reset count
+		if ($hoursSinceLastReset > $resetHours)
+		{
+			$user->lastResetTime = JFactory::getDate()->toSql();
+			$user->resetCount = 1;
+		}
+
+		// If we are under the max count, just increment the counter
+		elseif ($user->resetCount < $maxCount)
+		{
+			$user->resetCount;
+		}
+
+		// At this point, we know we have exceeded the maximum resets for the time period
+		else
+		{
+			$result = false;
+		}
+		return $result;
 	}
 }

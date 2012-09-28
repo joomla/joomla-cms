@@ -1,20 +1,20 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_banners
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.modeladmin');
 
 /**
  * Client model.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_banners
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_banners
+ * @since       1.6
  */
 class BannersModelClient extends JModelAdmin
 {
@@ -29,7 +29,7 @@ class BannersModelClient extends JModelAdmin
 	{
 		if (!empty($record->id)) {
 				if ($record->state != -2) {
-					return ;
+					return;
 				}
 			$user = JFactory::getUser();
 
@@ -118,7 +118,7 @@ class BannersModelClient extends JModelAdmin
 	 * @param	JTable	A JTable object.
 	 * @since	1.6
 	 */
-	protected function prepareTable(&$table)
+	protected function prepareTable($table)
 	{
 		$table->name = htmlspecialchars_decode($table->name, ENT_QUOTES);
 	}

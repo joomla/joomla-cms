@@ -24,7 +24,7 @@ class JFormFieldSearchFilter extends JFormFieldList
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  1.7
+	 * @since  2.5
 	 */
 	protected $type = 'SearchFilter';
 
@@ -33,19 +33,18 @@ class JFormFieldSearchFilter extends JFormFieldList
 	 *
 	 * @return  array  The field option objects.
 	 *
-	 * @since   1.7
+	 * @since   2.5
 	 */
 	public function getOptions()
 	{
-		// Initialize variables.
 		$options = array();
 
 		// Build the query.
 		$db = JFactory::getDBO();
 		$query = $db->getQuery(true);
-		$query->select('f.' . $db->quoteName('title') . ' AS text, f.' . $db->quoteName('filter_id') . ' AS value');
+		$query->select($db->quoteName('f.title') . ' AS text, ' . $db->quoteName('f.filter_id') . ' AS value');
 		$query->from($db->quoteName('#__finder_filters') . ' AS f');
-		$query->where('f.' . $db->quoteName('state') . ' = 1');
+		$query->where($db->quoteName('f.state') . ' = 1');
 		$query->order('f.title ASC');
 		$db->setQuery($query);
 		$options = $db->loadObjectList();

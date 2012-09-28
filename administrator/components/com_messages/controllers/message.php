@@ -1,18 +1,20 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_messages
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-defined( '_JEXEC' ) or die;
 
-jimport('joomla.application.component.controllerform');
+defined('_JEXEC') or die;
 
 /**
  * Messages Component Message Model
  *
- * @package		Joomla.Administrator
- * @subpackage	com_messages
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_messages
+ * @since       1.6
  */
 class MessagesControllerMessage extends JControllerForm
 {
@@ -38,9 +40,12 @@ class MessagesControllerMessage extends JControllerForm
 	 */
 	public function reply()
 	{
-		if ($replyId = JRequest::getInt('reply_id')) {
-			$this->setRedirect('index.php?option=com_messages&view=message&layout=edit&reply_id='.$replyId);
-		} else {
+		if ($replyId = $this->input->getInt('reply_id'))
+		{
+			$this->setRedirect('index.php?option=com_messages&view=message&layout=edit&reply_id=' . $replyId);
+		}
+		else
+		{
 			$this->setMessage(JText::_('COM_MESSAGES_INVALID_REPLY_ID'));
 			$this->setRedirect('index.php?option=com_messages&view=messages');
 		}

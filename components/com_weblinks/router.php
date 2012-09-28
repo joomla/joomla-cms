@@ -1,21 +1,13 @@
 <?php
 /**
- * @package		Joomla.Site
- * @subpackage	com_weblinks
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
- */
-
- /* Weblinks Component Route Helper
+ * @package     Joomla.Site
+ * @subpackage  com_weblinks
  *
- * @package		Joomla.Site
- * @subpackage	com_weblinks
- * @since 1.6
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
-
-jimport('joomla.application.categories');
 
 /**
  * Build the route for the com_weblinks component
@@ -42,9 +34,8 @@ function WeblinksBuildRoute(&$query)
 		$menuItem = $menu->getItem($query['Itemid']);
 	}
 
-	$mView	= (empty($menuItem->query['view'])) ? null : $menuItem->query['view'];
-	$mCatid	= (empty($menuItem->query['catid'])) ? null : $menuItem->query['catid'];
-	$mId	= (empty($menuItem->query['id'])) ? null : $menuItem->query['id'];
+	$mView = (empty($menuItem->query['view'])) ? null : $menuItem->query['view'];
+	$mId   = (empty($menuItem->query['id'])) ? null : $menuItem->query['id'];
 
 	if (isset($query['view'])) {
 		$view = $query['view'];
@@ -60,7 +51,7 @@ function WeblinksBuildRoute(&$query)
 	}
 
 	// are we dealing with an weblink that is attached to a menu item?
-	if (isset($query['view']) && ($mView == $query['view']) and (isset($query['id'])) and ($mId == intval($query['id']))) {
+	if (isset($query['view']) && ($mView == $query['view']) and (isset($query['id'])) and ($mId == (int) $query['id'])) {
 		unset($query['view']);
 		unset($query['catid']);
 		unset($query['id']);
@@ -69,7 +60,7 @@ function WeblinksBuildRoute(&$query)
 	}
 
 	if (isset($view) and ($view == 'category' or $view == 'weblink' )) {
-		if ($mId != intval($query['id']) || $mView != $view) {
+		if ($mId != (int) $query['id'] || $mView != $view) {
 			if ($view == 'weblink' && isset($query['catid'])) {
 				$catid = $query['catid'];
 			}
@@ -89,7 +80,7 @@ function WeblinksBuildRoute(&$query)
 				$array = array();
 				foreach($path as $id)
 				{
-					if ((int) $id == (int)$menuCatid) {
+					if ((int) $id == (int) $menuCatid) {
 						break;
 					}
 

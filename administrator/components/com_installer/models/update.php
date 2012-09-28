@@ -1,22 +1,20 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_installer
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_installer
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
 
-// Import library dependencies
-jimport('joomla.application.component.modellist');
 jimport('joomla.updater.update');
 
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_installer
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_installer
+ * @since       1.6
  */
 class InstallerModelUpdate extends JModelList
 {
@@ -77,10 +75,10 @@ class InstallerModelUpdate extends JModelList
 
 		// Filter by extension_id
 		if ($eid = $this->getState('filter.extension_id')) {
-			$query->where($db->nq('extension_id') . ' = ' . $db->q((int) $eid));
+			$query->where($db->qn('extension_id') . ' = ' . $db->q((int) $eid));
 		} else {
-			$query->where($db->nq('extension_id').' != '.$db->q(0));
-			$query->where($db->nq('extension_id').' != '.$db->q(700));
+			$query->where($db->qn('extension_id').' != '.$db->q(0));
+			$query->where($db->qn('extension_id').' != '.$db->q(700));
 		}
 
 		return $query;
@@ -112,13 +110,13 @@ class InstallerModelUpdate extends JModelList
 		// Note: TRUNCATE is a DDL operation
 		// This may or may not mean depending on your database
 		$db->setQuery('TRUNCATE TABLE #__updates');
-		if ($db->Query()) {
+		if ($db->execute()) {
 			// Reset the last update check timestamp
 			$query = $db->getQuery(true);
-			$query->update($db->nq('#__update_sites'));
-			$query->set($db->nq('last_check_timestamp').' = '.$db->q(0));
+			$query->update($db->qn('#__update_sites'));
+			$query->set($db->qn('last_check_timestamp').' = '.$db->q(0));
 			$db->setQuery($query);
-			$db->query();
+			$db->execute();
 
 			$this->_message = JText::_('COM_INSTALLER_PURGED_UPDATES');
 			return true;
@@ -138,7 +136,7 @@ class InstallerModelUpdate extends JModelList
 	{
 		$db = JFactory::getDBO();
 		$db->setQuery('UPDATE #__update_sites SET enabled = 1 WHERE enabled = 0');
-		if ($db->Query()) {
+		if ($db->execute()) {
 			if ($rows = $db->getAffectedRows()) {
 				$this->_message .= JText::plural('COM_INSTALLER_ENABLED_UPDATES', $rows);
 			}
@@ -161,7 +159,7 @@ class InstallerModelUpdate extends JModelList
 	{
 		$result = true;
 		foreach($uids as $uid) {
-			$update = new JUpdate();
+			$update = new JUpdate;
 			$instance = JTable::getInstance('update');
 			$instance->load($uid);
 			$update->loadFromXML($instance->detailsurl);

@@ -1,22 +1,29 @@
 <?php
 /**
- * @package		Joomla.Site
- * @subpackage	mod_login
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  mod_login
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
+/**
+ * Helper for mod_login
+ *
+ * @package     Joomla.Site
+ * @subpackage  mod_login
+ * @since       1.5
+ */
 class modLoginHelper
 {
-	static function getReturnURL($params, $type)
+	public static function getReturnURL($params, $type)
 	{
 		$app	= JFactory::getApplication();
 		$router = $app->getRouter();
 		$url = null;
-		if ($itemid =  $params->get($type))
+		if ($itemid = $params->get($type))
 		{
 			$db		= JFactory::getDbo();
 			$query	= $db->getQuery(true);
@@ -38,8 +45,8 @@ class modLoginHelper
 		}
 		if (!$url)
 		{
-			// stay on the same page
-			$uri = clone JFactory::getURI();
+			// Stay on the same page
+			$uri = clone JURI::getInstance();
 			$vars = $router->parse($uri);
 			unset($vars['lang']);
 			if ($router->getMode() == JROUTER_MODE_SEF)
@@ -71,7 +78,7 @@ class modLoginHelper
 		return base64_encode($url);
 	}
 
-	static function getType()
+	public static function getType()
 	{
 		$user = JFactory::getUser();
 		return (!$user->get('guest')) ? 'logout' : 'login';

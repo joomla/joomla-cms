@@ -1,18 +1,20 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_content
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
 
 /**
  * Content component helper.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_content
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_content
+ * @since       1.6
  */
 class ContentHelper
 {
@@ -28,16 +30,16 @@ class ContentHelper
 	 */
 	public static function addSubmenu($vName)
 	{
-		JSubMenuHelper::addEntry(
+		JHtmlSidebar::addEntry(
 			JText::_('JGLOBAL_ARTICLES'),
 			'index.php?option=com_content&view=articles',
 			$vName == 'articles'
 		);
-		JSubMenuHelper::addEntry(
+		JHtmlSidebar::addEntry(
 			JText::_('COM_CONTENT_SUBMENU_CATEGORIES'),
 			'index.php?option=com_categories&extension=com_content',
 			$vName == 'categories');
-		JSubMenuHelper::addEntry(
+		JHtmlSidebar::addEntry(
 			JText::_('COM_CONTENT_SUBMENU_FEATURED'),
 			'index.php?option=com_content&view=featured',
 			$vName == 'featured'
@@ -55,26 +57,26 @@ class ContentHelper
 	 */
 	public static function getActions($categoryId = 0, $articleId = 0)
 	{
+		// Reverted a change for version 2.5.6
 		$user	= JFactory::getUser();
 		$result	= new JObject;
 
 		if (empty($articleId) && empty($categoryId)) {
 			$assetName = 'com_content';
-			$level = 'component';
 		}
 		elseif (empty($articleId)) {
 			$assetName = 'com_content.category.'.(int) $categoryId;
-			$level = 'category';
 		}
 		else {
 			$assetName = 'com_content.article.'.(int) $articleId;
-			$level = 'article';
 		}
 
-		$actions = JAccess::getActions('com_content', $level);
+		$actions = array(
+			'core.admin', 'core.manage', 'core.create', 'core.edit', 'core.edit.own', 'core.edit.state', 'core.delete'
+		);
 
 		foreach ($actions as $action) {
-			$result->set($action->name,	$user->authorise($action->name, $assetName));
+			$result->set($action,	$user->authorise($action, $assetName));
 		}
 
 		return $result;
@@ -208,10 +210,14 @@ class ContentHelper
 			elseif ($blackList) {
 				// Remove the white-listed attributes from the black-list.
 				$filter = JFilterInput::getInstance(
-					array_diff($blackListTags, $whiteListTags), 			// blacklisted tags
-					array_diff($blackListAttributes, $whiteListAttributes), // blacklisted attributes
-					1,														// blacklist tags
-					1														// blacklist attributes
+					// Blacklisted tags
+					array_diff($blackListTags, $whiteListTags),
+					// Blacklisted attributes
+					array_diff($blackListAttributes, $whiteListAttributes),
+					// Blacklist tags
+					1,
+					// Blacklist attributes
+					1
 				);
 				// Remove white listed tags from filter's default blacklist
 				if ($whiteListTags) {

@@ -1,15 +1,18 @@
 <?php
 /**
- * @package		Joomla.Site
- * @subpackage	Contact
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  com_contact
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controllerform');
-
+/**
+ * @package     Joomla.Site
+ * @subpackage  com_contact
+ */
 class ContactControllerContact extends JControllerForm
 {
 	public function getModel($name = '', $prefix = '', $config = array('ignore_request' => true))
@@ -22,18 +25,16 @@ class ContactControllerContact extends JControllerForm
 		// Check for request forgeries.
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		// Initialise variables.
-		$app	= JFactory::getApplication();
-		$model	= $this->getModel('contact');
+		$app    = JFactory::getApplication();
+		$model  = $this->getModel('contact');
 		$params = JComponentHelper::getParams('com_contact');
-		$stub	= JRequest::getString('id');
-		$id		= (int)$stub;
+		$stub   = $this->input->getString('id');
+		$id     = (int) $stub;
 
 		// Get the data from POST
-		$data = JRequest::getVar('jform', array(), 'post', 'array');
+		$data  = $this->input->post->get('jform', array(), 'array');
 
 		$contact = $model->getItem($id);
-
 
 		$params->merge($contact->params);
 
@@ -53,7 +54,7 @@ class ContactControllerContact extends JControllerForm
 
 		// Contact plugins
 		JPluginHelper::importPlugin('contact');
-		$dispatcher	= JDispatcher::getInstance();
+		$dispatcher	= JEventDispatcher::getInstance();
 
 		// Validate the posted data.
 		$form = $model->getForm();
@@ -106,7 +107,7 @@ class ContactControllerContact extends JControllerForm
 		if (!($sent instanceof Exception)) {
 			$msg = JText::_('COM_CONTACT_EMAIL_THANKS');
 		} else {
-			$msg = '' ;
+			$msg = '';
 		}
 
 		// Flush the data from the session

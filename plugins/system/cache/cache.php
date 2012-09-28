@@ -1,17 +1,19 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Plugin
+ * @subpackage  System.cache
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
 /**
  * Joomla! Page Cache Plugin
  *
- * @package		Joomla.Plugin
- * @subpackage	System.cache
+ * @package     Joomla.Plugin
+ * @subpackage  System.cache
  */
 class plgSystemCache extends JPlugin
 {
@@ -48,8 +50,8 @@ class plgSystemCache extends JPlugin
 	function onAfterInitialise()
 	{
 		global $_PROFILER;
-		$app	= JFactory::getApplication();
-		$user	= JFactory::getUser();
+		$app  = JFactory::getApplication();
+		$user = JFactory::getUser();
 
 		if ($app->isAdmin() || JDEBUG) {
 			return;
@@ -59,7 +61,7 @@ class plgSystemCache extends JPlugin
 			return;
 		}
 
-		if ($user->get('guest') && $_SERVER['REQUEST_METHOD'] == 'GET') {
+		if ($user->get('guest') && $app->input->getMethod() == 'GET') {
 			$this->_cache->setCaching(true);
 		}
 

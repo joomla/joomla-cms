@@ -1,18 +1,20 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Plugin
+ * @subpackage  Editors.none
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
 /**
  * Plain Textarea Editor Plugin
  *
- * @package		Joomla.Plugin
- * @subpackage	Editors.none
- * @since		1.5
+ * @package     Joomla.Plugin
+ * @subpackage  Editors.none
+ * @since       1.5
  */
 class plgEditorNone extends JPlugin
 {
@@ -55,7 +57,7 @@ class plgEditorNone extends JPlugin
 	 *
 	 * @return	void
 	 */
-	function onSave()
+	public function onSave()
 	{
 		return;
 	}
@@ -67,7 +69,7 @@ class plgEditorNone extends JPlugin
 	 *
 	 * @return	string
 	 */
-	function onGetContent($id)
+	public function onGetContent($id)
 	{
 		return "document.getElementById('$id').value;\n";
 	}
@@ -80,7 +82,7 @@ class plgEditorNone extends JPlugin
 	 *
 	 * @return	string
 	 */
-	function onSetContent($id, $html)
+	public function onSetContent($id, $html)
 	{
 		return "document.getElementById('$id').value = $html;\n";
 	}
@@ -90,7 +92,7 @@ class plgEditorNone extends JPlugin
 	 *
 	 * @return	string
 	 */
-	function onGetInsertMethod($id)
+	public function onGetInsertMethod($id)
 	{
 		static $done = false;
 
@@ -123,7 +125,7 @@ class plgEditorNone extends JPlugin
 	 *
 	 * @return	string
 	 */
-	function onDisplay($name, $content, $width, $height, $col, $row, $buttons = true, $id = null, $asset = null, $author = null, $params = array())
+	public function onDisplay($name, $content, $width, $height, $col, $row, $buttons = true, $id = null, $asset = null, $author = null, $params = array())
 	{
 		if (empty($id)) {
 			$id = $name;
@@ -144,7 +146,7 @@ class plgEditorNone extends JPlugin
 		return $editor;
 	}
 
-	function _displayButtons($name, $buttons, $asset, $author)
+	public function _displayButtons($name, $buttons, $asset, $author)
 	{
 		// Load modal popup behavior
 		JHtml::_('behavior.modal', 'a.modal-button');
@@ -166,21 +168,24 @@ class plgEditorNone extends JPlugin
 			$results = $this->_subject->getButtons($name, $buttons, $asset, $author);
 
 			// This will allow plugins to attach buttons or change the behavior on the fly using AJAX
-			$return .= "\n<div id=\"editor-xtd-buttons\">\n";
+			$return .= "\n<div id=\"editor-xtd-buttons\" class=\"btn-toolbar pull-left\">\n";
+			$return .= "\n<div class=\"btn-toolbar\">\n";
 
 			foreach ($results as $button)
 			{
 				// Results should be an object
 				if ($button->get('name')) {
-					$modal		= ($button->get('modal')) ? 'class="modal-button"' : null;
-					$href		= ($button->get('link')) ? 'href="'.JURI::base().$button->get('link').'"' : null;
+					$modal		= ($button->get('modal')) ? 'class="modal-button btn"' : null;
+					$href		= ($button->get('link')) ? 'class="btn" href="'.JURI::base().$button->get('link').'"' : null;
 					$onclick	= ($button->get('onclick')) ? 'onclick="'.$button->get('onclick').'"' : null;
 					$title      = ($button->get('title')) ? $button->get('title') : $button->get('text');
-					$return .= "<div class=\"button2-left\"><div class=\"".$button->get('name')."\"><a ".$modal." title=\"".$title."\" ".$href." ".$onclick." rel=\"".$button->get('options')."\">".$button->get('text')."</a></div></div>\n";
+					$return .= "<a ".$modal." title=\"".$title."\" ".$href." ".$onclick." rel=\"".$button->get('options')."\"><i class=\"icon-".$button->get('name')."\"></i> ".$button->get('text')."</a>\n";
 				}
 			}
 
 			$return .= "</div>\n";
+			$return .= "</div>\n";
+			$return .= "<div class=\"clearfix\"></div>\n";
 		}
 
 		return $return;

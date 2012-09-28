@@ -1,22 +1,22 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @package     Joomla.Administrator
+ * @subpackage  com_login
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
-
-jimport( 'joomla.application.component.controller' );
 
 /**
  * Login Controller
  *
- * @package		Joomla.Administrator
- * @subpackage	com_login
- * @since		1.5
+ * @package     Joomla.Administrator
+ * @subpackage  com_login
+ * @since       1.5
  */
-class LoginController extends JController
+class LoginController extends JControllerLegacy
 {
 	/**
 	 * Typical view method for MVC based architecture
@@ -31,12 +31,12 @@ class LoginController extends JController
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{
-		// Special treatment is required for this plugin, as this view may be called
+		// Special treatment is required for this component, as this view may be called
 		// after a session timeout. We must reset the view and layout prior to display
 		// otherwise an error will occur.
 
-		JRequest::setVar('view', 'login');
-		JRequest::setVar('layout', 'default');
+		$this->input->set('view', 'login');
+		$this->input->set('layout', 'default');
 
 		parent::display();
 	}
@@ -77,7 +77,7 @@ class LoginController extends JController
 
 		$app = JFactory::getApplication();
 
-		$userid = JRequest::getInt('uid', null);
+		$userid = $this->input->getInt('uid', null);
 
 		$options = array(
 			'clientid' => ($userid) ? 0 : 1

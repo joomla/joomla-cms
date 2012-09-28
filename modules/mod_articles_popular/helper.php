@@ -1,26 +1,30 @@
 <?php
 /**
- * @package		Joomla.Site
- * @subpackage	mod_articles_popular
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  mod_articles_popular
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
 require_once JPATH_SITE.'/components/com_content/helpers/route.php';
 
-jimport('joomla.application.component.model');
+JModelLegacy::addIncludePath(JPATH_SITE.'/components/com_content/models', 'ContentModel');
 
-JModel::addIncludePath(JPATH_SITE.'/components/com_content/models', 'ContentModel');
-
+/**
+ * Helper for mod_articles_popular
+ *
+ * @package     Joomla.Site
+ * @subpackage  mod_articles_popular
+ */
 abstract class modArticlesPopularHelper
 {
 	public static function getList(&$params)
 	{
 		// Get an instance of the generic articles model
-		$model = JModel::getInstance('Articles', 'ContentModel', array('ignore_request' => true));
+		$model = JModelLegacy::getInstance('Articles', 'ContentModel', array('ignore_request' => true));
 
 		// Set application parameters in model
 		$app = JFactory::getApplication();

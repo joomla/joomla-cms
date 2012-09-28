@@ -1,38 +1,44 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_modules
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_modules
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_modules
+ * Helper for parse XML module files
+ *
+ * @package     Joomla.Administrator
+ * @subpackage  com_modules
+ * @since       1.5
  */
 class ModulesHelperXML
 {
-	function parseXMLModuleFile(&$rows)
+	/**
+	 * @since  1.5
+	 */
+	public function parseXMLModuleFile(&$rows)
 	{
 		foreach ($rows as $i => $row)
 		{
 			if ($row->module == '')
 			{
-				$rows[$i]->name		= 'custom';
-				$rows[$i]->module	= 'custom';
-				$rows[$i]->descrip	= 'Custom created module, using Module Manager New function';
+				$rows[$i]->name    = 'custom';
+				$rows[$i]->module  = 'custom';
+				$rows[$i]->descrip = 'Custom created module, using Module Manager New function';
 			}
 			else
 			{
-				$data = JApplicationHelper::parseXMLInstallFile($row->path . '/' . $row->file);
+				$data = JInstaller::parseXMLInstallFile($row->path . '/' . $row->file);
 
 				if ($data['type'] == 'module')
 				{
-					$rows[$i]->name		= $data['name'];
-					$rows[$i]->descrip	= $data['description'];
+					$rows[$i]->name    = $data['name'];
+					$rows[$i]->descrip = $data['description'];
 				}
 			}
 		}

@@ -39,7 +39,6 @@ class JFormFieldFolderList extends JFormFieldList
 	 */
 	protected function getOptions()
 	{
-		// Initialize variables.
 		$options = array();
 
 		// Initialize some field attributes.

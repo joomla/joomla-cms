@@ -1,20 +1,19 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_menus
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_menus
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
 
-// Import JTableMenu
-JLoader::register('JTableMenu', JPATH_PLATFORM . '/joomla/database/table/menu.php');
-
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_menus
+ * Menu table
+ *
+ * @package     Joomla.Administrator
+ * @subpackage  com_menus
  */
 class MenusTableMenu extends JTableMenu
 {
@@ -26,8 +25,8 @@ class MenusTableMenu extends JTableMenu
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @see     http://docs.joomla.org/JTableNested/delete
 	 * @since   2.5
+	 * @see     http://docs.joomla.org/JTableNested/delete
 	 */
 	public function delete($pk = null, $children = false)
 	{

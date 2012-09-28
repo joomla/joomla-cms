@@ -1,18 +1,20 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_plugins
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
 
 /**
  * Plugins component helper.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_plugins
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_plugins
+ * @since       1.6
  */
 class PluginsHelper
 {
@@ -79,22 +81,27 @@ class PluginsHelper
 		$query->order('folder');
 
 		$db->setQuery($query);
-		$options = $db->loadObjectList();
 
-		if ($error = $db->getErrorMsg()) {
-			JError::raiseWarning(500, $error);
+		try
+		{
+			$options = $db->loadObjectList();
+		}
+		catch (RuntimeException $e)
+		{
+			JError::raiseWarning(500, $e->getMessage());
 		}
 
 		return $options;
 	}
-	function parseXMLTemplateFile($templateBaseDir, $templateDir)
+
+	public function parseXMLTemplateFile($templateBaseDir, $templateDir)
 	{
 		$data = new JObject;
 
 		// Check of the xml file exists
 		$filePath = JPath::clean($templateBaseDir.'/templates/'.$templateDir.'/templateDetails.xml');
 		if (is_file($filePath)) {
-			$xml = JApplicationHelper::parseXMLInstallFile($filePath);
+			$xml = JInstaller::parseXMLInstallFile($filePath);
 
 			if ($xml['type'] != 'template') {
 				return false;

@@ -37,7 +37,7 @@ provides: [Core, MooTools, Type, typeOf, instanceOf, Native]
 
 this.MooTools = {
 	version: '1.4.5',
-	build: 'ab8ea8824dc3b24b6666867a2c4ed58ebb762cf0'
+	build: '74e34796f5f76640cdb98853004650aea1499d69'
 };
 
 // typeOf, instanceOf
@@ -174,9 +174,7 @@ var Type = this.Type = function(name, object){
 			object.prototype.$family = (function(){
 				return lower;
 			}).hide();
-			//<1.2compat>
-			object.type = typeCheck;
-			//</1.2compat>
+			
 		}
 	}
 
@@ -409,125 +407,7 @@ String.extend('uniqueID', function(){
 	return (UID++).toString(36);
 });
 
-//<1.2compat>
 
-var Hash = this.Hash = new Type('Hash', function(object){
-	if (typeOf(object) == 'hash') object = Object.clone(object.getClean());
-	for (var key in object) this[key] = object[key];
-	return this;
-});
-
-Hash.implement({
-
-	forEach: function(fn, bind){
-		Object.forEach(this, fn, bind);
-	},
-
-	getClean: function(){
-		var clean = {};
-		for (var key in this){
-			if (this.hasOwnProperty(key)) clean[key] = this[key];
-		}
-		return clean;
-	},
-
-	getLength: function(){
-		var length = 0;
-		for (var key in this){
-			if (this.hasOwnProperty(key)) length++;
-		}
-		return length;
-	}
-
-});
-
-Hash.alias('each', 'forEach');
-
-Object.type = Type.isObject;
-
-var Native = this.Native = function(properties){
-	return new Type(properties.name, properties.initialize);
-};
-
-Native.type = Type.type;
-
-Native.implement = function(objects, methods){
-	for (var i = 0; i < objects.length; i++) objects[i].implement(methods);
-	return Native;
-};
-
-var arrayType = Array.type;
-Array.type = function(item){
-	return instanceOf(item, Array) || arrayType(item);
-};
-
-this.$A = function(item){
-	return Array.from(item).slice();
-};
-
-this.$arguments = function(i){
-	return function(){
-		return arguments[i];
-	};
-};
-
-this.$chk = function(obj){
-	return !!(obj || obj === 0);
-};
-
-this.$clear = function(timer){
-	clearTimeout(timer);
-	clearInterval(timer);
-	return null;
-};
-
-this.$defined = function(obj){
-	return (obj != null);
-};
-
-this.$each = function(iterable, fn, bind){
-	var type = typeOf(iterable);
-	((type == 'arguments' || type == 'collection' || type == 'array' || type == 'elements') ? Array : Object).each(iterable, fn, bind);
-};
-
-this.$empty = function(){};
-
-this.$extend = function(original, extended){
-	return Object.append(original, extended);
-};
-
-this.$H = function(object){
-	return new Hash(object);
-};
-
-this.$merge = function(){
-	var args = Array.slice(arguments);
-	args.unshift({});
-	return Object.merge.apply(null, args);
-};
-
-this.$lambda = Function.from;
-this.$mixin = Object.merge;
-this.$random = Number.random;
-this.$splat = Array.from;
-this.$time = Date.now;
-
-this.$type = function(object){
-	var type = typeOf(object);
-	if (type == 'elements') return 'array';
-	return (type == 'null') ? false : type;
-};
-
-this.$unlink = function(object){
-	switch (typeOf(object)){
-		case 'object': return Object.clone(object);
-		case 'array': return Array.clone(object);
-		case 'hash': return new Hash(object);
-		default: return object;
-	}
-};
-
-//</1.2compat>
 
 })();
 
@@ -702,15 +582,7 @@ Array.implement({
 
 });
 
-//<1.2compat>
 
-Array.alias('extend', 'append');
-
-var $pick = function(){
-	return Array.from(arguments).pick();
-};
-
-//</1.2compat>
 
 
 /*
@@ -929,56 +801,7 @@ Function.implement({
 
 });
 
-//<1.2compat>
 
-delete Function.prototype.bind;
-
-Function.implement({
-
-	create: function(options){
-		var self = this;
-		options = options || {};
-		return function(event){
-			var args = options.arguments;
-			args = (args != null) ? Array.from(args) : Array.slice(arguments, (options.event) ? 1 : 0);
-			if (options.event) args = [event || window.event].extend(args);
-			var returns = function(){
-				return self.apply(options.bind || null, args);
-			};
-			if (options.delay) return setTimeout(returns, options.delay);
-			if (options.periodical) return setInterval(returns, options.periodical);
-			if (options.attempt) return Function.attempt(returns);
-			return returns();
-		};
-	},
-
-	bind: function(bind, args){
-		var self = this;
-		if (args != null) args = Array.from(args);
-		return function(){
-			return self.apply(bind, args || arguments);
-		};
-	},
-
-	bindWithEvent: function(bind, args){
-		var self = this;
-		if (args != null) args = Array.from(args);
-		return function(event){
-			return self.apply(bind, (args == null) ? arguments : [event].concat(args));
-		};
-	},
-
-	run: function(args, bind){
-		return this.apply(bind, Array.from(args));
-	}
-
-});
-
-if (Object.create == Function.prototype.create) Object.create = null;
-
-var $try = Function.attempt;
-
-//</1.2compat>
 
 
 /*
@@ -1101,95 +924,7 @@ Object.extend({
 
 })();
 
-//<1.2compat>
 
-Hash.implement({
-
-	has: Object.prototype.hasOwnProperty,
-
-	keyOf: function(value){
-		return Object.keyOf(this, value);
-	},
-
-	hasValue: function(value){
-		return Object.contains(this, value);
-	},
-
-	extend: function(properties){
-		Hash.each(properties || {}, function(value, key){
-			Hash.set(this, key, value);
-		}, this);
-		return this;
-	},
-
-	combine: function(properties){
-		Hash.each(properties || {}, function(value, key){
-			Hash.include(this, key, value);
-		}, this);
-		return this;
-	},
-
-	erase: function(key){
-		if (this.hasOwnProperty(key)) delete this[key];
-		return this;
-	},
-
-	get: function(key){
-		return (this.hasOwnProperty(key)) ? this[key] : null;
-	},
-
-	set: function(key, value){
-		if (!this[key] || this.hasOwnProperty(key)) this[key] = value;
-		return this;
-	},
-
-	empty: function(){
-		Hash.each(this, function(value, key){
-			delete this[key];
-		}, this);
-		return this;
-	},
-
-	include: function(key, value){
-		if (this[key] == null) this[key] = value;
-		return this;
-	},
-
-	map: function(fn, bind){
-		return new Hash(Object.map(this, fn, bind));
-	},
-
-	filter: function(fn, bind){
-		return new Hash(Object.filter(this, fn, bind));
-	},
-
-	every: function(fn, bind){
-		return Object.every(this, fn, bind);
-	},
-
-	some: function(fn, bind){
-		return Object.some(this, fn, bind);
-	},
-
-	getKeys: function(){
-		return Object.keys(this);
-	},
-
-	getValues: function(){
-		return Object.values(this);
-	},
-
-	toQueryString: function(base){
-		return Object.toQueryString(this, base);
-	}
-
-});
-
-Hash.extend = Object.append;
-
-Hash.alias({indexOf: 'keyOf', contains: 'hasValue'});
-
-//</1.2compat>
 
 
 /*
@@ -1382,67 +1117,7 @@ try {
 }
 /*</ltIE9>*/
 
-//<1.2compat>
 
-if (Browser.Platform.ios) Browser.Platform.ipod = true;
-
-Browser.Engine = {};
-
-var setEngine = function(name, version){
-	Browser.Engine.name = name;
-	Browser.Engine[name + version] = true;
-	Browser.Engine.version = version;
-};
-
-if (Browser.ie){
-	Browser.Engine.trident = true;
-
-	switch (Browser.version){
-		case 6: setEngine('trident', 4); break;
-		case 7: setEngine('trident', 5); break;
-		case 8: setEngine('trident', 6);
-	}
-}
-
-if (Browser.firefox){
-	Browser.Engine.gecko = true;
-
-	if (Browser.version >= 3) setEngine('gecko', 19);
-	else setEngine('gecko', 18);
-}
-
-if (Browser.safari || Browser.chrome){
-	Browser.Engine.webkit = true;
-
-	switch (Browser.version){
-		case 2: setEngine('webkit', 419); break;
-		case 3: setEngine('webkit', 420); break;
-		case 4: setEngine('webkit', 525);
-	}
-}
-
-if (Browser.opera){
-	Browser.Engine.presto = true;
-
-	if (Browser.version >= 9.6) setEngine('presto', 960);
-	else if (Browser.version >= 9.5) setEngine('presto', 950);
-	else setEngine('presto', 925);
-}
-
-if (Browser.name == 'unknown'){
-	switch ((ua.match(/(?:webkit|khtml|gecko)/) || [])[0]){
-		case 'webkit':
-		case 'khtml':
-			Browser.Engine.webkit = true;
-		break;
-		case 'gecko':
-			Browser.Engine.gecko = true;
-	}
-}
-
-this.$exec = Browser.exec;
-
-//</1.2compat>
 
 })();
 
@@ -1484,7 +1159,7 @@ var DOMEvent = this.DOMEvent = new Type('DOMEvent', function(event, win){
 
 	if (type.indexOf('key') == 0){
 		var code = this.code = (event.which || event.keyCode);
-		this.key = _keys[code]/*<1.3compat>*/ || Object.keyOf(Event.Keys, code)/*</1.3compat>*/;
+		this.key = _keys[code];
 		if (type == 'keydown'){
 			if (code > 111 && code < 124) this.key = 'f' + (code - 111);
 			else if (code > 95 && code < 106) this.key = code - 96;
@@ -1562,16 +1237,9 @@ DOMEvent.defineKeys({
 
 })();
 
-/*<1.3compat>*/
-var Event = DOMEvent;
-Event.Keys = {};
-/*</1.3compat>*/
 
-/*<1.2compat>*/
 
-Event.Keys = new Hash(Event.Keys);
 
-/*</1.2compat>*/
 
 
 /*
@@ -1742,9 +1410,7 @@ this.Events = new Class({
 	addEvent: function(type, fn, internal){
 		type = removeOn(type);
 
-		/*<1.2compat>*/
-		if (fn == $empty) return this;
-		/*</1.2compat>*/
+		
 
 		this.$events[type] = (this.$events[type] || []).include(fn);
 		if (internal) fn.internal = true;
@@ -3118,11 +2784,7 @@ if (!Browser.Element){
 
 Element.Constructors = {};
 
-//<1.2compat>
 
-Element.Constructors = new Hash;
-
-//</1.2compat>
 
 var IFrame = new Type('IFrame', function(){
 	var params = Array.link(arguments, {
@@ -3213,11 +2875,7 @@ new Type('Elements', Elements).implement({
 
 });
 
-//<1.2compat>
 
-Elements.alias('extend', 'append');
-
-//</1.2compat>
 
 (function(){
 
@@ -3367,42 +3025,7 @@ var contains = {contains: function(element){
 if (!document.contains) Document.implement(contains);
 if (!document.createElement('div').contains) Element.implement(contains);
 
-//<1.2compat>
 
-Element.implement('hasChild', function(element){
-	return this !== element && this.contains(element);
-});
-
-(function(search, find, match){
-
-	this.Selectors = {};
-	var pseudos = this.Selectors.Pseudo = new Hash();
-
-	var addSlickPseudos = function(){
-		for (var name in pseudos) if (pseudos.hasOwnProperty(name)){
-			Slick.definePseudo(name, pseudos[name]);
-			delete pseudos[name];
-		}
-	};
-
-	Slick.search = function(context, expression, append){
-		addSlickPseudos();
-		return search.call(this, context, expression, append);
-	};
-
-	Slick.find = function(context, expression){
-		addSlickPseudos();
-		return find.call(this, context, expression);
-	};
-
-	Slick.match = function(node, selector){
-		addSlickPseudos();
-		return match.call(this, node, selector);
-	};
-
-})(Slick.search, Slick.find, Slick.match);
-
-//</1.2compat>
 
 // tree walking
 
@@ -3468,23 +3091,7 @@ Element.implement({
 
 });
 
-//<1.2compat>
 
-if (window.$$ == null) Window.implement('$$', function(selector){
-	var elements = new Elements;
-	if (arguments.length == 1 && typeof selector == 'string') return Slick.search(this.document, selector, elements);
-	var args = Array.flatten(arguments);
-	for (var i = 0, l = args.length; i < l; i++){
-		var item = args[i];
-		switch (typeOf(item)){
-			case 'element': elements.push(item); break;
-			case 'string': Slick.search(this.document, item, elements);
-		}
-	}
-	return elements;
-});
-
-//</1.2compat>
 
 if (window.$$ == null) Window.implement('$$', function(selector){
 	if (arguments.length == 1){
@@ -3520,29 +3127,7 @@ var inserters = {
 
 inserters.inside = inserters.bottom;
 
-//<1.2compat>
 
-Object.each(inserters, function(inserter, where){
-
-	where = where.capitalize();
-
-	var methods = {};
-
-	methods['inject' + where] = function(el){
-		inserter(this, document.id(el, true));
-		return this;
-	};
-
-	methods['grab' + where] = function(el){
-		inserter(document.id(el, true), this);
-		return this;
-	};
-
-	Element.implement(methods);
-
-});
-
-//</1.2compat>
 
 // getProperty / setProperty
 
@@ -3941,11 +3526,7 @@ if (window.attachEvent && !window.addEventListener) window.addListener('unload',
 
 Element.Properties = {};
 
-//<1.2compat>
 
-Element.Properties = new Hash;
-
-//</1.2compat>
 
 Element.Properties.style = {
 
@@ -4215,17 +3796,16 @@ Element.implement({
 			var color = result.match(/rgba?\([\d\s,]+\)/);
 			if (color) result = result.replace(color[0], color[0].rgbToHex());
 		}
-		if (Browser.opera || Browser.ie){
-			if ((/^(height|width)$/).test(property) && !(/px$/.test(result))){
+		if (Browser.ie && isNaN(parseFloat(result))){
+			if ((/^(height|width)$/).test(property)){
 				var values = (property == 'width') ? ['left', 'right'] : ['top', 'bottom'], size = 0;
 				values.each(function(value){
 					size += this.getStyle('border-' + value + '-width').toInt() + this.getStyle('padding-' + value).toInt();
 				}, this);
 				return this['offset' + property.capitalize()] - size + 'px';
 			}
-			if (Browser.ie && (/^border(.+)Width|margin|padding/).test(property) && isNaN(parseFloat(result))){
-				return '0px';
-			}
+			if (Browser.opera && String(result).indexOf('px') != -1) return result;
+			if ((/^border(.+)Width|margin|padding/).test(property)) return '0px';
 		}
 		return result;
 	},
@@ -4255,41 +3835,9 @@ Element.Styles = {
 	zIndex: '@', 'zoom': '@', fontWeight: '@', textIndent: '@px', opacity: '@'
 };
 
-//<1.3compat>
 
-Element.implement({
 
-	setOpacity: function(value){
-		setOpacity(this, value);
-		return this;
-	},
 
-	getOpacity: function(){
-		return getOpacity(this);
-	}
-
-});
-
-Element.Properties.opacity = {
-
-	set: function(opacity){
-		setOpacity(this, opacity);
-		setVisibility(this, opacity);
-	},
-
-	get: function(){
-		return getOpacity(this);
-	}
-
-};
-
-//</1.3compat>
-
-//<1.2compat>
-
-Element.Styles = new Hash(Element.Styles);
-
-//</1.2compat>
 
 Element.ShortStyles = {margin: {}, padding: {}, border: {}, borderWidth: {}, borderStyle: {}, borderColor: {}};
 
@@ -4495,11 +4043,7 @@ if (!window.addEventListener){
 }
 /*</ltIE9>*/
 
-//<1.2compat>
 
-Element.Events = new Hash(Element.Events);
-
-//</1.2compat>
 
 })();
 
@@ -5333,11 +4877,7 @@ Fx.CSS.Parsers = {
 
 };
 
-//<1.2compat>
 
-Fx.CSS.Parsers = new Hash(Fx.CSS.Parsers);
-
-//</1.2compat>
 
 
 /*
@@ -5590,11 +5130,7 @@ Fx.Transitions = {
 
 };
 
-//<1.2compat>
 
-Fx.Transitions = new Hash(Fx.Transitions);
-
-//</1.2compat>
 
 Fx.Transitions.extend = function(transitions){
 	for (var transition in transitions) Fx.Transitions[transition] = new Fx.Transition(transitions[transition]);
@@ -6037,14 +5573,7 @@ provides: JSON
 
 if (typeof JSON == 'undefined') this.JSON = {};
 
-//<1.2compat>
 
-JSON = new Hash({
-	stringify: JSON.stringify,
-	parse: JSON.parse
-});
-
-//</1.2compat>
 
 (function(){
 
@@ -6444,3 +5973,4 @@ Swiff.remote = function(obj, fn){
 };
 
 })();
+

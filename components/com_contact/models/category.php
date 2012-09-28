@@ -1,19 +1,18 @@
 <?php
 /**
-bv * @package		Joomla.Site
- * @subpackage	com_contact
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  com_contact
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.modellist');
-
 /**
- * @package		Joomla.Site
- * @subpackage	com_contact
+ * @package     Joomla.Site
+ * @subpackage  com_contact
+ * @since       1.5
  */
 class ContactModelCategory extends JModelList
 {
@@ -90,7 +89,7 @@ class ContactModelCategory extends JModelList
 		for ($i = 0, $n = count($items); $i < $n; $i++) {
 			$item = &$items[$i];
 			if (!isset($this->_params)) {
-				$params = new JRegistry();
+				$params = new JRegistry;
 				$params->loadString($item->params);
 				$item->params = $params;
 			}
@@ -117,7 +116,7 @@ class ContactModelCategory extends JModelList
 		// Select required fields from the categories.
 		//sqlsrv changes
 		$case_when = ' CASE WHEN ';
-		$case_when .= $query->charLength('a.alias');
+		$case_when .= $query->charLength('a.alias', '!=', '0');
 		$case_when .= ' THEN ';
 		$a_id = $query->castAsChar('a.id');
 		$case_when .= $query->concatenate(array($a_id, 'a.alias'), ':');
@@ -125,7 +124,7 @@ class ContactModelCategory extends JModelList
 		$case_when .= $a_id.' END as slug';
 
 		$case_when1 = ' CASE WHEN ';
-		$case_when1 .= $query->charLength('c.alias');
+		$case_when1 .= $query->charLength('c.alias', '!=', '0');
 		$case_when1 .= ' THEN ';
 		$c_id = $query->castAsChar('c.id');
 		$case_when1 .= $query->concatenate(array($c_id, 'c.alias'), ':');
@@ -138,12 +137,18 @@ class ContactModelCategory extends JModelList
 		$query->join('LEFT', '#__categories AS c ON c.id = a.catid');
 		$query->where('a.access IN ('.$groups.')');
 
-
 		// Filter by category.
 		if ($categoryId = $this->getState('category.id')) {
 			$query->where('a.catid = '.(int) $categoryId);
 			$query->where('c.access IN ('.$groups.')');
 		}
+
+		// Join over the users for the author and modified_by names.
+		$query->select("CASE WHEN a.created_by_alias > ' ' THEN a.created_by_alias ELSE ua.name END AS author");
+		$query->select("ua.email AS author_email");
+
+		$query->join('LEFT', '#__users AS ua ON ua.id = a.created_by');
+		$query->join('LEFT', '#__users AS uam ON uam.id = a.modified_by');
 
 		// Filter by state
 		$state = $this->getState('filter.published');
@@ -185,44 +190,46 @@ class ContactModelCategory extends JModelList
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
-		// Initialise variables.
 		$app	= JFactory::getApplication();
 		$params	= JComponentHelper::getParams('com_contact');
 		$db		= $this->getDbo();
+
 		// List state information
-		$format = JRequest::getWord('format');
-		if ($format=='feed') {
+		$format = $app->input->getWord('format');
+		if ($format == 'feed')
+		{
 			$limit = $app->getCfg('feed_limit');
 		}
-		else {
-			$limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'));
+		else
+		{
+			$limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'), 'uint');
 		}
 		$this->setState('list.limit', $limit);
 
-		$limitstart = JRequest::getVar('limitstart', 0, '', 'int');
+		$limitstart = $app->input->get('limitstart', 0, 'uint');
 		$this->setState('list.start', $limitstart);
 
 		// Get list ordering default from the parameters
-		$menuParams = new JRegistry();
+		$menuParams = new JRegistry;
 		if ($menu = $app->getMenu()->getActive()) {
 			$menuParams->loadString($menu->params);
 		}
 		$mergedParams = clone $params;
 		$mergedParams->merge($menuParams);
 
-		$orderCol	= JRequest::getCmd('filter_order', $mergedParams->get('initial_sort', 'ordering'));
+		$orderCol	= $app->input->get('filter_order', $mergedParams->get('initial_sort', 'ordering'));
 		if (!in_array($orderCol, $this->filter_fields)) {
 			$orderCol = 'ordering';
 		}
 		$this->setState('list.ordering', $orderCol);
 
-		$listOrder	=  JRequest::getCmd('filter_order_Dir', 'ASC');
+		$listOrder	= $app->input->get('filter_order_Dir', 'ASC');
 		if (!in_array(strtoupper($listOrder), array('ASC', 'DESC', ''))) {
 			$listOrder = 'ASC';
 		}
 		$this->setState('list.direction', $listOrder);
 
-		$id = JRequest::getVar('id', 0, '', 'int');
+		$id = $app->input->get('id', 0, 'int');
 		$this->setState('category.id', $id);
 
 		$user = JFactory::getUser();
@@ -254,7 +261,7 @@ class ContactModelCategory extends JModelList
 			$app = JFactory::getApplication();
 			$menu = $app->getMenu();
 			$active = $menu->getActive();
-			$params = new JRegistry();
+			$params = new JRegistry;
 
 			if($active)
 			{

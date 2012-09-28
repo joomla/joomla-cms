@@ -1,19 +1,21 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_content
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
-require_once dirname(__FILE__) . '/articles.php';
+require_once __DIR__ . '/articles.php';
 
 /**
  * About Page Model
  *
- * @package		Joomla.Administrator
- * @subpackage	com_content
+ * @package     Joomla.Administrator
+ * @subpackage  com_content
  */
 class ContentModelFeatured extends ContentModelArticles
 {
@@ -56,7 +58,7 @@ class ContentModelFeatured extends ContentModelArticles
 	 *
 	 * @return	string
 	 */
-	function getListQuery($resolveFKs = true)
+	protected function getListQuery($resolveFKs = true)
 	{
 		// Create a new query object.
 		$db = $this->getDbo();
@@ -107,6 +109,29 @@ class ContentModelFeatured extends ContentModelArticles
 			$query->where('a.state = ' . (int) $published);
 		} elseif ($published === '') {
 			$query->where('(a.state = 0 OR a.state = 1)');
+		}
+
+		// Filter by a single or group of categories.
+		$baselevel = 1;
+		$categoryId = $this->getState('filter.category_id');
+		if (is_numeric($categoryId)) {
+			$cat_tbl = JTable::getInstance('Category', 'JTable');
+			$cat_tbl->load($categoryId);
+			$rgt = $cat_tbl->rgt;
+			$lft = $cat_tbl->lft;
+			$baselevel = (int) $cat_tbl->level;
+			$query->where('c.lft >= '.(int) $lft);
+			$query->where('c.rgt <= '.(int) $rgt);
+		}
+		elseif (is_array($categoryId)) {
+			JArrayHelper::toInteger($categoryId);
+			$categoryId = implode(',', $categoryId);
+			$query->where('a.catid IN ('.$categoryId.')');
+		}
+
+		// Filter on the level.
+		if ($level = $this->getState('filter.level')) {
+			$query->where('c.level <= '.((int) $level + (int) $baselevel - 1));
 		}
 
 		// Filter by search in title

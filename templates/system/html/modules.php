@@ -1,11 +1,12 @@
 <?php
 /**
- * @package		Joomla.Site
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  Template.system
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
 /*
@@ -17,12 +18,36 @@ function modChrome_none($module, &$params, &$attribs)
 }
 
 /*
+ * html5 (chosen html5 tag and font headder tags)
+ */
+function modChrome_html5($module, &$params, &$attribs)
+{
+	$moduleTag      = $params->get('module_tag', 'div');
+	$headerTag      = htmlspecialchars($params->get('header_tag', 'h3'));
+	$bootstrapSize  = (int) $params->get('bootstrap_size', 0);
+	$moduleClass    = $bootstrapSize != 0 ? ' span' . $bootstrapSize : '';
+
+	if (!empty ($module->content)) : ?>
+		<<?php echo $moduleTag; ?> class="moduletable<?php echo htmlspecialchars($params->get('moduleclass_sfx')); ?><?php echo $moduleClass; ?>">
+
+		<?php if ((bool) $module->showtitle) :?>
+			<<?php echo $headerTag; ?> class="<?php echo $params->get('header_class'); ?>"><?php echo $module->title; ?></<?php echo $headerTag; ?>>
+		<?php endif; ?>
+
+			<?php echo $module->content; ?>
+		
+		</<?php echo $moduleTag; ?>>
+
+	<?php endif;
+}
+
+/*
  * Module chrome that wraps the module in a table
  */
 function modChrome_table($module, &$params, &$attribs)
 { ?>
 	<table cellpadding="0" cellspacing="0" class="moduletable<?php echo htmlspecialchars($params->get('moduleclass_sfx')); ?>">
-	<?php if ($module->showtitle != 0) : ?>
+	<?php if ((bool) $module->showtitle) : ?>
 		<tr>
 			<th>
 				<?php echo $module->title; ?>
@@ -60,7 +85,7 @@ function modChrome_xhtml($module, &$params, &$attribs)
 {
 	if (!empty ($module->content)) : ?>
 		<div class="moduletable<?php echo htmlspecialchars($params->get('moduleclass_sfx')); ?>">
-		<?php if ($module->showtitle != 0) : ?>
+		<?php if ((bool) $module->showtitle) : ?>
 			<h3><?php echo $module->title; ?></h3>
 		<?php endif; ?>
 			<?php echo $module->content; ?>
@@ -77,7 +102,7 @@ function modChrome_rounded($module, &$params, &$attribs)
 			<div>
 				<div>
 					<div>
-						<?php if ($module->showtitle != 0) : ?>
+						<?php if ((bool) $module->showtitle) : ?>
 							<h3><?php echo $module->title; ?></h3>
 						<?php endif; ?>
 					<?php echo $module->content; ?>
@@ -93,39 +118,21 @@ function modChrome_rounded($module, &$params, &$attribs)
  */
 function modChrome_outline($module, &$params, &$attribs)
 {
-	static $css=false;
+	static $css = false;
 	if (!$css)
 	{
-		$css=true;
-		jimport('joomla.environment.browser');
+		$css = true;
 		$doc = JFactory::getDocument();
-		$browser = JBrowser::getInstance();
+
 		$doc->addStyleDeclaration(".mod-preview-info { padding: 2px 4px 2px 4px; border: 1px solid black; position: absolute; background-color: white; color: red;}");
 		$doc->addStyleDeclaration(".mod-preview-wrapper { background-color:#eee; border: 1px dotted black; color:#700;}");
-		if ($browser->getBrowser()=='msie')
-		{
-			if ($browser->getMajor() <= 7) {
-				$doc->addStyleDeclaration(".mod-preview-info {filter: alpha(opacity=80);}");
-				$doc->addStyleDeclaration(".mod-preview-wrapper {filter: alpha(opacity=50);}");
-			}
-			else {
-				$doc->addStyleDeclaration(".mod-preview-info {-ms-filter: alpha(opacity=80);}");
-				$doc->addStyleDeclaration(".mod-preview-wrapper {-ms-filter: alpha(opacity=50);}");
-			}
-		}
-		else
-		{
-			$doc->addStyleDeclaration(".mod-preview-info {opacity: 0.8;}");
-			$doc->addStyleDeclaration(".mod-preview-wrapper {opacity: 0.5;}");
-		}
 	}
 	?>
 	<div class="mod-preview">
-		<div class="mod-preview-info"><?php echo $module->position."[".$module->style."]"; ?></div>
+		<div class="mod-preview-info"><?php echo 'Position: ' . $module->position . ' [ Style: ' . $module->style . ']'; ?></div>
 		<div class="mod-preview-wrapper">
 			<?php echo $module->content; ?>
 		</div>
 	</div>
 	<?php
 }
-?>

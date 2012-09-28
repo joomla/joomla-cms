@@ -105,7 +105,7 @@ class Cache0001Test extends SeleniumJoomlaTestCase
 		$this->click("link=Beginners");
 		$this->waitForPageToLoad("30000");
 		$this->select("jform_featured", "label=No");
-		$this->click("//li[@id='toolbar-save']/a/span");
+		$this->click("//div[@id='toolbar-save']/button");
 		$this->waitForPageToLoad("30000");
 		$this->gotoSite();
 		$this->open($link, 'true');
@@ -121,7 +121,7 @@ class Cache0001Test extends SeleniumJoomlaTestCase
 		$this->click("link=Beginners");
 		$this->waitForPageToLoad("30000");
 		$this->select("jform_featured", "label=Yes");
-		$this->click("//li[@id='toolbar-save']/a/span");
+		$this->click("//div[@id='toolbar-save']/button");
 		$this->waitForPageToLoad("30000");
 		$this->gotoSite();
 		$this->open($link, 'true');
@@ -226,7 +226,7 @@ class Cache0001Test extends SeleniumJoomlaTestCase
 		$this->click("link=Buyer");
 		$this->waitForPageToLoad("30000");
 		$this->select("jform_featured", "label=No");
-		$this->click("//li[@id='toolbar-save']/a/span");
+		$this->click("//div[@id='toolbar-save']/button");
 		$this->waitForPageToLoad("30000");
 		$this->gotoSite();
 		$this->open($link, 'true');
@@ -239,7 +239,7 @@ class Cache0001Test extends SeleniumJoomlaTestCase
 		$this->click("link=Buyer");
 		$this->waitForPageToLoad("30000");
 		$this->select("jform_featured", "label=Yes");
-		$this->click("//li[@id='toolbar-save']/a/span");
+		$this->click("//div[@id='toolbar-save']/button");
 		$this->waitForPageToLoad("30000");
 		$this->gotoSite();
 		$this->open($link, 'true');
@@ -379,7 +379,7 @@ class Cache0001Test extends SeleniumJoomlaTestCase
 		$this->click("link=Login Form");
 		$this->waitForPageToLoad("30000");
 		$this->select("jform_published", "label=Unpublished");
-		$this->click("//li[@id='toolbar-save']/a/span");
+		$this->click("//div[@id='toolbar-save']/button");
 		$this->waitForPageToLoad("30000");
 		echo "Check that login form not shown on home page\n";
 		$this->gotoSite();
@@ -394,7 +394,7 @@ class Cache0001Test extends SeleniumJoomlaTestCase
 		$this->click("link=Login Form");
 		$this->waitForPageToLoad("30000");
 		$this->select("jform_published", "label=Published");
-		$this->click("//li[@id='toolbar-save']/a/span");
+		$this->click("//div[@id='toolbar-save']/button");
 		$this->waitForPageToLoad("30000");
 		$this->gotoSite();
 		$this->assertTrue($this->isElementPresent("//form[@id='login-form']"));

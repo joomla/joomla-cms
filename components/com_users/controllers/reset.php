@@ -1,9 +1,10 @@
 <?php
 /**
- * @package		Joomla.Site
- * @subpackage	com_users
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  com_users
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -13,9 +14,9 @@ require_once JPATH_COMPONENT.'/controller.php';
 /**
  * Reset controller class for Users.
  *
- * @package		Joomla.Site
- * @subpackage	com_users
- * @version		1.6
+ * @package     Joomla.Site
+ * @subpackage  com_users
+ * @since       1.6
  */
 class UsersControllerReset extends UsersController
 {
@@ -29,9 +30,9 @@ class UsersControllerReset extends UsersController
 		// Check the request token.
 		JSession::checkToken('post') or jexit(JText::_('JINVALID_TOKEN'));
 
-		$app	= JFactory::getApplication();
-		$model	= $this->getModel('Reset', 'UsersModel');
-		$data	= JRequest::getVar('jform', array(), 'post', 'array');
+		$app   = JFactory::getApplication();
+		$model = $this->getModel('Reset', 'UsersModel');
+		$data  = $this->input->post->get('jform', array(), 'array');
 
 		// Submit the password reset request.
 		$return	= $model->processResetRequest($data);
@@ -81,16 +82,16 @@ class UsersControllerReset extends UsersController
 	 * Method to confirm the password request.
 	 *
 	 * @access	public
-	 * @since	1.0
+	 * @since	1.6
 	 */
-	function confirm()
+	public function confirm()
 	{
 		// Check the request token.
 		JSession::checkToken('request') or jexit(JText::_('JINVALID_TOKEN'));
 
-		$app	= JFactory::getApplication();
-		$model	= $this->getModel('Reset', 'UsersModel');
-		$data	= JRequest::getVar('jform', array(), 'request', 'array');
+		$app   = JFactory::getApplication();
+		$model = $this->getModel('Reset', 'UsersModel');
+		$data  = $this->input->get('jform', array(), 'array');
 
 		// Confirm the password reset request.
 		$return	= $model->processResetConfirm($data);
@@ -147,8 +148,9 @@ class UsersControllerReset extends UsersController
 		// Check for request forgeries
 		JSession::checkToken('post') or jexit(JText::_('JINVALID_TOKEN'));
 
-		$app	= JFactory::getApplication();
-		$model	= $this->getModel('Reset', 'UsersModel');		$data	= JRequest::getVar('jform', array(), 'post', 'array');
+		$app   = JFactory::getApplication();
+		$model = $this->getModel('Reset', 'UsersModel');
+		$data  = $this->input->post->get('jform', array(), 'array');
 
 		// Complete the password reset request.
 		$return	= $model->processResetComplete($data);

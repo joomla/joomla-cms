@@ -1,22 +1,20 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_modules
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_modules
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.modellist');
 
 /**
  * Module model.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_modules
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_modules
+ * @since       1.6
  */
 class ModulesModelSelect extends JModelList
 {
@@ -29,7 +27,6 @@ class ModulesModelSelect extends JModelList
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
-		// Initialise variables.
 		$app = JFactory::getApplication('administrator');
 
 		// Load the filter state.
@@ -113,7 +110,6 @@ class ModulesModelSelect extends JModelList
 		// Get the list of items from the database.
 		$items = parent::getItems();
 
-		// Initialise variables.
 		$client = JApplicationHelper::getClientInfo($this->getState('filter.client_id', 0));
 		$lang	= JFactory::getLanguage();
 

@@ -1,17 +1,24 @@
 <?php
 /**
- * @package		Joomla.Site
- * @subpackage	mod_wrapper
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  mod_wrapper
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
+/**
+ * Helper for mod_wrapper
+ *
+ * @package     Joomla.Site
+ * @subpackage  mod_wrapper
+ * @since       1.5
+ */
 class modWrapperHelper
 {
-	static function getParams(&$params)
+	public static function getParams(&$params)
 	{
 		$params->def('url', '');
 		$params->def('scrolling', 'auto');

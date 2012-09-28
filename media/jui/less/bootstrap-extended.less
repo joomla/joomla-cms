@@ -1,0 +1,431 @@
+/* Extending Bootstrap */
+/* Typography */
+.small {
+	font-size: 11px;
+}
+/* Max Width */
+iframe,
+svg {
+	max-width: 100%;
+}
+/* Nowrap */
+.nowrap {
+	white-space: nowrap;
+}
+/* Center */
+.center,
+.table td.center,
+.table th.center {
+	text-align: center;
+}
+/* Disabled Link */
+a.disabled,
+a.disabled:hover {
+  color: #999999;
+  background-color: transparent;
+  cursor: default;
+  text-decoration: none;
+}
+/* Hero Banner */
+.hero-unit {
+	text-align: center;
+}
+.hero-unit .lead {
+	margin-bottom: 18px;
+	font-size: 20px;
+	font-weight: 200;
+	line-height: 27px;
+}
+.btn .caret {
+	margin-bottom: 7px;
+}
+.blog-row-rule,
+.blog-item-rule {
+	border: 0;
+}
+
+/* Modal */
+body.modal {
+	padding-top: 0;
+}
+
+/* Alternating Rows */
+.row-even,.row-odd {
+	padding: 5px;
+	width: 99%;
+	border-bottom: 1px solid @tableBorder;
+}
+.row-odd {
+	background-color: @tableBackground;
+}
+.row-even {
+	background-color: @tableBackgroundAccent;
+}
+
+.blog-row-rule,
+.blog-item-rule {
+	border: 0;
+}
+
+/* Row reveal */
+.row-fluid .row-reveal {
+	visibility: hidden;
+}
+.row-fluid:hover .row-reveal {
+	visibility: visible;
+}
+
+/* Buttons */
+.btn-wide {
+	width: 80%;
+}
+
+/* Nav List Offset */
+.nav-list > li.offset > a {
+	padding-left: 30px;
+	font-size: 12px;
+}
+.blog-row-rule,
+.blog-item-rule {
+	border: 0;
+}
+
+.row-fluid .offset1 {
+  margin-left: 8.382978723%;
+}
+.row-fluid .offset2 {
+  margin-left: 16.89361702%;
+}
+.row-fluid .offset3 {
+  margin-left: 25.404255317%;
+}
+.row-fluid .offset4 {
+  margin-left: 33.914893614%;
+}
+.row-fluid .offset5 {
+  margin-left: 42.425531911%;
+}
+.row-fluid .offset6 {
+  margin-left: 50.93617020799999%;
+}
+.row-fluid .offset7 {
+  margin-left: 59.446808505%;
+}
+.row-fluid .offset8 {
+  margin-left: 67.95744680199999%;
+}
+.row-fluid .offset9 {
+  margin-left: 76.468085099%;
+}
+.row-fluid .offset10 {
+  margin-left: 84.97872339599999%;
+}
+.row-fluid .offset11 {
+  margin-left: 91.489361693%;
+}
+
+/* Navbar Buttons */
+.navbar .nav > li > a.btn {
+	padding: 4px 10px;
+	line-height: 18px;
+}
+
+/* Nav Tabs Dark */
+.nav-tabs.nav-dark {
+	border-bottom: 1px solid #333;
+	text-shadow: 1px 1px 1px #000;
+}
+.nav-tabs.nav-dark > li > a {
+	color: #F8F8F8;
+}
+.nav-tabs.nav-dark > li > a:hover {
+  border-color: #333 #333 #111;
+  background-color: #777777;
+}
+.nav-tabs.nav-dark > .active > a, .nav-tabs.nav-dark > .active > a:hover {
+  color: #ffffff;
+  background-color: #555555;
+  border: 1px solid #222;
+  border-bottom-color: transparent;
+}
+
+/* Inline Thumbnails */
+.thumbnail.pull-left {
+	margin: 0 10px 10px 0;
+}
+.thumbnail.pull-right {
+	margin: 0 0 10px 10px;
+}
+
+/* Specific Widths */
+.width-10 {
+	width: 10px;
+}
+.width-20 {
+	width: 20px;
+}
+.width-30 {
+	width: 30px;
+}
+.width-40 {
+	width: 40px;
+}
+.width-50 {
+	width: 50px;
+}
+.width-60 {
+	width: 60px;
+}
+.width-70 {
+	width: 70px;
+}
+.width-80 {
+	width: 80px;
+}
+.width-90 {
+	width: 90px;
+}
+.width-100 {
+	width: 100px;
+}
+
+/* Specific Heights */
+.height-10 {
+	height: 10px;
+}
+.height-20 {
+	height: 20px;
+}
+.height-30 {
+	height: 30px;
+}
+.height-40 {
+	height: 40px;
+}
+.height-50 {
+	height: 50px;
+}
+.height-60 {
+	height: 60px;
+}
+.height-70 {
+	height: 70px;
+}
+.height-80 {
+	height: 80px;
+}
+.height-90 {
+	height: 90px;
+}
+.height-100 {
+	height: 100px;
+}
+
+/* Horizontal Row (hr) */
+hr.hr-condensed {
+	margin: 10px 0;
+}
+
+/* Striped */
+.list-striped,
+.row-striped {
+	list-style: none;
+	line-height: 18px;
+	text-align: left;
+	vertical-align: middle;
+	border-top: 1px solid @tableBorder;
+	margin-left: 0;
+}
+
+.list-striped li,
+.list-striped dd,
+.row-striped .row,
+.row-striped .row-fluid {
+	border-bottom: 1px solid @tableBorder;
+	padding: 8px;
+}
+
+.list-striped li:nth-child(odd),
+.list-striped dd:nth-child(odd),
+.row-striped .row:nth-child(odd),
+.row-striped .row-fluid:nth-child(odd) {
+	background-color: @tableBackgroundAccent;
+}
+
+.list-striped li:hover,
+.list-striped dd:hover,
+.row-striped .row:hover,
+.row-striped .row-fluid:hover {
+	background-color: @tableBackgroundHover;
+}
+
+.row-striped .row-fluid {
+	width: 97%; // lower than 100% since we have padding
+}
+.row-striped .row-fluid [class*="span"] {
+	min-height: 10px;
+}
+.row-striped .row-fluid [class*="span"] {
+	margin-left: 8px;
+}
+.row-striped .row-fluid [class*="span"]:first-child {
+	margin-left: 0;
+}
+
+/* Condensed */
+.list-condensed {
+  li {
+    padding: 4px 5px;
+  }
+}
+.row-condensed {
+  .row, .row-fluid {
+    padding: 4px 5px;
+  }
+}
+
+/* Bordered */
+.list-bordered,
+.row-bordered{
+	list-style: none;
+	line-height: 18px;
+	text-align: left;
+	vertical-align: middle;
+	margin-left: 0;
+	border: 1px solid @tableBorder;
+	.border-radius(4px);
+}
+
+/* Radio Button Groups */
+.radio.btn-group input[type=radio] {
+    display: none;
+}
+.radio.btn-group > label:first-of-type {
+	margin-left: 0;
+	-webkit-border-bottom-left-radius: 4px;
+	border-bottom-left-radius: 4px;
+	-webkit-border-top-left-radius: 4px;
+	border-top-left-radius: 4px;
+	-moz-border-radius-bottomleft: 4px;
+	-moz-border-radius-topleft: 4px;
+}
+fieldset.radio.btn-group {
+	padding-left: 0;
+}
+
+/* iFrames */
+.iframe-bordered {
+	border: 1px solid @tableBorder;
+}
+
+/* Tabbed Content */
+.tab-content{
+	overflow: visible;
+}
+.tabs-left .tab-content{
+	overflow: auto;
+}
+/* Non-linkable nav-tabs */
+.nav-tabs > li > span {
+    display: block;
+    margin-right: 2px;
+    padding-right: 12px;
+    padding-left: 12px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    line-height: 18px;
+    border: 1px solid transparent;
+    -webkit-border-radius: 4px 4px 0 0;
+    -moz-border-radius: 4px 4px 0 0;
+    border-radius: 4px 4px 0 0;
+}
+
+/* Extended Joomla Button Classes */
+.btn-micro {
+	padding: 1px 4px;
+	font-size: 10px;
+	line-height: 8px;
+}
+
+/* Joomla => Bootstrap Tooltip */
+.tip-wrap {
+	max-width: 200px;
+	padding: 3px 8px;
+	color: @white;
+	text-align: center;
+	text-decoration: none;
+	background-color: @black;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+	z-index: 100;
+}
+
+/* Page Header */
+.page-header{
+	margin: 2px 0px 10px 0px;
+	padding-bottom: 5px;
+}
+/* Input Prepend Chosen Select Boxes */
+.input-prepend .chzn-container-single .chzn-single {
+	border-color: @inputBorder;
+	height: 26px;
+	-webkit-border-radius: 0 3px 3px 0;
+	-moz-border-radius: 0 3px 3px 0;
+	border-radius: 0 3px 3px 0;
+	-moz-box-shadow: none;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+}
+.input-prepend .chzn-container-active .chzn-single-with-drop {
+	-webkit-border-radius: 0 3px 0 0;
+	-moz-border-radius: 0 3px 0 0;
+	border-radius: 0 3px 0 0;
+}
+.input-prepend .chzn-container-single .chzn-drop{
+	border-color: @inputBorder;
+}
+.input-prepend > .add-on,
+.input-append > .add-on{
+	vertical-align: top;
+}
+
+/* Accessible Hidden Elements (good for hidden labels and such) */
+.element-invisible{
+	position: absolute;
+	padding: 0;
+	margin: 0;
+	border: 0;
+	height: 1px;
+	width: 1px;
+	overflow: hidden;
+}
+
+/* Form Vertical Overrides Form Horizontal */
+.form-vertical {
+	.control-label {
+		float: none;
+		width: auto;
+		padding-right: 0;
+		padding-top: 0;
+		text-align: left;
+	}
+	.controls{
+		margin-left: 0;
+	}
+}
+
+/* Auto Width */
+.width-auto {
+	width: auto;
+}
+
+/* Chosen proper wrapping in Bootstrap btn-group */
+.btn-group .chzn-results {
+	white-space: normal;
+}
+
+/* Accordion overflow fix */
+.accordion-body.in:hover {
+	overflow:visible;
+}

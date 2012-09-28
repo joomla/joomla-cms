@@ -1,31 +1,33 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  com_weblinks
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.view');
 
 /**
  * HTML Article View class for the Weblinks component
  *
- * @package		Joomla.Site
- * @subpackage	com_weblinks
- * @since		1.5
+ * @package     Joomla.Site
+ * @subpackage  com_weblinks
+ * @since       1.5
  */
-class WeblinksViewForm extends JView
+class WeblinksViewForm extends JViewLegacy
 {
 	protected $form;
+
 	protected $item;
+
 	protected $return_page;
+
 	protected $state;
 
 	public function display($tpl = null)
 	{
-		// Initialise variables.
 		$app		= JFactory::getApplication();
 		$user		= JFactory::getUser();
 

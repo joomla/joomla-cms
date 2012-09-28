@@ -1,14 +1,21 @@
 <?php
 /**
- * @package		Joomla.Site
- * @subpackage	mod_breadcrumbs
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  mod_breadcrumbs
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
+/**
+ * Helper for mod_breadcrumbs
+ *
+ * @package     Joomla.Site
+ * @subpackage  mod_breadcrumbs
+ * @since       1.5
+ */
 class modBreadCrumbsHelper
 {
 	public static function getList(&$params)
@@ -27,7 +34,7 @@ class modBreadCrumbsHelper
 
 		if ($params->get('showHome', 1))
 		{
-			$item = new stdClass();
+			$item = new stdClass;
 			$item->name = htmlspecialchars($params->get('homeText', JText::_('MOD_BREADCRUMBS_HOME')));
 			$item->link = JRoute::_('index.php?Itemid='.$app->getMenu()->getDefault()->id);
 			array_unshift($items, $item);
@@ -52,10 +59,10 @@ class modBreadCrumbsHelper
 		// specific one first, and if that is not present we load the default separator
 		if ($custom == null) {
 			if ($lang->isRTL()){
-				$_separator = JHtml::_('image', 'system/arrow_rtl.png', NULL, NULL, true);
+				$_separator = JHtml::_('image', 'system/arrow_rtl.png', null, null, true);
 			}
 			else{
-				$_separator = JHtml::_('image', 'system/arrow.png', NULL, NULL, true);
+				$_separator = JHtml::_('image', 'system/arrow.png', null, null, true);
 			}
 		} else {
 			$_separator = htmlspecialchars($custom);

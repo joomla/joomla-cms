@@ -48,9 +48,6 @@ class JCacheControllerPage extends JCacheController
 	 */
 	public function get($id = false, $group = 'page')
 	{
-		// Initialise variables.
-		$data = false;
-
 		// If an id is not given, generate it from the request
 		if ($id == false)
 		{

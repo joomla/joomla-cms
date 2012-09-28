@@ -1,20 +1,20 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_messages
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.modeladmin');
 
 /**
  * Private Message model.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_messages
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_messages
+ * @since       1.6
  */
 class MessagesModelMessage extends JModelAdmin
 {
@@ -34,13 +34,15 @@ class MessagesModelMessage extends JModelAdmin
 	{
 		parent::populateState();
 
+		$input = JFactory::getApplication()->input;
+
 		$user = JFactory::getUser();
 		$this->setState('user.id', $user->get('id'));
 
-		$messageId = (int) JRequest::getInt('message_id');
+		$messageId = (int) $input->getInt('message_id');
 		$this->setState('message.id', $messageId);
 
-		$replyId = (int) JRequest::getInt('reply_id');
+		$replyId = (int) $input->getInt('reply_id');
 		$this->setState('reply.id', $replyId);
 	}
 
@@ -83,14 +85,16 @@ class MessagesModelMessage extends JModelAdmin
 						$query->select('subject, user_id_from');
 						$query->from('#__messages');
 						$query->where('message_id = '.(int) $replyId);
-						$message = $db->setQuery($query)->loadObject();
 
-						if ($error = $db->getErrorMsg())
+						try
 						{
-							$this->setError($error);
+							$message = $db->setQuery($query)->loadObject();
+						}
+						catch (RuntimeException $e)
+						{
+							$this->setError($e->getMessage());
 							return false;
 						}
-
 
 						$this->item->set('user_id_to', $message->user_id_from);
 						$re = JText::_('COM_MESSAGES_RE');
@@ -111,7 +115,7 @@ class MessagesModelMessage extends JModelAdmin
 					$query->update('#__messages');
 					$query->set('state = 1');
 					$query->where('message_id = '.$this->item->message_id);
-					$db->setQuery($query)->query();
+					$db->setQuery($query)->execute();
 				}
 			}
 
@@ -181,7 +185,7 @@ class MessagesModelMessage extends JModelAdmin
 		if (empty($table->user_id_from)) {
 			$table->user_id_from = JFactory::getUser()->get('id');
 		}
-		if (intval($table->date_time) == 0) {
+		if ((int) $table->date_time == 0) {
 			$table->date_time = JFactory::getDate()->toSql();
 		}
 
@@ -192,7 +196,7 @@ class MessagesModelMessage extends JModelAdmin
 		}
 
 		// Load the recipient user configuration.
-		$model = JModel::getInstance('Config', 'MessagesModel', array('ignore_request' => true));
+		$model = JModelLegacy::getInstance('Config', 'MessagesModel', array('ignore_request' => true));
 		$model->setState('user.id', $table->user_id_to);
 		$config = $model->getItem();
 		if (empty($config)) {
@@ -220,11 +224,11 @@ class MessagesModelMessage extends JModelAdmin
 			$lang = JLanguage::getInstance($toUser->getParam('admin_language', $default_language), $debug);
 			$lang->load('com_messages', JPATH_ADMINISTRATOR);
 
-			$siteURL	= JURI::root() . 'administrator/index.php?option=com_messages&view=message&message_id='.$table->message_id;
-			$sitename	= JFactory::getApplication()->getCfg('sitename');
+			$siteURL  = JURI::root() . 'administrator/index.php?option=com_messages&view=message&message_id='.$table->message_id;
+			$sitename = JFactory::getApplication()->getCfg('sitename');
 
-			$subject	= sprintf ($lang->_('COM_MESSAGES_NEW_MESSAGE_ARRIVED'), $sitename);
-			$msg		= sprintf ($lang->_('COM_MESSAGES_PLEASE_LOGIN'), $siteURL);
+			$subject = sprintf($lang->_('COM_MESSAGES_NEW_MESSAGE_ARRIVED'), $sitename);
+			$msg     = sprintf($lang->_('COM_MESSAGES_PLEASE_LOGIN'), $siteURL);
 			JFactory::getMailer()->sendMail($fromUser->email, $fromUser->name, $toUser->email, $subject, $msg);
 		}
 

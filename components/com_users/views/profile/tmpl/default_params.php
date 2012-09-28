@@ -1,11 +1,12 @@
 <?php
 /**
- * @package		Joomla.Site
- * @subpackage	com_users
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
- * @since		1.6
+ * @package     Joomla.Site
+ * @subpackage  com_users
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 defined('_JEXEC') or die;
 
 JLoader::register('JHtmlUsers', JPATH_COMPONENT . '/helpers/html/users.php');
@@ -21,7 +22,7 @@ JHtml::register('users.editor', array('JHtmlUsers', 'editor'));
 <?php if (count($fields)): ?>
 <fieldset id="users-profile-custom">
 	<legend><?php echo JText::_('COM_USERS_SETTINGS_FIELDSET_LABEL'); ?></legend>
-	<dl>
+	<dl class="dl-horizontal">
 	<?php foreach ($fields as $field):
 		if (!$field->hidden) :?>
 		<dt><?php echo $field->title; ?></dt>

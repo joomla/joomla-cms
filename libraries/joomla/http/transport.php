@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 /**
  * HTTP transport class interface.
@@ -21,11 +21,11 @@ interface JHttpTransport
 	/**
 	 * Constructor.
 	 *
-	 * @param   JRegistry  &$options  Client options object.
+	 * @param   JRegistry  $options  Client options object.
 	 *
 	 * @since   11.3
 	 */
-	public function __construct(JRegistry &$options);
+	public function __construct(JRegistry $options);
 
 	/**
 	 * Send a request to the server and return a JHttpResponse object with the response.
@@ -42,4 +42,13 @@ interface JHttpTransport
 	 * @since   11.3
 	 */
 	public function request($method, JUri $uri, $data = null, array $headers = null, $timeout = null, $userAgent = null);
+
+	/**
+	 * method to check if http transport layer available for using
+	 * 
+	 * @return bool true if available else false
+	 * 
+	 * @since   12.1
+	 */
+	static public function isSupported();
 }

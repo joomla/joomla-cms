@@ -1,13 +1,12 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	Templates.hathor
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  Template.hathor
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
 
 // Include the component HTML helpers.
@@ -172,7 +171,7 @@ $loggeduser = JFactory::getUser();
 					<?php echo $this->escape($item->email); ?>
 				</td>
 				<td class="center">
-					<?php if ($item->lastvisitDate!='0000-00-00 00:00:00'):?>
+					<?php if ($item->lastvisitDate != '0000-00-00 00:00:00'): ?>
 						<?php echo JHtml::_('date', $item->lastvisitDate, 'Y-m-d H:i:s'); ?>
 					<?php else:?>
 						<?php echo JText::_('JNEVER'); ?>

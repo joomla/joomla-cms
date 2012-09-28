@@ -72,7 +72,7 @@ class User0002Test extends SeleniumJoomlaTestCase
     echo "Delete all users in view\n";
     $this->click("checkall-toggle");
     echo("Delete new user.\n");
-    $this->click("//li[@id='toolbar-delete']/a/span");
+    $this->click("//div[@id='toolbar-delete']/button");
     $this->waitForPageToLoad("30000");
     try {
     	$this->assertTrue($this->isTextPresent("success"));

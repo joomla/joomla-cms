@@ -1,24 +1,24 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_media
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.view');
 
 /**
  * HTML View class for the Media component
  *
- * @package		Joomla.Administrator
- * @subpackage	com_media
- * @since 1.0
+ * @package     Joomla.Administrator
+ * @subpackage  com_media
+ * @since       1.0
  */
-class MediaViewMedia extends JView
+class MediaViewMedia extends JViewLegacy
 {
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		$app	= JFactory::getApplication();
 		$config = JComponentHelper::getParams('com_media');
@@ -28,23 +28,23 @@ class MediaViewMedia extends JView
 		$style = $app->getUserStateFromRequest('media.list.layout', 'layout', 'thumbs', 'word');
 
 		$document = JFactory::getDocument();
-		$document->setBuffer($this->loadTemplate('navigation'), 'modules', 'submenu');
 
 		JHtml::_('behavior.framework', true);
 
 		JHtml::_('script', 'media/mediamanager.js', true, true);
+		/*
 		JHtml::_('stylesheet', 'media/mediamanager.css', array(), true);
 		if ($lang->isRTL()) :
 			JHtml::_('stylesheet', 'media/mediamanager_rtl.css', array(), true);
 		endif;
-
+		*/
 		JHtml::_('behavior.modal');
 		$document->addScriptDeclaration("
 		window.addEvent('domready', function() {
 			document.preview = SqueezeBox;
 		});");
 
-		JHtml::_('script', 'system/mootree.js', true, true, false, false);
+		// JHtml::_('script', 'system/mootree.js', true, true, false, false);
 		JHtml::_('stylesheet', 'system/mootree.css', array(), true);
 		if ($lang->isRTL()) :
 			JHtml::_('stylesheet', 'media/mootree_rtl.css', array(), true);
@@ -79,9 +79,9 @@ class MediaViewMedia extends JView
 			);
 		}
 
-		if (DS == '\\')
+		if (DIRECTORY_SEPARATOR == '\\')
 		{
-			$base = str_replace(DS, "\\\\", COM_MEDIA_BASE);
+			$base = str_replace(DIRECTORY_SEPARATOR, "\\\\", COM_MEDIA_BASE);
 		} else {
 			$base = COM_MEDIA_BASE;
 		}
@@ -89,7 +89,7 @@ class MediaViewMedia extends JView
 		$js = "
 			var basepath = '".$base."';
 			var viewstyle = '".$style."';
-		" ;
+		";
 		$document->addScriptDeclaration($js);
 
 		/*
@@ -100,9 +100,9 @@ class MediaViewMedia extends JView
 
 		$session	= JFactory::getSession();
 		$state		= $this->get('state');
-		$this->assignRef('session', $session);
-		$this->assignRef('config', $config);
-		$this->assignRef('state', $state);
+		$this->session = $session;
+		$this->config = &$config;
+		$this->state = &$state;
 		$this->require_ftp = $ftp;
 		$this->folders_id = ' id="media-tree"';
 		$this->folders = $this->get('folderTree');
@@ -126,25 +126,47 @@ class MediaViewMedia extends JView
 		$user = JFactory::getUser();
 
 		// Set the titlebar text
-		JToolBarHelper::title(JText::_('COM_MEDIA'), 'mediamanager.png');
+		JToolbarHelper::title(JText::_('COM_MEDIA'), 'mediamanager.png');
+
+		// Add a upload button
+		if ($user->authorise('core.create', 'com_media'))
+		{
+			$title = JText::_('JTOOLBAR_UPLOAD');
+			$dhtml = "<button data-toggle=\"collapse\" data-target=\"#collapseUpload\" class=\"btn btn-small btn-success\">
+						<i class=\"icon-plus icon-white\" title=\"$title\"></i>
+						$title</button>";
+			$bar->appendButton('Custom', $dhtml, 'upload');
+			JToolbarHelper::divider();
+		}
+
+		// Add a create folder button
+		if ($user->authorise('core.create', 'com_media'))
+		{
+			$title = JText::_('COM_MEDIA_CREATE_FOLDER');
+			$dhtml = "<button data-toggle=\"collapse\" data-target=\"#collapseFolder\" class=\"btn btn-small\">
+						<i class=\"icon-folder\" title=\"$title\"></i>
+						$title</button>";
+			$bar->appendButton('Custom', $dhtml, 'folder');
+			JToolbarHelper::divider();
+		}
 
 		// Add a delete button
 		if ($user->authorise('core.delete', 'com_media'))
 		{
 			$title = JText::_('JTOOLBAR_DELETE');
-			$dhtml = "<a href=\"#\" onclick=\"MediaManager.submit('folder.delete')\" class=\"toolbar\">
-						<span class=\"icon-32-delete\" title=\"$title\"></span>
-						$title</a>";
+			$dhtml = "<button href=\"#\" onclick=\"MediaManager.submit('folder.delete')\" class=\"btn btn-small\">
+						<i class=\"icon-remove\" title=\"$title\"></i>
+						$title</button>";
 			$bar->appendButton('Custom', $dhtml, 'delete');
-			JToolBarHelper::divider();
+			JToolbarHelper::divider();
 		}
 		// Add a delete button
 		if ($user->authorise('core.admin', 'com_media'))
 		{
-			JToolBarHelper::preferences('com_media', 450, 800, 'JToolbar_Options', '', 'window.location.reload()');
-			JToolBarHelper::divider();
+			JToolbarHelper::preferences('com_media');
+			JToolbarHelper::divider();
 		}
-		JToolBarHelper::help('JHELP_CONTENT_MEDIA_MANAGER');
+		JToolbarHelper::help('JHELP_CONTENT_MEDIA_MANAGER');
 	}
 
 	function getFolderLevel($folder)

@@ -1,29 +1,32 @@
 <?php
 /**
- * @package		Joomla.Site
- * @subpackage	mod_articles_news
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  mod_articles_news
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
 require_once JPATH_SITE.'/components/com_content/helpers/route.php';
 
-jimport('joomla.application.component.model');
+JModelLegacy::addIncludePath(JPATH_SITE.'/components/com_content/models', 'ContentModel');
 
-JModel::addIncludePath(JPATH_SITE.'/components/com_content/models', 'ContentModel');
-
+/**
+ * Helper for mod_articles_news
+ *
+ * @package     Joomla.Site
+ * @subpackage  mod_articles_news
+ */
 abstract class modArticlesNewsHelper
 {
 	public static function getList(&$params)
 	{
-		$app	= JFactory::getApplication();
-		$db		= JFactory::getDbo();
+		$app = JFactory::getApplication();
 
 		// Get an instance of the generic articles model
-		$model = JModel::getInstance('Articles', 'ContentModel', array('ignore_request' => true));
+		$model = JModelLegacy::getInstance('Articles', 'ContentModel', array('ignore_request' => true));
 
 		// Set application parameters in model
 		$appParams = JFactory::getApplication()->getParams();
@@ -35,7 +38,7 @@ abstract class modArticlesNewsHelper
 
 		$model->setState('filter.published', 1);
 
-		$model->setState('list.select', 'a.fulltext, a.id, a.title, a.alias, a.title_alias, a.introtext, a.state, a.catid, a.created, a.created_by, a.created_by_alias,' .
+		$model->setState('list.select', 'a.fulltext, a.id, a.title, a.alias, a.introtext, a.state, a.catid, a.created, a.created_by, a.created_by_alias,' .
 			' a.modified, a.modified_by, a.publish_up, a.publish_down, a.images, a.urls, a.attribs, a.metadata, a.metakey, a.metadesc, a.access,' .
 			' a.hits, a.featured' );
 

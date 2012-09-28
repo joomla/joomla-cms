@@ -1,26 +1,22 @@
 <?php
 /**
- * @package		Joomla.Site
- * @subpackage	com_newsfeeds
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  com_newsfeeds
  *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.view');
 
 /**
  * HTML View class for the Newsfeeds component
  *
- * @static
- * @package		Joomla.Site
- * @subpackage	com_newsfeeds
- * @since 1.0
+ * @package     Joomla.Site
+ * @subpackage  com_newsfeeds
+ * @since       1.0
  */
-class NewsfeedsViewNewsfeed extends JView
+class NewsfeedsViewNewsfeed extends JViewLegacy
 {
 	/**
 	 * @var		object
@@ -43,27 +39,27 @@ class NewsfeedsViewNewsfeed extends JView
 	/**
 	 * @since	1.6
 	 */
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
-		// Initialise variables.
 		$app		= JFactory::getApplication();
 		$user		= JFactory::getUser();
-		$dispatcher	= JDispatcher::getInstance();
+		$dispatcher	= JEventDispatcher::getInstance();
 
 		// Get view related request variables.
-		$print = JRequest::getBool('print');
+		$print = $app->input->getBool('print');
 
 		// Get model data.
 		$state = $this->get('State');
 		$item = $this->get('Item');
 
-		if ($item) {
-		// Get Category Model data
-		$categoryModel = JModel::getInstance('Category', 'NewsfeedsModel', array('ignore_request' => true));
-		$categoryModel->setState('category.id', $item->catid);
-		$categoryModel->setState('list.ordering', 'a.name');
-		$categoryModel->setState('list.direction', 'asc');
-		$items = $categoryModel->getItems();
+		if ($item)
+		{
+			// Get Category Model data
+			$categoryModel = JModelLegacy::getInstance('Category', 'NewsfeedsModel', array('ignore_request' => true));
+			$categoryModel->setState('category.id', $item->catid);
+			$categoryModel->setState('list.ordering', 'a.name');
+			$categoryModel->setState('list.direction', 'asc');
+			$items = $categoryModel->getItems();
 		}
 
 		// Check for errors.
@@ -154,40 +150,30 @@ class NewsfeedsViewNewsfeed extends JView
 		// Get the newsfeed
 		$newsfeed = $item;
 
-		$temp = new JRegistry();
+		$temp = new JRegistry;
 		$temp->loadString($item->params);
 		$params->merge($temp);
 
-		//  get RSS parsed object
-		$rssDoc = JFactory::getFeedParser($newsfeed->link, $newsfeed->cache_time);
-
-		if ($rssDoc == false) {
-			$msg = JText::_('COM_NEWSFEEDS_ERRORS_FEED_NOT_RETRIEVED');
-			$app->redirect(NewsFeedsHelperRoute::getCategoryRoute($newsfeed->catslug), $msg);
-			return;
+		try
+		{
+			$feed = new JFeedFactory;
+			$this->rssDoc = $feed->getFeed($newsfeed->link);
 		}
+		catch (InvalidArgumentException $e)
+		{
+			$msg = JText::_('COM_NEWSFEEDS_ERRORS_FEED_NOT_RETRIEVED');
+		}
+		catch (RunTimeException $e)
+		{
+			$msg = JText::_('COM_NEWSFEEDS_ERRORS_FEED_NOT_RETRIEVED');
+		}
+		if (empty($this->rssDoc))
+		{
+			$msg = JText::_('COM_NEWSFEEDS_ERRORS_FEED_NOT_RETRIEVED');
+		}
+
 		$lists = array();
 
-		// channel header and link
-		$newsfeed->channel['title']			= $rssDoc->get_title();
-		$newsfeed->channel['link']			= $rssDoc->get_link();
-		$newsfeed->channel['description']	= $rssDoc->get_description();
-		$newsfeed->channel['language']		= $rssDoc->get_language();
-
-		// channel image if exists
-		$newsfeed->image['url']		= $rssDoc->get_image_url();
-		$newsfeed->image['title']	= $rssDoc->get_image_title();
-		$newsfeed->image['link']	= $rssDoc->get_image_link();
-		$newsfeed->image['height']	= $rssDoc->get_image_height();
-		$newsfeed->image['width']	= $rssDoc->get_image_width();
-
-		// items
-		$newsfeed->items = $rssDoc->get_items();
-
-		// feed elements
-		$newsfeed->items = array_slice($newsfeed->items, 0, $newsfeed->numarticles);
-
-		// feed display order
 		$feed_display_order = $params->get('feed_display_order', 'des');
 		if ($feed_display_order == 'asc') {
 			$newsfeed->items = array_reverse($newsfeed->items);
@@ -196,11 +182,15 @@ class NewsfeedsViewNewsfeed extends JView
 		//Escape strings for HTML output
 		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
 
-		$this->assignRef('params'  , $params  );
+		$this->assignRef('params', $params);
 		$this->assignRef('newsfeed', $newsfeed);
 		$this->assignRef('state', $state);
 		$this->assignRef('item', $item);
 		$this->assignRef('user', $user);
+		if (!empty($msg))
+		{
+			$this->assignRef('msg', $msg);
+		}
 		$this->print = $print;
 
 		$this->_prepareDocument();
@@ -250,7 +240,7 @@ class NewsfeedsViewNewsfeed extends JView
 				$path[] = array('title' => $category->title, 'link' => NewsfeedsHelperRoute::getCategoryRoute($category->id));
 				$category = $category->getParent();
 			}
- 			$path = array_reverse($path);
+			$path = array_reverse($path);
 			foreach($path as $item)
 			{
 				$pathway->addItem($item['title'], $item['link']);

@@ -1,22 +1,20 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_templates
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_templates
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
-
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_templates
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_templates
+ * @since       1.6
  */
-class TemplatesModelTemplate extends JModel
+class TemplatesModelTemplate extends JModelLegacy
 {
 	protected $template = null;
 
@@ -48,7 +46,6 @@ class TemplatesModelTemplate extends JModel
 	 */
 	public function getFiles()
 	{
-		// Initialise variables.
 		$result	= array();
 
 		if ($template = $this->getTemplate()) {
@@ -106,7 +103,7 @@ class TemplatesModelTemplate extends JModel
 		$app = JFactory::getApplication('administrator');
 
 		// Load the User state.
-		$pk = (int) JRequest::getInt('id');
+		$pk = $app->input->getInt('id');
 		$this->setState('extension.id', $pk);
 
 		// Load the parameters.
@@ -123,7 +120,6 @@ class TemplatesModelTemplate extends JModel
 	public function &getTemplate()
 	{
 		if (empty($this->template)) {
-			// Initialise variables.
 			$pk		= $this->getState('extension.id');
 			$db		= $this->getDbo();
 			$result	= false;
@@ -136,13 +132,19 @@ class TemplatesModelTemplate extends JModel
 				'  AND type = '.$db->quote('template')
 			);
 
-			$result = $db->loadObject();
+			try
+			{
+				$result = $db->loadObject();
+			}
+			catch (RuntimeException $e)
+			{
+				$this->setError($e->getMessage());
+				$this->template = false;
+				return false;
+			}
+
 			if (empty($result)) {
-				if ($error = $db->getErrorMsg()) {
-					$this->setError($error);
-				} else {
-					$this->setError(JText::_('COM_TEMPLATES_ERROR_EXTENSION_RECORD_NOT_FOUND'));
-				}
+				$this->setError(JText::_('COM_TEMPLATES_ERROR_EXTENSION_RECORD_NOT_FOUND'));
 				$this->template = false;
 			} else {
 				$this->template = $result;
@@ -250,9 +252,10 @@ class TemplatesModelTemplate extends JModel
 		// Get list of language files
 		$result = true;
 		$files = JFolder::files($this->getState('to_path'), '.ini', true, true);
-		$newName = $this->getState('new_name');
+		$newName = strtolower($this->getState('new_name'));
 		$oldName = $this->getTemplate()->element;
 
+		jimport('joomla.filesystem.file');
 		foreach ($files as $file)
 		{
 			$newFile = str_replace($oldName, $newName, $file);
@@ -263,8 +266,8 @@ class TemplatesModelTemplate extends JModel
 		$xmlFile = $this->getState('to_path') . '/templateDetails.xml';
 		if (JFile::exists($xmlFile))
 		{
-			$contents = JFile::read($xmlFile);
-			$pattern[] = '#<name>\s*' . $oldName . '\s*</name>#';
+			$contents = file_get_contents($xmlFile);
+			$pattern[] = '#<name>\s*' . $oldName . '\s*</name>#i';
 			$replace[] = '<name>'. $newName . '</name>';
 			$pattern[] = '#<language(.*)' . $oldName . '(.*)</language>#';
 			$replace[] = '<language${1}' . $newName . '${2}</language>';

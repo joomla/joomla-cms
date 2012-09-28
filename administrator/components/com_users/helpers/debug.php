@@ -1,20 +1,20 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_users
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_users
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
 
 /**
  * Users component debugging helper.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_users
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_users
+ * @since       1.6
  */
 class UsersHelperDebug
 {
@@ -24,7 +24,7 @@ class UsersHelperDebug
 	 * @return	array
 	 * @since	1.6
 	 */
-	static function getComponents()
+	public static function getComponents()
 	{
 		// Initialise variable.
 		$db		= JFactory::getDbo();
@@ -128,12 +128,12 @@ class UsersHelperDebug
 		return $actions;
 	}
 
- 	/**
+	/**
 	 * Get a list of filter options for the levels.
 	 *
 	 * @return	array	An array of JHtmlOption elements.
 	 */
-	static function getLevelsOptions()
+	public static function getLevelsOptions()
 	{
 		// Build the filter options.
 		$options	= array();

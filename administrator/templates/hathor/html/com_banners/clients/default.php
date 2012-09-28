@@ -1,13 +1,12 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	Templates.hathor
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  Template.hathor
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
@@ -58,7 +57,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 					<?php echo JHtml::_('grid.sort', 'COM_BANNERS_HEADING_CONTACT', 'contact', $listDirn, $listOrder); ?>
 				</th>
 				<th class="nowrap state-col">
-					<?php echo JHtml::_('grid.sort',  'JSTATUS', 'state', $listDirn, $listOrder); ?>
+					<?php echo JHtml::_('grid.sort', 'JSTATUS', 'state', $listDirn, $listOrder); ?>
 				</th>
 				<th class="width-5">
 					<?php echo JHtml::_('grid.sort', 'COM_BANNERS_HEADING_ACTIVE', 'nbanners', $listDirn, $listOrder); ?>
@@ -77,11 +76,11 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 
 		<tbody>
 		<?php foreach ($this->items as $i => $item) :
-			$ordering	= ($listOrder == 'ordering');
-			$canCreate	= $user->authorise('core.create',		'com_banners');
-			$canEdit	= $user->authorise('core.edit',			'com_banners');
-			$canCheckin	= $user->authorise('core.manage',		'com_checkin') || $item->checked_out==$user->get('id') || $item->checked_out==0;
-			$canChange	= $user->authorise('core.edit.state',	'com_banners') && $canCheckin;
+			$ordering   = ($listOrder == 'ordering');
+			$canCreate  = $user->authorise('core.create',     'com_banners');
+			$canEdit    = $user->authorise('core.edit',       'com_banners');
+			$canCheckin = $user->authorise('core.manage',     'com_checkin') || $item->checked_out == $user->get('id') || $item->checked_out == 0;
+			$canChange  = $user->authorise('core.edit.state', 'com_banners') && $canCheckin;
 			?>
 			<tr class="row<?php echo $i % 2; ?>">
 				<td class="center">
@@ -111,7 +110,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 					<?php echo $item->metakey; ?>
 				</td>
 				<td class="center">
-					<?php if ($item->purchase_type<0):?>
+					<?php if ($item->purchase_type < 0):?>
 						<?php echo JText::sprintf('COM_BANNERS_DEFAULT', JText::_('COM_BANNERS_FIELD_VALUE_'.$this->state->params->get('purchase_type')));?>
 					<?php else:?>
 						<?php echo JText::_('COM_BANNERS_FIELD_VALUE_'.$item->purchase_type);?>

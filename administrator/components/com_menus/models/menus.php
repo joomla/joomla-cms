@@ -1,16 +1,13 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
- *
  * @package     Joomla.Administrator
  * @subpackage  com_menus
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.modellist');
 
 /**
  * Menu List Model for Menus.
@@ -89,14 +86,17 @@ class MenusModelMenus extends JModelList
 			->from('#__menu AS m')
 			->where('m.published = 1')
 			->where('m.menutype IN ('.$menuTypes.')')
-			->group('m.menutype')
-			;
-		$db->setQuery($query);
-		$countPublished = $db->loadAssocList('menutype', 'count_published');
+			->group('m.menutype');
 
-		if ($db->getErrorNum())
+		$db->setQuery($query);
+
+		try
 		{
-			$this->setError($db->getErrorMsg());
+			$countPublished = $db->loadAssocList('menutype', 'count_published');
+		}
+		catch (RuntimeException $e)
+		{
+			$this->setError($e->getMessage());
 			return false;
 		}
 
@@ -105,11 +105,14 @@ class MenusModelMenus extends JModelList
 			->where('m.published = 0')
 			->where('m.menutype IN ('.$menuTypes.')');
 		$db->setQuery($query);
-		$countUnpublished = $db->loadAssocList('menutype', 'count_published');
 
-		if ($db->getErrorNum())
+		try
 		{
-			$this->setError($db->getErrorMsg());
+			$countUnpublished = $db->loadAssocList('menutype', 'count_published');
+		}
+		catch (RuntimeException $e)
+		{
+			$this->setError($e->getMessage());
 			return false;
 		}
 
@@ -118,11 +121,14 @@ class MenusModelMenus extends JModelList
 			->where('m.published = -2')
 			->where('m.menutype IN ('.$menuTypes.')');
 		$db->setQuery($query);
-		$countTrashed = $db->loadAssocList('menutype', 'count_published');
 
-		if ($db->getErrorNum())
+		try
 		{
-			$this->setError($db->getErrorMsg());
+			$countTrashed = $db->loadAssocList('menutype', 'count_published');
+		}
+		catch (RuntimeException $e)
+		{
+			$this->setError($e->getMessage);
 			return false;
 		}
 
@@ -157,7 +163,6 @@ class MenusModelMenus extends JModelList
 		$query->select($this->getState('list.select', 'a.*'));
 		$query->from($db->quoteName('#__menu_types').' AS a');
 
-
 		$query->group('a.id, a.menutype, a.title, a.description');
 
 		// Add the list ordering clause.
@@ -180,7 +185,6 @@ class MenusModelMenus extends JModelList
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
-		// Initialise variables.
 		$app = JFactory::getApplication('administrator');
 
 		// List state information.
@@ -216,7 +220,7 @@ class MenusModelMenus extends JModelList
 	 */
 	public function &getModules()
 	{
-		$model	= JModel::getInstance('Menu', 'MenusModel', array('ignore_request' => true));
+		$model	= JModelLegacy::getInstance('Menu', 'MenusModel', array('ignore_request' => true));
 		$result	= &$model->getModules();
 
 		return $result;

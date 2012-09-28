@@ -1,24 +1,22 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_languages
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_languages
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.view');
 
 /**
  * View to edit an language override
  *
- * @package			Joomla.Administrator
- * @subpackage	com_languages
- * @since				2.5
+ * @package     Joomla.Administrator
+ * @subpackage  com_languages
+ * @since       2.5
  */
-class LanguagesViewOverride extends JView
+class LanguagesViewOverride extends JViewLegacy
 {
 	/**
 	 * The form to use for the view
@@ -57,7 +55,7 @@ class LanguagesViewOverride extends JView
 	{
 		$doc = JFactory::getDocument();
 		$doc->addStyleSheet(JURI::root().'media/overrider/css/overrider.css');
-		JHTML::core();
+		JHtml::_('behavior.framework');
 		$doc->addScript(JURI::root().'media/overrider/js/overrider.js');
 
 		$this->form		= $this->get('Form');
@@ -68,8 +66,6 @@ class LanguagesViewOverride extends JView
 		if (count($errors = $this->get('Errors')))
 		{
 			throw new Exception(implode("\n", $errors));
-
-			return;
 		}
 
 		// Check whether the cache has to be refreshed
@@ -96,34 +92,34 @@ class LanguagesViewOverride extends JView
 	 */
 	protected function addToolbar()
 	{
-		JRequest::setVar('hidemainmenu', true);
+		JFactory::getApplication()->input->set('hidemainmenu', true);
 
 		$canDo	= LanguagesHelper::getActions();
 
-		JToolBarHelper::title(JText::_('COM_LANGUAGES_VIEW_OVERRIDE_EDIT_TITLE'), 'langmanager');
+		JToolbarHelper::title(JText::_('COM_LANGUAGES_VIEW_OVERRIDE_EDIT_TITLE'), 'langmanager');
 
 		if ($canDo->get('core.edit'))
 		{
-			JToolBarHelper::apply('override.apply');
-			JToolBarHelper::save('override.save');
+			JToolbarHelper::apply('override.apply');
+			JToolbarHelper::save('override.save');
 		}
 
 		// This component does not support Save as Copy
 
 		if ($canDo->get('core.edit') && $canDo->get('core.create'))
 		{
-			JToolBarHelper::save2new('override.save2new');
+			JToolbarHelper::save2new('override.save2new');
 		}
 
 		if (empty($this->item->key))
 		{
-			JToolBarHelper::cancel('override.cancel');
+			JToolbarHelper::cancel('override.cancel');
 		}
 		else
 		{
-			JToolBarHelper::cancel('override.cancel', 'JTOOLBAR_CLOSE');
+			JToolbarHelper::cancel('override.cancel', 'JTOOLBAR_CLOSE');
 		}
-		JToolBarHelper::divider();
-		JToolBarHelper::help('JHELP_EXTENSIONS_LANGUAGE_MANAGER_OVERRIDES_EDIT');
+		JToolbarHelper::divider();
+		JToolbarHelper::help('JHELP_EXTENSIONS_LANGUAGE_MANAGER_OVERRIDES_EDIT');
 	}
 }

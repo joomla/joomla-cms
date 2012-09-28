@@ -1,24 +1,27 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_users
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
-
 /**
  * The HTML Users access levels view.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_users
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_users
+ * @since       1.6
  */
-class UsersViewLevels extends JView
+class UsersViewLevels extends JViewLegacy
 {
 	protected $items;
+
 	protected $pagination;
+
 	protected $state;
 
 	/**
@@ -30,14 +33,17 @@ class UsersViewLevels extends JView
 		$this->pagination	= $this->get('Pagination');
 		$this->state		= $this->get('State');
 
+		UsersHelper::addSubmenu('levels');
+
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
 			JError::raiseError(500, implode("\n", $errors));
 			return false;
 		}
 
-		parent::display($tpl);
 		$this->addToolbar();
+		$this->sidebar = JHtmlSidebar::render();
+		parent::display($tpl);
 	}
 
 	/**
@@ -49,23 +55,23 @@ class UsersViewLevels extends JView
 	{
 		$canDo	= UsersHelper::getActions();
 
-		JToolBarHelper::title(JText::_('COM_USERS_VIEW_LEVELS_TITLE'), 'levels');
+		JToolbarHelper::title(JText::_('COM_USERS_VIEW_LEVELS_TITLE'), 'levels');
 
 		if ($canDo->get('core.create')) {
-			JToolBarHelper::addNew('level.add');
+			JToolbarHelper::addNew('level.add');
 		}
 		if ($canDo->get('core.edit')) {
-			JToolBarHelper::editList('level.edit');
-			JToolBarHelper::divider();
+			JToolbarHelper::editList('level.edit');
+			JToolbarHelper::divider();
 		}
 		if ($canDo->get('core.delete')) {
-			JToolBarHelper::deleteList('', 'level.delete');
-			JToolBarHelper::divider();
+			JToolbarHelper::deleteList('', 'level.delete');
+			JToolbarHelper::divider();
 		}
 		if ($canDo->get('core.admin')) {
-			JToolBarHelper::preferences('com_users');
-			JToolBarHelper::divider();
+			JToolbarHelper::preferences('com_users');
+			JToolbarHelper::divider();
 		}
-		JToolBarHelper::help('JHELP_USERS_ACCESS_LEVELS');
+		JToolbarHelper::help('JHELP_USERS_ACCESS_LEVELS');
 	}
 }

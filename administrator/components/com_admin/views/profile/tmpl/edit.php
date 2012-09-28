@@ -1,9 +1,10 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_admin
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_admin
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -28,44 +29,50 @@ $fieldsets = $this->form->getFieldsets();
 	}
 </script>
 
-<form action="<?php echo JRoute::_('index.php?option=com_admin&view=profile&layout=edit&id='.$this->item->id); ?>" method="post" name="adminForm" id="profile-form" class="form-validate" enctype="multipart/form-data">
-	<div class="width-60 fltlft">
-		<fieldset class="adminform">
-			<legend><?php echo JText::_('COM_ADMIN_USER_ACCOUNT_DETAILS'); ?></legend>
-			<ul class="adminformlist">
-			<?php foreach($this->form->getFieldset('user_details') as $field) :?>
-				<li><?php echo $field->label; ?>
-				<?php echo $field->input; ?></li>
-			<?php endforeach; ?>
-			</ul>
-		</fieldset>
-	</div>
-
-	<div class="width-40 fltrt">
+<form action="<?php echo JRoute::_('index.php?option=com_admin&view=profile&layout=edit&id='.$this->item->id); ?>" method="post" name="adminForm" id="profile-form" class="form-validate form-horizontal" enctype="multipart/form-data">
+	<ul class="nav nav-tabs">
+		<li class="active"><a href="#account" data-toggle="tab"><?php echo JText::_('COM_ADMIN_USER_ACCOUNT_DETAILS'); ?></a></li>
 		<?php
-		echo JHtml::_('sliders.start');
 		foreach ($fieldsets as $fieldset) :
 			if ($fieldset->name == 'user_details') :
 				continue;
 			endif;
-			echo JHtml::_('sliders.panel', JText::_($fieldset->label), $fieldset->name);
 		?>
-		<fieldset class="panelform">
-		<ul class="adminformlist">
-		<?php foreach($this->form->getFieldset($fieldset->name) as $field): ?>
-			<?php if ($field->hidden): ?>
-				<?php echo $field->input; ?>
-			<?php else: ?>
-				<li><?php echo $field->label; ?>
-				<?php echo $field->input; ?></li>
-			<?php endif; ?>
-		<?php endforeach; ?>
-		</ul>
-		</fieldset>
-		<?php endforeach; ?>
-		<?php echo JHtml::_('sliders.end'); ?>
+		<li><a href="#settings-<?php echo $fieldset->name;?>" data-toggle="tab"><?php echo JText::_($fieldset->label);?></a></li>
+	<?php endforeach; ?>
+	</ul>
 
-		<input type="hidden" name="task" value="" />
-		<?php echo JHtml::_('form.token'); ?>
+	<div class="tab-content">
+		<div class="tab-pane active" id="account">
+		<?php foreach($this->form->getFieldset('user_details') as $field) :?>
+			<div class="control-group">
+				<div class="control-label"><?php echo $field->label; ?></div>
+				<div class="controls"><?php echo $field->input; ?></div>
+			</div>
+		<?php endforeach; ?>
+		</div>
+		<?php
+		foreach ($fieldsets as $fieldset) :
+			if ($fieldset->name == 'user_details') :
+				continue;
+			endif;
+			?>
+			<div class="tab-pane" id="settings-<?php echo $fieldset->name;?>">
+			<?php foreach($this->form->getFieldset($fieldset->name) as $field): ?>
+				<?php if ($field->hidden): ?>
+				<div class="control-group">
+					<div class="controls"><?php echo $field->input; ?></div>
+				</div>
+				<?php else: ?>
+				<div class="control-group">
+					<div class="control-label"><?php echo $field->label; ?></div>
+					<div class="controls"><?php echo $field->input; ?></div>
+				</div>
+				<?php endif; ?>
+			<?php endforeach; ?>
+			</div>
+		<?php endforeach; ?>
 	</div>
+	<input type="hidden" name="task" value="" />
+	<?php echo JHtml::_('form.token'); ?>
 </form>

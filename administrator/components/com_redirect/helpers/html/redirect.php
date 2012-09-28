@@ -1,19 +1,21 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_redirect
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
 
 /**
  * Utility class for creating HTML Grids
  *
  * @static
- * @package		Joomla.Administrator
- * @subpackage	com_redirect
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_redirect
+ * @since       1.6
  */
 class JHtmlRedirect
 {
@@ -33,7 +35,7 @@ class JHtmlRedirect
 			-2	=> array('trash.png',		'links.publish',		'JTRASHED',	'COM_REDIRECT_ENABLE_LINK'),
 		);
 		$state	= JArrayHelper::getValue($states, (int) $value, $states[0]);
-		$html	= JHtml::_('image', 'admin/'.$state[0], JText::_($state[2]), NULL, true);
+		$html	= JHtml::_('image', 'admin/'.$state[0], JText::_($state[2]), null, true);
 		if ($canChange) {
 			$html	= '<a href="#" onclick="return listItemTask(\'cb'.$i.'\',\''.$state[1].'\')" title="'.JText::_($state[3]).'">'
 					. $html.'</a>';

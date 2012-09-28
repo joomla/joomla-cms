@@ -1,31 +1,37 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  com_content
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.view');
 
 /**
  * Frontpage View class
  *
- * @package		Joomla.Site
- * @subpackage	com_content
- * @since		1.5
+ * @package     Joomla.Site
+ * @subpackage  com_content
+ * @since       1.5
  */
-class ContentViewFeatured extends JView
+class ContentViewFeatured extends JViewLegacy
 {
 	protected $state = null;
+
 	protected $item = null;
+
 	protected $items = null;
+
 	protected $pagination = null;
 
 	protected $lead_items = array();
+
 	protected $intro_items = array();
+
 	protected $link_items = array();
+
 	protected $columns = 1;
 
 	/**
@@ -33,9 +39,8 @@ class ContentViewFeatured extends JView
 	 *
 	 * @return	mixed	False on error, null otherwise.
 	 */
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
-		// Initialise variables.
 		$user = JFactory::getUser();
 		$app = JFactory::getApplication();
 
@@ -69,24 +74,20 @@ class ContentViewFeatured extends JView
 				$item->parent_slug = null;
 			}
 
-			$item->event = new stdClass();
+			$item->event = new stdClass;
 
-			$dispatcher = JDispatcher::getInstance();
+			$dispatcher = JEventDispatcher::getInstance();
 
-			// Ignore content plugins on links.
-			if ($i < $numLeading + $numIntro)
-			{
-				$item->introtext = JHtml::_('content.prepare', $item->introtext, '', 'com_content.featured');
+			$item->introtext = JHtml::_('content.prepare', $item->introtext, '', 'com_content.featured');
 
-				$results = $dispatcher->trigger('onContentAfterTitle', array('com_content.article', &$item, &$item->params, 0));
-				$item->event->afterDisplayTitle = trim(implode("\n", $results));
+			$results = $dispatcher->trigger('onContentAfterTitle', array('com_content.article', &$item, &$item->params, 0));
+			$item->event->afterDisplayTitle = trim(implode("\n", $results));
 
-				$results = $dispatcher->trigger('onContentBeforeDisplay', array('com_content.article', &$item, &$item->params, 0));
-				$item->event->beforeDisplayContent = trim(implode("\n", $results));
+			$results = $dispatcher->trigger('onContentBeforeDisplay', array('com_content.article', &$item, &$item->params, 0));
+			$item->event->beforeDisplayContent = trim(implode("\n", $results));
 
-				$results = $dispatcher->trigger('onContentAfterDisplay', array('com_content.article', &$item, &$item->params, 0));
-				$item->event->afterDisplayContent = trim(implode("\n", $results));
-			}
+			$results = $dispatcher->trigger('onContentAfterDisplay', array('com_content.article', &$item, &$item->params, 0));
+			$item->event->afterDisplayContent = trim(implode("\n", $results));
 		}
 
 		// Preprocess the breakdown of leading, intro and linked articles.
@@ -126,10 +127,10 @@ class ContentViewFeatured extends JView
 		//Escape strings for HTML output
 		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
 
-		$this->assignRef('params', $params);
-		$this->assignRef('items', $items);
-		$this->assignRef('pagination', $pagination);
-		$this->assignRef('user', $user);
+		$this->params     = &$params;
+		$this->items      = &$items;
+		$this->pagination = &$pagination;
+		$this->user       = &$user;
 
 		$this->_prepareDocument();
 

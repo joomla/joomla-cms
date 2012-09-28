@@ -1,21 +1,20 @@
 <?php
 /**
- * @package		Joomla.Site
- * @subpackage	com_users
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  com_users
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.modelform');
-jimport('joomla.event.dispatcher');
 /**
  * Rest model class for Users.
  *
- * @package		Joomla.Site
- * @subpackage	com_users
- * @since		1.6
+ * @package     Joomla.Site
+ * @subpackage  com_users
+ * @since       1.6
  */
 class UsersModelLogin extends JModelForm
 {
@@ -101,7 +100,7 @@ class UsersModelLogin extends JModelForm
 		JPluginHelper::importPlugin($group);
 
 		// Get the dispatcher.
-		$dispatcher	= JDispatcher::getInstance();
+		$dispatcher	= JEventDispatcher::getInstance();
 
 		// Trigger the form preparation event.
 		$results = $dispatcher->trigger('onContentPrepareForm', array($form, $data));
@@ -117,6 +116,4 @@ class UsersModelLogin extends JModelForm
 			}
 		}
 	}
-
-
 }

@@ -1,11 +1,12 @@
 <?php
 /**
- * @package		Joomla.Site
- * @subpackage	com_users
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
- * @since		1.6
+ * @package     Joomla.Site
+ * @subpackage  com_users
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 defined('_JEXEC') or die;
 
 JLoader::register('JHtmlUsers', JPATH_COMPONENT . '/helpers/html/users.php');
@@ -23,7 +24,7 @@ foreach ($fieldsets as $group => $fieldset): // Iterate through the form fieldse
 	<?php if (isset($fieldset->label)):// If the fieldset has a label set, display it as the legend.?>
 	<legend><?php echo JText::_($fieldset->label); ?></legend>
 	<?php endif;?>
-	<dl>
+	<dl class="dl-horizontal">
 	<?php foreach ($fields as $field):
 		if (!$field->hidden) :?>
 		<dt><?php echo $field->title; ?></dt>

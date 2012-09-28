@@ -30,6 +30,7 @@
 
 		<field name="show_contact_list"
 			type="radio"
+			class="btn-group"
 			default="0"
 			description="COM_CONTACT_FIELD_CONTACT_SHOW_LIST_DESC"
 				label="COM_CONTACT_FIELD_CONTACT_SHOW_LIST_LABEL"
@@ -48,6 +49,7 @@
 			</field>
 		<field name="show_name"
 			type="radio"
+			class="btn-group"
 			default="1"
 			label="COM_CONTACT_FIELD_PARAMS_NAME_LABEL"
 			description="COM_CONTACT_FIELD_PARAMS_NAME_DESC"
@@ -58,6 +60,7 @@
 
 		<field name="show_position"
 			type="radio"
+			class="btn-group"
 			default="1"
 			label="COM_CONTACT_FIELD_PARAMS_CONTACT_POSITION_LABEL"
 			description="COM_CONTACT_FIELD_PARAMS_CONTACT_POSITION_DESC"
@@ -68,6 +71,7 @@
 
 		<field name="show_email"
 			type="radio"
+			class="btn-group"
 			default="0"
 			label="JGLOBAL_EMAIL"
 			description="COM_CONTACT_FIELD_PARAMS_CONTACT_E_MAIL_DESC"
@@ -78,6 +82,7 @@
 
 		<field name="show_street_address"
 			type="radio"
+			class="btn-group"
 			default="1" label="COM_CONTACT_FIELD_PARAMS_STREET_ADDRESS_LABEL"
 			description="COM_CONTACT_FIELD_PARAMS_STREET_ADDRESS_DESC"
 		>
@@ -87,6 +92,7 @@
 
 		<field name="show_suburb"
 			type="radio"
+			class="btn-group"
 			default="1"
 			label="COM_CONTACT_FIELD_PARAMS_TOWN-SUBURB_LABEL"
 			description="COM_CONTACT_FIELD_PARAMS_TOWN-SUBURB_DESC"
@@ -97,6 +103,7 @@
 
 		<field name="show_state"
 			type="radio"
+			class="btn-group"
 			default="1"
 			label="COM_CONTACT_FIELD_PARAMS_STATE-COUNTY_LABEL"
 			description="COM_CONTACT_FIELD_PARAMS_STATE-COUNTY_DESC"
@@ -107,6 +114,7 @@
 
 		<field name="show_postcode"
 			type="radio"
+			class="btn-group"
 			default="1"
 			label="COM_CONTACT_FIELD_PARAMS_POST-ZIP_CODE_LABEL"
 			description="COM_CONTACT_FIELD_PARAMS_POST-ZIP_CODE_DESC"
@@ -117,6 +125,7 @@
 
 		<field name="show_country"
 			type="radio"
+			class="btn-group"
 			default="1"
 			label="COM_CONTACT_FIELD_PARAMS_COUNTRY_LABEL"
 			description="COM_CONTACT_FIELD_PARAMS_COUNTRY_DESC"
@@ -127,6 +136,7 @@
 
 		<field name="show_telephone"
 			type="radio"
+			class="btn-group"
 			default="1"
 			label="COM_CONTACT_FIELD_PARAMS_TELEPHONE_LABEL"
 			description="COM_CONTACT_FIELD_PARAMS_TELEPHONE_DESC"
@@ -137,6 +147,7 @@
 
 		<field name="show_mobile"
 			type="radio"
+			class="btn-group"
 			default="1"
 			label="COM_CONTACT_FIELD_PARAMS_MOBILE_LABEL"
 			description="COM_CONTACT_FIELD_PARAMS_MOBILE_DESC"
@@ -147,6 +158,7 @@
 
 		<field name="show_fax"
 			type="radio"
+			class="btn-group"
 			default="1"
 			label="COM_CONTACT_FIELD_PARAMS_FAX_LABEL"
 			description="COM_CONTACT_FIELD_PARAMS_FAX_DESC"
@@ -157,6 +169,7 @@
 
 		<field name="show_webpage"
 			type="radio"
+			class="btn-group"
 			default="1"
 			label="COM_CONTACT_FIELD_PARAMS_WEBPAGE_LABEL"
 			description="COM_CONTACT_FIELD_PARAMS_WEBPAGE_DESC"
@@ -167,6 +180,7 @@
 
 		<field name="show_misc"
 			type="radio"
+			class="btn-group"
 			default="1"
 			label="COM_CONTACT_FIELD_PARAMS_MISC_INFO_LABEL"
 			description="COM_CONTACT_FIELD_PARAMS_MISC_INFO_DESC"
@@ -177,6 +191,7 @@
 
 		<field name="show_image"
 			type="radio"
+			class="btn-group"
 			default="1"
 			label="COM_CONTACT_FIELD_PARAMS_SHOW_IMAGE_LABEL" description="COM_CONTACT_FIELD_PARAMS_SHOW_IMAGE_DESC"
 		>
@@ -191,6 +206,7 @@
 		</field>
 		<field name="allow_vcard"
 			type="radio"
+			class="btn-group"
 			default="0"
 			label="COM_CONTACT_FIELD_PARAMS_VCARD_LABEL"
 			description="COM_CONTACT_FIELD_PARAMS_VCARD_DESC"
@@ -201,6 +217,7 @@
 
 		<field name="show_articles"
 			type="radio"
+			class="btn-group"
 			default="1"
 			label="COM_CONTACT_FIELD_ARTICLES_SHOW_LABEL"
 			description="COM_CONTACT_FIELD_ARTICLES_SHOW_DESC"
@@ -211,6 +228,7 @@
 
 		<field name="show_profile"
 			type="radio"
+			class="btn-group"
 			default="1"
 			label="COM_CONTACT_FIELD_PROFILE_SHOW_LABEL" description="COM_CONTACT_FIELD_PROFILE_SHOW_DESC"
 		>
@@ -222,6 +240,7 @@
 			label="COM_CONTACT_FIELD_SHOW_LINKS_LABEL"
 			description="COM_CONTACT_FIELD_SHOW_LINKS_LABEL"
 			type="radio"
+			class="btn-group"
 			default="1"
 		>
 			<option value="0">JHIDE</option>
@@ -333,6 +352,7 @@
 
 			<field name="show_category_title" type="radio"
 				default="1"
+				class="btn-group"
 				label="JGLOBAL_SHOW_CATEGORY_TITLE"
 				description="JGLOBAL_SHOW_CATEGORY_TITLE_DESC"
 				>
@@ -342,6 +362,7 @@
 
 			<field name="show_description" type="radio"
 				default="1"
+				class="btn-group"
 				description="JGLOBAL_SHOW_CATEGORY_DESCRIPTION_DESC"
 				label="JGLOBAL_SHOW_CATEGORY_DESCRIPTION_LABEL"
 			>
@@ -352,6 +373,7 @@
 
 			<field name="show_description_image" type="radio"
 				default="0"
+				class="btn-group"
 				description="JGLOBAL_SHOW_CATEGORY_IMAGE_DESC"
 				label="JGLOBAL_SHOW_CATEGORY_IMAGE_LABEL"
 			>
@@ -376,6 +398,7 @@
 
 			<field name="show_empty_categories" type="radio"
 				default="0"
+				class="btn-group"
 				label="JGLOBAL_SHOW_EMPTY_CATEGORIES_LABEL"
 				description="COM_CONTACT_SHOW_EMPTY_CATEGORIES_DESC"
 			>
@@ -387,6 +410,7 @@
 
 			<field name="show_subcat_desc" type="radio"
 				default="1"
+				class="btn-group"
 				label="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_LABEL"
 				description="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_DESC"
 			>
@@ -397,6 +421,7 @@
 
 			<field name="show_cat_items" type="radio"
 				default="1"
+				class="btn-group"
 				label="COM_CONTACT_FIELD_SHOW_CAT_ITEMS_LABEL"
 				description="COM_CONTACT_FIELD_SHOW_CAT_ITEMS_DESC"
 			>
@@ -413,6 +438,7 @@
 	>
 			<field name="show_base_description" type="radio"
 				default="1"
+				class="btn-group"
 				label="JGLOBAL_FIELD_SHOW_BASE_DESCRIPTION_LABEL"
 				description="JGLOBAL_FIELD_SHOW_BASE_DESCRIPTION_DESC"
 			>
@@ -436,6 +462,7 @@
 
 			<field name="show_empty_categories_cat" type="radio"
 				default="0"
+				class="btn-group"
 				label="JGLOBAL_SHOW_EMPTY_CATEGORIES_LABEL"
 				description="COM_CONTACT_SHOW_EMPTY_CATEGORIES_DESC"
 			>
@@ -446,6 +473,7 @@
 
 			<field name="show_subcat_desc_cat" type="radio"
 				default="1"
+				class="btn-group"
 				label="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_LABEL"
 				description="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_DESC"
 			>
@@ -456,6 +484,7 @@
 
 			<field name="show_cat_items_cat" type="radio"
 				default="1"
+				class="btn-group"
 				label="COM_CONTACT_FIELD_SHOW_CAT_ITEMS_LABEL"
 				description="COM_CONTACT_FIELD_SHOW_CAT_ITEMS_DESC"
 			>
@@ -472,6 +501,7 @@
 	>
 		<field name="show_pagination_limit" type="radio"
 				default="1"
+				class="btn-group"
 				description="JGLOBAL_DISPLAY_SELECT_DESC"
 				label="JGLOBAL_DISPLAY_SELECT_LABEL"
 			>
@@ -482,6 +512,7 @@
 
 			<field name="show_headings" type="radio"
 				default="1"
+				class="btn-group"
 				description="JGLOBAL_SHOW_HEADINGS_DESC"
 				label="JGLOBAL_SHOW_HEADINGS_LABEL"
 			>
@@ -492,6 +523,7 @@
 
 		<field name="show_position_headings" type="radio"
 			default="1"
+			class="btn-group"
 			label="COM_CONTACT_FIELD_CONFIG_POSITION_LABEL"
 			description="COM_CONTACT_FIELD_CONFIG_POSITION_DESC"
 		>
@@ -502,6 +534,7 @@
 
 		<field name="show_email_headings" type="radio"
 			default="0"
+			class="btn-group"
 			label="JGLOBAL_EMAIL"
 			description="COM_CONTACT_FIELD_CONFIG_EMAIL_DESC"
 		>
@@ -512,6 +545,7 @@
 
 		<field name="show_telephone_headings"
 			type="radio"
+			class="btn-group"
 			default="1"
 			label="COM_CONTACT_FIELD_CONFIG_PHONE_LABEL"
 			description="COM_CONTACT_FIELD_CONFIG_PHONE_DESC"
@@ -523,6 +557,7 @@
 
 		<field name="show_mobile_headings"
 			type="radio"
+			class="btn-group"
 			default="0"
 			label="COM_CONTACT_FIELD_CONFIG_MOBILE_LABEL"
 			description="COM_CONTACT_FIELD_CONFIG_MOBILE_DESC"
@@ -534,6 +569,7 @@
 
 		<field name="show_fax_headings"
 			type="radio"
+			class="btn-group"
 			default="0"
 			label="COM_CONTACT_FIELD_CONFIG_FAX_LABEL"
 			description="COM_CONTACT_FIELD_CONFIG_FAX_DESC"
@@ -545,6 +581,7 @@
 
 		<field name="show_suburb_headings" type="radio"
 			default="0"
+			class="btn-group"
 			label="COM_CONTACT_FIELD_CONFIG_SUBURB_LABEL"
 			description="COM_CONTACT_FIELD_CONFIG_SUBURB_DESC"
 		>
@@ -555,6 +592,7 @@
 
 		<field name="show_state_headings"
 			type="radio"
+			class="btn-group"
 			default="0"
 			label="COM_CONTACT_FIELD_CONFIG_STATE_LABEL"
 			description="COM_CONTACT_FIELD_CONFIG_STATE_DESC"
@@ -566,6 +604,7 @@
 
 		<field name="show_country_headings"
 			type="radio"
+			class="btn-group"
 			default="0"
 			label="COM_CONTACT_FIELD_CONFIG_COUNTRY_LABEL"
 			description="COM_CONTACT_FIELD_CONFIG_COUNTRY_DESC"
@@ -577,6 +616,7 @@
 
 			<field name="show_pagination" type="list"
 				default="2"
+				class="btn-group"
 				description="JGLOBAL_PAGINATION_DESC"
 				label="JGLOBAL_PAGINATION_LABEL"
 			>
@@ -589,6 +629,7 @@
 			<field
 				name="show_pagination_results"
 				type="radio"
+				class="btn-group"
 				default="1"
 				label="JGLOBAL_PAGINATION_RESULTS_LABEL"
 				description="JGLOBAL_PAGINATION_RESULTS_DESC"
@@ -631,6 +672,7 @@
 
 		<field name="show_email_form"
 			type="radio"
+			class="btn-group"
 			default="1"
 			label="COM_CONTACT_FIELD_EMAIL_SHOW_FORM_LABEL"
 			description="COM_CONTACT_FIELD_EMAIL_SHOW_FORM_DESC"
@@ -641,6 +683,7 @@
 
 		<field name="show_email_copy"
 			type="radio"
+			class="btn-group"
 			default="1"
 			label="COM_CONTACT_FIELD_EMAIL_EMAIL_COPY_LABEL"
 			description="COM_CONTACT_FIELD_EMAIL_EMAIL_COPY_DESC"
@@ -675,6 +718,7 @@
 
 		<field name="validate_session"
 			type="radio"
+			class="btn-group"
 			default="1"
 			label="COM_CONTACT_FIELD_CONFIG_SESSION_CHECK_LABEL"
 			description="COM_CONTACT_FIELD_CONFIG_SESSION_CHECK_DESC"
@@ -685,6 +729,7 @@
 
 		<field name="custom_reply"
 			type="radio"
+			class="btn-group"
 			default="0"
 			label="COM_CONTACT_FIELD_CONFIG_CUSTOM_REPLY_LABEL"
 			description="COM_CONTACT_FIELD_CONFIG_CUSTOM_REPLY_DESC"
@@ -708,6 +753,7 @@
 		<field
 			name="show_feed_link"
 			type="radio"
+			class="btn-group"
 			default="1"
 			label="JGLOBAL_SHOW_FEED_LINK_LABEL"
 			description="JGLOBAL_SHOW_FEED_LINK_DESC">

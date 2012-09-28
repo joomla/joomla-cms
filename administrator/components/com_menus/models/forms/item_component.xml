@@ -19,6 +19,7 @@
 				description="COM_MENUS_ITEM_FIELD_MENU_IMAGE_DESC" />
 
 			<field name="menu_text" type="radio"
+				class="btn-group"
 				label="COM_MENUS_ITEM_FIELD_MENU_TEXT_LABEL"
 				description="COM_MENUS_ITEM_FIELD_MENU_TEXT_DESC"
 				default="1" filter="integer"
@@ -39,6 +40,7 @@
 				description="COM_MENUS_ITEM_FIELD_PAGE_TITLE_DESC" />
 
 			<field name="show_page_heading" type="radio"
+				class="btn-group"
 				label="COM_MENUS_ITEM_FIELD_SHOW_PAGE_HEADING_LABEL"
 				description="COM_MENUS_ITEM_FIELD_SHOW_PAGE_HEADING_DESC"
 				default="0" filter="integer"
@@ -80,7 +82,8 @@
 			<option value="noindex, nofollow">JGLOBAL_NOINDEX_NOFOLLOW</option>
 		</field>
 
-			<field name="secure" type="list"
+			<field name="secure" type="radio"
+				class="btn-group"
 				label="COM_MENUS_ITEM_FIELD_SECURE_LABEL" description="COM_MENUS_ITEM_FIELD_SECURE_DESC"
 				default="0" filter="integer"
 			>

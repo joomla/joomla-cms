@@ -20,7 +20,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
 	$screen="User Manager: Users";
 	$this->filterView($filterOn);
     $this->click("checkall-toggle");
-    $this->click("//li[@id='toolbar-publish']/a/span");
+    $this->click("//div[@id='toolbar-publish']/button");
 	$button='Activate';
     echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
     try
@@ -32,7 +32,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
         array_push($this->verificationErrors, $this->getTraceFiles($e));
     }
     $this->click("checkall-toggle");
-    $this->click("//li[@id='toolbar-unpublish']/a/span");
+    $this->click("//div[@id='toolbar-unpublish']/button");
 	$button='Block';
     echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
     try
@@ -44,7 +44,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
         array_push($this->verificationErrors, $this->getTraceFiles($e));
     }
     $this->click("checkall-toggle");
-    $this->click("//li[@id='toolbar-delete']/a/span");
+    $this->click("//div[@id='toolbar-delete']/button");
 	$button='Delete';
     echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
     try
@@ -141,7 +141,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
         array_push($this->verificationErrors, $this->getTraceFiles($e));
     }
     $this->click("checkall-toggle");
-    $this->click("//li[@id='toolbar-default']/a/span");
+    $this->click("//div[@id='toolbar-default']/button");
 	$button='Default';
     echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
     try
@@ -156,7 +156,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
 	$screen='Article Manager: Articles';
 	$this->filterView($filterOn);
     $this->click("checkall-toggle");
-    $this->click("//li[@id='toolbar-publish']/a/span");
+    $this->click("//div[@id='toolbar-publish']/button");
 	$button='Publish';
     echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
     try
@@ -168,7 +168,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
         array_push($this->verificationErrors, $this->getTraceFiles($e));
     }
     $this->click("checkall-toggle");
-    $this->click("//li[@id='toolbar-unpublish']/a/span");
+    $this->click("//div[@id='toolbar-unpublish']/button");
 	$button='Unpublish';
     echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
     try
@@ -180,7 +180,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
         array_push($this->verificationErrors, $this->getTraceFiles($e));
     }
     $this->click("checkall-toggle");
-    $this->click("//li[@id='toolbar-archive']/a/span");
+    $this->click("//div[@id='toolbar-archive']/button");
 	$button='Archive';
     echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
     try
@@ -233,7 +233,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     }
     $this->filterView($filterOn);
     $this->click("checkall-toggle");
-    $this->click("//li[@id='toolbar-unpublish']/a/span");
+    $this->click("//div[@id='toolbar-unpublish']/button");
 	$button='Unpublish';
     echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
     try
@@ -272,7 +272,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     }
     $this->filterView($filterOn);
     $this->click("checkall-toggle");
-    $this->click("//li[@id='toolbar-trash']/a/span");
+    $this->click("//div[@id='toolbar-trash']/button");
 	$button='Trash';
     echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
     try
@@ -324,7 +324,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
         array_push($this->verificationErrors, $this->getTraceFiles($e));
     }
     $this->click("checkall-toggle");
-    $this->click("//li[@id='toolbar-checkin']/a/span");
+    $this->click("//div[@id='toolbar-checkin']/button");
 	$button='Check in';
     echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
     try
@@ -353,7 +353,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     $this->waitForPageToLoad("30000");
 	$this->filterView($filterOn);
     $this->click("checkall-toggle");
-    $this->click("//li[@id='toolbar-publish']/a/span");
+    $this->click("//div[@id='toolbar-publish']/button");
 	$button='Publish';
     echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
     try
@@ -365,7 +365,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
         array_push($this->verificationErrors, $this->getTraceFiles($e));
     }
     $this->click("checkall-toggle");
-    $this->click("//li[@id='toolbar-unpublish']/a/span");
+    $this->click("//div[@id='toolbar-unpublish']/button");
 	$button='Unpublish';
     echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
     try
@@ -429,7 +429,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
         array_push($this->verificationErrors, $this->getTraceFiles($e));
     }
     $this->click("checkall-toggle");
-    $this->click("//li[@id='toolbar-unpublish']/a/span");
+    $this->click("//div[@id='toolbar-unpublish']/button");
 	$button='Unpublish';
     echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
     try
@@ -481,7 +481,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     $this->waitForPageToLoad("30000");
 	$this->filterView($filterOn);
     $this->click("checkall-toggle");
-    $this->click("//li[@id='toolbar-publish']/a/span");
+    $this->click("//div[@id='toolbar-publish']/button");
 	$button='Publish';
     echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
     try
@@ -520,7 +520,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     }
     $this->filterView($filterOn);
     $this->click("checkall-toggle");
-    $this->click("//li[@id='toolbar-checkin']/a/span");
+    $this->click("//div[@id='toolbar-checkin']/button");
 	$button='Check in';
     echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
     try
@@ -573,7 +573,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
         array_push($this->verificationErrors, $this->getTraceFiles($e));
     }
     $this->click("checkall-toggle");
-    $this->click("//li[@id='toolbar-archive']/a/span");
+    $this->click("//div[@id='toolbar-archive']/button");
 	$button='Archive';
     echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
     try
@@ -585,7 +585,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
         array_push($this->verificationErrors, $this->getTraceFiles($e));
     }
     $this->click("checkall-toggle");
-    $this->click("//li[@id='toolbar-checkin']/a/span");
+    $this->click("//div[@id='toolbar-checkin']/button");
 	$button='Check in';
     echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
     try
@@ -639,7 +639,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     }
     $this->filterView($filterOn);
     $this->click("checkall-toggle");
-    $this->click("//li[@id='toolbar-archive']/a/span");
+    $this->click("//div[@id='toolbar-archive']/button");
 	$button='Archive';
     echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
     try
@@ -651,7 +651,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
         array_push($this->verificationErrors, $this->getTraceFiles($e));
     }
     $this->click("checkall-toggle");
-    $this->click("//li[@id='toolbar-checkin']/a/span");
+    $this->click("//div[@id='toolbar-checkin']/button");
 	$button='Check in';
     echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
     try
@@ -680,7 +680,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     $this->waitForPageToLoad("30000");
 	$this->filterView($filterOn);
     $this->click("checkall-toggle");
-    $this->click("//li[@id='toolbar-publish']/a/span");
+    $this->click("//div[@id='toolbar-publish']/button");
 	$button='Publish';
     echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
     try
@@ -716,7 +716,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
         array_push($this->verificationErrors, $this->getTraceFiles($e));
     }
     $this->click("checkall-toggle");
-    $this->click("//li[@id='toolbar-checkin']/a/span");
+    $this->click("//div[@id='toolbar-checkin']/button");
 	$button='Check in';
     echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
     try
@@ -782,7 +782,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
         array_push($this->verificationErrors, $this->getTraceFiles($e));
     }
     $this->click("checkall-toggle");
-    $this->click("//li[@id='toolbar-checkin']/a/span");
+    $this->click("//div[@id='toolbar-checkin']/button");
 	$button='Check in';
     echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
     try
@@ -811,7 +811,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     $this->waitForPageToLoad("30000");
 	$this->filterView($filterOn);
     $this->click("checkall-toggle");
-    $this->click("//li[@id='toolbar-publish']/a/span");
+    $this->click("//div[@id='toolbar-publish']/button");
 	$button='Publish';
     echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
     try
@@ -835,7 +835,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
         array_push($this->verificationErrors, $this->getTraceFiles($e));
     }
     $this->click("checkall-toggle");
-    $this->click("//li[@id='toolbar-archive']/a/span");
+    $this->click("//div[@id='toolbar-archive']/button");
 	$button='Archive';
     echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
     try
@@ -847,7 +847,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
         array_push($this->verificationErrors, $this->getTraceFiles($e));
     }
     $this->click("checkall-toggle");
-    $this->click("//li[@id='toolbar-checkin']/a/span");
+    $this->click("//div[@id='toolbar-checkin']/button");
 	$button='Check in';
     echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
     try
@@ -875,7 +875,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     $this->waitForPageToLoad("30000");
 	$this->filterView($filterOn);
     $this->click("checkall-toggle");
-    $this->click("//li[@id='toolbar-publish']/a/span");
+    $this->click("//div[@id='toolbar-publish']/button");
 	$button='Publish';
     echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
     try
@@ -888,7 +888,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     }
     $this->filterView($filterOn);
     $this->click("checkall-toggle");
-    $this->click("//li[@id='toolbar-unpublish']/a/span");
+    $this->click("//div[@id='toolbar-unpublish']/button");
 	$button='Unpublish';
     echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
     try
@@ -901,7 +901,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     }
     $this->filterView($filterOn);
     $this->click("checkall-toggle");
-    $this->click("//li[@id='toolbar-archive']/a/span");
+    $this->click("//div[@id='toolbar-archive']/button");
 	$button='Archive';
     echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
     try
@@ -942,7 +942,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
 	$this->waitForPageToLoad("30000");
 	$this->filterView($filterOn);
     $this->click("checkall-toggle");
-    $this->click("//li[@id='toolbar-publish']/a/span");
+    $this->click("//div[@id='toolbar-publish']/button");
 	$button='Publish';
     echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
     try
@@ -954,7 +954,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
         array_push($this->verificationErrors, $this->getTraceFiles($e));
     }
     $this->click("checkall-toggle");
-    $this->click("//li[@id='toolbar-unpublish']/a/span");
+    $this->click("//div[@id='toolbar-unpublish']/button");
 	$button='Unpublish';
     echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
     try
@@ -966,7 +966,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
         array_push($this->verificationErrors, $this->getTraceFiles($e));
     }
     $this->click("checkall-toggle");
-    $this->click("//li[@id='toolbar-archive']/a/span");
+    $this->click("//div[@id='toolbar-archive']/button");
 	$button='Archive';
     echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
     try
@@ -1005,7 +1005,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
 	{
         array_push($this->verificationErrors, $this->getTraceFiles($e));
     }
-    $this->click("//li[@id='toolbar-publish']/a/span");
+    $this->click("//div[@id='toolbar-publish']/button");
 	$button='Publish';
     echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
     try
@@ -1016,7 +1016,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
 	{
         array_push($this->verificationErrors, $this->getTraceFiles($e));
     }
-    $this->click("//li[@id='toolbar-unpublish']/a/span");
+    $this->click("//div[@id='toolbar-unpublish']/button");
 	$button='Unpublish';
     echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
     try
@@ -1043,7 +1043,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
 	$this->waitForPageToLoad("30000");
 	$this->filterView($filterOn);
     $this->click("checkall-toggle");
-    $this->click("//li[@id='toolbar-copy']/a/span");
+    $this->click("//div[@id='toolbar-copy']/button");
 	$button='Copy';
     echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
     try
@@ -1055,7 +1055,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
         array_push($this->verificationErrors, $this->getTraceFiles($e));
     }
     $this->click("checkall-toggle");
-    $this->click("//li[@id='toolbar-publish']/a/span");
+    $this->click("//div[@id='toolbar-publish']/button");
 	$button='Publish';
     echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
     try
@@ -1107,7 +1107,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     $this->waitForPageToLoad("30000");
 	$this->filterView($filterOn);
     $this->click("checkall-toggle");
-    $this->click("//li[@id='toolbar-publish']/a/span");
+    $this->click("//div[@id='toolbar-publish']/button");
 	$button='Publish';
     echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
     try
@@ -1119,7 +1119,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
         array_push($this->verificationErrors, $this->getTraceFiles($e));
     }
     $this->click("checkall-toggle");
-    $this->click("//li[@id='toolbar-unpublish']/a/span");
+    $this->click("//div[@id='toolbar-unpublish']/button");
 	$button='Unpublish';
     echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
     try
@@ -1131,7 +1131,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
         array_push($this->verificationErrors, $this->getTraceFiles($e));
     }
     $this->click("checkall-toggle");
-    $this->click("//li[@id='toolbar-checkin']/a/span");
+    $this->click("//div[@id='toolbar-checkin']/button");
 	$button='Check in';
     echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
     try
@@ -1146,7 +1146,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
 	$screen='Template Manager: Styles';
     $this->waitForPageToLoad("30000");
 	$this->filterView($filterOn);
-    $this->click("//li[@id='toolbar-default']/a/span");
+    $this->click("//div[@id='toolbar-default']/button");
 	$button='Default';
     echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
     try
@@ -1157,7 +1157,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
 	{
         array_push($this->verificationErrors, $this->getTraceFiles($e));
     }
-    $this->click("//li[@id='toolbar-edit']/a/span");
+    $this->click("//div[@id='toolbar-edit']/button");
 	$button='Edit';
     echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
     try
@@ -1256,7 +1256,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
 	    array_push($this->verificationErrors, $this->getTraceFiles($e));
 	}
 	$this->type("jform_message", "test");
-    $this->click("//li[@id='toolbar-send']/a/span");
+    $this->click("//div[@id='toolbar-send']/button");
 //	This no longer works as of 28 June 2011 -- need to investigate further
 //	$button='Send';
 //    echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";

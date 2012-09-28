@@ -4,7 +4,7 @@
  * @subpackage  mod_finder
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -40,11 +40,13 @@ class ModFinderHelper
 		foreach ($uri->getQuery(true) as $n => $v)
 		{
 			$fields .= '<input type="hidden" name="' . $n . '" value="' . $v . '" />';
-			if ($n == 'Itemid') {
+			if ($n == 'Itemid')
+			{
 				$needId = false;
 			}
 		}
-		if ($needId) {
+		if ($needId)
+		{
 			$fields .= '<input type="hidden" name="Itemid" value="' . JFactory::getApplication()->input->get('Itemid', '0', 'int') . '" />';
 		}
 		return $fields;
@@ -68,11 +70,11 @@ class ModFinderHelper
 
 		// Get the static taxonomy filters.
 		$options = array();
-		$options['filter'] = !is_null($request->get('f')) ? $request->get('f', '', 'int') : $params->get('f');
+		$options['filter'] = ($request->get('f', 0, 'int') != 0) ? $request->get('f', '', 'int') : $params->get('searchfilter');
 		$options['filter'] = $filter->clean($options['filter'], 'int');
 
 		// Get the dynamic taxonomy filters.
-		$options['filters'] = !is_null($request->get('t')) ? $request->get('t', '', 'array') : $params->get('t');
+		$options['filters'] = $request->get('t', '', 'array');
 		$options['filters'] = $filter->clean($options['filters'], 'array');
 		JArrayHelper::toInteger($options['filters']);
 

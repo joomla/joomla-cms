@@ -1,18 +1,20 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Plugin
+ * @subpackage  Content.joomla
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
 
 /**
  * Example Content Plugin
  *
- * @package		Joomla.Plugin
- * @subpackage	Content.joomla
- * @since		1.6
+ * @package     Joomla.Plugin
+ * @subpackage  Content.joomla
+ * @since       1.6
  */
 class plgContentJoomla extends JPlugin
 {
@@ -46,7 +48,7 @@ class plgContentJoomla extends JPlugin
 		$user = JFactory::getUser();
 
 		// Messaging for new items
-		JModel::addIncludePath(JPATH_ADMINISTRATOR.'/components/com_messages/models', 'MessagesModel');
+		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR.'/components/com_messages/models', 'MessagesModel');
 		JTable::addIncludePath(JPATH_ADMINISTRATOR.'/components/com_messages/tables');
 
 		$db = JFactory::getDbo();
@@ -68,7 +70,7 @@ class plgContentJoomla extends JPlugin
 					'subject'		=> $lang->_('COM_CONTENT_NEW_ARTICLE'),
 					'message'		=> sprintf($lang->_('COM_CONTENT_ON_NEW_CONTENT'), $user->get('name'), $article->title)
 				);
-				$model_message = JModel::getInstance('Message', 'MessagesModel');
+				$model_message = JModelLegacy::getInstance('Message', 'MessagesModel');
 				$model_message->save($message);
 			}
 		}
@@ -96,7 +98,7 @@ class plgContentJoomla extends JPlugin
 			return true;
 		}
 
-		$extension = JRequest::getString('extension');
+		$extension = JFactory::getApplication()->input->getString('extension');
 
 		// Default to true if not a core extension
 		$result = true;
@@ -168,17 +170,18 @@ class plgContentJoomla extends JPlugin
 		$query->from($table);
 		$query->where('catid = ' . $catid);
 		$db->setQuery($query);
-		$count = $db->loadResult();
 
-		// Check for DB error.
-		if ($error = $db->getErrorMsg())
+		try
 		{
-			JError::raiseWarning(500, $error);
+			$count = $db->loadResult();
+		}
+		catch (RuntimeException $e)
+		{
+			JError::raiseWarning(500, $e->getMessage());
 			return false;
 		}
-		else {
-			return $count;
-		}
+
+		return $count;
 	}
 
 	/**
@@ -210,18 +213,18 @@ class plgContentJoomla extends JPlugin
 			$query->from($table);
 			$query->where('catid IN (' . implode(',', $childCategoryIds) . ')');
 			$db->setQuery($query);
-			$count = $db->loadResult();
 
-			// Check for DB error.
-			if ($error = $db->getErrorMsg())
+			try
 			{
-				JError::raiseWarning(500, $error);
+				$count = $db->loadResult();
+			}
+			catch (RuntimeException $e)
+			{
+				JError::raiseWarning(500, $e->getMessage());
 				return false;
 			}
-			else
-			{
-				return $count;
-			}
+
+			return $count;
 		}
 		else
 		// If we didn't have any categories to check, return 0

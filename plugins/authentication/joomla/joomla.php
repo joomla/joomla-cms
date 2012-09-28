@@ -1,18 +1,20 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Plugin
+ * @subpackage  Authentication.joomla
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
 
 /**
  * Joomla Authentication plugin
  *
- * @package		Joomla.Plugin
- * @subpackage	Authentication.joomla
- * @since 1.5
+ * @package     Joomla.Plugin
+ * @subpackage  Authentication.joomla
+ * @since       1.5
  */
 class plgAuthenticationJoomla extends JPlugin
 {
@@ -26,7 +28,7 @@ class plgAuthenticationJoomla extends JPlugin
 	 * @return	boolean
 	 * @since 1.5
 	 */
-	function onUserAuthenticate($credentials, $options, &$response)
+	public function onUserAuthenticate($credentials, $options, &$response)
 	{
 		$response->type = 'Joomla';
 		// Joomla does not like blank passwords
@@ -35,9 +37,6 @@ class plgAuthenticationJoomla extends JPlugin
 			$response->error_message = JText::_('JGLOBAL_AUTH_EMPTY_PASS_NOT_ALLOWED');
 			return false;
 		}
-
-		// Initialise variables.
-		$conditions = '';
 
 		// Get a database object
 		$db		= JFactory::getDbo();

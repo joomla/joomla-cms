@@ -9,15 +9,13 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.filesystem.file');
-
 /**
  * Joomla! Captcha base object
  *
  * @abstract
- * @package		Joomla.Libraries
- * @subpackage	Captcha
- * @since		2.5
+ * @package     Joomla.Libraries
+ * @subpackage  Captcha
+ * @since       2.5
  */
 class JCaptcha extends JObject
 {
@@ -48,7 +46,7 @@ class JCaptcha extends JObject
 	/**
 	 * Captcha Plugin object
 	 *
-	 * @var	object
+	 * @var	   JPlugin
 	 * @since  2.5
 	 */
 	private $_captcha;
@@ -62,7 +60,7 @@ class JCaptcha extends JObject
 	private $_name;
 
 	/**
-	 * Captcha Plugin object
+	 * Array of instances of this class.
 	 *
 	 * @var	array
 	 */
@@ -71,8 +69,8 @@ class JCaptcha extends JObject
 	/**
 	 * Class constructor.
 	 *
-	 * @param	string	$editor  The editor to use.
-	 * @param	array	$options  Associative array of options.
+	 * @param   string  $captcha  The editor to use.
+	 * @param   array   $options  Associative array of options.
 	 *
 	 * @since 2.5
 	 */
@@ -86,10 +84,10 @@ class JCaptcha extends JObject
 	 * Returns the global Captcha object, only creating it
 	 * if it doesn't already exist.
 	 *
-	 * @param	string	$captcha  The plugin to use.
-	 * @param	array	$options  Associative array of options.
+	 * @param   string  $captcha  The plugin to use.
+	 * @param   array   $options  Associative array of options.
 	 *
-	 * @return	object	The JCaptcha object.
+	 * @return	JCaptcha  Instance of this class.
 	 *
 	 * @since 2.5
 	 */
@@ -114,14 +112,18 @@ class JCaptcha extends JObject
 	}
 
 	/**
-	 * @return boolean True on success
+	 * Fire the onInit event to initialise the captcha plug-in.
+	 *
+	 * @param   string  $id  The id of the field.
+	 *
+	 * @return  boolean  True on success
 	 *
 	 * @since	2.5
 	 */
 	public function initialise($id)
 	{
-		$args['id']		= $id ;
-		$args['event']	= 'onInit';
+		$args['id']    = $id;
+		$args['event'] = 'onInit';
 
 		try
 		{
@@ -139,9 +141,13 @@ class JCaptcha extends JObject
 	/**
 	 * Get the HTML for the captcha.
 	 *
-	 * @return 	the return value of the function "onDisplay" of the selected Plugin.
+	 * @param   string  $name   The control name.
+	 * @param   string  $id     The id for the control.
+	 * @param   string  $class  Value for the HTML class attribute
 	 *
-	 * @since	2.5
+	 * @return  mixed  The return value of the function "onDisplay" of the selected Plugin.
+	 *
+	 * @since   2.5
 	 */
 	public function display($name, $id, $class = '')
 	{
@@ -157,10 +163,10 @@ class JCaptcha extends JObject
 			return;
 		}
 
-		$args['name']		= $name;
-		$args['id']			= $id ? $id : $name;
-		$args['class']		= $class ? 'class="'.$class.'"' : '';
-		$args['event']		= 'onDisplay';
+		$args['name']  = $name;
+		$args['id']    = $id ? $id : $name;
+		$args['class'] = $class ? 'class="' . $class . '"' : '';
+		$args['event'] = 'onDisplay';
 
 		return $this->_captcha->update($args);
 	}
@@ -168,19 +174,21 @@ class JCaptcha extends JObject
 	/**
 	 * Checks if the answer is correct.
 	 *
-	 * @return 	the return value of the function "onCheckAnswer" of the selected Plugin.
+	 * @param   string  $code  The answer.
+	 *
+	 * @return  mixed   The return value of the function "onCheckAnswer" of the selected Plugin.
 	 *
 	 * @since	2.5
 	 */
 	public function checkAnswer($code)
 	{
-		//check if captcha is already loaded
+		// Check if captcha is already loaded
 		if (is_null(($this->_captcha)))
 		{
 			return;
 		}
 
-		$args['code'] = $code;
+		$args['code']  = $code;
 		$args['event'] = 'onCheckAnswer';
 
 		return $this->_captcha->update($args);
@@ -189,7 +197,7 @@ class JCaptcha extends JObject
 	/**
 	 * Load the Captcha plug-in.
 	 *
-	 * @param	array	$options  Associative array of options.
+	 * @param   array  $options  Associative array of options.
 	 *
 	 * @return  void
 	 *
@@ -202,7 +210,7 @@ class JCaptcha extends JObject
 		$name = JFilterInput::getInstance()->clean($this->_name, 'cmd');
 		$path = JPATH_PLUGINS . '/captcha/' . $name . '/' . $name . '.php';
 
-		if (!JFile::exists($path))
+		if (!is_file($path))
 		{
 			throw new RuntimeException(JText::sprintf('JLIB_CAPTCHA_ERROR_PLUGIN_NOT_FOUND', $name));
 		}
@@ -221,13 +229,13 @@ class JCaptcha extends JObject
 
 		// Build captcha plugin classname
 		$name = 'plgCaptcha' . $this->_name;
-		$this->_captcha = new $name($this, (array)$plugin, $options);
+		$this->_captcha = new $name($this, (array) $plugin, $options);
 	}
 
-		/**
+	/**
 	 * Get the state of the JEditor object
 	 *
-	 * @return  mixed    The state of the object.
+	 * @return  mixed  The state of the object.
 	 *
 	 * @since   2.5
 	 */
@@ -315,7 +323,6 @@ class JCaptcha extends JObject
 	 */
 	public function detach($observer)
 	{
-		// Initialise variables.
 		$retval = false;
 
 		$key = array_search($observer, $this->_observers);

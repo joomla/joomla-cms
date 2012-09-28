@@ -1,22 +1,22 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_weblinks
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_weblinks
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
 
 /**
  * Weblinks Weblink Controller
  *
- * @package		Joomla.Administrator
- * @subpackage	com_weblinks
- * @since		1.5
+ * @package     Joomla.Administrator
+ * @subpackage  com_weblinks
+ * @since       1.5
  */
-class WeblinksController extends JController
+class WeblinksController extends JControllerLegacy
 {
 	/**
 	 * Method to display a view.
@@ -31,12 +31,9 @@ class WeblinksController extends JController
 	{
 		require_once JPATH_COMPONENT.'/helpers/weblinks.php';
 
-		// Load the submenu.
-		WeblinksHelper::addSubmenu(JRequest::getCmd('view', 'weblinks'));
-
-		$view		= JRequest::getCmd('view', 'weblinks');
-		$layout 	= JRequest::getCmd('layout', 'default');
-		$id			= JRequest::getInt('id');
+		$view   = $this->input->get('view', 'weblinks');
+		$layout = $this->input->get('layout', 'default');
+		$id     = $this->input->getInt('id');
 
 		// Check for edit form.
 		if ($view == 'weblink' && $layout == 'edit' && !$this->checkEditId('com_weblinks.edit.weblink', $id)) {

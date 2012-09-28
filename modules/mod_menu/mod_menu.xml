@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension
 	type="module"
-	version="2.5"
+	version="3.0"
 	client="site"
 	method="upgrade">
 	<name>mod_menu</name>
@@ -11,7 +11,7 @@
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
-	<version>2.5.0</version>
+	<version>3.0.0</version>
 	<description>MOD_MENU_XML_DESCRIPTION</description>
 	<files>
 		<filename module="mod_menu">mod_menu.php</filename>
@@ -32,6 +32,14 @@
 					type="menu"
 					label="MOD_MENU_FIELD_MENUTYPE_LABEL"
 					description="MOD_MENU_FIELD_MENUTYPE_DESC" />
+				<field
+					name="active"
+					type="menuitem"
+					label="MOD_MENU_FIELD_ACTIVE_LABEL"
+					description="MOD_MENU_FIELD_ACTIVE_DESC"
+					>
+					<option value="">JCURRENT</option>
+				</field>
 				<field
 					name="startLevel"
 					type="list"
