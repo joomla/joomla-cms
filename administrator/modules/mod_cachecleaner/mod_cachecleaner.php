@@ -32,7 +32,7 @@ if (!isset($nnep->name)) {
 }
 
 // Include the syndicate functions only once
-require_once dirname(__FILE__).'/cachecleaner/helper.php;
+require_once dirname(__FILE__).'/cachecleaner/helper.php';
 
 $helper = new modCacheCleaner();
 $helper->render();
