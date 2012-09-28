@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+28-Sep-2012 Jean-Marie Simonet
+ +$ Adding installation languages: tr-TR
+
 -------------------- 3.0.0 Stable Release [27-Sep-2012] ------------------
 
 27-Sep-2012 Jean-Marie Simonet
