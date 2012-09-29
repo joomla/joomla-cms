@@ -28,6 +28,7 @@ $ -> Language fix or change
 
 29-Sep-2012 Jean-Marie Simonet
  # [#29343] 'Remove installation folder' button not always working. Thanks Ofer
+ # [#29380] Override Language String Created Cannot be Deleted. Thanks Patrick
 
 28-Sep-2012 Jean-Marie Simonet
  +$ Adding installation languages: tr-TR
