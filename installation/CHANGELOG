@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+29-Sep-2012 Jean-Marie Simonet
+ # [#29343] 'Remove installation folder' button not always working. Thanks Ofer
+
 28-Sep-2012 Jean-Marie Simonet
  +$ Adding installation languages: tr-TR
  $ updating sy-IQ
