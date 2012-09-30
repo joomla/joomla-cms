@@ -66,7 +66,7 @@ if ($this->params->get('logoFile'))
 {
 	$logo = '<img src="'. JURI::root() . $this->params->get('logoFile') .'" alt="'. $sitename .'" />';
 }
-else if ($this->params->get('sitetitle'))
+elseif ($this->params->get('sitetitle'))
 {
 	$logo = '<span class="site-title" title="'. $sitename .'">'. htmlspecialchars($this->params->get('sitetitle')) .'</span>';
 }
@@ -88,7 +88,7 @@ else
 		<link href='http://fonts.googleapis.com/css?family=<?php echo $this->params->get('googleFontName');?>' rel='stylesheet' type='text/css'>
 		<style type="text/css">
 			h1,h2,h3,h4,h5,h6,.site-title{
-				font-family: '<?php echo str_replace('+',' ',$this->params->get('googleFontName'));?>', sans-serif;
+				font-family: '<?php echo str_replace('+', ' ', $this->params->get('googleFontName'));?>', sans-serif;
 			}
 		</style>
 	<?php
