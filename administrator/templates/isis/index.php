@@ -143,7 +143,7 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 					<a class="logo" href="<?php echo $this->baseurl; ?>"><img src="<?php echo $logo;?>" alt="<?php echo $sitename; ?>" /></a>
 				</div>
 				<div class="span10">
-					<h1 class="page-title"><?php echo JHtml::_('string.truncate', $app->JComponentTitle, 40, false, false);?></h1>
+					<h1 class="page-title"><?php echo JHtml::_('string.truncate', $app->JComponentTitle, 0, false, false);?></h1>
 				</div>
 			</div>
 		</div>
@@ -208,7 +208,7 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 						// Show the page title here if the header is hidden
 						if (!$displayHeader):
 						?>
-						<h1 class="content-title"><?php echo JHtml::_('string.truncate', $app->JComponentTitle, 40, false, false);?></h1>
+						<h1 class="content-title"><?php echo JHtml::_('string.truncate', $app->JComponentTitle, 0, false, false);?></h1>
 						<?php
 						endif;
 						?>
