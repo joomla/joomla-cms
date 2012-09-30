@@ -55,9 +55,9 @@
 
 		<field
 			name="info_block_position"
-			type="radio"
+			type="list"
 			default="0"
-		    label="COM_CONTENT_FIELD_INFOBLOCK_POSITION_LABEL"
+			label="COM_CONTENT_FIELD_INFOBLOCK_POSITION_LABEL"
 			description="COM_CONTENT_FIELD_INFOBLOCK_POSITION_DESC">
 			<option value="0">COM_CONTENT_FIELD_OPTION_ABOVE</option>
 			<option value="1">COM_CONTENT_FIELD_OPTION_BELOW</option>
@@ -317,9 +317,9 @@
 		</field>
 			<field
 			name="urls_position"
-			type="radio"
+			type="list"
 			default="0"
-		    label="COM_CONTENT_FIELD_URLSPOSITION_LABEL"
+			label="COM_CONTENT_FIELD_URLSPOSITION_LABEL"
 			description="COM_CONTENT_FIELD_URLSPOSITION_DESC">
 			<option value="0">COM_CONTENT_FIELD_OPTION_ABOVE</option>
 			<option value="1">COM_CONTENT_FIELD_OPTION_BELOW</option>
@@ -466,6 +466,7 @@
 
 		<field name="show_category_title"
 			type="radio"
+			class="btn-group"
 			label="JGLOBAL_SHOW_CATEGORY_TITLE"
 			description="JGLOBAL_SHOW_CATEGORY_TITLE_DESC"
 			default="1"
@@ -651,7 +652,7 @@
 		</field>
 
 		<field name="multi_column_order"
-			type="radio"
+			type="list"
 			default="0"
 			label="JGLOBAL_MULTI_COLUMN_ORDER_LABEL"
 			description="JGLOBAL_MULTI_COLUMN_ORDER_DESC">
@@ -812,7 +813,6 @@
 				description="JGLOBAL_ORDERING_DATE_DESC"
 				label="JGLOBAL_ORDERING_DATE_LABEL"
 			>
-
 				<option value="created">JGLOBAL_CREATED</option>
 				<option value="modified">JGLOBAL_MODIFIED</option>
 				<option value="published">JPUBLISHED</option>
@@ -858,7 +858,7 @@
 
 		<field
 			name="feed_summary"
-			type="radio"
+			type="list"
 			label="JGLOBAL_FEED_SUMMARY_LABEL"
 			description="JGLOBAL_FEED_SUMMARY_DESC"
 			default="0">
