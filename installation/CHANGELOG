@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+01-Oct-2012 Jean-Marie Simonet
+ # [#28297] com_banners: BannersModelClients SQL error (group by banner id). Thanks Nils
+
 30-Sep-2012 Jean-Marie Simonet
  # [#29390] Components Title Truncated to 40 Bytes in ISIS
  # [#29325] *article manager options
