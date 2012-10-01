@@ -50,7 +50,7 @@ abstract class JInstallerHelper
 		{
 			return self::downloadPackage($response->headers['Location']);
 		}
-		else if (200 != $response->code)
+		elseif (200 != $response->code)
 		{
 			JLog::add(JText::_('JLIB_INSTALLER_ERROR_DOWNLOAD_SERVER_CONNECT'), JLog::WARNING, 'jerror');
 			return false;
