@@ -173,6 +173,10 @@ class ContentViewCategory extends JViewLegacy
 		$this->pagination = &$pagination;
 		$this->user       = &$user;
 
+		// Increment the category hit counter
+		$model = $this->getModel();
+		$model->hit();
+
 		$this->_prepareDocument();
 
 		parent::display($tpl);
