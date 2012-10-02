@@ -30,6 +30,7 @@ $ -> Language fix or change
  # [#29408] images upload to the wrong folder in image manager. Thanks Roberto
  $ Missing string for Protostar
  # Changing obsolete link to lang packs community page
+ # [#29419] *Missing client field (and other fields) when creating a new banner
 
 01-Oct-2012 Jean-Marie Simonet
  # [#28297] com_banners: BannersModelClients SQL error (group by banner id). Thanks Nils

@@ -117,6 +117,8 @@
 			<option value="1">JYES</option>
 		</field>
 
+	</fieldset>
+	<fieldset name="otherparams">
 		<field name="imptotal" type="imptotal" default="0"
 			label="COM_BANNERS_FIELD_IMPTOTAL_LABEL" description="COM_BANNERS_FIELD_IMPTOTAL_DESC" />
 
@@ -165,7 +167,6 @@
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
 		</field>
-
 	</fieldset>
 
 	<fieldset name="metadata"
