@@ -29,6 +29,7 @@ $ -> Language fix or change
 02-Oct-2012 Jean-Marie Simonet
  # [#29408] images upload to the wrong folder in image manager. Thanks Roberto
  $ Missing string for Protostar
+ # Changing obsolete link to lang packs community page
 
 01-Oct-2012 Jean-Marie Simonet
  # [#28297] com_banners: BannersModelClients SQL error (group by banner id). Thanks Nils
