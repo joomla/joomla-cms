@@ -255,6 +255,9 @@ function ContentParseRoute($segments)
 					$vars['id'] = (int) $id;
 
 					return $vars;
+				} else {
+					JError::raiseError(404, JText::_('COM_CONTENT_ERROR_ARTICLE_NOT_FOUND'));
+					return $vars;
 				}
 			}
 		}
@@ -275,6 +278,23 @@ function ContentParseRoute($segments)
 		} else {
 			$vars['view'] = 'category';
 			$vars['id'] = $cat_id;
+		}
+
+		if ($article_id) {
+			$query = 'SELECT alias, catid FROM #__content WHERE id = ' . (int) $article_id;
+			$db->setQuery($query);
+			$article = $db->loadObject();
+		
+			if ($article->alias == $alias) {
+				$vars['view'] = 'article';
+				$vars['catid'] = (int) $article->catid;
+				$vars['id'] = (int) $id;
+
+				return $vars;
+			} else {
+				JError::raiseError(404, JText::_('COM_CONTENT_ERROR_ARTICLE_NOT_FOUND'));
+				return $vars;
+			}
 		}
 
 		return $vars;
