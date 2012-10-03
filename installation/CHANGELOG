@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+03-Oct-2012 Jean-Marie Simonet
+ +$ Adding installation languages: no-NO
+
 02-Oct-2012 Jean-Marie Simonet
  # [#29408] images upload to the wrong folder in image manager. Thanks Roberto
  $ Missing string for Protostar
