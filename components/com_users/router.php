@@ -175,11 +175,9 @@ function UsersParseRoute($segments)
 	if (is_numeric($userId)) {
 		// Get the package id from the packages table by alias.
 		$db = JFactory::getDbo();
-		$db->setQuery(
-			'SELECT '.$db->quoteName('id') .
-			' FROM '.$db->quoteName('#__users') .
-			' WHERE '.$db->quoteName('id').' = '.(int) $userId
-		);
+		$query = $db->getQuery(true);
+		$query->select('u.id')->from($db->quote('#__users').' AS u')->where('u.id = '.(int) $userId);
+		$db->setQuery($query);
 		$userId = $db->loadResult();
 	}
 
