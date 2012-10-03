@@ -141,7 +141,7 @@ $sortFields = $this->getSortFields();
 					$parentsStr = "";
 					$_currentParentId = $item->parent_id;
 					$parentsStr = " ".$_currentParentId;
-					for ($i = 0; $i < $item->level; $i++)
+					for ($j = 0; $j < $item->level; $j++)
 					{
 						foreach ($this->ordering as $k => $v)
 						{
