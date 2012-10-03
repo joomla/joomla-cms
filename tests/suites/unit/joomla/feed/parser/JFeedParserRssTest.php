@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Feed
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,51 +12,28 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Feed
- * @since       12.1
+ * @since       12.3
  */
-class JFeedParserRssTest extends JoomlaTestCase
+class JFeedParserRssTest extends TestCase
 {
 	/**
-	 * Setup for testing.
-	 *
-	 * @return  void
-	 *
-	 * @see     PHPUnit_Framework_TestCase::setUp()
-	 * @since   12.1
+	 * @var    JFeedParserRss
+	 * @since  12.3
 	 */
-	protected function setUp()
-	{
-		parent::setUp();
-
-		// Create the XMLReader object to be used in our parser.
-		$this->reader = new XMLReader;
-
-		// Create the parser object.
-		$this->object = new JFeedParserRss($this->reader);
-	}
+	private $_instance;
 
 	/**
-	 * Tear down any fixtures.
-	 *
-	 * @return  void
-	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
-	 * @since   12.1
+	 * @var    XMLReader
+	 * @since  12.3
 	 */
-	protected function tearDown()
-	{
-		$this->object = null;
-		$this->reader = null;
-
-		parent::tearDown();
-	}
+	private $_reader;
 
 	/**
 	 * Method to seed data for parser initialisation.
 	 *
 	 * @return  array
 	 *
-	 * @since   12.1
+	 * @since   12.3
 	 */
 	public function seedInitialise()
 	{
@@ -72,7 +49,7 @@ class JFeedParserRssTest extends JoomlaTestCase
 	 *
 	 * @return  array
 	 *
-	 * @since   12.1
+	 * @since   12.3
 	 */
 	public function seedProcessPerson()
 	{
@@ -87,19 +64,18 @@ class JFeedParserRssTest extends JoomlaTestCase
 	/**
 	 * Tests JFeedParserRss::handleCategory()
 	 *
-	 * @return void
-	 *
-	 * @since 12.1
+	 * @return  void
 	 *
 	 * @covers  JFeedParserRss::handleCategory
+	 * @since   12.3
 	 */
 	public function testHandleCategory()
 	{
 		// Setup the inputs.
-		$el   = new JXMLElement('<category>IT/Internet/Web development</category>');
+		$el   = new SimpleXMLElement('<category>IT/Internet/Web development</category>');
 		$feed = new JFeed;
 
-		ReflectionHelper::invoke($this->object, 'handleCategory', $feed, $el);
+		TestReflection::invoke($this->_instance, 'handleCategory', $feed, $el);
 
 		// Ensure that the clound property is an object.
 		$this->assertInternalType('array', $feed->categories);
@@ -113,19 +89,18 @@ class JFeedParserRssTest extends JoomlaTestCase
 	/**
 	 * Tests JFeedParserRss::handleCloud()
 	 *
-	 * @return void
-	 *
-	 * @since 12.1
+	 * @return  void
 	 *
 	 * @covers  JFeedParserRss::handleCloud
+	 * @since   12.3
 	 */
 	public function testHandleCloud()
 	{
 		// Setup the inputs.
-		$el   = new JXMLElement('<cloud domain="domain.com" port="80" path="/RPC" registerProcedure="autoNotify" protocol="xml-rpc" />');
+		$el   = new SimpleXMLElement('<cloud domain="domain.com" port="80" path="/RPC" registerProcedure="autoNotify" protocol="xml-rpc" />');
 		$feed = new JFeed;
 
-		ReflectionHelper::invoke($this->object, 'handleCloud', $feed, $el);
+		TestReflection::invoke($this->_instance, 'handleCloud', $feed, $el);
 
 		// Ensure that the clound property is an object.
 		$this->assertInternalType('object', $feed->cloud);
@@ -155,19 +130,18 @@ class JFeedParserRssTest extends JoomlaTestCase
 	/**
 	 * Tests JFeedParserRss::handleCopyright()
 	 *
-	 * @return void
-	 *
-	 * @since 12.1
+	 * @return  void
 	 *
 	 * @covers  JFeedParserRss::handleCopyright
+	 * @since   12.3
 	 */
 	public function testHandleCopyright()
 	{
 		// Setup the inputs.
-		$el   = new JXMLElement('<copyright>All Rights Reserved.</copyright>');
+		$el   = new SimpleXMLElement('<copyright>All Rights Reserved.</copyright>');
 		$feed = new JFeed;
 
-		ReflectionHelper::invoke($this->object, 'handleCopyright', $feed, $el);
+		TestReflection::invoke($this->_instance, 'handleCopyright', $feed, $el);
 
 		$this->assertEquals(
 			'All Rights Reserved.',
@@ -178,19 +152,18 @@ class JFeedParserRssTest extends JoomlaTestCase
 	/**
 	 * Tests JFeedParserRss::handleDescription()
 	 *
-	 * @return void
-	 *
-	 * @since 12.1
+	 * @return  void
 	 *
 	 * @covers  JFeedParserRss::handleDescription
+	 * @since   12.3
 	 */
 	public function testHandleDescription()
 	{
 		// Setup the inputs.
-		$el   = new JXMLElement('<description>Lorem Ipsum ...</description>');
+		$el   = new SimpleXMLElement('<description>Lorem Ipsum ...</description>');
 		$feed = new JFeed;
 
-		ReflectionHelper::invoke($this->object, 'handleDescription', $feed, $el);
+		TestReflection::invoke($this->_instance, 'handleDescription', $feed, $el);
 
 		$this->assertEquals(
 			'Lorem Ipsum ...',
@@ -201,19 +174,18 @@ class JFeedParserRssTest extends JoomlaTestCase
 	/**
 	 * Tests JFeedParserRss::handleGenerator()
 	 *
-	 * @return void
-	 *
-	 * @since 12.1
+	 * @return  void
 	 *
 	 * @covers  JFeedParserRss::handleGenerator
+	 * @since   12.3
 	 */
 	public function testHandleGenerator()
 	{
 		// Setup the inputs.
-		$el   = new JXMLElement('<generator>Joomla</generator>');
+		$el   = new SimpleXMLElement('<generator>Joomla</generator>');
 		$feed = new JFeed;
 
-		ReflectionHelper::invoke($this->object, 'handleGenerator', $feed, $el);
+		TestReflection::invoke($this->_instance, 'handleGenerator', $feed, $el);
 
 		$this->assertEquals(
 			'Joomla',
@@ -224,19 +196,18 @@ class JFeedParserRssTest extends JoomlaTestCase
 	/**
 	 * Tests JFeedParserRss::handleImage()
 	 *
-	 * @return void
-	 *
-	 * @since 12.1
+	 * @return  void
 	 *
 	 * @covers  JFeedParserRss::handleImage
+	 * @since   12.3
 	 */
 	public function testHandleImage()
 	{
 		// Setup the inputs.
-		$el   = new JXMLElement('<image><url>http://www.w3schools.com/images/logo.gif</url><title>W3Schools.com</title><link>http://www.w3schools.com</link></image>');
+		$el   = new SimpleXMLElement('<image><url>http://www.w3schools.com/images/logo.gif</url><title>W3Schools.com</title><link>http://www.w3schools.com</link></image>');
 		$feed = new JFeed;
 
-		ReflectionHelper::invoke($this->object, 'handleImage', $feed, $el);
+		TestReflection::invoke($this->_instance, 'handleImage', $feed, $el);
 
 		$this->assertInstanceOf('JFeedLink', $feed->image);
 
@@ -259,19 +230,18 @@ class JFeedParserRssTest extends JoomlaTestCase
 	/**
 	 * Tests JFeedParserRss::handleLanguage()
 	 *
-	 * @return void
-	 *
-	 * @since 12.1
+	 * @return  void
 	 *
 	 * @covers  JFeedParserRss::handleLanguage
+	 * @since   12.3
 	 */
 	public function testHandleLanguage()
 	{
 		// Setup the inputs.
-		$el   = new JXMLElement('<language>en-US</language>');
+		$el   = new SimpleXMLElement('<language>en-US</language>');
 		$feed = new JFeed;
 
-		ReflectionHelper::invoke($this->object, 'handleLanguage', $feed, $el);
+		TestReflection::invoke($this->_instance, 'handleLanguage', $feed, $el);
 
 		$this->assertEquals(
 			'en-US',
@@ -282,19 +252,18 @@ class JFeedParserRssTest extends JoomlaTestCase
 	/**
 	 * Tests JFeedParserRss::handleLastBuildDate()
 	 *
-	 * @return void
-	 *
-	 * @since 12.1
+	 * @return  void
 	 *
 	 * @covers  JFeedParserRss::handleLastBuildDate
+	 * @since   12.3
 	 */
 	public function testHandleLastBuildDate()
 	{
 		// Setup the inputs.
-		$el   = new JXMLElement('<lastBuildDate>Sat, 01 Jan 2011 00:00:00 UTC</lastBuildDate>');
+		$el   = new SimpleXMLElement('<lastBuildDate>Sat, 01 Jan 2011 00:00:00 UTC</lastBuildDate>');
 		$feed = new JFeed;
 
-		ReflectionHelper::invoke($this->object, 'handleLastBuildDate', $feed, $el);
+		TestReflection::invoke($this->_instance, 'handleLastBuildDate', $feed, $el);
 
 		$expected = new JDate('2011-01-01');
 		$this->assertEquals(
@@ -306,19 +275,18 @@ class JFeedParserRssTest extends JoomlaTestCase
 	/**
 	 * Tests JFeedParserRss::handleLink()
 	 *
-	 * @return void
-	 *
-	 * @since 12.1
+	 * @return  void
 	 *
 	 * @covers  JFeedParserRss::handleLink
+	 * @since   12.3
 	 */
 	public function testHandleLink()
 	{
 		// Setup the inputs.
-		$el   = new JXMLElement('<link>http://domain.com/path/to/resource</link>');
+		$el   = new SimpleXMLElement('<link>http://domain.com/path/to/resource</link>');
 		$feed = new JFeed;
 
-		ReflectionHelper::invoke($this->object, 'handleLink', $feed, $el);
+		TestReflection::invoke($this->_instance, 'handleLink', $feed, $el);
 
 		$this->assertEquals(
 			'http://domain.com/path/to/resource',
@@ -329,19 +297,18 @@ class JFeedParserRssTest extends JoomlaTestCase
 	/**
 	 * Tests JFeedParserRss::handleManagingEditor()
 	 *
-	 * @return void
-	 *
-	 * @since 12.1
+	 * @return  void
 	 *
 	 * @covers  JFeedParserRss::handleManagingEditor
+	 * @since   12.3
 	 */
 	public function testHandleManagingEditor()
 	{
 		// Setup the inputs.
-		$el   = new JXMLElement('<managingEditor>editor@domain.com (The Editor)</managingEditor>');
+		$el   = new SimpleXMLElement('<managingEditor>editor@domain.com (The Editor)</managingEditor>');
 		$feed = new JFeed;
 
-		ReflectionHelper::invoke($this->object, 'handleManagingEditor', $feed, $el);
+		TestReflection::invoke($this->_instance, 'handleManagingEditor', $feed, $el);
 
 		$this->assertEquals(
 			new JFeedPerson('The Editor', 'editor@domain.com'),
@@ -352,19 +319,18 @@ class JFeedParserRssTest extends JoomlaTestCase
 	/**
 	 * Tests JFeedParserRss::handlePubDate()
 	 *
-	 * @return void
-	 *
-	 * @since 12.1
+	 * @return  void
 	 *
 	 * @covers  JFeedParserRss::handlePubDate
+	 * @since   12.3
 	 */
 	public function testHandlePubDate()
 	{
 		// Setup the inputs.
-		$el   = new JXMLElement('<pubDate>Sat, 01 Jan 2011 00:00:00 GMT</pubDate>');
+		$el   = new SimpleXMLElement('<pubDate>Sat, 01 Jan 2011 00:00:00 GMT</pubDate>');
 		$feed = new JFeed;
 
-		ReflectionHelper::invoke($this->object, 'handlePubDate', $feed, $el);
+		TestReflection::invoke($this->_instance, 'handlePubDate', $feed, $el);
 
 		$expected = new JDate('2011-01-01');
 		$this->assertEquals(
@@ -376,19 +342,18 @@ class JFeedParserRssTest extends JoomlaTestCase
 	/**
 	 * Tests JFeedParserRss::handleSkipDays()
 	 *
-	 * @return void
-	 *
-	 * @since 12.1
+	 * @return  void
 	 *
 	 * @covers  JFeedParserRss::handleSkipDays
+	 * @since   12.3
 	 */
 	public function testHandleSkipDays()
 	{
 		// Setup the inputs.
-		$el   = new JXMLElement('<skipDays><day>Saturday</day><day>Sunday</day></skipDays>');
+		$el   = new SimpleXMLElement('<skipDays><day>Saturday</day><day>Sunday</day></skipDays>');
 		$feed = new JFeed;
 
-		ReflectionHelper::invoke($this->object, 'handleSkipDays', $feed, $el);
+		TestReflection::invoke($this->_instance, 'handleSkipDays', $feed, $el);
 
 		// Ensure that the clound property is an object.
 		$this->assertInternalType('array', $feed->skipDays);
@@ -402,19 +367,18 @@ class JFeedParserRssTest extends JoomlaTestCase
 	/**
 	 * Tests JFeedParserRss::handleSkipHours()
 	 *
-	 * @return void
-	 *
-	 * @since 12.1
+	 * @return  void
 	 *
 	 * @covers  JFeedParserRss::handleSkipHours
+	 * @since   12.3
 	 */
 	public function testHandleSkipHours()
 	{
 		// Setup the inputs.
-		$el   = new JXMLElement('<skipHours><hour>0</hour><hour>10</hour></skipHours>');
+		$el   = new SimpleXMLElement('<skipHours><hour>0</hour><hour>10</hour></skipHours>');
 		$feed = new JFeed;
 
-		ReflectionHelper::invoke($this->object, 'handleSkipHours', $feed, $el);
+		TestReflection::invoke($this->_instance, 'handleSkipHours', $feed, $el);
 
 		// Ensure that the clound property is an object.
 		$this->assertInternalType('array', $feed->skipHours);
@@ -428,19 +392,18 @@ class JFeedParserRssTest extends JoomlaTestCase
 	/**
 	 * Tests JFeedParserRss::handleTitle()
 	 *
-	 * @return void
-	 *
-	 * @since 12.1
+	 * @return  void
 	 *
 	 * @covers  JFeedParserRss::handleTitle
+	 * @since   12.3
 	 */
 	public function testHandleTitle()
 	{
 		// Setup the inputs.
-		$el   = new JXMLElement('<title>My Title</title>');
+		$el   = new SimpleXMLElement('<title>My Title</title>');
 		$feed = new JFeed;
 
-		ReflectionHelper::invoke($this->object, 'handleTitle', $feed, $el);
+		TestReflection::invoke($this->_instance, 'handleTitle', $feed, $el);
 
 		$this->assertEquals(
 			'My Title',
@@ -451,19 +414,18 @@ class JFeedParserRssTest extends JoomlaTestCase
 	/**
 	 * Tests JFeedParserRss::handleTtl()
 	 *
-	 * @return void
-	 *
-	 * @since 12.1
+	 * @return  void
 	 *
 	 * @covers  JFeedParserRss::handleTtl
+	 * @since   12.3
 	 */
 	public function testHandleTtl()
 	{
 		// Setup the inputs.
-		$el   = new JXMLElement('<ttl>45</ttl>');
+		$el   = new SimpleXMLElement('<ttl>45</ttl>');
 		$feed = new JFeed;
 
-		ReflectionHelper::invoke($this->object, 'handleTtl', $feed, $el);
+		TestReflection::invoke($this->_instance, 'handleTtl', $feed, $el);
 
 		$this->assertEquals(
 			45,
@@ -474,19 +436,18 @@ class JFeedParserRssTest extends JoomlaTestCase
 	/**
 	 * Tests JFeedParserRss::handleWebmaster()
 	 *
-	 * @return void
-	 *
-	 * @since 12.1
+	 * @return  void
 	 *
 	 * @covers  JFeedParserRss::handleWebmaster
+	 * @since   12.3
 	 */
 	public function testHandleWebmaster()
 	{
 		// Setup the inputs.
-		$el   = new JXMLElement('<webmaster>webmaster@domain.com (The Webmaster)</webmaster>');
+		$el   = new SimpleXMLElement('<webmaster>webmaster@domain.com (The Webmaster)</webmaster>');
 		$feed = new JFeed;
 
-		ReflectionHelper::invoke($this->object, 'handleWebmaster', $feed, $el);
+		TestReflection::invoke($this->_instance, 'handleWebmaster', $feed, $el);
 
 		$expected = new JFeedPerson('The Webmaster', 'webmaster@domain.com', '', 'webmaster');
 		$this->assertTrue(in_array($expected, $feed->contributors));
@@ -500,52 +461,50 @@ class JFeedParserRssTest extends JoomlaTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since 12.1
-	 *
 	 * @covers        JFeedParserRss::initialise
 	 * @dataProvider  seedInitialise
+	 * @since         12.3
 	 */
 	public function testInitialise($expected, $xml)
 	{
 		// Set the XML for the internal reader.
-		$this->reader->XML($xml);
+		$this->_reader->XML($xml);
 
 		// Advance the reader to the first element.
-		while ($this->reader->read() && ($this->reader->nodeType != XMLReader::ELEMENT));
+		while ($this->_reader->read() && ($this->_reader->nodeType != XMLReader::ELEMENT));
 
-		ReflectionHelper::invoke($this->object, 'initialise');
+		TestReflection::invoke($this->_instance, 'initialise');
 
 		$this->assertAttributeEquals(
 			$expected,
 			'version',
-			$this->object,
+			$this->_instance,
 			'The version string detected should match the expected value.'
 		);
 
 		// Verify that after detecting the version we are ready to start parsing.
 		$this->assertEquals(
 			'test',
-			$this->reader->name
+			$this->_reader->name
 		);
 		$this->assertEquals(
 			XMLReader::ELEMENT,
-			$this->reader->nodeType
+			$this->_reader->nodeType
 		);
 	}
 
 	/**
 	 * Tests JFeedParserRss::processFeedEntry()
 	 *
-	 * @return void
-	 *
-	 * @since 12.1
+	 * @return  void
 	 *
 	 * @covers  JFeedParserRss::processFeedEntry
+	 * @since   12.3
 	 */
 	public function testProcessFeedEntry()
 	{
 		$entry = new JFeedEntry;
-		$el = new JXMLElement(
+		$el = new SimpleXMLElement(
 			'<entry>
 				<link>http://example.com/id</link>
 				<title>title</title>
@@ -557,7 +516,7 @@ class JFeedParserRssTest extends JoomlaTestCase
 			</entry>'
 		);
 
-		ReflectionHelper::invoke($this->object, 'processFeedEntry', $entry, $el);
+		TestReflection::invoke($this->_instance, 'processFeedEntry', $entry, $el);
 
 		$this->assertEquals('http://example.com/id', $entry->uri);
 		$this->assertEquals('title', $entry->title);
@@ -578,20 +537,54 @@ class JFeedParserRssTest extends JoomlaTestCase
 	/**
 	 * Tests JFeedParserRss::processPerson()
 	 *
-	 * @return void
-	 *
-	 * @since 12.1
+	 * @return  void
 	 *
 	 * @covers        JFeedParserRss::processPerson
 	 * @dataProvider  seedProcessPerson
+	 * @since         12.3
 	 */
 	public function testProcessPerson($input, $name, $email)
 	{
-		$person = ReflectionHelper::invoke($this->object, 'processPerson', $input);
+		$person = TestReflection::invoke($this->_instance, 'processPerson', $input);
 
 		$this->assertInstanceOf('JFeedPerson', $person);
 
 		$this->assertEquals($name, $person->name);
 		$this->assertEquals($email, $person->email);
+	}
+
+	/**
+	 * Setup the tests.
+	 *
+	 * @return  void
+	 *
+	 * @see     PHPUnit_Framework_TestCase::setUp()
+	 * @since   12.3
+	 */
+	protected function setUp()
+	{
+		parent::setUp();
+
+		// Create the XMLReader object to be used in our parser instance.
+		$this->_reader = new XMLReader;
+
+		// Instantiate the parser object.
+		$this->_instance = new JFeedParserRss($this->_reader);
+	}
+
+	/**
+	 * Method to tear down whatever was set up before the test.
+	 *
+	 * @return  void
+	 *
+	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @since   12.3
+	 */
+	protected function tearDown()
+	{
+		unset($this->_instance);
+		unset($this->_reader);
+
+		parent::teardown();
 	}
 }

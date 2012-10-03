@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Feed
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,18 +12,17 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Feed
- * @since       12.1
+ * @since       12.3
  */
-class JFeedLinkTest extends JoomlaTestCase
+class JFeedLinkTest extends TestCase
 {
 	/**
 	 * Tests the JFeedLink::__construct() method.
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
-	 *
 	 * @covers  JFeedLink::__construct
+	 * @since   12.3
 	 */
 	public function testConstruct()
 	{
@@ -42,10 +41,9 @@ class JFeedLinkTest extends JoomlaTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
-	 *
 	 * @covers             JFeedLink::__construct
 	 * @expectedException  InvalidArgumentException
+	 * @since              12.3
 	 */
 	public function testConstructWithInvalidLength()
 	{

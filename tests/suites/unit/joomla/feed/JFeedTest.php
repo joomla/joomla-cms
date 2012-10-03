@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Feed
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,56 +12,33 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Feed
- * @since       12.1
+ * @since       12.3
  */
-class JFeedTest extends JoomlaTestCase
+class JFeedTest extends TestCase
 {
 	/**
-	 * Setup for testing.
-	 *
-	 * @return  void
-	 *
-	 * @see     PHPUnit_Framework_TestCase::setUp()
-	 * @since   12.1
+	 * @var    JFeed
+	 * @since  12.3
 	 */
-	protected function setUp()
-	{
-		parent::setUp();
-
-		$this->object = new JFeed();
-	}
-
-	/**
-	 * Tear down any fixtures.
-	 *
-	 * @return  void
-	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
-	 * @since   12.1
-	 */
-	protected function tearDown()
-	{
-		parent::tearDown();
-	}
+	private $_instance;
 
 	/**
 	 * Tests the JFeed::__get method when the property has been set to a value.
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
-	 *
 	 * @covers  JFeed::__get
+	 * @since   12.3
 	 */
 	public function testMagicGetSet()
 	{
-		$properties = ReflectionHelper::getValue($this->object, 'properties');
+		$properties = TestReflection::getValue($this->_instance, 'properties');
 
 		$properties['testValue'] = 'test';
 
-		ReflectionHelper::setValue($this->object, 'properties', $properties);
+		TestReflection::setValue($this->_instance, 'properties', $properties);
 
-		$this->assertEquals('test', $this->object->testValue);
+		$this->assertEquals('test', $this->_instance->testValue);
 	}
 
 	/**
@@ -69,13 +46,12 @@ class JFeedTest extends JoomlaTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
-	 *
 	 * @covers  JFeed::__get
+	 * @since   12.3
 	 */
 	public function testMagicGetNull()
 	{
-		$this->assertEquals(null, $this->object->testValue);
+		$this->assertEquals(null, $this->_instance->testValue);
 	}
 
 	/**
@@ -83,15 +59,14 @@ class JFeedTest extends JoomlaTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
-	 *
 	 * @covers  JFeed::__set
+	 * @since   12.3
 	 */
 	public function testMagicSetUpdatedDateString()
 	{
-		$this->object->updatedDate = 'May 2nd, 1967';
+		$this->_instance->updatedDate = 'May 2nd, 1967';
 
-		$properties = ReflectionHelper::getValue($this->object, 'properties');
+		$properties = TestReflection::getValue($this->_instance, 'properties');
 
 		$this->assertInstanceOf('JDate', $properties['updatedDate']);
 	}
@@ -101,16 +76,15 @@ class JFeedTest extends JoomlaTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
-	 *
 	 * @covers  JFeed::__set
+	 * @since   12.3
 	 */
 	public function testMagicSetUpdatedDateJDateObject()
 	{
 		$date = new JDate('October 12, 2011');
-		$this->object->updatedDate = $date;
+		$this->_instance->updatedDate = $date;
 
-		$properties = ReflectionHelper::getValue($this->object, 'properties');
+		$properties = TestReflection::getValue($this->_instance, 'properties');
 
 		$this->assertInstanceOf('JDate', $properties['updatedDate']);
 		$this->assertTrue($date === $properties['updatedDate']);
@@ -121,17 +95,16 @@ class JFeedTest extends JoomlaTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
-	 *
 	 * @covers  JFeed::__set
+	 * @since   12.3
 	 */
 	public function testMagicSetAuthorWithPerson()
 	{
 		$person = new JFeedPerson('Brian Kernighan', 'brian@example.com');
 
-		$this->object->author = $person;
+		$this->_instance->author = $person;
 
-		$properties = ReflectionHelper::getValue($this->object, 'properties');
+		$properties = TestReflection::getValue($this->_instance, 'properties');
 
 		$this->assertInstanceOf('JFeedPerson', $properties['author']);
 		$this->assertTrue($person === $properties['author']);
@@ -142,15 +115,13 @@ class JFeedTest extends JoomlaTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
-	 *
+	 * @covers             JFeed::__set
 	 * @expectedException  InvalidArgumentException
-	 *
-	 * @covers  JFeed::__set
+	 * @since              12.3
 	 */
 	public function testMagicSetAuthorWithInvalidAuthor()
 	{
-		$this->object->author = 'Jack Sprat';
+		$this->_instance->author = 'Jack Sprat';
 	}
 
 	/**
@@ -158,15 +129,13 @@ class JFeedTest extends JoomlaTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
-	 *
+	 * @covers             JFeed::__set
 	 * @expectedException  InvalidArgumentException
-	 *
-	 * @covers  JFeed::__set
+	 * @since              12.3
 	 */
 	public function testMagicSetCategoriesWithInvalidProperty()
 	{
-		$this->object->categories = 'Can\'t touch this';
+		$this->_instance->categories = 'Can\'t touch this';
 	}
 
 	/**
@@ -174,15 +143,14 @@ class JFeedTest extends JoomlaTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
-	 *
 	 * @covers  JFeed::__set
+	 * @since   12.3
 	 */
 	public function testMagicSetGeneral()
 	{
-		$this->object->testValue = 'test';
+		$this->_instance->testValue = 'test';
 
-		$properties = ReflectionHelper::getValue($this->object, 'properties');
+		$properties = TestReflection::getValue($this->_instance, 'properties');
 
 		$this->assertEquals($properties['testValue'], 'test');
 	}
@@ -192,15 +160,14 @@ class JFeedTest extends JoomlaTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
-	 *
 	 * @covers  JFeed::addCategory
+	 * @since   12.3
 	 */
 	public function testAddCategory()
 	{
-		$this->object->addCategory('category1', 'http://www.example.com');
+		$this->_instance->addCategory('category1', 'http://www.example.com');
 
-		$properties = ReflectionHelper::getValue($this->object, 'properties');
+		$properties = TestReflection::getValue($this->_instance, 'properties');
 
 		$this->assertEquals('http://www.example.com', $properties['categories']['category1']);
 	}
@@ -210,15 +177,14 @@ class JFeedTest extends JoomlaTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
-	 *
 	 * @covers  JFeed::addContributor
+	 * @since   12.3
 	 */
 	public function testAddContributor()
 	{
-		$this->object->addContributor('Dennis Ritchie', 'dennis.ritchie@example.com');
+		$this->_instance->addContributor('Dennis Ritchie', 'dennis.ritchie@example.com');
 
-		$properties = ReflectionHelper::getValue($this->object, 'properties');
+		$properties = TestReflection::getValue($this->_instance, 'properties');
 
 		// Make sure the contributor we added actually exists.
 		$this->assertTrue(in_array(
@@ -226,9 +192,9 @@ class JFeedTest extends JoomlaTestCase
 			$properties['contributors']
 		));
 
-		$this->object->addContributor('Dennis Ritchie', 'dennis.ritchie@example.com');
+		$this->_instance->addContributor('Dennis Ritchie', 'dennis.ritchie@example.com');
 
-		$properties = ReflectionHelper::getValue($this->object, 'properties');
+		$properties = TestReflection::getValue($this->_instance, 'properties');
 
 		// Make sure we aren't adding the same contributor more than once.
 		$this->assertTrue(count($properties['contributors']) == 1);
@@ -239,26 +205,25 @@ class JFeedTest extends JoomlaTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
-	 *
 	 * @covers  JFeed::addEntry
+	 * @since   12.3
 	 */
 	public function testAddEntry()
 	{
 		$entry = new JFeedEntry;
 
-		$this->object->addEntry($entry);
+		$this->_instance->addEntry($entry);
 
-		$entries = ReflectionHelper::getValue($this->object, 'entries');
+		$entries = TestReflection::getValue($this->_instance, 'entries');
 
 		$this->assertEquals(
 			$entry,
 			$entries[0]
 		);
 
-		$this->object->addEntry($entry);
+		$this->_instance->addEntry($entry);
 
-		$entries = ReflectionHelper::getValue($this->object, 'entries');
+		$entries = TestReflection::getValue($this->_instance, 'entries');
 
 		// Make sure we aren't adding the same entry more than once.
 		$this->assertTrue(count($entries) == 1);
@@ -269,9 +234,8 @@ class JFeedTest extends JoomlaTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
-	 *
 	 * @covers  JFeed::offsetExists
+	 * @since   12.3
 	 */
 	public function testOffsetExists()
 	{
@@ -285,9 +249,9 @@ class JFeedTest extends JoomlaTestCase
 			 ->method('offsetExists')
 			 ->will($this->returnValue(true));
 
-		ReflectionHelper::setValue($this->object, 'entries', $mock);
+		TestReflection::setValue($this->_instance, 'entries', $mock);
 
-		$this->assertTrue($this->object->offsetExists($offset));
+		$this->assertTrue($this->_instance->offsetExists($offset));
 	}
 
 	/**
@@ -295,9 +259,8 @@ class JFeedTest extends JoomlaTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
-	 *
 	 * @covers  JFeed::offsetGet
+	 * @since   12.3
 	 */
 	public function testOffsetGet()
 	{
@@ -311,9 +274,9 @@ class JFeedTest extends JoomlaTestCase
 			 ->method('offsetGet')
 			 ->will($this->returnValue(true));
 
-		ReflectionHelper::setValue($this->object, 'entries', $mock);
+		TestReflection::setValue($this->_instance, 'entries', $mock);
 
-		$this->assertTrue($this->object->offsetGet($offset));
+		$this->assertTrue($this->_instance->offsetGet($offset));
 	}
 
 	/**
@@ -321,14 +284,13 @@ class JFeedTest extends JoomlaTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
-	 *
+	 * @covers             JFeed::offsetSet
 	 * @expectedException  InvalidArgumentException
-	 * @covers  JFeed::offsetSet
+	 * @since              12.3
 	 */
 	public function testOffsetSetWithString()
 	{
-		$this->object->offsetSet(1, 'My string');
+		$this->_instance->offsetSet(1, 'My string');
 	}
 
 	/**
@@ -336,17 +298,16 @@ class JFeedTest extends JoomlaTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
-	 *
 	 * @covers  JFeed::offsetSet
+	 * @since   12.3
 	 */
 	public function testOffsetSet()
 	{
 		$expected = new JFeedEntry;
 
-		$this->object->offsetSet(1, $expected);
+		$this->_instance->offsetSet(1, $expected);
 
-		$entries = ReflectionHelper::getValue($this->object, 'entries');
+		$entries = TestReflection::getValue($this->_instance, 'entries');
 
 		$this->assertSame(
 			$expected,
@@ -359,9 +320,8 @@ class JFeedTest extends JoomlaTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
-	 *
 	 * @covers  JFeed::offsetUnset
+	 * @since   12.3
 	 */
 	public function testOffsetUnset()
 	{
@@ -369,11 +329,11 @@ class JFeedTest extends JoomlaTestCase
 
 		$entries = array(10 => $expected);
 
-		ReflectionHelper::setValue($this->object, 'entries', $entries);
+		TestReflection::setValue($this->_instance, 'entries', $entries);
 
-		$this->object->offsetUnset(10);
+		$this->_instance->offsetUnset(10);
 
-		$entries = ReflectionHelper::getValue($this->object, 'entries');
+		$entries = TestReflection::getValue($this->_instance, 'entries');
 
 		$this->assertFalse(in_array($expected, $entries));
 	}
@@ -383,9 +343,8 @@ class JFeedTest extends JoomlaTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
-	 *
 	 * @covers  JFeed::removeCategory
+	 * @since   12.3
 	 */
 	public function testRemoveCategory()
 	{
@@ -393,11 +352,11 @@ class JFeedTest extends JoomlaTestCase
 
 		$properties['categories'] = array('category1', 'http://www.example.com');
 
-		ReflectionHelper::setValue($this->object, 'properties', $properties);
+		TestReflection::setValue($this->_instance, 'properties', $properties);
 
-		$this->object->removeCategory('category1');
+		$this->_instance->removeCategory('category1');
 
-		$properties = ReflectionHelper::getValue($this->object, 'properties');
+		$properties = TestReflection::getValue($this->_instance, 'properties');
 
 		$this->assertFalse(isset($properties['categories']['category1']));
 	}
@@ -407,9 +366,8 @@ class JFeedTest extends JoomlaTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
-	 *
 	 * @covers  JFeed::removeContributor
+	 * @since   12.3
 	 */
 	public function testRemoveContributor()
 	{
@@ -418,15 +376,15 @@ class JFeedTest extends JoomlaTestCase
 		$properties = array();
 		$properties['contributors'] = array(1 => $person);
 
-		ReflectionHelper::setValue($this->object, 'properties', $properties);
+		TestReflection::setValue($this->_instance, 'properties', $properties);
 
-		$this->object->removeContributor($person);
+		$this->_instance->removeContributor($person);
 
-		$properties = ReflectionHelper::getValue($this->object, 'properties');
+		$properties = TestReflection::getValue($this->_instance, 'properties');
 
 		$this->assertFalse(in_array($person, $properties['contributors']));
 
-		$this->assertInstanceOf('JFeed', $this->object->removeContributor($person));
+		$this->assertInstanceOf('JFeed', $this->_instance->removeContributor($person));
 	}
 
 	/**
@@ -434,9 +392,8 @@ class JFeedTest extends JoomlaTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
-	 *
 	 * @covers  JFeed::removeEntry
+	 * @since   12.3
 	 */
 	public function testRemoveEntry()
 	{
@@ -444,15 +401,15 @@ class JFeedTest extends JoomlaTestCase
 
 		$entries = array(1 => $expected);
 
-		ReflectionHelper::setValue($this->object, 'entries', $entries);
+		TestReflection::setValue($this->_instance, 'entries', $entries);
 
-		$this->object->removeEntry($expected);
+		$this->_instance->removeEntry($expected);
 
-		$entries = ReflectionHelper::getValue($this->object, 'entries');
+		$entries = TestReflection::getValue($this->_instance, 'entries');
 
 		$this->assertFalse(in_array($expected, $entries));
 
-		$this->assertInstanceOf('JFeed', $this->object->removeEntry($expected));
+		$this->assertInstanceOf('JFeed', $this->_instance->removeEntry($expected));
 	}
 
 	/**
@@ -460,18 +417,47 @@ class JFeedTest extends JoomlaTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
-	 *
 	 * @covers  JFeed::setAuthor
+	 * @since   12.3
 	 */
 	public function testSetAuthor()
 	{
-		$this->object->setAuthor('Sir John A. Macdonald', 'john.macdonald@example.com');
+		$this->_instance->setAuthor('Sir John A. Macdonald', 'john.macdonald@example.com');
 
-		$properties = ReflectionHelper::getValue($this->object, 'properties');
+		$properties = TestReflection::getValue($this->_instance, 'properties');
 
 		$this->assertInstanceOf('JFeedPerson', $properties['author']);
 		$this->assertEquals('Sir John A. Macdonald', $properties['author']->name);
 		$this->assertEquals('john.macdonald@example.com', $properties['author']->email);
+	}
+
+	/**
+	 * Setup the tests.
+	 *
+	 * @return  void
+	 *
+	 * @see     PHPUnit_Framework_TestCase::setUp()
+	 * @since   12.3
+	 */
+	protected function setUp()
+	{
+		parent::setUp();
+
+		$this->_instance = new JFeed;
+	}
+
+	/**
+	 * Method to tear down whatever was set up before the test.
+	 *
+	 * @return  void
+	 *
+	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @since   12.3
+	 */
+	protected function tearDown()
+	{
+		unset($this->_instance);
+
+		parent::teardown();
 	}
 }

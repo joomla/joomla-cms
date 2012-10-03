@@ -3,66 +3,42 @@
  * @package     Joomla.UnitTest
  * @subpackage  Feed
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once __DIR__ . '/stubs/JFeedParserMock.php';
-require_once __DIR__ . '/stubs/JFeedParserProcessElementMock.php';
-require_once __DIR__ . '/stubs/JFeedParserMockNamespace.php';
+JLoader::register('JFeedParserMock', __DIR__ . '/stubs/JFeedParserMock.php');
+JLoader::register('JFeedParserProcessElementMock', __DIR__ . '/stubs/JFeedParserProcessElementMock.php');
+JLoader::register('JFeedParserMockNamespace', __DIR__ . '/stubs/JFeedParserMockNamespace.php');
 
 /**
  * Test class for JFeedParser.
  *
  * @package     Joomla.UnitTest
  * @subpackage  Feed
- * @since       12.1
+ * @since       12.3
  */
-class JFeedParserTest extends JoomlaTestCase
+class JFeedParserTest extends TestCase
 {
 	/**
-	 * Setup for testing.
-	 *
-	 * @return  void
-	 *
-	 * @see     PHPUnit_Framework_TestCase::setUp()
-	 * @since   12.1
+	 * @var    JFeedParser
+	 * @since  12.3
 	 */
-	protected function setUp()
-	{
-		parent::setUp();
-
-		// Create the XMLReader object to be used in our parser instance.
-		$this->reader = new XMLReader;
-
-		// Instantiate the mock so we can call concrete methods.
-		$this->object = new JFeedParserMock($this->reader);
-	}
+	private $_instance;
 
 	/**
-	 * Tear down any fixtures.
-	 *
-	 * @return  void
-	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
-	 * @since   12.1
+	 * @var    XMLReader
+	 * @since  12.3
 	 */
-	protected function tearDown()
-	{
-		$this->object = null;
-		$this->reader = null;
-
-		parent::tearDown();
-	}
+	private $_reader;
 
 	/**
 	 * Tests JFeedParser::parse()
 	 *
-	 * @return void
-	 *
-	 * @since 12.1
+	 * @return  void
 	 *
 	 * @covers  JFeedParser::parse
+	 * @since   12.3
 	 */
 	public function testParse()
 	{
@@ -70,21 +46,21 @@ class JFeedParserTest extends JoomlaTestCase
 		$parser = $this->getMock(
 			'JFeedParserMock',
 			array('initialise', 'processElement'),
-			array($this->reader)
+			array($this->_reader)
 		);
 
 		// Setup some expectations for the mock object.
 		$parser->expects($this->once())->method('initialise');
 		$parser->expects($this->exactly(2))->method('processElement');
 
-		ReflectionHelper::setValue($parser, 'namespaces', array('namespace' => new JFeedParserMockNamespace));
+		TestReflection::setValue($parser, 'namespaces', array('namespace' => new JFeedParserMockNamespace));
 
 		// Set the XML for the internal reader and move the stream to the <root> element.
 		$xml = '<root xmlns="http://bar.foo" xmlns:namespace="http://foo.bar"><tag1>foobar</tag1><namespace:tag2 attr="value" /></root>';
-		$this->reader->XML($xml);
+		$this->_reader->XML($xml);
 
 		// Advance the reader to the first <tag1> element.
-		while ($this->reader->read() && ($this->reader->name != 'tag1'));
+		while ($this->_reader->read() && ($this->_reader->name != 'tag1'));
 
 		$parser->parse();
 	}
@@ -92,80 +68,76 @@ class JFeedParserTest extends JoomlaTestCase
 	/**
 	 * Tests JFeedParser::registerNamespace()
 	 *
-	 * @return void
-	 *
-	 * @since 12.1
+	 * @return  void
 	 *
 	 * @covers  JFeedParser::registerNamespace
+	 * @since   12.3
 	 */
 	public function testRegisterNamespace()
 	{
 		// For a new object we nave no namespaces.
-		$this->assertAttributeEmpty('namespaces', $this->object);
+		$this->assertAttributeEmpty('namespaces', $this->_instance);
 
 		// Add a new namespace.
 		$mock = $this->getMock('JFeedParserNamespace');
-		$this->object->registerNamespace('foo', $mock);
+		$this->_instance->registerNamespace('foo', $mock);
 
 		$this->assertAttributeEquals(
 			array('foo' => $mock),
 			'namespaces',
-			$this->object
+			$this->_instance
 		);
 
 		// Add the namespace again for a different prefix.
-		$this->object->registerNamespace('bar', $mock);
+		$this->_instance->registerNamespace('bar', $mock);
 
 		$this->assertAttributeEquals(
 			array('foo' => $mock, 'bar' => $mock),
 			'namespaces',
-			$this->object
+			$this->_instance
 		);
 	}
 
 	/**
 	 * Tests JFeedParser::registerNamespace() with an expected failure.  Cannot register a string.
 	 *
-	 * @return void
-	 *
-	 * @since 12.1
+	 * @return  void
 	 *
 	 * @covers             JFeedParser::registerNamespace
 	 * @expectedException  PHPUnit_Framework_Error
+	 * @since              12.3
 	 */
 	public function testRegisterNamespaceWithString()
 	{
-		$this->object->registerNamespace('foo', 'bar');
+		$this->_instance->registerNamespace('foo', 'bar');
 	}
 
 	/**
 	 * Tests JFeedParser::registerNamespace() with an expected failure.  Cannot register a handler
 	 * that isn't an instance of JFeedParserNamespace.
 	 *
-	 * @return void
-	 *
-	 * @since 12.1
+	 * @return  void
 	 *
 	 * @covers             JFeedParser::registerNamespace
 	 * @expectedException  PHPUnit_Framework_Error
+	 * @since              12.3
 	 */
 	public function testRegisterNamespaceWithObject()
 	{
-		$this->object->registerNamespace('foo', new stdClass);
+		$this->_instance->registerNamespace('foo', new stdClass);
 	}
 
 	/**
 	 * Tests JFeedParser::processElement() with processing a normal element.
 	 *
-	 * @return void
-	 *
-	 * @since 12.1
+	 * @return  void
 	 *
 	 * @covers  JFeedParser::processElement
+	 * @since   12.3
 	 */
 	public function testProcessElementWithElement()
 	{
-		$el = new JXmlElement('<element1></element1>');
+		$el = new SimpleXMLElement('<element1></element1>');
 
 		// process element has a few dependencies that we need to pass:
 		// a JFeed object, an element, and namespaces
@@ -195,15 +167,14 @@ class JFeedParserTest extends JoomlaTestCase
 	/**
 	 * Tests JFeedParser::processElement() with processing an entry element.
 	 *
-	 * @return void
-	 *
-	 * @since 12.1
+	 * @return  void
 	 *
 	 * @covers  JFeedParser::processElement
+	 * @since   12.3
 	 */
 	public function testProcessElementWithEntry()
 	{
-		$el = new JXmlElement('<myentry></myentry>');
+		$el = new SimpleXMLElement('<myentry></myentry>');
 
 		// process element has a few dependencies that we need to pass:
 		// a JFeed object, an element, and namespaces
@@ -237,25 +208,24 @@ class JFeedParserTest extends JoomlaTestCase
 	/**
 	 * Tests JFeedParser::expandToSimpleXml()
 	 *
-	 * @return void
-	 *
-	 * @since 12.1
+	 * @return  void
 	 *
 	 * @covers  JFeedParser::expandToSimpleXml
+	 * @since   12.3
 	 */
 	public function testExpandToSimpleXml()
 	{
 		// Set the XML for the internal reader and move the stream to the first <node> element.
-		$this->reader->XML('<node foo="bar"><child>foobar</child></node>');
-		$this->reader->next('node');
+		$this->_reader->XML('<node foo="bar"><child>foobar</child></node>');
+		$this->_reader->next('node');
 
 		// Execute the 'expandToSimpleXml' method.
-		$el = ReflectionHelper::invoke($this->object, 'expandToSimpleXml');
+		$el = TestReflection::invoke($this->_instance, 'expandToSimpleXml');
 
 		$this->assertInstanceOf(
-			'JXmlElement',
+			'SimpleXMLElement',
 			$el,
-			'The expanded return value should be a JXmlElement instance.'
+			'The expanded return value should be a SimpleXMLElement instance.'
 		);
 
 		$this->assertEquals(
@@ -271,9 +241,9 @@ class JFeedParserTest extends JoomlaTestCase
 		);
 
 		$this->assertInstanceOf(
-			'JXmlElement',
+			'SimpleXMLElement',
 			$el->child[0],
-			'The expanded return value should have a child element which is a JXmlElement instance.'
+			'The expanded return value should have a child element which is a SimpleXMLElement instance.'
 		);
 
 		$this->assertEquals(
@@ -286,190 +256,219 @@ class JFeedParserTest extends JoomlaTestCase
 	/**
 	 * Tests JFeedParser::fetchNamespace()
 	 *
-	 * @return void
-	 *
-	 * @since 12.1
+	 * @return  void
 	 *
 	 * @covers  JFeedParser::fetchNamespace
+	 * @since   12.3
 	 */
 	public function testFetchNamespace()
 	{
 		// Set a mock namespace into the namespaces for the parser object.
 		$mock = $this->getMock('JFeedParserNamespace');
 		$namespaces = array('mock' => $mock);
-		ReflectionHelper::setValue($this->object, 'namespaces', $namespaces);
+		TestReflection::setValue($this->_instance, 'namespaces', $namespaces);
 
-		$ns = ReflectionHelper::invoke($this->object, 'fetchNamespace', 'mock');
+		$ns = TestReflection::invoke($this->_instance, 'fetchNamespace', 'mock');
 		$this->assertSame($mock, $ns, 'The mock namespace should be what is returned.');
 
-		$ns = ReflectionHelper::invoke($this->object, 'fetchNamespace', 'foobar');
+		$ns = TestReflection::invoke($this->_instance, 'fetchNamespace', 'foobar');
 		$this->assertFalse($ns, 'Since there is no foobar namespace it should return false.');
 
-		$ns = ReflectionHelper::invoke($this->object, 'fetchNamespace', 'namespace');
+		$ns = TestReflection::invoke($this->_instance, 'fetchNamespace', 'namespace');
 		$this->assertInstanceOf('JFeedParserMockNamespace', $ns, 'We should get an instance of the mock namespace.');
 	}
 
 	/**
 	 * Tests JFeedParser::moveToNextElement()
 	 *
-	 * @return void
-	 *
-	 * @since 12.1
+	 * @return  void
 	 *
 	 * @covers  JFeedParser::moveToNextElement
+	 * @since   12.3
 	 */
 	public function testMoveToNextElement()
 	{
 		// Set the XML for the internal reader and move the stream to the <root> element.
-		$this->reader->XML('<root><node test="first"><child>foobar</child></node><node test="second"></node></root>');
-		$this->reader->next('root');
+		$this->_reader->XML('<root><node test="first"><child>foobar</child></node><node test="second"></node></root>');
+		$this->_reader->next('root');
 
 		// Ensure that the current node is "root".
-		$this->assertEquals('root', $this->reader->name);
+		$this->assertEquals('root', $this->_reader->name);
 
 		// Move to the next element, which should be <node test="first">.
-		ReflectionHelper::invoke($this->object, 'moveToNextElement');
-		$this->assertEquals('node', $this->reader->name);
-		$this->assertEquals('first', $this->reader->getAttribute('test'));
+		TestReflection::invoke($this->_instance, 'moveToNextElement');
+		$this->assertEquals('node', $this->_reader->name);
+		$this->assertEquals('first', $this->_reader->getAttribute('test'));
 
 		// Move to the next element, which should be <child> with a data value of "foobar".
-		ReflectionHelper::invoke($this->object, 'moveToNextElement');
-		$this->assertEquals('child', $this->reader->name);
-		$this->assertEquals('foobar', $this->reader->readString());
+		TestReflection::invoke($this->_instance, 'moveToNextElement');
+		$this->assertEquals('child', $this->_reader->name);
+		$this->assertEquals('foobar', $this->_reader->readString());
 
 		// Move to the next element, which should be <node test="second">.
-		ReflectionHelper::invoke($this->object, 'moveToNextElement');
-		$this->assertEquals('node', $this->reader->name);
-		$this->assertEquals('second', $this->reader->getAttribute('test'));
+		TestReflection::invoke($this->_instance, 'moveToNextElement');
+		$this->assertEquals('node', $this->_reader->name);
+		$this->assertEquals('second', $this->_reader->getAttribute('test'));
 
 		// Move to the next element, which should be <node test="second">.
-		$return = ReflectionHelper::invoke($this->object, 'moveToNextElement');
+		$return = TestReflection::invoke($this->_instance, 'moveToNextElement');
 		$this->assertFalse($return);
 	}
 
 	/**
 	 * Tests JFeedParser::moveToNextElement() when using the name attribute.
 	 *
-	 * @return void
-	 *
-	 * @since 12.1
+	 * @return  void
 	 *
 	 * @covers  JFeedParser::moveToNextElement
+	 * @since   12.3
 	 */
 	public function testMoveToNextElementByName()
 	{
 		// Set the XML for the internal reader and move the stream to the <root> element.
-		$this->reader->XML('<root><node test="first"><child>foobar</child></node><node test="second"></node></root>');
+		$this->_reader->XML('<root><node test="first"><child>foobar</child></node><node test="second"></node></root>');
 
 		// Move to the next <node> element, which should be <node test="first">.
-		ReflectionHelper::invoke($this->object, 'moveToNextElement', 'node');
-		$this->assertEquals('node', $this->reader->name);
-		$this->assertEquals('first', $this->reader->getAttribute('test'));
+		TestReflection::invoke($this->_instance, 'moveToNextElement', 'node');
+		$this->assertEquals('node', $this->_reader->name);
+		$this->assertEquals('first', $this->_reader->getAttribute('test'));
 
 		// Move to the next <node> element, which should be <node test="second">.
-		ReflectionHelper::invoke($this->object, 'moveToNextElement', 'node');
-		$this->assertEquals('node', $this->reader->name);
-		$this->assertEquals('second', $this->reader->getAttribute('test'));
+		TestReflection::invoke($this->_instance, 'moveToNextElement', 'node');
+		$this->assertEquals('node', $this->_reader->name);
+		$this->assertEquals('second', $this->_reader->getAttribute('test'));
 	}
 
 	/**
 	 * Tests JFeedParser::moveToClosingElement()
 	 *
-	 * @return void
-	 *
-	 * @since 12.1
+	 * @return  void
 	 *
 	 * @covers  JFeedParser::moveToClosingElement
+	 * @since   12.3
 	 */
 	public function testMoveToClosingElement()
 	{
 		// Set the XML for the internal reader and move the stream to the <root> element.
-		$this->reader->XML('<root><child>foobar</child></root>');
-		$this->reader->next('root');
+		$this->_reader->XML('<root><child>foobar</child></root>');
+		$this->_reader->next('root');
 
 		// Ensure that the current node is "root".
-		$this->assertEquals('root', $this->reader->name);
+		$this->assertEquals('root', $this->_reader->name);
 
 		// Move to the closing element, which should be </root>.
-		ReflectionHelper::invoke($this->object, 'moveToClosingElement');
-		$this->assertEquals(XMLReader::END_ELEMENT, $this->reader->nodeType);
-		$this->assertEquals('root', $this->reader->name);
+		TestReflection::invoke($this->_instance, 'moveToClosingElement');
+		$this->assertEquals(XMLReader::END_ELEMENT, $this->_reader->nodeType);
+		$this->assertEquals('root', $this->_reader->name);
 	}
 
 	/**
 	 * Tests JFeedParser::moveToClosingElement() with internal elements.
 	 *
-	 * @return void
-	 *
-	 * @since 12.1
+	 * @return  void
 	 *
 	 * @covers  JFeedParser::moveToClosingElement
+	 * @since   12.3
 	 */
 	public function testMoveToClosingElementWithInternalElements()
 	{
 		// Set the XML for the internal reader and move the stream to the first <node> element.
-		$this->reader->XML('<root><node test="first"><child>foobar</child></node><node test="second"></node></root>');
+		$this->_reader->XML('<root><node test="first"><child>foobar</child></node><node test="second"></node></root>');
 
 		// Advance the reader to the first <node> element.
-		while ($this->reader->read() && ($this->reader->name != 'node'));
+		while ($this->_reader->read() && ($this->_reader->name != 'node'));
 
 		// Ensure that the current node is <node test="first">.
-		$this->assertEquals(XMLReader::ELEMENT, $this->reader->nodeType);
-		$this->assertEquals('node', $this->reader->name);
-		$this->assertEquals('first', $this->reader->getAttribute('test'));
+		$this->assertEquals(XMLReader::ELEMENT, $this->_reader->nodeType);
+		$this->assertEquals('node', $this->_reader->name);
+		$this->assertEquals('first', $this->_reader->getAttribute('test'));
 
 		// Move to the closing element, which should be </node>.
-		ReflectionHelper::invoke($this->object, 'moveToClosingElement');
-		$this->assertEquals(XMLReader::END_ELEMENT, $this->reader->nodeType);
-		$this->assertEquals('node', $this->reader->name);
+		TestReflection::invoke($this->_instance, 'moveToClosingElement');
+		$this->assertEquals(XMLReader::END_ELEMENT, $this->_reader->nodeType);
+		$this->assertEquals('node', $this->_reader->name);
 
 		// Advance the reader to the next element.
-		while ($this->reader->read() && ($this->reader->nodeType != XMLReader::ELEMENT));
+		while ($this->_reader->read() && ($this->_reader->nodeType != XMLReader::ELEMENT));
 
 		// Ensure that the current node is <node test="first">.
-		$this->assertEquals(XMLReader::ELEMENT, $this->reader->nodeType);
-		$this->assertEquals('node', $this->reader->name);
-		$this->assertEquals('second', $this->reader->getAttribute('test'));
+		$this->assertEquals(XMLReader::ELEMENT, $this->_reader->nodeType);
+		$this->assertEquals('node', $this->_reader->name);
+		$this->assertEquals('second', $this->_reader->getAttribute('test'));
 
 		// Move to the closing element, which should be </node>.
-		ReflectionHelper::invoke($this->object, 'moveToClosingElement');
-		$this->assertEquals(XMLReader::END_ELEMENT, $this->reader->nodeType);
-		$this->assertEquals('node', $this->reader->name);
+		TestReflection::invoke($this->_instance, 'moveToClosingElement');
+		$this->assertEquals(XMLReader::END_ELEMENT, $this->_reader->nodeType);
+		$this->assertEquals('node', $this->_reader->name);
 	}
 
 	/**
 	 * Tests JFeedParser::moveToClosingElement() with self-closing tags.
 	 *
-	 * @return void
-	 *
-	 * @since 12.1
+	 * @return  void
 	 *
 	 * @covers  JFeedParser::moveToClosingElement
+	 * @since   12.3
 	 */
 	public function testMoveToClosingElementWithSelfClosingTag()
 	{
 		// Set the XML for the internal reader and move the stream to the first <node> element.
-		$this->reader->XML('<root><node test="first" /><node test="second"></node></root>');
+		$this->_reader->XML('<root><node test="first" /><node test="second"></node></root>');
 
 		// Advance the reader to the first <node> element.
-		while ($this->reader->read() && ($this->reader->name != 'node'));
+		while ($this->_reader->read() && ($this->_reader->name != 'node'));
 
 		// Ensure that the current node is <node test="first">.
-		$this->assertEquals(XMLReader::ELEMENT, $this->reader->nodeType);
-		$this->assertEquals('node', $this->reader->name);
-		$this->assertEquals('first', $this->reader->getAttribute('test'));
+		$this->assertEquals(XMLReader::ELEMENT, $this->_reader->nodeType);
+		$this->assertEquals('node', $this->_reader->name);
+		$this->assertEquals('first', $this->_reader->getAttribute('test'));
 
 		// Move to the closing element, which should be </node>.
-		ReflectionHelper::invoke($this->object, 'moveToClosingElement');
-		$this->assertEquals(true, $this->reader->isEmptyElement);
-		$this->assertEquals('node', $this->reader->name);
+		TestReflection::invoke($this->_instance, 'moveToClosingElement');
+		$this->assertEquals(true, $this->_reader->isEmptyElement);
+		$this->assertEquals('node', $this->_reader->name);
 
 		// Advance the reader to the next element.
-		while ($this->reader->read() && ($this->reader->nodeType != XMLReader::ELEMENT));
+		while ($this->_reader->read() && ($this->_reader->nodeType != XMLReader::ELEMENT));
 
 		// Ensure that the current node is <node test="first">.
-		$this->assertEquals(XMLReader::ELEMENT, $this->reader->nodeType);
-		$this->assertEquals('node', $this->reader->name);
-		$this->assertEquals('second', $this->reader->getAttribute('test'));
+		$this->assertEquals(XMLReader::ELEMENT, $this->_reader->nodeType);
+		$this->assertEquals('node', $this->_reader->name);
+		$this->assertEquals('second', $this->_reader->getAttribute('test'));
+	}
+
+	/**
+	 * Setup the tests.
+	 *
+	 * @return  void
+	 *
+	 * @see     PHPUnit_Framework_TestCase::setUp()
+	 * @since   12.3
+	 */
+	protected function setUp()
+	{
+		parent::setUp();
+
+		// Create the XMLReader object to be used in our parser instance.
+		$this->_reader = new XMLReader;
+
+		// Instantiate the mock so we can call concrete methods.
+		$this->_instance = new JFeedParserMock($this->_reader);
+	}
+
+	/**
+	 * Method to tear down whatever was set up before the test.
+	 *
+	 * @return  void
+	 *
+	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @since   12.3
+	 */
+	protected function tearDown()
+	{
+		unset($this->_instance);
+		unset($this->_reader);
+
+		parent::teardown();
 	}
 }

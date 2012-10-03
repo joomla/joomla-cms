@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Feed
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -15,19 +15,19 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Platform
  * @subpackage  Feed
  * @link        http://cyber.law.harvard.edu/rss/rss.html
- * @since       12.1
+ * @since       12.3
  */
 class JFeedParserRss extends JFeedParser
 {
 	/**
 	 * @var    string  The feed element name for the entry elements.
-	 * @since  12.1
+	 * @since  12.3
 	 */
 	protected $entryElementName = 'item';
 
 	/**
 	 * @var    string  The feed format version.
-	 * @since  12.1
+	 * @since  12.3
 	 */
 	protected $version;
 
@@ -39,7 +39,7 @@ class JFeedParserRss extends JFeedParser
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   12.3
 	 */
 	protected function handleCategory(JFeed $feed, SimpleXMLElement $el)
 	{
@@ -58,7 +58,7 @@ class JFeedParserRss extends JFeedParser
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   12.3
 	 */
 	protected function handleCloud(JFeed $feed, SimpleXMLElement $el)
 	{
@@ -80,7 +80,7 @@ class JFeedParserRss extends JFeedParser
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   12.3
 	 */
 	protected function handleCopyright(JFeed $feed, SimpleXMLElement $el)
 	{
@@ -95,7 +95,7 @@ class JFeedParserRss extends JFeedParser
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   12.3
 	 */
 	protected function handleDescription(JFeed $feed, SimpleXMLElement $el)
 	{
@@ -110,7 +110,7 @@ class JFeedParserRss extends JFeedParser
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   12.3
 	 */
 	protected function handleGenerator(JFeed $feed, SimpleXMLElement $el)
 	{
@@ -125,7 +125,7 @@ class JFeedParserRss extends JFeedParser
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   12.3
 	 */
 	protected function handleImage(JFeed $feed, SimpleXMLElement $el)
 	{
@@ -155,7 +155,7 @@ class JFeedParserRss extends JFeedParser
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   12.3
 	 */
 	protected function handleLanguage(JFeed $feed, SimpleXMLElement $el)
 	{
@@ -170,7 +170,7 @@ class JFeedParserRss extends JFeedParser
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   12.3
 	 */
 	protected function handleLastBuildDate(JFeed $feed, SimpleXMLElement $el)
 	{
@@ -185,7 +185,7 @@ class JFeedParserRss extends JFeedParser
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   12.3
 	 */
 	protected function handleLink(JFeed $feed, SimpleXMLElement $el)
 	{
@@ -200,7 +200,7 @@ class JFeedParserRss extends JFeedParser
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   12.3
 	 */
 	protected function handleManagingEditor(JFeed $feed, SimpleXMLElement $el)
 	{
@@ -215,7 +215,7 @@ class JFeedParserRss extends JFeedParser
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   12.3
 	 */
 	protected function handleSkipDays(JFeed $feed, SimpleXMLElement $el)
 	{
@@ -239,7 +239,7 @@ class JFeedParserRss extends JFeedParser
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   12.3
 	 */
 	protected function handleSkipHours(JFeed $feed, SimpleXMLElement $el)
 	{
@@ -263,7 +263,7 @@ class JFeedParserRss extends JFeedParser
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   12.3
 	 */
 	protected function handlePubDate(JFeed $feed, SimpleXMLElement $el)
 	{
@@ -278,7 +278,7 @@ class JFeedParserRss extends JFeedParser
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   12.3
 	 */
 	protected function handleTitle(JFeed $feed, SimpleXMLElement $el)
 	{
@@ -293,7 +293,7 @@ class JFeedParserRss extends JFeedParser
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   12.3
 	 */
 	protected function handleTtl(JFeed $feed, SimpleXMLElement $el)
 	{
@@ -308,7 +308,7 @@ class JFeedParserRss extends JFeedParser
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   12.3
 	 */
 	protected function handleWebmaster(JFeed $feed, SimpleXMLElement $el)
 	{
@@ -333,7 +333,7 @@ class JFeedParserRss extends JFeedParser
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   12.3
 	 */
 	protected function initialise()
 	{
@@ -353,7 +353,7 @@ class JFeedParserRss extends JFeedParser
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   12.3
 	 */
 	protected function processFeedEntry(JFeedEntry $entry, SimpleXMLElement $el)
 	{
@@ -401,7 +401,7 @@ class JFeedParserRss extends JFeedParser
 	 *
 	 * @return  JFeedPerson
 	 *
-	 * @since   12.1
+	 * @since   12.3
 	 */
 	protected function processPerson($data)
 	{
