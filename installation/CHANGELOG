@@ -26,6 +26,40 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+02-Oct-2012 Jean-Marie Simonet
+ # [#29408] images upload to the wrong folder in image manager. Thanks Roberto
+ $ Missing string for Protostar
+ # Changing obsolete link to lang packs community page
+ # [#29419] *Missing client field (and other fields) when creating a new banner
+
+01-Oct-2012 Jean-Marie Simonet
+ # [#28297] com_banners: BannersModelClients SQL error (group by banner id). Thanks Nils
+ # [#29403] *Missing required="true" in front-end login form
+ # Correcting default_logout.php EOL
+ # [#29407] *Isis wrong implementation of the color parameter
+ +$ Adding installation languages: et-EE
+
+30-Sep-2012 Jean-Marie Simonet
+ # [#29390] Components Title Truncated to 40 Bytes in ISIS
+ # [#29325] *article manager options
+ # [#29307] getComponentsWithConfig does not work for custom components. Thanks Patrick
+
+29-Sep-2012 Mark Dexter
+ # [#29385] Joomla 3.0 stable package has wrong file permissions
+
+29-Sep-2012 Jean-Marie Simonet
+ # [#29343] 'Remove installation folder' button not always working. Thanks Ofer
+ # [#29380] Override Language String Created Cannot be Deleted. Thanks Patrick
+ # [#29374] Languages Cannot be Installed Using Install Languages. Thanks Ofer
+ # [#29006] *J3.0 alpha 2.0 : Fieldset not working for plugin extension.
+
+28-Sep-2012 Jean-Marie Simonet
+ +$ Adding installation languages: tr-TR
+ $ updating sy-IQ
+ #$ Correcting hard coded text in Protostar
+ $ [#29383] Language String TPL_HATHOR_COLOUR_CHOICE_BLUE Missing. Thanks Mig
+ # Missing position footer in Protostar.xml
+
 -------------------- 3.0.0 Stable Release [27-Sep-2012] ------------------
 
 27-Sep-2012 Jean-Marie Simonet
