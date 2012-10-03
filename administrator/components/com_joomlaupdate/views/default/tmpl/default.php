@@ -128,7 +128,7 @@ $ftpFieldsDisplay = $this->ftp['enabled'] ? '' : 'style = "display: none"';
 <?php endif; ?>
 
 <?php echo JHtml::_('form.token'); ?>
-<input type="hidden" name="task" value="" />
+<input type="hidden" name="task" value="update.download" />
 <input type="hidden" name="option" value="com_joomlaupdate" />
 </form>
 

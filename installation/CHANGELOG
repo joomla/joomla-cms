@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+03-Oct-2012 Mark Dexter
+ # [#29421] Auto update doesn't work in version 3.0.0.
+
 03-Oct-2012 Jean-Marie Simonet
  +$ Adding installation languages: no-NO
  # [#29426] *Missing list limit in Extensions Manager => Manage and Install Languages
