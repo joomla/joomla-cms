@@ -29,6 +29,7 @@ $ -> Language fix or change
 03-Oct-2012 Jean-Marie Simonet
  +$ Adding installation languages: no-NO
  # [#29426] *Missing list limit in Extensions Manager => Manage and Install Languages
+ # [#29268] Language dropdown too small in backend login using IE8. Thanks Peter
 
 02-Oct-2012 Jean-Marie Simonet
  # [#29408] images upload to the wrong folder in image manager. Thanks Roberto
