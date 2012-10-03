@@ -244,10 +244,11 @@ function ContentParseRoute($segments)
 
 			return $vars;
 		} else {
-			$query = 'SELECT alias, catid FROM #__content WHERE id = ' . (int) $id;
+			$query = $db->getQuery(true);
+			$query->select('c.alias')->from($db->quote('#__content').' AS c')->where('c.id = ' . (int) $id);
 			$db->setQuery($query);
 			$article = $db->loadObject();
-
+			
 			if ($article) {
 				if ($article->alias == $alias) {
 					$vars['view'] = 'article';
@@ -255,14 +256,16 @@ function ContentParseRoute($segments)
 					$vars['id'] = (int) $id;
 
 					return $vars;
-				} else {
+				}
+				else 
+				{
 					JError::raiseError(404, JText::_('COM_CONTENT_ERROR_ARTICLE_NOT_FOUND'));
 					return $vars;
 				}
 			}
 		}
 	}
-
+	
 	// if there was more than one segment, then we can determine where the URL points to
 	// because the first segment will have the target category id prepended to it.  If the
 	// last segment has a number prepended, it is an article, otherwise, it is a category.
@@ -279,9 +282,10 @@ function ContentParseRoute($segments)
 			$vars['view'] = 'category';
 			$vars['id'] = $cat_id;
 		}
-
+		
 		if ($article_id) {
-			$query = 'SELECT alias, catid FROM #__content WHERE id = ' . (int) $article_id;
+			$query = $db->getQuery(true);
+			$query->select('c.alias, c.catid')->from($db->quote('#__content').' AS c')->where('c.id = ' . (int) $article_id);
 			$db->setQuery($query);
 			$article = $db->loadObject();
 		
@@ -291,7 +295,9 @@ function ContentParseRoute($segments)
 				$vars['id'] = (int) $id;
 
 				return $vars;
-			} else {
+			}
+			else 
+			{
 				JError::raiseError(404, JText::_('COM_CONTENT_ERROR_ARTICLE_NOT_FOUND'));
 				return $vars;
 			}
@@ -303,7 +309,7 @@ function ContentParseRoute($segments)
 	// we get the category id from the menu item and search from there
 	$id = $item->query['id'];
 	$category = JCategories::getInstance('Content')->get($id);
-
+	
 	if (!$category) {
 		JError::raiseError(404, JText::_('COM_CONTENT_ERROR_PARENT_CATEGORY_NOT_FOUND'));
 		return $vars;
@@ -332,8 +338,8 @@ function ContentParseRoute($segments)
 
 		if ($found == 0) {
 			if ($advanced) {
-				$db = JFactory::getDBO();
-				$query = 'SELECT id FROM #__content WHERE catid = '.$vars['catid'].' AND alias = '.$db->Quote($segment);
+				$query = $db->getQuery(true);
+				$query->select('c.id')->from($db->quote('#__content').' AS c')->where('c.catid = ' . (int) $vars['catid'])->where('c.alias = '.$db->Quote($segment));
 				$db->setQuery($query);
 				$cid = $db->loadResult();
 			} else {
