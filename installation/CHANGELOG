@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+04-Oct-2012 Jean-Marie Simonet
+ $ Updating ja-JP.ini
+
 03-Oct-2012 Mark Dexter
  # [#29421] Auto update doesn't work in version 3.0.0.
  # [#25663] "Can't build admin menu item" error while (re)installing component. Thanks Nicholas Dionysopoulos and Peter Wiseman.
