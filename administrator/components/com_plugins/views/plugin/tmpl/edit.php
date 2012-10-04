@@ -74,6 +74,7 @@ $this->hidden_fields = '';
 						<?php if ($this->item->xml) : ?>
 						<h4>
 							<?php echo ($text = (string) $this->item->xml->name) ? JText::_($text) : $this->item->element; ?>
+							<br />
 							<?php if ($this->item->folder) : ?>
 							<span class="label"><?php echo $this->item->folder; ?></span>
 							<?php endif; ?>

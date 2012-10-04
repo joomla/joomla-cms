@@ -69,6 +69,7 @@ $this->hidden_fields = '';
 						<?php if ($this->item->xml) : ?>
 						<h4>
 							<?php echo ($text = (string) $this->item->xml->name) ? JText::_($text) : $this->item->template; ?>
+							<br />
 							<span class="label"><?php echo $this->item->client_id == 0 ? JText::_('JSITE') : JText::_('JADMINISTRATOR'); ?></span>
 							<?php if ($this->item->id) : ?>
 							<span class="label label-info"><?php echo JText::_('JGRID_HEADING_ID');?>

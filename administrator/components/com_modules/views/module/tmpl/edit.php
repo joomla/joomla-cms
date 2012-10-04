@@ -153,7 +153,10 @@ JFactory::getDocument()->addScriptDeclaration($script);
 						<?php if ($this->item->xml) : ?>
 						<h4>
 							<?php echo ($text = (string) $this->item->xml->name) ? JText::_($text) : $this->item->module; ?>
+							<br />
 							<span class="label"><?php echo $this->item->client_id == 0 ? JText::_('JSITE') : JText::_('JADMINISTRATOR'); ?></span>
+							/
+							<span class="label"><?php echo JText::_($this->item->module); ?></span>
 							<?php if ($this->item->id) : ?>
 							<span class="label label-info"><?php echo JText::_('JGRID_HEADING_ID');?>
 								: <?php echo $this->item->id; ?></span>
