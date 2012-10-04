@@ -4,14 +4,13 @@
 	<property name="source" value="libraries" />
 	<property name="joomlasource" value="libraries/joomla,libraries/legacy,libraries/compat,libraries/platform.php,libraries/loader.php,libraries/import.php" />
 	
-	<target name="init">
-		<condition property="script-suffix" value=".bat" else="">
-		  <os family="windows" />
-		</condition>
-		<condition property="script-null" value="NUL" else="/dev/null">
-		  <os family="windows" />
-		</condition>
-	</target>
+	<condition property="script-suffix" value=".bat" else="">
+		<os family="windows" />
+	</condition>
+	
+	<condition property="script-null" value="NUL" else="/dev/null">
+		<os family="windows" />
+	</condition>
 
 	<target name="clean" description="Clean up and create artifact directories">
 		<delete dir="${basedir}/build/api" />
@@ -132,5 +131,5 @@
 		</apply>
 	</target>
 
-	<target name="build" depends="init,clean,phpunit,phpunit-legacy,parallelTasks,phpcb" />
+	<target name="build" depends="clean,phpunit,phpunit-legacy,parallelTasks,phpcb" />
 </project>
