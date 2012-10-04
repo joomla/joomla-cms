@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+04-Oct-2012 Jean-Marie Simonet
+ # [#28849] Publishing date instead of creation date in com_content/category/view.feed.php. Thanks Tobias Ribizel.
+
 01-Oct-2012 Jean-Marie Simonet
  # [#28297] com_banners: BannersModelClients SQL error (group by banner id). Thanks Nils
 
