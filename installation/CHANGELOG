@@ -30,6 +30,7 @@ $ -> Language fix or change
  $ Updating ja-JP.ini
  # [#29393] beez3 CLOSE INFO. Thanks Angelika
  # [#29410] Beez3 template_Details.xml needs a rework and beez3 itselfs needs additional files.Thanks Angelika
+ # [#29431] Protostar Template not honouring module Title Hide. Thanks Roberto
 
 03-Oct-2012 Mark Dexter
  # [#29421] Auto update doesn't work in version 3.0.0.
