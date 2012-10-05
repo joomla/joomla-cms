@@ -970,6 +970,6 @@ abstract class JHtml
 		}
 
 		return '{' . implode(',', $elements) . '}';
-		
+
 	}
 }
