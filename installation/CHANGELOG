@@ -29,6 +29,7 @@ $ -> Language fix or change
 05-Oct-2012 Jean-Marie Simonet
  $ Updating pt-BR.ini
  # [#29387] unpublish button don't work. Thanks Roberto
+ ^ [#29414] Isis template showing User Name is not a good idea. Thanks Michael
 
 04-Oct-2012 Jean-Marie Simonet
  $ Updating ja-JP.ini

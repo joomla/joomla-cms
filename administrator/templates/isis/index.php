@@ -133,7 +133,7 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 				<?php endif; ?>
 					<jdoc:include type="modules" name="menu" style="none" />
 					<ul class="<?php if ($this->direction == 'rtl') : ?>nav<?php else : ?>nav pull-right<?php endif; ?>">
-						<li class="dropdown"> <a class="dropdown-toggle" data-toggle="dropdown" href="#"><?php echo $user->username; ?> <b class="caret"></b></a>
+						<li class="dropdown"> <a class="dropdown-toggle" data-toggle="dropdown" href="#"><?php echo $user->name; ?> <b class="caret"></b></a>
 							<ul class="dropdown-menu">
 								<li class=""><a href="index.php?option=com_admin&task=profile.edit&id=<?php echo $user->id;?>"><?php echo JText::_('TPL_ISIS_EDIT_ACCOUNT');?></a></li>
 								<li class="divider"></li>
