@@ -23,7 +23,7 @@
 			description="COM_CONTENT_FEATURED_CATEGORIES_DESC" >
 			<option value="">JOPTION_ALL_CATEGORIES</option>
 			</field>
-			
+
 			<field name="layout_type"
 				type="hidden"
 				default="blog"
@@ -198,7 +198,7 @@
 
 			<field
 				name="info_bloc_position"
-				type="radio"
+				type="list"
 				default="0"
 				label="COM_CONTENT_FIELD_INFOBLOCK_POSITION_LABEL"
 				description="COM_CONTENT_FIELD_INFOBLOCK_POSITION_DESC">

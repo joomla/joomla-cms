@@ -30,6 +30,7 @@ $ -> Language fix or change
  $ Updating pt-BR.ini
  # [#29387] unpublish button don't work. Thanks Roberto
  ^ [#29414] Isis template showing User Name is not a good idea. Thanks Michael
+ # [#29443] *Normalising isis UI part1 administrator folder
 
 04-Oct-2012 Jean-Marie Simonet
  $ Updating ja-JP.ini
