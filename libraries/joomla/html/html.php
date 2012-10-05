@@ -930,41 +930,46 @@ abstract class JHtml
 	 */
 	public static function getJSObject(array $array = array())
 	{
-		$object = '{';
-
-		// Iterate over array to build objects
-		foreach ((array) $array as $k => $v)
+		$elements = array();
+		foreach ($array as $k => $v)
 		{
-			if (is_null($v))
+			// Don't encode either of these types
+			if (is_null($v) || is_resource($v))
 			{
 				continue;
 			}
 
+			// Safely encode as a Javascript string
+			$key = json_encode((string) $k);
+
 			if (is_bool($v))
 			{
-				$object .= ' ' . $k . ': ';
-				$object .= ($v) ? 'true' : 'false';
-				$object .= ',';
+				$elements[] = $key . ': ' . ($v ? 'true' : 'false');
 			}
-			elseif (!is_array($v) && !is_object($v))
+			elseif (is_numeric($v))
 			{
-				$object .= ' ' . $k . ': ';
-				$object .= (is_numeric($v) || strpos($v, '\\') === 0) ? (is_numeric($v)) ? $v : substr($v, 1) : "'" . $v . "'";
-				$object .= ',';
+				$elements[] = $key . ': ' . ($v + 0);
+			}
+			elseif (is_string($v))
+			{
+				if (strpos($v, '\\') === 0)
+				{
+					// Items such as functions and JSON objects are prefixed with \, strip the prefix and don't encode them
+					$elements[] = $key . ': ' . substr($v, 1);
+				}
+				else
+				{
+					// The safest way to insert a string
+					$elements[] = $key . ': ' . json_encode((string) $v);
+				}
 			}
 			else
 			{
-				$object .= ' ' . $k . ': ' . self::getJSObject($v) . ',';
+				$elements[] = $key . ': ' . self::getJSObject(is_object($v) ? get_object_vars($v) : $v);
 			}
 		}
 
-		if (substr($object, -1) == ',')
-		{
-			$object = substr($object, 0, -1);
-		}
-
-		$object .= '}';
-
-		return $object;
+		return '{' . implode(',', $elements) . '}';
+		
 	}
 }
