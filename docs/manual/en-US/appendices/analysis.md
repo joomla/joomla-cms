@@ -1,8 +1,6 @@
-Configuring Code Analysis Tools
-===============================
+### Configuring Code Analysis Tools
 
-Running Unit Tests
-==================
+#### Running Unit Tests
 
 Before code gets pulled into the master repository, the unit testing
 suite is run to ensure that the change candidates do not leave trunk in
@@ -15,8 +13,7 @@ which is the latest stable version as of August 2011. Please see the
 [PHPUnit Manual](http://www.phpunit.de/manual/3.6/en/installation.html)
 for information on installing PHPUnit on your system.
 
-Configuring Your Environment: The Database
-------------------------------------------
+##### Configuring Your Environment: The Database
 
 Standard unit tests run against a
 [Sqlite](http://www.sqlite.org/quickstart.html) in memory database for
@@ -40,8 +37,7 @@ To run the specific database tests:
 -   Set up the database configuration values for your specific
     environment.
 
-Configuring Your Environment: The JHttpTransport Test Stubs
------------------------------------------------------------
+##### Configuring Your Environment: The JHttpTransport Test Stubs
 
 There is a special stub that is required for testing the JHttp
 transports so that actual web requests can be simulated and assertions
@@ -60,8 +56,7 @@ following:
     copy the file from its default location to be available within your
     web environment.
 
-Running the Tests
------------------
+##### Running the Tests
 
 You can run the tests by going to the platform root directory and
 executing `phpunit`
@@ -72,8 +67,7 @@ unit tests by going to the platform root directory and executing
 libraries/joomla directory or executing `ant phpunit-legacy` to execute
 the tests on classes located under the libraries/legacy directory.
 
-Coding Standards Analysis
-=========================
+#### Coding Standards Analysis
 
 In order to improve the consistency and readability of the source code,
 we run a coding style analysis tool everytime changes are pushed in the
@@ -87,8 +81,7 @@ called PHP\_CodeSniffer. Please see the [PHP\_CodeSniffer Pear
 Page](http://pear.php.net/package/PHP_CodeSniffer) for information on
 installing PHP\_CodeSniffer on your system.
 
-Running CodeSniffer
--------------------
+##### Running CodeSniffer
 
 You can run the CodeSniffer by going to the platform root directory and
 executing `phpcs --report=checkstyle
@@ -98,8 +91,7 @@ Alternatively, if you have Ant installed on your system, you may run the
 CodeSniffer by going to the platform root directory and executing
 `ant phpcs`
 
-Known Issues
-------------
+##### Known Issues
 
 -   There is currently an issue with running the Code Sniffer on the
     Simplepie library. Pointing the sniffs at the libraries/joomla

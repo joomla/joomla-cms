@@ -1,10 +1,8 @@
-Testing
-=======
+## Testing
 
 This document is about creating tests for the Joomla Platform.
 
-PHP Unit Tests
-==============
+## PHP Unit Tests
 
 This section provides some useful information about making PHP unit
 tests.
@@ -15,8 +13,7 @@ observed and DocBlocks fully completed. The `@since` tag must be
 included when you add a new, full test (not necessary for test stubs
 that are marked as incomplete).
 
-Accessing and Invoking Protected Properties and Methods
--------------------------------------------------------
+### Accessing and Invoking Protected Properties and Methods
 
 Starting in PHP 5 there are facilities for reverse engineering classes
 and objects which now make it much easier to test protected methods and
@@ -24,46 +21,48 @@ to modify and verify the values of protected properties and methods. The
 Joomla! test infrastructure includes a helper class that can be used to
 read, modify and invoke protected and private properties and methods.
 
-        /**
-         * Tests the JClass::__construct method
-         *
-         * @return  void
-         *
-         * @since   11.3
-         */
-        public function test__construct()
-        {
-            $object = new JMyClass('foo');
+```php
+/**
+ * Tests the JClass::__construct method
+ *
+ * @return  void
+ *
+ * @since   11.3
+ */
+public function test__construct()
+{
+	$object = new JMyClass('foo');
 
-            // For the purposes of this example, we are assuming that 'name' is a protected class property
-            // that is set by an argument passed into the class constructor.
-            $this->assertThat(
-                TestReflection::getValue($object, 'name'),
-                $this->equalTo('foo'),
-                'Tests that the protected name property is set by the constructor.'
-            );
-        }
+	// For the purposes of this example, we are assuming that 'name' is a protected class property
+	// that is set by an argument passed into the class constructor.
+	$this->assertThat(
+		TestReflection::getValue($object, 'name'),
+		$this->equalTo('foo'),
+		'Tests that the protected name property is set by the constructor.'
+	);
+}
 
 To gain access to a protected method you might do something add a method
 like the following example to your inspector class:
 
-        /**
-         * Test that calls a protected method called 'hidden'
-         *
-         * @return  void
-         *
-         * @since   11.3
-         */
-        public function hidden()
-        {
-            $object = new JMyClass('foo');
+/**
+ * Test that calls a protected method called 'hidden'
+ *
+ * @return  void
+ *
+ * @since   11.3
+ */
+public function hidden()
+{
+	$object = new JMyClass('foo');
 
-            $this->assertThat(
-                TestReflection::invoke($object, 'hidden', 'arg1'),
-                $this->equalTo('result1'),
-                'This test asserts that $object->hidden("arg1") will return "result1"'
-            );
-        }
+	$this->assertThat(
+		TestReflection::invoke($object, 'hidden', 'arg1'),
+		$this->equalTo('result1'),
+		'This test asserts that $object->hidden("arg1") will return "result1"'
+	);
+}
+```
 
 > **Note**
 >
