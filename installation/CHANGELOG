@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+05-Oct-2012 Jean-Marie Simonet
+ $ Updating pt-BR.ini
+
 04-Oct-2012 Jean-Marie Simonet
  $ Updating ja-JP.ini
  # [#29393] beez3 CLOSE INFO. Thanks Angelika
