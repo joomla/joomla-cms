@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+06-Oct-2012 Mark Dexter
+ + [#29445] Allow different update packages for different version dev levels.
+
 06-Oct-2012 Jean-Marie Simonet
  # [#29262] Wrong file name in garbagecoro cli app
  
