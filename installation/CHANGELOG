@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+06-Oct-2012 Jean-Marie Simonet
+ # [#29262] Wrong file name in garbagecoro cli app
+ 
 05-Oct-2012 Jean-Marie Simonet
  $ Updating pt-BR.ini
  # [#29387] unpublish button don't work. Thanks Roberto
