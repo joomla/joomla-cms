@@ -23,16 +23,17 @@ class JFormFieldSkins extends JFormField
 	protected $type 	= 'Skins';	
 	
 	protected function getInput() {
+		
 		$doc 	 = JFactory::getDocument();
 		$preview = "function doPreview(skin){								
-    					document.getElementById('preview').src = \"/templates/jokteantu/css/skins/\"+skin+\"/previewSkin.png\";
+    					document.getElementById('preview').src = \"".JURI::root()."templates/jokteantu/css/skins/\"+skin+\"/previewSkin.png\";
 					}";
 		$doc->addScriptDeclaration($preview);				
 		
 		$options = (array) $this->getOptions();		
 		$selected = $this->value;				
 		$html  = JHtml::_('select.genericlist', $options, 'jform[params][skincss]','onchange=doPreview(this.value)', 'value', 'text', $selected);
-		$html .= '<div><img id="preview" src="/templates/jokteantu/css/skins/'.$selected.'/previewSkin.png" /></div>';		
+		$html .= '<div><img id="preview" src="'.JURI::root().'/templates/jokteantu/css/skins/'.$selected.'/previewSkin.png" /></div>';		
 		return $html;
 	}
 

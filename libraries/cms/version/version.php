@@ -20,10 +20,10 @@ final class JVersion
 	public $PRODUCT = 'Jokte!';
 
 	/** @var  string  Release version. */
-	public $RELEASE = '1.1.1';
+	public $RELEASE = '1.1';
 
 	/** @var  string  Maintenance version. */
-	public $DEV_LEVEL = '6';
+	public $DEV_LEVEL = '7';
 
 	/** @var  string  Development STATUS. */
 	public $DEV_STATUS = 'Stable';
