@@ -3,11 +3,11 @@
 <project name="joomla-platform" default="build" basedir=".">
 	<property name="source" value="libraries" />
 	<property name="joomlasource" value="libraries/joomla,libraries/legacy,libraries/compat,libraries/platform.php,libraries/loader.php,libraries/import.php" />
-	
+
 	<condition property="script-suffix" value=".bat" else="">
 		<os family="windows" />
 	</condition>
-	
+
 	<condition property="script-null" value="NUL" else="/dev/null">
 		<os family="windows" />
 	</condition>
@@ -91,7 +91,6 @@
 			<arg value="--extensions=php,css" />
 			<arg value="--report-file=${basedir}/build/logs/checkstyle.xml" />
 			<arg value="--standard=${basedir}/build/phpcs/Joomla" />
-			<arg value="--ignore=config.example.php" />
 			<arg path="${source}" />
 		</exec>
 	</target>
