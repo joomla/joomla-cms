@@ -29,6 +29,7 @@
 				/>
 
 				<field name="search_content" type="radio"
+					class="btn-group"
 					default="0"
 					description="PLG_SEARCH_CONTENT_FIELD_CONTENT_DESC"
 					label="PLG_SEARCH_CONTENT_FIELD_CONTENT_LABEL"
@@ -38,6 +39,7 @@
 				</field>
 
 				<field name="search_archived" type="radio"
+					class="btn-group"
 					default="0"
 					description="PLG_SEARCH_CONTENT_FIELD_ARCHIVED_DESC"
 					label="PLG_SEARCH_CONTENT_FIELD_ARCHIVED_LABEL"

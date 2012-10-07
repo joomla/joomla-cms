@@ -23,6 +23,7 @@
 			<fieldset name="basic">
 				<field name="check_categories"
 					type="radio"
+					class="btn-group"
 					default="1"
 					description="PLG_CONTENT_JOOMLA_FIELD_CHECK_CATEGORIES_DESC"
 					label="PLG_CONTENT_JOOMLA_FIELD_CHECK_CATEGORIES_LABEL">
@@ -32,6 +33,7 @@
 
 				<field name="email_new_fe"
 					type="radio"
+					class="btn-group"
 					default="1"
 					description="PLG_CONTENT_JOOMLA_FIELD_EMAIL_NEW_FE_DESC"
 					label="PLG_CONTENT_JOOMLA_FIELD_EMAIL_NEW_FE_LABEL">

@@ -23,6 +23,7 @@
 				<field name="log_username" type="radio"
 					description="PLG_SYSTEM_LOG_FIELD_LOG_USERNAME_DESC"
 					label="PLG_SYSTEM_LOG_FIELD_LOG_USERNAME_LABEL"
+					class="btn-group"
 					default="0"
 				>
 					<option value="0">JNO</option>

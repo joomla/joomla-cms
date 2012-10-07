@@ -31,8 +31,9 @@
 					name="display_text"
 					type="radio"
 					default="1"
+					class="btn-group"
 					label="MOD_SYNDICATE_FIELD_DISPLAYTEXT_LABEL"
-					description="MOD_SYNDICATE_FIELD_DISPLAYTEXT_DESC" 
+					description="MOD_SYNDICATE_FIELD_DISPLAYTEXT_DESC"
 					filter="integer">
 					<option
 						value="1">JYES</option>

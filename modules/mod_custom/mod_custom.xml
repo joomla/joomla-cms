@@ -29,13 +29,14 @@
 				<field
 					name="prepare_content"
 					type="radio"
+					class="btn-group"
 					label="MOD_CUSTOM_FIELD_PREPARE_CONTENT_LABEL"
 					description="MOD_CUSTOM_FIELD_PREPARE_CONTENT_DESC"
 					default="1">
 					<option
-						value="0">JNo</option>
+						value="0">JNO</option>
 					<option
-						value="1">JYes</option>
+						value="1">JYES</option>
 				</field>
 				<field name="backgroundimage" type="media"
 					label="MOD_CUSTOM_FIELD_BACKGROUNDIMAGE_LABEL" description="MOD_BACKGROUNDIMAGE_FIELD_LOGO_DESC" />

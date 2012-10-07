@@ -32,6 +32,7 @@
 					description="PLG_SYSTEM_LANGUAGEFILTER_FIELD_AUTOMATIC_CHANGE_DESC"
 					label="PLG_SYSTEM_LANGUAGEFILTER_FIELD_AUTOMATIC_CHANGE_LABEL"
 					default="1"
+					class="btn-group"
 				>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
@@ -40,6 +41,7 @@
 					description="PLG_SYSTEM_LANGUAGEFILTER_FIELD_MENU_ASSOCIATIONS_DESC"
 					label="PLG_SYSTEM_LANGUAGEFILTER_FIELD_MENU_ASSOCIATIONS_LABEL"
 					default="0"
+					class="btn-group"
 				>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
@@ -48,6 +50,7 @@
 					description="PLG_SYSTEM_LANGUAGEFILTER_FIELD_REMOVE_DEFAULT_PREFIX_DESC"
 					label="PLG_SYSTEM_LANGUAGEFILTER_FIELD_REMOVE_DEFAULT_PREFIX_LABEL"
 					default="0"
+					class="btn-group"
 				>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
@@ -56,6 +59,7 @@
 					description="PLG_SYSTEM_LANGUAGEFILTER_FIELD_ALTERNATE_META_DESC"
 					label="PLG_SYSTEM_LANGUAGEFILTER_FIELD_ALTERNATE_META_LABEL"
 					default="0"
+					class="btn-group"
 				>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
