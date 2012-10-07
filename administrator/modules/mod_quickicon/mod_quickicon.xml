@@ -68,6 +68,7 @@
 				<field
 					name="automatic_title"
 					type="radio"
+					class="btn-group"
 					default="0"
 					label="COM_MODULES_FIELD_AUTOMATIC_TITLE_LABEL"
 					description="COM_MODULES_FIELD_AUTOMATIC_TITLE_DESC">

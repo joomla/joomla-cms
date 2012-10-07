@@ -163,7 +163,7 @@
 			</field>
 			<field
 				name="info_block_position"
-				type="radio"
+				type="list"
 				default="0"
 				label="COM_CONTENT_FIELD_INFOBLOCK_POSITION_LABEL"
 				description="COM_CONTENT_FIELD_INFOBLOCK_POSITION_DESC">
@@ -596,10 +596,10 @@
 			</fieldset>
 
 	</fields>
-	
+
 	<field name="xreference" type="text"
 		label="JFIELD_KEY_REFERENCE_LABEL"
-		description="JFIELD_KEY_REFERENCE_DESC" 
+		description="JFIELD_KEY_REFERENCE_DESC"
 		class="inputbox" size="20" labelclass="control-label" />
 
 	<fields name="images">

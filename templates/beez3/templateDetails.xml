@@ -16,13 +16,13 @@
 		<folder>html</folder>
 		<folder>images</folder>
 		<folder>javascript</folder>
-		<folder>fonts</folder>
 		<folder>language</folder>
 		<filename>index.html</filename>
 		<filename>index.php</filename>
 		<filename>templateDetails.xml</filename>
 		<filename>template_preview.png</filename>
 		<filename>template_thumbnail.png</filename>
+		<filename>jsstrings.php</filename>
 		<filename>favicon.ico</filename>
 		<filename>component.php</filename>
 		<filename>error.php</filename>

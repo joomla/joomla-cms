@@ -137,7 +137,7 @@
 			</field>
 			<field
 				name="info_block_position"
-				type="radio"
+				type="list"
 				default="0"
 				label="COM_CONTENT_FIELD_INFOBLOCK_POSITION_LABEL"
 				description="COM_CONTENT_FIELD_INFOBLOCK_POSITION_DESC">

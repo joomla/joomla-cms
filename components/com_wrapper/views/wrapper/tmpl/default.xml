@@ -25,7 +25,7 @@
 		<!-- Scroll. -->
 		<fieldset name="basic" label="COM_WRAPPER_FIELD_LABEL_SCROLLBARSPARAMS">
 
-			<field name="scrolling" type="radio"
+			<field name="scrolling" type="list"
 				default="auto"
 				description="COM_WRAPPER_FIELD_SCROLLBARS_DESC"
 				label="COM_WRAPPER_FIELD_SCROLLBARS_LABEL"
@@ -56,6 +56,7 @@
 
 			<field name="height_auto" type="radio"
 				default="0"
+				class="btn-group"
 				description="COM_WRAPPER_FIELD_HEIGHTAUTO_DESC"
 				label="COM_WRAPPER_FIELD_HEIGHTAUTO_LABEL"
 			>
@@ -63,7 +64,9 @@
 				<option value="1">JYES</option>
 			</field>
 
-			<field name="add_scheme" type="radio"
+			<field name="add_scheme"
+				type="radio"
+				class="btn-group"
 				default="1"
 				description="COM_WRAPPER_FIELD_ADD_DESC"
 				label="COM_WRAPPER_FIELD_ADD_LABEL"
@@ -72,14 +75,15 @@
 				<option value="1">JYES</option>
 			</field>
 
-                        <field name="frameborder" type="radio"
-                                default="1"
-                                description="COM_WRAPPER_FIELD_FRAME_DESC"
-                                label="COM_WRAPPER_FIELD_FRAME_LABEL"
-                        >
-                                <option value="0">JNO</option>
-                                <option value="1">JYES</option>
-                        </field>
+			<field name="frameborder"
+				type="radio"
+				class="btn-group"
+				default="1"
+				label="COM_WRAPPER_FIELD_FRAME_LABEL"
+			>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
 
 		</fieldset>
 	</fields>

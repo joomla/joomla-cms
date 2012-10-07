@@ -29,6 +29,7 @@
 					name="prepare_content"
 					type="radio"
 					label="MOD_CUSTOM_FIELD_PREPARE_CONTENT_LABEL"
+					class="btn-group"
 					description="MOD_CUSTOM_FIELD_PREPARE_CONTENT_DESC"
 					default="1">
 					<option

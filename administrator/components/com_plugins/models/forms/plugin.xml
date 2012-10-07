@@ -17,7 +17,8 @@
 			description="COM_PLUGINS_FIELD_NAME_DESC" />
 
 		<field
-			name="enabled" type="radio"
+			name="enabled"
+			type="radio"
 			class="btn-group"
 			label="JSTATUS"
 			description="COM_PLUGINS_FIELD_ENABLED_DESC"

@@ -43,6 +43,7 @@
 				<field
 					name="image"
 					type="radio"
+					class="btn-group"
 					default="0"
 					label="MOD_ARTICLES_NEWS_FIELD_IMAGES_LABEL"
 					description="MOD_ARTICLES_NEWS_FIELD_IMAGES_DESC">
@@ -54,6 +55,7 @@
 
 				<field
 					name="item_title"
+					class="btn-group"
 					type="radio"
 					default="0"
 					label="MOD_ARTICLES_NEWS_FIELD_TITLE_LABEL"
@@ -98,6 +100,7 @@
 				<field
 					name="showLastSeparator"
 					type="radio"
+					class="btn-group"
 					default="1"
 					label="MOD_ARTICLES_NEWS_FIELD_SEPARATOR_LABEL"
 					description="MOD_ARTICLES_NEWS_FIELD_SEPARATOR_DESC">
@@ -110,6 +113,7 @@
 				<field
 					name="readmore"
 					type="radio"
+					class="btn-group"
 					default="0"
 					label="MOD_ARTICLES_NEWS_FIELD_READMORE_LABEL"
 					description="MOD_ARTICLES_NEWS_FIELD_READMORE_DESC">

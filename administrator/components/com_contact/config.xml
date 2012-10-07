@@ -616,7 +616,6 @@
 
 			<field name="show_pagination" type="list"
 				default="2"
-				class="btn-group"
 				description="JGLOBAL_PAGINATION_DESC"
 				label="JGLOBAL_PAGINATION_LABEL"
 			>

@@ -26,7 +26,7 @@
 				<option value="1">JYES</option>
 		</field>
 
-		<field	name="icons" type="radio"
+		<field	name="icons" type="list"
 				default="1"
 				label="COM_WEBLINKS_FIELD_ICON_LABEL"
 				description="COM_WEBLINKS_FIELD_ICON_DESC"
@@ -40,7 +40,7 @@
 			description="COM_WEBLINKS_FIELD_CONFIG_ICON_DESC"
 			label="COM_WEBLINKS_FIELD_CONFIG_ICON_LABEL"
 		/>
-		
+
 		<field
 			name="float_first"
 			type="list"

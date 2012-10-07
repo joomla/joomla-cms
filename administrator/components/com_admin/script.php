@@ -525,7 +525,6 @@ class joomlaInstallerScript
 			'/libraries/joomla/utilities/xmlelement.php',
 			'/media/plg_quickicon_extensionupdate/extensionupdatecheck.js',
 			'/media/plg_quickicon_joomlaupdate/jupdatecheck.js',
-
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode

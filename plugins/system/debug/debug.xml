@@ -29,6 +29,7 @@
 				/>
 
 				<field name="profile" type="radio"
+					class="btn-group"
 					default="1"
 					description="PLG_DEBUG_FIELD_PROFILING_DESC"
 					label="PLG_DEBUG_FIELD_PROFILING_LABEL"
@@ -38,6 +39,7 @@
 				</field>
 
 				<field name="queries" type="radio"
+					class="btn-group"
 					default="1"
 					description="PLG_DEBUG_FIELD_QUERIES_DESC"
 					label="PLG_DEBUG_FIELD_QUERIES_LABEL"
@@ -47,6 +49,7 @@
 				</field>
 
 				<field name="query_types" type="radio"
+					class="btn-group"
 					default="1"
 					description="PLG_DEBUG_FIELD_QUERY_TYPES_DESC"
 					label="PLG_DEBUG_FIELD_QUERY_TYPES_LABEL"
@@ -56,6 +59,7 @@
 				</field>
 
 				<field name="memory" type="radio"
+					class="btn-group"
 					default="1"
 					description="PLG_DEBUG_FIELD_MEMORY_DESC"
 					label="PLG_DEBUG_FIELD_MEMORY_LABEL"
@@ -69,6 +73,7 @@
 				label="PLG_DEBUG_LANGUAGE_FIELDSET_LABEL">
 
 				<field name="language_errorfiles" type="radio"
+					class="btn-group"
 					default="1"
 					description="PLG_DEBUG_FIELD_LANGUAGE_ERRORFILES_DESC"
 					label="PLG_DEBUG_FIELD_LANGUAGE_ERRORFILES_LABEL"
@@ -78,6 +83,7 @@
 				</field>
 
 				<field name="language_files" type="radio"
+					class="btn-group"
 					default="1"
 					description="PLG_DEBUG_FIELD_LANGUAGE_FILES_DESC"
 					label="PLG_DEBUG_FIELD_LANGUAGE_FILES_LABEL"
@@ -87,6 +93,7 @@
 				</field>
 
 				<field name="language_strings" type="radio"
+					class="btn-group"
 					default="1"
 					description="PLG_DEBUG_FIELD_LANGUAGE_STRING_DESC"
 					label="PLG_DEBUG_FIELD_LANGUAGE_STRING_LABEL"
@@ -96,6 +103,7 @@
 				</field>
 
 				<field name="strip-first" type="radio"
+					class="btn-group"
 					default="1"
 					description="PLG_DEBUG_FIELD_STRIP_FIRST_DESC"
 					label="PLG_DEBUG_FIELD_STRIP_FIRST_LABEL"
@@ -123,6 +131,7 @@
 				label="PLG_DEBUG_LOGGING_FIELDSET_LABEL">
 
 				<field name="log-deprecated" type="radio"
+					class="btn-group"
 					default="0"
 					description="PLG_DEBUG_FIELD_LOG_DEPRECATED_DESC"
 					label="PLG_DEBUG_FIELD_LOG_DEPRECATED_LABEL"
