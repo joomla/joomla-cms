@@ -373,6 +373,59 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Data provider for invert
+	 *
+	 * @return  array
+	 *
+	 * @since   12.3
+	 */
+	function getTestInvertData()
+	{
+
+		return array(
+			'Case 1' => array(
+				// Input
+				array(
+					'New' => array('1000', '1500', '1750'),
+		 			'Used' => array('3000', '4000', '5000', '6000')
+				),
+				// Expected
+				array(
+					'1000' => 'New',
+					'1500' => 'New',
+					'1750' => 'New',
+					'3000' => 'Used',
+					'4000' => 'Used',
+					'5000' => 'Used',
+					'6000' => 'Used'
+				)
+			),
+			'Case 2' => array(
+				// Input
+				array(
+					'New' => array(1000, 1500, 1750),
+					'Used' => array(2750, 3000, 4000, 5000, 6000),
+					'Refurbished' => array(2000, 2500),
+					'Unspecified' => array()
+				),
+				// Expected
+				array(
+					'1000' => 'New',
+					'1500' => 'New',
+					'1750' => 'New',
+					'2750' => 'Used',
+					'3000' => 'Used',
+					'4000' => 'Used',
+					'5000' => 'Used',
+					'6000' => 'Used',
+					'2000' => 'Refurbished',
+					'2500' => 'Refurbished'
+				)
+			)
+		);
+	}
+
+	/**
 	 * Data provider for testPivot
 	 *
 	 * @return  array
@@ -1329,6 +1382,7 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 			$this->equalTo($expected)
 		);
 	}
+
 	/**
 	 * Tests conversion of object to string.
 	 *
@@ -1407,6 +1461,25 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 		}
 
 		$this->assertEquals($expect, $output, $message);
+	}
+
+	/**
+	 * Tests the JArrayHelper::invert method.
+	 *
+	 * @param   array   $input     The array being input.
+	 * @param   string  $expected  The expected return value.
+	 *
+	 * @return  void
+	 *
+	 * @dataProvider  getTestInvertData
+	 * @since   12.3
+	 */
+	public function testInvert($input, $expected)
+	{
+		$this->assertThat(
+			JArrayHelper::invert($input),
+			$this->equalTo($expected)
+		);
 	}
 
 	/**
