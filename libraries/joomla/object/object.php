@@ -24,10 +24,10 @@ class JObject
 	/**
 	 * An array of error messages or Exception objects.
 	 *
-	 * @var    array
-	 * @since  11.1
-	 * @see     JError
-	 * @deprecated 12.3  JError has been deprecated
+	 * @var              array
+	 * @since            11.1
+	 * @see              JError
+	 * @deprecated       13.1
 	 */
 	protected $_errors = array();
 
@@ -45,19 +45,6 @@ class JObject
 		{
 			$this->setProperties($properties);
 		}
-	}
-
-	/**
-	 * Magic method to convert the object to a string gracefully.
-	 *
-	 * @return  string  The classname.
-	 *
-	 * @since   11.1
-	 * @deprecated 12.3  Classes should provide their own __toString() implementation.
-	 */
-	public function __toString()
-	{
-		return get_class($this);
 	}
 
 	/**
@@ -133,9 +120,9 @@ class JObject
 	 *
 	 * @return  string   Error message
 	 *
-	 * @since   11.1
-	 * @see     JError
-	 * @deprecated 12.3  JError has been deprecated
+	 * @since       11.1
+	 * @see         JError
+	 * @deprecated  13.1
 	 */
 	public function getError($i = null, $toString = true)
 	{
@@ -169,9 +156,9 @@ class JObject
 	 *
 	 * @return  array  Array of error messages or JErrors.
 	 *
-	 * @since   11.1
-	 * @see     JError
-	 * @deprecated 12.3  JError has been deprecated
+	 * @since       11.1
+	 * @see         JError
+	 * @deprecated  13.1
 	 */
 	public function getErrors()
 	{
@@ -228,9 +215,9 @@ class JObject
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
-	 * @see     JError
-	 * @deprecated 12.3  JError has been deprecated
+	 * @since       11.1
+	 * @see         JError
+	 * @deprecated  13.1
 	 */
 	public function setError($error)
 	{

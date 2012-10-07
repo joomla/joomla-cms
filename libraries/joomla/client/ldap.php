@@ -637,27 +637,3 @@ class JClientLdap
 		return $userpassword;
 	}
 }
-
-/**
- * Deprecated class placeholder. You should use JClientLdap instead.
- *
- * @package     Joomla.Platform
- * @subpackage  Client
- * @since       11.1
- * @deprecated  12.3
- */
-class JLDAP extends JClientLdap
-{
-	/**
-	 * Constructor
-	 *
-	 * @param   object  $configObj  An object of configuration variables
-	 *
-	 * @since   11.1
-	 */
-	public function __construct($configObj)
-	{
-		JLog::add('JLDAP is deprecated. Use JClientLdap instead.', JLog::WARNING, 'deprecated');
-		parent::__construct($configObj);
-	}
-}

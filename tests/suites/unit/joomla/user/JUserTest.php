@@ -343,22 +343,6 @@ class JUserTest extends TestCaseDatabase
 	}
 
 	/**
-	 * Tests JUser::getParameters().
-	 *
-	 * @return  void
-	 *
-	 * @deprecated  12.3
-	 * @covers JUser::getParameters
-	 */
-	public function testGetParameters()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestSkipped(
-			'This method is deprecated.'
-		);
-	}
-
-	/**
 	 * @covers JUser::setParameters
 	 * @todo Implement testSetParameters().
 	 */

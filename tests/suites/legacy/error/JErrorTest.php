@@ -111,7 +111,7 @@ class JErrorTest extends PHPUnit_Framework_TestCase
 		$exception = new JException('This is the error message', 1056, 'error');
 
 		JError::addToStack($exception);
-		
+
 		$stack = JErrorInspector::inspectStack();
 
 		$this->assertThat(
@@ -218,7 +218,7 @@ class JErrorTest extends PHPUnit_Framework_TestCase
 		);
 
 		$this->assertThat(
-			JError::setErrorHandling(E_NOTICE, 'callback', array($this, 'callback')),
+			JError::setErrorHandling(E_NOTICE, 'callback', array($this, 'callbackHandler')),
 			$this->isTrue(),
 			'Setting a message error handler failed'
 		);
@@ -227,17 +227,17 @@ class JErrorTest extends PHPUnit_Framework_TestCase
 
 		$this->assertThat(
 			$handlers[E_NOTICE],
-			$this->equalTo(array('mode' => 'callback', 'options' => array($this, 'callback'))),
+			$this->equalTo(array('mode' => 'callback', 'options' => array($this, 'callbackHandler'))),
 			'The error handler did not get set to callback'
 		);
 
 		JErrorInspector::manipulateHandlers($errorHandling);
     }
-    
+
 	/**
 	 * Callback for testSetErrorHandling
 	 */
-	public function callback()
+	public function callbackHandler()
 	{
 		return;
 	}

@@ -1663,27 +1663,3 @@ class JClientFtp
 		return true;
 	}
 }
-
-/**
- * Deprecated class placeholder. You should use JClientFtp instead.
- *
- * @package     Joomla.Platform
- * @subpackage  Client
- * @since       11.1
- * @deprecated  12.3
- */
-class JFTP extends JClientFtp
-{
-	/**
-	 * JFTP object constructor
-	 *
-	 * @param   array  $options  Associative array of options to set
-	 *
-	 * @since   11.1
-	 */
-	public function __construct($options)
-	{
-		JLog::add('JFTP is deprecated. Use JClientFtp instead.', JLog::WARNING, 'deprecated');
-		parent::__construct($options);
-	}
-}

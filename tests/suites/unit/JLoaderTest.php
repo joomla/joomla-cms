@@ -290,7 +290,7 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 		// We unregister the two loaders in case they are missing
 		foreach ($loaders as $loader)
 		{
-			if ($loader[0] == 'JLoader' && ($loader[1] == 'load' || $loader[1] == '_autoload'))
+			if (is_array($loader) && $loader[0] == 'JLoader' && ($loader[1] == 'load' || $loader[1] == '_autoload'))
 			{
 				spl_autoload_unregister($loader);
 			}
@@ -308,12 +308,12 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 		// We search the list of autoload functions to see if our methods are there.
 		foreach ($newLoaders as $loader)
 		{
-			if ($loader[0] == 'JLoader' && $loader[1] == 'load')
+			if (is_array($loader) && $loader[0] == 'JLoader' && $loader[1] == 'load')
 			{
 				$foundLoad = true;
 			}
 
-			if ($loader[0] == 'JLoader' && $loader[1] == '_autoload')
+			if (is_array($loader) && $loader[0] == 'JLoader' && $loader[1] == '_autoload')
 			{
 				$foundAutoload = true;
 			}

@@ -50,17 +50,6 @@ class JObjectTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Tests the toString magic Method.
-	 *
-	 * @group	JObject
-	 * @covers	JObject::__toString
-	 * @return void
-	 */
-	public function test__toString() {
-		$this->assertEquals("JObject", $this->o->__toString());
-	}
-
-	/**
 	 * Tests setting the default for a property of the object.
 	 *
 	 * @group	JObject
