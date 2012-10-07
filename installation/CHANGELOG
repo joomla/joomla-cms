@@ -30,6 +30,7 @@ $ -> Language fix or change
  # [#29447] Broken installation with PostgreSQL. Thanks Viet
  ^ [#29449] *Normalising isis UI part2 components, modules, plugins
  $ Updating sk-SK.ini
+ # [#29394] beez3 -- single contact. Thanks Constantin
 
 06-Oct-2012 Mark Dexter
  + [#29445] Allow different update packages for different version dev levels.
