@@ -136,7 +136,7 @@ class JClientFtp
 	 *
 	 * @since   12.1
 	 */
-	public function __construct(array $options = array())
+	public function __construct($options = array())
 	{
 		// If default transfer type is not set, set it to autoascii detect
 		if (!isset($options['type']))
@@ -189,7 +189,7 @@ class JClientFtp
 	 *
 	 * @since   12.1
 	 */
-	public static function getInstance($host = '127.0.0.1', $port = '21', array $options = null, $user = null, $pass = null)
+	public static function getInstance($host = '127.0.0.1', $port = '21', array $options = array(), $user = null, $pass = null)
 	{
 		$signature = $user . ':' . $pass . '@' . $host . ":" . $port;
 
