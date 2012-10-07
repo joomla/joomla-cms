@@ -13,10 +13,7 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
 JHtml::_('formbehavior.chosen', 'select');
-
-// Get Params Fieldsets
 $this->fieldsets = $this->form->getFieldsets('params');
-$this->hidden_fields = '';
 ?>
 <script type="text/javascript">
 	Joomla.submitbutton = function(task)
@@ -31,18 +28,18 @@ $this->hidden_fields = '';
 	<fieldset class="adminform">
 		<ul class="nav nav-tabs">
 			<li class="active">
-				<a href="#basic" data-toggle="tab"><?php echo JText::_('COM_PLUGINS_BASIC_FIELDSET_LABEL');?></a></li>
+				<a href="#tab-basic" data-toggle="tab"><?php echo JText::_('COM_PLUGINS_BASIC_FIELDSET_LABEL');?></a></li>
 			<?php foreach ($this->fieldsets as $fieldset) : ?>
 			<?php if (!in_array($fieldset->name, array('description', 'basic'))) : ?>
 				<?php $label = !empty($fieldset->label) ? JText::_($fieldset->label) : JText::_('COM_PLUGINS_' . $fieldset->name . '_FIELDSET_LABEL'); ?>
-				<li><a href="#options-<?php echo $fieldset->name; ?>" data-toggle="tab"><?php echo $label ?></a>
+				<li><a href="#tab-<?php echo $fieldset->name; ?>" data-toggle="tab"><?php echo $label ?></a>
 				</li>
 				<?php endif; ?>
 			<?php endforeach; ?>
 		</ul>
 
 		<div class="tab-content">
-			<div class="tab-pane active" id="basic">
+			<div class="tab-pane active" id="tab-basic">
 				<div class="row-fluid">
 					<div class="span6">
 						<div class="control-group">
@@ -91,17 +88,17 @@ $this->hidden_fields = '';
 								<hr />
 								<div>
 									<?php foreach ($fields as $field) : ?>
-									<?php if (!$field->hidden) : ?>
-										<div class="control-group">
-											<div class="control-label">
-												<?php echo $field->label; ?>
-											</div>
-											<div class="controls">
-												<?php echo $field->input; ?>
-											</div>
-										</div>
+										<?php if ($field->hidden) : ?>
+											<?php echo $field->input; ?>
 										<?php else : ?>
-										<?php $this->hidden_fields .= $field->input; ?>
+											<div class="control-group">
+												<div class="control-label">
+													<?php echo $field->label; ?>
+												</div>
+												<div class="controls">
+													<?php echo $field->input; ?>
+												</div>
+											</div>
 										<?php endif; ?>
 									<?php endforeach; ?>
 								</div>
@@ -112,21 +109,21 @@ $this->hidden_fields = '';
 								<?php echo JText::_(trim($this->item->xml->description)); ?>
 							</div>
 							<?php endif; ?>
-						<?php if (isset($this->fieldsets['basic'])) : ?>
-							<?php if ($fields = $this->form->getFieldset('basic')) : ?>
-								<hr />
-								<?php foreach ($fields as $field) : ?>
-									<?php if (!$field->hidden) : ?>
-										<div class="control-group">
-											<div class="control-label">
-												<?php echo $field->label; ?>
-											</div>
-											<div class="controls">
-												<?php echo $field->input; ?>
-											</div>
-										</div>
+							<?php if (isset($this->fieldsets['basic'])) : ?>
+								<?php if ($fields = $this->form->getFieldset('basic')) : ?>
+									<hr />
+									<?php foreach ($fields as $field) : ?>
+										<?php if ($field->hidden) : ?>
+											<?php echo $field->input; ?>
 										<?php else : ?>
-										<?php $this->hidden_fields .= $field->input; ?>
+											<div class="control-group">
+												<div class="control-label">
+													<?php echo $field->label; ?>
+												</div>
+												<div class="controls">
+													<?php echo $field->input; ?>
+												</div>
+											</div>
 										<?php endif; ?>
 									<?php endforeach; ?>
 								<?php endif; ?>
@@ -141,7 +138,10 @@ $this->hidden_fields = '';
 			<?php echo $this->loadTemplate('options'); ?>
 		</div>
 	</fieldset>
-	<?php echo $this->hidden_fields; ?>
+	<input type="hidden" name="jform[extension_id]" id="jform_extension_id" value="<?php echo$this->item->extension_id; ?>" />
+	<input type="hidden" name="jform[name]" id="jform_name" value="<?php echo$this->item->name; ?>" />
+	<input type="hidden" name="jform[folder]" id="jform_folder" value="<?php echo$this->item->folder; ?>" />
+	<input type="hidden" name="jform[element]" id="jform_element" value="<?php echo$this->item->element; ?>" />
 	<input type="hidden" name="task" value="" />
 	<?php echo JHtml::_('form.token'); ?>
 </form>

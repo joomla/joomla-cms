@@ -16,9 +16,7 @@ JHtml::_('behavior.keepalive');
 $user = JFactory::getUser();
 $canDo = TemplatesHelper::getActions();
 
-// Get Params Fieldsets
 $this->fieldsets = $this->form->getFieldsets('params');
-$this->hidden_fields = '';
 ?>
 <script type="text/javascript">
 	Joomla.submitbutton = function(task)
@@ -30,22 +28,26 @@ $this->hidden_fields = '';
 </script>
 
 <form action="<?php echo JRoute::_('index.php?option=com_templates&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="style-form" class="form-validate form-horizontal">
-	<fieldset>
+	<fieldset class="adminform">
 		<ul class="nav nav-tabs">
 			<li class="active">
-				<a href="#basic" data-toggle="tab"><?php echo JText::_('COM_TEMPLATES_BASIC_FIELDSET_LABEL');?></a></li>
-			<li><a href="#options" data-toggle="tab"><?php echo JText::_('COM_TEMPLATES_ADVANCED_FIELDSET_LABEL');?></a>
-			</li>
+				<a href="#tab-basic" data-toggle="tab"><?php echo JText::_('COM_TEMPLATES_BASIC_FIELDSET_LABEL');?></a></li>
+			<?php foreach ($this->fieldsets as $fieldset) : ?>
+			<?php if (!in_array($fieldset->name, array('description', 'basic'))) : ?>
+				<?php $label = !empty($fieldset->label) ? JText::_($fieldset->label) : JText::_('COM_TEMPLATES_' . $fieldset->name . '_FIELDSET_LABEL'); ?>
+				<li><a href="#tab-<?php echo $fieldset->name; ?>" data-toggle="tab"><?php echo $label ?></a>
+				</li>
+				<?php endif; ?>
+			<?php endforeach; ?>
 			<?php if ($user->authorise('core.edit', 'com_menu') && $this->item->client_id == 0): ?>
 			<?php if ($canDo->get('core.edit.state')) : ?>
-				<li><a href="#assignment" data-toggle="tab"><?php echo JText::_('COM_TEMPLATES_MENUS_ASSIGNMENT');?></a>
-				</li>
+				<li><a href="#assignment" data-toggle="tab"><?php echo JText::_('COM_TEMPLATES_MENUS_ASSIGNMENT');?></a></li>
 				<?php endif; ?>
 			<?php endif;?>
 		</ul>
 
 		<div class="tab-content">
-			<div class="tab-pane active" id="basic">
+			<div class="tab-pane active" id="tab-basic">
 				<div class="row-fluid">
 					<div class="span6">
 						<div class="control-group">
@@ -81,17 +83,17 @@ $this->hidden_fields = '';
 								<hr />
 								<div>
 									<?php foreach ($fields as $field) : ?>
-									<?php if (!$field->hidden) : ?>
-										<div class="control-group">
-											<div class="control-label">
-												<?php echo $field->label; ?>
-											</div>
-											<div class="controls">
-												<?php echo $field->input; ?>
-											</div>
-										</div>
+										<?php if ($field->hidden) : ?>
+											<?php echo $field->input; ?>
 										<?php else : ?>
-										<?php $this->hidden_fields .= $field->input; ?>
+											<div class="control-group">
+												<div class="control-label">
+													<?php echo $field->label; ?>
+												</div>
+												<div class="controls">
+													<?php echo $field->input; ?>
+												</div>
+											</div>
 										<?php endif; ?>
 									<?php endforeach; ?>
 								</div>
@@ -102,21 +104,21 @@ $this->hidden_fields = '';
 								<?php echo JText::_(trim($this->item->xml->description)); ?>
 							</div>
 							<?php endif; ?>
-						<?php if (isset($this->fieldsets['basic'])) : ?>
-							<?php if ($fields = $this->form->getFieldset('basic')) : ?>
-								<hr />
-								<?php foreach ($fields as $field) : ?>
-									<?php if (!$field->hidden) : ?>
-										<div class="control-group">
-											<div class="control-label">
-												<?php echo $field->label; ?>
-											</div>
-											<div class="controls">
-												<?php echo $field->input; ?>
-											</div>
-										</div>
+							<?php if (isset($this->fieldsets['basic'])) : ?>
+								<?php if ($fields = $this->form->getFieldset('basic')) : ?>
+									<hr />
+									<?php foreach ($fields as $field) : ?>
+										<?php if ($field->hidden) : ?>
+											<?php echo $field->input; ?>
 										<?php else : ?>
-										<?php $this->hidden_fields .= $field->input; ?>
+											<div class="control-group">
+												<div class="control-label">
+													<?php echo $field->label; ?>
+												</div>
+												<div class="controls">
+													<?php echo $field->input; ?>
+												</div>
+											</div>
 										<?php endif; ?>
 									<?php endforeach; ?>
 								<?php endif; ?>
@@ -128,10 +130,8 @@ $this->hidden_fields = '';
 				</div>
 			</div>
 
-			<div class="tab-pane" id="options">
-				<?php //get the menu parameters that are automatically set but may be modified.
-				echo $this->loadTemplate('options'); ?>
-			</div>
+			<?php echo $this->loadTemplate('options'); ?>
+
 			<?php if ($user->authorise('core.edit', 'com_menu') && $this->item->client_id == 0): ?>
 			<?php if ($canDo->get('core.edit.state')) : ?>
 				<div class="tab-pane" id="assignment">
@@ -141,7 +141,9 @@ $this->hidden_fields = '';
 			<?php endif; ?>
 		</div>
 	</fieldset>
-	<?php echo $this->hidden_fields; ?>
+	<input type="hidden" name="jform[id]" id="jform_id" value="<?php echo$this->item->id; ?>" />
+	<input type="hidden" name="jform[template]" id="jform_template" value="<?php echo$this->item->template; ?>" />
+	<input type="hidden" name="jform[folder]" id="jform_client_id" value="<?php echo$this->item->client_id; ?>" />
 	<input type="hidden" name="task" value="" />
 	<?php echo JHtml::_('form.token'); ?>
 </form>
