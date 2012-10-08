@@ -543,9 +543,10 @@ class JArchiveZip implements JArchiveExtractable
 	 * (date in high 2-bytes, time in low 2-bytes allowing magnitude
 	 * comparison).
 	 *
-	 * @param   int $unixtime   The current UNIX timestamp.
+	 * @param   int  $unixtime  The current UNIX timestamp.
 	 *
-	 * @return  int The current date in a 4-byte DOS format.
+	 * @return  int  The current date in a 4-byte DOS format.
+	 *
 	 * @since   11.1
 	 */
 	protected function _unix2DOSTime($unixtime = null)
@@ -562,7 +563,8 @@ class JArchiveZip implements JArchiveExtractable
 			$timearray['seconds'] = 0;
 		}
 
-		return (($timearray['year'] - 1980) << 25) | ($timearray['mon'] << 21) | ($timearray['mday'] << 16) | ($timearray['hours'] << 11) | ($timearray['minutes'] << 5) | ($timearray['seconds'] >> 1);
+		return (($timearray['year'] - 1980) << 25) | ($timearray['mon'] << 21) | ($timearray['mday'] << 16) | ($timearray['hours'] << 11)
+			| ($timearray['minutes'] << 5) | ($timearray['seconds'] >> 1);
 	}
 
 	/**
