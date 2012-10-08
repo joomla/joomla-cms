@@ -17,7 +17,7 @@ class TestMockLanguage
 	/**
 	 * Creates and instance of the mock JLanguage object.
 	 *
-	 * @param   object  $test   A test object.
+	 * @param   object  $test  A test object.
 	 *
 	 * @return  object
 	 *
