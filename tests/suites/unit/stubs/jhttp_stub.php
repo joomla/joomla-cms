@@ -39,9 +39,9 @@ echo json_encode($response);
 /**
  * Retrieves a value from an array, returning a default value if not present
  *
- * @param  array   $array    The array from which to retrieve a value.
- * @param  string  $key      The value to retrieve.
- * @param  mixed   $default  The value to return if the key isn't present.
+ * @param   array   $array    The array from which to retrieve a value.
+ * @param   string  $key      The value to retrieve.
+ * @param   mixed   $default  The value to return if the key isn't present.
  *
  * @return  Mixed
  *

@@ -1,1 +1,1 @@
-<?php /* Empty file */ ?>
+<?php /* @codingStandardsIgnoreFile Empty file */
