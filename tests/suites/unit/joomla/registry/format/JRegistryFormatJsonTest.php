@@ -21,6 +21,8 @@ class JRegistryFormatJSONTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 * Test the JRegistryFormatJSON::objectToString method.
+	 *
+	 * @return void
 	 */
 	public function testObjectToString()
 	{
@@ -33,7 +35,9 @@ class JRegistryFormatJSONTest extends PHPUnit_Framework_TestCase
 		$object->booleanfalse = false;
 		$object->numericint = 42;
 		$object->numericfloat = 3.1415;
-		$object->section = new stdClass(); //The PHP registry format does not support nested objects
+
+		// The PHP registry format does not support nested objects
+		$object->section = new stdClass;
 		$object->section->key = 'value';
 		$object->array = array('nestedarray' => array('test1' => 'value1'));
 
@@ -53,6 +57,8 @@ class JRegistryFormatJSONTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Test the JRegistryFormatJSON::stringToObject method.
+	 *
+	 * @return void
 	 */
 	public function testStringToObject()
 	{

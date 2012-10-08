@@ -1,9 +1,9 @@
 <?php
 /**
- * @package     Joomla.UnitTest
+ * @package    Joomla.UnitTest
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
 include_once JPATH_PLATFORM . '/joomla/filesystem/support/stringcontroller.php';
@@ -27,6 +27,8 @@ class JStringControllerTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
+	 *
+	 * @return void
 	 */
 	protected function setUp()
 	{
@@ -36,6 +38,8 @@ class JStringControllerTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tears down the fixture, for example, closes a network connection.
 	 * This method is called after a test is executed.
+	 *
+	 * @return void
 	 */
 	protected function tearDown()
 	{
@@ -43,7 +47,11 @@ class JStringControllerTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @todo Implement test_getArray().
+	 *
+	 * @return void
 	 */
 	public function test_getArray()
 	{
@@ -54,7 +62,11 @@ class JStringControllerTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @todo Implement testCreateRef().
+	 *
+	 * @return void
 	 */
 	public function testCreateRef()
 	{
@@ -65,7 +77,11 @@ class JStringControllerTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @todo Implement testGetRef().
+	 *
+	 * @return void
 	 */
 	public function testGetRef()
 	{
@@ -76,5 +92,3 @@ class JStringControllerTest extends PHPUnit_Framework_TestCase
 	}
 
 }
-
-?>

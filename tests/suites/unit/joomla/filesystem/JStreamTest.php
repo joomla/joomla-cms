@@ -1,9 +1,9 @@
 <?php
 /**
- * @package     Joomla.UnitTest
+ * @package    Joomla.UnitTest
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
 include_once JPATH_PLATFORM . '/joomla/filesystem/stream.php';
@@ -27,6 +27,8 @@ class JStreamTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
+	 *
+	 * @return void
 	 */
 	protected function setUp()
 	{
@@ -36,6 +38,8 @@ class JStreamTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tears down the fixture, for example, closes a network connection.
 	 * This method is called after a test is executed.
+	 *
+	 * @return void
 	 */
 	protected function tearDown()
 	{
@@ -43,7 +47,11 @@ class JStreamTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @todo Implement test__destruct().
+	 *
+	 * @return void
 	 */
 	public function test__destruct()
 	{
@@ -54,7 +62,11 @@ class JStreamTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @todo Implement testOpen().
+	 *
+	 * @return void
 	 */
 	public function testOpen()
 	{
@@ -65,7 +77,11 @@ class JStreamTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @todo Implement testClose().
+	 *
+	 * @return void
 	 */
 	public function testClose()
 	{
@@ -76,7 +92,11 @@ class JStreamTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @todo Implement testEof().
+	 *
+	 * @return void
 	 */
 	public function testEof()
 	{
@@ -87,7 +107,11 @@ class JStreamTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @todo Implement testFilesize().
+	 *
+	 * @return void
 	 */
 	public function testFilesize()
 	{
@@ -98,7 +122,11 @@ class JStreamTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @todo Implement testGets().
+	 *
+	 * @return void
 	 */
 	public function testGets()
 	{
@@ -109,7 +137,11 @@ class JStreamTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @todo Implement testRead().
+	 *
+	 * @return void
 	 */
 	public function testRead()
 	{
@@ -120,7 +152,11 @@ class JStreamTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @todo Implement testSeek().
+	 *
+	 * @return void
 	 */
 	public function testSeek()
 	{
@@ -131,7 +167,11 @@ class JStreamTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @todo Implement testTell().
+	 *
+	 * @return void
 	 */
 	public function testTell()
 	{
@@ -142,7 +182,11 @@ class JStreamTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @todo Implement testWrite().
+	 *
+	 * @return void
 	 */
 	public function testWrite()
 	{
@@ -153,7 +197,11 @@ class JStreamTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @todo Implement testChmod().
+	 *
+	 * @return void
 	 */
 	public function testChmod()
 	{
@@ -164,7 +212,11 @@ class JStreamTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @todo Implement testGet_meta_data().
+	 *
+	 * @return void
 	 */
 	public function testGet_meta_data()
 	{
@@ -175,7 +227,11 @@ class JStreamTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @todo Implement test_buildContext().
+	 *
+	 * @return void
 	 */
 	public function test_buildContext()
 	{
@@ -186,7 +242,11 @@ class JStreamTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @todo Implement testSetContextOptions().
+	 *
+	 * @return void
 	 */
 	public function testSetContextOptions()
 	{
@@ -197,7 +257,11 @@ class JStreamTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @todo Implement testAddContextEntry().
+	 *
+	 * @return void
 	 */
 	public function testAddContextEntry()
 	{
@@ -208,7 +272,11 @@ class JStreamTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @todo Implement testDeleteContextEntry().
+	 *
+	 * @return void
 	 */
 	public function testDeleteContextEntry()
 	{
@@ -219,7 +287,11 @@ class JStreamTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @todo Implement testApplyContextToStream().
+	 *
+	 * @return void
 	 */
 	public function testApplyContextToStream()
 	{
@@ -230,7 +302,11 @@ class JStreamTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @todo Implement testAppendFilter().
+	 *
+	 * @return void
 	 */
 	public function testAppendFilter()
 	{
@@ -241,7 +317,11 @@ class JStreamTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @todo Implement testPrependFilter().
+	 *
+	 * @return void
 	 */
 	public function testPrependFilter()
 	{
@@ -252,7 +332,11 @@ class JStreamTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @todo Implement testRemoveFilter().
+	 *
+	 * @return void
 	 */
 	public function testRemoveFilter()
 	{
@@ -263,7 +347,11 @@ class JStreamTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @todo Implement testCopy().
+	 *
+	 * @return void
 	 */
 	public function testCopy()
 	{
@@ -274,7 +362,11 @@ class JStreamTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @todo Implement testMove().
+	 *
+	 * @return void
 	 */
 	public function testMove()
 	{
@@ -285,7 +377,11 @@ class JStreamTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @todo Implement testDelete().
+	 *
+	 * @return void
 	 */
 	public function testDelete()
 	{
@@ -296,7 +392,11 @@ class JStreamTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @todo Implement testUpload().
+	 *
+	 * @return void
 	 */
 	public function testUpload()
 	{
@@ -307,7 +407,11 @@ class JStreamTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @todo Implement testWriteFile().
+	 *
+	 * @return void
 	 */
 	public function testWriteFile()
 	{
@@ -318,7 +422,11 @@ class JStreamTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @todo Implement test_getFilename().
+	 *
+	 * @return void
 	 */
 	public function test_getFilename()
 	{
@@ -329,7 +437,11 @@ class JStreamTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @todo Implement testGetFileHandle().
+	 *
+	 * @return void
 	 */
 	public function testGetFileHandle()
 	{
@@ -340,5 +452,3 @@ class JStreamTest extends PHPUnit_Framework_TestCase
 	}
 
 }
-
-?>

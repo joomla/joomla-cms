@@ -31,6 +31,8 @@ class JDocumentJSONTest extends PHPUnit_Framework_TestCase
 	 * This method is called before a test is executed.
 	 *
 	 * @access protected
+	 *
+	 * @return void
 	 */
 	protected function setUp()
 	{
@@ -42,13 +44,19 @@ class JDocumentJSONTest extends PHPUnit_Framework_TestCase
 	 * This method is called after a test is executed.
 	 *
 	 * @access protected
+	 *
+	 * @return void
 	 */
 	protected function tearDown()
 	{
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @todo Implement testRender().
+	 *
+	 * @return void
 	 */
 	public function testRender()
 	{
@@ -99,6 +107,8 @@ class JDocumentJSONTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * We test both at once
+	 *
+	 * @return void
 	 */
 	public function testGetAndSetName()
 	{

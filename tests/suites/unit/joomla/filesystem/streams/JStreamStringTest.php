@@ -1,9 +1,9 @@
 <?php
 /**
- * @package     Joomla.UnitTest
+ * @package    Joomla.UnitTest
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
 include_once JPATH_PLATFORM . '/joomla/filesystem/streams/string.php';
@@ -27,6 +27,8 @@ class JStreamStringTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
+	 *
+	 * @return void
 	 */
 	protected function setUp()
 	{
@@ -36,6 +38,8 @@ class JStreamStringTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tears down the fixture, for example, closes a network connection.
 	 * This method is called after a test is executed.
+	 *
+	 * @return void
 	 */
 	protected function tearDown()
 	{
@@ -43,7 +47,11 @@ class JStreamStringTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @todo Implement testStream_open().
+	 *
+	 * @return void
 	 */
 	public function testStream_open()
 	{
@@ -54,7 +62,11 @@ class JStreamStringTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @todo Implement testStream_stat().
+	 *
+	 * @return void
 	 */
 	public function testStream_stat()
 	{
@@ -65,7 +77,11 @@ class JStreamStringTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @todo Implement testUrl_stat().
+	 *
+	 * @return void
 	 */
 	public function testUrl_stat()
 	{
@@ -76,7 +92,11 @@ class JStreamStringTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @todo Implement testStream_read().
+	 *
+	 * @return void
 	 */
 	public function testStream_read()
 	{
@@ -87,7 +107,11 @@ class JStreamStringTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @todo Implement testStream_write().
+	 *
+	 * @return void
 	 */
 	public function testStream_write()
 	{
@@ -98,7 +122,11 @@ class JStreamStringTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @todo Implement testStream_tell().
+	 *
+	 * @return void
 	 */
 	public function testStream_tell()
 	{
@@ -109,7 +137,11 @@ class JStreamStringTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @todo Implement testStream_eof().
+	 *
+	 * @return void
 	 */
 	public function testStream_eof()
 	{
@@ -120,7 +152,11 @@ class JStreamStringTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @todo Implement testStream_seek().
+	 *
+	 * @return void
 	 */
 	public function testStream_seek()
 	{
@@ -131,7 +167,11 @@ class JStreamStringTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @todo Implement testStream_flush().
+	 *
+	 * @return void
 	 */
 	public function testStream_flush()
 	{
@@ -142,5 +182,3 @@ class JStreamStringTest extends PHPUnit_Framework_TestCase
 	}
 
 }
-
-?>

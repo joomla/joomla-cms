@@ -220,6 +220,8 @@ class JDatabaseTest extends TestCaseDatabase
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @todo Implement testGetErrorNum().
 	 *
 	 * @return void

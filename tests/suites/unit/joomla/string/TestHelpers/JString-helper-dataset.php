@@ -25,7 +25,7 @@ class JStringTest_DataSet
 	 * @since  11.3
 	 */
 	static public $increment = array(
-		// string, style, number, expected
+		// Note: string, style, number, expected
 		'First default increment' => array('title', null, 0, 'title (2)'),
 		'Second default increment' => array('title(2)', null, 0, 'title(3)'),
 		'First dash increment' => array('title', 'dash', 0, 'title-2'),
@@ -131,7 +131,7 @@ class JStringTest_DataSet
 	 * @var    array
 	 * @since  11.2
 	 */
-	static public $strcasecmpTests = array (
+	static public $strcasecmpTests = array(
 		array('THIS IS STRING1', 'this is string1', false, 0),
 		array('this is string1', 'this is string2', false, -1),
 		array('this is string2', 'this is string1', false, 1),
@@ -148,7 +148,7 @@ class JStringTest_DataSet
 	 * @var    array
 	 * @since  11.2
 	 */
-	static public $strcmpTests = array (
+	static public $strcmpTests = array(
 		array('THIS IS STRING1', 'this is string1', false, -1),
 		array('this is string1', 'this is string2', false, -1),
 		array('this is string2', 'this is string1', false, 1),
@@ -168,7 +168,7 @@ class JStringTest_DataSet
 	 * @var    array
 	 * @since  11.2
 	 */
-	static public $strcspnTests = array (
+	static public $strcspnTests = array(
 		array('subject <a> string <a>', '<>', false, false, 8),
 		array('Би шил {123} идэй {456} чадна', '}{', null, false, 7),
 		array('Би шил {123} идэй {456} чадна', '}{', 13, 10, 5)
@@ -178,7 +178,7 @@ class JStringTest_DataSet
 	 * @var    array
 	 * @since  11.2
 	 */
-	static public $stristrTests = array (
+	static public $stristrTests = array(
 		array('haystack', 'needle', false),
 		array('before match, after match', 'match', 'match, after match'),
 		array('Би шил идэй чадна', 'шил', 'шил идэй чадна')
@@ -188,7 +188,7 @@ class JStringTest_DataSet
 	 * @var    array
 	 * @since  11.2
 	 */
-	static public $strrevTests = array (
+	static public $strrevTests = array(
 		array('abc def', 'fed cba'),
 		array('Би шил', 'лиш иБ')
 	);
@@ -197,7 +197,7 @@ class JStringTest_DataSet
 	 * @var    array
 	 * @since  11.2
 	 */
-	static public $strspnTests = array (
+	static public $strspnTests = array(
 		array('A321 Main Street', '0123456789', 1, 2, 2),
 		array('321 Main Street', '0123456789', null, 2, 2),
 		array('A321 Main Street', '0123456789', null, 10, 0),
@@ -216,7 +216,7 @@ class JStringTest_DataSet
 	 * @var    array
 	 * @since  11.2
 	 */
-	static public $substr_replaceTests = array (
+	static public $substr_replaceTests = array(
 		array('321 Main Street', 'Broadway Avenue', 4, false, '321 Broadway Avenue'),
 		array('321 Main Street', 'Broadway', 4, 4, '321 Broadway Street'),
 		array('чадна Би шил идэй чадна', '我能吞', 6, false, 'чадна 我能吞'),
@@ -229,7 +229,7 @@ class JStringTest_DataSet
 	 * @var    array  Elements of array($string, $charlist, $expect)
 	 * @since  11.2
 	 */
-	static public $ltrimTests = array (
+	static public $ltrimTests = array(
 		array('   abc def', null, 'abc def'),
 		array('   abc def', '', '   abc def'),
 		array(' Би шил', null, 'Би шил'),
@@ -243,7 +243,7 @@ class JStringTest_DataSet
 	 * @var    array
 	 * @since  11.2
 	 */
-	static public $rtrimTests = array (
+	static public $rtrimTests = array(
 		array('abc def   ', null, 'abc def'),
 		array('abc def   ', '', 'abc def   '),
 		array('Би шил ', null, 'Би шил'),
@@ -257,7 +257,7 @@ class JStringTest_DataSet
 	 * @var    array
 	 * @since  11.2
 	 */
-	static public $trimTests = array (
+	static public $trimTests = array(
 		array('  abc def   ', null, 'abc def'),
 		array('  abc def   ', '', '  abc def   '),
 		array('   Би шил ', null, 'Би шил'),
@@ -271,7 +271,7 @@ class JStringTest_DataSet
 	 * @var    array
 	 * @since  11.2
 	 */
-	static public $ucfirstTests = array (
+	static public $ucfirstTests = array(
 		array('george', null, null, 'George'),
 		array('мога', null, null, 'Мога'),
 		array('ψυχοφθόρα', null, null, 'Ψυχοφθόρα'),
@@ -284,7 +284,7 @@ class JStringTest_DataSet
 	 * @var    array
 	 * @since  11.2
 	 */
-	static public $ucwordsTests = array (
+	static public $ucwordsTests = array(
 		array('george washington', 'George Washington'),
 		array("george\r\nwashington", "George\r\nWashington"),
 		array('мога', 'Мога'),
@@ -296,7 +296,7 @@ class JStringTest_DataSet
 	 * @var    array
 	 * @since  11.2
 	 */
-	static public $transcodeTests = array (
+	static public $transcodeTests = array(
 		array('Åbc Öde €100', 'UTF-8', 'ISO-8859-1', "\xc5bc \xd6de EUR100"),
 		array(array('Åbc Öde €100'), 'UTF-8', 'ISO-8859-1', null),
 	);
@@ -305,7 +305,7 @@ class JStringTest_DataSet
 	 * @var    array
 	 * @since  11.2
 	 */
-	static public $validTests = array (
+	static public $validTests = array(
 		array('george Мога Ž Ψυχοφθόρα ฉันกินกระจกได้ 我能吞下玻璃而不伤身体 ', true),
 		array("\xFF ABC", false),
 		array("0xfffd ABC", true),
