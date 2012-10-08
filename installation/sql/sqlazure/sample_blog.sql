@@ -32,7 +32,7 @@ INSERT INTO[#__assets] ([id], [parent_id], [lft], [rgt], [level], [name], [title
 INSERT INTO[#__assets] ([id], [parent_id], [lft], [rgt], [level], [name], [title], [rules]) VALUES (29, 7, 14, 15, 2, N'com_contact.category.4', N'Uncategorised', N'{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[],"core.edit.own":[]}');
 INSERT INTO[#__assets] ([id], [parent_id], [lft], [rgt], [level], [name], [title], [rules]) VALUES (30, 19, 54, 55, 2, N'com_newsfeeds.category.5', N'Uncategorised', N'{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[],"core.edit.own":[]}');
 INSERT INTO[#__assets] ([id], [parent_id], [lft], [rgt], [level], [name], [title], [rules]) VALUES (31, 25, 70, 71, 2, N'com_weblinks.category.6', N'Uncategorised', N'{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[],"core.edit.own":[]}');
-INSERT INTO[#__assets] ([id], [parent_id], [lft], [rgt], [level], [name], [title], [rules]) VALUES (32, 24, 66, 67, 1, N'com_users.notes.category.7', N'Uncategorised', N'{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}');
+INSERT INTO[#__assets] ([id], [parent_id], [lft], [rgt], [level], [name], [title], [rules]) VALUES (32, 24, 66, 67, 1, N'com_users.category.7', N'Uncategorised', N'{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}');
 INSERT INTO[#__assets] ([id], [parent_id], [lft], [rgt], [level], [name], [title], [rules]) VALUES (33, 1, 77, 78, 1, N'com_finder', N'com_finder', N'{"core.admin":{"7":1},"core.manage":{"6":1}}');
 INSERT INTO[#__assets] ([id], [parent_id], [lft], [rgt], [level], [name], [title], [rules]) VALUES (34, 25, 72, 73, 2, N'com_weblinks.category.8', N'Blog Roll', N'{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[],"core.edit.own":[]}');
 INSERT INTO[#__assets] ([id], [parent_id], [lft], [rgt], [level], [name], [title], [rules]) VALUES (35, 8, 24, 31, 2, N'com_content.category.9', N'Blog', N'{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[],"core.edit.own":[]}');
@@ -41,7 +41,7 @@ INSERT INTO[#__assets] ([id], [parent_id], [lft], [rgt], [level], [name], [title
 INSERT INTO[#__assets] ([id], [parent_id], [lft], [rgt], [level], [name], [title], [rules]) VALUES (38, 35, 25, 26, 3, N'com_content.article.3', N'Welcome to your blog', N'');
 INSERT INTO[#__assets] ([id], [parent_id], [lft], [rgt], [level], [name], [title], [rules]) VALUES (39, 35, 27, 28, 3, N'com_content.article.4', N'About your home page', N'{"core.delete":[],"core.edit":[],"core.edit.state":[]}');
 INSERT INTO[#__assets] ([id], [parent_id], [lft], [rgt], [level], [name], [title], [rules]) VALUES (40, 35, 29, 30, 3, N'com_content.article.5', N'Your Modules', N'{"core.delete":[],"core.edit":[],"core.edit.state":[]}');
-INSERT INTO[#__assets] ([id], [parent_id], [lft], [rgt], [level], [name], [title], [rules]) VALUES (41, 1, 79, 80, 1, N'com_users.notes.category.10', N'Uncategorised', N'');
+INSERT INTO[#__assets] ([id], [parent_id], [lft], [rgt], [level], [name], [title], [rules]) VALUES (41, 1, 79, 80, 1, N'com_users.category.10', N'Uncategorised', N'');
 INSERT INTO[#__assets] ([id], [parent_id], [lft], [rgt], [level], [name], [title], [rules]) VALUES (42, 1, 81, 82, 1, 'com_joomlaupdate', 'com_joomlaupdate', '{"core.admin":[],"core.manage":[],"core.delete":[],"core.edit.state":[]}');
 
 SET IDENTITY_INSERT [#__assets] OFF;
