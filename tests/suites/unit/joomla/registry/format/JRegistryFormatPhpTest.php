@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM.'/joomla/registry/format.php';
+require_once JPATH_PLATFORM . '/joomla/registry/format.php';
 
 /**
  * Test class for JRegistryFormatPHP.
@@ -32,18 +32,18 @@ class JRegistryFormatPHPTest extends PHPUnit_Framework_TestCase
 		$object->section = new stdClass(); //The PHP registry format does not support nested objects
 		$object->section->key = 'value';
 		$object->array = array('nestedarray' => array('test1' => 'value1'));
-		
-		$string = "<?php\n".
-			"class myClass {\n".
-			"\tpublic \$foo = 'bar';\n".
-			"\tpublic \$quoted = '\"stringwithquotes\"';\n".
-			"\tpublic \$booleantrue = '1';\n".
-			"\tpublic \$booleanfalse = '';\n".
-			"\tpublic \$numericint = '42';\n".
-			"\tpublic \$numericfloat = '3.1415';\n".
-			"\tpublic \$section = array(\"key\" => \"value\");\n".
-			"\tpublic \$array = array(\"nestedarray\" => array(\"test1\" => \"value1\"));\n".
-			"}\n?>"; 
+
+		$string = "<?php\n" .
+			"class myClass {\n" .
+			"\tpublic \$foo = 'bar';\n" .
+			"\tpublic \$quoted = '\"stringwithquotes\"';\n" .
+			"\tpublic \$booleantrue = '1';\n" .
+			"\tpublic \$booleanfalse = '';\n" .
+			"\tpublic \$numericint = '42';\n" .
+			"\tpublic \$numericfloat = '3.1415';\n" .
+			"\tpublic \$section = array(\"key\" => \"value\");\n" .
+			"\tpublic \$array = array(\"nestedarray\" => array(\"test1\" => \"value1\"));\n" .
+			"}\n?>";
 		$this->assertThat(
 			$class->objectToString($object, $options),
 			$this->equalTo($string)

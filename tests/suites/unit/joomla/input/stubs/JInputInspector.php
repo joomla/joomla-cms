@@ -10,16 +10,26 @@
 /**
  * Inspector class for the JInput library.
  *
- * @package		Joomla.UnitTest
+ * @package     Joomla.UnitTest
  * @subpackage  Input
+ * @since       11.1
  */
 class JInputInspector extends JInput
 {
 	public $options;
+
 	public $filter;
+
 	public $data;
+
 	public $inputs;
+
 	public static $registered;
+	/**
+	 * Test...
+	 *
+	 * @return void
+	 */
 
 	public static function register()
 	{

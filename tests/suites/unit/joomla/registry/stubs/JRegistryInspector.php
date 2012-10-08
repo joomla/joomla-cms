@@ -12,8 +12,8 @@
  */
 
 /**
- * @package		Joomla.UnitTest
- * @subpackage  Registry
+ * @package        Joomla.UnitTest
+ * @subpackage     Registry
  */
 class JRegistryInspector extends JRegistry
 {

@@ -7,12 +7,14 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM.'/joomla/html/user.php';
+require_once JPATH_PLATFORM . '/joomla/html/user.php';
 
 /**
  * Test class for JHtmlUser.
  *
- * @since  11.4
+ * @package     Joomla.UnitTest
+ * @subpackage  Html
+ * @since       11.4
  */
 class JHtmlUserTest extends TestCaseDatabase
 {
@@ -25,38 +27,38 @@ class JHtmlUserTest extends TestCaseDatabase
 	 */
 	protected function getDataSet()
 	{
-		return $this->createXMLDataSet(__DIR__.'/testfiles/JHtmlTest.xml');
+		return $this->createXMLDataSet(__DIR__ . '/testfiles/JHtmlTest.xml');
 	}
 
-    /**
+	/**
 	 * Tests the JHtmlUser::groups method.
 	 *
 	 * @return  void
 	 *
 	 * @since   11.4
-     */
-    public function testGroups()
-    {
+	 */
+	public function testGroups()
+	{
 		$this->assertThat(
 			JHtmlUser::groups(),
 			$this->arrayHasKey('3'),
-			'Line:'.__LINE__.' The groups method should an array with eight keys; key 3 is "- - - Super Users".'
+			'Line:' . __LINE__ . ' The groups method should an array with eight keys; key 3 is "- - - Super Users".'
 		);
-    }
+	}
 
-    /**
+	/**
 	 * Tests the JHtmlUser::userlist method.
 	 *
 	 * @return  void
 	 *
 	 * @since   11.4
-     */
-    public function testUserlist()
-    {
+	 */
+	public function testUserlist()
+	{
 		$this->assertThat(
 			JHtmlUser::userlist(),
 			$this->arrayHasKey('2'),
-			'Line:'.__LINE__.' The userlist method should an array with four keys; key 2 is "Super User".'
+			'Line:' . __LINE__ . ' The userlist method should an array with four keys; key 2 is "Super User".'
 		);
-    }
+	}
 }

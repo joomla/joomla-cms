@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once __DIR__.'/stubs/messagequeue/mock.application.php';
+require_once __DIR__ . '/stubs/messagequeue/mock.application.php';
 
 /**
  * Test class for JLogLoggerMessageQueue.
@@ -58,14 +58,14 @@ class JLogLoggerMessageQueueTest extends PHPUnit_Framework_TestCase
 		$expected = array(
 			array('message' => 'TESTING', 'type' => 'error')
 		);
-		$this->assertEquals(JFactory::$application->queue, $expected, 'Line: '.__LINE__);
+		$this->assertEquals(JFactory::$application->queue, $expected, 'Line: ' . __LINE__);
 
 		// Now lets add a debug message that should be ignored.
 		$logger->addEntry(new JLogEntry('Debugging', JLog::DEBUG));
 		$expected = array(
 			array('message' => 'TESTING', 'type' => 'error')
 		);
-		$this->assertEquals(JFactory::$application->queue, $expected, 'Line: '.__LINE__);
+		$this->assertEquals(JFactory::$application->queue, $expected, 'Line: ' . __LINE__);
 
 		// Next we add a regular info message.
 		$logger->addEntry(new JLogEntry('My information message.', JLog::INFO));
@@ -73,7 +73,7 @@ class JLogLoggerMessageQueueTest extends PHPUnit_Framework_TestCase
 			array('message' => 'TESTING', 'type' => 'error'),
 			array('message' => 'My information message.', 'type' => 'message')
 		);
-		$this->assertEquals(JFactory::$application->queue, $expected, 'Line: '.__LINE__);
+		$this->assertEquals(JFactory::$application->queue, $expected, 'Line: ' . __LINE__);
 
 		// Who's on notice?
 		$logger->addEntry(new JLogEntry('You are on NOTICE!', JLog::NOTICE));
@@ -82,7 +82,7 @@ class JLogLoggerMessageQueueTest extends PHPUnit_Framework_TestCase
 			array('message' => 'My information message.', 'type' => 'message'),
 			array('message' => 'You are on NOTICE!', 'type' => 'notice'),
 		);
-		$this->assertEquals(JFactory::$application->queue, $expected, 'Line: '.__LINE__);
+		$this->assertEquals(JFactory::$application->queue, $expected, 'Line: ' . __LINE__);
 
 		// One last "warning" and we'll call it a day.
 		$logger->addEntry(new JLogEntry('You\'ve been warned...', JLog::WARNING));
@@ -92,6 +92,6 @@ class JLogLoggerMessageQueueTest extends PHPUnit_Framework_TestCase
 			array('message' => 'You are on NOTICE!', 'type' => 'notice'),
 			array('message' => 'You\'ve been warned...', 'type' => 'warning'),
 		);
-		$this->assertEquals(JFactory::$application->queue, $expected, 'Line: '.__LINE__);
+		$this->assertEquals(JFactory::$application->queue, $expected, 'Line: ' . __LINE__);
 	}
 }

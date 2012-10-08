@@ -8,12 +8,22 @@
  */
 
 /**
- * @package		Joomla.UnitTest
+ * JFilterInputMock test class.
+ *
+ * @package     Joomla.UnitTest
  * @subpackage  Input
+ * @since       11.1
  */
 class JFilterInputMock
 {
 
+	/**
+	 * Test...
+	 *
+	 * @param   mixed  $input  @todo
+	 *
+	 * @return void
+	 */
 	public function clean($input)
 	{
 		return $input;

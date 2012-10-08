@@ -70,7 +70,7 @@ class JImageTest extends TestCase
 	public function getPrepareDimensionsData()
 	{
 		return array(
-			// inputHeight, inputWidth, inputScale, imageHeight, imageWidth, expectedHeight, expectedWidth
+			// Note: inputHeight, inputWidth, inputScale, imageHeight, imageWidth, expectedHeight, expectedWidth
 			array(43, 56, JImage::SCALE_FILL, 100, 100, 43, 56),
 			array(33, 56, JImage::SCALE_FILL, 10, 10, 33, 56),
 			array(24, 76, JImage::SCALE_INSIDE, 100, 100, 24, 24),
@@ -91,7 +91,7 @@ class JImageTest extends TestCase
 	public function getSanitizeDimensionData()
 	{
 		return array(
-			// inputHeight, inputWidth, imageHeight, imageWidth, expectedHeight, expectedWidth
+			// Note: inputHeight, inputWidth, imageHeight, imageWidth, expectedHeight, expectedWidth
 			array(42.5, 56.2, 10, 10, 43, 56),
 			array(33, 56.2, 10, 10, 33, 56),
 			array('40%', 56.2, 10, 10, 4, 56),
@@ -113,7 +113,7 @@ class JImageTest extends TestCase
 	public function getCropData()
 	{
 		return array(
-			// startHeight, startWidth, cropHeight, cropWidth, cropTop, cropLeft, transparency
+			// Note: startHeight, startWidth, cropHeight, cropWidth, cropTop, cropLeft, transparency
 			array(100, 100, 10, 10, 25, 25, false),
 			array(100, 100, 25, 25, 40, 31, true),
 			array(225, 432, 45, 11, 123, 12, true)
@@ -130,7 +130,7 @@ class JImageTest extends TestCase
 	public function getSanitizeOffsetData()
 	{
 		return array(
-			// input, expected
+			// Note: input, expected
 			array(42.5, 43),
 			array(56.2, 56)
 		);

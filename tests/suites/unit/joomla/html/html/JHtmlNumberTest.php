@@ -6,17 +6,21 @@
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-require_once JPATH_PLATFORM.'/joomla/html/number.php';
+require_once JPATH_PLATFORM . '/joomla/html/number.php';
 
 /**
  * Test class for JHtmlNumberTest.
  *
- * @since  11.1
+ * @package     Joomla.UnitTest
+ * @subpackage  Html
+ * @since       11.1
  */
 class JHtmlNumberTest extends TestCase
 {
 	/**
-	 * @return	array
+	 * Test...
+	 *
+	 * @return    array
 	 *
 	 * @since   11.1
 	 */
@@ -34,19 +38,19 @@ class JHtmlNumberTest extends TestCase
 			),
 			array(
 				'1 MB',
-				1024*1024,
+				1024 * 1024,
 			),
 			array(
 				'1 GB',
-				1024*1024*1024,
+				1024 * 1024 * 1024,
 			),
 			array(
 				'1 TB',
-				1024*1024*1024*1024,
+				1024 * 1024 * 1024 * 1024,
 			),
 			array(
 				'1 PB',
-				1024*1024*1024*1024*1024,
+				1024 * 1024 * 1024 * 1024 * 1024,
 			),
 			array(
 				'0',
@@ -56,27 +60,27 @@ class JHtmlNumberTest extends TestCase
 			// Test units.
 			array(
 				'1024 TB',
-				1024*1024*1024*1024*1024,
+				1024 * 1024 * 1024 * 1024 * 1024,
 				'TB',
 			),
 			array(
 				'1048576 GB',
-				1024*1024*1024*1024*1024,
+				1024 * 1024 * 1024 * 1024 * 1024,
 				'GB',
 			),
 			array(
 				'1073741824 MB',
-				1024*1024*1024*1024*1024,
+				1024 * 1024 * 1024 * 1024 * 1024,
 				'MB',
 			),
 			array(
 				'1099511627776 kb',
-				1024*1024*1024*1024*1024,
+				1024 * 1024 * 1024 * 1024 * 1024,
 				'kb',
 			),
 			array(
 				'1.1258999068426E+15 b',
-				1024*1024*1024*1024*1024,
+				1024 * 1024 * 1024 * 1024 * 1024,
 				'b',
 			),
 
@@ -115,12 +119,14 @@ class JHtmlNumberTest extends TestCase
 	/**
 	 * Tests the JHtmlNumber::bytes method.
 	 *
-	 * @param	string	$result
-	 * @param	int		$btyes
-	 * @param	string	$unit
-	 * @param	int		$precision
+	 * @param   string   $result     @todo
+	 * @param   integer  $bytes      @todo
+	 * @param   string   $unit       @todo
+	 * @param   integer  $precision  @todo
 	 *
 	 * @dataProvider dataTestBytes
+	 *
+	 * @return void
 	 */
 	public function testBytes($result, $bytes, $unit = 'auto', $precision = 2)
 	{

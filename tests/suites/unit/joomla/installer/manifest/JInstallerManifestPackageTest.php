@@ -1,42 +1,54 @@
 <?php
 /**
- * @package     Joomla.UnitTest
+ * @package    Joomla.UnitTest
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
 
 /**
  * Test class for JInstallerManifestPackage.
+ *
+ * @package     Joomla.UnitTest
+ * @subpackage  Installer
+ * @since       11.1
  */
 class JInstallerManifestPackageTest extends TestCase
 {
 	/**
-     * @var JInstallerManifestPackage
-     */
-    protected $object;
+	 * @var JInstallerManifestPackage
+	 */
+	protected $object;
 
-    /**
-     * Sets up the fixture, for example, opens a network connection.
-     * This method is called before a test is executed.
-     */
-    protected function setUp()
-    {
-    }
+	/**
+	 * Sets up the fixture, for example, opens a network connection.
+	 * This method is called before a test is executed.
+	 *
+	 * @return void
+	 */
+	protected function setUp()
+	{
+	}
 
-    /**
-     * Tears down the fixture, for example, closes a network connection.
-     * This method is called after a test is executed.
-     */
-    protected function tearDown()
-    {
-    }
+	/**
+	 * Tears down the fixture, for example, closes a network connection.
+	 * This method is called after a test is executed.
+	 *
+	 * @return void
+	 */
+	protected function tearDown()
+	{
+	}
 
-     /**
-     * @covers  JInstallerManifestPackage::__construct
+	/**
+	 * Test...
+	 *
+	 * @covers  JInstallerManifestPackage::__construct
 	 * @covers  JInstallerManifest::loadManifestFromXML
 	 * @covers  JInstallerManifestPackage::loadManifestFromData
+	 *
+	 * @return void
 	 */
 	public function testLoadManifestFromData()
 	{

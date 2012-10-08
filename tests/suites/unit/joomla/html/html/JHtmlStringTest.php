@@ -181,7 +181,7 @@ class JHtmlStringTest extends PHPUnit_Framework_TestCase
 				false,
 				'...',
 			),
-				'First character is < with a maximum length of 1' => array(
+			'First character is < with a maximum length of 1' => array(
 				'<div><span><i>Plain</i> <b>text</b> foo</span></div>',
 				1,
 				true,
@@ -211,6 +211,7 @@ class JHtmlStringTest extends PHPUnit_Framework_TestCase
 			),
 		);
 	}
+
 	/**
 	 * Test cases for complex truncate.
 	 *
@@ -343,38 +344,38 @@ class JHtmlStringTest extends PHPUnit_Framework_TestCase
 				true,
 				'<div><span><i>Plain</i></span></div>...'
 			),
-				'First character is < with a maximum length of 1, no split' => array(
+			'First character is < with a maximum length of 1, no split' => array(
 				'<div><span><i>Plain</i> <b>text</b> foo</span></div>',
 				1,
 				true,
 				'<div></div>...'
 			),
-				'First character is < with a maximum length of 1, split' => array(
+			'First character is < with a maximum length of 1, split' => array(
 				'<div><span><i>Plain</i> <b>text</b> foo</span></div>',
 				1,
 				false,
 				'<div></div>...'
 			),
-				'Text is the same as maxLength, Complex HTML, no split' => array(
+			'Text is the same as maxLength, Complex HTML, no split' => array(
 				'<div><span><i>Plain</i></span></div>',
 				5,
 				true,
 				'<div><span><i>Plain</i></span></div>'
 			),
-				'Text is all HTML' => array(
+			'Text is all HTML' => array(
 				'<img src="myimage.jpg" />',
 				5,
 				true,
 				'<img src="myimage.jpg" />'
 			),
-				'Text with no spaces, split, maxlength 3' => array(
+			'Text with no spaces, split, maxlength 3' => array(
 				'thisistextwithnospace',
 				3,
 				false,
 				'...'
 			),
-				// From issue tracker, was creating infinite loop
-				'Complex test from issue tracker' => array(
+			// From issue tracker, was creating infinite loop
+			'Complex test from issue tracker' => array(
 				'<p class="mod-articles-category-introtext"><em>Bestas Review Magazine</em> featured <a href="http://viewer.zmags.com/publication/a1b0fbb9#/a1b0fbb9/28">something</a> else</p>',
 				60,
 				false,
@@ -386,10 +387,10 @@ class JHtmlStringTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the JHtmlString::abridge method.
 	 *
-	 * @param   string   $text       The text to truncate.
-	 * @param   integer  $length     The maximum length of the text.
-	 * @param   integer  $intro      The maximum length of the intro text.
-	 * @param   string   $expected   The expected result.
+	 * @param   string   $text      The text to truncate.
+	 * @param   integer  $length    The maximum length of the text.
+	 * @param   integer  $intro     The maximum length of the intro text.
+	 * @param   string   $expected  The expected result.
 	 *
 	 * @return  void
 	 *
@@ -407,11 +408,11 @@ class JHtmlStringTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the JHtmlString::truncate method.
 	 *
-	 * @param   string   $text      The text to truncate.
-	 * @param   integer  $length    The maximum length of the text.
-	 * @param   boolean  $noSplit    Don't split a word if that is where the cutoff occurs (default: true).
-	 * @param   boolean  $allowHtml  Allow HTML tags in the output, and close any open tags (default: true).
-	 * @param   string   $expected   The expected result.
+	 * @param   string   $text         The text to truncate.
+	 * @param   integer  $length       The maximum length of the text.
+	 * @param   boolean  $noSplit      Don't split a word if that is where the cutoff occurs (default: true).
+	 * @param   boolean  $allowedHtml  Allow HTML tags in the output, and close any open tags (default: true).
+	 * @param   string   $expected     The expected result.
 	 *
 	 * @return  void
 	 *
@@ -430,10 +431,8 @@ class JHtmlStringTest extends PHPUnit_Framework_TestCase
 	 * Tests the JHtmlString::truncateComplex method.
 	 *
 	 * @param   string   $html       The text to truncate.
-	 * @param   integer  $maxLength     The maximum length of the text.
+	 * @param   integer  $maxLength  The maximum length of the text.
 	 * @param   boolean  $noSplit    Don't split a word if that is where the cutoff occurs (default: true)
-	 * @param   boolean  $allowHtml  Allow HTML, always true for truncateComplex. Needed for
-	 *                               compatibility with truncate tests.
 	 * @param   string   $expected   The expected result.
 	 *
 	 * @return  void

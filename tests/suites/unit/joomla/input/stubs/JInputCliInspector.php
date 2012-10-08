@@ -10,22 +10,37 @@
 /**
  * Inspector classes for the JInputCLI library.
  *
- * @package		Joomla.UnitTest
+ * @package     Joomla.UnitTest
  * @subpackage  Input
+ * @since       11.1
  */
 class JInputCliInspector extends JInputCLI
 {
 	public $options;
+
 	public $filter;
+
 	public $data;
+
 	public $inputs;
+
 	public static $registered;
 
+	/**
+	 * Test...
+	 *
+	 * @return void
+	 */
 	public static function register()
 	{
 		return parent::register();
 	}
 
+	/**
+	 * Test...
+	 *
+	 * @return void
+	 */
 	public function parseArguments()
 	{
 		return parent::parseArguments();

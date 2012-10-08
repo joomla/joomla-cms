@@ -12,8 +12,8 @@
  */
 
 /**
- * @package		Joomla.UnitTest
- * @subpackage  Log
+ * @package        Joomla.UnitTest
+ * @subpackage     Log
  */
 class JLogInspector extends JLog
 {

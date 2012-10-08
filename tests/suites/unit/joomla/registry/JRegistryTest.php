@@ -7,8 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM.'/joomla/registry/registry.php';
-require_once JPATH_PLATFORM.'/joomla/registry/format.php';
+require_once JPATH_PLATFORM . '/joomla/registry/registry.php';
+require_once JPATH_PLATFORM . '/joomla/registry/format.php';
 
 /**
  * Test class for JRegistry.
@@ -45,7 +45,7 @@ class JRegistryTest extends PHPUnit_Framework_TestCase
 		$this->assertThat(
 			$a,
 			$this->logicalNot($this->identicalTo($b)),
-			'Line: '.__LINE__.'.'
+			'Line: ' . __LINE__ . '.'
 		);
 	}
 
@@ -64,7 +64,7 @@ class JRegistryTest extends PHPUnit_Framework_TestCase
 		$this->assertThat(
 			(string) $a,
 			$this->equalTo('{"foo":"bar"}'),
-			'Line: '.__LINE__.'.'
+			'Line: ' . __LINE__ . '.'
 		);
 	}
 
@@ -88,7 +88,7 @@ class JRegistryTest extends PHPUnit_Framework_TestCase
 		$this->assertThat(
 			json_encode($a),
 			$this->equalTo('{"foo":"bar"}'),
-			'Line: '.__LINE__.'.'
+			'Line: ' . __LINE__ . '.'
 		);
 	}
 
@@ -107,7 +107,7 @@ class JRegistryTest extends PHPUnit_Framework_TestCase
 		$this->assertThat(
 			$b,
 			$this->equalTo($a),
-			'Line: '.__LINE__.'.'
+			'Line: ' . __LINE__ . '.'
 		);
 	}
 
@@ -123,13 +123,13 @@ class JRegistryTest extends PHPUnit_Framework_TestCase
 		$this->assertThat(
 			$a->def('foo', 'bar'),
 			$this->equalTo('bar'),
-			'Line: '.__LINE__.'. def should return default value'
+			'Line: ' . __LINE__ . '. def should return default value'
 		);
 
 		$this->assertThat(
 			$a->get('foo'),
 			$this->equalTo('bar'),
-			'Line: '.__LINE__.'. default should now be the current value'
+			'Line: ' . __LINE__ . '. default should now be the current value'
 		);
 	}
 
@@ -140,35 +140,35 @@ class JRegistryTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testBindData()
 	{
-		$a		= new JRegistryInspector;
-		$parent	= new stdClass;
+		$a = new JRegistryInspector;
+		$parent = new stdClass;
 
 		$a->bindData($parent, 'foo');
 		$this->assertThat(
 			$parent->{0},
 			$this->equalTo('foo'),
-			'Line: '.__LINE__.' The input value should exist in the parent object.'
+			'Line: ' . __LINE__ . ' The input value should exist in the parent object.'
 		);
 
 		$a->bindData($parent, array('foo' => 'bar'));
 		$this->assertThat(
 			$parent->{'foo'},
 			$this->equalTo('bar'),
-			'Line: '.__LINE__.' The input value should exist in the parent object.'
+			'Line: ' . __LINE__ . ' The input value should exist in the parent object.'
 		);
 
 		$a->bindData($parent, array('level1' => array('level2' => 'value2')));
 		$this->assertThat(
 			$parent->{'level1'}->{'level2'},
 			$this->equalTo('value2'),
-			'Line: '.__LINE__.' The input value should exist in the parent object.'
+			'Line: ' . __LINE__ . ' The input value should exist in the parent object.'
 		);
 
 		$a->bindData($parent, array('intarray' => array(0, 1, 2)));
 		$this->assertThat(
 			$parent->{'intarray'},
 			$this->equalTo(array(0, 1, 2)),
-			'Line: '.__LINE__.' The un-associative array should bind natively.'
+			'Line: ' . __LINE__ . ' The un-associative array should bind natively.'
 		);
 	}
 
@@ -187,31 +187,31 @@ class JRegistryTest extends PHPUnit_Framework_TestCase
 		$this->assertThat(
 			$a->exists('foo'),
 			$this->isTrue(),
-			'Line: '.__LINE__.' The path should exist, returning true.'
+			'Line: ' . __LINE__ . ' The path should exist, returning true.'
 		);
 
 		$this->assertThat(
 			$a->exists('config.foo'),
 			$this->isTrue(),
-			'Line: '.__LINE__.' The path should exist, returning true.'
+			'Line: ' . __LINE__ . ' The path should exist, returning true.'
 		);
 
 		$this->assertThat(
 			$a->exists('deep.level.foo'),
 			$this->isTrue(),
-			'Line: '.__LINE__.' The path should exist, returning true.'
+			'Line: ' . __LINE__ . ' The path should exist, returning true.'
 		);
 
 		$this->assertThat(
 			$a->exists('deep.level.bar'),
 			$this->isFalse(),
-			'Line: '.__LINE__.' The path should not exist, returning false.'
+			'Line: ' . __LINE__ . ' The path should not exist, returning false.'
 		);
 
 		$this->assertThat(
 			$a->exists('bar.foo'),
 			$this->isFalse(),
-			'Line: '.__LINE__.' The path should not exist, returning false.'
+			'Line: ' . __LINE__ . ' The path should not exist, returning false.'
 		);
 	}
 
@@ -224,8 +224,8 @@ class JRegistryTest extends PHPUnit_Framework_TestCase
 	{
 		$a = new JRegistry();
 		$a->set('foo', 'bar');
-		$this->assertEquals('bar', $a->get('foo'), 'Line: '.__LINE__.' get method should work.');
-		$this->assertNull($a->get('xxx.yyy'),  'Line: '.__LINE__.' get should return null when not found.');
+		$this->assertEquals('bar', $a->get('foo'), 'Line: ' . __LINE__ . ' get method should work.');
+		$this->assertNull($a->get('xxx.yyy'), 'Line: ' . __LINE__ . ' get should return null when not found.');
 	}
 
 	/**
@@ -244,21 +244,21 @@ class JRegistryTest extends PHPUnit_Framework_TestCase
 		$this->assertThat(
 			$a instanceof JRegistry,
 			$this->isTrue(),
-			'Line: '.__LINE__.'.'
+			'Line: ' . __LINE__ . '.'
 		);
 
 		// Check cache handling for same registry id.
 		$this->assertThat(
 			$a,
 			$this->identicalTo($b),
-			'Line: '.__LINE__.'.'
+			'Line: ' . __LINE__ . '.'
 		);
 
 		// Check cache handling for different registry id.
 		$this->assertThat(
 			$a,
 			$this->logicalNot($this->identicalTo($c)),
-			'Line: '.__LINE__.'.'
+			'Line: ' . __LINE__ . '.'
 		);
 	}
 
@@ -281,7 +281,7 @@ class JRegistryTest extends PHPUnit_Framework_TestCase
 		$this->assertThat(
 			$registry->get('foo'),
 			$this->equalTo('bar'),
-			'Line: '.__LINE__.'.'
+			'Line: ' . __LINE__ . '.'
 		);
 	}
 
@@ -297,33 +297,33 @@ class JRegistryTest extends PHPUnit_Framework_TestCase
 		// Result is always true, no error checking in method.
 
 		// JSON.
-		$result = $registry->loadFile(__DIR__.'/stubs/jregistry.json');
+		$result = $registry->loadFile(__DIR__ . '/stubs/jregistry.json');
 
 		// Test getting a known value.
 		$this->assertThat(
 			$registry->get('foo'),
 			$this->equalTo('bar'),
-			'Line: '.__LINE__.'.'
+			'Line: ' . __LINE__ . '.'
 		);
 
 		// INI.
-		$result = $registry->loadFile(__DIR__.'/stubs/jregistry.ini', 'ini');
+		$result = $registry->loadFile(__DIR__ . '/stubs/jregistry.ini', 'ini');
 
 		// Test getting a known value.
 		$this->assertThat(
 			$registry->get('foo'),
 			$this->equalTo('bar'),
-			'Line: '.__LINE__.'.'
+			'Line: ' . __LINE__ . '.'
 		);
 
 		// INI + section.
-		$result = $registry->loadFile(__DIR__.'/stubs/jregistry.ini', 'ini', array('processSections' => true));
+		$result = $registry->loadFile(__DIR__ . '/stubs/jregistry.ini', 'ini', array('processSections' => true));
 
 		// Test getting a known value.
 		$this->assertThat(
 			$registry->get('section.foo'),
 			$this->equalTo('bar'),
-			'Line: '.__LINE__.'.'
+			'Line: ' . __LINE__ . '.'
 		);
 
 		// XML and PHP versions do not support stringToObject.
@@ -343,7 +343,7 @@ class JRegistryTest extends PHPUnit_Framework_TestCase
 		$this->assertThat(
 			$registry->get('foo'),
 			$this->equalTo('testloadini1'),
-			'Line: '.__LINE__.'.'
+			'Line: ' . __LINE__ . '.'
 		);
 
 		$result = $registry->loadString("[section]\nfoo=\"testloadini2\"", 'INI');
@@ -351,7 +351,7 @@ class JRegistryTest extends PHPUnit_Framework_TestCase
 		$this->assertThat(
 			$registry->get('foo'),
 			$this->equalTo('testloadini2'),
-			'Line: '.__LINE__.'.'
+			'Line: ' . __LINE__ . '.'
 		);
 
 		$result = $registry->loadString("[section]\nfoo=\"testloadini3\"", 'INI', array('processSections' => true));
@@ -359,10 +359,10 @@ class JRegistryTest extends PHPUnit_Framework_TestCase
 		$this->assertThat(
 			$registry->get('section.foo'),
 			$this->equalTo('testloadini3'),
-			'Line: '.__LINE__.'.'
+			'Line: ' . __LINE__ . '.'
 		);
 
-				$string = '{"foo":"testloadjson"}';
+		$string = '{"foo":"testloadjson"}';
 
 		$registry = new JRegistry;
 		$result = $registry->loadString($string);
@@ -373,7 +373,7 @@ class JRegistryTest extends PHPUnit_Framework_TestCase
 		$this->assertThat(
 			$registry->get('foo'),
 			$this->equalTo('testloadjson'),
-			'Line: '.__LINE__.'.'
+			'Line: ' . __LINE__ . '.'
 		);
 
 	}
@@ -397,7 +397,7 @@ class JRegistryTest extends PHPUnit_Framework_TestCase
 		$this->assertThat(
 			$registry->get('foo'),
 			$this->equalTo('testloadobject'),
-			'Line: '.__LINE__.'.'
+			'Line: ' . __LINE__ . '.'
 		);
 
 		// Test case from Tracker Issue 22444
@@ -406,7 +406,7 @@ class JRegistryTest extends PHPUnit_Framework_TestCase
 		$object2 = new JObject();
 		$object2->set('test', 'testcase');
 		$object->set('test', $object2);
-		$this->assertTrue($registry->loadObject($object), 'Line: '.__LINE__.'. Should load object successfully');
+		$this->assertTrue($registry->loadObject($object), 'Line: ' . __LINE__ . '. Should load object successfully');
 	}
 
 	/**
@@ -440,13 +440,13 @@ class JRegistryTest extends PHPUnit_Framework_TestCase
 		$this->assertThat(
 			$registry1->get('foo'),
 			$this->equalTo('soap'),
-			'Line: '.__LINE__.'.'
+			'Line: ' . __LINE__ . '.'
 		);
 
 		$this->assertThat(
 			$registry1->get('dum'),
 			$this->equalTo('huh'),
-			'Line: '.__LINE__.'.'
+			'Line: ' . __LINE__ . '.'
 		);
 
 		// test merge with zero and blank value
@@ -465,7 +465,7 @@ class JRegistryTest extends PHPUnit_Framework_TestCase
 
 		$a = new JRegistry();
 		$b = new stdClass();
-		$this->assertFalse($a->merge($b), 'Line: '.__LINE__.'. Attempt to merge non JRegistry should return false');
+		$this->assertFalse($a->merge($b), 'Line: ' . __LINE__ . '. Attempt to merge non JRegistry should return false');
 	}
 
 	/**
@@ -481,7 +481,7 @@ class JRegistryTest extends PHPUnit_Framework_TestCase
 		$this->assertThat(
 			$a->set('foo', 'testsetvalue2'),
 			$this->equalTo('testsetvalue2'),
-			'Line: '.__LINE__.'.'
+			'Line: ' . __LINE__ . '.'
 		);
 	}
 
@@ -506,7 +506,7 @@ class JRegistryTest extends PHPUnit_Framework_TestCase
 		$this->assertThat(
 			$a->toArray(),
 			$this->equalTo($expected),
-			'Line: '.__LINE__.'.'
+			'Line: ' . __LINE__ . '.'
 		);
 	}
 
@@ -531,7 +531,7 @@ class JRegistryTest extends PHPUnit_Framework_TestCase
 		$this->assertThat(
 			$a->toObject(),
 			$this->equalTo($expected),
-			'Line: '.__LINE__.'.'
+			'Line: ' . __LINE__ . '.'
 		);
 	}
 
@@ -552,7 +552,7 @@ class JRegistryTest extends PHPUnit_Framework_TestCase
 			$this->equalTo(
 				'{"foo1":"testtostring1","foo2":"testtostring2","config":{"foo3":"testtostring3"}}'
 			),
-			'Line: '.__LINE__.'.'
+			'Line: ' . __LINE__ . '.'
 		);
 
 		$this->assertThat(
@@ -560,7 +560,7 @@ class JRegistryTest extends PHPUnit_Framework_TestCase
 			$this->equalTo(
 				"foo1=\"testtostring1\"\nfoo2=\"testtostring2\"\n\n[config]\nfoo3=\"testtostring3\""
 			),
-			'Line: '.__LINE__.'.'
+			'Line: ' . __LINE__ . '.'
 		);
 	}
 }

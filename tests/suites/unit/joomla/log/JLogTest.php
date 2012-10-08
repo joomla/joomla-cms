@@ -7,10 +7,10 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM.'/joomla/log/log.php';
-require_once JPATH_PLATFORM.'/joomla/log/entry.php';
-require_once JPATH_PLATFORM.'/joomla/log/logger.php';
-require_once __DIR__.'/stubs/log/inspector.php';
+require_once JPATH_PLATFORM . '/joomla/log/log.php';
+require_once JPATH_PLATFORM . '/joomla/log/entry.php';
+require_once JPATH_PLATFORM . '/joomla/log/logger.php';
+require_once __DIR__ . '/stubs/log/inspector.php';
 
 /**
  * Test class for JLog.
@@ -133,7 +133,7 @@ class JLogTest extends PHPUnit_Framework_TestCase
 					'57604db2561c1c4492f5dfceed3d943c',
 					'5fbf17c78bfcd300debc791e01066128',
 				)),
-			'Line: '.__LINE__.'.'
+			'Line: ' . __LINE__ . '.'
 		);
 
 		$this->assertThat(
@@ -143,7 +143,7 @@ class JLogTest extends PHPUnit_Framework_TestCase
 					'5099e81204381e68555c620cd8140421',
 					'b5550c1aa36c1eaf77206565ec5f9021',
 				)),
-			'Line: '.__LINE__.'.'
+			'Line: ' . __LINE__ . '.'
 		);
 
 		$this->assertThat(
@@ -154,7 +154,7 @@ class JLogTest extends PHPUnit_Framework_TestCase
 					'5099e81204381e68555c620cd8140421',
 					'57604db2561c1c4492f5dfceed3d943c'
 				)),
-			'Line: '.__LINE__.'.'
+			'Line: ' . __LINE__ . '.'
 		);
 
 		$this->assertThat(
@@ -165,7 +165,7 @@ class JLogTest extends PHPUnit_Framework_TestCase
 					'b5550c1aa36c1eaf77206565ec5f9021',
 					'916ed48d2f635431a93aee60c56b0219',
 				)),
-			'Line: '.__LINE__.'.'
+			'Line: ' . __LINE__ . '.'
 		);
 
 	}
@@ -201,7 +201,7 @@ class JLogTest extends PHPUnit_Framework_TestCase
 					'a2fae4fb61ef676032361e47068deb9a',
 					'aaa7a0e4a4720ef7aed99ded3b764303',
 				)),
-			'Line: '.__LINE__.'.'
+			'Line: ' . __LINE__ . '.'
 		);
 
 		$this->assertThat(
@@ -212,7 +212,7 @@ class JLogTest extends PHPUnit_Framework_TestCase
 					'a2fae4fb61ef676032361e47068deb9a',
 					'aaa7a0e4a4720ef7aed99ded3b764303'
 				)),
-			'Line: '.__LINE__.'.'
+			'Line: ' . __LINE__ . '.'
 		);
 
 		$this->assertThat(
@@ -221,7 +221,7 @@ class JLogTest extends PHPUnit_Framework_TestCase
 				array(
 					'a2fae4fb61ef676032361e47068deb9a'
 				)),
-			'Line: '.__LINE__.'.'
+			'Line: ' . __LINE__ . '.'
 		);
 
 		$this->assertThat(
@@ -233,7 +233,7 @@ class JLogTest extends PHPUnit_Framework_TestCase
 					'a2fae4fb61ef676032361e47068deb9a',
 					'aaa7a0e4a4720ef7aed99ded3b764303'
 				)),
-			'Line: '.__LINE__.'.'
+			'Line: ' . __LINE__ . '.'
 		);
 
 	}
@@ -268,15 +268,14 @@ class JLogTest extends PHPUnit_Framework_TestCase
 					'767d00c8f22f5859a1fd73835ee47e4d',
 					'5099e81204381e68555c620cd8140421',
 				)),
-			'Line: '.__LINE__.'.'
+			'Line: ' . __LINE__ . '.'
 		);
 
 		$this->assertThat(
 			$log->findLoggers(JLog::NOTICE, 'paypal'),
 			$this->equalTo(
-				array(
-				)),
-			'Line: '.__LINE__.'.'
+				array()),
+			'Line: ' . __LINE__ . '.'
 		);
 
 		$this->assertThat(
@@ -285,7 +284,7 @@ class JLogTest extends PHPUnit_Framework_TestCase
 				array(
 					'09826310049345665887853e4688d89e',
 				)),
-			'Line: '.__LINE__.'.'
+			'Line: ' . __LINE__ . '.'
 		);
 
 		$this->assertThat(
@@ -295,7 +294,7 @@ class JLogTest extends PHPUnit_Framework_TestCase
 					'5099e81204381e68555c620cd8140421',
 					'916ed48d2f635431a93aee60c56b0219',
 				)),
-			'Line: '.__LINE__.'.'
+			'Line: ' . __LINE__ . '.'
 		);
 
 		$this->assertThat(
@@ -304,7 +303,7 @@ class JLogTest extends PHPUnit_Framework_TestCase
 				array(
 					'b5550c1aa36c1eaf77206565ec5f9021',
 				)),
-			'Line: '.__LINE__.'.'
+			'Line: ' . __LINE__ . '.'
 		);
 	}
 
@@ -344,19 +343,19 @@ class JLogTest extends PHPUnit_Framework_TestCase
 		$this->assertThat(
 			$log->configurations,
 			$this->equalTo($expectedConfigurations),
-			'Line: '.__LINE__.'.'
+			'Line: ' . __LINE__ . '.'
 		);
 
 		$this->assertThat(
 			$log->lookup,
 			$this->equalTo($expectedLookup),
-			'Line: '.__LINE__.'.'
+			'Line: ' . __LINE__ . '.'
 		);
 
 		$this->assertThat(
 			$log->loggers,
 			$this->equalTo($expectedLoggers),
-			'Line: '.__LINE__.'.'
+			'Line: ' . __LINE__ . '.'
 		);
 
 		// Start over so we test that it actually sets the instance appropriately.
@@ -382,19 +381,19 @@ class JLogTest extends PHPUnit_Framework_TestCase
 		$this->assertThat(
 			$log->configurations,
 			$this->equalTo($expectedConfigurations),
-			'Line: '.__LINE__.'.'
+			'Line: ' . __LINE__ . '.'
 		);
 
 		$this->assertThat(
 			$log->lookup,
 			$this->equalTo($expectedLookup),
-			'Line: '.__LINE__.'.'
+			'Line: ' . __LINE__ . '.'
 		);
 
 		$this->assertThat(
 			$log->loggers,
 			$this->equalTo($expectedLoggers),
-			'Line: '.__LINE__.'.'
+			'Line: ' . __LINE__ . '.'
 		);
 	}
 }

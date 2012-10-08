@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM.'/joomla/registry/format.php';
+require_once JPATH_PLATFORM . '/joomla/registry/format.php';
 
 /**
  * Test class for JRegistryFormatINI.
@@ -73,15 +73,15 @@ class JRegistryFormatINITest extends PHPUnit_Framework_TestCase
 			$class->stringToObject(null),
 			$this->equalTo(new stdClass())
 		);
-		
+
 		$string3 = "[section]\nfoo=bar\n;Testcomment\nkey=value\n\n/brokenkey=)brokenvalue";
 		$object2->section->key = 'value';
-		
+
 		$this->assertThat(
 			$class->stringToObject($string3, array('processSections' => true)),
 			$this->equalTo($object2)
 		);
-		
+
 		$string4 = "boolfalse=false\nbooltrue=true\nkeywithoutvalue\nnumericfloat=3.1415\nnumericint=42\nkey=\"value\"";
 		$object3 = new stdClass();
 		$object3->boolfalse = false;
@@ -89,12 +89,12 @@ class JRegistryFormatINITest extends PHPUnit_Framework_TestCase
 		$object3->numericfloat = 3.1415;
 		$object3->numericint = 42;
 		$object3->key = 'value';
-		
+
 		$this->assertThat(
 			$class->stringToObject($string4),
 			$this->equalTo($object3)
 		);
-		
+
 		//Trigger the cache - Doing this only to achieve 100% code coverage. ;-)
 		$this->assertThat(
 			$class->stringToObject($string4),

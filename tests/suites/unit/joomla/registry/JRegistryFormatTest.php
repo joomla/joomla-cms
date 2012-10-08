@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM.'/joomla/registry/format.php';
+require_once JPATH_PLATFORM . '/joomla/registry/format.php';
 
 /**
  * Test class for JRegistryFormat.
@@ -47,13 +47,13 @@ class JRegistryFormatTest extends PHPUnit_Framework_TestCase
 			$object instanceof JRegistryFormatXml,
 			$this->isTrue()
 		);
-		
+
 		// Test non-existing format.
 		try
 		{
-			$object = JRegistryFormat::getInstance('SQL');	
+			$object = JRegistryFormat::getInstance('SQL');
 		}
-		catch(Exception $e)
+		catch (Exception $e)
 		{
 			return;
 		}

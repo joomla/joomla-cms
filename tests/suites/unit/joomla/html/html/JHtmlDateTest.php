@@ -7,12 +7,14 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM.'/joomla/html/date.php';
+require_once JPATH_PLATFORM . '/joomla/html/date.php';
 
 /**
  * Test class for JHtmlDate.
  *
- * @since  11.3
+ * @package     Joomla.UnitTest
+ * @subpackage  Html
+ * @since       11.3
  */
 class JHtmlDateTest extends TestCase
 {
@@ -49,7 +51,9 @@ class JHtmlDateTest extends TestCase
 	}
 
 	/**
-	 * @return	array
+	 * Test...
+	 *
+	 * @return    array
 	 *
 	 * @since   11.3
 	 */
@@ -64,45 +68,48 @@ class JHtmlDateTest extends TestCase
 				null,
 				JFactory::getDate('2011-10-18 12:00:00')
 			),
-			// result - 10 days ago
+			// Result - 10 days ago
 			array(
 				'JLIB_HTML_DATE_RELATIVE_DAYS',
 				JFactory::getDate('2011-10-08 12:00:00'),
 				'day',
 				JFactory::getDate('2011-10-18 12:00:00')
 			),
-			// result - 3 weeks ago
+			// Result - 3 weeks ago
 			array(
 				'JLIB_HTML_DATE_RELATIVE_WEEKS',
 				JFactory::getDate('2011-09-27 12:00:00'),
 				'week',
 				JFactory::getDate('2011-10-18 12:00:00')
 			),
-			// result - 10 minutes ago
+			// Result - 10 minutes ago
 			array(
 				'JLIB_HTML_DATE_RELATIVE_MINUTES',
 				JFactory::getDate('2011-10-18 11:50:00'),
 				'minute',
 				JFactory::getDate('2011-10-18 12:00:00')
 			),
-			// Cannot test this result while running the full suite
-			// because the getDate function returns the time the suite starts testing
 
-			// result - Less than a minute ago
-			//array(
-				//'JLIB_HTML_DATE_RELATIVE_LESSTHANAMINUTE',
-				//JFactory::getDate('now'),
-			//)
+			/*
+			 Cannot test this result while running the full suite
+			 because the getDate function returns the time the suite starts testing
+
+			 result - Less than a minute ago
+			array(
+			'JLIB_HTML_DATE_RELATIVE_LESSTHANAMINUTE',
+			JFactory::getDate('now'),
+			)
+			*/
 		);
 	}
 
 	/**
 	 * Tests the JHtmlDate::relative method.
 	 *
-	 * @param	string  $result  The expected test result
+	 * @param   string  $result  The expected test result
 	 * @param   string  $date    The date to convert
 	 * @param   string  $unit    The optional unit of measurement to return
-	 *                           if the value of the diff is greater than one
+	 *                            if the value of the diff is greater than one
 	 * @param   string  $time    An optional time to compare to, defaults to now
 	 *
 	 * @return  void

@@ -126,7 +126,7 @@ class JURITest extends PHPUnit_Framework_TestCase
 	public function testRoot()
 	{
 		$this->assertThat(
-			JURI::root(FALSE, '/administrator'),
+			JURI::root(false, '/administrator'),
 			$this->equalTo('http://www.example.com:80/administrator/')
 		);
 	}
