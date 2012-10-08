@@ -143,7 +143,7 @@ $this->fieldsets = $this->form->getFieldsets('params');
 	</fieldset>
 	<input type="hidden" name="jform[id]" id="jform_id" value="<?php echo$this->item->id; ?>" />
 	<input type="hidden" name="jform[template]" id="jform_template" value="<?php echo$this->item->template; ?>" />
-	<input type="hidden" name="jform[folder]" id="jform_client_id" value="<?php echo$this->item->client_id; ?>" />
+	<input type="hidden" name="jform[client_id]" id="jform_client_id" value="<?php echo$this->item->client_id; ?>" />
 	<input type="hidden" name="task" value="" />
 	<?php echo JHtml::_('form.token'); ?>
 </form>
