@@ -14,6 +14,7 @@ require_once JPATH_PLATFORM . '/joomla/filesystem/path.php';
  *
  * @package     Joomla.UnitTest
  * @subpackage  Access
+ * @since       11.1
  */
 class JAccessTest extends TestCaseDatabase
 {
@@ -26,6 +27,8 @@ class JAccessTest extends TestCaseDatabase
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
+	 *
+	 * @return void
 	 */
 	protected function setUp()
 	{
@@ -101,7 +104,7 @@ class JAccessTest extends TestCaseDatabase
 	 */
 	protected function getDataSet()
 	{
-		return $this->createXMLDataSet(__DIR__.'/stubs/S01.xml');
+		return $this->createXMLDataSet(__DIR__ . '/stubs/S01.xml');
 	}
 
 	/**
@@ -116,35 +119,35 @@ class JAccessTest extends TestCaseDatabase
 	{
 		usleep(100);
 
-		$access = new JAccess();
+		$access = new JAccess;
 		$array1 = array(
-			0	=> 1,
-			1   => 3
+			0 => 1,
+			1 => 3
 		);
 
 		$this->assertThat(
 			$access->getAuthorisedViewLevels(42),
 			$this->equalTo($array1),
-			'Line:'.__Line__.' Super user gets Public, Special (levels 1,3)'
+			'Line:' . __Line__ . ' Super user gets Public, Special (levels 1,3)'
 		);
 
 		$array2 = array(
-			0       => 1
+			0 => 1
 		);
 		$this->assertThat(
 			$access->getAuthorisedViewLevels(50),
 			$this->equalTo($array2),
-			'Line:'.__Line__.' User 50 gets Public (level 1)'
+			'Line:' . __Line__ . ' User 50 gets Public (level 1)'
 		);
 
 		$array3 = array(
-			0       => 1,
-			1		=> 4
+			0 => 1,
+			1 => 4
 		);
 		$this->assertThat(
 			$access->getAuthorisedViewLevels(99),
 			$this->equalTo($array3),
-			'Line:'.__Line__.' User 99 gets Level 4'
+			'Line:' . __Line__ . ' User 99 gets Level 4'
 		);
 	}
 
@@ -152,12 +155,12 @@ class JAccessTest extends TestCaseDatabase
 	 * Test cases for testCheck
 	 *
 	 * Each test case provides
-	 * - integer		userid	a user id
-	 * - integer		groupid  a group id
-	 * - string	    action	an action to test permission for
-	 * - integer		assetid id of asset to check
-	 * - mixed		true is have permission, null if no permission
-	 * - string		message if fails
+	 * - integer        userid    a user id
+	 * - integer        groupid  a group id
+	 * - string        action    an action to test permission for
+	 * - integer        assetid id of asset to check
+	 * - mixed        true is have permission, null if no permission
+	 * - string        message if fails
 	 *
 	 * @return  array
 	 *
@@ -166,75 +169,77 @@ class JAccessTest extends TestCaseDatabase
 	function casesCheck()
 	{
 		return array(
-           'valid_admin_site_login' => array(
-			   45, 'core.login.site', 3, true,
-               'Line:'.__LINE__.' Administrator group can login to site'
-               ),
-            'valid_editor_site_login' => array(
-               46, 'core.login.site', 1, true,
-               'Line:'.__LINE__.' Editor group'
-               ),
-            'valid_manager_admin_login' => array(
-               44, 'core.login.admin', 1, true,
-               'Line:'.__LINE__.' Administrator group can login to admin'
-               ),
-            'valid_manager_login' => array(
-               44, 'core.admin', 1, false,
-               'Line:'.__LINE__.' Administrator group cannot login to admin core'
-               ),
-            'super_user_admin' => array(
-               42, 'core.admin', 3, true,
-              'Line:'.__LINE__.' Super User group can do anything'
-              ),
-            'super_user_admin' => array(
-               42, 'core.admin', null, true,
-              'Line:'.__LINE__.' Null asset should default to root'
-              ),
-            'publisher_create_banner' => array(
-              43, 'core.create', 3, false,
-              'Line:'.__LINE__.' Editor has explicit deny on banner create'
-              ),
-            'publisher_delete_banner' => array(
-              43, 'core.delete', 3, false,
-              'Line:'.__LINE__.' Explicit deny for editor overrides allow for publisher'
-              ),
-            'invalid_user_group_login' => array(
-              58, 'core.login.site', 3, null,
-              'Line:'.__LINE__.' Invalid user and group cannot log in to site'
-              ),
-            'invalid_action' => array(
-              42, 'complusoft', 3, null,
-              'Line:'.__LINE__.' Invalid action returns null permission'
-              ),
-            'invalid_asset_id' => array(
-              42, 'core.login.site', 345, true,
-              'Line:'.__LINE__.' Super user has permissions even for invalid asset id'
-              ),
-            'publisher_login_admin' => array(
-              43, 'core.login.admin', 1, null,
-              'Line:'.__LINE__.' Publisher may not log into admin'
-              ),
-         );
+			'valid_admin_site_login' => array(
+				45, 'core.login.site', 3, true,
+				'Line:' . __LINE__ . ' Administrator group can login to site'
+			),
+			'valid_editor_site_login' => array(
+				46, 'core.login.site', 1, true,
+				'Line:' . __LINE__ . ' Editor group'
+			),
+			'valid_manager_admin_login' => array(
+				44, 'core.login.admin', 1, true,
+				'Line:' . __LINE__ . ' Administrator group can login to admin'
+			),
+			'valid_manager_login' => array(
+				44, 'core.admin', 1, false,
+				'Line:' . __LINE__ . ' Administrator group cannot login to admin core'
+			),
+			'super_user_admin' => array(
+				42, 'core.admin', 3, true,
+				'Line:' . __LINE__ . ' Super User group can do anything'
+			),
+			'super_user_admin' => array(
+				42, 'core.admin', null, true,
+				'Line:' . __LINE__ . ' Null asset should default to root'
+			),
+			'publisher_create_banner' => array(
+				43, 'core.create', 3, false,
+				'Line:' . __LINE__ . ' Editor has explicit deny on banner create'
+			),
+			'publisher_delete_banner' => array(
+				43, 'core.delete', 3, false,
+				'Line:' . __LINE__ . ' Explicit deny for editor overrides allow for publisher'
+			),
+			'invalid_user_group_login' => array(
+				58, 'core.login.site', 3, null,
+				'Line:' . __LINE__ . ' Invalid user and group cannot log in to site'
+			),
+			'invalid_action' => array(
+				42, 'complusoft', 3, null,
+				'Line:' . __LINE__ . ' Invalid action returns null permission'
+			),
+			'invalid_asset_id' => array(
+				42, 'core.login.site', 345, true,
+				'Line:' . __LINE__ . ' Super user has permissions even for invalid asset id'
+			),
+			'publisher_login_admin' => array(
+				43, 'core.login.admin', 1, null,
+				'Line:' . __LINE__ . ' Publisher may not log into admin'
+			),
+		);
 	}
 
 	/**
 	 * Tests the JAccess::check method.
 	 *
-	 * @param	integer		user id
-	 * @param	string		action to test
-	 * @param	integer		asset id
-	 * @param	mixed		true if success, null if not
-	 * @param	string		fail message
+	 * @param   integer  $userId   user id
+	 * @param   string   $action   action to test
+	 * @param   integer  $assetId  asset id
+	 * @param   mixed    $result   true if success, null if not
+	 * @param   string   $message  fail message
 	 *
-	 * return	void
+	 * return    void
 	 *
 	 * @since   11.1
 	 * @dataProvider casesCheck()
 	 * @covers  JAccess::check
+	 *
+	 * @return void
 	 */
 	public function testCheck($userId, $action, $assetId, $result, $message)
 	{
-		$access = new JAccess();
+		$access = new JAccess;
 		$this->assertThat(
 			$access->check($userId, $action, $assetId),
 			$this->equalTo($result),
@@ -246,12 +251,12 @@ class JAccessTest extends TestCaseDatabase
 	 * Test cases for testCheckGroups
 	 *
 	 * Each test case provides
-	 * - integer		userid	a user id
-	 * - integer		groupid  a group id
-	 * - string	    action	an action to test permission for
-	 * - integer		assetid id of asset to check
-	 * - mixed		true is have permission, null if no permission
-	 * - string		message if fails
+	 * - integer        userid    a user id
+	 * - integer        groupid  a group id
+	 * - string        action    an action to test permission for
+	 * - integer        assetid id of asset to check
+	 * - mixed        true is have permission, null if no permission
+	 * - string        message if fails
 	 *
 	 * @return  array
 	 *
@@ -260,67 +265,67 @@ class JAccessTest extends TestCaseDatabase
 	function casesCheckGroup()
 	{
 		return array(
-           'valid_admin_site_login' => array(
-			   7, 'core.login.site', 3, true,
-               'Line:'.__LINE__.' Administrator group can login to site'
-               ),
-            'valid_editor_site_login' => array(
-               4, 'core.login.site', 1, true,
-               'Line:'.__LINE__.' Editor group'
-               ),
-            'valid_manager_admin_login' => array(
-               6, 'core.login.admin', 1, true,
-               'Line:'.__LINE__.' Administrator group can login to admin'
-               ),
-            'valid_manager_login' => array(
-               6, 'core.admin', 1, false,
-               'Line:'.__LINE__.' Administrator group cannot login to admin core'
-               ),
-            'super_user_admin' => array(
-               8, 'core.admin', 3, true,
-              'Line:'.__LINE__.' Super User group can do anything'
-              ),
-            'null_asset' => array(
-               8, 'core.admin', null, true,
-              'Line:'.__LINE__.' Null asset should default to 1'
-              ),
-            'publisher_create_banner' => array(
-              5, 'core.create', 3, false,
-              'Line:'.__LINE__.' Editor has explicit deny on banner create'
-              ),
-            'publisher_delete_banner' => array(
-              5, 'core.delete', 3, false,
-              'Line:'.__LINE__.' Explicit deny for editor overrides allow for publisher'
-              ),
-            'invalid_user_group_login' => array(
-              99, 'core.login.site', 3, null,
-              'Line:'.__LINE__.' Invalid user and group cannot log in to site'
-              ),
-            'invalid_action' => array(
-              8, 'complusoft', 3, null,
-              'Line:'.__LINE__.' Invalid action returns null permission'
-              ),
-            'invalid_asset_id' => array(
-              8, 'core.login.site', 123, true,
-              'Line:'.__LINE__.' Super user has permissions even for invalid asset id'
-              ),
-            'publisher_login_admin' => array(
-              5, 'core.login.admin', 1, null,
-              'Line:'.__LINE__.' Publisher may not log into admin'
-              ),
-         );
+			'valid_admin_site_login' => array(
+				7, 'core.login.site', 3, true,
+				'Line:' . __LINE__ . ' Administrator group can login to site'
+			),
+			'valid_editor_site_login' => array(
+				4, 'core.login.site', 1, true,
+				'Line:' . __LINE__ . ' Editor group'
+			),
+			'valid_manager_admin_login' => array(
+				6, 'core.login.admin', 1, true,
+				'Line:' . __LINE__ . ' Administrator group can login to admin'
+			),
+			'valid_manager_login' => array(
+				6, 'core.admin', 1, false,
+				'Line:' . __LINE__ . ' Administrator group cannot login to admin core'
+			),
+			'super_user_admin' => array(
+				8, 'core.admin', 3, true,
+				'Line:' . __LINE__ . ' Super User group can do anything'
+			),
+			'null_asset' => array(
+				8, 'core.admin', null, true,
+				'Line:' . __LINE__ . ' Null asset should default to 1'
+			),
+			'publisher_create_banner' => array(
+				5, 'core.create', 3, false,
+				'Line:' . __LINE__ . ' Editor has explicit deny on banner create'
+			),
+			'publisher_delete_banner' => array(
+				5, 'core.delete', 3, false,
+				'Line:' . __LINE__ . ' Explicit deny for editor overrides allow for publisher'
+			),
+			'invalid_user_group_login' => array(
+				99, 'core.login.site', 3, null,
+				'Line:' . __LINE__ . ' Invalid user and group cannot log in to site'
+			),
+			'invalid_action' => array(
+				8, 'complusoft', 3, null,
+				'Line:' . __LINE__ . ' Invalid action returns null permission'
+			),
+			'invalid_asset_id' => array(
+				8, 'core.login.site', 123, true,
+				'Line:' . __LINE__ . ' Super user has permissions even for invalid asset id'
+			),
+			'publisher_login_admin' => array(
+				5, 'core.login.admin', 1, null,
+				'Line:' . __LINE__ . ' Publisher may not log into admin'
+			),
+		);
 	}
 
 	/**
 	 * Tests the JAccess::checkGroup method.
 	 *
-	 * @param	integer		group id
-	 * @param	string		action to test
-	 * @param	integer		asset id
-	 * @param	mixed		true if success, null if not
-	 * @param	string		fail message
+	 * @param   integer  $groupId  group id
+	 * @param   string   $action   action to test
+	 * @param   integer  $assetId  asset id
+	 * @param   mixed    $result   true if success, null if not
+	 * @param   string   $message  fail message
 	 *
-	 * return	void
+	 * @return    void
 	 *
 	 * @since   11.1
 	 * @dataProvider casesCheckGroup()
@@ -328,11 +333,12 @@ class JAccessTest extends TestCaseDatabase
 	 */
 	public function testCheckGroup($groupId, $action, $assetId, $result, $message)
 	{
-		$access = new JAccess();
+		$access = new JAccess;
 		$this->assertThat(
 			$access->checkGroup($groupId, $action, $assetId),
 			$this->equalTo($result),
-			$message);
+			$message
+		);
 	}
 
 	/**
@@ -345,23 +351,27 @@ class JAccessTest extends TestCaseDatabase
 	 */
 	public function testGetAssetRulesValidTrue()
 	{
-		$access = new JAccess();
-		$ObjArrayJrules = $access->getAssetRules(3, True);
+		$access = new JAccess;
+		$ObjArrayJrules = $access->getAssetRules(3, true);
 		$string1 = '{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.admin":{"8":1,"7":1},"core.manage":{"7":1,"10":1,"6":1},"core.create":{"6":1,"4":0},"core.delete":{"6":1,"4":0,"5":1},"core.edit":{"6":1},"core.edit.state":{"6":1}}';
 		$this->assertThat(
-			(string)$ObjArrayJrules,
+			(string) $ObjArrayJrules,
 			$this->equalTo($string1),
 			'Recursive rules from a valid asset. Line: ' . __LINE__
 		);
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @covers  JAccess::getAssetRules
+	 *
+	 * @return void
 	 */
 	public function testGetAssetRulesValidFalse()
 	{
-		$access = new JAccess();
-		$ObjArrayJrules = $access->getAssetRules(3, False);
+		$access = new JAccess;
+		$ObjArrayJrules = $access->getAssetRules(3, false);
 		$string1 = '{"core.admin":{"7":1},"core.manage":{"6":1},"core.create":{"4":0},"core.delete":{"4":0,"5":1},"core.edit":[],"core.edit.state":[]}';
 		$this->assertThat(
 			(string) $ObjArrayJrules,
@@ -371,45 +381,57 @@ class JAccessTest extends TestCaseDatabase
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @covers  JAccess::getAssetRules
+	 *
+	 * @return void
 	 */
 	public function testGetAssetRulesInvalidFalse()
 	{
-		$access = new JAccess();
-		$ObjArrayJrules = $access->getAssetRules(1550, False);
+		$access = new JAccess;
+		$ObjArrayJrules = $access->getAssetRules(1550, false);
 		$string1 = '{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.admin":{"8":1},"core.manage":{"7":1,"10":1},"core.create":{"6":1},"core.delete":{"6":1},"core.edit":{"6":1},"core.edit.state":{"6":1}}';
 		$this->assertThat(
-			(string)$ObjArrayJrules,
+			(string) $ObjArrayJrules,
 			$this->equalTo($string1),
 			'Invalid asset uses rule from root. Line: ' . __LINE__
 		);
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @covers  JAccess::getAssetRules
+	 *
+	 * @return void
 	 */
 	public function testGetAssetRulesTextFalse()
 	{
-		$access = new JAccess();
-		$ObjArrayJrules = $access->getAssetRules('testasset', False);
+		$access = new JAccess;
+		$ObjArrayJrules = $access->getAssetRules('testasset', false);
 		$string1 = '{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.admin":{"8":1},"core.manage":{"7":1,"10":1},"core.create":{"6":1},"core.delete":{"6":1},"core.edit":{"6":1},"core.edit.state":{"6":1}}';
 		$this->assertThat(
-			(string)$ObjArrayJrules,
+			(string) $ObjArrayJrules,
 			$this->equalTo($string1),
 			'Invalid asset uses rule from root. Line: ' . __LINE__
 		);
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @covers  JAccess::getAssetRules
+	 *
+	 * @return void
 	 */
 	public function testGetAssetRulesTextTrue()
 	{
-		$access = new JAccess();
-		$ObjArrayJrules = $access->getAssetRules('testasset', True);
+		$access = new JAccess;
+		$ObjArrayJrules = $access->getAssetRules('testasset', true);
 		$string1 = '{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.admin":{"8":1},"core.manage":{"7":1,"10":1},"core.create":{"6":1},"core.delete":{"6":1},"core.edit":{"6":1},"core.edit.state":{"6":1}}';
 		$this->assertThat(
-			(string)$ObjArrayJrules,
+			(string) $ObjArrayJrules,
 			$this->equalTo($string1),
 			'Invalid asset uses rule from root. Line: ' . __LINE__
 		);
@@ -425,46 +447,54 @@ class JAccessTest extends TestCaseDatabase
 	 */
 	public function testGetUsersByGroupSimple()
 	{
-		$access = new JAccess();
+		$access = new JAccess;
 		$array1 = array(
-			0	=> 42
+			0 => 42
 		);
 		$this->assertThat(
-			$access->getUsersByGroup(8, True),
+			$access->getUsersByGroup(8, true),
 			$this->equalTo($array1),
 			'Get one user. Line: ' . __LINE__
 		);
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @covers  JAccess::getUsersByGroup
+	 *
+	 * @return void
 	 */
 	public function testGetUsersByGroupTwoUsers()
 	{
-		$access = new JAccess();
+		$access = new JAccess;
 
 		$array3 = array(
-			0	=> 42,
-			1	=> 45,
-			2	=> 47
+			0 => 42,
+			1 => 45,
+			2 => 47
 		);
 		$this->assertThat(
-			$access->getUsersByGroup(7, True),
+			$access->getUsersByGroup(7, true),
 			$this->equalTo($array3),
 			'Get multiple users. Line: ' . __LINE__
 		);
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @covers  JAccess::getUsersByGroup
+	 *
+	 * @return void
 	 */
 	public function testGetUsersByGroupInvalidGroup()
 	{
-		$access = new JAccess();
+		$access = new JAccess;
 
 		$array2 = array();
 		$this->assertThat(
-			$access->getUsersByGroup(15, False),
+			$access->getUsersByGroup(15, false),
 			$this->equalTo($array2),
 			'No group specified. Line: ' . __LINE__
 		);
@@ -481,22 +511,22 @@ class JAccessTest extends TestCaseDatabase
 	public function testGetGroupsByUser()
 	{
 		$array1 = array(
-			0	=> 1,
-			1	=> 6,
-			2	=> 7,
-			3	=> 8
+			0 => 1,
+			1 => 6,
+			2 => 7,
+			3 => 8
 		);
 		$this->assertThat(
 			$array1,
-			$this->equalTo(JAccess::getGroupsByUser(42, True))
+			$this->equalTo(JAccess::getGroupsByUser(42, true))
 		);
 
 		$array2 = array(
-			0     => 8
+			0 => 8
 		);
 		$this->assertThat(
 			$array2,
-			$this->equalTo(JAccess::getGroupsByUser(42, False))
+			$this->equalTo(JAccess::getGroupsByUser(42, false))
 		);
 
 		$this->assertThat(
@@ -539,12 +569,12 @@ class JAccessTest extends TestCaseDatabase
 </access>',
 				"/access/section[@name='component']/",
 				array(
-					(object)array('name' => "core.admin", 'title' => "JACTION_ADMIN", 'description' => "JACTION_ADMIN_COMPONENT_DESC"),
-					(object)array('name' => "core.manage", 'title' => "JACTION_MANAGE", 'description' => "JACTION_MANAGE_COMPONENT_DESC"),
-					(object)array('name' => "core.create", 'title' => "JACTION_CREATE", 'description' => "JACTION_CREATE_COMPONENT_DESC"),
-					(object)array('name' => "core.delete", 'title' => "JACTION_DELETE", 'description' => "JACTION_DELETE_COMPONENT_DESC"),
-					(object)array('name' => "core.edit", 'title' => "JACTION_EDIT", 'description' => "JACTION_EDIT_COMPONENT_DESC"),
-					(object)array('name' => "core.edit.state", 'title' => "JACTION_EDITSTATE", 'description' => "JACTION_EDITSTATE_COMPONENT_DESC")
+					(object) array('name' => "core.admin", 'title' => "JACTION_ADMIN", 'description' => "JACTION_ADMIN_COMPONENT_DESC"),
+					(object) array('name' => "core.manage", 'title' => "JACTION_MANAGE", 'description' => "JACTION_MANAGE_COMPONENT_DESC"),
+					(object) array('name' => "core.create", 'title' => "JACTION_CREATE", 'description' => "JACTION_CREATE_COMPONENT_DESC"),
+					(object) array('name' => "core.delete", 'title' => "JACTION_DELETE", 'description' => "JACTION_DELETE_COMPONENT_DESC"),
+					(object) array('name' => "core.edit", 'title' => "JACTION_EDIT", 'description' => "JACTION_EDIT_COMPONENT_DESC"),
+					(object) array('name' => "core.edit.state", 'title' => "JACTION_EDITSTATE", 'description' => "JACTION_EDITSTATE_COMPONENT_DESC")
 				),
 				'Unable to get actions from the component section.'
 			),
@@ -587,6 +617,11 @@ class JAccessTest extends TestCaseDatabase
 	/**
 	 * Tests the JAccess::getActionsFromData method.
 	 *
+	 * @param   string|SimpleXMLElement  $data      The XML string or an XML element.
+	 * @param   string                   $xpath     An optional xpath to search for the fields.
+	 * @param   string                   $expected  The expected value.
+	 * @param   string                   $msg       An error message
+	 *
 	 * @return  void
 	 *
 	 * @since   12.1
@@ -619,7 +654,8 @@ class JAccessTest extends TestCaseDatabase
 			'Line:' . __LINE__ . ' Getting actions from an unexisting file must return false'
 		);
 
-		file_put_contents(JPATH_TESTS . '/tmp/access/access.xml', '<access component="com_banners">
+		file_put_contents(
+			JPATH_TESTS . '/tmp/access/access.xml', '<access component="com_banners">
 	<section name="component">
 		<action name="core.admin" title="JACTION_ADMIN" description="JACTION_ADMIN_COMPONENT_DESC" />
 		<action name="core.manage" title="JACTION_MANAGE" description="JACTION_MANAGE_COMPONENT_DESC" />
@@ -639,12 +675,12 @@ class JAccessTest extends TestCaseDatabase
 			JAccess::getActionsFromFile(JPATH_TESTS . '/tmp/access/access.xml'),
 			$this->equalTo(
 				array(
-					(object)array('name' => "core.admin", 'title' => "JACTION_ADMIN", 'description' => "JACTION_ADMIN_COMPONENT_DESC"),
-					(object)array('name' => "core.manage", 'title' => "JACTION_MANAGE", 'description' => "JACTION_MANAGE_COMPONENT_DESC"),
-					(object)array('name' => "core.create", 'title' => "JACTION_CREATE", 'description' => "JACTION_CREATE_COMPONENT_DESC"),
-					(object)array('name' => "core.delete", 'title' => "JACTION_DELETE", 'description' => "JACTION_DELETE_COMPONENT_DESC"),
-					(object)array('name' => "core.edit", 'title' => "JACTION_EDIT", 'description' => "JACTION_EDIT_COMPONENT_DESC"),
-					(object)array('name' => "core.edit.state", 'title' => "JACTION_EDITSTATE", 'description' => "JACTION_EDITSTATE_COMPONENT_DESC")
+					(object) array('name' => "core.admin", 'title' => "JACTION_ADMIN", 'description' => "JACTION_ADMIN_COMPONENT_DESC"),
+					(object) array('name' => "core.manage", 'title' => "JACTION_MANAGE", 'description' => "JACTION_MANAGE_COMPONENT_DESC"),
+					(object) array('name' => "core.create", 'title' => "JACTION_CREATE", 'description' => "JACTION_CREATE_COMPONENT_DESC"),
+					(object) array('name' => "core.delete", 'title' => "JACTION_DELETE", 'description' => "JACTION_DELETE_COMPONENT_DESC"),
+					(object) array('name' => "core.edit", 'title' => "JACTION_EDIT", 'description' => "JACTION_EDIT_COMPONENT_DESC"),
+					(object) array('name' => "core.edit.state", 'title' => "JACTION_EDITSTATE", 'description' => "JACTION_EDITSTATE_COMPONENT_DESC")
 				)
 			),
 			'Line:' . __LINE__ . ' Getting actions from an xml file must return correct array.'
