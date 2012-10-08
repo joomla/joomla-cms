@@ -455,26 +455,6 @@ class JUser extends JObject
 	/**
 	 * Method to get the user parameters
 	 *
-	 * This method used to load the user parameters from a file.
-	 *
-	 * @return  object   The user parameters object.
-	 *
-	 * @since   11.1
-	 * @deprecated  12.3  Instead use JUser::getParam()
-	 */
-	public function getParameters()
-	{
-		// @codeCoverageIgnoreStart
-		JLog::add('JUser::getParameters() is deprecated. JUser::getParam().', JLog::WARNING, 'deprecated');
-
-		return $this->_params;
-
-		// @codeCoverageIgnoreEnd
-	}
-
-	/**
-	 * Method to get the user parameters
-	 *
 	 * @param   object  $params  The user parameters object
 	 *
 	 * @return  void

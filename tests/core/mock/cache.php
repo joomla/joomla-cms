@@ -68,11 +68,11 @@ class TestMockCache
 	/**
 	 * Callback for the cache get method.
 	 *
-	 * @param  string  $id  The name of the cache key to retrieve.
+	 * @param   string  $id  The name of the cache key to retrieve.
 	 *
-	 * @return mixed  The value of the key or null if it does not exist.
+	 * @return  mixed  The value of the key or null if it does not exist.
 	 *
-	 * @since  12.1
+	 * @since   12.1
 	 */
 	public function mockGet($id)
 	{
@@ -82,12 +82,12 @@ class TestMockCache
 	/**
 	 * Callback for the cache get method.
 	 *
-	 * @param  string  $key    The name of the cache key.
-	 * @param  string  $group  Dummy group.
+	 * @param   string  $value  The value to store.
+	 * @param   string  $id     The name of the cache key.
 	 *
-	 * @return mixed  The value of the key or null if it does not exist.
+	 * @return  mixed  The value of the key or null if it does not exist.
 	 *
-	 * @since  12.1
+	 * @since   12.1
 	 */
 	public function mockStore($value, $id)
 	{

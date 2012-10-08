@@ -139,20 +139,6 @@ class JProfiler
 	}
 
 	/**
-	 * Get information about current memory usage.
-	 *
-	 * @return  integer  The memory usage
-	 *
-	 * @link    PHP_MANUAL#memory_get_usage
-	 * @since   11.1
-	 * @deprecated  12.3  Use PHP's native memory_get_usage()
-	 */
-	public function getMemory()
-	{
-		return memory_get_usage();
-	}
-
-	/**
 	 * Get all profiler marks.
 	 *
 	 * Returns an array of all marks created since the Profiler object
