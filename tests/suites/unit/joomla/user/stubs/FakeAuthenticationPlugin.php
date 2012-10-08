@@ -14,7 +14,7 @@
  * @subpackage  User
  * @since       11.1
  */
-class plgAuthenticationFake
+class PlgAuthenticationFake
 {
 	/**
 	 * @var    string
