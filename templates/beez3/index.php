@@ -109,9 +109,9 @@ $doc->addScript($this->baseurl . '/templates/' . $this->template . '/javascript/
 						<?php elseif (!$logo AND $config->get('sitename')): ?>
 							<?php echo htmlspecialchars($config->get('sitename'));?>
 						<?php endif; ?>
-						</span></h1>
 						<span class="header1">
 						<?php echo htmlspecialchars($templateparams->get('sitedescription'));?>
+						</span></h1>
 
 					</div><!-- end logoheader -->
 					<ul class="skiplinks">
