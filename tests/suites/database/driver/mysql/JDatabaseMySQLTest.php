@@ -12,6 +12,8 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Database
+ *
+ * @since       11.1
  */
 class JDatabaseMysqlTest extends TestCaseDatabaseMysql
 {
@@ -43,7 +45,11 @@ class JDatabaseMysqlTest extends TestCaseDatabaseMysql
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @todo Implement test__destruct().
+	 *
+	 * @return void
 	 */
 	public function test__destruct()
 	{
@@ -52,7 +58,11 @@ class JDatabaseMysqlTest extends TestCaseDatabaseMysql
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @todo Implement testConnected().
+	 *
+	 * @return void
 	 */
 	public function testConnected()
 	{
@@ -75,8 +85,9 @@ class JDatabaseMysqlTest extends TestCaseDatabaseMysql
 	/**
 	 * Tests the JDatabaseMysql escape method.
 	 *
-	 * @param   string   $text   The string to be escaped.
-	 * @param   boolean  $extra  Optional parameter to provide extra escaping.
+	 * @param   string   $text    The string to be escaped.
+	 * @param   boolean  $extra   Optional parameter to provide extra escaping.
+	 * @param   string   $result  The expected result.
 	 *
 	 * @return  void
 	 *
@@ -108,7 +119,11 @@ class JDatabaseMysqlTest extends TestCaseDatabaseMysql
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @todo Implement testGetCollation().
+	 *
+	 * @return void
 	 */
 	public function testGetCollation()
 	{
@@ -125,7 +140,8 @@ class JDatabaseMysqlTest extends TestCaseDatabaseMysql
 	 */
 	public function testGetExporter()
 	{
-		$this->assertThat(self::$driver->getExporter(), $this->isInstanceOf('JDatabaseExporterMysql'),
+		$this->assertThat(
+			self::$driver->getExporter(), $this->isInstanceOf('JDatabaseExporterMysql'),
 			'Line:' . __LINE__ . ' The getExporter method should return the correct exporter.');
 	}
 
@@ -138,12 +154,17 @@ class JDatabaseMysqlTest extends TestCaseDatabaseMysql
 	 */
 	public function testGetImporter()
 	{
-		$this->assertThat(self::$driver->getImporter(), $this->isInstanceOf('JDatabaseImporterMysql'),
+		$this->assertThat(
+			self::$driver->getImporter(), $this->isInstanceOf('JDatabaseImporterMysql'),
 			'Line:' . __LINE__ . ' The getImporter method should return the correct importer.');
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @todo Implement testGetNumRows().
+	 *
+	 * @return void
 	 */
 	public function testGetNumRows()
 	{
@@ -160,12 +181,17 @@ class JDatabaseMysqlTest extends TestCaseDatabaseMysql
 	 */
 	public function testGetTableCreate()
 	{
-		$this->assertThat(self::$driver->getTableCreate('#__dbtest'), $this->isType('array'),
+		$this->assertThat(
+			self::$driver->getTableCreate('#__dbtest'), $this->isType('array'),
 			'The statement to create the table is returned in an array.');
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @todo Implement testGetTableColumns().
+	 *
+	 * @return void
 	 */
 	public function testGetTableColumns()
 	{
@@ -206,12 +232,17 @@ class JDatabaseMysqlTest extends TestCaseDatabaseMysql
 	 */
 	public function testGetVersion()
 	{
-		$this->assertThat(strlen(self::$driver->getVersion()), $this->greaterThan(0),
+		$this->assertThat(
+			strlen(self::$driver->getVersion()), $this->greaterThan(0),
 			'Line:' . __LINE__ . ' The getVersion method should return something without error.');
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @todo Implement testInsertid().
+	 *
+	 * @return void
 	 */
 	public function testInsertid()
 	{
@@ -252,9 +283,12 @@ class JDatabaseMysqlTest extends TestCaseDatabaseMysql
 		self::$driver->setQuery($query);
 		$result = self::$driver->loadAssocList();
 
-		$this->assertThat($result,
+		$this->assertThat(
+			$result,
 			$this->equalTo(
-				array(array('title' => 'Testing'), array('title' => 'Testing2'), array('title' => 'Testing3'), array('title' => 'Testing4'))), __LINE__);
+				array(array('title' => 'Testing'), array('title' => 'Testing2'), array('title' => 'Testing3'), array('title' => 'Testing4'))
+			), __LINE__
+		);
 	}
 
 	/**
@@ -276,7 +310,11 @@ class JDatabaseMysqlTest extends TestCaseDatabaseMysql
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @todo Implement testLoadNextObject().
+	 *
+	 * @return void
 	 */
 	public function testLoadNextObject()
 	{
@@ -285,7 +323,11 @@ class JDatabaseMysqlTest extends TestCaseDatabaseMysql
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @todo Implement testLoadNextRow().
+	 *
+	 * @return void
 	 */
 	public function testLoadNextRow()
 	{
@@ -309,7 +351,7 @@ class JDatabaseMysqlTest extends TestCaseDatabaseMysql
 		self::$driver->setQuery($query);
 		$result = self::$driver->loadObject();
 
-		$objCompare = new stdClass();
+		$objCompare = new stdClass;
 		$objCompare->id = 3;
 		$objCompare->title = 'Testing3';
 		$objCompare->start_date = '1980-04-18 00:00:00';
@@ -336,7 +378,7 @@ class JDatabaseMysqlTest extends TestCaseDatabaseMysql
 
 		$expected = array();
 
-		$objCompare = new stdClass();
+		$objCompare = new stdClass;
 		$objCompare->id = 1;
 		$objCompare->title = 'Testing';
 		$objCompare->start_date = '1980-04-18 00:00:00';
@@ -344,7 +386,7 @@ class JDatabaseMysqlTest extends TestCaseDatabaseMysql
 
 		$expected[] = clone $objCompare;
 
-		$objCompare = new stdClass();
+		$objCompare = new stdClass;
 		$objCompare->id = 2;
 		$objCompare->title = 'Testing2';
 		$objCompare->start_date = '1980-04-18 00:00:00';
@@ -352,7 +394,7 @@ class JDatabaseMysqlTest extends TestCaseDatabaseMysql
 
 		$expected[] = clone $objCompare;
 
-		$objCompare = new stdClass();
+		$objCompare = new stdClass;
 		$objCompare->id = 3;
 		$objCompare->title = 'Testing3';
 		$objCompare->start_date = '1980-04-18 00:00:00';
@@ -360,7 +402,7 @@ class JDatabaseMysqlTest extends TestCaseDatabaseMysql
 
 		$expected[] = clone $objCompare;
 
-		$objCompare = new stdClass();
+		$objCompare = new stdClass;
 		$objCompare->id = 4;
 		$objCompare->title = 'Testing4';
 		$objCompare->start_date = '1980-04-18 00:00:00';
@@ -452,7 +494,11 @@ class JDatabaseMysqlTest extends TestCaseDatabaseMysql
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @todo Implement testSelect().
+	 *
+	 * @return void
 	 */
 	public function testSelect()
 	{
@@ -461,7 +507,11 @@ class JDatabaseMysqlTest extends TestCaseDatabaseMysql
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @todo Implement testSetUTF().
+	 *
+	 * @return void
 	 */
 	public function testSetUTF()
 	{
@@ -472,6 +522,8 @@ class JDatabaseMysqlTest extends TestCaseDatabaseMysql
 	/**
 	 * Test Test method - there really isn't a lot to test here, but
 	 * this is present for the sake of completeness
+	 *
+	 * @return void
 	 */
 	public function testIsSupported()
 	{
@@ -479,7 +531,11 @@ class JDatabaseMysqlTest extends TestCaseDatabaseMysql
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @todo Implement testUpdateObject().
+	 *
+	 * @return void
 	 */
 	public function testUpdateObject()
 	{
