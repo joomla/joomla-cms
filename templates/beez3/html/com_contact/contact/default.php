@@ -83,6 +83,7 @@ $cparams = JComponentHelper::getParams('com_media');
 					</div>
 				</div>
 			</div>
+		</div>
 	<?php endif; ?>
 	<?php if ($this->params->get('show_email_form') && ($this->contact->email_to || $this->contact->user_id)) : ?>
 
