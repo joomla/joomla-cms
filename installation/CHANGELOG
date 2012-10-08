@@ -28,6 +28,7 @@ $ -> Language fix or change
 
 08-Oct-2012 Mark Dexter
  # [#29074] Back-end: Unable to save FTP Settings - Catchable fatal error. Thanks Elin.
+ # [#29468] Additional places where null should be changed to array(). Thanks Elin.
 
 08-Oct-2012 Jean-Marie Simonet
  # [#29454] multi level menus not support RTL languages well. Thanks Chalak
