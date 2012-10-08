@@ -11,6 +11,10 @@ require_once __DIR__ . '/stubs/database/inspector.php';
 
 /**
  * Test class for JLogLoggerDatabase.
+ *
+ * @package     Joomla.UnitTest
+ * @subpackage  Log
+ * @since       11.1
  */
 class JLogLoggerDatabaseTest extends TestCaseDatabase
 {
@@ -26,6 +30,8 @@ class JLogLoggerDatabaseTest extends TestCaseDatabase
 
 	/**
 	 * Test the JLogLoggerDatabase::__construct method.
+	 *
+	 * @return void
 	 */
 	public function testConstructor01()
 	{
@@ -45,6 +51,8 @@ class JLogLoggerDatabaseTest extends TestCaseDatabase
 
 	/**
 	 * Test the JLogLoggerDatabase::addEntry method.
+	 *
+	 * @return void
 	 */
 	public function testAddEntry01()
 	{
@@ -69,6 +77,8 @@ class JLogLoggerDatabaseTest extends TestCaseDatabase
 
 	/**
 	 * Test the JLogLoggerDatabase::addEntry method.
+	 *
+	 * @return void
 	 */
 	public function testAddEntry02()
 	{
@@ -98,6 +108,8 @@ class JLogLoggerDatabaseTest extends TestCaseDatabase
 
 	/**
 	 * Test the JLogLoggerDatabase::connect method.
+	 *
+	 * @return void
 	 */
 	public function testConnect01()
 	{

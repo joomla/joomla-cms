@@ -11,6 +11,10 @@ require_once __DIR__ . '/stubs/messagequeue/mock.application.php';
 
 /**
  * Test class for JLogLoggerMessageQueue.
+ *
+ * @package     Joomla.UnitTest
+ * @subpackage  Log
+ * @since       11.1
  */
 class JLogLoggerMessageQueueTest extends PHPUnit_Framework_TestCase
 {
@@ -28,7 +32,7 @@ class JLogLoggerMessageQueueTest extends PHPUnit_Framework_TestCase
 	public function setUp()
 	{
 		$this->app = JFactory::$application;
-		JFactory::$application = new JApplicationMock();
+		JFactory::$application = new JApplicationMock;
 	}
 
 	/**
@@ -43,7 +47,10 @@ class JLogLoggerMessageQueueTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Test the JLogLoggerMessageQueue::addEntry method.
+	 *
 	 * @covers  JLogLoggerMessageQueue::addEntry
+	 *
+	 * @return void
 	 */
 	public function testAddEntry01()
 	{

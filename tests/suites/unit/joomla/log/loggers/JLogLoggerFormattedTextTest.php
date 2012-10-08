@@ -11,11 +11,17 @@ require_once __DIR__ . '/stubs/formattedtext/inspector.php';
 
 /**
  * Test class for JLogLoggerFormattedText.
+ *
+ * @package     Joomla.UnitTest
+ * @subpackage  Log
+ * @since       11.1
  */
 class JLogLoggerFormattedTextTest extends TestCase
 {
 	/**
 	 * Test the JLogLoggerFormattedText::__construct method.
+	 *
+	 * @return void
 	 */
 	public function testConstructor01()
 	{
@@ -39,6 +45,8 @@ class JLogLoggerFormattedTextTest extends TestCase
 
 	/**
 	 * Test the JLogLoggerFormattedText::__construct method.
+	 *
+	 * @return void
 	 */
 	public function testConstructor02()
 	{
@@ -62,6 +70,8 @@ class JLogLoggerFormattedTextTest extends TestCase
 
 	/**
 	 * Test the JLogLoggerFormattedText::__construct method.
+	 *
+	 * @return void
 	 */
 	public function testConstructor03()
 	{
@@ -85,6 +95,8 @@ class JLogLoggerFormattedTextTest extends TestCase
 
 	/**
 	 * Test the JLogLoggerFormattedText::__construct method.
+	 *
+	 * @return void
 	 */
 	public function testConstructor04()
 	{
@@ -114,6 +126,8 @@ class JLogLoggerFormattedTextTest extends TestCase
 
 	/**
 	 * Test the JLogLoggerFormattedText::addEntry method.
+	 *
+	 * @return void
 	 */
 	public function testAddEntry()
 	{

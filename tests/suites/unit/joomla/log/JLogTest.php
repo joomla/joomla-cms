@@ -115,14 +115,29 @@ class JLogTest extends PHPUnit_Framework_TestCase
 		JLog::setInstance($log);
 
 		// Add a loggers to the JLog object.
-		JLog::addLogger(array('text_file' => 'deprecated.log'), JLog::ALL, 'deprecated'); // 767d00c8f22f5859a1fd73835ee47e4d
-		JLog::addLogger(array('text_file' => 'com_foo.log'), JLog::ALL, 'com_foo'); // 09826310049345665887853e4688d89e
-		JLog::addLogger(array('text_file' => 'none.log'), JLog::ALL); // 5099e81204381e68555c620cd8140421
-		JLog::addLogger(array('text_file' => 'deprecated-com_foo.log'), JLog::ALL, array('deprecated', 'com_foo')); // 57604db2561c1c4492f5dfceed3d943c
-		JLog::addLogger(array('text_file' => 'foobar-deprecated.log'), JLog::ALL, array('foobar', 'deprecated')); // 5fbf17c78bfcd300debc791e01066128
-		JLog::addLogger(array('text_file' => 'transactions-paypal.log'), JLog::ALL, array('transactions', 'paypal')); // b5550c1aa36c1eaf77206565ec5f9021
-		JLog::addLogger(array('text_file' => 'transactions.log'), JLog::ALL, array('transactions')); // 916ed48d2f635431a93aee60c56b0219
-		//var_dump($log->lookup);
+
+		// 7Note: 67d00c8f22f5859a1fd73835ee47e4d
+		JLog::addLogger(array('text_file' => 'deprecated.log'), JLog::ALL, 'deprecated');
+
+		// Note: 09826310049345665887853e4688d89e
+		JLog::addLogger(array('text_file' => 'com_foo.log'), JLog::ALL, 'com_foo');
+
+		// Note: 5099e81204381e68555c620cd8140421
+		JLog::addLogger(array('text_file' => 'none.log'), JLog::ALL);
+
+		// Note: 57604db2561c1c4492f5dfceed3d943c
+		JLog::addLogger(array('text_file' => 'deprecated-com_foo.log'), JLog::ALL, array('deprecated', 'com_foo'));
+
+		// Note: 5fbf17c78bfcd300debc791e01066128
+		JLog::addLogger(array('text_file' => 'foobar-deprecated.log'), JLog::ALL, array('foobar', 'deprecated'));
+
+		// Note: b5550c1aa36c1eaf77206565ec5f9021
+		JLog::addLogger(array('text_file' => 'transactions-paypal.log'), JLog::ALL, array('transactions', 'paypal'));
+
+		// Note: 916ed48d2f635431a93aee60c56b0219
+		JLog::addLogger(array('text_file' => 'transactions.log'), JLog::ALL, array('transactions'));
+
+		// @todo remove: var_dump($log->lookup);
 
 		$this->assertThat(
 			$log->findLoggers(JLog::EMERGENCY, 'deprecated'),
@@ -132,7 +147,8 @@ class JLogTest extends PHPUnit_Framework_TestCase
 					'5099e81204381e68555c620cd8140421',
 					'57604db2561c1c4492f5dfceed3d943c',
 					'5fbf17c78bfcd300debc791e01066128',
-				)),
+				)
+			),
 			'Line: ' . __LINE__ . '.'
 		);
 
@@ -142,7 +158,8 @@ class JLogTest extends PHPUnit_Framework_TestCase
 				array(
 					'5099e81204381e68555c620cd8140421',
 					'b5550c1aa36c1eaf77206565ec5f9021',
-				)),
+				)
+			),
 			'Line: ' . __LINE__ . '.'
 		);
 
@@ -153,7 +170,8 @@ class JLogTest extends PHPUnit_Framework_TestCase
 					'09826310049345665887853e4688d89e',
 					'5099e81204381e68555c620cd8140421',
 					'57604db2561c1c4492f5dfceed3d943c'
-				)),
+				)
+			),
 			'Line: ' . __LINE__ . '.'
 		);
 
@@ -164,7 +182,8 @@ class JLogTest extends PHPUnit_Framework_TestCase
 					'5099e81204381e68555c620cd8140421',
 					'b5550c1aa36c1eaf77206565ec5f9021',
 					'916ed48d2f635431a93aee60c56b0219',
-				)),
+				)
+			),
 			'Line: ' . __LINE__ . '.'
 		);
 
@@ -186,13 +205,26 @@ class JLogTest extends PHPUnit_Framework_TestCase
 		JLog::setInstance($log);
 
 		// Add a loggers to the JLog object.
-		JLog::addLogger(array('text_file' => 'error.log'), JLog::ERROR); // 684e35a45ddd17c00024891e95c29046
-		JLog::addLogger(array('text_file' => 'notice.log'), JLog::NOTICE); // 3ab1ff5941725c3ed01e6dd1ff623415
-		JLog::addLogger(array('text_file' => 'warning.log'), JLog::WARNING); // e16e9516d55213efd9255d8c9c13020b
-		JLog::addLogger(array('text_file' => 'error_warning.log'), JLog::ERROR | JLog::WARNING); // d941cfc07f7641537991eaecaa8ea553
-		JLog::addLogger(array('text_file' => 'all.log'), JLog::ALL); // a2fae4fb61ef676032361e47068deb9a
-		JLog::addLogger(array('text_file' => 'all_except_debug.log'), JLog::ALL & ~JLog::DEBUG); // aaa7a0e4a4720ef7aed99ded3b764303
-		//var_dump($log->lookup);
+
+		// Note: 684e35a45ddd17c00024891e95c29046
+		JLog::addLogger(array('text_file' => 'error.log'), JLog::ERROR);
+
+		// Note: 3ab1ff5941725c3ed01e6dd1ff623415
+		JLog::addLogger(array('text_file' => 'notice.log'), JLog::NOTICE);
+
+		// Note: e16e9516d55213efd9255d8c9c13020b
+		JLog::addLogger(array('text_file' => 'warning.log'), JLog::WARNING);
+
+		// Note: d941cfc07f7641537991eaecaa8ea553
+		JLog::addLogger(array('text_file' => 'error_warning.log'), JLog::ERROR | JLog::WARNING);
+
+		// Note: a2fae4fb61ef676032361e47068deb9a
+		JLog::addLogger(array('text_file' => 'all.log'), JLog::ALL);
+
+		// Note: aaa7a0e4a4720ef7aed99ded3b764303
+		JLog::addLogger(array('text_file' => 'all_except_debug.log'), JLog::ALL & ~JLog::DEBUG);
+
+		// @todo remove: var_dump($log->lookup);
 
 		$this->assertThat(
 			$log->findLoggers(JLog::EMERGENCY, null),
@@ -200,7 +232,8 @@ class JLogTest extends PHPUnit_Framework_TestCase
 				array(
 					'a2fae4fb61ef676032361e47068deb9a',
 					'aaa7a0e4a4720ef7aed99ded3b764303',
-				)),
+				)
+			),
 			'Line: ' . __LINE__ . '.'
 		);
 
@@ -211,7 +244,8 @@ class JLogTest extends PHPUnit_Framework_TestCase
 					'3ab1ff5941725c3ed01e6dd1ff623415',
 					'a2fae4fb61ef676032361e47068deb9a',
 					'aaa7a0e4a4720ef7aed99ded3b764303'
-				)),
+				)
+			),
 			'Line: ' . __LINE__ . '.'
 		);
 
@@ -220,7 +254,8 @@ class JLogTest extends PHPUnit_Framework_TestCase
 			$this->equalTo(
 				array(
 					'a2fae4fb61ef676032361e47068deb9a'
-				)),
+				)
+			),
 			'Line: ' . __LINE__ . '.'
 		);
 
@@ -232,7 +267,8 @@ class JLogTest extends PHPUnit_Framework_TestCase
 					'd941cfc07f7641537991eaecaa8ea553',
 					'a2fae4fb61ef676032361e47068deb9a',
 					'aaa7a0e4a4720ef7aed99ded3b764303'
-				)),
+				)
+			),
 			'Line: ' . __LINE__ . '.'
 		);
 
@@ -253,13 +289,26 @@ class JLogTest extends PHPUnit_Framework_TestCase
 		JLog::setInstance($log);
 
 		// Add a loggers to the JLog object.
-		JLog::addLogger(array('text_file' => 'deprecated.log'), JLog::ALL, 'deprecated'); // 767d00c8f22f5859a1fd73835ee47e4d
-		JLog::addLogger(array('text_file' => 'com_foo.log'), JLog::DEBUG, 'com_foo'); // 09826310049345665887853e4688d89e
-		JLog::addLogger(array('text_file' => 'none.log'), JLog::ERROR | JLog::CRITICAL | JLog::EMERGENCY); // 5099e81204381e68555c620cd8140421
-		JLog::addLogger(array('text_file' => 'deprecated-com_foo.log'), JLog::NOTICE | JLog::WARNING, array('deprecated', 'com_foo')); // 57604db2561c1c4492f5dfceed3d943c
-		JLog::addLogger(array('text_file' => 'transactions-paypal.log'), JLog::INFO, array('transactions', 'paypal')); // b5550c1aa36c1eaf77206565ec5f9021
-		JLog::addLogger(array('text_file' => 'transactions.log'), JLog::ERROR, array('transactions')); // 916ed48d2f635431a93aee60c56b0219
-		//var_dump($log->lookup);
+
+		// Note: 767d00c8f22f5859a1fd73835ee47e4d
+		JLog::addLogger(array('text_file' => 'deprecated.log'), JLog::ALL, 'deprecated');
+
+		// Note: 09826310049345665887853e4688d89e
+		JLog::addLogger(array('text_file' => 'com_foo.log'), JLog::DEBUG, 'com_foo');
+
+		// Note: 5099e81204381e68555c620cd8140421
+		JLog::addLogger(array('text_file' => 'none.log'), JLog::ERROR | JLog::CRITICAL | JLog::EMERGENCY);
+
+		// Note: 57604db2561c1c4492f5dfceed3d943c
+		JLog::addLogger(array('text_file' => 'deprecated-com_foo.log'), JLog::NOTICE | JLog::WARNING, array('deprecated', 'com_foo'));
+
+		// Note: b5550c1aa36c1eaf77206565ec5f9021
+		JLog::addLogger(array('text_file' => 'transactions-paypal.log'), JLog::INFO, array('transactions', 'paypal'));
+
+		// Note: 916ed48d2f635431a93aee60c56b0219
+		JLog::addLogger(array('text_file' => 'transactions.log'), JLog::ERROR, array('transactions'));
+
+		// @todo remove: var_dump($log->lookup);
 
 		$this->assertThat(
 			$log->findLoggers(JLog::EMERGENCY, 'deprecated'),
@@ -267,14 +316,16 @@ class JLogTest extends PHPUnit_Framework_TestCase
 				array(
 					'767d00c8f22f5859a1fd73835ee47e4d',
 					'5099e81204381e68555c620cd8140421',
-				)),
+				)
+			),
 			'Line: ' . __LINE__ . '.'
 		);
 
 		$this->assertThat(
 			$log->findLoggers(JLog::NOTICE, 'paypal'),
 			$this->equalTo(
-				array()),
+				array()
+			),
 			'Line: ' . __LINE__ . '.'
 		);
 
@@ -283,7 +334,8 @@ class JLogTest extends PHPUnit_Framework_TestCase
 			$this->equalTo(
 				array(
 					'09826310049345665887853e4688d89e',
-				)),
+				)
+			),
 			'Line: ' . __LINE__ . '.'
 		);
 
@@ -293,7 +345,8 @@ class JLogTest extends PHPUnit_Framework_TestCase
 				array(
 					'5099e81204381e68555c620cd8140421',
 					'916ed48d2f635431a93aee60c56b0219',
-				)),
+				)
+			),
 			'Line: ' . __LINE__ . '.'
 		);
 
@@ -302,7 +355,8 @@ class JLogTest extends PHPUnit_Framework_TestCase
 			$this->equalTo(
 				array(
 					'b5550c1aa36c1eaf77206565ec5f9021',
-				)),
+				)
+			),
 			'Line: ' . __LINE__ . '.'
 		);
 	}

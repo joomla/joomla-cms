@@ -9,14 +9,21 @@
 
 /**
  * Inspector classes for the JRegistry package.
- */
-
-/**
- * @package        Joomla.UnitTest
- * @subpackage     Registry
+ *
+ * @package     Joomla.UnitTest
+ * @subpackage  Registry
+ * @since       11.1
  */
 class JRegistryInspector extends JRegistry
 {
+	/**
+	 * Test...
+	 *
+	 * @param   object  &$parent  @todo
+	 * @param   mixed   $data     @todo
+	 *
+	 * @return void
+	 */
 	public function bindData(& $parent, $data)
 	{
 		return parent::bindData($parent, $data);

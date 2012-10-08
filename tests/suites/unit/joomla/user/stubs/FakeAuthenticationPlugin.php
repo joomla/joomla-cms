@@ -23,9 +23,11 @@ class plgAuthenticationFake
 	public $name = 'fake';
 
 	/**
-	 * @param   array                   $credentials
-	 * @param   array                   $options
-	 * @param   JAuthenicationResponse  $response
+	 * Test...
+	 *
+	 * @param   array                   $credentials  @todo
+	 * @param   array                   $options      @todo
+	 * @param   JAuthenicationResponse  &$response    @todo
 	 *
 	 * @return  void
 	 *

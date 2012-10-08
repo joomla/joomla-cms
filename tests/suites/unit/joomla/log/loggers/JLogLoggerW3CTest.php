@@ -11,11 +11,17 @@ require_once __DIR__ . '/stubs/w3c/inspector.php';
 
 /**
  * Test class for JLogLoggerW3C.
+ *
+ * @package     Joomla.UnitTest
+ * @subpackage  Log
+ * @since       11.1
  */
 class JLogLoggerW3CTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 * Test the JLogLoggerW3C::addEntry method.
+	 *
+	 * @return void
 	 */
 	public function testAddEntry()
 	{

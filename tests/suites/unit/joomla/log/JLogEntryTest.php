@@ -9,14 +9,19 @@
 
 /**
  * Test class for JLogEntry.
+ *
+ * @package     Joomla.UnitTest
+ * @subpackage  Log
+ * @since       11.1
  */
 class JLogEntryTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 * Verify the default values for the log entry object.
 	 *
-	 * Test the JLogEntry::__construct method.
 	 * @covers  JLogEntry::__construct
+	 *
+	 * @return void
 	 */
 	public function testDefaultValues()
 	{
@@ -55,8 +60,9 @@ class JLogEntryTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Verify the priority for the entry object cannot be something not in the approved list.
 	 *
-	 * Test the JLogEntry::__construct method.
 	 * @covers  JLogEntry::__construct
+	 *
+	 * @return void
 	 */
 	public function testBadPriorityValues()
 	{
@@ -85,8 +91,9 @@ class JLogEntryTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Test that non-standard category values are sanitized.
 	 *
-	 * Test the JLogEntry::__construct method.
 	 * @covers  JLogEntry::__construct
+	 *
+	 * @return void
 	 */
 	public function testCategorySanitization()
 	{
