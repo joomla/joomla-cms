@@ -455,7 +455,7 @@ class JFile
 			if ($FTPOptions['enabled'] == 1)
 			{
 				// Connect the FTP client
-				$ftp = JClientFtp::getInstance($FTPOptions['host'], $FTPOptions['port'], null, $FTPOptions['user'], $FTPOptions['pass']);
+				$ftp = JClientFtp::getInstance($FTPOptions['host'], $FTPOptions['port'], array(), $FTPOptions['user'], $FTPOptions['pass']);
 
 				// Translate path for the FTP account
 				$dest = JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $dest), '/');
