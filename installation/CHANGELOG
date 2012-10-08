@@ -26,6 +26,8 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+-------------------- 3.0.1 Stable Release [9-Oct-2012] ------------------
+
 08-Oct-2012 Mark Dexter
  # [#29074] Back-end: Unable to save FTP Settings - Catchable fatal error. Thanks Elin.
  # [#29468] Additional places where null should be changed to array(). Thanks Elin.

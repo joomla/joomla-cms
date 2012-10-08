@@ -17,7 +17,7 @@ JHtml::_('bootstrap.tooltip');
 			<div id="filter-bar" class="btn-toolbar">
 				<div class="filter-search input-append">
 					<label for="helpsearch" class="element-invisible"><?php echo JText::_('COM_ADMIN_SEARCH');?></label>
-					<input type="text" name="helpsearch" class="input-small" placeholder="<?php echo JText::_('COM_ADMIN_SEARCH'); ?>" id="helpsearch" <?php echo $this->escape($this->help_search);?> title="<?php echo JText::_('COM_ADMIN_SEARCH'); ?>" /><button class="btn tip hasTooltip" type="submit" title="<?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?>"><i class="icon-search"></i></button><button class="btn tip" type="button" onclick="f=document.adminForm;f.helpsearch.value='';f.submit()" class="hasTooltip" title="<?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?>"><i class="icon-remove"></i></button>
+					<input type="text" name="helpsearch" class="input-small" placeholder="<?php echo JText::_('COM_ADMIN_SEARCH'); ?>" id="helpsearch" value="<?php echo $this->escape($this->help_search);?>" title="<?php echo JText::_('COM_ADMIN_SEARCH'); ?>" /><button class="btn tip hasTooltip" type="submit" title="<?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?>"><i class="icon-search"></i></button><button class="btn tip" type="button" onclick="f=document.adminForm;f.helpsearch.value='';f.submit()" class="hasTooltip" title="<?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?>"><i class="icon-remove"></i></button>
 				</div>
 			</div>
 			<div class="clearfix"> </div>
