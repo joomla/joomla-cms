@@ -136,7 +136,7 @@ class JClientFtp
 	 *
 	 * @since   12.1
 	 */
-	public function __construct($options = array())
+	public function __construct(array $options = array())
 	{
 		// If default transfer type is not set, set it to autoascii detect
 		if (!isset($options['type']))
