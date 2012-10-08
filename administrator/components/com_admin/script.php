@@ -315,6 +315,7 @@ class joomlaInstallerScript
 			'/administrator/components/com_installer/models/forms/manage.xml',
 			'/administrator/components/com_installer/views/install/tmpl/default_form.php',
 			'/administrator/components/com_installer/views/manage/tmpl/default_filter.php',
+			'/administrator/components/com_languages/views/installed/tmpl/default_ftp.php',
 			'/administrator/components/com_languages/views/installed/tmpl/default_navigation.php',
 			'/administrator/components/com_modules/models/fields/index.html',
 			'/administrator/components/com_modules/models/fields/moduleorder.php',
