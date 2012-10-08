@@ -74,7 +74,7 @@ $doc->addScript($this->baseurl . '/templates/' . $this->template . '/javascript/
 
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=3.0, user-scalable=yes"/>
 		<meta name="HandheldFriendly" content="true" />
-		<meta name="apple-touch-fullscreen" content="YES" />
+		<meta name="apple-mobile-web-app-capable" content="YES" />
 
 		<jdoc:include type="head" />
 
