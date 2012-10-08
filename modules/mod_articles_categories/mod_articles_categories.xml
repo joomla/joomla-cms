@@ -35,6 +35,7 @@
 			<field
 				name="show_description"
 				type="radio"
+				class="btn-group"
 				default="0"
 				label="MOD_ARTICLES_CATEGORIES_FIELD_SHOW_DESCRIPTION_LABEL"
 				description="MOD_ARTICLES_CATEGORIES_FIELD_SHOW_DESCRIPTION_DESC">
@@ -46,6 +47,7 @@
 			<field
 				name="show_children"
 				type="radio"
+				class="btn-group"
 				default="0"
 				label="MOD_ARTICLES_CATEGORIES_FIELD_SHOW_CHILDREN_LABEL"
 				description="MOD_ARTICLES_CATEGORIES_FIELD_SHOW_CHILDREN_DESC">

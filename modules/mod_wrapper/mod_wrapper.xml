@@ -36,6 +36,7 @@
 				<field
 					name="add"
 					type="radio"
+					class="btn-group"
 					default="1"
 					label="MOD_WRAPPER_FIELD_ADD_LABEL"
 					description="MOD_WRAPPER_FIELD_ADD_DESC">
@@ -74,6 +75,7 @@
 				<field
 					name="height_auto"
 					type="radio"
+					class="btn-group"
 					default="1"
 					label="MOD_WRAPPER_FIELD_AUTOHEIGHT_LABEL"
 					description="MOD_WRAPPER_FIELD_AUTOHEIGHT_DESC">
@@ -85,6 +87,7 @@
 				<field
 					name="frameborder"
 					type="radio"
+					class="btn-group"
 					default="1"
 					label="MOD_WRAPPER_FIELD_FRAME_LABEL"
 					description="MOD_WRAPPER_FIELD_FRAME_DESC">

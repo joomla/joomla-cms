@@ -24,7 +24,7 @@
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
-				<field name="mode" type="radio" default="normal"
+				<field name="mode" type="list" default="normal"
 					label="MOD_ARTICLES_CATEGORY_FIELD_MODE_LABEL"
 					description="MOD_ARTICLES_CATEGORY_FIELD_MODE_DESC"
 				>
@@ -39,6 +39,7 @@
 				label="MOD_ARTICLES_CATEGORY_FIELD_GROUP_DYNAMIC_LABEL"
 			>
 				<field name="show_on_article_page" type="radio"
+					class="btn-group"
 					default="1"
 					label="MOD_ARTICLES_CATEGORY_FIELD_SHOWONARTICLEPAGE_LABEL"
 					description="MOD_ARTICLES_CATEGORY_FIELD_SHOWONARTICLEPAGE_DESC"
@@ -51,7 +52,7 @@
 			<fieldset name="filtering"
 				label="MOD_ARTICLES_CATEGORY_FIELD_GROUP_FILTERING_LABEL"
 			>
-				<field name="show_front" type="radio" default="show"
+				<field name="show_front" type="list" default="show"
 					label="MOD_ARTICLES_CATEGORY_FIELD_SHOWFEATURED_LABEL"
 					description="MOD_ARTICLES_CATEGORY_FIELD_SHOWFEATURED_DESC"
 				>
@@ -69,7 +70,7 @@
 
 				<field name="filteringspacer1" type="spacer" hr="true" />
 
-				<field name="category_filtering_type" type="radio"
+				<field name="category_filtering_type" type="list"
 					default="1"
 					label="MOD_ARTICLES_CATEGORY_FIELD_CATFILTERINGTYPE_LABEL"
 					description="MOD_ARTICLES_CATEGORY_FIELD_CATFILTERINGTYPE_DESC"
@@ -88,7 +89,7 @@
 					<option value="">JOPTION_ALL_CATEGORIES</option>
 				</field>
 
-				<field name="show_child_category_articles" type="radio"
+				<field name="show_child_category_articles" type="list"
 					default="0"
 					label="MOD_ARTICLES_CATEGORY_FIELD_SHOWCHILDCATEGORYARTICLES_LABEL"
 					description="MOD_ARTICLES_CATEGORY_FIELD_SHOWCHILDCATEGORYARTICLES_DESC"
@@ -105,7 +106,7 @@
 
 				<field name="filteringspacer2" type="spacer" hr="true" />
 
-				<field name="author_filtering_type" type="radio"
+				<field name="author_filtering_type" type="list"
 					default="1"
 					label="MOD_ARTICLES_CATEGORY_FIELD_AUTHORFILTERING_LABEL"
 					description="MOD_ARTICLES_CATEGORY_FIELD_AUTHORFILTERING_DESC"
@@ -128,7 +129,7 @@
 
 				<field name="filteringspacer3" type="spacer" hr="true" />
 
-				<field name="author_alias_filtering_type" type="radio"
+				<field name="author_alias_filtering_type" type="list"
 					default="1"
 					label="MOD_ARTICLES_CATEGORY_FIELD_AUTHORALIASFILTERING_LABEL"
 					description="MOD_ARTICLES_CATEGORY_FIELD_AUTHORALIASFILTERING_DESC"
@@ -161,7 +162,7 @@
 
 				<field name="filteringspacer6" type="spacer" hr="true" />
 
-				<field name="date_filtering" type="radio" default="off"
+				<field name="date_filtering" type="list" default="off"
 					label="MOD_ARTICLES_CATEGORY_FIELD_DATEFILTERING_LABEL"
 					description="MOD_ARTICLES_CATEGORY_FIELD_DATEFILTERING_DESC"
 				>
@@ -299,6 +300,7 @@
 				</field>
 
 				<field name="link_titles" type="radio" default="1"
+					class="btn-group"
 					label="MOD_ARTICLES_CATEGORY_FIELD_LINKTITLES_LABEL"
 					description="MOD_ARTICLES_CATEGORY_FIELD_LINKTITLES_DESC"
 				>
@@ -309,6 +311,7 @@
 				</field>
 
 				<field name="show_date" type="radio" default="0"
+					class="btn-group"
 					label="JDATE"
 					description="MOD_ARTICLES_CATEGORY_FIELD_SHOWDATE_DESC"
 				>
@@ -336,6 +339,7 @@
 					description="MOD_ARTICLES_CATEGORY_FIELD_DATEFIELDFORMAT_DESC" />
 
 				<field name="show_category" type="radio" default="0"
+					class="btn-group"
 					label="JCATEGORY"
 					description="MOD_ARTICLES_CATEGORY_FIELD_SHOWCATEGORY_DESC"
 				>
@@ -346,6 +350,7 @@
 				</field>
 
 				<field name="show_hits" type="radio" default="0"
+					class="btn-group"
 					label="MOD_ARTICLES_CATEGORY_FIELD_SHOWHITS_LABEL"
 					description="MOD_ARTICLES_CATEGORY_FIELD_SHOWHITS_DESC"
 				>
@@ -356,6 +361,7 @@
 				</field>
 
 				<field name="show_author" type="radio" default="0"
+					class="btn-group"
 					label="JAUTHOR"
 					description="MOD_ARTICLES_CATEGORY_FIELD_SHOWAUTHOR_DESC"
 				>
@@ -366,6 +372,7 @@
 				</field>
 
 				<field name="show_introtext" type="radio" default="0"
+					class="btn-group"
 					label="MOD_ARTICLES_CATEGORY_FIELD_SHOWINTROTEXT_LABEL"
 					description="MOD_ARTICLES_CATEGORY_FIELD_SHOWINTROTEXT_DESC"
 				>
@@ -385,6 +392,7 @@
 					description="JGLOBAL_SHOW_READMORE_DESC"
 					type="radio"
 					default="0"
+					class="btn-group"
 				>
 					<option value="1">JSHOW
 					</option>
@@ -398,6 +406,7 @@
 					description="JGLOBAL_SHOW_READMORE_TITLE_DESC"
 					type="radio"
 					default="1"
+					class="btn-group"
 				>
 					<option value="1">JSHOW</option>
 					<option value="0">JHIDE</option>

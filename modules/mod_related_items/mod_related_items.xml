@@ -30,6 +30,7 @@
 				<field
 					name="showDate"
 					type="radio"
+					class="btn-group"
 					default="0"
 					label="MOD_RELATED_FIELD_SHOWDATE_LABEL"
 					description="MOD_RELATED_FIELD_SHOWDATE_DESC">

@@ -60,6 +60,7 @@
 				/>
 
 				<field name="lang_mode" type="radio"
+					class="btn-group"
 					default="0"
 					description="PLG_TINY_FIELD_LANGSELECT_DESC"
 					label="PLG_TINY_FIELD_LANGSELECT_LABEL"
@@ -89,6 +90,7 @@
 				/>
 
 				<field name="content_css" type="radio"
+					class="btn-group"
 					default="1"
 					description="PLG_TINY_FIELD_CSS_DESC"
 					label="PLG_TINY_FIELD_CSS_LABEL"
@@ -145,7 +147,8 @@
 				label="PLG_TINY_FIELD_LABEL_ADVANCEDPARAMS"
 			>
 
-				<field name="toolbar" type="list"
+				<field name="toolbar" type="radio"
+					class="btn-group"
 					default="top"
 					description="PLG_TINY_FIELD_TOOLBAR_DESC"
 					label="PLG_TINY_FIELD_TOOLBAR_LABEL"
@@ -177,6 +180,7 @@
 				/>
 
 				<field name="resizing" type="radio"
+					class="btn-group"
 					default="true"
 					description="PLG_TINY_FIELD_RESIZING_DESC"
 					label="PLG_TINY_FIELD_RESIZING_LABEL"
@@ -186,6 +190,7 @@
 				</field>
 
 				<field name="resize_horizontal" type="radio"
+					class="btn-group"
 					default="false"
 					description="PLG_TINY_FIELD_RESIZE_HORIZONTAL_DESC"
 					label="PLG_TINY_FIELD_RESIZE_HORIZONTAL_LABEL"
@@ -195,6 +200,7 @@
 				</field>
 
 				<field name="element_path" type="radio"
+					class="btn-group"
 					default="1"
 					description="PLG_TINY_FIELD_PATH_DESC"
 					label="PLG_TINY_FIELD_PATH_LABEL"
@@ -208,6 +214,7 @@
 				/>
 
 				<field name="fonts" type="radio"
+					class="btn-group"
 					default="1"
 					description="PLG_TINY_FIELD_FONTS_DESC"
 					label="PLG_TINY_FIELD_FONTS_LABEL"
@@ -217,6 +224,7 @@
 				</field>
 
 				<field name="paste" type="radio"
+					class="btn-group"
 					default="1"
 					description="PLG_TINY_FIELD_PASTE_DESC"
 					label="PLG_TINY_FIELD_PASTE_LABEL"
@@ -226,6 +234,7 @@
 				</field>
 
 				<field name="searchreplace" type="radio"
+					class="btn-group"
 					default="1"
 					description="PLG_TINY_FIELD_SEARCH-REPLACE_DESC"
 					label="PLG_TINY_FIELD_SEARCH-REPLACE_LABEL"
@@ -235,6 +244,7 @@
 				</field>
 
 				<field name="insertdate" type="radio"
+					class="btn-group"
 					default="1"
 					description="PLG_TINY_FIELD_DATE_DESC"
 					label="PLG_TINY_FIELD_DATE_LABEL"
@@ -250,6 +260,7 @@
 				/>
 
 				<field name="inserttime" type="radio"
+					class="btn-group"
 					default="1"
 					description="PLG_TINY_FIELD_TIME_DESC"
 					label="PLG_TINY_FIELD_TIME_LABEL"
@@ -265,6 +276,7 @@
 				/>
 
 				<field name="colors" type="radio"
+					class="btn-group"
 					default="1"
 					description="PLG_TINY_FIELD_COLORS_DESC"
 					label="PLG_TINY_FIELD_COLORS_LABEL"
@@ -274,6 +286,7 @@
 				</field>
 
 				<field name="table" type="radio"
+					class="btn-group"
 					default="1"
 					description="PLG_TINY_FIELD_TABLE_DESC"
 					label="PLG_TINY_FIELD_TABLE_LABEL"
@@ -283,6 +296,7 @@
 				</field>
 
 				<field name="smilies" type="radio"
+					class="btn-group"
 					default="1"
 					description="PLG_TINY_FIELD_SMILIES_DESC"
 					label="PLG_TINY_FIELD_SMILIES_LABEL"
@@ -292,6 +306,7 @@
 				</field>
 
 				<field name="media" type="radio"
+					class="btn-group"
 					default="1"
 					description="PLG_TINY_FIELD_MEDIA_DESC"
 					label="PLG_TINY_FIELD_MEDIA_LABEL"
@@ -301,6 +316,7 @@
 				</field>
 
 				<field name="hr" type="radio"
+					class="btn-group"
 					default="1"
 					description="PLG_TINY_FIELD_HR_DESC"
 					label="PLG_TINY_FIELD_HR_LABEL"
@@ -310,6 +326,7 @@
 				</field>
 
 				<field name="directionality" type="radio"
+					class="btn-group"
 					default="1"
 					description="PLG_TINY_FIELD_RTL_DESC"
 					label="PLG_TINY_FIELD_RTL_LABEL"
@@ -319,6 +336,7 @@
 				</field>
 
 				<field name="fullscreen" type="radio"
+					class="btn-group"
 					default="1"
 					description="PLG_TINY_FIELD_FULLSCREEN_DESC"
 					label="PLG_TINY_FIELD_FULLSCREEN_LABEL"
@@ -328,6 +346,7 @@
 				</field>
 
 				<field name="style" type="radio"
+					class="btn-group"
 					default="1"
 					description="PLG_TINY_FIELD_STYLE_DESC"
 					label="PLG_TINY_FIELD_STYLE_LABEL"
@@ -337,6 +356,7 @@
 				</field>
 
 				<field name="layer" type="radio"
+					class="btn-group"
 					default="1"
 					description="PLG_TINY_FIELD_LAYER_DESC"
 					label="PLG_TINY_FIELD_LAYER_LABEL"
@@ -346,6 +366,7 @@
 				</field>
 
 				<field name="xhtmlxtras" type="radio"
+					class="btn-group"
 					default="1"
 					description="PLG_TINY_FIELD_XHTMLXTRAS_DESC"
 					label="PLG_TINY_FIELD_XHTMLXTRAS_LABEL"
@@ -355,6 +376,7 @@
 				</field>
 
 				<field name="visualchars" type="radio"
+					class="btn-group"
 					default="1"
 					description="PLG_TINY_FIELD_VISUALCHARS_DESC"
 					label="PLG_TINY_FIELD_VISUALCHARS_LABEL"
@@ -364,6 +386,7 @@
 				</field>
 
 				<field name="visualblocks" type="radio"
+					class="btn-group"
 					default="1"
 					description="PLG_TINY_FIELD_VISUALBLOCKS_DESC"
 					label="PLG_TINY_FIELD_VISUALBLOCKS_LABEL"
@@ -373,6 +396,7 @@
 				</field>
 
 				<field name="nonbreaking" type="radio"
+					class="btn-group"
 					default="1"
 					description="PLG_TINY_FIELD_NONBREAKING_DESC"
 					label="PLG_TINY_FIELD_NONBREAKING_LABEL"
@@ -382,6 +406,7 @@
 				</field>
 
 				<field name="template" type="radio"
+					class="btn-group"
 					default="1"
 					description="PLG_TINY_FIELD_TEMPLATE_DESC"
 					label="PLG_TINY_FIELD_TEMPLATE_LABEL"
@@ -391,6 +416,7 @@
 				</field>
 
 				<field name="blockquote" type="radio"
+					class="btn-group"
 					default="1"
 					description="PLG_TINY_FIELD_BLOCKQUOTE_DESC"
 					label="PLG_TINY_FIELD_BLOCKQUOTE_LABEL"
@@ -400,6 +426,7 @@
 				</field>
 
 				<field name="wordcount" type="radio"
+					class="btn-group"
 					default="1"
 					description="PLG_TINY_FIELD_WORDCOUNT_DESC"
 					label="PLG_TINY_FIELD_WORDCOUNT_LABEL"
@@ -413,6 +440,7 @@
 				/>
 
 				<field name="advimage" type="radio"
+					class="btn-group"
 					default="1"
 					description="PLG_TINY_FIELD_ADVIMAGE_DESC"
 					label="PLG_TINY_FIELD_ADVIMAGE_LABEL"
@@ -422,6 +450,7 @@
 				</field>
 
 				<field name="advlink" type="radio"
+					class="btn-group"
 					default="1"
 					description="PLG_TINY_FIELD_ADVLINK_DESC"
 					label="PLG_TINY_FIELD_ADVLINK_LABEL"
@@ -431,6 +460,7 @@
 				</field>
 
 				<field name="advlist" type="radio"
+					class="btn-group"
 					default="1"
 					description="PLG_TINY_FIELD_ADVLIST_DESC"
 					label="PLG_TINY_FIELD_ADVLIST_LABEL"
@@ -440,6 +470,7 @@
 				</field>
 
 				<field name="autosave" type="radio"
+					class="btn-group"
 					default="1"
 					description="PLG_TINY_FIELD_SAVEWARNING_DESC"
 					label="PLG_TINY_FIELD_SAVEWARNING_LABEL"
@@ -448,6 +479,7 @@
 					<option value="1">JON</option>
 				</field>
 				<field name="contextmenu" type="radio"
+					class="btn-group"
 					default="1"
 					description="PLG_TINY_FIELD_CONTEXTMENU_DESC"
 					label="PLG_TINY_FIELD_CONTEXTMENU_LABEL"
@@ -456,6 +488,7 @@
 					<option value="1">JON</option>
 				</field>
 				<field name="inlinepopups" type="radio"
+					class="btn-group"
 					default="1"
 					description="PLG_TINY_FIELD_INLINEPOPUPS_DESC"
 					label="PLG_TINY_FIELD_INLINEPOPUPS_LABEL"

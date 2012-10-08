@@ -21,7 +21,7 @@
 		<fields name="params">
 
 			<fieldset name="basic">
-				<field name="position" type="radio"
+				<field name="position" type="list"
 					default="1"
 					description="PLG_PAGENAVIGATION_FIELD_POSITION_DESC"
 					label="PLG_PAGENAVIGATION_FIELD_POSITION_LABEL"
@@ -30,7 +30,7 @@
 					<option value="0">PLG_PAGENAVIGATION_FIELD_VALUE_ABOVE</option>
 				</field>
 
-			<field name="relative" type="radio"
+			<field name="relative" type="list"
 					default="1"
 					description="PLG_PAGENAVIGATION_FIELD_RELATIVE_DESC"
 					label="PLG_PAGENAVIGATION_FIELD_RELATIVE_LABEL"

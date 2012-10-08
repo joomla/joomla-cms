@@ -36,6 +36,7 @@
 
 				<field name="use_ldapV3" type="radio"
 					default="0"
+					class="btn-group"
 					description="PLG_LDAP_FIELD_V3_DESC"
 					label="PLG_LDAP_FIELD_V3_LABEL"
 				>
@@ -45,6 +46,7 @@
 
 				<field name="negotiate_tls" type="radio"
 					default="0"
+					class="btn-group"
 					description="PLG_LDAP_FIELD_NEGOCIATE_DESC"
 					label="PLG_LDAP_FIELD_NEGOCIATE_LABEL"
 				>
@@ -54,6 +56,7 @@
 
 				<field name="no_referrals" type="radio"
 					default="0"
+					class="btn-group"
 					description="PLG_LDAP_FIELD_REFERRALS_DESC"
 					label="PLG_LDAP_FIELD_REFERRALS_LABEL"
 				>

@@ -26,10 +26,6 @@ $clientId	= $this->state->get('filter.client_id', 0);
 		<div id="j-main-container">
 	<?php endif;?>
 
-		<?php if ($this->ftp): ?>
-			<?php echo $this->loadTemplate('ftp');?>
-		<?php endif; ?>
-
 		<table class="table table-striped">
 			<thead>
 				<tr>

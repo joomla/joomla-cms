@@ -26,8 +26,29 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+08-Oct-2012 Mark Dexter
+ # [#29074] Back-end: Unable to save FTP Settings - Catchable fatal error. Thanks Elin.
+
+08-Oct-2012 Jean-Marie Simonet
+ # [#29454] multi level menus not support RTL languages well. Thanks Chalak
+ # [#29451] beez3: element closed before opened. Thanks Constantin.
+ # [#29452] beez3: change meta tag name from apple-touch-fullscreen to apple-mobile-web-app-capable. Thanks Constantin.
+ # [#29453] Update platform version to 12.2. Thanks Elin
+ ^ Changing en-GB to version 3.0.1
+ # [#29464] Untranslated string COM_INSTALLER_INSTALL_FTP
+
+07-Oct-2012 Jean-Marie Simonet
+ # [#29447] Broken installation with PostgreSQL. Thanks Viet
+ ^ [#29449] *Normalising isis UI part2 components, modules, plugins
+ $ Updating sk-SK.ini
+ # [#29394] beez3 -- single contact. Thanks Constantin
+
+06-Oct-2012 Mark Dexter
+ + [#29445] Allow different update packages for different version dev levels.
+
 06-Oct-2012 Jean-Marie Simonet
  # [#29262] Wrong file name in garbagecoro cli app
+ # [#29446] One character too much in JFeedPerson
  
 05-Oct-2012 Jean-Marie Simonet
  $ Updating pt-BR.ini
