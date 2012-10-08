@@ -127,16 +127,15 @@ class JDatabaseIteratorMySQLTest extends TestCaseDatabaseMysql
 	/**
 	 * Test foreach control
 	 *
-	 * @param   string          $select     Fields to select
-	 * @param   string          $from       Table to search for
-	 * @param   string          $column     The column.
-	 * @param   string          $class      The class.
-	 * @param   integer         $limit      The limit.
-	 * @param   integer         $offset     The offset.
-	 * @param   array           $expected   Array of expected results
-	 * @param   boolean|string  $exception  Exception thrown
+	 * @param   string   $select     Fields to select
+	 * @param   string   $from       Table to search for
+	 * @param   string   $column     The column to use as a key.
+	 * @param   string   $class      The class on which to bind the result rows.
+	 * @param   integer  $limit      The result set record limit.
+	 * @param   integer  $offset     The result set record offset.
+	 * @param   array    $expected   Array of expected results
+	 * @param   mixed    $exception  Exception thrown
 	 *
-	 * @internal param array $options Array of options
 	 * @return  void
 	 *
 	 * @dataProvider casesForEachData

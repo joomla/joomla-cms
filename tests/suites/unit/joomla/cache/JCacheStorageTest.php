@@ -313,19 +313,6 @@ class JCacheStorageTest extends TestCase
 	}
 
 	/**
-	 * Testing test().
-	 *
-	 * @return void
-	 */
-	public function testTest()
-	{
-		$this->assertThat(
-			$this->object->test(),
-			$this->isTrue()
-		);
-	}
-
-	/**
 	 * Testing isSupported().
 	 *
 	 * @return void

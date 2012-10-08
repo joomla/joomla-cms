@@ -1173,15 +1173,3 @@ class JApplicationWeb extends JApplicationBase
 		}
 	}
 }
-
-/**
- * Deprecated class placeholder.  You should use JApplicationWeb instead.
- *
- * @package     Joomla.Platform
- * @subpackage  Application
- * @since       11.3
- * @deprecated  12.3
- */
-class JWeb extends JApplicationWeb
-{
-}

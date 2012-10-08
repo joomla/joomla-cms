@@ -459,8 +459,9 @@ abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 	}
 
 	/**
-	 * Sets the JError error handlers to callback mode and points them at the test
-	 * logging method.
+	 * Sets the JError error handlers to callback mode and points them at the test logging method.
+	 *
+	 * @param   string  $testName  The name of the test class for which to set the error callback method.
 	 *
 	 * @param   string  $testName  The test name.
 	 *

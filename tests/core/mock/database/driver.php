@@ -26,8 +26,8 @@ class TestMockDatabaseDriver
 	 * Creates and instance of the mock JDatabase object.
 	 *
 	 * @param   object  $test        A test object.
-	 * @param   string  $nullDate    The null date format.
-	 * @param   string  $dateFormat  The date format.
+	 * @param   string  $nullDate    A null date string for the driver.
+	 * @param   string  $dateFormat  A date format for the driver.
 	 *
 	 * @return  object
 	 *
@@ -130,11 +130,11 @@ class TestMockDatabaseDriver
 	/**
 	 * Callback for the dbo setQuery method.
 	 *
-	 * @param   bool|string  $new  True to get a new query, false to get the last query.
+	 * @param   boolean  $new  True to get a new query, false to get the last query.
 	 *
-	 * @return void
+	 * @return  void
 	 *
-	 * @since  11.3
+	 * @since   11.3
 	 */
 	public function mockGetQuery($new = false)
 	{
@@ -153,9 +153,9 @@ class TestMockDatabaseDriver
 	 *
 	 * @param   string  $value  The value to be quoted.
 	 *
-	 * @return string  The value passed wrapped in MySQL quotes.
+	 * @return  string  The value passed wrapped in MySQL quotes.
 	 *
-	 * @since  11.3
+	 * @since   11.3
 	 */
 	public function mockQuote($value)
 	{
@@ -167,9 +167,9 @@ class TestMockDatabaseDriver
 	 *
 	 * @param   string  $value  The value to be quoted.
 	 *
-	 * @return string  The value passed wrapped in MySQL quotes.
+	 * @return  string  The value passed wrapped in MySQL quotes.
 	 *
-	 * @since  11.3
+	 * @since   11.3
 	 */
 	public function mockQuoteName($value)
 	{
@@ -181,9 +181,9 @@ class TestMockDatabaseDriver
 	 *
 	 * @param   string  $query  The query.
 	 *
-	 * @return void
+	 * @return  void
 	 *
-	 * @since  11.3
+	 * @since   11.3
 	 */
 	public function mockSetQuery($query)
 	{

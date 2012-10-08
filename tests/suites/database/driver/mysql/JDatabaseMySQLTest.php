@@ -12,7 +12,6 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Database
- *
  * @since       11.1
  */
 class JDatabaseMysqlTest extends TestCaseDatabaseMysql
@@ -33,45 +32,31 @@ class JDatabaseMysqlTest extends TestCaseDatabaseMysql
 	}
 
 	/**
-	 * Gets the data set to be loaded into the database during setup
+	 * Tests the __destruct method.
 	 *
-	 * @return  xml dataset
+	 * @return  void
 	 *
-	 * @since   11.1
-	 */
-	protected function getDataSet()
-	{
-		return $this->createXMLDataSet(__DIR__ . '/stubs/database.xml');
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement test__destruct().
-	 *
-	 * @return void
+	 * @since   11.4
 	 */
 	public function test__destruct()
 	{
-		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
 
 	/**
-	 * Test...
+	 * Tests the connected method.
 	 *
-	 * @todo Implement testConnected().
+	 * @return  void
 	 *
-	 * @return void
+	 * @since   11.4
 	 */
 	public function testConnected()
 	{
-		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
 
 	/**
-	 * Tests the JDatabaseMysql dropTable method.
+	 * Tests the dropTable method.
 	 *
 	 * @return  void
 	 *
@@ -83,20 +68,20 @@ class JDatabaseMysqlTest extends TestCaseDatabaseMysql
 	}
 
 	/**
-	 * Tests the JDatabaseMysql escape method.
+	 * Tests the escape method.
 	 *
-	 * @param   string   $text    The string to be escaped.
-	 * @param   boolean  $extra   Optional parameter to provide extra escaping.
-	 * @param   string   $result  The expected result.
+	 * @param   string   $text      The string to be escaped.
+	 * @param   boolean  $extra     Optional parameter to provide extra escaping.
+	 * @param   string   $expected  The expected result.
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
 	 * @dataProvider  dataTestEscape
+	 * @since         11.4
 	 */
-	public function testEscape($text, $extra, $result)
+	public function testEscape($text, $extra, $expected)
 	{
-		$this->assertThat(self::$driver->escape($text, $extra), $this->equalTo($result), 'The string was not escaped properly');
+		$this->assertThat(self::$driver->escape($text, $extra), $this->equalTo($expected), 'The string was not escaped properly');
 	}
 
 	/**
@@ -119,15 +104,14 @@ class JDatabaseMysqlTest extends TestCaseDatabaseMysql
 	}
 
 	/**
-	 * Test...
+	 * Test getCollation method.
 	 *
-	 * @todo Implement testGetCollation().
+	 * @return  void
 	 *
-	 * @return void
+	 * @since   11.1
 	 */
 	public function testGetCollation()
 	{
-		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
 
@@ -141,8 +125,10 @@ class JDatabaseMysqlTest extends TestCaseDatabaseMysql
 	public function testGetExporter()
 	{
 		$this->assertThat(
-			self::$driver->getExporter(), $this->isInstanceOf('JDatabaseExporterMysql'),
-			'Line:' . __LINE__ . ' The getExporter method should return the correct exporter.');
+			self::$driver->getExporter(),
+			$this->isInstanceOf('JDatabaseExporterMysql'),
+			'Line:' . __LINE__ . ' The getExporter method should return the correct exporter.'
+		);
 	}
 
 	/**
@@ -155,25 +141,26 @@ class JDatabaseMysqlTest extends TestCaseDatabaseMysql
 	public function testGetImporter()
 	{
 		$this->assertThat(
-			self::$driver->getImporter(), $this->isInstanceOf('JDatabaseImporterMysql'),
-			'Line:' . __LINE__ . ' The getImporter method should return the correct importer.');
+			self::$driver->getImporter(),
+			$this->isInstanceOf('JDatabaseImporterMysql'),
+			'Line:' . __LINE__ . ' The getImporter method should return the correct importer.'
+		);
 	}
 
 	/**
-	 * Test...
+	 * Test getNumRows method.
 	 *
-	 * @todo Implement testGetNumRows().
+	 * @return  void
 	 *
-	 * @return void
+	 * @since   11.4
 	 */
 	public function testGetNumRows()
 	{
-		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
 
 	/**
-	 * Tests the JDatabaseMysql getTableCreate method.
+	 * Tests the getTableCreate method.
 	 *
 	 * @return  void
 	 *
@@ -182,25 +169,26 @@ class JDatabaseMysqlTest extends TestCaseDatabaseMysql
 	public function testGetTableCreate()
 	{
 		$this->assertThat(
-			self::$driver->getTableCreate('#__dbtest'), $this->isType('array'),
-			'The statement to create the table is returned in an array.');
+			self::$driver->getTableCreate('#__dbtest'),
+			$this->isType('array'),
+			'The statement to create the table is returned in an array.'
+		);
 	}
 
 	/**
-	 * Test...
+	 * Test getTableColumns method.
 	 *
-	 * @todo Implement testGetTableColumns().
+	 * @return  void
 	 *
-	 * @return void
+	 * @since   11.4
 	 */
 	public function testGetTableColumns()
 	{
-		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
 
 	/**
-	 * Tests the JDatabaseMysql getTableKeys method.
+	 * Tests the getTableKeys method.
 	 *
 	 * @return  void
 	 *
@@ -208,11 +196,15 @@ class JDatabaseMysqlTest extends TestCaseDatabaseMysql
 	 */
 	public function testGetTableKeys()
 	{
-		$this->assertThat(self::$driver->getTableKeys('#__dbtest'), $this->isType('array'), 'The list of keys for the table is returned in an array.');
+		$this->assertThat(
+			self::$driver->getTableKeys('#__dbtest'),
+			$this->isType('array'),
+			'The list of keys for the table is returned in an array.'
+		);
 	}
 
 	/**
-	 * Tests the JDatabaseMysql getTableList method.
+	 * Tests the getTableList method.
 	 *
 	 * @return  void
 	 *
@@ -220,7 +212,11 @@ class JDatabaseMysqlTest extends TestCaseDatabaseMysql
 	 */
 	public function testGetTableList()
 	{
-		$this->assertThat(self::$driver->getTableList(), $this->isType('array'), 'The list of tables for the database is returned in an array.');
+		$this->assertThat(
+			self::$driver->getTableList(),
+			$this->isType('array'),
+			'The list of tables for the database is returned in an array.'
+		);
 	}
 
 	/**
@@ -233,20 +229,21 @@ class JDatabaseMysqlTest extends TestCaseDatabaseMysql
 	public function testGetVersion()
 	{
 		$this->assertThat(
-			strlen(self::$driver->getVersion()), $this->greaterThan(0),
-			'Line:' . __LINE__ . ' The getVersion method should return something without error.');
+			strlen(self::$driver->getVersion()),
+			$this->greaterThan(0),
+			'Line:' . __LINE__ . ' The getVersion method should return something without error.'
+		);
 	}
 
 	/**
-	 * Test...
+	 * Test insertid method.
 	 *
-	 * @todo Implement testInsertid().
+	 * @return  void
 	 *
-	 * @return void
+	 * @since   11.4
 	 */
 	public function testInsertid()
 	{
-		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
 
@@ -285,9 +282,8 @@ class JDatabaseMysqlTest extends TestCaseDatabaseMysql
 
 		$this->assertThat(
 			$result,
-			$this->equalTo(
-				array(array('title' => 'Testing'), array('title' => 'Testing2'), array('title' => 'Testing3'), array('title' => 'Testing4'))
-			), __LINE__
+			$this->equalTo(array(array('title' => 'Testing'), array('title' => 'Testing2'), array('title' => 'Testing3'), array('title' => 'Testing4'))),
+			__LINE__
 		);
 	}
 
@@ -310,28 +306,26 @@ class JDatabaseMysqlTest extends TestCaseDatabaseMysql
 	}
 
 	/**
-	 * Test...
+	 * Test loadNextObject method.
 	 *
-	 * @todo Implement testLoadNextObject().
+	 * @return  void
 	 *
-	 * @return void
+	 * @since   11.4
 	 */
 	public function testLoadNextObject()
 	{
-		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
 
 	/**
-	 * Test...
+	 * Test loadNextRow method.
 	 *
-	 * @todo Implement testLoadNextRow().
+	 * @return  void
 	 *
-	 * @return void
+	 * @since   11.4
 	 */
 	public function testLoadNextRow()
 	{
-		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
 
@@ -494,36 +488,35 @@ class JDatabaseMysqlTest extends TestCaseDatabaseMysql
 	}
 
 	/**
-	 * Test...
+	 * Test select method.
 	 *
-	 * @todo Implement testSelect().
+	 * @return  void
 	 *
-	 * @return void
+	 * @since   11.4
 	 */
 	public function testSelect()
 	{
-		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
 
 	/**
-	 * Test...
+	 * Test setUTF method.
 	 *
-	 * @todo Implement testSetUTF().
+	 * @return  void
 	 *
-	 * @return void
+	 * @since   11.4
 	 */
 	public function testSetUTF()
 	{
-		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
 
 	/**
-	 * Test Test method - there really isn't a lot to test here, but
-	 * this is present for the sake of completeness
+	 * Test isSupported method.
 	 *
-	 * @return void
+	 * @return  void
+	 *
+	 * @since   11.4
 	 */
 	public function testIsSupported()
 	{
@@ -531,15 +524,26 @@ class JDatabaseMysqlTest extends TestCaseDatabaseMysql
 	}
 
 	/**
-	 * Test...
+	 * Test updateObject method.
 	 *
-	 * @todo Implement testUpdateObject().
+	 * @return  void
 	 *
-	 * @return void
+	 * @since   11.4
 	 */
 	public function testUpdateObject()
 	{
-		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete('This test has not been implemented yet.');
+	}
+
+	/**
+	 * Gets the data set to be loaded into the database during setup.
+	 *
+	 * @return  PHPUnit_Extensions_Database_DataSet_XmlDataSet
+	 *
+	 * @since   11.1
+	 */
+	protected function getDataSet()
+	{
+		return $this->createXMLDataSet(__DIR__ . '/stubs/database.xml');
 	}
 }

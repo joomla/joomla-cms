@@ -220,24 +220,6 @@ class JDatabaseTest extends TestCaseDatabase
 	}
 
 	/**
-	 * Tests the JDatabase::getUTFSupport method.
-	 *
-	 * @return  void
-	 *
-	 * @since   12.1
-	 */
-	public function testGetUTFSupport()
-	{
-		$this->assertThat(
-			$this->db->getUTFSupport(),
-			$this->isType('boolean'),
-			'getUTFSupport should return a boolean value indicating whether the driver has UTF support.'
-		);
-	}
-
-	/**
-	 * Test...
-	 *
 	 * @todo Implement testGetErrorNum().
 	 *
 	 * @return void

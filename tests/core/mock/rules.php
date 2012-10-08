@@ -56,7 +56,7 @@ class TestMockRules
 	 * Mocking the allow method.
 	 *
 	 * @param   string   $action    The action.
-	 * @param   integer  $identity  The identity.
+	 * @param   integer  $identity  The identity ID.
 	 *
 	 * @return  mixed  Boolean or null.
 	 *
