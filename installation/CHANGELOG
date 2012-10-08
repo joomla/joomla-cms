@@ -31,6 +31,7 @@ $ -> Language fix or change
  # [#29451] beez3: element closed before opened. Thanks Constantin.
  # [#29452] beez3: change meta tag name from apple-touch-fullscreen to apple-mobile-web-app-capable. Thanks Constantin.
  # [#29453] Update platform version to 12.2. Thanks Elin
+ ^ Changing en-GB to version 3.0.1
 
 07-Oct-2012 Jean-Marie Simonet
  # [#29447] Broken installation with PostgreSQL. Thanks Viet
