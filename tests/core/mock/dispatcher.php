@@ -33,7 +33,8 @@ class TestMockDispatcher
 	/**
 	 * Creates and instance of the mock JLanguage object.
 	 *
-	 * @param   object  $test   A test object.
+	 * @param   object  $test      A test object.
+	 * @param   bool    $defaults  @todo
 	 *
 	 * @return  object
 	 *

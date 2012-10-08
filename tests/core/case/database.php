@@ -56,7 +56,7 @@ abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 	/**
 	 * Receives the callback from JError and logs the required error information for the test.
 	 *
-	 * @param	JException	The JException object from JError
+	 * @param   JException  $error  The JException object from JError
 	 *
 	 * @return	bool	To not continue with JError processing
 	 *
@@ -462,7 +462,9 @@ abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 	 * Sets the JError error handlers to callback mode and points them at the test
 	 * logging method.
 	 *
-	 * @return	void
+	 * @param   string  $testName  The test name.
+	 *
+	 * @return    void
 	 *
 	 * @since   12.1
 	 */
