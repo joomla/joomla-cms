@@ -501,7 +501,7 @@ class JApplicationWebTest extends TestCase
 		// Ensure that the compressed body is the same as the raw body since there is no compression.
 		$this->assertThat(
 			strlen($this->class->getBody()),
-			$this->equalTo(476),
+			$this->equalTo(471),
 			'Checks the compressed output is the same as the uncompressed output -- no compression.'
 		);
 
@@ -558,7 +558,7 @@ class JApplicationWebTest extends TestCase
 		// Ensure that the compressed body is the same as the raw body since there is no compression.
 		$this->assertThat(
 			strlen($this->class->getBody()),
-			$this->equalTo(476),
+			$this->equalTo(471),
 			'Checks the compressed output is the same as the uncompressed output -- no compression.'
 		);
 
@@ -609,7 +609,7 @@ class JApplicationWebTest extends TestCase
 		// Ensure that the compressed body is the same as the raw body since there is no supported compression.
 		$this->assertThat(
 			strlen($this->class->getBody()),
-			$this->equalTo(476),
+			$this->equalTo(471),
 			'Checks the compressed output is the same as the uncompressed output -- no supported compression.'
 		);
 
