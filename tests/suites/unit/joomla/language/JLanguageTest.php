@@ -1151,9 +1151,9 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 		$options = array(
 			'name' => 'English (United Kingdom)',
 			'tag' => 'en-GB',
-			'rtl' => 0,
+			'rtl' => '0',
 			'locale' => 'en_GB.utf8, en_GB.UTF-8, en_GB, eng_GB, en, english, english-uk, uk, gbr, britain, england, great britain, uk, united kingdom, united-kingdom',
-			'firstDay' => 0
+			'firstDay' => '0'
 		);
 
 		// Language exists, returns array with values
@@ -1178,9 +1178,9 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 		$option1 = array(
 			'name' => 'English (United Kingdom)',
 			'tag' => 'en-GB',
-			'rtl' => 0,
+			'rtl' => '0',
 			'locale' => 'en_GB.utf8, en_GB.UTF-8, en_GB, eng_GB, en, english, english-uk, uk, gbr, britain, england, great britain, uk, united kingdom, united-kingdom',
-			'firstDay' => 0
+			'firstDay' => '0'
 		);
 		$listCompareEqual1 = array(
 			'en-GB' => $option1,
@@ -1294,9 +1294,9 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 		$option = array(
 			'name' => 'English (United Kingdom)',
 			'tag' => 'en-GB',
-			'rtl' => 0,
+			'rtl' => '0',
 			'locale' => 'en_GB.utf8, en_GB.UTF-8, en_GB, eng_GB, en, english, english-uk, uk, gbr, britain, england, great britain, uk, united kingdom, united-kingdom',
-			'firstDay' => 0
+			'firstDay' => '0'
 		);
 		$expected = array(
 			'en-GB' => $option
@@ -1323,9 +1323,9 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 		$option = array(
 			'name' => 'English (United Kingdom)',
 			'tag' => 'en-GB',
-			'rtl' => 0,
+			'rtl' => '0',
 			'locale' => 'en_GB.utf8, en_GB.UTF-8, en_GB, eng_GB, en, english, english-uk, uk, gbr, britain, england, great britain, uk, united kingdom, united-kingdom',
-			'firstDay' => 0
+			'firstDay' => '0'
 		);
 		$path = __DIR__ . '/data/language/en-GB/en-GB.xml';
 
