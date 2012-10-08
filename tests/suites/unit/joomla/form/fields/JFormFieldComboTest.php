@@ -10,22 +10,28 @@
 /**
  * Test class for JForm.
  *
- * @package		Joomla.UnitTest
+ * @package     Joomla.UnitTest
  * @subpackage  Form
+ *
+ * @since       11.1
  */
 class JFormFieldComboTest extends TestCase
 {
 	/**
 	 * Sets up dependancies for the test.
+	 *
+	 * @return void
 	 */
 	protected function setUp()
 	{
-		require_once JPATH_PLATFORM.'/joomla/form/fields/combo.php';
-		include_once dirname(__DIR__).'/inspectors.php';
+		require_once JPATH_PLATFORM . '/joomla/form/fields/combo.php';
+		include_once dirname(__DIR__) . '/inspectors.php';
 	}
 
 	/**
 	 * Test the getInput method.
+	 *
+	 * @return void
 	 */
 	public function testGetInput()
 	{
@@ -34,7 +40,7 @@ class JFormFieldComboTest extends TestCase
 		$this->assertThat(
 			$form->load('<form><field name="combo" type="combo" /></form>'),
 			$this->isTrue(),
-			'Line:'.__LINE__.' XML string should load successfully.'
+			'Line:' . __LINE__ . ' XML string should load successfully.'
 		);
 
 		$field = new JFormFieldCombo($form);
@@ -42,7 +48,7 @@ class JFormFieldComboTest extends TestCase
 		$this->assertThat(
 			$field->setup($form->getXml()->field, 'value'),
 			$this->isTrue(),
-			'Line:'.__LINE__.' The setup method should return true.'
+			'Line:' . __LINE__ . ' The setup method should return true.'
 		);
 
 		$this->markTestIncomplete('Problems encountered in next assertion');
@@ -50,7 +56,7 @@ class JFormFieldComboTest extends TestCase
 		$this->assertThat(
 			strlen($field->input),
 			$this->greaterThan(0),
-			'Line:'.__LINE__.' The getInput method should return something without error.'
+			'Line:' . __LINE__ . ' The getInput method should return something without error.'
 		);
 
 		// TODO: Should check all the attributes have come in properly.

@@ -43,7 +43,7 @@ class JFormFieldDatabaseConnectionTest extends TestCase
 		$this->assertThat(
 			$form->load('<form><field name="databaseconnection" type="databaseconnection" supported="mysqli" /></form>'),
 			$this->isTrue(),
-			'Line:'.__LINE__.' XML string should load successfully.'
+			'Line:' . __LINE__ . ' XML string should load successfully.'
 		);
 
 		$field = new JFormFieldDatabaseConnection($form);
@@ -51,19 +51,19 @@ class JFormFieldDatabaseConnectionTest extends TestCase
 		$this->assertThat(
 			$field->setup($form->getXml()->field, 'value'),
 			$this->isTrue(),
-			'Line:'.__LINE__.' The setup method should return true.'
+			'Line:' . __LINE__ . ' The setup method should return true.'
 		);
 
 		$this->assertThat(
 			strlen($field->input),
 			$this->greaterThan(0),
-			'Line:'.__LINE__.' The getInput method should return something without error; in this case, a "Mysqli" option.'
+			'Line:' . __LINE__ . ' The getInput method should return something without error; in this case, a "Mysqli" option.'
 		);
 
 		$this->assertThat(
 			$form->load('<form><field name="databaseconnection" type="databaseconnection" supported="non-existing" /></form>'),
 			$this->isTrue(),
-		'Line:'.__LINE__.' XML string should load successfully.'
+			'Line:' . __LINE__ . ' XML string should load successfully.'
 		);
 
 		$field = new JFormFieldDatabaseConnection($form);
@@ -71,13 +71,13 @@ class JFormFieldDatabaseConnectionTest extends TestCase
 		$this->assertThat(
 			$field->setup($form->getXml()->field, 'value'),
 			$this->isTrue(),
-		'Line:'.__LINE__.' The setup method should return true.'
+			'Line:' . __LINE__ . ' The setup method should return true.'
 		);
 
 		$this->assertThat(
 			strlen($field->input),
 			$this->greaterThan(0),
-		'Line:'.__LINE__.' The getInput method should return something without error; in this case, a "None" option.'
+			'Line:' . __LINE__ . ' The getInput method should return something without error; in this case, a "None" option.'
 		);
 
 		// TODO: Should check all the attributes have come in properly.

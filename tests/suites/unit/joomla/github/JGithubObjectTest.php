@@ -13,6 +13,11 @@ require_once __DIR__ . '/stubs/JGithubObjectMock.php';
 
 /**
  * Test class for JGithub.
+ *
+ * @package     Joomla.UnitTest
+ * @subpackage  Github
+ *
+ * @since       11.1
  */
 class JGithubObjectTest extends PHPUnit_Framework_TestCase
 {
@@ -39,6 +44,8 @@ class JGithubObjectTest extends PHPUnit_Framework_TestCase
 	 * This method is called before a test is executed.
 	 *
 	 * @access protected
+	 *
+	 * @return void
 	 */
 	protected function setUp()
 	{
@@ -53,6 +60,8 @@ class JGithubObjectTest extends PHPUnit_Framework_TestCase
 	 * This method is called after a test is executed.
 	 *
 	 * @access protected
+	 *
+	 * @return void
 	 */
 	protected function tearDown()
 	{
@@ -60,6 +69,8 @@ class JGithubObjectTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Data provider method for the fetchUrl method tests.
+	 *
+	 * @return array
 	 */
 	public function fetchUrlData()
 	{
@@ -73,7 +84,16 @@ class JGithubObjectTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the fetchUrl method
+	 *
+	 * @param   string   $apiUrl    @todo
+	 * @param   string   $path      @todo
+	 * @param   integer  $page      @todo
+	 * @param   integer  $limit     @todo
+	 * @param   string   $expected  @todo
+	 *
 	 * @dataProvider fetchUrlData
+	 *
+	 * @return void
 	 */
 	public function testFetchUrl($apiUrl, $path, $page, $limit, $expected)
 	{
@@ -87,6 +107,8 @@ class JGithubObjectTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the fetchUrl method with basic authentication data
+	 *
+	 * @return void
 	 */
 	public function testFetchUrlBasicAuth()
 	{

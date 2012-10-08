@@ -10,19 +10,23 @@
 /**
  * Test class for JForm.
  *
- * @package		Joomla.UnitTest
+ * @package     Joomla.UnitTest
  * @subpackage  Form
+ *
+ * @since       11.1
  */
 class JFormFieldRulesTest extends TestCase
 {
 	/**
 	 * Sets up dependancies for the test.
+	 *
+	 * @return void
 	 */
 	protected function setUp()
 	{
 		jimport('joomla.environment.request');
-		require_once JPATH_PLATFORM.'/joomla/form/fields/rules.php';
-		include_once dirname(__DIR__).'/inspectors.php';
+		require_once JPATH_PLATFORM . '/joomla/form/fields/rules.php';
+		include_once dirname(__DIR__) . '/inspectors.php';
 
 		$this->saveFactoryState();
 
@@ -36,6 +40,8 @@ class JFormFieldRulesTest extends TestCase
 	/**
 	 * Tears down the fixture, for example, closes a network connection.
 	 * This method is called after a test is executed.
+	 *
+	 * @return void
 	 */
 	protected function tearDown()
 	{
@@ -44,6 +50,8 @@ class JFormFieldRulesTest extends TestCase
 
 	/**
 	 * Test the getInput method.
+	 *
+	 * @return void
 	 */
 	public function testGetInput()
 	{
@@ -52,7 +60,7 @@ class JFormFieldRulesTest extends TestCase
 		$this->assertThat(
 			$form->load('<form><field name="rules" type="rules" /></form>'),
 			$this->isTrue(),
-			'Line:'.__LINE__.' XML string should load successfully.'
+			'Line:' . __LINE__ . ' XML string should load successfully.'
 		);
 
 		$field = new JFormFieldRules($form);
@@ -60,7 +68,7 @@ class JFormFieldRulesTest extends TestCase
 		$this->assertThat(
 			$field->setup($form->getXml()->field, 'value'),
 			$this->isTrue(),
-			'Line:'.__LINE__.' The setup method should return true.'
+			'Line:' . __LINE__ . ' The setup method should return true.'
 		);
 
 		$this->markTestIncomplete('Problems encountered in next assertion');
@@ -68,7 +76,7 @@ class JFormFieldRulesTest extends TestCase
 		$this->assertThat(
 			strlen($field->input),
 			$this->greaterThan(0),
-			'Line:'.__LINE__.' The getInput method should return something without error.'
+			'Line:' . __LINE__ . ' The getInput method should return something without error.'
 		);
 
 		// TODO: Should check all the attributes have come in properly.

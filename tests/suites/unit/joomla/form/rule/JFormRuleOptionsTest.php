@@ -13,6 +13,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Form
  *
+ * @since       11.1
  */
 class JFormRuleOptionsTest extends TestCase
 {
@@ -59,7 +60,7 @@ class JFormRuleOptionsTest extends TestCase
 		$this->assertThat(
 			$rule->test($xml->field[0], 'bogus'),
 			$this->isFalse(),
-			'Line:'.__LINE__.' The rule should fail and return false.'
+			'Line:' . __LINE__ . ' The rule should fail and return false.'
 		);
 
 		// Test pass conditions.
@@ -67,13 +68,13 @@ class JFormRuleOptionsTest extends TestCase
 		$this->assertThat(
 			$rule->test($xml->field[0], 'value1'),
 			$this->isTrue(),
-			'Line:'.__LINE__.' value1 should pass and return true.'
+			'Line:' . __LINE__ . ' value1 should pass and return true.'
 		);
 
 		$this->assertThat(
 			$rule->test($xml->field[0], 'value2'),
 			$this->isTrue(),
-			'Line:'.__LINE__.' value2 should pass and return true.'
+			'Line:' . __LINE__ . ' value2 should pass and return true.'
 		);
 	}
 }

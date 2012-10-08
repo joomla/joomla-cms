@@ -10,8 +10,9 @@
 /**
  * Data for JForm tests.
  *
- * @package		Joomla.UnitTest
+ * @package     Joomla.UnitTest
  * @subpackage  Form
+ * @since       11.1
  */
 class JFormDataHelper
 {
@@ -558,6 +559,13 @@ class JFormDataHelper
 	</fields>
 </form>';
 
+	/**
+	 * Test...
+	 *
+	 * @param   mixed  $value  Test
+	 *
+	 * @return void
+	 */
 	public function filter($value)
 	{
 		return 'method';
@@ -565,8 +573,14 @@ class JFormDataHelper
 }
 
 /**
- * @package		Joomla.UnitTest
- * @subpackage  Form
+ * Test...
+ *
+ * @param   mixed  $value  Test
+ *
+ * @package        Joomla.UnitTest
+ * @subpackage     Form
+ *
+ * @return void
  */
 function jFormDataFilter($value)
 {

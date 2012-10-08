@@ -19,16 +19,16 @@ class JFormRuleCustom extends JFormRule
 	/**
 	 * The regular expression to use in testing a form field value.
 	 *
-	 * @var		string
-	 * @since	11.1
+	 * @var        string
+	 * @since    11.1
 	 */
 	protected $regex = '^custom';
 
 	/**
 	 * The regular expression modifiers to use when testing a form field value.
 	 *
-	 * @var		string
-	 * @since	11.1
+	 * @var        string
+	 * @since    11.1
 	 */
 	protected $modifiers = 'i';
 }

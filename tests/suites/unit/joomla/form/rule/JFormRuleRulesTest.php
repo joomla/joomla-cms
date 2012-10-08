@@ -10,9 +10,10 @@
 /**
  * Test class for JForm.
  *
- * @package		Joomla.UnitTest
+ * @package     Joomla.UnitTest
  * @subpackage  Form
  *
+ * @since       11.1
  */
 class JFormRuleRulesTest extends TestCase
 {
@@ -38,6 +39,8 @@ class JFormRuleRulesTest extends TestCase
 
 	/**
 	 * Test the JFormRuleRules::test method.
+	 *
+	 * @return void
 	 */
 	public function testItemSectionRules()
 	{
@@ -57,21 +60,21 @@ class JFormRuleRulesTest extends TestCase
 		$this->assertThat(
 			$rule->test($form->field[0], $this->getRuleData('global')),
 			$this->isFalse(),
-			'Line:'.__LINE__.' The rule should fail and return false.'
+			'Line:' . __LINE__ . ' The rule should fail and return false.'
 		);
 
 		// Validate component actions against the item section.
 		$this->assertThat(
 			$rule->test($form->field[0], $this->getRuleData('component')),
 			$this->isFalse(),
-			'Line:'.__LINE__.' The rule should fail and return false.'
+			'Line:' . __LINE__ . ' The rule should fail and return false.'
 		);
 
 		// Validate container actions against the item section.
 		$this->assertThat(
 			$rule->test($form->field[0], $this->getRuleData('container')),
 			$this->isFalse(),
-			'Line:'.__LINE__.' The rule should fail and return false.'
+			'Line:' . __LINE__ . ' The rule should fail and return false.'
 		);
 
 		/*
@@ -84,12 +87,14 @@ class JFormRuleRulesTest extends TestCase
 		$this->assertThat(
 			$rule->test($form->field[0], $this->getRuleData('item')),
 			$this->isTrue(),
-			'Line:'.__LINE__.' The rule should pass and return true.'
+			'Line:' . __LINE__ . ' The rule should pass and return true.'
 		);
 	}
 
 	/**
 	 * Test the JFormRuleRules::test method.
+	 *
+	 * @return void
 	 */
 	public function testContainerSectionRules()
 	{
@@ -110,14 +115,14 @@ class JFormRuleRulesTest extends TestCase
 		$this->assertThat(
 			$rule->test($form->field[0], $this->getRuleData('global')),
 			$this->isFalse(),
-			'Line:'.__LINE__.' The rule should fail and return false.'
+			'Line:' . __LINE__ . ' The rule should fail and return false.'
 		);
 
 		// Validate component actions against the container section.
 		$this->assertThat(
 			$rule->test($form->field[0], $this->getRuleData('component')),
 			$this->isFalse(),
-			'Line:'.__LINE__.' The rule should fail and return false.'
+			'Line:' . __LINE__ . ' The rule should fail and return false.'
 		);
 
 		/*
@@ -130,19 +135,21 @@ class JFormRuleRulesTest extends TestCase
 		$this->assertThat(
 			$rule->test($form->field[0], $this->getRuleData('container')),
 			$this->isTrue(),
-			'Line:'.__LINE__.' The rule should pass and return true.'
+			'Line:' . __LINE__ . ' The rule should pass and return true.'
 		);
 
 		// Validate item actions against the container section.
 		$this->assertThat(
 			$rule->test($form->field[0], $this->getRuleData('item')),
 			$this->isTrue(),
-			'Line:'.__LINE__.' The rule should pass and return true.'
+			'Line:' . __LINE__ . ' The rule should pass and return true.'
 		);
 	}
 
 	/**
 	 * Test the JFormRuleRules::test method.
+	 *
+	 * @return void
 	 */
 	public function testComponentSectionRules()
 	{
@@ -163,7 +170,7 @@ class JFormRuleRulesTest extends TestCase
 		$this->assertThat(
 			$rule->test($form->field[0], $this->getRuleData('global')),
 			$this->isFalse(),
-			'Line:'.__LINE__.' The rule should fail and return false.'
+			'Line:' . __LINE__ . ' The rule should fail and return false.'
 		);
 
 		/*
@@ -176,26 +183,28 @@ class JFormRuleRulesTest extends TestCase
 		$this->assertThat(
 			$rule->test($form->field[0], $this->getRuleData('component')),
 			$this->isTrue(),
-			'Line:'.__LINE__.' The rule should pass and return true.'
+			'Line:' . __LINE__ . ' The rule should pass and return true.'
 		);
 
 		// Validate container actions against the component section.
 		$this->assertThat(
 			$rule->test($form->field[0], $this->getRuleData('container')),
 			$this->isTrue(),
-			'Line:'.__LINE__.' The rule should pass and return true.'
+			'Line:' . __LINE__ . ' The rule should pass and return true.'
 		);
 
 		// Validate item actions against the component section.
 		$this->assertThat(
 			$rule->test($form->field[0], $this->getRuleData('item')),
 			$this->isTrue(),
-			'Line:'.__LINE__.' The rule should pass and return true.'
+			'Line:' . __LINE__ . ' The rule should pass and return true.'
 		);
 	}
 
 	/**
 	 * Test the JFormRuleRules::test method.
+	 *
+	 * @return void
 	 */
 	public function testGlobalSectionRules()
 	{
@@ -216,7 +225,7 @@ class JFormRuleRulesTest extends TestCase
 		$this->assertThat(
 			$rule->test($form->field[0], $this->getRuleData('3pd')),
 			$this->isFalse(),
-			'Line:'.__LINE__.' The rule should fail and return false.'
+			'Line:' . __LINE__ . ' The rule should fail and return false.'
 		);
 
 		/*
@@ -229,35 +238,35 @@ class JFormRuleRulesTest extends TestCase
 		$this->assertThat(
 			$rule->test($form->field[0], $this->getRuleData('global')),
 			$this->isTrue(),
-			'Line:'.__LINE__.' The rule should pass and return true.'
+			'Line:' . __LINE__ . ' The rule should pass and return true.'
 		);
 
 		// Validate component actions against the global section.
 		$this->assertThat(
 			$rule->test($form->field[0], $this->getRuleData('component')),
 			$this->isTrue(),
-			'Line:'.__LINE__.' The rule should pass and return true.'
+			'Line:' . __LINE__ . ' The rule should pass and return true.'
 		);
 
 		// Validate container actions against the global section.
 		$this->assertThat(
 			$rule->test($form->field[0], $this->getRuleData('container')),
 			$this->isTrue(),
-			'Line:'.__LINE__.' The rule should pass and return true.'
+			'Line:' . __LINE__ . ' The rule should pass and return true.'
 		);
 
 		// Validate item actions against the global section.
 		$this->assertThat(
 			$rule->test($form->field[0], $this->getRuleData('item')),
 			$this->isTrue(),
-			'Line:'.__LINE__.' The rule should pass and return true.'
+			'Line:' . __LINE__ . ' The rule should pass and return true.'
 		);
 	}
 
 	/**
 	 * Method to get an XML form field element for a specific permission action group.
 	 *
-	 * @param   string  The name of the action group for which to get the element.
+	 * @param   string  $type  The name of the action group for which to get the element.
 	 *
 	 * @return  array  The form field element.
 	 *
@@ -332,7 +341,7 @@ class JFormRuleRulesTest extends TestCase
 	/**
 	 * Method to get an example data object representing a specific permission action group.
 	 *
-	 * @param   string  The name of the action group for which to get a data object.
+	 * @param   string  $type  The name of the action group for which to get a data object.
 	 *
 	 * @return  array  The data object.
 	 *

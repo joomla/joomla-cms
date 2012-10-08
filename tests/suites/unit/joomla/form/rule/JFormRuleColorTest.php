@@ -10,9 +10,10 @@
 /**
  * Test class for JForm.
  *
- * @package		Joomla.UnitTest
+ * @package     Joomla.UnitTest
  * @subpackage  Form
  *
+ * @since       11.1
  */
 class JFormRuleColorTest extends TestCase
 {
@@ -38,6 +39,8 @@ class JFormRuleColorTest extends TestCase
 
 	/**
 	 * Test the JFormRuleColor::test method.
+	 *
+	 * @return void
 	 */
 	public function testColor()
 	{
@@ -48,17 +51,22 @@ class JFormRuleColorTest extends TestCase
 		$this->assertThat(
 			$rule->test($xml->field[0], 'bogus'),
 			$this->isFalse(),
-			'Line:'.__LINE__.' The rule should fail and return false.'
+			'Line:' . __LINE__ . ' The rule should fail and return false.'
 		);
 
 		// Test pass conditions.
 		$this->assertThat(
 			$rule->test($xml->field[0], '#000000'),
 			$this->isTrue(),
-			'Line:'.__LINE__.' The basic rule should pass and return true.'
+			'Line:' . __LINE__ . ' The basic rule should pass and return true.'
 		);
 	}
 
+	/**
+	 * Test...
+	 *
+	 * @return array
+	 */
 	public function colorData()
 	{
 		return array(
@@ -76,7 +84,14 @@ class JFormRuleColorTest extends TestCase
 	}
 
 	/**
+	 * Test...
+	 *
+	 * @param   string  $color           @todo
+	 * @param   string  $expectedResult  @todo
+	 *
 	 * @dataProvider colorData
+	 *
+	 * @return void
 	 */
 	public function testColorData($color, $expectedResult)
 	{
@@ -85,7 +100,7 @@ class JFormRuleColorTest extends TestCase
 		$this->assertThat(
 			$rule->test($xml->field[0], $color),
 			$this->equalTo($expectedResult),
-			$color.' should have returned '.($expectedResult ? 'true' : 'false').' but did not'
+			$color . ' should have returned ' . ($expectedResult ? 'true' : 'false') . ' but did not'
 		);
 	}
 }

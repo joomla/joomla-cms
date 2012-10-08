@@ -7,12 +7,17 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM.'/joomla/github/github.php';
-require_once JPATH_PLATFORM.'/joomla/github/http.php';
-require_once JPATH_PLATFORM.'/joomla/github/issues.php';
+require_once JPATH_PLATFORM . '/joomla/github/github.php';
+require_once JPATH_PLATFORM . '/joomla/github/http.php';
+require_once JPATH_PLATFORM . '/joomla/github/issues.php';
 
 /**
  * Test class for JGithubIssues.
+ *
+ * @package     Joomla.UnitTest
+ * @subpackage  Github
+ *
+ * @since       11.1
  */
 class JGithubIssuesTest extends PHPUnit_Framework_TestCase
 {
@@ -51,6 +56,8 @@ class JGithubIssuesTest extends PHPUnit_Framework_TestCase
 	 * This method is called before a test is executed.
 	 *
 	 * @access protected
+	 *
+	 * @return void
 	 */
 	protected function setUp()
 	{
@@ -62,6 +69,8 @@ class JGithubIssuesTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the create method
+	 *
+	 * @return void
 	 */
 	public function testCreate()
 	{
@@ -89,7 +98,10 @@ class JGithubIssuesTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the create method - failure
+	 *
 	 * @expectedException  DomainException
+	 *
+	 * @return void
 	 */
 	public function testCreateFailure()
 	{
@@ -114,6 +126,8 @@ class JGithubIssuesTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the createComment method
+	 *
+	 * @return void
 	 */
 	public function testCreateComment()
 	{
@@ -137,7 +151,10 @@ class JGithubIssuesTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the createComment method - failure
+	 *
 	 * @expectedException  DomainException
+	 *
+	 * @return void
 	 */
 	public function testCreateCommentFailure()
 	{
@@ -158,6 +175,8 @@ class JGithubIssuesTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the deleteComment method
+	 *
+	 * @return void
 	 */
 	public function testDeleteComment()
 	{
@@ -175,7 +194,10 @@ class JGithubIssuesTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the deleteComment method - failure
+	 *
 	 * @expectedException  DomainException
+	 *
+	 * @return void
 	 */
 	public function testDeleteCommentFailure()
 	{
@@ -193,6 +215,8 @@ class JGithubIssuesTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the edit method
+	 *
+	 * @return void
 	 */
 	public function testEdit()
 	{
@@ -208,7 +232,6 @@ class JGithubIssuesTest extends PHPUnit_Framework_TestCase
 		$issue->milestone = '12.2';
 		$issue->labels = array('Fixed');
 
-
 		$this->client->expects($this->once())
 			->method('patch')
 			->with('/repos/joomla/joomla-platform/issues/523', json_encode($issue))
@@ -216,14 +239,18 @@ class JGithubIssuesTest extends PHPUnit_Framework_TestCase
 
 		$this->assertThat(
 			$this->object->edit('joomla', 'joomla-platform', 523, 'Closed', 'My issue', 'These are my changes - please review them',
-				'JoeAssignee', '12.2', array('Fixed')),
+				'JoeAssignee', '12.2', array('Fixed')
+			),
 			$this->equalTo(json_decode($this->sampleString))
 		);
 	}
 
 	/**
 	 * Tests the edit method - failure
+	 *
 	 * @expectedException  DomainException
+	 *
+	 * @return void
 	 */
 	public function testEditFailure()
 	{
@@ -246,6 +273,8 @@ class JGithubIssuesTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the editComment method
+	 *
+	 * @return void
 	 */
 	public function testEditComment()
 	{
@@ -269,7 +298,10 @@ class JGithubIssuesTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the editComment method - failure
+	 *
 	 * @expectedException  DomainException
+	 *
+	 * @return void
 	 */
 	public function testEditCommentFailure()
 	{
@@ -290,6 +322,8 @@ class JGithubIssuesTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the get method
+	 *
+	 * @return void
 	 */
 	public function testGet()
 	{
@@ -310,7 +344,10 @@ class JGithubIssuesTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the get method - failure
+	 *
 	 * @expectedException  DomainException
+	 *
+	 * @return void
 	 */
 	public function testGetFailure()
 	{
@@ -328,6 +365,8 @@ class JGithubIssuesTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the getComment method
+	 *
+	 * @return void
 	 */
 	public function testGetComment()
 	{
@@ -348,7 +387,10 @@ class JGithubIssuesTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the getComment method - failure
+	 *
 	 * @expectedException  DomainException
+	 *
+	 * @return void
 	 */
 	public function testGetCommentFailure()
 	{
@@ -366,6 +408,8 @@ class JGithubIssuesTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the getComments method
+	 *
+	 * @return void
 	 */
 	public function testGetComments()
 	{
@@ -386,7 +430,10 @@ class JGithubIssuesTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the getComments method - failure
+	 *
 	 * @expectedException  DomainException
+	 *
+	 * @return void
 	 */
 	public function testGetCommentsFailure()
 	{
@@ -404,6 +451,8 @@ class JGithubIssuesTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the getList method
+	 *
+	 * @return void
 	 */
 	public function testGetList()
 	{
@@ -424,7 +473,10 @@ class JGithubIssuesTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the getList method - failure
+	 *
 	 * @expectedException  DomainException
+	 *
+	 * @return void
 	 */
 	public function testGetListFailure()
 	{
@@ -442,6 +494,8 @@ class JGithubIssuesTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the getListByRepository method
+	 *
+	 * @return void
 	 */
 	public function testGetListByRepository()
 	{
@@ -462,7 +516,10 @@ class JGithubIssuesTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the getListByRepository method - failure
+	 *
 	 * @expectedException  DomainException
+	 *
+	 * @return void
 	 */
 	public function testGetListByRepositoryFailure()
 	{
