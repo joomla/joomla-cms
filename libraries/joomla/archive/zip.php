@@ -542,6 +542,34 @@ class JArchiveZip implements JArchiveExtractable
 	}
 
 	/**
+	 * Converts a UNIX timestamp to a 4-byte DOS date and time format
+	 * (date in high 2-bytes, time in low 2-bytes allowing magnitude
+	 * comparison).
+	 *
+	 * @param   int  $unixtime  The current UNIX timestamp.
+	 *
+	 * @return  int  The current date in a 4-byte DOS format.
+	 *
+	 * @since   11.1
+	 */
+	protected function _unix2DOSTime($unixtime = null)
+	{
+		$timearray = (is_null($unixtime)) ? getdate() : getdate($unixtime);
+
+		if ($timearray['year'] < 1980)
+		{
+			$timearray['year'] = 1980;
+			$timearray['mon'] = 1;
+			$timearray['mday'] = 1;
+			$timearray['hours'] = 0;
+			$timearray['minutes'] = 0;
+			$timearray['seconds'] = 0;
+		}
+
+		return (($timearray['year'] - 1980) << 25) | ($timearray['mon'] << 21) | ($timearray['mday'] << 16) | ($timearray['hours'] << 11) | ($timearray['minutes'] << 5) | ($timearray['seconds'] >> 1);
+	}
+
+	/**
 	 * Adds a "file" to the ZIP archive.
 	 *
 	 * @param   array  &$file      File data array to add
