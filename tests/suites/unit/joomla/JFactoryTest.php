@@ -62,7 +62,7 @@ class JFactoryTest extends TestCase
 	{
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete(
-				'This test has not been implemented yet.'
+			'This test has not been implemented yet.'
 		);
 	}
 
@@ -83,8 +83,8 @@ class JFactoryTest extends TestCase
 
 		$this->assertInstanceOf(
 			'JRegistry',
-			JFactory::getConfig(JPATH_TESTS.'/config.php'),
-			'Line: '.__LINE__
+			JFactory::getConfig(JPATH_TESTS . '/config.php'),
+			'Line: ' . __LINE__
 		);
 
 		JFactory::$config = $temp;
@@ -105,11 +105,11 @@ class JFactoryTest extends TestCase
 		$this->assertInstanceOf(
 			'JLanguage',
 			JFactory::getLanguage(),
-			'Line: '.__LINE__
+			'Line: ' . __LINE__
 		);
 
 		$this->markTestIncomplete(
-				'This test has not been implemented completely yet.'
+			'This test has not been implemented completely yet.'
 		);
 	}
 
@@ -130,13 +130,13 @@ class JFactoryTest extends TestCase
 		$this->assertInstanceOf(
 			'JDocument',
 			JFactory::getDocument(),
-			'Line: '.__LINE__
+			'Line: ' . __LINE__
 		);
 
 		JFactory::$application = null;
 
 		$this->markTestIncomplete(
-				'This test has not been implemented completely yet.'
+			'This test has not been implemented completely yet.'
 		);
 	}
 
@@ -154,23 +154,23 @@ class JFactoryTest extends TestCase
 		$this->assertInstanceOf(
 			'JCacheController',
 			JFactory::getCache(),
-			'Line: '.__LINE__
+			'Line: ' . __LINE__
 		);
 
 		$this->assertInstanceOf(
 			'JCacheControllerCallback',
 			JFactory::getCache(),
-			'Line: '.__LINE__
+			'Line: ' . __LINE__
 		);
 
 		$this->assertInstanceOf(
 			'JCacheControllerView',
 			JFactory::getCache('', 'view', null),
-			'Line: '.__LINE__
+			'Line: ' . __LINE__
 		);
 
 		$this->markTestIncomplete(
-				'This test has not been implemented completely yet.'
+			'This test has not been implemented completely yet.'
 		);
 	}
 
@@ -187,7 +187,7 @@ class JFactoryTest extends TestCase
 		$this->assertInstanceOf(
 			'JAccess',
 			JFactory::getACL(),
-			'Line: '.__LINE__
+			'Line: ' . __LINE__
 		);
 	}
 
@@ -204,7 +204,7 @@ class JFactoryTest extends TestCase
 		$this->assertInstanceOf(
 			'JUri',
 			JFactory::getURI('http://www.joomla.org'),
-			'Line: '.__LINE__
+			'Line: ' . __LINE__
 		);
 	}
 
@@ -223,7 +223,7 @@ class JFactoryTest extends TestCase
 		$this->assertInstanceOf(
 			'SimpleXMLElement',
 			$xml,
-			'Line: '.__LINE__
+			'Line: ' . __LINE__
 		);
 	}
 
