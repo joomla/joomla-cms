@@ -2,30 +2,6 @@
 <form>
 	<fieldset>
 		<field
-			name="extension_id"
-			type="hidden"
-			label="JGLOBAL_FIELD_ID_LABEL"
-			description ="JGLOBAL_FIELD_ID_DESC" />
-
-		<field
-			name="name"
-			type="hidden"
-			label="COM_PLUGINS_FIELD_NAME_LABEL"
-			description="COM_PLUGINS_FIELD_NAME_DESC" />
-
-		<field
-			name="folder"
-			type="hidden"
-			label="COM_PLUGINS_FIELD_FOLDER_LABEL"
-			description="COM_PLUGINS_FIELD_FOLDER_DESC" />
-
-		<field
-			name="element"
-			type="hidden"
-			label="COM_PLUGINS_FIELD_ELEMENT_LABEL"
-			description="COM_PLUGINS_FIELD_ELEMENT_DESC" />
-
-		<field
 			name="enabled"
 			type="radio"
 			class="btn-group"

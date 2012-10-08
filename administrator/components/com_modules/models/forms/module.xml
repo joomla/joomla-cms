@@ -1,13 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
 	<fieldset>
-		<field name="id" type="text"
-			label="JGLOBAL_FIELD_ID_LABEL"
-			description="JGLOBAL_FIELD_ID_DESC"
-			default="0"
-			readonly="true"
-		/>
-
 		<field name="title" type="text"
 			description="COM_MODULES_FIELD_TITLE_DESC"
 			label="JGLOBAL_TITLE"
@@ -21,13 +14,6 @@
 			label="COM_MODULES_FIELD_NOTE_LABEL"
 			maxlength="100"
 			size="35"
-		/>
-
-		<field name="module" type="hidden"
-			description="COM_MODULES_FIELD_MODULE_DESC"
-			label="COM_MODULES_FIELD_MODULE_LABEL"
-			readonly="readonly"
-			size="20"
 		/>
 
 		<field name="showtitle" type="radio"
@@ -69,13 +55,6 @@
 			format="%Y-%m-%d %H:%M:%S"
 			label="COM_MODULES_FIELD_PUBLISH_DOWN_LABEL"
 			size="22"
-		/>
-
-		<field name="client_id" type="hidden"
-			description="COM_MODULES_FIELD_CLIENT_ID_DESC"
-			label="COM_MODULES_FIELD_CLIENT_ID_LABEL"
-			readonly="true"
-			size="1"
 		/>
 
 		<field name="position" type="moduleposition"
