@@ -79,11 +79,18 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConstruct()
 	{
+		// @codingStandardsIgnoreStart
+		// @todo check the instanciating new classes without brackets sniff
 		$instance = new JLanguage(null, true);
+		// @codingStandardsIgnoreEnd
+
 		$this->assertInstanceOf('JLanguage', $instance);
 		$this->assertTrue($instance->getDebug());
 
+		// @codingStandardsIgnoreStart
+		// @todo check the instanciating new classes without brackets sniff
 		$instance = new JLanguage(null, false);
+		// @codingStandardsIgnoreEnd
 		$this->assertInstanceOf('JLanguage', $instance);
 		$this->assertFalse($instance->getDebug());
 	}
