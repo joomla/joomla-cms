@@ -428,7 +428,8 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	/**
 	 * Method to get the auto-incremented value from the last INSERT statement.
 	 *
-	 * @return  mixed  The value of the auto-increment field from the last inserted row. If the value is greater than maximal int value, it will return a string.
+	 * @return  mixed  The value of the auto-increment field from the last inserted row.
+	 *                 If the value is greater than maximal int value, it will return a string.
 	 *
 	 * @since   12.1
 	 */
