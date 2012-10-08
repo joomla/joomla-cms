@@ -396,3 +396,12 @@ body {
 	border-left-color: transparent;
 	border-right-color: #CCC;
 }
+
+#system-debug ul {
+text-align: right;
+direction: rtl;
+}
+
+#system-debug {
+text-align: right;
+}
