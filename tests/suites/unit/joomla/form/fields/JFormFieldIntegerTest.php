@@ -10,22 +10,28 @@
 /**
  * Test class for JForm.
  *
- * @package		Joomla.UnitTest
+ * @package     Joomla.UnitTest
  * @subpackage  Form
+ *
+ * @since       11.1
  */
 class JFormFieldIntegersTest extends TestCase
 {
 	/**
 	 * Sets up dependancies for the test.
+	 *
+	 * @return void
 	 */
 	protected function setUp()
 	{
-		require_once JPATH_PLATFORM.'/joomla/form/fields/integer.php';
-		include_once dirname(__DIR__).'/inspectors.php';
+		require_once JPATH_PLATFORM . '/joomla/form/fields/integer.php';
+		include_once dirname(__DIR__) . '/inspectors.php';
 	}
 
 	/**
 	 * Test the getInput method.
+	 *
+	 * @return void
 	 */
 	public function testGetInput()
 	{
@@ -34,7 +40,7 @@ class JFormFieldIntegersTest extends TestCase
 		$this->assertThat(
 			$form->load('<form><field name="integer" type="integer" /></form>'),
 			$this->isTrue(),
-			'Line:'.__LINE__.' XML string should load successfully.'
+			'Line:' . __LINE__ . ' XML string should load successfully.'
 		);
 
 		$field = new JFormFieldInteger($form);
@@ -42,13 +48,13 @@ class JFormFieldIntegersTest extends TestCase
 		$this->assertThat(
 			$field->setup($form->getXml()->field, 'value'),
 			$this->isTrue(),
-			'Line:'.__LINE__.' The setup method should return true.'
+			'Line:' . __LINE__ . ' The setup method should return true.'
 		);
 
 		$this->assertThat(
 			strlen($field->input),
 			$this->greaterThan(0),
-			'Line:'.__LINE__.' The getInput method should return something without error.'
+			'Line:' . __LINE__ . ' The getInput method should return something without error.'
 		);
 
 		// TODO: Should check all the attributes have come in properly.
@@ -68,7 +74,7 @@ class JFormFieldIntegersTest extends TestCase
 		$this->assertThat(
 			$form->load('<form><field name="integer" type="integer" first="1" last="-5" step="1"/></form>'),
 			$this->isTrue(),
-			'Line:'.__LINE__.' XML string should load successfully.'
+			'Line:' . __LINE__ . ' XML string should load successfully.'
 		);
 
 		$field = new JFormFieldInteger($form);
@@ -76,7 +82,7 @@ class JFormFieldIntegersTest extends TestCase
 		$this->assertThat(
 			$field->setup($form->getXml()->field, 'value'),
 			$this->isTrue(),
-			'Line:'.__LINE__.' The setup method should return true.'
+			'Line:' . __LINE__ . ' The setup method should return true.'
 		);
 
 		$this->assertThat(
@@ -84,13 +90,13 @@ class JFormFieldIntegersTest extends TestCase
 			$this->logicalNot(
 				$this->StringContains('<option')
 			),
-			'Line:'.__LINE__.' The field should not contain any options.'
+			'Line:' . __LINE__ . ' The field should not contain any options.'
 		);
 
 		$this->assertThat(
 			$form->load('<form><field name="integer" type="integer" first="-7" last="-5" step="1"/></form>'),
 			$this->isTrue(),
-			'Line:'.__LINE__.' XML string should load successfully.'
+			'Line:' . __LINE__ . ' XML string should load successfully.'
 		);
 
 		$field = new JFormFieldInteger($form);
@@ -98,19 +104,19 @@ class JFormFieldIntegersTest extends TestCase
 		$this->assertThat(
 			$field->setup($form->getXml()->field, 'value'),
 			$this->isTrue(),
-			'Line:'.__LINE__.' The setup method should return true.'
+			'Line:' . __LINE__ . ' The setup method should return true.'
 		);
 
 		$this->assertThat(
 			$field->input,
 			$this->StringContains('<option value="-7">-7</option>'),
-			'Line:'.__LINE__.' The field should contain -7 through -5 as options.'
+			'Line:' . __LINE__ . ' The field should contain -7 through -5 as options.'
 		);
 
 		$this->assertThat(
 			$form->load('<form><field name="integer" type="integer" first="-7" last="-5" step="-1"/></form>'),
 			$this->isTrue(),
-			'Line:'.__LINE__.' XML string should load successfully.'
+			'Line:' . __LINE__ . ' XML string should load successfully.'
 		);
 
 		$field = new JFormFieldInteger($form);
@@ -118,7 +124,7 @@ class JFormFieldIntegersTest extends TestCase
 		$this->assertThat(
 			$field->setup($form->getXml()->field, 'value'),
 			$this->isTrue(),
-			'Line:'.__LINE__.' The setup method should return true.'
+			'Line:' . __LINE__ . ' The setup method should return true.'
 		);
 
 		$this->assertThat(
@@ -126,13 +132,13 @@ class JFormFieldIntegersTest extends TestCase
 			$this->logicalNot(
 				$this->StringContains('<option')
 			),
-			'Line:'.__LINE__.' The field should not contain any options.'
+			'Line:' . __LINE__ . ' The field should not contain any options.'
 		);
 
 		$this->assertThat(
 			$form->load('<form><field name="integer" type="integer" first="-5" last="-7" step="-1"/></form>'),
 			$this->isTrue(),
-			'Line:'.__LINE__.' XML string should load successfully.'
+			'Line:' . __LINE__ . ' XML string should load successfully.'
 		);
 
 		$field = new JFormFieldInteger($form);
@@ -140,13 +146,13 @@ class JFormFieldIntegersTest extends TestCase
 		$this->assertThat(
 			$field->setup($form->getXml()->field, 'value'),
 			$this->isTrue(),
-			'Line:'.__LINE__.' The setup method should return true.'
+			'Line:' . __LINE__ . ' The setup method should return true.'
 		);
 
 		$this->assertThat(
 			$field->input,
 			$this->StringContains('<option value="-7">-7</option>'),
-			'Line:'.__LINE__.' The field should contain -5 through -7 as options.'
+			'Line:' . __LINE__ . ' The field should contain -5 through -7 as options.'
 		);
 	}
 }

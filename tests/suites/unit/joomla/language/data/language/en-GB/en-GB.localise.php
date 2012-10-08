@@ -14,65 +14,78 @@ defined('_JEXEC') or die;
  * @package  Joomla.Language
  * @since    1.6
  */
-abstract class en_GBLocalise
+abstract class En_GBLocalise
 {
 	/**
 	 * Returns the potential suffixes for a specific number of items
 	 *
-	 * @param	int $count  The number of items.
-	 * @return	array  An array of potential suffixes.
-	 * @since	1.6
+	 * @param   integer  $count  The number of items.
+	 *
+	 * @since    1.6
+	 * @return    array  An array of potential suffixes.
 	 */
-	public static function getPluralSuffixes($count) {
-		if ($count == 0) {
-			$return =  array('0');
+	public static function getPluralSuffixes($count)
+	{
+		if ($count == 0)
+		{
+			$return = array('0');
 		}
-		elseif($count == 1) {
-			$return =  array('1');
+		elseif ($count == 1)
+		{
+			$return = array('1');
 		}
-		else {
+		else
+		{
 			$return = array('MORE');
 		}
 		return $return;
 	}
+
 	/**
 	 * Returns the ignored search words
 	 *
-	 * @return	array  An array of ignored search words.
-	 * @since	1.6
+	 * @since    1.6
+	 * @return    array  An array of ignored search words.
 	 */
-	public static function getIgnoredSearchWords() {
+	public static function getIgnoredSearchWords()
+	{
 		$search_ignore = array();
 		$search_ignore[] = "and";
 		$search_ignore[] = "in";
 		$search_ignore[] = "on";
 		return $search_ignore;
 	}
+
 	/**
 	 * Returns the lower length limit of search words
 	 *
-	 * @return	integer  The lower length limit of search words.
-	 * @since	1.6
+	 * @since    1.6
+	 * @return    integer  The lower length limit of search words.
 	 */
-	public static function getLowerLimitSearchWord() {
+	public static function getLowerLimitSearchWord()
+	{
 		return 3;
 	}
+
 	/**
 	 * Returns the upper length limit of search words
 	 *
-	 * @return	integer  The upper length limit of search words.
-	 * @since	1.6
+	 * @since    1.6
+	 * @return    integer  The upper length limit of search words.
 	 */
-	public static function getUpperLimitSearchWord() {
+	public static function getUpperLimitSearchWord()
+	{
 		return 20;
 	}
+
 	/**
 	 * Returns the number of chars to display when searching
 	 *
-	 * @return	integer  The number of chars to display when searching.
-	 * @since	1.6
+	 * @since    1.6
+	 * @return    integer  The number of chars to display when searching.
 	 */
-	public static function getSearchDisplayedCharactersNumber() {
+	public static function getSearchDisplayedCharactersNumber()
+	{
 		return 200;
 	}
 }

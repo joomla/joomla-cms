@@ -7,11 +7,16 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM.'/joomla/github/http.php';
-require_once JPATH_PLATFORM.'/joomla/http/transport/stream.php';
+require_once JPATH_PLATFORM . '/joomla/github/http.php';
+require_once JPATH_PLATFORM . '/joomla/http/transport/stream.php';
 
 /**
  * Test class for JGithub.
+ *
+ * @package     Joomla.UnitTest
+ * @subpackage  Github
+ *
+ * @since       11.1
  */
 class JGithubHttpTest extends PHPUnit_Framework_TestCase
 {
@@ -38,6 +43,8 @@ class JGithubHttpTest extends PHPUnit_Framework_TestCase
 	 * This method is called before a test is executed.
 	 *
 	 * @access protected
+	 *
+	 * @return void
 	 */
 	protected function setUp()
 	{
@@ -52,6 +59,8 @@ class JGithubHttpTest extends PHPUnit_Framework_TestCase
 	 * This method is called after a test is executed.
 	 *
 	 * @access protected
+	 *
+	 * @return void
 	 */
 	protected function tearDown()
 	{
@@ -59,6 +68,8 @@ class JGithubHttpTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the patch method
+	 *
+	 * @return void
 	 */
 	public function testPatch()
 	{

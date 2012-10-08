@@ -7,10 +7,14 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once __DIR__.'/stubs/database/inspector.php';
+require_once __DIR__ . '/stubs/database/inspector.php';
 
 /**
  * Test class for JLogLoggerDatabase.
+ *
+ * @package     Joomla.UnitTest
+ * @subpackage  Log
+ * @since       11.1
  */
 class JLogLoggerDatabaseTest extends TestCaseDatabase
 {
@@ -21,11 +25,13 @@ class JLogLoggerDatabaseTest extends TestCaseDatabase
 	 */
 	protected function getDataSet()
 	{
-		return $this->createXMLDataSet(__DIR__.'/stubs/database/S01.xml');
+		return $this->createXMLDataSet(__DIR__ . '/stubs/database/S01.xml');
 	}
 
 	/**
 	 * Test the JLogLoggerDatabase::__construct method.
+	 *
+	 * @return void
 	 */
 	public function testConstructor01()
 	{
@@ -37,14 +43,16 @@ class JLogLoggerDatabaseTest extends TestCaseDatabase
 		$logger = new JLogLoggerDatabaseInspector($config);
 
 		// Verify some internal values.
-		$this->assertEquals($logger->driver, 'mysqli', 'Line: '.__LINE__);
-		$this->assertEquals($logger->host, 'db.domain.com', 'Line: '.__LINE__);
-		$this->assertEquals($logger->user, 'root', 'Line: '.__LINE__);
-		$this->assertEquals($logger->dbo, null, 'Line: '.__LINE__);
+		$this->assertEquals($logger->driver, 'mysqli', 'Line: ' . __LINE__);
+		$this->assertEquals($logger->host, 'db.domain.com', 'Line: ' . __LINE__);
+		$this->assertEquals($logger->user, 'root', 'Line: ' . __LINE__);
+		$this->assertEquals($logger->dbo, null, 'Line: ' . __LINE__);
 	}
 
 	/**
 	 * Test the JLogLoggerDatabase::addEntry method.
+	 *
+	 * @return void
 	 */
 	public function testAddEntry01()
 	{
@@ -53,7 +61,7 @@ class JLogLoggerDatabaseTest extends TestCaseDatabase
 		$logger = new JLogLoggerDatabaseInspector($config);
 
 		// Get the expected database from XML.
-		$expected = $this->createXMLDataSet(__DIR__.'/stubs/database/S01E01.xml');
+		$expected = $this->createXMLDataSet(__DIR__ . '/stubs/database/S01E01.xml');
 
 		// Add the new entries to the database.
 		$logger->addEntry(new JLogEntry('Testing Entry 02', JLog::INFO, null, '2009-12-01 12:30:00'));
@@ -69,6 +77,8 @@ class JLogLoggerDatabaseTest extends TestCaseDatabase
 
 	/**
 	 * Test the JLogLoggerDatabase::addEntry method.
+	 *
+	 * @return void
 	 */
 	public function testAddEntry02()
 	{
@@ -82,7 +92,7 @@ class JLogLoggerDatabaseTest extends TestCaseDatabase
 		TestReflection::setValue($logger, 'dbo', JFactory::$database);
 
 		// Get the expected database from XML.
-		$expected = $this->createXMLDataSet(__DIR__.'/stubs/database/S01E01.xml');
+		$expected = $this->createXMLDataSet(__DIR__ . '/stubs/database/S01E01.xml');
 
 		// Add the new entries to the database.
 		$logger->addEntry(new JLogEntry('Testing Entry 02', JLog::INFO, null, '2009-12-01 12:30:00'));
@@ -98,6 +108,8 @@ class JLogLoggerDatabaseTest extends TestCaseDatabase
 
 	/**
 	 * Test the JLogLoggerDatabase::connect method.
+	 *
+	 * @return void
 	 */
 	public function testConnect01()
 	{
@@ -111,7 +123,7 @@ class JLogLoggerDatabaseTest extends TestCaseDatabase
 		$logger = new JLogLoggerDatabaseInspector($config);
 		$logger->connect();
 
-		$this->assertTrue($logger->dbo instanceof JDatabaseDriver, 'Line: '.__LINE__);
+		$this->assertTrue($logger->dbo instanceof JDatabaseDriver, 'Line: ' . __LINE__);
 	}
 
 	/**

@@ -127,7 +127,8 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 			'Checks that the original class paths are maintained when not forced.'
 		);
 
-		$this->assertThat(isset($classes['atlantis']), $this->isFalse(), 'Checks that directory was not recursed.');
+		$this->assertThat(
+			isset($classes['atlantis']), $this->isFalse(), 'Checks that directory was not recursed.');
 
 		JLoader::discover('Shuttle', __DIR__ . '/stubs/discover2', true, true);
 		$classes = JLoader::getClassList();
@@ -229,13 +230,13 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	* Tests the JLoader::register method.
-	*
-	* @return  void
-	*
-	* @since   11.1
-	* @covers  JLoader::register
-	*/
+	 * Tests the JLoader::register method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
+	 * @covers  JLoader::register
+	 */
 	public function testRegister()
 	{
 		JLoader::register('BogusLoad', $this->bogusFullPath);
@@ -256,44 +257,44 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	* Tests the JLoader::registerPrefix method.
-	*
-	* @return  void
-	*
-	* @since   12.1
-	* @covers  JLoader::registerPrefix
-	* @todo    Implement testRegisterPrefix().
-	*/
+	 * Tests the JLoader::registerPrefix method.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 * @covers  JLoader::registerPrefix
+	 * @todo    Implement testRegisterPrefix().
+	 */
 	public function testRegisterPrefix()
 	{
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete(
-				'This test has not been implemented yet.'
+			'This test has not been implemented yet.'
 		);
 	}
 
 	/**
-	* Tests the exception thrown by the JLoader::registerPrefix method.
-	*
-	* @return  void
-	*
-	* @since   12.1
-	* @covers  JLoader::registerPrefix
-	* @expectedException RuntimeException
-	*/
+	 * Tests the exception thrown by the JLoader::registerPrefix method.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 * @covers  JLoader::registerPrefix
+	 * @expectedException RuntimeException
+	 */
 	public function testRegisterPrefixException()
 	{
 		JLoader::registerPrefix('P', __DIR__ . '/doesnotexist');
 	}
 
 	/**
-	* Tests the JLoader::setup method.
-	*
-	* @return  void
-	*
-	* @since   11.4
-	* @covers  JLoader::setup
-	*/
+	 * Tests the JLoader::setup method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.4
+	 * @covers  JLoader::setup
+	 */
 	public function testSetup()
 	{
 		$loaders = spl_autoload_functions();

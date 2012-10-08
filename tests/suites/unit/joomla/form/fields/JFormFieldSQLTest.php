@@ -55,7 +55,7 @@ class JFormFieldSQLTest extends TestCaseDatabase
 		$this->assertThat(
 			$form->load('<form><field name="sql" type="sql" key_field="id" query="SELECT * FROM `jos_categories`"><option value="*">None</option></field></form>'),
 			$this->isTrue(),
-		'Line:'.__LINE__.' XML string should load successfully.'
+			'Line:' . __LINE__ . ' XML string should load successfully.'
 		);
 
 		$field = new JFormFieldSQL($form);
@@ -63,7 +63,7 @@ class JFormFieldSQLTest extends TestCaseDatabase
 		$this->assertThat(
 			$field->setup($form->getXml()->field, 'value'),
 			$this->isTrue(),
-		'Line:'.__LINE__.' The setup method should return true.'
+			'Line:' . __LINE__ . ' The setup method should return true.'
 		);
 
 		if (!is_null(self::$driver))
@@ -71,7 +71,7 @@ class JFormFieldSQLTest extends TestCaseDatabase
 			$this->assertThat(
 				strlen($field->input),
 				$this->greaterThan(0),
-				'Line:'.__LINE__.' The getInput method should return something without error.'
+				'Line:' . __LINE__ . ' The getInput method should return something without error.'
 			);
 		}
 		else

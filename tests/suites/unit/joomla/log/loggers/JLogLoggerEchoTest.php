@@ -9,11 +9,17 @@
 
 /**
  * Test class for JLogLoggerEcho.
+ *
+ * @package     Joomla.UnitTest
+ * @subpackage  Log
+ * @since       11.1
  */
 class JLogLoggerEchoTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 * Test the JLogLoggerEcho::addEntry method.
+	 *
+	 * @return void
 	 */
 	public function testAddEntry01()
 	{
@@ -29,6 +35,8 @@ class JLogLoggerEchoTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Test the JLogLoggerEcho::addEntry method.
+	 *
+	 * @return void
 	 */
 	public function testAddEntry02()
 	{
@@ -44,6 +52,8 @@ class JLogLoggerEchoTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Test the JLogLoggerEcho::addEntry method.
+	 *
+	 * @return void
 	 */
 	public function testAddEntry03()
 	{
@@ -59,6 +69,8 @@ class JLogLoggerEchoTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Test the JLogLoggerEcho::addEntry method.
+	 *
+	 * @return void
 	 */
 	public function testAddEntry04()
 	{

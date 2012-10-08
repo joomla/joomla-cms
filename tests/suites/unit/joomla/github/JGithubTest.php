@@ -7,10 +7,15 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM.'/joomla/github/github.php';
+require_once JPATH_PLATFORM . '/joomla/github/github.php';
 
 /**
  * Test class for JGithub.
+ *
+ * @package     Joomla.UnitTest
+ * @subpackage  Github
+ *
+ * @since       11.1
  */
 class JGithubTest extends PHPUnit_Framework_TestCase
 {
@@ -37,6 +42,8 @@ class JGithubTest extends PHPUnit_Framework_TestCase
 	 * This method is called before a test is executed.
 	 *
 	 * @access protected
+	 *
+	 * @return void
 	 */
 	protected function setUp()
 	{
@@ -51,6 +58,8 @@ class JGithubTest extends PHPUnit_Framework_TestCase
 	 * This method is called after a test is executed.
 	 *
 	 * @access protected
+	 *
+	 * @return void
 	 */
 	protected function tearDown()
 	{
@@ -58,7 +67,10 @@ class JGithubTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the magic __get method - gists
+	 *
 	 * @since  11.3
+	 *
+	 * @return void
 	 */
 	public function test__GetGists()
 	{
@@ -70,7 +82,10 @@ class JGithubTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the magic __get method - issues
+	 *
 	 * @since  11.3
+	 *
+	 * @return void
 	 */
 	public function test__GetIssues()
 	{
@@ -82,7 +97,10 @@ class JGithubTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the magic __get method - pulls
+	 *
 	 * @since  11.3
+	 *
+	 * @return void
 	 */
 	public function test__GetPulls()
 	{
@@ -94,7 +112,10 @@ class JGithubTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the magic __get method - refs
+	 *
 	 * @since  11.3
+	 *
+	 * @return void
 	 */
 	public function test__GetRefs()
 	{
@@ -106,7 +127,10 @@ class JGithubTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the magic __get method - forks
+	 *
 	 * @since  11.4
+	 *
+	 * @return void
 	 */
 	public function test__GetForks()
 	{
@@ -118,7 +142,10 @@ class JGithubTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the magic __get method - commits
+	 *
 	 * @since  12.1
+	 *
+	 * @return void
 	 */
 	public function test__GetCommits()
 	{
@@ -130,7 +157,10 @@ class JGithubTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the magic __get method - refs
+	 *
 	 * @since  11.3
+	 *
+	 * @return void
 	 */
 	public function test__GetOther()
 	{
@@ -142,7 +172,10 @@ class JGithubTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the setOption method
+	 *
 	 * @since  11.3
+	 *
+	 * @return void
 	 */
 	public function testSetOption()
 	{
@@ -156,7 +189,10 @@ class JGithubTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the getOption method
+	 *
 	 * @since  11.3
+	 *
+	 * @return void
 	 */
 	public function testGetOption()
 	{

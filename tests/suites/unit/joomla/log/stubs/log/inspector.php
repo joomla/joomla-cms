@@ -12,27 +12,47 @@
  */
 
 /**
- * @package		Joomla.UnitTest
+ * JLogInspector class.
+ *
+ * @package     Joomla.UnitTest
  * @subpackage  Log
+ * @since       11.1
  */
 class JLogInspector extends JLog
 {
 	public $configurations;
+
 	public $loggers;
+
 	public $lookup;
 
 	public $queue = array();
 
+	/**
+	 * Constructor.
+	 */
 	public function __construct()
 	{
 		return parent::__construct();
 	}
 
+	/**
+	 * Test...
+	 *
+	 * @return void
+	 */
 	public static function clearInstance()
 	{
 		JLog::$instance == null;
 	}
 
+	/**
+	 * Test...
+	 *
+	 * @param   JLogEntry  $entry  The entry to add.
+	 *
+	 * @return void
+	 */
 	public function addLogEntry(JLogEntry $entry)
 	{
 		$this->queue[] = $entry;
@@ -40,6 +60,14 @@ class JLogInspector extends JLog
 		return parent::addLogEntry($entry);
 	}
 
+	/**
+	 * Test...
+	 *
+	 * @param   int     $priority  Priority.
+	 * @param   string  $category  Category.
+	 *
+	 * @return void
+	 */
 	public function findLoggers($priority, $category)
 	{
 		return parent::findLoggers($priority, $category);

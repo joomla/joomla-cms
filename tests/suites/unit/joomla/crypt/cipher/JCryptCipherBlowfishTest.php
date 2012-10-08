@@ -7,9 +7,9 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM.'/joomla/crypt/key.php';
-require_once JPATH_PLATFORM.'/joomla/crypt/cipher.php';
-require_once JPATH_PLATFORM.'/joomla/crypt/cipher/blowfish.php';
+require_once JPATH_PLATFORM . '/joomla/crypt/key.php';
+require_once JPATH_PLATFORM . '/joomla/crypt/cipher.php';
+require_once JPATH_PLATFORM . '/joomla/crypt/cipher/blowfish.php';
 
 /**
  * Test class for JCryptCipherBlowfish.
@@ -48,7 +48,7 @@ class JCryptCipherBlowfishTest extends TestCase
 		// Build the key for testing.
 		$this->key = new JCryptKey('blowfish');
 		$this->key->private = file_get_contents(__DIR__ . '/stubs/encrypted/blowfish/key.priv');
-		$this->key->public  = file_get_contents(__DIR__ . '/stubs/encrypted/blowfish/key.pub');
+		$this->key->public = file_get_contents(__DIR__ . '/stubs/encrypted/blowfish/key.pub');
 	}
 
 	/**
@@ -65,6 +65,11 @@ class JCryptCipherBlowfishTest extends TestCase
 		parent::tearDown();
 	}
 
+	/**
+	 * Test...
+	 *
+	 * @return array
+	 */
 	public function data()
 	{
 		return array(
@@ -78,6 +83,9 @@ class JCryptCipherBlowfishTest extends TestCase
 
 	/**
 	 * Tests JCryptCipherBlowfish->decrypt()
+	 *
+	 * @param   string  $file  @todo
+	 * @param   string  $data  @todo
 	 *
 	 * @return  void
 	 *
@@ -95,6 +103,9 @@ class JCryptCipherBlowfishTest extends TestCase
 
 	/**
 	 * Tests JCryptCipherBlowfish->encrypt()
+	 *
+	 * @param   string  $file  @todo
+	 * @param   string  $data  @todo
 	 *
 	 * @return  void
 	 *

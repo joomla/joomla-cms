@@ -10,9 +10,10 @@
 /**
  * Test class for JForm.
  *
- * @package		Joomla.UnitTest
+ * @package     Joomla.UnitTest
  * @subpackage  Form
  *
+ * @since       11.1
  */
 class JFormRuleEqualsTest extends TestCase
 {
@@ -27,6 +28,8 @@ class JFormRuleEqualsTest extends TestCase
 
 	/**
 	 * Test the JFormRuleEquals::test method.
+	 *
+	 * @return void
 	 */
 	public function testEquals()
 	{

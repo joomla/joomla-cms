@@ -12,14 +12,21 @@
  */
 
 /**
- * @package		Joomla.UnitTest
+ * JLogLoggerW3CInspector class.
+ *
+ * @package     Joomla.UnitTest
  * @subpackage  Log
+ * @since       11.1
  */
 class JLogLoggerW3CInspector extends JLogLoggerW3c
 {
 	public $file;
+
 	public $format = '{DATE}	{TIME}	{PRIORITY}	{CLIENTIP}	{CATEGORY}	{MESSAGE}';
+
 	public $options;
+
 	public $fields;
+
 	public $path;
 }

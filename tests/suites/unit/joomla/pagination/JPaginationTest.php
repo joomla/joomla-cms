@@ -7,6 +7,13 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+/**
+ * Test class for JPagination.
+ *
+ * @package     Joomla.UnitTest
+ * @subpackage  Pagination
+ * @since       11.1
+ */
 class JPaginationTest extends PHPUnit_Framework_TestCase
 {
 	/**
@@ -30,7 +37,8 @@ class JPaginationTest extends PHPUnit_Framework_TestCase
 					'pages.stop' => 5
 				)
 			),
-			// these tests currently break in trunk, but I set the values to what I thought they should be.
+
+			// These tests currently break in trunk, but I set the values to what I thought they should be.
 			array(100, 101, 20,
 				array(
 					'total' => 100,
@@ -62,6 +70,11 @@ class JPaginationTest extends PHPUnit_Framework_TestCase
 	 *
 	 * This is a basic data driven test.  It takes the data passed, runs the constructor
 	 * and make sure the appropriate values get setup.
+	 *
+	 * @param   integer  $total       @todo
+	 * @param   integer  $limitstart  @todo
+	 * @param   integer  $limit       @todo
+	 * @param   string   $expected    @todo
 	 *
 	 * @return  void
 	 *

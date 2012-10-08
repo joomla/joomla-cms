@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-include_once __DIR__.'/stubs/JApplicationCliInspector.php';
+include_once __DIR__ . '/stubs/JApplicationCliInspector.php';
 
 /**
  * Test class for JApplicationCli.
@@ -75,7 +75,7 @@ class JApplicationCliTest extends TestCase
 		// TODO Test that configuration data loaded.
 
 		$this->assertGreaterThan(2001, $this->class->get('execution.datetime'), 'Tests execution.datetime was set.');
-		$this->assertGreaterThan(1, $this->class->get('execution.timestamp'), 'Tests execution.timestamp was set.' );
+		$this->assertGreaterThan(1, $this->class->get('execution.timestamp'), 'Tests execution.timestamp was set.');
 	}
 
 	/**
@@ -92,24 +92,24 @@ class JApplicationCliTest extends TestCase
 			->expects($this->any())
 			->method('test')
 			->will(
-				$this->returnValue('ok')
-			);
+			$this->returnValue('ok')
+		);
 
 		$mockConfig = $this->getMock('JRegistry', array('test'), array(null), '', true);
 		$mockConfig
 			->expects($this->any())
 			->method('test')
 			->will(
-				$this->returnValue('ok')
-			);
+			$this->returnValue('ok')
+		);
 
 		$mockDispatcher = $this->getMockDispatcher();
 		$mockDispatcher
 			->expects($this->any())
 			->method('test')
 			->will(
-				$this->returnValue('ok')
-			);
+			$this->returnValue('ok')
+		);
 
 		$class = new JApplicationCliInspector($mockInput, $mockConfig, $mockDispatcher);
 
@@ -186,24 +186,25 @@ class JApplicationCliTest extends TestCase
 	public function getFetchConfigurationData()
 	{
 		return array(
-			// file, class, expectsClass, (expected result array), whether there should be an exception
+			// Note: file, class, expectsClass, (expected result array), whether there should be an exception
 			'Default configuration class' => array(null, null, 'JConfig', 'ConfigEval'),
- 			'Custom file, invalid class' => array(JPATH_BASE . '/config.JCli-wrongclass.php', 'noclass', false, array(), true),
+			'Custom file, invalid class' => array(JPATH_BASE . '/config.JCli-wrongclass.php', 'noclass', false, array(), true),
 		);
 	}
 
 	/**
 	 * Tests the JApplicationCli::fetchConfigurationData method.
 	 *
-	 * @param   string   $fileName      The name of the configuration file.
-	 * @param   string   $fileName      The name of the configuration file.
-	 * @param   boolean  $expectsClass  The result is expected to be a class.
-	 * @param   array    $expects       The expected result as an array.
+	 * @param   string   $file               The name of the configuration file.
+	 * @param   string   $class              The name of the class.
+	 * @param   boolean  $expectsClass       The result is expected to be a class.
+	 * @param   array    $expects            The expected result as an array.
+	 * @param   boolean  $expectedException  The expected exception
 	 *
 	 * @return  void
 	 *
 	 * @dataProvider getFetchConfigurationData
-	 * @since   11.3
+	 * @since    11.3
 	 */
 	public function testFetchConfigurationData($file, $class, $expectsClass, $expects, $expectedException = false)
 	{
@@ -228,7 +229,7 @@ class JApplicationCliTest extends TestCase
 		if ($expects == 'ConfigEval')
 		{
 			$expects = new JConfig;
-			$expects = (array)$expects;
+			$expects = (array) $expects;
 		}
 
 		if ($expectsClass)

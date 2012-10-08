@@ -10,22 +10,28 @@
 /**
  * Test class for JForm.
  *
- * @package		Joomla.UnitTest
+ * @package     Joomla.UnitTest
  * @subpackage  Form
+ *
+ * @since       11.1
  */
 class JFormFieldRadioTest extends TestCase
 {
 	/**
 	 * Sets up dependancies for the test.
+	 *
+	 * @return void
 	 */
 	protected function setUp()
 	{
-		require_once JPATH_PLATFORM.'/joomla/form/fields/radio.php';
-		include_once dirname(__DIR__).'/inspectors.php';
+		require_once JPATH_PLATFORM . '/joomla/form/fields/radio.php';
+		include_once dirname(__DIR__) . '/inspectors.php';
 	}
 
 	/**
 	 * Test the getInput method.
+	 *
+	 * @return void
 	 */
 	public function testGetInput()
 	{
@@ -34,7 +40,7 @@ class JFormFieldRadioTest extends TestCase
 		$this->assertThat(
 			$form->load('<form><field name="radio" type="radio" /></form>'),
 			$this->isTrue(),
-			'Line:'.__LINE__.' XML string should load successfully.'
+			'Line:' . __LINE__ . ' XML string should load successfully.'
 		);
 
 		$field = new JFormFieldRadio($form);
@@ -42,13 +48,13 @@ class JFormFieldRadioTest extends TestCase
 		$this->assertThat(
 			$field->setup($form->getXml()->field, 'value'),
 			$this->isTrue(),
-			'Line:'.__LINE__.' The setup method should return true.'
+			'Line:' . __LINE__ . ' The setup method should return true.'
 		);
 
 		$this->assertThat(
 			strlen($field->input),
 			$this->greaterThan(0),
-			'Line:'.__LINE__.' The getInput method should return something without error.'
+			'Line:' . __LINE__ . ' The getInput method should return something without error.'
 		);
 
 		// TODO: Should check all the attributes have come in properly.
@@ -68,7 +74,7 @@ class JFormFieldRadioTest extends TestCase
 		$this->assertThat(
 			$form->load('<form><field name="radio" type="radio"><option value="0">No</option><item value="1">Yes</item></field></form>'),
 			$this->isTrue(),
-			'Line:'.__LINE__.' XML string should load successfully.'
+			'Line:' . __LINE__ . ' XML string should load successfully.'
 		);
 
 		$field = new JFormFieldRadio($form);
@@ -76,7 +82,7 @@ class JFormFieldRadioTest extends TestCase
 		$this->assertThat(
 			$field->setup($form->getXml()->field, 'value'),
 			$this->isTrue(),
-			'Line:'.__LINE__.' The setup method should return true.'
+			'Line:' . __LINE__ . ' The setup method should return true.'
 		);
 
 		$this->assertThat(
@@ -84,7 +90,7 @@ class JFormFieldRadioTest extends TestCase
 			$this->logicalNot(
 				$this->StringContains('Yes')
 			),
-			'Line:'.__LINE__.' The field should not contain a Yes option.'
+			'Line:' . __LINE__ . ' The field should not contain a Yes option.'
 		);
 	}
 }

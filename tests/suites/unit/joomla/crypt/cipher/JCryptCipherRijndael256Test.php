@@ -7,9 +7,9 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM.'/joomla/crypt/key.php';
-require_once JPATH_PLATFORM.'/joomla/crypt/cipher.php';
-require_once JPATH_PLATFORM.'/joomla/crypt/cipher/rijndael256.php';
+require_once JPATH_PLATFORM . '/joomla/crypt/key.php';
+require_once JPATH_PLATFORM . '/joomla/crypt/cipher.php';
+require_once JPATH_PLATFORM . '/joomla/crypt/cipher/rijndael256.php';
 
 /**
  * Test class for JCryptCipherRijndael256.
@@ -48,7 +48,7 @@ class JCryptCipherRijndael256Test extends TestCase
 		// Build the key for testing.
 		$this->key = new JCryptKey('rijndael256');
 		$this->key->private = file_get_contents(__DIR__ . '/stubs/encrypted/rijndael256/key.priv');
-		$this->key->public  = file_get_contents(__DIR__ . '/stubs/encrypted/rijndael256/key.pub');
+		$this->key->public = file_get_contents(__DIR__ . '/stubs/encrypted/rijndael256/key.pub');
 	}
 
 	/**
@@ -65,6 +65,11 @@ class JCryptCipherRijndael256Test extends TestCase
 		parent::tearDown();
 	}
 
+	/**
+	 * Test...
+	 *
+	 * @return array
+	 */
 	public function data()
 	{
 		return array(
@@ -78,6 +83,9 @@ class JCryptCipherRijndael256Test extends TestCase
 
 	/**
 	 * Tests JCryptCipherRijndael256Test->decrypt()
+	 *
+	 * @param   string  $file  @todo
+	 * @param   string  $data  @todo
 	 *
 	 * @return  void
 	 *
@@ -95,6 +103,9 @@ class JCryptCipherRijndael256Test extends TestCase
 
 	/**
 	 * Tests JCryptCipherRijndael256Test->encrypt()
+	 *
+	 * @param   string  $file  @todo
+	 * @param   string  $data  @todo
 	 *
 	 * @return  void
 	 *

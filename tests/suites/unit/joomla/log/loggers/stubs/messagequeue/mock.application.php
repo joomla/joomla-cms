@@ -12,8 +12,11 @@
  */
 
 /**
- * @package		Joomla.UnitTest
+ * JApplicationMock class.
+ *
+ * @package     Joomla.UnitTest
  * @subpackage  Log
+ * @since       11.1
  */
 class JApplicationMock
 {
@@ -26,12 +29,12 @@ class JApplicationMock
 	/**
 	 * Enqueue a system message.
 	 *
-	 * @param   string	$msg	The message to enqueue.
-	 * @param   string	$type	The message type.
+	 * @param   string  $msg   The message to enqueue.
+	 * @param   string  $type  The message type.
 	 *
 	 * @return  void
 	 *
-	 * @since	11.1
+	 * @since    11.1
 	 */
 	public function enqueueMessage($msg, $type = 'message')
 	{

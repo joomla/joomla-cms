@@ -8,16 +8,28 @@
  */
 
 /**
- * @package		Joomla.UnitTest
+ * JFilterInputMockTracker test class.
+ *
+ * @package     Joomla.UnitTest
  * @subpackage  Input
+ * @since       11.1
  */
 class JFilterInputMockTracker
 {
 	public $calls = array();
 
+	/**
+	 * Test...
+	 *
+	 * @param   string  $name       @todo
+	 * @param   mixed   $arguments  @todo
+	 *
+	 * @return void
+	 */
 	public function __call($name, $arguments)
 	{
-		if (!isset($this->calls[$name])) {
+		if (!isset($this->calls[$name]))
+		{
 			$this->calls[$name] = array();
 		}
 		$this->calls[$name][] = $arguments;

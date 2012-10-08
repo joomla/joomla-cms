@@ -227,7 +227,8 @@ class JUserTest extends TestCaseDatabase
 		// Set up user 99 to be root_user from configuration
 		$testConfig = $this->getMock('JConfig', array('get'));
 		$testConfig->expects(
-			$this->any())
+			$this->any()
+		)
 			->method('get')
 			->will($this->returnValue(99));
 		JFactory::$config = $testConfig;
@@ -237,20 +238,24 @@ class JUserTest extends TestCaseDatabase
 		$this->assertThat(
 			$user->authorise($action, $asset),
 			$this->equalTo($expected),
-			'Line: '. __LINE__ . ' Failed for user ' . $user->id
+			'Line: ' . __LINE__ . ' Failed for user ' . $user->id
 		);
 
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @covers JUser::getAuthorisedCategories
 	 * @todo Implement testGetAuthorisedCategories().
+	 *
+	 * @return void
 	 */
 	public function testGetAuthorisedCategories()
 	{
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete(
-		  'This test has not been implemented yet.'
+			'This test has not been implemented yet.'
 		);
 	}
 
@@ -311,14 +316,18 @@ class JUserTest extends TestCaseDatabase
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @covers JUser::getAuthorisedGroups
 	 * @todo Implement testGetAuthorisedGroups().
+	 *
+	 * @return void
 	 */
 	public function testGetAuthorisedGroups()
 	{
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete(
-		  'This test has not been implemented yet.'
+			'This test has not been implemented yet.'
 		);
 	}
 
@@ -343,62 +352,82 @@ class JUserTest extends TestCaseDatabase
 	}
 
 	/**
+	 * Test the setParameters method.
+	 *
 	 * @covers JUser::setParameters
 	 * @todo Implement testSetParameters().
+	 *
+	 * @return void
 	 */
 	public function testSetParameters()
 	{
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete(
-		  'This test has not been implemented yet.'
+			'This test has not been implemented yet.'
 		);
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @covers JUser::getTable
 	 * @todo Implement testGetTable().
+	 *
+	 * @return void
 	 */
 	public function testGetTable()
 	{
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete(
-		  'This test has not been implemented yet.'
+			'This test has not been implemented yet.'
 		);
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @covers JUser::bind
 	 * @todo Implement testBind().
+	 *
+	 * @return void
 	 */
 	public function testBind()
 	{
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete(
-		  'This test has not been implemented yet.'
+			'This test has not been implemented yet.'
 		);
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @covers JUser::save
 	 * @todo Implement testSave().
+	 *
+	 * @return void
 	 */
 	public function testSave()
 	{
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete(
-		  'This test has not been implemented yet.'
+			'This test has not been implemented yet.'
 		);
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @covers JUser::delete
 	 * @todo Implement testDelete().
+	 *
+	 * @return void
 	 */
 	public function testDelete()
 	{
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete(
-		  'This test has not been implemented yet.'
+			'This test has not been implemented yet.'
 		);
 	}
 
@@ -454,8 +483,8 @@ class JUserTest extends TestCaseDatabase
 		);
 
 		$this->assertThat(
-				$isGuest,
-				$this->equalTo(TestReflection::getValue($testUser, 'guest'))
-				);
+			$isGuest,
+			$this->equalTo(TestReflection::getValue($testUser, 'guest'))
+		);
 	}
 }

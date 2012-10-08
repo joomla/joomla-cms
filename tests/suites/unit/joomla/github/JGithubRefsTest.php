@@ -7,12 +7,17 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM.'/joomla/github/github.php';
-require_once JPATH_PLATFORM.'/joomla/github/http.php';
-require_once JPATH_PLATFORM.'/joomla/github/refs.php';
+require_once JPATH_PLATFORM . '/joomla/github/github.php';
+require_once JPATH_PLATFORM . '/joomla/github/http.php';
+require_once JPATH_PLATFORM . '/joomla/github/refs.php';
 
 /**
  * Test class for JGithubGists.
+ *
+ * @package     Joomla.UnitTest
+ * @subpackage  Github
+ *
+ * @since       11.1
  */
 class JGithubRefsTest extends PHPUnit_Framework_TestCase
 {
@@ -36,7 +41,7 @@ class JGithubRefsTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * @var    string  Sample JSON string.
- 	 * @since  11.4
+	 * @since  11.4
 	 */
 	protected $sampleString = '{"a":1,"b":2,"c":3,"d":4,"e":5}';
 
@@ -51,6 +56,8 @@ class JGithubRefsTest extends PHPUnit_Framework_TestCase
 	 * This method is called before a test is executed.
 	 *
 	 * @access protected
+	 *
+	 * @return void
 	 */
 	protected function setUp()
 	{
@@ -62,6 +69,8 @@ class JGithubRefsTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the get method
+	 *
+	 * @return void
 	 */
 	public function testGet()
 	{
@@ -82,7 +91,10 @@ class JGithubRefsTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the get method
+	 *
 	 * @expectedException DomainException
+	 *
+	 * @return void
 	 */
 	public function testGetFailure()
 	{
@@ -100,6 +112,8 @@ class JGithubRefsTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the create method
+	 *
+	 * @return void
 	 */
 	public function testCreate()
 	{
@@ -128,7 +142,10 @@ class JGithubRefsTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the create method - failure
+	 *
 	 * @expectedException  DomainException
+	 *
+	 * @return void
 	 */
 	public function testCreateFailure()
 	{
@@ -154,6 +171,8 @@ class JGithubRefsTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the edit method
+	 *
+	 * @return void
 	 */
 	public function testEdit()
 	{
@@ -182,7 +201,10 @@ class JGithubRefsTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the edit method - failure
+	 *
 	 * @expectedException  DomainException
+	 *
+	 * @return void
 	 */
 	public function testEditFailure()
 	{
@@ -207,6 +229,8 @@ class JGithubRefsTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the getList method
+	 *
+	 * @return void
 	 */
 	public function testGetList()
 	{
@@ -227,7 +251,10 @@ class JGithubRefsTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the getList method - failure
+	 *
 	 * @expectedException  DomainException
+	 *
+	 * @return void
 	 */
 	public function testGetListFailure()
 	{

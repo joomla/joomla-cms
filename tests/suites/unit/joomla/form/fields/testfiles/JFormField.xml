@@ -3204,7 +3204,8 @@
             <value>1</value>
             <value>menutype=usermenu
                 moduleclass_sfx=_menu
-                cache=1</value>
+                cache=1
+            </value>
             <value>0</value>
             <value></value>
         </row>
@@ -3223,7 +3224,8 @@
             <value>1</value>
             <value>1</value>
             <value>greeting=1
-                name=0</value>
+                name=0
+            </value>
             <value>0</value>
             <value></value>
         </row>

@@ -19,14 +19,14 @@ class JFormFieldTest extends JFormField
 	/**
 	 * The field type.
 	 *
-	 * @var		string
+	 * @var        string
 	 */
 	protected $type = 'Test';
 
 	/**
 	 * Method to get the field input.
 	 *
-	 * @return  string		The field input.
+	 * @return  string        The field input.
 	 */
 	protected function getInput()
 	{

@@ -18,6 +18,8 @@
 class JStringNormaliseTest extends PHPUnit_Framework_TestCase
 {
 	/**
+	 * Test...
+	 *
 	 * @return  array
 	 *
 	 * @since   11.3
@@ -25,7 +27,7 @@ class JStringNormaliseTest extends PHPUnit_Framework_TestCase
 	public function getFromCamelCaseData()
 	{
 		return array(
-			// string, expected
+			// Note: string, expected
 			array('FooBarABCDef', array('Foo', 'Bar', 'ABC', 'Def')),
 			array('JFooBar', array('J', 'Foo', 'Bar')),
 			array('J001FooBar002', array('J001', 'Foo', 'Bar002')),
@@ -56,8 +58,8 @@ class JStringNormaliseTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Method to test JStringNormalise::fromCamelCase(string, true).
 	 *
-	 * @param   string  $expected  The expected value from the method.
 	 * @param   string  $input     The input value for the method.
+	 * @param   string  $expected  The expected value from the method.
 	 *
 	 * @return  void
 	 *

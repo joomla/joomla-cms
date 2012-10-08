@@ -1,46 +1,58 @@
 <?php
 /**
- * @package     Joomla.UnitTest
+ * @package    Joomla.UnitTest
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
 
 /**
  * Test class for JInstaller.
+ *
+ * @package     Joomla.UnitTest
+ * @subpackage  Installer
+ * @since       11.1
  */
 class JInstallerTest extends TestCase
 {
 	/**
-     * @var JInstaller
-     */
-    protected $object;
+	 * @var JInstaller
+	 */
+	protected $object;
 
-    /**
-     * Sets up the fixture, for example, opens a network connection.
-     * This method is called before a test is executed.
-     */
-    protected function setUp()
-    {
+	/**
+	 * Sets up the fixture, for example, opens a network connection.
+	 * This method is called before a test is executed.
+	 *
+	 * @return void
+	 */
+	protected function setUp()
+	{
 		$this->saveFactoryState();
 		$newDbo = $this->getMock('JDatabase');
 		JFactory::$database = &$newDbo;
 
 		$this->object = JInstaller::getInstance();
-    }
+	}
 
-    /**
-     * Tears down the fixture, for example, closes a network connection.
-     * This method is called after a test is executed.
-     */
-    protected function tearDown()
-    {
+	/**
+	 * Tears down the fixture, for example, closes a network connection.
+	 * This method is called after a test is executed.
+	 *
+	 * @return void
+	 */
+	protected function tearDown()
+	{
 		$this->restoreFactoryState();
-    }
+	}
 
-    /**
+	/**
+	 * Test...
+	 *
 	 * @covers  JInstaller::getInstance
+	 *
+	 * @return void
 	 */
 	public function testGetInstance()
 	{
@@ -52,8 +64,12 @@ class JInstallerTest extends TestCase
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @covers  JInstaller::setOverwrite
 	 * @covers  JInstaller::isOverwrite
+	 *
+	 * @return void
 	 */
 	public function testIsAndSetOverwrite()
 	{
@@ -79,8 +95,12 @@ class JInstallerTest extends TestCase
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @covers  JInstaller::setRedirectUrl
 	 * @covers  JInstaller::getRedirectUrl
+	 *
+	 * @return void
 	 */
 	public function testGetAndSetRedirectUrl()
 	{
@@ -94,8 +114,12 @@ class JInstallerTest extends TestCase
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @covers  JInstaller::setUpgrade
 	 * @covers  JInstaller::isUpgrade
+	 *
+	 * @return void
 	 */
 	public function testIsAndSetUpgrade()
 	{
@@ -121,7 +145,11 @@ class JInstallerTest extends TestCase
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @covers  JInstaller::getPath
+	 *
+	 * @return void
 	 */
 	public function testGetPath()
 	{
@@ -131,17 +159,21 @@ class JInstallerTest extends TestCase
 			'getPath did not return the default value for an undefined path'
 		);
 
-		$this->object->setPath('path2_getpath', JPATH_BASE.'/required_path');
+		$this->object->setPath('path2_getpath', JPATH_BASE . '/required_path');
 
 		$this->assertThat(
 			$this->object->getPath('path2_getpath', 'default_value'),
-			$this->equalTo(JPATH_BASE.'/required_path'),
+			$this->equalTo(JPATH_BASE . '/required_path'),
 			'getPath did not return the previously set value for the path'
 		);
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @covers  JInstaller::abort
+	 *
+	 * @return void
 	 */
 	public function testAbortQuery()
 	{
@@ -154,7 +186,11 @@ class JInstallerTest extends TestCase
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @covers  JInstaller::abort
+	 *
+	 * @return void
 	 */
 	public function testAbortDefault()
 	{
@@ -177,7 +213,10 @@ class JInstallerTest extends TestCase
 
 	/**
 	 * Test that if the type is not good we fall back properly
+	 *
 	 * @covers  JInstaller::abort
+	 *
+	 * @return void
 	 */
 	public function testAbortBadType()
 	{
@@ -191,9 +230,12 @@ class JInstallerTest extends TestCase
 
 	/**
 	 * This test is weak and may need removal at some point
+	 *
 	 * @covers  JInstaller::abort
 	 *
 	 * @expectedException  RuntimeException
+	 *
+	 * @return void
 	 */
 	public function testAbortDebug()
 	{

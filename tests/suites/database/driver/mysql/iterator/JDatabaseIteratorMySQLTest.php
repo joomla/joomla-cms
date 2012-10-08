@@ -140,7 +140,7 @@ class JDatabaseIteratorMySQLTest extends TestCaseDatabaseMysql
 	 *
 	 * @dataProvider casesForEachData
 	 *
-	 * @since   12.1
+	 * @since    12.1
 	 */
 	public function testForEach($select, $from, $column, $class, $limit, $offset, $expected, $exception)
 	{

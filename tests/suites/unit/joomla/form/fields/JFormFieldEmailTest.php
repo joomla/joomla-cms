@@ -43,7 +43,7 @@ class JFormFieldEMailTest extends TestCase
 		$this->assertThat(
 			$form->load('<form><field name="email" type="email" /></form>'),
 			$this->isTrue(),
-		'Line:'.__LINE__.' XML string should load successfully.'
+			'Line:' . __LINE__ . ' XML string should load successfully.'
 		);
 
 		$field = new JFormFieldEMail($form);
@@ -51,13 +51,13 @@ class JFormFieldEMailTest extends TestCase
 		$this->assertThat(
 			$field->setup($form->getXml()->field, 'value'),
 			$this->isTrue(),
-		'Line:'.__LINE__.' The setup method should return true.'
+			'Line:' . __LINE__ . ' The setup method should return true.'
 		);
 
 		$this->assertThat(
 			strlen($field->input),
 			$this->greaterThan(0),
-		'Line:'.__LINE__.' The getInput method should return something without error.'
+			'Line:' . __LINE__ . ' The getInput method should return something without error.'
 		);
 
 		// TODO: Should check all the attributes have come in properly.

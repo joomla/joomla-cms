@@ -12,18 +12,24 @@ require_once JPATH_PLATFORM . '/joomla/crypt/password/simple.php';
 
 /**
  * Test class for JCryptPasswordSimple.
+ *
+ * @package  Joomla.UnitTest
+ *
+ * @since    11.1
  */
 class JCryptPasswordSimpleTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 * Data provider for testCreate method.
+	 *
+	 * @return array
 	 */
 	public function createData()
 	{
 		return array(
-			'Blowfish'   => array('password', JCryptPassword::BLOWFISH, 'ABCDEFGHIJKLMNOPQRSTUV', '$2y$10$ABCDEFGHIJKLMNOPQRSTUOiAi7OcdE4zRCh6NcGWusEcNPtq6/w8.'),
-			'MD5'        => array('password', JCryptPassword::MD5, 'ABCDEFGHIJKL', '$1$ABCDEFGH$hGGndps75hhROKqu/zh9q1'),
-			'Joomla'     => array('password', JCryptPassword::JOOMLA, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ123456', '883a96d8da5440781fe7b60f1d4ae2b3:ABCDEFGHIJKLMNOPQRSTUVWXYZ123456'),
+			'Blowfish' => array('password', JCryptPassword::BLOWFISH, 'ABCDEFGHIJKLMNOPQRSTUV', '$2y$10$ABCDEFGHIJKLMNOPQRSTUOiAi7OcdE4zRCh6NcGWusEcNPtq6/w8.'),
+			'MD5' => array('password', JCryptPassword::MD5, 'ABCDEFGHIJKL', '$1$ABCDEFGH$hGGndps75hhROKqu/zh9q1'),
+			'Joomla' => array('password', JCryptPassword::JOOMLA, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ123456', '883a96d8da5440781fe7b60f1d4ae2b3:ABCDEFGHIJKLMNOPQRSTUVWXYZ123456'),
 			'Blowfish_5' => array('password', JCryptPassword::BLOWFISH, 'ABCDEFGHIJKLMNOPQRSTUV', '$2y$05$ABCDEFGHIJKLMNOPQRSTUOvv7EU5o68GAoLxyfugvULZR70IIMZqW', 5)
 		);
 	}
@@ -31,9 +37,17 @@ class JCryptPasswordSimpleTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests create method.
 	 *
+	 * @param   string  $password  @todo
+	 * @param   string  $type      @todo
+	 * @param   string  $salt      @todo
+	 * @param   string  $expected  @todo
+	 * @param   int     $cost      @todo
+	 *
 	 * @covers  JCryptPasswordSimple::create
 	 *
 	 * @dataProvider  createData
+	 *
+	 * @return void
 	 */
 	public function testCreate($password, $type, $salt, $expected, $cost = 10)
 	{
@@ -42,9 +56,9 @@ class JCryptPasswordSimpleTest extends PHPUnit_Framework_TestCase
 		$hasher->setCost($cost);
 
 		$hasher->expects($this->any())
-			   ->method('getSalt')
-			   ->with(strlen($salt))
-			   ->will($this->returnValue($salt));
+			->method('getSalt')
+			->with(strlen($salt))
+			->will($this->returnValue($salt));
 
 		$this->assertEquals(
 			$expected,
@@ -54,24 +68,32 @@ class JCryptPasswordSimpleTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Data Provider for testVerify.
+	 *
+	 * @return array
 	 */
 	public function verifyData()
 	{
 		return array(
-			'Blowfish Valid:'   => array('password', '$2y$10$ABCDEFGHIJKLMNOPQRSTUOiAi7OcdE4zRCh6NcGWusEcNPtq6/w8.', true),
+			'Blowfish Valid:' => array('password', '$2y$10$ABCDEFGHIJKLMNOPQRSTUOiAi7OcdE4zRCh6NcGWusEcNPtq6/w8.', true),
 			'Blowfish Invalid:' => array('wrong password', '$2y$10$ABCDEFGHIJKLMNOPQRSTUOiAi7OcdE4zRCh6NcGWusEcNPtq6/w8.', false),
-			'MD5 Valid'         => array('password', '$1$ABCDEFGH$hGGndps75hhROKqu/zh9q1', true),
-			'MD5 Invalid'       => array('passw0rd', '$1$ABCDEFGH$hGGndps75hhROKqu/zh9q1', false),
-			'Joomla Valid'      => array('password', '883a96d8da5440781fe7b60f1d4ae2b3:ABCDEFGHIJKLMNOPQRSTUVWXYZ123456', true),
-			'Joomla Invalid'    => array('passw0rd', '883a96d8da5440781fe7b60f1d4ae2b3:ABCDEFGHIJKLMNOPQRSTUVWXYZ123456', false)
+			'MD5 Valid' => array('password', '$1$ABCDEFGH$hGGndps75hhROKqu/zh9q1', true),
+			'MD5 Invalid' => array('passw0rd', '$1$ABCDEFGH$hGGndps75hhROKqu/zh9q1', false),
+			'Joomla Valid' => array('password', '883a96d8da5440781fe7b60f1d4ae2b3:ABCDEFGHIJKLMNOPQRSTUVWXYZ123456', true),
+			'Joomla Invalid' => array('passw0rd', '883a96d8da5440781fe7b60f1d4ae2b3:ABCDEFGHIJKLMNOPQRSTUVWXYZ123456', false)
 		);
 	}
 
 	/**
 	 * Tests the verify method.
 	 *
+	 * @param   string  $password     @todo
+	 * @param   string  $hash         @todo
+	 * @param   string  $expectation  @todo
+	 *
 	 * @covers        JCryptPasswordSimple::verify
 	 * @dataProvider  verifyData
+	 *
+	 * @return void
 	 */
 	public function testVerify($password, $hash, $expectation)
 	{

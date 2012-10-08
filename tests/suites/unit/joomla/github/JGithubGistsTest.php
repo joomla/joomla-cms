@@ -7,12 +7,17 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM.'/joomla/github/github.php';
-require_once JPATH_PLATFORM.'/joomla/github/http.php';
-require_once JPATH_PLATFORM.'/joomla/github/gists.php';
+require_once JPATH_PLATFORM . '/joomla/github/github.php';
+require_once JPATH_PLATFORM . '/joomla/github/http.php';
+require_once JPATH_PLATFORM . '/joomla/github/gists.php';
 
 /**
  * Test class for JGithubGists.
+ *
+ * @package     Joomla.UnitTest
+ * @subpackage  Github
+ *
+ * @since       11.1
  */
 class JGithubGistsTest extends PHPUnit_Framework_TestCase
 {
@@ -51,6 +56,8 @@ class JGithubGistsTest extends PHPUnit_Framework_TestCase
 	 * This method is called before a test is executed.
 	 *
 	 * @access protected
+	 *
+	 * @return void
 	 */
 	protected function setUp()
 	{
@@ -62,6 +69,8 @@ class JGithubGistsTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the create method
+	 *
+	 * @return void
 	 */
 	public function testCreate()
 	{
@@ -99,6 +108,8 @@ class JGithubGistsTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the create method loading file content from a file
+	 *
+	 * @return void
 	 */
 	public function testCreateGistFromFile()
 	{
@@ -136,7 +147,10 @@ class JGithubGistsTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the create method loading file content from a file - file does not exist
+	 *
 	 * @expectedException InvalidArgumentException
+	 *
+	 * @return void
 	 */
 	public function testCreateGistFromFileNotFound()
 	{
@@ -155,6 +169,8 @@ class JGithubGistsTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the create method
+	 *
+	 * @return void
 	 */
 	public function testCreateFailure()
 	{
@@ -192,6 +208,8 @@ class JGithubGistsTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the createComment method - simulated failure
+	 *
+	 * @return void
 	 */
 	public function testCreateComment()
 	{
@@ -215,6 +233,8 @@ class JGithubGistsTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the createComment method - simulated failure
+	 *
+	 * @return void
 	 */
 	public function testCreateCommentFailure()
 	{
@@ -250,6 +270,8 @@ class JGithubGistsTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the delete method
+	 *
+	 * @return void
 	 */
 	public function testDelete()
 	{
@@ -267,6 +289,8 @@ class JGithubGistsTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the delete method - simulated failure
+	 *
+	 * @return void
 	 */
 	public function testDeleteFailure()
 	{
@@ -299,6 +323,8 @@ class JGithubGistsTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the deleteComment method
+	 *
+	 * @return void
 	 */
 	public function testDeleteComment()
 	{
@@ -316,6 +342,8 @@ class JGithubGistsTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the deleteComment method - simulated failure
+	 *
+	 * @return void
 	 */
 	public function testDeleteCommentFailure()
 	{
@@ -348,6 +376,8 @@ class JGithubGistsTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the edit method
+	 *
+	 * @return void
 	 */
 	public function testEdit()
 	{
@@ -388,6 +418,8 @@ class JGithubGistsTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the edit method - simulated failure
+	 *
+	 * @return void
 	 */
 	public function testEditFailure()
 	{
@@ -440,6 +472,8 @@ class JGithubGistsTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the editComment method
+	 *
+	 * @return void
 	 */
 	public function testEditComment()
 	{
@@ -463,6 +497,8 @@ class JGithubGistsTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the editComment method - simulated failure
+	 *
+	 * @return void
 	 */
 	public function testEditCommentFailure()
 	{
@@ -498,6 +534,8 @@ class JGithubGistsTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the fork method
+	 *
+	 * @return void
 	 */
 	public function testFork()
 	{
@@ -518,6 +556,8 @@ class JGithubGistsTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the fork method - simulated failure
+	 *
+	 * @return void
 	 */
 	public function testForkFailure()
 	{
@@ -550,6 +590,8 @@ class JGithubGistsTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the get method
+	 *
+	 * @return void
 	 */
 	public function testGet()
 	{
@@ -570,6 +612,8 @@ class JGithubGistsTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the get method - simulated failure
+	 *
+	 * @return void
 	 */
 	public function testGetFailure()
 	{
@@ -602,6 +646,8 @@ class JGithubGistsTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the getComment method
+	 *
+	 * @return void
 	 */
 	public function testGetComment()
 	{
@@ -622,6 +668,8 @@ class JGithubGistsTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the getComment method - simulated failure
+	 *
+	 * @return void
 	 */
 	public function testGetCommentFailure()
 	{
@@ -654,6 +702,8 @@ class JGithubGistsTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the getComments method
+	 *
+	 * @return void
 	 */
 	public function testGetComments()
 	{
@@ -674,6 +724,8 @@ class JGithubGistsTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the getComments method - simulated failure
+	 *
+	 * @return void
 	 */
 	public function testGetCommentsFailure()
 	{
@@ -706,6 +758,8 @@ class JGithubGistsTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the getList method
+	 *
+	 * @return void
 	 */
 	public function testGetList()
 	{
@@ -726,6 +780,8 @@ class JGithubGistsTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the getList method - simulated failure
+	 *
+	 * @return void
 	 */
 	public function testGetListFailure()
 	{
@@ -758,6 +814,8 @@ class JGithubGistsTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the getListByUser method
+	 *
+	 * @return void
 	 */
 	public function testGetListByUser()
 	{
@@ -778,6 +836,8 @@ class JGithubGistsTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the getListByUser method - simulated failure
+	 *
+	 * @return void
 	 */
 	public function testGetListByUserFailure()
 	{
@@ -810,6 +870,8 @@ class JGithubGistsTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the getListPublic method
+	 *
+	 * @return void
 	 */
 	public function testGetListPublic()
 	{
@@ -830,6 +892,8 @@ class JGithubGistsTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the getListPublic method - simulated failure
+	 *
+	 * @return void
 	 */
 	public function testGetListPublicFailure()
 	{
@@ -862,6 +926,8 @@ class JGithubGistsTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the getListStarred method
+	 *
+	 * @return void
 	 */
 	public function testGetListStarred()
 	{
@@ -882,6 +948,8 @@ class JGithubGistsTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the getListStarred method - simulated failure
+	 *
+	 * @return void
 	 */
 	public function testGetListStarredFailure()
 	{
@@ -914,6 +982,8 @@ class JGithubGistsTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the isStarred method when the gist has been starred
+	 *
+	 * @return void
 	 */
 	public function testIsStarredTrue()
 	{
@@ -934,6 +1004,8 @@ class JGithubGistsTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the isStarred method when the gist has not been starred
+	 *
+	 * @return void
 	 */
 	public function testIsStarredFalse()
 	{
@@ -954,6 +1026,8 @@ class JGithubGistsTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the isStarred method expecting a failure response
+	 *
+	 * @return void
 	 */
 	public function testIsStarredFailure()
 	{
@@ -986,6 +1060,8 @@ class JGithubGistsTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the star method
+	 *
+	 * @return void
 	 */
 	public function testStar()
 	{
@@ -1003,6 +1079,8 @@ class JGithubGistsTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the star method - simulated failure
+	 *
+	 * @return void
 	 */
 	public function testStarFailure()
 	{
@@ -1035,6 +1113,8 @@ class JGithubGistsTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the unstar method
+	 *
+	 * @return void
 	 */
 	public function testUnstar()
 	{
@@ -1052,6 +1132,8 @@ class JGithubGistsTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the unstar method - simulated failure
+	 *
+	 * @return void
 	 */
 	public function testUnstarFailure()
 	{

@@ -56,12 +56,12 @@ class JAccessTest extends TestCaseDatabase
 	 * Test cases for testCheck
 	 *
 	 * Each test case provides
-	 * - integer		userid	a user id
-	 * - integer		groupid  a group id
-	 * - string	    action	an action to test permission for
-	 * - integer		assetid id of asset to check
-	 * - mixed		true is have permission, null if no permission
-	 * - string		message if fails
+	 * - integer        userid    a user id
+	 * - integer        groupid  a group id
+	 * - string        action    an action to test permission for
+	 * - integer        assetid id of asset to check
+	 * - mixed        true is have permission, null if no permission
+	 * - string        message if fails
 	 *
 	 * @return  array
 	 *
@@ -108,6 +108,8 @@ class JAccessTest extends TestCaseDatabase
 	 * @since   11.1
 	 * @dataProvider casesCheck()
 	 * @covers  JAccess::check
+	 *
+	 * @return void
 	 */
 	public function testCheck($userId, $action, $assetId, $result, $message)
 	{
@@ -119,12 +121,12 @@ class JAccessTest extends TestCaseDatabase
 	 * Test cases for testCheckGroups
 	 *
 	 * Each test case provides
-	 * - integer		userid	a user id
-	 * - integer		groupid  a group id
-	 * - string	    action	an action to test permission for
-	 * - integer		assetid id of asset to check
-	 * - mixed		true is have permission, null if no permission
-	 * - string		message if fails
+	 * - integer        userid    a user id
+	 * - integer        groupid  a group id
+	 * - string        action    an action to test permission for
+	 * - integer        assetid id of asset to check
+	 * - mixed        true is have permission, null if no permission
+	 * - string        message if fails
 	 *
 	 * @return  array
 	 *
@@ -196,6 +198,8 @@ class JAccessTest extends TestCaseDatabase
 	 *
 	 * @since   11.1
 	 * @covers  JAccess::getAssetRules
+	 *
+	 * @return void
 	 */
 	public function testGetAssetRulesValidFalse()
 	{
@@ -212,6 +216,8 @@ class JAccessTest extends TestCaseDatabase
 	 *
 	 * @since   11.1
 	 * @covers  JAccess::getAssetRules
+	 *
+	 * @return void
 	 */
 	public function testGetAssetRulesInvalidFalse()
 	{
@@ -228,6 +234,8 @@ class JAccessTest extends TestCaseDatabase
 	 *
 	 * @since   11.1
 	 * @covers  JAccess::getAssetRules
+	 *
+	 * @return void
 	 */
 	public function testGetAssetRulesTextFalse()
 	{
@@ -244,6 +252,8 @@ class JAccessTest extends TestCaseDatabase
 	 *
 	 * @since   11.1
 	 * @covers  JAccess::getAssetRules
+	 *
+	 * @return void
 	 */
 	public function testGetAssetRulesTextTrue()
 	{
@@ -275,6 +285,8 @@ class JAccessTest extends TestCaseDatabase
 	 *
 	 * @since   11.1
 	 * @covers  JAccess::getUsersByGroup
+	 *
+	 * @return void
 	 */
 	public function testGetUsersByGroupTwoUsers()
 	{
@@ -291,6 +303,8 @@ class JAccessTest extends TestCaseDatabase
 	 *
 	 * @since   11.1
 	 * @covers  JAccess::getUsersByGroup
+	 *
+	 * @return void
 	 */
 	public function testGetUsersByGroupInvalidGroup()
 	{

@@ -12,8 +12,8 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  String
- * @since       12.1
  * @link        http://en.wikipedia.org/wiki/English_plural
+ * @since       12.1
  */
 class JStringInflectorTest extends PHPUnit_Framework_TestCase
 {

@@ -19,7 +19,7 @@ class FooFormFieldModal_Bar extends JFormField
 	/**
 	 * Method to get the field input.
 	 *
-	 * @return  string		The field input.
+	 * @return  string        The field input.
 	 */
 	protected function getInput()
 	{

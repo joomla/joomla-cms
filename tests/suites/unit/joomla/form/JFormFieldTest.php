@@ -7,14 +7,16 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM.'/joomla/form/form.php';
-require_once JPATH_PLATFORM.'/joomla/form/field.php';
+require_once JPATH_PLATFORM . '/joomla/form/form.php';
+require_once JPATH_PLATFORM . '/joomla/form/field.php';
 
 /**
  * Test class for JFormField.
  *
- * @package		Joomla.UnitTest
+ * @package     Joomla.UnitTest
  * @subpackage  Form
+ *
+ * @since       11.1
  */
 class JFormFieldTest extends TestCase
 {
@@ -44,6 +46,8 @@ class JFormFieldTest extends TestCase
 	 * Tests the JFormField::__construct method
 	 *
 	 * @covers JFormField::__construct
+	 *
+	 * @return void
 	 */
 	public function testConstruct()
 	{
@@ -52,7 +56,7 @@ class JFormFieldTest extends TestCase
 		$this->assertThat(
 			$form->load(JFormDataHelper::$loadFieldDocument),
 			$this->isTrue(),
-			'Line:'.__LINE__.' XML string should load successfully.'
+			'Line:' . __LINE__ . ' XML string should load successfully.'
 		);
 
 		$field = new JFormFieldInspector($form);
@@ -60,13 +64,13 @@ class JFormFieldTest extends TestCase
 		$this->assertThat(
 			$field instanceof JFormField,
 			$this->isTrue(),
-			'Line:'.__LINE__.' The JFormField constuctor should return a JFormField object.'
+			'Line:' . __LINE__ . ' The JFormField constuctor should return a JFormField object.'
 		);
 
 		$this->assertThat(
 			$field->getForm(),
 			$this->identicalTo($form),
-			'Line:'.__LINE__.' The internal form should be identical to the variable passed in the contructor.'
+			'Line:' . __LINE__ . ' The internal form should be identical to the variable passed in the contructor.'
 		);
 
 		// Add custom path.
@@ -77,7 +81,7 @@ class JFormFieldTest extends TestCase
 		$this->assertEquals(
 			$field->type,
 			'FooBar',
-			'Line:'.__LINE__.' The field type should have been guessed by the constructor.'
+			'Line:' . __LINE__ . ' The field type should have been guessed by the constructor.'
 		);
 
 		JFormHelper::loadFieldType('foo');
@@ -85,7 +89,7 @@ class JFormFieldTest extends TestCase
 		$this->assertEquals(
 			$field->type,
 			'Foo',
-			'Line:'.__LINE__.' The field type should have been guessed by the constructor.'
+			'Line:' . __LINE__ . ' The field type should have been guessed by the constructor.'
 		);
 
 		JFormHelper::loadFieldType('modal_foo');
@@ -93,12 +97,14 @@ class JFormFieldTest extends TestCase
 		$this->assertEquals(
 			$field->type,
 			'Modal_Foo',
-			'Line:'.__LINE__.' The field type should have been guessed by the constructor.'
+			'Line:' . __LINE__ . ' The field type should have been guessed by the constructor.'
 		);
 	}
 
 	/**
 	 * Tests the JFormField::__get method
+	 *
+	 * @return void
 	 */
 	public function testGet()
 	{
@@ -109,6 +115,8 @@ class JFormFieldTest extends TestCase
 	 * Tests the JFormField::GetId method
 	 *
 	 * @covers JFormField::getId
+	 *
+	 * @return void
 	 */
 	public function testGetId()
 	{
@@ -117,7 +125,7 @@ class JFormFieldTest extends TestCase
 		$this->assertThat(
 			$form->load(JFormDataHelper::$loadFieldDocument),
 			$this->isTrue(),
-			'Line:'.__LINE__.' XML string should load successfully.'
+			'Line:' . __LINE__ . ' XML string should load successfully.'
 		);
 
 		$field = new JFormFieldInspector($form);
@@ -130,19 +138,21 @@ class JFormFieldTest extends TestCase
 		$this->assertThat(
 			$field->setup($colours, 'red', 'params'),
 			$this->isTrue(),
-			'Line:'.__LINE__.' The setup method should return true if successful.'
+			'Line:' . __LINE__ . ' The setup method should return true if successful.'
 		);
 
 		$this->assertThat(
-			// use original 'id' and 'name' here (from XML definition of the form field)
+			// Use original 'id' and 'name' here (from XML definition of the form field)
 			$field->getId((string) $colours['id'], (string) $colours['name']),
 			$this->equalTo('jform_params_colours'),
-			'Line:'.__LINE__.' The property should be computed from the XML.'
+			'Line:' . __LINE__ . ' The property should be computed from the XML.'
 		);
 	}
 
 	/**
 	 * Tests the JFormField::getInput method
+	 *
+	 * @return void
 	 */
 	public function testGetInput()
 	{
@@ -153,6 +163,8 @@ class JFormFieldTest extends TestCase
 	 * Tests the JFormField::getLabel method
 	 *
 	 * @covers JFormField::getLabel
+	 *
+	 * @return void
 	 */
 	public function testGetLabel()
 	{
@@ -161,7 +173,7 @@ class JFormFieldTest extends TestCase
 		$this->assertThat(
 			$form->load(JFormDataHelper::$loadFieldDocument),
 			$this->isTrue(),
-			'Line:'.__LINE__.' XML string should load successfully.'
+			'Line:' . __LINE__ . ' XML string should load successfully.'
 		);
 
 		$field = new JFormFieldInspector($form);
@@ -174,13 +186,13 @@ class JFormFieldTest extends TestCase
 		$this->assertThat(
 			$field->setup($title, 'The title'),
 			$this->isTrue(),
-			'Line:'.__LINE__.' The setup method should return true if successful.'
+			'Line:' . __LINE__ . ' The setup method should return true if successful.'
 		);
 
 		$this->assertThat(
 			$field->getLabel(),
 			$this->equalTo('<label id="title_id-lbl" for="title_id" class="hasTip required" title="Title::The title.">Title<span class="star">&#160;*</span></label>'),
-			'Line:'.__LINE__.' The property should be computed from the XML.'
+			'Line:' . __LINE__ . ' The property should be computed from the XML.'
 		);
 
 		// Not required
@@ -190,14 +202,15 @@ class JFormFieldTest extends TestCase
 		$this->assertThat(
 			$field->setup($colours, 'id'),
 			$this->isTrue(),
-			'Line:'.__LINE__.' The setup method should return true if successful.'
+			'Line:' . __LINE__ . ' The setup method should return true if successful.'
 		);
 
 		$this->assertThat(
 			$field->getLabel(),
 			$this->equalTo('<label id="colours-lbl" for="colours" class="">colours</label>'),
-			'Line:'.__LINE__.' The property should be computed from the XML.'
+			'Line:' . __LINE__ . ' The property should be computed from the XML.'
 		);
+
 		// Hidden field
 
 		$id = array_pop($xml->xpath('fields/field[@name="id"]'));
@@ -205,13 +218,13 @@ class JFormFieldTest extends TestCase
 		$this->assertThat(
 			$field->setup($id, 'id'),
 			$this->isTrue(),
-			'Line:'.__LINE__.' The setup method should return true if successful.'
+			'Line:' . __LINE__ . ' The setup method should return true if successful.'
 		);
 
 		$this->assertThat(
 			$field->getLabel(),
 			$this->equalTo(''),
-			'Line:'.__LINE__.' The property should be computed from the XML.'
+			'Line:' . __LINE__ . ' The property should be computed from the XML.'
 		);
 	}
 
@@ -219,6 +232,8 @@ class JFormFieldTest extends TestCase
 	 * Tests the JFormField::getTitle method
 	 *
 	 * @covers JFormField::getTitle
+	 *
+	 * @return void
 	 */
 	public function testGetTitle()
 	{
@@ -227,7 +242,7 @@ class JFormFieldTest extends TestCase
 		$this->assertThat(
 			$form->load(JFormDataHelper::$loadFieldDocument),
 			$this->isTrue(),
-			'Line:'.__LINE__.' XML string should load successfully.'
+			'Line:' . __LINE__ . ' XML string should load successfully.'
 		);
 
 		$field = new JFormFieldInspector($form);
@@ -240,13 +255,13 @@ class JFormFieldTest extends TestCase
 		$this->assertThat(
 			$field->setup($title, 'The title'),
 			$this->isTrue(),
-			'Line:'.__LINE__.' The setup method should return true if successful.'
+			'Line:' . __LINE__ . ' The setup method should return true if successful.'
 		);
 
 		$this->assertThat(
 			$field->getTitle(),
 			$this->equalTo('Title'),
-			'Line:'.__LINE__.' The property should be computed from the XML.'
+			'Line:' . __LINE__ . ' The property should be computed from the XML.'
 		);
 
 		// Hidden field
@@ -256,13 +271,13 @@ class JFormFieldTest extends TestCase
 		$this->assertThat(
 			$field->setup($id, 'id'),
 			$this->isTrue(),
-			'Line:'.__LINE__.' The setup method should return true if successful.'
+			'Line:' . __LINE__ . ' The setup method should return true if successful.'
 		);
 
 		$this->assertThat(
 			$field->getTitle(),
 			$this->equalTo(''),
-			'Line:'.__LINE__.' The property should be computed from the XML.'
+			'Line:' . __LINE__ . ' The property should be computed from the XML.'
 		);
 	}
 
@@ -270,6 +285,8 @@ class JFormFieldTest extends TestCase
 	 * Tests the JFormField::setForm method
 	 *
 	 * @covers JFormField::setForm
+	 *
+	 * @return void
 	 */
 	public function testSetForm()
 	{
@@ -282,7 +299,7 @@ class JFormFieldTest extends TestCase
 		$this->assertThat(
 			$field->getForm(),
 			$this->identicalTo($form2),
-			'Line:'.__LINE__.' The internal form should be identical to the last set.'
+			'Line:' . __LINE__ . ' The internal form should be identical to the last set.'
 		);
 	}
 
@@ -291,6 +308,8 @@ class JFormFieldTest extends TestCase
 	 *
 	 * @covers JFormField::setup
 	 * @expectedException PHPUnit_Framework_Error
+	 *
+	 * @return void
 	 */
 	public function testSetupInvalidElement()
 	{
@@ -301,7 +320,7 @@ class JFormFieldTest extends TestCase
 		$this->assertThat(
 			$field->setup($wrong, 0),
 			$this->isFalse(),
-			'Line:'.__LINE__.' If not a form object, setup should return false.'
+			'Line:' . __LINE__ . ' If not a form object, setup should return false.'
 		);
 
 	}
@@ -311,6 +330,8 @@ class JFormFieldTest extends TestCase
 	 *
 	 * @covers JFormField::setup
 	 * @covers JFormField::__get
+	 *
+	 * @return void
 	 */
 	public function testSetup()
 	{
@@ -319,7 +340,7 @@ class JFormFieldTest extends TestCase
 		$this->assertThat(
 			$form->load(JFormDataHelper::$loadFieldDocument),
 			$this->isTrue(),
-			'Line:'.__LINE__.' XML string should load successfully.'
+			'Line:' . __LINE__ . ' XML string should load successfully.'
 		);
 
 		$field = new JFormFieldInspector($form);
@@ -332,73 +353,73 @@ class JFormFieldTest extends TestCase
 		$this->assertThat(
 			$field->setup($title, 'The title'),
 			$this->isTrue(),
-			'Line:'.__LINE__.' The setup method should return true if successful.'
+			'Line:' . __LINE__ . ' The setup method should return true if successful.'
 		);
 
 		$this->assertThat(
 			$field->name,
 			$this->equalTo('title'),
-			'Line:'.__LINE__.' The property should be computed from the XML.'
+			'Line:' . __LINE__ . ' The property should be computed from the XML.'
 		);
 
 		$this->assertThat(
 			$field->value,
 			$this->equalTo('The title'),
-			'Line:'.__LINE__.' The value should be set from the setup method argument.'
+			'Line:' . __LINE__ . ' The value should be set from the setup method argument.'
 		);
 
 		$this->assertThat(
 			$field->id,
 			$this->equalTo('title_id'),
-			'Line:'.__LINE__.' The property should be set from the XML (non-alpha transposed to underscore).'
+			'Line:' . __LINE__ . ' The property should be set from the XML (non-alpha transposed to underscore).'
 		);
 
 		$this->assertThat(
 			(string) $title['class'],
 			$this->equalTo('inputbox required'),
-			'Line:'.__LINE__.' The property should be set from the XML.'
+			'Line:' . __LINE__ . ' The property should be set from the XML.'
 		);
 
 		$this->assertThat(
 			$field->validate,
 			$this->equalTo('none'),
-			'Line:'.__LINE__.' The property should be set from the XML.'
+			'Line:' . __LINE__ . ' The property should be set from the XML.'
 		);
 
 		$this->assertThat(
 			$field->multiple,
 			$this->isFalse(),
-			'Line:'.__LINE__.' The property should be computed from the XML.'
+			'Line:' . __LINE__ . ' The property should be computed from the XML.'
 		);
 
 		$this->assertThat(
 			$field->required,
 			$this->isTrue(),
-			'Line:'.__LINE__.' The property should be computed from the XML.'
+			'Line:' . __LINE__ . ' The property should be computed from the XML.'
 		);
 
 		$this->assertThat(
 			$field->input,
 			$this->equalTo(''),
-			'Line:'.__LINE__.' The property should be computed from the XML.'
+			'Line:' . __LINE__ . ' The property should be computed from the XML.'
 		);
 
 		$this->assertThat(
 			$field->label,
 			$this->equalTo('<label id="title_id-lbl" for="title_id" class="hasTip required" title="Title::The title.">Title<span class="star">&#160;*</span></label>'),
-			'Line:'.__LINE__.' The property should be computed from the XML.'
+			'Line:' . __LINE__ . ' The property should be computed from the XML.'
 		);
 
 		$this->assertThat(
 			$field->title,
 			$this->equalTo('Title'),
-			'Line:'.__LINE__.' The property should be computed from the XML.'
+			'Line:' . __LINE__ . ' The property should be computed from the XML.'
 		);
 
 		$this->assertThat(
 			$field->unexisting,
 			$this->equalTo(null),
-			'Line:'.__LINE__.' The property should be computed from the XML.'
+			'Line:' . __LINE__ . ' The property should be computed from the XML.'
 		);
 
 		// Test multiple attribute and form group name.
@@ -408,31 +429,31 @@ class JFormFieldTest extends TestCase
 		$this->assertThat(
 			$field->setup($colours, 'green', 'params'),
 			$this->isTrue(),
-			'Line:'.__LINE__.' The setup method should return true if successful.'
+			'Line:' . __LINE__ . ' The setup method should return true if successful.'
 		);
 
 		$this->assertThat(
 			$field->id,
 			$this->equalTo('params_colours'),
-			'Line:'.__LINE__.' The property should be computed from the XML.'
+			'Line:' . __LINE__ . ' The property should be computed from the XML.'
 		);
 
 		$this->assertThat(
 			$field->name,
 			$this->equalTo('params[colours][]'),
-			'Line:'.__LINE__.' The property should be computed from the XML.'
+			'Line:' . __LINE__ . ' The property should be computed from the XML.'
 		);
 
 		$this->assertThat(
 			$field->multiple,
 			$this->isTrue(),
-			'Line:'.__LINE__.' The property should be computed from the XML.'
+			'Line:' . __LINE__ . ' The property should be computed from the XML.'
 		);
 
 		$this->assertEquals(
 			$field->group,
 			'params',
-			'Line:'.__LINE__.' The property should be set to the the group name.'
+			'Line:' . __LINE__ . ' The property should be set to the the group name.'
 		);
 
 		// Test hidden field type.
@@ -442,13 +463,13 @@ class JFormFieldTest extends TestCase
 		$this->assertThat(
 			$field->setup($id, 42),
 			$this->isTrue(),
-			'Line:'.__LINE__.' The setup method should return true if successful.'
+			'Line:' . __LINE__ . ' The setup method should return true if successful.'
 		);
 
 		$this->assertThat(
 			$field->hidden,
 			$this->isTrue(),
-			'Line:'.__LINE__.' The hidden property should be set from the field type.'
+			'Line:' . __LINE__ . ' The hidden property should be set from the field type.'
 		);
 
 		// Test hidden attribute.
@@ -458,13 +479,13 @@ class JFormFieldTest extends TestCase
 		$this->assertThat(
 			$field->setup($createdDate, '0000-00-00 00:00:00'),
 			$this->isTrue(),
-			'Line:'.__LINE__.' The setup method should return true if successful.'
+			'Line:' . __LINE__ . ' The setup method should return true if successful.'
 		);
 
 		$this->assertThat(
 			$field->hidden,
 			$this->isTrue(),
-			'Line:'.__LINE__.' The hidden property should be set from the hidden attribute.'
+			'Line:' . __LINE__ . ' The hidden property should be set from the hidden attribute.'
 		);
 
 		// Test automatic generated name.
@@ -474,13 +495,13 @@ class JFormFieldTest extends TestCase
 		$this->assertThat(
 			$field->setup($spacer, ''),
 			$this->isTrue(),
-			'Line:'.__LINE__.' The setup method should return true if successful.'
+			'Line:' . __LINE__ . ' The setup method should return true if successful.'
 		);
 
 		$this->assertThat(
 			$field->name,
 			$this->equalTo('__field1'),
-			'Line:'.__LINE__.' The spacer name should be set using an automatic generated name.'
+			'Line:' . __LINE__ . ' The spacer name should be set using an automatic generated name.'
 		);
 
 		// Test nested groups and forced multiple.
@@ -491,31 +512,31 @@ class JFormFieldTest extends TestCase
 		$this->assertThat(
 			$field->setup($comment, 'My comment', 'params.subparams'),
 			$this->isTrue(),
-			'Line:'.__LINE__.' The setup method should return true if successful.'
+			'Line:' . __LINE__ . ' The setup method should return true if successful.'
 		);
 
 		$this->assertThat(
 			$field->id,
 			$this->equalTo('params_subparams_comment'),
-			'Line:'.__LINE__.' The property should be computed from the XML.'
+			'Line:' . __LINE__ . ' The property should be computed from the XML.'
 		);
 
 		$this->assertThat(
 			$field->name,
 			$this->equalTo('params[subparams][comment][]'),
-			'Line:'.__LINE__.' The property should be computed from the XML.'
+			'Line:' . __LINE__ . ' The property should be computed from the XML.'
 		);
 
 		$this->assertEquals(
 			$field->group,
 			'params.subparams',
-			'Line:'.__LINE__.' The property should be set to the the group name.'
+			'Line:' . __LINE__ . ' The property should be set to the the group name.'
 		);
 
 		$this->assertEquals(
 			$field->element['class'],
 			'required',
-			'Line:'.__LINE__.' The property should be computed from the XML.'
+			'Line:' . __LINE__ . ' The property should be computed from the XML.'
 		);
 	}
 }
