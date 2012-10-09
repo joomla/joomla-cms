@@ -48,9 +48,10 @@ class ContentViewForm extends JViewLegacy
 			$this->item->images = json_decode($this->item->images);
 			$this->item->urls = json_decode($this->item->urls);
 
-			$this->form->bind($this->item);
-			$this->form->bind($this->item->urls);
-			$this->form->bind($this->item->images);
+			$tmp = new stdClass;
+			$tmp->images = $this->item->images;
+			$tmp->urls = $this->item->urls;
+			$this->form->bind($tmp);
 
 		}
 
