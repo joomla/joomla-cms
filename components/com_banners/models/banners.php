@@ -37,17 +37,12 @@ class BannersModelBanners extends JModelList
 	 */
 	protected function getStoreId($id = '')
 	{
-                $filter_search = $this->getState('filter.search');
-                $filter_tagSearch = $this->getState('filter.tag_search');
-                $filter_clientId = $this->getState('filter.client_id');
-                $filter_catId = $this->getState('filter.category_id');
-                $filter_keywords = $this->getState('filter.keywords');
 		// Compile the store id.
-		$id	.= ':'. (is_array($filter_search) ? $filter_search[0] : $filter_search);
-                $id	.= ':'. (is_array($filter_tagSearch) ? $filter_tagSearch[0] : $filter_tagSearch);
-                $id	.= ':'. (is_array($filter_clientId) ? $filter_clientId[0] : $filter_clientId);
-                $id	.= ':'. (is_array($filter_catId) ? $filter_catId[0] : $filter_catId);
-                $id	.= ':'. (is_array($filter_keywords) ? $filter_keywords[0] : $filter_keywords);
+		$id	.= ':' . $this->getState('filter.search');
+		$id	.= ':' . $this->getState('filter.tag_search');
+		$id	.= ':' . $this->getState('filter.client_id');
+		$id	.= ':' . serialize($this->getState('filter.category_id'));
+		$id	.= ':' . serialize($this->getState('filter.keywords'));
 
 		return parent::getStoreId($id);
 	}
