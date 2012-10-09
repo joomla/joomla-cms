@@ -6,10 +6,7 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.modellist');
 
 /**
  * Languages Strings Model
@@ -18,7 +15,7 @@ jimport('joomla.application.component.modellist');
  * @subpackage	com_languages
  * @since				2.5
  */
-class LanguagesModelStrings extends JModel
+class LanguagesModelStrings extends JModelLegacy
 {
 	/**
 	 * Method for refreshing the cache in the database with the known language strings

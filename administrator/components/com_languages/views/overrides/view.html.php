@@ -6,10 +6,7 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.view');
 
 /**
  * View for language overrides list
@@ -18,7 +15,7 @@ jimport('joomla.application.component.view');
  * @subpackage	com_languages
  * @since				2.5
  */
-class LanguagesViewOverrides extends JView
+class LanguagesViewOverrides extends JViewLegacy
 {
 	/**
 	 * The items to list
