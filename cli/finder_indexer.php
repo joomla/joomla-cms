@@ -169,20 +169,34 @@ class FinderCli extends JApplicationCli
 		$c = (int) ceil($t / $state->batchSize);
 		$c = $c === 0 ? 1 : $c;
 
-		// Process the batches.
-		for ($i = 0; $i < $c; $i++)
+		try
 		{
-			// Set the batch start time.
-			$this->_qtime = microtime(true);
+			// Process the batches.
+			for ($i = 0; $i < $c; $i++)
+			{
+				// Set the batch start time.
+				$this->_qtime = microtime(true);
 
-			// Reset the batch offset.
-			$state->batchOffset = 0;
+				// Reset the batch offset.
+				$state->batchOffset = 0;
 
-			// Trigger the onBuildIndex event.
-			JDispatcher::getInstance()->trigger('onBuildIndex');
+				// Trigger the onBuildIndex event.
+				JDispatcher::getInstance()->trigger('onBuildIndex');
 
-			// Batch reporting.
-			$this->out(JText::sprintf('FINDER_CLI_BATCH_COMPLETE', ($i + 1), round(microtime(true) - $this->_qtime, 3)), true);
+				// Batch reporting.
+				$this->out(JText::sprintf('FINDER_CLI_BATCH_COMPLETE', ($i + 1), round(microtime(true) - $this->_qtime, 3)), true);
+			}
+		}
+		catch (Exception $e)
+		{
+			// Display the error
+			$this->out($e->getMessage(), true);
+
+			// Reset the indexer state.
+			FinderIndexer::resetState();
+
+			// Close the app
+			$this->close($e->getCode());
 		}
 
 		// Total reporting.
