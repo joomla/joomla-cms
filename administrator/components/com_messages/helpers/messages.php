@@ -4,19 +4,16 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.controller');
 
 /**
  * @package		Joomla.Administrator
  * @subpackage	com_messages
  * @since		1.6
  */
-class MessagesHelper extends JController
+class MessagesHelper
 {
-/**
+	/**
 	 * Configure the Linkbar.
 	 *
 	 * @param	string	The name of the active view.
@@ -73,6 +70,4 @@ class MessagesHelper extends JController
 		$options[]	= JHtml::_('select.option',	'-2',	JText::_('JTRASHED'));
 		return $options;
 	}
-
-
 }

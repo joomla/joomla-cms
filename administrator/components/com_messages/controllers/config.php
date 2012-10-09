@@ -5,8 +5,6 @@
  */
 defined( '_JEXEC' ) or die;
 
-jimport('joomla.application.component.controller');
-
 /**
  * Messages Component Message Model
  *
@@ -14,7 +12,7 @@ jimport('joomla.application.component.controller');
  * @subpackage	com_messages
  * @since		1.6
  */
-class MessagesControllerConfig extends JController
+class MessagesControllerConfig extends JControllerLegacy
 {
 	/**
 	 * Method to save a record.
