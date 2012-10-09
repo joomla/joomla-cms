@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 $pageClass = $this->params->get('pageclass_sfx');
 ?>
 <div class="newsfeed-category<?php echo $this->pageclass_sfx;?>">
-<?php if ($this->params->get('show_page_heading', 1)) : ?>
+<?php if ($this->params->get('show_page_heading')) : ?>
 <h1>
 	<?php echo $this->escape($this->params->get('page_heading')); ?>
 </h1>
