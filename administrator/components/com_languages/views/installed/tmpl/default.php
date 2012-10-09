@@ -17,10 +17,6 @@ $clientId	= $this->state->get('filter.client_id', 0);
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_languages&view=installed&client='.$clientId); ?>" method="post" id="adminForm" name="adminForm">
 
-	<?php if ($this->ftp): ?>
-		<?php echo $this->loadTemplate('ftp');?>
-	<?php endif; ?>
-
 	<table class="adminlist">
 		<thead>
 			<tr>
