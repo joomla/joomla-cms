@@ -4,10 +4,7 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.view');
 
 /**
  * View to edit a template style.
@@ -16,7 +13,7 @@ jimport('joomla.application.component.view');
  * @subpackage	com_templates
  * @since		1.6
  */
-class TemplatesViewTemplate extends JView
+class TemplatesViewTemplate extends JViewLegacy
 {
 	protected $files;
 	protected $state;
