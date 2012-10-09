@@ -17,7 +17,7 @@ jimport('joomla.filesystem.folder');
  * @subpackage	com_media
  * @since		1.5
  */
-class MediaControllerFile extends JController
+class MediaControllerFile extends JControllerLegacy
 {
 	/*
 	 * The folder we are uploading into
@@ -57,7 +57,7 @@ class MediaControllerFile extends JController
 			$_SERVER['CONTENT_LENGTH']>(int)(ini_get('memory_limit'))* 1024 * 1024
 		)
 		{
-			$this->setRedirect('index.php?option=com_media&folder=' . $this->folder, JText::_('COM_MEDIA_ERROR_WARNFILETOOLARGE'), 'error');
+			JError::raiseWarning(100, JText::_('COM_MEDIA_ERROR_WARNFILETOOLARGE'));
 			return false;
 		}
 		// Input is in the form of an associative array containing numerically indexed arrays
@@ -161,7 +161,7 @@ class MediaControllerFile extends JController
 			'tmp_name'	=> $tmp_name,
 			'error'		=> $error,
 			'size'		=> $size,
-			'filepath'	=> JPath::clean(implode(DS, array(COM_MEDIA_BASE, $this->folder, $name)))
+			'filepath'	=> JPath::clean(implode(DIRECTORY_SEPARATOR, array(COM_MEDIA_BASE, $this->folder, $name)))
 		);
 	}
 
@@ -237,7 +237,7 @@ class MediaControllerFile extends JController
 				continue;
 			}
 
-			$fullPath = JPath::clean(implode(DS, array(COM_MEDIA_BASE, $folder, $path)));
+			$fullPath = JPath::clean(implode(DIRECTORY_SEPARATOR, array(COM_MEDIA_BASE, $folder, $path)));
 			$object_file = new JObject(array('filepath' => $fullPath));
 			if (is_file($fullPath))
 			{

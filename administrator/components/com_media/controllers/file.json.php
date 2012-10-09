@@ -17,7 +17,7 @@ jimport('joomla.filesystem.folder');
  * @subpackage	com_media
  * @since		1.6
  */
-class MediaControllerFile extends JController
+class MediaControllerFile extends JControllerLegacy
 {
 	/**
 	 * Upload a file

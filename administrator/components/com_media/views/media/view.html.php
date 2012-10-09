@@ -4,10 +4,7 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.view');
 
 /**
  * HTML View class for the Media component
@@ -16,7 +13,7 @@ jimport('joomla.application.component.view');
  * @subpackage	com_media
  * @since 1.0
  */
-class MediaViewMedia extends JView
+class MediaViewMedia extends JViewLegacy
 {
 	function display($tpl = null)
 	{
@@ -79,9 +76,9 @@ class MediaViewMedia extends JView
 			);
 		}
 
-		if (DS == '\\')
+		if (DIRECTORY_SEPARATOR == '\\')
 		{
-			$base = str_replace(DS, "\\\\", COM_MEDIA_BASE);
+			$base = str_replace(DIRECTORY_SEPARATOR, "\\\\", COM_MEDIA_BASE);
 		} else {
 			$base = COM_MEDIA_BASE;
 		}
