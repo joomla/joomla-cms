@@ -6,10 +6,7 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.view');
 
 /**
  * View to edit a module.
@@ -19,7 +16,7 @@ jimport('joomla.application.component.view');
  * @subpackage	com_modules
  * @since		1.6
  */
-class ModulesViewModule extends JView
+class ModulesViewModule extends JViewLegacy
 {
 	protected $form;
 	protected $item;
