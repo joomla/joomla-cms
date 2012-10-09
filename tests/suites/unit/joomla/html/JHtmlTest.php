@@ -1528,7 +1528,7 @@ class JHtmlTest extends TestCase
 				);*/
 
 				$this->assertContains(
-					'DHTML Date/Time Selector',
+					'DHTML Date\\/Time Selector',
 					$head_data['script']['text/javascript'],
 					'Line:' . __LINE__ . ' Inline JS for the calendar should be loaded'
 				);
