@@ -6,14 +6,13 @@
  * @license		GNU General Public License, see LICENSE.php
  */
 
-// No direct access.
 defined('_JEXEC') or die;
 
 /**
  * @package		Joomla.Administrator
  * @subpackage	com_installer
  */
-class InstallerControllerManage extends JController
+class InstallerControllerManage extends JControllerLegacy
 {
 	/**
 	 * Constructor.

@@ -6,10 +6,7 @@
  * @license		GNU General Public License, see LICENSE.php
  */
 
-// No direct access.
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.controller');
 
 /**
  * Installer Controller
@@ -18,7 +15,7 @@ jimport('joomla.application.component.controller');
  * @subpackage	com_installer
  * @since		1.5
  */
-class InstallerController extends JController
+class InstallerController extends JControllerLegacy
 {
 	/**
 	 * Method to display a view.

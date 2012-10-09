@@ -6,14 +6,13 @@
  * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License, see LICENSE.php
  */
-// No direct access.
 defined('_JEXEC') or die;
 
 /**
  * @package		Joomla.Administrator
  * @subpackage	com_installer
  */
-class InstallerControllerInstall extends JController {
+class InstallerControllerInstall extends JControllerLegacy {
 
     /**
      * Install an extension.

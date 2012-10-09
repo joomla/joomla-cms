@@ -11,7 +11,6 @@ defined('_JEXEC') or die;
 
 // Import library dependencies
 
-jimport('joomla.application.component.modellist');
 jimport('joomla.installer.installer');
 jimport('joomla.installer.helper');
 jimport('joomla.updater.updater');
@@ -24,7 +23,7 @@ jimport('joomla.updater.update');
  * @subpackage	com_installer
  * @since		1.5
  */
-class InstallerModelInstall extends JModelList
+class InstallerModelInstall extends JModelLegacy
 {
 	/**
 	 * @var object JTable object
