@@ -76,12 +76,13 @@ function ContentBuildRoute(&$query)
 				// Make sure we have the id and the alias
 				if (strpos($query['id'], ':') === false) {
 					$db = JFactory::getDbo();
-					$aquery = $db->setQuery(
-						$db->getQuery(true)
-						->select('alias')
-						->from('#__content')
-						->where('id=' . (int) $query['id'])
-					);
+					$query = $db->getQuery(true);
+
+					$query->select('alias');
+					$query->from('#__content');
+					$query->where('id=' . (int) $query['id']);
+
+					$db->setQuery($query);
 					$alias = $db->loadResult();
 					$query['id'] = $query['id'].':'.$alias;
 				}
@@ -245,7 +246,11 @@ function ContentParseRoute($segments)
 			return $vars;
 		} else {
 			$query = $db->getQuery(true);
-			$query->select('c.alias')->from($db->quote('#__content').' AS c')->where('c.id = ' . (int) $id);
+
+			$query->select('c.alias');
+			$query->from('#__content AS c');
+			$query->where('c.id = ' . (int) $id);
+
 			$db->setQuery($query);
 			$article = $db->loadObject();
 			
@@ -285,7 +290,11 @@ function ContentParseRoute($segments)
 		
 		if ($article_id) {
 			$query = $db->getQuery(true);
-			$query->select('c.alias, c.catid')->from($db->quote('#__content').' AS c')->where('c.id = ' . (int) $article_id);
+
+			$query->select('c.alias, c.catid');
+			$query->from('#__content AS c')
+			$query->where('c.id = ' . (int) $article_id);
+
 			$db->setQuery($query);
 			$article = $db->loadObject();
 		
@@ -339,7 +348,12 @@ function ContentParseRoute($segments)
 		if ($found == 0) {
 			if ($advanced) {
 				$query = $db->getQuery(true);
-				$query->select('c.id')->from($db->quote('#__content').' AS c')->where('c.catid = ' . (int) $vars['catid'])->where('c.alias = '.$db->Quote($segment));
+
+				$query->select('c.id');
+				$query->from('#__content AS c')
+				$query->where('c.catid = ' . (int) $vars['catid'])
+				$query->where('c.alias = '.$db->Quote($segment));
+
 				$db->setQuery($query);
 				$cid = $db->loadResult();
 			} else {
