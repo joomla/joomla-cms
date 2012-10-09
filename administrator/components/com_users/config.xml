@@ -30,6 +30,18 @@
 		</field>
 
 		<field
+			name="sendpassword"
+			type="radio"
+			default="1"
+			label="COM_USERS_CONFIG_FIELD_SENDPASSWORD_LABEL"
+			description="COM_USERS_CONFIG_FIELD_SENDPASSWORD_DESC">
+			<option
+				value="0">JNO</option>
+			<option
+				value="1">JYES</option>
+		</field>
+
+		<field
 			name="useractivation"
 			type="list"
 			default="1"

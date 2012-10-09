@@ -6,13 +6,11 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
-
 /**
  * @package		Joomla.Administrator
  * @subpackage	com_users
  */
-class UsersViewUser extends JView
+class UsersViewUser extends JViewLegacy
 {
 	protected $form;
 	protected $item;

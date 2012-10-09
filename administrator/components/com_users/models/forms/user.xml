@@ -4,7 +4,7 @@
 		<field name="name" type="text"
 			class="inputbox"
 			description="COM_USERS_USER_FIELD_NAME_DESC"
-			label="COM_USERS_HEADING_NAME"
+			label="COM_USERS_USER_FIELD_NAME_LABEL"
 			required="true"
 			size="30"
 		/>
@@ -19,7 +19,7 @@
 
 		<field name="password" type="password"
 			autocomplete="off"
-			class="inputbox"
+			class="inputbox validate-password"
 			description="COM_USERS_USER_FIELD_PASSWORD_DESC"
 			filter="raw"
 			label="JGLOBAL_PASSWORD"
@@ -28,11 +28,13 @@
 
 		<field name="password2" type="password"
 			autocomplete="off"
-			class="inputbox"
+			class="inputbox validate-password"
 			description="COM_USERS_USER_FIELD_PASSWORD2_DESC"
 			filter="raw"
 			label="COM_USERS_USER_FIELD_PASSWORD2_LABEL"
 			size="30"
+			validate="equals"
+			field="password2"
 		/>
 
 		<field name="email" type="email"

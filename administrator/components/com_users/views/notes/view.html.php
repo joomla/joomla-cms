@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
-
 /**
  * User notes list view
  *
@@ -18,7 +16,7 @@ jimport('joomla.application.component.view');
  * @subpackage  com_users
  * @since       2.5
  */
-class UsersViewNotes extends JView
+class UsersViewNotes extends JViewLegacy
 {
 	/**
 	 * A list of user note objects.
