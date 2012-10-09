@@ -26,10 +26,15 @@ class WeblinksViewCategory extends JViewLegacy
 		$document->link = JRoute::_(WeblinksHelperRoute::getCategoryRoute(JRequest::getVar('id', null, '', 'int')));
 
 		JRequest::setVar('limit', $app->getCfg('feed_limit'));
+		$params = $app->getParams();
 		$siteEmail = $app->getCfg('mailfrom');
 		$fromName = $app->getCfg('fromname');
+		$feedEmail	= $app->getCfg('feed_email', 'author');
 		$document->editor = $fromName;
-		$document->editorEmail = $siteEmail;
+		if ($feedEmail != "none")
+		{
+			$document->editorEmail = $siteEmail;
+		}
 
 		// Get some data from the model
 		$items		= $this->get('Items');
@@ -42,10 +47,11 @@ class WeblinksViewCategory extends JViewLegacy
 			$title = html_entity_decode($title, ENT_COMPAT, 'UTF-8');
 
 			// url link to article
-			$link = JRoute::_(WeblinksHelperRoute::getWeblinkRoute($item->slug, $item->catid));
+			$link = JRoute::_(WeblinksHelperRoute::getWeblinkRoute($item->id, $item->catid));
 
 			// strip html from feed item description text
 			$description = $item->description;
+			$author			= $item->created_by_alias ? $item->created_by_alias : $item->author;
 			$date = ($item->date ? date('r', strtotime($item->date)) : '');
 
 			// load individual item creator class
@@ -54,7 +60,18 @@ class WeblinksViewCategory extends JViewLegacy
 			$feeditem->link			= $link;
 			$feeditem->description	= $description;
 			$feeditem->date			= $date;
-			$feeditem->category		= 'Weblinks';
+			$feeditem->category		= $category->title;
+			$feeditem->author		= $author;
+
+			// We don't have the author email so we have to use site in both cases.
+			if ($feedEmail == 'site')
+			{
+				$feeditem->authorEmail = $siteEmail;
+			}
+			elseif($feedEmail === 'author')
+			{
+				$feeditem->authorEmail = $item->author_email;
+			}
 
 			// loads item info into rss array
 			$document->addItem($feeditem);
