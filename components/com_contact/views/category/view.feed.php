@@ -17,12 +17,8 @@ defined('_JEXEC') or die;
  */
 class ContactViewCategory extends JViewLegacy
 {
-	function display()
+	function display($tpl = null)
 	{
-		// Get some data from the models
-		$category	= $this->get('Category');
-		$rows		= $this->get('Items');
-
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
 			JError::raiseError(500, implode("\n", $errors));
@@ -33,6 +29,14 @@ class ContactViewCategory extends JViewLegacy
 
 		$doc	= JFactory::getDocument();
 		$params = $app->getParams();
+		$feedEmail	= $app->getCfg('feed_email', 'author');
+		$siteEmail	= $app->getCfg('mailfrom');
+		$fromName = $app->getCfg('fromname');
+
+		JRequest::setVar('limit', $app->getCfg('feed_limit'));
+		// Get some data from the models
+		$category	= $this->get('Category');
+		$rows		= $this->get('Items');
 
 		$doc->link = JRoute::_(ContactHelperRoute::getCategoryRoute($category->id));
 
@@ -48,7 +52,7 @@ class ContactViewCategory extends JViewLegacy
 			// url link to article
 			$link = JRoute::_(ContactHelperRoute::getContactRoute($row->slug, $row->catid));
 
-			$description	= $row->introtext;
+			$description	= $row->address;
 			$author			= $row->created_by_alias ? $row->created_by_alias : $row->author;
 			@$date			= ($row->created ? date('r', strtotime($row->created)) : '');
 
@@ -58,7 +62,18 @@ class ContactViewCategory extends JViewLegacy
 			$item->link			= $link;
 			$item->description	= $description;
 			$item->date			= $date;
-			$item->category		= $row->category;
+			$item->category		= $category->title;
+			$item->author		= $author;
+
+			// We don't have the author email so we have to use site in both cases.
+			if ($feedEmail == 'site')
+			{
+				$item->authorEmail = $siteEmail;
+			}
+			elseif($feedEmail == 'author')
+			{
+				$item->authorEmail = $row->author_email;
+			}
 
 			// loads item info into rss array
 			$doc->addItem($item);
