@@ -6,10 +6,7 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
-
-jimport('joomla.application.controller');
 
 /**
  * Methods supporting a list of search terms.
@@ -18,7 +15,7 @@ jimport('joomla.application.controller');
  * @subpackage	com_search
  * @since		1.6
  */
-class SearchControllerSearches extends JController
+class SearchControllerSearches extends JControllerLegacy
 {
 	/**
 	 * Method to reset the seach log table.
