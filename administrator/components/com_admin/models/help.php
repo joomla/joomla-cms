@@ -4,10 +4,8 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
 jimport('joomla.language.help');
 
 /**
@@ -17,7 +15,7 @@ jimport('joomla.language.help');
  * @subpackage	com_admin
  * @since		1.6
  */
-class AdminModelHelp extends JModel
+class AdminModelHelp extends JModelLegacy
 {
 	/**
 	 * @var string the search string
