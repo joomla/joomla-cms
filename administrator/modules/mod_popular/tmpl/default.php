@@ -16,11 +16,15 @@ JHtml::_('bootstrap.tooltip');
 		<?php foreach ($list as $i => $item) :
 			// Calculate popular items
 			$hits = (int) $item->hits;
-
-			if($hits >= 25)  $hits_class = 'warning';
-			if($hits > 100) $hits_class = 'important';
-			if($hits < 24)   $hits_class = 'info';
-			if($hits < 10)   $hits_class = '';
+			if($hits >= 100) {
+				$hits_class = 'important';
+			} else if($hits >= 25) {
+				$hits_class = 'warning';
+			} else if($hits >= 10) {
+				$hits_class = 'info';
+			} else {
+				$hits_class = '';
+			}
 		?>
 			<div class="row-fluid">
 				<div class="span9">
