@@ -4,10 +4,7 @@
  * @license		GNU General Public License, see LICENSE.php
  */
 
-// No direct access.
 defined('_JEXEC') or die;
-
-jimport( 'joomla.application.component.model' );
 
 /**
  * Login Model
@@ -16,7 +13,7 @@ jimport( 'joomla.application.component.model' );
  * @subpackage	com_login
  * @since		1.5
  */
-class LoginModelLogin extends JModel
+class LoginModelLogin extends JModelLegacy
 {
 	/**
 	 * Method to auto-populate the model state.
