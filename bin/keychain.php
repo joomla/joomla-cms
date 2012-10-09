@@ -17,19 +17,19 @@ require_once realpath('../libraries/import.php');
  * Keychain Manager
  *
  * @package  Joomla.Platform
- * @since    12.2
+ * @since    12.3
  */
 class KeychainManager extends JApplicationCli
 {
 	/**
 	 * @var    boolean  A flag if the keychain has been updated to trigger saving the keychain
-	 * @since  12.2
+	 * @since  12.3
 	 */
 	protected $updated = false;
 
 	/**
 	 * @var    JKeychain  The keychain object being manipulated.
-	 * @since  12.2
+	 * @since  12.3
 	 */
 	protected $keychain = null;
 
@@ -38,7 +38,7 @@ class KeychainManager extends JApplicationCli
 	 *
 	 * @return  void
 	 *
-	 * @since   12.2
+	 * @since   12.3
 	 */
 	public function execute( )
 	{
@@ -102,7 +102,7 @@ class KeychainManager extends JApplicationCli
 	 *
 	 * @return  void
 	 *
-	 * @since   12.2
+	 * @since   12.3
 	 */
 	protected function loadKeychain()
 	{
@@ -131,7 +131,7 @@ class KeychainManager extends JApplicationCli
 	 *
 	 * @return  void
 	 *
-	 * @since   12.2
+	 * @since   12.3
 	 */
 	protected function saveKeychain()
 	{
@@ -153,7 +153,7 @@ class KeychainManager extends JApplicationCli
 	 *
 	 * @return  void
 	 *
-	 * @since   12.2
+	 * @since   12.3
 	 */
 	protected function initPassphraseFile()
 	{
@@ -188,7 +188,7 @@ class KeychainManager extends JApplicationCli
 	 *
 	 * @return  void
 	 *
-	 * @since   12.2
+	 * @since   12.3
 	 */
 	protected function create()
 	{
@@ -211,7 +211,7 @@ class KeychainManager extends JApplicationCli
 	 *
 	 * @return  void
 	 *
-	 * @since   12.2
+	 * @since   12.3
 	 */
 	protected function change()
 	{
@@ -229,7 +229,7 @@ class KeychainManager extends JApplicationCli
 	 *
 	 * @return  void
 	 *
-	 * @since   12.2
+	 * @since   12.3
 	 */
 	protected function read()
 	{
@@ -250,7 +250,7 @@ class KeychainManager extends JApplicationCli
 	 *
 	 * @return  string  The result of var_dump
 	 *
-	 * @since   12.2
+	 * @since   12.3
 	 */
 	private function dumpVar($var)
 	{
@@ -266,7 +266,7 @@ class KeychainManager extends JApplicationCli
 	 *
 	 * @return  void
 	 *
-	 * @since   12.2
+	 * @since   12.3
 	 */
 	protected function delete()
 	{
@@ -285,7 +285,7 @@ class KeychainManager extends JApplicationCli
 	 *
 	 * @return  void
 	 *
-	 * @since   12.2
+	 * @since   12.3
 	 */
 	protected function listEntries()
 	{
@@ -305,7 +305,7 @@ class KeychainManager extends JApplicationCli
 	 *
 	 * @return  void
 	 *
-	 * @since   12.2
+	 * @since   12.3
 	 */
 	protected function displayHelp()
 	{
