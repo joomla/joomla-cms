@@ -80,11 +80,11 @@ font-family:'<?php echo $typoespecial; ?>',gargi,Verdana, Geneva, sans-serif;}
                         <jdoc:include type="modules" name="user1" style="xhtml" />
                     </div>
                 <?php elseif (!empty($logo)): ?>
-                    <div id="logo">
+                    <div id="logo" style="width: <?php echo $user1w; ?>%;">
                         <a href="index.php"><img src="<?php echo $this->baseurl ?>/<?php echo $logo; ?>" alt="<?php echo $sitename; ?>" title="<?php echo $siteslogan; ?>"/></a>
                     </div>
                 <?php else :?>
-                	<div id="logo">
+                	<div id="logo" style="width: <?php echo $user1w; ?>%;">
                 		<?php if ($tslogan == '0') : ?>                			
                 			<h1><a href="index.php" title="<?php echo $siteslogan; ?>"><?php echo $sitename; ?></a></h1>
                 		<?php else : ?>
