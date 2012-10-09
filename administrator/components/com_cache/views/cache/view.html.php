@@ -6,10 +6,7 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.view');
 
 /**
  * HTML View class for the Cache component
@@ -19,7 +16,7 @@ jimport('joomla.application.component.view');
  * @subpackage	com_cache
  * @since 1.6
  */
-class CacheViewCache extends JView
+class CacheViewCache extends JViewLegacy
 {
 	protected $client;
 	protected $data;

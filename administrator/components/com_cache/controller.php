@@ -6,10 +6,7 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.controller');
 
 /**
  * Cache Controller
@@ -18,7 +15,7 @@ jimport('joomla.application.component.controller');
  * @subpackage	com_cache
  * @since 1.6
  */
-class CacheController extends JController
+class CacheController extends JControllerLegacy
 {
 	/**
 	 * @param	boolean			If true, the view output will be cached
