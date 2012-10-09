@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
-
 /**
  * The Joomla! update controller for the Update view
  *
@@ -18,7 +16,7 @@ jimport('joomla.application.component.controller');
  * @subpackage  com_joomlaupdate
  * @since       2.5.4
  */
-class JoomlaupdateControllerUpdate extends JController
+class JoomlaupdateControllerUpdate extends JControllerLegacy
 {
 	/**
 	 * Performs the download of the update package

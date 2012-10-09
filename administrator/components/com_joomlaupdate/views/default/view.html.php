@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
-
 /**
  * Joomla! Update's Default View
  *
@@ -18,7 +16,7 @@ jimport('joomla.application.component.view');
  * @subpackage  com_installer
  * @since       2.5.4
  */
-class JoomlaupdateViewDefault extends JView
+class JoomlaupdateViewDefault extends JViewLegacy
 {
 	/**
 	 * Renders the view
