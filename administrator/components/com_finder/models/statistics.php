@@ -7,10 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-// no direct access
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.model');
 
 /**
  * Statistics model class for Finder.
@@ -19,7 +16,7 @@ jimport('joomla.application.component.model');
  * @subpackage  com_finder
  * @since       2.5
  */
-class FinderModelStatistics extends JModel
+class FinderModelStatistics extends JModelLegacy
 {
 	/**
 	 * Method to get the component statistics
