@@ -173,7 +173,12 @@ function NewsfeedsParseRoute($segments)
 			{
 				$db = JFactory::getDBO();
 				$query = $db->getQuery(true);
-				$query->select('c.id')->from($db->quoteName('#__newsfeeds').' AS c')->where('c.catid = '.$vars['catid'])->where('c.alias = '.$db->Quote($segment));
+
+				$query->select('c.id');
+				$query->from('#__newsfeeds AS c');
+				$query->where('c.catid = '.$vars['catid']);
+				$query->where('c.alias = '.$db->Quote($segment));
+
 				$db->setQuery($query);
 				$nid = $db->loadResult();
 			} else {
