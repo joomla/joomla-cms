@@ -4,10 +4,7 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.view');
 
 /**
  * View class for a list of weblinks.
@@ -16,7 +13,7 @@ jimport('joomla.application.component.view');
  * @subpackage	com_weblinks
  * @since		1.5
  */
-class WeblinksViewWeblinks extends JView
+class WeblinksViewWeblinks extends JViewLegacy
 {
 	protected $items;
 	protected $pagination;
