@@ -12,19 +12,33 @@
  */
 
 /**
- * @package		Joomla.UnitTest
+ * JLogLoggerDatabaseInspector class.
+ *
+ * @package     Joomla.UnitTest
  * @subpackage  Log
+ * @since       11.1
  */
 class JLogLoggerDatabaseInspector extends JLogLoggerDatabase
 {
 	public $driver;
+
 	public $host;
+
 	public $user;
+
 	public $password;
+
 	public $database;
+
 	public $table;
+
 	public $dbo;
 
+	/**
+	 * Test...
+	 *
+	 * @return void
+	 */
 	public function connect()
 	{
 		parent::connect();

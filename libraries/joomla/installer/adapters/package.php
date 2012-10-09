@@ -10,8 +10,6 @@
 defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.base.adapterinstance');
-jimport('joomla.installer.packagemanifest');
-jimport('joomla.filesystem.folder');
 
 /**
  * Package installer
@@ -400,7 +398,7 @@ class JInstallerPackage extends JAdapterInstance
 		}
 
 		$manifestFile = JPATH_MANIFESTS . '/packages/' . $row->get('element') . '.xml';
-		$manifest = new JPackageManifest($manifestFile);
+		$manifest = new JInstallerManifestPackage($manifestFile);
 
 		// Set the package root path
 		$this->parent->setPath('extension_root', JPATH_MANIFESTS . '/packages/' . $manifest->packagename);

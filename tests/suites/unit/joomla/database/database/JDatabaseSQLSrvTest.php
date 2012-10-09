@@ -46,7 +46,7 @@ class JDatabaseSQLSrvTest extends TestCaseDatabase
 	 */
 	protected function getDataSet()
 	{
-		return $this->createXMLDataSet(__DIR__.'/stubs/database.xml');
+		return $this->createXMLDataSet(__DIR__ . '/stubs/database.xml');
 	}
 
 	/**
@@ -60,9 +60,12 @@ class JDatabaseSQLSrvTest extends TestCaseDatabase
 	protected function setUp()
 	{
 		@include_once JPATH_TESTS . '/config_sqlsrv.php';
-		if (class_exists('JSqlSrvTestConfig')) {
+		if (class_exists('JSqlSrvTestConfig'))
+		{
 			$config = new JSqlSrvTestConfig;
-		} else {
+		}
+		else
+		{
 			$this->markTestSkipped('There is no SQL Server test config file present.');
 		}
 		$this->object = JDatabase::getInstance(
@@ -79,7 +82,11 @@ class JDatabaseSQLSrvTest extends TestCaseDatabase
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @todo Implement test__destruct().
+	 *
+	 * @return void
 	 */
 	public function test__destruct()
 	{
@@ -88,7 +95,11 @@ class JDatabaseSQLSrvTest extends TestCaseDatabase
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @todo Implement testConnected().
+	 *
+	 * @return void
 	 */
 	public function testConnected()
 	{
@@ -113,7 +124,11 @@ class JDatabaseSQLSrvTest extends TestCaseDatabase
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @todo Implement testEscape().
+	 *
+	 * @return void
 	 */
 	public function testEscape()
 	{
@@ -122,7 +137,11 @@ class JDatabaseSQLSrvTest extends TestCaseDatabase
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @todo Implement testGetAffectedRows().
+	 *
+	 * @return void
 	 */
 	public function testGetAffectedRows()
 	{
@@ -131,7 +150,11 @@ class JDatabaseSQLSrvTest extends TestCaseDatabase
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @todo Implement testGetCollation().
+	 *
+	 * @return void
 	 */
 	public function testGetCollation()
 	{
@@ -140,7 +163,11 @@ class JDatabaseSQLSrvTest extends TestCaseDatabase
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @todo Implement testGetExporter().
+	 *
+	 * @return void
 	 */
 	public function testGetExporter()
 	{
@@ -149,7 +176,11 @@ class JDatabaseSQLSrvTest extends TestCaseDatabase
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @todo Implement testGetImporter().
+	 *
+	 * @return void
 	 */
 	public function testGetImporter()
 	{
@@ -158,7 +189,11 @@ class JDatabaseSQLSrvTest extends TestCaseDatabase
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @todo Implement testGetNumRows().
+	 *
+	 * @return void
 	 */
 	public function testGetNumRows()
 	{
@@ -183,7 +218,11 @@ class JDatabaseSQLSrvTest extends TestCaseDatabase
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @todo Implement testGetTableColumns().
+	 *
+	 * @return void
 	 */
 	public function testGetTableColumns()
 	{
@@ -235,12 +274,16 @@ class JDatabaseSQLSrvTest extends TestCaseDatabase
 		$this->assertThat(
 			$this->object->getVersion(),
 			$this->isType('string'),
-			'Line:'.__LINE__.' The getVersion method should return a string containing the driver version.'
+			'Line:' . __LINE__ . ' The getVersion method should return a string containing the driver version.'
 		);
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @todo Implement testInsertid().
+	 *
+	 * @return void
 	 */
 	public function testInsertid()
 	{
@@ -249,7 +292,11 @@ class JDatabaseSQLSrvTest extends TestCaseDatabase
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @todo Implement testLoadAssoc().
+	 *
+	 * @return void
 	 */
 	public function testLoadAssoc()
 	{
@@ -258,7 +305,11 @@ class JDatabaseSQLSrvTest extends TestCaseDatabase
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @todo Implement testLoadAssocList().
+	 *
+	 * @return void
 	 */
 	public function testLoadAssocList()
 	{
@@ -267,7 +318,11 @@ class JDatabaseSQLSrvTest extends TestCaseDatabase
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @todo Implement testLoadColumn().
+	 *
+	 * @return void
 	 */
 	public function testLoadColumn()
 	{
@@ -276,7 +331,11 @@ class JDatabaseSQLSrvTest extends TestCaseDatabase
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @todo Implement testLoadNextObject().
+	 *
+	 * @return void
 	 */
 	public function testLoadNextObject()
 	{
@@ -285,7 +344,11 @@ class JDatabaseSQLSrvTest extends TestCaseDatabase
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @todo Implement testLoadNextRow().
+	 *
+	 * @return void
 	 */
 	public function testLoadNextRow()
 	{
@@ -294,7 +357,11 @@ class JDatabaseSQLSrvTest extends TestCaseDatabase
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @todo Implement testLoadObject().
+	 *
+	 * @return void
 	 */
 	public function testLoadObject()
 	{
@@ -303,7 +370,11 @@ class JDatabaseSQLSrvTest extends TestCaseDatabase
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @todo Implement testLoadObjectList().
+	 *
+	 * @return void
 	 */
 	public function testLoadObjectList()
 	{
@@ -312,7 +383,11 @@ class JDatabaseSQLSrvTest extends TestCaseDatabase
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @todo Implement testLoadResult().
+	 *
+	 * @return void
 	 */
 	public function testLoadResult()
 	{
@@ -321,7 +396,11 @@ class JDatabaseSQLSrvTest extends TestCaseDatabase
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @todo Implement testLoadRow().
+	 *
+	 * @return void
 	 */
 	public function testLoadRow()
 	{
@@ -330,7 +409,11 @@ class JDatabaseSQLSrvTest extends TestCaseDatabase
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @todo Implement testLoadRowList().
+	 *
+	 * @return void
 	 */
 	public function testLoadRowList()
 	{
@@ -339,7 +422,11 @@ class JDatabaseSQLSrvTest extends TestCaseDatabase
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @todo Implement testQuery().
+	 *
+	 * @return void
 	 */
 	public function testQuery()
 	{
@@ -348,7 +435,11 @@ class JDatabaseSQLSrvTest extends TestCaseDatabase
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @todo Implement testSelect().
+	 *
+	 * @return void
 	 */
 	public function testSelect()
 	{
@@ -357,7 +448,11 @@ class JDatabaseSQLSrvTest extends TestCaseDatabase
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @todo Implement testSetUTF().
+	 *
+	 * @return void
 	 */
 	public function testSetUTF()
 	{
@@ -368,6 +463,8 @@ class JDatabaseSQLSrvTest extends TestCaseDatabase
 	/**
 	 * Test Test method - there really isn't a lot to test here, but
 	 * this is present for the sake of completeness
+	 *
+	 * @return void
 	 */
 	public function testIsSupported()
 	{
@@ -379,7 +476,11 @@ class JDatabaseSQLSrvTest extends TestCaseDatabase
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @todo Implement testUpdateObject().
+	 *
+	 * @return void
 	 */
 	public function testUpdateObject()
 	{

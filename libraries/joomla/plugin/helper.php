@@ -27,6 +27,51 @@ abstract class JPluginHelper
 	protected static $plugins = null;
 
 	/**
+	 * Get the path to a layout from a Plugin
+	 *
+	 * @param   string  $type    Plugin type
+	 * @param   string  $name    Plugin name
+	 * @param   string  $layout  Layout name
+	 *
+	 * @return  string  Layout path
+	 *
+	 * @since   12.2
+	 */
+	public static function getLayoutPath($type, $name, $layout = 'default')
+	{
+		$template = JFactory::getApplication()->getTemplate();
+		$defaultLayout = $layout;
+
+		if (strpos($layout, ':') !== false)
+		{
+			// Get the template and file name from the string
+			$temp = explode(':', $layout);
+			$template = ($temp[0] == '_') ? $template : $temp[0];
+			$layout = $temp[1];
+			$defaultLayout = ($temp[1]) ? $temp[1] : 'default';
+		}
+
+		// Build the template and base path for the layout
+		$tPath = JPATH_THEMES . '/' . $template . '/html/plg_' . $type . '_' . $name . '/' . $layout . '.php';
+		$bPath = JPATH_BASE . '/plugins/' . $type . '/' . $name . '/tmpl/' . $defaultLayout . '.php';
+		$dPath = JPATH_BASE . '/plugins/' . $type . '/' . $name . '/tmpl/' . 'default.php';
+
+		// If the template has a layout override use it
+		if (file_exists($tPath))
+		{
+			return $tPath;
+		}
+		elseif (file_exists($bPath))
+		{
+			return $bPath;
+		}
+		else
+		{
+			return $dPath;
+		}
+	}
+
+	/**
 	 * Get the plugin data of a specific type if no specific plugin is specified
 	 * otherwise only the specific plugin data is returned.
 	 *
@@ -141,11 +186,11 @@ abstract class JPluginHelper
 	/**
 	 * Loads the plugin file.
 	 *
-	 * @param   JPlugin           $plugin      The plugin.
+	 * @param   object            $plugin      The plugin.
 	 * @param   boolean           $autocreate  True to autocreate.
 	 * @param   JEventDispatcher  $dispatcher  Optionally allows the plugin to use a different dispatcher.
 	 *
-	 * @return  boolean  True on success.
+	 * @return  void
 	 *
 	 * @since   11.1
 	 */

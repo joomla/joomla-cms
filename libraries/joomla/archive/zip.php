@@ -91,7 +91,6 @@ class JArchiveZip implements JArchiveExtractable
 	 *
 	 * @param   string  $archive  Path to save archive.
 	 * @param   array   $files    Array of files to add to archive.
-	 * @param   array   $options  Compression options (unused).
 	 *
 	 * @return  boolean  True if successful.
 	 *
@@ -99,7 +98,7 @@ class JArchiveZip implements JArchiveExtractable
 	 *
 	 * @todo    Finish Implementation
 	 */
-	public function create($archive, $files, array $options = array())
+	public function create($archive, $files)
 	{
 		$contents = array();
 		$ctrldir = array();
@@ -140,11 +139,11 @@ class JArchiveZip implements JArchiveExtractable
 
 		if ($this->hasNativeSupport())
 		{
-			return $this->_extractNative($archive, $destination, $options);
+			return $this->extractNative($archive, $destination);
 		}
 		else
 		{
-			return $this->_extract($archive, $destination, $options);
+			return $this->extractCustom($archive, $destination);
 		}
 	}
 
@@ -198,14 +197,13 @@ class JArchiveZip implements JArchiveExtractable
 	 *
 	 * @param   string  $archive      Path to ZIP archive to extract.
 	 * @param   string  $destination  Path to extract archive into.
-	 * @param   array   $options      Extraction options [unused].
 	 *
 	 * @return  mixed   True if successful
 	 *
 	 * @since   11.1
 	 * @throws  RuntimeException
 	 */
-	private function _extract($archive, $destination, array $options)
+	protected function extractCustom($archive, $destination)
 	{
 		$this->_data = null;
 		$this->_metadata = null;
@@ -291,14 +289,13 @@ class JArchiveZip implements JArchiveExtractable
 	 *
 	 * @param   string  $archive      Path to ZIP archive to extract
 	 * @param   string  $destination  Path to extract archive into
-	 * @param   array   $options      Extraction options [unused]
 	 *
 	 * @return  boolean  True on success
 	 *
 	 * @since   11.1
 	 * @throws  RuntimeException
 	 */
-	private function _extractNative($archive, $destination, array $options)
+	protected function extractNative($archive, $destination)
 	{
 		$zip = zip_open($archive);
 		if (is_resource($zip))
@@ -546,13 +543,13 @@ class JArchiveZip implements JArchiveExtractable
 	 * (date in high 2-bytes, time in low 2-bytes allowing magnitude
 	 * comparison).
 	 *
-	 * @param   integer  $unixtime  The current UNIX timestamp.
+	 * @param   int  $unixtime  The current UNIX timestamp.
 	 *
-	 * @return  integer  The current date in a 4-byte DOS format.
+	 * @return  int  The current date in a 4-byte DOS format.
 	 *
 	 * @since   11.1
 	 */
-	private function _unix2DOSTime($unixtime = null)
+	protected function _unix2DOSTime($unixtime = null)
 	{
 		$timearray = (is_null($unixtime)) ? getdate() : getdate($unixtime);
 

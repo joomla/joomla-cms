@@ -24,7 +24,7 @@ class JLoggerCallbackTest extends PHPUnit_Framework_TestCase
 	 * Test the JLoggerCallback::__construct method.
 	 *
 	 * @return  null
-	 * 
+	 *
 	 * @since   12.2
 	 */
 	public function testConstructor01()
@@ -49,13 +49,14 @@ class JLoggerCallbackTest extends PHPUnit_Framework_TestCase
 	 * Test the JLoggerCallback::__construct method.
 	 *
 	 * @return  null
-	 * 
+	 *
 	 * @since   12.2
 	 */
 	public function testConstructor02()
 	{
 		// Create a callback function (since php 5.3)
-		$callback = function($entry) {
+		$callback = function ($entry)
+		{
 			return;
 		};
 
@@ -76,7 +77,7 @@ class JLoggerCallbackTest extends PHPUnit_Framework_TestCase
 	 * Test the JLoggerCallback::__construct method.
 	 *
 	 * @return  null
-	 * 
+	 *
 	 * @since   12.2
 	 */
 	public function testConstructor03()
@@ -101,7 +102,7 @@ class JLoggerCallbackTest extends PHPUnit_Framework_TestCase
 	 * Test the JLoggerCallback::__construct method.
 	 *
 	 * @return  null
-	 * 
+	 *
 	 * @since   12.2
 	 */
 	public function testConstructor04()
@@ -126,7 +127,7 @@ class JLoggerCallbackTest extends PHPUnit_Framework_TestCase
 	 * Test the JLoggerCallback::__construct method.
 	 *
 	 * @return  null
-	 * 
+	 *
 	 * @since   12.2
 	 */
 	public function testConstructor05()
@@ -151,7 +152,7 @@ class JLoggerCallbackTest extends PHPUnit_Framework_TestCase
 	 * Test the JLoggerCallback::__construct method.
 	 *
 	 * @return  null
-	 * 
+	 *
 	 * @since   12.2
 	 */
 	public function testConstructor06()
@@ -177,7 +178,7 @@ class JLoggerCallbackTest extends PHPUnit_Framework_TestCase
 	 * Test the JLoggerCallback::addEntry method.
 	 *
 	 * @return  null
-	 * 
+	 *
 	 * @since   12.2
 	 */
 	public function testAddEntry()

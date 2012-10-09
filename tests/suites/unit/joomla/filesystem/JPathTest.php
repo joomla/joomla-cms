@@ -40,8 +40,12 @@ class JPathTest extends TestCase
 	}
 
 	/**
-     * @todo Implement testCanChmod().
-     */
+	 * Test...
+	 *
+	 * @todo Implement testCanChmod().
+	 *
+	 * @return void
+	 */
 	public function testCanChmod()
 	{
 		// Remove the following lines when you implement this test.
@@ -49,8 +53,12 @@ class JPathTest extends TestCase
 	}
 
 	/**
-     * @todo Implement testSetPermissions().
-     */
+	 * Test...
+	 *
+	 * @todo Implement testSetPermissions().
+	 *
+	 * @return void
+	 */
 	public function testSetPermissions()
 	{
 		// Remove the following lines when you implement this test.
@@ -58,8 +66,12 @@ class JPathTest extends TestCase
 	}
 
 	/**
-     * @todo Implement testGetPermissions().
-     */
+	 * Test...
+	 *
+	 * @todo Implement testGetPermissions().
+	 *
+	 * @return void
+	 */
 	public function testGetPermissions()
 	{
 		// Remove the following lines when you implement this test.
@@ -67,8 +79,12 @@ class JPathTest extends TestCase
 	}
 
 	/**
-     * @todo Implement testCheck().
-     */
+	 * Test...
+	 *
+	 * @todo Implement testCheck().
+	 *
+	 * @return void
+	 */
 	public function testCheck()
 	{
 		// Remove the following lines when you implement this test.
@@ -77,6 +93,10 @@ class JPathTest extends TestCase
 
 	/**
 	 * Tests the clean method.
+	 *
+	 * @param   string  $input     @todo
+	 * @param   string  $ds        @todo
+	 * @param   string  $expected  @todo
 	 *
 	 * @return  void
 	 *
@@ -93,8 +113,12 @@ class JPathTest extends TestCase
 	}
 
 	/**
-     * @todo Implement testIsOwner().
-     */
+	 * Test...
+	 *
+	 * @todo Implement testIsOwner().
+	 *
+	 * @return void
+	 */
 	public function testIsOwner()
 	{
 		// Remove the following lines when you implement this test.
@@ -102,8 +126,12 @@ class JPathTest extends TestCase
 	}
 
 	/**
-     * @todo Implement testFind().
-     */
+	 * Test...
+	 *
+	 * @todo Implement testFind().
+	 *
+	 * @return void
+	 */
 	public function testFind()
 	{
 		// Remove the following lines when you implement this test.

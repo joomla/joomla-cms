@@ -18,13 +18,17 @@ if (!defined('IS_WIN'))
 {
 	define('IS_WIN', ($os === 'WIN') ? true : false);
 }
-if (!defined('IS_MAC'))
-{
-	define('IS_MAC', ($os === 'MAC') ? true : false);
-}
 if (!defined('IS_UNIX'))
 {
 	define('IS_UNIX', (($os !== 'MAC') && ($os !== 'WIN')) ? true : false);
+}
+
+/**
+ * @deprecated 13.3	Use IS_UNIX instead
+ */
+if (!defined('IS_MAC'))
+{
+	define('IS_MAC', (IS_UNIX === true && ($os === 'DAR' || $os === 'MAC')) ? true : false);
 }
 
 // Import the platform version library if necessary.
@@ -62,22 +66,3 @@ if (version_compare(PHP_VERSION, '5.4.0', '<'))
 {
 	JLoader::register('JsonSerializable', __DIR__ . '/compat/jsonserializable.php');
 }
-
-// Add deprecated constants
-// @deprecated 12.3
-define('JPATH_ISWIN', IS_WIN);
-define('JPATH_ISMAC', IS_MAC);
-
-// Register classes where the names have been changed to fit the autoloader rules
-// @deprecated  12.3
-JLoader::register('JSimpleCrypt', JPATH_PLATFORM . '/legacy/simplecrypt/simplecrypt.php');
-JLoader::register('JTree', JPATH_PLATFORM . '/legacy/base/tree.php');
-JLoader::register('JNode', JPATH_PLATFORM . '/legacy/base/node.php');
-JLoader::register('JObserver', JPATH_PLATFORM . '/legacy/base/observer.php');
-JLoader::register('JObservable', JPATH_PLATFORM . '/legacy/base/observable.php');
-JLoader::register('LogException', JPATH_PLATFORM . '/legacy/log/logexception.php');
-JLoader::register('JXMLElement', JPATH_PLATFORM . '/legacy/utilities/xmlelement.php');
-JLoader::register('JRule', JPATH_PLATFORM . '/legacy/access/rule.php');
-JLoader::register('JRules', JPATH_PLATFORM . '/legacy/access/rules.php');
-JLoader::register('JCli', JPATH_PLATFORM . '/legacy/application/cli.php');
-JLoader::register('JDaemon', JPATH_PLATFORM . '/legacy/application/daemon.php');

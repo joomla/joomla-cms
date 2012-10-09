@@ -45,15 +45,21 @@ abstract class JHtmlList
 				. ".options[selectedIndex].value} else {document.imagelib.src='media/system/images/blank.png'}\"";
 		}
 
-		jimport('joomla.filesystem.folder');
-		$imageFiles = JFolder::files(JPATH_SITE . '/' . $directory);
+		$imageFiles = new DirectoryIterator(JPATH_SITE . '/' . $directory);
 		$images = array(JHtml::_('select.option', '', JText::_('JOPTION_SELECT_IMAGE')));
 
 		foreach ($imageFiles as $file)
 		{
-			if (preg_match('#(' . $extensions . ')$#', $file))
+			$fileName = $file->getFilename();
+
+			if (!$file->isFile())
 			{
-				$images[] = JHtml::_('select.option', $file);
+				continue;
+			}
+
+			if (preg_match('#(' . $extensions . ')$#', $fileName))
+			{
+				$images[] = JHtml::_('select.option', $fileName);
 			}
 		}
 

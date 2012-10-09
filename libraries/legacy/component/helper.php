@@ -62,18 +62,17 @@ class JComponentHelper
 	/**
 	 * Checks if the component is enabled
 	 *
-	 * @param   string   $option  The component option.
-	 * @param   boolean  $strict  If set and the component does not exist, false will be returned.
+	 * @param   string  $option  The component option.
 	 *
 	 * @return  boolean
 	 *
 	 * @since   11.1
 	 */
-	public static function isEnabled($option, $strict = false)
+	public static function isEnabled($option)
 	{
-		$result = self::getComponent($option, $strict);
+		$result = self::getComponent($option, true);
 
-		return ($result->enabled | JFactory::getApplication()->isAdmin());
+		return $result->enabled;
 	}
 
 	/**
@@ -279,14 +278,13 @@ class JComponentHelper
 	 * Render the component.
 	 *
 	 * @param   string  $option  The component option.
-	 * @param   array   $params  The component parameters
 	 *
 	 * @return  object
 	 *
 	 * @since   11.1
 	 * @throws  Exception
 	 */
-	public static function renderComponent($option, $params = array())
+	public static function renderComponent($option)
 	{
 		$app = JFactory::getApplication();
 
@@ -325,8 +323,6 @@ class JComponentHelper
 		{
 			throw new Exception(JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'), 404);
 		}
-
-		$task = $app->input->getString('task');
 
 		// Load common and local language files.
 		$lang->load($option, JPATH_BASE, null, false, false) || $lang->load($option, JPATH_COMPONENT, null, false, false)
@@ -391,14 +387,14 @@ class JComponentHelper
 		catch (RuntimeException $e)
 		{
 			// Fatal error.
-			JLog::add(JText::sprintf('JLIB_APPLICATION_ERROR_COMPONENT_NOT_LOADING', $option, $error), JLog::WARNING, 'jerror');
+			JLog::add(JText::sprintf('JLIB_APPLICATION_ERROR_COMPONENT_NOT_LOADING', $option, $e->getMessage()), JLog::WARNING, 'jerror');
 			return false;
 		}
 
 		if (empty(self::$components[$option]))
 		{
 			// Fatal error.
-			JLog::add(JText::sprintf('JLIB_APPLICATION_ERROR_COMPONENT_NOT_LOADING', $option, $error), JLog::WARNING, 'jerror');
+			JLog::add(JText::sprintf('JLIB_APPLICATION_ERROR_COMPONENT_NOT_LOADING', $option), JLog::WARNING, 'jerror');
 			return false;
 		}
 

@@ -15,7 +15,7 @@ include_once JPATH_PLATFORM . '/joomla/utilities/utility.php';
  *
  * @package     Joomla.UnitTest
  * @subpackage  Utilities
- *
+ * @since       11.1
  */
 class JUtilityTest extends TestCase
 {
@@ -54,25 +54,27 @@ class JUtilityTest extends TestCase
 		return array(
 			'jdoc' => array(
 				'<jdoc style="fred" />',
-				array( 'style' => 'fred' )
+				array('style' => 'fred')
 			),
 			'xml' => array(
 				"<img hear=\"something\" there=\"somethingelse\" />",
-				array( 'hear' => 'something', 'there' => 'somethingelse' )
+				array('hear' => 'something', 'there' => 'somethingelse')
 			),
 		);
 	}
+
 	/**
 	 * Test parseAttributes
 	 *
-	 * @param   string	tag to be parsed
-	 * @param   array	resulting array of attribute values
+	 * @param   string  $tag       tag to be parsed
+	 * @param   array   $expected  resulting array of attribute values
 	 *
-	 * @return void
+	 * @return  void
 	 *
 	 * @dataProvider casesParseAttributes
+	 * @covers  JUtility::parseAttributes
 	 */
-	public function testParseAttributes( $tag, $expected )
+	public function testParseAttributes($tag, $expected)
 	{
 		$this->assertThat(
 			JUtility::parseAttributes($tag),

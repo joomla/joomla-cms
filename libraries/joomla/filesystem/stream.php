@@ -1172,7 +1172,6 @@ class JStream extends JObject
 		ini_set('track_errors', true);
 
 		$chmodDest = $this->_getFilename($dest, 'w', $use_prefix, $relative);
-		$exists = file_exists($dest);
 
 		// Since we're going to open the file directly we need to get the filename.
 		// We need to use the same prefix so force everything to write.

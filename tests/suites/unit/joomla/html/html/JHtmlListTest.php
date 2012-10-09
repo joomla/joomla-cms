@@ -7,12 +7,14 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM.'/joomla/html/list.php';
+require_once JPATH_PLATFORM . '/joomla/html/list.php';
 
 /**
  * Test class for JHtmlList.
  *
- * @since  11.1
+ * @package     Joomla.UnitTest
+ * @subpackage  Html
+ * @since       11.1
  */
 class JHtmlListTest extends TestCaseDatabase
 {
@@ -31,39 +33,51 @@ class JHtmlListTest extends TestCaseDatabase
 	 */
 	protected function getDataSet()
 	{
-		return $this->createXMLDataSet(__DIR__.'/testfiles/JHtmlTest.xml');
+		return $this->createXMLDataSet(__DIR__ . '/testfiles/JHtmlTest.xml');
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @todo Implement testImages().
+	 *
+	 * @return void
 	 */
 	public function testImages()
 	{
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete(
-		'This test has not been implemented yet.'
+			'This test has not been implemented yet.'
 		);
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @todo Implement testGenericordering().
+	 *
+	 * @return void
 	 */
 	public function testGenericordering()
 	{
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete(
-		'This test has not been implemented yet.'
+			'This test has not been implemented yet.'
 		);
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @todo Implement testOrdering().
+	 *
+	 * @return void
 	 */
 	public function testOrdering()
 	{
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete(
-		'This test has not been implemented yet.'
+			'This test has not been implemented yet.'
 		);
 	}
 
@@ -96,7 +110,7 @@ class JHtmlListTest extends TestCaseDatabase
 	 */
 	public function testPositions()
 	{
-		//TODO: Replace JGLOBAL_LEFT with translated string
+		// TODO: Replace JGLOBAL_LEFT with translated string
 		$this->assertThat(
 			JHtmlList::positions('position-list', 'center', null, '1', '1', '1', '1', 'positions'),
 			$this->StringContains('<option value="left">JGLOBAL_LEFT</option>')

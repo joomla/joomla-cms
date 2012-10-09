@@ -106,8 +106,9 @@ class JMail extends PHPMailer
 	/**
 	 * Set the email sender
 	 *
-	 * @param   array  $from  email address and Name of sender
-	 *                        <code>array([0] => email Address [1] => Name)</code>
+	 * @param   mixed  $from  email address and Name of sender
+	 *                        <code>array([0] => email Address, [1] => Name)</code>
+	 *                        or as a string
 	 *
 	 * @return  JMail  Returns this object for chaining.
 	 *
@@ -135,8 +136,8 @@ class JMail extends PHPMailer
 		}
 		else
 		{
-			// If it is neither, we throw a warning
-			JLog::add(JText::sprintf('JLIB_MAIL_INVALID_EMAIL_SENDER', $from), JLog::WARNING, 'jerror');
+			// If it's neither we throw an exception
+			throw new UnexpectedValueException(sprintf('Invalid email Sender: %s, JMail::setSender(%s)', $from));
 		}
 
 		return $this;
@@ -440,7 +441,6 @@ class JMail extends PHPMailer
 	public function sendMail($from, $fromName, $recipient, $subject, $body, $mode = false, $cc = null, $bcc = null, $attachment = null,
 		$replyTo = null, $replyToName = null)
 	{
-		$this->setSender(array($from, $fromName));
 		$this->setSubject($subject);
 		$this->setBody($body);
 
@@ -469,6 +469,10 @@ class JMail extends PHPMailer
 		{
 			$this->addReplyTo(array($replyTo, $replyToName));
 		}
+
+		// Add sender to replyTo only if no replyTo received
+		$autoReplyTo = (empty($this->ReplyTo)) ? true : false;
+		$this->setSender(array($from, $fromName, $autoReplyTo));
 
 		return $this->Send();
 	}

@@ -7,9 +7,9 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM.'/joomla/crypt/key.php';
-require_once JPATH_PLATFORM.'/joomla/crypt/cipher.php';
-require_once JPATH_PLATFORM.'/joomla/crypt/cipher/simple.php';
+require_once JPATH_PLATFORM . '/joomla/crypt/key.php';
+require_once JPATH_PLATFORM . '/joomla/crypt/cipher.php';
+require_once JPATH_PLATFORM . '/joomla/crypt/cipher/simple.php';
 
 /**
  * Test class for JCryptCipherSimple.
@@ -24,7 +24,7 @@ class JCryptCipherSimpleTest extends TestCase
 	 * @var    JCryptCipherSimple
 	 * @since  12.1
 	 */
-	private $cipher;
+	private $_cipher;
 
 	/**
 	 * Prepares the environment before running a test.
@@ -37,11 +37,11 @@ class JCryptCipherSimpleTest extends TestCase
 	{
 		parent::setUp();
 
-		$this->cipher = new JCryptCipherSimple;
+		$this->_cipher = new JCryptCipherSimple;
 
 		$this->key = new JCryptKey('simple');
 		$this->key->private = 'MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCUgkVF4mLxAUf80ZJPAJHXHoac';
-		$this->key->public  = 'MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCUgkVF4mLxAUf80ZJPAJHXHoac';
+		$this->key->public = 'MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCUgkVF4mLxAUf80ZJPAJHXHoac';
 	}
 
 	/**
@@ -53,12 +53,17 @@ class JCryptCipherSimpleTest extends TestCase
 	 */
 	protected function tearDown()
 	{
-		$this->cipher = null;
+		$this->_cipher = null;
 		$this->key = null;
 
 		parent::tearDown();
 	}
 
+	/**
+	 * Test...
+	 *
+	 * @return array
+	 */
 	public function dataForEncrypt()
 	{
 		return array(
@@ -73,6 +78,9 @@ class JCryptCipherSimpleTest extends TestCase
 	/**
 	 * Tests JCryptCipherSimple->decrypt()
 	 *
+	 * @param   string  $file  @todo
+	 * @param   string  $data  @todo
+	 *
 	 * @return  void
 	 *
 	 * @dataProvider dataForEncrypt
@@ -81,7 +89,7 @@ class JCryptCipherSimpleTest extends TestCase
 	public function testDecrypt($file, $data)
 	{
 		$encrypted = file_get_contents(__DIR__ . '/stubs/encrypted/simple/' . $file);
-		$decrypted = $this->cipher->decrypt($encrypted, $this->key);
+		$decrypted = $this->_cipher->decrypt($encrypted, $this->key);
 
 		// Assert that the decrypted values are the same as the expected ones.
 		$this->assertEquals($data, $decrypted);
@@ -90,6 +98,9 @@ class JCryptCipherSimpleTest extends TestCase
 	/**
 	 * Tests JCryptCipherSimple->encrypt()
 	 *
+	 * @param   string  $file  @todo
+	 * @param   string  $data  @todo
+	 *
 	 * @return  void
 	 *
 	 * @dataProvider dataForEncrypt
@@ -97,7 +108,7 @@ class JCryptCipherSimpleTest extends TestCase
 	 */
 	public function testEncrypt($file, $data)
 	{
-		$encrypted = $this->cipher->encrypt($data, $this->key);
+		$encrypted = $this->_cipher->encrypt($data, $this->key);
 
 		// Assert that the encrypted value is not the same as the clear text value.
 		$this->assertNotEquals($data, $encrypted);
@@ -115,7 +126,7 @@ class JCryptCipherSimpleTest extends TestCase
 	 */
 	public function testGenerateKey()
 	{
-		$key = $this->cipher->generateKey();
+		$key = $this->_cipher->generateKey();
 
 		// Assert that the key is the correct type.
 		$this->assertInstanceOf('JCryptKey', $key);

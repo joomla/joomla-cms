@@ -118,35 +118,35 @@ class JLanguage
 
 	/**
 	 * Name of the pluralSuffixesCallback function for this language.
-	 * @var    string
+	 * @var    callable
 	 * @since  11.1
 	 */
 	protected $pluralSuffixesCallback = null;
 
 	/**
 	 * Name of the ignoredSearchWordsCallback function for this language.
-	 * @var    string
+	 * @var    callable
 	 * @since  11.1
 	 */
 	protected $ignoredSearchWordsCallback = null;
 
 	/**
 	 * Name of the lowerLimitSearchWordCallback function for this language.
-	 * @var    string
+	 * @var    callable
 	 * @since  11.1
 	 */
 	protected $lowerLimitSearchWordCallback = null;
 
 	/**
 	 * Name of the uppperLimitSearchWordCallback function for this language
-	 * @var    string
+	 * @var    callable
 	 * @since  11.1
 	 */
 	protected $upperLimitSearchWordCallback = null;
 
 	/**
 	 * Name of the searchDisplayedCharactersNumberCallback function for this language.
-	 * @var    string
+	 * @var    callable
 	 * @since  11.1
 	 */
 	protected $searchDisplayedCharactersNumberCallback = null;

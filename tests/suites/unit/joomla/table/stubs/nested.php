@@ -8,6 +8,8 @@
  */
 
 /**
+ * NestedTable class.
+ *
  * @package     Joomla.UnitTest
  * @subpackage  Table
  * @since       12.1
@@ -28,6 +30,11 @@ class NestedTable extends JTableNested
 		parent::__construct('#__categories', 'id', $db);
 	}
 
+	/**
+	 * Test...
+	 *
+	 * @return void
+	 */
 	public static function mockUnlock()
 	{
 		self::$unlocked = true;

@@ -307,7 +307,7 @@ class JApplicationWeb extends JApplicationBase
 		// Setup the document options.
 		$options = array(
 			'template' => $this->get('theme'),
-			'file' => 'index.php',
+			'file' => $this->get('themeFile', 'index.php'),
 			'params' => $this->get('themeParams')
 		);
 
@@ -1172,16 +1172,4 @@ class JApplicationWeb extends JApplicationBase
 			$this->set('uri.media.path', $this->get('uri.base.path') . 'media/');
 		}
 	}
-}
-
-/**
- * Deprecated class placeholder.  You should use JApplicationWeb instead.
- *
- * @package     Joomla.Platform
- * @subpackage  Application
- * @since       11.3
- * @deprecated  12.3
- */
-class JWeb extends JApplicationWeb
-{
 }

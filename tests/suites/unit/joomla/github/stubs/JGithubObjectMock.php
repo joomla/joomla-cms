@@ -8,8 +8,12 @@
  */
 
 /**
- * @package		Joomla.UnitTest
+ * JGithubObjectMock class.
+ *
+ * @package     Joomla.UnitTest
  * @subpackage  Github
+ *
+ * @since       11.1
  */
 class JGithubObjectMock extends JGithubObject
 {

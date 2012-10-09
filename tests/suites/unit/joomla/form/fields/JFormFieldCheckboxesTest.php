@@ -20,33 +20,37 @@ class JFormFieldCheckboxesTest extends TestCase
 	 * Sets up dependencies for the test.
 	 *
 	 * @since       11.3
+	 *
+	 * @return void
 	 */
 	protected function setUp()
 	{
-		require_once JPATH_PLATFORM.'/joomla/form/fields/checkboxes.php';
+		require_once JPATH_PLATFORM . '/joomla/form/fields/checkboxes.php';
 	}
 
 	/**
 	 * Test the getInput method with no value and no checked attribute.
 	 *
 	 * @since       12.2
+	 *
+	 * @return void
 	 */
 	public function testGetInputNoValueNoChecked()
 	{
 		$formFieldCheckboxes = $this->getMock('JFormFieldCheckboxes', array('getOptions'));
 
 		$option1 = new JObject;
-		$option1->set('value','red');
-		$option1->set('text','red');
+		$option1->set('value', 'red');
+		$option1->set('text', 'red');
 
 		$option2 = new JObject;
-		$option2->set('value','blue');
-		$option2->set('text','blue');
+		$option2->set('value', 'blue');
+		$option2->set('text', 'blue');
 
-		$optionsReturn = array($option1,$option2);
+		$optionsReturn = array($option1, $option2);
 		$formFieldCheckboxes->expects($this->any())
-							->method('getOptions')
-							->will($this->returnValue($optionsReturn));
+			->method('getOptions')
+			->will($this->returnValue($optionsReturn));
 
 		// Test with no value, no checked element
 		$element = simplexml_load_string(
@@ -69,23 +73,25 @@ class JFormFieldCheckboxesTest extends TestCase
 	 * Test the getInput method with one value selected and no checked attribute.
 	 *
 	 * @since       12.2
+	 *
+	 * @return void
 	 */
 	public function testGetInputValueNoChecked()
 	{
 		$formFieldCheckboxes = $this->getMock('JFormFieldCheckboxes', array('getOptions'));
 
 		$option1 = new JObject;
-		$option1->set('value','red');
-		$option1->set('text','red');
+		$option1->set('value', 'red');
+		$option1->set('text', 'red');
 
 		$option2 = new JObject;
-		$option2->set('value','blue');
-		$option2->set('text','blue');
+		$option2->set('value', 'blue');
+		$option2->set('text', 'blue');
 
-		$optionsReturn = array($option1,$option2);
+		$optionsReturn = array($option1, $option2);
 		$formFieldCheckboxes->expects($this->any())
-							->method('getOptions')
-							->will($this->returnValue($optionsReturn));
+			->method('getOptions')
+			->will($this->returnValue($optionsReturn));
 
 		// Test with one value checked, no checked element
 		$element = simplexml_load_string(
@@ -109,23 +115,25 @@ class JFormFieldCheckboxesTest extends TestCase
 	 * Test the getInput method with one value that is an array and no checked attribute.
 	 *
 	 * @since       12.2
+	 *
+	 * @return void
 	 */
 	public function testGetInputValueArrayNoChecked()
 	{
 		$formFieldCheckboxes = $this->getMock('JFormFieldCheckboxes', array('getOptions'));
 
 		$option1 = new JObject;
-		$option1->set('value','red');
-		$option1->set('text','red');
+		$option1->set('value', 'red');
+		$option1->set('text', 'red');
 
 		$option2 = new JObject;
-		$option2->set('value','blue');
-		$option2->set('text','blue');
+		$option2->set('value', 'blue');
+		$option2->set('text', 'blue');
 
-		$optionsReturn = array($option1,$option2);
+		$optionsReturn = array($option1, $option2);
 		$formFieldCheckboxes->expects($this->any())
-							->method('getOptions')
-							->will($this->returnValue($optionsReturn));
+			->method('getOptions')
+			->will($this->returnValue($optionsReturn));
 
 		// Test with one value checked, no checked element
 		$element = simplexml_load_string(
@@ -133,7 +141,7 @@ class JFormFieldCheckboxesTest extends TestCase
 			<option value="red">red</option>
 			<option value="blue">blue</option>
 			</field>');
-		$valuearray = array ('red');
+		$valuearray = array('red');
 		TestReflection::setValue($formFieldCheckboxes, 'element', $element);
 		TestReflection::setValue($formFieldCheckboxes, 'id', 'myTestId');
 		TestReflection::setValue($formFieldCheckboxes, 'value', $valuearray);
@@ -150,24 +158,26 @@ class JFormFieldCheckboxesTest extends TestCase
 	 * Test the getInput method  with no value and one value in checked.
 	 *
 	 * @since       12.2
+	 *
+	 * @return void
 	 */
 	public function testGetInputNoValueOneChecked()
 	{
 		$formFieldCheckboxes = $this->getMock('JFormFieldCheckboxes', array('getOptions'));
 
 		$option1 = new JObject;
-		$option1->set('value','red');
-		$option1->set('text','red');
+		$option1->set('value', 'red');
+		$option1->set('text', 'red');
 
 		$option2 = new JObject;
-		$option2->set('value','blue');
-		$option2->set('text','blue');
+		$option2->set('value', 'blue');
+		$option2->set('text', 'blue');
 
-		$optionsReturn = array($option1,$option2);
+		$optionsReturn = array($option1, $option2);
 		$formFieldCheckboxes->expects($this->any())
-							->method('getOptions')
-							->will($this->returnValue($optionsReturn));
-		
+			->method('getOptions')
+			->will($this->returnValue($optionsReturn));
+
 		// Test with nothing checked, one value in checked element
 		$element = simplexml_load_string(
 			'<field name="color" type="checkboxes" checked="blue">
@@ -189,24 +199,26 @@ class JFormFieldCheckboxesTest extends TestCase
 	 * Test the getInput method with no value and two values in the checked element.
 	 *
 	 * @since       12.2
+	 *
+	 * @return void
 	 */
 	public function testGetInputNoValueTwoChecked()
 	{
 		$formFieldCheckboxes = $this->getMock('JFormFieldCheckboxes', array('getOptions'));
 
 		$option1 = new JObject;
-		$option1->set('value','red');
-		$option1->set('text','red');
+		$option1->set('value', 'red');
+		$option1->set('text', 'red');
 
 		$option2 = new JObject;
-		$option2->set('value','blue');
-		$option2->set('text','blue');
+		$option2->set('value', 'blue');
+		$option2->set('text', 'blue');
 
-		$optionsReturn = array($option1,$option2);
+		$optionsReturn = array($option1, $option2);
 		$formFieldCheckboxes->expects($this->any())
-							->method('getOptions')
-							->will($this->returnValue($optionsReturn));
-		
+			->method('getOptions')
+			->will($this->returnValue($optionsReturn));
+
 		// Test with nothing checked, two values in checked element
 		$element = simplexml_load_string(
 			'<field name="color" type="checkboxes" checked="red,blue">
@@ -229,23 +241,25 @@ class JFormFieldCheckboxesTest extends TestCase
 	 * Test the getInput method with one value and a different checked value.
 	 *
 	 * @since       12.2
+	 *
+	 * @return void
 	 */
 	public function testGetInputValueChecked()
 	{
 		$formFieldCheckboxes = $this->getMock('JFormFieldCheckboxes', array('getOptions'));
 
 		$option1 = new JObject;
-		$option1->set('value','red');
-		$option1->set('text','red');
+		$option1->set('value', 'red');
+		$option1->set('text', 'red');
 
 		$option2 = new JObject;
-		$option2->set('value','blue');
-		$option2->set('text','blue');
+		$option2->set('value', 'blue');
+		$option2->set('text', 'blue');
 
-		$optionsReturn = array($option1,$option2);
+		$optionsReturn = array($option1, $option2);
 		$formFieldCheckboxes->expects($this->any())
-							->method('getOptions')
-							->will($this->returnValue($optionsReturn));
+			->method('getOptions')
+			->will($this->returnValue($optionsReturn));
 
 		// Test with one item checked, a different value in checked element
 		$element = simplexml_load_string(
@@ -269,23 +283,25 @@ class JFormFieldCheckboxesTest extends TestCase
 	 * Test the getInput method with multiple values, no checked.
 	 *
 	 * @since       12.2
+	 *
+	 * @return void
 	 */
 	public function testGetInputValuesNoChecked()
 	{
-	$formFieldCheckboxes = $this->getMock('JFormFieldCheckboxes', array('getOptions'));
+		$formFieldCheckboxes = $this->getMock('JFormFieldCheckboxes', array('getOptions'));
 
 		$option1 = new JObject;
-		$option1->set('value','red');
-		$option1->set('text','red');
+		$option1->set('value', 'red');
+		$option1->set('text', 'red');
 
 		$option2 = new JObject;
-		$option2->set('value','blue');
-		$option2->set('text','blue');
+		$option2->set('value', 'blue');
+		$option2->set('text', 'blue');
 
-		$optionsReturn = array($option1,$option2);
+		$optionsReturn = array($option1, $option2);
 		$formFieldCheckboxes->expects($this->any())
-							->method('getOptions')
-							->will($this->returnValue($optionsReturn));
+			->method('getOptions')
+			->will($this->returnValue($optionsReturn));
 
 		// Test with two values checked, no checked element
 		$element = simplexml_load_string(
@@ -309,6 +325,8 @@ class JFormFieldCheckboxesTest extends TestCase
 	 * Test the getOptions method.
 	 *
 	 * @since       12.2
+	 *
+	 * @return void
 	 */
 	public function testGetOptions()
 	{
@@ -328,14 +346,16 @@ class JFormFieldCheckboxesTest extends TestCase
 		$option2->class = '';
 		$option2->onclick = '';
 
-		$optionsExpected = array($option1,$option2);
+		$optionsExpected = array($option1, $option2);
 
 		// Test with two values checked, no checked element
-		TestReflection::setValue($formFieldCheckboxes, 'element', simplexml_load_string(
+		TestReflection::setValue(
+			$formFieldCheckboxes, 'element', simplexml_load_string(
 			'<field name="color" type="checkboxes">
 			<option value="yellow">yellow</option>
 			<option value="green">green</option>
-			</field>'));
+			</field>')
+		);
 
 		$this->assertEquals(
 			$optionsExpected,

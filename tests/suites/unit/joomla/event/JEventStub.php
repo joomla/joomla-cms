@@ -1,11 +1,18 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.UnitTest
+ * @subpackage  Event
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
  * Stub class to test JEvent
+ *
+ * @package     Joomla.UnitTest
+ * @subpackage  Event
+ * @since       11.1
  */
 class JEventStub extends JEvent
 {

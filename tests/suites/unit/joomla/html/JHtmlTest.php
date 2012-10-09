@@ -90,7 +90,8 @@ class JHtmlTest extends TestCase
 
 		$this->assertThat(
 			JHtml::_('empty.anything'),
-			$this->isFalse());
+			$this->isFalse()
+		);
 	}
 
 	/**
@@ -111,7 +112,8 @@ class JHtmlTest extends TestCase
 
 		$this->assertThat(
 			JHtml::_('nofile.anything'),
-			$this->isFalse());
+			$this->isFalse()
+		);
 	}
 
 	/**
@@ -132,7 +134,8 @@ class JHtmlTest extends TestCase
 
 		$this->assertThat(
 			JHtml::_('inspector.nomethod'),
-			$this->isFalse());
+			$this->isFalse()
+		);
 	}
 
 	/**
@@ -147,13 +150,13 @@ class JHtmlTest extends TestCase
 	{
 		$registered = $this->getMock('MyHtmlClass', array('mockFunction'));
 
-		// test that we can register the method
+		// Test that we can register the method
 		$this->assertThat(
 			JHtml::register('prefix.register.testfunction', array($registered, 'mockFunction')),
 			$this->isTrue(),
 			'The class method did not register properly.');
 
-		// test that calling _ actually calls the function
+		// Test that calling _ actually calls the function
 		$registered->expects($this->once())
 			->method('mockFunction');
 
@@ -386,10 +389,11 @@ class JHtmlTest extends TestCase
 			JHtml::image($extension . '/' . $element . '/' . $urlpath . $urlfilename, 'My Alt Text', null, true),
 			$this->equalTo(
 				'<img src="' . JURI::base(true) . '/media/' . $extension . '/' . $element . '/images/' . $urlpath . $urlfilename .
-					 '" alt="My Alt Text"  />'),
-				'JHtml::image failed when we should get it from the media directory, with the plugin fix');
+					'" alt="My Alt Text"  />'),
+			'JHtml::image failed when we should get it from the media directory, with the plugin fix');
 
-		$this->assertThat(JHtml::image($extension . '/' . $element . '/' . $urlpath . $urlfilename, 'My Alt Text', null, true, true),
+		$this->assertThat(
+			JHtml::image($extension . '/' . $element . '/' . $urlpath . $urlfilename, 'My Alt Text', null, true, true),
 			$this->equalTo(JURI::base(true) . '/media/' . $extension . '/' . $element . '/images/' . $urlpath . $urlfilename),
 			'JHtml::image failed when we should get it from the media directory, with the plugin fix path only mode');
 
@@ -407,11 +411,13 @@ class JHtmlTest extends TestCase
 			JHtml::image($extension . '/' . $element . '/' . $urlpath . $urlfilename, 'My Alt Text', null, true),
 			$this->equalTo(
 				'<img src="' . JURI::base(true) . '/media/' . $extension . '/images/' . $element . '/' . $urlpath . $urlfilename .
-					 '" alt="My Alt Text"  />'));
+					'" alt="My Alt Text"  />')
+		);
 
 		$this->assertThat(
 			JHtml::image($extension . '/' . $element . '/' . $urlpath . $urlfilename, 'My Alt Text', null, true, true),
-			$this->equalTo(JURI::base(true) . '/media/' . $extension . '/images/' . $element . '/' . $urlpath . $urlfilename));
+			$this->equalTo(JURI::base(true) . '/media/' . $extension . '/images/' . $element . '/' . $urlpath . $urlfilename)
+		);
 
 		unlink(JPATH_ROOT . '/media/' . $extension . '/images/' . $element . '/' . $urlpath . $urlfilename);
 		rmdir(JPATH_ROOT . '/media/' . $extension . '/images/' . $element . '/' . $urlpath);
@@ -425,12 +431,16 @@ class JHtmlTest extends TestCase
 		$this->assertThat(
 			JHtml::image($extension . '/' . $element . '/' . $urlpath . $urlfilename, 'My Alt Text', null, true),
 			$this->equalTo(
-				'<img src="' . JURI::base(true) . '/media/system/images/' . $element . '/' . $urlpath . $urlfilename . '" alt="My Alt Text"  />'));
+				'<img src="' . JURI::base(true) . '/media/system/images/' . $element . '/' . $urlpath . $urlfilename . '" alt="My Alt Text"  />')
+		);
 
 		$this->assertThat(
-			JHtml::image($extension . '/' . $element . '/' . $urlpath . $urlfilename,
-				'My Alt Text', null, true, true),
-			$this->equalTo(JURI::base(true) . '/media/system/images/' . $element . '/' . $urlpath . $urlfilename));
+			JHtml::image(
+				$extension . '/' . $element . '/' . $urlpath . $urlfilename,
+				'My Alt Text', null, true, true
+			),
+			$this->equalTo(JURI::base(true) . '/media/system/images/' . $element . '/' . $urlpath . $urlfilename)
+		);
 
 		unlink(JPATH_ROOT . '/media/system/images/' . $element . '/' . $urlpath . $urlfilename);
 		rmdir(JPATH_ROOT . '/media/system/images/' . $element . '/' . $urlpath);
@@ -438,16 +448,21 @@ class JHtmlTest extends TestCase
 
 		$this->assertThat(
 			JHtml::image($extension . '/' . $element . '/' . $urlpath . $urlfilename, 'My Alt Text', null, true),
-			$this->equalTo('<img src="" alt="My Alt Text"  />'));
+			$this->equalTo('<img src="" alt="My Alt Text"  />')
+		);
 
 		$this->assertThat(
-			JHtml::image($extension . '/' . $element . '/' . $urlpath . $urlfilename, 'My Alt Text',
-				null, true, true),
-			$this->equalTo(null));
+			JHtml::image(
+				$extension . '/' . $element . '/' . $urlpath . $urlfilename, 'My Alt Text',
+				null, true, true
+			),
+			$this->equalTo(null)
+		);
 
 		$this->assertThat(
 			JHtml::image('http://www.example.com/test/image.jpg', 'My Alt Text', array('width' => 150,
-				'height' => 150)),
+					'height' => 150)
+			),
 			$this->equalTo('<img src="http://www.example.com/test/image.jpg" alt="My Alt Text" width="150" height="150" />'),
 			'JHtml::image with an absolute path');
 
@@ -516,7 +531,8 @@ class JHtmlTest extends TestCase
 	{
 		$this->assertThat(
 			JHtml::iframe($url, $name, $attribs, $noFrames),
-			$this->equalTo($expected));
+			$this->equalTo($expected)
+		);
 	}
 
 	/**
@@ -534,7 +550,7 @@ class JHtmlTest extends TestCase
 			$_SERVER = array();
 		}
 
-		// we save the state of $_SERVER for later and set it to appropriate values
+		// We save the state of $_SERVER for later and set it to appropriate values
 		$http_host = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : null;
 		$script_name = isset($_SERVER['SCRIPT_NAME']) ? $_SERVER['SCRIPT_NAME'] : null;
 		$_SERVER['HTTP_HOST'] = 'example.com';
@@ -559,7 +575,7 @@ class JHtmlTest extends TestCase
 
 		JFactory::$application = $mock;
 
-		// we create the file that JHtml::image will look for
+		// We create the file that JHtml::image will look for
 		mkdir(JPATH_THEMES . '/' . $template . '/js/' . $urlpath, 0777, true);
 		file_put_contents(JPATH_THEMES . '/' . $template . '/js/' . $urlpath . $urlfilename, 'test');
 
@@ -597,7 +613,8 @@ class JHtmlTest extends TestCase
 			JFactory::$document->_scripts,
 			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory');
 
-		$this->assertThat(JHtml::script($urlpath . $urlfilename, false, true, true),
+		$this->assertThat(
+			JHtml::script($urlpath . $urlfilename, false, true, true),
 			$this->equalTo(JURI::base(true) . '/media/' . $urlpath . 'js/' . $urlfilename),
 			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the media directory');
 
@@ -661,7 +678,7 @@ class JHtmlTest extends TestCase
 			$this->equalTo(JURI::base(true) . '/media/' . $extension . '/' . $element . '/js/' . $urlpath . $urlfilename),
 			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the media directory');
 
-		// we remove the file from the media directory
+		// We remove the file from the media directory
 		JFactory::$document->_scripts = array();
 		unlink(JPATH_ROOT . '/media/' . $extension . '/' . $element . '/js/' . $urlpath . $urlfilename);
 		rmdir(JPATH_ROOT . '/media/' . $extension . '/' . $element . '/js/' . $urlpath);
@@ -738,13 +755,15 @@ class JHtmlTest extends TestCase
 			JFactory::$document->_scripts,
 			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory');
 
-		$this->assertThat(JHtml::script($extension . '/' . $element . '/' . $urlpath . $urlfilename, false, true, true),
+		$this->assertThat(
+			JHtml::script($extension . '/' . $element . '/' . $urlpath . $urlfilename, false, true, true),
 			$this->equalTo(
 				array(
 					JURI::base(true) . '/media/system/js/' . $element . '/' . $urlpath . $urlfilename,
 					JURI::base(true) . '/media/system/js/' . $element . '/' . $urlpath . 'script1_mybrowser.js',
 					JURI::base(true) . '/media/system/js/' . $element . '/' . $urlpath . 'script1_mybrowser_0.js',
-					JURI::base(true) . '/media/system/js/' . $element . '/' . $urlpath . 'script1_mybrowser_0_0.js')),
+					JURI::base(true) . '/media/system/js/' . $element . '/' . $urlpath . 'script1_mybrowser_0_0.js')
+			),
 			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the media directory');
 
 		$this->assertThat(
@@ -817,8 +836,10 @@ class JHtmlTest extends TestCase
 			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory');
 
 		$this->assertThat(
-			JHtml::script($extension . '/' . $element . '/' . $urlpath . $urlfilename, false, true,
-				true, true, false),
+			JHtml::script(
+				$extension . '/' . $element . '/' . $urlpath . $urlfilename, false, true,
+				true, true, false
+			),
 			$this->equalTo(JURI::base(true) . '/media/system/js/' . $element . '/' . $urlpath . $urlfilename),
 			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the media directory');
 
@@ -830,13 +851,16 @@ class JHtmlTest extends TestCase
 			JFactory::$document->_scripts,
 			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory');
 
-		$this->assertThat(JFactory::$document->_scripts,
+		$this->assertThat(
+			JFactory::$document->_scripts,
 			$this->logicalNot($this->arrayHasKey('/media/system/js/' . $element . '/' . $urlpath . 'script1-uncompressed.js')),
 			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory');
 
 		$this->assertThat(
-			JHtml::script($extension . '/' . $element . '/' . $urlpath . $urlfilename,
-				false, true, true, true, false),
+			JHtml::script(
+				$extension . '/' . $element . '/' . $urlpath . $urlfilename,
+				false, true, true, true, false
+			),
 			$this->equalTo(JURI::base(true) . '/media/system/js/' . $element . '/' . $urlpath . 'script1.js'),
 			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the media directory');
 
@@ -851,10 +875,12 @@ class JHtmlTest extends TestCase
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @todo Implement testSetFormatOptions().
 	 *
-	 * @return  void
 	 * @covers  JHtml::setFormatOptions
+	 * @return  void
 	 */
 	public function testSetFormatOptions()
 	{
@@ -1003,7 +1029,7 @@ class JHtmlTest extends TestCase
 			$this->equalTo(JURI::base(true) . '/media/' . $extension . '/' . $element . '/css/' . $urlpath . $urlfilename),
 			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the media directory');
 
-		// we remove the file from the media directory
+		// We remove the file from the media directory
 		JFactory::$document->_styleSheets = array();
 		unlink(JPATH_ROOT . '/media/' . $extension . '/' . $element . '/css/' . $urlpath . $urlfilename);
 		rmdir(JPATH_ROOT . '/media/' . $extension . '/' . $element . '/css/' . $urlpath);
@@ -1095,7 +1121,8 @@ class JHtmlTest extends TestCase
 					JURI::base(true) . '/media/system/css/' . $element . '/' . $urlpath . $urlfilename,
 					JURI::base(true) . '/media/system/css/' . $element . '/' . $urlpath . 'style1_mybrowser.css',
 					JURI::base(true) . '/media/system/css/' . $element . '/' . $urlpath . 'style1_mybrowser_0.css',
-					JURI::base(true) . '/media/system/css/' . $element . '/' . $urlpath . 'style1_mybrowser_0_0.css')),
+					JURI::base(true) . '/media/system/css/' . $element . '/' . $urlpath . 'style1_mybrowser_0_0.css')
+			),
 			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the media directory');
 
 		$this->assertThat(
@@ -1186,7 +1213,8 @@ class JHtmlTest extends TestCase
 			$this->logicalNot($this->arrayHasKey('/media/system/css/' . $element . '/' . $urlpath . 'style1-uncompressed.css')),
 			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory');
 
-		$this->assertThat(JHtml::stylesheet($extension . '/' . $element . '/' . $urlpath . $urlfilename, array(), true, true, true, false),
+		$this->assertThat(
+			JHtml::stylesheet($extension . '/' . $element . '/' . $urlpath . $urlfilename, array(), true, true, true, false),
 			$this->equalTo(JURI::base(true) . '/media/system/css/' . $element . '/' . $urlpath . 'style1.css'),
 			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the media directory');
 
@@ -1221,10 +1249,12 @@ class JHtmlTest extends TestCase
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @todo Implement testDate().
 	 *
-	 * @return  void
 	 * @covers  JHtml::date
+	 * @return  void
 	 */
 	public function testDate()
 	{
@@ -1233,26 +1263,28 @@ class JHtmlTest extends TestCase
 	}
 
 	/**
-	 * @return  void
+	 * Test...
+	 *
 	 * @covers  JHtml::tooltip
+	 * @return  void
 	 */
 	public function testTooltip()
 	{
-		if(!is_array($_SERVER))
+		if (!is_array($_SERVER))
 		{
 			$_SERVER = array();
 		}
 
-		// we save the state of $_SERVER for later and set it to appropriate values
+		// We save the state of $_SERVER for later and set it to appropriate values
 		$http_host = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : null;
 		$script_name = isset($_SERVER['SCRIPT_NAME']) ? $_SERVER['SCRIPT_NAME'] : null;
 		$_SERVER['HTTP_HOST'] = 'example.com';
 		$_SERVER['SCRIPT_NAME'] = '/index.php';
 
-		// we generate a random template name so that we don't collide or hit anything
-		$template = 'mytemplate'.rand(1,10000);
+		// We generate a random template name so that we don't collide or hit anything
+		$template = 'mytemplate' . rand(1, 10000);
 
-		// we create a stub (not a mock because we don't enforce whether it is called or not)
+		// We create a stub (not a mock because we don't enforce whether it is called or not)
 		// to return a value from getTemplate
 		$mock = $this->getMock('myMockObject', array('getTemplate'));
 		$mock->expects($this->any())
@@ -1271,72 +1303,72 @@ class JHtmlTest extends TestCase
 		// Testing classical cases
 		$this->assertThat(
 			JHtml::tooltip('Content'),
-			$this->equalTo('<span class="hasTip" title="Content"><img src="'.JURI::base(true).'/media/system/images/tooltip.png" alt="Tooltip"  /></span>'),
+			$this->equalTo('<span class="hasTip" title="Content"><img src="' . JURI::base(true) . '/media/system/images/tooltip.png" alt="Tooltip"  /></span>'),
 			'Basic tooltip failed'
 		);
 
 		$this->assertThat(
-			JHtml::tooltip('Content','Title'),
-			$this->equalTo('<span class="hasTip" title="Title::Content"><img src="'.JURI::base(true).'/media/system/images/tooltip.png" alt="Tooltip"  /></span>'),
+			JHtml::tooltip('Content', 'Title'),
+			$this->equalTo('<span class="hasTip" title="Title::Content"><img src="' . JURI::base(true) . '/media/system/images/tooltip.png" alt="Tooltip"  /></span>'),
 			'Tooltip with title and content failed'
 		);
 
 		$this->assertThat(
-			JHtml::tooltip('Content','Title',null,'Text'),
+			JHtml::tooltip('Content', 'Title', null, 'Text'),
 			$this->equalTo('<span class="hasTip" title="Title::Content">Text</span>'),
 			'Tooltip with title and content and text failed'
 		);
 
 		$this->assertThat(
-			JHtml::tooltip('Content','Title',null,'Text','http://www.monsite.com'),
+			JHtml::tooltip('Content', 'Title', null, 'Text', 'http://www.monsite.com'),
 			$this->equalTo('<span class="hasTip" title="Title::Content"><a href="http://www.monsite.com">Text</a></span>'),
 			'Tooltip with title and content and text and href failed'
 		);
 
 		$this->assertThat(
-			JHtml::tooltip('Content','Title','tooltip.png',null,null,'MyAlt'),
-			$this->equalTo('<span class="hasTip" title="Title::Content"><img src="'.JURI::base(true).'/media/system/images/tooltip.png" alt="MyAlt"  /></span>'),
+			JHtml::tooltip('Content', 'Title', 'tooltip.png', null, null, 'MyAlt'),
+			$this->equalTo('<span class="hasTip" title="Title::Content"><img src="' . JURI::base(true) . '/media/system/images/tooltip.png" alt="MyAlt"  /></span>'),
 			'Tooltip with title and content and alt failed'
 		);
 
 		$this->assertThat(
-			JHtml::tooltip('Content','Title','tooltip.png',null,null,'MyAlt','hasTip2'),
-			$this->equalTo('<span class="hasTip2" title="Title::Content"><img src="'.JURI::base(true).'/media/system/images/tooltip.png" alt="MyAlt"  /></span>'),
+			JHtml::tooltip('Content', 'Title', 'tooltip.png', null, null, 'MyAlt', 'hasTip2'),
+			$this->equalTo('<span class="hasTip2" title="Title::Content"><img src="' . JURI::base(true) . '/media/system/images/tooltip.png" alt="MyAlt"  /></span>'),
 			'Tooltip with title and content and alt and class failed'
 		);
 
 		// Testing where title is an array
 		$this->assertThat(
-			JHtml::tooltip('Content',array('title'=>'Title')),
-			$this->equalTo('<span class="hasTip" title="Title::Content"><img src="'.JURI::base(true).'/media/system/images/tooltip.png" alt="Tooltip"  /></span>'),
+			JHtml::tooltip('Content', array('title' => 'Title')),
+			$this->equalTo('<span class="hasTip" title="Title::Content"><img src="' . JURI::base(true) . '/media/system/images/tooltip.png" alt="Tooltip"  /></span>'),
 			'Tooltip with title and content failed'
 		);
 
 		$this->assertThat(
-			JHtml::tooltip('Content',array('title'=>'Title','text'=>'Text')),
+			JHtml::tooltip('Content', array('title' => 'Title', 'text' => 'Text')),
 			$this->equalTo('<span class="hasTip" title="Title::Content">Text</span>'),
 			'Tooltip with title and content and text failed'
 		);
 
 		$this->assertThat(
-			JHtml::tooltip('Content',array('title'=>'Title','text'=>'Text','href'=>'http://www.monsite.com')),
+			JHtml::tooltip('Content', array('title' => 'Title', 'text' => 'Text', 'href' => 'http://www.monsite.com')),
 			$this->equalTo('<span class="hasTip" title="Title::Content"><a href="http://www.monsite.com">Text</a></span>'),
 			'Tooltip with title and content and text and href failed'
 		);
 
 		$this->assertThat(
-			JHtml::tooltip('Content',array('title'=>'Title','alt'=>'MyAlt')),
-			$this->equalTo('<span class="hasTip" title="Title::Content"><img src="'.JURI::base(true).'/media/system/images/tooltip.png" alt="MyAlt"  /></span>'),
+			JHtml::tooltip('Content', array('title' => 'Title', 'alt' => 'MyAlt')),
+			$this->equalTo('<span class="hasTip" title="Title::Content"><img src="' . JURI::base(true) . '/media/system/images/tooltip.png" alt="MyAlt"  /></span>'),
 			'Tooltip with title and content and alt failed'
 		);
 		$this->assertThat(
-			JHtml::tooltip('Content',array('title'=>'Title','class'=>'hasTip2')),
-			$this->equalTo('<span class="hasTip2" title="Title::Content"><img src="'.JURI::base(true).'/media/system/images/tooltip.png" alt="Tooltip"  /></span>'),
+			JHtml::tooltip('Content', array('title' => 'Title', 'class' => 'hasTip2')),
+			$this->equalTo('<span class="hasTip2" title="Title::Content"><img src="' . JURI::base(true) . '/media/system/images/tooltip.png" alt="Tooltip"  /></span>'),
 			'Tooltip with title and content and class failed'
 		);
 		$this->assertThat(
-			JHtml::tooltip('Content',array()),
-			$this->equalTo('<span class="hasTip" title="Content"><img src="'.JURI::base(true).'/media/system/images/tooltip.png" alt="Tooltip"  /></span>'),
+			JHtml::tooltip('Content', array()),
+			$this->equalTo('<span class="hasTip" title="Content"><img src="' . JURI::base(true) . '/media/system/images/tooltip.png" alt="Tooltip"  /></span>'),
 			'Basic tooltip (array version) failed'
 		);
 
@@ -1347,30 +1379,30 @@ class JHtmlTest extends TestCase
 	/**
 	 * Tests JHtml::calendar() method with and without 'readonly' attribute.
 	 *
-	 * @return  void
 	 * @covers  JHtml::calendar
 	 * @todo    Implement testCalendar().
+	 * @return  void
 	 */
 	public function testCalendar()
 	{
-		$cfg = new JObject();
+		$cfg = new JObject;
 		JFactory::$session = $this->getMock('JSession', array('_start'));
 		JFactory::$application = $this->getMock('JApplication', array('getTemplate'));
 		JFactory::$config = $cfg;
 
 		JFactory::$application->expects($this->any())
-								->method('getTemplate')
-								->will($this->returnValue('atomic'));
+			->method('getTemplate')
+			->will($this->returnValue('atomic'));
 
 		$cfg->live_site = 'http://example.com';
 		$cfg->offset = 'Europe/Kiev';
 		$_SERVER['HTTP_USER_AGENT'] = 'Test Browser';
 
-		// two sets of test data
+		// Two sets of test data
 		$test_data = array('date' => '2010-05-28 00:00:00', 'friendly_date' => 'Friday, 28 May 2010',
-					  'name' => 'cal1_name', 'id' => 'cal1_id', 'format' => '%Y-%m-%d',
-					  'attribs' => array()
-				);
+			'name' => 'cal1_name', 'id' => 'cal1_id', 'format' => '%Y-%m-%d',
+			'attribs' => array()
+		);
 
 		$test_data_ro = array_merge($test_data, array('attribs' => array('readonly' => 'readonly')));
 
@@ -1383,17 +1415,18 @@ class JHtmlTest extends TestCase
 			$this->assertThat(
 				strlen($input),
 				$this->greaterThan(0),
-				'Line:'.__LINE__.' The calendar method should return something without error.'
+				'Line:' . __LINE__ . ' The calendar method should return something without error.'
 			);
 
 			$xml = new SimpleXMLElement('<calendar>' . $input . '</calendar>');
 			$this->assertEquals(
 				'text',
 				(string) $xml->input['type'],
-				'Line:'.__LINE__.' The calendar input should have `type == "text"`'
+				'Line:' . __LINE__ . ' The calendar input should have `type == "text"`'
 			);
 
 			// @todo We can't test this yet due to dependency on language strings
+
 			/* $this->assertEquals(
 				$data['friendly_date'],
 				(string) $xml->input['title'],
@@ -1401,6 +1434,7 @@ class JHtmlTest extends TestCase
 			); */
 
 			// @todo No clue why these 2 don't work
+
 			/*$this->assertEquals(
 				$data['name'],
 				(string) $xml->input['name'],
@@ -1416,7 +1450,7 @@ class JHtmlTest extends TestCase
 			$this->assertEquals(
 				$data['date'],
 				(string) $xml->input['value'],
-				'Line:'.__LINE__.' The calendar input should have `value == "' . $data['date'] . '"`'
+				'Line:' . __LINE__ . ' The calendar input should have `value == "' . $data['date'] . '"`'
 			);
 
 			$head_data = JFactory::getDocument()->getHeadData();
@@ -1426,59 +1460,59 @@ class JHtmlTest extends TestCase
 				$this->assertEquals(
 					$data['attribs']['readonly'],
 					(string) $xml->input['readonly'],
-					'Line:'.__LINE__.' The readonly calendar input should have `readonly == "' . $data['attribs']['readonly'] . '"`'
+					'Line:' . __LINE__ . ' The readonly calendar input should have `readonly == "' . $data['attribs']['readonly'] . '"`'
 				);
 
 				$this->assertFalse(
 					isset($xml->img),
-					'Line:'.__LINE__.' The readonly calendar input shouldn\'t have a calendar image'
+					'Line:' . __LINE__ . ' The readonly calendar input shouldn\'t have a calendar image'
 				);
 
 				$this->assertArrayNotHasKey(
 					'/media/system/js/calendar.js',
 					$head_data['scripts'],
-					'Line:'.__LINE__.' JS file "calendar.js" shouldn\'t be loaded'
+					'Line:' . __LINE__ . ' JS file "calendar.js" shouldn\'t be loaded'
 				);
 
 				$this->assertArrayNotHasKey(
 					'/media/system/js/calendar-setup.js',
 					$head_data['scripts'],
-					'Line:'.__LINE__.' JS file "calendar-setup.js" shouldn\'t be loaded'
+					'Line:' . __LINE__ . ' JS file "calendar-setup.js" shouldn\'t be loaded'
 				);
 
 				$this->assertArrayNotHasKey(
 					'text/javascript',
 					$head_data['script'],
-					'Line:'.__LINE__.' Inline JS for the calendar shouldn\'t be loaded'
+					'Line:' . __LINE__ . ' Inline JS for the calendar shouldn\'t be loaded'
 				);
 			}
 			else
 			{
 				$this->assertFalse(
 					isset($xml->input['readonly']),
-					'Line:'.__LINE__.' The calendar input shouldn\'t have readonly attribute'
+					'Line:' . __LINE__ . ' The calendar input shouldn\'t have readonly attribute'
 				);
 
 				$this->assertTrue(
 					isset($xml->img),
-					'Line:'.__LINE__.' The calendar input should have a calendar image'
+					'Line:' . __LINE__ . ' The calendar input should have a calendar image'
 				);
 
 				$this->assertEquals(
 					$data['id'] . '_img',
 					(string) $xml->img['id'],
-					'Line:'.__LINE__.' The calendar image should have `id == "' . $data['id'] . '_img' . '"`'
+					'Line:' . __LINE__ . ' The calendar image should have `id == "' . $data['id'] . '_img' . '"`'
 				);
 
 				$this->assertEquals(
 					'calendar',
 					(string) $xml->img['class'],
-					'Line:'.__LINE__.' The calendar image should have `class == "calendar"`'
+					'Line:' . __LINE__ . ' The calendar image should have `class == "calendar"`'
 				);
 
 				$this->assertFileExists(
 					JPATH_ROOT . $xml->img['src'],
-					'Line:'.__LINE__.' The calendar image source should point to an existent file'
+					'Line:' . __LINE__ . ' The calendar image source should point to an existent file'
 				);
 
 				/* $this->assertArrayHasKey(
@@ -1494,19 +1528,21 @@ class JHtmlTest extends TestCase
 				);*/
 
 				$this->assertContains(
-					'DHTML Date/Time Selector',
+					'DHTML Date\\/Time Selector',
 					$head_data['script']['text/javascript'],
-					'Line:'.__LINE__.' Inline JS for the calendar should be loaded'
+					'Line:' . __LINE__ . ' Inline JS for the calendar should be loaded'
 				);
 			}
 		}
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @todo Implement testAddIncludePath().
 	 *
-	 * @return  void
 	 * @covers  JHtml::addIncludePath
+	 * @return  void
 	 */
 	public function testAddIncludePath()
 	{

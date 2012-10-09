@@ -7,18 +7,21 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM.'/joomla/log/log.php';
-require_once JPATH_PLATFORM.'/joomla/log/entry.php';
-
 /**
  * Test class for JLogEntry.
+ *
+ * @package     Joomla.UnitTest
+ * @subpackage  Log
+ * @since       11.1
  */
 class JLogEntryTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 * Verify the default values for the log entry object.
 	 *
-	 * Test the JLogEntry::__construct method.
+	 * @covers  JLogEntry::__construct
+	 *
+	 * @return void
 	 */
 	public function testDefaultValues()
 	{
@@ -29,35 +32,37 @@ class JLogEntryTest extends PHPUnit_Framework_TestCase
 		$this->assertThat(
 			$tmp->message,
 			$this->equalTo('Lorem ipsum dolor sit amet'),
-			'Line: '.__LINE__.'.'
+			'Line: ' . __LINE__ . '.'
 		);
 
 		// Priority.
 		$this->assertThat(
 			$tmp->priority,
 			$this->equalTo(JLog::INFO),
-			'Line: '.__LINE__.'.'
+			'Line: ' . __LINE__ . '.'
 		);
 
 		// Category.
 		$this->assertThat(
 			$tmp->category,
 			$this->equalTo(''),
-			'Line: '.__LINE__.'.'
+			'Line: ' . __LINE__ . '.'
 		);
 
 		// Date.
 		$this->assertThat(
 			$tmp->date->toISO8601(),
 			$this->equalTo($date->toISO8601()),
-			'Line: '.__LINE__.'.'
+			'Line: ' . __LINE__ . '.'
 		);
 	}
 
 	/**
 	 * Verify the priority for the entry object cannot be something not in the approved list.
 	 *
-	 * Test the JLogEntry::__construct method.
+	 * @covers  JLogEntry::__construct
+	 *
+	 * @return void
 	 */
 	public function testBadPriorityValues()
 	{
@@ -65,28 +70,30 @@ class JLogEntryTest extends PHPUnit_Framework_TestCase
 		$this->assertThat(
 			$tmp->priority,
 			$this->equalTo(JLog::INFO),
-			'Line: '.__LINE__.'.'
+			'Line: ' . __LINE__ . '.'
 		);
 
 		$tmp = new JLogEntry('Lorem ipsum dolor sit amet', 23642872);
 		$this->assertThat(
 			$tmp->priority,
 			$this->equalTo(JLog::INFO),
-			'Line: '.__LINE__.'.'
+			'Line: ' . __LINE__ . '.'
 		);
 
 		$tmp = new JLogEntry('Lorem ipsum dolor sit amet', 'foobar');
 		$this->assertThat(
 			$tmp->priority,
 			$this->equalTo(JLog::INFO),
-			'Line: '.__LINE__.'.'
+			'Line: ' . __LINE__ . '.'
 		);
 	}
 
 	/**
 	 * Test that non-standard category values are sanitized.
 	 *
-	 * Test the JLogEntry::__construct method.
+	 * @covers  JLogEntry::__construct
+	 *
+	 * @return void
 	 */
 	public function testCategorySanitization()
 	{
@@ -95,7 +102,7 @@ class JLogEntryTest extends PHPUnit_Framework_TestCase
 		$this->assertThat(
 			$tmp->category,
 			$this->equalTo('testingthecategory'),
-			'Line: '.__LINE__.'.'
+			'Line: ' . __LINE__ . '.'
 		);
 
 		// Category should not have spaces.
@@ -103,7 +110,7 @@ class JLogEntryTest extends PHPUnit_Framework_TestCase
 		$this->assertThat(
 			$tmp->category,
 			$this->equalTo('testingthecategory'),
-			'Line: '.__LINE__.'.'
+			'Line: ' . __LINE__ . '.'
 		);
 
 		// Category should not have special characters.
@@ -111,7 +118,7 @@ class JLogEntryTest extends PHPUnit_Framework_TestCase
 		$this->assertThat(
 			$tmp->category,
 			$this->equalTo('testingthecategory'),
-			'Line: '.__LINE__.'.'
+			'Line: ' . __LINE__ . '.'
 		);
 
 		// Category should allow numbers.
@@ -119,7 +126,7 @@ class JLogEntryTest extends PHPUnit_Framework_TestCase
 		$this->assertThat(
 			$tmp->category,
 			$this->equalTo('testing1the2category'),
-			'Line: '.__LINE__.'.'
+			'Line: ' . __LINE__ . '.'
 		);
 	}
 }

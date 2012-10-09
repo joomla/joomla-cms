@@ -1,17 +1,20 @@
 <?php
 /**
- * @copyright  Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.
- * @license    GNU General Public License
+ * @package     Joomla.UnitTest
+ * @subpackage  Database
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-require_once __DIR__.'/JDatabaseExporterMySqlInspector.php';
+require_once __DIR__ . '/JDatabaseExporterMySqlInspector.php';
 
 /**
  * Tests the JDatabaseExporterMySql class.
  *
- * @package    Joomla.UnitTest
- * @subpackage Database
- * @since      11.1
+ * @package     Joomla.UnitTest
+ * @subpackage  Database
+ * @since       11.1
  */
 class JDatabaseExporterMySqlTest extends PHPUnit_Framework_TestCase
 {
@@ -31,6 +34,7 @@ class JDatabaseExporterMySqlTest extends PHPUnit_Framework_TestCase
 	 * Sets up the testing conditions
 	 *
 	 * @return  void
+	 *
 	 * @since   11.1
 	 */
 	public function setup()
@@ -56,8 +60,8 @@ class JDatabaseExporterMySqlTest extends PHPUnit_Framework_TestCase
 		$this->dbo->expects(
 			$this->any()
 		)
-		->method('getPrefix')
-		->will(
+			->method('getPrefix')
+			->will(
 			$this->returnValue(
 				'jos_'
 			)
@@ -66,8 +70,8 @@ class JDatabaseExporterMySqlTest extends PHPUnit_Framework_TestCase
 		$this->dbo->expects(
 			$this->any()
 		)
-		->method('getTableColumns')
-		->will(
+			->method('getTableColumns')
+			->will(
 			$this->returnValue(
 				array(
 					(object) array(
@@ -99,23 +103,23 @@ class JDatabaseExporterMySqlTest extends PHPUnit_Framework_TestCase
 		$this->dbo->expects(
 			$this->any()
 		)
-		->method('getTableKeys')
-		->will(
+			->method('getTableKeys')
+			->will(
 			$this->returnValue(
 				array(
 					(object) array(
 						'Table' => 'jos_test',
-			            'Non_unique' => '0',
-			            'Key_name' => 'PRIMARY',
-			            'Seq_in_index' => '1',
-			            'Column_name' => 'id',
-			            'Collation' => 'A',
-			            'Cardinality' => '2695',
-			            'Sub_part' => '',
-			            'Packed' => '',
-			            'Null' => '',
-			            'Index_type' => 'BTREE',
-			            'Comment' => '',
+						'Non_unique' => '0',
+						'Key_name' => 'PRIMARY',
+						'Seq_in_index' => '1',
+						'Column_name' => 'id',
+						'Collation' => 'A',
+						'Cardinality' => '2695',
+						'Sub_part' => '',
+						'Packed' => '',
+						'Null' => '',
+						'Index_type' => 'BTREE',
+						'Comment' => '',
 					)
 				)
 			)
@@ -124,8 +128,8 @@ class JDatabaseExporterMySqlTest extends PHPUnit_Framework_TestCase
 		$this->dbo->expects(
 			$this->any()
 		)
-		->method('quoteName')
-		->will(
+			->method('quoteName')
+			->will(
 			$this->returnCallback(
 				array($this, 'callbackQuoteName')
 			)
@@ -134,8 +138,8 @@ class JDatabaseExporterMySqlTest extends PHPUnit_Framework_TestCase
 		$this->dbo->expects(
 			$this->any()
 		)
-		->method('setQuery')
-		->will(
+			->method('setQuery')
+			->will(
 			$this->returnCallback(
 				array($this, 'callbackSetQuery')
 			)
@@ -144,8 +148,8 @@ class JDatabaseExporterMySqlTest extends PHPUnit_Framework_TestCase
 		$this->dbo->expects(
 			$this->any()
 		)
-		->method('loadObjectList')
-		->will(
+			->method('loadObjectList')
+			->will(
 			$this->returnCallback(
 				array($this, 'callbackLoadObjectList')
 			)
@@ -156,6 +160,7 @@ class JDatabaseExporterMySqlTest extends PHPUnit_Framework_TestCase
 	 * Callback for the dbo loadObjectList method.
 	 *
 	 * @return array  An array of results based on the setting of the last query.
+	 *
 	 * @since  11.1
 	 */
 	public function callbackLoadObjectList()
@@ -166,9 +171,10 @@ class JDatabaseExporterMySqlTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Callback for the dbo quoteName method.
 	 *
-	 * @param  string  $value  The value to be quoted.
+	 * @param   string  $value  The value to be quoted.
 	 *
 	 * @return string  The value passed wrapped in MySQL quotes.
+	 *
 	 * @since  11.1
 	 */
 	public function callbackQuoteName($value)
@@ -179,9 +185,10 @@ class JDatabaseExporterMySqlTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Callback for the dbo setQuery method.
 	 *
-	 * @param  string  $query  The query.
+	 * @param   string  $query  The query.
 	 *
 	 * @return void
+	 *
 	 * @since  11.1
 	 */
 	public function callbackSetQuery($query)
@@ -193,6 +200,7 @@ class JDatabaseExporterMySqlTest extends PHPUnit_Framework_TestCase
 	 * Test the magic __toString method.
 	 *
 	 * @return  void
+	 *
 	 * @since   11.1
 	 */
 	public function test__toString()
@@ -203,13 +211,12 @@ class JDatabaseExporterMySqlTest extends PHPUnit_Framework_TestCase
 		$instance
 			->setDbo($this->dbo)
 			->from('jos_test')
-			->withStructure(true)
-			;
+			->withStructure(true);
 
 		$this->assertThat(
 			(string) $instance,
 			$this->equalTo(
-'<?xml version="1.0"?>
+				'<?xml version="1.0"?>
 <mysqldump xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
  <database name="">
   <table_structure name="#__test">
@@ -229,6 +236,7 @@ class JDatabaseExporterMySqlTest extends PHPUnit_Framework_TestCase
 	 * Tests the asXml method.
 	 *
 	 * @return void
+	 *
 	 * @since  11.1
 	 */
 	public function testAsXml()
@@ -254,6 +262,7 @@ class JDatabaseExporterMySqlTest extends PHPUnit_Framework_TestCase
 	 * Test the buildXML method.
 	 *
 	 * @return  void
+	 *
 	 * @since   11.1
 	 */
 	public function testBuildXml()
@@ -264,13 +273,12 @@ class JDatabaseExporterMySqlTest extends PHPUnit_Framework_TestCase
 		$instance
 			->setDbo($this->dbo)
 			->from('jos_test')
-			->withStructure(true)
-			;
+			->withStructure(true);
 
 		$this->assertThat(
 			$instance->buildXml(),
 			$this->equalTo(
-'<?xml version="1.0"?>
+				'<?xml version="1.0"?>
 <mysqldump xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
  <database name="">
   <table_structure name="#__test">
@@ -289,6 +297,7 @@ class JDatabaseExporterMySqlTest extends PHPUnit_Framework_TestCase
 	 * Tests the buildXmlStructure method.
 	 *
 	 * @return  void
+	 *
 	 * @since   11.1
 	 */
 	public function testBuildXmlStructure()
@@ -299,8 +308,7 @@ class JDatabaseExporterMySqlTest extends PHPUnit_Framework_TestCase
 		$instance
 			->setDbo($this->dbo)
 			->from('jos_test')
-			->withStructure(true)
-			;
+			->withStructure(true);
 
 		$this->assertThat(
 			$instance->buildXmlStructure(),
@@ -321,6 +329,7 @@ class JDatabaseExporterMySqlTest extends PHPUnit_Framework_TestCase
 	 * Tests the check method.
 	 *
 	 * @return void
+	 *
 	 * @since  11.1
 	 */
 	public function testCheckWithNoDbo()
@@ -346,11 +355,12 @@ class JDatabaseExporterMySqlTest extends PHPUnit_Framework_TestCase
 	 * Tests the check method.
 	 *
 	 * @return void
+	 *
 	 * @since  11.1
 	 */
 	public function testCheckWithNoTables()
 	{
-		$instance	= new JDatabaseExporterMySqlInspector;
+		$instance = new JDatabaseExporterMySqlInspector;
 		$instance->setDbo($this->dbo);
 
 		try
@@ -372,11 +382,12 @@ class JDatabaseExporterMySqlTest extends PHPUnit_Framework_TestCase
 	 * Tests the check method.
 	 *
 	 * @return void
+	 *
 	 * @since  11.1
 	 */
 	public function testCheckWithGoodInput()
 	{
-		$instance	= new JDatabaseExporterMySqlInspector;
+		$instance = new JDatabaseExporterMySqlInspector;
 		$instance->setDbo($this->dbo);
 		$instance->from('foobar');
 
@@ -393,7 +404,7 @@ class JDatabaseExporterMySqlTest extends PHPUnit_Framework_TestCase
 		catch (Exception $e)
 		{
 			$this->fail(
-				'Check method should not throw exception with good setup: '.$e->getMessage()
+				'Check method should not throw exception with good setup: ' . $e->getMessage()
 			);
 		}
 	}
@@ -402,6 +413,7 @@ class JDatabaseExporterMySqlTest extends PHPUnit_Framework_TestCase
 	 * Tests the from method with bad input.
 	 *
 	 * @return void
+	 *
 	 * @since  11.1
 	 */
 	public function testFromWithBadInput()
@@ -427,6 +439,7 @@ class JDatabaseExporterMySqlTest extends PHPUnit_Framework_TestCase
 	 * Tests the from method with expected good inputs.
 	 *
 	 * @return void
+	 *
 	 * @since  11.1
 	 */
 	public function testFromWithGoodInput()
@@ -452,7 +465,7 @@ class JDatabaseExporterMySqlTest extends PHPUnit_Framework_TestCase
 		catch (Exception $e)
 		{
 			$this->fail(
-				'From method should not throw exception with good input: '.$e->getMessage()
+				'From method should not throw exception with good input: ' . $e->getMessage()
 			);
 		}
 	}
@@ -461,6 +474,7 @@ class JDatabaseExporterMySqlTest extends PHPUnit_Framework_TestCase
 	 * Tests the method getGenericTableName method.
 	 *
 	 * @return  void
+	 *
 	 * @since   11.1
 	 */
 	public function testGetGenericTableName()
@@ -479,11 +493,12 @@ class JDatabaseExporterMySqlTest extends PHPUnit_Framework_TestCase
 	 * Tests the setDbo method with the wrong type of class.
 	 *
 	 * @return void
+	 *
 	 * @since  11.1
 	 */
 	public function testSetDboWithBadInput()
 	{
-		$instance	= new JDatabaseExporterMySqlInspector;
+		$instance = new JDatabaseExporterMySqlInspector;
 
 		try
 		{
@@ -504,6 +519,7 @@ class JDatabaseExporterMySqlTest extends PHPUnit_Framework_TestCase
 	 * Tests the setDbo method with the wrong type of class.
 	 *
 	 * @return void
+	 *
 	 * @since  11.1
 	 */
 	public function testSetDboWithGoodInput()
@@ -534,6 +550,7 @@ class JDatabaseExporterMySqlTest extends PHPUnit_Framework_TestCase
 	 * Tests the withStructure method.
 	 *
 	 * @return  void
+	 *
 	 * @since   11.1
 	 */
 	public function testWithStructure()

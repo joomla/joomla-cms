@@ -448,10 +448,12 @@ class JTableNestedTest extends TestCaseDatabase
 
 		// Level 0 root node.
 		$this->assertEquals(array('1', '0', '15', '0', ''), $nodes[1], 'Checks node 001.');
+
 		// Level 1 nodes.
 		$this->assertEquals(array('101', '1', '2', '1', 'node101'), $nodes[101], 'Checks node 101.');
 		$this->assertEquals(array('102', '3', '8', '1', 'node102'), $nodes[102], 'Checks node 102.');
 		$this->assertEquals(array('103', '9', '14', '1', 'node103'), $nodes[103], 'Checks node 103.');
+
 		// Level 2 nodes.
 		$this->assertEquals(array('201', '4', '5', '2', 'node102/node201'), $nodes[201], 'Checks node 201.');
 		$this->assertEquals(array('202', '6', '7', '2', 'node102/node202'), $nodes[202], 'Checks node 202.');
@@ -525,7 +527,8 @@ class JTableNestedTest extends TestCaseDatabase
 		$ids = array(101, 102, 103);
 		$lft = array(3, 9, 1);
 		$this->assertEquals(16, $this->class->saveorder($ids, $lft), 'Checks saveorder worked.');
-// 		TestReflection::invoke($this->class, '_logtable');
+
+		// TestReflection::invoke($this->class, '_logtable');
 
 		$nodes = self::$driver->setQuery('SELECT id, lft, rgt FROM #__categories')->loadRowList(0);
 
@@ -587,11 +590,11 @@ class JTableNestedTest extends TestCaseDatabase
 		$this->class->setLocation(102, 'last-child');
 
 		$this->assertTrue($this->class->store(), 'Checks the store method.');
-// 		TestReflection::invoke($this->class, '_logtable');
+
+		// TestReflection::invoke($this->class, '_logtable');
 
 		$this->assertEquals(8, $this->class->lft, 'Check new lft.');
 		$this->assertEquals(9, $this->class->rgt, 'Check new rgt.');
-
 
 		// We need to confirm the locking is called, so we create a mock.
 		$class = $this->getMock(
@@ -665,7 +668,6 @@ class JTableNestedTest extends TestCaseDatabase
 			'Checks the after case.'
 		);
 
-
 		$firstChild = TestReflection::invoke($this->class, '_getTreeRepositionData', $object, 10, 'first-child');
 		$this->assertEquals(
 			array('left_where' => 'lft > 2', 'right_where' => 'rgt >= 2', 'new_lft' => 3, 'new_rgt' => 12, 'new_parent_id' => 1, 'new_level' => 2),
@@ -719,13 +721,13 @@ class JTableNestedTest extends TestCaseDatabase
 		try
 		{
 			// We need to confirm the locking is called, so we create a mock.
- 			$class = $this->getMock(
+			$class = $this->getMock(
 				'NestedTable',
 				array('_unlock'),
 				array(self::$driver)
 			);
 
- 			// Then override the _unlock method so we can test that it was called.
+			// Then override the _unlock method so we can test that it was called.
 			$this->assignMockCallbacks(
 				$class,
 				array(
@@ -755,19 +757,20 @@ class JTableNestedTest extends TestCaseDatabase
 	 */
 	protected function getDataSet()
 	{
-// 		----------------------------------------
-// 		|   id |  par |  lft |  rgt | lvl
-// 		----------------------------------------
-// 		|    1 |    0 |    0 |   15 |   0
-// 		|  101 |    1 |    1 |    2 |   1
-// 		|  102 |    1 |    3 |    8 |   1
-// 		|  103 |    1 |    9 |   14 |   1
-// 		|  201 |  102 |    4 |    5 |   2
-// 		|  202 |  102 |    6 |    7 |   2
-// 		|  203 |  103 |   10 |   11 |   2
-// 		|  204 |  103 |   12 |   13 |   2
-// 		----------------------------------------
-
+		/*
+ 		----------------------------------------
+ 		|   id |  par |  lft |  rgt | lvl
+ 		----------------------------------------
+ 		|    1 |    0 |    0 |   15 |   0
+ 		|  101 |    1 |    1 |    2 |   1
+ 		|  102 |    1 |    3 |    8 |   1
+ 		|  103 |    1 |    9 |   14 |   1
+ 		|  201 |  102 |    4 |    5 |   2
+ 		|  202 |  102 |    6 |    7 |   2
+ 		|  203 |  103 |   10 |   11 |   2
+ 		|  204 |  103 |   12 |   13 |   2
+ 		----------------------------------------
+		*/
 		return $this->createXMLDataSet(__DIR__ . '/stubs/nested.xml');
 	}
 
@@ -777,6 +780,8 @@ class JTableNestedTest extends TestCaseDatabase
 	 * This method is called before a test is executed.
 	 *
 	 * @since  11.1
+	 *
+	 * @return void
 	 */
 	protected function setUp()
 	{

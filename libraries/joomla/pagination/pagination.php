@@ -707,16 +707,13 @@ class JPagination
 		{
 			$offset = ($i - 1) * $this->limit;
 
-			// Set the empty for removal from route
-			// @todo remove code: $offset = $offset == 0 ? '' : $offset;
-
 			$data->pages[$i] = new JPaginationObject($i, $this->prefix);
 			if ($i != $this->pagesCurrent || $this->viewall)
 			{
 				$data->pages[$i]->base = $offset;
 				$data->pages[$i]->link = JRoute::_($params . '&' . $this->prefix . 'limitstart=' . $offset);
 			}
-			elseif ($i = $this->pagesCurrent)
+			else
 			{
 				$data->pages[$i]->active = true;
 			}

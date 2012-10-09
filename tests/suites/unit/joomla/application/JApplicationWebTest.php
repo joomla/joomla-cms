@@ -61,10 +61,10 @@ class JApplicationWebTest extends TestCase
 	{
 		return array(
 			// HTTPS, PHP_SELF, REQUEST_URI, HTTP_HOST, SCRIPT_NAME, QUERY_STRING, (resulting uri)
-			array(null, '/j/index.php', '/j/index.php?foo=bar',  'joom.la:3', '/j/index.php', '', 'http://joom.la:3/j/index.php?foo=bar'),
-			array('on', '/j/index.php', '/j/index.php?foo=bar',  'joom.la:3', '/j/index.php', '', 'https://joom.la:3/j/index.php?foo=bar'),
-			array(null, '', '',  'joom.la:3', '/j/index.php', '', 'http://joom.la:3/j/index.php'),
-			array(null, '', '',  'joom.la:3', '/j/index.php', 'foo=bar', 'http://joom.la:3/j/index.php?foo=bar'),
+			array(null, '/j/index.php', '/j/index.php?foo=bar', 'joom.la:3', '/j/index.php', '', 'http://joom.la:3/j/index.php?foo=bar'),
+			array('on', '/j/index.php', '/j/index.php?foo=bar', 'joom.la:3', '/j/index.php', '', 'https://joom.la:3/j/index.php?foo=bar'),
+			array(null, '', '', 'joom.la:3', '/j/index.php', '', 'http://joom.la:3/j/index.php'),
+			array(null, '', '', 'joom.la:3', '/j/index.php', 'foo=bar', 'http://joom.la:3/j/index.php?foo=bar'),
 		);
 	}
 
@@ -78,7 +78,7 @@ class JApplicationWebTest extends TestCase
 	public function getRedirectData()
 	{
 		return array(
-			// url, base, request, (expected result)
+			// Note: url, base, request, (expected result)
 			array('/foo', 'http://j.org/', 'http://j.org/index.php?v=11.3', 'http://j.org/foo'),
 			array('foo', 'http://j.org/', 'http://j.org/index.php?v=11.3', 'http://j.org/foo'),
 		);
@@ -175,7 +175,7 @@ class JApplicationWebTest extends TestCase
 
 		$this->assertThat(
 			$this->class->get('uri.base.host'),
-			$this->equalTo('http://'.self::TEST_HTTP_HOST),
+			$this->equalTo('http://' . self::TEST_HTTP_HOST),
 			'Tests uri base host setting.'
 		);
 	}
@@ -194,24 +194,24 @@ class JApplicationWebTest extends TestCase
 			->expects($this->any())
 			->method('test')
 			->will(
-				$this->returnValue('ok')
-			);
+			$this->returnValue('ok')
+		);
 
 		$mockConfig = $this->getMock('JRegistry', array('test'), array(null), '', true);
 		$mockConfig
 			->expects($this->any())
 			->method('test')
 			->will(
-				$this->returnValue('ok')
-			);
+			$this->returnValue('ok')
+		);
 
 		$mockClient = $this->getMock('JApplicationWebClient', array('test'), array(), '', false);
 		$mockClient
 			->expects($this->any())
 			->method('test')
 			->will(
-				$this->returnValue('ok')
-			);
+			$this->returnValue('ok')
+		);
 
 		$inspector = new JApplicationWebInspector($mockInput, $mockConfig, $mockClient);
 
@@ -396,10 +396,12 @@ class JApplicationWebTest extends TestCase
 		// Ensure that the compression headers were set.
 		$this->assertThat(
 			TestReflection::getValue($this->class, 'response')->headers,
-			$this->equalTo(array(
-				0 => array('name' => 'Content-Encoding', 'value' => 'gzip'),
-				1 => array('name' => 'X-Content-Encoded-By', 'value' => 'Joomla')
-			)),
+			$this->equalTo(
+				array(
+					0 => array('name' => 'Content-Encoding', 'value' => 'gzip'),
+					1 => array('name' => 'X-Content-Encoded-By', 'value' => 'Joomla')
+				)
+			),
 			'Checks the headers were set correctly.'
 		);
 	}
@@ -450,10 +452,12 @@ class JApplicationWebTest extends TestCase
 		// Ensure that the compression headers were set.
 		$this->assertThat(
 			TestReflection::getValue($this->class, 'response')->headers,
-			$this->equalTo(array(
-				0 => array('name' => 'Content-Encoding', 'value' => 'deflate'),
-				1 => array('name' => 'X-Content-Encoded-By', 'value' => 'Joomla')
-			)),
+			$this->equalTo(
+				array(
+					0 => array('name' => 'Content-Encoding', 'value' => 'deflate'),
+					1 => array('name' => 'X-Content-Encoded-By', 'value' => 'Joomla')
+				)
+			),
 			'Checks the headers were set correctly.'
 		);
 	}
@@ -497,7 +501,7 @@ class JApplicationWebTest extends TestCase
 		// Ensure that the compressed body is the same as the raw body since there is no compression.
 		$this->assertThat(
 			strlen($this->class->getBody()),
-			$this->equalTo(476),
+			$this->equalTo(471),
 			'Checks the compressed output is the same as the uncompressed output -- no compression.'
 		);
 
@@ -554,9 +558,10 @@ class JApplicationWebTest extends TestCase
 		// Ensure that the compressed body is the same as the raw body since there is no compression.
 		$this->assertThat(
 			strlen($this->class->getBody()),
-			$this->equalTo(476),
+			$this->equalTo(471),
 			'Checks the compressed output is the same as the uncompressed output -- no compression.'
 		);
+
 		// Ensure that the compression headers were not set.
 		$this->assertThat(
 			TestReflection::getValue($this->class, 'response')->headers,
@@ -604,7 +609,7 @@ class JApplicationWebTest extends TestCase
 		// Ensure that the compressed body is the same as the raw body since there is no supported compression.
 		$this->assertThat(
 			strlen($this->class->getBody()),
-			$this->equalTo(476),
+			$this->equalTo(471),
 			'Checks the compressed output is the same as the uncompressed output -- no supported compression.'
 		);
 
@@ -618,6 +623,14 @@ class JApplicationWebTest extends TestCase
 
 	/**
 	 * Tests the JApplicationWeb::detectRequestUri method.
+	 *
+	 * @param   string  $https        @todo
+	 * @param   string  $phpSelf      @todo
+	 * @param   string  $requestUri   @todo
+	 * @param   string  $httpHost     @todo
+	 * @param   string  $scriptName   @todo
+	 * @param   string  $queryString  @todo
+	 * @param   string  $expects      @todo
 	 *
 	 * @return  void
 	 *
@@ -751,24 +764,25 @@ class JApplicationWebTest extends TestCase
 	public function getFetchConfigurationData()
 	{
 		return array(
-			// file, class, expectsClass, (expected result array), whether there should be an exception
+			// Note: file, class, expectsClass, (expected result array), whether there should be an exception
 			'Default configuration class' => array(null, null, 'JConfig', 'ConfigEval'),
- 			'Custom file, invalid class' => array(JPATH_BASE . '/config.JCli-wrongclass.php', 'noclass', false, array(), true),
+			'Custom file, invalid class' => array(JPATH_BASE . '/config.JCli-wrongclass.php', 'noclass', false, array(), true),
 		);
 	}
 
 	/**
 	 * Tests the JCli::fetchConfigurationData method.
 	 *
-	 * @param   string   $fileName      The name of the configuration file.
-	 * @param   string   $fileName      The name of the configuration file.
-	 * @param   boolean  $expectsClass  The result is expected to be a class.
-	 * @param   array    $expects       The expected result as an array.
+	 * @param   string   $file               The name of the configuration file.
+	 * @param   string   $class              The name of the class.
+	 * @param   boolean  $expectsClass       The result is expected to be a class.
+	 * @param   array    $expects            The expected result as an array.
+	 * @param   bool     $expectedException  The expected exception.
 	 *
 	 * @return  void
 	 *
 	 * @dataProvider getFetchConfigurationData
-	 * @since   11.3
+	 * @since    11.3
 	 */
 	public function testFetchConfigurationData($file, $class, $expectsClass, $expects, $expectedException = false)
 	{
@@ -793,7 +807,7 @@ class JApplicationWebTest extends TestCase
 		if ($expects == 'ConfigEval')
 		{
 			$expects = new JConfig;
-			$expects = (array)$expects;
+			$expects = (array) $expects;
 		}
 
 		if ($expectsClass)
@@ -1012,32 +1026,32 @@ class JApplicationWebTest extends TestCase
 			->expects($this->any())
 			->method('test')
 			->will(
-				$this->returnValue('JSession')
-			);
+			$this->returnValue('JSession')
+		);
 
 		$mockDocument = $this->getMock('JDocument', array('test'), array(), '', false);
 		$mockDocument
 			->expects($this->any())
 			->method('test')
 			->will(
-				$this->returnValue('JDocument')
-			);
+			$this->returnValue('JDocument')
+		);
 
 		$mockLanguage = $this->getMock('JLanguage', array('test'), array(), '', false);
 		$mockLanguage
 			->expects($this->any())
 			->method('test')
 			->will(
-				$this->returnValue('JLanguage')
-			);
+			$this->returnValue('JLanguage')
+		);
 
 		$mockDispatcher = $this->getMock('JEventDispatcher', array('test'), array(), '', false);
 		$mockDispatcher
 			->expects($this->any())
 			->method('test')
 			->will(
-				$this->returnValue('JEventDispatcher')
-			);
+			$this->returnValue('JEventDispatcher')
+		);
 
 		$this->class->initialise($mockSession, $mockDocument, $mockLanguage, $mockDispatcher);
 
@@ -1416,7 +1430,7 @@ class JApplicationWebTest extends TestCase
 			$this->equalTo(
 				array(
 					array('HTTP/1.1 303 See other', true, null),
-					array('Location: '.$base.$url, true, null),
+					array('Location: ' . $base . $url, true, null),
 					array('Content-Type: text/html; charset=utf-8', true, null),
 				)
 			)
@@ -1485,10 +1499,10 @@ class JApplicationWebTest extends TestCase
 		$this->assertThat(
 			trim($buffer),
 			$this->equalTo(
-				'<html><head>' .
-				'<meta http-equiv="content-type" content="text/html; charset=utf-8" />' .
-				"<script>document.location.href='{$url}';</script>" .
-				'</head><body></body></html>'
+				'<html><head>'
+					. '<meta http-equiv="content-type" content="text/html; charset=utf-8" />'
+					. "<script>document.location.href='{$url}';</script>"
+					. '</head><body></body></html>'
 			)
 		);
 	}
@@ -1520,7 +1534,7 @@ class JApplicationWebTest extends TestCase
 			$this->equalTo(
 				array(
 					array('HTTP/1.1 301 Moved Permanently', true, null),
-					array('Location: '.$url, true, null),
+					array('Location: ' . $url, true, null),
 					array('Content-Type: text/html; charset=utf-8', true, null),
 				)
 			)
@@ -1529,6 +1543,11 @@ class JApplicationWebTest extends TestCase
 
 	/**
 	 * Tests the JApplicationWeb::redirect method with assorted URL's.
+	 *
+	 * @param   string  $url       @todo
+	 * @param   string  $base      @todo
+	 * @param   string  $request   @todo
+	 * @param   string  $expected  @todo
 	 *
 	 * @return  void
 	 *
@@ -1557,7 +1576,7 @@ class JApplicationWebTest extends TestCase
 
 		$this->assertThat(
 			$this->class->headers[1][0],
-			$this->equalTo('Location: '.$expected)
+			$this->equalTo('Location: ' . $expected)
 		);
 	}
 
@@ -1758,7 +1777,11 @@ class JApplicationWebTest extends TestCase
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @covers JApplicationWeb::isSSLConnection
+	 *
+	 * @return void
 	 */
 	public function testIsSSLConnection()
 	{

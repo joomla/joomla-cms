@@ -86,7 +86,7 @@ abstract class JHtmlGrid
 			$direction = ($direction == 'desc') ? 'asc' : 'desc';
 		}
 
-		$html = '<a href="#" onclick="Joomla.tableOrdering(\'' . $order . '\',\'' . $direction . '\',\'' . $task . '\');" title="'
+		$html = '<a href="#" onclick="Joomla.tableOrdering(\'' . $order . '\',\'' . $direction . '\',\'' . $task . '\'); return false;" title="'
 			. JText::_('JGLOBAL_CLICK_TO_SORT_THIS_COLUMN') . '">';
 		$html .= JText::_($title);
 
@@ -243,7 +243,7 @@ abstract class JHtmlGrid
 	 * Method to create an icon for saving a new ordering in a grid
 	 *
 	 * @param   array   $rows   The array of rows of rows
-	 * @param   string  $image  The image
+	 * @param   string  $image  The image [UNUSED]
 	 * @param   string  $task   The task to use, defaults to save order
 	 *
 	 * @return  string
@@ -252,7 +252,6 @@ abstract class JHtmlGrid
 	 */
 	public static function order($rows, $image = 'filesave.png', $task = 'saveorder')
 	{
-		// $image = JHtml::_('image','admin/'.$image, JText::_('JLIB_HTML_SAVE_ORDER'), NULL, true);
 		$href = '<a href="javascript:saveorder(' . (count($rows) - 1) . ', \'' . $task . '\')" class="saveorder" title="'
 			. JText::_('JLIB_HTML_SAVE_ORDER') . '"></a>';
 

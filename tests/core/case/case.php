@@ -46,7 +46,7 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
 	/**
 	 * Receives the callback from JError and logs the required error information for the test.
 	 *
-	 * @param   JException	$error  The JException object from JError
+	 * @param   JException  $error  The JException object from JError
 	 *
 	 * @return  boolean  To not continue with JError processing
 	 *
@@ -116,7 +116,7 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
 	 * If a test expects a JError to be raised, it should call this setExpectedError first
 	 * If you don't call this method first, the test will fail.
 	 *
-	 * @param   JException  $error
+	 * @param   JException  $error  The JException object from JError
 	 *
 	 * @return  JException
 	 *
@@ -288,7 +288,7 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
 	 *
 	 * If passed without argument, the array is initialized if it hsn't been already
 	 *
-	 * @param   mixed  $error
+	 * @param   mixed  $error  The JException object to expect.
 	 *
 	 * @return  void
 	 *
@@ -422,10 +422,13 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Sets the JError error handlers to callback mode and points them at the test
-	 * logging method.
+	 * Sets the JError error handlers to callback mode and points them at the test logging method.
 	 *
-	 * @return	void
+	 * @param   string  $testName  The name of the test class for which to set the error callback method.
+	 *
+	 * @param   string  $testName  The test name.
+	 *
+	 * @return    void
 	 *
 	 * @since   12.1
 	 */

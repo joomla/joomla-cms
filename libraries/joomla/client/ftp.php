@@ -121,7 +121,7 @@ class JClientFtp
 	 * @var    array
 	 * @since  12.1
 	 */
-	private $_lineEndings = array('UNIX' => "\n", 'MAC' => "\r", 'WIN' => "\r\n");
+	private $_lineEndings = array('UNIX' => "\n", 'WIN' => "\r\n");
 
 	/**
 	 * @var    array  JClientFtp instances container.
@@ -189,7 +189,7 @@ class JClientFtp
 	 *
 	 * @since   12.1
 	 */
-	public static function getInstance($host = '127.0.0.1', $port = '21', array $options = null, $user = null, $pass = null)
+	public static function getInstance($host = '127.0.0.1', $port = '21', array $options = array(), $user = null, $pass = null)
 	{
 		$signature = $user . ':' . $pass . '@' . $host . ":" . $port;
 
@@ -846,10 +846,6 @@ class JClientFtp
 			if (IS_WIN)
 			{
 				$os = 'WIN';
-			}
-			elseif (IS_MAC)
-			{
-				$os = 'MAC';
 			}
 
 			$buffer = preg_replace("/" . CRLF . "/", $this->_lineEndings[$os], $buffer);
@@ -1665,29 +1661,5 @@ class JClientFtp
 			}
 		}
 		return true;
-	}
-}
-
-/**
- * Deprecated class placeholder. You should use JClientFtp instead.
- *
- * @package     Joomla.Platform
- * @subpackage  Client
- * @since       11.1
- * @deprecated  12.3
- */
-class JFTP extends JClientFtp
-{
-	/**
-	 * JFTP object constructor
-	 *
-	 * @param   array  $options  Associative array of options to set
-	 *
-	 * @since   11.1
-	 */
-	public function __construct($options)
-	{
-		JLog::add('JFTP is deprecated. Use JClientFtp instead.', JLog::WARNING, 'deprecated');
-		parent::__construct($options);
 	}
 }

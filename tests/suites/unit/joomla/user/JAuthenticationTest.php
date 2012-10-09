@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM.'/joomla/user/authentication.php';
+require_once JPATH_PLATFORM . '/joomla/user/authentication.php';
 
 /**
  * Tests for the JAuthentication class.
@@ -21,7 +21,7 @@ require_once JPATH_PLATFORM.'/joomla/user/authentication.php';
 class JAuthenticationTest extends TestCase
 {
 	/**
-	 * @var	   JAuthentication
+	 * @var       JAuthentication
 	 * @since  11.1
 	 */
 	protected $object;
@@ -52,7 +52,7 @@ class JAuthenticationTest extends TestCase
 		TestReflection::setValue('JEventDispatcher', 'instance', $dispatcher);
 
 		// Mock the authentication plugin
-		require_once __DIR__.'/stubs/FakeAuthenticationPlugin.php';
+		require_once __DIR__ . '/stubs/FakeAuthenticationPlugin.php';
 
 		// Inject the mocked plugin list.
 		TestReflection::setValue('JPluginHelper', 'plugins', array(
@@ -101,7 +101,7 @@ class JAuthenticationTest extends TestCase
 				// Emulate onUserAuthorisation($response, $options=array())
 				$returnValue = new JAuthenticationResponse;
 
-				switch($args[0]->username)
+				switch ($args[0]->username)
 				{
 					case 'test':
 						$returnValue->status = JAuthentication::STATUS_SUCCESS;
@@ -153,7 +153,7 @@ class JAuthenticationTest extends TestCase
 
 		return array(
 			array(
-				array('username'=>'test', 'password'=>'test'),
+				array('username' => 'test', 'password' => 'test'),
 				$success,
 				'Testing correct username and password'
 			),
@@ -166,7 +166,11 @@ class JAuthenticationTest extends TestCase
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @covers  JAuthentication::getInstance
+	 *
+	 * @return void
 	 */
 	public function testGetInstance()
 	{
@@ -179,6 +183,10 @@ class JAuthenticationTest extends TestCase
 
 	/**
 	 * This checks for the correct Long Version.
+	 *
+	 * @param   string  $input    User name
+	 * @param   string  $expect   Expected user id
+	 * @param   string  $message  Expected error info
 	 *
 	 * @return  void
 	 *
@@ -249,6 +257,10 @@ class JAuthenticationTest extends TestCase
 
 	/**
 	 * This checks for the correct response to authorising a user
+	 *
+	 * @param   string  $input    User name
+	 * @param   string  $expect   Expected user id
+	 * @param   string  $message  Expected error info
 	 *
 	 * @return  void
 	 *

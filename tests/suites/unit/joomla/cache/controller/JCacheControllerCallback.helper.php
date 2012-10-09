@@ -7,21 +7,57 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-class testCallbackController {
+/**
+ * A testCallbackController test class.
+ *
+ * @package     Joomla.UnitTest
+ * @subpackage  Cache
+ *
+ * @since       11.1
+ */
+class TestCallbackController
+{
 
-	public function instanceCallback($arg1, $arg2) {
+	/**
+	 * Test...
+	 *
+	 * @param   mixed  $arg1  Nr. 1
+	 * @param   mixed  $arg2  Nr. 2
+	 *
+	 * @return mixed
+	 */
+	public function instanceCallback($arg1, $arg2)
+	{
 		echo $arg1;
 		return $arg2;
 	}
 
-	static function staticCallback($arg1, $arg2) {
+	/**
+	 * Test...
+	 *
+	 * @param   mixed  $arg1  Nr. 1
+	 * @param   mixed  $arg2  Nr. 2
+	 *
+	 * @return mixed
+	 */
+	static function staticCallback($arg1, $arg2)
+	{
 		echo $arg1;
 		return $arg2;
 	}
 
 }
 
-function testCallbackControllerFunc($arg1, $arg2) {
+/**
+ * Test...
+ *
+ * @param   mixed  $arg1  Nr. 1
+ * @param   mixed  $arg2  Nr. 2
+ *
+ * @return mixed
+ */
+function testCallbackControllerFunc($arg1, $arg2)
+{
 	echo $arg1;
 	return $arg2;
 }

@@ -7,13 +7,15 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM.'/joomla/filter/input.php';
+require_once JPATH_PLATFORM . '/joomla/filter/input.php';
 
 /**
  * JFilterInputTest
  *
- * @package Joomla.UnitTest
- * @subpackage Filter
+ * @package     Joomla.UnitTest
+ * @subpackage  Filter
+ *
+ * @since       11.1
  */
 class JFilterInputTest extends PHPUnit_Framework_TestCase
 {
@@ -21,16 +23,16 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 	 * Produces the array of test cases common to all test runs.
 	 *
 	 * @return array Two dimensional array of test cases. Each row consists of three values
-	 *				The first is the type of input data, the second is the actual input data,
-	 *				the third is the expected result of filtering, and the fourth is
-	 *				the failure message identifying the source of the data.
+	 *                The first is the type of input data, the second is the actual input data,
+	 *                the third is the expected result of filtering, and the fourth is
+	 *                the failure message identifying the source of the data.
 	 *
 	 * @return array
 	 */
 	function casesGeneric()
 	{
-		$input = '!"#$%&\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`'.
-			'abcdefghijklmnopqrstuvwxyz{|}~â‚¬â€šÆ’â€žâ€¦â€ â€¡Ë†â€°Å â€¹Å’Å½â€˜â€™â€œâ€�â€¢â€“â€”Ëœâ„¢Å¡â€ºÅ“Å¾Å¸Â¡Â¢Â£Â¤Â¥Â¦Â§Â¨Â©ÂªÂ«Â¬Â­Â®Â¯Â°Â±Â²Â³Â´ÂµÂ¶Â·'.
+		$input = '!"#$%&\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`' .
+			'abcdefghijklmnopqrstuvwxyz{|}~â‚¬â€šÆ’â€žâ€¦â€ â€¡Ë†â€°Å â€¹Å’Å½â€˜â€™â€œâ€�â€¢â€“â€”Ëœâ„¢Å¡â€ºÅ“Å¾Å¸Â¡Â¢Â£Â¤Â¥Â¦Â§Â¨Â©ÂªÂ«Â¬Â­Â®Â¯Â°Â±Â²Â³Â´ÂµÂ¶Â·' .
 			'Â¸Â¹ÂºÂ»Â¼Â½Â¾Â¿Ã€Ã�Ã‚ÃƒÃ„Ã…Ã†Ã‡ÃˆÃ‰ÃŠÃ‹ÃŒÃ�ÃŽÃ�Ã�Ã‘Ã’Ã“Ã”Ã•Ã–Ã—Ã˜Ã™ÃšÃ›ÃœÃ�ÃžÃŸÃ Ã¡Ã¢Ã£Ã¤Ã¥Ã¦Ã§Ã¨Ã©ÃªÃ«Ã¬Ã­Ã®Ã¯Ã°Ã±Ã²Ã³Ã´ÃµÃ¶Ã·Ã¸Ã¹ÃºÃ»Ã¼Ã½Ã¾Ã¿';
 
 		return array(
@@ -282,8 +284,8 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 			),
 			'array' => array(
 				'array',
-				array( 1, 3, 6 ),
-				array( 1, 3, 6 ),
+				array(1, 3, 6),
+				array(1, 3, 6),
 				'From generic cases'
 			),
 			'path_01' => array(
@@ -348,14 +350,14 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 			),
 			'unknown_02' => array(
 				'',
-				array( 1, 3, 9 ),
-				array( 1, 3, 9 ),
+				array(1, 3, 9),
+				array(1, 3, 9),
 				'From generic cases'
 			),
 			'unknown_03' => array(
 				'',
-				array( "key" => "Value", "key2" => "This&That", "key2" => "This&amp;That" ),
-				array( "key" => "Value", "key2" => "This&That", "key2" => "This&That" ),
+				array("key" => "Value", "key2" => "This&That", "key2" => "This&amp;That"),
+				array("key" => "Value", "key2" => "This&That", "key2" => "This&That"),
 				'From generic cases'
 			),
 			'unknown_04' => array(
@@ -455,7 +457,6 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 	 * Sets up for the test run.
 	 *
 	 * @return void
-	 *
 	 */
 	function setUp()
 	{
@@ -465,8 +466,8 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 	 * Produces the array of test cases for the Clean Text test run.
 	 *
 	 * @return array Two dimensional array of test cases. Each row consists of two values
-	 *				The first is the input data for the test run,
-	 *				and the second is the expected result of filtering.
+	 *                The first is the input data for the test run,
+	 *                and the second is the expected result of filtering.
 	 */
 	function casesCleanText()
 	{
@@ -488,8 +489,8 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Execute a cleanText test case.
 	 *
-	 * @param string $data   The original output
-	 * @param string $expect The expected result for this test.
+	 * @param   string  $data    The original output
+	 * @param   string  $expect  The expected result for this test.
 	 *
 	 * @return void
 	 *
@@ -508,9 +509,9 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 	 * Produces the array of test cases for plain Whitelist test run.
 	 *
 	 * @return array Two dimensional array of test cases. Each row consists of three values
-	 *				The first is the type of input data, the second is the actual input data,
-	 *				the third is the expected result of filtering, and the fourth is
-	 *				the failure message identifying the source of the data.
+	 *                The first is the type of input data, the second is the actual input data,
+	 *                the third is the expected result of filtering, and the fourth is
+	 *                the failure message identifying the source of the data.
 	 *
 	 * @return array
 	 */
@@ -600,16 +601,16 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Execute a test case on clean() called as member with default filter settings (whitelist - no html).
 	 *
-	 * @param string $type	The type of input
-	 * @param string $data	The input
-	 * @param string $expect  The expected result for this test.
-	 * @param string $message The failure message identifying source of test case.
+	 * @param   string  $type     The type of input
+	 * @param   string  $data     The input
+	 * @param   string  $expect   The expected result for this test.
+	 * @param   string  $message  The failure message identifying source of test case.
 	 *
 	 * @return void
 	 *
 	 * @dataProvider whitelist
 	 */
-	function testCleanByCallingMember( $type, $data, $expect, $message )
+	function testCleanByCallingMember($type, $data, $expect, $message)
 	{
 		$filter = new JFilterInput;
 		$this->assertThat(
@@ -623,9 +624,9 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 	 * Produces the array of test cases for the Whitelist img tag test run.
 	 *
 	 * @return array Two dimensional array of test cases. Each row consists of three values
-	 *				The first is the type of input data, the second is the actual input data,
-	 *				the third is the expected result of filtering, and the fourth is
-	 *				the failure message identifying the source of the data.
+	 *                The first is the type of input data, the second is the actual input data,
+	 *                the third is the expected result of filtering, and the fourth is
+	 *                the failure message identifying the source of the data.
 	 *
 	 * @return array
 	 */
@@ -738,18 +739,18 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Execute a test case on clean() called as member with custom filter settings (whitelist).
 	 *
-	 * @param string $type	The type of input
-	 * @param string $data	The input
-	 * @param string $expect  The expected result for this test.
-	 * @param string $message The failure message identifying the source of the test case.
+	 * @param   string  $type     The type of input
+	 * @param   string  $data     The input
+	 * @param   string  $expect   The expected result for this test.
+	 * @param   string  $message  The failure message identifying the source of the test case.
 	 *
 	 * @return void
 	 *
 	 * @dataProvider whitelistImg
 	 */
-	function testCleanWithImgWhitelisted( $type, $data, $expect, $message )
+	function testCleanWithImgWhitelisted($type, $data, $expect, $message)
 	{
-		$filter = JFilterInput::getInstance(array( 'img' ), null, 0, 0);
+		$filter = JFilterInput::getInstance(array('img'), null, 0, 0);
 		$this->assertThat(
 			$filter->clean($data, $type),
 			$this->equalTo($expect),
@@ -761,9 +762,9 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 	 * Produces the array of test cases for the Whitelist class attribute test run.
 	 *
 	 * @return array Two dimensional array of test cases. Each row consists of three values
-	 *				The first is the type of input data, the second is the actual input data,
-	 *				the third is the expected result of filtering, and the fourth is
-	 *				the failure message identifying the source of the data.
+	 *                The first is the type of input data, the second is the actual input data,
+	 *                the third is the expected result of filtering, and the fourth is
+	 *                the failure message identifying the source of the data.
 	 *
 	 * @return array
 	 */
@@ -846,18 +847,18 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Execute a test case on clean() called as member with custom filter settings (whitelist).
 	 *
-	 * @param string $type	The type of input
-	 * @param string $data	The input
-	 * @param string $expect  The expected result for this test.
-	 * @param string $message The failure message identifying the source of the test case.
+	 * @param   string  $type     The type of input
+	 * @param   string  $data     The input
+	 * @param   string  $expect   The expected result for this test.
+	 * @param   string  $message  The failure message identifying the source of the test case.
 	 *
 	 * @return void
 	 *
 	 * @dataProvider whitelistClass
 	 */
-	function testCleanWithClassWhitelisted( $type, $data, $expect, $message )
+	function testCleanWithClassWhitelisted($type, $data, $expect, $message)
 	{
-		$filter = JFilterInput::getInstance(null, array( 'class' ), 0, 0);
+		$filter = JFilterInput::getInstance(null, array('class'), 0, 0);
 		$this->assertThat(
 			$filter->clean($data, $type),
 			$this->equalTo($expect),
@@ -869,9 +870,9 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 	 * Produces the array of test cases for the Whitelist class attribute img tag test run.
 	 *
 	 * @return array Two dimensional array of test cases. Each row consists of three values
-	 *				The first is the type of input data, the second is the actual input data,
-	 *				the third is the expected result of filtering, and the fourth is
-	 *				the failure message identifying the source of the data.
+	 *                The first is the type of input data, the second is the actual input data,
+	 *                the third is the expected result of filtering, and the fourth is
+	 *                the failure message identifying the source of the data.
 	 *
 	 * @return array
 	 */
@@ -961,18 +962,18 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Execute a test case on clean() called as member with custom filter settings (whitelist).
 	 *
-	 * @param string $type	The type of input
-	 * @param string $data	The input
-	 * @param string $expect  The expected result for this test.
-	 * @param string $message The failure message identifying the source of the test case.
+	 * @param   string  $type     The type of input
+	 * @param   string  $data     The input
+	 * @param   string  $expect   The expected result for this test.
+	 * @param   string  $message  The failure message identifying the source of the test case.
 	 *
 	 * @return void
 	 *
 	 * @dataProvider whitelistClassImg
 	 */
-	function testCleanWithImgAndClassWhitelisted( $type, $data, $expect, $message )
+	function testCleanWithImgAndClassWhitelisted($type, $data, $expect, $message)
 	{
-		$filter = JFilterInput::getInstance(array( 'img' ), array( 'class' ), 0, 0);
+		$filter = JFilterInput::getInstance(array('img'), array('class'), 0, 0);
 		$this->assertThat(
 			$filter->clean($data, $type),
 			$this->equalTo($expect),
@@ -984,9 +985,9 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 	 * Produces the array of test cases for the plain Blacklist test run.
 	 *
 	 * @return array Two dimensional array of test cases. Each row consists of three values
-	 *				The first is the type of input data, the second is the actual input data,
-	 *				the third is the expected result of filtering, and the fourth is
-	 *				the failure message identifying the source of the data.
+	 *                The first is the type of input data, the second is the actual input data,
+	 *                the third is the expected result of filtering, and the fourth is
+	 *                the failure message identifying the source of the data.
 	 *
 	 * @return array
 	 */
@@ -1156,11 +1157,11 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 				'Test quote equals inside valid tag'
 			),
 			'tracker26439b' => array(
-			 	'string',
+				'string',
 				"<p>equals quote =' inside valid tag</p>",
 				"<p>equals quote =' inside valid tag</p>",
 				'Test single quote equals inside valid tag'
-		),
+			),
 		);
 		$tests = array_merge($this->casesGeneric(), $casesSpecific);
 
@@ -1170,16 +1171,16 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Execute a test case with clean() default blacklist filter settings (strips bad tags).
 	 *
-	 * @param string $type	The type of input
-	 * @param string $data	The input
-	 * @param string $expect  The expected result for this test.
-	 * @param string $message The failure message identifying the source of the test case.
+	 * @param   string  $type     The type of input
+	 * @param   string  $data     The input
+	 * @param   string  $expect   The expected result for this test.
+	 * @param   string  $message  The failure message identifying the source of the test case.
 	 *
 	 * @return void
 	 *
 	 * @dataProvider blacklist
 	 */
-	function testCleanWithDefaultBlackList($type, $data, $expect, $message )
+	function testCleanWithDefaultBlackList($type, $data, $expect, $message)
 	{
 		$filter = JFilterInput::getInstance(null, null, 1, 1);
 		$this->assertThat(
@@ -1193,9 +1194,9 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 	 * Produces the array of test cases for the Blacklist img tag test run.
 	 *
 	 * @return array Two dimensional array of test cases. Each row consists of three values
-	 *				The first is the type of input data, the second is the actual input data,
-	 *				the third is the expected result of filtering, and the fourth is
-	 *				the failure message identifying the source of the data.
+	 *                The first is the type of input data, the second is the actual input data,
+	 *                the third is the expected result of filtering, and the fourth is
+	 *                the failure message identifying the source of the data.
 	 *
 	 * @return array
 	 */
@@ -1267,18 +1268,18 @@ src='/onerror=eval(atob(/KGZ1bmN0aW9uKCl7dHJ5e3ZhciBkPWRvY3VtZW50LGI9ZC5ib2R5LHM
 	/**
 	 * Execute a test case with clean() using custom img blacklist filter settings (strips bad tags).
 	 *
-	 * @param string $type	The type of input
-	 * @param string $data	The input
-	 * @param string $expect  The expected result for this test.
-	 * @param string $message The failure message identifying the source of the test case.
+	 * @param   string  $type     The type of input
+	 * @param   string  $data     The input
+	 * @param   string  $expect   The expected result for this test.
+	 * @param   string  $message  The failure message identifying the source of the test case.
 	 *
 	 * @return void
 	 *
 	 * @dataProvider blacklistImg
 	 */
-	function testCleanWithImgBlackList($type, $data, $expect, $message )
+	function testCleanWithImgBlackList($type, $data, $expect, $message)
 	{
-		$filter = JFilterInput::getInstance(array( 'img' ), null, 1, 1);
+		$filter = JFilterInput::getInstance(array('img'), null, 1, 1);
 		$this->assertThat(
 			$filter->clean($data, $type),
 			$this->equalTo($expect),
@@ -1290,9 +1291,9 @@ src='/onerror=eval(atob(/KGZ1bmN0aW9uKCl7dHJ5e3ZhciBkPWRvY3VtZW50LGI9ZC5ib2R5LHM
 	 * Produces the array of test cases for the Blacklist class attribute test run.
 	 *
 	 * @return array Two dimensional array of test cases. Each row consists of three values
-	 *				The first is the type of input data, the second is the actual input data,
-	 *				the third is the expected result of filtering, and the fourth is
-	 *				the failure message identifying the source of the data.
+	 *                The first is the type of input data, the second is the actual input data,
+	 *                the third is the expected result of filtering, and the fourth is
+	 *                the failure message identifying the source of the data.
 	 *
 	 * @return array
 	 */
@@ -1315,18 +1316,18 @@ src='/onerror=eval(atob(/KGZ1bmN0aW9uKCl7dHJ5e3ZhciBkPWRvY3VtZW50LGI9ZC5ib2R5LHM
 	/**
 	 * Execute a test case with clean() using custom class blacklist filter settings (strips bad tags).
 	 *
-	 * @param string $type	The type of input
-	 * @param string $data	The input
-	 * @param string $expect  The expected result for this test.
-	 * @param string $message The failure message identifying the source of the test case.
+	 * @param   string  $type     The type of input
+	 * @param   string  $data     The input
+	 * @param   string  $expect   The expected result for this test.
+	 * @param   string  $message  The failure message identifying the source of the test case.
 	 *
 	 * @return void
 	 *
 	 * @dataProvider blacklistClass
 	 */
-	function testCleanWithClassBlackList($type, $data, $expect, $message )
+	function testCleanWithClassBlackList($type, $data, $expect, $message)
 	{
-		$filter = JFilterInput::getInstance(null, array( 'class' ), 1, 1);
+		$filter = JFilterInput::getInstance(null, array('class'), 1, 1);
 		$this->assertThat(
 			$filter->clean($data, $type),
 			$this->equalTo($expect),

@@ -7,10 +7,17 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+/**
+ * Data set class for JHtmlSelect.
+ *
+ * @package     Joomla.UnitTest
+ * @subpackage  Html
+ * @since       11.1
+ */
 class JHtmlSelectTest_DataSet
 {
 	static public $optionsTest = array(
-		 // array($expected, $arr, $optKey = 'value', $optText = 'text', $selected = null, $translate = false)
+		// @todo remove: array($expected, $arr, $optKey = 'value', $optText = 'text', $selected = null, $translate = false)
 		array(
 			"<option value=\"1\">&nbsp;Test</option>\n",
 			array(

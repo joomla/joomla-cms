@@ -9,16 +9,26 @@
 
 /**
  * Interface to JCache methods.  Used for testing of cache storage.
+ *
+ * @package     Joomla.UnitTest
+ * @subpackage  Cache
+ *
+ * @since       11.1
  */
 class JCacheControllerRaw extends JCache
 {
+	/**
+	 * Setup.
+	 *
+	 * @return void
+	 */
 	protected function setUp()
 	{
-		include_once JPATH_PLATFORM.'/joomla/cache/cache.php';
-		include_once JPATH_PLATFORM.'/joomla/cache/storage.php';
-		include_once JPATH_PLATFORM.'/joomla/cache/controller.php';
+		include_once JPATH_PLATFORM . '/joomla/cache/cache.php';
+		include_once JPATH_PLATFORM . '/joomla/cache/storage.php';
+		include_once JPATH_PLATFORM . '/joomla/cache/controller.php';
 
-		//$this->object = JCache::getInstance('', array());
+		// @todo remove: $this->object = JCache::getInstance('', array());
 	}
 
 }

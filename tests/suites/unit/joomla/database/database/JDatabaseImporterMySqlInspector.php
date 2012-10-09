@@ -1,14 +1,19 @@
 <?php
 /**
- * @copyright  Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.
- * @license    GNU General Public License
+ * @package     Joomla.UnitTest
+ * @subpackage  Database
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
  * Class to expose protected properties and methods in JDatabaseMySqlExporter for testing purposes.
  *
- * @package    Joomla.UnitTest
- * @subpackage Database
+ * @package     Joomla.UnitTest
+ * @subpackage  Database
+ *
+ * @since       11.1
  */
 class JDatabaseImporterMySqlInspector extends JDatabaseImporterMysql
 {
@@ -18,6 +23,7 @@ class JDatabaseImporterMySqlInspector extends JDatabaseImporterMysql
 	 * @param   string  $property  The name of the class property.
 	 *
 	 * @return  mixed   The value of the class property.
+	 *
 	 * @since   11.1
 	 */
 	public function __get($property)
@@ -29,6 +35,7 @@ class JDatabaseImporterMySqlInspector extends JDatabaseImporterMysql
 	 * Exposes the protected check method.
 	 *
 	 * @return  void
+	 *
 	 * @since   11.1
 	 */
 	public function check()
@@ -43,6 +50,7 @@ class JDatabaseImporterMySqlInspector extends JDatabaseImporterMysql
 	 * @param   SimpleXMLElement  $field  The XML field definition.
 	 *
 	 * @return  string
+	 *
 	 * @since   11.1
 	 */
 	public function getAddColumnSQL($table, SimpleXMLElement $field)
@@ -57,6 +65,7 @@ class JDatabaseImporterMySqlInspector extends JDatabaseImporterMysql
 	 * @param   array   $keys   An array of the fields pertaining to this key.
 	 *
 	 * @return  string
+	 *
 	 * @since   11.1
 	 */
 	public function getAddKeySQL($table, $keys)
@@ -67,9 +76,10 @@ class JDatabaseImporterMySqlInspector extends JDatabaseImporterMysql
 	/**
 	 * Exposes the protected getAlterTableSQL method.
 	 *
-	 * @param   SimpleXMLElement  $structure
+	 * @param   SimpleXMLElement  $structure  The structure.
 	 *
 	 * @return  array
+	 *
 	 * @since   11.1
 	 */
 	public function getAlterTableSQL(SimpleXMLElement $structure)
@@ -80,10 +90,11 @@ class JDatabaseImporterMySqlInspector extends JDatabaseImporterMysql
 	/**
 	 * Exposes the protected getChangeColumnSQL method.
 	 *
-	 * @param   string
-	 * @param   SimpleXMLElement
+	 * @param   string            $table  Table name.
+	 * @param   SimpleXMLElement  $field  The field.
 	 *
 	 * @return  string
+	 *
 	 * @since   11.1
 	 */
 	public function getChangeColumnSQL($table, SimpleXMLElement $field)
@@ -97,6 +108,7 @@ class JDatabaseImporterMySqlInspector extends JDatabaseImporterMysql
 	 * @param   SimpleXMLElement  $field  The XML field definition.
 	 *
 	 * @return  string
+	 *
 	 * @since   11.1
 	 */
 	public function getColumnSQL(SimpleXMLElement $field)
@@ -111,6 +123,7 @@ class JDatabaseImporterMySqlInspector extends JDatabaseImporterMysql
 	 * @param   string  $name   The name of the field to drop.
 	 *
 	 * @return  string
+	 *
 	 * @since   11.1
 	 */
 	public function getDropColumnSQL($table, $name)
@@ -121,11 +134,14 @@ class JDatabaseImporterMySqlInspector extends JDatabaseImporterMysql
 	/**
 	 * Exposes the protected getDropKeySQL method.
 	 *
-	 * @param   string	$table  The table name.
-	 * @param   string	$field  The name of the key to drop.
+	 * @param   string  $table  The table name.
+	 * @param   string  $name   @todo
+	 *
+	 * @internal param string $field The name of the key to drop.
 	 *
 	 * @return  string
-	 * @since   11.1
+	 *
+	 * @since    11.1
 	 */
 	public function getDropKeySQL($table, $name)
 	{
@@ -135,9 +151,10 @@ class JDatabaseImporterMySqlInspector extends JDatabaseImporterMysql
 	/**
 	 * Exposes the protected getDropPrimaryKeySQL method.
 	 *
-	 * @param   string	$table  The table name.
+	 * @param   string  $table  The table name.
 	 *
 	 * @return  string
+	 *
 	 * @since   11.1
 	 */
 	public function getDropPrimaryKeySQL($table)
@@ -148,9 +165,10 @@ class JDatabaseImporterMySqlInspector extends JDatabaseImporterMysql
 	/**
 	 * Exposes the protected getKeyLookup method.
 	 *
-	 * @param   array	$keys  An array of objects that comprise the keys for the table.
+	 * @param   array  $keys  An array of objects that comprise the keys for the table.
 	 *
-	 * @return  array	The lookup array. array({key name} => array(object, ...))
+	 * @return  array The lookup array. array({key name} => array(object, ...))
+	 *
 	 * @since   11.1
 	 * @throws	Exception
 	 */
@@ -162,9 +180,10 @@ class JDatabaseImporterMySqlInspector extends JDatabaseImporterMysql
 	/**
 	 * Exposes the protected getKeySQL method.
 	 *
-	 * @param   array	$columns  An array of SimpleXMLElement objects comprising the key.
+	 * @param   array  $columns  An array of SimpleXMLElement objects comprising the key.
 	 *
 	 * @return  string
+	 *
 	 * @since   11.1
 	 */
 	public function getKeySQL($columns)
@@ -175,9 +194,10 @@ class JDatabaseImporterMySqlInspector extends JDatabaseImporterMysql
 	/**
 	 * Exposes the protected getRealTableName method.
 	 *
-	 * @param   string	$table  The name of the table.
+	 * @param   string  $table  The name of the table.
 	 *
 	 * @return  string	The real name of the table.
+	 *
 	 * @since   11.1
 	 */
 	public function getRealTableName($table)
@@ -189,6 +209,7 @@ class JDatabaseImporterMySqlInspector extends JDatabaseImporterMysql
 	 * Exposes the protected mergeStructure method.
 	 *
 	 * @return  void
+	 *
 	 * @since   11.1
 	 * @throws  Exception on error.
 	 */
@@ -200,9 +221,10 @@ class JDatabaseImporterMySqlInspector extends JDatabaseImporterMysql
 	/**
 	 * Exposes the protected withStructure method.
 	 *
-	 * @param   boolean	$setting	True to export the structure, false to not.
+	 * @param   boolean	  $setting  True to export the structure, false to not.
 	 *
 	 * @return  void
+	 *
 	 * @since	11.1
 	 */
 	public function withStructure($setting = true)

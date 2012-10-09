@@ -7,23 +7,29 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM.'/joomla/html/content.php';
+require_once JPATH_PLATFORM . '/joomla/html/content.php';
 
 /**
  * Test class for JHtmlContent.
  *
- * @since  11.1
+ * @package     Joomla.UnitTest
+ * @subpackage  Html
+ * @since       11.1
  */
 class JHtmlContentTest extends PHPUnit_Framework_TestCase
 {
 	/**
+	 * Test...
+	 *
 	 * @todo Implement testPrepare().
+	 *
+	 * @return void
 	 */
 	public function testPrepare()
 	{
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete(
-		'This test has not been implemented yet.'
+			'This test has not been implemented yet.'
 		);
 	}
 }

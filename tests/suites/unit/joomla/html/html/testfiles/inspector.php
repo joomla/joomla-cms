@@ -1,10 +1,22 @@
 <?php
 /**
  * @package     Joomla.UnitTest
+ * @subpackage  Grid
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
+ */
+
+/**
+ * JHtmlInspector test class.
+ *
+ * @package     Joomla.UnitTest
  * @subpackage  HTML
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
+ *
+ * @since       11.1
  */
 class JHtmlInspector
 {
@@ -21,17 +33,21 @@ class JHtmlInspector
 	 */
 	public static function method1()
 	{
-		if (!isset(self::$arguments)) {
+		if (!isset(self::$arguments))
+		{
 			self::$arguments = array(func_get_args());
 		}
-		else {
+		else
+		{
 			self::$arguments[] = func_get_args();
 		}
 
-		if (isset(self::$returnValue)) {
+		if (isset(self::$returnValue))
+		{
 			return self::$returnValue;
 		}
-		else {
+		else
+		{
 			return 'JHtmlInspector::method1';
 		}
 	}

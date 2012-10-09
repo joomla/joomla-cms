@@ -116,7 +116,7 @@ class JUser extends JObject
 	/**
 	 * User parameters
 	 *
-	 * @var    string
+	 * @var    JRegistry
 	 * @since  11.1
 	 */
 	public $params = null;
@@ -155,7 +155,7 @@ class JUser extends JObject
 
 	/**
 	 * User parameters
-	 * @var    object
+	 * @var    JRegistry
 	 * @since  11.1
 	 */
 	protected $_params = null;
@@ -450,31 +450,6 @@ class JUser extends JObject
 		$table->load($this->id);
 
 		return $table->setLastVisit($timestamp);
-	}
-
-	/**
-	 * Method to get the user parameters
-	 *
-	 * This function tries to load an XML file based on the user's usertype. The filename of the xml
-	 * file is the same as the usertype. The functionals has a static variable to store the parameters
-	 * setup file base path. You can call this function statically to set the base path if needed.
-	 *
-	 * @param   boolean  $loadsetupfile  If true, loads the parameters setup file. Default is false.
-	 * @param   path     $path           Set the parameters setup file base path to be used to load the user parameters.
-	 *
-	 * @return  object   The user parameters object.
-	 *
-	 * @since   11.1
-	 * @deprecated  12.3
-	 */
-	public function getParameters($loadsetupfile = false, $path = null)
-	{
-		// @codeCoverageIgnoreStart
-		JLog::add('JUser::getParameters() is deprecated.', JLog::WARNING, 'deprecated');
-
-		return $this->_params;
-
-		// @codeCoverageIgnoreEnd
 	}
 
 	/**
@@ -813,6 +788,9 @@ class JUser extends JObject
 		// Load the JUserModel object based on the user id or throw a warning.
 		if (!$table->load($id))
 		{
+			// Reset to guest user
+			$this->guest = 1;
+
 			JLog::add(JText::sprintf('JLIB_USER_ERROR_UNABLE_TO_LOAD_USER', $id), JLog::WARNING, 'jerror');
 			return false;
 		}
@@ -825,8 +803,18 @@ class JUser extends JObject
 
 		$this->_params->loadString($table->params);
 
-		// Assuming all is well at this point lets bind the data
+		// Assuming all is well at this point let's bind the data
 		$this->setProperties($table->getProperties());
+
+		// The user is no longer a guest
+		if ($this->id != 0)
+		{
+			$this->guest = 0;
+		}
+		else
+		{
+			$this->guest = 1;
+		}
 
 		return true;
 	}

@@ -7,9 +7,9 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM.'/joomla/crypt/key.php';
-require_once JPATH_PLATFORM.'/joomla/crypt/cipher.php';
-require_once JPATH_PLATFORM.'/joomla/crypt/cipher/3des.php';
+require_once JPATH_PLATFORM . '/joomla/crypt/key.php';
+require_once JPATH_PLATFORM . '/joomla/crypt/cipher.php';
+require_once JPATH_PLATFORM . '/joomla/crypt/cipher/3des.php';
 
 /**
  * Test class for JCryptCipher3DES.
@@ -48,7 +48,7 @@ class JCryptCipher3DESTest extends TestCase
 		// Build the key for testing.
 		$this->key = new JCryptKey('3des');
 		$this->key->private = file_get_contents(__DIR__ . '/stubs/encrypted/3des/key.priv');
-		$this->key->public  = file_get_contents(__DIR__ . '/stubs/encrypted/3des/key.pub');
+		$this->key->public = file_get_contents(__DIR__ . '/stubs/encrypted/3des/key.pub');
 	}
 
 	/**
@@ -65,6 +65,11 @@ class JCryptCipher3DESTest extends TestCase
 		parent::tearDown();
 	}
 
+	/**
+	 * Test...
+	 *
+	 * @return array
+	 */
 	public function data()
 	{
 		return array(
@@ -78,6 +83,9 @@ class JCryptCipher3DESTest extends TestCase
 
 	/**
 	 * Tests JCryptCipher3DES->decrypt()
+	 *
+	 * @param   string  $file  @todo
+	 * @param   string  $data  @todo
 	 *
 	 * @return  void
 	 *
@@ -95,6 +103,9 @@ class JCryptCipher3DESTest extends TestCase
 
 	/**
 	 * Tests JCryptCipher3DES->encrypt()
+	 *
+	 * @param   string  $file  @todo
+	 * @param   string  $data  @todo
 	 *
 	 * @return  void
 	 *

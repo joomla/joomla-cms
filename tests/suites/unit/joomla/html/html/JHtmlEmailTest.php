@@ -7,12 +7,14 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM.'/joomla/html/email.php';
+require_once JPATH_PLATFORM . '/joomla/html/email.php';
 
 /**
  * Test class for JHtmlEmail.
  *
- * @since  11.1
+ * @package     Joomla.UnitTest
+ * @subpackage  Html
+ * @since       11.1
  */
 class JHtmlEmailTest extends PHPUnit_Framework_TestCase
 {

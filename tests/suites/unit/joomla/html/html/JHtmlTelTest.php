@@ -7,12 +7,14 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM.'/joomla/html/tel.php';
+require_once JPATH_PLATFORM . '/joomla/html/tel.php';
 
 /**
  * Test class for JHtmlTel.
  *
- * @since  11.3
+ * @package     Joomla.UnitTest
+ * @subpackage  Html
+ * @since       11.3
  */
 class JHtmlTelTest extends TestCase
 {

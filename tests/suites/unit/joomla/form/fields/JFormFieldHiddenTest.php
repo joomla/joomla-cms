@@ -10,22 +10,28 @@
 /**
  * Test class for JForm.
  *
- * @package		Joomla.UnitTest
+ * @package     Joomla.UnitTest
  * @subpackage  Form
+ *
+ * @since       11.1
  */
 class JFormFieldHiddenTest extends TestCase
 {
 	/**
 	 * Sets up dependancies for the test.
+	 *
+	 * @return void
 	 */
 	protected function setUp()
 	{
-		require_once JPATH_PLATFORM.'/joomla/form/fields/hidden.php';
-		include_once dirname(__DIR__).'/inspectors.php';
+		require_once JPATH_PLATFORM . '/joomla/form/fields/hidden.php';
+		include_once dirname(__DIR__) . '/inspectors.php';
 	}
 
 	/**
 	 * Test the getInput method.
+	 *
+	 * @return void
 	 */
 	public function testGetInput()
 	{
@@ -36,7 +42,7 @@ class JFormFieldHiddenTest extends TestCase
 		$this->assertThat(
 			$form->load('<form><field name="hidden" type="hidden" label="foo" /></form>'),
 			$this->isTrue(),
-			'Line:'.__LINE__.' XML string should load successfully.'
+			'Line:' . __LINE__ . ' XML string should load successfully.'
 		);
 
 		$field = new JFormFieldHidden($form);
@@ -44,7 +50,7 @@ class JFormFieldHiddenTest extends TestCase
 		$this->assertThat(
 			$form->getLabel('hidden'),
 			$this->equalTo(''),
-			'Line:'.__LINE__.' The label of a hidden element should be nothing.'
+			'Line:' . __LINE__ . ' The label of a hidden element should be nothing.'
 		);
 
 		// Test a field with attribute hidden = true.
@@ -52,7 +58,7 @@ class JFormFieldHiddenTest extends TestCase
 		$this->assertThat(
 			$form->load('<form><field name="hidden" type="text" label="foo" hidden="true" /></form>'),
 			$this->isTrue(),
-			'Line:'.__LINE__.' XML string should load successfully.'
+			'Line:' . __LINE__ . ' XML string should load successfully.'
 		);
 
 		$field = new JFormFieldHidden($form);
@@ -60,7 +66,7 @@ class JFormFieldHiddenTest extends TestCase
 		$this->assertThat(
 			$form->getLabel('hidden'),
 			$this->equalTo(''),
-			'Line:'.__LINE__.' The label of a hidden element should be nothing.'
+			'Line:' . __LINE__ . ' The label of a hidden element should be nothing.'
 		);
 
 		// Test a field with attribute hidden = false.
@@ -68,7 +74,7 @@ class JFormFieldHiddenTest extends TestCase
 		$this->assertThat(
 			$form->load('<form><field name="hidden" type="text" label="foo" hidden="false" /></form>'),
 			$this->isTrue(),
-			'Line:'.__LINE__.' XML string should load successfully.'
+			'Line:' . __LINE__ . ' XML string should load successfully.'
 		);
 
 		$field = new JFormFieldHidden($form);
@@ -76,7 +82,7 @@ class JFormFieldHiddenTest extends TestCase
 		$this->assertThat(
 			$form->getLabel('hidden'),
 			$this->equalTo('<label id="hidden-lbl" for="hidden" class="">foo</label>'),
-			'Line:'.__LINE__.' The label of a non-hidden element should be some HTML.'
+			'Line:' . __LINE__ . ' The label of a non-hidden element should be some HTML.'
 		);
 	}
 }

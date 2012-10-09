@@ -78,6 +78,8 @@ class JHtmlBehaviorTest extends TestCase
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @return  array
 	 *
 	 * @since   11.3
@@ -98,6 +100,10 @@ class JHtmlBehaviorTest extends TestCase
 	/**
 	 * testFramework().
 	 *
+	 * @param   string   $expected  @todo
+	 * @param   boolean  $extras    @todo
+	 * @param   boolean  $debug     @todo
+	 *
 	 * @return  void
 	 *
 	 * @dataProvider  getFrameworkData
@@ -106,10 +112,10 @@ class JHtmlBehaviorTest extends TestCase
 	 */
 	public function testFramework($expected, $extras = false, $debug = null)
 	{
-		// we generate a random template name so that we don't collide or hit anything//
+		// We generate a random template name so that we don't collide or hit anything//
 		$template = 'mytemplate' . rand(1, 10000);
 
-		// we create a stub (not a mock because we don't enforce whether it is called or not)
+		// We create a stub (not a mock because we don't enforce whether it is called or not)
 		// to return a value from getTemplate
 		$mock = $this->getMock('myMockObject', array('getTemplate'));
 		$mock->expects($this->any())
@@ -130,6 +136,8 @@ class JHtmlBehaviorTest extends TestCase
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @return  array
 	 *
 	 * @since   11.3
@@ -146,6 +154,9 @@ class JHtmlBehaviorTest extends TestCase
 	/**
 	 * testCaption().
 	 *
+	 * @param   string  $expected  @todo
+	 * @param   string  $selector  @todo
+	 *
 	 * @return  void
 	 *
 	 * @dataProvider  getCaptionData
@@ -154,10 +165,10 @@ class JHtmlBehaviorTest extends TestCase
 	 */
 	public function testCaption($expected, $selector = 'img.caption')
 	{
-		// we generate a random template name so that we don't collide or hit anything//
+		// We generate a random template name so that we don't collide or hit anything//
 		$template = 'mytemplate' . rand(1, 10000);
 
-		// we create a stub (not a mock because we don't enforce whether it is called or not)
+		// We create a stub (not a mock because we don't enforce whether it is called or not)
 		// to return a value from getTemplate
 		$mock = $this->getMock('myMockObject', array('getTemplate'));
 		$mock->expects($this->any())
@@ -186,10 +197,10 @@ class JHtmlBehaviorTest extends TestCase
 	 */
 	public function testFormvalidation()
 	{
-		// we generate a random template name so that we don't collide or hit anything//
+		// We generate a random template name so that we don't collide or hit anything//
 		$template = 'mytemplate' . rand(1, 10000);
 
-		// we create a stub (not a mock because we don't enforce whether it is called or not)
+		// We create a stub (not a mock because we don't enforce whether it is called or not)
 		// to return a value from getTemplate
 		$mock = $this->getMock('myMockObject', array('getTemplate'));
 		$mock->expects($this->any())
@@ -218,10 +229,10 @@ class JHtmlBehaviorTest extends TestCase
 	 */
 	public function testSwitcher()
 	{
-		// we generate a random template name so that we don't collide or hit anything//
+		// We generate a random template name so that we don't collide or hit anything//
 		$template = 'mytemplate' . rand(1, 10000);
 
-		// we create a stub (not a mock because we don't enforce whether it is called or not)
+		// We create a stub (not a mock because we don't enforce whether it is called or not)
 		// to return a value from getTemplate
 		$mock = $this->getMock('myMockObject', array('getTemplate'));
 		$mock->expects($this->any())
@@ -250,10 +261,10 @@ class JHtmlBehaviorTest extends TestCase
 	 */
 	public function testCombobox()
 	{
-		// we generate a random template name so that we don't collide or hit anything//
+		// We generate a random template name so that we don't collide or hit anything//
 		$template = 'mytemplate' . rand(1, 10000);
 
-		// we create a stub (not a mock because we don't enforce whether it is called or not)
+		// We create a stub (not a mock because we don't enforce whether it is called or not)
 		// to return a value from getTemplate
 		$mock = $this->getMock('myMockObject', array('getTemplate'));
 		$mock->expects($this->any())
@@ -274,6 +285,8 @@ class JHtmlBehaviorTest extends TestCase
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @return  array
 	 *
 	 * @since   11.3
@@ -315,6 +328,10 @@ class JHtmlBehaviorTest extends TestCase
 	/**
 	 * testTooltip().
 	 *
+	 * @param   string  $expected  @todo
+	 * @param   string  $selector  @todo
+	 * @param   array   $params    @todo
+	 *
 	 * @return  void
 	 *
 	 * @dataProvider  getTooltipData
@@ -323,10 +340,10 @@ class JHtmlBehaviorTest extends TestCase
 	 */
 	public function testTooltip($expected, $selector = '.hasTip', $params = array())
 	{
-		// we generate a random template name so that we don't collide or hit anything//
+		// We generate a random template name so that we don't collide or hit anything//
 		$template = 'mytemplate' . rand(1, 10000);
 
-		// we create a stub (not a mock because we don't enforce whether it is called or not)
+		// We create a stub (not a mock because we don't enforce whether it is called or not)
 		// to return a value from getTemplate
 		$mock = $this->getMock('myMockObject', array('getTemplate'));
 		$mock->expects($this->any())
@@ -347,6 +364,8 @@ class JHtmlBehaviorTest extends TestCase
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @return  array
 	 *
 	 * @since   11.3
@@ -388,6 +407,10 @@ class JHtmlBehaviorTest extends TestCase
 	/**
 	 * testModal().
 	 *
+	 * @param   string  $expected  @todo
+	 * @param   string  $selector  @todo
+	 * @param   array   $params    @todo
+	 *
 	 * @return  void
 	 *
 	 * @dataProvider  getModalData
@@ -396,10 +419,10 @@ class JHtmlBehaviorTest extends TestCase
 	 */
 	public function testModal($expected, $selector = 'a.modal', $params = array())
 	{
-		// we generate a random template name so that we don't collide or hit anything//
+		// We generate a random template name so that we don't collide or hit anything//
 		$template = 'mytemplate' . rand(1, 10000);
 
-		// we create a stub (not a mock because we don't enforce whether it is called or not)
+		// We create a stub (not a mock because we don't enforce whether it is called or not)
 		// to return a value from getTemplate
 		$mock = $this->getMock('myMockObject', array('getTemplate'));
 		$mock->expects($this->any())
@@ -420,6 +443,8 @@ class JHtmlBehaviorTest extends TestCase
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @return  array
 	 *
 	 * @since   11.3
@@ -447,6 +472,9 @@ class JHtmlBehaviorTest extends TestCase
 	/**
 	 * testMultiselect().
 	 *
+	 * @param   string  $expected  @todo
+	 * @param   string  $id        @todo
+	 *
 	 * @return  void
 	 *
 	 * @dataProvider  getMultiselectData
@@ -455,10 +483,10 @@ class JHtmlBehaviorTest extends TestCase
 	 */
 	public function testMultiselect($expected, $id = 'adminForm')
 	{
-		// we generate a random template name so that we don't collide or hit anything//
+		// We generate a random template name so that we don't collide or hit anything//
 		$template = 'mytemplate' . rand(1, 10000);
 
-		// we create a stub (not a mock because we don't enforce whether it is called or not)
+		// We create a stub (not a mock because we don't enforce whether it is called or not)
 		// to return a value from getTemplate
 		$mock = $this->getMock('myMockObject', array('getTemplate'));
 		$mock->expects($this->any())
@@ -479,6 +507,8 @@ class JHtmlBehaviorTest extends TestCase
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @return  array
 	 *
 	 * @since   11.3
@@ -506,6 +536,11 @@ class JHtmlBehaviorTest extends TestCase
 	/**
 	 * testUploader().
 	 *
+	 * @param   string  $expected      @todo
+	 * @param   string  $id            @todo
+	 * @param   array   $params        @todo
+	 * @param   string  $upload_queue  @todo
+	 *
 	 * @return  void
 	 *
 	 * @dataProvider  getUploaderData
@@ -514,10 +549,10 @@ class JHtmlBehaviorTest extends TestCase
 	 */
 	public function testUploader($expected, $id = 'file-upload', $params = array(), $upload_queue = 'upload-queue')
 	{
-		// we generate a random template name so that we don't collide or hit anything//
+		// We generate a random template name so that we don't collide or hit anything//
 		$template = 'mytemplate' . rand(1, 10000);
 
-		// we create a stub (not a mock because we don't enforce whether it is called or not)
+		// We create a stub (not a mock because we don't enforce whether it is called or not)
 		// to return a value from getTemplate
 		$mock = $this->getMock('myMockObject', array('getTemplate'));
 		$mock->expects($this->any())
@@ -538,6 +573,8 @@ class JHtmlBehaviorTest extends TestCase
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @return  array
 	 *
 	 * @since   11.3
@@ -559,6 +596,11 @@ class JHtmlBehaviorTest extends TestCase
 	/**
 	 * testTree().
 	 *
+	 * @param   string   $expected  @todo
+	 * @param   integer  $id        @todo
+	 * @param   array    $params    @todo
+	 * @param   array    $root      @todo
+	 *
 	 * @return  void
 	 *
 	 * @dataProvider  getTreeData
@@ -567,10 +609,10 @@ class JHtmlBehaviorTest extends TestCase
 	 */
 	public function testTree($expected, $id, $params = array(), $root = array())
 	{
-		// we generate a random template name so that we don't collide or hit anything//
+		// We generate a random template name so that we don't collide or hit anything//
 		$template = 'mytemplate' . rand(1, 10000);
 
-		// we create a stub (not a mock because we don't enforce whether it is called or not)
+		// We create a stub (not a mock because we don't enforce whether it is called or not)
 		// to return a value from getTemplate
 		$mock = $this->getMock('myMockObject', array('getTemplate'));
 		$mock->expects($this->any())
@@ -599,10 +641,10 @@ class JHtmlBehaviorTest extends TestCase
 	 */
 	public function testCalendar()
 	{
-		// we generate a random template name so that we don't collide or hit anything//
+		// We generate a random template name so that we don't collide or hit anything//
 		$template = 'mytemplate' . rand(1, 10000);
 
-		// we create a stub (not a mock because we don't enforce whether it is called or not)
+		// We create a stub (not a mock because we don't enforce whether it is called or not)
 		// to return a value from getTemplate
 		$mock = $this->getMock('myMockObject', array('getTemplate'));
 		$mock->expects($this->any())
@@ -631,10 +673,10 @@ class JHtmlBehaviorTest extends TestCase
 	 */
 	public function testColorpicker()
 	{
-		// we generate a random template name so that we don't collide or hit anything//
+		// We generate a random template name so that we don't collide or hit anything//
 		$template = 'mytemplate' . rand(1, 10000);
 
-		// we create a stub (not a mock because we don't enforce whether it is called or not)
+		// We create a stub (not a mock because we don't enforce whether it is called or not)
 		// to return a value from getTemplate
 		$mock = $this->getMock('myMockObject', array('getTemplate'));
 		$mock->expects($this->any())
@@ -663,10 +705,10 @@ class JHtmlBehaviorTest extends TestCase
 	 */
 	public function testKeepalive()
 	{
-		// we generate a random template name so that we don't collide or hit anything//
+		// We generate a random template name so that we don't collide or hit anything//
 		$template = 'mytemplate' . rand(1, 10000);
 
-		// we create a stub (not a mock because we don't enforce whether it is called or not)
+		// We create a stub (not a mock because we don't enforce whether it is called or not)
 		// to return a value from getTemplate
 		$mock = $this->getMock('myMockObject', array('getTemplate'));
 		$mock->expects($this->any())
@@ -695,10 +737,10 @@ class JHtmlBehaviorTest extends TestCase
 	 */
 	public function testNoFrames()
 	{
-		// we generate a random template name so that we don't collide or hit anything//
+		// We generate a random template name so that we don't collide or hit anything//
 		$template = 'mytemplate' . rand(1, 10000);
 
-		// we create a stub (not a mock because we don't enforce whether it is called or not)
+		// We create a stub (not a mock because we don't enforce whether it is called or not)
 		// to return a value from getTemplate
 		$mock = $this->getMock('myMockObject', array('getTemplate'));
 		$mock->expects($this->any())

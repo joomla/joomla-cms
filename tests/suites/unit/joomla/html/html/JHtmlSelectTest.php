@@ -7,17 +7,21 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM.'/joomla/html/select.php';
+require_once JPATH_PLATFORM . '/joomla/html/select.php';
 require_once 'TestHelpers/JHtmlSelect-helper-dataset.php';
 
 /**
  * Test class for JHtmlSelect.
  *
- * @since  11.1
+ * @package     Joomla.UnitTest
+ * @subpackage  Html
+ * @since       11.1
  */
 class JHtmlSelectTest extends PHPUnit_Framework_TestCase
 {
 	/**
+	 * Test...
+	 *
 	 * @return  array
 	 *
 	 * @since   11.3
@@ -28,72 +32,105 @@ class JHtmlSelectTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @todo Implement testBooleanlist().
+	 *
+	 * @return void
 	 */
 	public function testBooleanlist()
 	{
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete(
-		'This test has not been implemented yet.'
+			'This test has not been implemented yet.'
 		);
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @todo Implement testGenericlist().
+	 *
+	 * @return void
 	 */
 	public function testGenericlist()
 	{
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete(
-		'This test has not been implemented yet.'
+			'This test has not been implemented yet.'
 		);
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @todo Implement testGroupedlist().
+	 *
+	 * @return void
 	 */
 	public function testGroupedlist()
 	{
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete(
-		'This test has not been implemented yet.'
+			'This test has not been implemented yet.'
 		);
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @todo Implement testIntegerlist().
+	 *
+	 * @return void
 	 */
 	public function testIntegerlist()
 	{
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete(
-		'This test has not been implemented yet.'
+			'This test has not been implemented yet.'
 		);
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @todo Implement testOptgroup().
+	 *
+	 * @return void
 	 */
 	public function testOptgroup()
 	{
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete(
-		'This test has not been implemented yet.'
+			'This test has not been implemented yet.'
 		);
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @todo Implement testOption().
+	 *
+	 * @return void
 	 */
 	public function testOption()
 	{
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete(
-		'This test has not been implemented yet.'
+			'This test has not been implemented yet.'
 		);
 	}
 
 	/**
+	 * Test...
+	 *
+	 * @param   string  $expected   @todo
+	 * @param   array   $arr        @todo
+	 * @param   string  $optKey     @todo
+	 * @param   string  $optText    @todo
+	 * @param   null    $selected   @todo
+	 * @param   bool    $translate  @todo
+	 *
 	 * @return  void
 	 *
 	 * @dataProvider  getOptionsData
@@ -113,13 +150,17 @@ class JHtmlSelectTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Test...
+	 *
 	 * @todo Implement testRadiolist().
+	 *
+	 * @return void
 	 */
 	public function testRadiolist()
 	{
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete(
-		'This test has not been implemented yet.'
+			'This test has not been implemented yet.'
 		);
 	}
 }

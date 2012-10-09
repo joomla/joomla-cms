@@ -127,17 +127,20 @@ class JDatabaseIteratorMySQLTest extends TestCaseDatabaseMysql
 	/**
 	 * Test foreach control
 	 *
-	 * @param   array           $options    Array of options
-	 * @param   string          $select     Fields to select
-	 * @param   string          $from       Table to search for
-	 * @param   array           $expected   Array of expected results
-	 * @param   boolean|string  $exception  Exception thrown
+	 * @param   string   $select     Fields to select
+	 * @param   string   $from       Table to search for
+	 * @param   string   $column     The column to use as a key.
+	 * @param   string   $class      The class on which to bind the result rows.
+	 * @param   integer  $limit      The result set record limit.
+	 * @param   integer  $offset     The result set record offset.
+	 * @param   array    $expected   Array of expected results
+	 * @param   mixed    $exception  Exception thrown
 	 *
 	 * @return  void
 	 *
 	 * @dataProvider casesForEachData
 	 *
-	 * @since   12.1
+	 * @since    12.1
 	 */
 	public function testForEach($select, $from, $column, $class, $limit, $offset, $expected, $exception)
 	{
@@ -179,7 +182,7 @@ class JDatabaseIteratorMySQLTest extends TestCaseDatabaseMysql
 			__LINE__
 		);
 
-		self::$driver->setQuery(self::$driver->getQuery(true)->select('title')->from('#__dbtest')->setLimit(2,3));
+		self::$driver->setQuery(self::$driver->getQuery(true)->select('title')->from('#__dbtest')->setLimit(2, 3));
 		$this->assertThat(
 			count(new JDatabaseIteratorMysql(self::$driver->execute())),
 			$this->equalTo(1),

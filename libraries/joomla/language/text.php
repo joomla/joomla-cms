@@ -98,13 +98,14 @@ class JText
 		$lang = JFactory::getLanguage();
 		if ($lang->hasKey($string . '_' . $alt))
 		{
-			return self::_($string . '_' . $alt, $jsSafe, $interpretBackSlashes);
+			return self::_($string . '_' . $alt, $jsSafe, $interpretBackSlashes, $script);
 		}
 		else
 		{
-			return self::_($string, $jsSafe, $interpretBackSlashes);
+			return self::_($string, $jsSafe, $interpretBackSlashes, $script);
 		}
 	}
+
 	/**
 	 * Like JText::sprintf but tries to pluralise the string.
 	 *

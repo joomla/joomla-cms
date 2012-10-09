@@ -242,7 +242,7 @@ abstract class JArrayHelper
 
 		if (is_array($array))
 		{
-			foreach ($array as $key => &$item)
+			foreach ($array as &$item)
 			{
 				if (is_array($item) && isset($item[$index]))
 				{
@@ -328,6 +328,55 @@ abstract class JArrayHelper
 				break;
 		}
 		return $result;
+	}
+
+	/**
+	 * Takes an associative array of arrays and inverts the array keys to values using the array values as keys.
+	 *
+	 * Example:
+	 * $input = array(
+	 *     'New' => array('1000', '1500', '1750'),
+	 *     'Used' => array('3000', '4000', '5000', '6000')
+	 * );
+	 * $output = JArrayHelper::invert($input);
+	 *
+	 * Output would be equal to:
+	 * $output = array(
+	 *     '1000' => 'New',
+	 *     '1500' => 'New',
+	 *     '1750' => 'New',
+	 *     '3000' => 'Used',
+	 *     '4000' => 'Used',
+	 *     '5000' => 'Used',
+	 *     '6000' => 'Used'
+	 * );
+	 *
+	 * @param   array  $array  The source array.
+	 *
+	 * @return  array  The inverted array.
+	 *
+	 * @since   12.3
+	 */
+	public static function invert($array)
+	{
+		$return = array();
+		foreach ($array as $base => $values)
+		{
+			if (!is_array($values))
+			{
+				continue;
+			}
+
+			foreach ($values as $key)
+			{
+				// If the key isn't scalar then ignore it.
+				if (is_scalar($key))
+				{
+					$return[$key] = $base;
+				}
+			}
+		}
+		return $return;
 	}
 
 	/**

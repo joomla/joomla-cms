@@ -811,7 +811,7 @@ abstract class JModelAdmin extends JModelForm
 	 *
 	 * @since   12.2
 	 */
-	protected function prepareTable($table)
+	protected function prepareTable(JTable $table)
 	{
 		// Derived class will provide its own implementation if required.
 	}
@@ -832,6 +832,12 @@ abstract class JModelAdmin extends JModelForm
 		$user = JFactory::getUser();
 		$table = $this->getTable();
 		$pks = (array) $pks;
+
+		// Ensure that we do not receive an empty array
+		if (empty($pks))
+		{
+			return true;
+		}
 
 		// Include the content plugins for the change of state event.
 		JPluginHelper::importPlugin('content');

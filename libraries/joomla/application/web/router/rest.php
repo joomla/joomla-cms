@@ -14,20 +14,20 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package     Joomla.Platform
  * @subpackage  Application
- * @since       12.3
+ * @since       12.2
  */
 class JApplicationWebRouterRest extends JApplicationWebRouterBase
 {
 	/**
 	 * @var     boolean  A boolean allowing to pass _method as parameter in POST requests
 	 *
-	 * @since  12.3
+	 * @since  12.2
 	 */
 	protected $methodInPostRequest = false;
 
 	/**
 	 * @var    array  An array of HTTP Method => controller suffix pairs for routing the request.
-	 * @since  12.3
+	 * @since  12.2
 	 */
 	protected $suffixMap = array(
 		'GET' => 'Get',
@@ -46,7 +46,7 @@ class JApplicationWebRouterRest extends JApplicationWebRouterBase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   12.2
 	 * @throws  InvalidArgumentException
 	 * @throws  RuntimeException
 	 */
@@ -73,7 +73,7 @@ class JApplicationWebRouterRest extends JApplicationWebRouterBase
 	 *
 	 * @return  JApplicationWebRouter  This object for method chaining.
 	 *
-	 * @since   12.3
+	 * @since   12.2
 	 */
 	public function setHttpMethodSuffix($method, $suffix)
 	{
@@ -89,7 +89,7 @@ class JApplicationWebRouterRest extends JApplicationWebRouterBase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   12.2
 	 */
 	public function setMethodInPostRequest($value)
 	{
@@ -101,9 +101,9 @@ class JApplicationWebRouterRest extends JApplicationWebRouterBase
 	 *
 	 * @return  boolean
 	 *
-	 * @since   12.3
+	 * @since   12.2
 	 */
-	public function getMethodInPostRequest()
+	public function isMethodInPostRequest()
 	{
 		return $this->methodInPostRequest;
 	}
@@ -113,7 +113,7 @@ class JApplicationWebRouterRest extends JApplicationWebRouterBase
 	 *
 	 * @return  string
 	 *
-	 * @since   12.3
+	 * @since   12.2
 	 * @throws  RuntimeException
 	 */
 	protected function fetchControllerSuffix()
