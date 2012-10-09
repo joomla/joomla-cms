@@ -6,7 +6,6 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die;
 
 /**
@@ -16,6 +15,6 @@ defined('_JEXEC') or die;
  * @subpackage	com_cpanel
  * @since 1.5
  */
-class CpanelController extends JController
+class CpanelController extends JControllerLegacy
 {
 }
