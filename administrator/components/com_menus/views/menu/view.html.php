@@ -6,8 +6,6 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
-
 /**
  * The HTML Menus Menu Item View.
  *
@@ -15,7 +13,7 @@ jimport('joomla.application.component.view');
  * @subpackage	com_menus
  * @since		1.6
  */
-class MenusViewMenu extends JView
+class MenusViewMenu extends JViewLegacy
 {
 	protected $form;
 	protected $item;

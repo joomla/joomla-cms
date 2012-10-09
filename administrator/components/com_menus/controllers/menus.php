@@ -6,8 +6,6 @@
 
 defined('_JEXEC') or die;
 
-jimport( 'joomla.application.component.controller' );
-
 /**
  * The Menu List Controller
  *
@@ -15,7 +13,7 @@ jimport( 'joomla.application.component.controller' );
  * @subpackage	com_menus
  * @since		1.6
  */
-class MenusControllerMenus extends JController
+class MenusControllerMenus extends JControllerLegacy
 {
 	/**
 	 * Display the view

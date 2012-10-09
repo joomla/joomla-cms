@@ -4,10 +4,7 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.modelform');
 
 /**
  * Menu Item Types Model for Menus.
@@ -16,7 +13,7 @@ jimport('joomla.application.component.modelform');
  * @subpackage	com_menus
  * @version		1.6
  */
-class MenusModelMenutypes extends JModel
+class MenusModelMenutypes extends JModelLegacy
 {
 	/**
 	 * A reverse lookup of the base link URL to Title
