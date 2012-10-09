@@ -4,10 +4,7 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.controller');
 
 /**
  * Component Controller
@@ -15,7 +12,7 @@ jimport('joomla.application.component.controller');
  * @package		Joomla.Administrator
  * @subpackage	com_contact
  */
-class ContactController extends JController
+class ContactController extends JControllerLegacy
 {
 	/**
 	 * @var		string	The default view.
