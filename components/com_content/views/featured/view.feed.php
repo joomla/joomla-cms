@@ -21,7 +21,7 @@ class ContentViewFeatured extends JViewLegacy
 		$app 		= JFactory::getApplication();
 		$doc		= JFactory::getDocument();
 		$params		= $app->getParams();
-		$feedEmail	= (@$app->getCfg('feed_email')) ? $app->getCfg('feed_email') : 'author';
+		$feedEmail	= $app->getCfg('feed_email', 'author');
 		$siteEmail	= $app->getCfg('mailfrom');
 
 		$doc->link	= JRoute::_('index.php?option=com_content&view=featured');
@@ -65,8 +65,16 @@ class ContentViewFeatured extends JViewLegacy
 				}
 			}
 
-			$item->author 		= $author;
-			$item->authorEmail	= (($feedEmail == 'site') ? $siteEmail : $row->author_email);
+
+			$item->author = $author;
+			if ($feedEmail == 'site')
+			{
+				$item->authorEmail = $siteEmail;
+			}
+			elseif ($feedEmail === 'author')
+			{
+				$item->authorEmail = $row->author_email;
+			}
 
 			// Add readmore link to description if introtext is shown, show_readmore is true and fulltext exists
 			if (!$params->get('feed_summary', 0) && $params->get('feed_show_readmore', 0) && $row->fulltext)
