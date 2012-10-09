@@ -686,6 +686,9 @@ button:focus {
 	color: #cccccc;
 }
 
+.icon-32-extension {
+    background-image: url(../images/toolbar/icon-32-extension.png);
+}
 /**
  * Tooltips
  */
