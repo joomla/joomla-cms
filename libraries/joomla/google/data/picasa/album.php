@@ -398,8 +398,8 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 			$post .= "Content-Type: {$type}\n\n";
 			$post .= $data;
 
-			$jdata = $this->auth->query($this->getLink(), $data, array('GData-Version' => 2, 'Content-Type: multipart/related'), 'post');
-			return $this->safeXML($jdata->body);
+			$jdata = $this->auth->query($this->getLink(), $post, array('GData-Version' => 2, 'Content-Type: multipart/related'), 'post');
+			return new JGoogleDataPicasaPhoto($this->safeXML($jdata->body), $this->options, $this->auth);
 		}
 		else
 		{

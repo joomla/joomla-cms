@@ -172,7 +172,7 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 	 */
 	public function getSummary()
 	{
-		return (string) $this->xml->children('gphoto', true)->access;
+		return (string) $this->xml->children()->summary;
 	}
 
 	/**
@@ -263,6 +263,21 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 	{
 		$this->xml->children()->summary = $summary;
 		return $this;
+	}
+
+	/**
+	 * Method to set the access level of the photo
+	 *
+	 * @param   string  $access  New photo access level
+	 *
+	 * @return  JGoogleDataPicasaPhoto  The object for method chaining
+	 *
+	 * @since   1234
+	 */
+	public function setAccess($access)
+	{
+		$this->xml->children('gphoto', true)->access = $access;
+	return $this;
 	}
 
 	/**
