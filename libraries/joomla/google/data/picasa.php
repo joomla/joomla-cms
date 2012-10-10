@@ -116,7 +116,7 @@ class JGoogleDataPicasa extends JGoogleData
 			$jdata = $this->auth->query($url, $xml->asXML(), array('GData-Version' => 2, 'Content-type' => 'application/atom+xml'), 'post');
 
 			$xml = $this->safeXML($jdata->body);
-	    return new JGoogleDataPicasaAlbum($xml, $this->options, $this->auth);
+			return new JGoogleDataPicasaAlbum($xml, $this->options, $this->auth);
 		}
 		else
 		{
@@ -140,7 +140,7 @@ class JGoogleDataPicasa extends JGoogleData
 		{
 			$jdata = $this->auth->query($url, null, array('GData-Version' => 2));
 			$xml = $this->safeXML($jdata->body);
-	    return new JGoogleDataPicasaAlbum($xml, $this->options, $this->auth);
+			return new JGoogleDataPicasaAlbum($xml, $this->options, $this->auth);
 		}
 		else
 		{

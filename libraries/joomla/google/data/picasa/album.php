@@ -27,8 +27,9 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 	/**
 	 * Constructor.
 	 *
-	 * @param   JRegistry    $options  Google options object
-	 * @param   JGoogleAuth  $auth     Google data http client object
+	 * @param   SimpleXMLElement  $xml      XML from Google
+	 * @param   JRegistry         $options  Google options object
+	 * @param   JGoogleAuth       $auth     Google data http client object
 	 *
 	 * @since   1234
 	 */
@@ -67,7 +68,7 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 			if ($match === true)
 			{
 				$match = $this->xml->xpath('./@gd:etag');
-		$match = $match[0];
+				$match = $match[0];
 			}
 
 			try
@@ -83,7 +84,7 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 				throw $e;
 			}
 
-	    if ($jdata->body  != '')
+			if ($jdata->body != '')
 			{
 				throw new UnexpectedValueException("Unexpected data received from Google: `{$jdata->body}`.");
 			}
@@ -108,7 +109,7 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 	public function getLink($type = 'edit')
 	{
 		$links = $this->xml->link;
-		foreach($links as $link)
+		foreach ($links as $link)
 		{
 			if ($link->attributes()->rel == $type)
 			{
@@ -151,7 +152,7 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 	 */
 	public function getLocation()
 	{
-		return (string) $this->xml->children('gphoto')->location;
+		return (string) $this->xml->children('gphoto', true)->location;
 	}
 
 	/**
@@ -163,7 +164,7 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 	 */
 	public function getAccess()
 	{
-		return (string) $this->xml->children('gphoto')->access;
+		return (string) $this->xml->children('gphoto', true)->access;
 	}
 
 	/**
@@ -175,12 +176,12 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 	 */
 	public function getTime()
 	{
-		return (int) $this->xml->children('gphoto')->timestamp;
+		return (int) $this->xml->children('gphoto', true)->timestamp;
 		return $this;
 	}
 
 	/**
-	 * Method to get the title of the album
+	 * Method to set the title of the album
 	 *
 	 * @param   string  $title  New album title
 	 *
@@ -195,7 +196,7 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 	}
 
 	/**
-	 * Method to get the summary of the album
+	 * Method to set the summary of the album
 	 *
 	 * @param   string  $summary  New album summary
 	 *
@@ -210,7 +211,7 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 	}
 
 	/**
-	 * Method to get the location of the album
+	 * Method to set the location of the album
 	 *
 	 * @param   string  $location  New album location
 	 *
@@ -220,12 +221,12 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 	 */
 	public function setLocation($location)
 	{
-		$this->xml->children('gphoto')->location = $location;
+		$this->xml->children('gphoto', true)->location = $location;
 		return $this;
 	}
 
 	/**
-	 * Method to get the access level of the album
+	 * Method to set the access level of the album
 	 *
 	 * @param   string  $access  New album access
 	 *
@@ -235,14 +236,14 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 	 */
 	public function setAccess($access)
 	{
-		$this->xml->children('gphoto')->access = $access;
+		$this->xml->children('gphoto', true)->access = $access;
 		return $this;
 	}
 
 	/**
-	 * Method to get the time of the album
+	 * Method to set the time of the album
 	 *
-	 * @param   int  $title  New album time
+	 * @param   int  $time  New album time
 	 *
 	 * @return  JGoogleDataPicasaAlbum  The object for method chaining
 	 *
@@ -250,16 +251,14 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 	 */
 	public function setTime($time)
 	{
-		$this->xml->children('gphoto')->timestamp = $time;
+		$this->xml->children('gphoto', true)->timestamp = $time;
 		return $this;
 	}
 
 	/**
 	 * Method to modify a Picasa Album
 	 *
-	 * @param   string  $url      URL of album to delete
-	 * @param   array   $options  Album settings
-	 * @param   string  $match    Optional eTag matching parameter
+	 * @param   string  $match  Optional eTag matching parameter
 	 *
 	 * @return  mixed  Data from Google.
 	 *
@@ -273,13 +272,13 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 			if ($match === true)
 			{
 				$match = $this->xml->xpath('./@gd:etag');
-		$match = $match[0];
+				$match = $match[0];
 			}
 
 			try
 			{
-		sleep(25);
-				$jdata = $this->auth->query($url, $this->xml->asXML(), array('GData-Version' => 2, 'Content-type' => 'application/atom+xml', 'If-Match' => $match), 'put');
+				$headers = array('GData-Version' => 2, 'Content-type' => 'application/atom+xml', 'If-Match' => $match);
+				$jdata = $this->auth->query($url, $this->xml->asXML(), $headers, 'put');
 			}
 			catch (Exception $e)
 			{
@@ -300,9 +299,7 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 	}
 
 	/**
-	 * Get Picasa Album
-	 *
-	 * @param   string  $url  URL of album to get
+	 * Refresh Picasa Album
 	 *
 	 * @return  mixed  Data from Google
 	 *
@@ -315,7 +312,7 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 		{
 			$url = $this->getLink();
 			$jdata = $this->auth->query($url, null, array('GData-Version' => 2));
-			$this->xml = $this->safeXML($jdata->body);echo $jdata->body;
+			$this->xml = $this->safeXML($jdata->body);
 			return $this;
 		}
 		else
@@ -362,7 +359,9 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 	/**
 	 * Add photo
 	 *
-	 * @param   string  $url  URL of album to get
+	 * @param   string  $file     Path of file to upload
+	 * @param   string  $title    Title to give to file (defaults to filename)
+	 * @param   string  $summary  Description of the file
 	 *
 	 * @return  mixed  Data from Google
 	 *
@@ -392,12 +391,12 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 			$cat->addAttribute('term', 'http://schemas.google.com/photos/2007#photo');
 
 			$post = "Media multipart posting\n";
-	    $post .= "--END_OF_PART\n";
-	    $post .= "Content-Type: application/atom+xml\n\n";
-	    $post .= $xml->asXML()."\n";
-	    $post .= "--END_OF_PART\n";
-	    $post .= "Content-Type: {$type}\n\n";
-	    $post .= $data;
+			$post .= "--END_OF_PART\n";
+			$post .= "Content-Type: application/atom+xml\n\n";
+			$post .= $xml->asXML() . "\n";
+			$post .= "--END_OF_PART\n";
+			$post .= "Content-Type: {$type}\n\n";
+			$post .= $data;
 
 			$jdata = $this->auth->query($this->getLink(), $data, array('GData-Version' => 2, 'Content-Type: multipart/related'), 'post');
 			return $this->safeXML($jdata->body);
@@ -411,7 +410,7 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 	/**
 	 * Add photo
 	 *
-	 * @param   string  $url  URL of album to get
+	 * @param   string  $file  Filename
 	 *
 	 * @return  mixed  Data from Google
 	 *
@@ -468,6 +467,6 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 			return 'video/x-ms-wmv';
 			default:
 			return false;
-	}
+		}
 	}
 }

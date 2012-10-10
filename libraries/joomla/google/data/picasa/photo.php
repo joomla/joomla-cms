@@ -19,7 +19,7 @@ defined('JPATH_PLATFORM') or die;
 class JGoogleDataPicasaPhoto extends JGoogleData
 {
 	/**
-	 * @var    SimpleXMLElement  The album's XML
+	 * @var    SimpleXMLElement  The photo's XML
 	 * @since  1234
 	 */
 	protected $xml;
@@ -27,8 +27,9 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 	/**
 	 * Constructor.
 	 *
-	 * @param   JRegistry    $options  Google options object
-	 * @param   JGoogleAuth  $auth     Google data http client object
+	 * @param   SimpleXMLElement  $xml      XML from Google
+	 * @param   JRegistry         $options  Google options object
+	 * @param   JGoogleAuth       $auth     Google data http client object
 	 *
 	 * @since   1234
 	 */
@@ -50,9 +51,9 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 	}
 
 	/**
-	 * Method to delete a Picasa album
+	 * Method to delete a Picasa photo
 	 *
-	 * @param   mixed  $match  Check for most up to date album
+	 * @param   mixed  $match  Check for most up to date photo
 	 *
 	 * @return  bool  Success or failure.
 	 *
@@ -67,7 +68,7 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 			if ($match === true)
 			{
 				$match = $this->xml->xpath('./@gd:etag');
-		$match = $match[0];
+				$match = $match[0];
 			}
 
 			try
@@ -83,7 +84,7 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 				throw $e;
 			}
 
-	    if ($jdata->body  != '')
+			if ($jdata->body != '')
 			{
 				throw new UnexpectedValueException("Unexpected data received from Google: `{$jdata->body}`.");
 			}
@@ -97,7 +98,7 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 	}
 
 	/**
-	 * Method to get the album link
+	 * Method to get the photo link
 	 *
 	 * @param   string  $type  Type of link to return
 	 *
@@ -108,7 +109,7 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 	public function getLink($type = 'edit')
 	{
 		$links = $this->xml->link;
-		foreach($links as $link)
+		foreach ($links as $link)
 		{
 			if ($link->attributes()->rel == $type)
 			{
@@ -119,9 +120,41 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 	}
 
 	/**
-	 * Method to get the title of the album
+	 * Method to get the photo's URL
 	 *
-	 * @return  string  Album title
+	 * @return  string  Link
+	 *
+	 * @since   1234
+	 */
+	public function getURL()
+	{
+		return (string) $this->xml->children()->content->attributes()->src;
+	}
+
+	/**
+	 * Method to get the photo's thumbnails
+	 *
+	 * @return  array  An array of thumbnails
+	 *
+	 * @since   1234
+	 */
+	public function getThumbnails()
+	{
+		$thumbs = array();
+		foreach ($this->xml->children('media', true)->group->thumbnail as $item)
+		{
+			$url = (string) $item->attributes()->url;
+			$width = (int) $item->attributes()->width;
+			$height = (int) $item->attributes()->height;
+			$thumbs[$width] = array('url' => $url, 'w' => $width, 'h' => $height);
+		}
+		return $thumbs;
+	}
+
+	/**
+	 * Method to get the title of the photo
+	 *
+	 * @return  string  Photo title
 	 *
 	 * @since   1234
 	 */
@@ -131,60 +164,96 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 	}
 
 	/**
-	 * Method to get the summary of the album
+	 * Method to get the summary of the photo
 	 *
-	 * @return  string  Album summary
+	 * @return  string  Photo description
 	 *
 	 * @since   1234
 	 */
 	public function getSummary()
 	{
-		return (string) $this->xml->children()->summary;
+		return (string) $this->xml->children('gphoto', true)->access;
 	}
 
 	/**
-	 * Method to get the location of the album
+	 * Method to get the access level of the photo
 	 *
-	 * @return  string  Album location
-	 *
-	 * @since   1234
-	 */
-	public function getLocation()
-	{
-		return (string) $this->xml->children('gphoto')->location;
-	}
-
-	/**
-	 * Method to get the access level of the album
-	 *
-	 * @return  string  Album access level
+	 * @return  string  Photo access level
 	 *
 	 * @since   1234
 	 */
 	public function getAccess()
 	{
-		return (string) $this->xml->children('gphoto')->access;
+		return (string) $this->xml->children('gphoto', true)->access;
 	}
 
 	/**
-	 * Method to get the time of the album
+	 * Method to get the time of the photo
 	 *
-	 * @return  int  Album time
+	 * @return  int  Photo time
 	 *
 	 * @since   1234
 	 */
 	public function getTime()
 	{
-		return (int) $this->xml->children('gphoto')->timestamp;
+		return (int) $this->xml->children('gphoto', true)->timestamp;
+	}
+
+	/**
+	 * Method to get the size of the photo
+	 *
+	 * @return  int  Photo size
+	 *
+	 * @since   1234
+	 */
+	public function getSize()
+	{
+		return (int) $this->xml->children('gphoto', true)->size;
+	}
+
+	/**
+	 * Method to get the height of the photo
+	 *
+	 * @return  int  Photo height
+	 *
+	 * @since   1234
+	 */
+	public function getHeight()
+	{
+		return (int) $this->xml->children('gphoto', true)->height;
+	}
+
+	/**
+	 * Method to get the width of the photo
+	 *
+	 * @return  int  Photo width
+	 *
+	 * @since   1234
+	 */
+	public function getWidth()
+	{
+		return (int) $this->xml->children('gphoto', true)->width;
+	}
+
+	/**
+	 * Method to get the time of the photo
+	 *
+	 * @return  int  Photo time
+	 *
+	 * @since   1234
+	 */
+	public function getTime()
+	{
+		return (int) $this->xml->children('gphoto', true)->timestamp;
 		return $this;
 	}
 
 	/**
-	 * Method to get the title of the album
+	 * Method to set the title of the photo
 	 *
-	 * @param   string  $title  New album title
+	 * @param   string  $title  New photo title
 	 *
-	 * @return  JGoogleDataPicasaAlbum  The object for method chaining
+	 * @return  JGoogleDataPicasaPhoto  The object for method chaining
 	 *
 	 * @since   1234
 	 */
@@ -195,11 +264,11 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 	}
 
 	/**
-	 * Method to get the summary of the album
+	 * Method to set the summary of the photo
 	 *
-	 * @param   string  $summary  New album summary
+	 * @param   string  $summary  New photo description
 	 *
-	 * @return  JGoogleDataPicasaAlbum  The object for method chaining
+	 * @return  JGoogleDataPicasaPhoto  The object for method chaining
 	 *
 	 * @since   1234
 	 */
@@ -210,56 +279,24 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 	}
 
 	/**
-	 * Method to get the location of the album
+	 * Method to set the time of the photo
 	 *
-	 * @param   string  $location  New album location
+	 * @param   int  $time  New photo time
 	 *
-	 * @return  JGoogleDataPicasaAlbum  The object for method chaining
-	 *
-	 * @since   1234
-	 */
-	public function setLocation($location)
-	{
-		$this->xml->children('gphoto')->location = $location;
-		return $this;
-	}
-
-	/**
-	 * Method to get the access level of the album
-	 *
-	 * @param   string  $access  New album access
-	 *
-	 * @return  JGoogleDataPicasaAlbum  The object for method chaining
-	 *
-	 * @since   1234
-	 */
-	public function setAccess($access)
-	{
-		$this->xml->children('gphoto')->access = $access;
-		return $this;
-	}
-
-	/**
-	 * Method to get the time of the album
-	 *
-	 * @param   int  $title  New album time
-	 *
-	 * @return  JGoogleDataPicasaAlbum  The object for method chaining
+	 * @return  JGoogleDataPicasaPhoto  The object for method chaining
 	 *
 	 * @since   1234
 	 */
 	public function setTime($time)
 	{
-		$this->xml->children('gphoto')->timestamp = $time;
+		$this->xml->children('gphoto', true)->timestamp = $time;
 		return $this;
 	}
 
 	/**
-	 * Method to modify a Picasa Album
+	 * Method to modify a Picasa Photo
 	 *
-	 * @param   string  $url      URL of album to delete
-	 * @param   array   $options  Album settings
-	 * @param   string  $match    Optional eTag matching parameter
+	 * @param   string  $match  Optional eTag matching parameter
 	 *
 	 * @return  mixed  Data from Google.
 	 *
@@ -273,13 +310,13 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 			if ($match === true)
 			{
 				$match = $this->xml->xpath('./@gd:etag');
-		$match = $match[0];
+				$match = $match[0];
 			}
 
 			try
 			{
-		sleep(25);
-				$jdata = $this->auth->query($url, $this->xml->asXML(), array('GData-Version' => 2, 'Content-type' => 'application/atom+xml', 'If-Match' => $match), 'put');
+				$headers = array('GData-Version' => 2, 'Content-type' => 'application/atom+xml', 'If-Match' => $match);
+				$jdata = $this->auth->query($url, $this->xml->asXML(), $headers, 'put');
 			}
 			catch (Exception $e)
 			{
@@ -300,14 +337,11 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 	}
 
 	/**
-	 * Get Picasa Album
-	 *
-	 * @param   string  $url  URL of album to get
+	 * Refresh photo data
 	 *
 	 * @return  mixed  Data from Google
 	 *
 	 * @since   1234
-	 * @throws UnexpectedValueException
 	 */
 	public function refresh()
 	{
@@ -315,7 +349,7 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 		{
 			$url = $this->getLink();
 			$jdata = $this->auth->query($url, null, array('GData-Version' => 2));
-			$this->xml = $this->safeXML($jdata->body);echo $jdata->body;
+			$this->xml = $this->safeXML($jdata->body);
 			return $this;
 		}
 		else
