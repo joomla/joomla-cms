@@ -40,16 +40,16 @@ class JOauthV2client
 	/**
 	 * Constructor.
 	 *
-	 * @param   JRegistry   $options  JOauthV2client options object
-	 * @param   JOauthHttp  $http     The HTTP client object
-	 * @param   JInput      $input    The input object
+	 * @param   JRegistry  $options  JOauthV2client options object
+	 * @param   JHttp      $http     The HTTP client object
+	 * @param   JInput     $input    The input object
 	 *
 	 * @since   12.2
 	 */
-	public function __construct(JRegistry $options = null, JOauthHttp $http = null, JInput $input = null)
+	public function __construct(JRegistry $options = null, JHttp $http = null, JInput $input = null)
 	{
 		$this->options = isset($options) ? $options : new JRegistry;
-		$this->http = isset($http) ? $http : new JHttp($this->options, $this->client);
+		$this->http = isset($http) ? $http : new JHttp($this->options);
 		$this->input = isset($input) ? $input : JFactory::getApplication()->input;
 	}
 
@@ -114,7 +114,7 @@ class JOauthV2client
 		if (!$token || !array_key_exists('access_token', $token))
 		{
 			return false;
-	}
+		}
 		elseif (array_key_exists('expires_in', $token) && $token['created'] + $token['expires_in'] < time() + 20)
 		{
 			return false;
