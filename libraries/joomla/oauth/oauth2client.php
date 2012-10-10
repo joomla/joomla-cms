@@ -78,9 +78,19 @@ class JOauthOauth2client
 			$data['client_secret'] = $this->getOption('clientsecret');
 			$response = $this->http->post($this->getOption('tokenurl'), $data);
 
-			if ($response->code == 200)
+			if ($response->code >= 200 && $response->code < 300)
 			{
-				$token = array_merge(json_decode($response->body, true), array('created' => time()));
+
+				if ($response->headers['Content-Type'] == 'application/json')
+				{
+					$token = array_merge(json_decode($response->body, true), array('created' => time()));
+				}
+				else
+				{
+					parse_str($response->body, $token);
+					$token = array_merge($token, array('created' => time()));
+				}
+
 				$this->setToken($token);
 				return $token;
 			}
@@ -90,8 +100,25 @@ class JOauthOauth2client
 			}
 		}
 
-		JResponse::setHeader('Location', $this->createUrl(), true);
+		if ($this->getOption('sendheaders'))
+		{
+			JResponse::setHeader('Location', $this->createUrl(), true);
+			JResponse::sendHeaders();
+		}
 		return false;
+	}
+
+	/**
+	 * Verify if the client has been authenticated
+	 *
+	 * @return  bool  Is authenticated
+	 *
+	 * @since   1234
+	 */
+	public function isAuth()
+	{
+		$token = $this->getToken();
+		return !empty($token);
 	}
 
 	/**
@@ -151,7 +178,7 @@ class JOauthOauth2client
 	/**
 	 * Send a signed Oauth request.
 	 *
-	 * @param   string  $url      The URL for the request.
+	 * @param   string  $url      The URL forf the request.
 	 * @param   mixed   $data     The data to include in the request
 	 * @param   array   $headers  The headers to send with the request
 	 * @param   string  $method   The method with which to send the request
@@ -161,14 +188,23 @@ class JOauthOauth2client
 	 *
 	 * @since   1234
 	 */
-	public function query($url, $data = null, $headers = null, $method = 'post', $timeout = null)
+	public function query($url, $data = null, $headers = array(), $method = 'get', $timeout = null)
 	{
-		if (!$headers)
+		$token = $this->getToken();
+		if (array_key_exists('expires_in', $token) && $token['created'] + $token['expires_in'] < time() + 20)
 		{
-			$headers = Array();
+			if (!$this->getOption('userefresh'))
+			{
+				return false;
+			}
+			$token = $this->refreshToken($token['refresh_token']);
 		}
 
-		if ($this->getOption('devkey') && !strpos($url, '?key=') && !strpos($url, '&key='))
+		if (!$this->getOption('authmethod') || $this->getOption('authmethod') == 'bearer')
+		{
+			$headers['Authorization'] = 'Bearer ' . $token['access_token'];
+		}
+		elseif ($this->getOption('authmethod') == 'get')
 		{
 			if (strpos($url, '?'))
 			{
@@ -178,24 +214,13 @@ class JOauthOauth2client
 			{
 				$url .= '?';
 			}
-
-			$url .= 'key=' . $this->getOption('devkey');
+			$url .= $this->getOption('getparam') ? $this->getOption('getparam') : 'access_token';
+			$url .= '=' . $token['access_token'];
 		}
 
-		$token = $this->getToken();
-		if ($token['created'] + $token['expires_in'] < time() + 20)
-		{
-			if (!array_key_exists('refresh_token', $token))
-			{
-				throw new RuntimeException('Access token is expired and no refresh token is available.');
-			}
-			$token = $this->refreshToken($token['refresh_token']);
-		}
-
-		$headers['Authorization'] = 'Bearer ' . $token['access_token'];
 		$response = $this->client->request($method, new JURI($url), $data, $headers, $timeout);
 
-		if ($response->code != 200)
+		if ($response->code < 200 || $response->code >= 300)
 		{
 			throw new RuntimeException('Error code ' . $response->code . ' received requesting data: ' . $response->body . '.');
 		}
@@ -255,6 +280,11 @@ class JOauthOauth2client
 	 */
 	public function setToken($value)
 	{
+		if (!array_key_exists('expires_in', $value) && array_key_exists('expires', $value))
+		{
+			$value['expires_in'] = $value['expires'];
+			unset($value['expires']);
+		}
 		$this->setOption('accesstoken', $value);
 		return $this;
 	}
@@ -270,9 +300,19 @@ class JOauthOauth2client
 	 */
 	public function refreshToken($token = null)
 	{
+		if (!$this->getOption('userefresh'))
+		{
+			throw new RuntimeException('Refresh token is not supported for this OAuth instance.');
+		}
+
 		if (!$token)
 		{
 			$token = $this->getToken();
+
+			if (!array_key_exists('refresh_token', $token))
+			{
+				throw new RuntimeException('No refresh token is available.');
+			}
 			$token = $token['refresh_token'];
 		}
 		$data['grant_type'] = 'refresh_token';
@@ -281,9 +321,18 @@ class JOauthOauth2client
 		$data['client_secret'] = $this->getOption('clientsecret');
 		$response = $this->http->post($this->getOption('tokenurl'), $data);
 
-		if ($response->code == 200)
+		if ($response->code >= 200 || $response->code < 300)
 		{
-			$token = array_merge(json_decode($response->body, true), array('created' => time()));
+			if ($response->headers['Content-Type'] == 'application/json')
+			{
+				$token = array_merge(json_decode($response->body, true), array('created' => time()));
+			}
+			else
+			{
+				parse_str($response->body, $token);
+				$token = array_merge($token, array('created' => time()));
+			}
+
 			$this->setToken($token);
 			return $token;
 		}

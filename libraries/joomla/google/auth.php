@@ -34,6 +34,15 @@ abstract class JGoogleAuth
 	abstract public function auth();
 
 	/**
+	 * Verify if the client has been authenticated
+	 *
+	 * @return  bool  Is authenticated
+	 *
+	 * @since   1234
+	 */
+	abstract public function isAuth();
+
+	/**
 	 * Abstract method to retrieve data from Google
 	 *
 	 * @param   string  $url      The URL for the request.

@@ -53,6 +53,18 @@ class JGoogleAuthOauth2 extends JGoogleAuth
 	}
 
 	/**
+	 * Verify if the client has been authenticated
+	 *
+	 * @return  bool  Is authenticated
+	 *
+	 * @since   1234
+	 */
+	public function isAuth()
+	{
+		return $this->client->isAuth();
+	}
+
+	/**
 	 * Method to retrieve data from Google
 	 *
 	 * @param   string  $url      The URL for the request.
@@ -64,7 +76,7 @@ class JGoogleAuthOauth2 extends JGoogleAuth
 	 *
 	 * @since   1234
 	 */
-	public function query($url, $data = null, $headers = null, $method = 'post')
+	public function query($url, $data = null, $headers = null, $method = 'get')
 	{
 		$this->googlize();
 		return $this->client->query($url, $data, $headers, $method);
@@ -91,15 +103,21 @@ class JGoogleAuthOauth2 extends JGoogleAuth
 		{
 			$this->client->setOption('requestparams', Array());
 		}
+
 		$params = $this->client->getOption('requestparams');
 		if (!array_key_exists('access_type', $params))
 		{
 			$params['access_type'] = 'offline';
 		}
+		if ($params['access_type'] == 'offline' && $this->client->getOption('userefresh') === null)
+		{
+			$this->client->setOption('userefresh', true);
+		}
 		if (!array_key_exists('approval_prompt', $params))
 		{
 			$params['approval_prompt'] = 'auto';
 		}
+
 		$this->client->setOption('requestparams', $params);
 
 		return $this->client;

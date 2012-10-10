@@ -63,7 +63,7 @@ class JGoogleDataAdsense extends JGoogleData
 		{
 			$qurl .= 'pageToken=' . $token;
 		}
-		$jdata = $this->auth->query($qurl, null, null, 'get');
+		$jdata = $this->auth->query($qurl);
 		if ($data = json_decode($jdata->body, true) && array_key_exists('items', $data))
 		{
 			if ($maxpages != 1 && array_key_exists('nextPageToken', $data))
@@ -93,7 +93,7 @@ class JGoogleDataAdsense extends JGoogleData
 		if ($this->authenticated())
 		{
 			$url = 'https://www.googleapis.com/adsense/v1.1/accounts/' . $accountID . $subaccounts ? '?tree=true' : '';
-			$jdata = $this->auth->query($url, null, null, 'get');
+			$jdata = $this->auth->query($url);
 			if ($data = json_decode($jdata->body, true))
 			{
 				return $data;
@@ -178,7 +178,7 @@ class JGoogleDataAdsense extends JGoogleData
 		if ($this->authenticated())
 		{
 			$url = 'https://www.googleapis.com/adsense/v1.1/accounts/' . $accountID . '/adclients/' . $adclientID . '/adunits/' . $adunitID;
-			$jdata = $this->auth->query($url, null, null, 'get');
+			$jdata = $this->auth->query($url);
 			if ($data = json_decode($jdata->body, true))
 			{
 				return $data;
@@ -240,7 +240,7 @@ class JGoogleDataAdsense extends JGoogleData
 		if ($this->authenticated())
 		{
 			$url = 'https://www.googleapis.com/adsense/v1.1/accounts/' . $accountID . '/adclients/' . $adclientID . '/customchannels/' . $channelID;
-			$jdata = $this->auth->query($url, null, null, 'get');
+			$jdata = $this->auth->query($url);
 			if ($data = json_decode($jdata->body, true))
 			{
 				return $data;
@@ -412,7 +412,7 @@ class JGoogleDataAdsense extends JGoogleData
 			$data['rows'] = array();
 			do
 			{
-				$jdata = $this->auth->query($url . 'startIndex=' . count($data['rows']), null, null, 'get');
+				$jdata = $this->auth->query($url . 'startIndex=' . count($data['rows']));
 				if ($newdata = json_decode($jdata->body, true) && array_key_exists('items', $newdata))
 				{
 					$newdata['rows'] = array_merge($data['rows'], $newdata['rows']);

@@ -31,12 +31,6 @@ abstract class JGoogleData
 	protected $auth;
 
 	/**
-	 * @var    Bool  Has this object been authenticated.
-	 * @since  1234
-	 */
-	protected $authenticated;
-
-	/**
 	 * Constructor.
 	 *
 	 * @param   JRegistry    $options  Google options object.
@@ -48,7 +42,6 @@ abstract class JGoogleData
 	{
 		$this->options = isset($options) ? $options : new JRegistry;
 		$this->auth = isset($auth) ? $auth : new JGoogleAuthOauth2($this->options);
-		$this->authenticated = $this->auth->auth();
 	}
 
 	/**
@@ -60,7 +53,7 @@ abstract class JGoogleData
 	 */
 	public function auth()
 	{
-		return $this->authenticated = $this->auth->auth();
+		return $this->auth->auth();
 	}
 
 	/**
@@ -72,7 +65,29 @@ abstract class JGoogleData
 	 */
 	public function authenticated()
 	{
-		return $this->authenticated;
+		return $this->auth->isAuth();
+	}
+
+	/**
+	 * Method to retrieve a list of Picasa Albums
+	 *
+	 * @param   string  $data  XML data to be parsed
+	 *
+	 * @return  SimpleXMLElement  XMLElement of parsed data
+	 *
+	 * @since   1234
+	 * @throws UnexpectedValueException
+	 */
+	protected static function safeXML($data)
+	{
+		try
+		{
+			return new SimpleXMLElement($data, LIBXML_NOWARNING | LIBXML_NOERROR);
+		}
+		catch (Exception $e)
+		{
+			throw new UnexpectedValueException("Unexpected data received from Google: `$data`.");
+		}
 	}
 
 	/**
@@ -87,7 +102,7 @@ abstract class JGoogleData
 	 *
 	 * @since   1234
 	 */
-	public function query($url, $data = null, $headers = null, $method = 'post')
+	protected function query($url, $data = null, $headers = null, $method = 'post')
 	{
 		$this->client->query($url, $data, $headers, $method);
 	}
