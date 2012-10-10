@@ -33,7 +33,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 	<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>" />
 	</fieldset>
 	<table class="category">
-		<?php if ($this->params->get('show_headings')==1) : ?>
+		<?php if ($this->params->get('show_headings') == 1) : ?>
 		<thead><tr>
 
 				<th class="item-title" id="tableOrdering">

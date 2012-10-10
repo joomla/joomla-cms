@@ -34,24 +34,22 @@ $doc				= JFactory::getDocument();
 $templateparams		= $app->getTemplate(true)->params;
 $config = JFactory::getConfig();
 
-if ($templateparams->get('bootstrap') == 1)
-{
-	// Pull in the Bootstrap styles from jui
-	$doc->addStyleSheet('media/jui/css/bootstrap.css');
+$bootstrap = explode(',', $templateparams->get('bootstrap'));
+$jinput = JFactory::getApplication()->input;
+$option = $jinput->get('option', '', 'cmd');
 
-	// If Right-to-Left
-	if ($this->direction == 'rtl')
-	{
-		$doc->addStyleSheet('media/jui/css/bootstrap-rtl.css');
-	}
+if (in_array($option, $bootstrap))
+{
+	// Load optional rtl Bootstrap css and Bootstrap bugfixes
+	JHtmlBootstrap::loadCss($includeMaincss = true, $this->direction);
 }
 
-$doc->addStyleSheet(JURI::base() . '/templates/system/css/system.css');
-$doc->addStyleSheet(JURI::base() . '/templates/' . $this->template . '/css/position.css', $type = 'text/css', $media = 'screen,projection');
-$doc->addStyleSheet(JURI::base() . '/templates/' . $this->template . '/css/layout.css', $type = 'text/css', $media = 'screen,projection');
-$doc->addStyleSheet(JURI::base() . '/templates/' . $this->template . '/css/print.css', $type = 'text/css', $media = 'print');
-$doc->addStyleSheet(JURI::base() . '/templates/' . $this->template . '/css/general.css', $type = 'text/css', $media = 'screen,projection');
-$doc->addStyleSheet(JURI::base() . '/templates/' . $this->template . '/css/' . htmlspecialchars($color) . '.css', $type = 'text/css', $media = 'screen,projection');
+$doc->addStyleSheet(JURI::base() . 'templates/system/css/system.css');
+$doc->addStyleSheet(JURI::base() . 'templates/' . $this->template . '/css/position.css', $type = 'text/css', $media = 'screen,projection');
+$doc->addStyleSheet(JURI::base() . 'templates/' . $this->template . '/css/layout.css', $type = 'text/css', $media = 'screen,projection');
+$doc->addStyleSheet(JURI::base() . 'templates/' . $this->template . '/css/print.css', $type = 'text/css', $media = 'print');
+$doc->addStyleSheet(JURI::base() . 'templates/' . $this->template . '/css/general.css', $type = 'text/css', $media = 'screen,projection');
+$doc->addStyleSheet(JURI::base() . 'templates/' . $this->template . '/css/' . htmlspecialchars($color) . '.css', $type = 'text/css', $media = 'screen,projection');
 
 if ($this->direction == 'rtl')
 {

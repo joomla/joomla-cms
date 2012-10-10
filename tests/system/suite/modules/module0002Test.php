@@ -28,8 +28,8 @@ class Module0002 extends SeleniumJoomlaTestCase
 		$this->waitForPageToLoad("30000");
 		$this->click("link=Breadcrumbs Module");
 		$this->waitForPageToLoad("30000");
-		$this->assertTrue($this->isElementPresent("//div[@class='breadcrumbs']/a[contains(text(),'Home')]"));
-		$this->assertTrue($this->isElementPresent("//div[@class='breadcrumbs']/a[contains(text(),'Navigation Modules')]"));
+		$this->assertTrue($this->isElementPresent("//ul[contains(@class, 'breadcrumb')]//li/a[contains(text(),'Home')]"));
+		$this->assertTrue($this->isElementPresent("//ul[contains(@class, 'breadcrumb')]//li/a[contains(text(),'Navigation Modules')]"));
 
 		echo "Check content modules.\n";
 		$this->click("link=Content Modules");

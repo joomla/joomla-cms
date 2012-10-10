@@ -78,12 +78,6 @@ class InstallationController extends JControllerLegacy
 			}
 
 			$options = $model->getOptions();
-			if (isset($options['language']))
-			{
-				$lang = JFactory::getLanguage();
-				$lang->setLanguage($options['language']);
-				$lang->load();
-			}
 
 			if ($vName != $default_view && ($checkOptions && empty($options)))
 			{

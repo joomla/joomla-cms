@@ -7,6 +7,7 @@
 		<field
 			name="enabled"
 			type="radio"
+			class="btn-group"
 			default="0"
 			label="COM_FINDER_CONFIG_GATHER_SEARCH_STATISTICS_LABEL"
 			description="COM_FINDER_CONFIG_GATHER_SEARCH_STATISTICS_DESCRIPTION">
@@ -72,6 +73,7 @@
 		</field>
 		<field name="show_advanced_tips"
 			type="radio"
+			class="btn-group"
 			default="1"
 			label="COM_FINDER_CONFIG_SHOW_ADVANCED_TIPS_LABEL"
 			description="COM_FINDER_CONFIG_SHOW_ADVANCED_TIPS_DESCRIPTION">

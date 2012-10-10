@@ -94,17 +94,9 @@ $debug  = (boolean) $config->get('debug');
 		</div>
 	</div>
 	<div class="navbar navbar-fixed-bottom hidden-phone">
-		<div class="btn-toolbar">
-			<div class="btn-group pull-right">
-				<p>&copy; <?php echo $sitename; ?> <?php echo date('Y');?></p>
-			</div>
-			<div class="btn-group">
-				<a class="login-joomla" href="http://www.joomla.org" class="hasTooltip" title="<?php echo JText::_('TPL_ISIS_ISFREESOFTWARE');?>">Joomla!&#174;</a>
-			</div>
-			<div class="btn-group pull-left">
-				<a href="<?php echo JURI::root(); ?>"><i class="icon-share icon-white"></i> <?php echo JText::_('COM_LOGIN_RETURN_TO_SITE_HOME_PAGE') ?></a>
-			</div>
-		</div>
+		<p class="pull-right">&copy; <?php echo $sitename; ?> <?php echo date('Y');?></p>
+		<a class="login-joomla" href="http://www.joomla.org" class="hasTooltip" title="<?php echo JText::_('TPL_ISIS_ISFREESOFTWARE');?>">Joomla!&#174;</a>
+		<a href="<?php echo JURI::root(); ?>" class="pull-left"><i class="icon-share icon-white"></i> <?php echo JText::_('COM_LOGIN_RETURN_TO_SITE_HOME_PAGE') ?></a>
 	</div>
 	<jdoc:include type="modules" name="debug" style="none" />
 </body>

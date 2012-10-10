@@ -100,7 +100,15 @@ class JInstallerFile extends JAdapterInstance
 			}
 		}
 		// Set the file root path
-		$this->parent->setPath('extension_root', JPATH_MANIFESTS . '/files/' . $this->get('element'));
+		if ($name == 'files_joomla')
+		{
+			// If we are updating the Joomla core, set the root path to the root of Joomla
+			$this->parent->setPath('extension_root', JPATH_ROOT);
+		}
+		else
+		{
+			$this->parent->setPath('extension_root', JPATH_MANIFESTS . '/files/' . $this->get('element'));
+		}
 
 		/**
 		 * ---------------------------------------------------------------------------------------------

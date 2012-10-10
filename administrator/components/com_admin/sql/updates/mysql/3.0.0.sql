@@ -1,11 +1,8 @@
-# Remove unnecessary keys
 ALTER TABLE `#__users` DROP KEY `usertype`;
 ALTER TABLE `#__session` DROP KEY `whosonline`;
 
-# Remove unused table
 DROP TABLE IF EXISTS `#__update_categories`;
 
-# Remove unused columns
 ALTER TABLE `#__contact_details` DROP `imagepos`;
 ALTER TABLE `#__content` DROP COLUMN `title_alias`;
 ALTER TABLE `#__content` DROP COLUMN `sectionid`;
@@ -21,7 +18,6 @@ ALTER TABLE `#__session` DROP COLUMN `usertype`;
 ALTER TABLE `#__users` DROP COLUMN `usertype`;
 ALTER TABLE `#__updates` DROP COLUMN `categoryid`;
 
-# Unprotect a number of extensions
 UPDATE `#__extensions` SET protected = 0 WHERE
 `name` = 'com_search' OR
 `name` = 'mod_articles_archive' OR
@@ -40,7 +36,8 @@ UPDATE `#__extensions` SET protected = 0 WHERE
 `name` = 'plg_user_contactcreator' OR
 `name` = 'plg_user_profile';
 
-# Change most tables to InnoDB
+DELETE FROM `#__extensions` WHERE `extension_id` = 800;
+
 ALTER TABLE `#__assets` ENGINE=InnoDB;
 ALTER TABLE `#__associations` ENGINE=InnoDB;
 ALTER TABLE `#__banners` ENGINE=InnoDB;
@@ -90,7 +87,6 @@ ALTER TABLE `#__schemas` ENGINE=InnoDB;
 ALTER TABLE `#__session` ENGINE=InnoDB;
 ALTER TABLE `#__template_styles` ENGINE=InnoDB;
 ALTER TABLE `#__updates` ENGINE=InnoDB;
-ALTER TABLE `#__update_categories` ENGINE=InnoDB;
 ALTER TABLE `#__update_sites` ENGINE=InnoDB;
 ALTER TABLE `#__update_sites_extensions` ENGINE=InnoDB;
 ALTER TABLE `#__users` ENGINE=InnoDB;
@@ -101,7 +97,6 @@ ALTER TABLE `#__user_usergroup_map` ENGINE=InnoDB;
 ALTER TABLE `#__viewlevels` ENGINE=InnoDB;
 ALTER TABLE `#__weblinks` ENGINE=InnoDB;
 
-# Add new columns to normalise our content tables
 ALTER TABLE `#__weblinks` ADD COLUMN `version` int(10) unsigned NOT NULL DEFAULT '1';
 ALTER TABLE `#__weblinks` ADD COLUMN `images` text NOT NULL;
 ALTER TABLE `#__newsfeeds` ADD COLUMN `description` text NOT NULL;
@@ -116,29 +111,24 @@ ALTER TABLE `#__banners` ADD COLUMN `modified` datetime NOT NULL DEFAULT '0000-0
 ALTER TABLE `#__banners` ADD COLUMN `modified_by` int(10) unsigned NOT NULL DEFAULT '0';
 ALTER TABLE `#__banners` ADD COLUMN `version` int(10) unsigned NOT NULL DEFAULT '1';
 ALTER TABLE `#__categories` ADD COLUMN `version` int(10) unsigned NOT NULL DEFAULT '1';
+UPDATE  `#__assets` SET name=REPLACE( name, 'com_user.notes.category','com_users.category'  );
+UPDATE  `#__categories` SET extension=REPLACE( extension, 'com_user.notes.category','com_users.category'  );
 
-# Add columns for improved language support in finder.
 ALTER TABLE `#__finder_terms` ADD COLUMN `language` char(3) NOT NULL DEFAULT '';
 ALTER TABLE `#__finder_tokens` ADD COLUMN `language` char(3) NOT NULL DEFAULT '';
 ALTER TABLE `#__finder_tokens_aggregate` ADD COLUMN `language` char(3) NOT NULL DEFAULT '';
 
-# Add new templates
 INSERT INTO `#__extensions`
 	(`name`, `type`, `element`, `folder`, `client_id`, `enabled`, `access`, `protected`, `manifest_cache`, `params`, `custom_data`, `system_data`, `checked_out`, `checked_out_time`, `ordering`, `state`)
 	VALUES
 	('isis', 'template', 'isis', '', 1, 1, 1, 0, '{"name":"isis","type":"template","creationDate":"3\\/30\\/2012","author":"Kyle Ledbetter","copyright":"Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.","authorEmail":"admin@joomla.org","authorUrl":"","version":"1.0","description":"TPL_ISIS_XML_DESCRIPTION","group":""}', '{"templateColor":"","logoFile":""}', '', '', 0, '0000-00-00 00:00:00', 0, 0),
-	('protostar', 'template', 'protostar', '', 0, 1, 1, 0, '{"name":"protostar","type":"template","creationDate":"4\\/30\\/2012","author":"Kyle Ledbetter","copyright":"Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.","authorEmail":"admin@joomla.org","authorUrl":"","version":"1.0","description":"TPL_PROTOSTAR_XML_DESCRIPTION","group":""}', '{"templateColor":"","logoFile":"","googleFont":"1","googleFontName":"Open+Sans","fluidContainer":"0"}', '', '', 0, '0000-00-00 00:00:00', 0, 0);
-
+	('protostar', 'template', 'protostar', '', 0, 1, 1, 0, '{"name":"protostar","type":"template","creationDate":"4\\/30\\/2012","author":"Kyle Ledbetter","copyright":"Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.","authorEmail":"admin@joomla.org","authorUrl":"","version":"1.0","description":"TPL_PROTOSTAR_XML_DESCRIPTION","group":""}', '{"templateColor":"","logoFile":"","googleFont":"1","googleFontName":"Open+Sans","fluidContainer":"0"}', '', '', 0, '0000-00-00 00:00:00', 0, 0),
+	('beez3', 'template', 'beez3', '', 0, 1, 1, 0, '{"legacy":false,"name":"beez3","type":"template","creationDate":"25 November 2009","author":"Angie Radtke","copyright":"Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.","authorEmail":"a.radtke@derauftritt.de","authorUrl":"http:\\/\\/www.der-auftritt.de","version":"1.6.0","description":"TPL_BEEZ3_XML_DESCRIPTION","group":""}', '{"wrapperSmall":"53","wrapperLarge":"72","sitetitle":"","sitedescription":"","navposition":"center","templatecolor":"nature"}', '', '', 0, '0000-00-00 00:00:00', 0, 0);
+	
 INSERT INTO `#__template_styles` (`template`, `client_id`, `home`, `title`, `params`) VALUES
 	('protostar', 0, '0', 'protostar - Default', '{"templateColor":"","logoFile":"","googleFont":"1","googleFontName":"Open+Sans","fluidContainer":"0"}'),
-	('isis', 1, '1', 'isis - Default', '{"templateColor":"","logoFile":""}');
-
-# Deal with removed templates
-DELETE FROM `#__extensions`
-	WHERE type = 'template' AND name = 'bluestork';
-
-DELETE FROM `#__template_styles`
-	WHERE template = 'bluestork';
+	('isis', 1, '1', 'isis - Default', '{"templateColor":"","logoFile":""}'),
+	('beez3', 0, '0', 'beez3 - Default', '{"wrapperSmall":53,"wrapperLarge":72,"logo":"","sitetitle":"","sitedescription":"","navposition":"center","bootstrap":"","templatecolor":"nature","headerImage":"","backgroundcolor":"#eee"}');
 
 UPDATE `#__template_styles`
 SET home = (CASE WHEN (SELECT count FROM (SELECT count(`id`) AS count
@@ -150,3 +140,15 @@ SET home = (CASE WHEN (SELECT count FROM (SELECT count(`id`) AS count
 			END)
 WHERE template = 'isis'
 AND home != '1';
+
+UPDATE `#__template_styles`
+SET home = 0
+WHERE template = 'bluestork';
+
+INSERT INTO `#__extensions` (`extension_id`, `name`, `type`, `element`, `folder`, `client_id`, `enabled`, `access`, `protected`, `manifest_cache`, `params`, `custom_data`, `system_data`, `checked_out`, `checked_out_time`, `ordering`, `state`) VALUES
+(315, 'mod_stats_admin', 'module', 'mod_stats_admin', '', 1, 1, 1, 0, '{"name":"mod_stats_admin","type":"module","creationDate":"September 2012","author":"Joomla! Project","copyright":"Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.","authorEmail":"admin@joomla.org","authorUrl":"www.joomla.org","version":"3.0.0","description":"MOD_STATS_XML_DESCRIPTION","group":""}', '{"serverinfo":"0","siteinfo":"0","counter":"0","increase":"0","cache":"1","cache_time":"900","cachemode":"static"}', '', '', 0, '0000-00-00 00:00:00', 0, 0);
+
+UPDATE `#__update_sites`
+SET location = 'http://update.joomla.org/language/translationlist_3.xml'
+WHERE location = 'http://update.joomla.org/language/translationlist.xml'
+AND name = 'Accredited Joomla! Translations';

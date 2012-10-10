@@ -37,11 +37,8 @@ JHtml::_('bootstrap.framework');
 // Add Stylesheets
 $doc->addStyleSheet('templates/'.$this->template.'/css/template.css');
 
-// If Right-to-Left
-if ($this->direction == 'rtl')
-{
-	$doc->addStyleSheet('media/jui/css/bootstrap-rtl.css');
-}
+// Load optional rtl Bootstrap css and Bootstrap bugfixes
+JHtmlBootstrap::loadCss($includeMaincss = false, $this->direction);
 
 // Add current user information
 $user = JFactory::getUser();
@@ -64,30 +61,39 @@ else
 	$span = "span12";
 }
 
-// Logo file
+// Logo file or site title param
 if ($this->params->get('logoFile'))
 {
-	$logo = JURI::root() . $this->params->get('logoFile');
+	$logo = '<img src="'. JURI::root() . $this->params->get('logoFile') .'" alt="'. $sitename .'" />';
+}
+elseif ($this->params->get('sitetitle'))
+{
+	$logo = '<span class="site-title" title="'. $sitename .'">'. htmlspecialchars($this->params->get('sitetitle')) .'</span>';
 }
 else
 {
-	$logo = $this->baseurl . "/templates/" . $this->template . "/images/logo.png";
+	$logo = '<span class="site-title" title="'. $sitename .'">'. $sitename .'</span>';
 }
 ?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<jdoc:include type="head" />
 	<?php
 	// Use of Google Font
 	if ($this->params->get('googleFont'))
 	{
 	?>
 		<link href='http://fonts.googleapis.com/css?family=<?php echo $this->params->get('googleFontName');?>' rel='stylesheet' type='text/css'>
+		<style type="text/css">
+			h1,h2,h3,h4,h5,h6,.site-title{
+				font-family: '<?php echo str_replace('+', ' ', $this->params->get('googleFontName'));?>', sans-serif;
+			}
+		</style>
 	<?php
 	}
 	?>
-	<jdoc:include type="head" />
 	<?php
 	// Template color
 	if ($this->params->get('templateColor'))
@@ -131,7 +137,7 @@ else
 			<div class="header">
 				<div class="header-inner">
 					<a class="brand pull-left" href="<?php echo $this->baseurl; ?>">
-						<img src="<?php echo $logo;?>" alt="<?php echo $sitename; ?>" />
+						<?php echo $logo;?> <?php if ($this->params->get('sitedescription')) { echo '<div class="site-description">'. htmlspecialchars($this->params->get('sitedescription')) .'</div>'; } ?>
 					</a>
 					<div class="header-search pull-right">
 						<jdoc:include type="modules" name="position-0" style="none" />
@@ -144,10 +150,7 @@ else
 				<jdoc:include type="modules" name="position-1" style="none" />
 			</div>
 			<?php endif; ?>
-			<!-- Banner -->
-			<div class="banner">
-				<jdoc:include type="modules" name="banner" style="xhtml" />
-			</div>
+			<jdoc:include type="modules" name="banner" style="xhtml" />
 			<div class="row-fluid">
 				<?php if ($this->countModules('position-8')): ?>
 				<!-- Begin Sidebar -->
@@ -181,7 +184,7 @@ else
 		<div class="container<?php if ($this->params->get('fluidContainer')) { echo "-fluid"; } ?>">
 			<hr />
 			<jdoc:include type="modules" name="footer" style="none" />
-			<p class="pull-right"><a href="#top" id="back-top">Back to top</a></p>
+			<p class="pull-right"><a href="#top" id="back-top"><?php echo JText::_('TPL_PROTOSTAR_BACKTOTOP'); ?></a></p>
 			<p>&copy; <?php echo $sitename; ?> <?php echo date('Y');?></p>
 		</div>
 	</div>

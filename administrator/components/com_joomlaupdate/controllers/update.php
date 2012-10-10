@@ -21,9 +21,9 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 	/**
 	 * Performs the download of the update package
 	 *
-	 * @return void
+	 * @return  void
 	 *
-	 * @since 2.5.4
+	 * @since   2.5.4
 	 */
 	public function download()
 	{
@@ -53,9 +53,9 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 	/**
 	 * Start the installation of the new Joomla! version
 	 *
-	 * @return void
+	 * @return  void
 	 *
-	 * @since 2.5.4
+	 * @since   2.5.4
 	 */
 	public function install()
 	{
@@ -72,9 +72,9 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 	/**
 	 * Finalise the upgrade by running the necessary scripts
 	 *
-	 * @return void
+	 * @return  void
 	 *
-	 * @since 2.5.4
+	 * @since   2.5.4
 	 */
 	public function finalise()
 	{
@@ -91,9 +91,9 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 	/**
 	 * Clean up after ourselves
 	 *
-	 * @return void
+	 * @return  void
 	 *
-	 * @since 2.5.4
+	 * @since   2.5.4
 	 */
 	public function cleanup()
 	{
@@ -108,16 +108,35 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 	}
 
 	/**
+	 * Purges updates.
+	 *
+	 * @return  void
+	 *
+	 * @since	3.0
+	 */
+	public function purge()
+	{
+		// Purge updates
+		// Check for request forgeries
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		$model = $this->getModel('Default');
+		$model->purge();
+
+		$url = 'index.php?option=com_joomlaupdate';
+		$this->setRedirect($url, $model->_message);
+	}
+
+	/**
 	 * Method to display a view.
 	 *
 	 * @param	boolean  $cachable   If true, the view output will be cached
 	 * @param	array    $urlparams  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
-	 * @return	JController		This object to support chaining.
+	 * @return	JoomlaupdateControllerUpdate  This object to support chaining.
 	 *
 	 * @since	2.5.4
 	 */
-	public function display($cachable = false, $urlparams = false)
+	public function display($cachable = false, $urlparams = array())
 	{
 		// Get the document object.
 		$document = JFactory::getDocument();
@@ -147,7 +166,7 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 	/**
 	 * Applies FTP credentials to Joomla! itself, when required
 	 *
-	 * @return void
+	 * @return  void
 	 *
 	 * @since	2.5.4
 	 */

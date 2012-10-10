@@ -377,7 +377,7 @@ class Article0003 extends SeleniumJoomlaTestCase
 		$this->waitForPageToLoad("30000");
 		$this->assertTrue($this->isElementPresent("link=Second Blog Post"));
 		$this->assertTrue($this->isElementPresent("link=First Blog Post"));
-		$this->assertTrue($this->isElementPresent("//div[@class='system-unpublished']//h2[contains(., 'First Blog')]"));
+		$this->assertTrue($this->isElementPresent("//div[contains(@class, 'system-unpublished')]//h2[contains(., 'First Blog')]"));
 
 		echo "Change First Blog state to Archived\n";
 		$this->gotoAdmin();
@@ -416,8 +416,8 @@ class Article0003 extends SeleniumJoomlaTestCase
 		$this->open($link);
 		$this->waitForPageToLoad("30000");
 		echo "Check initial conditions for list\n";
-		$this->assertEquals("Beginners", $this->getText("//ul[contains(@class, 'category')]/li[1]/h4/a"));
-		$this->assertEquals("Getting Help", $this->getText("//ul[contains(@class, 'category')]/li[2]/h4/a"));
+		$this->assertStringEndsWith("Beginners", $this->getText("//ul[contains(@class, 'category')]/li[1]/strong/a"));
+		$this->assertStringEndsWith("Getting Help", $this->getText("//ul[contains(@class, 'category')]/li[2]/strong/a"));
 
 		echo "Unpublish Joomla! category\n";
 		$this->gotoAdmin();
@@ -459,16 +459,16 @@ class Article0003 extends SeleniumJoomlaTestCase
 		$this->gotoSite();
 		$this->open($link);
 		$this->waitForPageToLoad("30000");
-		$this->assertEquals("Beginners", $this->getText("//ul[contains(@class, 'category')]/li[1]/h4/a"));
-		$this->assertEquals("Getting Started", $this->getText("//ul[contains(@class, 'category')]/li[2]/h4/a"));
+		$this->assertStringEndsWith("Beginners", $this->getText("//ul[contains(@class, 'category')]/li[1]/strong/a"));
+		$this->assertStringEndsWith("Getting Started", $this->getText("//ul[contains(@class, 'category')]/li[2]/strong/a"));
 
 		echo "Log into site and check that Getting Help shows as Unpublished\n";
 		$this->gotoSite();
 		$this->doFrontEndLogin();
 		$this->open($link);
 		$this->waitForPageToLoad("30000");
-		$this->assertEquals("Beginners", $this->getText("//ul[contains(@class, 'category')]/li[1]/h4/a"));
-		$this->assertEquals("Getting Help", $this->getText("//ul[contains(@class, 'category')]/li[2]/h4/a"));
+		$this->assertStringEndsWith("Beginners", $this->getText("//ul[contains(@class, 'category')]/li[1]/strong/a"));
+		$this->assertStringEndsWith("Getting Help", $this->getText("//ul[contains(@class, 'category')]/li[2]/strong/a"));
 		$this->assertTrue($this->isElementPresent("//div[@class='category-list']//a[contains(text(), 'Getting Help')]/../../../li[contains(@class, 'system-unpublished')]"));
 
 		echo "Change Getting Help state to Archived\n";
@@ -482,8 +482,8 @@ class Article0003 extends SeleniumJoomlaTestCase
 		$this->doFrontEndLogin();
 		$this->open($link);
 		$this->waitForPageToLoad("30000");
-		$this->assertEquals("Beginners", $this->getText("//ul[contains(@class, 'category')]/li[1]/h4/a"));
-		$this->assertEquals("Getting Help", $this->getText("//ul[contains(@class, 'category')]/li[2]/h4/a"));
+		$this->assertStringEndsWith("Beginners", $this->getText("//ul[contains(@class, 'category')]/li[1]/strong/a"));
+		$this->assertStringEndsWith("Getting Help", $this->getText("//ul[contains(@class, 'category')]/li[2]/strong/a"));
 
 		echo "Log out of Front End\n";
 		$this->gotoSite();

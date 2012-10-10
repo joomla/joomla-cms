@@ -55,6 +55,14 @@ final class JSite extends JApplication
 	public function initialise($options = array())
 	{
 		$config = JFactory::getConfig();
+		$user   = JFactory::getUser();
+
+		// If the user is a guest we populate it with the guest user group.
+		if ($user->guest)
+		{
+			$guestUsergroup = JComponentHelper::getParams('com_users')->get('guest_usergroup', 1);
+			$user->groups = array($guestUsergroup);
+		}
 
 		// if a language was specified it has priority
 		// otherwise use user or default language settings
@@ -78,7 +86,7 @@ final class JSite extends JApplication
 
 		if (empty($options['language'])) {
 			// Detect user language
-			$lang = JFactory::getUser()->getParam('language');
+			$lang = $user->getParam('language');
 			// Make sure that the user's language exists
 			if ($lang && JLanguage::exists($lang)) {
 				$options['language'] = $lang;

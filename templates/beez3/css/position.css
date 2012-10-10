@@ -329,7 +329,6 @@ body {
 
 #close {
     margin-right: 0;
-
     text-transform: uppercase;
 }
 
@@ -338,11 +337,20 @@ body {
     right: 20px;
     z-index: 10000;
     top: 5px;
-    width: 7em;
     font-weight: bold;
     text-align: right;
     line-height: 1.5em;
-    padding: 25px 2px 5px 5px
+    margin-top:20px;
+    padding: 5px
+}
+
+#close > a {
+    display: block;
+    overflow: hidden
+}
+
+#close > a:hover span {
+    background: #095197
 }
 
 /* ###################### main ###################### */

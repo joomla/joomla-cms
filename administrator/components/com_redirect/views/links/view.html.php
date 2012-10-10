@@ -44,8 +44,9 @@ class RedirectViewLinks extends JViewLegacy
 			return false;
 		}
 
-		parent::display($tpl);
 		$this->addToolbar();
+		$this->sidebar = JHtmlSidebar::render();
+		parent::display($tpl);
 	}
 
 	/**
@@ -94,9 +95,9 @@ class RedirectViewLinks extends JViewLegacy
 		}
 		JToolbarHelper::help('JHELP_COMPONENTS_REDIRECT_MANAGER');
 
-		JSubMenuHelper::setAction('index.php?option=com_redirect&view=links');
+		JHtmlSidebar::setAction('index.php?option=com_redirect&view=links');
 
-		JSubMenuHelper::addFilter(
+		JHtmlSidebar::addFilter(
 			JText::_('JOPTION_SELECT_PUBLISHED'),
 			'filter_state',
 			JHtml::_('select.options', RedirectHelper::publishedOptions(), 'value', 'text', $this->state->get('filter.state'), true)

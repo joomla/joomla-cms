@@ -575,4 +575,32 @@ abstract class JHtmlBootstrap
 	{
 		return '</div>';
 	}
+
+	/**
+	 * Loads CSS files needed by Bootstrap
+	 *
+	 * @param   boolean  $includeMainCss  If true, main bootstrap.css files are loaded
+	 * @param   string   $direction       rtl or ltr direction. If empty, ltr is assumed
+	 * @param   array    $attribs         Optional array of attributes to be passed to JHtml::_('stylesheet')
+	 *
+	 * @return  void
+	 *
+	 * @since   3.0
+	 */
+	public static function loadCss($includeMainCss = true, $direction = 'ltr', $attribs = array())
+	{
+		// Load Bootstrap main CSS
+		if ($includeMainCss)
+		{
+			JHtml::_('stylesheet', 'media/jui/css/bootstrap.min.css', $attribs, false);
+			JHtml::_('stylesheet', 'media/jui/css/bootstrap-responsive.min.css', $attribs, false);
+			JHtml::_('stylesheet', 'media/jui/css/bootstrap-extended.css', $attribs, false);
+		}
+
+		// Load Bootstrap RTL CSS
+		if ($direction === 'rtl')
+		{
+			JHtml::_('stylesheet', 'media/jui/css/bootstrap-rtl.css', $attribs, false);
+		}
+	}
 }

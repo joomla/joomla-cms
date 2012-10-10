@@ -177,16 +177,7 @@ function pagination_item_active(&$item)
 		$display = $item->text;
 	}
 
-	if ($item->base > 0)
-	{
-		$limit = 'limitstart.value=' . $item->base;
-	}
-	else
-	{
-		$limit = 'limitstart.value=0';
-	}
-
-	return '<li><a href="#" title="' . $item->text . '" onclick="document.adminForm.' . $item->prefix . $limit . '; Joomla.submitform();return false;">' . $display . '</a></li>';
+	return "<li><a title=\"" . $item->text . "\" href=\"" . $item->link . "\" class=\"pagenav\">" . $item->text . "</a><li>";
 }
 
 /**

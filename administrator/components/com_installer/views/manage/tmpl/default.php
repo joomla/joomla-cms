@@ -18,6 +18,15 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 ?>
 <div id="installer-manage">
 <form action="<?php echo JRoute::_('index.php?option=com_installer&view=manage');?>" method="post" name="adminForm" id="adminForm">
+	<?php if(!empty( $this->sidebar)): ?>
+		<div id="j-sidebar-container" class="span2">
+			<?php echo $this->sidebar; ?>
+		</div>
+		<div id="j-main-container" class="span10">
+	<?php else : ?>
+		<div id="j-main-container">
+	<?php endif;?>
+
 	<?php if ($this->showMessage) : ?>
 		<?php echo $this->loadTemplate('message'); ?>
 	<?php endif; ?>
@@ -26,6 +35,10 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 		<?php echo $this->loadTemplate('ftp'); ?>
 	<?php endif; ?>
 		<div id="filter-bar" class="btn-toolbar">
+			<div class="btn-group pull-right hidden-phone">
+				<label for="limit" class="element-invisible"><?php echo JText::_('JFIELD_PLG_SEARCH_SEARCHLIMIT_DESC');?></label>
+				<?php echo $this->pagination->getLimitBox(); ?>
+			</div>
 			<div class="filter-search btn-group pull-left">
 				<input type="text" name="filter_search" placeholder="<?php echo JText::_('JSEARCH_FILTER_LABEL'); ?>" id="filter_search" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" title="<?php echo JText::_('JSEARCH_FILTER'); ?>" />
 			</div>
@@ -132,5 +145,6 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 		<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>" />
 		<?php echo JHtml::_('form.token'); ?>
 	<!-- End Content -->
+	</div>
 </form>
 </div>

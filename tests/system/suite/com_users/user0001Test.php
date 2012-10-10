@@ -15,7 +15,7 @@ class User0001Test extends SeleniumJoomlaTestCase
 		$this->setUp();
 		$this->gotoAdmin();
 		$this->doAdminLogin();
-		print("Add new user"."\n");
+		echo "Add new user\n";
 		$this->click("link=Add New User");
 		$this->waitForPageToLoad("30000");
 		$this->type("jform_name", "username1");
@@ -26,7 +26,7 @@ class User0001Test extends SeleniumJoomlaTestCase
 		$this->click("1group_1");
 		$this->click("//div[@id='toolbar-save']/button");
 		$this->waitForPageToLoad("60000");
-		print("Save and check that it exists"."\n");
+		echo "Save and check that it exists\n";
 		$this->type("filter_search", "username1");
 		$this->click("//button[@type='submit']");
 		$this->waitForPageToLoad("30000");
@@ -42,17 +42,17 @@ class User0001Test extends SeleniumJoomlaTestCase
 		$this->click("//div[@id='toolbar-cancel']/button");
 		$this->waitForPageToLoad("30000");
 
-		print("Delete the user"."\n");
+		echo "Delete the user\n";
 		$this->click("cb0");
 		$this->click("//div[@id='toolbar-delete']/button");
 		$this->waitForPageToLoad("30000");
-		print("Check that user does not exist"."\n");
+		echo "Check that user does not exist\n";
 		$this->assertFalse($this->isElementPresent("link=username1"));
 		echo "Clear Filter and check that Super User exists\n";
 		$this->click("//button[@type='button']");
 		$this->waitForPageToLoad("30000");
 		$this->assertEquals("Super User", $this->getText("link=Super User"));
-		print("Finished user0001Test.php"."\n");
+		echo "Finished user0001Test.php\n";
 		$this->doAdminLogout();
 		$this->deleteAllVisibleCookies();
 	}

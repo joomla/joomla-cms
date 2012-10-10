@@ -341,7 +341,8 @@
 			</field>
 
 			<field name="show_contact_list"
-			type="list"
+			type="radio"
+			class="btn-group"
 			label="COM_CONTACT_FIELD_CONTACT_SHOW_LIST_LABEL"
 			description="COM_CONTACT_FIELD_CONTACT_SHOW_LIST_DESC"
 		>

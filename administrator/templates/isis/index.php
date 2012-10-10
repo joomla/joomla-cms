@@ -23,11 +23,8 @@ JHtml::_('bootstrap.framework');
 // Add Stylesheets
 $doc->addStyleSheet('templates/' . $this->template . '/css/template.css');
 
-// If Right-to-Left
-if ($this->direction === 'rtl')
-{
-	$doc->addStyleSheet('../media/jui/css/bootstrap-rtl.css');
-}
+// Load optional rtl bootstrap css and bootstrap bugfixes
+JHtmlBootstrap::loadCss($includeMaincss = false, $this->direction);
 
 // Load specific language related CSS
 $file = 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css';
@@ -67,6 +64,11 @@ else
 {
 	$logo = $this->baseurl . "/templates/" . $this->template . "/images/logo.png";
 }
+
+// Template Parameters
+$displayHeader = $this->params->get('displayHeader', '1');
+$statusFixed = $this->params->get('statusFixed', '1');
+$stickyToolbar = $this->params->get('stickyToolbar', '1');
 ?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
@@ -79,7 +81,7 @@ else
 	{
 	?>
 	<style type="text/css">
-		.header, .navbar-inner, .navbar-inverse .navbar-inner, .nav-list > .active > a, .nav-list > .active > a:hover, .dropdown-menu li > a:hover, .dropdown-menu .active > a, .dropdown-menu .active > a:hover, .navbar-inverse .nav li.dropdown.open > .dropdown-toggle, .navbar-inverse .nav li.dropdown.active > .dropdown-toggle, .navbar-inverse .nav li.dropdown.open.active > .dropdown-toggle
+		.navbar-inner, .navbar-inverse .navbar-inner, .nav-list > .active > a, .nav-list > .active > a:hover, .dropdown-menu li > a:hover, .dropdown-menu .active > a, .dropdown-menu .active > a:hover, .navbar-inverse .nav li.dropdown.open > .dropdown-toggle, .navbar-inverse .nav li.dropdown.active > .dropdown-toggle, .navbar-inverse .nav li.dropdown.open.active > .dropdown-toggle, #status.status-top
 		{
 			background: <?php echo $this->params->get('templateColor');?>;
 		}
@@ -92,12 +94,26 @@ else
 	<?php
 	}
 	?>
+	<?php
+	// Template header color
+	if ($this->params->get('headerColor'))
+	{
+	?>
+	<style type="text/css">
+		.header
+		{
+			background: <?php echo $this->params->get('headerColor');?>;
+		}
+	</style>
+	<?php
+	}
+	?>
 	<!--[if lt IE 9]>
 		<script src="../media/jui/js/html5.js"></script>
 	<![endif]-->
 </head>
 
-<body class="admin <?php echo $option . " view-" . $view . " layout-" . $layout . " task-" . $task . " itemid-" . $itemid . " ";?>" data-spy="scroll" data-target=".subhead" data-offset="87">
+<body class="admin <?php echo $option . " view-" . $view . " layout-" . $layout . " task-" . $task . " itemid-" . $itemid . " ";?>" <?php if ($stickyToolbar): ?>data-spy="scroll" data-target=".subhead" data-offset="87"<?php endif;?>>
 	<!-- Top Navigation -->
 	<nav class="navbar navbar-inverse navbar-fixed-top">
 		<div class="navbar-inner">
@@ -117,7 +133,7 @@ else
 				<?php endif; ?>
 					<jdoc:include type="modules" name="menu" style="none" />
 					<ul class="<?php if ($this->direction == 'rtl') : ?>nav<?php else : ?>nav pull-right<?php endif; ?>">
-						<li class="dropdown"> <a class="dropdown-toggle" data-toggle="dropdown" href="#"><?php echo $user->username; ?> <b class="caret"></b></a>
+						<li class="dropdown"> <a class="dropdown-toggle" data-toggle="dropdown" href="#"><?php echo $user->name; ?> <b class="caret"></b></a>
 							<ul class="dropdown-menu">
 								<li class=""><a href="index.php?option=com_admin&task=profile.edit&id=<?php echo $user->id;?>"><?php echo JText::_('TPL_ISIS_EDIT_ACCOUNT');?></a></li>
 								<li class="divider"></li>
@@ -131,6 +147,9 @@ else
 		</div>
 	</nav>
 	<!-- Header -->
+	<?php
+	if ($displayHeader):
+	?>
 	<header class="header">
 		<div class="container-fluid">
 			<div class="row-fluid">
@@ -138,11 +157,28 @@ else
 					<a class="logo" href="<?php echo $this->baseurl; ?>"><img src="<?php echo $logo;?>" alt="<?php echo $sitename; ?>" /></a>
 				</div>
 				<div class="span10">
-					<h1 class="page-title"><?php echo JHtml::_('string.truncate', $app->JComponentTitle, 40, false, false);?></h1>
+					<h1 class="page-title"><?php echo JHtml::_('string.truncate', $app->JComponentTitle, 0, false, false);?></h1>
 				</div>
 			</div>
 		</div>
 	</header>
+	<?php
+	endif;
+	?>
+	<?php
+	if ((!$statusFixed) && ($this->countModules('status'))):
+	?>
+	<!-- Begin Status Module -->
+	<div id="status" class="navbar status-top hidden-phone">
+		<div class="btn-toolbar">
+			<jdoc:include type="modules" name="status" style="no" />
+		</div>
+		<div class="clearfix"></div>
+	</div>
+	<!-- End Status Module -->
+	<?php
+	endif;
+	?>
 	<?php
 	if (!$cpanel):
 	?>
@@ -182,6 +218,14 @@ else
 					<div class="span12">
 				<?php endif; ?>
 						<jdoc:include type="message" />
+						<?php
+						// Show the page title here if the header is hidden
+						if (!$displayHeader):
+						?>
+						<h1 class="content-title"><?php echo JHtml::_('string.truncate', $app->JComponentTitle, 0, false, false);?></h1>
+						<?php
+						endif;
+						?>
 						<jdoc:include type="component" />
 					</div>
 			</div>
@@ -195,7 +239,7 @@ else
 			</footer>
 		<?php endif; ?>
 	</div>
-	<?php if ($this->countModules('status')): ?>
+	<?php if (($statusFixed) && ($this->countModules('status'))): ?>
 	<!-- Begin Status Module -->
 	<div id="status" class="navbar navbar-fixed-bottom hidden-phone">
 		<div class="btn-toolbar">
@@ -210,10 +254,15 @@ else
 	<jdoc:include type="modules" name="debug" style="none" />
 	<script>
 		(function($){
+			$('*[rel=tooltip]').tooltip()
+
+			<?php
+			if ($stickyToolbar):
+			?>
 			// fix sub nav on scroll
 			var $win = $(window)
 			  , $nav = $('.subhead')
-			  , navTop = $('.subhead').length && $('.subhead').offset().top - 40
+			  , navTop = $('.subhead').length && $('.subhead').offset().top - <?php if ($displayHeader || !$statusFixed): ?>40<?php else:?>20<?php endif;?>
 			  , isFixed = 0
 
 			processScroll()
@@ -235,6 +284,9 @@ else
 					$nav.removeClass('subhead-fixed')
 				}
 			}
+			<?php
+			endif;
+			?>
 
 			// Turn radios into btn-group
 		    $('.radio.btn-group label').addClass('btn');

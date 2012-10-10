@@ -39,7 +39,8 @@ class Redirect0001Test extends SeleniumJoomlaTestCase
 		$this->open($badLink);
 		$this->waitForPageToLoad("30000");
 		echo "Check that we get the Getting Started page\n";
-		$this->assertTrue($this->isElementPresent("//div[@id='main']//h2[contains(., 'Getting Started')]"));
+		$this->assertStringEndsWith('index.php/getting-started', $this->getLocation(), 'URL should be Getting Started');
+		$this->assertTrue($this->isElementPresent("//div[@class='page-header']/h2[contains(., 'Getting Started')]"));
 
 		echo "Go to back end and delete the redirect\n";
 		$this->gotoAdmin();
@@ -61,7 +62,7 @@ class Redirect0001Test extends SeleniumJoomlaTestCase
 		echo "Go to front end and try bad URL now without redirect";
 		$this->gotoSite();
 		$this->open($badLink, "true"); // need true to allow selenium to load error page
-		$this->assertTrue($this->isElementPresent("//h2[contains(text(),'error')]"));
+		$this->assertTrue($this->isElementPresent("//h1[contains(text(),'page cannot be found')]"));
 
 		echo "Go to back end and check that this link has been added as a redirect\n";
 		$this->gotoAdmin();

@@ -1267,9 +1267,45 @@ class JInstallerComponent extends JAdapterInstance
 
 			if (!$table->bind($data) || !$table->check() || !$table->store())
 			{
-				// Install failed, warn user and rollback changes
-				JLog::add($table->getError(), JLog::WARNING, 'jerror');
-				return false;
+				// The menu item already exists. Delete it and retry instead of throwing an error.
+				$query = $db->getQuery(true);
+				$query->select('id');
+				$query->from('#__menu');
+				$query->where('menutype = ' . $db->quote('main'));
+				$query->where('client_id = 1');
+				$query->where('link = ' . $db->quote('index.php?option=' . $option));
+				$query->where('type = ' . $db->quote('component'));
+				$query->where('parent_id = 1');
+				$query->where('home = 0');
+
+				$db->setQuery($query);
+				$menu_id = $db->loadResult();
+
+				if (!$menu_id)
+				{
+					// Oops! Could not get the menu ID. Go back and rollback changes.
+					JError::raiseWarning(1, $table->getError());
+					return false;
+				}
+				else
+				{
+					// Remove the old menu item
+					$query = $db->getQuery(true);
+					$query->delete('#__menu');
+					$query->where('id = ' . (int) $menu_id);
+
+					$db->setQuery($query);
+					$db->query();
+
+					// Retry creating the menu item
+					$table->setLocation(1, 'last-child');
+					if (!$table->bind($data) || !$table->check() || !$table->store())
+					{
+						// Install failed, warn user and rollback changes
+						JError::raiseWarning(1, $table->getError());
+						return false;
+					}
+				}
 			}
 
 			/*

@@ -85,10 +85,10 @@ abstract class JHtmlTabs
 			$opt['onBackground']        = (isset($params['onBackground'])) ? '\\' . $params['onBackground'] : null;
 			$opt['display']             = (isset($params['startOffset'])) ? (int) $params['startOffset'] : null;
 			$opt['useStorage']          = (isset($params['useCookie']) && $params['useCookie']) ? 'true' : 'false';
-			$opt['titleSelector']       = "'dt.tabs'";
-			$opt['descriptionSelector'] = "'dd.tabs'";
+			$opt['titleSelector']       = "dt.tabs";
+			$opt['descriptionSelector'] = "dd.tabs";
 
-			$options = self::getJSObject($opt);
+			$options = JHtml::getJSObject($opt);
 
 			$js = '	window.addEvent(\'domready\', function(){
 						$$(\'dl#' . $group . '.tabs\').each(function(tabs){

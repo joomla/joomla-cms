@@ -137,6 +137,7 @@ body {
 .login .chzn-container,
 .login .chzn-drop {
 	width: 238px !important;
+	max-width: 238px !important;
 }
 /* Typography */
 .small{
@@ -191,7 +192,7 @@ body .navbar-fixed-top{
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#17568c', endColorstr='#1a3867',GradientType=0 ); /* IE6-9 */
 
 	border: 1px solid #0D2242;
-	margin: 0;
+	margin-bottom: 2px;
 }
 @media (max-width: 767px) {
 	.header{
@@ -232,6 +233,13 @@ body .navbar-fixed-top{
 	font-size:20px;
 	line-height: 36px;
 	margin: 0;
+}
+/* Page Title in Content */
+.content-title {
+	font-size: 24px;
+	font-weight: normal;
+	line-height: 26px;
+	margin-top: 0;
 }
 /* Subhead */
 .subhead{
@@ -321,9 +329,7 @@ h6 { font-size: 12px; line-height: 14px; }
 	background: #EDEDED;
 	border-top: 1px solid #DDDDDD;
 	padding: 2px 10px 4px 10px;
-	-moz-box-shadow: 0px 1px 0px rgba(255, 255, 255, 0.8) inset, 0px -15px 15px rgba(255, 255, 255, 0.6);
-	-webkit-box-shadow: 0px 1px 0px rgba(255, 255, 255, 0.8) inset, 0px -15px 15px rgba(255, 255, 255, 0.6);
-	box-shadow: 0px 1px 0px rgba(255, 255, 255, 0.8) inset, 0px -15px 15px rgba(255, 255, 255, 0.6);
+	.box-shadow(~"0px 1px 0px rgba(255, 255, 255, 0.8) inset, 0px -15px 15px rgba(255, 255, 255, 0.6)");
 	color: #999999;
 
 	.btn-toolbar,p{
@@ -334,6 +340,19 @@ h6 { font-size: 12px; line-height: 14px; }
 	}
 	a{
 		color: #999999;
+	}
+}
+
+/* Status Module in top position */
+#status.status-top {
+	background: @headerBackground;
+	.box-shadow(~"0px 1px 0px rgba(255, 255, 255, 0.2) inset, 0px -1px 0px rgba(0, 0, 0, 0.3) inset, 0px -1px 0px rgba(0, 0, 0, 0.3)");
+	border-top: 0;
+	color: @navbarInverseText;
+	padding: 2px 20px 6px 20px;
+
+	a{
+		color: @navbarInverseLinkColor;
 	}
 }
 
@@ -513,6 +532,68 @@ h6 { font-size: 12px; line-height: 14px; }
 	}
 }
 
+// Navbar
+@media (max-width: @navbarCollapseWidth) {
+	.navbar-fixed-top .navbar-inner,
+	.navbar-fixed-top .navbar-inner .container-fluid {
+		padding: 0;
+	}
+	.navbar .brand {
+		margin-top: 2px;
+	}
+	.navbar .btn-navbar {
+		margin-top: 3px;
+		margin-right: 3px;
+		margin-bottom: 3px;
+	}
+	.nav-collapse .nav .nav-header {
+		color: @white;
+	}
+	.nav-collapse.collapse.in {
+		height: auto !important;
+	}
+	.nav-collapse .nav,
+	.navbar .nav-collapse .nav.pull-right {
+		margin: 0;
+	}
+	.nav-collapse .dropdown-menu {
+		margin: 0;
+	}
+	.nav-collapse .nav > li > a.dropdown-toggle {
+		#gradient > .vertical(rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.05));
+		font-size: 12px;
+		font-weight: bold;
+		color: @grayLighter;
+		text-transform: uppercase;
+		padding-left: 15px;
+	}
+	.nav-collapse .nav li a {
+		margin-bottom: 0;
+		border-top: 1px solid rgba(255, 255, 255, 0.25);
+		border-bottom: 1px solid rgba(0, 0, 0, 0.5);
+	}
+	.nav-collapse .nav li ul li ul.dropdown-menu,
+	.nav-collapse .nav li ul li:hover ul.dropdown-menu,
+	.nav-collapse .caret {
+		display: none !important;
+	}
+	.nav-collapse .nav > li > a,
+	.nav-collapse .dropdown-menu a {
+		font-size: 15px;
+		font-weight: normal;
+		color: @white;
+		.border-radius(0);
+	}
+	.navbar .nav-collapse .nav > li > .dropdown-menu::before,
+	.navbar .nav-collapse .nav > li > .dropdown-menu::after,
+	.navbar .nav-collapse .dropdown-submenu > a::after {
+		display: none;
+	}
+	.nav-collapse .dropdown-menu li + li a {
+		margin-bottom: 0;
+	}
+}
+
 /* Sortable list*/
 .sortable-handler.inactive {
 	opacity: 0.3;
@@ -553,4 +634,41 @@ ul.manager .height-50 .icon-folder-2 {
 }
 .admin .chzn-container .chzn-drop {
 	z-index: 1200;
+}
+
+/* Tree Select */
+ul.treeselect,
+ul.treeselect li {
+	margin: 0;
+	padding: 0;
+}
+ul.treeselect {
+	margin-top: 8px;
+}
+ul.treeselect li {
+	padding: 2px 10px 2px;
+	list-style: none;
+}
+ul.treeselect i.treeselect-toggle {
+	line-height: 18px;
+}
+ul.treeselect label {
+	font-size: 1em;
+	margin-left: 8px;
+}
+ul.treeselect label.nav-header {
+	padding: 0;
+}
+ul.treeselect input {
+	margin: 2px 0 0 8px;
+}
+ul.treeselect .treeselect-menu {
+	margin-right: 0 6px;
+}
+ul.treeselect ul.dropdown-menu {
+	margin: 0;
+}
+ul.treeselect ul.dropdown-menu li {
+	padding: 0 5px;
+	border: none;
 }
