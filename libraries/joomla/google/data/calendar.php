@@ -28,17 +28,12 @@ class JGoogleDataCalendar extends JGoogleData
 	 */
 	public function __construct(JRegistry $options = null, JGoogleAuth $auth = null)
 	{
-		$options = isset($options) ? $options : new JRegistry;
-		if (!$options->get('scope'))
-		{
-			$options->set('scope', 'https://www.googleapis.com/auth/calendar');
-		}
-		if (isset($auth) && !$auth->getOption('scope'))
-		{
-			$auth->setOption('scope', 'https://www.googleapis.com/auth/calendar');
-		}
-
 		parent::__construct($options, $auth);
+
+		if (isset($this->auth) && !$this->auth->getOption('scope'))
+		{
+			$this->auth->setOption('scope', 'https://www.googleapis.com/auth/calendar');
+		}
 	}
 
 	/**
@@ -55,7 +50,7 @@ class JGoogleDataCalendar extends JGoogleData
 	{
 		if ($this->authenticated())
 		{
-			$jdata = $this->query('https://www.googleapis.com/calendar/v3/users/me/calendarList/' . $calendarID, null, null, 'delete');
+			$jdata = $this->query('https://www.googleapis.com/calendar/v3/users/me/calendarList/' . urlencode($calendarID), null, null, 'delete');
 			if ($jdata->body != '')
 			{
 				throw new UnexpectedValueException("Unexpected data received from Google: `{$jdata->body}`.");
@@ -82,7 +77,7 @@ class JGoogleDataCalendar extends JGoogleData
 	{
 		if ($this->authenticated())
 		{
-			$jdata = $this->query('https://www.googleapis.com/calendar/v3/users/me/calendarList/' . $calendarID);
+			$jdata = $this->query('https://www.googleapis.com/calendar/v3/users/me/calendarList/' . urlencode($calendarID));
 			if ($data = json_decode($jdata->body, true))
 			{
 				return $data;
@@ -146,22 +141,10 @@ class JGoogleDataCalendar extends JGoogleData
 	{
 		if ($this->authenticated())
 		{
-			$url = 'https://www.googleapis.com/calendar/v3/users/me/calendarList?' . implode('&', $options);
-			$jdata = $this->query($url);
-			$data = json_decode($jdata->body, true);
-
-			if ($data && array_key_exists('items', $data))
-			{
-				if ($maxpages != 1 && array_key_exists('nextPageToken', $data))
-				{
-					$data['items'] = array_merge($data['items'], $this->listEvents($options, $maxpages - 1));
-				}
-				return $data['items'];
-			}
-			else
-			{
-				throw new UnexpectedValueException("Unexpected data received from Google: `{$jdata->body}`.");
-			}
+			$next = array_key_exists('nextPageToken', $options) ? $options['nextPage'] : null;
+			unset($options['nextPageToken']);
+			$url = 'https://www.googleapis.com/calendar/v3/users/me/calendarList?' . http_build_query($options);
+			return $this->listGetData($url, $maxpages, $next);
 		}
 		else
 		{
@@ -184,7 +167,7 @@ class JGoogleDataCalendar extends JGoogleData
 	{
 		if ($this->authenticated())
 		{
-			$url = 'https://www.googleapis.com/calendar/v3/users/me/calendarList/' . $calendarID;
+			$url = 'https://www.googleapis.com/calendar/v3/users/me/calendarList/' . urlencode($calendarID);
 			$jdata = $this->query($url, json_encode($options), array('Content-type' => 'application/json'), 'put');
 			if ($data = json_decode($jdata->body, true))
 			{
@@ -215,10 +198,10 @@ class JGoogleDataCalendar extends JGoogleData
 	{
 		if ($this->authenticated())
 		{
-			$data = $this->query('https://www.googleapis.com/calendar/v3/users/me/calendars/' . $calendarID . '/clear', null, null, 'post');
+			$data = $this->query('https://www.googleapis.com/calendar/v3/users/me/calendars/' . urlencode($calendarID) . '/clear', null, null, 'post');
 			if ($data->body != '')
 			{
-				throw new UnexpectedValueException("Unexpected data received from Google: `{$jdata->body}`.");
+				throw new UnexpectedValueException("Unexpected data received from Google: `{$data->body}`.");
 			}
 			return true;
 		}
@@ -242,7 +225,7 @@ class JGoogleDataCalendar extends JGoogleData
 	{
 		if ($this->authenticated())
 		{
-			$data = $this->query('https://www.googleapis.com/calendar/v3/users/me/calendars/' . $calendarID, null, null, 'delete');
+			$data = $this->query('https://www.googleapis.com/calendar/v3/users/me/calendars/' . urlencode($calendarID), null, null, 'delete');
 			if ($data->body != '')
 			{
 				throw new UnexpectedValueException("Unexpected data received from Google: `{$data->body}`.");
@@ -303,7 +286,7 @@ class JGoogleDataCalendar extends JGoogleData
 	{
 		if ($this->authenticated())
 		{
-			$url = 'https://www.googleapis.com/calendar/v3/users/me/calendars/' . $calendarID;
+			$url = 'https://www.googleapis.com/calendar/v3/users/me/calendars/' . urlencode($calendarID);
 			$jdata = $this->query($url, json_encode($options), array('Content-type' => 'application/json'), 'put');
 			$data = json_decode($jdata->body, true);
 
@@ -337,7 +320,7 @@ class JGoogleDataCalendar extends JGoogleData
 	{
 		if ($this->authenticated())
 		{
-			$url = 'https://www.googleapis.com/calendar/v3/users/me/calendars/' . $calendarID . '/events/' . $eventID;
+			$url = 'https://www.googleapis.com/calendar/v3/users/me/calendars/' . urlencode($calendarID) . '/events/' . urlencode($eventID);
 			$data = $this->query($url, null, null, 'delete');
 			if ($data->body != '')
 			{
@@ -367,7 +350,8 @@ class JGoogleDataCalendar extends JGoogleData
 	{
 		if ($this->authenticated())
 		{
-			$url = 'https://www.googleapis.com/calendar/v3/users/me/calendarList/' . $calendarID . '/events/' . $eventID . '?' . implode('&', $options);
+			$url = 'https://www.googleapis.com/calendar/v3/users/me/calendarList/';
+			$url .= urlencode($calendarID) . '/events/' . urlencode($eventID) . '?' . http_build_query($options);
 			$jdata = $this->query($url);
 			if ($data = json_decode($jdata->body, true))
 			{
@@ -436,7 +420,7 @@ class JGoogleDataCalendar extends JGoogleData
 				$endobj = new DateTime;
 				$endobj->setTimestamp($end);
 			}
-			elseif (is_string($start))
+			elseif (is_string($end))
 			{
 				$endobj = new DateTime($end);
 			}
@@ -465,7 +449,7 @@ class JGoogleDataCalendar extends JGoogleData
 				$options['start']['timeZone'] = $startobj->getTimezone()->getName();
 				$options['end']['timeZone'] = $endobj->getTimezone()->getName();
 			}
-			elseif (is_a($end, 'DateTimeZone'))
+			elseif (is_a($timezone, 'DateTimeZone'))
 			{
 				$options['start']['timeZone'] = $timezone->getName();
 				$options['end']['timeZone'] = $timezone->getName();
@@ -476,7 +460,7 @@ class JGoogleDataCalendar extends JGoogleData
 				$options['end']['timeZone'] = $timezone;
 			}
 
-			$url = 'https://www.googleapis.com/calendar/v3/calendars/' . $calendarID . '/events' . ($notify ? '?sendNotifications=true' : '');
+			$url = 'https://www.googleapis.com/calendar/v3/calendars/' . urlencode($calendarID) . '/events' . ($notify ? '?sendNotifications=true' : '');
 			$jdata = $this->query($url, json_encode($options), array('Content-type' => 'application/json'), 'post');
 			if ($data = json_decode($jdata->body, true))
 			{
@@ -510,23 +494,11 @@ class JGoogleDataCalendar extends JGoogleData
 	{
 		if ($this->authenticated())
 		{
-			$url = 'https://www.googleapis.com/calendar/v3/users/me/calendars/' . $calendarID . '/events/' . $eventID . '/instances';
-			$url .= '?' . implode('&', $options);
-			$jdata = $this->query($url);
-			$data = json_decode($jdata->body, true);
-
-			if ($data && array_key_exists('items', $data))
-			{
-				if ($maxpages != 1 && array_key_exists('nextPageToken', $data))
-				{
-					$data['items'] = array_merge($data['items'], $this->listRecurrences($calendarID, $eventID, $options, $maxpages - 1));
-				}
-				return $data['items'];
-			}
-			else
-			{
-				throw new UnexpectedValueException("Unexpected data received from Google: `{$jdata->body}`.");
-			}
+			$next = array_key_exists('nextPageToken', $options) ? $options['nextPage'] : null;
+			unset($options['nextPageToken']);
+			$url = 'https://www.googleapis.com/calendar/v3/users/me/calendars/' . urlencode($calendarID) . '/events/' . urlencode($eventID) . '/instances';
+			$url .= '?' . http_build_query($options);
+			return $this->listGetData($url, $maxpages, $next);
 		}
 		else
 		{
@@ -550,22 +522,10 @@ class JGoogleDataCalendar extends JGoogleData
 	{
 		if ($this->authenticated())
 		{
-			$url = 'https://www.googleapis.com/calendar/v3/users/me/calendars/' . $calendarID . '?' . implode('&', $options);
-			$jdata = $this->query($url);
-			$data = json_decode($jdata->body, true);
-
-			if ($data && array_key_exists('items', $data))
-			{
-				if ($maxpages != 1 && array_key_exists('nextPageToken', $data))
-				{
-					$data['items'] = array_merge($data['items'], $this->listEvents($calendarID, $options, $maxpages - 1));
-				}
-				return $data['items'];
-			}
-			else
-			{
-				throw new UnexpectedValueException("Unexpected data received from Google: `{$jdata->body}`.");
-			}
+			$next = array_key_exists('nextPageToken', $options) ? $options['nextPage'] : null;
+			unset($options['nextPageToken']);
+			$url = 'https://www.googleapis.com/calendar/v3/calendars/' . urlencode($calendarID) . '/events?' . http_build_query($options);
+			return $this->listGetData($url, $maxpages, $next);
 		}
 		else
 		{
@@ -590,7 +550,7 @@ class JGoogleDataCalendar extends JGoogleData
 	{
 		if ($this->authenticated())
 		{
-			$url = 'https://www.googleapis.com/calendar/v3/calendars/' . $calendarID . '/events/' . $eventID . '/move';
+			$url = 'https://www.googleapis.com/calendar/v3/calendars/' . urlencode($calendarID) . '/events/' . urlencode($eventID) . '/move';
 			$url .= '?destination=' . $destID . ($notify ? '&sendNotifications=true' : '');
 			$jdata = $this->query($url, null, null, 'post');
 			if ($data = json_decode($jdata->body, true))
@@ -625,7 +585,8 @@ class JGoogleDataCalendar extends JGoogleData
 	{
 		if ($this->authenticated())
 		{
-			$url = 'https://www.googleapis.com/calendar/v3/calendars/' . $calendarID . '/events/' . $eventID . ($notify ? '?sendNotifications=true' : '');
+			$url = 'https://www.googleapis.com/calendar/v3/calendars/';
+			$url .= urlencode($calendarID) . '/events/' . urlencode($eventID) . ($notify ? '?sendNotifications=true' : '');
 			$jdata = $this->query($url, json_encode($options), array('Content-type' => 'application/json'), 'put');
 			if ($data = json_decode($jdata->body, true))
 			{

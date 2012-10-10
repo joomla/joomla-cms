@@ -50,7 +50,7 @@ class JGoogleDataPicasa extends JGoogleData
 	{
 		if ($this->authenticated())
 		{
-			$url = 'https://picasaweb.google.com/data/feed/api/user/' . $userID;
+			$url = 'https://picasaweb.google.com/data/feed/api/user/' . urlencode($userID);
 			$jdata = $this->query($url, null, array('GData-Version' => 2));
 			$xml = $this->safeXML($jdata->body);
 			if (isset($xml->children()->entry))
@@ -107,7 +107,7 @@ class JGoogleDataPicasa extends JGoogleData
 			$cat->addAttribute('scheme', 'http://schemas.google.com/g/2005#kind');
 			$cat->addAttribute('term', 'http://schemas.google.com/photos/2007#album');
 
-			$url = 'https://picasaweb.google.com/data/feed/api/user/' . $userID;
+			$url = 'https://picasaweb.google.com/data/feed/api/user/' . urlencode($userID);
 			$jdata = $this->query($url, $xml->asXML(), array('GData-Version' => 2, 'Content-type' => 'application/atom+xml'), 'post');
 
 			$xml = $this->safeXML($jdata->body);

@@ -62,7 +62,7 @@ class JGoogleDataPicasaAlbumTest extends PHPUnit_Framework_TestCase
 	protected function setUp()
 	{
 		$this->options = new JRegistry;
-		$this->http = $this->getMock('JOauthHttp', array('head', 'get', 'delete', 'trace', 'post', 'put', 'patch'), array($this->options));
+		$this->http = $this->getMock('JHttp', array('head', 'get', 'delete', 'trace', 'post', 'put', 'patch'), array($this->options));
 		$this->input = new JInput;
 		$this->oauth = new JOauthV2client($this->options, $this->http, $this->input);
 		$this->auth = new JGoogleAuthOauth2($this->options, $this->oauth);
