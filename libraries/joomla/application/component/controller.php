@@ -697,9 +697,11 @@ class JController extends JObject
 			{
 				$app = JFactory::getApplication();
 
-				$registeredurlparams = $app->get('registeredurlparams');
-
-				if (empty($registeredurlparams))
+				if (!empty($app->registeredurlparams))
+				{
+					$registeredurlparams = $app->registeredurlparams;
+				}
+				else
 				{
 					$registeredurlparams = new stdClass;
 				}
@@ -710,11 +712,10 @@ class JController extends JObject
 					$registeredurlparams->$key = $value;
 				}
 
-				$app->set('registeredurlparams', $registeredurlparams);
+				$app->registeredurlparams = $registeredurlparams;
 			}
 
 			$cache->get($view, 'display');
-
 		}
 		else
 		{
