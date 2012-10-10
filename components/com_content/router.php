@@ -350,8 +350,8 @@ function ContentParseRoute($segments)
 				$query = $db->getQuery(true);
 
 				$query->select('c.id');
-				$query->from('#__content AS c')
-				$query->where('c.catid = ' . (int) $vars['catid'])
+				$query->from('#__content AS c');
+				$query->where('c.catid = '.(int) $vars['catid']);
 				$query->where('c.alias = '.$db->Quote($segment));
 
 				$db->setQuery($query);
