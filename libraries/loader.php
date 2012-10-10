@@ -41,6 +41,14 @@ abstract class JLoader
 	protected static $prefixes = array();
 
 	/**
+	 * Container for namespace => path map.
+	 *
+	 * @var    array
+	 * @since  12.3
+	 */
+	protected static $namespaces = array();
+
+	/**
 	 * Method to discover classes of a given type in a given path.
 	 *
 	 * @param   string   $classPrefix  The class name prefix to use for discovery.
@@ -103,6 +111,18 @@ abstract class JLoader
 	public static function getClassList()
 	{
 		return self::$classes;
+	}
+
+	/**
+	 * Method to get the list of registered namespaces.
+	 *
+	 * @return  array  The array of namespace => path values for the autoloader.
+	 *
+	 * @since   12.3
+	 */
+	public static function getNamespaces()
+	{
+		return self::$namespaces;
 	}
 
 	/**
@@ -203,6 +223,143 @@ abstract class JLoader
 	}
 
 	/**
+	 * Load a class based on namespace using the Lower Case strategy.
+	 * This loader might be used when the namespace is lower case or camel case
+	 * and the path lower case.
+	 *
+	 * @param   string  $class  The class (including namespace) to load.
+	 *
+	 * @return  boolean  True on success, false otherwise.
+	 *
+	 * @since   12.3
+	 */
+	public static function loadByNamespaceLowerCase($class)
+	{
+		// Get the root namespace name.
+		$namespace = strstr($class, '\\', true);
+
+		// If we find the namespace in the stack.
+		if (isset(self::$namespaces[$namespace]))
+		{
+			// Remove the namespace name from the class.
+			$class = str_replace($namespace, '', $class);
+
+			// Create a lower case relative path.
+			$relativePath = strtolower(str_replace('\\', '/', $class));
+
+			// Iterate the registered root paths.
+			foreach (self::$namespaces[$namespace] as $rootPath)
+			{
+				// Create the full path.
+				$path = $rootPath . '/' . $relativePath . '.php';
+
+				// Include the file if it exists.
+				if (file_exists($path))
+				{
+					return (bool) include_once $path;
+				}
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Load a class based on namespace using the Natural Case strategy.
+	 * This loader might be used when the namespace case matches the path case.
+	 *
+	 * @param   string  $class  The class (including namespace) to load.
+	 *
+	 * @return  boolean  True on success, false otherwise.
+	 *
+	 * @since   12.3
+	 */
+	public static function loadByNamespaceNaturalCase($class)
+	{
+		// Get the root namespace name.
+		$namespace = strstr($class, '\\', true);
+
+		// If we find the namespace in the stack.
+		if (isset(self::$namespaces[$namespace]))
+		{
+			// Remove the namespace name from the class.
+			$class = str_replace($namespace, '', $class);
+
+			// Create a relative path.
+			$relativePath = str_replace('\\', '/', $class);
+
+			// Iterate the registered root paths.
+			foreach (self::$namespaces[$namespace] as $rootPath)
+			{
+				// Create the full path.
+				$path = $rootPath . '/' . $relativePath . '.php';
+
+				// Include the file if it exists.
+				if (file_exists($path))
+				{
+					return (bool) include_once $path;
+				}
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Load a class based on namespace using the Mixed Case strategy.
+	 * This loader might be used when the namespace case matches the path case,
+	 * or when the namespace is camel case and the path lower case.
+	 *
+	 * @param   string  $class  The class (including namespace) to load.
+	 *
+	 * @return  boolean  True on success, false otherwise.
+	 *
+	 * @since   12.3
+	 */
+	public static function loadByNamespaceMixedCase($class)
+	{
+		// Get the root namespace name.
+		$namespace = strstr($class, '\\', true);
+
+		// If we find the namespace in the stack.
+		if (isset(self::$namespaces[$namespace]))
+		{
+			// Remove the namespace name from the class.
+			$class = str_replace($namespace, '', $class);
+
+			// Create a relative path.
+			$relativePath = str_replace('\\', '/', $class);
+
+			// Create a relative lower case path.
+			$relativeLowPath = strtolower($relativePath);
+
+			// Iterate the registered root paths.
+			foreach (self::$namespaces[$namespace] as $rootPath)
+			{
+				// Create the full lower case path.
+				$lowerPath = $rootPath . '/' . $relativeLowPath . '.php';
+
+				// Include the file if it exists.
+				if (file_exists($lowerPath))
+				{
+					return (bool) include_once $lowerPath;
+				}
+
+				// Create the full natural case path.
+				$naturalPath = $rootPath . '/' . $relativePath . '.php';
+
+				// Include the file if it exists.
+				if (file_exists($naturalPath))
+				{
+					return (bool) include_once $naturalPath;
+				}
+			}
+		}
+
+		return false;
+	}
+
+	/**
 	 * Directly register a class to the autoload list.
 	 *
 	 * @param   string   $class  The class name to register.
@@ -242,6 +399,8 @@ abstract class JLoader
 	 *
 	 * @return  void
 	 *
+	 * @throws  RuntimeException
+	 *
 	 * @since   12.1
 	 */
 	public static function registerPrefix($prefix, $path, $reset = false)
@@ -265,23 +424,102 @@ abstract class JLoader
 	}
 
 	/**
-	 * Method to setup the autoloaders for the Joomla Platform.  Since the SPL autoloaders are
-	 * called in a queue we will add our explicit, class-registration based loader first, then
-	 * fall back on the autoloader based on conventions.  This will allow people to register a
-	 * class in a specific location and override platform libraries as was previously possible.
+	 * Register a namespace to the autoloader.
+	 *
+	 * @param   string   $namespace  A case sensitive Namespace to register.
+	 * @param   string   $path       A case sensitive absolute file path to the library root where classes of the given namespace can be found.
+	 * @param   boolean  $reset      True to reset the namespace with only the given lookup path.
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @throws  RuntimeException
+	 *
+	 * @since   12.3
 	 */
-	public static function setup()
+	public static function registerNamespace($namespace, $path, $reset = false)
 	{
-		// Register the base path for Joomla platform libraries.
-		self::registerPrefix('J', JPATH_PLATFORM . '/joomla');
+		// Verify the library path exists.
+		if (!file_exists($path))
+		{
+			throw new RuntimeException('Library path ' . $path . ' cannot be found.', 500);
+		}
 
-		// Register the autoloader functions.
-		spl_autoload_register(array('JLoader', 'load'));
-		spl_autoload_register(array('JLoader', '_autoload'));
+		// If the namespace is not yet registered or we have an explicit reset flag then set the path.
+		if (!isset(self::$namespaces[$namespace]) || $reset)
+		{
+			self::$namespaces[$namespace] = array($path);
+		}
+
+		// Otherwise we want to simply add the path to the namespace.
+		else
+		{
+			self::$namespaces[$namespace][] = $path;
+		}
+	}
+
+	/**
+	 * Method to setup the autoloaders for the Joomla Platform.
+	 * Since the SPL autoloaders are called in a queue we will add our explicit
+	 * class-registration based loader first, then fall back on the autoloader based on conventions.
+	 * This will allow people to register a class in a specific location and override platform libraries
+	 * as was previously possible.
+	 *
+	 * @param   integer  $caseStrategy      An option to define the class finding strategy for the namespace loader
+	 *                                      depending on the namespace and class path case.
+	 *                                      The possible values are :
+	 *                                      1 : Lower case (the namespace can be either lower case or camel case and the path lower case).
+	 *                                      2 : Natural case (the namespace case matches the path case).
+	 *                                      3 : Mixed case (it regroups option 1 and option 2).
+	 * @param   boolean  $enableNamespaces  True to enable PHP namespace based class autoloading.
+	 * @param   boolean  $enablePrefixes    True to enable prefix based class loading (needed to auto load the Joomla core).
+	 * @param   boolean  $enableClasses     True to enable class map based class loading (needed to auto load the Joomla core).
+	 *
+	 * @return  void
+	 *
+	 * @since   12.3
+	 */
+	public static function setup($caseStrategy = 1, $enableNamespaces = false, $enablePrefixes = true, $enableClasses = true)
+	{
+		if ($enableClasses)
+		{
+			// Register the class map based autoloader.
+			spl_autoload_register(array('JLoader', 'load'));
+		}
+
+		if ($enablePrefixes)
+		{
+			// Register the J prefix and base path for Joomla platform libraries.
+			self::registerPrefix('J', JPATH_PLATFORM . '/joomla');
+
+			// Register the prefix autoloader.
+			spl_autoload_register(array('JLoader', '_autoload'));
+		}
+
+		if ($enableNamespaces)
+		{
+			switch ($caseStrategy)
+			{
+				// Register the lower case namespace loader.
+				case 1:
+					spl_autoload_register(array('JLoader', 'loadByNamespaceLowerCase'));
+					break;
+
+				// Register the natural case namespace loader.
+				case 2:
+					spl_autoload_register(array('JLoader', 'loadByNamespaceNaturalCase'));
+					break;
+
+				// Register the mixed case namespace loader.
+				case 3:
+					spl_autoload_register(array('JLoader', 'loadByNamespaceMixedCase'));
+					break;
+
+				// Default to the lower case namespace loader.
+				default:
+					spl_autoload_register(array('JLoader', 'loadByNamespaceLowerCase'));
+					break;
+			}
+		}
 	}
 
 	/**
@@ -289,7 +527,7 @@ abstract class JLoader
 	 *
 	 * @param   string  $class  The class to be loaded.
 	 *
-	 * @return  void
+	 * @return  boolean  True if the class was loaded, false otherwise.
 	 *
 	 * @since   11.3
 	 */
@@ -304,6 +542,8 @@ abstract class JLoader
 				return self::_load(substr($class, strlen($prefix)), $lookup);
 			}
 		}
+
+		return false;
 	}
 
 	/**
@@ -312,7 +552,7 @@ abstract class JLoader
 	 * @param   string  $class   The class to be loaded (wihtout prefix).
 	 * @param   array   $lookup  The array of base paths to use for finding the class file.
 	 *
-	 * @return  void
+	 * @return  boolean  True if the class was loaded, false otherwise.
 	 *
 	 * @since   12.1
 	 */
@@ -335,6 +575,8 @@ abstract class JLoader
 				return include $path;
 			}
 		}
+
+		return false;
 	}
 }
 
