@@ -66,7 +66,7 @@ class JGoogleDataPicasaAlbumTest extends PHPUnit_Framework_TestCase
 		$this->input = new JInput;
 		$this->oauth = new JOauthV2client($this->options, $this->http, $this->input);
 		$this->auth = new JGoogleAuthOauth2($this->options, $this->oauth);
-	$this->xml = new SimpleXMLElement(JFile::read(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'album.txt'));
+		$this->xml = new SimpleXMLElement(JFile::read(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'album.txt'));
 		$this->object = new JGoogleDataPicasaAlbum($this->xml, $this->options, $this->auth);
 
 		$this->object->setOption('clientid', '01234567891011.apps.googleusercontent.com');
@@ -122,8 +122,8 @@ class JGoogleDataPicasaAlbumTest extends PHPUnit_Framework_TestCase
 	public function testDelete()
 	{
 		$this->http->expects($this->once())->method('delete')->will($this->returnCallback('emptyPicasaCallback'));
-		$results = $this->object->delete();
-		$this->assertEquals($results, true);
+		$result = $this->object->delete();
+		$this->assertTrue($result);
 	}
 
 	/**
@@ -268,10 +268,10 @@ class JGoogleDataPicasaAlbumTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testSave()
 	{
-		$this->http->expects($this->exactly(2))->method('put')->will($this->returnCallback('XMLDataPicasaAlbumCallback'));
+		$this->http->expects($this->exactly(2))->method('put')->will($this->returnCallback('dataPicasaAlbumCallback'));
 		$this->object->setTitle('New Title');
-	$this->object->save();
-	$this->object->save(true);
+		$this->object->save();
+		$this->object->save(true);
 	}
 
 	/**
@@ -282,7 +282,7 @@ class JGoogleDataPicasaAlbumTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testRefresh()
 	{
-		$this->http->expects($this->once())->method('get')->will($this->returnCallback('XMLPicasaAlbumCallback'));
+		$this->http->expects($this->once())->method('get')->will($this->returnCallback('picasaAlbumCallback'));
 		$result = $this->object->refresh();
 		$this->assertEquals(get_class($result), 'JGoogleDataPicasaAlbum');
 	}
@@ -295,17 +295,17 @@ class JGoogleDataPicasaAlbumTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testListPhotos()
 	{
-		$this->http->expects($this->once())->method('get')->will($this->returnCallback('XMLPicasaPhotolistCallback'));
+		$this->http->expects($this->once())->method('get')->will($this->returnCallback('picasaPhotolistCallback'));
 		$results = $this->object->listPhotos();
 
 		$this->assertEquals(count($results), 2);
-	$i = 1;
-	foreach ($results as $result)
-	{
-	    $this->assertEquals(get_class($result), 'JGoogleDataPicasaPhoto');
-	    $this->assertEquals($result->getTitle(), 'Photo' . $i . '.jpg');
-	    $i++;
-	}
+		$i = 1;
+		foreach ($results as $result)
+		{
+			$this->assertEquals(get_class($result), 'JGoogleDataPicasaPhoto');
+			$this->assertEquals($result->getTitle(), 'Photo' . $i . '.jpg');
+			$i++;
+		}
 	}
 
 	/**
@@ -316,10 +316,10 @@ class JGoogleDataPicasaAlbumTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testUpload()
 	{
-		$this->http->expects($this->once())->method('post')->will($this->returnCallback('XMLDataPicasaUploadCallback'));
+		$this->http->expects($this->once())->method('post')->will($this->returnCallback('dataPicasaUploadCallback'));
 		$result = $this->object->upload(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'logo.png');
 
-	$this->assertEquals(get_class($result), 'JGoogleDataPicasaPhoto');
+		$this->assertEquals(get_class($result), 'JGoogleDataPicasaPhoto');
 	}
 }
 
@@ -354,9 +354,9 @@ function emptyPicasaCallback($url, array $headers = null, $timeout = null)
  *
  * @since   12.2
  */
-function XMLPicasaPhotolistCallback($url, array $headers = null, $timeout = null)
+function picasaPhotolistCallback($url, array $headers = null, $timeout = null)
 {
-    $response->code = 200;
+	$response->code = 200;
 	$response->headers = array('Content-Type' => 'text/html');
 	$response->body = JFile::read(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'photolist.txt');
 
@@ -375,9 +375,9 @@ function XMLPicasaPhotolistCallback($url, array $headers = null, $timeout = null
  *
  * @since   12.2
  */
-function XMLDataPicasaUploadCallback($url, $data, array $headers = null, $timeout = null)
+function dataPicasaUploadCallback($url, $data, array $headers = null, $timeout = null)
 {
-    $response->code = 200;
+	$response->code = 200;
 	$response->headers = array('Content-Type' => 'text/html');
 	$response->body = JFile::read(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'photo.txt');
 

@@ -28,7 +28,7 @@ class JGoogleAuthOauth2 extends JGoogleAuth
 	/**
 	 * Constructor.
 	 *
-	 * @param   JRegistry      $options  JGoogleAuth options object.
+	 * @param   JRegistry       $options  JGoogleAuth options object.
 	 * @param   JOauthV2client  $client   OAuth client for Google authentication.
 	 *
 	 * @since   1234

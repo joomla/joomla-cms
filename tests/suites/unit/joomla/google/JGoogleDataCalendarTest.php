@@ -117,7 +117,7 @@ class JGoogleDataCalendarTest extends PHPUnit_Framework_TestCase
 	{
 		$this->http->expects($this->once())->method('delete')->will($this->returnCallback('emptyCalendarCallback'));
 		$result = $this->object->removeCalendar('calendarID');
-		$this->assertEquals($result, true);
+		$this->assertTrue($result);
 	}
 
 	/**
@@ -182,7 +182,7 @@ class JGoogleDataCalendarTest extends PHPUnit_Framework_TestCase
 	{
 		$this->http->expects($this->once())->method('post')->will($this->returnCallback('emptyDataCalendarCallback'));
 		$result = $this->object->clearCalendar('calendarID');
-		$this->assertEquals($result, true);
+		$this->assertTrue($result);
 	}
 
 	/**
@@ -195,7 +195,7 @@ class JGoogleDataCalendarTest extends PHPUnit_Framework_TestCase
 	{
 		$this->http->expects($this->once())->method('delete')->will($this->returnCallback('emptyCalendarCallback'));
 		$result = $this->object->deleteCalendar('calendarID');
-		$this->assertEquals($result, true);
+		$this->assertTrue($result);
 	}
 
 	/**
@@ -233,8 +233,8 @@ class JGoogleDataCalendarTest extends PHPUnit_Framework_TestCase
 	public function testDeleteEvent()
 	{
 		$this->http->expects($this->once())->method('delete')->will($this->returnCallback('emptyCalendarCallback'));
-		$result = $this->object->deleteCalendar('calendarID', 'eventID');
-		$this->assertEquals($result, true);
+		$result = $this->object->deleteEvent('calendarID', 'eventID');
+		$this->assertTrue($result);
 	}
 
 	/**

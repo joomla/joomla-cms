@@ -66,7 +66,7 @@ class JGoogleDataPicasaPhotoTest extends PHPUnit_Framework_TestCase
 		$this->input = new JInput;
 		$this->oauth = new JOauthV2client($this->options, $this->http, $this->input);
 		$this->auth = new JGoogleAuthOauth2($this->options, $this->oauth);
-	$this->xml = new SimpleXMLElement(JFile::read(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'photo.txt'));
+		$this->xml = new SimpleXMLElement(JFile::read(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'photo.txt'));
 		$this->object = new JGoogleDataPicasaPhoto($this->xml, $this->options, $this->auth);
 
 		$this->object->setOption('clientid', '01234567891011.apps.googleusercontent.com');
@@ -122,8 +122,8 @@ class JGoogleDataPicasaPhotoTest extends PHPUnit_Framework_TestCase
 	public function testDelete()
 	{
 		$this->http->expects($this->once())->method('delete')->will($this->returnCallback('emptyPicasaCallback'));
-		$results = $this->object->delete();
-		$this->assertEquals($results, true);
+		$result = $this->object->delete();
+		$this->assertTrue($result);
 	}
 
 	/**
@@ -134,10 +134,11 @@ class JGoogleDataPicasaPhotoTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetLink()
 	{
+		$url = 'https://picasaweb.google.com/data/entry/api/user/12345678901234567890/albumid/0123456789012345678/photoid/12345678901234567890';
 		$link = $this->object->getLink();
-		$this->assertEquals($link, 'https://picasaweb.google.com/data/entry/api/user/12345678901234567890/albumid/0123456789012345678/photoid/12345678901234567890');
+		$this->assertEquals($link, $url);
 		$link = $this->object->getLink('self');
-		$this->assertEquals($link, 'https://picasaweb.google.com/data/entry/api/user/12345678901234567890/albumid/0123456789012345678/photoid/12345678901234567890');
+		$this->assertEquals($link, $url);
 	}
 
 	/**
@@ -161,9 +162,9 @@ class JGoogleDataPicasaPhotoTest extends PHPUnit_Framework_TestCase
 	public function testGetThumbnails()
 	{
 		$thumbs = $this->object->getThumbnails();
-	$valid[72] = array('url' => 'https://lh3.googleusercontent.com/sdgfdfgsdgf/werewr/aswertrt/vdfderer/s72/Photo2.jpg', 'w' => 72, 'h' => 54);
-	$valid[144] = array('url' => 'https://lh3.googleusercontent.com/sdgfdfgsdgf/werewr/aswertrt/vdfderer/s144/Photo2.jpg', 'w' => 144, 'h' => 108);
-	$valid[288] = array('url' => 'https://lh3.googleusercontent.com/sdgfdfgsdgf/werewr/aswertrt/vdfderer/s288/Photo2.jpg', 'w' => 288, 'h' => 216);
+		$valid[72] = array('url' => 'https://lh3.googleusercontent.com/sdgfdfgsdgf/werewr/aswertrt/vdfderer/s72/Photo2.jpg', 'w' => 72, 'h' => 54);
+		$valid[144] = array('url' => 'https://lh3.googleusercontent.com/sdgfdfgsdgf/werewr/aswertrt/vdfderer/s144/Photo2.jpg', 'w' => 144, 'h' => 108);
+		$valid[288] = array('url' => 'https://lh3.googleusercontent.com/sdgfdfgsdgf/werewr/aswertrt/vdfderer/s288/Photo2.jpg', 'w' => 288, 'h' => 216);
 		$this->assertEquals($thumbs, $valid);
 	}
 
@@ -307,10 +308,10 @@ class JGoogleDataPicasaPhotoTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testSave()
 	{
-		$this->http->expects($this->exactly(2))->method('put')->will($this->returnCallback('XMLDataPicasaPhotoCallback'));
+		$this->http->expects($this->exactly(2))->method('put')->will($this->returnCallback('dataPicasaPhotoCallback'));
 		$this->object->setTitle('New Title');
-	$this->object->save();
-	$this->object->save(true);
+		$this->object->save();
+		$this->object->save(true);
 	}
 
 	/**
@@ -321,9 +322,9 @@ class JGoogleDataPicasaPhotoTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testRefresh()
 	{
-		$this->http->expects($this->once())->method('get')->will($this->returnCallback('XMLPicasaPhotoCallback'));
+		$this->http->expects($this->once())->method('get')->will($this->returnCallback('picasaPhotoCallback'));
 		$result = $this->object->refresh();
-	$this->assertEquals(get_class($result), 'JGoogleDataPicasaPhoto');
+		$this->assertEquals(get_class($result), 'JGoogleDataPicasaPhoto');
 	}
 }
 
@@ -338,9 +339,9 @@ class JGoogleDataPicasaPhotoTest extends PHPUnit_Framework_TestCase
  *
  * @since   12.2
  */
-function XMLPicasaPhotoCallback($url, array $headers = null, $timeout = null)
+function picasaPhotoCallback($url, array $headers = null, $timeout = null)
 {
-    $response->code = 200;
+	$response->code = 200;
 	$response->headers = array('Content-Type' => 'text/html');
 	$response->body = JFile::read(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'photo.txt');
 
@@ -359,11 +360,11 @@ function XMLPicasaPhotoCallback($url, array $headers = null, $timeout = null)
  *
  * @since   12.2
  */
-function XMLDataPicasaPhotoCallback($url, $data, array $headers = null, $timeout = null)
+function dataPicasaPhotoCallback($url, $data, array $headers = null, $timeout = null)
 {
-    PHPUnit_Framework_TestCase::assertContains('<title>New Title</title>', $data);
+	PHPUnit_Framework_TestCase::assertContains('<title>New Title</title>', $data);
 
-    $response->code = 200;
+	$response->code = 200;
 	$response->headers = array('Content-Type' => 'text/html');
 	$response->body = $data;
 

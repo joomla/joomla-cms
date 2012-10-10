@@ -245,7 +245,7 @@ class JGoogleDataCalendar extends JGoogleData
 			$data = $this->auth->query('https://www.googleapis.com/calendar/v3/users/me/calendars/' . $calendarID, null, null, 'delete');
 			if ($data->body != '')
 			{
-				throw new UnexpectedValueException("Unexpected data received from Google: `{$jdata->body}`.");
+				throw new UnexpectedValueException("Unexpected data received from Google: `{$data->body}`.");
 			}
 			return true;
 		}
@@ -338,10 +338,10 @@ class JGoogleDataCalendar extends JGoogleData
 		if ($this->authenticated())
 		{
 			$url = 'https://www.googleapis.com/calendar/v3/users/me/calendars/' . $calendarID . '/events/' . $eventID;
-			$jdata = $this->auth->query($url, null, null, 'delete');
-			if ($jdata != '')
+			$data = $this->auth->query($url, null, null, 'delete');
+			if ($data->body != '')
 			{
-				throw new UnexpectedValueException("Unexpected data received from Google: `{$jdata->body}`.");
+				throw new UnexpectedValueException("Unexpected data received from Google: `{$data->body}`.");
 			}
 			return true;
 		}

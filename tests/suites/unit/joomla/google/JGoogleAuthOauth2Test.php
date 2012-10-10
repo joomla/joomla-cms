@@ -93,7 +93,7 @@ class JGoogleAuthOauth2Test extends PHPUnit_Framework_TestCase
 				$this->assertEquals($this->oauth->createUrl(), $header['value']);
 			}
 		}
-		$this->assertEquals(true, $location);
+		$this->assertTrue($location);
 
 		$this->object->setOption('clientsecret', 'jeDs8rKw_jDJW8MMf-ff8ejs');
 		$this->input->set('code', '4/wEr_dK8SDkjfpwmc98KejfiwJP-f4wm.kdowmnr82jvmeisjw94mKFIJE48mcEM');
@@ -113,7 +113,7 @@ class JGoogleAuthOauth2Test extends PHPUnit_Framework_TestCase
 	 */
 	public function testIsAuth()
 	{
-		$this->assertEquals(false, $this->object->isAuth());
+		$this->assertFalse($this->object->isAuth());
 
 		$token['access_token'] = 'accessvalue';
 		$token['refresh_token'] = 'refreshvalue';
@@ -121,13 +121,13 @@ class JGoogleAuthOauth2Test extends PHPUnit_Framework_TestCase
 		$token['expires_in'] = 3600;
 		$this->oauth->setToken($token);
 
-		$this->assertEquals(true, $this->object->isAuth());
+		$this->assertTrue($this->object->isAuth());
 
 		$token['created'] = time() - 4000;
 		$token['expires_in'] = 3600;
 		$this->oauth->setToken($token);
 
-		$this->assertEquals(false, $this->object->isAuth());
+		$this->assertFalse($this->object->isAuth());
 	}
 
 	/**

@@ -277,7 +277,7 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 	public function setAccess($access)
 	{
 		$this->xml->children('gphoto', true)->access = $access;
-	return $this;
+		return $this;
 	}
 
 	/**
