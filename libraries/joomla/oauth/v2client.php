@@ -40,9 +40,9 @@ class JOauthV2client
 	/**
 	 * Constructor.
 	 *
-	 * @param   JRegistry  $options  JOauthV2client options object
+	 * @param   JRegistry   $options  JOauthV2client options object
 	 * @param   JHttp      $http     The HTTP client object
-	 * @param   JInput     $input    The input object
+	 * @param   JInput      $input    The input object
 	 *
 	 * @since   12.2
 	 */

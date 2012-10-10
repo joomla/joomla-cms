@@ -102,7 +102,7 @@ class JGoogleAuthOauth2Test extends PHPUnit_Framework_TestCase
 		$this->assertEquals('accessvalue', $result['access_token']);
 		$this->assertEquals('refreshvalue', $result['refresh_token']);
 		$this->assertEquals(3600, $result['expires_in']);
-		$this->assertEquals(time(), $result['created'], 10);
+		$this->assertEquals(time(), $result['created'], null, 10);
 	}
 
 	/**
