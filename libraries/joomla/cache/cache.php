@@ -581,7 +581,7 @@ class JCache extends JObject
 				// Only store what this module has added
 				foreach ($headnow as $now => $value)
 				{
-					$newvalue = @array_diff_assoc($headnow[$now], isset($options['headerbefore'][$now]) ? $options['headerbefore'][$now] : array());
+					$newvalue = array_diff_assoc($headnow[$now], isset($options['headerbefore'][$now]) ? $options['headerbefore'][$now] : array());
 					if (!empty($newvalue))
 					{
 						$cached['head'][$now] = $newvalue;
@@ -636,7 +636,7 @@ class JCache extends JObject
 	{
 		$app = JFactory::getApplication();
 		// Get url parameters set by plugins
-		$registeredurlparams = $app->get('registeredurlparams');
+		$registeredurlparams = $app->registeredurlparams;
 
 		if (empty($registeredurlparams))
 		{
