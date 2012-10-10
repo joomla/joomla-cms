@@ -98,7 +98,8 @@ class plgSystemLanguageFilter extends JPlugin
 	public function onAfterInitialise()
 	{
 		$app = JFactory::getApplication();
-		$app->set('menu_associations', $this->params->get('menu_associations', 0));
+		$app->menu_associations = $this->params->get('menu_associations', 0);
+
 		if ($app->isSite()) {
 			self::$tag = JFactory::getLanguage()->getTag();
 
@@ -371,14 +372,18 @@ class plgSystemLanguageFilter extends JPlugin
 	 */
 	public function onUserLogin($user, $options = array())
 	{
- 		$app = JFactory::getApplication();
- 		$menu 	= $app->getMenu();
+ 		$app  = JFactory::getApplication();
+ 		$menu = $app->getMenu();
 		if ($app->isSite() && $this->params->get('automatic_change', 1))
 		{
 			// Load associations
-			if ($app->get('menu_associations', 0)) {
+			$assoc = isset($app->menu_associations) ? $app->menu_associations : 0;
+
+			if ($assoc)
+			{
 				$active = $menu->getActive();
-				if ($active) {
+				if ($active)
+				{
 					$associations = MenusHelper::getAssociations($active->id);
 				}
 			}
