@@ -20,6 +20,15 @@
 		<fields name="params">
 
 			<fieldset name="basic">
+				<field name="editor_shadow" type="radio"
+					default="0"
+					description="PLG_CODEMIRROR_FIELD_SHADOW_DESC"
+					label="PLG_CODEMIRROR_FIELD_SHADOW_LABEL"
+				>
+					<option value="0">JOFF</option>
+					<option value="1">JON</option>
+				</field>
+
 				<field name="linenumbers" type="radio"
 					class="btn-group"
 					default="0"
@@ -38,6 +47,35 @@
 					<option value="indent">PLG_CODEMIRROR_FIELD_VALUE_TABMODE_INDENT</option>
 					<option value="shift">PLG_CODEMIRROR_FIELD_VALUE_TABMODE_SHIFT</option>
 				</field>
+
+				<field name="editor_minheight" type="integer" 
+					first="200" last="800" step="50" default="400"
+					description="PLG_CODEMIRROR_FIELD_MINHEIGHT_DESC"
+					label="PLG_CODEMIRROR_FIELD_MINHEIGHT_LABEL"  
+				/>
+				
+				<field name="font_size" type="integer" 
+					first="6" last="16" step="1" default="10" 
+					description="PLG_CODEMIRROR_FIELD_FONTSIZE_DESC" 
+					label="PLG_CODEMIRROR_FIELD_FONTSIZE_LABEL" 
+				/>
+				
+				<field name="font_family" type="list" 
+					default="0" 
+					description="PLG_CODEMIRROR_FIELD_FONT_DESC"
+					label="PLG_CODEMIRROR_FIELD_FONT_LABEL" 
+				>
+					<option value="0">PLG_CODEMIRROR_FIELD_VALUE_FONT_DEFAULT</option>
+					<option value="anonymous_pro">Anonymous Pro</option>
+					<option value="cousine">Cousine</option>
+					<option value="droid_sans_mono">Droid Sans Mono</option>
+					<option value="inconsolata">Inconsolata</option>
+					<option value="lekton">Lekton</option>
+					<option value="nova_mono">Nova Mono</option>
+					<option value="ubuntu_mono">Ubuntu Mono</option>
+					<option value="vt323">VT323</option>
+				</field>
+
 			</fieldset>
 
 		</fields>

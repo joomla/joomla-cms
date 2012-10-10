@@ -8,3 +8,14 @@
 	font-family: monospace;
 	padding-top: .4em;
 }
+
+.CodeMirror-frame,
+.CodeMirror-frame-shadow
+{
+	background: #fafafa;
+}
+
+.CodeMirror-frame-shadow
+{
+	box-shadow: inset 0px 0px 1em #ccc;	
+}

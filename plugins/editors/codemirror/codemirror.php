@@ -124,9 +124,15 @@ class plgEditorCodemirror extends JPlugin
 		// Only add "px" to width and height if they are not given as a percentage
 		if (is_numeric($width)) {
 			$width .= 'px';
+		} elseif ($width == '100%') {
+			$width = 'auto';
 		}
 
+		// if height is given in pixels, compare it to the minheight param and keep the bigger of the two
+		$height = trim($height, 'px');
+		$minheight = (int) $this->params->get('editor_minheight', 100);
 		if (is_numeric($height)) {
+			$height = max($height, $minheight);
 			$height .= 'px';
 		}
 
@@ -174,6 +180,7 @@ class plgEditorCodemirror extends JPlugin
 		{
 			$style = JURI::root(true).'/'.$this->_basePath.'css/'.$style;
 		}
+		$styleSheet[] = $this->getFontStyleSheet();
 
 		$options	= new stdClass;
 
@@ -184,6 +191,7 @@ class plgEditorCodemirror extends JPlugin
 		$options->height		= $height;
 		$options->width			= $width;
 		$options->continuousScanning = 500;
+		$options->iframeClass	= $this->params->get('editor_shadow') ? 'CodeMirror-frame-shadow' : 'CodeMirror-frame';
 
 		if ($this->params->get('linenumbers', 0)) {
 			$options->lineNumbers	= true;
@@ -194,13 +202,16 @@ class plgEditorCodemirror extends JPlugin
 			$options->tabMode = 'shift';
 		}
 
+		$editorStyles = $this->getEditorStyles();
+
 		$html = array();
 		$html[]	= "<textarea name=\"$name\" id=\"$id\" cols=\"$col\" rows=\"$row\">$content</textarea>";
 		$html[] = $buttons;
 		$html[] = '<script type="text/javascript">';
 		$html[] = '(function() {';
-		$html[] = 'var editor = CodeMirror.fromTextArea("'.$id.'", '.json_encode($options).');';
-		$html[] = 'Joomla.editors.instances[\''.$id.'\'] = editor;';
+		$html[] = '	var setStyles = function() { Object.append( editor.editor.container.style, '.json_encode($editorStyles).'); }';
+		$html[] = '	var editor = CodeMirror.fromTextArea("'.$id.'", Object.merge('.json_encode($options).',{onLoad:setStyles}));';
+		$html[] = '	Joomla.editors.instances[\''.$id.'\'] = editor;';
 		$html[] = '})()';
 		$html[] = '</script>';
 
@@ -259,5 +270,58 @@ class plgEditorCodemirror extends JPlugin
 		}
 
 		return implode("\n", $html);
+	}
+	
+	/**
+	 * Gets the url of a font stylesheet (from google web fonts) based on param values
+	 *
+	 * @return	string	$styleSheet a url (or empty string)
+	 * @access	protected
+	 */
+	protected function getFontStyleSheet()
+	{
+		$key = $this->params->get('font_family', 0);
+		$styleSheets = array(
+			'anonymous_pro'		=> 'http://fonts.googleapis.com/css?family=Anonymous+Pro:400,700,400italic,700italic&subset=latin,latin-ext&v2',
+			'cousine'			=> 'http://fonts.googleapis.com/css?family=Cousine:400,700italic,700,400italic&subset=latin,latin-ext&v2',
+			'droid_sans_mono'	=> 'http://fonts.googleapis.com/css?family=Droid+Sans+Mono&subset=latin,latin-ext&v2',
+			'inconsolata'		=> 'http://fonts.googleapis.com/css?family=Inconsolata&subset=latin,latin-ext&v2',
+			'lekton'			=> 'http://fonts.googleapis.com/css?family=Lekton:400,400italic,700&subset=latin,latin-ext&v2',
+			'nova_mono'			=> 'http://fonts.googleapis.com/css?family=Nova+Mono&subset=latin,latin-ext&v2',
+			'ubuntu_mono'		=> 'http://fonts.googleapis.com/css?family=Ubuntu+Mono&subset=latin,latin-ext&v2',
+			'vt323'				=> 'http://fonts.googleapis.com/css?family=VT323&subset=latin,latin-ext&v2'
+		);
+		
+		return isset($styleSheets[$key]) ? $styleSheets[$key] : '';
+	}
+	
+	/**
+	 * Gets style declarations for using the select font and size from params
+	 * returning as array for json encoding
+	 *
+	 * @return	array
+	 * @access	protected
+	 */
+	protected function getEditorStyles()
+	{
+		$key = $this->params->get('font_family', 0);
+		$fonts = array(
+			'anonymous_pro'		=> 'Anonymous Pro, monospace',
+			'cousine'			=> 'Cousine, monospace',
+			'droid_sans_mono'	=> 'Droid Sans Mono, monospace',
+			'inconsolata'		=> 'Inconsolata, monospace',
+			'lekton'			=> 'Tekton, monospace',
+			'nova_mono'			=> 'Nova Mono, monospace',
+			'ubuntu_mono'		=> 'Ubuntu Mono, monospace',
+			'vt323'				=> 'VT323, monospace'
+		);
+		
+		$size = (int) $this->params->get('font_size', 10);
+		
+		$styles = array(
+			'font-family' => isset($fonts[$key]) ? $fonts[$key] : 'monospace',
+			'font-size' => $size.'px'
+		);
+		return $styles;
 	}
 }
