@@ -117,7 +117,7 @@ class JGithubIssues extends JGithubObject
 	 *
 	 * @return  object
 	 *
-	 * @since   12.1
+	 * @since   12.3
 	 */
 	public function createLabel($user, $repo, $name, $color)
 	{
@@ -172,6 +172,36 @@ class JGithubIssues extends JGithubObject
 			$error = json_decode($response->body);
 			throw new DomainException($error->message, $response->code);
 		}
+	}
+
+	/**
+	 * Method to delete a label on a repo.
+	 *
+	 * @param   string  $user   The name of the owner of the GitHub repository.
+	 * @param   string  $repo   The name of the GitHub repository.
+	 * @param   string  $label  The label name.
+	 *
+	 * @return  object
+	 *
+	 * @since   12.3
+	 */
+	public function deleteLabel($user, $repo, $label)
+	{
+		// Build the request path.
+		$path = '/repos/' . $user . '/' . $repo . '/labels/' . $label;
+
+		// Send the request.
+		$response = $this->client->delete($this->fetchUrl($path));
+
+		// Validate the response code.
+		if ($response->code != 204)
+		{
+			// Decode the error response and throw an exception.
+			$error = json_decode($response->body);
+			throw new DomainException($error->message, $response->code);
+		}
+
+		return json_decode($response->body);
 	}
 
 	/**
