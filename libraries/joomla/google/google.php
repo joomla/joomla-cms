@@ -60,32 +60,53 @@ class JGoogle
 	}
 
 	/**
-	 * Magic method to lazily create API objects
+	 * Method to create JGoogleData objects
 	 *
 	 * @param   string  $name  Name of property to retrieve
 	 *
-	 * @return  JGoogleObject  Google API object (data, embed).
+	 * @return  JGoogleData  Google data API object.
 	 *
 	 * @since   1234
 	 */
-	public function __get($name)
+	public function data($name, $options = null, $auth = null)
 	{
-		if ($name == 'data')
+		switch ($name)
 		{
-			if ($this->data == null)
-			{
-				$this->data = new JGoogleData($this->data, $this->client);
-			}
-			return $this->data;
+			case 'picasa':
+			case 'Picasa':
+				return new JGoogleDataPicasa($options, $auth);
+			case 'adsense':
+			case 'Adsense':
+				return new JGoogleDataAdsense($options, $auth);
+			case 'calendar':
+			case 'Calendar':
+				return new JGoogleDataCalendar($options, $auth);
+			default:
+				return null;
 		}
+	}
 
-		if ($name == 'embed')
+	/**
+	 * Method to create JGoogleEmbed objects
+	 *
+	 * @param   string  $name  Name of property to retrieve
+	 *
+	 * @return  JGoogleEmbed  Google embed API object.
+	 *
+	 * @since   1234
+	 */
+	public function embed($name, $options)
+	{
+		switch ($name)
 		{
-			if ($this->embed == null)
-			{
-				$this->embed = new JGoogleData($this->options);
-			}
-			return $this->embed;
+			case 'maps':
+			case 'Maps':
+				return new JGoogleEmbedMaps($options);
+			case 'analytics':
+			case 'Analytics':
+				return new JGoogleEmbedAnalytics($options);
+			default:
+				return null;
 		}
 	}
 

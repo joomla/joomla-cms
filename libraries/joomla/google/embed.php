@@ -16,23 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Google
  * @since       1234
  */
-abstract class JGoogleObject
+abstract class JGoogleEmbed
 {
-	/**
-	 * @var    JRegistry  Options for the Google object.
-	 * @since  1234
-	 */
-	protected $options;
 
-	/**
-	 * Constructor.
-	 *
-	 * @param   JRegistry  $options  Google options object.
-	 *
-	 * @since   1234
-	 */
-	public function __construct(JRegistry $options = null)
-	{
-		$this->options = isset($options) ? $options : new JRegistry;
-	}
 }

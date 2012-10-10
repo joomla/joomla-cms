@@ -8,6 +8,7 @@
  */
 
 defined('JPATH_PLATFORM') or die;
+jimport('joomla.environment.response');
 
 /**
  * Joomla Platform class for interacting with an OAuth 2.0 server.
@@ -41,14 +42,15 @@ class JOauth2client
 	 *
 	 * @param   JRegistry  $options  OAuth2Client options object.
 	 * @param   JHttp      $client   The HTTP client object.
+	 * @param   JInput     $input    The input object.
 	 *
 	 * @since   1234
 	 */
-	public function __construct(JRegistry $options = null, JHttp $client = null)
+	public function __construct(JRegistry $options = null, JHttp $client = null, JInput $input = null)
 	{
 		$this->options = isset($options) ? $options : new JRegistry;
 		$this->client  = isset($client) ? $client : new JHttp($this->options);
-		$this->input = JFactory::getApplication()->input;
+		$this->input = isset($input) ? $input : JFactory::getApplication()->input;
 	}
 
 	/**
@@ -63,10 +65,10 @@ class JOauth2client
 		if ($data['code'] = $this->input->get('code'))
 		{
 			$data['grant_type'] = 'authorization_code';
-			$data['redirect_uri'] = $this->getOption('redirect');
+			$data['redirect_uri'] = $this->getOption('redirecturi');
 			$data['client_id'] = $this->getOption('clientid');
 			$data['client_secret'] = $this->getOption('clientsecret');
-			$response = $this->client->post($this->getOption('redirect'), $data);
+			$response = $this->client->post($this->getOption('tokenurl'), $data);
 
 			if ($response->code == 200)
 			{
@@ -80,7 +82,7 @@ class JOauth2client
 			}
 		}
 
-		header('Location: ' . $this->createUrl($scope));
+		JResponse::setHeader('Location', $this->createUrl(), true);
 		return false;
 	}
 
@@ -93,21 +95,47 @@ class JOauth2client
 	 */
 	public function createUrl()
 	{
+		if (!$this->getOption('authurl') || !$this->getOption('clientid'))
+		{
+			// Exception
+		}
+
 		$url = $this->getOption('authurl');
-		if (!$url)
+		if (strpos($url, '?'))
 		{
-			return false;
+			$url .= '&';
 		}
-		if (!($this->getOption('redirect') && $this->getOption('clientid') && $this->getOption('scope') && $this->getOption('accesstype') && $this->getOption('prompt')))
+		else
 		{
-			return false;
+			$url .= '?';
 		}
-		$url .= '?response_type=code';
-		$url .= '&redircet_uri=' . urlencode($this->getOption('redirect'));
+
+		$url .= 'response_type=code';
 		$url .= '&client_id=' . urlencode($this->getOption('clientid'));
-		$url .= '&scope=' . urlencode($this->getOption('scope'));
-		$url .= 'access_type' . urlencode($this->getOption('accesstype'));
-		$url .= 'approval_prompt' . urlencode($this->getOption('prompt'));
+
+		if ($this->getOption('redirecturi'))
+		{
+			$url .= '&redirect_uri=' . urlencode($this->getOption('redirecturi'));
+		}
+
+		if ($this->getOption('scope'))
+		{
+			$scope = is_array($this->getOption('scope')) ? implode(' ', $this->getOption('scope')) : $this->getOption('scope');
+			$url .= '&scope=' . urlencode($scope);
+		}
+
+		if ($this->getOption('state'))
+		{
+			$url .= '&state=' . urlencode($this->getOption('state'));
+		}
+
+		if (is_array($this->getOption('requestparams')))
+		{
+			foreach ($this->getOption('requestparams') as $key => $value)
+			{
+				$url .= '&' . $key . '=' . urlencode($value);
+			}
+		}
 
 		return $url;
 	}
@@ -144,9 +172,13 @@ class JOauth2client
 			$url .= 'key=' . $this->getOption('devkey');
 		}
 
-		$token = $this->getOption('accesstoken');
+		$token = $this->getToken();
 		if ($token['created'] + $token['expires_in'] < time() + 20)
 		{
+			if (!array_key_exists('refresh_token', $token))
+			{
+				// Exception
+			}
 			$token = $this->refreshToken($token['refresh_token']);
 		}
 
@@ -193,7 +225,7 @@ class JOauth2client
 	 */
 	public function getToken()
 	{
-		return $this->options->get('accesstoken');
+		return $this->getOption('accesstoken');
 	}
 
 	/**
@@ -207,7 +239,7 @@ class JOauth2client
 	 */
 	public function setToken($value)
 	{
-		$this->options->set('accesstoken', $value);
+		$this->setOption('accesstoken', $value);
 		return $this;
 	}
 
@@ -220,13 +252,18 @@ class JOauth2client
 	 *
 	 * @since   1234
 	 */
-	public function refreshToken($token)
+	public function refreshToken($token = null)
 	{
+		if (!$token)
+		{
+			$token = $this->getToken();
+			$token = $token['refresh_token'];
+		}
 		$data['grant_type'] = 'refresh_token';
 		$data['refresh_token'] = $token;
 		$data['client_id'] = $this->getOption('clientid');
 		$data['client_secret'] = $this->getOption('clientsecret');
-		$response = $this->client->post($this->getOption('refreshurl'), $data);
+		$response = $this->client->post($this->getOption('tokenurl'), $data);
 
 		if ($response->code == 200)
 		{
