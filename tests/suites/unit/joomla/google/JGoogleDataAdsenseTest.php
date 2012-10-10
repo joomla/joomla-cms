@@ -117,7 +117,7 @@ class JGoogleDataAdsenseTest extends PHPUnit_Framework_TestCase
 	{
 		$this->http->expects($this->once())->method('get')->will($this->returnCallback('jsonAdsenseCallback'));
 		$result = $this->object->getAccount('accountID');
-		$this->assertEquals($result, array('items' => array('1' => 1, '2' => 2)));
+		$this->assertEquals($result, array('items' => array('1' => 1, '2' => 2), 'nextPageToken' => '1234'));
 	}
 
 	/**
@@ -128,9 +128,9 @@ class JGoogleDataAdsenseTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testListAccounts()
 	{
-		$this->http->expects($this->once())->method('get')->will($this->returnCallback('jsonAdsenseCallback'));
-		$result = $this->object->listAccounts(array('option' => 'value'));
-		$this->assertEquals($result, array('1' => 1, '2' => 2));
+		$this->http->expects($this->exactly(2))->method('get')->will($this->returnCallback('jsonAdsenseCallback'));
+		$result = $this->object->listAccounts(array('option' => 'value', 'option2' => 'value2'), 2);
+		$this->assertEquals($result, array(1, 2, 1, 2));
 	}
 
 	/**
@@ -156,7 +156,7 @@ class JGoogleDataAdsenseTest extends PHPUnit_Framework_TestCase
 	{
 		$this->http->expects($this->once())->method('get')->will($this->returnCallback('jsonAdsenseCallback'));
 		$result = $this->object->getUnit('accountID', 'clientID', 'unitID');
-		$this->assertEquals($result, array('items' => array('1' => 1, '2' => 2)));
+		$this->assertEquals($result, array('items' => array('1' => 1, '2' => 2), 'nextPageToken' => '1234'));
 	}
 
 	/**
@@ -182,7 +182,7 @@ class JGoogleDataAdsenseTest extends PHPUnit_Framework_TestCase
 	{
 		$this->http->expects($this->once())->method('get')->will($this->returnCallback('jsonAdsenseCallback'));
 		$result = $this->object->getChannel('accountID', 'clientID', 'channelID');
-		$this->assertEquals($result, array('items' => array('1' => 1, '2' => 2)));
+		$this->assertEquals($result, array('items' => array('1' => 1, '2' => 2), 'nextPageToken' => '1234'));
 	}
 
 	/**
@@ -225,7 +225,7 @@ class JGoogleDataAdsenseTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Tests the createCalendar method
+	 * Tests the generateReport method
 	 *
 	 * @group	JGoogle
 	 * @return void
@@ -250,6 +250,126 @@ class JGoogleDataAdsenseTest extends PHPUnit_Framework_TestCase
 		$result = $this->object->generateReport('accountID', $start, $end, array('option' => 'value'));
 		$this->assertEquals($result, array('rows' => array(1, 2), 'totalMatchedRows' => 1));
 	}
+
+	/**
+	 * Tests the generateReport method with a bad start date
+	 *
+	 * @group	JGoogle
+	 * @expectedException InvalidArgumentException
+	 * @return void
+	 */
+	public function testGenerateReportStartException()
+	{
+		$this->object->generateReport('accountID', array(true));
+	}
+
+	/**
+	 * Tests the generateReport method with a bad end date
+	 *
+	 * @group	JGoogle
+	 * @expectedException InvalidArgumentException
+	 * @return void
+	 */
+	public function testGenerateReportEndException()
+	{
+		$this->object->generateReport('accountID', time(), array(true));
+	}
+
+	/**
+	 * Tests the setOption method
+	 *
+	 * @group	JGoogle
+	 * @return void
+	 */
+	public function testSetOption()
+	{
+		$this->object->setOption('key', 'value');
+
+		$this->assertThat(
+			$this->options->get('key'),
+			$this->equalTo('value')
+		);
+	}
+
+	/**
+	 * Tests the getOption method
+	 *
+	 * @group	JGoogle
+	 * @return void
+	 */
+	public function testGetOption()
+	{
+		$this->options->set('key', 'value');
+
+		$this->assertThat(
+			$this->object->getOption('key'),
+			$this->equalTo('value')
+		);
+	}
+
+	/**
+	 * Tests that all functions properly return false
+	 *
+	 * @group	JGoogle
+	 * @return void
+	 */
+	public function testFalse()
+	{
+		$this->oauth->setToken(false);
+
+		$functions['getAccount'] = array('accountID');
+		$functions['listAccounts'] = array(array('option' => 'value'));
+		$functions['listClients'] = array(array('option' => 'value'));
+		$functions['getUnit'] = array('accountID', 'clientID', 'unitID');
+		$functions['listUnitChannels'] = array('accountID', 'clientID', 'unitID', array('option' => 'value'));
+		$functions['getChannel'] = array('accountID', 'clientID', 'channelID');
+		$functions['listChannels'] = array('accountID', 'clientID', array('option' => 'value'));
+		$functions['listChannelUnits'] = array('accountID', 'clientID', 'channelID', array('option' => 'value'));
+		$functions['listUrlChannels'] = array('accountID', array('option' => 'value'));
+		$functions['generateReport'] = array('accountID', time(), time() + 100000, array('option' => 'value'));
+
+		foreach ($functions as $function => $params)
+		{
+			$this->assertFalse(call_user_func_array(array($this->object, $function), $params));
+		}
+	}
+
+	/**
+	 * Tests that all functions properly return Exceptions
+	 *
+	 * @group	JGoogle
+	 * @return void
+	 */
+	public function testExceptions()
+	{
+		$this->http->expects($this->atLeastOnce())->method('get')->will($this->returnCallback('adsenseExceptionCallback'));
+
+		$functions['getAccount'] = array('accountID');
+		$functions['listAccounts'] = array(array('option' => 'value'));
+		$functions['listClients'] = array(array('option' => 'value'));
+		$functions['getUnit'] = array('accountID', 'clientID', 'unitID');
+		$functions['listUnitChannels'] = array('accountID', 'clientID', 'unitID', array('option' => 'value'));
+		$functions['getChannel'] = array('accountID', 'clientID', 'channelID');
+		$functions['listChannels'] = array('accountID', 'clientID', array('option' => 'value'));
+		$functions['listChannelUnits'] = array('accountID', 'clientID', 'channelID', array('option' => 'value'));
+		$functions['listUrlChannels'] = array('accountID', array('option' => 'value'));
+		$functions['generateReport'] = array('accountID', time(), time() + 100000, array('option' => 'value'));
+
+		foreach ($functions as $function => $params)
+		{
+			$exception = false;
+			try
+			{
+				call_user_func_array(array($this->object, $function), $params);
+			}
+			catch (UnexpectedValueException $e)
+			{
+				$exception = true;
+				$this->assertEquals($e->getMessage(), 'Unexpected data received from Google: `BADDATA`.');
+			}
+			$this->assertTrue($exception);
+		}
+	}
 }
 
 /**
@@ -267,11 +387,10 @@ function jsonAdsenseCallback($url, array $headers = null, $timeout = null)
 {
 	$response->code = 200;
 	$response->headers = array('Content-Type' => 'application/json');
-	$response->body = '{"items":{"1":1,"2":2}}';
+	$response->body = '{"items":{"1":1,"2":2},"nextPageToken":"1234"}';
 
 	return $response;
 }
-
 
 /**
  * Dummy method
@@ -289,6 +408,26 @@ function jsonAdsenseReportCallback($url, array $headers = null, $timeout = null)
 	$response->code = 200;
 	$response->headers = array('Content-Type' => 'application/json');
 	$response->body = '{"rows":{"0":1,"1":2},"totalMatchedRows":1}';
+
+	return $response;
+}
+
+/**
+ * Dummy method
+ *
+ * @param   string   $url      Path to the resource.
+ * @param   array    $headers  An array of name-value pairs to include in the header of the request.
+ * @param   integer  $timeout  Read timeout in seconds.
+ *
+ * @return  JHttpResponse
+ *
+ * @since   12.2
+ */
+function adsenseExceptionCallback($url, array $headers = null, $timeout = null)
+{
+	$response->code = 200;
+	$response->headers = array('Content-Type' => 'application/json');
+	$response->body = 'BADDATA';
 
 	return $response;
 }

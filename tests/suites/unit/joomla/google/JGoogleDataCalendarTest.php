@@ -293,6 +293,30 @@ class JGoogleDataCalendarTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Tests the createEvent method with a bad start date
+	 *
+	 * @group	JGoogle
+	 * @expectedException InvalidArgumentException
+	 * @return void
+	 */
+	public function testCreateEventStartException()
+	{
+		$this->object->createEvent('calendarID', array(true));
+	}
+
+	/**
+	 * Tests the createEvent method with a bad end date
+	 *
+	 * @group	JGoogle
+	 * @expectedException InvalidArgumentException
+	 * @return void
+	 */
+	public function testCreateEventEndException()
+	{
+		$this->object->createEvent('calendarID', time(), array(true));
+	}
+
+	/**
 	 * Tests the listRecurrences method
 	 *
 	 * @group	JGoogle
@@ -342,6 +366,117 @@ class JGoogleDataCalendarTest extends PHPUnit_Framework_TestCase
 		$this->http->expects($this->once())->method('put')->will($this->returnCallback('jsonDataCalendarCallback'));
 		$result = $this->object->editEvent('calendarID', 'eventID', array('option' => 'value'));
 		$this->assertEquals($result, array('items' => array('1' => 1, '2' => 2)));
+	}
+
+	/**
+	 * Tests the setOption method
+	 *
+	 * @group	JGoogle
+	 * @return void
+	 */
+	public function testSetOption()
+	{
+		$this->object->setOption('key', 'value');
+
+		$this->assertThat(
+			$this->options->get('key'),
+			$this->equalTo('value')
+		);
+	}
+
+	/**
+	 * Tests the getOption method
+	 *
+	 * @group	JGoogle
+	 * @return void
+	 */
+	public function testGetOption()
+	{
+		$this->options->set('key', 'value');
+
+		$this->assertThat(
+			$this->object->getOption('key'),
+			$this->equalTo('value')
+		);
+	}
+
+	/**
+	 * Tests that all functions properly return false
+	 *
+	 * @group	JGoogle
+	 * @return void
+	 */
+	public function testFalse()
+	{
+		$this->oauth->setToken(false);
+
+		$functions['removeCalendar'] = array('calendarID');
+		$functions['getCalendar'] = array('calendarID');
+		$functions['addCalendar'] = array('calendarID', array('option' => 'value'));
+		$functions['listCalendars'] = array(array('option' => 'value'));
+		$functions['editCalendarSettings'] = array('calendarID', array('option' => 'value'));
+		$functions['clearCalendar'] = array('calendarID');
+		$functions['deleteCalendar'] = array('calendarID');
+		$functions['createCalendar'] = array('Title', array('option' => 'value'));
+		$functions['editCalendar'] = array('calendarID', array('option' => 'value'));
+		$functions['deleteEvent'] = array('calendarID', 'eventID');
+		$functions['getEvent'] = array('calendarID', 'eventID', array('option' => 'value'));
+		$functions['createEvent'] = array('calendarID', time(), time() + 100000, array('option' => 'value'));
+		$functions['listRecurrences'] = array('calendarID', 'eventID', array('option' => 'value'));
+		$functions['listEvents'] = array('calendarID', array('option' => 'value'));
+		$functions['moveEvent'] = array('calendarID', 'eventID', 'newCalendarID');
+		$functions['editEvent'] = array('calendarID', 'eventID', array('option' => 'value'));
+
+		foreach ($functions as $function => $params)
+		{
+			$this->assertFalse(call_user_func_array(array($this->object, $function), $params));
+		}
+	}
+
+	/**
+	 * Tests that all functions properly return Exceptions
+	 *
+	 * @group	JGoogle
+	 * @return void
+	 */
+	public function testExceptions()
+	{
+		$this->http->expects($this->atLeastOnce())->method('get')->will($this->returnCallback('calendarExceptionCallback'));
+		$this->http->expects($this->atLeastOnce())->method('delete')->will($this->returnCallback('calendarExceptionCallback'));
+		$this->http->expects($this->atLeastOnce())->method('post')->will($this->returnCallback('calendarDataExceptionCallback'));
+		$this->http->expects($this->atLeastOnce())->method('put')->will($this->returnCallback('calendarDataExceptionCallback'));
+
+		$functions['removeCalendar'] = array('calendarID');
+		$functions['getCalendar'] = array('calendarID');
+		$functions['addCalendar'] = array('calendarID', array('option' => 'value'));
+		$functions['listCalendars'] = array(array('option' => 'value'));
+		$functions['editCalendarSettings'] = array('calendarID', array('option' => 'value'));
+		$functions['clearCalendar'] = array('calendarID');
+		$functions['deleteCalendar'] = array('calendarID');
+		$functions['createCalendar'] = array('Title', array('option' => 'value'));
+		$functions['editCalendar'] = array('calendarID', array('option' => 'value'));
+		$functions['deleteEvent'] = array('calendarID', 'eventID');
+		$functions['getEvent'] = array('calendarID', 'eventID', array('option' => 'value'));
+		$functions['createEvent'] = array('calendarID', time(), time() + 100000, array('option' => 'value'));
+		$functions['listRecurrences'] = array('calendarID', 'eventID', array('option' => 'value'));
+		$functions['listEvents'] = array('calendarID', array('option' => 'value'));
+		$functions['moveEvent'] = array('calendarID', 'eventID', 'newCalendarID');
+		$functions['editEvent'] = array('calendarID', 'eventID', array('option' => 'value'));
+
+		foreach ($functions as $function => $params)
+		{
+			$exception = false;
+			try
+			{
+				call_user_func_array(array($this->object, $function), $params);
+			}
+			catch (UnexpectedValueException $e)
+			{
+				$exception = true;
+				$this->assertEquals($e->getMessage(), 'Unexpected data received from Google: `BADDATA`.');
+			}
+			$this->assertTrue($exception);
+		}
 	}
 }
 
@@ -423,6 +558,47 @@ function emptyCalendarCallback($url, array $headers = null, $timeout = null)
 	$response->code = 200;
 	$response->headers = array('Content-Type' => 'text/html');
 	$response->body = '';
+
+	return $response;
+}
+
+/**
+ * Dummy method
+ *
+ * @param   string   $url      Path to the resource.
+ * @param   array    $headers  An array of name-value pairs to include in the header of the request.
+ * @param   integer  $timeout  Read timeout in seconds.
+ *
+ * @return  JHttpResponse
+ *
+ * @since   12.2
+ */
+function calendarExceptionCallback($url, array $headers = null, $timeout = null)
+{
+	$response->code = 200;
+	$response->headers = array('Content-Type' => 'application/json');
+	$response->body = 'BADDATA';
+
+	return $response;
+}
+
+/**
+ * Dummy method
+ *
+ * @param   string   $url      Path to the resource.
+ * @param   mixed    $data     Either an associative array or a string to be sent with the request.
+ * @param   array    $headers  An array of name-value pairs to include in the header of the request.
+ * @param   integer  $timeout  Read timeout in seconds.
+ *
+ * @return  JHttpResponse
+ *
+ * @since   12.2
+ */
+function calendarDataExceptionCallback($url, $data, array $headers = null, $timeout = null)
+{
+	$response->code = 200;
+	$response->headers = array('Content-Type' => 'application/json');
+	$response->body = 'BADDATA';
 
 	return $response;
 }

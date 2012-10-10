@@ -156,7 +156,7 @@ abstract class JGoogleEmbed
 			}
 			elseif (is_array($value))
 			{
-				$string .= '[' . self::arrayToJavascript($vaue) . ']';
+				$string .= '[' . self::arrayToJavascript($value) . ']';
 			}
 			elseif (is_bool($value))
 			{

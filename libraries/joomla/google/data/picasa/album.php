@@ -37,17 +37,12 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 	{
 		$this->xml = $xml;
 
-		$options = isset($options) ? $options : new JRegistry;
-		if (!$options->get('scope'))
-		{
-			$options->set('scope', 'https://picasaweb.google.com/data/');
-		}
-		if (isset($auth) && !$auth->getOption('scope'))
-		{
-			$auth->setOption('scope', 'https://picasaweb.google.com/data/');
-		}
-
 		parent::__construct($options, $auth);
+
+		if (isset($this->auth) && !$this->auth->getOption('scope'))
+		{
+			$this->auth->setOption('scope', 'https://picasaweb.google.com/data/');
+		}
 	}
 
 	/**

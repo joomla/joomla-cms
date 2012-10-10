@@ -379,6 +379,11 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 			$index = count($markers) - 1;
 		}
 
+		if ($index >= count($markers) || $index < 0)
+		{
+			throw new OutOfBoundsException('Marker index out of bounds.');
+		}
+
 		$marker = $markers[$index];
 		unset($markers[$index]);
 		$markers = array_values($markers);
@@ -448,7 +453,7 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 	 */
 	public function setAsyncCallback($callback)
 	{
-		$this->setOption('asynccallback', $callback);
+		$this->setOption('callback', $callback);
 		return $this;
 	}
 
@@ -561,7 +566,7 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 			$setup .= '});';
 		}
 
-		$setup . $this->getAdditionalJavascript();
+		$setup .= $this->getAdditionalJavascript();
 
 		if ($this->isAsync())
 		{
@@ -593,7 +598,7 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 		switch ($this->getAutoload())
 		{
 			case 'onload':
-			$output .= "window.onload = {$onload};";
+			$output .= "window.onload={$onload};";
 			break;
 
 			case 'jquery':
@@ -631,7 +636,7 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 
 		if (!empty($style))
 		{
-			$output .= " style='{$style }'";
+			$output .= " style='{$style}'";
 		}
 
 		$output .= '></div>';

@@ -138,6 +138,8 @@ class JGoogleDataPicasaAlbumTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($link, 'https://picasaweb.google.com/data/entry/api/user/12345678901234567890/albumid/0123456789012345678');
 		$link = $this->object->getLink('self');
 		$this->assertEquals($link, 'https://picasaweb.google.com/data/entry/api/user/12345678901234567890/albumid/0123456789012345678');
+		$link = $this->object->getLink('nothing');
+		$this->assertFalse($link);
 	}
 
 	/**
@@ -309,17 +311,151 @@ class JGoogleDataPicasaAlbumTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Tests the listPhotos method
+	 * Tests the listPhotos method with wrong XML
+	 *
+	 * @group	JGoogle
+	 * @expectedException UnexpectedValueException
+	 * @return void
+	 */
+	public function testListPhotosException()
+	{
+		$this->http->expects($this->once())->method('get')->will($this->returnCallback('picasaBadXmlCallback'));
+		$this->object->listPhotos();
+	}
+
+	/**
+	 * Tests the upload method
 	 *
 	 * @group	JGoogle
 	 * @return void
 	 */
 	public function testUpload()
 	{
-		$this->http->expects($this->once())->method('post')->will($this->returnCallback('dataPicasaUploadCallback'));
+		$this->http->expects($this->exactly(4))->method('post')->will($this->returnCallback('dataPicasaUploadCallback'));
 		$result = $this->object->upload(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'logo.png');
-
 		$this->assertEquals(get_class($result), 'JGoogleDataPicasaPhoto');
+
+		$result = $this->object->upload(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'logo.gif');
+		$this->assertEquals(get_class($result), 'JGoogleDataPicasaPhoto');
+
+		$result = $this->object->upload(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'logo.jpg');
+		$this->assertEquals(get_class($result), 'JGoogleDataPicasaPhoto');
+
+		$result = $this->object->upload(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'logo.bmp');
+		$this->assertEquals(get_class($result), 'JGoogleDataPicasaPhoto');
+	}
+
+	/**
+	 * Tests the upload method with an unknown file type
+	 *
+	 * @group	JGoogle
+	 * @expectedException RuntimeException
+	 * @return void
+	 */
+	public function testUploadUnknown()
+	{
+		$result = $this->object->upload(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'photo.txt');
+	}
+
+	/**
+	 * Tests the upload method with an invalid file
+	 *
+	 * @group	JGoogle
+	 * @expectedException PHPUnit_Framework_Error_Warning
+	 * @return void
+	 */
+	public function testUploadFake()
+	{
+		$result = $this->object->upload(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'fakephoto.png');
+	}
+
+	/**
+	 * Tests the setOption method
+	 *
+	 * @group	JGoogle
+	 * @return void
+	 */
+	public function testSetOption()
+	{
+		$this->object->setOption('key', 'value');
+
+		$this->assertThat(
+			$this->options->get('key'),
+			$this->equalTo('value')
+		);
+	}
+
+	/**
+	 * Tests the getOption method
+	 *
+	 * @group	JGoogle
+	 * @return void
+	 */
+	public function testGetOption()
+	{
+		$this->options->set('key', 'value');
+
+		$this->assertThat(
+			$this->object->getOption('key'),
+			$this->equalTo('value')
+		);
+	}
+
+	/**
+	 * Tests that all functions properly return false
+	 *
+	 * @group	JGoogle
+	 * @return void
+	 */
+	public function testFalse()
+	{
+		$this->oauth->setToken(false);
+
+		$functions['delete'] = array();
+		$functions['save'] = array();
+		$functions['refresh'] = array();
+		$functions['listPhotos'] = array();
+		$functions['upload'] = array(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'logo.png');
+
+		foreach ($functions as $function => $params)
+		{
+			$this->assertFalse(call_user_func_array(array($this->object, $function), $params));
+		}
+	}
+
+	/**
+	 * Tests that all functions properly return Exceptions
+	 *
+	 * @group	JGoogle
+	 * @return void
+	 */
+	public function testExceptions()
+	{
+		$this->http->expects($this->atLeastOnce())->method('get')->will($this->returnCallback('picasaExceptionCallback'));
+		$this->http->expects($this->atLeastOnce())->method('delete')->will($this->returnCallback('picasaExceptionCallback'));
+		$this->http->expects($this->atLeastOnce())->method('post')->will($this->returnCallback('picasaDataExceptionCallback'));
+		$this->http->expects($this->atLeastOnce())->method('put')->will($this->returnCallback('picasaDataExceptionCallback'));
+
+		$functions['delete'] = array();
+		$functions['save'] = array();
+		$functions['refresh'] = array();
+		$functions['listPhotos'] = array();
+		$functions['upload'] = array(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'logo.png');
+
+		foreach ($functions as $function => $params)
+		{
+			$exception = false;
+			try
+			{
+				call_user_func_array(array($this->object, $function), $params);
+			}
+			catch (UnexpectedValueException $e)
+			{
+				$exception = true;
+				$this->assertEquals($e->getMessage(), 'Unexpected data received from Google: `BADDATA`.');
+			}
+			$this->assertTrue($exception);
+		}
 	}
 }
 
@@ -337,7 +473,7 @@ class JGoogleDataPicasaAlbumTest extends PHPUnit_Framework_TestCase
 function emptyPicasaCallback($url, array $headers = null, $timeout = null)
 {
 	$response->code = 200;
-	$response->headers = array('Content-Type' => 'text/html');
+	$response->headers = array('Content-Type' => 'application/atom+xml');
 	$response->body = '';
 
 	return $response;
@@ -357,7 +493,7 @@ function emptyPicasaCallback($url, array $headers = null, $timeout = null)
 function picasaPhotolistCallback($url, array $headers = null, $timeout = null)
 {
 	$response->code = 200;
-	$response->headers = array('Content-Type' => 'text/html');
+	$response->headers = array('Content-Type' => 'application/atom+xml');
 	$response->body = JFile::read(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'photolist.txt');
 
 	return $response;
@@ -378,7 +514,7 @@ function picasaPhotolistCallback($url, array $headers = null, $timeout = null)
 function dataPicasaUploadCallback($url, $data, array $headers = null, $timeout = null)
 {
 	$response->code = 200;
-	$response->headers = array('Content-Type' => 'text/html');
+	$response->headers = array('Content-Type' => 'application/atom+xml');
 	$response->body = JFile::read(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'photo.txt');
 
 	return $response;

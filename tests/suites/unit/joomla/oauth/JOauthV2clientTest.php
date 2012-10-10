@@ -102,7 +102,28 @@ class JOauth2clientTest extends PHPUnit_Framework_TestCase
 		$this->object->setOption('tokenurl', 'https://accounts.google.com/o/oauth2/token');
 		$this->object->setOption('clientsecret', 'jeDs8rKw_jDJW8MMf-ff8ejs');
 		$this->input->set('code', '4/wEr_dK8SDkjfpwmc98KejfiwJP-f4wm.kdowmnr82jvmeisjw94mKFIJE48mcEM');
-		$this->http->expects($this->once())->method('post')->will($this->returnCallback('postOauthCallback'));
+
+		$this->http->expects($this->once())->method('post')->will($this->returnCallback('encodedGrantOauthCallback'));
+		$result = $this->object->auth();
+		$this->assertEquals('accessvalue', $result['access_token']);
+		$this->assertEquals('refreshvalue', $result['refresh_token']);
+		$this->assertEquals(3600, $result['expires_in']);
+		$this->assertEquals(time(), $result['created'], 10);
+	}
+
+	/**
+	 * Tests the auth method with JSON data
+	 *
+	 * @group	JOauth
+	 * @return void
+	 */
+	public function testAuthJson()
+	{
+		$this->object->setOption('tokenurl', 'https://accounts.google.com/o/oauth2/token');
+		$this->object->setOption('clientsecret', 'jeDs8rKw_jDJW8MMf-ff8ejs');
+		$this->input->set('code', '4/wEr_dK8SDkjfpwmc98KejfiwJP-f4wm.kdowmnr82jvmeisjw94mKFIJE48mcEM');
+
+		$this->http->expects($this->once())->method('post')->will($this->returnCallback('jsonGrantOauthCallback'));
 		$result = $this->object->auth();
 		$this->assertEquals('accessvalue', $result['access_token']);
 		$this->assertEquals('refreshvalue', $result['refresh_token']);
@@ -126,13 +147,13 @@ class JOauth2clientTest extends PHPUnit_Framework_TestCase
 		$token['expires_in'] = 3600;
 		$this->object->setToken($token);
 
-		$this->assertEquals(true, $this->object->isAuth());
+		$this->assertTrue($this->object->isAuth());
 
 		$token['created'] = time() - 4000;
 		$token['expires_in'] = 3600;
 		$this->object->setToken($token);
 
-		$this->assertEquals(false, $this->object->isAuth());
+		$this->assertFalse($this->object->isAuth());
 	}
 
 	/**
@@ -146,6 +167,7 @@ class JOauth2clientTest extends PHPUnit_Framework_TestCase
 		$this->object->setOption('authurl', 'https://accounts.google.com/o/oauth2/auth');
 		$this->object->setOption('clientid', '01234567891011.apps.googleusercontent.com');
 		$this->object->setOption('scope', array('https://www.googleapis.com/auth/adsense', 'https://www.googleapis.com/auth/calendar'));
+		$this->object->setOption('state', '123456');
 		$this->object->setOption('redirecturi', 'http://localhost/oauth');
 		$this->object->setOption('requestparams', array('access_type' => 'offline', 'approval_prompt' => 'auto'));
 
@@ -155,7 +177,7 @@ class JOauth2clientTest extends PHPUnit_Framework_TestCase
 		$expected .= '&redirect_uri=http%3A%2F%2Flocalhost%2Foauth';
 		$expected .= '&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fadsense';
 		$expected .= '+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcalendar';
-		$expected .= '&access_type=offline&approval_prompt=auto';
+		$expected .= '&state=123456&access_type=offline&approval_prompt=auto';
 		$this->assertEquals($expected, $url);
 	}
 
@@ -170,16 +192,23 @@ class JOauth2clientTest extends PHPUnit_Framework_TestCase
 		$token['access_token'] = 'accessvalue';
 		$token['refresh_token'] = 'refreshvalue';
 		$token['created'] = time() - 1800;
+		$token['expires_in'] = 600;
+		$this->object->setToken($token);
+
+		$result = $this->object->query('https://www.googleapis.com/auth/calendar', array('param' => 'value'), array(), 'get');
+		$this->assertFalse($result);
+
 		$token['expires_in'] = 3600;
 		$this->object->setToken($token);
 
-		$this->http->expects($this->once())->method('get')->will($this->returnCallback('getOauthCallback'));
-		$result = $this->object->query('https://www.googleapis.com/auth/calendar', array('param' => 'value'), array(), 'get');
+		$this->http->expects($this->once())->method('post')->will($this->returnCallback('queryOauthCallback'));
+		$result = $this->object->query('https://www.googleapis.com/auth/calendar', array('param' => 'value'), array(), 'post');
 		$this->assertEquals($result->body, 'Lorem ipsum dolor sit amet.');
 		$this->assertEquals(200, $result->code);
 
-		$this->http->expects($this->once())->method('post')->will($this->returnCallback('postOauthCallback'));
-		$result = $this->object->query('https://www.googleapis.com/auth/calendar', array('param' => 'value'), array(), 'post');
+		$this->object->setOption('authmethod', 'get');
+		$this->http->expects($this->once())->method('get')->will($this->returnCallback('getOauthCallback'));
+		$result = $this->object->query('https://www.googleapis.com/auth/calendar', array('param' => 'value'), array(), 'get');
 		$this->assertEquals($result->body, 'Lorem ipsum dolor sit amet.');
 		$this->assertEquals(200, $result->code);
 	}
@@ -277,7 +306,30 @@ class JOauth2clientTest extends PHPUnit_Framework_TestCase
 		$this->object->setOption('userefresh', true);
 		$this->object->setToken(array('access_token' => 'RANDOM STRING OF DATA', 'expires' => 3600, 'refresh_token' => ' RANDOM STRING OF DATA'));
 
-		$this->http->expects($this->once())->method('post')->will($this->returnCallback('postOauthCallback'));
+		$this->http->expects($this->once())->method('post')->will($this->returnCallback('encodedGrantOauthCallback'));
+		$result = $this->object->refreshToken();
+		$this->assertEquals('accessvalue', $result['access_token']);
+		$this->assertEquals('refreshvalue', $result['refresh_token']);
+		$this->assertEquals(3600, $result['expires_in']);
+		$this->assertEquals(time(), $result['created'], 10);
+	}
+
+	/**
+	 * Tests the refreshToken method with JSON
+	 *
+	 * @group	JOauth
+	 * @return void
+	 */
+	public function testRefreshTokenJson()
+	{
+		$this->object->setOption('tokenurl', 'https://accounts.google.com/o/oauth2/token');
+		$this->object->setOption('clientid', '01234567891011.apps.googleusercontent.com');
+		$this->object->setOption('clientsecret', 'jeDs8rKw_jDJW8MMf-ff8ejs');
+		$this->object->setOption('redirecturi', 'http://localhost/oauth');
+		$this->object->setOption('userefresh', true);
+		$this->object->setToken(array('access_token' => 'RANDOM STRING OF DATA', 'expires' => 3600, 'refresh_token' => ' RANDOM STRING OF DATA'));
+
+		$this->http->expects($this->once())->method('post')->will($this->returnCallback('jsonGrantOauthCallback'));
 		$result = $this->object->refreshToken();
 		$this->assertEquals('accessvalue', $result['access_token']);
 		$this->assertEquals('refreshvalue', $result['refresh_token']);
@@ -287,7 +339,7 @@ class JOauth2clientTest extends PHPUnit_Framework_TestCase
 }
 
 /**
- * Method to send the POST command to the server.
+ * Dummy
  *
  * @param   string   $url      Path to the resource.
  * @param   mixed    $data     Either an associative array or a string to be sent with the request.
@@ -298,25 +350,61 @@ class JOauth2clientTest extends PHPUnit_Framework_TestCase
  *
  * @since   12.2
  */
-function postOauthCallback($url, $data, array $headers = null, $timeout = null)
+function encodedGrantOauthCallback($url, $data, array $headers = null, $timeout = null)
 {
-	if (isset($data['grant_type']))
-	{
-		$response->code = 200;
-		$response->headers = array('Content-Type' => 'application/json');
-		$response->body = '{"access_token":"accessvalue","refresh_token":"refreshvalue","expires_in":3600}';
-	}
-	else
-	{
-		$response->code = 200;
-		$response->headers = array('Content-Type' => 'text/html');
-		$response->body = 'Lorem ipsum dolor sit amet.';
-	}
+
+	$response->code = 200;
+	$response->headers = array('Content-Type' => 'x-www-form-urlencoded');
+	$response->body = 'access_token=accessvalue&refresh_token=refreshvalue&expires_in=3600';
+
 	return $response;
 }
 
 /**
- * Method to send the GET command to the server.
+ * Dummy
+ *
+ * @param   string   $url      Path to the resource.
+ * @param   mixed    $data     Either an associative array or a string to be sent with the request.
+ * @param   array    $headers  An array of name-value pairs to include in the header of the request
+ * @param   integer  $timeout  Read timeout in seconds.
+ *
+ * @return  JHttpResponse
+ *
+ * @since   12.2
+ */
+function jsonGrantOauthCallback($url, $data, array $headers = null, $timeout = null)
+{
+
+	$response->code = 200;
+	$response->headers = array('Content-Type' => 'application/json');
+	$response->body = '{"access_token":"accessvalue","refresh_token":"refreshvalue","expires_in":3600}';
+
+	return $response;
+}
+
+/**
+ * Dummy
+ *
+ * @param   string   $url      Path to the resource.
+ * @param   mixed    $data     Either an associative array or a string to be sent with the request.
+ * @param   array    $headers  An array of name-value pairs to include in the header of the request
+ * @param   integer  $timeout  Read timeout in seconds.
+ *
+ * @return  JHttpResponse
+ *
+ * @since   12.2
+ */
+function queryOauthCallback($url, $data, array $headers = null, $timeout = null)
+{
+	$response->code = 200;
+	$response->headers = array('Content-Type' => 'text/html');
+	$response->body = 'Lorem ipsum dolor sit amet.';
+
+	return $response;
+}
+
+/**
+ * Dummy
  *
  * @param   string   $url      Path to the resource.
  * @param   array    $headers  An array of name-value pairs to include in the header of the request.

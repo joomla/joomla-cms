@@ -130,7 +130,7 @@ class JGoogleEmbedAnalytics extends JGoogleEmbed
 
 		if ($index === null)
 		{
-			$index = count($markers) - 1;
+			$index = count($calls) - 1;
 		}
 
 		$call = $calls[$index];
@@ -153,6 +153,7 @@ class JGoogleEmbedAnalytics extends JGoogleEmbed
 	 */
 	public function createCall($method, $params = array())
 	{
+		$params = array_values($params);
 		if ($this->isAsync())
 		{
 			$output = "_gaq.push(['{$method}',";

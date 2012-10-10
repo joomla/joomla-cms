@@ -91,6 +91,46 @@ abstract class JGoogleData
 	}
 
 	/**
+	 * Method to retrieve a list of data
+	 *
+	 * @param   array   $url       URL to GET
+	 * @param   int     $maxpages  Maximum number of pages to return
+	 * @param   string  $token     Next page token
+	 *
+	 * @return  mixed  Data from Google
+	 *
+	 * @since   12.2
+	 * @throws UnexpectedValueException
+	 */
+	protected function listGetData($url, $maxpages = 1, $token = null)
+	{
+		$qurl = $url;
+		if (strpos($url, '&'))
+		{
+			$qurl .= '&pageToken=' . $token;
+		}
+		else
+		{
+			$qurl .= 'pageToken=' . $token;
+		}
+		$jdata = $this->query($qurl);
+		$data = json_decode($jdata->body, true);
+
+		if ($data && array_key_exists('items', $data))
+		{
+			if ($maxpages != 1 && array_key_exists('nextPageToken', $data))
+			{
+				$data['items'] = array_merge($data['items'], $this->listGetData($url, $maxpages - 1, $data['nextPageToken']));
+			}
+			return $data['items'];
+		}
+		else
+		{
+			throw new UnexpectedValueException("Unexpected data received from Google: `{$jdata->body}`.");
+		}
+	}
+
+	/**
 	 * Method to retrieve data from Google
 	 *
 	 * @param   string  $url      The URL for the request.

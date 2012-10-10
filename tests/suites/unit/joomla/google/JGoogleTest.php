@@ -89,6 +89,15 @@ class JGoogleTest extends PHPUnit_Framework_TestCase
 			$this->object->data('Picasa'),
 			$this->isInstanceOf('JGoogleDataPicasa')
 		);
+		$this->assertThat(
+			$this->object->data('Adsense'),
+			$this->isInstanceOf('JGoogleDataAdsense')
+		);
+		$this->assertThat(
+			$this->object->data('Calendar'),
+			$this->isInstanceOf('JGoogleDataCalendar')
+		);
+		$this->assertNull($this->object->data('NotAClass'));
 	}
 
 	/**
@@ -103,6 +112,11 @@ class JGoogleTest extends PHPUnit_Framework_TestCase
 			$this->object->embed('Maps'),
 			$this->isInstanceOf('JGoogleEmbedMaps')
 		);
+		$this->assertThat(
+			$this->object->embed('Analytics'),
+			$this->isInstanceOf('JGoogleEmbedAnalytics')
+		);
+		$this->assertNull($this->object->embed('NotAClass'));
 	}
 
 	/**
