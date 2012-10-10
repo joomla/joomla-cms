@@ -1,27 +1,31 @@
 <?php
 /**
- * @package     Joomla.UnitTest
+ * @package    Joomla.UnitTest
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
 require_once JPATH_PLATFORM . '/joomla/google/google.php';
 
 /**
  * Test class for JGoogle.
+ *
+ * @package     Joomla.UnitTest
+ * @subpackage  Google
+ * @since       12.2
  */
 class JGoogleTest extends PHPUnit_Framework_TestCase
 {
 	/**
-	 * @var    JRegistry  Options for the JOauth2client object.
+	 * @var    JRegistry  Options for the JOauthV2client object.
 	 */
 	protected $options;
 
 	/**
 	 * @var    JHttp  Mock client object.
 	 */
-	protected $client;
+	protected $http;
 
 	/**
 	 * @var    JInput  The input object to use in retrieving GET/POST data.
@@ -29,7 +33,7 @@ class JGoogleTest extends PHPUnit_Framework_TestCase
 	protected $input;
 
 	/**
-	 * @var    JOauth2client  The OAuth client for sending requests to Google.
+	 * @var    JOauthV2client  The OAuth client for sending requests to Google.
 	 */
 	protected $oauth;
 
@@ -48,13 +52,14 @@ class JGoogleTest extends PHPUnit_Framework_TestCase
 	 * This method is called before a test is executed.
 	 *
 	 * @access protected
+	 * @return void
 	 */
 	protected function setUp()
 	{
 		$this->options = new JRegistry;
-		$this->client = $this->getMock('JHttpTransportStream', array('request'), array($this->options));
+		$this->http = $this->getMock('JOauthHttp', array('head', 'get', 'delete', 'trace', 'post', 'put', 'patch'), array($this->options));
 		$this->input = new JInput;
-		$this->oauth = new JOauthOauth2client($this->options, $this->client, $this->input);
+		$this->oauth = new JOauthV2client($this->options, $this->http, $this->input);
 		$this->auth = new JGoogleAuthOauth2($this->options, $this->oauth);
 		$this->object = new JGoogle($this->options, $this->auth);
 	}
@@ -64,6 +69,7 @@ class JGoogleTest extends PHPUnit_Framework_TestCase
 	 * This method is called after a test is executed.
 	 *
 	 * @access protected
+	 * @return void
 	 */
 	protected function tearDown()
 	{
@@ -71,6 +77,7 @@ class JGoogleTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the magic __get method - data
+	 *
 	 * @group	JGoogle
 	 * @return void
 	 */
@@ -86,6 +93,7 @@ class JGoogleTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the magic __get method - embed
+	 *
 	 * @group	JGoogle
 	 * @return void
 	 */
@@ -99,6 +107,7 @@ class JGoogleTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the setOption method
+	 *
 	 * @group	JGoogle
 	 * @return void
 	 */
@@ -114,6 +123,7 @@ class JGoogleTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the getOption method
+	 *
 	 * @group	JGoogle
 	 * @return void
 	 */

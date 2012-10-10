@@ -236,19 +236,6 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 	}
 
 	/**
-	 * Method to get the time of the photo
-	 *
-	 * @return  int  Photo time
-	 *
-	 * @since   1234
-	 */
-	public function getTime()
-	{
-		return (int) $this->xml->children('gphoto', true)->timestamp;
-		return $this;
-	}
-
-	/**
 	 * Method to set the title of the photo
 	 *
 	 * @param   string  $title  New photo title

@@ -7,15 +7,19 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM . '/joomla/oauth/oauth2client.php';
+require_once JPATH_PLATFORM . '/joomla/oauth/v2client.php';
 
 /**
- * Test class for JOauth2client.
+ * Test class for JOauthV2client.
+ *
+ * @package     Joomla.UnitTest
+ * @subpackage  Oauth
+ * @since       12.2
  */
-class JOauth2clientTest extends PHPUnit_Framework_TestCase
+class JOauthV2clientTest extends PHPUnit_Framework_TestCase
 {
 	/**
-	 * @var    JRegistry  Options for the JOauth2client object.
+	 * @var    JRegistry  Options for the JOauthV2client object.
 	 */
 	protected $options;
 
@@ -30,7 +34,7 @@ class JOauth2clientTest extends PHPUnit_Framework_TestCase
 	protected $input;
 
 	/**
-	 * @var    JOauth2client  Object under test.
+	 * @var    JOauthV2client  Object under test.
 	 */
 	protected $object;
 
@@ -44,9 +48,9 @@ class JOauth2clientTest extends PHPUnit_Framework_TestCase
 	protected function setUp()
 	{
 		$this->options = new JRegistry;
-		$this->client = $this->getMock('JHttpTransportStream', array('request'), array($this->options));
+		$this->http = $this->getMock('JOauthHttp', array('head', 'get', 'delete', 'trace', 'post', 'put', 'patch'), array($this->options));
 		$this->input = new JInput;
-		$this->object = new JOauthOauth2client($this->options, $this->client, $this->input);
+		$this->object = new JOauthV2client($this->options, $this->http, $this->input);
 	}
 
 	/**
@@ -91,12 +95,37 @@ class JOauth2clientTest extends PHPUnit_Framework_TestCase
 		$this->object->setOption('tokenurl', 'https://accounts.google.com/o/oauth2/token');
 		$this->object->setOption('clientsecret', 'jeDs8rKw_jDJW8MMf-ff8ejs');
 		$this->input->set('code', '4/wEr_dK8SDkjfpwmc98KejfiwJP-f4wm.kdowmnr82jvmeisjw94mKFIJE48mcEM');
-		$this->client->expects($this->once())->method('request')->will($this->returnCallback('httpCallback'));
+		$this->http->expects($this->once())->method('post')->will($this->returnCallback('postOauthCallback'));
 		$result = $this->object->auth();
 		$this->assertEquals('accessvalue', $result['access_token']);
 		$this->assertEquals('refreshvalue', $result['refresh_token']);
 		$this->assertEquals(3600, $result['expires_in']);
 		$this->assertEquals(time(), $result['created'], 10);
+	}
+
+	/**
+	 * Tests the isauth method
+	 *
+	 * @group	JOauth
+	 * @return void
+	 */
+	public function testIsAuth()
+	{
+		$this->assertEquals(false, $this->object->isAuth());
+
+		$token['access_token'] = 'accessvalue';
+		$token['refresh_token'] = 'refreshvalue';
+		$token['created'] = time();
+		$token['expires_in'] = 3600;
+		$this->object->setToken($token);
+
+		$this->assertEquals(true, $this->object->isAuth());
+
+		$token['created'] = time() - 4000;
+		$token['expires_in'] = 3600;
+		$this->object->setToken($token);
+
+		$this->assertEquals(false, $this->object->isAuth());
 	}
 
 	/**
@@ -137,9 +166,13 @@ class JOauth2clientTest extends PHPUnit_Framework_TestCase
 		$token['expires_in'] = 3600;
 		$this->object->setToken($token);
 
-		$this->client->expects($this->atLeastOnce())->method('request')->will($this->returnCallback('httpCallback'));
-		$result = $this->object->query('https://www.googleapis.com/auth/calendar', array('param' => 'value'), array(), 'post');
+		$this->http->expects($this->once())->method('get')->will($this->returnCallback('getOauthCallback'));
+		$result = $this->object->query('https://www.googleapis.com/auth/calendar', array('param' => 'value'), array(), 'get');
+		$this->assertEquals($result->body, 'Lorem ipsum dolor sit amet.');
+		$this->assertEquals(200, $result->code);
 
+		$this->http->expects($this->once())->method('post')->will($this->returnCallback('postOauthCallback'));
+		$result = $this->object->query('https://www.googleapis.com/auth/calendar', array('param' => 'value'), array(), 'post');
 		$this->assertEquals($result->body, 'Lorem ipsum dolor sit amet.');
 		$this->assertEquals(200, $result->code);
 	}
@@ -237,7 +270,7 @@ class JOauth2clientTest extends PHPUnit_Framework_TestCase
 		$this->object->setOption('userefresh', true);
 		$this->object->setToken(array('access_token' => 'RANDOM STRING OF DATA', 'expires' => 3600, 'refresh_token' => ' RANDOM STRING OF DATA'));
 
-		$this->client->expects($this->once())->method('request')->will($this->returnCallback('httpCallback'));
+		$this->http->expects($this->once())->method('post')->will($this->returnCallback('postOauthCallback'));
 		$result = $this->object->refreshToken();
 		$this->assertEquals('accessvalue', $result['access_token']);
 		$this->assertEquals('refreshvalue', $result['refresh_token']);
@@ -247,18 +280,18 @@ class JOauth2clientTest extends PHPUnit_Framework_TestCase
 }
 
 /**
- * Callback for the use of JHttp to return a response to an OAuth request
+ * Method to send the POST command to the server.
  *
- * @param   string   $method     The HTTP method for sending the request.
- * @param   JUri     $uri        The URI to the resource to request.
- * @param   mixed    $data       Either an associative array or a string to be sent with the request.
- * @param   array    $headers    An array of request headers to send with the request.
- * @param   integer  $timeout    Read timeout in seconds.
- * @param   string   $userAgent  The optional user agent string to send with the request.
+ * @param   string   $url      Path to the resource.
+ * @param   mixed    $data     Either an associative array or a string to be sent with the request.
+ * @param   array    $headers  An array of name-value pairs to include in the header of the request
+ * @param   integer  $timeout  Read timeout in seconds.
  *
  * @return  JHttpResponse
+ *
+ * @since   12.2
  */
-function httpCallback($method, JUri $uri, $data = null, array $headers = null, $timeout = null, $userAgent = null)
+function postOauthCallback($url, $data, array $headers = null, $timeout = null)
 {
 	if (isset($data['grant_type']))
 	{
@@ -272,5 +305,25 @@ function httpCallback($method, JUri $uri, $data = null, array $headers = null, $
 		$response->headers = array('Content-Type' => 'text/html');
 		$response->body = 'Lorem ipsum dolor sit amet.';
 	}
+	return $response;
+}
+
+/**
+ * Method to send the GET command to the server.
+ *
+ * @param   string   $url      Path to the resource.
+ * @param   array    $headers  An array of name-value pairs to include in the header of the request.
+ * @param   integer  $timeout  Read timeout in seconds.
+ *
+ * @return  JHttpResponse
+ *
+ * @since   12.2
+ */
+function getOauthCallback($url, array $headers = null, $timeout = null)
+{
+	$response->code = 200;
+	$response->headers = array('Content-Type' => 'text/html');
+	$response->body = 'Lorem ipsum dolor sit amet.';
+
 	return $response;
 }
