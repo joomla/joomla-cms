@@ -7,11 +7,19 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+class TestModelLead extends JModelLegacy
+{
+}
+
+class RemodelModelRoom extends JModelLegacy
+{
+}
+
 /**
  * Test class for JModelLegacy.
  */
-class JModelLegacyTest extends PHPUnit_Framework_TestCase
-{
+class JModelLegacyTest extends TestCase
+{	
 	/**
 	 * @todo Implement testGetInstance().
 	 */
@@ -62,8 +70,17 @@ class JModelLegacyTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetName()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$class = JModelLegacy::getInstance('Lead', 'TestModel');
+		$this->assertEquals('lead', $class->getName());
+		$this->assertEquals('com_test', TestReflection::getValue($class, 'option'));
+
+		$class = JModelLegacy::getInstance('Room', 'RemodelModel');
+		$this->assertEquals('room', $class->getName());
+		$this->assertEquals('com_remodel', TestReflection::getValue($class, 'option'));
+
+		TestReflection::setValue($class, 'name', 'foo');
+		$this->assertEquals('foo', $class->getName());
+		$this->assertEquals('com_remodel', TestReflection::getValue($class, 'option'));
 	}
 
 	/**

@@ -211,14 +211,15 @@ abstract class JModelLegacy extends JObject
 		// Guess the option from the class name (Option)Model(View).
 		if (empty($this->option))
 		{
-			$r = null;
+			$classname = get_class($this);
+			$modelpos = strpos($classname, 'Model');
 
-			if (!preg_match('/(.*)Model/i', get_class($this), $r))
+			if ($modelpos === false)
 			{
 				throw new Exception(JText::_('JLIB_APPLICATION_ERROR_MODEL_GET_NAME'), 500);
 			}
 
-			$this->option = 'com_' . strtolower($r[1]);
+			$this->option = 'com_' . strtolower(substr($classname, 0, $modelpos));
 		}
 
 		// Set the view name
@@ -387,12 +388,15 @@ abstract class JModelLegacy extends JObject
 	{
 		if (empty($this->name))
 		{
-			$r = null;
-			if (!preg_match('/Model(.*)/i', get_class($this), $r))
+			$classname = get_class($this);
+			$modelpos = strpos($classname, 'Model');
+
+			if ($modelpos === false)
 			{
 				throw new Exception(JText::_('JLIB_APPLICATION_ERROR_MODEL_GET_NAME'), 500);
 			}
-			$this->name = strtolower($r[1]);
+
+			$this->name = strtolower(substr($classname, $modelpos + 5));
 		}
 
 		return $this->name;
