@@ -69,7 +69,7 @@ abstract class JGoogleData
 	}
 
 	/**
-	 * Method to retrieve a list of Picasa Albums
+	 * Method to validate XML
 	 *
 	 * @param   string  $data  XML data to be parsed
 	 *
@@ -105,5 +105,36 @@ abstract class JGoogleData
 	protected function query($url, $data = null, $headers = null, $method = 'post')
 	{
 		$this->client->query($url, $data, $headers, $method);
+	}
+
+	/**
+	 * Get an option from the JGoogleData instance.
+	 *
+	 * @param   string  $key  The name of the option to get.
+	 *
+	 * @return  mixed  The option value.
+	 *
+	 * @since   1234
+	 */
+	public function getOption($key)
+	{
+		return $this->options->get($key);
+	}
+
+	/**
+	 * Set an option for the JGoogleData instance.
+	 *
+	 * @param   string  $key    The name of the option to set.
+	 * @param   mixed   $value  The option value to set.
+	 *
+	 * @return  JGoogleData  This object for method chaining.
+	 *
+	 * @since   1234
+	 */
+	public function setOption($key, $value)
+	{
+		$this->options->set($key, $value);
+
+		return $this;
 	}
 }
