@@ -327,6 +327,46 @@ class JGithubIssues extends JGithubObject
 	}
 
 	/**
+	 * Method to update a label on a repo.
+	 *
+	 * @param   string  $user   The name of the owner of the GitHub repository.
+	 * @param   string  $repo   The name of the GitHub repository.
+	 * @param   string  $label  The label name.
+	 * @param   string  $name   The label name.
+	 * @param   string  $color  The label color.
+	 *
+	 * @return  object
+	 *
+	 * @since   12.3
+	 */
+	public function editLabel($user, $repo, $label, $name, $color)
+	{
+		// Build the request path.
+		$path = '/repos/' . $user . '/' . $repo . '/labels/' . $label;
+
+		// Build the request data.
+		$data = json_encode(
+			array(
+				'name' => $name,
+				'color' => $color
+			)
+		);
+
+		// Send the request.
+		$response = $this->client->patch($this->fetchUrl($path), $data);
+
+		// Validate the response code.
+		if ($response->code != 200)
+		{
+			// Decode the error response and throw an exception.
+			$error = json_decode($response->body);
+			throw new DomainException($error->message, $response->code);
+		}
+
+		return json_decode($response->body);
+	}
+
+	/**
 	 * Method to get a single issue.
 	 *
 	 * @param   string   $user     The name of the owner of the GitHub repository.
