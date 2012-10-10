@@ -370,7 +370,7 @@ class JArrayHelper
 	 *
 	 * @since   11.3
 	 */
-	public function pivot($source, $key = null)
+	public static function pivot($source, $key = null)
 	{
 		$result = array();
 		$counter = array();
