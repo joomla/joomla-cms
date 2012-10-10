@@ -332,6 +332,14 @@ abstract class JUserHelper
 			case 'smd5':
 				$encrypted = base64_encode(mhash(MHASH_MD5, $plaintext . $salt) . $salt);
 				return ($show_encrypt) ? '{SMD5}' . $encrypted : $encrypted;
+				
+			case 'sha-256':
+				$encrypted = ($salt) ? hash('sha256', $plaintext . $salt) : hash('sha256', $plaintext);
+				return ($show_encrypt) ? '{SHA-256}' . $encrypted : $encrypted;
+				
+			case 'sha-512':
+				$encrypted = ($salt) ? hash('sha512', $plaintext . $salt) : hash('sha512', $plaintext);
+				return ($show_encrypt) ? '{SHA-512}' . $encrypted : $encrypted;
 
 			case 'aprmd5':
 				$length = strlen($plaintext);
@@ -433,23 +441,43 @@ abstract class JUserHelper
 
 			case 'crypt-blowfish':
 				if ($seed)
-				{
-					return substr(preg_replace('|^{crypt}|i', '', $seed), 0, 16);
+				{	
+					return $seed;
 				}
-				else
-				{
-					return '$2$' . substr(md5(mt_rand()), 0, 12) . '$';
+				else {
+					return '$2a$08$' . str_replace( '+', '.', substr(sha1(mt_rand()), 0, 22));
 				}
 				break;
 
 			case 'ssha':
+			case 'sha-256':
+			case 'sha-512':
+			case 'md5-hex':
 				if ($seed)
 				{
-					return substr(preg_replace('|^{SSHA}|', '', $seed), -20);
+					if ($seed == 'nosalt')
+					{
+						return '';						
+					}
+					else 
+					{
+						return $seed;
+					}
 				}
 				else
 				{
-					return mhash_keygen_s2k(MHASH_SHA1, $plaintext, substr(pack('h*', md5(mt_rand())), 0, 8), 4);
+					// This is taken from the generate random password function;
+					$length = 18;
+					$salt = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+					$len = strlen($salt);
+					$makepass = '';
+				
+					for ($i = 0; $i < $length; $i++)
+					{
+						$makepass .= $salt[mt_rand(0, $len - 1)];
+					}
+				
+					return $makepass;
 				}
 				break;
 

@@ -203,10 +203,12 @@ class JInstallationModelConfiguration extends JModel
 		}
 
 		// Create random salt/password for the admin user
-		$salt = JUserHelper::genRandomPassword(32);
-		$crypt = JUserHelper::getCryptedPassword($options->admin_password, $salt);
-		$cryptpass = $crypt.':'.$salt;
-
+		
+		// use bcrypt by default, the user can switch later on.
+		$salt = JUserHelper::getSalt('crypt-blowfish');
+		$crypt = JUserHelper::getCryptedPassword($options->admin_password, $salt, 'crypt-blowfish');
+		$cryptpass = 'crypt-blowfish' . ':' . $crypt . ':' . $salt;
+		
 		// create the admin user
 		date_default_timezone_set('UTC');
 		$installdate	= date('Y-m-d H:i:s');
