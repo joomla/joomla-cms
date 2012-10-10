@@ -17,31 +17,31 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package     Joomla.Platform
  * @subpackage  Google
- * @since       12.2
+ * @since       12.3
  */
 class JGoogle
 {
 	/**
 	 * @var    JRegistry  Options for the Google object.
-	 * @since  12.2
+	 * @since  12.3
 	 */
 	protected $options;
 
 	/**
 	 * @var    JAuth  The authentication client object to use in sending authenticated HTTP requests.
-	 * @since  12.2
+	 * @since  12.3
 	 */
 	protected $auth;
 
 	/**
 	 * @var    JGoogleData  Google API object for data request.
-	 * @since  12.2
+	 * @since  12.3
 	 */
 	protected $data;
 
 	/**
 	 * @var    JGoogleEmbed  Google API object for embed generation.
-	 * @since  12.2
+	 * @since  12.3
 	 */
 	protected $embed;
 
@@ -82,6 +82,9 @@ class JGoogle
 		}
 		switch ($name)
 		{
+			case 'plus':
+			case 'Plus':
+				return new JGoogleDataPlus($options, $auth);
 			case 'picasa':
 			case 'Picasa':
 				return new JGoogleDataPicasa($options, $auth);

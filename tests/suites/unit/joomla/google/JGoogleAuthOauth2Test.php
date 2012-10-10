@@ -13,12 +13,12 @@ require_once JPATH_PLATFORM . '/joomla/google/google.php';
  *
  * @package     Joomla.UnitTest
  * @subpackage  Google
- * @since       12.2
+ * @since       12.3
  */
 class JGoogleAuthOauth2Test extends PHPUnit_Framework_TestCase
 {
 	/**
-	 * @var    JRegistry  Options for the JOauthV2client object.
+	 * @var    JRegistry  Options for the JOAuth2Client object.
 	 */
 	protected $options;
 
@@ -33,9 +33,14 @@ class JGoogleAuthOauth2Test extends PHPUnit_Framework_TestCase
 	protected $input;
 
 	/**
-	 * @var    JOauthV2client  The OAuth client for sending requests to Google.
+	 * @var    JOAuth2Client  The OAuth client for sending requests to Google.
 	 */
 	protected $oauth;
+
+	/**
+	 * @var    JApplicationWeb  The application object to send HTTP headers for redirects.
+	 */
+	protected $application;
 
 	/**
 	 * @var    JGoogleAuthOauth2  Object under test.
@@ -51,10 +56,16 @@ class JGoogleAuthOauth2Test extends PHPUnit_Framework_TestCase
 	 */
 	protected function setUp()
 	{
+		$_SERVER['HTTP_HOST'] = 'mydomain.com';
+		$_SERVER['HTTP_USER_AGENT'] = 'Mozilla/5.0';
+		$_SERVER['REQUEST_URI'] = '/index.php';
+		$_SERVER['SCRIPT_NAME'] = '/index.php';
+
 		$this->options = new JRegistry;
 		$this->http = $this->getMock('JHttp', array('head', 'get', 'delete', 'trace', 'post', 'put', 'patch'), array($this->options));
 		$this->input = new JInput;
-		$this->oauth = new JOauthV2client($this->options, $this->http, $this->input);
+		$this->application = new JApplicationWebInspector;
+		$this->oauth = new JOAuth2Client($this->options, $this->http, $this->input, $this->application);
 		$this->object = new JGoogleAuthOauth2($this->options, $this->oauth);
 	}
 
@@ -82,23 +93,13 @@ class JGoogleAuthOauth2Test extends PHPUnit_Framework_TestCase
 		$this->object->setOption('redirecturi', 'http://localhost/oauth');
 		$this->object->setOption('sendheaders', true);
 
-		$this->object->auth();
-		$headers = JResponse::getHeaders();
-		$location = false;
-		foreach ($headers as $header)
-		{
-			if ($header['name'] == 'Location')
-			{
-				$location = true;
-				$this->assertEquals($this->oauth->createUrl(), $header['value']);
-			}
-		}
-		$this->assertTrue($location);
+		$this->object->authenticate();
+		$this->assertEquals(0, $this->application->closed);
 
 		$this->object->setOption('clientsecret', 'jeDs8rKw_jDJW8MMf-ff8ejs');
 		$this->input->set('code', '4/wEr_dK8SDkjfpwmc98KejfiwJP-f4wm.kdowmnr82jvmeisjw94mKFIJE48mcEM');
 		$this->http->expects($this->once())->method('post')->will($this->returnCallback('jsonGrantOauthCallback'));
-		$result = $this->object->auth();
+		$result = $this->object->authenticate();
 		$this->assertEquals('accessvalue', $result['access_token']);
 		$this->assertEquals('refreshvalue', $result['refresh_token']);
 		$this->assertEquals(3600, $result['expires_in']);
@@ -113,7 +114,7 @@ class JGoogleAuthOauth2Test extends PHPUnit_Framework_TestCase
 	 */
 	public function testIsAuth()
 	{
-		$this->assertFalse($this->object->isAuth());
+		$this->assertFalse($this->object->isAuthenticated());
 
 		$token['access_token'] = 'accessvalue';
 		$token['refresh_token'] = 'refreshvalue';
@@ -121,13 +122,13 @@ class JGoogleAuthOauth2Test extends PHPUnit_Framework_TestCase
 		$token['expires_in'] = 3600;
 		$this->oauth->setToken($token);
 
-		$this->assertTrue($this->object->isAuth());
+		$this->assertTrue($this->object->isAuthenticated());
 
 		$token['created'] = time() - 4000;
 		$token['expires_in'] = 3600;
 		$this->oauth->setToken($token);
 
-		$this->assertFalse($this->object->isAuth());
+		$this->assertFalse($this->object->isAuthenticated());
 	}
 
 	/**

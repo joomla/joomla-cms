@@ -13,12 +13,12 @@ require_once JPATH_PLATFORM . '/joomla/google/data/adsense.php';
  *
  * @package     Joomla.UnitTest
  * @subpackage  Google
- * @since       12.2
+ * @since       12.3
  */
 class JGoogleDataAdsenseTest extends PHPUnit_Framework_TestCase
 {
 	/**
-	 * @var    JRegistry  Options for the JOauthV2client object.
+	 * @var    JRegistry  Options for the JOAuth2Client object.
 	 */
 	protected $options;
 
@@ -33,7 +33,7 @@ class JGoogleDataAdsenseTest extends PHPUnit_Framework_TestCase
 	protected $input;
 
 	/**
-	 * @var    JOauthV2client  The OAuth client for sending requests to Google.
+	 * @var    JOAuth2Client  The OAuth client for sending requests to Google.
 	 */
 	protected $oauth;
 
@@ -56,10 +56,15 @@ class JGoogleDataAdsenseTest extends PHPUnit_Framework_TestCase
 	 */
 	protected function setUp()
 	{
+		$_SERVER['HTTP_HOST'] = 'mydomain.com';
+		$_SERVER['HTTP_USER_AGENT'] = 'Mozilla/5.0';
+		$_SERVER['REQUEST_URI'] = '/index.php';
+		$_SERVER['SCRIPT_NAME'] = '/index.php';
+
 		$this->options = new JRegistry;
 		$this->http = $this->getMock('JHttp', array('head', 'get', 'delete', 'trace', 'post', 'put', 'patch'), array($this->options));
 		$this->input = new JInput;
-		$this->oauth = new JOauthV2client($this->options, $this->http, $this->input);
+		$this->oauth = new JOAuth2Client($this->options, $this->http, $this->input);
 		$this->auth = new JGoogleAuthOauth2($this->options, $this->oauth);
 		$this->object = new JGoogleDataAdsense($this->options, $this->auth);
 
@@ -93,7 +98,7 @@ class JGoogleDataAdsenseTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testAuth()
 	{
-		$this->assertEquals($this->auth->auth(), $this->object->auth());
+		$this->assertEquals($this->auth->authenticate(), $this->object->authenticate());
 	}
 
 	/**
@@ -104,7 +109,7 @@ class JGoogleDataAdsenseTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testIsAuth()
 	{
-		$this->assertEquals($this->auth->isAuth(), $this->object->authenticated());
+		$this->assertEquals($this->auth->isAuthenticated(), $this->object->isAuthenticated());
 	}
 
 	/**

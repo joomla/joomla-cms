@@ -7,19 +7,19 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM . '/joomla/oauth/2client.php';
+require_once JPATH_PLATFORM . '/joomla/oauth2/client.php';
 
 /**
- * Test class for JOauth2client.
+ * Test class for JOAuth2Client.
  *
  * @package     Joomla.UnitTest
  * @subpackage  Oauth
- * @since       12.2
+ * @since       12.3
  */
-class JOauth2clientTest extends PHPUnit_Framework_TestCase
+class JOAuth2ClientTest extends PHPUnit_Framework_TestCase
 {
 	/**
-	 * @var    JRegistry  Options for the JOauth2client object.
+	 * @var    JRegistry  Options for the JOAuth2Client object.
 	 */
 	protected $options;
 
@@ -34,7 +34,12 @@ class JOauth2clientTest extends PHPUnit_Framework_TestCase
 	protected $input;
 
 	/**
-	 * @var    JOauth2client  Object under test.
+	 * @var    JApplicationWeb  The application object to send HTTP headers for redirects.
+	 */
+	protected $application;
+
+	/**
+	 * @var    JOAuth2Client  Object under test.
 	 */
 	protected $object;
 
@@ -47,17 +52,17 @@ class JOauth2clientTest extends PHPUnit_Framework_TestCase
 	 */
 	protected function setUp()
 	{
+		$_SERVER['HTTP_HOST'] = 'mydomain.com';
+		$_SERVER['HTTP_USER_AGENT'] = 'Mozilla/5.0';
+		$_SERVER['REQUEST_URI'] = '/index.php';
+		$_SERVER['SCRIPT_NAME'] = '/index.php';
+
 		$this->options = new JRegistry;
-<<<<<<< HEAD
-		$this->http = $this->getMock('JOauthHttp', array('head', 'get', 'delete', 'trace', 'post', 'put', 'patch'), array($this->options));
-		$this->input = new JInput;
-		$this->object = new JOauth2client($this->options, $this->http, $this->input);
-=======
 		$this->http = $this->getMock('JHttp', array('head', 'get', 'delete', 'trace', 'post', 'put', 'patch'), array($this->options));
 		$array = array();
 		$this->input = new JInput($array);
-		$this->object = new JOauthV2client($this->options, $this->http, $this->input);
->>>>>>> d006b01... Remove additional http class.
+		$this->application = new JApplicationWebInspector;
+		$this->object = new JOAuth2Client($this->options, $this->http, $this->input, $this->application);
 	}
 
 	/**
@@ -74,7 +79,7 @@ class JOauth2clientTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the auth method
 	 *
-	 * @group	JOauth
+	 * @group	JOAuth2
 	 * @return void
 	 */
 	public function testAuth()
@@ -86,25 +91,15 @@ class JOauth2clientTest extends PHPUnit_Framework_TestCase
 		$this->object->setOption('requestparams', array('access_type' => 'offline', 'approval_prompt' => 'auto'));
 		$this->object->setOption('sendheaders', true);
 
-		$this->object->auth();
-		$headers = JResponse::getHeaders();
-		$location = false;
-		foreach ($headers as $header)
-		{
-			if ($header['name'] == 'Location')
-			{
-				$location = true;
-				$this->assertEquals($this->object->createUrl(), $header['value']);
-			}
-		}
-		$this->assertEquals(true, $location);
+		$this->object->authenticate();
+		$this->assertEquals(0, $this->application->closed);
 
 		$this->object->setOption('tokenurl', 'https://accounts.google.com/o/oauth2/token');
 		$this->object->setOption('clientsecret', 'jeDs8rKw_jDJW8MMf-ff8ejs');
 		$this->input->set('code', '4/wEr_dK8SDkjfpwmc98KejfiwJP-f4wm.kdowmnr82jvmeisjw94mKFIJE48mcEM');
 
 		$this->http->expects($this->once())->method('post')->will($this->returnCallback('encodedGrantOauthCallback'));
-		$result = $this->object->auth();
+		$result = $this->object->authenticate();
 		$this->assertEquals('accessvalue', $result['access_token']);
 		$this->assertEquals('refreshvalue', $result['refresh_token']);
 		$this->assertEquals(3600, $result['expires_in']);
@@ -114,7 +109,7 @@ class JOauth2clientTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the auth method with JSON data
 	 *
-	 * @group	JOauth
+	 * @group	JOAuth2
 	 * @return void
 	 */
 	public function testAuthJson()
@@ -124,7 +119,7 @@ class JOauth2clientTest extends PHPUnit_Framework_TestCase
 		$this->input->set('code', '4/wEr_dK8SDkjfpwmc98KejfiwJP-f4wm.kdowmnr82jvmeisjw94mKFIJE48mcEM');
 
 		$this->http->expects($this->once())->method('post')->will($this->returnCallback('jsonGrantOauthCallback'));
-		$result = $this->object->auth();
+		$result = $this->object->authenticate();
 		$this->assertEquals('accessvalue', $result['access_token']);
 		$this->assertEquals('refreshvalue', $result['refresh_token']);
 		$this->assertEquals(3600, $result['expires_in']);
@@ -134,12 +129,12 @@ class JOauth2clientTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the isauth method
 	 *
-	 * @group	JOauth
+	 * @group	JOAuth2
 	 * @return void
 	 */
 	public function testIsAuth()
 	{
-		$this->assertEquals(false, $this->object->isAuth());
+		$this->assertEquals(false, $this->object->isAuthenticated());
 
 		$token['access_token'] = 'accessvalue';
 		$token['refresh_token'] = 'refreshvalue';
@@ -147,19 +142,19 @@ class JOauth2clientTest extends PHPUnit_Framework_TestCase
 		$token['expires_in'] = 3600;
 		$this->object->setToken($token);
 
-		$this->assertTrue($this->object->isAuth());
+		$this->assertTrue($this->object->isAuthenticated());
 
 		$token['created'] = time() - 4000;
 		$token['expires_in'] = 3600;
 		$this->object->setToken($token);
 
-		$this->assertFalse($this->object->isAuth());
+		$this->assertFalse($this->object->isAuthenticated());
 	}
 
 	/**
 	 * Tests the auth method
 	 *
-	 * @group	JOauth
+	 * @group	JOAuth2
 	 * @return void
 	 */
 	public function testCreateUrl()
@@ -184,7 +179,7 @@ class JOauth2clientTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the auth method
 	 *
-	 * @group	JOauth
+	 * @group	JOAuth2
 	 * @return void
 	 */
 	public function testQuery()
@@ -216,7 +211,7 @@ class JOauth2clientTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the setOption method
 	 *
-	 * @group	JOauth
+	 * @group	JOAuth2
 	 * @return void
 	 */
 	public function testSetOption()
@@ -232,7 +227,7 @@ class JOauth2clientTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the getOption method
 	 *
-	 * @group	JOauth
+	 * @group	JOAuth2
 	 * @return void
 	 */
 	public function testGetOption()
@@ -248,7 +243,7 @@ class JOauth2clientTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the setToken method
 	 *
-	 * @group	JOauth
+	 * @group	JOAuth2
 	 * @return void
 	 */
 	public function testSetToken()
@@ -278,7 +273,7 @@ class JOauth2clientTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the getToken method
 	 *
-	 * @group	JOauth
+	 * @group	JOAuth2
 	 * @return void
 	 */
 	public function testGetToken()
@@ -294,7 +289,7 @@ class JOauth2clientTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the refreshToken method
 	 *
-	 * @group	JOauth
+	 * @group	JOAuth2
 	 * @return void
 	 */
 	public function testRefreshToken()
@@ -317,7 +312,7 @@ class JOauth2clientTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the refreshToken method with JSON
 	 *
-	 * @group	JOauth
+	 * @group	JOAuth2
 	 * @return void
 	 */
 	public function testRefreshTokenJson()

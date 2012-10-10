@@ -13,12 +13,12 @@ require_once JPATH_PLATFORM . '/joomla/google/google.php';
  *
  * @package     Joomla.UnitTest
  * @subpackage  Google
- * @since       12.2
+ * @since       12.3
  */
 class JGoogleEmbedMapsTest extends PHPUnit_Framework_TestCase
 {
 	/**
-	 * @var    JRegistry  Options for the JOauthV2client object.
+	 * @var    JRegistry  Options for the JOAuth2Client object.
 	 */
 	protected $options;
 
@@ -618,7 +618,7 @@ class JGoogleEmbedMapsTest extends PHPUnit_Framework_TestCase
 		$this->assertContains('position: new google.maps.LatLng(25,75),', $header);
 		$this->assertContains("title:'Home'", $header);
 		$this->assertContains("title:'25, 75'", $header);
-		$this->assertContains('centerkey:"value"', $header);
+		$this->assertContains('"centerkey":"value"', $header);
 
 		// Loading
 		$this->assertContains("function asynchronouscallback() {", $header);

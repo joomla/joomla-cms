@@ -13,12 +13,12 @@ require_once JPATH_PLATFORM . '/joomla/google/google.php';
  *
  * @package     Joomla.UnitTest
  * @subpackage  Google
- * @since       12.2
+ * @since       12.3
  */
 class JGoogleEmbedAnalyticsTest extends PHPUnit_Framework_TestCase
 {
 	/**
-	 * @var    JRegistry  Options for the JOauthV2client object.
+	 * @var    JRegistry  Options for the JOAuth2Client object.
 	 */
 	protected $options;
 

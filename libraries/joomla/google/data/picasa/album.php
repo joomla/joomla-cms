@@ -14,13 +14,13 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package     Joomla.Platform
  * @subpackage  Google
- * @since       12.2
+ * @since       12.3
  */
 class JGoogleDataPicasaAlbum extends JGoogleData
 {
 	/**
 	 * @var    SimpleXMLElement  The album's XML
-	 * @since  12.2
+	 * @since  12.3
 	 */
 	protected $xml;
 
@@ -50,14 +50,14 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 	 *
 	 * @param   mixed  $match  Check for most up to date album
 	 *
-	 * @return  bool  Success or failure.
+	 * @return  boolean  Success or failure.
 	 *
 	 * @since   12.2
 	 * @throws UnexpectedValueException
 	 */
 	public function delete($match = '*')
 	{
-		if ($this->authenticated())
+		if ($this->isAuthenticated())
 		{
 			$url = $this->getLink();
 			if ($match === true)
@@ -165,14 +165,13 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 	/**
 	 * Method to get the time of the album
 	 *
-	 * @return  int  Album time
+	 * @return  double  Album time
 	 *
 	 * @since   12.2
 	 */
 	public function getTime()
 	{
-		return (int) $this->xml->children('gphoto', true)->timestamp;
-		return $this;
+		return (double) $this->xml->children('gphoto', true)->timestamp / 1000;
 	}
 
 	/**
@@ -246,7 +245,7 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 	 */
 	public function setTime($time)
 	{
-		$this->xml->children('gphoto', true)->timestamp = $time;
+		$this->xml->children('gphoto', true)->timestamp = $time * 1000;
 		return $this;
 	}
 
@@ -261,7 +260,7 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 	 */
 	public function save($match = '*')
 	{
-		if ($this->authenticated())
+		if ($this->isAuthenticated())
 		{
 			$url = $this->getLink();
 			if ($match === true)
@@ -303,7 +302,7 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 	 */
 	public function refresh()
 	{
-		if ($this->authenticated())
+		if ($this->isAuthenticated())
 		{
 			$url = $this->getLink();
 			$jdata = $this->query($url, null, array('GData-Version' => 2));
@@ -326,7 +325,7 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 	 */
 	public function listPhotos()
 	{
-		if ($this->authenticated())
+		if ($this->isAuthenticated())
 		{
 			$url = $this->getLink('http://schemas.google.com/g/2005#feed');
 			$jdata = $this->query($url, null, array('GData-Version' => 2));
@@ -365,7 +364,7 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 	 */
 	public function upload($file, $title = '', $summary = '')
 	{
-		if ($this->authenticated())
+		if ($this->isAuthenticated())
 		{
 			$title = $title != '' ? $title : JFile::getName($file);
 			if (!($type = $this->getMIME($file)))

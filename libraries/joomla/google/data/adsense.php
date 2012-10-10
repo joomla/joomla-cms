@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package     Joomla.Platform
  * @subpackage  Google
- * @since       12.2
+ * @since       12.3
  */
 class JGoogleDataAdsense extends JGoogleData
 {
@@ -39,8 +39,8 @@ class JGoogleDataAdsense extends JGoogleData
 	/**
 	 * Method to get an Adsense account's settings from Google
 	 *
-	 * @param   string  $accountID    ID of account to get
-	 * @param   bool    $subaccounts  Include list of subaccounts
+	 * @param   string   $accountID    ID of account to get
+	 * @param   boolean  $subaccounts  Include list of subaccounts
 	 *
 	 * @return  mixed  Data from Google
 	 *
@@ -48,7 +48,7 @@ class JGoogleDataAdsense extends JGoogleData
 	 */
 	public function getAccount($accountID, $subaccounts = true)
 	{
-		if ($this->authenticated())
+		if ($this->isAuthenticated())
 		{
 			$url = 'https://www.googleapis.com/adsense/v1.1/accounts/' . urlencode($accountID) . ($subaccounts ? '?tree=true' : '');
 			$jdata = $this->query($url);
@@ -80,7 +80,7 @@ class JGoogleDataAdsense extends JGoogleData
 	 */
 	public function listAccounts($options = array(), $maxpages = 1)
 	{
-		if ($this->authenticated())
+		if ($this->isAuthenticated())
 		{
 			$next = array_key_exists('nextPageToken', $options) ? $options['nextPage'] : null;
 			unset($options['nextPageToken']);
@@ -107,7 +107,7 @@ class JGoogleDataAdsense extends JGoogleData
 	 */
 	public function listClients($accountID, $options = array(), $maxpages = 1)
 	{
-		if ($this->authenticated())
+		if ($this->isAuthenticated())
 		{
 			$next = array_key_exists('nextPageToken', $options) ? $options['nextPage'] : null;
 			unset($options['nextPageToken']);
@@ -133,7 +133,7 @@ class JGoogleDataAdsense extends JGoogleData
 	 */
 	public function getUnit($accountID, $adclientID, $adunitID)
 	{
-		if ($this->authenticated())
+		if ($this->isAuthenticated())
 		{
 			$url = 'https://www.googleapis.com/adsense/v1.1/accounts/' . urlencode($accountID);
 			$url .= '/adclients/' . urlencode($adclientID) . '/adunits/' . urlencode($adunitID);
@@ -169,7 +169,7 @@ class JGoogleDataAdsense extends JGoogleData
 	 */
 	public function listUnitChannels($accountID, $adclientID, $adunitID, $options = array(), $maxpages = 1)
 	{
-		if ($this->authenticated())
+		if ($this->isAuthenticated())
 		{
 			$next = array_key_exists('nextPageToken', $options) ? $options['nextPage'] : null;
 			unset($options['nextPageToken']);
@@ -196,7 +196,7 @@ class JGoogleDataAdsense extends JGoogleData
 	 */
 	public function getChannel($accountID, $adclientID, $channelID)
 	{
-		if ($this->authenticated())
+		if ($this->isAuthenticated())
 		{
 			$url = 'https://www.googleapis.com/adsense/v1.1/accounts/' . urlencode($accountID) . '/adclients/';
 			$url .= urlencode($adclientID) . '/customchannels/' . urlencode($channelID);
@@ -231,7 +231,7 @@ class JGoogleDataAdsense extends JGoogleData
 	 */
 	public function listChannels($accountID, $adclientID, $options = array(), $maxpages = 1)
 	{
-		if ($this->authenticated())
+		if ($this->isAuthenticated())
 		{
 			$next = array_key_exists('nextPageToken', $options) ? $options['nextPage'] : null;
 			unset($options['nextPageToken']);
@@ -261,7 +261,7 @@ class JGoogleDataAdsense extends JGoogleData
 	 */
 	public function listChannelUnits($accountID, $adclientID, $channelID, $options = array(), $maxpages = 1)
 	{
-		if ($this->authenticated())
+		if ($this->isAuthenticated())
 		{
 			$next = array_key_exists('nextPageToken', $options) ? $options['nextPage'] : null;
 			unset($options['nextPageToken']);
@@ -290,7 +290,7 @@ class JGoogleDataAdsense extends JGoogleData
 	 */
 	public function listUrlChannels($accountID, $adclientID, $options = array(), $maxpages = 1)
 	{
-		if ($this->authenticated())
+		if ($this->isAuthenticated())
 		{
 			$next = array_key_exists('nextPageToken', $options) ? $options['nextPage'] : null;
 			unset($options['nextPageToken']);
@@ -320,7 +320,7 @@ class JGoogleDataAdsense extends JGoogleData
 	 */
 	public function generateReport($accountID, $start, $end = false, $options = array(), $maxpages = 1)
 	{
-		if ($this->authenticated())
+		if ($this->isAuthenticated())
 		{
 			if (is_int($start))
 			{

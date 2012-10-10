@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package     Joomla.Platform
  * @subpackage  Google
- * @since       12.2
+ * @since       12.3
  */
 class JGoogleDataPicasa extends JGoogleData
 {
@@ -48,7 +48,7 @@ class JGoogleDataPicasa extends JGoogleData
 	 */
 	public function listAlbums($userID = 'default')
 	{
-		if ($this->authenticated())
+		if ($this->isAuthenticated())
 		{
 			$url = 'https://picasaweb.google.com/data/feed/api/user/' . urlencode($userID);
 			$jdata = $this->query($url, null, array('GData-Version' => 2));
@@ -90,7 +90,7 @@ class JGoogleDataPicasa extends JGoogleData
 	 */
 	public function createAlbum($userID = 'default', $title = '', $access = 'private', $summary = '', $location = '', $time = false, $keywords = array())
 	{
-		if ($this->authenticated())
+		if ($this->isAuthenticated())
 		{
 			$time = $time ? $time : time();
 			$title = $title != '' ? $title : date('F j, Y');
@@ -131,7 +131,7 @@ class JGoogleDataPicasa extends JGoogleData
 	 */
 	public function getAlbum($url)
 	{
-		if ($this->authenticated())
+		if ($this->isAuthenticated())
 		{
 			$jdata = $this->query($url, null, array('GData-Version' => 2));
 			$xml = $this->safeXML($jdata->body);

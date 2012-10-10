@@ -15,19 +15,19 @@ jimport('joomla.environment.uri');
  *
  * @package     Joomla.Platform
  * @subpackage  Google
- * @since       12.2
+ * @since       12.3
  */
 abstract class JGoogleEmbed
 {
 	/**
 	 * @var    JRegistry  Options for the Google data object.
-	 * @since  12.2
+	 * @since  12.3
 	 */
 	protected $options;
 
 	/**
 	 * @var    JURI  URI of the page being rendered.
-	 * @since  12.2
+	 * @since  12.3
 	 */
 	protected $uri;
 
@@ -128,52 +128,5 @@ abstract class JGoogleEmbed
 		$this->options->set($key, $value);
 
 		return $this;
-	}
-
-	/**
-	 * Create a javascript array from a PHP array
-	 *
-	 * @param   array  $array   The array to convert to javascript
-	 * @param   bool   $escape  Escape strings
-	 *
-	 * @return  string  The javscript code
-	 *
-	 * @since   12.2
-	 */
-	static protected function arrayToJavascript($array, $escape = true)
-	{
-		$string = '';
-		foreach ($array as $key => $value)
-		{
-			if (is_string($key))
-			{
-				$string .= $key . ':';
-			}
-
-			if ($escape && is_string($value))
-			{
-				$string .= '"' . str_replace('"', '\"', $value) . '"';
-			}
-			elseif (is_array($value))
-			{
-				$string .= '[' . self::arrayToJavascript($value) . ']';
-			}
-			elseif (is_bool($value))
-			{
-				$string .= $value ? 'true' : 'false';
-			}
-			elseif (is_null($value))
-			{
-				$string .= 'null';
-			}
-			else
-			{
-				$string .= $value;
-			}
-
-			$string .= ',';
-		}
-
-		return substr($string, 0, -1);
 	}
 }

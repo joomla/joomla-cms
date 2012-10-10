@@ -14,19 +14,19 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package     Joomla.Platform
  * @subpackage  Google
- * @since       12.2
+ * @since       12.3
  */
 abstract class JGoogleData
 {
 	/**
 	 * @var    JRegistry  Options for the Google data object.
-	 * @since  12.2
+	 * @since  12.3
 	 */
 	protected $options;
 
 	/**
 	 * @var    JGoogleAuth  Authentication client for the Google data object.
-	 * @since  12.2
+	 * @since  12.3
 	 */
 	protected $auth;
 
@@ -47,25 +47,25 @@ abstract class JGoogleData
 	/**
 	 * Method to authenticate to Google
 	 *
-	 * @return  bool  True on success.
+	 * @return  boolean  True on success.
 	 *
 	 * @since   12.2
 	 */
-	public function auth()
+	public function authenticate()
 	{
-		return $this->auth->auth();
+		return $this->auth->authenticate();
 	}
 
 	/**
 	 * Check authentication
 	 *
-	 * @return  bool  True if authenticated.
+	 * @return  boolean  True if authenticated.
 	 *
 	 * @since   12.2
 	 */
-	public function authenticated()
+	public function isAuthenticated()
 	{
-		return $this->auth->isAuth();
+		return $this->auth->isAuthenticated();
 	}
 
 	/**

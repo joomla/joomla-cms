@@ -15,12 +15,12 @@ jimport('joomla.environment.response');
  *
  * @package     Joomla.Platform
  * @subpackage  Oauth
- * @since       12.2
+ * @since       12.3
  */
-class JOauthV2client
+class JOAuth2Client
 {
 	/**
-	 * @var    JRegistry  Options for the JOauthV2client object.
+	 * @var    JRegistry  Options for the JOAuth2Client object.
 	 * @since  12.2
 	 */
 	protected $options;
@@ -38,19 +38,27 @@ class JOauthV2client
 	protected $input;
 
 	/**
+	 * @var    JApplicationWeb  The application object to send HTTP headers for redirects.
+	 * @since  12.2
+	 */
+	protected $application;
+
+	/**
 	 * Constructor.
 	 *
-	 * @param   JRegistry   $options  JOauthV2client options object
-	 * @param   JHttp      $http     The HTTP client object
-	 * @param   JInput      $input    The input object
+	 * @param   JRegistry        $options      JOAuth2Client options object
+	 * @param   JHttp            $http         The HTTP client object
+	 * @param   JInput           $input        The input object
+	 * @param   JApplicationWeb  $application  The application object
 	 *
 	 * @since   12.2
 	 */
-	public function __construct(JRegistry $options = null, JHttp $http = null, JInput $input = null)
+	public function __construct(JRegistry $options = null, JHttp $http = null, JInput $input = null, JApplicationWeb $application = null)
 	{
 		$this->options = isset($options) ? $options : new JRegistry;
 		$this->http = isset($http) ? $http : new JHttp($this->options);
 		$this->input = isset($input) ? $input : JFactory::getApplication()->input;
+		$this->application = isset($application) ? $application : new JApplicationWeb;
 	}
 
 	/**
@@ -60,7 +68,7 @@ class JOauthV2client
 	 *
 	 * @since   12.2
 	 */
-	public function auth()
+	public function authenticate()
 	{
 		if ($data['code'] = $this->input->get('code', false, 'raw'))
 		{
@@ -94,8 +102,7 @@ class JOauthV2client
 
 		if ($this->getOption('sendheaders'))
 		{
-			JResponse::setHeader('Location', $this->createUrl(), true);
-			JResponse::sendHeaders();
+			$this->application->redirect($this->createUrl());
 		}
 		return false;
 	}
@@ -103,11 +110,11 @@ class JOauthV2client
 	/**
 	 * Verify if the client has been authenticated
 	 *
-	 * @return  bool  Is authenticated
+	 * @return  boolean  Is authenticated
 	 *
 	 * @since   12.2
 	 */
-	public function isAuth()
+	public function isAuthenticated()
 	{
 		$token = $this->getToken();
 
@@ -247,7 +254,7 @@ class JOauthV2client
 	}
 
 	/**
-	 * Get an option from the JOauthV2client instance.
+	 * Get an option from the JOAuth2Client instance.
 	 *
 	 * @param   string  $key  The name of the option to get
 	 *
@@ -261,12 +268,12 @@ class JOauthV2client
 	}
 
 	/**
-	 * Set an option for the JOauthV2client instance.
+	 * Set an option for the JOAuth2Client instance.
 	 *
 	 * @param   string  $key    The name of the option to set
 	 * @param   mixed   $value  The option value to set
 	 *
-	 * @return  JOauthV2client  This object for method chaining
+	 * @return  JOAuth2Client  This object for method chaining
 	 *
 	 * @since   12.2
 	 */
@@ -277,7 +284,7 @@ class JOauthV2client
 	}
 
 	/**
-	 * Get the access token from the JOauthV2client instance.
+	 * Get the access token from the JOAuth2Client instance.
 	 *
 	 * @return  array  The access token
 	 *
@@ -289,11 +296,11 @@ class JOauthV2client
 	}
 
 	/**
-	 * Set an option for the JOauthV2client instance.
+	 * Set an option for the JOAuth2Client instance.
 	 *
 	 * @param   array  $value  The access token
 	 *
-	 * @return  JOauthV2client  This object for method chaining
+	 * @return  JOAuth2Client  This object for method chaining
 	 *
 	 * @since   12.2
 	 */

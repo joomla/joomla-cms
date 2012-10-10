@@ -15,53 +15,53 @@ jimport('joomla.oauth.v2client');
  *
  * @package     Joomla.Platform
  * @subpackage  Google
- * @since       12.2
+ * @since       12.3
  */
 class JGoogleAuthOauth2 extends JGoogleAuth
 {
 	/**
-	 * @var    JOauthV2client  OAuth client for the Google authentication object.
-	 * @since  12.2
+	 * @var    JOAuth2Client  OAuth client for the Google authentication object.
+	 * @since  12.3
 	 */
 	protected $client;
 
 	/**
 	 * Constructor.
 	 *
-	 * @param   JRegistry       $options  JGoogleAuth options object.
-	 * @param   JOauthV2client  $client   OAuth client for Google authentication.
+	 * @param   JRegistry      $options  JGoogleAuth options object.
+	 * @param   JOAuth2Client  $client   OAuth client for Google authentication.
 	 *
 	 * @since   12.2
 	 */
-	public function __construct(JRegistry $options = null, JOauthV2client $client = null)
+	public function __construct(JRegistry $options = null, JOAuth2Client $client = null)
 	{
 		$this->options = isset($options) ? $options : new JRegistry;
-		$this->client = isset($client) ? $client : new JOauthV2client($this->options);
+		$this->client = isset($client) ? $client : new JOAuth2Client($this->options);
 	}
 
 	/**
 	 * Method to authenticate to Google
 	 *
-	 * @return  bool  True on success.
+	 * @return  boolean  True on success.
 	 *
 	 * @since   12.2
 	 */
-	public function auth()
+	public function authenticate()
 	{
 		$this->googlize();
-		return $this->client->auth();
+		return $this->client->authenticate();
 	}
 
 	/**
 	 * Verify if the client has been authenticated
 	 *
-	 * @return  bool  Is authenticated
+	 * @return  boolean  Is authenticated
 	 *
 	 * @since   12.2
 	 */
-	public function isAuth()
+	public function isAuthenticated()
 	{
-		return $this->client->isAuth();
+		return $this->client->isAuthenticated();
 	}
 
 	/**
@@ -85,7 +85,7 @@ class JGoogleAuthOauth2 extends JGoogleAuth
 	/**
 	 * Method to fill in Google-specific OAuth settings
 	 *
-	 * @return  JOauthV2client  Google-configured Oauth2 client.
+	 * @return  JOAuth2Client  Google-configured Oauth2 client.
 	 *
 	 * @since   12.2
 	 */

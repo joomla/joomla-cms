@@ -14,13 +14,13 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package     Joomla.Platform
  * @subpackage  Google
- * @since       12.2
+ * @since       12.3
  */
 class JGoogleDataPicasaPhoto extends JGoogleData
 {
 	/**
 	 * @var    SimpleXMLElement  The photo's XML
-	 * @since  12.2
+	 * @since  12.3
 	 */
 	protected $xml;
 
@@ -50,14 +50,14 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 	 *
 	 * @param   mixed  $match  Check for most up to date photo
 	 *
-	 * @return  bool  Success or failure.
+	 * @return  boolean  Success or failure.
 	 *
 	 * @since   12.2
 	 * @throws UnexpectedValueException
 	 */
 	public function delete($match = '*')
 	{
-		if ($this->authenticated())
+		if ($this->isAuthenticated())
 		{
 			$url = $this->getLink();
 			if ($match === true)
@@ -185,13 +185,13 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 	/**
 	 * Method to get the time of the photo
 	 *
-	 * @return  int  Photo time
+	 * @return  double  Photo time
 	 *
 	 * @since   12.2
 	 */
 	public function getTime()
 	{
-		return (int) $this->xml->children('gphoto', true)->timestamp;
+		return (double) $this->xml->children('gphoto', true)->timestamp / 1000;
 	}
 
 	/**
@@ -286,7 +286,7 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 	 */
 	public function setTime($time)
 	{
-		$this->xml->children('gphoto', true)->timestamp = $time;
+		$this->xml->children('gphoto', true)->timestamp = $time * 1000;
 		return $this;
 	}
 
@@ -301,7 +301,7 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 	 */
 	public function save($match = '*')
 	{
-		if ($this->authenticated())
+		if ($this->isAuthenticated())
 		{
 			$url = $this->getLink();
 			if ($match === true)
@@ -342,7 +342,7 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 	 */
 	public function refresh()
 	{
-		if ($this->authenticated())
+		if ($this->isAuthenticated())
 		{
 			$url = $this->getLink();
 			$jdata = $this->query($url, null, array('GData-Version' => 2));

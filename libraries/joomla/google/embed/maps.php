@@ -14,14 +14,14 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package     Joomla.Platform
  * @subpackage  Google
- * @since       12.2
+ * @since       12.3
  */
 class JGoogleEmbedMaps extends JGoogleEmbed
 {
 
 	/**
 	 * @var    JHttp  The HTTP client object to use in sending HTTP requests.
-	 * @since  12.2
+	 * @since  12.3
 	 */
 	protected $http;
 
@@ -395,7 +395,7 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 	/**
 	 * Checks if the javascript is set to be asynchronous
 	 *
-	 * @return  bool  True if asynchronous
+	 * @return  boolean  True if asynchronous
 	 *
 	 * @since   12.2
 	 */
@@ -460,7 +460,7 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 	/**
 	 * Checks if a sensor is set to be required
 	 *
-	 * @return  bool  True if asynchronous
+	 * @return  boolean  True if asynchronous
 	 *
 	 * @since   12.2
 	 */
@@ -548,7 +548,7 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 		$setup .= "zoom: {$zoom},";
 		$setup .= "center: new google.maps.LatLng({$center[0]},{$center[1]}),";
 		$setup .= "mapTypeId: google.maps.MapTypeId.{$maptype},";
-		$setup .= self::arrayToJavascript($this->getAdditionalMapOptions());
+		$setup .= substr(json_encode($this->getAdditionalMapOptions()), 1, -1);
 		$setup .= '};';
 		$setup .= "var map = new google.maps.Map(document.getElementById('{$id}'), mapOptions);";
 
@@ -562,7 +562,7 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 			$setup .= "position: new google.maps.LatLng({$loc[0]},{$loc[1]}),";
 			$setup .= 'map: map,';
 			$setup .= "title:'{$title}',";
-			$setup .= self::arrayToJavascript($options);
+			$setup .= substr(json_encode($options), 1, -1);
 			$setup .= '});';
 		}
 

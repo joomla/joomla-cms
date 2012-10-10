@@ -6,16 +6,16 @@
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM . '/joomla/google/google.php';
+require_once JPATH_PLATFORM . '/joomla/google/data/plus.php';
 
 /**
- * Test class for JGoogle.
+ * Test class for JGoogleDataPlus.
  *
  * @package     Joomla.UnitTest
  * @subpackage  Google
  * @since       12.3
  */
-class JGoogleTest extends PHPUnit_Framework_TestCase
+class JGoogleDataPlusTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 * @var    JRegistry  Options for the JOAuth2Client object.
@@ -38,12 +38,12 @@ class JGoogleTest extends PHPUnit_Framework_TestCase
 	protected $oauth;
 
 	/**
-	 * @var    JGoogleAuth  The authentication wrapper for sending requests to Google.
+	 * @var    JGoogleAuthOauth2  The Google OAuth client for sending requests.
 	 */
 	protected $auth;
 
 	/**
-	 * @var    JGoogle  Object under test.
+	 * @var    JGoogleDataPlus  Object under test.
 	 */
 	protected $object;
 
@@ -66,7 +66,17 @@ class JGoogleTest extends PHPUnit_Framework_TestCase
 		$this->input = new JInput;
 		$this->oauth = new JOAuth2Client($this->options, $this->http, $this->input);
 		$this->auth = new JGoogleAuthOauth2($this->options, $this->oauth);
-		$this->object = new JGoogle($this->options, $this->auth);
+		$this->object = new JGoogleDataPlus($this->options, $this->auth);
+
+		$this->object->setOption('clientid', '01234567891011.apps.googleusercontent.com');
+		$this->object->setOption('clientsecret', 'jeDs8rKw_jDJW8MMf-ff8ejs');
+		$this->object->setOption('redirecturi', 'http://localhost/oauth');
+
+		$token['access_token'] = 'accessvalue';
+		$token['refresh_token'] = 'refreshvalue';
+		$token['created'] = time() - 1800;
+		$token['expires_in'] = 3600;
+		$this->oauth->setToken($token);
 	}
 
 	/**
@@ -81,82 +91,62 @@ class JGoogleTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Tests the magic __get method - data
+	 * Tests the magic __get method - people
 	 *
-	 * @group	JGoogle
-	 * @return void
-	 */
-	public function test__GetData()
-	{
-		$this->options->set('clientid', '1075367716947.apps.googleusercontent.com');
-		$this->options->set('redirecturi', 'http://j.aaronschmitz.com/web/calendar-test');
-		$this->assertThat(
-			$this->object->data('Plus'),
-			$this->isInstanceOf('JGoogleDataPlus')
-		);
-		$this->assertThat(
-			$this->object->data('Picasa'),
-			$this->isInstanceOf('JGoogleDataPicasa')
-		);
-		$this->assertThat(
-			$this->object->data('Adsense'),
-			$this->isInstanceOf('JGoogleDataAdsense')
-		);
-		$this->assertThat(
-			$this->object->data('Calendar'),
-			$this->isInstanceOf('JGoogleDataCalendar')
-		);
-		$this->assertNull($this->object->data('NotAClass'));
-	}
-
-	/**
-	 * Tests the magic __get method - embed
+	 * @return  void
 	 *
-	 * @group	JGoogle
-	 * @return void
+	 * @since   12.3
 	 */
-	public function test__GetEmbed()
+	public function test__GetPeople()
 	{
 		$this->assertThat(
-			$this->object->embed('Maps'),
-			$this->isInstanceOf('JGoogleEmbedMaps')
-		);
-		$this->assertThat(
-			$this->object->embed('Analytics'),
-			$this->isInstanceOf('JGoogleEmbedAnalytics')
-		);
-		$this->assertNull($this->object->embed('NotAClass'));
-	}
-
-	/**
-	 * Tests the setOption method
-	 *
-	 * @group	JGoogle
-	 * @return void
-	 */
-	public function testSetOption()
-	{
-		$this->object->setOption('key', 'value');
-
-		$this->assertThat(
-			$this->options->get('key'),
-			$this->equalTo('value')
+			$this->object->people,
+			$this->isInstanceOf('JGoogleDataPlusPeople')
 		);
 	}
 
 	/**
-	 * Tests the getOption method
+	 * Tests the magic __get method - activities
 	 *
-	 * @group	JGoogle
-	 * @return void
+	 * @return  void
+	 *
+	 * @since   12.3
 	 */
-	public function testGetOption()
+	public function test__GetActivities()
 	{
-		$this->options->set('key', 'value');
-
 		$this->assertThat(
-			$this->object->getOption('key'),
-			$this->equalTo('value')
+			$this->object->activities,
+			$this->isInstanceOf('JGoogleDataPlusActivities')
+		);
+	}
+
+	/**
+	 * Tests the magic __get method - comments
+	 *
+	 * @return  void
+	 *
+	 * @since   12.3
+	 */
+	public function test__GetComments()
+	{
+		$this->assertThat(
+			$this->object->comments,
+			$this->isInstanceOf('JGoogleDataPlusComments')
+		);
+	}
+
+	/**
+	 * Tests the magic __get method - other (non existent)
+	 *
+	 * @return  void
+	 *
+	 * @since   12.3
+	 */
+	public function test__GetOther()
+	{
+		$this->assertThat(
+			$this->object->other,
+			$this->isNull()
 		);
 	}
 }
