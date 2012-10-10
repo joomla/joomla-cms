@@ -108,6 +108,45 @@ class JGithubIssues extends JGithubObject
 	}
 
 	/**
+	 * Method to create a label on a repo.
+	 *
+	 * @param   string  $user   The name of the owner of the GitHub repository.
+	 * @param   string  $repo   The name of the GitHub repository.
+	 * @param   string  $name   The label name.
+	 * @param   string  $color  The label color.
+	 *
+	 * @return  object
+	 *
+	 * @since   12.1
+	 */
+	public function createLabel($user, $repo, $name, $color)
+	{
+		// Build the request path.
+		$path = '/repos/' . $user . '/' . $repo . '/labels';
+
+		// Build the request data.
+		$data = json_encode(
+			array(
+				'name' => $name,
+				'color' => $color
+			)
+		);
+
+		// Send the request.
+		$response = $this->client->post($this->fetchUrl($path), $data);
+
+		// Validate the response code.
+		if ($response->code != 201)
+		{
+			// Decode the error response and throw an exception.
+			$error = json_decode($response->body);
+			throw new DomainException($error->message, $response->code);
+		}
+
+		return json_decode($response->body);
+	}
+
+	/**
 	 * Method to delete a comment on an issue.
 	 *
 	 * @param   string   $user       The name of the owner of the GitHub repository.
