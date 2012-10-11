@@ -102,14 +102,15 @@ abstract class JHtmlSidebar
 	 * @param   string  $name       Name for the filter. Also used as id.
 	 * @param   string  $options    Options for the select field.
 	 * @param   bool    $noDefault  Don't the label as the empty option
+	 * @param   string  $custom     Custom HTML code to instead of a select box
 	 *
 	 * @return  void
 	 *
 	 * @since   3.0
 	 */
-	public static function addFilter($label, $name, $options, $noDefault = false)
+	public static function addFilter($label, $name, $options, $noDefault = false, $custom = null)
 	{
-		array_push(self::$filters, array('label' => $label, 'name' => $name, 'options' => $options, 'noDefault' => $noDefault));
+		array_push(self::$filters, array('label' => $label, 'name' => $name, 'options' => $options, 'noDefault' => $noDefault, 'custom' => $custom));
 	}
 
 	/**
