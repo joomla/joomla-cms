@@ -52,7 +52,7 @@
 			start:function (e, ui) {
 				root.sortableGroupId = ui.item.attr(ops.orderingGroup);
 				if (root.sortableGroupId) {
-					root.sortableRange = $('tr:[' + ops.orderingGroup + '=' + root.sortableGroupId + ']');
+					root.sortableRange = $('tr[' + ops.orderingGroup + '=' + root.sortableGroupId + ']');
 				} else {
 					root.sortableRange = $('.' + ops.sortableClassName);
 				}
@@ -133,7 +133,7 @@
 			
 		this.disableOtherGroupSort = function (e, ui) {
 			if (root.sortableGroupId) {
-				var _tr = $('tr:[' + ops.orderingGroup + '!=' + root.sortableGroupId + ']', $(tableWrapper));
+				var _tr = $('tr[' + ops.orderingGroup + '!=' + root.sortableGroupId + ']', $(tableWrapper));
 				_tr.removeClass(ops.sortableClassName).addClass('dndlist-group-disabled');
 
 				$(tableWrapper).sortable('refresh');
@@ -158,7 +158,7 @@
 		this.rearrangeOrderingControl = function (sortableGroupId, ui) {
 			var range;
 			if (sortableGroupId) {
-				root.sortableRange = $('tr:[' + ops.orderingGroup + '=' + sortableGroupId + ']');
+				root.sortableRange = $('tr[' + ops.orderingGroup + '=' + sortableGroupId + ']');
 			} else {
 				root.sortableRange = $('.' + ops.sortableClassName);
 			}
@@ -197,7 +197,7 @@
 		this.rearrangeOrderingValues = function (sortableGroupId, ui) {
 			var range;
 			if (sortableGroupId) {
-				root.sortableRange = $('tr:[' + ops.orderingGroup + '=' + sortableGroupId + ']');
+				root.sortableRange = $('tr[' + ops.orderingGroup + '=' + sortableGroupId + ']');
 			} else {
 				root.sortableRange = $('.' + ops.sortableClassName);
 			}

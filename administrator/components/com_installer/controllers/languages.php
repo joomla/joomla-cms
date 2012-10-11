@@ -73,7 +73,7 @@ class InstallerControllerLanguages extends JControllerLegacy
 		$model = $this->getModel('languages');
 
 		// Get array of selected languages
-		$lids = JRequest::getVar('cid', array(), '', 'array');
+		$lids = $this->input->get('cid', array(), 'array');
 		JArrayHelper::toInteger($lids, array());
 
 		if (!$lids)

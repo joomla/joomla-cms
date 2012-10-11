@@ -71,5 +71,8 @@ class InstallerViewDefault extends JViewLegacy
 		// Document
 		$document = JFactory::getDocument();
 		$document->setTitle(JText::_('COM_INSTALLER_TITLE_' . $this->getName()));
+
+		// Render side bar
+		$this->sidebar = JHtmlSidebar::render();
 	}
 }

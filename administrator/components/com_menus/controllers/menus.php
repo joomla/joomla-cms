@@ -57,7 +57,7 @@ class MenusControllerMenus extends JControllerLegacy
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Get items to remove from the request.
-		$cid	= JRequest::getVar('cid', array(), '', 'array');
+		$cid = $this->input->get('cid', array(), 'array');
 
 		if (!is_array($cid) || count($cid) < 1) {
 			JError::raiseWarning(500, JText::_('COM_MENUS_NO_MENUS_SELECTED'));

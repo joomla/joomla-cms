@@ -18,7 +18,7 @@ defined('_JEXEC') or die;
 	{
 		case 1:
 			// open in a new window
-			echo '<a href="'. $link .'" target="_blank" rel="'.$params->get('follow', 'no follow').'">'.
+			echo '<a href="'. $link .'" target="_blank" rel="'.$params->get('follow', 'nofollow').'">'.
 			htmlspecialchars($item->title, ENT_COMPAT, 'UTF-8') .'</a>';
 			break;
 
@@ -30,7 +30,7 @@ defined('_JEXEC') or die;
 
 		default:
 			// open in parent window
-			echo '<a href="'. $link .'" rel="'.$params->get('follow', 'no follow').'">'.
+			echo '<a href="'. $link .'" rel="'.$params->get('follow', 'nofollow').'">'.
 				htmlspecialchars($item->title, ENT_COMPAT, 'UTF-8') .'</a>';
 			break;
 	}

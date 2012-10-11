@@ -22,10 +22,6 @@ $doc->addStyleSheet('templates/' .$this->template. '/css/template.css');
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo  $this->language; ?>" lang="<?php echo  $this->language; ?>" dir="<?php echo  $this->direction; ?>">
 <head>
-<script src="../media/jui/js/jquery.js"></script>
-<script type="text/javascript">
-	jQuery.noConflict();
-</script>
 <jdoc:include type="head" />
 
 <!-- Load system style CSS -->
@@ -38,11 +34,9 @@ endif;
 
 // Load specific language related CSS
 $file = 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css';
-if (JFile::exists($file)) :
+if (is_file($file)) :
 	$doc->addStyleSheet($file);
 endif;
-
-$doc->addStyleSheet('../media/jui/css/chosen.css');
 ?>
 <!-- Load Template CSS -->
 <link href="templates/<?php echo  $this->template ?>/css/template.css" rel="stylesheet" type="text/css" />
@@ -69,7 +63,9 @@ $doc->addStyleSheet('../media/jui/css/chosen.css');
 <!--[if IE 7]>
 	<link href="templates/<?php echo  $this->template ?>/css/ie7.css" rel="stylesheet" type="text/css" />
 <![endif]-->
-
+<!--[if lt IE 9]>
+	<script src="../media/jui/js/html5.js"></script>
+<![endif]-->
 <!-- Load Template JavaScript -->
 <script type="text/javascript" src="templates/<?php  echo  $this->template  ?>/js/template.js"></script>
 

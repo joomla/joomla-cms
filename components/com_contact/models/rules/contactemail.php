@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-JFormHelper::loadFieldClass('email');
+JFormHelper::loadRuleClass('email');
 
 /**
  * JFormRule for com_contact to make sure the E-Mail adress is not blocked.

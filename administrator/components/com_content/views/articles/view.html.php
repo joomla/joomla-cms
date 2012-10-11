@@ -31,7 +31,10 @@ class ContentViewArticles extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		ContentHelper::addSubmenu('articles');
+		if ($this->getLayout() !== 'modal')
+		{
+			ContentHelper::addSubmenu('articles');
+		}
 
 		$this->items		= $this->get('Items');
 		$this->pagination	= $this->get('Pagination');
@@ -62,6 +65,7 @@ class ContentViewArticles extends JViewLegacy
 		// We don't need toolbar in the modal window.
 		if ($this->getLayout() !== 'modal') {
 			$this->addToolbar();
+			$this->sidebar = JHtmlSidebar::render();
 		}
 
 		parent::display($tpl);
@@ -108,8 +112,9 @@ class ContentViewArticles extends JViewLegacy
 		// Add a batch button
 		if ($user->authorise('core.edit'))
 		{
+			JHtml::_('bootstrap.modal', 'collapseModal');
 			$title = JText::_('JTOOLBAR_BATCH');
-			$dhtml = "<button data-toggle=\"modal\" data-target=\"#collapseModal\" class=\"btn\">
+			$dhtml = "<button data-toggle=\"modal\" data-target=\"#collapseModal\" class=\"btn btn-small\">
 						<i class=\"icon-checkbox-partial\" title=\"$title\"></i>
 						$title</button>";
 			$bar->appendButton('Custom', $dhtml, 'batch');
@@ -121,39 +126,39 @@ class ContentViewArticles extends JViewLegacy
 
 		JToolbarHelper::help('JHELP_CONTENT_ARTICLE_MANAGER');
 
-		JSubMenuHelper::setAction('index.php?option=com_content&view=articles');
+		JHtmlSidebar::setAction('index.php?option=com_content&view=articles');
 
-		JSubMenuHelper::addFilter(
+		JHtmlSidebar::addFilter(
 			JText::_('JOPTION_SELECT_PUBLISHED'),
 			'filter_published',
 			JHtml::_('select.options', JHtml::_('jgrid.publishedOptions'), 'value', 'text', $this->state->get('filter.published'), true)
 		);
 
-		JSubMenuHelper::addFilter(
+		JHtmlSidebar::addFilter(
 			JText::_('JOPTION_SELECT_CATEGORY'),
 			'filter_category_id',
 			JHtml::_('select.options', JHtml::_('category.options', 'com_content'), 'value', 'text', $this->state->get('filter.category_id'))
 		);
 
-		JSubMenuHelper::addFilter(
+		JHtmlSidebar::addFilter(
 			JText::_('JOPTION_SELECT_MAX_LEVELS'),
 			'filter_level',
 			JHtml::_('select.options', $this->f_levels, 'value', 'text', $this->state->get('filter.level'))
 		);
 
-		JSubMenuHelper::addFilter(
+		JHtmlSidebar::addFilter(
 			JText::_('JOPTION_SELECT_ACCESS'),
 			'filter_access',
 			JHtml::_('select.options', JHtml::_('access.assetgroups'), 'value', 'text', $this->state->get('filter.access'))
 		);
 
-		JSubMenuHelper::addFilter(
+		JHtmlSidebar::addFilter(
 			JText::_('JOPTION_SELECT_AUTHOR'),
 			'filter_author_id',
 			JHtml::_('select.options', $this->authors, 'value', 'text', $this->state->get('filter.author_id'))
 		);
 
-		JSubMenuHelper::addFilter(
+		JHtmlSidebar::addFilter(
 			JText::_('JOPTION_SELECT_LANGUAGE'),
 			'filter_language',
 			JHtml::_('select.options', JHtml::_('contentlanguage.existing', true, true), 'value', 'text', $this->state->get('filter.language'))

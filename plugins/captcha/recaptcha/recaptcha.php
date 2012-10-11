@@ -89,7 +89,7 @@ class plgCaptchaRecaptcha extends JPlugin
 	{
 		$input      = JFactory::getApplication()->input;
 		$privatekey = $this->params->get('private_key');
-		$remoteip   = JRequest::getVar('REMOTE_ADDR', '', 'SERVER');
+		$remoteip   = $input->server->get('REMOTE_ADDR', '', 'string');
 		$challenge  = $input->get('recaptcha_challenge_field', '', 'string');
 		$response   = $input->get('recaptcha_response_field', '', 'string');
 

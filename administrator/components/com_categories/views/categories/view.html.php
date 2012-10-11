@@ -60,6 +60,7 @@ class CategoriesViewCategories extends JViewLegacy
 		$this->f_levels = $options;
 
 		$this->addToolbar();
+		$this->sidebar = JHtmlSidebar::render();
 		parent::display($tpl);
 	}
 
@@ -145,8 +146,9 @@ class CategoriesViewCategories extends JViewLegacy
 		// Add a batch button
 		if ($canDo->get('core.edit'))
 		{
+			JHtml::_('bootstrap.modal', 'collapseModal');
 			$title = JText::_('JTOOLBAR_BATCH');
-			$dhtml = "<button data-toggle=\"modal\" data-target=\"#collapseModal\" class=\"btn\">
+			$dhtml = "<button data-toggle=\"modal\" data-target=\"#collapseModal\" class=\"btn btn-small\">
 						<i class=\"icon-checkbox-partial\" title=\"$title\"></i>
 						$title</button>";
 			$bar->appendButton('Custom', $dhtml, 'batch');
@@ -176,27 +178,27 @@ class CategoriesViewCategories extends JViewLegacy
 		}
 		JToolbarHelper::help($ref_key, JComponentHelper::getParams($component)->exists('helpURL'), $url);
 
-		JSubMenuHelper::setAction('index.php?option=com_categories&view=categories');
+		JHtmlSidebar::setAction('index.php?option=com_categories&view=categories');
 
-		JSubMenuHelper::addFilter(
+		JHtmlSidebar::addFilter(
 			JText::_('JOPTION_SELECT_MAX_LEVELS'),
 			'filter_level',
 			JHtml::_('select.options', $this->f_levels, 'value', 'text', $this->state->get('filter.level'))
 		);
 
-		JSubMenuHelper::addFilter(
+		JHtmlSidebar::addFilter(
 			JText::_('JOPTION_SELECT_PUBLISHED'),
 			'filter_published',
 			JHtml::_('select.options', JHtml::_('jgrid.publishedOptions'), 'value', 'text', $this->state->get('filter.published'), true)
 		);
 
-		JSubMenuHelper::addFilter(
+		JHtmlSidebar::addFilter(
 			JText::_('JOPTION_SELECT_ACCESS'),
 			'filter_access',
 			JHtml::_('select.options', JHtml::_('access.assetgroups'), 'value', 'text', $this->state->get('filter.access'))
 		);
 
-		JSubMenuHelper::addFilter(
+		JHtmlSidebar::addFilter(
 			JText::_('JOPTION_SELECT_LANGUAGE'),
 			'filter_language',
 			JHtml::_('select.options', JHtml::_('contentlanguage.existing', true, true), 'value', 'text', $this->state->get('filter.language'))

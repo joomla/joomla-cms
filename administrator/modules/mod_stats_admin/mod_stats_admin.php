@@ -10,12 +10,12 @@
 defined('_JEXEC') or die;
 
 // Include the syndicate functions only once
-require_once dirname(__FILE__).'/helper.php';
+require_once __DIR__ . '/helper.php';
 
 $serverinfo = $params->get('serverinfo');
 $siteinfo	= $params->get('siteinfo');
 
-$list = modStatsHelper::getList($params);
+$list = modStatsHelper::getStats($params);
 $moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'));
 
 require JModuleHelper::getLayoutPath('mod_stats_admin', $params->get('layout', 'default'));

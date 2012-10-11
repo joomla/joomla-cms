@@ -10,7 +10,7 @@ defined('_JEXEC') or die;
 ?>
 <div class="btn-toolbar">
 	<div class="btn-group pull-right">
-		<a href="#" class="btn btn-primary" onclick="Install.submitform();" title="<?php echo JText::_('JCheck_Again'); ?>"><i class="icon-refresh"></i> <?php echo JText::_('JCheck_Again'); ?></a>
+		<a href="#" class="btn btn-primary" onclick="Install.submitform();" title="<?php echo JText::_('JCheck_Again'); ?>"><i class="icon-refresh icon-white"></i> <?php echo JText::_('JCheck_Again'); ?></a>
 	</div>
 </div>
 <form action="index.php" method="post" id="languageForm" class="form-horizontal">
@@ -43,7 +43,7 @@ defined('_JEXEC') or die;
 							<span class="label label-<?php echo ($option->state) ? 'success' : 'important'; ?>">
 								<?php echo JText::_(($option->state) ? 'JYES' : 'JNO'); ?>
 								<?php if ($option->notice):?>
-									<i class="icon-info-sign icon-white" rel="tooltip" title="<?php echo $option->notice; ?>"></i>
+									<i class="icon-info-sign icon-white hasTooltip" title="<?php echo $option->notice; ?>"></i>
 								<?php endif;?>
 							</span>
 						</td>

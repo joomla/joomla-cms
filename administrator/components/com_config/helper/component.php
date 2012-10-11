@@ -29,7 +29,7 @@ class ConfigHelperComponent
 	{
 		$db = JFactory::getDBO();
 		$query = $db->getQuery(true);
-		$query->select('name');
+		$query->select('element');
 		$query->from('#__extensions');
 		$query->where('type = ' . $db->quote('component'));
 		$query->where('enabled = 1');

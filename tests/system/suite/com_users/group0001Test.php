@@ -17,12 +17,12 @@ class Group0001Test extends SeleniumJoomlaTestCase
     $this->click("link=Groups");
     $this->waitForPageToLoad("30000");
 	echo "Create new group Article Administrator\n";
-    $this->click("link=New");
+    $this->click("//div[@id='toolbar-new']/button");
     $this->waitForPageToLoad("30000");
     $saltGroup = mt_rand();
     $this->type("jform_title", "Test Group".$saltGroup);
     $this->select("jform_parent_id", "label=- Registered");
-    $this->click("link=Save & Close");
+    $this->click("//div[@id='toolbar-save']/button");
     $this->waitForPageToLoad("30000");
     try {
         $this->assertTrue($this->isTextPresent("successfully saved"), 'Save message not shown');
@@ -34,7 +34,7 @@ class Group0001Test extends SeleniumJoomlaTestCase
     $this->click("//button[@type='submit']");
     $this->waitForPageToLoad("30000");
     $this->click("checkall-toggle");
-    $this->click("//li[@id='toolbar-delete']/a/span");
+    $this->click("//div[@id='toolbar-delete']/button");
     $this->waitForPageToLoad("30000");
     try {
     	$this->assertTrue($this->isTextPresent("success"), 'Deleted message not shown');

@@ -32,13 +32,14 @@ class plgSystemLogout extends JPlugin
 		parent::__construct($subject, $config);
 		$this->loadLanguage();
 
-		$hash = JApplication::getHash('plgSystemLogout');
-		if (JFactory::getApplication()->isSite() and JRequest::getString($hash, null, 'cookie'))
+		$input = JFactory::getApplication()->input;
+		$hash  = JApplication::getHash('plgSystemLogout');
+		if (JFactory::getApplication()->isSite() && $input->cookie->getString($hash))
 		{
 			// Destroy the cookie
 			$conf = JFactory::getConfig();
-			$cookie_domain 	= $conf->get('config.cookie_domain', '');
-			$cookie_path 	= $conf->get('config.cookie_path', '/');
+			$cookie_domain = $conf->get('config.cookie_domain', '');
+			$cookie_path   = $conf->get('config.cookie_path', '/');
 			setcookie($hash, false, time() - 86400, $cookie_path, $cookie_domain);
 
 			// Set the error handler for E_ALL to be the class handleError method.

@@ -163,12 +163,12 @@ class JFormFieldMedia extends JFormField
 			$style .= ($width > 0) ? 'max-width:' . $width . 'px;' : '';
 			$style .= ($height > 0) ? 'max-height:' . $height . 'px;' : '';
 
-			$attr = array(
+			$imgattr = array(
 				'id' => $this->id . '_preview',
 				'class' => 'media-preview',
 				'style' => $style,
 			);
-			$img = JHtml::image($src, JText::_('JLIB_FORM_MEDIA_PREVIEW_ALT'), $attr);
+			$img = JHtml::image($src, JText::_('JLIB_FORM_MEDIA_PREVIEW_ALT'), $imgattr);
 			$previewImg = '<div id="' . $this->id . '_preview_img"' . ($src ? '' : ' style="display:none"') . '>' . $img . '</div>';
 			$previewImgEmpty = '<div id="' . $this->id . '_preview_empty"' . ($src ? ' style="display:none"' : '') . '>'
 				. JText::_('JLIB_FORM_MEDIA_PREVIEW_EMPTY') . '</div>';
@@ -192,7 +192,7 @@ class JFormFieldMedia extends JFormField
 			$html[] = '</div>';
 		}
 
-		$html[] = '	<input type="text" class="input-medium" name="' . $this->name . '" id="' . $this->id . '"' . ' value="'
+		$html[] = '	<input type="text" class="input-small" name="' . $this->name . '" id="' . $this->id . '"' . ' value="'
 			. htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '"' . ' readonly="readonly"' . $attr . ' />';
 
 		$directory = (string) $this->element['directory'];
@@ -215,14 +215,15 @@ class JFormFieldMedia extends JFormField
 		// The button.
 		if ($this->element['disabled'] != true)
 		{
+			JHtml::_('bootstrap.tooltip');
+
 			$html[] = '<a class="modal btn" title="' . JText::_('JLIB_FORM_BUTTON_SELECT') . '"' . ' href="'
 				. ($this->element['readonly'] ? ''
 				: ($link ? $link
 					: 'index.php?option=com_media&amp;view=images&amp;tmpl=component&amp;asset=' . $asset . '&amp;author='
 					. $this->form->getValue($authorField)) . '&amp;fieldid=' . $this->id . '&amp;folder=' . $folder) . '"'
 				. ' rel="{handler: \'iframe\', size: {x: 800, y: 500}}">';
-			$html[] = '<i class="icon-picture"></i> ';
-			$html[] = JText::_('JLIB_FORM_BUTTON_SELECT') . '</a><a class="btn" rel="tooltip" title="' . JText::_('JLIB_FORM_BUTTON_CLEAR') . '"' . ' href="#" onclick="';
+			$html[] = JText::_('JLIB_FORM_BUTTON_SELECT') . '</a><a class="btn hasTooltip" title="' . JText::_('JLIB_FORM_BUTTON_CLEAR') . '"' . ' href="#" onclick="';
 			$html[] = 'jInsertFieldValue(\'\', \'' . $this->id . '\');';
 			$html[] = 'return false;';
 			$html[] = '">';

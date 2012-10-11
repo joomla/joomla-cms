@@ -96,7 +96,7 @@
 			type="databaseconnection"
 			label="COM_CONFIG_FIELD_DATABASE_TYPE_LABEL"
 			description="COM_CONFIG_FIELD_DATABASE_TYPE_DESC"
-			supported="mysql,mysqli,sqlsrv,sqlazure"
+			supported="mysql,mysqli,postgresql,sqlsrv,sqlazure"
 			filter="string" />
 
 		<field
@@ -612,7 +612,7 @@
 
 		<field
 			name="display_offline_message"
-			type="radio"
+			type="list"
 			default="1"
 			label="COM_CONFIG_FIELD_SITE_DISPLAY_MESSAGE_LABEL"
 			description="COM_CONFIG_FIELD_SITE_DISPLAY_MESSAGE_DESC"

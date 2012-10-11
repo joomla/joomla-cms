@@ -200,7 +200,8 @@ class plgSystemLanguageFilter extends JPlugin
 		$app = JFactory::getApplication();
 
 		$array = array();
-		$lang_code = JRequest::getString(JApplication::getHash('language'), null, 'cookie');
+		$lang_code = $app->input->cookie->getString(JApplication::getHash('language'));
+
 		// No cookie - let's try to detect browser language or use site default
 		if (!$lang_code) {
 			if ($this->params->get('detect_browser', 1)){
@@ -216,8 +217,7 @@ class plgSystemLanguageFilter extends JPlugin
 			$sef = $parts[0];
 
 			// Redirect only if not in post
-			$post = JRequest::get('POST');
-			if (!empty($lang_code) && $app->input->getMethod() != "POST" || count($post) == 0)
+			if (!empty($lang_code) && $app->input->getMethod() != "POST" || count($app->input->post) == 0)
 			{
 				if ($this->params->get('remove_default_prefix', 0) == 0)
 				{
@@ -284,10 +284,8 @@ class plgSystemLanguageFilter extends JPlugin
 			if (!isset(self::$sefs[$sef])) {
 				$sef = isset(self::$lang_codes[$lang_code]) ? self::$lang_codes[$lang_code]->sef : self::$default_sef;
 				$uri->setVar('lang', $sef);
-				$post = JRequest::get('POST');
-				if ($app->input->getMethod() != "POST" || count($post) == 0)
+				if ($app->input->getMethod() != "POST" || count($app->input->post) == 0)
 				{
-					$app = JFactory::getApplication();
 					$app->redirect(JURI::base(true).'/index.php?'.$uri->getQuery());
 				}
 			}

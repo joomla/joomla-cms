@@ -36,7 +36,7 @@ class FinderModelSuggestions extends JModelList
 	public function getItems()
 	{
 		// Get the items.
-		$items = &parent::getItems();
+		$items = parent::getItems();
 
 		// Convert them to a simple array.
 		foreach ($items as $k => $v)
@@ -100,11 +100,14 @@ class FinderModelSuggestions extends JModelList
 	/**
 	 * Method to auto-populate the model state.  Calling getState in this method will result in recursion.
 	 *
+	 * @param   string  $ordering   An optional ordering field.
+	 * @param   string  $direction  An optional direction (asc|desc).
+	 *
 	 * @return  void
 	 *
 	 * @since   2.5
 	 */
-	protected function populateState()
+	protected function populateState($ordering = null, $direction = null)
 	{
 		// Get the configuration options.
 		$app = JFactory::getApplication();

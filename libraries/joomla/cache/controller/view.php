@@ -30,7 +30,7 @@ class JCacheControllerView extends JCacheController
 	 *
 	 * @since   11.1
 	 */
-	public function get(&$view, $method, $id = false, $wrkarounds = true)
+	public function get( $view, $method = 'display' , $id = false, $wrkarounds = true )
 	{
 		// If an id is not given generate it from the request
 		if ($id == false)

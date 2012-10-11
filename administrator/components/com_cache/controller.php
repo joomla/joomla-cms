@@ -68,7 +68,7 @@ class CacheController extends JControllerLegacy
 		// Check for request forgeries
 		JSession::checkToken() or jexit(JText::_('JInvalid_Token'));
 
-		$cid = JRequest::getVar('cid', array(), 'post', 'array');
+		$cid = $this->input->post->get('cid', array(), 'array');
 
 		$model = $this->getModel('cache');
 

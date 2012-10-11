@@ -114,7 +114,7 @@ class ContactModelContact extends JModelForm
 
 				//sqlsrv changes
 				$case_when = ' CASE WHEN ';
-				$case_when .= $query->charLength('a.alias');
+				$case_when .= $query->charLength('a.alias', '!=', '0');
 				$case_when .= ' THEN ';
 				$a_id = $query->castAsChar('a.id');
 				$case_when .= $query->concatenate(array($a_id, 'a.alias'), ':');
@@ -122,7 +122,7 @@ class ContactModelContact extends JModelForm
 				$case_when .= $a_id.' END as slug';
 
 				$case_when1 = ' CASE WHEN ';
-				$case_when1 .= $query->charLength('c.alias');
+				$case_when1 .= $query->charLength('c.alias', '!=', '0');
 				$case_when1 .= ' THEN ';
 				$c_id = $query->castAsChar('c.id');
 				$case_when1 .= $query->concatenate(array($c_id, 'c.alias'), ':');
@@ -181,6 +181,7 @@ class ContactModelContact extends JModelForm
 
 				// Compute access permissions.
 				if ($access = $this->getState('filter.access')) {
+
 					// If the access filter has been set, we already know this user can view.
 					$data->params->set('access-view', true);
 				}
@@ -196,7 +197,6 @@ class ContactModelContact extends JModelForm
 						$data->params->set('access-view', in_array($data->access, $groups) && in_array($data->category_access, $groups));
 					}
 				}
-
 				$this->_item[$pk] = $data;
 			}
 			catch (Exception $e)
@@ -204,7 +204,6 @@ class ContactModelContact extends JModelForm
 				$this->setError($e);
 				$this->_item[$pk] = false;
 			}
-
 		}
 
 		if ($this->_item[$pk])
@@ -228,7 +227,7 @@ class ContactModelContact extends JModelForm
 		if ($pk) {
 			//sqlsrv changes
 			$case_when = ' CASE WHEN ';
-			$case_when .= $query->charLength('a.alias');
+			$case_when .= $query->charLength('a.alias', '!=', '0');
 			$case_when .= ' THEN ';
 			$a_id = $query->castAsChar('a.id');
 			$case_when .= $query->concatenate(array($a_id, 'a.alias'), ':');
@@ -236,7 +235,7 @@ class ContactModelContact extends JModelForm
 			$case_when .= $a_id.' END as slug';
 
 			$case_when1 = ' CASE WHEN ';
-			$case_when1 .= $query->charLength('cc.alias');
+			$case_when1 .= $query->charLength('cc.alias', '!=', '0');
 			$case_when1 .= ' THEN ';
 			$c_id = $query->castAsChar('cc.id');
 			$case_when1 .= $query->concatenate(array($c_id, 'cc.alias'), ':');
@@ -298,14 +297,14 @@ class ContactModelContact extends JModelForm
 
 				// SQL Server changes
 				$case_when = ' CASE WHEN ';
-				$case_when .= $query->charLength('a.alias');
+				$case_when .= $query->charLength('a.alias', '!=', '0');
 				$case_when .= ' THEN ';
 				$a_id = $query->castAsChar('a.id');
 				$case_when .= $query->concatenate(array($a_id, 'a.alias'), ':');
 				$case_when .= ' ELSE ';
 				$case_when .= $a_id.' END as slug';
 				$case_when1 = ' CASE WHEN ';
-				$case_when1 .= $query->charLength('c.alias');
+				$case_when1 .= $query->charLength('c.alias', '!=', '0');
 				$case_when1 .= ' THEN ';
 				$c_id = $query->castAsChar('c.id');
 				$case_when1 .= $query->concatenate(array($c_id, 'c.alias'), ':');
@@ -352,5 +351,44 @@ class ContactModelContact extends JModelForm
 				return $result;
 			}
 		}
+	}
+
+	/**
+	 * Increment the hit counter for the contact.
+	 *
+	 * @param   int  $pk  Optional primary key of the article to increment.
+	 *
+	 * @return  boolean  True if successful; false otherwise and internal error set.
+	 *
+	 * @since   3.0
+	 */
+	public function hit($pk = 0)
+	{
+		$input = JFactory::getApplication()->input;
+		$hitcount = $input->getInt('hitcount', 1);
+
+		if ($hitcount)
+		{
+			$pk = (!empty($pk)) ? $pk : (int) $this->getState('contact.id');
+			$db = $this->getDbo();
+
+			$db->setQuery(
+				'UPDATE #__contact_details' .
+				' SET hits = hits + 1' .
+				' WHERE id = '.(int) $pk
+			);
+
+			try
+			{
+				$db->execute();
+			}
+			catch (RuntimeException $e)
+			{
+				$this->setError($e->getMessage());
+				return false;
+			}
+		}
+
+		return true;
 	}
 }

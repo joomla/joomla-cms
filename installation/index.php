@@ -13,13 +13,15 @@ if (version_compare(PHP_VERSION, '5.3.1', '<'))
 
 /**
  * Constant that is checked in included files to prevent direct access.
+ * define() is used in the installation folder rather than "const" to not error for PHP 5.2 and lower
  */
-const _JEXEC = 1;
+define('_JEXEC', 1);
 
 /**
  * Constant that defines the base path of the installed Joomla site.
+ * define() is used in the installation folder rather than "const" to not error for PHP 5.2 and lower
  */
-const JPATH_BASE = __DIR__;
+define('JPATH_BASE', dirname(__FILE__));
 
 // Set path constants.
 $parts = explode(DIRECTORY_SEPARATOR, JPATH_BASE);

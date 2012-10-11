@@ -40,7 +40,6 @@ class plgButtonImage extends JPlugin
 	public function onDisplay($name, $asset, $author)
 	{
 		$app = JFactory::getApplication();
-		$params = JComponentHelper::getParams('com_media');
 		$user = JFactory::getUser();
 		$extension = $app->input->get('option');
 		if ($asset == '')

@@ -89,9 +89,6 @@ class BannersModelTracks extends JModelList
 	 */
 	protected function getListQuery()
 	{
-		// Get the application object
-		$app = JFactory::getApplication();
-
 		require_once JPATH_COMPONENT.'/helpers/banners.php';
 
 		// Create a new query object.

@@ -18,61 +18,105 @@ defined('_JEXEC') or die;
 class plgSystemSef extends JPlugin
 {
 	/**
+	 * Add the canonical uri to the head
+	 *
+	 * @return  void
+	 *
+	 * @since   3.0
+	 */
+	public function onAfterRoute()
+	{
+		$app = JFactory::getApplication();
+		$doc = JFactory::getDocument();
+
+		if ($app->getName() != 'site' || $doc->getType() !== 'html')
+		{
+			return true;
+		}
+
+		$uri     = JUri::getInstance();
+		$domain  = $this->params->get('domain');
+		$current = JUri::current();
+
+		if ($domain === null || $domain === '')
+		{
+			$domain = $uri->toString(array('scheme', 'host', 'port'));
+		}
+
+		$link = 'index.php' . $uri->toString(array('query', 'fragment'));
+		$link = $domain . JRoute::_($link);
+
+		if ($current !== $link)
+		{
+			$doc->addHeadLink($link, 'canonical');
+		}
+	}
+
+	/**
 	 * Converting the site URL to fit to the HTTP request
+	 *
+	 * @return  void
 	 */
 	public function onAfterRender()
 	{
 		$app = JFactory::getApplication();
 
-		if ($app->getName() != 'site' || $app->getCfg('sef') == '0') {
+		if ($app->getName() != 'site' || $app->getCfg('sef') == '0')
+		{
 			return true;
 		}
 
-		//Replace src links
-		$base	= JURI::base(true).'/';
+		// Replace src links
+		$base   = JURI::base(true).'/';
 		$buffer = JResponse::getBody();
 
 		$regex  = '#href="index.php\?([^"]*)#m';
 		$buffer = preg_replace_callback($regex, array('plgSystemSef', 'route'), $buffer);
 		$this->checkBuffer($buffer);
 
-		$protocols	= '[a-zA-Z0-9]+:'; //To check for all unknown protocals (a protocol must contain at least one alpahnumeric fillowed by :
-		$regex		= '#(src|href|poster)="(?!/|'.$protocols.'|\#|\')([^"]*)"#m';
-		$buffer		= preg_replace($regex, "$1=\"$base\$2\"", $buffer);
+		$protocols = '[a-zA-Z0-9]+:'; //To check for all unknown protocals (a protocol must contain at least one alpahnumeric fillowed by :
+		$regex     = '#(src|href|poster)="(?!/|' . $protocols . '|\#|\')([^"]*)"#m';
+		$buffer    = preg_replace($regex, "$1=\"$base\$2\"", $buffer);
 		$this->checkBuffer($buffer);
-		$regex		= '#(onclick="window.open\(\')(?!/|'.$protocols.'|\#)([^/]+[^\']*?\')#m';
-		$buffer		= preg_replace($regex, '$1'.$base.'$2', $buffer);
+
+		$regex  = '#(onclick="window.open\(\')(?!/|' . $protocols . '|\#)([^/]+[^\']*?\')#m';
+		$buffer = preg_replace($regex, '$1' . $base . '$2', $buffer);
 		$this->checkBuffer($buffer);
 
 		// ONMOUSEOVER / ONMOUSEOUT
-		$regex		= '#(onmouseover|onmouseout)="this.src=([\']+)(?!/|'.$protocols.'|\#|\')([^"]+)"#m';
-		$buffer	= preg_replace($regex, '$1="this.src=$2'. $base .'$3$4"', $buffer);
+		$regex  = '#(onmouseover|onmouseout)="this.src=([\']+)(?!/|' . $protocols . '|\#|\')([^"]+)"#m';
+		$buffer = preg_replace($regex, '$1="this.src=$2' . $base .'$3$4"', $buffer);
 		$this->checkBuffer($buffer);
 
 		// Background image
-		$regex		= '#style\s*=\s*[\'\"](.*):\s*url\s*\([\'\"]?(?!/|'.$protocols.'|\#)([^\)\'\"]+)[\'\"]?\)#m';
-		$buffer	= preg_replace($regex, 'style="$1: url(\''. $base .'$2$3\')', $buffer);
+		$regex  = '#style\s*=\s*[\'\"](.*):\s*url\s*\([\'\"]?(?!/|' . $protocols . '|\#)([^\)\'\"]+)[\'\"]?\)#m';
+		$buffer = preg_replace($regex, 'style="$1: url(\'' . $base .'$2$3\')', $buffer);
 		$this->checkBuffer($buffer);
 
 		// OBJECT <param name="xx", value="yy"> -- fix it only inside the <param> tag
-		$regex		= '#(<param\s+)name\s*=\s*"(movie|src|url)"[^>]\s*value\s*=\s*"(?!/|'.$protocols.'|\#|\')([^"]*)"#m';
-		$buffer	= preg_replace($regex, '$1name="$2" value="' . $base . '$3"', $buffer);
+		$regex  = '#(<param\s+)name\s*=\s*"(movie|src|url)"[^>]\s*value\s*=\s*"(?!/|' . $protocols . '|\#|\')([^"]*)"#m';
+		$buffer = preg_replace($regex, '$1name="$2" value="' . $base . '$3"', $buffer);
 		$this->checkBuffer($buffer);
 
 		// OBJECT <param value="xx", name="yy"> -- fix it only inside the <param> tag
-		$regex		= '#(<param\s+[^>]*)value\s*=\s*"(?!/|'.$protocols.'|\#|\')([^"]*)"\s*name\s*=\s*"(movie|src|url)"#m';
-		$buffer	= preg_replace($regex, '<param value="'. $base .'$2" name="$3"', $buffer);
+		$regex  = '#(<param\s+[^>]*)value\s*=\s*"(?!/|' . $protocols . '|\#|\')([^"]*)"\s*name\s*=\s*"(movie|src|url)"#m';
+		$buffer = preg_replace($regex, '<param value="' . $base .'$2" name="$3"', $buffer);
 		$this->checkBuffer($buffer);
 
 		// OBJECT data="xx" attribute -- fix it only in the object tag
-		$regex =	'#(<object\s+[^>]*)data\s*=\s*"(?!/|'.$protocols.'|\#|\')([^"]*)"#m';
-		$buffer	= preg_replace($regex, '$1data="' . $base . '$2"$3', $buffer);
+		$regex  = '#(<object\s+[^>]*)data\s*=\s*"(?!/|' . $protocols . '|\#|\')([^"]*)"#m';
+		$buffer = preg_replace($regex, '$1data="' . $base . '$2"$3', $buffer);
 		$this->checkBuffer($buffer);
 
 		JResponse::setBody($buffer);
 		return true;
 	}
 
+	/**
+	 * @param   string  $buffer
+	 *
+	 * @return  void
+	 */
 	private function checkBuffer($buffer)
 	{
 		if ($buffer === null)
@@ -91,23 +135,23 @@ class plgSystemSef extends JPlugin
 				default:
 					$message = "Unknown PCRE error calling PCRE function";
 			}
-			JError::raiseError(500, $message);
+			throw new RuntimeException($message);
 		}
 	}
 
 	/**
 	 * Replaces the matched tags
 	 *
-	 * @param	array	An array of matches (see preg_match_all)
-	 * @return	string
+	 * @param   array  &$matches  An array of matches (see preg_match_all)
+	 *
+	 * @return  string
 	 */
 	protected static function route(&$matches)
 	{
-		$original	= $matches[0];
-		$url		= $matches[1];
-		$url		= str_replace('&amp;', '&', $url);
-		$route		= JRoute::_('index.php?'.$url);
+		$url   = $matches[1];
+		$url   = str_replace('&amp;', '&', $url);
+		$route = JRoute::_('index.php?'.$url);
 
-		return 'href="'.$route;
+		return 'href="' . $route;
 	}
 }

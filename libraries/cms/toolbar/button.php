@@ -125,6 +125,7 @@ abstract class JToolbarButton
  * @subpackage  Toolbar
  * @since       1.5
  * @deprecated  4.0  Use JToolbarButton instead.
+ * @codeCoverageIgnore
  */
 abstract class JButton extends JToolbarButton
 {

@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
+JHtml::_('formbehavior.chosen', 'select');
 ?>
 <script type="text/javascript">
 	Joomla.submitbutton = function(task)
@@ -40,10 +41,14 @@ JHtml::_('behavior.formvalidation');
 </script>
 
 <form action="<?php echo JRoute::_('index.php?option=com_banners&layout=edit&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="banner-form" class="form-validate form-horizontal">
+<!-- Begin Banner -->
+<div class="span10 form-horizontal">
+
 	<fieldset>
 		<ul class="nav nav-tabs">
 			<li class="active"><a href="#details" data-toggle="tab"><?php echo JText::_('COM_BANNERS_BANNER_DETAILS');?></a></li>
 			<li><a href="#publishing" data-toggle="tab"><?php echo JText::_('COM_BANNERS_GROUP_LABEL_PUBLISHING_DETAILS');?></a></li>
+			<li><a href="#otherparams" data-toggle="tab"><?php echo JText::_('COM_BANNERS_GROUP_LABEL_BANNER_DETAILS');?></a></li>
 			<li><a href="#metadata" data-toggle="tab"><?php echo JText::_('JGLOBAL_FIELDSET_METADATA_OPTIONS');?></a></li>
 		</ul>
 		<div class="tab-content">
@@ -66,28 +71,13 @@ JHtml::_('behavior.formvalidation');
 				</div>
 				<div class="control-group">
 					<div class="control-label">
-						<?php echo $this->form->getLabel('access'); ?>
-					</div>
-					<div class="controls">
-						<?php echo $this->form->getInput('access'); ?>
-					</div>
-				</div>
-				<div class="control-group">
-					<div class="control-label">
 						<?php echo $this->form->getLabel('catid'); ?>
 					</div>
 					<div class="controls">
 						<?php echo $this->form->getInput('catid'); ?>
 					</div>
 				</div>
-				<div class="control-group">
-					<div class="control-label">
-						<?php echo $this->form->getLabel('state'); ?>
-					</div>
-					<div class="controls">
-						<?php echo $this->form->getInput('state'); ?>
-					</div>
-				</div>
+
 				<div class="control-group">
 					<div class="control-label">
 						<?php echo $this->form->getLabel('type'); ?>
@@ -134,14 +124,6 @@ JHtml::_('behavior.formvalidation');
 				</div>
 				<div class="control-group">
 					<div class="control-label">
-						<?php echo $this->form->getLabel('language'); ?>
-					</div>
-					<div class="controls">
-						<?php echo $this->form->getInput('language'); ?>
-					</div>
-				</div>
-				<div class="control-group">
-					<div class="control-label">
 						<?php echo $this->form->getLabel('id'); ?>
 					</div>
 					<div class="controls">
@@ -149,7 +131,7 @@ JHtml::_('behavior.formvalidation');
 					</div>
 				</div>
 			</div>
-			<div class="tab-pane active" id="publishing">
+			<div class="tab-pane" id="publishing">
 				<?php foreach($this->form->getFieldset('publish') as $field): ?>
 					<div class="control-group">
 						<div class="control-label">
@@ -161,7 +143,20 @@ JHtml::_('behavior.formvalidation');
 					</div>
 				<?php endforeach; ?>
 			</div>
-			<div class="tab-pane active" id="metadata">
+			<div class="tab-pane" id="otherparams">
+				<?php foreach($this->form->getFieldset('otherparams') as $field): ?>
+					<div class="control-group">
+						<div class="control-label">
+							<?php echo $field->label; ?>
+						</div>
+						<div class="controls">
+							<?php echo $field->input; ?>
+						</div>
+					</div>
+				<?php endforeach; ?>
+			</div>
+			<div class="tab-pane" id="metadata">
+
 				<?php foreach($this->form->getFieldset('metadata') as $field): ?>
 					<div class="control-group">
 						<div class="control-label">
@@ -178,5 +173,44 @@ JHtml::_('behavior.formvalidation');
 
 	<input type="hidden" name="task" value="" />
 	<?php echo JHtml::_('form.token'); ?>
+	</div>
+	<!-- End Newsfeed -->
+	<!-- Begin Sidebar -->
+	<div class="span2">
+		<h4><?php echo JText::_('JDETAILS');?></h4>
+		<hr />
+		<fieldset class="form-vertical">
+				<div class="control-group">
+					<div class="controls">
+						<?php echo $this->form->getValue('name'); ?>
+					</div>
+				</div>
 
+			<div class="control-group">
+				<div class="control-label">
+					<?php echo $this->form->getLabel('state'); ?>
+				</div>
+				<div class="controls">
+					<?php echo $this->form->getInput('state'); ?>
+				</div>
+			</div>
+			<div class="control-group">
+				<div class="control-label">
+					<?php echo $this->form->getLabel('sticky'); ?>
+				</div>
+				<div class="controls">
+					<?php echo $this->form->getInput('sticky'); ?>
+				</div>
+			</div>
+			<div class="control-group">
+				<div class="control-label">
+					<?php echo $this->form->getLabel('language'); ?>
+				</div>
+				<div class="controls">
+					<?php echo $this->form->getInput('language'); ?>
+				</div>
+			</div>
+		</fieldset>
+	</div>
+	<!-- End Sidebar -->
 </form>

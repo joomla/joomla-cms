@@ -111,6 +111,29 @@ class ContentModelFeatured extends ContentModelArticles
 			$query->where('(a.state = 0 OR a.state = 1)');
 		}
 
+		// Filter by a single or group of categories.
+		$baselevel = 1;
+		$categoryId = $this->getState('filter.category_id');
+		if (is_numeric($categoryId)) {
+			$cat_tbl = JTable::getInstance('Category', 'JTable');
+			$cat_tbl->load($categoryId);
+			$rgt = $cat_tbl->rgt;
+			$lft = $cat_tbl->lft;
+			$baselevel = (int) $cat_tbl->level;
+			$query->where('c.lft >= '.(int) $lft);
+			$query->where('c.rgt <= '.(int) $rgt);
+		}
+		elseif (is_array($categoryId)) {
+			JArrayHelper::toInteger($categoryId);
+			$categoryId = implode(',', $categoryId);
+			$query->where('a.catid IN ('.$categoryId.')');
+		}
+
+		// Filter on the level.
+		if ($level = $this->getState('filter.level')) {
+			$query->where('c.level <= '.((int) $level + (int) $baselevel - 1));
+		}
+
 		// Filter by search in title
 		$search = $this->getState('filter.search');
 		if (!empty($search)) {

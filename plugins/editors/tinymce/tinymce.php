@@ -46,8 +46,7 @@ class plgEditorTinymce extends JPlugin
 	 */
 	public function onInit()
 	{
-		$app		= JFactory::getApplication();
-		$language	= JFactory::getLanguage();
+		$language = JFactory::getLanguage();
 
 		$mode	= (int) $this->params->get('mode', 1);
 		$theme	= array('simple', 'advanced', 'advanced');
@@ -98,7 +97,7 @@ class plgEditorTinymce extends JPlugin
 
 		$query->select('template');
 		$query->from('#__template_styles');
-		$query->where('client_id=0 AND home=1');
+		$query->where('client_id=0 AND home=' . $db->quote('1'));
 
 		$db->setQuery($query);
 		$template = $db->loadResult();
@@ -421,7 +420,7 @@ class plgEditorTinymce extends JPlugin
 		if ($advimage)
 		{
 			$plugins[]	= 'advimage';
-			$elements[]	= 'img[class|src|border=0|alt|title|hspace|vspace|width|height|align|onmouseover|onmouseout|name|style]';
+			$elements[]	= 'img[class|src|alt|title|hspace|vspace|width|height|align|onmouseover|onmouseout|name|style]';
 		}
 
 		// advlink

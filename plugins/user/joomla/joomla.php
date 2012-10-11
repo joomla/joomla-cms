@@ -145,7 +145,7 @@ class plgUserJoomla extends JPlugin
 			$options['group'] = 'USERS';
 		}
 
-		// Chek the user can login.
+		// Check the user can login.
 		$result	= $instance->authorise($options['action']);
 		if (!$result) {
 
@@ -255,7 +255,6 @@ class plgUserJoomla extends JPlugin
 		$instance->set('password_clear', $user['password_clear']);
 		// Result should contain an email (check)
 		$instance->set('email',          $user['email']);
-		$instance->set('usertype',       'deprecated');
 		$instance->set('groups',         array($defaultUserGroup));
 
 		//If autoregister is set let's register the user

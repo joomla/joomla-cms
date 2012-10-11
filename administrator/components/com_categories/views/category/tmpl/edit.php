@@ -12,10 +12,14 @@ defined('_JEXEC') or die;
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 
+$input = JFactory::getApplication()->input;
+
 // Load the tooltip behavior.
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
 JHtml::_('behavior.keepalive');
+JHtml::_('formbehavior.chosen', 'select');
+
 ?>
 
 <script type="text/javascript">
@@ -30,7 +34,7 @@ JHtml::_('behavior.keepalive');
 	}
 </script>
 
-<form action="<?php echo JRoute::_('index.php?option=com_categories&extension='.JRequest::getCmd('extension', 'com_content').'&layout=edit&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate form-horizontal">
+<form action="<?php echo JRoute::_('index.php?option=com_categories&extension=' . $input->getCmd('extension', 'com_content') . '&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate form-horizontal">
 	<fieldset>
 		<ul class="nav nav-tabs">
 			<li class="active"><a href="#details" data-toggle="tab"><?php echo JText::_('COM_CATEGORIES_FIELDSET_DETAILS');?></a></li>
@@ -66,8 +70,6 @@ JHtml::_('behavior.keepalive');
 						<?php echo $this->form->getInput('description'); ?>
 					</div>
 				</div>
-			</div>
-			<div class="tab-pane" id="options">
 				<div class="control-group">
 					<div class="control-label">
 						<?php echo $this->form->getLabel('extension'); ?>
@@ -76,46 +78,94 @@ JHtml::_('behavior.keepalive');
 						<?php echo $this->form->getInput('extension'); ?>
 					</div>
 				</div>
-				<div class="control-group">
-					<div class="control-label">
-						<?php echo $this->form->getLabel('parent_id'); ?>
+
+				<div class="row-fluid">
+					<h4><?php echo JText::_('JDETAILS');?></h4>
+					<hr />
+
+					<div class="span6">
+						<div class="control-group">
+							<div class="control-label">
+								<?php echo $this->form->getLabel('parent_id'); ?>
+							</div>
+							<div class="controls">
+								<?php echo $this->form->getInput('parent_id'); ?>
+							</div>
+						</div>
+						<div class="control-group">
+							<div class="control-label">
+								<?php echo $this->form->getLabel('published'); ?>
+							</div>
+							<div class="controls">
+								<?php echo $this->form->getInput('published'); ?>
+							</div>
+						</div>
+						<div class="control-group">
+							<div class="control-label">
+								<?php echo $this->form->getLabel('access'); ?>
+							</div>
+							<div class="controls">
+								<?php echo $this->form->getInput('access'); ?>
+							</div>
+						</div>
+						<div class="control-group">
+							<div class="control-label">
+								<?php echo $this->form->getLabel('language'); ?>
+							</div>
+							<div class="controls">
+								<?php echo $this->form->getInput('language'); ?>
+							</div>
+						</div>
+						<div class="control-group">
+							<div class="control-label">
+								<?php echo $this->form->getLabel('id'); ?>
+							</div>
+							<div class="controls">
+								<?php echo $this->form->getInput('id'); ?>
+							</div>
+						</div>
 					</div>
-					<div class="controls">
-						<?php echo $this->form->getInput('parent_id'); ?>
+					<div class="span6">
+						<div class="control-group">
+							<div class="control-label">
+								<?php echo $this->form->getLabel('created_user_id'); ?>
+							</div>
+							<div class="controls">
+								<?php echo $this->form->getInput('created_user_id'); ?>
+							</div>
+						</div>
+						<?php if (intval($this->item->created_time)) : ?>
+							<div class="control-group">
+								<div class="control-label">
+									<?php echo $this->form->getLabel('created_time'); ?>
+								</div>
+								<div class="controls">
+									<?php echo $this->form->getInput('created_time'); ?>
+								</div>
+							</div>
+						<?php endif; ?>
+						<?php if ($this->item->modified_user_id) : ?>
+							<div class="control-group">
+								<div class="control-label">
+									<?php echo $this->form->getLabel('modified_user_id'); ?>
+								</div>
+								<div class="controls">
+									<?php echo $this->form->getInput('modified_user_id'); ?>
+								</div>
+							</div>
+							<div class="control-group">
+								<div class="control-label">
+									<?php echo $this->form->getLabel('modified_time'); ?>
+								</div>
+								<div class="controls">
+									<?php echo $this->form->getInput('modified_time'); ?>
+								</div>
+							</div>
+						<?php endif; ?>
 					</div>
 				</div>
-				<div class="control-group">
-					<div class="control-label">
-						<?php echo $this->form->getLabel('published'); ?>
-					</div>
-					<div class="controls">
-						<?php echo $this->form->getInput('published'); ?>
-					</div>
-				</div>
-				<div class="control-group">
-					<div class="control-label">
-						<?php echo $this->form->getLabel('access'); ?>
-					</div>
-					<div class="controls">
-						<?php echo $this->form->getInput('access'); ?>
-					</div>
-				</div>
-				<div class="control-group">
-					<div class="control-label">
-						<?php echo $this->form->getLabel('language'); ?>
-					</div>
-					<div class="controls">
-						<?php echo $this->form->getInput('language'); ?>
-					</div>
-				</div>
-				<div class="control-group">
-					<div class="control-label">
-						<?php echo $this->form->getLabel('id'); ?>
-					</div>
-					<div class="controls">
-						<?php echo $this->form->getInput('id'); ?>
-					</div>
-				</div>
+			</div>
+			<div class="tab-pane" id="options">
 				<?php echo $this->loadTemplate('options'); ?>
 			</div>
 			<div class="tab-pane" id="metadata">
@@ -128,6 +178,7 @@ JHtml::_('behavior.keepalive');
 			<?php endif; ?>
 		</div>
 	</fieldset>
+
 	<input type="hidden" name="task" value="" />
 	<?php echo JHtml::_('form.token'); ?>
 </form>

@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.multiselect');
 JHtml::_('behavior.modal');
+JHtml::_('formbehavior.chosen', 'select');
 
 $canDo = UsersHelper::getActions();
 $listOrder = $this->escape($this->state->get('list.ordering'));
@@ -21,6 +22,14 @@ $loggeduser = JFactory::getUser();
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_users&view=users');?>" method="post" name="adminForm" id="adminForm">
+	<?php if(!empty( $this->sidebar)): ?>
+		<div id="j-sidebar-container" class="span2">
+		<?php echo $this->sidebar; ?>
+		</div>
+		<div id="j-main-container" class="span10">
+	<?php else : ?>
+		<div id="j-main-container">
+	<?php endif;?>
 	<div id="filter-bar" class="btn-toolbar">
 		<div class="filter-search btn-group pull-left">
 			<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('COM_USERS_SEARCH_USERS'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" title="<?php echo JText::_('COM_USERS_SEARCH_USERS'); ?>" />
@@ -34,34 +43,34 @@ $loggeduser = JFactory::getUser();
 	<table class="table table-striped">
 		<thead>
 			<tr>
-				<th width="1%">
+				<th width="1%" class="nowrap center">
 					<input type="checkbox" name="checkall-toggle" value="" title="<?php echo JText::_('JGLOBAL_CHECK_ALL'); ?>" onclick="Joomla.checkAll(this)" />
 				</th>
 				<th class="left">
 					<?php echo JHtml::_('grid.sort', 'COM_USERS_HEADING_NAME', 'a.name', $listDirn, $listOrder); ?>
 				</th>
-				<th class="nowrap" width="10%">
+				<th width="10%" class="nowrap center">
 					<?php echo JHtml::_('grid.sort', 'JGLOBAL_USERNAME', 'a.username', $listDirn, $listOrder); ?>
 				</th>
-				<th class="nowrap" width="5%">
+				<th width="5%" class="nowrap center">
 					<?php echo JHtml::_('grid.sort', 'COM_USERS_HEADING_ENABLED', 'a.block', $listDirn, $listOrder); ?>
 				</th>
-				<th class="nowrap" width="5%">
+				<th width="5%" class="nowrap center">
 					<?php echo JHtml::_('grid.sort', 'COM_USERS_HEADING_ACTIVATED', 'a.activation', $listDirn, $listOrder); ?>
 				</th>
-				<th class="nowrap" width="10%">
+				<th width="10%" class="nowrap center">
 					<?php echo JText::_('COM_USERS_HEADING_GROUPS'); ?>
 				</th>
-				<th class="nowrap" width="15%">
+				<th width="15%" class="nowrap center">
 					<?php echo JHtml::_('grid.sort', 'JGLOBAL_EMAIL', 'a.email', $listDirn, $listOrder); ?>
 				</th>
-				<th class="nowrap" width="10%">
+				<th width="10%" class="nowrap center">
 					<?php echo JHtml::_('grid.sort', 'COM_USERS_HEADING_LAST_VISIT_DATE', 'a.lastvisitDate', $listDirn, $listOrder); ?>
 				</th>
-				<th class="nowrap" width="10%">
+				<th width="10%" class="nowrap center">
 					<?php echo JHtml::_('grid.sort', 'COM_USERS_HEADING_REGISTRATION_DATE', 'a.registerDate', $listDirn, $listOrder); ?>
 				</th>
-				<th class="nowrap" width="3%">
+				<th width="1%" class="nowrap center">
 					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 				</th>
 			</tr>
@@ -113,17 +122,19 @@ $loggeduser = JFactory::getUser();
 				</td>
 				<td class="center">
 					<?php if ($canChange) : ?>
-						<?php if ($loggeduser->id != $item->id) : ?>
-							<?php echo JHtml::_('grid.boolean', $i, !$item->block, 'users.unblock', 'users.block'); ?>
-						<?php else : ?>
-							<?php echo JHtml::_('grid.boolean', $i, !$item->block, 'users.block', null); ?>
-						<?php endif; ?>
+						<?php
+						$self = $loggeduser->id == $item->id;
+						echo JHtml::_('jgrid.state', JHtmlUsers::blockStates($self), $item->block, $i, 'users.', !$self);
+						?>
 					<?php else : ?>
 						<?php echo JText::_($item->block ? 'JNO' : 'JYES'); ?>
 					<?php endif; ?>
 				</td>
 				<td class="center">
-					<?php echo JHtml::_('grid.boolean', $i, !$item->activation, 'users.activate', null); ?>
+					<?php
+					$activated = empty( $item->activation) ? 0 : 1;
+					echo JHtml::_('jgrid.state', JHtmlUsers::activateStates(), $activated, $i, 'users.', (boolean) $activated);
+					?>
 				</td>
 				<td class="center">
 					<?php if (substr_count($item->group_names, "\n") > 1) : ?>
@@ -161,4 +172,5 @@ $loggeduser = JFactory::getUser();
 	<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>" />
 	<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>" />
 	<?php echo JHtml::_('form.token'); ?>
+	</div>
 </form>

@@ -25,37 +25,37 @@ class InstallerHelper
 	 */
 	public static function addSubmenu($vName = 'install')
 	{
-		JSubMenuHelper::addEntry(
+		JHtmlSidebar::addEntry(
 			JText::_('COM_INSTALLER_SUBMENU_INSTALL'),
 			'index.php?option=com_installer',
 			$vName == 'install'
 		);
-		JSubMenuHelper::addEntry(
+		JHtmlSidebar::addEntry(
 			JText::_('COM_INSTALLER_SUBMENU_UPDATE'),
 			'index.php?option=com_installer&view=update',
 			$vName == 'update'
 		);
-		JSubMenuHelper::addEntry(
+		JHtmlSidebar::addEntry(
 			JText::_('COM_INSTALLER_SUBMENU_MANAGE'),
 			'index.php?option=com_installer&view=manage',
 			$vName == 'manage'
 		);
-		JSubMenuHelper::addEntry(
+		JHtmlSidebar::addEntry(
 			JText::_('COM_INSTALLER_SUBMENU_DISCOVER'),
 			'index.php?option=com_installer&view=discover',
 			$vName == 'discover'
 		);
-		JSubMenuHelper::addEntry(
+		JHtmlSidebar::addEntry(
 			JText::_('COM_INSTALLER_SUBMENU_DATABASE'),
 			'index.php?option=com_installer&view=database',
 			$vName == 'database'
 		);
-		JSubMenuHelper::addEntry(
+		JHtmlSidebar::addEntry(
 		JText::_('COM_INSTALLER_SUBMENU_WARNINGS'),
 					'index.php?option=com_installer&view=warnings',
 		$vName == 'warnings'
 		);
-		JSubMenuHelper::addEntry(
+		JHtmlSidebar::addEntry(
 			JText::_('COM_INSTALLER_SUBMENU_LANGUAGES'),
 			'index.php?option=com_installer&view=languages',
 			$vName == 'languages'
@@ -80,7 +80,7 @@ class InstallerHelper
 		$options = array();
 		foreach($types as $type)
 		{
-			$options[] = JHtml::_('select.option', $type, JText::_('COM_INSTALLER_TYPE_' . strtoupper($type)));
+			$options[] = JHtml::_('select.option', $type, 'COM_INSTALLER_TYPE_' . strtoupper($type));
 		}
 
 		return $options;

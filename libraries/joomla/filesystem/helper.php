@@ -9,9 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.filesystem.file');
-jimport('joomla.filesystem.folder');
-
 /**
  * File system helper
  *
@@ -263,11 +260,25 @@ class JFilesystemHelper
 	 */
 	public static function getJStreams()
 	{
-		static $streams;
+		static $streams = array();
 
 		if (!$streams)
 		{
-			$streams = array_map(array('JFile', 'stripExt'), JFolder::files(__DIR__ . '/streams', '.php'));
+			$files = new DirectoryIterator(__DIR__ . '/streams');
+
+			foreach ($files as $file)
+			{
+				$filename = $file->getFilename();
+
+				// Only load for php files.
+				// Note: DirectoryIterator::getExtension only available PHP >= 5.3.6
+				if (!$file->isFile() || substr($filename, strrpos($filename, '.') + 1) != 'php')
+				{
+					continue;
+				}
+
+				$streams[] = $file->getBasename('.php');
+			}
 		}
 
 		return $streams;

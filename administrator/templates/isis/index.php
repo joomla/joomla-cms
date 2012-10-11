@@ -9,31 +9,29 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.filesystem.file');
-
 $app   = JFactory::getApplication();
 $doc   = JFactory::getDocument();
 $lang  = JFactory::getLanguage();
+$this->language = $doc->language;
+$this->direction = $doc->direction;
 $input = $app->input;
 $user  = JFactory::getUser();
+
+// Add JavaScript Frameworks
+JHtml::_('bootstrap.framework');
 
 // Add Stylesheets
 $doc->addStyleSheet('templates/' . $this->template . '/css/template.css');
 
-// If Right-to-Left
-if ($this->direction === 'rtl')
-{
-	$doc->addStyleSheet('../media/jui/css/bootstrap-rtl.css');
-}
+// Load optional rtl bootstrap css and bootstrap bugfixes
+JHtmlBootstrap::loadCss($includeMaincss = false, $this->direction);
 
 // Load specific language related CSS
 $file = 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css';
-if (JFile::exists($file))
+if (is_file($file))
 {
 	$doc->addStyleSheet($file);
 }
-
-$doc->addStyleSheet('../media/jui/css/chosen.css');
 
 // Detecting Active Variables
 $option   = $input->get('option', '');
@@ -43,38 +41,7 @@ $task     = $input->get('task', '');
 $itemid   = $input->get('Itemid', '');
 $sitename = $app->getCfg('sitename');
 
-if ($task === "edit" || $layout === "form" )
-{
-	$fullWidth = 1;
-}
-else
-{
-	$fullWidth = 0;
-}
-
-$cpanel = $option === "com_cpanel";
-
-// Adjusting content width
-if ($cpanel)
-{
-	$span = "span8";
-}
-elseif ($this->countModules('left') && $this->countModules('right'))
-{
-	$span = "span6";
-}
-elseif ($this->countModules('left') && !$this->countModules('right'))
-{
-	$span = "span10";
-}
-elseif (!$this->countModules('left') && $this->countModules('right'))
-{
-	$span = "span8";
-}
-else
-{
-	$span = "span12";
-}
+$cpanel = ($option === 'com_cpanel');
 
 $showSubmenu = false;
 $this->submenumodules = JModuleHelper::getModules('submenu');
@@ -97,18 +64,16 @@ else
 {
 	$logo = $this->baseurl . "/templates/" . $this->template . "/images/logo.png";
 }
+
+// Template Parameters
+$displayHeader = $this->params->get('displayHeader', '1');
+$statusFixed = $this->params->get('statusFixed', '1');
+$stickyToolbar = $this->params->get('stickyToolbar', '1');
 ?>
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" >
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<script src="../media/jui/js/jquery.js"></script>
-	<script src="../media/jui/js/bootstrap.min.js"></script>
-	<script src="../media/jui/js/chosen.jquery.min.js"></script>
-	<script src="../media/jui/js/jquery-ui.js"></script>
-	<script type="text/javascript">
-		jQuery.noConflict();
-	</script>
 	<jdoc:include type="head" />
 	<?php
 	// Template color
@@ -116,11 +81,11 @@ else
 	{
 	?>
 	<style type="text/css">
-		.header, .navbar-inner, .nav-list > .active > a, .nav-list > .active > a:hover, .dropdown-menu li > a:hover, .dropdown-menu .active > a, .dropdown-menu .active > a:hover
+		.navbar-inner, .navbar-inverse .navbar-inner, .nav-list > .active > a, .nav-list > .active > a:hover, .dropdown-menu li > a:hover, .dropdown-menu .active > a, .dropdown-menu .active > a:hover, .navbar-inverse .nav li.dropdown.open > .dropdown-toggle, .navbar-inverse .nav li.dropdown.active > .dropdown-toggle, .navbar-inverse .nav li.dropdown.open.active > .dropdown-toggle, #status.status-top
 		{
 			background: <?php echo $this->params->get('templateColor');?>;
 		}
-		.navbar-inner{
+		.navbar-inner, .navbar-inverse .nav li.dropdown.open > .dropdown-toggle, .navbar-inverse .nav li.dropdown.active > .dropdown-toggle, .navbar-inverse .nav li.dropdown.open.active > .dropdown-toggle{
 			-moz-box-shadow: 0 1px 3px rgba(0, 0, 0, .25), inset 0 -1px 0 rgba(0, 0, 0, .1), inset 0 30px 10px rgba(0, 0, 0, .2);
 			-webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, .25), inset 0 -1px 0 rgba(0, 0, 0, .1), inset 0 30px 10px rgba(0, 0, 0, .2);
 			box-shadow: 0 1px 3px rgba(0, 0, 0, .25), inset 0 -1px 0 rgba(0, 0, 0, .1), inset 0 30px 10px rgba(0, 0, 0, .2);
@@ -129,11 +94,28 @@ else
 	<?php
 	}
 	?>
+	<?php
+	// Template header color
+	if ($this->params->get('headerColor'))
+	{
+	?>
+	<style type="text/css">
+		.header
+		{
+			background: <?php echo $this->params->get('headerColor');?>;
+		}
+	</style>
+	<?php
+	}
+	?>
+	<!--[if lt IE 9]>
+		<script src="../media/jui/js/html5.js"></script>
+	<![endif]-->
 </head>
 
-<body class="site <?php echo $option . " view-" . $view . " layout-" . $layout . " task-" . $task . " itemid-" . $itemid . " ";?>" data-spy="scroll" data-target=".subhead" data-offset="87">
+<body class="admin <?php echo $option . " view-" . $view . " layout-" . $layout . " task-" . $task . " itemid-" . $itemid . " ";?>" <?php if ($stickyToolbar): ?>data-spy="scroll" data-target=".subhead" data-offset="87"<?php endif;?>>
 	<!-- Top Navigation -->
-	<div class="navbar navbar-fixed-top">
+	<nav class="navbar navbar-inverse navbar-fixed-top">
 		<div class="navbar-inner">
 			<div class="container-fluid">
 				<?php if ($this->params->get('admin_menus') != '0') : ?>
@@ -151,25 +133,7 @@ else
 				<?php endif; ?>
 					<jdoc:include type="modules" name="menu" style="none" />
 					<ul class="<?php if ($this->direction == 'rtl') : ?>nav<?php else : ?>nav pull-right<?php endif; ?>">
-						<li class="dropdown"> <a class="dropdown-toggle" data-toggle="dropdown" href="#"><?php echo JText::_('TPL_ISIS_SETTINGS');?> <b class="caret"></b></a>
-							<ul class="dropdown-menu">
-								<?php if($user->authorise('core.admin')):?>
-									<li><a href="<?php echo $this->baseurl; ?>/index.php?option=com_config"><?php echo JText::_('TPL_ISIS_GLOBAL_CONFIGURATION');?></a></li>
-									<li class="divider"></li>
-									<li><a href="<?php echo $this->baseurl; ?>/index.php?option=com_admin&view=sysinfo"><?php echo JText::_('TPL_ISIS_SYSTEM_INFORMATION');?></a></li>
-								<?php endif;?>
-								<?php if($user->authorise('core.manage', 'com_cache')):?>
-									 <li><a href="<?php echo $this->baseurl; ?>/index.php?option=com_cache"><?php echo JText::_('TPL_ISIS_CLEAR_CACHE');?></a></li>
-									 <li>
-									 <li><a href="<?php echo $this->baseurl; ?>/index.php?option=com_cache&view=purge"><?php echo JText::_('TPL_ISIS_PURGE_EXPIRED_CACHE');?></a></li>
-									 <li>
-								<?php endif;?>
-								<?php if($user->authorise('core.admin', 'com_checkin')):?>
-									<li><a href="<?php echo $this->baseurl; ?>/index.php?option=com_checkin"><?php echo JText::_('TPL_ISIS_GLOBAL_CHECK_IN');?></a></li>
-								<?php endif;?>
-							</ul>
-						</li>
-						<li class="dropdown"> <a class="dropdown-toggle" data-toggle="dropdown" href="#"><?php echo $user->username; ?> <b class="caret"></b></a>
+						<li class="dropdown"> <a class="dropdown-toggle" data-toggle="dropdown" href="#"><?php echo $user->name; ?> <b class="caret"></b></a>
 							<ul class="dropdown-menu">
 								<li class=""><a href="index.php?option=com_admin&task=profile.edit&id=<?php echo $user->id;?>"><?php echo JText::_('TPL_ISIS_EDIT_ACCOUNT');?></a></li>
 								<li class="divider"></li>
@@ -181,23 +145,43 @@ else
 				<!--/.nav-collapse -->
 			</div>
 		</div>
-	</div>
+	</nav>
 	<!-- Header -->
-	<div class="header">
+	<?php
+	if ($displayHeader):
+	?>
+	<header class="header">
 		<div class="container-fluid">
 			<div class="row-fluid">
 				<div class="span2 container-logo">
 					<a class="logo" href="<?php echo $this->baseurl; ?>"><img src="<?php echo $logo;?>" alt="<?php echo $sitename; ?>" /></a>
 				</div>
-				<div class="span7">
-					<h1 class="page-title"><?php echo JHtml::_('string.truncate', $app->JComponentTitle, 40, false, false);?></h1>
-				</div>
-				<div class="span3">
-					<jdoc:include type="modules" name="searchload" style="none" />
+				<div class="span10">
+					<h1 class="page-title"><?php echo JHtml::_('string.truncate', $app->JComponentTitle, 0, false, false);?></h1>
 				</div>
 			</div>
 		</div>
+	</header>
+	<?php
+	endif;
+	?>
+	<?php
+	if ((!$statusFixed) && ($this->countModules('status'))):
+	?>
+	<!-- Begin Status Module -->
+	<div id="status" class="navbar status-top hidden-phone">
+		<div class="btn-toolbar">
+			<jdoc:include type="modules" name="status" style="no" />
+		</div>
+		<div class="clearfix"></div>
 	</div>
+	<!-- End Status Module -->
+	<?php
+	endif;
+	?>
+	<?php
+	if (!$cpanel):
+	?>
 	<!-- Subheader -->
 	<a class="btn btn-subhead" data-toggle="collapse" data-target=".subhead-collapse"><?php echo JText::_('TPL_ISIS_TOOLBAR');?> <i class="icon-wrench"></i></a>
 	<div class="subhead-collapse">
@@ -212,59 +196,50 @@ else
 			</div>
 		</div>
 	</div>
+	<?php
+	else:
+	?>
+	<div style="margin-bottom: 20px"></div>
+	<?php
+	endif;
+	?>
 	<!-- container-fluid -->
 	<div class="container-fluid container-main">
-		<div class="row-fluid">
-			<?php if (($this->countModules('left')) && $cpanel): ?>
-			<!-- Begin Sidebar -->
-			<div id="sidebar" class="span2">
-				<div class="sidebar-nav">
-					<jdoc:include type="modules" name="left" style="no" />
-				</div>
+		<section id="content">
+			<!-- Begin Content -->
+			<jdoc:include type="modules" name="top" style="xhtml" />
+			<div class="row-fluid">
+				<?php if ($showSubmenu) : ?>
+					<div class="span2">
+						<jdoc:include type="modules" name="submenu" style="none" />
+					</div>
+					<div class="span10">
+				<?php else : ?>
+					<div class="span12">
+				<?php endif; ?>
+						<jdoc:include type="message" />
+						<?php
+						// Show the page title here if the header is hidden
+						if (!$displayHeader):
+						?>
+						<h1 class="content-title"><?php echo JHtml::_('string.truncate', $app->JComponentTitle, 0, false, false);?></h1>
+						<?php
+						endif;
+						?>
+						<jdoc:include type="component" />
+					</div>
 			</div>
-			<!-- End Sidebar -->
-			<?php endif; ?>
-			<div id="content" class="<?php echo $span;?>">
-				<!-- Begin Content -->
-				<jdoc:include type="modules" name="top" style="xhtml" />
-				<div class="row-fluid">
-					<?php if ($showSubmenu) : ?>
-						<div class="span2">
-							<jdoc:include type="modules" name="submenu" style="none" />
-						</div>
-						<div class="span10">
-					<?php else : ?>
-						<div class="span12">
-					<?php endif; ?>
-							<jdoc:include type="message" />
-							<jdoc:include type="component" />
-						</div>
-					</span>
-				</div>
-				<jdoc:include type="modules" name="bottom" style="xhtml" />
-				<!-- End Content -->
-			</div>
-			<?php if (($this->countModules('right')) || $cpanel) : ?>
-			<div id="aside" class="span4">
-				<!-- Begin Right Sidebar -->
-				<?php
-				/* Load cpanel modules */
-				if ($cpanel):?>
-					<jdoc:include type="modules" name="icon" style="well" />
-				<?php endif;?>
-				<jdoc:include type="modules" name="right" style="xhtml" />
-				<!-- End Right Sidebar -->
-			</div>
-			<?php endif; ?>
-		</div>
+			<jdoc:include type="modules" name="bottom" style="xhtml" />
+			<!-- End Content -->
+		</section>
 		<hr />
 		<?php if (!$this->countModules('status')): ?>
-			<div class="footer">
+			<footer class="footer">
 				<p>&copy; <?php echo $sitename; ?> <?php echo date('Y');?></p>
-			</div>
+			</footer>
 		<?php endif; ?>
 	</div>
-	<?php if ($this->countModules('status')): ?>
+	<?php if (($statusFixed) && ($this->countModules('status'))): ?>
 	<!-- Begin Status Module -->
 	<div id="status" class="navbar navbar-fixed-bottom hidden-phone">
 		<div class="btn-toolbar">
@@ -280,12 +255,14 @@ else
 	<script>
 		(function($){
 			$('*[rel=tooltip]').tooltip()
-			$('*[rel=popover]').popover()
 
+			<?php
+			if ($stickyToolbar):
+			?>
 			// fix sub nav on scroll
 			var $win = $(window)
 			  , $nav = $('.subhead')
-			  , navTop = $('.subhead').length && $('.subhead').offset().top - 40
+			  , navTop = $('.subhead').length && $('.subhead').offset().top - <?php if ($displayHeader || !$statusFixed): ?>40<?php else:?>20<?php endif;?>
 			  , isFixed = 0
 
 			processScroll()
@@ -307,28 +284,37 @@ else
 					$nav.removeClass('subhead-fixed')
 				}
 			}
-
-			// Chosen select boxes
-			$("select").chosen({
-				disable_search_threshold : 10,
-				allow_single_deselect : true
-			});
+			<?php
+			endif;
+			?>
 
 			// Turn radios into btn-group
-			$('.radio.btn-group label').addClass('btn')
-			$(".btn-group label:not(.active)").click(function(){
-				var label = $(this);
-				var input = $('#' + label.attr('for'));
+		    $('.radio.btn-group label').addClass('btn');
+		    $(".btn-group label:not(.active)").click(function() {
+		        var label = $(this);
+		        var input = $('#' + label.attr('for'));
 
-				if (!input.prop('checked')){
-					label.closest('.btn-group').find("label").removeClass('active btn-primary');
-					label.addClass('active btn-primary');
-					input.prop('checked', true);
-				}
-			});
-			$(".btn-group input[checked=checked]").each(function(){
-				$("label[for=" + $(this).attr('id') + "]").addClass('active btn-primary');
-			});
+		        if (!input.prop('checked')) {
+		            label.closest('.btn-group').find("label").removeClass('active btn-success btn-danger btn-primary');
+		            if(input.val()== '') {
+		                    label.addClass('active btn-primary');
+		             } else if(input.val()==0) {
+		                    label.addClass('active btn-danger');
+		             } else {
+		            label.addClass('active btn-success');
+		             }
+		            input.prop('checked', true);
+		        }
+		    });
+		    $(".btn-group input[checked=checked]").each(function() {
+				if($(this).val()== '') {
+		           $("label[for=" + $(this).attr('id') + "]").addClass('active btn-primary');
+		        } else if($(this).val()==0) {
+		           $("label[for=" + $(this).attr('id') + "]").addClass('active btn-danger');
+		        } else {
+		            $("label[for=" + $(this).attr('id') + "]").addClass('active btn-success');
+		        }
+		    });
 		})(jQuery);
 	</script>
 </body>

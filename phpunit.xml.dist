@@ -4,6 +4,9 @@
 		<testsuite name="libraries">
 			<directory>tests/unit/suites/libraries</directory>
 		</testsuite>
+		<testsuite name="administrator">
+			<directory>tests/unit/suites/administrator</directory>
+		</testsuite>
 	</testsuites>
 
 	<logging>
@@ -15,6 +18,7 @@
 	<filter>
 		<whitelist addUncoveredFilesFromWhitelist="true">
 			<directory suffix=".php">libraries/cms</directory>
+			<file>administrator/includes/helper.php</file>
 		</whitelist>
 	</filter>
 </phpunit>

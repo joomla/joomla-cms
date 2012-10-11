@@ -28,16 +28,6 @@ class InstallationModelSetup extends JModelLegacy
 		$session = JFactory::getSession();
 		$options = $session->get('setup.options', array());
 
-		// Ensure a valid language string format
-		if (isset($options['language']))
-		{
-			$parts = explode('-', $options['language']);
-			if (count($parts) == 2)
-			{
-				$options['language'] = $parts[0] . '-' . strtoupper($parts[1]);
-			}
-		}
-
 		return $options;
 	}
 
@@ -56,16 +46,14 @@ class InstallationModelSetup extends JModelLegacy
 		$session = JFactory::getSession();
 		$old = $session->get('setup.options', array());
 
+		// Ensure that we have language
+		if (!isset($options['language']) || empty($options['language'])) {
+			$options['language'] = JFactory::getLanguage()->getTag();
+		}
+
 		// Merge the new setup options into the current ones and store in the session.
 		$options = array_merge($old, (array) $options);
 		$session->set('setup.options', $options);
-
-		// If the setup language is set in the options, set it separately in the session and JLanguage.
-		if (!empty($options['language']))
-		{
-			$session->set('setup.language', $options['language']);
-			JFactory::getLanguage()->setLanguage($options['language']);
-		}
 
 		return $options;
 	}
@@ -79,10 +67,6 @@ class InstallationModelSetup extends JModelLegacy
 	 */
 	public function getForm($view = null)
 	{
-		$app = JFactory::getApplication();
-
-		$false = false;
-
 		if (!$view)
 		{
 			$view = JFactory::getApplication()->input->get('view', 'site', 'word');
@@ -319,7 +303,7 @@ class InstallationModelSetup extends JModelLegacy
 
 		// Check for configuration file writeable.
 		$option = new stdClass;
-		$option->label  = 'configuration.php ' . JText::_('INSTL_WRITABLE');
+		$option->label  = JText::sprintf('INSTL_WRITABLE', 'configuration.php');
 		$option->state  = (is_writable('../configuration.php') || (!file_exists('../configuration.php') && is_writable('../')));
 		$option->notice = ($option->state) ? null : JText::_('INSTL_NOTICEYOUCANSTILLINSTALL');
 		$options[] = $option;

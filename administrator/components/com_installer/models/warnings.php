@@ -22,7 +22,7 @@ class InstallerModelWarnings extends JModelList
 	 * Extension Type
 	 * @var	string
 	 */
-	var $type = 'warnings';
+	public $type = 'warnings';
 
 	/**
 	 * Return the byte value of a particular string.
@@ -33,7 +33,7 @@ class InstallerModelWarnings extends JModelList
 	 *
 	 * @since 1.6
 	 */
-	function return_bytes($val)
+	public function return_bytes($val)
 	{
 		$val = trim($val);
 		$last = strtolower($val{strlen($val) - 1});

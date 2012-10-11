@@ -651,8 +651,6 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	 */
 	public function replacePrefix($sql, $prefix = '#__')
 	{
-		$tablePrefix = 'jos_';
-
 		$escaped = false;
 		$startPos = 0;
 		$quoteChar = '';

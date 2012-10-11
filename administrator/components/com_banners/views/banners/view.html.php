@@ -57,6 +57,7 @@ class BannersViewBanners extends JViewLegacy
 		// Include the component HTML helpers.
 		JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
+		$this->sidebar = JHtmlSidebar::render();
 		parent::display($tpl);
 	}
 
@@ -125,8 +126,9 @@ class BannersViewBanners extends JViewLegacy
 		// Add a batch button
 		if ($user->authorise('core.edit'))
 		{
+			JHtml::_('bootstrap.modal', 'collapseModal');
 			$title = JText::_('JTOOLBAR_BATCH');
-			$dhtml = "<button data-toggle=\"modal\" data-target=\"#collapseModal\" class=\"btn\">
+			$dhtml = "<button data-toggle=\"modal\" data-target=\"#collapseModal\" class=\"btn btn-small\">
 						<i class=\"icon-checkbox-partial\" title=\"$title\"></i>
 						$title</button>";
 			$bar->appendButton('Custom', $dhtml, 'batch');
@@ -138,27 +140,27 @@ class BannersViewBanners extends JViewLegacy
 		}
 		JToolbarHelper::help('JHELP_COMPONENTS_BANNERS_BANNERS');
 
-		JSubMenuHelper::setAction('index.php?option=com_banners&view=banners');
+		JHtmlSidebar::setAction('index.php?option=com_banners&view=banners');
 
-		JSubMenuHelper::addFilter(
+		JHtmlSidebar::addFilter(
 			JText::_('JOPTION_SELECT_PUBLISHED'),
 			'filter_state',
 			JHtml::_('select.options', JHtml::_('jgrid.publishedOptions'), 'value', 'text', $this->state->get('filter.published'), true)
 		);
 
-		JSubMenuHelper::addFilter(
+		JHtmlSidebar::addFilter(
 			JText::_('COM_BANNERS_SELECT_CLIENT'),
 			'filter_client_id',
 			JHtml::_('select.options', BannersHelper::getClientOptions(), 'value', 'text', $this->state->get('filter.client_id'))
 		);
 
-		JSubMenuHelper::addFilter(
+		JHtmlSidebar::addFilter(
 			JText::_('JOPTION_SELECT_CATEGORY'),
 			'filter_category_id',
 			JHtml::_('select.options', JHtml::_('category.options', 'com_banners'), 'value', 'text', $this->state->get('filter.category_id'))
 		);
 
-		JSubMenuHelper::addFilter(
+		JHtmlSidebar::addFilter(
 			JText::_('JOPTION_SELECT_LANGUAGE'),
 			'filter_language',
 			JHtml::_('select.options', JHtml::_('contentlanguage.existing', true, true), 'value', 'text', $this->state->get('filter.language'))
@@ -176,13 +178,13 @@ class BannersViewBanners extends JViewLegacy
 	{
 		return array(
 			'ordering' => JText::_('JGRID_HEADING_ORDERING'),
+			'a.state' => JText::_('JSTATUS'),
 			'a.name' => JText::_('COM_BANNERS_HEADING_NAME'),
 			'a.sticky' => JText::_('COM_BANNERS_HEADING_STICKY'),
 			'client_name' => JText::_('COM_BANNERS_HEADING_CLIENT'),
 			'impmade' => JText::_('COM_BANNERS_HEADING_IMPRESSIONS'),
 			'clicks' => JText::_('COM_BANNERS_HEADING_CLICKS'),
 			'a.language' => JText::_('JGRID_HEADING_LANGUAGE'),
-			'a.status' => JText::_('JSTATUS'),
 			'a.id' => JText::_('JGRID_HEADING_ID')
 		);
 	}

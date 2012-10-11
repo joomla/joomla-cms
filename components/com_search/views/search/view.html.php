@@ -95,7 +95,7 @@ class SearchViewSearch extends JViewLegacy
 		$lists['searchphrase'] = JHtml::_('select.radiolist',  $searchphrases, 'searchphrase', '', 'value', 'text', $state->get('match'));
 
 		// log the search
-		SearchHelper::logSearch($searchword);
+		JSearchHelper::logSearch($searchword, 'com_search');
 
 		//limit searchword
 		$lang = JFactory::getLanguage();
@@ -105,16 +105,16 @@ class SearchViewSearch extends JViewLegacy
 			$error = JText::sprintf('COM_SEARCH_ERROR_SEARCH_MESSAGE', $lower_limit, $upper_limit);
 		}
 
-		//sanatise searchword
+		// Sanitise searchword
 		if (SearchHelper::santiseSearchWord($searchword, $state->get('match'))) {
 			$error = JText::_('COM_SEARCH_ERROR_IGNOREKEYWORD');
 		}
 
-		if (!$searchword && count(JRequest::get('post'))) {
-			//$error = JText::_('COM_SEARCH_ERROR_ENTERKEYWORD');
+		if (!$searchword && !empty($this->input) && count($this->input->post)) {
+			// $error = JText::_('COM_SEARCH_ERROR_ENTERKEYWORD');
 		}
 
-		// put the filtered results back into the model
+		// Put the filtered results back into the model
 		// for next release, the checks should be done in the model perhaps...
 		$state->set('keyword', $searchword);
 		if ($error == null) {

@@ -105,13 +105,11 @@ class FinderCli extends JApplicationCli
 	 */
 	private function _index()
 	{
-		// initialize the time value
 		$this->_time = microtime(true);
 
-		// import library dependencies
 		require_once JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/indexer.php';
 
-		// fool the system into thinking we are running as JSite with Finder as the active component
+		// Fool the system into thinking we are running as JSite with Finder as the active component
 		JFactory::getApplication('site');
 		$_SERVER['HTTP_HOST'] = 'domain.com';
 		define('JPATH_COMPONENT_ADMINISTRATOR', JPATH_ADMINISTRATOR . '/components/com_finder');

@@ -22,27 +22,23 @@ function modChrome_none($module, &$params, &$attribs)
  */
 function modChrome_html5($module, &$params, &$attribs)
 {
-	$moduleTag      = $params->get('module_tag');
-	$headerTag      = htmlspecialchars($params->get('header_tag'));
-	$headerClass    = $params->get('header_class');
-	$bootstrapSize  = $params->get('bootstrap_size');
-	$moduleClass    = !empty($bootstrapSize) ? ' span' . (int) $bootstrapSize . '' : '';
-	$moduleClassSfx = htmlspecialchars($params->get('moduleclass_sfx'));
+	$moduleTag      = $params->get('module_tag', 'div');
+	$headerTag      = htmlspecialchars($params->get('header_tag', 'h3'));
+	$bootstrapSize  = (int) $params->get('bootstrap_size', 0);
+	$moduleClass    = $bootstrapSize != 0 ? ' span' . $bootstrapSize : '';
 
-	if (!empty ($module->content))
-	{
-		$html  = "<{$moduleTag} class=\"moduletable{$moduleClassSfx} {$moduleClass}\">";
+	if (!empty ($module->content)) : ?>
+		<<?php echo $moduleTag; ?> class="moduletable<?php echo htmlspecialchars($params->get('moduleclass_sfx')); ?><?php echo $moduleClass; ?>">
 
-		if ((bool) $module->showtitle)
-		{
-			$html .= "<{$headerTag} class=\"{$headerClass}\">{$module->title}</{$headerTag}>";
-		}
+		<?php if ((bool) $module->showtitle) :?>
+			<<?php echo $headerTag; ?> class="<?php echo $params->get('header_class'); ?>"><?php echo $module->title; ?></<?php echo $headerTag; ?>>
+		<?php endif; ?>
 
-		$html .= $module->content;
-		$html .= "</{$moduleTag}>";
+			<?php echo $module->content; ?>
+		
+		</<?php echo $moduleTag; ?>>
 
-		echo $html;
-	}
+	<?php endif;
 }
 
 /*
@@ -127,32 +123,13 @@ function modChrome_outline($module, &$params, &$attribs)
 	{
 		$css = true;
 		$doc = JFactory::getDocument();
-		$client = JFactory::getApplication()->client;
 
 		$doc->addStyleDeclaration(".mod-preview-info { padding: 2px 4px 2px 4px; border: 1px solid black; position: absolute; background-color: white; color: red;}");
 		$doc->addStyleDeclaration(".mod-preview-wrapper { background-color:#eee; border: 1px dotted black; color:#700;}");
-		if ($client->browser === JApplicationWebClient::IE && version_compare($client->browserVersion, '9.0', '<'))
-		{
-			if (version_compare($client->browserVersion, '7.0', '<='))
-			{
-				$doc->addStyleDeclaration(".mod-preview-info {filter: alpha(opacity=80);}");
-				$doc->addStyleDeclaration(".mod-preview-wrapper {filter: alpha(opacity=50);}");
-			}
-			else
-			{
-				$doc->addStyleDeclaration(".mod-preview-info {-ms-filter: alpha(opacity=80);}");
-				$doc->addStyleDeclaration(".mod-preview-wrapper {-ms-filter: alpha(opacity=50);}");
-			}
-		}
-		else
-		{
-			$doc->addStyleDeclaration(".mod-preview-info {opacity: 0.8;}");
-			$doc->addStyleDeclaration(".mod-preview-wrapper {opacity: 0.5;}");
-		}
 	}
 	?>
 	<div class="mod-preview">
-		<div class="mod-preview-info"><?php echo $module->position . "[" . $module->style . "]"; ?></div>
+		<div class="mod-preview-info"><?php echo 'Position: ' . $module->position . ' [ Style: ' . $module->style . ']'; ?></div>
 		<div class="mod-preview-wrapper">
 			<?php echo $module->content; ?>
 		</div>

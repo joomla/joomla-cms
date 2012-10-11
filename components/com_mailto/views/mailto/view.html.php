@@ -37,6 +37,7 @@ class MailtoViewMailto extends JViewLegacy
 	function &getData()
 	{
 		$user = JFactory::getUser();
+		$app  = JFactory::getApplication();
 		$data = new stdClass;
 
 		$data->link = urldecode(JRequest::getVar('link', '', 'method', 'base64'));
@@ -48,10 +49,10 @@ class MailtoViewMailto extends JViewLegacy
 		}
 
 		// Load with previous data, if it exists
-		$mailto  = $this->input->post->getString('mailto', '');
-		$sender  = $this->input->post->getString('sender', '');
-		$from    = $this->input->post->getString('from', '');
-		$subject = $this->input->post->getString('subject', '');
+		$mailto  = $app->input->post->getString('mailto', '');
+		$sender  = $app->input->post->getString('sender', '');
+		$from    = $app->input->post->getString('from', '');
+		$subject = $app->input->post->getString('subject', '');
 
 		if ($user->get('id') > 0) {
 			$data->sender = $user->get('name');

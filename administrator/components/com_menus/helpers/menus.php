@@ -30,12 +30,12 @@ class MenusHelper
 	 */
 	public static function addSubmenu($vName)
 	{
-		JSubMenuHelper::addEntry(
+		JHtmlSidebar::addEntry(
 			JText::_('COM_MENUS_SUBMENU_MENUS'),
 			'index.php?option=com_menus&view=menus',
 			$vName == 'menus'
 		);
-		JSubMenuHelper::addEntry(
+		JHtmlSidebar::addEntry(
 			JText::_('COM_MENUS_SUBMENU_ITEMS'),
 			'index.php?option=com_menus&view=items',
 			$vName == 'items'
@@ -181,11 +181,6 @@ class MenusHelper
 		{
 			JError::raiseWarning(500, $e->getMessage());
 			return false;
-		}
-
-		// Pad the option text with spaces using depth level as a multiplier.
-		foreach ($links as &$link) {
-			$link->text = str_repeat('- ', $link->level).$link->text;
 		}
 
 		if (empty($menuType)) {

@@ -51,7 +51,7 @@ class WeblinksModelForm extends WeblinksModelWeblink
 		$categoryId	= $app->input->getInt('catid');
 		$this->setState('weblink.catid', $categoryId);
 
-		$return = JRequest::getVar('return', null, 'default', 'base64');
+		$return = $app->input->get('return', null, 'base64');
 
 		if (!JUri::isInternal(base64_decode($return))) {
 			$return = null;

@@ -19,7 +19,7 @@ if ($app->isSite())
 require_once JPATH_ROOT . '/components/com_content/helpers/route.php';
 
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
-JHtml::_('behavior.tooltip');
+JHtml::_('bootstrap.tooltip');
 
 $function  = $app->input->getCmd('function', 'jSelectArticle');
 $listOrder = $this->escape($this->state->get('list.ordering'));
@@ -35,9 +35,9 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				<input type="text" name="filter_search" id="filter_search" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" size="30" title="<?php echo JText::_('COM_CONTENT_FILTER_SEARCH_DESC'); ?>" />
 			</div>
 			<div class="btn-group pull-left">
-				<button type="submit" class="btn" rel="tooltip" data-placement="bottom" title="<?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?>">
+				<button type="submit" class="btn hasTooltip" data-placement="bottom" title="<?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?>">
 					<i class="icon-search"></i></button>
-				<button type="button" class="btn" rel="tooltip" data-placement="bottom" title="<?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?>" onclick="document.id('filter_search').value='';this.form.submit();">
+				<button type="button" class="btn hasTooltip" data-placement="bottom" title="<?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?>" onclick="document.id('filter_search').value='';this.form.submit();">
 					<i class="icon-remove"></i></button>
 			</div>
 			<div class="clearfix"></div>
@@ -72,19 +72,19 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				<th class="title">
 					<?php echo JHtml::_('grid.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 				</th>
-				<th width="15%">
+				<th width="15%" class="center nowrap">
 					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ACCESS', 'access_level', $listDirn, $listOrder); ?>
 				</th>
-				<th width="15%">
+				<th width="15%" class="center nowrap">
 					<?php echo JHtml::_('grid.sort', 'JCATEGORY', 'a.catid', $listDirn, $listOrder); ?>
 				</th>
-				<th width="5%">
+				<th width="5%" class="center nowrap">
 					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
 				</th>
-				<th width="5%">
+				<th width="5%" class="center nowrap">
 					<?php echo JHtml::_('grid.sort', 'JDATE', 'a.created', $listDirn, $listOrder); ?>
 				</th>
-				<th width="1%" class="nowrap">
+				<th width="1%" class="center nowrap">
 					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 				</th>
 			</tr>
