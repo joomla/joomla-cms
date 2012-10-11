@@ -116,7 +116,7 @@ class JLogTest extends PHPUnit_Framework_TestCase
 
 		// Add a loggers to the JLog object.
 
-		// 7Note: 67d00c8f22f5859a1fd73835ee47e4d
+		// Note: 67d00c8f22f5859a1fd73835ee47e4d
 		JLog::addLogger(array('text_file' => 'deprecated.log'), JLog::ALL, 'deprecated');
 
 		// Note: 09826310049345665887853e4688d89e
@@ -182,6 +182,116 @@ class JLogTest extends PHPUnit_Framework_TestCase
 					'5099e81204381e68555c620cd8140421',
 					'b5550c1aa36c1eaf77206565ec5f9021',
 					'916ed48d2f635431a93aee60c56b0219',
+				)
+			),
+			'Line: ' . __LINE__ . '.'
+		);
+
+	}
+
+	/**
+	 * Test the JLog::findLoggers method to make sure given a category we are finding the correct loggers that
+	 * have been added to JLog (using exclusion).  It is important to note that empty category can also be excluded.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.3
+	 */
+	public function testFindLoggersByNotCategory()
+	{
+		// First let's test a set of priorities.
+		$log = new JLogInspector;
+		JLog::setInstance($log);
+
+		// Add a loggers to the JLog object.
+
+		// Note: 46c90979772c19bf707c0d8d6581cad5
+		JLog::addLogger(array('text_file' => 'not_deprecated.log'), JLog::ALL, 'deprecated', true);
+
+		// Note: 96ebc8ec99ccca7d8108232da1f35abe
+		JLog::addLogger(array('text_file' => 'not_com_foo.log'), JLog::ALL, 'com_foo', true);
+
+		// Note: 84c5af052b619356b9fdd2f5cefd90fd
+		JLog::addLogger(array('text_file' => 'not_none.log'), JLog::ALL, '', true);
+
+		// Note: 645f55d76f1d8bc00f79040d5bead8d6
+		JLog::addLogger(array('text_file' => 'not_deprecated-com_foo.log'), JLog::ALL, array('deprecated', 'com_foo'), true);
+
+		// Note: 07abacf4dc704fe78479149ad51bd044
+		JLog::addLogger(array('text_file' => 'not_foobar-deprecated.log'), JLog::ALL, array('foobar', 'deprecated'), true);
+
+		// Note: affc04af81476fbb5e19b2773a927ec6
+		JLog::addLogger(array('text_file' => 'not_transactions-paypal.log'), JLog::ALL, array('transactions', 'paypal'), true);
+
+		// Note: 1aa03749b113bc00fb030b6c5a67b6ec
+		JLog::addLogger(array('text_file' => 'not_transactions.log'), JLog::ALL, array('transactions'), true);
+
+		$this->assertThat(
+			$log->findLoggers(JLog::EMERGENCY, 'deprecated'),
+			$this->equalTo(
+				array(
+					'96ebc8ec99ccca7d8108232da1f35abe',
+					'84c5af052b619356b9fdd2f5cefd90fd',
+					'affc04af81476fbb5e19b2773a927ec6',
+					'1aa03749b113bc00fb030b6c5a67b6ec',
+				)
+			),
+			'Line: ' . __LINE__ . '.'
+		);
+
+		$this->assertThat(
+			$log->findLoggers(JLog::NOTICE, 'paypal'),
+			$this->equalTo(
+				array(
+					'46c90979772c19bf707c0d8d6581cad5',
+					'96ebc8ec99ccca7d8108232da1f35abe',
+					'84c5af052b619356b9fdd2f5cefd90fd',
+					'645f55d76f1d8bc00f79040d5bead8d6',
+					'07abacf4dc704fe78479149ad51bd044',
+					'1aa03749b113bc00fb030b6c5a67b6ec'
+				)
+			),
+			'Line: ' . __LINE__ . '.'
+		);
+
+		$this->assertThat(
+			$log->findLoggers(JLog::DEBUG, 'com_foo'),
+			$this->equalTo(
+				array(
+					'46c90979772c19bf707c0d8d6581cad5',
+					'84c5af052b619356b9fdd2f5cefd90fd',
+					'07abacf4dc704fe78479149ad51bd044',
+					'affc04af81476fbb5e19b2773a927ec6',
+					'1aa03749b113bc00fb030b6c5a67b6ec'
+				)
+			),
+			'Line: ' . __LINE__ . '.'
+		);
+
+		$this->assertThat(
+			$log->findLoggers(JLog::WARNING, 'transactions'),
+			$this->equalTo(
+				array(
+					'46c90979772c19bf707c0d8d6581cad5',
+					'96ebc8ec99ccca7d8108232da1f35abe',
+					'84c5af052b619356b9fdd2f5cefd90fd',
+					'645f55d76f1d8bc00f79040d5bead8d6',
+					'07abacf4dc704fe78479149ad51bd044'
+				)
+			),
+			'Line: ' . __LINE__ . '.'
+		);
+
+		$this->assertThat(
+			$log->findLoggers(JLog::INFO, ''),
+			$this->equalTo(
+				array(
+					'46c90979772c19bf707c0d8d6581cad5',
+					'96ebc8ec99ccca7d8108232da1f35abe',
+					'645f55d76f1d8bc00f79040d5bead8d6',
+					'07abacf4dc704fe78479149ad51bd044',
+					'affc04af81476fbb5e19b2773a927ec6',
+					'1aa03749b113bc00fb030b6c5a67b6ec'
 				)
 			),
 			'Line: ' . __LINE__ . '.'
@@ -388,7 +498,7 @@ class JLogTest extends PHPUnit_Framework_TestCase
 
 		// Get the expected lookup array after adding the single logger.
 		$expectedLookup = array(
-			'55202c195e23298813df4292c827b241' => (object) array('priorities' => JLog::ALL, 'categories' => array())
+			'55202c195e23298813df4292c827b241' => (object) array('priorities' => JLog::ALL, 'categories' => array(), 'exclude' => false)
 		);
 
 		// Get the expected loggers array after adding the single logger (hasn't been instantiated yet so null).
@@ -426,7 +536,7 @@ class JLogTest extends PHPUnit_Framework_TestCase
 
 		// Get the expected lookup array after adding the single logger.
 		$expectedLookup = array(
-			'b67483f5ba61450d173aae527fa4163f' => (object) array('priorities' => JLog::ERROR, 'categories' => array())
+			'b67483f5ba61450d173aae527fa4163f' => (object) array('priorities' => JLog::ERROR, 'categories' => array(), 'exclude' => false)
 		);
 
 		// Get the expected loggers array after adding the single logger (hasn't been instantiated yet so null).
