@@ -386,7 +386,7 @@ class JGoogleDataAdsenseTest extends PHPUnit_Framework_TestCase
  *
  * @return  JHttpResponse
  *
- * @since   12.2
+ * @since   12.3
  */
 function jsonAdsenseCallback($url, array $headers = null, $timeout = null)
 {
@@ -406,7 +406,7 @@ function jsonAdsenseCallback($url, array $headers = null, $timeout = null)
  *
  * @return  JHttpResponse
  *
- * @since   12.2
+ * @since   12.3
  */
 function jsonAdsenseReportCallback($url, array $headers = null, $timeout = null)
 {
@@ -426,7 +426,7 @@ function jsonAdsenseReportCallback($url, array $headers = null, $timeout = null)
  *
  * @return  JHttpResponse
  *
- * @since   12.2
+ * @since   12.3
  */
 function adsenseExceptionCallback($url, array $headers = null, $timeout = null)
 {

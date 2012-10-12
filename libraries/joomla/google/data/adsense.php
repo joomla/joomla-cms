@@ -24,7 +24,7 @@ class JGoogleDataAdsense extends JGoogleData
 	 * @param   JRegistry    $options  Google options object
 	 * @param   JGoogleAuth  $auth     Google data http client object
 	 *
-	 * @since   12.2
+	 * @since   12.3
 	 */
 	public function __construct(JRegistry $options = null, JGoogleAuth $auth = null)
 	{
@@ -44,7 +44,7 @@ class JGoogleDataAdsense extends JGoogleData
 	 *
 	 * @return  mixed  Data from Google
 	 *
-	 * @since   12.2
+	 * @since   12.3
 	 */
 	public function getAccount($accountID, $subaccounts = true)
 	{
@@ -75,7 +75,7 @@ class JGoogleDataAdsense extends JGoogleData
 	 *
 	 * @return  mixed  Data from Google
 	 *
-	 * @since   12.2
+	 * @since   12.3
 	 * @throws UnexpectedValueException
 	 */
 	public function listAccounts($options = array(), $maxpages = 1)
@@ -102,7 +102,7 @@ class JGoogleDataAdsense extends JGoogleData
 	 *
 	 * @return  mixed  Data from Google
 	 *
-	 * @since   12.2
+	 * @since   12.3
 	 * @throws UnexpectedValueException
 	 */
 	public function listClients($accountID, $options = array(), $maxpages = 1)
@@ -129,7 +129,7 @@ class JGoogleDataAdsense extends JGoogleData
 	 *
 	 * @return  mixed  Data from Google
 	 *
-	 * @since   12.2
+	 * @since   12.3
 	 */
 	public function getUnit($accountID, $adclientID, $adunitID)
 	{
@@ -164,7 +164,7 @@ class JGoogleDataAdsense extends JGoogleData
 	 *
 	 * @return  mixed  Data from Google
 	 *
-	 * @since   12.2
+	 * @since   12.3
 	 * @throws UnexpectedValueException
 	 */
 	public function listUnitChannels($accountID, $adclientID, $adunitID, $options = array(), $maxpages = 1)
@@ -192,7 +192,7 @@ class JGoogleDataAdsense extends JGoogleData
 	 *
 	 * @return  mixed  Data from Google
 	 *
-	 * @since   12.2
+	 * @since   12.3
 	 */
 	public function getChannel($accountID, $adclientID, $channelID)
 	{
@@ -226,7 +226,7 @@ class JGoogleDataAdsense extends JGoogleData
 	 *
 	 * @return  mixed  Data from Google
 	 *
-	 * @since   12.2
+	 * @since   12.3
 	 * @throws UnexpectedValueException
 	 */
 	public function listChannels($accountID, $adclientID, $options = array(), $maxpages = 1)
@@ -256,7 +256,7 @@ class JGoogleDataAdsense extends JGoogleData
 	 *
 	 * @return  mixed  Data from Google
 	 *
-	 * @since   12.2
+	 * @since   12.3
 	 * @throws UnexpectedValueException
 	 */
 	public function listChannelUnits($accountID, $adclientID, $channelID, $options = array(), $maxpages = 1)
@@ -285,7 +285,7 @@ class JGoogleDataAdsense extends JGoogleData
 	 *
 	 * @return  mixed  Data from Google
 	 *
-	 * @since   12.2
+	 * @since   12.3
 	 * @throws UnexpectedValueException
 	 */
 	public function listUrlChannels($accountID, $adclientID, $options = array(), $maxpages = 1)
@@ -315,7 +315,7 @@ class JGoogleDataAdsense extends JGoogleData
 	 *
 	 * @return  mixed  Data from Google
 	 *
-	 * @since   12.2
+	 * @since   12.3
 	 * @throws UnexpectedValueException
 	 */
 	public function generateReport($accountID, $start, $end = false, $options = array(), $maxpages = 1)

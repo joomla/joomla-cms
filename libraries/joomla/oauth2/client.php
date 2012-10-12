@@ -21,25 +21,25 @@ class JOAuth2Client
 {
 	/**
 	 * @var    JRegistry  Options for the JOAuth2Client object.
-	 * @since  12.2
+	 * @since  12.3
 	 */
 	protected $options;
 
 	/**
 	 * @var    JHttp  The HTTP client object to use in sending HTTP requests.
-	 * @since  12.2
+	 * @since  12.3
 	 */
 	protected $http;
 
 	/**
 	 * @var    JInput  The input object to use in retrieving GET/POST data.
-	 * @since  12.2
+	 * @since  12.3
 	 */
 	protected $input;
 
 	/**
 	 * @var    JApplicationWeb  The application object to send HTTP headers for redirects.
-	 * @since  12.2
+	 * @since  12.3
 	 */
 	protected $application;
 
@@ -51,7 +51,7 @@ class JOAuth2Client
 	 * @param   JInput           $input        The input object
 	 * @param   JApplicationWeb  $application  The application object
 	 *
-	 * @since   12.2
+	 * @since   12.3
 	 */
 	public function __construct(JRegistry $options = null, JHttp $http = null, JInput $input = null, JApplicationWeb $application = null)
 	{
@@ -66,7 +66,7 @@ class JOAuth2Client
 	 *
 	 * @return  string  The access token
 	 *
-	 * @since   12.2
+	 * @since   12.3
 	 */
 	public function authenticate()
 	{
@@ -112,7 +112,7 @@ class JOAuth2Client
 	 *
 	 * @return  boolean  Is authenticated
 	 *
-	 * @since   12.2
+	 * @since   12.3
 	 */
 	public function isAuthenticated()
 	{
@@ -137,7 +137,7 @@ class JOAuth2Client
 	 *
 	 * @return  JHttpResponse  The HTTP response
 	 *
-	 * @since   12.2
+	 * @since   12.3
 	 */
 	public function createUrl()
 	{
@@ -197,7 +197,7 @@ class JOAuth2Client
 	 *
 	 * @return  string  The URL.
 	 *
-	 * @since   12.2
+	 * @since   12.3
 	 */
 	public function query($url, $data = null, $headers = array(), $method = 'get', $timeout = null)
 	{
@@ -260,7 +260,7 @@ class JOAuth2Client
 	 *
 	 * @return  mixed  The option value
 	 *
-	 * @since   12.2
+	 * @since   12.3
 	 */
 	public function getOption($key)
 	{
@@ -275,7 +275,7 @@ class JOAuth2Client
 	 *
 	 * @return  JOAuth2Client  This object for method chaining
 	 *
-	 * @since   12.2
+	 * @since   12.3
 	 */
 	public function setOption($key, $value)
 	{
@@ -288,7 +288,7 @@ class JOAuth2Client
 	 *
 	 * @return  array  The access token
 	 *
-	 * @since   12.2
+	 * @since   12.3
 	 */
 	public function getToken()
 	{
@@ -302,7 +302,7 @@ class JOAuth2Client
 	 *
 	 * @return  JOAuth2Client  This object for method chaining
 	 *
-	 * @since   12.2
+	 * @since   12.3
 	 */
 	public function setToken($value)
 	{
@@ -322,7 +322,7 @@ class JOAuth2Client
 	 *
 	 * @return  array  The new access token
 	 *
-	 * @since   12.2
+	 * @since   12.3
 	 */
 	public function refreshToken($token = null)
 	{

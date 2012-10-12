@@ -267,7 +267,7 @@ class JGoogleDataPicasaTest extends PHPUnit_Framework_TestCase
  *
  * @return  JHttpResponse
  *
- * @since   12.2
+ * @since   12.3
  */
 function picasaAlbumCallback($url, array $headers = null, $timeout = null)
 {
@@ -288,7 +288,7 @@ function picasaAlbumCallback($url, array $headers = null, $timeout = null)
  *
  * @return  JHttpResponse
  *
- * @since   12.2
+ * @since   12.3
  */
 function dataPicasaAlbumCallback($url, $data, array $headers = null, $timeout = null)
 {
@@ -310,7 +310,7 @@ function dataPicasaAlbumCallback($url, $data, array $headers = null, $timeout = 
  *
  * @return  JHttpResponse
  *
- * @since   12.2
+ * @since   12.3
  */
 function picasaAlbumlistCallback($url, array $headers = null, $timeout = null)
 {
@@ -330,7 +330,7 @@ function picasaAlbumlistCallback($url, array $headers = null, $timeout = null)
  *
  * @return  JHttpResponse
  *
- * @since   12.2
+ * @since   12.3
  */
 function picasaExceptionCallback($url, array $headers = null, $timeout = null)
 {
@@ -351,7 +351,7 @@ function picasaExceptionCallback($url, array $headers = null, $timeout = null)
  *
  * @return  JHttpResponse
  *
- * @since   12.2
+ * @since   12.3
  */
 function picasaDataExceptionCallback($url, $data, array $headers = null, $timeout = null)
 {
@@ -371,7 +371,7 @@ function picasaDataExceptionCallback($url, $data, array $headers = null, $timeou
  *
  * @return  JHttpResponse
  *
- * @since   12.2
+ * @since   12.3
  */
 function picasaBadXmlCallback($url, array $headers = null, $timeout = null)
 {

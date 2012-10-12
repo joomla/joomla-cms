@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Joomla Platform class for interacting with the Google APIs.
  *
- * @property-read  JGoogleDate    $gists   Google API object for gists.
+ * @property-read  JGoogleData    $data    Google API object for data.
  * @property-read  JGoogleEmbed   $embed   Google API object for embed generation.
  *
  * @package     Joomla.Platform
@@ -51,7 +51,7 @@ class JGoogle
 	 * @param   JRegistry  $options  Google options object.
 	 * @param   JAuth      $auth     The authentication client object.
 	 *
-	 * @since   12.2
+	 * @since   12.3
 	 */
 	public function __construct(JRegistry $options = null, JGoogleAuth $auth = null)
 	{
@@ -68,7 +68,7 @@ class JGoogle
 	 *
 	 * @return  JGoogleData  Google data API object.
 	 *
-	 * @since   12.2
+	 * @since   12.3
 	 */
 	public function data($name, $options = null, $auth = null)
 	{
@@ -107,7 +107,7 @@ class JGoogle
 	 *
 	 * @return  JGoogleEmbed  Google embed API object.
 	 *
-	 * @since   12.2
+	 * @since   12.3
 	 */
 	public function embed($name, $options = null)
 	{
@@ -135,7 +135,7 @@ class JGoogle
 	 *
 	 * @return  mixed  The option value.
 	 *
-	 * @since   12.2
+	 * @since   12.3
 	 */
 	public function getOption($key)
 	{
@@ -150,7 +150,7 @@ class JGoogle
 	 *
 	 * @return  JGoogle  This object for method chaining.
 	 *
-	 * @since   12.2
+	 * @since   12.3
 	 */
 	public function setOption($key, $value)
 	{

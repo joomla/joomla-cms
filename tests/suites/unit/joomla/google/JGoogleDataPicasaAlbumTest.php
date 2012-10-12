@@ -473,7 +473,7 @@ class JGoogleDataPicasaAlbumTest extends PHPUnit_Framework_TestCase
  *
  * @return  JHttpResponse
  *
- * @since   12.2
+ * @since   12.3
  */
 function emptyPicasaCallback($url, array $headers = null, $timeout = null)
 {
@@ -493,7 +493,7 @@ function emptyPicasaCallback($url, array $headers = null, $timeout = null)
  *
  * @return  JHttpResponse
  *
- * @since   12.2
+ * @since   12.3
  */
 function picasaPhotolistCallback($url, array $headers = null, $timeout = null)
 {
@@ -514,7 +514,7 @@ function picasaPhotolistCallback($url, array $headers = null, $timeout = null)
  *
  * @return  JHttpResponse
  *
- * @since   12.2
+ * @since   12.3
  */
 function dataPicasaUploadCallback($url, $data, array $headers = null, $timeout = null)
 {

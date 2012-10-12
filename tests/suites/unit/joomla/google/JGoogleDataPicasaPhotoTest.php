@@ -428,7 +428,7 @@ class JGoogleDataPicasaPhotoTest extends PHPUnit_Framework_TestCase
  *
  * @return  JHttpResponse
  *
- * @since   12.2
+ * @since   12.3
  */
 function picasaPhotoCallback($url, array $headers = null, $timeout = null)
 {
@@ -449,7 +449,7 @@ function picasaPhotoCallback($url, array $headers = null, $timeout = null)
  *
  * @return  JHttpResponse
  *
- * @since   12.2
+ * @since   12.3
  */
 function dataPicasaPhotoCallback($url, $data, array $headers = null, $timeout = null)
 {

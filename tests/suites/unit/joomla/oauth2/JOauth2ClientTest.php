@@ -343,7 +343,7 @@ class JOAuth2ClientTest extends PHPUnit_Framework_TestCase
  *
  * @return  JHttpResponse
  *
- * @since   12.2
+ * @since   12.3
  */
 function encodedGrantOauthCallback($url, $data, array $headers = null, $timeout = null)
 {
@@ -365,7 +365,7 @@ function encodedGrantOauthCallback($url, $data, array $headers = null, $timeout 
  *
  * @return  JHttpResponse
  *
- * @since   12.2
+ * @since   12.3
  */
 function jsonGrantOauthCallback($url, $data, array $headers = null, $timeout = null)
 {
@@ -387,7 +387,7 @@ function jsonGrantOauthCallback($url, $data, array $headers = null, $timeout = n
  *
  * @return  JHttpResponse
  *
- * @since   12.2
+ * @since   12.3
  */
 function queryOauthCallback($url, $data, array $headers = null, $timeout = null)
 {
@@ -407,7 +407,7 @@ function queryOauthCallback($url, $data, array $headers = null, $timeout = null)
  *
  * @return  JHttpResponse
  *
- * @since   12.2
+ * @since   12.3
  */
 function getOauthCallback($url, array $headers = null, $timeout = null)
 {

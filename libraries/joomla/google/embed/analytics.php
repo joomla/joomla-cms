@@ -23,7 +23,7 @@ class JGoogleEmbedAnalytics extends JGoogleEmbed
 	 *
 	 * @return  string  The Google Analytics tracking code
 	 *
-	 * @since   12.2
+	 * @since   12.3
 	 */
 	public function getCode()
 	{
@@ -37,7 +37,7 @@ class JGoogleEmbedAnalytics extends JGoogleEmbed
 	 *
 	 * @return  JGoogleEmbedAnalytics  The object for method chaining
 	 *
-	 * @since   12.2
+	 * @since   12.3
 	 */
 	public function setCode($code)
 	{
@@ -50,7 +50,7 @@ class JGoogleEmbedAnalytics extends JGoogleEmbed
 	 *
 	 * @return  boolean  True if asynchronous
 	 *
-	 * @since   12.2
+	 * @since   12.3
 	 */
 	public function isAsync()
 	{
@@ -62,7 +62,7 @@ class JGoogleEmbedAnalytics extends JGoogleEmbed
 	 *
 	 * @return  JGoogleEmbedAnalytics  The object for method chaining
 	 *
-	 * @since   12.2
+	 * @since   12.3
 	 */
 	public function useAsync()
 	{
@@ -75,7 +75,7 @@ class JGoogleEmbedAnalytics extends JGoogleEmbed
 	 *
 	 * @return  JGoogleEmbedAnalytics  The object for method chaining
 	 *
-	 * @since   12.2
+	 * @since   12.3
 	 */
 	public function useSync()
 	{
@@ -91,7 +91,7 @@ class JGoogleEmbedAnalytics extends JGoogleEmbed
 	 *
 	 * @return  array  The added call
 	 *
-	 * @since   12.2
+	 * @since   12.3
 	 */
 	public function addCall($method, $params = array())
 	{
@@ -108,7 +108,7 @@ class JGoogleEmbedAnalytics extends JGoogleEmbed
 	 *
 	 * @return  array  A list of calls
 	 *
-	 * @since   12.2
+	 * @since   12.3
 	 */
 	public function listCalls()
 	{
@@ -122,7 +122,7 @@ class JGoogleEmbedAnalytics extends JGoogleEmbed
 	 *
 	 * @return  array  The deleted call
 	 *
-	 * @since   12.2
+	 * @since   12.3
 	 */
 	public function deleteCall($index = null)
 	{
@@ -149,7 +149,7 @@ class JGoogleEmbedAnalytics extends JGoogleEmbed
 	 *
 	 * @return  string  The created call
 	 *
-	 * @since   12.2
+	 * @since   12.3
 	 */
 	public function createCall($method, $params = array())
 	{
@@ -180,7 +180,7 @@ class JGoogleEmbedAnalytics extends JGoogleEmbed
 	 *
 	 * @return  array  The added call
 	 *
-	 * @since   12.2
+	 * @since   12.3
 	 */
 	public function addCustomVar($slot, $name, $value, $scope = 3)
 	{
@@ -197,7 +197,7 @@ class JGoogleEmbedAnalytics extends JGoogleEmbed
 	 *
 	 * @return  string  The created call
 	 *
-	 * @since   12.2
+	 * @since   12.3
 	 */
 	public function createCustomVar($slot, $name, $value, $scope = 3)
 	{
@@ -215,7 +215,7 @@ class JGoogleEmbedAnalytics extends JGoogleEmbed
 	 *
 	 * @return  array  The added call
 	 *
-	 * @since   12.2
+	 * @since   12.3
 	 */
 	public function addEvent($category, $action, $label = null, $value = null, $noninteract = false)
 	{
@@ -233,7 +233,7 @@ class JGoogleEmbedAnalytics extends JGoogleEmbed
 	 *
 	 * @return  string  The created call
 	 *
-	 * @since   12.2
+	 * @since   12.3
 	 */
 	public function createEvent($category, $action, $label = null, $value = null, $noninteract = false)
 	{
@@ -245,7 +245,7 @@ class JGoogleEmbedAnalytics extends JGoogleEmbed
 	 *
 	 * @return  string  Javascript code
 	 *
-	 * @since   12.2
+	 * @since   12.3
 	 */
 	public function getHeader()
 	{
@@ -282,7 +282,7 @@ class JGoogleEmbedAnalytics extends JGoogleEmbed
 	 *
 	 * @return  null
 	 *
-	 * @since   12.2
+	 * @since   12.3
 	 */
 	public function getBody()
 	{

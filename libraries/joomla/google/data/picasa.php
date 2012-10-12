@@ -24,7 +24,7 @@ class JGoogleDataPicasa extends JGoogleData
 	 * @param   JRegistry    $options  Google options object
 	 * @param   JGoogleAuth  $auth     Google data http client object
 	 *
-	 * @since   12.2
+	 * @since   12.3
 	 */
 	public function __construct(JRegistry $options = null, JGoogleAuth $auth = null)
 	{
@@ -43,7 +43,7 @@ class JGoogleDataPicasa extends JGoogleData
 	 *
 	 * @return  mixed  Data from Google
 	 *
-	 * @since   12.2
+	 * @since   12.3
 	 * @throws UnexpectedValueException
 	 */
 	public function listAlbums($userID = 'default')
@@ -86,7 +86,7 @@ class JGoogleDataPicasa extends JGoogleData
 	 *
 	 * @return  mixed  Data from Google.
 	 *
-	 * @since   12.2
+	 * @since   12.3
 	 */
 	public function createAlbum($userID = 'default', $title = '', $access = 'private', $summary = '', $location = '', $time = false, $keywords = array())
 	{
@@ -126,7 +126,7 @@ class JGoogleDataPicasa extends JGoogleData
 	 *
 	 * @return  mixed  Data from Google
 	 *
-	 * @since   12.2
+	 * @since   12.3
 	 * @throws UnexpectedValueException
 	 */
 	public function getAlbum($url)

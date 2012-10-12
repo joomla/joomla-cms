@@ -31,7 +31,7 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 	 * @param   JRegistry         $options  Google options object
 	 * @param   JGoogleAuth       $auth     Google data http client object
 	 *
-	 * @since   12.2
+	 * @since   12.3
 	 */
 	public function __construct(SimpleXMLElement $xml, JRegistry $options = null, JGoogleAuth $auth = null)
 	{
@@ -52,7 +52,7 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 	 *
 	 * @return  boolean  Success or failure.
 	 *
-	 * @since   12.2
+	 * @since   12.3
 	 * @throws UnexpectedValueException
 	 */
 	public function delete($match = '*')
@@ -99,7 +99,7 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 	 *
 	 * @return  string  Link or false on failure
 	 *
-	 * @since   12.2
+	 * @since   12.3
 	 */
 	public function getLink($type = 'edit')
 	{
@@ -119,7 +119,7 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 	 *
 	 * @return  string  Album title
 	 *
-	 * @since   12.2
+	 * @since   12.3
 	 */
 	public function getTitle()
 	{
@@ -131,7 +131,7 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 	 *
 	 * @return  string  Album summary
 	 *
-	 * @since   12.2
+	 * @since   12.3
 	 */
 	public function getSummary()
 	{
@@ -143,7 +143,7 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 	 *
 	 * @return  string  Album location
 	 *
-	 * @since   12.2
+	 * @since   12.3
 	 */
 	public function getLocation()
 	{
@@ -155,7 +155,7 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 	 *
 	 * @return  string  Album access level
 	 *
-	 * @since   12.2
+	 * @since   12.3
 	 */
 	public function getAccess()
 	{
@@ -167,7 +167,7 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 	 *
 	 * @return  double  Album time
 	 *
-	 * @since   12.2
+	 * @since   12.3
 	 */
 	public function getTime()
 	{
@@ -181,7 +181,7 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 	 *
 	 * @return  JGoogleDataPicasaAlbum  The object for method chaining
 	 *
-	 * @since   12.2
+	 * @since   12.3
 	 */
 	public function setTitle($title)
 	{
@@ -196,7 +196,7 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 	 *
 	 * @return  JGoogleDataPicasaAlbum  The object for method chaining
 	 *
-	 * @since   12.2
+	 * @since   12.3
 	 */
 	public function setSummary($summary)
 	{
@@ -211,7 +211,7 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 	 *
 	 * @return  JGoogleDataPicasaAlbum  The object for method chaining
 	 *
-	 * @since   12.2
+	 * @since   12.3
 	 */
 	public function setLocation($location)
 	{
@@ -226,7 +226,7 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 	 *
 	 * @return  JGoogleDataPicasaAlbum  The object for method chaining
 	 *
-	 * @since   12.2
+	 * @since   12.3
 	 */
 	public function setAccess($access)
 	{
@@ -241,7 +241,7 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 	 *
 	 * @return  JGoogleDataPicasaAlbum  The object for method chaining
 	 *
-	 * @since   12.2
+	 * @since   12.3
 	 */
 	public function setTime($time)
 	{
@@ -256,7 +256,7 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 	 *
 	 * @return  mixed  Data from Google.
 	 *
-	 * @since   12.2
+	 * @since   12.3
 	 */
 	public function save($match = '*')
 	{
@@ -297,7 +297,7 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 	 *
 	 * @return  mixed  Data from Google
 	 *
-	 * @since   12.2
+	 * @since   12.3
 	 * @throws UnexpectedValueException
 	 */
 	public function refresh()
@@ -320,7 +320,7 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 	 *
 	 * @return  mixed  Data from Google
 	 *
-	 * @since   12.2
+	 * @since   12.3
 	 * @throws UnexpectedValueException
 	 */
 	public function listPhotos()
@@ -359,7 +359,7 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 	 *
 	 * @return  mixed  Data from Google
 	 *
-	 * @since   12.2
+	 * @since   12.3
 	 * @throws UnexpectedValueException
 	 */
 	public function upload($file, $title = '', $summary = '')
@@ -408,7 +408,7 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 	 *
 	 * @return  mixed  Data from Google
 	 *
-	 * @since   12.2
+	 * @since   12.3
 	 * @throws UnexpectedValueException
 	 */
 	protected function getMIME($file)

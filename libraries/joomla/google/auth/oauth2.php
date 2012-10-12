@@ -31,7 +31,7 @@ class JGoogleAuthOauth2 extends JGoogleAuth
 	 * @param   JRegistry      $options  JGoogleAuth options object.
 	 * @param   JOAuth2Client  $client   OAuth client for Google authentication.
 	 *
-	 * @since   12.2
+	 * @since   12.3
 	 */
 	public function __construct(JRegistry $options = null, JOAuth2Client $client = null)
 	{
@@ -44,7 +44,7 @@ class JGoogleAuthOauth2 extends JGoogleAuth
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   12.2
+	 * @since   12.3
 	 */
 	public function authenticate()
 	{
@@ -57,7 +57,7 @@ class JGoogleAuthOauth2 extends JGoogleAuth
 	 *
 	 * @return  boolean  Is authenticated
 	 *
-	 * @since   12.2
+	 * @since   12.3
 	 */
 	public function isAuthenticated()
 	{
@@ -74,7 +74,7 @@ class JGoogleAuthOauth2 extends JGoogleAuth
 	 *
 	 * @return  mixed  Data from Google.
 	 *
-	 * @since   12.2
+	 * @since   12.3
 	 */
 	public function query($url, $data = null, $headers = null, $method = 'get')
 	{
@@ -87,7 +87,7 @@ class JGoogleAuthOauth2 extends JGoogleAuth
 	 *
 	 * @return  JOAuth2Client  Google-configured Oauth2 client.
 	 *
-	 * @since   12.2
+	 * @since   12.3
 	 */
 	protected function googlize()
 	{

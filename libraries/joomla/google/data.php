@@ -36,7 +36,7 @@ abstract class JGoogleData
 	 * @param   JRegistry    $options  Google options object.
 	 * @param   JGoogleAuth  $auth     Google data http client object.
 	 *
-	 * @since   12.2
+	 * @since   12.3
 	 */
 	public function __construct(JRegistry $options = null, JGoogleAuth $auth = null)
 	{
@@ -49,7 +49,7 @@ abstract class JGoogleData
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   12.2
+	 * @since   12.3
 	 */
 	public function authenticate()
 	{
@@ -61,7 +61,7 @@ abstract class JGoogleData
 	 *
 	 * @return  boolean  True if authenticated.
 	 *
-	 * @since   12.2
+	 * @since   12.3
 	 */
 	public function isAuthenticated()
 	{
@@ -75,7 +75,7 @@ abstract class JGoogleData
 	 *
 	 * @return  SimpleXMLElement  XMLElement of parsed data
 	 *
-	 * @since   12.2
+	 * @since   12.3
 	 * @throws UnexpectedValueException
 	 */
 	protected static function safeXML($data)
@@ -99,7 +99,7 @@ abstract class JGoogleData
 	 *
 	 * @return  mixed  Data from Google
 	 *
-	 * @since   12.2
+	 * @since   12.3
 	 * @throws UnexpectedValueException
 	 */
 	protected function listGetData($url, $maxpages = 1, $token = null)
@@ -144,7 +144,7 @@ abstract class JGoogleData
 	 *
 	 * @return  mixed  Data from Google.
 	 *
-	 * @since   12.2
+	 * @since   12.3
 	 */
 	protected function query($url, $data = null, $headers = null, $method = 'get')
 	{
@@ -158,7 +158,7 @@ abstract class JGoogleData
 	 *
 	 * @return  mixed  The option value.
 	 *
-	 * @since   12.2
+	 * @since   12.3
 	 */
 	public function getOption($key)
 	{
@@ -173,7 +173,7 @@ abstract class JGoogleData
 	 *
 	 * @return  JGoogleData  This object for method chaining.
 	 *
-	 * @since   12.2
+	 * @since   12.3
 	 */
 	public function setOption($key, $value)
 	{
