@@ -6,8 +6,6 @@
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM . '/joomla/google/data/plus.php';
-
 /**
  * Test class for JGoogleDataPlusPeople.
  *
@@ -15,7 +13,7 @@ require_once JPATH_PLATFORM . '/joomla/google/data/plus.php';
  * @subpackage  Google
  * @since       12.3
  */
-class JGoogleDataPlusPeopleTest extends PHPUnit_Framework_TestCase
+class JGoogleDataPlusPeopleTest extends TestCase
 {
 	/**
 	 * @var    JRegistry  Options for the JOAuth2Client object.

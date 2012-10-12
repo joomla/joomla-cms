@@ -6,8 +6,6 @@
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM . '/joomla/google/google.php';
-
 /**
  * Test class for JGoogleAuthOauth2Test .
  *
@@ -15,7 +13,7 @@ require_once JPATH_PLATFORM . '/joomla/google/google.php';
  * @subpackage  Google
  * @since       12.3
  */
-class JGoogleAuthOauth2Test extends PHPUnit_Framework_TestCase
+class JGoogleAuthOauth2Test extends TestCase
 {
 	/**
 	 * @var    JRegistry  Options for the JOAuth2Client object.

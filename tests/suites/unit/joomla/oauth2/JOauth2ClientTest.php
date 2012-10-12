@@ -7,8 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM . '/joomla/oauth2/client.php';
-
 /**
  * Test class for JOAuth2Client.
  *
@@ -16,7 +14,7 @@ require_once JPATH_PLATFORM . '/joomla/oauth2/client.php';
  * @subpackage  Oauth
  * @since       12.3
  */
-class JOAuth2ClientTest extends PHPUnit_Framework_TestCase
+class JOAuth2ClientTest extends TestCase
 {
 	/**
 	 * @var    JRegistry  Options for the JOAuth2Client object.

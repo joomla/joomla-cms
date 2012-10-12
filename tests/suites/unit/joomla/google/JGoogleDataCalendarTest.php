@@ -6,8 +6,6 @@
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM . '/joomla/google/data/calendar.php';
-
 /**
  * Test class for JGoogleDataCalendar.
  *
@@ -15,7 +13,7 @@ require_once JPATH_PLATFORM . '/joomla/google/data/calendar.php';
  * @subpackage  Google
  * @since       12.3
  */
-class JGoogleDataCalendarTest extends PHPUnit_Framework_TestCase
+class JGoogleDataCalendarTest extends TestCase
 {
 	/**
 	 * @var    JRegistry  Options for the JOAuth2Client object.
