@@ -141,6 +141,24 @@ abstract class JFormField
 	protected $required = false;
 
 	/**
+	 * The disabled state for the form field.  If true then there must not be a possibility
+	 * to change the pre-selected value, and the value must not be submitted by the browser.
+	 *
+	 * @var    boolean
+	 * @since  12.3
+	 */
+	protected $disabled = false;
+
+	/**
+	 * The readonly state for the form field.  If true then there must not be a possibility
+	 * to change the pre-selected value, and the value must submitted by the browser.
+	 *
+	 * @var    boolean
+	 * @since  12.3
+	 */
+	protected $readonly = false;
+
+	/**
 	 * The form field type.
 	 *
 	 * @var    string
@@ -240,6 +258,8 @@ abstract class JFormField
 			case 'multiple':
 			case 'name':
 			case 'required':
+			case 'disabled':
+			case 'readonly':
 			case 'type':
 			case 'validate':
 			case 'value':
@@ -324,9 +344,13 @@ abstract class JFormField
 		$multiple = (string) $element['multiple'];
 		$name = (string) $element['name'];
 		$required = (string) $element['required'];
+		$disabled = (string) $element['disabled'];
+		$readonly = (string) $element['readonly'];
 
-		// Set the required and validation options.
+		// Set the required, disabled and validation options.
 		$this->required = ($required == 'true' || $required == 'required' || $required == '1');
+		$this->disabled = ($disabled == 'true' || $disabled == 'disabled' || $disabled == '1');
+		$this->readonly = ($readonly == 'true' || $readonly == 'readonly' || $readonly == '1');
 		$this->validate = (string) $element['validate'];
 
 		// Add the required class if the field is required.
