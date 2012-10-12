@@ -28,6 +28,7 @@ $ -> Language fix or change
 
 12-Oct-2012 Jean-Marie Simonet
  $ Correcting de-DE installation ini
+ # [#29478] Incorrect Home link from 500 error page Joomla 3.0
 
 10-Oct-2012 Jean-Marie Simonet
  $ Correcting fr-FR installation ini
