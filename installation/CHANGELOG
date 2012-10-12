@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+12-Oct-2012 Jean-Marie Simonet
+ # [#29488] Missing JText In Language Installer
+ 
 09-Oct-2012 Jean-Marie Simonet
  # [#29463] Notice in language manager when FTP layer is enabled.
  $ Correcting mn-MN installation ini

@@ -70,7 +70,7 @@ $ver = new JVersion;
 								<?php echo $language->version; ?>
 							</td>
 							<td class="center">
-								<?php echo $language->type; ?>
+								<?php echo JText::_('COM_INSTALLER_TYPE_' . strtoupper($language->type)); ?>
 							</td>
 							<td>
 								<?php echo $language->detailsurl; ?>
