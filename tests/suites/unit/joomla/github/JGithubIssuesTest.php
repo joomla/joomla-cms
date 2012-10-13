@@ -438,7 +438,7 @@ class JGithubIssuesTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Tests the editComment method - failure
+	 * Tests the editLabel method - failure
 	 *
 	 * @expectedException  DomainException
 	 *
