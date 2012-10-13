@@ -139,36 +139,6 @@ class JInputTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Test the JInput::getAll.
-	 *
-	 * @return  void
-	 *
-	 * @since   12.3
-	 */
-	public function testGetAll()
-	{
-		$filters = array('foo');
-		$data = array(
-			'foo' => array('bar'),
-			'bar' => 'bar'
-		);
-
-		$input = new JInput;
-		$input->set('foo', array('bar'));
-		$input->set('bar', 'bar');
-
-		$mock = $this->getMock('JFilterInput', array('cleanRecursive'));
-		$mock->expects($this->once())
-			->method('cleanRecursive')
-			->with($data, $filters);
-
-		// Inject the mock.
-		TestReflection::setValue($input, 'filter', $mock);
-
-		$input->getAll($filters);
-	}
-
-	/**
 	 * Test the JInput::def method.
 	 *
 	 * @return  void
@@ -312,6 +282,29 @@ class JInputTest extends PHPUnit_Framework_TestCase
 			$this->equalTo(array(array('var2' => 'test'), 'array')),
 			'Line: '.__LINE__.'.'
 		);
+	}
+
+	/**
+	 * Test the JInput::getArray method without specified variables.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.3
+	 */
+	public function testGetArrayWithoutSpecifiedVariables()
+	{
+		$array = array(
+			'var2' => 34,
+			'var3' => array('var2' => 'test'),
+			'var4' => array('var1' => array('var2' => 'test')),
+			'var5' => array('foo' => array()),
+			'var6' => array('bar' => null),
+			'var7' => null
+		);
+
+		$input = new JInput($array);
+
+		$this->assertEquals($input->getArray(), $array);
 	}
 
 	/**

@@ -18,11 +18,11 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Input
  * @since       11.1
  *
- * @property    JInput        $get
- * @property    JInput        $post
- * @property    JInput        $server
- * @property    JInputFiles   $files
- * @property    JInputCookie  $cookie
+ * @property-read    JInput        $get
+ * @property-read    JInput        $post
+ * @property-read    JInput        $server
+ * @property-read    JInputFiles   $files
+ * @property-read    JInputCookie  $cookie
  *
  * @method      integer  getInt()       getInt($name, $default = null)    Get a signed integer.
  * @method      integer  getUint()      getUint($name, $default = null)   Get an unsigned integer.
@@ -171,33 +171,24 @@ class JInput implements Serializable, Countable
 	}
 
 	/**
-	 * Get all values filtered from the input data.
-	 *
-	 * @param   array  $filters  An n-dimensional associative array of input key names as keys
-	 *                           and filter names as value.
-	 *                           If it is empty or missing values, the 'cmd' filter will be applied.
-	 *
-	 * @return  array  The input data.
-	 *
-	 * @since   12.3
-	 */
-	public function getAll(array $filters = array())
-	{
-		return $this->filter->cleanRecursive($this->data, $filters);
-	}
-
-	/**
 	 * Gets an array of values from the request.
 	 *
 	 * @param   array  $vars        Associative array of keys and filter types to apply.
+	 *                              If empty and datasource is null, all the input data will be returned
+	 *                              but filtered using the default case in JFilterInput::clean.
 	 * @param   mixed  $datasource  Array to retrieve data from, or null
 	 *
 	 * @return  mixed  The filtered input data.
 	 *
 	 * @since   11.1
 	 */
-	public function getArray(array $vars, $datasource = null)
+	public function getArray(array $vars = array(), $datasource = null)
 	{
+		if (empty($vars) && is_null($datasource))
+		{
+			$vars = $this->data;
+		}
+
 		$results = array();
 
 		foreach ($vars as $k => $v)
