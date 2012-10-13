@@ -74,6 +74,12 @@ class JGithub
 	protected $commits;
 
 	/**
+	 * @var    JGithubMilestones  GitHub API object for milestones.
+	 * @since  12.3
+	 */
+	protected $milestones;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   JRegistry    $options  GitHub options object.
@@ -153,6 +159,15 @@ class JGithub
 				$this->commits = new JGithubCommits($this->options, $this->client);
 			}
 			return $this->commits;
+		}
+
+		if ($name == 'milestones')
+		{
+			if ($this->milestones == null)
+			{
+				$this->milestones = new JGithubMilestones($this->options, $this->client);
+			}
+			return $this->milestones;
 		}
 	}
 
