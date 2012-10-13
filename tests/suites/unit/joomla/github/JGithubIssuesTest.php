@@ -185,8 +185,8 @@ class JGithubIssuesTest extends PHPUnit_Framework_TestCase
 		$returnData->body = $this->sampleString;
 
 		$issue = new stdClass;
-		$issue->name = 'Label';
-		$issue->color = 'blue';
+		$issue->name = 'My Insightful Label';
+		$issue->color = 'My Insightful Color';
 
 		$this->client->expects($this->once())
 			->method('post')
@@ -213,8 +213,8 @@ class JGithubIssuesTest extends PHPUnit_Framework_TestCase
 		$returnData->body = $this->errorString;
 
 		$issue = new stdClass;
-		$issue->name = 'Label';
-		$issue->color = 'green';
+		$issue->name = 'My Insightful Label';
+		$issue->color = 'My Insightful Color';
 
 		$this->client->expects($this->once())
 			->method('post')
@@ -409,6 +409,57 @@ class JGithubIssuesTest extends PHPUnit_Framework_TestCase
 			->will($this->returnValue($returnData));
 
 		$this->object->editComment('joomla', 'joomla-platform', 523, 'This comment is now even more insightful');
+	}
+
+	/**
+	 * Tests the editLabel method
+	 *
+	 * @return void
+	 */
+	public function testEditLabel()
+	{
+		$returnData = new stdClass;
+		$returnData->code = 200;
+		$returnData->body = $this->sampleString;
+
+		$issue = new stdClass;
+		$issue->name = 'This label is now even more insightful';
+		$issue->color = 'This color is now even more insightful';
+
+		$this->client->expects($this->once())
+			->method('patch')
+			->with('/repos/joomla/joomla-platform/labels/523', json_encode($issue))
+			->will($this->returnValue($returnData));
+
+		$this->assertThat(
+			$this->object->editLabel('joomla', 'joomla-platform', 523, 'This label is now even more insightful', 'This color is now even more insightful'),
+			$this->equalTo(json_decode($this->sampleString))
+		);
+	}
+
+	/**
+	 * Tests the editComment method - failure
+	 *
+	 * @expectedException  DomainException
+	 *
+	 * @return void
+	 */
+	public function testEditLabelFailure()
+	{
+		$returnData = new stdClass;
+		$returnData->code = 500;
+		$returnData->body = $this->errorString;
+
+		$issue = new stdClass;
+		$issue->name = 'This label is now even more insightful';
+		$issue->color = 'This color is now even more insightful';
+
+		$this->client->expects($this->once())
+			->method('patch')
+			->with('/repos/joomla/joomla-platform/labels/523', json_encode($issue))
+			->will($this->returnValue($returnData));
+
+		$this->object->editLabel('joomla', 'joomla-platform', 523, 'This label is now even more insightful', 'This color is now even more insightful');
 	}
 
 	/**
