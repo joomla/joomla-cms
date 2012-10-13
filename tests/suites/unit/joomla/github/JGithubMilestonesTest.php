@@ -165,6 +165,37 @@ class JGithubMilestonesTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Tests the edit method with all parameters
+	 *
+	 * @return void
+	 *
+	 * @since  12.3
+	 */
+	public function testEditAllParameters()
+	{
+
+		$returnData = new stdClass;
+		$returnData->code = 200;
+		$returnData->body = $this->sampleString;
+
+		$milestone = new stdClass;
+		$milestone->title = 'This is the revised title.';
+		$milestone->state = 'closed';
+		$milestone->description = 'This describes it perfectly.';
+		$milestone->due_on = '2012-12-25T20:09:31Z';
+
+		$this->client->expects($this->once())
+			->method('patch')
+			->with('/repos/joomla/joomla-platform/milestones/523', json_encode($milestone))
+			->will($this->returnValue($returnData));
+
+		$this->assertThat(
+			$this->object->edit('joomla', 'joomla-platform', 523, 'This is the revised title.', 'closed', 'This describes it perfectly.', '2012-12-25T20:09:31Z'),
+			$this->equalTo(json_decode($this->sampleString))
+		);
+	}
+
+	/**
 	 * Tests the edit method - failure
 	 *
 	 * @expectedException  DomainException
