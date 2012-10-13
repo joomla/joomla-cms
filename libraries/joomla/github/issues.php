@@ -512,7 +512,6 @@ class JGithubIssues extends JGithubObject
 			throw new DomainException($error->message, $response->code);
 		}
 
-
 		return json_decode($response->body);
 	}
 
