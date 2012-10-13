@@ -265,6 +265,46 @@ class JGithubIssuesTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Tests the deleteLabel method
+	 *
+	 * @return void
+	 */
+	public function testDeleteLabel()
+	{
+		$returnData = new stdClass;
+		$returnData->code = 204;
+		$returnData->body = $this->sampleString;
+
+		$this->client->expects($this->once())
+			->method('delete')
+			->with('/repos/joomla/joomla-platform/labels/254')
+			->will($this->returnValue($returnData));
+
+		$this->object->deleteLabel('joomla', 'joomla-platform', 254);
+	}
+
+	/**
+	 * Tests the deleteLabel method - failure
+	 *
+	 * @expectedException  DomainException
+	 *
+	 * @return void
+	 */
+	public function testDeleteLabelFailure()
+	{
+		$returnData = new stdClass;
+		$returnData->code = 504;
+		$returnData->body = $this->errorString;
+
+		$this->client->expects($this->once())
+			->method('delete')
+			->with('/repos/joomla/joomla-platform/issues/comments/254')
+			->will($this->returnValue($returnData));
+
+		$this->object->deleteLabel('joomla', 'joomla-platform', 254);
+	}
+
+	/**
 	 * Tests the edit method
 	 *
 	 * @return void
