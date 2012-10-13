@@ -592,6 +592,92 @@ class JGithubIssuesTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Tests the getLabel method
+	 *
+	 * @return void
+	 */
+	public function testGetLabel()
+	{
+		$returnData = new stdClass;
+		$returnData->code = 200;
+		$returnData->body = $this->sampleString;
+
+		$this->client->expects($this->once())
+			->method('get')
+			->with('/repos/joomla/joomla-platform/labels/My Insightful Label')
+			->will($this->returnValue($returnData));
+
+		$this->assertThat(
+			$this->object->getLabel('joomla', 'joomla-platform', 'My Insightful Label'),
+			$this->equalTo(json_decode($this->sampleString))
+		);
+	}
+
+	/**
+	 * Tests the getLabel method - failure
+	 *
+	 * @expectedException  DomainException
+	 *
+	 * @return void
+	 */
+	public function testGetLabelFailure()
+	{
+		$returnData = new stdClass;
+		$returnData->code = 500;
+		$returnData->body = $this->errorString;
+
+		$this->client->expects($this->once())
+			->method('get')
+			->with('/repos/joomla/joomla-platform/issues/comments/523')
+			->will($this->returnValue($returnData));
+
+		$this->object->getLabel('joomla', 'joomla-platform', 'My Insightful Label');
+	}
+
+	/**
+	 * Tests the getLabels method
+	 *
+	 * @return void
+	 */
+	public function testGetLabels()
+	{
+		$returnData = new stdClass;
+		$returnData->code = 200;
+		$returnData->body = $this->sampleString;
+
+		$this->client->expects($this->once())
+			->method('get')
+			->with('/repos/joomla/joomla-platform/labels')
+			->will($this->returnValue($returnData));
+
+		$this->assertThat(
+			$this->object->getLabels('joomla', 'joomla-platform'),
+			$this->equalTo(json_decode($this->sampleString))
+		);
+	}
+
+	/**
+	 * Tests the getLabels method - failure
+	 *
+	 * @expectedException  DomainException
+	 *
+	 * @return void
+	 */
+	public function testGetLabelsFailure()
+	{
+		$returnData = new stdClass;
+		$returnData->code = 500;
+		$returnData->body = $this->errorString;
+
+		$this->client->expects($this->once())
+			->method('get')
+			->with('/repos/joomla/joomla-platform/labels')
+			->will($this->returnValue($returnData));
+
+		$this->object->getLabels('joomla', 'joomla-platform');
+	}
+
+	/**
 	 * Tests the getList method
 	 *
 	 * @return void
