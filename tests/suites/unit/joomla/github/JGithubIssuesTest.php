@@ -174,6 +174,57 @@ class JGithubIssuesTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Tests the createLabel method
+	 *
+	 * @return void
+	 */
+	public function testCreateLabel()
+	{
+		$returnData = new stdClass;
+		$returnData->code = 201;
+		$returnData->body = $this->sampleString;
+
+		$issue = new stdClass;
+		$issue->name = 'Label';
+		$issue->color = 'blue';
+
+		$this->client->expects($this->once())
+			->method('post')
+			->with('/repos/joomla/joomla-platform/labels', json_encode($issue))
+			->will($this->returnValue($returnData));
+
+		$this->assertThat(
+			$this->object->createLabel('joomla', 'joomla-platform', 'Label', 'blue'),
+			$this->equalTo(json_decode($this->sampleString))
+		);
+	}
+
+	/**
+	 * Tests the createLabel method - failure
+	 *
+	 * @expectedException  DomainException
+	 *
+	 * @return void
+	 */
+	public function testCreateLabelFailure()
+	{
+		$returnData = new stdClass;
+		$returnData->code = 501;
+		$returnData->body = $this->errorString;
+
+		$issue = new stdClass;
+		$issue->name = 'Label';
+		$issue->color = 'green';
+
+		$this->client->expects($this->once())
+			->method('post')
+			->with('/repos/joomla/joomla-platform/labels', json_encode($issue))
+			->will($this->returnValue($returnData));
+
+		$this->object->createLabel('joomla', 'joomla-platform', 'Label', 'blue');
+	}
+
+	/**
 	 * Tests the deleteComment method
 	 *
 	 * @return void
