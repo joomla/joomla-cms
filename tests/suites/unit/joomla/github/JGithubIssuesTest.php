@@ -194,7 +194,7 @@ class JGithubIssuesTest extends PHPUnit_Framework_TestCase
 			->will($this->returnValue($returnData));
 
 		$this->assertThat(
-			$this->object->createLabel('joomla', 'joomla-platform', 'Label', 'blue'),
+			$this->object->createLabel('joomla', 'joomla-platform', 'My Insightful Label', 'My Insightful Color'),
 			$this->equalTo(json_decode($this->sampleString))
 		);
 	}
@@ -221,7 +221,7 @@ class JGithubIssuesTest extends PHPUnit_Framework_TestCase
 			->with('/repos/joomla/joomla-platform/labels', json_encode($issue))
 			->will($this->returnValue($returnData));
 
-		$this->object->createLabel('joomla', 'joomla-platform', 'Label', 'blue');
+		$this->object->createLabel('joomla', 'joomla-platform', 'My Insightful Label', 'My Insightful Color');
 	}
 
 	/**
@@ -298,7 +298,7 @@ class JGithubIssuesTest extends PHPUnit_Framework_TestCase
 
 		$this->client->expects($this->once())
 			->method('delete')
-			->with('/repos/joomla/joomla-platform/issues/comments/254')
+			->with('/repos/joomla/joomla-platform/labels/254')
 			->will($this->returnValue($returnData));
 
 		$this->object->deleteLabel('joomla', 'joomla-platform', 254);
@@ -628,7 +628,7 @@ class JGithubIssuesTest extends PHPUnit_Framework_TestCase
 
 		$this->client->expects($this->once())
 			->method('get')
-			->with('/repos/joomla/joomla-platform/issues/comments/523')
+			->with('/repos/joomla/joomla-platform/labels/My Insightful Label')
 			->will($this->returnValue($returnData));
 
 		$this->object->getLabel('joomla', 'joomla-platform', 'My Insightful Label');

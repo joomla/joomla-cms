@@ -200,8 +200,6 @@ class JGithubIssues extends JGithubObject
 			$error = json_decode($response->body);
 			throw new DomainException($error->message, $response->code);
 		}
-
-		return json_decode($response->body);
 	}
 
 	/**
@@ -513,6 +511,9 @@ class JGithubIssues extends JGithubObject
 			$error = json_decode($response->body);
 			throw new DomainException($error->message, $response->code);
 		}
+
+
+		return json_decode($response->body);
 	}
 
 	/**
