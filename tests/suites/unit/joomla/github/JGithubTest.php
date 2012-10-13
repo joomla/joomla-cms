@@ -156,6 +156,21 @@ class JGithubTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Tests the magic __get method - milestones
+	 *
+	 * @since  12.3
+	 *
+	 * @return void
+	 */
+	public function test__GetMilestones()
+	{
+		$this->assertThat(
+			$this->object->milestones,
+			$this->isInstanceOf('JGithubMilestones')
+		);
+	}
+
+	/**
 	 * Tests the magic __get method - refs
 	 *
 	 * @since  11.3
