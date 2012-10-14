@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+14-Oct-2012 Jean-Marie Simonet
+ + [#27373] [patch] Implementing Items associations in multilanguage. Thanks Benjamin.
+
 12-Oct-2012 Jean-Marie Simonet
  $ Correcting de-DE installation ini
  # [#29478] Incorrect Home link from 500 error page Joomla 3.0

@@ -14,6 +14,7 @@ JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.multiselect');
 
+$app		= JFactory::getApplication();
 $user		= JFactory::getUser();
 $userId		= $user->get('id');
 $extension	= $this->escape($this->state->get('filter.extension'));
@@ -21,6 +22,7 @@ $listOrder	= $this->escape($this->state->get('list.ordering'));
 $listDirn	= $this->escape($this->state->get('list.direction'));
 $ordering 	= ($listOrder == 'a.lft');
 $saveOrder 	= ($listOrder == 'a.lft' && $listDirn == 'asc');
+$assoc		= isset($app->item_associations) ? $app->item_associations : 0;
 ?>
 <div class="categories">
 <form action="<?php echo JRoute::_('index.php?option=com_categories&view=categories');?>" method="post" name="adminForm" id="adminForm">
@@ -87,6 +89,11 @@ $saveOrder 	= ($listOrder == 'a.lft' && $listDirn == 'asc');
 				<th class="access-col">
 					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ACCESS', 'access_level', $listDirn, $listOrder); ?>
 				</th>
+				<?php if ($assoc): ?>
+				<th width="5%">
+					<?php echo JHtml::_('grid.sort', 'COM_CATEGORY_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
+				</th>
+				<?php endif;?>
 				<th class="language-col">
 					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_LANGUAGE', 'language', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
@@ -148,6 +155,13 @@ $saveOrder 	= ($listOrder == 'a.lft' && $listDirn == 'asc');
 					<td class="center">
 						<?php echo $this->escape($item->access_level); ?>
 					</td>
+					<?php if ($assoc): ?>
+					<td class="center">
+						<?php if ($item->association):?>
+							<?php echo JHtml::_('CategoriesAdministrator.association', $item->id);?>
+						<?php endif;?>
+					</td>
+					<?php endif;?>
 					<td class="center nowrap">
 					<?php if ($item->language == '*'):?>
 						<?php echo JText::alt('JALL', 'language'); ?>

@@ -52,6 +52,11 @@ class JFormFieldModal_Article extends JFormField
 		$html	= array();
 		$link	= 'index.php?option=com_content&amp;view=articles&amp;layout=modal&amp;tmpl=component&amp;function=jSelectArticle_'.$this->id;
 
+		if (isset($this->element['language']))
+		{
+			$link .= '&amp;forcedLanguage='.$this->element['language'];
+		}
+
 		$db	= JFactory::getDBO();
 		$db->setQuery(
 			'SELECT title' .

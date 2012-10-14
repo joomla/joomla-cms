@@ -35,13 +35,23 @@ abstract class modLanguagesHelper
 		}
 
 		// Load associations
-		$assoc = isset($app->menu_associations) ? $app->menu_associations : 0;
+		$assoc = isset($app->item_associations) ? $app->item_associations : 0;
 		if ($assoc)
 		{
 			$active = $menu->getActive();
 			if ($active)
 			{
 				$associations = MenusHelper::getAssociations($active->id);
+			}
+			// load component associations
+			$option = $app->input->get('option');
+			$eName = JString::ucfirst(JString::str_ireplace('com_', '', $option));
+			$cName = JString::ucfirst($eName.'HelperAssociation');
+			JLoader::register($cName, JPath::clean(JPATH_COMPONENT_SITE . '/helpers/association.php'));
+
+			if (class_exists($cName) && is_callable(array($cName, 'getAssociations')))
+			{
+				$cassociations = call_user_func(array($cName, 'getAssociations'));
 			}
 		}
 
@@ -65,8 +75,12 @@ abstract class modLanguagesHelper
 			}
 			else {
 				$language->active = $language->lang_code == $lang->getTag();
-				if ($app->getLanguageFilter()) {
-					if (isset($associations[$language->lang_code]) && $menu->getItem($associations[$language->lang_code])) {
+				if (JLanguageMultilang::isEnabled()) {
+					if (isset($cassociations[$language->lang_code]))
+					{
+						$language->link = JRoute::_($cassociations[$language->lang_code].'&lang='.$language->sef);
+					}
+					elseif (isset($associations[$language->lang_code]) && $menu->getItem($associations[$language->lang_code])) {
 						$itemid = $associations[$language->lang_code];
 						if ($app->getCfg('sef') == '1')
 						{

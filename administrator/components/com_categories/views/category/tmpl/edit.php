@@ -12,7 +12,9 @@ defined('_JEXEC') or die;
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 
-$input = JFactory::getApplication()->input;
+$app = JFactory::getApplication();
+$input = $app->input;
+$assoc = isset($app->item_associations) ? $app->item_associations : 0;
 
 // Load the tooltip behavior.
 JHtml::_('behavior.tooltip');
@@ -40,6 +42,9 @@ JHtml::_('formbehavior.chosen', 'select');
 			<li class="active"><a href="#details" data-toggle="tab"><?php echo JText::_('COM_CATEGORIES_FIELDSET_DETAILS');?></a></li>
 			<li><a href="#options" data-toggle="tab"><?php echo JText::_('CATEGORIES_FIELDSET_OPTIONS');?></a></li>
 			<li><a href="#metadata" data-toggle="tab"><?php echo JText::_('JGLOBAL_FIELDSET_METADATA_OPTIONS');?></a></li>
+			<?php if ($assoc): ?>
+				<li><a href="#associations" data-toggle="tab"><?php echo JText::_('JGLOBAL_FIELDSET_ASSOCIATIONS');?></a></li>
+			<?php endif; ?>
 			<?php if ($this->canDo->get('core.admin')): ?>
 				<li><a href="#permissions" data-toggle="tab"><?php echo JText::_('COM_CATEGORIES_FIELDSET_RULES');?></a></li>
 			<?php endif; ?>
@@ -171,6 +176,11 @@ JHtml::_('formbehavior.chosen', 'select');
 			<div class="tab-pane" id="metadata">
 				<?php echo $this->loadTemplate('metadata'); ?>
 			</div>
+			<?php if ($assoc) : ?>
+				<div class="tab-pane" id="associations">
+					<?php echo $this->loadTemplate('associations'); ?>
+				</div>
+			<?php endif; ?>
 			<?php if ($this->canDo->get('core.admin')): ?>
 				<div class="tab-pane" id="permissions">
 					<?php echo $this->form->getInput('rules'); ?>

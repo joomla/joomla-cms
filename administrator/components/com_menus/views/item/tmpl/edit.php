@@ -19,6 +19,9 @@ JHtml::_('behavior.formvalidation');
 JHtml::_('behavior.modal');
 JHtml::_('formbehavior.chosen', 'select');
 
+$app = JFactory::getApplication();
+$assoc = isset($app->item_associations) ? $app->item_associations : 0;
+
 ?>
 
 <script type="text/javascript">
@@ -51,6 +54,9 @@ JHtml::_('formbehavior.chosen', 'select');
 		<ul class="nav nav-tabs">
 			<li class="active"><a href="#details" data-toggle="tab"><?php echo JText::_('COM_MENUS_ITEM_DETAILS');?></a></li>
 			<li><a href="#options" data-toggle="tab"><?php echo JText::_('COM_MENUS_ADVANCED_FIELDSET_LABEL');?></a></li>
+			<?php if ($assoc): ?>
+				<li><a href="#associations" data-toggle="tab"><?php echo JText::_('JGLOBAL_FIELDSET_ASSOCIATIONS');?></a></li>
+			<?php endif; ?>
 			<?php if (!empty($this->modules)) : ?>
 				<li><a href="#modules" data-toggle="tab"><?php echo JText::_('COM_MENUS_ITEM_MODULE_ASSIGNMENT');?></a></li>
 			<?php endif; ?>
@@ -249,6 +255,11 @@ JHtml::_('formbehavior.chosen', 'select');
 			<div class="tab-pane" id="options">
 				<?php echo $this->loadTemplate('options'); ?>
 			</div>
+			<?php if ($assoc) : ?>
+			<div class="tab-pane" id="associations">
+				<?php echo $this->loadTemplate('associations'); ?>
+			</div>
+			<?php endif; ?>
 			<?php if (!empty($this->modules)) : ?>
 				<div class="tab-pane" id="modules">
 					<?php echo $this->loadTemplate('modules'); ?>

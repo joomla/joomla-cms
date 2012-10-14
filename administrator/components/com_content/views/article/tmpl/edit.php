@@ -25,7 +25,10 @@ $params = $params->toArray();
 // This checks if the config options have ever been saved. If they haven't they will fall back to the original settings.
 $editoroptions = isset($params['show_publishing_options']);
 
-$input = JFactory::getApplication()->input;
+$app = JFactory::getApplication();
+$input = $app->input;
+
+$assoc = isset($app->item_associations) ? $app->item_associations : 0;
 
 if (!$editoroptions):
 	$params['show_publishing_options'] = '1';
@@ -77,6 +80,9 @@ endif;
 					<li><a href="#editor" data-toggle="tab"><?php echo JText::_('COM_CONTENT_SLIDER_EDITOR_CONFIG');?></a></li>
 				<?php endif ?>
 				<li><a href="#metadata" data-toggle="tab"><?php echo JText::_('JGLOBAL_FIELDSET_METADATA_OPTIONS');?></a></li>
+				<?php if ($assoc): ?>
+					<li><a href="#associations" data-toggle="tab"><?php echo JText::_('JGLOBAL_FIELDSET_ASSOCIATIONS');?></a></li>
+				<?php endif; ?>
 				<?php if ($this->canDo->get('core.admin')): ?>
 					<li><a href="#permissions" data-toggle="tab"><?php echo JText::_('COM_CONTENT_FIELDSET_RULES');?></a></li>
 				<?php endif ?>
@@ -270,6 +276,13 @@ endif;
 							<?php echo $this->loadTemplate('metadata'); ?>
 						</fieldset>
 					</div>
+					<?php if ($assoc) : ?>
+					<div class="tab-pane" id="associations">
+						<fieldset>
+							<?php echo $this->loadTemplate('associations'); ?>
+						</fieldset>
+					</div>
+					<?php endif; ?>
 
 					<?php if ($this->canDo->get('core.admin')): ?>
 						<div class="tab-pane" id="permissions">
