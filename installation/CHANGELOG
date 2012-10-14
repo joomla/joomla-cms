@@ -32,6 +32,7 @@ $ -> Language fix or change
  # [#29487] isis error.php is accessing unexisting object $this->params. Thanks Daniel
  # [#29480] Removed class=" form closing tag in contacts default view. Thanks Brent
  # [#29476] Isis: Fixed btn-group labels not getting right colors in component subtemplate. Thanks Peter
+ # [#29411] Missing function _unix2DOSTime in libraries/joomla/archive/zip.php. Thanks Roberto
 
 12-Oct-2012 Jean-Marie Simonet
  $ Correcting de-DE installation ini
