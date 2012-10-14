@@ -111,13 +111,13 @@ else
 	?>
 	<?php
 	// Template header color
-	if ($this->params->get('headerColor'))
+	if ($params->get('headerColor'))
 	{
 	?>
 	<style type="text/css">
 		.header
 		{
-			background: <?php echo $this->params->get('headerColor');?>;
+			background: <?php echo $params->get('headerColor');?>;
 		}
 	</style>
 	<?php
