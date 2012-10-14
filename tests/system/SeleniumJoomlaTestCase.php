@@ -50,8 +50,8 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 	    $this->click("link=$username");
 	    $this->waitForPageToLoad("30000");
 		echo "Changing $username group assignment of $group group.\n";
-		$id = $this->getAttribute('//fieldset[@id=\'user-groups\']/ul/li[contains(label,\''.$group.'\')]/label@for');
-		$this->click($id);
+		$this->click("//li/a[contains(text(), 'Assigned User Groups')]");
+		$this->click("//div[@id='groups']//label[contains(., '$group')]");
         $this->jClick('Save & Close');
 		try {
 	        $this->assertTrue($this->isElementPresent("//div[@id='system-message'][contains(., 'User successfully saved.')]"), 'User group save message not displayed or message changed, SeleniumJoomlaTestCase line 49');
@@ -75,7 +75,7 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 		$this->type("jform_password2", $password);
 		$this->type("jform_email", $email);
 		$this->click("//li/a[contains(text(), 'Assigned User Groups')]");
-		$this->click("//div[@id='groups']//label[contains(., 'Author')]");
+		$this->click("//div[@id='groups']//label[contains(., '$group')]");
 		$this->click("//div[@id='toolbar-save']/button");
 		$this->waitForPageToLoad("30000");
 		try	{
@@ -95,7 +95,7 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 		if (!$this->isElementPresent("mod-login-username"))
 		{
 			$this->gotoAdmin();
-			$this->click("link=Log out");
+			$this->click("//li/a[contains(@href, 'option=com_login&task=logout')]");
 			$this->waitForPageToLoad("30000");
 		}
 		$this->type("mod-login-username", $username);
@@ -107,7 +107,7 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 	function doAdminLogout()
 	{
 		echo "Logging out of back end.\n";
-		$this->click("link=Log out");
+		$this->click("//li/a[contains(@href, 'option=com_login&task=logout')]");
 		$this->waitForPageToLoad("30000");
 	}
 
@@ -269,9 +269,8 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 		$this->jClick('Access Levels');
 		$this->click("//tr/td[contains(a,'$levelName')]/preceding-sibling::*/input");
 		$this->jClick('Edit');
-		$this->assertTrue($this->isTextPresent(": Edit", $this->getText("//div[contains(@class,'pagetitle')]/h2")));
-		$id = $this->getAttribute('//fieldset[@class=\'adminform\']/ul/li[contains(label,\''.$groupName.'\')]/label@for');
-        $this->click($id);
+		$this->assertTrue($this->isTextPresent(": Edit", $this->getText("//h1")));
+		$id = $this->click("//label[contains(., '" . $groupName . "')]/input");
         $this->jClick('Save & Close');
 		try	{
 			$this->assertTrue($this->isElementPresent("//div[@id='system-message'][contains(., 'success')]"), "Line: ".__LINE__);
@@ -310,7 +309,7 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 	 */
 	function jInput($labelText)
 	{
-		$this->click("//label[contains(.,'$labelText')]/preceding-sibling::input");
+		$this->click("//label[contains(., '$labelText')]");
 	}
 
 	/*
@@ -323,7 +322,7 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 		case 'Access Levels':
 			$screen="User Manager: Viewing Access Levels";
 			echo "Navigating to ".$screen.".\n";
-			$this->click("//a[contains(@class,'icon-16-levels')]");
+			$this->click("//a[contains(@href,'option=com_users&view=levels')]");
 			$this->waitForPageToLoad("30000");
 		    try {
 		        $this->assertTrue($this->isTextPresent($screen),'Error navigating to '.$screen.' or page title changed.');
@@ -335,7 +334,7 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 		case 'Article Manager':
 			$screen="Article Manager: Articles";
 			echo "Navigating to ".$screen.".\n";
-			$this->click("//a[contains(@class,'icon-16-article')]");
+			$this->click("link=Article Manager");
 			$this->waitForPageToLoad("30000");
 		    try {
 		        $this->assertTrue($this->isTextPresent($screen),'Error navigating to '.$screen.' or page title changed.');
@@ -347,7 +346,7 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 		case 'Contacts':
 			$screen='Contact Manager: Contacts';
 			echo "Navigating to ".$screen.".\n";
-			$this->click("//a[contains(@class,'icon-16-contact')]");
+			$this->click("link=Contacts");
 			$this->waitForPageToLoad("30000");
 			try {
 		        $this->assertTrue($this->isTextPresent($screen),'Error navigating to '.$screen.' or page title changed.');
@@ -370,9 +369,9 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 			break;
 		case 'Edit':
 			echo "Testng Edit capability.\n";
-			$this->click("//li[@id='toolbar-edit']/a/span");
+			$this->click("//div[@id='toolbar-edit']/button");
 			$this->waitForPageToLoad("30000");
-			$this->assertTrue($this->isTextPresent(": Edit", $this->getText("//div[contains(@class,'pagetitle')]/h2")));
+			$this->assertTrue($this->isTextPresent(": Edit", $this->getText("//h1")));
 			break;
 		case 'Global Configuration':
 			$screen='Global Configuration';
@@ -388,9 +387,9 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 			break;
 		case 'Global Configuration: Permissions':
 			$this->jClick('Global Configuration');
-	    	$this->click("permissions");
+	    	$this->click("//li/a[contains(., 'Permissions')]");
 			try {
-				$this->assertTrue($this->isElementPresent("//a[contains(@id,'permissions')][contains(@class,'active')]"));
+				$this->assertTrue($this->isElementPresent("//li[@class='active']/a[@href='#page-permissions']"));
 			}
 		    catch (PHPUnit_Framework_AssertionFailedError $e) {
 				array_push($this->verificationErrors, $this->getTraceFiles($e));
@@ -399,7 +398,7 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 		case 'Groups':
 			$screen="User Manager: User Groups";
 			echo "Navigating to ".$screen.".\n";
-			$this->click("//a[contains(@class,'icon-16-groups')]");
+			$this->click("link=Groups");
 			$this->waitForPageToLoad("30000");
 		    try {
 		        $this->assertTrue($this->isTextPresent($screen),'Error navigating to '.$screen.' or page title changed.');
@@ -411,7 +410,7 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 		case 'Menu Manager':
 			$screen="Menu Manager: Menus";
 			echo "Navigating to ".$screen.".\n";
-			$this->click("//a[contains(@class,'icon-16-menumgr')]");
+			$this->click("link=Menu Manager");
 			$this->waitForPageToLoad("30000");
 			try {
 		        $this->assertTrue($this->isTextPresent($screen),'Error navigating to '.$screen.' or page title changed.');
@@ -423,7 +422,7 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 		case 'Menu Items':
 			$screen="Menu Manager: Menu Items";
 			echo "Navigating to ".$screen.".\n";
-			$this->click("//a[contains(@class,'icon-16-menumgr')]");
+			$this->click("link=Menu Manager");
 			$this->waitForPageToLoad("30000");
 			$this->click("link=Menu Items");
 			$this->waitForPageToLoad("30000");
@@ -437,7 +436,7 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 		case 'Module Manager':
 			$screen="Module Manager: Modules";
 			echo "Navigating to ".$screen.".\n";
-			$this->click("//a[contains(@class,'icon-16-module')]");
+			$this->click("link=Module Manager");
 			$this->waitForPageToLoad("30000");
 			try {
 		        $this->assertTrue($this->isTextPresent($screen,$this->getText("//div[contains(@class,'pagetitle')]/h2")),'Error navigating to '.$screen.' or page title changed.');
@@ -452,18 +451,9 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 			$this->waitForPageToLoad("30000");
 			break;
 		case 'Options':
-			echo "Opening options modal.\n";
+			echo "Navigating to Options\n";
 			$this->click("//div[@id='toolbar-options']/button");
-			for ($second = 0; ; $second++) {
-				if ($second >= 15) $this->fail("timeout");
-				try {
-					if ($this->isElementPresent("//li[@class='active']/a[contains(@href, 'com_content')]")) break;
-				}
-				catch (PHPUnit_Framework_AssertionFailedError $e) {
-					array_push($this->verificationErrors, $this->getTraceFiles($e));
-				}
-				sleep(1);
-			}
+			$this->waitForPageToLoad('3000');
 			break;
 		case 'Redirect Manager':
 			$screen="Redirect Manager: Links";
@@ -521,7 +511,7 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 		case 'User Manager':
 			$screen="User Manager: Users";
 			echo "Navigating to ".$screen.".\n";
-			$this->click("//a[contains(@class, 'icon-16-user')]");
+			$this->click("link=User Manager");
 			$this->waitForPageToLoad("30000");
 		    try {
 		        $this->assertTrue($this->isTextPresent($screen),'Error navigating to '.$screen.' or page title changed.');
@@ -533,7 +523,7 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 		case 'Weblinks':
 			$screen="Web Links Manager: Web Links";
 			echo "Navigating to ".$screen.".\n";
-			$this->click("//a[contains(@class, 'icon-16-weblinks')]");
+			$this->click("link=Weblinks");
 			$this->waitForPageToLoad("30000");
 		    try {
 		        $this->assertTrue($this->isTextPresent($screen),'Error navigating to '.$screen.' or page title changed.');
@@ -545,7 +535,7 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 		case 'Weblink Categories':
 			$screen="Category Manager: Weblinks";
 			echo "Navigating to ".$screen.".\n";
-			$this->click("//a[contains(@class, 'icon-16-weblinks-cat')]");
+			$this->click("//a[contains(@href, 'index.php?option=com_categories&extension=com_weblinks')]");
 			$this->waitForPageToLoad("30000");
 			try {
 		        $this->assertTrue($this->isTextPresent($screen,$this->getText("//div[contains(@class,'pagetitle')]/h2")),'Error navigating to '.$screen.' or page title changed.');
@@ -571,7 +561,7 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 
 	function clickTab($formTab ='Permissions')
 		{
-			$this->click("//dt[contains(span,'$formTab')]");
+			$this->click("//li/a[contains(.,'$formTab')]");
 		}
 
 	function restoreDefaultGlobalPermissions()
@@ -623,12 +613,12 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 		$this->jClick($component);
 		if ($component == 'Global Configuration')
 		{
-			$this->click('permissions');
+			$this->click("//li/a[contains(., 'Permissions')]");
 		}
 		else
 		{
 			$this->jClick('Options');
-			$this->click("//dt[contains(span,'Permissions')]");
+			$this->click("//li/a[contains(., 'Permissions')]");
 		}
 		if (!is_array($actions)) {
 			$actions = array($actions);
@@ -637,7 +627,7 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 			$permissions = array($permissions);
 		}
 		echo "Open panel for group '$group'\n";
-		$this->click("//ul[@id='rules']//li/div[@class='panel']//h3[contains(.,'$group')]");
+		$this->click("//div[@id='permissions-sliders']//li[contains(.,'$group')]/a");
 
 		for ($i = 0; $i < count($actions); $i++) {
 			$action = $actions[$i];
@@ -679,11 +669,11 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 		}
 
 		echo "Close panel for group '$group'\n";
-		$this->click("//ul[@id='rules']//li/div[@class='panel']//h3[contains(.,'Public')]");
+		$this->click("//div[@id='permissions-sliders']//li[contains(., 'Public')]/a");
 
 		if ($component == 'Global Configuration') {
-			$this->click("//li[@id='toolbar-save']/a/span");
-			$this->waitForPageToLoad("30000");
+			$this->click("//div[@id='toolbar-save']/button");
+			$this->waitForPageToLoad('3000');
 			try {
 				$this->assertTrue($this->isElementPresent("//div[@id='system-message'][contains(., 'success')]"));
 			}
@@ -693,14 +683,8 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 		}
 		else {
 			// Need to click the Save & Close button
-			$this->click("//button[contains(text(),'Save')][contains(text(),'Close')]");
-			for ($second = 0; ; $second++) {
-				if ($second >= 60) $this->fail("timeout");
-				try {
-					if (!$this->isElementPresent("//dl[contains(@id, 'configuration')]")) break;
-				} catch (Exception $e) {}
-				sleep(1);
-			}
+			$this->click("//div[@id='toolbar-save']/button");
+			$this->waitForPageToLoad('3000');
 		}
 	}
 
@@ -826,7 +810,7 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 		$this->click("link=$title");
 		$this->waitForPageToLoad("30000");
 		$this->select("jform_catid", "label=*$newCategory*");
-		$this->click("//li[@id='toolbar-save']/a/span");
+		$this->click("//div[@id='toolbar-save']/button");
 		$this->waitForPageToLoad("30000");
 
 	}

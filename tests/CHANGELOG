@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+13-Oct-2012 Mark Dexter
+ # Fix remaining system tests for version 3.0.
+
 26-Sep-2012 Mark Dexter
  # Fix a few more system tests
 
