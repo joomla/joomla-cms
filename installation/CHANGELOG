@@ -31,6 +31,7 @@ $ -> Language fix or change
  # [#29471] Save as Copy Overwrites Menu Titles (always) for External URL. Thanks Roberto
  # [#29487] isis error.php is accessing unexisting object $this->params. Thanks Daniel
  # [#29480] Removed class=" form closing tag in contacts default view. Thanks Brent
+ # [#29476] Isis: Fixed btn-group labels not getting right colors in component subtemplate. Thanks Peter
 
 12-Oct-2012 Jean-Marie Simonet
  $ Correcting de-DE installation ini
