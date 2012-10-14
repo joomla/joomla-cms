@@ -743,6 +743,43 @@ class JGithubIssuesTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Tests the getListByRepository method with all parameters
+	 *
+	 * @return void
+	 */
+	public function testGetListByRepositoryAll()
+	{
+		$date = new JDate('January 1, 2012 12:12:12');
+		$returnData = new stdClass;
+		$returnData->code = 200;
+		$returnData->body = $this->sampleString;
+
+		$this->client->expects($this->once())
+			->method('get')
+			->with(
+				'/repos/joomla/joomla-platform/issues?milestone=25&state=closed&assignee=none&' .
+				'mentioned=joomla-jenkins&labels=bug&sort=created&direction=asc&since=2012-01-01T12:12:12+00:00'
+			)
+			->will($this->returnValue($returnData));
+
+		$this->assertThat(
+			$this->object->getListByRepository(
+				'joomla',
+				'joomla-platform',
+				'25',
+				'closed',
+				'none',
+				'joomla-jenkins',
+				'bug',
+				'created',
+				'asc',
+				$date
+			),
+			$this->equalTo(json_decode($this->sampleString))
+		);
+	}
+
+	/**
 	 * Tests the getListByRepository method - failure
 	 *
 	 * @expectedException  DomainException
