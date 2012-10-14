@@ -99,7 +99,7 @@ $sortFields = $this->getSortFields();
 					</th>
 					<th class="nowrap hidden-phone">
 						<?php echo JHtml::_('grid.sort', 'COM_CONTACT_FIELD_LINKED_USER_LABEL', 'ul.name', $listDirn, $listOrder); ?>
-					</th class="hidden-phone">
+					</th>
 					<th width="5%" class="nowrap hidden-phone">
 						<?php echo JHtml::_('grid.sort', 'JFEATURED', 'a.featured', $listDirn, $listOrder); ?>
 					</th>
