@@ -28,6 +28,7 @@ $ -> Language fix or change
 
 14-Oct-2012 Jean-Marie Simonet
  + [#27373] [patch] Implementing Items associations in multilanguage. Thanks Benjamin.
+ # [#29471] Save as Copy Overwrites Menu Titles (always) for External URL. Thanks Roberto
 
 12-Oct-2012 Jean-Marie Simonet
  $ Correcting de-DE installation ini
