@@ -68,7 +68,7 @@ abstract class JHtmlCategory
 				}
 			}
 
-			// filter on the language
+			// Filter on the language
 			if (isset($config['filter.language']))
 			{
 				if (is_string($config['filter.language']))
@@ -77,7 +77,8 @@ abstract class JHtmlCategory
 				}
 				elseif (is_array($config['filter.language']))
 				{
-					foreach ($config['filter.language'] as &$language) {
+					foreach ($config['filter.language'] as &$language)
+					{
 						$language = $db->quote($language);
 					}
 					$query->where('a.language IN (' . implode(',', $config['filter.language']) . ')');

@@ -117,7 +117,7 @@ class JMenuSite extends JMenu
 			}
 		}
 
-		// reset arrays or we get a notice if some values were unset
+		// Reset arrays or we get a notice if some values were unset
 		$attributes = array_values($attributes);
 		$values = array_values($values);
 
