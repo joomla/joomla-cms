@@ -47,9 +47,11 @@ abstract class JHtmlCategoriesAdministrator
 
 		// Construct html
 		$text = array();
-		foreach ($associations as $tag=>$associated) {
-			if ($associated != $catid) {
-				$text[] = JText::sprintf('COM_CATEGORIES_TIP_ASSOCIATED_LANGUAGE', JHtml::_('image', 'mod_languages/'.$items[$associated]->image.'.gif', $items[$associated]->language_title, array('title'=>$items[$associated]->language_title), true), $items[$associated]->title);
+		foreach ($associations as $tag => $associated)
+		{
+			if ($associated != $catid)
+			{
+				$text[] = JText::sprintf('COM_CATEGORIES_TIP_ASSOCIATED_LANGUAGE', JHtml::_('image', 'mod_languages/'.$items[$associated]->image.'.gif', $items[$associated]->language_title, array('title' => $items[$associated]->language_title), true), $items[$associated]->title);
 			}
 		}
 		return JHtml::_('tooltip', implode('<br />', $text), JText::_('COM_CATEGORIES_TIP_ASSOCIATION'), 'admin/icon-16-links.png');

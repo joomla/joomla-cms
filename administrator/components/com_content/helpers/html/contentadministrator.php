@@ -26,7 +26,7 @@ abstract class JHtmlContentAdministrator
 		$associations = ContentHelper::getAssociations($articleid);
 
 		foreach ($associations as $tag => $associated) {
-			$associations[$tag] = (int)$associated->id;
+			$associations[$tag] = (int) $associated->id;
 		}
 
 		// Get the associated menu items
@@ -51,9 +51,10 @@ abstract class JHtmlContentAdministrator
 
 		// Construct html
 		$text = array();
-		foreach ($associations as $tag=>$associated) {
+		foreach ($associations as $tag => $associated)
+		{
 			if ($associated != $articleid) {
-				$text[] = JText::sprintf('COM_CONTENT_TIP_ASSOCIATED_LANGUAGE', JHtml::_('image', 'mod_languages/'.$items[$associated]->image.'.gif', $items[$associated]->language_title, array('title'=>$items[$associated]->language_title), true), $items[$associated]->title, $items[$associated]->category_title);
+				$text[] = JText::sprintf('COM_CONTENT_TIP_ASSOCIATED_LANGUAGE', JHtml::_('image', 'mod_languages/'.$items[$associated]->image.'.gif', $items[$associated]->language_title, array('title' => $items[$associated]->language_title), true), $items[$associated]->title, $items[$associated]->category_title);
 			}
 		}
 		return JHtml::_('tooltip', implode('<br />', $text), JText::_('COM_CONTENT_TIP_ASSOCIATION'), 'admin/icon-16-links.png');

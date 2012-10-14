@@ -12,7 +12,6 @@ defined('_JEXEC') or die;
 $fields = $this->form->getFieldset('item_associations');
 
 foreach ($fields as $field) :
-
 ?>
 <div class="control-group">
 	<div class="control-label">

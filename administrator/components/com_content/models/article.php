@@ -439,15 +439,16 @@ class ContentModelArticle extends JModelAdmin
 			}
 
 			$assoc = isset($app->item_associations) ? $app->item_associations : 0;
-			if ($assoc) {
-
+			if ($assoc)
+			{
 				$id = (int) $this->getState($this->getName() . '.id');
 				$item = $this->getItem($id);
 
 				// Adding self to the association
 				$associations = $data['associations'];
 
-				foreach ($associations as $tag=>$id) {
+				foreach ($associations as $tag => $id)
+				{
 					if (empty($id)) {
 						unset($associations[$tag]);
 					}
