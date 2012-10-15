@@ -70,6 +70,11 @@ class JOAuth1ClientTest extends TestCase
 	 */
 	protected function setUp()
 	{
+		$_SERVER['HTTP_HOST'] = 'example.com';
+		$_SERVER['HTTP_USER_AGENT'] = 'Mozilla/5.0';
+		$_SERVER['REQUEST_URI'] = '/index.php';
+		$_SERVER['SCRIPT_NAME'] = '/index.php';
+
 		$key = "TEST_KEY";
 		$secret = "TEST_SECRET";
 		$my_url = "TEST_URL";
