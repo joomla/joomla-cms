@@ -208,7 +208,7 @@ abstract class JOAuth1Client
 
 		if ($this->getOption('sendheaders'))
 		{
-			$this->application->redirect($this->createUrl());
+			$this->application->redirect($url);
 		}
 	}
 
