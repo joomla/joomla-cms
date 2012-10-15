@@ -16,31 +16,31 @@ jimport('joomla.environment.response');
  * @package     Joomla.Platform
  * @subpackage  OAuth
  *
- * @since       12.2
+ * @since       12.3
  */
 abstract class JOAuth1Client
 {
 	/**
 	 * @var    JRegistry  Options for the JOAuth1Client object.
-	 * @since  1234
+	 * @since  12.3
 	 */
 	protected $options;
 
 	/**
 	 * @var array  Contains access token key, secret and verifier.
-	 * @since 12.2
+	 * @since 12.3
 	 */
 	protected $token = array();
 
 	/**
 	 * @var    JHttp  The HTTP client object to use in sending HTTP requests.
-	 * @since  12.2
+	 * @since  12.3
 	 */
 	protected $client;
 
 	/**
 	 * @var    JInput The input object to use in retrieving GET/POST data.
-	 * @since  12.2
+	 * @since  12.3
 	 */
 	protected $input;
 
@@ -51,17 +51,25 @@ abstract class JOAuth1Client
 	protected $application;
 
 	/**
+	 * @var   string  Selects which version of OAuth to use: 1.0 or 1.0a.
+	 * @since 12.3
+	 */
+	protected $version;
+
+	/**
 	 * Constructor.
 	 *
+	 * @param   string           $version      Specify the OAuth version. By default we are using 1.0a.
 	 * @param   JRegistry        $options      OAuth1Client options object.
 	 * @param   JHttp            $client       The HTTP client object.
 	 * @param   JInput           $input        The input object
 	 * @param   JApplicationWeb  $application  The application object
 	 *
-	 * @since 12.2
+	 * @since 12.3
 	 */
-	public function __construct(JRegistry $options = null, JHttp $client = null, JInput $input = null, JApplicationWeb $application = null)
+	public function __construct($version = null, JRegistry $options = null, JHttp $client = null, JInput $input = null, JApplicationWeb $application = null)
 	{
+		$this->version = isset($version) ? $version : '1.0a';
 		$this->options = isset($options) ? $options : new JRegistry;
 		$this->client = isset($client) ? $client : JHttpFactory::getHttp($this->options);
 		$this->input = isset($input) ? $input : JFactory::getApplication()->input;
@@ -73,7 +81,7 @@ abstract class JOAuth1Client
 	 *
 	 * @return void
 	 *
-	 * @since  12.2
+	 * @since  12.3
 	 *
 	 * @throws DomainException
 	 */
@@ -94,7 +102,15 @@ abstract class JOAuth1Client
 			}
 		}
 
-		$verifier = $this->input->get('oauth_verifier');
+		// Check for callback.
+		if (strcmp($this->version, '1.0a') === 0)
+		{
+			$verifier = $this->input->get('oauth_verifier');
+		}
+		else
+		{
+			$verifier = $this->input->get('oauth_token');
+		}
 
 		if (empty($verifier))
 		{
@@ -119,8 +135,11 @@ abstract class JOAuth1Client
 				throw new DomainException('Bad session!');
 			}
 
-			// Set token verifier.
-			$this->token['verifier'] = $this->input->get('oauth_verifier');
+			// Set token verifier for 1.0a.
+			if (strcmp($this->version, '1.0a') === 0)
+			{
+				$this->token['verifier'] = $this->input->get('oauth_verifier');
+			}
 
 			// Generate access token.
 			$this->_generateAccessToken();
@@ -135,34 +154,39 @@ abstract class JOAuth1Client
 	 *
 	 * @return void
 	 *
-	 * @since  12.2
+	 * @since  12.3
 	 * @throws  DomainException
 	 */
 	private function _generateRequestToken()
 	{
 		// Set the callback URL.
-		$parameters = array(
-			'oauth_callback' => $this->getOption('callback')
-		);
+		if ($this->getOption('callback'))
+		{
+			$parameters = array(
+				'oauth_callback' => $this->getOption('callback')
+			);
+		}
+		else
+		{
+			$parameters = array();
+		}
 
 		// Make an OAuth request for the Request Token.
 		$response = $this->oauthRequest($this->getOption('requestTokenURL'), 'POST', $parameters);
 
 		parse_str($response->body, $params);
-		if (!strcmp($params['oauth_callback_confirmed'], 'true'))
-		{
-			// Save the request token.
-			$this->token = array('key' => $params['oauth_token'], 'secret' => $params['oauth_token_secret']);
-
-			// Save the request token in session
-			$session = JFactory::getSession();
-			$session->set('key', $this->token['key'], 'oauth_token');
-			$session->set('secret', $this->token['secret'], 'oauth_token');
-		}
-		else
+		if (strcmp($this->version, '1.0a') === 0 && strcmp($params['oauth_callback_confirmed'], 'true') !== 0)
 		{
 			throw new DomainException('Bad request token!');
 		}
+
+		// Save the request token.
+		$this->token = array('key' => $params['oauth_token'], 'secret' => $params['oauth_token_secret']);
+
+		// Save the request token in session
+		$session = JFactory::getSession();
+		$session->set('key', $this->token['key'], 'oauth_token');
+		$session->set('secret', $this->token['secret'], 'oauth_token');
 	}
 
 	/**
@@ -170,7 +194,7 @@ abstract class JOAuth1Client
 	 *
 	 * @return void
 	 *
-	 * @since  12.2
+	 * @since  12.3
 	 */
 	private function _authorise()
 	{
@@ -193,15 +217,19 @@ abstract class JOAuth1Client
 	 *
 	 * @return void
 	 *
-	 * @since  12.2
+	 * @since  12.3
 	 */
 	private function _generateAccessToken()
 	{
 		// Set the parameters.
 		$parameters = array(
-			'oauth_verifier' => $this->token['verifier'],
 			'oauth_token' => $this->token['key']
 		);
+
+		if (strcmp($this->version, '1.0a') === 0)
+		{
+			$parameters = array_merge($parameters, array('oauth_verifier' => $this->token['verifier']));
+		}
 
 		// Make an OAuth request for the Access Token.
 		$response = $this->oauthRequest($this->getOption('accessTokenURL'), 'POST', $parameters);
@@ -223,7 +251,7 @@ abstract class JOAuth1Client
 	 *
 	 * @return  object  The JHttpResponse object.
 	 *
-	 * @since 12.2
+	 * @since 12.3
 	 * @throws  DomainException
 	 */
 	public function oauthRequest($url, $method, $parameters, $data = array(), $headers = array())
@@ -291,7 +319,7 @@ abstract class JOAuth1Client
 	 *
 	 * @return  void
 	 *
-	 * @since  12.2
+	 * @since  12.3
 	 * @throws DomainException
 	 */
 	abstract public function validateResponse($url, $response);
@@ -303,7 +331,7 @@ abstract class JOAuth1Client
 	 *
 	 * @return  string  The header.
 	 *
-	 * @since 12.2
+	 * @since 12.3
 	 */
 	private function _createHeader($parameters)
 	{
@@ -332,7 +360,7 @@ abstract class JOAuth1Client
 	 *
 	 * @return  string  The formed URL.
 	 *
-	 * @since  12.2
+	 * @since  12.3
 	 */
 	public function toUrl($url, $parameters)
 	{
@@ -382,7 +410,7 @@ abstract class JOAuth1Client
 	 *
 	 * @return  void
 	 *
-	 * @since   12.2
+	 * @since   12.3
 	 */
 	private function _signRequest($url, $method, $parameters)
 	{
@@ -407,7 +435,7 @@ abstract class JOAuth1Client
 	 *
 	 * @return string  The base string.
 	 *
-	 * @since 12.2
+	 * @since 12.3
 	 */
 	private function _baseString($url, $method, $parameters)
 	{
@@ -455,7 +483,7 @@ abstract class JOAuth1Client
 	 *
 	 * @return  string  $data encoded in a way compatible with OAuth.
 	 *
-	 * @since 12.2
+	 * @since 12.3
 	 */
 	public function safeEncode($data)
 	{
@@ -482,7 +510,7 @@ abstract class JOAuth1Client
 	 *
 	 * @return  string  The current nonce.
 	 *
-	 * @since 12.2
+	 * @since 12.3
 	 */
 	public static function generateNonce()
 	{
@@ -498,7 +526,7 @@ abstract class JOAuth1Client
 	 *
 	 * @return string  The prepared signing key.
 	 *
-	 * @since 12.2
+	 * @since 12.3
 	 */
 	private function _prepareSigningKey()
 	{
@@ -511,7 +539,7 @@ abstract class JOAuth1Client
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.2
+	 * @since   12.3
 	 */
 	abstract public function verifyCredentials();
 
@@ -522,7 +550,7 @@ abstract class JOAuth1Client
 	 *
 	 * @return  mixed  The option value
 	 *
-	 * @since   1234
+	 * @since   12.3
 	 */
 	public function getOption($key)
 	{
@@ -535,9 +563,9 @@ abstract class JOAuth1Client
 	 * @param   string  $key    The name of the option to set
 	 * @param   mixed   $value  The option value to set
 	 *
-	 * @return  JOauth2client  This object for method chaining
+	 * @return  JOAuth1Client  This object for method chaining
 	 *
-	 * @since   1234
+	 * @since   12.3
 	 */
 	public function setOption($key, $value)
 	{
@@ -550,7 +578,7 @@ abstract class JOAuth1Client
 	 *
 	 * @return  array  The oauth token key and secret.
 	 *
-	 * @since   12.2
+	 * @since   12.3
 	 */
 	public function getToken()
 	{
@@ -562,7 +590,7 @@ abstract class JOAuth1Client
 	 *
 	 * @param   array  $token  The access token key and secret.
 	 *
-	 * @return  JOauth2client  This object for method chaining.
+	 * @return  JOAuth1Client  This object for method chaining.
 	 *
 	 * @since   12.3
 	 */
