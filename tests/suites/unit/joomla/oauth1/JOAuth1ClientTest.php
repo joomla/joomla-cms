@@ -88,7 +88,6 @@ class JOAuth1ClientTest extends TestCase
 
 		$this->options->set('consumer_key', $key);
 		$this->options->set('consumer_secret', $secret);
-		$this->options->set('callback', $my_url);
 		$this->object = new JOAuth1ClientInspector(null, $this->options, $this->client, $this->input, $this->application);
 	}
 
@@ -112,11 +111,12 @@ class JOAuth1ClientTest extends TestCase
 	*/
 	public function seedAuthenticate()
 	{
-		// Token and fail
+		// Token, fail and oauth version.
 		return array(
-			array(array('key' => 'valid', 'secret' => 'valid'), false),
-			array(null, false),
-			array(null, true)
+			array(array('key' => 'valid', 'secret' => 'valid'), false, '1.0'),
+			array(null, false, '1.0'),
+			array(null, false, '1.0a'),
+			array(null, true, '1.0a')
 			);
 	}
 
@@ -128,7 +128,7 @@ class JOAuth1ClientTest extends TestCase
 	 * @dataProvider seedAuthenticate
 	 * @since   12.3
 	 */
-	public function testAuthenticate($token, $fail)
+	public function testAuthenticate($token, $fail, $version)
 	{
 		// Already got some credentials stored?
 		if (!is_null($token))
@@ -157,6 +157,10 @@ class JOAuth1ClientTest extends TestCase
 			$input->set('oauth_verifier', null);
 			TestReflection::setValue($this->object, 'input', $input);
 
+			if (strcmp($version, '1.0a') === 0)
+			{
+				$this->object->setOption('callback', 'TEST_URL');
+			}
 			$this->object->authenticate();
 
 			$token = $this->object->getToken();
@@ -165,7 +169,16 @@ class JOAuth1ClientTest extends TestCase
 
 			// Access token.
 			$input = TestReflection::getValue($this->object, 'input');
-			$data = array('oauth_verifier' => 'verifier', 'oauth_token' => 'token');
+			if (strcmp($version, '1.0a') === 0)
+			{
+				TestReflection::setValue($this->object, 'version', $version);
+				$data = array('oauth_verifier' => 'verifier', 'oauth_token' => 'token');
+			}
+			else
+			{
+				TestReflection::setValue($this->object, 'version', $version);
+				$data = array('oauth_token' => 'token');
+			}
 			TestReflection::setValue($input, 'data', $data);
 
 			// Get mock session
@@ -275,15 +288,32 @@ class JOAuth1ClientTest extends TestCase
 		$returnData->code = 200;
 		$returnData->body = $this->sampleString;
 
-		$this->client->expects($this->at(0))
-			->method($method)
-			->with('www.example.com')
-			->will($this->returnValue($returnData));
+		if (strcmp($method, 'PUT') === 0)
+		{
+			$data = array('key1' => 'value1', 'key2' => 'value2');
+			$this->client->expects($this->at(0))
+				->method($method, $data)
+				->with('www.example.com')
+				->will($this->returnValue($returnData));
+
+			$this->assertThat(
+				$this->object->oauthRequest('www.example.com', $method, array('oauth_token' => '1235'), $data, array('Content-Type' => 'multipart/form-data')),
+				$this->equalTo($returnData)
+				);
+
+		}
+		else
+		{
+			$this->client->expects($this->at(0))
+				->method($method)
+				->with('www.example.com')
+				->will($this->returnValue($returnData));
 
 			$this->assertThat(
 				$this->object->oauthRequest('www.example.com', $method, array('oauth_token' => '1235'), array(), array('Content-Type' => 'multipart/form-data')),
 				$this->equalTo($returnData)
 				);
+		}
 	}
 
 	/**
