@@ -486,3 +486,19 @@ CREATE TABLE `jos_dbtest` (
   `start_date` TEXT NOT NULL DEFAULT '',
   `description` TEXT NOT NULL DEFAULT ''
 );
+
+
+CREATE TABLE `jos_dbtest_composite` (
+  `id1` INTEGER NOT NULL DEFAULT '0',
+  `id2` INTEGER NOT NULL DEFAULT '0',
+  `title` TEXT NOT NULL DEFAULT '',
+  `asset_id` INTEGER NOT NULL DEFAULT '0',
+  `hits` INTEGER NOT NULL DEFAULT '0',
+  `checked_out` INTEGER NOT NULL DEFAULT '0',
+  `checked_out_time` TEXT NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `published` INTEGER NOT NULL DEFAULT '0',
+  `publish_up` TEXT NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `publish_down` TEXT NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `ordering` INTEGER NOT NULL DEFAULT '0',
+  CONSTRAINT `idx_dbtest_composite` PRIMARY KEY (`id1`,`id2`)
+);
