@@ -286,7 +286,9 @@ else
 
 			// Turn radios into btn-group
 			$('.radio.btn-group label').addClass('btn')
-			$(".btn-group label:not(.active)").click(function(){
+
+			// Relay the event using on so that if we dynamically add forms via ajax the radio group js is still applied
+		    $(document).on('click', '.btn-group label:not(.active)', null, function (event) {
 				var label = $(this);
 				var input = $('#' + label.attr('for'));
 
