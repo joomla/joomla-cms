@@ -304,6 +304,13 @@ class plgSystemDebug extends JPlugin
 						$entries = $o;
 						$display = false;
 					}
+					else
+					{
+						if (!method_exists($entries, '__toString'))
+						{
+							$entries = '<em>empty object</em>';
+						}
+					}
 				}
 
 				if (!$display)
