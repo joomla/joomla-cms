@@ -38,7 +38,6 @@ class JFormFieldChromeStyle extends JFormFieldGroupedList
 	 */
 	protected function getGroups()
 	{
-		// Initialize variables.
 		$groups = array();
 
 		// Add Module Style Field

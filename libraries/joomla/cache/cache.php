@@ -96,7 +96,6 @@ class JCache
 		// Get an iterator and loop trough the driver classes.
 		$iterator = new DirectoryIterator(__DIR__ . '/storage');
 
-		$names = array();
 		foreach ($iterator as $file)
 		{
 			$fileName = $file->getFilename();
@@ -463,7 +462,6 @@ class JCache
 	 */
 	public static function getWorkarounds($data, $options = array())
 	{
-		// Initialise variables.
 		$app = JFactory::getApplication();
 		$document = JFactory::getDocument();
 		$body = null;
@@ -550,7 +548,6 @@ class JCache
 			$loptions['modulemode'] = $options['modulemode'];
 		}
 
-		// Initialise variables.
 		$app = JFactory::getApplication();
 		$document = JFactory::getDocument();
 

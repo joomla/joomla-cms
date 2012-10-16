@@ -61,7 +61,7 @@ defined('_JEXEC') or die;
 		<div class="span6">
 			<h3><?php echo JText::_('INSTL_COMPLETE_LANGUAGE_1'); ?></h3>
 			<hr class="hr-condensed" />
-			<a href="http://community.joomla.org/translations/joomla-16-translations.html" target="_blank">
+			<a href="http://community.joomla.org/translations/joomla-3-translations.html" target="_blank">
 				<?php echo JText::_('INSTL_COMPLETE_LANGUAGE_2'); ?>
 			</a>
 		</div>
@@ -75,6 +75,5 @@ defined('_JEXEC') or die;
 	</div>
 	<?php endif; ?>
 
-	<input type="hidden" name="task" value="" />
 	<?php echo JHtml::_('form.token'); ?>
 </form>

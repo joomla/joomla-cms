@@ -87,7 +87,6 @@ class ConfigModelComponent extends JModelForm
 	 */
 	function getComponent()
 	{
-		// Initialise variables.
 		$option = $this->getState('component.option');
 
 		// Load common and local language files.

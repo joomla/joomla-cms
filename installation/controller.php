@@ -78,6 +78,7 @@ class InstallationController extends JControllerLegacy
 			}
 
 			$options = $model->getOptions();
+
 			if ($vName != $default_view && ($checkOptions && empty($options)))
 			{
 				$this->setRedirect('index.php');

@@ -85,6 +85,9 @@ class FinderViewSearch extends JViewLegacy
 			}
 		}
 
+		// Log the search
+		JSearchHelper::logSearch($this->query->input, 'com_finder');
+
 		// Push out the query data.
 		JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 		$this->suggested = JHtml::_('query.suggested', $query);
@@ -180,7 +183,6 @@ class FinderViewSearch extends JViewLegacy
 	{
 		$app = JFactory::getApplication();
 		$menus = $app->getMenu();
-		$pathway = $app->getPathway();
 		$title = null;
 
 		// Because the application sets a default page title,
@@ -195,8 +197,6 @@ class FinderViewSearch extends JViewLegacy
 		{
 			$this->params->def('page_heading', JText::_('COM_FINDER_DEFAULT_PAGE_TITLE'));
 		}
-
-		$id = (int) @$menu->query['id'];
 
 		$title = $this->params->get('page_title', '');
 

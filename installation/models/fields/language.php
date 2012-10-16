@@ -35,7 +35,6 @@ class JFormFieldLanguage extends JFormFieldList
 	 */
 	protected function getOptions()
 	{
-		// Initialise variables.
 		$app = JFactory::getApplication();
 
 		// Detect the native language.
@@ -53,10 +52,11 @@ class JFormFieldLanguage extends JFormFieldList
 		}
 
 		// If a language is already set in the session, use this instead
-		$session = JFactory::getSession()->get('setup.options', array());
-		if (!empty($session['language']))
+		$model = JModelLegacy::getInstance('Setup', 'InstallationModel', array('dbo' => null));
+		$options = $model->getOptions();
+		if (isset($options['language']))
 		{
-			$native = $session['language'];
+			$native = $options['language'];
 		}
 
 		// Get the list of available languages.
@@ -64,6 +64,11 @@ class JFormFieldLanguage extends JFormFieldList
 		if (!$options || $options  instanceof Exception)
 		{
 			$options = array();
+		}
+		// Sort languages by name
+		else
+		{
+			usort($options, array($this, '_sortLanguages'));
 		}
 
 		// Set the default value from the native language.
@@ -74,4 +79,15 @@ class JFormFieldLanguage extends JFormFieldList
 
 		return $options;
 	}
+
+	/**
+	 * Method to sort languages by name.
+	 *
+	 * @since	3.0
+	 */
+	protected function _sortLanguages($a, $b)
+	{
+		return strcmp($a['text'], $b['text']);
+	}
+
 }

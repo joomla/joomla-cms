@@ -13,10 +13,15 @@ defined('_JEXEC') or die;
 $app = JFactory::getApplication();
 $doc = JFactory::getDocument();
 $lang = JFactory::getLanguage();
+$this->language = $doc->language;
+$this->direction = $doc->direction;
+
+// Add JavaScript Frameworks
+JHtml::_('bootstrap.framework');
+$doc->addScript('templates/' .$this->template. '/js/template.js');
 
 // Add Stylesheets
 $doc->addStyleSheet('templates/' .$this->template. '/css/template.css');
-$doc->addStyleSheet('../media/jui/css/chosen.css');
 
 // If Right-to-Left
 if ($this->direction == 'rtl') :
@@ -31,45 +36,15 @@ endif;
 
 ?>
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" >
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 <head>
-	<script src="../media/jui/js/jquery.js"></script>
-	<script src="../media/jui/js/bootstrap.min.js"></script>
-	<script src="../media/jui/js/chosen.jquery.min.js"></script>
-	<script type="text/javascript">
-	  jQuery.noConflict();
-	</script>
 	<jdoc:include type="head" />
-	<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/<?php echo $this->template ?>/css/template.css" type="text/css" />
+	<!--[if lt IE 9]>
+		<script src="../media/jui/js/html5.js"></script>
+	<![endif]-->
 </head>
 <body class="contentpane component">
 	<jdoc:include type="message" />
 	<jdoc:include type="component" />
-	<script>
-		(function($){
-			$('*[rel=tooltip]').tooltip()
-			$('.tip-bottom').tooltip({placement: "bottom"})
-			$('*[rel=popover]').popover()
-
-		    // Chosen select boxes
-		    $("select").chosen({disable_search_threshold : 10 });
-
-		    // Turn radios into btn-group
-		    $('.radio.btn-group label').addClass('btn')
-		    $(".btn-group label:not(.active)").click(function(){
-		        var label = $(this);
-		        var input = $('#' + label.attr('for'));
-
-		        if (!input.prop('checked')){
-		            label.closest('.btn-group').find("label").removeClass('active btn-primary');
-		            label.addClass('active btn-primary');
-		            input.prop('checked', true);
-		        }
-		    });
-		    $(".btn-group input[checked=checked]").each(function(){
-		        $("label[for=" + $(this).attr('id') + "]").addClass('active btn-primary');
-		    });
-	    })(jQuery);
-	</script>
 </body>
 </html>

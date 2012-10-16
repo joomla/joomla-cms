@@ -11,6 +11,7 @@ defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.base.adapterinstance');
 jimport('joomla.installer.packagemanifest');
+jimport('joomla.filesystem.folder');
 
 /**
  * Package installer
@@ -386,7 +387,6 @@ class JInstallerPackage extends JAdapterInstance
 	 */
 	public function uninstall($id)
 	{
-		// Initialise variables.
 		$row = null;
 		$retval = true;
 

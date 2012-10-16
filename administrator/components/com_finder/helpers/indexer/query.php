@@ -488,9 +488,9 @@ class FinderIndexerQuery
 
 		// Load the predefined filter.
 		$query = $db->getQuery(true);
-		$query->select('f.' . $db->quoteName('data') . ', f.' . $db->quoteName('params'));
+		$query->select($db->quoteName('f.data') . ', ' . $db->quoteName('f.params'));
 		$query->from($db->quoteName('#__finder_filters') . ' AS f');
-		$query->where('f.' . $db->quoteName('filter_id') . ' = ' . (int) $filterId);
+		$query->where($db->quoteName('f.filter_id') . ' = ' . (int) $filterId);
 
 		$db->setQuery($query);
 		$return = $db->loadObject();
@@ -542,10 +542,10 @@ class FinderIndexerQuery
 		$query->from($db->quoteName('#__finder_taxonomy') . ' AS t1');
 		$query->join('INNER', $db->quoteName('#__finder_taxonomy') . ' AS t2 ON t2.id = t1.parent_id');
 		$query->where('t1.state = 1');
-		$query->where('t1.' . $db->quoteName('access') . ' IN (' . $groups . ')');
+		$query->where($db->quoteName('t1.access') . ' IN (' . $groups . ')');
 		$query->where('t1.id IN (' . implode(',', $filters) . ')');
 		$query->where('t2.state = 1');
-		$query->where('t2.' . $db->quoteName('access') . ' IN (' . $groups . ')');
+		$query->where($db->quoteName('t2.access') . ' IN (' . $groups . ')');
 
 		// Load the filters.
 		$db->setQuery($query);
@@ -609,10 +609,10 @@ class FinderIndexerQuery
 		$query->from($db->quoteName('#__finder_taxonomy') . ' AS t1');
 		$query->join('INNER', $db->quoteName('#__finder_taxonomy') . ' AS t2 ON t2.id = t1.parent_id');
 		$query->where('t1.state = 1');
-		$query->where('t1.' . $db->quoteName('access') . ' IN (' . $groups . ')');
+		$query->where($db->quoteName('t1.access') . ' IN (' . $groups . ')');
 		$query->where('t1.id IN (' . implode(',', $filters) . ')');
 		$query->where('t2.state = 1');
-		$query->where('t2.' . $db->quoteName('access') . ' IN (' . $groups . ')');
+		$query->where($db->quoteName('t2.access') . ' IN (' . $groups . ')');
 
 		// Load the filters.
 		$db->setQuery($query);
@@ -968,12 +968,14 @@ class FinderIndexerQuery
 			'OR' => JString::strtolower(JText::_('COM_FINDER_QUERY_OPERATOR_OR')),
 			'NOT' => JString::strtolower(JText::_('COM_FINDER_QUERY_OPERATOR_NOT'))
 		);
+
 		// If language debugging is enabled you need to ignore the debug strings in matching.
 		if (JDEBUG)
 		{
 			$debugStrings = array('**', '??');
 			$operators = str_replace($debugStrings, '', $operators);
 		}
+
 		/*
 		 * Iterate through the terms and perform any sorting that needs to be
 		 * done based on boolean search operators. Terms that are before an
@@ -981,7 +983,6 @@ class FinderIndexerQuery
 		 */
 		for ($i = 0, $c = count($terms); $i < $c; $i++)
 		{
-
 			// Check if the term is followed by an operator that we understand.
 			if (isset($terms[$i + 1]) && in_array($terms[$i + 1], $operators))
 			{
@@ -1291,9 +1292,6 @@ class FinderIndexerQuery
 
 			// Union the two queries.
 			$query->union($sub);
-
-//			$query->where('(t.term = ' . $db->quote($token->term) . ' OR t.stem = ' . $db->quote($token->stem) . ')');
-//			$query->where('t.phrase = 0');
 		}
 
 		// Get the terms.

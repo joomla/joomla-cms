@@ -37,7 +37,6 @@ class JFormFieldMenuOrdering extends JFormFieldList
 	 */
 	protected function getOptions()
 	{
-		// Initialize variables.
 		$options = array();
 
 		// Get the parent

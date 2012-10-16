@@ -49,6 +49,13 @@ class WeblinksTableWeblink extends JTable
 			$registry->loadArray($array['metadata']);
 			$array['metadata'] = (string) $registry;
 		}
+
+		if (isset($array['images']) && is_array($array['images'])) {
+			$registry = new JRegistry;
+			$registry->loadArray($array['images']);
+			$array['images'] = (string) $registry;
+		}
+
 		return parent::bind($array, $ignore);
 	}
 
@@ -76,6 +83,18 @@ class WeblinksTableWeblink extends JTable
 			if (empty($this->created_by)) {
 				$this->created_by = $user->get('id');
 			}
+		}
+
+		// Set publish_up to null date if not set
+		if (!$this->publish_up)
+		{
+			$this->publish_up = $this->_db->getNullDate();
+		}
+
+		// Set publish_down to null date if not set
+		if (!$this->publish_down)
+		{
+			$this->publish_down = $this->_db->getNullDate();
 		}
 
 		// Verify that the alias is unique
@@ -164,7 +183,6 @@ class WeblinksTableWeblink extends JTable
 	 */
 	public function publish($pks = null, $state = 1, $userId = 0)
 	{
-		// Initialise variables.
 		$k = $this->_tbl_key;
 
 		// Sanitize input.

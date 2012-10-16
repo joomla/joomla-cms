@@ -37,7 +37,7 @@ class User0002Test extends SeleniumJoomlaTestCase
     } catch (PHPUnit_Framework_AssertionFailedError $e) {
         array_push($this->verificationErrors, $this->getTraceFiles($e));
     }
-    $this->click("link=Log out");
+    $this->click("//li/a[contains(@href, 'option=com_login&task=logout')]");
     $this->waitForPageToLoad("30000");
     echo("Go to home page.\n");
     $this->click("link=Go to site home page.");
@@ -72,14 +72,14 @@ class User0002Test extends SeleniumJoomlaTestCase
     echo "Delete all users in view\n";
     $this->click("checkall-toggle");
     echo("Delete new user.\n");
-    $this->click("//li[@id='toolbar-delete']/a/span");
+    $this->click("//div[@id='toolbar-delete']/button");
     $this->waitForPageToLoad("30000");
     try {
     	$this->assertTrue($this->isTextPresent("success"));
     } catch (PHPUnit_Framework_AssertionFailedError $e) {
     	array_push($this->verificationErrors, $this->getTraceFiles($e));
     }
-    $this->click("link=Log out");
+    $this->click("//li/a[contains(@href, 'option=com_login&task=logout')]");
     $this->waitForPageToLoad("30000");
     $this->countErrors();
 	$this->deleteAllVisibleCookies();

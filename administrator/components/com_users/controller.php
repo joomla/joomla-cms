@@ -57,9 +57,6 @@ class UsersController extends JControllerLegacy
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{
-		// Load the submenu.
-		UsersHelper::addSubmenu($this->input->get('view', 'users'));
-
 		$view   = $this->input->get('view', 'users');
 		$layout = $this->input->get('layout', 'default');
 		$id     = $this->input->getInt('id');
@@ -99,7 +96,7 @@ class UsersController extends JControllerLegacy
 			// Somehow the person just went to the form - we don't allow that.
 			$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id));
 			$this->setMessage($this->getError(), 'error');
-			$this->setRedirect(JRoute::_('index.php?option=com_users&view=groups', false));
+			$this->setRedirect(JRoute::_('index.php?option=com_users&view=notes', false));
 
 			return false;
 		}

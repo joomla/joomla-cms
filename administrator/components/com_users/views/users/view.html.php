@@ -33,6 +33,8 @@ class UsersViewUsers extends JViewLegacy
 		$this->pagination	= $this->get('Pagination');
 		$this->state		= $this->get('State');
 
+		UsersHelper::addSubmenu('users');
+
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
 			JError::raiseError(500, implode("\n", $errors));
@@ -43,6 +45,7 @@ class UsersViewUsers extends JViewLegacy
 		JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 		$this->addToolbar();
+		$this->sidebar = JHtmlSidebar::render();
 		parent::display($tpl);
 	}
 
@@ -83,5 +86,31 @@ class UsersViewUsers extends JViewLegacy
 		}
 
 		JToolbarHelper::help('JHELP_USERS_USER_MANAGER');
+
+		JHtmlSidebar::setAction('index.php?option=com_users&view=users');
+
+		JHtmlSidebar::addFilter(
+			JText::_('COM_USERS_FILTER_STATE'),
+			'filter_state',
+			JHtml::_('select.options', UsersHelper::getStateOptions(), 'value', 'text', $this->state->get('filter.state'))
+		);
+
+		JHtmlSidebar::addFilter(
+			JText::_('COM_USERS_FILTER_ACTIVE'),
+			'filter_active',
+			JHtml::_('select.options', UsersHelper::getActiveOptions(), 'value', 'text', $this->state->get('filter.active'))
+		);
+
+		JHtmlSidebar::addFilter(
+			JText::_('COM_USERS_FILTER_USERGROUP'),
+			'filter_group_id',
+			JHtml::_('select.options', UsersHelper::getGroups(), 'value', 'text', $this->state->get('filter.group_id'))
+		);
+
+		JHtmlSidebar::addFilter(
+			JText::_('COM_USERS_OPTION_FILTER_DATE'),
+			'filter_range',
+			JHtml::_('select.options', Usershelper::getRangeOptions(), 'value', 'text', $this->state->get('filter.range'))
+		);
 	}
 }

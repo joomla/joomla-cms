@@ -357,7 +357,6 @@ class JFilterInput
 
 			// Do we have a nested tag?
 			$tagOpen_nested = strpos($fromTagOpen, '<');
-			$tagOpen_nested_end = strpos(substr($postTag, $tagOpen_end), '>');
 			if (($tagOpen_nested !== false) && ($tagOpen_nested < $tagOpen_end))
 			{
 				$preTag .= substr($postTag, 0, ($tagOpen_nested + 1));
@@ -542,7 +541,6 @@ class JFilterInput
 	 */
 	protected function _cleanAttributes($attrSet)
 	{
-		// Initialise variables.
 		$newSet = array();
 
 		$count = count($attrSet);

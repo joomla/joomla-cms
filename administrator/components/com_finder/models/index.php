@@ -99,15 +99,12 @@ class FinderModelIndex extends JModelList
 	 */
 	public function delete(&$pks)
 	{
-		// Initialise variables.
 		$dispatcher = JEventDispatcher::getInstance();
-		$user = JFactory::getUser();
 		$pks = (array) $pks;
 		$table = $this->getTable();
 
-		// Include the content and finder plugins for the on delete events.
+		// Include the content plugins for the on delete events.
 		JPluginHelper::importPlugin('content');
-		JPluginHelper::importPlugin('finder');
 
 		// Iterate the items to delete each one.
 		foreach ($pks as $i => $pk)
@@ -196,7 +193,7 @@ class FinderModelIndex extends JModelList
 		if ($this->getState('filter.search') != '')
 		{
 			$search = $db->escape($this->getState('filter.search'));
-			$query->where($db->quoteName('l.title') . ' LIKE "%' . $db->escape($search) . '%"' . ' OR ' . $db->quoteName('l.url') . ' LIKE "%' . $db->escape($search) . '%"' . ' OR ' . $db->quoteName('l.indexdate') . ' LIKE "%' . $db->escape($search) . '%"');
+			$query->where($db->quoteName('l.title') . ' LIKE ' . $db->quote('%' . $db->escape($search) . '%') . ' OR ' . $db->quoteName('l.url') . ' LIKE ' . $db->quote('%' . $db->escape($search) . '%') . ' OR ' . $db->quoteName('l.indexdate') . ' LIKE  ' . $db->quote('%' . $db->escape($search) . '%'));
 		}
 
 		// Handle the list ordering.
@@ -279,6 +276,7 @@ class FinderModelIndex extends JModelList
 	 * @return  boolean  True on success, false on failure.
 	 *
 	 * @since   2.5
+	 * @throws  Exception on database error
 	 */
 	public function purge()
 	{
@@ -361,7 +359,6 @@ class FinderModelIndex extends JModelList
 	 */
 	public function publish(&$pks, $value = 1)
 	{
-		// Initialise variables.
 		$dispatcher = JEventDispatcher::getInstance();
 		$user = JFactory::getUser();
 		$table = $this->getTable();

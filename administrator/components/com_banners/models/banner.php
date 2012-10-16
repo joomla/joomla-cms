@@ -436,7 +436,6 @@ class BannersModelBanner extends JModelAdmin
 	 */
 	public function stick(&$pks, $value = 1)
 	{
-		// Initialise variables.
 		$user = JFactory::getUser();
 		$table = $this->getTable();
 		$pks = (array) $pks;
@@ -480,5 +479,35 @@ class BannersModelBanner extends JModelAdmin
 		$condition[] = 'catid = '. (int) $table->catid;
 		$condition[] = 'state >= 0';
 		return $condition;
+	}
+
+	/**
+	 * @since  3.0
+	 */
+	protected function prepareTable($table)
+	{
+		$date = JFactory::getDate();
+		$user = JFactory::getUser();
+
+		if (empty($table->id)) {
+			// Set the values
+			$table->created	= $date->toSql();
+
+			// Set ordering to the last item if not set
+			if (empty($table->ordering)) {
+				$db = JFactory::getDbo();
+				$db->setQuery('SELECT MAX(ordering) FROM #__banners');
+				$max = $db->loadResult();
+
+				$table->ordering = $max + 1;
+			}
+		}
+		else {
+			// Set the values
+			$table->modified	= $date->toSql();
+			$table->modified_by	= $user->get('id');
+		}
+		// Increment the content version number.
+		$table->version++;
 	}
 }

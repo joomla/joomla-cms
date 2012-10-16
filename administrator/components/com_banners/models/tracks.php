@@ -55,7 +55,6 @@ class BannersModelTracks extends JModelList
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
-		// Initialise variables.
 		$app = JFactory::getApplication('administrator');
 
 		// Load the filter state.
@@ -90,9 +89,6 @@ class BannersModelTracks extends JModelList
 	 */
 	protected function getListQuery()
 	{
-		// Get the application object
-		$app = JFactory::getApplication();
-
 		require_once JPATH_COMPONENT.'/helpers/banners.php';
 
 		// Create a new query object.
@@ -166,7 +162,6 @@ class BannersModelTracks extends JModelList
 	 */
 	public function delete()
 	{
-		// Initialise variables
 		$user		= JFactory::getUser();
 		$categoryId	= $this->getState('category_id');
 

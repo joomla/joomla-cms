@@ -84,7 +84,6 @@ class plgContentPagebreak extends JPlugin
 			return true;
 		}
 
-		$db = JFactory::getDbo();
 		$view = $input->getString('view');
 		$full = $input->getBool('fullview');
 
@@ -129,8 +128,6 @@ class plgContentPagebreak extends JPlugin
 			// Adds heading or title to <site> Title.
 			if ($title) {
 				if ($page) {
-					$page_text = $page + 1;
-
 					if ($page && @$matches[$page - 1][2])
 					{
 						$attrs = JUtility::parseAttributes($matches[$page - 1][1]);

@@ -15,7 +15,16 @@ $listOrder	= $this->escape($this->state->get('list.ordering'));
 $listDirn	= $this->escape($this->state->get('list.direction'));
 ?>
 <div id="installer-update">
-<form action="<?php echo JRoute::_('index.php?option=com_installer&view=update');?>" method="post" name="adminForm" id="adminForm">
+	<form action="<?php echo JRoute::_('index.php?option=com_installer&view=update');?>" method="post" name="adminForm" id="adminForm">
+	<?php if(!empty( $this->sidebar)): ?>
+		<div id="j-sidebar-container" class="span2">
+			<?php echo $this->sidebar; ?>
+		</div>
+		<div id="j-main-container" class="span10">
+	<?php else : ?>
+		<div id="j-main-container">
+	<?php endif;?>
+
 	<?php if ($this->showMessage) : ?>
 		<div class="alert alert-info">
 			<a class="close" data-dismiss="alert" href="#">&times;</a>
@@ -27,25 +36,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 		<?php echo $this->loadTemplate('ftp'); ?>
 	<?php endif; ?>
 
-	<!-- Begin Sidebar -->
-	<div id="sidebar" class="span2">
-		<div class="sidebar-nav">
-			<?php
-				// Display the submenu position modules
-				$this->modules = JModuleHelper::getModules('submenu');
-				foreach ($this->modules as $module)
-				{
-					$output = JModuleHelper::renderModule($module);
-					$params = new JRegistry;
-					$params->loadString($module->params);
-					echo $output;
-				}
-			?>
-		</div>
-	</div>
-	<!-- End Sidebar -->
 	<!-- Begin Content -->
-	<div class="span10">
 		<?php if (count($this->items)) : ?>
 		<table class="table table-striped" cellspacing="1">
 			<thead>
@@ -99,14 +90,11 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 			</div>
 		<?php endif; ?>
 
-		<div>
 			<input type="hidden" name="task" value="" />
 			<input type="hidden" name="boxchecked" value="0" />
 			<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>" />
 			<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>" />
 			<?php echo JHtml::_('form.token'); ?>
 		</div>
-	</div>
-	<!-- End Content -->
-</form>
+	</form>
 </div>

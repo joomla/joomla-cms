@@ -29,7 +29,6 @@ class WeblinksController extends JControllerLegacy
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{
-		// Initialise variables.
 		$cachable	= true;	// Huh? Why not just put that in the constructor?
 		$user		= JFactory::getUser();
 
@@ -40,7 +39,7 @@ class WeblinksController extends JControllerLegacy
 		$vName = $this->input->get('view', 'categories');
 		$this->input->set('view', $vName);
 
-		if ($user->get('id') ||($_SERVER['REQUEST_METHOD'] == 'POST' && $vName = 'categories')) {
+		if ($user->get('id') ||($this->input->getMethod() == 'POST' && $vName = 'categories')) {
 			$cachable = false;
 		}
 

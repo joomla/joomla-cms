@@ -128,15 +128,23 @@ class JAdminCssMenu extends JObject
 		 * Build the CSS class suffix
 		 */
 		$class = '';
-		if ($this->_current->hasChildren()) {
+		if ($this->_current->hasChildren())
+		{
 			$class = ' class="dropdown"';
 		}
 
-		if ($this->_current->class == 'separator') {
+		if ($this->_current->class == 'separator')
+		{
 			$class = ' class="divider"';
 		}
 
-		if ($this->_current->class == 'disabled') {
+		if ($this->_current->hasChildren() && $this->_current->class)
+		{
+			$class = ' class="dropdown-submenu"';
+		}
+
+		if ($this->_current->class == 'disabled')
+		{
 			$class = ' class="disabled"';
 		}
 
@@ -156,7 +164,10 @@ class JAdminCssMenu extends JObject
 		if ($this->_current->hasChildren()) {
 				$linkClass = ' class="dropdown-toggle"';
 				$dataToggle = ' data-toggle="dropdown"';
-				$dropdownCaret = ' <span class="caret"></span>';
+				if(!$this->_current->getParent()->hasParent())
+				{
+					$dropdownCaret = ' <span class="caret"></span>';
+				}
 		}
 
 		if ($this->_current->link != null && $this->_current->target != null) {

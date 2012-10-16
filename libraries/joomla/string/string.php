@@ -710,23 +710,6 @@ abstract class JString
 	}
 
 	/**
-	 * Catch an error and throw an exception.
-	 *
-	 * @param   integer  $number   Error level
-	 * @param   string   $message  Error message
-	 *
-	 * @return  void
-	 *
-	 * @link    https://bugs.php.net/bug.php?id=48147
-	 *
-	 * @throw   ErrorException
-	 */
-	private static function _iconvErrorHandler($number, $message)
-	{
-		throw new ErrorException($message, 0, $number);
-	}
-
-	/**
 	 * Transcode a string.
 	 *
 	 * @param   string  $source         The string to transcode.
@@ -743,26 +726,14 @@ abstract class JString
 	{
 		if (is_string($source))
 		{
-			set_error_handler(array(__CLASS__, '_iconvErrorHandler'), E_NOTICE);
-			try
+			switch (ICONV_IMPL)
 			{
-				/*
-				 * "//TRANSLIT//IGNORE" is appended to the $to_encoding to ensure that when iconv comes
-				 * across a character that cannot be represented in the target charset, it can
-				 * be approximated through one or several similarly looking characters or ignored.
-				 */
-				$iconv = iconv($from_encoding, $to_encoding . '//TRANSLIT//IGNORE', $source);
+				case 'glibc':
+				return @iconv($from_encoding, $to_encoding . '//TRANSLIT,IGNORE', $source);
+				case 'libiconv':
+				default:
+				return iconv($from_encoding, $to_encoding . '//IGNORE//TRANSLIT', $source);
 			}
-			catch (ErrorException $e)
-			{
-				/*
-				 * "//IGNORE" is appended to the $to_encoding to ensure that when iconv comes
-				 * across a character that cannot be represented in the target charset, it is ignored.
-				 */
-				$iconv = iconv($from_encoding, $to_encoding . '//IGNORE', $source);
-			}
-			restore_error_handler();
-			return $iconv;
 		}
 
 		return null;
@@ -961,12 +932,11 @@ abstract class JString
 	 */
 	public static function parse_url($url)
 	{
-		$result = array();
+		$result = false;
 
 		// Build arrays of values we need to decode before parsing
-		$entities = array('%21', '%2A', '%27', '%28', '%29', '%3B', '%3A', '%40', '%26', '%3D', '%24', '%2C', '%2F', '%3F', '%25', '%23', '%5B',
-			'%5D');
-		$replacements = array('!', '*', "'", "(", ")", ";", ":", "@", "&", "=", "$", ",", "/", "?", "%", "#", "[", "]");
+		$entities = array('%21', '%2A', '%27', '%28', '%29', '%3B', '%3A', '%40', '%26', '%3D', '%24', '%2C', '%2F', '%3F', '%23', '%5B', '%5D');
+		$replacements = array('!', '*', "'", "(", ")", ";", ":", "@", "&", "=", "$", ",", "/", "?", "#", "[", "]");
 
 		// Create encoded URL with special URL characters decoded so it can be parsed
 		// All other characters will be encoded
@@ -980,7 +950,7 @@ abstract class JString
 		{
 			foreach ($encodedParts as $key => $value)
 			{
-				$result[$key] = urldecode($value);
+				$result[$key] = urldecode(str_replace($replacements, $entities, $value));
 			}
 		}
 		return $result;

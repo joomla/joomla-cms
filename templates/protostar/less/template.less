@@ -36,7 +36,7 @@
 @import "../../../media/jui/less/pager.less";
 
 // Components: Popovers
-@import "modals.less";
+@import "../../../media/jui/less/modals.less";
 @import "../../../media/jui/less/tooltip.less";
 @import "../../../media/jui/less/popovers.less";
 
@@ -100,9 +100,19 @@ body.site.fluid{
 .select[multiple], select[size] {
 	height:28px;
 }
-/* Heading Fonts */
-h1,h2,h3,h4,h5,h6{
-	font-family: 'Open Sans', sans-serif;
+/* Site Title (if no logo) */
+.site-title {
+	font-size: 40px;
+	line-height: 48px;
+	font-weight: bold;
+}
+.brand {
+	color: darken(@linkColor, 20%);
+	.transition(color .5s linear);
+}
+.brand:hover {
+	color: @linkColor;
+	text-decoration: none;
 }
 /* Header */
 .header{
@@ -151,37 +161,17 @@ h1,h2,h3,h4,h5,h6{
 .well .page-header{
 	margin: 0px 0px 5px 0px;
 }
-/* Page Edit */
-.page-edit {
-	background:#555 url(../img/noise.png);
-	-moz-box-shadow: 0px 0px 40px #111 inset;
-	-webkit-box-shadow: 0px 0px 40px #111 inset;
-	box-shadow: 0px 0px 40px #111 inset;
+/* Headings */
+
+h1, h2, h3, h4, h5, h6 {
+  margin: (@baseLineHeight / 1.5) 0;
 }
-.page-edit-inner {
-	padding:20px 0;
-}
-.page-edit h1,
-.page-edit h2,
-.page-edit h3,
-.page-edit h4,
-.page-edit h5,
-.page-edit h6,
-.page-edit legend,
-.page-edit label,
-.page-edit p{
-	color: #F8F8F8;
-	text-shadow: 1px 1px 1px #000;
-}
-.page-edit legend,
-.page-edit hr{
-	border: 0;
-	border-bottom: 1px solid #333;
-}
-.page-edit .form-actions{
-	background-color: transparent;
-	border-top: 1px solid #333;
-}
+h1 { font-size: 26px; line-height: 28px; }
+h2 { font-size: 22px; line-height: 24px; }
+h3 { font-size: 18px; line-height: 20px; }
+h4 { font-size: 14px; line-height: 16px; }
+h5 { font-size: 13px; line-height: 15px; }
+h6 { font-size: 12px; line-height: 14px; }
 /* Module */
 .module-header {
 	padding-bottom: 17px;
@@ -228,6 +218,134 @@ h1,h2,h3,h4,h5,h6{
 .content-links {
 	padding: 15px 0;
 }
+/* Breadcrumbs */
+.breadcrumb {
+	margin: 10px 0;
+}
+/* Caption fixes */
+.img_caption .left {
+	float: left;
+	margin-right: 1em;
+}
+
+.img_caption .right {
+	float: right;
+	margin-left: 1em;
+}
+
+.img_caption .left p {
+	clear: left;
+	text-align: center;
+}
+
+.img_caption .right p {
+	clear: right;
+	text-align: center;
+}
+
+.img_caption  {
+	text-align: center!important;
+}
+
+.img_caption.none {
+	margin-left:auto;
+	margin-right:auto;
+}
+/* Aside Subnavs */
+#aside .nav .nav-child {
+	border-left: 2px solid @tableBorder;
+	padding-left: 5px;
+}
+/* Navigation Submenus */
+// The dropdown menu (ul)
+// ----------------------
+.navigation {
+	.nav-child {
+		position: absolute;
+		top: 95%;
+		left: 0;
+		z-index: @zindexDropdown;
+		display: none; // none by default, but block on "open" of the menu
+		float: left;
+		min-width: 160px;
+		padding: 5px 0;
+		margin: 2px 0 0; // override default ul
+		list-style: none;
+		background-color: @dropdownBackground;
+		border: 1px solid #ccc; // Fallback for IE7-8
+		border: 1px solid @dropdownBorder;
+		*border-right-width: 2px;
+		*border-bottom-width: 2px;
+		.border-radius(6px);
+		.box-shadow(0 5px 10px rgba(0,0,0,.2));
+		-webkit-background-clip: padding-box;
+		 -moz-background-clip: padding;
+		      background-clip: padding-box;
+		
+		// Aligns the dropdown menu to right
+		&.pull-right {
+			right: 0;
+			left: auto;
+		}
+		
+		// Dividers (basically an hr) within the dropdown
+		.divider {
+			.nav-divider(@dropdownDividerTop, @dropdownDividerBottom);
+		}
+		
+		// Links within the dropdown menu
+		a {
+			display: block;
+			padding: 3px 20px;
+			clear: both;
+			font-size: @baseFontSize;
+			font-weight: normal;
+			line-height: @baseLineHeight;
+			color: @dropdownLinkColor;
+			white-space: nowrap;
+		}
+	}
+	.nav > li {
+		position: relative;
+	}
+	.nav > li:hover > .nav-child,
+	.nav > li > a:focus + .nav-child, {
+		display: block;
+	}
+	.nav-child:before {
+	  position: absolute;
+	  top: -7px;
+	  left: 9px;
+	  display: inline-block;
+	  border-right: 7px solid transparent;
+	  border-bottom: 7px solid #ccc;
+	  border-left: 7px solid transparent;
+	  border-bottom-color: rgba(0, 0, 0, 0.2);
+	  content: '';
+	}
+	.nav-child:after {
+	  position: absolute;
+	  top: -6px;
+	  left: 10px;
+	  display: inline-block;
+	  border-right: 6px solid transparent;
+	  border-bottom: 6px solid #ffffff;
+	  border-left: 6px solid transparent;
+	  content: '';
+	}
+}
+
+// Hover state
+// -----------
+.navigation .nav-child li > a:hover,
+.navigation .nav-child li > a:focus,
+.navigation .nav-child:hover > a {
+  text-decoration: none;
+  color: @dropdownLinkColorHover;
+  background-color: @dropdownLinkBackgroundHover;
+  #gradient > .vertical(@dropdownLinkBackgroundHover, darken(@dropdownLinkBackgroundHover, 5%));
+}
+
 @media (max-width: 480px) {
 	.item-info > span {
 		display:block;
@@ -252,12 +370,19 @@ h1,h2,h3,h4,h5,h6{
 		display:block;
 		text-align:center;
 	}
-	.header .nav.pull-right {
+	.header .nav.pull-right,
+	.header-search {
 		float:none;
 		display:block;
 	}
+	.header-search form {
+		margin: 0;
+	}
+	.header-search .search-query {
+		width: 90%;
+	}
 	.header .nav-pills > li > a {
-		border: 1px solid #ddd;
+		border: 1px solid @tableBorder;
 		border-bottom:0;
 		margin:0;
 		-webkit-border-radius: 0;
@@ -274,7 +399,7 @@ h1,h2,h3,h4,h5,h6{
 		-webkit-border-radius: 0 0 4px 4px;
 		-moz-border-radius: 0 0 4px 4px;
 		border-radius: 0 0 4px 4px;
-		border-bottom:1px solid #ddd;
+		border-bottom:1px solid @tableBorder;
 	}
 	.modal.fade {
 		top:-100%;
@@ -286,7 +411,7 @@ h1,h2,h3,h4,h5,h6{
 		float: none;
 	}
 	.nav-tabs > li > a {
-		border: 1px solid #ddd;
+		border: 1px solid @tableBorder;
 		-webkit-border-radius: 0;
 		-moz-border-radius: 0;
 		border-radius: 0;
@@ -301,20 +426,20 @@ h1,h2,h3,h4,h5,h6{
 		-webkit-border-radius: 0 0 4px 4px;
 		-moz-border-radius: 0 0 4px 4px;
 		border-radius: 0 0 4px 4px;
-		border-bottom:1px solid #ddd;
+		border-bottom:1px solid @tableBorder;
 	}
 	.nav-tabs > li > a:hover {
-		border-color: #ddd;
+		border-color: @tableBorder;
 		z-index: 2;
 	}
 	.nav-tabs.nav-dark > li > a {
-		border: 1px solid #333;
+		border: 1px solid @grayDark;
 	}
 	.nav-tabs > li:last-child > a, .nav-tabs > .active:last-child > a {
-		border-bottom:1px solid #333;
+		border-bottom:1px solid @grayDark;
 	}
 	.nav-tabs.nav-dark > li > a:hover {
-		border-color: #333;
+		border-color: @grayDark;
 	}
 	.nav-pills > li {
 		float: none;
@@ -341,5 +466,13 @@ h1,h2,h3,h4,h5,h6{
 	}
 	.item-comment .item-image{
 		display:none;
+	}
+	.well {
+		padding: 10px;
+	}
+}
+@media (min-width: 768px) and (max-width: 979px) {
+	#login-form .input-small {
+		width: 62px;
 	}
 }

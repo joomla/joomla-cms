@@ -41,7 +41,6 @@ class ContentViewFeatured extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		// Initialise variables.
 		$user = JFactory::getUser();
 		$app = JFactory::getApplication();
 

@@ -116,7 +116,6 @@ class PluginsModelPlugin extends JModelAdmin
 	 */
 	public function getItem($pk = null)
 	{
-		// Initialise variables.
 		$pk = (!empty($pk)) ? $pk : (int) $this->getState('plugin.id');
 
 		if (!isset($this->_cache[$pk])) {
@@ -200,7 +199,6 @@ class PluginsModelPlugin extends JModelAdmin
 	{
 		jimport('joomla.filesystem.path');
 
-		// Initialise variables.
 		$folder		= $this->getState('item.folder');
 		$element	= $this->getState('item.element');
 		$lang		= JFactory::getLanguage();

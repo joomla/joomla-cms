@@ -266,7 +266,6 @@ class ModulesModelModule extends JModelAdmin
 		// Set the variables
 		$user = JFactory::getUser();
 		$table = $this->getTable();
-		$i = 0;
 
 		foreach ($pks as $pk)
 		{
@@ -327,13 +326,12 @@ class ModulesModelModule extends JModelAdmin
 	 */
 	public function delete(&$pks)
 	{
-		// Initialise variables.
 		$pks	= (array) $pks;
 		$user	= JFactory::getUser();
 		$table	= $this->getTable();
 
 		// Iterate the items to delete each one.
-		foreach ($pks as $i => $pk)
+		foreach ($pks as $pk)
 		{
 			if ($table->load($pk))
 			{
@@ -387,7 +385,6 @@ class ModulesModelModule extends JModelAdmin
 	 */
 	public function duplicate(&$pks)
 	{
-		// Initialise variables.
 		$user	= JFactory::getUser();
 		$db		= $this->getDbo();
 
@@ -603,7 +600,6 @@ class ModulesModelModule extends JModelAdmin
 	 */
 	public function getItem($pk = null)
 	{
-		// Initialise variables.
 		$pk	= (!empty($pk)) ? (int) $pk : (int) $this->getState('module.id');
 		$db	= $this->getDbo();
 
@@ -800,7 +796,6 @@ class ModulesModelModule extends JModelAdmin
 	{
 		jimport('joomla.filesystem.path');
 
-		// Initialise variables.
 		$lang     = JFactory::getLanguage();
 		$clientId = $this->getState('item.client_id');
 		$module   = $this->getState('item.module');
@@ -897,7 +892,7 @@ class ModulesModelModule extends JModelAdmin
 		// Alter the title and published state for Save as Copy
 		if ($input->get('task') == 'save2copy')
 		{
-			$orig_data  = JRequest::getVar('jform', array(), 'post', 'array');
+			$orig_data  = $input->post->get('jform', array(), 'array');
 			$orig_table = clone($this->getTable());
 			$orig_table->load((int) $orig_data['id']);
 

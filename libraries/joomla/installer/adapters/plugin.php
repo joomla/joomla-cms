@@ -10,6 +10,7 @@
 defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.base.adapterinstance');
+jimport('joomla.filesystem.folder');
 
 /**
  * Plugin installer
@@ -561,7 +562,6 @@ class JInstallerPlugin extends JAdapterInstance
 	{
 		$this->route = 'uninstall';
 
-		// Initialise variables.
 		$row = null;
 		$retval = true;
 		$db = $this->parent->getDbo();

@@ -44,7 +44,6 @@ class InstallerModelInstall extends JModelLegacy
 	 */
 	protected function populateState()
 	{
-		// Initialise variables.
 		$app = JFactory::getApplication('administrator');
 
 		$this->setState('message', $app->getUserState('com_installer.message'));
@@ -228,7 +227,6 @@ class InstallerModelInstall extends JModelLegacy
 	 */
 	protected function _getPackageFromUrl()
 	{
-		$db    = JFactory::getDbo();
 		$input = JFactory::getApplication()->input;
 
 		// Get the URL of the package to install

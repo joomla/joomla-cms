@@ -11,9 +11,10 @@ defined('_JEXEC') or die;
 
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
-JHtml::_('jquerybehavior.tooltip');
+JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
 JHtml::_('dropdown.init');
+JHtml::_('formbehavior.chosen', 'select');
 
 $user		= JFactory::getUser();
 $listOrder	= $this->escape($this->state->get('list.ordering'));
@@ -41,45 +42,14 @@ $sortFields = $this->getSortFields();
 	}
 </script>
 <form action="<?php echo JRoute::_('index.php?option=com_plugins&view=plugins'); ?>" method="post" name="adminForm" id="adminForm">
-	<div class="row-fluid">
-	<!-- Begin Sidebar -->
-	<div id="sidebar" class="span2">
-		<div class="sidebar-nav">
-			<?php
-				// Display the submenu position modules
-				$this->modules = JModuleHelper::getModules('submenu');
-				foreach ($this->modules as $module) {
-					$output = JModuleHelper::renderModule($module);
-					$params = new JRegistry;
-					$params->loadString($module->params);
-					echo $output;
-				}
-			?>
-			<div class="filter-select">
-				<h4 class="page-header"><?php echo JText::_('JSEARCH_FILTER_LABEL');?></h4>
-				<label for="filter_state" class="element-invisible"><?php echo JText::_('COM_CONTENT_FILTER_SEARCH_DESC');?></label>
-				<select name="filter_state" id="filter_state" class="span12 small" onchange="this.form.submit()">
-					<option value=""><?php echo JText::_('JOPTION_SELECT_PUBLISHED');?></option>
-					<?php echo JHtml::_('select.options', PluginsHelper::stateOptions(), 'value', 'text', $this->state->get('filter.state'), true);?>
-				</select>
-				<hr class="hr-condensed" />
-				<label for="filter_folder" id="filter_folder" class="element-invisible"><?php echo JText::_('COM_CONTENT_FILTER_SEARCH_DESC');?></label>
-				<select name="filter_folder" class="span12 small" onchange="this.form.submit()">
-					<option value=""><?php echo JText::_('COM_PLUGINS_OPTION_FOLDER');?></option>
-					<?php echo JHtml::_('select.options', PluginsHelper::folderOptions(), 'value', 'text', $this->state->get('filter.folder'));?>
-				</select>
-				<hr class="hr-condensed" />
-				<label for="filter_access" class="element-invisible"><?php echo JText::_('COM_CONTENT_FILTER_SEARCH_DESC');?></label>
-				<select name="filter_access" id="filter_access" class="span12 small" onchange="this.form.submit()">
-					<option value=""><?php echo JText::_('JOPTION_SELECT_ACCESS');?></option>
-					<?php echo JHtml::_('select.options', JHtml::_('access.assetgroups'), 'value', 'text', $this->state->get('filter.access'));?>
-				</select>
-			</div>
-		</div>
+<?php if(!empty( $this->sidebar)): ?>
+	<div id="sidebar-container" class="span2">
+		<?php echo $this->sidebar; ?>
 	</div>
-	<!-- End Sidebar -->
-	<!-- Begin Content -->
-	<div class="span10">
+	<div id="main-container" class="span10">
+<?php else : ?>
+	<div id="main-container">
+<?php endif;?>
 		<div id="filter-bar" class="btn-toolbar">
 			<div class="filter-search btn-group pull-left">
 				<label for="filter_search" class="element-invisible"><?php echo JText::_('COM_CONTENT_FILTER_SEARCH_DESC');?></label>
@@ -95,7 +65,7 @@ $sortFields = $this->getSortFields();
 			</div>
 			<div class="btn-group pull-right hidden-phone">
 				<label for="directionTable" class="element-invisible"><?php echo JText::_('JFIELD_ORDERING_DESC');?></label>
-				<select name="directionTable" id="directionTable" class="input-small" onchange="Joomla.orderTable()">
+				<select name="directionTable" id="directionTable" class="input-medium" onchange="Joomla.orderTable()">
 					<option value=""><?php echo JText::_('JFIELD_ORDERING_DESC');?></option>
 					<option value="asc" <?php if ($listDirn == 'asc') echo 'selected="selected"'; ?>><?php echo JText::_('JGLOBAL_ORDER_ASCENDING');?></option>
 					<option value="desc" <?php if ($listDirn == 'desc') echo 'selected="selected"'; ?>><?php echo JText::_('JGLOBAL_ORDER_DESCENDING');?></option>
@@ -113,28 +83,28 @@ $sortFields = $this->getSortFields();
 		<table class="table table-striped" id="articleList">
 			<thead>
 				<tr>
-					<th width="1%" class="center hidden-phone" nowrap="nowrap">
-							<i class="icon-menu-2 hasTip" title="<?php echo JText::_('JGRID_HEADING_ORDERING'); ?>"></i>
+					<th width="1%" class="nowrap center hidden-phone">
+						<?php echo JHtml::_('grid.sort', '<i class="icon-menu-2"></i>', 'ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING'); ?>
 					</th>
 					<th width="1%" class="hidden-phone">
 						<input type="checkbox" name="checkall-toggle" value="" title="<?php echo JText::_('JGLOBAL_CHECK_ALL'); ?>" onclick="Joomla.checkAll(this)" />
 					</th>
-					<th width="5%" class="center">
-						<?php echo JText::_('JSTATUS'); ?>
+					<th width="1%" class="nowrap center">
+						<?php echo JHtml::_('grid.sort', 'JSTATUS', 'enabled', $listDirn, $listOrder); ?>
 					</th>
 					<th class="title">
 						<?php echo JHtml::_('grid.sort', 'COM_PLUGINS_NAME_HEADING', 'name', $listDirn, $listOrder); ?>
 					</th>
-					<th class="nowrap hidden-phone" width="10%">
+					<th width="10%" class="nowrap hidden-phone">
 						<?php echo JHtml::_('grid.sort', 'COM_PLUGINS_FOLDER_HEADING', 'folder', $listDirn, $listOrder); ?>
 					</th>
-					<th class="nowrap hidden-phone" width="10%">
+					<th width="10%" class="nowrap hidden-phone">
 						<?php echo JHtml::_('grid.sort', 'COM_PLUGINS_ELEMENT_HEADING', 'element', $listDirn, $listOrder); ?>
 					</th>
 					<th width="5%" class="hidden-phone">
 						<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ACCESS', 'access', $listDirn, $listOrder); ?>
 					</th>
-					<th class="nowrap hidden-phone" width="1%">
+					<th width="1%" class="nowrap center hidden-phone">
 						<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ID', 'extension_id', $listDirn, $listOrder); ?>
 					</th>
 				</tr>
@@ -162,11 +132,10 @@ $sortFields = $this->getSortFields();
 								$disabledLabel    = JText::_('JORDERINGDISABLED');
 								$disableClassName = 'inactive tip-top';
 							endif; ?>
-							<span class="sortable-handler <?php echo $disableClassName?>" title="<?php echo $disabledLabel?>" rel="tooltip">
+							<span class="sortable-handler hasTooltip <?php echo $disableClassName?>" title="<?php echo $disabledLabel?>">
 								<i class="icon-menu" title="<?php echo $item->ordering;?>"></i>
 							</span>
-							<input type="text" style="display:none"  name="order[]" size="5"
-							value="<?php echo $item->ordering;?>" class="width-20 text-area-order " />
+							<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $item->ordering;?>" class="width-20 text-area-order " />
 						<?php else : ?>
 							<span class="sortable-handler inactive" >
 								<i class="icon-menu"></i>
@@ -207,14 +176,10 @@ $sortFields = $this->getSortFields();
 			</tbody>
 		</table>
 
-		<div>
-			<input type="hidden" name="task" value="" />
-			<input type="hidden" name="boxchecked" value="0" />
-			<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>" />
-			<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>" />
-			<?php echo JHtml::_('form.token'); ?>
-		</div>
-		</div>
-		<!-- End Content -->
+		<input type="hidden" name="task" value="" />
+		<input type="hidden" name="boxchecked" value="0" />
+		<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>" />
+		<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>" />
+		<?php echo JHtml::_('form.token'); ?>
 	</div>
 </form>

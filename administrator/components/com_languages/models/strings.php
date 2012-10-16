@@ -54,12 +54,13 @@ class LanguagesModelStrings extends JModelLegacy
 		$language	= $app->getUserState('com_languages.overrides.filter.language', 'en-GB');
 
 		$base = constant('JPATH_'.strtoupper($client));
-		$path = $base.'/language/' . $language;
+		$path = $base . '/language/' . $language;
 
 		$files = array();
 
 		// Parse common language directory
-		if(JFolder::exists($path))
+		jimport('joomla.filesystem.folder');
+		if (is_dir($path))
 		{
 			$files = JFolder::files($path, $language.'.*ini$', false, true);
 		}

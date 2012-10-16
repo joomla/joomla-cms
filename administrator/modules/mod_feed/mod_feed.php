@@ -15,16 +15,6 @@ require_once __DIR__ . '/helper.php';
 $rssurl	= $params->get('rssurl', '');
 $rssrtl	= $params->get('rssrtl', 0);
 
-//check if cache diretory is writable as cache files will be created for the feed
-$cacheDir = JPATH_CACHE;
-if (!is_writable($cacheDir))
-{
-	echo '<div>';
-	echo JText::_('MOD_FEED_ERR_CACHE');
-	echo '</div>';
-	return;
-}
-
 //check if feed URL has been set
 if (empty ($rssurl))
 {
@@ -34,4 +24,7 @@ if (empty ($rssurl))
 	return;
 }
 
-require JModuleHelper::getLayoutPath('mod_feed');
+$feed = modFeedHelper::getFeed($params);
+$moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'));
+
+require JModuleHelper::getLayoutPath('mod_feed', $params->get('layout', 'default'));

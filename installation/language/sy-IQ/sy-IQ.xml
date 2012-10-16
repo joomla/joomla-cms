@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metafile
-	version="2.5"
+	version="3.0"
 	client="installation">
 	<name>Syriac (sy-IQ)</name>
-	<version>2.5</version>
-	<creationDate>2011-01-08</creationDate>
+	<version>3.0.0</version>
+	<creationDate>2012-09-25</creationDate>
 	<author>East Syriac Translation Team</author>
 	<copyright>Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>

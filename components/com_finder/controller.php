@@ -33,7 +33,6 @@ class FinderController extends JControllerLegacy
 	 */
 	public function display($cachable = false, $urlparams = array())
 	{
-		// Initialise variables.
 		$input = JFactory::getApplication()->input;
 		$cachable = true;
 

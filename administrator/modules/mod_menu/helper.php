@@ -58,7 +58,6 @@ abstract class ModMenuHelper
 	 */
 	public static function getComponents($authCheck = true)
 	{
-		// Initialise variables.
 		$lang	= JFactory::getLanguage();
 		$user	= JFactory::getUser();
 		$db		= JFactory::getDbo();

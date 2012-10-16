@@ -86,6 +86,10 @@ class InstallationControllerSetup extends JControllerLegacy
 		// Store the options in the session.
 		$vars = $model->storeOptions($return);
 
+		// Setup language
+		$language = JFactory::getLanguage();
+		$language->setLanguage($return['language']);
+
 		// Redirect to the page.
 		$r->view = $this->input->getWord('view', 'site');
 		$this->sendResponse($r);
@@ -704,8 +708,7 @@ class InstallationJsonResponse
 		$this->token = JSession::getFormToken(true);
 
 		// Get the language and send it's code along
-		$lang = JFactory::getLanguage();
-		$this->lang = $lang->getTag();
+		$this->lang = JFactory::getLanguage()->getTag();
 
 		// Get the message queue
 		$messages = JFactory::getApplication()->getMessageQueue();

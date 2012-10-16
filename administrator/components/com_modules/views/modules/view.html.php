@@ -70,7 +70,7 @@ class ModulesViewModules extends JViewLegacy
 
 		if ($canDo->get('core.create')) {
 			$title = JText::_('JTOOLBAR_NEW');
-			$dhtml = "<button onClick=\"location.href='index.php?option=com_modules&amp;view=select'\" class=\"btn btn-primary\">
+			$dhtml = "<button onClick=\"location.href='index.php?option=com_modules&amp;view=select'\" class=\"btn btn-small btn-success\">
 						<i class=\"icon-plus icon-white\" title=\"$title\"></i>
 						$title</button>";
 			$bar->appendButton('Custom', $dhtml, 'new');
@@ -99,8 +99,9 @@ class ModulesViewModules extends JViewLegacy
 		// Add a batch button
 		if ($canDo->get('core.edit'))
 		{
+			JHtml::_('bootstrap.modal', 'collapseModal');
 			$title = JText::_('JTOOLBAR_BATCH');
-			$dhtml = "<button data-toggle=\"modal\" data-target=\"#collapseModal\" class=\"btn\">
+			$dhtml = "<button data-toggle=\"modal\" data-target=\"#collapseModal\" class=\"btn btn-small\">
 						<i class=\"icon-checkbox-partial\" title=\"$title\"></i>
 						$title</button>";
 			$bar->appendButton('Custom', $dhtml, 'batch');
@@ -110,6 +111,60 @@ class ModulesViewModules extends JViewLegacy
 			JToolbarHelper::preferences('com_modules');
 		}
 		JToolbarHelper::help('JHELP_EXTENSIONS_MODULE_MANAGER');
+
+		JHtmlSidebar::addEntry(
+			JText::_('JSITE'),
+			'index.php?option=com_modules&filter_client_id=0',
+			$this->state->get('filter.client_id') == 0
+		);
+
+		JHtmlSidebar::addEntry(
+			JText::_('JADMINISTRATOR'),
+			'index.php?option=com_modules&filter_client_id=1',
+			$this->state->get('filter.client_id') == 1
+		);
+
+		JHtmlSidebar::setAction('index.php?option=com_modules');
+
+		JHtmlSidebar::addFilter(
+			// @todo we need a label for this
+			'',
+			'filter_client_id',
+			JHtml::_('select.options', ModulesHelper::getClientOptions(), 'value', 'text', $this->state->get('filter.client_id')),
+			false
+		);
+
+		JHtmlSidebar::addFilter(
+			JText::_('JOPTION_SELECT_PUBLISHED'),
+			'filter_state',
+			JHtml::_('select.options', ModulesHelper::getStateOptions(), 'value', 'text', $this->state->get('filter.state'))
+		);
+
+		JHtmlSidebar::addFilter(
+			JText::_('COM_MODULES_OPTION_SELECT_POSITION'),
+			'filter_position',
+			JHtml::_('select.options', ModulesHelper::getPositions($this->state->get('filter.client_id')), 'value', 'text', $this->state->get('filter.position'))
+		);
+
+		JHtmlSidebar::addFilter(
+			JText::_('COM_MODULES_OPTION_SELECT_MODULE'),
+			'filter_module',
+			JHtml::_('select.options', ModulesHelper::getModules($this->state->get('filter.client_id')), 'value', 'text', $this->state->get('filter.module'))
+		);
+
+		JHtmlSidebar::addFilter(
+			JText::_('JOPTION_SELECT_ACCESS'),
+			'filter_access',
+			JHtml::_('select.options', JHtml::_('access.assetgroups'), 'value', 'text', $this->state->get('filter.access'))
+		);
+
+		JHtmlSidebar::addFilter(
+			JText::_('JOPTION_SELECT_LANGUAGE'),
+			'filter_language',
+			JHtml::_('select.options', JHtml::_('contentlanguage.existing', true, true), 'value', 'text', $this->state->get('filter.language'))
+		);
+
+		$this->sidebar = JHtmlSidebar::render();
 	}
 
 	/**
@@ -127,8 +182,8 @@ class ModulesViewModules extends JViewLegacy
 			'a.title' => JText::_('JGLOBAL_TITLE'),
 			'position' => JText::_('COM_MODULES_HEADING_POSITION'),
 			'name' => JText::_('COM_MODULES_HEADING_MODULE'),
+			'pages' => JText::_('COM_MODULES_HEADING_PAGES'),
 			'a.access' => JText::_('JGRID_HEADING_ACCESS'),
-			'a.created_by' => JText::_('JAUTHOR'),
 			'language_title' => JText::_('JGRID_HEADING_LANGUAGE'),
 			'a.id' => JText::_('JGRID_HEADING_ID')
 		);

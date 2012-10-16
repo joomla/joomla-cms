@@ -25,6 +25,324 @@ abstract class JHtmlBootstrap
 	protected static $loaded = array();
 
 	/**
+	 * Add javascript support for Bootstrap alerts
+	 *
+	 * @param   string  $selector  Common class for the alerts
+	 *
+	 * @return  void
+	 *
+	 * @since   3.0
+	 */
+	public static function alert($selector = 'alert')
+	{
+		// Only load once
+		if (isset(self::$loaded[__METHOD__][$selector]))
+		{
+			return;
+		}
+
+		// Include Bootstrap framework
+		self::framework();
+
+		// Attach the alerts to the document
+		JFactory::getDocument()->addScriptDeclaration(
+			"(function($){
+				$('.$selector').alert();
+				})(jQuery);"
+		);
+
+		self::$loaded[__METHOD__][$selector] = true;
+
+		return;
+	}
+
+	/**
+	 * Add javascript support for Bootstrap carousels
+	 *
+	 * @param   string  $selector  Common class for the carousels.
+	 * @param   array   $params    An array of options for the modal.
+	 *                             Options for the modal can be:
+	 *                             - interval  number  The amount of time to delay between automatically cycling an item.
+	 *                                                 If false, carousel will not automatically cycle.
+	 *                             - pause     string  Pauses the cycling of the carousel on mouseenter and resumes the cycling
+	 *                                                 of the carousel on mouseleave.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.0
+	 */
+	public static function carousel($selector = 'carousel', $params = array())
+	{
+		$sig = md5(serialize(array($selector, $params)));
+		if (!isset(self::$loaded[__METHOD__][$sig]))
+		{
+			// Include Bootstrap framework
+			self::framework();
+
+			// Setup options object
+			$opt['interval'] = (isset($params['interval']) && ($params['interval'])) ? (int) $params['interval'] : 5000;
+			$opt['pause'] = (isset($params['pause']) && ($params['pause'])) ? $params['pause'] : 'hover';
+
+			$options = self::_getJSObject($opt);
+
+			// Attach the carousel to document
+			JFactory::getDocument()->addScriptDeclaration(
+				"(function($){
+					$('.$selector').carousel($options);
+					})(jQuery);"
+			);
+
+			// Set static array
+			self::$loaded[__METHOD__][$sig] = true;
+		}
+
+		return;
+	}
+
+	/**
+	 * Add javascript support for Bootstrap dropdowns
+	 *
+	 * @param   string  $selector  Common class for the dropdowns
+	 *
+	 * @return  void
+	 *
+	 * @since   3.0
+	 */
+	public static function dropdown($selector = 'dropdown-toggle')
+	{
+		// Only load once
+		if (isset(self::$loaded[__METHOD__][$selector]))
+		{
+			return;
+		}
+
+		// Include Bootstrap framework
+		self::framework();
+
+		// Attach the dropdown to the document
+		JFactory::getDocument()->addScriptDeclaration(
+			"(function($){
+				$('.$selector').dropdown();
+				})(jQuery);"
+		);
+
+		self::$loaded[__METHOD__][$selector] = true;
+
+		return;
+	}
+
+	/**
+	 * Method to load the Bootstrap JavaScript framework into the document head
+	 *
+	 * If debugging mode is on an uncompressed version of Bootstrap is included for easier debugging.
+	 *
+	 * @param   mixed  $debug  Is debugging mode on? [optional]
+	 *
+	 * @return  void
+	 *
+	 * @since   3.0
+	 */
+	public static function framework($debug = null)
+	{
+		// Only load once
+		if (!empty(self::$loaded[__METHOD__]))
+		{
+			return;
+		}
+
+		// Load jQuery
+		JHtml::_('jquery.framework');
+
+		// If no debugging value is set, use the configuration setting
+		if ($debug === null)
+		{
+			$config = JFactory::getConfig();
+			$debug  = (boolean) $config->get('debug');
+		}
+
+		JHtml::_('script', 'jui/bootstrap.min.js', false, true, false, false, $debug);
+		self::$loaded[__METHOD__] = true;
+
+		return;
+	}
+
+	/**
+	 * Add javascript support for Bootstrap modals
+	 *
+	 * @param   string  $selector  The ID selector for the modal.
+	 * @param   array   $params    An array of options for the modal.
+	 *                             Options for the modal can be:
+	 *                             - backdrop  boolean  Includes a modal-backdrop element.
+	 *                             - keyboard  boolean  Closes the modal when escape key is pressed.
+	 *                             - show      boolean  Shows the modal when initialized.
+	 *                             - remote    string   An optional remote URL to load
+	 *
+	 * @return  void
+	 *
+	 * @since   3.0
+	 */
+	public static function modal($selector = 'modal', $params = array())
+	{
+		$sig = md5(serialize(array($selector, $params)));
+		if (!isset(self::$loaded[__METHOD__][$sig]))
+		{
+			// Include Bootstrap framework
+			self::framework();
+
+			// Setup options object
+			$opt['backdrop'] = (isset($params['backdrop']) && ($params['backdrop'])) ? (boolean) $params['backdrop'] : true;
+			$opt['keyboard'] = (isset($params['keyboard']) && ($params['keyboard'])) ? (boolean) $params['keyboard'] : true;
+			$opt['show']     = (isset($params['show']) && ($params['show'])) ? (boolean) $params['show'] : true;
+			$opt['remote']   = (isset($params['remote']) && ($params['remote'])) ? (boolean) $params['remote'] : '';
+
+			$options = JHtml::getJSObject($opt);
+
+			// Attach the modal to document
+			JFactory::getDocument()->addScriptDeclaration(
+				"(function($){
+					$('#$selector').modal($options);
+					})(jQuery);"
+			);
+
+			// Set static array
+			self::$loaded[__METHOD__][$sig] = true;
+		}
+
+		return;
+	}
+
+	/**
+	 * Method to render a Bootstrap modal
+	 *
+	 * @param   string  $selector  The ID selector for the modal.
+	 * @param   array   $params    An array of options for the modal.
+	 * @param   string  $footer    Optional markup for the modal footer
+	 *
+	 * @return  string  HTML markup for a modal
+	 *
+	 * @since   3.0
+	 */
+	public static function renderModal($selector = 'modal', $params = array(), $footer = '')
+	{
+		// Ensure the behavior is loaded
+		self::modal($selector, $params);
+
+		$html = "<div class=\"modal hide fade\" id=\"" . $selector . "\">\n";
+		$html .= "<div class=\"modal-header\">\n";
+		$html .= "<button type=\"button\" class=\"close\" data-dismiss=\"modal\">×</button>\n";
+		$html .= "<h3>" . $params['title'] . "</h3>\n";
+		$html .= "</div>\n";
+		$html .= "<div id=\"" . $selector . "-container\">\n";
+		$html .= "</div>\n";
+		$html .= "</div>\n";
+
+		$html .= "<script>";
+		$html .= "jQuery('#" . $selector . "').on('show', function () {\n";
+		$html .= "document.getElementById('" . $selector . "-container').innerHTML = '<div class=\"modal-body\"><iframe class=\"iframe\" src=\"" . $params['url'] . "\" height=\"" . $params['height'] . "\" width=\"" . $params['width'] . "\"></iframe></div>" . $footer . "';\n";
+		$html .= "});\n";
+		$html .= "</script>";
+
+		return $html;
+	}
+
+	/**
+	 * Add javascript support for Bootstrap popovers
+	 *
+	 * Use element's Title as popover content
+	 *
+	 * @param   string  $selector  Selector for the tooltip
+	 * @param   array   $params    An array of options for the tooltip.
+	 *                  Options for the tooltip can be:
+	 *                      animation  boolean          apply a css fade transition to the tooltip
+	 *                      html       boolean          Insert HTML into the tooltip. If false, jQuery's text method will be used to insert
+	 *                                                  content into the dom.
+	 *                      placement  string|function  how to position the tooltip - top | bottom | left | right
+	 *                      selector   string           If a selector is provided, tooltip objects will be delegated to the specified targets.
+	 *                      title      string|function  default title value if `title` tag isn't present
+	 *                      trigger    string           how tooltip is triggered - hover | focus | manual
+	 *                      content    string|function  default content value if `data-content` attribute isn't present
+	 *                      delay      number|object    delay showing and hiding the tooltip (ms) - does not apply to manual trigger type
+	 *                                                  If a number is supplied, delay is applied to both hide/show
+	 *                                                  Object structure is: delay: { show: 500, hide: 100 }
+	 *
+	 * @return  void
+	 *
+	 * @since   3.0
+	 */
+	public static function popover($selector = '.hasPopover', $params = array())
+	{
+		// Only load once
+		if (isset(self::$loaded[__METHOD__][$selector]))
+		{
+			return;
+		}
+
+		// Include Bootstrap framework
+		self::framework();
+
+		$opt['animation'] = isset($params['animation']) ? $params['animation'] : null;
+		$opt['html']      = isset($params['html']) ? $params['html'] : null;
+		$opt['placement'] = isset($params['placement']) ? $params['placement'] : null;
+		$opt['selector']  = isset($params['selector']) ? $params['selector'] : null;
+		$opt['title']     = isset($params['title']) ? $params['title'] : null;
+		$opt['trigger']   = isset($params['trigger']) ? $params['trigger'] : 'hover';
+		$opt['content']   = isset($params['content']) ? $params['content'] : null;
+		$opt['delay']     = isset($params['delay']) ? $params['delay'] : null;
+
+		$options = JHtml::getJSObject($opt);
+
+		// Attach the popover to the document
+		JFactory::getDocument()->addScriptDeclaration(
+			"jQuery(document).ready(function() {
+				jQuery('" . $selector . "').popover(" . $options . ");
+			});"
+		);
+
+		self::$loaded[__METHOD__][$selector] = true;
+
+		return;
+	}
+
+	/**
+	 * Add javascript support for Bootstrap ScrollSpy
+	 *
+	 * @param   string  $selector  The ID selector for the ScrollSpy element.
+	 * @param   array   $params    An array of options for the ScrollSpy.
+	 *                             Options for the modal can be:
+	 *                             - offset  number  Pixels to offset from top when calculating position of scroll.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.0
+	 */
+	public static function scrollspy($selector = 'navbar', $params = array())
+	{
+		$sig = md5(serialize(array($selector, $params)));
+		if (!isset(self::$loaded[__METHOD__][$sig]))
+		{
+			// Include Bootstrap framework
+			self::framework();
+
+			// Setup options object
+			$opt['offset'] = (isset($params['offset']) && ($params['offset'])) ? (int) $params['offset'] : 10;
+
+			$options = JHtml::getJSObject($opt);
+
+			// Attach ScrollSpy to document
+			JFactory::getDocument()->addScriptDeclaration(
+				"(function($){
+					$('#$selector').scrollspy($options);
+					})(jQuery);"
+			);
+
+			// Set static array
+			self::$loaded[__METHOD__][$sig] = true;
+		}
+
+		return;
+	}
+
+	/**
 	 * Add javascript support for Bootstrap tooltips
 	 *
 	 * Add a title attribute to any element in the form
@@ -33,7 +351,9 @@ abstract class JHtmlBootstrap
 	 * @param   string  $selector  The ID selector for the tooltip.
 	 * @param   array   $params    An array of options for the tooltip.
 	 *                             Options for the tooltip can be:
-	 *                             - animation  boolean          Apply a css fade transition to the tooltip
+	 *                             - animation  boolean          Apply a CSS fade transition to the tooltip
+	 *                             - html       boolean          Insert HTML into the tooltip. If false, jQuery's text method will be used to insert
+	 *                                                           content into the dom.
 	 *                             - placement  string|function  How to position the tooltip - top | bottom | left | right
 	 *                             - selector   string           If a selector is provided, tooltip objects will be delegated to the specified targets.
 	 *                             - title      string|function  Default title value if `title` tag isn't present
@@ -46,53 +366,36 @@ abstract class JHtmlBootstrap
 	 *
 	 * @since   3.0
 	 */
-	public static function loadtooltip($selector = 'content', $params = array())
+	public static function tooltip($selector = '.hasTooltip', $params = array())
 	{
-		$sig = md5(serialize(array($selector, $params)));
-		if (!isset(self::$loaded[__METHOD__][$sig]))
+		if (!isset(self::$loaded[__METHOD__][$selector]))
 		{
-			// Include Bootstrap framework ??
-			// self::framework(true);
+			// Include Bootstrap framework
+			self::framework();
 
 			// Setup options object
-			$opt['animation'] = (isset($params['animation']) && ($params['animation'])) ? (boolean) $params['animation'] : true;
-			$opt['placement'] = (isset($params['placement']) && ($params['placement'])) ? (string) $params['placement'] : 'top';
-			$opt['selector']  = (isset($params['selector']) && ($params['selector'])) ? (string) $params['selector'] : false;
-			$opt['title']     = (isset($params['title']) && ($params['title'])) ? (string) $params['title'] : '';
-			$opt['trigger']   = (isset($params['trigger']) && ($params['trigger'])) ? (string) $params['trigger'] : 'hover';
-			$opt['delay']     = (isset($params['delay']) && ($params['delay'])) ? (int) $params['delay'] : 0;
+			$opt['animation'] = (isset($params['animation']) && ($params['animation'])) ? (boolean) $params['animation'] : null;
+			$opt['html']      = (isset($params['html']) && ($params['html'])) ? (boolean) $params['html'] : null;
+			$opt['placement'] = (isset($params['placement']) && ($params['placement'])) ? (string) $params['placement'] : null;
+			$opt['selector']  = (isset($params['selector']) && ($params['selector'])) ? (string) $params['selector'] : null;
+			$opt['title']     = (isset($params['title']) && ($params['title'])) ? (string) $params['title'] : null;
+			$opt['trigger']   = (isset($params['trigger']) && ($params['trigger'])) ? (string) $params['trigger'] : null;
+			$opt['delay']     = (isset($params['delay']) && ($params['delay'])) ? (int) $params['delay'] : null;
 
-			$options = self::_getJSObject($opt);
+			$options = JHtml::getJSObject($opt);
 
 			// Attach tooltips to document
 			JFactory::getDocument()->addScriptDeclaration(
-				"(function($){
-					$('#$selector').tooltip($options);
-					})(jQuery);"
+				"jQuery(document).ready(function() {
+					jQuery('" . $selector . "').tooltip(" . $options . ");
+				});"
 			);
 
 			// Set static array
-			self::$loaded[__METHOD__][$sig] = true;
+			self::$loaded[__METHOD__][$selector] = true;
 		}
 
 		return;
-	}
-
-	/**
-	 * Creates a tooltip with an image as button
-	 *
-	 * @param   string  $tooltip  The tip string
-	 * @param   string  $text     The text for the tip
-	 * @param   string  $href     An URL that will be used to create the link
-	 * @param   string  $class    CSS class for the tool tip
-	 *
-	 * @return  string  HTML for the tooltip
-	 *
-	 * @since   3.0
-	 */
-	public static function tooltip($tooltip, $text = '', $href = '#', $class = '')
-	{
-		return '<a href="' . $href . '" rel="tooltip" title="' . $text . '" class="' . $class . '">' . $tooltip . '</a>';
 	}
 
 	/**
@@ -115,15 +418,15 @@ abstract class JHtmlBootstrap
 		$sig = md5(serialize(array($selector, $params)));
 		if (!isset(self::$loaded[__METHOD__][$sig]))
 		{
-			// Include Bootstrap framework ??
-			// self::framework(true);
+			// Include Bootstrap framework
+			self::framework();
 
 			// Setup options object
 			$opt['parent'] = (isset($params['parent']) && ($params['parent'])) ? (boolean) $params['parent'] : false;
 			$opt['toggle'] = (isset($params['toggle']) && ($params['toggle'])) ? (boolean) $params['toggle'] : true;
 			$opt['active'] = (isset($params['active']) && ($params['active'])) ? (string) $params['active'] : '';
 
-			$options = self::_getJSObject($opt);
+			$options = JHtml::getJSObject($opt);
 
 			// Attach accordion to document
 			JFactory::getDocument()->addScriptDeclaration(
@@ -137,8 +440,7 @@ abstract class JHtmlBootstrap
 			self::$loaded[__METHOD__]['active'] = $opt['active'];
 		}
 
-		return '<div id="' . $selector . '" class="accordion">'
-			. '<div class="accordion-group">';
+		return '<div id="' . $selector . '" class="accordion">';
 	}
 
 	/**
@@ -150,7 +452,7 @@ abstract class JHtmlBootstrap
 	 */
 	public static function endAccordion()
 	{
-		return '</div></div>';
+		return '</div>';
 	}
 
 	/**
@@ -168,10 +470,11 @@ abstract class JHtmlBootstrap
 	{
 		$in = (self::$loaded['JHtmlBootstrap::startAccordion']['active'] == $id) ? ' in' : '';
 
-		$html = '<div class="accordion-heading">'
-				. '<h4><a href="#' . $id . '" data-parent="#' . $selector . '" data-toggle="collapse" class="accordion-toggle">'
+		$html = '<div class="accordion-group">'
+				. '<div class="accordion-heading">'
+				. '<strong><a href="#' . $id . '" data-parent="#' . $selector . '" data-toggle="collapse" class="accordion-toggle">'
 				. $text
-				. '</a></h4>'
+				. '</a></strong>'
 				. '</div>'
 				. '<div class="accordion-body collapse' . $in . '" id="' . $id . '">'
 				. '<div class="accordion-inner">';
@@ -188,7 +491,7 @@ abstract class JHtmlBootstrap
 	 */
 	public static function endSlide()
 	{
-		return '</div></div>';
+		return '</div></div></div>';
 	}
 
 	/**
@@ -206,13 +509,13 @@ abstract class JHtmlBootstrap
 		$sig = md5(serialize(array($selector, $params)));
 		if (!isset(self::$loaded[__METHOD__][$sig]))
 		{
-			// Include Bootstrap framework ??
-			// self::framework(true);
+			// Include Bootstrap framework
+			self::framework();
 
 			// Setup options object
 			$opt['active'] = (isset($params['active']) && ($params['active'])) ? (string) $params['active'] : '';
 
-			$options = self::_getJSObject($opt);
+			$options = JHtml::getJSObject($opt);
 
 			// Attach tooltips to document
 			JFactory::getDocument()->addScriptDeclaration(
@@ -274,66 +577,30 @@ abstract class JHtmlBootstrap
 	}
 
 	/**
-	 * Internal method to get a JavaScript object notation string from an array
+	 * Loads CSS files needed by Bootstrap
 	 *
-	 * @param   array  $array  The array to convert to JavaScript object notation
+	 * @param   boolean  $includeMainCss  If true, main bootstrap.css files are loaded
+	 * @param   string   $direction       rtl or ltr direction. If empty, ltr is assumed
+	 * @param   array    $attribs         Optional array of attributes to be passed to JHtml::_('stylesheet')
 	 *
-	 * @return  string  JavaScript object notation representation of the array
+	 * @return  void
 	 *
 	 * @since   3.0
 	 */
-	protected static function _getJSObject($array = array())
+	public static function loadCss($includeMainCss = true, $direction = 'ltr', $attribs = array())
 	{
-		// Initialise variables.
-		$object = '{';
-
-		// Iterate over array to build objects
-		foreach ((array) $array as $k => $v)
+		// Load Bootstrap main CSS
+		if ($includeMainCss)
 		{
-			if (is_null($v))
-			{
-				continue;
-			}
-
-			if (is_bool($v))
-			{
-				if ($k === 'fullScreen')
-				{
-					$object .= 'size: { ';
-					$object .= 'x: ';
-					$object .= 'window.getSize().x-80';
-					$object .= ',';
-					$object .= 'y: ';
-					$object .= 'window.getSize().y-80';
-					$object .= ' }';
-					$object .= ',';
-				}
-				else
-				{
-					$object .= ' ' . $k . ': ';
-					$object .= ($v) ? 'true' : 'false';
-					$object .= ',';
-				}
-			}
-			elseif (!is_array($v) && !is_object($v))
-			{
-				$object .= ' ' . $k . ': ';
-				$object .= (is_numeric($v) || strpos($v, '\\') === 0) ? (is_numeric($v)) ? $v : substr($v, 1) : "'" . $v . "'";
-				$object .= ',';
-			}
-			else
-			{
-				$object .= ' ' . $k . ': ' . self::_getJSObject($v) . ',';
-			}
+			JHtml::_('stylesheet', 'media/jui/css/bootstrap.min.css', $attribs, false);
+			JHtml::_('stylesheet', 'media/jui/css/bootstrap-responsive.min.css', $attribs, false);
+			JHtml::_('stylesheet', 'media/jui/css/bootstrap-extended.css', $attribs, false);
 		}
 
-		if (substr($object, -1) == ',')
+		// Load Bootstrap RTL CSS
+		if ($direction === 'rtl')
 		{
-			$object = substr($object, 0, -1);
+			JHtml::_('stylesheet', 'media/jui/css/bootstrap-rtl.css', $attribs, false);
 		}
-
-		$object .= '}';
-
-		return $object;
 	}
 }

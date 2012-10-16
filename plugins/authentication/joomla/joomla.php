@@ -38,9 +38,6 @@ class plgAuthenticationJoomla extends JPlugin
 			return false;
 		}
 
-		// Initialise variables.
-		$conditions = '';
-
 		// Get a database object
 		$db		= JFactory::getDbo();
 		$query	= $db->getQuery(true);

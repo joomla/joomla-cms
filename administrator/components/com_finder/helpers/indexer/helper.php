@@ -70,7 +70,6 @@ class FinderIndexerHelper
 		}
 
 		$tokens = array();
-		$terms = array();
 		$quotes = html_entity_decode('&#8216;&#8217;&#39;', ENT_QUOTES, 'UTF-8');
 
 		// Get the simple language key.

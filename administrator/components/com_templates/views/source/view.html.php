@@ -33,7 +33,6 @@ class TemplatesViewSource extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		// Initialise variables.
 		$this->form		= $this->get('Form');
 		$this->ftp		= JClientHelper::setCredentialsFromRequest('ftp');
 		$this->source	= $this->get('Source');

@@ -45,9 +45,9 @@ class MessagesController extends JControllerLegacy
 			return false;
 		}
 
-		parent::display();
-
 		// Load the submenu.
 		MessagesHelper::addSubmenu($this->input->get('view', 'messages'));
+		parent::display();
+
 	}
 }

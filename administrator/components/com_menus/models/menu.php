@@ -103,7 +103,6 @@ class MenusModelMenu extends JModelForm
 	 */
 	public function &getItem($itemId = null)
 	{
-		// Initialise variables.
 		$itemId = (!empty($itemId)) ? $itemId : (int) $this->getState('menu.id');
 		$false	= false;
 

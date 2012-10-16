@@ -25,7 +25,6 @@ class ContactControllerContact extends JControllerForm
 		// Check for request forgeries.
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		// Initialise variables.
 		$app    = JFactory::getApplication();
 		$model  = $this->getModel('contact');
 		$params = JComponentHelper::getParams('com_contact');
@@ -33,7 +32,7 @@ class ContactControllerContact extends JControllerForm
 		$id     = (int) $stub;
 
 		// Get the data from POST
-		$data = JRequest::getVar('jform', array(), 'post', 'array');
+		$data  = $this->input->post->get('jform', array(), 'array');
 
 		$contact = $model->getItem($id);
 

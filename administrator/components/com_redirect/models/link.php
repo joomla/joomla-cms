@@ -132,7 +132,6 @@ class RedirectModelLink extends JModelAdmin
 	 */
 	public function activate(&$pks, $url, $comment = null)
 	{
-		// Initialise variables.
 		$user	= JFactory::getUser();
 		$db		= $this->getDbo();
 

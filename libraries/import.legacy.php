@@ -18,13 +18,17 @@ if (!defined('IS_WIN'))
 {
 	define('IS_WIN', ($os === 'WIN') ? true : false);
 }
-if (!defined('IS_MAC'))
-{
-	define('IS_MAC', ($os === 'MAC') ? true : false);
-}
 if (!defined('IS_UNIX'))
 {
 	define('IS_UNIX', (($os !== 'MAC') && ($os !== 'WIN')) ? true : false);
+}
+
+/**
+ * @deprecated 13.3	Use IS_UNIX instead
+ */
+if (!defined('IS_MAC'))
+{
+	define('IS_MAC', (IS_UNIX === true && ($os === 'DAR' || $os === 'MAC')) ? true : false);
 }
 
 // Import the platform version library if necessary.
@@ -81,3 +85,4 @@ JLoader::register('JRule', JPATH_PLATFORM . '/legacy/access/rule.php');
 JLoader::register('JRules', JPATH_PLATFORM . '/legacy/access/rules.php');
 JLoader::register('JCli', JPATH_PLATFORM . '/legacy/application/cli.php');
 JLoader::register('JDaemon', JPATH_PLATFORM . '/legacy/application/daemon.php');
+JLoader::register('JApplication', JPATH_LIBRARIES . '/legacy/application/application.php');

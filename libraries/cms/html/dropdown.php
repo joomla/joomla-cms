@@ -45,6 +45,9 @@ abstract class JHtmlDropdown
 			return;
 		}
 
+		// Depends on Bootstrap
+		JHtml::_('bootstrap.framework');
+
 		JFactory::getDocument()->addScriptDeclaration("
 			(function($){
 				$(document).ready(function (){

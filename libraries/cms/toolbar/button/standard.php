@@ -46,16 +46,16 @@ class JToolbarButtonStandard extends JToolbarButton
 
 		if ($name == "apply" || $name == "new")
 		{
-			$btnClass = "btn btn-primary";
+			$btnClass = "btn btn-small btn-success";
 			$iconWhite = "icon-white";
 		}
 		else
 		{
-			$btnClass = "btn";
+			$btnClass = "btn btn-small";
 			$iconWhite = "";
 		}
 
-		$html = "<button href=\"#\" onclick=\"$doTask\" class=\"".$btnClass."\">\n";
+		$html = "<button href=\"#\" onclick=\"$doTask\" class=\"" . $btnClass . "\">\n";
 		$html .= "<i class=\"$class $iconWhite\">\n";
 		$html .= "</i>\n";
 		$html .= "$i18n_text\n";

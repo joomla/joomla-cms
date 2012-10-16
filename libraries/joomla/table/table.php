@@ -571,11 +571,15 @@ abstract class JTable extends JObject
 	 */
 	public function store($updateNulls = false)
 	{
-		// Initialise variables.
 		$k = $this->_tbl_key;
 		if (!empty($this->asset_id))
 		{
 			$currentAssetId = $this->asset_id;
+		}
+
+		if (0 == $this->$k)
+		{
+			$this->$k = null;
 		}
 
 		// The asset id field is managed privately by this class.
@@ -737,7 +741,6 @@ abstract class JTable extends JObject
 	 */
 	public function delete($pk = null)
 	{
-		// Initialise variables.
 		$k = $this->_tbl_key;
 		$pk = (is_null($pk)) ? $this->$k : $pk;
 
@@ -808,7 +811,6 @@ abstract class JTable extends JObject
 			return true;
 		}
 
-		// Initialise variables.
 		$k = $this->_tbl_key;
 		$pk = (is_null($pk)) ? $this->$k : $pk;
 
@@ -856,7 +858,6 @@ abstract class JTable extends JObject
 			return true;
 		}
 
-		// Initialise variables.
 		$k = $this->_tbl_key;
 		$pk = (is_null($pk)) ? $this->$k : $pk;
 
@@ -902,7 +903,6 @@ abstract class JTable extends JObject
 			return true;
 		}
 
-		// Initialise variables.
 		$k = $this->_tbl_key;
 		$pk = (is_null($pk)) ? $this->$k : $pk;
 
@@ -1018,7 +1018,6 @@ abstract class JTable extends JObject
 			throw new UnexpectedValueException(sprintf('%s does not support ordering.', get_class($this)));
 		}
 
-		// Initialise variables.
 		$k = $this->_tbl_key;
 
 		// Get the primary keys and ordering values for the selection.
@@ -1088,7 +1087,6 @@ abstract class JTable extends JObject
 			return true;
 		}
 
-		// Initialise variables.
 		$k = $this->_tbl_key;
 		$row = null;
 		$query = $this->_db->getQuery(true);
@@ -1173,7 +1171,6 @@ abstract class JTable extends JObject
 	 */
 	public function publish($pks = null, $state = 1, $userId = 0)
 	{
-		// Initialise variables.
 		$k = $this->_tbl_key;
 
 		// Sanitize input.

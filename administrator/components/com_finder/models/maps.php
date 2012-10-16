@@ -80,9 +80,7 @@ class FinderModelMaps extends JModelList
 	 */
 	public function delete(&$pks)
 	{
-		// Initialise variables.
 		$dispatcher = JEventDispatcher::getInstance();
-		$user = JFactory::getUser();
 		$pks = (array) $pks;
 		$table = $this->getTable();
 
@@ -281,7 +279,6 @@ class FinderModelMaps extends JModelList
 	 */
 	public function publish(&$pks, $value = 1)
 	{
-		// Initialise variables.
 		$dispatcher = JEventDispatcher::getInstance();
 		$user = JFactory::getUser();
 		$table = $this->getTable();

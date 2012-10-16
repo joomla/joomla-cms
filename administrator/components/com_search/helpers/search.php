@@ -115,39 +115,20 @@ class SearchHelper
 	}
 
 	/**
-	 * @since  1.5
+	 * Logs a search term
+	 *
+	 * @param   string  $search_term  The term being searched
+	 *
+	 * @return  void
+	 *
+	 * @since   1.5
+	 * @deprecated  4.0  Use JSearchHelper::logSearch() instead
 	 */
 	public static function logSearch($search_term)
 	{
-		$db = JFactory::getDbo();
+		JLog::add(__METHOD__ . '() is deprecated, use JSearchHelper::logSearch() instead.', JLog::WARNING, 'deprecated');
 
-		$params = JComponentHelper::getParams('com_search');
-		$enable_log_searches = $params->get('enabled');
-
-		$search_term = $db->escape(trim($search_term));
-
-		if (@$enable_log_searches)
-		{
-			$db = JFactory::getDbo();
-			$query = 'SELECT hits'
-			. ' FROM #__core_log_searches'
-			. ' WHERE LOWER(search_term) = "'.$search_term.'"';
-
-			$db->setQuery($query);
-			$hits = (int) $db->loadResult();
-			if ($hits) {
-				$query = 'UPDATE #__core_log_searches'
-				. ' SET hits = (hits + 1)'
-				. ' WHERE LOWER(search_term) = "'.$search_term.'"';
-
-				$db->setQuery($query);
-				$db->execute();
-			} else {
-				$query = 'INSERT INTO #__core_log_searches VALUES ("'.$search_term.'", 1)';
-				$db->setQuery($query);
-				$db->execute();
-			}
-		}
+		JSearchHelper::logSearch($search_term, 'com_search');
 	}
 
 	/**
@@ -188,9 +169,13 @@ class SearchHelper
 				'#<[^>]*>#i'
 				);
 		$terms = explode(' ', $searchTerm);
-		if (empty($fields)) return false;
+		if (empty($fields)) {
+			return false;
+		}
 		foreach($fields as $field) {
-			if (!isset($object->$field)) continue;
+			if (!isset($object->$field)) {
+				continue;
+			}
 			$text = $object->$field;
 			foreach($searchRegex as $regex) {
 				$text = preg_replace($regex, '', $text);

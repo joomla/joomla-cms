@@ -25,8 +25,6 @@ abstract class modRelatedItemsHelper
 		$db			= JFactory::getDbo();
 		$app		= JFactory::getApplication();
 		$user		= JFactory::getUser();
-		$userId		= (int) $user->get('id');
-		$count		= (int) $params->get('count', 5);
 		$groups		= implode(',', $user->getAuthorisedViewLevels());
 		$date		= JFactory::getDate();
 
@@ -37,7 +35,6 @@ abstract class modRelatedItemsHelper
 		$temp		= explode(':', $temp);
 		$id			= $temp[0];
 
-		$showDate	= $params->get('showDate', 0);
 		$nullDate	= $db->getNullDate();
 		$now		= $date->toSql();
 		$related	= array();
@@ -80,7 +77,7 @@ abstract class modRelatedItemsHelper
 
 					// Sqlsrv changes
 					$case_when = ' CASE WHEN ';
-					$case_when .= $query->charLength('a.alias');
+					$case_when .= $query->charLength('a.alias', '!=', '0');
 					$case_when .= ' THEN ';
 					$a_id = $query->castAsChar('a.id');
 					$case_when .= $query->concatenate(array($a_id, 'a.alias'), ':');
@@ -89,7 +86,7 @@ abstract class modRelatedItemsHelper
 					$query->select($case_when);
 
 					$case_when = ' CASE WHEN ';
-					$case_when .= $query->charLength('cc.alias');
+					$case_when .= $query->charLength('cc.alias', '!=', '0');
 					$case_when .= ' THEN ';
 					$c_id = $query->castAsChar('cc.id');
 					$case_when .= $query->concatenate(array($c_id, 'cc.alias'), ':');
@@ -113,7 +110,6 @@ abstract class modRelatedItemsHelper
 					}
 
 					$db->setQuery($query);
-					$qstring = $db->getQuery();
 					$temp = $db->loadObjectList();
 
 					if (count($temp))

@@ -9,7 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.folder');
 
 /**
@@ -39,8 +38,6 @@ class JFormFieldComponentlayout extends JFormField
 	 */
 	protected function getInput()
 	{
-		// Initialize variables.
-
 		// Get the client id.
 		$clientId = $this->element['client_id'];
 
@@ -160,7 +157,7 @@ class JFormFieldComponentlayout extends JFormField
 					$menu = $menu[0];
 
 					// Add an option to the component group
-					$value = JFile::stripext(JFile::getName($file));
+					$value = basename($file, '.xml');
 					$component_layouts[$i] = $value;
 					$text = isset($menu['option']) ? JText::_($menu['option']) : (isset($menu['title']) ? JText::_($menu['title']) : $value);
 					$groups['_']['items'][] = JHtml::_('select.option', '_:' . $value, $text);
@@ -190,13 +187,13 @@ class JFormFieldComponentlayout extends JFormField
 						$xml_files = JFolder::files($template_path, '^[^_]*\.xml$', false, true);
 						for ($j = 0, $count = count($xml_files); $j < $count; $j++)
 						{
-							$xml_files[$j] = JFile::stripext(JFile::getName($xml_files[$j]));
+							$xml_files[$j] = basename($xml_files[$j], '.xml');
 						}
 						foreach ($files as $i => $file)
 						{
 							// Remove layout files that exist in the component folder or that have XML files
-							if ((in_array(JFile::stripext(JFile::getName($file)), $component_layouts))
-								|| (in_array(JFile::stripext(JFile::getName($file)), $xml_files)))
+							if ((in_array(basename($file, '.php'), $component_layouts))
+								|| (in_array(basename($file, '.php'), $xml_files)))
 							{
 								unset($files[$i]);
 							}
@@ -212,7 +209,7 @@ class JFormFieldComponentlayout extends JFormField
 							foreach ($files as $file)
 							{
 								// Add an option to the template group
-								$value = JFile::stripext(JFile::getName($file));
+								$value = basename($file, '.php');
 								$text = $lang
 									->hasKey($key = strtoupper('TPL_' . $template->name . '_' . $extn . '_' . $view . '_LAYOUT_' . $value))
 									? JText::_($key) : $value;

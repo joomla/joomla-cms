@@ -5,6 +5,16 @@
 		label="COM_FINDER_FIELDSET_SEARCH_OPTIONS_LABEL"
 		description="COM_FINDER_FIELDSET_SEARCH_OPTIONS_DESCRIPTION" >
 		<field
+			name="enabled"
+			type="radio"
+			class="btn-group"
+			default="0"
+			label="COM_FINDER_CONFIG_GATHER_SEARCH_STATISTICS_LABEL"
+			description="COM_FINDER_CONFIG_GATHER_SEARCH_STATISTICS_DESCRIPTION">
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+		<field
 			name="show_description"
 			type="radio"
 			class="btn-group"
@@ -58,6 +68,15 @@
 			default="1"
 			label="COM_FINDER_CONFIG_SHOW_ADVANCED_LABEL"
 			description="COM_FINDER_CONFIG_SHOW_ADVANCED_DESCRIPTION">
+			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
+		</field>
+		<field name="show_advanced_tips"
+			type="radio"
+			class="btn-group"
+			default="1"
+			label="COM_FINDER_CONFIG_SHOW_ADVANCED_TIPS_LABEL"
+			description="COM_FINDER_CONFIG_SHOW_ADVANCED_TIPS_DESCRIPTION">
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>

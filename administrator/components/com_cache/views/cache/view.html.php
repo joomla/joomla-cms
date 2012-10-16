@@ -37,6 +37,7 @@ class CacheViewCache extends JViewLegacy
 		}
 
 		$this->addToolbar();
+		$this->sidebar = JHtmlSidebar::render();
 		parent::display($tpl);
 	}
 
@@ -58,5 +59,14 @@ class CacheViewCache extends JViewLegacy
 		}
 		JToolbarHelper::divider();
 		JToolbarHelper::help('JHELP_SITE_MAINTENANCE_CLEAR_CACHE');
+
+		JHtmlSidebar::setAction('index.php?option=com_cache');
+
+		JHtmlSidebar::addFilter(
+			// @todo We need an actual label here
+			'',
+			'filter_client_id',
+			JHtml::_('select.options', CacheHelper::getClientOptions(), 'value', 'text', $this->state->get('clientId'))
+		);
 	}
 }

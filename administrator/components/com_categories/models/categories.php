@@ -62,7 +62,6 @@ class CategoriesModelCategories extends JModelList
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
-		// Initialise variables.
 		$app		= JFactory::getApplication();
 		$context	= $this->context;
 
@@ -129,6 +128,7 @@ class CategoriesModelCategories extends JModelList
 		$db		= $this->getDbo();
 		$query	= $db->getQuery(true);
 		$user	= JFactory::getUser();
+		$app	= JFactory::getApplication();
 
 		// Select the required fields from the table.
 		$query->select(
@@ -157,6 +157,16 @@ class CategoriesModelCategories extends JModelList
 		// Join over the users for the author.
 		$query->select('ua.name AS author_name');
 		$query->join('LEFT', '#__users AS ua ON ua.id = a.created_user_id');
+
+		// Join over the associations.
+		$assoc = isset($app->item_associations) ? $app->item_associations : 0;
+		if ($assoc)
+		{
+			$query->select('COUNT(asso2.id)>1 as association');
+			$query->join('LEFT', '#__associations AS asso ON asso.id = a.id AND asso.context='.$db->quote('com_categories.item'));
+			$query->join('LEFT', '#__associations AS asso2 ON asso2.key = asso.key');
+			$query->group('a.id');
+		}
 
 		// Filter by extension
 		if ($extension = $this->getState('filter.extension')) {

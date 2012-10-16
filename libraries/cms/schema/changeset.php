@@ -21,7 +21,7 @@ jimport('joomla.filesystem.folder');
  * @subpackage  Schema
  * @since       2.5
  */
-class JSchemaChangeset extends JObject
+class JSchemaChangeset
 {
 	/**
 	 * Array of JSchemaChangeitem objects
@@ -80,10 +80,12 @@ class JSchemaChangeset extends JObject
 	public static function getInstance($db, $folder)
 	{
 		static $instance;
+
 		if (!is_object($instance))
 		{
 			$instance = new JSchemaChangeset($db, $folder);
 		}
+
 		return $instance;
 	}
 
@@ -185,9 +187,13 @@ class JSchemaChangeset extends JObject
 	{
 		// Get the folder from the database name
 		$sqlFolder = $this->db->name;
-		if (substr($sqlFolder, 0, 5) == 'mysql')
+		if ($sqlFolder == 'mysqli')
 		{
 			$sqlFolder = 'mysql';
+		}
+		elseif ($sqlFolder == 'sqlsrv')
+		{
+			$sqlFolder = 'sqlazure';
 		}
 
 		// Default folder to core com_admin
@@ -218,7 +224,7 @@ class JSchemaChangeset extends JObject
 			$buffer = file_get_contents($file);
 
 			// Create an array of queries from the sql file
-			$queries = $this->db->splitSql($buffer);
+			$queries = JDatabaseDriver::splitSql($buffer);
 			foreach ($queries as $query)
 			{
 				if (trim($query))

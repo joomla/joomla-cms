@@ -41,7 +41,6 @@ class JFormFieldTemplatestyle extends JFormFieldGroupedList
 	 */
 	protected function getGroups()
 	{
-		// Initialize variables.
 		$groups = array();
 		$lang = JFactory::getLanguage();
 

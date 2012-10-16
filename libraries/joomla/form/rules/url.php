@@ -62,7 +62,7 @@ class JFormRuleUrl extends JFormRule
 		 * accurately without a scheme.
 		 * @see http://php.net/manual/en/function.parse-url.php
 		 */
-		if (!array_key_exists('scheme', $urlParts))
+		if ($urlParts && !array_key_exists('scheme', $urlParts))
 		{
 			return false;
 		}

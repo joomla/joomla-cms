@@ -39,8 +39,9 @@ class MessagesViewMessages extends JViewLegacy
 			return false;
 		}
 
-		parent::display($tpl);
 		$this->addToolbar();
+		$this->sidebar = JHtmlSidebar::render();
+		parent::display($tpl);
 	}
 
 	/**
@@ -76,7 +77,7 @@ class MessagesViewMessages extends JViewLegacy
 		//JToolbarHelper::addNew('module.add');
 		JToolbarHelper::divider();
 		$bar = JToolBar::getInstance('toolbar');
-		$bar->appendButton('Popup', 'options', 'COM_MESSAGES_TOOLBAR_MY_SETTINGS', 'index.php?option=com_messages&amp;view=config&amp;tmpl=component', 850, 400);
+		$bar->appendButton('Slider', 'options', 'COM_MESSAGES_TOOLBAR_MY_SETTINGS', 'index.php?option=com_messages&amp;view=config&amp;tmpl=component', 850, 400);
 
 		if ($canDo->get('core.admin')) {
 			JToolbarHelper::preferences('com_messages');

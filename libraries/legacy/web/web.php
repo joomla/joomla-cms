@@ -22,21 +22,6 @@ class JWeb extends JApplicationWeb
 	/**
 	 * Class constructor.
 	 *
-	 * @param   mixed  $userAgent       The optional user-agent string to parse.
-	 * @param   mixed  $acceptEncoding  The optional client accept encoding string to parse.
-	 * @param   mixed  $acceptLanguage  The optional client accept language string to parse.
-	 *
-	 * @since   11.3
-	 */
-	public function __construct($userAgent = null, $acceptEncoding = null, $acceptLanguage = null)
-	{
-		JLog::add('JWebClient is deprecated. Use JApplicationWebClient instead.', JLog::WARNING, 'deprecated');
-		parent::__construct($userAgent, $acceptEncoding, $acceptLanguage);
-	}
-
-	/**
-	 * Class constructor.
-	 *
 	 * @param   mixed  $input   An optional argument to provide dependency injection for the application's
 	 *                          input object.  If the argument is a JInput object that object will become
 	 *                          the application's input object, otherwise a default input object is created.

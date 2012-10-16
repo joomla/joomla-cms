@@ -187,7 +187,7 @@ class ContentModelCategory extends JModelList
 			$this->setState('filter.subcategories', true);
 		}
 
-		$this->setState('filter.language', $app->getLanguageFilter());
+		$this->setState('filter.language', JLanguageMultilang::isEnabled());
 
 		$this->setState('layout', $app->input->get('layout'));
 
@@ -272,7 +272,7 @@ class ContentModelCategory extends JModelList
 		$secondary			= ContentHelperQuery::orderbySecondary($articleOrderby, $articleOrderDate) . ', ';
 		$primary			= ContentHelperQuery::orderbyPrimary($categoryOrderby);
 
-		$orderby .= $db->escape($primary) . ' ' . $db->escape($secondary) . ' a.created ';
+		$orderby .= $primary . ' ' . $secondary . ' a.created ';
 
 		return $orderby;
 	}

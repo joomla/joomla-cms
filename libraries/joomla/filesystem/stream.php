@@ -28,7 +28,7 @@ defined('JPATH_PLATFORM') or die;
  * @see         http://php.net/manual/en/transports.php Socket Transports (used by some options, particularly HTTP proxy)
  * @since       11.1
  */
-class JStream
+class JStream extends JObject
 {
 	// Publicly settable vars (protected to let our parent read them)
 	/**
@@ -1172,7 +1172,6 @@ class JStream
 		ini_set('track_errors', true);
 
 		$chmodDest = $this->_getFilename($dest, 'w', $use_prefix, $relative);
-		$exists = file_exists($dest);
 
 		// Since we're going to open the file directly we need to get the filename.
 		// We need to use the same prefix so force everything to write.

@@ -53,19 +53,19 @@ class LanguagesViewInstalled extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		// Get data from the model
 		$this->ftp        = $this->get('Ftp');
 		$this->option     = $this->get('Option');
 		$this->pagination = $this->get('Pagination');
 		$this->rows       = $this->get('Data');
 		$this->state      = $this->get('State');
 
-		$document = JFactory::getDocument();
-		$document->setBuffer($this->loadTemplate('navigation'), 'modules', 'submenu');
+		$client = (int) $this->state->get('filter.client_id', 0);
+		LanguagesHelper::addSubmenu('installed', $client);
 
 		$this->addToolbar();
 		parent::display($tpl);
 	}
+
 	/**
 	 * Add the page title and toolbar.
 	 *
@@ -87,7 +87,7 @@ class LanguagesViewInstalled extends JViewLegacy
 		if ($canDo->get('core.admin')) {
 			// Add install languages link to the lang installer component
 			$bar = JToolbar::getInstance('toolbar');
-			$bar->appendButton('Link', 'extension', 'COM_LANGUAGES_INSTALL', 'index.php?option=com_installer&view=languages');
+			$bar->appendButton('Link', 'upload', 'COM_LANGUAGES_INSTALL', 'index.php?option=com_installer&view=languages');
 			JToolbarHelper::divider();
 
 			JToolbarHelper::preferences('com_languages');
@@ -95,5 +95,7 @@ class LanguagesViewInstalled extends JViewLegacy
 		}
 
 		JToolbarHelper::help('JHELP_EXTENSIONS_LANGUAGE_MANAGER_INSTALLED');
+
+		$this->sidebar = JHtmlSidebar::render();
 	}
 }

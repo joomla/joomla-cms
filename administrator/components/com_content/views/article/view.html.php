@@ -40,7 +40,6 @@ class ContentViewArticle extends JViewLegacy
 			return;
 		}
 
-		// Initialiase variables.
 		$this->form		= $this->get('Form');
 		$this->item		= $this->get('Item');
 		$this->state	= $this->get('State');

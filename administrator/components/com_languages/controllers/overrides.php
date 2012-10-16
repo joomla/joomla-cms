@@ -39,7 +39,7 @@ class LanguagesControllerOverrides extends JControllerAdmin
 		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
 
 		// Get items to dlete from the request
-		$cid	= JRequest::getVar('cid', array(), '', 'array');
+		$cid = $this->input->get('cid', array(), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{

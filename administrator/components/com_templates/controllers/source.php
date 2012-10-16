@@ -98,7 +98,6 @@ class TemplatesControllerSource extends JControllerLegacy
 	 */
 	public function edit()
 	{
-		// Initialise variables.
 		$app		= JFactory::getApplication();
 		$model		= $this->getModel();
 		$recordId	= JRequest::getVar('id');
@@ -130,7 +129,6 @@ class TemplatesControllerSource extends JControllerLegacy
 		// Check for request forgeries.
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		// Initialise variables.
 		$app		= JFactory::getApplication();
 		$model		= $this->getModel();
 		$context	= 'com_templates.edit.source';
@@ -150,12 +148,11 @@ class TemplatesControllerSource extends JControllerLegacy
 		// Check for request forgeries.
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		// Initialise variables.
-		$app		= JFactory::getApplication();
-		$data		= JRequest::getVar('jform', array(), 'post', 'array');
-		$context	= 'com_templates.edit.source';
-		$task		= $this->getTask();
-		$model		= $this->getModel();
+		$app     = JFactory::getApplication();
+		$data    = $this->input->post->get('jform', array(), 'array');
+		$context = 'com_templates.edit.source';
+		$task    = $this->getTask();
+		$model   = $this->getModel();
 
 		// Access check.
 		if (!$this->allowSave()) {

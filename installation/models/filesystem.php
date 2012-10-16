@@ -446,7 +446,6 @@ class InstallationModelFtp extends JModelLegacy
 		// Get the options as a object for easier handling.
 		$options = JArrayHelper::toObject($options);
 
-		// Initialise variables.
 		$ftpFlag = false;
 		$ftpRoot = $options->ftpRoot;
 
@@ -529,7 +528,6 @@ class InstallationModelFtp extends JModelLegacy
 		$app = JFactory::getApplication();
 		$ret = false;
 
-		// Initialise variables.
 		$ftpFlag = true;
 		$ftpRoot = $app->getCfg('ftp_root');
 

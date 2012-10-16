@@ -34,12 +34,13 @@ class FinderViewIndex extends JViewLegacy
 		// Load plug-in language files.
 		FinderHelperLanguage::loadPluginLanguage();
 
-		// Initialise variables
 		$this->items		= $this->get('Items');
 		$this->total		= $this->get('Total');
 		$this->pagination	= $this->get('Pagination');
 		$this->state		= $this->get('State');
 		$this->pluginState  = $this->get('pluginState');
+
+		FinderHelper::addSubmenu('index');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -52,7 +53,7 @@ class FinderViewIndex extends JViewLegacy
 
 		// Configure the toolbar.
 		$this->addToolbar();
-
+		$this->sidebar = JHtmlSidebar::render();
 		parent::display($tpl);
 	}
 
@@ -70,7 +71,7 @@ class FinderViewIndex extends JViewLegacy
 		JToolbarHelper::title(JText::_('COM_FINDER_INDEX_TOOLBAR_TITLE'), 'finder');
 		$toolbar = JToolbar::getInstance('toolbar');
 
-		$toolbar->appendButton('Popup', 'archive', 'COM_FINDER_INDEX', 'index.php?option=com_finder&view=indexer&tmpl=component', 500, 210);
+		$toolbar->appendButton('Popup', 'archive', 'COM_FINDER_INDEX', 'index.php?option=com_finder&view=indexer&tmpl=component', 500, 210, 0, 0, 'window.parent.location.reload()', 'COM_FINDER_HEADING_INDEXER');
 		JToolbarHelper::divider();
 
 		if ($canDo->get('core.edit.state'))
@@ -98,5 +99,19 @@ class FinderViewIndex extends JViewLegacy
 		$toolbar->appendButton('Popup', 'stats', 'COM_FINDER_STATISTICS', 'index.php?option=com_finder&view=statistics&tmpl=component', 550, 350);
 		JToolbarHelper::divider();
 		JToolbarHelper::help('JHELP_COMPONENTS_FINDER_MANAGE_INDEXED_CONTENT');
+
+		JHtmlSidebar::setAction('index.php?option=com_finder&view=index');
+
+		JHtmlSidebar::addFilter(
+			JText::_('COM_FINDER_INDEX_FILTER_BY_STATE'),
+			'filter_state',
+			JHtml::_('select.options', JHtml::_('finder.statelist'), 'value', 'text', $this->state->get('filter.state'))
+		);
+
+		JHtmlSidebar::addFilter(
+			JText::_('COM_FINDER_INDEX_TYPE_FILTER'),
+			'filter_type',
+			JHtml::_('select.options', JHtml::_('finder.typeslist'), 'value', 'text', $this->state->get('filter.type'))
+		);
 	}
 }

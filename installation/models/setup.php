@@ -46,16 +46,14 @@ class InstallationModelSetup extends JModelLegacy
 		$session = JFactory::getSession();
 		$old = $session->get('setup.options', array());
 
+		// Ensure that we have language
+		if (!isset($options['language']) || empty($options['language'])) {
+			$options['language'] = JFactory::getLanguage()->getTag();
+		}
+
 		// Merge the new setup options into the current ones and store in the session.
 		$options = array_merge($old, (array) $options);
 		$session->set('setup.options', $options);
-
-		// If the setup language is set in the options, set it separately in the session and JLanguage.
-		if (!empty($options['language']))
-		{
-			$session->set('setup.language', $options['language']);
-			JFactory::getLanguage()->setLanguage($options['language']);
-		}
 
 		return $options;
 	}
@@ -69,10 +67,6 @@ class InstallationModelSetup extends JModelLegacy
 	 */
 	public function getForm($view = null)
 	{
-		$app = JFactory::getApplication();
-
-		$false = false;
-
 		if (!$view)
 		{
 			$view = JFactory::getApplication()->input->get('view', 'site', 'word');
@@ -113,7 +107,6 @@ class InstallationModelSetup extends JModelLegacy
 	 */
 	public function getDboptions()
 	{
-		// Initialise variables.
 		$options = array();
 
 		// Create an array of known database connect functions.
@@ -160,7 +153,6 @@ class InstallationModelSetup extends JModelLegacy
 	 */
 	public function getLanguages()
 	{
-		// Initialise variables.
 		$app = JFactory::getApplication();
 
 		// Detect the native language.
@@ -230,7 +222,6 @@ class InstallationModelSetup extends JModelLegacy
 	 */
 	public function getPhpOptions()
 	{
-		// Initialise variables.
 		$options = array();
 
 		// Check the PHP Version.
@@ -312,7 +303,7 @@ class InstallationModelSetup extends JModelLegacy
 
 		// Check for configuration file writeable.
 		$option = new stdClass;
-		$option->label  = 'configuration.php ' . JText::_('INSTL_WRITABLE');
+		$option->label  = JText::sprintf('INSTL_WRITABLE', 'configuration.php');
 		$option->state  = (is_writable('../configuration.php') || (!file_exists('../configuration.php') && is_writable('../')));
 		$option->notice = ($option->state) ? null : JText::_('INSTL_NOTICEYOUCANSTILLINSTALL');
 		$options[] = $option;
@@ -352,7 +343,6 @@ class InstallationModelSetup extends JModelLegacy
 	 */
 	public function getPhpSettings()
 	{
-		// Initialise variables.
 		$settings = array();
 
 		// Check for safe mode.

@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<metafile version="2.5" client="installation">
+<metafile
+	version="3.0"
+	client="installation">
 	<name>Russian (CIS)</name>
-	<version>2.5</version>
-	<creationDate>2011-01-09</creationDate>
-	<author>Russian Translation Community</author>
+	<version>3.0</version>
+	<creationDate>2012-09-27</creationDate>
+	<author>Joomlaportal.ru</author>
 	<copyright>Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<description>Русский языковой файл для мастера установки Joomla</description>
@@ -11,7 +13,7 @@
 		<filename>ru-RU.ini</filename>
 	</files>
 	<metadata>
-		<name>Русский (CIS)</name>
+		<name>Русский</name>
 		<tag>ru-RU</tag>
 		<rtl>0</rtl>
 	</metadata>

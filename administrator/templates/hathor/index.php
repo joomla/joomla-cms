@@ -15,18 +15,15 @@ $lang  = JFactory::getLanguage();
 $input = $app->input;
 $user  = JFactory::getUser();
 
-// If Right-to-Left
-if ($this->direction == 'rtl') :
-	$doc->addStyleSheet('../media/jui/css/bootstrap-rtl.css');
-endif;
+// Load optional rtl bootstrap css and bootstrap bugfixes
+JHtmlBootstrap::loadCss($includeMaincss = false, $this->direction);
 
 // Load specific language related CSS
 $file = 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css';
-if (JFile::exists($file)) :
+if (is_file($file)) :
 	$doc->addStyleSheet($file);
 endif;
 
-$doc->addStyleSheet('../media/jui/css/chosen.css');
 // Logo file
 if ($this->params->get('logoFile'))
 {
@@ -42,12 +39,6 @@ else
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo  $this->language; ?>" lang="<?php echo  $this->language; ?>" dir="<?php echo  $this->direction; ?>">
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<script src="../media/jui/js/jquery.js"></script>
-	<script src="../media/jui/js/bootstrap.min.js"></script>
-	<script src="../media/jui/js/chosen.jquery.min.js"></script>
-	<script type="text/javascript">
-	  jQuery.noConflict();
-	</script>
 	<jdoc:include type="head" />
 
 <!-- Load system style CSS -->
@@ -77,6 +68,9 @@ else
 <![endif]-->
 <!--[if IE 7]>
 	<link href="templates/<?php echo  $this->template ?>/css/ie7.css" rel="stylesheet" type="text/css" />
+<![endif]-->
+<!--[if lt IE 9]>
+	<script src="../media/jui/js/html5.js"></script>
 <![endif]-->
 <!-- Load Template JavaScript -->
 <script type="text/javascript" src="templates/<?php  echo  $this->template  ?>/js/template.js"></script>
@@ -158,6 +152,7 @@ else
 
 		<!-- Beginning of Actual Content -->
 		<div id="element-box">
+			<div id="container-collapse" class="container-collapse"></div>
 			<p id="skiptargetholder"><a id="skiptarget" class="skip" tabindex="-1"></a></p>
 
 			<!-- The main component -->

@@ -62,10 +62,12 @@ class UsersViewNotes extends JViewLegacy
 	public function display($tpl = null)
 	{
 		// Initialise view variables.
-		$this->items = $this->get('Items');
+		$this->items      = $this->get('Items');
 		$this->pagination = $this->get('Pagination');
-		$this->state = $this->get('State');
-		$this->user = $this->get('User');
+		$this->state      = $this->get('State');
+		$this->user       = $this->get('User');
+
+		UsersHelper::addSubmenu('notes');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -77,13 +79,15 @@ class UsersViewNotes extends JViewLegacy
 		JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 		// turn parameters into registry objects
-		foreach ($this->items as $item) {
+		foreach ($this->items as $item)
+		{
 			$item->cparams = new JRegistry;
 			$item->cparams->loadString($item->category_params);
 		}
 
-		parent::display($tpl);
 		$this->addToolbar();
+		$this->sidebar = JHtmlSidebar::render();
+		parent::display($tpl);
 	}
 
 	/**
@@ -137,5 +141,19 @@ class UsersViewNotes extends JViewLegacy
 			JToolbarHelper::divider();
 		}
 		JToolbarHelper::help('JHELP_USERS_USER_NOTES');
+
+		JHtmlSidebar::setAction('index.php?option=com_users&view=notes');
+
+		JHtmlSidebar::addFilter(
+			JText::_('JOPTION_SELECT_PUBLISHED'),
+			'filter_published',
+			JHtml::_('select.options', JHtml::_('jgrid.publishedOptions'), 'value', 'text', $this->state->get('filter.state'), true)
+		);
+
+		JHtmlSidebar::addFilter(
+			JText::_('JOPTION_SELECT_CATEGORY'),
+			'filter_category_id',
+			JHtml::_('select.options', JHtml::_('category.options', 'com_users.notes'), 'value', 'text', $this->state->get('filter.category_id'))
+		);
 	}
 }

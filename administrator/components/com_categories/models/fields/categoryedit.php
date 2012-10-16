@@ -38,7 +38,6 @@ class JFormFieldCategoryEdit extends JFormFieldList
 	 */
 	protected function getOptions()
 	{
-		// Initialise variables.
 		$options = array();
 		$published = $this->element['published']? $this->element['published'] : array(0,1);
 		$name = (string) $this->element['name'];
@@ -93,6 +92,14 @@ class JFormFieldCategoryEdit extends JFormFieldList
 			$db->setQuery($rowQuery);
 			$row = $db->loadObject();
 		}
+
+		// Filter language
+		if (!empty($this->element['language'])) {
+
+			$query->where('a.language = ' . $db->q($this->element['language']));
+
+		}
+
 		// Filter on the published state
 
 		if (is_numeric($published))

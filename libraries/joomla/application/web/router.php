@@ -14,31 +14,31 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package     Joomla.Platform
  * @subpackage  Application
- * @since       12.3
+ * @since       12.2
  */
 abstract class JApplicationWebRouter
 {
 	/**
 	 * @var    JApplicationWeb  The web application on whose behalf we are routing the request.
-	 * @since  12.3
+	 * @since  12.2
 	 */
 	protected $app;
 
 	/**
 	 * @var    string  The default page controller name for an empty route.
-	 * @since  12.3
+	 * @since  12.2
 	 */
 	protected $default;
 
 	/**
 	 * @var    string  Controller class name prefix for creating controller objects by name.
-	 * @since  12.3
+	 * @since  12.2
 	 */
 	protected $controllerPrefix;
 
 	/**
 	 * @var    JInput  An input object from which to derive the route.
-	 * @since  12.3
+	 * @since  12.2
 	 */
 	protected $input;
 
@@ -49,7 +49,7 @@ abstract class JApplicationWebRouter
 	 * @param   JInput           $input  An optional input object from which to derive the route.  If none
 	 *                                   is given than the input from the application object will be used.
 	 *
-	 * @since   12.3
+	 * @since   12.2
 	 */
 	public function __construct(JApplicationWeb $app, JInput $input = null)
 	{
@@ -64,7 +64,7 @@ abstract class JApplicationWebRouter
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   12.2
 	 * @throws  InvalidArgumentException
 	 * @throws  RuntimeException
 	 */
@@ -87,7 +87,7 @@ abstract class JApplicationWebRouter
 	 *
 	 * @return  JApplicationWebRouter  This object for method chaining.
 	 *
-	 * @since   12.3
+	 * @since   12.2
 	 */
 	public function setControllerPrefix($prefix)
 	{
@@ -103,7 +103,7 @@ abstract class JApplicationWebRouter
 	 *
 	 * @return  JApplicationWebRouter  This object for method chaining.
 	 *
-	 * @since   12.3
+	 * @since   12.2
 	 */
 	public function setDefaultController($name)
 	{
@@ -119,7 +119,7 @@ abstract class JApplicationWebRouter
 	 *
 	 * @return  string  The controller name for the given route excluding prefix.
 	 *
-	 * @since   12.3
+	 * @since   12.2
 	 * @throws  InvalidArgumentException
 	 */
 	abstract protected function parseRoute($route);
@@ -131,7 +131,7 @@ abstract class JApplicationWebRouter
 	 *
 	 * @return  JController
 	 *
-	 * @since   12.3
+	 * @since   12.2
 	 * @throws  RuntimeException
 	 */
 	protected function fetchController($name)

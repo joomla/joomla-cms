@@ -1,2 +1,0 @@
-/* Javscript Document  */
-

@@ -6,8 +6,16 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// Set flag that this is a parent file
-const _JEXEC = 1;
+if (version_compare(PHP_VERSION, '5.3.1', '<'))
+{
+	die('Your host needs to use PHP 5.3.1 or higher to run this version of Joomla!');
+}
+
+/**
+ * Constant that is checked in included files to prevent direct access.
+ * define() is used in the installation folder rather than "const" to not error for PHP 5.2 and lower
+ */
+define('_JEXEC', 1);
 
 if (file_exists(__DIR__ . '/defines.php')) {
 	include_once __DIR__ . '/defines.php';

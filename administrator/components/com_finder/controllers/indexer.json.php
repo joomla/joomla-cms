@@ -279,8 +279,6 @@ class FinderControllerIndexer extends JControllerLegacy
 			}
 		}
 
-		$backtrace = null;
-
 		// Send the assigned error code if we are catching an exception.
 		if ($data instanceof Exception)
 		{

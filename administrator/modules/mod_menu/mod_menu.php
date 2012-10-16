@@ -20,7 +20,6 @@ if (!class_exists('JAdminCssMenu'))
 	require __DIR__ . '/menu.php';
 }
 
-// Initialise variables.
 $lang    = JFactory::getLanguage();
 $user    = JFactory::getUser();
 $input   = JFactory::getApplication()->input;

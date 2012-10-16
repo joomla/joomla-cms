@@ -25,41 +25,92 @@ class InstallerHelper
 	 */
 	public static function addSubmenu($vName = 'install')
 	{
-		JSubMenuHelper::addEntry(
+		JHtmlSidebar::addEntry(
 			JText::_('COM_INSTALLER_SUBMENU_INSTALL'),
 			'index.php?option=com_installer',
 			$vName == 'install'
 		);
-		JSubMenuHelper::addEntry(
+		JHtmlSidebar::addEntry(
 			JText::_('COM_INSTALLER_SUBMENU_UPDATE'),
 			'index.php?option=com_installer&view=update',
 			$vName == 'update'
 		);
-		JSubMenuHelper::addEntry(
+		JHtmlSidebar::addEntry(
 			JText::_('COM_INSTALLER_SUBMENU_MANAGE'),
 			'index.php?option=com_installer&view=manage',
 			$vName == 'manage'
 		);
-		JSubMenuHelper::addEntry(
+		JHtmlSidebar::addEntry(
 			JText::_('COM_INSTALLER_SUBMENU_DISCOVER'),
 			'index.php?option=com_installer&view=discover',
 			$vName == 'discover'
 		);
-		JSubMenuHelper::addEntry(
+		JHtmlSidebar::addEntry(
 			JText::_('COM_INSTALLER_SUBMENU_DATABASE'),
 			'index.php?option=com_installer&view=database',
 			$vName == 'database'
 		);
-		JSubMenuHelper::addEntry(
+		JHtmlSidebar::addEntry(
 		JText::_('COM_INSTALLER_SUBMENU_WARNINGS'),
 					'index.php?option=com_installer&view=warnings',
 		$vName == 'warnings'
 		);
-		JSubMenuHelper::addEntry(
+		JHtmlSidebar::addEntry(
 			JText::_('COM_INSTALLER_SUBMENU_LANGUAGES'),
 			'index.php?option=com_installer&view=languages',
 			$vName == 'languages'
 		);
+	}
+
+	/**
+	 * Get a list of filter options for the extension types.
+	 *
+	 * @return  array  An array of stdClass objects.
+	 *
+	 * @since   3.0
+	 */
+	public static function getExtensionTypes()
+	{
+		$db    = JFactory::getDBO();
+		$query = $db->getQuery(true);
+		$query->select('DISTINCT type')->from('#__extensions');
+		$db->setQuery($query);
+		$types = $db->loadColumn();
+
+		$options = array();
+		foreach($types as $type)
+		{
+			$options[] = JHtml::_('select.option', $type, 'COM_INSTALLER_TYPE_' . strtoupper($type));
+		}
+
+		return $options;
+	}
+
+	/**
+	 * Get a list of filter options for the extension types.
+	 *
+	 * @return  array  An array of stdClass objects.
+	 *
+	 * @since   3.0
+	 */
+	public static function getExtensionGroupes()
+	{
+		$db = JFactory::getDBO();
+		$query = $db->getQuery(true);
+		$query->select('DISTINCT folder');
+		$query->from('#__extensions');
+		$query->where('folder != ' . $db->quote(''));
+		$query->order('folder');
+		$db->setQuery($query);
+		$folders = $db->loadColumn();
+
+		$options = array();
+		foreach($folders as $folder)
+		{
+			$options[] = JHtml::_('select.option', $folder, $folder);
+		}
+
+		return $options;
 	}
 
 	/**

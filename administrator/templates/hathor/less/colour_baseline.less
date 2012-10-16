@@ -5,50 +5,47 @@
 // compile using this file.
 // -----------------------------------------------------
 
+// Core variables and mixins
+@import "../../../../media/jui/less/mixins.less";
+
 /*
  * General styles
  */
 body {
-	background-color: @background;
-	color: @text;
+	background-color: @bodyBackground;
+	color: @textColor;
 }
 
 h1 {
-	color: @text;
+	color: @textColor;
 }
 
 a:link {
-	color: @link;
+	color: @linkColor;
 }
 
 a:visited {
-	color: @link;
+	color: @linkColor;
 }
 
 /*
  * Overall Styles
  */
 #header {
-	background: @background url(../images/j_logo.png) no-repeat;
+	background: @bodyBackground url(../images/j_logo.png) no-repeat;
 }
 
 #header h1.title {
-	color: @text;
+	color: @textColor;
 }
 
 #nav {
+	#gradient > .vertical(@gradientTop, @gradientBottom);
 	border: 1px solid @mainBorder;
-	background: @altBackground;
-	background-image: -moz-linear-gradient(center top, @gradientNorth, @gradientSouth 70%);
-	background-image: -ms-linear-gradient(center top, @gradientNorth, @gradientSouth 70%);
-	background-image: -webkit-gradient(linear, left top, left bottom, from(@gradientNorth), to(@gradientSouth));
-	background-image: -webkit-linear-gradient(center top, @gradientNorth, @gradientSouth 70%);
-	background-image: -o-linear-gradient(center top, @gradientNorth, @gradientSouth 70%);
-	background-image: linear-gradient(center top, @gradientNorth, @gradientSouth 70%);
 }
 
 #content {
-	background: @background;
+	background: @bodyBackground;
 }
 
 #no-submenu {
@@ -56,7 +53,7 @@ a:visited {
 }
 
 #element-box {
-	background: @background;
+	background: @bodyBackground;
 	border-right: 1px solid @mainBorder;
 	border-bottom: 1px solid @mainBorder;
 	border-left: 1px solid @mainBorder;
@@ -112,7 +109,7 @@ span.unwritable {
 }
 
 .nowarning {
-	color: @text;
+	color: @textColor;
 }
 
 .none,
@@ -121,8 +118,8 @@ span.unwritable {
 }
 
 span.note {
-	background: @background;
-	color: @text;
+	background: @bodyBackground;
+	color: @textColor;
 }
 
 div.checkin-tick {
@@ -141,30 +138,30 @@ div.checkin-tick {
 }
 
 .ol-textfont {
-	color: @text;
+	color: @textColor;
 }
 
 .ol-captionfont {
-	color: @background;
+	color: @bodyBackground;
 }
 
 .ol-captionfont a {
-	color: @link;
+	color: @linkColor;
 }
 
 /*
  * Subheader, toolbar, page title
  */
 div.subheader .padding {
-	background: @background;
+	background: @bodyBackground;
 }
 
 .pagetitle h2 {
-	color: @text;
+	color: @textColor;
 }
 
 div.configuration {
-	color: @text;
+	color: @textColor;
 	background-image: url(../images/menu/icon-16-config.png);
 	background-repeat: no-repeat;
 }
@@ -173,7 +170,7 @@ div.toolbar-box {
 	border-right: 1px solid @mainBorder;
 	border-bottom: 1px solid @mainBorder;
 	border-left: 1px solid @mainBorder;
-	background: @background;
+	background: @bodyBackground;
 }
 
 div.btn-toolbar {
@@ -190,13 +187,7 @@ div.btn-toolbar div.btn-group button {
 	border-top: 1px solid @hoverBackground;
 	border-right: 1px solid @mainBorder;
 	border-bottom: 1px solid @mainBorder;
-	background: @altBackground;
-	background-image: -moz-linear-gradient(center top, @gradientNorth, @gradientSouth 70%);
-	background-image: -ms-linear-gradient(center top, @gradientNorth, @gradientSouth 70%);
-	background-image: -webkit-gradient(linear, left top, left bottom, from(@gradientNorth), to(@gradientSouth));
-	background-image: -webkit-linear-gradient(center top, @gradientNorth, @gradientSouth 70%);
-	background-image: -o-linear-gradient(center top, @gradientNorth, @gradientSouth 70%);
-	background-image: linear-gradient(center top, @gradientNorth, @gradientSouth 70%);
+	#gradient > .vertical(@gradientTop, @gradientBottom);
 	padding: 5px 4px 5px 4px;
 }
 
@@ -206,7 +197,7 @@ div.btn-toolbar div.btn-group button:hover {
 	border-right: 1px solid @SEBorder;
 	border-bottom: 1px solid @SEBorder;
 	background: @hoverBackground;
-	color: @link;
+	color: @linkColor;
 	cursor: pointer;
 }
 
@@ -218,7 +209,7 @@ div.btn-toolbar div.btn-group button.inactive {
  * Pane Slider pane Toggler styles
  */
 .pane-sliders .title {
-	color: @text;
+	color: @textColor;
 }
 
 .pane-sliders .panel {
@@ -226,14 +217,8 @@ div.btn-toolbar div.btn-group button.inactive {
 }
 
 .pane-sliders .panel h3 {
-	background: @altBackground;
-	background-image: -moz-linear-gradient(center top, @gradientNorth, @gradientSouth 70%);
-	background-image: -ms-linear-gradient(center top, @gradientNorth, @gradientSouth 70%);
-	background-image: -webkit-gradient(linear, left top, left bottom, from(@gradientNorth), to(@gradientSouth));
-	background-image: -webkit-linear-gradient(center top, @gradientNorth, @gradientSouth 70%);
-	background-image: -o-linear-gradient(center top, @gradientNorth, @gradientSouth 70%);
-	background-image: linear-gradient(center top, @gradientNorth, @gradientSouth 70%);
-	color: @link;
+	#gradient > .vertical(@gradientTop, @gradientBottom);
+	color: @linkColor;
 }
 
 .pane-sliders .panel h3:hover {
@@ -269,14 +254,8 @@ div.btn-toolbar div.btn-group button.inactive {
  */
 dl.tabs dt {
 	border: 1px solid @mainBorder;
-	background: @altBackground;
-	background-image: -moz-linear-gradient(center top, @gradientNorth, @gradientSouth 70%);
-	background-image: -ms-linear-gradient(center top, @gradientNorth, @gradientSouth 70%);
-	background-image: -webkit-gradient(linear, left top, left bottom, from(@gradientNorth), to(@gradientSouth));
-	background-image: -webkit-linear-gradient(center top, @gradientNorth, @gradientSouth 70%);
-	background-image: -o-linear-gradient(center top, @gradientNorth, @gradientSouth 70%);
-	background-image: linear-gradient(center top, @gradientNorth, @gradientSouth 70%);
-	color: @link;
+	#gradient > .vertical(@gradientTop, @gradientBottom);
+	color: @linkColor;
 }
 
 dl.tabs dt:hover {
@@ -284,13 +263,13 @@ dl.tabs dt:hover {
 }
 
 dl.tabs dt.open {
-	background: @background;
-	border-bottom: 1px solid @background;
-	color: @text;
+	background: @bodyBackground;
+	border-bottom: 1px solid @bodyBackground;
+	color: @textColor;
 }
 
 dl.tabs dt.open a:visited {
-	color: @text;
+	color: @textColor;
 }
 
 dl.tabs dt a:hover {
@@ -303,7 +282,7 @@ dl.tabs dt a:focus {
 
 div.current {
 	border: 1px solid @mainBorder;
-	background: @background;
+	background: @bodyBackground;
 }
 
 /*
@@ -333,44 +312,32 @@ div.current fieldset.adminform {
 }
 
 #login-page #element-box.login {
-	background: @altBackground;
-	background-image: -moz-linear-gradient(center top, @gradientNorth, @gradientSouth 70%);
-	background-image: -ms-linear-gradient(center top, @gradientNorth, @gradientSouth 70%);
-	background-image: -webkit-gradient(linear, left top, left bottom, from(@gradientNorth), to(@gradientSouth));
-	background-image: -webkit-linear-gradient(center top, @gradientNorth, @gradientSouth 70%);
-	background-image: -o-linear-gradient(center top, @gradientNorth, @gradientSouth 70%);
-	background-image: linear-gradient(center top, @gradientNorth, @gradientSouth 70%);
+	#gradient > .vertical(@gradientTop, @gradientBottom);
 }
 
 #form-login {
-	background: @background;
+	background: @bodyBackground;
 	border: 1px solid @mainBorder;
 }
 
 #form-login label {
-	color: @text;
+	color: @textColor;
 }
 
 #form-login div.button1 a {
-	color: @link;
+	color: @linkColor;
 }
 
 /*
  * Cpanel Settings
  */
 #cpanel div.icon a, .cpanel div.icon a {
-	color: @link;
+	color: @linkColor;
 	border-left: 1px solid @hoverBackground;
 	border-top: 1px solid @hoverBackground;
 	border-right: 1px solid @mainBorder;
 	border-bottom: 1px solid @mainBorder;
-	background: @altBackground;
-	background-image: -moz-linear-gradient(center top, @gradientNorth, @gradientSouth 70%);
-	background-image: -ms-linear-gradient(center top, @gradientNorth, @gradientSouth 70%);
-	background-image: -webkit-gradient(linear, left top, left bottom, from(@gradientNorth), to(@gradientSouth));
-	background-image: -webkit-linear-gradient(center top, @gradientNorth, @gradientSouth 70%);
-	background-image: -o-linear-gradient(center top, @gradientNorth, @gradientSouth 70%);
-	background-image: linear-gradient(center top, @gradientNorth, @gradientSouth 70%);
+	#gradient > .vertical(@gradientTop, @gradientBottom);
 }
 
 #cpanel div.icon a:hover,
@@ -381,7 +348,7 @@ div.current fieldset.adminform {
 	border-top: 1px solid @NWBorder;
 	border-right: 1px solid @SEBorder;
 	border-bottom: 1px solid @SEBorder;
-	color: @link;
+	color: @linkColor;
 	background: @hoverBackground;
 }
 
@@ -393,11 +360,11 @@ fieldset {
 }
 
 legend {
-	color: @text;
+	color: @textColor;
 }
 
 fieldset ul.checklist input:focus {
-	outline: thin dotted @text;
+	outline: thin dotted @textColor;
 }
 
 fieldset#filter-bar {
@@ -440,20 +407,14 @@ input.disabled {
 }
 
 input, select, span.faux-input {
-	background-color: @background;
+	background-color: @bodyBackground;
 	border: 1px solid @mainBorder;
 }
 
 /* Inputs used as buttons */
 input[type="button"], input[type="submit"], input[type="reset"] {
-	color: @link;
-	background: @altBackground;
-	background-image: -moz-linear-gradient(center top, @gradientNorth, @gradientSouth 70%);
-	background-image: -ms-linear-gradient(center top, @gradientNorth, @gradientSouth 70%);
-	background-image: -webkit-gradient(linear, left top, left bottom, from(@gradientNorth), to(@gradientSouth));
-	background-image: -webkit-linear-gradient(center top, @gradientNorth, @gradientSouth 70%);
-	background-image: -o-linear-gradient(center top, @gradientNorth, @gradientSouth 70%);
-	background-image: linear-gradient(center top, @gradientNorth, @gradientSouth 70%);
+	color: @linkColor;
+	#gradient > .vertical(@gradientTop, @gradientBottom);
 }
 
 input[type="button"]:hover, input[type="button"]:focus,
@@ -463,14 +424,14 @@ input[type="reset"]:hover, input[type="reset"]:focus {
 }
 
 textarea {
-	background-color: @background;
+	background-color: @bodyBackground;
 	border: 1px solid @mainBorder;
 }
 
 input:focus, select:focus, textarea:focus, option:focus,
 input:hover, select:hover, textarea:hover, option:hover {
 	background-color: @hoverBackground;
-	color: @link;
+	color: @linkColor;
 }
 
 /*
@@ -489,14 +450,14 @@ span.gi {
  */
 table.admintable td.key, table.admintable td.paramlist_key {
 	background-color: @altBackground;
-	color: @text;
+	color: @textColor;
 	border-bottom: 1px solid @mainBorder;
 	border-right: 1px solid @mainBorder;
 }
 
 table.paramlist td.paramlist_description {
 	background-color: @altBackground;
-	color: @text;
+	color: @textColor;
 	border-bottom: 1px solid @mainBorder;
 	border-right: 1px solid @mainBorder;
 }
@@ -512,11 +473,11 @@ fieldset.adminform {
  * Table styles are for use with tabular data
  */
 table.adminform {
-	background-color: @background;
+	background-color: @bodyBackground;
 }
 
 table.adminform tr.row0 {
-	background-color: @background;
+	background-color: @bodyBackground;
 }
 
 table.adminform tr.row1 {
@@ -524,8 +485,8 @@ table.adminform tr.row1 {
 }
 
 table.adminform th {
-	color: @text;
-	background: @background;
+	color: @textColor;
+	background: @bodyBackground;
 }
 
 table.adminform tr {
@@ -538,8 +499,8 @@ table.adminform tr {
  */
 table.adminlist {
 	border-spacing: 1px;
-	background-color: @background;
-	color: @text;
+	background-color: @bodyBackground;
+	color: @textColor;
 }
 
 table.adminlist.modal {
@@ -548,12 +509,12 @@ table.adminlist.modal {
 }
 
 table.adminlist a {
-	color: @link;
+	color: @linkColor;
 }
 
 table.adminlist thead th {
-	background: @background;
-	color: @text;
+	background: @bodyBackground;
+	color: @textColor;
 	border-bottom: 1px solid @mainBorder;
 }
 
@@ -561,11 +522,11 @@ table.adminlist thead th {
  * Table row styles
  */
 table.adminlist tbody tr {
-	background: @background;
+	background: @bodyBackground;
 }
 
 table.adminlist tbody tr.row1 {
-	background: @background;
+	background: @bodyBackground;
 }
 
 table.adminlist tbody tr.row1:last-child td,
@@ -600,13 +561,7 @@ table.adminlist tbody tr.row0:last-child th {
 
 table.adminlist tbody tr.row0 td,
 table.adminlist tbody tr.row0 th {
-	background: @altBackground;
-	background-image: -moz-linear-gradient(center top, @gradientNorth, @gradientSouth 70%);
-	background-image: -ms-linear-gradient(center top, @gradientNorth, @gradientSouth 70%);
-	background-image: -webkit-gradient(linear, left top, left bottom, from(@gradientNorth), to(@gradientSouth));
-	background-image: -webkit-linear-gradient(center top, @gradientNorth, @gradientSouth 70%);
-	background-image: -o-linear-gradient(center top, @gradientNorth, @gradientSouth 70%);
-	background-image: linear-gradient(center top, @gradientNorth, @gradientSouth 70%);
+	#gradient > .vertical(@gradientTop, @gradientBottom);
 }
 
 table.adminlist {
@@ -614,7 +569,7 @@ table.adminlist {
 }
 
 table.adminlist tfoot tr {
-	color: @text;
+	color: @textColor;
 }
 
 /*
@@ -622,7 +577,7 @@ table.adminlist tfoot tr {
  */
 table.adminlist tfoot td,
 table.adminlist tfoot th {
-	background-color: @background;
+	background-color: @bodyBackground;
 	border-top: 1px solid @mainBorder;
 }
 
@@ -631,20 +586,14 @@ table.adminlist tfoot th {
  */
 table.adminlist tr td.btns a {
 	border: 1px solid @mainBorder;
-	background: @altBackground;
-	background-image: -moz-linear-gradient(center top, @gradientNorth, @gradientSouth 70%);
-	background-image: -ms-linear-gradient(center top, @gradientNorth, @gradientSouth 70%);
-	background-image: -webkit-gradient(linear, left top, left bottom, from(@gradientNorth), to(@gradientSouth));
-	background-image: -webkit-linear-gradient(center top, @gradientNorth, @gradientSouth 70%);
-	background-image: -o-linear-gradient(center top, @gradientNorth, @gradientSouth 70%);
-	background-image: linear-gradient(center top, @gradientNorth, @gradientSouth 70%);
-	color: @link;
+	#gradient > .vertical(@gradientTop, @gradientBottom);
+	color: @linkColor;
 }
 
 table.adminlist tr td.btns a:hover,
 table.adminlist tr td.btns a:active,
 table.adminlist tr td.btns a:focus {
-	background-color: @background;
+	background-color: @bodyBackground;
 }
 
 /*
@@ -662,22 +611,16 @@ a.saveorder.inactive {
  * Saving order icon styling in admin tables
  */
 fieldset.batch {
-	background: @background;
+	background: @bodyBackground;
 }
 
 /**
  * Button styling
  */
 button {
-	color: @link;
+	color: @linkColor;
 	border: 1px solid @mainBorder;
-	background: @altBackground;
-	background-image: -moz-linear-gradient(center top, @gradientNorth, @gradientSouth 70%);
-	background-image: -ms-linear-gradient(center top, @gradientNorth, @gradientSouth 70%);
-	background-image: -webkit-gradient(linear, left top, left bottom, from(@gradientNorth), to(@gradientSouth));
-	background-image: -webkit-linear-gradient(center top, @gradientNorth, @gradientSouth 70%);
-	background-image: -o-linear-gradient(center top, @gradientNorth, @gradientSouth 70%);
-	background-image: linear-gradient(center top, @gradientNorth, @gradientSouth 70%);
+	#gradient > .vertical(@gradientTop, @gradientBottom);
 }
 
 button:hover,
@@ -692,19 +635,13 @@ button:focus {
 /* Button 1 Type */
 .button1 {
 	border: 1px solid @mainBorder;
-	color: @link;
-	background: @altBackground;
-	background-image: -moz-linear-gradient(center top, @gradientNorth, @gradientSouth 70%);
-	background-image: -ms-linear-gradient(center top, @gradientNorth, @gradientSouth 70%);
-	background-image: -webkit-gradient(linear, left top, left bottom, from(@gradientNorth), to(@gradientSouth));
-	background-image: -webkit-linear-gradient(center top, @gradientNorth, @gradientSouth 70%);
-	background-image: -o-linear-gradient(center top, @gradientNorth, @gradientSouth 70%);
-	background-image: linear-gradient(center top, @gradientNorth, @gradientSouth 70%);
+	color: @linkColor;
+	#gradient > .vertical(@gradientTop, @gradientBottom);
 }
 
 /* Use this if you add images to the buttons such as directional arrows */
 .button1 a {
-	color: @link;
+	color: @linkColor;
 /* add padding if you are using the directional images */
 /* padding: 0 30px 0 6px; */
 }
@@ -718,20 +655,14 @@ button:focus {
 .button2-left,
 .button2-right {
 	border: 1px solid @mainBorder;
-	background: @altBackground;
-	background-image: -moz-linear-gradient(center top, @gradientNorth, @gradientSouth 70%);
-	background-image: -ms-linear-gradient(center top, @gradientNorth, @gradientSouth 70%);
-	background-image: -webkit-gradient(linear, left top, left bottom, from(@gradientNorth), to(@gradientSouth));
-	background-image: -webkit-linear-gradient(center top, @gradientNorth, @gradientSouth 70%);
-	background-image: -o-linear-gradient(center top, @gradientNorth, @gradientSouth 70%);
-	background-image: linear-gradient(center top, @gradientNorth, @gradientSouth 70%);
+	#gradient > .vertical(@gradientTop, @gradientBottom);
 }
 
 .button2-left a,
 .button2-right a,
 .button2-left span,
 .button2-right span {
-	color: @link;
+	color: @linkColor;
 }
 
 /* these are inactive buttons */
@@ -742,7 +673,7 @@ button:focus {
 
 .page span,
 .blank span {
-	color: @link;
+	color: @linkColor;
 }
 
 .button2-left a:hover,
@@ -765,7 +696,7 @@ button:focus {
  * Tooltips
  */
 .tip {
-	background: @background;
+	background: @bodyBackground;
 	border: 1px solid @mainBorder;
 }
 
@@ -1573,7 +1504,7 @@ a img.calendar {
  */
 div.message {
 	border: 1px solid @mainBorder;
-	color: @text;
+	color: @textColor;
 }
 
 .helpFrame {
@@ -1585,7 +1516,7 @@ div.message {
 
 .outline {
 	border: 1px solid @mainBorder;
-	background: @background;
+	background: @bodyBackground;
 }
 
 /**
@@ -1605,8 +1536,8 @@ ul#new-modules-list {
 
 /* Skip to Content Visual Styling */
 #skiplinkholder a, #skiplinkholder a:link, #skiplinkholder a:visited {
-	color: @background;
-	background: @link;
+	color: @bodyBackground;
+	background: @linkColor;
 	border-bottom: solid #336 2px;
 }
 
@@ -1734,7 +1665,7 @@ li.acl-resetbtn {
 
 li.acl-editgroups a,
 li.acl-resetbtn a {
-	color: @link;
+	color: @linkColor;
 }
 
 li.acl-editgroups:hover,
@@ -1773,7 +1704,7 @@ table#acl-config th.acl-groups {
 #permissions-sliders ul#rules,
 #permissions-sliders ul#rules ul {
 	border: solid 0 @mainBorder;
-	background: @background;
+	background: @bodyBackground;
 }
 
 ul#rules li .pane-sliders .panel h3.title {
@@ -1793,7 +1724,7 @@ ul#rules li .pane-sliders .panel h3.title {
 }
 
 #permissions-sliders ul#rules .group-kind {
-	color: @text;
+	color: @textColor;
 }
 
 #permissions-sliders ul#rules table.group-rules {
@@ -1809,7 +1740,7 @@ ul#rules li .pane-sliders .panel h3.title {
 	background: @hoverBackground;
 	border-right: solid 1px @mainBorder;
 	border-bottom: solid 1px @mainBorder;
-	color: @text;
+	color: @textColor;
 }
 
 ul#rules table.aclmodify-table {
@@ -1825,7 +1756,7 @@ ul#rules table.group-rules td label {
 }
 
 #permissions-sliders  ul#rules  table.group-rules td {
-	background: @background;
+	background: @bodyBackground;
 }
 
 #permissions-sliders span.level {
@@ -1856,19 +1787,19 @@ table.adminlist tbody td.check-d {
  */
 
 #system-message dd ul {
-	color: @text;
+	color: @textColor;
 }
 
 #system-message dd.error ul {
-	color: @text;
+	color: @textColor;
 }
 
 #system-message dd.message ul {
-	color: @text;
+	color: @textColor;
 }
 
 #system-message dd.notice ul {
-	color: @text;
+	color: @textColor;
 }
 
 /** CSS file for Accessible Admin Menu
@@ -1885,19 +1816,13 @@ table.adminlist tbody td.check-d {
  */
 #menu {
 /* this is on the main ul */
-	color: @text;
+	color: @textColor;
 }
 
 #menu ul.dropdown-menu {
 /* all lists */
-	background: @altBackground;
-	background-image: -moz-linear-gradient(center top, @gradientNorth, @gradientSouth 70%);
-	background-image: -ms-linear-gradient(center top, @gradientNorth, @gradientSouth 70%);
-	background-image: -webkit-gradient(linear, left top, left bottom, from(@gradientNorth), to(@gradientSouth));
-	background-image: -webkit-linear-gradient(center top, @gradientNorth, @gradientSouth 70%);
-	background-image: -o-linear-gradient(center top, @gradientNorth, @gradientSouth 70%);
-	background-image: linear-gradient(center top, @gradientNorth, @gradientSouth 70%);
-	color: @text;
+	#gradient > .vertical(@gradientTop, @gradientBottom);
+	color: @textColor;
 }
 
 #menu ul.dropdown-menu li.dropdown {
@@ -1910,7 +1835,7 @@ table.adminlist tbody td.check-d {
 }
 
 #menu a {
-	color: @link;
+	color: @linkColor;
 	background-repeat: no-repeat;
 	background-position: left 50%;
 }
@@ -1929,13 +1854,7 @@ table.adminlist tbody td.check-d {
 #menu li.disabled a:focus,
 #menu li.disabled a {
 	color: @mainBorder;
-	background: @altBackground;
-	background-image: -moz-linear-gradient(center top, @gradientNorth, @gradientSouth 70%);
-	background-image: -ms-linear-gradient(center top, @gradientNorth, @gradientSouth 70%);
-	background-image: -webkit-gradient(linear, left top, left bottom, from(@gradientNorth), to(@gradientSouth));
-	background-image: -webkit-linear-gradient(center top, @gradientNorth, @gradientSouth 70%);
-	background-image: -o-linear-gradient(center top, @gradientNorth, @gradientSouth 70%);
-	background-image: linear-gradient(center top, @gradientNorth, @gradientSouth 70%);
+	#gradient > .vertical(@gradientTop, @gradientBottom);
 }
 
 #menu li ul {
@@ -1993,19 +1912,13 @@ table.adminlist tbody td.check-d {
 	border-bottom: 1px solid @mainBorder;
 /* border-bottom plus padding-bottom is the technique */
 /* This is the background befind the tabs */
-/*background: @background;*/
+/*background: @bodyBackground;*/
 }
 
 #submenu li, #submenu span.nolink {
-	background: @altBackground;
-	background-image: -moz-linear-gradient(center top, @gradientNorth, @gradientSouth 70%);
-	background-image: -ms-linear-gradient(center top, @gradientNorth, @gradientSouth 70%);
-	background-image: -webkit-gradient(linear, left top, left bottom, from(@gradientNorth), to(@gradientSouth));
-	background-image: -webkit-linear-gradient(center top, @gradientNorth, @gradientSouth 70%);
-	background-image: -o-linear-gradient(center top, @gradientNorth, @gradientSouth 70%);
-	background-image: linear-gradient(center top, @gradientNorth, @gradientSouth 70%);
+	#gradient > .vertical(@gradientTop, @gradientBottom);
 	border: 1px solid @mainBorder;
-	color: @link;
+	color: @linkColor;
 }
 
 #submenu li:hover, #submenu li:focus {
@@ -2013,8 +1926,8 @@ table.adminlist tbody td.check-d {
 }
 
 #submenu li.active, #submenu span.nolink.active {
-	background: @background;
-	border-bottom: 1px solid @background;
+	background: @bodyBackground;
+	border-bottom: 1px solid @bodyBackground;
 }
 
 #submenu li.active a,
@@ -2034,11 +1947,11 @@ div.CodeMirror-wrapping {
 
 /* User Notes */
 table.adminform tr.row0 {
-	background-color: @background;
+	background-color: @bodyBackground;
 }
 
 ul.alternating > li:nth-child(odd) {
-	background-color: @background;
+	background-color: @bodyBackground;
 }
 
 ul.alternating > li:nth-child(even) {
@@ -2046,7 +1959,7 @@ ul.alternating > li:nth-child(even) {
 }
 
 ol.alternating > li:nth-child(odd) {
-	background-color: @background;
+	background-color: @bodyBackground;
 }
 
 ol.alternating > li:nth-child(even) {

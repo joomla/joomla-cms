@@ -140,7 +140,6 @@ class JPathway
 	 */
 	public function getPathwayNames()
 	{
-		// Initialise variables.
 		$names = array();
 
 		// Build the names array using just the names of each pathway item
@@ -165,7 +164,6 @@ class JPathway
 	 */
 	public function addItem($name, $link = '')
 	{
-		// Initialize variables
 		$ret = false;
 
 		if ($this->_pathway[] = $this->_makeItem($name, $link))
@@ -189,7 +187,6 @@ class JPathway
 	 */
 	public function setItemName($id, $name)
 	{
-		// Initialize variables
 		$ret = false;
 
 		if (isset($this->_pathway[$id]))

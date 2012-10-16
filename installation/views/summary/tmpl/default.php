@@ -27,10 +27,9 @@ $prev = $useftp ? 'ftp' : 'database';
 
 	<div class="control-group">
 		<div class="control-label">
-			<?php echo $this->form->getLabel('site_sampledata'); ?>
+			<?php echo $this->form->getLabel('sample_file'); ?>
 		</div>
 		<div class="controls">
-			<?php echo $this->form->getInput('site_sampledata'); ?>
 			<div class="help-block">
 				<?php echo $this->form->getInput('sample_file'); ?>
 			</div>
@@ -300,7 +299,7 @@ $prev = $useftp ? 'ftp' : 'database';
 						<span class="label label-<?php echo ($option->state) ? 'success' : 'important'; ?>">
 							<?php echo JText::_(($option->state) ? 'JYES' : 'JNO'); ?>
 							<?php if ($option->notice):?>
-							<i class="icon-info-sign icon-white" rel="tooltip" title="<?php echo $option->notice; ?>"></i>
+							<i class="icon-info-sign icon-white hasTooltip" title="<?php echo $option->notice; ?>"></i>
 							<?php endif;?>
 						</span>
 					</td>

@@ -1,5 +1,7 @@
-// MODALS
-// ------
+//
+// Modals
+// --------------------------------------------------
+
 
 // Recalculate z-index where appropriate
 .modal-open {
@@ -28,7 +30,9 @@
 }
 
 // Base modal
-.modal {
+/* >>> JUI >>> */
+div.modal {
+/* <<< JUI <<< */
   position: fixed;
   top: 50%;
   left: 50%;
@@ -54,6 +58,11 @@
   border-bottom: 1px solid #eee;
   // Close icon
   .close { margin-top: 2px; }
+  // Heading
+  h3 {
+    margin: 0;
+    line-height: 30px;
+  }
 }
 
 // Body (where all modal content resides)

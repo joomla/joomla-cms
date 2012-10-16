@@ -46,7 +46,6 @@ class MessagesModelConfig extends JModelForm
 	 */
 	public function &getItem()
 	{
-		// Initialise variables.
 		$item = new JObject;
 
 		$db = $this->getDbo();

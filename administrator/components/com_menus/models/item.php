@@ -603,7 +603,6 @@ class MenusModelItem extends JModelAdmin
 	 */
 	public function getItem($pk = null)
 	{
-		// Initialise variables.
 		$pk = (!empty($pk)) ? $pk : (int) $this->getState('item.id');
 
 		// Get a level row instance.
@@ -719,15 +718,7 @@ class MenusModelItem extends JModelAdmin
 
 		// Load associated menu items
 		$app = JFactory::getApplication();
-		if (isset($app->menu_associations))
-		{
-			$assoc = $app->menu_associations;
-		}
-		else
-		{
-			$assoc = 0;
-		}
-
+		$assoc = isset($app->item_associations) ? $app->item_associations : 0;
 		if ($assoc)
 		{
 			if ($pk != null) {
@@ -867,8 +858,6 @@ class MenusModelItem extends JModelAdmin
 	 */
 	protected function preprocessForm(JForm $form, $data, $group = 'content')
 	{
-
-		// Initialise variables.
 		$link = $this->getState('item.link');
 		$type = $this->getState('item.type');
 		$formFile = false;
@@ -996,15 +985,7 @@ class MenusModelItem extends JModelAdmin
 
 		// Association menu items
 		$app = JFactory::getApplication();
-		if (isset($app->menu_associations))
-		{
-			$assoc = $app->menu_associations;
-		}
-		else
-		{
-			$assoc = 0;
-		}
-
+		$assoc = isset($app->item_associations) ? $app->item_associations : 0;
 		if ($assoc) {
 			$languages = JLanguageHelper::getLanguages('lang_code');
 
@@ -1108,7 +1089,6 @@ class MenusModelItem extends JModelAdmin
 	 */
 	public function save($data)
 	{
-		// Initialise variables.
 		$pk    = (!empty($data['id'])) ? $data['id'] : (int) $this->getState('item.id');
 		$isNew = true;
 		$db    = $this->getDbo();
@@ -1195,15 +1175,7 @@ class MenusModelItem extends JModelAdmin
 
 		// Load associated menu items
 		$app = JFactory::getApplication();
-		if (isset($app->menu_associations))
-		{
-			$assoc = $app->menu_associations;
-		}
-		else
-		{
-			$assoc = 0;
-		}
-
+		$assoc = isset($app->item_associations) ? $app->item_associations : 0;
 		if ($assoc) {
 			// Adding self to the association
 			$associations = $data['associations'];
@@ -1317,7 +1289,6 @@ class MenusModelItem extends JModelAdmin
 	 */
 	public function setHome(&$pks, $value = 1)
 	{
-		// Initialise variables.
 		$table		= $this->getTable();
 		$pks		= (array) $pks;
 		$user		= JFactory::getUser();
@@ -1379,23 +1350,25 @@ class MenusModelItem extends JModelAdmin
 	/**
 	 * Method to change the published state of one or more records.
 	 *
-	 * @param	array	$pks	A list of the primary keys to change.
-	 * @param	int		$value	The value of the published state.
+	 * @param   array  &$pks   A list of the primary keys to change.
+	 * @param   int	   $value  The value of the published state.
 	 *
 	 * @return	boolean	True on success.
+	 *
 	 * @since	1.6
 	 */
 	public function publish(&$pks, $value = 1)
 	{
-		// Initialise variables.
 		$table		= $this->getTable();
 		$pks		= (array) $pks;
 
 		// Default menu item existence checks.
-		if ($value != 1) {
+		if ($value != 1)
+		{
 			foreach ($pks as $i => $pk)
 			{
-				if ($table->load($pk) && $table->home && $table->language == '*') {
+				if ($table->load($pk) && $table->home && $table->language == '*')
+				{
 					// Prune items that you can't change.
 					JError::raiseWarning(403, JText::_('JLIB_DATABASE_ERROR_MENU_UNPUBLISH_DEFAULT_HOME'));
 					unset($pks[$i]);
@@ -1406,6 +1379,12 @@ class MenusModelItem extends JModelAdmin
 
 		// Clean the cache
 		$this->cleanCache();
+
+		// Ensure that previous checks doesn't empty the array
+		if (empty($pks))
+		{
+			return true;
+		}
 
 		return parent::publish($pks, $value);
 	}
@@ -1427,7 +1406,10 @@ class MenusModelItem extends JModelAdmin
 		$table = $this->getTable();
 		while ($table->load(array('alias' => $alias, 'parent_id' => $parent_id)))
 		{
-			$title = JString::increment($title);
+			if ($title == $table->title)
+			{
+				$title = JString::increment($title);
+			}
 			$alias = JString::increment($alias, 'dash');
 		}
 

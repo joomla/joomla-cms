@@ -13,11 +13,13 @@ JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.multiselect');
 
+$app		= JFactory::getApplication();
 $user		= JFactory::getUser();
 $userId		= $user->get('id');
 $listOrder	= $this->escape($this->state->get('list.ordering'));
 $listDirn	= $this->escape($this->state->get('list.direction'));
 $saveOrder	= $listOrder == 'a.ordering';
+$assoc		= isset($app->item_associations) ? $app->item_associations : 0;
 $n			= count($this->items);
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_content&view=articles');?>" method="post" name="adminForm" id="adminForm">
@@ -100,6 +102,11 @@ $n			= count($this->items);
 				<th class="title access-col">
 					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ACCESS', 'access_level', $listDirn, $listOrder); ?>
 				</th>
+				<?php if ($assoc): ?>
+				<th width="5%">
+					<?php echo JHtml::_('grid.sort', 'COM_CONTENT_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
+				</th>
+				<?php endif;?>
 				<th class="title created-by-col">
 					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_CREATED_BY', 'a.created_by', $listDirn, $listOrder); ?>
 				</th>
@@ -174,6 +181,13 @@ $n			= count($this->items);
 				<td class="center">
 					<?php echo $this->escape($item->access_level); ?>
 				</td>
+				<?php if ($assoc): ?>
+				<td class="center">
+					<?php if ($item->association):?>
+						<?php echo JHtml::_('contentadministrator.association', $item->id);?>
+					<?php endif;?>
+				</td>
+				<?php endif;?>
 				<td class="center">
 					<?php echo $this->escape($item->author_name); ?>
 				</td>

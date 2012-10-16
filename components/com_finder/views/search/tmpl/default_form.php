@@ -82,7 +82,7 @@ defined('_JEXEC') or die;
 		<?php if ($this->escape($this->query->input) != '' || $this->params->get('allow_empty_search')):?>
 			<button name="Search" type="submit" class="btn btn-primary"><i class="icon-search icon-white"></i> <?php echo JText::_('JSEARCH_FILTER_SUBMIT');?></button>
 		<?php else: ?>
-			<button name="Search" type="" class="btn btn-primary disabled"><i class="icon-search icon-white"></i> <?php echo JText::_('JSEARCH_FILTER_SUBMIT');?></button>
+			<button name="Search" type="submit" class="btn btn-primary disabled"><i class="icon-search icon-white"></i> <?php echo JText::_('JSEARCH_FILTER_SUBMIT');?></button>
 		<?php endif; ?>
 		<?php if ($this->params->get('show_advanced', 1)): ?>
 			<a href="#advancedSearch" data-toggle="collapse" class="btn"><i class="icon-list"></i> <?php echo JText::_('COM_FINDER_ADVANCED_SEARCH_TOGGLE'); ?></a>

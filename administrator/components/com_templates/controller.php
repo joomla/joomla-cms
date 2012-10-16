@@ -35,9 +35,6 @@ class TemplatesController extends JControllerLegacy
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{
-		// Load the submenu.
-		TemplatesHelper::addSubmenu($this->input->get('view', 'styles'));
-
 		$view   = $this->input->get('view', 'styles');
 		$layout = $this->input->get('layout', 'default');
 		$id     = $this->input->getInt('id');
@@ -52,15 +49,6 @@ class TemplatesController extends JControllerLegacy
 			return false;
 		}
 
-		parent::display();
-	}
-
-	/**
-	 * Preview Template
-	 */
-	public function preview()
-	{
-		$this->input->set('view', 'prevuuw');
 		parent::display();
 	}
 }

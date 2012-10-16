@@ -25,8 +25,10 @@ class MediaModelList extends JModelLegacy
 	{
 		static $set;
 
-		if (!$set) {
-			$folder = JRequest::getVar('folder', '', '', 'path');
+		if (!$set)
+		{
+			$input  = JFactory::getApplication()->input;
+			$folder = $input->get('folder', '', 'path');
 			$this->setState('folder', $folder);
 
 			$parent = str_replace("\\", "/", dirname($folder));
@@ -82,7 +84,6 @@ class MediaModelList extends JModelLegacy
 			$current = '';
 		}
 
-		// Initialise variables.
 		if (strlen($current) > 0) {
 			$basePath = COM_MEDIA_BASE.'/'.$current;
 		}

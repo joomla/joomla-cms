@@ -47,15 +47,7 @@ class MenusModelItems extends JModelList
 			);
 
 			$app = JFactory::getApplication();
-			if (isset($app->menu_associations))
-			{
-				$assoc = $app->menu_associations;
-			}
-			else
-			{
-				$assoc = 0;
-			}
-
+			$assoc = isset($app->item_associations) ? $app->item_associations : 0;
 			if ($assoc)
 			{
 				$config['filter_fields'][] = 'association';
@@ -183,7 +175,14 @@ class MenusModelItems extends JModelList
 		$app	= JFactory::getApplication();
 
 		// Select all fields from the table.
-		$query->select($this->getState('list.select', 'a.id, a.menutype, a.title, a.alias, a.note, a.path, a.link, a.type, a.parent_id, a.level, a.published as apublished, a.component_id, a.checked_out, a.checked_out_time, a.browserNav, a.access, a.img, a.template_style_id, a.params, a.lft, a.rgt, a.home, a.language, a.client_id'));
+		$query->select(
+			$this->getState('list.select',
+				$db->quoteName(
+					array('a.id', 'a.menutype', 'a.title', 'a.alias', 'a.note', 'a.path', 'a.link', 'a.type', 'a.parent_id', 'a.level', 'a.published', 'a.component_id', 'a.checked_out', 'a.checked_out_time', 'a.browserNav', 'a.access', 'a.img', 'a.template_style_id', 'a.params', 'a.lft', 'a.rgt', 'a.home', 'a.language', 'a.client_id'),
+					array(null, null, null, null, null, null, null, null, null, null, 'apublished', null, null, null, null, null, null, null, null, null, null, null, null, null)
+				)
+			)
+		);
 		$query->select('CASE a.type' .
 			' WHEN ' . $db->quote('component') . ' THEN a.published+2*(e.enabled-1) ' .
 			' WHEN ' . $db->quote('url') . ' THEN a.published+2 ' .
@@ -209,7 +208,7 @@ class MenusModelItems extends JModelList
 		$query->join('LEFT', '#__viewlevels AS ag ON ag.id = a.access');
 
 		// Join over the associations.
-		$assoc = isset($app->menu_associations) ? $app->menu_associations : 0;
+		$assoc = isset($app->item_associations) ? $app->item_associations : 0;
 		if ($assoc)
 		{
 			$query->select('COUNT(asso2.id)>1 as association');

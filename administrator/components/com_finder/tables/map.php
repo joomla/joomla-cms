@@ -46,12 +46,10 @@ class FinderTableMap extends JTable
 	 */
 	public function publish($pks = null, $state = 1, $userId = 0)
 	{
-		// Initialise variables.
 		$k = $this->_tbl_key;
 
 		// Sanitize input.
 		JArrayHelper::toInteger($pks);
-		$userId = (int) $userId;
 		$state = (int) $state;
 
 		// If there are no primary keys set check to see if the instance key is set.

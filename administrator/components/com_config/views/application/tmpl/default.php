@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 // Load tooltips behavior
 JHtml::_('behavior.formvalidation');
 JHtml::_('behavior.tooltip');
+JHtml::_('formbehavior.chosen', 'select');
 ?>
 <script type="text/javascript">
 	Joomla.submitbutton = function(task)
@@ -30,11 +31,11 @@ JHtml::_('behavior.tooltip');
 				<?php echo $this->loadTemplate('navigation'); ?>
 				<?php
 					// Display the submenu position modules
-					$this->modules = JModuleHelper::getModules('submenu');
-					foreach ($this->modules as $module) {
-						$output = JModuleHelper::renderModule($module);
+					$this->submenumodules = JModuleHelper::getModules('submenu');
+					foreach ($this->submenumodules as $submenumodule) {
+						$output = JModuleHelper::renderModule($submenumodule);
 						$params = new JRegistry;
-						$params->loadString($module->params);
+						$params->loadString($submenumodule->params);
 						echo $output;
 					}
 				?>

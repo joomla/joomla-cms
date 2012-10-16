@@ -571,7 +571,6 @@ abstract class JModelAdmin extends JModelForm
 	 */
 	public function checkin($pks = array())
 	{
-		// Initialise variables.
 		$pks = (array) $pks;
 		$table = $this->getTable();
 		$count = 0;
@@ -618,7 +617,6 @@ abstract class JModelAdmin extends JModelForm
 	 */
 	public function checkout($pk = null)
 	{
-		// Initialise variables.
 		$pk = (!empty($pk)) ? $pk : (int) $this->getState($this->getName() . '.id');
 
 		return parent::checkout($pk);
@@ -635,7 +633,6 @@ abstract class JModelAdmin extends JModelForm
 	 */
 	public function delete(&$pks)
 	{
-		// Initialise variables.
 		$dispatcher = JEventDispatcher::getInstance();
 		$pks = (array) $pks;
 		$table = $this->getTable();
@@ -740,7 +737,6 @@ abstract class JModelAdmin extends JModelForm
 	 */
 	public function getItem($pk = null)
 	{
-		// Initialise variables.
 		$pk = (!empty($pk)) ? $pk : (int) $this->getState($this->getName() . '.id');
 		$table = $this->getTable();
 
@@ -794,7 +790,6 @@ abstract class JModelAdmin extends JModelForm
 	 */
 	protected function populateState()
 	{
-		// Initialise variables.
 		$table = $this->getTable();
 		$key = $table->getKeyName();
 
@@ -833,7 +828,6 @@ abstract class JModelAdmin extends JModelForm
 	 */
 	public function publish(&$pks, $value = 1)
 	{
-		// Initialise variables.
 		$dispatcher = JEventDispatcher::getInstance();
 		$user = JFactory::getUser();
 		$table = $this->getTable();
@@ -898,7 +892,6 @@ abstract class JModelAdmin extends JModelForm
 	 */
 	public function reorder($pks, $delta = 0)
 	{
-		// Initialise variables.
 		$table = $this->getTable();
 		$pks = (array) $pks;
 		$result = true;
@@ -967,7 +960,6 @@ abstract class JModelAdmin extends JModelForm
 	 */
 	public function save($data)
 	{
-		// Initialise variables;
 		$dispatcher = JEventDispatcher::getInstance();
 		$table = $this->getTable();
 		$key = $table->getKeyName();
@@ -1055,7 +1047,6 @@ abstract class JModelAdmin extends JModelForm
 	 */
 	public function saveorder($pks = null, $order = null)
 	{
-		// Initialise variables.
 		$table = $this->getTable();
 		$conditions = array();
 

@@ -37,7 +37,6 @@ class JFormFieldSample extends JFormFieldRadio
 	 */
 	protected function getOptions()
 	{
-		// Initialize variables.
 		$lang = JFactory::getLanguage();
 		$options = array();
 		$type = $this->form->getValue('db_type');
@@ -55,12 +54,15 @@ class JFormFieldSample extends JFormFieldRadio
 		// Get a list of files in the search path with the given filter.
 		$files = JFolder::files(JPATH_INSTALLATION . '/sql/' . $type, '^sample.*\.sql$');
 
+		// Add option to not install sampledata.
+		$options[] = JHtml::_('select.option', '', 'INSTL_SITE_INSTALL_SAMPLE_NONE');
+
 		// Build the options list from the list of files.
 		if (is_array($files))
 		{
 			foreach ($files as $file)
 			{
-				$options[] = JHtml::_('select.option', $file, $lang->hasKey($key = 'INSTL_' . ($file = JFile::stripExt($file)) . '_SET') ? JText::_($key) : $file);
+				$options[] = JHtml::_('select.option', $file, $lang->hasKey($key = 'INSTL_' . ($file = JFile::stripExt($file)) . '_SET') ? $key : $file);
 			}
 		}
 
@@ -88,7 +90,7 @@ class JFormFieldSample extends JFormFieldRadio
 			}
 			else
 			{
-				$this->value = 'sample_data.sql';
+				$this->value = '';
 			}
 		}
 

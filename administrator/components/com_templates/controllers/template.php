@@ -34,9 +34,10 @@ class TemplatesControllerTemplate extends JControllerLegacy
 
 		$app = JFactory::getApplication();
 		$this->input->set('installtype', 'folder');
-		$newName = $this->input->get('new_name');
-		$newNameRaw = JRequest::getVar('new_name', null, '', 'string');
+		$newName    = $this->input->get('new_name');
+		$newNameRaw = $this->input->get('new_name', null, 'string');
 		$templateID = $this->input->getInt('id', 0);
+
 		$this->setRedirect('index.php?option=com_templates&view=template&id=' . $templateID);
 		$model = $this->getModel('Template', 'TemplatesModel');
 		$model->setState('new_name', $newName);

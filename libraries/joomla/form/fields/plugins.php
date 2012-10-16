@@ -37,7 +37,6 @@ class JFormFieldPlugins extends JFormFieldList
 	 */
 	protected function getOptions()
 	{
-		// Initialise variables
 		$folder	= $this->element['folder'];
 
 		if (!empty($folder))

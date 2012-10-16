@@ -265,6 +265,12 @@ hr.hr-condensed {
 .row-striped .row-fluid [class*="span"] {
 	min-height: 10px;
 }
+.row-striped .row-fluid [class*="span"] {
+	margin-left: 8px;
+}
+.row-striped .row-fluid [class*="span"]:first-child {
+	margin-left: 0;
+}
 
 /* Condensed */
 .list-condensed {
@@ -308,8 +314,8 @@ fieldset.radio.btn-group {
 }
 
 /* iFrames */
-.iframe {
-	border: 0;
+.iframe-bordered {
+	border: 1px solid @tableBorder;
 }
 
 /* Tabbed Content */
@@ -412,4 +418,14 @@ fieldset.radio.btn-group {
 /* Auto Width */
 .width-auto {
 	width: auto;
+}
+
+/* Chosen proper wrapping in Bootstrap btn-group */
+.btn-group .chzn-results {
+	white-space: normal;
+}
+
+/* Accordion overflow fix */
+.accordion-body.in:hover {
+	overflow:visible;
 }

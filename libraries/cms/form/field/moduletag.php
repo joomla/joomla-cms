@@ -9,6 +9,8 @@
 
 defined('JPATH_BASE') or die;
 
+JFormHelper::loadFieldClass('list');
+
 /**
  * Form Field class for the Joomla Framework.
  *
@@ -35,7 +37,6 @@ class JFormFieldModuleTag extends JFormFieldList
 	 */
 	protected function getOptions()
 	{
-		// Initialize variables.
 		$options = array();
 		$tags = array('div', 'section', 'aside', 'nav', 'address', 'article');
 

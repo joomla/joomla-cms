@@ -11,6 +11,7 @@ defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.installer.extension');
 jimport('joomla.base.adapterinstance');
+jimport('joomla.filesystem.folder');
 
 /**
  * Template installer
@@ -363,7 +364,6 @@ class JInstallerTemplate extends JAdapterInstance
 	 */
 	public function uninstall($id)
 	{
-		// Initialise variables.
 		$retval = true;
 
 		// First order of business will be to load the template object table from the database.

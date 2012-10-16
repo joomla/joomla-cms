@@ -71,7 +71,6 @@ class UsersModelUser extends JModelAdmin
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
-		// Initialise variables.
 		$app = JFactory::getApplication();
 
 		// Get the form.
@@ -146,7 +145,6 @@ class UsersModelUser extends JModelAdmin
 	 */
 	public function save($data)
 	{
-		// Initialise variables;
 		$pk			= (!empty($data['id'])) ? $data['id'] : (int) $this->getState('user.id');
 		$user		= JUser::getInstance($pk);
 
@@ -206,7 +204,6 @@ class UsersModelUser extends JModelAdmin
 	 */
 	public function delete(&$pks)
 	{
-		// Initialise variables.
 		$user	= JFactory::getUser();
 		$table	= $this->getTable();
 		$pks	= (array) $pks;
@@ -282,10 +279,10 @@ class UsersModelUser extends JModelAdmin
 	 */
 	public function block(&$pks, $value = 1)
 	{
-		// Initialise variables.
 		$app		= JFactory::getApplication();
 		$dispatcher	= JEventDispatcher::getInstance();
 		$user		= JFactory::getUser();
+
 		// Check if I am a Super Admin
 		$iAmSuperAdmin	= $user->authorise('core.admin');
 		$table		= $this->getTable();
@@ -393,9 +390,9 @@ class UsersModelUser extends JModelAdmin
 	 */
 	public function activate(&$pks)
 	{
-		// Initialise variables.
 		$dispatcher	= JEventDispatcher::getInstance();
 		$user		= JFactory::getUser();
+
 		// Check if I am a Super Admin
 		$iAmSuperAdmin	= $user->authorise('core.admin');
 		$table		= $this->getTable();
@@ -677,7 +674,6 @@ class UsersModelUser extends JModelAdmin
 	 */
 	public function getAssignedGroups($userId = null)
 	{
-		// Initialise variables.
 		$userId = (!empty($userId)) ? $userId : (int) $this->getState('user.id');
 
 		if (empty($userId))

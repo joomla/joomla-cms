@@ -28,7 +28,6 @@ class UsersModelMail extends JModelAdmin
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
-		// Initialise variables.
 		$app = JFactory::getApplication();
 
 		// Get the form.
@@ -69,9 +68,8 @@ class UsersModelMail extends JModelAdmin
 
 	public function send()
 	{
-		// Initialise variables.
-		$data   = JRequest::getVar('jform', array(), 'post', 'array');
 		$app    = JFactory::getApplication();
+		$data   = $app->input->post->get('jform', array(), 'array');
 		$user   = JFactory::getUser();
 		$access = new JAccess;
 		$db     = $this->getDbo();
