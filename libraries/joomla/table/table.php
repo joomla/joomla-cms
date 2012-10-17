@@ -228,7 +228,7 @@ abstract class JTable extends JObject
 		settype($path, 'array');
 
 		// If we have new paths to add, do so.
-		if (!empty($path) && !in_array($path, self::$_includePaths))
+		if (!empty($path))
 		{
 			// Check and add each individual new path.
 			foreach ($path as $dir)
@@ -237,7 +237,10 @@ abstract class JTable extends JObject
 				$dir = trim($dir);
 
 				// Add to the front of the list so that custom paths are searched first.
-				array_unshift(self::$_includePaths, $dir);
+				if (!in_array($dir, self::$_includePaths))
+				{
+					array_unshift(self::$_includePaths, $dir);
+				}
 			}
 		}
 
