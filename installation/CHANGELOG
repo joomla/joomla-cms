@@ -32,6 +32,7 @@ $ -> Language fix or change
  # [#28379] *Normalizing Hathor css and js load in index.php + correcting a small error
  # [#29239] Increment the hit counter of the category. Thanks Roberto
  # [#29494] *Normalising Edit Category page
+ # [#29499] "Browser Page Title" Not Considered in Category Blog Layouts. Thanks Mig
 
 14-Oct-2012 Jean-Marie Simonet
  + [#27373] [patch] Implementing Items associations in multilanguage. Thanks Benjamin.

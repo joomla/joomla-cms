@@ -223,8 +223,7 @@ class ContentViewCategory extends JViewLegacy
 			}
 		}
 
-		$title = $this->category->title;
-
+		$title = $this->params->get('page_title', '');
 		if (empty($title)) {
 			$title = $app->getCfg('sitename');
 		}
