@@ -69,6 +69,9 @@ JHtml::_('behavior.keepalive');
 
 				<li><?php echo $this->form->getLabel('id'); ?>
 				<?php echo $this->form->getInput('id'); ?></li>
+
+				<li><?php echo $this->form->getLabel('hits'); ?>
+				<?php echo $this->form->getInput('hits'); ?></li>
 			</ul>
 
 			<div class="clr"></div>

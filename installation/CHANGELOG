@@ -29,7 +29,9 @@ $ -> Language fix or change
 17-Oct-2012 Jean-Marie Simonet
  # [#29470] *Hathor submenus broken. Thanks Yannick
  # [#29477] Missing style for Cancel
- #  [#28379] *Normalizing Hathor css and js load in index.php + correcting a small error
+ # [#28379] *Normalizing Hathor css and js load in index.php + correcting a small error
+ # [#29239] Increment the hit counter of the category. Thanks Roberto
+ # [#29494] *Normalising Edit Category page
 
 14-Oct-2012 Jean-Marie Simonet
  + [#27373] [patch] Implementing Items associations in multilanguage. Thanks Benjamin.
