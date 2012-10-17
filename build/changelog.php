@@ -10,13 +10,10 @@
  *
  * php -f run.php
  *
- * @package     Joomla.Examples
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @package    Joomla.Examples
+ * @copyright  Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE
  */
-
-// We are a valid Joomla entry point.
-define('_JEXEC', 1);
 
 // Setup the path related constants.
 define('JPATH_BASE', dirname(__FILE__));
@@ -310,6 +307,8 @@ class Changelog extends JApplicationCli
 
 	/**
 	 * Get information about a specific pull request.
+	 *
+	 * @param   integer  $id  The GitHub pull request number.
 	 *
 	 * @return  object
 	 *
