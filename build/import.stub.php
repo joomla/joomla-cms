@@ -1,5 +1,8 @@
 <?php
 /**
+ * Bootstrap file for the Joomla Platform.  This file becomes the PHAR stub when the platform is built
+ * into a single deployable archive to be used in Joomla applications.
+ *
  * @package    Joomla.Platform
  *
  * @copyright  Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
@@ -21,13 +24,9 @@ if (!defined('IS_WIN'))
 {
 	define('IS_WIN', ($os === 'WIN') ? true : false);
 }
-if (!defined('IS_MAC'))
-{
-	define('IS_MAC', ($os === 'MAC') ? true : false);
-}
 if (!defined('IS_UNIX'))
 {
-	define('IS_UNIX', (($os !== 'MAC') && ($os !== 'WIN')) ? true : false);
+	define('IS_UNIX', (IS_WIN === false) ? true : false);
 }
 
 // Import the platform version library if necessary.

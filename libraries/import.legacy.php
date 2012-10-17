@@ -1,5 +1,8 @@
 <?php
 /**
+ * Bootstrap file for the Joomla Platform [with legacy libraries].  Including this file into your application
+ * will make Joomla Platform libraries [including legacy libraries] available for use.
+ *
  * @package    Joomla.Platform
  *
  * @copyright  Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
@@ -43,7 +46,11 @@ if (!class_exists('JLoader'))
 	require_once JPATH_PLATFORM . '/loader.php';
 }
 
-class_exists('JLoader') or die;
+// Make sure that the Joomla Platform has been successfully loaded.
+if (!class_exists('JLoader'))
+{
+	throw new RuntimeException('Joomla Platform not loaded.');
+}
 
 // Setup the autoloaders.
 JLoader::setup();
@@ -54,15 +61,15 @@ JLoader::registerPrefix('J', JPATH_PLATFORM . '/legacy');
 // Import the Joomla Factory.
 JLoader::import('joomla.factory');
 
+// Register classes for compatability with PHP 5.3
+if (version_compare(PHP_VERSION, '5.4.0', '<'))
+{
+	JLoader::register('JsonSerializable', __DIR__ . '/compat/jsonserializable.php');
+}
+
 // Register classes that don't follow one file per class naming conventions.
 JLoader::register('JText', JPATH_PLATFORM . '/joomla/language/text.php');
 JLoader::register('JRoute', JPATH_PLATFORM . '/joomla/application/route.php');
 
 // Register the folder for the moved JHtml classes
 JHtml::addIncludePath(JPATH_PLATFORM . '/legacy/html');
-
-// Register classes for compatability with PHP 5.3
-if (version_compare(PHP_VERSION, '5.4.0', '<'))
-{
-	JLoader::register('JsonSerializable', __DIR__ . '/compat/jsonserializable.php');
-}

@@ -1,5 +1,8 @@
 <?php
 /**
+ * Bootstrap file for the Joomla Platform.  Including this file into your application will make Joomla
+ * Platform libraries available for use.
+ *
  * @package    Joomla.Platform
  *
  * @copyright  Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
@@ -35,7 +38,11 @@ if (!class_exists('JLoader'))
 	require_once JPATH_PLATFORM . '/loader.php';
 }
 
-class_exists('JLoader') or die;
+// Make sure that the Joomla Platform has been successfully loaded.
+if (!class_exists('JLoader'))
+{
+	throw new RuntimeException('Joomla Platform not loaded.');
+}
 
 // Setup the autoloaders.
 JLoader::setup();

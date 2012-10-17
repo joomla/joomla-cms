@@ -4,6 +4,7 @@
 		<file localPath="lib">libraries/import.php</file>
 		<file localPath="lib">libraries/loader.php</file>
 		<file localPath="lib">libraries/platform.php</file>
+		<file localPath="">tests/version.php</file>
 		<folder recursive="true" localPath="lib/compat">libraries/compat</folder>
 		<folder recursive="true" localPath="lib/joomla">libraries/joomla</folder>
 		<folder recursive="true" localPath="lib/phpmailer">libraries/phpmailer</folder>
