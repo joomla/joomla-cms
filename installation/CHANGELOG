@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+17-Oct-2012 Jean-Marie Simonet
+ # [#29264] Field "alias" disappears in menu manager with type "External URL". Thanks Roberto
+
 12-Oct-2012 Jean-Marie Simonet
  # [#29488] Missing JText In Language Installer
  
