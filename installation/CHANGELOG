@@ -28,6 +28,7 @@ $ -> Language fix or change
 
 17-Oct-2012 Jean-Marie Simonet
  # [#29470] *Hathor submenus broken. Thanks Yannick
+ # [#29477] Missing style for Cancel
 
 14-Oct-2012 Jean-Marie Simonet
  + [#27373] [patch] Implementing Items associations in multilanguage. Thanks Benjamin.
