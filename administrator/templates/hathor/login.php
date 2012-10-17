@@ -12,44 +12,69 @@ defined('_JEXEC') or die;
 $app = JFactory::getApplication();
 JHtml::_('behavior.noframes');
 $lang = JFactory::getLanguage();
+$doc	= JFactory::getDocument();
+
+// Load optional rtl bootstrap css and bootstrap bugfixes
+JHtmlBootstrap::loadCss($includeMaincss = false, $this->direction);
+
+// Load system style CSS
+$doc->addStyleSheet('templates/system/css/system.css');
+
+// Loadtemplate CSS
+$doc->addStyleSheet('templates/'.$this->template.'/css/template.css');
+
+// Load additional CSS styles for colors
+if (!$this->params->get('colourChoice')) :
+$colour = 'standard';
+else :
+$colour = htmlspecialchars($this->params->get('colourChoice'));
+endif;
+$doc->addStyleSheet('templates/'.$this->template.'/css/colour_'.$colour.'.css');
+
+// Load specific language related CSS
+$file = 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css';
+if (is_file($file))
+{
+	$doc->addStyleSheet($file);
+}
+
+// Load additional CSS styles for rtl sites
+if ($this->direction == 'rtl')
+{
+	$doc->addStyleSheet('templates/'.$this->template.'/css/template_rtl.css');
+	$doc->addStyleSheet('templates/'.$this->template.'/css/colour_'.$colour.'_rtl.css');
+}
+
+// Load specific language related CSS
 $file = 'language/'.$lang->getTag().'/'.$lang->getTag().'.css';
+if (JFile::exists($file))
+{
+	$doc->addStyleSheet($file);
+}
+
+// Load additional CSS styles for bold Text
+if ($this->params->get('boldText'))
+{
+	$doc->addStyleSheet('templates/'.$this->template.'/css/boldtext.css');
+}
+
+// Load template javascript
+$doc->addScript('templates/'.$this->template.'/js/template.js', 'text/javascript');
+// Logo file
+if ($this->params->get('logoFile'))
+{
+	$logo = JURI::root() . $this->params->get('logoFile');
+}
+else
+{
+	$logo = $this->baseurl . "/templates/" . $this->template . "/images/logo.png";
+}
+
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>" >
 <head>
 <jdoc:include type="head" />
-
-<!-- Load system style CSS -->
-<link rel="stylesheet" href="templates/system/css/system.css" type="text/css" />
-
-<!-- Load Template CSS -->
-<link href="templates/<?php echo $this->template ?>/css/template.css" rel="stylesheet" type="text/css" />
-
-<!-- Load additional CSS styles for colors -->
-<?php
-	if (!$this->params->get('colourChoice')) :
-		$colour = 'standard';
-	else :
-		$colour = htmlspecialchars($this->params->get('colourChoice'));
-	endif;
-?>
-<link href="templates/<?php echo $this->template ?>/css/colour_<?php echo $colour; ?>.css" rel="stylesheet" type="text/css" />
-
-<!-- Load additional CSS styles for rtl sites -->
-<?php if ($this->direction == 'rtl') : ?>
-	<link href="templates/<?php echo  $this->template ?>/css/template_rtl.css" rel="stylesheet" type="text/css" />
-	<link href="templates/<?php echo $this->template ?>/css/colour_<?php echo $colour; ?>_rtl.css" rel="stylesheet" type="text/css" />
-<?php endif; ?>
-
-<!-- Load specific language related css -->
-<?php if (is_file($file)) : ?>
-	<link href="<?php echo $file ?>" rel="stylesheet" type="text/css" />
-<?php  endif; ?>
-
-<!-- Load additional CSS styles for bold Text -->
-<?php if ($this->params->get('boldText')) : ?>
-	<link href="templates/<?php echo $this->template ?>/css/boldtext.css" rel="stylesheet" type="text/css" />
-<?php  endif; ?>
 
 <!-- Load additional CSS styles for Internet Explorer -->
 <!--[if IE 7]>
@@ -58,8 +83,6 @@ $file = 'language/'.$lang->getTag().'/'.$lang->getTag().'.css';
 <!--[if lt IE 9]>
 	<script src="../media/jui/js/html5.js"></script>
 <![endif]-->
-<!-- Load Template JavaScript -->
-<script type="text/javascript" src="templates/<?php  echo  $this->template  ?>/js/template.js"></script>
 
 </head>
 <body id="login-page">
