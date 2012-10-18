@@ -181,6 +181,11 @@ JHtml::_('formbehavior.chosen', 'select');
 			<hr />
 			<fieldset class="form-vertical">
 				<div class="control-group">
+					<div class="controls">
+						<?php echo $this->form->getValue('title'); ?>
+					</div>
+				</div>
+				<div class="control-group">
 					<?php echo $this->form->getLabel('parent_id'); ?>
 					<div class="controls">
 						<?php echo $this->form->getInput('parent_id'); ?>

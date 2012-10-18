@@ -30,6 +30,7 @@ $ -> Language fix or change
  # [#29519] *Edit Menu Item layout usability
  # [#29401] Repeated htmlspecialchars() Applied When Multiple Breadcrumbs Active. Thanks Peter and Roland
  $# [#29521] Missing lang string in installation + correcting wrong constant in InstallationModelDatabase
+ # Category title display ommitted in Details column #29494 
 
 17-Oct-2012 Jean-Marie Simonet
  # [#29470] *Hathor submenus broken. Thanks Yannick
