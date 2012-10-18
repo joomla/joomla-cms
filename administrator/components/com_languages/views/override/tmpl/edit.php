@@ -109,7 +109,7 @@ JHtml::_('formbehavior.chosen', 'select');
 
 				<div class="control-group">
 					<?php echo $this->form->getInput('searchstring'); ?>
-					<button type="submit" onclick="Joomla.overrider.searchStrings();return false;">
+					<button type="submit" class="btn btn-primary" onclick="Joomla.overrider.searchStrings();return false;">
 						<?php echo JText::_('COM_LANGUAGES_VIEW_OVERRIDE_SEARCH_BUTTON'); ?>
 					</button>
 					<span id="refresh-status" class="overrider-spinner  help-block">
