@@ -80,6 +80,12 @@ class JGithub
 	protected $milestones;
 
 	/**
+	 * @var    JGithubStatuses  GitHub API object for statuses.
+	 * @since  12.3
+	 */
+	protected $statuses;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   JRegistry    $options  GitHub options object.
@@ -168,6 +174,15 @@ class JGithub
 				$this->milestones = new JGithubMilestones($this->options, $this->client);
 			}
 			return $this->milestones;
+		}
+
+		if ($name == 'statuses')
+		{
+			if ($this->statuses == null)
+			{
+				$this->statuses = new JGithubStatuses($this->options, $this->client);
+			}
+			return $this->statuses;
 		}
 	}
 
