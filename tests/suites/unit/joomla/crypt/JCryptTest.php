@@ -119,8 +119,8 @@ class JCryptTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGenRandomBytes()
 	{
-		// We're just testing wether the value has the expected length,
-		// we obviously can't test the result since it's random.
+		// We're just testing wether the value has the expected length.
+		// We obviously can't test the result since it's random.
 
 		$randomBytes16 = JCrypt::genRandomBytes();
 		$this->assertEquals(strlen($randomBytes16), 16);
