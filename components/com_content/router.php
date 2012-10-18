@@ -76,12 +76,11 @@ function ContentBuildRoute(&$query)
 				// Make sure we have the id and the alias
 				if (strpos($query['id'], ':') === false) {
 					$db = JFactory::getDbo();
-					$aquery = $db->setQuery(
-						$db->getQuery(true)
-						->select('alias')
-						->from('#__content')
-						->where('id=' . (int) $query['id'])
-					);
+					$aquery = $db->getQuery(true);
+					$aquery->select('alias');
+					$aquery->from('#__content');
+					$aquery->where('id=' . (int) $query['id']);
+					$db->setQuery($aquery);
 					$alias = $db->loadResult();
 					$query['id'] = $query['id'].':'.$alias;
 				}
@@ -244,7 +243,10 @@ function ContentParseRoute($segments)
 
 			return $vars;
 		} else {
-			$query = 'SELECT alias, catid FROM #__content WHERE id = ' . (int) $id;
+			$query = $db->getQuery(true);
+			$query->select('alias, catid');
+			$query->from('#__content');
+			$query->where('id = ' . (int) $id);
 			$db->setQuery($query);
 			$article = $db->loadObject();
 
@@ -254,6 +256,11 @@ function ContentParseRoute($segments)
 					$vars['catid'] = (int) $article->catid;
 					$vars['id'] = (int) $id;
 
+					return $vars;
+				}
+				else
+				{
+					JError::raiseError(404, JText::_('COM_CONTENT_ERROR_ARTICLE_NOT_FOUND'));
 					return $vars;
 				}
 			}
@@ -266,12 +273,30 @@ function ContentParseRoute($segments)
 	if (!$advanced) {
 		$cat_id = (int) $segments[0];
 
-		$article_id = (int) $segments[$count - 1];
+		list($article_id, $alias) = explode(':', $segments[$count - 1], 2);
 
 		if ($article_id > 0) {
-			$vars['view'] = 'article';
-			$vars['catid'] = $cat_id;
-			$vars['id'] = $article_id;
+
+			// Load article to check alias
+			$query = $db->getQuery(true);
+			$query->select('c.alias, c.catid');
+			$query->from('#__content AS c');
+			$query->where('c.id = ' . (int) $article_id);
+			$db->setQuery($query);
+			$article = $db->loadObject();
+
+			if ($article->alias == $alias)
+			{
+				$vars['view'] = 'article';
+				$vars['catid'] = $cat_id;
+				$vars['id'] = $article_id;
+			}
+			else
+			{
+				JError::raiseError(404, JText::_('COM_CONTENT_ERROR_ARTICLE_NOT_FOUND'));
+				return $vars;
+			}
+
 		} else {
 			$vars['view'] = 'category';
 			$vars['id'] = $cat_id;
@@ -313,7 +338,11 @@ function ContentParseRoute($segments)
 		if ($found == 0) {
 			if ($advanced) {
 				$db = JFactory::getDBO();
-				$query = 'SELECT id FROM #__content WHERE catid = '.$vars['catid'].' AND alias = '.$db->Quote($segment);
+				$query = $db->getQuery(true);
+				$query->select('id');
+				$query->from('#__content');
+				$query->where('catid = ' . (int) $vars['catid']);
+				$query->where('alias = ' . $db->Quote($segment));
 				$db->setQuery($query);
 				$cid = $db->loadResult();
 			} else {
