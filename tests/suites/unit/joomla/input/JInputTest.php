@@ -284,6 +284,29 @@ class JInputTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Test the JInput::getArray method without specified variables.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.3
+	 */
+	public function testGetArrayWithoutSpecifiedVariables()
+	{
+		$array = array(
+			'var2' => 34,
+			'var3' => array('var2' => 'test'),
+			'var4' => array('var1' => array('var2' => 'test')),
+			'var5' => array('foo' => array()),
+			'var6' => array('bar' => null),
+			'var7' => null
+		);
+
+		$input = new JInput($array);
+
+		$this->assertEquals($input->getArray(), $array);
+	}
+
+	/**
 	 * Test the JInput::get method.
 	 *
 	 * @return  void
