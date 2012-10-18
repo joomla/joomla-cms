@@ -92,6 +92,20 @@ class JTableTest extends TestCaseDatabase
 			$this->equalTo(realpath(JPATH_PLATFORM . '/joomla/table')),
 			'The default return from addIncludePath without additional parameters should be to "JPATH_PLATFORM . /joomla/table"'
 		);
+
+		// Test that adding paths that already exist don't get re-added
+		$expected = array(
+			'/dummy/',
+			'dir/not/exist',
+			JPATH_PLATFORM . '/joomla/table'
+		);
+
+		// Add dummy paths
+		$paths = JTable::addIncludePath(array('dir/not/exist', '/dummy/'));
+		// Re-add the returned paths - these shouldn't get added again.
+		$paths = JTable::addIncludePath($paths);
+
+		$this->assertEquals($expected, $paths);
 	}
 
 	/**
