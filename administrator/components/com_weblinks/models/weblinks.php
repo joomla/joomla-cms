@@ -45,7 +45,7 @@ class WeblinksModelWeblinks extends JModelList
 				'hits', 'a.hits',
 				'publish_up', 'a.publish_up',
 				'publish_down', 'a.publish_down',
-				'url', 'a.url',
+				'url', 'a.url'
 			);
 		}
 
