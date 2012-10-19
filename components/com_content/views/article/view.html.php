@@ -72,9 +72,14 @@ class ContentViewArticle extends JViewLegacy
 				// $item->params are the article params, $temp are the menu item params
 				// Merge so that the menu item params take priority
 				$item->params->merge($temp);
+
 				// Load layout from active query (in case it is an alternative menu item)
-				if (isset($active->query['layout'])) {
-					$this->setLayout($active->query['layout']);
+				// If not in active query check menu layout option
+				if ( isset( $active->query['layout'] ) ) {
+					$this->setLayout( $active->query['layout'] );
+				}
+				elseif ( $item->params->get( 'layout' ) ) {
+					$this->setLayout( $item->params->get( 'layout' ) );
 				}
 			}
 			else {
