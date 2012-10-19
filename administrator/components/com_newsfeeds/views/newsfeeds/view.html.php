@@ -29,20 +29,21 @@ class NewsfeedsViewNewsfeeds extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$this->items		= $this->get('Items');
-		$this->pagination	= $this->get('Pagination');
-		$this->state		= $this->get('State');
+		$this->items = $this->get('Items');
+		$this->pagination = $this->get('Pagination');
+		$this->state = $this->get('State');
 
 		NewsfeedsHelper::addSubmenu('newsfeeds');
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors'))) {
+		if (count($errors = $this->get('Errors')))
+		{
 			JError::raiseError(500, implode("\n", $errors));
 			return false;
 		}
 
 		$this->addToolbar();
-		$this->sidebar = JHtmlSidebar::render();
+		$this->sidebar = JHtml::_('sidebar.render');
 		parent::display($tpl);
 	}
 
@@ -53,29 +54,36 @@ class NewsfeedsViewNewsfeeds extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		$state	= $this->get('State');
-		$canDo	= NewsfeedsHelper::getActions($state->get('filter.category_id'));
-		$user	= JFactory::getUser();
+		$state = $this->get('State');
+		$canDo = NewsfeedsHelper::getActions($state->get('filter.category_id'));
+		$user = JFactory::getUser();
 		// Get the toolbar object instance
 		$bar = JToolBar::getInstance('toolbar');
 		JToolbarHelper::title(JText::_('COM_NEWSFEEDS_MANAGER_NEWSFEEDS'), 'newsfeeds.png');
-		if (count($user->getAuthorisedCategories('com_newsfeeds', 'core.create')) > 0) {
+		if (count($user->getAuthorisedCategories('com_newsfeeds', 'core.create')) > 0)
+		{
 			JToolbarHelper::addNew('newsfeed.add');
 		}
-		if ($canDo->get('core.edit')) {
+		if ($canDo->get('core.edit'))
+		{
 			JToolbarHelper::editList('newsfeed.edit');
 		}
-		if ($canDo->get('core.edit.state')) {
+		if ($canDo->get('core.edit.state'))
+		{
 			JToolbarHelper::publish('newsfeeds.publish', 'JTOOLBAR_PUBLISH', true);
 			JToolbarHelper::unpublish('newsfeeds.unpublish', 'JTOOLBAR_UNPUBLISH', true);
 			JToolbarHelper::archiveList('newsfeeds.archive');
 		}
-		if ($canDo->get('core.admin')) {
+		if ($canDo->get('core.admin'))
+		{
 			JToolbarHelper::checkin('newsfeeds.checkin');
-			}
-		if ($state->get('filter.published') == -2 && $canDo->get('core.delete')) {
+		}
+		if ($state->get('filter.published') == -2 && $canDo->get('core.delete'))
+		{
 			JToolbarHelper::deleteList('', 'newsfeeds.delete', 'JTOOLBAR_EMPTY_TRASH');
-		} elseif ($canDo->get('core.edit.state')) {
+		}
+		elseif ($canDo->get('core.edit.state'))
+		{
 			JToolbarHelper::trash('newsfeeds.trash');
 		}
 		// Add a batch button
@@ -88,36 +96,22 @@ class NewsfeedsViewNewsfeeds extends JViewLegacy
 						$title</button>";
 			$bar->appendButton('Custom', $dhtml, 'batch');
 		}
-		if ($canDo->get('core.admin')) {
+		if ($canDo->get('core.admin'))
+		{
 			JToolbarHelper::preferences('com_newsfeeds');
 		}
 		JToolbarHelper::help('JHELP_COMPONENTS_NEWSFEEDS_FEEDS');
 
-		JHtmlSidebar::setAction('index.php?option=com_newsfeeds&view=newsfeeds');
+		JHtml::_('sidebar.setaction', 'index.php?option=com_newsfeeds&view=newsfeeds');
 
-		JHtmlSidebar::addFilter(
-			JText::_('JOPTION_SELECT_PUBLISHED'),
-			'filter_published',
-			JHtml::_('select.options', JHtml::_('jgrid.publishedOptions'), 'value', 'text', $this->state->get('filter.published'), true)
-		);
-
-		JHtmlSidebar::addFilter(
-			JText::_('JOPTION_SELECT_CATEGORY'),
-			'filter_category_id',
-			JHtml::_('select.options', JHtml::_('category.options', 'com_newsfeeds'), 'value', 'text', $this->state->get('filter.category_id'))
-		);
-
-		JHtmlSidebar::addFilter(
-			JText::_('JOPTION_SELECT_ACCESS'),
-			'filter_access',
-			JHtml::_('select.options', JHtml::_('access.assetgroups'), 'value', 'text', $this->state->get('filter.access'))
-		);
-
-		JHtmlSidebar::addFilter(
-			JText::_('JOPTION_SELECT_LANGUAGE'),
-			'filter_language',
-			JHtml::_('select.options', JHtml::_('contentlanguage.existing', true, true), 'value', 'text', $this->state->get('filter.language'))
-		);
+		JHtml::_('sidebar.addfilter', JText::_('JOPTION_SELECT_PUBLISHED'), 'filter_published',
+			JHtml::_('select.options', JHtml::_('jgrid.publishedOptions'), 'value', 'text', $this->state->get('filter.published'), true));
+		JHtml::_('sidebar.addfilter', JText::_('JOPTION_SELECT_CATEGORY'), 'filter_category_id',
+			JHtml::_('select.options', JHtml::_('category.options', 'com_newsfeeds'), 'value', 'text', $this->state->get('filter.category_id')));
+		JHtml::_('sidebar.addfilter', JText::_('JOPTION_SELECT_ACCESS'), 'filter_access',
+			JHtml::_('select.options', JHtml::_('access.assetgroups'), 'value', 'text', $this->state->get('filter.access')));
+		JHtml::_('sidebar.addfilter', JText::_('JOPTION_SELECT_LANGUAGE'), 'filter_language',
+			JHtml::_('select.options', JHtml::_('contentlanguage.existing', true, true), 'value', 'text', $this->state->get('filter.language')));
 	}
 
 	/**
@@ -129,16 +123,9 @@ class NewsfeedsViewNewsfeeds extends JViewLegacy
 	 */
 	protected function getSortFields()
 	{
-		return array(
-			'a.ordering' => JText::_('JGRID_HEADING_ORDERING'),
-			'a.published' => JText::_('JSTATUS'),
-			'a.name' => JText::_('JGLOBAL_TITLE'),
-			'category_title' => JText::_('JCATEGORY'),
-			'a.access' => JText::_('JGRID_HEADING_ACCESS'),
-			'numarticles' => JText::_('COM_NEWSFEEDS_NUM_ARTICLES_HEADING'),
-			'a.cache_time' => JText::_('COM_NEWSFEEDS_CACHE_TIME_HEADING'),
-			'a.language' => JText::_('JGRID_HEADING_LANGUAGE'),
-			'a.id' => JText::_('JGRID_HEADING_ID')
-		);
+		return array('a.ordering' => JText::_('JGRID_HEADING_ORDERING'), 'a.published' => JText::_('JSTATUS'), 'a.name' => JText::_('JGLOBAL_TITLE'),
+			'category_title' => JText::_('JCATEGORY'), 'a.access' => JText::_('JGRID_HEADING_ACCESS'),
+			'numarticles' => JText::_('COM_NEWSFEEDS_NUM_ARTICLES_HEADING'), 'a.cache_time' => JText::_('COM_NEWSFEEDS_CACHE_TIME_HEADING'),
+			'a.language' => JText::_('JGRID_HEADING_LANGUAGE'), 'a.id' => JText::_('JGRID_HEADING_ID'));
 	}
 }
