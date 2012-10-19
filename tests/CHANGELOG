@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+19-Oct-2012 Mark Dexter
+ # Fix system test for HTML output change
+
 14-Oct-2012 Mark Dexter
  # Fix redirect test for Firefox
 

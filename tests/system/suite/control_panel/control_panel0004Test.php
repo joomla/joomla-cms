@@ -14,7 +14,7 @@ require_once 'SeleniumJoomlaTestCase.php';
 class ControlPanel0004 extends SeleniumJoomlaTestCase
 {
 
-	function xtestCreateRemoveCategory()
+	function testCreateRemoveCategory()
 	{
 		echo "Starting testCreateRemoveCategory\n";
 		$this->setUp();
@@ -291,10 +291,10 @@ class ControlPanel0004 extends SeleniumJoomlaTestCase
 		$this->assertContains("Article Category List", $this->getTable("//table[@class='adminlist'].9.1"));
 
 		echo "Reverse the order of 4 articles\n";
-		$this->type("//form[@id='adminForm']/table/tbody/tr[6]/td[4]/input", "4");
-		$this->type("//form[@id='adminForm']/table/tbody/tr[7]/td[4]/input", "3");
-		$this->type("//form[@id='adminForm']/table/tbody/tr[8]/td[4]/input", "2");
-		$this->type("//form[@id='adminForm']/table/tbody/tr[9]/td[4]/input", "1");
+		$this->type("//form[@id='adminForm']//table/tbody/tr[6]/td[4]/input", "4");
+		$this->type("//form[@id='adminForm']//table/tbody/tr[7]/td[4]/input", "3");
+		$this->type("//form[@id='adminForm']//table/tbody/tr[8]/td[4]/input", "2");
+		$this->type("//form[@id='adminForm']//table/tbody/tr[9]/td[4]/input", "1");
 
 		echo "Click Save Order and check that the order changed\n";
 		$this->click("//a[contains(@href, 'saveorder')][contains(@class, 'saveorder')]");
@@ -306,10 +306,10 @@ class ControlPanel0004 extends SeleniumJoomlaTestCase
 		$this->assertContains("Article Category List", $this->getTable("//table[@class='adminlist'].6.1"));
 
 		echo "Change the ordering back and click Save Order\n";
-		$this->type("//form[@id='adminForm']/table/tbody/tr[6]/td[4]/input", "4");
-		$this->type("//form[@id='adminForm']/table/tbody/tr[7]/td[4]/input", "3");
-		$this->type("//form[@id='adminForm']/table/tbody/tr[8]/td[4]/input", "2");
-		$this->type("//form[@id='adminForm']/table/tbody/tr[9]/td[4]/input", "1");
+		$this->type("//form[@id='adminForm']//table/tbody/tr[6]/td[4]/input", "4");
+		$this->type("//form[@id='adminForm']//table/tbody/tr[7]/td[4]/input", "3");
+		$this->type("//form[@id='adminForm']//table/tbody/tr[8]/td[4]/input", "2");
+		$this->type("//form[@id='adminForm']//table/tbody/tr[9]/td[4]/input", "1");
 		$this->click("//a[contains(@href, 'saveorder')][contains(@class, 'saveorder')]");
 		$this->waitForPageToLoad("30000");
 
