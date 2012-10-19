@@ -331,6 +331,8 @@ class joomlaInstallerScript
 			'/administrator/manifests/packages/pkg_joomla.xml',
 			'/administrator/modules/mod_submenu/helper.php',
 			'/administrator/templates/hathor/css/ie6.css',
+			'/administrator/templates/hathor/html/mod_submenu/index.html',
+			'/administrator/templates/hathor/html/mod_submenu/default.php',
 			'/components/com_media/controller.php',
 			'/components/com_media/helpers/index.html',
 			'/components/com_media/helpers/media.php',
