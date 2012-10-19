@@ -28,34 +28,15 @@ class BannersHelper
 	 */
 	public static function addSubmenu($vName)
 	{
-		JHtmlSidebar::addEntry(
-			JText::_('COM_BANNERS_SUBMENU_BANNERS'),
-			'index.php?option=com_banners&view=banners',
-			$vName == 'banners'
-		);
-
-		JHtmlSidebar::addEntry(
-			JText::_('COM_BANNERS_SUBMENU_CATEGORIES'),
-			'index.php?option=com_categories&extension=com_banners',
-			$vName == 'categories'
-		);
-		if ($vName == 'categories') {
-			JToolbarHelper::title(
-				JText::sprintf('COM_CATEGORIES_CATEGORIES_TITLE', JText::_('com_banners')),
-				'banners-categories');
+		JHtml::_('sidebar.addentry', JText::_('COM_BANNERS_SUBMENU_BANNERS'), 'index.php?option=com_banners&view=banners', $vName == 'banners');
+		JHtml::_('sidebar.addentry', JText::_('COM_BANNERS_SUBMENU_CATEGORIES'), 'index.php?option=com_categories&extension=com_banners',
+			$vName == 'categories');
+		if ($vName == 'categories')
+		{
+			JToolbarHelper::title(JText::sprintf('COM_CATEGORIES_CATEGORIES_TITLE', JText::_('com_banners')), 'banners-categories');
 		}
-
-		JHtmlSidebar::addEntry(
-			JText::_('COM_BANNERS_SUBMENU_CLIENTS'),
-			'index.php?option=com_banners&view=clients',
-			$vName == 'clients'
-		);
-
-		JHtmlSidebar::addEntry(
-			JText::_('COM_BANNERS_SUBMENU_TRACKS'),
-			'index.php?option=com_banners&view=tracks',
-			$vName == 'tracks'
-		);
+		JHtml::_('sidebar.addentry', JText::_('COM_BANNERS_SUBMENU_CLIENTS'), 'index.php?option=com_banners&view=clients', $vName == 'clients');
+		JHtml::_('sidebar.addentry', JText::_('COM_BANNERS_SUBMENU_TRACKS'), 'index.php?option=com_banners&view=tracks', $vName == 'tracks');
 	}
 
 	/**
@@ -68,21 +49,25 @@ class BannersHelper
 	 */
 	public static function getActions($categoryId = 0)
 	{
-		$user	= JFactory::getUser();
-		$result	= new JObject;
+		$user = JFactory::getUser();
+		$result = new JObject;
 
-		if (empty($categoryId)) {
+		if (empty($categoryId))
+		{
 			$assetName = 'com_banners';
 			$level = 'component';
-		} else {
-			$assetName = 'com_banners.category.'.(int) $categoryId;
+		}
+		else
+		{
+			$assetName = 'com_banners.category.' . (int) $categoryId;
 			$level = 'category';
 		}
 
 		$actions = JAccess::getActions('com_banners', $level);
 
-		foreach ($actions as $action) {
-			$result->set($action->name,	$user->authorise($action->name, $assetName));
+		foreach ($actions as $action)
+		{
+			$result->set($action->name, $user->authorise($action->name, $assetName));
 		}
 
 		return $result;
@@ -101,9 +86,9 @@ class BannersHelper
 		$query = $db->getQuery(true);
 		$query->select('*');
 		$query->from('#__banners');
-		$query->where("'".$now."' >= ".$db->quoteName('reset'));
-		$query->where($db->quoteName('reset').' != '.$db->quote($nullDate).' AND '.$db->quoteName('reset').'!=NULL');
-		$query->where('('.$db->quoteName('checked_out').' = 0 OR '.$db->quoteName('checked_out').' = '.(int) $db->Quote($user->id).')');
+		$query->where("'" . $now . "' >= " . $db->quoteName('reset'));
+		$query->where($db->quoteName('reset') . ' != ' . $db->quote($nullDate) . ' AND ' . $db->quoteName('reset') . '!=NULL');
+		$query->where('(' . $db->quoteName('checked_out') . ' = 0 OR ' . $db->quoteName('checked_out') . ' = ' . (int) $db->Quote($user->id) . ')');
 		$db->setQuery((string) $query);
 
 		try
@@ -118,38 +103,42 @@ class BannersHelper
 
 		JTable::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR . '/tables');
 
-		foreach ($rows as $row) {
+		foreach ($rows as $row)
+		{
 			$purchase_type = $row->purchase_type;
 
-			if ($purchase_type < 0 && $row->cid) {
+			if ($purchase_type < 0 && $row->cid)
+			{
 				$client = JTable::getInstance('Client', 'BannersTable');
 				$client->load($row->cid);
 				$purchase_type = $client->purchase_type;
 			}
 
-			if ($purchase_type < 0) {
+			if ($purchase_type < 0)
+			{
 				$params = JComponentHelper::getParams('com_banners');
 				$purchase_type = $params->get('purchase_type');
 			}
 
-			switch($purchase_type) {
+			switch ($purchase_type)
+			{
 				case 1:
 					$reset = $nullDate;
 					break;
 				case 2:
-					$date = JFactory::getDate('+1 year '.date('Y-m-d', strtotime('now')));
+					$date = JFactory::getDate('+1 year ' . date('Y-m-d', strtotime('now')));
 					$reset = $db->Quote($date->toSql());
 					break;
 				case 3:
-					$date = JFactory::getDate('+1 month '.date('Y-m-d', strtotime('now')));
+					$date = JFactory::getDate('+1 month ' . date('Y-m-d', strtotime('now')));
 					$reset = $db->Quote($date->toSql());
 					break;
 				case 4:
-					$date = JFactory::getDate('+7 day '.date('Y-m-d', strtotime('now')));
+					$date = JFactory::getDate('+7 day ' . date('Y-m-d', strtotime('now')));
 					$reset = $db->Quote($date->toSql());
 					break;
 				case 5:
-					$date = JFactory::getDate('+1 day '.date('Y-m-d', strtotime('now')));
+					$date = JFactory::getDate('+1 day ' . date('Y-m-d', strtotime('now')));
 					$reset = $db->Quote($date->toSql());
 					break;
 			}
@@ -157,10 +146,10 @@ class BannersHelper
 			// Update the row ordering field.
 			$query->clear();
 			$query->update($db->quoteName('#__banners'));
-			$query->set($db->quoteName('reset').' = '.$db->quote($reset));
-			$query->set($db->quoteName('impmade').' = '.$db->quote(0));
-			$query->set($db->quoteName('clicks').' = '.$db->quote(0));
-			$query->where($db->quoteName('id').' = '.$db->quote($row->id));
+			$query->set($db->quoteName('reset') . ' = ' . $db->quote($reset));
+			$query->set($db->quoteName('impmade') . ' = ' . $db->quote(0));
+			$query->set($db->quoteName('clicks') . ' = ' . $db->quote(0));
+			$query->where($db->quoteName('id') . ' = ' . $db->quote($row->id));
 			$db->setQuery((string) $query);
 
 			try
@@ -181,8 +170,8 @@ class BannersHelper
 	{
 		$options = array();
 
-		$db		= JFactory::getDbo();
-		$query	= $db->getQuery(true);
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true);
 
 		$query->select('id As value, name As text');
 		$query->from('#__banner_clients AS a');
