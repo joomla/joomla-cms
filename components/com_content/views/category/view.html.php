@@ -97,7 +97,7 @@ class ContentViewCategory extends JViewLegacy
 
 			$dispatcher = JEventDispatcher::getInstance();
 
-			$item->introtext = JHtml::_('content.prepare', $item->introtext, '', 'com_content.category');
+			$item->introtext = JHtml::_('content.prepare', $item->introtext, '', 'com_content.article');
 
 			$results = $dispatcher->trigger('onContentAfterTitle', array('com_content.article', &$item, &$item->params, 0));
 			$item->event->afterDisplayTitle = trim(implode("\n", $results));
