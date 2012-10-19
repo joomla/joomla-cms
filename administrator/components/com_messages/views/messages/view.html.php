@@ -29,18 +29,19 @@ class MessagesViewMessages extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$this->items		= $this->get('Items');
-		$this->pagination	= $this->get('Pagination');
-		$this->state		= $this->get('State');
+		$this->items = $this->get('Items');
+		$this->pagination = $this->get('Pagination');
+		$this->state = $this->get('State');
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors'))) {
+		if (count($errors = $this->get('Errors')))
+		{
 			JError::raiseError(500, implode("\n", $errors));
 			return false;
 		}
 
 		$this->addToolbar();
-		$this->sidebar = JHtmlSidebar::render();
+		$this->sidebar = JHtml::_('sidebar.render');
 		parent::display($tpl);
 	}
 
@@ -51,25 +52,30 @@ class MessagesViewMessages extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		$state	= $this->get('State');
-		$canDo	= MessagesHelper::getActions();
+		$state = $this->get('State');
+		$canDo = MessagesHelper::getActions();
 
 		JToolbarHelper::title(JText::_('COM_MESSAGES_MANAGER_MESSAGES'), 'inbox.png');
 
-		if ($canDo->get('core.create')) {
+		if ($canDo->get('core.create'))
+		{
 			JToolbarHelper::addNew('message.add');
 		}
 
-		if ($canDo->get('core.edit.state')) {
+		if ($canDo->get('core.edit.state'))
+		{
 			JToolbarHelper::divider();
 			JToolbarHelper::publish('messages.publish', 'COM_MESSAGES_TOOLBAR_MARK_AS_READ');
 			JToolbarHelper::unpublish('messages.unpublish', 'COM_MESSAGES_TOOLBAR_MARK_AS_UNREAD');
 		}
 
-		if ($state->get('filter.state') == -2 && $canDo->get('core.delete')) {
+		if ($state->get('filter.state') == -2 && $canDo->get('core.delete'))
+		{
 			JToolbarHelper::divider();
 			JToolbarHelper::deleteList('', 'messages.delete', 'JTOOLBAR_EMPTY_TRASH');
-		} elseif ($canDo->get('core.edit.state')) {
+		}
+		elseif ($canDo->get('core.edit.state'))
+		{
 			JToolbarHelper::divider();
 			JToolbarHelper::trash('messages.trash');
 		}
@@ -77,9 +83,12 @@ class MessagesViewMessages extends JViewLegacy
 		//JToolbarHelper::addNew('module.add');
 		JToolbarHelper::divider();
 		$bar = JToolBar::getInstance('toolbar');
-		$bar->appendButton('Slider', 'options', 'COM_MESSAGES_TOOLBAR_MY_SETTINGS', 'index.php?option=com_messages&amp;view=config&amp;tmpl=component', 850, 400);
+		$bar
+			->appendButton('Slider', 'options', 'COM_MESSAGES_TOOLBAR_MY_SETTINGS',
+				'index.php?option=com_messages&amp;view=config&amp;tmpl=component', 850, 400);
 
-		if ($canDo->get('core.admin')) {
+		if ($canDo->get('core.admin'))
+		{
 			JToolbarHelper::preferences('com_messages');
 		}
 
