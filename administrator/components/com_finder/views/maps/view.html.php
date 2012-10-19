@@ -35,10 +35,10 @@ class FinderViewMaps extends JViewLegacy
 		FinderHelperLanguage::loadPluginLanguage();
 
 		// Load the view data.
-		$this->items		= $this->get('Items');
-		$this->total		= $this->get('Total');
-		$this->pagination	= $this->get('Pagination');
-		$this->state		= $this->get('State');
+		$this->items = $this->get('Items');
+		$this->total = $this->get('Total');
+		$this->pagination = $this->get('Pagination');
+		$this->state = $this->get('State');
 
 		FinderHelper::addSubmenu('maps');
 
@@ -53,7 +53,7 @@ class FinderViewMaps extends JViewLegacy
 
 		// Prepare the view.
 		$this->addToolbar();
-		$this->sidebar = JHtmlSidebar::render();
+		$this->sidebar = JHtml::_('sidebar.render');
 		parent::display($tpl);
 	}
 
@@ -68,7 +68,7 @@ class FinderViewMaps extends JViewLegacy
 	{
 		// For whatever reason, the helper isn't being found
 		include_once JPATH_COMPONENT . '/helpers/finder.php';
-		$canDo	= FinderHelper::getActions();
+		$canDo = FinderHelper::getActions();
 
 		JToolbarHelper::title(JText::_('COM_FINDER_MAPS_TOOLBAR_TITLE'), 'finder');
 		$toolbar = JToolbar::getInstance('toolbar');
@@ -93,19 +93,11 @@ class FinderViewMaps extends JViewLegacy
 		JToolbarHelper::divider();
 		JToolbarHelper::help('JHELP_COMPONENTS_FINDER_MANAGE_CONTENT_MAPS');
 
-		JHtmlSidebar::setAction('index.php?option=com_finder&view=maps');
+		JHtml::_('sidebar.setaction', 'index.php?option=com_finder&view=maps');
 
-		JHtmlSidebar::addFilter(
-			'',
-			'filter_branch',
-			JHtml::_('select.options', JHtml::_('finder.mapslist'), 'value', 'text', $this->state->get('filter.branch')),
-			true
-		);
-
-		JHtmlSidebar::addFilter(
-			JText::_('COM_FINDER_INDEX_FILTER_BY_STATE'),
-			'filter_state',
-			JHtml::_('select.options', JHtml::_('finder.statelist'), 'value', 'text', $this->state->get('filter.state'))
-		);
+		JHtml::_('sidebar.addfilter', '', 'filter_branch',
+			JHtml::_('select.options', JHtml::_('finder.mapslist'), 'value', 'text', $this->state->get('filter.branch')), true);
+		JHtml::_('sidebar.addfilter', JText::_('COM_FINDER_INDEX_FILTER_BY_STATE'), 'filter_state',
+			JHtml::_('select.options', JHtml::_('finder.statelist'), 'value', 'text', $this->state->get('filter.state')));
 	}
 }

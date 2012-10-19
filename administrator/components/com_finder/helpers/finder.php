@@ -35,21 +35,9 @@ class FinderHelper
 	 */
 	public static function addSubmenu($vName)
 	{
-		JHtmlSidebar::addEntry(
-			JText::_('COM_FINDER_SUBMENU_INDEX'),
-			'index.php?option=com_finder&view=index',
-			$vName == 'index'
-		);
-		JHtmlSidebar::addEntry(
-			JText::_('COM_FINDER_SUBMENU_MAPS'),
-			'index.php?option=com_finder&view=maps',
-			$vName == 'maps'
-		);
-		JHtmlSidebar::addEntry(
-			JText::_('COM_FINDER_SUBMENU_FILTERS'),
-			'index.php?option=com_finder&view=filters',
-			$vName == 'filters'
-		);
+		JHtml::_('sidebar.addentry', JText::_('COM_FINDER_SUBMENU_INDEX'), 'index.php?option=com_finder&view=index', $vName == 'index');
+		JHtml::_('sidebar.addentry', JText::_('COM_FINDER_SUBMENU_MAPS'), 'index.php?option=com_finder&view=maps', $vName == 'maps');
+		JHtml::_('sidebar.addentry', JText::_('COM_FINDER_SUBMENU_FILTERS'), 'index.php?option=com_finder&view=filters', $vName == 'filters');
 	}
 
 	/**
