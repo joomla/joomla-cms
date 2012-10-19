@@ -26,6 +26,37 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+18-Oct-2012 Jean-Marie Simonet
+ # [#29519] *Edit Menu Item layout usability
+ # [#29401] Repeated htmlspecialchars() Applied When Multiple Breadcrumbs Active. Thanks Peter and Roland
+ $# [#29521] Missing lang string in installation + correcting wrong constant in InstallationModelDatabase
+ # Category title display ommitted in Details column #29494 
+
+17-Oct-2012 Jean-Marie Simonet
+ # [#29470] *Hathor submenus broken. Thanks Yannick
+ # [#29477] Missing style for Cancel
+ # [#28379] *Normalizing Hathor css and js load in index.php + correcting a small error
+ # [#29239] Increment the hit counter of the category. Thanks Roberto
+ # [#29494] *Normalising Edit Category page
+ # [#29499] "Browser Page Title" Not Considered in Category Blog Layouts. Thanks Mig
+
+14-Oct-2012 Jean-Marie Simonet
+ + [#27373] [patch] Implementing Items associations in multilanguage. Thanks Benjamin.
+ # [#29471] Save as Copy Overwrites Menu Titles (always) for External URL. Thanks Roberto
+ # [#29487] isis error.php is accessing unexisting object $this->params. Thanks Daniel
+ # [#29480] Removed class=" form closing tag in contacts default view. Thanks Brent
+ # [#29476] Isis: Fixed btn-group labels not getting right colors in component subtemplate. Thanks Peter
+ # [#29411] Missing function _unix2DOSTime in libraries/joomla/archive/zip.php. Thanks Roberto
+ # Correcting code quality
+
+12-Oct-2012 Jean-Marie Simonet
+ $ Correcting de-DE installation ini
+ # [#29478] Incorrect Home link from 500 error page Joomla 3.0
+ # [#29488] Missing JText In Language Installer
+
+10-Oct-2012 Jean-Marie Simonet
+ $ Correcting fr-FR installation ini
+
 -------------------- 3.0.1 Stable Release [9-Oct-2012] ------------------
 
 08-Oct-2012 Mark Dexter

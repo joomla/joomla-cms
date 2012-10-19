@@ -29,6 +29,7 @@ if ($saveOrder)
 	JHtml::_('sortablelist.sortable', 'itemList', 'adminForm', strtolower($listDirn), $saveOrderingUrl, false, true);
 }
 $sortFields = $this->getSortFields();
+$assoc		= isset($app->item_associations) ? $app->item_associations : 0;
 ?>
 <script type="text/javascript">
 	Joomla.orderTable = function() {
@@ -102,13 +103,13 @@ $sortFields = $this->getSortFields();
 					<th width="5%" class="nowrap hidden-phone">
 						<?php echo JHtml::_('grid.sort', 'COM_MENUS_HEADING_HOME', 'a.home', $listDirn, $listOrder); ?>
 					</th>
-					<th width="10%" class="nowrap hidden-phone">
-						<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
-					</th>
-					<?php if (isset($app->menu_associations)) : ?>
-					<th width="5%" class="nowrap hidden-phone">
-						<?php echo JHtml::_('grid.sort', 'COM_MENUS_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
-					</th>
+				<th width="10%" class="nowrap hidden-phone">
+					<?php echo JHtml::_('grid.sort',  'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
+				</th>
+				<?php if ($assoc) : ?>
+				<th width="5%" class="nowrap hidden-phone">
+					<?php echo JHtml::_('grid.sort', 'COM_MENUS_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
+				</th>
 					<?php endif;?>
 					<th width="5%" class="nowrap hidden-phone">
 						<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_LANGUAGE', 'language', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
@@ -227,13 +228,13 @@ $sortFields = $this->getSortFields();
 							<?php endif;?>
 						<?php endif; ?>
 					</td>
-					<td class="small hidden-phone">
-						<?php echo $this->escape($item->access_level); ?>
-					</td>
-					<?php if (isset($app->menu_associations)):?>
-					<td class="small hidden-phone">
-						<?php if ($item->association):?>
-							<?php echo JHtml::_('MenusHtml.Menus.association', $item->id);?>
+				<td class="small hidden-phone">
+					<?php echo $this->escape($item->access_level); ?>
+				</td>
+				<?php if ($assoc):?>
+				<td class="small hidden-phone">
+					<?php if ($item->association):?>
+						<?php echo JHtml::_('MenusHtml.Menus.association', $item->id);?>
 						<?php endif;?>
 					</td>
 					<?php endif;?>

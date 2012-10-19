@@ -718,15 +718,7 @@ class MenusModelItem extends JModelAdmin
 
 		// Load associated menu items
 		$app = JFactory::getApplication();
-		if (isset($app->menu_associations))
-		{
-			$assoc = $app->menu_associations;
-		}
-		else
-		{
-			$assoc = 0;
-		}
-
+		$assoc = isset($app->item_associations) ? $app->item_associations : 0;
 		if ($assoc)
 		{
 			if ($pk != null) {
@@ -993,15 +985,7 @@ class MenusModelItem extends JModelAdmin
 
 		// Association menu items
 		$app = JFactory::getApplication();
-		if (isset($app->menu_associations))
-		{
-			$assoc = $app->menu_associations;
-		}
-		else
-		{
-			$assoc = 0;
-		}
-
+		$assoc = isset($app->item_associations) ? $app->item_associations : 0;
 		if ($assoc) {
 			$languages = JLanguageHelper::getLanguages('lang_code');
 
@@ -1191,15 +1175,7 @@ class MenusModelItem extends JModelAdmin
 
 		// Load associated menu items
 		$app = JFactory::getApplication();
-		if (isset($app->menu_associations))
-		{
-			$assoc = $app->menu_associations;
-		}
-		else
-		{
-			$assoc = 0;
-		}
-
+		$assoc = isset($app->item_associations) ? $app->item_associations : 0;
 		if ($assoc) {
 			// Adding self to the association
 			$associations = $data['associations'];
@@ -1430,7 +1406,10 @@ class MenusModelItem extends JModelAdmin
 		$table = $this->getTable();
 		while ($table->load(array('alias' => $alias, 'parent_id' => $parent_id)))
 		{
-			$title = JString::increment($title);
+			if ($title == $table->title)
+			{
+				$title = JString::increment($title);
+			}
 			$alias = JString::increment($alias, 'dash');
 		}
 

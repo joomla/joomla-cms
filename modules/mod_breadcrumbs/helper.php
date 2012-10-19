@@ -26,21 +26,25 @@ class modBreadCrumbsHelper
 		$items		= $pathway->getPathWay();
 
 		$count = count($items);
+
+		// Don't use $items here as it references JPathway properties directly
+		$crumbs	= array();
 		for ($i = 0; $i < $count; $i ++)
 		{
-			$items[$i]->name = stripslashes(htmlspecialchars($items[$i]->name, ENT_COMPAT, 'UTF-8'));
-			$items[$i]->link = JRoute::_($items[$i]->link);
+			$crumbs[$i] = new stdClass;
+			$crumbs[$i]->name = stripslashes(htmlspecialchars($items[$i]->name, ENT_COMPAT, 'UTF-8'));
+			$crumbs[$i]->link = JRoute::_($items[$i]->link);
 		}
 
 		if ($params->get('showHome', 1))
 		{
 			$item = new stdClass;
 			$item->name = htmlspecialchars($params->get('homeText', JText::_('MOD_BREADCRUMBS_HOME')));
-			$item->link = JRoute::_('index.php?Itemid='.$app->getMenu()->getDefault()->id);
-			array_unshift($items, $item);
+			$item->link = JRoute::_('index.php?Itemid=' . $app->getMenu()->getDefault()->id);
+			array_unshift($crumbs, $item);
 		}
 
-		return $items;
+		return $crumbs;
 	}
 
 	/**
@@ -57,14 +61,19 @@ class modBreadCrumbsHelper
 
 		// If a custom separator has not been provided we try to load a template
 		// specific one first, and if that is not present we load the default separator
-		if ($custom == null) {
-			if ($lang->isRTL()){
+		if ($custom == null)
+		{
+			if ($lang->isRTL())
+			{
 				$_separator = JHtml::_('image', 'system/arrow_rtl.png', null, null, true);
 			}
-			else{
+			else
+			{
 				$_separator = JHtml::_('image', 'system/arrow.png', null, null, true);
 			}
-		} else {
+		}
+		else
+		{
 			$_separator = htmlspecialchars($custom);
 		}
 

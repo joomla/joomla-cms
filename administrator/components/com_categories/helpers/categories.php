@@ -18,6 +18,7 @@ defined('_JEXEC') or die;
  */
 class CategoriesHelper
 {
+
 	/**
 	 * Configure the Submenu links.
 	 *
@@ -99,5 +100,37 @@ class CategoriesHelper
 		}
 
 		return $result;
+	}
+
+	public static function getAssociations($pk, $extension = 'com_content')
+	{
+		$associations = array();
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true);
+		$query->from('#__categories as c');
+		$query->innerJoin('#__associations as a ON a.id = c.id AND a.context='.$db->q('com_categories.item'));
+		$query->innerJoin('#__associations as a2 ON a.key = a2.key');
+		$query->innerJoin('#__categories as c2 ON a2.id = c2.id AND c2.extension = '.$db->q($extension));
+		$query->where('c.id =' . (int) $pk);
+		$query->where('c.extension = ' . $db->q($extension));
+		$select = array(
+			'c2.language',
+			$query->concatenate(array('c2.id', 'c2.alias'), ':') . ' AS id'
+		);
+		$query->select($select);
+		$db->setQuery($query);
+		$contentitems = $db->loadObjectList('language');
+
+		// Check for a database error.
+		if ($error = $db->getErrorMsg()) {
+			JError::raiseWarning(500, $error);
+			return false;
+		}
+
+		foreach ($contentitems as $tag => $item) {
+			$associations[$tag] = $item->id;
+		}
+
+		return $associations;
 	}
 }
