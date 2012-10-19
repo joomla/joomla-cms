@@ -12,12 +12,15 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Joomla Platform class for interacting with a GitHub server instance.
  *
- * @property-read  JGithubGists    $gists    GitHub API object for gists.
- * @property-read  JGithubIssues   $issues   GitHub API object for issues.
- * @property-read  JGithubPulls    $pulls    GitHub API object for pulls.
- * @property-read  JGithubRefs     $refs     GitHub API object for referencess.
- * @property-read  JGithubForks    $forks    GitHub API object for forks.
- * @property-read  JGithubCommits  $commits  GitHub API object for commits.
+ * @property-read  JGithubGists       $gists       GitHub API object for gists.
+ * @property-read  JGithubIssues      $issues      GitHub API object for issues.
+ * @property-read  JGithubPulls       $pulls       GitHub API object for pulls.
+ * @property-read  JGithubRefs        $refs        GitHub API object for referencess.
+ * @property-read  JGithubForks       $forks       GitHub API object for forks.
+ * @property-read  JGithubCommits     $commits     GitHub API object for commits.
+ * @property-read  JGithubMilestones  $milestones  GitHub API object for commits.
+ * @property-read  JGithubStatuses    $statuses    GitHub API object for commits.
+ * @property-read  JGithubAccount     $account     GitHub API object for account references.
  *
  * @package     Joomla.Platform
  * @subpackage  GitHub
@@ -84,6 +87,12 @@ class JGithub
 	 * @since  12.3
 	 */
 	protected $statuses;
+
+	/**
+	 * @var    JGithubAccount  GitHub API object for account references.
+	 * @since  12.3
+	 */
+	protected $account;
 
 	/**
 	 * Constructor.
@@ -183,6 +192,15 @@ class JGithub
 				$this->statuses = new JGithubStatuses($this->options, $this->client);
 			}
 			return $this->statuses;
+		}
+
+		if ($name == 'account')
+		{
+			if ($this->account == null)
+			{
+				$this->account = new JGithubAccount($this->options, $this->client);
+			}
+			return $this->account;
 		}
 	}
 

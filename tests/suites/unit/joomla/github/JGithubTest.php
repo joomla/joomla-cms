@@ -186,6 +186,21 @@ class JGithubTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Tests the magic __get method - account
+	 *
+	 * @since  12.3
+	 *
+	 * @return void
+	 */
+	public function test__GetAccount()
+	{
+		$this->assertThat(
+			$this->object->account,
+			$this->isInstanceOf('JGithubAccount')
+		);
+	}
+
+	/**
 	 * Tests the magic __get method - failure
 	 *
 	 * @since  11.3
