@@ -22,18 +22,19 @@ class CheckinViewCheckin extends JViewLegacy
 
 	public function display($tpl = null)
 	{
-		$this->items		= $this->get('Items');
-		$this->pagination	= $this->get('Pagination');
-		$this->state		= $this->get('State');
+		$this->items = $this->get('Items');
+		$this->pagination = $this->get('Pagination');
+		$this->state = $this->get('State');
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors'))) {
+		if (count($errors = $this->get('Errors')))
+		{
 			JError::raiseError(500, implode("\n", $errors));
 			return false;
 		}
 
 		$this->addToolbar();
-		$this->sidebar = JHtmlSidebar::render();
+		$this->sidebar = JHtml::_('sidebar.render');
 		parent::display($tpl);
 	}
 
@@ -45,7 +46,8 @@ class CheckinViewCheckin extends JViewLegacy
 	protected function addToolbar()
 	{
 		JToolbarHelper::title(JText::_('COM_CHECKIN_GLOBAL_CHECK_IN'), 'checkin.png');
-		if (JFactory::getUser()->authorise('core.admin', 'com_checkin')) {
+		if (JFactory::getUser()->authorise('core.admin', 'com_checkin'))
+		{
 			JToolbarHelper::custom('checkin', 'checkin.png', 'checkin_f2.png', 'JTOOLBAR_CHECKIN', true);
 			JToolbarHelper::divider();
 			JToolbarHelper::preferences('com_checkin');
