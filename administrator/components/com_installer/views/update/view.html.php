@@ -30,6 +30,7 @@ class InstallerViewUpdate extends InstallerViewDefault
 		$this->items		= $this->get('Items');
 		$this->pagination	= $this->get('Pagination');
 
+
 		$paths = new stdClass;
 		$paths->first = '';
 
