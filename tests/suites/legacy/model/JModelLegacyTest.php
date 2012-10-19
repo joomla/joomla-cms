@@ -7,28 +7,9 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-
-/**
- * Stub for the testing JModelLegacy class.
- *
- * @package     Joomla.UnitTest
- * @subpackage  Model
- * @since       12.3
- */
-class TestModelLead extends JModelLegacy
-{
-}
-
-/**
- * Stub for the testing JModelLegacy class.
- *
- * @package     Joomla.UnitTest
- * @subpackage  Model
- * @since       12.3
- */
-class RemodelModelRoom extends JModelLegacy
-{
-}
+require_once __DIR__ . '/stubs/lead.php';
+require_once __DIR__ . '/stubs/name.php';
+require_once __DIR__ . '/stubs/room.php';
 
 /**
  * Tests for the JModelLegacy class.
@@ -72,6 +53,48 @@ class JModelLegacyTest extends TestCase
 	}
 
 	/**
+	 * Tests the __construct method.
+	 *
+	 * @return  void
+	 *
+	 * @covers  JModelLegacy::__construct
+	 * @since   12.3
+	 */
+	public function test__construct()
+	{
+		// Verify default fixture __construct
+		$this->assertEquals('com_test', TestReflection::getValue($this->fixture, 'option'));
+		$this->assertEquals('lead', TestReflection::getValue($this->fixture, 'name'));
+
+		$state = TestReflection::getValue($this->fixture, 'state');
+		$this->assertTrue($state instanceof JObject);
+
+		$dbo = TestReflection::getValue($this->fixture, '_db');
+		$this->assertTrue($dbo instanceof JDatabaseDriver);
+
+		$this->assertNull(TestReflection::getValue($this->fixture, '__state_set'));
+		$this->assertEquals('onContentCleanCache', TestReflection::getValue($this->fixture, 'event_clean_cache'));
+
+		// Bypass JModelLegacy::getInstance to fully test __construct method with custom config
+		$config = array(
+			'name' => 'bash',
+			'state' => 'foo',
+			'dbo' => 'bar',
+			'table_path' => 'baz',
+			'ignore_request' => true,
+			'event_clean_cache' => 'buz'
+		);
+		$this->fixture = new RemodelModelRoom($config);
+
+		$this->assertEquals('com_remodel', TestReflection::getValue($this->fixture, 'option'));
+		$this->assertEquals('bash', TestReflection::getValue($this->fixture, 'name'));
+		$this->assertEquals('foo', TestReflection::getValue($this->fixture, 'state'));
+		$this->assertEquals('bar', TestReflection::getValue($this->fixture, '_db'));
+		$this->assertTrue(TestReflection::getValue($this->fixture, '__state_set'));
+		$this->assertEquals('buz', TestReflection::getValue($this->fixture, 'event_clean_cache'));
+	}
+
+	/**
 	 * Tests the getInstance method.
 	 *
 	 * @return  void
@@ -84,7 +107,13 @@ class JModelLegacyTest extends TestCase
 		$this->assertTrue($this->fixture instanceof TestModelLead);
 
 		$this->fixture = JModelLegacy::getInstance('Model', 'NonExistent');
-		$this->assertTrue($this->fixture === false);
+		$this->assertFalse($this->fixture);
+
+		// Test getting an instance of a class from a file that exists, but a class that doesn't
+		JModelLegacy::addIncludePath(__DIR__ . '/stubs');
+
+		$this->fixture = JModelLegacy::getInstance('Barbaz', 'StubModel');
+		$this->assertFalse($this->fixture);
 	}
 
 	/**
@@ -98,7 +127,7 @@ class JModelLegacyTest extends TestCase
 	public function testSetState()
 	{
 		$this->assertNull($this->fixture->setState('foo.bar', 'baz'));
-		$this->assertTrue($this->fixture->setState('foo.bar', 'fuz') === 'baz');
+		$this->assertEquals('baz', $this->fixture->setState('foo.bar', 'fuz'));
 	}
 
 	/**
@@ -118,9 +147,9 @@ class JModelLegacyTest extends TestCase
 		$this->assertTrue($stateSet === true);
 
 		$this->fixture->setState('foo.bar', 'baz');
-		$this->assertTrue($this->fixture->getState('foo.bar') === 'baz');
+		$this->assertEquals('baz', $this->fixture->getState('foo.bar'));
 
-		$this->assertTrue($this->fixture->getState('non.existent', 'defaultVal') === 'defaultVal');
+		$this->assertEquals('defaultVal', $this->fixture->getState('non.existent', 'defaultVal'));
 		$this->assertNull($this->fixture->getState('non.existent'));
 	}
 
@@ -155,6 +184,9 @@ class JModelLegacyTest extends TestCase
 	/**
 	 * Tests the getName method.
 	 *
+	 * @expectedException      Exception
+	 * @expectedExceptionCode  500
+	 *
 	 * @return  void
 	 *
 	 * @covers  JModelLegacy::getName
@@ -162,16 +194,26 @@ class JModelLegacyTest extends TestCase
 	 */
 	public function testGetName()
 	{
+		// Test default fixture
 		$this->assertEquals('lead', $this->fixture->getName());
 		$this->assertEquals('com_test', TestReflection::getValue($this->fixture, 'option'));
 
+		// Test creating fixture with model in class name
 		$this->fixture = JModelLegacy::getInstance('Room', 'RemodelModel');
 		$this->assertEquals('room', $this->fixture->getName());
 		$this->assertEquals('com_remodel', TestReflection::getValue($this->fixture, 'option'));
 
+		// Ensure that $name can be set properly, and doesn't change $option
 		TestReflection::setValue($this->fixture, 'name', 'foo');
 		$this->assertEquals('foo', $this->fixture->getName());
 		$this->assertEquals('com_remodel', TestReflection::getValue($this->fixture, 'option'));
+
+		// Test creating a non-existant class.
+		$this->assertFalse(JModelLegacy::getInstance('Does', 'NotExist'));
+
+		// Test creating class that does exist, but does not contain 'Model' (uppercase)
+		$this->fixture = JModelLegacy::getInstance('NomodelInName');
+		$this->fixture->getName();
 	}
 
 	/**
@@ -201,9 +243,12 @@ class JModelLegacyTest extends TestCase
 	 */
 	public function testAddIncludePath()
 	{
-		$paths = JModelLegacy::addIncludePath('non/existent/path', 'prefix');
+		$paths = JModelLegacy::addIncludePath(__DIR__ . '/stubs');
 
-		$this->assertContains('non/existent/path', $paths);
+		$this->assertContains(__DIR__ . '/stubs', $paths);
+
+		$this->fixture = JModelLegacy::getInstance('Foobar', 'StubModel');
+		$this->assertTrue($this->fixture instanceof StubModelFoobar);
 	}
 
 	/**
@@ -218,5 +263,73 @@ class JModelLegacyTest extends TestCase
 	{
 		// Just make sure this is null, since nothing is returned
 		$this->assertNull(JModelLegacy::addTablePath('dummy/path'));
+	}
+
+	/**
+	 * Tests the _createFileName method.
+	 *
+	 * @return  void
+	 *
+	 * @covers  JModelLegacy::_createFileName
+	 * @since   12.3
+	 */
+	public function test_createFileName()
+	{
+		$method = new ReflectionMethod('TestModelLead', '_createFileName');
+		$method->setAccessible(true);
+
+		$this->assertEquals('foo.php', $method->invokeArgs($this->fixture, array('model', array('name' => 'foo'))));
+	}
+
+	/**
+	 * Tests the _getList method.
+	 *
+	 * @return  void
+	 *
+	 * @covers  JModelLegacy::_getList
+	 * @since   12.3
+	 */
+	public function test_getList()
+	{
+		$this->markTestIncomplete();
+	}
+
+	/**
+	 * Tests the _getListCount method.
+	 *
+	 * @return  void
+	 *
+	 * @covers  JModelLegacy::_getListCount
+	 * @since   12.3
+	 */
+	public function test_getListCount()
+	{
+		$this->markTestIncomplete();
+	}
+
+	/**
+	 * Tests the _createTable method.
+	 *
+	 * @return  void
+	 *
+	 * @covers  JModelLegacy::_createTable
+	 * @since   12.3
+	 */
+	public function test_createTable()
+	{
+		$this->markTestIncomplete();
+	}
+
+	/**
+	 * Tests the cleanCache method.
+	 *
+	 * @return  void
+	 *
+	 * @covers  JModelLegacy::cleanCache
+	 * @since   12.3
+	 */
+	public function testCleanCache()
+	{
+		$this->markTestIncomplete();
 	}
 }
