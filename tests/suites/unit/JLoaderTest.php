@@ -67,7 +67,7 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 	{
 		return array(
 			'fred.factory' => array('fred.factory', false, 'fred.factory does not exist'),
-			'helper' => array('joomla.installer.helper', true, 'installerhelper should load properly'));
+			'browser' => array('joomla.environment.browser', true, 'JBrowser should load properly'));
 	}
 
 	/**
@@ -226,7 +226,7 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testJimport($object, $expect, $message)
 	{
-		$this->assertThat($expect, $this->equalTo(jimport($object)), $message);
+		$this->assertEquals($expect, jimport($object), $message);
 	}
 
 	/**
