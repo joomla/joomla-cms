@@ -30,16 +30,8 @@ class MenusHelper
 	 */
 	public static function addSubmenu($vName)
 	{
-		JHtmlSidebar::addEntry(
-			JText::_('COM_MENUS_SUBMENU_MENUS'),
-			'index.php?option=com_menus&view=menus',
-			$vName == 'menus'
-		);
-		JHtmlSidebar::addEntry(
-			JText::_('COM_MENUS_SUBMENU_ITEMS'),
-			'index.php?option=com_menus&view=items',
-			$vName == 'items'
-		);
+		JHtml::_('sidebar.addentry', JText::_('COM_MENUS_SUBMENU_MENUS'), 'index.php?option=com_menus&view=menus', $vName == 'menus');
+		JHtml::_('sidebar.addentry', JText::_('COM_MENUS_SUBMENU_ITEMS'), 'index.php?option=com_menus&view=items', $vName == 'items');
 	}
 
 	/**
@@ -52,19 +44,23 @@ class MenusHelper
 	 */
 	public static function getActions($parentId = 0)
 	{
-		$user	= JFactory::getUser();
-		$result	= new JObject;
+		$user = JFactory::getUser();
+		$result = new JObject;
 
-		if (empty($parentId)) {
+		if (empty($parentId))
+		{
 			$assetName = 'com_menus';
-		} else {
-			$assetName = 'com_menus.item.'.(int) $parentId;
+		}
+		else
+		{
+			$assetName = 'com_menus.item.' . (int) $parentId;
 		}
 
 		$actions = JAccess::getActions('com_menus');
 
-		foreach ($actions as $action) {
-			$result->set($action->name,	$user->authorise($action->name, $assetName));
+		foreach ($actions as $action)
+		{
+			$result->set($action->name, $user->authorise($action->name, $assetName));
 		}
 
 		return $result;
@@ -79,7 +75,8 @@ class MenusHelper
 	 */
 	public static function getLinkKey($request)
 	{
-		if (empty($request)) {
+		if (empty($request))
+		{
 			return false;
 		}
 
@@ -87,10 +84,12 @@ class MenusHelper
 		if (is_string($request))
 		{
 			$args = array();
-			if (strpos($request, 'index.php') === 0) {
+			if (strpos($request, 'index.php') === 0)
+			{
 				parse_str(parse_url(htmlspecialchars_decode($request), PHP_URL_QUERY), $args);
 			}
-			else {
+			else
+			{
 				parse_str($request, $args);
 			}
 			$request = $args;
@@ -108,7 +107,7 @@ class MenusHelper
 
 		ksort($request);
 
-		return 'index.php?'.http_build_query($request, '', '&');
+		return 'index.php?' . http_build_query($request, '', '&');
 	}
 
 	/**
@@ -132,37 +131,44 @@ class MenusHelper
 	 * @param	int		An optional mode. If parent ID is set and mode=2, the parent and children are excluded from the list.
 	 * @param	array	An optional array of states
 	 */
-	public static function getMenuLinks($menuType = null, $parentId = 0, $mode = 0, $published=array(), $languages=array())
+	public static function getMenuLinks($menuType = null, $parentId = 0, $mode = 0, $published = array(), $languages = array())
 	{
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
 		$query->select('a.id AS value, a.title AS text, a.level, a.menutype, a.type, a.template_style_id, a.checked_out');
 		$query->from('#__menu AS a');
-		$query->join('LEFT', $db->quoteName('#__menu').' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
+		$query->join('LEFT', $db->quoteName('#__menu') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
 
 		// Filter by the type
-		if ($menuType) {
-			$query->where('(a.menutype = '.$db->quote($menuType).' OR a.parent_id = 0)');
+		if ($menuType)
+		{
+			$query->where('(a.menutype = ' . $db->quote($menuType) . ' OR a.parent_id = 0)');
 		}
 
-		if ($parentId) {
-			if ($mode == 2) {
+		if ($parentId)
+		{
+			if ($mode == 2)
+			{
 				// Prevent the parent and children from showing.
-				$query->join('LEFT', '#__menu AS p ON p.id = '.(int) $parentId);
+				$query->join('LEFT', '#__menu AS p ON p.id = ' . (int) $parentId);
 				$query->where('(a.lft <= p.lft OR a.rgt >= p.rgt)');
 			}
 		}
 
-		if (!empty($languages)) {
-			if (is_array($languages)) {
+		if (!empty($languages))
+		{
+			if (is_array($languages))
+			{
 				$languages = '(' . implode(',', array_map(array($db, 'quote'), $languages)) . ')';
 			}
 			$query->where('a.language IN ' . $languages);
 		}
 
-		if (!empty($published)) {
-			if (is_array($published)) $published = '(' . implode(',', $published) .')';
+		if (!empty($published))
+		{
+			if (is_array($published))
+				$published = '(' . implode(',', $published) . ')';
 			$query->where('a.published IN ' . $published);
 		}
 
@@ -183,12 +189,13 @@ class MenusHelper
 			return false;
 		}
 
-		if (empty($menuType)) {
+		if (empty($menuType))
+		{
 			// If the menutype is empty, group the items by menutype.
 			$query->clear();
 			$query->select('*');
 			$query->from('#__menu_types');
-			$query->where('menutype <> '.$db->quote(''));
+			$query->where('menutype <> ' . $db->quote(''));
 			$query->order('title, menutype');
 			$db->setQuery($query);
 
@@ -204,14 +211,17 @@ class MenusHelper
 
 			// Create a reverse lookup and aggregate the links.
 			$rlu = array();
-			foreach ($menuTypes as &$type) {
+			foreach ($menuTypes as &$type)
+			{
 				$rlu[$type->menutype] = &$type;
 				$type->links = array();
 			}
 
 			// Loop through the list of menu links.
-			foreach ($links as &$link) {
-				if (isset($rlu[$link->menutype])) {
+			foreach ($links as &$link)
+			{
+				if (isset($rlu[$link->menutype]))
+				{
 					$rlu[$link->menutype]->links[] = &$link;
 
 					// Cleanup garbage.
@@ -220,7 +230,9 @@ class MenusHelper
 			}
 
 			return $menuTypes;
-		} else {
+		}
+		else
+		{
 			return $links;
 		}
 	}
@@ -230,7 +242,7 @@ class MenusHelper
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 		$query->from('#__menu as m');
-		$query->innerJoin('#__associations as a ON a.id=m.id AND a.context='.$db->quote('com_menus.item'));
+		$query->innerJoin('#__associations as a ON a.id=m.id AND a.context=' . $db->quote('com_menus.item'));
 		$query->innerJoin('#__associations as a2 ON a.key=a2.key');
 		$query->innerJoin('#__menu as m2 ON a2.id=m2.id');
 		$query->where('m.id=' . (int) $pk);
