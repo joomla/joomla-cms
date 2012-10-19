@@ -26,23 +26,24 @@ class InstallerViewDefault extends JViewLegacy
 		$app = JFactory::getApplication();
 		parent::__construct($config);
 		$this->_addPath('template', $this->_basePath . '/views/default/tmpl');
-		$this->_addPath('template', JPATH_THEMES.'/'.$app->getTemplate().'/html/com_installer/default');
+		$this->_addPath('template', JPATH_THEMES . '/' . $app->getTemplate() . '/html/com_installer/default');
 	}
 
 	/**
 	 * @since	1.5
 	 */
-	public function display($tpl=null)
+	public function display($tpl = null)
 	{
 		// Get data from the model
-		$state	= $this->get('State');
+		$state = $this->get('State');
 
 		// Are there messages to display ?
-		$showMessage	= false;
-		if (is_object($state)) {
-			$message1		= $state->get('message');
-			$message2		= $state->get('extension_message');
-			$showMessage	= ($message1 || $message2);
+		$showMessage = false;
+		if (is_object($state))
+		{
+			$message1 = $state->get('message');
+			$message2 = $state->get('extension_message');
+			$showMessage = ($message1 || $message2);
 		}
 
 		$this->showMessage = $showMessage;
@@ -60,10 +61,11 @@ class InstallerViewDefault extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		$canDo	= InstallerHelper::getActions();
+		$canDo = InstallerHelper::getActions();
 		JToolbarHelper::title(JText::_('COM_INSTALLER_HEADER_' . $this->getName()), 'install.png');
 
-		if ($canDo->get('core.admin')) {
+		if ($canDo->get('core.admin'))
+		{
 			JToolbarHelper::preferences('com_installer');
 			JToolbarHelper::divider();
 		}
@@ -73,6 +75,6 @@ class InstallerViewDefault extends JViewLegacy
 		$document->setTitle(JText::_('COM_INSTALLER_TITLE_' . $this->getName()));
 
 		// Render side bar
-		$this->sidebar = JHtmlSidebar::render();
+		$this->sidebar = JHtml::_('sidebar.render');
 	}
 }
