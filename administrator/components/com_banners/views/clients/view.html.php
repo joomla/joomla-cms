@@ -29,12 +29,13 @@ class BannersViewClients extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$this->items		= $this->get('Items');
-		$this->pagination	= $this->get('Pagination');
-		$this->state		= $this->get('State');
+		$this->items = $this->get('Items');
+		$this->pagination = $this->get('Pagination');
+		$this->state = $this->get('State');
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors'))) {
+		if (count($errors = $this->get('Errors')))
+		{
 			JError::raiseError(500, implode("\n", $errors));
 			return false;
 		}
@@ -42,7 +43,7 @@ class BannersViewClients extends JViewLegacy
 		BannersHelper::addSubmenu('clients');
 
 		$this->addToolbar();
-		$this->sidebar = JHtmlSidebar::render();
+		$this->sidebar = JHtml::_('sidebar.render');
 		parent::display($tpl);
 	}
 
@@ -53,42 +54,46 @@ class BannersViewClients extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		require_once JPATH_COMPONENT.'/helpers/banners.php';
+		require_once JPATH_COMPONENT . '/helpers/banners.php';
 
-		$canDo	= BannersHelper::getActions();
+		$canDo = BannersHelper::getActions();
 
 		JToolbarHelper::title(JText::_('COM_BANNERS_MANAGER_CLIENTS'), 'banners-clients.png');
-		if ($canDo->get('core.create')) {
+		if ($canDo->get('core.create'))
+		{
 			JToolbarHelper::addNew('client.add');
 		}
-		if ($canDo->get('core.edit')) {
+		if ($canDo->get('core.edit'))
+		{
 			JToolbarHelper::editList('client.edit');
 		}
-		if ($canDo->get('core.edit.state')) {
+		if ($canDo->get('core.edit.state'))
+		{
 			JToolbarHelper::publish('clients.publish', 'JTOOLBAR_PUBLISH', true);
 			JToolbarHelper::unpublish('clients.unpublish', 'JTOOLBAR_UNPUBLISH', true);
 			JToolbarHelper::archiveList('clients.archive');
 			JToolbarHelper::checkin('clients.checkin');
 		}
-		if ($this->state->get('filter.state') == -2 && $canDo->get('core.delete')) {
+		if ($this->state->get('filter.state') == -2 && $canDo->get('core.delete'))
+		{
 			JToolbarHelper::deleteList('', 'clients.delete', 'JTOOLBAR_EMPTY_TRASH');
-		} elseif ($canDo->get('core.edit.state')) {
+		}
+		elseif ($canDo->get('core.edit.state'))
+		{
 			JToolbarHelper::trash('clients.trash');
 		}
 
-		if ($canDo->get('core.admin')) {
+		if ($canDo->get('core.admin'))
+		{
 			JToolbarHelper::preferences('com_banners');
 		}
 
 		JToolbarHelper::help('JHELP_COMPONENTS_BANNERS_CLIENTS');
 
-		JHtmlSidebar::setAction('index.php?option=com_banners&view=clients');
+		JHtml::_('sidebar.setaction', 'index.php?option=com_banners&view=clients');
 
-		JHtmlSidebar::addFilter(
-			JText::_('JOPTION_SELECT_PUBLISHED'),
-			'filter_state',
-			JHtml::_('select.options', JHtml::_('jgrid.publishedOptions'), 'value', 'text', $this->state->get('filter.published'), true)
-		);
+		JHtml::_('sidebar.addfilter', JText::_('JOPTION_SELECT_PUBLISHED'), 'filter_state',
+			JHtml::_('select.options', JHtml::_('jgrid.publishedOptions'), 'value', 'text', $this->state->get('filter.published'), true));
 	}
 	/**
 	 * Returns an array of fields the table can be sorted by
@@ -99,13 +104,8 @@ class BannersViewClients extends JViewLegacy
 	 */
 	protected function getSortFields()
 	{
-		return array(
-			'a.status' => JText::_('JSTATUS'),
-			'a.name' => JText::_('COM_BANNERS_HEADING_CLIENT'),
-			'contact' => JText::_('COM_BANNERS_HEADING_CONTACT'),
-			'client_name' => JText::_('COM_BANNERS_HEADING_CLIENT'),
-			'nbanners' => JText::_('COM_BANNERS_HEADING_ACTIVE'),
-			'a.id' => JText::_('JGRID_HEADING_ID')
-		);
+		return array('a.status' => JText::_('JSTATUS'), 'a.name' => JText::_('COM_BANNERS_HEADING_CLIENT'),
+			'contact' => JText::_('COM_BANNERS_HEADING_CONTACT'), 'client_name' => JText::_('COM_BANNERS_HEADING_CLIENT'),
+			'nbanners' => JText::_('COM_BANNERS_HEADING_ACTIVE'), 'a.id' => JText::_('JGRID_HEADING_ID'));
 	}
 }

@@ -28,22 +28,13 @@ class ContactHelper
 	 */
 	public static function addSubmenu($vName)
 	{
-		JHtmlSidebar::addEntry(
-			JText::_('COM_CONTACT_SUBMENU_CONTACTS'),
-			'index.php?option=com_contact&view=contacts',
-			$vName == 'contacts'
-		);
-		JHtmlSidebar::addEntry(
-			JText::_('COM_CONTACT_SUBMENU_CATEGORIES'),
-			'index.php?option=com_categories&extension=com_contact',
-			$vName == 'categories'
-		);
+		JHtml::_('sidebar.addentry', JText::_('COM_CONTACT_SUBMENU_CONTACTS'), 'index.php?option=com_contact&view=contacts', $vName == 'contacts');
+		JHtml::_('sidebar.addentry', JText::_('COM_CONTACT_SUBMENU_CATEGORIES'), 'index.php?option=com_categories&extension=com_contact',
+			$vName == 'categories');
 
 		if ($vName == 'categories')
 		{
-			JToolbarHelper::title(
-				JText::sprintf('COM_CATEGORIES_CATEGORIES_TITLE', JText::_('com_contact')),
-				'contact-categories');
+			JToolbarHelper::title(JText::sprintf('COM_CATEGORIES_CATEGORIES_TITLE', JText::_('com_contact')), 'contact-categories');
 		}
 	}
 
@@ -58,26 +49,30 @@ class ContactHelper
 	 */
 	public static function getActions($categoryId = 0, $contactId = 0)
 	{
-		$user	= JFactory::getUser();
-		$result	= new JObject;
+		$user = JFactory::getUser();
+		$result = new JObject;
 
-		if (empty($contactId) && empty($categoryId)) {
+		if (empty($contactId) && empty($categoryId))
+		{
 			$assetName = 'com_contact';
 			$level = 'component';
 		}
-		elseif (empty($contactId)) {
-			$assetName = 'com_contact.category.'.(int) $categoryId;
+		elseif (empty($contactId))
+		{
+			$assetName = 'com_contact.category.' . (int) $categoryId;
 			$level = 'category';
 		}
-		else {
-			$assetName = 'com_contact.contact.'.(int) $contactId;
+		else
+		{
+			$assetName = 'com_contact.contact.' . (int) $contactId;
 			$level = 'category';
 		}
 
 		$actions = JAccess::getActions('com_contact', $level);
 
-		foreach ($actions as $action) {
-			$result->set($action->name,	$user->authorise($action->name, $assetName));
+		foreach ($actions as $action)
+		{
+			$result->set($action->name, $user->authorise($action->name, $assetName));
 		}
 
 		return $result;

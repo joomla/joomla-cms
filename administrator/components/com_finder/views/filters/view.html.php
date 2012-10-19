@@ -48,7 +48,7 @@ class FinderViewFilters extends JViewLegacy
 
 		// Configure the toolbar.
 		$this->addToolbar();
-		$this->sidebar = JHtmlSidebar::render();
+		$this->sidebar = JHtml::_('sidebar.addrender');
 		parent::display($tpl);
 	}
 
@@ -92,12 +92,9 @@ class FinderViewFilters extends JViewLegacy
 		JToolbarHelper::divider();
 		JToolbarHelper::help('JHELP_COMPONENTS_FINDER_MANAGE_SEARCH_FILTERS');
 
-		JHtmlSidebar::setAction('index.php?option=com_finder&view=filters');
+		JHtml::_('sidebar.setaction', 'index.php?option=com_finder&view=filters');
 
-		JHtmlSidebar::addFilter(
-			JText::_('COM_FINDER_INDEX_FILTER_BY_STATE'),
-			'filter_state',
-			JHtml::_('select.options', JHtml::_('finder.statelist'), 'value', 'text', $this->state->get('filter.state'))
-		);
+		JHtml::_('sidebar.addfilter', JText::_('COM_FINDER_INDEX_FILTER_BY_STATE'), 'filter_state',
+			JHtml::_('select.options', JHtml::_('finder.statelist'), 'value', 'text', $this->state->get('filter.state')));
 	}
 }

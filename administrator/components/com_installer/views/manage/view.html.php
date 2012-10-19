@@ -34,22 +34,21 @@ class InstallerViewManage extends InstallerViewDefault
 	public function display($tpl = null)
 	{
 		// Get data from the model
-		$this->state      = $this->get('State');
-		$this->items      = $this->get('Items');
+		$this->state = $this->get('State');
+		$this->items = $this->get('Items');
 		$this->pagination = $this->get('Pagination');
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors'))) {
+		if (count($errors = $this->get('Errors')))
+		{
 			JError::raiseError(500, implode("\n", $errors));
 			return false;
 		}
 
 		//Check if there are no matching items
-		if(!count($this->items)){
-			JFactory::getApplication()->enqueueMessage(
-				JText::_('COM_INSTALLER_MSG_MANAGE_NOEXTENSION'),
-				'warning'
-			);
+		if (!count($this->items))
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_INSTALLER_MSG_MANAGE_NOEXTENSION'), 'warning');
 		}
 
 		// Include the component HTML helpers.
@@ -66,46 +65,37 @@ class InstallerViewManage extends InstallerViewDefault
 	 */
 	protected function addToolbar()
 	{
-		$canDo	= InstallerHelper::getActions();
-		if ($canDo->get('core.edit.state')) {
+		$canDo = InstallerHelper::getActions();
+		if ($canDo->get('core.edit.state'))
+		{
 			JToolbarHelper::publish('manage.publish', 'JTOOLBAR_ENABLE', true);
 			JToolbarHelper::unpublish('manage.unpublish', 'JTOOLBAR_DISABLE', true);
 			JToolbarHelper::divider();
 		}
 		JToolbarHelper::custom('manage.refresh', 'refresh', 'refresh', 'JTOOLBAR_REFRESH_CACHE', true);
 		JToolbarHelper::divider();
-		if ($canDo->get('core.delete')) {
+		if ($canDo->get('core.delete'))
+		{
 			JToolbarHelper::deleteList('', 'manage.remove', 'JTOOLBAR_UNINSTALL');
 			JToolbarHelper::divider();
 		}
 
 		JToolbarHelper::help('JHELP_EXTENSIONS_EXTENSION_MANAGER_MANAGE');
 
-		JHtmlSidebar::setAction('index.php?option=com_installer&view=manage');
+		JHtml::_('sidebar.setaction', 'index.php?option=com_installer&view=manage');
 
-		JHtmlSidebar::addFilter(
-			JText::_('COM_INSTALLER_VALUE_CLIENT_SELECT'),
-			'filter_client_id',
-			JHtml::_('select.options', array('0' => JText::_('JSITE'), '1' => JText::_('JADMINISTRATOR')), 'value', 'text', $this->state->get('filter.client_id'), true)
-		);
-
-		JHtmlSidebar::addFilter(
-			JText::_('COM_INSTALLER_VALUE_STATE_SELECT'),
-			'filter_status',
-			JHtml::_('select.options', array('0' => JText::_('JDISABLED'), '1' => JText::_('JENABLED'), '2' => JText::_('JPROTECTED')), 'value', 'text', $this->state->get('filter.status'), true)
-		);
-
-		JHtmlSidebar::addFilter(
-			JText::_('COM_INSTALLER_VALUE_TYPE_SELECT'),
-			'filter_type',
-			JHtml::_('select.options', InstallerHelper::getExtensionTypes(), 'value', 'text', $this->state->get('filter.type'), true)
-		);
-
-		JHtmlSidebar::addFilter(
-			JText::_('COM_INSTALLER_VALUE_FOLDER_SELECT'),
-			'filter_group',
-			JHtml::_('select.options', array_merge(InstallerHelper::getExtensionGroupes(), array('*' => JText::_('COM_INSTALLER_VALUE_FOLDER_NONAPPLICABLE'))), 'value', 'text', $this->state->get('filter.group'), true)
-		);
+		JHtml::_('sidebar.addfilter', JText::_('COM_INSTALLER_VALUE_CLIENT_SELECT'), 'filter_client_id',
+			JHtml::_('select.options', array('0' => JText::_('JSITE'), '1' => JText::_('JADMINISTRATOR')), 'value', 'text',
+				$this->state->get('filter.client_id'), true));
+		JHtml::_('sidebar.addfilter', JText::_('COM_INSTALLER_VALUE_STATE_SELECT'), 'filter_status',
+			JHtml::_('select.options', array('0' => JText::_('JDISABLED'), '1' => JText::_('JENABLED'), '2' => JText::_('JPROTECTED')), 'value',
+				'text', $this->state->get('filter.status'), true));
+		JHtml::_('sidebar.addfilter', JText::_('COM_INSTALLER_VALUE_TYPE_SELECT'), 'filter_type',
+			JHtml::_('select.options', InstallerHelper::getExtensionTypes(), 'value', 'text', $this->state->get('filter.type'), true));
+		JHtml::_('sidebar.addfilter', JText::_('COM_INSTALLER_VALUE_FOLDER_SELECT'), 'filter_group',
+			JHtml::_('select.options',
+				array_merge(InstallerHelper::getExtensionGroupes(), array('*' => JText::_('COM_INSTALLER_VALUE_FOLDER_NONAPPLICABLE'))), 'value',
+				'text', $this->state->get('filter.group'), true));
 
 		parent::addToolbar();
 	}

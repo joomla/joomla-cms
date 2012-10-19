@@ -29,9 +29,9 @@ class PluginsViewPlugins extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$this->items      = $this->get('Items');
+		$this->items = $this->get('Items');
 		$this->pagination = $this->get('Pagination');
-		$this->state      = $this->get('State');
+		$this->state = $this->get('State');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -43,13 +43,11 @@ class PluginsViewPlugins extends JViewLegacy
 		// Check if there are no matching items
 		if (!count($this->items))
 		{
-			JFactory::getApplication()->enqueueMessage(
-				JText::_('COM_PLUGINS_MSG_MANAGE_NO_PLUGINS'),
-				'warning'
-			);
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_PLUGINS_MSG_MANAGE_NO_PLUGINS'), 'warning');
 		}
 
 		$this->addToolbar();
+		$this->sidebar = JHtml::_('sidebar.render');
 		parent::display($tpl);
 	}
 
@@ -83,28 +81,14 @@ class PluginsViewPlugins extends JViewLegacy
 
 		JToolbarHelper::help('JHELP_EXTENSIONS_PLUGIN_MANAGER');
 
-		JHtmlSidebar::setAction('index.php?option=com_plugins&view=plugins');
+		JHtml::_('sidebar.setaction', 'index.php?option=com_plugins&view=plugins');
 
-		JHtmlSidebar::addFilter(
-				JText::_('JOPTION_SELECT_PUBLISHED'),
-				'filter_enabled',
-				JHtml::_('select.options', JHtml::_('jgrid.publishedOptions'), 'value', 'text', $this->state->get('filter.enabled'), true)
-		);
-
-		JHtmlSidebar::addFilter(
-				JText::_('COM_PLUGINS_OPTION_FOLDER'),
-				'filter_folder',
-				JHtml::_('select.options', PluginsHelper::folderOptions(), 'value', 'text', $this->state->get('filter.folder'))
-		);
-
-		JHtmlSidebar::addFilter(
-				JText::_('JOPTION_SELECT_ACCESS'),
-				'filter_access',
-				JHtml::_('select.options', JHtml::_('access.assetgroups'), 'value', 'text', $this->state->get('filter.access'))
-		);
-
-		$this->sidebar = JHtmlSidebar::render();
-
+		JHtml::_('sidebar.addfilter', JText::_('JOPTION_SELECT_PUBLISHED'), 'filter_enabled',
+			JHtml::_('select.options', JHtml::_('jgrid.publishedOptions'), 'value', 'text', $this->state->get('filter.enabled'), true));
+		JHtml::_('sidebar.addfilter', JText::_('COM_PLUGINS_OPTION_FOLDER'), 'filter_folder',
+			JHtml::_('select.options', PluginsHelper::folderOptions(), 'value', 'text', $this->state->get('filter.folder')));
+		JHtml::_('sidebar.addfilter', JText::_('JOPTION_SELECT_ACCESS'), 'filter_access',
+			JHtml::_('select.options', JHtml::_('access.assetgroups'), 'value', 'text', $this->state->get('filter.access')));
 	}
 
 	/**
@@ -116,14 +100,8 @@ class PluginsViewPlugins extends JViewLegacy
 	 */
 	protected function getSortFields()
 	{
-		return array(
-				'ordering' => JText::_('JGRID_HEADING_ORDERING'),
-				'a.state' => JText::_('JSTATUS'),
-				'name' => JText::_('JGLOBAL_TITLE'),
-				'folder' => JText::_('COM_PLUGINS_FOLDER_HEADING'),
-				'element' => JText::_('COM_PLUGINS_ELEMENT_HEADING'),
-				'access' => JText::_('JGRID_HEADING_ACCESS'),
-				'extension_id' => JText::_('JGRID_HEADING_ID')
-		);
+		return array('ordering' => JText::_('JGRID_HEADING_ORDERING'), 'a.state' => JText::_('JSTATUS'), 'name' => JText::_('JGLOBAL_TITLE'),
+			'folder' => JText::_('COM_PLUGINS_FOLDER_HEADING'), 'element' => JText::_('COM_PLUGINS_ELEMENT_HEADING'),
+			'access' => JText::_('JGRID_HEADING_ACCESS'), 'extension_id' => JText::_('JGRID_HEADING_ID'));
 	}
 }
