@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 // Include the component HTML helpers.
-JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
+JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 // Load the tooltip behavior.
 JHtml::_('behavior.framework');
@@ -49,7 +49,7 @@ $assoc = isset($app->item_associations) ? $app->item_associations : 0;
 	}
 </script>
 
-<form action="<?php echo JRoute::_('index.php?option=com_menus&layout=edit&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate form-horizontal">
+<form action="<?php echo JRoute::_('index.php?option=com_menus&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate form-horizontal">
 	<fieldset>
 		<ul class="nav nav-tabs">
 			<li class="active"><a href="#details" data-toggle="tab"><?php echo JText::_('COM_MENUS_ITEM_DETAILS');?></a></li>
@@ -67,55 +67,10 @@ $assoc = isset($app->item_associations) ? $app->item_associations : 0;
 					<div class="span6">
 						<div class="control-group">
 							<div class="control-label">
-								<?php echo $this->form->getLabel('published'); ?>
-							</div>
-							<div class="controls">
-								<?php echo $this->form->getInput('published'); ?>
-							</div>
-						</div>
-
-						<div class="control-group">
-							<div class="control-label">
 								<?php echo $this->form->getLabel('type'); ?>
 							</div>
 							<div class="controls">
 								<?php echo $this->form->getInput('type'); ?>
-							</div>
-						</div>
-
-						<?php
-							$fieldSets = $this->form->getFieldsets('request');
-
-							if (!empty($fieldSets)) :
-								$fieldSet = array_shift($fieldSets);
-								$label = !empty($fieldSet->label) ? $fieldSet->label : 'COM_MENUS_'.$fieldSet->name.'_FIELDSET_LABEL';
-								if (isset($fieldSet->description) && trim($fieldSet->description)) :
-									echo '<p class="tip">'.$this->escape(JText::_($fieldSet->description)).'</p>';
-								endif;
-							?>
-									<?php $hidden_fields = ''; ?>
-										<?php foreach ($this->form->getFieldset('request') as $field) : ?>
-										<?php if (!$field->hidden) : ?>
-										<div class="control-group">
-											<div class="control-label">
-												<?php echo $field->label; ?>
-											</div>
-											<div class="controls">
-												<?php echo $field->input; ?>
-											</div>
-										</div>
-										<?php else : $hidden_fields .= $field->input; ?>
-										<?php endif; ?>
-										<?php endforeach; ?>
-									<?php echo $hidden_fields; ?>
-						<?php endif; ?>
-
-						<div class="control-group">
-							<div class="control-label">
-								<?php echo $this->form->getLabel('title'); ?>
-							</div>
-							<div class="controls">
-								<?php echo $this->form->getInput('title'); ?>
 							</div>
 						</div>
 						<?php if ($this->item->type == 'url'): ?>
@@ -129,7 +84,40 @@ $assoc = isset($app->item_associations) ? $app->item_associations : 0;
 								</div>
 							</div>
 						<?php endif; ?>
+						<?php
+							$fieldSets = $this->form->getFieldsets('request');
 
+							if (!empty($fieldSets)) :
+								$fieldSet = array_shift($fieldSets);
+								$label = !empty($fieldSet->label) ? $fieldSet->label : 'COM_MENUS_' . $fieldSet->name . '_FIELDSET_LABEL';
+								if (isset($fieldSet->description) && trim($fieldSet->description)) :
+									echo '<p class="tip">' . $this->escape(JText::_($fieldSet->description)) . '</p>';
+								endif;
+							?>
+								<?php $hidden_fields = ''; ?>
+								<?php foreach ($this->form->getFieldset('request') as $field) : ?>
+									<?php if (!$field->hidden) : ?>
+									<div class="control-group">
+										<div class="control-label">
+											<?php echo $field->label; ?>
+										</div>
+										<div class="controls">
+											<?php echo $field->input; ?>
+										</div>
+									</div>
+									<?php else : $hidden_fields .= $field->input; ?>
+									<?php endif; ?>
+								<?php endforeach; ?>
+							<?php echo $hidden_fields; ?>
+						<?php endif; ?>
+						<div class="control-group">
+							<div class="control-label">
+								<?php echo $this->form->getLabel('title'); ?>
+							</div>
+							<div class="controls">
+								<?php echo $this->form->getInput('title'); ?>
+							</div>
+						</div>
 						<?php if ($this->item->type == 'alias'): ?>
 							<div class="control-group">
 								<div class="control-label">
@@ -137,7 +125,6 @@ $assoc = isset($app->item_associations) ? $app->item_associations : 0;
 								</div>
 							</div>
 						<?php endif; ?>
-
 						<?php if ($this->item->type != 'url'): ?>
 							<div class="control-group">
 								<div class="control-label">
@@ -148,7 +135,15 @@ $assoc = isset($app->item_associations) ? $app->item_associations : 0;
 								</div>
 							</div>
 						<?php endif; ?>
-
+						<hr />
+						<div class="control-group">
+							<div class="control-label">
+								<?php echo $this->form->getLabel('published'); ?>
+							</div>
+							<div class="controls">
+								<?php echo $this->form->getInput('published'); ?>
+							</div>
+						</div>
 						<?php if ($this->item->type !== 'url'): ?>
 							<div class="control-group">
 								<div class="control-label">
@@ -159,9 +154,6 @@ $assoc = isset($app->item_associations) ? $app->item_associations : 0;
 								</div>
 							</div>
 						<?php endif ?>
-
-
-
 						<div class="control-group">
 							<div class="control-label">
 								<?php echo $this->form->getLabel('menutype'); ?>
@@ -170,7 +162,6 @@ $assoc = isset($app->item_associations) ? $app->item_associations : 0;
 								<?php echo $this->form->getInput('menutype'); ?>
 							</div>
 						</div>
-
 						<div class="control-group">
 							<div class="control-label">
 								<?php echo $this->form->getLabel('parent_id'); ?>
@@ -179,7 +170,6 @@ $assoc = isset($app->item_associations) ? $app->item_associations : 0;
 								<?php echo $this->form->getInput('parent_id'); ?>
 							</div>
 						</div>
-
 						<div class="control-group">
 							<div class="control-label">
 								<?php echo $this->form->getLabel('menuordering'); ?>

@@ -173,6 +173,10 @@ class ContentViewCategory extends JViewLegacy
 		$this->pagination = &$pagination;
 		$this->user       = &$user;
 
+		// Increment the category hit counter
+		$model = $this->getModel();
+		$model->hit();
+
 		$this->_prepareDocument();
 
 		parent::display($tpl);
@@ -219,8 +223,7 @@ class ContentViewCategory extends JViewLegacy
 			}
 		}
 
-		$title = $this->category->title;
-
+		$title = $this->params->get('page_title', '');
 		if (empty($title)) {
 			$title = $app->getCfg('sitename');
 		}

@@ -19,6 +19,14 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 $canEdit = $user->authorise('core.edit', 'com_users');
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_users&view=notes');?>" method="post" name="adminForm" id="adminForm">
+<?php if(!empty( $this->sidebar)): ?>
+	<div id="j-sidebar-container" class="span2">
+		<?php echo $this->sidebar; ?>
+	</div>
+	<div id="j-main-container" class="span10">
+<?php else : ?>
+	<div id="j-main-container">
+<?php endif;?>
 	<fieldset id="filter-bar">
 	<legend class="element-invisible"><?php echo JText::_('COM_USERS_SEARCH_IN_NOTE_TITLE'); ?></legend>
 		<div class="filter-search">
@@ -144,4 +152,5 @@ $canEdit = $user->authorise('core.edit', 'com_users');
 		<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>" />
 		<?php echo JHtml::_('form.token'); ?>
 	</div>
+</div>
 </form>

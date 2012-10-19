@@ -149,7 +149,9 @@ endif;
 										</div>
 									</div>
 									<div class="control-group">
-										<?php echo $this->form->getLabel('id'); ?>
+										<div class="control-label">
+											<?php echo $this->form->getLabel('id'); ?>
+										</div>
 										<div class="controls">
 											<?php echo $this->form->getInput('id'); ?>
 										</div>
@@ -212,7 +214,9 @@ endif;
 
 									<?php if ($this->item->hits) : ?>
 										<div class="control-group">
-											<?php echo $this->form->getLabel('hits'); ?>
+											<div class="control-label">
+												<?php echo $this->form->getLabel('hits'); ?>
+											</div>
 											<div class="controls">
 												<?php echo $this->form->getInput('hits'); ?>
 											</div>

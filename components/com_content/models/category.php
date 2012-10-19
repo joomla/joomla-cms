@@ -411,4 +411,36 @@ class ContentModelCategory extends JModelList
 
 		return $this->_children;
 	}
+
+	/**
+	 * Increment the hit counter for the category.
+	 *
+	 * @param   int  $pk  Optional primary key of the category to increment.
+	 *
+	 * @return boolean True if successful; false otherwise and internal error set.
+	 */
+	public function hit($pk = 0)
+	{
+		// Initialise variables.
+		$pk = (!empty($pk)) ? $pk : (int) $this->getState('category.id');
+
+		$db = $this->getDbo();
+		$query = $db->getQuery(true);
+		$query->update('#__categories');
+		$query->set('hits = hits + 1');
+		$query->where('id = ' . (int) $pk);
+		$db->setQuery($query);
+
+		try
+		{
+			$db->execute();
+		}
+		catch (RuntimeException $e)
+		{
+			$this->setError($e->getMessage());
+			return false;
+		}
+
+		return true;
+	}
 }
