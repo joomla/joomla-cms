@@ -28,6 +28,7 @@ $ -> Language fix or change
 
 20-Oct-2012 Jean-Marie Simonet
  # [#29530] *Language override search broken. Thanks Patrick
+ # [#29525] No tooltip help for Global Configuration Text Filters. Thanks Mark.
 
 18-Oct-2012 Jean-Marie Simonet
  # [#29519] *Edit Menu Item layout usability
