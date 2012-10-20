@@ -70,13 +70,13 @@ JHtml::_('behavior.framework');
 
 	<?php // to do not that elegant would be nice to group the params ?>
 	<?php $useDefList = (($params->get('show_modify_date')) or ($params->get('show_publish_date'))
-		or ($params->get('show_hits')) or ($params->get('show_category'))); ?>
+		or ($params->get('show_hits')) or ($params->get('show_category')) or ($params->get('show_parent_category'))); ?>
 	<?php if ($useDefList AND ($info == 0 OR $info == 2)) : ?>
 		<div class="article-info muted">
 			<dl class="article-info">
 			<dt class="article-info-term"><?php  echo JText::_('COM_CONTENT_ARTICLE_INFO'); ?></dt>
 
-			<?php if ($params->get('show_parent_category') && !empty($this->item->parent_slug)) : ?>
+			<?php if ($params->get('show_parent_category') && ($this->item->parent_slug != '1:root')) : ?>
 				<dd>
 					<div class="parent-category-name">
 						<?php	$title = $this->escape($this->item->parent_title);
