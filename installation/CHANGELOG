@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+20-Oct-2012 Jean-Marie Simonet
+ # [#29530] *Language override search broken. Thanks Patrick
+
 18-Oct-2012 Jean-Marie Simonet
  # [#29519] *Edit Menu Item layout usability
  # [#29401] Repeated htmlspecialchars() Applied When Multiple Breadcrumbs Active. Thanks Peter and Roland
