@@ -43,15 +43,17 @@ class JFeedFactory
 		// Open the URI within the stream reader.
 		if (!$reader->open($uri, null, LIBXML_NOERROR | LIBXML_ERR_NONE | LIBXML_NOWARNING))
 		{
-			// @codeCoverageIgnoreStart
 			throw new RuntimeException('Unable to open the feed.');
-			// @codeCoverageIgnoreEnd
 		}
 
 		try
 		{
 			// Skip ahead to the root node.
-			while ($reader->read() && ($reader->nodeType !== XMLReader::ELEMENT));
+			do
+			{
+				$reader->read();
+			}
+			while ($reader->nodeType !== XMLReader::ELEMENT);
 		}
 		catch (Exception $e)
 		{

@@ -245,6 +245,9 @@ class JFeedParserAtomTest extends TestCase
 	/**
 	 * Tests JFeedParserAtom::initialise()
 	 *
+	 * @param   string  $expected  The expected version number.
+	 * @param   string  $xml       The <feed> tag from which to detect the version.
+	 *
 	 * @return  void
 	 *
 	 * @covers        JFeedParserAtom::initialise
@@ -257,7 +260,11 @@ class JFeedParserAtomTest extends TestCase
 		$this->_reader->XML($xml);
 
 		// Advance the reader to the first element.
-		while ($this->_reader->read() && ($this->_reader->nodeType != XMLReader::ELEMENT));
+		do
+		{
+			$this->_reader->read();
+		}
+		while ($this->_reader->nodeType != XMLReader::ELEMENT);
 
 		TestReflection::invoke($this->_instance, 'initialise');
 
@@ -289,8 +296,9 @@ class JFeedParserAtomTest extends TestCase
 	 */
 	public function testProcessFeedEntry()
 	{
+		$xml = '<entry><id>http://example.com/id</id><title>title</title><updated>August 25, 1991</updated><summary>summary</summary></entry>';
 		$entry = new JFeedEntry;
-		$el = new SimpleXMLElement('<entry><id>http://example.com/id</id><title>title</title><updated>August 25, 1991</updated><summary>summary</summary></entry>');
+		$el = new SimpleXMLElement($xml);
 
 		TestReflection::invoke($this->_instance, 'processFeedEntry', $entry, $el);
 

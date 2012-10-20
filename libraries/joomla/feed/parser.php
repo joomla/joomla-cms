@@ -37,12 +37,6 @@ abstract class JFeedParser
 	protected $stream;
 
 	/**
-	 * @var    DOMDocument
-	 * @since  12.3
-	 */
-	private $_node;
-
-	/**
 	 * Constructor.
 	 *
 	 * @param   XMLReader  $stream  The XMLReader stream object for the feed.
@@ -51,7 +45,6 @@ abstract class JFeedParser
 	 */
 	public function __construct(XMLReader $stream)
 	{
-		$this->_node   = new DOMDocument;
 		$this->stream  = $stream;
 	}
 
@@ -73,13 +66,14 @@ abstract class JFeedParser
 		do
 		{
 			// Expand the element for processing.
-			$el = $this->expandToSimpleXml();
+			$el = new SimpleXMLElement($this->stream->readOuterXml());
 
 			// Get the list of namespaces used within this element.
 			$ns = $el->getNamespaces(true);
 
 			// Get an array of available namespace objects for the element.
 			$namespaces = array();
+
 			foreach ($ns as $prefix => $uri)
 			{
 				// Ignore the empty namespace prefix.
@@ -90,6 +84,7 @@ abstract class JFeedParser
 
 				// Get the necessary namespace objects for the element.
 				$namespace = $this->fetchNamespace($prefix);
+
 				if ($namespace)
 				{
 					$namespaces[] = $namespace;
@@ -190,31 +185,6 @@ abstract class JFeedParser
 	}
 
 	/**
-	 * Method to expand the current reader node into a SimpleXML node for more detailed reading
-	 * and manipulation.
-	 *
-	 * @return  SimpleXMLElement
-	 *
-	 * @since   12.3
-	 * @throws  RuntimeException
-	 */
-	protected function expandToSimpleXml()
-	{
-		// Whizbang!  And now we have a SimpleXMLElement element from the current stream node. **MAGIC** :-)
-		$el = simplexml_import_dom($this->_node->importNode($this->stream->expand(), true));
-
-		// Let's take care of some sanity checking.
-		if (!($el instanceof SimpleXMLElement))
-		{
-			// @codeCoverageIgnoreStart
-			throw new RuntimeException('Unable to expand node to SimpleXML element.');
-			// @codeCoverageIgnoreEnd
-		}
-
-		return $el;
-	}
-
-	/**
 	 * Method to get a namespace object for a given namespace prefix.
 	 *
 	 * @param   string  $prefix  The XML prefix for which to fetch the namespace object.
@@ -231,6 +201,7 @@ abstract class JFeedParser
 		}
 
 		$className = get_class($this) . ucfirst($prefix);
+
 		if (class_exists($className))
 		{
 			$this->namespaces[$prefix] = new $className;
@@ -301,8 +272,6 @@ abstract class JFeedParser
 			}
 		}
 
-		// @codeCoverageIgnoreStart
 		throw new RuntimeException('Unable to find the closing XML node.');
-		// @codeCoverageIgnoreEnd
 	}
 }

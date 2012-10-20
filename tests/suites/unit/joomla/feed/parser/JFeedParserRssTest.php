@@ -204,7 +204,8 @@ class JFeedParserRssTest extends TestCase
 	public function testHandleImage()
 	{
 		// Setup the inputs.
-		$el   = new SimpleXMLElement('<image><url>http://www.w3schools.com/images/logo.gif</url><title>W3Schools.com</title><link>http://www.w3schools.com</link></image>');
+		$xml  = '<image><url>http://www.w3schools.com/images/logo.gif</url><title>W3Schools.com</title><link>http://www.w3schools.com</link></image>';
+		$el   = new SimpleXMLElement($xml);
 		$feed = new JFeed;
 
 		TestReflection::invoke($this->_instance, 'handleImage', $feed, $el);
@@ -471,7 +472,11 @@ class JFeedParserRssTest extends TestCase
 		$this->_reader->XML($xml);
 
 		// Advance the reader to the first element.
-		while ($this->_reader->read() && ($this->_reader->nodeType != XMLReader::ELEMENT));
+		do
+		{
+			$this->_reader->read();
+		}
+		while ($this->_reader->nodeType != XMLReader::ELEMENT);
 
 		TestReflection::invoke($this->_instance, 'initialise');
 
@@ -536,6 +541,10 @@ class JFeedParserRssTest extends TestCase
 
 	/**
 	 * Tests JFeedParserRss::processPerson()
+	 *
+	 * @param   string  $input  The person string consisting of name and email address.
+	 * @param   string  $name   The person's name.
+	 * @param   string  $email  The person's email address.
 	 *
 	 * @return  void
 	 *

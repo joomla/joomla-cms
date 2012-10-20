@@ -318,6 +318,7 @@ class JFeedParserRss extends JFeedParser
 
 		// This is really cheap parsing.  Probably need to create a method to do this more robustly.
 		$name = null;
+
 		if (isset($tmp[1]))
 		{
 			$name = trim($tmp[1], ' ()');
@@ -367,6 +368,7 @@ class JFeedParserRss extends JFeedParser
 
 		// Add the feed entry author if available.
 		$author = (string) $el->author;
+
 		if (!empty($author))
 		{
 			$entry->author = $this->processPerson($author);
@@ -410,6 +412,7 @@ class JFeedParserRss extends JFeedParser
 
 		// This is really cheap parsing, but so far good enough. :)
 		$data = explode(' ', $data, 2);
+
 		if (isset($data[1]))
 		{
 			$person->name = trim($data[1], ' ()');

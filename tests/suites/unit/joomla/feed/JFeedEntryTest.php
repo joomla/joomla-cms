@@ -201,10 +201,12 @@ class JFeedEntryTest extends TestCase
 		$properties = TestReflection::getValue($this->_instance, 'properties');
 
 		// Make sure the contributor we added actually exists.
-		$this->assertTrue(in_array(
-			new JFeedPerson('Dennis Ritchie', 'dennis.ritchie@example.com'),
-			$properties['contributors']
-		));
+		$this->assertTrue(
+			in_array(
+				new JFeedPerson('Dennis Ritchie', 'dennis.ritchie@example.com'),
+				$properties['contributors']
+			)
+		);
 
 		$this->_instance->addContributor('Dennis Ritchie', 'dennis.ritchie@example.com');
 
@@ -230,10 +232,12 @@ class JFeedEntryTest extends TestCase
 		$properties = TestReflection::getValue($this->_instance, 'properties');
 
 		// Make sure the link we added actually exists.
-		$this->assertTrue(in_array(
-			$expected,
-			$properties['links']
-		));
+		$this->assertTrue(
+			in_array(
+				$expected,
+				$properties['links']
+			)
+		);
 
 		$this->_instance->addLink($expected);
 

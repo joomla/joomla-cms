@@ -60,7 +60,11 @@ class JFeedParserTest extends TestCase
 		$this->_reader->XML($xml);
 
 		// Advance the reader to the first <tag1> element.
-		while ($this->_reader->read() && ($this->_reader->name != 'tag1'));
+		do
+		{
+			$this->_reader->read();
+		}
+		while ($this->_reader->name != 'tag1');
 
 		$parser->parse();
 	}
@@ -139,27 +143,26 @@ class JFeedParserTest extends TestCase
 	{
 		$el = new SimpleXMLElement('<element1></element1>');
 
-		// process element has a few dependencies that we need to pass:
-		// a JFeed object, an element, and namespaces
+		// Process element has a few dependencies that we need to pass: a JFeed object, an element, and namespaces.
 		$feed = $this->getMockBuilder('JFeed')
-					 ->disableOriginalConstructor()
-					 ->getMock();
+					->disableOriginalConstructor()
+					->getMock();
 
 		$mock = $this->getMockBuilder('JFeedParserProcessElementMock')
-					 ->disableOriginalConstructor()
-					 ->setMethods(array('processFeedEntry', 'handleElement1'))
-					 ->getMock();
+					->disableOriginalConstructor()
+					->setMethods(array('processFeedEntry', 'handleElement1'))
+					->getMock();
 
 		$mock->expects($this->once())
-			 ->method('handleElement1')
-			 ->with($feed, $el);
+			->method('handleElement1')
+			->with($feed, $el);
 
 		$namespace = $this->getMockBuilder('JFeedParserNamespace')
-						  ->getMock();
+						->getMock();
 
 		$namespace->expects($this->once())
-				  ->method('processElementForFeed')
-				  ->with($feed, $el);
+			->method('processElementForFeed')
+			->with($feed, $el);
 
 		$mock->processElement($feed, $el, array($namespace));
 	}
@@ -176,81 +179,32 @@ class JFeedParserTest extends TestCase
 	{
 		$el = new SimpleXMLElement('<myentry></myentry>');
 
-		// process element has a few dependencies that we need to pass:
-		// a JFeed object, an element, and namespaces
+		// Process element has a few dependencies that we need to pass: a JFeed object, an element, and namespaces
 		$feed = $this->getMockBuilder('JFeed')
-					 ->disableOriginalConstructor()
-					 ->getMock();
+					->disableOriginalConstructor()
+					->getMock();
 
 		$feed->expects($this->once())
-			 ->method('addEntry')
-			 ->with($this->isInstanceOf('JFeedEntry'));
+			->method('addEntry')
+			->with($this->isInstanceOf('JFeedEntry'));
 
 		$mock = $this->getMockBuilder('JFeedParserProcessElementMock')
-					 ->disableOriginalConstructor()
-					 ->setMethods(array('processFeedEntry'))
-					 ->getMock();
+					->disableOriginalConstructor()
+					->setMethods(array('processFeedEntry'))
+					->getMock();
 
 		$mock->expects($this->once())
-			 ->method('processFeedEntry')
-			 ->with($this->isInstanceOf('JFeedEntry'), $el);
+			->method('processFeedEntry')
+			->with($this->isInstanceOf('JFeedEntry'), $el);
 
 		$namespace = $this->getMockBuilder('JFeedParserNamespace')
-						  ->getMock();
+						->getMock();
 
 		$namespace->expects($this->once())
-				  ->method('processElementForFeedEntry')
-				  ->with($this->isInstanceOf('JFeedEntry'), $el);
+			->method('processElementForFeedEntry')
+			->with($this->isInstanceOf('JFeedEntry'), $el);
 
 		$mock->processElement($feed, $el, array($namespace));
-	}
-
-	/**
-	 * Tests JFeedParser::expandToSimpleXml()
-	 *
-	 * @return  void
-	 *
-	 * @covers  JFeedParser::expandToSimpleXml
-	 * @since   12.3
-	 */
-	public function testExpandToSimpleXml()
-	{
-		// Set the XML for the internal reader and move the stream to the first <node> element.
-		$this->_reader->XML('<node foo="bar"><child>foobar</child></node>');
-		$this->_reader->next('node');
-
-		// Execute the 'expandToSimpleXml' method.
-		$el = TestReflection::invoke($this->_instance, 'expandToSimpleXml');
-
-		$this->assertInstanceOf(
-			'SimpleXMLElement',
-			$el,
-			'The expanded return value should be a SimpleXMLElement instance.'
-		);
-
-		$this->assertEquals(
-			'node',
-			$el->getName(),
-			'The element should be named "node".'
-		);
-
-		$this->assertEquals(
-			'bar',
-			(string) $el['foo'],
-			'The element should have an attribute "foo" with a value "bar".'
-		);
-
-		$this->assertInstanceOf(
-			'SimpleXMLElement',
-			$el->child[0],
-			'The expanded return value should have a child element which is a SimpleXMLElement instance.'
-		);
-
-		$this->assertEquals(
-			'foobar',
-			(string) $el->child[0],
-			'The child element should have a value of "foobar".'
-		);
 	}
 
 	/**
@@ -376,7 +330,11 @@ class JFeedParserTest extends TestCase
 		$this->_reader->XML('<root><node test="first"><child>foobar</child></node><node test="second"></node></root>');
 
 		// Advance the reader to the first <node> element.
-		while ($this->_reader->read() && ($this->_reader->name != 'node'));
+		do
+		{
+			$this->_reader->read();
+		}
+		while ($this->_reader->name != 'node');
 
 		// Ensure that the current node is <node test="first">.
 		$this->assertEquals(XMLReader::ELEMENT, $this->_reader->nodeType);
@@ -389,7 +347,11 @@ class JFeedParserTest extends TestCase
 		$this->assertEquals('node', $this->_reader->name);
 
 		// Advance the reader to the next element.
-		while ($this->_reader->read() && ($this->_reader->nodeType != XMLReader::ELEMENT));
+		do
+		{
+			$this->_reader->read();
+		}
+		while ($this->_reader->nodeType != XMLReader::ELEMENT);
 
 		// Ensure that the current node is <node test="first">.
 		$this->assertEquals(XMLReader::ELEMENT, $this->_reader->nodeType);
@@ -416,7 +378,11 @@ class JFeedParserTest extends TestCase
 		$this->_reader->XML('<root><node test="first" /><node test="second"></node></root>');
 
 		// Advance the reader to the first <node> element.
-		while ($this->_reader->read() && ($this->_reader->name != 'node'));
+		do
+		{
+			$this->_reader->read();
+		}
+		while ($this->_reader->name != 'node');
 
 		// Ensure that the current node is <node test="first">.
 		$this->assertEquals(XMLReader::ELEMENT, $this->_reader->nodeType);
@@ -429,7 +395,11 @@ class JFeedParserTest extends TestCase
 		$this->assertEquals('node', $this->_reader->name);
 
 		// Advance the reader to the next element.
-		while ($this->_reader->read() && ($this->_reader->nodeType != XMLReader::ELEMENT));
+		do
+		{
+			$this->_reader->read();
+		}
+		while ($this->_reader->nodeType != XMLReader::ELEMENT);
 
 		// Ensure that the current node is <node test="first">.
 		$this->assertEquals(XMLReader::ELEMENT, $this->_reader->nodeType);

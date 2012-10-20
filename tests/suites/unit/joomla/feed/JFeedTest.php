@@ -187,10 +187,12 @@ class JFeedTest extends TestCase
 		$properties = TestReflection::getValue($this->_instance, 'properties');
 
 		// Make sure the contributor we added actually exists.
-		$this->assertTrue(in_array(
-			new JFeedPerson('Dennis Ritchie', 'dennis.ritchie@example.com'),
-			$properties['contributors']
-		));
+		$this->assertTrue(
+			in_array(
+				new JFeedPerson('Dennis Ritchie', 'dennis.ritchie@example.com'),
+				$properties['contributors']
+			)
+		);
 
 		$this->_instance->addContributor('Dennis Ritchie', 'dennis.ritchie@example.com');
 
@@ -242,12 +244,12 @@ class JFeedTest extends TestCase
 		$offset = new stdClass;
 
 		$mock = $this->getMockBuilder('SplObjectStorage')
-					 ->disableOriginalConstructor()
-					 ->getMock();
+					->disableOriginalConstructor()
+					->getMock();
 
 		$mock->expects($this->once())
-			 ->method('offsetExists')
-			 ->will($this->returnValue(true));
+			->method('offsetExists')
+			->will($this->returnValue(true));
 
 		TestReflection::setValue($this->_instance, 'entries', $mock);
 
@@ -267,12 +269,12 @@ class JFeedTest extends TestCase
 		$offset = new stdClass;
 
 		$mock = $this->getMockBuilder('SplObjectStorage')
-					 ->disableOriginalConstructor()
-					 ->getMock();
+					->disableOriginalConstructor()
+					->getMock();
 
 		$mock->expects($this->once())
-			 ->method('offsetGet')
-			 ->will($this->returnValue(true));
+			->method('offsetGet')
+			->will($this->returnValue(true));
 
 		TestReflection::setValue($this->_instance, 'entries', $mock);
 

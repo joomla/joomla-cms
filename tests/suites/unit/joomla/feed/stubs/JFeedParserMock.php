@@ -22,11 +22,27 @@ class JFeedParserMock extends JFeedParser
 	 */
 	public static $parseReturn = null;
 
+	/**
+	 * Do Nothing.
+	 *
+	 * @return  void
+	 *
+	 * @see     JFeedParser::initialise()
+	 * @since   12.3
+	 */
 	protected function initialise()
 	{
 		// Do nothing.
 	}
 
+	/**
+	 * Return the static value.
+	 *
+	 * @return  mixed
+	 *
+	 * @see     JFeedParser::parse()
+	 * @since   12.3
+	 */
 	public function parse()
 	{
 		if (is_null(self::$parseReturn))
