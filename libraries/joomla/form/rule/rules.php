@@ -92,7 +92,10 @@ class JFormRuleRules extends JFormRule
 		$component = $element['component'] ? (string) $element['component'] : '';
 
 		// Get the asset actions for the element.
-		$elActions = JAccess::getActions($component, $section);
+		$elActions = JAccess::getActionsFromFile(
+			JPATH_ADMINISTRATOR . '/components/' . $component . '/access.xml',
+			"/access/section[@name='" . $section . "']/"
+		);
 
 		// Iterate over the asset actions and add to the actions.
 		foreach ($elActions as $item)
