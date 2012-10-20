@@ -204,7 +204,10 @@ abstract class JHtmlAccess
 
 		$count++;
 
-		$actions = JAccess::getActions($component, $section);
+		$actions = JAccess::getActionsFromFile(
+			JPATH_ADMINISTRATOR . '/components/' . $component . '/access.xml',
+			"/access/section[@name='" . $section . "']/"
+		);
 
 		$html = array();
 		$html[] = '<ul class="checklist access-actions">';
