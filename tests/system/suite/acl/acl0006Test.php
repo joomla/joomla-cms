@@ -78,8 +78,8 @@ class Acl0006Test extends SeleniumJoomlaTestCase
     	$this->assertTrue($this->isElementPresent("//div[@id='toolbar-publish']"));
     	$this->assertTrue($this->isElementPresent("//div[@id='toolbar-unpublish']"));
     	$this->assertTrue($this->isElementPresent("//div[@id='toolbar-trash']"));
-    	$this->assertTrue($this->isElementPresent("//li[contains(., 'My Settings')]"));
-    	$this->assertFalse($this->isElementPresent("//li[contains(., 'Options')]"));
+    	$this->assertTrue($this->isElementPresent("//button[contains(., 'My Settings')]"));
+    	$this->assertFalse($this->isElementPresent("//button[contains(., 'Options')]"));
 
      	echo "Testng Newsfeeds access of ". $login.".\n";
     	$this->click("link=Control Panel");
@@ -167,8 +167,8 @@ class Acl0006Test extends SeleniumJoomlaTestCase
     	$this->assertFalse($this->isElementPresent("//div[@id='toolbar-publish']"));
     	$this->assertFalse($this->isElementPresent("//div[@id='toolbar-unpublish']"));
     	$this->assertFalse($this->isElementPresent("//div[@id='toolbar-trash']"));
-    	$this->assertTrue($this->isElementPresent("//li[contains(., 'My Settings')]"));
-    	$this->assertFalse($this->isElementPresent("//li[contains(., 'Options')]"));
+    	$this->assertTrue($this->isElementPresent("//button[contains(., 'My Settings')]"));
+    	$this->assertFalse($this->isElementPresent("//button[contains(., 'Options')]"));
 
      	echo "Testng Newsfeeds access of ". $login.".\n";
     	$this->click("link=Control Panel");

@@ -150,14 +150,11 @@ class Acl0001Test extends SeleniumJoomlaTestCase
 		sleep(3);
 
 		echo("Log in to back end as " . $username . ".\n");
-		$this->type("mod-login-username", $login);
-		$this->type("mod-login-password", 'password');
-		$this->click("link=Log in");
-		$this->waitForPageToLoad("30000");
+		$this->doAdminLogin($login, 'password');
 		echo("Testing " .  $username . " access.\n");
 		try
 		{
-			$this->assertFalse($this->isElementPresent("//a[@class=''][@href='#'][contains(text(), 'Users')]"), 'Users menu should not be visible');
+			$this->assertFalse($this->isElementPresent("//ul[@id='menu-com-users-users']"), 'Users menu should not be visible');
 		}
 			catch (PHPUnit_Framework_AssertionFailedError $e)
 		{
@@ -231,7 +228,7 @@ class Acl0001Test extends SeleniumJoomlaTestCase
 
 		try
 		{
-			$this->assertFalse($this->isElementPresent("//a[@href='index.php?option=com_redirect']"), 'Redirect should not be visible');
+			$this->assertFalse($this->isElementPresent("//a[contains(@href, 'option=com_redirect')]"), 'Redirect should not be visible');
 		}
 			catch (PHPUnit_Framework_AssertionFailedError $e)
 		{
@@ -239,7 +236,7 @@ class Acl0001Test extends SeleniumJoomlaTestCase
 		}
 		try
 		{
-			$this->assertFalse($this->isElementPresent("//a[@href='index.php?option=com_installer']"), 'Extensions should not be visible');
+			$this->assertFalse($this->isElementPresent("//a[contains(@href, 'option=com_installer')]"), 'Extensions should not be visible');
 		}
 			catch (PHPUnit_Framework_AssertionFailedError $e)
 		{
@@ -247,7 +244,7 @@ class Acl0001Test extends SeleniumJoomlaTestCase
 		}
 		try
 		{
-			$this->assertFalse($this->isElementPresent("//ul[@id='menu-com-menus-menus']"), 'Menu Manager should not be visible');
+			$this->assertFalse($this->isElementPresent("//a[contains(@href, 'option=com_menus')]"), 'Menu Manager should not be visible');
 		}
 			catch (PHPUnit_Framework_AssertionFailedError $e)
 		{
@@ -255,7 +252,7 @@ class Acl0001Test extends SeleniumJoomlaTestCase
 		}
 		try
 		{
-			$this->assertFalse($this->isElementPresent("//a[@href='index.php?option=com_modules']"), 'Module Manager should not be visible');
+			$this->assertFalse($this->isElementPresent("//a[contains(@href, 'option=com_modules')]"), 'Module Manager should not be visible');
 		}
 			catch (PHPUnit_Framework_AssertionFailedError $e)
 		{

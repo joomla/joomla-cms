@@ -160,7 +160,7 @@ class ContactModelContact extends JModelForm
 				$data = $db->loadObject();
 
 				if (empty($data)) {
-					throw new Exception(JText::_('COM_CONTACT_ERROR_CONTACT_NOT_FOUND'), 404);
+					JError::raiseError(404, JText::_('COM_CONTACT_ERROR_CONTACT_NOT_FOUND'));
 				}
 
 				// Check for published state if filter set.

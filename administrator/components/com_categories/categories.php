@@ -16,6 +16,8 @@ if (!JFactory::getUser()->authorise('core.manage', $input->get('extension')))
 	return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
 }
 
+JLoader::register('JHtmlCategoriesAdministrator', JPATH_ADMINISTRATOR . '/components/com_categories/helpers/categoriesadministrator.php');
+
 $task = $input->get('task');
 
 $controller	= JControllerLegacy::getInstance('Categories');

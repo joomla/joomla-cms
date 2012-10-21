@@ -180,6 +180,19 @@ class CategoriesModelCategory extends JModelAdmin
 			}
 		}
 
+		$app = JFactory::getApplication();
+		$assoc = isset($app->item_associations) ? $app->item_associations : 0;
+		if ($assoc)
+		{
+			if ($result->id != null) {
+				$result->associations = CategoriesHelper::getAssociations($result->id, $result->extension);
+				JArrayHelper::toInteger($result->associations);
+			}
+			else {
+				$result->associations = array();
+			}
+		}
+
 		return $result;
 	}
 
@@ -346,6 +359,42 @@ class CategoriesModelCategory extends JModelAdmin
 		$form->setFieldAttribute('rules', 'component', $component);
 		$form->setFieldAttribute('rules', 'section', $name);
 
+		// Association category items
+		$app = JFactory::getApplication();
+		$assoc = isset($app->item_associations) ? $app->item_associations : 0;
+		if ($assoc) {
+
+			$languages = JLanguageHelper::getLanguages('lang_code');
+
+			// force to array (perhaps move to $this->loadFormData())
+			$data = (array) $data;
+
+			$addform = new SimpleXMLElement('<form />');
+			$fields = $addform->addChild('fields');
+			$fields->addAttribute('name', 'associations');
+			$fieldset = $fields->addChild('fieldset');
+			$fieldset->addAttribute('name', 'item_associations');
+			$fieldset->addAttribute('description', 'COM_CATEGORIES_ITEM_ASSOCIATIONS_FIELDSET_DESC');
+			$add = false;
+			foreach ($languages as $tag => $language)
+			{
+				if (empty($data['language']) || $tag != $data['language']) {
+					$add = true;
+					$field = $fieldset->addChild('field');
+					$field->addAttribute('name', $tag);
+					$field->addAttribute('type', 'categoryedit');
+					$field->addAttribute('language', $tag);
+					$field->addAttribute('label', $language->title);
+					$field->addAttribute('translate_label', 'false');
+					$option = $field->addChild('option', 'COM_CATEGORIES_ITEM_FIELD_ASSOCIATION_NO_VALUE');
+					$option->addAttribute('value', '');
+				}
+			}
+			if ($add) {
+				$form->load($addform, false);
+			}
+		}
+
 		// Trigger the default form events.
 		parent::preprocessForm($form, $data, $group);
 	}
@@ -425,6 +474,62 @@ class CategoriesModelCategory extends JModelAdmin
 		{
 			$this->setError($table->getError());
 			return false;
+		}
+
+		$app = JFactory::getApplication();
+		$assoc = isset($app->item_associations) ? $app->item_associations : 0;
+		if ($assoc) {
+
+			// Adding self to the association
+			$associations = $data['associations'];
+
+			foreach ($associations as $tag => $id) {
+				if (empty($id)) {
+					unset($associations[$tag]);
+				}
+			}
+
+			// Detecting all item menus
+			$all_language = $table->language == '*';
+
+			if ($all_language && !empty($associations)) {
+				JError::raiseNotice(403, JText::_('COM_CATEGORIES_ERROR_ALL_LANGUAGE_ASSOCIATED'));
+			}
+
+			$associations[$table->language] = $table->id;
+
+			// Deleting old association for these items
+			$db = JFactory::getDbo();
+			$query = $db->getQuery(true);
+			$query->delete('#__associations');
+			$query->where('context='.$db->quote('com_categories.item'));
+			$query->where('id IN ('.implode(',', $associations).')');
+			$db->setQuery($query);
+			$db->execute();
+
+			if ($error = $db->getErrorMsg()) {
+				$this->setError($error);
+				return false;
+			}
+
+			if (!$all_language && count($associations)) {
+				// Adding new association for these items
+				$key = md5(json_encode($associations));
+				$query->clear();
+				$query->insert('#__associations');
+
+				foreach ($associations as $tag => $id) {
+					$query->values($id.','.$db->quote('com_categories.item') . ',' . $db->quote($key));
+				}
+
+				$db->setQuery($query);
+				$db->execute();
+
+				if ($error = $db->getErrorMsg()) {
+					$this->setError($error);
+					return false;
+				}
+			}
 		}
 
 		// Trigger the onContentAfterSave event.
