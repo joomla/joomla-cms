@@ -19,7 +19,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Log
  * @since       12.2
  */
-class JLoggerCallback extends JLogLogger
+class JLogLoggerCallback extends JLogLogger
 {
 	/**
 	 * @var    callable  The function to call when an entry is added - should return True on success
