@@ -466,9 +466,11 @@ class JInstallerModule extends JAdapterInstance
 			$name = preg_replace('#[\*?]#', '', JText::_($this->get('name')));
 			$module = JTable::getInstance('module');
 			$module->set('title', $name);
+			$module->set('content', '');
 			$module->set('module', $this->get('element'));
 			$module->set('access', '1');
 			$module->set('showtitle', '1');
+			$module->set('params', '');
 			$module->set('client_id', $clientId);
 			$module->set('language', '*');
 
