@@ -12,14 +12,14 @@
  */
 
 /**
- * JLoggerCallbackInspector class for testing JLoggerCallback
+ * JLogLoggerCallbackInspector class for testing JLogLoggerCallback
  *
  * @package     Joomla.UnitTest
  * @subpackage  Log
  *
  * @since       12.2
  */
-class JLoggerCallbackInspector extends JLoggerCallback
+class JLogLoggerCallbackInspector extends JLogLoggerCallback
 {
 	public $callback;
 }
