@@ -160,6 +160,35 @@ div.btn-toolbar div.btn-group button:hover {
 	color: #000000;
 	cursor: pointer;
 }
+div.btn-toolbar a {
+	border-left: 1px solid #e1d3c8;
+	border-top: 1px solid #e1d3c8;
+	border-right: 1px solid #000000;
+	border-bottom: 1px solid #000000;
+	background-color: #d5c1b2;
+	background-image: -moz-linear-gradient(top,#d5c1b2,#d5c1b2);
+	background-image: -webkit-gradient(linear,0 0,0 100%,from(#d5c1b2),to(#d5c1b2));
+	background-image: -webkit-linear-gradient(top,#d5c1b2,#d5c1b2);
+	background-image: -o-linear-gradient(top,#d5c1b2,#d5c1b2);
+	background-image: linear-gradient(to bottom,#d5c1b2,#d5c1b2);
+	background-repeat: repeat-x;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffd5c1b2', endColorstr='#ffd5c1b2', GradientType=0);
+	padding: 6px 5px;
+	font-weight: bold;
+	text-align: center;
+	white-space: nowrap;
+	font-size: 1.2em;
+	text-decoration: none;
+}
+div.btn-toolbar a:hover {
+	border-left: 1px solid #000000;
+	border-top: 1px solid #000000;
+	border-right: 1px solid #000000;
+	border-bottom: 1px solid #000000;
+	background: #e1d3c8;
+	color: #000000;
+	cursor: pointer;
+}
 div.btn-toolbar div.btn-group button.inactive {
 	background: #d5c1b2;
 }
