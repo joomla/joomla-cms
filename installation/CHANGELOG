@@ -26,6 +26,15 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+22-Oct-2012 Jean-Marie Simonet
+ # [#29553] Convert Hathor's brown color scheme to Less. Thanks Michael
+ # [#29552] *Com_messages "My Settings" broken
+
+20-Oct-2012 Jean-Marie Simonet
+ # [#29530] *Language override search broken. Thanks Patrick
+ # [#29525] No tooltip help for Global Configuration Text Filters. Thanks Mark.
+ # [#29527] *Beez category list display issue.
+
 18-Oct-2012 Jean-Marie Simonet
  # [#29519] *Edit Menu Item layout usability
  # [#29401] Repeated htmlspecialchars() Applied When Multiple Breadcrumbs Active. Thanks Peter and Roland
