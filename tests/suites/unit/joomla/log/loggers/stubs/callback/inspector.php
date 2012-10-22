@@ -19,7 +19,7 @@
  *
  * @since       12.2
  */
-class JLoggerCallbackInspector extends JLoggerCallback
+class JLoggerCallbackInspector extends JLogLoggerCallback
 {
 	public $callback;
 }
