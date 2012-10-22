@@ -180,7 +180,7 @@ class JLog
 		}
 		$options['logger'] = strtolower($options['logger']);
 
-		// Special case - if a Closure object is sent as the callback (in case of JLoggerCallback)
+		// Special case - if a Closure object is sent as the callback (in case of JLogLoggerCallback)
 		// Closure objects are not serializable so swap it out for a unique id first then back again later
 		if (isset($options['callback']) && is_a($options['callback'], 'closure'))
 		{
