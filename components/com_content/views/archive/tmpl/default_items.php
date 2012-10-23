@@ -63,7 +63,7 @@ $params = $this->params;
 			<?php if ($params->get('show_category')) : ?>
 				<dd>
 					<div class="category-name">
-						<?php 	$title = $this->escape($item->category_title);
+						<?php $title = $this->escape($item->category_title);
 						$url = '<a href="'.JRoute::_(ContentHelperRoute::getCategoryRoute($item->catslug)).'">'.$title.'</a>';?>
 						<?php if ($params->get('link_category') and $item->catslug) : ?>
 							<?php echo JText::sprintf('COM_CONTENT_CATEGORY', $url); ?>
@@ -93,7 +93,7 @@ $params = $this->params;
 				<?php if ($params->get('show_create_date')) : ?>
 					<dd>
 						<div class="create">
-							<i class="icon-calendar"></i> <?php echo JText::sprintf('COM_CONTENT_LAST_UPDATED', JHtml::_('date', $item->modified, JText::_('DATE_FORMAT_LC3'))); ?>
+							<i class="icon-calendar"></i> <?php echo JText::sprintf('COM_CONTENT_LAST_CREATED_ON', JHtml::_('date', $item-created, JText::_('DATE_FORMAT_LC3'))); ?>
 						</div>
 					</dd>
 				<?php endif; ?>

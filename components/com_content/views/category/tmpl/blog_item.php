@@ -79,7 +79,7 @@ JHtml::_('behavior.framework');
 			<?php if ($params->get('show_parent_category') && !empty($this->item->parent_slug)) : ?>
 				<dd>
 					<div class="parent-category-name">
-						<?php	$title = $this->escape($this->item->parent_title);
+						<?php $title = $this->escape($this->item->parent_title);
 						$url = '<a href="'.JRoute::_(ContentHelperRoute::getCategoryRoute($this->item->parent_slug)).'">'.$title.'</a>';?>
 						<?php if ($params->get('link_parent_category') && !empty($this->item->parent_slug)) : ?>
 							<?php echo JText::sprintf('COM_CONTENT_PARENT', $url); ?>
@@ -92,7 +92,7 @@ JHtml::_('behavior.framework');
 			<?php if ($params->get('show_category')) : ?>
 				<dd>
 					<div class="category-name">
-						<?php 	$title = $this->escape($this->item->category_title);
+						<?php $title = $this->escape($this->item->category_title);
 						$url = '<a href="'.JRoute::_(ContentHelperRoute::getCategoryRoute($this->item->catslug)).'">'.$title.'</a>';?>
 						<?php if ($params->get('link_category') and $this->item->catslug) : ?>
 							<?php echo JText::sprintf('COM_CONTENT_CATEGORY', $url); ?>
@@ -122,7 +122,7 @@ JHtml::_('behavior.framework');
 				<?php if ($params->get('show_create_date')) : ?>
 					<dd>
 						<div class="create">
-							<i class="icon-calendar"></i> <?php echo JText::sprintf('COM_CONTENT_LAST_UPDATED', JHtml::_('date', $this->item->modified, JText::_('DATE_FORMAT_LC3'))); ?>
+							<i class="icon-calendar"></i> <?php echo JText::sprintf('COM_CONTENT_CREATED_DATE_ON', JHtml::_('date', $this->item->created, JText::_('DATE_FORMAT_LC3'))); ?>
 						</div>
 					</dd>
 				<?php endif; ?>
@@ -130,7 +130,7 @@ JHtml::_('behavior.framework');
 				<?php if ($params->get('show_hits')) : ?>
 					<dd>
 						<div class="hits">
-							  <i class="icon-eye-open"></i> <?php echo JText::sprintf('COM_CONTENT_ARTICLE_HITS', $this->item->hits); ?>
+							<i class="icon-eye-open"></i> <?php echo JText::sprintf('COM_CONTENT_ARTICLE_HITS', $this->item->hits); ?>
 						</div>
 					</dd>
 				<?php endif; ?>
@@ -144,13 +144,15 @@ JHtml::_('behavior.framework');
 	<?php endif; ?>
 		<?php echo $this->item->event->beforeDisplayContent; ?>
 
-	<?php  if (isset($images->image_intro) and !empty($images->image_intro)) : ?>
+	<?php if (isset($images->image_intro) and !empty($images->image_intro)) : ?>
 	<?php $imgfloat = (empty($images->float_intro)) ? $params->get('float_intro') : $images->float_intro; ?>
-	<div class="img-intro-<?php echo htmlspecialchars($imgfloat); ?>"> <img
+	<div class="img-intro-<?php echo htmlspecialchars($imgfloat); ?>">
+		<img
 		<?php if ($images->image_intro_caption):
 			echo 'class="caption"'.' title="' .htmlspecialchars($images->image_intro_caption) .'"';
 		endif; ?>
-		src="<?php echo htmlspecialchars($images->image_intro); ?>" alt="<?php echo htmlspecialchars($images->image_intro_alt); ?>"/> </div>
+		src="<?php echo htmlspecialchars($images->image_intro); ?>" alt="<?php echo htmlspecialchars($images->image_intro_alt); ?>"/>
+	</div>
 	<?php endif; ?>
 	<?php echo $this->item->introtext; ?>
 
@@ -212,7 +214,7 @@ JHtml::_('behavior.framework');
 			<?php if ($params->get('show_hits')) : ?>
 				<dd>
 					<div class="hits">
-				  		<i class="icon-eye-open"></i> <?php echo JText::sprintf('COM_CONTENT_ARTICLE_HITS', $this->item->hits); ?>
+						<i class="icon-eye-open"></i> <?php echo JText::sprintf('COM_CONTENT_ARTICLE_HITS', $this->item->hits); ?>
 					</div>
 				</dd>
 			<?php endif; ?>
