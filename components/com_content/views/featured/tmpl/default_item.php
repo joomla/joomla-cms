@@ -73,7 +73,7 @@ $info    = $this->item->params->get('info_block_position', 0);
 					<div class="parent-category-name">
 						<?php	$title = $this->escape($this->item->parent_title);
 						$url = '<a href="'.JRoute::_(ContentHelperRoute::getCategoryRoute($this->item->parent_slug)).'">'.$title.'</a>';?>
-						<?php if ($params->get('link_parent_category') and !empty($this->item->parent_slug)) : ?>
+						<?php if ($params->get('link_parent_category') && !empty($this->item->parent_slug)) : ?>
 							<?php echo JText::sprintf('COM_CONTENT_PARENT', $url); ?>
 						<?php else : ?>
 							<?php echo JText::sprintf('COM_CONTENT_PARENT', $title); ?>

@@ -94,7 +94,7 @@ if (!empty($this->item->pagination) AND $this->item->pagination && !$this->item-
 			<dl class="article-info">
 			<dt class="article-info-term"><?php  echo JText::_('COM_CONTENT_ARTICLE_INFO'); ?></dt>
 
-			<?php if ($params->get('show_parent_category') && $this->item->parent_slug != '1:root') : ?>
+			<?php if ($params->get('show_parent_category') && !empty($this->item->parent_slug)) : ?>
 				<dd>
 					<div class="parent-category-name">
 						<?php	$title = $this->escape($this->item->parent_title);

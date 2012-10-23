@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+23-Oct-2012 Jean-Marie Simonet
+ # [#29547] Category parent link missing
+
 22-Oct-2012 Jean-Marie Simonet
  # [#29553] Convert Hathor's brown color scheme to Less. Thanks Michael
  # [#29552] *Com_messages "My Settings" broken

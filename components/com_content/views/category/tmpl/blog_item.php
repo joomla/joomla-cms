@@ -45,7 +45,7 @@ JHtml::_('behavior.framework');
 			<?php endif; ?>
 		</h2>
 		<?php endif; ?>
-		
+
 		<?php if ($this->item->state == 0): ?>
 			<span class="label label-warning"><?php echo JText::_('JUNPUBLISHED'); ?></span>
 		<?php endif; ?>
@@ -81,7 +81,7 @@ JHtml::_('behavior.framework');
 					<div class="parent-category-name">
 						<?php	$title = $this->escape($this->item->parent_title);
 						$url = '<a href="'.JRoute::_(ContentHelperRoute::getCategoryRoute($this->item->parent_slug)).'">'.$title.'</a>';?>
-						<?php if ($params->get('link_parent_category') and !empty($this->item->parent_slug)) : ?>
+						<?php if ($params->get('link_parent_category') && !empty($this->item->parent_slug)) : ?>
 							<?php echo JText::sprintf('COM_CONTENT_PARENT', $url); ?>
 						<?php else : ?>
 							<?php echo JText::sprintf('COM_CONTENT_PARENT', $title); ?>

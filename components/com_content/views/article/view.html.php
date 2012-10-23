@@ -53,7 +53,13 @@ class ContentViewArticle extends JViewLegacy
 		// Add router helpers.
 		$item->slug			= $item->alias ? ($item->id.':'.$item->alias) : $item->id;
 		$item->catslug		= $item->category_alias ? ($item->catid.':'.$item->category_alias) : $item->catid;
-		$item->parent_slug	= $item->category_alias ? ($item->parent_id.':'.$item->parent_alias) : $item->parent_id;
+		$item->parent_slug = ($item->parent_alias) ? ($item->parent_id . ':' . $item->parent_alias) : $item->parent_id;
+
+		// No link for ROOT category
+		if ($item->parent_alias == 'root')
+		{
+			$item->parent_slug = null;
+		}
 
 		// TODO: Change based on shownoauth
 		$item->readmore_link = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catslug));
