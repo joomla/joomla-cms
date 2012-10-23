@@ -21,6 +21,7 @@ defined('JPATH_PLATFORM') or die;
  * @property-read  JGithubMilestones  $milestones  GitHub API object for commits.
  * @property-read  JGithubStatuses    $statuses    GitHub API object for commits.
  * @property-read  JGithubAccount     $account     GitHub API object for account references.
+ * @property-read  JGithubHooks       $hooks       GitHub API object for hooks.
  *
  * @package     Joomla.Platform
  * @subpackage  GitHub
@@ -93,6 +94,12 @@ class JGithub
 	 * @since  12.3
 	 */
 	protected $account;
+
+	/**
+	 * @var    JGithubHooks  GitHub API object for hooks.
+	 * @since  12.3
+	 */
+	protected $hooks;
 
 	/**
 	 * Constructor.
@@ -201,6 +208,15 @@ class JGithub
 				$this->account = new JGithubAccount($this->options, $this->client);
 			}
 			return $this->account;
+		}
+
+		if ($name == 'hooks')
+		{
+			if ($this->hooks == null)
+			{
+				$this->hooks = new JGithubHooks($this->options, $this->client);
+			}
+			return $this->hooks;
 		}
 	}
 
