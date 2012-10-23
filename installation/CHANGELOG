@@ -29,6 +29,7 @@ $ -> Language fix or change
 23-Oct-2012 Jean-Marie Simonet
  # [#29547] Category parent link missing
  # [#29545] Incorrect label / date in article created date. Thanks Denia
+ # [#29535] Invalid XHTML syntax in Protostar Joomla 3.0.1. Thanks Denia
 
 22-Oct-2012 Jean-Marie Simonet
  # [#29553] Convert Hathor's brown color scheme to Less. Thanks Michael
