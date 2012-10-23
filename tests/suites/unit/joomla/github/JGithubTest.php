@@ -201,6 +201,21 @@ class JGithubTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Tests the magic __get method - hooks
+	 *
+	 * @since  12.3
+	 *
+	 * @return void
+	 */
+	public function test__GetHooks()
+	{
+		$this->assertThat(
+			$this->object->hooks,
+			$this->isInstanceOf('JGithubHooks')
+		);
+	}
+
+	/**
 	 * Tests the magic __get method - failure
 	 *
 	 * @since  11.3
