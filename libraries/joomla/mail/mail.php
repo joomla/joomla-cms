@@ -351,6 +351,21 @@ class JMail extends PHPMailer
 	}
 
 	/**
+	 * Sets message type to HTML
+	 *
+	 * @param   bool  $ishtml  Boolean true or false. 
+	 *
+	 * @return  JMail  Returns this object for chaining.
+	 *
+	 * @since   12.3
+	 */
+	public function IsHTML($ishtml = true)
+	{
+		parent::IsHTML($ishtml);
+		return $this;
+	}
+
+	/**
 	 * Use sendmail for sending the email
 	 *
 	 * @param   string  $sendmail  Path to sendmail [optional]
