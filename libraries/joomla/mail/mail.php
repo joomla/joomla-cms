@@ -359,7 +359,7 @@ class JMail extends PHPMailer
 	 *
 	 * @since   12.3
 	 */
-	public function IsHTML($ishtml = true)
+	public function isHtml($ishtml = true)
 	{
 		parent::IsHTML($ishtml);
 		return $this;

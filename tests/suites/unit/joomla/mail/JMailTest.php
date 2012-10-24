@@ -304,7 +304,7 @@ class JMailTest extends TestCase
 	 */
 	public function testIsHTML()
 	{
-		$returnedObject = $this->object->IsHTML(false);
+		$returnedObject = $this->object->isHtml(false);
 
 		$this->assertThat('text/plain', $this->equalTo($this->object->ContentType));
 
