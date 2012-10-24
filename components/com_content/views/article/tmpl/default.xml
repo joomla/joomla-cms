@@ -65,6 +65,7 @@
 			label="COM_CONTENT_FIELD_INFOBLOCK_POSITION_LABEL"
 			description="COM_CONTENT_FIELD_INFOBLOCK_POSITION_DESC">
 			<option value="">JGLOBAL_USE_GLOBAL</option>
+			<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
 			<option value="0">COM_CONTENT_FIELD_OPTION_ABOVE</option>
 			<option value="1">COM_CONTENT_FIELD_OPTION_BELOW</option>
 			<option value="2">COM_CONTENT_FIELD_OPTION_SPLIT</option>
