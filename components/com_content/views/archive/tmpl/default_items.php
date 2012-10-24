@@ -93,7 +93,7 @@ $params = $this->params;
 				<?php if ($params->get('show_create_date')) : ?>
 					<dd>
 						<div class="create">
-							<i class="icon-calendar"></i> <?php echo JText::sprintf('COM_CONTENT_LAST_CREATED_ON', JHtml::_('date', $item-created, JText::_('DATE_FORMAT_LC3'))); ?>
+							<i class="icon-calendar"></i> <?php echo JText::sprintf('COM_CONTENT_CREATED_DATE_ON', JHtml::_('date', $item->created, JText::_('DATE_FORMAT_LC3'))); ?>
 						</div>
 					</dd>
 				<?php endif; ?>
