@@ -109,6 +109,12 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 			return;
 		}
 
+		// Make sure the PDO extension for PHP is installed and enabled.
+		if (!self::isSupported())
+		{
+			throw new RuntimeException('PDO Extension is not available.', 1);
+		}
+
 		// Initialize the connection string variable:
 		$connectionString = '';
 		$replace = array();
@@ -278,12 +284,6 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 
 		// Create the connection string:
 		$connectionString = str_replace($replace, $with, $format);
-
-		// Make sure the PDO extension for PHP is installed and enabled.
-		if (!self::isSupported())
-		{
-			throw new RuntimeException('PDO Extension is not available.', 1);
-		}
 
 		try
 		{
