@@ -296,6 +296,23 @@ class JMailTest extends TestCase
 	}
 
 	/**
+	 * Tests the IsHTML method.
+	 *
+	 * @covers  JMail::IsHTML
+	 *
+	 * @return void
+	 */
+	public function testIsHTML()
+	{
+		$returnedObject = $this->object->isHtml(false);
+
+		$this->assertThat('text/plain', $this->equalTo($this->object->ContentType));
+
+		// Test to ensure that a JMail object is being returned for chaining
+		$this->assertInstanceOf('JMail', $returnedObject);
+	}
+
+	/**
 	 * Test...
 	 *
 	 * @todo Implement testUseSendmail().
