@@ -165,6 +165,12 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	protected static $dbMinimum;
 
 	/**
+	 * @var    integer  The depth of the current transaction.
+	 * @since  12.3
+	 */
+	protected $transactionDepth = 0;
+
+	/**
 	 * Get a list of available database connectors.  The list will only be populated with connectors that both
 	 * the class exists and the static test method returns true.  This gives us the ability to have a multitude
 	 * of connector classes that are self-aware as to whether or not they are able to be used on a given system.
@@ -1533,32 +1539,38 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	/**
 	 * Method to commit a transaction.
 	 *
+	 * @param   boolean  $toSavepoint  If true, commit to the last savepoint.
+	 *
 	 * @return  void
 	 *
 	 * @since   11.1
 	 * @throws  RuntimeException
 	 */
-	abstract public function transactionCommit();
+	abstract public function transactionCommit($toSavepoint = false);
 
 	/**
 	 * Method to roll back a transaction.
 	 *
+	 * @param   boolean  $toSavepoint  If true, rollback to the last savepoint.
+	 *
 	 * @return  void
 	 *
 	 * @since   11.1
 	 * @throws  RuntimeException
 	 */
-	abstract public function transactionRollback();
+	abstract public function transactionRollback($toSavepoint = false);
 
 	/**
 	 * Method to initialize a transaction.
 	 *
+	 * @param   boolean  $asSavepoint  If true and a transaction is already active, a savepoint will be created.
+	 *
 	 * @return  void
 	 *
 	 * @since   11.1
 	 * @throws  RuntimeException
 	 */
-	abstract public function transactionStart();
+	abstract public function transactionStart($asSavepoint = false);
 
 	/**
 	 * Method to truncate a table.
