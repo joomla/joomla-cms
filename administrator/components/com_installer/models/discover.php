@@ -77,7 +77,7 @@ class InstallerModelDiscover extends InstallerModel
 
 		// Get all templates, including discovered ones
 		$dbo = JFactory::getDbo();
-		$query = $db->getQuery(true);
+		$query = $dbo->getQuery(true);
 		$query->select('extension_id, element, folder, client_id, type')->from('#__extensions');
 
 		$dbo->setQuery($query);
