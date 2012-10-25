@@ -57,6 +57,7 @@ class JFormFieldSpacer extends JFormField
 		$html[] = '<span class="spacer">';
 		$html[] = '<span class="before"></span>';
 		$html[] = '<span class="' . $class . '">';
+
 		if ((string) $this->element['hr'] == 'true')
 		{
 			$html[] = '<hr class="' . $class . '" />';

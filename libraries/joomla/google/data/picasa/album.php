@@ -60,6 +60,7 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 		if ($this->isAuthenticated())
 		{
 			$url = $this->getLink();
+
 			if ($match === true)
 			{
 				$match = $this->xml->xpath('./@gd:etag');
@@ -84,6 +85,7 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 				throw new UnexpectedValueException("Unexpected data received from Google: `{$jdata->body}`.");
 			}
 			$this->xml = null;
+
 			return true;
 		}
 		else
@@ -104,6 +106,7 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 	public function getLink($type = 'edit')
 	{
 		$links = $this->xml->link;
+
 		foreach ($links as $link)
 		{
 			if ($link->attributes()->rel == $type)
@@ -186,6 +189,7 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 	public function setTitle($title)
 	{
 		$this->xml->children()->title = $title;
+
 		return $this;
 	}
 
@@ -201,6 +205,7 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 	public function setSummary($summary)
 	{
 		$this->xml->children()->summary = $summary;
+
 		return $this;
 	}
 
@@ -216,6 +221,7 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 	public function setLocation($location)
 	{
 		$this->xml->children('gphoto', true)->location = $location;
+
 		return $this;
 	}
 
@@ -231,6 +237,7 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 	public function setAccess($access)
 	{
 		$this->xml->children('gphoto', true)->access = $access;
+
 		return $this;
 	}
 
@@ -246,6 +253,7 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 	public function setTime($time)
 	{
 		$this->xml->children('gphoto', true)->timestamp = $time * 1000;
+
 		return $this;
 	}
 
@@ -263,6 +271,7 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 		if ($this->isAuthenticated())
 		{
 			$url = $this->getLink();
+
 			if ($match === true)
 			{
 				$match = $this->xml->xpath('./@gd:etag');
@@ -284,6 +293,7 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 			}
 
 			$this->xml = $this->safeXML($jdata->body);
+
 			return $this;
 		}
 		else
@@ -307,6 +317,7 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 			$url = $this->getLink();
 			$jdata = $this->query($url, null, array('GData-Version' => 2));
 			$this->xml = $this->safeXML($jdata->body);
+
 			return $this;
 		}
 		else
@@ -330,9 +341,11 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 			$url = $this->getLink('http://schemas.google.com/g/2005#feed');
 			$jdata = $this->query($url, null, array('GData-Version' => 2));
 			$xml = $this->safeXML($jdata->body);
+
 			if (isset($xml->children()->entry))
 			{
 				$items = array();
+
 				foreach ($xml->children()->entry as $item)
 				{
 					$items[] = new JGoogleDataPicasaPhoto($item, $this->options, $this->auth);
@@ -367,6 +380,7 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 		if ($this->isAuthenticated())
 		{
 			$title = $title != '' ? $title : JFile::getName($file);
+
 			if (!($type = $this->getMIME($file)))
 			{
 				throw new RuntimeException("Inappropriate file type.");
@@ -393,6 +407,7 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 			$post .= $data;
 
 			$jdata = $this->query($this->getLink(), $post, array('GData-Version' => 2, 'Content-Type: multipart/related'), 'post');
+
 			return new JGoogleDataPicasaPhoto($this->safeXML($jdata->body), $this->options, $this->auth);
 		}
 		else

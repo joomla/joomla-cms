@@ -76,6 +76,7 @@ class JSessionStorageDatabase extends JSessionStorage
 
 			// Try to update the session data in the database table.
 			$db->setQuery($query);
+
 			if (!$db->execute())
 			{
 				return false;

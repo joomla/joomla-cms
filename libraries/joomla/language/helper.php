@@ -36,6 +36,7 @@ class JLanguageHelper
 
 		// Cache activation
 		$langs = JLanguage::getKnownLanguages($basePath);
+
 		if ($installed)
 		{
 			$db = JFactory::getDBO();
@@ -58,6 +59,7 @@ class JLanguageHelper
 
 				$option['text'] = $metadata['name'];
 				$option['value'] = $lang;
+
 				if ($lang == $actualLanguage)
 				{
 					$option['selected'] = 'selected="selected"';
@@ -82,11 +84,13 @@ class JLanguageHelper
 		{
 			$browserLangs = explode(',', $_SERVER['HTTP_ACCEPT_LANGUAGE']);
 			$systemLangs = self::getLanguages();
+
 			foreach ($browserLangs as $browserLang)
 			{
 				// Slice out the part before ; on first step, the part before - on second, place into array
 				$browserLang = substr($browserLang, 0, strcspn($browserLang, ';'));
 				$primary_browserLang = substr($browserLang, 0, 2);
+
 				foreach ($systemLangs as $systemLang)
 				{
 					// Take off 3 letters iso code languages as they can't match browsers' languages and default them to en
@@ -135,6 +139,7 @@ class JLanguageHelper
 			{
 				$languages[$key] = array();
 				$knownLangs = JLanguage::getKnownLanguages(JPATH_BASE);
+
 				foreach ($knownLangs as $metadata)
 				{
 					// Take off 3 letters iso code languages as they can't match browsers' languages and default them to en
@@ -146,6 +151,7 @@ class JLanguageHelper
 			else
 			{
 				$cache = JFactory::getCache('com_languages', '');
+
 				if (!$languages = $cache->get('languages'))
 				{
 					$db = JFactory::getDBO();

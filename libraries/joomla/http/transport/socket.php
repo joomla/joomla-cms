@@ -72,6 +72,7 @@ class JHttpTransportSocket implements JHttpTransport
 		{
 			// Make sure the connection has not timed out.
 			$meta = stream_get_meta_data($connection);
+
 			if ($meta['timed_out'])
 			{
 				throw new RuntimeException('Server connection timed out.');
@@ -171,6 +172,7 @@ class JHttpTransportSocket implements JHttpTransport
 		// Get the response code from the first offset of the response headers.
 		preg_match('/[0-9]{3}/', array_shift($headers), $matches);
 		$code = $matches[0];
+
 		if (is_numeric($code))
 		{
 			$return->code = (int) $code;
@@ -229,6 +231,7 @@ class JHttpTransportSocket implements JHttpTransport
 		{
 			// Connection reached EOF, cannot be used anymore
 			$meta = stream_get_meta_data($this->connections[$key]);
+
 			if ($meta['eof'])
 			{
 				if (!fclose($this->connections[$key]))
@@ -249,6 +252,7 @@ class JHttpTransportSocket implements JHttpTransport
 		}
 		// Attempt to connect to the server.
 		$connection = fsockopen($host, $port, $errno, $err, $timeout);
+
 		if (!$connection)
 		{
 			throw new RuntimeException($err, $errno);

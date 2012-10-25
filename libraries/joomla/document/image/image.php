@@ -69,6 +69,7 @@ class JDocumentImage extends JDocument
 		$this->_charset = null;
 
 		parent::render();
+
 		return $this->getBuffer();
 	}
 }

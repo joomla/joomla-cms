@@ -62,6 +62,7 @@ class JFormFieldCombo extends JFormFieldList
 
 		// Build the list for the combo box.
 		$html[] = '<ul id="combobox-' . $this->id . '" style="display:none;">';
+
 		foreach ($options as $option)
 		{
 			$html[] = '<li>' . $option->text . '</li>';

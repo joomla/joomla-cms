@@ -59,9 +59,11 @@ class JCacheControllerPage extends JCacheController
 		if (!headers_sent() && isset($_SERVER['HTTP_IF_NONE_MATCH']))
 		{
 			$etag = stripslashes($_SERVER['HTTP_IF_NONE_MATCH']);
+
 			if ($etag == $id)
 			{
 				$browserCache = isset($this->options['browsercache']) ? $this->options['browsercache'] : false;
+
 				if ($browserCache)
 				{
 					$this->_noChange();
@@ -79,6 +81,7 @@ class JCacheControllerPage extends JCacheController
 		if ($data === false)
 		{
 			$this->_locktest = $this->cache->lock($id, $group);
+
 			if ($this->_locktest->locked == true && $this->_locktest->locklooped == true)
 			{
 				$data = $this->cache->get($id, $group);
@@ -88,12 +91,14 @@ class JCacheControllerPage extends JCacheController
 		if ($data !== false)
 		{
 			$data = unserialize(trim($data));
+
 			if ($wrkarounds === true)
 			{
 				$data = JCache::getWorkarounds($data);
 			}
 
 			$this->_setEtag($id);
+
 			if ($this->_locktest->locked == true)
 			{
 				$this->cache->unlock($id, $group);
@@ -104,6 +109,7 @@ class JCacheControllerPage extends JCacheController
 		// Set id and group placeholders
 		$this->_id = $id;
 		$this->_group = $group;
+
 		return false;
 	}
 

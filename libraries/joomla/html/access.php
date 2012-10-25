@@ -164,6 +164,7 @@ abstract class JHtmlAccess
 
 				// Don't call in_array unless something is selected
 				$checked = '';
+
 				if ($selected)
 				{
 					$checked = in_array($item->id, $selected) ? ' checked="checked"' : '';
@@ -277,6 +278,7 @@ abstract class JHtmlAccess
 		static $count;
 
 		$options = self::assetgroups();
+
 		if (isset($config['title']))
 		{
 			array_unshift($options, JHtml::_('select.option', '', $config['title']));

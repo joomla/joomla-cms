@@ -46,6 +46,7 @@ class JText
 	public static function _($string, $jsSafe = false, $interpretBackSlashes = true, $script = false)
 	{
 		$lang = JFactory::getLanguage();
+
 		if (is_array($jsSafe))
 		{
 			if (array_key_exists('interpretBackSlashes', $jsSafe))
@@ -68,6 +69,7 @@ class JText
 		if ($script)
 		{
 			self::$strings[$string] = $lang->_($string, $jsSafe, $interpretBackSlashes);
+
 			return $string;
 		}
 		else
@@ -96,6 +98,7 @@ class JText
 	public static function alt($string, $alt, $jsSafe = false, $interpretBackSlashes = true, $script = false)
 	{
 		$lang = JFactory::getLanguage();
+
 		if ($lang->hasKey($string . '_' . $alt))
 		{
 			return self::_($string . '_' . $alt, $jsSafe, $interpretBackSlashes, $script);
@@ -145,9 +148,11 @@ class JText
 			$found = false;
 			$suffixes = $lang->getPluralSuffixes((int) $n);
 			array_unshift($suffixes, (int) $n);
+
 			foreach ($suffixes as $suffix)
 			{
 				$key = $string . '_' . $suffix;
+
 				if ($lang->hasKey($key))
 				{
 					$found = true;
@@ -165,9 +170,11 @@ class JText
 					$key, array_key_exists('jsSafe', $args[$count - 1]) ? $args[$count - 1]['jsSafe'] : false,
 					array_key_exists('interpretBackSlashes', $args[$count - 1]) ? $args[$count - 1]['interpretBackSlashes'] : true
 				);
+
 				if (array_key_exists('script', $args[$count - 1]) && $args[$count - 1]['script'])
 				{
 					self::$strings[$key] = call_user_func_array('sprintf', $args);
+
 					return $key;
 				}
 			}
@@ -182,6 +189,7 @@ class JText
 
 			// Default to the normal sprintf handling.
 			$args[0] = $lang->_($string);
+
 			return call_user_func_array('sprintf', $args);
 		}
 
@@ -214,6 +222,7 @@ class JText
 		$lang = JFactory::getLanguage();
 		$args = func_get_args();
 		$count = count($args);
+
 		if ($count > 0)
 		{
 			if (is_array($args[$count - 1]))
@@ -226,6 +235,7 @@ class JText
 				if (array_key_exists('script', $args[$count - 1]) && $args[$count - 1]['script'])
 				{
 					self::$strings[$string] = call_user_func_array('sprintf', $args);
+
 					return $string;
 				}
 			}
@@ -254,6 +264,7 @@ class JText
 		$lang = JFactory::getLanguage();
 		$args = func_get_args();
 		$count = count($args);
+
 		if ($count > 0)
 		{
 			if (is_array($args[$count - 1]))

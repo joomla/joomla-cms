@@ -99,6 +99,7 @@ class JGithubAccount extends JGithubObject
 	{
 		// Check if more than one scopes array contains data
 		$scopesCount = 0;
+
 		if (!empty($scopes))
 		{
 			$scope = 'scopes';

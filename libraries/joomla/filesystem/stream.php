@@ -182,6 +182,7 @@ class JStream extends JObject
 		if (!$filename)
 		{
 			$this->setError(JText::_('JLIB_FILESYSTEM_ERROR_STREAMS_FILENAME'));
+
 			return false;
 		}
 
@@ -296,6 +297,7 @@ class JStream extends JObject
 		if (!$this->fh)
 		{
 			$this->setError(JText::_('JLIB_FILESYSTEM_ERROR_STREAMS_FILE_NOT_OPEN'));
+
 			return true;
 		}
 

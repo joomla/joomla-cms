@@ -278,9 +278,11 @@ class JDocument
 
 			// Determine the path and class
 			$class = 'JDocument' . $type;
+
 			if (!class_exists($class))
 			{
 				$path = __DIR__ . '/' . $type . '/' . $type . '.php';
+
 				if (file_exists($path))
 				{
 					require_once $path;
@@ -375,6 +377,7 @@ class JDocument
 	{
 		$result = '';
 		$name = strtolower($name);
+
 		if ($name == 'generator')
 		{
 			$result = $this->getGenerator();

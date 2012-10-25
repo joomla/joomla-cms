@@ -1043,6 +1043,7 @@ class JApplicationWeb extends JApplicationBase
 		// Instantiate the session object.
 		$session = JSession::getInstance($handler, $options);
 		$session->initialise($this->input, $this->dispatcher);
+
 		if ($session->getState() == 'expired')
 		{
 			$session->restart();
@@ -1068,6 +1069,7 @@ class JApplicationWeb extends JApplicationBase
 	public function afterSessionStart()
 	{
 		$session = JFactory::getSession();
+
 		if ($session->isNew())
 		{
 			$session->set('registry', new JRegistry('session'));
@@ -1101,6 +1103,7 @@ class JApplicationWeb extends JApplicationBase
 
 		// Check to see if an explicit base URI has been set.
 		$siteUri = trim($this->get('site_uri'));
+
 		if ($siteUri != '')
 		{
 			$uri = JUri::getInstance($siteUri);
@@ -1150,6 +1153,7 @@ class JApplicationWeb extends JApplicationBase
 
 		// Get an explicitly set media URI is present.
 		$mediaURI = trim($this->get('media_uri'));
+
 		if ($mediaURI)
 		{
 			if (strpos($mediaURI, '://') !== false)

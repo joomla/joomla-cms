@@ -49,6 +49,7 @@ class JFormFieldPassword extends JFormField
 		$threshold	= $this->element['threshold'] ? (int) $this->element['threshold'] : 66;
 
 		$script = '';
+
 		if ($meter)
 		{
 			JHtml::_('script', 'system/passwordstrength.js', true, true);

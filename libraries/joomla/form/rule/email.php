@@ -45,6 +45,7 @@ class JFormRuleEmail extends JFormRule
 	{
 		// If the field is empty and not required, the field is valid.
 		$required = ((string) $element['required'] == 'true' || (string) $element['required'] == 'required');
+
 		if (!$required && empty($value))
 		{
 			return true;
@@ -58,6 +59,7 @@ class JFormRuleEmail extends JFormRule
 
 		// Check if we should test for uniqueness.
 		$unique = ((string) $element['unique'] == 'true' || (string) $element['unique'] == 'unique');
+
 		if ($unique)
 		{
 

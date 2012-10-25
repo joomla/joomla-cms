@@ -434,6 +434,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 		$this->connect();
 
 		$version = sqlsrv_server_info($this->connection);
+
 		return $version['SQLServerVersion'];
 	}
 
@@ -454,6 +455,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 		$fields = array();
 		$values = array();
 		$statement = 'INSERT INTO ' . $this->quoteName($table) . ' (%s) VALUES (%s)';
+
 		foreach (get_object_vars($object) as $k => $v)
 		{
 			if (is_array($v) or is_object($v))
@@ -478,11 +480,13 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 		}
 		// Set the query and execute the insert.
 		$this->setQuery(sprintf($statement, implode(',', $fields), implode(',', $values)));
+
 		if (!$this->execute())
 		{
 			return false;
 		}
 		$id = $this->insertid();
+
 		if ($key && $id)
 		{
 			$object->$key = $id;
@@ -503,6 +507,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 
 		// TODO: SELECT IDENTITY
 		$this->setQuery('SELECT @@IDENTITY');
+
 		return (int) $this->loadResult();
 	}
 
@@ -559,6 +564,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 
 		// Take a local copy so that we don't modify the original query and cause issues later
 		$sql = $this->replacePrefix((string) $this->sql);
+
 		if ($this->limit > 0 || $this->offset > 0)
 		{
 			$sql = $this->limit($sql, $this->limit, $this->offset);
@@ -662,6 +668,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 		while ($startPos < $n)
 		{
 			$ip = strpos($sql, $prefix, $startPos);
+
 			if ($ip === false)
 			{
 				break;
@@ -669,6 +676,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 
 			$j = strpos($sql, "N'", $startPos);
 			$k = strpos($sql, '"', $startPos);
+
 			if (($k !== false) && (($k < $j) || ($j === false)))
 			{
 				$quoteChar = '"';
@@ -699,11 +707,13 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 			{
 				$k = strpos($sql, $quoteChar, $j);
 				$escaped = false;
+
 				if ($k === false)
 				{
 					break;
 				}
 				$l = $k - 1;
+
 				while ($l >= 0 && $sql{$l} == '\\')
 				{
 					$l--;
@@ -919,6 +929,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	protected function limit($sql, $limit, $offset)
 	{
 		$orderBy = stristr($sql, 'ORDER BY');
+
 		if (is_null($orderBy) || empty($orderBy))
 		{
 			$orderBy = 'ORDER BY (select 0)';

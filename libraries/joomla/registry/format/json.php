@@ -48,6 +48,7 @@ class JRegistryFormatJSON extends JRegistryFormat
 	public function stringToObject($data, array $options = array('processSections' => false))
 	{
 		$data = trim($data);
+
 		if ((substr($data, 0, 1) != '{') && (substr($data, -1, 1) != '}'))
 		{
 			$ini = JRegistryFormat::getInstance('INI');

@@ -394,6 +394,7 @@ class JDate extends DateTime
 	public function setTimezone($tz)
 	{
 		$this->tz = $tz;
+
 		return parent::setTimezone($tz);
 	}
 

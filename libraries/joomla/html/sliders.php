@@ -76,6 +76,7 @@ abstract class JHtmlSliders
 	protected static function _loadBehavior($group, $params = array())
 	{
 		static $loaded = array();
+
 		if (!array_key_exists($group, $loaded))
 		{
 			// Get the JInput object

@@ -70,6 +70,7 @@ class JInputFiles extends JInput
 					$this->data[$name]['size']
 				)
 			);
+
 			return $results;
 		}
 

@@ -49,6 +49,7 @@ class JGoogleAuthOauth2 extends JGoogleAuth
 	public function authenticate()
 	{
 		$this->googlize();
+
 		return $this->client->authenticate();
 	}
 
@@ -79,6 +80,7 @@ class JGoogleAuthOauth2 extends JGoogleAuth
 	public function query($url, $data = null, $headers = null, $method = 'get')
 	{
 		$this->googlize();
+
 		return $this->client->query($url, $data, $headers, $method);
 	}
 
@@ -105,6 +107,7 @@ class JGoogleAuthOauth2 extends JGoogleAuth
 		}
 
 		$params = $this->client->getOption('requestparams');
+
 		if (!array_key_exists('access_type', $params))
 		{
 			$params['access_type'] = 'offline';

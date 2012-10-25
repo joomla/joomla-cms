@@ -140,6 +140,7 @@ abstract class JTable extends JObject
 
 		// Initialise the table properties.
 		$fields = $this->getFields();
+
 		if ($fields)
 		{
 			foreach ($fields as $name => $v)
@@ -218,6 +219,7 @@ abstract class JTable extends JObject
 		{
 			// Search for the class file in the JTable include paths.
 			$path = JPath::find(self::addIncludePath(), strtolower($type) . '.php');
+
 			if ($path)
 			{
 				// Import the class file.
@@ -227,6 +229,7 @@ abstract class JTable extends JObject
 				if (!class_exists($tableClass))
 				{
 					JLog::add(JText::sprintf('JLIB_DATABASE_ERROR_CLASS_NOT_FOUND_IN_FILE', $tableClass), JLog::WARNING, 'jerror');
+
 					return false;
 				}
 			}
@@ -234,6 +237,7 @@ abstract class JTable extends JObject
 			{
 				// If we were unable to find the class file in the JTable include paths, raise a warning and return false.
 				JLog::add(JText::sprintf('JLIB_DATABASE_ERROR_NOT_SUPPORTED_FILE_NOT_FOUND', $type), JLog::WARNING, 'jerror');
+
 				return false;
 			}
 		}
@@ -299,6 +303,7 @@ abstract class JTable extends JObject
 	protected function _getAssetName()
 	{
 		$keys = array();
+
 		foreach ($this->_tbl_keys as $k)
 		{
 			$keys[] = (int) $this->$k;
@@ -343,6 +348,7 @@ abstract class JTable extends JObject
 		// For simple cases, parent to the asset root.
 		$assets = self::getInstance('Asset', 'JTable', array('dbo' => $this->getDbo()));
 		$rootId = $assets->getRootId();
+
 		if (!empty($rootId))
 		{
 			return $rootId;
@@ -604,6 +610,7 @@ abstract class JTable extends JObject
 		{
 			// Load by primary key.
 			$keyCount = count($this->_tbl_keys);
+
 			if ($keyCount)
 			{
 				if ($keyCount > 1)
@@ -687,6 +694,7 @@ abstract class JTable extends JObject
 	public function store($updateNulls = false)
 	{
 		$k = $this->_tbl_keys;
+
 		if (!empty($this->asset_id))
 		{
 			$currentAssetId = $this->asset_id;
@@ -735,9 +743,11 @@ abstract class JTable extends JObject
 
 		// Check for an error.
 		$error = $asset->getError();
+
 		if ($error)
 		{
 			$this->setError($error);
+
 			return false;
 		}
 
@@ -760,6 +770,7 @@ abstract class JTable extends JObject
 		if (!$asset->check() || !$asset->store($updateNulls))
 		{
 			$this->setError($asset->getError());
+
 			return false;
 		}
 
@@ -854,6 +865,7 @@ abstract class JTable extends JObject
 		if (is_null($pk))
 		{
 			$pk = array();
+
 			foreach ($this->_tbl_keys AS $key)
 			{
 				$pk[$key] = $this->$key;
@@ -867,6 +879,7 @@ abstract class JTable extends JObject
 		foreach ($this->_tbl_keys AS $key)
 		{
 			$pk[$key] = is_null($pk[$key]) ? $this->$key : $pk[$key];
+
 			if ($pk[$key] === null)
 			{
 				throw new UnexpectedValueException('Null primary key not allowed.');
@@ -886,12 +899,14 @@ abstract class JTable extends JObject
 				if (!$asset->delete())
 				{
 					$this->setError($asset->getError());
+
 					return false;
 				}
 			}
 			else
 			{
 				$this->setError($asset->getError());
+
 				return false;
 			}
 		}
@@ -938,6 +953,7 @@ abstract class JTable extends JObject
 		if (is_null($pk))
 		{
 			$pk = array();
+
 			foreach ($this->_tbl_keys AS $key)
 			{
 				$pk[$key] = $this->$key;
@@ -951,6 +967,7 @@ abstract class JTable extends JObject
 		foreach ($this->_tbl_keys AS $key)
 		{
 			$pk[$key] = is_null($pk[$key]) ? $this->$key : $pk[$key];
+
 			if ($pk[$key] === null)
 			{
 				throw new UnexpectedValueException('Null primary key not allowed.');
@@ -998,6 +1015,7 @@ abstract class JTable extends JObject
 		if (is_null($pk))
 		{
 			$pk = array();
+
 			foreach ($this->_tbl_keys AS $key)
 			{
 				$pk[$this->$key] = $this->$key;
@@ -1011,6 +1029,7 @@ abstract class JTable extends JObject
 		foreach ($this->_tbl_keys AS $key)
 		{
 			$pk[$key] = empty($pk[$key]) ? $this->$key : $pk[$key];
+
 			if ($pk[$key] === null)
 			{
 				throw new UnexpectedValueException('Null primary key not allowed.');
@@ -1047,6 +1066,7 @@ abstract class JTable extends JObject
 		if ($this->_autoincrement)
 		{
 			$empty = true;
+
 			foreach ($this->_tbl_keys as $key)
 			{
 				$empty = $empty && empty($this->$key);
@@ -1096,6 +1116,7 @@ abstract class JTable extends JObject
 		if (is_null($pk))
 		{
 			$pk = array();
+
 			foreach ($this->_tbl_keys AS $key)
 			{
 				$pk[$key] = $this->$key;
@@ -1109,6 +1130,7 @@ abstract class JTable extends JObject
 		foreach ($this->_tbl_keys AS $key)
 		{
 			$pk[$key] = is_null($pk[$key]) ? $this->$key : $pk[$key];
+
 			if ($pk[$key] === null)
 			{
 				throw new UnexpectedValueException('Null primary key not allowed.');
@@ -1482,6 +1504,7 @@ abstract class JTable extends JObject
 		}
 
 		$this->setError('');
+
 		return true;
 	}
 

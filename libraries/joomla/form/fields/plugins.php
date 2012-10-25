@@ -54,6 +54,7 @@ class JFormFieldPlugins extends JFormFieldList
 			$options = $db->loadObjectList();
 
 			$lang = JFactory::getLanguage();
+
 			foreach ($options as $i => $item)
 			{
 				$source = JPATH_PLUGINS . '/' . $folder . '/' . $item->value;

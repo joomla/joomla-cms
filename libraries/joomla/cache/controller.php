@@ -65,6 +65,7 @@ class JCacheController
 	public function __call($name, $arguments)
 	{
 		$nazaj = call_user_func_array(array($this->cache, $name), $arguments);
+
 		return $nazaj;
 	}
 
@@ -180,6 +181,7 @@ class JCacheController
 			$locktest->locked = null;
 			$locktest->locklooped = null;
 			$locktest = $this->cache->lock($id, $group);
+
 			if ($locktest->locked == true && $locktest->locklooped == true)
 			{
 				$data = $this->cache->get($id, $group);

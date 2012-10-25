@@ -64,6 +64,7 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 	public function setKey($key)
 	{
 		$this->setOption('key', $key);
+
 		return $this;
 	}
 
@@ -91,6 +92,7 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 	public function setMapID($id)
 	{
 		$this->setOption('mapid', $id);
+
 		return $this;
 	}
 
@@ -118,6 +120,7 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 	public function setMapClass($class)
 	{
 		$this->setOption('mapclass', $class);
+
 		return $this;
 	}
 
@@ -145,6 +148,7 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 	public function setMapStyle($style)
 	{
 		$this->setOption('mapstyle', $style);
+
 		return $this;
 	}
 
@@ -172,6 +176,7 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 	public function setMapType($type)
 	{
 		$this->setOption('maptype', strtoupper($type));
+
 		return $this;
 	}
 
@@ -199,6 +204,7 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 	public function setAdditionalMapOptions($options)
 	{
 		$this->setOption('mapoptions', $options);
+
 		return $this;
 	}
 
@@ -226,6 +232,7 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 	public function setAdditionalJavascript($script)
 	{
 		$this->setOption('extrascript', $script);
+
 		return $this;
 	}
 
@@ -253,6 +260,7 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 	public function setZoom($zoom)
 	{
 		$this->setOption('zoom', $zoom);
+
 		return $this;
 	}
 
@@ -284,6 +292,7 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 		if ($title)
 		{
 			$title = is_string($title) ? $title : null;
+
 			if (!$marker = $this->addMarker($location, $title, $markeroptions))
 			{
 				return false;
@@ -293,6 +302,7 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 		elseif (is_string($location))
 		{
 			$geocode = $this->geocodeAddress($location);
+
 			if (!$geocode)
 			{
 				return false;
@@ -328,6 +338,7 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 			}
 
 			$geocode = $this->geocodeAddress($location);
+
 			if (!$geocode)
 			{
 				return false;
@@ -346,6 +357,7 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 		$markers = $this->listMarkers();
 		$markers[] = $marker;
 		$this->setOption('markers', $markers);
+
 		return $marker;
 	}
 
@@ -414,6 +426,7 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 	public function useAsync()
 	{
 		$this->setOption('async', true);
+
 		return $this;
 	}
 
@@ -427,6 +440,7 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 	public function useSync()
 	{
 		$this->setOption('async', false);
+
 		return $this;
 	}
 
@@ -454,6 +468,7 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 	public function setAsyncCallback($callback)
 	{
 		$this->setOption('callback', $callback);
+
 		return $this;
 	}
 
@@ -479,6 +494,7 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 	public function useSensor()
 	{
 		$this->setOption('sensor', true);
+
 		return $this;
 	}
 
@@ -492,6 +508,7 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 	public function noSensor()
 	{
 		$this->setOption('sensor', false);
+
 		return $this;
 	}
 
@@ -519,6 +536,7 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 	public function setAutoload($type = 'onload')
 	{
 		$this->setOption('autoload', $type);
+
 		return $this;
 	}
 
@@ -611,6 +629,7 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 		}
 
 		$output .= '</script>';
+
 		return $output;
 	}
 
@@ -664,6 +683,7 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 		}
 
 		$data = json_decode($response->body, true);
+
 		if (!$data)
 		{
 			throw new RuntimeException('Invalid json received geocoding address: ' . $response->body . '.');

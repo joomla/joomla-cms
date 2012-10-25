@@ -108,6 +108,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 		 * have to extract them from the host string.
 		 */
 		$tmp = substr(strstr($this->options['host'], ':'), 1);
+
 		if (!empty($tmp))
 		{
 			// Get the port number or socket name
@@ -282,6 +283,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 
 		$this->setQuery('SHOW FULL COLUMNS FROM #__users');
 		$array = $this->loadAssocList();
+
 		return $array['2']['Collation'];
 	}
 
@@ -317,6 +319,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 
 		// Sanitize input to an array and iterate over the list.
 		settype($tables, 'array');
+
 		foreach ($tables as $table)
 		{
 			// Set the query to get the table CREATE statement.
@@ -477,6 +480,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 
 		// Take a local copy so that we don't modify the original query and cause issues later
 		$sql = $this->replacePrefix((string) $this->sql);
+
 		if ($this->limit > 0 || $this->offset > 0)
 		{
 			$sql .= ' LIMIT ' . $this->offset . ', ' . $this->limit;

@@ -77,6 +77,7 @@ class JLogLoggerSyslog extends JLogLogger
 
 		// Build the Syslog options from our log object options.
 		$sysOptions = 0;
+
 		if ($this->options['sys_add_pid'])
 		{
 			$sysOptions = $sysOptions | LOG_PID;

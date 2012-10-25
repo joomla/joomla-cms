@@ -130,6 +130,7 @@ class JPagination
 		// Set the pagination iteration loop values.
 		$displayedPages = 10;
 		$this->pagesStart = $this->pagesCurrent - ($displayedPages / 2);
+
 		if ($this->pagesStart < 1)
 		{
 			$this->pagesStart = 1;
@@ -137,6 +138,7 @@ class JPagination
 		if ($this->pagesStart + $displayedPages > $this->pagesTotal)
 		{
 			$this->pagesStop = $this->pagesTotal;
+
 			if ($this->pagesTotal < $displayedPages)
 			{
 				$this->pagesStart = 1;
@@ -228,6 +230,7 @@ class JPagination
 	public function getData()
 	{
 		static $data;
+
 		if (!is_object($data))
 		{
 			$data = $this->_buildDataObject();
@@ -245,6 +248,7 @@ class JPagination
 	public function getPagesCounter()
 	{
 		$html = null;
+
 		if ($this->pagesTotal > 1)
 		{
 			$html .= JText::sprintf('JLIB_HTML_PAGE_CURRENT_OF_TOTAL', $this->pagesCurrent, $this->pagesTotal);
@@ -309,9 +313,11 @@ class JPagination
 		$listOverride = false;
 
 		$chromePath = JPATH_THEMES . '/' . $app->getTemplate() . '/html/pagination.php';
+
 		if (file_exists($chromePath))
 		{
 			include_once $chromePath;
+
 			if (function_exists('pagination_item_active') && function_exists('pagination_item_inactive'))
 			{
 				$itemOverride = true;
@@ -357,6 +363,7 @@ class JPagination
 
 		// Make sure it exists
 		$list['pages'] = array();
+
 		foreach ($data->pages as $i => $page)
 		{
 			if ($page->base !== null)
@@ -424,9 +431,11 @@ class JPagination
 		$list['pageslinks'] = $this->getPagesLinks();
 
 		$chromePath = JPATH_THEMES . '/' . $app->getTemplate() . '/html/pagination.php';
+
 		if (file_exists($chromePath))
 		{
 			include_once $chromePath;
+
 			if (function_exists('pagination_list_footer'))
 			{
 				return pagination_list_footer($list);
@@ -577,6 +586,7 @@ class JPagination
 		$html = '<ul>';
 		$html .= '<li class="pagination-start">' . $list['start']['data'] . '</li>';
 		$html .= '<li class="pagination-prev">' . $list['previous']['data'] . '</li>';
+
 		foreach ($list['pages'] as $page)
 		{
 			$html .= '<li>' . $page['data'] . '</li>';
@@ -600,6 +610,7 @@ class JPagination
 	protected function _item_active(JPaginationObject $item)
 	{
 		$app = JFactory::getApplication();
+
 		if ($app->isAdmin())
 		{
 			if ($item->base > 0)
@@ -631,6 +642,7 @@ class JPagination
 	protected function _item_inactive(JPaginationObject $item)
 	{
 		$app = JFactory::getApplication();
+
 		if ($app->isAdmin())
 		{
 			return "<span>" . $item->text . "</span>";
@@ -654,6 +666,7 @@ class JPagination
 
 		// Build the additional URL parameters string.
 		$params = '';
+
 		if (!empty($this->additionalUrlParams))
 		{
 			foreach ($this->additionalUrlParams as $key => $value)
@@ -663,6 +676,7 @@ class JPagination
 		}
 
 		$data->all = new JPaginationObject(JText::_('JLIB_HTML_VIEW_ALL'), $this->prefix);
+
 		if (!$this->viewall)
 		{
 			$data->all->base = '0';
@@ -703,11 +717,13 @@ class JPagination
 
 		$data->pages = array();
 		$stop = $this->pagesStop;
+
 		for ($i = $this->pagesStart; $i <= $stop; $i++)
 		{
 			$offset = ($i - 1) * $this->limit;
 
 			$data->pages[$i] = new JPaginationObject($i, $this->prefix);
+
 			if ($i != $this->pagesCurrent || $this->viewall)
 			{
 				$data->pages[$i]->base = $offset;

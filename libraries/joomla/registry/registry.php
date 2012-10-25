@@ -109,6 +109,7 @@ class JRegistry implements JsonSerializable
 	{
 		$value = $this->get($key, $default);
 		$this->set($key, $value);
+
 		return $value;
 	}
 

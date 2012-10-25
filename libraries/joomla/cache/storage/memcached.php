@@ -47,6 +47,7 @@ class JCacheStorageMemcached extends JCacheStorage
 	public function __construct($options = array())
 	{
 		parent::__construct($options);
+
 		if (self::$_db === null)
 		{
 			$this->getConnection();
@@ -125,6 +126,7 @@ class JCacheStorageMemcached extends JCacheStorage
 	{
 		$cache_id = $this->_getCacheId($id, $group);
 		$back = self::$_db->get($cache_id);
+
 		return $back;
 	}
 
@@ -199,6 +201,7 @@ class JCacheStorageMemcached extends JCacheStorage
 		}
 
 		$index = self::$_db->get($this->_hash . '-index');
+
 		if ($index === false)
 		{
 			$index = array();
@@ -240,6 +243,7 @@ class JCacheStorageMemcached extends JCacheStorage
 		}
 
 		$index = self::$_db->get($this->_hash . '-index');
+
 		if ($index === false)
 		{
 			$index = array();
@@ -279,12 +283,14 @@ class JCacheStorageMemcached extends JCacheStorage
 		}
 
 		$index = self::$_db->get($this->_hash . '-index');
+
 		if ($index === false)
 		{
 			$index = array();
 		}
 
 		$secret = $this->_hash;
+
 		foreach ($index as $key => $value)
 		{
 
@@ -296,6 +302,7 @@ class JCacheStorageMemcached extends JCacheStorage
 		}
 		self::$_db->replace($this->_hash . '-index', $index, 0);
 		$this->unlockindex();
+
 		return true;
 	}
 
@@ -356,6 +363,7 @@ class JCacheStorageMemcached extends JCacheStorage
 		}
 
 		$index = self::$_db->get($this->_hash . '-index');
+
 		if ($index === false)
 		{
 			$index = array();
@@ -420,6 +428,7 @@ class JCacheStorageMemcached extends JCacheStorage
 		}
 
 		$index = self::$_db->get($this->_hash . '-index');
+
 		if ($index === false)
 		{
 			$index = array();

@@ -244,6 +244,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 
 		$this->setQuery('SHOW LC_COLLATE');
 		$array = $this->loadAssocList();
+
 		return $array[0]['lc_collate'];
 	}
 
@@ -285,6 +286,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 			}
 
 			$this->queryObject = new JDatabaseQueryPostgresql($this);
+
 			return $this->queryObject;
 		}
 		else
@@ -516,6 +518,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	{
 		$this->connect();
 		$version = pg_version($this->connection);
+
 		return $version['server'];
 	}
 
@@ -616,6 +619,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 
 		// Take a local copy so that we don't modify the original query and cause issues later
 		$sql = $this->replacePrefix((string) $this->sql);
+
 		if ($this->limit > 0 || $this->offset > 0)
 		{
 			$sql .= ' LIMIT ' . $this->limit . ' OFFSET ' . $this->offset;
@@ -723,6 +727,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 			);
 
 			$oldIndexes = $this->loadColumn();
+
 			foreach ($oldIndexes as $oldIndex)
 			{
 				$changedIdxName = str_replace($oldTable, $newTable, $oldIndex);
@@ -745,6 +750,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 			);
 
 			$oldSequences = $this->loadColumn();
+
 			foreach ($oldSequences as $oldSequence)
 			{
 				$changedSequenceName = str_replace($oldTable, $newTable, $oldSequence);
@@ -803,6 +809,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		{
 			case 'boolean':
 				$val = 'NULL';
+
 				if ($field_value == 't')
 				{
 					$val = 'TRUE';
@@ -868,6 +875,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		$this->connect();
 
 		$query = 'ROLLBACK';
+
 		if (!is_null($toSavepoint))
 		{
 			$query .= ' TO SAVEPOINT ' . $this->escape($toSavepoint);
@@ -1005,6 +1013,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 			$this->setQuery($query);
 
 			$id = $this->loadResult();
+
 			if ($id)
 			{
 				$object->$key = $id;
@@ -1056,6 +1065,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 
 		$this->setQuery($query);
 		$tableList = $this->loadColumn();
+
 		return $tableList;
 	}
 
@@ -1155,6 +1165,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 			if ( strpos($sql, 'currval') )
 			{
 				$sql = explode('currval', $sql);
+
 				for ( $nIndex = 1; $nIndex < count($sql); $nIndex = $nIndex + 2 )
 				{
 					$sql[$nIndex] = str_replace($prefix, $this->tablePrefix, $sql[$nIndex]);
@@ -1166,6 +1177,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 			if ( strpos($sql, 'nextval') )
 			{
 				$sql = explode('nextval', $sql);
+
 				for ( $nIndex = 1; $nIndex < count($sql); $nIndex = $nIndex + 2 )
 				{
 					$sql[$nIndex] = str_replace($prefix, $this->tablePrefix, $sql[$nIndex]);
@@ -1177,6 +1189,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 			if ( strpos($sql, 'setval') )
 			{
 				$sql = explode('setval', $sql);
+
 				for ( $nIndex = 1; $nIndex < count($sql); $nIndex = $nIndex + 2 )
 				{
 					$sql[$nIndex] = str_replace($prefix, $this->tablePrefix, $sql[$nIndex]);
@@ -1248,6 +1261,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	public function unlockTables()
 	{
 		$this->transactionCommit();
+
 		return $this;
 	}
 

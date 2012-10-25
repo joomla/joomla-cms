@@ -247,11 +247,13 @@ class JTableNested extends JTable
 		$query->select($k);
 		$query->from($this->_tbl);
 		$query->where('parent_id = ' . $this->parent_id);
+
 		if ($where)
 		{
 			$query->where($where);
 		}
 		$position = 'after';
+
 		if ($delta > 0)
 		{
 			$query->where('rgt > ' . $this->rgt);
@@ -333,6 +335,7 @@ class JTableNested extends JTable
 				sprintf('%s::moveByReference(%d, %s, %d) parenting to child.', get_class($this), $referenceId, $position, $pk)
 			);
 			$this->setError($e);
+
 			return false;
 		}
 
@@ -382,6 +385,7 @@ class JTableNested extends JTable
 			{
 				// Error message set in getNode method.
 				$this->_unlock();
+
 				return false;
 			}
 
@@ -390,6 +394,7 @@ class JTableNested extends JTable
 			{
 				// Error message set in getNode method.
 				$this->_unlock();
+
 				return false;
 			}
 		}
@@ -417,6 +422,7 @@ class JTableNested extends JTable
 			{
 				// Error message set in getNode method.
 				$this->_unlock();
+
 				return false;
 			}
 		}
@@ -537,6 +543,7 @@ class JTableNested extends JTable
 				{
 					$this->setError($asset->getError());
 					$asset->_unlock();
+
 					return false;
 				}
 				$asset->_unlock();
@@ -545,16 +552,19 @@ class JTableNested extends JTable
 			{
 				$this->setError($asset->getError());
 				$asset->_unlock();
+
 				return false;
 			}
 		}
 
 		// Get the node by id.
 		$node = $this->_getNode($pk);
+
 		if (empty($node))
 		{
 			// Error message set in getNode method.
 			$this->_unlock();
+
 			return false;
 		}
 
@@ -750,6 +760,7 @@ class JTableNested extends JTable
 					{
 						// Error message set in getNode method.
 						$this->_unlock();
+
 						return false;
 					}
 				}
@@ -759,6 +770,7 @@ class JTableNested extends JTable
 				{
 					// Error message set in getNode method.
 					$this->_unlock();
+
 					return false;
 				}
 
@@ -787,6 +799,7 @@ class JTableNested extends JTable
 				// Negative parent ids are invalid
 				$e = new UnexpectedValueException(sprintf('%s::store() used a negative _location_id', get_class($this)));
 				$this->setError($e);
+
 				return false;
 			}
 		}
@@ -819,6 +832,7 @@ class JTableNested extends JTable
 		if (!parent::store($updateNulls))
 		{
 			$this->_unlock();
+
 			return false;
 		}
 
@@ -877,6 +891,7 @@ class JTableNested extends JTable
 			{
 				$e = new UnexpectedValueException(sprintf('%s::publish(%s, %d, %d) empty.', get_class($this), $pks, $state, $userId));
 				$this->setError($e);
+
 				return false;
 			}
 		}
@@ -911,6 +926,7 @@ class JTableNested extends JTable
 					// TODO Convert to a conflict exception when available.
 					$e = new RuntimeException(sprintf('%s::publish(%s, %d, %d) checked-out conflict.', get_class($this), $pks, $state, $userId));
 					$this->setError($e);
+
 					return false;
 				}
 			}
@@ -934,6 +950,7 @@ class JTableNested extends JTable
 						sprintf('%s::publish(%s, %d, %d) ancestors have lower state.', get_class($this), $pks, $state, $userId)
 					);
 					$this->setError($e);
+
 					return false;
 				}
 			}
@@ -957,6 +974,7 @@ class JTableNested extends JTable
 		}
 
 		$this->setError('');
+
 		return true;
 	}
 
@@ -984,10 +1002,12 @@ class JTableNested extends JTable
 
 		// Get the node by primary key.
 		$node = $this->_getNode($pk);
+
 		if (empty($node))
 		{
 			// Error message set in getNode method.
 			$this->_unlock();
+
 			return false;
 		}
 
@@ -998,6 +1018,7 @@ class JTableNested extends JTable
 		{
 			// Error message set in getNode method.
 			$this->_unlock();
+
 			return false;
 		}
 
@@ -1065,10 +1086,12 @@ class JTableNested extends JTable
 
 		// Get the node by primary key.
 		$node = $this->_getNode($pk);
+
 		if (empty($node))
 		{
 			// Error message set in getNode method.
 			$this->_unlock();
+
 			return false;
 		}
 
@@ -1076,11 +1099,13 @@ class JTableNested extends JTable
 
 		// Get the right sibling node.
 		$sibling = $this->_getNode($node->rgt + 1, 'left');
+
 		if (empty($sibling))
 		{
 			// Error message set in getNode method.
 			$query->_unlock($this->_db);
 			$this->_locked = false;
+
 			return false;
 		}
 
@@ -1204,6 +1229,7 @@ class JTableNested extends JTable
 		{
 			// Get the root item.
 			$parentId = $this->getRootId();
+
 			if ($parentId === false)
 			{
 				return false;
@@ -1543,6 +1569,7 @@ class JTableNested extends JTable
 	{
 		$sep = "\n" . str_pad('', 40, '-');
 		$buffer = '';
+
 		if ($showQuery)
 		{
 			$buffer .= "\n" . $this->_db->getQuery() . $sep;

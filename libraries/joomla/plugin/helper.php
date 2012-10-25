@@ -128,6 +128,7 @@ abstract class JPluginHelper
 	public static function isEnabled($type, $plugin = null)
 	{
 		$result = self::getPlugin($type, $plugin);
+
 		return (!empty($result));
 	}
 
@@ -150,6 +151,7 @@ abstract class JPluginHelper
 
 		// Check for the default args, if so we can optimise cheaply
 		$defaults = false;
+
 		if (is_null($plugin) && $autocreate == true && is_null($dispatcher))
 		{
 			$defaults = true;
@@ -222,6 +224,7 @@ abstract class JPluginHelper
 					}
 
 					$className = 'plg' . $plugin->type . $plugin->name;
+
 					if (class_exists($className))
 					{
 						// Load the plugin from the database.

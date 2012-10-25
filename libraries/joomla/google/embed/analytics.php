@@ -42,6 +42,7 @@ class JGoogleEmbedAnalytics extends JGoogleEmbed
 	public function setCode($code)
 	{
 		$this->setOption('code', $code);
+
 		return $this;
 	}
 
@@ -67,6 +68,7 @@ class JGoogleEmbedAnalytics extends JGoogleEmbed
 	public function useAsync()
 	{
 		$this->setOption('async', true);
+
 		return $this;
 	}
 
@@ -80,6 +82,7 @@ class JGoogleEmbedAnalytics extends JGoogleEmbed
 	public function useSync()
 	{
 		$this->setOption('async', false);
+
 		return $this;
 	}
 
@@ -100,6 +103,7 @@ class JGoogleEmbedAnalytics extends JGoogleEmbed
 		$calls = $this->listCalls();
 		$calls[] = $call;
 		$this->setOption('calls', $calls);
+
 		return $call;
 	}
 
@@ -154,6 +158,7 @@ class JGoogleEmbedAnalytics extends JGoogleEmbed
 	public function createCall($method, $params = array())
 	{
 		$params = array_values($params);
+
 		if ($this->isAsync())
 		{
 			$output = "_gaq.push(['{$method}',";

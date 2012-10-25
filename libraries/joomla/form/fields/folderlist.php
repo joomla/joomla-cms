@@ -49,6 +49,7 @@ class JFormFieldFolderList extends JFormFieldList
 
 		// Get the path in which to search for file options.
 		$path = (string) $this->element['directory'];
+
 		if (!is_dir($path))
 		{
 			$path = JPATH_ROOT . '/' . $path;

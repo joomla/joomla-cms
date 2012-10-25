@@ -143,6 +143,7 @@ class JFormFieldRules extends JFormField
 
 			// The calculated setting is not shown for the root group of global configuration.
 			$canCalculateSettings = ($group->parent_id || !empty($component));
+
 			if ($canCalculateSettings)
 			{
 				$html[] = '<th id="aclactionth' . $group->value . '">';
@@ -269,6 +270,7 @@ class JFormFieldRules extends JFormField
 
 		$html[] = str_repeat('</ul></li>', $curLevel);
 		$html[] = '</ul><div class="rule-notes">';
+
 		if ($section == 'component' || $section == null)
 		{
 			$html[] = JText::_('JLIB_RULES_SETTING_NOTES');

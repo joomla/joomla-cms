@@ -120,16 +120,20 @@ class JInput implements Serializable, Countable
 		}
 
 		$className = 'JInput' . ucfirst($name);
+
 		if (class_exists($className))
 		{
 			$this->inputs[$name] = new $className(null, $this->options);
+
 			return $this->inputs[$name];
 		}
 
 		$superGlobal = '_' . strtoupper($name);
+
 		if (isset($GLOBALS[$superGlobal]))
 		{
 			$this->inputs[$name] = new JInput($GLOBALS[$superGlobal], $this->options);
+
 			return $this->inputs[$name];
 		}
 
@@ -277,6 +281,7 @@ class JInput implements Serializable, Countable
 			$filter = substr($name, 3);
 
 			$default = null;
+
 			if (isset($arguments[1]))
 			{
 				$default = $arguments[1];
@@ -296,6 +301,7 @@ class JInput implements Serializable, Countable
 	public function getMethod()
 	{
 		$method = strtoupper($_SERVER['REQUEST_METHOD']);
+
 		return $method;
 	}
 
