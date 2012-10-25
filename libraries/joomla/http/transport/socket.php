@@ -159,6 +159,7 @@ class JHttpTransportSocket implements JHttpTransport
 	{
 		// Create the response object.
 		$return = new JHttpResponse;
+
 		if (empty($content))
 		{
 			throw new UnexpectedValueException('No content in response.');
@@ -245,6 +246,7 @@ class JHttpTransportSocket implements JHttpTransport
 					throw new RuntimeException('Cannot close connection');
 				}
 			}
+
 			// Make sure the connection has not timed out.
 			elseif (!$meta['timed_out'])
 			{
@@ -273,6 +275,7 @@ class JHttpTransportSocket implements JHttpTransport
 				// Error but nothing from php? Create our own
 				$php_errormsg = sprintf('Could not connect to resource: %s', $uri, $err, $errno);
 			}
+
 			// Restore error tracking to give control to the exception handler
 			ini_set('track_errors', $track_errors);
 

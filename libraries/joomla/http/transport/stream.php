@@ -146,6 +146,7 @@ class JHttpTransportStream implements JHttpTransport
 
 			throw new RuntimeException($php_errormsg);
 		}
+
 		// Restore error tracking to what it was before.
 		ini_set('track_errors', $track_errors);
 
@@ -188,6 +189,7 @@ class JHttpTransportStream implements JHttpTransport
 		{
 			$return->code = (int) $code;
 		}
+
 		// No valid response code was detected.
 		else
 		{

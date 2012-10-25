@@ -79,6 +79,7 @@ class JHttpTransportCurl implements JHttpTransport
 			{
 				$options[CURLOPT_POSTFIELDS] = $data;
 			}
+
 			// Otherwise we need to encode the value first.
 			else
 			{
@@ -150,6 +151,7 @@ class JHttpTransportCurl implements JHttpTransport
 		if (!is_string($content))
 		{
 			$message = curl_error($ch);
+
 			if (empty($message))
 			{
 				// Error but nothing from cURL? Create our own
@@ -210,6 +212,7 @@ class JHttpTransportCurl implements JHttpTransport
 		{
 			$return->code = (int) $code;
 		}
+
 		// No valid response code was detected.
 		else
 		{
