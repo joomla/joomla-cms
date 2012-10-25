@@ -100,9 +100,11 @@ abstract class JArrayHelper
 	public static function toObject(&$array, $class = 'stdClass')
 	{
 		$obj = null;
+
 		if (is_array($array))
 		{
 			$obj = new $class;
+
 			foreach ($array as $k => $v)
 			{
 				if (is_array($v))
@@ -196,6 +198,7 @@ abstract class JArrayHelper
 		if (is_object($item))
 		{
 			$result = array();
+
 			foreach (get_object_vars($item) as $k => $v)
 			{
 				if (!$regex || preg_match($regex, $k))
@@ -214,6 +217,7 @@ abstract class JArrayHelper
 		elseif (is_array($item))
 		{
 			$result = array();
+
 			foreach ($item as $k => $v)
 			{
 				$result[$k] = self::_fromObject($v, $recurse, $regex);
@@ -360,6 +364,7 @@ abstract class JArrayHelper
 	public static function invert($array)
 	{
 		$return = array();
+
 		foreach ($array as $base => $values)
 		{
 			if (!is_array($values))

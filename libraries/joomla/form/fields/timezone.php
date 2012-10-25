@@ -94,6 +94,7 @@ class JFormFieldTimezone extends JFormFieldGroupedList
 
 		// Sort the group lists.
 		ksort($groups);
+
 		foreach ($groups as $zone => & $location)
 		{
 			sort($location);

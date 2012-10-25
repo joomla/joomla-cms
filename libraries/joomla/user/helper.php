@@ -68,6 +68,7 @@ abstract class JUserHelper
 
 		// Set the group data for the user object in the session.
 		$temp = JFactory::getUser();
+
 		if ($temp->id == $userId)
 		{
 			$temp->groups = $user->groups;
@@ -110,6 +111,7 @@ abstract class JUserHelper
 
 		// Remove the user from the group if necessary.
 		$key = array_search($groupId, $user->groups);
+
 		if ($key !== false)
 		{
 			// Remove the user from the group.
@@ -125,6 +127,7 @@ abstract class JUserHelper
 
 		// Set the group data for the user object in the session.
 		$temp = JFactory::getUser();
+
 		if ($temp->id == $userId)
 		{
 			$temp->groups = $user->groups;
@@ -176,6 +179,7 @@ abstract class JUserHelper
 
 		// Set the group data for the user object in the session.
 		$temp = JFactory::getUser();
+
 		if ($temp->id == $userId)
 		{
 			$temp->groups = $user->groups;
@@ -250,12 +254,14 @@ abstract class JUserHelper
 			if (!$user->save())
 			{
 				JLog::add($user->getError(), JLog::WARNING, 'jerror');
+
 				return false;
 			}
 		}
 		else
 		{
 			JLog::add(JText::_('JLIB_USER_ERROR_UNABLE_TO_FIND_USER'), JLog::WARNING, 'jerror');
+
 			return false;
 		}
 
@@ -280,6 +286,7 @@ abstract class JUserHelper
 		$query->from($db->quoteName('#__users'));
 		$query->where($db->quoteName('username') . ' = ' . $db->quote($username));
 		$db->setQuery($query, 0, 1);
+
 		return $db->loadResult();
 	}
 
@@ -313,6 +320,7 @@ abstract class JUserHelper
 
 			case 'sha':
 				$encrypted = base64_encode(mhash(MHASH_SHA1, $plaintext));
+
 				return ($show_encrypt) ? '{SHA}' . $encrypted : $encrypted;
 
 			case 'crypt':
@@ -323,14 +331,17 @@ abstract class JUserHelper
 
 			case 'md5-base64':
 				$encrypted = base64_encode(mhash(MHASH_MD5, $plaintext));
+
 				return ($show_encrypt) ? '{MD5}' . $encrypted : $encrypted;
 
 			case 'ssha':
 				$encrypted = base64_encode(mhash(MHASH_SHA1, $plaintext . $salt) . $salt);
+
 				return ($show_encrypt) ? '{SSHA}' . $encrypted : $encrypted;
 
 			case 'smd5':
 				$encrypted = base64_encode(mhash(MHASH_MD5, $plaintext . $salt) . $salt);
+
 				return ($show_encrypt) ? '{SMD5}' . $encrypted : $encrypted;
 
 			case 'aprmd5':
@@ -352,6 +363,7 @@ abstract class JUserHelper
 				for ($i = 0; $i < 1000; $i++)
 				{
 					$new = ($i & 1) ? $plaintext : substr($binary, 0, 16);
+
 					if ($i % 3)
 					{
 						$new .= $salt;
@@ -365,10 +377,12 @@ abstract class JUserHelper
 				}
 
 				$p = array();
+
 				for ($i = 0; $i < 5; $i++)
 				{
 					$k = $i + 6;
 					$j = $i + 12;
+
 					if ($j == 16)
 					{
 						$j = 5;
@@ -381,6 +395,7 @@ abstract class JUserHelper
 			case 'md5-hex':
 			default:
 				$encrypted = ($salt) ? md5($plaintext . $salt) : md5($plaintext);
+
 				return ($show_encrypt) ? '{MD5}' . $encrypted : $encrypted;
 		}
 	}
@@ -474,6 +489,7 @@ abstract class JUserHelper
 				else
 				{
 					$salt = '';
+
 					for ($i = 0; $i < 8; $i++)
 					{
 						$salt .= $APRMD5{rand(0, 63)};
@@ -484,6 +500,7 @@ abstract class JUserHelper
 
 			default:
 				$salt = '';
+
 				if ($seed)
 				{
 					$salt = $seed;
@@ -517,6 +534,7 @@ abstract class JUserHelper
 		 */
 		$random = JCrypt::genRandomBytes($length + 1);
 		$shift = ord($random[0]);
+
 		for ($i = 1; $i <= $length; ++$i)
 		{
 			$makepass .= $salt[($shift + ord($random[$i])) % $base];
@@ -543,6 +561,7 @@ abstract class JUserHelper
 
 		$aprmd5 = '';
 		$count = abs($count);
+
 		while (--$count)
 		{
 			$aprmd5 .= $APRMD5[$value & 0x3f];
@@ -564,6 +583,7 @@ abstract class JUserHelper
 	{
 		$bin = '';
 		$length = strlen($hex);
+
 		for ($i = 0; $i < $length; $i += 2)
 		{
 			$tmp = sscanf(substr($hex, $i, 2), '%x');

@@ -212,6 +212,7 @@ abstract class JHtmlBehavior
 	public static function tooltip($selector = '.hasTip', $params = array())
 	{
 		$sig = md5(serialize(array($selector, $params)));
+
 		if (isset(self::$loaded[__METHOD__][$sig]))
 		{
 			return;
@@ -292,6 +293,7 @@ abstract class JHtmlBehavior
 		}
 
 		$sig = md5(serialize(array($selector, $params)));
+
 		if (isset(self::$loaded[__METHOD__][$sig]))
 		{
 			return;
@@ -373,6 +375,7 @@ abstract class JHtmlBehavior
 
 		// Set static array
 		self::$loaded[__METHOD__][$id] = true;
+
 		return;
 	}
 
@@ -629,6 +632,7 @@ abstract class JHtmlBehavior
 		JHtml::_('script', $tag . '/calendar-setup.js', false, true);
 
 		$translation = self::_calendartranslation();
+
 		if ($translation)
 		{
 			$document->addScriptDeclaration($translation);
@@ -747,6 +751,7 @@ abstract class JHtmlBehavior
 	public static function highlighter(array $terms, $start = 'highlighter-start', $end = 'highlighter-end', $className = 'highlight', $tag = 'span')
 	{
 		$sig = md5(serialize(array($terms, $start, $end)));
+
 		if (isset(self::$loaded[__METHOD__][$sig]))
 		{
 			return;

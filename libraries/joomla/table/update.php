@@ -45,6 +45,7 @@ class JTableUpdate extends JTable
 		if (trim($this->name) == '' || trim($this->element) == '')
 		{
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_EXTENSION'));
+
 			return false;
 		}
 		return true;
@@ -93,6 +94,7 @@ class JTableUpdate extends JTable
 	public function find($options = array())
 	{
 		$where = array();
+
 		foreach ($options as $col => $val)
 		{
 			$where[] = $col . ' = ' . $this->_db->Quote($val);
@@ -102,6 +104,7 @@ class JTableUpdate extends JTable
 		$query->from($this->_db->quoteName($this->_tbl));
 		$query->where(implode(' AND ', $where));
 		$this->_db->setQuery($query);
+
 		return $this->_db->loadResult();
 	}
 }

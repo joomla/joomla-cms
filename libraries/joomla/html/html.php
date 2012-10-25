@@ -93,6 +93,7 @@ abstract class JHtml
 	public static function _($key)
 	{
 		list($key, $prefix, $file, $func) = self::extract($key);
+
 		if (array_key_exists($key, self::$registry))
 		{
 			$function = self::$registry[$key];
@@ -100,6 +101,7 @@ abstract class JHtml
 
 			// Remove function name from arguments
 			array_shift($args);
+
 			return self::call($function, $args);
 		}
 
@@ -108,6 +110,7 @@ abstract class JHtml
 		if (!class_exists($className))
 		{
 			$path = JPath::find(self::$includePaths, strtolower($file) . '.php');
+
 			if ($path)
 			{
 				require_once $path;
@@ -124,6 +127,7 @@ abstract class JHtml
 		}
 
 		$toCall = array($className, $func);
+
 		if (is_callable($toCall))
 		{
 			self::register($key, $toCall);
@@ -131,6 +135,7 @@ abstract class JHtml
 
 			// Remove function name from arguments
 			array_shift($args);
+
 			return self::call($toCall, $args);
 		}
 		else
@@ -152,9 +157,11 @@ abstract class JHtml
 	public static function register($key, $function)
 	{
 		list($key) = self::extract($key);
+
 		if (is_callable($function))
 		{
 			self::$registry[$key] = $function;
+
 			return true;
 		}
 		return false;
@@ -172,9 +179,11 @@ abstract class JHtml
 	public static function unregister($key)
 	{
 		list($key) = self::extract($key);
+
 		if (isset(self::$registry[$key]))
 		{
 			unset(self::$registry[$key]);
+
 			return true;
 		}
 
@@ -193,6 +202,7 @@ abstract class JHtml
 	public static function isRegistered($key)
 	{
 		list($key) = self::extract($key);
+
 		return isset(self::$registry[$key]);
 	}
 
@@ -217,6 +227,7 @@ abstract class JHtml
 
 		// PHP 5.3 workaround
 		$temp = array();
+
 		foreach ($args as &$arg)
 		{
 			$temp[] = &$arg;
@@ -356,6 +367,7 @@ abstract class JHtml
 					{
 						// If the file is in the template folder
 						$path = JPATH_THEMES . "/$template/$folder/$file";
+
 						if (file_exists($path))
 						{
 							$md5 = dirname($path) . '/MD5SUM';
@@ -379,6 +391,7 @@ abstract class JHtml
 
 									// Try to deal with plugins group in the media folder
 									$path = JPATH_ROOT . "/media/$extension/$element/$folder/$file";
+
 									if (file_exists($path))
 									{
 										$md5 = dirname($path) . '/MD5SUM';
@@ -389,6 +402,7 @@ abstract class JHtml
 
 									// Try to deal with classical file in a a media subfolder called element
 									$path = JPATH_ROOT . "/media/$extension/$folder/$element/$file";
+
 									if (file_exists($path))
 									{
 										$md5 = dirname($path) . '/MD5SUM';
@@ -399,6 +413,7 @@ abstract class JHtml
 
 									// Try to deal with system files in the template folder
 									$path = JPATH_THEMES . "/$template/$folder/system/$element/$file";
+
 									if (file_exists($path))
 									{
 										$md5 = dirname($path) . '/MD5SUM';
@@ -409,6 +424,7 @@ abstract class JHtml
 
 									// Try to deal with system files in the media folder
 									$path = JPATH_ROOT . "/media/system/$folder/$element/$file";
+
 									if (file_exists($path))
 									{
 										$md5 = dirname($path) . '/MD5SUM';
@@ -421,6 +437,7 @@ abstract class JHtml
 								{
 									// Try to deals in the extension media folder
 									$path = JPATH_ROOT . "/media/$extension/$folder/$file";
+
 									if (file_exists($path))
 									{
 										$md5 = dirname($path) . '/MD5SUM';
@@ -431,6 +448,7 @@ abstract class JHtml
 
 									// Try to deal with system files in the template folder
 									$path = JPATH_THEMES . "/$template/$folder/system/$file";
+
 									if (file_exists($path))
 									{
 										$md5 = dirname($path) . '/MD5SUM';
@@ -441,6 +459,7 @@ abstract class JHtml
 
 									// Try to deal with system files in the media folder
 									$path = JPATH_ROOT . "/media/system/$folder/$file";
+
 									if (file_exists($path))
 									{
 										$md5 = dirname($path) . '/MD5SUM';
@@ -454,6 +473,7 @@ abstract class JHtml
 							else
 							{
 								$path = JPATH_ROOT . "/media/system/$folder/$file";
+
 								if (file_exists($path))
 								{
 									$md5 = dirname($path) . '/MD5SUM';
@@ -488,6 +508,7 @@ abstract class JHtml
 					foreach ($files as $file)
 					{
 						$path = JPATH_ROOT . "/$file";
+
 						if (file_exists($path))
 						{
 							$md5 = dirname($path) . '/MD5SUM';
@@ -605,6 +626,7 @@ abstract class JHtml
 		else
 		{
 			$document = JFactory::getDocument();
+
 			foreach ($includes as $include)
 			{
 				$document->addStylesheet($include, 'text/css', null, $attribs);
@@ -657,6 +679,7 @@ abstract class JHtml
 		else
 		{
 			$document = JFactory::getDocument();
+
 			foreach ($includes as $include)
 			{
 				$document->addScript($include);
@@ -848,6 +871,7 @@ abstract class JHtml
 
 		$readonly = isset($attribs['readonly']) && $attribs['readonly'] == 'readonly';
 		$disabled = isset($attribs['disabled']) && $attribs['disabled'] == 'disabled';
+
 		if (is_array($attribs))
 		{
 			$attribs = JArrayHelper::toString($attribs);
@@ -931,6 +955,7 @@ abstract class JHtml
 	public static function getJSObject(array $array = array())
 	{
 		$elements = array();
+
 		foreach ($array as $k => $v)
 		{
 			// Don't encode either of these types

@@ -198,6 +198,7 @@ class JDocumentFeed extends JDocument
 
 		// Instantiate feed renderer and set the mime encoding
 		$renderer = $this->loadRenderer(($type) ? $type : 'rss');
+
 		if (!is_a($renderer, 'JDocumentRenderer'))
 		{
 			throw new Exception(JText::_('JGLOBAL_RESOURCE_NOT_FOUND'), 404);
@@ -219,6 +220,7 @@ class JDocumentFeed extends JDocument
 		$data .= $renderer->render();
 
 		parent::render();
+
 		return $data;
 	}
 

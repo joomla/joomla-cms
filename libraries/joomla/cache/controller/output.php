@@ -55,6 +55,7 @@ class JCacheControllerOutput extends JCacheController
 		if ($data === false)
 		{
 			$this->_locktest = $this->cache->lock($id, $group);
+
 			if ($this->_locktest->locked == true && $this->_locktest->locklooped == true)
 			{
 				$data = $this->cache->get($id, $group);
@@ -65,6 +66,7 @@ class JCacheControllerOutput extends JCacheController
 		{
 			$data = unserialize(trim($data));
 			echo $data;
+
 			if ($this->_locktest->locked == true)
 			{
 				$this->cache->unlock($id, $group);

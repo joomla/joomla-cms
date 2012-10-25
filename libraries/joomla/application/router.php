@@ -135,6 +135,7 @@ class JRouter
 				if (is_object($info))
 				{
 					$path = $info->path . '/includes/router.php';
+
 					if (file_exists($path))
 					{
 						include_once $path;
@@ -297,6 +298,7 @@ class JRouter
 	public function getVar($key)
 	{
 		$result = null;
+
 		if (isset($this->_vars[$key]))
 		{
 			$result = $this->_vars[$key];
@@ -451,6 +453,7 @@ class JRouter
 		if (substr($url, 0, 1) == '&')
 		{
 			$vars = array();
+
 			if (strpos($url, '&amp;') !== false)
 			{
 				$url = str_replace('&amp;', '&', $url);
@@ -487,6 +490,7 @@ class JRouter
 	protected function _encodeSegments($segments)
 	{
 		$total = count($segments);
+
 		for ($i = 0; $i < $total; $i++)
 		{
 			$segments[$i] = str_replace(':', '-', $segments[$i]);
@@ -507,6 +511,7 @@ class JRouter
 	protected function _decodeSegments($segments)
 	{
 		$total = count($segments);
+
 		for ($i = 0; $i < $total; $i++)
 		{
 			$segments[$i] = preg_replace('/-/', ':', $segments[$i], 1);

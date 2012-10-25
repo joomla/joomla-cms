@@ -311,6 +311,7 @@ class JAccess
 				// Build the database query to get the rules for the asset.
 				$query = $db->getQuery(true);
 				$query->select($recursive ? 'b.id' : 'a.id');
+
 				if (empty($userId))
 				{
 					$query->from('#__usergroups AS a');
@@ -469,6 +470,7 @@ class JAccess
 		{
 			// Else return the actions from the xml.
 			$xml = simplexml_load_file($file);
+
 			return self::getActionsFromData($xml, $xpath);
 		}
 	}

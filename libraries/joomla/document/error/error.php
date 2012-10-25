@@ -58,6 +58,7 @@ class JDocumentError extends JDocument
 		if ($error instanceof Exception)
 		{
 			$this->_error = & $error;
+
 			return true;
 		}
 		else
@@ -107,6 +108,7 @@ class JDocumentError extends JDocument
 		$data = $this->_loadTemplate($directory . '/' . $template, $file);
 
 		parent::render();
+
 		return $data;
 	}
 
@@ -151,6 +153,7 @@ class JDocumentError extends JDocument
 	{
 		$contents = null;
 		$backtrace = $this->_error->getTrace();
+
 		if (is_array($backtrace))
 		{
 			ob_start();
@@ -164,10 +167,12 @@ class JDocumentError extends JDocument
 			echo '		<td class="TD"><strong>Function</strong></td>';
 			echo '		<td class="TD"><strong>Location</strong></td>';
 			echo '	</tr>';
+
 			for ($i = count($backtrace) - 1; $i >= 0; $i--)
 			{
 				echo '	<tr>';
 				echo '		<td class="TD">' . $j . '</td>';
+
 				if (isset($backtrace[$i]['class']))
 				{
 					echo '	<td class="TD">' . $backtrace[$i]['class'] . $backtrace[$i]['type'] . $backtrace[$i]['function'] . '()</td>';

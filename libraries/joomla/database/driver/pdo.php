@@ -367,6 +367,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 
 		// Take a local copy so that we don't modify the original query and cause issues later
 		$sql = $this->replacePrefix((string) $this->sql);
+
 		if ($this->limit > 0 || $this->offset > 0)
 		{
 			// @TODO
@@ -391,12 +392,14 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 
 		// Execute the query.
 		$this->executed = false;
+
 		if ($this->prepared instanceof PDOStatement)
 		{
 			// Bind the variables:
 			if ($this->sql instanceof JDatabaseQueryPreparable)
 			{
 				$bounded =& $this->sql->getBounded();
+
 				foreach ($bounded as $key => $obj)
 				{
 					$this->prepared->bindParam($key, $obj->value, $obj->dataType, $obj->length, $obj->driverOptions);

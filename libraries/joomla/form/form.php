@@ -206,6 +206,7 @@ class JForm
 
 		// Get the fields for which to filter the data.
 		$fields = $this->findFieldsByGroup($group);
+
 		if (!$fields)
 		{
 			// PANIC!
@@ -433,6 +434,7 @@ class JForm
 
 					// Build the fieldset object.
 					$fieldset = (object) array('name' => '', 'label' => '', 'description' => '');
+
 					foreach ($set->attributes() as $name => $value)
 					{
 						$fieldset->$name = (string) $value;
@@ -462,6 +464,7 @@ class JForm
 					else
 					{
 						$fieldset = (object) array('name' => '', 'label' => '', 'description' => '');
+
 						foreach ($tmp[0]->attributes() as $name => $value)
 						{
 							$fieldset->$name = (string) $value;
@@ -683,6 +686,7 @@ class JForm
 
 		// Get the XML elements to load.
 		$elements = array();
+
 		if ($xpath)
 		{
 			$elements = $data->xpath($xpath);
@@ -703,6 +707,7 @@ class JForm
 		{
 			// Get an array of fields with the correct name.
 			$fields = $element->xpath('descendant-or-self::field');
+
 			foreach ($fields as $field)
 			{
 				// Get the group names as strings for ancestor fields elements.
@@ -829,6 +834,7 @@ class JForm
 
 		// Get the fields elements for a given group.
 		$elements = &$this->findGroup($group);
+
 		foreach ($elements as &$element)
 		{
 			$dom = dom_import_simplexml($element);
@@ -998,6 +1004,7 @@ class JForm
 
 		// Set the fields.
 		$return = true;
+
 		foreach ($elements as $element)
 		{
 			if (!$this->setField($element, $group, $replace))
@@ -1074,6 +1081,7 @@ class JForm
 
 		// Get the fields for which to validate the data.
 		$fields = $this->findFieldsByGroup($group);
+
 		if (!$fields)
 		{
 			// PANIC!
@@ -1144,10 +1152,12 @@ class JForm
 			// Access Control Rules.
 			case 'RULES':
 				$return = array();
+
 				foreach ((array) $value as $action => $ids)
 				{
 					// Build the rules array.
 					$return[$action] = array();
+
 					foreach ($ids as $id => $p)
 					{
 						if ($p !== '')
@@ -1276,6 +1286,7 @@ class JForm
 				if (preg_match('/^(?:\+?1[-. ]?)?\(?([2-9][0-8][0-9])\)?[-. ]?([2-9][0-9]{2})[-. ]?([0-9]{4})$/', $value) == 1)
 				{
 					$number = (string) preg_replace('/[^\d]/', '', $value);
+
 					if (substr($number, 0, 1) == 1)
 					{
 						$number = substr($number, 1);
@@ -1315,6 +1326,7 @@ class JForm
 				else
 				{
 					$value = (string) preg_replace('/[^\d]/', '', $value);
+
 					if ($value != null && strlen($value) <= 15)
 					{
 						$length = strlen($value);
@@ -1409,6 +1421,7 @@ class JForm
 
 			// Use the first correct match in the given group.
 			$groupNames = explode('.', $group);
+
 			foreach ($fields as &$field)
 			{
 				// Get the group names as strings for ancestor fields elements.
@@ -1532,6 +1545,7 @@ class JForm
 					else
 					{
 						$groupNames = explode('.', $group);
+
 						foreach ($tmp as $field)
 						{
 							// Get the names of the groups that the field is in.
@@ -1585,6 +1599,7 @@ class JForm
 
 		// Make sure there is actually a group to find.
 		$group = explode('.', $group);
+
 		if (!empty($group))
 		{
 
@@ -1684,9 +1699,11 @@ class JForm
 		if ($value === null)
 		{
 			$default = (string) $element['default'];
+
 			if (($translate = $element['translate_default']) && ((string) $translate == 'true' || (string) $translate == '1'))
 			{
 				$lang = JFactory::getLanguage();
+
 				if ($lang->hasKey($default))
 				{
 					$debug = $lang->setDebug(false);
@@ -1869,12 +1886,14 @@ class JForm
 			if ($message)
 			{
 				$message = JText::_($element['message']);
+
 				return new UnexpectedValueException($message);
 			}
 			else
 			{
 				$message = JText::_($element['label']);
 				$message = JText::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', $message);
+
 				return new UnexpectedValueException($message);
 			}
 		}

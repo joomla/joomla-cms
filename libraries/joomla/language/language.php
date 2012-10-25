@@ -185,6 +185,7 @@ class JLanguage
 		// Look for a language specific localise class
 		$class = str_replace('-', '_', $lang . 'Localise');
 		$paths = array();
+
 		if (defined('JPATH_SITE'))
 		{
 			// Note: Manual indexing to enforce load order.
@@ -915,6 +916,7 @@ class JLanguage
 
 		// Search through the backtrace to our caller
 		$continue = true;
+
 		while ($continue && next($backtrace))
 		{
 			$step = current($backtrace);
@@ -1266,6 +1268,7 @@ class JLanguage
 			try
 			{
 				$metadata = self::parseXMLLanguageFile($file->getRealPath());
+
 				if ($metadata)
 				{
 					$lang = str_replace('.xml', '', $fileName);
@@ -1300,6 +1303,7 @@ class JLanguage
 
 		// Try to load the file
 		$xml = simplexml_load_file($path);
+
 		if (!$xml)
 		{
 			return null;

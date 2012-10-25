@@ -186,6 +186,7 @@ class JAccessRules
 	{
 		// Sweep for the allowed actions.
 		$allowed = new JObject;
+
 		foreach ($this->data as $name => &$action)
 		{
 			if ($action->allow($identity))

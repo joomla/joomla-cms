@@ -103,6 +103,7 @@ class JCacheControllerCallback extends JCacheController
 		if ($data === false)
 		{
 			$locktest = $this->cache->lock($id);
+
 			if ($locktest->locked == true && $locktest->locklooped == true)
 			{
 				$data = $this->cache->get($id);
@@ -118,6 +119,7 @@ class JCacheControllerCallback extends JCacheController
 			$coptions['mergehead'] = isset($woptions['mergehead']) ? $woptions['mergehead'] : 0;
 			$output = ($wrkarounds == false) ? $cached['output'] : JCache::getWorkarounds($cached['output'], $coptions);
 			$result = $cached['result'];
+
 			if ($locktest->locked == true)
 			{
 				$this->cache->unlock($id);
@@ -171,6 +173,7 @@ class JCacheControllerCallback extends JCacheController
 
 			// Store the cache data
 			$this->cache->store(serialize($cached), $id);
+
 			if ($locktest->locked == true)
 			{
 				$this->cache->unlock($id);
@@ -178,6 +181,7 @@ class JCacheControllerCallback extends JCacheController
 		}
 
 		echo $output;
+
 		return $result;
 	}
 

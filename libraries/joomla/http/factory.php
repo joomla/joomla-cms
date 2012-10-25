@@ -86,6 +86,7 @@ class JHttpFactory
 	{
 		$names = array();
 		$iterator = new DirectoryIterator(__DIR__ . '/transport');
+
 		foreach ($iterator as $file)
 		{
 			$fileName = $file->getFilename();

@@ -168,6 +168,7 @@ abstract class JHtmlJGrid
 
 			// Create tip text, only we have publish up or down settings
 			$tips = array();
+
 			if ($publish_up)
 			{
 				$tips[] = JText::sprintf('JLIB_HTML_PUBLISHED_START', $publish_up->format(JDate::$format, true));
@@ -185,6 +186,7 @@ abstract class JHtmlJGrid
 				if ($key == 1)
 				{
 					$states[$key][2] = $states[$key][3] = 'JLIB_HTML_PUBLISHED_ITEM';
+
 					if ($publish_up > $nullDate && $nowDate < $publish_up->toUnix())
 					{
 						$states[$key][2] = $states[$key][3] = 'JLIB_HTML_PUBLISHED_PENDING_ITEM';
@@ -260,6 +262,7 @@ abstract class JHtmlJGrid
 	{
 		// Build the active state filter options.
 		$options = array();
+
 		if (!array_key_exists('published', $config) || $config['published'])
 		{
 			$options[] = JHtml::_('select.option', '1', 'JPUBLISHED');

@@ -79,6 +79,7 @@ class JRoute
 
 			// Get additional parts.
 			static $prefix;
+
 			if (!$prefix)
 			{
 				$prefix = $uri->toString(array('host', 'port'));

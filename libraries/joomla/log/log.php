@@ -249,6 +249,7 @@ class JLog
 			{
 
 				$class = 'JLogLogger' . ucfirst($this->configurations[$signature]['logger']);
+
 				if (class_exists($class))
 				{
 					$this->loggers[$signature] = new $class($this->configurations[$signature]);

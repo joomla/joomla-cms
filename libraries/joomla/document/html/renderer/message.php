@@ -40,6 +40,7 @@ class JDocumentRendererMessage extends JDocumentRenderer
 		if (file_exists($chromePath))
 		{
 			include_once $chromePath;
+
 			if (function_exists('renderMessage'))
 			{
 				$itemOverride = true;
@@ -100,6 +101,7 @@ class JDocumentRendererMessage extends JDocumentRenderer
 		if (is_array($msgList))
 		{
 			$buffer .= "\n<dl id=\"system-message\">";
+
 			foreach ($msgList as $type => $msgs)
 			{
 				if (count($msgs))
@@ -107,6 +109,7 @@ class JDocumentRendererMessage extends JDocumentRenderer
 					$buffer .= "\n<dt class=\"" . strtolower($type) . "\">" . JText::_($type) . "</dt>";
 					$buffer .= "\n<dd class=\"" . strtolower($type) . " message\">";
 					$buffer .= "\n\t<ul>";
+
 					foreach ($msgs as $msg)
 					{
 						$buffer .= "\n\t\t<li>" . $msg . "</li>";

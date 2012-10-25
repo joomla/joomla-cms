@@ -92,6 +92,7 @@ class JGoogleDataPlusComments extends JGoogleData
 			}
 
 			$jdata = $this->auth->query($url);
+
 			return json_decode($jdata->body, true);
 		}
 		else
@@ -123,6 +124,7 @@ class JGoogleDataPlusComments extends JGoogleData
 			}
 
 			$jdata = $this->auth->query($url);
+
 			return json_decode($jdata->body, true);
 		}
 		else

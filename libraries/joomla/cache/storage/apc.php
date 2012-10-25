@@ -33,6 +33,7 @@ class JCacheStorageApc extends JCacheStorage
 	public function get($id, $group, $checkTime = true)
 	{
 		$cache_id = $this->_getCacheId($id, $group);
+
 		return apc_fetch($cache_id);
 	}
 
@@ -95,6 +96,7 @@ class JCacheStorageApc extends JCacheStorage
 	public function store($id, $group, $data)
 	{
 		$cache_id = $this->_getCacheId($id, $group);
+
 		return apc_store($cache_id, $data, $this->_lifetime);
 	}
 
@@ -111,6 +113,7 @@ class JCacheStorageApc extends JCacheStorage
 	public function remove($id, $group)
 	{
 		$cache_id = $this->_getCacheId($id, $group);
+
 		return apc_delete($cache_id);
 	}
 
@@ -245,6 +248,7 @@ class JCacheStorageApc extends JCacheStorage
 		$cache_id = $this->_getCacheId($id, $group) . '_lock';
 
 		$unlock = apc_delete($cache_id);
+
 		return $unlock;
 	}
 }

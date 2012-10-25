@@ -290,6 +290,7 @@ class JBrowser
 			{
 				$this->setBrowser('amaya');
 				$this->majorVersion = $version[1];
+
 				if (isset($version[2]))
 				{
 					$this->minorVersion = $version[2];
@@ -310,6 +311,7 @@ class JBrowser
 				// rendering engine.
 				$this->setBrowser('konqueror');
 				$this->majorVersion = $version[1];
+
 				if (isset($version[2]))
 				{
 					$this->minorVersion = $version[2];
@@ -443,6 +445,7 @@ class JBrowser
 		if (preg_match('|Version[/ ]([0-9.]+)|', $this->agent, $version))
 		{
 			list ($this->majorVersion, $this->minorVersion) = explode('.', $version[1]);
+
 			return;
 		}
 		// Can't identify browser version
@@ -574,6 +577,7 @@ class JBrowser
 			if (strpos($this->accept, '*/*') !== false)
 			{
 				$wildcard_match = true;
+
 				if ($type != 'image')
 				{
 					return true;

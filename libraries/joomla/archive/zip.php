@@ -221,6 +221,7 @@ class JArchiveZip implements JArchiveExtractable
 		}
 
 		$this->_data = file_get_contents($archive);
+
 		if (!$this->_data)
 		{
 			if (class_exists('JError'))
@@ -298,6 +299,7 @@ class JArchiveZip implements JArchiveExtractable
 	protected function extractNative($archive, $destination)
 	{
 		$zip = zip_open($archive);
+
 		if (is_resource($zip))
 		{
 			// Make sure the destination folder exists
@@ -587,6 +589,7 @@ class JArchiveZip implements JArchiveExtractable
 
 		/* See if time/date information has been provided. */
 		$ftime = null;
+
 		if (isset($file['time']))
 		{
 			$ftime = $file['time'];

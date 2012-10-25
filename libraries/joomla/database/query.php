@@ -339,6 +339,7 @@ abstract class JDatabaseQuery
 			case 'select':
 				$query .= (string) $this->select;
 				$query .= (string) $this->from;
+
 				if ($this->join)
 				{
 					// Special case for joins
@@ -432,6 +433,7 @@ abstract class JDatabaseQuery
 					}
 
 					$elements = $this->values->getElements();
+
 					if (!($elements[0] instanceof $this))
 					{
 						$query .= ' VALUES ';

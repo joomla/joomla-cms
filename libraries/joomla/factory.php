@@ -245,6 +245,7 @@ abstract class JFactory
 	public static function getCache($group = '', $handler = 'callback', $storage = null)
 	{
 		$hash = md5($group . $handler . $storage);
+
 		if (isset(self::$cache[$hash]))
 		{
 			return self::$cache[$hash];
@@ -374,6 +375,7 @@ abstract class JFactory
 		JLog::add(__METHOD__ . ' is deprecated. Use SimpleXML directly.', JLog::WARNING, 'deprecated');
 
 		$class = 'SimpleXMLElement';
+
 		if (class_exists('JXMLElement'))
 		{
 			$class = 'JXMLElement';
@@ -574,6 +576,7 @@ abstract class JFactory
 		$options['expire'] = ($conf->get('lifetime')) ? $conf->get('lifetime') * 60 : 900;
 
 		$session = JSession::getInstance($handler, $options);
+
 		if ($session->getState() == 'expired')
 		{
 			$session->restart();

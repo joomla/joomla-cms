@@ -154,6 +154,7 @@ class JSession implements IteratorAggregate
 		if ($name === 'state' || $name === 'expire')
 		{
 			$property = '_' . $name;
+
 			return $this->$property;
 		}
 	}
@@ -317,6 +318,7 @@ class JSession implements IteratorAggregate
 		if (!$app->input->$method->get($token, '', 'alnum'))
 		{
 			$session = JFactory::getSession();
+
 			if ($session->isNew())
 			{
 				// Redirect to login screen.
@@ -435,6 +437,7 @@ class JSession implements IteratorAggregate
 	public function isNew()
 	{
 		$counter = $this->get('session.counter');
+
 		return (bool) ($counter === 1);
 	}
 
@@ -474,6 +477,7 @@ class JSession implements IteratorAggregate
 		{
 			// @TODO :: generated error here
 			$error = null;
+
 			return $error;
 		}
 
@@ -566,6 +570,7 @@ class JSession implements IteratorAggregate
 		}
 
 		$value = null;
+
 		if (isset($_SESSION[$namespace][$name]))
 		{
 			$value = $_SESSION[$namespace][$name];
@@ -694,6 +699,7 @@ class JSession implements IteratorAggregate
 		session_destroy();
 
 		$this->_state = 'destroyed';
+
 		return true;
 	}
 
@@ -708,6 +714,7 @@ class JSession implements IteratorAggregate
 	public function restart()
 	{
 		$this->destroy();
+
 		if ($this->_state !== 'destroyed')
 		{
 			// @TODO :: generated error here
@@ -798,6 +805,7 @@ class JSession implements IteratorAggregate
 	protected function _setCookieParams()
 	{
 		$cookie = session_get_cookie_params();
+
 		if ($this->_force_ssl)
 		{
 			$cookie['secure'] = true;
@@ -832,6 +840,7 @@ class JSession implements IteratorAggregate
 		$max = strlen($chars) - 1;
 		$token = '';
 		$name = session_name();
+
 		for ($i = 0; $i < $length; ++$i)
 		{
 			$token .= $chars[(rand(0, $max))];
@@ -853,6 +862,7 @@ class JSession implements IteratorAggregate
 		++$counter;
 
 		$this->set('session.counter', $counter);
+
 		return true;
 	}
 
@@ -965,6 +975,7 @@ class JSession implements IteratorAggregate
 			if ($maxTime < $curTime)
 			{
 				$this->_state = 'expired';
+
 				return false;
 			}
 		}
@@ -987,6 +998,7 @@ class JSession implements IteratorAggregate
 			elseif ($_SERVER['REMOTE_ADDR'] !== $ip)
 			{
 				$this->_state = 'error';
+
 				return false;
 			}
 		}

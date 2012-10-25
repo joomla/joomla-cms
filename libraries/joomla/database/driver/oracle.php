@@ -219,6 +219,7 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
 
 		// Sanitize input to an array and iterate over the list.
 		settype($tables, 'array');
+
 		foreach ($tables as $table)
 		{
 			$query->bind(':tableName', $table);
@@ -348,6 +349,7 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
 		}
 
 		$query->from('all_tables');
+
 		if ($databaseName)
 		{
 			$query->where('owner = :database');
@@ -382,6 +384,7 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
 		$this->connect();
 
 		$this->setQuery("select value from nls_database_parameters where parameter = 'NLS_RDBMS_VERSION'");
+
 		return $this->loadResult();
 	}
 
@@ -421,6 +424,7 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
 		$this->connect();
 
 		$this->setQuery("ALTER SESSION SET NLS_DATE_FORMAT = '$dateFormat'");
+
 		if (!$this->execute())
 		{
 			return false;
@@ -542,6 +546,7 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
 		while ($startPos < $n)
 		{
 			$ip = strpos($sql, $prefix, $startPos);
+
 			if ($ip === false)
 			{
 				break;
@@ -569,11 +574,13 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
 			{
 				$k = strpos($sql, $quoteChar, $j);
 				$escaped = false;
+
 				if ($k === false)
 				{
 					break;
 				}
 				$l = $k - 1;
+
 				while ($l >= 0 && $sql{$l} == '\\')
 				{
 					$l--;

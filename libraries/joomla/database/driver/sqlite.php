@@ -283,6 +283,7 @@ class JDatabaseDriverSqlite extends JDatabaseDriverPdo
 		$this->connect();
 
 		$this->setQuery("SELECT sqlite_version()");
+
 		return $this->loadResult();
 	}
 

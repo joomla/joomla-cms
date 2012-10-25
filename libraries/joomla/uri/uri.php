@@ -218,6 +218,7 @@ class JUri
 		{
 			$config = JFactory::getConfig();
 			$live_site = $config->get('live_site');
+
 			if (trim($live_site) != '')
 			{
 				$uri = self::getInstance($live_site);
@@ -760,6 +761,7 @@ class JUri
 		$uri = self::getInstance($url);
 		$base = $uri->toString(array('scheme', 'host', 'port', 'path'));
 		$host = $uri->toString(array('scheme', 'host', 'port'));
+
 		if (stripos($base, self::base()) !== 0 && !empty($host))
 		{
 			return false;

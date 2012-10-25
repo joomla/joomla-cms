@@ -105,6 +105,7 @@ abstract class JGoogleData
 	protected function listGetData($url, $maxpages = 1, $token = null)
 	{
 		$qurl = $url;
+
 		if (strpos($url, '&') && isset($token))
 		{
 			$qurl .= '&pageToken=' . $token;

@@ -99,6 +99,7 @@ class JHttpTransportCurl implements JHttpTransport
 
 		// Build the headers string for the request.
 		$headerArray = array();
+
 		if (isset($headers))
 		{
 			foreach ($headers as $key => $value)
@@ -196,6 +197,7 @@ class JHttpTransportCurl implements JHttpTransport
 		preg_match('/[0-9]{3}/', array_shift($headers), $matches);
 
 		$code = count($matches) ? $matches[0] : null;
+
 		if (is_numeric($code))
 		{
 			$return->code = (int) $code;

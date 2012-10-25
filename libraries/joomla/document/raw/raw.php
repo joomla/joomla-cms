@@ -49,6 +49,7 @@ class JDocumentRaw extends JDocument
 	public function render($cache = false, $params = array())
 	{
 		parent::render();
+
 		return $this->getBuffer();
 	}
 }

@@ -70,6 +70,7 @@ class JFilterOutput
 	public static function linkXHTMLSafe($input)
 	{
 		$regex = 'href="([^"]*(&(amp;){0})[^"]*)*?"';
+
 		return preg_replace_callback("#$regex#i", array('JFilterOutput', '_ampReplaceCallback'), $input);
 	}
 

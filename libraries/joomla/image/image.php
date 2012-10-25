@@ -124,6 +124,7 @@ class JImage
 
 		// Get the image file information.
 		$info = getimagesize($path);
+
 		if (!$info)
 		{
 			// @codeCoverageIgnoreStart
@@ -176,12 +177,14 @@ class JImage
 
 		// Process thumbs
 		$generated = array();
+
 		if (!empty($thumbSizes))
 		{
 			foreach ($thumbSizes as $thumbSize)
 			{
 				// Desired thumbnail size
 				$size = explode('x', strtolower($thumbSize));
+
 				if (count($size) != 2)
 				{
 					throw new InvalidArgumentException('Invalid thumb size received: ' . $thumbSize);
@@ -244,6 +247,7 @@ class JImage
 
 		// Process thumbs
 		$thumbsCreated = array();
+
 		if ($thumbs = $this->generateThumbs($thumbSizes, $creationMethod))
 		{
 			// Parent image properties
@@ -262,6 +266,7 @@ class JImage
 
 				// Save thumb file to disk
 				$thumbFileName = $thumbsFolder . '/' . $thumbFileName;
+
 				if ($thumb->toFile($thumbFileName, $imgProperties->type))
 				{
 					// Return JImage object with thumb path to ease further manipulation
@@ -516,6 +521,7 @@ class JImage
 
 				// Attempt to create the image handle.
 				$handle = imagecreatefromgif($path);
+
 				if (!is_resource($handle))
 				{
 					// @codeCoverageIgnoreStart
@@ -539,6 +545,7 @@ class JImage
 
 				// Attempt to create the image handle.
 				$handle = imagecreatefromjpeg($path);
+
 				if (!is_resource($handle))
 				{
 					// @codeCoverageIgnoreStart
@@ -562,6 +569,7 @@ class JImage
 
 				// Attempt to create the image handle.
 				$handle = imagecreatefrompng($path);
+
 				if (!is_resource($handle))
 				{
 					// @codeCoverageIgnoreStart
@@ -766,6 +774,7 @@ class JImage
 
 		// Verify that the filter type exists.
 		$className = 'JImageFilter' . ucfirst($type);
+
 		if (!class_exists($className))
 		{
 			JLog::add('The ' . ucfirst($type) . ' image filter is not available.', JLog::ERROR);

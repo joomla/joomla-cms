@@ -92,6 +92,7 @@ class JOAuth2Client
 				}
 
 				$this->setToken($token);
+
 				return $token;
 			}
 			else
@@ -147,6 +148,7 @@ class JOAuth2Client
 		}
 
 		$url = $this->getOption('authurl');
+
 		if (strpos($url, '?'))
 		{
 			$url .= '&';
@@ -202,6 +204,7 @@ class JOAuth2Client
 	public function query($url, $data = null, $headers = array(), $method = 'get', $timeout = null)
 	{
 		$token = $this->getToken();
+
 		if (array_key_exists('expires_in', $token) && $token['created'] + $token['expires_in'] < time() + 20)
 		{
 			if (!$this->getOption('userefresh'))
@@ -280,6 +283,7 @@ class JOAuth2Client
 	public function setOption($key, $value)
 	{
 		$this->options->set($key, $value);
+
 		return $this;
 	}
 
@@ -312,6 +316,7 @@ class JOAuth2Client
 			unset($value['expires']);
 		}
 		$this->setOption('accesstoken', $value);
+
 		return $this;
 	}
 
@@ -360,6 +365,7 @@ class JOAuth2Client
 			}
 
 			$this->setToken($token);
+
 			return $token;
 		}
 		else

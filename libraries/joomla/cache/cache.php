@@ -186,6 +186,7 @@ class JCache
 
 		// Get the storage
 		$handler = $this->_getStorage();
+
 		if (!($handler instanceof Exception) && $this->_options['caching'])
 		{
 			return $handler->get($id, $group, $this->_options['checkTime']);
@@ -204,6 +205,7 @@ class JCache
 	{
 		// Get the storage
 		$handler = $this->_getStorage();
+
 		if (!($handler instanceof Exception) && $this->_options['caching'])
 		{
 			return $handler->getAll();
@@ -229,9 +231,11 @@ class JCache
 
 		// Get the storage and store the cached data
 		$handler = $this->_getStorage();
+
 		if (!($handler instanceof Exception) && $this->_options['caching'])
 		{
 			$handler->_lifetime = $this->_options['lifetime'];
+
 			return $handler->store($id, $group, $data);
 		}
 		return false;
@@ -254,6 +258,7 @@ class JCache
 
 		// Get the storage
 		$handler = $this->_getStorage();
+
 		if (!($handler instanceof Exception))
 		{
 			return $handler->remove($id, $group);
@@ -281,6 +286,7 @@ class JCache
 
 		// Get the storage handler
 		$handler = $this->_getStorage();
+
 		if (!($handler instanceof Exception))
 		{
 			return $handler->clean($group, $mode);
@@ -299,6 +305,7 @@ class JCache
 	{
 		// Get the storage handler
 		$handler = $this->_getStorage();
+
 		if (!($handler instanceof Exception))
 		{
 			return $handler->gc();
@@ -331,9 +338,11 @@ class JCache
 		// Allow storage handlers to perform locking on their own
 		// NOTE drivers with lock need also unlock or unlocking will fail because of false $id
 		$handler = $this->_getStorage();
+
 		if (!($handler instanceof Exception) && $this->_options['locking'] == true && $this->_options['caching'] == true)
 		{
 			$locked = $handler->lock($id, $group, $locktime);
+
 			if ($locked !== false)
 			{
 				return $locked;
@@ -412,9 +421,11 @@ class JCache
 
 		// Allow handlers to perform unlocking on their own
 		$handler = $this->_getStorage();
+
 		if (!($handler instanceof Exception) && $this->_options['caching'])
 		{
 			$unlocked = $handler->unlock($id, $group);
+
 			if ($unlocked !== false)
 			{
 				return $unlocked;
@@ -447,6 +458,7 @@ class JCache
 		}
 
 		self::$_handler[$hash] = JCacheStorage::getInstance($this->_options['storage'], $this->_options);
+
 		return self::$_handler[$hash];
 	}
 
@@ -553,6 +565,7 @@ class JCache
 
 		// Get the modules buffer before component execution.
 		$buffer1 = $document->getBuffer();
+
 		if (!is_array($buffer1))
 		{
 			$buffer1 = array();
@@ -625,6 +638,7 @@ class JCache
 			// @todo Check if the following is needed, seems like it should be in page cache
 			// Get the module buffer after component execution.
 			$buffer2 = $document->getBuffer();
+
 			if (!is_array($buffer2))
 			{
 				$buffer2 = array();

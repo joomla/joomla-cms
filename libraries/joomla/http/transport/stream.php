@@ -93,6 +93,7 @@ class JHttpTransportStream implements JHttpTransport
 
 		// Build the headers string for the request.
 		$headerString = null;
+
 		if (isset($headers))
 		{
 			foreach ($headers as $key => $value)
@@ -168,6 +169,7 @@ class JHttpTransportStream implements JHttpTransport
 		// Get the response code from the first offset of the response headers.
 		preg_match('/[0-9]{3}/', array_shift($headers), $matches);
 		$code = $matches[0];
+
 		if (is_numeric($code))
 		{
 			$return->code = (int) $code;

@@ -339,6 +339,7 @@ class JFilterInput
 
 			// Check for mal-formed tag where we have a second '<' before the first '>'
 			$nextOpenTag = (strlen($postTag) > $tagOpen_start) ? strpos($postTag, '<', $tagOpen_start + 1) : false;
+
 			if (($nextOpenTag !== false) && ($nextOpenTag < $tagOpen_end))
 			{
 				// At this point we have a mal-formed tag -- remove the offending open
@@ -357,6 +358,7 @@ class JFilterInput
 
 			// Do we have a nested tag?
 			$tagOpen_nested = strpos($fromTagOpen, '<');
+
 			if (($tagOpen_nested !== false) && ($tagOpen_nested < $tagOpen_end))
 			{
 				$preTag .= substr($postTag, 0, ($tagOpen_nested + 1));
@@ -494,6 +496,7 @@ class JFilterInput
 					// Open or single tag
 					$attrSet = $this->_cleanAttributes($attrSet);
 					$preTag .= '<' . $tagName;
+
 					for ($i = 0, $count = count($attrSet); $i < $count; $i++)
 					{
 						$preTag .= ' ' . $attrSet[$i];
@@ -649,6 +652,7 @@ class JFilterInput
 		{
 			// Entity decode
 			$trans_tbl = get_html_translation_table(HTML_ENTITIES);
+
 			foreach ($trans_tbl as $k => $v)
 			{
 				$ttr[$v] = utf8_encode($k);
@@ -661,6 +665,7 @@ class JFilterInput
 
 		// Convert hex
 		$source = preg_replace('/&#x([a-f0-9]+);/mei', "utf8_encode(chr(0x\\1))", $source); // hex notation
+
 		return $source;
 	}
 

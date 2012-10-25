@@ -71,6 +71,7 @@ class JSessionStorageXcache extends JSessionStorage
 	public function write($id, $session_data)
 	{
 		$sess_id = 'sess_' . $id;
+
 		return xcache_set($sess_id, $session_data, ini_get("session.gc_maxlifetime"));
 	}
 

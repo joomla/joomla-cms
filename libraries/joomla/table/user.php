@@ -172,24 +172,28 @@ class JTableUser extends JTable
 		if (trim($this->name) == '')
 		{
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_PLEASE_ENTER_YOUR_NAME'));
+
 			return false;
 		}
 
 		if (trim($this->username) == '')
 		{
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_PLEASE_ENTER_A_USER_NAME'));
+
 			return false;
 		}
 
 		if (preg_match("#[<>\"'%;()&]#i", $this->username) || strlen(utf8_decode($this->username)) < 2)
 		{
 			$this->setError(JText::sprintf('JLIB_DATABASE_ERROR_VALID_AZ09', 2));
+
 			return false;
 		}
 
 		if ((trim($this->email) == "") || !JMailHelper::isEmailAddress($this->email))
 		{
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_VALID_MAIL'));
+
 			return false;
 		}
 
@@ -214,9 +218,11 @@ class JTableUser extends JTable
 		$this->_db->setQuery($query);
 
 		$xid = (int) $this->_db->loadResult();
+
 		if ($xid && $xid != (int) $this->id)
 		{
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_USERNAME_INUSE'));
+
 			return false;
 		}
 
@@ -228,15 +234,18 @@ class JTableUser extends JTable
 		$query->where($this->_db->quoteName('id') . ' != ' . (int) $this->id);
 		$this->_db->setQuery($query);
 		$xid = (int) $this->_db->loadResult();
+
 		if ($xid && $xid != (int) $this->id)
 		{
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_EMAIL_INUSE'));
+
 			return false;
 		}
 
 		// Check for root_user != username
 		$config = JFactory::getConfig();
 		$rootUser = $config->get('root_user');
+
 		if (!is_numeric($rootUser))
 		{
 			$query->clear();
@@ -245,10 +254,12 @@ class JTableUser extends JTable
 			$query->where($this->_db->quoteName('username') . ' = ' . $this->_db->quote($rootUser));
 			$this->_db->setQuery($query);
 			$xid = (int) $this->_db->loadResult();
+
 			if ($rootUser == $this->username && (!$xid || $xid && $xid != (int) $this->id)
 				|| $xid && $xid == (int) $this->id && $rootUser != $this->username)
 			{
 				$this->setError(JText::_('JLIB_DATABASE_ERROR_USERNAME_CANNOT_CHANGE'));
+
 				return false;
 			}
 		}
@@ -339,6 +350,7 @@ class JTableUser extends JTable
 	{
 		// Set the primary key to delete.
 		$k = $this->_tbl_key;
+
 		if ($userId)
 		{
 			$this->$k = (int) $userId;

@@ -104,6 +104,7 @@ class JCacheStorageXcache extends JCacheStorage
 	{
 		$cache_id = $this->_getCacheId($id, $group);
 		$store = xcache_set($cache_id, $data, $this->_lifetime);
+
 		return $store;
 	}
 
@@ -149,6 +150,7 @@ class JCacheStorageXcache extends JCacheStorage
 		$keys = $allinfo['cache_list'];
 
 		$secret = $this->_hash;
+
 		foreach ($keys as $key)
 		{
 			if (strpos($key['name'], $secret . '-cache-' . $group . '-') === 0 xor $mode != 'group')

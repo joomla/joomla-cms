@@ -60,6 +60,7 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 		if ($this->isAuthenticated())
 		{
 			$url = $this->getLink();
+
 			if ($match === true)
 			{
 				$match = $this->xml->xpath('./@gd:etag');
@@ -84,6 +85,7 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 				throw new UnexpectedValueException("Unexpected data received from Google: `{$jdata->body}`.");
 			}
 			$this->xml = null;
+
 			return true;
 		}
 		else
@@ -104,6 +106,7 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 	public function getLink($type = 'edit')
 	{
 		$links = $this->xml->link;
+
 		foreach ($links as $link)
 		{
 			if ($link->attributes()->rel == $type)
@@ -136,6 +139,7 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 	public function getThumbnails()
 	{
 		$thumbs = array();
+
 		foreach ($this->xml->children('media', true)->group->thumbnail as $item)
 		{
 			$url = (string) $item->attributes()->url;
@@ -242,6 +246,7 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 	public function setTitle($title)
 	{
 		$this->xml->children()->title = $title;
+
 		return $this;
 	}
 
@@ -257,6 +262,7 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 	public function setSummary($summary)
 	{
 		$this->xml->children()->summary = $summary;
+
 		return $this;
 	}
 
@@ -272,6 +278,7 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 	public function setAccess($access)
 	{
 		$this->xml->children('gphoto', true)->access = $access;
+
 		return $this;
 	}
 
@@ -287,6 +294,7 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 	public function setTime($time)
 	{
 		$this->xml->children('gphoto', true)->timestamp = $time * 1000;
+
 		return $this;
 	}
 
@@ -304,6 +312,7 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 		if ($this->isAuthenticated())
 		{
 			$url = $this->getLink();
+
 			if ($match === true)
 			{
 				$match = $this->xml->xpath('./@gd:etag');
@@ -325,6 +334,7 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 			}
 
 			$this->xml = $this->safeXML($jdata->body);
+
 			return $this;
 		}
 		else
@@ -347,6 +357,7 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 			$url = $this->getLink();
 			$jdata = $this->query($url, null, array('GData-Version' => 2));
 			$this->xml = $this->safeXML($jdata->body);
+
 			return $this;
 		}
 		else

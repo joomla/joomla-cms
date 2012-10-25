@@ -39,6 +39,7 @@ class JFormRuleUrl extends JFormRule
 	{
 		// If the field is empty and not required, the field is valid.
 		$required = ((string) $element['required'] == 'true' || (string) $element['required'] == 'required');
+
 		if (!$required && empty($value))
 		{
 			return true;
@@ -68,6 +69,7 @@ class JFormRuleUrl extends JFormRule
 		}
 		$urlScheme = (string) $urlParts['scheme'];
 		$urlScheme = strtolower($urlScheme);
+
 		if (in_array($urlScheme, $scheme) == false)
 		{
 			return false;
