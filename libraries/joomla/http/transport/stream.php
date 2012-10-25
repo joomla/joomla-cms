@@ -126,14 +126,29 @@ class JHttpTransportStream implements JHttpTransport
 		// Create the stream context for the request.
 		$context = stream_context_create(array('http' => $options));
 
+		// Capture PHP errors
+		$php_errormsg = '';
+		$track_errors = ini_get('track_errors');
+		ini_set('track_errors', true);
+
 		// Open the stream for reading.
 		$stream = @fopen((string) $uri, 'r', false, $context);
 
-		// Check if the stream is open.
 		if (!$stream)
 		{
-			throw new RuntimeException(sprintf('Could not connect to resource: %s', $uri));
+			if (!$php_errormsg)
+			{
+				// Error but nothing from php? Create our own
+				$php_errormsg = sprintf('Could not connect to resource: %s', $uri, $err, $errno);
+			}
+			// Restore error tracking to give control to the exception handler
+			ini_set('track_errors', $track_errors);
+
+			throw new RuntimeException($php_errormsg);
 		}
+
+		// Restore error tracking to what it was before.
+		ini_set('track_errors', $track_errors);
 
 		// Get the metadata for the stream, including response headers.
 		$metadata = stream_get_meta_data($stream);
@@ -174,6 +189,7 @@ class JHttpTransportStream implements JHttpTransport
 		{
 			$return->code = (int) $code;
 		}
+
 		// No valid response code was detected.
 		else
 		{
@@ -191,7 +207,7 @@ class JHttpTransportStream implements JHttpTransport
 	}
 
 	/**
-	 * method to check if http transport stream available for using
+	 * Method to check if http transport stream available for use
 	 *
 	 * @return bool true if available else false
 	 *

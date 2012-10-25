@@ -79,6 +79,7 @@ class JHttpTransportCurl implements JHttpTransport
 			{
 				$options[CURLOPT_POSTFIELDS] = $data;
 			}
+
 			// Otherwise we need to encode the value first.
 			else
 			{
@@ -146,6 +147,20 @@ class JHttpTransportCurl implements JHttpTransport
 		// Execute the request and close the connection.
 		$content = curl_exec($ch);
 
+		// Check if the content is a string. If it is not, it must be an error.
+		if (!is_string($content))
+		{
+			$message = curl_error($ch);
+
+			if (empty($message))
+			{
+				// Error but nothing from cURL? Create our own
+				$message = 'No HTTP response received';
+			}
+
+			throw new RuntimeException($message);
+		}
+
 		// Get the request information.
 		$info = curl_getinfo($ch);
 
@@ -158,7 +173,8 @@ class JHttpTransportCurl implements JHttpTransport
 	/**
 	 * Method to get a response object from a server response.
 	 *
-	 * @param   string  $content  The complete server response, including headers.
+	 * @param   string  $content  The complete server response, including headers
+	 *                            as a string if the response has no errors. 
 	 * @param   array   $info     The cURL request information.
 	 *
 	 * @return  JHttpResponse
@@ -170,12 +186,6 @@ class JHttpTransportCurl implements JHttpTransport
 	{
 		// Create the response object.
 		$return = new JHttpResponse;
-
-		// Check if the content is actually a string.
-		if (!is_string($content))
-		{
-			throw new UnexpectedValueException('No HTTP response received.');
-		}
 
 		// Get the number of redirects that occurred.
 		$redirects = isset($info['redirect_count']) ? $info['redirect_count'] : 0;
@@ -202,6 +212,7 @@ class JHttpTransportCurl implements JHttpTransport
 		{
 			$return->code = (int) $code;
 		}
+
 		// No valid response code was detected.
 		else
 		{
