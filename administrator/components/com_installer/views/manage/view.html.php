@@ -29,6 +29,12 @@ class InstallerViewManage extends InstallerViewDefault
 	protected $state;
 
 	/**
+	 * Display the view
+	 *
+	 * @param   string  $tpl  Template
+	 *
+	 * @return  mixed|void
+	 *
 	 * @since	1.6
 	 */
 	public function display($tpl = null)
@@ -39,13 +45,15 @@ class InstallerViewManage extends InstallerViewDefault
 		$this->pagination = $this->get('Pagination');
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors'))) {
+		if (count($errors = $this->get('Errors')))
+		{
 			JError::raiseError(500, implode("\n", $errors));
 			return false;
 		}
 
-		//Check if there are no matching items
-		if(!count($this->items)){
+		// Check if there are no matching items
+		if (!count($this->items))
+		{
 			JFactory::getApplication()->enqueueMessage(
 				JText::_('COM_INSTALLER_MSG_MANAGE_NOEXTENSION'),
 				'warning'
@@ -62,19 +70,23 @@ class InstallerViewManage extends InstallerViewDefault
 	/**
 	 * Add the page title and toolbar.
 	 *
+	 * @return  void
+	 *
 	 * @since	1.6
 	 */
 	protected function addToolbar()
 	{
 		$canDo	= InstallerHelper::getActions();
-		if ($canDo->get('core.edit.state')) {
+		if ($canDo->get('core.edit.state'))
+		{
 			JToolbarHelper::publish('manage.publish', 'JTOOLBAR_ENABLE', true);
 			JToolbarHelper::unpublish('manage.unpublish', 'JTOOLBAR_DISABLE', true);
 			JToolbarHelper::divider();
 		}
 		JToolbarHelper::custom('manage.refresh', 'refresh', 'refresh', 'JTOOLBAR_REFRESH_CACHE', true);
 		JToolbarHelper::divider();
-		if ($canDo->get('core.delete')) {
+		if ($canDo->get('core.delete'))
+		{
 			JToolbarHelper::deleteList('', 'manage.remove', 'JTOOLBAR_UNINSTALL');
 			JToolbarHelper::divider();
 		}
@@ -86,13 +98,13 @@ class InstallerViewManage extends InstallerViewDefault
 		JHtmlSidebar::addFilter(
 			JText::_('COM_INSTALLER_VALUE_CLIENT_SELECT'),
 			'filter_client_id',
-			JHtml::_('select.options', array('0' => JText::_('JSITE'), '1' => JText::_('JADMINISTRATOR')), 'value', 'text', $this->state->get('filter.client_id'), true)
+			JHtml::_('select.options', array('0' => 'JSITE', '1' => 'JADMINISTRATOR'), 'value', 'text', $this->state->get('filter.client_id'), true)
 		);
 
 		JHtmlSidebar::addFilter(
 			JText::_('COM_INSTALLER_VALUE_STATE_SELECT'),
 			'filter_status',
-			JHtml::_('select.options', array('0' => JText::_('JDISABLED'), '1' => JText::_('JENABLED'), '2' => JText::_('JPROTECTED')), 'value', 'text', $this->state->get('filter.status'), true)
+			JHtml::_('select.options', array('0' => 'JDISABLED', '1' => 'JENABLED', '2' => 'JPROTECTED'), 'value', 'text', $this->state->get('filter.status'), true)
 		);
 
 		JHtmlSidebar::addFilter(

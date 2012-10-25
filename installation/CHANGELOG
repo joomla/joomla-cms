@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+25-Oct-2012 Jean-Marie Simonet
+ # [#27989] Filtering of extension update list and additional notice before updating. Thanks Rob.
+ 
 24-Oct-2012 Jean-Marie Simonet
  # [#29543] Category on article is sometimes not displayed
  % [#29568] *Patch correcting issues in Featured/blog/archive for the info display

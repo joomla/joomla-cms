@@ -21,6 +21,12 @@ include_once __DIR__ . '/../default/view.php';
 class InstallerViewWarnings extends InstallerViewDefault
 {
 	/**
+	 * Display the view
+	 *
+	 * @param   string  $tpl  Template
+	 *
+	 * @return  void
+	 *
 	 * @since	1.6
 	 */
 	public function display($tpl = null)
@@ -32,6 +38,8 @@ class InstallerViewWarnings extends InstallerViewDefault
 
 	/**
 	 * Add the page title and toolbar.
+	 *
+	 * @return  void
 	 *
 	 * @since	1.6
 	 */
