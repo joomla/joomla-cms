@@ -87,8 +87,17 @@ class JLogLoggerSyslog extends JLogLogger
 			$sysOptions = $sysOptions | LOG_PERROR;
 		}
 
+		// Default logging facility is LOG_USER for Windows compatibility.
+		$sysFacility = LOG_USER;
+
+		// If we have a facility passed in and we're not on Windows, reset it.
+		if (isset($this->options['sys_facility']) && !IS_WIN)
+		{
+			$sysFacility = $this->options['sys_facility'];
+		}
+
 		// Open the Syslog connection.
-		openlog((string) $this->options['sys_ident'], $sysOptions, LOG_USER);
+		openlog((string) $this->options['sys_ident'], $sysOptions, $sysFacility);
 	}
 
 	/**
