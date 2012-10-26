@@ -48,14 +48,14 @@
       <title>E_STRICT Compatible PHP Code</title>
 
       <para>As of Joomla version 1.6 and for all versions of the Joomla Platform, adhering to object oriented programming practice
-      as supported by PHP 5.2 is required. Joomla is committed to progressively making the source code E_STRICT.</para>
+      as supported by PHP 5.3 is required. Joomla is committed to progressively making the source code E_STRICT.</para>
     </section>
   </section>
 
   <section>
     <title>Global Variables</title>
 
-    <para>TODO Usage should be kept to a minimum. Use OOP and factory patterns instead.</para>
+    <para>Usage of global variables should be kept to a minimum. Use OOP and factory patterns instead.</para>
   </section>
 
   <section>
@@ -75,6 +75,7 @@
 {
 	echo 'True';
 }
+
 // Comments can go here.
 // Note that "elseif" as one word is used.
 elseif ($test === false)
