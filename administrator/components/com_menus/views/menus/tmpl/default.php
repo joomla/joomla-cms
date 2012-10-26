@@ -50,16 +50,16 @@ $modMenuId = (int) $this->get('ModMenuId');
 					<th>
 						<?php echo JHtml::_('grid.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 					</th>
-					<th width="10%">
+					<th width="10%" class="nowrap center hidden-phone">
 						<?php echo JText::_('COM_MENUS_HEADING_PUBLISHED_ITEMS'); ?>
 					</th>
-					<th width="10%">
+					<th width="10%" class="nowrap center hidden-phone">
 						<?php echo JText::_('COM_MENUS_HEADING_UNPUBLISHED_ITEMS'); ?>
 					</th>
-					<th width="10%">
+					<th width="10%" class="nowrap center hidden-phone">
 						<?php echo JText::_('COM_MENUS_HEADING_TRASHED_ITEMS'); ?>
 					</th>
-					<th width="20%">
+					<th width="20%" class="nowrap hidden-phone">
 						<?php echo JText::_('COM_MENUS_HEADING_LINKED_MODULES'); ?>
 					</th>
 					<th width="1%" class="center nowrap">

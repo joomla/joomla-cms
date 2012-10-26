@@ -26,6 +26,21 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+25-Oct-2012 Jean-Marie Simonet
+ # [#27989] Filtering of extension update list and additional notice before updating. Thanks Rob.
+ # [#29536] XHTML syntax error in default system Breadcrumbs module. Thanks Denia
+ # [#29533] Missing closing link tag in submenu layout. Thanks Yannick
+
+24-Oct-2012 Jean-Marie Simonet
+ # [#29543] Category on article is sometimes not displayed
+ % [#29568] *Patch correcting issues in Featured/blog/archive for the info display
+
+23-Oct-2012 Jean-Marie Simonet
+ # [#29547] Category parent link missing
+ # [#29545] Incorrect label / date in article created date. Thanks Denia
+ # [#29535] Invalid XHTML syntax in Protostar Joomla 3.0.1. Thanks Denia
+ # [#29340] Menu Manager: Menus
+
 22-Oct-2012 Jean-Marie Simonet
  # [#29553] Convert Hathor's brown color scheme to Less. Thanks Michael
  # [#29552] *Com_messages "My Settings" broken

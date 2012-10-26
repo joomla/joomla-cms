@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+24-Oct-2012 Mark Dexter
+ # Fix failing system test (to accommodate markup changes)
+
 19-Oct-2012 Mark Dexter
  # Fix system test for HTML output change
 
