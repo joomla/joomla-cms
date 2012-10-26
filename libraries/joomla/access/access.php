@@ -98,7 +98,10 @@ class JAccess
 		// Default to the root asset node.
 		if (empty($asset))
 		{
-			$asset = 1;
+			$db = JFactory::getDbo();
+			$assets = JTable::getInstance('Asset', 'JTable', array('dbo' => $db));
+			$rootId = $assets->getRootId();
+			$asset = $rootId;
 		}
 
 		// Get the rules for the asset recursively to root if not already retrieved.
@@ -138,7 +141,9 @@ class JAccess
 		// Default to the root asset node.
 		if (empty($asset))
 		{
-			$asset = 1;
+			$db = JFactory::getDbo();
+			$assets = JTable::getInstance('Asset', 'JTable', array('dbo' => $db));
+			$rootId = $assets->getRootId();
 		}
 
 		// Get the rules for the asset recursively to root if not already retrieved.
@@ -224,12 +229,10 @@ class JAccess
 		// If the asset identifier is numeric assume it is a primary key, else lookup by name.
 		if (is_numeric($asset))
 		{
-			// Get the root even if the asset is not found
 			$query->where('(a.id = ' . (int) $asset . ($recursive ? ' OR a.parent_id=0' : '') . ')');
 		}
 		else
 		{
-			// Get the root even if the asset is not found
 			$query->where('(a.name = ' . $db->quote($asset) . ($recursive ? ' OR a.parent_id=0' : '') . ')');
 		}
 
@@ -245,16 +248,19 @@ class JAccess
 		$result = $db->loadColumn();
 
 		// Get the root even if the asset is not found and in recursive mode
-		if ($recursive && empty($result))
+		if (empty($result))
 		{
+			$db = JFactory::getDbo();
+			$assets = JTable::getInstance('Asset', 'JTable', array('dbo' => $db));
+			$rootId = $assets->getRootId();
 			$query = $db->getQuery(true);
 			$query->select('rules');
 			$query->from('#__assets');
-			$query->where('parent_id = 0');
+			$query->where('id = ' . $db->quote($rootId));
 			$db->setQuery($query);
-			$result = $db->loadColumn();
+			$result = $db->loadResult();
+			$result = array($result);
 		}
-
 		// Instantiate and return the JAccessRules object for the asset rules.
 		$rules = new JAccessRules;
 		$rules->mergeCollection($result);
@@ -444,9 +450,7 @@ class JAccess
 	 * @deprecated  12.3  Use JAccess::getActionsFromFile or JAccess::getActionsFromData instead.
 	 *
 	 * @codeCoverageIgnore
-	 *
-	 * @todo    Need to decouple this method from the CMS. Maybe check if $component is a
-	 *          valid file (or create a getActionsFromFile method).
+	 * 
 	 */
 	public static function getActions($component, $section = 'component')
 	{
