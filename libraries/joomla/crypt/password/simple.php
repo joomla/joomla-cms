@@ -28,7 +28,7 @@ class JCryptPasswordSimple implements JCryptPassword
 	 * @var    string   The default hash type
 	 * @since  12.3
 	 */
-	 protected $defaultType = '$2y$';
+	protected $defaultType = '$2y$';
 
 	/**
 	 * Creates a password hash
@@ -161,6 +161,8 @@ class JCryptPasswordSimple implements JCryptPassword
 	 * Sets a default type
 	 *
 	 * @param   string  $type  The value to set as default.
+	 *
+	 * @return  void
 	 *
 	 * @since   12.3
 	 */
