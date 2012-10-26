@@ -19,6 +19,7 @@ class JCryptPasswordSimpleTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 * Data provider for testCreate method.
+	 *
 	 * @param   string   $password  The password to create
 	 * @param   string   $type      The type of hash
 	 * @param   string   $salt      The salt to be used
@@ -34,7 +35,7 @@ class JCryptPasswordSimpleTest extends PHPUnit_Framework_TestCase
 			'Blowfish2' => array('password', '$2a$', 'ABCDEFGHIJKLMNOPQRSTUV', '$2y$10$ABCDEFGHIJKLMNOPQRSTUOiAi7OcdE4zRCh6NcGWusEcNPtq6/w8.'),
 			'MD5' => array('password', JCryptPassword::MD5, 'ABCDEFGHIJKL', '$1$ABCDEFGH$hGGndps75hhROKqu/zh9q1'),
 			'Joomla' => array('password', JCryptPassword::JOOMLA, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ123456', '883a96d8da5440781fe7b60f1d4ae2b3:ABCDEFGHIJKLMNOPQRSTUVWXYZ123456'),
-			'Blowfish_5' => array('password', JCryptPassword::BLOWFISH, 'ABCDEFGHIJKLMNOPQRSTUV', '$2y$05$ABCDEFGHIJKLMNOPQRSTUOvv7EU5o68GAoLxyfugvULZR70IIMZqW',5),
+			'Blowfish_5' => array('password', JCryptPassword::BLOWFISH, 'ABCDEFGHIJKLMNOPQRSTUV', '$2y$05$ABCDEFGHIJKLMNOPQRSTUOvv7EU5o68GAoLxyfugvULZR70IIMZqW', 5),
 			'default' => array('password', null, 'ABCDEFGHIJKLMNOPQRSTUV', '$2y$05$ABCDEFGHIJKLMNOPQRSTUOvv7EU5o68GAoLxyfugvULZR70IIMZqW', 5)
 		);
 	}
@@ -79,7 +80,8 @@ class JCryptPasswordSimpleTest extends PHPUnit_Framework_TestCase
 		$hasher->expects($this->any())
 			->method('getSalt')
 			->with(strlen($salt))
-			->will($this->returnValue($salt));
+			->will($this->returnValue($salt)
+		);
 
 		$this->assertEquals(
 			$expected,
@@ -105,7 +107,8 @@ class JCryptPasswordSimpleTest extends PHPUnit_Framework_TestCase
 		$hasher->expects($this->any())
 			->method('getSalt')
 			->with(strlen($salt))
-			->will($this->returnValue($salt));
+			->will($this->returnValue($salt)
+		);
 
 		$this->assertEquals(
 			$expected,
@@ -187,8 +190,9 @@ class JCryptPasswordSimpleTest extends PHPUnit_Framework_TestCase
 		$test = new JCryptPasswordSimple;
 		$test->setDefaultType($type);
 		$this->assertThat(
-		TestReflection::getValue($test, 'defaultType'),
-		$this->equalTo($expectation));
+			TestReflection::getValue($test, 'defaultType'),
+			$this->equalTo($expectation)
+		);
 	}
 
 	/**
@@ -209,7 +213,8 @@ class JCryptPasswordSimpleTest extends PHPUnit_Framework_TestCase
 		$test->setDefaultType($type);
 
 		$this->assertThat(
-		$test->getDefaultType(),
-		$this->equalTo($expectation));
+			$test->getDefaultType(),
+			$this->equalTo($expectation)
+		);
 	}
 }
