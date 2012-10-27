@@ -31,6 +31,7 @@ $ -> Language fix or change
  # [#29339] User Manager: Viewing Access Levels - layout
  # [#29570] Recaptcha fails. Thanks Panayiotis
  # [#29577] Wrong status filter in Plug-in-Manager
+ + Adding Kiswahili (East African Kiswahili Commission) flag
 
 25-Oct-2012 Jean-Marie Simonet
  # [#27989] Filtering of extension update list and additional notice before updating. Thanks Rob.
