@@ -146,16 +146,18 @@ class JHttpTransportStream implements JHttpTransport
 		if (isset($metadata['wrapper_data']['headers']))
 		{
 			$headers = $metadata['wrapper_data']['headers'];
-		} 
-		else if (isset($metadata['wrapper_data']))
+		}
+		elseif (isset($metadata['wrapper_data']))
 		{
-			$headers = $metadata['wrapper_data'];			
+			$headers = $metadata['wrapper_data'];
 		}
 		else
 		{
 			$headers = array();
 		}
+		
 		return $this->getResponse($headers, $content);
+		
 	}
 
 	/**
