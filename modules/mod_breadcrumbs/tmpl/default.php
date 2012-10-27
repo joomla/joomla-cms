@@ -14,7 +14,7 @@ JHtml::_('bootstrap.tooltip');
 <ul class="breadcrumb <?php echo $moduleclass_sfx; ?>">
 <?php if ($params->get('showHere', 1))
 	{
-		echo '<li class="active"><span class="divider"><i class="icon-location hasTooltip" title="' .JText::_('MOD_BREADCRUMBS_HERE').'"></i></span></li>';
+		echo '<li class="active"><span class="divider"><i class="icon-map-marker hasTooltip" title="' .JText::_('MOD_BREADCRUMBS_HERE').'"></i></span></li>';
 	}
 ?>
 <?php for ($i = 0; $i < $count; $i ++) :
