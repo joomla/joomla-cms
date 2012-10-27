@@ -116,9 +116,11 @@ class JInstallerTemplate extends JAdapterInstance
 		{
 			// Attempt to map the client to a base path
 			$client = JApplicationHelper::getClientInfo($cname, true);
+
 			if ($client === false)
 			{
 				$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_TPL_INSTALL_UNKNOWN_CLIENT', $cname));
+
 				return false;
 			}
 			$basePath = $client->path;
@@ -154,6 +156,7 @@ class JInstallerTemplate extends JAdapterInstance
 		{
 			// Install failed, roll back changes
 			$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_TPL_INSTALL_ROLLBACK'), $e->getMessage());
+
 			return false;
 		}
 
@@ -171,6 +174,7 @@ class JInstallerTemplate extends JAdapterInstance
 				// Force this one
 				$this->parent->setOverwrite(true);
 				$this->parent->setUpgrade(true);
+
 				if ($id)
 				{
 					// If there is a matching extension mark this as an update; semantics really
@@ -188,6 +192,7 @@ class JInstallerTemplate extends JAdapterInstance
 						$this->parent->getPath('extension_root')
 					)
 				);
+
 				return false;
 			}
 		}
@@ -202,11 +207,13 @@ class JInstallerTemplate extends JAdapterInstance
 				JText::sprintf('JLIB_INSTALLER_ABORT_TPL_INSTALL_ANOTHER_TEMPLATE_USING_DIRECTORY', $this->parent->getPath('extension_root')),
 				JLog::WARNING, 'jerror'
 			);
+
 			return false;
 		}
 
 		// If the template directory does not exist, let's create it
 		$created = false;
+
 		if (!file_exists($this->parent->getPath('extension_root')))
 		{
 			if (!$created = JFolder::create($this->parent->getPath('extension_root')))
@@ -350,6 +357,7 @@ class JInstallerTemplate extends JAdapterInstance
 	public function update()
 	{
 		$this->route = 'update';
+
 		return $this->install();
 	}
 
@@ -373,6 +381,7 @@ class JInstallerTemplate extends JAdapterInstance
 		if (!$row->load((int) $id) || !strlen($row->element))
 		{
 			JLog::add(JText::_('JLIB_INSTALLER_ERROR_TPL_UNINSTALL_ERRORUNKOWNEXTENSION'), JLog::WARNING, 'jerror');
+
 			return false;
 		}
 
@@ -381,6 +390,7 @@ class JInstallerTemplate extends JAdapterInstance
 		if ($row->protected)
 		{
 			JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_TPL_UNINSTALL_WARNCORETEMPLATE', $row->name), JLog::WARNING, 'jerror');
+
 			return false;
 		}
 
@@ -391,6 +401,7 @@ class JInstallerTemplate extends JAdapterInstance
 		if (!$name)
 		{
 			JLog::add(JText::_('JLIB_INSTALLER_ERROR_TPL_UNINSTALL_TEMPLATE_ID_EMPTY'), JLog::WARNING, 'jerror');
+
 			return false;
 		}
 
@@ -402,6 +413,7 @@ class JInstallerTemplate extends JAdapterInstance
 		if ($db->loadResult() != 0)
 		{
 			JLog::add(JText::_('JLIB_INSTALLER_ERROR_TPL_UNINSTALL_TEMPLATE_DEFAULT'), JLog::WARNING, 'jerror');
+
 			return false;
 		}
 
@@ -411,6 +423,7 @@ class JInstallerTemplate extends JAdapterInstance
 		if (!$client)
 		{
 			JLog::add(JText::_('JLIB_INSTALLER_ERROR_TPL_UNINSTALL_INVALID_CLIENT'), JLog::WARNING, 'jerror');
+
 			return false;
 		}
 
@@ -420,6 +433,7 @@ class JInstallerTemplate extends JAdapterInstance
 		// We do findManifest to avoid problem when uninstalling a list of extensions: getManifest cache its manifest file
 		$this->parent->findManifest();
 		$manifest = $this->parent->getManifest();
+
 		if (!($manifest instanceof SimpleXMLElement))
 		{
 			// Kill the extension entry
@@ -429,6 +443,7 @@ class JInstallerTemplate extends JAdapterInstance
 			// Make sure we delete the folders
 			JFolder::delete($this->parent->getPath('extension_root'));
 			JLog::add(JText::_('JLIB_INSTALLER_ERROR_TPL_UNINSTALL_INVALID_NOTFOUND_MANIFEST'), JLog::WARNING, 'jerror');
+
 			return false;
 		}
 
@@ -593,6 +608,7 @@ class JInstallerTemplate extends JAdapterInstance
 		else
 		{
 			JLog::add(JText::_('JLIB_INSTALLER_ERROR_TPL_DISCOVER_STORE_DETAILS'), JLog::WARNING, 'jerror');
+
 			return false;
 		}
 	}
@@ -623,6 +639,7 @@ class JInstallerTemplate extends JAdapterInstance
 		catch (RuntimeException $e)
 		{
 			JLog::add(JText::_('JLIB_INSTALLER_ERROR_TPL_REFRESH_MANIFEST_CACHE'), JLog::WARNING, 'jerror');
+
 			return false;
 		}
 	}

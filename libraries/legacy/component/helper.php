@@ -356,6 +356,7 @@ class JComponentHelper
 		require_once $path;
 		$contents = ob_get_contents();
 		ob_end_clean();
+
 		return $contents;
 	}
 
@@ -388,6 +389,7 @@ class JComponentHelper
 		{
 			// Fatal error.
 			JLog::add(JText::sprintf('JLIB_APPLICATION_ERROR_COMPONENT_NOT_LOADING', $option, $e->getMessage()), JLog::WARNING, 'jerror');
+
 			return false;
 		}
 
@@ -395,6 +397,7 @@ class JComponentHelper
 		{
 			// Fatal error.
 			JLog::add(JText::sprintf('JLIB_APPLICATION_ERROR_COMPONENT_NOT_LOADING', $option), JLog::WARNING, 'jerror');
+
 			return false;
 		}
 

@@ -32,6 +32,7 @@ class JXMLElement extends SimpleXMLElement
 	public function name()
 	{
 		JLog::add('JXMLElement::name() is deprecated, use SimpleXMLElement::getName() instead.', JLog::WARNING, 'deprecated');
+
 		return (string) $this->getName();
 	}
 

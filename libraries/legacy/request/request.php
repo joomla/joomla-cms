@@ -49,6 +49,7 @@ class JRequest
 	public static function getURI()
 	{
 		$uri = JURI::getInstance();
+
 		return $uri->toString(array('path', 'query'));
 	}
 
@@ -64,6 +65,7 @@ class JRequest
 	public static function getMethod()
 	{
 		$method = strtoupper($_SERVER['REQUEST_METHOD']);
+
 		return $method;
 	}
 
@@ -102,6 +104,7 @@ class JRequest
 	{
 		// Ensure hash and type are uppercase
 		$hash = strtoupper($hash);
+
 		if ($hash === 'METHOD')
 		{
 			$hash = strtoupper($_SERVER['REQUEST_METHOD']);
@@ -351,6 +354,7 @@ class JRequest
 
 		// Get the request hash value
 		$hash = strtoupper($hash);
+
 		if ($hash === 'METHOD')
 		{
 			$hash = strtoupper($_SERVER['REQUEST_METHOD']);

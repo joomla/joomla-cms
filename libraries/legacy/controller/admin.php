@@ -90,6 +90,7 @@ class JControllerAdmin extends JControllerLegacy
 		if (empty($this->view_list))
 		{
 			$r = null;
+
 			if (!preg_match('/(.*)Controller(.*)/i', get_class($this), $r))
 			{
 				throw new Exception(JText::_('JLIB_APPLICATION_ERROR_CONTROLLER_GET_NAME'), 500);
@@ -233,11 +234,13 @@ class JControllerAdmin extends JControllerLegacy
 
 		$model = $this->getModel();
 		$return = $model->reorder($ids, $inc);
+
 		if ($return === false)
 		{
 			// Reorder failed.
 			$message = JText::sprintf('JLIB_APPLICATION_ERROR_REORDER_FAILED', $model->getError());
 			$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false), $message, 'error');
+
 			return false;
 		}
 		else
@@ -245,6 +248,7 @@ class JControllerAdmin extends JControllerLegacy
 			// Reorder succeeded.
 			$message = JText::_('JLIB_APPLICATION_SUCCESS_ITEM_REORDERED');
 			$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false), $message);
+
 			return true;
 		}
 	}
@@ -280,6 +284,7 @@ class JControllerAdmin extends JControllerLegacy
 			// Reorder failed
 			$message = JText::sprintf('JLIB_APPLICATION_ERROR_REORDER_FAILED', $model->getError());
 			$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false), $message, 'error');
+
 			return false;
 		}
 		else
@@ -287,6 +292,7 @@ class JControllerAdmin extends JControllerLegacy
 			// Reorder succeeded.
 			$this->setMessage(JText::_('JLIB_APPLICATION_SUCCESS_ORDERING_SAVED'));
 			$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false));
+
 			return true;
 		}
 	}
@@ -307,11 +313,13 @@ class JControllerAdmin extends JControllerLegacy
 
 		$model = $this->getModel();
 		$return = $model->checkin($ids);
+
 		if ($return === false)
 		{
 			// Checkin failed.
 			$message = JText::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError());
 			$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false), $message, 'error');
+
 			return false;
 		}
 		else
@@ -319,6 +327,7 @@ class JControllerAdmin extends JControllerLegacy
 			// Checkin succeeded.
 			$message = JText::plural($this->text_prefix . '_N_ITEMS_CHECKED_IN', count($ids));
 			$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false), $message);
+
 			return true;
 		}
 	}

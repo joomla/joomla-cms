@@ -55,6 +55,7 @@ abstract class JHtmlContentLanguage
 			// Set the query and load the options.
 			$db->setQuery($query);
 			self::$items = $db->loadObjectList();
+
 			if ($all)
 			{
 				array_unshift(self::$items, new JObject(array('value' => '*', 'text' => $translate ? JText::alt('JALL', 'language') : 'JALL_LANGUAGE')));

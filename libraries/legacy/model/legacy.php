@@ -175,6 +175,7 @@ abstract class JModelLegacy extends JObject
 		{
 			jimport('joomla.filesystem.path');
 			$path = JPath::find(self::addIncludePath(null, $prefix), self::_createFileName('model', array('name' => $type)));
+
 			if (!$path)
 			{
 				$path = JPath::find(self::addIncludePath(null, ''), self::_createFileName('model', array('name' => $type)));
@@ -186,6 +187,7 @@ abstract class JModelLegacy extends JObject
 				if (!class_exists($modelClass))
 				{
 					JLog::add(JText::sprintf('JLIB_APPLICATION_ERROR_MODELCLASS_NOT_FOUND', $modelClass), JLog::WARNING, 'jerror');
+
 					return false;
 				}
 			}

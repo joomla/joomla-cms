@@ -77,6 +77,7 @@ class JPathway
 				if (is_object($info))
 				{
 					$path = $info->path . '/includes/pathway.php';
+
 					if (file_exists($path))
 					{
 						include_once $path;

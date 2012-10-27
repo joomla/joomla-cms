@@ -46,6 +46,7 @@ abstract class JInstallerHelper
 
 		$http = JHttpFactory::getHttp();
 		$response = $http->get($url);
+
 		if (302 == $response->code && isset($response->headers['Location']))
 		{
 			return self::downloadPackage($response->headers['Location']);
@@ -53,6 +54,7 @@ abstract class JInstallerHelper
 		elseif (200 != $response->code)
 		{
 			JLog::add(JText::_('JLIB_INSTALLER_ERROR_DOWNLOAD_SERVER_CONNECT'), JLog::WARNING, 'jerror');
+
 			return false;
 		}
 
@@ -152,6 +154,7 @@ abstract class JInstallerHelper
 		 * false on fail.
 		 */
 		$retval['type'] = self::detectType($extractdir);
+
 		if ($retval['type'])
 		{
 			return $retval;
@@ -179,12 +182,14 @@ abstract class JInstallerHelper
 		if (!count($files))
 		{
 			JLog::add(JText::_('JLIB_INSTALLER_ERROR_NOTFINDXMLSETUPFILE'), JLog::WARNING, 'jerror');
+
 			return false;
 		}
 
 		foreach ($files as $file)
 		{
 			$xml = simplexml_load_file($file);
+
 			if (!$xml)
 			{
 				continue;
@@ -200,6 +205,7 @@ abstract class JInstallerHelper
 
 			// Free up memory
 			unset($xml);
+
 			return $type;
 		}
 
@@ -207,6 +213,7 @@ abstract class JInstallerHelper
 
 		// Free up memory.
 		unset($xml);
+
 		return false;
 	}
 
@@ -224,6 +231,7 @@ abstract class JInstallerHelper
 		if (is_string($url))
 		{
 			$parts = explode('/', $url);
+
 			return $parts[count($parts) - 1];
 		}
 		return false;
@@ -276,6 +284,7 @@ abstract class JInstallerHelper
 	{
 		JLog::add('JInstallerHelper::splitSql() is deprecated. Use JDatabaseDriver::splitSql() instead.', JLog::WARNING, 'deprecated');
 		$db = JFactory::getDbo();
+
 		return $db->splitSql($sql);
 	}
 }

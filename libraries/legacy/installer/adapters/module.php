@@ -150,6 +150,7 @@ class JInstallerModule extends JAdapterInstance
 
 		// Get the module description
 		$description = (string) $this->manifest->description;
+
 		if ($description)
 		{
 			$this->parent->set('message', JText::_($description));
@@ -175,6 +176,7 @@ class JInstallerModule extends JAdapterInstance
 			{
 				$this->parent
 					->abort(JText::sprintf('JLIB_INSTALLER_ABORT_MOD_UNKNOWN_CLIENT', JText::_('JLIB_INSTALLER_' . $this->route), $client->name));
+
 				return false;
 			}
 
@@ -191,6 +193,7 @@ class JInstallerModule extends JAdapterInstance
 
 		// Set the installation path
 		$element = '';
+
 		if (count($this->manifest->files->children()))
 		{
 			foreach ($this->manifest->files->children() as $file)
@@ -455,6 +458,7 @@ class JInstallerModule extends JAdapterInstance
 				// Install failed, roll back changes
 				$this->parent
 					->abort(JText::sprintf('JLIB_INSTALLER_ABORT_MOD_ROLLBACK', JText::_('JLIB_INSTALLER_' . $this->route), $db->stderr(true)));
+
 				return false;
 			}
 
@@ -504,10 +508,12 @@ class JInstallerModule extends JAdapterInstance
 			if ($this->manifest->update)
 			{
 				$result = $this->parent->parseSchemaUpdates($this->manifest->update->schemas, $row->extension_id);
+
 				if ($result === false)
 				{
 					// Install failed, rollback changes
 					$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_MOD_UPDATE_SQL_ERROR', $db->stderr(true)));
+
 					return false;
 				}
 			}
@@ -668,6 +674,7 @@ class JInstallerModule extends JAdapterInstance
 		$this->parent->extension->name = $manifest_details['name'];
 		$this->parent->extension->enabled = 1;
 		$this->parent->extension->params = $this->parent->getParams();
+
 		if ($this->parent->extension->store())
 		{
 			return $this->parent->extension->get('extension_id');
@@ -675,6 +682,7 @@ class JInstallerModule extends JAdapterInstance
 		else
 		{
 			JLog::add(JText::_('JLIB_INSTALLER_ERROR_MOD_DISCOVER_STORE_DETAILS'), JLog::WARNING, 'jerror');
+
 			return false;
 		}
 	}
@@ -703,6 +711,7 @@ class JInstallerModule extends JAdapterInstance
 		else
 		{
 			JLog::add(JText::_('JLIB_INSTALLER_ERROR_MOD_REFRESH_MANIFEST_CACHE'), JLog::WARNING, 'jerror');
+
 			return false;
 		}
 	}
@@ -729,6 +738,7 @@ class JInstallerModule extends JAdapterInstance
 		if (!$row->load((int) $id) || !strlen($row->element))
 		{
 			JLog::add(JText::_('JLIB_INSTALLER_ERROR_MOD_UNINSTALL_ERRORUNKOWNEXTENSION'), JLog::WARNING, 'jerror');
+
 			return false;
 		}
 
@@ -737,6 +747,7 @@ class JInstallerModule extends JAdapterInstance
 		if ($row->protected)
 		{
 			JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_MOD_UNINSTALL_WARNCOREMODULE', $row->name), JLog::WARNING, 'jerror');
+
 			return false;
 		}
 
@@ -747,6 +758,7 @@ class JInstallerModule extends JAdapterInstance
 		if ($client === false)
 		{
 			$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ERROR_MOD_UNINSTALL_UNKNOWN_CLIENT', $row->client_id));
+
 			return false;
 		}
 		$this->parent->setPath('extension_root', $client->path . '/modules/' . $element);
@@ -810,6 +822,7 @@ class JInstallerModule extends JAdapterInstance
 			// Make sure we delete the folders
 			JFolder::delete($this->parent->getPath('extension_root'));
 			JLog::add(JText::_('JLIB_INSTALLER_ERROR_MOD_UNINSTALL_INVALID_NOTFOUND_MANIFEST'), JLog::WARNING, 'jerror');
+
 			return false;
 		}
 
@@ -859,6 +872,7 @@ class JInstallerModule extends JAdapterInstance
 			// Wipe out any items assigned to menus
 			$query = 'DELETE' . ' FROM #__modules_menu' . ' WHERE moduleid IN (' . $modID . ')';
 			$db->setQuery($query);
+
 			try
 			{
 				$db->execute();
@@ -958,6 +972,7 @@ class JInstallerModule extends JAdapterInstance
 		// Remove the entry from the #__modules table
 		$query = 'DELETE' . ' FROM #__modules' . ' WHERE id=' . (int) $arg['id'];
 		$db->setQuery($query);
+
 		try
 		{
 			return $db->execute();
