@@ -197,6 +197,7 @@ class JUpdate extends JObject
 			default:
 				$name = strtolower($name);
 				$this->currentUpdate->$name->_data = '';
+
 				foreach ($attrs as $key => $data)
 				{
 					$key = strtolower($key);
@@ -220,12 +221,14 @@ class JUpdate extends JObject
 	public function _endElement($parser, $name)
 	{
 		array_pop($this->stack);
+
 		switch ($name)
 		{
 			// Closing update, find the latest version and check
 			case 'UPDATE':
 				$ver = new JVersion;
 				$product = strtolower(JFilterInput::getInstance()->clean($ver->PRODUCT, 'cmd'));
+
 				if ($product == $this->currentUpdate->targetplatform->name
 					&& preg_match('/' . $this->currentUpdate->targetplatform->version . '/', $ver->RELEASE))
 				{
@@ -298,10 +301,12 @@ class JUpdate extends JObject
 	{
 		$http = JHttpFactory::getHttp();
 		$response = $http->get($url);
+
 		if (200 != $response->code)
 		{
 			// TODO: Add a 'mark bad' setting here somehow
 			JLog::add(JText::sprintf('JLIB_UPDATER_ERROR_EXTENSION_OPEN_URL', $url), JLog::WARNING, 'jerror');
+
 			return false;
 		}
 
@@ -320,6 +325,7 @@ class JUpdate extends JObject
 			);
 		}
 		xml_parser_free($this->xmlParser);
+
 		return true;
 	}
 }

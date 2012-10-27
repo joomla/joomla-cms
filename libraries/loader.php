@@ -195,6 +195,7 @@ abstract class JLoader
 		if (isset(self::$classes[$class]))
 		{
 			include_once self::$classes[$class];
+
 			return true;
 		}
 
@@ -297,6 +298,7 @@ abstract class JLoader
 		foreach (self::$prefixes as $prefix => $lookup)
 		{
 			$chr = strlen($prefix) < strlen($class) ? $class[strlen($prefix)] : 0;
+
 			if (strpos($class, $prefix) === 0 && ($chr === strtoupper($chr)))
 			{
 				return self::_load(substr($class, strlen($prefix)), $lookup);

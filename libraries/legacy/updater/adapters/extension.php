@@ -94,6 +94,7 @@ class JUpdaterExtension extends JUpdateAdapter
 				{
 					// Target platform isn't a valid field in the update table so unset it to prevent J! from trying to store it
 					unset($this->current_update->targetplatform);
+
 					if (isset($this->latest))
 					{
 						if (version_compare($this->current_update->version, $this->latest->version, '>') == 1)
@@ -153,6 +154,7 @@ class JUpdaterExtension extends JUpdateAdapter
 		$url = $options['location'];
 		$this->_url = &$url;
 		$this->updateSiteId = $options['update_site_id'];
+
 		if (substr($url, -4) != '.xml')
 		{
 			if (substr($url, -1) != '/')
@@ -166,6 +168,7 @@ class JUpdaterExtension extends JUpdateAdapter
 
 		$http = JHttpFactory::getHttp();
 		$response = $http->get($url);
+
 		if (!empty($response->code) && 200 != $response->code)
 		{
 			$query = $dbo->getQuery(true);
@@ -178,6 +181,7 @@ class JUpdaterExtension extends JUpdateAdapter
 			JLog::add("Error opening url: " . $url, JLog::WARNING, 'updater');
 			$app = JFactory::getApplication();
 			$app->enqueueMessage(JText::sprintf('JLIB_UPDATER_ERROR_EXTENSION_OPEN_URL', $url), 'warning');
+
 			return false;
 		}
 
@@ -191,9 +195,11 @@ class JUpdaterExtension extends JUpdateAdapter
 			JLog::add("Error parsing url: " . $url, JLog::WARNING, 'updater');
 			$app = JFactory::getApplication();
 			$app->enqueueMessage(JText::sprintf('JLIB_UPDATER_ERROR_EXTENSION_PARSE_URL', $url), 'warning');
+
 			return false;
 		}
 		xml_parser_free($this->xmlParser);
+
 		if (isset($this->latest))
 		{
 			if (isset($this->latest->client) && strlen($this->latest->client))

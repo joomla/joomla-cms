@@ -41,9 +41,11 @@ class JTableMenuType extends JTable
 	public function check()
 	{
 		$this->menutype = JApplication::stringURLSafe($this->menutype);
+
 		if (empty($this->menutype))
 		{
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_MENUTYPE_EMPTY'));
+
 			return false;
 		}
 
@@ -64,6 +66,7 @@ class JTableMenuType extends JTable
 		if ($this->_db->loadResult())
 		{
 			$this->setError(JText::sprintf('JLIB_DATABASE_ERROR_MENUTYPE_EXISTS', $this->menutype));
+
 			return false;
 		}
 
@@ -103,11 +106,13 @@ class JTableMenuType extends JTable
 			$query->where('checked_out !=' . (int) $userId);
 			$query->where('checked_out !=0');
 			$this->_db->setQuery($query);
+
 			if ($this->_db->loadRowList())
 			{
 				$this->setError(
 					JText::sprintf('JLIB_DATABASE_ERROR_STORE_FAILED', get_class($this), JText::_('JLIB_DATABASE_ERROR_MENUTYPE_CHECKOUT'))
 				);
+
 				return false;
 			}
 
@@ -120,11 +125,13 @@ class JTableMenuType extends JTable
 			$query->where('checked_out !=' . (int) $userId);
 			$query->where('checked_out !=0');
 			$this->_db->setQuery($query);
+
 			if ($this->_db->loadRowList())
 			{
 				$this->setError(
 					JText::sprintf('JLIB_DATABASE_ERROR_STORE_FAILED', get_class($this), JText::_('JLIB_DATABASE_ERROR_MENUTYPE_CHECKOUT'))
 				);
+
 				return false;
 			}
 
@@ -184,9 +191,11 @@ class JTableMenuType extends JTable
 			$query->where('client_id=0');
 			$query->where('(checked_out NOT IN (0,' . (int) $userId . ') OR home=1 AND language=' . $this->_db->quote('*') . ')');
 			$this->_db->setQuery($query);
+
 			if ($this->_db->loadRowList())
 			{
 				$this->setError(JText::sprintf('JLIB_DATABASE_ERROR_DELETE_FAILED', get_class($this), JText::_('JLIB_DATABASE_ERROR_MENUTYPE')));
+
 				return false;
 			}
 
@@ -199,9 +208,11 @@ class JTableMenuType extends JTable
 			$query->where('checked_out !=' . (int) $userId);
 			$query->where('checked_out !=0');
 			$this->_db->setQuery($query);
+
 			if ($this->_db->loadRowList())
 			{
 				$this->setError(JText::sprintf('JLIB_DATABASE_ERROR_DELETE_FAILED', get_class($this), JText::_('JLIB_DATABASE_ERROR_MENUTYPE')));
+
 				return false;
 			}
 

@@ -356,7 +356,7 @@ class JMail extends PHPMailer
 	/**
 	 * Sets message type to HTML
 	 *
-	 * @param   bool  $ishtml  Boolean true or false. 
+	 * @param   bool  $ishtml  Boolean true or false.
 	 *
 	 * @return  JMail  Returns this object for chaining.
 	 *
@@ -365,6 +365,7 @@ class JMail extends PHPMailer
 	public function isHtml($ishtml = true)
 	{
 		parent::IsHTML($ishtml);
+
 		return $this;
 	}
 

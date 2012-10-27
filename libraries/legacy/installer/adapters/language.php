@@ -43,6 +43,7 @@ class JInstallerLanguage extends JAdapterInstance
 	public function install()
 	{
 		$source = $this->parent->getPath('source');
+
 		if (!$source)
 		{
 			$this->parent
@@ -58,9 +59,11 @@ class JInstallerLanguage extends JAdapterInstance
 		{
 			// Attempt to map the client to a base path
 			$client = JApplicationHelper::getClientInfo($cname, true);
+
 			if ($client === null)
 			{
 				$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT', JText::sprintf('JLIB_INSTALLER_ERROR_UNKNOWN_CLIENT_TYPE', $cname)));
+
 				return false;
 			}
 			$basePath = $client->path;
@@ -109,6 +112,7 @@ class JInstallerLanguage extends JAdapterInstance
 		if (!$tag)
 		{
 			$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT', JText::_('JLIB_INSTALLER_ERROR_NO_LANGUAGE_TAG')));
+
 			return false;
 		}
 
@@ -121,6 +125,7 @@ class JInstallerLanguage extends JAdapterInstance
 		if ($element && count($element->children()))
 		{
 			$files = $element->children();
+
 			foreach ($files as $file)
 			{
 				if ((string) $file->attributes()->file == 'meta')
@@ -133,6 +138,7 @@ class JInstallerLanguage extends JAdapterInstance
 
 		// If the language directory does not exist, let's create it
 		$created = false;
+
 		if (!file_exists($this->parent->getPath('extension_site')))
 		{
 			if (!$created = JFolder::create($this->parent->getPath('extension_site')))
@@ -144,6 +150,7 @@ class JInstallerLanguage extends JAdapterInstance
 						JText::sprintf('JLIB_INSTALLER_ERROR_CREATE_FOLDER_FAILED', $this->parent->getPath('extension_site'))
 					)
 				);
+
 				return false;
 			}
 		}
@@ -197,6 +204,7 @@ class JInstallerLanguage extends JAdapterInstance
 		{
 			// Install failed, rollback changes
 			$this->parent->abort();
+
 			return false;
 		}
 
@@ -206,16 +214,19 @@ class JInstallerLanguage extends JAdapterInstance
 		// Copy all the necessary font files to the common pdf_fonts directory
 		$this->parent->setPath('extension_site', $basePath . '/language/pdf_fonts');
 		$overwrite = $this->parent->setOverwrite(true);
+
 		if ($this->parent->parseFiles($this->manifest->fonts) === false)
 		{
 			// Install failed, rollback changes
 			$this->parent->abort();
+
 			return false;
 		}
 		$this->parent->setOverwrite($overwrite);
 
 		// Get the language description
 		$description = (string) $this->manifest->description;
+
 		if ($description)
 		{
 			$this->parent->set('message', JText::_($description));
@@ -244,12 +255,14 @@ class JInstallerLanguage extends JAdapterInstance
 		{
 			// Install failed, roll back changes
 			$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT', $row->getError()));
+
 			return false;
 		}
 
 		// Clobber any possible pending updates
 		$update = JTable::getInstance('update');
 		$uid = $update->find(array('element' => $this->get('tag'), 'type' => 'language', 'client_id' => '', 'folder' => ''));
+
 		if ($uid)
 		{
 			$update->delete($uid);
@@ -275,9 +288,11 @@ class JInstallerLanguage extends JAdapterInstance
 
 		// Attempt to map the client to a base path
 		$client = JApplicationHelper::getClientInfo($cname, true);
+
 		if ($client === null || (empty($cname) && $cname !== 0))
 		{
 			$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT', JText::sprintf('JLIB_INSTALLER_ERROR_UNKNOWN_CLIENT_TYPE', $cname)));
+
 			return false;
 		}
 		$basePath = $client->path;
@@ -296,6 +311,7 @@ class JInstallerLanguage extends JAdapterInstance
 		if (!$tag)
 		{
 			$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT', JText::_('JLIB_INSTALLER_ERROR_NO_LANGUAGE_TAG')));
+
 			return false;
 		}
 
@@ -323,6 +339,7 @@ class JInstallerLanguage extends JAdapterInstance
 		{
 			// Install failed, rollback changes
 			$this->parent->abort();
+
 			return false;
 		}
 
@@ -332,10 +349,12 @@ class JInstallerLanguage extends JAdapterInstance
 		// Copy all the necessary font files to the common pdf_fonts directory
 		$this->parent->setPath('extension_site', $basePath . '/language/pdf_fonts');
 		$overwrite = $this->parent->setOverwrite(true);
+
 		if ($this->parent->parseFiles($xml->fonts) === false)
 		{
 			// Install failed, rollback changes
 			$this->parent->abort();
+
 			return false;
 		}
 		$this->parent->setOverwrite($overwrite);
@@ -352,6 +371,7 @@ class JInstallerLanguage extends JAdapterInstance
 		// Clobber any possible pending updates
 		$update = JTable::getInstance('update');
 		$uid = $update->find(array('element' => $this->get('tag'), 'type' => 'language', 'client_id' => $clientId));
+
 		if ($uid)
 		{
 			$update->delete($uid);
@@ -360,6 +380,7 @@ class JInstallerLanguage extends JAdapterInstance
 		// Update an entry to the extension table
 		$row = JTable::getInstance('extension');
 		$eid = $row->find(array('element' => strtolower($this->get('tag')), 'type' => 'language', 'client_id' => $clientId));
+
 		if ($eid)
 		{
 			$row->load($eid);
@@ -385,6 +406,7 @@ class JInstallerLanguage extends JAdapterInstance
 		{
 			// Install failed, roll back changes
 			$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT', $row->getError()));
+
 			return false;
 		}
 
@@ -411,25 +433,31 @@ class JInstallerLanguage extends JAdapterInstance
 
 		// Check the element isn't blank to prevent nuking the languages directory...just in case
 		$element = $extension->get('element');
+
 		if (empty($element))
 		{
 			JLog::add(JText::_('JLIB_INSTALLER_ERROR_LANG_UNINSTALL_ELEMENT_EMPTY'), JLog::WARNING, 'jerror');
+
 			return false;
 		}
 
 		// Check that the language is not protected, Normally en-GB.
 		$protected = $extension->get('protected');
+
 		if ($protected == 1)
 		{
 			JLog::add(JText::_('JLIB_INSTALLER_ERROR_LANG_UNINSTALL_PROTECTED'), JLog::WARNING, 'jerror');
+
 			return false;
 		}
 
 		// Verify that it's not the default language for that client
 		$params = JComponentHelper::getParams('com_languages');
+
 		if ($params->get($client->name) == $element)
 		{
 			JLog::add(JText::_('JLIB_INSTALLER_ERROR_LANG_UNINSTALL_DEFAULT'), JLog::WARNING, 'jerror');
+
 			return false;
 		}
 
@@ -450,6 +478,7 @@ class JInstallerLanguage extends JAdapterInstance
 			// If the folder doesn't exist lets just nuke the row as well and presume the user killed it for us
 			$extension->delete();
 			JLog::add(JText::_('JLIB_INSTALLER_ERROR_LANG_UNINSTALL_PATH_EMPTY'), JLog::WARNING, 'jerror');
+
 			return false;
 		}
 
@@ -457,6 +486,7 @@ class JInstallerLanguage extends JAdapterInstance
 		{
 			// If deleting failed we'll leave the extension entry in tact just in case
 			JLog::add(JText::_('JLIB_INSTALLER_ERROR_LANG_UNINSTALL_DIRECTORY'), JLog::WARNING, 'jerror');
+
 			return false;
 		}
 
@@ -470,6 +500,7 @@ class JInstallerLanguage extends JAdapterInstance
 		$query->select('*');
 		$db->setQuery($query);
 		$users = $db->loadObjectList();
+
 		if ($client->name == 'administrator')
 		{
 			$param_name = 'admin_language';
@@ -480,10 +511,12 @@ class JInstallerLanguage extends JAdapterInstance
 		}
 
 		$count = 0;
+
 		foreach ($users as $user)
 		{
 			$registry = new JRegistry;
 			$registry->loadString($user->params);
+
 			if ($registry->get($param_name) == $element)
 			{
 				$registry->set($param_name, '');
@@ -518,6 +551,7 @@ class JInstallerLanguage extends JAdapterInstance
 		$results = array();
 		$site_languages = JFolder::folders(JPATH_SITE . '/language');
 		$admin_languages = JFolder::folders(JPATH_ADMINISTRATOR . '/language');
+
 		foreach ($site_languages as $language)
 		{
 			if (file_exists(JPATH_SITE . '/language/' . $language . '/' . $language . '.xml'))
@@ -583,6 +617,7 @@ class JInstallerLanguage extends JAdapterInstance
 		catch (RuntimeException $e)
 		{
 			JLog::add(JText::_('JLIB_INSTALLER_ERROR_LANG_DISCOVER_STORE_DETAILS'), JLog::WARNING, 'jerror');
+
 			return false;
 		}
 		return $this->parent->extension->get('extension_id');
@@ -612,6 +647,7 @@ class JInstallerLanguage extends JAdapterInstance
 		else
 		{
 			JLog::add(JText::_('JLIB_INSTALLER_ERROR_MOD_REFRESH_MANIFEST_CACHE'), JLog::WARNING, 'jerror');
+
 			return false;
 		}
 	}

@@ -20,6 +20,7 @@ if (!defined('JPATH_PLATFORM'))
 
 // Detect the native operating system type.
 $os = strtoupper(substr(PHP_OS, 0, 3));
+
 if (!defined('IS_WIN'))
 {
 	define('IS_WIN', ($os === 'WIN') ? true : false);

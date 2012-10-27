@@ -100,6 +100,7 @@ class JMenu
 				if (is_object($info))
 				{
 					$path = $info->path . '/includes/menu.php';
+
 					if (file_exists($path))
 					{
 						JLog::add('Non-autoloadable JMenu subclasses are deprecated.', JLog::WARNING, 'deprecated');
@@ -133,6 +134,7 @@ class JMenu
 	public function getItem($id)
 	{
 		$result = null;
+
 		if (isset($this->_items[$id]))
 		{
 			$result = &$this->_items[$id];
@@ -156,6 +158,7 @@ class JMenu
 		if (isset($this->_items[$id]))
 		{
 			$this->_default[$language] = $id;
+
 			return true;
 		}
 
@@ -202,6 +205,7 @@ class JMenu
 		{
 			$this->_active = $id;
 			$result = &$this->_items[$id];
+
 			return $result;
 		}
 
@@ -220,6 +224,7 @@ class JMenu
 		if ($this->_active)
 		{
 			$item = &$this->_items[$this->_active];
+
 			return $item;
 		}
 
@@ -251,6 +256,7 @@ class JMenu
 			}
 
 			$test = true;
+
 			for ($i = 0, $count = count($attributes); $i < $count; $i++)
 			{
 				if (is_array($values[$i]))

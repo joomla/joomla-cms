@@ -98,6 +98,7 @@ class JUpdaterCollection extends JUpdateAdapter
 
 		// Reset the data
 		eval('$this->' . $tag . '->_data = "";');
+
 		switch ($name)
 		{
 			case 'CATEGORY':
@@ -114,12 +115,14 @@ class JUpdaterCollection extends JUpdateAdapter
 			case 'EXTENSION':
 				$update = JTable::getInstance('update');
 				$update->set('update_site_id', $this->updateSiteId);
+
 				foreach ($this->updatecols as $col)
 				{
 					// Reset the values if it doesn't exist
 					if (!array_key_exists($col, $attrs))
 					{
 						$attrs[$col] = '';
+
 						if ($col == 'CLIENT')
 						{
 							$attrs[$col] = 'site';
@@ -127,6 +130,7 @@ class JUpdaterCollection extends JUpdateAdapter
 					}
 				}
 				$client = JApplicationHelper::getClientInfo($attrs['CLIENT'], 1);
+
 				if (isset($client->id))
 				{
 					$attrs['CLIENT_ID'] = $client->id;
@@ -186,6 +190,7 @@ class JUpdaterCollection extends JUpdateAdapter
 	protected function _endElement($parser, $name)
 	{
 		array_pop($this->stack);
+
 		switch ($name)
 		{
 			case 'CATEGORY':
@@ -213,6 +218,7 @@ class JUpdaterCollection extends JUpdateAdapter
 	{
 		$url = $options['location'];
 		$this->updateSiteId = $options['update_site_id'];
+
 		if (substr($url, -4) != '.xml')
 		{
 			if (substr($url, -1) != '/')
@@ -229,6 +235,7 @@ class JUpdaterCollection extends JUpdateAdapter
 
 		$http = JHttpFactory::getHttp();
 		$response = $http->get($url);
+
 		if (200 != $response->code)
 		{
 			$query = $dbo->getQuery(true);
@@ -241,17 +248,20 @@ class JUpdaterCollection extends JUpdateAdapter
 			JLog::add("Error parsing url: " . $url, JLog::WARNING, 'updater');
 			$app = JFactory::getApplication();
 			$app->enqueueMessage(JText::sprintf('JLIB_UPDATER_ERROR_COLLECTION_OPEN_URL', $url), 'warning');
+
 			return false;
 		}
 
 		$this->xmlParser = xml_parser_create('');
 		xml_set_object($this->xmlParser, $this);
 		xml_set_element_handler($this->xmlParser, '_startElement', '_endElement');
+
 		if (!xml_parse($this->xmlParser, $response->body))
 		{
 			JLog::add("Error parsing url: " . $url, JLog::WARNING, 'updater');
 			$app = JFactory::getApplication();
 			$app->enqueueMessage(JText::sprintf('JLIB_UPDATER_ERROR_COLLECTION_PARSE_URL', $url), 'warning');
+
 			return false;
 		}
 		// TODO: Decrement the bad counter if non-zero

@@ -58,6 +58,7 @@ class JTableSession extends JTable
 		if (!$ret)
 		{
 			$this->setError(JText::sprintf('JLIB_DATABASE_ERROR_STORE_FAILED', strtolower(get_class($this)), $this->_db->stderr()));
+
 			return false;
 		}
 		else
@@ -84,6 +85,7 @@ class JTableSession extends JTable
 		if (!$ret)
 		{
 			$this->setError(JText::sprintf('JLIB_DATABASE_ERROR_STORE_FAILED', strtolower(get_class($this)), $this->_db->stderr()));
+
 			return false;
 		}
 		else
@@ -117,6 +119,7 @@ class JTableSession extends JTable
 		if (!$this->_db->execute())
 		{
 			$this->setError($this->_db->stderr());
+
 			return false;
 		}
 
@@ -166,6 +169,7 @@ class JTableSession extends JTable
 		if (!$result = $this->_db->loadResult())
 		{
 			$this->setError($this->_db->stderr());
+
 			return false;
 		}
 
@@ -187,6 +191,7 @@ class JTableSession extends JTable
 	public function delete($oid = null)
 	{
 		$k = $this->_tbl_key;
+
 		if ($oid)
 		{
 			$this->$k = $oid;
@@ -199,6 +204,7 @@ class JTableSession extends JTable
 		$this->_db->setQuery($query);
 
 		$this->_db->execute();
+
 		return true;
 	}
 }

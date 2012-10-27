@@ -413,6 +413,7 @@ class JInstaller extends JAdapter
 		else
 		{
 			$this->abort(JText::_('JLIB_INSTALLER_ABORT_NOINSTALLPATH'));
+
 			return false;
 		}
 
@@ -532,6 +533,7 @@ class JInstaller extends JAdapter
 						'onExtensionAfterInstall',
 						array('installer' => clone $this, 'eid' => $result)
 					);
+
 					if ($result !== false)
 					{
 						return true;
@@ -716,12 +718,14 @@ class JInstaller extends JAdapter
 			if (!$this->extension->load($eid))
 			{
 				$this->abort(JText::_('JLIB_INSTALLER_ABORT_LOAD_DETAILS'));
+
 				return false;
 			}
 
 			if ($this->extension->state == -1)
 			{
 				$this->abort(JText::_('JLIB_INSTALLER_ABORT_REFRESH_MANIFEST_CACHE'));
+
 				return false;
 			}
 
@@ -891,6 +895,7 @@ class JInstaller extends JAdapter
 				if (!file_exists($sqlfile))
 				{
 					JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $db->stderr(true)), JLog::WARNING, 'jerror');
+
 					return false;
 				}
 
@@ -961,6 +966,7 @@ class JInstaller extends JAdapter
 			if (count($schemapaths))
 			{
 				$dbDriver = strtolower($db->name);
+
 				if ($dbDriver == 'mysqli')
 				{
 					$dbDriver = 'mysql';
@@ -971,6 +977,7 @@ class JInstaller extends JAdapter
 				foreach ($schemapaths as $entry)
 				{
 					$attrs = $entry->attributes();
+
 					if ($attrs['type'] == $dbDriver)
 					{
 						$schemapath = $entry;
@@ -1035,9 +1042,11 @@ class JInstaller extends JAdapter
 				}
 
 				$schemapath = '';
+
 				foreach ($schemapaths as $entry)
 				{
 					$attrs = $entry->attributes();
+
 					if ($attrs['type'] == $dbDriver)
 					{
 						$schemapath = $entry;
@@ -1092,6 +1101,7 @@ class JInstaller extends JAdapter
 								foreach ($queries as $query)
 								{
 									$query = trim($query);
+
 									if ($query != '' && $query{0} != '#')
 									{
 										$db->setQuery($query);
@@ -1249,6 +1259,7 @@ class JInstaller extends JAdapter
 				if (!JFolder::create($newdir))
 				{
 					JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_CREATE_DIRECTORY', $newdir), JLog::WARNING, 'jerror');
+
 					return false;
 				}
 			}
@@ -1582,6 +1593,7 @@ class JInstaller extends JAdapter
 						if (!(JFolder::copy($filesource, $filedest, null, $overwrite)))
 						{
 							JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_FAIL_COPY_FOLDER', $filesource, $filedest), JLog::WARNING, 'jerror');
+
 							return false;
 						}
 
@@ -1641,6 +1653,7 @@ class JInstaller extends JAdapter
 		$retval = true;
 
 		$debug = false;
+
 		if (isset($GLOBALS['installerdebug']) && $GLOBALS['installerdebug'])
 		{
 			$debug = true;
@@ -1869,6 +1882,7 @@ class JInstaller extends JAdapter
 		{
 			// No XML files were found in the install folder
 			JLog::add(JText::_('JLIB_INSTALLER_ERROR_NOTFINDXMLSETUPFILE'), JLog::WARNING, 'jerror');
+
 			return false;
 		}
 	}
@@ -1999,6 +2013,7 @@ class JInstaller extends JAdapter
 						}
 						// Aappend the folder part
 						$container .= $part;
+
 						if (!in_array($container, $containers))
 						{
 							// Add the container if it doesn't already exist
@@ -2094,6 +2109,7 @@ class JInstaller extends JAdapter
 	{
 		// Read the file to see if it's a valid component XML file
 		$xml = simplexml_load_file($path);
+
 		if (!$xml)
 		{
 			return false;
@@ -2106,6 +2122,7 @@ class JInstaller extends JAdapter
 		if ($xml->getName() != 'extension' && $xml->getName() != 'metafile')
 		{
 			unset($xml);
+
 			return false;
 		}
 

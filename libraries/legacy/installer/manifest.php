@@ -89,14 +89,17 @@ abstract class JInstallerManifest
 		$this->manifest_file = basename($xmlfile, '.xml');
 
 		$xml = simplexml_load_file($xmlfile);
+
 		if (!$xml)
 		{
 			$this->_errors[] = JText::sprintf('JLIB_INSTALLER_ERROR_LOAD_XML', $xmlfile);
+
 			return false;
 		}
 		else
 		{
 			$this->loadManifestFromData($xml);
+
 			return true;
 		}
 	}

@@ -347,6 +347,7 @@ class Changelog extends JApplicationCli
 
 			// Print out the labelled version of the changelog first.
 			$labelled = $this->getBuffer("$version.labelled");
+
 			if ($labelled)
 			{
 				foreach ($labelled as $label => $links)
@@ -367,6 +368,7 @@ class Changelog extends JApplicationCli
 			$log = $this->getBuffer("$version.log");
 			$html .= PHP_EOL . '<h2>The following pull requests made by community contributors were merged:</h2>';
 			$html .= PHP_EOL . '<ol>';
+
 			foreach ($log as $issue)
 			{
 				$html .= PHP_EOL . "<li>$issue</li>";
@@ -380,6 +382,7 @@ class Changelog extends JApplicationCli
 
 			$html .= PHP_EOL . sprintf('<h4>%d pull requests.</h4>', $pullCount);
 			$html .= PHP_EOL . '<ol>';
+
 			foreach ($userCount as $user => $count)
 			{
 				$html .= PHP_EOL . sprintf('<li><a href="https://github.com/%1$s">%1$s</a>: %2$d</li>', $user, $count);
@@ -392,6 +395,7 @@ class Changelog extends JApplicationCli
 
 			$html .= PHP_EOL . '<h4>Merged by:</h4>';
 			$html .= PHP_EOL . '<ol>';
+
 			foreach ($mergedBy as $user => $count)
 			{
 				$html .= PHP_EOL . sprintf('<li><a href="https://github.com/%1$s">%1$s</a>: %2$d</li>', $user, $count);
@@ -437,7 +441,7 @@ class Changelog extends JApplicationCli
 // Catch any exceptions thrown.
 try
 {
-	JCli::getInstance('Changelog')->execute();
+	JApplicationCli::getInstance('Changelog')->execute();
 }
 catch (Exception $e)
 {
