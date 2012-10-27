@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+27-Oct-2012 Jean-Marie Simonet
+ $ Updating en-GB version to 3.0.2
+
 25-Oct-2012 Jean-Marie Simonet
  # [#27989] Filtering of extension update list and additional notice before updating. Thanks Rob.
  # [#29536] XHTML syntax error in default system Breadcrumbs module. Thanks Denia
