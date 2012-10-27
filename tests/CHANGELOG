@@ -28,6 +28,7 @@ $ -> Language fix or change
 
 27-Oct-Mark Dexter
  # Fix up servers/config-def.php-dist
+ # Fix typo in TestSuite.php
 
 24-Oct-2012 Mark Dexter
  # Fix failing system test (to accommodate markup changes)
