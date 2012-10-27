@@ -30,6 +30,7 @@ $ -> Language fix or change
  $ Updating en-GB version to 3.0.2
  # [#29339] User Manager: Viewing Access Levels - layout
  # [#29570] Recaptcha fails. Thanks Panayiotis
+ # [#29577] Wrong status filter in Plug-in-Manager
 
 25-Oct-2012 Jean-Marie Simonet
  # [#27989] Filtering of extension update list and additional notice before updating. Thanks Rob.
