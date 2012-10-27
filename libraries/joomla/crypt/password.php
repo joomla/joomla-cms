@@ -53,7 +53,7 @@ interface JCryptPassword
 	/**
 	 * Sets a default prefix
 	 *
-	 * @param   string  $prefix  The prefix to set as default
+	 * @param   string  $type  The prefix to set as default
 	 *
 	 * @return  void
 	 *
