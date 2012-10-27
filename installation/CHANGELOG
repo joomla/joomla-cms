@@ -28,6 +28,7 @@ $ -> Language fix or change
 
 27-Oct-2012 Jean-Marie Simonet
  # [#29574] Backport JAccess fixes from platform. Thanks Elin
+ + Adding Kiswahili (East African Kiswahili Commission) flag
 
 18-Oct-2012 Jean-Marie Simonet
  # [#29401] Repeated htmlspecialchars() Applied When Multiple Breadcrumbs Active. Thanks Peter and Roland
