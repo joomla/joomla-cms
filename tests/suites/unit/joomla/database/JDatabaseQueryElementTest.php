@@ -90,7 +90,7 @@ class JDatabaseQueryElementTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return array
 	 */
-	function dataTestConstruct()
+	public function dataTestConstruct()
 	{
 		return array(
 			'array-element' => array(

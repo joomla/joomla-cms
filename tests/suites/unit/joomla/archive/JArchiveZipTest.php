@@ -84,6 +84,7 @@ class JArchiveZipTest extends PHPUnit_Framework_TestCase
 			$this->markTestSkipped(
 				'ZIP files can not be extracted nativly.'
 			);
+
 			return;
 		}
 
@@ -113,6 +114,7 @@ class JArchiveZipTest extends PHPUnit_Framework_TestCase
 			$this->markTestSkipped(
 				'ZIP files can not be extracted.'
 			);
+
 			return;
 		}
 
@@ -140,6 +142,7 @@ class JArchiveZipTest extends PHPUnit_Framework_TestCase
 			$this->markTestSkipped(
 				'ZIP files can not be extracted.'
 			);
+
 			return;
 		}
 

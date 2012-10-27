@@ -60,6 +60,7 @@ class JDatabaseSQLSrvTest extends TestCaseDatabase
 	protected function setUp()
 	{
 		@include_once JPATH_TESTS . '/config_sqlsrv.php';
+
 		if (class_exists('JSqlSrvTestConfig'))
 		{
 			$config = new JSqlSrvTestConfig;

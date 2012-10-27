@@ -26,7 +26,7 @@ class JDateTest extends TestCaseDatabase
 	 *
 	 * @since   11.3
 	 */
-	function cases__construct()
+	public function cases__construct()
 	{
 		date_default_timezone_set('UTC');
 
@@ -66,7 +66,7 @@ class JDateTest extends TestCaseDatabase
 	 *
 	 * @since   11.3
 	 */
-	function cases__get()
+	public function cases__get()
 	{
 		return array(
 			'daysinmonth' => array(
@@ -139,7 +139,7 @@ class JDateTest extends TestCaseDatabase
 	 *
 	 * @since   11.3
 	 */
-	function casesFormat()
+	public function casesFormat()
 	{
 		return array(
 			'basic' => array(
@@ -200,7 +200,7 @@ class JDateTest extends TestCaseDatabase
 	 *
 	 * @since   11.3
 	 */
-	function casesGetOffsetFromGMT()
+	public function casesGetOffsetFromGMT()
 	{
 		return array(
 			'basic' => array(
@@ -243,7 +243,7 @@ class JDateTest extends TestCaseDatabase
 	 *
 	 * @since   11.3
 	 */
-	function casesSetTimezone()
+	public function casesSetTimezone()
 	{
 		return array(
 			'New_York' => array(
@@ -280,7 +280,7 @@ class JDateTest extends TestCaseDatabase
 	 *
 	 * @since   11.3
 	 */
-	function casesToISO8601()
+	public function casesToISO8601()
 	{
 		return array(
 			'basic' => array(
@@ -323,7 +323,7 @@ class JDateTest extends TestCaseDatabase
 	 *
 	 * @since   11.3
 	 */
-	function casesToSQL()
+	public function casesToSQL()
 	{
 		return array(
 			'basic' => array(
@@ -366,7 +366,7 @@ class JDateTest extends TestCaseDatabase
 	 *
 	 * @since   11.3
 	 */
-	function casesToRFC822()
+	public function casesToRFC822()
 	{
 		return array(
 			'basic' => array(
@@ -409,7 +409,7 @@ class JDateTest extends TestCaseDatabase
 	 *
 	 * @since   11.3
 	 */
-	function casesToString()
+	public function casesToString()
 	{
 		return array(
 			'basic' => array(
@@ -434,7 +434,7 @@ class JDateTest extends TestCaseDatabase
 	 *
 	 * @since   11.3
 	 */
-	function casesToUnix()
+	public function casesToUnix()
 	{
 		return array(
 			'basic' => array(
@@ -474,7 +474,7 @@ class JDateTest extends TestCaseDatabase
 	 *
 	 * @since   11.3
 	 */
-	public function setUp()
+	protected function setUp()
 	{
 		$this->object = new JDate('12/20/2007 11:44:56', 'America/New_York');
 	}
@@ -488,7 +488,7 @@ class JDateTest extends TestCaseDatabase
 	 *
 	 * @since   11.3
 	 */
-	function tearDown()
+	protected function tearDown()
 	{
 	}
 
@@ -690,6 +690,7 @@ class JDateTest extends TestCaseDatabase
 	{
 		$language = JFactory::getLanguage();
 		$debug = $language->setDebug(true);
+
 		if (is_null($tz))
 		{
 			$testJDate = new JDate($setTime);

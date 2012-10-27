@@ -67,6 +67,7 @@ class JArchiveTarTest extends PHPUnit_Framework_TestCase
 		if (!JArchiveTar::isSupported())
 		{
 			$this->markTestSkipped('Tar files can not be extracted.');
+
 			return;
 		}
 

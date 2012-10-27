@@ -141,6 +141,7 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
 			if ($thisError)
 			{
 				unset($this->expectedErrors[$key]);
+
 				return $error;
 			}
 
