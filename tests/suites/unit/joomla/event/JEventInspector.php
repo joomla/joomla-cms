@@ -34,6 +34,7 @@ class JEventInspector extends JEvent
 		else
 		{
 			trigger_error('Undefined or private property: ' . __CLASS__ . '::' . $name, E_USER_ERROR);
+
 			return null;
 		}
 	}
@@ -48,19 +49,24 @@ class JEventInspector extends JEvent
 	 */
 	public function onTestEvent($var1 = null, $var2 = null)
 	{
+
 		$return = '';
+
 		if (is_string($var1))
 		{
 			$return .= $var1;
 		}
+
 		if (is_string($var2))
 		{
 			$return .= $var2;
 		}
+
 		if (is_array($var1))
 		{
 			$return .= implode('', $var1);
 		}
+
 		return $return;
 	}
 }

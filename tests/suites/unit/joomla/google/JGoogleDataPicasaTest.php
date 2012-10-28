@@ -123,6 +123,7 @@ class JGoogleDataPicasaTest extends TestCase
 
 		$this->assertEquals(count($results), 2);
 		$i = 1;
+
 		foreach ($results as $result)
 		{
 			$this->assertEquals(get_class($result), 'JGoogleDataPicasaAlbum');
@@ -242,6 +243,7 @@ class JGoogleDataPicasaTest extends TestCase
 		foreach ($functions as $function => $params)
 		{
 			$exception = false;
+
 			try
 			{
 				call_user_func_array(array($this->object, $function), $params);

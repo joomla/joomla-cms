@@ -75,6 +75,7 @@ class JGithubMilestonesTest extends PHPUnit_Framework_TestCase
 		$class = new ReflectionClass('JGithubMilestones');
 		$method = $class->getMethod($name);
 		$method->setAccessible(true);
+
 		return $method;
 	}
 

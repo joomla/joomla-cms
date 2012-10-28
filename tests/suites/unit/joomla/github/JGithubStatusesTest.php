@@ -92,10 +92,10 @@ class JGithubStatusesTest extends TestCase
 			$this->object->create(
 				'joomla',
 				'joomla-platform',
-				'6dcb09b5b57875f334f61aebed695e2e4193db5e', 
+				'6dcb09b5b57875f334f61aebed695e2e4193db5e',
 				'success',
 				'http://example.com/my_url',
-			   	'Success is the only option - failure is not.'
+				'Success is the only option - failure is not.'
 			),
 			$this->equalTo(json_decode($this->sampleString))
 		);

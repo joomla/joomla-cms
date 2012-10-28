@@ -29,7 +29,7 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return array
 	 */
-	function casesGeneric()
+	public function casesGeneric()
 	{
 		$input = '!"#$%&\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`' .
 			'abcdefghijklmnopqrstuvwxyz{|}~â‚¬â€šÆ’â€žâ€¦â€ â€¡Ë†â€°Å â€¹Å’Å½â€˜â€™â€œâ€�â€¢â€“â€”Ëœâ„¢Å¡â€ºÅ“Å¾Å¸Â¡Â¢Â£Â¤Â¥Â¦Â§Â¨Â©ÂªÂ«Â¬Â­Â®Â¯Â°Â±Â²Â³Â´ÂµÂ¶Â·' .
@@ -458,7 +458,7 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 */
-	function setUp()
+	protected function setUp()
 	{
 	}
 
@@ -469,7 +469,7 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 	 *                The first is the input data for the test run,
 	 *                and the second is the expected result of filtering.
 	 */
-	function casesCleanText()
+	public function casesCleanText()
 	{
 		$cases = array(
 			'case_1' => array(
@@ -496,7 +496,7 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @dataProvider casesCleanText
 	 */
-	function testCleanText($data, $expect)
+	public function testCleanText($data, $expect)
 	{
 		$this->markTestSkipped('Why are we calling JFilterOutput in JFilterInputTest?');
 		$this->assertThat(
@@ -515,7 +515,7 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return array
 	 */
-	function whitelist()
+	public function whitelist()
 	{
 		$casesSpecific = array(
 			'Kill script' => array(
@@ -610,7 +610,7 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @dataProvider whitelist
 	 */
-	function testCleanByCallingMember($type, $data, $expect, $message)
+	public function testCleanByCallingMember($type, $data, $expect, $message)
 	{
 		$filter = new JFilterInput;
 		$this->assertThat(
@@ -630,7 +630,7 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return array
 	 */
-	function whitelistImg()
+	public function whitelistImg()
 	{
 		$casesSpecific = array(
 			'Kill script' => array(
@@ -748,7 +748,7 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @dataProvider whitelistImg
 	 */
-	function testCleanWithImgWhitelisted($type, $data, $expect, $message)
+	public function testCleanWithImgWhitelisted($type, $data, $expect, $message)
 	{
 		$filter = JFilterInput::getInstance(array('img'), null, 0, 0);
 		$this->assertThat(
@@ -768,7 +768,7 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return array
 	 */
-	function whitelistClass()
+	public function whitelistClass()
 	{
 		$casesSpecific = array(
 			'Kill script' => array(
@@ -856,7 +856,7 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @dataProvider whitelistClass
 	 */
-	function testCleanWithClassWhitelisted($type, $data, $expect, $message)
+	public function testCleanWithClassWhitelisted($type, $data, $expect, $message)
 	{
 		$filter = JFilterInput::getInstance(null, array('class'), 0, 0);
 		$this->assertThat(
@@ -876,7 +876,7 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return array
 	 */
-	function whitelistClassImg()
+	public function whitelistClassImg()
 	{
 		$casesSpecific = array(
 			'Kill script' => array(
@@ -971,7 +971,7 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @dataProvider whitelistClassImg
 	 */
-	function testCleanWithImgAndClassWhitelisted($type, $data, $expect, $message)
+	public function testCleanWithImgAndClassWhitelisted($type, $data, $expect, $message)
 	{
 		$filter = JFilterInput::getInstance(array('img'), array('class'), 0, 0);
 		$this->assertThat(
@@ -991,7 +991,7 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return array
 	 */
-	function blacklist()
+	public function blacklist()
 	{
 		$casesSpecific = array(
 			'security_tracker_24802_a' => array(
@@ -1180,7 +1180,7 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @dataProvider blacklist
 	 */
-	function testCleanWithDefaultBlackList($type, $data, $expect, $message)
+	public function testCleanWithDefaultBlackList($type, $data, $expect, $message)
 	{
 		$filter = JFilterInput::getInstance(null, null, 1, 1);
 		$this->assertThat(
@@ -1200,7 +1200,7 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return array
 	 */
-	function blacklistImg()
+	public function blacklistImg()
 	{
 		$casesSpecific = array(
 			'Kill script' => array(
@@ -1277,7 +1277,7 @@ src='/onerror=eval(atob(/KGZ1bmN0aW9uKCl7dHJ5e3ZhciBkPWRvY3VtZW50LGI9ZC5ib2R5LHM
 	 *
 	 * @dataProvider blacklistImg
 	 */
-	function testCleanWithImgBlackList($type, $data, $expect, $message)
+	public function testCleanWithImgBlackList($type, $data, $expect, $message)
 	{
 		$filter = JFilterInput::getInstance(array('img'), null, 1, 1);
 		$this->assertThat(
@@ -1297,7 +1297,7 @@ src='/onerror=eval(atob(/KGZ1bmN0aW9uKCl7dHJ5e3ZhciBkPWRvY3VtZW50LGI9ZC5ib2R5LHM
 	 *
 	 * @return array
 	 */
-	function blacklistClass()
+	public function blacklistClass()
 	{
 		$casesSpecific = array(
 			'tracker9725' => array(
@@ -1325,7 +1325,7 @@ src='/onerror=eval(atob(/KGZ1bmN0aW9uKCl7dHJ5e3ZhciBkPWRvY3VtZW50LGI9ZC5ib2R5LHM
 	 *
 	 * @dataProvider blacklistClass
 	 */
-	function testCleanWithClassBlackList($type, $data, $expect, $message)
+	public function testCleanWithClassBlackList($type, $data, $expect, $message)
 	{
 		$filter = JFilterInput::getInstance(null, array('class'), 1, 1);
 		$this->assertThat(

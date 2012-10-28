@@ -361,6 +361,7 @@ class JGoogleDataAdsenseTest extends TestCase
 		foreach ($functions as $function => $params)
 		{
 			$exception = false;
+
 			try
 			{
 				call_user_func_array(array($this->object, $function), $params);

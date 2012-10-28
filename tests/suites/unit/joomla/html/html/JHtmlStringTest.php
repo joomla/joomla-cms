@@ -24,7 +24,7 @@ class JHtmlStringTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @since   11.3
 	 */
-	function getTestAbridgeData()
+	public function getTestAbridgeData()
 	{
 		return array(
 			'No change case' => array(
@@ -49,7 +49,7 @@ class JHtmlStringTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @since   11.3
 	 */
-	function getTestTruncateData()
+	public function getTestTruncateData()
 	{
 		return array(
 			'No change case' => array(
@@ -219,7 +219,7 @@ class JHtmlStringTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @since   12.2
 	 */
-	function getTestTruncateComplexData()
+	public function getTestTruncateComplexData()
 	{
 		return array(
 

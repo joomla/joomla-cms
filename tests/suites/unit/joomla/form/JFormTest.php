@@ -18,7 +18,7 @@
 class JFormTest extends TestCase
 {
 	/**
-	 * Test...
+	 * Test showXml
 	 *
 	 * @param   string  $form  The form.
 	 *
@@ -34,7 +34,7 @@ class JFormTest extends TestCase
 	}
 
 	/**
-	 * set up for testing
+	 * Set up for testing
 	 *
 	 * @return void
 	 */
@@ -50,7 +50,7 @@ class JFormTest extends TestCase
 	 *
 	 * @return void
 	 */
-	function tearDown()
+	protected function tearDown()
 	{
 		$this->restoreFactoryState();
 	}
@@ -1363,6 +1363,7 @@ class JFormTest extends TestCase
 		$originalform->load(JFormDataHelper::$loadDocument);
 		$originalset = $originalform->getXML()->xpath('/form/fields/field');
 		$set = $form->getXML()->xpath('/form/fields/field');
+
 		for ($i = 0; $i < count($originalset); $i++)
 		{
 			$this->assertThat(

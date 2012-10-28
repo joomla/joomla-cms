@@ -36,7 +36,7 @@ class JFormRuleOptionsTest extends TestCase
 	 *
 	 * @since   11.1
 	 */
-	function tearDown()
+	protected function tearDown()
 	{
 		$this->restoreFactoryState();
 	}
