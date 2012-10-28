@@ -94,6 +94,7 @@ class JHtmlBehaviorTest extends TestCase
 			array(array('JHtmlBehavior::framework' => array('core' => true, 'more' => true)), true, false),
 			array(array('JHtmlBehavior::framework' => array('core' => true, 'more' => true)), true, true)
 		);
+
 		return $data;
 	}
 
@@ -148,6 +149,7 @@ class JHtmlBehaviorTest extends TestCase
 			array(array('JHtmlBehavior::caption' => array('img.caption' => true), 'JHtmlBehavior::framework' => array('core' => true))),
 			array(array('JHtmlBehavior::caption' => array('img.caption2' => true), 'JHtmlBehavior::framework' => array('core' => true)), 'img.caption2'),
 		);
+
 		return $data;
 	}
 
@@ -322,6 +324,7 @@ class JHtmlBehaviorTest extends TestCase
 				array('showDelay' => 1000)
 			),
 		);
+
 		return $data;
 	}
 
@@ -401,6 +404,7 @@ class JHtmlBehaviorTest extends TestCase
 				array('size' => 1000)
 			)
 		);
+
 		return $data;
 	}
 
@@ -466,6 +470,7 @@ class JHtmlBehaviorTest extends TestCase
 				'adminForm2'
 			),
 		);
+
 		return $data;
 	}
 
@@ -507,7 +512,7 @@ class JHtmlBehaviorTest extends TestCase
 	}
 
 	/**
-	 * Test...
+	 * Test getUploaderData
 	 *
 	 * @return  array
 	 *
@@ -530,6 +535,7 @@ class JHtmlBehaviorTest extends TestCase
 				'file-upload2'
 			),
 		);
+
 		return $data;
 	}
 
@@ -573,7 +579,7 @@ class JHtmlBehaviorTest extends TestCase
 	}
 
 	/**
-	 * Test...
+	 * Test getTreeData
 	 *
 	 * @return  array
 	 *
@@ -590,11 +596,12 @@ class JHtmlBehaviorTest extends TestCase
 				'myid'
 			),
 		);
+
 		return $data;
 	}
 
 	/**
-	 * testTree().
+	 * Test Tree().
 	 *
 	 * @param   string   $expected  @todo
 	 * @param   integer  $id        @todo
@@ -633,7 +640,7 @@ class JHtmlBehaviorTest extends TestCase
 	}
 
 	/**
-	 * testCalendar().
+	 * Test Calendar().
 	 *
 	 * @return  void
 	 *
@@ -665,7 +672,7 @@ class JHtmlBehaviorTest extends TestCase
 	}
 
 	/**
-	 * testColorpicker().
+	 * Test Colorpicker().
 	 *
 	 * @return  void
 	 *
@@ -697,7 +704,7 @@ class JHtmlBehaviorTest extends TestCase
 	}
 
 	/**
-	 * testKeepalive().
+	 * Test Keepalive().
 	 *
 	 * @return  void
 	 *
@@ -729,7 +736,7 @@ class JHtmlBehaviorTest extends TestCase
 	}
 
 	/**
-	 * testNoFrames().
+	 * Test NoFrames().
 	 *
 	 * @return  void
 	 *

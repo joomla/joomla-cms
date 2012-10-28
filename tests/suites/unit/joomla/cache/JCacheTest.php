@@ -57,7 +57,7 @@ class JCacheTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return array
 	 */
-	function casesGetInstance()
+	public function casesGetInstance()
 	{
 		return array(
 			'simple' => array(
@@ -141,7 +141,7 @@ class JCacheTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return array
 	 */
-	function casesSetCaching()
+	public function casesSetCaching()
 	{
 		return array(
 			'simple' => array(
@@ -214,7 +214,7 @@ class JCacheTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return array
 	 */
-	function casesSetLifetime()
+	public function casesSetLifetime()
 	{
 		return array(
 			'simple' => array(
@@ -291,7 +291,7 @@ class JCacheTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return array
 	 */
-	function casesGetStores()
+	public function casesGetStores()
 	{
 		return array(
 			'simple' => array(
@@ -367,7 +367,7 @@ class JCacheTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return array
 	 */
-	function casesStore()
+	public function casesStore()
 	{
 		return array(
 			'simple' => array(
@@ -562,7 +562,7 @@ class JCacheTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return array
 	 */
-	function casesGetStorage()
+	public function casesGetStorage()
 	{
 		return array(
 			'file' => array(

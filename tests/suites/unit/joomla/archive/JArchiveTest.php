@@ -59,12 +59,14 @@ class JArchiveTest extends TestCase
 		if (!is_dir(self::$outputPath))
 		{
 			$this->markTestSkipped("Couldn't create folder.");
+
 			return;
 		}
 
 		if (!JArchiveZip::isSupported())
 		{
 			$this->markTestSkipped('ZIP files can not be extracted.');
+
 			return;
 		}
 
@@ -89,12 +91,14 @@ class JArchiveTest extends TestCase
 		if (!is_dir(self::$outputPath))
 		{
 			$this->markTestSkipped("Couldn't create folder.");
+
 			return;
 		}
 
 		if (!JArchiveTar::isSupported())
 		{
 			$this->markTestSkipped('Tar files can not be extracted.');
+
 			return;
 		}
 
@@ -119,18 +123,21 @@ class JArchiveTest extends TestCase
 		if (!is_dir(self::$outputPath))
 		{
 			$this->markTestSkipped("Couldn't create folder.");
+
 			return;
 		}
 
 		if (!is_writable(self::$outputPath) || !is_writable(JFactory::getConfig()->get('tmp_path')))
 		{
 			$this->markTestSkipped("Folder not writable.");
+
 			return;
 		}
 
 		if (!JArchiveGzip::isSupported())
 		{
 			$this->markTestSkipped('Gzip files can not be extracted.');
+
 			return;
 		}
 
@@ -155,18 +162,21 @@ class JArchiveTest extends TestCase
 		if (!is_dir(self::$outputPath))
 		{
 			$this->markTestSkipped("Couldn't create folder.");
+
 			return;
 		}
 
 		if (!is_writable(self::$outputPath) || !is_writable(JFactory::getConfig()->get('tmp_path')))
 		{
 			$this->markTestSkipped("Folder not writable.");
+
 			return;
 		}
 
 		if (!JArchiveBzip2::isSupported())
 		{
 			$this->markTestSkipped('Bzip2 files can not be extracted.');
+
 			return;
 		}
 

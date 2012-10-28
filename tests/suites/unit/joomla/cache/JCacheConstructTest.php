@@ -51,7 +51,7 @@ class JCacheTest_Construct extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 */
-	function testConstruct($type)
+	public function testConstruct($type)
 	{
 		$class = 'JCacheController' . ucfirst($type);
 		$cache =& JCache::getInstance($type);

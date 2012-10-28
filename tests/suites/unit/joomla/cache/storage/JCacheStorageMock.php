@@ -26,7 +26,7 @@ class JCacheStorageMock extends JCacheStorage
 	 *
 	 * @param   array  $options  optional parameters
 	 */
-	function __construct($options = array())
+	public function __construct($options = array())
 	{
 		parent::__construct($options);
 
@@ -43,15 +43,16 @@ class JCacheStorageMock extends JCacheStorage
 	 *
 	 * @return    mixed    Boolean false on failure or a cached data string
 	 *
-	 * @since    1.5
+	 * @since    11.1
 	 */
-	function get($id, $group, $checkTime)
+	public function get($id, $group, $checkTime)
 	{
 		$cache_id = $this->_getCacheId($id, $group);
 		if (isset($this->_storage[$id]))
 		{
 			return $this->_storage[$id];
 		}
+
 		return false;
 	}
 
@@ -64,11 +65,12 @@ class JCacheStorageMock extends JCacheStorage
 	 *
 	 * @return    boolean    True on success, false otherwise
 	 *
-	 * @since    1.5
+	 * @since    11.1
 	 */
-	function store($id, $group, $data)
+	public function store($id, $group, $data)
 	{
 		$cache_id = $this->_getCacheId($id, $group);
+
 		return ($this->_storage[$id] = $data);
 	}
 
@@ -80,9 +82,9 @@ class JCacheStorageMock extends JCacheStorage
 	 *
 	 * @return    boolean    True on success, false otherwise
 	 *
-	 * @since    1.5
+	 * @since    11.1
 	 */
-	function remove($id, $group)
+	public function remove($id, $group)
 	{
 		$cache_id = $this->_getCacheId($id, $group);
 		unset($this->_storage[$id]);
@@ -99,9 +101,9 @@ class JCacheStorageMock extends JCacheStorage
 	 *
 	 * @return    boolean    True on success, false otherwise
 	 *
-	 * @since    1.5
+	 * @since    11.1
 	 */
-	function clean($group, $mode)
+	public function clean($group, $mode)
 	{
 		return ($this->_storage = array());
 	}
@@ -124,12 +126,12 @@ class JCacheStorageMock extends JCacheStorage
 	 *
 	 * @return    string    The cache_id string
 	 *
-	 * @since    1.5
+	 * @since    11.1
 	 */
-	function _getCacheId($id, $group)
+	public function _getCacheId($id, $group)
 	{
 		$name = md5($this->_application . '-' . $id . '-' . $this->_hash . '-' . $this->_language);
+
 		return 'cache_' . $group . '-' . $name;
 	}
-
 }

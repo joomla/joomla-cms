@@ -268,6 +268,7 @@ class JDatabaseExporterPostgresqlTest extends PHPUnit_Framework_TestCase
 
 		/* Depending on which version is running, 9.1.0 or older */
 		$start_val = null;
+
 		if ($this->_ver9dot1)
 		{
 			$start_val = '1';
@@ -340,6 +341,7 @@ class JDatabaseExporterPostgresqlTest extends PHPUnit_Framework_TestCase
 
 		/* Depending on which version is running, 9.1.0 or older */
 		$start_val = null;
+
 		if ($this->_ver9dot1)
 		{
 			$start_val = '1';
@@ -385,6 +387,7 @@ class JDatabaseExporterPostgresqlTest extends PHPUnit_Framework_TestCase
 
 		/* Depending on which version is running, 9.1.0 or older */
 		$start_val = null;
+
 		if ($this->_ver9dot1)
 		{
 			$start_val = '1';

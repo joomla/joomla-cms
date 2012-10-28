@@ -52,7 +52,7 @@ class JCacheStorageFileTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return array
 	 */
-	function casesStore()
+	public function casesStore()
 	{
 		return array(
 			'souls' => array(

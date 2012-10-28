@@ -29,6 +29,7 @@ class TestCallbackController
 	public function instanceCallback($arg1, $arg2)
 	{
 		echo $arg1;
+
 		return $arg2;
 	}
 
@@ -43,6 +44,7 @@ class TestCallbackController
 	static function staticCallback($arg1, $arg2)
 	{
 		echo $arg1;
+
 		return $arg2;
 	}
 
@@ -59,5 +61,6 @@ class TestCallbackController
 function testCallbackControllerFunc($arg1, $arg2)
 {
 	echo $arg1;
+
 	return $arg2;
 }

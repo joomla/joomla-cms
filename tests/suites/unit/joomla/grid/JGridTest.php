@@ -32,6 +32,7 @@ class JGridInspector extends JGrid
 		else
 		{
 			trigger_error('Undefined or private property: ' . __CLASS__ . '::' . $name, E_USER_ERROR);
+
 			return null;
 		}
 	}

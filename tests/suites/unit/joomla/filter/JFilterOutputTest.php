@@ -29,7 +29,7 @@ class FilterTestObject
 	/**
 	 * Sets up a dummy object for the output filter to be tested against
 	 */
-	function __construct()
+	public function __construct()
 	{
 		$this->string1 = "<script>alert();</script>";
 		$this->string2 = "This is a test.";
@@ -201,7 +201,7 @@ class JFilterOutputTest extends PHPUnit_Framework_TestCase
 	 * @dataProvider dataSet
 	 * @return void
 	 */
-	function testCleanText($data, $expect)
+	public function testCleanText($data, $expect)
 	{
 		$this->assertEquals($expect, JFilterOutput::cleanText($data));
 	}

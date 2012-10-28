@@ -104,6 +104,8 @@ class JHttpTransportTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @dataProvider      transportProvider
 	 * @expectedException RuntimeException
+	 *
+	 * @return void
 	 */
 	public function testBadDomainRequestGet($transportClass)
 	{
@@ -115,6 +117,8 @@ class JHttpTransportTest extends PHPUnit_Framework_TestCase
 	 * Tests the request method with a get request for non existant url
 	 *
 	 * @dataProvider  transportProvider
+	 *
+	 * @return void
 	 */
 	public function testRequestGet404($transportClass)
 	{

@@ -163,6 +163,7 @@ class JPlatformTest extends PHPUnit_Framework_TestCase
 			);
 
 			$testInstance = $this->object->__set_state($testData);
+
 			foreach ($testData as $key => $value)
 			{
 				$this->assertThat(

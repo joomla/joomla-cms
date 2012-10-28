@@ -79,6 +79,7 @@ class JGithubPullsTest extends PHPUnit_Framework_TestCase
 		$class = new ReflectionClass('JGithubPulls');
 		$method = $class->getMethod($name);
 		$method->setAccessible(true);
+
 		return $method;
 	}
 

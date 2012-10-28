@@ -120,6 +120,7 @@ class JFilesystemPatcherTest extends TestCase
 +Deeper and more profound,
 +The door of all subtleties!
 ';
+
 		return array(
 			array(
 				$udiff,
@@ -932,6 +933,7 @@ But after they are produced,
 			$patcher->apply(),
 			'Line:' . __LINE__ . ' The patcher did not patch ' . $result . ' file(s).'
 		);
+
 		foreach ($destinations as $path => $content)
 		{
 			if (is_null($content))

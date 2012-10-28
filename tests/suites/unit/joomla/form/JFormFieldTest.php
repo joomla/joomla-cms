@@ -37,7 +37,7 @@ class JFormFieldTest extends TestCase
 	 *
 	 * @return void
 	 */
-	function tearDown()
+	protected function tearDown()
 	{
 		$this->restoreFactoryState();
 	}
