@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+28-Oct-2012 Jean-Marie Simonet
+ # [#29251] Com_content caches article view no matter of Itemid. Thanks Dennis
+
 27-Oct-2012 Jean-Marie Simonet
  $ Updating en-GB version to 3.0.2
  # [#29339] User Manager: Viewing Access Levels - layout
