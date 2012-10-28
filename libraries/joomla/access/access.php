@@ -10,6 +10,7 @@
 defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.utilities.arrayhelper');
+jimport('joomla.application.component.helper');
 
 /**
  * Class that handles all access authorisation routines.

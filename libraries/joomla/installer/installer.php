@@ -13,6 +13,7 @@ jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.folder');
 jimport('joomla.filesystem.path');
 jimport('joomla.base.adapter');
+jimport('joomla.event.dispatcher');
 
 /**
  * Joomla base installer class
