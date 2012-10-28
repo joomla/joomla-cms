@@ -30,7 +30,7 @@ class JFormRuleContactEmailSubject extends JFormRule
 	 *
 	 * @return  boolean  True if the value is valid, false otherwise.
 	 */
-	public function test(&$element, $value, $group = null, &$input = null, &$form = null)
+	public function test(SimpleXMLElement $element, $value, $group = null, JRegistry $input = null, JForm $form = null)
 	{
 		$params = JComponentHelper::getParams('com_contact');
 		$banned = $params->get('banned_subject');
