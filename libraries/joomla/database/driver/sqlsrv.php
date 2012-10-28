@@ -458,7 +458,8 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 
 		foreach (get_object_vars($object) as $k => $v)
 		{
-			if (is_array($v) or is_object($v))
+			// Only process non-null scalars.
+			if (is_array($v) or is_object($v) or $v === null)
 			{
 				continue;
 			}
