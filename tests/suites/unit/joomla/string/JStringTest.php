@@ -519,6 +519,7 @@ class JStringTest extends PHPUnit_Framework_TestCase
 		else
 		{
 			$actual = JString::strcasecmp($string1, $string2, $locale);
+
 			if ($actual != 0)
 			{
 				$actual = $actual / abs($actual);
@@ -555,6 +556,7 @@ class JStringTest extends PHPUnit_Framework_TestCase
 		else
 		{
 			$actual = JString::strcmp($string1, $string2, $locale);
+
 			if ($actual != 0)
 			{
 				$actual = $actual / abs($actual);

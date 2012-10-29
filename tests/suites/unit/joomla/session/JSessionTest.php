@@ -70,7 +70,7 @@ class JSessionTest extends TestCase
 	 *
 	 * @return array
 	 */
-	function casesGetInstance()
+	Public function casesGetInstance()
 	{
 		return array(
 			'first_instance' => array(
@@ -87,7 +87,7 @@ class JSessionTest extends TestCase
 	}
 
 	/**
-	 * Test...
+	 * Test getInstance
 	 *
 	 * @param   string  $store    @todo
 	 * @param   array   $options  @todo

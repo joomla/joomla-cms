@@ -28,7 +28,7 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @since   11.1
 	 */
-	function getTestArrayUniqueData()
+	public function getTestArrayUniqueData()
 	{
 		return array(
 			'Case 1' => array(
@@ -61,7 +61,7 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @since   11.1
 	 */
-	function getTestFromObjectData()
+	public function getTestFromObjectData()
 	{
 		// Define a common array.
 		$common = array('integer' => 12, 'float' => 1.29999, 'string' => 'A Test String');
@@ -245,7 +245,7 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @since   11.1
 	 */
-	function getTestGetColumnData()
+	public function getTestGetColumnData()
 	{
 		return array(
 			'generic array' => array(
@@ -318,7 +318,7 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @since   11.1
 	 */
-	function getTestGetValueData()
+	public function getTestGetValueData()
 	{
 		$input = array(
 			'one' => 1,
@@ -380,7 +380,7 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @since   12.3
 	 */
-	function getTestInvertData()
+	public function getTestInvertData()
 	{
 
 		return array(
@@ -433,7 +433,7 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @since   11.1
 	 */
-	function getTestPivotData()
+	public function getTestPivotData()
 	{
 		return array(
 			'A scalar array' => array(
@@ -511,7 +511,7 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @since   11.1
 	 */
-	function getTestSortObjectData()
+	public function getTestSortObjectData()
 	{
 		$input1 = array(
 			(object) array(
@@ -1102,7 +1102,7 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @since   11.1
 	 */
-	function getTestToIntegerData()
+	public function getTestToIntegerData()
 	{
 		return array(
 			'floating with single argument' => array(
@@ -1146,7 +1146,7 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @since   11.1
 	 */
-	function getTestToObjectData()
+	public function getTestToObjectData()
 	{
 		return array(
 			'single object' => array(
@@ -1231,7 +1231,7 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @since   11.1
 	 */
-	function getTestToStringData()
+	public function getTestToStringData()
 	{
 		return array(
 			'single dimension 1' => array(
@@ -1569,12 +1569,14 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 		if (empty($input))
 		{
 			$this->markTestSkipped('Skip for MAC until PHP sort bug is fixed');
+
 			return;
 		}
 		elseif ($locale != false && !setlocale(LC_COLLATE, $locale))
 		{
 			// If the locale is not available, we can't have to transcode the string and can't reliably compare it.
 			$this->markTestSkipped("Locale {$locale} is not available.");
+
 			return;
 		}
 

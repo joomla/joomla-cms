@@ -35,6 +35,7 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 	protected function setUp()
 	{
 		$path = JPATH_BASE . '/language';
+
 		if (is_dir($path))
 		{
 			JFolder::delete($path);

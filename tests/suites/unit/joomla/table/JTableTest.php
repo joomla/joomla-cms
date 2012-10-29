@@ -190,6 +190,7 @@ class JTableTest extends TestCaseDatabase
 
 		// Add dummy paths
 		$paths = JTable::addIncludePath(array('dir/not/exist', '/dummy/'));
+
 		// Re-add the returned paths - these shouldn't get added again.
 		$paths = JTable::addIncludePath($paths);
 

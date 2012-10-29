@@ -42,8 +42,6 @@ class JUserHelperTest extends TestCaseDatabase
 	 * @return void
 	 */
 	protected function tearDown()
-	{
-	}
 
 	/**
 	 * Gets the data set to be loaded into the database during setup
@@ -73,7 +71,7 @@ class JUserHelperTest extends TestCaseDatabase
 	 *      defined)
 	 * @return array
 	 */
-	function casesGetUserGroups()
+	public function casesGetUserGroups()
 	{
 		return array(
 			'unknownUser' => array(
@@ -112,7 +110,7 @@ class JUserHelperTest extends TestCaseDatabase
 	 *
 	 * @return array
 	 */
-	function casesGetUserId()
+	public function casesGetUserId()
 	{
 		return array(
 			'admin' => array(
