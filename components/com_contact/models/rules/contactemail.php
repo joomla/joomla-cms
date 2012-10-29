@@ -43,7 +43,7 @@ class JFormRuleContactEmail extends JFormRuleEmail
 		$banned = $params->get('banned_email');
 
 		foreach(explode(';', $banned) as $item){
-			if (JString::stristr($item, $value) !== false)
+			if (JString::stristr($value, $item) !== false)
 			{
 				return false;
 			}

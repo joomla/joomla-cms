@@ -37,7 +37,7 @@ class JFormRuleContactEmailSubject extends JFormRule
 
 		foreach(explode(';', $banned) as $item)
 		{
-			if (JString::stristr($item, $value) !== false)
+			if (JString::stristr($value, $item) !== false)
 			{
 				return false;
 			}
