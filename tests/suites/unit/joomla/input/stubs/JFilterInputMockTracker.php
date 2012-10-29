@@ -19,7 +19,7 @@ class JFilterInputMockTracker
 	public $calls = array();
 
 	/**
-	 * Test...
+	 * Test __call
 	 *
 	 * @param   string  $name       @todo
 	 * @param   mixed   $arguments  @todo
@@ -33,6 +33,7 @@ class JFilterInputMockTracker
 			$this->calls[$name] = array();
 		}
 		$this->calls[$name][] = $arguments;
+
 		return $arguments[0];
 	}
 

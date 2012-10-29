@@ -49,7 +49,7 @@ class JUtilityTest extends TestCase
 	 *
 	 * @return array
 	 */
-	function casesParseAttributes()
+	public function casesParseAttributes()
 	{
 		return array(
 			'jdoc' => array(

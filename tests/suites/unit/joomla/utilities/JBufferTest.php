@@ -190,7 +190,7 @@ class JBufferTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return array
 	 */
-	function casesEOF()
+	public function casesEOF()
 	{
 		return array(
 			'~EOF' => array(

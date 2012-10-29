@@ -368,7 +368,7 @@ class JAccessRulesTest extends PHPUnit_Framework_TestCase
 	 * @since   11.1
 	 * @covers  JAccessRules::allow
 	 */
-	function testAllow()
+	public function testAllow()
 	{
 		$array1 = array(
 			'edit' => array(
@@ -426,7 +426,7 @@ class JAccessRulesTest extends PHPUnit_Framework_TestCase
 	 * @since   11.1
 	 * @covers  JAccessRules::getAllowed
 	 */
-	function testGetAllowed()
+	public function testGetAllowed()
 	{
 		$array1 = array(
 			'create' => array(
