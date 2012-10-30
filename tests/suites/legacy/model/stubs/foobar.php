@@ -7,12 +7,12 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-
 /**
- * Stub for the testing JModelLegacy class.
+ * Stub to test JModelLegacy.
  *
  * @package     Joomla.UnitTest
  * @subpackage  Model
+ *
  * @since       12.3
  */
 class StubModelFoobar extends JModelLegacy

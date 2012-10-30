@@ -13,21 +13,40 @@
  * @package     Joomla.UnitTest
  * @subpackage  Application
  *
- * @since  12.2
+ * @since       12.2
  */
-class JApplicationTest extends PHPUnit_Framework_TestCase
+class JApplicationTest extends TestCase
 {
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
+	 *
+	 * @return  void
 	 */
 	protected function setUp()
 	{
 		$this->object = new JApplication(array('session' => false));
+		parent::setUp();
 	}
 
 	/**
-	 * @todo Implement testGetInstance().
+	 * Sets up the fixture, for example, opens a network connection.
+	 * This method is called before a test is executed.
+	 *
+	 * @return  void
+	 */
+	protected function tearDown()
+	{
+		$this->object = null;
+		parent::tearDown();
+	}
+
+	/**
+	 * Test JApplication::getInstance
+	 *
+	 * @todo    Implement testGetInstance().
+	 *
+	 * @return  void
 	 */
 	public function testGetInstance()
 	{
@@ -36,7 +55,11 @@ class JApplicationTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @todo Implement testInitialise().
+	 * Test JApplication::initialise
+	 *
+	 * @todo    Implement testInitialise().
+	 *
+	 * @return  void
 	 */
 	public function testInitialise()
 	{
@@ -45,9 +68,11 @@ class JApplicationTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @todo Implement testInitialise().
+	 * Test JApplication::__construct
 	 *
-	 * @cover JApplication::__construct
+	 * @todo    Implement testInitialise().
+	 *
+	 * @return  void
 	 */
 	public function testConstruct()
 	{
@@ -65,7 +90,11 @@ class JApplicationTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @todo Implement testRoute().
+	 * Test JApplication::route
+	 *
+	 * @todo    Implement testRoute().
+	 *
+	 * @return  void
 	 */
 	public function testRoute()
 	{
@@ -74,7 +103,11 @@ class JApplicationTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @todo Implement testDispatch().
+	 * Test JApplication::dispatch
+	 *
+	 * @todo    Implement testDispatch().
+	 *
+	 * @return  void
 	 */
 	public function testDispatch()
 	{
@@ -83,7 +116,11 @@ class JApplicationTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @todo Implement testRender().
+	 * Test JApplication::render
+	 *
+	 * @todo    Implement testRender().
+	 *
+	 * @return  void
 	 */
 	public function testRender()
 	{
@@ -92,7 +129,11 @@ class JApplicationTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @todo Implement testClose().
+	 * Test JApplication::close
+	 *
+	 * @todo    Implement testClose().
+	 *
+	 * @return  void
 	 */
 	public function testClose()
 	{
@@ -101,7 +142,11 @@ class JApplicationTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @todo Implement testRedirect().
+	 * Test JApplication::redirect
+	 *
+	 * @todo    Implement testRedirect().
+	 *
+	 * @return  void
 	 */
 	public function testRedirect()
 	{
@@ -110,7 +155,11 @@ class JApplicationTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @todo Implement testEnqueueMessage().
+	 * Test JApplication::enqueueMessage
+	 *
+	 * @todo    Implement testEnqueueMessage().
+	 *
+	 * @return  void
 	 */
 	public function testEnqueueMessage()
 	{
@@ -119,7 +168,11 @@ class JApplicationTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @todo Implement testGetMessageQueue().
+	 * Test JApplication::getMessageQueue
+	 *
+	 * @todo    Implement testGetMessageQueue().
+	 *
+	 * @return  void
 	 */
 	public function testGetMessageQueue()
 	{
@@ -128,7 +181,11 @@ class JApplicationTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @todo Implement testGetCfg().
+	 * Test JApplication::getCfg
+	 *
+	 * @todo    Implement testGetCfg().
+	 *
+	 * @return  void
 	 */
 	public function testGetCfg()
 	{
@@ -137,7 +194,11 @@ class JApplicationTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @todo Implement testGetName().
+	 * Test JApplication::getName
+	 *
+	 * @todo    Implement testGetName().
+	 *
+	 * @return  void
 	 */
 	public function testGetName()
 	{
@@ -146,7 +207,11 @@ class JApplicationTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @todo Implement testGetUserState().
+	 * Test JApplication::getUserState
+	 *
+	 * @todo    Implement testGetUserState().
+	 *
+	 * @return  void
 	 */
 	public function testGetUserState()
 	{
@@ -155,7 +220,11 @@ class JApplicationTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @todo Implement testSetUserState().
+	 * Test JApplication::setUserState
+	 *
+	 * @todo    Implement testSetUserState().
+	 *
+	 * @return  void
 	 */
 	public function testSetUserState()
 	{
@@ -164,7 +233,11 @@ class JApplicationTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @todo Implement testGetUserStateFromRequest().
+	 * Test JApplication::getUserStateFromRequest
+	 *
+	 * @todo    Implement testGetUserStateFromRequest().
+	 *
+	 * @return  void
 	 */
 	public function testGetUserStateFromRequest()
 	{
@@ -173,7 +246,11 @@ class JApplicationTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @todo Implement testRegisterEvent().
+	 * Test JApplication::registerEvent
+	 *
+	 * @todo    Implement testRegisterEvent().
+	 *
+	 * @return  void
 	 */
 	public function testRegisterEvent()
 	{
@@ -182,7 +259,11 @@ class JApplicationTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @todo Implement testTriggerEvent().
+	 * Test JApplication::triggerEvent
+	 *
+	 * @todo    Implement testTriggerEvent().
+	 *
+	 * @return  void
 	 */
 	public function testTriggerEvent()
 	{
@@ -191,7 +272,11 @@ class JApplicationTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @todo Implement testLogin().
+	 * Test JApplication::login
+	 *
+	 * @todo    Implement testLogin().
+	 *
+	 * @return  void
 	 */
 	public function testLogin()
 	{
@@ -200,7 +285,11 @@ class JApplicationTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @todo Implement testLogout().
+	 * Test JApplication::logout
+	 *
+	 * @todo    Implement testLogout().
+	 *
+	 * @return  void
 	 */
 	public function testLogout()
 	{
@@ -209,7 +298,11 @@ class JApplicationTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @todo Implement testGetTemplate().
+	 * Test JApplication::getTemplate
+	 *
+	 * @todo    Implement testGetTemplate().
+	 *
+	 * @return  void
 	 */
 	public function testGetTemplate()
 	{
@@ -218,7 +311,11 @@ class JApplicationTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @todo Implement testGetRouter().
+	 * Test JApplication::getRouter
+	 *
+	 * @todo    Implement testGetRouter().
+	 *
+	 * @return  void
 	 */
 	public function testGetRouter()
 	{
@@ -227,7 +324,11 @@ class JApplicationTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @todo Implement testStringURLSafe().
+	 * Test JApplication::stringUrlSafe
+	 *
+	 * @todo    Implement testStringURLSafe().
+	 *
+	 * @return  void
 	 */
 	public function testStringURLSafe()
 	{
@@ -236,7 +337,11 @@ class JApplicationTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @todo Implement testGetPathway().
+	 * Test JApplication::getPathway
+	 *
+	 * @todo    Implement testGetPathway().
+	 *
+	 * @return  void
 	 */
 	public function testGetPathway()
 	{
@@ -245,7 +350,11 @@ class JApplicationTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @todo Implement testGetMenu().
+	 * Test JApplication::getMenu
+	 *
+	 * @todo    Implement testGetMenu().
+	 *
+	 * @return  void
 	 */
 	public function testGetMenu()
 	{
@@ -254,12 +363,9 @@ class JApplicationTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Testing getHash().
+	 * Testing JApplication::getHash
 	 *
 	 * @return  void
-	 *
-	 * @since   11.3
-	 * @covers JApplication::getHash
 	 */
 	public function testGetHash()
 	{
@@ -268,16 +374,20 @@ class JApplicationTest extends PHPUnit_Framework_TestCase
 		JFactory::$config = new JObject(array('secret' => 'foo'));
 
 		$this->assertThat(
-		    JApplication::getHash('This is a test'),
-		    $this->equalTo(md5('foo'.'This is a test')),
-		    'Tests that the secret string is added to the hash.'
+			JApplication::getHash('This is a test'),
+			$this->equalTo(md5('foo' . 'This is a test')),
+			'Tests that the secret string is added to the hash.'
 		);
 
 		JFactory::$config = $temp;
 	}
 
 	/**
-	 * @todo Implement testCheckSession().
+	 * Test JApplication::checkSession
+	 *
+	 * @todo    Implement testCheckSession().
+	 *
+	 * @return  void
 	 */
 	public function testCheckSession()
 	{
@@ -286,7 +396,11 @@ class JApplicationTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @todo Implement testGetClientId().
+	 * Test JApplication::getClientId
+	 *
+	 * @todo    Implement testGetClientId().
+	 *
+	 * @return  void
 	 */
 	public function testGetClientId()
 	{
@@ -295,7 +409,11 @@ class JApplicationTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @todo Implement testIsAdmin().
+	 * Test JApplication::isAdmin
+	 *
+	 * @todo    Implement testIsAdmin().
+	 *
+	 * @return  void
 	 */
 	public function testIsAdmin()
 	{
@@ -304,7 +422,11 @@ class JApplicationTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @todo Implement testIsSite().
+	 * Test JApplication::isSite
+	 *
+	 * @todo    Implement testIsSite().
+	 *
+	 * @return  void
 	 */
 	public function testIsSite()
 	{
@@ -313,7 +435,11 @@ class JApplicationTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @todo Implement testIsWinOS().
+	 * Test JApplication::isWinOs
+	 *
+	 * @todo    Implement testIsWinOS().
+	 *
+	 * @return  void
 	 */
 	public function testIsWinOS()
 	{
@@ -322,7 +448,9 @@ class JApplicationTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @covers JApplication::isSSLConnection
+	 * Test JApplication::isSSLConnection
+	 *
+	 * @return  void
 	 */
 	public function testIsSSLConnection()
 	{

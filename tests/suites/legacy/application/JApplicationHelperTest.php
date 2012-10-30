@@ -12,26 +12,28 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Application
+ *
+ * @since       12.3
  */
 class JApplicationHelperInspector extends JApplicationHelper
 {
 	/**
-	* Method to get the current application data
-	*
-	* @return array The array of application data objects.
-	*/
+	 * Method to get the current application data
+	 *
+	 * @return array The array of application data objects.
+	 */
 	public static function get()
 	{
 		return self::$_clients;
 	}
 
 	/**
-	* Set the application data.
-	*
-	* @param   string  $apps  The app to set.
-	*
-	* @return void
-	*/
+	 * Set the application data.
+	 *
+	 * @param   string  $apps  The app to set.
+	 *
+	 * @return void
+	 */
 	public static function set($apps)
 	{
 		self::$_clients = $apps;
@@ -41,12 +43,19 @@ class JApplicationHelperInspector extends JApplicationHelper
 /**
  * Test class for JApplicationHelper.
  *
- * @since  11.1
+ * @package     Joomla.UnitTest
+ * @subpackage  Application
+ *
+ * @since       11.1
  */
-class JApplicationHelperTest extends PHPUnit_Framework_TestCase
+class JApplicationHelperTest extends TestCase
 {
 	/**
-	 * @todo Implement testGetComponentName().
+	 * Test JApplicationHelper::getComponentName
+	 *
+	 * @return  void
+	 *
+	 * @todo    Implement testGetComponentName().
 	 */
 	public function testGetComponentName()
 	{
@@ -55,7 +64,11 @@ class JApplicationHelperTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @todo Implement testGetClientInfo().
+	 * Test JApplicationHelper::getClientInfo
+	 *
+	 * @return  void
+	 *
+	 * @todo    Implement testGetClientInfo().
 	 */
 	public function testGetClientInfo()
 	{

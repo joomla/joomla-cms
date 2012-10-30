@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.UnitTest
- * @subpackage  Environment
+ * @subpackage  Request
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -9,6 +9,11 @@
 
 /**
  * Mock of JFilterInput for JRequest testing
+ *
+ * @package     Joomla.UnitTest
+ * @subpackage  Request
+ *
+ * @since       12.3
  */
 class JFilterInputJRequest
 {
@@ -24,11 +29,12 @@ class JFilterInputJRequest
 	/**
 	 * Stub for the clean method.
 	 *
-	 * @param   mixed   Input string/array-of-string to be 'cleaned'
-	 * @param   string  Return type for the variable (INT, FLOAT, BOOLEAN, WORD, ALNUM, CMD, BASE64, STRING, ARRAY, PATH, NONE)
+	 * @param   mixed   $source  Input string/array-of-string to be 'cleaned'
+	 * @param   string  $type    Return type for the variable (INT, FLOAT, BOOLEAN, WORD, ALNUM, CMD, BASE64, STRING, ARRAY, PATH, NONE)
+	 *
 	 * @return  mixed   Canned response based on table lookup.
 	 */
-	function clean($source, $type = 'string')
+	public function clean($source, $type = 'string')
 	{
 		$hash = md5($source . '|' . strtoupper($type));
 		if (!isset($this->_expectations[$hash]))
@@ -39,18 +45,38 @@ class JFilterInputJRequest
 		return $this->_expectations[$hash]['result'];
 	}
 
-	function mockReset()
+	/**
+	 * Mock for the reset method.
+	 *
+	 * @return  void
+	 */
+	public function mockReset()
 	{
 		$this->_expectations = array();
 	}
 
-	function mockSetUp($source, $type, $result, $count = 1)
+	/**
+	 * Mock for the setUp method.
+	 *
+	 * @param   mixed   $source  Input string/array-of-string to be 'cleaned'
+	 * @param   string  $type    Return type for the variable (INT, FLOAT, BOOLEAN, WORD, ALNUM, CMD, BASE64, STRING, ARRAY, PATH, NONE)
+	 * @param   string  $result  Cleaned result to return
+	 * @param   int     $count   Return count
+	 *
+	 * @return  mixed   Canned response based on table lookup.
+	 */
+	public function mockSetUp($source, $type, $result, $count = 1)
 	{
 		$hash = md5($source . '|' . strtoupper($type));
 		$this->_expectations[$hash] = array('source' => $source, 'type' => $type, 'result' => $result, 'count' => $count);
 	}
 
-	function mockTearDown()
+	/**
+	 * Mock for the tearDown method.
+	 *
+	 * @return  mixed  Canned response based on table lookup.
+	 */
+	public function mockTearDown()
 	{
 		foreach ($this->_expectations as $hash => $info)
 		{

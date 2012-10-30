@@ -1,9 +1,10 @@
 <?php
 /**
- * @package    Joomla.UnitTest
+ * @package     Joomla.UnitTest
+ * @subpackage  Installer
  *
- * @copyright  Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 
@@ -12,6 +13,7 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Installer
+ *
  * @since       11.1
  */
 class JInstallerTest extends TestCase
@@ -34,6 +36,7 @@ class JInstallerTest extends TestCase
 		JFactory::$database = &$newDbo;
 
 		$this->object = JInstaller::getInstance();
+		parent::setUp();
 	}
 
 	/**
@@ -45,6 +48,7 @@ class JInstallerTest extends TestCase
 	protected function tearDown()
 	{
 		$this->restoreFactoryState();
+		parent::tearDown();
 	}
 
 	/**

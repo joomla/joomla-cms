@@ -1,17 +1,28 @@
 <?php
 /**
- * @version		$Id: JModelFormTest.php 20196 2011-01-09 02:40:25Z ian $
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.UnitTest
+ * @subpackage  Model
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
  * Test class for JModelForm.
+ *
+ * @package     Joomla.UnitTest
+ * @subpackage  Model
+ *
+ * @since       12.3
  */
-class JModelFormTest extends PHPUnit_Framework_TestCase
+class JModelFormTest extends TestCase
 {
 	/**
-	 * @todo Implement testGetForm().
+	 * Test JModelForm::getForm
+	 *
+	 * @todo    Implement testGetForm().
+	 *
+	 * @return  void
 	 */
 	public function testGetForm()
 	{
@@ -20,7 +31,11 @@ class JModelFormTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @todo Implement testValidate().
+	 * Test JModelForm::validate
+	 *
+	 * @todo    Implement testValidate().
+	 *
+	 * @return  void
 	 */
 	public function testValidate()
 	{

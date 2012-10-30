@@ -7,12 +7,12 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-
 /**
- * Stub for testing the JModelLegacy class.
+ * Stub to test JModelLegacy.
  *
  * @package     Joomla.UnitTest
  * @subpackage  Model
+ *
  * @since       12.3
  */
 class RemodelModelRoom extends JModelLegacy

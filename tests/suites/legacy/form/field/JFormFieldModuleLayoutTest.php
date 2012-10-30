@@ -12,17 +12,20 @@ require_once JPATH_TESTS . '/suites/unit/joomla/form/inspectors.php';
 /**
  * Test class for JFormFieldModuleLayout.
  *
- * @package		Joomla.UnitTest
+ * @package     Joomla.UnitTest
  * @subpackage  Form
+ *
+ * @since       11.1
  */
 class JFormFieldModuleLayoutTest extends TestCase
 {
 	/**
 	 * Test the getInput method.
 	 *
-	 * @return  void
-	 *
 	 * @since   11.1
+	 * @todo    Should check all the attributes have come in properly.
+	 *
+	 * @return  void
 	 */
 	public function testGetInput()
 	{
@@ -31,7 +34,7 @@ class JFormFieldModuleLayoutTest extends TestCase
 		$this->assertThat(
 			$form->load('<form><field name="modulelayout" type="modulelayout" /></form>'),
 			$this->isTrue(),
-			'Line:'.__LINE__.' XML string should load successfully.'
+			'Line:' . __LINE__ . ' XML string should load successfully.'
 		);
 
 		$field = new JFormFieldModulelayout($form);
@@ -39,7 +42,7 @@ class JFormFieldModuleLayoutTest extends TestCase
 		$this->assertThat(
 			$field->setup($form->getXml()->field, 'value'),
 			$this->isTrue(),
-			'Line:'.__LINE__.' The setup method should return true.'
+			'Line:' . __LINE__ . ' The setup method should return true.'
 		);
 
 		$this->markTestIncomplete('Problems encountered in next assertion');
@@ -47,9 +50,7 @@ class JFormFieldModuleLayoutTest extends TestCase
 		$this->assertThat(
 			strlen($field->input),
 			$this->greaterThan(0),
-			'Line:'.__LINE__.' The getInput method should return something without error.'
+			'Line:' . __LINE__ . ' The getInput method should return something without error.'
 		);
-
-		// TODO: Should check all the attributes have come in properly.
 	}
 }

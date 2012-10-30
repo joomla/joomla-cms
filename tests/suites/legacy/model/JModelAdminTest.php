@@ -1,17 +1,28 @@
 <?php
 /**
- * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.UnitTest
+ * @subpackage  Model
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
- * Test class for JModelList.
+ * Test class for JModelAdmin.
+ *
+ * @package     Joomla.UnitTest
+ * @subpackage  Model
+ *
+ * @since       12.3
  */
-class JModelAdminTest extends PHPUnit_Framework_TestCase
+class JModelAdminTest extends TestCase
 {
 	/**
-	 * @todo Implement testCheckin().
+	 * Test JModelAdmin::checkin
+	 *
+	 * @todo    Implement testCheckin().
+	 *
+	 * @return  void
 	 */
 	public function testCheckin()
 	{
@@ -20,7 +31,11 @@ class JModelAdminTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @todo Implement testCheckout().
+	 * Test JModelAdmin::checkout
+	 *
+	 * @todo    Implement testCheckout().
+	 *
+	 * @return  void
 	 */
 	public function testCheckout()
 	{
@@ -29,7 +44,11 @@ class JModelAdminTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @todo Implement testDelete().
+	 * Test JModelAdmin::delete
+	 *
+	 * @todo    Implement testDelete().
+	 *
+	 * @return  void
 	 */
 	public function testDelete()
 	{
@@ -38,7 +57,11 @@ class JModelAdminTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @todo Implement testGetItem().
+	 * Test JModelAdmin::getItem
+	 *
+	 * @todo    Implement testGetItem().
+	 *
+	 * @return  void
 	 */
 	public function testGetItem()
 	{
@@ -47,7 +70,11 @@ class JModelAdminTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @todo Implement testDelete().
+	 * Test JModelAdmin::delete
+	 *
+	 * @todo    Implement testDelete().
+	 *
+	 * @return  void
 	 */
 	public function testPublish()
 	{
@@ -56,7 +83,11 @@ class JModelAdminTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @todo Implement testReorder().
+	 * Test JModelAdmin::reorder
+	 *
+	 * @todo    Implement testReorder().
+	 *
+	 * @return  void
 	 */
 	public function testReorder()
 	{
@@ -65,7 +96,11 @@ class JModelAdminTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @todo Implement testSave().
+	 * Test JModelAdmin::save
+	 *
+	 * @todo    Implement testSave().
+	 *
+	 * @return  void
 	 */
 	public function testSave()
 	{
@@ -74,7 +109,11 @@ class JModelAdminTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @todo Implement testSaveorder().
+	 * Test JModelAdmin::saveOrder
+	 *
+	 * @todo    Implement testSaveorder().
+	 *
+	 * @return  void
 	 */
 	public function testSaveorder()
 	{
