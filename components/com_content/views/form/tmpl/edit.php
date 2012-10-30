@@ -74,6 +74,9 @@ if (!$editoroptions)
 			<div class="tab-content">
 				<div class="tab-pane active" id="editor">
 					<div class="control-group">
+						<div class="control-label">
+							<?php echo $this->form->getLabel('title'); ?>
+						</div>
 						<div class="controls">
 							<?php echo $this->form->getInput('title'); ?>
 						</div>
