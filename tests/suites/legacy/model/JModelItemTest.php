@@ -1,17 +1,28 @@
 <?php
 /**
- * @version		$Id: JModelItemTest.php 20196 2011-01-09 02:40:25Z ian $
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.UnitTest
+ * @subpackage  Model
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
  * Test class for JModelItem.
+ *
+ * @package     Joomla.UnitTest
+ * @subpackage  Model
+ *
+ * @since       12.3
  */
-class JModelItemTest extends PHPUnit_Framework_TestCase
+class JModelItemTest extends TestCase
 {
 	/**
-	 * @todo Decide how to Implement.
+	 * Test JModelItem::dummy
+	 *
+	 * @todo    Decide how to Implement.
+	 *
+	 * @return  void
 	 */
 	public function testDummy()
 	{

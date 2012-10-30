@@ -8,41 +8,24 @@
  */
 
 require_once JPATH_PLATFORM . '/legacy/html/menu.php';
+jimport('joomla.html.html');
 
 /**
  * Test class for JHtmlMenu.
  *
- * @since  11.1
+ * @package     Joomla.UnitTest
+ * @subpackage  HTML
+ *
+ * @since       11.3
  */
 class JHtmlMenuTest extends TestCaseDatabase
 {
 	/**
-	 * @var    JHtmlMenu
-	 * @since  11.3
-	 */
-	protected $object;
-
-	/**
-	 * Sets up the fixture, for example, opens a network connection.
-	 * This method is called before a test is executed.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.3
-	 */
-	protected function setUp()
-	{
-		parent::setUp();
-
-		jimport('joomla.html.html');
-	}
-
-	/**
 	 * Gets the data set to be loaded into the database during setup
 	 *
-	 * @return  xml dataset
-	 *
 	 * @since   11.3
+	 *
+	 * @return  xml dataset
 	 */
 	protected function getDataSet()
 	{
@@ -52,10 +35,9 @@ class JHtmlMenuTest extends TestCaseDatabase
 	/**
 	 * Tests the JHtmlMenu::menus method.
 	 *
-	 * @return  void
-	 *
 	 * @since   11.3
-	 * @covers  JHtmlMenu::menus
+	 *
+	 * @return  void
 	 */
 	public function testMenus()
 	{
@@ -68,10 +50,9 @@ class JHtmlMenuTest extends TestCaseDatabase
 	/**
 	 * Tests the JHtmlMenu::menuitems method.
 	 *
-	 * @return  void
-	 *
 	 * @since   11.3
-	 * @covers  JHtmlMenu::menuitems
+	 *
+	 * @return  void
 	 */
 	public function testMenuitems()
 	{
@@ -82,46 +63,62 @@ class JHtmlMenuTest extends TestCaseDatabase
 	}
 
 	/**
+	 * Test JHtmlMenu::menuItemList
+	 *
 	 * @todo Implement testMenuitemlist().
+	 *
+	 * @return  void
 	 */
 	public function testMenuitemlist()
 	{
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete(
-		'This test has not been implemented yet.'
+			'This test has not been implemented yet.'
 		);
 	}
 
 	/**
+	 * Test JHtmlMenu::ordering
+	 *
 	 * @todo Implement testOrdering().
+	 *
+	 * @return  void
 	 */
 	public function testOrdering()
 	{
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete(
-		'This test has not been implemented yet.'
+			'This test has not been implemented yet.'
 		);
 	}
 
 	/**
+	 * Test JHtmlMenu::linkOptions
+	 *
 	 * @todo Implement testLinkoptions().
+	 *
+	 * @return  void
 	 */
 	public function testLinkoptions()
 	{
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete(
-		'This test has not been implemented yet.'
+			'This test has not been implemented yet.'
 		);
 	}
 
 	/**
+	 * Test JHtmlMenu::treeRecurse
+	 *
 	 * @todo Implement testTreerecurse().
+	 *
+	 * @return  void
 	 */
 	public function testTreerecurse()
 	{
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete(
-		'This test has not been implemented yet.'
+			'This test has not been implemented yet.'
 		);
 	}
 }

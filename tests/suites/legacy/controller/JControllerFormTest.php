@@ -9,51 +9,61 @@
 
 require_once __DIR__ . '/stubs/controllerform.php';
 
+
 /**
  * Test class for JControllerForm.
  *
- * @since  11.1
+ * @package     Joomla.UnitTest
+ * @subpackage  Component
+ *
+ * @since       12.3
  */
 class JControllerFormTest extends TestCase
 {
 	/**
-     * Sets up the fixture, for example, opens a network connection.
-     * This method is called before a test is executed.
-     */
+	 * Sets up the fixture, for example, opens a network connection.
+	 * This method is called before a test is executed.
+	 *
+	 * @return  void
+	 */
 	protected function setUp()
 	{
 		$this->saveFactoryState();
 
 		JFactory::$application = $this->getMockApplication();
 		JFactory::$config = $this->getMockConfig();
+
+		parent::setUp();
 	}
 
 	/**
 	 * Tears down the fixture, for example, closes a network connection.
 	 * This method is called after a test is executed.
+	 *
+	 * @return  void
 	 */
 	protected function tearDown()
 	{
 		$this->restoreFactoryState();
+		parent::tearDown();
 	}
 
 	/**
 	 * Tests the JControllerForm constructor.
 	 *
-	 * @return  void
-	 *
 	 * @since   11.1
-	 * @covers  JControllerForm::__construct
+	 *
+	 * @return  void
 	 */
 	public function testConstructor()
 	{
-		//
 		// Test the auto-naming of the _option, _context, _view_item and _view_list
-		//
 		$object = new MincesControllerMince(
 			array(
-			// Neutralise a JPATH_COMPONENT not defined error.
-			'base_path' => JPATH_BASE . '/component/com_foobar'));
+				// Neutralise a JPATH_COMPONENT not defined error.
+				'base_path' => JPATH_BASE . '/component/com_foobar'
+			)
+		);
 
 		$this->assertAttributeEquals('com_minces', 'option', $object, 'Checks the _option variable was created properly.');
 
@@ -63,10 +73,7 @@ class JControllerFormTest extends TestCase
 
 		$this->assertAttributeEquals('minces', 'view_list', $object, 'Check the _view_list variable was created properly.');
 
-		//
 		// Test for correct pluralisation.
-		//
-
 		$object = new MiniesControllerMiny(
 			array(
 				// Neutralise a JPATH_COMPONENT not defined error.
@@ -87,7 +94,11 @@ class JControllerFormTest extends TestCase
 	}
 
 	/**
-	 * @todo Implement testGetModel().
+	 * Test JControllerForm::getModel
+	 *
+	 * @todo    Implement testGetModel().
+	 *
+	 * @return  void
 	 */
 	public function testGetModel()
 	{
@@ -96,7 +107,11 @@ class JControllerFormTest extends TestCase
 	}
 
 	/**
-	 * @todo Implement testDisplay().
+	 * Test JControllerForm::display
+	 *
+	 * @todo    Implement testDisplay().
+	 *
+	 * @return  void
 	 */
 	public function testDisplay()
 	{
@@ -105,7 +120,11 @@ class JControllerFormTest extends TestCase
 	}
 
 	/**
-	 * @todo Implement testAdd().
+	 * Test JControllerForm::add
+	 *
+	 * @todo    Implement testAdd().
+	 *
+	 * @return  void
 	 */
 	public function testAdd()
 	{
@@ -114,7 +133,11 @@ class JControllerFormTest extends TestCase
 	}
 
 	/**
-	 * @todo Implement testEdit().
+	 * Test JControllerForm::edit
+	 *
+	 * @todo    Implement testEdit().
+	 *
+	 * @return  void
 	 */
 	public function testEdit()
 	{
@@ -123,7 +146,11 @@ class JControllerFormTest extends TestCase
 	}
 
 	/**
-	 * @todo Implement testCancel().
+	 * Test JControllerForm::cancel
+	 *
+	 * @todo    Implement testCancel().
+	 *
+	 * @return  void
 	 */
 	public function testCancel()
 	{
@@ -132,7 +159,11 @@ class JControllerFormTest extends TestCase
 	}
 
 	/**
-	 * @todo Implement testSave().
+	 * Test JControllerForm::save
+	 *
+	 * @todo    Implement testSave().
+	 *
+	 * @return  void
 	 */
 	public function testSave()
 	{

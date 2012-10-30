@@ -1,32 +1,43 @@
 <?php
 /**
- * @version		$Id: JControllerForm.php 20196 2011-01-09 02:40:25Z ian $
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.UnitTest
+ * @subpackage  Controller
+ *
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
- * @package		Joomla.UnitTest
- * @subpackage	Application.Component
- * @since       11.1
+ * Stub for testing the JControllerForm class.
+ *
+ * @package     Joomla.UnitTest
+ * @subpackage  Controller
+ *
+ * @since       12.3
  */
 class MincesControllerMince extends JControllerForm
 {
 }
 
 /**
- * @package		Joomla.UnitTest
- * @subpackage	Application.Component
- * @since       11.1
+ * Stub for testing the JControllerForm class.
+ *
+ * @package     Joomla.UnitTest
+ * @subpackage  Controller
+ *
+ * @since       12.3
  */
 class MiniesControllerMiny extends JControllerForm
 {
 }
 
 /**
- * @package		Joomla.UnitTest
- * @subpackage	Application.Component
- * @since       11.1
+ * Stub for testing the JControllerForm class.
+ *
+ * @package     Joomla.UnitTest
+ * @subpackage  Controller
+ *
+ * @since       12.3
  */
 class MintsControllerMint extends JControllerForm
 {

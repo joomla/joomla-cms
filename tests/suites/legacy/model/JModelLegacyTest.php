@@ -16,6 +16,7 @@ require_once __DIR__ . '/stubs/room.php';
  *
  * @package     Joomla.UnitTest
  * @subpackage  Model
+ *
  * @since       12.3
  */
 class JModelLegacyTest extends TestCase
@@ -29,9 +30,9 @@ class JModelLegacyTest extends TestCase
 	/**
 	 * Setup each test.
 	 *
-	 * @return  void
-	 *
 	 * @since   12.3
+	 *
+	 * @return  void
 	 */
 	public function setUp()
 	{
@@ -42,9 +43,9 @@ class JModelLegacyTest extends TestCase
 	/**
 	 * Method to tear down what was previously setup before each tests.
 	 *
-	 * @return  void
-	 *
 	 * @since   12.3
+	 *
+	 * @return  void
 	 */
 	public function tearDown()
 	{
@@ -55,10 +56,9 @@ class JModelLegacyTest extends TestCase
 	/**
 	 * Tests the __construct method.
 	 *
-	 * @return  void
-	 *
-	 * @covers  JModelLegacy::__construct
 	 * @since   12.3
+	 *
+	 * @return  void
 	 */
 	public function test__construct()
 	{
@@ -97,10 +97,9 @@ class JModelLegacyTest extends TestCase
 	/**
 	 * Tests the getInstance method.
 	 *
-	 * @return  void
-	 *
-	 * @covers  JModelLegacy::getInstance
 	 * @since   12.3
+	 *
+	 * @return  void
 	 */
 	public function testGetInstance()
 	{
@@ -119,10 +118,9 @@ class JModelLegacyTest extends TestCase
 	/**
 	 * Tests the setState method.
 	 *
-	 * @return  void
-	 *
-	 * @covers  JModelLegacy::setState
 	 * @since   12.3
+	 *
+	 * @return  void
 	 */
 	public function testSetState()
 	{
@@ -133,10 +131,9 @@ class JModelLegacyTest extends TestCase
 	/**
 	 * Tests the getState method.
 	 *
-	 * @return  void
-	 *
-	 * @covers  JModelLegacy::getState
 	 * @since   12.3
+	 *
+	 * @return  void
 	 */
 	public function testGetState()
 	{
@@ -156,10 +153,9 @@ class JModelLegacyTest extends TestCase
 	/**
 	 * Tests the getDbo method.
 	 *
-	 * @return  void
-	 *
-	 * @covers  JModelLegacy::getDbo
 	 * @since   12.3
+	 *
+	 * @return  void
 	 */
 	public function testGetDbo()
 	{
@@ -170,10 +166,9 @@ class JModelLegacyTest extends TestCase
 	/**
 	 * Tests the setDbo method.
 	 *
-	 * @return  void
-	 *
-	 * @covers  JModelLegacy::setDbo
 	 * @since   12.3
+	 *
+	 * @return  void
 	 */
 	public function testSetDbo()
 	{
@@ -187,10 +182,9 @@ class JModelLegacyTest extends TestCase
 	 * @expectedException      Exception
 	 * @expectedExceptionCode  500
 	 *
-	 * @return  void
-	 *
-	 * @covers  JModelLegacy::getName
 	 * @since   12.3
+	 *
+	 * @return  void
 	 */
 	public function testGetName()
 	{
@@ -222,10 +216,9 @@ class JModelLegacyTest extends TestCase
 	 * @expectedException  Exception
 	 * @todo               Implement actual testing for an instantiated JTable class.
 	 *
-	 * @return  void
-	 *
-	 * @covers  JModelLegacy::getTable
 	 * @since   12.3
+	 *
+	 * @return  void
 	 */
 	public function testGetTable()
 	{
@@ -236,10 +229,9 @@ class JModelLegacyTest extends TestCase
 	/**
 	 * Tests the addIncludePath method.
 	 *
-	 * @return  void
-	 *
-	 * @covers  JModelLegacy::addIncludePath
 	 * @since   12.3
+	 *
+	 * @return  void
 	 */
 	public function testAddIncludePath()
 	{
@@ -254,10 +246,9 @@ class JModelLegacyTest extends TestCase
 	/**
 	 * Tests the addTablePath method.
 	 *
-	 * @return  void
-	 *
-	 * @covers  JModelLegacy::addTablePath
 	 * @since   12.3
+	 *
+	 * @return  void
 	 */
 	public function testAddTablePath()
 	{
@@ -268,10 +259,9 @@ class JModelLegacyTest extends TestCase
 	/**
 	 * Tests the _createFileName method.
 	 *
-	 * @return  void
-	 *
-	 * @covers  JModelLegacy::_createFileName
 	 * @since   12.3
+	 *
+	 * @return  void
 	 */
 	public function test_createFileName()
 	{
@@ -284,10 +274,9 @@ class JModelLegacyTest extends TestCase
 	/**
 	 * Tests the _getList method.
 	 *
-	 * @return  void
-	 *
-	 * @covers  JModelLegacy::_getList
 	 * @since   12.3
+	 *
+	 * @return  void
 	 */
 	public function test_getList()
 	{
@@ -297,10 +286,9 @@ class JModelLegacyTest extends TestCase
 	/**
 	 * Tests the _getListCount method.
 	 *
-	 * @return  void
-	 *
-	 * @covers  JModelLegacy::_getListCount
 	 * @since   12.3
+	 *
+	 * @return  void
 	 */
 	public function test_getListCount()
 	{
@@ -310,10 +298,9 @@ class JModelLegacyTest extends TestCase
 	/**
 	 * Tests the _createTable method.
 	 *
-	 * @return  void
-	 *
-	 * @covers  JModelLegacy::_createTable
 	 * @since   12.3
+	 *
+	 * @return  void
 	 */
 	public function test_createTable()
 	{
@@ -323,10 +310,9 @@ class JModelLegacyTest extends TestCase
 	/**
 	 * Tests the cleanCache method.
 	 *
-	 * @return  void
-	 *
-	 * @covers  JModelLegacy::cleanCache
 	 * @since   12.3
+	 *
+	 * @return  void
 	 */
 	public function testCleanCache()
 	{

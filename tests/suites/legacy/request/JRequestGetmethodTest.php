@@ -1,35 +1,45 @@
 <?php
 /**
  * @package     Joomla.UnitTest
- * @subpackage  Environment
+ * @subpackage  Request
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
- * A unit test class for JRequest
+ * Test class for JRequest.
+ *
+ * @package     Joomla.UnitTest
+ * @subpackage  Request
+ *
+ * @since       12.3
  */
-class JRequestTest_GetMethod extends PHPUnit_Framework_TestCase
+class JRequestTest_GetMethod extends TestCase
 {
-
 	/**
-	 * Clear the cache
+	 * Sets up the fixture, for example, opens a network connection.
+	 * This method is called before a test is executed.
+	 *
+	 * @return  void
 	 */
-	function setUp() {
+	public function setUp()
+	{
 		// Make sure the request hash is clean.
 		$GLOBALS['_JREQUEST'] = array();
+		parent::setUp();
 	}
 
 	/**
-	 * @covers JRequest::getMethod
+	 * Test JRequest::getMethod
+	 *
+	 * @return  void
 	 */
-	function testGetMethod()
+	public function testGetMethod()
 	{
 		$_SERVER['REQUEST_METHOD'] = 'post';
 		$this -> assertEquals('POST', JRequest::getMethod());
 		$_SERVER['REQUEST_METHOD'] = 'get';
 		$this -> assertEquals('GET', JRequest::getMethod());
 	}
-
 }
