@@ -28,6 +28,7 @@ $ -> Language fix or change
 
 30-Oct-2012 Jean-Marie Simonet
  # [#29582] User Profile cannot be edited from user manager. Thanks Emir
+ # [#29583] JForm media field element is unable to determine the selected image root path. Thanks Sven.
 
 28-Oct-2012 Jean-Marie Simonet
  # [#29251] Com_content caches article view no matter of Itemid. Thanks Dennis
