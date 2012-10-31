@@ -388,7 +388,7 @@ class JFile
 			$stream = JFactory::getStream();
 
 			// Beef up the chunk size to a meg
-			$stream->set('chunksize', (1024 * 1024 * 1024));
+			$stream->set('chunksize', (1024 * 1024));
 
 			if (!$stream->writeFile($file, $buffer))
 			{
