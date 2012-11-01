@@ -29,6 +29,8 @@ class JSessionStorageMemcacheTest extends PHPUnit_Framework_TestCase
 	 */
 	protected function setUp()
 	{
+		parent::setUp();
+
 		// Skip these tests if Memcache isn't available.
 		if (!JSessionStorageMemcache::isSupported())
 		{

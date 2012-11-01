@@ -31,6 +31,8 @@ class JLogLoggerMessageQueueTest extends PHPUnit_Framework_TestCase
 	 */
 	public function setUp()
 	{
+		parent::setUp();
+
 		$this->app = JFactory::$application;
 		JFactory::$application = new JApplicationMock;
 	}

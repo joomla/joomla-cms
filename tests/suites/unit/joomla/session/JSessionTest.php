@@ -29,6 +29,8 @@ class JSessionTest extends TestCase
 	 */
 	protected function setUp()
 	{
+		parent::setUp();
+
 		$this->saveFactoryState();
 
 		$this->object = JSession::getInstance('none', array('expire' => 20, 'force_ssl' => true, 'name' => 'name', 'id' => 'id', 'security' => 'security'));
@@ -70,7 +72,7 @@ class JSessionTest extends TestCase
 	 *
 	 * @return array
 	 */
-	function casesGetInstance()
+	Public function casesGetInstance()
 	{
 		return array(
 			'first_instance' => array(
@@ -87,7 +89,7 @@ class JSessionTest extends TestCase
 	}
 
 	/**
-	 * Test...
+	 * Test getInstance
 	 *
 	 * @param   string  $store    @todo
 	 * @param   array   $options  @todo

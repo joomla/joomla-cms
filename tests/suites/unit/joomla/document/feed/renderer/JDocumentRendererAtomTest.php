@@ -35,6 +35,8 @@ class JDocumentRendererAtomTest extends TestCase
 	 */
 	protected function setUp()
 	{
+		parent::setUp();
+
 		$this->markTestSkipped("Too tightly coupled to internals to be testable now");
 
 		require_once JPATH_PLATFORM . '/joomla/application/router.php';

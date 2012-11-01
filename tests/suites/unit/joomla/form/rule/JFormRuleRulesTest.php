@@ -24,6 +24,8 @@ class JFormRuleRulesTest extends TestCase
 	 */
 	public function setUp()
 	{
+		parent::setUp();
+
 		$this->saveFactoryState();
 	}
 

@@ -54,6 +54,8 @@ class JGoogleTest extends TestCase
 	 */
 	protected function setUp()
 	{
+		parent::setUp();
+
 		$_SERVER['HTTP_HOST'] = 'mydomain.com';
 		$_SERVER['HTTP_USER_AGENT'] = 'Mozilla/5.0';
 		$_SERVER['REQUEST_URI'] = '/index.php';
@@ -65,17 +67,6 @@ class JGoogleTest extends TestCase
 		$this->oauth = new JOAuth2Client($this->options, $this->http, $this->input);
 		$this->auth = new JGoogleAuthOauth2($this->options, $this->oauth);
 		$this->object = new JGoogle($this->options, $this->auth);
-	}
-
-	/**
-	 * Tears down the fixture, for example, closes a network connection.
-	 * This method is called after a test is executed.
-	 *
-	 * @access protected
-	 * @return void
-	 */
-	protected function tearDown()
-	{
 	}
 
 	/**

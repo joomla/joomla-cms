@@ -51,8 +51,9 @@ class JDatabaseImporterMySqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function setup()
 	{
-		// Set up the database object mock.
+		parent::setUp();
 
+		// Set up the database object mock.
 		$this->dbo = $this->getMock(
 			'JDatabaseDriverMysql',
 			array(

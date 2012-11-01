@@ -44,10 +44,12 @@ class JDatabaseExporterPostgresqlTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @since   12.1
 	 */
-	public function setup()
+	protected function setup()
 	{
-		// Set up the database object mock.
+		parent::setUp();
 
+		
+		// Set up the database object mock.
 		$this->dbo = $this->getMock(
 			'JDatabaseDriverPostgresql',
 			array(

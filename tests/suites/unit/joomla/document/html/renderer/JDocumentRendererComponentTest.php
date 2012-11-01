@@ -18,36 +18,13 @@ include_once JPATH_PLATFORM . '/joomla/document/html/renderer/component.php';
  */
 class JDocumentRendererComponentTest extends PHPUnit_Framework_TestCase
 {
-
 	/**
 	 * @var JDocumentRendererComponent
 	 */
 	protected $object;
 
 	/**
-	 * Sets up the fixture, for example, opens a network connection.
-	 * This method is called before a test is executed.
-	 *
-	 * @return void
-	 */
-	protected function setUp()
-	{
-		// @todo remove: $this->object = new JDocumentRendererComponent;
-	}
-
-	/**
-	 * Tears down the fixture, for example, closes a network connection.
-	 * This method is called after a test is executed.
-	 *
-	 * @return void
-	 */
-	protected function tearDown()
-	{
-
-	}
-
-	/**
-	 * Test...
+	 * Test Render
 	 *
 	 * @todo Implement testRender().
 	 *

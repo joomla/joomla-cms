@@ -29,6 +29,8 @@ class JSessionStorageXcacheTest extends PHPUnit_Framework_TestCase
 	 */
 	protected function setUp()
 	{
+		parent::setUp();
+
 		// Skip these tests if XCache isn't available.
 		if (!JSessionStorageXcache::isSupported())
 		{

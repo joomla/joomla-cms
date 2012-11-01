@@ -49,22 +49,12 @@ class JGithubObjectTest extends PHPUnit_Framework_TestCase
 	 */
 	protected function setUp()
 	{
+		parent::setUp();
+
 		$this->options = new JRegistry;
 		$this->client = $this->getMock('JGithubHttp', array('get', 'post', 'delete', 'patch', 'put'));
 
 		$this->object = new JGithubObjectMock($this->options, $this->client);
-	}
-
-	/**
-	 * Tears down the fixture, for example, closes a network connection.
-	 * This method is called after a test is executed.
-	 *
-	 * @access protected
-	 *
-	 * @return void
-	 */
-	protected function tearDown()
-	{
 	}
 
 	/**

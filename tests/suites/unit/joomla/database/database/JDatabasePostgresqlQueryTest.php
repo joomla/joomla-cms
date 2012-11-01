@@ -114,6 +114,8 @@ class JDatabasePostgresqlQueryTest extends TestCase
 	 */
 	protected function setUp()
 	{
+		parent::setUp();
+
 		$this->dbo = TestMockDatabaseDriver::create($this, '1970-01-01 00:00:00', 'Y-m-d H:i:s');
 
 		// Mock the escape method to ensure the API is calling the DBO's escape method.

@@ -24,7 +24,7 @@ class JRegistryFormatPHPTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 */
-	function testObjectToString()
+	public function testObjectToString()
 	{
 		$class = JRegistryFormat::getInstance('PHP');
 		$options = array('class' => 'myClass');

@@ -132,7 +132,7 @@ class JAccessTest extends TestCaseDatabase
 	 *
 	 * @since   11.1
 	 */
-	function casesCheckGroup()
+	public function casesCheckGroup()
 	{
 		return array(
 			'valid_admin_site_login' => array(7, 'core.login.site', 3, true, 'Line:' . __LINE__ . ' Administrator group can login to site'),

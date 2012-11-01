@@ -33,23 +33,12 @@ class JCacheTest extends PHPUnit_Framework_TestCase
 	 */
 	protected function setUp()
 	{
+		parent::setUp();
 		include_once JPATH_PLATFORM . '/joomla/cache/cache.php';
 		include_once JPATH_PLATFORM . '/joomla/cache/controller.php';
 		include_once JPATH_PLATFORM . '/joomla/cache/storage.php';
 
 		// @todo remove: $this->object = new JCache;
-	}
-
-	/**
-	 * Tears down the fixture, for example, closes a network connection.
-	 * This method is called after a test is executed.
-	 *
-	 * @return void
-	 *
-	 * @access protected
-	 */
-	protected function tearDown()
-	{
 	}
 
 	/**

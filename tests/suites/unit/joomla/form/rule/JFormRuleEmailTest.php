@@ -24,6 +24,8 @@ class JFormRuleEmailTest extends TestCase
 	 */
 	public function setUp()
 	{
+		parent::setUp();
+
 		$this->saveFactoryState();
 	}
 

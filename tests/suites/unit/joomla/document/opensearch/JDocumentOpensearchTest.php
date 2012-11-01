@@ -34,6 +34,8 @@ class JDocumentOpensearchTest extends TestCase
 	 */
 	protected function setUp()
 	{
+		parent::setUp();
+
 		$this->saveFactoryState();
 
 		$_SERVER['HTTP_HOST'] = 'localhost';

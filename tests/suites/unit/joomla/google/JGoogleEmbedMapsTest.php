@@ -44,22 +44,13 @@ class JGoogleEmbedMapsTest extends TestCase
 	 */
 	protected function setUp()
 	{
+		parent::setUp();
+
 		$this->options = new JRegistry;
 
 		$this->http = $this->getMock('JHttp', array('get'), array($this->options));
 		$this->uri = new JURI;
 		$this->object = new JGoogleEmbedMaps($this->options, $this->uri, $this->http);
-	}
-
-	/**
-	 * Tears down the fixture, for example, closes a network connection.
-	 * This method is called after a test is executed.
-	 *
-	 * @access protected
-	 * @return void
-	 */
-	protected function tearDown()
-	{
 	}
 
 	/**

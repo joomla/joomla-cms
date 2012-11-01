@@ -75,7 +75,7 @@ class JUserTest extends TestCaseDatabase
 	 *
 	 * @since   12.1
 	 */
-	function casesGetInstance()
+	public function casesGetInstance()
 	{
 		return array(
 			'42' => array(
@@ -165,7 +165,7 @@ class JUserTest extends TestCaseDatabase
 	 *
 	 * @since   12.1
 	 */
-	function casesAuthorise()
+	public function casesAuthorise()
 	{
 		return array(
 			'Publisher Create' => array(
@@ -266,7 +266,7 @@ class JUserTest extends TestCaseDatabase
 	 *
 	 * @since   12.1
 	 */
-	function casesGetAuthorisedViewLevels()
+	public function casesGetAuthorisedViewLevels()
 	{
 		return array(
 			'User42' => array(
@@ -438,7 +438,7 @@ class JUserTest extends TestCaseDatabase
 	 *
 	 * @since   12.1
 	 */
-	function casesLoad()
+	public function casesLoad()
 	{
 		return array(
 			'non-existant' => array(

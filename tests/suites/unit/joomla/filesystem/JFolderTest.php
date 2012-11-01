@@ -22,28 +22,6 @@ class JFolderTest extends TestCase
 	protected $object;
 
 	/**
-	 * Sets up the fixture, for example, opens a network connection.
-	 * This method is called before a test is executed.
-	 *
-	 * @return void
-	 */
-	protected function setUp()
-	{
-		// @todo remove: $this->object = new JFolder;
-	}
-
-	/**
-	 * Tears down the fixture, for example, closes a network connection.
-	 * This method is called after a test is executed.
-	 *
-	 * @return void
-	 */
-	protected function tearDown()
-	{
-
-	}
-
-	/**
 	 * Test...
 	 *
 	 * @todo Implement testCopy().

@@ -32,22 +32,13 @@ class JDocumentHTMLTest extends PHPUnit_Framework_TestCase
 	 */
 	protected function setUp()
 	{
+		parent::setUp();
+
 		$this->object = new JDocumentHTML;
 	}
 
 	/**
-	 * Tears down the fixture, for example, closes a network connection.
-	 * This method is called after a test is executed.
-	 *
-	 * @return void
-	 */
-	protected function tearDown()
-	{
-
-	}
-
-	/**
-	 * Test...
+	 * Test getHeadData
 	 *
 	 * @todo Implement testGetHeadData().
 	 *

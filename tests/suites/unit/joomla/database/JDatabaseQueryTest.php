@@ -84,6 +84,8 @@ class JDatabaseQueryTest extends TestCase
 	 */
 	protected function setUp()
 	{
+		parent::setUp();
+	
 		$this->dbo = $this->getMockDatabase();
 
 		// Mock the escape method to ensure the API is calling the DBO's escape method.

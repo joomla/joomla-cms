@@ -54,6 +54,8 @@ class JGoogleDataPlusTest extends TestCase
 	 */
 	protected function setUp()
 	{
+		parent::setUp();
+
 		$_SERVER['HTTP_HOST'] = 'mydomain.com';
 		$_SERVER['HTTP_USER_AGENT'] = 'Mozilla/5.0';
 		$_SERVER['REQUEST_URI'] = '/index.php';

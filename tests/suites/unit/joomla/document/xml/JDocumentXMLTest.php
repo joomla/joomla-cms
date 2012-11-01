@@ -36,23 +36,13 @@ class JDocumentXMLTest extends PHPUnit_Framework_TestCase
 	 */
 	protected function setUp()
 	{
+		parent::setUp();
+
 		$this->object = new JDocumentXML;
 	}
 
 	/**
-	 * Tears down the fixture, for example, closes a network connection.
-	 * This method is called after a test is executed.
-	 *
-	 * @access protected
-	 *
-	 * @return void
-	 */
-	protected function tearDown()
-	{
-	}
-
-	/**
-	 * Test...
+	 * Test Render
 	 *
 	 * @todo Implement testRender().
 	 *

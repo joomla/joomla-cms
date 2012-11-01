@@ -32,21 +32,13 @@ class JCacheControllerCallbackTest extends PHPUnit_Framework_TestCase
 	 */
 	protected function setUp()
 	{
+		parent::setUp();
+
 		include_once JPATH_PLATFORM . '/joomla/cache/cache.php';
 		include_once JPATH_PLATFORM . '/joomla/cache/controller.php';
 		include_once JPATH_PLATFORM . '/joomla/cache/controller/callback.php';
 
 		$this->object = JCache::getInstance('callback', array());
-	}
-
-	/**
-	 * Tears down the fixture, for example, closes a network connection.
-	 * This method is called after a test is executed.
-	 *
-	 * @return void
-	 */
-	protected function tearDown()
-	{
 	}
 
 	/**

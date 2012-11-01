@@ -18,15 +18,6 @@
 class JFormRuleUrlTest extends TestCase
 {
 	/**
-	 * set up for testing
-	 *
-	 * @return void
-	 */
-	public function setUp()
-	{
-	}
-
-	/**
 	 * Test the JFormRuleUrl::test method.
 	 *
 	 * @param   string  $xmlfield  @todo

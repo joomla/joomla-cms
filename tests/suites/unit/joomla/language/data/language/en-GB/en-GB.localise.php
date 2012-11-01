@@ -51,6 +51,7 @@ abstract class En_GBLocalise
 		$search_ignore[] = "and";
 		$search_ignore[] = "in";
 		$search_ignore[] = "on";
+
 		return $search_ignore;
 	}
 

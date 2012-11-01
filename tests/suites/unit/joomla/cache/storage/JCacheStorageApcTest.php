@@ -38,6 +38,8 @@ class JCacheStorageApcTest extends PHPUnit_Framework_TestCase
 	 */
 	protected function setUp()
 	{
+		parent::setUp();
+
 		include_once JPATH_PLATFORM . '/joomla/cache/storage.php';
 		include_once JPATH_PLATFORM . '/joomla/cache/storage/apc.php';
 

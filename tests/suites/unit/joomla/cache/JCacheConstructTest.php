@@ -22,8 +22,10 @@ class JCacheTest_Construct extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 */
-	public function setUp()
+	protected function setUp()
 	{
+		parent::setUp();
+
 		jimport('joomla.cache.cache');
 	}
 

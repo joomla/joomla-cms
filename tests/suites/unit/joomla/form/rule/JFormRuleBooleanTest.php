@@ -17,14 +17,6 @@
  */
 class JFormRuleBooleanTest extends TestCase
 {
-	/**
-	 * set up for testing
-	 *
-	 * @return void
-	 */
-	public function setUp()
-	{
-	}
 
 	/**
 	 * Test the JFormRuleBoolean::test method.

@@ -54,6 +54,8 @@ class JGoogleDataAdsenseTest extends TestCase
 	 */
 	protected function setUp()
 	{
+		parent::setUp();
+
 		$_SERVER['HTTP_HOST'] = 'mydomain.com';
 		$_SERVER['HTTP_USER_AGENT'] = 'Mozilla/5.0';
 		$_SERVER['REQUEST_URI'] = '/index.php';
@@ -75,17 +77,6 @@ class JGoogleDataAdsenseTest extends TestCase
 		$token['created'] = time() - 1800;
 		$token['expires_in'] = 3600;
 		$this->oauth->setToken($token);
-	}
-
-	/**
-	 * Tears down the fixture, for example, closes a network connection.
-	 * This method is called after a test is executed.
-	 *
-	 * @access protected
-	 * @return void
-	 */
-	protected function tearDown()
-	{
 	}
 
 	/**
