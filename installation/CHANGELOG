@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+01-Nov-2012 Jean-Marie Simonet
+ # [#29597] 'Title' label doesn't appear when editing an article in frontend. Thanks Stephania
+
 30-Oct-2012 Jean-Marie Simonet
  # [#29582] User Profile cannot be edited from user manager. Thanks Emir
  # [#29583] JForm media field element is unable to determine the selected image root path. Thanks Sven.
