@@ -155,9 +155,9 @@ class JHttpTransportStream implements JHttpTransport
 		{
 			$headers = array();
 		}
-		
+
 		return $this->getResponse($headers, $content);
-		
+
 	}
 
 	/**
