@@ -826,7 +826,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	{
 		$this->connect();
 
-		$this->setQuery('START TRANSACTION');
+		$this->setQuery('BEGIN TRANSACTION');
 		$this->execute();
 	}
 
