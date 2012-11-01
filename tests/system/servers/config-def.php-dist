@@ -44,10 +44,12 @@ class SeleniumConfig
 	
 	// optional setting to install sample data
 	// If not set or true, sample data is installed. Set to false to not install sample data
+	// Note: This must be true for the standard tests to work!
 	var $sample_data = true;
 
 	// optional setting to select sample data
 	// Set to partial text of sample data label on installation screen
+	// Note: This must be 'Learn Joomla' for the standard tests to work!
 	var $sample_data_file = 'Learn Joomla';
 
 	// set the site name (keep to less than 14 characters)
@@ -73,6 +75,9 @@ class SeleniumConfig
 	// optional setting to set error reporting level
 	var $errorReporting = 'maximum';
 
+	// optional setting to set the initial window dimensions (Webdriver only)
+	var $windowSize = array(1280, 1024);
+	
 	public function __construct() {
 		$this->baseURI = $this->folder . $this->path;
 	}
