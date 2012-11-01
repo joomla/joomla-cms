@@ -36,6 +36,8 @@ class JDocumentJSONTest extends PHPUnit_Framework_TestCase
 	 */
 	protected function setUp()
 	{
+		parent::setUp();
+
 		$this->object = new JDocumentJSON;
 	}
 
@@ -45,7 +47,7 @@ class JDocumentJSONTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @access protected
 	 *
-	 * @return void
+	 * @reurn void
 	 */
 	protected function tearDown()
 	{

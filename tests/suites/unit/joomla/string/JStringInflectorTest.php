@@ -89,8 +89,10 @@ class JStringInflectorTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @since   12.1
 	 */
-	public function setUp()
+	protected function setUp()
 	{
+		parent::setUp();
+
 		$this->inflector = JStringInflector::getInstance(true);
 	}
 

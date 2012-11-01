@@ -35,6 +35,7 @@ class JDatabaseTest extends TestCaseDatabase
 	 */
 	protected function setUp()
 	{
+
 		$this->db = JDatabase::getInstance(
 			array(
 				'driver' => 'nosql',
@@ -61,19 +62,40 @@ class JDatabaseTest extends TestCaseDatabase
 	 *
 	 * @since   12.1
 	 */
-	public function test__call()
+	public function test__callQuote()
 	{
 		$this->assertThat(
 			$this->db->q('foo'),
 			$this->equalTo($this->db->quote('foo')),
 			'Tests the q alias of quote.'
 		);
+	}
 
+	/**
+	 * Test for the JDatabase::__call method.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 */
+	public function test__callQuoteName()
+	{
 		$this->assertThat(
 			$this->db->qn('foo'),
 			$this->equalTo($this->db->quoteName('foo')),
 			'Tests the qn alias of quoteName.'
 		);
+	}
+
+	/**
+	 * Test for the JDatabase::__call method.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.1
+	 */
+	public function test__callUnknown()
+	{
 
 		$this->assertThat(
 			$this->db->foo(),

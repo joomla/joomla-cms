@@ -32,6 +32,8 @@ class JSessionStorageNoneTest extends PHPUnit_Framework_TestCase
 	 */
 	protected function setUp()
 	{
+		parent::setUp();
+
 		$this->object = JSessionStorage::getInstance('None');
 	}
 

@@ -1361,6 +1361,8 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 	 */
 	protected function setUp()
 	{
+		parent::setUp();
+
 		require_once JPATH_PLATFORM . '/joomla/string/string.php';
 	}
 

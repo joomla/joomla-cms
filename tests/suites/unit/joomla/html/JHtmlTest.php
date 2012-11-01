@@ -33,6 +33,8 @@ class JHtmlTest extends TestCase
 	 */
 	protected function setUp()
 	{
+		parent::setUp();
+
 		$this->saveFactoryState();
 	}
 

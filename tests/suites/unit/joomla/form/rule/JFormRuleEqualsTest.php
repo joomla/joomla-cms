@@ -18,15 +18,6 @@
 class JFormRuleEqualsTest extends TestCase
 {
 	/**
-	 * set up for testing
-	 *
-	 * @return void
-	 */
-	public function setUp()
-	{
-	}
-
-	/**
 	 * Test the JFormRuleEquals::test method.
 	 *
 	 * @return void

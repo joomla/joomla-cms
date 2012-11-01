@@ -31,6 +31,8 @@ class JFilesystemPatcherTest extends TestCase
 	 */
 	protected function setUp()
 	{
+		parent::setUp();
+
 		// Make sure previous test files are cleaned up
 		$this->_cleanupTestFiles();
 

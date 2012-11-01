@@ -62,6 +62,8 @@ class JHtmlBehaviorTest extends TestCase
 	 */
 	protected function setUp()
 	{
+		parent::setUp();
+
 		$this->saveFactoryState();
 		$_SERVER['HTTP_HOST'] = 'example.com';
 	}

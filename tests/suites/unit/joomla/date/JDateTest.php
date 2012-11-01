@@ -189,7 +189,7 @@ class JDateTest extends TestCaseDatabase
  				false,
  				'Thu, 20 Dec 2007 16:44:56 +0000',
  			),
-		*/
+ 			*/
 		);
 	}
 
@@ -476,6 +476,8 @@ class JDateTest extends TestCaseDatabase
 	 */
 	protected function setUp()
 	{
+		// Note: do not extend parent setUp method
+
 		$this->object = new JDate('12/20/2007 11:44:56', 'America/New_York');
 	}
 
@@ -488,7 +490,7 @@ class JDateTest extends TestCaseDatabase
 	 *
 	 * @since   11.3
 	 */
-	protected function tearDown()
+	function tearDown()
 	{
 	}
 

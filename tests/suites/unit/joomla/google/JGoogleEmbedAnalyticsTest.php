@@ -39,21 +39,12 @@ class JGoogleEmbedAnalyticsTest extends TestCase
 	 */
 	protected function setUp()
 	{
+		parent::setUp();
+
 		$this->options = new JRegistry;
 
 		$this->uri = new JURI;
 		$this->object = new JGoogleEmbedAnalytics($this->options, $this->uri);
-	}
-
-	/**
-	 * Tears down the fixture, for example, closes a network connection.
-	 * This method is called after a test is executed.
-	 *
-	 * @access protected
-	 * @return void
-	 */
-	protected function tearDown()
-	{
 	}
 
 	/**

@@ -24,6 +24,8 @@ class JFormRuleColorTest extends TestCase
 	 */
 	public function setUp()
 	{
+		parent::setUp();
+
 		$this->saveFactoryState();
 	}
 

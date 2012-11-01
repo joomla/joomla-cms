@@ -24,6 +24,8 @@ class JFormFieldHiddenTest extends TestCase
 	 */
 	protected function setUp()
 	{
+		parent::setUp();
+
 		require_once JPATH_PLATFORM . '/joomla/form/fields/hidden.php';
 		include_once dirname(__DIR__) . '/inspectors.php';
 	}

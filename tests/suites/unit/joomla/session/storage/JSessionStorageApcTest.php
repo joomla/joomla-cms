@@ -29,6 +29,8 @@ class JSessionStorageApcTest extends PHPUnit_Framework_TestCase
 	 */
 	protected function setUp()
 	{
+		parent::setUp();
+
 		// Skip these tests if APC isn't available.
 		if (!JSessionStorageAPC::isSupported())
 		{

@@ -32,6 +32,8 @@ class JMailTest extends TestCase
 	 */
 	protected function setUp()
 	{
+		parent::setUp();
+
 		$this->object = new JMail;
 	}
 

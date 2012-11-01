@@ -25,8 +25,10 @@ class JInputCLITest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 */
-	public function setUp()
+	protected function setUp()
 	{
+		parent::setUp();
+
 		include_once __DIR__ . '/stubs/JInputCliInspector.php';
 		include_once __DIR__ . '/stubs/JFilterInputMock.php';
 	}

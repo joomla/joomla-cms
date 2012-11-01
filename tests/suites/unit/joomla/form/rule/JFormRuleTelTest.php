@@ -17,14 +17,6 @@
  */
 class JFormRuleTelTest extends TestCase
 {
-	/**
-	 * set up for testing
-	 *
-	 * @return void
-	 */
-	public function setUp()
-	{
-	}
 
 	/**
 	 * Test the JFormRuleTel::test method.

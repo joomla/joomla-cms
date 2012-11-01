@@ -33,7 +33,7 @@ class JApplicationBaseTest extends TestCase
 	 *
 	 * @since   11.3
 	 */
-	public function setUp()
+	protected function setUp()
 	{
 		parent::setUp();
 
