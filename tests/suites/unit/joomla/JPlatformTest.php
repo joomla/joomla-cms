@@ -83,7 +83,7 @@ class JPlatformTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return array
 	 */
-	function casesCompatibility()
+	public function casesCompatibility()
 	{
 		return array(
 			'wrong' => array(

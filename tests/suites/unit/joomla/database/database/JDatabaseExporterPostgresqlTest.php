@@ -44,7 +44,7 @@ class JDatabaseExporterPostgresqlTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @since   12.1
 	 */
-	public function setup()
+	protected function setup()
 	{
 		// Set up the database object mock.
 

@@ -27,6 +27,8 @@ class JRegistryTest extends PHPUnit_Framework_TestCase
 	 */
 	public function setUp()
 	{
+		parent::setUp();
+
 		include_once 'stubs/JRegistryInspector.php';
 	}
 

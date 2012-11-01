@@ -48,6 +48,8 @@ class JHttpTest extends PHPUnit_Framework_TestCase
 	 */
 	protected function setUp()
 	{
+		parent::setUp();
+
 		static $classNumber = 1;
 		$this->options = $this->getMock('JRegistry', array('get', 'set'));
 		$this->transport = $this->getMock('JHttpTransportStream', array('request'), array($this->options), 'CustomTransport' . $classNumber ++, false);

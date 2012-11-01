@@ -28,8 +28,10 @@ class JCacheStorageTest_Main extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 */
-	public function setUp()
+	protected function setUp()
 	{
+		parent::setUp();
+
 		require_once dirname(__DIR__) . '/controller/JCacheControllerRaw.php';
 	}
 

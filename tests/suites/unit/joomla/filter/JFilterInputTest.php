@@ -454,15 +454,6 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Sets up for the test run.
-	 *
-	 * @return void
-	 */
-	protected function setUp()
-	{
-	}
-
-	/**
 	 * Produces the array of test cases for the Clean Text test run.
 	 *
 	 * @return array Two dimensional array of test cases. Each row consists of two values

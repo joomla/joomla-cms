@@ -24,8 +24,10 @@ class JCacheControllerCallbackTest_Callback extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 */
-	public function setUp()
+	protected function setUp()
 	{
+		parent::setUp();
+
 		// @todo remove: require_once dirname(dirname(dirname(dirname(dirname(__DIR__))))).'/bootstrap.php';
 		jimport('joomla.cache.cache');
 
