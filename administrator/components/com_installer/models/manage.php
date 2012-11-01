@@ -209,7 +209,7 @@ class InstallerModelManage extends InstallerModel
 			{
 				$id = trim($id);
 				$row->load($id);
-				if ($row->type)
+				if ($row->type && $row->type != 'language')
 				{
 					$result = $installer->uninstall($row->type, $id);
 
@@ -234,10 +234,20 @@ class InstallerModelManage extends InstallerModel
 
 			if (count($failed))
 			{
+				if ($row->type == 'language')
+				{
 
-				// There was an error in uninstalling the package
-				$msg = JText::sprintf('COM_INSTALLER_UNINSTALL_ERROR', $rowtype);
-				$result = false;
+					// One should always uninstall a language package, not a single language
+					$msg = JText::_('COM_INSTALLER_UNINSTALL_LANGUAGE');
+					$result = false;
+				}
+				else
+				{
+
+					// There was an error in uninstalling the package
+					$msg = JText::sprintf('COM_INSTALLER_UNINSTALL_ERROR', $rowtype);
+					$result = false;
+				}
 			}
 			else
 			{
