@@ -490,7 +490,7 @@ class JDateTest extends TestCaseDatabase
 	 *
 	 * @since   11.3
 	 */
-	function tearDown()
+	public function tearDown()
 	{
 	}
 

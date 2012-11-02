@@ -20,16 +20,11 @@ class JCryptPasswordSimpleTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Data provider for testCreate method.
 	 *
-	 * @param   string   $password  The password to create
-	 * @param   string   $type      The type of hash
-	 * @param   string   $salt      The salt to be used
-	 * @param   string   $expected  The expected result
-	 * @param   integer  $cost      The cost value
-	 *
 	 * @return array
 	 */
 	public function createData()
 	{
+		// Password, type, salt, expected cost
 		return array(
 			'Blowfish' => array('password', JCryptPassword::BLOWFISH, 'ABCDEFGHIJKLMNOPQRSTUV', '$2y$10$ABCDEFGHIJKLMNOPQRSTUOiAi7OcdE4zRCh6NcGWusEcNPtq6/w8.'),
 			'Blowfish2' => array('password', '$2a$', 'ABCDEFGHIJKLMNOPQRSTUV', '$2y$10$ABCDEFGHIJKLMNOPQRSTUOiAi7OcdE4zRCh6NcGWusEcNPtq6/w8.'),
@@ -68,6 +63,7 @@ class JCryptPasswordSimpleTest extends PHPUnit_Framework_TestCase
 	 * @expectedException  InvalidArgumentException
 	 *
 	 * @return void
+	 *
 	 * @dataProvider  createExceptionData
 	 *
 	 * @since    12.3
@@ -80,20 +76,25 @@ class JCryptPasswordSimpleTest extends PHPUnit_Framework_TestCase
 		$hasher->expects($this->any())
 			->method('getSalt')
 			->with(strlen($salt))
-			->will($this->returnValue($salt)
-		);
+			->will($this->returnValue($salt));
 
 		$this->assertEquals(
 			$expected,
 			$hasher->create($password, $type)
 		);
-
 	}
 
 	/**
 	 * Tests the JCryptPasswordSimple::Create method.
 	 *
+	 * @param   string   $password  The password to create
+	 * @param   string   $type      The type of hash
+	 * @param   string   $salt      The salt to be used
+	 * @param   string   $expected  The expected result
+	 * @param   integer  $cost      The cost value
+	 *
 	 * @return        void
+	 *
 	 * @dataProvider  createData
 	 *
 	 * @since   11.3
@@ -107,8 +108,7 @@ class JCryptPasswordSimpleTest extends PHPUnit_Framework_TestCase
 		$hasher->expects($this->any())
 			->method('getSalt')
 			->with(strlen($salt))
-			->will($this->returnValue($salt)
-		);
+			->will($this->returnValue($salt));
 
 		$this->assertEquals(
 			$expected,
@@ -119,14 +119,11 @@ class JCryptPasswordSimpleTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Data Provider for testVerify.
 	 *
-	 * @param   string   $password  The password to create
-	 * @param   string   $hash      The hash to use
-	 * @param   string   $expected  The expected result
-	 *
 	 * @return array
 	 */
 	public function verifyData()
 	{
+		// Password, hash, expected
 		return array(
 			'Blowfish Valid:' => array('password', '$2y$10$ABCDEFGHIJKLMNOPQRSTUOiAi7OcdE4zRCh6NcGWusEcNPtq6/w8.', true),
 			'Blowfish Invalid:' => array('wrong password', '$2y$10$ABCDEFGHIJKLMNOPQRSTUOiAi7OcdE4zRCh6NcGWusEcNPtq6/w8.', false),
@@ -159,14 +156,13 @@ class JCryptPasswordSimpleTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Data Provider for testDefaultType
 	 * 
-	 * @param   string   $type         The default to type of hash to be set
-	 * @param   string   $expectation  The expected result
-	 *
 	 * @return array
+	 *
 	 * @since   12.3
 	 */
 	public function defaultTypeData()
 	{
+		// Type, expectation
 		return array(
 			'Joomla' => array('Joomla','Joomla'),
 			'Null' => array('','$2y$'),
@@ -183,6 +179,7 @@ class JCryptPasswordSimpleTest extends PHPUnit_Framework_TestCase
 	 * @dataProvider  defaultTypeData
 	 *
 	 * @return void
+	 *
 	 * @since   12.3
 	 */
 	public function testSetDefaultType($type, $expectation)
@@ -205,6 +202,7 @@ class JCryptPasswordSimpleTest extends PHPUnit_Framework_TestCase
 	 * @dataProvider  defaultTypeData
 	 *
 	 * @return void
+	 *
 	 * @since   12.3
 	 */
 	public function testGetDefaultType($type, $expectation)
