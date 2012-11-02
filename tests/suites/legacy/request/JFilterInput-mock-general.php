@@ -37,11 +37,13 @@ class JFilterInputJRequest
 	public function clean($source, $type = 'string')
 	{
 		$hash = md5($source . '|' . strtoupper($type));
+
 		if (!isset($this->_expectations[$hash]))
 		{
 			$this->_expectations[$hash] = array('source' => $source, 'type' => $type, 'result' => null, 'count' => 0);
 		}
 		--$this->_expectations[$hash]['count'];
+
 		return $this->_expectations[$hash]['result'];
 	}
 

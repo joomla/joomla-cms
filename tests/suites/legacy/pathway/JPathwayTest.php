@@ -33,6 +33,7 @@ class JPathwayInspector extends JPathway
 		else
 		{
 			trigger_error('Undefined or private property: ' . __CLASS__ . '::' . $name, E_USER_ERROR);
+
 			return null;
 		}
 	}
@@ -128,6 +129,7 @@ class JPathwayTest extends TestCase
 		);
 
 		$ret = true;
+
 		try
 		{
 			JPathway::getInstance('Error');
