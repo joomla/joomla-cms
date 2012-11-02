@@ -26,12 +26,18 @@ class JCryptPasswordSimpleTest extends PHPUnit_Framework_TestCase
 	{
 		// Password, type, salt, expected cost
 		return array(
-			'Blowfish' => array('password', JCryptPassword::BLOWFISH, 'ABCDEFGHIJKLMNOPQRSTUV', '$2y$10$ABCDEFGHIJKLMNOPQRSTUOiAi7OcdE4zRCh6NcGWusEcNPtq6/w8.'),
-			'Blowfish2' => array('password', '$2a$', 'ABCDEFGHIJKLMNOPQRSTUV', '$2y$10$ABCDEFGHIJKLMNOPQRSTUOiAi7OcdE4zRCh6NcGWusEcNPtq6/w8.'),
-			'MD5' => array('password', JCryptPassword::MD5, 'ABCDEFGHIJKL', '$1$ABCDEFGH$hGGndps75hhROKqu/zh9q1'),
-			'Joomla' => array('password', JCryptPassword::JOOMLA, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ123456', '883a96d8da5440781fe7b60f1d4ae2b3:ABCDEFGHIJKLMNOPQRSTUVWXYZ123456'),
-			'Blowfish_5' => array('password', JCryptPassword::BLOWFISH, 'ABCDEFGHIJKLMNOPQRSTUV', '$2y$05$ABCDEFGHIJKLMNOPQRSTUOvv7EU5o68GAoLxyfugvULZR70IIMZqW', 5),
-			'default' => array('password', null, 'ABCDEFGHIJKLMNOPQRSTUV', '$2y$05$ABCDEFGHIJKLMNOPQRSTUOvv7EU5o68GAoLxyfugvULZR70IIMZqW', 5)
+			'Blowfish' => array('password', JCryptPassword::BLOWFISH, 'ABCDEFGHIJKLMNOPQRSTUV',
+				'$2y$10$ABCDEFGHIJKLMNOPQRSTUOiAi7OcdE4zRCh6NcGWusEcNPtq6/w8.'),
+			'Blowfish2' => array('password', '$2a$', 'ABCDEFGHIJKLMNOPQRSTUV',
+				'$2y$10$ABCDEFGHIJKLMNOPQRSTUOiAi7OcdE4zRCh6NcGWusEcNPtq6/w8.'),
+			'MD5' => array('password', JCryptPassword::MD5, 'ABCDEFGHIJKL',
+				'$1$ABCDEFGH$hGGndps75hhROKqu/zh9q1'),
+			'Joomla' => array('password', JCryptPassword::JOOMLA, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ123456',
+				'883a96d8da5440781fe7b60f1d4ae2b3:ABCDEFGHIJKLMNOPQRSTUVWXYZ123456'),
+			'Blowfish_5' => array('password', JCryptPassword::BLOWFISH, 'ABCDEFGHIJKLMNOPQRSTUV',
+				'$2y$05$ABCDEFGHIJKLMNOPQRSTUOvv7EU5o68GAoLxyfugvULZR70IIMZqW', 5),
+			'default' => array('password', null, 'ABCDEFGHIJKLMNOPQRSTUV',
+				'$2y$05$ABCDEFGHIJKLMNOPQRSTUOvv7EU5o68GAoLxyfugvULZR70IIMZqW', 5)
 		);
 	}
 

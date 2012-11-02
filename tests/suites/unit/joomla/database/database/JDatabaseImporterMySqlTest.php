@@ -36,10 +36,14 @@ class JDatabaseImporterMySqlTest extends PHPUnit_Framework_TestCase
 	 * @since  11.1
 	 */
 	protected $sample = array(
-		'xml-id-field' => '<field Field="id" Type="int(11) unsigned" Null="NO" Key="PRI" Default="" Extra="auto_increment" />',
-		'xml-title-field' => '<field Field="title" Type="varchar(50)" Null="NO" Key="" Default="" Extra="" />',
-		'xml-body-field' => '<field Field="body" Type="mediumtext" Null="NO" Key="" Default="" Extra="" />',
-		'xml-primary-key' => '<key Table="#__test" Non_unique="0" Key_name="PRIMARY" Seq_in_index="1" Column_name="id" Collation="A" Null="" Index_type="BTREE" Comment="" />',
+		'xml-id-field' =>
+			'<field Field="id" Type="int(11) unsigned" Null="NO" Key="PRI" Default="" Extra="auto_increment" />',
+		'xml-title-field' =>
+			'<field Field="title" Type="varchar(50)" Null="NO" Key="" Default="" Extra="" />',
+		'xml-body-field' =>
+			'<field Field="body" Type="mediumtext" Null="NO" Key="" Default="" Extra="" />',
+		'xml-primary-key' =>
+			'<key Table="#__test" Non_unique="0" Key_name="PRIMARY" Seq_in_index="1" Column_name="id" Collation="A" Null="" Index_type="BTREE" Comment="" />',
 	);
 
 	/**
