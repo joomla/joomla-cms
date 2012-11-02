@@ -28,6 +28,7 @@ $ -> Language fix or change
 
 02-Nov-2012 Mark Dexter
  ^ Fix up phpunit.xml.dist for old system tests.
+ # Remove logs folder (should not be tracked in Git)
 
 01-Nov-2012 Mark Dexter
  + Add Webdriver system tests
