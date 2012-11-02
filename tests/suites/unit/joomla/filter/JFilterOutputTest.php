@@ -171,7 +171,7 @@ class JFilterOutputTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return array
 	 */
-	static function dataSet()
+	public static function dataSet()
 	{
 		$cases = array(
 			'case_1' => array(

@@ -47,7 +47,7 @@ class JDocumentJSONTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @access protected
 	 *
-	 * @reurn void
+	 * @return void
 	 */
 	protected function tearDown()
 	{

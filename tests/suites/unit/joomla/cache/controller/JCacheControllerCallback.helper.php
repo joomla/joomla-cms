@@ -41,7 +41,7 @@ class TestCallbackController
 	 *
 	 * @return mixed
 	 */
-	static function staticCallback($arg1, $arg2)
+	public static function staticCallback($arg1, $arg2)
 	{
 		echo $arg1;
 

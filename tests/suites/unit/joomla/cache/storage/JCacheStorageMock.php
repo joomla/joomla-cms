@@ -48,6 +48,7 @@ class JCacheStorageMock extends JCacheStorage
 	public function get($id, $group, $checkTime)
 	{
 		$cache_id = $this->_getCacheId($id, $group);
+
 		if (isset($this->_storage[$id]))
 		{
 			return $this->_storage[$id];

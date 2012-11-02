@@ -76,7 +76,7 @@ class JHttpTransportTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the request method with a get request
 	 *
-	 * @param   string  $transportClass  @todo
+	 * @param   string  $transportClass  The transport class to test
 	 *
 	 * @dataProvider  transportProvider
 	 *
@@ -104,6 +104,8 @@ class JHttpTransportTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the request method with a get request with a bad domain
 	 *
+	 * @param   string  $transportClass  The transport class to test
+	 * 
 	 * @dataProvider      transportProvider
 	 * @expectedException RuntimeException
 	 *
@@ -118,6 +120,8 @@ class JHttpTransportTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the request method with a get request for non existant url
 	 *
+	 * @param   string  $transportClass  The transport class to test
+	 * 
 	 * @dataProvider  transportProvider
 	 *
 	 * @return void

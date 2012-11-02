@@ -63,7 +63,7 @@ class JCacheStorageTest extends TestCase
 	 *
 	 * @return    boolean   To not continue with JError processing
 	 */
-	static function errorCallback(&$error)
+	public static function errorCallback(&$error)
 	{
 		self::$actualError['code'] = $error->get('code');
 		self::$actualError['msg'] = $error->get('message');
@@ -125,6 +125,7 @@ class JCacheStorageTest extends TestCase
 	public function casesGetInstance()
 	{
 		$this->checkStores();
+
 		return array(
 			'defaultfile' => array(
 				'file',
