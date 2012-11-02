@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+02-Nov-2012 Jean-Marie Simonet
+ # [#29606] *New Feature Items associations also displays the parameter for other categories than com_content. Thanks Benjamin
+
 01-Nov-2012 Jean-Marie Simonet
  # [#29597] 'Title' label doesn't appear when editing an article in frontend. Thanks Stephania
  # [#29599] *Beez article category list display issue.

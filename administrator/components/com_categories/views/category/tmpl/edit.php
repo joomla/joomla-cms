@@ -14,7 +14,6 @@ JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 
 $app = JFactory::getApplication();
 $input = $app->input;
-$assoc = isset($app->item_associations) ? $app->item_associations : 0;
 
 // Load the tooltip behavior.
 JHtml::_('behavior.tooltip');
@@ -45,7 +44,7 @@ JHtml::_('formbehavior.chosen', 'select');
 				<li><a href="#publishing" data-toggle="tab"><?php echo JText::_('COM_CATEGORIES_FIELDSET_PUBLISHING');?></a></li>
 				<li><a href="#options" data-toggle="tab"><?php echo JText::_('CATEGORIES_FIELDSET_OPTIONS');?></a></li>
 				<li><a href="#metadata" data-toggle="tab"><?php echo JText::_('JGLOBAL_FIELDSET_METADATA_OPTIONS');?></a></li>
-				<?php if ($assoc): ?>
+				<?php if ($this->assoc) : ?>
 					<li><a href="#associations" data-toggle="tab"><?php echo JText::_('JGLOBAL_FIELDSET_ASSOCIATIONS');?></a></li>
 				<?php endif; ?>
 				<?php if ($this->canDo->get('core.admin')): ?>
@@ -155,7 +154,7 @@ JHtml::_('formbehavior.chosen', 'select');
 						<?php echo $this->loadTemplate('metadata'); ?>
 					</fieldset>
 				</div>
-				<?php if ($assoc) : ?>
+				<?php if ($this->assoc) : ?>
 					<div class="tab-pane" id="associations">
 						<fieldset>
 							<?php echo $this->loadTemplate('associations'); ?>
