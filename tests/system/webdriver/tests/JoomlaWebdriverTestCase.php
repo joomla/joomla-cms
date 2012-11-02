@@ -93,7 +93,7 @@ class JoomlaWebdriverTestCase extends PHPUnit_Framework_TestCase
 		$d = $this->driver;
 		$d->clearCurrentCookies();
 		$url = $this->cfg->host . $this->cfg->path . 'administrator/index.php';
-		$loginPage = $this->getPageObject('AdminloginPage', true, $url);
+		$loginPage = $this->getPageObject('AdminLoginPage', true, $url);
 		$cpPage = $loginPage->loginValidUser($this->cfg->username, $this->cfg->password);
 		$this->assertTrue(is_a($cpPage, 'ControlPanelPage'));
 		return $cpPage;

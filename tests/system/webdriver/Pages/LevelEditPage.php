@@ -23,11 +23,11 @@ class LevelEditPage extends AdminEditPage
 	 * @var array
 	 */
 	public $toolbar = array (
-			'toolbar-apply',
-			'toolbar-save',
-			'toolbar-save-new',
-			'toolbar-cancel',
-			'toolbar-help'
+			'Save' => 'toolbar-apply',
+			'Save & Close' => 'toolbar-save',
+			'Save & New' => 'toolbar-save-new',
+			'Cancel' => 'toolbar-cancel',
+			'Help' => 'toolbar-help',
 	);
 
 	/**

@@ -28,6 +28,7 @@ $ -> Language fix or change
 
 01-Nov-Mark Dexter
  + Add Webdriver system tests
+ # Clean up Webdriver tests, fix Linux bug.
 
 27-Oct-Mark Dexter
  # Fix up servers/config-def.php-dist

@@ -21,6 +21,13 @@ class GlobalConfigurationPage extends AdminEditPage
 	public $tabs = array('page-site', 'page-system', 'page-server', 'page-permissions', 'page-filters');
 	public $tabLabels = array('Site', 'System', 'Server', 'Permissions', 'Text Filters');
 
+	public $toolbar = array (
+			'Save' => 'toolbar-apply',
+			'Save & Close' => 'toolbar-save',
+			'Cancel' => 'toolbar-cancel',
+			'Help' => 'toolbar-help',
+	);
+
 	/**
 	 * Array of all input fields on the page (except for Permissions and Text Filters tabs). Each value is an associated array as follows:
 	 *   label: text of the label -- must be unique!

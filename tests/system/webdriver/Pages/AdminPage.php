@@ -212,7 +212,7 @@ abstract class AdminPage
 		$idOrLabel = strtolower($idOrLabel);
 		if (in_array($idOrLabel, $this->toolbar))
 		{
-			$this->driver->findElement(By::id($idOrLabel))->click();
+			$this->driver->findElement(By::xPath("//div[@id='" . $idOrLabel . "']/button"))->click();
 			$return = true;
 		}
 		else
@@ -221,7 +221,7 @@ abstract class AdminPage
 			{
 				if (stripos($label, $idOrLabel) !== false)
 				{
-					$this->driver->findElement(By::id($id))->click();
+					$this->driver->findElement(By::xPath("//div[@id='" . $id . "']/button"))->click();
 					return true;
 				}
 			}
@@ -325,7 +325,7 @@ abstract class AdminPage
 
 	public function saveAndClose($returnPage = 'GenericAdminPage')
 	{
-		$this->driver->findElement(By::id('toolbar-save'))->click();
+		$this->clickButton('toolbar-save');
 		return $this->test->getPageObject($returnPage);
 	}
 

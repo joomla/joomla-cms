@@ -15,7 +15,7 @@ use SeleniumClient\WebElement;
  */
 class ControlPanelPage extends AdminPage
 {
-	protected $waitForXpath = "//div[@id='plg_quickicon_joomlaupdate']//a[@href='index.php?option=com_joomlaupdate']";
+	protected $waitForXpath = "//h1[contains(., 'Control Panel')]";
 	protected $url = 'administrator/index.php';
 
 	/**
