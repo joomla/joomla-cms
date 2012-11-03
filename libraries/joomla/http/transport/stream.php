@@ -159,7 +159,21 @@ class JHttpTransportStream implements JHttpTransport
 		// Close the stream.
 		fclose($stream);
 
-		return $this->getResponse($metadata['wrapper_data'], $content);
+		if (isset($metadata['wrapper_data']['headers']))
+		{
+			$headers = $metadata['wrapper_data']['headers'];
+		}
+		elseif (isset($metadata['wrapper_data']))
+		{
+			$headers = $metadata['wrapper_data'];
+		}
+		else
+		{
+			$headers = array();
+		}
+
+		return $this->getResponse($headers, $content);
+
 	}
 
 	/**
