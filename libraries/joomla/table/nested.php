@@ -1033,7 +1033,7 @@ class JTableNested extends JTable
 
 			$children = $this->_db->setQuery($query)->loadColumn();
 
-			// Shift left and right values for the node and it's children.
+			// Shift left and right values for the node and its children.
 			$query->clear()
 				->update($this->_tbl)
 				->set('lft = lft - ' . (int) $sibling->width)
@@ -1041,7 +1041,7 @@ class JTableNested extends JTable
 				->where('lft BETWEEN ' . (int) $node->lft . ' AND ' . (int) $node->rgt);
 			$this->_db->setQuery($query)->execute();
 
-			// Shift left and right values for the sibling and it's children.
+			// Shift left and right values for the sibling and its children.
 			$query->clear()
 				->update($this->_tbl)
 				->set('lft = lft + ' . (int) $node->width)
@@ -1119,7 +1119,7 @@ class JTableNested extends JTable
 			$this->_db->setQuery($query);
 			$children = $this->_db->loadColumn();
 
-			// Shift left and right values for the node and it's children.
+			// Shift left and right values for the node and its children.
 			$query->clear()
 				->update($this->_tbl)
 				->set('lft = lft + ' . (int) $sibling->width)
@@ -1127,7 +1127,7 @@ class JTableNested extends JTable
 				->where('lft BETWEEN ' . (int) $node->lft . ' AND ' . (int) $node->rgt);
 			$this->_db->setQuery($query)->execute();
 
-			// Shift left and right values for the sibling and it's children.
+			// Shift left and right values for the sibling and its children.
 			$query->clear()
 				->update($this->_tbl)
 				->set('lft = lft - ' . (int) $node->width)
