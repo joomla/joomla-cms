@@ -51,9 +51,12 @@ class JApplicationWebRouterBaseTest extends TestCase
 			array('test/foo/path', true, '', array(), 2),
 			array('test/foo/path/bar', false, 'test', array('seg1' => 'foo', 'seg2' => 'bar', '_rawRoute' => 'test/foo/path/bar'), 2),
 			array('content/article-1/*', false, 'content', array('_rawRoute' => 'content/article-1/*'), 2),
-			array('content/cat-1/article-1', false, 'article', array('category' => 'cat-1', 'article' => 'article-1', '_rawRoute' => 'content/cat-1/article-1'), 2),
-			array('content/cat-1/cat-2/article-1', false, 'article', array('category' => 'cat-1/cat-2', 'article' => 'article-1', '_rawRoute' => 'content/cat-1/cat-2/article-1'), 2),
-			array('content/cat-1/cat-2/cat-3/article-1', false, 'article', array('category' => 'cat-1/cat-2/cat-3', 'article' => 'article-1', '_rawRoute' => 'content/cat-1/cat-2/cat-3/article-1'), 2)
+			array('content/cat-1/article-1', false,
+				'article', array('category' => 'cat-1', 'article' => 'article-1', '_rawRoute' => 'content/cat-1/article-1'), 2),
+			array('content/cat-1/cat-2/article-1', false,
+				'article', array('category' => 'cat-1/cat-2', 'article' => 'article-1', '_rawRoute' => 'content/cat-1/cat-2/article-1'), 2),
+			array('content/cat-1/cat-2/cat-3/article-1', false,
+				'article', array('category' => 'cat-1/cat-2/cat-3', 'article' => 'article-1', '_rawRoute' => 'content/cat-1/cat-2/cat-3/article-1'), 2)
 		);
 	}
 
