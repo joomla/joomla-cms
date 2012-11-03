@@ -113,6 +113,7 @@ class JRequestTest_GetVar extends TestCase
 		 */
 		$actual = JRequest::getVar($name, $default, $hash, $type, $mask);
 		$this->assertEquals($expect, $actual, 'Cached getVar');
+
 		if (($filterOK = $filter->mockTearDown()) !== true)
 		{
 			$this->fail('JFilterInput not called as expected:' . print_r($filterOK, true));
