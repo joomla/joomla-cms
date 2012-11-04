@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+04-Nov-2012 Jean-Marie Simonet
+ # [#29610] User and Notes views missing chosen/bootstrap. Thanks Kyle.
+
 02-Nov-2012 Jean-Marie Simonet
  # [#29606] *New Feature Items associations also displays the parameter for other categories than com_content. Thanks Benjamin
  # [#29602] Add bootstrap-extended to the CSS compiler. Thanks Michael
