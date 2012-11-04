@@ -246,7 +246,7 @@ abstract class JOAuth1Client
 	 * @param   string  $url         The request URL.
 	 * @param   string  $method      The request method.
 	 * @param   array   $parameters  Array containing request parameters.
-	 * @param   array   $data        The POST request data.
+	 * @param   mixed   $data        The POST request data.
 	 * @param   array   $headers     An array of name-value pairs to include in the header of the request
 	 *
 	 * @return  object  The JHttpResponse object.
@@ -267,8 +267,8 @@ abstract class JOAuth1Client
 
 		$parameters = array_merge($parameters, $defaults);
 
-		// Do not encode multipart parameters.
-		if (isset($headers['Content-Type']) && strpos($headers['Content-Type'], 'multipart/form-data') !== false)
+		// Do not encode multipart parameters. Do not include $data in the signature if $data is not array.
+		if (isset($headers['Content-Type']) && strpos($headers['Content-Type'], 'multipart/form-data') !== false || !is_array($data))
 		{
 			$oauth_headers = $parameters;
 		}
@@ -282,7 +282,10 @@ abstract class JOAuth1Client
 		$oauth_headers = $this->_signRequest($url, $method, $oauth_headers);
 
 		// Get parameters for the Authorisation header.
-		$oauth_headers = array_diff_key($oauth_headers, $data);
+		if (is_array($data))
+		{
+			$oauth_headers = array_diff_key($oauth_headers, $data);
+		}
 
 		// Send the request.
 		switch ($method)
