@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+04-Nov-2012 Mark Dexter
+ ^ Add phpunit.xml.dist file and fix redirect test
+
 30-Jul-2012 Mark Dexter
  ^ Add ability to capture screenshots on failure for system tests
 
