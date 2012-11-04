@@ -18,7 +18,6 @@ Disallow: /cli/
 Disallow: /components/
 Disallow: /images/
 Disallow: /includes/
-Disallow: /installation/
 Disallow: /language/
 Disallow: /libraries/
 Disallow: /logs/
