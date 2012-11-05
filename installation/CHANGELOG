@@ -28,6 +28,7 @@ $ -> Language fix or change
 
 05-Nov-2012 Mark Dexter
  # [#29565] Joomla! 3.x version update information issue on 64-bit servers. Thanks Ofer.
+ # [#28960] Correct system message output. Thanks Viet Vu.
 
 04-Nov-2012 Jean-Marie Simonet
  # [#29610] User and Notes views missing chosen/bootstrap. Thanks Kyle.
