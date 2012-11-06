@@ -27,7 +27,8 @@ $ -> Language fix or change
 ! -> Note
 
 06-Nov-2012 Mark Dexter
- # [#29128] Add a heading menu item, use Bootstrap's markup for separator
+ # [#29128] Add a heading menu item, use Bootstrap's markup for separator. Thanks Michael.
+ # [#29626] Commit for 29519 Breaks Wrapper Menu Item Type. Thanks Elin.
 
 05-Nov-2012 Mark Dexter
  # Fix failing system tests (from HTML output changes)
