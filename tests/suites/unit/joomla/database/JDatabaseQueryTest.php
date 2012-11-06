@@ -1765,4 +1765,32 @@ class JDatabaseQueryTest extends TestCase
 		);
 	}
 
+	/**
+	 * Tests the JDatabaseQuery::format method.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.3
+	 */
+	public function testFormat()
+	{
+		$q = new JDatabaseQueryInspector($this->dbo);
+
+		$result = $q->format('SELECT %n FROM %n WHERE %n = %a', 'foo', '#__bar', 'id', 10);
+		$expected = 'SELECT ' . $q->qn('foo') . ' FROM ' . $q->qn('#__bar') . ' WHERE ' . $q->qn('id') . ' = 10';
+		$this->assertThat(
+			$result,
+			$this->equalTo($expected),
+			'Line: ' . __LINE__ . '.'
+		);
+
+		$result = $q->format('SELECT %n FROM %n WHERE %n = %t OR %3$n = %Z', 'id', '#__foo', 'date');
+		$expected = 'SELECT ' . $q->qn('id') . ' FROM ' . $q->qn('#__foo') . ' WHERE ' . $q->qn('date') . ' = ' . $q->currentTimestamp() . ' OR ' . $q->qn('date') . ' = ' . $q->nullDate(true);
+		$this->assertThat(
+			$result,
+			$this->equalTo($expected),
+			'Line: ' . __LINE__ . '.'
+		);
+
+	}
 }
