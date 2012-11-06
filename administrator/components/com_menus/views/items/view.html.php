@@ -64,6 +64,10 @@ class MenusViewItems extends JViewLegacy
 					$value = JText::_('COM_MENUS_TYPE_SEPARATOR');
 					break;
 
+				case 'heading':
+					$value = JText::_('COM_MENUS_TYPE_HEADING');
+					break;
+
 				case 'component':
 				default:
 					// load language
