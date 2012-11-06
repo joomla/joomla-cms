@@ -44,7 +44,7 @@ class Featured0001Test extends SeleniumJoomlaTestCase
 		$this->type("//input[@name='order[]' and @value='4']", "1");
 		$this->click("//a[contains(@href, 'saveorder')]");
 		$this->waitForPageToLoad("30000");
-		$this->assertTrue($this->isElementPresent("//div[@id='system-message']//p[contains(text(), 'success')]"));
+		$this->assertTrue($this->isElementPresent("//div[@id='system-message-container']//p[contains(text(), 'success')]"));
 
 		echo "Go to front page and check article order\n";
 		$this->gotoSite();
@@ -64,7 +64,7 @@ class Featured0001Test extends SeleniumJoomlaTestCase
 		$this->waitForPageToLoad("30000");
 
 		echo "Check that the save order was successful\n";
-		$this->assertTrue($this->isElementPresent("//div[@id='system-message']//p[contains(text(), 'success')]"));
+		$this->assertTrue($this->isElementPresent("//div[@id='system-message-container']//p[contains(text(), 'success')]"));
 
 		echo "Go to site and check that the articles are in original order.\n";
 		$this->gotoSite();

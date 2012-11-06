@@ -34,7 +34,7 @@ class Article0004 extends SeleniumJoomlaTestCase
 		$this->click("//button[@type='submit' and @onclick=\"Joomla.submitbutton('article.batch');\"]");
 		$this->waitForPageToLoad("30000");
 		echo "Check for success message\n";
-		$this->assertTrue($this->isElementPresent("//div[@id=\"system-message\"][contains(., 'success')]"));
+		$this->assertTrue($this->isElementPresent("//div[@id=\"system-message-container\"][contains(., 'success')]"));
 
 		echo "Check that first three articles are Special Access Level\n";
 		$this->assertEquals("Special", $this->getTable("//form[@id='adminForm']//table.1.4"));
@@ -48,7 +48,7 @@ class Article0004 extends SeleniumJoomlaTestCase
 		$this->click("//button[@type='submit' and @onclick=\"Joomla.submitbutton('article.batch');\"]");
 		$this->waitForPageToLoad("30000");
 		echo "Check for success message\n";
-		$this->assertTrue($this->isElementPresent("//div[@id=\"system-message\"][contains(., 'success')]"));
+		$this->assertTrue($this->isElementPresent("//div[@id=\"system-message-container\"][contains(., 'success')]"));
 		$this->assertEquals("Public", $this->getTable("//form[@id='adminForm']//table.1.4"));
 		$this->assertEquals("Public", $this->getTable("//form[@id='adminForm']//table.2.4"));
 		$this->assertEquals("Public", $this->getTable("//form[@id='adminForm']//table.3.4"));
@@ -79,7 +79,7 @@ class Article0004 extends SeleniumJoomlaTestCase
 		$this->click("//button[@type='submit' and @onclick=\"Joomla.submitbutton('article.batch');\"]");
 		$this->waitForPageToLoad("30000");
 		echo "Check for success message\n";
-		$this->assertTrue($this->isElementPresent("//div[@id=\"system-message\"][contains(., 'success')]"));
+		$this->assertTrue($this->isElementPresent("//div[@id=\"system-message-container\"][contains(., 'success')]"));
 		echo "Check that new articles are in Park Site category\n";
 		$this->select("filter_category_id", "label=- Park Site");
 		$this->waitForPageToLoad("30000");
@@ -116,7 +116,7 @@ class Article0004 extends SeleniumJoomlaTestCase
 		$this->click("//button[@type='submit' and @onclick=\"Joomla.submitbutton('article.batch');\"]");
 		$this->waitForPageToLoad("30000");
 		echo "Check for success message\n";
-		$this->assertTrue($this->isElementPresent("//div[@id=\"system-message\"][contains(., 'success')]"));
+		$this->assertTrue($this->isElementPresent("//div[@id=\"system-message-container\"][contains(., 'success')]"));
 		echo "Check that new article is created with correct name and alias\n";
 		$this->assertStringStartsWith('Administrator Components', $this->getTable("//form[@id='adminForm']//table.2.3"));
 		echo "Trash and delete new article\n";
@@ -159,7 +159,7 @@ class Article0004 extends SeleniumJoomlaTestCase
 		$this->click("//button[@type='submit' and @onclick=\"Joomla.submitbutton('article.batch');\"]");
 		$this->waitForPageToLoad("30000");
 		echo "Check for success message\n";
-		$this->assertTrue($this->isElementPresent("//div[@id=\"system-message\"][contains(., 'success')]"));
+		$this->assertTrue($this->isElementPresent("//div[@id=\"system-message-container\"][contains(., 'success')]"));
 		echo "Check that articles moved to new category\n";
 		$this->assertStringStartsWith('Archive Module', $this->getTable("//form[@id='adminForm']//table.2.3"));
 		$this->assertStringStartsWith('Article Categories Module', $this->getTable("//form[@id='adminForm']//table.3.3"));
@@ -175,7 +175,7 @@ class Article0004 extends SeleniumJoomlaTestCase
 		$this->click("//button[@type='submit' and @onclick=\"Joomla.submitbutton('article.batch');\"]");
 		$this->waitForPageToLoad("30000");
 		echo "Check for success message\n";
-		$this->assertTrue($this->isElementPresent("//div[@id=\"system-message\"][contains(., 'success')]"));
+		$this->assertTrue($this->isElementPresent("//div[@id=\"system-message-container\"][contains(., 'success')]"));
 		echo "Check that articles are back to original category\n";
 		$this->assertStringStartsWith('Archive Module', $this->getTable("//form[@id='adminForm']//table.2.3"));
 		$this->assertStringStartsWith('Article Categories Module', $this->getTable("//form[@id='adminForm']//table.3.3"));

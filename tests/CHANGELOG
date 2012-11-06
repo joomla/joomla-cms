@@ -26,6 +26,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+05-Nov-2012 Mark Dexter
+ # Fix failing system tests
+ ^ Remove some asserts from try/catch blocks (makes it easier to trace failures)
+
 02-Nov-2012 Mark Dexter
  ^ Fix up phpunit.xml.dist for old system tests.
  # Remove logs folder (should not be tracked in Git)

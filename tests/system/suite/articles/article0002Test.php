@@ -34,7 +34,7 @@ class Article0002 extends SeleniumJoomlaTestCase
 	    $this->click("//button[@type='button']");
 	    $this->waitForPageToLoad("30000");
 		try {
-	        $this->assertTrue($this->isElementPresent("//div[@id='system-message']//p[contains(text(), 'success')]"));
+	        $this->assertTrue($this->isElementPresent("//div[@id='system-message-container']//p[contains(text(), 'success')]"));
 	    } catch (PHPUnit_Framework_AssertionFailedError $e) {
 			array_push($this->verificationErrors, $this->getTraceFiles($e));
 	    }
@@ -64,7 +64,7 @@ class Article0002 extends SeleniumJoomlaTestCase
 	    $this->waitForPageToLoad("30000");
 	    echo "Check for success message\n";
 	    try {
-	    	$this->assertTrue($this->isElementPresent("//div[@id='system-message']//p[contains(text(), 'success')]"));
+	    	$this->assertTrue($this->isElementPresent("//div[@id='system-message-container']//p[contains(text(), 'success')]"));
 	    } catch (PHPUnit_Framework_AssertionFailedError $e) {
 			array_push($this->verificationErrors, $this->getTraceFiles($e));
 	    }
