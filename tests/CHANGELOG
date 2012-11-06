@@ -27,8 +27,9 @@ $ -> Language fix or change
 ! -> Note
 
 05-Nov-2012 Mark Dexter
- # Fix failing system tests
+ # Fix failing system tests (from HTML output changes)
  ^ Remove some asserts from try/catch blocks (makes it easier to trace failures)
+ # Fix failing Webdriver tests (from HTML output changes)
 
 02-Nov-2012 Mark Dexter
  ^ Fix up phpunit.xml.dist for old system tests.

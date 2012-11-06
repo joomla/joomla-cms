@@ -266,7 +266,7 @@ abstract class AdminPage
 
 	public function getAlertMessage()
 	{
-		return $this->driver->findElement(By::id('system-message'))->getText();
+		return $this->driver->findElement(By::id('system-message-container'))->getText();
 	}
 
 	/**
