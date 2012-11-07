@@ -23,13 +23,16 @@
 
  */
 
+// Make sure file and folder permissions are set correctly
+umask(022);
+
 // Set version for each build
 // Version is first 2 digits (like '1.7', '2.5', or '3.0')
 $version = '2.5';
 
 // Set release for each build
 // Release is third digit (like '0', '1', or '2')
-$release = '7';
+$release = '8';
 
 // Set path to git binary (e.g., /usr/local/git/bin/git or /urs/bin/git)
 $gitPath = '/usr/bin/git';

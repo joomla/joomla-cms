@@ -26,6 +26,8 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+-------------------- 2.5.8 Stable Release [8-November-2012] ------------------
+
 29-Oct-2012 Jean-Marie Simonet
  # [#29575] Article Manager excludes identity of author
 
