@@ -135,7 +135,7 @@ class JRequestTest_DataSet
 		$_ENV = array('tag' => 'from _ENV');
 		$_FILES = array('tag' => 'from _FILES');
 		$_POST = array('tag' => 'from _POST');
-		$_SERVER = array('tag' => 'from _SERVER', 'REQUEST_METHOD' => 'POST');
+		$_SERVER = array('tag' => 'from _SERVER', 'REQUEST_METHOD' => 'POST', 'HTTP_HOST' => 'example.com', 'SCRIPT_NAME' => 'helper.php');
 
 		// Merge get and post into request.
 		$_REQUEST = array_merge($_GET, $_POST);
