@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 JLoader::register('ContentHelper', JPATH_ADMINISTRATOR . '/components/com_content/helpers/content.php');
-JLoader::register('CategoriesHelper', JPATH_ADMINISTRATOR . '/components/com_categories/helpers/categories.php');
+JLoader::register('CategoryHelperAssociation', JPATH_ADMINISTRATOR . '/components/com_categories/helpers/association.php');
 
 /**
  * Content Component Association Helper
@@ -19,8 +19,19 @@ JLoader::register('CategoriesHelper', JPATH_ADMINISTRATOR . '/components/com_cat
  * @subpackage  com_content
  * @since       3.0
  */
-class ContentHelperAssociation
+abstract class ContentHelperAssociation extends CategoryHelperAssociation
 {
+	/**
+	 * Method to get the associations for a given item
+	 *
+	 * @param   integer  $id    Id of the item
+	 * @param   string   $view  Name of the view
+	 *
+	 * @return  array   Array of associations for the item
+	 *
+	 * @since  3.0
+	 */
+
 	public static function getAssociations($id = 0, $view = null)
 	{
 		jimport('helper.route', JPATH_COMPONENT_SITE);
@@ -38,10 +49,9 @@ class ContentHelperAssociation
 
 				$return = array();
 
-				foreach ($associations as $tag => $item) {
-
+				foreach ($associations as $tag => $item)
+				{
 					$return[$tag] = ContentHelperRoute::getArticleRoute($item->id, $item->catid, $item->language);
-
 				}
 
 				return $return;
@@ -50,20 +60,7 @@ class ContentHelperAssociation
 
 		if ($view == 'category' || $view == 'categories')
 		{
-			if ($id)
-			{
-				$associations = CategoriesHelper::getAssociations($id, 'com_content');
-
-				$return = array();
-
-				foreach ($associations as $tag => $item) {
-
-					$return[$tag] = ContentHelperRoute::getCategoryRoute($item, $tag);
-
-				}
-
-				return $return;
-			}
+			return self::getCategoryAssociations($id, 'com_content');
 		}
 
 		return array();

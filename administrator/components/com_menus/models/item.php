@@ -647,6 +647,7 @@ class MenusModelItem extends JModelAdmin
 				break;
 
 			case 'separator':
+			case 'heading':
 				$table->link = '';
 				$table->component_id = 0;
 				break;

@@ -271,6 +271,19 @@
 				<option value="1">JSHOW</option>
 			</field>
 
+			<field
+				name="info_block_position"
+				type="list"
+				default="0"
+				label="COM_CONTENT_FIELD_INFOBLOCK_POSITION_LABEL"
+				description="COM_CONTENT_FIELD_INFOBLOCK_POSITION_DESC">
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
+				<option value="0">COM_CONTENT_FIELD_OPTION_ABOVE</option>
+				<option value="1">COM_CONTENT_FIELD_OPTION_BELOW</option>
+				<option value="2">COM_CONTENT_FIELD_OPTION_SPLIT</option>
+			</field>
+
 			<field name="show_category" type="list"
 				description="JGLOBAL_SHOW_CATEGORY_DESC"
 				label="JGLOBAL_SHOW_CATEGORY_LABEL"
@@ -309,18 +322,6 @@
 				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
-			</field>
-
-			<field
-				name="info_bloc_position"
-				type="list"
-				default="0"
-				label="COM_CONTENT_FIELD_INFOBLOCK_POSITION_LABEL"
-				description="COM_CONTENT_FIELD_INFOBLOCK_POSITION_DESC">
-				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="0">COM_CONTENT_FIELD_OPTION_ABOVE</option>
-				<option value="1">COM_CONTENT_FIELD_OPTION_BELOW</option>
-				<option value="2">COM_CONTENT_FIELD_OPTION_SPLIT</option>
 			</field>
 
 			<field name="show_author" type="list"

@@ -24,6 +24,8 @@ class CategoriesViewCategory extends JViewLegacy
 
 	protected $state;
 
+	protected $assoc;
+
 	/**
 	 * Display the view
 	 */
@@ -33,6 +35,7 @@ class CategoriesViewCategory extends JViewLegacy
 		$this->item  = $this->get('Item');
 		$this->state = $this->get('State');
 		$this->canDo = CategoriesHelper::getActions($this->state->get('category.component'));
+		$this->assoc = $this->get('Assoc');
 
 		$input = JFactory::getApplication()->input;
 

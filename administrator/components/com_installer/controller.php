@@ -21,10 +21,11 @@ class InstallerController extends JControllerLegacy
 	/**
 	 * Method to display a view.
 	 *
-	 * @param	boolean			If true, the view output will be cached
-	 * @param	array			An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 * @param   boolean  $cachable   If true, the view output will be cached
+	 * @param   array    $urlparams  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
-	 * @return	JController		This object to support chaining.
+	 * @return  JController  This object to support chaining.
+	 *
 	 * @since	1.5
 	 */
 	public function display($cachable = false, $urlparams = false)
@@ -40,7 +41,8 @@ class InstallerController extends JControllerLegacy
 		$lName   = $this->input->get('layout', 'default');
 
 		// Get and render the view.
-		if ($view = $this->getView($vName, $vFormat)) {
+		if ($view = $this->getView($vName, $vFormat))
+		{
 			$ftp = JClientHelper::setCredentialsFromRequest('ftp');
 			$view->ftp = &$ftp;
 
