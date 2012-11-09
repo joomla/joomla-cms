@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+09-Nov-2012 Jean-Marie Simonet
+ # Correcting EOL
+
 -------------------- 3.0.2 Stable Release [8-Nov-2012] ------------------
 
 06-Nov-2012 Mark Dexter
