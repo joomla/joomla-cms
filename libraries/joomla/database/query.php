@@ -1512,7 +1512,6 @@ abstract class JDatabaseQuery
 	 */
 	public function union($query, $distinct = false, $glue = '')
 	{
-
 		// Clear any ORDER BY clause in UNION query
 		// See http://dev.mysql.com/doc/refman/5.0/en/union.html
 		if (!is_null($this->order))
@@ -1532,6 +1531,7 @@ abstract class JDatabaseQuery
 			$name = 'UNION ()';
 
 		}
+
 		// Get the JDatabaseQueryElement if it does not exist
 		if (is_null($this->union))
 		{
@@ -1647,6 +1647,7 @@ abstract class JDatabaseQuery
 
 			// Increment the argument index only if argument specifier not provided.
 			$index = is_numeric($match[4]) ? (int) $match[4] : $i++;
+
 			if (!$index || !isset($args[$index]))
 			{
 				// TODO - What to do? sprintf() throws a Warning in these cases.
@@ -1688,7 +1689,6 @@ abstract class JDatabaseQuery
 					break;
 
 				// Dates
-
 				case 'y':
 					return $query->year($query->quote($replacement));
 					break;
