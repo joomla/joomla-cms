@@ -12,6 +12,11 @@ require_once __DIR__ . '/JRequest-helper-dataset.php';
 /**
  * Test class for JRequest.
  *
+ * Note: This class only tests methods from JRequest
+ * that are independent of $_SERVER['REQUEST_METHOD'];
+ * For tests specific to $_POST, see JRequestPostMethodTest.php
+ * For tests specific to $_GET, see JRequestGetMethodTest.php
+ *
  * @package     Joomla.UnitTest
  * @subpackage  Request
  *
@@ -19,160 +24,101 @@ require_once __DIR__ . '/JRequest-helper-dataset.php';
  */
 class JRequestTest extends TestCase
 {
+
+	/**
+	 * Set up the tests
+	 *
+	 * @return  void
+	 */
+	protected function setUp()
+	{
+		JRequestTest_DataSet::initSuperGlobals();
+
+		parent::setUp();
+	}
+
 	/**
 	 * Test JRequest::getUri
-	 *
-	 * @todo    Implement testGetURI().
 	 *
 	 * @return  void
 	 */
 	public function testGetURI()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
+		$uri = JUri::getInstance();
+		$uri->setPath('/foo/bar');
+		$uri->setQuery(array('baz' => 'buz'));
 
-	/**
-	 * Test JRequest::getMethod
-	 *
-	 * @todo    Implement testGetMethod().
-	 *
-	 * @return  void
-	 */
-	public function testGetMethod()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$this->assertEquals('/foo/bar?baz=buz', JRequest::getUri());
 	}
 
 	/**
 	 * Test JRequest::getVar
 	 *
-	 * @todo    Implement testGetVar().
-	 *
 	 * @return  void
 	 */
 	public function testGetVar()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$this->assertNull(JRequest::getVar('nonExistant'));
 	}
 
 	/**
 	 * Test JRequest::getInt
 	 *
-	 * @todo    Implement testGetInt().
-	 *
 	 * @return  void
 	 */
 	public function testGetInt()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$this->assertTrue(0 === JRequest::getInt('nonExistant'));
 	}
 
 	/**
 	 * Test JRequest::getFloat
 	 *
-	 * @todo    Implement testGetFloat().
-	 *
 	 * @return  void
 	 */
 	public function testGetFloat()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$this->assertTrue(0.0 === JRequest::getFloat('nonExistant'));
 	}
 
 	/**
 	 * Test JRequest::getBool
 	 *
-	 * @todo    Implement testGetBool().
-	 *
 	 * @return  void
 	 */
 	public function testGetBool()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$this->assertFalse(JRequest::getBool('nonExistant'));
 	}
 
 	/**
 	 * Test JRequest::getWord
 	 *
-	 * @todo    Implement testGetWord().
-	 *
 	 * @return  void
 	 */
 	public function testGetWord()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$this->assertTrue('' === JRequest::getWord('nonExistant'));
 	}
 
 	/**
 	 * Test JRequest::getCmd
 	 *
-	 * @todo    Implement testGetCmd().
-	 *
 	 * @return  void
 	 */
 	public function testGetCmd()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$this->assertTrue('' === JRequest::getCmd('nonExistant'));
 	}
 
 	/**
 	 * Test JRequest::getString
 	 *
-	 * @todo    Implement testGetString().
-	 *
 	 * @return  void
 	 */
 	public function testGetString()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
-	 * Test JRequest::setVar
-	 *
-	 * @todo    Implement testSetVar().
-	 *
-	 * @return  void
-	 */
-	public function testSetVar()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
-	 * Test JRequest::get
-	 *
-	 * @todo    Implement testGet().
-	 *
-	 * @return  void
-	 */
-	public function testGet()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
-	 * Test JRequest::set
-	 *
-	 * @todo    Implement testSet().
-	 *
-	 * @return  void
-	 */
-	public function testSet()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$this->assertTrue('' === JRequest::getString('nonExistant'));
 	}
 
 	/**
@@ -189,15 +135,17 @@ class JRequestTest extends TestCase
 	}
 
 	/**
-	 * Test JRequest::clean
-	 *
-	 * @todo    Implement testClean().
+	 * Test JRequest::_cleanVar
 	 *
 	 * @return  void
 	 */
-	public function testClean()
+	public function testCleanVar()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$method = new ReflectionMethod('JRequest', '_cleanVar');
+		$method->setAccessible(true);
+
+		$this->assertEquals('foobar', $method->invokeArgs(null, array(' foobar   ')));
+		$this->assertEquals(' foobar   ', $method->invokeArgs(null, array(' foobar   ', 1)));
+		$this->assertEquals('fooxssbar', $method->invokeArgs(null, array(' foo<script>xss</script>bar   ', 4)));
 	}
 }
