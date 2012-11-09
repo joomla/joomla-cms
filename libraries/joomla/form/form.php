@@ -1489,10 +1489,11 @@ class JForm
 
 		/*
 		 * Get an array of <field /> elements that are underneath a <fieldset /> element
-		 * with the appropriate name attribute, and also any <field /> elements with
-		 * the appropriate fieldset attribute.
+		 * with the appropriate name attribute (unless they are the decendents
+		 * of another <field /> element for some reaon), and also any <field /> elements
+		 * with the appropriate fieldset attribute.
 		 */
-		$fields = $this->xml->xpath('//fieldset[@name="' . $name . '"]//field | //field[@fieldset="' . $name . '"]');
+		$fields = $this->xml->xpath('//fieldset[@name="' . $name . '"]//field[not(ancestor::field)] | //field[@fieldset="' . $name . '"]');
 
 		return $fields;
 	}
