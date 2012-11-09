@@ -17,6 +17,7 @@ jimport('joomla.filesystem.file');
  * @package     Joomla.Platform
  * @subpackage  Installer
  * @since       12.2
+ * @deprecated  13.3
  */
 abstract class JInstallerManifest
 {

@@ -21,6 +21,7 @@ jimport('joomla.environment.response');
  * @package     Joomla.Legacy
  * @subpackage  Application
  * @since       11.1
+ * @deprecated  13.3
  */
 class JApplication extends JApplicationBase
 {

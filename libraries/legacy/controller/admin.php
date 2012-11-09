@@ -18,6 +18,7 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Legacy
  * @subpackage  Controller
  * @since       12.2
+ * @deprecated  13.3
  */
 class JControllerAdmin extends JControllerLegacy
 {

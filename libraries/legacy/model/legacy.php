@@ -18,6 +18,7 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Legacy
  * @subpackage  Model
  * @since       12.2
+ * @deprecated  13.3
  */
 abstract class JModelLegacy extends JObject
 {

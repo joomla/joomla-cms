@@ -31,7 +31,7 @@ const JERROR_ILLEGAL_MODE = 3;
  * @package     Joomla.Legacy
  * @subpackage  Error
  * @since       11.1
- * @deprecated  12.1   Use PHP Exception
+ * @deprecated  13.1   Use PHP Exception
  */
 abstract class JError
 {

@@ -17,6 +17,7 @@ jimport('joomla.base.adapterinstance');
  * @package     Joomla.Platform
  * @subpackage  Installer
  * @since       11.1
+ * @deprecated  13.3
  */
 class JInstallerPackage extends JAdapterInstance
 {
