@@ -14,7 +14,7 @@ require_once 'SeleniumJoomlaTestCase.php';
 class ControlPanel0004 extends SeleniumJoomlaTestCase
 {
 
-	function xtestCreateRemoveCategory()
+	function testCreateRemoveCategory()
 	{
 		echo "Starting testCreateRemoveCategory\n";
 		$this->setUp();
@@ -206,7 +206,7 @@ class ControlPanel0004 extends SeleniumJoomlaTestCase
 		$this->assertContains("Templates", $this->getTable("//table[@class='adminlist'].6.1"));
 		$this->assertContains("Modules", $this->getTable("//table[@class='adminlist'].9.1"));
 		$this->assertContains("Components", $this->getTable("//table[@class='adminlist'].15.1"));
-		$this->assertTrue($this->isElementPresent("//div[@id='system-message'][contains(., 'success')]"));
+		$this->assertTrue($this->isElementPresent("//div[@id='system-message-container'][contains(., 'success')]"));
 
 		echo "put the categories back in the original order and click Save Order\n";
 		$this->type("xpath=(//input[@name='order[]'])[4]", "5");
@@ -218,7 +218,7 @@ class ControlPanel0004 extends SeleniumJoomlaTestCase
 		$this->waitForPageToLoad("30000");
 
 		echo "Check for success message and that order has been put back to original\n";
-		$this->assertTrue($this->isElementPresent("//div[@id='system-message'][contains(., 'success')]"));
+		$this->assertTrue($this->isElementPresent("//div[@id='system-message-container'][contains(., 'success')]"));
 		$this->assertContains("Components", $this->getTable("//table[@class='adminlist'].4.1"));
 		$this->assertContains("Modules", $this->getTable("//table[@class='adminlist'].5.1"));
 		$this->assertContains("Templates", $this->getTable("//table[@class='adminlist'].11.1"));
@@ -229,7 +229,7 @@ class ControlPanel0004 extends SeleniumJoomlaTestCase
 		$this->click("//a[contains(@href, 'saveorder')][contains(@class, 'saveorder')]");
 		$this->waitForPageToLoad("30000");
 		echo "Check that there is no success message and that orders haven't changed\n";
-		$this->assertFalse($this->isElementPresent("//div[@id='system-message'][contains(., 'success')]"));
+		$this->assertFalse($this->isElementPresent("//div[@id='system-message-container'][contains(., 'success')]"));
 		$this->assertContains("Components", $this->getTable("//table[@class='adminlist'].4.1"));
 		$this->assertContains("Modules", $this->getTable("//table[@class='adminlist'].5.1"));
 		$this->assertContains("Templates", $this->getTable("//table[@class='adminlist'].11.1"));
@@ -291,30 +291,30 @@ class ControlPanel0004 extends SeleniumJoomlaTestCase
 		$this->assertContains("Article Category List", $this->getTable("//table[@class='adminlist'].9.1"));
 
 		echo "Reverse the order of 4 articles\n";
-		$this->type("//form[@id='adminForm']/table/tbody/tr[6]/td[4]/input", "4");
-		$this->type("//form[@id='adminForm']/table/tbody/tr[7]/td[4]/input", "3");
-		$this->type("//form[@id='adminForm']/table/tbody/tr[8]/td[4]/input", "2");
-		$this->type("//form[@id='adminForm']/table/tbody/tr[9]/td[4]/input", "1");
+		$this->type("//form[@id='adminForm']//table/tbody/tr[6]/td[4]/input", "4");
+		$this->type("//form[@id='adminForm']//table/tbody/tr[7]/td[4]/input", "3");
+		$this->type("//form[@id='adminForm']//table/tbody/tr[8]/td[4]/input", "2");
+		$this->type("//form[@id='adminForm']//table/tbody/tr[9]/td[4]/input", "1");
 
 		echo "Click Save Order and check that the order changed\n";
 		$this->click("//a[contains(@href, 'saveorder')][contains(@class, 'saveorder')]");
 		$this->waitForPageToLoad("30000");
-		$this->assertTrue($this->isElementPresent("//div[@id='system-message'][contains(., 'success')]"));
+		$this->assertTrue($this->isElementPresent("//div[@id='system-message-container'][contains(., 'success')]"));
 		$this->assertContains("Single Article", $this->getTable("//table[@class='adminlist'].9.1"));
 		$this->assertContains("Article Categories", $this->getTable("//table[@class='adminlist'].8.1"));
 		$this->assertContains("Article Category Blog", $this->getTable("//table[@class='adminlist'].7.1"));
 		$this->assertContains("Article Category List", $this->getTable("//table[@class='adminlist'].6.1"));
 
 		echo "Change the ordering back and click Save Order\n";
-		$this->type("//form[@id='adminForm']/table/tbody/tr[6]/td[4]/input", "4");
-		$this->type("//form[@id='adminForm']/table/tbody/tr[7]/td[4]/input", "3");
-		$this->type("//form[@id='adminForm']/table/tbody/tr[8]/td[4]/input", "2");
-		$this->type("//form[@id='adminForm']/table/tbody/tr[9]/td[4]/input", "1");
+		$this->type("//form[@id='adminForm']//table/tbody/tr[6]/td[4]/input", "4");
+		$this->type("//form[@id='adminForm']//table/tbody/tr[7]/td[4]/input", "3");
+		$this->type("//form[@id='adminForm']//table/tbody/tr[8]/td[4]/input", "2");
+		$this->type("//form[@id='adminForm']//table/tbody/tr[9]/td[4]/input", "1");
 		$this->click("//a[contains(@href, 'saveorder')][contains(@class, 'saveorder')]");
 		$this->waitForPageToLoad("30000");
 
 		echo "Check the ordering is back to original order\n";
-		$this->assertTrue($this->isElementPresent("//div[@id='system-message'][contains(., 'success')]"));
+		$this->assertTrue($this->isElementPresent("//div[@id='system-message-container'][contains(., 'success')]"));
 		$this->assertContains("Single Article", $this->getTable("//table[@class='adminlist'].6.1"));
 		$this->assertContains("Article Categories", $this->getTable("//table[@class='adminlist'].7.1"));
 		$this->assertContains("Article Category Blog", $this->getTable("//table[@class='adminlist'].8.1"));
@@ -323,7 +323,7 @@ class ControlPanel0004 extends SeleniumJoomlaTestCase
 		echo "Click Save Order when nothing has been changed and make sure it doesn't to anything\n";
 		$this->click("//a[contains(@href, 'saveorder')][contains(@class, 'saveorder')]");
 		$this->waitForPageToLoad("30000");
-		$this->assertFalse($this->isElementPresent("//div[@id='system-message'][contains(., 'success')]"));
+		$this->assertFalse($this->isElementPresent("//div[@id='system-message-container'][contains(., 'success')]"));
 		$this->assertContains("Single Article", $this->getTable("//table[@class='adminlist'].6.1"));
 		$this->assertContains("Article Categories", $this->getTable("//table[@class='adminlist'].7.1"));
 		$this->assertContains("Article Category Blog", $this->getTable("//table[@class='adminlist'].8.1"));
@@ -361,7 +361,7 @@ class ControlPanel0004 extends SeleniumJoomlaTestCase
 		echo "Move Content Component Menu Item Down One\n";
 		$this->click("//table[@class='adminlist']/tbody//tr//td/a[contains(text(), 'Content Component')]/../../td//a[@title='Move Down']");
 		$this->waitForPageToLoad("30000");
-		$this->assertTrue($this->isElementPresent("//div[@id='system-message'][contains(., 'success')]"));
+		$this->assertTrue($this->isElementPresent("//div[@id='system-message-container'][contains(., 'success')]"));
 		echo "Check that Contact Component and Content Component Menu Items are in new order\n";
 		$this->assertContains("Contact Component", $this->getTable("//table[@class='adminlist'].5.1"));
 		$this->assertContains("Contact Categories", $this->getTable("//table[@class='adminlist'].6.1"));
@@ -378,7 +378,7 @@ class ControlPanel0004 extends SeleniumJoomlaTestCase
 		echo "Move Content Component Menu Item Up One\n";
 		$this->click("//table[@class='adminlist']/tbody//tr//td/a[contains(text(), 'Content Component')]/../../td//a[@title='Move Up']");
 		$this->waitForPageToLoad("30000");
-		$this->assertTrue($this->isElementPresent("//div[@id='system-message'][contains(., 'success')]"));
+		$this->assertTrue($this->isElementPresent("//div[@id='system-message-container'][contains(., 'success')]"));
 		echo "Check that Contact Component and Content Component Menu Items are in original order\n";
 		$this->assertContains("Contact Component", $this->getTable("//table[@class='adminlist'].13.1"));
 		$this->assertContains("Contact Categories", $this->getTable("//table[@class='adminlist'].14.1"));
@@ -395,7 +395,7 @@ class ControlPanel0004 extends SeleniumJoomlaTestCase
 		echo "Move Getting Started menu item down one\n";
 		$this->click("//table[@class='adminlist']/tbody//tr//td/a[contains(text(), 'Getting Started')]/../../td//a[@title='Move Down']");
 		$this->waitForPageToLoad("30000");
-		$this->assertTrue($this->isElementPresent("//div[@id='system-message'][contains(., 'success')]"));
+		$this->assertTrue($this->isElementPresent("//div[@id='system-message-container'][contains(., 'success')]"));
 		echo "Check that Using Joomla! is now in first row\n";
 		$this->assertContains("Using Joomla!", $this->getTable("//table[@class='adminlist'].1.1"));
 		echo "Move Getting Started back up one\n";
@@ -404,7 +404,7 @@ class ControlPanel0004 extends SeleniumJoomlaTestCase
 		$this->waitForPageToLoad("30000");
 		$this->click("//table[@class='adminlist']/tbody//tr//td/a[contains(text(), 'Getting Started')]/../../td//a[@title='Move Up']");
 		$this->waitForPageToLoad("30000");
-		$this->assertTrue($this->isElementPresent("//div[@id='system-message'][contains(., 'success')]"));
+		$this->assertTrue($this->isElementPresent("//div[@id='system-message-container'][contains(., 'success')]"));
 		echo "Check that Getting Started is now in first row\n";
 		$this->assertContains("Getting Started", $this->getTable("//table[@class='adminlist'].1.1"));
 		$this->select("limit", "value=20");
@@ -419,12 +419,12 @@ class ControlPanel0004 extends SeleniumJoomlaTestCase
 		echo "Move weblinks Uncatgorised up\n";
 		$this->click("//table[@class='adminlist']/tbody//tr//td/a[contains(text(), 'Uncategorised')]/../../td//a[@title='Move Up']");
 		$this->waitForPageToLoad("30000");
-		$this->assertTrue($this->isElementPresent("//div[@id='system-message'][contains(., 'success')]"));
+		$this->assertTrue($this->isElementPresent("//div[@id='system-message-container'][contains(., 'success')]"));
 		$this->assertContains("Uncategorised", $this->getTable("//table[@class='adminlist'].1.1"));
 		echo "Move weblinks Uncatgorised back down\n";
 		$this->click("//table[@class='adminlist']/tbody//tr//td/a[contains(text(), 'Uncategorised')]/../../td//a[@title='Move Down']");
 		$this->waitForPageToLoad("30000");
-		$this->assertTrue($this->isElementPresent("//div[@id='system-message'][contains(., 'success')]"));
+		$this->assertTrue($this->isElementPresent("//div[@id='system-message-container'][contains(., 'success')]"));
 		$this->assertContains("Sample Data-Weblinks", $this->getTable("//table[@class='adminlist'].1.1"));
 
 		echo "Done with control_panel0004Test/testMenuItemOrderUpDown\n";

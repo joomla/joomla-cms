@@ -22,6 +22,7 @@
 
 			<fieldset name="basic">
 				<field name="title" type="radio"
+					class="btn-group"
 					default="1"
 					description="PLG_CONTENT_PAGEBREAK_SITE_TITLE_DESC"
 					label="PLG_CONTENT_PAGEBREAK_SITE_TITLE_LABEL"
@@ -30,6 +31,7 @@
 					<option value="1">JSHOW</option>
 				</field>
 				<field name="article_index" type="radio"
+					class="btn-group"
 					default="1"
 					description="PLG_CONTENT_PAGEBREAK_SITE_ARTICLEINDEX_DESC"
 					label="PLG_CONTENT_PAGEBREAK_SITE_ARTICLEINDEX_LABEL"
@@ -42,6 +44,7 @@
 					description="PLG_CONTENT_PAGEBREAK_SITE_ARTICLEINDEXTEXT_DESC" />
 
 				<field name="multipage_toc" type="radio"
+					class="btn-group"
 					default="1"
 					description="PLG_CONTENT_PAGEBREAK_TOC_DESC"
 					label="PLG_CONTENT_PAGEBREAK_TOC_LABEL"
@@ -51,6 +54,7 @@
 				</field>
 
 				<field name="showall" type="radio"
+					class="btn-group"
 					default="1"
 					description="PLG_CONTENT_PAGEBREAK_SHOW_ALL_DESC"
 					label="PLG_CONTENT_PAGEBREAK_SHOW_ALL_LABEL"

@@ -22,6 +22,7 @@ $user  = JFactory::getUser();
 
 // Add JavaScript Frameworks
 JHtml::_('bootstrap.framework');
+$doc->addScript('templates/' .$this->template. '/js/template.js');
 
 // Detecting Active Variables
 $option   = $input->get('option', '');
@@ -96,7 +97,7 @@ else
 	{
 	?>
 	<style type="text/css">
-		.header, .navbar-inner, .navbar-inverse .navbar-inner, .nav-list > .active > a, .nav-list > .active > a:hover, .dropdown-menu li > a:hover, .dropdown-menu .active > a, .dropdown-menu .active > a:hover, .navbar-inverse .nav li.dropdown.open > .dropdown-toggle, .navbar-inverse .nav li.dropdown.active > .dropdown-toggle, .navbar-inverse .nav li.dropdown.open.active > .dropdown-toggle
+		.navbar-inner, .navbar-inverse .navbar-inner, .nav-list > .active > a, .nav-list > .active > a:hover, .dropdown-menu li > a:hover, .dropdown-menu .active > a, .dropdown-menu .active > a:hover, .navbar-inverse .nav li.dropdown.open > .dropdown-toggle, .navbar-inverse .nav li.dropdown.active > .dropdown-toggle, .navbar-inverse .nav li.dropdown.open.active > .dropdown-toggle
 		{
 			background: <?php echo $params->get('templateColor');?>;
 		}
@@ -104,6 +105,20 @@ else
 			-moz-box-shadow: 0 1px 3px rgba(0, 0, 0, .25), inset 0 -1px 0 rgba(0, 0, 0, .1), inset 0 30px 10px rgba(0, 0, 0, .2);
 			-webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, .25), inset 0 -1px 0 rgba(0, 0, 0, .1), inset 0 30px 10px rgba(0, 0, 0, .2);
 			box-shadow: 0 1px 3px rgba(0, 0, 0, .25), inset 0 -1px 0 rgba(0, 0, 0, .1), inset 0 30px 10px rgba(0, 0, 0, .2);
+		}
+	</style>
+	<?php
+	}
+	?>
+	<?php
+	// Template header color
+	if ($params->get('headerColor'))
+	{
+	?>
+	<style type="text/css">
+		.header
+		{
+			background: <?php echo $params->get('headerColor');?>;
 		}
 	</style>
 	<?php
@@ -235,34 +250,6 @@ else
 					$nav.removeClass('subhead-fixed')
 				}
 			}
-
-			// Turn radios into btn-group
-		    $('.radio.btn-group label').addClass('btn');
-		    $(".btn-group label:not(.active)").click(function() {
-		        var label = $(this);
-		        var input = $('#' + label.attr('for'));
-
-		        if (!input.prop('checked')) {
-		            label.closest('.btn-group').find("label").removeClass('active btn-success btn-danger btn-primary');
-		            if(input.val()== '') {
-		                    label.addClass('active btn-primary');
-		             } else if(input.val()==0) {
-		                    label.addClass('active btn-danger');
-		             } else {
-		            label.addClass('active btn-success');
-		             }
-		            input.prop('checked', true);
-		        }
-		    });
-		    $(".btn-group input[checked=checked]").each(function() {
-				if($(this).val()== '') {
-		           $("label[for=" + $(this).attr('id') + "]").addClass('active btn-primary');
-		        } else if($(this).val()==0) {
-		           $("label[for=" + $(this).attr('id') + "]").addClass('active btn-danger');
-		        } else {
-		            $("label[for=" + $(this).attr('id') + "]").addClass('active btn-success');
-		        }
-		    });
 		})(jQuery);
 	</script>
 </body>

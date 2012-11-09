@@ -78,6 +78,7 @@ $input = JFactory::getApplication()->input;
 					<ul class="upload-queue list-striped list-condensed" id="upload-queue">
 						<li style="display:none;"></li>
 					</ul>
+					<input class="update-folder" type="hidden" name="folder" id="folder" value="<?php echo $this->state->folder; ?>" />
 					<input type="hidden" name="return-url" value="<?php echo base64_encode('index.php?option=com_media'); ?>" />
 				</div>
 			</form>

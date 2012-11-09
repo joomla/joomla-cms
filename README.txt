@@ -50,7 +50,7 @@
 	* Joomla Resources Directory (JRD): http://resources.joomla.org/tos.html
 
 11- Do you already have a Joomla site that's not built with Joomla 3.0.x ?
-	* What's new in Joomla 3.0.x - http://www.joomla.org/30
+	* What's new in Joomla 3.0.x - http://www.joomla.org/3
 	* What are the main differences from 2.5 to 3.0? Table of contents: http://docs.joomla.org/Differences_from_Joomla_2.5_to_Joomla_3.0
 	* How to migrate from 2.5.x to 3.0.x? Tutorial: http://docs.joomla.org/Migrating_from_Joomla_2.5_to_Joomla_3.0
 	* What are the main differences from 1.5 to 2.5? Table of contents: http://docs.joomla.org/Differences_from_Joomla_1.5_to_Joomla_2.5

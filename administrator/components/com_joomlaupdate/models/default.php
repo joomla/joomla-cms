@@ -299,7 +299,7 @@ class JoomlaupdateModelDefault extends JModelLegacy
 		$app->setUserState('com_joomlaupdate.password', $password);
 
 		// Do we have to use FTP?
-		$method = $app->get('method', 'direct');
+		$method = $app->input->get('method', 'direct');
 
 		// Get the absolute path to site's root
 		$siteroot = JPATH_SITE;

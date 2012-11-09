@@ -25,11 +25,11 @@ class SampleData0001 extends SeleniumJoomlaTestCase
 		print("Move Modules category up one" . "\n");
 		$this->click("//table[@class='adminlist']/tbody//tr//td/a[contains(text(), 'Modules')]/../../td//a[@title='Move Up']");
 		$this->waitForPageToLoad("30000");
-		$this->assertTrue($this->isElementPresent("//div[@id='system-message'][contains(., 'success')]"));
+		$this->assertTrue($this->isElementPresent("//div[@id='system-message-container'][contains(., 'success')]"));
 		print("Move Modules category down one" . "\n");
 		$this->click("//table[@class='adminlist']/tbody//tr//td/a[contains(text(), 'Modules')]/../../td//a[@title='Move Down']");
 		$this->waitForPageToLoad("30000");
-		$this->assertTrue($this->isElementPresent("//div[@id='system-message'][contains(., 'success')]"));
+		$this->assertTrue($this->isElementPresent("//div[@id='system-message-container'][contains(., 'success')]"));
 		$this->doAdminLogout();
 		$this->setDefaultTemplate('isis');
 		print("Finish testModuleOrder" . "\n");

@@ -13,6 +13,7 @@ JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
 JHtml::_('formbehavior.chosen', 'select');
+$this->fieldsets = $this->form->getFieldsets('params');
 ?>
 <script type="text/javascript">
 	Joomla.submitbutton = function(task)
@@ -24,10 +25,15 @@ JHtml::_('formbehavior.chosen', 'select');
 </script>
 
 <form action="<?php echo JRoute::_('index.php?option=com_plugins&layout=edit&extension_id='.(int) $this->item->extension_id); ?>" method="post" name="adminForm" id="style-form" class="form-validate form-horizontal">
-	<fieldset class="adminform">
+	<fieldset>
 		<ul class="nav nav-tabs">
-		  <li class="active"><a href="#details" data-toggle="tab"><?php echo JText::_('JDETAILS');?></a></li>
-		  <li><a href="#options" data-toggle="tab"><?php echo JText::_('COM_PLUGINS_BASIC_FIELDSET_LABEL');?></a></li>
+			<li class="active"><a href="#details" data-toggle="tab"><?php echo JText::_('JDETAILS');?></a></li>
+			<?php if (count($this->fieldsets)) : ?>
+				<?php foreach ($this->fieldsets as $fieldset) : ?>
+					<?php $label = !empty($fieldset->label) ? JText::_($fieldset->label) : JText::_('COM_PLUGINS_'.$fieldset->name.'_FIELDSET_LABEL');?>
+					<li><a href="#options-<?php echo $fieldset->name; ?>" data-toggle="tab"><?php echo $label ?></a></li>
+				<?php endforeach; ?>
+			<?php endif; ?>
 		</ul>
 
 		<div class="tab-content">
@@ -109,9 +115,7 @@ JHtml::_('formbehavior.chosen', 'select');
 					</div>
 				<?php endif; ?>
 			</div>
-			<div class="tab-pane" id="options">
-				<?php echo $this->loadTemplate('options'); ?>
-			</div>
+			<?php echo $this->loadTemplate('options'); ?>
 		</div>
 	</fieldset>
 	<input type="hidden" name="task" value="" />

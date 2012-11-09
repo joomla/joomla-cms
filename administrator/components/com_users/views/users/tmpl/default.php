@@ -124,7 +124,7 @@ $loggeduser = JFactory::getUser();
 					<?php if ($canChange) : ?>
 						<?php
 						$self = $loggeduser->id == $item->id;
-						echo JHtml::_('jgrid.state', JHtmlUsers::blockStates( $self), $item->block, $i, 'users.', !$self);
+						echo JHtml::_('jgrid.state', JHtmlUsers::blockStates($self), $item->block, $i, 'users.', !$self);
 						?>
 					<?php else : ?>
 						<?php echo JText::_($item->block ? 'JNO' : 'JYES'); ?>

@@ -23,13 +23,16 @@
 
  */
 
+// Make sure file and folder permissions are set correctly
+umask(022);
+
 // Set version for each build
 // Version is first 2 digits (like '1.7', '2.5', or '3.0')
-$version = '2.5';
+$version = '3.0';
 
 // Set release for each build
 // Release is third digit (like '0', '1', or '2')
-$release = '6';
+$release = '2';
 
 // Set path to git binary (e.g., /usr/local/git/bin/git or /urs/bin/git)
 $gitPath = '/usr/bin/git';
@@ -167,6 +170,11 @@ system('zip -r ../packages_full'.$full.'/Joomla_'.$full.'-Stable-Full_Package.zi
 // Create full update file without installation folder.
 echo "Build full update package.\n";
 system('rm -r installation');
+
+system('tar --create --bzip2 --file ../packages_full'.$full.'/Joomla_'.$full.'-Stable-Update_Package.tar.bz2 * > /dev/null');
+
+system('tar --create --gzip --file ../packages_full'.$full.'/Joomla_'.$full.'-Stable-Update_Package.tar.gz * > /dev/null');
+
 system('zip -r ../packages_full'.$full.'/Joomla_'.$full.'-Stable-Update_Package.zip * > /dev/null');
 
 echo "Build of version $full complete!\n";

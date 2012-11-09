@@ -10,6 +10,8 @@
 defined('_JEXEC') or die;
 
 JHtml::_('behavior.multiselect');
+JHtml::_('formbehavior.chosen', 'select');
+JHtml::_('bootstrap.tooltip');
 
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
@@ -72,7 +74,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							<?php echo $language->version; ?>
 						</td>
 						<td class="center small hidden-phone">
-							<?php echo $language->type; ?>
+							<?php echo JText::_('COM_INSTALLER_TYPE_' . strtoupper($language->type)); ?>
 						</td>
 						<td class="small hidden-phone">
 							<?php echo $language->detailsurl; ?>

@@ -19,6 +19,7 @@ $user  = JFactory::getUser();
 
 // Add JavaScript Frameworks
 JHtml::_('bootstrap.framework');
+$doc->addScript('templates/' .$this->template. '/js/template.js');
 
 // Add Stylesheets
 $doc->addStyleSheet('templates/' . $this->template . '/css/template.css');
@@ -81,7 +82,7 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 	{
 	?>
 	<style type="text/css">
-		.header, .navbar-inner, .navbar-inverse .navbar-inner, .nav-list > .active > a, .nav-list > .active > a:hover, .dropdown-menu li > a:hover, .dropdown-menu .active > a, .dropdown-menu .active > a:hover, .navbar-inverse .nav li.dropdown.open > .dropdown-toggle, .navbar-inverse .nav li.dropdown.active > .dropdown-toggle, .navbar-inverse .nav li.dropdown.open.active > .dropdown-toggle, #status.status-top
+		.navbar-inner, .navbar-inverse .navbar-inner, .nav-list > .active > a, .nav-list > .active > a:hover, .dropdown-menu li > a:hover, .dropdown-menu .active > a, .dropdown-menu .active > a:hover, .navbar-inverse .nav li.dropdown.open > .dropdown-toggle, .navbar-inverse .nav li.dropdown.active > .dropdown-toggle, .navbar-inverse .nav li.dropdown.open.active > .dropdown-toggle, #status.status-top
 		{
 			background: <?php echo $this->params->get('templateColor');?>;
 		}
@@ -89,6 +90,20 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 			-moz-box-shadow: 0 1px 3px rgba(0, 0, 0, .25), inset 0 -1px 0 rgba(0, 0, 0, .1), inset 0 30px 10px rgba(0, 0, 0, .2);
 			-webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, .25), inset 0 -1px 0 rgba(0, 0, 0, .1), inset 0 30px 10px rgba(0, 0, 0, .2);
 			box-shadow: 0 1px 3px rgba(0, 0, 0, .25), inset 0 -1px 0 rgba(0, 0, 0, .1), inset 0 30px 10px rgba(0, 0, 0, .2);
+		}
+	</style>
+	<?php
+	}
+	?>
+	<?php
+	// Template header color
+	if ($this->params->get('headerColor'))
+	{
+	?>
+	<style type="text/css">
+		.header
+		{
+			background: <?php echo $this->params->get('headerColor');?>;
 		}
 	</style>
 	<?php
@@ -119,7 +134,7 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 				<?php endif; ?>
 					<jdoc:include type="modules" name="menu" style="none" />
 					<ul class="<?php if ($this->direction == 'rtl') : ?>nav<?php else : ?>nav pull-right<?php endif; ?>">
-						<li class="dropdown"> <a class="dropdown-toggle" data-toggle="dropdown" href="#"><?php echo $user->username; ?> <b class="caret"></b></a>
+						<li class="dropdown"> <a class="dropdown-toggle" data-toggle="dropdown" href="#"><?php echo $user->name; ?> <b class="caret"></b></a>
 							<ul class="dropdown-menu">
 								<li class=""><a href="index.php?option=com_admin&task=profile.edit&id=<?php echo $user->id;?>"><?php echo JText::_('TPL_ISIS_EDIT_ACCOUNT');?></a></li>
 								<li class="divider"></li>
@@ -143,7 +158,7 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 					<a class="logo" href="<?php echo $this->baseurl; ?>"><img src="<?php echo $logo;?>" alt="<?php echo $sitename; ?>" /></a>
 				</div>
 				<div class="span10">
-					<h1 class="page-title"><?php echo JHtml::_('string.truncate', $app->JComponentTitle, 40, false, false);?></h1>
+					<h1 class="page-title"><?php echo JHtml::_('string.truncate', $app->JComponentTitle, 0, false, false);?></h1>
 				</div>
 			</div>
 		</div>
@@ -208,7 +223,7 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 						// Show the page title here if the header is hidden
 						if (!$displayHeader):
 						?>
-						<h1 class="content-title"><?php echo JHtml::_('string.truncate', $app->JComponentTitle, 40, false, false);?></h1>
+						<h1 class="content-title"><?php echo JHtml::_('string.truncate', $app->JComponentTitle, 0, false, false);?></h1>
 						<?php
 						endif;
 						?>
@@ -238,13 +253,9 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 	<!-- End Status Module -->
 	<?php endif; ?>
 	<jdoc:include type="modules" name="debug" style="none" />
+	<?php if ($stickyToolbar): ?>
 	<script>
 		(function($){
-			$('*[rel=tooltip]').tooltip()
-
-			<?php
-			if ($stickyToolbar):
-			?>
 			// fix sub nav on scroll
 			var $win = $(window)
 			  , $nav = $('.subhead')
@@ -270,38 +281,8 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 					$nav.removeClass('subhead-fixed')
 				}
 			}
-			<?php
-			endif;
-			?>
-
-			// Turn radios into btn-group
-		    $('.radio.btn-group label').addClass('btn');
-		    $(".btn-group label:not(.active)").click(function() {
-		        var label = $(this);
-		        var input = $('#' + label.attr('for'));
-
-		        if (!input.prop('checked')) {
-		            label.closest('.btn-group').find("label").removeClass('active btn-success btn-danger btn-primary');
-		            if(input.val()== '') {
-		                    label.addClass('active btn-primary');
-		             } else if(input.val()==0) {
-		                    label.addClass('active btn-danger');
-		             } else {
-		            label.addClass('active btn-success');
-		             }
-		            input.prop('checked', true);
-		        }
-		    });
-		    $(".btn-group input[checked=checked]").each(function() {
-				if($(this).val()== '') {
-		           $("label[for=" + $(this).attr('id') + "]").addClass('active btn-primary');
-		        } else if($(this).val()==0) {
-		           $("label[for=" + $(this).attr('id') + "]").addClass('active btn-danger');
-		        } else {
-		            $("label[for=" + $(this).attr('id') + "]").addClass('active btn-success');
-		        }
-		    });
 		})(jQuery);
 	</script>
+	<?php endif; ?>
 </body>
 </html>

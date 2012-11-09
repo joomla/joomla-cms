@@ -45,7 +45,7 @@
 			rows="3" cols="30" label="JGLOBAL_DESCRIPTION"
 			description="COM_BANNERS_FIELD_DESCRIPTION_DESC" />
 
-		<field name="type" type="radio"
+		<field name="type" type="list"
 			label="COM_BANNERS_FIELD_TYPE_LABEL" description="COM_BANNERS_FIELD_TYPE_DESC"
 			default="0" class="inputbox"
 		>
@@ -117,6 +117,8 @@
 			<option value="1">JYES</option>
 		</field>
 
+	</fieldset>
+	<fieldset name="otherparams">
 		<field name="imptotal" type="imptotal" default="0"
 			label="COM_BANNERS_FIELD_IMPTOTAL_LABEL" description="COM_BANNERS_FIELD_IMPTOTAL_DESC" />
 
@@ -165,7 +167,6 @@
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
 		</field>
-
 	</fieldset>
 
 	<fieldset name="metadata"
@@ -176,10 +177,10 @@
 			rows="3" cols="30" label="JFIELD_META_KEYWORDS_LABEL"
 			description="COM_BANNERS_FIELD_METAKEYWORDS_DESC" />
 
-		<field name="own_prefix" type="radio"
+		<field name="own_prefix" type="radio" class="btn-group"
 			label="COM_BANNERS_FIELD_BANNEROWNPREFIX_LABEL"
 			description="COM_BANNERS_FIELD_BANNEROWNPREFIX_DESC"
-			default="0" class="inputbox"
+			default="0"
 		>
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>

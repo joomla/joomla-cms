@@ -12,7 +12,14 @@ defined('_JEXEC') or die;
 ?>
 <div id="installer-database">
 <form action="<?php echo JRoute::_('index.php?option=com_installer&view=warnings');?>" method="post" name="adminForm" id="adminForm">
-
+<?php if(!empty( $this->sidebar)): ?>
+	<div id="j-sidebar-container" class="span2">
+		<?php echo $this->sidebar; ?>
+	</div>
+	<div id="j-main-container" class="span10">
+<?php else : ?>
+	<div id="j-main-container">
+<?php endif;?>
 <?php if ($this->errorCount === 0) : ?>
     <p class="nowarning"><?php echo JText::_('COM_INSTALLER_MSG_DATABASE_OK'); ?></p>
 	<?php echo JHtml::_('sliders.start', 'database-sliders', array('useCookie' => 1)); ?>
@@ -68,6 +75,7 @@ defined('_JEXEC') or die;
 	<input type="hidden" name="task" value="" />
 	<input type="hidden" name="boxchecked" value="0" />
 	<?php echo JHtml::_('form.token'); ?>
+</div>
 </div>
 </form>
 </div>

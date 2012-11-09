@@ -8,6 +8,7 @@
  */
 
 defined('_JEXEC') or die;
+JHtml::_('behavior.modal');
 
 /**
  * View class for a list of messages.
@@ -77,7 +78,12 @@ class MessagesViewMessages extends JViewLegacy
 		//JToolbarHelper::addNew('module.add');
 		JToolbarHelper::divider();
 		$bar = JToolBar::getInstance('toolbar');
-		$bar->appendButton('Slider', 'options', 'COM_MESSAGES_TOOLBAR_MY_SETTINGS', 'index.php?option=com_messages&amp;view=config&amp;tmpl=component', 850, 400);
+		JHtml::_('bootstrap.modal', 'collapseModal');
+		$title = JText::_('COM_MESSAGES_TOOLBAR_MY_SETTINGS');
+		$dhtml = "<a class=\"btn modal btn-small\" href=\"index.php?option=com_messages&amp;view=config&amp;tmpl=component\"
+					rel=\"{handler:'iframe', size:{x:700,y:300}}\">
+					<i class=\"icon-cog\" title=\"$title\"></i>$title</a>";
+		$bar->appendButton('Custom', $dhtml, 'config');
 
 		if ($canDo->get('core.admin')) {
 			JToolbarHelper::preferences('com_messages');

@@ -198,7 +198,7 @@ class Menu0001 extends SeleniumJoomlaTestCase
 		$this->click("link=Category Manager");
 		$this->waitForPageToLoad("30000");
 		$this->togglePublished("Sample Data-Articles", 'Category');
-		$this->assertTrue($this->isElementPresent("//div[@id='system-message'][contains(., 'success')]"));
+		$this->assertTrue($this->isElementPresent("//div[@id='system-message-container'][contains(., 'success')]"));
 		$this->doAdminLogout();
 		echo "Finished testUnpublishedCategoryList()\n";
 		$this->deleteAllVisibleCookies();

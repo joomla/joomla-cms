@@ -33,6 +33,7 @@
 				/>
 
 				<field name="autopublish" type="radio"
+					class="btn-group"
 					default="0"
 					description="PLG_CONTACTCREATOR_FIELD_AUTOPUBLISH_DESC"
 					label="PLG_CONTACTCREATOR_FIELD_AUTOPUBLISH_LABEL"

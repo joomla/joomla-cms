@@ -30,6 +30,7 @@
 				/>
 
 				<field name="search_content" type="radio"
+					class="btn-group"
 					default="0"
 					description="JFIELD_PLG_SEARCH_ALL_DESC"
 					label="JFIELD_PLG_SEARCH_ALL_LABEL"
@@ -39,6 +40,7 @@
 				</field>
 
 				<field name="search_archived" type="radio"
+					class="btn-group"
 					default="0"
 					description="JFIELD_PLG_SEARCH_ARCHIVED_DESC"
 					label="JFIELD_PLG_SEARCH_ARCHIVED_LABEL"
