@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+"http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "../../Developer_Manual.ent">
+%BOOK_ENTITIES;
+]>
+<section>
+  <title>JKeychain</title>
+
+  <section>
+    <title>Construction</title>
+
+    <para>The <classname>JKeychain</classname> class extends <classname>JRegistry</classname>. There are no changes to the
+    constructor's argument list so optional initialisation with data can be done in the normal way.</para>
+
+    <example>
+      <title>JKeychain construction</title>
+
+      <programlisting>// Create a keychain.
+$keychain1 = new JKeychain;
+
+$keychain2 = new JKeychain(array('username' =&gt; 'foo', 'password' =&gt; 'bar'));</programlisting>
+    </example>
+  </section>
+
+  <section>
+    <title>Usage</title>
+
+    <para>A <classname>JKeychain</classname> object operates in the same way as a <classname>JRegistry</classname> object. What
+    <classname>JKeychain</classname> provides is a way to load data from, and store data to an encrypted data source.</para>
+
+    <para>When using this class, the private and public keys must already exist on the server. The third required element is the
+    passphrase file and the following example shows how to create it.</para>
+
+    <example>
+      <title>Using JKeychain to create a passphrase file</title>
+
+      <programlisting>// Create a keychain object.
+$keychain = new JKeychain;
+
+// The passphrase/passowrd should not be stored in any code repository.
+$passPhrase = 'the Pass Phrase';
+$privateKeyPwd = 'the Private Key Password';
+
+// The paths to keychain files could come from the application configuration.
+$passPhrasePath = '/etc/project/config/keychain.passphrase';
+$privateKeyPath = '/etc/project/config/keychain.key';
+
+$keychain-&gt;createPassphraseFile($passPhrase, $passPhrasePath, $privateKeyPath, $privateKeyPwd);</programlisting>
+    </example>
+
+    <para>The passphrase file will generally be created using the Keychain Management Utility (see next section) on the command
+    line so that neither the passphrase, nor the private key password are stored in clear text in any application code.</para>
+
+    <para>Likewise, initial data is probably already created in a keychain data file (again, using the Keychain Management Utility
+    and the <command>create</command> command). The following example shows how to load the keychain data:</para>
+
+    <example>
+      <title>Using JKeychain to access existing data</title>
+
+      <programlisting>// Create a keychain object.
+$keychain = new JKeychain;
+
+$keychainFile = '/etc/project/config/keychain.dat';
+$passPhrasePath = '/etc/project/config/keychain.passphrase';
+$publicKeyPath = '/etc/project/config/keychain.pem';
+
+$keychain-&gt;loadKeychain($keychainFile, $passPhrasePath, $publicKeyPath);
+
+$secureUsername = $keychain-&gt;get('secure.username');
+$securePassword = $keychain-&gt;get('secure.password');
+
+$conn = connect_to_server($secureUsername, $securePassword);</programlisting>
+    </example>
+
+    <para>The keychain object can manipulate data as if it was a normal <classname>JRegistry</classname> object. However, an
+    additional <methodname>deleteValue</methodname> method is provided to strip out registry data if required.</para>
+
+    <para>Finally, the <methodname>saveKeychain</methodname> method can be used to save data back to the keychain file.</para>
+  </section>
+</section>
