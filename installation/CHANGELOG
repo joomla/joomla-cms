@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+10-Nov-2012 Mark Dexter
+ # Remove trashed categories from sample data
+
 10-Nov-2012 Jean-Marie Simonet
  $ [#29616] Missing JGLOBAL_CENTER in frontend language file. Thanks Patrick
  # [#29654] *User Basic settings do not display when debug language on
