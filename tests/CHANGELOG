@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+09-Nov-2012 Mark Dexter
+ ^ Change echo statements to jEcho for selective logging
+
 05-Nov-2012 Mark Dexter
  # Fix failing system tests (from HTML output changes)
  ^ Remove some asserts from try/catch blocks (makes it easier to trace failures)

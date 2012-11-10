@@ -20,7 +20,7 @@ class Article0002 extends SeleniumJoomlaTestCase
 
 		$this->gotoSite();
 		$this->doFrontEndLogin();
-		echo "Edit article in front end\n";
+		$this->jPrint ("Edit article in front end\n");
 	    $this->click("//i[contains(@class, 'icon-edit')]");
 	    $this->waitForPageToLoad("30000");
 	    $salt = mt_rand();
@@ -30,7 +30,7 @@ class Article0002 extends SeleniumJoomlaTestCase
 // 	    $this->setTinyText($testText);
 	    $this->type("id=jform_articletext", "<p>$testText</p>");
 
-	    echo "Save article\n";
+	    $this->jPrint ("Save article\n");
 	    $this->click("//button[@type='button']");
 	    $this->waitForPageToLoad("30000");
 		try {
@@ -44,10 +44,10 @@ class Article0002 extends SeleniumJoomlaTestCase
 			array_push($this->verificationErrors, $this->getTraceFiles($e));
 	    }
 
-	    echo "Check that new text shows on page\n";
+	    $this->jPrint ("Check that new text shows on page\n");
 	    $this->assertEquals($testText, $this->getText("//div[@class='items-leading']/div[@class='leading-0']//p"));
 
-	    echo "Open again for editing in front end\n";
+	    $this->jPrint ("Open again for editing in front end\n");
 	    $this->click("//i[contains(@class, 'icon-edit')]");
 	    $this->waitForPageToLoad("30000");
 	    $text="<p>Congratulations! You have a Joomla! site! Joomla! makes your site easy to build a website " .
@@ -62,7 +62,7 @@ class Article0002 extends SeleniumJoomlaTestCase
 
 	    $this->click("//button[@type='button']");
 	    $this->waitForPageToLoad("30000");
-	    echo "Check for success message\n";
+	    $this->jPrint ("Check for success message\n");
 	    try {
 	    	$this->assertTrue($this->isElementPresent("//div[@id='system-message-container']//p[contains(text(), 'success')]"));
 	    } catch (PHPUnit_Framework_AssertionFailedError $e) {
@@ -73,7 +73,7 @@ class Article0002 extends SeleniumJoomlaTestCase
 	    } catch (PHPUnit_Framework_AssertionFailedError $e) {
 			array_push($this->verificationErrors, $this->getTraceFiles($e));
 	    }
-	    echo "Check that new text shows on page\n";
+	    $this->jPrint ("Check that new text shows on page\n");
 	    $this->assertTrue($this->isElementPresent("//div[@class='items-leading']/div[@class='leading-0']//p[contains(text(), 'Congratulations!')]"));
 
 	    $this->doFrontEndLogout();
@@ -82,7 +82,7 @@ class Article0002 extends SeleniumJoomlaTestCase
 	    $this->setEditor('Tiny');
 	    $this->doAdminLogout();
 
-	    echo "Finishing testEditArticle\n";
+	    $this->jPrint ("Finishing testEditArticle\n");
 		$this->deleteAllVisibleCookies();
 	}
 
@@ -90,11 +90,11 @@ class Article0002 extends SeleniumJoomlaTestCase
 	{
 		$this->gotoSite();
 		$this->doFrontEndLogin();
-		echo "Edit Upgraders article in front end\n";
+		$this->jPrint ("Edit Upgraders article in front end\n");
 		$this->click("//h2/a[contains(text(), 'Upgraders')]/../../div/ul/li[@class='edit-icon']/a");
 		$this->waitForPageToLoad("30000");
 
-		echo "Insert an article link and check that link is added to article.\n";
+		$this->jPrint ("Insert an article link and check that link is added to article.\n");
 		$this->click("link=Article");
 		$this->waitforElement("//iframe[contains(@src, '&view=articles&layout=modal')]");
 		$this->click("link=Archive Module");
@@ -102,30 +102,30 @@ class Article0002 extends SeleniumJoomlaTestCase
 
 		$this->assertTrue($this->isElementPresent("//a[contains(text(),'Archive Module')]"));
 
-		echo "Click Article button and close modal\n";
+		$this->jPrint ("Click Article button and close modal\n");
 		$this->click("link=Article");
 		$this->waitforElement("//iframe[contains(@src, '&view=articles&layout=modal')]");
 		$this->click("id=sbox-btn-close");
 		sleep(3);
 		$this->waitforElement("//div[@id='metadata']");
-		echo "Check that we are still editing the article.\n";
+		$this->jPrint ("Check that we are still editing the article.\n");
 		$this->assertTrue($this->isElementPresent("//div[@id='metadata']"));
 
-		echo "Click Image button and close modal\n";
+		$this->jPrint ("Click Image button and close modal\n");
 		$this->click("link=Image");
 		$this->waitforElement("//div/label[contains(text(),'Image URL')]");
 		$this->click("//button[@type='button' and @type='button' and @type='button' and @onclick='window.parent.SqueezeBox.close();']");
 		$this->waitforElement("//div[@id='metadata']");
-		echo "Check that we are still editing the article.\n";
+		$this->jPrint ("Check that we are still editing the article.\n");
 		$this->assertTrue($this->isElementPresent("//div[@id='metadata']"));
 
-		echo "Cancel article edit\n";
+		$this->jPrint ("Cancel article edit\n");
 		$this->click("//button[contains(@onclick,'article.cancel')]");
 		$this->waitForPageToLoad("30000");
 
 		$this->doFrontEndLogout();
 
-		echo "Finishing testEditArticleModals\n";
+		$this->jPrint ("Finishing testEditArticleModals\n");
 		$this->deleteAllVisibleCookies();
 	}
 
