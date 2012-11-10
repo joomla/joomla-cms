@@ -205,7 +205,7 @@ class JUpdaterExtension extends JUpdateAdapter
 		{
 			if (isset($this->latest->client) && strlen($this->latest->client))
 			{
-				$this->latest->client_id = JApplicationHelper::getClientInfo($this->latest->client)->id;
+				$this->latest->client_id = JApplicationHelper::getClientInfo($this->latest->client, 1)->id;
 				unset($this->latest->client);
 			}
 			$updates = array($this->latest);
