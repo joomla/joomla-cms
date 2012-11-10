@@ -18,6 +18,7 @@ jimport('joomla.filesystem.folder');
  * @package     Joomla.Platform
  * @subpackage  Installer
  * @since       11.1
+ * @deprecated  13.3
  */
 class JInstallerLanguage extends JAdapterInstance
 {

@@ -18,6 +18,7 @@ JFormHelper::loadFieldClass('list');
  * @package     Joomla.Legacy
  * @subpackage  Form
  * @since       11.1
+ * @deprecated  13.3
  */
 class JFormFieldCategory extends JFormFieldList
 {

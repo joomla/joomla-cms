@@ -15,6 +15,7 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Legacy
  * @subpackage  Controller
  * @since       12.2
+ * @deprecated  13.3
  * @todo        Add ability to set redirect manually to better cope with frontend usage.
  */
 class JControllerForm extends JControllerLegacy

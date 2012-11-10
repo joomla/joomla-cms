@@ -15,6 +15,7 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Legacy
  * @subpackage  Module
  * @since       11.1
+ * @deprecated  13.3
  */
 abstract class JModuleHelper
 {

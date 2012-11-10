@@ -15,7 +15,7 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Legacy
  * @subpackage  Exception
  * @since       11.1
- * @deprecated  12.1
+ * @deprecated  13.1
  */
 class JException extends Exception
 {

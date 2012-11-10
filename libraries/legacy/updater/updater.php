@@ -21,6 +21,7 @@ jimport('joomla.utilities.arrayhelper');
  * @package     Joomla.Platform
  * @subpackage  Updater
  * @since       11.1
+ * @deprecated  13.3
  */
 class JUpdater extends JAdapter
 {

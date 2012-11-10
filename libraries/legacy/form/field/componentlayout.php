@@ -18,6 +18,7 @@ jimport('joomla.filesystem.folder');
  * @package     Joomla.Legacy
  * @subpackage  Form
  * @since       11.1
+ * @deprecated  13.3
  */
 class JFormFieldComponentlayout extends JFormField
 {

@@ -17,6 +17,7 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Legacy
  * @subpackage  View
  * @since       12.2
+ * @deprecated  13.3
  */
 class JViewLegacy extends JObject
 {

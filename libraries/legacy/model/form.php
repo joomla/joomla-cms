@@ -18,6 +18,7 @@ defined('JPATH_PLATFORM') or die;
  * @see         JFormField
  * @see         JFormRule
  * @since       12.2
+ * @deprecated  13.3
  */
 abstract class JModelForm extends JModelLegacy
 {
