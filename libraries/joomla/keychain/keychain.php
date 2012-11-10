@@ -46,12 +46,14 @@ class JKeychain extends JRegistry
 	public function createPassphraseFile($passphrase, $passphraseFile, $privateKeyFile, $privateKeyPassphrase)
 	{
 		$privateKey = openssl_get_privatekey(file_get_contents($privateKeyFile), $privateKeyPassphrase);
+
 		if (!$privateKey)
 		{
 			throw new RuntimeException("Failed to load private key.");
 		}
 
 		$crypted = '';
+
 		if (!openssl_private_encrypt($passphrase, $crypted, $privateKey))
 		{
 			throw new RuntimeException("Failed to encrypt data using private key.");
@@ -75,6 +77,7 @@ class JKeychain extends JRegistry
 
 		// Explode the registry path into an array
 		$nodes = explode('.', $path);
+
 		if ($nodes)
 		{
 			// Initialize the current node to be the registry root.
@@ -173,6 +176,7 @@ class JKeychain extends JRegistry
 			throw new RuntimeException('Missing public key file');
 		}
 		$publicKey = openssl_get_publickey(file_get_contents($publicKeyFile));
+
 		if (!$publicKey)
 		{
 			throw new RuntimeException("Failed to load public key.");
@@ -183,6 +187,7 @@ class JKeychain extends JRegistry
 			throw new RuntimeException('Missing passphrase file');
 		}
 		$passphrase = '';
+
 		if (!openssl_public_decrypt(file_get_contents($passphraseFile), $passphrase, $publicKey))
 		{
 			throw new RuntimeException('Failed to decrypt passphrase file');
