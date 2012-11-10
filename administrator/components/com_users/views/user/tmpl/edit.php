@@ -45,7 +45,7 @@ $fieldsets = $this->form->getFieldsets();
 					continue;
 				endif;
 				?>
-				<li><a href="#<?php echo JText::_($fieldset->name); ?>" data-toggle="tab"><?php echo JText::_($fieldset->label); ?></a></li>
+				<li><a href="#<?php echo $fieldset->name; ?>" data-toggle="tab"><?php echo JText::_($fieldset->label); ?></a></li>
 			<?php endforeach; ?>
 			</ul>
 
@@ -73,7 +73,7 @@ $fieldsets = $this->form->getFieldsets();
 						continue;
 					endif;
 				?>
-				<div class="tab-pane" id="<?php echo JText::_($fieldset->name); ?>">
+				<div class="tab-pane" id="<?php echo $fieldset->name; ?>">
 					<?php foreach($this->form->getFieldset($fieldset->name) as $field) : ?>
 						<?php if ($field->hidden) : ?>
 							<div class="control-group">
