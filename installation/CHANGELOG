@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+10-Nov-2012 Jean-Marie Simonet
+ $ [#29616] Missing JGLOBAL_CENTER in frontend language file. Thanks Patrick
+
 09-Nov-2012 Jean-Marie Simonet
  # Correcting EOL
 
