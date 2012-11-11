@@ -39,7 +39,7 @@ class ContentModelForm extends ContentModelArticle
 		$this->setState('article.catid', $app->input->getInt('catid'));
 
 		$return = $app->input->get('return', null, 'base64');
-		$this->setState('return_page', base64_decode($return));
+		$this->setState('return_page', urldecode(base64_decode($return)));
 
 		// Load the parameters.
 		$params	= $app->getParams();
@@ -129,6 +129,6 @@ class ContentModelForm extends ContentModelArticle
 	 */
 	public function getReturnPage()
 	{
-		return base64_encode($this->getState('return_page'));
+		return base64_encode(urlencode($this->getState('return_page')));
 	}
 }
