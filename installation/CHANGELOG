@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+11-Nov-2012 Jean-Marie Simonet
+ # [#29569] *Implementing accordeons for Modules Options
+
 10-Nov-2012 Mark Dexter
  # Remove trashed categories from sample data
  # [#29621] The root asset has the wrong lft value in 3 files. Thanks Elin.
