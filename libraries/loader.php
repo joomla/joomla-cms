@@ -16,6 +16,10 @@ defined('JPATH_PLATFORM') or die;
  */
 abstract class JLoader
 {
+	const LOWER_CASE = 1;
+	const NATURAL_CASE = 2;
+	const MIXED_CASE = 3;
+
 	/**
 	 * Container for already imported library paths.
 	 *
@@ -467,9 +471,9 @@ abstract class JLoader
 	 * @param   integer  $caseStrategy      An option to define the class finding strategy for the namespace loader
 	 *                                      depending on the namespace and class path case.
 	 *                                      The possible values are :
-	 *                                      1 : Lower case (the namespace can be either lower case or camel case and the path lower case).
-	 *                                      2 : Natural case (the namespace case matches the path case).
-	 *                                      3 : Mixed case (it regroups option 1 and option 2).
+	 *                                      JLoader::LOWER_CASE : The namespace can be either lower case or camel case and the path lower case.
+	 *                                      JLoader::NATURAL_CASE : The namespace case matches the path case.
+	 *                                      JLoader::MIXED_CASE : It regroups option 1 and option 2.
 	 * @param   boolean  $enableNamespaces  True to enable PHP namespace based class autoloading.
 	 * @param   boolean  $enablePrefixes    True to enable prefix based class loading (needed to auto load the Joomla core).
 	 * @param   boolean  $enableClasses     True to enable class map based class loading (needed to auto load the Joomla core).
@@ -478,7 +482,7 @@ abstract class JLoader
 	 *
 	 * @since   12.3
 	 */
-	public static function setup($caseStrategy = 1, $enableNamespaces = false, $enablePrefixes = true, $enableClasses = true)
+	public static function setup($caseStrategy = self::LOWER_CASE, $enableNamespaces = false, $enablePrefixes = true, $enableClasses = true)
 	{
 		if ($enableClasses)
 		{
@@ -500,17 +504,17 @@ abstract class JLoader
 			switch ($caseStrategy)
 			{
 				// Register the lower case namespace loader.
-				case 1:
+				case self::LOWER_CASE:
 					spl_autoload_register(array('JLoader', 'loadByNamespaceLowerCase'));
 					break;
 
 				// Register the natural case namespace loader.
-				case 2:
+				case self::NATURAL_CASE:
 					spl_autoload_register(array('JLoader', 'loadByNamespaceNaturalCase'));
 					break;
 
 				// Register the mixed case namespace loader.
-				case 3:
+				case self::MIXED_CASE:
 					spl_autoload_register(array('JLoader', 'loadByNamespaceMixedCase'));
 					break;
 

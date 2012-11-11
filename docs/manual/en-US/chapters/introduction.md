@@ -222,13 +222,13 @@ In order to correctly use the namespace auto loader you need to setup it accordi
 <?php
 
 // Setup the loader with the Lower Case strategy.
-JLoader::setup(1, true);
+JLoader::setup(JLoader::LOWER_CASE, true);
 
 // Setup the loader with the Natural Case strategy.
-JLoader::setup(2, true);
+JLoader::setup(JLoader::NATURAL_CASE, true);
 
 // Setup the loader with the Mixed Case strategy.
-JLoader::setup(3, true);
+JLoader::setup(JLoader::MIXED_CASE, true);
 ```
 
 #### Registering a namespace

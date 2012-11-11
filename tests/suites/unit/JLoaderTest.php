@@ -684,7 +684,7 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 		$this->unregisterLoaders();
 
 		// Setup the loader with $caseStrategy = 1 (lower case) and enableNamespace = true.
-		JLoader::setup(1, true, false, false);
+		JLoader::setup(JLoader::LOWER_CASE, true, false, false);
 
 		// Get the autoload functions
 		$loaders = spl_autoload_functions();
@@ -722,7 +722,7 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 		$this->unregisterLoaders();
 
 		// Setup the loader with $caseStrategy = 2 (natural case) and enableNamespace = true.
-		JLoader::setup(2, true, false, false);
+		JLoader::setup(JLoader::NATURAL_CASE, true, false, false);
 
 		// Get the autoload functions
 		$loaders = spl_autoload_functions();
@@ -760,7 +760,7 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 		$this->unregisterLoaders();
 
 		// Setup the loader with $caseStrategy = 3 (mixed case) and enableNamespace = true.
-		JLoader::setup(3, true, false, false);
+		JLoader::setup(JLoader::MIXED_CASE, true, false, false);
 
 		// Get the autoload functions
 		$loaders = spl_autoload_functions();

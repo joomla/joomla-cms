@@ -35,7 +35,7 @@ class JLoaderNamespaceTest extends \PHPUnit_Framework_TestCase
 		$this->unregisterLoaders();
 
 		// Set up the loader with the lower case strategy.
-		JLoader::setup(1, true, false, false);
+		JLoader::setup(JLoader::LOWER_CASE, true, false, false);
 
 		// Register the animal namespace where we can find the Cat class.
 		$path = dirname(__FILE__) . '/stubs/animal1';
@@ -68,7 +68,7 @@ class JLoaderNamespaceTest extends \PHPUnit_Framework_TestCase
 		$this->unregisterLoaders();
 
 		// Set up the loader with the natural case strategy.
-		JLoader::setup(2, true, false, false);
+		JLoader::setup(JLoader::NATURAL_CASE, true, false, false);
 
 		// Register the Color namespace where we can find the Red class.
 		$path = dirname(__FILE__) . '/stubs/Color';
@@ -102,7 +102,7 @@ class JLoaderNamespaceTest extends \PHPUnit_Framework_TestCase
 		$this->unregisterLoaders();
 
 		// Set up the loader with the mixed case strategy.
-		JLoader::setup(3, true, false, false);
+		JLoader::setup(JLoader::MIXED_CASE, true, false, false);
 
 		// Register the animal namespace where we can find the Cat class.
 		$path = dirname(__FILE__) . '/stubs/animal1';
