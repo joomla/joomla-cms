@@ -135,25 +135,25 @@ class JDatabaseQueryElementTest extends PHPUnit_Framework_TestCase
 				'FROM',
 				'table1',
 				',',
-				"\nFROM table1"
+				PHP_EOL . "FROM table1"
 			),
 			array(
 				'SELECT',
 				array('column1', 'column2'),
 				',',
-				"\nSELECT column1,column2"
+				PHP_EOL . "SELECT column1,column2"
 			),
 			array(
 				'()',
 				array('column1', 'column2'),
 				',',
-				"\n(column1,column2)"
+				PHP_EOL . "(column1,column2)"
 			),
 			array(
 				'CONCAT()',
 				array('column1', 'column2'),
 				',',
-				"\nCONCAT(column1,column2)"
+				PHP_EOL . "CONCAT(column1,column2)"
 			),
 		);
 	}
