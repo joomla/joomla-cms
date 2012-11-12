@@ -65,6 +65,26 @@ issues. Bootstrapping the legacy Joomla Platform is done by including
 `/libraries/import.legacy.php`. This instructs the auto-loader to look
 for classes in the legacy tree first, and then in the core tree.
 
+### Using Phar
+
+The Joomla Platform can be packed into a Phar file (a PHP archive). This can allow a developer to ship an application with the Platform in a compressed format so that everything can 'just work' without downloading the Platform separately. In large bespoke projects it also provides a convenient way to update the Joomla Platform with a single file and also ensuring that development and production environments are all set up with the same version of the Platform.
+
+To make a Phar of the Platform first download the Packager Tool from [https://github.com/LouisLandry/packager/downloads](https://github.com/LouisLandry/packager/downloads) and put the `joomla-packager.phar` file in your operating system's executable path. This is actually a standalone application with selected parts of the Joomla Platform included with it (it's one of those applications that uses itself to build itself).
+
+To create the phar of the core Joomla Platform (without the legacy tree) go to the root folder of the Joomla Platform and execute `joomla-packager.phar`. This will build automatically detect the `packager.xml` configuration file and place the phar file in `build/joomla.phar`. You can then include this phar file in your application by using the following code:
+
+```php
+require_once 'path/to/joomla.phar';
+```
+
+After this you can just start using the Platform API as required.
+
+For advanced applications or projects that include their own unit test suite, the Platform and test framework can also be built into a phar by executing the following:
+
+```bash
+$ joomla-packager.phar -f packager.test.phar
+```
+
 ## Platform Version
 
 Platform version information can be found by accessing the `JPlatform`
