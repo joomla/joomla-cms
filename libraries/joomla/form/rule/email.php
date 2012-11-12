@@ -23,8 +23,9 @@ class JFormRuleEmail extends JFormRule
 	 *
 	 * @var    string
 	 * @since  11.1
+	 * @see    http://www.w3.org/TR/html-markup/input.email.html
 	 */
-	protected $regex = '^[\w.-]+(\+[\w.-]+)*@\w+[\w.-]*?\.\w{2,4}$';
+	protected $regex = '^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$';
 
 	/**
 	 * Method to test the email address and optionally check for uniqueness.
@@ -51,16 +52,46 @@ class JFormRuleEmail extends JFormRule
 			return true;
 		}
 
-		// Test the value against the regular expression.
-		if (!parent::test($element, $value, $group, $input, $form))
+		// If the tld attribute is present, change the regular expression to require at least 2 characters for it.
+		$tld = ((string) $element['tld'] == 'tld' || (string) $element['tld'] == 'required');
+
+		if ($tld)
 		{
-			return false;
+			$this->regex = '^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]{2,})$';
 		}
 
-		// Check if we should test for uniqueness.
+		// Determine if the multiple attribute is present
+		$multiple = ((string) $element['multiple'] == 'true' || (string) $element['multiple'] == 'multiple');
+
+		if ($multiple)
+		{
+			$values = explode(',', $value);
+		}
+
+		if (!$multiple)
+		{
+			// Test the value against the regular expression.
+			if (!parent::test($element, $value, $group, $input, $form))
+			{
+				return false;
+			}
+		}
+		else
+		{
+			foreach ($values as $value)
+			{
+				// Test the value against the regular expression.
+				if (!parent::test($element, $value, $group, $input, $form))
+				{
+					return false;
+				}
+			}
+		}
+
+		// Check if we should test for uniqueness. This only can be used if multiple is not true
 		$unique = ((string) $element['unique'] == 'true' || (string) $element['unique'] == 'unique');
 
-		if ($unique)
+		if ($unique && !$multiple)
 		{
 
 			// Get the database object and a new query object.
