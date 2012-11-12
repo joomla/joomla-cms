@@ -22,6 +22,45 @@ use Color\Blue;
 class JLoaderNamespaceTest extends \PHPUnit_Framework_TestCase
 {
 	/**
+	 * Container for JLoader static values during tests.
+	 *
+	 * @var    array
+	 * @since  12.3
+	 */
+	protected static $cache = array();
+
+	/**
+	 * Cache the JLoader settings while we are resetting things for testing.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.3
+	 */
+	public static function setUpBeforeClass()
+	{
+		self::$cache['classes']    = \TestReflection::getValue('JLoader', 'classes');
+		self::$cache['imported']   = \TestReflection::getValue('JLoader', 'imported');
+		self::$cache['prefixes']   = \TestReflection::getValue('JLoader', 'prefixes');
+		self::$cache['namespaces'] = \TestReflection::getValue('JLoader', 'namespaces');
+	}
+
+	/**
+	 * Restore the JLoader cache settings after testing the class.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.3
+	 */
+	public static function tearDownAfterClass()
+	{
+		JLoader::setup();
+		\TestReflection::setValue('JLoader', 'classes', self::$cache['classes']);
+		\TestReflection::setValue('JLoader', 'imported', self::$cache['imported']);
+		\TestReflection::setValue('JLoader', 'prefixes', self::$cache['prefixes']);
+		\TestReflection::setValue('JLoader', 'namespaces', self::$cache['namespaces']);
+	}
+
+	/**
 	 * Test the JLoader::loadByNamespaceLowerCase method.
 	 *
 	 * @return  void

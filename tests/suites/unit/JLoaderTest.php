@@ -14,6 +14,13 @@
  */
 class JLoaderTest extends PHPUnit_Framework_TestCase
 {
+	/**
+	 * Container for JLoader static values during tests.
+	 *
+	 * @var    array
+	 * @since  12.3
+	 */
+	protected static $cache = array();
 
 	/**
 	 * JLoader is an abstract class of static functions and variables, so will test without instantiation
@@ -38,6 +45,37 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 	 * @since  11.1
 	 */
 	protected $bogusFullPath;
+
+	/**
+	 * Cache the JLoader settings while we are resetting things for testing.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.3
+	 */
+	public static function setUpBeforeClass()
+	{
+		self::$cache['classes']    = TestReflection::getValue('JLoader', 'classes');
+		self::$cache['imported']   = TestReflection::getValue('JLoader', 'imported');
+		self::$cache['prefixes']   = TestReflection::getValue('JLoader', 'prefixes');
+		self::$cache['namespaces'] = TestReflection::getValue('JLoader', 'namespaces');
+	}
+
+	/**
+	 * Restore the JLoader cache settings after testing the class.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.3
+	 */
+	public static function tearDownAfterClass()
+	{
+		JLoader::setup();
+		TestReflection::setValue('JLoader', 'classes', self::$cache['classes']);
+		TestReflection::setValue('JLoader', 'imported', self::$cache['imported']);
+		TestReflection::setValue('JLoader', 'prefixes', self::$cache['prefixes']);
+		TestReflection::setValue('JLoader', 'namespaces', self::$cache['namespaces']);
+	}
 
 	/**
 	 * The test cases for importing classes
@@ -265,10 +303,10 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 		JLoader::registerNamespace('Color', $path);
 
 		// Check we can load a class from the first path.
-		$this->assertTrue(JLoader::loadByNamespaceLowerCase('Color\\Rgb\\Red'));
+		$this->assertTrue(JLoader::loadByNamespaceNaturalCase('Color\\Rgb\\Red'));
 
 		// Check we can load a class from the second path.
-		$this->assertTrue(JLoader::loadByNamespaceLowerCase('Color\\Blue'));
+		$this->assertTrue(JLoader::loadByNamespaceNaturalCase('Color\\Blue'));
 	}
 
 	/**
@@ -291,10 +329,10 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 		JLoader::registerNamespace('animal', $path);
 
 		// Check we can load a class from the first path.
-		$this->assertTrue(JLoader::loadByNamespaceLowerCase('animal\\Cat'));
+		$this->assertTrue(JLoader::loadByNamespaceMixedCase('animal\\Cat'));
 
 		// Check we can load a class from the second path.
-		$this->assertTrue(JLoader::loadByNamespaceLowerCase('animal\\Dog'));
+		$this->assertTrue(JLoader::loadByNamespaceMixedCase('animal\\Dog'));
 	}
 
 	/**
@@ -317,10 +355,10 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 		JLoader::registerNamespace('Color', $path);
 
 		// Check we can load a class from the first path.
-		$this->assertTrue(JLoader::loadByNamespaceLowerCase('Color\\Rgb\\Red'));
+		$this->assertTrue(JLoader::loadByNamespaceMixedCase('Color\\Rgb\\Red'));
 
 		// Check we can load a class from the second path.
-		$this->assertTrue(JLoader::loadByNamespaceLowerCase('Color\\Blue'));
+		$this->assertTrue(JLoader::loadByNamespaceMixedCase('Color\\Blue'));
 	}
 
 	/**
