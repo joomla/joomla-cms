@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 JHtml::_('behavior.keepalive');
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
+JHtml::_('behavior.noframes');
 ?>
 <div class="registration<?php echo $this->pageclass_sfx?>">
 <?php if ($this->params->get('show_page_heading')) : ?>
@@ -51,7 +52,7 @@ JHtml::_('behavior.formvalidation');
 <?php endforeach;?>
 		<div class="form-actions">
 			<button type="submit" class="btn btn-primary validate"><?php echo JText::_('JREGISTER');?></button>
-			<a class="cancel" href="<?php echo JRoute::_('');?>" title="<?php echo JText::_('JCANCEL');?>"><?php echo JText::_('JCANCEL');?></a>
+			<a class="btn" href="<?php echo JRoute::_('');?>" title="<?php echo JText::_('JCANCEL');?>"><?php echo JText::_('JCANCEL');?></a>
 			<input type="hidden" name="option" value="com_users" />
 			<input type="hidden" name="task" value="registration.register" />
 			<?php echo JHtml::_('form.token');?>

@@ -19,6 +19,7 @@ $user  = JFactory::getUser();
 
 // Add JavaScript Frameworks
 JHtml::_('bootstrap.framework');
+$doc->addScript('templates/' .$this->template. '/js/template.js');
 
 // Add Stylesheets
 $doc->addStyleSheet('templates/' . $this->template . '/css/template.css');
@@ -252,13 +253,9 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 	<!-- End Status Module -->
 	<?php endif; ?>
 	<jdoc:include type="modules" name="debug" style="none" />
+	<?php if ($stickyToolbar): ?>
 	<script>
 		(function($){
-			$('*[rel=tooltip]').tooltip()
-
-			<?php
-			if ($stickyToolbar):
-			?>
 			// fix sub nav on scroll
 			var $win = $(window)
 			  , $nav = $('.subhead')
@@ -284,38 +281,8 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 					$nav.removeClass('subhead-fixed')
 				}
 			}
-			<?php
-			endif;
-			?>
-
-			// Turn radios into btn-group
-		    $('.radio.btn-group label').addClass('btn');
-		    $(".btn-group label:not(.active)").click(function() {
-		        var label = $(this);
-		        var input = $('#' + label.attr('for'));
-
-		        if (!input.prop('checked')) {
-		            label.closest('.btn-group').find("label").removeClass('active btn-success btn-danger btn-primary');
-		            if(input.val()== '') {
-		                    label.addClass('active btn-primary');
-		             } else if(input.val()==0) {
-		                    label.addClass('active btn-danger');
-		             } else {
-		            label.addClass('active btn-success');
-		             }
-		            input.prop('checked', true);
-		        }
-		    });
-		    $(".btn-group input[checked=checked]").each(function() {
-				if($(this).val()== '') {
-		           $("label[for=" + $(this).attr('id') + "]").addClass('active btn-primary');
-		        } else if($(this).val()==0) {
-		           $("label[for=" + $(this).attr('id') + "]").addClass('active btn-danger');
-		        } else {
-		            $("label[for=" + $(this).attr('id') + "]").addClass('active btn-success');
-		        }
-		    });
 		})(jQuery);
 	</script>
+	<?php endif; ?>
 </body>
 </html>

@@ -27,7 +27,8 @@ class CategoriesModelCategories extends JModelList
 	 */
 	public function __construct($config = array())
 	{
-		if (empty($config['filter_fields'])) {
+		if (empty($config['filter_fields']))
+		{
 			$config['filter_fields'] = array(
 				'id', 'a.id',
 				'title', 'a.title',
@@ -70,10 +71,10 @@ class CategoriesModelCategories extends JModelList
 		$this->setState('filter.extension', $extension);
 		$parts = explode('.', $extension);
 
-		// extract the component name
+		// Extract the component name
 		$this->setState('filter.component', $parts[0]);
 
-		// extract the optional section name
+		// Extract the optional section name
 		$this->setState('filter.section', (count($parts) > 1) ? $parts[1] : null);
 
 		$search = $this->getUserStateFromRequest($context.'.search', 'filter_search');
@@ -120,6 +121,7 @@ class CategoriesModelCategories extends JModelList
 
 	/**
 	 * @return	string
+	 *
 	 * @since	1.6
 	 */
 	protected function getListQuery()
@@ -128,6 +130,7 @@ class CategoriesModelCategories extends JModelList
 		$db		= $this->getDbo();
 		$query	= $db->getQuery(true);
 		$user	= JFactory::getUser();
+		$app	= JFactory::getApplication();
 
 		// Select the required fields from the table.
 		$query->select(
@@ -157,18 +160,31 @@ class CategoriesModelCategories extends JModelList
 		$query->select('ua.name AS author_name');
 		$query->join('LEFT', '#__users AS ua ON ua.id = a.created_user_id');
 
+		// Join over the associations.
+		$assoc = $this->getAssoc();
+		if ($assoc)
+		{
+			$query->select('COUNT(asso2.id)>1 as association');
+			$query->join('LEFT', '#__associations AS asso ON asso.id = a.id AND asso.context='.$db->quote('com_categories.item'));
+			$query->join('LEFT', '#__associations AS asso2 ON asso2.key = asso.key');
+			$query->group('a.id');
+		}
+
 		// Filter by extension
-		if ($extension = $this->getState('filter.extension')) {
+		if ($extension = $this->getState('filter.extension'))
+		{
 			$query->where('a.extension = '.$db->quote($extension));
 		}
 
 		// Filter on the level.
-		if ($level = $this->getState('filter.level')) {
+		if ($level = $this->getState('filter.level'))
+		{
 			$query->where('a.level <= '.(int) $level);
 		}
 
 		// Filter by access level.
-		if ($access = $this->getState('filter.access')) {
+		if ($access = $this->getState('filter.access'))
+		{
 			$query->where('a.access = ' . (int) $access);
 		}
 
@@ -181,44 +197,94 @@ class CategoriesModelCategories extends JModelList
 
 		// Filter by published state
 		$published = $this->getState('filter.published');
-		if (is_numeric($published)) {
+		if (is_numeric($published))
+		{
 			$query->where('a.published = ' . (int) $published);
 		}
-		elseif ($published === '') {
+		elseif ($published === '')
+		{
 			$query->where('(a.published IN (0, 1))');
 		}
 
 		// Filter by search in title
 		$search = $this->getState('filter.search');
-		if (!empty($search)) {
-			if (stripos($search, 'id:') === 0) {
+		if (!empty($search))
+		{
+			if (stripos($search, 'id:') === 0)
+			{
 				$query->where('a.id = '.(int) substr($search, 3));
 			}
-			elseif (stripos($search, 'author:') === 0) {
+			elseif (stripos($search, 'author:') === 0)
+			{
 				$search = $db->Quote('%'.$db->escape(substr($search, 7), true).'%');
 				$query->where('(ua.name LIKE '.$search.' OR ua.username LIKE '.$search.')');
 			}
-			else {
+			else
+			{
 				$search = $db->Quote('%'.$db->escape($search, true).'%');
 				$query->where('(a.title LIKE '.$search.' OR a.alias LIKE '.$search.' OR a.note LIKE '.$search.')');
 			}
 		}
 
 		// Filter on the language.
-		if ($language = $this->getState('filter.language')) {
+		if ($language = $this->getState('filter.language'))
+		{
 			$query->where('a.language = '.$db->quote($language));
 		}
 
 		// Add the list ordering clause
 		$listOrdering = $this->getState('list.ordering', 'a.lft');
 		$listDirn = $db->escape($this->getState('list.direction', 'ASC'));
-		if ($listOrdering == 'a.access') {
+		if ($listOrdering == 'a.access')
+		{
 			$query->order('a.access '.$listDirn.', a.lft '.$listDirn);
-		} else {
+		}
+		else
+		{
 			$query->order($db->escape($listOrdering).' '.$listDirn);
 		}
 
 		//echo nl2br(str_replace('#__','jos_',$query));
 		return $query;
+	}
+
+	/**
+	 * Method to determine if an association exists
+	 *
+	 * @return  boolean  True if the association exists
+	 *
+	 * @since  3.0
+	 */
+
+	public function getAssoc()
+	{
+		static $assoc = null;
+
+		if (!is_null($assoc))
+		{
+			return $assoc;
+		}
+
+		$app = JFactory::getApplication();
+		$extension = $this->getState('filter.extension');
+
+		$assoc = isset($app->item_associations) ? $app->item_associations : 0;
+		$extension = explode('.', $extension);
+		$component = array_shift($extension);
+		$cname = str_replace('com_', '', $component);
+
+		if (!$assoc || !$component || !$cname)
+		{
+			$assoc = false;
+		}
+		else
+		{
+			$hname = $cname.'HelperAssociation';
+			JLoader::register($hname, JPATH_SITE . '/components/'.$component.'/helpers/association.php');
+
+			$assoc = class_exists($hname) && !empty($hname::$category_association);
+		}
+
+		return $assoc;
 	}
 }

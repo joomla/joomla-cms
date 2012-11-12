@@ -21,6 +21,14 @@ $canOrder	= $user->authorise('core.edit.state',	'com_plugins');
 $saveOrder	= $listOrder == 'ordering';
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_plugins&view=plugins'); ?>" method="post" name="adminForm" id="adminForm">
+<?php if(!empty( $this->sidebar)): ?>
+	<div id="j-sidebar-container" class="span2">
+		<?php echo $this->sidebar; ?>
+	</div>
+	<div id="j-main-container" class="span10">
+<?php else : ?>
+	<div id="j-main-container">
+<?php endif;?>
 	<fieldset id="filter-bar">
 	<legend class="element-invisible"><?php echo JText::_('JSEARCH_FILTER_LABEL'); ?></legend>
 		<div class="filter-search">
@@ -36,7 +44,7 @@ $saveOrder	= $listOrder == 'ordering';
 			</label>
 			<select name="filter_state" class="inputbox" id="filter_state">
 				<option value=""><?php echo JText::_('JOPTION_SELECT_PUBLISHED');?></option>
-				<?php echo JHtml::_('select.options', PluginsHelper::stateOptions(), 'value', 'text', $this->state->get('filter.state'), true);?>
+				<?php echo JHtml::_('select.options', PluginsHelper::publishedOptions(), 'value', 'text', $this->state->get('filter.state'), true);?>
 			</select>
 
 			<label class="selectlabel" for="filter_folder">
@@ -161,4 +169,5 @@ $saveOrder	= $listOrder == 'ordering';
 	<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>" />
 	<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>" />
 	<?php echo JHtml::_('form.token'); ?>
+</div>
 </form>

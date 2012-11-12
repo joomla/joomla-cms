@@ -18,6 +18,7 @@ $this->direction = $doc->direction;
 
 // Add JavaScript Frameworks
 JHtml::_('bootstrap.framework');
+$doc->addScript('templates/' .$this->template. '/js/template.js');
 
 // Add Stylesheets
 $doc->addStyleSheet('templates/' .$this->template. '/css/template.css');
@@ -45,24 +46,5 @@ endif;
 <body class="contentpane component">
 	<jdoc:include type="message" />
 	<jdoc:include type="component" />
-	<script>
-		(function($){
-		    // Turn radios into btn-group
-		    $('.radio.btn-group label').addClass('btn')
-		    $(".btn-group label:not(.active)").click(function(){
-		        var label = $(this);
-		        var input = $('#' + label.attr('for'));
-
-		        if (!input.prop('checked')){
-		            label.closest('.btn-group').find("label").removeClass('active btn-primary');
-		            label.addClass('active btn-primary');
-		            input.prop('checked', true);
-		        }
-		    });
-		    $(".btn-group input[checked=checked]").each(function(){
-		        $("label[for=" + $(this).attr('id') + "]").addClass('active btn-primary');
-		    });
-	    })(jQuery);
-	</script>
 </body>
 </html>

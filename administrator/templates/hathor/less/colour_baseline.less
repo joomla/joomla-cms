@@ -197,7 +197,31 @@ div.btn-toolbar div.btn-group button:hover {
 	border-right: 1px solid @SEBorder;
 	border-bottom: 1px solid @SEBorder;
 	background: @hoverBackground;
-	color: @linkColor;
+	color: @toolbarColor;
+	cursor: pointer;
+}
+
+div.btn-toolbar a {
+	border-left: 1px solid @hoverBackground;
+	border-top: 1px solid @hoverBackground;
+	border-right: 1px solid @mainBorder;
+	border-bottom: 1px solid @mainBorder;
+	#gradient > .vertical(@gradientTop, @gradientBottom);
+	padding: 6px 5px;
+	font-weight: bold;
+	text-align: center;
+	white-space: nowrap;
+	font-size: 1.2em;
+	text-decoration: none;
+}
+
+div.btn-toolbar a:hover {
+	border-left: 1px solid @NWBorder;
+	border-top: 1px solid @NWBorder;
+	border-right: 1px solid @SEBorder;
+	border-bottom: 1px solid @SEBorder;
+	background: @hoverBackground;
+	color: @toolbarColor;
 	cursor: pointer;
 }
 
@@ -618,7 +642,7 @@ fieldset.batch {
  * Button styling
  */
 button {
-	color: @linkColor;
+	color: @toolbarColor;
 	border: 1px solid @mainBorder;
 	#gradient > .vertical(@gradientTop, @gradientBottom);
 }
@@ -1835,7 +1859,7 @@ table.adminlist tbody td.check-d {
 }
 
 #menu a {
-	color: @linkColor;
+	color: @toolbarColor;
 	background-repeat: no-repeat;
 	background-position: left 50%;
 }

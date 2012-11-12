@@ -308,3 +308,10 @@ a img.calendar {
 
 span.optional
 {font-size:0.9em}
+
+/* ##########################  clearing  ########################### */
+.clr {
+	clear: both;
+	overflow: hidden;
+	height: 0;
+}

@@ -26,6 +26,120 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+11-Nov-2012 Jean-Marie Simonet
+ # [#29569] *Implementing accordeons for Modules Options
+ # [#29635] * No message notification when new article is created
+
+10-Nov-2012 Mark Dexter
+ # Remove trashed categories from sample data
+ # [#29621] The root asset has the wrong lft value in 3 files. Thanks Elin.
+
+10-Nov-2012 Jean-Marie Simonet
+ $ [#29616] Missing JGLOBAL_CENTER in frontend language file. Thanks Patrick
+ # [#29654] *User Basic settings do not display when debug language on
+ # [#29653] *Correcting Isis media modal display
+ # [#29638] *admin dashboard statics not fully RTL. Thanks Chalak
+
+09-Nov-2012 Jean-Marie Simonet
+ # Correcting EOL
+
+-------------------- 3.0.2 Stable Release [8-Nov-2012] ------------------
+
+06-Nov-2012 Mark Dexter
+ # [#29128] Add a heading menu item, use Bootstrap's markup for separator. Thanks Michael.
+ # [#29626] Commit for 29519 Breaks Wrapper Menu Item Type. Thanks Elin.
+
+05-Nov-2012 Mark Dexter
+ # [#29565] Joomla! 3.x version update information issue on 64-bit servers. Thanks Ofer.
+ # [#28960] Correct system message output. Thanks Viet Vu.
+
+04-Nov-2012 Jean-Marie Simonet
+ # [#29610] User and Notes views missing chosen/bootstrap. Thanks Kyle.
+ # [#29615] *Hathor edit user broken
+
+02-Nov-2012 Jean-Marie Simonet
+ # [#29606] *New Feature Items associations also displays the parameter for other categories than com_content. Thanks Benjamin
+ # [#29602] Add bootstrap-extended to the CSS compiler. Thanks Michael
+ # [#29305] Adding red colour to invalid fields. Thanks Andrea
+
+01-Nov-2012 Jean-Marie Simonet
+ # [#29597] 'Title' label doesn't appear when editing an article in frontend. Thanks Stephania
+ # [#29599] *Beez article category list display issue.
+ # [#29604] *Language no more available in Extension Manager after uninstall
+
+30-Oct-2012 Jean-Marie Simonet
+ # [#29582] User Profile cannot be edited from user manager. Thanks Emir
+ # [#29583] JForm media field element is unable to determine the selected image root path. Thanks Sven.
+ #$ [#29584] *Untranslated strings in chosen.jquery.js using Isis
+ # [#29587] *Adding Author alias in Article Manager
+
+28-Oct-2012 Jean-Marie Simonet
+ # [#29251] Com_content caches article view no matter of Itemid. Thanks Dennis
+
+27-Oct-2012 Jean-Marie Simonet
+ $ Updating en-GB version to 3.0.2
+ # [#29339] User Manager: Viewing Access Levels - layout
+ # [#29570] Recaptcha fails. Thanks Panayiotis
+ # [#29577] Wrong status filter in Plug-in-Manager
+ + Adding Kiswahili (East African Kiswahili Commission) flag
+
+25-Oct-2012 Jean-Marie Simonet
+ # [#27989] Filtering of extension update list and additional notice before updating. Thanks Rob.
+ # [#29536] XHTML syntax error in default system Breadcrumbs module. Thanks Denia
+ # [#29533] Missing closing link tag in submenu layout. Thanks Yannick
+
+24-Oct-2012 Jean-Marie Simonet
+ # [#29543] Category on article is sometimes not displayed
+ % [#29568] *Patch correcting issues in Featured/blog/archive for the info display
+
+23-Oct-2012 Jean-Marie Simonet
+ # [#29547] Category parent link missing
+ # [#29545] Incorrect label / date in article created date. Thanks Denia
+ # [#29535] Invalid XHTML syntax in Protostar Joomla 3.0.1. Thanks Denia
+ # [#29340] Menu Manager: Menus
+
+22-Oct-2012 Jean-Marie Simonet
+ # [#29553] Convert Hathor's brown color scheme to Less. Thanks Michael
+ # [#29552] *Com_messages "My Settings" broken
+
+20-Oct-2012 Jean-Marie Simonet
+ # [#29530] *Language override search broken. Thanks Patrick
+ # [#29525] No tooltip help for Global Configuration Text Filters. Thanks Mark.
+ # [#29527] *Beez category list display issue.
+
+18-Oct-2012 Jean-Marie Simonet
+ # [#29519] *Edit Menu Item layout usability
+ # [#29401] Repeated htmlspecialchars() Applied When Multiple Breadcrumbs Active. Thanks Peter and Roland
+ $# [#29521] Missing lang string in installation + correcting wrong constant in InstallationModelDatabase
+ # Category title display ommitted in Details column #29494 
+
+17-Oct-2012 Jean-Marie Simonet
+ # [#29470] *Hathor submenus broken. Thanks Yannick
+ # [#29477] Missing style for Cancel
+ # [#28379] *Normalizing Hathor css and js load in index.php + correcting a small error
+ # [#29239] Increment the hit counter of the category. Thanks Roberto
+ # [#29494] *Normalising Edit Category page
+ # [#29499] "Browser Page Title" Not Considered in Category Blog Layouts. Thanks Mig
+
+14-Oct-2012 Jean-Marie Simonet
+ + [#27373] [patch] Implementing Items associations in multilanguage. Thanks Benjamin.
+ # [#29471] Save as Copy Overwrites Menu Titles (always) for External URL. Thanks Roberto
+ # [#29487] isis error.php is accessing unexisting object $this->params. Thanks Daniel
+ # [#29480] Removed class=" form closing tag in contacts default view. Thanks Brent
+ # [#29476] Isis: Fixed btn-group labels not getting right colors in component subtemplate. Thanks Peter
+ # [#29411] Missing function _unix2DOSTime in libraries/joomla/archive/zip.php. Thanks Roberto
+ # Correcting code quality
+
+12-Oct-2012 Jean-Marie Simonet
+ $ Correcting de-DE installation ini
+ # [#29478] Incorrect Home link from 500 error page Joomla 3.0
+ # [#29488] Missing JText In Language Installer
+
+10-Oct-2012 Jean-Marie Simonet
+ $ Correcting fr-FR installation ini
+
+-------------------- 3.0.1 Stable Release [9-Oct-2012] ------------------
+
 08-Oct-2012 Mark Dexter
  # [#29074] Back-end: Unable to save FTP Settings - Catchable fatal error. Thanks Elin.
  # [#29468] Additional places where null should be changed to array(). Thanks Elin.

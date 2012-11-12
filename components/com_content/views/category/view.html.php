@@ -88,10 +88,14 @@ class ContentViewCategory extends JViewLegacy
 			$item = &$items[$i];
 			$item->slug = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
 
+			$item->parent_slug = ($item->parent_alias) ? ($item->parent_id . ':' . $item->parent_alias) : $item->parent_id;
+
 			// No link for ROOT category
-			if ($item->parent_alias == 'root') {
+			if ($item->parent_alias == 'root')
+			{
 				$item->parent_slug = null;
 			}
+
 			$item->catslug		= $item->category_alias ? ($item->catid.':'.$item->category_alias) : $item->catid;
 			$item->event = new stdClass;
 
@@ -173,6 +177,10 @@ class ContentViewCategory extends JViewLegacy
 		$this->pagination = &$pagination;
 		$this->user       = &$user;
 
+		// Increment the category hit counter
+		$model = $this->getModel();
+		$model->hit();
+
 		$this->_prepareDocument();
 
 		parent::display($tpl);
@@ -219,8 +227,7 @@ class ContentViewCategory extends JViewLegacy
 			}
 		}
 
-		$title = $this->category->title;
-
+		$title = $this->params->get('page_title', '');
 		if (empty($title)) {
 			$title = $app->getCfg('sitename');
 		}

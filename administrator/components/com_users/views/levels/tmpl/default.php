@@ -51,13 +51,13 @@ $saveOrder	= $listOrder == 'a.ordering';
 					<th class="left">
 						<?php echo JHtml::_('grid.sort', 'COM_USERS_HEADING_LEVEL_NAME', 'a.title', $listDirn, $listOrder); ?>
 					</th>
-					<th width="10%">
+					<th width="10%" class="nowrap center hidden-phone">
 						<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ORDERING', 'a.ordering', $listDirn, $listOrder); ?>
 						<?php if ($canOrder && $saveOrder) :?>
 							<?php echo JHtml::_('grid.order', $this->items, 'filesave.png', 'levels.saveorder'); ?>
 						<?php endif; ?>
 					</th>
-					<th width="5%">
+					<th width="5%" class="nowrap center hidden-phone">
 						<?php echo JText::_('JGRID_HEADING_ID'); ?>
 					</th>
 					<th width="40%">
@@ -92,7 +92,7 @@ $saveOrder	= $listOrder == 'a.ordering';
 							<?php echo $this->escape($item->title); ?>
 						<?php endif; ?>
 					</td>
-					<td class="order">
+					<td class="order center">
 						<?php if ($canChange) : ?>
 							<?php if ($saveOrder) :?>
 								<?php if ($listDirn == 'asc') : ?>

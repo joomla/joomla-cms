@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 // Include the component HTML helpers.
-JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
+JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 // Load the tooltip behavior.
 JHtml::_('behavior.framework');
@@ -18,6 +18,9 @@ JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
 JHtml::_('behavior.modal');
 JHtml::_('formbehavior.chosen', 'select');
+
+$app = JFactory::getApplication();
+$assoc = isset($app->item_associations) ? $app->item_associations : 0;
 
 ?>
 
@@ -46,11 +49,14 @@ JHtml::_('formbehavior.chosen', 'select');
 	}
 </script>
 
-<form action="<?php echo JRoute::_('index.php?option=com_menus&layout=edit&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate form-horizontal">
+<form action="<?php echo JRoute::_('index.php?option=com_menus&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate form-horizontal">
 	<fieldset>
 		<ul class="nav nav-tabs">
 			<li class="active"><a href="#details" data-toggle="tab"><?php echo JText::_('COM_MENUS_ITEM_DETAILS');?></a></li>
 			<li><a href="#options" data-toggle="tab"><?php echo JText::_('COM_MENUS_ADVANCED_FIELDSET_LABEL');?></a></li>
+			<?php if ($assoc): ?>
+				<li><a href="#associations" data-toggle="tab"><?php echo JText::_('JGLOBAL_FIELDSET_ASSOCIATIONS');?></a></li>
+			<?php endif; ?>
 			<?php if (!empty($this->modules)) : ?>
 				<li><a href="#modules" data-toggle="tab"><?php echo JText::_('COM_MENUS_ITEM_MODULE_ASSIGNMENT');?></a></li>
 			<?php endif; ?>
@@ -61,55 +67,10 @@ JHtml::_('formbehavior.chosen', 'select');
 					<div class="span6">
 						<div class="control-group">
 							<div class="control-label">
-								<?php echo $this->form->getLabel('published'); ?>
-							</div>
-							<div class="controls">
-								<?php echo $this->form->getInput('published'); ?>
-							</div>
-						</div>
-
-						<div class="control-group">
-							<div class="control-label">
 								<?php echo $this->form->getLabel('type'); ?>
 							</div>
 							<div class="controls">
 								<?php echo $this->form->getInput('type'); ?>
-							</div>
-						</div>
-
-						<?php
-							$fieldSets = $this->form->getFieldsets('request');
-
-							if (!empty($fieldSets)) :
-								$fieldSet = array_shift($fieldSets);
-								$label = !empty($fieldSet->label) ? $fieldSet->label : 'COM_MENUS_'.$fieldSet->name.'_FIELDSET_LABEL';
-								if (isset($fieldSet->description) && trim($fieldSet->description)) :
-									echo '<p class="tip">'.$this->escape(JText::_($fieldSet->description)).'</p>';
-								endif;
-							?>
-									<?php $hidden_fields = ''; ?>
-										<?php foreach ($this->form->getFieldset('request') as $field) : ?>
-										<?php if (!$field->hidden) : ?>
-										<div class="control-group">
-											<div class="control-label">
-												<?php echo $field->label; ?>
-											</div>
-											<div class="controls">
-												<?php echo $field->input; ?>
-											</div>
-										</div>
-										<?php else : $hidden_fields .= $field->input; ?>
-										<?php endif; ?>
-										<?php endforeach; ?>
-									<?php echo $hidden_fields; ?>
-						<?php endif; ?>
-
-						<div class="control-group">
-							<div class="control-label">
-								<?php echo $this->form->getLabel('title'); ?>
-							</div>
-							<div class="controls">
-								<?php echo $this->form->getInput('title'); ?>
 							</div>
 						</div>
 						<?php if ($this->item->type == 'url'): ?>
@@ -124,6 +85,54 @@ JHtml::_('formbehavior.chosen', 'select');
 							</div>
 						<?php endif; ?>
 
+						<?php if ($this->item->link == 'index.php?option=com_wrapper&view=wrapper'): ?>
+							<?php $fieldSets = $this->form->getFieldsets('params'); ?>
+							<?php foreach ($this->form->getFieldset('request') as $field) : ?>
+								<div class="control-group">
+									<div class="control-label">
+										<?php echo $field->label; ?>
+									</div>
+									<div class="controls">
+										<?php echo $field->input; ?>
+									</div>
+								</div>
+							<?php endforeach; ?>
+						<?php endif; ?>
+
+						<?php
+							$fieldSets = $this->form->getFieldsets('request');
+
+							if (!empty($fieldSets)) :
+								$fieldSet = array_shift($fieldSets);
+								$label = !empty($fieldSet->label) ? $fieldSet->label : 'COM_MENUS_' . $fieldSet->name . '_FIELDSET_LABEL';
+								if (isset($fieldSet->description) && trim($fieldSet->description)) :
+									echo '<p class="tip">' . $this->escape(JText::_($fieldSet->description)) . '</p>';
+								endif;
+							?>
+								<?php $hidden_fields = ''; ?>
+								<?php foreach ($this->form->getFieldset('request') as $field) : ?>
+									<?php if (!$field->hidden) : ?>
+									<div class="control-group">
+										<div class="control-label">
+											<?php echo $field->label; ?>
+										</div>
+										<div class="controls">
+											<?php echo $field->input; ?>
+										</div>
+									</div>
+									<?php else : $hidden_fields .= $field->input; ?>
+									<?php endif; ?>
+								<?php endforeach; ?>
+							<?php echo $hidden_fields; ?>
+						<?php endif; ?>
+						<div class="control-group">
+							<div class="control-label">
+								<?php echo $this->form->getLabel('title'); ?>
+							</div>
+							<div class="controls">
+								<?php echo $this->form->getInput('title'); ?>
+							</div>
+						</div>
 						<?php if ($this->item->type == 'alias'): ?>
 							<div class="control-group">
 								<div class="control-label">
@@ -131,7 +140,6 @@ JHtml::_('formbehavior.chosen', 'select');
 								</div>
 							</div>
 						<?php endif; ?>
-
 						<?php if ($this->item->type != 'url'): ?>
 							<div class="control-group">
 								<div class="control-label">
@@ -142,7 +150,15 @@ JHtml::_('formbehavior.chosen', 'select');
 								</div>
 							</div>
 						<?php endif; ?>
-
+						<hr />
+						<div class="control-group">
+							<div class="control-label">
+								<?php echo $this->form->getLabel('published'); ?>
+							</div>
+							<div class="controls">
+								<?php echo $this->form->getInput('published'); ?>
+							</div>
+						</div>
 						<?php if ($this->item->type !== 'url'): ?>
 							<div class="control-group">
 								<div class="control-label">
@@ -153,9 +169,6 @@ JHtml::_('formbehavior.chosen', 'select');
 								</div>
 							</div>
 						<?php endif ?>
-
-
-
 						<div class="control-group">
 							<div class="control-label">
 								<?php echo $this->form->getLabel('menutype'); ?>
@@ -164,7 +177,6 @@ JHtml::_('formbehavior.chosen', 'select');
 								<?php echo $this->form->getInput('menutype'); ?>
 							</div>
 						</div>
-
 						<div class="control-group">
 							<div class="control-label">
 								<?php echo $this->form->getLabel('parent_id'); ?>
@@ -173,7 +185,6 @@ JHtml::_('formbehavior.chosen', 'select');
 								<?php echo $this->form->getInput('parent_id'); ?>
 							</div>
 						</div>
-
 						<div class="control-group">
 							<div class="control-label">
 								<?php echo $this->form->getLabel('menuordering'); ?>
@@ -249,6 +260,11 @@ JHtml::_('formbehavior.chosen', 'select');
 			<div class="tab-pane" id="options">
 				<?php echo $this->loadTemplate('options'); ?>
 			</div>
+			<?php if ($assoc) : ?>
+			<div class="tab-pane" id="associations">
+				<?php echo $this->loadTemplate('associations'); ?>
+			</div>
+			<?php endif; ?>
 			<?php if (!empty($this->modules)) : ?>
 				<div class="tab-pane" id="modules">
 					<?php echo $this->loadTemplate('modules'); ?>

@@ -374,7 +374,7 @@ class InstallationModelDatabase extends JModelLegacy
 
 		if (empty($files))
 		{
-			$this->setError(JText::_('INSTL_ERROR_INITIALISE_SCHEMA'));
+			$this->setError(JText::_('INSTL_DATABASE_ERROR_INITIALISE_SCHEMA'));
 			return false;
 		}
 		$version = '';
@@ -650,7 +650,7 @@ class InstallationModelDatabase extends JModelLegacy
 	 * Method to create a new database.
 	 *
 	 * @param   JDatabaseDriver  $db       JDatabase object.
-	 * @param   JObject          $options  JObject coming from "initialise" function to pass user 
+	 * @param   JObject          $options  JObject coming from "initialise" function to pass user
 	 * 										and database name to database driver.
 	 * @param   boolean          $utf      True if the database supports the UTF-8 character set.
 	 *

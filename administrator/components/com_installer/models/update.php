@@ -12,6 +12,8 @@ defined('_JEXEC') or die;
 jimport('joomla.updater.update');
 
 /**
+ * Installer Update Model
+ *
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  * @since       1.6
@@ -21,13 +23,15 @@ class InstallerModelUpdate extends JModelList
 	/**
 	 * Constructor.
 	 *
-	 * @param	array	An optional associative array of configuration settings.
+	 * @param   array  $config  An optional associative array of configuration settings.
+	 *
 	 * @see		JController
 	 * @since	1.6
 	 */
 	public function __construct($config = array())
 	{
-		if (empty($config['filter_fields'])) {
+		if (empty($config['filter_fields']))
+		{
 			$config['filter_fields'] = array(
 				'name',
 				'client_id',
@@ -47,51 +51,99 @@ class InstallerModelUpdate extends JModelList
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
+	 * @param   string  $ordering   An optional ordering field.
+	 * @param   string  $direction  An optional direction (asc|desc).
+	 *
+	 * @return  void
+	 *
 	 * @since	1.6
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
-		$app = JFactory::getApplication('administrator');
+		$app = JFactory::getApplication();
+		$value = $app->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
+		$this->setState('filter.search', $value);
+
+		$clientId = $this->getUserStateFromRequest($this->context . '.filter.client_id', 'filter_client_id', '');
+		$this->setState('filter.client_id', $clientId);
+
+		$categoryId = $this->getUserStateFromRequest($this->context . '.filter.type', 'filter_type', '');
+		$this->setState('filter.type', $categoryId);
+
+		$group = $this->getUserStateFromRequest($this->context . '.filter.group', 'filter_group', '');
+		$this->setState('filter.group', $group);
+
 		$this->setState('message', $app->getUserState('com_installer.message'));
 		$this->setState('extension_message', $app->getUserState('com_installer.extension_message'));
 		$app->setUserState('com_installer.message', '');
 		$app->setUserState('com_installer.extension_message', '');
+
 		parent::populateState('name', 'asc');
 	}
 
 	/**
 	 * Method to get the database query
 	 *
-	 * @return	JDatabaseQuery	The database query
+	 * @return  JDatabaseQuery  The database query
+	 *
 	 * @since	1.6
 	 */
 	protected function getListQuery()
 	{
-		$db		= $this->getDbo();
-		$query	= $db->getQuery(true);
-		// grab updates ignoring new installs
-		$query->select('*')->from('#__updates')->where('extension_id != 0');
-		$query->order($this->getState('list.ordering').' '.$this->getState('list.direction'));
+		$db = $this->getDbo();
+		$query = $db->getQuery(true);
+		$type = $this->getState('filter.type');
+		$client = $this->getState('filter.client_id');
+		$group = $this->getState('filter.group');
 
-		// Filter by extension_id
-		if ($eid = $this->getState('filter.extension_id')) {
-			$query->where($db->qn('extension_id') . ' = ' . $db->q((int) $eid));
-		} else {
-			$query->where($db->qn('extension_id').' != '.$db->q(0));
-			$query->where($db->qn('extension_id').' != '.$db->q(700));
+		// Grab updates ignoring new installs
+		$query->select('*')->from('#__updates')->where('extension_id != 0');
+		$query->order($this->getState('list.ordering') . ' ' . $this->getState('list.direction'));
+
+		if ($type)
+		{
+			$query->where('type=' . $db->quote($type));
+		}
+		if ($client != '')
+		{
+			$query->where('client_id = ' . intval($client));
+		}
+		if ($group != '' && in_array($type, array('plugin', 'library', '')))
+		{
+			$query->where('folder=' . $db->quote($group == '*' ? '' : $group));
 		}
 
+		// Filter by extension_id
+		if ($eid = $this->getState('filter.extension_id'))
+		{
+			$query->where($db->qn('extension_id') . ' = ' . $db->q((int) $eid));
+		}
+		else
+		{
+			$query->where($db->qn('extension_id') . ' != ' . $db->q(0));
+			$query->where($db->qn('extension_id') . ' != ' . $db->q(700));
+		}
+
+		// Filter by search
+		$search = $this->getState('filter.search');
+		if (!empty($search))
+		{
+			$query->where('name LIKE ' . $db->quote('%' . $search . '%'));
+		}
 		return $query;
 	}
 
 	/**
 	 * Finds updates for an extension.
 	 *
-	 * @param	int		Extension identifier to look for
-	 * @return	boolean Result
+	 * @param   int  $eid            Extension identifier to look for
+	 * @param   int  $cache_timeout  Cache timout
+	 *
+	 * @return  boolean Result
+	 *
 	 * @since	1.6
 	 */
-	public function findUpdates($eid=0, $cache_timeout = 0)
+	public function findUpdates($eid = 0, $cache_timeout = 0)
 	{
 		$updater = JUpdater::getInstance();
 		$results = $updater->findUpdates($eid, $cache_timeout);
@@ -102,25 +154,29 @@ class InstallerModelUpdate extends JModelList
 	 * Removes all of the updates from the table.
 	 *
 	 * @return	boolean result of operation
+	 *
 	 * @since	1.6
 	 */
 	public function purge()
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
+
 		// Note: TRUNCATE is a DDL operation
 		// This may or may not mean depending on your database
 		$db->setQuery('TRUNCATE TABLE #__updates');
-		if ($db->execute()) {
+		if ($db->execute())
+		{
 			// Reset the last update check timestamp
 			$query = $db->getQuery(true);
 			$query->update($db->qn('#__update_sites'));
-			$query->set($db->qn('last_check_timestamp').' = '.$db->q(0));
+			$query->set($db->qn('last_check_timestamp') . ' = ' . $db->q(0));
 			$db->setQuery($query);
 			$db->execute();
-
 			$this->_message = JText::_('COM_INSTALLER_PURGED_UPDATES');
 			return true;
-		} else {
+		}
+		else
+		{
 			$this->_message = JText::_('COM_INSTALLER_FAILED_TO_PURGE_UPDATES');
 			return false;
 		}
@@ -130,18 +186,25 @@ class InstallerModelUpdate extends JModelList
 	 * Enables any disabled rows in #__update_sites table
 	 *
 	 * @return	boolean result of operation
+	 *
 	 * @since	1.6
 	 */
 	public function enableSites()
 	{
-		$db = JFactory::getDBO();
-		$db->setQuery('UPDATE #__update_sites SET enabled = 1 WHERE enabled = 0');
-		if ($db->execute()) {
-			if ($rows = $db->getAffectedRows()) {
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true);
+		$query->update('#__update_sites')->set('enabled = 1')->where('enabled = 0');
+		$db->setQuery($query);
+		if ($db->execute())
+		{
+			if ($rows = $db->getAffectedRows())
+			{
 				$this->_message .= JText::plural('COM_INSTALLER_ENABLED_UPDATES', $rows);
 			}
 			return true;
-		} else {
+		}
+		else
+		{
 			$this->_message .= JText::_('COM_INSTALLER_FAILED_TO_ENABLE_UPDATES');
 			return false;
 		}
@@ -152,21 +215,27 @@ class InstallerModelUpdate extends JModelList
 	 *
 	 * Sets the "result" state with the result of the operation.
 	 *
-	 * @param	Array[int] List of updates to apply
+	 * @param   array  $uids  Array[int] List of updates to apply
+	 *
+	 * @return  void
+	 *
 	 * @since	1.6
 	 */
 	public function update($uids)
 	{
 		$result = true;
-		foreach($uids as $uid) {
+		foreach ($uids as $uid)
+		{
 			$update = new JUpdate;
 			$instance = JTable::getInstance('update');
 			$instance->load($uid);
 			$update->loadFromXML($instance->detailsurl);
-			// install sets state and enqueues messages
+
+			// Install sets state and enqueues messages
 			$res = $this->install($update);
 
-			if ($res) {
+			if ($res)
+			{
 				$instance->delete($uid);
 			}
 
@@ -180,16 +249,21 @@ class InstallerModelUpdate extends JModelList
 	/**
 	 * Handles the actual update installation.
 	 *
-	 * @param	JUpdate	An update definition
-	 * @return	boolean	Result of install
+	 * @param   JUpdate  $update  An update definition
+	 *
+	 * @return  boolean	 Result of install
+	 *
 	 * @since	1.6
 	 */
 	private function install($update)
 	{
 		$app = JFactory::getApplication();
-		if (isset($update->get('downloadurl')->_data)) {
+		if (isset($update->get('downloadurl')->_data))
+		{
 			$url = $update->downloadurl->_data;
-		} else {
+		}
+		else
+		{
 			JError::raiseWarning('', JText::_('COM_INSTALLER_INVALID_EXTENSION_UPDATE'));
 			return false;
 		}
@@ -197,7 +271,8 @@ class InstallerModelUpdate extends JModelList
 		$p_file = JInstallerHelper::downloadPackage($url);
 
 		// Was the package downloaded?
-		if (!$p_file) {
+		if (!$p_file)
+		{
 			JError::raiseWarning('', JText::sprintf('COM_INSTALLER_PACKAGE_DOWNLOAD_FAILED', $url));
 			return false;
 		}
@@ -213,13 +288,16 @@ class InstallerModelUpdate extends JModelList
 		$update->set('type', $package['type']);
 
 		// Install the package
-		if (!$installer->update($package['dir'])) {
+		if (!$installer->update($package['dir']))
+		{
 			// There was an error updating the package
-			$msg = JText::sprintf('COM_INSTALLER_MSG_UPDATE_ERROR', JText::_('COM_INSTALLER_TYPE_TYPE_'.strtoupper($package['type'])));
+			$msg = JText::sprintf('COM_INSTALLER_MSG_UPDATE_ERROR', JText::_('COM_INSTALLER_TYPE_TYPE_' . strtoupper($package['type'])));
 			$result = false;
-		} else {
+		}
+		else
+		{
 			// Package updated successfully
-			$msg = JText::sprintf('COM_INSTALLER_MSG_UPDATE_SUCCESS', JText::_('COM_INSTALLER_TYPE_TYPE_'.strtoupper($package['type'])));
+			$msg = JText::sprintf('COM_INSTALLER_MSG_UPDATE_SUCCESS', JText::_('COM_INSTALLER_TYPE_TYPE_' . strtoupper($package['type'])));
 			$result = true;
 		}
 
@@ -236,7 +314,8 @@ class InstallerModelUpdate extends JModelList
 		$app->setUserState('com_installer.extension_message', $installer->get('extension_message'));
 
 		// Cleanup the install files
-		if (!is_file($package['packagefile'])) {
+		if (!is_file($package['packagefile']))
+		{
 			$config = JFactory::getConfig();
 			$package['packagefile'] = $config->get('tmp_path') . '/' . $package['packagefile'];
 		}
@@ -244,5 +323,55 @@ class InstallerModelUpdate extends JModelList
 		JInstallerHelper::cleanupInstall($package['packagefile'], $package['extractdir']);
 
 		return $result;
+	}
+
+	/**
+	* Method to get the row form.
+	*
+	* @param   array    $data      Data for the form.
+	* @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
+	*
+	* @return  mixed  A JForm object on success, false on failure
+	*
+	* @since	2.5.2
+	*/
+	public function getForm($data = array(), $loadData = true)
+	{
+		// Get the form.
+		$app = JFactory::getApplication();
+		JForm::addFormPath(JPATH_COMPONENT . '/models/forms');
+		JForm::addFieldPath(JPATH_COMPONENT . '/models/fields');
+		$form = JForm::getInstance('com_installer.update', 'update', array('load_data' => $loadData));
+
+		// Check for an error.
+		if ($form == false)
+		{
+			$this->setError($form->getMessage());
+			return false;
+		}
+		// Check the session for previously entered form data.
+		$data = $this->loadFormData();
+
+		// Bind the form data if present.
+		if (!empty($data))
+		{
+			$form->bind($data);
+		}
+
+		return $form;
+	}
+
+	/**
+	 * Method to get the data that should be injected in the form.
+	 *
+	 * @return  mixed  The data for the form.
+	 *
+	 * @since	2.5.2
+	 */
+	protected function loadFormData()
+	{
+		// Check the session for previously entered form data.
+		$data = JFactory::getApplication()->getUserState($this->context . '.data', array());
+		return $data;
 	}
 }

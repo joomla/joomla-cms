@@ -3,7 +3,7 @@
 	<fieldset addfieldpath="/administrator/components/com_categories/models/fields" >
 		<field name="id"  type="text" class="readonly" label="JGLOBAL_FIELD_ID_LABEL"
 			description ="JGLOBAL_FIELD_ID_DESC" size="10" default="0"
-			readonly="true"  />
+			readonly="true" />
 
 		<field name="asset_id" type="hidden" filter="unset" />
 

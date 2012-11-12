@@ -92,6 +92,14 @@ class JFormFieldCategoryEdit extends JFormFieldList
 			$db->setQuery($rowQuery);
 			$row = $db->loadObject();
 		}
+
+		// Filter language
+		if (!empty($this->element['language'])) {
+
+			$query->where('a.language = ' . $db->q($this->element['language']));
+
+		}
+
 		// Filter on the published state
 
 		if (is_numeric($published))
