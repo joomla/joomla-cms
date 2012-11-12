@@ -7,7 +7,7 @@ This is the introduction to the Joomla Platform.
 ## Folder Structure
 
 The following outlines the purpose of the top-level folder structure of
-the Joomla Platform as found in the GitHub repository.
+the Joomla Platform as found in the GitHub repository ( https://github.com/joomla/joomla-platform/ ).
 
 Folder     | Description
 ---------- | --------------------
