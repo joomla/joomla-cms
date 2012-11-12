@@ -24,7 +24,7 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 		{
 			$this->setHost($cfg->selhost);
 		}
-		echo ".\n" . 'Starting ' . get_class($this) . ".\n";
+		$this->jPrint ( ".\n" . 'Starting ' . get_class($this) . ".\n");
 
 		if (isset($cfg->captureScreenshotOnFailure) && $cfg->captureScreenshotOnFailure)
 		{
@@ -44,7 +44,7 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 		$this->jClick('User Manager');
 		$this->click("link=$username");
 		$this->waitForPageToLoad("30000");
-		echo "Changing $username group assignment of $group group.\n";
+		$this->jPrint ( "Changing $username group assignment of $group group.\n");
 		$this->click("//li/a[contains(text(), 'Assigned User Groups')]");
 		$this->click("//div[@id='groups']//label[contains(., '$group')]");
 		$this->jClick('Save & Close');
@@ -55,7 +55,7 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 	{
 		$this->click("link=User Manager");
 		$this->waitForPageToLoad("30000");
-		echo("Add new user named " . $name . " to " . $group . " group.\n");
+		$this->jPrint ("Add new user named " . $name . " to " . $group . " group.\n");
 		$this->click("//div[@id='toolbar-new']/button");
 		$this->waitForPageToLoad("30000");
 		$this->type("jform_name", $name);
@@ -72,7 +72,7 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 
 	function doAdminLogin($username = null,$password = null)
 	{
-		echo "Logging in to back end.\n";
+		$this->jPrint ( "Logging in to back end.\n");
 		$cfg = new SeleniumConfig();
 		if(!isset($username))$username=$cfg->username;
 		if(!isset($password))$password=$cfg->password;
@@ -90,14 +90,14 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 
 	function doAdminLogout()
 	{
-		echo "Logging out of back end.\n";
+		$this->jPrint ( "Logging out of back end.\n");
 		$this->click("//li/a[contains(@href, 'option=com_login&task=logout')]");
 		$this->waitForPageToLoad("30000");
 	}
 
 	function gotoAdmin()
 	{
-		echo "Browsing to back end.\n";
+		$this->jPrint ( "Browsing to back end.\n");
 		$cfg = new SeleniumConfig();
 		$this->open($cfg->path . "administrator");
 		$this->waitForPageToLoad("30000");
@@ -105,7 +105,7 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 
 	function gotoSite()
 	{
-		echo "Browsing to front end.\n";
+		$this->jPrint ( "Browsing to front end.\n");
 		$cfg = new SeleniumConfig();
 		$this->open($cfg->path);
 		$this->waitForPageToLoad("30000");
@@ -119,13 +119,13 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 		// check to see if we are already logged in
 		if ($this->getValue("Submit") == "Log out")
 		{
-			echo "Logging out before logging in. \n";
+			$this->jPrint ( "Logging out before logging in. \n");
 			$this->click("Submit");
 			$this->waitForPageToLoad("30000");
 			$this->click("link=Home");
 			$this->waitForPageToLoad("30000");
 		}
-		echo "Logging in to front end.\n";
+		$this->jPrint ( "Logging in to front end.\n");
 		$this->type("modlgn-username", $username);
 		$this->type("modlgn-passwd", $password);
 		$this->click("Submit");
@@ -136,7 +136,7 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 	{
 		if ($this->getValue("Submit") == "Log out")
 		{
-			echo "Logging out of front end.\n";
+			$this->jPrint ( "Logging out of front end.\n");
 			$this->click("//input[@value='Log out']");
 			$this->waitForPageToLoad("30000");
 		}
@@ -150,18 +150,18 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 
 	function deleteTestUsers($partialName = 'test')
 	{
-		echo "Browse to User Manager.\n";
+		$this->jPrint ( "Browse to User Manager.\n");
 		$this->click("link=User Manager");
 		$this->waitForPageToLoad("30000");
 
-		echo "Filter on user name\n";
+		$this->jPrint ( "Filter on user name\n");
 		$this->type("filter_search", $partialName);
 		$this->click("//button[@type='submit']");
 		$this->waitForPageToLoad("30000");
 
-		echo "Delete all users in view.\n";
+		$this->jPrint ( "Delete all users in view.\n");
 		$this->click("checkall-toggle");
-		echo("Delete new user.\n");
+		$this->jPrint ("Delete new user.\n");
 		$this->click("//div[@id='toolbar-delete']/button");
 		$this->waitForPageToLoad("30000");
 		$this->assertTrue($this->isElementPresent("//div[@id='system-message-container'][contains(., 'success')]"),'Deletion of Test User(s) failed.');
@@ -171,7 +171,7 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 	{
 		$this->click("link=Groups");
 		$this->waitForPageToLoad("30000");
-		echo "Create new group " . $groupName . ".\n";
+		$this->jPrint ( "Create new group " . $groupName . ".\n");
 		$this->click("//div[@id='toolbar-new']/button");
 		$this->waitForPageToLoad("30000");
 		$this->type("jform_title", $groupName);
@@ -179,28 +179,28 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 		$this->jClick("Save & Close");
 
 		$this->assertTrue($this->isElementPresent("//div[@id='system-message-container'][contains(., 'success')]"),'Creation of ' . $groupName . ' failed.');
-		echo "Creation of " . $groupName . " succeeded.\n";
+		$this->jPrint ( "Creation of " . $groupName . " succeeded.\n");
 
 	}
 
 	function deleteGroup($partialName = 'test')
 	{
-		echo "Browse to User Manager: Groups.\n";
+		$this->jPrint ( "Browse to User Manager: Groups.\n");
 		$this->click("link=Groups");
 		$this->waitForPageToLoad("30000");
 
-		echo "Filter on " . $partialName . ".\n";
+		$this->jPrint ( "Filter on " . $partialName . ".\n");
 		$this->type("filter_search", $partialName);
 		$this->click("//button[@type='submit']");
 		$this->waitForPageToLoad("30000");
 
-		echo "Delete all groups in view.\n";
+		$this->jPrint ( "Delete all groups in view.\n");
 		$this->click("checkall-toggle");
 		$this->click("//div[@id='toolbar-delete']/button");
 		$this->waitForPageToLoad("30000");
 
 		$this->assertTrue($this->isElementPresent("//div[@id='system-message-container'][contains(., 'success')]"), 'Group deletion failed or confirm text wrong, SeleniumJoomlaTestCase line 197');
-		echo "Deletion succeeded.\n";
+		$this->jPrint ( "Deletion succeeded.\n");
 
 		$this->assertFalse($this->isTextPresent("No Groups selected"), 'No Groups selected for deletion, SeleniumJoomlaTestCase line 207');
 
@@ -210,29 +210,29 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 	{
 		$this->jClick('Access Levels');
 		$this->jClick('New');
-		echo "Create new access level named " . $levelName . "\n";
+		$this->jPrint ( "Create new access level named " . $levelName . "\n");
 		$this->type("jform_title", $levelName);
 		$this->jInput($userGroup);
-		echo "Selecting User Groups having access to " . $levelName . "\n";
+		$this->jPrint ( "Selecting User Groups having access to " . $levelName . "\n");
 		$this->jClick('Save & Close');
 	}
 
 	function deleteLevel($partialName = 'test')
 	{
 		$this->jClick('Access Levels');
-		echo "Filter on " . $partialName . ".\n";
+		$this->jPrint ( "Filter on " . $partialName . ".\n");
 		$this->type("filter_search", $partialName);
 		$this->click("//button[@type='submit']");
 		$this->waitForPageToLoad("30000");
-		echo "Delete all levels in view.\n";
+		$this->jPrint ( "Delete all levels in view.\n");
 		$this->click("checkall-toggle");
 		$this->jClick('Delete');
 	}
 
 	function changeAccessLevel($levelName = 'Registered', $groupName = 'Public')
 	{
-		echo "Add group " . $groupName . " to " . $levelName . " access level.\n";
-		echo "Navagating to Access Levels.\n";
+		$this->jPrint ( "Add group " . $groupName . " to " . $levelName . " access level.\n");
+		$this->jPrint ( "Navagating to Access Levels.\n");
 		$this->jClick('Access Levels');
 		$this->click("//tr/td[contains(a,'$levelName')]/preceding-sibling::*/input");
 		$this->jClick('Edit');
@@ -241,7 +241,7 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 		$this->jClick('Save & Close');
 
 		$this->assertTrue($this->isElementPresent("//div[@id='system-message-container'][contains(., 'success')]"), "Line: ".__LINE__);
-		echo "Adding group " . $groupName . " to " . $levelName . " access level succeeded.\n";
+		$this->jPrint ( "Adding group " . $groupName . " to " . $levelName . " access level succeeded.\n");
 
 
 	}
@@ -264,7 +264,7 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 	{
 		if ($count = count($this->verificationErrors))
 		{
-			echo "\n***Warning*** " . $count . " verification error(s) encountered.\n";
+			$this->jPrint ( "\n***Warning*** " . $count . " verification error(s) encountered.\n");
 		}
 	}
 
@@ -285,41 +285,41 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 		{
 			case 'Access Levels':
 				$screen="User Manager: Viewing Access Levels";
-				echo "Navigating to ".$screen.".\n";
+				$this->jPrint ( "Navigating to ".$screen.".\n");
 				$this->click("//a[contains(@href,'option=com_users&view=levels')]");
 				$this->waitForPageToLoad("30000");
 				$this->assertTrue($this->isTextPresent($screen),'Error navigating to '.$screen.' or page title changed.');
 				break;
 			case 'Article Manager':
 				$screen="Article Manager: Articles";
-				echo "Navigating to ".$screen.".\n";
+				$this->jPrint ( "Navigating to ".$screen.".\n");
 				$this->click("link=Article Manager");
 				$this->waitForPageToLoad("30000");
 				$this->assertTrue($this->isTextPresent($screen),'Error navigating to '.$screen.' or page title changed.');
 				break;
 			case 'Contacts':
 				$screen='Contact Manager: Contacts';
-				echo "Navigating to ".$screen.".\n";
+				$this->jPrint ( "Navigating to ".$screen.".\n");
 				$this->click("link=Contacts");
 				$this->waitForPageToLoad("30000");
 				$this->assertTrue($this->isTextPresent($screen),'Error navigating to '.$screen.' or page title changed.');
 				break;
 			case 'Delete':
-				echo "Testng Delete capability.\n";
+				$this->jPrint ( "Testng Delete capability.\n");
 				$this->click("//div[@id='toolbar-delete']/button");
 				$this->waitForPageToLoad("30000");
 				$this->assertTrue(($this->isTextPresent("deleted") OR $this->isTextPresent("removed") OR $this->isTextPresent("trashed")), 'Deletion failed or confirm text wrong, SeleniumJoomlaTestCase line 310');
-				echo "Deletion of item(s) succeeded.\n";
+				$this->jPrint ( "Deletion of item(s) succeeded.\n");
 				break;
 			case 'Edit':
-				echo "Testng Edit capability.\n";
+				$this->jPrint ( "Testng Edit capability.\n");
 				$this->click("//div[@id='toolbar-edit']/button");
 				$this->waitForPageToLoad("30000");
 				$this->assertTrue($this->isTextPresent(": Edit", $this->getText("//h1")));
 				break;
 			case 'Global Configuration':
 				$screen='Global Configuration';
-				echo "Navigating to ".$screen.".\n";
+				$this->jPrint ( "Navigating to ".$screen.".\n");
 				$this->click("link=Global Configuration");
 				$this->waitForPageToLoad("30000");
 				$this->assertTrue($this->isTextPresent($screen,$this->getText("//h1[@class='page-title']")),'Error navigating to '.$screen.' or page title changed.');
@@ -330,21 +330,21 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 				break;
 			case 'Groups':
 				$screen="User Manager: User Groups";
-				echo "Navigating to ".$screen.".\n";
+				$this->jPrint ( "Navigating to ".$screen.".\n");
 				$this->click("link=Groups");
 				$this->waitForPageToLoad("30000");
 				$this->assertTrue($this->isTextPresent($screen),'Error navigating to '.$screen.' or page title changed.');
 				break;
 			case 'Menu Manager':
 				$screen="Menu Manager: Menus";
-				echo "Navigating to ".$screen.".\n";
+				$this->jPrint ( "Navigating to ".$screen.".\n");
 				$this->click("link=Menu Manager");
 				$this->waitForPageToLoad("30000");
 				$this->assertTrue($this->isTextPresent($screen),'Error navigating to '.$screen.' or page title changed.');
 				break;
 			case 'Menu Items':
 				$screen="Menu Manager: Menu Items";
-				echo "Navigating to ".$screen.".\n";
+				$this->jPrint ( "Navigating to ".$screen.".\n");
 				$this->click("link=Menu Manager");
 				$this->waitForPageToLoad("30000");
 				$this->click("link=Menu Items");
@@ -353,44 +353,44 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 				break;
 			case 'Module Manager':
 				$screen="Module Manager: Modules";
-				echo "Navigating to ".$screen.".\n";
+				$this->jPrint ( "Navigating to ".$screen.".\n");
 				$this->click("link=Module Manager");
 				$this->waitForPageToLoad("30000");
 				$this->assertTrue($this->isTextPresent($screen,$this->getText("//div[contains(@class,'pagetitle')]/h2")),'Error navigating to '.$screen.' or page title changed.');
 				break;
 			case 'New':
-				echo "Clicking New toolbar button.\n";
+				$this->jPrint ( "Clicking New toolbar button.\n");
 				$this->click("//div[@id='toolbar-new']/button");
 				$this->waitForPageToLoad("30000");
 				break;
 			case 'Options':
-				echo "Navigating to Options\n";
+				$this->jPrint ( "Navigating to Options\n");
 				$this->click("//div[@id='toolbar-options']/button");
 				$this->waitForPageToLoad('3000');
 				break;
 			case 'Redirect Manager':
 				$screen="Redirect Manager: Links";
-				echo "Navigating to ".$screen.".\n";
+				$this->jPrint ( "Navigating to ".$screen.".\n");
 				$this->click("link=Redirect");
 				$this->waitForPageToLoad("30000");
 				$this->assertTrue($this->isTextPresent($screen,$this->getText("//div[contains(@class,'pagetitle')]/h2")),'Error navigating to '.$screen.' or page title changed.');
 				break;
 			case 'Save & Close':
-				echo "Clicking Save & Close toolbar button.\n";
+				$this->jPrint ( "Clicking Save & Close toolbar button.\n");
 				$this->click("//div[@id='toolbar-save']/button");
 				$this->waitForPageToLoad("30000");
 				$this->assertTrue($this->isElementPresent("//div[@id='system-message-container'][contains(., 'success')]"), "Save success text not present, SeleniumTestCase line 327");
 				$this->assertFalse($this->isElementPresent("//div[@id='system-message-container'][contains(., 'error')]"), "Error message present, SeleniumTestCase line 328");
-				echo "Item successfully saved.\n";
+				$this->jPrint ( "Item successfully saved.\n");
 				break;
 			case 'Trash':
-				echo "Clicking Trash toolbar button.\n";
+				$this->jPrint ( "Clicking Trash toolbar button.\n");
 				$this->click("//li[@id='toolbar-trash']/a/span");
 				$this->waitForPageToLoad("30000");
 				$this->assertTrue($this->isElementPresent("//div[@id='system-message-container'][contains(., 'success')]"),'Error trashing item, SeleniumTestCase line 491.');
 				break;
 			case 'Unpublish':
-				echo "Clicking Unpublish toolbar button.\n";
+				$this->jPrint ( "Clicking Unpublish toolbar button.\n");
 				$this->click("//li[@id='toolbar-unpublish']/a/span");
 				$this->waitForPageToLoad("30000");
 				$this->assertTrue($this->isElementPresent("//div[@id='system-message-container'][contains(., 'success')]"),'Error unpublishing item, SeleniumTestCase line 505.');
@@ -398,30 +398,38 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 				break;
 			case 'User Manager':
 				$screen="User Manager: Users";
-				echo "Navigating to ".$screen.".\n";
+				$this->jPrint ( "Navigating to ".$screen.".\n");
 				$this->click("link=User Manager");
 				$this->waitForPageToLoad("30000");
 				$this->assertTrue($this->isTextPresent($screen),'Error navigating to '.$screen.' or page title changed.');
 				break;
 			case 'Weblinks':
 				$screen="Web Links Manager: Web Links";
-				echo "Navigating to ".$screen.".\n";
+				$this->jPrint ( "Navigating to ".$screen.".\n");
 				$this->click("link=Weblinks");
 				$this->waitForPageToLoad("30000");
 				$this->assertTrue($this->isTextPresent($screen),'Error navigating to '.$screen.' or page title changed.');
 				break;
 			case 'Weblink Categories':
 				$screen="Category Manager: Weblinks";
-				echo "Navigating to ".$screen.".\n";
+				$this->jPrint ( "Navigating to ".$screen.".\n");
 				$this->click("//a[contains(@href, 'index.php?option=com_categories&extension=com_weblinks')]");
 				$this->waitForPageToLoad("30000");
 				$this->assertTrue($this->isTextPresent($screen,$this->getText("//div[contains(@class,'pagetitle')]/h2")),'Error navigating to '.$screen.' or page title changed.');
 				break;
 			default:
 				$this->click("//div[@id='toolbar-new']/button");
-				echo "Clicking New toolbar button.\n";
+				$this->jPrint ( "Clicking New toolbar button.\n");
 				$this->waitForPageToLoad("30000");
 				break;
+		}
+	}
+
+	public function jPrint($text)
+	{
+		if (isset($this->cfg->debug) && $this->cfg->debug)
+		{
+			echo($text);
 		}
 	}
 
@@ -498,13 +506,13 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 		if (!is_array($permissions)) {
 			$permissions = array($permissions);
 		}
-		echo "Open panel for group '$group'\n";
+		$this->jPrint ( "Open panel for group '$group'\n");
 		$this->click("//div[@id='permissions-sliders']//li[contains(.,'$group')]/a");
 
 		for ($i = 0; $i < count($actions); $i++) {
 			$action = $actions[$i];
 			$permission = $permissions[$i];
-			echo "Setting $action action for $group to $permission in $component.\n";
+			$this->jPrint ( "Setting $action action for $group to $permission in $component.\n");
 			switch ($action)
 			{
 				case 'Site Login':
@@ -540,7 +548,7 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 			$this->select("//select[contains(@id,'$doAction')][contains(@title,'$group')]", "label=$permission");
 		}
 
-		echo "Close panel for group '$group'\n";
+		$this->jPrint ( "Close panel for group '$group'\n");
 		$this->click("//div[@id='permissions-sliders']//li[contains(., 'Public')]/a");
 
 		if ($component == 'Global Configuration') {
@@ -559,7 +567,7 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 
 	function setEditor($editor)
 	{
-		echo "Changing editor to $editor\n";
+		$this->jPrint ( "Changing editor to $editor\n");
 		$this->jClick('Global Configuration');
 		$this->click("link=Site");
 		switch (strtoupper($editor))
@@ -593,7 +601,7 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 
 	function toggleFeatured($articleTitle)
 	{
-		echo "Toggling Featured on/off for article " . $articleTitle . "\n";
+		$this->jPrint ( "Toggling Featured on/off for article " . $articleTitle . "\n");
 		$this->click("//table[@id='articleList']/tbody//tr//td/div/a[contains(text(), '" . $articleTitle . "')]/../../../td[3]//a[contains(@onclick, 'featured')]");
 		$this->waitForPageToLoad("30000");
 	}
@@ -602,13 +610,13 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 	{
 		if ($type == 'Article')
 		{
-			echo "Toggling publishing of article " . $articleTitle . "\n";
+			$this->jPrint ( "Toggling publishing of article " . $articleTitle . "\n");
 			$this->click("//table[@id='articleList']/tbody/tr//td/div/a[contains(text(), '" . $articleTitle . "')]/../../../td[3]/div/a");
 			$this->waitForPageToLoad("30000");
 		}
 		if ($type == 'Category')
 		{
-			echo "Toggling publishing of article " . $articleTitle . "\n";
+			$this->jPrint ( "Toggling publishing of article " . $articleTitle . "\n");
 			$this->click("//table[@id='categoryList']/tbody/tr//td/a[contains(text(), '" . $articleTitle . "')]/../../td[3]/a/i");
 			$this->waitForPageToLoad("30000");
 		}
@@ -619,13 +627,13 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 		switch ($type)
 		{
 			case 'Category' :
-				echo "Toggling check box selection of category " . $itemTitle . "\n";
+				$this->jPrint ( "Toggling check box selection of category " . $itemTitle . "\n");
 				$this->click("//table[@id='categoryList']/tbody//tr//td/a[contains(text(), '" .	$itemTitle . "')]/../../td/input[@type='checkbox']");
 				break;
 
 			case 'Article' :
 			default :
-				echo "Toggling check box selection of article " . $itemTitle . "\n";
+				$this->jPrint ( "Toggling check box selection of article " . $itemTitle . "\n");
 				$this->click("//table[@id='articleList']/tbody//tr//td/div/a[contains(text(), '" .	$itemTitle . "')]/../../../td/input[@type='checkbox']");
 				break;
 		}
@@ -643,7 +651,7 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 	function changeState($title = null, $menu = 'Article Manager', $type = 'Category', $newState = 'publish')
 	{
 		$this->gotoAdmin();
-		echo "Changing state of " . $type . " " . $title . " in " . $menu . " to " . $newState .  "\n";
+		$this->jPrint ( "Changing state of " . $type . " " . $title . " in " . $menu . " to " . $newState .  "\n");
 		$this->click("link=" . $menu);
 		$this->waitForPageToLoad("30000");
 		if ($type == 'Category')
@@ -669,7 +677,7 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 
 	function changeCategory($title = null, $menu = 'Article Manager', $newCategory = 'Uncategorised')
 	{
-		echo "Changing category for $title in $menu to $newCategory\n";
+		$this->jPrint ( "Changing category for $title in $menu to $newCategory\n");
 		$this->gotoAdmin();
 		$this->click("link=$menu");
 		$this->waitForPageToLoad("30000");
@@ -694,7 +702,7 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 		$this->gotoAdmin();
 		$this->jClick('Global Configuration');
 		$this->click("//a[@href='#page-system']");
-		echo "Set caching to $level\n";
+		$this->jPrint ( "Set caching to $level\n");
 		switch ($level)
 		{
 			case 'on-basic':
@@ -751,7 +759,7 @@ function checkNotices()
 		$this->assertElementNotPresent("//tr[contains(., '( ! ) Warning:')]", "**Warning: PHP Warning found on page!");
 	}
 	catch (PHPUnit_Framework_AssertionFailedError $e) {
-		echo "**Warning: PHP Notice found on page\n";
+		$this->jPrint ( "**Warning: PHP Notice found on page\n");
 		array_push($this->verificationErrors, $this->getTraceFiles($e));
 	}
 }
@@ -775,7 +783,7 @@ public function __call($command, $arguments)
 		$this->assertElementNotPresent("//tr[contains(., '( ! ) Warning:')]", "**Warning: PHP Warning found on page!");
 	}
 	catch (PHPUnit_Framework_AssertionFailedError $e) {
-		echo "**Warning: PHP Notice found on page\n";
+		$this->jPrint ( "**Warning: PHP Notice found on page\n");
 		array_push($this->verificationErrors, $this->getTraceFiles($e));
 	}
 }

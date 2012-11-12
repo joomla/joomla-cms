@@ -14,7 +14,7 @@ class Acl0001Test extends SeleniumJoomlaTestCase
 		$this->setUp();
 		$this->gotoAdmin();
 		$this->doAdminLogin();
-		echo "Check starting condition as Super Admin user\n";
+		$this->jPrint ("Check starting condition as Super Admin user\n");
 
 		$this->assertTrue($this->isElementPresent("//ul[@id='menu-com-users-users']"), 'User manager should be visible');
 
@@ -46,14 +46,14 @@ class Acl0001Test extends SeleniumJoomlaTestCase
 		$this->createGroup($groupName, $groupParent);
 		$levelName = 'Special';
 		$this->changeAccessLevel($levelName,$groupName);
-		echo "Change " . $groupName . " article permissions.\n";
-		echo "Grant allow for all actions in article manager\n";
+		$this->jPrint ("Change " . $groupName . " article permissions.\n");
+		$this->jPrint ("Grant allow for all actions in article manager\n");
 		$actions = array('Configure', 'Access Component', 'Create', 'Delete', 'Edit', 'Edit State');
 		$permissions = array('Allowed', 'Allowed', 'Allowed', 'Allowed', 'Allowed', 'Allowed');
 		$this->setPermissions('Article Manager', $groupName, $actions, $permissions);
 
 		sleep(3); // Needed for google chrome
-		echo "Allow " . $groupName . " back end access, deny admin access\n";
+		$this->jPrint ("Allow " . $groupName . " back end access, deny admin access\n");
 		$actions = array('Site Login', 'Admin Login', 'Configure', 'Access Component', 'Create', 'Delete', 'Edit', 'Edit State');
 		$permissions = array('Inherited', 'Allowed', 'Denied', 'Inherited', 'Inherited', 'Inherited', 'Inherited', 'Inherited');
 		$this->setPermissions('Global Configuration', $groupName, $actions, $permissions);
@@ -67,9 +67,9 @@ class Acl0001Test extends SeleniumJoomlaTestCase
 		$this->doAdminLogout();
 		sleep(3);
 
-		echo("Log in to back end as " . $username . ".\n");
+		$this->jPrint("Log in to back end as " . $username . ".\n");
 		$this->doAdminLogin($login, 'password');
-		echo("Testing " .  $username . " access.\n");
+		$this->jPrint("Testing " .  $username . " access.\n");
 
 		$this->assertFalse($this->isElementPresent("//ul[@id='menu-com-users-users']"), 'Users menu should not be visible');
 		$this->assertFalse($this->isElementPresent("//ul[@id='menu-com-users-groups']"), 'Groups should not be visible');

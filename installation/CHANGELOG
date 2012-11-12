@@ -26,6 +26,25 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+11-Nov-2012 Jean-Marie Simonet
+ # [#29569] *Implementing accordeons for Modules Options
+ # [#29635] * No message notification when new article is created
+
+10-Nov-2012 Mark Dexter
+ # Remove trashed categories from sample data
+ # [#29621] The root asset has the wrong lft value in 3 files. Thanks Elin.
+
+10-Nov-2012 Jean-Marie Simonet
+ $ [#29616] Missing JGLOBAL_CENTER in frontend language file. Thanks Patrick
+ # [#29654] *User Basic settings do not display when debug language on
+ # [#29653] *Correcting Isis media modal display
+ # [#29638] *admin dashboard statics not fully RTL. Thanks Chalak
+
+09-Nov-2012 Jean-Marie Simonet
+ # Correcting EOL
+
+-------------------- 3.0.2 Stable Release [8-Nov-2012] ------------------
+
 06-Nov-2012 Mark Dexter
  # [#29128] Add a heading menu item, use Bootstrap's markup for separator. Thanks Michael.
  # [#29626] Commit for 29519 Breaks Wrapper Menu Item Type. Thanks Elin.
