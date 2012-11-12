@@ -1,30 +1,29 @@
-##
- Language Constructs
+## Language Constructs
 
 ### PHP Code Tags
 
-Always use the full \<?php ?\> to delimit PHP code, not the \<? ?\> shorthand. This is the most portable way to include PHP code on differing operating systems and setups.
+Always use the full `<?php ?>` to delimit PHP code, not the `<? ?>` shorthand. This is the most portable way to include PHP code on differing operating systems and setups.
 
-For files that contain only PHP code, the closing tag (?\>) should not be included. It is not required by PHP. Leaving this out prevents trailing white space from being accidentally injected into the output that can introduce errors in the Joomla session (see the PHP manual on [Instruction separation](http://php.net/basic-syntax.instruction-separation).
+For files that contain only PHP code, the closing tag (`?>`) should not be included. It is not required by PHP. Leaving this out prevents trailing white space from being accidentally injected into the output that can introduce errors in the Joomla session (see the PHP manual on [Instruction separation](http://php.net/basic-syntax.instruction-separation)).
 
 Files should always end with a blank new line.
 
 ### Including Code
 
-Anywhere you are unconditionally including a file, use require\_once. Anywhere you are conditionally including a file (for example, factory methods), use include\_once. Either of these will ensure that files are included only once. They share the same file list, so you don't need to worry about mixing them. A file included with require\_once will not be included again by include\_once.
+Anywhere you are unconditionally including a file, use `require_once`. Anywhere you are conditionally including a file (for example, factory methods), use `include_once`. Either of these will ensure that files are included only once. They share the same file list, so you don't need to worry about mixing them. A file included with `require_once` will not be included again by `include_once`.
 
 > **Note**
 >
 > `include_once` and `require_once` are PHP language statements, not functions. The correct formatting is:
 >
 >
-> `require_once JPATH_COMPONENT.’/helpers/helper.php’;`
+> `require_once JPATH_COMPONENT . ’/helpers/helper.php’;`
 
 You should not enclose the filename in parentheses.
 
-### E\_STRICT Compatible PHP Code
+### E_STRICT Compatible PHP Code
 
-As of Joomla version 1.6 and for all versions of the Joomla Platform, adhering to object oriented programming practice as supported by PHP 5.3+ is required. Joomla is committed to progressively making the source code E\_STRICT.
+As of Joomla version 1.6 and for all versions of the Joomla Platform, adhering to object oriented programming practice as supported by PHP 5.3+ is required. Joomla is committed to progressively making the source code E_STRICT.
 
 ## Global Variables
 
@@ -34,7 +33,7 @@ Usage of global variables should be kept to a minimum. Use OOP and factory patte
 
 For all control structures there is a space between the keyword and an opening parenthesis, then no space either after the opening parenthesis or before the closing bracket. This is done to distinguish control keywords from function names. All control structures must contain their logic within braces.
 
-For all all control structures, such as if, else, do, for, foreach, try, catch, switch and while, both the keyword starts a newline and the opening and closing braces are each put on a new line.
+For all all control structures, such as `if`, `else`, `do`, `for`, `foreach`, `try`, `catch`, `switch` and `while`, both the keyword starts a newline and the opening and closing braces are each put on a new line.
 
 ### An _if-else_ Example
 
@@ -43,8 +42,10 @@ if ($test)
 {
 	echo 'True';
 }
+
 // Comments can go here.
 // Note that "elseif" as one word is used.
+
 elseif ($test === false)
 {
 	echo 'Really false';
@@ -81,7 +82,7 @@ while ($i < 10);
 ```php
 for ($i = 0; $i < $n; $i++)
 {
-	echo 'Increment = '.$i;
+	echo 'Increment = ' . $i;
 }
 ```
 
@@ -90,7 +91,7 @@ for ($i = 0; $i < $n; $i++)
 ```php
 foreach ($rows as $index => $row)
 {
-	echo 'Index = '.$id.', Value = '.$row;
+	echo 'Index = ' . $id . ', Value = ' . $row;
 }
 ```
 
@@ -105,7 +106,7 @@ while (!$done)
 
 ### A _switch_ example
 
-When using a switch statement, the case keywords are indented. The break statement starts on a newline assuming the indent of the code within the case.
+When using a `switch` statement, the `case` keywords are indented. The `break` statement starts on a newline assuming the indent of the code within the case.
 
 ```php
 switch ($value)
@@ -127,8 +128,7 @@ When using references, there should be a space before the reference operator and
 For example:
 
 ```php
-    <?php
-    $ref1 = &$this->sql;
+$ref1 = &$this->sql;
 ```
 
 > **Note**
@@ -137,7 +137,7 @@ For example:
 
 ## Arrays
 
-Assignments (the =\> operator) in arrays may be aligned with tabs. When splitting array definitions onto several lines, the last value may also have a trailing comma. This is valid PHP syntax and helps to keep code diffs minimal.
+Assignments (the `=>` operator) in arrays may be aligned with tabs. When splitting array definitions onto several lines, the last value may also have a trailing comma. This is valid PHP syntax and helps to keep code diffs minimal.
 
 For example:
 
@@ -150,16 +150,15 @@ $options = array(
 
 ## Code Commenting
 
-Inline comments to explain code follow the convention for C (/\* … \*/) and C++ single line (// ...) comments. C-style blocks are generally restricted to documentation headers for files, classes and functions. The C++ style is generally used for making code notes. Code notes are strongly encouraged to help other people, including your future-self, follow the purpose of the code. Always provide notes where the code is performing particularly complex operations.
+Inline comments to explain code follow the convention for C (`/* … */`) and C++ single line (`// ...`) comments. C-style blocks are generally restricted to documentation headers for files, classes and functions. The C++ style is generally used for making code notes. Code notes are strongly encouraged to help other people, including your future-self, follow the purpose of the code. Always provide notes where the code is performing particularly complex operations.
 
-Perl/shell style comments (\#) are not permitted in PHP files but are permitted in INI language files.
+Perl/shell style comments (`#`) are not permitted in PHP files.
 
 Blocks of code may, of course, be commented out for debugging purposes using any appropriate format, but should be removed before submitting patches for contribution back to the core code.
 
 For example, do not include feature submissions like:
 
 ```php
-<?php
 // Must fix this code up one day.
 //$code = broken($fixme);
 ```
@@ -172,11 +171,11 @@ These "DocBlocks" borrow from the PEAR standard but have some variations specifi
 
 Whereas normal code indenting uses real tabs, all whitespace in a Docblock uses real spaces. This provides better readability in source code browsers. The minimum whitespace between any text elements, such as tags, variable types, variable names and tag descriptions, is two real spaces. Variable types and tag descriptions should be aligned according to the longest Docblock tag and type-plus-variable respectively.
 
-If the @package tag is used, it will be "Joomla.Platform".
+If the `@package` tag is used, it will be "Joomla.Platform".
 
-If the @subpackage tag is used, it is the name of the top level folder under the /joomla/ folder. For example: Application, Database, Html, and so on.
+If the `@subpackage` tag is used, it is the name of the top level folder under the /joomla/ folder. For example: Application, Database, Html, and so on.
 
-Code contributed to the Joomla project that will become the copyright of the project is not allowed to include @author tags. You should update the contribution log in CREDITS.php. Joomla's philosophy is that the code is written "all together" and there is no notion of any one person "owning" any section of code. The @author tags are permitted in third-party libraries that are included in the core libraries.
+Code contributed to the Joomla project that will become the copyright of the project is not allowed to include @author tags. You should update the contribution log in CREDITS.php. Joomla's philosophy is that the code is written "all together" and there is no notion of any one person "owning" any section of code. The `@author` tags are permitted in third-party libraries that are included in the core libraries.
 
 Files included from third party sources must leave DocBlocks intact. Layout files use the same DocBlocks as other PHP files.
 
@@ -184,41 +183,25 @@ Files included from third party sources must leave DocBlocks intact. Layout file
 
 The file header DocBlock consists of the following required and optiona elements in the following order:
 
--   Short description (optional unless the file contains more than two
-    classes or functions), followed by a blank line).
-
+-   Short description (optional unless the file contains more than two classes or functions), followed by a blank line).
 -   Long description (optional, followed by a blank line).
+-   `@category` (optional and rarely used)
+-   `@package` (generally optional but required when files contain only procedural code)
+-   `@subpackage` (optional)
+-   `@author` (optional but only permitted in non-Joomla source files, for example, included third-party libraries like Geshi)
+-   `@copyright` (required)
+-   `@license` (required and must be compatible with the Joomla license)
+-   `@deprecated` (optional)
+-   `@link` (optional)
+-   `@see` (optional)
+-   `@since` (generally optional but required when files contain only procedural code)
 
--   @category (optional and rarely used)
-
--   @package (generally optional but required when files contain only
-    procedural code)
-
--   @subpackage (optional)
-
--   @author (optional but only permitted in non-Joomla source files, for
-    example, included third-party libraries like Geshi)
-
--   @copyright (required)
-
--   @license (required and must be compatible with the Joomla license)
-
--   @deprecated (optional)
-
--   @link (optional)
-
--   @see (optional)
-
--   @since (generally optional but required when files contain only
-    procedural code)
-
-```php
-<?php
+```
 /**
- * @package		Joomla.Platform
- * @subpackage	Database
- * @copyright	Copyright 2005 - 2010 Open Source Matters. All rights re-served.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Platform
+ * @subpackage  Database
+ * @copyright   Copyright 2005 - 2010 Open Source Matters. All rights re-served.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 ```
 
@@ -227,14 +210,13 @@ The file header DocBlock consists of the following required and optiona elements
 Functions should be called with no spaces between the function name and the opening parenthesis, and no space between this and the first parameter; a space after the comma between each parameter (if they are present), and no space between the last parameter and the closing parenthesis. There should be space before and exactly one space after the equals sign. Tab alignment over multiple lines is permitted.
 
 ```php
-<?php
 // An isolated function call.
 $foo = bar($var1, $var2);
 
 // Multiple aligned function calls.
-$short	= bar('short');
-$medium	= bar('medium');
-$long	= bar('long');
+$short  = bar('short');
+$medium = bar('medium');
+$long   = bar('long');
 ```
 
 ## Function Definitions
@@ -244,20 +226,13 @@ Function definitions start on a new line and the opening and closing braces are 
 Function definitions must include a documentation comment in accordance with the Commenting section of this document.
 
 -   Short description (required, followed by a blank line)
-
 -   Long description (optional, followed by a blank line)
-
--   @param (required if there are method or function arguments, the last
-    @param tag is followed by a blank line)
-
--   @return (required, followed by a blank line)
-
--   All other tags in alphabetical order, however @since is always
-    required.
+-   `@param` (required if there are method or function arguments, the last `@param` tag is followed by a blank line)
+-   `@return` (required, followed by a blank line)
+-   All other tags in alphabetical order, however @since is always required.
 
 
 ```php
-<?php
 /**
  * A utility class.
  *
@@ -297,51 +272,33 @@ Class definitions, properties and methods must each be provided with a DocBlock 
 
 The class Docblock consists of the following required and optional elements in the fol-lowing order.
 
--   Short description (required, unless the file contains more than two
-    classes or functions), followed by a blank line).
-
+-   Short description (required, unless the file contains more than two classes or functions), followed by a blank line).
 -   Long description (optional, followed by a blank line).
-
--   @category (optional and rarely used)
-
--   @package (required)
-
--   @subpackage (optional)
-
--   @author (optional but only permitted in non-Joomla source files, for
-    example, included third-party libraries like Geshi)
-
--   @copyright (optional unless different from the file Docblock)
-
--   @license (optional unless different from the file Docblock)
-
--   @deprecated (optional)
-
--   @link (optional)
-
--   @see (optional)
-
--   @since (required, being the version of the software the class was
-    introduced)
+-   `@category` (optional and rarely used)
+-   `@package` (required)
+-   `@subpackage` (optional)
+-   `@author` (optional but only permitted in non-Joomla source files, for example, included third-party libraries like Geshi)
+-   `@copyright` (optional unless different from the file Docblock)
+-   `@license` (optional unless different from the file Docblock)
+-   `@deprecated` (optional)
+-   `@link` (optional)
+-   `@see` (optional)
+-   `@since` (required, being the version of the software the class was introduced)
 
 ### Class Property DocBlocks
 
 The class property Docblock consists of the following required and optional elements in the following order.
 
 -   Short description (required, followed by a blank line)
-
--   @var (required, followed by the property type)
-
--   @deprecated (optional)
-
--   @since (required)
+-   `@var` (required, followed by the property type)
+-   `@deprecated` (optional)
+-   `@since` (required)
 
 ### Class Method DocBlocks
 
 The DocBlock for class methods follows the same convention as for PHP functions (see above).
 
 ```php
-<?php
 /**
  * A utility class.
  *
@@ -386,9 +343,7 @@ Classes should be given descriptive names. Avoid using abbreviations where possi
 For example:
 
 -   JHtmlHelper
-
 -   JXmlParser
-
 -   JModel
 
 ### Functions and Methods
@@ -398,13 +353,9 @@ Functions and methods should be named using the "studly caps" style (also referr
 For example:
 
 -   connect();
-
 -   getData();
-
 -   buildSomeWidget();
-
 -   jImport();
-
 -   jDoSomething();
 
 Private class members (meaning class members that are intended to be used only from within the same class in which they are declared) are preceded by a single underscore. Properties are to be written in underscore format (that is, logical words separated by underscores) and should be all lowercase.
@@ -446,7 +397,7 @@ The follow sections outline how to semantically use [SPL exceptions](http://php.
 
 ### Logic Exceptions
 
-The LogicException is thrown when there is an explicit problem with the way the API is being used. For example, if a dependency has failed (you try to operate on an object that has not been loaded yet).  
+The LogicException is thrown when there is an explicit problem with the way the API is being used. For example, if a dependency has failed (you try to operate on an object that has not been loaded yet).
 
 The following child classes can also be used in appropriate situations:
 
@@ -464,7 +415,7 @@ This exception can be thrown if there is invalid input.
 
 #### DomainException
 
-This exception is similar to the InvalidArgumentException but can be thrown if a value does not adhere to a defined valid data domain. For example trying to load a database driver of type "mongodb" but that driver is not available in the API. 
+This exception is similar to the InvalidArgumentException but can be thrown if a value does not adhere to a defined valid data domain. For example trying to load a database driver of type "mongodb" but that driver is not available in the API.
 
 #### LengthException
 
