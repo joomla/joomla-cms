@@ -185,7 +185,7 @@ abstract class JFolder
 
 			if (($nested > 20) || ($parent == $path))
 			{
-				JLog::add('SOME_ERROR_CODE', __METHOD__ . ': ' . JText::_('JLIB_FILESYSTEM_ERROR_FOLDER_LOOP'), JLog::WARNING, 'jerror');
+				JLog::add(__METHOD__ . ': ' . JText::_('JLIB_FILESYSTEM_ERROR_FOLDER_LOOP'), JLog::WARNING, 'jerror');
 				$nested--;
 
 				return false;
@@ -255,7 +255,7 @@ abstract class JFolder
 				if ($inBaseDir == false)
 				{
 					// Return false for JFolder::create because the path to be created is not in open_basedir
-					JLog::add('SOME_ERROR_CODE', __METHOD__ . ': ' . JText::_('JLIB_FILESYSTEM_ERROR_FOLDER_PATH'), JLog::WARNING, 'jerror');
+					JLog::add(__METHOD__ . ': ' . JText::_('JLIB_FILESYSTEM_ERROR_FOLDER_PATH'), JLog::WARNING, 'jerror');
 
 					return false;
 				}
@@ -269,7 +269,6 @@ abstract class JFolder
 			{
 				@umask($origmask);
 				JLog::add(
-					'SOME_ERROR_CODE',
 					__METHOD__ . ': ' . JText::_('JLIB_FILESYSTEM_ERROR_COULD_NOT_CREATE_DIRECTORY'), 'Path: ' . $path, JLog::WARNING, 'jerror'
 				);
 
