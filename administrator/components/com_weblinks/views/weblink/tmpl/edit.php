@@ -22,9 +22,6 @@ JHtml::_('formbehavior.chosen', 'select');
 			<?php echo $this->form->getField('description')->save(); ?>
 			Joomla.submitform(task, document.getElementById('weblink-form'));
 		}
-		else {
-			alert('<?php echo $this->escape(JText::_('JGLOBAL_VALIDATION_FORM_FAILED'));?>');
-		}
 	}
 </script>
 
@@ -151,7 +148,7 @@ JHtml::_('formbehavior.chosen', 'select');
 			<?php echo JHtml::_('form.token'); ?>
 		</div>
 		</div>
-		<!-- End Weblinks -->		
+		<!-- End Weblinks -->
 		<!-- Begin Sidebar -->
 		<div class="span2">
 			<h4><?php echo JText::_('JDETAILS');?></h4>

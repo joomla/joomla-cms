@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+13-Nov-2012 Jean-Marie Simonet
+ #$ [#29669] Consistent form validation notifications. Thanks Roland
+
 11-Nov-2012 Jean-Marie Simonet
  # [#29569] *Implementing accordeons for Modules Options
  # [#29635] * No message notification when new article is created
