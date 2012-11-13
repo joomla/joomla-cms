@@ -29,6 +29,7 @@ $ -> Language fix or change
 13-Nov-2012 Jean-Marie Simonet
  #$ [#29669] Consistent form validation notifications. Thanks Roland
  # [#29675] *Protostar error page tries to load search module even when module is not published
+ $ [#29668] language installer coordinator team URL must changed j3 TT. Thanks Chalak
 
 11-Nov-2012 Jean-Marie Simonet
  # [#29569] *Implementing accordeons for Modules Options
