@@ -20,9 +20,6 @@ JHtml::_('behavior.formvalidation');
 			<?php echo $this->form->getField('description')->save(); ?>
 			Joomla.submitform(task, document.getElementById('weblink-form'));
 		}
-		else {
-			alert('<?php echo $this->escape(JText::_('JGLOBAL_VALIDATION_FORM_FAILED'));?>');
-		}
 	}
 </script>
 <div class="weblink-edit">

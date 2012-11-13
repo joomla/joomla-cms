@@ -20,8 +20,6 @@ JHtml::_('behavior.keepalive');
 		if (task == 'source.cancel' || document.formvalidator.isValid(document.id('source-form'))) {
 			<?php echo $this->form->getField('source')->save(); ?>
 			Joomla.submitform(task, document.getElementById('source-form'));
-		} else {
-			alert('<?php echo $this->escape(JText::_('JGLOBAL_VALIDATION_FORM_FAILED'));?>');
 		}
 	}
 </script>
