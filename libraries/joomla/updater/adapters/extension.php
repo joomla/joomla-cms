@@ -36,10 +36,7 @@ class JUpdaterExtension extends JUpdateAdapter
 		$tag = $this->_getStackLocation();
 
 		// Reset the data
-		if (isset($this->$tag))
-		{
-			$this->$tag->_data = "";
-		}
+		eval('$this->' . $tag . '->_data = "";');
 
 		switch ($name)
 		{
