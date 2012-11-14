@@ -28,6 +28,7 @@ $ -> Language fix or change
 
 14-Nov-2012 Jean-Marie Simonet
  # [#29558] Incorrect current menu item highlighting in mod_menu if 'Base Item' is not current. Thanks Dennis
+ # [#29619] In the current version 3.0.2 (master branch, 03. Nov. 2012) some settings aren't working. Thanks Benjamin.
 
 13-Nov-2012 Jean-Marie Simonet
  #$ [#29669] Consistent form validation notifications. Thanks Roland
