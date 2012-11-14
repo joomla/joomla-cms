@@ -158,6 +158,20 @@ var JFormValidator = new Class({
 			}
 		});
 
+		if (!valid) {
+			var message = Joomla.JText._('JLIB_FORM_FIELD_INVALID');
+			var errors = jQuery("label.invalid");
+			var error = new Object();
+			error.error = new Array();
+			for (var i=0;i < errors.length; i++) {
+				var label = jQuery(errors[i]).text();
+				if (label != 'undefined') {
+					error.error[i] = message+label.replace("*", "");
+				}
+			}
+			Joomla.renderMessages(error);
+		}
+
 		return valid;
 	},
 

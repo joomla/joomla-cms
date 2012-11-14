@@ -117,6 +117,9 @@ abstract class JHtmlBehavior
 			return;
 		}
 
+		// Add validate.js language strings
+		JText::script('JLIB_FORM_FIELD_INVALID');
+
 		// Include MooTools framework
 		self::framework();
 

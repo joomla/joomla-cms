@@ -6,9 +6,9 @@ Before we start talking about what code should look like, it is appropriate to l
 
 In April 2011 the Joomla project decided to formally split off the core engine that drives the Joomla CMS into a separate project with a separate development path called the Joomla Platform. The Joomla Platform is a PHP framework that is designed to serve as a foundation for not only web applications (like a CMS) but other types of software such as command line applications. The files that form the Joomla Platform are stored in a Distributed Version Control System (DVCS) called Git hosted at github.com
 
-You can learn about how to get the Joomla Platform source code from the Git repository from the following page: \<permalink to developer.joomla.org staging page\>
+You can learn about how to get the Joomla Platform source code from the Git repository from the following page: `@todo` permalink to developer.joomla.org staging page
 
-Because Git treats the concepts of file revision numbers differently than Subversion, the repository revision number is not required in files (that is, the @version tag is not necessary).
+Because Git treats the concepts of file revision numbers differently than Subversion, the repository revision number is not required in files (that is, the `@version` tag is not necessary).
 
 ## Compliance Tool
 
