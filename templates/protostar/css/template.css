@@ -5551,7 +5551,9 @@ fieldset.radio.btn-group {
 	color: #9d261d;
 	font-weight: bold;
 }
-input.invalid {
+input.invalid,
+select.invalid,
+textarea.invalid {
 	border: 1px solid #9d261d;
 }
 @font-face {
