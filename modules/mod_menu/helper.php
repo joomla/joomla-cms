@@ -21,9 +21,10 @@ class modMenuHelper
 	/**
 	 * Get a list of the menu items.
 	 *
-	 * @param	JRegistry	$params	The module options.
+	 * @param  JRegistry   $params  The module options.
 	 *
-	 * @return	array
+	 * @return  array
+	 *
 	 * @since	1.5
 	 */
 	public static function getList(&$params)
@@ -50,7 +51,7 @@ class modMenuHelper
 
 			if ($items)
 			{
-				foreach($items as $i => $item)
+				foreach ($items as $i => $item)
 				{
 					if (($start && $start > $item->level)
 						|| ($end && $item->level > $end)
@@ -143,30 +144,50 @@ class modMenuHelper
 	}
 
 	/**
+	 * Get base menu item.
+	 *
+	 * @param   JRegistry  $params  The module options.
+	 *
+	 * @return   object
+	 *
+	 * @since	3.0.2
+	 */
+	public static function getBase(&$params)
+	{
+
+		// Get base menu item from parameters
+		if ($params->get('base'))
+		{
+			$base = JFactory::getApplication()->getMenu()->getItem($params->get('base'));
+		}
+		else
+		{
+			$base = false;
+		}
+
+		// Use active menu item if no base found
+		if (!$base)
+		{
+			$base = self::getActive($params);
+		}
+
+		return $base;
+	}
+
+	/**
 	 * Get active menu item.
 	 *
-	 * @param	JRegistry	$params	The module options.
+	 * @param   JRegistry  $params  The module options.
 	 *
-	 * @return	object
-	 * @since	3.0
+	 * @return  object
+	 *
+	 * @since	3.0.2
 	 */
 	public static function getActive(&$params)
 	{
 		$menu = JFactory::getApplication()->getMenu();
 
-		// Get active menu item from parameters
-		if ($params->get('active')) {
-			$active = $menu->getItem($params->get('active'));
-		} else {
-			$active = false;
-		}
-
-		// If no active menu, use current or default
-		if (!$active) {
-			$active = ($menu->getActive()) ? $menu->getActive() : $menu->getDefault();
-		}
-
-		return $active;
+		return $menu->getActive() ? $menu->getActive() : $menu->getDefault();
 	}
 
 }
