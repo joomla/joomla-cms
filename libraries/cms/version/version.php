@@ -17,10 +17,10 @@ defined('_JEXEC') or die;
 final class JVersion
 {
 	/** @var  string  Product name. */
-	public $PRODUCT = 'Jokte!';
+	public $PRODUCT = 'Joomla!';
 
 	/** @var  string  Release version. */
-	public $RELEASE = '1.1';
+	public $RELEASE = '2.5';
 
 	/** @var  string  Maintenance version. */
 	public $DEV_LEVEL = '8';
