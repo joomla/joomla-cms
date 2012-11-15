@@ -30,6 +30,13 @@ if (!defined('JVERSION')) {
 	define('JVERSION', $jversion->getShortVersion());
 }
 
+// Define Jokte version
+require_once JPATH_PLATFORM . '/cms/version/joktev.php';
+if (!defined('VJOKTE')) {
+	$vjokte = new JVjokte;
+	define('VJOKTE', $vjokte->getVersionCorta());
+}
+
 // Register the location of renamed classes so they can be autoloaded
 // The old name are considered deprecated and this should be removed in 3.0
 JLoader::register('JRule', JPATH_PLATFORM . '/joomla/access/rule.php');
