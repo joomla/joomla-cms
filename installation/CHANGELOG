@@ -28,6 +28,7 @@ $ -> Language fix or change
 
 15-Nov-2012 Jean-Marie Simonet
  $+ Adding Galician gl-ES installation files
+ # [#29660] Error 500 due to "missing alias column in assets table" Thanks Elin.
 
 14-Nov-2012 Jean-Marie Simonet
  # [#29558] Incorrect current menu item highlighting in mod_menu if 'Base Item' is not current. Thanks Dennis
