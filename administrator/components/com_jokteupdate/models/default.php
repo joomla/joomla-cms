@@ -277,8 +277,8 @@ class JokteupdateModelDefault extends JModelLegacy
 		$file  = $tempdir . '/' . $basename;
 
 		$filesize = @filesize($file);
-		JFactory::getApplication()->setUserState('com_joomlaupdate.password', $password);
-		JFactory::getApplication()->setUserState('com_joomlaupdate.filesize', $filesize);
+		JFactory::getApplication()->setUserState('com_jookteupdate.password', $password);
+		JFactory::getApplication()->setUserState('com_jokteupdate.filesize', $filesize);
 
 		$data = "<?php\ndefined('_AKEEBA_RESTORATION') or die('Restricted access');\n";
 		$data .= '$restoration_setup = array('."\n";
@@ -543,7 +543,7 @@ ENDDATA;
 			// Add an entry to the extension table with a whole heap of defaults
 			$row->set('name', 'files_joomla');
 			$row->set('type', 'file');
-			$row->set('element', 'joomla');
+			$row->set('element', 'jokte');
 			// There is no folder for files so leave it blank
 			$row->set('folder', '');
 			$row->set('enabled', 1);
@@ -657,7 +657,7 @@ ENDDATA;
 		// Remove the update package
 		$jreg = JFactory::getConfig();
 		$tempdir = $jreg->getValue('config.tmp_path');
-		$file = JFactory::getApplication()->getUserState('com_joomlaupdate.file', null);
+		$file = JFactory::getApplication()->getUserState('com_jokteupdate.file', null);
 		$target = $tempdir.'/'.$file;
 		if (!@unlink($target))
 		{
@@ -680,6 +680,6 @@ ENDDATA;
 		}
 
 		// Unset the update filename from the session
-		JFactory::getApplication()->setUserState('com_joomlaupdate.file', null);
+		JFactory::getApplication()->setUserState('com_jokteupdate.file', null);
 	}
 }
